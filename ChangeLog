@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2002-12-15	Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Updated GtkGLExt dependency to 0.6.0
+
+2002-12-13	Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Added missing file tests/nickel.gcrystal in tests/Makefile.am
+
+2002-12-8	Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Updated libgnomeprint dependency to 2.1.3
+
+2002-12-1	Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Added m_Charge to Atom class
+	* Change Object::SetSelected(int) to Object::SetSelected(GtkWidget*, int)
+
 2002-11-27	Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Added SetSelected(int) and Update(GtkWidget*) to the Object class
 
