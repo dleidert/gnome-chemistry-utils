@@ -1,0 +1,4 @@
+libgcu 0 libgchemutils0 (>= 0.2.7), libgchemutils0 (<< 0.3.0)
+libgtkchem3dviewer 0 libgchemutils0 (>= 0.2.7), libgchemutils0 (<< 0.3.0)
+libgtkcrystalviewer 0 libgchemutils0 (>= 0.2.7), libgchemutils0 (<< 0.3.0)
+libgtkperiodic 0 libgchemutils0 (>= 0.2.7), libgchemutils0 (<< 0.3.0)

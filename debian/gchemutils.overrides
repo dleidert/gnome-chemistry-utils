@@ -1,0 +1,5 @@
+# not enough info to make a manpage
+
+gchemutils: binary-without-manpage gchem3d
+gchemutils: binary-without-manpage gchem3d-viewer
+gchemutils: executable-not-elf-or-script ./usr/share/doc/gchemutils/examples/methane.xyz
