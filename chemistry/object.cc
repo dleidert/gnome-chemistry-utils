@@ -226,3 +226,15 @@ void Object::Add(GtkWidget* w)
 void Object::Print(GnomePrintContext *pc)
 {
 }
+
+void Object::Update(GtkWidget* w)
+{
+	map<string, Object*>::iterator i;
+	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->Update(w);
+}
+
+void Object::SetSelected(int state)
+{
+	map<string, Object*>::iterator i;
+	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->SetSelected(state);
+}

@@ -88,6 +88,8 @@ public:
 	void ShowContextualMenu(unsigned button, unsigned time);
 	virtual void Add(GtkWidget* w);
 	virtual void Print(GnomePrintContext *pc);
+	virtual void Update(GtkWidget* w);
+	virtual void SetSelected(int state);
 	bool HasChildren() {return m_Children.size() != 0;}
 
 protected:
