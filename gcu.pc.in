@@ -7,5 +7,5 @@ Name: GtkPeriodic
 Description: A Mendeleiev table widget for GTK+-2.0
 Version: @VERSION@
 Requires: gtk+-2.0
-Libs: -L${libdir} @GCU_LIBS@ -lgtkperiodic -lgcu @gtkcrystalviewer@
-Cflags: -I${includedir}/gcu @GCU_CFLAGS@ @gl_flags@
+Libs: -L${libdir} @GCU_LIBS@ -lgcu
+Cflags: -I${includedir}/gcu @GCU_CFLAGS@

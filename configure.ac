@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.3.2)
+AC_INIT(gnome-chemistry-utils, 0.5.0)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
@@ -123,6 +123,5 @@ dtds/Makefile
 docs/Makefile
 docs/reference/Makefile
 docs/reference/html/Makefile
-gcu-0.3.pc
-gcu/gchem3d-0.3.server.in
+gcu-0.5.pc
 ])

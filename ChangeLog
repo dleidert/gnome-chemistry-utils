@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2005-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: Changed version to 0.5.0.
+	* gcu-0.3.pc.in: moved to gcu-0.5.pc.in.
+	* gcu-0.5.pc.in: wad gcu-0.3.pc.in.
+	* gcu.pc.in: removed deprecated stuff.
+	* gcu/bonobo-control.cc: remove, libbonoboui will be deprecated before
+	we reach 0.6.
+	* gcu/gchem3d-0.3.server.in.in: ditto.
+	* gcu/gchem3d-viewer-0.5.desktop.in: imported from stable and renamed
+	for unstable.
+	* gcu/gchem3d-viewer.c: imported from stable.
+	* gcu/gchem3d-viewer.desktop.in: ditto.
+
 2005-03-02  Daniel Leidert  <daniel.leidert@wgdd.de>
         * docs/reference/html/Makefile.am: add $(DESTDIR) to install-path
 
