@@ -1,3 +1,7 @@
+Version 0.1.5
+	Many bugs fixed in the radii database stuff
+	Change of coordinates in GtkChem3DViewer
+
 Version 0.1.4
 	New chem3d widget and bonobo server do display 3d molecular structures
 	Atomic radii and electronegativities added to the elements database
