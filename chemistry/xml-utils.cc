@@ -149,7 +149,7 @@ bool ReadRadius(xmlNodePtr node, GcuAtomicRadius& radius)
 		(tmp = (char*)xmlNodeGetContent(node))) && *tmp)
 	{
 		radius.value = strtod(tmp, NULL);
-		radius.scale = "custom";
+		radius.scale = g_strdup("custom");
 	}
 	else if (radius.scale && (!strcmp(radius.scale, "custom")))
 	{

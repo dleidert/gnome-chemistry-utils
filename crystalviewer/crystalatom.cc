@@ -68,7 +68,7 @@ CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 
 CrystalAtom::CrystalAtom(CrystalAtom& caAtom): Atom(caAtom)
 {
-	m_Radius = caAtom.m_Radius;
+	SetRadius(caAtom.m_Radius);
 	m_bCustomColor = caAtom.m_bCustomColor;
 	m_fRed = caAtom.m_fRed;
 	m_fGreen = caAtom.m_fGreen;
@@ -83,7 +83,7 @@ CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
 	double x, y, z;
 	caAtom.GetCoords(&x, &y, &z);
 	SetCoords(x, y, z);
-	m_Radius = caAtom.m_Radius;
+	SetRadius(caAtom.m_Radius);
 	m_bCustomColor = caAtom.m_bCustomColor;
 	m_fRed = caAtom.m_fRed ;
 	m_fGreen = caAtom.m_fGreen ;
