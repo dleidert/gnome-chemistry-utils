@@ -1,6 +1,7 @@
 Version 0.2.9
 	Add --disable-install-databases option to configure.
 	Fixed a bug in tests/testbonocontrol.
+	Fixed other build/install related issues.
 
 Version 0.2.8
 	Minor bugs fixed.
