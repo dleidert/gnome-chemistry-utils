@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkchem3dviewer.c 
  *
- * Copyright (C) 2003
+ * Copyright (C) 2003-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -23,6 +23,14 @@
  */
 
 #include <libgnomevfs/gnome-vfs.h>
+#include <mol.h>
+#undef PACKAGE
+#undef PACKAGE_BUGREPORT
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+#undef VERSION
 #include "config.h"
 #include "gtkchem3dviewer.h"
 #include "chemistry/matrix.h"
@@ -36,7 +44,6 @@
 #	include <gtk/gtkgl.h>
 #endif
 #include <sstream>
-#	include <mol.h>
 #include <libintl.h>
 #define _(String) gettext(String)
 

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2004-02-04  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* chem3d/gtkchem3dviewer.cc: turn around an openbabel bug.
+	* configure.ac: updated version to 0.2.2.
+	* gtkperiodic/gtkperiodic.c: (gtk_periodic_init): fixed a new textdomain bug.
+
 2004-01-29 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* cancelled last changes.
 	* gtkperiodic/gtkperiodic.c: add a call to textdomain.

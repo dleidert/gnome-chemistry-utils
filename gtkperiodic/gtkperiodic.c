@@ -161,7 +161,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	char name[8] = "elt";
 	GtkToggleButton* button;
 	int i;
-	const char* domain = textdomain(NULL);
+	const char* domain = g_strdup(textdomain(NULL));
 	textdomain(GETTEXT_PACKAGE);
 	xml =  glade_xml_new(DATADIR"/gchemutils/glade/gtkperiodic.glade", "vbox1", NULL);
 	if (xml)  glade_xml_signal_autoconnect (xml);
@@ -198,6 +198,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	gtk_container_add(GTK_CONTAINER(periodic), GTK_WIDGET(periodic->priv->vbox));
 	gtk_widget_show_all(GTK_WIDGET(periodic));
 	textdomain(domain);
+	g_free(domain);
 }
 
 static void gtk_periodic_finalize (GObject *object)
