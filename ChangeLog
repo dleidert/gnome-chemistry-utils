@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2004-01-29 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* chemistry/chemistry.[h,cc]: added gcu_init() to correctly initialize
+	translation.
+	* chemistry/element.cc: removed gettext initialization.
+	* tests/gtkperiodic.c (main()): added gcu_init call.
+	
 2004-01-21 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* crystalviewer/crystalview.cc: avoid execution of gl functions
 	for non initialized widget.

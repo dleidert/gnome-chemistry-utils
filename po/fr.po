@@ -1,14 +1,14 @@
 # Gnome Chemistry Utils fr.po
-# Copyright (C) 2002-2003 Free Software Foundation, Inc.
+# Copyright (C) 2002-2004 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002-2003.
+# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002-2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-10-31 15:39+0100\n"
-"PO-Revision-Date: 2003-10-31 15:45+0200\n"
+"PO-Revision-Date: 2004-01-29 13:45+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@ac-dijon.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -429,7 +429,7 @@ msgstr "Étain"
 
 #: chemistry/elements.xml.in.h:102
 msgid "Titanium"
-msgstr "Titanium"
+msgstr "Titane"
 
 #: chemistry/elements.xml.in.h:103
 msgid "Tungsten"

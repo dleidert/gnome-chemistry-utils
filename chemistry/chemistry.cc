@@ -24,12 +24,20 @@
  * Boston, MA  02111-1307, USA.
  */
 
+#include "config.h"
 #include "chemistry.h"
 #include "element.h"
+#include <libintl.h>
 
 extern "C"
 {
-	
+void gcu_init()
+{
+	bindtextdomain(PACKAGE, DATADIR"/locale");
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain(PACKAGE);
+}
+
 using namespace gcu;
 const gdouble* gcu_element_get_default_color(gint Z)
 {

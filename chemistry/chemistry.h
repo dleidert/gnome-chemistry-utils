@@ -54,6 +54,10 @@ To use this file, add the following line to your source file:
 */
 
 G_BEGIN_DECLS
+/** gcu_init
+* gcu_init initializes the internationalization of the Gnome Chemistry Utils.
+*/
+void gcu_init();
 
 /** gcu_spin_state
 * gcu_spin_state describes the spin state of a central atom in a complex.
@@ -204,6 +208,7 @@ Last value in the array is NULL.
 */
 const GcuElectronegativity** gcu_element_get_electronegativities(gint Z);
 
+void gcu_init();
 G_END_DECLS
 
 #endif //GCU_CHEMISTRY_H

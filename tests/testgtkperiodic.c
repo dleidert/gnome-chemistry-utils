@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 	GtkRadioButton *btn;
 	GSList* btn_group;
 	
+	gcu_init();
 	gtk_init (&argc, &argv);
 	
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
