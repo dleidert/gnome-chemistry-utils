@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2004-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu-0.3.pc.in: removed obsolete gl_flags from CFlags
+
+2004-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: removed obsolete variables, added test
 	for shared-mime-info package version.
 	* Doxyfile: updated version to 0.3.1

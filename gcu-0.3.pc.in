@@ -8,4 +8,4 @@ Description: Widgets and utilities for chemistry
 Version: @VERSION@
 Requires: gtk+-2.0
 Libs: -L${libdir} @GCU_LIBS@ -lgcu-0.3
-Cflags: -I${includedir}/gcu-0.3 @GCU_CFLAGS@ @gl_flags@
+Cflags: -I${includedir}/gcu-0.3 @GCU_CFLAGS@
