@@ -1,3 +1,7 @@
+Version 0.3.2
+	Several bugs fixed, essentially in Object class.
+	Changed signature of Object::OnSignal. Leads to a compatibility break.
+
 Version 0.3.1
 	Object class has been extended with new functionalities (signals and links), and
 	Object contextual menu now uses GtkAction based menus.
