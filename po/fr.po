@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.1.1\n"
-"POT-Creation-Date: 2003-04-28 14:02+0200\n"
+"POT-Creation-Date: 2003-07-04 20:56+0200\n"
 "PO-Revision-Date: 2002-10-02 14:00+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@ac-dijon.fr>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -424,11 +424,11 @@ msgstr "Étain"
 
 #: chemistry/elements.xml.in.h:101
 msgid "Titanium"
-msgstr "Titanium"
+msgstr "Titane"
 
 #: chemistry/elements.xml.in.h:102
 msgid "Tungsten"
-msgstr "Tungsten"
+msgstr "Tungstène"
 
 #: chemistry/elements.xml.in.h:103
 msgid "Ununbium"

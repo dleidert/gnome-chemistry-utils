@@ -42,6 +42,7 @@ GTKGL_REQUIRED_VERSION=1.99.0
 GTKGLEXT_REQUIRED_VERSION=0.6.0
 GNOME_PRINT_REQUIRED_VERSION=2.1.3
 GNOME_VFS_REQUIRED_VERSION=2.0.0
+BONOBO_REQUIRED_VERSION=2.2.1
 BONOBOUI_REQUIRED_VERSION=2.2.0
 LIBGNOMEUI_REQUIRED_VERSION=2.0.0
 
@@ -52,7 +53,8 @@ PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
-libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
+libbonobo-2.0 >= $BONOBO_REQUIRED_VERSION \
+ibbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
@@ -62,6 +64,7 @@ PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkgl-2.0 >= $GTKGL_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
+libbonobo-2.0 >= $BONOBO_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 ,have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
@@ -71,6 +74,7 @@ else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
+libbonobo-2.0 >= $BONOBO_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 )
 gtkcrystalviewer=
@@ -103,6 +107,47 @@ GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DI
 -DLIBGLADE_DISABLE_DEPRECATED -Werror-implicit-function-declaration"
 AC_SUBST(GCU_CFLAGS)
 AC_SUBST(GCU_LIBS)
+
+# This is a check for gtk-doc which you can insert into your configure.in.
+# You shouldn't need to change it at all.
+
+
+##################################################
+# Check for gtk-doc.
+##################################################
+
+AC_ARG_WITH(html-dir, [  --with-html-dir=PATH path to installed docs ])
+
+if test "x$with_html_dir" = "x" ; then
+  HTML_DIR='${datadir}/gtk-doc/html'
+else
+  HTML_DIR=$with_html_dir
+fi
+
+AC_SUBST(HTML_DIR)
+
+gtk_doc_min_version=1.0
+AC_MSG_CHECKING([gtk-doc version >= $gtk_doc_min_version])
+if pkg-config --atleast-version=$gtk_doc_min_version gtk-doc; then
+  AC_MSG_RESULT(yes)
+  GTKDOC=true
+else
+  AC_MSG_RESULT(no)
+  GTKDOC=false
+fi
+
+dnl Let people disable the gtk-doc stuff.
+AC_ARG_ENABLE(gtk-doc, [  --enable-gtk-doc  Use gtk-doc to build documentation [default=auto]], enable_gtk_doc="$enableval", enable_gtk_doc=auto)
+
+if test x$enable_gtk_doc = xauto ; then
+  if test x$GTKDOC = xtrue ; then
+    enable_gtk_doc=yes
+  else
+    enable_gtk_doc=no 
+  fi
+fi
+
+AM_CONDITIONAL(ENABLE_GTK_DOC, test x$enable_gtk_doc = xyes)
 
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2003-07-28 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* element.cc: fixed a bug related to internationalization
+
 2003-07-02 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* configure.ac: changed version to 0.1.6
 	* chem3d/gtkchem3dViewer.cc: added bgcolor property

@@ -97,8 +97,8 @@ EltTable::EltTable()
 				if (!strcmp((const char*)child->name, "name"))
 				{
 					tmp = (char*) xmlNodeGetLang(child);
-					if ((!tmp) && (!lang) && (!strncmp(lang, tmp, 2))) Elt->name = (char*) xmlNodeGetContent(child);
-					else DefaultName = (char*) xmlNodeGetContent(child);
+					if ((tmp) && (lang) && (!strncmp(lang, tmp, 2))) Elt->name = (char*) xmlNodeGetContent(child);
+					else if (!tmp) DefaultName = (char*) xmlNodeGetContent(child);
 				}
 				else if (!strcmp((const char*)child->name, "color"))
 				{
