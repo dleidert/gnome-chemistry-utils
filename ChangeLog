@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2004-01-14 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* configure.ac: remove -DGTK_DISABLE_DEPRECATED and
+	other such flags to GCU_CFLAGS to avoid problems with gtk+-2.4
+	and changed version to 0.2.1
+
 2003-11-01 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* enhanced gchemutils.keys.in for translation
 
