@@ -285,20 +285,9 @@ void Object::Transform2D(Matrix2D& m, double x, double y)
 	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->Transform2D(m, x, y);
 }
 
-void Object::ShowContextualMenu(unsigned button, unsigned time)
+bool Object::BuildContextualMenu (GtkUIManager *UIManager)
 {
-	BuildContextualMenu();
-	if (m_Menu)
-	{
-		gtk_menu_popup(m_Menu, NULL, NULL, NULL, NULL, button, time);
-        g_object_unref(G_OBJECT(m_Menu));
-		m_Menu = NULL;
-	}
-}
-
-void Object::BuildContextualMenu()
-{
-	m_Menu = NULL;
+	return (m_Parent)? m_Parent->BuildContextualMenu (UIManager): false;
 }
 
 void Object::Add(GtkWidget* w)

@@ -1,4 +1,10 @@
 ##Text encoding: utf-8
+2004-06-16  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* configure.ac: requires gnome 2.4.
+	* object.h: removed Object::ShowContextualMenu and changed
+	signature of Object::BuildContextualMenu and made it public.
+	* object.cc: same thing and add a default implementation for
+	Object::BuildContextualMenu.
 
 2004-06-16  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* configure.ac: changed version to 0.3.1

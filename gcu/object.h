@@ -329,14 +329,6 @@ Generally, the iteration is initialized by a call to Object::GetNodeByName.
 */
 	xmlNodePtr GetNextNodeByName(xmlNodePtr node, char* Name);
 /*!
-@param button: the mouse button which was pressed to initiate the event.
-@param time: the time at which the activation event occurred.
-
-Shows the contextual menu correspondig to the Object if this menu exists. The menu must be built in the derived class
-BuildContextualMenu method.
-*/
-	void ShowContextualMenu(unsigned button, unsigned time);
-/*!
 @param w: the GtkWidget inside which the Object will be displayed.
 
 Used to add a representation of the Object in the widget. This method might be overrided for displayable Object classes
@@ -495,13 +487,16 @@ the class seems possible.
 */
 	static const string& GetCreationLabel (const string& TypeName);
 
-protected:
 /*!
+@param UIManager: the GtkUI%anager to populate.
+
 This method is called to build a contextual menu for the object. It is called by Object::ShowContextualMenu, so
 it should not be necessary to call it directly. It should be overrided by derived classes when a contextual menu
-is needed.
+is needed. Typically, each class adds a submenu and calls the same method for its parent.
+Default implementation just calls the parent's method.
+@return true if something is added to the UIManager, false otherwise.
 */
-	virtual void BuildContextualMenu();
+	virtual bool BuildContextualMenu(GtkUIManager *UIManager);
 
 private:
 	gchar* m_Id;
