@@ -22,8 +22,8 @@ libtoolize --force
 intltoolize --force
 
 ## generate documentation archive
-cd docs/reference
 doxygen Doxyfile
+cd docs/reference
 tar -czf html-upstream.tar.gz html
 cd ../../
 

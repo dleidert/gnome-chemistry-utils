@@ -7,9 +7,10 @@ docs_DATA = html
 html:
 if DOXYGEN_AVAILABLE
 	$(DOXYGEN) -u Doxyfile
+	if [ -w Doxyfile.bak ]; then rm Doxyfile.bak; fi
 	$(DOXYGEN) Doxyfile
 else
-	tar -xzf html-upstream.tar.gz
+	tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz
 endif
 
 install-docsDATA:
@@ -21,4 +22,4 @@ uninstall-docsDATA:
 
 distclean-generic:
 	-rm -rf html
-
+	-rm -f Doxyfile

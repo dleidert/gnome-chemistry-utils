@@ -147,7 +147,7 @@ tests/Makefile
 dtds/Makefile
 docs/Makefile
 docs/reference/Makefile
-docs/reference/html/Makefile
 gcu.pc
 gcu/gchem3d.server.in
+docs/reference/Doxyfile
 ])
