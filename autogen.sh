@@ -11,7 +11,11 @@ ln -sf $AMPATH/share/automake-$AMVER/install-sh .
 ln -sf $AMPATH/share/automake-$AMVER/depcomp .
 
 ## run aclocal
-aclocal -I /usr/share/aclocal/gnome2-macros
+if [ -r /usr/share/aclocal/gnome-common.m4 ]; then
+	aclocal
+else
+	aclocal -I /usr/share/aclocal/gnome2-macros
+fi
 
 ## libtool and intltool
 libtoolize --force
