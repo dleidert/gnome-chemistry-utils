@@ -53,7 +53,6 @@ gchar* Document::GetNewId (gchar* id)
 	m_TranslationTable[key] = Id;
 	g_free (Id);
 	g_free (key);
-	while (snprintf(buf + i, 16, "%d", j++), GetDescendant(buf) != NULL);
 	m_TranslationTable[id] = buf;
 	return buf;
 }
