@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2004-11-14 Costantino Ceoldo
+	* updated italian translation
+
 2004-10-14 Jean Bréfort  <jean.brefort@normalesup.org>
 	* added gchemutils.desktop.in and gchemutils.xml.in to
 	POTFILES.in

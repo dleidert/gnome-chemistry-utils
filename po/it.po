@@ -1,15 +1,17 @@
+# translation of it.po to Italiano
 # translation of gcu-0.2.6_it.po to Italiano
 # translation of gnome-chemistry-utils_it.po to Italiano
 # This file is distributed under the same license as the PACKAGE package.
 # Kostantino <inverness1ATvirgilio.it>, 2003.
+# Kostantino <inverness1ATvirgilio.it>, 2004.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Kostantino <inverness1ATvirgilio.it>, 2004.
 msgid ""
 msgstr ""
-"Project-Id-Version: gcu-0.2.6_it\n"
+"Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-10 10:53+0200\n"
-"PO-Revision-Date: 2004-10-12 17:23+0200\n"
+"POT-Creation-Date: 2004-10-21 20:29+0200\n"
+"PO-Revision-Date: 2004-11-13 21:26+0100\n"
 "Last-Translator: Kostantino <inverness1ATvirgilio.it>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -484,8 +486,8 @@ msgstr "Componente del visualizzatore 3D di Gnome Chemistry"
 #: chem3d/gchem3d.server.in.h:2
 msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
 msgstr ""
-"Componente del visualizzatore 3D di Gnome Chemistry per mostrare strutture "
-"molecolari"
+"Componente del visualizzatore 3D di Gnome "
+"Chemistry per mostrare strutture molecolari"
 
 #: chem3d/gchem3d.server.in.h:3
 msgid "Gnome Chemistry 3D Viewer embeddable factory"
@@ -514,3 +516,20 @@ msgstr "File PDB"
 #: gchemutils.keys.in.h:4
 msgid "XYZ file"
 msgstr "File XYZ"
+
+#: gchemutils.xml.in.h:1
+msgid "Co-ordinate Animation format"
+msgstr "Formato dell'animazione coordinata"
+
+#: gchemutils.xml.in.h:2
+msgid "MDL Molfile"
+msgstr "Molfile MDL"
+
+#: gchemutils.xml.in.h:3
+msgid "Protein DataBank"
+msgstr "Banca dati delle proteine"
+
+#: gchem3d-viewer.desktop.in.h:1
+msgid "Molecules Viewer"
+msgstr "Visualizzatore di molecole"
+
