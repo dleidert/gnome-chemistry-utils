@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * object.h 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.rg>
  *
@@ -45,7 +45,7 @@ using namespace std;
 namespace gcu
 {
 
-/*!\enum
+/*!\enum TypeId
 This enumeration is used to determine the type of an Object instance.
 Possible values are:
 	- NoType: invalid type

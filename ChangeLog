@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2005-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Doxyfile: removed (moved to docs/reference).
+	* Makefile.am: remobed keys and mime files.
+	* TODO: set some possible targets for 0.6
+	* autogen.sh: don't generate docs.
+	* configure.ac: gtkglest and openbabel are now mandatory. Fixed also
+	variuous buil issues.
+	* docs/reference/Doxyfile.in: source for Doxyfile.
+	* docs/reference/Makefile.am: fixed build issues and builds help at
+	compile time
+	* docs/reference/html/Makefile.am: removed.
+	* gchemutils.xml.in: added some magic stuff from chemicalmime package
+	to fix pdb files detection issues.
+	* gcu-0.5.pc.in: updated names and dependencies.
+	* gcu.pc.in: ditto.
+	* gcu/gchem3d-viewer.c: (main): build full url for input file.
+	* gcu/gtkchem3dviewer.cc: use GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE.
+	* gcu/object.cc: fixed a critical (and trivial) bug in Object::AddType.
+	* gcu/object.h: fixed a doxygen related warning.
+	* tests/testbonobocontrol.c: removed (bonobo control has been obsoleted).
+
 2005-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: fixed various build issues.
 	* configure.ac: ditto.

@@ -386,8 +386,8 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 		NextType = TypeId ((unsigned) NextType + 1);
 	} else
 		typedesc.Id = id;
-	if (TypeNames.capacity() <= id) {
-		size_t max = (((size_t) id / 10) + 1) * 10;
+	if (TypeNames.capacity() <=  typedesc.Id) {
+		size_t max = (((size_t)  typedesc.Id / 10) + 1) * 10;
 		TypeNames.reserve (max);
 		while (max > TypeNames.size())
 			TypeNames.push_back ("");

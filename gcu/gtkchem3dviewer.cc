@@ -253,11 +253,11 @@ extern "C"
 GType
 gtk_chem3d_viewer_get_type (void)
 {
-	static GType crystal_viewer_type = 0;
+	static GType chem3d_viewer_type = 0;
   
-	if (!crystal_viewer_type)
+	if (!chem3d_viewer_type)
 	{
-		static const GTypeInfo crystal_viewer_info =
+		static const GTypeInfo chem3d_viewer_info =
 		{
 			sizeof (GtkChem3DViewerClass),
 			NULL,           /* base_init */
@@ -270,11 +270,10 @@ gtk_chem3d_viewer_get_type (void)
 			(GInstanceInitFunc) gtk_chem3d_viewer_init,
 		};
 
-//		crystal_viewer_type = g_type_register_static (GTK_TYPE_GL_AREA, "GtkChem3DViewer", &crystal_viewer_info, (GTypeFlags)0);
-		crystal_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GtkChem3DViewer", &crystal_viewer_info, (GTypeFlags)0);
+		chem3d_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GtkChem3DViewer", &chem3d_viewer_info, (GTypeFlags)0);
 	}
   
-	return crystal_viewer_type;
+	return chem3d_viewer_type;
 }
 
 GtkWidget* gtk_chem3d_viewer_new(gchar *uri)
@@ -413,7 +412,9 @@ void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, gchar *uri)
 		gnome_vfs_file_info_unref (info);
 		return;
 	}
-	gnome_vfs_get_file_info_from_handle (handle, info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
+	gnome_vfs_get_file_info_from_handle (handle, info,
+		(GnomeVFSFileInfoOptions)(GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
+							GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE));
 	gchar *buf = new gchar[info->size + 1];
 	GnomeVFSFileSize n;
 	gnome_vfs_read (handle, buf, info->size, &n);

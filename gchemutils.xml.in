@@ -6,6 +6,43 @@
   </mime-type>
   <mime-type type="chemical/x-pdb">
     <_comment>Protein DataBank</_comment>
+		<magic priority="85">
+			<match value="MODEL  " type="string" offset="0" />
+			<match value="HEADER " type="string" offset="0" />
+			<match value="TITLE  " type="string" offset="0" />
+			<match value="COMPND " type="string" offset="0" />
+			<match value="SOURCE " type="string" offset="0" />
+			<match value="KEYWDS " type="string" offset="0" />
+			<match value="EXPDTA " type="string" offset="0" />
+			<match value="AUTHOR " type="string" offset="0" />
+			<match value="REVDAT " type="string" offset="0" />
+			<match value="JRNL   " type="string" offset="0" />
+			<match value="REMARK " type="string" offset="0" />
+			<match value="DBREF  " type="string" offset="0" />
+			<match value="SEQRES " type="string" offset="0" />
+			<match value="SEQDAV " type="string" offset="0" />
+			<match value="HETNAM " type="string" offset="0" />
+			<match value="HETSYN " type="string" offset="0" />
+			<match value="FORMUL " type="string" offset="0" />
+			<match value="HELIX  " type="string" offset="0" />
+			<match value="SHEET  " type="string" offset="0" />
+			<match value="TURN   " type="string" offset="0" />
+			<match value="CISPEP " type="string" offset="0" />
+			<match value="LINK   " type="string" offset="0" />
+			<match value="CRYST1 " type="string" offset="0" />
+			<match value="ORIGX1 " type="string" offset="0" />
+			<match value="SCALE1 " type="string" offset="0" />
+			<match value="MTRIX1 " type="string" offset="0" />
+			<match value="ATOM   " type="string" offset="0">
+				<match value=" " type="string" offset="11" />
+			</match>
+			<match value="HETATM " type="string" offset="0">
+				<match value=" " type="string" offset="11" />
+			</match>
+			<match value="TER    " type="string" offset="0">
+				<match value=" " type="string" offset="11" />
+			</match>
+		</magic>
      <glob pattern="*.pdb"/>
   </mime-type>
   <mime-type type="chemical/x-mdl-molfile">

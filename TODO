@@ -1,2 +1,3 @@
-(After 0.2)
-* Add a Document class. Move translation table from Object to Document. most of the AddChild stuff should also go there.
+* Add a periodic table app, with chemical calculator.
+* Extend gchem3d stuff.
+* Write mozilla plugins.

@@ -1,5 +1,12 @@
 #!/bin/sh
 
+## check for doxygen present. Things don't work if it is not there
+if [ -z `doxygen --version` ]; then
+	echo "You need doxygen to build this package from cvs."
+	echo "http://www.doxygen.org/"
+	exit 1
+fi
+
 ## First, find where automake is installed and get the version
 AMPATH=`which automake|sed 's/\/bin\/automake//'`
 AMVER=`automake --version|grep automake|awk '{print $4}'|awk -F. '{print $1"."$2}'`
@@ -11,11 +18,16 @@ ln -sf $AMPATH/share/automake-$AMVER/install-sh .
 ln -sf $AMPATH/share/automake-$AMVER/depcomp .
 
 ## run aclocal
-aclocal -I /usr/share/aclocal/gnome2-macros
+if [ -r /usr/share/aclocal/gnome-common.m4 ]; then
+	aclocal
+else
+	aclocal -I /usr/share/aclocal/gnome2-macros
+fi
 
 ## libtool and intltool
 libtoolize --force
 intltoolize --force
+
 
 ## autoheader, automake, autoconf
 autoheader
