@@ -322,7 +322,7 @@
 	<radius type="ionic" charge="+3" cn="6" spin="high" scale="Shannon" value="64.5"/>
 	<radius type="ionic" charge="+3" cn="8" spin="high" scale="Shannon" value="78"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="58.5"/>
-	<radius type="ionic" charge="+6" cn="0.39" scale="Shannon" value="0"/>
+	<radius type="ionic" charge="+6" cn="4" scale="Shannon" value="25"/>
 </element>
 
 <element Z="27" symbol="Co">

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
-
+2003-06-02 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Implemented functnions to retrieve electronegativities and radii
+	* Fixed an error in elements.xml.in
+	
 2003-05-30 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Added GtkChem3DViewer widget along with a Bonobo control using it
 	* Added atomic radii and electronegativities to elements.xml.in

@@ -60,8 +60,8 @@ public:
 	bool GetBestSide() {return m_BestSide;}
 	double* GetDefaultColor() {return m_DefaultColor;}
 	const char* GetName() {return name.c_str();}
-	const GcuAtomicRadius* GetRadii();
-	const GcuElectronegativity* GetElectronegativities();
+	const GcuAtomicRadius** GetRadii();
+	const GcuElectronegativity** GetElectronegativities();
 	
 private:
 	unsigned char m_Z;

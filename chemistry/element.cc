@@ -24,7 +24,6 @@
 
 #include "config.h"
 #include "element.h"
-#include <stdio.h>//FIXME: should be removed
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
@@ -67,6 +66,7 @@ EltTable::EltTable()
 	char* DefaultName;
 	char *lang = getenv("LANG");
 	char *old_num_locale, *tmp, *num;
+	unsigned char Z;
 	if (!(xml = xmlParseFile(DATADIR"/gchemutils/elements.xml")))
 	{
 		g_error(_("Can't find and read elements.xml"));
@@ -84,7 +84,7 @@ EltTable::EltTable()
 			if (strcmp((const char*)node->name, "element")) g_error(_("Uncorrect file format: elements.xml"));
 			tmp = (char*) xmlGetProp(node, (xmlChar*)"symbol");
 			num = (char*) xmlGetProp(node, (xmlChar*)"Z");
-			Elt = new Element(atoi(num), tmp);
+			Elt = new Element(Z = atoi(num), tmp);
 			child = node->children;
 			DefaultName = NULL;
 			while (child)
@@ -112,12 +112,53 @@ EltTable::EltTable()
 				else if (!strcmp((const char*)child->name, "electronegativity"))
 				{
 					GcuElectronegativity* en = new GcuElectronegativity;
-					Elt->m_en.push_back(en);
+					en->Z = Z;	//FIXME: is it really useful there?
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"scale");
+					if (tmp) en->scale = g_strdup(tmp);
+					else en->scale = NULL;
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"value");
+					if (tmp)
+					{
+						en->value = strtod(tmp, NULL);
+						Elt->m_en.push_back(en);
+					}
+					else delete en;	//without a value, the strcture is useless and is discarded
 				}
 				else if (!strcmp((const char*)child->name, "radius"))
 				{
 					GcuAtomicRadius* radius = new GcuAtomicRadius;
-					Elt->m_radii.push_back(radius);
+					radius->Z = Z;	//FIXME: is it really useful there?
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"type");
+					if (!tmp ||
+						(!((!strcmp(tmp, "covalent")) && (radius->type = GCU_COVALENT))) &&
+						(!((!strcmp(tmp, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
+						(!((!strcmp(tmp, "ionic")) && (radius->type = GCU_IONIC))) &&
+						(!((!strcmp(tmp, "metallic")) && (radius->type = GCU_METALLIC))) &&
+						(!((!strcmp(tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true))))
+					{	//invalid radius
+						delete radius;
+						continue;
+					}
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"scale");
+					if (tmp) radius->scale = g_strdup(tmp);
+					else radius->scale = NULL;
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"charge");
+					if (tmp) radius->charge = strtol(tmp, NULL, 10);
+					else radius->charge = 0;
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"cn");
+					if (tmp) radius->cn = strtol(tmp, NULL, 10);
+					else radius->charge = -1;
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"spin");
+					if ((!tmp) ||
+						(!((!strcmp(tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) ||
+						(!((!strcmp(tmp, "high")) && (radius->spin = GCU_HIGH_SPIN))))
+					radius->spin = GCU_N_A_SPIN;
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"value");
+					if (tmp)
+					{
+						radius->value = strtod(tmp, NULL);
+						Elt->m_radii.push_back(radius);
+					}
 				}
 				child = child->next;
 			}
@@ -213,13 +254,21 @@ Element::~Element()
 	while (!m_radii.empty())
 	{
 		GcuAtomicRadius *radius = m_radii.back();
-		if (radius) delete radius;
+		if (radius)
+		{
+			if (radius->scale) g_free(radius->scale);
+			delete radius;
+		}
 		m_radii.pop_back();
 	}
 	while (!m_en.empty())
 	{
 		GcuElectronegativity* en = m_en.back();
-		if (en) delete en;
+		if (en)
+		{
+			if (en->scale) g_free(en->scale);
+			delete en;
+		}
 		m_en.pop_back();
 	}
 }
@@ -254,20 +303,54 @@ Element* Element::GetElement(const gchar* name)
 
 bool Element::GetRadius(GcuAtomicRadius* radius)
 {
+	Element* Elt = Table[radius->Z];
+	if (!Elt) return false;
+	int  i = 0;
+	bool res;
+	for (int i = 0; Elt->m_en[i]; i++)
+	{
+		if (radius->type != Elt->m_radii[i]->type) continue;
+		if (radius->charge != Elt->m_radii[i]->charge) continue;
+		if ((radius->cn >= 0) &&(radius->cn != Elt->m_radii[i]->cn)) continue;
+		if ((radius->spin != GCU_N_A_SPIN) &&(radius->spin != Elt->m_radii[i]->spin)) continue;
+		if (!radius->scale)
+		{
+			*radius = *Elt->m_radii[i];
+			return true;
+		}
+		else if (!strcmp(radius->scale, Elt->m_radii[i]->scale))
+		{
+			radius->value = Elt->m_radii[i]->value;
+		}
+	}
 	return false;
 }
 
 bool Element::GetElectronegativity(GcuElectronegativity* en)
 {
-	return false;
+	Element* Elt = Table[en->Z];
+	if (!Elt) return false;
+	if (!en->scale)
+	{
+		*en = *Elt->m_en[0];
+		return true;
+	}
+	for (int i = 0; Elt->m_en[i]; i++)
+		if (!strcmp(en->scale, Elt->m_en[i]->scale))
+		{
+			en->value = Elt->m_en[i]->value;
+			return true;
+		}
+
+		return false;
 }
 
-const GcuAtomicRadius* Element::GetRadii()
+const GcuAtomicRadius** Element::GetRadii()
 {
-	return NULL;
+	return (const GcuAtomicRadius**) &m_radii.front();
 }
 
-const GcuElectronegativity* Element::GetElectronegativities()
+const GcuElectronegativity** Element::GetElectronegativities()
 {
-	return NULL;
+	return (const GcuElectronegativity**) &m_en.front();
 }

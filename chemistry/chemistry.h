@@ -70,10 +70,10 @@ const gdouble* gcu_element_get_default_color(gint Z);
 const gchar* gcu_element_get_symbol(gint Z);
 const gchar* gcu_element_get_name(gint Z);
 gint gcu_element_get_Z(gchar* symbol);
-int gcu_element_get_radius(GcuAtomicRadius* radius);
-int gcu_element_get_electronegativity(GcuElectronegativity* en);
-const GcuAtomicRadius* gcu_element_get_radii(gint Z);
-const GcuElectronegativity* gcu_element_get_electronegativities(gint Z);
+gboolean gcu_element_get_radius(GcuAtomicRadius* radius);
+gboolean gcu_element_get_electronegativity(GcuElectronegativity* en);
+const GcuAtomicRadius** gcu_element_get_radii(gint Z);
+const GcuElectronegativity** gcu_element_get_electronegativities(gint Z);
 
 G_END_DECLS
 
