@@ -1,2 +1,7 @@
-2001-05-13	Jean Br�fort	<jean.brefort@ac-dijon.fr>
+##Text encoding: utf-8
+
+2002-11-27	Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Added SetSelected(int) and Update(GtkWidget*) to the Object class
+
+2001-05-13	Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Released version 0.1.0
