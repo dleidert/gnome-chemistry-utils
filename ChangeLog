@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2004-02-08 Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* Makefile.am: fixed file list in EXTRA_DIST
+
 2004-02-07  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* Makefile.am
 	* tests/Makefile.am: update to work with automake 1.8.x
