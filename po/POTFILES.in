@@ -1,4 +1,4 @@
 glade/gtkperiodic.glade
-chemistry/elements.xml.in
-chem3d/gchem3d.server.in
+gcu/elements.xml.in
+gcu/gchem3d-0.3.server.in.in
 gchemutils.keys.in
