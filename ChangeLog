@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2003-10-19 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* removed cystalbond.* from crystalviewer directory
+	* changed version to 0.2.0
+
 2003-08-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* removed -Werror-implicit-function-declaration from GCU_CFLAGS
 
