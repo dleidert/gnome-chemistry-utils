@@ -1,0 +1,26 @@
+chemical/x-xyz
+	default_action_type=component
+	short_list_component_iids=OAFIID:gchem3d_control
+	short_list_component_iids_for_novice_user_level=OAFIID:gchem3d_control
+	short_list_component_iids_for_intermediate_user_level=OAFIID:gchem3d_control
+	short_list_component_iids_for_advanced_user_level=OAFIID:gchem3d_control
+	category=Documents/Sciences/Chemistry
+	use_category_default=yes
+
+chemical/x-pdb
+	default_action_type=component
+	short_list_component_iids=OAFIID:gchem3d_control
+	short_list_component_iids_for_novice_user_level=OAFIID:gchem3d_control
+	short_list_component_iids_for_intermediate_user_level=OAFIID:gchem3d_control
+	short_list_component_iids_for_advanced_user_level=OAFIID:gchem3d_control
+	category=Documents/Sciences/Chemistry
+	use_category_default=yes
+
+chemical/x-mdl-molfile
+	default_action_type=component
+	short_list_component_iids=OAFIID:gchem3d_control
+	short_list_component_iids_for_novice_user_level=OAFIID:gchem3d_control
+	short_list_component_iids_for_intermediate_user_level=OAFIID:gchem3d_control
+	short_list_component_iids_for_advanced_user_level=OAFIID:gchem3d_control
+	category=Documents/Sciences/Chemistry
+	use_category_default=yes
