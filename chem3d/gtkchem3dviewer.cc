@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkchem3dviewer.c 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -26,6 +26,7 @@
 #include "config.h"
 #include "gtkchem3dviewer.h"
 #include "chemistry/matrix.h"
+#include "chemistry/element.h"
 #include <gtk/gtk.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -89,7 +90,6 @@ OBExtensionTable et;
 
 static bool on_init(GtkWidget* widget, GtkChem3DViewer *viewer) 
 {
-puts("init");
 #ifdef HAVE_GTKGLAREA
 	if (gtk_gl_area_make_current(GTK_GL_AREA(widget)))
 #else
@@ -276,7 +276,7 @@ GtkWidget* gtk_chem3d_viewer_new(gchar *uri)
 {
 	GtkChem3DViewer* viewer = (GtkChem3DViewer*)g_object_new(GTK_TYPE_CHEM3D_VIEWER, NULL);
 	g_signal_connect(G_OBJECT(viewer), "size_allocate", GTK_SIGNAL_FUNC(on_size), NULL);
-	gtk_chem3d_viewer_set_data (viewer, uri);
+	gtk_chem3d_viewer_set_uri (viewer, uri);
 /*	gtk_widget_show(w);*/
 	return GTK_WIDGET(viewer);
 }
@@ -332,6 +332,12 @@ void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
 
 #endif
 
+	viewer->priv->Angle = 10;
+	viewer->priv->psi = 0.0;
+	viewer->priv->theta = 0.0;
+	viewer->priv->phi = 0.0;
+	Matrix m(0, 0, 0, euler);
+	viewer->priv->Euler = m;
 // Set background to white
 	viewer->priv->Red = viewer->priv->Green = viewer->priv->Blue= viewer->priv->Alpha = 1.0;
 // Events for widget must be set before X Window is created
@@ -362,6 +368,7 @@ void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
 
 	gtk_widget_show(GTK_WIDGET(viewer->priv->widget));
 	gtk_container_add(GTK_CONTAINER(viewer), viewer->priv->widget);
+	gtk_widget_show_all(GTK_WIDGET(viewer));
 	viewer->priv->Init = false;
 }
 
@@ -372,7 +379,7 @@ void gtk_chem3d_viewer_finalize(GObject* object)
 	delete viewer->priv;
 }
 
-void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, gchar *uri)
+void gtk_chem3d_viewer_set_uri(GtkChem3DViewer * viewer, gchar *uri)
 {
 	g_return_if_fail (GTK_IS_CHEM3D_VIEWER(viewer));
 	g_return_if_fail(uri);
@@ -381,15 +388,18 @@ void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, gchar *uri)
 	GnomeVFSResult result = gnome_vfs_open(&handle, uri, GNOME_VFS_OPEN_READ);
 	if (result != GNOME_VFS_OK) return;
 	gnome_vfs_get_file_info_from_handle(handle, &info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
-puts(info.mime_type);
 	gchar *buf = new gchar[info.size + 1];
 	GnomeVFSFileSize n;
 	gnome_vfs_read(handle, buf, info.size, &n);
 	buf[info.size] = 0;
-	if (n == info.size)
-	{
-		istringstream is(buf);
-		viewer->priv->Mol.SetInputType(et.MIMEToType(info.mime_type));
+	if (n == info.size) gtk_chem3d_viewer_set_data(viewer, buf, info.mime_type);
+	delete [] buf;
+}
+
+void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
+{
+		istringstream is(data);
+		viewer->priv->Mol.SetInputType(et.MIMEToType((char*)mime_type));
 		OBFileFormat fileFormat;
 		char *old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
 		setlocale(LC_NUMERIC, "C");
@@ -397,13 +407,10 @@ puts(info.mime_type);
 		setlocale(LC_NUMERIC, old_num_locale);
 		if (viewer->priv->Init) gtk_chem3d_viewer_update(viewer);
 		g_free(old_num_locale);
-	}
-	delete [] buf;
 }
 
 void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
 {
-puts("updating");
 #ifdef HAVE_GTKGLAREA
 	if (gtk_gl_area_make_current(GTK_GL_AREA(viewer->priv->widget)))
 #else
@@ -415,7 +422,91 @@ puts("updating");
 		if (viewer->priv->glList) glDeleteLists(viewer->priv->glList,1);
 		viewer->priv->glList = glGenLists(1);
 		glNewList(viewer->priv->glList, GL_COMPILE);
-//		m_pDoc->Draw();
+		std::vector< OBNodeBase * >::iterator i;
+		OBAtom* atom = viewer->priv->Mol.BeginAtom(i);
+		guint Z;
+		gdouble R, w, x, y, z, x0, y0, z0, dist;
+		x0 = y0 = z0 = 0.0;
+		const gdouble* color;
+		while (atom)
+		{
+			Z = atom->GetAtomicNum();
+			x0 += atom->GetX();
+			y0 += atom->GetY();
+			z0 += atom->GetZ();
+			atom = viewer->priv->Mol.NextAtom(i);
+		}
+		x0 /= viewer->priv->Mol.NumAtoms();
+		y0 /= viewer->priv->Mol.NumAtoms();
+		z0 /= viewer->priv->Mol.NumAtoms();
+		atom = viewer->priv->Mol.BeginAtom(i);
+		GLUquadricObj *quadObj ;
+		dist = 0;
+		while (atom)
+		{
+			Z = atom->GetAtomicNum();
+			R = etab.GetVdwRad(Z) * 0.2;
+			x = atom->GetX() - x0;
+			y = atom->GetY() - y0;
+			z = atom->GetZ() - z0;
+			color = gcu_element_get_default_color(Z);
+			if ((w = sqrt(x * x + y * y + z * z)) > dist - R)
+				dist = w + R;
+			glPushMatrix() ;
+			glTranslated(y, z, x) ;
+			glColor3d(color[0], color[1], color[2]) ;
+			quadObj = gluNewQuadric() ;
+			gluQuadricDrawStyle(quadObj, GL_FILL);
+			gluQuadricNormals(quadObj, GL_SMOOTH) ;
+			gluSphere(quadObj, R, 20, 10) ;
+			gluDeleteQuadric(quadObj) ;
+			glPopMatrix() ;
+			atom = viewer->priv->Mol.NextAtom(i);
+		}
+		viewer->priv->MaxDist = dist * 1.05;
+		std::vector< OBEdgeBase * >::iterator j;
+		OBBond* bond = viewer->priv->Mol.BeginBond(j);
+		double x1, y1, z1, arot, xrot, yrot;
+		while(bond)
+		{
+			atom = bond->GetBeginAtom();
+			x = atom->GetX() - x0;
+			y = atom->GetY() - y0;
+			z = atom->GetZ() - z0;
+			atom = bond->GetEndAtom();
+			x1 = atom->GetX() - x0 - x;
+			y1 = atom->GetY() - y0 - y;
+			z1 = atom->GetZ() - z0 - z;
+			dist = sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+			w = sqrt(y1 * y1 + z1 * z1);
+			if (w > 0)
+			{
+				xrot = - z1 / w ;
+				yrot = y1 / w ;
+				arot = atan2(w, x1) * 90 / 1.570796326794897 ;
+			}
+			else
+			{
+				xrot = 0;
+				if (x1 > 0) yrot = arot = 0.0;
+				else
+				{
+					yrot = 1.0;
+					arot = 180.0;
+				}
+			}
+			glPushMatrix();
+			glTranslated(y, z, x);
+			glRotated(arot, xrot, yrot, 0.0f);
+			glColor3f(0.75, 0.75, 0.75);
+			quadObj = gluNewQuadric();
+			gluQuadricDrawStyle(quadObj, GL_FILL);
+			gluQuadricNormals(quadObj, GL_SMOOTH);
+			gluCylinder(quadObj, 0.12, 0.12, dist, 20, 10);
+			gluDeleteQuadric(quadObj);
+			glPopMatrix();
+			bond = viewer->priv->Mol.NextBond(j);
+		}
 		glEndList();
 	}
 	on_reshape(viewer->priv->widget, NULL, viewer);

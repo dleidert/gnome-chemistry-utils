@@ -19,7 +19,7 @@ intltoolize --force
 
 ## autoheader, automake, autoconf
 autoheader
-automake
+automake --gnu
 autoconf
 
 ## Job ended

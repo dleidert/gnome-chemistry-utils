@@ -59,7 +59,8 @@ struct _GtkChem3DViewerClass
 
 GType               gtk_chem3d_viewer_get_type          (void) G_GNUC_CONST;
 GtkWidget*            gtk_chem3d_viewer_new               (gchar* uri);
-void	gtk_chem3d_viewer_set_data	(GtkChem3DViewer * viewer, gchar* uri);
+void	gtk_chem3d_viewer_set_uri	(GtkChem3DViewer * viewer, gchar* uri);
+void	gtk_chem3d_viewer_set_data	(GtkChem3DViewer * viewer, const gchar* data, const gchar* mime_type);
 
 G_END_DECLS
 

@@ -42,6 +42,7 @@ GTKGL_REQUIRED_VERSION=1.99.0
 GTKGLEXT_REQUIRED_VERSION=0.6.0
 GNOME_PRINT_REQUIRED_VERSION=2.1.3
 GNOME_VFS_REQUIRED_VERSION=2.0.0
+BONOBOUI_REQUIRED_VERSION=2.2.0
 
 gl_flags=
 gtkcrystalviewer="-lgtkcrystalviewer"
@@ -50,6 +51,7 @@ PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
+libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
@@ -59,6 +61,7 @@ PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkgl-2.0 >= $GTKGL_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
+libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 ,have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLAREA,1,[Compile with GtlGLArea])
@@ -67,6 +70,7 @@ else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
+libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 )
 gtkcrystalviewer=
 fi
@@ -127,14 +131,20 @@ eval sy=`echo $sysconfdir`
 if test "$exec_prefix" = "NONE"; then
 	lb=`echo $libdir| sed 's/exec_prefix/prefix/'`
 	eval lb=`echo $lb`
+	bd=`echo $bindir| sed 's/exec_prefix/prefix/'`
+	eval BINDIR=`echo $bd`
 else
 	eval lb=`echo $libdir`
+	eval BINDIR=`echo $bindir`
 fi
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix",[Where the Gnome Chemistry Utils are to be installed])
 AC_DEFINE_UNQUOTED(SRCDIR, "`pwd`",[Where the Gnome Chemistry Utils are compiled])
 AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Chemistry Utils data are to be installed (default=${prefix}/share)])
 AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Chemistry Utils configuration files are to be installed (default=${prefix}/etc)])
 AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Chemistry Utils libraries are to be installed (default=${prefix}/lib)])
+AC_SUBST(BINDIR)
+PIXMAPSDIR=$dt/pixmaps
+AC_SUBST(PIXMAPSDIR)
 
 AC_OUTPUT([
 Makefile
@@ -147,4 +157,5 @@ glade/Makefile
 tests/Makefile
 dtds/Makefile
 gcu.pc
+chem3d/gchem3d.server.in
 ])

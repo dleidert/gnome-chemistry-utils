@@ -147,7 +147,16 @@ void CrystalLine::SetPosition(double x, double y, double z, double x1, double y1
 		m_dyrot = y1 / x ;
 		m_darot = atan2(x, x1) * 90 / 1.570796326794897 ;
 	}
-	else m_dxrot = m_dyrot = m_darot = 0 ;
+	else
+	{
+		m_dxrot = 0;
+		if (x1 > 0) m_dyrot = m_darot = 0.0;
+		else
+		{
+			m_dyrot = 1.0;
+			m_darot = 180.0;
+		}
+	}
 }
 
 void CrystalLine::SetColor(float red, float green, float blue, float alpha)
