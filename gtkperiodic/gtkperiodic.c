@@ -31,7 +31,7 @@
 #include <gtk/gtkstyle.h>
 #include <glade/glade.h>
 
-static unsigned DefaultRed, DefaultGreen, DefaultBlue;
+static unsigned DefaultRed[4], DefaultGreen[4], DefaultBlue[4];
 
 GType
 gtk_periodic_color_style_get_type (void)
@@ -181,9 +181,18 @@ puts(gcu_element_get_name(i));
 		}
 	}
 	style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->priv->buttons[1])));
-	DefaultRed = style->bg[0].red;
-	DefaultGreen = style->bg[0].green;
-	DefaultBlue = style->bg[0].blue;
+	DefaultRed[0] = style->bg[0].red;
+	DefaultGreen[0] = style->bg[0].green;
+	DefaultBlue[0] = style->bg[0].blue;
+	DefaultRed[1] = style->bg[1].red;
+	DefaultGreen[1] = style->bg[1].green;
+	DefaultBlue[1] = style->bg[1].blue;
+	DefaultRed[2] = style->bg[2].red;
+	DefaultGreen[2] = style->bg[2].green;
+	DefaultBlue[2] = style->bg[2].blue;
+	DefaultRed[3] = style->bg[3].red;
+	DefaultGreen[3] = style->bg[3].green;
+	DefaultBlue[3] = style->bg[3].blue;
 	periodic->priv->Z = 0;
 	gtk_container_add(GTK_CONTAINER(periodic), GTK_WIDGET(periodic->priv->vbox));
 	gtk_widget_show_all(GTK_WIDGET(periodic));
@@ -334,9 +343,18 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 		switch (periodic->priv->colorstyle)
 		{
 			case GTK_PERIODIC_COLOR_NONE:
-				style->bg[0].red = DefaultRed;
-				style->bg[0].green = DefaultGreen;
-				style->bg[0].blue = DefaultBlue;
+				style->bg[0].red = DefaultRed[0];
+				style->bg[0].green = DefaultGreen[0];
+				style->bg[0].blue = DefaultBlue[0];
+				style->bg[1].red = DefaultRed[0];
+				style->bg[1].green = DefaultGreen[1];
+				style->bg[1].blue = DefaultBlue[1];
+				style->bg[2].red = DefaultRed[1];
+				style->bg[2].green = DefaultGreen[2];
+				style->bg[2].blue = DefaultBlue[2];
+				style->bg[3].red = DefaultRed[3];
+				style->bg[3].green = DefaultGreen[3];
+				style->bg[3].blue = DefaultBlue[3];
 			break;
 			case GTK_PERIODIC_COLOR_DEFAULT:
 				colors = gcu_element_get_default_color(i);
