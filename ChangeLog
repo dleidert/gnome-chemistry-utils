@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2005-03-05  Jean Brefort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed various build issues.
+	* autogen.sh: ditto.
+	* chem3d/Makefile.am: ditto.
+	* chemistry/Makefile.am: ditto.
+	* configure.ac: ditto.
+	* crystalviewer/Makefile.am: ditto.
+	* gtkperiodic/Makefile.am: ditto.
+	* tests/Makefile.am: ditto.
+	* tests/testgtkcrystalviewer.c: (main): use srcdir path to access
+	sample file.
+	* docs/reference/html/Makefile.am: deleted file, new version is generated
+	by autogen.sh.
+
 2005-03-02  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* docs/reference/html/Makefile.am: add $(DESTDIR) to install-path
 

@@ -1,5 +1,6 @@
 AC_INIT(gnome-chemistry-utils, 0.2.9, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
 AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
+AM_INIT_AUTOMAKE([dist-bzip2])
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
@@ -35,6 +36,7 @@ AC_SUBST(GTKC3D_VERSION_INFO)
 AC_SUBST(GCU_VERSION_INFO)
 
 ALL_LINGUAS="de fr it pl"
+AC_SUBST(ALL_LINGUAS)
 AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
@@ -135,7 +137,14 @@ else
 	eval BINDIR=`echo $bindir`
 fi
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix",[Where the Gnome Chemistry Utils are to be installed])
-AC_DEFINE_UNQUOTED(SRCDIR, "`pwd`",[Where the Gnome Chemistry Utils are compiled])
+case $srcdir in
+	/*)
+		AC_DEFINE_UNQUOTED(SRCDIR, "$srcdir",[Where the Gnome Chemistry Utils are compiled])
+	;;
+	*)
+		AC_DEFINE_UNQUOTED(SRCDIR, "`pwd`/$srcdir",[Where the Gnome Chemistry Utils are compiled])
+	;;
+esac
 AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Chemistry Utils data are to be installed (default=${prefix}/share)])
 AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Chemistry Utils configuration files are to be installed (default=${prefix}/etc)])
 AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Chemistry Utils libraries are to be installed (default=${prefix}/lib)])
@@ -159,3 +168,5 @@ docs/reference/html/Makefile
 gcu.pc
 chem3d/gchem3d.server.in
 ])
+
+echo "top srcdir = "$srcdir

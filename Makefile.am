@@ -32,6 +32,14 @@ EXTRA_DIST=	\
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= gcu.pc
 
+DISTCLEANFILES = \
+	gchemutils.keys \
+	intltool-extract \
+	intltool-update \
+	gchem3d-viewer.desktop \
+	gchemutils.xml \
+	intltool-merge
+
 install-data-hook:
 if UPDATE_DATABASES
 	update-mime-database $(datadir)/mime
@@ -42,8 +50,16 @@ endif
 
 uninstall-hook:
 if UPDATE_DATABASES
+# bad hacking for make distcheck !
+	rm $(datadir)/mime/chemical/x-xyz.xml
+	rm $(datadir)/mime/chemical/x-mdl-molfile.xml
+	rm $(datadir)/mime/chemical/x-pdb.xml
 	update-mime-database $(datadir)/mime
 if WITH_UPDATE_DESKTOP
 	update-desktop-database $(datadir)/applications
 endif
 endif
+
+# remove the following when we don't install mime type anymore
+distuninstallcheck:
+             @:

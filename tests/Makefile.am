@@ -6,7 +6,7 @@ DEPS = \
 	$(top_builddir)/gtkperiodic/libgtkperiodic.la
 
 LDADDS = $(top_builddir)/gtkperiodic/libgtkperiodic.la @GCU_LIBS@
-AM_CFLAGS = @GCU_CFLAGS@ -Werror-implicit-function-declaration
+AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@ -Werror-implicit-function-declaration
 
 noinst_PROGRAMS = 			\
 	testgtkperiodic

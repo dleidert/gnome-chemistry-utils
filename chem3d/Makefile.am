@@ -13,8 +13,8 @@ gcuinclude_HEADERS = $(libgtkchem3dviewer_la_headers)
 		
 libgtkchem3dviewer_la_LDFLAGS = -version-info  @GTKC3D_VERSION_INFO@ @GCU_LIBS@ \
 				@GC3D_LIBS@
-AM_CXXFLAGS = @GCU_CFLAGS@ @GC3D_CFLAGS@
-AM_CFLAGS = @GCU_CFLAGS@ @GC3D_CFLAGS@
+AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@ @GC3D_CFLAGS@
+AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@ @GC3D_CFLAGS@
 
 bin_PROGRAMS = gchem3d gchem3d-viewer
 
@@ -34,3 +34,5 @@ server_DATA=gchem3d.server
 @INTLTOOL_SERVER_RULE@
 
 endif
+
+DISTCLEANFILES = gchem3d.server
