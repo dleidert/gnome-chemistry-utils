@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2004-06-16  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* configure.ac: changed version to 0.3.1
+	* gcu/bonobo-control.cc: move data.h (from Openbabel) inclusion to top
+	and undef variables before including config.h
+
 2004-06-13  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* gcu/elements.xml.in: changed some colors to be compatible with a new
 	coloring scheme common to several open source projects.
