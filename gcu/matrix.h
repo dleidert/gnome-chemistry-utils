@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * chemistry/matrix.h 
+ * matrix.h 
  *
- * Copyright (C) 2000-2003
+ * Copyright (C) 2000-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -26,8 +26,6 @@
  
 #ifndef GCU_MATRIX_H
 #define GCU_MATRIX_H
-
-#include <glib.h>
 
 namespace gcu
 {
@@ -77,7 +75,7 @@ The code used in CrystalView::Rotate and in GtkChem3DViewer code is (when mouse 
 \endcode
 The (M_PI / 90.) factor is arbitrary here.
 */
-	Matrix(gdouble Psi, gdouble Theta, gdouble Phi, MatrixType Type);
+	Matrix(double Psi, double Theta, double Phi, MatrixType Type);
 /*!
 @param x11: value to use at first line and first column of the matrix.
 @param x12: value to use at first line and second column of the matrix.
@@ -91,7 +89,7 @@ The (M_PI / 90.) factor is arbitrary here.
 
 Constructs a matrix from its components.
 */
-	Matrix(gdouble x11, gdouble x12, gdouble x13, gdouble x21, gdouble x22, gdouble x23, gdouble x31, gdouble x32, gdouble x33);
+	Matrix(double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33);
 /*!
 @param cMat: a Matrix instance to use in the multiplication.
 
@@ -111,7 +109,7 @@ Copies a Matrix instance into another one.
 
 Get the Euler's angles associated to a "euler" Matrix as defined in MatrixType.
 */
-	void Euler(gdouble& Psi, gdouble& Theta, gdouble& Phi);
+	void Euler(double& Psi, double& Theta, double& Phi);
 /*!
 @param dx: the x coordinate.
 @param dy: the y coordinate.
@@ -120,10 +118,10 @@ Get the Euler's angles associated to a "euler" Matrix as defined in MatrixType.
 Initially, dx, dy and dz are the components of the vector to transform (multiply) by the matrix and
 after execution of this method, dx, dy and dz are the components of the transformed vector. So initial values are lost.
 */
-	void Transform(gdouble &dx, gdouble &dy , gdouble &dz);
+	void Transform(double &dx, double &dy , double &dz);
 	
 private :
-	gdouble x[3][3];
+	double x[3][3];
 };
 
 }	//namespace gcu

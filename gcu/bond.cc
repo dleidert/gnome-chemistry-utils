@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2003
+ * Copyright (C) 2001-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -147,4 +147,12 @@ void Bond::IncOrder(int n)
 {
 	m_order += n;
 	if (m_order > 4)  m_order %= 4;
+}
+
+void Bond::Move(double x, double y, double z)
+{
+}
+
+void Bond::Transform2D(Matrix2D& m, double x, double y)
+{
 }

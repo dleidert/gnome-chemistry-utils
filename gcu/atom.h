@@ -209,6 +209,14 @@ It might be overrided for derived class when it is not convenient to override th
 Used to move an Atom.
 */
 	virtual void Move(double x, double y, double z = 0.);
+/*!
+@param m: the 2D Matrix of the transformation.
+@param x: the x component of the center of the transformation.
+@param y: the y component of the center of the transformation.
+
+Used to move and/or transform an atom.
+*/
+	virtual void Transform2D(Matrix2D& m, double x, double y);
 
 protected:
 /*!

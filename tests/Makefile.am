@@ -1,9 +1,9 @@
 ## Makefile.am for gcheputils/tests
 
-INCLUDES = -I$(top_srcdir)/gtkperiodic -I$(top_srcdir)/crystalviewer
+INCLUDES = -I$(top_srcdir)/gcu
 
 DEPS = \
-	$(top_builddir)/gtkperiodic/libgtkperiodic-0.3.la
+	$(top_builddir)/gcu/libgcu-0.3.la
 
 AM_CFLAGS = @GCU_CFLAGS@ -Werror-implicit-function-declaration
 

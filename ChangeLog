@@ -1,3 +1,21 @@
+2004-05-02  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+
+	reviewed by: <delete if not using a buddy>
+
+	* gcu/Makefile.am:
+	* gcu/atom.cc:
+	* gcu/atom.h:
+	* gcu/bond.cc:
+	* gcu/bond.h:
+	* gcu/matrix.cc:
+	* gcu/matrix.h:
+	* gcu/object.cc:
+	* gcu/object.h:
+	* po/fr.po:
+	* po/it.po:
+	* po/pl.po:
+	* tests/Makefile.am:
+
 ##Text encoding: utf-8
 
 2004-04-09  Jean Bréfort  <jean.brefort@ac-dijon.fr>

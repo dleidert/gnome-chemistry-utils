@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * chemistry/object.h 
+ * object.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -27,6 +27,7 @@
 #ifndef GCU_OBJECT_H
 #define GCU_OBJECT_H
 
+#include "matrix2d.h"
 #include <glib.h>
 #include <libxml/parser.h>
 #include <map>
@@ -226,6 +227,17 @@ Used to move an object. This virtual method must be overrided by Object derived 
 The base Object class has no coordinates and the default method does nothing.
 */
 	virtual void Move(double x, double y, double z = 0.);
+/*!
+@param m: the 2D Matrix of the transformation.
+@param x: the x component of the center of the transformation.
+@param y: the y component of the center of the transformation.
+
+Used to move and/or transform an object.
+This virtual method must be overrided by Object derived classes for which it makes sense.
+The base Object class has no coordinates and the default method calls the corresponding method
+for every child.
+*/
+	virtual void Transform2D(Matrix2D& m, double x, double y);
 /*!
 @param xml: the xmlDoc used to save the document.
 @param node: the node representing the Object.

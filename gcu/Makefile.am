@@ -7,6 +7,7 @@ libgcu_0_3_la_SOURCES = \
 		document.cc \
 		element.cc \
 		matrix.cc \
+		matrix2d.cc \
 		xml-utils.cc \
 		chemistry.cc \
 		gtkperiodic.c
@@ -18,6 +19,7 @@ libgcu_0_3_la_headers = \
 		document.h \
 		element.h \
 		matrix.h \
+		matrix2d.h \
 		xml-utils.h \
 		chemistry.h \
 		gtkperiodic.h

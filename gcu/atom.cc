@@ -135,6 +135,15 @@ void Atom::Move(double x, double y, double z)
 	m_z += z;
 }
 
+void Atom::Transform2D(Matrix2D& m, double x, double y)
+{
+	m_x -= x;
+	m_y -= y;
+	m.Transform (m_x, m_y);
+	m_x += x;
+	m_y += y;
+}
+
 xmlNodePtr Atom::Save(xmlDocPtr xml)
 {
 	xmlNodePtr parent, child;

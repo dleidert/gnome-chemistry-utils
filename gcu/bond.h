@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -118,6 +118,22 @@ This virtual method is called at the end of the Bond::Save method. The default b
 It might be overrided for derived class when it is not convenient to override the Bond::Save method.
 */
 	virtual bool SaveNode(xmlDocPtr xml, xmlNodePtr node);
+/*!
+@param x: the x component of the transation vector.
+@param y: the y component of the transation vector.
+@param z: the z component of the transation vector.
+
+Does nothing. Just a slight optimization to avoid execution of Object::Move
+*/
+	virtual void Move(double x, double y, double z = 0.);
+/*!
+@param m: the 2D Matrix of the transformation.
+@param x: the x component of the center of the transformation.
+@param y: the y component of the center of the transformation.
+
+Does nothing. Just a slight optimization to avoid execution of Object::Transform2D
+*/
+	virtual void Transform2D(Matrix2D& m, double x, double y);
 
 protected:
 /*!

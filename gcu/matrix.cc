@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * chemistry/matrix.cc 
+ * gcu/matrix.cc 
  *
- * Copyright (C) 2000-2003
+ * Copyright (C) 2000-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -24,7 +24,6 @@
  * Boston, MA  02111-1307, USA.
  */
 
-#include <glib.h>
 #include <math.h>
 #include "matrix.h"
 
@@ -38,14 +37,14 @@ Matrix::~Matrix()
 {
 }
 
-Matrix::Matrix(gdouble Psi, gdouble Theta, gdouble Phi, MatrixType Type)
+Matrix::Matrix(double Psi, double Theta, double Phi, MatrixType Type)
 {
-	gdouble sp = sin(Psi);
-	gdouble cp = cos(Psi);
-	gdouble st = sin(Theta);
-	gdouble ct = cos(Theta);
-	gdouble sf = sin(Phi);
-	gdouble cf = cos(Phi);
+	double sp = sin(Psi);
+	double cp = cos(Psi);
+	double st = sin(Theta);
+	double ct = cos(Theta);
+	double sf = sin(Phi);
+	double cf = cos(Phi);
 	switch(Type)
 	{
 	case euler :
@@ -78,7 +77,7 @@ Matrix::Matrix(gdouble Psi, gdouble Theta, gdouble Phi, MatrixType Type)
 	}
 }
 
-Matrix::Matrix(gdouble x11, gdouble x12, gdouble x13, gdouble x21, gdouble x22, gdouble x23, gdouble x31, gdouble x32, gdouble x33)
+Matrix::Matrix(double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33)
 {
 	x[0][0] = x11;
 	x[0][1] = x12;
@@ -122,7 +121,7 @@ Matrix& Matrix::operator=(Matrix& cMat)
 	return *this;
 }
 
-void Matrix::Euler(gdouble& Psi, gdouble& Theta, gdouble& Phi)
+void Matrix::Euler(double& Psi, double& Theta, double& Phi)
 {
 	if (fabs(x[2][2]) > .999999999)
 	{
@@ -135,9 +134,9 @@ void Matrix::Euler(gdouble& Psi, gdouble& Theta, gdouble& Phi)
 	else
 	{
 		Theta = acos(x[2][2]);
-		gdouble st = sin(Theta);
-		gdouble si = x[0][2] / st;
-		gdouble co = - x[1][2] / st;
+		double st = sin(Theta);
+		double si = x[0][2] / st;
+		double co = - x[1][2] / st;
 		if (fabs(co) > .999999999)
 			Psi = (co > 0) ? 0 : 3.1415926535897931;
 		else
@@ -151,12 +150,11 @@ void Matrix::Euler(gdouble& Psi, gdouble& Theta, gdouble& Phi)
 	}
 }
 
-void Matrix::Transform(gdouble &dx, gdouble &dy , gdouble &dz)
+void Matrix::Transform(double &dx, double &dy , double &dz)
 {
-	gdouble x1 = dx * x[0][0] + dy * x[0][1] + dz * x[0][2];
-	gdouble y1 = dx * x[1][0] + dy * x[1][1] + dz * x[1][2];
+	double x1 = dx * x[0][0] + dy * x[0][1] + dz * x[0][2];
+	double y1 = dx * x[1][0] + dy * x[1][1] + dz * x[1][2];
 	dz = dx * x[2][0] + dy * x[2][1] + dz * x[2][2];
 	dx = x1;
 	dy = y1;
 }
- 

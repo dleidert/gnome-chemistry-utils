@@ -1,8 +1,8 @@
 /* 
  * Gnome Chemistry Utils
- * chemistry/object.cc 
+ * object.cc 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -240,6 +240,12 @@ void Object::Move(double x, double y, double z)
 {
 	map<string, Object*>::iterator i;
 	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->Move(x, y, z);
+}
+
+void Object::Transform2D(Matrix2D& m, double x, double y)
+{
+	map<string, Object*>::iterator i;
+	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->Transform2D(m, x, y);
 }
 
 void Object::ShowContextualMenu(unsigned button, unsigned time)
