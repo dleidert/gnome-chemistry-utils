@@ -429,7 +429,7 @@ msgstr "Étain"
 
 #: chemistry/elements.xml.in.h:102
 msgid "Titanium"
-msgstr "Titanium"
+msgstr "Titane"
 
 #: chemistry/elements.xml.in.h:103
 msgid "Tungsten"

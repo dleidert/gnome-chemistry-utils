@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * element.cc 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -59,14 +59,15 @@ EltTable Table;
 
 EltTable::EltTable()
 {
-	bindtextdomain(PACKAGE, DATADIR"/locale");
+	bindtextdomain(GETTEXT_PACKAGE, DATADIR"/locale");
+#ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain(PACKAGE);
+#endif
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv("LANG");
 	char *old_num_locale, *tmp, *num;
-	unsigned char Z, n;
+	unsigned char Z;
 	if (!(xml = xmlParseFile(DATADIR"/gchemutils/elements.xml")))
 	{
 		g_error(_("Can't find and read elements.xml"));

@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2004-02-07  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* chem3d/gtkchem3dviewer.cc: turn around an openbabel bug.
+	* gtkperiodic/gtkperiodic.c: (gtk_periodic_init): fixed a textdomain bug.
+	* gtkperiodic/gtkperiodic.c: add a call to textdomain.
+	* chemistry/element.cc: removed gettext initialization.
+
 2004-01-21 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* crystalviewer/crystalview.cc: avoid execution of gl functions
 	for non initialized widget.

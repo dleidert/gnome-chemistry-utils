@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * chemistry.cc
  *
- * Copyright (C) 2003
+ * Copyright (C) 2003-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -24,6 +24,7 @@
  * Boston, MA  02111-1307, USA.
  */
 
+#include "config.h"
 #include "chemistry.h"
 #include "element.h"
 
