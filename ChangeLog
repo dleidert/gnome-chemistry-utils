@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2004-06-13  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* gcu/elements.xml.in: changed some colors to be compatible with a new
+	coloring scheme common to several open source projects.
+
 2004-06-10  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* gcu/document.cc: fixed a bug in Document::GetNewId.
 

@@ -53,7 +53,7 @@
 
 <element Z="6" symbol="C" max_bonds="4">
 	<_name>Carbon</_name>
-	<color red="0.50" green="0.50" blue="0.50"/>
+	<color red="0.56" green="0.56" blue="0.56"/>
 	<en scale="Pauling" value="2.55"/>
 	<radius type="covalent" value="77"/>
 	<radius type="vdW" value="170"/>
@@ -64,7 +64,7 @@
 
 <element Z="7" symbol="N" max_bonds="4">
 	<_name>Nitrogen</_name>
-	<color red="0.05" green="0.05" blue="1.00"/>
+	<color red="0.18" green="0.31" blue="0.97"/>
 	<en scale="Pauling" value="3.04"/>
 	<radius type="covalent" value="75"/>
 	<radius type="vdW" value="155"/>
@@ -89,7 +89,7 @@
 
 <element Z="9" symbol="F" max_bonds="1">
 	<_name>Fluorine</_name>
-	<color red="0.70" green="1.00" blue="1.00"/>
+	<color red="0.56" green="0.87" blue="0.31"/>
 	<en scale="Pauling" value="3.98"/>
 	<radius type="covalent" value="71"/>
 	<radius type="vdW" value="150"/>
@@ -149,7 +149,7 @@
 
 <element Z="14" symbol="Si" max_bonds="6">
 	<_name>Silicon</_name>
-	<color red="0.50" green="0.60" blue="0.60"/>
+	<color red="0.94" green="0.78" blue="0.62"/>
 	<en scale="Pauling" value="1.90"/>
 	<radius type="covalent" value="118"/>
 	<radius type="vdW" value="210"/>
@@ -307,7 +307,7 @@
 
 <element Z="26" symbol="Fe" max_bonds="6">
 	<_name>Iron</_name>
-	<color red="0.50" green="0.48" blue="0.78"/>
+	<color red="0.87" green="0.40" blue="0.20"/>
 	<en scale="Pauling" value="1.83"/>
 	<radius type="covalent" value="125"/>
 	<radius type="metallic" value="126"/>
@@ -327,7 +327,7 @@
 
 <element Z="27" symbol="Co" max_bonds="6">
 	<_name>Cobalt</_name>
-	<color red="0.44" green="0.48" blue="0.78"/>
+	<color red="0.94" green="0.56" blue="0.62"/>
 	<en scale="Pauling" value="1.88"/>
 	<radius type="covalent" value="126"/>
 	<radius type="metallic" value="125"/>
@@ -344,7 +344,7 @@
 
 <element Z="28" symbol="Ni" max_bonds="6">
 	<_name>Nickel</_name>
-	<color red="0.36" green="0.48" blue="0.76"/>
+	<color red="0.31" green="0.81" blue="0.31"/>
 	<en scale="Pauling" value="1.91"/>
 	<radius type="covalent" value="121"/>
 	<radius type="metallic" value="124"/>
@@ -360,7 +360,7 @@
 
 <element Z="29" symbol="Cu" max_bonds="6">
 	<_name>Copper</_name>
-	<color red="1.00" green="0.48" blue="0.38"/>
+	<color red="0.78" green="0.50" blue="0.20"/>
 	<en scale="Pauling" value="1.90"/>
 	<radius type="metallic" value="128"/>
 	<radius type="vdW" value="140"/>
@@ -581,7 +581,7 @@
 
 <element Z="47" symbol="Ag" max_bonds="6">
 	<_name>Silver</_name>
-	<color red="0.88" green="0.88" blue="1.00"/>
+	<color red="0.75" green="0.75" blue="0.75"/>
 	<en scale="Pauling" value="1.93"/>
 	<radius type="metallic" value="144"/>
 	<radius type="vdW" value="170"/>
@@ -971,7 +971,7 @@
 
 <element Z="78" symbol="Pt" max_bonds="6">
 	<_name>Platinum</_name>
-	<color red="0.96" green="0.93" blue="0.82"/>
+	<color red="0.81" green="0.81" blue="0.87"/>
 	<en scale="Pauling" value="2.28"/>
 	<radius type="metallic" value="138.5"/>
 	<radius type="vdW" value="170"/>
@@ -983,7 +983,7 @@
 
 <element Z="79" symbol="Au" max_bonds="6">
 	<_name>Gold</_name>
-	<color red="0.80" green="0.82" blue="0.12"/>
+	<color red="1.00" green="0.81" blue="0.13"/>
 	<en scale="Pauling" value="2.54"/>
 	<radius type="metallic" value="144"/>
 	<radius type="vdW" value="170"/>
@@ -995,7 +995,7 @@
 
 <element Z="80" symbol="Hg" max_bonds="2">
 	<_name>Mercury</_name>
-	<color red="0.71" green="0.71" blue="0.76"/>
+	<color red="0.72" green="0.72" blue="0.81"/>
 	<en scale="Pauling" value="2.00"/>
 	<radius type="metallic" value="151"/>
 	<radius type="vdW" value="150"/>

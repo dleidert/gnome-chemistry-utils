@@ -1,3 +1,12 @@
+Version 0.3.0
+	The libraries have been merged into one.
+	A new Document class.
+	The Object class has been enriched with a hierarchical rules api (for example a molecule
+	must contain at leat one atom and an atom cannot contain a molecule).
+	Several bugs fixed.
+	Default colors for some elements have changed to be compatible with a new
+	coloring scheme common to several open source projects.
+
 Version 0.1.7
 	Added a maximum number of bonds for atoms.
 	Added some documentation.
