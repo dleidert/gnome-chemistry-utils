@@ -1,5 +1,5 @@
 #include "config.h"
-#include <chem3d/gtkchem3dviewer.h>
+#include <gcu/gtkchem3dviewer.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdio.h>

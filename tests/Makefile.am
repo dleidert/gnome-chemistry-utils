@@ -3,9 +3,8 @@
 INCLUDES = -I$(top_srcdir)/gtkperiodic -I$(top_srcdir)/crystalviewer
 
 DEPS = \
-	$(top_builddir)/gtkperiodic/libgtkperiodic.la
+	$(top_builddir)/gtkperiodic/libgtkperiodic-0.3.la
 
-LDADDS = $(top_builddir)/gtkperiodic/libgtkperiodic.la @GCU_LIBS@
 AM_CFLAGS = @GCU_CFLAGS@ -Werror-implicit-function-declaration
 
 noinst_PROGRAMS = 			\
@@ -18,30 +17,23 @@ noinst_PROGRAMS += 			\
 	testgtkchem3dviewer \
 	testbonobocontrol
 
-testgtkcrystalviewer_DEPENDENCIES = $(top_builddir)/crystalviewer/libgtkcrystalviewer.la $(top_builddir)/chemistry/libgcu.la
-
-testgtkcrystalviewer_LDADD = $(top_builddir)/crystalviewer/libgtkcrystalviewer.la $(top_builddir)/chemistry/libgcu.la @GCU_LIBS@ -lstdc++
-
 testgtkcrystalviewer_SOURCES =	\
 	testgtkcrystalviewer.c 	
 
-testgtkchem3dviewer_DEPENDENCIES = $(top_builddir)/chem3d/libgtkchem3dviewer.la $(top_builddir)/chemistry/libgcu.la
-
-testgtkchem3dviewer_LDADD = @GC3D_LIBS@ $(top_builddir)/chem3d/libgtkchem3dviewer.la $(top_builddir)/chemistry/libgcu.la @GCU_LIBS@ -lstdc++
-
-AM_CFLAGS += @GC3D_CFLAGS@
+testgtkcrystalviewer_LDADD = $(top_builddir)/gcu/libgcu-0.3.la @GCU_LIBS@
 
 testgtkchem3dviewer_SOURCES =	\
 	testgtkchem3dviewer.c 	
 
+testgtkchem3dviewer_LDADD = $(top_builddir)/gcu/libgcu-0.3.la @GCU_LIBS@
+
 testbonobocontrol_SOURCES = testbonobocontrol.c
-testbonobocontrol_LDADD =  @GC3D_LIBS@
+testbonobocontrol_LDADD =  @GCU_LIBS@
 
 endif
 
 testgtkperiodic_DEPENDENCIES = $(DEPS)
-
-testgtkperiodic_LDADD = $(top_builddir)/gtkperiodic/libgtkperiodic.la $(top_builddir)/chemistry/libgcu.la $(LDADDS) -lstdc++
+testgtkperiodic_LDADD = $(top_builddir)/gcu/libgcu-0.3.la @GCU_LIBS@
 
 testgtkperiodic_SOURCES =	\
 	testgtkperiodic.c 	

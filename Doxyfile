@@ -58,16 +58,13 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = chemistry \
-                         chem3d \
-                         crystalviewer \
-                         gtkperiodic \
-						 tests
+INPUT                  = gcu \
+ 						 tests
 FILE_PATTERNS          = *.h \
 									*.c
  
 RECURSIVE              = YES
-EXCLUDE                = gtkperiodic/gtkperiodic.c
+EXCLUDE                = gcu/gtkperiodic.c
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXAMPLE_PATH           = tests

@@ -1,5 +1,5 @@
 AC_INIT(gnome-chemistry-utils, 0.3.0)
-AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
+AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
@@ -48,7 +48,7 @@ BONOBOUI_REQUIRED_VERSION=2.2.0
 LIBGNOMEUI_REQUIRED_VERSION=2.0.0
 
 gl_flags=
-gtkcrystalviewer="-lgtkcrystalviewer"
+gtkcrystalviewer="-lgtkcrystalviewer-0.3"
 
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
@@ -56,10 +56,7 @@ gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtk_gl="no")
-if test "$have_gtkgl" = "yes"; then
-AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
-gl_flags="-DUSE_GTKGLEXT"
-else
+if test "$have_gtkgl" = "no"; then
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
@@ -83,9 +80,11 @@ if test "$have_gtkgl" = "yes"; then
 		have_openbabel="yes", \
 		have_openbabel="no" && \
 		AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and OpenBabel will not be built ***))
-	AC_SUBST(GC3D_CFLAGS)
-	AC_SUBST(GC3D_LIBS)
 
+	if test "$have_openbabel" = "yes"; then
+		GCU_CFLAGS="$GCU_CFLAGS `pkg-config --cflags openbabel`"
+		GCU_LIBS="$GCU_LIBS `pkg-config --libs openbabel`"
+	fi
 fi
 
 AM_CONDITIONAL(WITH_OPENBABEL,test "$have_openbabel" = "yes")
@@ -118,10 +117,7 @@ AC_SUBST(PIXMAPSDIR)
 
 AC_OUTPUT([
 Makefile
-chemistry/Makefile
-crystalviewer/Makefile
-gtkperiodic/Makefile
-chem3d/Makefile
+gcu/Makefile
 po/Makefile.in
 glade/Makefile
 tests/Makefile
@@ -129,6 +125,6 @@ dtds/Makefile
 docs/Makefile
 docs/reference/Makefile
 docs/reference/html/Makefile
-gcu.pc
-chem3d/gchem3d.server.in
+gcu-0.3.pc
+gcu/gchem3d-0.3.server.in
 ])

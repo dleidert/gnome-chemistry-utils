@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2004-04-07 Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* moved all libraries sources to the new gcu directory and
+	merged the four libraries in one (libgcu-0.3).
+	* changed every necessary things to make things compile and
+	not interfere with the stable version.
+	* added gcu/document.* (not yet implemented).
+
+2004-03-10 Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	*configure.ac: removed unused gtk-doc checking
+	* AUTHORS: new polish tranlator
+	* crystalviewer/crystalatom.cc: avoid calling SetDefaultColor in constructor when
+	Z == 0 (critical bug).
+
 2004-02-13 Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* configure.ac: removed an extra "fi" 
 

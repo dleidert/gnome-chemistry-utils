@@ -1,5 +1,5 @@
-#include <gtkperiodic.h>
-#include <chemistry/chemistry.h>
+#include <gcu/gtkperiodic.h>
+#include <gcu/chemistry.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdio.h>

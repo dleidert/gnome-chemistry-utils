@@ -1,4 +1,4 @@
-#include <gtkcrystalviewer.h>
+#include <gcu/gtkcrystalviewer.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
