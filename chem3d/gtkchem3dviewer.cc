@@ -37,6 +37,8 @@
 #endif
 #include <sstream>
 #	include <mol.h>
+#include <libintl.h>
+#define _(String) gettext(String)
 
 /* Attribute list for gtkglarea widget. Specifies a
      list of Boolean attributes and enum/integer
@@ -63,6 +65,7 @@ static GdkGLConfig *glconfig = NULL;
 enum {
 	PROP_0,
 	PROP_DISPLAY3D,
+	PROP_BGCOLOR
 };
 GType
 gtk_display3d_get_type (void)
@@ -325,6 +328,14 @@ void gtk_chem3d_viewer_class_init(GtkChem3DViewerClass  *klass)
 						GTK_DISPLAY_3D,
 						BALL_AND_STICK,
 						(GParamFlags)G_PARAM_READWRITE));
+        g_object_class_install_property
+                (gobject_class,
+                 PROP_BGCOLOR,
+                 g_param_spec_string ("bgcolor",
+				      _("Background Color"),
+				      _("Color used to paint the background"),
+                                      "black",
+                                      (GParamFlags)(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 }
 
 void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
@@ -375,7 +386,8 @@ void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
 	Matrix m(0, 0, 0, euler);
 	viewer->priv->Euler = m;
 // Set background to white
-	viewer->priv->Red = viewer->priv->Green = viewer->priv->Blue= viewer->priv->Alpha = 1.0;
+	viewer->priv->Red = viewer->priv->Green = viewer->priv->Blue = 0.;
+	viewer->priv->Alpha = 1.0;
 // Set Ball and Stick mode by default
 	viewer->priv->display3d = BALL_AND_STICK;
 // Events for widget must be set before X Window is created
@@ -560,6 +572,21 @@ static void gtk_chem3d_viewer_get_property (GObject *object, guint property_id,
 	case PROP_DISPLAY3D:
 		g_value_set_enum (value, viewer->priv->display3d);
 		break;
+	case PROP_BGCOLOR:
+		{
+			int r = (int) (viewer->priv->Red * 255.), g = (int) (viewer->priv->Green * 255.), b = (int) (viewer->priv->Blue * 255.);
+			if ((r ==0) && (g == 0) && (b == 0))
+				g_value_set_string (value, "black");
+			else if ((r ==255) && (g == 255) && (b == 255))
+				g_value_set_string (value, "white");
+			else
+			{
+				char buf[10];
+				g_snprintf(buf, sizeof(buf), "#%2x%2x%2x", r, g, b);
+				g_value_set_string(value, buf);
+			}
+		}
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -574,6 +601,32 @@ static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
 	switch (property_id) {
 		case PROP_DISPLAY3D:
 			viewer->priv->display3d = (Display3DMode)g_value_get_enum (value);
+			break;
+		case PROP_BGCOLOR:
+			{
+				const gchar* str = g_value_get_string(value);
+				if (!strcmp(str, "black"))
+					viewer->priv->Red = viewer->priv->Green = viewer->priv->Blue = 0.;
+				else if (!strcmp(str, "white"))
+					viewer->priv->Red = viewer->priv->Green = viewer->priv->Blue = 1.;
+				else
+				{
+					if ((strlen(str) != 7) || (*str != '#'))
+					{
+						g_warning("Unrecognized color: %s\n", str);
+						break;
+					}
+					int r, g, b;
+					r = strtoul(str + 1, NULL, 16);
+					b = r &0xff;
+					 viewer->priv->Blue = (float) b / 255.;
+					r >>= 8;
+					g = r &0xff;
+					 viewer->priv->Green = (float) g / 255.;
+					r >>=8;
+					 viewer->priv->Red = (float) r / 255.;
+				}
+			}
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

@@ -109,11 +109,13 @@ static void persist_stream_class_init(PersistStreamClass *klass)
 
 enum {
 	PROP_DISPLAY3D,
+	PROP_BGCOLOR
 };
 
 static void get_prop(BonoboPropertyBag *bag, BonoboArg *arg, guint arg_id, CORBA_Environment *ev, GObject *object)
 {
 	Display3DMode mode3d;
+	const gchar* str;
 
 	switch (arg_id)
 	{
@@ -125,6 +127,10 @@ static void get_prop(BonoboPropertyBag *bag, BonoboArg *arg, guint arg_id, CORBA
 				case SPACEFILL: BONOBO_ARG_SET_STRING(arg, "spacefill"); break;
 				default: bonobo_exception_set(ev, ex_Bonobo_PropertyBag_BackendFailed);
 			}
+			break;
+		case PROP_BGCOLOR:
+			g_object_get(object, "bgcolor", &str, NULL);
+			BONOBO_ARG_SET_STRING(arg, str);
 			break;
 		default:
 			bonobo_exception_set(ev, ex_Bonobo_PropertyBag_NotFound);
@@ -142,6 +148,9 @@ static void set_prop (BonoboPropertyBag *bag,  const BonoboArg *arg, guint arg_i
 			else if (!strcmp(BONOBO_ARG_GET_STRING(arg), "spacefill"))
 				g_object_set(object, "display3d", SPACEFILL, NULL);
 			else bonobo_exception_set(ev, ex_Bonobo_PropertyBag_BackendFailed);
+			break;
+		case PROP_BGCOLOR:
+			g_object_set(object, "bgcolor", BONOBO_ARG_GET_STRING(arg));
 			break;
 		default:
 			bonobo_exception_set(ev, ex_Bonobo_PropertyBag_NotFound);
@@ -255,6 +264,10 @@ GC3DBonoboControl* gc3d_bonobo_control_construct(GC3DBonoboControl *control, Gtk
 	bonobo_property_bag_add(pb, "display3d", PROP_DISPLAY3D,
 				 BONOBO_ARG_STRING, NULL,
 				 _("Display3D mode"),
+				 0);
+	bonobo_property_bag_add(pb, "bgcolor", PROP_BGCOLOR,
+				 BONOBO_ARG_STRING, NULL,
+				 _("Background color"),
 				 0);
 	
 	control->ps = persist_stream_new();

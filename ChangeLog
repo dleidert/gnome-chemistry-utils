@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2003-07-02 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* configure.ac: changed version to 0.1.6
+	* chem3d/gtkchem3dViewer.cc: added bgcolor property
+	* chem3d/bonobo-control.cc: added bgcolor property
+
 2003-06-30 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* chemistry/elements.cc (GetRadius): added missing return statement
 
@@ -26,7 +31,7 @@
 	* New program test for the Bonobo Control
 	
 2003-06-02 Jean Bréfort	<jean.brefort@ac-dijon.fr>
-	* Implemented functnions to retrieve electronegativities and radii
+	* Implemented functions to retrieve electronegativities and radii
 	* Fixed an error in elements.xml.in
 	
 2003-05-30 Jean Bréfort	<jean.brefort@ac-dijon.fr>
