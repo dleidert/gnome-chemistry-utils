@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2005-03-19  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* autogen.sh: doxygen generated documentation is compressed to tar.gz
+	* configure.ac: added test for doxygen
+	* docs/reference/Makefile.am: doxygen generates updated documentation
+	  during 'make all', dependent on doxygen availability
+	* Doxyfile -> docs/reference/Doxyfile: moved Doxyfile
+
 2005-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Doxyfile: updated to recent doxygen version.
 	* gcu/Makefile.am: fixed more build issues.
