@@ -1,19 +1,19 @@
 # Gnome Chemistry Utils fr.po
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002.
+# Jean Bréfort <jean.brefort@normalesup.org>, 2002-2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
-"POT-Creation-Date: 2004-04-18 19:03+0200\n"
-"PO-Revision-Date: 2003-10-31 15:45+0200\n"
-"Last-Translator: Jean Bréfort <jean.brefort@ac-dijon.fr>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-12-12 18:09+0100\n"
+"PO-Revision-Date: 2004-12-12 21:06+0200\n"
+"Last-Translator: Jean Bréfort <jean.brefort@norlakesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: glade/gtkperiodic.glade.h:1
 msgid "Actinides"
@@ -348,104 +348,104 @@ msgid "Rhodium"
 msgstr "Rhodium"
 
 #: gcu/elements.xml.in.h:82
+msgid "Roentgenium"
+msgstr "Röntgenium"
+
+#: gcu/elements.xml.in.h:83
 msgid "Rubidium"
 msgstr "Rubidium"
 
-#: gcu/elements.xml.in.h:83
+#: gcu/elements.xml.in.h:84
 msgid "Ruthenium"
 msgstr "Ruthénium"
 
-#: gcu/elements.xml.in.h:84
+#: gcu/elements.xml.in.h:85
 msgid "Rutherfordium"
 msgstr "Rutherfordium"
 
-#: gcu/elements.xml.in.h:85
+#: gcu/elements.xml.in.h:86
 msgid "Samarium"
 msgstr "Samarium"
 
-#: gcu/elements.xml.in.h:86
+#: gcu/elements.xml.in.h:87
 msgid "Scandium"
 msgstr "Scandium"
 
-#: gcu/elements.xml.in.h:87
+#: gcu/elements.xml.in.h:88
 msgid "Seaborgium"
 msgstr "Seaborgium"
 
-#: gcu/elements.xml.in.h:88
+#: gcu/elements.xml.in.h:89
 msgid "Selenium"
 msgstr "Sélénium"
 
-#: gcu/elements.xml.in.h:89
+#: gcu/elements.xml.in.h:90
 msgid "Silicon"
 msgstr "Silicium"
 
-#: gcu/elements.xml.in.h:90
+#: gcu/elements.xml.in.h:91
 msgid "Silver"
 msgstr "Argent"
 
-#: gcu/elements.xml.in.h:91
+#: gcu/elements.xml.in.h:92
 msgid "Sodium"
 msgstr "Sodium"
 
-#: gcu/elements.xml.in.h:92
+#: gcu/elements.xml.in.h:93
 msgid "Strontium"
 msgstr "Strontium"
 
-#: gcu/elements.xml.in.h:93
+#: gcu/elements.xml.in.h:94
 msgid "Sulfur"
 msgstr "Soufre"
 
-#: gcu/elements.xml.in.h:94
+#: gcu/elements.xml.in.h:95
 msgid "Tantalum"
 msgstr "Tantale"
 
-#: gcu/elements.xml.in.h:95
+#: gcu/elements.xml.in.h:96
 msgid "Technetium"
 msgstr "Technétium"
 
-#: gcu/elements.xml.in.h:96
+#: gcu/elements.xml.in.h:97
 msgid "Tellurium"
 msgstr "Tellure"
 
-#: gcu/elements.xml.in.h:97
+#: gcu/elements.xml.in.h:98
 msgid "Terbium"
 msgstr "Terbium"
 
-#: gcu/elements.xml.in.h:98
+#: gcu/elements.xml.in.h:99
 msgid "Thallium"
 msgstr "Thallium"
 
-#: gcu/elements.xml.in.h:99
+#: gcu/elements.xml.in.h:100
 msgid "Thorium"
 msgstr "Thorium"
 
-#: gcu/elements.xml.in.h:100
+#: gcu/elements.xml.in.h:101
 msgid "Thulium"
 msgstr "Thulium"
 
-#: gcu/elements.xml.in.h:101
+#: gcu/elements.xml.in.h:102
 msgid "Tin"
 msgstr "Étain"
 
-#: gcu/elements.xml.in.h:102
+#: gcu/elements.xml.in.h:103
 msgid "Titanium"
 msgstr "Titane"
 
-#: gcu/elements.xml.in.h:103
+#: gcu/elements.xml.in.h:104
 msgid "Tungsten"
 msgstr "Tungsten"
 
-#: gcu/elements.xml.in.h:104
+#: gcu/elements.xml.in.h:105
 msgid "Ununbium"
 msgstr "Ununbium"
 
-#: gcu/elements.xml.in.h:105
+#: gcu/elements.xml.in.h:106
 msgid "Ununquadium"
 msgstr "Ununquadium"
-
-#: gcu/elements.xml.in.h:106
-msgid "Unununium"
-msgstr "Unununium"
 
 #: gcu/elements.xml.in.h:107
 msgid "Uranium"
@@ -510,3 +510,6 @@ msgstr "Fichier PDB"
 #: gchemutils.keys.in.h:4
 msgid "XYZ file"
 msgstr "Fichier XYZ"
+
+#~ msgid "Unununium"
+#~ msgstr "Unununium"
