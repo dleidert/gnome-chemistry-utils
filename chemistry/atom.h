@@ -54,6 +54,8 @@ public :
 	void SetCoords(double x, double y, double z = 0) {m_x = x; m_y = y; m_z = z;}
 	int GetZ() {return m_Z;}
 	virtual void SetZ(int Z);
+	void SetCharge(char Charge) {m_Charge = Charge;}
+	char GetCharge() {return m_Charge;}
 	const gchar* GetSymbol();
 	void AddBond(Bond* pBond);
 	void RemoveBond(Bond* pBond);
@@ -73,6 +75,7 @@ public :
 protected:
 	int m_Z;
 	double m_x, m_y, m_z;
+	char m_Charge;
 	map<Atom*, Bond*> m_Bonds;
 };
 

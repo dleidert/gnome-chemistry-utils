@@ -36,6 +36,7 @@ Atom::Atom(): Object(AtomType)
 {
 	m_Z = 0;
 	m_x = m_y = m_z = 0.0;
+	m_Charge = 0;
 }
 
 Atom::~Atom()
@@ -49,6 +50,7 @@ Atom::Atom(int Z, double x, double y, double z): Object(AtomType)
 	m_x = x;
 	m_y = y;
 	m_z = z;
+	m_Charge = 0;
 }
 
 Atom::Atom(Atom& a): Object(AtomType)
@@ -57,6 +59,7 @@ Atom::Atom(Atom& a): Object(AtomType)
 	m_x = a.m_x;
 	m_y = a.m_y;
 	m_z = a.m_z;
+	m_Charge = a.m_Charge;
 }
 
 Atom& Atom::operator=(Atom& a)
@@ -65,6 +68,7 @@ Atom& Atom::operator=(Atom& a)
 	m_x = a.m_x;
 	m_y = a.m_y;
 	m_z = a.m_z;
+	m_Charge = a.m_Charge;
 	return *this ;
 }
 
@@ -139,7 +143,12 @@ xmlNodePtr Atom::Save(xmlDocPtr xml)
 
 	strncpy(buf, GetSymbol(), sizeof(buf));
 	xmlNewProp(parent, (xmlChar*)"element", (xmlChar*)buf);
-
+	
+	if (m_Charge)
+	{
+		snprintf(buf, sizeof(buf), "%d", m_Charge);
+		xmlNewProp(parent, (xmlChar*)"charge", (xmlChar*)buf);
+	}
 	if (!WritePosition(xml, parent, NULL, m_x, m_y, m_z)) {xmlFreeNode(parent); return NULL;}
 	if (!SaveNode(xml, parent)) {xmlFreeNode(parent); return NULL;}
 	return parent;
@@ -153,6 +162,8 @@ bool Atom::Load(xmlNodePtr node)
 	if (tmp) SetId(tmp);
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"element");
 	if (tmp) m_Z = Element::Z(tmp);	//Don't check if element exists. Applications that do not accept unknown elements shouls check
+	tmp = (char*)xmlGetProp(node, (xmlChar*)"charge");
+	m_Charge = (tmp)? (char)atoi(tmp): 0;
 	if (!ReadPosition(node, NULL, &m_x, &m_y, &m_z) || (!LoadNode(node))) return false;
 	return true;
 }
