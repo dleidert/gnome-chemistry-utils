@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2005-03-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: updated version to 0.4.1.
+	* gcu/object.cc: fixed a critical (and trivial) bug in Object::AddType.
+
 2005-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/crystaldoc.h: removed reference to crystalbond.h.
 
