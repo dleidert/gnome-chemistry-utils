@@ -7,7 +7,7 @@
 	* tests/testbonobocontrol.c: (create_app): don't pass NULL to bonobo calls.
 
 2005-02-23 Jean Bréfort  <jean.brefort@normalesup.org>
-	* crystalviewer/crystalatom.cc: alxays initialize alpha value.
+	* crystalviewer/crystalatom.cc: always initialize alpha value.
 	* Doxygen: update version number
 
 2004-11-04 Jean Bréfort  <jean.brefort@normalesup.org>
