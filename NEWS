@@ -1,3 +1,7 @@
+Version 0.1.6
+	Some bugs fixed
+	New bgcolor property for GtkChem3DViewer
+	
 Version 0.1.5
 	Many bugs fixed in the radii database stuff
 	Change of coordinates in GtkChem3DViewer
