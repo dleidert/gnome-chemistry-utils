@@ -1,7 +1,7 @@
 # Gnome Chemistry Utils pl.po
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Micha≈ Sa≈aban <emes@pld.org.pl>, 2003.
+# Micha≈Ç Sa≈Çaban <emes@pld-linux.org>, 2003.
 #
 #, fuzzy
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.2.0\n"
 "POT-Creation-Date: 2003-10-21 12:34+0200\n"
 "PO-Revision-Date: 2003-10-22 12:12+0200\n"
-"Last-Translator: Micha≈ Sa≈aban <emes@pld-linux.org>\n"
+"Last-Translator: Micha≈Ç Sa≈Çaban <emes@pld-linux.org>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,7 +85,7 @@ msgstr "Kadm"
 
 #: chemistry/elements.xml.in.h:16
 msgid "Calcium"
-msgstr "Wap≈"
+msgstr "Wap≈Ñ"
 
 #: chemistry/elements.xml.in.h:17
 msgid "Californium"
@@ -93,7 +93,7 @@ msgstr "Kaliforn"
 
 #: chemistry/elements.xml.in.h:18
 msgid "Carbon"
-msgstr "Wƒgiel"
+msgstr "Wƒôgiel"
 
 #: chemistry/elements.xml.in.h:19
 msgid "Cerium"
@@ -173,7 +173,7 @@ msgstr "German"
 
 #: chemistry/elements.xml.in.h:38
 msgid "Gold"
-msgstr "Z≈oto"
+msgstr "Z≈Çoto"
 
 #: chemistry/elements.xml.in.h:39
 msgid "Hafnium"
@@ -185,7 +185,7 @@ msgstr "Has"
 
 #: chemistry/elements.xml.in.h:41
 msgid "Helium"
-msgstr "hel"
+msgstr "Hel"
 
 #: chemistry/elements.xml.in.h:42
 msgid "Holmium"
@@ -209,7 +209,7 @@ msgstr "Iryd"
 
 #: chemistry/elements.xml.in.h:47
 msgid "Iron"
-msgstr "≈elazo"
+msgstr "≈ªelazo"
 
 #: chemistry/elements.xml.in.h:48
 msgid "Krypton"
@@ -225,7 +225,7 @@ msgstr "Lorens"
 
 #: chemistry/elements.xml.in.h:51
 msgid "Lead"
-msgstr "O≈√≥w"
+msgstr "O≈Ç√≥w"
 
 #: chemistry/elements.xml.in.h:52
 msgid "Lithium"
@@ -253,7 +253,7 @@ msgstr "Mendelew"
 
 #: chemistry/elements.xml.in.h:58
 msgid "Mercury"
-msgstr "Rtƒƒ"
+msgstr "Rtƒôƒá"
 
 #: chemistry/elements.xml.in.h:59
 msgid "Molybdenum"
