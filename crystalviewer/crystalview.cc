@@ -130,8 +130,8 @@ void CrystalView::Init(GtkWidget *widget)
 		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spec);
-		Update(widget);
 		m_bInit = true;
+		Update(widget);
     }
 }
 
@@ -303,6 +303,7 @@ void CrystalView::OnMotion(GtkWidget *widget, GdkEventMotion *event)
 
 void CrystalView::Reshape(GtkWidget *widget)
 {
+	if (!m_bInit) return;
 	float fAspect;
 #ifdef HAVE_GTKGLAREA
 	if (gtk_gl_area_make_current(GTK_GL_AREA(widget)))
@@ -346,6 +347,7 @@ void CrystalView::Reshape(GtkWidget *widget)
 
 void CrystalView::Draw(GtkWidget *widget)
 {
+	if (!m_bInit) return;
 #ifdef HAVE_GTKGLAREA
 	if (gtk_gl_area_make_current(GTK_GL_AREA(widget)))
 #else
@@ -384,6 +386,7 @@ void CrystalView::Update()
 
 void CrystalView::Update(GtkWidget* widget)
 {
+	if (!m_bInit) return;
 	Reshape(widget);
 #ifdef HAVE_GTKGLAREA
 	if (gtk_gl_area_make_current(GTK_GL_AREA(widget)))

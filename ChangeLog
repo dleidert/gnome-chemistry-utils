@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2004-01-21 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* crystalviewer/crystalview.cc: avoid execution of gl functions
+	for non initialized widget.
+
 2004-01-14 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* configure.ac: remove -DGTK_DISABLE_DEPRECATED and
 	other such flags to GCU_CFLAGS to avoid problems with gtk+-2.4
