@@ -1,0 +1,64 @@
+// -*- C++ -*-
+
+/* 
+ * Gnome Chemistry Utils
+ * element.h 
+ *
+ * Copyright (C) 2002
+ *
+ * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA  02111-1307, USA.
+ */
+
+#ifndef GCU_ELEMENT_H
+#define GCU_ELEMENT_H
+
+#include <glib.h>
+
+class EltTable;
+
+namespace gcu
+{
+
+class Element
+{
+friend class EltTable;
+public:
+	Element(int Z, const char* Symbol);
+	virtual ~Element();
+	
+	static const gchar* Symbol(gint Z);
+	static bool BestSide(gint Z);
+	static gint Z(const gchar* name);
+	static Element* GetElement(gint Z);
+	static Element* GetElement(const gchar* name);
+
+	int GetZ() {return m_Z;}
+	const char* GetSymbol() {return m_Symbol;}
+	char GetDefaultValence() {return m_DefaultValence;}
+	bool GetBestSide() {return m_BestSide;}
+	
+private:
+	unsigned char m_Z;
+	char m_Symbol[4];
+	char m_DefaultValence;
+	bool m_BestSide;
+};
+
+} // namespace gcu
+
+#endif // GCU_ELEMENT_H

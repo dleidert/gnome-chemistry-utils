@@ -1,0 +1,460 @@
+<?xml version="1.0"?>
+<gpdata>
+
+<element Z="1" symbol="H">
+	<_name>Hydrogen</_name>
+</element>
+
+<element Z="2" symbol="He">
+	<_name>Helium</_name>
+</element>
+
+<element Z="3" symbol="Li">
+	<_name>Lithium</_name>
+</element>
+
+<element Z="4" symbol="Be">
+	<_name>Beryllium</_name>
+</element>
+
+<element Z="5" symbol="B">
+	<_name>Boron</_name>
+</element>
+
+<element Z="6" symbol="C">
+	<_name>Carbon</_name>
+</element>
+
+<element Z="7" symbol="N">
+	<_name>Nitrogen</_name>
+</element>
+
+<element Z="8" symbol="O">
+	<_name>Oxygen</_name>
+</element>
+
+<element Z="9" symbol="F">
+	<_name>Fluorine</_name>
+</element>
+
+<element Z="10" symbol="Ne">
+	<_name>Neon</_name>
+</element>
+
+<element Z="11" symbol="Na">
+	<_name>Sodium</_name>
+</element>
+
+<element Z="12" symbol="Mg">
+	<_name>Magnesium</_name>
+</element>
+
+<element Z="13" symbol="Al">
+	<_name>Aluminum</_name>
+</element>
+
+<element Z="14" symbol="Si">
+	<_name>Silicon</_name>
+</element>
+
+<element Z="15" symbol="P">
+	<_name>Phosphorus</_name>
+</element>
+
+<element Z="16" symbol="S">
+	<_name>Sulfur</_name>
+</element>
+
+<element Z="17" symbol="Cl">
+	<_name>Chlorine</_name>
+</element>
+
+<element Z="18" symbol="Ar">
+	<_name>Argon</_name>
+</element>
+
+<element Z="19" symbol="K">
+	<_name>Potassium</_name>
+</element>
+
+<element Z="20" symbol="Ca">
+	<_name>Calcium</_name>
+</element>
+
+<element Z="21" symbol="Sc">
+	<_name>Scandium</_name>
+</element>
+
+<element Z="22" symbol="Ti">
+	<_name>Titanium</_name>
+</element>
+
+<element Z="23" symbol="V">
+	<_name>Vanadium</_name>
+</element>
+
+<element Z="24" symbol="Cr">
+	<_name>Chromium</_name>
+</element>
+
+<element Z="25" symbol="Mn">
+	<_name>Manganese</_name>
+</element>
+
+<element Z="26" symbol="Fe">
+	<_name>Iron</_name>
+	<radius type="atomic" value="126"/>
+	<radius type="covalent" value="117"/>
+	<radius type="ionic" charge="2" value="64"/>
+	<radius type="ionic" charge="3" value="74"/>
+</element>
+
+<element Z="27" symbol="Co">
+	<_name>Cobalt</_name>
+</element>
+
+<element Z="28" symbol="Ni">
+	<_name>Nickel</_name>
+</element>
+
+<element Z="29" symbol="Cu">
+	<_name>Copper</_name>
+</element>
+
+<element Z="30" symbol="Zn">
+	<_name>Zinc</_name>
+</element>
+
+<element Z="31" symbol="Ga">
+	<_name>Gallium</_name>
+</element>
+
+<element Z="32" symbol="Ge">
+	<_name>Germanium</_name>
+</element>
+
+<element Z="33" symbol="As">
+	<_name>Arsenic</_name>
+</element>
+
+<element Z="34" symbol="Se">
+	<_name>Selenium</_name>
+</element>
+
+<element Z="35" symbol="Br">
+	<_name>Bromine</_name>
+</element>
+
+<element Z="36" symbol="Kr">
+	<_name>Krypton</_name>
+</element>
+
+<element Z="37" symbol="Rb">
+	<_name>Rubidium</_name>
+</element>
+
+<element Z="38" symbol="Sr">
+	<_name>Strontium</_name>
+</element>
+
+<element Z="39" symbol="Y">
+	<_name>Yttrium</_name>
+</element>
+
+<element Z="40" symbol="Zr">
+	<_name>Zirconium</_name>
+</element>
+
+<element Z="41" symbol="Nb">
+	<_name>Niobium</_name>
+</element>
+
+<element Z="42" symbol="Mo">
+	<_name>Molybdenum</_name>
+</element>
+
+<element Z="43" symbol="Tc">
+	<_name>Technetium</_name>
+</element>
+
+<element Z="44" symbol="Ru">
+	<_name>Ruthenium</_name>
+</element>
+
+<element Z="45" symbol="Rh">
+	<_name>Rhodium</_name>
+</element>
+
+<element Z="46" symbol="Pd">
+	<_name>Palladium</_name>
+</element>
+
+<element Z="47" symbol="Ag">
+	<_name>Silver</_name>
+</element>
+
+<element Z="48" symbol="Cd">
+	<_name>Cadmium</_name>
+</element>
+
+<element Z="49" symbol="In">
+	<_name>Indium</_name>
+</element>
+
+<element Z="50" symbol="Sn">
+	<_name>Tin</_name>
+</element>
+
+<element Z="51" symbol="Sb">
+	<_name>Antimony</_name>
+</element>
+
+<element Z="52" symbol="Te">
+	<_name>Tellurium</_name>
+</element>
+
+<element Z="53" symbol="I">
+	<_name>Iodine</_name>
+</element>
+
+<element Z="54" symbol="Xe">
+	<_name>Xenon</_name>
+</element>
+
+<element Z="55" symbol="Cs">
+	<_name>Cesium</_name>
+</element>
+
+<element Z="56" symbol="Ba">
+	<_name>Barium</_name>
+</element>
+
+<element Z="57" symbol="La">
+	<_name>Lanthanum</_name>
+</element>
+
+<element Z="58" symbol="Ce">
+	<_name>Cerium</_name>
+</element>
+
+<element Z="59" symbol="Pr">
+	<_name>Praseodymium</_name>
+</element>
+
+<element Z="60" symbol="Nd">
+	<_name>Neodymium</_name>
+</element>
+
+<element Z="61" symbol="Pm">
+	<_name>Promethium</_name>
+</element>
+
+<element Z="62" symbol="Sm">
+	<_name>Samarium</_name>
+</element>
+
+<element Z="63" symbol="Eu">
+	<_name>Europium</_name>
+</element>
+
+<element Z="64" symbol="Gd">
+	<_name>Gadolinium</_name>
+</element>
+
+<element Z="65" symbol="Tb">
+	<_name>Terbium</_name>
+</element>
+
+<element Z="66" symbol="Dy">
+	<_name>Dysprosium</_name>
+</element>
+
+<element Z="67" symbol="Ho">
+	<_name>Holmium</_name>
+</element>
+
+<element Z="68" symbol="Er">
+	<_name>Erbium</_name>
+</element>
+
+<element Z="69" symbol="Tm">
+	<_name>Thulium</_name>
+</element>
+
+<element Z="70" symbol="Yb">
+	<_name>Ytterbium</_name>
+</element>
+
+<element Z="71" symbol="Lu">
+	<_name>Lutetium</_name>
+</element>
+
+<element Z="72" symbol="Hf">
+	<_name>Hafnium</_name>
+</element>
+
+<element Z="73" symbol="Ta">
+	<_name>Tantalum</_name>
+</element>
+
+<element Z="74" symbol="W">
+	<_name>Tungsten</_name>
+</element>
+
+<element Z="75" symbol="Re">
+	<_name>Rhenium</_name>
+</element>
+
+<element Z="76" symbol="Os">
+	<_name>Osmium</_name>
+</element>
+
+<element Z="77" symbol="Ir">
+	<_name>Iridium</_name>
+</element>
+
+<element Z="78" symbol="Pt">
+	<_name>Platinum</_name>
+</element>
+
+<element Z="79" symbol="Au">
+	<_name>Gold</_name>
+</element>
+
+<element Z="80" symbol="Hg">
+	<_name>Mercury</_name>
+</element>
+
+<element Z="81" symbol="Tl">>
+	<_name>Thallium</_name>
+</element>
+
+<element Z="82" symbol="Pb">
+	<_name>Lead</_name>
+</element>
+
+<element Z="83" symbol="Bi">
+	<_name>Bismuth</_name>
+</element>
+
+<element Z="84" symbol="Po">
+	<_name>Polonium</_name>
+</element>
+
+<element Z="85" symbol="At">
+	<_name>Astatine</_name>
+</element>
+
+<element Z="86" symbol="Rn">
+	<_name>Radon</_name>
+</element>
+
+<element Z="87" symbol="Fr">
+	<_name>Francium</_name>
+</element>
+
+<element Z="88" symbol="Ra">
+	<_name>Radium</_name>
+</element>
+
+<element Z="89" symbol="Ac">
+	<_name>Actinium</_name>
+</element>
+
+<element Z="90" symbol="Th">
+	<_name>Thorium</_name>
+</element>
+
+<element Z="91" symbol="Pa">
+	<_name>Protactinium</_name>
+</element>
+
+<element Z="92" symbol="U">
+	<_name>Uranium</_name>
+</element>
+
+<element Z="93" symbol="Np">>
+	<_name>Neptunium</_name>
+</element>
+
+<element Z="94" symbol="Pu">
+	<_name>Plutonium</_name>
+</element>
+
+<element Z="95" symbol="Am">
+	<_name>Americium</_name>
+</element>
+
+<element Z="96" symbol="Cm">
+	<_name>Curium</_name>
+</element>
+
+<element Z="97" symbol="Bk">
+	<_name>Berkelium</_name>
+</element>
+
+<element Z="98" symbol="Cf">
+	<_name>Californium</_name>
+</element>
+
+<element Z="99" symbol="Es">
+	<_name>Einsteinium</_name>
+</element>
+
+<element Z="100" symbol="Fm">
+	<_name>Fermium</_name>
+</element>
+
+<element Z="101" symbol="Md">
+	<_name>Mendelevium</_name>
+</element>
+
+<element Z="102" symbol="No">
+	<_name>Nobelium</_name>
+</element>
+
+<element Z="103" symbol="Lr">
+	<_name>Lawrencium</_name>
+</element>
+
+<element Z="104" symbol="Rf">
+	<_name>Rutherfordium</_name>
+</element>
+
+<element Z="105" symbol="Db">
+	<_name>Dubnium</_name>
+</element>
+
+<element Z="106" symbol="Sg">
+	<_name>Seaborgium</_name>
+</element>
+
+<element Z="107" symbol="Bh">
+	<_name>Bohrium</_name>
+</element>
+
+<element Z="108" symbol="Hs">
+	<_name>Hassium</_name>
+</element>
+
+<element Z="109" symbol="Mt">
+	<_name>Meitnerium</_name>
+</element>
+
+<element Z="110" symbol="Uun">
+	<_name>Ununnilium</_name>
+</element>
+
+<element Z="111" symbol="Uuu">
+	<_name>Unununium</_name>
+</element>
+
+<element Z="112" symbol="Uub">
+	<_name>Ununbium</_name>
+</element>
+
+<element Z="114" symbol="Uuq">
+	<_name>Ununquadium</_name>
+</element>
+
+</gpdata>
