@@ -1,8 +1,8 @@
+SUBDIRS = po glade chemistry
 if WITH_GTKGL
-SUBDIRS = po glade chemistry crystalviewer gtkperiodic chem3d tests dtds docs
-else
-SUBDIRS = po glade chemistry gtkperiodic tests dtds docs
+SUBDIRS += crystalviewer chem3d
 endif
+SUBDIRS += gtkperiodic tests dtds docs
 
 Mimedir = $(datadir)/mime-info
 Mime_DATA = gchemutils.keys gchemutils.mime
