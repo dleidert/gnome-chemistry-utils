@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-03-02  Daniel Leidert  <daniel.leidert@wgdd.de>
+        * docs/reference/html/Makefile.am: add $(DESTDIR) to install-path
+
 2004-12-12 Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: added de locale.
 	* glade/gtkperiodic.glade: updated symbols for elements 110 and 111.
