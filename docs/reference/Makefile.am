@@ -9,9 +9,9 @@ if DOXYGEN_AVAILABLE
 	if [ -w Doxyfile.bak ]; then rm Doxyfile.bak; fi
 	$(DOXYGEN) Doxyfile
 else
-	if [ -r $(top_srcdir)/docs/reference/html-upstream.tar.gz ];
-	then
-		tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz;
+	if [ -r $(top_srcdir)/docs/reference/html-upstream.tar.gz ]; \
+	then \
+		tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz; \
 	fi
 endif
 
