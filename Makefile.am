@@ -10,7 +10,8 @@ keys_in_files = gchemutils.keys.in
 @INTLTOOL_KEYS_RULE@
 
 EXTRA_DIST=	\
-	$(Mime_DATA) \
+	$(keys_in_files) \
+	gchemutils.mime
 	gcu.pc.in \
 	intltool-extract.in	\
 	intltool-update.in	\
