@@ -19,19 +19,25 @@ What is needed to install the Gnome Chemistry Utils:
 	liblade-2
 	GtkGLArea-2 of GtkGLExt
 	All dependencies of these two libraries
+	OpenBabel for the GtkChem3DViewer
 These libraries are available from ftp://ftp.gnome.org or one of its mirrors
 
 Note that the Gnome Chemistry Utils will build even without both GtkGLArea-2 and GtkGLExt
-but, in that case, the GtkCrystalViewer widget will not be built.
+but, in that case, the GtkCrystalViewer and GtkChem3DViewer widgets will not be built.
+If OpenBabel is not present or not dectected by configure, the GtkChem3DViewer widget
+will not be built. You need a compiled OpenBabel source tree and give
+--with-openbabel=path_to_your openbabel_tree to configure.
 
 Versions numbering:
 Odd minor versions are development version. To see what remains to be done
 before a stable version can be released read the TODO file. Help is of course
 welcomed.
 
-Two widgets are present in this version of the software:
+Three widgets are present in this version of the software:
 * GtkPeriodic is a periodic table of the elements.
 * GtkCrystalViewer is a crystal structure viewer.
+* GtkChem3DViewer is a 3D molecular structure viewer. It is also available as a
+Bonobo Control.
 Simple samples of their use is provided in the test programs
 
 Please, note that GtkCrystalViewer cannot use files created with Gnome Crystal
