@@ -71,7 +71,7 @@ desktop_in_files = gchem3d-viewer.desktop.in
 desktop_DATA=gchem3d-viewer.desktop
 @INTLTOOL_DESKTOP_RULE@
 
-DISTCLEANFILES = gchem3d.server gchem3d-viewer.desktop
+CLEANFILES = gchem3d.server gchem3d-viewer.desktop elements.xml
 
 endif #WITH_OPENBABEL
 endif #WITH_GTKGL
@@ -80,8 +80,8 @@ gcuincludedir = $(includedir)/gcu/gcu
 gcuinclude_HEADERS = $(libgcu_la_headers)
 		
 libgcu_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
-AM_CXXFLAGS = @GCU_CFLAGS@
-AM_CFLAGS = @GCU_CFLAGS@
+AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
+AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 
 xmldir = $(datadir)/gchemutils
 
@@ -90,4 +90,4 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-EXTRA_DIST=$(xml_in_files) $(xml_DATA)
+EXTRA_DIST=$(xml_in_files) $(xml_DATA) $(server_DATA) $(desktop_DATA)
