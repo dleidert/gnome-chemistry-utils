@@ -332,7 +332,6 @@ static vector<string> TypeNames;
 
 TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 {
-puts("0.0");
 	TypeDesc& typedesc = Types[TypeName];
 	typedesc.Create = Create;
 	if (id == OtherType) {
