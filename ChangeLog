@@ -1,4 +1,8 @@
 ##Text encoding: utf-8
+
+2003-06-30 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* chemistry/elements.cc (GetRadius): added missing return statement
+
 2003-06-29 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* tests/nickel.gcrystal: updated to 0.5.2 format
 	* chemistry/elements.cc, chemistry/xml-utils.cc: fixed several

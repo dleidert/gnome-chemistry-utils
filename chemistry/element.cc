@@ -322,6 +322,7 @@ bool Element::GetRadius(GcuAtomicRadius* radius)
 		else if (!strcmp(radius->scale, Elt->m_radii[i]->scale))
 		{
 			radius->value = Elt->m_radii[i]->value;
+			return true;
 		}
 	}
 	return false;

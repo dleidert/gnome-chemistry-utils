@@ -68,6 +68,7 @@ CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 
 CrystalAtom::CrystalAtom(CrystalAtom& caAtom): Atom(caAtom)
 {
+	m_Radius.scale = NULL;
 	SetRadius(caAtom.m_Radius);
 	m_bCustomColor = caAtom.m_bCustomColor;
 	m_fRed = caAtom.m_fRed;
