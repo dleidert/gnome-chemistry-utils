@@ -1,7 +1,11 @@
 ##Text encoding: utf-8
 
+2004-05-29  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* gcu/object.h,
+	* gcu/object.cc: added throw (invalid_argument) to Object::Build.
+
 2004-05-21  Jean Bréfort  <jean.brefort@ac-dijon.fr>
-	* gcu/object.cc: fixed a stupid bug in Object::AddType
+	* gcu/object.cc: fixed a stupid bug in Object::AddType.
 
 2004-05-20  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* gcu/bond.h,

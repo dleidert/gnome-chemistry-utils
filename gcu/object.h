@@ -34,6 +34,7 @@
 #include <set>
 #include <list>
 #include <string>
+#include <stdexcept>
 #include <gtk/gtk.h>
 #include <libgnomeprint/gnome-print.h>
 
@@ -381,7 +382,7 @@ passed as parameters. Default implementation returns NULL.
 This method is called to build a parent object from its children. The object must already exist.
 @return true in case of success and false if failed.
 */
-	virtual bool Build (list<Object*>& Children);
+	virtual bool Build (list<Object*>& Children) throw (invalid_argument);
 
 /*!
 @param types: the list of TypeId values to fill

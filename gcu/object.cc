@@ -300,7 +300,7 @@ Object* Object::GetAtomAt(double x, double y, double z)
 	return NULL;
 }
 
-bool Object::Build (list<Object*>& Children)
+bool Object::Build (list<Object*>& Children) throw (invalid_argument)
 {
 	return false;
 }
