@@ -200,8 +200,6 @@ static void gtk_periodic_finalize (GObject *object)
 {
 	GtkPeriodic *periodic = (GtkPeriodic*) object;
 
-	g_object_ref(periodic->priv->tips);
-	gtk_object_sink(periodic->priv->tips);
 	g_free (periodic->priv);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)

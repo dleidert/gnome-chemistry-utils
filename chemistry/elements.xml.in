@@ -3,102 +3,127 @@
 
 <element Z="1" symbol="H">
 	<_name>Hydrogen</_name>
+	<color red="1.00" green="1.00" blue="1.00"/>
 </element>
 
 <element Z="2" symbol="He">
 	<_name>Helium</_name>
+	<color red="0.85" green="1.00" blue="1.00"/>
 </element>
 
 <element Z="3" symbol="Li">
 	<_name>Lithium</_name>
+	<color red="0.80" green="0.50" blue="1.00"/>
 </element>
 
 <element Z="4" symbol="Be">
 	<_name>Beryllium</_name>
+	<color red="0.76" green="1.00" blue="0.00"/>
 </element>
 
 <element Z="5" symbol="B">
 	<_name>Boron</_name>
+	<color red="1.00" green="0.71" blue="0.71"/>
 </element>
 
 <element Z="6" symbol="C">
 	<_name>Carbon</_name>
+	<color red="0.50" green="0.50" blue="0.50"/>
 </element>
 
 <element Z="7" symbol="N">
 	<_name>Nitrogen</_name>
+	<color red="0.05" green="0.05" blue="1.00"/>
 </element>
 
 <element Z="8" symbol="O">
 	<_name>Oxygen</_name>
+	<color red="1.00" green="0.05" blue="0.05"/>
 </element>
 
 <element Z="9" symbol="F">
 	<_name>Fluorine</_name>
+	<color red="0.70" green="1.00" blue="1.00"/>
 </element>
 
 <element Z="10" symbol="Ne">
 	<_name>Neon</_name>
+	<color red="0.70" green="0.89" blue="0.96"/>
 </element>
 
 <element Z="11" symbol="Na">
 	<_name>Sodium</_name>
+	<color red="0.67" green="0.36" blue="0.95"/>
 </element>
 
 <element Z="12" symbol="Mg">
 	<_name>Magnesium</_name>
+	<color red="0.54" green="1.00" blue="0.00"/>
 </element>
 
 <element Z="13" symbol="Al">
 	<_name>Aluminum</_name>
+	<color red="0.75" green="0.65" blue="0.65"/>
 </element>
 
 <element Z="14" symbol="Si">
 	<_name>Silicon</_name>
+	<color red="0.50" green="0.60" blue="0.60"/>
 </element>
 
 <element Z="15" symbol="P">
 	<_name>Phosphorus</_name>
+	<color red="1.00" green="0.50" blue="0.00"/>
 </element>
 
 <element Z="16" symbol="S">
 	<_name>Sulfur</_name>
+	<color red="1.00" green="1.00" blue="0.19"/>
 </element>
 
 <element Z="17" symbol="Cl">
 	<_name>Chlorine</_name>
+	<color red="0.12" green="0.94" blue="0.12"/>
 </element>
 
 <element Z="18" symbol="Ar">
 	<_name>Argon</_name>
+	<color red="0.50" green="0.82" blue="0.89"/>
 </element>
 
 <element Z="19" symbol="K">
 	<_name>Potassium</_name>
+	<color red="0.56" green="0.25" blue="0.83"/>
 </element>
 
 <element Z="20" symbol="Ca">
 	<_name>Calcium</_name>
+	<color red="0.24" green="1.00" blue="0.00"/>
 </element>
 
 <element Z="21" symbol="Sc">
 	<_name>Scandium</_name>
+	<color red="0.90" green="0.90" blue="0.90"/>
 </element>
 
 <element Z="22" symbol="Ti">
 	<_name>Titanium</_name>
+	<color red="0.75" green="0.76" blue="0.78"/>
 </element>
 
 <element Z="23" symbol="V">
 	<_name>Vanadium</_name>
+	<color red="0.65" green="0.65" blue="0.67"/>
 </element>
 
 <element Z="24" symbol="Cr">
 	<_name>Chromium</_name>
+	<color red="0.54" green="0.60" blue="0.78"/>
 </element>
 
 <element Z="25" symbol="Mn">
 	<_name>Manganese</_name>
+	<color red="0.61" green="0.48" blue="0.78"/>
 </element>
 
 <element Z="26" symbol="Fe">
@@ -107,354 +132,443 @@
 	<radius type="covalent" value="117"/>
 	<radius type="ionic" charge="2" value="64"/>
 	<radius type="ionic" charge="3" value="74"/>
+	<color red="0.50" green="0.48" blue="0.78"/>
 </element>
 
 <element Z="27" symbol="Co">
 	<_name>Cobalt</_name>
+	<color red="0.44" green="0.48" blue="0.78"/>
 </element>
 
 <element Z="28" symbol="Ni">
 	<_name>Nickel</_name>
+	<color red="0.36" green="0.48" blue="0.76"/>
 </element>
 
 <element Z="29" symbol="Cu">
 	<_name>Copper</_name>
+	<color red="1.00" green="0.48" blue="0.38"/>
 </element>
 
 <element Z="30" symbol="Zn">
 	<_name>Zinc</_name>
+	<color red="0.49" green="0.50" blue="0.69"/>
 </element>
 
 <element Z="31" symbol="Ga">
 	<_name>Gallium</_name>
+	<color red="0.76" green="0.56" blue="0.56"/>
 </element>
 
 <element Z="32" symbol="Ge">
 	<_name>Germanium</_name>
+	<color red="0.40" green="0.56" blue="0.56"/>
 </element>
 
 <element Z="33" symbol="As">
 	<_name>Arsenic</_name>
+	<color red="0.74" green="0.50" blue="0.89"/>
 </element>
 
 <element Z="34" symbol="Se">
 	<_name>Selenium</_name>
+	<color red="1.00" green="0.63" blue="0.00"/>
 </element>
 
 <element Z="35" symbol="Br">
 	<_name>Bromine</_name>
+	<color red="0.65" green="0.16" blue="0.16"/>
 </element>
 
 <element Z="36" symbol="Kr">
 	<_name>Krypton</_name>
+	<color red="0.36" green="0.72" blue="0.82"/>
 </element>
 
 <element Z="37" symbol="Rb">
 	<_name>Rubidium</_name>
+	<color red="0.44" green="0.18" blue="0.69"/>
 </element>
 
 <element Z="38" symbol="Sr">
 	<_name>Strontium</_name>
+	<color red="0.00" green="1.00" blue="0.00"/>
 </element>
 
 <element Z="39" symbol="Y">
 	<_name>Yttrium</_name>
+	<color red="0.58" green="1.00" blue="1.00"/>
 </element>
 
 <element Z="40" symbol="Zr">
 	<_name>Zirconium</_name>
+	<color red="0.58" green="0.88" blue="0.88"/>
 </element>
 
 <element Z="41" symbol="Nb">
 	<_name>Niobium</_name>
+	<color red="0.45" green="0.76" blue="0.79"/>
 </element>
 
 <element Z="42" symbol="Mo">
 	<_name>Molybdenum</_name>
+	<color red="0.33" green="0.71" blue="0.71"/>
 </element>
 
 <element Z="43" symbol="Tc">
 	<_name>Technetium</_name>
+	<color red="0.23" green="0.62" blue="0.62"/>
 </element>
 
 <element Z="44" symbol="Ru">
 	<_name>Ruthenium</_name>
+	<color red="0.14" green="0.56" blue="0.56"/>
 </element>
 
 <element Z="45" symbol="Rh">
 	<_name>Rhodium</_name>
+	<color red="0.04" green="0.49" blue="0.55"/>
 </element>
 
 <element Z="46" symbol="Pd">
 	<_name>Palladium</_name>
+	<color red="0.00" green="0.41" blue="0.52"/>
 </element>
 
 <element Z="47" symbol="Ag">
 	<_name>Silver</_name>
+	<color red="0.88" green="0.88" blue="1.00"/>
 </element>
 
 <element Z="48" symbol="Cd">
 	<_name>Cadmium</_name>
+	<color red="1.00" green="0.85" blue="0.56"/>
 </element>
 
 <element Z="49" symbol="In">
 	<_name>Indium</_name>
+	<color red="0.65" green="0.46" blue="0.45"/>
 </element>
 
 <element Z="50" symbol="Sn">
 	<_name>Tin</_name>
+	<color red="0.40" green="0.50" blue="0.50"/>
 </element>
 
 <element Z="51" symbol="Sb">
 	<_name>Antimony</_name>
+	<color red="0.62" green="0.39" blue="0.71"/>
 </element>
 
 <element Z="52" symbol="Te">
 	<_name>Tellurium</_name>
+	<color red="0.83" green="0.48" blue="0.00"/>
 </element>
 
 <element Z="53" symbol="I">
 	<_name>Iodine</_name>
+	<color red="0.58" green="0.00" blue="0.58"/>
 </element>
 
 <element Z="54" symbol="Xe">
 	<_name>Xenon</_name>
+	<color red="0.26" green="0.62" blue="0.69"/>
 </element>
 
 <element Z="55" symbol="Cs">
 	<_name>Cesium</_name>
+	<color red="0.34" green="0.09" blue="0.56"/>
 </element>
 
 <element Z="56" symbol="Ba">
 	<_name>Barium</_name>
+	<color red="0.00" green="0.79" blue="0.00"/>
 </element>
 
 <element Z="57" symbol="La">
 	<_name>Lanthanum</_name>
+	<color red="0.44" green="0.83" blue="1.00"/>
 </element>
 
 <element Z="58" symbol="Ce">
 	<_name>Cerium</_name>
+	<color red="1.00" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="59" symbol="Pr">
 	<_name>Praseodymium</_name>
+	<color red="0.85" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="60" symbol="Nd">
 	<_name>Neodymium</_name>
+	<color red="0.78" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="61" symbol="Pm">
 	<_name>Promethium</_name>
+	<color red="0.64" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="62" symbol="Sm">
 	<_name>Samarium</_name>
+	<color red="0.56" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="63" symbol="Eu">
 	<_name>Europium</_name>
+	<color red="0.38" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="64" symbol="Gd">
 	<_name>Gadolinium</_name>
+	<color red="0.27" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="65" symbol="Tb">
 	<_name>Terbium</_name>
+	<color red="0.19" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="66" symbol="Dy">
 	<_name>Dysprosium</_name>
+	<color red="0.12" green="1.00" blue="0.78"/>
 </element>
 
 <element Z="67" symbol="Ho">
 	<_name>Holmium</_name>
+	<color red="0.00" green="1.00" blue="0.61"/>
 </element>
 
 <element Z="68" symbol="Er">
 	<_name>Erbium</_name>
+	<color red="0.00" green="0.90" blue="0.46"/>
 </element>
 
 <element Z="69" symbol="Tm">
 	<_name>Thulium</_name>
+	<color red="0.00" green="0.83" blue="0.32"/>
 </element>
 
 <element Z="70" symbol="Yb">
 	<_name>Ytterbium</_name>
+	<color red="0.00" green="0.75" blue="0.22"/>
 </element>
 
 <element Z="71" symbol="Lu">
 	<_name>Lutetium</_name>
+	<color red="0.00" green="0.67" blue="0.14"/>
 </element>
 
 <element Z="72" symbol="Hf">
 	<_name>Hafnium</_name>
+	<color red="0.30" green="0.76" blue="1.00"/>
 </element>
 
 <element Z="73" symbol="Ta">
 	<_name>Tantalum</_name>
+	<color red="0.30" green="0.65" blue="1.00"/>
 </element>
 
 <element Z="74" symbol="W">
 	<_name>Tungsten</_name>
+	<color red="0.13" green="0.58" blue="0.84"/>
 </element>
 
 <element Z="75" symbol="Re">
 	<_name>Rhenium</_name>
+	<color red="0.15" green="0.49" blue="0.67"/>
 </element>
 
 <element Z="76" symbol="Os">
 	<_name>Osmium</_name>
+	<color red="0.15" green="0.40" blue="0.59"/>
 </element>
+
 
 <element Z="77" symbol="Ir">
 	<_name>Iridium</_name>
+	<color red="0.09" green="0.33" blue="0.53"/>
 </element>
 
 <element Z="78" symbol="Pt">
 	<_name>Platinum</_name>
+	<color red="0.96" green="0.93" blue="0.82"/>
 </element>
 
 <element Z="79" symbol="Au">
 	<_name>Gold</_name>
+	<color red="0.80" green="0.82" blue="0.12"/>
 </element>
 
 <element Z="80" symbol="Hg">
 	<_name>Mercury</_name>
+	<color red="0.71" green="0.71" blue="0.76"/>
 </element>
 
 <element Z="81" symbol="Tl">>
 	<_name>Thallium</_name>
+	<color red="0.65" green="0.33" blue="0.30"/>
 </element>
 
 <element Z="82" symbol="Pb">
 	<_name>Lead</_name>
+	<color red="0.34" green="0.35" blue="0.38"/>
 </element>
 
 <element Z="83" symbol="Bi">
 	<_name>Bismuth</_name>
+	<color red="0.62" green="0.31" blue="0.71"/>
 </element>
 
 <element Z="84" symbol="Po">
 	<_name>Polonium</_name>
+	<color red="0.67" green="0.36" blue="0.00"/>
 </element>
 
 <element Z="85" symbol="At">
 	<_name>Astatine</_name>
+	<color red="0.46" green="0.31" blue="0.27"/>
 </element>
 
 <element Z="86" symbol="Rn">
 	<_name>Radon</_name>
+	<color red="0.26" green="0.51" blue="0.59"/>
 </element>
 
 <element Z="87" symbol="Fr">
 	<_name>Francium</_name>
+	<color red="0.26" green="0.00" blue="0.40"/>
 </element>
 
 <element Z="88" symbol="Ra">
 	<_name>Radium</_name>
+	<color red="0.00" green="0.49" blue="0.00"/>
 </element>
 
 <element Z="89" symbol="Ac">
 	<_name>Actinium</_name>
+	<color red="0.44" green="0.67" blue="0.98"/>
 </element>
 
 <element Z="90" symbol="Th">
 	<_name>Thorium</_name>
+	<color red="0.00" green="0.73" blue="1.00"/>
 </element>
 
 <element Z="91" symbol="Pa">
 	<_name>Protactinium</_name>
+	<color red="0.00" green="0.63" blue="1.00"/>
 </element>
 
 <element Z="92" symbol="U">
 	<_name>Uranium</_name>
+	<color red="0.00" green="0.56" blue="1.00"/>
 </element>
 
 <element Z="93" symbol="Np">>
 	<_name>Neptunium</_name>
+	<color red="0.00" green="0.50" blue="1.00"/>
 </element>
 
 <element Z="94" symbol="Pu">
 	<_name>Plutonium</_name>
+	<color red="0.00" green="0.42" blue="1.00"/>
 </element>
 
 <element Z="95" symbol="Am">
 	<_name>Americium</_name>
+	<color red="0.33" green="0.36" blue="0.95"/>
 </element>
 
 <element Z="96" symbol="Cm">
 	<_name>Curium</_name>
+	<color red="0.47" green="0.36" blue="0.89"/>
 </element>
 
 <element Z="97" symbol="Bk">
 	<_name>Berkelium</_name>
+	<color red="0.54" green="0.31" blue="0.89"/>
 </element>
 
 <element Z="98" symbol="Cf">
 	<_name>Californium</_name>
+	<color red="0.63" green="0.21" blue="0.83"/>
 </element>
 
 <element Z="99" symbol="Es">
 	<_name>Einsteinium</_name>
+	<color red="0.70" green="0.12" blue="0.83"/>
 </element>
 
 <element Z="100" symbol="Fm">
 	<_name>Fermium</_name>
+	<color red="0.70" green="0.12" blue="0.73"/>
 </element>
 
 <element Z="101" symbol="Md">
 	<_name>Mendelevium</_name>
+	<color red="0.70" green="0.05" blue="0.65"/>
 </element>
 
 <element Z="102" symbol="No">
 	<_name>Nobelium</_name>
+	<color red="0.74" green="0.05" blue="0.53"/>
 </element>
 
 <element Z="103" symbol="Lr">
 	<_name>Lawrencium</_name>
+	<color red="0.78" green="0.00" blue="0.40"/>
 </element>
 
 <element Z="104" symbol="Rf">
 	<_name>Rutherfordium</_name>
+	<color red="0.80" green="0.00" blue="0.35"/>
 </element>
 
 <element Z="105" symbol="Db">
 	<_name>Dubnium</_name>
+	<color red="0.82" green="0.00" blue="0.31"/>
 </element>
 
 <element Z="106" symbol="Sg">
 	<_name>Seaborgium</_name>
+	<color red="0.85" green="0.00" blue="0.27"/>
 </element>
 
 <element Z="107" symbol="Bh">
 	<_name>Bohrium</_name>
+	<color red="0.88" green="0.00" blue="0.22"/>
 </element>
 
 <element Z="108" symbol="Hs">
 	<_name>Hassium</_name>
+	<color red="0.90" green="0.00" blue="0.18"/>
 </element>
 
 <element Z="109" symbol="Mt">
 	<_name>Meitnerium</_name>
+	<color red="0.92" green="0.00" blue="0.15"/>
 </element>
 
 <element Z="110" symbol="Uun">
 	<_name>Ununnilium</_name>
+	<color red="0.93" green="0.00" blue="0.14"/>
 </element>
 
 <element Z="111" symbol="Uuu">
 	<_name>Unununium</_name>
+	<color red="0.94" green="0.00" blue="0.13"/>
 </element>
 
 <element Z="112" symbol="Uub">
 	<_name>Ununbium</_name>
+	<color red="0.95" green="0.00" blue="0.12"/>
 </element>
 
 <element Z="114" symbol="Uuq">
 	<_name>Ununquadium</_name>
+	<color red="0.97" green="0.00" blue="0.10"/>
 </element>
 
 </gpdata>
