@@ -16,12 +16,13 @@
 >
 <!ELEMENT cell EMPTY>
 <!ELEMENT size (position,position)> <!-- One of the position must have id="start" and the other "id=end" -->
-<
+
 <!ATTLIST atom
   id		NMTOKEN	#IMPLIED
   element	NMTOKEN	#REQUIRED
 >
-!ELEMENT atom (position, radius, color)>
+
+<!ELEMENT atom (position, radius, color?)>
 <!ELEMENT line ((position, position)?, radius, color)>
 <!ELEMENT cleavage EMPTY>
 <!ELEMENT view (orientation, fov, color)> <!-- color should have id="background" -->
