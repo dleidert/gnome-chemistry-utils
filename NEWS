@@ -1,6 +1,6 @@
 Version 0.4.1
 	Updated gcu.pc.in.
-	Fixed some build issues in gcu.
+	Fixed some build issues (thanks to Daniel Leidert).
 	Fixed a critical bug in gcu::Object::AddType.
 
 Version 0.4.0
