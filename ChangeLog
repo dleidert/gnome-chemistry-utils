@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/crystaldoc.h: removed reference to crystalbond.h.
+
 2005-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* AUTHORS: add new german translator.
 	* gcu/Makefile.am: rmoved unimplemented stuff.
