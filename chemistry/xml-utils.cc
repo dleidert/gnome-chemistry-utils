@@ -139,7 +139,7 @@ bool ReadRadius(xmlNodePtr node, GcuAtomicRadius& radius)
 	else radius.charge = 0;
 	tmp = (char*) xmlGetProp(node, (xmlChar*)"cn");
 	if (tmp) radius.cn = strtol(tmp, NULL, 10);
-	else radius.charge = -1;
+	else radius.cn = -1;
 	tmp = (char*) xmlGetProp(node, (xmlChar*)"spin");
 	if ((!tmp) ||
 		(!((!strcmp(tmp, "low")) && (radius.spin = GCU_LOW_SPIN))) ||
@@ -195,12 +195,12 @@ bool WriteRadius(xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 		g_snprintf(buf, sizeof(buf) - 1, "%g", radius.value);
 		xmlNewProp(child, (xmlChar*)"value", (xmlChar*)buf);
 	}
-	if (radius.scale &&  (!strcmp(radius.scale, "custom")))
-		xmlNewProp(child, (xmlChar*)"scale", (xmlChar*)"custom");
+	if (radius.scale &&  strcmp(radius.scale, "custom"))
+		xmlNewProp(child, (xmlChar*)"scale", (xmlChar*)radius.scale);
 	if (radius.charge)
 	{
 		g_snprintf(buf, sizeof(buf) - 1, "%d", radius.charge);
-		xmlNewProp(child, (xmlChar*)"scale", (xmlChar*)buf);
+		xmlNewProp(child, (xmlChar*)"charge", (xmlChar*)buf);
 	}
 	if (radius.cn != -1)
 	{
@@ -208,6 +208,6 @@ bool WriteRadius(xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 		xmlNewProp(child, (xmlChar*)"cn", (xmlChar*)buf);
 	}
 	if (radius.spin != GCU_N_A_SPIN)
-		xmlNewProp(child, (xmlChar*)"cn", (xmlChar*)((radius.spin == GCU_LOW_SPIN)? "low": "high"));
+		xmlNewProp(child, (xmlChar*)"spin", (xmlChar*)((radius.spin == GCU_LOW_SPIN)? "low": "high"));
 	return true;
 }

@@ -147,7 +147,7 @@ EltTable::EltTable()
 					else radius->charge = 0;
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"cn");
 					if (tmp) radius->cn = strtol(tmp, NULL, 10);
-					else radius->charge = -1;
+					else radius->cn = -1;
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"spin");
 					if ((!tmp) ||
 						(!((!strcmp(tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) ||
