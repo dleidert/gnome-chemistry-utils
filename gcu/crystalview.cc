@@ -102,36 +102,47 @@ void CrystalView::Init(GtkWidget *widget)
 		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spec);
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		m_bInit = true;
 		Update(widget);
     }
 }
 
-bool CrystalView::Load(xmlNodePtr node)
+bool CrystalView::Load (xmlNodePtr node)
 {
 	char *txt;
 	xmlNodePtr child = node->children;
-	while(child)
-	{
-		if (!strcmp((gchar*)child->name, "orientation"))
-		{
-			txt = (char*)xmlGetProp(child, (xmlChar*)"psi");
-			if (txt) sscanf(txt, "%lg", &m_psi); else return false;
-			txt = (char*)xmlGetProp(child, (xmlChar*)"theta");
-			if (txt) sscanf(txt, "%lg", &m_theta); else return false;
-			txt = (char*)xmlGetProp(child, (xmlChar*)"phi");
-			if (txt) sscanf(txt, "%lg", &m_phi); else return false;
-			Matrix m(m_psi/90*1.570796326794897, m_theta/90*1.570796326794897, m_phi/90*1.570796326794897, euler);
+	while (child) {
+		if (!strcmp ((gchar*) child->name, "orientation")) {
+			txt = (char*) xmlGetProp (child, (xmlChar*) "psi");
+			if (txt) {
+				sscanf(txt, "%lg", &m_psi);
+				xmlFree (txt);
+			}	else
+				return false;
+			txt = (char*) xmlGetProp (child, (xmlChar*) "theta");
+			if (txt) {
+				sscanf(txt, "%lg", &m_theta);
+				xmlFree (txt);
+			}	else
+				return false;
+			txt = (char*) xmlGetProp (child, (xmlChar*) "phi");
+			if (txt) {
+				sscanf(txt, "%lg", &m_phi); 
+				xmlFree (txt);
+			}	else
+				return false;
+			Matrix m (m_psi / 180 * M_PI, m_theta / 180 * M_PI, m_phi / 180 * M_PI, euler);
 			m_Euler = m;
-		}
-		else if (!strcmp((gchar*)child->name, "fov"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			int result = sscanf(txt, "%lg", &m_fAngle);
+		} else if (!strcmp ((gchar*) child->name, "fov")) {
+			txt = (char*) xmlNodeGetContent (child);
+			int result = sscanf (txt, "%lg", &m_fAngle);
+			xmlFree (txt);
 		}
 		child = child->next;
 	}
-	if (!ReadColor(node, "background", &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha)) return false;
+	if (!ReadColor (node, "background", &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha))
+		return false;
 	return true;
 }
 
@@ -326,7 +337,9 @@ void CrystalView::Draw(GtkWidget *widget)
 			glRotated(m_psi, 0.0, 1.0, 0.0);
 			glRotated(m_theta, 0.0, 0.0, 1.0);
 			glRotated(m_phi, 0.0, 1.0, 0.0);
+			glEnable (GL_BLEND);
 			glCallList(m_nGLList);
+			glDisable (GL_BLEND);
 			glPopMatrix();
 		}
 	/* Swap backbuffer to front */
@@ -359,10 +372,10 @@ void CrystalView::Update(GtkWidget* widget)
 	Draw(widget);
 }
 
-void CrystalView::OnDestroyed(GtkWidget *widget)
+void CrystalView::OnDestroyed (GtkWidget *widget)
 {
-	delete (WidgetData*) g_object_get_data(G_OBJECT(widget), "gldata");
-	m_Widgets.remove(widget);
+	delete (WidgetData*) g_object_get_data (G_OBJECT (widget), "gldata");
+	m_Widgets.remove (widget);
 }
 
 void CrystalView::Rotate(gdouble x, gdouble y)

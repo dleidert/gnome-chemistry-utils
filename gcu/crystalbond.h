@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -42,43 +42,43 @@ This class will be used to represent bonds inside crystals. It is not implemente
 class CrystalBond: public Bond 
 {
 public:
-	CrystalBond();
-	virtual ~CrystalBond();
+	CrystalBond ();
+	virtual ~CrystalBond ();
 
 public :
-	CrystalBond(double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha);
-	CrystalBond(CrystalBond& cbBond);
-	CrystalBond& operator=(CrystalBond&);
+	CrystalBond (double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha);
+	CrystalBond (CrystalBond& cbBond);
+	CrystalBond& operator= (CrystalBond&);
 
-	void Draw();
-	double X1(void) {return m_dx;}
-	double Y1(void) {return m_dy;}
-	double Z1(void) {return m_dz;}
-	double X2(void) {return m_dx2;}
-	double Y2(void) {return m_dy2;}
-	double Z2(void) {return m_dz2;}
-	double Xmax();
-	double Ymax();
-	double Zmax();
-	double Xmin();
-	double Ymin();
-	double Zmin();
-	double Long() {return m_dl;}
-	void SetPosition(double x, double y, double z, double x1, double y1, double z1);
-	void SetColor(float red, float green, float blue, float alpha);
-	void GetColor(double *red, double *green, double *blue, double *alpha);
-	void SetRadius(double r);
-	double GetRadius() {return m_dr;};
-	bool operator==(CrystalBond&);
-	virtual void Move(double x, double y, double z);
-	double ScalProd(int h, int k, int l);
-	void Cleave() {m_nCleave++;}
-	void NetToCartesian(double a, double b, double c, double alpha, double beta, double gamma);
-	double Distance(double x, double y, double z, bool bFixed);
-	bool IsCleaved() {return m_nCleave != 0;}
-	void GetRotation(double& x, double& y, double& z, double& th);
-	virtual xmlNodePtr Save(xmlDocPtr xml);
-	virtual bool Load(xmlNodePtr node);
+	void Draw ();
+	double X1 (void) {return m_dx;}
+	double Y1 (void) {return m_dy;}
+	double Z1 (void) {return m_dz;}
+	double X2 (void) {return m_dx2;}
+	double Y2 (void) {return m_dy2;}
+	double Z2 (void) {return m_dz2;}
+	double Xmax ();
+	double Ymax ();
+	double Zmax ();
+	double Xmin ();
+	double Ymin ();
+	double Zmin ();
+	double Long () {return m_dl;}
+	void SetPosition (double x, double y, double z, double x1, double y1, double z1);
+	void SetColor (float red, float green, float blue, float alpha);
+	void GetColor (double *red, double *green, double *blue, double *alpha);
+	void SetRadius (double r);
+	double GetRadius () {return m_dr;};
+	bool operator== (CrystalBond&);
+	virtual void Move (double x, double y, double z);
+	double ScalProd (int h, int k, int l);
+	void Cleave () {m_nCleave++;}
+	void NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma);
+	double Distance (double x, double y, double z, bool bFixed);
+	bool IsCleaved () {return m_nCleave != 0;}
+	void GetRotation (double& x, double& y, double& z, double& th);
+	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual bool Load (xmlNodePtr node);
 	
 private :
 	float m_fBlue, m_fRed, m_fGreen, m_fAlpha;

@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -63,41 +63,55 @@ CrystalDoc::CrystalDoc()
 
 CrystalDoc::~CrystalDoc()
 {
-	while (!m_Views.empty())
-	{
-		m_Views.pop_back();
+	while (!AtomDef.empty ()) {
+		delete AtomDef.front ();
+		AtomDef.pop_front ();
+	}
+	while (!Atoms.empty ()) {
+		delete Atoms.front ();
+		Atoms.pop_front ();
+	}
+	while (!LineDef.empty ()) {
+		delete LineDef.front ();
+		LineDef.pop_front ();
+	}
+	while (!Lines.empty ()) {
+		delete Lines.front ();
+		Lines.pop_front ();
+	}
+	while (!Cleavages.empty ()) {
+		delete Cleavages.front ();
+		Cleavages.pop_front ();
+	}
+	while (!m_Views.empty ()) {
+		m_Views.pop_back ();
 	}
 }
 
 void CrystalDoc::Reinit()
 {
 	//destruction of lists
-	while (!AtomDef.empty())
-	{
-		delete AtomDef.front();
-		AtomDef.pop_front();
+	while (!AtomDef.empty ()) {
+		delete AtomDef.front ();
+		AtomDef.pop_front ();
 	}
-	while (!Atoms.empty())
-	{
-		delete Atoms.front();
-		Atoms.pop_front();
+	while (!Atoms.empty ()) {
+		delete Atoms.front ();
+		Atoms.pop_front ();
 	}
-	while (!LineDef.empty())
-	{
-		delete LineDef.front();
-		LineDef.pop_front();
+	while (!LineDef.empty ()) {
+		delete LineDef.front ();
+		LineDef.pop_front ();
 	}
-	while (!Lines.empty())
-	{
-		delete Lines.front();
-		Lines.pop_front();
+	while (!Lines.empty ()) {
+		delete Lines.front ();
+		Lines.pop_front ();
 	}
-	while (!Cleavages.empty())
-	{
-		delete Cleavages.front();
-		Cleavages.pop_front();
+	while (!Cleavages.empty ()) {
+		delete Cleavages.front ();
+		Cleavages.pop_front ();
 	}
-	Init();
+	Init ();
 }
 
 void CrystalDoc::Init()
@@ -116,93 +130,109 @@ void CrystalDoc::Init()
 	}
 }
 
-void CrystalDoc::ParseXMLTree(xmlNode* xml)
+void CrystalDoc::ParseXMLTree (xmlNode* xml)
 {
 	char *old_num_locale, *txt;
 	xmlNodePtr node;
 	bool bViewLoaded = false;
 
-	Reinit();
-	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-	setlocale(LC_NUMERIC, "C");
+	Reinit ();
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
 	//look for generator node
 	unsigned version = 0xffffff , major, minor, micro;
 	node = xml->children;
-	while (node)
-	{
-		if (!strcmp ((const char*)(node->name), "generator")) break;
+	while (node) {
+		if (!strcmp ((const char*)(node->name), "generator"))
+			break;
 		node = node->next;
 	}
-	if (node)
-	{
-		txt = (char*)xmlNodeGetContent(node);
+	if (node) {
+		txt = (char*) xmlNodeGetContent (node);
 		if (sscanf(txt, "Gnome Crystal %d.%d.%d", &major, &minor, &micro) == 3)
 			version = micro + minor * 0x100 + major * 0x10000;
+		xmlFree (txt);
 	}
 	node = xml->children;
-	while(node)
-	{
-		if (!strcmp((gchar*)node->name, "lattice"))
-		{
-			txt = (char*)xmlNodeGetContent(node);
+	while(node) {
+		if (!strcmp ((gchar*) node->name, "lattice")) {
+			txt = (char*) xmlNodeGetContent (node);
 			int i = 0;
-			while (strcmp(txt, LatticeName[i]) && (i < 14)) i++;
-			if (i < 14) m_lattice = (gcLattices)i;
-		}
-		else if (!strcmp((gchar*)node->name, "cell"))
-		{
-			txt = (char*)xmlGetProp(node, (xmlChar*)"a");
-			if (txt) sscanf(txt, "%lg", &m_a);
-			txt = (char*)xmlGetProp(node, (xmlChar*)"b");
-			if (txt) sscanf(txt, "%lg", &m_b);
-			txt = (char*)xmlGetProp(node, (xmlChar*)"c");
-			if (txt) sscanf(txt, "%lg", &m_c);
-			txt = (char*)xmlGetProp(node, (xmlChar*)"alpha");
-			if (txt) sscanf(txt, "%lg", &m_alpha);
-			txt = (char*)xmlGetProp(node, (xmlChar*)"beta");
-			if (txt) sscanf(txt, "%lg", &m_beta);
-			txt = (char*)xmlGetProp(node, (xmlChar*)"gamma");
-			if (txt) sscanf(txt, "%lg", &m_gamma);
-	}
-		else if (!strcmp((gchar*)node->name, "size"))
-		{
-			ReadPosition(node, "start", &m_xmin, &m_ymin, &m_zmin);
-			ReadPosition(node, "end", &m_xmax, &m_ymax, &m_zmax);
-			txt = (char*)xmlGetProp(node, (xmlChar*)"fixed");
-			if (txt && !strcmp(txt, "true")) m_bFixedSize = true;
-		}
-		else if (!strcmp((gchar*)node->name, "atom"))
-		{
-			CrystalAtom *pAtom = CreateNewAtom();
-			if (pAtom->Load(node)) AtomDef.push_back(pAtom);
-			else delete pAtom;
-		}
-		else if (!strcmp((gchar*)node->name, "line"))
-		{
-			CrystalLine *pLine = CreateNewLine();
-			if (pLine->Load(node)) LineDef.push_back(pLine);
-			else delete pLine;
-		}
-		else if (!strcmp((gchar*)node->name, "cleavage"))
-		{
-			CrystalCleavage *pCleavage = CreateNewCleavage();
-			if (pCleavage->Load(node)) Cleavages.push_back(pCleavage);
-			else delete pCleavage;
-		}
-		else if (!strcmp((gchar*)node->name, "view"))
-		{
-			if (!bViewLoaded)
-			{
-				m_Views.front()->Load(node); //the first view is created with the document
-				bViewLoaded = true;
+			while (strcmp (txt, LatticeName[i]) && (i < 14))
+				i++;
+			if (i < 14)
+				m_lattice = (gcLattices)i;
+			xmlFree (txt);
+		} else if (!strcmp ((gchar*) node->name, "cell")) {
+			txt = (char*) xmlGetProp (node, (xmlChar*)"a");
+			if (txt) {
+				sscanf (txt, "%lg", &m_a);
+				xmlFree (txt);
 			}
-			else LoadNewView(node);
+			txt = (char*) xmlGetProp (node, (xmlChar*) "b");
+			if (txt) {
+				sscanf (txt, "%lg", &m_b);
+				xmlFree (txt);
+			}
+			txt = (char*) xmlGetProp (node, (xmlChar*) "c");
+			if (txt) {
+				sscanf (txt, "%lg", &m_c);
+				xmlFree (txt);
+			}
+			txt = (char*) xmlGetProp (node, (xmlChar*) "alpha");
+			if (txt) {
+				sscanf (txt, "%lg", &m_alpha);
+				xmlFree (txt);
+			}
+			txt = (char*) xmlGetProp (node, (xmlChar*) "beta");
+			if (txt) {
+				sscanf(txt, "%lg", &m_beta);
+				xmlFree (txt);
+			}
+			txt = (char*) xmlGetProp (node, (xmlChar*) "gamma");
+			if (txt) {
+				sscanf(txt, "%lg", &m_gamma);
+				xmlFree (txt);
+			}
+		} else if (!strcmp ((gchar*) node->name, "size")) {
+			ReadPosition (node, "start", &m_xmin, &m_ymin, &m_zmin);
+			ReadPosition (node, "end", &m_xmax, &m_ymax, &m_zmax);
+			txt = (char*) xmlGetProp (node, (xmlChar*) "fixed");
+			if (txt) {
+				if (!strcmp (txt, "true"))
+					m_bFixedSize = true;
+				xmlFree (txt);
+			}
+		} else if (!strcmp ((gchar*) node->name, "atom")) {
+			CrystalAtom *pAtom = CreateNewAtom ();
+			if (pAtom->Load (node))
+				AtomDef.push_back (pAtom);
+			else
+				delete pAtom;
+		} else if (!strcmp ((gchar*) node->name, "line")) {
+			CrystalLine *pLine = CreateNewLine ();
+			if (pLine->Load (node))
+				LineDef.push_back (pLine);
+			else
+				delete pLine;
+		} else if (!strcmp ((gchar*) node->name, "cleavage")) {
+			CrystalCleavage *pCleavage = CreateNewCleavage ();
+			if (pCleavage->Load (node))
+				Cleavages.push_back (pCleavage);
+			else
+				delete pCleavage;
+		} else if (!strcmp ((gchar*) node->name, "view")) {
+			if (!bViewLoaded) {
+				m_Views.front ()->Load (node); //the first view is created with the document
+				bViewLoaded = true;
+			} else
+				LoadNewView (node);
 		}
 		node = node->next;
 	}
-	setlocale(LC_NUMERIC, old_num_locale);
-	g_free(old_num_locale);
-	Update();
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+	Update ();
 }
 
 bool CrystalDoc::LoadNewView(xmlNodePtr node)

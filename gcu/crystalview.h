@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@
 #define CRYSTAL_VIEW_H
 
 #include <libxml/parser.h>
-#include <matrix.h>
+#include <gcu/matrix.h>
 #include <list>
 #include <gtk/gtkwidget.h>
 
@@ -52,78 +52,78 @@ public:
 
 Creates a new view for the document.
 */
-	CrystalView(CrystalDoc* pDoc);
+	CrystalView (CrystalDoc* pDoc);
 //!Destructor.
 /*!
 The destructor of CrystalView.
 */
-	virtual ~CrystalView();
+	virtual ~CrystalView ();
 	
 /*!
 Creates a widget to display the model as defined in the document and with the parameters of the view.
 Several widgets cn exist for the same view and their contents are identical.
 */
-	GtkWidget* CreateNewWidget();
+	GtkWidget* CreateNewWidget ();
 /*!
 @param widget: a pointer to a widget created by CreateNewWidget().
 
 Initialize the widget. Automatically called by the framework.
 */
-	void Init(GtkWidget *widget);
+	void Init (GtkWidget *widget);
 /*!
 @param widget: a pointer to a widget created by CreateNewWidget().
 
 Automatically called by the framework when the  the widget size changes.
 */
-	void Reshape(GtkWidget *widget);
+	void Reshape (GtkWidget *widget);
 /*!
 @param widget: a pointer to a widget created by CreateNewWidget().
 
 Draws the contents of the widget. Automatically called by the framework.
 */
-	void Draw(GtkWidget *widget);
+	void Draw (GtkWidget *widget);
 /*!
 Updates all widgets of the view. This method must be called each time the document or the view are modified.
 */
-	void Update();
+	void Update ();
 /*!
 @param widget: a pointer to a widget created by CreateNewWidget().
 
 Update the contents of widget. Automatically called by the framework when Update() is executed.
 */
-	void Update(GtkWidget *widget);
+	void Update (GtkWidget *widget);
 /*!
 @param widget: a pointer to a widget created by CreateNewWidget().
 @param event: a pointer to a GdkEvent.
 
 Automatically called by the framework when a left button click occurs in the widget drawing area.
 */
-	bool OnPressed(GtkWidget *widget, GdkEventButton *event);
+	bool OnPressed (GtkWidget *widget, GdkEventButton *event);
 /*!
 @param widget: a pointer to a widget created by CreateNewWidget().
 @param event: a pointer to a GdkEvent.
 
 Automatically called by the framework when the mouse cursor moves over the widget drawing area.
 */
-	void OnMotion(GtkWidget *widget, GdkEventMotion *event);
+	void OnMotion (GtkWidget *widget, GdkEventMotion *event);
 /*!
 @param widget: a pointer to a widget created by CreateNewWidget().
 
 Automatically called by the framework when the widget is destroyed.
 */
-	void OnDestroyed(GtkWidget *widget);
+	void OnDestroyed (GtkWidget *widget);
 
 /*!
 @param node: a pointer to the xmlNode containing the serialized view.
 
 Loads the parameters of the view from an xmlNode.
 */
-	virtual bool Load(xmlNodePtr node);
+	virtual bool Load (xmlNodePtr node);
 /*!
 @param xml: the xmlDoc used to save the document.
 @return a pointer to the xmlNode containig the view parameters or NULL if an error occured.
 */
-	virtual xmlNodePtr Save(xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml);
 
 private:
 /*!
@@ -132,7 +132,7 @@ private:
 
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
-	void Rotate(gdouble x, gdouble y);
+	void Rotate (gdouble x, gdouble y);
 
 protected:
 /*!

@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -81,16 +81,44 @@ xmlNodePtr CrystalCleavage::Save(xmlDocPtr xml)
 	return node;
 }
 
-bool CrystalCleavage::Load(xmlNodePtr node)
+bool CrystalCleavage::Load (xmlNodePtr node)
 {
 	char *txt;
-	txt = (char*)xmlGetProp(node, (xmlChar*)"h");
-	if (sscanf(txt, "%d", &m_nh) != 1) return false;
-	txt = (char*)xmlGetProp(node, (xmlChar*)"k");
-	if (sscanf(txt, "%d", &m_nk) != 1) return false;
-	txt = (char*)xmlGetProp(node, (xmlChar*)"l");
-	if (sscanf(txt, "%d", &m_nl) != 1) return false;
-	txt = (char*)xmlGetProp(node, (xmlChar*)"planes");
-	if (sscanf(txt, "%d", &m_nPlanes)!= 1) return false;
+	txt = (char*) xmlGetProp (node, (xmlChar*) "h");
+	if (txt) {
+		if (sscanf (txt, "%d", &m_nh) != 1) {
+			xmlFree (txt);
+			return false;
+		}
+		xmlFree (txt);
+	} else
+		return false;
+	txt = (char*) xmlGetProp (node, (xmlChar*) "k");
+	if (txt) {
+		if (sscanf(txt, "%d", &m_nk) != 1) {
+			xmlFree (txt);
+			return false;
+		}
+		xmlFree (txt);
+	} else
+		return false;
+	txt = (char*) xmlGetProp (node, (xmlChar*) "l");
+	if (txt) {
+		if (sscanf(txt, "%d", &m_nl) != 1) {
+			xmlFree (txt);
+			return false;
+		}
+		xmlFree (txt);
+	} else
+		return false;
+	txt = (char*) xmlGetProp (node, (xmlChar*) "planes");
+	if (txt) {
+		if (sscanf(txt, "%d", &m_nPlanes)!= 1) {
+			xmlFree (txt);
+			return false;
+		}
+		xmlFree (txt);
+	} else
+		return false;
 	return true;
 }

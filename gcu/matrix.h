@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2000-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -52,11 +52,11 @@ public:
 /*!
 Default constructor. Members are not initialized. This constructor is rarely used.
 */
-	Matrix();
+	Matrix ();
 /*!
 The destructor of Matrix.
 */
-	virtual ~Matrix();
+	virtual ~Matrix ();
 /*!
 @param Psi: precession angle.
 @param Theta: nutaton angle.
@@ -75,7 +75,7 @@ The code used in CrystalView::Rotate and in GtkChem3DViewer code is (when mouse 
 \endcode
 The (M_PI / 90.) factor is arbitrary here.
 */
-	Matrix(double Psi, double Theta, double Phi, MatrixType Type);
+	Matrix (double Psi, double Theta, double Phi, MatrixType Type);
 /*!
 @param x11: value to use at first line and first column of the matrix.
 @param x12: value to use at first line and second column of the matrix.
@@ -89,19 +89,19 @@ The (M_PI / 90.) factor is arbitrary here.
 
 Constructs a matrix from its components.
 */
-	Matrix(double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33);
+	Matrix (double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33);
 /*!
 @param cMat: a Matrix instance to use in the multiplication.
 
 The matricial multiplication operator.
 */
-	Matrix& operator*(Matrix& cMat);
+	Matrix& operator* (Matrix& cMat);
 /*!
 @param cMat: the Matrix instance to copy.
 
 Copies a Matrix instance into another one.
 */
-	Matrix& operator=(Matrix& cMat);
+	Matrix& operator= (Matrix& cMat);
 /*!
 @param Psi: precession angle.
 @param Theta: nutaton angle.
@@ -109,7 +109,7 @@ Copies a Matrix instance into another one.
 
 Get the Euler's angles associated to a "euler" Matrix as defined in MatrixType.
 */
-	void Euler(double& Psi, double& Theta, double& Phi);
+	void Euler (double& Psi, double& Theta, double& Phi);
 /*!
 @param dx: the x coordinate.
 @param dy: the y coordinate.
@@ -118,9 +118,9 @@ Get the Euler's angles associated to a "euler" Matrix as defined in MatrixType.
 Initially, dx, dy and dz are the components of the vector to transform (multiply) by the matrix and
 after execution of this method, dx, dy and dz are the components of the transformed vector. So initial values are lost.
 */
-	void Transform(double &dx, double &dy , double &dz);
+	void Transform (double &dx, double &dy , double &dz);
 	
-private :
+private:
 	double x[3][3];
 };
 

@@ -1,5 +1,30 @@
 ##Text encoding: utf-8
 
+2004-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: removed obsolete variables, added test
+	for shared-mime-info package version.
+	* Doxyfile: updated version to 0.3.1
+	* Makefile.am: added shared mime info stuff.
+	* gchemutils.xml.in: new file to support shared mime info
+	(mime types tree will be polluted with chemical/* types).
+	* gcu/atom.cc,
+	* gcu/bond.cc,
+	* gcu/crystalcleavage.cc,
+	* gcu/crystaldoc.cc,
+	* gcu/crystalline.cc,
+	* gcu/crystalview.cc,
+	* gcu/gtkchem3dviewer.cc
+	* gcu/gtkcrystalviewer.cc,
+	* gcu/gtkperiodic.c: Fixed some memory leaks.
+	* gcu/crystalviewer.h: include gcu/matrix.h instead of just matrix
+	* gcu/element.cc,
+	* gcu/object.h: add support for signals and links.
+	* gcu/object.cc: enhanced ~Object (), fixed a critical
+	bug in Object::AddChild, implemented signals and links,
+	Object::GetGroup returns NULL if there is no parent and
+	fixed memory leaks.
+	* gcu/xml-utils.cc: Fixed some memory leaks.
+
 2004-06-26  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	*configure.ac: fixed a bug.
 

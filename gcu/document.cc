@@ -43,6 +43,7 @@ gchar* Document::GetNewId (gchar* id)
 	while ((Id[i] < '0') || (Id[i] > '9')) i++;
 	gchar *buf = new gchar[i + 16];
 	strncpy(buf, Id, i);
+	buf[i] = 0;
 	g_free(Id);
 	int j = 1;
 	string s = m_TranslationTable[buf];

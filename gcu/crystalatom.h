@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -48,11 +48,11 @@ public:
 /*
 The default constructor.
 */
-	CrystalAtom();
+	CrystalAtom ();
 /*
 The destructor of CrystalAtom.
 */
-	virtual ~CrystalAtom();
+	virtual ~CrystalAtom ();
 
 public :
 /*
@@ -63,24 +63,24 @@ public :
 
 Creates an atom.
 */
-	CrystalAtom(int Z, double x, double y, double z);
+	CrystalAtom (int Z, double x, double y, double z);
 /*!
 @param caAtom: the CrystalAtom to duplicate.
 
 Creates a new CrystalAtom identical to caAtom.
 */
-	CrystalAtom(CrystalAtom& caAtom);
+	CrystalAtom (CrystalAtom& caAtom);
 /*
 @param caAtom: the Atom to copy.
 
 @return a CrystalAtom identical to caAtom.
 */
-	CrystalAtom& operator=(CrystalAtom& caAtom);
+	CrystalAtom& operator= (CrystalAtom& caAtom);
 
 /*!
 Draws the atom inside the active OpenGL window.
 */
-	void Draw();
+	void Draw ();
 /*!
 @param red: the red component of the color.
 @param green: the green component of the color.
@@ -89,15 +89,15 @@ Draws the atom inside the active OpenGL window.
 
 Sets a custom color to the atom.
 */
-	void SetColor(float red, float green, float blue, float alpha);
+	void SetColor (float red, float green, float blue, float alpha);
 /*!
 Gives the atom the default color.
 */
-	void SetDefaultColor();
+	void SetDefaultColor ();
 /*!
 @return: true if the color is user defined and false if it is the default color.
 */
-	bool HasCustomColor() {return m_bCustomColor;}
+	bool HasCustomColor () {return m_bCustomColor;}
 /*!
 @param red: a pointer to the red component.
 @param green: a pointer to the green component.
@@ -107,27 +107,27 @@ Gives the atom the default color.
 Used to retreive the color used in the representation of the atom. Mainly useful for user defined
 colors.
 */
-	void GetColor(double *red, double *green, double *blue, double *alpha);
+	void GetColor (double *red, double *green, double *blue, double *alpha);
 /*!
 @param r: the new value of the atomic radius.
 
 Sets the value of the radius (in pm).
 */
-	void SetSize(double r);
+	void SetSize (double r);
 /*!
 @return the value of the radius (in pm).
 */
-	double GetSize();
+	double GetSize ();
 /*!
 @param caAtom: a CrystalAtom instance.
 @return true if the atoms are at the same position and false if their positions are different.
 */
-	bool operator==(CrystalAtom& caAtom);
+	bool operator== (CrystalAtom& caAtom);
 /*!
 Method used to cleave an atom. The inverse operation does not exist since the whole crystal must be recalculated
 after a change in the definition.
 */
-	void Cleave() {m_nCleave++;}
+	void Cleave () {m_nCleave++;}
 /*!
 @param h: the h Miller index of a plane.
 @param k: the k Miller index of a plane.
@@ -136,7 +136,7 @@ after a change in the definition.
 @return the product hx+ky+lz where x, y and z are the coordinates of the atom. This makes sense only if coordinates
 are related to the net and are not the cartesian coordinates. This method should not be called after NetToCartesian().
 */
-	double ScalProd(int h, int k, int l);
+	double ScalProd (int h, int k, int l);
 /*!
 @param a: the a parameter of the unit cell.
 @param b: the b parameter of the unit cell.
@@ -149,7 +149,7 @@ Converts the coordinates of the atom from net related ones to cartesian. Initial
 position relative to the unit cell and the coordinates must be transformed to the cartesian ones before
 displaying the atom.
 */
-	void NetToCartesian(double a, double b, double c, double alpha, double beta, double gamma);
+	void NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma);
 /*!
 @param x: the x coordinate of the center.
 @param y: the y coordinate of the center.
@@ -162,36 +162,36 @@ than for the whole crystal. If bFixed is true, all atoms are taken into account.
 
 @return the distance of the atom to the center of the view or 0 if bFixed is false and the atom cleaved. 
 */
-	double Distance(double x, double y, double z, bool bFixed);
+	double Distance (double x, double y, double z, bool bFixed);
 /*!
 @return the value of the radius (in pm).
 */
-	double r() {return m_Radius.value;}
+	double r () {return m_Radius.value;}
 /*!
 @return the GcuAtomicRadius containing the caracteristics of the atom radius.
 */
-	const GcuAtomicRadius& GetRadius() {return m_Radius;}
+	const GcuAtomicRadius& GetRadius () {return m_Radius;}
 /*!
 @param r: a GcuAtomicRadius with the caracteristics of the atom radius.
 */
-	void SetRadius(const GcuAtomicRadius& r);
+	void SetRadius (const GcuAtomicRadius& r);
 /*!
 @return true if the atom is cleaved by at least one cleavage or false if the atom is not cleaved at all.
 */
-	bool IsCleaved() {return m_nCleave != 0;}
+	bool IsCleaved () {return m_nCleave != 0;}
 /*!
 @param xml: the xmlDoc used to save the document.
 @param node: a pointer to the xmlNode to which this Atom is serialized.
 
 Saves the color and the radius of the atom.
 */
-	virtual bool SaveNode(xmlDocPtr xml, xmlNodePtr node);
+	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr node);
 /*!
 @param node: a pointer to the xmlNode containing the serialized Atom.
 
 Loads the color and the radius of the atom.
 */
-	virtual bool LoadNode(xmlNodePtr node);
+	virtual bool LoadNode (xmlNodePtr node);
 	
 protected:
 /*!

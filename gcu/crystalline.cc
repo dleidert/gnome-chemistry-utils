@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -302,29 +302,35 @@ xmlNodePtr CrystalLine::Save(xmlDocPtr xml)
 	return parent;
 }
 
-bool CrystalLine::Load(xmlNodePtr node)
+bool CrystalLine::Load (xmlNodePtr node)
 {
 	char *txt;
-	txt = (char*)xmlGetProp(node, (xmlChar*)"type");
+	txt = (char*) xmlGetProp (node, (xmlChar*) "type");
+	if (!txt)
+		return false;
 	int i = 0;
-	while (strcmp(txt, TypeName[i]) && (i < 5)) i++;
-	if (i < 5) m_nType = (CrystalLineType)i;
-	else return false;
-	if (((m_nType > 2) && ((!ReadPosition(node, "start", &m_dx, &m_dy, &m_dz)) ||
-		(!ReadPosition(node, "end", &m_dx2, &m_dy2, &m_dz2)))) ||
-		(!ReadColor(node, NULL, &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha)))
+	while (strcmp (txt, TypeName[i]) && (i < 5))
+		i++;
+	xmlFree (txt);
+	if (i < 5)
+		m_nType = (CrystalLineType) i;
+	else
+		return false;
+	if (((m_nType > 2) && ((!ReadPosition (node, "start", &m_dx, &m_dy, &m_dz)) ||
+		(!ReadPosition (node, "end", &m_dx2, &m_dy2, &m_dz2)))) ||
+		(!ReadColor (node, NULL, &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha)))
 			return false;
 	xmlNodePtr child = node->children;
-	while(child)
-	{
-		if (!strcmp((gchar*)child->name, "radius"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			sscanf(txt, "%lg", &m_dr);
+	while (child) {
+		if (!strcmp ((gchar*) child->name, "radius")) {
+			txt = (char*) xmlNodeGetContent (child);
+			sscanf (txt, "%lg", &m_dr);
+			xmlFree (txt);
 			break;
 		}
 		child = child->next;
 	}
-	if (m_dr == 0) return false;
+	if (m_dr == 0)
+		return false;
 	return true;
 }

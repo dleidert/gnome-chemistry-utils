@@ -4,9 +4,9 @@
  * Gnome Chemisty Utils
  * chemistry.h 
  *
- * Copyright (C) 2003
+ * Copyright (C) 2003-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -135,25 +135,25 @@ gcu_element_get_default_color:
 Retreives the default color used for the element.
 \return an array of three double values for the red, green and blue components of the color.
 */
-const gdouble* gcu_element_get_default_color(gint Z);
+const gdouble* gcu_element_get_default_color (gint Z);
 /*!
 gcu_element_get_symbol:
 \param Z: the atomic number of the element.
 \return the symbol of the element.
 */
-const gchar* gcu_element_get_symbol(gint Z);
+const gchar* gcu_element_get_symbol (gint Z);
 /*!
 gcu_element_get_name:
 \param Z: the atomic number of the element.
 \return the name of the element in the current locale or in english if the current locale is not supported in the database.
 */
-const gchar* gcu_element_get_name(gint Z);
+const gchar* gcu_element_get_name (gint Z);
 /*!
 gcu_element_get_Z:
 \param symbol: the symbol of the element (e.g. "C" ot "Pt").
 \return the atomic number of the element.
 */
-gint gcu_element_get_Z(gchar* symbol);
+gint gcu_element_get_Z (gchar* symbol);
 /*!
 gcu_element_get_symbol:
 \param radius: a pointer to a GcuAtomicRadius structure.
@@ -172,7 +172,7 @@ the other fields are given the corresponding values f the first match before ret
 \return TRUE if a radius has been found and FALSE if not.
 
 */
-gboolean gcu_element_get_radius(GcuAtomicRadius* radius);
+gboolean gcu_element_get_radius (GcuAtomicRadius* radius);
 /*!
 gcu_element_get_electronegativity:
 \param en: a pointer to a GcuElectronegativity structure.
@@ -186,7 +186,7 @@ the value and the scale (if NULL on calling)  are given the corresponding values
 
 \return TRUE if a match has been found and FALSE if not.
 */
-gboolean gcu_element_get_electronegativity(GcuElectronegativity* en);
+gboolean gcu_element_get_electronegativity (GcuElectronegativity* en);
 /*!
 gcu_element_get_radii:
 \param Z: the atomic number of the element.
@@ -194,7 +194,7 @@ gcu_element_get_radii:
 \return a pointer to the array of pointers to GcuAtomicRadius structures for all known radii for the element.
 Last value in the array is NULL.
 */
-const GcuAtomicRadius** gcu_element_get_radii(gint Z);
+const GcuAtomicRadius** gcu_element_get_radii (gint Z);
 /*!
 gcu_element_get_electronegativities:
 \param Z: the atomic number of the element.
@@ -202,7 +202,7 @@ gcu_element_get_electronegativities:
 \return a pointer to the array of pointers to GcuElectronegativity structures for all known electronegativities for the element.
 Last value in the array is NULL.
 */
-const GcuElectronegativity** gcu_element_get_electronegativities(gint Z);
+const GcuElectronegativity** gcu_element_get_electronegativities (gint Z);
 
 G_END_DECLS
 

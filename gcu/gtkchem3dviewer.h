@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2003-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -52,7 +52,7 @@ typedef enum
 } Display3DMode;
 
 GType gtk_display3d_get_type (void);
-#define GTK_DISPLAY_3D (gtk_display3d_get_type())
+#define GTK_DISPLAY_3D (gtk_display3d_get_type ())
 
 #define GTK_TYPE_CHEM3D_VIEWER		  (gtk_chem3d_viewer_get_type ())
 #define GTK_CHEM3D_VIEWER(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewer))

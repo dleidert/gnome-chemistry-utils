@@ -35,7 +35,6 @@ Object::Object(TypeId Id)
 	m_Type = Id;
 	m_Id = NULL;
 	m_Parent = NULL;
-	m_Menu = NULL;
 }
 
 Object::~Object()
@@ -50,7 +49,11 @@ Object::~Object()
 	{
 		i = m_Children.begin();
 		if (m_Parent) m_Parent->AddChild((*i).second);
-		else (*i).second->m_Parent = NULL;
+		else {
+			(*i).second->m_Parent = NULL;
+			delete (*i).second;
+			m_Children.erase ((*i).first);
+		}
 	}
 }
 
@@ -64,7 +67,11 @@ void Object::SetId(gchar* Id)
 		g_free(m_Id);
 	}
 	m_Id = g_strdup(Id);
-	if (m_Parent) m_Parent->AddChild(this);
+	if (m_Parent) {
+		Object *parent = m_Parent;
+		m_Parent = NULL;
+		parent->AddChild (this);
+	}
 }
 
 Object* Object::GetMolecule()
@@ -83,7 +90,7 @@ Object* Object::GetReaction()
 
 Object* Object::GetGroup()
 {
-	if (m_Parent->GetType () == DocumentType) return NULL;
+	if (!m_Parent || m_Parent->GetType () == DocumentType) return NULL;
 	Object* object = m_Parent;
 	while (object->m_Parent->GetType () != DocumentType)
 		object = object->m_Parent;
@@ -124,6 +131,10 @@ void Object::AddChild(Object* object)
 		if (o && ((pDoc != object->GetDocument()) || (object != o)))
 		{
 			gchar *buf = pDoc->GetNewId (object->m_Id);
+			 if (object->m_Parent) {
+				object->m_Parent->m_Children.erase (object->m_Id);
+				object->m_Parent = NULL;
+			}
 			g_free(object->m_Id);
 			object->m_Id = g_strdup(buf);
 			delete [] buf;
@@ -163,17 +174,23 @@ Object* Object::GetDescendant(const gchar* Id)
 	string sId = pDoc->GetTranslatedId (Id);
 	if (sId.size()) Id = sId.c_str();
 	else pDoc->EraseTranslationId(Id);
+	return RealGetDescendant (Id);
+}
+
+Object* Object::RealGetDescendant(const gchar* Id)
+{
 	Object* object = m_Children[Id];
 	if (!object)
 	{
-		m_Children.erase(Id);
+		m_Children.erase (Id);
 		map<string, Object*>::iterator i;
-		for (i = m_Children.begin(); i != m_Children.end(); i++)
-			if (object = (*i).second->GetDescendant(Id)) break;
+		for (i = m_Children.begin (); i != m_Children.end (); i++)
+			if ((*i).second->HasChildren () && (object = (*i).second->RealGetDescendant (Id)))
+				break;
 	}
 	return object;
 }
-	
+
 Object* Object::GetFirstChild(map<string, Object*>::iterator& i)
 {
 	i = m_Children.begin();
@@ -208,7 +225,7 @@ void Object::SaveId(xmlNodePtr node)
 	if (m_Id && *m_Id) xmlNewProp(node, (xmlChar*)"id", (xmlChar*)m_Id);
 }
 
-bool Object::Load(xmlNodePtr node)
+bool Object::Load (xmlNodePtr node)
 {
 	xmlChar* tmp;
 	xmlNodePtr child;
@@ -475,4 +492,50 @@ const string& Object::GetCreationLabel (TypeId Id)
 const string& Object::GetCreationLabel (const string& TypeName)
 {
 	return Types[TypeName].CreationLabel;
+}
+
+static SignalId NextSignal = 0;
+
+SignalId Object::CreateNewSignalId ()
+{
+	return NextSignal++;
+}
+
+void Object::EmitSignal (SignalId Signal)
+{
+	Object *obj = NULL;
+	Object *ancestor = this;
+	while (ancestor && ancestor->OnSignal (Signal, obj)) {
+		obj = ancestor;
+		ancestor = obj->m_Parent;
+	}
+}
+
+bool Object::OnSignal (SignalId Signal, Object *Child)
+{
+	return true;
+}
+
+Object* Object::GetFirstLink (set<Object*>::iterator& i)
+{
+	i = m_Links.begin();
+	if (i == m_Links.end()) return NULL;
+	return *i;
+}
+
+Object* Object::GetNextLink(set<Object*>::iterator& i)
+{
+	i++;
+	if (i == m_Links.end()) return NULL;
+	return *i;
+}
+
+void Object::Unlink (Object *object)
+{
+	m_Links.erase (object);
+	OnUnlink (object);
+}
+
+void Object::OnUnlink (Object *object)
+{
 }

@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2003-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -54,20 +54,7 @@
      explanation.
 */
 
-#ifdef HAVE_GTKGLAREA
-	static int attrlist[] = {
-		GDK_GL_RGBA,
-		GDK_GL_BUFFER_SIZE,1,
-		GDK_GL_RED_SIZE,1,
-		GDK_GL_GREEN_SIZE,1,
-		GDK_GL_BLUE_SIZE,1,
-		GDK_GL_DEPTH_SIZE,1,
-		GDK_GL_DOUBLEBUFFER,
-		GDK_GL_NONE
-	};
-#else
 static GdkGLConfig *glconfig = NULL;
-#endif
 
 enum {
 	PROP_0,
@@ -124,13 +111,9 @@ OBExtensionTable et;
 
 static bool on_init(GtkWidget* widget, GtkChem3DViewer *viewer) 
 {
-#ifdef HAVE_GTKGLAREA
-	if (gtk_gl_area_make_current(GTK_GL_AREA(widget)))
-#else
 	GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
 	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(widget);
 	if (gdk_gl_drawable_gl_begin(gldrawable, glcontext))
-#endif
 	{
 	    glEnable(GL_LIGHTING);
 		glEnable(GL_LIGHT0);
@@ -149,13 +132,9 @@ static bool on_init(GtkWidget* widget, GtkChem3DViewer *viewer)
 static bool on_reshape(GtkWidget* widget, GdkEventConfigure *event, GtkChem3DViewer *viewer) 
 {
 	float fAspect;
-#ifdef HAVE_GTKGLAREA
-	if (gtk_gl_area_make_current(GTK_GL_AREA(widget)))
-#else
 	GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
 	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(widget);
 	if (gdk_gl_drawable_gl_begin(gldrawable, glcontext))
-#endif
     {
 		if (widget->allocation.height)
 		{
@@ -194,13 +173,9 @@ static bool on_draw(GtkWidget *widget, GdkEventExpose *event, GtkChem3DViewer *v
 {
 	/* Draw only last expose. */
 	if (event->count > 0) return true;
-#ifdef HAVE_GTKGLAREA
-	if (gtk_gl_area_make_current(GTK_GL_AREA(widget)))
-#else
 	GdkGLContext *glcontext = gtk_widget_get_gl_context(widget);
 	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(widget);
 	if (gdk_gl_drawable_gl_begin(gldrawable, glcontext))
-#endif
     {
 		glClearColor(viewer->priv->Red, viewer->priv->Green, viewer->priv->Blue, viewer->priv->Alpha);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -214,11 +189,7 @@ static bool on_draw(GtkWidget *widget, GdkEventExpose *event, GtkChem3DViewer *v
 			glPopMatrix();
 		}
 	/* Swap backbuffer to front */
-#ifdef HAVE_GTKGLAREA
-		gtk_gl_area_swapbuffers(GTK_GL_AREA(widget));
-#else
 		gdk_gl_drawable_swap_buffers(gldrawable);
-#endif
     }
 	return true;
 }
@@ -311,7 +282,6 @@ GtkWidget* gtk_chem3d_viewer_new(gchar *uri)
 	GtkChem3DViewer* viewer = (GtkChem3DViewer*)g_object_new(GTK_TYPE_CHEM3D_VIEWER, NULL);
 	g_signal_connect(G_OBJECT(viewer), "size_allocate", GTK_SIGNAL_FUNC(on_size), NULL);
 	gtk_chem3d_viewer_set_uri (viewer, uri);
-/*	gtk_widget_show(w);*/
 	return GTK_WIDGET(viewer);
 }
 
@@ -350,9 +320,6 @@ void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
 	g_return_if_fail (GTK_IS_CHEM3D_VIEWER(viewer));
 	viewer->priv = new GtkChem3DViewerPrivate;
 	/* Create new OpenGL widget. */
-#ifdef HAVE_GTKGLAREA
-	viewer->priv->widget = GTK_WIDGET(gtk_gl_area_new(attrlist));
-#else
 	if (glconfig == NULL)
 	{
 		/* Check if OpenGL is supported. */
@@ -384,7 +351,6 @@ void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
                                 TRUE,
                                 GDK_GL_RGBA_TYPE);
 
-#endif
 
 	viewer->priv->Angle = 10;
 	viewer->priv->psi = 0.0;
@@ -436,21 +402,27 @@ void gtk_chem3d_viewer_finalize(GObject* object)
 	delete viewer->priv;
 }
 
-void gtk_chem3d_viewer_set_uri(GtkChem3DViewer * viewer, gchar *uri)
+void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, gchar *uri)
 {
-	g_return_if_fail (GTK_IS_CHEM3D_VIEWER(viewer));
-	g_return_if_fail(uri);
+	g_return_if_fail (GTK_IS_CHEM3D_VIEWER (viewer));
+	g_return_if_fail (uri);
 	GnomeVFSHandle *handle;
-	GnomeVFSFileInfo info;
-	GnomeVFSResult result = gnome_vfs_open(&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result != GNOME_VFS_OK) return;
-	gnome_vfs_get_file_info_from_handle(handle, &info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
-	gchar *buf = new gchar[info.size + 1];
+	GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
+	GnomeVFSResult result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_file_info_unref (info);
+		return;
+	}
+	gnome_vfs_get_file_info_from_handle (handle, info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
+	gchar *buf = new gchar[info->size + 1];
 	GnomeVFSFileSize n;
-	gnome_vfs_read(handle, buf, info.size, &n);
-	buf[info.size] = 0;
-	if (n == info.size) gtk_chem3d_viewer_set_data(viewer, buf, info.mime_type);
+	gnome_vfs_read (handle, buf, info->size, &n);
+	buf[info->size] = 0;
+	if (n == info->size)
+		gtk_chem3d_viewer_set_data (viewer, buf, info->mime_type);
+	gnome_vfs_file_info_unref (info);
 	delete [] buf;
+	g_free (handle);
 }
 
 void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
@@ -468,13 +440,9 @@ void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, con
 
 void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
 {
-#ifdef HAVE_GTKGLAREA
-	if (gtk_gl_area_make_current(GTK_GL_AREA(viewer->priv->widget)))
-#else
 	GdkGLContext *glcontext = gtk_widget_get_gl_context(viewer->priv->widget);
 	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(viewer->priv->widget);
 	if (gdk_gl_drawable_gl_begin(gldrawable, glcontext))
-#endif
  	{
 		if (viewer->priv->glList) glDeleteLists(viewer->priv->glList,1);
 		viewer->priv->glList = glGenLists(1);

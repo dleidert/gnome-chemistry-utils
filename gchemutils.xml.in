@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="chemical/x-xyz">
+    <_comment>Co-ordinate Animation format</_comment>
+     <glob pattern="*.xyz"/>
+  </mime-type>
+  <mime-type type="chemical/x-pdb">
+    <_comment>Protein DataBank</_comment>
+     <glob pattern="*.pdb"/>
+  </mime-type>
+  <mime-type type="chemical/x-mdl-molfile">
+    <_comment>MDL Molfile</_comment>
+     <glob pattern="*.mol"/>
+  </mime-type>
+</mime-info>

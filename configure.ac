@@ -46,15 +46,14 @@ GNOME_PRINT_REQUIRED_VERSION=2.4.0
 GNOME_VFS_REQUIRED_VERSION=2.4.0
 BONOBOUI_REQUIRED_VERSION=2.4.0
 LIBGNOMEUI_REQUIRED_VERSION=2.4.0
-
-gl_flags=
-gtkcrystalviewer="-lgtkcrystalviewer-0.3"
+SHARED_MIME_INFO_REQUIRED_VERSION=0.12
 
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
+shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtkgl="no")
 echo $have_gtkgl
 if test "$have_gtkgl" = "no"; then
@@ -62,12 +61,10 @@ PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
+shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 )
-gtkcrystalviewer=
 fi
 
-AC_SUBST(gl_flags)
-AC_SUBST(gtkcrystalviewer)
 AM_CONDITIONAL(WITH_GTKGL,test "$have_gtkgl" = "yes")
 
 dnl test if openbabel is present and chem3d can be built

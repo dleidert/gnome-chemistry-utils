@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.rg>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -45,9 +45,10 @@ using namespace std;
 namespace gcu
 {
 
-/*!\enum TypeId
+/*!\enum
 This enumeration is used to determine the type of an Object instance.
 Possible values are:
+	- NoType: invalid type
 	- AtomType: an atom
 	- FragmentType: several atoms linked and represented by a text such as COOH (only in GChemPaint).
 	- BondType: a bond between two (or more) atoms.
@@ -110,6 +111,8 @@ enum RuleId
 	RuleMustBeIn
 };
 
+typedef unsigned SignalId;
+
 class Document;
 
 /*!\class Object gcu/object.h
@@ -121,48 +124,48 @@ public:
 /*!
 Used to create an object of type Id. Shold only be called from the constructor of a derived class.
 */
-	Object(TypeId Id = OtherType);
+	Object (TypeId Id = OtherType);
 /*!
 The standard destructor of Object instances. Automatically called when the object is destroyed.
 */
-	virtual ~Object();
+	virtual ~Object ();
 	
 /*!
 @return the type of the object. If the type is at least equal to OtherType, it is a dynamically created type returned by
 the Object::AddType method.
 */
-	TypeId GetType() {return m_Type;}
+	TypeId GetType () {return m_Type;}
 /*!
 	@param Id: the id of the Object instance.
 	
 	Every object must have an Id, since searches in the document tree uses it.
 */
-	void SetId(gchar* Id);
+	void SetId (gchar* Id);
 /*!
 	@return the Id of the Object instance.
 */
-	const gchar* GetId() {return m_Id;}
+	const gchar* GetId () {return m_Id;}
 /*!
 	@param object*: the Object instance to add as a child.
 	
 	Each Object instance maintains a list of its children. If object has already a parent, it will be removed from its
 	parent children list. The new parent Object must have a Document ancestor to ensure that Ids are unique.
 */
-	void AddChild(Object* object);
+	void AddChild (Object* object);
 /*!
 	Used to get the Molecule in the Object instances ancestors. 
 	
 	@return the first Object of type MoleculeType encountered when exploring
 	the Objects tree or NULL if none is found.
 */
-	Object* GetMolecule();
+	Object* GetMolecule ();
 /*!
 	Used to get the Reaction in the Object instances ancestors. 
 	
 	@return the first Object of type ReactionType encountered when exploring
 	the Objects tree or NULL if none is found.
 */
-	Object* GetReaction();
+	Object* GetReaction ();
 /*!
 	Used to get the highest ancestor just before the document
 	in the Object instances ancestors. 
@@ -170,14 +173,14 @@ the Object::AddType method.
 	@return the last Object of type ReactionType encountered before the document when exploring
 	the Objects tree or NULL if the object's parent is the document itself.
 */
-	Object* GetGroup();
+	Object* GetGroup ();
 /*!
 	Used to get the Document in the Object instances ancestors. 
 	
 	@return the first Object of type DocumentType encountered when exploring
 	the Objects tree (only one should be found) or NULL if none is found.
 */
-	Document* GetDocument();
+	Document* GetDocument ();
 /*!
 @param Id: the type of the ancestor searched.
 
@@ -187,46 +190,46 @@ the Object::AddType method.
 	@return the first Object of type Id encountered when exploring
 	the Objects tree (only one should be found) or NULL if none is found.
 */
-	Object* GetParentOfType(TypeId Id);
+	Object* GetParentOfType (TypeId Id);
 /*!
 @param Id: the Id of the child searched.
 
 To search the Object in lower shells of the tree, use the Object::GetDescendant method.
 @return the Object instance of type Id if found in the children list or NULL if not found.
 */
-	Object* GetChild(const gchar* Id);
+	Object* GetChild (const gchar* Id);
 /*!
 @param i: a C++ std::map iterator.
 
 Use this function to retrieve the first child of the object and initialize the iterator.
 @return the first child of the object or NULL.
 */
-	Object* GetFirstChild(map<string, Object*>::iterator& i);
+	Object* GetFirstChild (map<string, Object*>::iterator& i);
 /*!
 @param i: a C++ std::map iterator initialized by Object::GetFirstChild.
 
 Use this method to iterate through the list of the Object children.
 @return the next child of the object or NULL.
 */
-	Object* GetNextChild(map<string, Object*>::iterator& i);
+	Object* GetNextChild (map<string, Object*>::iterator& i);
 /*!
 @param Id: the Id of the descendant searched.
 
 This method searches the Object in its children and if not found calls the GetDescendant method for its children. 
 @return the Object instance of type Id if found in the decendants or NULL if not found.
 */
-	Object* GetDescendant(const gchar* Id);
+	Object* GetDescendant (const gchar* Id);
 /*!
 @return the parent of the Object.
 */
-	Object* GetParent() {return m_Parent;}
+	Object* GetParent () {return m_Parent;}
 /*!
 @param Parent: the new parent of the Object or NULL.
 	
 	When Parent is not NULL, this is equivalent to \code Parent->AddChild(this);\endcode
 	Otherwise, it removes the Object from the Document tree.
 */
-	void SetParent(Object* Parent);
+	void SetParent (Object* Parent);
 /*!
 	@param xml: the xmlDoc used to save the document.
 	
@@ -235,7 +238,7 @@ This method searches the Object in its children and if not found calls the GetDe
 	corresponding type used as first parameter to the Object::AddType method. The
 	default method just saves the id and children.
 */
-	virtual xmlNodePtr Save(xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml);
 /*!
 @param node: a pointer to the xmlNode containing the serialized object.
 
@@ -252,7 +255,7 @@ Example: \code
 
 @return true on succes, false otherwise.
 */
-	virtual bool Load(xmlNodePtr node);
+	virtual bool Load (xmlNodePtr node);
 /*!
 @param x: the x component of the transation vector.
 @param y: the y component of the transation vector.
@@ -261,7 +264,7 @@ Example: \code
 Used to move an object. This virtual method should most often be overrided by Object derived classes for which it makes sense.
 The base Object class has no coordinates and the default method only loads its id and children.
 */
-	virtual void Move(double x, double y, double z = 0.);
+	virtual void Move (double x, double y, double z = 0.);
 /*!
 @param m: the 2D Matrix of the transformation.
 @param x: the x component of the center of the transformation.
@@ -272,7 +275,7 @@ This virtual method must be overrided by Object derived classes for which it mak
 The base Object class has no coordinates and the default method calls the corresponding method
 for every child.
 */
-	virtual void Transform2D(Matrix2D& m, double x, double y);
+	virtual void Transform2D (Matrix2D& m, double x, double y);
 /*!
 @param xml: the xmlDoc used to save the document.
 @param node: the node representing the Object.
@@ -281,13 +284,13 @@ This method calls Object::Save fo each child of the Object instance and add the 
 It might be called from the Save method of objects having serializable children.
 @return true on succes, false otherwise.
 */
-	bool SaveChildren(xmlDocPtr xml, xmlNodePtr node);
+	bool SaveChildren (xmlDocPtr xml, xmlNodePtr node);
 /*!
 @param node: the node representing the Object.
 
 This helper method saves the Id of the node as a property of the xmlNode.
 */
-	void SaveId(xmlNodePtr node);
+	void SaveId (xmlNodePtr node);
 /*!
 @param node: the node where the search is to be done.
 @param Property: the name of the property used in the search.
@@ -298,7 +301,7 @@ whose value is Id in the children of node.
 
 @return the node corresponding to the first match. This value is to be passed to Object::GetNextNodeByProp to iterate in the list
 */
-	xmlNodePtr GetNodeByProp(xmlNodePtr node, char* Property, char* Id);
+	xmlNodePtr GetNodeByProp (xmlNodePtr node, char* Property, char* Id);
 /*!
 @param node: the xmlNodePtr returned by Object::GetNodeByProp or the last call to Object::GetNextNodeByProp.
 @param Property: the name of the property used in the search.
@@ -308,7 +311,7 @@ Helper method used to iterate through a list of xmlNodePtr searching for a speci
 Generally, the iteration is initialized by a call to Object::GetNodeByProp.
 @return the next matching node.
 */
-	xmlNodePtr GetNextNodeByProp(xmlNodePtr node, char* Property, char* Id);
+	xmlNodePtr GetNextNodeByProp (xmlNodePtr node, char* Property, char* Id);
 /*!
 @param node: the node where the search is to be done.
 @param Name: the name of the xmlNode searched.
@@ -318,7 +321,7 @@ in the children of node.
 
 @return the node corresponding to the first match. This value is to be passed to Object::GetNextNodeByName to iterate in the list.
 */
-	xmlNodePtr GetNodeByName(xmlNodePtr node, char* Name);
+	xmlNodePtr GetNodeByName (xmlNodePtr node, char* Name);
 /*!
 @param node: the xmlNodePtr returned by Object::GetNodeByName or the last call to Object::GetNextNodeByName.
 @param Name: the name of the xmlNode searched.
@@ -327,27 +330,27 @@ Helper method used to iterate through a list of xmlNodePtr searching for nodes w
 Generally, the iteration is initialized by a call to Object::GetNodeByName.
 @return the next matching node.
 */
-	xmlNodePtr GetNextNodeByName(xmlNodePtr node, char* Name);
+	xmlNodePtr GetNextNodeByName (xmlNodePtr node, char* Name);
 /*!
 @param w: the GtkWidget inside which the Object will be displayed.
 
 Used to add a representation of the Object in the widget. This method might be overrided for displayable Object classes
 unless the application uses another mechanism.
 */
-	virtual void Add(GtkWidget* w);
+	virtual void Add (GtkWidget* w);
 /*!
 @param pc: the GnomePrintContext to which the document is printed.
 
 This method might be used to print a document from an application using the Gnome Chemistry Utils.
 */
-	virtual void Print(GnomePrintContext *pc);
+	virtual void Print (GnomePrintContext *pc);
 /*!
 @param w: the GtkWidget inside which the Object is displayed.
 
 Used to update the representation of the Object in the widget. This method might be overrided for displayable Object classes
 unless the application uses another mechanism.
 */
-	virtual void Update(GtkWidget* w);
+	virtual void Update (GtkWidget* w);
 /*!
 @param w: the GtkWidget inside which the Object is displayed.
 @param state: the selection state of the Object.
@@ -355,11 +358,16 @@ unless the application uses another mechanism.
 Used to set the selection state of the Object inside the widget. The values of state are application dependant and have no
 default value.
 */
-	virtual void SetSelected(GtkWidget* w, int state);
+	virtual void SetSelected (GtkWidget* w, int state);
 /*!
 @return true if the Object has at least a child an false if it has none.
 */
-	bool HasChildren() {return m_Children.size() != 0;}
+	bool HasChildren () {return m_Children.size () != 0;}
+
+/*!
+@return the children number of the Object.
+*/
+	unsigned GetChildrenNumber () {return m_Children.size ();}
 
 /*!
 @param x: the x coordinate
@@ -369,7 +377,7 @@ default value.
 @return a pointer to a child of type Atomtype at or near position defined by the coordinates
 passed as parameters. Default implementation returns NULL.
 */
-	virtual Object* GetAtomAt(double x, double y, double z = 0.);
+	virtual Object* GetAtomAt (double x, double y, double z = 0.);
 
 /*!
 @param Children: the list of objects used as children to build the object
@@ -387,6 +395,68 @@ every derived class for which alignment has a meaning should implement this meth
 	virtual double GetYAlign ();
 
 /*!
+@param UIManager: the GtkUI%anager to populate.
+
+This method is called to build a contextual menu for the object. It is called by Object::ShowContextualMenu, so
+it should not be necessary to call it directly. It should be overrided by derived classes when a contextual menu
+is needed. Typically, each class adds a submenu and calls the same method for its parent.
+Default implementation just calls the parent's method.
+@return true if something is added to the UIManager, false otherwise.
+*/
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager);
+
+/*!
+@param Signal: the appropriate SignalId
+
+Sends a signal to the object parent. The signal may be propagated to the ancestors (see
+Object::OnSignal ()).
+*/
+	void EmitSignal (SignalId Signal);
+
+/*!
+@param Signal: the appropriate SignalId
+@param Child: the child which emitted the signal or NULL
+
+This function is called by the framework when a signal has been emitted for the object.
+It should not be called by a program; call Object::EmitSignal instead.
+
+@return true if the signal should be propagated to the parent, false otherwise.
+*/
+	virtual bool OnSignal (SignalId Signal, Object *Child);
+
+/*!
+@param i: a C++ std::set<Object*> iterator.
+
+Use this function to retrieve the first object linked to the object and initialize the iterator.
+Links can be used when the relation between the objects is not a parent to child one.
+@return the first object linked to the object or NULL.
+*/
+	Object* GetFirstLink (set<Object*>::iterator& i);
+
+/*!
+@param i: a C++ std::set<Object*> iterator initialized by Object::GetFirstLink.
+
+Use this method to iterate through the list of Object instances linked to the object.
+@return the next object linked to the object or NULL.
+*/
+	Object* GetNextLink (set<Object*>::iterator& i);
+
+/*!
+@param object: the object to unlink.
+
+Unlinks object and calls Object::OnUnlink.
+*/
+	void Unlink (Object *object);
+
+/*!
+@param object: the object just unlinked by Object::Unlink.
+
+Virtual method called when an object hs been unlinked. Programs should not call it
+directly, but should call Object::OnUnlink instead.
+*/
+	virtual void OnUnlink (Object *object);
+
+/*!
 @param types: the list of TypeId values to fill
 
 Fills types with all valid ancestor types for the object as defined by rules created with AddRule
@@ -402,7 +472,7 @@ can be omitted.
 This method is used to register a new type derived from Object.
 @return the Id of the new type.
 */
-	static TypeId AddType(string TypeName, Object*(*CreateFunc)(), TypeId id = OtherType);
+	static TypeId AddType (string TypeName, Object*(*CreateFunc)(), TypeId id = OtherType);
 
 /*!
 @param TypeName: the name of the new type.
@@ -414,7 +484,7 @@ It will also be given a default Id.
 
 @return a pointer to the newly created Object or NULL if the Object could not be created.
 */
-	static Object* CreateObject(const string& TypeName, Object* parent = NULL);
+	static Object* CreateObject (const string& TypeName, Object* parent = NULL);
 
 /*!
 @param Name: the name of the Object derived class
@@ -488,22 +558,19 @@ the class seems possible.
 	static const string& GetCreationLabel (const string& TypeName);
 
 /*!
-@param UIManager: the GtkUI%anager to populate.
-
-This method is called to build a contextual menu for the object. It is called by Object::ShowContextualMenu, so
-it should not be necessary to call it directly. It should be overrided by derived classes when a contextual menu
-is needed. Typically, each class adds a submenu and calls the same method for its parent.
-Default implementation just calls the parent's method.
-@return true if something is added to the UIManager, false otherwise.
+@return a new SignalId.
 */
-	virtual bool BuildContextualMenu(GtkUIManager *UIManager);
+	static SignalId CreateNewSignalId ();
+
+private:
+	Object* RealGetDescendant (const gchar* Id);
 
 private:
 	gchar* m_Id;
 	TypeId m_Type;
 	Object *m_Parent;
 	map<string, Object*> m_Children; //string is Id of object, so each object must have an Id
-	GtkMenu* m_Menu;
+	set<Object*> m_Links; //objects linked to this but outside of the hierarchy
 };
 
 }

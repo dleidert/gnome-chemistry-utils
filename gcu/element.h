@@ -4,9 +4,9 @@
  * Gnome Chemistry Utils
  * element.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -58,15 +58,15 @@ private:
 
 	This constructor is private and cannot be used ouside of this class.
 	*/
-	Element(int Z, const char* Symbol);
-	virtual ~Element();
+	Element (int Z, const char* Symbol);
+	virtual ~Element ();
 
 public:
 	/*!
 	@param Z: the atomic number of a chemical element.
 	@return The chemical symbol of the element whose atomic number is Z or NULL if the element is unknown.
 	*/
-	static const gchar* Symbol(gint Z);
+	static const gchar* Symbol (gint Z);
 	/*!
 	@param Z: the atomic number of a chemical element.
 
@@ -74,22 +74,22 @@ public:
 	attached hydrogens should be written.
 	@return true if hydrogens should be written on the right and false when it should be written on the left side.
 	*/
-	static bool BestSide(gint Z);
+	static bool BestSide (gint Z);
 	/*!
 	@param symbol: the symbol of a chemical element.
 	@return The atomic number of the element whose chemical symbol is used as parameter or 0 if the element is unknown.
 	*/
-	static gint Z(const gchar* symbol);
+	static gint Z (const gchar* symbol);
 	/*!
 	@param Z: the atomic number of a chemical element.
 	@return a pointer to the Element whose atomic number is Z or NULL if the element is unknown.
 	*/
-	static Element* GetElement(gint Z);
+	static Element* GetElement (gint Z);
 	/*!
 	@param symbol: the symbol of a chemical element.
 	@return a pointer to the Element whose symbol is used as parameter or NULL if the element is unknown.
 	*/
-	static Element* GetElement(const gchar* symbol);
+	static Element* GetElement (const gchar* symbol);
 	/*!
 	@param radius: a pointer to a GcuAtomicRadius structure.
 	
@@ -106,7 +106,7 @@ public:
 	
 	@return true if a radius has been found and false if not.
 	*/
-	static bool GetRadius(GcuAtomicRadius* radius);
+	static bool GetRadius (GcuAtomicRadius* radius);
 	/*!
 	@param en: a pointer to a GcuElectronegativity structure.
 	
@@ -119,7 +119,7 @@ public:
 
 	@return true if a match has been found and false if not.
 	*/
-	static bool GetElectronegativity(GcuElectronegativity* en);
+	static bool GetElectronegativity (GcuElectronegativity* en);
 	/*!
 	@param Z: the atomic number of a chemical element.
 	
@@ -127,55 +127,69 @@ public:
 	accept any number of bonds. This behavior might change in future versions.
 	@return the maximum number of bonds an atom of the element can be involved in.
 	*/
-	static unsigned GetMaxBonds(gint Z);
+	static unsigned GetMaxBonds (gint Z);
 
 	/*!
 	\return The atomic number of the chemical element.
 	*/
-	int GetZ() {return m_Z;}
+	int GetZ () {return m_Z;}
 	/*!
 	\return The chemical symbol of the element.
 	*/
-	const char* GetSymbol() {return m_Symbol;}
+	const char* GetSymbol () {return m_Symbol;}
 	/*!
 	\return The default valence of the element for some elements, mainly non metals. For others, the returned value is -1
 	and should not be taken into account.
 	*/
-	char GetDefaultValence() {return m_DefaultValence;}
+	char GetDefaultValence () {return m_DefaultValence;}
 	/*!
 	The value returned by this method might be too low in some cases and is only indicative. Instances of the Atom class
 	accept any number of bonds. This behavior might change in future versions.
 	@return the maximum number of bonds an atom of the element can be involved in.
 	*/
-	unsigned GetMaxBonds() {return m_MaxBonds;}
+	unsigned GetMaxBonds () {return m_MaxBonds;}
 	/*!
 	This static method is used to know on what side of the symbol of the element
 	attached hydrogens should be written.
 	@return true if hydrogens should be written on the right and false when it should be written on the left side.
 	*/
-	bool GetBestSide() {return m_BestSide;}
+	bool GetBestSide () {return m_BestSide;}
 	/*!
 	Retreives the default color used for the element.
 	@return an array of three double values for the red, green and blue components of the color.
 	*/
-	double* GetDefaultColor() {return m_DefaultColor;}
+	double* GetDefaultColor () {return m_DefaultColor;}
 	/*!
 	@return the name of the element in the current locale or in english if the current locale is not supported in the database.
 	*/
-	const char* GetName() {return name.c_str();}
+	const char* GetName () {return name.c_str();}
 	/*!
 	@return a pointer to the array of pointers to GcuAtomicRadius structures for all known radii for the element.
 	Last value in the array is NULL.
 	*/
-	const GcuAtomicRadius** GetRadii();
+	const GcuAtomicRadius** GetRadii ();
 	/*!
 	@return a pointer to the array of pointers to GcuElectronegativity structures for all known electronegativities for the element.
 	Last value in the array is NULL.
 	*/
-	const GcuElectronegativity** GetElectronegativities();
+	const GcuElectronegativity** GetElectronegativities ();
+	/*!
+	@return the number of valence electrons of the neutral atom.
+	*/
+	unsigned GetValenceElectrons () {return m_nve;}
+	/*!
+	@return the number of valence electrons of the neutral atom,
+	including d and f electrons.
+	*/
+	unsigned GetTotalValenceElectrons () {return m_tve;}
+	/*!
+	@return the maximume number of valence electrons of the neutral atom,
+	including d and f electrons.
+	*/
+	unsigned GetMaxValenceElectrons () {return m_maxve;}
 	
 private:
-	unsigned char m_Z;
+	unsigned char m_Z, m_nve, m_tve, m_maxve;
 	char m_Symbol[4];
 	char m_DefaultValence;
 	unsigned char m_MaxBonds;

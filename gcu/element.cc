@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -59,123 +59,152 @@ EltTable Table;
 
 EltTable::EltTable()
 {
-	bindtextdomain(GETTEXT_PACKAGE, DATADIR"/locale");
+	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
 #ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
 	xmlDocPtr xml;
 	char* DefaultName;
-	char *lang = getenv("LANG");
+	char *lang = getenv ("LANG");
 	char *old_num_locale, *tmp, *num;
 	unsigned char Z;
-	if (!(xml = xmlParseFile(DATADIR"/gchemutils/elements.xml")))
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils/elements.xml")))
 	{
-		g_error(_("Can't find and read elements.xml"));
+		g_error (_("Can't find and read elements.xml"));
 	}
-	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-	setlocale(LC_NUMERIC, "C");
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp((const char*)node->name, "gpdata")) g_error(_("Uncorrect file format: elements.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: elements.xml"));
 	node = node->children;
 	Element* Elt;
 	while (node)
 	{
-		if (strcmp((const char*)node->name, "text"))
+		if (strcmp ((const char*) node->name, "text"))
 		{
-			if (strcmp((const char*)node->name, "element")) g_error(_("Uncorrect file format: elements.xml"));
-			tmp = (char*) xmlGetProp(node, (xmlChar*)"symbol");
-			num = (char*) xmlGetProp(node, (xmlChar*)"Z");
-			Elt = new Element(Z = atoi(num), tmp);
-			num = (char*) xmlGetProp(node, (xmlChar*)"max_bonds");
-			Elt->m_MaxBonds = atoi(num);
+			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: elements.xml"));
+			tmp = (char*) xmlGetProp (node, (xmlChar*) "symbol");
+			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
+			Elt = new Element (Z = atoi (num), tmp);
+			xmlFree (num);
+			xmlFree (tmp);
+			num = (char*) xmlGetProp (node, (xmlChar*) "max_bonds");
+			Elt->m_MaxBonds = atoi (num);
+			xmlFree (num);
 			child = node->children;
 			DefaultName = NULL;
 			while (child)
 			{
-				if (!strcmp((const char*)child->name, "text"))
-				{
+				if (!strcmp ((const char*) child->name, "text")) {
 					child = child->next;
 					continue;
 				}
-				if (!strcmp((const char*)child->name, "name"))
-				{
-					tmp = (char*) xmlNodeGetLang(child);
-					if ((tmp) && (lang) && (!strncmp(lang, tmp, 2))) Elt->name = (char*) xmlNodeGetContent(child);
-					else if (!tmp) DefaultName = (char*) xmlNodeGetContent(child);
-				}
-				else if (!strcmp((const char*)child->name, "color"))
-				{
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"red");
-					if (tmp) Elt->m_DefaultColor[0] = strtod(tmp, NULL);
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"green");
-					if (tmp) Elt->m_DefaultColor[1] = strtod(tmp, NULL);
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"blue");
-					if (tmp) Elt->m_DefaultColor[2] = strtod(tmp, NULL);
-				}
-				else if (!strcmp((const char*)child->name, "electronegativity"))
-				{
+				if (!strcmp((const char*)child->name, "name")) {
+					tmp = (char*) xmlNodeGetLang (child);
+					if ((tmp) && (lang) && (!strncmp (lang, tmp, 2))) {
+						xmlFree (tmp);
+						tmp = (char*) xmlNodeGetContent (child);
+						Elt->name = tmp;
+						xmlFree (tmp);
+					} else if (!tmp)
+						DefaultName = (char*) xmlNodeGetContent (child);
+					else
+						xmlFree (tmp);
+				} else if (!strcmp ((const char*) child->name, "color")) {
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "red");
+					if (tmp) {
+						Elt->m_DefaultColor[0] = strtod (tmp, NULL);
+						xmlFree (tmp);
+					}
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "green");
+					if (tmp) {
+						Elt->m_DefaultColor[1] = strtod (tmp, NULL);
+						xmlFree (tmp);
+					}
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "blue");
+					if (tmp) {
+						Elt->m_DefaultColor[2] = strtod (tmp, NULL);
+						xmlFree (tmp);
+					}
+				} else if (!strcmp ((const char*) child->name, "electronegativity")) {
 					GcuElectronegativity* en = new GcuElectronegativity;
 					en->Z = Z;	//FIXME: is it really useful there?
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"scale");
-					if (tmp) en->scale = g_strdup(tmp);
-					else en->scale = NULL;
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"value");
-					if (tmp)
-					{
-						en->value = strtod(tmp, NULL);
-						Elt->m_en.push_back(en);
-					}
-					else delete en;	//without a value, the structure is useless and is discarded
-				}
-				else if (!strcmp((const char*)child->name, "radius"))
-				{
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "scale");
+					if (tmp) {
+						en->scale = g_strdup (tmp);
+						xmlFree (tmp);
+					} else
+						en->scale = NULL;
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
+					if (tmp) {
+						en->value = strtod (tmp, NULL);
+						Elt->m_en.push_back (en);
+						xmlFree (tmp);
+					} else
+						delete en;	//without a value, the structure is useless and is discarded
+				} else if (!strcmp ((const char*) child->name, "radius")) {
 					GcuAtomicRadius* radius = new GcuAtomicRadius;
 					radius->Z = Z;	//FIXME: is it really useful there?
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"type");
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "type");
 					if (!tmp ||
-						((!((!strcmp(tmp, "covalent")) && (radius->type = GCU_COVALENT))) &&
-						(!((!strcmp(tmp, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
-						(!((!strcmp(tmp, "ionic")) && (radius->type = GCU_IONIC))) &&
-						(!((!strcmp(tmp, "metallic")) && (radius->type = GCU_METALLIC))) &&
-						(!((!strcmp(tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true)))))
-					{	//invalid radius
+						((!((!strcmp (tmp, "covalent")) && (radius->type = GCU_COVALENT))) &&
+						(!((!strcmp (tmp, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
+						(!((!strcmp (tmp, "ionic")) && (radius->type = GCU_IONIC))) &&
+						(!((!strcmp (tmp, "metallic")) && (radius->type = GCU_METALLIC))) &&
+						(!((!strcmp (tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true))))) {
+						//invalid radius
 						delete radius;
+						if (tmp)
+							xmlFree (tmp);
 						continue;
 					}
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"scale");
-					if (tmp) radius->scale = g_strdup(tmp);
-					else radius->scale = NULL;
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"charge");
-					if (tmp) radius->charge = strtol(tmp, NULL, 10);
-					else radius->charge = 0;
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"cn");
-					if (tmp) radius->cn = strtol(tmp, NULL, 10);
-					else radius->cn = -1;
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"spin");
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "scale");
+					if (tmp) {
+						radius->scale = g_strdup (tmp);
+						xmlFree (tmp);
+					} else
+						radius->scale = NULL;
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "charge");
+					if (tmp) {
+						radius->charge = strtol (tmp, NULL, 10);
+						xmlFree (tmp);
+					} else
+						radius->charge = 0;
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "cn");
+					if (tmp) {
+						radius->cn = strtol (tmp, NULL, 10);
+						xmlFree (tmp);
+					} else
+						radius->cn = -1;
+					tmp = (char*) xmlGetProp (child, (xmlChar*)"spin");
 					if ((!tmp) ||
-						(!((!strcmp(tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
-						(!((!strcmp(tmp, "high")) && (radius->spin = GCU_HIGH_SPIN))))
-					radius->spin = GCU_N_A_SPIN;
-					tmp = (char*) xmlGetProp(child, (xmlChar*)"value");
+						(!((!strcmp (tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
+						(!((!strcmp (tmp, "high")) && (radius->spin = GCU_HIGH_SPIN))))
+						radius->spin = GCU_N_A_SPIN;
 					if (tmp)
-					{
-						radius->value = strtod(tmp, NULL);
-						Elt->m_radii.push_back(radius);
-					}
-					else delete radius;
+						xmlFree (tmp);
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
+					if (tmp) {
+						radius->value = strtod (tmp, NULL);
+						Elt->m_radii.push_back (radius);
+						xmlFree (tmp);
+					} else
+						delete radius;
 				}
 				child = child->next;
 			}
-			if ((Elt->name.length() == 0) && DefaultName) Elt->name = DefaultName;
-			Elt->m_en.push_back(NULL);
-			Elt->m_radii.push_back(NULL);
-			AddElement(Elt);
+			if ((Elt->name.length () == 0) && DefaultName) Elt->name = DefaultName;
+			if (DefaultName)
+				xmlFree (DefaultName);
+			Elt->m_en.push_back (NULL);
+			Elt->m_radii.push_back (NULL);
+			AddElement (Elt);
 		}
 		node = node->next;
 	}
-	setlocale(LC_NUMERIC, old_num_locale);
-	g_free(old_num_locale);
-	xmlFreeDoc(xml);
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+	xmlFreeDoc (xml);
 }
 
 EltTable::~EltTable()
@@ -252,6 +281,52 @@ Element::Element(int Z, const char* Symbol)
 			m_DefaultValence = -1;
 	}
 	m_DefaultColor[0] = m_DefaultColor[1] = m_DefaultColor[2] = 0.0;
+	if (m_Z <= 2) {
+		m_nve = m_tve = m_Z;
+		m_maxve = 2;
+	} else if (m_Z <= 10) {
+		m_nve = m_tve = m_Z - 2;
+		m_maxve = 8;
+	} else if (m_Z <= 18) {
+		m_nve = m_tve = m_Z - 10;
+		m_maxve = 8;
+	} else if (m_Z <= 29) {
+		m_nve = m_tve = m_Z - 18;
+		m_maxve = 18;
+	} else if (m_Z <= 36) {
+		m_tve = m_Z - 18;
+		m_nve = m_tve - 10;
+		m_maxve = 18;
+	} else if (m_Z <= 47) {
+		m_nve = m_tve = m_Z - 36;
+		m_maxve = 18;
+	} else if (m_Z <= 54) {
+		m_tve = m_Z - 36;
+		m_nve = m_tve - 10;
+		m_maxve = 18;
+	} else if (m_Z <= 70) {
+		m_nve = m_tve = m_Z - 54;
+		m_maxve = 32;
+	} else if (m_Z <= 79) {
+		m_tve = m_Z - 54;
+		m_nve = m_tve - 14;
+		m_maxve = 32;
+	} else if (m_Z <= 86) {
+		m_tve = m_Z - 54;
+		m_nve = m_tve - 24;
+		m_maxve = 32;
+	} else if (m_Z <= 102) {
+		m_nve = m_tve = m_Z - 86;
+		m_maxve = 32;
+	} else if (m_Z <= 111) {
+		m_tve = m_Z - 86;
+		m_nve = m_tve - 14;
+		m_maxve = 32;
+	} else { // Assume m_Z <= 118
+		m_tve = m_Z - 86;
+		m_nve = m_tve - 24;
+		m_maxve = 32;
+	}
 }
 
 Element::~Element()

@@ -2,9 +2,9 @@
  * Gnome Chemisty Utils
  * gtkcrystalviewer.c 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -103,10 +103,11 @@ GtkWidget* gtk_crystal_viewer_new(xmlNodePtr node)
 	return GTK_WIDGET(viewer);
 }
 
-void gtk_crystal_viewer_finalize(GObject* object)
+void gtk_crystal_viewer_finalize (GObject* object)
 {
-	((GObjectClass*)parent_class)->finalize(object);
-	GtkCrystalViewer* viewer = GTK_CRYSTAL_VIEWER(object);
+	((GObjectClass*) parent_class)->finalize (object);
+	GtkCrystalViewer* viewer = GTK_CRYSTAL_VIEWER (object);
+	delete viewer->priv->pView;
 	delete viewer->priv->pDoc;
 	delete viewer->priv;
 }

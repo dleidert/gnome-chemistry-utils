@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -46,7 +46,7 @@ When id is not NULL, the searched node should be unique.
 
 @return the matching node or NULL.
 */
-xmlNodePtr FindNodeByNameAndId(xmlNodePtr node, const char* name, const char* id = NULL);
+xmlNodePtr FindNodeByNameAndId (xmlNodePtr node, const char* name, const char* id = NULL);
 
 /*!
 @param node: a pointer to the xmlNode representing an Object instance.
@@ -61,7 +61,7 @@ executes the inverse operation. If id is NULL, a position with no id property wi
 
 @return true on success and false on failure.
 */
-bool ReadPosition(xmlNodePtr node, const char* id, double* x, double* y, double* z = NULL);
+bool ReadPosition (xmlNodePtr node, const char* id, double* x, double* y, double* z = NULL);
 /*!WritePosition
 @param xml: a pointer to the xmlDoc used to serialize the document.
 @param node: a pointer to the xmlNode representing an Object instance.
@@ -75,7 +75,7 @@ Save a position as an XML node added to the children of node. This position can 
 
 @return true on success and false on failure.
 */
-bool WritePosition(xmlDocPtr xml, xmlNodePtr node, const char* id, double x, double y, double z = 0.0);
+bool WritePosition (xmlDocPtr xml, xmlNodePtr node, const char* id, double x, double y, double z = 0.0);
 
 /*!
 @param node: a pointer to the xmlNode representing an Object instance.
@@ -90,7 +90,7 @@ executes the inverse operation. If id is NULL, a color with no id property will 
 
 @return true on success and false on failure.
 */
-bool ReadColor(xmlNodePtr node, const char* id, float* red, float* green, float* blue, float* alpha = NULL);
+bool ReadColor (xmlNodePtr node, const char* id, float* red, float* green, float* blue, float* alpha = NULL);
 /*!
 @param xml: a pointer to the xmlDoc used to serialize the document.
 @param node: a pointer to the xmlNode representing an Object instance.
@@ -105,7 +105,7 @@ Save a color as an XML node added to the children of node. This color can then b
 
 @return true on success and false on failure.
 */
-bool WriteColor(xmlDocPtr xml, xmlNodePtr node, const char* id, double red, double green, double blue, double alpha = 1.0);
+bool WriteColor (xmlDocPtr xml, xmlNodePtr node, const char* id, double red, double green, double blue, double alpha = 1.0);
 
 /*!
 @param node: a pointer to the xmlNode representing an Object instance.
@@ -116,7 +116,7 @@ structure with the data parsed.
 
 @return true on success and false on failure.
 */
-bool ReadRadius(xmlNodePtr node, GcuAtomicRadius& radius);
+bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius);
 /*!
 @param xml: a pointer to the xmlDoc used to serialize the document.
 @param node: a pointer to the xmlNode representing an Object instance.
@@ -126,5 +126,5 @@ Save a radius as an XML node added to the children of node. This radius can then
 
 @return true on success and false on failure.
 */
-bool WriteRadius(xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius);
+bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius);
 #endif	// GCU_XML_UTILS_H

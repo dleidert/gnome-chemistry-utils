@@ -1,3 +1,10 @@
+Version 0.3.1
+	Object class has been extended with new functionalities (signals and links), and
+	Object contextual menu now uses GtkAction based menus.
+	Several bugs and memory leaks have been fixed.
+	Support has been added for shared mime info but
+	mime types tree will be polluted with chemical/* types.
+
 Version 0.3.0
 	The libraries have been merged into one.
 	A new Document class.

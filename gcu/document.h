@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -43,11 +43,11 @@ public:
 /*!
 The default constructor. Creates an empty document.
 */
-	Document();
+	Document ();
 /*!
 The destructor of Document.
 */
-	virtual ~Document();
+	virtual ~Document ();
 
 public:
 

@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2001-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -99,38 +99,51 @@ xmlNodePtr Bond::Save(xmlDocPtr xml)
 	return parent;
 }
 
-bool Bond::Load(xmlNodePtr node)
+bool Bond::Load (xmlNodePtr node)
 {
 	char* tmp;
 	xmlNodePtr child;
 	Object* pObject;
-	tmp = (char*)xmlGetProp(node, (xmlChar*)"id");
-	if (tmp) SetId(tmp);
-	tmp = (char*)xmlGetProp(node, (xmlChar*)"order");
+	tmp = (char*) xmlGetProp (node, (xmlChar*) "id");
+	if (tmp) {
+		SetId (tmp);
+		xmlFree (tmp);
+	}
+	tmp = (char*) xmlGetProp (node, (xmlChar*) "order");
 	if (!tmp) m_order = 1;
-	else m_order = *tmp - '0';
-	if ((m_order < 1) || (m_order > 4)) return false;
-	tmp = (char*)xmlGetProp(node, (xmlChar*)"begin");
-	if (!tmp)
-	{
+	else {
+		m_order = *tmp - '0';
+		xmlFree (tmp);
+	}
+	if (m_order > 4)
+		return false;
+	tmp = (char*) xmlGetProp (node, (xmlChar*) "begin");
+	if (!tmp) {
 		child = GetNodeByName(node, "begin");
-		tmp = (char*)xmlNodeGetContent(child); //necessary to read version 0.1.0 files
+		tmp = (char*) xmlNodeGetContent(child); //necessary to read version 0.1.0 files
+		if (!tmp)
+			return false;
 	}
-	pObject = GetParent()->GetDescendant(tmp);
-	if (!pObject || (pObject->GetType() != AtomType)) return false;
+	pObject = GetParent ()->GetDescendant (tmp);
+	xmlFree (tmp);
+	if (!pObject || (pObject->GetType () != AtomType))
+		return false;
 	m_Begin = (Atom*)(pObject);
-	tmp = (char*)xmlGetProp(node, (xmlChar*)"end");
-	if (!tmp)
-	{
-		child = GetNodeByName(node, "end");
-		tmp = (char*)xmlNodeGetContent(child); //necessary to read version 0.1.0 files
+	tmp = (char*) xmlGetProp (node, (xmlChar*) "end");
+	if (!tmp) {
+		child = GetNodeByName (node, "end");
+		tmp = (char*) xmlNodeGetContent (child); //necessary to read version 0.1.0 files
+		if (!tmp)
+			return false;
 	}
-	pObject = GetParent()->GetDescendant(tmp);
-	if (!pObject || (pObject->GetType() != AtomType)) return false;
+	pObject = GetParent ()->GetDescendant (tmp);
+	xmlFree (tmp);
+	if (!pObject || (pObject->GetType() != AtomType))
+		return false;
 	m_End = (Atom*)pObject;
-	m_Begin->AddBond(this);
-	m_End->AddBond(this);
-	return LoadNode(node);
+	m_Begin->AddBond (this);
+	m_End->AddBond (this);
+	return LoadNode (node);
 }
 
 bool Bond::LoadNode(xmlNodePtr)

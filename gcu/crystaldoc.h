@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -72,7 +72,8 @@ enum gcLattices {cubic=0,
 				 rhombohedral,
 				 monoclinic,
 				 base_centered_monoclinic,
-				 triclinic};
+				 triclinic
+};
 
 /*!\class CrystalDoc gcu/crystaldoc.h
 The document containing the crystal structure.
@@ -83,11 +84,11 @@ public:
 /*!
 The constructor of CrystalDoc
 */
-	CrystalDoc();
+	CrystalDoc ();
 /*!
 The destructor of CrystalDoc
 */
-	virtual ~CrystalDoc();
+	virtual ~CrystalDoc ();
 
 /*!
 @param xml: a pointer to the root xmlNode of the xmlDoc containing the definition of the crystal.
@@ -99,90 +100,90 @@ xmlDocPtr doc = xmlParseFile(filename);
 crystal->ParseXMLTree(doc->children);
 \endcode
 */
-	void ParseXMLTree(xmlNode* xml);
+	void ParseXMLTree (xmlNode* xml);
 /*!
 This method must be called when a new document is loaded or when the definition of the crystal is changed. It recalculates
 everything and updates all the views.
 */
-	void Update();
+	void Update ();
 /*!
 @return a pointer to the first CrystalView of the document. The view will be created if it does not already exist.
 */
-	CrystalView* GetView();
+	CrystalView* GetView ();
 /*!
 @return true if the document has been modified, false if not.
 */
-	bool IsDirty() {return m_bDirty;}
+	bool IsDirty () {return m_bDirty;}
 /*!
 Signals the document as modified since the last saving operation.
 */
-	virtual void SetDirty();
+	virtual void SetDirty ();
 /*!
 Draws the document using OpenGL primitives.
 */
-	void Draw();
+	void Draw ();
 /*!
 @return the largest distance from an object displayed in the document to the center of the model.
 */
-	gdouble GetMaxDist() {return m_dDist;}
+	gdouble GetMaxDist () {return m_dDist;}
 /*!
 Creates a view of the document. This method should be overrided by programs deriving a new view class from
 CrystalView.
 
 @return a pointer to the new CrystalView instance.
 */
-	virtual CrystalView* CreateNewView();
+	virtual CrystalView* CreateNewView ();
 /*!
 Creates a new atom. This method should be overrided by programs deriving a new view class from
 CrystalAtom.
 
 @return a pointer to the new CrystalAtom instance.
 */
-	virtual CrystalAtom* CreateNewAtom();
+	virtual CrystalAtom* CreateNewAtom ();
 /*!
 Creates a new line. This method should be overrided by programs deriving a new view class from
 CrystalLine.
 
 @return a pointer to the new CrystalLine instance.
 */
-	virtual CrystalLine* CreateNewLine();
+	virtual CrystalLine* CreateNewLine ();
 /*!
 Creates a new cleavage. This method should be overrided by programs deriving a new line class from
 CrystalCleavage
 @return a pointer to the new CrystalCleavage instance.
 */
-	virtual CrystalCleavage* CreateNewCleavage();
+	virtual CrystalCleavage* CreateNewCleavage ();
 /*!
 Builds the xmlDoc corresponding to the crystal structure.
 @return a pointer to the XML document.
 */
-	xmlDocPtr BuildXMLTree();
+	xmlDocPtr BuildXMLTree ();
 /*!
 @return the identity of the program as saved in files in the generator tag. This method should be overrided
 by programs able to save crystal structures in XML files conforming to gcrystal.dtd. It is used mainly to ensure
 compatiblity with files created by older versions of the program.
 */
-	virtual const char* GetProgramId();
+	virtual const char* GetProgramId ();
 	
 protected:
 /*!
 Initialize a new CrystalDoc instance.
 */
-	void Init();
+	void Init ();
 /*!
 Reinitialize a CrystalDoc instance. Used when loading a file in an already existing document.
 */
-	void Reinit();
+	void Reinit ();
 /*!
 @param node: the xmlNode containing the serialized view.
 
 Loads a view from a XML document. This methd must be overrided by applications supporting multiple views.
 */
-	virtual bool LoadNewView(xmlNodePtr node);
+	virtual bool LoadNewView (xmlNodePtr node);
 
 private:
-	void Duplicate(CrystalAtom& Atom);
-	void Duplicate(CrystalLine& Line);
+	void Duplicate (CrystalAtom& Atom);
+	void Duplicate (CrystalLine& Line);
 
 protected:
 /*!

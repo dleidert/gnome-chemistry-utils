@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -61,11 +61,11 @@ public:
 /*!
 The default constructor of CrystalLine.
 */
-	CrystalLine();
+	CrystalLine ();
 /*!
 The destructior of CrystaLine
 */
-	virtual ~CrystalLine();
+	virtual ~CrystalLine ();
 
 public :
 /*!
@@ -84,81 +84,81 @@ public :
 
 Constructs a new line from its characterisitics.
 */
-	CrystalLine(CrystalLineType Type, double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha);
+	CrystalLine (CrystalLineType Type, double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha);
 /*!
 @param clLine: the line to duplicate.
 
 Creates a new line with the same characteristics as clLine.
 */
-	CrystalLine(CrystalLine& clLine);
+	CrystalLine (CrystalLine& clLine);
 /*!
 @param clLine: the line to copy.
 
 Copies a line.
 @return the copied line.
 */
-	CrystalLine& operator=(CrystalLine& clLine);
+	CrystalLine& operator= (CrystalLine& clLine);
 
 /*!
 Draws the line inside the active OpenGL window.
 */
-	void Draw();
+	void Draw ();
 /*!
 @return the x coordinate of the first end of the line.
 */
-	double X1(void) {return m_dx;}
+	double X1 (void) {return m_dx;}
 /*!
 @return the y coordinate of the first end of the line.
 */
-	double Y1(void) {return m_dy;}
+	double Y1 (void) {return m_dy;}
 /*!
 @return the z coordinate of the first end of the line.
 */
-	double Z1(void) {return m_dz;}
+	double Z1 (void) {return m_dz;}
 /*!
 @return the x coordinate of the second end of the line.
 */
-	double X2(void) {return m_dx2;}
+	double X2 (void) {return m_dx2;}
 /*!
 @return the y coordinate of the second end of the line.
 */
-	double Y2(void) {return m_dy2;}
+	double Y2 (void) {return m_dy2;}
 /*!
 @return the z coordinate of the second end of the line.
 */
-	double Z2(void) {return m_dz2;}
+	double Z2 (void) {return m_dz2;}
 /*!
 @return the greatest x coordinate of the line.
 */
-	double Xmax();
+	double Xmax ();
 /*!
 @return the greatest y coordinate of the line.
 */
-	double Ymax();
+	double Ymax ();
 /*!
 @return the greatest z coordinate of the line.
 */
-	double Zmax();
+	double Zmax ();
 /*!
 @return the lowest x coordinate of the line.
 */
-	double Xmin();
+	double Xmin ();
 /*!
 @return the lowest y coordinate of the line.
 */
-	double Ymin();
+	double Ymin ();
 /*!
 @return the lowest z coordinate of the line.
 */
-	double Zmin();
+	double Zmin ();
 /*!
 @return the length of the line.
 */
-	double Long() {return m_dl;}
+	double Long () {return m_dl;}
 /*!
 @return the type of the line (see CrystalLineType).
 */
-	CrystalLineType Type() {return m_nType;}
+	CrystalLineType Type () {return m_nType;}
 /*!
 @param x: the new x coordinate of the first end of the new line.
 @param y: the new y coordinate of the first end of the new line.
@@ -169,7 +169,7 @@ Draws the line inside the active OpenGL window.
 
 Moves a line to a new position.
 */
-	void SetPosition(double x, double y, double z, double x1, double y1, double z1);
+	void SetPosition (double x, double y, double z, double x1, double y1, double z1);
 /*!
 @param red: the red component of the new color of the line.
 @param green: the green component of the new color of the line.
@@ -178,7 +178,7 @@ Moves a line to a new position.
 
 Changes the color used to display the line.
 */
-	void SetColor(float red, float green, float blue, float alpha);
+	void SetColor (float red, float green, float blue, float alpha);
 /*!
 @param red: a pointer to the location to which the red component of the color of the line will be copied.
 @param green: a pointer to the location to which the green component of the new color of the line will be copied.
@@ -187,22 +187,22 @@ Changes the color used to display the line.
 
 Gets the components of the color used to display the line.
 */
-	void GetColor(double *red, double *green, double *blue, double *alpha);
+	void GetColor (double *red, double *green, double *blue, double *alpha);
 /*!
 @param r: the new radius of the cylinder representing the line.
 
 Changes the radius of the cylinder used to represent the line.
 */
-	void SetRadius(double r);
+	void SetRadius (double r);
 /*!
 @return the radius of the cylinder used to represent the line.
 */
-	double GetRadius() {return m_dr;};
+	double GetRadius () {return m_dr;};
 /*!
 @param clLine: a CrystalLine instance.
 @return true if the two lines have the same type and the same position.
 */
-	bool operator==(CrystalLine& clLine);
+	bool operator== (CrystalLine& clLine);
 /*!
 @param x: the x component of the transation vector.
 @param y: the y component of the transation vector.
@@ -210,7 +210,7 @@ Changes the radius of the cylinder used to represent the line.
 
 Used to move a line.
 */
-	virtual void Move(double x, double y, double z);
+	virtual void Move (double x, double y, double z);
 /*!
 @param h: the h Miller index of a plane.
 @param k: the k Miller index of a plane.
@@ -221,12 +221,12 @@ The end giving the largest value is retained for the calculus.
 This makes sense only if coordinates are related to the net and are not the cartesian coordinates.
 This method should not be called after NetToCartesian().
 */
-	double ScalProd(int h, int k, int l);
+	double ScalProd (int h, int k, int l);
 /*!
 Method used to cleave a line. The inverse operation does not exist since the whole crystal must be recalculated
 after a change in the definition.
 */
-	void Cleave() {m_nCleave++;}
+	void Cleave () {m_nCleave++;}
 /*!
 @param a: the a parameter of the unit cell.
 @param b: the b parameter of the unit cell.
@@ -239,7 +239,7 @@ Converts the coordinates of the line from net related ones to cartesian. Initial
 position relative to the unit cell and the coordinates must be transformed to the cartesian ones before
 displaying the line.
 */
-	void NetToCartesian(double a, double b, double c, double alpha, double beta, double gamma);
+	void NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma);
 /*!
 @param x: the x coordinate of the center.
 @param y: the y coordinate of the center.
@@ -252,11 +252,11 @@ than for the whole crystal. If bFixed is true, all lines are taken into account.
 
 @return the largest distance of the line to the center of the view or 0 if bFixed is false and the line cleaved. 
 */
-	double Distance(double x, double y, double z, bool bFixed);
+	double Distance (double x, double y, double z, bool bFixed);
 /*!
 @return true if the line is cleaved by at least one cleavage or false if the line is not cleaved at all.
 */
-	bool IsCleaved() {return m_nCleave != 0;}
+	bool IsCleaved () {return m_nCleave != 0;}
 /*!
 @param x: the x component of the vector of the rotation axis.
 @param y: the y component of the vector of the rotation axis.
@@ -266,20 +266,20 @@ than for the whole crystal. If bFixed is true, all lines are taken into account.
 This helper method is used to get the orientation of the line relative to the z axis. It is used when exporting to the
 VRML format.
 */
-	void GetRotation(double& x, double& y, double& z, double& th);
+	void GetRotation (double& x, double& y, double& z, double& th);
 /*!
 @param xml: the xmlDoc used to save the document.
 
 Saves the line.
 @return the xmlnode containing the description of the line.
 */
-	virtual xmlNodePtr Save(xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml);
 /*!
 @param node: a pointer to the xmlNode containing the serialized line.
 
 Loads a line from the XML document.
 */
-	virtual bool Load(xmlNodePtr node);
+	virtual bool Load (xmlNodePtr node);
 	
 protected :
 /*!
