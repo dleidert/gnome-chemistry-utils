@@ -1,9 +1,10 @@
 ##Text encoding: utf-8
 
-2005-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
-	* configure.ac: updated version to 0.4.0.
-	* gcu.pc.in: removed deprecated stuff.
-	* gcu/Makefile.am: fixed more build issues.
+2005-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* AUTHORS: add new german translator.
+	* gcu/Makefile.am: rmoved unimplemented stuff.
+	* gcu/crystalbond.cc: ditto.
+	* gcu/crystalbond.h: ditto.
 
 2005-03-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Doxyfile: updated version to 0.4.0.
