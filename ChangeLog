@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2005-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Doxyfile: update version to 0.2.9.
+	* Makefile.am: implement install-database option.
+	* configure.ac: update version to 0.2.9 and add install-database option.
+	* tests/testbonobocontrol.c: (create_app): don't pass NULL to bonobo calls.
+
 2005-02-23 Jean Bréfort  <jean.brefort@normalesup.org>
 	* crystalviewer/crystalatom.cc: alxays initialize alpha value.
 	* Doxygen: update version number

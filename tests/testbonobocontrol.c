@@ -55,7 +55,7 @@ create_app (void)
 	 */
 	uri = "file://"SRCDIR"/tests";
 	bu = bonobo_widget_get_objref (BONOBO_WIDGET(control));
-	bs = Bonobo_Unknown_queryInterface(bu,"IDL:Bonobo/PersistStream:1.0",NULL);
+	bs = Bonobo_Unknown_queryInterface(bu,"IDL:Bonobo/PersistStream:1.0",&ev);
 	storage = bonobo_get_object (uri, "IDL:Bonobo/Storage:1.0", &ev);
 	if (BONOBO_EX (&ev) || !storage) return TRUE;
 	stream = Bonobo_Storage_openStream(storage, "methane.xyz", Bonobo_Storage_READ, &ev);

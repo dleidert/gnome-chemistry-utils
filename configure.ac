@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.2.8, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
+AC_INIT(gnome-chemistry-utils, 0.2.9, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
 AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
@@ -39,6 +39,14 @@ AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for internationalization])
+
+AC_ARG_ENABLE([update-databases],
+	AC_HELP_STRING([--disable-update-databases],[do not run the update-desktop-database or update-mime-database utilities, mostly useful for package maintainers]),[
+	update_databases=$enableval
+	],[
+	update_databases=yes]
+)
+AM_CONDITIONAL(UPDATE_DATABASES,test "$update_databases" = "yes")
 
 AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
 AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")

@@ -33,13 +33,17 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= gcu.pc
 
 install-data-hook:
+if UPDATE_DATABASES
 	update-mime-database $(datadir)/mime
 if WITH_UPDATE_DESKTOP
 	update-desktop-database $(datadir)/applications
 endif
+endif
 
 uninstall-hook:
+if UPDATE_DATABASES
 	update-mime-database $(datadir)/mime
 if WITH_UPDATE_DESKTOP
 	update-desktop-database $(datadir)/applications
+endif
 endif

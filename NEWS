@@ -1,3 +1,10 @@
+Version 0.2.9
+	Add --disable-install-databases option to configure.
+	Fixed a bug in tests/testbonocontrol.
+
+Version 0.2.8
+	Minor bugs fixed.
+
 Version 0.2.7
 	Install with no errors with Gnome <= 2.6
 
