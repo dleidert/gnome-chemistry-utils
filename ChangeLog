@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2004-10-10 Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/elements.xml.in,
+	* glade/gtkperiodic.glade: Changed element 111 name and symbol to
+	Roentgenium and Rg according to IUPAC recommendation.
+
 2004-10-09 Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: update version to 0.2.6
 	* Makefile.am: add some support for shared mime types.
