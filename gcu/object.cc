@@ -243,7 +243,10 @@ bool Object::Load (xmlNodePtr node)
 	child = node->children;
 	while (child) {
 		pObject = CreateObject ((const char*) child->name, this);
-		if (!pObject || !pObject->Load (child)) {
+		if (pObject) {
+			if (!pObject->Load (child))
+				delete pObject;
+		} else {
 			m_IsLoading = false;
 			return false;
 		}
