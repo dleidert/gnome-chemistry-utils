@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-15 08:49+0100\n"
-"PO-Revision-Date: 2004-01-29 13:45+0200\n"
+"POT-Creation-Date: 2004-10-10 10:53+0200\n"
+"PO-Revision-Date: 2004-10-14 11:05+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@ac-dijon.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -348,104 +348,105 @@ msgid "Rhodium"
 msgstr "Rhodium"
 
 #: chemistry/elements.xml.in.h:82
+#, fuzzy
+msgid "Roentgenium"
+msgstr "Röntgenium"
+
+#: chemistry/elements.xml.in.h:83
 msgid "Rubidium"
 msgstr "Rubidium"
 
-#: chemistry/elements.xml.in.h:83
+#: chemistry/elements.xml.in.h:84
 msgid "Ruthenium"
 msgstr "Ruthénium"
 
-#: chemistry/elements.xml.in.h:84
+#: chemistry/elements.xml.in.h:85
 msgid "Rutherfordium"
 msgstr "Rutherfordium"
 
-#: chemistry/elements.xml.in.h:85
+#: chemistry/elements.xml.in.h:86
 msgid "Samarium"
 msgstr "Samarium"
 
-#: chemistry/elements.xml.in.h:86
+#: chemistry/elements.xml.in.h:87
 msgid "Scandium"
 msgstr "Scandium"
 
-#: chemistry/elements.xml.in.h:87
+#: chemistry/elements.xml.in.h:88
 msgid "Seaborgium"
 msgstr "Seaborgium"
 
-#: chemistry/elements.xml.in.h:88
+#: chemistry/elements.xml.in.h:89
 msgid "Selenium"
 msgstr "Sélénium"
 
-#: chemistry/elements.xml.in.h:89
+#: chemistry/elements.xml.in.h:90
 msgid "Silicon"
 msgstr "Silicium"
 
-#: chemistry/elements.xml.in.h:90
+#: chemistry/elements.xml.in.h:91
 msgid "Silver"
 msgstr "Argent"
 
-#: chemistry/elements.xml.in.h:91
+#: chemistry/elements.xml.in.h:92
 msgid "Sodium"
 msgstr "Sodium"
 
-#: chemistry/elements.xml.in.h:92
+#: chemistry/elements.xml.in.h:93
 msgid "Strontium"
 msgstr "Strontium"
 
-#: chemistry/elements.xml.in.h:93
+#: chemistry/elements.xml.in.h:94
 msgid "Sulfur"
 msgstr "Soufre"
 
-#: chemistry/elements.xml.in.h:94
+#: chemistry/elements.xml.in.h:95
 msgid "Tantalum"
 msgstr "Tantale"
 
-#: chemistry/elements.xml.in.h:95
+#: chemistry/elements.xml.in.h:96
 msgid "Technetium"
 msgstr "Technétium"
 
-#: chemistry/elements.xml.in.h:96
+#: chemistry/elements.xml.in.h:97
 msgid "Tellurium"
 msgstr "Tellure"
 
-#: chemistry/elements.xml.in.h:97
+#: chemistry/elements.xml.in.h:98
 msgid "Terbium"
 msgstr "Terbium"
 
-#: chemistry/elements.xml.in.h:98
+#: chemistry/elements.xml.in.h:99
 msgid "Thallium"
 msgstr "Thallium"
 
-#: chemistry/elements.xml.in.h:99
+#: chemistry/elements.xml.in.h:100
 msgid "Thorium"
 msgstr "Thorium"
 
-#: chemistry/elements.xml.in.h:100
+#: chemistry/elements.xml.in.h:101
 msgid "Thulium"
 msgstr "Thulium"
 
-#: chemistry/elements.xml.in.h:101
+#: chemistry/elements.xml.in.h:102
 msgid "Tin"
 msgstr "Étain"
 
-#: chemistry/elements.xml.in.h:102
+#: chemistry/elements.xml.in.h:103
 msgid "Titanium"
 msgstr "Titane"
 
-#: chemistry/elements.xml.in.h:103
+#: chemistry/elements.xml.in.h:104
 msgid "Tungsten"
 msgstr "Tungsten"
 
-#: chemistry/elements.xml.in.h:104
+#: chemistry/elements.xml.in.h:105
 msgid "Ununbium"
 msgstr "Ununbium"
 
-#: chemistry/elements.xml.in.h:105
+#: chemistry/elements.xml.in.h:106
 msgid "Ununquadium"
 msgstr "Ununquadium"
-
-#: chemistry/elements.xml.in.h:106
-msgid "Unununium"
-msgstr "Unununium"
 
 #: chemistry/elements.xml.in.h:107
 msgid "Uranium"
@@ -510,3 +511,6 @@ msgstr "Fichier PDB"
 #: gchemutils.keys.in.h:4
 msgid "XYZ file"
 msgstr "Fichier XYZ"
+
+#~ msgid "Unununium"
+#~ msgstr "Unununium"
