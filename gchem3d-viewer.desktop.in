@@ -1,0 +1,6 @@
+[Desktop Entry]
+_Name=Molecules Viewer
+Exec=gchem3d-viewer
+Terminal=0
+Type=Application
+MimeType=chemical/x-xyz;chemical/x-mdl-molfile;chemical/x-pdb;
