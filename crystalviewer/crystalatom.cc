@@ -207,3 +207,15 @@ bool CrystalAtom::LoadNode(xmlNodePtr node)
 	bool result = ReadRadius(child, m_Radius);
 	return result;
 }
+
+void CrystalAtom::SetRadius(const GcuAtomicRadius& r)
+{
+	m_Radius.type = r.type;
+	m_Radius.value = r.value;
+	m_Radius.charge = r.charge;
+	if (m_Radius.scale) g_free(m_Radius.scale);
+	if (r.scale) m_Radius.scale = g_strdup(r.scale);
+	else m_Radius.scale = NULL;
+	m_Radius.cn = r.cn;	//coordination number: -1: unspecified
+	m_Radius.spin = r.spin;
+}

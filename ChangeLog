@@ -3,6 +3,7 @@
 	* tests/nickel.gcrystal: updated to 0.5.2 format
 	* chemistry/elements.cc, chemistry/xml-utils.cc: fixed several
 	bugs related to the use of the radii database
+	* crystalviewer/crystalatom.cc: wrote a sensible SetRadius method
 
 2003-06-28 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* element.cc: a bug fixed in the database loading

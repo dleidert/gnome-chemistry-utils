@@ -64,7 +64,7 @@ public :
 	double Distance(double x, double y, double z, bool bFixed);
 	double r() {return m_Radius.value;}
 	const GcuAtomicRadius& GetRadius() {return m_Radius;}
-	void SetRadius(const GcuAtomicRadius& r) {m_Radius = r;}
+	void SetRadius(const GcuAtomicRadius& r);
 	bool IsCleaved() {return m_nCleave != 0;}
 	virtual bool SaveNode(xmlDocPtr, xmlNodePtr);
 	virtual bool LoadNode(xmlNodePtr node);
