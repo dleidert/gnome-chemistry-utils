@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <gtk/gtkstyle.h>
 #include <glade/glade.h>
+#include <libintl.h>
 
 static unsigned DefaultRed[4], DefaultGreen[4], DefaultBlue[4];
 
@@ -160,6 +161,8 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	char name[8] = "elt";
 	GtkToggleButton* button;
 	int i;
+	const char* domain = textdomain(NULL);
+	textdomain(GETTEXT_PACKAGE);
 	xml =  glade_xml_new(DATADIR"/gchemutils/glade/gtkperiodic.glade", "vbox1", NULL);
 	if (xml)  glade_xml_signal_autoconnect (xml);
 	periodic->priv = g_new0(GtkPeriodicPrivate, 1);
@@ -194,6 +197,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	periodic->priv->Z = 0;
 	gtk_container_add(GTK_CONTAINER(periodic), GTK_WIDGET(periodic->priv->vbox));
 	gtk_widget_show_all(GTK_WIDGET(periodic));
+	textdomain(domain);
 }
 
 static void gtk_periodic_finalize (GObject *object)

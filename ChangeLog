@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2004-01-29 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* cancelled last changes.
+	* gtkperiodic/gtkperiodic.c: add a call to textdomain.
+	
+2004-01-29 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* chemistry/chemistry.[h,cc]: added gcu_init() to correctly initialize
 	translation.
 	* chemistry/element.cc: removed gettext initialization.

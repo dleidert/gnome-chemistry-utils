@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * element.cc 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -59,6 +59,10 @@ EltTable Table;
 
 EltTable::EltTable()
 {
+	bindtextdomain(GETTEXT_PACKAGE, DATADIR"/locale");
+#ifdef ENABLE_NLS
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+#endif
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv("LANG");

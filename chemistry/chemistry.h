@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * chemistry.h 
  *
- * Copyright (C) 2003
+ * Copyright (C) 2003-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -54,11 +54,6 @@ To use this file, add the following line to your source file:
 */
 
 G_BEGIN_DECLS
-/** gcu_init
-* gcu_init initializes the internationalization of the Gnome Chemistry Utils.
-*/
-void gcu_init();
-
 /** gcu_spin_state
 * gcu_spin_state describes the spin state of a central atom in a complex.
 * Possible values are:
@@ -208,7 +203,6 @@ Last value in the array is NULL.
 */
 const GcuElectronegativity** gcu_element_get_electronegativities(gint Z);
 
-void gcu_init();
 G_END_DECLS
 
 #endif //GCU_CHEMISTRY_H

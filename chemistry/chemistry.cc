@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * chemistry.cc
  *
- * Copyright (C) 2003
+ * Copyright (C) 2003-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -31,13 +31,6 @@
 
 extern "C"
 {
-void gcu_init()
-{
-	bindtextdomain(PACKAGE, DATADIR"/locale");
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain(PACKAGE);
-}
-
 using namespace gcu;
 const gdouble* gcu_element_get_default_color(gint Z)
 {
