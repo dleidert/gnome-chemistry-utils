@@ -84,6 +84,13 @@ Object* Object::GetDocument()
 	return object;
 }
 
+Object* Object::GetParentOfType(TypeId Id)
+{
+	Object* object = this;
+	while (object && (object->m_Type != Id)) object = object->m_Parent;
+	return object;
+}
+
 void Object::AddChild(Object* object)
 {
 	if (object->m_Id == NULL)

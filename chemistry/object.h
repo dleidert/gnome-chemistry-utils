@@ -53,6 +53,7 @@ enum TypeId
 	ReactionOperatorType,
 	ReactionType,
 	MesomeryType,
+	MesomeryArrowType,
 	DocumentType,
 	TextType,
 	OtherType
@@ -71,6 +72,7 @@ public:
 	Object* GetMolecule();
 	Object* GetReaction();
 	Object* GetDocument();
+	Object* GetParentOfType(TypeId Id);
 	Object* GetChild(const gchar* Id);
 	Object* GetFirstChild(map<string, Object*>::iterator& i);
 	Object* GetNextChild(map<string, Object*>::iterator& i);
