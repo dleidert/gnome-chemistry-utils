@@ -1,0 +1,3 @@
+debian/tmp/usr/lib/*.so.* usr/lib
+debian/tmp/usr/share/locale/* usr/share/locale
+debian/tmp/usr/share/gchemutils/* usr/share/libgchemutils0

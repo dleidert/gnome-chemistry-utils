@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+
+	<!-- Fill in your name for FIRSTNAME and SURNAME. -->
+	<!ENTITY dhfirstname "<firstname>Daniel</firstname>">
+	<!ENTITY dhsurname	 "<surname>Leidert</surname>">
+	<!-- Please adjust the date whenever revising the manpage. -->
+	<!ENTITY dhdate			"<date>March 21, 2005</date>">
+	<!-- SECTION should be 1-8, maybe w/ subsection other parameters are
+			 allowed: see man(7), man(1). -->
+	<!ENTITY dhsection	 "<manvolnum>1</manvolnum>">
+	<!ENTITY dhemail		 "<email>daniel.leidert@wgdd.de</email>">
+	<!ENTITY dhusername	"Daniel Leidert">
+	<!ENTITY dhucpackage "<refentrytitle>GCHEMUTILS</refentrytitle>">
+	<!ENTITY dhpackage	 "gchem3d-viewer">
+]>
+
+<refentry>
+	<refentryinfo>
+		<address>
+			&dhemail;
+		</address>
+		<!-- 
+		<author>
+			&dhfirstname;
+			&dhsurname;
+		</author>
+		-->
+		<copyright>
+			<year>2004</year>
+			<year>2005</year>
+			<holder>&dhusername;</holder>
+		</copyright>
+		&dhdate;
+	</refentryinfo>
+	<refmeta>
+		&dhucpackage;
+
+		&dhsection;
+	</refmeta>
+	<refnamediv>
+		<refname>&dhpackage;</refname>
+
+		<refpurpose>a small chemical viewer application</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<cmdsynopsis>
+			<command>&dhpackage;</command>
+			<arg><replaceable>FILE</replaceable></arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+	<refsect1>
+		<title>DESCRIPTION</title>
+
+		<para>
+			This manual page will document briefly the
+			<command>&dhpackage;</command> command.
+		</para>
+
+		<para>
+			This manual page was written for the Debian distribution
+			because the original program does not have a manual page.
+		</para>
+
+		<para>
+			<command>&dhpackage;</command> is a small chemical viewer
+			application, which can show chemical/x-pdb (*.pdb),
+			chemical/x-mdl-molfile (*.mol) ans chemical/x-xyz
+			(*.xyz) file formats.
+		</para>
+
+	</refsect1>
+	<refsect1>
+		<title>OPTIONS</title>
+
+		<para>
+			This program does not have any command line options.
+		</para>
+	</refsect1>
+	<refsect1>
+		<title>AUTHOR</title>
+
+		<para>
+			This manual page was written by &dhusername; &dhemail; for
+			the Debian system (but may be used by others).	Permission is
+			granted to copy, distribute and/or modify this document under
+			the terms of the GNU General Public License, Version 2 any 
+			later version published by the Free Software Foundation.
+		</para>
+	</refsect1>
+</refentry>
+

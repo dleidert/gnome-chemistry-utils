@@ -1,0 +1,21 @@
+This package was debianized by Daniel Leidert (dale) <daniel.leidert@wgdd.de>
+on Wed, 15 Sep 2004 04:58:16 +0200.
+
+It was downloaded from http://savannah.nongnu.org/download/gchemutils/.
+
+Upstream Author: Jean Bréfort <jean.brefort@ac-dijon.fr>
+
+Copyright:
+
+This library is free software; you can redistribute it and/or modify it under
+the terms of the GNU Lesser General Public License as published by the Free
+Software Foundation; either version 2.1 of the License, or (at your option)
+any later version.
+
+This library is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+details.
+
+On Debian systems, the GNU Lesser General Public License (LGPL) is available as
+the file /usr/share/common-licenses/LGPL.

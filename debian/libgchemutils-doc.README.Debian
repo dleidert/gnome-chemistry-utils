@@ -1,0 +1,10 @@
+gchemutils for Debian
+---------------------
+
+This library/program is under development.
+
+The examples diretory contains 4 gezipped test binaries and 2 examples files.
+Unzip the binaries to a location of your choice and run them. These sample
+binaries are fully documented inside the html directory.
+
+ -- Daniel Leidert (dale) <daniel.leidert@wgdd.de>, Wed, 15 Sep 2004 04:58:16 +0200
