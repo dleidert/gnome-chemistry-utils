@@ -1,6 +1,6 @@
-lib_LTLIBRARIES= libgcu-0.3.la
+lib_LTLIBRARIES= libgcu-0.5.la
 
-libgcu_0_3_la_SOURCES = \
+libgcu_0_5_la_SOURCES = \
 		atom.cc \
 		bond.cc \
 		object.cc \
@@ -12,7 +12,7 @@ libgcu_0_3_la_SOURCES = \
 		chemistry.cc \
 		gtkperiodic.c
 
-libgcu_0_3_la_headers = \
+libgcu_0_5_la_headers = \
 		atom.h \
 		bond.h \
 		object.h \
@@ -26,7 +26,7 @@ libgcu_0_3_la_headers = \
 
 if WITH_GTKGL
 
-libgcu_0_3_la_SOURCES += \
+libgcu_0_5_la_SOURCES += \
 		gtkcrystalviewer.cc \
 		crystalview.cc \
 		crystaldoc.cc \
@@ -35,7 +35,7 @@ libgcu_0_3_la_SOURCES += \
 		crystalline.cc \
 		crystalcleavage.cc
 
-libgcu_0_3_la_headers += \
+libgcu_0_5_la_headers += \
 		gtkcrystalviewer.h \
 		crystalview.h \
 		crystaldoc.h \
@@ -45,32 +45,34 @@ libgcu_0_3_la_headers += \
 		crystalcleavage.h
 		
 if WITH_OPENBABEL
-libgcu_0_3_la_SOURCES += \
+libgcu_0_5_la_SOURCES += \
 		gtkchem3dviewer.cc
 
-libgcu_0_3_la_headers += \
+libgcu_0_5_la_headers += \
 		gtkchem3dviewer.h
 
-bin_PROGRAMS = gchem3d-0.3
+bin_PROGRAMS = gchem3d-viewer-0.5
 
-gchem3d_0_3_SOURCES = bonobo-control.cc
+gchem3d_viewer_0_5_SOURCES = gchem3d-viewer.c
 
-gchem3d_0_3_LDADD = libgcu-0.3.la @GCU_LIBS@ @GC3D_LIBS@
+gchem3d_viewer_0_5_LDADD = libgcu-0.5.la @GCU_LIBS@
 
-serverdir=$(libdir)/bonobo/servers
-server_in_files = gchem3d-0.3.server.in
-server_DATA=gchem3d-0.3.server
-@INTLTOOL_SERVER_RULE@
+desktopdir=$(datadir)/applications
+desktop_in_files = gchem3d-viewer-0.5.desktop.in
+desktop_DATA=gchem3d-viewer-0.5.desktop
+@INTLTOOL_DESKTOP_RULE@
+
+CLEANFILES = gchem3d-viewer-0.5.desktop elements.xml
 
 endif #WITH_OPENBABEL
 endif #WITH_GTKGL
 		
-gcuincludedir = $(includedir)/gcu-0.3/gcu
-gcuinclude_HEADERS = $(libgcu_0_3_la_headers)
+gcuincludedir = $(includedir)/gcu-0.5/gcu
+gcuinclude_HEADERS = $(libgcu_0_5_la_headers)
 		
-libgcu_0_3_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
-AM_CXXFLAGS = @GCU_CFLAGS@
-AM_CFLAGS = @GCU_CFLAGS@
+libgcu_0_5_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
+AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
+AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 
 xmldir = $(datadir)/gchemutils
 
@@ -79,4 +81,4 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-EXTRA_DIST=$(xml_in_files) $(xml_DATA)
+EXTRA_DIST=$(xml_in_files) $(xml_DATA) $(desktop_DATA)

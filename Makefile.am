@@ -14,16 +14,49 @@ EXTRA_DIST=	\
 	$(keys_in_files) \
 	gchemutils.mime \
 	$(mime_in_files) \
-	gcu-0.3.pc.in \
+	gcu-0.5.pc.in \
 	intltool-extract.in	\
 	intltool-update.in	\
 	intltool-merge.in
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA= gcu-0.3.pc
+pkgconfig_DATA= gcu-0.5.pc
+
+CLEANFILES = \
+	gchemutils.keys \
+	gchemutils.xml
+	
+DISTCLEANFILES = \
+	intltool-extract \
+	intltool-update \
+	intltool-merge
 
 install-data-hook:
+if UPDATE_DATABASES
 	update-mime-database $(datadir)/mime
+if WITH_UPDATE_DESKTOP
+	update-desktop-database $(datadir)/applications
+endif
+endif
 
 uninstall-hook:
+if UPDATE_DATABASES
+# bad hacking for make distcheck !
+	if test -w $(datadir)/mime/chemical/x-xyz.xml; then \
+		rm $(datadir)/mime/chemical/x-xyz.xml; \
+	fi
+	if test -w $(datadir)/mime/chemical/x-mdl-molfile.xml; then \
+		rm $(datadir)/mime/chemical/x-mdl-molfile.xml; \
+	fi
+	if test -w $(datadir)/mime/chemical/x-pdb.xml; then \
+		rm $(datadir)/mime/chemical/x-pdb.xml; \
+	fi
 	update-mime-database $(datadir)/mime
+if WITH_UPDATE_DESKTOP
+	update-desktop-database $(datadir)/applications
+endif
+endif
+
+# remove the following when we don't install mime type anymore
+distuninstallcheck:
+             @:

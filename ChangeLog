@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2005-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed various build issues.
+	* configure.ac: ditto.
+	* gcu/Makefile.am: ditto.
+	* tests/Makefile.am: ditto.
+	* glade/mendeleiev.glade: remove deprecated.
+	* po/POTFILES.in: removed obsoolete server file
+
 2005-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: Changed version to 0.5.0.
 	* gcu-0.3.pc.in: moved to gcu-0.5.pc.in.

@@ -1,6 +1,6 @@
 AC_INIT(gnome-chemistry-utils, 0.5.0)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
-AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 
@@ -39,6 +39,17 @@ AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for internationalization])
+
+AC_ARG_ENABLE([update-databases],
+	AC_HELP_STRING([--disable-update-databases],[do not run the update-desktop-database or update-mime-database utilities, mostly useful for package maintainers]),[
+	update_databases=$enableval
+	],[
+	update_databases=yes]
+)
+AM_CONDITIONAL(UPDATE_DATABASES,test "$update_databases" = "yes")
+
+AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
+AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
 
 LIBGLADE_REQUIRED_VERSION=2.4.0
 GTKGLEXT_REQUIRED_VERSION=1.0.0
