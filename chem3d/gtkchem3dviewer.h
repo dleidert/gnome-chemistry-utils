@@ -32,6 +32,15 @@
 
 G_BEGIN_DECLS
 
+typedef enum
+{
+	BALL_AND_STICK,
+	SPACEFILL
+} Display3DMode;
+
+GType gtk_display3d_get_type (void);
+#define GTK_DISPLAY_3D (gtk_display3d_get_type())
+
 #define GTK_TYPE_CHEM3D_VIEWER		  (gtk_chem3d_viewer_get_type ())
 #define GTK_CHEM3D_VIEWER(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewer))
 #define GTK_CHEM3D_VIEWER_CLASS(klass)	  (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))

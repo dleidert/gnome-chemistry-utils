@@ -105,6 +105,51 @@ static void persist_stream_class_init(PersistStreamClass *klass)
 	BONOBO_TYPE_PERSIST,  /* parent type */
 	persist_stream);               /* local prefix ie. 'echo'_class_init */
 
+// BonoboPropertyBag callback functions
+
+enum {
+	PROP_DISPLAY3D,
+};
+
+static void get_prop(BonoboPropertyBag *bag, BonoboArg *arg, guint arg_id, CORBA_Environment *ev, GObject *object)
+{
+	Display3DMode mode3d;
+
+	switch (arg_id)
+	{
+		case PROP_DISPLAY3D:
+			g_object_get(object, "display3d", &mode3d, NULL);
+			switch (mode3d)
+			{
+				case BALL_AND_STICK: BONOBO_ARG_SET_STRING(arg, "ball&stick"); break;
+				case SPACEFILL: BONOBO_ARG_SET_STRING(arg, "spacefill"); break;
+				default: bonobo_exception_set(ev, ex_Bonobo_PropertyBag_BackendFailed);
+			}
+			break;
+		default:
+			bonobo_exception_set(ev, ex_Bonobo_PropertyBag_NotFound);
+			break;
+	}
+}
+
+static void set_prop (BonoboPropertyBag *bag,  const BonoboArg *arg, guint arg_id, CORBA_Environment *ev, GObject *object)
+{
+	switch (arg_id)
+	{
+		case PROP_DISPLAY3D:
+			if (!strcmp(BONOBO_ARG_GET_STRING(arg), "ball&stick"))
+				g_object_set(object, "display3d", BALL_AND_STICK, NULL);
+			else if (!strcmp(BONOBO_ARG_GET_STRING(arg), "spacefill"))
+				g_object_set(object, "display3d", SPACEFILL, NULL);
+			else bonobo_exception_set(ev, ex_Bonobo_PropertyBag_BackendFailed);
+			break;
+		default:
+			bonobo_exception_set(ev, ex_Bonobo_PropertyBag_NotFound);
+			break;
+	}
+}
+
+
 #define GC3D_BONOBO_CONTROL_TYPE           (gc3d_bonobo_control_get_type ())
 #define GC3D_BONOBO_CONTROL(o)             (G_TYPE_CHECK_INSTANCE_CAST ((o), GC3D_BONOBO_CONTROL_TYPE, GC3DBonoboControl))
 #define GC3D_BONOBO_CONTROL_CLASS(k)       (G_TYPE_CHECK_CLASS_CAST((k), GC3D_BONOBO_CONTROL_TYPE, GC3DBonoboControlClass))
@@ -192,16 +237,31 @@ GC3DBonoboControl* gc3d_bonobo_control_construct(GC3DBonoboControl *control, Gtk
 {
 	BonoboPropertyBag     *pb;
 	BonoboPropertyControl *pc;
+	CORBA_Environment ev;
 	
 	g_return_val_if_fail (viewer != NULL, NULL);
 	g_return_val_if_fail (control != NULL, NULL);
 	g_return_val_if_fail (GC3D_BONOBO_IS_CONTROL (control), NULL);
 
 	bonobo_control_construct (BONOBO_CONTROL (control), GTK_WIDGET(viewer));
+	pb = bonobo_property_bag_new( 
+			(void (*)(BonoboPropertyBag*, BonoboArg*, unsigned int,
+   			CORBA_Environment*, void*))get_prop,
+			(void (*)(BonoboPropertyBag*, const BonoboArg*, unsigned int,
+   			CORBA_Environment*, void*))set_prop,
+			viewer);
+	bonobo_control_set_properties((BonoboControl*)control, bonobo_object_corba_objref(BONOBO_OBJECT(pb)), &ev);
+
+	bonobo_property_bag_add(pb, "display3d", PROP_DISPLAY3D,
+				 BONOBO_ARG_STRING, NULL,
+				 _("Display3D mode"),
+				 0);
 	
 	control->ps = persist_stream_new();
 	control->ps->viewer = viewer;
 	bonobo_object_add_interface((BonoboObject*)control, (BonoboObject*)control->ps);
+
+	bonobo_object_unref (BONOBO_OBJECT (pb));
 
 	return control;
 }
@@ -210,7 +270,6 @@ GC3DBonoboControl *
 gc3d_bonobo_control_new (GtkChem3DViewer* viewer)
 {
 	GC3DBonoboControl *control;
-
 	control = (GC3DBonoboControl*) g_object_new (GC3D_BONOBO_CONTROL_TYPE, NULL);
 
 	return gc3d_bonobo_control_construct (control, viewer);

@@ -60,6 +60,25 @@
 static GdkGLConfig *glconfig = NULL;
 #endif
 
+enum {
+	PROP_0,
+	PROP_DISPLAY3D,
+};
+GType
+gtk_display3d_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GEnumValue values[] = {
+      { BALL_AND_STICK, "BALL_AND_STICK", "ball&stick" },
+      { SPACEFILL, "SPACEFILL", "spacefill" },
+      { 0, NULL, NULL }
+    };
+    etype = g_enum_register_static ("Dispay3D", values);
+  }
+  return etype;
+}
+
 using namespace std;
 using namespace OpenBabel;
 using namespace gcu;
@@ -77,6 +96,7 @@ typedef struct _GtkChem3DViewerPrivate
 	GtkWidget* widget;
 	//background color
 	float Blue, Red, Green, Alpha;
+	Display3DMode display3d;
 } GtkChem3DViewerPrivate;
 
 static GtkBinClass *parent_class = NULL;
@@ -85,6 +105,10 @@ static void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass);
 static void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer);
 static void gtk_chem3d_viewer_finalize(GObject* object);
 static void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer);
+static void gtk_chem3d_viewer_set_property(GObject *object, guint property_id,
+						const GValue *value, GParamSpec *pspec);
+static void gtk_chem3d_viewer_get_property(GObject *object, guint property_id,
+						GValue *value, GParamSpec *pspec);
 
 OBExtensionTable et;
 
@@ -289,6 +313,18 @@ void gtk_chem3d_viewer_class_init(GtkChem3DViewerClass  *klass)
 	parent_class = (GtkBinClass*)gtk_type_class(gtk_bin_get_type());
 	
 	gobject_class->finalize = gtk_chem3d_viewer_finalize;
+	gobject_class->set_property = gtk_chem3d_viewer_set_property;
+	gobject_class->get_property = gtk_chem3d_viewer_get_property;
+	
+	g_object_class_install_property (
+		gobject_class,
+		PROP_DISPLAY3D,
+		g_param_spec_enum("display3d",
+						"3D display mode",
+						"Mode used to display the model",
+						GTK_DISPLAY_3D,
+						BALL_AND_STICK,
+						(GParamFlags)G_PARAM_READWRITE));
 }
 
 void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
@@ -340,6 +376,8 @@ void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
 	viewer->priv->Euler = m;
 // Set background to white
 	viewer->priv->Red = viewer->priv->Green = viewer->priv->Blue= viewer->priv->Alpha = 1.0;
+// Set Ball and Stick mode by default
+	viewer->priv->display3d = BALL_AND_STICK;
 // Events for widget must be set before X Window is created
 	gtk_widget_set_events(GTK_WIDGET(viewer->priv->widget),
 			GDK_EXPOSURE_MASK|
@@ -445,7 +483,8 @@ void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
 		while (atom)
 		{
 			Z = atom->GetAtomicNum();
-			R = etab.GetVdwRad(Z) * 0.2;
+			R = etab.GetVdwRad(Z);
+			if (viewer->priv->display3d == BALL_AND_STICK) R*= 0.2;
 			x = atom->GetX() - x0;
 			y = atom->GetY() - y0;
 			z = atom->GetZ() - z0;
@@ -467,7 +506,7 @@ void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
 		std::vector< OBEdgeBase * >::iterator j;
 		OBBond* bond = viewer->priv->Mol.BeginBond(j);
 		double x1, y1, z1, arot, xrot, yrot;
-		while(bond)
+		if (viewer->priv->display3d == BALL_AND_STICK) while(bond)
 		{
 			atom = bond->GetBeginAtom();
 			x = atom->GetX() - x0;
@@ -510,4 +549,35 @@ void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
 		glEndList();
 	}
 	on_reshape(viewer->priv->widget, NULL, viewer);
+}
+
+static void gtk_chem3d_viewer_get_property (GObject *object, guint property_id,
+				     GValue *value, GParamSpec *pspec)
+{
+	GtkChem3DViewer *viewer = GTK_CHEM3D_VIEWER(object);
+
+	switch (property_id) {
+	case PROP_DISPLAY3D:
+		g_value_set_enum (value, viewer->priv->display3d);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
+				     const GValue *value, GParamSpec *pspec)
+{
+	GtkChem3DViewer *viewer = GTK_CHEM3D_VIEWER(object);
+
+	switch (property_id) {
+		case PROP_DISPLAY3D:
+			viewer->priv->display3d = (Display3DMode)g_value_get_enum (value);
+			break;
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+			break;
+	}
+	gtk_chem3d_viewer_update(viewer);
 }

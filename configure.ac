@@ -43,6 +43,7 @@ GTKGLEXT_REQUIRED_VERSION=0.6.0
 GNOME_PRINT_REQUIRED_VERSION=2.1.3
 GNOME_VFS_REQUIRED_VERSION=2.0.0
 BONOBOUI_REQUIRED_VERSION=2.2.0
+LIBGNOMEUI_REQUIRED_VERSION=2.0.0
 
 gl_flags=
 gtkcrystalviewer="-lgtkcrystalviewer"
@@ -108,7 +109,8 @@ fi
 
 if test "$have_openbabel" = "yes" ; then
 		PKG_CHECK_MODULES(GC3D, \
-			gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION,  \
+			gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
+			libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED_VERSION, \
 			have_openbabel="yes", \
 			have_openbabel="no" && \
 			AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and will not be built ***))
