@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.3.1)
+AC_INIT(gnome-chemistry-utils, 0.3.2)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE

@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2004-10-10 Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/elements.xml.in,
+	* glade/gtkperiodic.glade: Changed element 111 name and symbol to
+	Roentgenium and Rg according to IUPAC recommendation.
+	* configure.ac: updated version to 0.3.2.
+	* Doxyfile: updated version to 0.3.2.
+	* gcu/object.h,
+	* gcu/object.cc: added an Object* parameter to BuildContextualMenu.
+
 2004-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu-0.3.pc.in: removed obsolete gl_flags from CFlags
 
@@ -12,6 +21,7 @@
 	(mime types tree will be polluted with chemical/* types).
 	* gcu/atom.cc,
 	* gcu/bond.cc,
+	* gcu/element.cc,
 	* gcu/crystalcleavage.cc,
 	* gcu/crystaldoc.cc,
 	* gcu/crystalline.cc,
@@ -20,7 +30,6 @@
 	* gcu/gtkcrystalviewer.cc,
 	* gcu/gtkperiodic.c: Fixed some memory leaks.
 	* gcu/crystalviewer.h: include gcu/matrix.h instead of just matrix
-	* gcu/element.cc,
 	* gcu/object.h: add support for signals and links.
 	* gcu/object.cc: enhanced ~Object (), fixed a critical
 	bug in Object::AddChild, implemented signals and links,

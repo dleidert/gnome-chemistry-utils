@@ -302,9 +302,9 @@ void Object::Transform2D(Matrix2D& m, double x, double y)
 	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->Transform2D(m, x, y);
 }
 
-bool Object::BuildContextualMenu (GtkUIManager *UIManager)
+bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
 {
-	return (m_Parent)? m_Parent->BuildContextualMenu (UIManager): false;
+	return (m_Parent)? m_Parent->BuildContextualMenu (UIManager, object): false;
 }
 
 void Object::Add(GtkWidget* w)
