@@ -36,7 +36,7 @@ Description: GNOME chemistry utils (development version)
 Package: libgchemutils-doc
 Architecture: any
 Section: doc
-Depends: libgchemutils0 (>= ${Source-Version})
+Depends: libgchemutils0 (>= ${Source-Version}), gchemutils
 Suggests: lynx | www-browser
 Description: GNOME chemistry utils (documentation)
  The GNOME Chemistry Utils provide C++ classes and Gtk+-2 widgets
