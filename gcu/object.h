@@ -572,6 +572,12 @@ private:
 	Object *m_Parent;
 	map<string, Object*> m_Children; //string is Id of object, so each object must have an Id
 	set<Object*> m_Links; //objects linked to this but outside of the hierarchy
+
+protected:
+/*!
+Set to true while loading to avoid signal propagation.
+*/
+	bool m_IsLoading;
 };
 
 }

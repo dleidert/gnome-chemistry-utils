@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2004-12-03 Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/object.h,
+	* gcu/object.cc: add a bool member to Object class to avoid signal
+	propagation while loading.
+
 2004-11-28 Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/document.h: changed signature of Document::GetNewId and made it
 	private, add friend class Object.

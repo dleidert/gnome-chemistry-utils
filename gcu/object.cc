@@ -35,6 +35,7 @@ Object::Object(TypeId Id)
 	m_Type = Id;
 	m_Id = NULL;
 	m_Parent = NULL;
+	m_IsLoading = false;
 }
 
 Object::~Object()
@@ -233,6 +234,7 @@ bool Object::Load (xmlNodePtr node)
 	xmlNodePtr child;
 	Object* pObject;
 
+	m_IsLoading = true;
 	tmp = xmlGetProp (node, (xmlChar*) "id");
 	if (tmp) {
 		SetId ((char*) tmp);
@@ -241,10 +243,13 @@ bool Object::Load (xmlNodePtr node)
 	child = node->children;
 	while (child) {
 		pObject = CreateObject ((const char*) child->name, this);
-		if (!pObject || !pObject->Load (child))
+		if (!pObject || !pObject->Load (child)) {
+			m_IsLoading = false;
 			return false;
+		}
 		child = child->next;
 	}
+	m_IsLoading = false;
 	return true;
 }
 
@@ -514,7 +519,7 @@ void Object::EmitSignal (SignalId Signal)
 {
 	Object *obj = NULL;
 	Object *ancestor = this;
-	while (ancestor && ancestor->OnSignal (Signal, obj)) {
+	while (ancestor && !ancestor->m_IsLoading && ancestor->OnSignal (Signal, obj)) {
 		obj = ancestor;
 		ancestor = obj->m_Parent;
 	}
