@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2004-02-13 Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* configure.ac: removed an extra "fi" 
+
+2004-02-13 Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* configure.ac: updated some required versions and 
 	removed GtkGLArea which is unmaintained, removed
 	definition of *_DISABLE_DEPRECATED
