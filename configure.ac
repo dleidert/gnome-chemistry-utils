@@ -40,7 +40,7 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for interna
 LIBGLADE_REQUIRED_VERSION=1.99.5
 GTKGL_REQUIRED_VERSION=1.99.0
 GTKGLEXT_REQUIRED_VERSION=0.5.1
-GNOME_PRINT_REQUIRED_VERSION=1.109.0
+GNOME_PRINT_REQUIRED_VERSION=2.1.3
 
 gl_flags=
 gtkcrystalviewer="-lgtkcrystalviewer"
@@ -48,7 +48,7 @@ gtkcrystalviewer="-lgtkcrystalviewer"
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkgl-2.0 >= $GTKGL_REQUIRED_VERSION \
-libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 ,have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLAREA,1,[Compile with GtlGLArea])
@@ -57,7 +57,7 @@ else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkglext-0.x >= $GTKGLEXT_REQUIRED_VERSION \
-libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
@@ -65,7 +65,7 @@ gl_flags="-DUSE_GTKGLEXT"
 else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
-libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 )
 gtkcrystalviewer=
 fi
@@ -90,10 +90,10 @@ if test "$exec_prefix" = "NONE"; then
 else
 	eval lb=`echo $libdir`
 fi
-AC_DEFINE_UNQUOTED(PREFIX, "$prefix",[Where Gnome Crstal is to be installed])
-AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Crystal data are to be installed (default=${prefix}/share)])
-AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Crystal configuration files are to be installed (default=${prefix}/etc)])
-AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Crystal libraries are to be installed (default=${prefix}/lib)])
+AC_DEFINE_UNQUOTED(PREFIX, "$prefix",[Where the Gnome Chemistry Utils is to be installed])
+AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Chemistry Utils data are to be installed (default=${prefix}/share)])
+AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Chemistry Utils configuration files are to be installed (default=${prefix}/etc)])
+AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Chemistry Utils libraries are to be installed (default=${prefix}/lib)])
 
 AC_OUTPUT([
 Makefile
