@@ -1,6 +1,8 @@
 ##Text encoding: utf-8
 
 2004-02-07  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* configure.ac:
+	* Doxyfile: update version to 0.2.3
 	* chem3d/gtkchem3dviewer.cc: moved include gnome-vfs.h
 	* chemistry/chemistry.cc: removed include libintl.h
 	* Makefile.am:
