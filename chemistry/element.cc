@@ -130,11 +130,11 @@ EltTable::EltTable()
 					radius->Z = Z;	//FIXME: is it really useful there?
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"type");
 					if (!tmp ||
-						(!((!strcmp(tmp, "covalent")) && (radius->type = GCU_COVALENT))) &&
+						((!((!strcmp(tmp, "covalent")) && (radius->type = GCU_COVALENT))) &&
 						(!((!strcmp(tmp, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
 						(!((!strcmp(tmp, "ionic")) && (radius->type = GCU_IONIC))) &&
 						(!((!strcmp(tmp, "metallic")) && (radius->type = GCU_METALLIC))) &&
-						(!((!strcmp(tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true))))
+						(!((!strcmp(tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true)))))
 					{	//invalid radius
 						delete radius;
 						continue;
@@ -159,6 +159,7 @@ EltTable::EltTable()
 						radius->value = strtod(tmp, NULL);
 						Elt->m_radii.push_back(radius);
 					}
+					else delete radius;
 				}
 				child = child->next;
 			}

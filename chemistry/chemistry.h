@@ -41,6 +41,7 @@ enum gcu_spin_state
 
 enum gcu_radius_type
 {
+	GCU_RADIUS_UNKNOWN,
 	GCU_ATOMIC,
 	GCU_IONIC,
 	GCU_METALLIC,

@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
-2330-06-12 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+2003-06-16 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Change atoms radii in crystal from double to GcuCrystalRadius
+
+2003-06-12 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Added a PropertyBag to the Chem3D Bonobo Control
 	* New program test for the Bonobo Control
 	

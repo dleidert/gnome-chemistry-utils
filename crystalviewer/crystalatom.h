@@ -31,7 +31,8 @@
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include <chemistry/atom.h>
+#include "chemistry/atom.h"
+#include "chemistry/chemistry.h"
 
 using namespace std;
 
@@ -61,7 +62,9 @@ public :
 	double ScalProd(int h, int k, int l);
 	void NetToCartesian(double a, double b, double c, double alpha, double beta, double gamma);
 	double Distance(double x, double y, double z, bool bFixed);
-	double r() {return m_dr;}
+	double r() {return m_Radius.value;}
+	const GcuAtomicRadius& GetRadius() {return m_Radius;}
+	void SetRadius(GcuAtomicRadius& r) {m_Radius = r;}
 	bool IsCleaved() {return m_nCleave != 0;}
 	virtual bool SaveNode(xmlDocPtr, xmlNodePtr);
 	virtual bool LoadNode(xmlNodePtr node);
@@ -69,7 +72,7 @@ public :
 protected:
 	float m_fBlue, m_fRed, m_fGreen, m_fAlpha;
 	bool m_bCustomColor;
-	double m_dr;
+	GcuAtomicRadius m_Radius;
 	int m_nCleave; //0 if not cleaved
 };
 

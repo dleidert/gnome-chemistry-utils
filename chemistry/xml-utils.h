@@ -29,6 +29,7 @@
 #define GCU_XML_UTILS_H
 
 #include <libxml/parser.h>
+#include "chemistry/chemistry.h"
 
 xmlNodePtr FindNodeByNameAndId(xmlNodePtr node, const char* name, const char* id = NULL);
 
@@ -38,4 +39,6 @@ bool WritePosition(xmlDocPtr xml, xmlNodePtr node, const char* id, double x, dou
 bool ReadColor(xmlNodePtr node, const char* id, float* red, float* green, float* blue, float* alpha = NULL);
 bool WriteColor(xmlDocPtr xml, xmlNodePtr node, const char* id, double red, double green, double blue, double alpha = 1.0);
 
+bool ReadRadius(xmlNodePtr node, GcuAtomicRadius& radius);
+bool WriteRadius(xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius);
 #endif	// GCU_XML_UTILS_H

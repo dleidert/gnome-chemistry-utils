@@ -118,3 +118,96 @@ bool WriteColor(xmlDocPtr xml, xmlNodePtr node, const char* id, double red, doub
 	}
 	return true;
 }
+
+bool ReadRadius(xmlNodePtr node, GcuAtomicRadius& radius)
+{
+	char *tmp;
+	tmp = (char*) xmlGetProp(node, (xmlChar*)"type");
+	if (!tmp ||
+		((!((!strcmp(tmp, "unknown")) && (radius.type = GCU_RADIUS_UNKNOWN))) &&
+		(!((!strcmp(tmp, "covalent")) && (radius.type = GCU_COVALENT))) &&
+		(!((!strcmp(tmp, "vdW")) && (radius.type = GCU_VAN_DER_WAALS))) &&
+		(!((!strcmp(tmp, "ionic")) && (radius.type = GCU_IONIC))) &&
+		(!((!strcmp(tmp, "metallic")) && (radius.type = GCU_METALLIC))) &&
+		(!((!strcmp(tmp, "atomic")) && (radius.type = GCU_ATOMIC)))))
+			radius.type = GCU_RADIUS_UNKNOWN;
+	tmp = (char*) xmlGetProp(node, (xmlChar*)"scale");
+	if (tmp) radius.scale = g_strdup(tmp);
+	else radius.scale = NULL;
+	tmp = (char*) xmlGetProp(node, (xmlChar*)"charge");
+	if (tmp) radius.charge = strtol(tmp, NULL, 10);
+	else radius.charge = 0;
+	tmp = (char*) xmlGetProp(node, (xmlChar*)"cn");
+	if (tmp) radius.cn = strtol(tmp, NULL, 10);
+	else radius.charge = -1;
+	tmp = (char*) xmlGetProp(node, (xmlChar*)"spin");
+	if ((!tmp) ||
+		(!((!strcmp(tmp, "low")) && (radius.spin = GCU_LOW_SPIN))) ||
+		(!((!strcmp(tmp, "high")) && (radius.spin = GCU_HIGH_SPIN))))
+	radius.spin = GCU_N_A_SPIN;
+	if ((tmp = (char*) xmlGetProp(node, (xmlChar*)"value")) ||
+		(tmp = (char*)xmlNodeGetContent(node)))
+	{
+		radius.value = strtod(tmp, NULL);
+		radius.scale = "custom";
+	}
+	else if (radius.scale && strcmp(radius.scale, "custom"))
+	{
+		if (!gcu_element_get_radius(&radius)) return false;
+	}
+	else return false;
+	if (radius.value <= 0.0) return false;
+	return true;
+}
+
+bool WriteRadius(xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
+{
+	xmlNodePtr child;
+	gchar buf[256], *tmp;
+
+	child = xmlNewDocNode(xml, NULL, (xmlChar*)"radius", NULL);
+	if (child) xmlAddChild(node, child);
+	else return false;
+	switch (radius.type)
+	{
+		case GCU_RADIUS_UNKNOWN:
+			tmp = NULL;
+			break;
+		case GCU_ATOMIC:
+			tmp = "atomic";
+			break;
+		case GCU_IONIC:
+			tmp = "ionic";
+			break;
+		case GCU_METALLIC:
+			tmp = "metallic";
+			break;
+		case GCU_COVALENT:
+			tmp = "covalent";
+			break;
+		case GCU_VAN_DER_WAALS:
+			tmp = "vdW";
+			break;
+	}
+	if (tmp) xmlNewProp(child, (xmlChar*)"type", (xmlChar*)tmp);
+	if ((radius.type == GCU_RADIUS_UNKNOWN) || (radius.scale && (!strcmp(radius.scale, "custom"))))
+	{
+		g_snprintf(buf, sizeof(buf) - 1, "%g", radius.value);
+		xmlNewProp(child, (xmlChar*)"value", (xmlChar*)buf);
+	}
+	if (radius.scale &&  (!strcmp(radius.scale, "custom")))
+		xmlNewProp(child, (xmlChar*)"scale", (xmlChar*)"custom");
+	if (radius.charge)
+	{
+		g_snprintf(buf, sizeof(buf) - 1, "%d", radius.charge);
+		xmlNewProp(child, (xmlChar*)"scale", (xmlChar*)buf);
+	}
+	if (radius.cn != -1)
+	{
+		g_snprintf(buf, sizeof(buf) - 1, "%d", radius.cn);
+		xmlNewProp(child, (xmlChar*)"cn", (xmlChar*)buf);
+	}
+	if (radius.spin != GCU_N_A_SPIN)
+		xmlNewProp(child, (xmlChar*)"cn", (xmlChar*)((radius.spin == GCU_LOW_SPIN)? "low": "high"));
+	return true;
+}

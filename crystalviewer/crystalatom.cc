@@ -35,32 +35,46 @@ using namespace gcu;
 
 CrystalAtom::CrystalAtom(): Atom()
 {
-	m_dr = 0.0 ;
+	m_Radius.Z = (unsigned char) GetZ();
+	m_Radius.type = GCU_RADIUS_UNKNOWN;
+	m_Radius.scale = NULL;
+	m_Radius.spin = GCU_N_A_SPIN,
+	m_Radius.charge = 0;
+	m_Radius.value = 0.0;
+	m_Radius.cn = -1;
 	m_bCustomColor = false;
-	m_fRed = m_fBlue = m_fGreen = 0 ;
-	m_fAlpha = 1 ;
-	m_nCleave = 0 ;
+	m_fRed = m_fBlue = m_fGreen = 0;
+	m_fAlpha = 1;
+	m_nCleave = 0;
 }
 
 CrystalAtom::~CrystalAtom()
 {
+	if (m_Radius.scale) g_free(m_Radius.scale);
 }
 
 CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 {
+	m_Radius.Z = (unsigned char) GetZ();
+	m_Radius.type = GCU_RADIUS_UNKNOWN;
+	m_Radius.scale = NULL;
+	m_Radius.spin = GCU_N_A_SPIN,
+	m_Radius.charge = 0;
+	m_Radius.value = 0.0;
+	m_Radius.cn = -1;
 	SetDefaultColor();
 	m_nCleave = 0;
 }
 
 CrystalAtom::CrystalAtom(CrystalAtom& caAtom): Atom(caAtom)
 {
-	m_dr = caAtom.m_dr ;
+	m_Radius = caAtom.m_Radius;
 	m_bCustomColor = caAtom.m_bCustomColor;
-	m_fRed = caAtom.m_fRed ;
-	m_fGreen = caAtom.m_fGreen ;
-	m_fBlue = caAtom.m_fBlue ;
-	m_fAlpha = caAtom.m_fAlpha ;
-	m_nCleave = 0 ;
+	m_fRed = caAtom.m_fRed;
+	m_fGreen = caAtom.m_fGreen;
+	m_fBlue = caAtom.m_fBlue;
+	m_fAlpha = caAtom.m_fAlpha;
+	m_nCleave = 0;
 }
 
 CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
@@ -69,7 +83,7 @@ CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
 	double x, y, z;
 	caAtom.GetCoords(&x, &y, &z);
 	SetCoords(x, y, z);
-	m_dr = caAtom.m_dr ;
+	m_Radius = caAtom.m_Radius;
 	m_bCustomColor = caAtom.m_bCustomColor;
 	m_fRed = caAtom.m_fRed ;
 	m_fGreen = caAtom.m_fGreen ;
@@ -89,7 +103,7 @@ void CrystalAtom::Draw()
 	quadObj = gluNewQuadric() ;
     gluQuadricDrawStyle(quadObj, GL_FILL);
 	gluQuadricNormals(quadObj, GL_SMOOTH) ;
-	gluSphere(quadObj, m_dr, 20, 10) ;
+	gluSphere(quadObj, m_Radius.value, 20, 10) ;
 	gluDeleteQuadric(quadObj) ;
 	glPopMatrix() ;
 }
@@ -122,13 +136,19 @@ void CrystalAtom::GetColor(double *red, double *green, double *blue, double *alp
 
 void CrystalAtom::SetSize(double r)
 {
-	m_dr = r ;
+	m_Radius.Z = (unsigned char) GetZ();
+	m_Radius.type = GCU_RADIUS_UNKNOWN;
+	m_Radius.scale = NULL;
+	m_Radius.spin = GCU_N_A_SPIN,
+	m_Radius.charge = 0;
+	m_Radius.cn = -1;
+	m_Radius.value = r;
 }
 
 
 double CrystalAtom::GetSize()
 {
-	return m_dr ;
+	return m_Radius.value;
 }
 
 bool CrystalAtom::operator==(CrystalAtom& caAtom)
@@ -149,7 +169,7 @@ double CrystalAtom::Distance(double dx, double dy, double dz, bool bFixed)
 	dx -= x() ;
 	dy -= y() ;
 	dz -= z() ;
-	return sqrt(dx * dx + dy * dy + dz * dz) + m_dr ;
+	return sqrt(dx * dx + dy * dy + dz * dz) + m_Radius.value ;
 }
 
 void CrystalAtom::NetToCartesian(double a, double b, double c, double alpha, double beta, double gamma)
@@ -164,13 +184,7 @@ void CrystalAtom::NetToCartesian(double a, double b, double c, double alpha, dou
 
 bool CrystalAtom::SaveNode(xmlDocPtr xml, xmlNodePtr node)
 {
-	xmlNodePtr parent, child;
-	gchar buf[256];
-	
-	g_snprintf(buf, sizeof(buf) - 1, "%g", m_dr);
-	child = xmlNewDocNode(xml, NULL, (xmlChar*)"radius", (xmlChar*)buf);
-	if (child) xmlAddChild(node, child);
-	else return false;
+	if (!WriteRadius(xml, node, m_Radius)) return false;
 	
 	if (m_bCustomColor && !WriteColor(xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha)) return false;
 	
@@ -188,7 +202,8 @@ bool CrystalAtom::LoadNode(xmlNodePtr node)
 		m_bCustomColor = true;
 	}
 	child = FindNodeByNameAndId(node, "radius");
-	if (!child || !(txt = (char*)xmlNodeGetContent(child)) || (sscanf(txt, "%lg", &m_dr),m_dr == 0)) return false;
-	return true;
+	if (!child) return false;
+	bool result = ReadRadius(child, m_Radius);
+	m_Radius.Z = GetZ();
+	return result;
 }
-
