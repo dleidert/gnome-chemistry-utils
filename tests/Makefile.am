@@ -8,10 +8,12 @@ DEPS = \
 LDADDS = $(top_builddir)/gtkperiodic/libgtkperiodic.la @GCU_LIBS@
 AM_CFLAGS = @GCU_CFLAGS@ -Werror-implicit-function-declaration
 
+noinst_PROGRAMS = 			\
+	testgtkperiodic
+
 if WITH_GTKGL
 
-noinst_PROGRAMS = 			\
-	testgtkperiodic		\
+noinst_PROGRAMS += 			\
 	testgtkcrystalviewer	\
 	testgtkchem3dviewer \
 	testbonobocontrol
@@ -34,11 +36,6 @@ testgtkchem3dviewer_SOURCES =	\
 
 testbonobocontrol_SOURCES = testbonobocontrol.c
 testbonobocontrol_LDADD =  @GC3D_LIBS@
-
-else
-
-noinst_PROGRAMS = 			\
-	testgtkperiodic
 
 endif
 

@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2004-02-07  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* Makefile.am
+	* tests/Makefile.am: update to work with automake 1.8.x
+	
+2004-02-07  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* chem3d/gtkchem3dviewer.cc: turn around an openbabel bug.
 	* gtkperiodic/gtkperiodic.c: (gtk_periodic_init): fixed a textdomain bug.
 	* gtkperiodic/gtkperiodic.c: add a call to textdomain.
