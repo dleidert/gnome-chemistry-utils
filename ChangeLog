@@ -1,4 +1,9 @@
 ##Text encoding: utf-8
+2003-06-28 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* element.cc: a bug fixed in the database loading
+	* gtkchem3dviewer.cc: change the coordinates system to get with
+	gchem3d and mozilla-bonobo something more similar to chime
+	
 2003-06-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Updated GtkChem3D dependencies to OpenBabel-0.100.1
 

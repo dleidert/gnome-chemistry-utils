@@ -150,7 +150,7 @@ EltTable::EltTable()
 					else radius->cn = -1;
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"spin");
 					if ((!tmp) ||
-						(!((!strcmp(tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) ||
+						(!((!strcmp(tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
 						(!((!strcmp(tmp, "high")) && (radius->spin = GCU_HIGH_SPIN))))
 					radius->spin = GCU_N_A_SPIN;
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"value");

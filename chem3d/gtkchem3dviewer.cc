@@ -492,7 +492,7 @@ void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
 			if ((w = sqrt(x * x + y * y + z * z)) > dist - R)
 				dist = w + R;
 			glPushMatrix() ;
-			glTranslated(y, z, x) ;
+			glTranslated(x, y, z) ;
 			glColor3d(color[0], color[1], color[2]) ;
 			quadObj = gluNewQuadric() ;
 			gluQuadricDrawStyle(quadObj, GL_FILL);
@@ -517,17 +517,17 @@ void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
 			y1 = atom->GetY() - y0 - y;
 			z1 = atom->GetZ() - z0 - z;
 			dist = sqrt(x1 * x1 + y1 * y1 + z1 * z1);
-			w = sqrt(y1 * y1 + z1 * z1);
+			w = sqrt(x1 * x1 + y1 * y1);
 			if (w > 0)
 			{
-				xrot = - z1 / w ;
-				yrot = y1 / w ;
-				arot = atan2(w, x1) * 90 / 1.570796326794897 ;
+				xrot = - y1 / w ;
+				yrot = x1 / w ;
+				arot = atan2(w, z1) * 90 / 1.570796326794897 ;
 			}
 			else
 			{
 				xrot = 0;
-				if (x1 > 0) yrot = arot = 0.0;
+				if (z1 > 0) yrot = arot = 0.0;
 				else
 				{
 					yrot = 1.0;
@@ -535,7 +535,7 @@ void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
 				}
 			}
 			glPushMatrix();
-			glTranslated(y, z, x);
+			glTranslated(x, y, z);
 			glRotated(arot, xrot, yrot, 0.0f);
 			glColor3f(0.75, 0.75, 0.75);
 			quadObj = gluNewQuadric();
