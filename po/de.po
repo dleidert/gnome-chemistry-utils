@@ -9,13 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils 0.3.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-21 15:00+0200\n"
+"POT-Creation-Date: 2005-03-16 12:30+0100\n"
 "PO-Revision-Date: 2004-10-13 18:21+0200\n"
 "Last-Translator: Christian Lohmaier <cloph@cup.uni-muenchen.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: glade/gtkperiodic.glade.h:1
 msgid "Actinides"
@@ -350,104 +350,104 @@ msgid "Rhodium"
 msgstr "Rhodium"
 
 #: gcu/elements.xml.in.h:82
+msgid "Roentgenium"
+msgstr "Roentgenium"
+
+#: gcu/elements.xml.in.h:83
 msgid "Rubidium"
 msgstr "Rubidium"
 
-#: gcu/elements.xml.in.h:83
+#: gcu/elements.xml.in.h:84
 msgid "Ruthenium"
 msgstr "Ruthenium"
 
-#: gcu/elements.xml.in.h:84
+#: gcu/elements.xml.in.h:85
 msgid "Rutherfordium"
 msgstr "Rutherfordium"
 
-#: gcu/elements.xml.in.h:85
+#: gcu/elements.xml.in.h:86
 msgid "Samarium"
 msgstr "Samarium"
 
-#: gcu/elements.xml.in.h:86
+#: gcu/elements.xml.in.h:87
 msgid "Scandium"
 msgstr "Scandium"
 
-#: gcu/elements.xml.in.h:87
+#: gcu/elements.xml.in.h:88
 msgid "Seaborgium"
 msgstr "Seaborgium"
 
-#: gcu/elements.xml.in.h:88
+#: gcu/elements.xml.in.h:89
 msgid "Selenium"
 msgstr "Selen"
 
-#: gcu/elements.xml.in.h:89
+#: gcu/elements.xml.in.h:90
 msgid "Silicon"
 msgstr "Silicium"
 
-#: gcu/elements.xml.in.h:90
+#: gcu/elements.xml.in.h:91
 msgid "Silver"
 msgstr "Silber"
 
-#: gcu/elements.xml.in.h:91
+#: gcu/elements.xml.in.h:92
 msgid "Sodium"
 msgstr "Natrium"
 
-#: gcu/elements.xml.in.h:92
+#: gcu/elements.xml.in.h:93
 msgid "Strontium"
 msgstr "Strontium"
 
-#: gcu/elements.xml.in.h:93
+#: gcu/elements.xml.in.h:94
 msgid "Sulfur"
 msgstr "Schwefel"
 
-#: gcu/elements.xml.in.h:94
+#: gcu/elements.xml.in.h:95
 msgid "Tantalum"
 msgstr "Tantal"
 
-#: gcu/elements.xml.in.h:95
+#: gcu/elements.xml.in.h:96
 msgid "Technetium"
 msgstr "Technetium"
 
-#: gcu/elements.xml.in.h:96
+#: gcu/elements.xml.in.h:97
 msgid "Tellurium"
 msgstr "Tellur"
 
-#: gcu/elements.xml.in.h:97
+#: gcu/elements.xml.in.h:98
 msgid "Terbium"
 msgstr "Terbium"
 
-#: gcu/elements.xml.in.h:98
+#: gcu/elements.xml.in.h:99
 msgid "Thallium"
 msgstr "Thallium"
 
-#: gcu/elements.xml.in.h:99
+#: gcu/elements.xml.in.h:100
 msgid "Thorium"
 msgstr "Thorium"
 
-#: gcu/elements.xml.in.h:100
+#: gcu/elements.xml.in.h:101
 msgid "Thulium"
 msgstr "Thulium"
 
-#: gcu/elements.xml.in.h:101
+#: gcu/elements.xml.in.h:102
 msgid "Tin"
 msgstr "Zinn"
 
-#: gcu/elements.xml.in.h:102
+#: gcu/elements.xml.in.h:103
 msgid "Titanium"
 msgstr "Titan"
 
-#: gcu/elements.xml.in.h:103
+#: gcu/elements.xml.in.h:104
 msgid "Tungsten"
 msgstr "Wolfram"
 
-#: gcu/elements.xml.in.h:104
+#: gcu/elements.xml.in.h:105
 msgid "Ununbium"
 msgstr "Ununbium"
 
-#: gcu/elements.xml.in.h:105
+#: gcu/elements.xml.in.h:106
 msgid "Ununquadium"
 msgstr "Ununquadium"
-
-#: gcu/elements.xml.in.h:106
-msgid "Unununium"
-msgstr "Unununium"
 
 #: gcu/elements.xml.in.h:107
 msgid "Uranium"
@@ -477,23 +477,25 @@ msgstr "Zink"
 msgid "Zirconium"
 msgstr "Zirconium"
 
-#: gcu/gchem3d-0.3.server.in.in.h:1
+#: gcu/gchem3d.server.in.in.h:1
 msgid "Gnome Chemistry 3D Viewer component"
 msgstr "Gnome Chemistry 3D Betrachtermodul"
 
-#: gcu/gchem3d-0.3.server.in.in.h:2
+#: gcu/gchem3d.server.in.in.h:2
 msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
-msgstr "Gnome Chemistry 3D Betrachter komponente zur Darstellung molekularer Strukturen"
+msgstr ""
+"Gnome Chemistry 3D Betrachter komponente zur Darstellung molekularer "
+"Strukturen"
 
-#: gcu/gchem3d-0.3.server.in.in.h:3
+#: gcu/gchem3d.server.in.in.h:3
 msgid "Gnome Chemistry 3D Viewer embeddable factory"
 msgstr "Gnome Chemistry 3D Betrachter (einbettbare Komponente)"
 
-#: gcu/gchem3d-0.3.server.in.in.h:4
+#: gcu/gchem3d.server.in.in.h:4
 msgid "Gnome Chemistry 3D Viewer object factory"
 msgstr "Gnome Chemistry 3D Betrachter Objektkomponente"
 
-#: gcu/gchem3d-0.3.server.in.in.h:5
+#: gcu/gchem3d.server.in.in.h:5
 msgid "Molecular Model"
 msgstr "Molekülmodell"
 
@@ -513,3 +515,5 @@ msgstr "PDB Datei"
 msgid "XYZ file"
 msgstr "XYZ Datei"
 
+#~ msgid "Unununium"
+#~ msgstr "Unununium"

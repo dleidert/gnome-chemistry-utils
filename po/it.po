@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome_chemistry_utils_0.3.1_it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-21 15:00+0200\n"
+"POT-Creation-Date: 2005-03-16 12:30+0100\n"
 "PO-Revision-Date: 2004-10-07 07:07+0200\n"
 "Last-Translator: Kostantino <inverness1ATvirgilio.it>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -349,104 +349,104 @@ msgid "Rhodium"
 msgstr "Rodio"
 
 #: gcu/elements.xml.in.h:82
+msgid "Roentgenium"
+msgstr "Roentgenio"
+
+#: gcu/elements.xml.in.h:83
 msgid "Rubidium"
 msgstr "Rubidio"
 
-#: gcu/elements.xml.in.h:83
+#: gcu/elements.xml.in.h:84
 msgid "Ruthenium"
 msgstr "Rutenio"
 
-#: gcu/elements.xml.in.h:84
+#: gcu/elements.xml.in.h:85
 msgid "Rutherfordium"
 msgstr "Rutherfordio"
 
-#: gcu/elements.xml.in.h:85
+#: gcu/elements.xml.in.h:86
 msgid "Samarium"
 msgstr "Samario"
 
-#: gcu/elements.xml.in.h:86
+#: gcu/elements.xml.in.h:87
 msgid "Scandium"
 msgstr "Scandio"
 
-#: gcu/elements.xml.in.h:87
+#: gcu/elements.xml.in.h:88
 msgid "Seaborgium"
 msgstr "Seaborgio"
 
-#: gcu/elements.xml.in.h:88
+#: gcu/elements.xml.in.h:89
 msgid "Selenium"
 msgstr "Selenio"
 
-#: gcu/elements.xml.in.h:89
+#: gcu/elements.xml.in.h:90
 msgid "Silicon"
 msgstr "Silicio"
 
-#: gcu/elements.xml.in.h:90
+#: gcu/elements.xml.in.h:91
 msgid "Silver"
 msgstr "Argento"
 
-#: gcu/elements.xml.in.h:91
+#: gcu/elements.xml.in.h:92
 msgid "Sodium"
 msgstr "Sodio"
 
-#: gcu/elements.xml.in.h:92
+#: gcu/elements.xml.in.h:93
 msgid "Strontium"
 msgstr "Stronzio"
 
-#: gcu/elements.xml.in.h:93
+#: gcu/elements.xml.in.h:94
 msgid "Sulfur"
 msgstr "Zolfo"
 
-#: gcu/elements.xml.in.h:94
+#: gcu/elements.xml.in.h:95
 msgid "Tantalum"
 msgstr "Tantalio"
 
-#: gcu/elements.xml.in.h:95
+#: gcu/elements.xml.in.h:96
 msgid "Technetium"
 msgstr "Tecnezio"
 
-#: gcu/elements.xml.in.h:96
+#: gcu/elements.xml.in.h:97
 msgid "Tellurium"
 msgstr "Tellurio"
 
-#: gcu/elements.xml.in.h:97
+#: gcu/elements.xml.in.h:98
 msgid "Terbium"
 msgstr "Terbio"
 
-#: gcu/elements.xml.in.h:98
+#: gcu/elements.xml.in.h:99
 msgid "Thallium"
 msgstr "Tallio"
 
-#: gcu/elements.xml.in.h:99
+#: gcu/elements.xml.in.h:100
 msgid "Thorium"
 msgstr "Torio"
 
-#: gcu/elements.xml.in.h:100
+#: gcu/elements.xml.in.h:101
 msgid "Thulium"
 msgstr "Tullio"
 
-#: gcu/elements.xml.in.h:101
+#: gcu/elements.xml.in.h:102
 msgid "Tin"
 msgstr "Stagno"
 
-#: gcu/elements.xml.in.h:102
+#: gcu/elements.xml.in.h:103
 msgid "Titanium"
 msgstr "Titanio"
 
-#: gcu/elements.xml.in.h:103
+#: gcu/elements.xml.in.h:104
 msgid "Tungsten"
 msgstr "Tungsteno"
 
-#: gcu/elements.xml.in.h:104
+#: gcu/elements.xml.in.h:105
 msgid "Ununbium"
 msgstr "Ununbio"
 
-#: gcu/elements.xml.in.h:105
+#: gcu/elements.xml.in.h:106
 msgid "Ununquadium"
 msgstr "Ununquadio"
-
-#: gcu/elements.xml.in.h:106
-msgid "Unununium"
-msgstr "Unununio"
 
 #: gcu/elements.xml.in.h:107
 msgid "Uranium"
@@ -476,25 +476,25 @@ msgstr "Zinco"
 msgid "Zirconium"
 msgstr "Zirconio"
 
-#: gcu/gchem3d-0.3.server.in.in.h:1
+#: gcu/gchem3d.server.in.in.h:1
 msgid "Gnome Chemistry 3D Viewer component"
 msgstr "Componente del visualizzatore 3D di Gnome Chemistry"
 
-#: gcu/gchem3d-0.3.server.in.in.h:2
+#: gcu/gchem3d.server.in.in.h:2
 msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
 msgstr ""
-"Componente del visualizzatore 3D di Gnome "
-"Chemistry per mostrare strutture molecolari"
+"Componente del visualizzatore 3D di Gnome Chemistry per mostrare strutture "
+"molecolari"
 
-#: gcu/gchem3d-0.3.server.in.in.h:3
+#: gcu/gchem3d.server.in.in.h:3
 msgid "Gnome Chemistry 3D Viewer embeddable factory"
 msgstr "Fabbrica integrabile del visualizzatore 3D di Gnome Chemistry"
 
-#: gcu/gchem3d-0.3.server.in.in.h:4
+#: gcu/gchem3d.server.in.in.h:4
 msgid "Gnome Chemistry 3D Viewer object factory"
 msgstr "Fabbrica dell'oggetto Visualizzatore3D di Gnome Chemistry"
 
-#: gcu/gchem3d-0.3.server.in.in.h:5
+#: gcu/gchem3d.server.in.in.h:5
 msgid "Molecular Model"
 msgstr "Modello molecolare"
 
@@ -514,3 +514,5 @@ msgstr "File PDB"
 msgid "XYZ file"
 msgstr "File XYZ"
 
+#~ msgid "Unununium"
+#~ msgstr "Unununio"
