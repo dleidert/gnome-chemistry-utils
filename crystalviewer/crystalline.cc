@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * crystalbond.cc 
+ * crystalline.cc 
  *
  * Copyright (C) 2002-2003
  *
