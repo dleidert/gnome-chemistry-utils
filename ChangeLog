@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2005-03-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/gchem3d-viewer.c: (main): transform argument to full uri.
+	* gcu/gtkchem3dviewer.cc: fixed typos.
+
+2005-03-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Doxyfile: restore it.
 	* autogen.sh: use Doxyfile instead of 
 	* configure.ac: generate Doxyfile.
