@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * chemistry/object.cc 
  *
- * Copyright (C) 2002
+ * Copyright (C) 2002-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -257,8 +257,10 @@ unsigned Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 	return (id == OtherType)? NextType++: (unsigned)id;
 }
 
-Object* Object::CreateObject(string TypeName)
+Object* Object::CreateObject(string& TypeName, Object* parent)
 {
-	return (CreateFuncs[TypeName])? CreateFuncs[TypeName](): NULL;
+	Object* pObj = (CreateFuncs[TypeName])? CreateFuncs[TypeName](): NULL;
+	if (parent && pObj) parent->AddChild(pObj);
+	return pObj;
 }
 	

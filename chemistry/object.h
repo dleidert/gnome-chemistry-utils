@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/object.h 
  *
- * Copyright (C) 2002
+ * Copyright (C) 2002-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -95,7 +95,7 @@ public:
 	virtual void SetSelected(GtkWidget* w, int state);
 	bool HasChildren() {return m_Children.size() != 0;}
 	static unsigned AddType(string TypeName, Object*(*)(), TypeId id = OtherType);
-	static Object* CreateObject(string TypeName);
+	static Object* CreateObject(string& TypeName, Object* parent = NULL);
 
 protected:
 	virtual void BuildContextualMenu();

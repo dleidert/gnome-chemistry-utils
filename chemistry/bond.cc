@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2002
+ * Copyright (C) 2001-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -65,7 +65,7 @@ Atom* Bond::GetAtom(int which)
 
 Atom* Bond::GetAtom(Atom* pAtom, int which)
 {
-	return (pAtom == m_Begin) ? m_End : m_Begin;
+	return (pAtom == m_Begin)? m_End: (pAtom == m_End)? m_Begin: NULL;
 }
 
 unsigned char Bond::GetOrder()
@@ -115,7 +115,7 @@ bool Bond::Load(xmlNodePtr node)
 		child = GetNodeByName(node, "begin");
 		tmp = (char*)xmlNodeGetContent(child); //necessary to read version 0.1.0 files
 	}
-	pObject = GetParent()->GetChild(tmp);
+	pObject = GetParent()->GetDescendant(tmp);
 	if (!pObject || (pObject->GetType() != AtomType)) return false;
 	m_Begin = (Atom*)(pObject);
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"end");
@@ -124,7 +124,7 @@ bool Bond::Load(xmlNodePtr node)
 		child = GetNodeByName(node, "end");
 		tmp = (char*)xmlNodeGetContent(child); //necessary to read version 0.1.0 files
 	}
-	pObject = GetParent()->GetChild(tmp);
+	pObject = GetParent()->GetDescendant(tmp);
 	if (!pObject || (pObject->GetType() != AtomType)) return false;
 	m_End = (Atom*)pObject;
 	m_Begin->AddBond(this);

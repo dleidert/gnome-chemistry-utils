@@ -1,12 +1,18 @@
 ##Text encoding: utf-8
 
+2003-02-22	Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Changed constructor for CrystalAtom: deleted color and radius parameters making new versions incompatible with gcrystal-0.5.0
+	* Use default colors for atoms when none is given
+	* Fixed a bug in Bond::GetAtom(Atom)
+	* Added -DLIBGLADE_DISABLE_DEPRECATED
+
 2003-02-12	Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Changed GL binding preference from GtkGLArea to GtkGLExt
-	*	Added AddType to the ObjectClass to allow for unknown types
-	*	Added elements names and default colors (taken from OpenBabel) to elements
- * Added C binding (chemistry.h) to Element class
-	*	Added tooltips (names of the elements) and possibility for default colors in GtkPeriodic
- * Added the colors to testgtkperiodic
+	* Added AddType to the ObjectClass to allow for unknown types
+	* Added elements names and default colors (taken from OpenBabel) to elements
+	* Added C binding (chemistry.h) to Element class
+	* Added tooltips (names of the elements) and possibility for default colors in GtkPeriodic
+	* Added the colors to testgtkperiodic
 
 2002-12-15	Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Updated GtkGLExt dependency to 0.6.0

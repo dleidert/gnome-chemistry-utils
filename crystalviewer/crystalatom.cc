@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalviewer/crystalatom.cc 
  *
- * Copyright (C) 2002
+ * Copyright (C) 2002-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -25,6 +25,7 @@
  */
 
 #include "crystalatom.h"
+#include "chemistry/element.h"
 #include "chemistry/xml-utils.h"
 #include <math.h>
 #include <GL/glu.h>
@@ -35,6 +36,7 @@ using namespace gcu;
 CrystalAtom::CrystalAtom(): Atom()
 {
 	m_dr = 0.0 ;
+	m_bCustomColor = false;
 	m_fRed = m_fBlue = m_fGreen = 0 ;
 	m_fAlpha = 1 ;
 	m_nCleave = 0 ;
@@ -44,19 +46,16 @@ CrystalAtom::~CrystalAtom()
 {
 }
 
-CrystalAtom::CrystalAtom(int Z, double x, double y, double z, double r, float red, float green, float blue, float alpha): Atom(Z, x, y, z)
+CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 {
-	m_dr = r;
-	m_fRed = red;
-	m_fGreen = green;
-	m_fBlue = blue;
-	m_fAlpha = alpha;
+	SetDefaultColor();
 	m_nCleave = 0;
 }
 
 CrystalAtom::CrystalAtom(CrystalAtom& caAtom): Atom(caAtom)
 {
 	m_dr = caAtom.m_dr ;
+	m_bCustomColor = caAtom.m_bCustomColor;
 	m_fRed = caAtom.m_fRed ;
 	m_fGreen = caAtom.m_fGreen ;
 	m_fBlue = caAtom.m_fBlue ;
@@ -71,6 +70,7 @@ CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
 	caAtom.GetCoords(&x, &y, &z);
 	SetCoords(x, y, z);
 	m_dr = caAtom.m_dr ;
+	m_bCustomColor = caAtom.m_bCustomColor;
 	m_fRed = caAtom.m_fRed ;
 	m_fGreen = caAtom.m_fGreen ;
 	m_fBlue = caAtom.m_fBlue ;
@@ -85,7 +85,6 @@ void CrystalAtom::Draw()
 	GLUquadricObj *quadObj ;
 	glPushMatrix() ;
 	glTranslated(y(), z(), x()) ;
-//	glColor4ub((unsigned char)m_fRed, (unsigned char)m_fGreen, (unsigned char)m_fBlue, (unsigned char)m_fAlpha) ;
 	glColor4f(m_fRed, m_fGreen, m_fBlue, m_fAlpha) ;
 	quadObj = gluNewQuadric() ;
     gluQuadricDrawStyle(quadObj, GL_FILL);
@@ -97,10 +96,20 @@ void CrystalAtom::Draw()
 
 void CrystalAtom::SetColor(float red, float green, float blue, float alpha)
 {
+	m_bCustomColor = true;
 	m_fRed = red ;
 	m_fGreen = green ;
 	m_fBlue = blue ;
 	m_fAlpha = alpha ;
+}
+
+void CrystalAtom::SetDefaultColor()
+{
+	m_bCustomColor = false;
+	double *Colors = Element::GetElement(GetZ())->GetDefaultColor();
+	m_fRed = (float) Colors[0];
+	m_fGreen = (float) Colors[1];
+	m_fBlue = (float) Colors[2];
 }
 
 void CrystalAtom::GetColor(double *red, double *green, double *blue, double *alpha)
@@ -163,7 +172,7 @@ bool CrystalAtom::SaveNode(xmlDocPtr xml, xmlNodePtr node)
 	if (child) xmlAddChild(node, child);
 	else return false;
 	
-	if (!WriteColor(xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha)) return false;
+	if (m_bCustomColor && !WriteColor(xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha)) return false;
 	
 	return true;
 }
@@ -171,8 +180,14 @@ bool CrystalAtom::SaveNode(xmlDocPtr xml, xmlNodePtr node)
 bool CrystalAtom::LoadNode(xmlNodePtr node)
 {
 	char* txt;
-	if (!ReadColor(node, NULL, &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha)) return false;
-	xmlNodePtr child = FindNodeByNameAndId(node, "radius");
+	xmlNodePtr child = FindNodeByNameAndId(node, "color");
+	if (!child) SetDefaultColor();
+	else
+	{
+		if (!ReadColor(node, NULL, &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha)) return false;
+		m_bCustomColor = true;
+	}
+	child = FindNodeByNameAndId(node, "radius");
 	if (!child || !(txt = (char*)xmlNodeGetContent(child)) || (sscanf(txt, "%lg", &m_dr),m_dr == 0)) return false;
 	return true;
 }

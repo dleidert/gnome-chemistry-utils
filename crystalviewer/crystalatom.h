@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalviewer/crystalatom.h 
  *
- * Copyright (C) 2002
+ * Copyright (C) 2002-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -45,12 +45,14 @@ public:
 	virtual ~CrystalAtom();
 
 public :
-	CrystalAtom(int Z, double x, double y, double z, double r, float red, float green, float blue, float alpha);
+	CrystalAtom(int Z, double x, double y, double z);
 	CrystalAtom(CrystalAtom& caAtom);
 	CrystalAtom& operator=(CrystalAtom&);
 
 	void Draw();
 	void SetColor(float red, float green, float blue, float alpha);
+	void SetDefaultColor();
+	bool HasCustomColor() {return m_bCustomColor;}
 	void GetColor(double *red, double *green, double *blue, double *alpha);
 	void SetSize(double r);
 	double GetSize();
@@ -66,6 +68,7 @@ public :
 	
 protected:
 	float m_fBlue, m_fRed, m_fGreen, m_fAlpha;
+	bool m_bCustomColor;
 	double m_dr;
 	int m_nCleave; //0 if not cleaved
 };

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/matrix.h 
  *
- * Copyright (C) 2000-2002
+ * Copyright (C) 2000-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *

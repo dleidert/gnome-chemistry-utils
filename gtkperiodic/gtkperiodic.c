@@ -173,8 +173,6 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 		button = (GtkToggleButton*)glade_xml_get_widget(xml, name);
 		if (GTK_IS_TOGGLE_BUTTON(button))
 		{
-puts("0");
-puts(gcu_element_get_name(i));
 			gtk_tooltips_set_tip(periodic->priv->tips, GTK_WIDGET(button), gcu_element_get_name(i), NULL);
 			periodic->priv->buttons[i] = button;
 			g_signal_connect(G_OBJECT(button), "toggled", (GCallback)on_clicked, periodic);
@@ -202,7 +200,8 @@ static void gtk_periodic_finalize (GObject *object)
 {
 	GtkPeriodic *periodic = (GtkPeriodic*) object;
 
-	g_object_unref(periodic->priv->tips);
+	g_object_ref(periodic->priv->tips);
+	gtk_object_sink(periodic->priv->tips);
 	g_free (periodic->priv);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)

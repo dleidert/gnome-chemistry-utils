@@ -48,7 +48,7 @@ gtkcrystalviewer="-lgtkcrystalviewer"
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
-libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
@@ -65,7 +65,7 @@ gl_flags="-DUSE_GTKGLAREA"
 else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
-libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 )
 gtkcrystalviewer=
 fi
@@ -75,7 +75,8 @@ AC_SUBST(gl_flags)
 AC_SUBST(gtkcrystalviewer)
 AM_CONDITIONAL(WITH_GTKGL,test "$have_gtkgl" = "yes")
 
-GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Werror-implicit-function-declaration"
+GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED \
+-DLIBGLADE_DISABLE_DEPRECATED -Werror-implicit-function-declaration"
 AC_SUBST(GCU_CFLAGS)
 AC_SUBST(GCU_LIBS)
 

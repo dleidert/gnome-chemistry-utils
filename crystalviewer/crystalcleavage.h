@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystalviewer/crystalcleavage.h 
  *
- * Copyright (C) 2002
+ * Copyright (C) 2002-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *

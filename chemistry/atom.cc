@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.cc
  *
- * Copyright (C) 2001-2002
+ * Copyright (C) 2001-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
