@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2004-06-02  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* gcu/object.h: added gObject::GetYAlign and updated some documentation.
+	* gcu/object.cc: added gObject::GetYAlign and implemented default versions
+	for Object::Save and Object::Load.
+
 2004-05-29  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* gcu/object.h,
 	* gcu/object.cc: added throw (invalid_argument) to Object::Build.

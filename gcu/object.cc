@@ -188,9 +188,19 @@ Object* Object::GetNextChild(map<string, Object*>::iterator& i)
 	return (*i).second;
 }
 
-xmlNodePtr Object::Save(xmlDocPtr xml)	//FIXME:Should save every child
+xmlNodePtr Object::Save (xmlDocPtr xml)
 {
-	return NULL;
+	xmlNodePtr node;
+	node = xmlNewDocNode (xml, NULL, (xmlChar*) GetTypeName (m_Type).c_str (), NULL);
+	if (!node) return NULL;
+	SaveId (node);
+	
+	if (!SaveChildren (xml, node))
+	{
+		xmlFreeNode (node);
+		return NULL;
+	}
+	return node;
 }
 
 void Object::SaveId(xmlNodePtr node)
@@ -200,7 +210,23 @@ void Object::SaveId(xmlNodePtr node)
 
 bool Object::Load(xmlNodePtr node)
 {
-	return false;
+	xmlChar* tmp;
+	xmlNodePtr child;
+	Object* pObject;
+
+	tmp = xmlGetProp (node, (xmlChar*) "id");
+	if (tmp) {
+		SetId ((char*) tmp);
+		xmlFree (tmp);
+	}
+	child = node->children;
+	while (child) {
+		pObject = CreateObject ((const char*) child->name, this);
+		if (!pObject || !pObject->Load (child))
+			return false;
+		child = child->next;
+	}
+	return true;
 }
 
 bool Object::SaveChildren(xmlDocPtr xml, xmlNodePtr node)
@@ -303,6 +329,11 @@ Object* Object::GetAtomAt(double x, double y, double z)
 bool Object::Build (list<Object*>& Children) throw (invalid_argument)
 {
 	return false;
+}
+
+double Object::GetYAlign ()
+{
+	return 0.0;
 }
 
 static TypeId NextType = OtherType;

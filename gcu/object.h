@@ -68,7 +68,7 @@ Possible values are:
 Some types are not used in  the Gnome Chemistry Utils, but only in GChemPaint
 and might disappear from this list in future versions and replaced by dynamically created types.
 */	
-enum TypeId
+enum
 {
 	NoType,
 	AtomType,
@@ -87,6 +87,8 @@ enum TypeId
 	TextType,
 	OtherType
 };
+
+typedef unsigned TypeId;
 
 /*!\enum RuleId
 This enumeration is used to maintain a set of rules about the possible
@@ -230,7 +232,8 @@ This method searches the Object in its children and if not found calls the GetDe
 	
 	Used to save the Object to the xmlDoc. Each serializable Object should implement this virtual method.
 	@return the xmlNode containing the serialized object. The name of the node should be the name of the 
-	corresponding type used as first parameter to the Object::AddType method.
+	corresponding type used as first parameter to the Object::AddType method. The
+	default method just saves the id and children.
 */
 	virtual xmlNodePtr Save(xmlDocPtr xml);
 /*!
@@ -255,8 +258,8 @@ Example: \code
 @param y: the y component of the transation vector.
 @param z: the z component of the transation vector.
 
-Used to move an object. This virtual method must be overrided by Object derived classes for which it makes sense.
-The base Object class has no coordinates and the default method does nothing.
+Used to move an object. This virtual method should most often be overrided by Object derived classes for which it makes sense.
+The base Object class has no coordinates and the default method only loads its id and children.
 */
 	virtual void Move(double x, double y, double z = 0.);
 /*!
@@ -383,6 +386,13 @@ This method is called to build a parent object from its children. The object mus
 @return true in case of success and false if failed.
 */
 	virtual bool Build (list<Object*>& Children) throw (invalid_argument);
+
+/*!
+Used to retreive the y coordinate for alignment. The default implementation returns 0.0 and
+every derived class for which alignment has a meaning should implement this method.
+@return y coordinate used for objects alignment.
+*/
+	virtual double GetYAlign ();
 
 /*!
 @param types: the list of TypeId values to fill
