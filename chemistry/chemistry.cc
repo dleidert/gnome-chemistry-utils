@@ -27,7 +27,6 @@
 #include "config.h"
 #include "chemistry.h"
 #include "element.h"
-#include <libintl.h>
 
 extern "C"
 {

@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2004-02-07  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* chem3d/gtkchem3dviewer.cc: moved include gnome-vfs.h
+	* chemistry/chemistry.cc: rmoved include libintl.h
+
 2004-02-04  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* chem3d/gtkchem3dviewer.cc: turn around an openbabel bug.
 	* configure.ac: updated version to 0.2.2.

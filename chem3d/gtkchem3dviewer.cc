@@ -22,7 +22,6 @@
  * Boston, MA  02111-1307, USA.
  */
 
-#include <libgnomevfs/gnome-vfs.h>
 #include <mol.h>
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT
@@ -31,6 +30,7 @@
 #undef PACKAGE_TARNAME
 #undef PACKAGE_VERSION
 #undef VERSION
+#include <libgnomevfs/gnome-vfs.h>
 #include "config.h"
 #include "gtkchem3dviewer.h"
 #include "chemistry/matrix.h"
