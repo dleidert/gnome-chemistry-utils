@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2004-03-17 Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	*configure.ac: update version to 0.2.5
+	* chemistry/object.cc: fix a critical bug in Object::AddChild and made
+	some optimization.
+
 2004-03-10 Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	*configure.ac: removed unused gtk-doc checking
 	* AUTHORS: new polish tranlator

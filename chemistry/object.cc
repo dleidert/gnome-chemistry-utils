@@ -116,9 +116,17 @@ void Object::AddChild(Object* object)
 			while ((Id[i] < '0') || (Id[i] > '9')) i++;
 			gchar *buf = new gchar[i + 16];
 			strncpy(buf, Id, i);
+			buf[i] = 0;
 			g_free(Id);
 			int j = 1;
-			while (snprintf(buf + i, sizeof(buf) - i, "%d", j++), pDoc->GetDescendant(buf) != NULL);
+			string s = m_TranslationTable[buf];
+			if (s.size()) j = atoi(s.c_str());
+			char* key = g_strdup (buf);
+			while (snprintf(buf + i, 16, "%d", j++), pDoc->GetDescendant(buf) != NULL);
+			Id = g_strdup_printf ("%d", j);
+			m_TranslationTable[key] = Id;
+			g_free (Id);
+			g_free (key);
 			pDoc->m_TranslationTable[object->m_Id] = buf;
 			g_free(object->m_Id);
 			object->m_Id = g_strdup(buf);
