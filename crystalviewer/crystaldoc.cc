@@ -60,7 +60,6 @@ gchar *LatticeName[] = {"simple cubic",
 
 CrystalDoc::CrystalDoc()
 {
-	m_bMultiView = false;
 }
 
 
@@ -199,7 +198,7 @@ void CrystalDoc::ParseXMLTree(xmlNode* xml)
 				m_Views.front()->Load(node); //the first view is created with the document
 				bViewLoaded = true;
 			}
-			else LoadNewView();
+			else LoadNewView(node);
 		}
 		node = node->next;
 	}
@@ -208,8 +207,9 @@ void CrystalDoc::ParseXMLTree(xmlNode* xml)
 	Update();
 }
 
-bool CrystalDoc::LoadNewView()
+bool CrystalDoc::LoadNewView(xmlNodePtr node)
 {
+	return true;
 }
 
 CrystalView *CrystalDoc::GetView()

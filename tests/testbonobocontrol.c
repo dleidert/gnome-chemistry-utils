@@ -5,6 +5,10 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include "config.h"
 
+/*!\file
+A simple example of the use of the GtkChem3D Bonobo control.
+*/
+
 CORBA_Environment	 ev;
 
 static guint
@@ -29,14 +33,16 @@ create_app (void)
 	g_signal_connect(G_OBJECT(bonobo_win), "delete_event", (GtkSignalFunc)bonobo_main_quit, NULL);
 	g_signal_connect(G_OBJECT(bonobo_win), "destroy", (GtkSignalFunc)bonobo_main_quit, NULL);
 
-        /*
+     /*
 	 * connect a ui container to the application
 	 */
 	uic = bonobo_ui_container_new ();
 	bonobo_window_construct (bonobo_win, uic, "bonobo-control-test",
 					"a container for GtkChem3D BonoboControl test");
 
-	/* get a widget, containing the control */
+	/* 
+	 * get a widget, containing the control
+	 */
 	control = bonobo_widget_new_control ("OAFIID:gchem3d_control", BONOBO_OBJREF (uic));
 	if (!control) 
 		g_error ("Can't create control\n");
@@ -44,6 +50,9 @@ create_app (void)
 
 	gtk_widget_show_all (GTK_WIDGET(bonobo_win));
 	
+	/*
+	 *Loading data
+	 */
 	uri = "file://"SRCDIR"/tests";
 	bu = bonobo_widget_get_objref (BONOBO_WIDGET(control));
 	bs = Bonobo_Unknown_queryInterface(bu,"IDL:Bonobo/PersistStream:1.0",NULL);
@@ -56,7 +65,7 @@ create_app (void)
 	return FALSE;
 }
 
-	  int 
+int 
 main (int argc, char** argv)
 {
 	CORBA_ORB orb;

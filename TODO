@@ -1,0 +1,2 @@
+(After 0.2)
+* Add a Document class. Move translation table from Object to Document. most of the AddChild stuff should also go there.

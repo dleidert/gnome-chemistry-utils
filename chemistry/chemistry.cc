@@ -23,7 +23,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA  02111-1307, USA.
  */
- 
+
 #include "chemistry.h"
 #include "element.h"
 
@@ -31,12 +31,11 @@ extern "C"
 {
 	
 using namespace gcu;
-	
 const gdouble* gcu_element_get_default_color(gint Z)
 {
 	return Element::GetElement(Z)->GetDefaultColor();
 }
-	
+
 const gchar* gcu_element_get_symbol(gint Z)
 {
 	return Element::Symbol(Z);

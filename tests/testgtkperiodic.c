@@ -4,7 +4,11 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 
-void on_changed(GtkPeriodic* periodic, guint Z, GData* data)
+/*!\file
+A simple example of the use of the GtkPeriodic widget.
+*/
+
+void on_changed(GtkPeriodic* periodic, guint Z, gpointer data)
 {
 	printf("Selected element:%d\n", Z);
 }

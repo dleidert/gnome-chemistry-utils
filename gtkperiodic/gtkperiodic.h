@@ -34,6 +34,16 @@
 
 G_BEGIN_DECLS
 
+/*!\file
+Declaration of the GtkPeriodic widget.
+*/
+/*! \enum GtkPeriodicColorStyle
+ Coloring scheme used for the buttons when displaying the periodic table of the GtkPeriodic widget.
+ Possible values are:
+	 - GTK_PERIODIC_COLOR_NONE: the default Gtk theme is used.
+	 - GTK_PERIODIC_COLOR_DEFAULT: the default color for each element is used as returned by gcu_element_get_default_color.
+	 .
+*/
 typedef enum
 {
   GTK_PERIODIC_COLOR_NONE,
@@ -50,6 +60,39 @@ typedef enum
 typedef struct _GtkPeriodic       GtkPeriodic;
 typedef struct _GtkPeriodicClass  GtkPeriodicClass;
 typedef struct _GtkPeriodicPrivate       GtkPeriodicPrivate;
+
+/*! \struct GtkPeriodic gtkperiodic/gtkperiodic.h
+ The GtkPeriodic Widget displays a Periodic table of the elements, each element being represented in a toggle button.
+ A test program is available in the tests directory of the Gnome Chemistry Utils source archive
+(source in testgtkperiodic.c).
+<hr>
+<h2>Signals</h2>
+
+ This widget has one signal:
+- "element-changed": void	user_function (GtkWidget* periodic, guint Z, gpointer data).
+\param periodic: the object which received the signal.
+\param Z: the atomic number of the newly selected element or 0 if no element is selected.
+\param data: user data set when the signal handler was connected.
+
+ This signal is raised when the selected element changes in the widget.
+
+<hr>
+<h2>Properties</h2>
+There are two properties:
+- "can_unselect": gboolean (Read / Write).
+	<br>When this property is set to TRUE, you can unselect the selected element by clicking on the active button, otherwise an element will always be selected.
+	
+- "color-style": GtkPeriodicColorStyle (Read / Write).
+	<br>This property is used to set the coloring scheme used for the buttons when displaying the periodic table. Two values are allowed:
+	 - GTK_PERIODIC_COLOR_NONE: the default Gtk theme is used.
+	 - GTK_PERIODIC_COLOR_DEFAULT: the default color for each element is used as returned by gcu_element_get_default_color.
+	 .
+.
+<hr>
+<h2>Functions</h2>
+
+Functions related to the GtkPeriodic Widget are described in the gtkperiodic.h page.
+*/
 
 struct _GtkPeriodic
 {
@@ -68,7 +111,23 @@ struct _GtkPeriodicClass
 GType               gtk_periodic_get_type          (void) G_GNUC_CONST;
 GtkWidget*            gtk_periodic_new               (void);
 
+/**
+ * gtk_periodic_get_element:
+ * \param periodic  a GtkPeriodic widget
+ *
+ * Description: used to get the currently selected element in the periodic table.
+ *
+ * Returns: the atomic number of the currently selected element or %0 if none is selected.
+ */
 guint				gtk_periodic_get_element		(GtkPeriodic* periodic);
+/**
+ * gtk_periodic_set_element:
+ * \param periodic  a GtkPeriodic widget
+ * \param element the atomic number of the element to select or %0
+ *
+ * Description: sets the selected element in the periodic table.
+ */
+
 void				gtk_periodic_set_element		(GtkPeriodic* periodic, guint element);
 
 G_END_DECLS

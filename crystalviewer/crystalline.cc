@@ -67,45 +67,45 @@ CrystalLine::CrystalLine(CrystalLineType Type, double X1, double Y1, double Z1, 
 	SetColor(red, green, blue, alpha) ;
 }
 
-CrystalLine::CrystalLine(CrystalLine& cbBond)
+CrystalLine::CrystalLine(CrystalLine& clLine)
 {
 	m_nCleave = 0 ;
-	m_dx = cbBond.m_dx ;
-	m_dy = cbBond.m_dy ;
-	m_dz = cbBond.m_dz ;
-	m_dx2 = cbBond.m_dx2 ;
-	m_dy2 = cbBond.m_dy2 ;
-	m_dz2 = cbBond.m_dz2 ;
-	m_dxrot = cbBond.m_dxrot ;
-	m_dyrot = cbBond.m_dyrot ;
-	m_darot = cbBond.m_darot ;
-	m_dr = cbBond.m_dr ;
-	m_dl = cbBond.m_dl ;
-	m_fRed = cbBond.m_fRed ;
-	m_fGreen = cbBond.m_fGreen ;
-	m_fBlue = cbBond.m_fBlue ;
-	m_fAlpha = cbBond.m_fAlpha ;
-	m_nType = cbBond.m_nType ;
+	m_dx = clLine.m_dx ;
+	m_dy = clLine.m_dy ;
+	m_dz = clLine.m_dz ;
+	m_dx2 = clLine.m_dx2 ;
+	m_dy2 = clLine.m_dy2 ;
+	m_dz2 = clLine.m_dz2 ;
+	m_dxrot = clLine.m_dxrot ;
+	m_dyrot = clLine.m_dyrot ;
+	m_darot = clLine.m_darot ;
+	m_dr = clLine.m_dr ;
+	m_dl = clLine.m_dl ;
+	m_fRed = clLine.m_fRed ;
+	m_fGreen = clLine.m_fGreen ;
+	m_fBlue = clLine.m_fBlue ;
+	m_fAlpha = clLine.m_fAlpha ;
+	m_nType = clLine.m_nType ;
 }
 
-CrystalLine& CrystalLine::operator=(CrystalLine& cbBond)
+CrystalLine& CrystalLine::operator=(CrystalLine& clLine)
 {
-	m_dx = cbBond.m_dx ;
-	m_dy = cbBond.m_dy ;
-	m_dz = cbBond.m_dz ;
-	m_dx2 = cbBond.m_dx2 ;
-	m_dy2 = cbBond.m_dy2 ;
-	m_dz2 = cbBond.m_dz2 ;
-	m_dxrot = cbBond.m_dxrot ;
-	m_dyrot = cbBond.m_dyrot ;
-	m_darot = cbBond.m_darot ;
-	m_dr = cbBond.m_dr ;
-	m_dl = cbBond.m_dl ;
-	m_fRed = cbBond.m_fRed ;
-	m_fGreen = cbBond.m_fGreen ;
-	m_fBlue = cbBond.m_fBlue ;
-	m_fAlpha = cbBond.m_fAlpha ;
-	m_nType = cbBond.m_nType ;
+	m_dx = clLine.m_dx ;
+	m_dy = clLine.m_dy ;
+	m_dz = clLine.m_dz ;
+	m_dx2 = clLine.m_dx2 ;
+	m_dy2 = clLine.m_dy2 ;
+	m_dz2 = clLine.m_dz2 ;
+	m_dxrot = clLine.m_dxrot ;
+	m_dyrot = clLine.m_dyrot ;
+	m_darot = clLine.m_darot ;
+	m_dr = clLine.m_dr ;
+	m_dl = clLine.m_dl ;
+	m_fRed = clLine.m_fRed ;
+	m_fGreen = clLine.m_fGreen ;
+	m_fBlue = clLine.m_fBlue ;
+	m_fAlpha = clLine.m_fAlpha ;
+	m_nType = clLine.m_nType ;
 	return *this ;
 }
 
@@ -180,16 +180,16 @@ void CrystalLine::SetRadius(double r)
 	m_dr = r ;
 }
 
-bool CrystalLine::operator==(CrystalLine& cbBond)
+bool CrystalLine::operator==(CrystalLine& clLine)
 {
-	if (m_nType <= 2) return m_nType == cbBond.m_nType ; 
-	return (m_dx == cbBond.m_dx) &&
-			(m_dy == cbBond.m_dy) &&
-			(m_dz == cbBond.m_dz) &&
-			(m_dx2 == cbBond.m_dx2) &&
-			(m_dy2 == cbBond.m_dy2) &&
-			(m_dz2 == cbBond.m_dz2) &&
-			(m_nType == cbBond.m_nType) ; 
+	if (m_nType <= 2) return m_nType == clLine.m_nType ; 
+	return (m_dx == clLine.m_dx) &&
+			(m_dy == clLine.m_dy) &&
+			(m_dz == clLine.m_dz) &&
+			(m_dx2 == clLine.m_dx2) &&
+			(m_dy2 == clLine.m_dy2) &&
+			(m_dz2 == clLine.m_dz2) &&
+			(m_nType == clLine.m_nType) ; 
 }
 
 void CrystalLine::Move(double x, double y, double z)
@@ -269,7 +269,6 @@ void CrystalLine::GetRotation(double & x, double & y, double & z, double & theta
 	if (d > 1e-3)
 	{
 		theta = atan2(d, m_dz2 - m_dz);
-//		theta = acos((m_dz2 - m_dz) / Long());
 		x /= d;
 		y /= d;
 		z = 0;

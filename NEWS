@@ -1,7 +1,13 @@
+Version 0.1.7
+	Added a maximum number of bonds for atoms.
+	Added some documentation.
+	Some code cleaning in crystalviewer directory.
+	Some bugs fixed.
+
 Version 0.1.6
-	Some bugs fixed
-	New bgcolor property for GtkChem3DViewer
-	
+	Added bgcolor property to GtkChem3DViewer
+	Several bugs fixed.
+
 Version 0.1.5
 	Many bugs fixed in the radii database stuff
 	Change of coordinates in GtkChem3DViewer

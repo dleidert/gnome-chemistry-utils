@@ -81,6 +81,7 @@ double Atom::Distance(Atom* pAtom)
 {
 	return sqrt(square(m_x - pAtom->m_x) + square(m_y - pAtom->m_y) + square(m_z - pAtom->m_z));
 }
+
 void Atom::zoom(double ZoomFactor)
 {
 	m_x *= ZoomFactor;
@@ -99,7 +100,8 @@ bool Atom::GetCoords(double *x, double *y, double *z)
 
 const gchar* Atom::GetSymbol()
 {
-	return Element::Symbol(m_Z);
+	Element* Elt = Element::GetElement(m_Z);
+	return (Elt)? Element::Symbol(m_Z): NULL;
 }
 
 void Atom::AddBond(Bond* pBond)
@@ -161,7 +163,7 @@ bool Atom::Load(xmlNodePtr node)
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"id");
 	if (tmp) SetId(tmp);
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"element");
-	if (tmp) m_Z = Element::Z(tmp);	//Don't check if element exists. Applications that do not accept unknown elements shouls check
+	if (tmp) m_Z = Element::Z(tmp);	//Don't check if element exists. Applications that do not accept unknown elements should check
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"charge");
 	m_Charge = (tmp)? (char)atoi(tmp): 0;
 	if (!ReadPosition(node, NULL, &m_x, &m_y, &m_z) || (!LoadNode(node))) return false;

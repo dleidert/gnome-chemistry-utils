@@ -155,8 +155,8 @@ double CrystalAtom::GetSize()
 bool CrystalAtom::operator==(CrystalAtom& caAtom)
 {
 	return (x() == caAtom.x()) &&
-			(y() == y()) &&
-			(z() == z()) ;
+			(y() == caAtom.y()) &&
+			(z() == caAtom.z()) ;
 }
 
 double CrystalAtom::ScalProd(int h, int k, int l)
@@ -166,7 +166,7 @@ double CrystalAtom::ScalProd(int h, int k, int l)
 
 double CrystalAtom::Distance(double dx, double dy, double dz, bool bFixed)
 {
-	if ((m_nCleave > 0) && ! bFixed) return 0 ;
+	if ((m_nCleave > 0) && ! bFixed) return 0. ;
 	dx -= x() ;
 	dy -= y() ;
 	dz -= z() ;

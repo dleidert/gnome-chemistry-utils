@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <libxml/parser.h>
 
+/*!\file
+A simple sample of the use of the GtkCrystalViewer widget.
+*/
 int main(int argc, char *argv[])
 {
 	GtkWidget *window;

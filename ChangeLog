@@ -1,7 +1,13 @@
 ##Text encoding: utf-8
 
-2003-07-28 Jean Bréfort	<jean.brefort@ac-dijon.fr>
-	* element.cc: fixed a bug related to internationalization
+	* crystalview.h: made private some members.
+	* crystaldoc.h: removed m_bMultiView
+	* object.cc (Object::AddChild): fixed  a bug.
+	* added Object::GetAtomAt
+	* changed version to 0.1.7
+	* added some documentation using doxygen
+	* element.[h,cc]: added methods to get max_bond field
+	* elements.xml.in: added max_bonds for each element
 
 2003-07-02 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* configure.ac: changed version to 0.1.6

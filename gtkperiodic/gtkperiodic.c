@@ -250,28 +250,11 @@ void gtk_periodic_size_request(GtkPeriodic* w, GtkRequisition *requisition)
 	gtk_widget_size_request ((GTK_BIN(w))->child, requisition);
 }
 
-/**
- * gtk_periodic_get_element:
- * @periodic:  a GtkPeriodic widget
- *
- * Description: used to get the currently selected element in the periodic table.
- *
- * Returns: the atomic number of the currently selected element or %0 if none is selected.
- */
-
 guint gtk_periodic_get_element(GtkPeriodic* periodic)
 {
 	g_return_if_fail(GTK_IS_PERIODIC(periodic));
 	return periodic->priv->Z;
 }
-
-/**
- * gtk_periodic_set_element:
- * @periodic:  a GtkPeriodic widget
- * @element: the atomic number of the element to select or %0
- *
- * Description: sets the selected element in the periodic table.
- */
 
 void gtk_periodic_set_element (GtkPeriodic* periodic, guint element)
 {

@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <libgnomevfs/gnome-vfs.h>
 
+/*!\file
+A simple sample of the use of the GtkChem3DViewer widget.
+*/
 int main(int argc, char *argv[])
 {
 	GtkWidget *window;

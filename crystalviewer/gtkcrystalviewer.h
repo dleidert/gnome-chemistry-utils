@@ -22,6 +22,9 @@
  * Boston, MA  02111-1307, USA.
  */
 
+/*!\file
+Declaration of the GtkCrystalViewer widget.
+*/
 
 #ifndef GTK_CRYSTAL_VIEWER_H
 #define GTK_CRYSTAL_VIEWER_H
@@ -42,9 +45,16 @@ G_BEGIN_DECLS
 typedef struct _GtkCrystalViewer       GtkCrystalViewer;
 typedef struct _GtkCrystalViewerClass  GtkCrystalViewerClass;
 
+/*!\struct GtkCrystalViewer
+The GtkCrystalViewer widget displays a crystal structure using an OpenGL window. A test program is available in the tests
+directory of the Gnome Chemistry Utils source archive (source in testgtkcrystalviewer.c).
+<hr>
+<h2>Functions</h2>
+
+Functions related to the GtkPeriodic Widget are described in the gtkcrystalviewer.h page.
+*/
 struct _GtkCrystalViewer
 {
-//  GtkGLArea area;
 	GtkBin bin;
 
   /*< private >*/
@@ -58,7 +68,21 @@ struct _GtkCrystalViewerClass
 };
 
 GType               gtk_crystal_viewer_get_type          (void) G_GNUC_CONST;
+/*!
+@param node: a pointer to an xlNode (from libxml) containing the serialized version of the crystal to display as saved by
+Gnome Crystal or NULL.
+
+Builds a new GtkCrystalViewer widget and, if node is not NULL, fills it with the Crystal structure described in node.
+@return a pointer to the new viewer.
+*/
 GtkWidget*            gtk_crystal_viewer_new               (xmlNodePtr node);
+/*!
+@param viewer: a pointer to a GtkCrystalViewer widget.
+@param node: a pointer to an xlNode (from libxml) containing the serialized version of the crystal to display as saved by
+Gnome Crystal.
+
+Replaces the content of viewer by the Crystal structure described in node.
+*/
 void	gtk_crystal_viewer_set_data	(GtkCrystalViewer * viewer, xmlNodePtr node);
 
 G_END_DECLS

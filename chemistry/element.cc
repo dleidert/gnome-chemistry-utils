@@ -66,7 +66,7 @@ EltTable::EltTable()
 	char* DefaultName;
 	char *lang = getenv("LANG");
 	char *old_num_locale, *tmp, *num;
-	unsigned char Z;
+	unsigned char Z, n;
 	if (!(xml = xmlParseFile(DATADIR"/gchemutils/elements.xml")))
 	{
 		g_error(_("Can't find and read elements.xml"));
@@ -85,6 +85,8 @@ EltTable::EltTable()
 			tmp = (char*) xmlGetProp(node, (xmlChar*)"symbol");
 			num = (char*) xmlGetProp(node, (xmlChar*)"Z");
 			Elt = new Element(Z = atoi(num), tmp);
+			num = (char*) xmlGetProp(node, (xmlChar*)"max_bonds");
+			Elt->m_MaxBonds = atoi(num);
 			child = node->children;
 			DefaultName = NULL;
 			while (child)
@@ -206,6 +208,7 @@ Element::Element(int Z, const char* Symbol)
 	m_Z = Z;
 	strncpy(m_Symbol, Symbol, 3);
 	m_Symbol[3] = 0;
+	m_MaxBonds = 0;
 	m_BestSide = true;
 	switch (m_Z)
 	{
@@ -286,9 +289,9 @@ bool Element::BestSide(gint Z)
 	return (Elt)? Elt->GetBestSide(): true;
 }
 
-gint Element::Z(const gchar* name)
+gint Element::Z(const gchar* symbol)
 {
-	Element* Elt = Table[name];
+	Element* Elt = Table[symbol];
 	return (Elt)? Elt->GetZ(): 0;
 }
 
@@ -297,9 +300,15 @@ Element* Element::GetElement(gint Z)
 	return Table[Z];
 }
 
-Element* Element::GetElement(const gchar* name)
+Element* Element::GetElement(const gchar* symbol)
 {
-	return Table[name];
+	return Table[symbol];
+}
+
+unsigned Element::GetMaxBonds(gint Z)
+{
+	Element* Elt = Table[Z];
+	return (Elt)? Elt->GetMaxBonds(): 0;
 }
 
 bool Element::GetRadius(GcuAtomicRadius* radius)

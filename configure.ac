@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.1.6)
+AC_INIT(gnome-chemistry-utils, 0.1.7)
 AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
@@ -42,7 +42,6 @@ GTKGL_REQUIRED_VERSION=1.99.0
 GTKGLEXT_REQUIRED_VERSION=0.6.0
 GNOME_PRINT_REQUIRED_VERSION=2.1.3
 GNOME_VFS_REQUIRED_VERSION=2.0.0
-BONOBO_REQUIRED_VERSION=2.2.1
 BONOBOUI_REQUIRED_VERSION=2.2.0
 LIBGNOMEUI_REQUIRED_VERSION=2.0.0
 
@@ -53,8 +52,7 @@ PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
-libbonobo-2.0 >= $BONOBO_REQUIRED_VERSION \
-ibbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
+libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
@@ -64,7 +62,6 @@ PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkgl-2.0 >= $GTKGL_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
-libbonobo-2.0 >= $BONOBO_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 ,have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
@@ -74,7 +71,6 @@ else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
-libbonobo-2.0 >= $BONOBO_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 )
 gtkcrystalviewer=
@@ -182,6 +178,9 @@ po/Makefile.in
 glade/Makefile
 tests/Makefile
 dtds/Makefile
+docs/Makefile
+docs/reference/Makefile
+docs/reference/html/Makefile
 gcu.pc
 chem3d/gchem3d.server.in
 ])

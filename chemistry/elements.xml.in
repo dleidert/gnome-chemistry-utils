@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <gpdata>
 
-<element Z="1" symbol="H">
+<element Z="1" symbol="H" max_bonds="1">
 	<_name>Hydrogen</_name>
 	<color red="1.00" green="1.00" blue="1.00"/>
 	<en scale="Pauling" value="2.20"/>
@@ -11,14 +11,14 @@
 	<radius type="ionic" charge="+1" cn="2" scale="Shannon" value="-18"/>
 </element>
 
-<element Z="2" symbol="He">
+<element Z="2" symbol="He" max_bonds="0">
 	<_name>Helium</_name>
 	<radius type="covalent" value="32"/>
 	<radius type="vdW" value="180"/>
 	<color red="0.85" green="1.00" blue="1.00"/>
 </element>
 
-<element Z="3" symbol="Li">
+<element Z="3" symbol="Li" max_bonds="1">
 	<_name>Lithium</_name>
 	<color red="0.80" green="0.50" blue="1.00"/>
 	<en scale="Pauling" value="0.98"/>
@@ -30,7 +30,7 @@
 	<radius type="ionic" charge="+1" cn="8" scale="Shannon" value="92"/>
 </element>
 
-<element Z="4" symbol="Be">
+<element Z="4" symbol="Be" max_bonds="2">
 	<_name>Beryllium</_name>
 	<color red="0.76" green="1.00" blue="0.00"/>
 	<en scale="Pauling" value="1.57"/>
@@ -41,7 +41,7 @@
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="45"/>
 </element>
 
-<element Z="5" symbol="B">
+<element Z="5" symbol="B" max_bonds="4">
 	<_name>Boron</_name>
 	<color red="1.00" green="0.71" blue="0.71"/>
 	<en scale="Pauling" value="2.04"/>
@@ -51,7 +51,7 @@
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="27"/>
 </element>
 
-<element Z="6" symbol="C">
+<element Z="6" symbol="C" max_bonds="4">
 	<_name>Carbon</_name>
 	<color red="0.50" green="0.50" blue="0.50"/>
 	<en scale="Pauling" value="2.55"/>
@@ -62,7 +62,7 @@
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="16"/>
 </element>
 
-<element Z="7" symbol="N">
+<element Z="7" symbol="N" max_bonds="4">
 	<_name>Nitrogen</_name>
 	<color red="0.05" green="0.05" blue="1.00"/>
 	<en scale="Pauling" value="3.04"/>
@@ -74,7 +74,7 @@
 	<radius type="ionic" charge="+5" cn="4" scale="Shannon" value="13"/>
 </element>
 
-<element Z="8" symbol="O">
+<element Z="8" symbol="O" max_bonds="3">
 	<_name>Oxygen</_name>
 	<color red="1.00" green="0.05" blue="0.05"/>
 	<en scale="Pauling" value="3.44"/>
@@ -87,7 +87,7 @@
 	<radius type="ionic" charge="-2" cn="8" scale="Shannon" value="142"/>
 </element>
 
-<element Z="9" symbol="F">
+<element Z="9" symbol="F" max_bonds="1">
 	<_name>Fluorine</_name>
 	<color red="0.70" green="1.00" blue="1.00"/>
 	<en scale="Pauling" value="3.98"/>
@@ -100,14 +100,14 @@
 	<radius type="ionic" charge="+7" cn="6" scale="Shannon" value="8"/>
 </element>
 
-<element Z="10" symbol="Ne">
+<element Z="10" symbol="Ne" max_bonds="0">
 	<_name>Neon</_name>
 	<radius type="covalent" value="69"/>
 	<radius type="vdW" value="160"/>
 	<color red="0.70" green="0.89" blue="0.96"/>
 </element>
 
-<element Z="11" symbol="Na">
+<element Z="11" symbol="Na" max_bonds="1">
 	<_name>Sodium</_name>
 	<color red="0.67" green="0.36" blue="0.95"/>
 	<en scale="Pauling" value="0.93"/>
@@ -123,7 +123,7 @@
 	<radius type="ionic" charge="+1" cn="12" scale="Shannon" value="139"/>
 </element>
 
-<element Z="12" symbol="Mg">
+<element Z="12" symbol="Mg" max_bonds="4">
 	<_name>Magnesium</_name>
 	<color red="0.54" green="1.00" blue="0.00"/>
 	<en scale="Pauling" value="1.31"/>
@@ -136,7 +136,7 @@
 	<radius type="ionic" charge="+2" cn="8" scale="Shannon" value="89"/>
 </element>
 
-<element Z="13" symbol="Al">
+<element Z="13" symbol="Al" max_bonds="6">
 	<_name>Aluminum</_name>
 	<color red="0.75" green="0.65" blue="0.65"/>
 	<en scale="Pauling" value="1.61"/>
@@ -147,7 +147,7 @@
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="53.5"/>
 </element>
 
-<element Z="14" symbol="Si">
+<element Z="14" symbol="Si" max_bonds="6">
 	<_name>Silicon</_name>
 	<color red="0.50" green="0.60" blue="0.60"/>
 	<en scale="Pauling" value="1.90"/>
@@ -157,7 +157,7 @@
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="40"/>
 </element>
 
-<element Z="15" symbol="P">
+<element Z="15" symbol="P" max_bonds="6">
 	<_name>Phosphorus</_name>
 	<color red="1.00" green="0.50" blue="0.00"/>
 	<en scale="Pauling" value="2.19"/>
@@ -169,7 +169,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="38"/>
 </element>
 
-<element Z="16" symbol="S">
+<element Z="16" symbol="S" max_bonds="6">
 	<_name>Sulfur</_name>
 	<color red="1.00" green="1.00" blue="0.19"/>
 	<en scale="Pauling" value="2.58"/>
@@ -181,7 +181,7 @@
 	<radius type="ionic" charge="+6" cn="6" scale="Shannon" value="29"/>
 </element>
 
-<element Z="17" symbol="Cl">
+<element Z="17" symbol="Cl" max_bonds="7">
 	<_name>Chlorine</_name>
 	<color red="0.12" green="0.94" blue="0.12"/>
 	<en scale="Pauling" value="3.16"/>
@@ -192,14 +192,14 @@
 	<radius type="ionic" charge="+7" cn="4" scale="Shannon" value="8"/>
 </element>
 
-<element Z="18" symbol="Ar">
+<element Z="18" symbol="Ar" max_bonds="0">
 	<_name>Argon</_name>
 	<color red="0.50" green="0.82" blue="0.89"/>
 	<radius type="covalent" value="97"/>
 	<radius type="vdW" value="190"/>
 </element>
 
-<element Z="19" symbol="K">
+<element Z="19" symbol="K" max_bonds="1">
 	<_name>Potassium</_name>
 	<color red="0.56" green="0.25" blue="0.83"/>
 	<en scale="Pauling" value="0.82"/>
@@ -215,7 +215,7 @@
 	<radius type="ionic" charge="+1" cn="12" scale="Shannon" value="164"/>
 </element>
 
-<element Z="20" symbol="Ca">
+<element Z="20" symbol="Ca" max_bonds="2">
 	<_name>Calcium</_name>
 	<color red="0.24" green="1.00" blue="0.00"/>
 	<en scale="Pauling" value="1.00"/>
@@ -228,7 +228,7 @@
 	<radius type="ionic" charge="+2" cn="12" scale="Shannon" value="134"/>
 </element>
 
-<element Z="21" symbol="Sc">
+<element Z="21" symbol="Sc" max_bonds="6">
 	<_name>Scandium</_name>
 	<color red="0.90" green="0.90" blue="0.90"/>
 	<en scale="Pauling" value="1.36"/>
@@ -237,7 +237,7 @@
 	<radius type="ionic" charge="+3" cn="8" scale="Shannon" value="87"/>
 </element>
 
-<element Z="22" symbol="Ti">
+<element Z="22" symbol="Ti" max_bonds="6">
 	<_name>Titanium</_name>
 	<color red="0.75" green="0.76" blue="0.78"/>
 	<en scale="Pauling" value="1.54"/>
@@ -250,7 +250,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="74"/>
 </element>
 
-<element Z="23" symbol="V">
+<element Z="23" symbol="V" max_bonds="6">
 	<_name>Vanadium</_name>
 	<color red="0.65" green="0.65" blue="0.67"/>
 	<en scale="Pauling" value="1.63"/>
@@ -265,7 +265,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="54"/>
 </element>
 
-<element Z="24" symbol="Cr">
+<element Z="24" symbol="Cr" max_bonds="6">
 	<_name>Chromium</_name>
 	<color red="0.54" green="0.60" blue="0.78"/>
 	<en scale="Pauling" value="1.66"/>
@@ -282,7 +282,7 @@
 	<radius type="ionic" charge="+6" cn="6" scale="Shannon" value="44"/>
 </element>
 
-<element Z="25" symbol="Mn">
+<element Z="25" symbol="Mn" max_bonds="7">
 	<_name>Manganese</_name>
 	<color red="0.61" green="0.48" blue="0.78"/>
 	<en scale="Pauling" value="1.55"/>
@@ -305,7 +305,7 @@
 	<radius type="ionic" charge="+7" cn="6" scale="Shannon" value="46"/>
 </element>
 
-<element Z="26" symbol="Fe">
+<element Z="26" symbol="Fe" max_bonds="6">
 	<_name>Iron</_name>
 	<color red="0.50" green="0.48" blue="0.78"/>
 	<en scale="Pauling" value="1.83"/>
@@ -325,7 +325,7 @@
 	<radius type="ionic" charge="+6" cn="4" scale="Shannon" value="25"/>
 </element>
 
-<element Z="27" symbol="Co">
+<element Z="27" symbol="Co" max_bonds="6">
 	<_name>Cobalt</_name>
 	<color red="0.44" green="0.48" blue="0.78"/>
 	<en scale="Pauling" value="1.88"/>
@@ -342,7 +342,7 @@
 	<radius type="ionic" charge="+4" cn="6" spin="high" scale="Shannon" value="53"/>
 </element>
 
-<element Z="28" symbol="Ni">
+<element Z="28" symbol="Ni" max_bonds="6">
 	<_name>Nickel</_name>
 	<color red="0.36" green="0.48" blue="0.76"/>
 	<en scale="Pauling" value="1.91"/>
@@ -358,7 +358,7 @@
 	<radius type="ionic" charge="+4" cn="6" spin="low" scale="Shannon" value="48"/>
 </element>
 
-<element Z="29" symbol="Cu">
+<element Z="29" symbol="Cu" max_bonds="6">
 	<_name>Copper</_name>
 	<color red="1.00" green="0.48" blue="0.38"/>
 	<en scale="Pauling" value="1.90"/>
@@ -374,7 +374,7 @@
 	<radius type="ionic" charge="+3" cn="6" spin="low" scale="Shannon" value="54"/>
 </element>
 
-<element Z="30" symbol="Zn">
+<element Z="30" symbol="Zn" max_bonds="6">
 	<_name>Zinc</_name>
 	<color red="0.49" green="0.50" blue="0.69"/>
 	<en scale="Pauling" value="1.65"/>
@@ -387,7 +387,7 @@
 	<radius type="ionic" charge="+2" cn="8" scale="Shannon" value="90"/>
 </element>
 
-<element Z="31" symbol="Ga">
+<element Z="31" symbol="Ga" max_bonds="6">
 	<_name>Gallium</_name>
 	<color red="0.76" green="0.56" blue="0.56"/>
 	<en scale="Pauling" value="1.81"/>
@@ -399,7 +399,7 @@
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="62"/>
 </element>
 
-<element Z="32" symbol="Ge">
+<element Z="32" symbol="Ge" max_bonds="6">
 	<_name>Germanium</_name>
 	<color red="0.40" green="0.56" blue="0.56"/>
 	<en scale="Pauling" value="2.01"/>
@@ -409,7 +409,7 @@
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="53"/>
 </element>
 
-<element Z="33" symbol="As">
+<element Z="33" symbol="As" max_bonds="6">
 	<_name>Arsenic</_name>
 	<color red="0.74" green="0.50" blue="0.89"/>
 	<en scale="Pauling" value="2.18"/>
@@ -419,7 +419,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="46"/>
 </element>
 
-<element Z="34" symbol="Se">
+<element Z="34" symbol="Se" max_bonds="6">
 	<_name>Selenium</_name>
 	<color red="1.00" green="0.63" blue="0.00"/>
 	<en scale="Pauling" value="2.55"/>
@@ -431,7 +431,7 @@
 	<radius type="ionic" charge="+6" cn="6" scale="Shannon" value="42"/>
 </element>
 
-<element Z="35" symbol="Br">
+<element Z="35" symbol="Br" max_bonds="6">
 	<_name>Bromine</_name>
 	<color red="0.65" green="0.16" blue="0.16"/>
 	<en scale="Pauling" value="2.96"/>
@@ -444,7 +444,7 @@
 	<radius type="ionic" charge="+7" cn="6" scale="Shannon" value="39"/>
 </element>
 
-<element Z="36" symbol="Kr">
+<element Z="36" symbol="Kr" max_bonds="2">
 	<_name>Krypton</_name>
 	<color red="0.36" green="0.72" blue="0.82"/>
 	<en scale="Pauling" value="3.00"/>
@@ -452,7 +452,7 @@
 	<radius type="vdW" value="200"/>
 </element>
 
-<element Z="37" symbol="Rb">
+<element Z="37" symbol="Rb" max_bonds="1">
 	<_name>Rubidium</_name>
 	<color red="0.44" green="0.18" blue="0.69"/>
 	<en scale="Pauling" value="0.82"/>
@@ -467,7 +467,7 @@
 	<radius type="ionic" charge="+1" cn="14" scale="Shannon" value="183"/>
 </element>
 
-<element Z="38" symbol="Sr">
+<element Z="38" symbol="Sr" max_bonds="2">
 	<_name>Strontium</_name>
 	<color red="0.00" green="1.00" blue="0.00"/>
 	<en scale="Pauling" value="0.95"/>
@@ -480,7 +480,7 @@
 	<radius type="ionic" charge="+2" cn="12" scale="Shannon" value="144"/>
 </element>
 
-<element Z="39" symbol="Y">
+<element Z="39" symbol="Y" max_bonds="6">
 	<_name>Yttrium</_name>
 	<color red="0.58" green="1.00" blue="1.00"/>
 	<en scale="Pauling" value="1.22"/>
@@ -491,7 +491,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="107.5"/>
 </element>
 
-<element Z="40" symbol="Zr">
+<element Z="40" symbol="Zr" max_bonds="6">
 	<_name>Zirconium</_name>
 	<color red="0.58" green="0.88" blue="0.88"/>
 	<en scale="Pauling" value="1.33"/>
@@ -504,7 +504,7 @@
 	<radius type="ionic" charge="+4" cn="9" scale="Shannon" value="89"/>
 </element>
 
-<element Z="41" symbol="Nb">
+<element Z="41" symbol="Nb" max_bonds="6">
 	<_name>Niobium</_name>
 	<color red="0.45" green="0.76" blue="0.79"/>
 	<en scale="Pauling" value="1.6"/>
@@ -518,7 +518,7 @@
 	<radius type="ionic" charge="+5" cn="8" scale="Shannon" value="74"/>
 </element>
 
-<element Z="42" symbol="Mo">
+<element Z="42" symbol="Mo" max_bonds="6">
 	<_name>Molybdenum</_name>
 	<color red="0.33" green="0.71" blue="0.71"/>
 	<en scale="Pauling" value="2.16"/>
@@ -533,7 +533,7 @@
 	<radius type="ionic" charge="+6" cn="7" scale="Shannon" value="73"/>
 </element>
 
-<element Z="43" symbol="Tc">
+<element Z="43" symbol="Tc" max_bonds="7">
 	<_name>Technetium</_name>
 	<color red="0.23" green="0.62" blue="0.62"/>
 	<en scale="Pauling" value="1.9"/>
@@ -544,7 +544,7 @@
 	<radius type="ionic" charge="+7" cn="6" scale="Shannon" value="56"/>
 </element>
 
-<element Z="44" symbol="Ru">
+<element Z="44" symbol="Ru" max_bonds="8">
 	<_name>Ruthenium</_name>
 	<color red="0.14" green="0.56" blue="0.56"/>
 	<en scale="Pauling" value="2.2"/>
@@ -556,7 +556,7 @@
 	<radius type="ionic" charge="+8" cn="4" scale="Shannon" value="36"/>
 </element>
 
-<element Z="45" symbol="Rh">
+<element Z="45" symbol="Rh" max_bonds="6">
 	<_name>Rhodium</_name>
 	<color red="0.04" green="0.49" blue="0.55"/>
 	<en scale="Pauling" value="2.28"/>
@@ -566,7 +566,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="55"/>
 </element>
 
-<element Z="46" symbol="Pd">
+<element Z="46" symbol="Pd" max_bonds="6">
 	<_name>Palladium</_name>
 	<color red="0.00" green="0.41" blue="0.52"/>
 	<en scale="Pauling" value="2.20"/>
@@ -579,7 +579,7 @@
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="61.5"/>
 </element>
 
-<element Z="47" symbol="Ag">
+<element Z="47" symbol="Ag" max_bonds="6">
 	<_name>Silver</_name>
 	<color red="0.88" green="0.88" blue="1.00"/>
 	<en scale="Pauling" value="1.93"/>
@@ -598,7 +598,7 @@
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="75"/>
 </element>
 
-<element Z="48" symbol="Cd">
+<element Z="48" symbol="Cd" max_bonds="6">
 	<_name>Cadmium</_name>
 	<color red="1.00" green="0.85" blue="0.56"/>
 	<en scale="Pauling" value="1.69"/>
@@ -612,7 +612,7 @@
 	<radius type="ionic" charge="+2" cn="12" scale="Shannon" value="131"/>
 </element>
 
-<element Z="49" symbol="In">
+<element Z="49" symbol="In" max_bonds="6">
 	<_name>Indium</_name>
 	<color red="0.65" green="0.46" blue="0.45"/>
 	<en scale="Pauling" value="1.78"/>
@@ -623,7 +623,7 @@
 	<radius type="ionic" charge="+3" cn="8" scale="Shannon" value="92"/>
 </element>
 
-<element Z="50" symbol="Sn">
+<element Z="50" symbol="Sn" max_bonds="6">
 	<_name>Tin</_name>
 	<color red="0.40" green="0.50" blue="0.50"/>
 	<en scale="Pauling" value="1.80"/>
@@ -636,7 +636,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="81"/>
 </element>
 
-<element Z="51" symbol="Sb">
+<element Z="51" symbol="Sb" max_bonds="6">
 	<_name>Antimony</_name>
 	<color red="0.62" green="0.39" blue="0.71"/>
 	<en scale="Pauling" value="2.05"/>
@@ -647,7 +647,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="60"/>
 </element>
 
-<element Z="52" symbol="Te">
+<element Z="52" symbol="Te" max_bonds="6">
 	<_name>Tellurium</_name>
 	<color red="0.83" green="0.48" blue="0.00"/>
 	<en scale="Pauling" value="2.1"/>
@@ -661,7 +661,7 @@
 	<radius type="ionic" charge="+6" cn="6" scale="Shannon" value="56"/>
 </element>
 
-<element Z="53" symbol="I">
+<element Z="53" symbol="I" max_bonds="7">
 	<_name>Iodine</_name>
 	<color red="0.58" green="0.00" blue="0.58"/>
 	<en scale="Pauling" value="2.66"/>
@@ -674,7 +674,7 @@
 	<radius type="ionic" charge="+7" cn="6" scale="Shannon" value="53"/>
 </element>
 
-<element Z="54" symbol="Xe">
+<element Z="54" symbol="Xe" max_bonds="8">
 	<_name>Xenon</_name>
 	<color red="0.26" green="0.62" blue="0.69"/>
 	<en scale="Pauling" value="2.60"/>
@@ -684,7 +684,7 @@
 	<radius type="ionic" charge="+8" cn="6" scale="Shannon" value="48"/>
 </element>
 
-<element Z="55" symbol="Cs">
+<element Z="55" symbol="Cs" max_bonds="1">
 	<_name>Cesium</_name>
 	<color red="0.34" green="0.09" blue="0.56"/>
 	<en scale="Pauling" value="0.79"/>
@@ -697,7 +697,7 @@
 	<radius type="ionic" charge="+1" cn="12" scale="Shannon" value="188"/>
 </element>
 
-<element Z="56" symbol="Ba">
+<element Z="56" symbol="Ba" max_bonds="2">
 	<_name>Barium</_name>
 	<color red="0.00" green="0.79" blue="0.00"/>
 	<en scale="Pauling" value="0.89"/>
@@ -711,7 +711,7 @@
 	<radius type="ionic" charge="+2" cn="12" scale="Shannon" value="161"/>
 </element>
 
-<element Z="57" symbol="La">
+<element Z="57" symbol="La" max_bonds="6">
 	<_name>Lanthanum</_name>
 	<color red="0.44" green="0.83" blue="1.00"/>
 	<en scale="Pauling" value="1.10"/>
@@ -724,7 +724,7 @@
 	<radius type="ionic" charge="+3" cn="12" scale="Shannon" value="136"/>
 </element>
 
-<element Z="58" symbol="Ce">
+<element Z="58" symbol="Ce" max_bonds="6">
 	<_name>Cerium</_name>
 	<color red="1.00" green="1.00" blue="0.78"/>
 	<en scale="Pauling" value="1.12"/>
@@ -741,7 +741,7 @@
 	<radius type="ionic" charge="+4" cn="12" scale="Shannon" value="114"/>
 </element>
 
-<element Z="59" symbol="Pr">
+<element Z="59" symbol="Pr" max_bonds="6">
 	<_name>Praseodymium</_name>
 	<color red="0.85" green="1.00" blue="0.78"/>
 	<en scale="Pauling" value="1.13"/>
@@ -753,7 +753,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="96"/>
 </element>
 
-<element Z="60" symbol="Nd">
+<element Z="60" symbol="Nd" max_bonds="6">
 	<_name>Neodymium</_name>
 	<color red="0.78" green="1.00" blue="0.78"/>
 	<en scale="Pauling" value="1.14"/>
@@ -766,7 +766,7 @@
 	<radius type="ionic" charge="+3" cn="12" scale="Shannon" value="127"/>
 </element>
 
-<element Z="61" symbol="Pm">
+<element Z="61" symbol="Pm" max_bonds="6">
 	<_name>Promethium</_name>
 	<color red="0.64" green="1.00" blue="0.78"/>
 	<radius type="metallic" value="183.4"/>
@@ -775,7 +775,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="114.4"/>
 </element>
 
-<element Z="62" symbol="Sm">
+<element Z="62" symbol="Sm" max_bonds="6">
 	<_name>Samarium</_name>
 	<color red="0.56" green="1.00" blue="0.78"/>
 	<en scale="Pauling" value="1.17"/>
@@ -790,7 +790,7 @@
 	<radius type="ionic" charge="+3" cn="12" scale="Shannon" value="124"/>
 </element>
 
-<element Z="63" symbol="Eu">
+<element Z="63" symbol="Eu" max_bonds="6">
 	<_name>Europium</_name>
 	<color red="0.38" green="1.00" blue="0.78"/>
 	<radius type="metallic" value="208.4"/>
@@ -805,7 +805,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="112"/>
 </element>
 
-<element Z="64" symbol="Gd">
+<element Z="64" symbol="Gd" max_bonds="6">
 	<_name>Gadolinium</_name>
 	<color red="0.27" green="1.00" blue="0.78"/>
 	<en scale="Pauling" value="1.20"/>
@@ -816,7 +816,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="110.7"/>
 </element>
 
-<element Z="65" symbol="Tb">
+<element Z="65" symbol="Tb" max_bonds="6">
 	<_name>Terbium</_name>
 	<color red="0.19" green="1.00" blue="0.78"/>
 	<radius type="metallic" value="177.3"/>
@@ -828,7 +828,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="88"/>
 </element>
 
-<element Z="66" symbol="Dy">
+<element Z="66" symbol="Dy" max_bonds="6">
 	<_name>Dysprosium</_name>
 	<color red="0.12" green="1.00" blue="0.78"/>
 	<en scale="Pauling" value="1.22"/>
@@ -842,7 +842,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="108.3"/>
 </element>
 
-<element Z="67" symbol="Ho">
+<element Z="67" symbol="Ho" max_bonds="6">
 	<_name>Holmium</_name>
 	<color red="0.00" green="1.00" blue="0.61"/>
 	<en scale="Pauling" value="1.23"/>
@@ -853,7 +853,7 @@
 	<radius type="ionic" charge="+3" cn="10" scale="Shannon" value="112"/>
 </element>
 
-<element Z="68" symbol="Er">
+<element Z="68" symbol="Er" max_bonds="6">
 	<_name>Erbium</_name>
 	<color red="0.00" green="0.90" blue="0.46"/>
 	<en scale="Pauling" value="1.24"/>
@@ -864,7 +864,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="106.2"/>
 </element>
 
-<element Z="69" symbol="Tm">
+<element Z="69" symbol="Tm" max_bonds="6">
 	<_name>Thulium</_name>
 	<color red="0.00" green="0.83" blue="0.32"/>
 	<en scale="Pauling" value="1.25"/>
@@ -876,7 +876,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="105.2"/>
 </element>
 
-<element Z="70" symbol="Yb">
+<element Z="70" symbol="Yb" max_bonds="6">
 	<color red="0.00" green="0.75" blue="0.22"/>
 	<_name>Ytterbium</_name>
 	<radius type="metallic" value="193.3"/>
@@ -889,7 +889,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="104.2"/>
 </element>
 
-<element Z="71" symbol="Lu">
+<element Z="71" symbol="Lu" max_bonds="6">
 	<_name>Lutetium</_name>
 	<color red="0.00" green="0.67" blue="0.14"/>
 	<en scale="Pauling" value="1.27"/>
@@ -899,7 +899,7 @@
 	<radius type="ionic" charge="+3" cn="9" scale="Shannon" value="103.2"/>
 </element>
 
-<element Z="72" symbol="Hf">
+<element Z="72" symbol="Hf" max_bonds="6">
 	<_name>Hafnium</_name>
 	<color red="0.30" green="0.76" blue="1.00"/>
 	<en scale="Pauling" value="1.3"/>
@@ -910,7 +910,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="83"/>
 </element>
 
-<element Z="73" symbol="Ta">
+<element Z="73" symbol="Ta" max_bonds="6">
 	<_name>Tantalum</_name>
 	<color red="0.30" green="0.65" blue="1.00"/>
 	<en scale="Pauling" value="1.5"/>
@@ -922,7 +922,7 @@
 	<radius type="ionic" charge="+5" cn="8" scale="Shannon" value="74"/>
 </element>
 
-<element Z="74" symbol="W">
+<element Z="74" symbol="W" max_bonds="6">
 	<_name>Tungsten</_name>
 	<color red="0.13" green="0.58" blue="0.84"/>
 	<en scale="Pauling" value="2.36"/>
@@ -934,7 +934,7 @@
 	<radius type="ionic" charge="+6" cn="6" scale="Shannon" value="60"/>
 </element>
 
-<element Z="75" symbol="Re">
+<element Z="75" symbol="Re" max_bonds="6">
 	<_name>Rhenium</_name>
 	<color red="0.15" green="0.49" blue="0.67"/>
 	<en scale="Pauling" value="1.9"/>
@@ -946,7 +946,7 @@
 	<radius type="ionic" charge="+7" cn="6" scale="Shannon" value="53"/>
 </element>
 
-<element Z="76" symbol="Os">
+<element Z="76" symbol="Os" max_bonds="6">
 	<_name>Osmium</_name>
 	<color red="0.15" green="0.40" blue="0.59"/>
 	<en scale="Pauling" value="2.2"/>
@@ -959,7 +959,7 @@
 	<radius type="ionic" charge="+8" cn="4" scale="Shannon" value="39"/>
 </element>
 
-<element Z="77" symbol="Ir">
+<element Z="77" symbol="Ir" max_bonds="6">
 	<_name>Iridium</_name>
 	<color red="0.09" green="0.33" blue="0.53"/>
 	<en scale="Pauling" value="2.20"/>
@@ -969,7 +969,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="57"/>
 </element>
 
-<element Z="78" symbol="Pt">
+<element Z="78" symbol="Pt" max_bonds="6">
 	<_name>Platinum</_name>
 	<color red="0.96" green="0.93" blue="0.82"/>
 	<en scale="Pauling" value="2.28"/>
@@ -981,7 +981,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="57"/>
 </element>
 
-<element Z="79" symbol="Au">
+<element Z="79" symbol="Au" max_bonds="6">
 	<_name>Gold</_name>
 	<color red="0.80" green="0.82" blue="0.12"/>
 	<en scale="Pauling" value="2.54"/>
@@ -993,7 +993,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="57"/>
 </element>
 
-<element Z="80" symbol="Hg">
+<element Z="80" symbol="Hg" max_bonds="2">
 	<_name>Mercury</_name>
 	<color red="0.71" green="0.71" blue="0.76"/>
 	<en scale="Pauling" value="2.00"/>
@@ -1007,7 +1007,7 @@
 	<radius type="ionic" charge="+2" cn="8" scale="Shannon" value="114"/>
 </element>
 
-<element Z="81" symbol="Tl">>
+<element Z="81" symbol="Tl" max_bonds="3">
 	<_name>Thallium</_name>
 	<color red="0.65" green="0.33" blue="0.30"/>
 	<en scale="Pauling" value="1.62"/>
@@ -1021,7 +1021,7 @@
 	<radius type="ionic" charge="+3" cn="8" scale="Shannon" value="98"/>
 </element>
 
-<element Z="82" symbol="Pb">
+<element Z="82" symbol="Pb" max_bonds="4">
 	<_name>Lead</_name>
 	<color red="0.34" green="0.35" blue="0.38"/>
 	<en scale="Pauling" value="1.87"/>
@@ -1041,7 +1041,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="94"/>
 </element>
 
-<element Z="83" symbol="Bi">
+<element Z="83" symbol="Bi" max_bonds="3">
 	<_name>Bismuth</_name>
 	<color red="0.62" green="0.31" blue="0.71"/>
 	<en scale="Pauling" value="2.02"/>
@@ -1051,7 +1051,7 @@
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="76"/>
 </element>
 
-<element Z="84" symbol="Po">
+<element Z="84" symbol="Po" max_bonds="2">
 	<_name>Polonium</_name>
 	<color red="0.67" green="0.36" blue="0.00"/>
 	<en scale="Pauling" value="2.0"/>
@@ -1060,27 +1060,27 @@
 	<radius type="ionic" charge="+6" cn="6" scale="Shannon" value="67"/>
 </element>
 
-<element Z="85" symbol="At">
+<element Z="85" symbol="At" max_bonds="1">
 	<_name>Astatine</_name>
 	<color red="0.46" green="0.31" blue="0.27"/>
 	<en scale="Pauling" value="2.2"/>
 	<radius type="ionic" charge="+7" cn="6" scale="Shannon" value="62"/>
 </element>
 
-<element Z="86" symbol="Rn">
+<element Z="86" symbol="Rn" max_bonds="0">
 	<_name>Radon</_name>
 	<color red="0.26" green="0.51" blue="0.59"/>
 	<radius type="covalent" value="145"/>
 </element>
 
-<element Z="87" symbol="Fr">
+<element Z="87" symbol="Fr" max_bonds="1">
 	<_name>Francium</_name>
 	<color red="0.26" green="0.00" blue="0.40"/>
 	<en scale="Pauling" value="0.7"/>
 	<radius type="ionic" charge="+1" cn="6" scale="Shannon" value="180"/>
 </element>
 
-<element Z="88" symbol="Ra">
+<element Z="88" symbol="Ra" max_bonds="2">
 	<_name>Radium</_name>
 	<color red="0.00" green="0.49" blue="0.00"/>
 	<en scale="Pauling" value="0.9"/>
@@ -1088,14 +1088,14 @@
 	<radius type="ionic" charge="+2" cn="12" scale="Shannon" value="170"/>
 </element>
 
-<element Z="89" symbol="Ac">
+<element Z="89" symbol="Ac" max_bonds="6">
 	<_name>Actinium</_name>
 	<color red="0.44" green="0.67" blue="0.98"/>
 	<en scale="Pauling" value="1.1"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="112"/>
 </element>
 
-<element Z="90" symbol="Th">
+<element Z="90" symbol="Th" max_bonds="6">
 	<_name>Thorium</_name>
 	<color red="0.00" green="0.73" blue="1.00"/>
 	<en scale="Pauling" value="1.3"/>
@@ -1108,7 +1108,7 @@
 	<radius type="ionic" charge="+4" cn="12" scale="Shannon" value="121"/>
 </element>
 
-<element Z="91" symbol="Pa">
+<element Z="91" symbol="Pa" max_bonds="6">
 	<_name>Protactinium</_name>
 	<color red="0.00" green="0.63" blue="1.00"/>
 	<en scale="Pauling" value="1.5"/>
@@ -1121,7 +1121,7 @@
 	<radius type="ionic" charge="+5" cn="9" scale="Shannon" value="95"/>
 </element>
 
-<element Z="92" symbol="U">
+<element Z="92" symbol="U" max_bonds="6">
 	<_name>Uranium</_name>
 	<color red="0.00" green="0.56" blue="1.00"/>
 	<en scale="Pauling" value="1.38"/>
@@ -1142,7 +1142,7 @@
 	<radius type="ionic" charge="+6" cn="8" scale="Shannon" value="86"/>
 </element>
 
-<element Z="93" symbol="Np">>
+<element Z="93" symbol="Np" max_bonds="6">
 	<_name>Neptunium</_name>
 	<color red="0.00" green="0.50" blue="1.00"/>
 	<en scale="Pauling" value="1.36"/>
@@ -1156,7 +1156,7 @@
 	<radius type="ionic" charge="+7" cn="6" scale="Shannon" value="71"/>
 </element>
 
-<element Z="94" symbol="Pu">
+<element Z="94" symbol="Pu" max_bonds="6">
 	<_name>Plutonium</_name>
 	<color red="0.00" green="0.42" blue="1.00"/>
 	<en scale="Pauling" value="1.28"/>
@@ -1168,7 +1168,7 @@
 	<radius type="ionic" charge="+6" cn="6" scale="Shannon" value="71"/>
 </element>
 
-<element Z="95" symbol="Am">
+<element Z="95" symbol="Am" max_bonds="6">
 	<_name>Americium</_name>
 	<color red="0.33" green="0.36" blue="0.95"/>
 	<en scale="Pauling" value="1.3"/>
@@ -1182,7 +1182,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="95"/>
 </element>
 
-<element Z="96" symbol="Cm">
+<element Z="96" symbol="Cm" max_bonds="6">
 	<_name>Curium</_name>
 	<en scale="Pauling" value="1.3"/>
 	<color red="0.47" green="0.36" blue="0.89"/>
@@ -1192,7 +1192,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="95"/>
 </element>
 
-<element Z="97" symbol="Bk">
+<element Z="97" symbol="Bk" max_bonds="6">
 	<_name>Berkelium</_name>
 	<color red="0.54" green="0.31" blue="0.89"/>
 	<en scale="Pauling" value="1.3"/>
@@ -1202,7 +1202,7 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="93"/>
 </element>
 
-<element Z="98" symbol="Cf">
+<element Z="98" symbol="Cf" max_bonds="6">
 	<_name>Californium</_name>
 	<color red="0.63" green="0.21" blue="0.83"/>
 	<en scale="Pauling" value="1.3"/>
@@ -1212,27 +1212,27 @@
 	<radius type="ionic" charge="+4" cn="8" scale="Shannon" value="92"/>
 </element>
 
-<element Z="99" symbol="Es">
+<element Z="99" symbol="Es" max_bonds="6">
 	<_name>Einsteinium</_name>
 	<color red="0.70" green="0.12" blue="0.83"/>
 	<en scale="Pauling" value="1.3"/>
 	<radius type="metallic" value="186"/>
 </element>
 
-<element Z="100" symbol="Fm">
+<element Z="100" symbol="Fm" max_bonds="6">
 	<_name>Fermium</_name>
 	<color red="0.70" green="0.12" blue="0.73"/>
 	<en scale="Pauling" value="1.3"/>
 </element>
 
-<element Z="101" symbol="Md">
+<element Z="101" symbol="Md" max_bonds="6">
 	<_name>Mendelevium</_name>
 	<color red="0.70" green="0.05" blue="0.65"/>
 	<en scale="Pauling" value="1.3"/>
 	<color red="0.70" green="0.05" blue="0.65"/>
 </element>
 
-<element Z="102" symbol="No">
+<element Z="102" symbol="No" max_bonds="6">
 	<_name>Nobelium</_name>
 	<color red="0.74" green="0.05" blue="0.53"/>
 	<en scale="Pauling" value="1.3"/>
@@ -1240,57 +1240,57 @@
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="110"/>
 </element>
 
-<element Z="103" symbol="Lr">
+<element Z="103" symbol="Lr" max_bonds="6">
 	<_name>Lawrencium</_name>
 	<color red="0.78" green="0.00" blue="0.40"/>
 </element>
 
-<element Z="104" symbol="Rf">
+<element Z="104" symbol="Rf" max_bonds="6">
 	<_name>Rutherfordium</_name>
 	<color red="0.80" green="0.00" blue="0.35"/>
 </element>
 
-<element Z="105" symbol="Db">
+<element Z="105" symbol="Db" max_bonds="6">
 	<_name>Dubnium</_name>
 	<color red="0.82" green="0.00" blue="0.31"/>
 </element>
 
-<element Z="106" symbol="Sg">
+<element Z="106" symbol="Sg" max_bonds="6">
 	<_name>Seaborgium</_name>
 	<color red="0.85" green="0.00" blue="0.27"/>
 </element>
 
-<element Z="107" symbol="Bh">
+<element Z="107" symbol="Bh" max_bonds="6">
 	<_name>Bohrium</_name>
 	<color red="0.88" green="0.00" blue="0.22"/>
 </element>
 
-<element Z="108" symbol="Hs">
+<element Z="108" symbol="Hs" max_bonds="6">
 	<_name>Hassium</_name>
 	<color red="0.90" green="0.00" blue="0.18"/>
 </element>
 
-<element Z="109" symbol="Mt">
+<element Z="109" symbol="Mt" max_bonds="6">
 	<_name>Meitnerium</_name>
 	<color red="0.92" green="0.00" blue="0.15"/>
 </element>
 
-<element Z="110" symbol="Uun">
+<element Z="110" symbol="Uun" max_bonds="6">
 	<_name>Ununnilium</_name>
 	<color red="0.93" green="0.00" blue="0.14"/>
 </element>
 
-<element Z="111" symbol="Uuu">
+<element Z="111" symbol="Uuu" max_bonds="6">
 	<_name>Unununium</_name>
 	<color red="0.94" green="0.00" blue="0.13"/>
 </element>
 
-<element Z="112" symbol="Uub">
+<element Z="112" symbol="Uub" max_bonds="6">
 	<_name>Ununbium</_name>
 	<color red="0.95" green="0.00" blue="0.12"/>
 </element>
 
-<element Z="114" symbol="Uuq">
+<element Z="114" symbol="Uuq" max_bonds="6">
 	<_name>Ununquadium</_name>
 	<color red="0.97" green="0.00" blue="0.10"/>
 </element>

@@ -97,7 +97,7 @@ void Object::AddChild(Object* object)
 	Object* pDoc = GetDocument();
 	if (!pDoc)
 	{
-		cerr << "Cannot add an object outside of a document" << endl;
+		cerr << "Cannot add an object outside a document" << endl;
 	}
 	if (object->m_Id == NULL)
 	{
@@ -109,7 +109,7 @@ void Object::AddChild(Object* object)
 	else
 	{
 		Object* o = pDoc->GetDescendant(object->m_Id);
-		if (o && ((pDoc != object->GetDocument()) || object != o))
+		if (o && ((pDoc != object->GetDocument()) || (object != o)))
 		{
 			gchar *Id = g_strdup(object->m_Id);
 			int i = 0;
@@ -120,6 +120,7 @@ void Object::AddChild(Object* object)
 			int j = 1;
 			while (snprintf(buf + i, sizeof(buf) - i, "%d", j++), pDoc->GetDescendant(buf) != NULL);
 			pDoc->m_TranslationTable[object->m_Id] = buf;
+			g_free(object->m_Id);
 			object->m_Id = g_strdup(buf);
 			delete [] buf;
 		}
@@ -261,6 +262,7 @@ void Object::ShowContextualMenu(unsigned button, unsigned time)
 
 void Object::BuildContextualMenu()
 {
+	m_Menu = NULL;
 }
 
 void Object::Add(GtkWidget* w)
@@ -304,4 +306,9 @@ Object* Object::CreateObject(string& TypeName, Object* parent)
 void Object::EmptyTranslationTable()
 {
 	m_TranslationTable.clear();
+}
+
+Object* Object::GetAtomAt(double x, double y, double z)
+{
+	return NULL;
 }

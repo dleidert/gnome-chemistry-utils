@@ -14,7 +14,7 @@ noinst_PROGRAMS = 			\
 	testgtkperiodic		\
 	testgtkcrystalviewer	\
 	testgtkchem3dviewer \
-	bonobo-control-test
+	testbonobocontrol
 
 testgtkcrystalviewer_DEPENDENCIES = $(top_builddir)/crystalviewer/libgtkcrystalviewer.la $(top_builddir)/chemistry/libgcu.la
 
@@ -32,8 +32,8 @@ AM_CFLAGS += @GC3D_CFLAGS@
 testgtkchem3dviewer_SOURCES =	\
 	testgtkchem3dviewer.c 	
 
-bonobo_control_test_SOURCES = bonobo-control-test.c
-bonobo_control_test_LDADD =  @GC3D_LIBS@
+testbonobocontrol_SOURCES = testbonobocontrol.c
+testbonobocontrol_LDADD =  @GC3D_LIBS@
 
 else
 

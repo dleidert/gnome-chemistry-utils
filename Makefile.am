@@ -1,7 +1,7 @@
 if WITH_GTKGL
-SUBDIRS = po glade chemistry crystalviewer gtkperiodic chem3d tests dtds
+SUBDIRS = po glade chemistry crystalviewer gtkperiodic chem3d tests dtds docs
 else
-SUBDIRS = po glade chemistry gtkperiodic tests dtds
+SUBDIRS = po glade chemistry gtkperiodic tests dtds docs
 endif
 
 Mimedir = $(datadir)/mime-info
