@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.2.3, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
+AC_INIT(gnome-chemistry-utils, 0.2.4, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
 AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
@@ -87,7 +87,7 @@ AM_CONDITIONAL(WITH_GTKGL,test "$have_gtkgl" = "yes")
 dnl test if openbabel is present and chem3d can be built
 if test "$have_gtkgl" = "yes"; then
 	
-	OPENBABEL_REQUIRED_VERSION=1.100.1
+	OPENBABEL_REQUIRED_VERSION=1.100.2
 	PKG_CHECK_MODULES(GC3D, \
 		gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
 		libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED_VERSION \
@@ -104,47 +104,6 @@ AM_CONDITIONAL(WITH_OPENBABEL,test "$have_openbabel" = "yes")
 
 AC_SUBST(GCU_CFLAGS)
 AC_SUBST(GCU_LIBS)
-
-# This is a check for gtk-doc which you can insert into your configure.in.
-# You shouldn't need to change it at all.
-
-
-##################################################
-# Check for gtk-doc.
-##################################################
-
-AC_ARG_WITH(html-dir, [  --with-html-dir=PATH path to installed docs ])
-
-if test "x$with_html_dir" = "x" ; then
-  HTML_DIR='${datadir}/gtk-doc/html'
-else
-  HTML_DIR=$with_html_dir
-fi
-
-AC_SUBST(HTML_DIR)
-
-gtk_doc_min_version=1.0
-AC_MSG_CHECKING([gtk-doc version >= $gtk_doc_min_version])
-if pkg-config --atleast-version=$gtk_doc_min_version gtk-doc; then
-  AC_MSG_RESULT(yes)
-  GTKDOC=true
-else
-  AC_MSG_RESULT(no)
-  GTKDOC=false
-fi
-
-dnl Let people disable the gtk-doc stuff.
-AC_ARG_ENABLE(gtk-doc, [  --enable-gtk-doc  Use gtk-doc to build documentation [default=auto]], enable_gtk_doc="$enableval", enable_gtk_doc=auto)
-
-if test x$enable_gtk_doc = xauto ; then
-  if test x$GTKDOC = xtrue ; then
-    enable_gtk_doc=yes
-  else
-    enable_gtk_doc=no 
-  fi
-fi
-
-AM_CONDITIONAL(ENABLE_GTK_DOC, test x$enable_gtk_doc = xyes)
 
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"

@@ -1,3 +1,7 @@
+Version 0.2.4
+	Updated polish traslation
+	Fixed a critical bug in crystalviewer/crystalatom.cc
+
 Version 0.2.3
 	Fixed a bug in Makefile.am: gtkcystalviewer/Makefile.in and chem3d/Makefile.in were missing in the tarballs.
 	

@@ -62,7 +62,7 @@ CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 	m_Radius.charge = 0;
 	m_Radius.value = 0.0;
 	m_Radius.cn = -1;
-	SetDefaultColor();
+	if (Z) SetDefaultColor();
 	m_nCleave = 0;
 }
 

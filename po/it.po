@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils_it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-31 15:39+0100\n"
+"POT-Creation-Date: 2004-02-15 08:49+0100\n"
 "PO-Revision-Date: 2004-01-17 15:19+0100\n"
 "Last-Translator: Ceoldo Costantino <inverness1ATvirgilio.it>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -485,20 +485,16 @@ msgstr "Componente del visualizzatore 3D di Gnome Chemistry"
 #: chem3d/gchem3d.server.in.h:2
 msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
 msgstr ""
-"Componente del visualizzatore 3D di Gnome "
-"Chemistry per mostrare strutture molecolari"
+"Componente del visualizzatore 3D di Gnome Chemistry per mostrare strutture "
+"molecolari"
 
 #: chem3d/gchem3d.server.in.h:3
 msgid "Gnome Chemistry 3D Viewer embeddable factory"
-msgstr ""
-"Fabbrica integrabile del visualizzatore "
-"3D di Gnome Chemistry"
+msgstr "Fabbrica integrabile del visualizzatore 3D di Gnome Chemistry"
 
 #: chem3d/gchem3d.server.in.h:4
 msgid "Gnome Chemistry 3D Viewer object factory"
-msgstr ""
-"Fabbrica dell'oggetto Visualizzatore"
-"3D di Gnome Chemistry"
+msgstr "Fabbrica dell'oggetto Visualizzatore3D di Gnome Chemistry"
 
 #: chem3d/gchem3d.server.in.h:5
 msgid "Molecular Model"
@@ -522,4 +518,3 @@ msgstr "File XYZ"
 
 #~ msgid "Ununnilium"
 #~ msgstr "Ununnilio"
-

@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2004-03-10 Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	*configure.ac: removed unused gtk-doc checking
+	* AUTHORS: new polish tranlator
+	* crystalviewer/crystalatom.cc: avoid calling SetDefaultColor in constructor when
+	Z == 0 (critical bug).
+
 2004-02-08 Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* Makefile.am: fixed file list in EXTRA_DIST
 	* gtkperiodic/gtkperiodic.c (gtk_periodic_init): removed const before char
