@@ -4,11 +4,9 @@
  * Gnome Chemisty Utils
  * crystalviewer/crystaldoc.cc 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
- *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -65,6 +63,31 @@ CrystalDoc::CrystalDoc()
 
 CrystalDoc::~CrystalDoc()
 {
+	while (!AtomDef.empty())
+	{
+		delete AtomDef.front();
+		AtomDef.pop_front();
+	}
+	while (!Atoms.empty())
+	{
+		delete Atoms.front();
+		Atoms.pop_front();
+	}
+	while (!LineDef.empty())
+	{
+		delete LineDef.front();
+		LineDef.pop_front();
+	}
+	while (!Lines.empty())
+	{
+		delete Lines.front();
+		Lines.pop_front();
+	}
+	while (!Cleavages.empty())
+	{
+		delete Cleavages.front();
+		Cleavages.pop_front();
+	}
 	while (!m_Views.empty())
 	{
 		m_Views.pop_back();
@@ -138,8 +161,12 @@ void CrystalDoc::ParseXMLTree(xmlNode* xml)
 	if (node)
 	{
 		txt = (char*)xmlNodeGetContent(node);
-		if (sscanf(txt, "Gnome Crystal %d.%d.%d", &major, &minor, &micro) == 3)
-			version = micro + minor * 0x100 + major * 0x10000;
+		if (txt)
+		{
+			if (sscanf(txt, "Gnome Crystal %d.%d.%d", &major, &minor, &micro) == 3)
+				version = micro + minor * 0x100 + major * 0x10000;
+			xmlFree(txt);
+		}
 	}
 	node = xml->children;
 	while(node)
@@ -148,30 +175,62 @@ void CrystalDoc::ParseXMLTree(xmlNode* xml)
 		{
 			txt = (char*)xmlNodeGetContent(node);
 			int i = 0;
-			while (strcmp(txt, LatticeName[i]) && (i < 14)) i++;
+			if (txt)
+			{
+				while (strcmp(txt, LatticeName[i]) && (i < 14)) i++;
+				xmlFree(txt);
+			}
 			if (i < 14) m_lattice = (gcLattices)i;
 		}
 		else if (!strcmp((gchar*)node->name, "cell"))
 		{
 			txt = (char*)xmlGetProp(node, (xmlChar*)"a");
-			if (txt) sscanf(txt, "%lg", &m_a);
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_a);
+				xmlFree(txt);
+			}
 			txt = (char*)xmlGetProp(node, (xmlChar*)"b");
-			if (txt) sscanf(txt, "%lg", &m_b);
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_b);
+				xmlFree(txt);
+			}
 			txt = (char*)xmlGetProp(node, (xmlChar*)"c");
-			if (txt) sscanf(txt, "%lg", &m_c);
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_c);
+				xmlFree(txt);
+			}
 			txt = (char*)xmlGetProp(node, (xmlChar*)"alpha");
-			if (txt) sscanf(txt, "%lg", &m_alpha);
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_alpha);
+				xmlFree(txt);
+			}
 			txt = (char*)xmlGetProp(node, (xmlChar*)"beta");
-			if (txt) sscanf(txt, "%lg", &m_beta);
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_beta);
+				xmlFree(txt);
+			}
 			txt = (char*)xmlGetProp(node, (xmlChar*)"gamma");
-			if (txt) sscanf(txt, "%lg", &m_gamma);
-	}
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_gamma);
+				xmlFree(txt);
+			}
+		}
 		else if (!strcmp((gchar*)node->name, "size"))
 		{
 			ReadPosition(node, "start", &m_xmin, &m_ymin, &m_zmin);
 			ReadPosition(node, "end", &m_xmax, &m_ymax, &m_zmax);
 			txt = (char*)xmlGetProp(node, (xmlChar*)"fixed");
-			if (txt && !strcmp(txt, "true")) m_bFixedSize = true;
+			if (txt)
+			{
+				if (!strcmp(txt, "true")) m_bFixedSize = true;
+				xmlFree(txt);
+			}
 		}
 		else if (!strcmp((gchar*)node->name, "atom"))
 		{

@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2003-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -441,16 +441,22 @@ void gtk_chem3d_viewer_set_uri(GtkChem3DViewer * viewer, gchar *uri)
 	g_return_if_fail (GTK_IS_CHEM3D_VIEWER(viewer));
 	g_return_if_fail(uri);
 	GnomeVFSHandle *handle;
-	GnomeVFSFileInfo info;
+	GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
 	GnomeVFSResult result = gnome_vfs_open(&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result != GNOME_VFS_OK) return;
-	gnome_vfs_get_file_info_from_handle(handle, &info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
-	gchar *buf = new gchar[info.size + 1];
+	if (result != GNOME_VFS_OK)
+	{
+		gnome_vfs_file_info_unref (info);
+		return;
+	}
+	gnome_vfs_get_file_info_from_handle(handle, info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
+	gchar *buf = new gchar[info->size + 1];
 	GnomeVFSFileSize n;
-	gnome_vfs_read(handle, buf, info.size, &n);
-	buf[info.size] = 0;
-	if (n == info.size) gtk_chem3d_viewer_set_data(viewer, buf, info.mime_type);
+	gnome_vfs_read(handle, buf, info->size, &n);
+	buf[info->size] = 0;
+	if (n == info->size) gtk_chem3d_viewer_set_data(viewer, buf, info->mime_type);
+	gnome_vfs_file_info_unref (info);
 	delete [] buf;
+	g_free (handle);
 }
 
 void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, const gchar* mime_type)

@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.2.5, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
+AC_INIT(gnome-chemistry-utils, 0.2.6, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
 AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
@@ -47,6 +47,7 @@ GNOME_PRINT_REQUIRED_VERSION=2.1.3
 GNOME_VFS_REQUIRED_VERSION=2.0.0
 BONOBOUI_REQUIRED_VERSION=2.2.0
 LIBGNOMEUI_REQUIRED_VERSION=2.0.0
+SHARED_MIME_INFO_REQUIRED_VERSION=0.12
 
 gl_flags=
 gtkcrystalviewer="-lgtkcrystalviewer"
@@ -56,6 +57,7 @@ libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
+shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
@@ -66,6 +68,7 @@ libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkgl-2.0 >= $GTKGL_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
+shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 ,have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLAREA,1,[Compile with GtlGLArea])
@@ -75,6 +78,7 @@ PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
+shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 )
 gtkcrystalviewer=
 fi

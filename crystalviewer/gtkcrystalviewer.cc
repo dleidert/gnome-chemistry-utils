@@ -107,6 +107,7 @@ void gtk_crystal_viewer_finalize(GObject* object)
 {
 	((GObjectClass*)parent_class)->finalize(object);
 	GtkCrystalViewer* viewer = GTK_CRYSTAL_VIEWER(object);
+	delete viewer->priv->pView;
 	delete viewer->priv->pDoc;
 	delete viewer->priv;
 }

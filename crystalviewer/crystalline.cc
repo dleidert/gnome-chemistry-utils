@@ -307,7 +307,11 @@ bool CrystalLine::Load(xmlNodePtr node)
 	char *txt;
 	txt = (char*)xmlGetProp(node, (xmlChar*)"type");
 	int i = 0;
-	while (strcmp(txt, TypeName[i]) && (i < 5)) i++;
+	if (txt)
+	{
+		while (strcmp(txt, TypeName[i]) && (i < 5)) i++;
+		xmlFree(txt);
+	}
 	if (i < 5) m_nType = (CrystalLineType)i;
 	else return false;
 	if (((m_nType > 2) && ((!ReadPosition(node, "start", &m_dx, &m_dy, &m_dz)) ||
@@ -320,7 +324,11 @@ bool CrystalLine::Load(xmlNodePtr node)
 		if (!strcmp((gchar*)child->name, "radius"))
 		{
 			txt = (char*)xmlNodeGetContent(child);
-			sscanf(txt, "%lg", &m_dr);
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_dr);
+				xmlFree(txt);
+			}
 			break;
 		}
 		child = child->next;

@@ -4,9 +4,9 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2003
+ * Copyright (C) 2001-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -105,18 +105,28 @@ bool Bond::Load(xmlNodePtr node)
 	xmlNodePtr child;
 	Object* pObject;
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"id");
-	if (tmp) SetId(tmp);
+	if (tmp)
+	{
+		SetId(tmp);
+		xmlFree(tmp);
+	}
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"order");
 	if (!tmp) m_order = 1;
-	else m_order = *tmp - '0';
+	else
+	{
+		m_order = *tmp - '0';
+		xmlFree(tmp);
+	}
 	if ((m_order < 1) || (m_order > 4)) return false;
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"begin");
 	if (!tmp)
 	{
 		child = GetNodeByName(node, "begin");
 		tmp = (char*)xmlNodeGetContent(child); //necessary to read version 0.1.0 files
+		if (!tmp) return false;
 	}
 	pObject = GetParent()->GetDescendant(tmp);
+	xmlFree(tmp);
 	if (!pObject || (pObject->GetType() != AtomType)) return false;
 	m_Begin = (Atom*)(pObject);
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"end");
@@ -124,8 +134,10 @@ bool Bond::Load(xmlNodePtr node)
 	{
 		child = GetNodeByName(node, "end");
 		tmp = (char*)xmlNodeGetContent(child); //necessary to read version 0.1.0 files
+		if (!tmp) return false;
 	}
 	pObject = GetParent()->GetDescendant(tmp);
+	xmlFree(tmp);
 	if (!pObject || (pObject->GetType() != AtomType)) return false;
 	m_End = (Atom*)pObject;
 	m_Begin->AddBond(this);

@@ -164,7 +164,9 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	char* domain = g_strdup(textdomain(NULL));
 	textdomain(GETTEXT_PACKAGE);
 	xml =  glade_xml_new(DATADIR"/gchemutils/glade/gtkperiodic.glade", "vbox1", NULL);
-	if (xml)  glade_xml_signal_autoconnect (xml);
+	g_return_if_fail (xml);
+	g_object_set_data(G_OBJECT(periodic), "xml", xml);
+	glade_xml_signal_autoconnect (xml);
 	periodic->priv = g_new0(GtkPeriodicPrivate, 1);
 	periodic->priv->tips = gtk_tooltips_new();
 	periodic->priv->vbox = GTK_VBOX(glade_xml_get_widget(xml, "vbox1"));
@@ -194,6 +196,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	DefaultRed[3] = style->bg[3].red;
 	DefaultGreen[3] = style->bg[3].green;
 	DefaultBlue[3] = style->bg[3].blue;
+	g_object_unref(style);
 	periodic->priv->Z = 0;
 	gtk_container_add(GTK_CONTAINER(periodic), GTK_WIDGET(periodic->priv->vbox));
 	gtk_widget_show_all(GTK_WIDGET(periodic));
@@ -204,8 +207,11 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 static void gtk_periodic_finalize (GObject *object)
 {
 	GtkPeriodic *periodic = (GtkPeriodic*) object;
+	GObject *obj = (GObject*) g_object_get_data (object, "xml");
 
+	gtk_object_sink(periodic->priv->tips);
 	g_free (periodic->priv);
+	if (obj) g_object_unref (obj);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);

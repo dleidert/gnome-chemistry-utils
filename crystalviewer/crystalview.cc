@@ -2,9 +2,9 @@
  * Gnome Chemisty Utils
  * crystaldoc.cc 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -144,18 +144,37 @@ bool CrystalView::Load(xmlNodePtr node)
 		if (!strcmp((gchar*)child->name, "orientation"))
 		{
 			txt = (char*)xmlGetProp(child, (xmlChar*)"psi");
-			if (txt) sscanf(txt, "%lg", &m_psi); else return false;
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_psi);
+				xmlFree(txt);
+			}
+			else return false;
 			txt = (char*)xmlGetProp(child, (xmlChar*)"theta");
-			if (txt) sscanf(txt, "%lg", &m_theta); else return false;
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_theta);
+				xmlFree(txt);
+			}
+			else return false;
 			txt = (char*)xmlGetProp(child, (xmlChar*)"phi");
-			if (txt) sscanf(txt, "%lg", &m_phi); else return false;
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_phi);
+				xmlFree(txt);
+			}
+			else return false;
 			Matrix m(m_psi/90*1.570796326794897, m_theta/90*1.570796326794897, m_phi/90*1.570796326794897, euler);
 			m_Euler = m;
 		}
 		else if (!strcmp((gchar*)child->name, "fov"))
 		{
 			txt = (char*)xmlNodeGetContent(child);
-			int result = sscanf(txt, "%lg", &m_fAngle);
+			if (txt)
+			{
+				sscanf(txt, "%lg", &m_fAngle);
+				xmlFree(txt);
+			}
 		}
 		child = child->next;
 	}
@@ -409,7 +428,7 @@ void CrystalView::Update(GtkWidget* widget)
 
 void CrystalView::OnDestroyed(GtkWidget *widget)
 {
-	delete (WidgetData*) g_object_get_data(G_OBJECT(widget), "gldata");
+	delete g_object_get_data(G_OBJECT(widget), "gldata");
 	m_Widgets.remove(widget);
 }
 

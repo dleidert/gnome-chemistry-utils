@@ -4,9 +4,9 @@
  * Gnome Chemistry Utils
  * chemistry/xml-utils.cc 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -36,7 +36,12 @@ xmlNodePtr FindNodeByNameAndId(xmlNodePtr node, const char* name, const char* id
 		if (!strcmp((char*)child->name, name))
 		{
 			tmp = (char*)xmlGetProp(child, (xmlChar*)"id");
-			if ((!id && !tmp) || (id && tmp && !strcmp(tmp, id))) break;
+			if ((!id && !tmp) || (id && tmp && !strcmp(tmp, id)))
+			{
+				if (tmp) xmlFree(tmp);
+				break;
+			}
+			else if (tmp) xmlFree(tmp);
 		}
 		child = child->next;
 	}
@@ -49,13 +54,28 @@ bool ReadPosition(xmlNodePtr node, const char* id, double* x, double* y, double*
 	if (!child) return false;
 	char* tmp;
 	tmp = (char*)xmlGetProp(child, (xmlChar*)"x");
-	if (tmp) sscanf(tmp, "%lg", x); else return false;
+	if (tmp)
+	{
+		sscanf(tmp, "%lg", x);
+		xmlFree(tmp);
+	}
+	else return false;
 	tmp = (char*)xmlGetProp(child, (xmlChar*)"y");
-	if (tmp) sscanf(tmp, "%lg", y); else return false;
+	if (tmp)
+	{
+		sscanf(tmp, "%lg", y);
+		xmlFree(tmp);
+	} 
+	else return false;
 	if (z) 
 	{
 		tmp = (char*)xmlGetProp(child, (xmlChar*)"z");
-		if (tmp) sscanf(tmp, "%lg", z); else *z = 0.0;
+		if (tmp)
+		{
+			sscanf(tmp, "%lg", z);
+			xmlFree(tmp);
+		}
+		else *z = 0.0;
 	}
 	return true;
 }
@@ -85,15 +105,35 @@ bool ReadColor(xmlNodePtr node, const char* id, float* red, float* green, float*
 	if (!child) return false;
 	char* tmp;
 	tmp = (char*)xmlGetProp(child, (xmlChar*)"red");
-	if (tmp) sscanf(tmp, "%g", red); else return false;
+	if (tmp)
+	{
+		sscanf(tmp, "%g", red);
+		xmlFree(tmp);
+	}
+	else return false;
 	tmp = (char*)xmlGetProp(child, (xmlChar*)"green");
-	if (tmp) sscanf(tmp, "%g", green); else return false;
+	if (tmp)
+	{
+		sscanf(tmp, "%g", green);
+		xmlFree(tmp);
+	}
+	else return false;
 	tmp = (char*)xmlGetProp(child, (xmlChar*)"blue");
-	if (tmp) sscanf(tmp, "%g", blue); else return false;
+	if (tmp)
+	{
+		sscanf(tmp, "%g", blue);
+		xmlFree(tmp);
+	}
+	else return false;
 	if (alpha) 
 	{
 		tmp = (char*)xmlGetProp(child, (xmlChar*)"alpha");
-		if (tmp) sscanf(tmp, "%g", alpha); else *alpha = 1.0;
+		if (tmp)
+		{
+			sscanf(tmp, "%g", alpha);
+			xmlFree(tmp);
+		}
+		else *alpha = 1.0;
 	}
 	return true;
 }
@@ -131,33 +171,48 @@ bool ReadRadius(xmlNodePtr node, GcuAtomicRadius& radius)
 		(!((!strcmp(tmp, "metallic")) && (radius.type = GCU_METALLIC))) &&
 		(!((!strcmp(tmp, "atomic")) && (radius.type = GCU_ATOMIC)))))
 			radius.type = GCU_RADIUS_UNKNOWN;
+	if (tmp) xmlFree(tmp);
 	tmp = (char*) xmlGetProp(node, (xmlChar*)"scale");
-	if (tmp) radius.scale = g_strdup(tmp);
+	if (tmp)
+	{
+		radius.scale = g_strdup(tmp);
+		xmlFree(tmp);
+	}
 	else radius.scale = NULL;
 	tmp = (char*) xmlGetProp(node, (xmlChar*)"charge");
-	if (tmp) radius.charge = strtol(tmp, NULL, 10);
+	if (tmp)
+	{
+		radius.charge = strtol(tmp, NULL, 10);
+		xmlFree(tmp);
+	}
 	else radius.charge = 0;
 	tmp = (char*) xmlGetProp(node, (xmlChar*)"cn");
-	if (tmp) radius.cn = strtol(tmp, NULL, 10);
+	if (tmp)
+	{
+		radius.cn = strtol(tmp, NULL, 10);
+		xmlFree(tmp);
+	}
 	else radius.cn = -1;
 	tmp = (char*) xmlGetProp(node, (xmlChar*)"spin");
 	if ((!tmp) ||
 		((!((!strcmp(tmp, "low")) && (radius.spin = GCU_LOW_SPIN))) &&
 		(!((!strcmp(tmp, "high")) && (radius.spin = GCU_HIGH_SPIN)))))
 	radius.spin = GCU_N_A_SPIN;
+	if (tmp) xmlFree(tmp);
 	if (((tmp = (char*) xmlGetProp(node, (xmlChar*)"value")) ||
 		(tmp = (char*)xmlNodeGetContent(node))) && *tmp)
 	{
 		radius.value = strtod(tmp, NULL);
 		radius.scale = g_strdup("custom");
+		xmlFree(tmp);
 	}
-	else if (radius.scale && (!strcmp(radius.scale, "custom")))
+	else
 	{
-		return false;
-	}
-	else if (!gcu_element_get_radius(&radius))
-	{
-		return false;
+		if (tmp) xmlFree(tmp);
+		if (radius.scale && (!strcmp(radius.scale, "custom")))
+			return false;
+		else if (!gcu_element_get_radius(&radius))
+			return false;
 	}
 	if (radius.value <= 0.0) return false;
 	return true;

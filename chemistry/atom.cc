@@ -4,9 +4,9 @@
  * Gnome Chemistry Utils
  * atom.cc
  *
- * Copyright (C) 2001-2003
+ * Copyright (C) 2001-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -161,11 +161,20 @@ bool Atom::Load(xmlNodePtr node)
 	char* tmp, *endptr;
 	xmlNodePtr child;
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"id");
-	if (tmp) SetId(tmp);
+	if (tmp)
+	{
+		SetId(tmp);
+		xmlFree(tmp);
+	}
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"element");
-	if (tmp) m_Z = Element::Z(tmp);	//Don't check if element exists. Applications that do not accept unknown elements should check
+	if (tmp)
+	{
+		m_Z = Element::Z(tmp);	//Don't check if element exists. Applications that do not accept unknown elements should check
+		xmlFree(tmp);
+	}
 	tmp = (char*)xmlGetProp(node, (xmlChar*)"charge");
 	m_Charge = (tmp)? (char)atoi(tmp): 0;
+	if (tmp) xmlFree(tmp);
 	if (!ReadPosition(node, NULL, &m_x, &m_y, &m_z) || (!LoadNode(node))) return false;
 	return true;
 }

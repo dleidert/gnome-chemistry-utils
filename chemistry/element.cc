@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -86,8 +86,11 @@ EltTable::EltTable()
 			tmp = (char*) xmlGetProp(node, (xmlChar*)"symbol");
 			num = (char*) xmlGetProp(node, (xmlChar*)"Z");
 			Elt = new Element(Z = atoi(num), tmp);
+			xmlFree(num);
+			xmlFree(tmp);
 			num = (char*) xmlGetProp(node, (xmlChar*)"max_bonds");
 			Elt->m_MaxBonds = atoi(num);
+			xmlFree(num);
 			child = node->children;
 			DefaultName = NULL;
 			while (child)
@@ -100,30 +103,54 @@ EltTable::EltTable()
 				if (!strcmp((const char*)child->name, "name"))
 				{
 					tmp = (char*) xmlNodeGetLang(child);
-					if ((tmp) && (lang) && (!strncmp(lang, tmp, 2))) Elt->name = (char*) xmlNodeGetContent(child);
+					if ((tmp) && (lang) && (!strncmp(lang, tmp, 2)))
+					{
+						xmlFree(tmp);
+						tmp = (char*) xmlNodeGetContent(child);
+						Elt->name = tmp;
+						xmlFree(tmp);
+					}
 					else if (!tmp) DefaultName = (char*) xmlNodeGetContent(child);
+					else xmlFree(tmp);
 				}
 				else if (!strcmp((const char*)child->name, "color"))
 				{
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"red");
-					if (tmp) Elt->m_DefaultColor[0] = strtod(tmp, NULL);
+					if (tmp)
+					{
+						Elt->m_DefaultColor[0] = strtod(tmp, NULL);
+						xmlFree(tmp);
+					}
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"green");
-					if (tmp) Elt->m_DefaultColor[1] = strtod(tmp, NULL);
+					if (tmp)
+					{
+						Elt->m_DefaultColor[1] = strtod(tmp, NULL);
+						xmlFree(tmp);
+					}
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"blue");
-					if (tmp) Elt->m_DefaultColor[2] = strtod(tmp, NULL);
+					if (tmp)
+					{
+						Elt->m_DefaultColor[2] = strtod(tmp, NULL);
+						xmlFree(tmp);
+					}
 				}
 				else if (!strcmp((const char*)child->name, "electronegativity"))
 				{
 					GcuElectronegativity* en = new GcuElectronegativity;
 					en->Z = Z;	//FIXME: is it really useful there?
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"scale");
-					if (tmp) en->scale = g_strdup(tmp);
+					if (tmp)
+					{
+						en->scale = g_strdup(tmp);
+						xmlFree(tmp);
+					}
 					else en->scale = NULL;
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"value");
 					if (tmp)
 					{
 						en->value = strtod(tmp, NULL);
 						Elt->m_en.push_back(en);
+						xmlFree(tmp);
 					}
 					else delete en;	//without a value, the strcture is useless and is discarded
 				}
@@ -140,33 +167,50 @@ EltTable::EltTable()
 						(!((!strcmp(tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true)))))
 					{	//invalid radius
 						delete radius;
+						if (tmp) xmlFree(tmp);
 						continue;
 					}
+					else if (tmp) xmlFree(tmp);
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"scale");
-					if (tmp) radius->scale = g_strdup(tmp);
+					if (tmp)
+					{
+						radius->scale = g_strdup(tmp);
+						xmlFree(tmp);
+					}
 					else radius->scale = NULL;
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"charge");
-					if (tmp) radius->charge = strtol(tmp, NULL, 10);
+					if (tmp)
+					{
+						radius->charge = strtol(tmp, NULL, 10);
+						xmlFree(tmp);
+					}
 					else radius->charge = 0;
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"cn");
-					if (tmp) radius->cn = strtol(tmp, NULL, 10);
+					if (tmp)
+					{
+						radius->cn = strtol(tmp, NULL, 10);
+						xmlFree(tmp);
+					}
 					else radius->cn = -1;
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"spin");
 					if ((!tmp) ||
 						(!((!strcmp(tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
 						(!((!strcmp(tmp, "high")) && (radius->spin = GCU_HIGH_SPIN))))
 					radius->spin = GCU_N_A_SPIN;
+					if (tmp) xmlFree(tmp);
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"value");
 					if (tmp)
 					{
 						radius->value = strtod(tmp, NULL);
 						Elt->m_radii.push_back(radius);
+						xmlFree(tmp);
 					}
 					else delete radius;
 				}
 				child = child->next;
 			}
 			if ((Elt->name.length() == 0) && DefaultName) Elt->name = DefaultName;
+			if (DefaultName) xmlFree(DefaultName);
 			Elt->m_en.push_back(NULL);
 			Elt->m_radii.push_back(NULL);
 			AddElement(Elt);

@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2004-10-09 Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: update version to 0.2.6
+	* Makefile.am: add some support for shared mime types.
+	* gchemutils.xml.in: new file to support shared mime info
+	(mime types tree will be polluted with chemical/* types).
+	* chem3d/gtkchem3dviewer.cc,
+	* chemistry/atom.cc,
+	* chemistry/bond.cc,
+	* chemistry/element.cc,
+	* chemistry/xml-utils.cc
+	* crystalviewer/crystalcleavage.cc,
+	* crystalviewer/crystaldoc.cc,
+	* crystalviewer/crystalline.cc,
+	* crystalviewer/crystalview.cc,
+	* crystalviewer/gtkcrystalviewer.cc,
+	* gtk/gtkperiodic.c: Fixed memory leaks.
+
 2004-03-17 Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	*configure.ac: update version to 0.2.5
 	* chemistry/object.cc: fix a critical bug in Object::AddChild and made
@@ -7,7 +24,7 @@
 
 2004-03-10 Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	*configure.ac: removed unused gtk-doc checking
-	* AUTHORS: new polish tranlator
+	* AUTHORS: new polish translator
 	* crystalviewer/crystalatom.cc: avoid calling SetDefaultColor in constructor when
 	Z == 0 (critical bug).
 
