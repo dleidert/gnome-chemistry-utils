@@ -1,10 +1,10 @@
 HTMLDIR = $(datadir)/doc/gchemutils/reference/html
 
 install-data-local:
-	$(mkinstalldirs) $(HTMLDIR); \
+	$(mkinstalldirs) $(DESTDIR)$(HTMLDIR); \
   for i in *.html *.png *.css; do \
 	echo '-- Installing '$$i ; \
-	$(INSTALL_DATA) $$i $(HTMLDIR); \
+	$(INSTALL_DATA) $$i $(DESTDIR)$(HTMLDIR); \
   done
 
 dist-hook: 
