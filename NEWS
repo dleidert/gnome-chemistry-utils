@@ -1,3 +1,9 @@
+Version 0.2.3
+	Fixed a bug in Makefile.am: gtkcystalviewer/Makefile.in and chem3d/Makefile.in were missing in the tarballs.
+	
+Version 0.2.2
+	Minor bugs fixed.
+	
 Version 0.2.1
 	Minor bugs fixed.
 
