@@ -1,22 +1,18 @@
-2004-05-02  Jean Bréfort  <jean.brefort@ac-dijon.fr>
-
-	reviewed by: <delete if not using a buddy>
-
-	* gcu/Makefile.am:
-	* gcu/atom.cc:
-	* gcu/atom.h:
-	* gcu/bond.cc:
-	* gcu/bond.h:
-	* gcu/matrix.cc:
-	* gcu/matrix.h:
-	* gcu/object.cc:
-	* gcu/object.h:
-	* po/fr.po:
-	* po/it.po:
-	* po/pl.po:
-	* tests/Makefile.am:
-
 ##Text encoding: utf-8
+
+2004-05-02  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* gcu/Makefile.am: add new matrix2d.* files
+	* gcu/object.cc,
+	* gcu/object.h: add virtual Transform2D method to support 2D transforms (flip and rotation).
+	* gcu/atom.cc,
+	* gcu/atom.h: implements Transform2D
+	* gcu/bond.cc,
+	* gcu/bond.h: implements Move and Transform2D to avoid execution of Object methods.
+	* gcu/matrix.cc,
+	* gcu/matrix.h: minor changes (replaces gdouble by double).
+	* gcu/matrix2d.cc,
+	* gcu/matrix2d.h: new Matrix2D class used with Object::Transform2D.
+	* tests/Makefile.am: remove obsolete dependencies.
 
 2004-04-09  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* gcu/atom.h: minor update
