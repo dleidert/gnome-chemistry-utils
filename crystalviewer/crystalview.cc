@@ -1,6 +1,6 @@
 /* 
  * Gnome Chemisty Utils
- * crystaldoc.cc 
+ * crystalview.cc 
  *
  * Copyright (C) 2002-2004
  *
@@ -428,7 +428,7 @@ void CrystalView::Update(GtkWidget* widget)
 
 void CrystalView::OnDestroyed(GtkWidget *widget)
 {
-	delete g_object_get_data(G_OBJECT(widget), "gldata");
+	delete (WidgetData*)g_object_get_data(G_OBJECT(widget), "gldata");
 	m_Widgets.remove(widget);
 }
 

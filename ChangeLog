@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2004-10-21 Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.2.8.
+	* crystalviewer/crystalview.cc (CrystalView::OnDestroyed): do not delete void*.
+
+2004-10-21 Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.2.7 and test for 
 	update-desktop-database presence.
 	* Makefile.am: call update-desktop-database only if present.
@@ -15,7 +19,6 @@
 	conflicts with config.h.
 	* chem3d/gchem3d-viewer.c: (main): new program.
 	* chem3d/gtkchem3dviewer.h: removed an unused header.
-
 
 2004-10-10 Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/elements.xml.in,
