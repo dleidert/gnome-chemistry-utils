@@ -22,4 +22,4 @@ gcuincludedir = $(includedir)/gcu/crystalviewer
 gcuinclude_HEADERS = $(libgtkcrystalviewer_la_headers)
 		
 libgtkcrystalviewer_la_LDFLAGS = -version-info  @GTKCV_VERSION_INFO@ @GCU_LIBS@
-CXXFLAGS = @GCU_CFLAGS@
+AM_CXXFLAGS = @GCU_CFLAGS@

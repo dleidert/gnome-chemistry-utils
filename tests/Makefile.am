@@ -6,7 +6,7 @@ DEPS = \
 	$(top_builddir)/gtkperiodic/libgtkperiodic.la
 
 LDADDS = $(top_builddir)/gtkperiodic/libgtkperiodic.la @GCU_LIBS@
-CFLAGS = @GCU_CFLAGS@
+AM_CFLAGS = @GCU_CFLAGS@
 
 if WITH_GTKGL
 

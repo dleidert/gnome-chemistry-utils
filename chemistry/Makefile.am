@@ -20,7 +20,7 @@ gcuincludedir = $(includedir)/gcu/chemistry
 gcuinclude_HEADERS = $(libgcu_la_headers)
 		
 libgcu_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
-CXXFLAGS = @GCU_CFLAGS@
+AM_CXXFLAGS = @GCU_CFLAGS@
 
 xmldir = $(datadir)/gchemutils
 
