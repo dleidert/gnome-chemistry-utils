@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2003-11-01 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* enhanced gchemutils.keys.in for translation
+
 2003-10-21 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* changed element 110 to Darmstadtium.
 

@@ -1,13 +1,14 @@
 # Gnome Chemistry Utils fr.po
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002-2003 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002.
+# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002-2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-chemistry-utils-0.2.0\n"
-"POT-Creation-Date: 2003-10-21 12:34+0200\n"
-"PO-Revision-Date: 2003-10-21 12:50+0200\n"
+"Project-Id-Version: gnome-chemistry-utils-0.2.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-10-31 15:39+0100\n"
+"PO-Revision-Date: 2003-10-31 15:45+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@ac-dijon.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -474,5 +475,38 @@ msgstr "Zinc"
 msgid "Zirconium"
 msgstr "Zirconium"
 
-#~ msgid "Ununnilium"
-#~ msgstr "Ununnilium"
+#: chem3d/gchem3d.server.in.h:1
+msgid "Gnome Chemistry 3D Viewer component"
+msgstr "Composant de visualisation Gnome Chemistry 3D"
+
+#: chem3d/gchem3d.server.in.h:2
+msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
+msgstr "Composant de visualisation de structures chimiques"
+
+#: chem3d/gchem3d.server.in.h:3
+msgid "Gnome Chemistry 3D Viewer embeddable factory"
+msgstr "Fabrique d'objets incorporables de la visioneuse Gnome Chemistry 3D"
+
+#: chem3d/gchem3d.server.in.h:4
+msgid "Gnome Chemistry 3D Viewer object factory"
+msgstr "Fabrique d'objets de la visioneuse Gnome Chemistry 3D"
+
+#: chem3d/gchem3d.server.in.h:5
+msgid "Molecular Model"
+msgstr "Modèle moléculaire"
+
+#: gchemutils.keys.in.h:1
+msgid "Documents/Sciences/Chemistry"
+msgstr "Documents/Sciences/Chimie"
+
+#: gchemutils.keys.in.h:2
+msgid "MDL MOL file"
+msgstr "Fichier MDL MOL"
+
+#: gchemutils.keys.in.h:3
+msgid "PDB file"
+msgstr "Fichier PDB"
+
+#: gchemutils.keys.in.h:4
+msgid "XYZ file"
+msgstr "Fichier XYZ"

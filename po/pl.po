@@ -1,13 +1,14 @@
 # Gnome Chemistry Utils pl.po
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2003 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
 # Michał Sałaban <emes@pld-linux.org>, 2003.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-chemistry-utils-0.2.0\n"
-"POT-Creation-Date: 2003-10-21 12:34+0200\n"
+"Project-Id-Version: gnome-chemistry-utils-0.2.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-10-31 15:39+0100\n"
 "PO-Revision-Date: 2003-10-22 12:12+0200\n"
 "Last-Translator: Michał Sałaban <emes@pld-linux.org>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -474,3 +475,39 @@ msgstr "Cynk"
 #: chemistry/elements.xml.in.h:113
 msgid "Zirconium"
 msgstr "Cyrkon"
+
+#: chem3d/gchem3d.server.in.h:1
+msgid "Gnome Chemistry 3D Viewer component"
+msgstr ""
+
+#: chem3d/gchem3d.server.in.h:2
+msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
+msgstr ""
+
+#: chem3d/gchem3d.server.in.h:3
+msgid "Gnome Chemistry 3D Viewer embeddable factory"
+msgstr ""
+
+#: chem3d/gchem3d.server.in.h:4
+msgid "Gnome Chemistry 3D Viewer object factory"
+msgstr ""
+
+#: chem3d/gchem3d.server.in.h:5
+msgid "Molecular Model"
+msgstr ""
+
+#: gchemutils.keys.in.h:1
+msgid "Documents/Sciences/Chemistry"
+msgstr ""
+
+#: gchemutils.keys.in.h:2
+msgid "MDL MOL file"
+msgstr ""
+
+#: gchemutils.keys.in.h:3
+msgid "PDB file"
+msgstr ""
+
+#: gchemutils.keys.in.h:4
+msgid "XYZ file"
+msgstr ""

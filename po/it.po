@@ -8,7 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.2_it\n"
-"POT-Creation-Date: 2003-10-21 12:34+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-10-31 15:39+0100\n"
 "PO-Revision-Date: 2003-10-21 19:30+0200\n"
 "Last-Translator: Kostantino <inverness1ATvirgilio.it>\n"
 "Language-Team: Italiano <it@li.org>\n"
@@ -477,7 +478,41 @@ msgstr "Zinco"
 msgid "Zirconium"
 msgstr "Zirconio"
 
+#: chem3d/gchem3d.server.in.h:1
+msgid "Gnome Chemistry 3D Viewer component"
+msgstr ""
+
+#: chem3d/gchem3d.server.in.h:2
+msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
+msgstr ""
+
+#: chem3d/gchem3d.server.in.h:3
+msgid "Gnome Chemistry 3D Viewer embeddable factory"
+msgstr ""
+
+#: chem3d/gchem3d.server.in.h:4
+msgid "Gnome Chemistry 3D Viewer object factory"
+msgstr ""
+
+#: chem3d/gchem3d.server.in.h:5
+msgid "Molecular Model"
+msgstr ""
+
+#: gchemutils.keys.in.h:1
+msgid "Documents/Sciences/Chemistry"
+msgstr ""
+
+#: gchemutils.keys.in.h:2
+msgid "MDL MOL file"
+msgstr ""
+
+#: gchemutils.keys.in.h:3
+msgid "PDB file"
+msgstr ""
+
+#: gchemutils.keys.in.h:4
+msgid "XYZ file"
+msgstr ""
+
 #~ msgid "Ununnilium"
 #~ msgstr "Ununnilio"
-
-
