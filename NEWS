@@ -1,3 +1,8 @@
+Version 0.4.0
+	Added gchem3d-viewer (freom 0.2 branch).
+	Removed all unstable related stuff.
+	New translation: de.
+
 Version 0.3.2
 	Several bugs fixed, essentially in Object class.
 	Changed signature of Object::OnSignal. Leads to a compatibility break.
