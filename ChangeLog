@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
-2004-10-21 Jean Bréfort  <jean.brefort@normalesup.org>
+2005-02-23 Jean Bréfort  <jean.brefort@normalesup.org>
+	* crystalviewer/crystalatom.cc: alxays initialize alpha value.
+	* Doxygen: update version number
+
+2004-11-04 Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.2.8.
 	* crystalviewer/crystalview.cc (CrystalView::OnDestroyed): do not delete void*.
 

@@ -4,9 +4,9 @@
  * Gnome Chemistry Utils
  * crystalviewer/crystalatom.cc 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2005
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -63,6 +63,7 @@ CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 	m_Radius.value = 0.0;
 	m_Radius.cn = -1;
 	if (Z) SetDefaultColor();
+	m_fAlpha = 1;
 	m_nCleave = 0;
 }
 
