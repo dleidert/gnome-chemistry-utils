@@ -1,10 +1,15 @@
 ##Text encoding: utf-8
 
-2004-10-20  Jean Bréfort  <jean.brefort@normalesup.org>
+2004-10-21 Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.2.7 and test for 
+	update-desktop-database presence.
+	* Makefile.am: call update-desktop-database only if present.
+
+2004-10-20 Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add gchem3d-viewer.desktop
 	* gchem3d-viewer.desktop.in: new desktop file.
 
-2004-10-17  Jean Bréfort  <jean.brefort@normalesup.org>
+2004-10-17 Jean Bréfort  <jean.brefort@normalesup.org>
 	* chem3d/Makefile.am: add gchem3d-viewer to bin-programs.
 	* chem3d/bonobo-control.cc: move inclusion of openbabel header to avoid
 	conflicts with config.h.

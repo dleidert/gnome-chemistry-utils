@@ -34,8 +34,12 @@ pkgconfig_DATA= gcu.pc
 
 install-data-hook:
 	update-mime-database $(datadir)/mime
-	if [ -x update-desktop-database ]; then	update-desktop-database $(datadir)/applications; fi
+if WITH_UPDATE_DESKTOP
+	update-desktop-database $(datadir)/applications
+endif
 
 uninstall-hook:
 	update-mime-database $(datadir)/mime
-	if [ -x update-desktop-database ]; then	update-desktop-database $(datadir)/applications; fi
+if WITH_UPDATE_DESKTOP
+	update-desktop-database $(datadir)/applications
+endif
