@@ -1,7 +1,7 @@
 # Gnome Chemistry Utils pl.po
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Micha³ Sa³aban <emes@pld.org.pl>, 2003.
+# MichaÅ‚ SaÅ‚aban <emes@pld.org.pl>, 2003.
 #
 #, fuzzy
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.1.1\n"
 "POT-Creation-Date: 2003-03-01 22:13+0100\n"
 "PO-Revision-Date: 2003-05-13 02:10+0200\n"
-"Last-Translator: Micha³ Sa³aban <emes@pld.org.pl>\n"
+"Last-Translator: MichaÅ‚ SaÅ‚aban <emes@pld.org.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
@@ -85,7 +85,7 @@ msgstr "Kadm"
 
 #: chemistry/elements.xml.in.h:16
 msgid "Calcium"
-msgstr "Wapñ"
+msgstr "WapÅ„"
 
 #: chemistry/elements.xml.in.h:17
 msgid "Californium"
@@ -93,7 +93,7 @@ msgstr "Kaliforn"
 
 #: chemistry/elements.xml.in.h:18
 msgid "Carbon"
-msgstr "Wêgiel"
+msgstr "WÄ™giel"
 
 #: chemistry/elements.xml.in.h:19
 msgid "Cerium"
@@ -117,7 +117,7 @@ msgstr "Kobalt"
 
 #: chemistry/elements.xml.in.h:24
 msgid "Copper"
-msgstr "Mied¼"
+msgstr "MiedÅº"
 
 #: chemistry/elements.xml.in.h:25
 msgid "Curium"
@@ -169,7 +169,7 @@ msgstr "German"
 
 #: chemistry/elements.xml.in.h:37
 msgid "Gold"
-msgstr "Z³oto"
+msgstr "ZÅ‚oto"
 
 #: chemistry/elements.xml.in.h:38
 msgid "Hafnium"
@@ -189,7 +189,7 @@ msgstr "Holm"
 
 #: chemistry/elements.xml.in.h:42
 msgid "Hydrogen"
-msgstr "Wodór"
+msgstr "WodÃ³r"
 
 #: chemistry/elements.xml.in.h:43
 msgid "Indium"
@@ -205,7 +205,7 @@ msgstr "Iryd"
 
 #: chemistry/elements.xml.in.h:46
 msgid "Iron"
-msgstr "¯elazo"
+msgstr "Å»elazo"
 
 #: chemistry/elements.xml.in.h:47
 msgid "Krypton"
@@ -221,7 +221,7 @@ msgstr "Lorens"
 
 #: chemistry/elements.xml.in.h:50
 msgid "Lead"
-msgstr "O³ów"
+msgstr "OÅ‚Ã³w"
 
 #: chemistry/elements.xml.in.h:51
 msgid "Lithium"
@@ -249,7 +249,7 @@ msgstr "Mendelew"
 
 #: chemistry/elements.xml.in.h:57
 msgid "Mercury"
-msgstr "Rtêæ"
+msgstr "RtÄ™Ä‡"
 
 #: chemistry/elements.xml.in.h:58
 msgid "Molybdenum"
@@ -381,7 +381,7 @@ msgstr "Srebro"
 
 #: chemistry/elements.xml.in.h:90
 msgid "Sodium"
-msgstr "Sód"
+msgstr "SÃ³d"
 
 #: chemistry/elements.xml.in.h:91
 msgid "Strontium"
