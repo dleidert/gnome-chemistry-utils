@@ -25,9 +25,9 @@ testgtkcrystalviewer_SOURCES =	\
 
 testgtkchem3dviewer_DEPENDENCIES = $(top_builddir)/chem3d/libgtkchem3dviewer.la $(top_builddir)/chemistry/libgcu.la
 
-testgtkchem3dviewer_LDADD = @GC3D_LIBS@ @OPENBABEL_LIBS@ $(top_builddir)/chem3d/libgtkchem3dviewer.la $(top_builddir)/chemistry/libgcu.la @GCU_LIBS@ -lstdc++
+testgtkchem3dviewer_LDADD = @GC3D_LIBS@ $(top_builddir)/chem3d/libgtkchem3dviewer.la $(top_builddir)/chemistry/libgcu.la @GCU_LIBS@ -lstdc++
 
-AM_CFLAGS += @GC3D_CFLAGS@ @OPENBABEL_INC@
+AM_CFLAGS += @GC3D_CFLAGS@
 
 testgtkchem3dviewer_SOURCES =	\
 	testgtkchem3dviewer.c 	

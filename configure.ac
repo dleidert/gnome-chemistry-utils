@@ -84,38 +84,17 @@ AM_CONDITIONAL(WITH_GTKGL,test "$have_gtkgl" = "yes")
 dnl test if openbabel is present and chem3d can be built
 if test "$have_gtkgl" = "yes"; then
 	
-	### Check for OpenBabel
-	
-	AC_ARG_WITH(openbabel, [  --with-openbabel=[DIR]    Compile with OpenBabel [default=yes]],[
-		with_openbabel=$withval
-	],[
-		with_openbabel=yes
-	])
-	if test "x$with_openbabel" != xno  ; then
-		OLDLIBS=$LIBS
-		test "$with_openbabel" != yes && LIBS="$LIBS -L$with_openbabel/src"
-		AC_HAVE_LIBRARY(openbabel,
-			AC_DEFINE(HAVE_OPENBABEL,1,[OpenBabel is present])
-			OPENBABEL_LIBS="-L$with_openbabel/src -lopenbabel" \
-			OPENBABEL_INC="-I$with_openbabel/src" \
-			have_openbabel="yes",
-			have_openbabel="no" && \
-			AC_MSG_WARN(*** GtkChem3DViewer widget needs OpenBabel and will not be built ***))
-		AC_SUBST(OPENBABEL_LIBS)
-		AC_SUBST(OPENBABEL_INC)
-		LIBS=$OLDLIBS
-	fi
-fi
+	OPENBABEL_REQUIRED_VERSION=1.100.1
+	PKG_CHECK_MODULES(GC3D, \
+		gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
+		libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED_VERSION \
+		openbabel >= $OPENBABEL_REQUIRED_VERSION, \
+		have_openbabel="yes", \
+		have_openbabel="no" && \
+		AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and OpenBabel will not be built ***))
+	AC_SUBST(GC3D_CFLAGS)
+	AC_SUBST(GC3D_LIBS)
 
-if test "$have_openbabel" = "yes" ; then
-		PKG_CHECK_MODULES(GC3D, \
-			gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
-			libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED_VERSION, \
-			have_openbabel="yes", \
-			have_openbabel="no" && \
-			AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and will not be built ***))
-		AC_SUBST(GC3D_CFLAGS)
-		AC_SUBST(GC3D_LIBS)
 fi
 
 AM_CONDITIONAL(WITH_OPENBABEL,test "$have_openbabel" = "yes")

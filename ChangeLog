@@ -1,4 +1,6 @@
 ##Text encoding: utf-8
+2003-06-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Updated GtkChem3D dependencies to OpenBabel-0.100.1
 
 2003-06-16 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Change atoms radii in crystal from double to GcuCrystalRadius
