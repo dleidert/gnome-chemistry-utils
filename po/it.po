@@ -1,0 +1,476 @@
+# Gnome Chemistry Utils fr.po
+# Copyright (C) 2002 Free Software Foundation, Inc.
+# This file is distributed under the same license as the Gnome Chemistry Utils package.
+# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-chemistry-utils-0.1.1\n"
+"POT-Creation-Date: 2003-04-28 14:02+0200\n"
+"PO-Revision-Date: 2003-03-15 18:35+0100\n"
+"Last-Translator: \n"
+"Language-Team:  <it@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 0.9.6\n"
+
+#: glade/gtkperiodic.glade.h:1
+msgid "Actinides"
+msgstr "Attinidi"
+
+#: glade/gtkperiodic.glade.h:2
+msgid "Lanthanides"
+msgstr "Lantanidi"
+
+#: chemistry/elements.xml.in.h:1
+msgid "Actinium"
+msgstr "Attinio"
+
+#: chemistry/elements.xml.in.h:2
+msgid "Aluminum"
+msgstr "Alluminio"
+
+#: chemistry/elements.xml.in.h:3
+msgid "Americium"
+msgstr "Americio"
+
+#: chemistry/elements.xml.in.h:4
+msgid "Antimony"
+msgstr "Antimonio"
+
+#: chemistry/elements.xml.in.h:5
+msgid "Argon"
+msgstr "Argon"
+
+#: chemistry/elements.xml.in.h:6
+msgid "Arsenic"
+msgstr "Arsenico"
+
+#: chemistry/elements.xml.in.h:7
+msgid "Astatine"
+msgstr "Astato"
+
+#: chemistry/elements.xml.in.h:8
+msgid "Barium"
+msgstr "Bario"
+
+#: chemistry/elements.xml.in.h:9
+msgid "Berkelium"
+msgstr "Berchelio"
+
+#: chemistry/elements.xml.in.h:10
+msgid "Beryllium"
+msgstr "Berillio"
+
+#: chemistry/elements.xml.in.h:11
+msgid "Bismuth"
+msgstr "Bismuto"
+
+#: chemistry/elements.xml.in.h:12
+msgid "Bohrium"
+msgstr "Bohrio"
+
+#: chemistry/elements.xml.in.h:13
+msgid "Boron"
+msgstr "Boro"
+
+#: chemistry/elements.xml.in.h:14
+msgid "Bromine"
+msgstr "Bromo"
+
+#: chemistry/elements.xml.in.h:15
+msgid "Cadmium"
+msgstr "Cadmio"
+
+#: chemistry/elements.xml.in.h:16
+msgid "Calcium"
+msgstr "Calcio"
+
+#: chemistry/elements.xml.in.h:17
+msgid "Californium"
+msgstr "Californio"
+
+#: chemistry/elements.xml.in.h:18
+msgid "Carbon"
+msgstr "Carbonio"
+
+#: chemistry/elements.xml.in.h:19
+msgid "Cerium"
+msgstr "Cerio"
+
+#: chemistry/elements.xml.in.h:20
+msgid "Cesium"
+msgstr "Cesio"
+
+#: chemistry/elements.xml.in.h:21
+msgid "Chlorine"
+msgstr "Cloro"
+
+#: chemistry/elements.xml.in.h:22
+msgid "Chromium"
+msgstr "Cromo"
+
+#: chemistry/elements.xml.in.h:23
+msgid "Cobalt"
+msgstr "Cobalto"
+
+#: chemistry/elements.xml.in.h:24
+msgid "Copper"
+msgstr "Rame"
+
+#: chemistry/elements.xml.in.h:25
+msgid "Curium"
+msgstr "Curio"
+
+#: chemistry/elements.xml.in.h:26
+msgid "Dubnium"
+msgstr "Dubnio"
+
+#: chemistry/elements.xml.in.h:27
+msgid "Dysprosium"
+msgstr "Disprosio"
+
+#: chemistry/elements.xml.in.h:28
+msgid "Einsteinium"
+msgstr "Einsteinio"
+
+#: chemistry/elements.xml.in.h:29
+msgid "Erbium"
+msgstr "Erbio"
+
+#: chemistry/elements.xml.in.h:30
+msgid "Europium"
+msgstr "Europio"
+
+#: chemistry/elements.xml.in.h:31
+msgid "Fermium"
+msgstr "Fermio"
+
+#: chemistry/elements.xml.in.h:32
+msgid "Fluorine"
+msgstr "Fluoro"
+
+#: chemistry/elements.xml.in.h:33
+msgid "Francium"
+msgstr "Francio"
+
+#: chemistry/elements.xml.in.h:34
+msgid "Gadolinium"
+msgstr "Gadolinio"
+
+#: chemistry/elements.xml.in.h:35
+msgid "Gallium"
+msgstr "Gallio"
+
+#: chemistry/elements.xml.in.h:36
+msgid "Germanium"
+msgstr "Germanio"
+
+#: chemistry/elements.xml.in.h:37
+msgid "Gold"
+msgstr "Oro"
+
+#: chemistry/elements.xml.in.h:38
+msgid "Hafnium"
+msgstr "Afnio"
+
+#: chemistry/elements.xml.in.h:39
+msgid "Hassium"
+msgstr "Assio"
+
+#: chemistry/elements.xml.in.h:40
+msgid "Helium"
+msgstr "Elio"
+
+#: chemistry/elements.xml.in.h:41
+msgid "Holmium"
+msgstr "Olmio"
+
+#: chemistry/elements.xml.in.h:42
+msgid "Hydrogen"
+msgstr "Idrogeno"
+
+#: chemistry/elements.xml.in.h:43
+msgid "Indium"
+msgstr "Indio"
+
+#: chemistry/elements.xml.in.h:44
+msgid "Iodine"
+msgstr "Iodio"
+
+#: chemistry/elements.xml.in.h:45
+msgid "Iridium"
+msgstr "Iridio"
+
+#: chemistry/elements.xml.in.h:46
+msgid "Iron"
+msgstr "Ferro"
+
+#: chemistry/elements.xml.in.h:47
+msgid "Krypton"
+msgstr "Kripton"
+
+#: chemistry/elements.xml.in.h:48
+msgid "Lanthanum"
+msgstr "Lantanio"
+
+#: chemistry/elements.xml.in.h:49
+msgid "Lawrencium"
+msgstr "Lawrencio"
+
+#: chemistry/elements.xml.in.h:50
+msgid "Lead"
+msgstr "Piombo"
+
+#: chemistry/elements.xml.in.h:51
+msgid "Lithium"
+msgstr "Litio"
+
+#: chemistry/elements.xml.in.h:52
+msgid "Lutetium"
+msgstr "Lutezio"
+
+#: chemistry/elements.xml.in.h:53
+msgid "Magnesium"
+msgstr "Magnesio"
+
+#: chemistry/elements.xml.in.h:54
+msgid "Manganese"
+msgstr "Manganese"
+
+#: chemistry/elements.xml.in.h:55
+msgid "Meitnerium"
+msgstr "Meitnerio"
+
+#: chemistry/elements.xml.in.h:56
+msgid "Mendelevium"
+msgstr "Mendelevio"
+
+#: chemistry/elements.xml.in.h:57
+msgid "Mercury"
+msgstr "Mercurio"
+
+#: chemistry/elements.xml.in.h:58
+msgid "Molybdenum"
+msgstr "Molibdeno"
+
+#: chemistry/elements.xml.in.h:59
+msgid "Neodymium"
+msgstr "Neodimio"
+
+#: chemistry/elements.xml.in.h:60
+msgid "Neon"
+msgstr "Neon"
+
+#: chemistry/elements.xml.in.h:61
+msgid "Neptunium"
+msgstr "Nettunio"
+
+#: chemistry/elements.xml.in.h:62
+msgid "Nickel"
+msgstr "Nickel"
+
+#: chemistry/elements.xml.in.h:63
+msgid "Niobium"
+msgstr "Niobio"
+
+#: chemistry/elements.xml.in.h:64
+msgid "Nitrogen"
+msgstr "Azoto"
+
+#: chemistry/elements.xml.in.h:65
+msgid "Nobelium"
+msgstr "Nobelio"
+
+#: chemistry/elements.xml.in.h:66
+msgid "Osmium"
+msgstr "Osmio"
+
+#: chemistry/elements.xml.in.h:67
+msgid "Oxygen"
+msgstr "Ossigeno"
+
+#: chemistry/elements.xml.in.h:68
+msgid "Palladium"
+msgstr "Palladio"
+
+#: chemistry/elements.xml.in.h:69
+msgid "Phosphorus"
+msgstr "Fosforo"
+
+#: chemistry/elements.xml.in.h:70
+msgid "Platinum"
+msgstr "Platino"
+
+#: chemistry/elements.xml.in.h:71
+msgid "Plutonium"
+msgstr "Plutonio"
+
+#: chemistry/elements.xml.in.h:72
+msgid "Polonium"
+msgstr "Polonio"
+
+#: chemistry/elements.xml.in.h:73
+msgid "Potassium"
+msgstr "Potassio"
+
+#: chemistry/elements.xml.in.h:74
+msgid "Praseodymium"
+msgstr "Praseodimio"
+
+#: chemistry/elements.xml.in.h:75
+msgid "Promethium"
+msgstr "Promezio"
+
+#: chemistry/elements.xml.in.h:76
+msgid "Protactinium"
+msgstr "Protattinio"
+
+#: chemistry/elements.xml.in.h:77
+msgid "Radium"
+msgstr "Radio"
+
+#: chemistry/elements.xml.in.h:78
+msgid "Radon"
+msgstr "Radon"
+
+#: chemistry/elements.xml.in.h:79
+msgid "Rhenium"
+msgstr "Renio"
+
+#: chemistry/elements.xml.in.h:80
+msgid "Rhodium"
+msgstr "Rodio"
+
+#: chemistry/elements.xml.in.h:81
+msgid "Rubidium"
+msgstr "Rubidio"
+
+#: chemistry/elements.xml.in.h:82
+msgid "Ruthenium"
+msgstr "Rutenio"
+
+#: chemistry/elements.xml.in.h:83
+msgid "Rutherfordium"
+msgstr "Rutherfordio"
+
+#: chemistry/elements.xml.in.h:84
+msgid "Samarium"
+msgstr "Samario"
+
+#: chemistry/elements.xml.in.h:85
+msgid "Scandium"
+msgstr "Scandio"
+
+#: chemistry/elements.xml.in.h:86
+msgid "Seaborgium"
+msgstr "Seaborgio"
+
+#: chemistry/elements.xml.in.h:87
+msgid "Selenium"
+msgstr "Selenio"
+
+#: chemistry/elements.xml.in.h:88
+msgid "Silicon"
+msgstr "Silicio"
+
+#: chemistry/elements.xml.in.h:89
+msgid "Silver"
+msgstr "Argento"
+
+#: chemistry/elements.xml.in.h:90
+msgid "Sodium"
+msgstr "Sodio"
+
+#: chemistry/elements.xml.in.h:91
+msgid "Strontium"
+msgstr "Stronzio"
+
+#: chemistry/elements.xml.in.h:92
+msgid "Sulfur"
+msgstr "Zolfo"
+
+#: chemistry/elements.xml.in.h:93
+msgid "Tantalum"
+msgstr "Tantalio"
+
+#: chemistry/elements.xml.in.h:94
+msgid "Technetium"
+msgstr "Tecnezio"
+
+#: chemistry/elements.xml.in.h:95
+msgid "Tellurium"
+msgstr "Tellurio"
+
+#: chemistry/elements.xml.in.h:96
+msgid "Terbium"
+msgstr "Terbio"
+
+#: chemistry/elements.xml.in.h:97
+msgid "Thallium"
+msgstr "Tallio"
+
+#: chemistry/elements.xml.in.h:98
+msgid "Thorium"
+msgstr "Torio"
+
+#: chemistry/elements.xml.in.h:99
+msgid "Thulium"
+msgstr "Tullio"
+
+#: chemistry/elements.xml.in.h:100
+msgid "Tin"
+msgstr "Stagno"
+
+#: chemistry/elements.xml.in.h:101
+msgid "Titanium"
+msgstr "Titanio"
+
+#: chemistry/elements.xml.in.h:102
+msgid "Tungsten"
+msgstr "Tungsteno"
+
+#: chemistry/elements.xml.in.h:103
+msgid "Ununbium"
+msgstr "Ununbio"
+
+#: chemistry/elements.xml.in.h:104
+msgid "Ununnilium"
+msgstr "Ununnilio"
+
+#: chemistry/elements.xml.in.h:105
+msgid "Ununquadium"
+msgstr "Ununquadio"
+
+#: chemistry/elements.xml.in.h:106
+msgid "Unununium"
+msgstr "Unununio"
+
+#: chemistry/elements.xml.in.h:107
+msgid "Uranium"
+msgstr "Uranio"
+
+#: chemistry/elements.xml.in.h:108
+msgid "Vanadium"
+msgstr "Vanadio"
+
+#: chemistry/elements.xml.in.h:109
+msgid "Xenon"
+msgstr "Xenon"
+
+#: chemistry/elements.xml.in.h:110
+msgid "Ytterbium"
+msgstr "Itterbio"
+
+#: chemistry/elements.xml.in.h:111
+msgid "Yttrium"
+msgstr "Ittrio"
+
+#: chemistry/elements.xml.in.h:112
+msgid "Zinc"
+msgstr "Zinco"
+
+#: chemistry/elements.xml.in.h:113
+msgid "Zirconium"
+msgstr "Zirconio"
