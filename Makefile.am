@@ -11,7 +11,7 @@ keys_in_files = gchemutils.keys.in
 
 EXTRA_DIST=	\
 	$(keys_in_files) \
-	gchemutils.mime
+	gchemutils.mime \
 	gcu.pc.in \
 	intltool-extract.in	\
 	intltool-update.in	\

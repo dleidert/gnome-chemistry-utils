@@ -161,7 +161,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	char name[8] = "elt";
 	GtkToggleButton* button;
 	int i;
-	const char* domain = g_strdup(textdomain(NULL));
+	char* domain = g_strdup(textdomain(NULL));
 	textdomain(GETTEXT_PACKAGE);
 	xml =  glade_xml_new(DATADIR"/gchemutils/glade/gtkperiodic.glade", "vbox1", NULL);
 	if (xml)  glade_xml_signal_autoconnect (xml);
