@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2004-12-12 Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: added de locale.
+	* glade/gtkperiodic.glade: updated symbols for elements 110 and 111.
+
 2004-12-03 Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/object.cc: fixed Object::Load. Does not anymore returns false when
 	something goes wrong. Just delete the bad object.
