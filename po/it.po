@@ -1,19 +1,20 @@
+# translation of gchem-utils_it.po to 
 # Gnome Chemistry Utils fr.po
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2002,2003 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002.
+# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002,2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-chemistry-utils-0.1.1\n"
-"POT-Creation-Date: 2003-04-28 14:02+0200\n"
-"PO-Revision-Date: 2003-03-15 18:35+0100\n"
+"Project-Id-Version: gchem-utils_it\n"
+"POT-Creation-Date: 2003-03-01 22:13+0100\n"
+"PO-Revision-Date: 2003-04-10 19:37+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0\n"
 
 #: glade/gtkperiodic.glade.h:1
 msgid "Actinides"
@@ -474,3 +475,4 @@ msgstr "Zinco"
 #: chemistry/elements.xml.in.h:113
 msgid "Zirconium"
 msgstr "Zirconio"
+

@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.1.3)
+AC_INIT(gnome-chemistry-utils, 0.1.4)
 AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
@@ -31,7 +31,7 @@ AC_SUBST(GTKP_VERSION_INFO)
 AC_SUBST(GTKCV_VERSION_INFO)
 AC_SUBST(GCU_VERSION_INFO)
 
-ALL_LINGUAS="fr"
+ALL_LINGUAS="fr it pl"
 AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
@@ -41,6 +41,7 @@ LIBGLADE_REQUIRED_VERSION=1.99.5
 GTKGL_REQUIRED_VERSION=1.99.0
 GTKGLEXT_REQUIRED_VERSION=0.6.0
 GNOME_PRINT_REQUIRED_VERSION=2.1.3
+GNOME_VFS_REQUIRED_VERSION=2.0.0
 
 gl_flags=
 gtkcrystalviewer="-lgtkcrystalviewer"
@@ -75,6 +76,44 @@ AC_SUBST(gl_flags)
 AC_SUBST(gtkcrystalviewer)
 AM_CONDITIONAL(WITH_GTKGL,test "$have_gtkgl" = "yes")
 
+dnl test if openbabel is present and chem3d can be built
+if test "$have_gtkgl" = "yes"; then
+	
+	### Check for OpenBabel
+	
+	AC_ARG_WITH(openbabel, [  --with-openbabel=[DIR]    Compile with OpenBabel [default=yes]],[
+		with_openbabel=$withval
+	],[
+		with_openbabel=yes
+	])
+	if test "x$with_openbabel" != xno  ; then
+		OLDLIBS=$LIBS
+		test "$with_openbabel" != yes && LIBS="$LIBS -L$with_openbabel/src"
+		AC_HAVE_LIBRARY(openbabel,
+			AC_DEFINE(HAVE_OPENBABEL,1,[OpenBabel is present])
+			OPENBABEL_LIBS="-L$with_openbabel/src -lopenbabel" \
+			OPENBABEL_INC="-I$with_openbabel/src" \
+			have_openbabel="yes",
+			have_openbabel="no" && \
+			AC_MSG_WARN(*** GtkChem3DViewer widget needs OpenBabel and will not be built ***))
+		AC_SUBST(OPENBABEL_LIBS)
+		AC_SUBST(OPENBABEL_INC)
+		LIBS=$OLDLIBS
+	fi
+fi
+
+if test "$have_openbabel" = "yes" ; then
+		PKG_CHECK_MODULES(GC3D, \
+			gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION,  \
+			have_openbabel="yes", \
+			have_openbabel="no" && \
+			AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and will not be built ***))
+		AC_SUBST(GC3D_CFLAGS)
+		AC_SUBST(GC3D_LIBS)
+fi
+
+AM_CONDITIONAL(WITH_OPENBABEL,test "$have_openbabel" = "yes")
+
 GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED \
 -DLIBGLADE_DISABLE_DEPRECATED -Werror-implicit-function-declaration"
 AC_SUBST(GCU_CFLAGS)
@@ -101,6 +140,7 @@ Makefile
 chemistry/Makefile
 crystalviewer/Makefile
 gtkperiodic/Makefile
+chem3d/Makefile
 po/Makefile.in
 glade/Makefile
 tests/Makefile

@@ -1,42 +1,43 @@
-# Gnome Chemistry Utils fr.po
+# Gnome Chemistry Utils pl.po
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002.
+# Micha� Sa�aban <emes@pld.org.pl>, 2003.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.1.1\n"
-"POT-Creation-Date: 2003-04-28 14:02+0200\n"
-"PO-Revision-Date: 2002-10-02 14:00+0200\n"
-"Last-Translator: Jean Bréfort <jean.brefort@ac-dijon.fr>\n"
-"Language-Team: French <fr@li.org>\n"
+"POT-Creation-Date: 2003-03-01 22:13+0100\n"
+"PO-Revision-Date: 2003-05-13 02:10+0200\n"
+"Last-Translator: Micha� Sa�aban <emes@pld.org.pl>\n"
+"Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: glade/gtkperiodic.glade.h:1
 msgid "Actinides"
-msgstr "Actinides"
+msgstr "Aktynowce"
 
 #: glade/gtkperiodic.glade.h:2
 msgid "Lanthanides"
-msgstr "Lanthanides"
+msgstr "lantanowce"
 
 #: chemistry/elements.xml.in.h:1
 msgid "Actinium"
-msgstr "Actinium"
+msgstr "Aktyn"
 
 #: chemistry/elements.xml.in.h:2
 msgid "Aluminum"
-msgstr "Aluminium"
+msgstr "Glin"
 
 #: chemistry/elements.xml.in.h:3
 msgid "Americium"
-msgstr "Américium"
+msgstr "Ameryk"
 
 #: chemistry/elements.xml.in.h:4
 msgid "Antimony"
-msgstr "Antimoine"
+msgstr "Antymon"
 
 #: chemistry/elements.xml.in.h:5
 msgid "Argon"
@@ -44,107 +45,107 @@ msgstr "Argon"
 
 #: chemistry/elements.xml.in.h:6
 msgid "Arsenic"
-msgstr "Arsenic"
+msgstr "Arsen"
 
 #: chemistry/elements.xml.in.h:7
 msgid "Astatine"
-msgstr "Astate"
+msgstr "Astat"
 
 #: chemistry/elements.xml.in.h:8
 msgid "Barium"
-msgstr "Baryum"
+msgstr "Bar"
 
 #: chemistry/elements.xml.in.h:9
 msgid "Berkelium"
-msgstr "Berkélium"
+msgstr "Berkel"
 
 #: chemistry/elements.xml.in.h:10
 msgid "Beryllium"
-msgstr "Béryllium"
+msgstr "Beryl"
 
 #: chemistry/elements.xml.in.h:11
 msgid "Bismuth"
-msgstr "Bismuth"
+msgstr "Bizmut"
 
 #: chemistry/elements.xml.in.h:12
 msgid "Bohrium"
-msgstr "Bohrium"
+msgstr "Bohr"
 
 #: chemistry/elements.xml.in.h:13
 msgid "Boron"
-msgstr "Bore"
+msgstr "Bor"
 
 #: chemistry/elements.xml.in.h:14
 msgid "Bromine"
-msgstr "Brome"
+msgstr "Brom"
 
 #: chemistry/elements.xml.in.h:15
 msgid "Cadmium"
-msgstr "Cadmium"
+msgstr "Kadm"
 
 #: chemistry/elements.xml.in.h:16
 msgid "Calcium"
-msgstr "Calcium"
+msgstr "Wap�"
 
 #: chemistry/elements.xml.in.h:17
 msgid "Californium"
-msgstr "Californium"
+msgstr "Kaliforn"
 
 #: chemistry/elements.xml.in.h:18
 msgid "Carbon"
-msgstr "Carbone"
+msgstr "W�giel"
 
 #: chemistry/elements.xml.in.h:19
 msgid "Cerium"
-msgstr "Cérium"
+msgstr "Cer"
 
 #: chemistry/elements.xml.in.h:20
 msgid "Cesium"
-msgstr "Césium"
+msgstr "Cez"
 
 #: chemistry/elements.xml.in.h:21
 msgid "Chlorine"
-msgstr "Chlore"
+msgstr "Chlor"
 
 #: chemistry/elements.xml.in.h:22
 msgid "Chromium"
-msgstr "Chrome"
+msgstr "Chrom"
 
 #: chemistry/elements.xml.in.h:23
 msgid "Cobalt"
-msgstr "Cobalt"
+msgstr "Kobalt"
 
 #: chemistry/elements.xml.in.h:24
 msgid "Copper"
-msgstr "Cuivre"
+msgstr "Mied�"
 
 #: chemistry/elements.xml.in.h:25
 msgid "Curium"
-msgstr "Curium"
+msgstr "Kiur"
 
 #: chemistry/elements.xml.in.h:26
 msgid "Dubnium"
-msgstr "Dubnium"
+msgstr "Dubn"
 
 #: chemistry/elements.xml.in.h:27
 msgid "Dysprosium"
-msgstr "Dysprosium"
+msgstr "Dysproz"
 
 #: chemistry/elements.xml.in.h:28
 msgid "Einsteinium"
-msgstr "Einsteinium"
+msgstr "Einstein"
 
 #: chemistry/elements.xml.in.h:29
 msgid "Erbium"
-msgstr "Erbium"
+msgstr "Erb"
 
 #: chemistry/elements.xml.in.h:30
 msgid "Europium"
-msgstr "Europium"
+msgstr "Europ"
 
 #: chemistry/elements.xml.in.h:31
 msgid "Fermium"
-msgstr "Fermium"
+msgstr "Ferm"
 
 #: chemistry/elements.xml.in.h:32
 msgid "Fluorine"
@@ -152,59 +153,59 @@ msgstr "Fluor"
 
 #: chemistry/elements.xml.in.h:33
 msgid "Francium"
-msgstr "Francium"
+msgstr "Frans"
 
 #: chemistry/elements.xml.in.h:34
 msgid "Gadolinium"
-msgstr "Gadolinium"
+msgstr "Gadolin"
 
 #: chemistry/elements.xml.in.h:35
 msgid "Gallium"
-msgstr "Gallium"
+msgstr "Gal"
 
 #: chemistry/elements.xml.in.h:36
 msgid "Germanium"
-msgstr "Germanium"
+msgstr "German"
 
 #: chemistry/elements.xml.in.h:37
 msgid "Gold"
-msgstr "Or"
+msgstr "Z�oto"
 
 #: chemistry/elements.xml.in.h:38
 msgid "Hafnium"
-msgstr "Hafnium"
+msgstr "Hafn"
 
 #: chemistry/elements.xml.in.h:39
 msgid "Hassium"
-msgstr "Hassium"
+msgstr "Has"
 
 #: chemistry/elements.xml.in.h:40
 msgid "Helium"
-msgstr "Hélium"
+msgstr "hel"
 
 #: chemistry/elements.xml.in.h:41
 msgid "Holmium"
-msgstr "Holmium"
+msgstr "Holm"
 
 #: chemistry/elements.xml.in.h:42
 msgid "Hydrogen"
-msgstr "Hydrogène"
+msgstr "Wod�r"
 
 #: chemistry/elements.xml.in.h:43
 msgid "Indium"
-msgstr "Indium"
+msgstr "Ind"
 
 #: chemistry/elements.xml.in.h:44
 msgid "Iodine"
-msgstr "Iode"
+msgstr "Jod"
 
 #: chemistry/elements.xml.in.h:45
 msgid "Iridium"
-msgstr "Iridium"
+msgstr "Iryd"
 
 #: chemistry/elements.xml.in.h:46
 msgid "Iron"
-msgstr "Fer"
+msgstr "�elazo"
 
 #: chemistry/elements.xml.in.h:47
 msgid "Krypton"
@@ -212,123 +213,123 @@ msgstr "Krypton"
 
 #: chemistry/elements.xml.in.h:48
 msgid "Lanthanum"
-msgstr "Lanthane"
+msgstr "Lantan"
 
 #: chemistry/elements.xml.in.h:49
 msgid "Lawrencium"
-msgstr "Lawrencium"
+msgstr "Lorens"
 
 #: chemistry/elements.xml.in.h:50
 msgid "Lead"
-msgstr "Plomb"
+msgstr "O��w"
 
 #: chemistry/elements.xml.in.h:51
 msgid "Lithium"
-msgstr "Lithium"
+msgstr "Lit"
 
 #: chemistry/elements.xml.in.h:52
 msgid "Lutetium"
-msgstr "Lutécium"
+msgstr "Lutet"
 
 #: chemistry/elements.xml.in.h:53
 msgid "Magnesium"
-msgstr "Magnésium"
+msgstr "Magnez"
 
 #: chemistry/elements.xml.in.h:54
 msgid "Manganese"
-msgstr "Manganèse"
+msgstr "Mangan"
 
 #: chemistry/elements.xml.in.h:55
 msgid "Meitnerium"
-msgstr "Meitnérium"
+msgstr "Meitner"
 
 #: chemistry/elements.xml.in.h:56
 msgid "Mendelevium"
-msgstr "Mendélévium"
+msgstr "Mendelew"
 
 #: chemistry/elements.xml.in.h:57
 msgid "Mercury"
-msgstr "Mercure"
+msgstr "Rt��"
 
 #: chemistry/elements.xml.in.h:58
 msgid "Molybdenum"
-msgstr "Molybdène"
+msgstr "Molibden"
 
 #: chemistry/elements.xml.in.h:59
 msgid "Neodymium"
-msgstr "Néodyme"
+msgstr "Neodym"
 
 #: chemistry/elements.xml.in.h:60
 msgid "Neon"
-msgstr "Néon"
+msgstr "Neon"
 
 #: chemistry/elements.xml.in.h:61
 msgid "Neptunium"
-msgstr "Neptunium"
+msgstr "Neptun"
 
 #: chemistry/elements.xml.in.h:62
 msgid "Nickel"
-msgstr "Nickel"
+msgstr "Nikiel"
 
 #: chemistry/elements.xml.in.h:63
 msgid "Niobium"
-msgstr "Niobium"
+msgstr "Niob"
 
 #: chemistry/elements.xml.in.h:64
 msgid "Nitrogen"
-msgstr "Azote"
+msgstr "Azot"
 
 #: chemistry/elements.xml.in.h:65
 msgid "Nobelium"
-msgstr "Nobélium"
+msgstr "Nobel"
 
 #: chemistry/elements.xml.in.h:66
 msgid "Osmium"
-msgstr "Osmium"
+msgstr "Osm"
 
 #: chemistry/elements.xml.in.h:67
 msgid "Oxygen"
-msgstr "Oxygène"
+msgstr "Tlen"
 
 #: chemistry/elements.xml.in.h:68
 msgid "Palladium"
-msgstr "Palladium"
+msgstr "Pallad"
 
 #: chemistry/elements.xml.in.h:69
 msgid "Phosphorus"
-msgstr "Phosphore"
+msgstr "Fosfor"
 
 #: chemistry/elements.xml.in.h:70
 msgid "Platinum"
-msgstr "Platine"
+msgstr "Platyna"
 
 #: chemistry/elements.xml.in.h:71
 msgid "Plutonium"
-msgstr "Plutonium"
+msgstr "Pluton"
 
 #: chemistry/elements.xml.in.h:72
 msgid "Polonium"
-msgstr "Polonium"
+msgstr "Polon"
 
 #: chemistry/elements.xml.in.h:73
 msgid "Potassium"
-msgstr "Potassium"
+msgstr "Potas"
 
 #: chemistry/elements.xml.in.h:74
 msgid "Praseodymium"
-msgstr "Praséodyme"
+msgstr "Prazeodym"
 
 #: chemistry/elements.xml.in.h:75
 msgid "Promethium"
-msgstr "Prométhéum"
+msgstr "Promet"
 
 #: chemistry/elements.xml.in.h:76
 msgid "Protactinium"
-msgstr "Protactinium"
+msgstr "Protaktyn"
 
 #: chemistry/elements.xml.in.h:77
 msgid "Radium"
-msgstr "Radium"
+msgstr "Rad"
 
 #: chemistry/elements.xml.in.h:78
 msgid "Radon"
@@ -336,140 +337,140 @@ msgstr "Radon"
 
 #: chemistry/elements.xml.in.h:79
 msgid "Rhenium"
-msgstr "Rhénium"
+msgstr "Ren"
 
 #: chemistry/elements.xml.in.h:80
 msgid "Rhodium"
-msgstr "Rhodium"
+msgstr "Rod"
 
 #: chemistry/elements.xml.in.h:81
 msgid "Rubidium"
-msgstr "Rubidium"
+msgstr "Rubid"
 
 #: chemistry/elements.xml.in.h:82
 msgid "Ruthenium"
-msgstr "Ruthénium"
+msgstr "Rutet"
 
 #: chemistry/elements.xml.in.h:83
 msgid "Rutherfordium"
-msgstr "Rutherfordium"
+msgstr "Rutherford"
 
 #: chemistry/elements.xml.in.h:84
 msgid "Samarium"
-msgstr "Samarium"
+msgstr "Samar"
 
 #: chemistry/elements.xml.in.h:85
 msgid "Scandium"
-msgstr "Scandium"
+msgstr "Skand"
 
 #: chemistry/elements.xml.in.h:86
 msgid "Seaborgium"
-msgstr "Seaborgium"
+msgstr "Seaborg"
 
 #: chemistry/elements.xml.in.h:87
 msgid "Selenium"
-msgstr "Sélénium"
+msgstr "Selen"
 
 #: chemistry/elements.xml.in.h:88
 msgid "Silicon"
-msgstr "Silicium"
+msgstr "Krzem"
 
 #: chemistry/elements.xml.in.h:89
 msgid "Silver"
-msgstr "Argent"
+msgstr "Srebro"
 
 #: chemistry/elements.xml.in.h:90
 msgid "Sodium"
-msgstr "Sodium"
+msgstr "S�d"
 
 #: chemistry/elements.xml.in.h:91
 msgid "Strontium"
-msgstr "Strontium"
+msgstr "Stront"
 
 #: chemistry/elements.xml.in.h:92
 msgid "Sulfur"
-msgstr "Soufre"
+msgstr "Siarka"
 
 #: chemistry/elements.xml.in.h:93
 msgid "Tantalum"
-msgstr "Tantale"
+msgstr "Tantal"
 
 #: chemistry/elements.xml.in.h:94
 msgid "Technetium"
-msgstr "Technétium"
+msgstr "Technet"
 
 #: chemistry/elements.xml.in.h:95
 msgid "Tellurium"
-msgstr "Tellure"
+msgstr "Tellur"
 
 #: chemistry/elements.xml.in.h:96
 msgid "Terbium"
-msgstr "Terbium"
+msgstr "Terb"
 
 #: chemistry/elements.xml.in.h:97
 msgid "Thallium"
-msgstr "Thallium"
+msgstr "Tal"
 
 #: chemistry/elements.xml.in.h:98
 msgid "Thorium"
-msgstr "Thorium"
+msgstr "Tor"
 
 #: chemistry/elements.xml.in.h:99
 msgid "Thulium"
-msgstr "Thulium"
+msgstr "Tul"
 
 #: chemistry/elements.xml.in.h:100
 msgid "Tin"
-msgstr "Étain"
+msgstr "Cyna"
 
 #: chemistry/elements.xml.in.h:101
 msgid "Titanium"
-msgstr "Titanium"
+msgstr "Tytan"
 
 #: chemistry/elements.xml.in.h:102
 msgid "Tungsten"
-msgstr "Tungsten"
+msgstr "Wolfram"
 
 #: chemistry/elements.xml.in.h:103
 msgid "Ununbium"
-msgstr "Ununbium"
+msgstr ""
 
 #: chemistry/elements.xml.in.h:104
 msgid "Ununnilium"
-msgstr "Ununnilium"
+msgstr ""
 
 #: chemistry/elements.xml.in.h:105
 msgid "Ununquadium"
-msgstr "Ununquadium"
+msgstr ""
 
 #: chemistry/elements.xml.in.h:106
 msgid "Unununium"
-msgstr "Unununium"
+msgstr ""
 
 #: chemistry/elements.xml.in.h:107
 msgid "Uranium"
-msgstr "Uranium"
+msgstr "Uran"
 
 #: chemistry/elements.xml.in.h:108
 msgid "Vanadium"
-msgstr "Vanadium"
+msgstr "Wanad"
 
 #: chemistry/elements.xml.in.h:109
 msgid "Xenon"
-msgstr "Xénon"
+msgstr "Ksenon"
 
 #: chemistry/elements.xml.in.h:110
 msgid "Ytterbium"
-msgstr "Ytterbium"
+msgstr "Iterb"
 
 #: chemistry/elements.xml.in.h:111
 msgid "Yttrium"
-msgstr "Yttrium"
+msgstr "Itr"
 
 #: chemistry/elements.xml.in.h:112
 msgid "Zinc"
-msgstr "Zinc"
+msgstr "Cynk"
 
 #: chemistry/elements.xml.in.h:113
 msgid "Zirconium"
-msgstr "Zirconium"
+msgstr "Cyrkon"

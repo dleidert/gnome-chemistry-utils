@@ -59,6 +59,7 @@ struct _GtkCrystalViewerClass
 
 GType               gtk_crystal_viewer_get_type          (void) G_GNUC_CONST;
 GtkWidget*            gtk_crystal_viewer_new               (xmlNodePtr node);
+void	gtk_crystal_viewer_set_data	(GtkCrystalViewer * viewer, xmlNodePtr node);
 
 G_END_DECLS
 
