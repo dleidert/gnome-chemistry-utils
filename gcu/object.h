@@ -83,6 +83,8 @@ enum TypeId
 	OtherType
 };
 
+class Document;
+
 /*!\class Object chemistry/object.h
 This is the base class for most other objects in the gcu namespace.
 */
@@ -140,7 +142,7 @@ the Object::AddType method.
 	@return the first Object of type DocumentType encountered when exploring
 	the Objects tree (only one should be found) or NULL if none is found.
 */
-	Object* GetDocument();
+	Document* GetDocument();
 /*!
 @param Id: the type of the ancestor searched.
 
@@ -340,12 +342,7 @@ It will also be given a default Id.
 @return a pointer to the newly created Object or NULL if the Object could not be created.
 */
 	static Object* CreateObject(string& TypeName, Object* parent = NULL);
-/*!
-When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
-maintains a table to update links using Ids as identifiers. The EmptyTranslationTable method should be called then to reinitialize the table
-to avoid errors on the next paste event.
-*/
-	void EmptyTranslationTable();
+
 /*!
 @param x: the x coordinate
 @param y: the y coordinate
@@ -369,7 +366,6 @@ private:
 	TypeId m_Type;
 	Object *m_Parent;
 	map<string, Object*> m_Children; //string is Id of object, so each object must have an Id
-	map <string, string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
 	GtkMenu* m_Menu;
 };
 

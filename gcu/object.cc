@@ -23,6 +23,7 @@
  */
 
 #include "object.h"
+#include "document.h"
 #include <string>
 #include <iostream>
 
@@ -78,11 +79,11 @@ Object* Object::GetReaction()
 	return object;
 }
 
-Object* Object::GetDocument()
+Document* Object::GetDocument()
 {
 	Object* object = this;
 	while (object && (object->m_Type != DocumentType)) object = object->m_Parent;
-	return object;
+	return (Document*) object;
 }
 
 Object* Object::GetParentOfType(TypeId Id)
@@ -94,7 +95,7 @@ Object* Object::GetParentOfType(TypeId Id)
 
 void Object::AddChild(Object* object)
 {
-	Object* pDoc = GetDocument();
+	Document* pDoc = GetDocument();
 	if (!pDoc)
 	{
 		cerr << "Cannot add an object outside a document" << endl;
@@ -111,15 +112,7 @@ void Object::AddChild(Object* object)
 		Object* o = pDoc->GetDescendant(object->m_Id);
 		if (o && ((pDoc != object->GetDocument()) || (object != o)))
 		{
-			gchar *Id = g_strdup(object->m_Id);
-			int i = 0;
-			while ((Id[i] < '0') || (Id[i] > '9')) i++;
-			gchar *buf = new gchar[i + 16];
-			strncpy(buf, Id, i);
-			g_free(Id);
-			int j = 1;
-			while (snprintf(buf + i, 16, "%d", j++), pDoc->GetDescendant(buf) != NULL);
-			pDoc->m_TranslationTable[object->m_Id] = buf;
+			gchar *buf = pDoc->GetNewId (object->m_Id);
 			g_free(object->m_Id);
 			object->m_Id = g_strdup(buf);
 			delete [] buf;
@@ -155,10 +148,10 @@ Object* Object::GetChild(const gchar* Id)
 Object* Object::GetDescendant(const gchar* Id)
 {
 	if (Id == NULL) return NULL;
-	Object* pDoc = GetDocument();
-	string sId = pDoc->m_TranslationTable[Id];
+	Document* pDoc = GetDocument();
+	string sId = pDoc->GetTranslatedId (Id);
 	if (sId.size()) Id = sId.c_str();
-	else pDoc->m_TranslationTable.erase(Id);
+	else pDoc->EraseTranslationId(Id);
 	Object* object = m_Children[Id];
 	if (!object)
 	{
@@ -301,11 +294,6 @@ Object* Object::CreateObject(string& TypeName, Object* parent)
 	Object* pObj = (CreateFuncs[TypeName])? CreateFuncs[TypeName](): NULL;
 	if (parent && pObj) parent->AddChild(pObj);
 	return pObj;
-}
-
-void Object::EmptyTranslationTable()
-{
-	m_TranslationTable.clear();
 }
 
 Object* Object::GetAtomAt(double x, double y, double z)

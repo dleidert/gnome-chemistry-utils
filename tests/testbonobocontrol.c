@@ -1,5 +1,5 @@
-#include <libgnome/libgnome.h>
-#include <libgnomeui/libgnomeui.h>
+//#include <libgnome/libgnome.h>
+//#include <libgnomeui/libgnomeui.h>
 #include <libbonobo.h>
 #include <libbonoboui.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -43,7 +43,7 @@ create_app (void)
 	/* 
 	 * get a widget, containing the control
 	 */
-	control = bonobo_widget_new_control ("OAFIID:gchem3d_control", BONOBO_OBJREF (uic));
+	control = bonobo_widget_new_control ("OAFIID:gchem3d_unstable_control", BONOBO_OBJREF (uic));
 	if (!control) 
 		g_error ("Can't create control\n");
 	bonobo_window_set_contents(bonobo_win,control);
@@ -55,7 +55,7 @@ create_app (void)
 	 */
 	uri = "file://"SRCDIR"/tests";
 	bu = bonobo_widget_get_objref (BONOBO_WIDGET(control));
-	bs = Bonobo_Unknown_queryInterface(bu,"IDL:Bonobo/PersistStream:1.0",NULL);
+	bs = Bonobo_Unknown_queryInterface(bu,"IDL:Bonobo/PersistStream:1.0",&ev);
 	storage = bonobo_get_object (uri, "IDL:Bonobo/Storage:1.0", &ev);
 	if (BONOBO_EX (&ev) || !storage) return TRUE;
 	stream = Bonobo_Storage_openStream(storage, "methane.xyz", Bonobo_Storage_READ, &ev);
@@ -70,13 +70,13 @@ main (int argc, char** argv)
 {
 	CORBA_ORB orb;
 
-	GnomeProgram* prog;
+//	GnomeProgram* prog;
 	
 	CORBA_exception_init (&ev);
-	prog = gnome_program_init ("bonobo-control-test", "0.0", LIBGNOMEUI_MODULE, argc, argv, 
+/*	prog = gnome_program_init ("bonobo-control-test", "0.0", LIBGNOMEUI_MODULE, argc, argv, 
                    GNOME_PARAM_POPT_TABLE, NULL, 
-                   GNOME_PROGRAM_STANDARD_PROPERTIES, NULL);
-
+                   GNOME_PROGRAM_STANDARD_PROPERTIES, NULL);*/
+	gtk_init (&argc, &argv);
 	/*
 	 * initialize CORBA, OAF  and bonobo
 	 */

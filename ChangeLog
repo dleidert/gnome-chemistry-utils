@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2004-04-09  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* gcu/atom.h: minor update
+	* gcu/bonobo-control.cc: fixed factory and control id
+	* gcu/document.cc:
+	* gcu/document.h: implemented Document class
+	* gcu/object.cc:
+	* gcu/object.h: use Document class
+	* tests/testbonobocontrol.c: (create_app), (main): use unstable control
+	and removed libgnome and libgnomeui dependencies.
+
 2004-04-07 Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* moved all libraries sources to the new gcu directory and
 	merged the four libraries in one (libgcu-0.3).

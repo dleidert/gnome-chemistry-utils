@@ -37,7 +37,7 @@ namespace gcu
 {
 	
 class Bond;
-/*!\class Atom chemistry/atom.h
+/*!\class Atom gcu/atom.h
 This class is used to represent atoms.
 
 */
