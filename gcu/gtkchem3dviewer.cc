@@ -412,7 +412,9 @@ void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, gchar *uri)
 		gnome_vfs_file_info_unref (info);
 		return;
 	}
-	gnome_vfs_get_file_info_from_handle (handle, info, GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
+	gnome_vfs_get_file_info_from_handle (handle, info,
+		(GnomeVFSFileInfoOptions)(GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
+							GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE));
 	gchar *buf = new gchar[info->size + 1];
 	GnomeVFSFileSize n;
 	gnome_vfs_read (handle, buf, info->size, &n);
