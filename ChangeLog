@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2004-01-21 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* crystalviewer/crystalview.cc: avoid execution of gl functions
+	for non initialized widget.
+
 2003-11-01 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* enhanced gchemutils.keys.in for translation
 
