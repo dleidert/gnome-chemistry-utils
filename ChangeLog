@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2003-10-21 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* changed element 110 to Darmstadtium.
+
 2003-10-19 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* removed cystalbond.* from crystalviewer directory
 	* changed version to 0.2.0

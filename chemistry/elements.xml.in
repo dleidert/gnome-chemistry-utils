@@ -1275,8 +1275,8 @@
 	<color red="0.92" green="0.00" blue="0.15"/>
 </element>
 
-<element Z="110" symbol="Uun" max_bonds="6">
-	<_name>Ununnilium</_name>
+<element Z="110" symbol="Ds" max_bonds="6">
+	<_name>Darmstadtium</_name>
 	<color red="0.93" green="0.00" blue="0.14"/>
 </element>
 
