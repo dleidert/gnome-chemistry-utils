@@ -6,11 +6,20 @@ libgcu_0_5_la_SOURCES = \
 		object.cc \
 		document.cc \
 		element.cc \
+		formula.cc \
 		matrix.cc \
 		matrix2d.cc \
 		xml-utils.cc \
 		chemistry.cc \
-		gtkperiodic.c
+		gtkperiodic.c \
+		gtkcrystalviewer.cc \
+		crystalview.cc \
+		crystaldoc.cc \
+		crystalatom.cc \
+		crystalbond.cc \
+		crystalline.cc \
+		crystalcleavage.cc \
+		gtkchem3dviewer.cc
 
 libgcu_0_5_la_headers = \
 		atom.h \
@@ -18,37 +27,19 @@ libgcu_0_5_la_headers = \
 		object.h \
 		document.h \
 		element.h \
+		formula.h \
 		matrix.h \
 		matrix2d.h \
 		xml-utils.h \
 		chemistry.h \
-		gtkperiodic.h
-
-if WITH_GTKGL
-
-libgcu_0_5_la_SOURCES += \
-		gtkcrystalviewer.cc \
-		crystalview.cc \
-		crystaldoc.cc \
-		crystalatom.cc \
-		crystalbond.cc \
-		crystalline.cc \
-		crystalcleavage.cc
-
-libgcu_0_5_la_headers += \
+		gtkperiodic.h \
 		gtkcrystalviewer.h \
 		crystalview.h \
 		crystaldoc.h \
 		crystalatom.h \
 		crystalbond.h \
 		crystalline.h \
-		crystalcleavage.h
-		
-if WITH_OPENBABEL
-libgcu_0_5_la_SOURCES += \
-		gtkchem3dviewer.cc
-
-libgcu_0_5_la_headers += \
+		crystalcleavage.h \
 		gtkchem3dviewer.h
 
 bin_PROGRAMS = gchem3d-viewer-0.5
@@ -63,9 +54,6 @@ desktop_DATA=gchem3d-viewer-0.5.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 CLEANFILES = gchem3d-viewer-0.5.desktop elements.xml
-
-endif #WITH_OPENBABEL
-endif #WITH_GTKGL
 		
 gcuincludedir = $(includedir)/gcu-0.5/gcu
 gcuinclude_HEADERS = $(libgcu_0_5_la_headers)
@@ -81,4 +69,4 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-EXTRA_DIST=$(xml_in_files) $(xml_DATA) $(desktop_DATA)
+EXTRA_DIST=$(xml_in_files) $(desktop_in_files)

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2005-03-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: one more build issue fixed.
+	* gcu/Makefile.am: added formula.*
+	* gcu/formula.cc: new gcu::Formula class file.
+	* gcu/formula.h: ditto.
+	* tests/Makefile.am: one more build issue fixed.
+
 2005-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Doxyfile: removed (moved to docs/reference).
 	* Makefile.am: remobed keys and mime files.

@@ -8,11 +8,7 @@ DEPS = \
 AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@ -Werror-implicit-function-declaration
 
 noinst_PROGRAMS = 			\
-	testgtkperiodic
-
-if WITH_GTKGL
-
-noinst_PROGRAMS += 			\
+	testgtkperiodic 			\
 	testgtkcrystalviewer	\
 	testgtkchem3dviewer
 
@@ -25,8 +21,6 @@ testgtkchem3dviewer_SOURCES =	\
 	testgtkchem3dviewer.c 	
 
 testgtkchem3dviewer_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
-
-endif
 
 testgtkperiodic_DEPENDENCIES = $(DEPS)
 testgtkperiodic_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
