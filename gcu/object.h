@@ -45,7 +45,7 @@ using namespace std;
 namespace gcu
 {
 
-/*!\enum
+/*!\enum TypeId
 This enumeration is used to determine the type of an Object instance.
 Possible values are:
 	- NoType: invalid type

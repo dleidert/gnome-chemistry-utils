@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Doxyfile: updated to recent doxygen version.
+	* gcu/Makefile.am: fixed more build issues.
+	* gcu/object.h: fixed a doxygen related warning.
+
 2005-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Doxyfile: updated version.
 	* gcu.pc.in: updated name and dependencies.
