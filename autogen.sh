@@ -14,8 +14,8 @@ ln -sf $AMPATH/share/automake-$AMVER/depcomp .
 aclocal -I /usr/share/aclocal/gnome2-macros
 
 ## libtool and intltool
-libtoolize
-intltoolize
+libtoolize --force
+intltoolize --force
 
 ## autoheader, automake, autoconf
 autoheader
