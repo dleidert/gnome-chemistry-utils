@@ -34,3 +34,5 @@ testgtkperiodic_LDADD = $(top_builddir)/gtkperiodic/libgtkperiodic.la $(top_buil
 
 testgtkperiodic_SOURCES =	\
 	testgtkperiodic.c 	
+
+EXTRA_DIST = nickel.gcrystal
