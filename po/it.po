@@ -1,16 +1,16 @@
-# translation of gchem_it.po to Italiano
-# Gnome Chemistry Utils fr.po
-# Copyright (C) 2002, 2004 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002.
+# translation of gnome-chemistry-utils_it.po to Italiano
+# This file is distributed under the same license as the PACKAGE package.
+# Kostantino <inverness1ATvirgilio.it>, 2003.
+# Kostantino <inverness1ATvirgilio.it>, 2003.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Ceoldo Costantino <inverness1ATvirgilio.it>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gchem_it\n"
+"Project-Id-Version: gnome-chemistry-utils_it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-29 19:58+0100\n"
-"PO-Revision-Date: 2004-01-30 08:20+0100\n"
+"POT-Creation-Date: 2003-10-31 15:39+0100\n"
+"PO-Revision-Date: 2004-01-17 15:19+0100\n"
 "Last-Translator: Ceoldo Costantino <inverness1ATvirgilio.it>\n"
 "Language-Team: Italiano <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +128,7 @@ msgstr "Curio"
 
 #: chemistry/elements.xml.in.h:26
 msgid "Darmstadtium"
-msgstr "Vanadio"
+msgstr "Darmstadzio"
 
 #: chemistry/elements.xml.in.h:27
 msgid "Dubnium"
@@ -485,24 +485,28 @@ msgstr "Componente del visualizzatore 3D di Gnome Chemistry"
 #: chem3d/gchem3d.server.in.h:2
 msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
 msgstr ""
-"Componente del visualizzatore 3D di Gnome Chemistry "
-"usato per mostrare strutture molecolari"
+"Componente del visualizzatore 3D di Gnome "
+"Chemistry per mostrare strutture molecolari"
 
 #: chem3d/gchem3d.server.in.h:3
 msgid "Gnome Chemistry 3D Viewer embeddable factory"
-msgstr "Fabbrica integrabile del visualizzatore 3D di Gnome Chemistry"
+msgstr ""
+"Fabbrica integrabile del visualizzatore "
+"3D di Gnome Chemistry"
 
 #: chem3d/gchem3d.server.in.h:4
 msgid "Gnome Chemistry 3D Viewer object factory"
-msgstr "Fabbrica oggetto del visualizzatore 3D di Gnome Chemistry"
+msgstr ""
+"Fabbrica dell'oggetto Visualizzatore"
+"3D di Gnome Chemistry"
 
 #: chem3d/gchem3d.server.in.h:5
 msgid "Molecular Model"
-msgstr "Modello molecolare"
+msgstr "Modello Molecolare"
 
 #: gchemutils.keys.in.h:1
 msgid "Documents/Sciences/Chemistry"
-msgstr "Documenti/Scienza/Chimica"
+msgstr "Documenti/Scienze/Chimica"
 
 #: gchemutils.keys.in.h:2
 msgid "MDL MOL file"
@@ -515,4 +519,7 @@ msgstr "File PDB"
 #: gchemutils.keys.in.h:4
 msgid "XYZ file"
 msgstr "File XYZ"
+
+#~ msgid "Ununnilium"
+#~ msgstr "Ununnilio"
 
