@@ -1,3 +1,10 @@
+Version 0.2.6
+	Several memory leaks have been fixed.
+	Support has been added for shared mime info but
+	mime types tree will be polluted with chemical/* types.
+	Add compatibility with Gnome-2.8 new file system with a new
+	molecules viewer.
+
 Version 0.2.5
 	Fixed a critical bug and made some optimization in Object::AddChild.
 
