@@ -22,5 +22,12 @@ autoheader
 automake --gnu
 autoconf
 
+## generate documentation
+if [ -x `which doxygen` ]; then
+	doxygen Doxyfile
+else
+	echo "doxygen not found, documentation has not been built. This will result in a non critical error on installation."
+fi
+
 ## Job ended
 echo "run ./configure with the appropriate options, the make and enjoy"
