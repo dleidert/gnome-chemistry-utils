@@ -1,6 +1,12 @@
 ##Text encoding: utf-8
 
-2003-08-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+2003-11-01 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* enhanced gchemutils.keys.in for translation
+
+2003-10-21 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* changed element 110 to Darmstadtium.
+
+2003-10-20 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* changed version to 0.3.0
 
 2003-08-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>

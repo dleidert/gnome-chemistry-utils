@@ -190,6 +190,7 @@ static GObjectClass *gc3d_bonobo_control_parent_class;
 static void
 gc3d_bonobo_control_destroy (BonoboObject *object)
 {
+puts("destroy");
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GC3D_BONOBO_IS_CONTROL (object));
 
@@ -199,6 +200,7 @@ gc3d_bonobo_control_destroy (BonoboObject *object)
 static void
 gc3d_bonobo_control_finalize (GObject *object)
 {
+puts("finalize");
 	GC3DBonoboControl *control;
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GC3D_BONOBO_IS_CONTROL (object));
