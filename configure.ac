@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.1.2)
+AC_INIT(gnome-chemistry-utils, 0.1.3)
 AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_MAINTAINER_MODE
@@ -39,7 +39,7 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for interna
 
 LIBGLADE_REQUIRED_VERSION=1.99.5
 GTKGL_REQUIRED_VERSION=1.99.0
-GTKGLEXT_REQUIRED_VERSION=0.5.1
+GTKGLEXT_REQUIRED_VERSION=0.6.0
 GNOME_PRINT_REQUIRED_VERSION=2.1.3
 
 gl_flags=
@@ -56,7 +56,7 @@ gl_flags="-DUSE_GTKGLAREA"
 else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
-gtkglext-0.x >= $GTKGLEXT_REQUIRED_VERSION \
+gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 , have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
@@ -65,7 +65,7 @@ gl_flags="-DUSE_GTKGLEXT"
 else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
-libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
+libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
 )
 gtkcrystalviewer=
 fi
