@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 	g_object_set(G_OBJECT(window), "allow-shrink", FALSE, NULL);
 
 	periodic = gtk_periodic_new();
+	g_object_set(G_OBJECT(periodic), "color-style", GTK_PERIODIC_COLOR_DEFAULT, NULL);
 	g_signal_connect(G_OBJECT(periodic), "element_changed", (GCallback)on_changed, NULL);
 	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(GTK_PERIODIC(periodic)));
 	gtk_widget_show_all(window);

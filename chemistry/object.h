@@ -30,6 +30,7 @@
 #include <glib.h>
 #include <libxml/parser.h>
 #include <map>
+#include <string>
 #include <gtk/gtk.h>
 #include <libgnomeprint/gnome-print.h>
 
@@ -93,6 +94,8 @@ public:
 	virtual void Update(GtkWidget* w);
 	virtual void SetSelected(GtkWidget* w, int state);
 	bool HasChildren() {return m_Children.size() != 0;}
+	static unsigned AddType(string TypeName, Object*(*)(), TypeId id = OtherType);
+	static Object* CreateObject(string TypeName);
 
 protected:
 	virtual void BuildContextualMenu();

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.1.1\n"
-"POT-Creation-Date: 2002-10-12 16:43+0200\n"
+"POT-Creation-Date: 2002-12-01 18:32+0100\n"
 "PO-Revision-Date: 2002-10-02 14:00+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@ac-dijon.fr>\n"
 "Language-Team: French <fr@li.org>\n"

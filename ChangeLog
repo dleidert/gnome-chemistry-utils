@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2003-02-12	Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* Changed GL binding preference from GtkGLArea to GtkGLExt
+	*	Added AddType to the ObjectClass to allow for unknown types
+	*	Added elements names and default colors (taken from OpenBabel) to elements
+ * Added C binding (chemistry.h) to Element class
+	*	Added tooltips (names of the elements) and possibility for default colors in GtkPeriodic
+ * Added the colors to testgtkperiodic
+
 2002-12-15	Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Updated GtkGLExt dependency to 0.6.0
 

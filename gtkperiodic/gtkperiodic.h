@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * gtkperiodic.h 
  *
- * Copyright (C) 2002
+ * Copyright (C) 2002-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -33,6 +33,12 @@
 #include <gtk/gtktogglebutton.h>
 
 G_BEGIN_DECLS
+
+typedef enum
+{
+  GTK_PERIODIC_COLOR_NONE,
+  GTK_PERIODIC_COLOR_DEFAULT,
+} GtkPeriodicColorStyle;
 
 #define GTK_TYPE_PERIODIC		  (gtk_periodic_get_type ())
 #define GTK_PERIODIC(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_PERIODIC, GtkPeriodic))

@@ -28,6 +28,9 @@
 #define GCU_ELEMENT_H
 
 #include <glib.h>
+#include <string>
+
+using namespace std;
 
 class EltTable;
 
@@ -51,12 +54,16 @@ public:
 	const char* GetSymbol() {return m_Symbol;}
 	char GetDefaultValence() {return m_DefaultValence;}
 	bool GetBestSide() {return m_BestSide;}
+	double* GetDefaultColor() {return m_DefaultColor;}
+	const char* GetName() {return name.c_str();}
 	
 private:
 	unsigned char m_Z;
 	char m_Symbol[4];
 	char m_DefaultValence;
 	bool m_BestSide;
+	double m_DefaultColor[3];
+	string name;
 };
 
 } // namespace gcu

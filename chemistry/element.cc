@@ -64,6 +64,8 @@ EltTable::EltTable()
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain(PACKAGE);
 	xmlDocPtr xml;
+	char* DefaultName;
+	char *lang = getenv("LANG");
 	char *old_num_locale, *tmp, *num;
 	if (!(xml = xmlParseFile(DATADIR"/gchemutils/elements.xml")))
 	{
@@ -71,7 +73,7 @@ EltTable::EltTable()
 	}
 	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
 	setlocale(LC_NUMERIC, "C");
-	xmlNode* node = xml->children;
+	xmlNode* node = xml->children, *child;
 	if (strcmp((const char*)node->name, "gpdata")) g_error(_("Uncorrect file format: elements.xml"));
 	node = node->children;
 	Element* Elt;
@@ -83,6 +85,33 @@ EltTable::EltTable()
 			tmp = (char*) xmlGetProp(node, (xmlChar*)"symbol");
 			num = (char*) xmlGetProp(node, (xmlChar*)"Z");
 			Elt = new Element(atoi(num), tmp);
+			child = node->children;
+			DefaultName = NULL;
+			while (child)
+			{
+				if (!strcmp((const char*)child->name, "text"))
+				{
+					child = child->next;
+					continue;
+				}
+				if (!strcmp((const char*)child->name, "name"))
+				{
+					tmp = (char*) xmlNodeGetLang(child);
+					if ((!tmp) && (!lang) && (!strncmp(lang, tmp, 2))) Elt->name = (char*) xmlNodeGetContent(child);
+					else DefaultName = (char*) xmlNodeGetContent(child);
+				}
+				else if (!strcmp((const char*)child->name, "color"))
+				{
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"red");
+					if (tmp) Elt->m_DefaultColor[0] = strtod(tmp, NULL);
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"green");
+					if (tmp) Elt->m_DefaultColor[1] = strtod(tmp, NULL);
+					tmp = (char*) xmlGetProp(child, (xmlChar*)"blue");
+					if (tmp) Elt->m_DefaultColor[2] = strtod(tmp, NULL);
+				}
+				child = child->next;
+			}
+			if ((Elt->name.length() == 0) && DefaultName) Elt->name = DefaultName;
 			AddElement(Elt);
 		}
 		node = node->next;
@@ -164,6 +193,7 @@ Element::Element(int Z, const char* Symbol)
 		default:
 			m_DefaultValence = -1;
 	}
+	m_DefaultColor[0] = m_DefaultColor[1] = m_DefaultColor[2] = 0.0;
 }
 
 Element::~Element()

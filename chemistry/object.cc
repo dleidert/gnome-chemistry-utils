@@ -245,3 +245,20 @@ void Object::SetSelected(GtkWidget* w, int state)
 	map<string, Object*>::iterator i;
 	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->SetSelected(w, state);
 }
+
+static unsigned NextType = (unsigned) OtherType;
+
+map<string, Object*(*)()> CreateFuncs;
+
+unsigned Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
+{
+	CreateFuncs[TypeName] = Create;
+
+	return (id == OtherType)? NextType++: (unsigned)id;
+}
+
+Object* Object::CreateObject(string TypeName)
+{
+	return (CreateFuncs[TypeName])? CreateFuncs[TypeName](): NULL;
+}
+	

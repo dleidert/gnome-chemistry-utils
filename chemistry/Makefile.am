@@ -6,7 +6,8 @@ libgcu_la_SOURCES = \
 		object.cc \
 		element.cc \
 		matrix.cc \
-		xml-utils.cc
+		xml-utils.cc \
+		chemistry.cc
 
 libgcu_la_headers = \
 		atom.h \
@@ -14,7 +15,8 @@ libgcu_la_headers = \
 		object.h \
 		element.h \
 		matrix.h \
-		xml-utils.h
+		xml-utils.h \
+		chemistry.h
 		
 gcuincludedir = $(includedir)/gcu/chemistry
 gcuinclude_HEADERS = $(libgcu_la_headers)

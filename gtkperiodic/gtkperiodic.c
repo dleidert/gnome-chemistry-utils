@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkperiodic.c 
  *
- * Copyright (C) 2002
+ * Copyright (C) 2002-2003
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -24,11 +24,30 @@
 
 #include "config.h"
 #include "gtkperiodic.h"
+#include "chemistry/chemistry.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <gtk/gtkstyle.h>
 #include <glade/glade.h>
+
+static unsigned DefaultRed, DefaultGreen, DefaultBlue;
+
+GType
+gtk_periodic_color_style_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+    static const GEnumValue values[] = {
+      { GTK_PERIODIC_COLOR_NONE, "GTK_PERIODIC_COLOR_NONE", "none" },
+      { GTK_PERIODIC_COLOR_DEFAULT, "GTK_PERIODIC_COLOR_DEFAULT", "default" },
+      { 0, NULL, NULL }
+    };
+    etype = g_enum_register_static ("GtkPeriodicColorStyle", values);
+  }
+  return etype;
+}
+#define GTK_TYPE_PERIODIC_COLOR_STYLE_TYPE (gtk_periodic_color_style_get_type())
 
 static GtkBinClass *parent_class = NULL;
 
@@ -38,6 +57,8 @@ struct _GtkPeriodicPrivate
 	GtkToggleButton* buttons[119];
 	guint Z;
 	gboolean can_unselect;
+	GtkTooltips* tips;
+	GtkPeriodicColorStyle colorstyle;
 };
 
 enum {
@@ -48,6 +69,7 @@ enum {
 enum {
 	PROP_0,
 	PROP_CAN_UNSELECT,
+	PROP_COLOR_STYLE
 };
 
 static guint gtk_periodic_signals[LAST_SIGNAL] = { 0 };
@@ -66,6 +88,7 @@ static void gtk_periodic_get_property (GObject              *object,
 					    GValue               *value,
 					    GParamSpec           *pspec);
 static void on_clicked(GtkToggleButton *button, GtkPeriodic* periodic);
+static void gtk_periodic_set_colors(GtkPeriodic *periodic);
 
 GType
 gtk_periodic_get_type (void)
@@ -118,6 +141,13 @@ void gtk_periodic_class_init (GtkPeriodicClass *class)
 			 g_param_spec_boolean ("can_unselect", NULL, NULL,
 				   FALSE,
 				   (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property
+			(gobject_class,
+			 PROP_COLOR_STYLE,
+			 g_param_spec_enum ("color-style", NULL, NULL,
+								GTK_TYPE_PERIODIC_COLOR_STYLE_TYPE,
+								GTK_PERIODIC_COLOR_NONE,
+								(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	gobject_class->finalize = gtk_periodic_finalize;
 	widget_class->size_request = (void(*)(GtkWidget*, GtkRequisition*)) gtk_periodic_size_request;
 	widget_class->size_allocate = (void(*)(GtkWidget*, GtkAllocation*)) gtk_periodic_size_allocate;
@@ -127,11 +157,12 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 {
 	GladeXML* xml;
 	GtkStyle* style;
-
 	xml =  glade_xml_new(DATADIR"/gchemutils/glade/gtkperiodic.glade", "vbox1", NULL);
 	if (xml)  glade_xml_signal_autoconnect (xml);
 	periodic->priv = g_new0(GtkPeriodicPrivate, 1);
+	periodic->priv->tips = gtk_tooltips_new();
 	periodic->priv->vbox = GTK_VBOX(glade_xml_get_widget(xml, "vbox1"));
+	periodic->priv->colorstyle = GTK_PERIODIC_COLOR_NONE;
 	memset(periodic->priv->buttons, 0, sizeof(GtkToggleButton*) * 119);
 	char name[8] = "elt";
 	GtkToggleButton* button;
@@ -142,13 +173,17 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 		button = (GtkToggleButton*)glade_xml_get_widget(xml, name);
 		if (GTK_IS_TOGGLE_BUTTON(button))
 		{
+puts("0");
+puts(gcu_element_get_name(i));
+			gtk_tooltips_set_tip(periodic->priv->tips, GTK_WIDGET(button), gcu_element_get_name(i), NULL);
 			periodic->priv->buttons[i] = button;
 			g_signal_connect(G_OBJECT(button), "toggled", (GCallback)on_clicked, periodic);
 		}
 	}
-/*	style = gtk_style_copy(gtk_widget_get_style(periodic->buttons[1]));
-	style->bg[0].red = 0;
-	gtk_widget_set_style(GTK_WIDGET(periodic->buttons[1]), style);*/
+	style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->priv->buttons[1])));
+	DefaultRed = style->bg[0].red;
+	DefaultGreen = style->bg[0].green;
+	DefaultBlue = style->bg[0].blue;
 	periodic->priv->Z = 0;
 	gtk_container_add(GTK_CONTAINER(periodic), GTK_WIDGET(periodic->priv->vbox));
 	gtk_widget_show_all(GTK_WIDGET(periodic));
@@ -156,12 +191,13 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 
 static void gtk_periodic_finalize (GObject *object)
 {
-  GtkPeriodic *periodic = (GtkPeriodic*) object;
+	GtkPeriodic *periodic = (GtkPeriodic*) object;
 
-  g_free (periodic->priv);
+	g_object_unref(periodic->priv->tips);
+	g_free (periodic->priv);
 
-  if (G_OBJECT_CLASS (parent_class)->finalize)
-    (* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 GtkWidget* gtk_periodic_new()
@@ -237,7 +273,6 @@ gtk_periodic_set_property (GObject              *object,
 				GParamSpec           *pspec)
 {
 	GtkPeriodic *periodic;
-
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTK_IS_PERIODIC (object));
 
@@ -246,6 +281,11 @@ gtk_periodic_set_property (GObject              *object,
 	switch (param_id) {
 	case PROP_CAN_UNSELECT:
 		periodic->priv->can_unselect = g_value_get_boolean (value);
+		break;
+
+	case PROP_COLOR_STYLE:
+		periodic->priv->colorstyle = g_value_get_enum (value);
+		if (periodic->priv->colorstyle <= GTK_PERIODIC_COLOR_DEFAULT) gtk_periodic_set_colors(periodic);
 		break;
 
 	default:
@@ -272,8 +312,39 @@ gtk_periodic_get_property (GObject              *object,
 		g_value_set_boolean (value, periodic->priv->can_unselect);
 		break;
 
+	case PROP_COLOR_STYLE:
+		g_value_set_enum (value, periodic->priv->colorstyle);
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
+	}
+}
+
+void gtk_periodic_set_colors(GtkPeriodic *periodic)
+{
+	GtkStyle* style;
+	const double *colors;
+	int i;
+	for (i = 1; i <= 118; i++)
+	{
+		if (!periodic->priv->buttons[i]) continue;
+		style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->priv->buttons[i])));
+		switch (periodic->priv->colorstyle)
+		{
+			case GTK_PERIODIC_COLOR_NONE:
+				style->bg[0].red = DefaultRed;
+				style->bg[0].green = DefaultGreen;
+				style->bg[0].blue = DefaultBlue;
+			break;
+			case GTK_PERIODIC_COLOR_DEFAULT:
+				colors = gcu_element_get_default_color(i);
+				style->bg[0].red = style->bg[1].red = style->bg[2].red = style->bg[3].red = (guint16) (colors[0] * 65535.0);
+				style->bg[0].green = style->bg[1].green = style->bg[2].green = style->bg[3].green = (guint16) (colors[1] * 65535.0);
+				style->bg[0].blue = style->bg[1].blue = style->bg[2].blue = style->bg[3].blue = (guint16) (colors[2] * 65535.0);
+				break;
+		}
+		gtk_widget_set_style(GTK_WIDGET(periodic->priv->buttons[i]), style);
 	}
 }

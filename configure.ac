@@ -47,21 +47,21 @@ gtkcrystalviewer="-lgtkcrystalviewer"
 
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
+gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
+libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+, have_gtkgl="yes", have_gtk_gl="no")
+if test "$have_gtkgl" = "yes"; then
+AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
+gl_flags="-DUSE_GTKGLEXT"
+else
+PKG_CHECK_MODULES(GCU, \
+libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtkgl-2.0 >= $GTKGL_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 ,have_gtkgl="yes", have_gtk_gl="no")
 if test "$have_gtkgl" = "yes"; then
 AC_DEFINE_UNQUOTED(HAVE_GTKGLAREA,1,[Compile with GtlGLArea])
 gl_flags="-DUSE_GTKGLAREA"
-else
-PKG_CHECK_MODULES(GCU, \
-libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
-gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
-libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
-, have_gtkgl="yes", have_gtk_gl="no")
-if test "$have_gtkgl" = "yes"; then
-AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
-gl_flags="-DUSE_GTKGLEXT"
 else
 PKG_CHECK_MODULES(GCU, \
 libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
