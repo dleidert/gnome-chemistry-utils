@@ -39,6 +39,7 @@ This class is the base document class.
 */
 class Document: public Object
 {
+friend class gcu::Object;
 public:
 /*!
 The default constructor. Creates an empty document.
@@ -50,15 +51,6 @@ The destructor of Document.
 	virtual ~Document ();
 
 public:
-
-/*!
-@param id: the original id
-
-When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
-maintains a table to update links using Ids as identifiers. GetId adds a new entry in
-the table and returns the translated id
-*/
-	gchar* GetNewId (gchar* id);
 
 /*!
 @param id: the original id to tranlate
@@ -83,6 +75,19 @@ maintains a table to update links using Ids as identifiers. The EmptyTranslation
 to avoid errors on the next paste event.
 */
 	void EmptyTranslationTable() {m_TranslationTable.clear();}
+
+private:
+
+/*!
+@param id: the original id
+@param Cache: 
+
+When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
+maintains a table to update links using Ids as identifiers. If Chache is set to true GetId adds a new entry in
+the table.
+GetNewId returns the translated id
+*/
+	gchar* GetNewId (gchar* id, bool Cache = true);
 
 private:
 	map <string, string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)

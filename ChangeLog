@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2004-11-28 Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/document.h: changed signature of Document::GetNewId and made it
+	private, add friend class Object.
+	* gcu/document.cc: enhanced Document::GetNewId.
+	* gcu/object.cc: fixed various bugs around Object::SetId and
+	Object::AddChild
+
 2004-11-17 Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/chemistry.h: fixed documentation.
 	* gcu/crystalatom.cc: initialize alpha color component in constructor.

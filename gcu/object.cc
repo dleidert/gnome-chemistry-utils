@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2002-2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -58,15 +58,17 @@ Object::~Object()
 }
 
 
-void Object::SetId(gchar* Id)
+void Object::SetId (gchar* Id)
 {
-	if (!Id) return;
-	if (m_Id)
-	{
-		if (m_Parent) m_Parent->m_Children.erase(m_Id);
+	if (!Id)
+		return;
+	if (m_Id) {
+		if (!strcmp (Id, m_Id))
+			return;
+		if (m_Parent) m_Parent->m_Children.erase (m_Id);
 		g_free(m_Id);
 	}
-	m_Id = g_strdup(Id);
+	m_Id = g_strdup (Id);
 	if (m_Parent) {
 		Object *parent = m_Parent;
 		m_Parent = NULL;
@@ -127,7 +129,7 @@ void Object::AddChild(Object* object)
 	}
 	else
 	{
-		Object* o = pDoc->GetDescendant(object->m_Id);
+		Object* o = pDoc->RealGetDescendant(object->m_Id);
 		if (o && ((pDoc != object->GetDocument()) || (object != o)))
 		{
 			gchar *buf = pDoc->GetNewId (object->m_Id);
@@ -390,7 +392,14 @@ Object* Object::CreateObject(const string& TypeName, Object* parent)
 {
 	TypeDesc& typedesc = Types[TypeName];
 	Object* pObj = (typedesc.Create)? typedesc.Create(): NULL;
-	if (parent && pObj) parent->AddChild(pObj);
+	if (parent && pObj) {
+		if (pObj->m_Id) {
+			char* newId = parent->GetDocument()->GetNewId (pObj->m_Id, false);
+			pObj->SetId (newId);
+			delete [] newId;
+		}
+		parent->AddChild(pObj);
+	}
 	return pObj;
 }
 

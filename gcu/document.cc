@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2004
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -36,24 +36,28 @@ Document::~Document ()
 {
 }
 
-gchar* Document::GetNewId (gchar* id)
+gchar* Document::GetNewId (gchar* id, bool Cache)
 {
-	gchar *Id = g_strdup(id);
+	gchar *Id = g_strdup (id);
 	int i = 0;
-	while ((Id[i] < '0') || (Id[i] > '9')) i++;
+	while ((Id[i] < '0') || (Id[i] > '9'))
+		i++;
 	gchar *buf = new gchar[i + 16];
-	strncpy(buf, Id, i);
+	strncpy (buf, Id, i);
 	buf[i] = 0;
-	g_free(Id);
+	g_free (Id);
 	int j = 1;
 	string s = m_TranslationTable[buf];
-	if (s.size()) j = atoi(s.c_str());
+	if (s.size ())
+		j = atoi (s.c_str ());
 	char* key = g_strdup (buf);
-	while (snprintf(buf + i, 16, "%d", j++), GetDescendant(buf) != NULL);
+	while (snprintf (buf + i, 16, "%d", j++), GetDescendant (buf) != NULL);
 	Id = g_strdup_printf ("%d", j);
-	m_TranslationTable[key] = Id;
+	if (Cache) {
+		m_TranslationTable[key] = Id;
+		m_TranslationTable[id] = buf;
+	}
 	g_free (Id);
 	g_free (key);
-	m_TranslationTable[id] = buf;
 	return buf;
 }
