@@ -2,6 +2,7 @@ Version 0.4.1
 	Updated gcu.pc.in.
 	Fixed some build issues (thanks to Daniel Leidert).
 	Fixed a critical bug in gcu::Object::AddType.
+	Fixed file loading in gchem3d-viewer.
 
 Version 0.4.0
 	Added gchem3d-viewer (from 0.2 branch).

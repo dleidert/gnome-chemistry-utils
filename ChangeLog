@@ -1,6 +1,6 @@
 ##Text encoding: utf-8
 
-2005-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
+2005-03-21  Jean Brefort  <jean.brefort@normalesup.org>
 	* Makefile.am: fixed distcleancheck problem.
 	* docs/reference/Makefile.am: make things work without doxygen for normal
 	user.
