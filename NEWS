@@ -1,3 +1,6 @@
+Version 0.2.5
+	Fixed a critical bug and made some optimization in Object::AddChild.
+
 Version 0.2.4
 	Updated polish traslation
 	Fixed a critical bug in crystalviewer/crystalatom.cc
