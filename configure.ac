@@ -67,7 +67,6 @@ libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION \
 )
 gtkcrystalviewer=
 fi
-fi
 
 AC_SUBST(gl_flags)
 AC_SUBST(gtkcrystalviewer)
