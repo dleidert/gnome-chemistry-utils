@@ -1,5 +1,5 @@
 
-EXTRA_DIST = Doxyfile html-upstream.tar.gz
+EXTRA_DIST = html-upstream.tar.gz
 
 docsdir = $(datadir)/doc/gchemutils/reference
 docs_DATA = html
@@ -10,7 +10,10 @@ if DOXYGEN_AVAILABLE
 	if [ -w Doxyfile.bak ]; then rm Doxyfile.bak; fi
 	$(DOXYGEN) Doxyfile
 else
-	tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz
+	if [ -r $(top_srcdir)/docs/reference/html-upstream.tar.gz ];
+	then
+		tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz;
+	fi
 endif
 
 install-docsDATA:
@@ -23,3 +26,7 @@ uninstall-docsDATA:
 distclean-generic:
 	-rm -rf html
 	-rm -f Doxyfile
+
+html-upstream.tar.gz: html
+	if [ ! -d html ]; then echo "You need doxygen to make dist"; fi
+	tar czf html-upstream.tar.gz html

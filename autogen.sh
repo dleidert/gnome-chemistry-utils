@@ -1,5 +1,12 @@
 #!/bin/sh
 
+## check for doxygen present. Things don't work if it is not there
+if [ -z `doxygen --version` ]; then
+	echo "You need doxygen to build this package from cvs."
+	echo "http://www.doxygen.org/"
+	exit 1
+fi
+
 ## First, find where automake is installed and get the version
 AMPATH=`which automake|sed 's/\/bin\/automake//'`
 AMVER=`automake --version|grep automake|awk '{print $4}'|awk -F. '{print $1"."$2}'`
@@ -21,11 +28,6 @@ fi
 libtoolize --force
 intltoolize --force
 
-## generate documentation archive
-doxygen Doxyfile
-cd docs/reference
-tar -czf html-upstream.tar.gz html
-cd ../../
 
 ## autoheader, automake, autoconf
 autoheader

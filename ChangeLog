@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2005-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Doxyfile.in: use version from configure.
+	* docs/reference/Makefile.am: fixed remaining build issues.
+	* gchemutils.xml.in: imported chemical/x-pdb magic stuff from chemicalmime
+	project.
+	* Doxyfile: definitively removed.
+	* autogen.sh: emits an error message when doxygen is not present and exits.
+
 2005-03-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/gtkchem3dviewer.cc: use GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE
 	when detecting mime types.
