@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2004-05-21  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* gcu/object.cc: fixed a stupid bug in Object::AddType
+
 2004-05-20  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* gcu/bond.h,
 	* gcu/crystalatom.h,

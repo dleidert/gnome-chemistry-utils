@@ -332,6 +332,7 @@ static vector<string> TypeNames;
 
 TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 {
+puts("0.0");
 	TypeDesc& typedesc = Types[TypeName];
 	typedesc.Create = Create;
 	if (id == OtherType) {
@@ -339,7 +340,7 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 		NextType = TypeId ((unsigned) NextType + 1);
 	} else
 		typedesc.Id = id;
-	if (TypeNames.capacity() < id) {
+	if (TypeNames.capacity() <= id) {
 		size_t max = (((size_t) id / 10) + 1) * 10;
 		TypeNames.reserve (max--);
 		while (max > TypeNames.size())
