@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2004-11-17 Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/chemistry.h: fixed documentation.
+	* gcu/crystalatom.cc: initialize alpha color component in constructor.
+	* gcu/object.cc: fixed a bug in Object::AddType.
+
 2004-10-10 Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/elements.xml.in,
 	* glade/gtkperiodic.glade: Changed element 111 name and symbol to

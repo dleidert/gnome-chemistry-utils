@@ -49,7 +49,7 @@ chemistry.h file.
 
 To use this file, add the following line to your source file:
 \code
-#include <chemistry/chemistry.h>
+#include <gcu/chemistry.h>
 \endcode
 */
 

@@ -378,7 +378,7 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 		typedesc.Id = id;
 	if (TypeNames.capacity() <= id) {
 		size_t max = (((size_t) id / 10) + 1) * 10;
-		TypeNames.reserve (max--);
+		TypeNames.reserve (max);
 		while (max > TypeNames.size())
 			TypeNames.push_back ("");
 	}
