@@ -203,7 +203,7 @@ bool CrystalAtom::LoadNode(xmlNodePtr node)
 	}
 	child = FindNodeByNameAndId(node, "radius");
 	if (!child) return false;
-	bool result = ReadRadius(child, m_Radius);
 	m_Radius.Z = GetZ();
+	bool result = ReadRadius(child, m_Radius);
 	return result;
 }

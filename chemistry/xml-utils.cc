@@ -145,17 +145,20 @@ bool ReadRadius(xmlNodePtr node, GcuAtomicRadius& radius)
 		(!((!strcmp(tmp, "low")) && (radius.spin = GCU_LOW_SPIN))) ||
 		(!((!strcmp(tmp, "high")) && (radius.spin = GCU_HIGH_SPIN))))
 	radius.spin = GCU_N_A_SPIN;
-	if ((tmp = (char*) xmlGetProp(node, (xmlChar*)"value")) ||
-		(tmp = (char*)xmlNodeGetContent(node)))
+	if (((tmp = (char*) xmlGetProp(node, (xmlChar*)"value")) ||
+		(tmp = (char*)xmlNodeGetContent(node))) && *tmp)
 	{
 		radius.value = strtod(tmp, NULL);
 		radius.scale = "custom";
 	}
-	else if (radius.scale && strcmp(radius.scale, "custom"))
+	else if (radius.scale && (!strcmp(radius.scale, "custom")))
 	{
-		if (!gcu_element_get_radius(&radius)) return false;
+		return false;
 	}
-	else return false;
+	else if (!gcu_element_get_radius(&radius))
+	{
+		return false;
+	}
 	if (radius.value <= 0.0) return false;
 	return true;
 }

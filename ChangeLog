@@ -1,8 +1,14 @@
 ##Text encoding: utf-8
+2003-06-29 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* tests/nickel.gcrystal: updated to 0.5.2 format
+	* chemistry/elements.cc, chemistry/xml-utils.cc: fixed several
+	bugs related to the use of the radii database
+
 2003-06-28 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* element.cc: a bug fixed in the database loading
 	* gtkchem3dviewer.cc: change the coordinates system to get with
 	gchem3d and mozilla-bonobo something more similar to chime
+	* crystalatom.h: add const to argument of SetRadius
 	
 2003-06-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* Updated GtkChem3D dependencies to OpenBabel-0.100.1

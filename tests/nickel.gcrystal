@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <crystal>
-  <generator>Gnome Crystal 0.5.0</generator>
+  <generator>Gnome Crystal 0.5.2</generator>
   <lattice>face-centered cubic</lattice>
   <cell a="351" b="351" c="351" alpha="90" beta="90" gamma="90"/>
   <size>
@@ -9,9 +9,8 @@
   </size>
   <atom element="Ni">
     <position x="0" y="0" z="0"/>
-    <radius>124</radius>
-    <color red="0.51" green="0.51" blue="0.51"/>
-  </atom>
+    <radius type="metallic"/>
+   </atom>
   <view>
     <orientation psi="70" theta="10" phi="-90"/>
     <fov>10</fov>

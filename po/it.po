@@ -1,15 +1,14 @@
-# translation of gchem-utils_it.po to 
-# translation of gchem-utils_it.po to
-# Gnome Chemistry Utils fr.po
-# Copyright (C) 2002,2003 Free Software Foundation, Inc.
-# This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Jean Bréfort <jean.brefort@ac-dijon.fr>, 2002,2003.
+# translation of gnome-chemistry-utils_0_1_4_it.po to 
+# translation of gnome-chemistry-utils_0_1_4.po to
+# translation of gnome-chemistry-utils_0_1_4.po to
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER, 2003
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gchem-utils_it\n"
-"POT-Creation-Date: 2003-03-01 22:13+0100\n"
-"PO-Revision-Date: 2003-05-13 18:36+0200\n"
+"Project-Id-Version: gnome-chemistry-utils_0_1_4_it\n"
+"POT-Creation-Date: 2003-06-27 09:36+0200\n"
+"PO-Revision-Date: 2003-06-29 11:41+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -375,7 +374,7 @@ msgstr "Selenio"
 
 #: chemistry/elements.xml.in.h:88
 msgid "Silicon"
-msgstr "Silicio"
+msgstr " Silicio"
 
 #: chemistry/elements.xml.in.h:89
 msgid "Silver"
@@ -476,4 +475,6 @@ msgstr "Zinco"
 #: chemistry/elements.xml.in.h:113
 msgid "Zirconium"
 msgstr "Zirconio"
+
+
 

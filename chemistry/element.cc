@@ -308,7 +308,7 @@ bool Element::GetRadius(GcuAtomicRadius* radius)
 	if (!Elt) return false;
 	int  i = 0;
 	bool res;
-	for (int i = 0; Elt->m_en[i]; i++)
+	for (int i = 0; Elt->m_radii[i]; i++)
 	{
 		if (radius->type != Elt->m_radii[i]->type) continue;
 		if (radius->charge != Elt->m_radii[i]->charge) continue;
