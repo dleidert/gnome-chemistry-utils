@@ -51,5 +51,25 @@ gint gcu_element_get_Z(gchar* symbol)
 {
 	return Element::Z(symbol);
 }
-	
+
+int gcu_element_get_radius(GcuAtomicRadius* radius)
+{
+	return Element::GetRadius(radius);
+}
+
+int gcu_element_get_electronegativity(GcuElectronegativity* en)
+{
+	return Element::GetElectronegativity(en);
+}
+
+const GcuAtomicRadius* gcu_element_get_radii(gint Z)
+{
+	return Element::GetElement(Z)->GetRadii();
+}
+
+const GcuElectronegativity* gcu_element_get_electronegativities(gint Z)
+{
+	return Element::GetElement(Z)->GetElectronegativities();
+}
+
 } //extern "C"

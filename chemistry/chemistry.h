@@ -32,10 +32,48 @@
 
 G_BEGIN_DECLS
 
+enum gcu_spin_state
+{
+	GCU_N_A_SPIN,
+	GCU_LOW_SPIN,
+	GCU_HIGH_SPIN
+};
+
+enum gcu_radius_type
+{
+	GCU_ATOMIC,
+	GCU_IONIC,
+	GCU_METALLIC,
+	GCU_COVALENT,
+	GCU_VAN_DER_WAALS
+};
+
+typedef struct
+{
+	unsigned char Z;
+	enum gcu_radius_type type;
+	double value;
+	char charge;
+	char* scale;
+	char cn;	//coordination number: -1: unspecified
+	enum gcu_spin_state spin;
+} GcuAtomicRadius;
+
+typedef struct
+{
+	unsigned char Z;
+	double value;
+	char* scale;
+} GcuElectronegativity;
+
 const gdouble* gcu_element_get_default_color(gint Z);
 const gchar* gcu_element_get_symbol(gint Z);
 const gchar* gcu_element_get_name(gint Z);
 gint gcu_element_get_Z(gchar* symbol);
+int gcu_element_get_radius(GcuAtomicRadius* radius);
+int gcu_element_get_electronegativity(GcuElectronegativity* en);
+const GcuAtomicRadius* gcu_element_get_radii(gint Z);
+const GcuElectronegativity* gcu_element_get_electronegativities(gint Z);
 
 G_END_DECLS
 

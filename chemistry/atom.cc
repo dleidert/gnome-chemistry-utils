@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2001-2003
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean BrÃ©fort <jean.brefort@ac-dijon.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -139,7 +139,7 @@ xmlNodePtr Atom::Save(xmlDocPtr xml)
 	gchar buf[16];
 	parent = xmlNewDocNode(xml, NULL, (xmlChar*)"atom", NULL);
 	if (!parent) return NULL;
-	if (m_Id && *m_Id) xmlNewProp(parent, (xmlChar*)"id", (xmlChar*)m_Id);
+	SaveId(parent);
 
 	strncpy(buf, GetSymbol(), sizeof(buf));
 	xmlNewProp(parent, (xmlChar*)"element", (xmlChar*)buf);

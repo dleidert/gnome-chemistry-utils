@@ -85,7 +85,8 @@ xmlNodePtr Bond::Save(xmlDocPtr xml)
 	parent = xmlNewDocNode(xml, NULL, (xmlChar*)"bond", NULL);
 	if (!parent) return NULL;
 
-	if (m_Id && *m_Id) xmlNewProp(parent, (xmlChar*)"id", (xmlChar*)m_Id);
+	SaveId(parent);
+
 	buf[0] = m_order + '0';
 	buf[1] = 0;
 	xmlNewProp(parent, (xmlChar*)"order", (xmlChar*)buf);
@@ -147,4 +148,3 @@ void Bond::IncOrder(int n)
 	m_order += n;
 	if (m_order > 4)  m_order %= 4;
 }
-

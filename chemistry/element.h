@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2002-2003
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean BrÃ©fort <jean.brefort@ac-dijon.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,6 +29,8 @@
 
 #include <glib.h>
 #include <string>
+#include <vector>
+#include "chemistry.h"
 
 using namespace std;
 
@@ -49,6 +51,8 @@ public:
 	static gint Z(const gchar* name);
 	static Element* GetElement(gint Z);
 	static Element* GetElement(const gchar* name);
+	static bool GetRadius(GcuAtomicRadius* radius);
+	static bool GetElectronegativity(GcuElectronegativity* en);
 
 	int GetZ() {return m_Z;}
 	const char* GetSymbol() {return m_Symbol;}
@@ -56,6 +60,8 @@ public:
 	bool GetBestSide() {return m_BestSide;}
 	double* GetDefaultColor() {return m_DefaultColor;}
 	const char* GetName() {return name.c_str();}
+	const GcuAtomicRadius* GetRadii();
+	const GcuElectronegativity* GetElectronegativities();
 	
 private:
 	unsigned char m_Z;
@@ -64,6 +70,8 @@ private:
 	bool m_BestSide;
 	double m_DefaultColor[3];
 	string name;
+	vector<GcuAtomicRadius*> m_radii;
+	vector<GcuElectronegativity*> m_en;
 };
 
 } // namespace gcu

@@ -24,6 +24,7 @@
 
 #include "object.h"
 #include <string>
+#include <iostream>
 
 using namespace gcu;
 
@@ -60,7 +61,7 @@ void Object::SetId(gchar* Id)
 		g_free(m_Id);
 	}
 	m_Id = g_strdup(Id);
-	if (m_Parent) m_Parent->m_Children[m_Id] = this;
+	if (m_Parent) m_Parent->AddChild(this);
 }
 
 Object* Object::GetMolecule()
@@ -93,14 +94,41 @@ Object* Object::GetParentOfType(TypeId Id)
 
 void Object::AddChild(Object* object)
 {
+	Object* pDoc = GetDocument();
+	if (!pDoc)
+	{
+		cerr << "Cannot add an object outside of a document" << endl;
+	}
 	if (object->m_Id == NULL)
 	{
-		int i = 0;
+		int i = 1;
 		char szId[16];
-		while (snprintf(szId, sizeof(szId), "o%d", i++), m_Children[szId] != NULL);
+		while (snprintf(szId, sizeof(szId), "o%d", i++), pDoc->GetDescendant(szId) != NULL);
 		object->m_Id = g_strdup(szId);
 	}
-	else if (object->m_Parent) object->m_Parent->m_Children.erase(object->m_Id);
+	else
+	{
+		Object* o = pDoc->GetDescendant(object->m_Id);
+		if (o && ((pDoc != object->GetDocument()) || object != o))
+		{
+			gchar *Id = g_strdup(object->m_Id);
+			int i = 0;
+			while ((Id[i] < '0') || (Id[i] > '9')) i++;
+			gchar *buf = new gchar[i + 16];
+			strncpy(buf, Id, i);
+			g_free(Id);
+			int j = 1;
+			while (snprintf(buf + i, sizeof(buf) - i, "%d", j++), pDoc->GetDescendant(buf) != NULL);
+			pDoc->m_TranslationTable[object->m_Id] = buf;
+			object->m_Id = g_strdup(buf);
+			delete [] buf;
+		}
+	}
+	if (object->m_Parent)
+	{
+		object->m_Parent->m_Children.erase(object->m_Id);
+		object->m_Parent = NULL;
+	}
 	object->m_Parent = this;
 	m_Children[object->m_Id] = object;
 }
@@ -126,6 +154,10 @@ Object* Object::GetChild(const gchar* Id)
 Object* Object::GetDescendant(const gchar* Id)
 {
 	if (Id == NULL) return NULL;
+	Object* pDoc = GetDocument();
+	string sId = pDoc->m_TranslationTable[Id];
+	if (sId.size()) Id = sId.c_str();
+	else pDoc->m_TranslationTable.erase(Id);
 	Object* object = m_Children[Id];
 	if (!object)
 	{
@@ -154,6 +186,11 @@ Object* Object::GetNextChild(map<string, Object*>::iterator& i)
 xmlNodePtr Object::Save(xmlDocPtr xml)	//FIXME:Should save every child
 {
 	return NULL;
+}
+
+void Object::SaveId(xmlNodePtr node)
+{
+	if (m_Id && *m_Id) xmlNewProp(node, (xmlChar*)"id", (xmlChar*)m_Id);
 }
 
 bool Object::Load(xmlNodePtr node)
@@ -263,4 +300,8 @@ Object* Object::CreateObject(string& TypeName, Object* parent)
 	if (parent && pObj) parent->AddChild(pObj);
 	return pObj;
 }
-	
+
+void Object::EmptyTranslationTable()
+{
+	m_TranslationTable.clear();
+}

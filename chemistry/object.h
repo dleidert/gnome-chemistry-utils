@@ -84,6 +84,7 @@ public:
 	virtual bool Load(xmlNodePtr);
 	virtual void Move(double x, double y, double z = 0);
 	bool SaveChildren(xmlDocPtr xml, xmlNodePtr node);
+	void SaveId(xmlNodePtr node);
 	xmlNodePtr GetNodeByProp(xmlNodePtr node, char* Property, char* Id);
 	xmlNodePtr GetNextNodeByProp(xmlNodePtr node, char* Property, char* Id);
 	xmlNodePtr GetNodeByName(xmlNodePtr node, char* Name);
@@ -96,18 +97,19 @@ public:
 	bool HasChildren() {return m_Children.size() != 0;}
 	static unsigned AddType(string TypeName, Object*(*)(), TypeId id = OtherType);
 	static Object* CreateObject(string& TypeName, Object* parent = NULL);
+	void EmptyTranslationTable();
 
 protected:
 	virtual void BuildContextualMenu();
 	guint m_nMolIndex;
 	GtkMenu* m_Menu;
-	
-protected:
-	gchar* m_Id;
+
 private:
+	gchar* m_Id;
 	TypeId m_Type;
 	Object *m_Parent;
 	map<string, Object*> m_Children; //string is Id of object, so each object must have an Id
+	map <string, string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
 };
 
 }

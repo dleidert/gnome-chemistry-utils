@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2002-2003
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean BrÃ©fort <jean.brefort@ac-dijon.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -109,9 +109,21 @@ EltTable::EltTable()
 					tmp = (char*) xmlGetProp(child, (xmlChar*)"blue");
 					if (tmp) Elt->m_DefaultColor[2] = strtod(tmp, NULL);
 				}
+				else if (!strcmp((const char*)child->name, "electronegativity"))
+				{
+					GcuElectronegativity* en = new GcuElectronegativity;
+					Elt->m_en.push_back(en);
+				}
+				else if (!strcmp((const char*)child->name, "radius"))
+				{
+					GcuAtomicRadius* radius = new GcuAtomicRadius;
+					Elt->m_radii.push_back(radius);
+				}
 				child = child->next;
 			}
 			if ((Elt->name.length() == 0) && DefaultName) Elt->name = DefaultName;
+			Elt->m_en.push_back(NULL);
+			Elt->m_radii.push_back(NULL);
 			AddElement(Elt);
 		}
 		node = node->next;
@@ -198,6 +210,18 @@ Element::Element(int Z, const char* Symbol)
 
 Element::~Element()
 {
+	while (!m_radii.empty())
+	{
+		GcuAtomicRadius *radius = m_radii.back();
+		if (radius) delete radius;
+		m_radii.pop_back();
+	}
+	while (!m_en.empty())
+	{
+		GcuElectronegativity* en = m_en.back();
+		if (en) delete en;
+		m_en.pop_back();
+	}
 }
 
 const gchar* Element::Symbol(gint Z)
@@ -226,4 +250,24 @@ Element* Element::GetElement(gint Z)
 Element* Element::GetElement(const gchar* name)
 {
 	return Table[name];
+}
+
+bool Element::GetRadius(GcuAtomicRadius* radius)
+{
+	return false;
+}
+
+bool Element::GetElectronegativity(GcuElectronegativity* en)
+{
+	return false;
+}
+
+const GcuAtomicRadius* Element::GetRadii()
+{
+	return NULL;
+}
+
+const GcuElectronegativity* Element::GetElectronegativities()
+{
+	return NULL;
 }

@@ -296,7 +296,7 @@ void CrystalView::OnMotion(GtkWidget *widget, GdkEventMotion *event)
 		std::list<GtkWidget*>::iterator i;
 		for (i = m_Widgets.begin(); i!= m_Widgets.end(); i++)
 		{
-			gtk_widget_queue_draw_area(*i, 0, 0, widget->allocation.width, widget->allocation.height);
+			gtk_widget_queue_draw_area(*i, 0, 0, (*i)->allocation.width, (*i)->allocation.height);
 		}
 	}
 }
