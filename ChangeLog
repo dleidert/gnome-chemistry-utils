@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2003-08-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>
+	* changed version to 0.3.0
+
+2003-08-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>
 	* removed -Werror-implicit-function-declaration from GCU_CFLAGS
 
 2003-08-27 Jean Bréfort	<jean.brefort@ac-dijon.fr>
