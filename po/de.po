@@ -351,7 +351,7 @@ msgstr "Rhodium"
 
 #: chemistry/elements.xml.in.h:82
 msgid "Roentgenium"
-msgstr ""
+msgstr "Roentgenium"
 
 #: chemistry/elements.xml.in.h:83
 msgid "Rubidium"
