@@ -348,7 +348,6 @@ msgid "Rhodium"
 msgstr "Rhodium"
 
 #: chemistry/elements.xml.in.h:82
-#, fuzzy
 msgid "Roentgenium"
 msgstr "Röntgenium"
 
