@@ -233,8 +233,8 @@ void Object::Update(GtkWidget* w)
 	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->Update(w);
 }
 
-void Object::SetSelected(int state)
+void Object::SetSelected(GtkWidget* w, int state)
 {
 	map<string, Object*>::iterator i;
-	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->SetSelected(state);
+	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->SetSelected(w, state);
 }

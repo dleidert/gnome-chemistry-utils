@@ -89,7 +89,7 @@ public:
 	virtual void Add(GtkWidget* w);
 	virtual void Print(GnomePrintContext *pc);
 	virtual void Update(GtkWidget* w);
-	virtual void SetSelected(int state);
+	virtual void SetSelected(GtkWidget* w, int state);
 	bool HasChildren() {return m_Children.size() != 0;}
 
 protected:
