@@ -22,13 +22,21 @@
  * Boston, MA  02111-1307, USA.
  */
 
+#include <data.h>
+#undef PACKAGE
+#undef PACKAGE_BUGREPORT
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+#undef VERSION
+
 #include "config.h"
 #include "gtkchem3dviewer.h"
 #include <libgnome/libgnome.h>
 #include <libbonobo.h>
 #include <libbonoboui.h>
 #include <string.h>
-#include <data.h>
 
 extern OpenBabel::OBExtensionTable et;
 /*******************************************************************************

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2004-10-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* chem3d/Makefile.am: add gchem3d-viewer to bin-programs.
+	* chem3d/bonobo-control.cc: move inclusion of openbabel header to avoid
+	conflicts with config.h.
+	* chem3d/gchem3d-viewer.c: (main): new program.
+	* chem3d/gtkchem3dviewer.h: removed an unused header.
+
+
 2004-10-10 Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/elements.xml.in,
 	* glade/gtkperiodic.glade: Changed element 111 name and symbol to

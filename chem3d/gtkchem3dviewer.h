@@ -26,7 +26,6 @@
 #ifndef GTK_CHEM3D_VIEWER_H
 #define GTK_CHEM3D_VIEWER_H
 
-//#include <gtkgl/gtkglarea.h>
 #include <gtk/gtkbin.h>
 #include <libxml/tree.h>
 
