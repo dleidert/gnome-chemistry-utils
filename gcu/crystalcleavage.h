@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemisty Utils
- * crystalviewer/crystalcleavage.h 
+ * crystalcleavage.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -33,7 +33,7 @@
 namespace gcu
 {
 
-/*! \class CrystalCleavage crystalviewer/crystalcleavage.h
+/*! \class CrystalCleavage gcu/crystalcleavage.h
 Represents cleavages of a cystal along a plane defined by its Miller indices. A defined number
 of planes are removed by each cleavage. These are those for which the value hx + ky + lz are the greatest. To
 remove planes frome the other side of the crystal, change the sign of the three Miller indices.

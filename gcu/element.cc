@@ -125,7 +125,7 @@ EltTable::EltTable()
 						en->value = strtod(tmp, NULL);
 						Elt->m_en.push_back(en);
 					}
-					else delete en;	//without a value, the strcture is useless and is discarded
+					else delete en;	//without a value, the structure is useless and is discarded
 				}
 				else if (!strcmp((const char*)child->name, "radius"))
 				{

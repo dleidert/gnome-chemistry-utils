@@ -34,9 +34,8 @@ using namespace std;
 
 namespace gcu
 {
-/*!\class Atom gcu/atom.h
-This class is used to represent atoms.
-
+/*!\class Document gcu/document.h
+This class is the base document class.
 */
 class Document: public Object
 {
@@ -53,23 +52,34 @@ The destructor of Document.
 public:
 
 /*!
+@param id: the original id
 
+When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
+maintains a table to update links using Ids as identifiers. GetId adds a new entry in
+the table and returns the translated id
 */
 	gchar* GetNewId (gchar* id);
 
 /*!
+@param id: the original id to tranlate
 
+When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
+maintains a table to update links using Ids as identifiers. GetTranslatedId returns
+the translated id corresponding to the parameter id.
 */
 	string& GetTranslatedId (const char* id) {return m_TranslationTable[id];}
 
 /*!
+@param Id: the entry to remove
 
+When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
+maintains a table to update links using Ids as identifiers. The EraseTranslationTable method removes thenentry correspondig to id.
 */
 	void EraseTranslationId (const char* Id) {m_TranslationTable.erase (Id);}
 
 /*!
 When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
-maintains a table to update links using Ids as identifiers. The EmptyTranslationTable method should be called then to reinitialize the table
+maintains a table to update links using Ids as identifiers. The EmptyTranslationTable method should be called after pasting to reinitialize the table
 to avoid errors on the next paste event.
 */
 	void EmptyTranslationTable() {m_TranslationTable.clear();}

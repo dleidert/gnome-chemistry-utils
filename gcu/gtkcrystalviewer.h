@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkcrystalviewer.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -29,7 +29,6 @@ Declaration of the GtkCrystalViewer widget.
 #ifndef GTK_CRYSTAL_VIEWER_H
 #define GTK_CRYSTAL_VIEWER_H
 
-//#include <gtkgl/gtkglarea.h>
 #include <gtk/gtkbin.h>
 #include <libxml/tree.h>
 

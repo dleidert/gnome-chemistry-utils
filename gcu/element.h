@@ -42,7 +42,7 @@ The namespace used for all C++ classes provided by the Gnome Chemistry Utils.
 namespace gcu
 {
 
-/*!\class Element chemistry/element.h
+/*!\class Element gcu/element.h
 	Represents a chemical element.
 	This class has no public constructor or destructor. The instances are created by the framework
 	from data in the elements.xml file and

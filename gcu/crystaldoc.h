@@ -74,7 +74,7 @@ enum gcLattices {cubic=0,
 				 base_centered_monoclinic,
 				 triclinic};
 
-/*!\class CrystalDoc crystalviewer/crystaldoc.h
+/*!\class CrystalDoc gcu/crystaldoc.h
 The document containing the crystal structure.
 */				 
 class CrystalDoc

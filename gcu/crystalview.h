@@ -38,7 +38,7 @@ namespace gcu
 {
 class CrystalDoc;
 	
-/*!\class CrystalView crystalviewer/crystalview.h
+/*!\class CrystalView gcu/crystalview.h
 The class representing a view of the model. Each document
 might have several views.
 Most methods are automatically called by the framework and should not be explicitely used in programs.

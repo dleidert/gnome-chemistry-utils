@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalline.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -52,7 +52,7 @@ enum CrystalLineType
 	unique
 };
 
-/*!\class CrystalLine crystalviewer/crystalline.h
+/*!\class CrystalLine gcu/crystalline.h
 Describes lines represented as cylinders in the view. Thes cylinders are not capped.
 */
 class CrystalLine

@@ -77,7 +77,6 @@ Copies a Matrix instance into another one.
 /*!
 @param dx: the x coordinate.
 @param dy: the y coordinate.
-@param dz: the z coordinate.
 
 Initially, dx and dy are the components of the vector to transform (multiply) by the matrix and
 after execution of this method, dx, dy and dz are the components of the transformed vector. So initial values are lost.

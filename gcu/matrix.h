@@ -42,7 +42,7 @@ This enumeration is used in one of the constructors (Matrix(Psi, Theta, Phi, Typ
 
 enum MatrixType {euler, antieuler, rotation};
 
-/*!\class Matrix chemistry/matrix.h
+/*!\class Matrix gcu/matrix.h
 This class provides some operations related to rotation of 	a solid in space. The matrices are 3x3.
 */
 class Matrix  

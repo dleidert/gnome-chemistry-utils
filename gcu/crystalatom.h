@@ -39,7 +39,7 @@ using namespace std;
 namespace gcu
 {
 
-/*! \class CrystalAtom crystalviewer/crystalatom.h
+/*! \class CrystalAtom gcu/crystalatom.h
 Used to represent atoms in a crystal.
 */
 class CrystalAtom : public Atom

@@ -31,6 +31,8 @@
 #include <glib.h>
 #include <libxml/parser.h>
 #include <map>
+#include <set>
+#include <list>
 #include <string>
 #include <gtk/gtk.h>
 #include <libgnomeprint/gnome-print.h>
@@ -67,6 +69,7 @@ and might disappear from this list in future versions and replaced by dynamicall
 */	
 enum TypeId
 {
+	NoType,
 	AtomType,
 	FragmentType,
 	BondType,
@@ -84,9 +87,29 @@ enum TypeId
 	OtherType
 };
 
+/*!\enum RuleId
+This enumeration is used to maintain a set of rules about the possible
+hierarchical of the document. They are used with two class names or ids.
+Possible values are:
+	- RuleMayContain: an instance of the first class may contain an instance of the second.
+This implies that an instance of the second class may be in an instance of the first (see RuleMayBeIn);
+	- RuleMustContain: an instance of the first class may contain an instance of the second class (implies RuleMayContain);
+if no instance of the first class is present, the object is not valid.
+	- RuleMayBeIn: an instance of the first class may be the child of an instance of the second class (see also RuleMayContain);
+	- RuleMustBeIn:an instance of the first class must be the child of an instance of the second class, otherwise
+it is not valid.
+*/
+enum RuleId
+{
+	RuleMayContain,
+	RuleMustContain,
+	RuleMayBeIn,
+	RuleMustBeIn
+};
+
 class Document;
 
-/*!\class Object chemistry/object.h
+/*!\class Object gcu/object.h
 This is the base class for most other objects in the gcu namespace.
 */
 class Object
@@ -137,6 +160,14 @@ the Object::AddType method.
 	the Objects tree or NULL if none is found.
 */
 	Object* GetReaction();
+/*!
+	Used to get the highest ancestor just before the document
+	in the Object instances ancestors. 
+	
+	@return the last Object of type ReactionType encountered before the document when exploring
+	the Objects tree or NULL if the object's parent is the document itself.
+*/
+	Object* GetGroup();
 /*!
 	Used to get the Document in the Object instances ancestors. 
 	
@@ -333,27 +364,6 @@ default value.
 @return true if the Object has at least a child an false if it has none.
 */
 	bool HasChildren() {return m_Children.size() != 0;}
-/*!
-@param TypeName: the name of the new type.
-@param CreateFunc: a pointer to a function returning a pointer to a new object of the new type.
-@param id: the Id of the type to create if a standard one or OtherType for a new type. In this last case, this parameter
-can be omitted.
-
-This method is used to register a new type derived from Object.
-@return the Id of the new type.
-*/
-	static unsigned AddType(string TypeName, Object*(*CreateFunc)(), TypeId id = OtherType);
-/*!
-@param TypeName: the name of the new type.
-@param parent: the parent of the newly created object or NULL. if NULL, the parameter can be omitted.
-
-Used to create an object of type name TypeName. The Object::AddType method must have been called with the same
-TypeName parameter. if parent is given and not NULL, the new Object will be a child of parent.
-It will also be given a default Id.
-
-@return a pointer to the newly created Object or NULL if the Object could not be created.
-*/
-	static Object* CreateObject(string& TypeName, Object* parent = NULL);
 
 /*!
 @param x: the x coordinate
@@ -364,6 +374,115 @@ It will also be given a default Id.
 passed as parameters. Default implementation returns NULL.
 */
 	virtual Object* GetAtomAt(double x, double y, double z = 0.);
+
+/*!
+@param Children: the list of objects used as children to build the object
+
+This method is called to build a parent object from its children. The object must already exist.
+@return true in case of success and false if failed.
+*/
+	virtual bool Build (list<Object*>& Children);
+
+/*!
+@param types: the list of TypeId values to fill
+
+Fills types with all valid ancestor types for the object as defined by rules created with AddRule
+*/
+	void GetPossibleAncestorTypes (set<TypeId>& types);
+
+/*!
+@param TypeName: the name of the new type.
+@param CreateFunc: a pointer to a function returning a pointer to a new object of the new type.
+@param id: the Id of the type to create if a standard one or OtherType for a new type. In this last case, this parameter
+can be omitted.
+
+This method is used to register a new type derived from Object.
+@return the Id of the new type.
+*/
+	static TypeId AddType(string TypeName, Object*(*CreateFunc)(), TypeId id = OtherType);
+
+/*!
+@param TypeName: the name of the new type.
+@param parent: the parent of the newly created object or NULL. if NULL, the parameter can be omitted.
+
+Used to create an object of type name TypeName. The Object::AddType method must have been called with the same
+TypeName parameter. if parent is given and not NULL, the new Object will be a child of parent.
+It will also be given a default Id.
+
+@return a pointer to the newly created Object or NULL if the Object could not be created.
+*/
+	static Object* CreateObject(const string& TypeName, Object* parent = NULL);
+
+/*!
+@param Name: the name of the Object derived class
+
+@return the TypeId corresponding to Name
+*/
+	static TypeId GetTypeId (const string& Name);
+
+/*!
+@param Id: the TypeId of the Object derived class
+
+@return the name of the type.
+*/
+	static string GetTypeName (TypeId Id);
+
+/*!
+@param type1: the TypeId of the first class in the rule
+@param rule: the new rule value
+@param type2: the TypeId of the second class in the rule
+
+Adds a rule.
+*/
+	static void AddRule (TypeId type1, RuleId rule, TypeId type2);
+
+/*!
+@param type1: the name of the first class in the rule
+@param rule: the new rule value
+@param type2: the name of the second class in the rule
+
+Adds a rule.
+*/
+	static void AddRule (const string& type1, RuleId rule, const string& type2);
+
+/*!
+@param type: the TypeId of a class
+@param rule: a RuleId value
+
+@return the set of rules correponding to the RuleId value for this class.
+*/
+	static  const set<TypeId>& GetRules (TypeId type, RuleId rule);
+
+/*!
+@param type: the name of a class
+@param rule: a RuleId value
+
+@return the set of rules correponding to the RuleId value for this class.
+*/
+	static const set<TypeId>& GetRules (const string& type, RuleId rule);
+
+/*!
+@param Id: the TypeId of a class
+@param Label: the string to display in a contextual menu
+
+Used to give a label for contextual menus used when the creation of an instance of
+the class seems possible.
+*/
+	static void SetCreationLabel (TypeId Id, string Label);
+
+/*!
+@param Id: the TypeId of a class
+
+@return the string defined by SetCreationLabel.
+*/
+	static const string& GetCreationLabel (TypeId Id);
+
+/*!
+@param TypeName: the name of a class
+
+@return the string defined by SetCreationLabel.
+*/
+	static const string& GetCreationLabel (const string& TypeName);
 
 protected:
 /*!

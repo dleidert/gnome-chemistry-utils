@@ -36,7 +36,7 @@ using namespace std;
 namespace gcu
 {
 
-/*!\class CrystalBond crystalviewer/crystalbond.h
+/*!\class CrystalBond gcu/crystalbond.h
 This class will be used to represent bonds inside crystals. It is not implemented yet.
 */
 class CrystalBond: public Bond 

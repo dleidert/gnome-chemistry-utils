@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * gtkperiodic.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -61,7 +61,7 @@ typedef struct _GtkPeriodic       GtkPeriodic;
 typedef struct _GtkPeriodicClass  GtkPeriodicClass;
 typedef struct _GtkPeriodicPrivate       GtkPeriodicPrivate;
 
-/*! \struct GtkPeriodic gtkperiodic/gtkperiodic.h
+/*! \struct GtkPeriodic gcu/gtkperiodic.h
  The GtkPeriodic Widget displays a Periodic table of the elements, each element being represented in a toggle button.
  A test program is available in the tests directory of the Gnome Chemistry Utils source archive
 (source in testgtkperiodic.c).

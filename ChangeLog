@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2004-05-20  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+	* gcu/bond.h,
+	* gcu/crystalatom.h,
+	* gcu/crystalbond.h,
+	* gcu/crystalcleavage.cc,
+	* gcu/crystalcleavage.h,
+	* gcu/crystaldoc.h,
+	* gcu/crystalline.h,
+	* gcu/crystalview.h,
+	* gcu/document.h,
+	* gcu/element.cc,
+	* gcu/element.h,
+	* gcu/gtkchem3dviewer.h,
+	* gcu/gtkcrystalviewer.h,
+	* gcu/gtkperiodic.h,
+	* gcu/matrix.h,
+	* gcu/matrix2d.h: Updated docs
+	* gcu/object.cc,
+	* gcu/object.h: Added several new methods related to the document structure and
+	updated the documentatioh.
+
 2004-05-02  Jean Bréfort  <jean.brefort@ac-dijon.fr>
 	* gcu/Makefile.am: add new matrix2d.* files
 	* gcu/object.cc,

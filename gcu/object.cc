@@ -26,6 +26,7 @@
 #include "document.h"
 #include <string>
 #include <iostream>
+#include <vector>
 
 using namespace gcu;
 
@@ -34,6 +35,7 @@ Object::Object(TypeId Id)
 	m_Type = Id;
 	m_Id = NULL;
 	m_Parent = NULL;
+	m_Menu = NULL;
 }
 
 Object::~Object()
@@ -76,6 +78,15 @@ Object* Object::GetReaction()
 {
 	Object* object = this;
 	while (object && (object->m_Type != ReactionType)) object = object->m_Parent;
+	return object;
+}
+
+Object* Object::GetGroup()
+{
+	if (m_Parent->GetType () == DocumentType) return NULL;
+	Object* object = m_Parent;
+	while (object->m_Parent->GetType () != DocumentType)
+		object = object->m_Parent;
 	return object;
 }
 
@@ -284,25 +295,164 @@ void Object::SetSelected(GtkWidget* w, int state)
 	for (i = m_Children.begin(); i != m_Children.end(); i++) (*i).second->SetSelected(w, state);
 }
 
-static unsigned NextType = (unsigned) OtherType;
-
-map<string, Object*(*)()> CreateFuncs;
-
-unsigned Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
+Object* Object::GetAtomAt(double x, double y, double z)
 {
-	CreateFuncs[TypeName] = Create;
-
-	return (id == OtherType)? NextType++: (unsigned)id;
+	return NULL;
 }
 
-Object* Object::CreateObject(string& TypeName, Object* parent)
+bool Object::Build (list<Object*>& Children)
 {
-	Object* pObj = (CreateFuncs[TypeName])? CreateFuncs[TypeName](): NULL;
+	return false;
+}
+
+static TypeId NextType = OtherType;
+
+class TypeDesc
+{
+public:
+	TypeDesc ();
+
+	TypeId Id;
+	Object* (*Create) ();
+	set <TypeId> PossibleChildren;
+	set <TypeId> PossibleParents;
+	set <TypeId> RequiredChildren;
+	set <TypeId> RequiredParents;
+	string CreationLabel;
+};
+
+TypeDesc::TypeDesc ()
+{
+	Id = NoType;
+	Create = NULL;
+}
+
+static map<string, TypeDesc> Types;
+static vector<string> TypeNames;
+
+TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
+{
+	TypeDesc& typedesc = Types[TypeName];
+	typedesc.Create = Create;
+	if (id == OtherType) {
+		typedesc.Id = NextType;
+		NextType = TypeId ((unsigned) NextType + 1);
+	} else
+		typedesc.Id = id;
+	if (TypeNames.capacity() < id) {
+		size_t max = (((size_t) id / 10) + 1) * 10;
+		TypeNames.reserve (max--);
+		while (max > TypeNames.size())
+			TypeNames.push_back ("");
+	}
+	TypeNames.at (typedesc.Id) = TypeName;
+	return typedesc.Id;
+}
+
+Object* Object::CreateObject(const string& TypeName, Object* parent)
+{
+	TypeDesc& typedesc = Types[TypeName];
+	Object* pObj = (typedesc.Create)? typedesc.Create(): NULL;
 	if (parent && pObj) parent->AddChild(pObj);
 	return pObj;
 }
 
-Object* Object::GetAtomAt(double x, double y, double z)
+TypeId Object::GetTypeId (const string& Name)
 {
-	return NULL;
+	TypeDesc& typedesc = Types[Name];
+	TypeId res = typedesc.Id;
+	if (res == NoType)
+		Types.erase (Name);
+	return res;
+}
+
+string Object::GetTypeName (TypeId Id)
+{
+	return TypeNames[Id];
+}
+
+void Object::AddRule (TypeId type1, RuleId rule, TypeId type2)
+{
+	AddRule (TypeNames[type1], rule, TypeNames[type2]);
+}
+
+void Object::AddRule (const string& type1, RuleId rule, const string& type2)
+{
+	if (!type1.size() || !type2.size ())
+		return;
+	TypeDesc& typedesc1 = Types[type1];
+	if (typedesc1.Id == NoType) {
+		Types.erase (type1);
+		return;
+	}
+	TypeDesc& typedesc2 = Types[type2];
+	if (typedesc2.Id == NoType) {
+		Types.erase (type2);
+		return;
+	}
+	switch (rule) {
+		case RuleMustContain:
+			typedesc1.RequiredChildren.insert (typedesc2.Id);
+		case RuleMayContain:
+			typedesc1.PossibleChildren.insert (typedesc2.Id);
+			typedesc2.PossibleParents.insert (typedesc1.Id);
+			break;
+		case RuleMustBeIn:
+			typedesc1.RequiredParents.insert (typedesc2.Id);
+		case RuleMayBeIn:
+			typedesc2.PossibleChildren.insert (typedesc1.Id);
+			typedesc1.PossibleParents.insert (typedesc2.Id);
+			break;
+	}
+}
+
+const set<TypeId>& Object::GetRules (TypeId type, RuleId rule)
+{
+	return GetRules (TypeNames[type], rule);
+}
+
+const set<TypeId>& Object::GetRules (const string& type, RuleId rule)
+{
+	TypeDesc& typedesc = Types[type];
+	switch (rule) {
+		case RuleMustContain:
+			return typedesc.RequiredChildren;
+		case RuleMayContain:
+			return typedesc.PossibleChildren;
+		case RuleMustBeIn:
+			return typedesc.RequiredParents;
+		case RuleMayBeIn:
+			return typedesc.PossibleParents;
+	}
+}
+
+static void AddAncestorTypes (TypeId type, set<TypeId>& types)
+{
+	const set<TypeId>& new_types = Object::GetRules (type, RuleMayBeIn);
+	set<TypeId>::iterator i = new_types.begin (), end = new_types.end ();
+	for (; i != end; i++) {
+		types.insert (*i);
+		AddAncestorTypes (*i, types);
+	}
+}
+
+void Object::GetPossibleAncestorTypes (set<TypeId>& types)
+{
+	AddAncestorTypes (m_Type, types);
+}
+
+void Object::SetCreationLabel (TypeId Id, string Label)
+{
+	TypeDesc& type = Types[TypeNames[Id]];
+	type.CreationLabel = Label;
+}
+
+const string& Object::GetCreationLabel (TypeId Id)
+{
+	return Types[TypeNames[Id]].CreationLabel;
+}
+
+const string& Object::GetCreationLabel (const string& TypeName)
+{
+	return Types[TypeName].CreationLabel;
 }

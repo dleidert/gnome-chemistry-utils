@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemisty Utils
- * crystalviewer/crystalcleavage.cc 
+ * crystalcleavage.cc 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *

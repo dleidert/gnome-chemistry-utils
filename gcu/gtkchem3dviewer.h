@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkchem3dviewer.h 
  *
- * Copyright (C) 2003
+ * Copyright (C) 2003-2004
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -61,7 +61,7 @@ GType gtk_display3d_get_type (void);
 #define GTK_IS_CHEM3D_VIEWER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CHEM3D_VIEWER))
 #define GTK_CHEM3D_VIEWER_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))
 
-/*! \struct GtkChem3DViewer chem3d/gtkchem3dviewer.h
+/*! \struct GtkChem3DViewer gcu/gtkchem3dviewer.h
  The GtkChem3DViewer displays 3D models of molecules using an OpenGL window. This widget is also available as a Bonobo Control.
  Test programs are available in the tests directory of the Gnome Chemistry Utils source archive (sources in testgtkchem3dviewer.c
 for the use of the widget and in testbonobocontrol.c for the use of the Bonobo control).
