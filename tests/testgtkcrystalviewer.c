@@ -8,6 +8,8 @@ int main(int argc, char *argv[])
 {
 	GtkWidget *window;
 	GtkWidget *viewer;
+	const char* filename;
+	xmlDocPtr xml;
 	gtk_init (&argc, &argv);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -16,10 +18,9 @@ int main(int argc, char *argv[])
 		 GTK_SIGNAL_FUNC(gtk_main_quit),
 		 NULL);
 
-	const char* filename;
 	if (argc >= 2) filename = argv[1];
 		else filename = "nickel.gcrystal";
-	xmlDocPtr xml = xmlParseFile(filename);
+	xml = xmlParseFile(filename);
 	
 	viewer = gtk_crystal_viewer_new(xml->children);
 	gtk_container_add(GTK_CONTAINER(window), viewer);
