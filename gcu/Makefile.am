@@ -1,6 +1,6 @@
-lib_LTLIBRARIES= libgcu-0.3.la
+lib_LTLIBRARIES= libgcu.la
 
-libgcu_0_3_la_SOURCES = \
+libgcu_la_SOURCES = \
 		atom.cc \
 		bond.cc \
 		object.cc \
@@ -12,7 +12,7 @@ libgcu_0_3_la_SOURCES = \
 		chemistry.cc \
 		gtkperiodic.c
 
-libgcu_0_3_la_headers = \
+libgcu_la_headers = \
 		atom.h \
 		bond.h \
 		object.h \
@@ -26,7 +26,7 @@ libgcu_0_3_la_headers = \
 
 if WITH_GTKGL
 
-libgcu_0_3_la_SOURCES += \
+libgcu_la_SOURCES += \
 		gtkcrystalviewer.cc \
 		crystalview.cc \
 		crystaldoc.cc \
@@ -35,7 +35,7 @@ libgcu_0_3_la_SOURCES += \
 		crystalline.cc \
 		crystalcleavage.cc
 
-libgcu_0_3_la_headers += \
+libgcu_la_headers += \
 		gtkcrystalviewer.h \
 		crystalview.h \
 		crystaldoc.h \
@@ -45,30 +45,41 @@ libgcu_0_3_la_headers += \
 		crystalcleavage.h
 		
 if WITH_OPENBABEL
-libgcu_0_3_la_SOURCES += \
+libgcu_la_SOURCES += \
 		gtkchem3dviewer.cc
 
-libgcu_0_3_la_headers += \
+libgcu_la_headers += \
 		gtkchem3dviewer.h
 
-bin_PROGRAMS = gchem3d-0.3
+bin_PROGRAMS = gchem3d gchem3d-viewer
 
-gchem3d_0_3_SOURCES = bonobo-control.cc
+gchem3d_SOURCES = bonobo-control.cc
 
-gchem3d_0_3_LDADD = libgcu-0.3.la @GCU_LIBS@ @GC3D_LIBS@
+gchem3d_LDADD = libgcu.la @GCU_LIBS@
+
+gchem3d_viewer_SOURCES = gchem3d-viewer.c
+
+gchem3d_viewer_LDADD = libgcu.la @GCU_LIBS@
 
 serverdir=$(libdir)/bonobo/servers
-server_in_files = gchem3d-0.3.server.in
-server_DATA=gchem3d-0.3.server
+server_in_files = gchem3d.server.in
+server_DATA=gchem3d.server
 @INTLTOOL_SERVER_RULE@
+
+desktopdir=$(datadir)/applications
+desktop_in_files = gchem3d-viewer.desktop.in
+desktop_DATA=gchem3d-viewer.desktop
+@INTLTOOL_DESKTOP_RULE@
+
+DISTCLEANFILES = gchem3d.server gchem3d-viewer.desktop
 
 endif #WITH_OPENBABEL
 endif #WITH_GTKGL
 		
-gcuincludedir = $(includedir)/gcu-0.3/gcu
-gcuinclude_HEADERS = $(libgcu_0_3_la_headers)
+gcuincludedir = $(includedir)/gcu/gcu
+gcuinclude_HEADERS = $(libgcu_la_headers)
 		
-libgcu_0_3_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
+libgcu_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 AM_CXXFLAGS = @GCU_CFLAGS@
 AM_CFLAGS = @GCU_CFLAGS@
 

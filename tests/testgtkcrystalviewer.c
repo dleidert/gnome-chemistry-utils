@@ -1,3 +1,4 @@
+#include "config.h"
 #include <gcu/gtkcrystalviewer.h>
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -22,7 +23,7 @@ int main(int argc, char *argv[])
 		 NULL);
 
 	if (argc >= 2) filename = argv[1];
-		else filename = "nickel.gcrystal";
+		else filename = SRCDIR"/tests/nickel.gcrystal";
 	xml = xmlParseFile(filename);
 	
 	viewer = gtk_crystal_viewer_new(xml->children);

@@ -303,7 +303,7 @@ BonoboObject * gc3d_factory(BonoboGenericFactory * fact, const char *component_i
 	BonoboObject *retval;
 	GtkChem3DViewer* viewer= (GtkChem3DViewer*)gtk_chem3d_viewer_new("");
 	if (!viewer) return NULL;
-	if (!strcmp (component_id, "OAFIID:gchem3d_unstable_control"))
+	if (!strcmp (component_id, "OAFIID:gchem3d_control"))
 	{
 		retval = (BonoboObject*) gc3d_bonobo_control_new(viewer);
 		if (!retval) gtk_widget_destroy((GtkWidget*)viewer);
@@ -322,5 +322,5 @@ int main(int argc, char *argv[])
 {
 	gtk_init(&argc, &argv);
 	BONOBO_FACTORY_INIT ("gchem3d", VERSION, &argc, argv);		
-	return bonobo_generic_factory_main ("OAFIID:gchem3d_unstable_factory", gc3d_factory, NULL);
+	return bonobo_generic_factory_main ("OAFIID:gchem3d_factory", gc3d_factory, NULL);
 }

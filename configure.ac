@@ -1,6 +1,6 @@
-AC_INIT(gnome-chemistry-utils, 0.3.2)
+AC_INIT(gnome-chemistry-utils, 0.3.90)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
-AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 
@@ -39,6 +39,17 @@ AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for internationalization])
+
+AC_ARG_ENABLE([update-databases],
+	AC_HELP_STRING([--disable-update-databases],[do not run the update-desktop-database or update-mime-database utilities, mostly useful for package maintainers]),[
+	update_databases=$enableval
+	],[
+	update_databases=yes]
+)
+AM_CONDITIONAL(UPDATE_DATABASES,test "$update_databases" = "yes")
+
+AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
+AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
 
 LIBGLADE_REQUIRED_VERSION=2.4.0
 GTKGLEXT_REQUIRED_VERSION=1.0.0
@@ -105,7 +116,14 @@ else
 	eval BINDIR=`echo $bindir`
 fi
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix",[Where the Gnome Chemistry Utils are to be installed])
-AC_DEFINE_UNQUOTED(SRCDIR, "`pwd`",[Where the Gnome Chemistry Utils are compiled])
+case $srcdir in
+	/*)
+		AC_DEFINE_UNQUOTED(SRCDIR, "$srcdir",[Where the Gnome Chemistry Utils are compiled])
+	;;
+	*)
+		AC_DEFINE_UNQUOTED(SRCDIR, "`pwd`/$srcdir",[Where the Gnome Chemistry Utils are compiled])
+	;;
+esac
 AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Chemistry Utils data are to be installed (default=${prefix}/share)])
 AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Chemistry Utils configuration files are to be installed (default=${prefix}/etc)])
 AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Chemistry Utils libraries are to be installed (default=${prefix}/lib)])
@@ -123,6 +141,6 @@ dtds/Makefile
 docs/Makefile
 docs/reference/Makefile
 docs/reference/html/Makefile
-gcu-0.3.pc
-gcu/gchem3d-0.3.server.in
+gcu.pc
+gcu/gchem3d.server.in
 ])

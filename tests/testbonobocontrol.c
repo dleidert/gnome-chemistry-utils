@@ -43,7 +43,7 @@ create_app (void)
 	/* 
 	 * get a widget, containing the control
 	 */
-	control = bonobo_widget_new_control ("OAFIID:gchem3d_unstable_control", BONOBO_OBJREF (uic));
+	control = bonobo_widget_new_control ("OAFIID:gchem3d_control", BONOBO_OBJREF (uic));
 	if (!control) 
 		g_error ("Can't create control\n");
 	bonobo_window_set_contents(bonobo_win,control);

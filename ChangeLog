@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2005-03-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Doxyfile: updated version to 0.4.0.
+	* Makefile.am: remove 0.3 stuff.
+	* configure.ac: updated version to 0.3.90 (0.4.0-beta1).
+	* gcu/Makefile.am: remove 0.3 stuff and add gchem3d-viewer.
+	* gcu/bonobo-control.cc: remove unstable in control name.
+	* gcu/gchem3d-viewer.c: (main): imported from 0-2 branch.
+	* gcu/gchem3d-viewer.desktop.in: imported from 0-2 branch.
+	* gcu/gchem3d.server.in.in: imported from 0-2 branch.
+	* tests/Makefile.am: remove 0.3 stuff.
+	* tests/testbonobocontrol.c: (create_app): remove unstable in control name.
+	* tests/testgtkcrystalviewer.c: (main): use a full path to nickel.gcrystal
+	* gcu-0.3.pc.in: removed file.
+	* gcu/gchem3d-0.3.server.in.in: removed file.
+
 2004-12-12 Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: added de locale.
 	* glade/gtkperiodic.glade: updated symbols for elements 110 and 111.
