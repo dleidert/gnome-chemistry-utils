@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2005-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed distcleancheck problem.
+	* docs/reference/Makefile.am: make things work without doxygen for normal
+	user.
+
+2005-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: use version from configure.
 	* docs/reference/Makefile.am: fixed remaining build issues.
 	* gchemutils.xml.in: imported chemical/x-pdb magic stuff from chemicalmime

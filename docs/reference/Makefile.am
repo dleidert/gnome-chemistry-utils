@@ -29,7 +29,3 @@ distclean-generic:
 html-upstream.tar.gz: html
 	if [ ! -d html ]; then echo "You need doxygen to make dist"; fi
 	tar czf html-upstream.tar.gz html
-
-# Make distcheck happy for maintainers as well
-dist-hook:
-	rm -f html-upstream.tar.gz

@@ -60,3 +60,6 @@ endif
 # remove the following when we don't install mime type anymore
 distuninstallcheck:
              @:
+
+distcleancheck_listfiles = \
+       find -type f -exec sh -c 'test -f $(srcdir)/{} || echo {}' ';'
