@@ -1,0 +1,108 @@
+AC_INIT(gnome-chemistry-utils, 0.1.1)
+AC_CONFIG_SRCDIR(gtkperiodic/gtkperiodic.c)
+AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+AM_MAINTAINER_MODE
+AC_CANONICAL_HOST
+
+GTKP_VERSION=$VERSION
+GTKCV_VERSION=$VERSION
+GCU_VERSION=$VERSION
+
+AM_CONFIG_HEADER(config.h)
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CXXFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
+
+AC_DISABLE_STATIC
+
+AC_ISC_POSIX
+AC_PROG_CXX
+AC_HEADER_STDC
+AC_PROG_LIBTOOL
+AC_PROG_INTLTOOL
+
+GTKP_VERSION_INFO=`echo $GTKP_VERSION|awk -F . '{ print $1+$2":"$3":"$2 }'`
+GTKCV_VERSION_INFO=`echo $GTKCV_VERSION|awk -F . '{ print $1+$2":"$3":"$2 }'`
+GCU_VERSION_INFO=`echo $GCU_VERSION|awk -F . '{ print $1+$2":"$3":"$2 }'`
+
+AC_SUBST(GTKP_VERSION_INFO)
+AC_SUBST(GTKCV_VERSION_INFO)
+AC_SUBST(GCU_VERSION_INFO)
+
+ALL_LINGUAS="fr"
+AM_GLIB_GNU_GETTEXT
+GETTEXT_PACKAGE=AC_PACKAGE_NAME
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for internationalization])
+
+LIBGLADE_REQUIRED_VERSION=1.99.5
+GTKGL_REQUIRED_VERSION=1.99.0
+GTKGLEXT_REQUIRED_VERSION=0.5.1
+GNOME_PRINT_REQUIRED_VERSION=1.109.0
+
+gl_flags=
+gtkcrystalviewer="-lgtkcrystalviewer"
+
+PKG_CHECK_MODULES(GCU, \
+libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
+gtkgl-2.0 >= $GTKGL_REQUIRED_VERSION \
+libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+,have_gtkgl="yes", have_gtk_gl="no")
+if test "$have_gtkgl" = "yes"; then
+AC_DEFINE_UNQUOTED(HAVE_GTKGLAREA,1,[Compile with GtlGLArea])
+gl_flags="-DUSE_GTKGLAREA"
+else
+PKG_CHECK_MODULES(GCU, \
+libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
+gtkglext-0.x >= $GTKGLEXT_REQUIRED_VERSION \
+libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+, have_gtkgl="yes", have_gtk_gl="no")
+if test "$have_gtkgl" = "yes"; then
+AC_DEFINE_UNQUOTED(HAVE_GTKGLEXT, 1,[Compile with GtlGLExt])
+gl_flags="-DUSE_GTKGLEXT"
+else
+PKG_CHECK_MODULES(GCU, \
+libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
+libgnomeprint-2.0 >= $GNOME_PRINT_REQUIRED_VERSION \
+)
+gtkcrystalviewer=
+fi
+fi
+
+AC_SUBST(gl_flags)
+AC_SUBST(gtkcrystalviewer)
+AM_CONDITIONAL(WITH_GTKGL,test "$have_gtkgl" = "yes")
+
+GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Werror-implicit-function-declaration"
+AC_SUBST(GCU_CFLAGS)
+AC_SUBST(GCU_LIBS)
+
+if test "$prefix" = "NONE"; then
+	prefix="/usr/local"
+fi
+eval dt=`echo $datadir`
+eval sy=`echo $sysconfdir`
+if test "$exec_prefix" = "NONE"; then
+	lb=`echo $libdir| sed 's/exec_prefix/prefix/'`
+	eval lb=`echo $lb`
+else
+	eval lb=`echo $libdir`
+fi
+AC_DEFINE_UNQUOTED(PREFIX, "$prefix",[Where Gnome Crstal is to be installed])
+AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Crystal data are to be installed (default=${prefix}/share)])
+AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Crystal configuration files are to be installed (default=${prefix}/etc)])
+AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Crystal libraries are to be installed (default=${prefix}/lib)])
+
+AC_OUTPUT([
+Makefile
+chemistry/Makefile
+crystalviewer/Makefile
+gtkperiodic/Makefile
+po/Makefile.in
+glade/Makefile
+tests/Makefile
+dtds/Makefile
+gcu.pc
+])
