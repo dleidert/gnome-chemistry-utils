@@ -73,7 +73,7 @@ clean: unpatch
 	test -r /usr/share/misc/config.guess && \
 		cp -f /usr/share/misc/config.guess config.guess
 	
-	aclocal-1.7 && autoheader && automake-1.7 --gnu -a -c && autoconf
+	aclocal-1.7 && autoheader && automake-1.7 --gnu -a -c -f && autoconf
 	dh_clean 
 
 install: build
