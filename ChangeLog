@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2005-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed update-database issue.
+	* docs/reference/Makefile.am: make distcheck happy.
+	* gcu/Makefile.am: add server.in file to EXTRA_DIST.
+	* po/POTFILES.in: add missing entries.
+
 2005-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: fixed distcleancheck problem.
 	* docs/reference/Makefile.am: make things work without doxygen for normal

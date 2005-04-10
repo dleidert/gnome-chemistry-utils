@@ -88,4 +88,4 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-EXTRA_DIST=$(xml_in_files) $(desktop_in_files)
+EXTRA_DIST=$(xml_in_files) $(server_in_files) $(desktop_in_files)

@@ -48,9 +48,6 @@ AC_ARG_ENABLE([update-databases],
 )
 AM_CONDITIONAL(UPDATE_DATABASES,test "$update_databases" = "yes")
 
-AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
-AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
-
 AC_PATH_PROG(DOXYGEN, doxygen, no)
 AM_CONDITIONAL(DOXYGEN_AVAILABLE,test "$DOXYGEN" != "no")
 
@@ -69,8 +66,8 @@ libbonoboui-2.0 >= $BONOBOUI_REQUIRED_VERSION"
 if test "$update_databases" = "yes"; then
 REQUIREMENTS="$REQUIREMENTS shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION";
 AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
-AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
 fi
+AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
 
 PKG_CHECK_MODULES(GCU, \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
@@ -148,6 +145,5 @@ dtds/Makefile
 docs/Makefile
 docs/reference/Makefile
 gcu.pc
-gcu/gchem3d.server.in
 docs/reference/Doxyfile
 ])
