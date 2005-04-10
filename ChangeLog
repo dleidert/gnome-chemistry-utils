@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2005-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: added prograps directory.
+	* configure.ac: ditto.
+	* gcu/formula.cc: added some code.
+	* gcu/formula.h: ditto.
+	* glade/gchemcalc.glade: glade file for new program.
+	* po/POTFILES.in: added new glade file.
+	* programs/Makefile.am: new file.
+	* programs/gchemcalc.cc: new chemical calculator source file.
+
 2005-03-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: one more build issue fixed.
 	* gcu/Makefile.am: added formula.*

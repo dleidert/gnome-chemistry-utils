@@ -1,4 +1,4 @@
-SUBDIRS = po glade gcu tests dtds docs
+SUBDIRS = po glade gcu programs tests dtds docs
 
 mimedir = $(datadir)/mime/packages
 mime_in_files = gchemutils.xml.in

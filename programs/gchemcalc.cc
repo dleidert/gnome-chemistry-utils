@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * formula.h 
+ * programs/gchemcalc.cc 
  *
  * Copyright (C) 2005
  *
@@ -24,39 +24,22 @@
  * Boston, MA  02111-1307, USA.
  */
 
-#ifndef GCU_FORMULA_H
-#define GCU_FORMULA_H
+#include "config.h"
+#warning "the following lines should be removed for stable releases"
+#undef PACKAGE
+#define PACKAGE "gchemutils-unstable" 
+#include <gcu/formula.h>
+#include <glade/glade.h>
 
-#include <string>
-#include <map>
-
-using namespace std;
-
-namespace gcu
+int main (int argc, char *argv[])
 {
+	bindtextdomain(GETTEXT_PACKAGE, DATADIR"/locale");
+#ifdef ENABLE_NLS
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+#endif
+	textdomain(GETTEXT_PACKAGE);
+	gtk_init (&argc, &argv);
 
-class FormulaElt;
-
-class Formula
-{
-public:
-	Formula (string entry);
-	virtual ~Formula ();
-
-	char const *GetMarkup ();
-	map<int,int> &GetRawFormula ();
-	char const *GetRawMarkup ();
-	void SetFormula (string entry);
-
-private:
-	void Parse ();
-
-private:
-	string Entry, Markup, RawMarkup;
-	map<int,int> Raw;
-	list<FormulaElt *> Details;
-};
-	
+	gtk_main ();
+	return 0;
 }
-
-#endif // GCU_FORMULA_H

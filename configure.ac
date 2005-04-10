@@ -101,6 +101,7 @@ AC_SUBST(PIXMAPSDIR)
 AC_OUTPUT([
 Makefile
 gcu/Makefile
+programs/Makefile
 po/Makefile.in
 glade/Makefile
 tests/Makefile

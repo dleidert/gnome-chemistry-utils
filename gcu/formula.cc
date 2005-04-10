@@ -27,3 +27,43 @@
 #include "formula.h"
 
 using namespace gcu;
+
+class FormulaElt
+{
+	string Markup () = 0;
+};
+
+Formula::Formula (string entry)
+{
+	Entry = entry;
+	Parse ();
+}
+
+Formula::~Formula ()
+{
+}
+
+char const *Formula::GetMarkup ()
+{
+	return Markup->c_str ();
+}
+
+map<int,int> &Formula::GetRawFormula ()
+{
+	return Raw->c_str ();
+}
+
+char const *Formula::GetRawMarkup ()
+{
+	return RawMarkup->c_str ();
+}
+
+void Formula::SetFormula (string entry)
+{
+	Entry = entry;
+	Parse ();
+}
+
+void Formula::Parse ()
+{
+}
