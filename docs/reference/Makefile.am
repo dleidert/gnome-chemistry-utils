@@ -17,7 +17,7 @@ endif
 
 install-docsDATA:
 	$(mkinstalldirs) $(DESTDIR)$(docsdir)
-	cp -r html $(DESTDIR)$(docsdir)/html
+	cp -r html $(DESTDIR)$(docsdir)
 
 uninstall-docsDATA:
 	rm -rf $(DESTDIR)$(docsdir)/html
