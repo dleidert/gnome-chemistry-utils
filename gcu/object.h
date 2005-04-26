@@ -426,6 +426,15 @@ It should not be called by a program; call Object::EmitSignal instead.
 	virtual bool OnSignal (SignalId Signal, Object *Child);
 
 /*!
+@param state: whether to bloc signals or not
+
+Blocks signals if state is true and unblocks if state is false.
+
+Since 0.4.2
+*/
+	void LockSignals (bool state = true) {m_IsLoading = state;}
+
+/*!
 @param i: a C++ std::set<Object*> iterator.
 
 Use this function to retrieve the first object linked to the object and initialize the iterator.

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2005-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.4.2.
+	* docs/reference/Makefile.am: fix installation directory.
+	* gcu/object.h: add inline method Object::LockSignals.
+
+##Text encoding: utf-8
+
 2005-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed update-database issue.
 	* docs/reference/Makefile.am: make distcheck happy.
