@@ -1,9 +1,11 @@
 SUBDIRS = po glade gcu tests dtds docs
 
+if GNOME24_SUPPORT
 Mimedir = $(datadir)/mime-info
 Mime_DATA = gchemutils.keys gchemutils.mime
 keys_in_files = gchemutils.keys.in
 @INTLTOOL_KEYS_RULE@
+endif
 
 mimedir = $(datadir)/mime/packages
 mime_in_files = gchemutils.xml.in
@@ -11,8 +13,8 @@ mime_DATA = $(mime_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 EXTRA_DIST=	\
-	$(keys_in_files) \
-	gchemutils.mime \
+	gchempaint.keys.in \
+	gchempaint.mime \
 	$(mime_in_files) \
 	gcu.pc.in \
 	intltool-extract.in	\

@@ -46,6 +46,17 @@ AC_ARG_ENABLE([update-databases],
 	],[
 	update_databases=yes]
 )
+
+PKG_CHECK_MODULES(GNOME_VER, \
+libgnome-2.0 >= 2.6.0, \
+[gnome_is_pre26=no], \
+[gnome_is_pre26=yes])
+if test "$gnome_is_pre26" = "yes"; then
+	AC_DEFINE_UNQUOTED(GNOME_OLD_VER, 1, [use a pre 2.6 gnome version])
+	update_databases=no
+fi
+
+AM_CONDITIONAL(GNOME24_SUPPORT,test "$gnome24_support" = "yes")
 AM_CONDITIONAL(UPDATE_DATABASES,test "$update_databases" = "yes")
 
 AC_PATH_PROG(DOXYGEN, doxygen, no)

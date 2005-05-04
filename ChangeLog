@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-05-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* autogen.sh: fixed message.
+	* Makefile.am: don't install .mime and .keys files for gnome >= 2.6.
+	* configure.ac: ditto.
+
 2005-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.4.2.
 	* docs/reference/Makefile.am: fix installation directory.

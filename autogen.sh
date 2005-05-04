@@ -35,4 +35,4 @@ automake --gnu
 autoconf
 
 ## Job ended
-echo "run ./configure with the appropriate options, the make and enjoy"
+echo "run ./configure with the appropriate options, then make and enjoy"
