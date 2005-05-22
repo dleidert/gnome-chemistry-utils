@@ -432,7 +432,17 @@ Blocks signals if state is true and unblocks if state is false.
 
 Since 0.4.2
 */
-	void LockSignals (bool state = true) {m_IsLoading = state;}
+	void Lock (bool state = true);
+
+/*!
+
+/*!
+
+@return true if signals are locked, false otherwise
+
+Since 0.4.2
+*/
+	bool IsLocked () {return m_Locked > 0;}
 
 /*!
 @param i: a C++ std::set<Object*> iterator.
@@ -582,11 +592,11 @@ private:
 	map<string, Object*> m_Children; //string is Id of object, so each object must have an Id
 	set<Object*> m_Links; //objects linked to this but outside of the hierarchy
 
-protected:
+private:
 /*!
 Set to true while loading to avoid signal propagation.
 */
-	bool m_IsLoading;
+	int m_Locked;
 };
 
 }

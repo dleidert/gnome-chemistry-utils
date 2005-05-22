@@ -35,7 +35,7 @@ Object::Object(TypeId Id)
 	m_Type = Id;
 	m_Id = NULL;
 	m_Parent = NULL;
-	m_IsLoading = false;
+	m_Locked = 0;
 }
 
 Object::~Object()
@@ -234,7 +234,7 @@ bool Object::Load (xmlNodePtr node)
 	xmlNodePtr child;
 	Object* pObject;
 
-	m_IsLoading = true;
+	m_Locked++;
 	tmp = xmlGetProp (node, (xmlChar*) "id");
 	if (tmp) {
 		SetId ((char*) tmp);
@@ -247,12 +247,12 @@ bool Object::Load (xmlNodePtr node)
 			if (!pObject->Load (child))
 				delete pObject;
 		} else {
-			m_IsLoading = false;
+			m_Locked--;
 			return false;
 		}
 		child = child->next;
 	}
-	m_IsLoading = false;
+	m_Locked--;
 	return true;
 }
 
@@ -522,7 +522,7 @@ void Object::EmitSignal (SignalId Signal)
 {
 	Object *obj = NULL;
 	Object *ancestor = this;
-	while (ancestor && !ancestor->m_IsLoading && ancestor->OnSignal (Signal, obj)) {
+	while (ancestor && !ancestor->IsLocked () && ancestor->OnSignal (Signal, obj)) {
 		obj = ancestor;
 		ancestor = obj->m_Parent;
 	}
@@ -555,4 +555,12 @@ void Object::Unlink (Object *object)
 
 void Object::OnUnlink (Object *object)
 {
+}
+
+void Object::Lock (bool state)
+{
+	if (state)
+		m_Locked++;
+	else if (m_Locked > 0)
+		m_Locked--;
 }
