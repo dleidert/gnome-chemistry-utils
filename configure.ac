@@ -55,9 +55,15 @@ if test "$gnome_is_pre26" = "yes"; then
 	AC_DEFINE_UNQUOTED(GNOME_OLD_VER, 1, [use a pre 2.6 gnome version])
 	update_databases=no
 fi
-
-AM_CONDITIONAL(GNOME24_SUPPORT,test "$gnome24_support" = "yes")
 AM_CONDITIONAL(UPDATE_DATABASES,test "$update_databases" = "yes")
+
+AC_ARG_ENABLE([gnome2_4-support],
+	AC_HELP_STRING([--enable-gnome2_4-support],[install obsolete desktop and MIME support files as used under GNOME 2.4 desktops]),[
+	gnome24_support=$enableval
+	],[
+	gnome24_support=$gnome_is_pre26]
+)
+AM_CONDITIONAL(GNOME24_SUPPORT,test "$gnome24_support" = "yes")
 
 AC_PATH_PROG(DOXYGEN, doxygen, no)
 AM_CONDITIONAL(DOXYGEN_AVAILABLE,test "$DOXYGEN" != "no")
