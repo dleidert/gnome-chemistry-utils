@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2005-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed typos.
+
+2005-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: complete the gnome-2.4 stuff.
 
 2005-05-22  Jean Bréfort  <jean.brefort@normalesup.org>

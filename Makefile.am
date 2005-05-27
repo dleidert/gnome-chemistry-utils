@@ -13,8 +13,8 @@ mime_DATA = $(mime_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
 
 EXTRA_DIST=	\
-	gchempaint.keys.in \
-	gchempaint.mime \
+	gchemutils.keys.in \
+	gchemutils.mime \
 	$(mime_in_files) \
 	gcu.pc.in \
 	intltool-extract.in	\
