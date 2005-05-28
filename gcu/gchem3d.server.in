@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:gchem3d_factory" type="exe" location="@BINDIR@/gchem3d">
+<oaf_server iid="OAFIID:gchem3d_factory" type="exe" location="gchem3d">
 		<oaf_attribute name="repo_ids" type="stringv">
 	<item value="IDL:GNOME/GenericFactory:1.0"/>
 	</oaf_attribute>

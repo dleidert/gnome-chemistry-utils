@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-05-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/gchem3d.server.in: new file, this is not automatically generated
+	from now on.
+	* gcu/gchem3d.server.in.in: removed deprecated.
+
 2005-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: fixed typos.
 
