@@ -1,3 +1,7 @@
+Version 0.4.2
+	Enhanced signal handling.
+	Fixed more build issues.
+
 Version 0.4.1
 	Updated gcu.pc.in.
 	Fixed some build issues (thanks to Daniel Leidert).
