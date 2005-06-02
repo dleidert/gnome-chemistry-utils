@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2005-06-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/element.h: fixed compilation with g++-4.0 (#13273).
+	*gcu/element.cc: ditto.
+
 2005-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: fixed typos.
 

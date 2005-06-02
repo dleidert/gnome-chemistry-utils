@@ -37,8 +37,9 @@
 #define _(String) gettext(String)
 
 using namespace gcu;
-using namespace std;
 
+namespace gcu
+{
 class EltTable
 {
 public:
@@ -54,6 +55,10 @@ private:
 	vector<Element*> Elements;
 	map <string, Element*> EltsMap;
 };
+
+} // namespace gcu
+
+using namespace std;
 
 EltTable Table;
 
