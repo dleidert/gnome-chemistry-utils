@@ -1,14 +1,14 @@
 # Gnome Chemistry Utils fr.po
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
-# Jean Bréfort <jean.brefort@normalesup.org>, 2002-2004.
+# Jean Bréfort <jean.brefort@normalesup.org>, 2002-2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-12 18:09+0100\n"
-"PO-Revision-Date: 2004-12-12 21:06+0200\n"
+"POT-Creation-Date: 2005-06-03 08:06+0200\n"
+"PO-Revision-Date: 2004-06-12 08:15+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@norlakesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -475,25 +475,29 @@ msgstr "Zinc"
 msgid "Zirconium"
 msgstr "Zirconium"
 
-#: gcu/gchem3d-0.3.server.in.in.h:1
+#: gcu/gchem3d.server.in.h:1
 msgid "Gnome Chemistry 3D Viewer component"
 msgstr "Composant de visualisation Gnome Chemistry 3D"
 
-#: gcu/gchem3d-0.3.server.in.in.h:2
+#: gcu/gchem3d.server.in.h:2
 msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
 msgstr "Composant de visualisation de structures chimiques"
 
-#: gcu/gchem3d-0.3.server.in.in.h:3
+#: gcu/gchem3d.server.in.h:3
 msgid "Gnome Chemistry 3D Viewer embeddable factory"
 msgstr "Fabrique d'objets incorporables de la visioneuse Gnome Chemistry 3D"
 
-#: gcu/gchem3d-0.3.server.in.in.h:4
+#: gcu/gchem3d.server.in.h:4
 msgid "Gnome Chemistry 3D Viewer object factory"
 msgstr "Fabrique d'objets de la visioneuse Gnome Chemistry 3D"
 
-#: gcu/gchem3d-0.3.server.in.in.h:5
+#: gcu/gchem3d.server.in.h:5
 msgid "Molecular Model"
 msgstr "Modèle moléculaire"
+
+#: gcu/gchem3d-viewer.desktop.in.h:1
+msgid "Molecules Viewer"
+msgstr "Visionneuse de molécules"
 
 #: gchemutils.keys.in.h:1
 msgid "Documents/Sciences/Chemistry"
@@ -510,6 +514,18 @@ msgstr "Fichier PDB"
 #: gchemutils.keys.in.h:4
 msgid "XYZ file"
 msgstr "Fichier XYZ"
+
+#: gchemutils.xml.in.h:1
+msgid "Co-ordinate Animation format"
+msgstr "format de coordonnées pour l'animation"
+
+#: gchemutils.xml.in.h:2
+msgid "MDL Molfile"
+msgstr "Fichier MDL MOL"
+
+#: gchemutils.xml.in.h:3
+msgid "Protein DataBank"
+msgstr "Banque de données des Protéines"
 
 #~ msgid "Unununium"
 #~ msgstr "Unununium"
