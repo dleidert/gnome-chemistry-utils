@@ -1,5 +1,6 @@
 Version 0.4.2
 	Enhanced signal handling.
+	Fixed compilation with g++-4.0 (#13273).
 	Fixed more build issues.
 
 Version 0.4.1
