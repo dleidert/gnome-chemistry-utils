@@ -14,7 +14,7 @@ CORBA_Environment	 ev;
 static guint
 create_app (void)
 {
-	GtkWidget *box, *control, *label, *button;
+	GtkWidget *control;
 	BonoboWindow *bonobo_win;
 
 	BonoboUIContainer *uic;
@@ -68,10 +68,6 @@ create_app (void)
 int 
 main (int argc, char** argv)
 {
-	CORBA_ORB orb;
-
-//	GnomeProgram* prog;
-	
 	CORBA_exception_init (&ev);
 /*	prog = gnome_program_init ("bonobo-control-test", "0.0", LIBGNOMEUI_MODULE, argc, argv, 
                    GNOME_PARAM_POPT_TABLE, NULL, 

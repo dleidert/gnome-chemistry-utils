@@ -467,6 +467,7 @@ const set<TypeId>& Object::GetRules (TypeId type, RuleId rule)
 
 const set<TypeId>& Object::GetRules (const string& type, RuleId rule)
 {
+	static set<TypeId> noId;
 	TypeDesc& typedesc = Types[type];
 	switch (rule) {
 		case RuleMustContain:
@@ -477,7 +478,10 @@ const set<TypeId>& Object::GetRules (const string& type, RuleId rule)
 			return typedesc.RequiredParents;
 		case RuleMayBeIn:
 			return typedesc.PossibleParents;
+		default:
+			return noId;
 	}
+	return noId;
 }
 
 static void AddAncestorTypes (TypeId type, set<TypeId>& types)

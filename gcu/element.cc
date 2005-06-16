@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * element.cc 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -233,7 +233,7 @@ Element* EltTable::operator[](string Symbol)
 
 void EltTable::AddElement(Element* Elt)
 {
-	if (Elt->GetZ() >= Elements.size()) Elements.resize(Elements.size() + 10);
+	if ((unsigned) Elt->GetZ() >= Elements.size()) Elements.resize(Elements.size() + 10);
 	Elements[Elt->GetZ()] = Elt;
 	EltsMap[Elt->GetSymbol()] = Elt;
 }
@@ -396,8 +396,6 @@ bool Element::GetRadius(GcuAtomicRadius* radius)
 {
 	Element* Elt = Table[radius->Z];
 	if (!Elt) return false;
-	int  i = 0;
-	bool res;
 	for (int i = 0; Elt->m_radii[i]; i++)
 	{
 		if (radius->type != Elt->m_radii[i]->type) continue;

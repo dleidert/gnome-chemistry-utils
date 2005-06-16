@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * object.h 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.rg>
  *

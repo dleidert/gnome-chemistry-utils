@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.cc
  *
- * Copyright (C) 2001-2004
+ * Copyright (C) 2001-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -146,7 +146,7 @@ void Atom::Transform2D(Matrix2D& m, double x, double y)
 
 xmlNodePtr Atom::Save(xmlDocPtr xml)
 {
-	xmlNodePtr parent, child;
+	xmlNodePtr parent;
 	gchar buf[16];
 	parent = xmlNewDocNode(xml, NULL, (xmlChar*)"atom", NULL);
 	if (!parent) return NULL;
@@ -167,8 +167,7 @@ xmlNodePtr Atom::Save(xmlDocPtr xml)
 
 bool Atom::Load (xmlNodePtr node)
 {
-	char* tmp, *endptr;
-	xmlNodePtr child;
+	char* tmp;
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "id");
 	if (tmp) {
 		SetId (tmp);

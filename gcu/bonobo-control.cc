@@ -2,9 +2,9 @@
  * Gnome Chemisty Utils
  * bonobo-control.cc 
  *
- * Copyright (C) 2003
+ * Copyright (C) 2003-2005
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -252,7 +252,6 @@ BONOBO_TYPE_FUNC (GC3DBonoboControl, BONOBO_TYPE_CONTROL, gc3d_bonobo_control);
 GC3DBonoboControl* gc3d_bonobo_control_construct(GC3DBonoboControl *control, GtkChem3DViewer* viewer)
 {
 	BonoboPropertyBag     *pb;
-	BonoboPropertyControl *pc;
 	CORBA_Environment ev;
 	
 	g_return_val_if_fail (viewer != NULL, NULL);

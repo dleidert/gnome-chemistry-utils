@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2004
+ * Copyright (C) 2001-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -80,7 +80,7 @@ void Bond::SetOrder(unsigned char Order)
 
 xmlNodePtr Bond::Save(xmlDocPtr xml)
 {
-	xmlNodePtr parent, child;
+	xmlNodePtr parent;
 	gchar buf[16];
 	parent = xmlNewDocNode(xml, NULL, (xmlChar*)"bond", NULL);
 	if (!parent) return NULL;

@@ -2,9 +2,9 @@
  * Gnome Chemisty Utils
  * crystaldoc.cc 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -137,6 +137,8 @@ bool CrystalView::Load (xmlNodePtr node)
 		} else if (!strcmp ((gchar*) child->name, "fov")) {
 			txt = (char*) xmlNodeGetContent (child);
 			int result = sscanf (txt, "%lg", &m_fAngle);
+			if (result == 0)
+				m_fAngle = 10.;
 			xmlFree (txt);
 		}
 		child = child->next;

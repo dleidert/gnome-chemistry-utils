@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystaldoc.cc 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -301,6 +301,9 @@ void CrystalDoc::Update()
 			Atom = **i;
 			Atom.Move(0.5, 0.5, 0);
 			Duplicate(Atom);
+			break;
+		default:
+			break;
 		}
 	}
 	
@@ -364,6 +367,9 @@ void CrystalDoc::Update()
 				Line = **j;
 				Line.Move(0.5, 0.5, 0);
 				Duplicate(Line);
+				break;
+			default:
+				break;
 			}
 			break ;
 		case unique:
@@ -385,7 +391,7 @@ void CrystalDoc::Update()
 		double x;
 		std::vector<double> ScalarProducts;
 		std::vector<double>::iterator m;
-		int n, _h, _k, _l;
+		unsigned n;
 
 		//scalar products calculus and storing
 		for (i = Atoms.begin(); i != Atoms.end(); i++)

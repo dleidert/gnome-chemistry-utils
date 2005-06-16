@@ -4,9 +4,9 @@
  * Gnome Chemistry Utils
  * crystalatom.cc 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -195,7 +195,6 @@ bool CrystalAtom::SaveNode(xmlDocPtr xml, xmlNodePtr node)
 
 bool CrystalAtom::LoadNode(xmlNodePtr node)
 {
-	char* txt;
 	xmlNodePtr child = FindNodeByNameAndId(node, "color");
 	if (!child) SetDefaultColor();
 	else

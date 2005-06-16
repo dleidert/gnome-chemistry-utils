@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/xml-utils.cc 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -240,6 +240,8 @@ bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 	case GCU_VAN_DER_WAALS:
 		tmp = "vdW";
 		break;
+	default:
+		tmp = NULL;
 	}
 	if (tmp)
 		xmlNewProp (child, (xmlChar*) "type", (xmlChar*) tmp);

@@ -1,6 +1,21 @@
 ##Text encoding: utf-8
 
 2005-06-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/atom.cc: fixed compilation warnings (using -Wall)
+	for both gcc-3.4.x and gcc-4.0.x.
+	* gcu/bond.cc: ditto.
+	* gcu/bonobo-control.cc: ditto.
+	* gcu/crystalatom.cc: ditto.
+	* gcu/crystaldoc.cc: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/gtkperiodic.c: ditto.
+	* gcu/object.cc: ditto.
+	* gcu/object.h: ditto.
+	* gcu/xml-utils.cc: ditto.
+	* tests/testbonobocontrol.c: ditto.
+
+2005-06-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/object.h: removed extra comment opening (Daniel Leidert).
 
 2005-06-02  Jean Bréfort  <jean.brefort@normalesup.org>
