@@ -262,7 +262,7 @@ bool Object::SaveChildren(xmlDocPtr xml, xmlNodePtr node)
 	xmlNodePtr child;
 	for (i = m_Children.begin(); i != m_Children.end(); i++)
 	{
-		if (child = (*i).second->Save(xml)) xmlAddChild(node, child);
+		if ((child = (*i).second->Save(xml))) xmlAddChild(node, child);
 		else return false;
 	}
 	return true;
