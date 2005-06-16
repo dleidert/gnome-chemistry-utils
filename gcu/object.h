@@ -436,8 +436,6 @@ Since 0.4.2
 
 /*!
 
-/*!
-
 @return true if signals are locked, false otherwise
 
 Since 0.4.2

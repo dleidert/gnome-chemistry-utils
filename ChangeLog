@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-06-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/object.h: removed extra comment opening (Daniel Leidert).
+
 2005-06-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/element.h: fixed compilation with g++-4.0 (#13273).
 	*gcu/element.cc: ditto.
