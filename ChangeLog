@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-06-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: tests vector::at usability, changed version to 0.4.3.
+	* gcu/gtkchem3dviewer.cc: fixed another compilation warning.
+	* gcu/object.cc: make it compile with gcc-2.95 using a FreeBSD patch.
+
 2005-06-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/atom.cc: fixed compilation warnings (using -Wall)
 	for both gcc-3.4.x and gcc-4.0.x.

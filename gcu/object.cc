@@ -22,6 +22,7 @@
  * Boston, MA  02111-1307, USA.
  */
 
+#include "config.h"
 #include "object.h"
 #include "document.h"
 #include <string>
@@ -392,7 +393,14 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 		while (max > TypeNames.size())
 			TypeNames.push_back ("");
 	}
-	TypeNames.at (typedesc.Id) = TypeName;
+#if HAS_VECTOR_AT
+	TypeNames.at (id) = TypeName;
+#else
+	vector<string>::iterator it;
+	it = TypeNames.begin ();
+	it += typedesc.Id;
+	TypeNames.insert (it, TypeName);
+#endif
 	return typedesc.Id;
 }
 

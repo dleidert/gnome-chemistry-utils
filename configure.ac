@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.4.2)
+AC_INIT(gnome-chemistry-utils, 0.4.3)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -121,6 +121,17 @@ AM_CONDITIONAL(WITH_OPENBABEL,test "$have_openbabel" = "yes")
 
 AC_SUBST(GCU_CFLAGS)
 AC_SUBST(GCU_LIBS)
+
+AC_LANG(C++)
+AC_MSG_CHECKING([for vector::at])
+AC_TRY_COMPILE([#include <vector>],
+      [std::vector<int> v; v.at(0) = 0;],
+      at_ok=yes,
+      at_ok=no)
+AC_MSG_RESULT($at_ok)
+if test "$at_ok" = "yes"; then
+	AC_DEFINE_UNQUOTED(HAS_VECTOR_AT, 1, [vector::at can be used])
+fi
 
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
