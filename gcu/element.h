@@ -91,6 +91,13 @@ public:
 	*/
 	static Element* GetElement (const gchar* symbol);
 	/*!
+	@param Z: the atomic number of a chemical element.
+	@param prec: receive the number of significant digits.
+
+	@return the atomic mass of the element.
+	*/
+	double  GetWeight (int Z, int &prec);
+	/*!
 	@param radius: a pointer to a GcuAtomicRadius structure.
 	
 	Before calling this function, most fields in the GcuAtomicRadius structure must be filled:
@@ -187,10 +194,18 @@ public:
 	including d and f electrons.
 	*/
 	unsigned GetMaxValenceElectrons () {return m_maxve;}
+	/*!
+	@param prec: receive the number of significant digits.
+
+	@return the atomic mass of the element.
+	*/
+	double GetWeight (int& prec) {prec = m_WeightPrec; return m_Weight;}
 	
 private:
 	unsigned char m_Z, m_nve, m_tve, m_maxve;
 	char m_Symbol[4];
+	double m_Weight;
+	int m_WeightPrec;
 	char m_DefaultValence;
 	unsigned char m_MaxBonds;
 	bool m_BestSide;

@@ -356,8 +356,8 @@ void Formula::Clear ()
 
 void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_error)
 {
-	int i = 0, npo, size = formula.size (), j, k; // parsing index, number of open parenthesis, string size
-	char c, *sz, *end;
+	int i = 0, npo, size = formula.size (), j, k = 0; // parsing index, number of open parenthesis, string size
+	char c = 0, *sz, *end;
 	while (i < size) {
 		if (formula[i] == '(' || formula[i] == '[' || formula[i] == '{') {
 			switch (formula[i]) {

@@ -1,0 +1,407 @@
+<?xml version="1.0"?>
+<gpdata>
+
+<element Z="1">
+	<en scale="Pauling" value="2.20"/>
+</element>
+
+<element Z="2">
+</element>
+
+<element Z="3">
+	<en scale="Pauling" value="0.98"/>
+</element>
+
+<element Z="4">
+	<en scale="Pauling" value="1.57"/>
+</element>
+
+<element Z="5">
+	<en scale="Pauling" value="2.04"/>
+</element>
+
+<element Z="6">
+	<en scale="Pauling" value="2.55"/>
+</element>
+
+<element Z="7">
+	<en scale="Pauling" value="3.04"/>
+</element>
+
+<element Z="8">
+	<en scale="Pauling" value="3.44"/>
+</element>
+
+<element Z="9">
+	<en scale="Pauling" value="3.98"/>
+</element>
+
+<element Z="10">
+</element>
+
+<element Z="11">
+	<en scale="Pauling" value="0.93"/>
+</element>
+
+<element Z="12">
+	<en scale="Pauling" value="1.31"/>
+</element>
+
+<element Z="13">
+	<en scale="Pauling" value="1.61"/>
+</element>
+
+<element Z="14">
+	<en scale="Pauling" value="1.90"/>
+</element>
+
+<element Z="15">
+	<en scale="Pauling" value="2.19"/>
+</element>
+
+<element Z="16">
+	<en scale="Pauling" value="2.58"/>
+</element>
+
+<element Z="17">
+	<en scale="Pauling" value="3.16"/>
+</element>
+
+<element Z="18">
+</element>
+
+<element Z="19">
+	<en scale="Pauling" value="0.82"/>
+</element>
+
+<element Z="20">
+	<en scale="Pauling" value="1.00"/>
+</element>
+
+<element Z="21">
+	<en scale="Pauling" value="1.36"/>
+</element>
+
+<element Z="22">
+	<en scale="Pauling" value="1.54"/>
+</element>
+
+<element Z="23">
+	<en scale="Pauling" value="1.63"/>
+</element>
+
+<element Z="24">
+	<en scale="Pauling" value="1.66"/>
+</element>
+
+<element Z="25">
+	<en scale="Pauling" value="1.55"/>
+</element>
+
+<element Z="26">
+	<en scale="Pauling" value="1.83"/>
+</element>
+
+<element Z="27">
+	<en scale="Pauling" value="1.88"/>
+</element>
+
+<element Z="28">
+	<en scale="Pauling" value="1.91"/>
+</element>
+
+<element Z="29">
+	<en scale="Pauling" value="1.90"/>
+</element>
+
+<element Z="30">
+	<en scale="Pauling" value="1.65"/>
+</element>
+
+<element Z="31">
+	<en scale="Pauling" value="1.81"/>
+</element>
+
+<element Z="32">
+	<en scale="Pauling" value="2.01"/>
+</element>
+
+<element Z="33">
+	<en scale="Pauling" value="2.18"/>
+</element>
+
+<element Z="34">
+	<en scale="Pauling" value="2.55"/>
+</element>
+
+<element Z="35">
+	<en scale="Pauling" value="2.96"/>
+</element>
+
+<element Z="36" >
+	<en scale="Pauling" value="3.00"/>
+</element>
+
+<element Z="37">
+	<en scale="Pauling" value="0.82"/>
+</element>
+
+<element Z="38">
+	<en scale="Pauling" value="0.95"/>
+</element>
+
+<element Z="39">
+	<en scale="Pauling" value="1.22"/>
+</element>
+
+<element Z="40">
+	<en scale="Pauling" value="1.33"/>
+</element>
+
+<element Z="41">
+	<en scale="Pauling" value="1.6"/>
+</element>
+
+<element Z="42">
+	<en scale="Pauling" value="2.16"/>
+</element>
+
+<element Z="43">
+	<en scale="Pauling" value="1.9"/>
+</element>
+
+<element Z="44">
+	<en scale="Pauling" value="2.2"/>
+</element>
+
+<element Z="45">
+	<en scale="Pauling" value="2.28"/>
+</element>
+
+<element Z="46">
+	<en scale="Pauling" value="2.20"/>
+</element>
+
+<element Z="47">
+	<en scale="Pauling" value="1.93"/>
+</element>
+
+<element Z="48">
+	<en scale="Pauling" value="1.69"/>
+</element>
+
+<element Z="49">
+	<en scale="Pauling" value="1.78"/>
+</element>
+
+<element Z="50">
+	<en scale="Pauling" value="1.80"/>
+</element>
+
+<element Z="51">
+	<en scale="Pauling" value="2.05"/>
+</element>
+
+<element Z="52">
+	<en scale="Pauling" value="2.1"/>
+</element>
+
+<element Z="53">
+	<en scale="Pauling" value="2.66"/>
+</element>
+
+<element Z="54">
+	<en scale="Pauling" value="2.60"/>
+</element>
+
+<element Z="55">
+	<en scale="Pauling" value="0.79"/>
+</element>
+
+<element Z="56">
+	<en scale="Pauling" value="0.89"/>
+</element>
+
+<element Z="57">
+	<en scale="Pauling" value="1.10"/>
+</element>
+
+<element Z="58">
+	<en scale="Pauling" value="1.12"/>
+</element>
+
+<element Z="59">
+	<en scale="Pauling" value="1.13"/>
+</element>
+
+<element Z="60">
+	<en scale="Pauling" value="1.14"/>
+</element>
+
+<element Z="61">
+</element>
+
+<element Z="62">
+	<en scale="Pauling" value="1.17"/>
+</element>
+
+<element Z="63">
+</element>
+
+<element Z="64">
+	<en scale="Pauling" value="1.20"/>
+</element>
+
+<element Z="65">
+</element>
+
+<element Z="66">
+	<en scale="Pauling" value="1.22"/>
+</element>
+
+<element Z="67">
+	<en scale="Pauling" value="1.23"/>
+</element>
+
+<element Z="68">
+	<en scale="Pauling" value="1.24"/>
+</element>
+
+<element Z="69">
+	<en scale="Pauling" value="1.25"/>
+</element>
+
+<element Z="70">
+</element>
+
+<element Z="71">
+	<en scale="Pauling" value="1.27"/>
+</element>
+
+<element Z="72">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="73">
+	<en scale="Pauling" value="1.5"/>
+</element>
+
+<element Z="74">
+	<en scale="Pauling" value="2.36"/>
+</element>
+
+<element Z="75">
+	<en scale="Pauling" value="1.9"/>
+</element>
+
+<element Z="76">
+	<en scale="Pauling" value="2.2"/>
+</element>
+
+<element Z="77">
+	<en scale="Pauling" value="2.20"/>
+</element>
+
+<element Z="78">
+	<en scale="Pauling" value="2.28"/>
+</element>
+
+<element Z="79">
+	<en scale="Pauling" value="2.54"/>
+</element>
+
+<element Z="80">
+	<en scale="Pauling" value="2.00"/>
+</element>
+
+<element Z="81">
+	<en scale="Pauling" value="1.62"/>
+</element>
+
+<element Z="82">
+	<en scale="Pauling" value="1.87"/>
+</element>
+
+<element Z="83">
+	<en scale="Pauling" value="2.02"/>
+</element>
+
+<element Z="84">
+	<en scale="Pauling" value="2.0"/>
+</element>
+
+<element Z="85">
+	<en scale="Pauling" value="2.2"/>
+</element>
+
+<element Z="86">
+</element>
+
+<element Z="87">
+	<en scale="Pauling" value="0.7"/>
+</element>
+
+<element Z="88">
+	<en scale="Pauling" value="0.9"/>
+</element>
+
+<element Z="89">
+	<en scale="Pauling" value="1.1"/>
+</element>
+
+<element Z="90">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="91">
+	<en scale="Pauling" value="1.5"/>
+</element>
+
+<element Z="92">
+	<en scale="Pauling" value="1.38"/>
+</element>
+
+<element Z="93">
+	<en scale="Pauling" value="1.36"/>
+</element>
+
+<element Z="94">
+	<en scale="Pauling" value="1.28"/>
+</element>
+
+<element Z="95">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="96">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="97">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="98">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="99">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="100">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="101">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="102">
+	<en scale="Pauling" value="1.3"/>
+</element>
+
+<element Z="103">
+</element>
+
+</gpdata>

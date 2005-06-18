@@ -68,6 +68,17 @@ PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 AC_SUBST(GCU_CFLAGS)
 AC_SUBST(GCU_LIBS)
 
+AC_LANG(C++)
+AC_MSG_CHECKING([for vector::at usability])
+AC_TRY_COMPILE([#include <vector>],
+      [std::vector<int> v; v.at(0) = 0;],
+      at_ok=yes,
+      at_ok=no)
+AC_MSG_RESULT($at_ok)
+if test "$at_ok" = "yes"; then
+	AC_DEFINE_UNQUOTED(HAS_VECTOR_AT, 1, [vector::at can be used])
+fi
+
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
 fi
@@ -102,6 +113,7 @@ AC_OUTPUT([
 Makefile
 gcu/Makefile
 programs/Makefile
+database/Makefile
 po/Makefile.in
 glade/Makefile
 tests/Makefile

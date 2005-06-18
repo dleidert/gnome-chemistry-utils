@@ -1,4 +1,7 @@
 glade/gchemcalc.glade
 glade/gtkperiodic.glade
-gcu/elements.xml.in
+database/elements.xml.in
+database/elecprops.xml.in
+database/isotopes.xml.in
+database/radii.xml.in
 gchemutils.keys.in

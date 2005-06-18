@@ -13,12 +13,12 @@ noinst_PROGRAMS = 			\
 	testgtkchem3dviewer
 
 testgtkcrystalviewer_SOURCES =	\
-	testgtkcrystalviewer.c 	
+	testgtkcrystalviewer.c
 
 testgtkcrystalviewer_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
 
 testgtkchem3dviewer_SOURCES =	\
-	testgtkchem3dviewer.c 	
+	testgtkchem3dviewer.c
 
 testgtkchem3dviewer_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
 
@@ -26,6 +26,6 @@ testgtkperiodic_DEPENDENCIES = $(DEPS)
 testgtkperiodic_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
 
 testgtkperiodic_SOURCES =	\
-	testgtkperiodic.c 	
+	testgtkperiodic.c
 
 EXTRA_DIST = nickel.gcrystal methane.xyz

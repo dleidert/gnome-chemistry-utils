@@ -35,7 +35,7 @@ Object::Object(TypeId Id)
 	m_Type = Id;
 	m_Id = NULL;
 	m_Parent = NULL;
-	m_IsLoading = false;
+	m_Locked = 0;
 }
 
 Object::~Object()
@@ -234,7 +234,7 @@ bool Object::Load (xmlNodePtr node)
 	xmlNodePtr child;
 	Object* pObject;
 
-	m_IsLoading = true;
+	m_Locked++;
 	tmp = xmlGetProp (node, (xmlChar*) "id");
 	if (tmp) {
 		SetId ((char*) tmp);
@@ -247,12 +247,12 @@ bool Object::Load (xmlNodePtr node)
 			if (!pObject->Load (child))
 				delete pObject;
 		} else {
-			m_IsLoading = false;
+			m_Locked--;
 			return false;
 		}
 		child = child->next;
 	}
-	m_IsLoading = false;
+	m_Locked--;
 	return true;
 }
 
@@ -262,7 +262,7 @@ bool Object::SaveChildren(xmlDocPtr xml, xmlNodePtr node)
 	xmlNodePtr child;
 	for (i = m_Children.begin(); i != m_Children.end(); i++)
 	{
-		if (child = (*i).second->Save(xml)) xmlAddChild(node, child);
+		if ((child = (*i).second->Save(xml))) xmlAddChild(node, child);
 		else return false;
 	}
 	return true;
@@ -392,7 +392,14 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 		while (max > TypeNames.size())
 			TypeNames.push_back ("");
 	}
-	TypeNames.at (typedesc.Id) = TypeName;
+#if HAS_VECTOR_AT
+	TypeNames.at (id) = TypeName;
+#else
+	vector<string>::iterator it;
+	it = TypeNames.begin ();
+	it += typedesc.Id;
+	TypeNames.insert (it, TypeName);
+#endif
 	return typedesc.Id;
 }
 
@@ -467,17 +474,21 @@ const set<TypeId>& Object::GetRules (TypeId type, RuleId rule)
 
 const set<TypeId>& Object::GetRules (const string& type, RuleId rule)
 {
+	static set<TypeId> noId;
 	TypeDesc& typedesc = Types[type];
 	switch (rule) {
-		case RuleMustContain:
-			return typedesc.RequiredChildren;
-		case RuleMayContain:
-			return typedesc.PossibleChildren;
-		case RuleMustBeIn:
-			return typedesc.RequiredParents;
-		case RuleMayBeIn:
-			return typedesc.PossibleParents;
+	case RuleMustContain:
+		return typedesc.RequiredChildren;
+	case RuleMayContain:
+		return typedesc.PossibleChildren;
+	case RuleMustBeIn:
+		return typedesc.RequiredParents;
+	case RuleMayBeIn:
+		return typedesc.PossibleParents;
+	default:
+		return noId;
 	}
+	return noId;
 }
 
 static void AddAncestorTypes (TypeId type, set<TypeId>& types)
@@ -522,7 +533,7 @@ void Object::EmitSignal (SignalId Signal)
 {
 	Object *obj = NULL;
 	Object *ancestor = this;
-	while (ancestor && !ancestor->m_IsLoading && ancestor->OnSignal (Signal, obj)) {
+	while (ancestor && !ancestor->IsLocked () && ancestor->OnSignal (Signal, obj)) {
 		obj = ancestor;
 		ancestor = obj->m_Parent;
 	}
@@ -555,4 +566,12 @@ void Object::Unlink (Object *object)
 
 void Object::OnUnlink (Object *object)
 {
+}
+
+void Object::Lock (bool state)
+{
+	if (state)
+		m_Locked++;
+	else if (m_Locked > 0)
+		m_Locked--;
 }

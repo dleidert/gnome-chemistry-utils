@@ -42,31 +42,9 @@ libgcu_0_5_la_headers = \
 		crystalcleavage.h \
 		gtkchem3dviewer.h
 
-bin_PROGRAMS = gchem3d-viewer-0.5
-
-gchem3d_viewer_0_5_SOURCES = gchem3d-viewer.c
-
-gchem3d_viewer_0_5_LDADD = libgcu-0.5.la @GCU_LIBS@
-
-desktopdir=$(datadir)/applications
-desktop_in_files = gchem3d-viewer-0.5.desktop.in
-desktop_DATA=gchem3d-viewer-0.5.desktop
-@INTLTOOL_DESKTOP_RULE@
-
-CLEANFILES = gchem3d-viewer-0.5.desktop elements.xml
-		
 gcuincludedir = $(includedir)/gcu-0.5/gcu
 gcuinclude_HEADERS = $(libgcu_0_5_la_headers)
 		
 libgcu_0_5_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
-
-xmldir = $(datadir)/gchemutils
-
-xml_in_files = elements.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml)
-
-@INTLTOOL_XML_RULE@
-
-EXTRA_DIST=$(xml_in_files) $(desktop_in_files)

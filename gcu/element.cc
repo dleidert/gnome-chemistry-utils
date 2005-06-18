@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * element.cc 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -68,7 +68,7 @@ EltTable::EltTable()
 	char *lang = getenv ("LANG");
 	char *old_num_locale, *tmp, *num;
 	unsigned char Z;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils/elements.xml")))
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/elements.xml")))
 	{
 		g_error (_("Can't find and read elements.xml"));
 	}
@@ -228,7 +228,7 @@ Element* EltTable::operator[](string Symbol)
 
 void EltTable::AddElement(Element* Elt)
 {
-	if (Elt->GetZ() >= Elements.size()) Elements.resize(Elements.size() + 10);
+	if ((unsigned) Elt->GetZ() >= Elements.size()) Elements.resize(Elements.size() + 10);
 	Elements[Elt->GetZ()] = Elt;
 	EltsMap[Elt->GetSymbol()] = Elt;
 }
@@ -391,8 +391,6 @@ bool Element::GetRadius(GcuAtomicRadius* radius)
 {
 	Element* Elt = Table[radius->Z];
 	if (!Elt) return false;
-	int  i = 0;
-	bool res;
 	for (int i = 0; Elt->m_radii[i]; i++)
 	{
 		if (radius->type != Elt->m_radii[i]->type) continue;
@@ -440,4 +438,10 @@ const GcuAtomicRadius** Element::GetRadii()
 const GcuElectronegativity** Element::GetElectronegativities()
 {
 	return (const GcuElectronegativity**) &m_en.front();
+}
+
+double Element::GetWeight (int Z, int &prec)
+{
+	Element* Elt = Table[Z];
+	return (Elt)? Elt->GetWeight(prec): 0.;
 }

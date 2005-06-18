@@ -1,5 +1,39 @@
 ##Text encoding: utf-8
 
+2005-06-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: added database to SUBDIRS.
+	* configure.ac: tests for vector::at usability.
+	* database/Makefile.am: new file.
+	* database/elecprops.xml.in: new database.
+	* database/elements.xml.in: moved from gcu and split.
+	* database/isotopes.xml.in: new database.
+	* database/radii.xml.in: new database.
+	* gcu/Makefile.am: removed programs.
+	* gcu/atom.cc: fixed some compilation issues.
+	* gcu/bond.cc: ditto.
+	* gcu/crystalatom.cc: ditto.
+	* gcu/crystaldoc.cc: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/element.h: ditto.
+	* gcu/formula.cc: ditto.
+	* gcu/gtkchem3dviewer.cc: ditto.
+	* gcu/gtkperiodic.c: ditto.
+	* gcu/object.cc: ditto.
+	* gcu/object.h: ditto.
+	* gcu/xml-utils.cc: ditto.
+	* gcu/elements.xml.in:
+	* gcu/gchem3d-viewer-0.5.desktop.in: removed obsolete.
+	* gcu/gchem3d-viewer.desktop.in: moved to programs.
+	* gcu/gchem3d-viewer.c: ditto.
+	* po/POTFILES.in: updated to new architecture.
+	* programs/Makefile.am: added gchem3d viewer.
+	* programs/gchem3d-viewer-unstable.desktop.in: new file.
+	* programs/gchem3d-viewer.c: moved from gcu.
+	* programs/gchem3d-viewer.desktop.in: ditto.
+	* programs/gchemcalc.cc: use glade file from unstable directory.
+	* tests/Makefile.am: fixed typos.
+
 2005-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Makefile.am: fix installation directory.
 	* gcu/formula.cc: completed initial version.

@@ -80,7 +80,7 @@ int main (int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 
-	GladeXML *xml =  glade_xml_new (DATADIR"/gchemutils/glade/gchemcalc.glade", "gchemcalc", NULL);
+	GladeXML *xml =  glade_xml_new (DATADIR"/"PACKAGE"/glade/gchemcalc.glade", "gchemcalc", NULL);
 
 	GtkWidget *window = glade_xml_get_widget (xml, "gchemcalc");
 	g_signal_connect (GTK_OBJECT (window), "destroy",

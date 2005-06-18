@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<gpdata>
+
+<element Z="1">
+	<isotope A="1" _name="protium" weight="1.007825" abundance="99.9844"
+	spin=".5" mub="2.79270"/>
+	<isotope A="2" _name="deuterium" weight="2.014102" abundance="0.0156"
+	spin="1" mub="0.85738"/>
+	<isotope A="2" _name="tritium" weight="3.016049"
+	spin=".5" mub="2.9788">
+		<decay type="b-" value="12.35" _unit="y"/>
+	</isotope>
+</element>
+
+</gpdata>

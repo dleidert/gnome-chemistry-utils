@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkperiodic.c 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -263,7 +263,7 @@ void gtk_periodic_size_request(GtkPeriodic* w, GtkRequisition *requisition)
 
 guint gtk_periodic_get_element(GtkPeriodic* periodic)
 {
-	g_return_if_fail(GTK_IS_PERIODIC(periodic));
+	g_return_val_if_fail(GTK_IS_PERIODIC(periodic), 0);
 	return periodic->priv->Z;
 }
 

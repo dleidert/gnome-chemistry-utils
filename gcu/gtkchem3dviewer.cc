@@ -45,6 +45,7 @@
 #endif
 #include <sstream>
 #include <libintl.h>
+#include <locale.h>
 #define _(String) gettext(String)
 
 /* Attribute list for gtkglarea widget. Specifies a
