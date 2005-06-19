@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include <gcu/chemistry.h>
 #include <gcu/gtkchem3dviewer.h>
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -44,6 +45,8 @@ int main(int argc, char *argv[])
 		printf ("Could not initialize GnomeVFS\n");
 		return 1;
 	}
+
+	gcu_element_load_databases ("radii", NULL);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "GtkChem3dViewer");

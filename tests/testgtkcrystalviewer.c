@@ -1,4 +1,5 @@
 #include <gcu/gtkcrystalviewer.h>
+#include <gcu/chemistry.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -14,6 +15,8 @@ int main(int argc, char *argv[])
 	const char* filename;
 	xmlDocPtr xml;
 	gtk_init (&argc, &argv);
+	
+	gcu_element_load_databases ("radii", NULL);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "GtkCrystalViewer test");

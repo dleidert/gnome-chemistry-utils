@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * element.h 
  *
- * Copyright (C) 2002-2004
+ * Copyright (C) 2002-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -135,6 +135,22 @@ public:
 	@return the maximum number of bonds an atom of the element can be involved in.
 	*/
 	static unsigned GetMaxBonds (gint Z);
+	/*!
+	Loads the atomic radii database.
+	*/
+	static void LoadRadii ();
+	/*!
+	Loads the atomic electronic properties database.
+	*/
+	static void LoadElectronicProps ();
+	/*!
+	Loads the isotopes database.
+	*/
+	static void LoadIsotopes ();
+	/*!
+	Loads all databases.
+	*/
+	static void LoadAllData ();
 
 	/*!
 	\return The atomic number of the chemical element.

@@ -27,6 +27,7 @@
 #include "config.h"
 #include "formula.h"
 #include "element.h"
+#include <math.h>
 #include <string.h>
 #include <ctype.h>
 #include <glib/gi18n.h>
@@ -185,6 +186,8 @@ void FormulaBlock::BuildRawFormula (map<int, int> &raw)
 
 static bool AnalString (char *sz, list<FormulaElt *> &result)
 {
+	if (*sz == 0)
+		return true;
 	int i = 0;
 	char sy[4];
 	if (*sz) {
@@ -248,7 +251,7 @@ static bool AnalString (char *sz, list<FormulaElt *> &result)
 					result.pop_back ();
 				}
 			}
-			sy[2] = 0;	
+			sy[2] = 0;
 			i = Element::Z (sy);
 			if (i > 0) {
 				result.push_back (new FormulaAtom (i));
@@ -273,6 +276,7 @@ Formula::Formula (string entry) throw (parse_error)
 {
 	Entry = entry;
 	Parse (Entry, Details);
+	m_WeightCached = false;
 }
 
 Formula::~Formula ()
@@ -352,6 +356,7 @@ void Formula::Clear ()
 	Markup = "";
 	Raw.clear ();
 	RawMarkup = "";
+	m_WeightCached = false;
 }
 
 void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_error)
@@ -426,4 +431,28 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 		} else
 			throw parse_error (_("Invalid character"), i, 1);
 	}
+}
+
+double Formula::GetMolecularWeight (int &prec)
+{
+	if (Raw.size () == 0) {
+		prec = 0;
+		return 0.;
+	}
+	if (!m_WeightCached) {
+		double atom_weight, delta = 0.;
+		int atom_prec;
+		m_Weight = 0;
+		m_WeightPrec = 16; // something much greater that possible for any element.
+		map<int,int>::iterator i, end = Raw.end ();
+		for (i = Raw.begin (); i != end; i++) {
+			atom_weight = Element::GetElement ((*i).first)->GetWeight (atom_prec);
+			delta += pow10 (-atom_prec) * (*i).second;
+			m_Weight += atom_weight * (*i).second;
+		}
+		m_WeightPrec = (int) ceil (-log10 (delta) - 1e-5);
+	}
+	m_WeightCached = true;
+	prec = m_WeightPrec;
+	return m_Weight;
 }

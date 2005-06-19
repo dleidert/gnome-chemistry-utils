@@ -4,9 +4,9 @@
  * Gnome Chemisty Utils
  * chemistry.cc
  *
- * Copyright (C) 2003-2004
+ * Copyright (C) 2003-2005
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -70,6 +70,23 @@ const GcuAtomicRadius** gcu_element_get_radii(gint Z)
 const GcuElectronegativity** gcu_element_get_electronegativities(gint Z)
 {
 	return Element::GetElement(Z)->GetElectronegativities();
+}
+
+void gcu_element_load_databases (char* name, ...)
+{
+	va_list l;
+	char const *base = name;
+	va_start (l, name);
+	while (base != NULL) {
+		if (!strcmp (base, "radii"))
+			Element::LoadRadii ();
+		else if (!strcmp (base, "elecprops"))
+			Element::LoadElectronicProps ();
+		else if (!strcmp (base, "isotopes"))
+			Element::LoadIsotopes ();
+		base = va_arg (l, char const*);
+	}
+	va_end (l);
 }
 
 } //extern "C"

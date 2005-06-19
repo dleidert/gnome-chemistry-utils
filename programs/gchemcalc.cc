@@ -29,6 +29,7 @@
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
 #include <gcu/formula.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkentry.h>
@@ -41,7 +42,7 @@ class GChemCalc {
 public:
 	GChemCalc ();
 	Formula formula;
-	GtkLabel *markup, *raw;
+	GtkLabel *markup, *raw, *weight;
 };
 
 GChemCalc::GChemCalc (): formula ("")
@@ -53,9 +54,22 @@ GChemCalc App;
 static void cb_entry_active (GtkEntry *entry, gpointer data)
 {
 	try {
+		char *format;
 		App.formula.SetFormula (gtk_entry_get_text (entry));
-		gtk_label_set_markup (App.markup, App.formula.GetMarkup ());
-		gtk_label_set_markup (App.raw, App.formula.GetRawMarkup ());
+		format = g_strconcat (_("Formula:"), " \t", App.formula.GetMarkup (), NULL);
+		gtk_label_set_markup (App.markup, format);
+		g_free (format);
+		format = g_strconcat (_("Raw formula:"), " \t", App.formula.GetRawMarkup (), NULL);
+		gtk_label_set_markup (App.raw, format);
+		g_free (format);
+		int prec;
+		double weight = App.formula.GetMolecularWeight (prec);
+		format = (prec > 0)? g_strdup_printf ("%%0.%df",prec):
+							g_strdup ("(%.0f)");
+		char *weightstr = g_strdup_printf (format, weight);
+		gtk_label_set_text (App.weight, weightstr);
+		g_free (weightstr);
+		g_free (format);
 	}
 	catch (parse_error &error) {
 		int start, length;
@@ -88,6 +102,7 @@ int main (int argc, char *argv[])
 		 NULL);
 	App.markup = GTK_LABEL (glade_xml_get_widget (xml, "markup"));
 	App.raw = GTK_LABEL (glade_xml_get_widget (xml, "raw"));
+	App.weight = GTK_LABEL (glade_xml_get_widget (xml, "weight"));
 	GtkWidget *w = glade_xml_get_widget (xml, "entry");
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),

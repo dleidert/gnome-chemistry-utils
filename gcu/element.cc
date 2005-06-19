@@ -66,7 +66,7 @@ EltTable::EltTable()
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv ("LANG");
-	char *old_num_locale, *tmp, *num;
+	char *old_num_locale, *tmp, *num, *dot;
 	unsigned char Z;
 	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/elements.xml")))
 	{
@@ -91,6 +91,10 @@ EltTable::EltTable()
 			num = (char*) xmlGetProp (node, (xmlChar*) "max_bonds");
 			Elt->m_MaxBonds = atoi (num);
 			xmlFree (num);
+			num = (char*) xmlGetProp (node, (xmlChar*) "weight");
+			Elt->m_Weight = strtod (num, &tmp);
+			dot = strchr (num, '.');
+			Elt->m_WeightPrec = (dot)? tmp - dot - 1: 0;
 			child = node->children;
 			DefaultName = NULL;
 			while (child)
@@ -126,78 +130,11 @@ EltTable::EltTable()
 						Elt->m_DefaultColor[2] = strtod (tmp, NULL);
 						xmlFree (tmp);
 					}
-				} else if (!strcmp ((const char*) child->name, "electronegativity")) {
-					GcuElectronegativity* en = new GcuElectronegativity;
-					en->Z = Z;	//FIXME: is it really useful there?
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "scale");
-					if (tmp) {
-						en->scale = g_strdup (tmp);
-						xmlFree (tmp);
-					} else
-						en->scale = NULL;
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
-					if (tmp) {
-						en->value = strtod (tmp, NULL);
-						Elt->m_en.push_back (en);
-						xmlFree (tmp);
-					} else
-						delete en;	//without a value, the structure is useless and is discarded
-				} else if (!strcmp ((const char*) child->name, "radius")) {
-					GcuAtomicRadius* radius = new GcuAtomicRadius;
-					radius->Z = Z;	//FIXME: is it really useful there?
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "type");
-					if (!tmp ||
-						((!((!strcmp (tmp, "covalent")) && (radius->type = GCU_COVALENT))) &&
-						(!((!strcmp (tmp, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
-						(!((!strcmp (tmp, "ionic")) && (radius->type = GCU_IONIC))) &&
-						(!((!strcmp (tmp, "metallic")) && (radius->type = GCU_METALLIC))) &&
-						(!((!strcmp (tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true))))) {
-						//invalid radius
-						delete radius;
-						if (tmp)
-							xmlFree (tmp);
-						continue;
-					}
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "scale");
-					if (tmp) {
-						radius->scale = g_strdup (tmp);
-						xmlFree (tmp);
-					} else
-						radius->scale = NULL;
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "charge");
-					if (tmp) {
-						radius->charge = strtol (tmp, NULL, 10);
-						xmlFree (tmp);
-					} else
-						radius->charge = 0;
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "cn");
-					if (tmp) {
-						radius->cn = strtol (tmp, NULL, 10);
-						xmlFree (tmp);
-					} else
-						radius->cn = -1;
-					tmp = (char*) xmlGetProp (child, (xmlChar*)"spin");
-					if ((!tmp) ||
-						(!((!strcmp (tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
-						(!((!strcmp (tmp, "high")) && (radius->spin = GCU_HIGH_SPIN))))
-						radius->spin = GCU_N_A_SPIN;
-					if (tmp)
-						xmlFree (tmp);
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
-					if (tmp) {
-						radius->value = strtod (tmp, NULL);
-						Elt->m_radii.push_back (radius);
-						xmlFree (tmp);
-					} else
-						delete radius;
-				}
-				child = child->next;
+				}				child = child->next;
 			}
 			if ((Elt->name.length () == 0) && DefaultName) Elt->name = DefaultName;
 			if (DefaultName)
 				xmlFree (DefaultName);
-			Elt->m_en.push_back (NULL);
-			Elt->m_radii.push_back (NULL);
 			AddElement (Elt);
 		}
 		node = node->next;
@@ -444,4 +381,205 @@ double Element::GetWeight (int Z, int &prec)
 {
 	Element* Elt = Table[Z];
 	return (Elt)? Elt->GetWeight(prec): 0.;
+}
+
+void Element::LoadRadii ()
+{
+	xmlDocPtr xml;
+	char *old_num_locale, *tmp, *num;
+	unsigned char Z;
+	static bool loaded = false;
+	if (loaded)
+		return;
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/radii.xml")))
+	{
+		g_error (_("Can't find and read radii.xml"));
+	}
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	xmlNode* node = xml->children, *child;
+	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: radii.xml"));
+	node = node->children;
+	Element* Elt;
+	while (node) {
+		if (strcmp ((const char*) node->name, "text"))
+		{
+			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: radii.xml"));
+			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
+			Elt = Table[Z = atoi (num)];
+			child = node->children;
+			while (child)
+			{
+				if (!strcmp ((const char*) child->name, "text")) {
+					child = child->next;
+					continue;
+				}
+				if (!strcmp ((const char*) child->name, "radius")) {
+					GcuAtomicRadius* radius = new GcuAtomicRadius;
+					radius->Z = Z;	//FIXME: is it really useful there?
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "type");
+					if (!tmp ||
+						((!((!strcmp (tmp, "covalent")) && (radius->type = GCU_COVALENT))) &&
+						(!((!strcmp (tmp, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
+						(!((!strcmp (tmp, "ionic")) && (radius->type = GCU_IONIC))) &&
+						(!((!strcmp (tmp, "metallic")) && (radius->type = GCU_METALLIC))) &&
+						(!((!strcmp (tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true))))) {
+						//invalid radius
+						delete radius;
+						if (tmp)
+							xmlFree (tmp);
+						continue;
+					}
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "scale");
+					if (tmp) {
+						radius->scale = g_strdup (tmp);
+						xmlFree (tmp);
+					} else
+						radius->scale = NULL;
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "charge");
+					if (tmp) {
+						radius->charge = strtol (tmp, NULL, 10);
+						xmlFree (tmp);
+					} else
+						radius->charge = 0;
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "cn");
+					if (tmp) {
+						radius->cn = strtol (tmp, NULL, 10);
+						xmlFree (tmp);
+					} else
+						radius->cn = -1;
+					tmp = (char*) xmlGetProp (child, (xmlChar*)"spin");
+					if ((!tmp) ||
+						(!((!strcmp (tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
+						(!((!strcmp (tmp, "high")) && (radius->spin = GCU_HIGH_SPIN))))
+						radius->spin = GCU_N_A_SPIN;
+					if (tmp)
+						xmlFree (tmp);
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
+					if (tmp) {
+						radius->value = strtod (tmp, NULL);
+						Elt->m_radii.push_back (radius);
+						xmlFree (tmp);
+					} else
+						delete radius;
+				} else
+					g_error ("Invalid radius node");
+				child = child->next;
+			}
+			Elt->m_radii.push_back (NULL);
+		}
+		node = node->next;
+	}
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+	xmlFreeDoc (xml);
+	loaded = true;
+}
+
+void Element::LoadElectronicProps ()
+{
+	xmlDocPtr xml;
+	char *old_num_locale, *tmp, *num;
+	unsigned char Z;
+	static bool loaded = false;
+	if (loaded)
+		return;
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/elecprops.xml")))
+	{
+		g_error (_("Can't find and read elecprops.xml"));
+	}
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	xmlNode* node = xml->children, *child;
+	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: elecprops.xml"));
+	node = node->children;
+	Element* Elt;
+	while (node) {
+		if (strcmp ((const char*) node->name, "text")) {
+			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: elecprops.xml"));
+			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
+			Elt = Table[Z = atoi (num)];
+			child = node->children;
+			while (child) {
+				if (!strcmp ((const char*) child->name, "text")) {
+					child = child->next;
+					continue;
+				}
+				if (!strcmp ((const char*) child->name, "electronegativity")) {
+					GcuElectronegativity* en = new GcuElectronegativity;
+					en->Z = Z;	//FIXME: is it really useful there?
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "scale");
+					if (tmp) {
+						en->scale = g_strdup (tmp);
+						xmlFree (tmp);
+					} else
+						en->scale = NULL;
+					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
+					if (tmp) {
+						en->value = strtod (tmp, NULL);
+						Elt->m_en.push_back (en);
+						xmlFree (tmp);
+					} else
+						delete en;	//without a value, the structure is useless and is discarded
+				} else
+					g_error ("Invalid property node");
+				child = child->next;
+			}
+			Elt->m_en.push_back (NULL);
+		}
+		node = node->next;
+	}
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+	xmlFreeDoc (xml);
+	loaded = true;
+}
+
+void Element::LoadIsotopes ()
+{
+	xmlDocPtr xml;
+	char *old_num_locale, *tmp, *num;
+	unsigned char Z;
+	static bool loaded = false;
+	if (loaded)
+		return;
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/isotopes.xml")))
+	{
+		g_error (_("Can't find and read isotopes.xml"));
+	}
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	xmlNode* node = xml->children, *child;
+	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: isotopes.xml"));
+	node = node->children;
+	Element* Elt;
+	while (node) {
+		if (strcmp ((const char*) node->name, "text"))
+		{
+			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: isotopes.xml"));
+			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
+			Elt = Table[Z = atoi (num)];
+			child = node->children;
+			while (child)
+			{
+				if (!strcmp ((const char*) child->name, "text")) {
+					child = child->next;
+					continue;
+				}
+				child = child->next;
+			}
+		}
+		node = node->next;
+	}
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+	xmlFreeDoc (xml);
+	loaded = true;
+}
+
+void Element::LoadAllData ()
+{
+	LoadRadii ();
+	LoadElectronicProps ();
+	LoadIsotopes ();
 }

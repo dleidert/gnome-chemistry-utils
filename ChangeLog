@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2005-06-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/elements.xml.in: added atomic weights for artificial elements.
+	* gcu/chemistry.cc: added new databases functions.
+	* gcu/chemistry.h: ditto.
+	* gcu/element.cc: implement radii and electronic props database loading.
+	* gcu/element.h: ditto.
+	* gcu/formula.cc: calculates molecular weight.
+	* gcu/formula.h: ditto.
+	* glade/gchemcalc.glade: add molecular weight labels.
+	* programs/gchem3d-viewer.c (main):: load radii database.
+	* programs/gchemcalc.cc: display molecular weight.
+	* tests/testgtkchem3dviewer.c: (main): load radii database.
+	* tests/testgtkcrystalviewer.c: (main): load radii database.
+
 2005-06-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: added database to SUBDIRS.
 	* configure.ac: tests for vector::at usability.

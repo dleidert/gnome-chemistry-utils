@@ -129,7 +129,6 @@ typedef struct
 
 
 /*!
-gcu_element_get_default_color:
 \param Z: the atomic number of the element.
 
 Retreives the default color used for the element.
@@ -143,7 +142,6 @@ gcu_element_get_symbol:
 */
 const gchar* gcu_element_get_symbol (gint Z);
 /*!
-gcu_element_get_name:
 \param Z: the atomic number of the element.
 \return the name of the element in the current locale or in english if the current locale is not supported in the database.
 */
@@ -155,7 +153,6 @@ gcu_element_get_Z:
 */
 gint gcu_element_get_Z (gchar* symbol);
 /*!
-gcu_element_get_symbol:
 \param radius: a pointer to a GcuAtomicRadius structure.
 
 Before calling this function, most fields in the GcuAtomicRadius structure must be filled:
@@ -174,7 +171,6 @@ the other fields are given the corresponding values f the first match before ret
 */
 gboolean gcu_element_get_radius (GcuAtomicRadius* radius);
 /*!
-gcu_element_get_electronegativity:
 \param en: a pointer to a GcuElectronegativity structure.
 
 Before calling this function, the following fields in the GcuElectronegativity structure must be filled:
@@ -188,7 +184,6 @@ the value and the scale (if NULL on calling)  are given the corresponding values
 */
 gboolean gcu_element_get_electronegativity (GcuElectronegativity* en);
 /*!
-gcu_element_get_radii:
 \param Z: the atomic number of the element.
 
 \return a pointer to the array of pointers to GcuAtomicRadius structures for all known radii for the element.
@@ -196,13 +191,19 @@ Last value in the array is NULL.
 */
 const GcuAtomicRadius** gcu_element_get_radii (gint Z);
 /*!
-gcu_element_get_electronegativities:
 \param Z: the atomic number of the element.
 
 \return a pointer to the array of pointers to GcuElectronegativity structures for all known electronegativities for the element.
 Last value in the array is NULL.
 */
 const GcuElectronegativity** gcu_element_get_electronegativities (gint Z);
+/*!
+\param name: name of a database to load such as "radii", "elecprops", "isotopes",
+the first name is followed by a list of other database terminanted by NULL.
+
+Loads the listed databases.
+*/
+void gcu_element_load_databases (char* name, ...);
 
 G_END_DECLS
 
