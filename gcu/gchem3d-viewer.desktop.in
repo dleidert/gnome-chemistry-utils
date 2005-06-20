@@ -4,4 +4,5 @@ _Name=Molecules Viewer
 Exec=gchem3d-viewer %f
 Terminal=false
 Type=Application
+NoDisplay=true
 MimeType=chemical/x-xyz;chemical/x-mdl-molfile;chemical/x-pdb;

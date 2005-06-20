@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-06-20  Daniel Leidert <daniel.leidert@wgdd.de>
+	* gcu/gchem3d-viewer.desktop.in: add NoDisplay=true to prevent making
+	a menu entry (only useful for desktops, which fully support the menu
+	and desktop specs by freedesktop.org)
+
 2005-06-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: tests vector::at usability, changed version to 0.4.3.
 	* gcu/gtkchem3dviewer.cc: fixed another compilation warning.
