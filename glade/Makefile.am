@@ -1,4 +1,4 @@
-gladedir = $(datadir)/gchemutils/glade
+gladedir = $(datadir)/gchemutils-unstable/glade
 
 glade_DATA = \
 	gtkperiodic.glade \

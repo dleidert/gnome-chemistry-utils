@@ -35,6 +35,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmessagedialog.h>
+#include <math.h>
 
 using namespace gcu;
 
@@ -63,9 +64,18 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		gtk_label_set_markup (App.raw, format);
 		g_free (format);
 		int prec;
-		double weight = App.formula.GetMolecularWeight (prec);
-		format = (prec > 0)? g_strdup_printf ("%%0.%df",prec):
-							g_strdup ("(%.0f)");
+		bool artificial;
+		double weight = App.formula.GetMolecularWeight (prec, artificial);
+		if (prec > 0) {
+			format = g_strdup_printf ("%%0.%df",prec);
+		} else {
+			if (prec < 0) {
+				// round the value to replace not significant figures by 0s.
+				double offs = pow10 (prec);
+				weight = rint (weight * offs) / offs;
+			}
+			format = artificial? g_strdup ("(%.0f)"): g_strdup ("%.0f");
+		}
 		char *weightstr = g_strdup_printf (format, weight);
 		gtk_label_set_text (App.weight, weightstr);
 		g_free (weightstr);

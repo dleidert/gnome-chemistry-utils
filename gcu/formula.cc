@@ -433,7 +433,7 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 	}
 }
 
-double Formula::GetMolecularWeight (int &prec)
+double Formula::GetMolecularWeight (int &prec, bool &artificial)
 {
 	if (Raw.size () == 0) {
 		prec = 0;
@@ -444,9 +444,12 @@ double Formula::GetMolecularWeight (int &prec)
 		int atom_prec;
 		m_Weight = 0;
 		m_WeightPrec = 16; // something much greater that possible for any element.
+		m_Artificial = false; // most formula don't have artificial elements
 		map<int,int>::iterator i, end = Raw.end ();
 		for (i = Raw.begin (); i != end; i++) {
 			atom_weight = Element::GetElement ((*i).first)->GetWeight (atom_prec);
+			if (atom_prec == 0)
+				m_Artificial = true;
 			delta += pow10 (-atom_prec) * (*i).second;
 			m_Weight += atom_weight * (*i).second;
 		}
@@ -454,5 +457,6 @@ double Formula::GetMolecularWeight (int &prec)
 	}
 	m_WeightCached = true;
 	prec = m_WeightPrec;
+	artificial = m_Artificial;
 	return m_Weight;
 }

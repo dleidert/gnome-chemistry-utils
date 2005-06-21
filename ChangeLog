@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2005-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/formula.cc: enhanced molecular weight calculation.
+	* gcu/formula.h: ditto.
+	* programs/gchemcalc.cc: ditto.
+	* glade/Makefile.am: install glade files to unstable dir.
+
 2005-06-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elements.xml.in: added atomic weights for artificial elements.
 	* gcu/chemistry.cc: added new databases functions.

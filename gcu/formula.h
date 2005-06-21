@@ -77,7 +77,7 @@ public:
 	char const *GetRawMarkup ();
 	void SetFormula (string entry) throw (parse_error);
 	void Clear ();
-	double GetMolecularWeight (int &prec);
+	double GetMolecularWeight (int &prec, bool &artificial);
 
 private:
 	void Parse (string &formula, list<FormulaElt *>&result) throw (parse_error);
@@ -89,6 +89,7 @@ private:
 	double m_Weight;
 	int m_WeightPrec;
 	bool m_WeightCached;
+	bool m_Artificial;
 };
 	
 }
