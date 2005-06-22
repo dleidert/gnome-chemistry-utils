@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-06-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/isotopes.xml.in: added some isotopes for the 18 first elements.
+
 2005-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/formula.cc: enhanced molecular weight calculation.
 	* gcu/formula.h: ditto.
