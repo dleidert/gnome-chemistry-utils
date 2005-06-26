@@ -13,10 +13,16 @@ INCLUDES = @GCU_CFLAGS@
 gchemcalc_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
 
 desktopdir=$(datadir)/applications
-desktop_in_files = gchem3d-viewer-unstable.desktop.in
-desktop_DATA=gchem3d-viewer-unstable.desktop
+desktop_in_files = \
+	gchem3d-viewer-unstable.desktop.in \
+	gchemcalc-unstable.desktop.in
+desktop_DATA = \
+	gchem3d-viewer-unstable.desktop \
+	gchemcalc-unstable.desktop
 @INTLTOOL_DESKTOP_RULE@
 
-CLEANFILES = gchem3d-viewer-unstable.desktop
+CLEANFILES = \
+	gchem3d-viewer-unstable.desktop \
+	gchemcalc-unstable.desktop
 		
 EXTRA_DIST=$(desktop_in_files)

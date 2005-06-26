@@ -1,7 +1,13 @@
 ##Text encoding: utf-8
 
-2005-06-22  Jean Bréfort  <jean.brefort@normalesup.org>
-	* database/isotopes.xml.in: added some isotopes for the 18 first elements.
+2005-06-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/isotopes.xml.in: fixed typos.
+	* programs/Makefile.am: added gchemcalc desktop file.
+	* programs/gchem3d-viewer.c: added menus.
+	* programs/gchem3d-viewer.desktop.in: added categories.
+	* programs/gchem3d-viewer-unstable.desktop.in: ditto.
+	* programs/gchemcalc.desktop.in: new desktop file for gchemcalc.
+	* programs/gchemcalc-unstable.desktop.in: ditto.
 
 2005-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/formula.cc: enhanced molecular weight calculation.
