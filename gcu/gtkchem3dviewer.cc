@@ -420,6 +420,7 @@ void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, gchar *uri)
 	GnomeVFSFileSize n;
 	gnome_vfs_read (handle, buf, info->size, &n);
 	buf[info->size] = 0;
+puts(info->mime_type);
 	if (n == info->size)
 		gtk_chem3d_viewer_set_data (viewer, buf, info->mime_type);
 	gnome_vfs_file_info_unref (info);
@@ -429,15 +430,16 @@ void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, gchar *uri)
 
 void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
 {
-		istringstream is(data);
-		viewer->priv->Mol.SetInputType(et.MIMEToType((char*)mime_type));
-		OBFileFormat fileFormat;
-		char *old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-		setlocale(LC_NUMERIC, "C");
-		fileFormat.ReadMolecule(is, viewer->priv->Mol);
-		setlocale(LC_NUMERIC, old_num_locale);
-		if (viewer->priv->Init) gtk_chem3d_viewer_update(viewer);
-		g_free(old_num_locale);
+	istringstream is(data);
+	viewer->priv->Mol.Clear ();
+	viewer->priv->Mol.SetInputType(et.MIMEToType((char*)mime_type));
+	OBFileFormat fileFormat;
+	char *old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
+	setlocale(LC_NUMERIC, "C");
+	fileFormat.ReadMolecule(is, viewer->priv->Mol);
+	setlocale(LC_NUMERIC, old_num_locale);
+	if (viewer->priv->Init) gtk_chem3d_viewer_update(viewer);
+	g_free(old_num_locale);
 }
 
 void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
