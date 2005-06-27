@@ -10,7 +10,6 @@ DEPS = \
 	$(top_builddir)/gcu/libgcu-0.5.la
 
 INCLUDES = @GCU_CFLAGS@
-gchemcalc_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
 
 desktopdir=$(datadir)/applications
 desktop_in_files = \
