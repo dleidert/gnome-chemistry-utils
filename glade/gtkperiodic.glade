@@ -2349,7 +2349,67 @@
 	  <property name="y_options"></property>
 	</packing>
       </child>
-    </widget>
+
+      <child>
+	<widget class="GtkToggleButton" id="elt113">
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="label" translatable="no">Uut</property>
+	  <property name="use_underline">True</property>
+	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="active">False</property>
+	  <property name="inconsistent">False</property>
+	</widget>
+	<packing>
+	  <property name="left_attach">12</property>
+	  <property name="right_attach">13</property>
+	  <property name="top_attach">6</property>
+	  <property name="bottom_attach">7</property>
+	  <property name="x_options">fill</property>
+	  <property name="y_options"></property>
+	</packing>
+      </child>
+ 
+      <child>
+	<widget class="GtkToggleButton" id="elt115">
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="label" translatable="no">Uup</property>
+	  <property name="use_underline">True</property>
+	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="active">False</property>
+	  <property name="inconsistent">False</property>
+	</widget>
+	<packing>
+	  <property name="left_attach">14</property>
+	  <property name="right_attach">15</property>
+	  <property name="top_attach">6</property>
+	  <property name="bottom_attach">7</property>
+	  <property name="x_options">fill</property>
+	  <property name="y_options"></property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkToggleButton" id="elt116">
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="label" translatable="no">Uuh</property>
+	  <property name="use_underline">True</property>
+	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="active">False</property>
+	  <property name="inconsistent">False</property>
+	</widget>
+	<packing>
+	  <property name="left_attach">15</property>
+	  <property name="right_attach">16</property>
+	  <property name="top_attach">6</property>
+	  <property name="bottom_attach">7</property>
+	  <property name="x_options">fill</property>
+	  <property name="y_options"></property>
+	</packing>
+      </child>
+   </widget>
     <packing>
       <property name="padding">0</property>
       <property name="expand">True</property>
