@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2005-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/gtkperiodic.c: (gtk_periodic_init): use glade file from unstable
+	directory.
+	* glade/gtkperiodic.glade: added elements 113, 115 and 116.
+
+2005-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/Makefile.am: fixed CFLAGS and CXXFLAGS.
 
 2005-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
