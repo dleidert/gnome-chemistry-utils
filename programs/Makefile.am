@@ -25,3 +25,6 @@ CLEANFILES = \
 	gchemcalc-unstable.desktop
 		
 EXTRA_DIST=$(desktop_in_files)
+
+AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
+AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@

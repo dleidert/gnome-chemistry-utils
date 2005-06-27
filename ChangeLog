@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2005-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/Makefile.am: fixed CFLAGS and CXXFLAGS.
+
+2005-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/gtkchem3dviewer.cc: clear molecule before loading. 
 	* glade/gchemcalc.glade: minor size update.
 	* programs/gchem3d-viewer.c: implement menus.
