@@ -1,3 +1,12 @@
+Version 0.5.1
+
+Version 0.5.0
+	New Formula class.
+	New Calculator program.
+	Enhanced 3d molecular viewer.
+	The database has been split.
+	Various bugs fixed and api enhncements..
+
 Version 0.3.2
 	Several bugs fixed, essentially in Object class.
 	Changed signature of Object::OnSignal. Leads to a compatibility break.
