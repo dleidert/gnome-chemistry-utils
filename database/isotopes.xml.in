@@ -281,4 +281,798 @@
 	spin="0" mub="0"/>
 </element>
 
+<element Z="19">
+	<isotope A="39" weight="38.9637074(12)" abundance="93.2581(44)"
+	spin="1.5" mub="0.3914658"/>
+	<isotope A="40" weight="39.9639992(12)" abundance="0.0117(1)"
+	spin="4" mub="-1.298099"/>
+	<isotope A="41" weight="40.9618254(12)" abundance="6.7302(44)"
+	spin="1.5" mub="0.2148699"/>
+</element>
+
+<element Z="20">
+	<isotope A="40" weight="39.9625906(13)" abundance="93.941(156)"
+	spin="0" mub=""/>
+	<isotope A="42" weight="41.9586176(13)" abundance="0.647(23)"
+	spin="0" mub=""/>
+	<isotope A="43" weight="42.9587662(13)" abundance="0.135(10)"
+	spin="3.5" mub="-1.31727"/>
+	<isotope A="44" weight="43.9554806(14)" abundance="2.086(110)"
+	spin="0" mub=""/>
+	<isotope A="46" weight="45.953689(4)" abundance="0.004(3)"
+	spin="0" mub="0"/>
+	<isotope A="48" weight="47.952533(4)" abundance="0.187(21)"
+	spin="0" mub="0"/>
+</element>
+
+<element Z="21">
+	<isotope A="45" weight="44.9559100(14)" abundance="100"
+	spin="3.5" mub="4.756483"/>
+</element>
+
+<element Z="22">
+	<isotope A="46" weight="45.9526294(14)" abundance="8.25(3)"
+	spin="0"/>
+	<isotope A="47" weight="46.9517640(11)" abundance="7.44(2)"
+	spin="2.5" mub="-.78848"/>
+	<isotope A="48" weight="47.9479473(11)" abundance="73.72(3)"
+	spin="0"/>
+	<isotope A="49" weight="48.9478711(11)" abundance="5.41(2)"
+	spin="7.5" mub="-1.10417"/>
+	<isotope A="50" weight="49.9447921(12)" abundance="5.18(2)"
+	spin="0"/>
+</element>
+
+<element Z="23">
+	<isotope A="50" weight="79.9471609(17)" abundance="0.250(4)"
+	spin="6" mub="3.34745"/>
+	<isotope A="51" weight="50.9439617(17)" abundance="99.750(4)"
+	spin="3.5" mub="5.1514"/>
+</element>
+
+<element Z="24">
+	<isotope A="50" weight="49.9460464(17)" abundance="4.345(13)"
+	spin="0"/>
+	<isotope A="52" weight="51.9405098(17)" abundance="83.789(18)"
+	spin="0"/>
+	<isotope A="53" weight="52.9406513(17)" abundance="9.501(17)"
+	spin="1.5" mub="-0.47454"/>
+	<isotope A="54" weight="53.9388825(17)" abundance="2.365(7)"
+	spin="0"/>
+</element>
+
+<element Z="25">
+	<isotope A="55" weight="54.9380471(16)" abundance="100"
+	spin="2.5" mub="3.4532"/>
+</element>
+
+<element Z="26">
+	<isotope A="54" weight="53.9396127(15)" abundance="5.845(35)"
+	spin="0"/>
+	<isotope A="56" weight="55.9349393(16)" abundance="91.754(36)"
+	spin="0"/>
+	<isotope A="57" weight="56.9353958(16)" abundance="2.119(10)"
+	spin="0.5" mub="0.09062294"/>
+	<isotope A="58" weight="57.9332773(16)" abundance="0.282(4)"
+	spin="0"/>
+</element>
+
+<element Z="27">
+	<isotope A="59" weight="58.9331976(16)" abundance="100"
+	spin="3.5" mub="4.627"/>
+</element>
+
+<element Z="28">
+	<isotope A="58" weight="57.9353462(16)" abundance="68.0769(89)"
+	spin="0"/>
+	<isotope A="60" weight="59.9307884(16)" abundance="26.2231(77)"
+	spin="0"/>
+	<isotope A="61" weight="60.9310589(16)" abundance="1.1399(6)"
+	spin="1.5" mub="-0.75002"/>
+	<isotope A="62" weight="61.9283461(16)" abundance="3.6345(17)"
+	spin="0"/>
+	<isotope A="64" weight="63.9279689(17)" abundance="0.9256(9)"
+	spin="0"/>
+</element>
+
+<element Z="29">
+	<isotope A="63" weight="62.9295989(17)" abundance="69.17(3)"
+	spin="1.5" mub="2.2233"/>
+	<isotope A="65" weight="64.9277929(20)" abundance="30.83(3)"
+	spin="1.5" mub="2.8917"/>
+</element>
+
+<element Z="30">
+	<isotope A="64" weight="63.9291448(19)" abundance="48.63(60)"
+	spin="0"/>
+	<isotope A="66" weight="65.9260347(17)" abundance="27.90(27)"
+	spin="0"/>
+	<isotope A="67" weight="66.9271291(18)" abundance="4.10(13)"
+	spin="2.5" mub="0.87479"/>
+	<isotope A="68" weight="67.9248459(18)" abundance="18.75(51)"
+	spin="0"/>
+	<isotope A="70" weight="69.825325(4)" abundance="0.62(3)"
+	spin="0"/>
+</element>
+
+<element Z="31">
+	<isotope A="69" weight="68.925580(3)" abundance="60.108(9)"
+	spin="1.5" mub="2.01659"/>
+	<isotope A="71" weight="70.9257005(25)" abundance="39.892(9)"
+	spin="1.5" mub="2.56227"/>
+</element>
+
+<element Z="32">
+	<isotope A="70" weight="69.9242497(16)" abundance="20.84(87)"
+	spin="0"/>
+	<isotope A="72" weight="71.9220789(16)" abundance="27.54(34)"
+	spin="0"/>
+	<isotope A="73" weight="72.9234626(16)" abundance="7.73(5)"
+	spin="4.5" mub="-0.8794669"/>
+	<isotope A="74" weight="73.9211774(15)" abundance="36.28(73)"
+	spin="0"/>
+	<isotope A="76" weight="75.9214016(17)" abundance="7.61(38)"
+	spin="0"/>
+</element>
+
+<element Z="33">
+	<isotope A="75" weight="74.9215942(17)" abundance="100"
+	spin="1.5" mub="1.43947"/>
+</element>
+
+<element Z="34">
+	<isotope A="74" weight="73.9224746(16)" abundance="0.89(4)"
+	spin="0"/>
+	<isotope A="76" weight="75.9192120(16)" abundance="9.37(29)"
+	spin="0"/>
+	<isotope A="77" weight="76.9199125(16)" abundance="7.63(16)"
+	spin="0.5" mub="0.53506"/>
+	<isotope A="78" weight="77.9165196(16)" abundance="23.77(28)"
+	spin="0"/>
+	<isotope A="80" weight="79.9165196(19)" abundance="49.61(41)"
+	spin="0"/>
+	<isotope A="82" weight="81.9166978(23)" abundance="8.73(22)"
+	spin="0"/>
+</element>
+
+<element Z="35">
+	<isotope A="79" weight="78.9183361(26)" abundance="50.69(7)"
+	spin="1.5" mub="2.106399"/>
+	<isotope A="81" weight="80.916289(6)" abundance="49.31(7)"
+	spin="1.5" mub="2.270560"/>
+</element>
+
+<element Z="36">
+	<isotope A="78" weight="77.920396(9)" abundance="0.35(1)"
+	spin="0"/>
+	<isotope A="80" weight="79.916380(9)" abundance="2.28(6)"
+	spin="0"/>
+	<isotope A="82" weight="81.913482(6)" abundance="11.58(14)"
+	spin="0"/>
+	<isotope A="83" weight="82.914135(4)" abundance="11.49(6)"
+	spin="4.5" mub="-0.970669"/>
+	<isotope A="84" weight="83.911507(4)" abundance="57.00(4)"
+	spin="0"/>
+	<isotope A="86" weight="85.910616(5)" abundance="17.3(22)"
+	spin="0"/>
+</element>
+
+<element Z="37">
+	<isotope A="85" weight="84.911794(3)" abundance="72.18(2)"
+	spin="2.5" mub="1.35303"/>
+	<isotope A="87" weight="86.909187(3)" abundance="27.83(2)"
+	spin="1.5" mub="2.75124"/>
+</element>
+
+<element Z="38">
+	<isotope A="84" weight="83.913430(4)" abundance="0.56(1)"
+	spin="0"/>
+	<isotope A="86" weight="85.9092672(28)" abundance="9.86(1)"
+	spin="0"/>
+	<isotope A="87" weight="86.9088841(28)" abundance="7.00(1)"
+	spin="4.5" mub="-1.09283"/>
+	<isotope A="88" weight="87.9056188(28)" abundance="82.58(1)"
+	spin="0"/>
+</element>
+
+<element Z="39">
+	<isotope A="89" weight="88.905849(3)" abundance="100"
+	spin="0.5" mub="-0.1374153"/>
+</element>
+
+<element Z="40">
+	<isotope A="90" weight="89.9047206(26)" abundance="51.45(40)"
+	spin="0"/>
+	<isotope A="91" weight="90.9056439()" abundance="11.22(5)"
+	spin="2.5" mub="-1.30362"/>
+	<isotope A="92" weight="91.9050386(26)" abundance="17.15(8)"
+	spin="0"/>
+	<isotope A="94" weight="93.9063148(28)" abundance="17.38(28)"
+	spin="0"/>
+	<isotope A="96" weight="95.908275(4)" abundance="2.80(9)"
+	spin="0"/>
+</element>
+
+<element Z="41">
+	<isotope A="93" weight="92.906772(27)" abundance="100"
+	spin="4.5" mub="6.1705"/>
+</element>
+
+<element Z="42">
+	<isotope A="92" weight="91.906809(4)" abundance="14.84(35)"
+	spin="0"/>
+	<isotope A="94" weight="93.9050853(26)" abundance="9.25(12)"
+	spin="0"/>
+	<isotope A="95" weight="94.9058411(22)" abundance="15.92(13)"
+	spin="2.5" mub="0.9142"/>
+	<isotope A="96" weight="95.9046785(22)" abundance="16.68(2)"
+	spin="0"/>
+	<isotope A="97" weight="96.9060205(22)" abundance="9.55(8)"
+	spin="2.5" mub="-0.9335"/>
+	<isotope A="98" weight="97.9054073(22)" abundance="24.13(31)"
+	spin="0"/>
+	<isotope A="100" weight="99.907477(6)" abundance="9.63(23)"
+	spin="0"/>
+</element>
+
+<element Z="43">
+</element>
+
+<element Z="44">
+	<isotope A="96" weight="95.907599(8)" abundance="5.54(14)"
+	spin="0"/>
+	<isotope A="98" weight="97.905287(7)" abundance="1.87(3)"
+	spin="0"/>
+	<isotope A="99" weight="98.9056389(23)" abundance="12.76(14)"
+	spin="2.5" mub="-0.6413"/>
+	<isotope A="100" weight="99.9042192(24)" abundance="12.60(7)"
+	spin="0"/>
+	<isotope A="101" weight="100.9055819(24)" abundance="17.06(2)"
+	spin="2.5" mub="-0.7189"/>
+	<isotope A="102" weight="101.9043485(25)" abundance="31.55(14)"
+	spin="0"/>
+	<isotope A="104" weight="103.905454(6)" abundance="18.62(27)"
+	spin="0"/>
+</element>
+
+<element Z="45">
+	<isotope A="103" weight="102.905500(4)" abundance="100"
+	spin="0.5" mub="-0.08840"/>
+</element>
+
+<element Z="46">
+	<isotope A="102" weight="101.905634(5)" abundance="1.02(1)"
+	spin="0"/>
+	<isotope A="104" weight="103.904029(6)" abundance="11.14(8)"
+	spin="0"/>
+	<isotope A="105" weight="104.905.79(6)" abundance="22.33(8)"
+	spin="2.5" mub="-0.642"/>
+	<isotope A="106" weight="105.903478(6)" abundance="27.33(3)"
+	spin="0"/>
+	<isotope A="108" weight="107.903895(4)" abundance="26.46(9)"
+	spin="0"/>
+	<isotope A="110" weight="109.905167(20)" abundance="11.72(9)"
+	spin="0"/>
+</element>
+
+<element Z="47">
+	<isotope A="107" weight="106.905092(6)" abundance="51.839(7)"
+	spin="0.5" mub="-0.113570"/>
+	<isotope A="109" weight="108.904756(4)" abundance="48.161(7)"
+	spin="0.5" mub="-0.1306905"/>
+</element>
+
+<element Z="48">
+	<isotope A="106" weight="105.906461(7)" abundance="1.25(6)"
+	spin="0"/>
+	<isotope A="108" weight="107.904176(6)" abundance="0.89(3)"
+	spin="0"/>
+	<isotope A="110" weight="109.903005(4)" abundance="12.49(18)"
+	spin="0"/>
+	<isotope A="111" weight="110.904182(3)" abundance="12.80(12)"
+	spin="0.5" mub="-0.5948857"/>
+	<isotope A="112" weight="111.904400(3)" abundance="24.13(21)"
+	spin="0"/>
+	<isotope A="113" weight="112.904400(3)" abundance="12.22(12)"
+	spin="0.5" mub="-0.6223005"/>
+	<isotope A="114" weight="113.903357(3)" abundance="28.73(42)"
+	spin="0"/>
+	<isotope A="116" weight="115.904755(4)" abundance="7.49(18)"
+	spin="0"/>
+</element>
+
+<element Z="49">
+	<isotope A="113" weight="112.904061(4)" abundance="4.29(5)"
+	spin="4.5" mub="5.5289"/>
+	<isotope A="115" weight="114.903882(4)" abundance="(95.71)5"
+	spin="4.5" mub="5.5408"/>
+</element>
+
+<element Z="50">
+	<isotope A="112" weight="111.904926(5)" abundance="0.97(1)"
+	spin="0"/>
+	<isotope A="114" weight="113.902784(4)" abundance="0.66(1)"
+	spin="0"/>
+	<isotope A="115" weight="114.903348(3)" abundance="0.34(1)"
+	spin="0.5" mub="-0.91884"/>
+	<isotope A="116" weight="115.901747(3)" abundance="14.54(9)"
+	spin="0"/>
+	<isotope A="117" weight="116.902956(3)" abundance="7.68(7)"
+	spin="0.5" mub="-1.00105"/>
+	<isotope A="118" weight="117.901609(3)" abundance="24.22(9)"
+	spin="0"/>
+	<isotope A="119" weight="118.903311(3)" abundance="8.59(4)"
+	spin="0.5" mub="-1.04729"/>
+	<isotope A="120" weight="119.9021991(29)" abundance="32.58(9)"
+	spin="0"/>
+	<isotope A="122" weight="121.90344404(30)" abundance="4.63(3)"
+	spin="0"/>
+	<isotope A="124" weight="123.9052743(17)" abundance="5.79(5)"
+	spin="0"/>
+</element>
+
+<element Z="51">
+	<isotope A="121" weight="120.9038212(29)" abundance="57.21(5)"
+	spin="2.5" mub="3.3634"/>
+	<isotope A="123" weight="122.9042160(24)" abundance="42.79(5)"
+	spin="3.5" mub="2.5498"/>
+</element>
+
+<element Z="52">
+	<isotope A="120" weight="119.904048(21)" abundance="0.09(1)"
+	spin="0"/>
+	<isotope A="122" weight="121.903050(3)" abundance="2.55(12)"
+	spin="0"/>
+	<isotope A="123" weight="122.9042710(22)" abundance="0.89(3)"
+	spin=".5" mub="-0.73679"/>
+	<isotope A="124" weight="123.9028180(18)" abundance="4.74(14)"
+	spin="0"/>
+	<isotope A="125" weight="124.9044285(25)" abundance="7.07(15)"
+	spin=".5" mub="-0.88828"/>
+	<isotope A="126" weight="128.9033095(25)" abundance="18.84(25)"
+	spin="0"/>
+	<isotope A="128" weight="127.904463(8)" abundance="31.74(8)"
+	spin="0"/>
+	<isotope A="130" weight="129.906229(5)" abundance="34.08(62)"
+	spin="0"/>
+</element>
+
+<element Z="53">
+	<isotope A="127" weight="126.904473(5)" abundance="100"
+	spin="2.5" mub="2.81328"/>
+</element>
+
+<element Z="54">
+	<isotope A="124" weight="123.9058942(22)" abundance="0.09(1)"
+	spin="0"/>
+	<isotope A="126" weight="125.904281(8)" abundance="0.09(1)"
+	spin="0"/>
+	<isotope A="128" weight="127.9035312(17)" abundance="1.92(3)"
+	spin="0"/>
+	<isotope A="129" weight="128.9047801(21)" abundance="26.44(24)"
+	spin="0.5" mub="-0.777977"/>
+	<isotope A="130" weight="129.9035094(17)" abundance="4.08(2)"
+	spin="0"/>
+	<isotope A="131" weight="130.905072(5)" abundance="21.18(3)"
+	spin="1.5" mub="0.691861"/>
+	<isotope A="132" weight="131.904144(5)" abundance="26.89(6)"
+	spin="0"/>
+	<isotope A="134" weight="133.905395(8)" abundance="10.44(10)"
+	spin="0"/>
+	<isotope A="136" weight="135.907214(8)" abundance="8.87(16)"
+	spin="0"/>
+</element>
+
+<element Z="55">
+	<isotope A="133" weight="132.905429(7)" abundance="100"
+	spin="3.5" mub="2.582024"/>
+</element>
+
+<element Z="56">
+	<isotope A="130" weight="129.906282(8)" abundance="0.106(1)"
+	spin="0"/>
+	<isotope A="132" weight="131.905042(9)" abundance="0.101.1()"
+	spin="0"/>
+	<isotope A="134" weight="133.904486(7)" abundance="2.417(18)"
+	spin="0"/>
+	<isotope A="135" weight="134.905665(7)" abundance="6.592(12)"
+	spin="1.5" mub="0.837943"/>
+	<isotope A="136" weight="135.904553(7)" abundance="7.854(24)"
+	spin="0"/>
+	<isotope A="137" weight="136.905812(6)" abundance="11.232(24)"
+	spin="1.5" mub="0.937365"/>
+	<isotope A="138" weight="137.905232(6)" abundance="71.698(42)"
+	spin="0"/>
+</element>
+
+<element Z="57">
+	<isotope A="138" weight="137.907105(6)" abundance="0.090(1)"
+	spin="5" mub="3.7139"/>
+	<isotope A="139" weight="138.906347(5)" abundance="99.910(1)"
+	spin="3.5" mub="2.7832"/>
+</element>
+
+<element Z="58">
+	<isotope A="136" weight="135.907140(50)" abundance="0.185(2)"
+	spin="0"/>
+	<isotope A="138" weight="137.905985(12)" abundance="0.251(2)"
+	spin="0"/>
+	<isotope A="140" weight="139.905433(4)" abundance="88.450(51)"
+	spin="0"/>
+	<isotope A="142" weight="141.909241(4)" abundance="11.114(51)"
+	spin="0"/>
+</element>
+
+<element Z="59">
+	<isotope A="141" weight="140.907647(4)" abundance="100"
+	spin="2.5" mub="4.136"/>
+</element>
+
+<element Z="60">
+	<isotope A="142" weight="141.907719(4)" abundance="27.2(5)"
+	spin="0"/>
+	<isotope A="143" weight="142.909810(4)" abundance="12.2(2)"
+	spin="3.5" mub="-1.065"/>
+	<isotope A="144" weight="143.910083(4)" abundance="23.8(3)"
+	spin="0"/>
+	<isotope A="145" weight="144.912570(4)" abundance="8.3(1)"
+	spin="3.5" mub="-0.656"/>
+	<isotope A="146" weight="145.913113(4)" abundance="17.2(3)"
+	spin="0"/>
+	<isotope A="148" weight="147.916889(4)" abundance="5.7(1)"
+	spin="0"/>
+	<isotope A="150" weight="149.920889(4)" abundance="5.6(2)"
+	spin="0"/>
+</element>
+
+<element Z="61">
+</element>
+
+<element Z="62">
+	<isotope A="144" weight="143.911998(4)" abundance="3.07(7)"
+	spin="0"/>
+	<isotope A="147" weight="146.914894(4)" abundance="14.99(18)"
+	spin="3.5" mub="-0.8149"/>
+	<isotope A="148" weight="147.914819(4)" abundance="11.24(10)"
+	spin="0"/>
+	<isotope A="149" weight="148.917180(4)" abundance="13.82(7)"
+	spin="3.5" mub="-0.6718"/>
+	<isotope A="150" weight="149.917273(4)" abundance="7.38(1)"
+	spin="0"/>
+	<isotope A="152" weight="151.919728(4)" abundance="26.75(16)"
+	spin="0"/>
+	<isotope A="154" weight="153.922205(4)" abundance="22.75(29)"
+	spin="0"/>
+</element>
+
+<element Z="63">
+	<isotope A="151" weight="150.919702(8)" abundance="47.81(3)"
+	spin="2.5" mub="3.4718"/>
+	<isotope A="153" weight="152.921225(4)" abundance="52.19(3)"
+	spin="2.5" mub="1.5331"/>
+</element>
+
+<element Z="64">
+	<isotope A="152" weight="151.919786(4)" abundance="0.20(1)"
+	spin="0"/>
+	<isotope A="154" weight="153.920861(4)" abundance="2.18(3)"
+	spin="0"/>
+	<isotope A="155" weight="154.922618(4)" abundance="14.80(12)"
+	spin="1.5" mub="-0.2591"/>
+	<isotope A="156" weight="155.922118(4)" abundance="20.47(9)"
+	spin="0"/>
+	<isotope A="157" weight="156.923956(4)" abundance="15.65(2)"
+	spin="1.5" mub="-0.3399"/>
+	<isotope A="158" weight="157.924019(4)" abundance="24.84(7)"
+	spin="0"/>
+	<isotope A="160" weight="159.927046(4)" abundance="21.86(19)"
+	spin="0"/>
+</element>
+
+<element Z="65">
+	<isotope A="159" weight="158.925343(4)" abundance="100"
+	spin="1.5" mub="2.014"/>
+</element>
+
+<element Z="66">
+	<isotope A="156" weight="155.924277(8)" abundance="0.06(1)"
+	spin="0"/>
+	<isotope A="158" weight="157.924403(5)" abundance="0.10(1)"
+	spin="0"/>
+	<isotope A="160" weight="159.925193(4)" abundance="2.34(8)"
+	spin="0"/>
+	<isotope A="161" weight="160.926930(4)" abundance="18.91(24)"
+	spin="2.5" mub="-0.4806"/>
+	<isotope A="162" weight="161.926795(4)" abundance="25.51(26)"
+	spin="0"/>
+	<isotope A="163" weight="162.928728(4)" abundance="24.90(16)"
+	spin="2.5" mub="0.6726"/>
+	<isotope A="164" weight="163.929171(4)" abundance="28.18(37)"
+	spin="0"/>
+</element>
+
+<element Z="67">
+	<isotope A="165" weight="164.930319(4)" abundance="100"
+	spin="3.5" mub="4.173"/>
+</element>
+
+<element Z="68">
+	<isotope A="162" weight="161.928775(4)" abundance="0.14(1)"
+	spin="0"/>
+	<isotope A="164" weight="163.929198(4)" abundance="1.61(3)"
+	spin="0"/>
+	<isotope A="166" weight="165.930290(4)" abundance="33.61(35)"
+	spin="0"/>
+	<isotope A="167" weight="166.932046(4)" abundance="22.93(17)"
+	spin="3.5" mub="-0.5665"/>
+	<isotope A="168" weight="167.932368(4)" abundance="26.78(26)"
+	spin="0"/>
+	<isotope A="170" weight="169.935461(4)" abundance="14.93(27)"
+	spin="0"/>
+</element>
+
+<element Z="69">
+	<isotope A="169" weight="168.934212(4)" abundance="100"
+	spin="0.5" mub="-0.2316"/>
+</element>
+
+<element Z="70">
+	<isotope A="168" weight="167.933894(5)" abundance="0.13(1)"
+	spin="0"/>
+	<isotope A="170" weight="169.934759(4)" abundance="3.04(15)"
+	spin="0"/>
+	<isotope A="171" weight="170.936323(3)" abundance="14.28(57)"
+	spin="0.5" mub="0.4919"/>
+	<isotope A="172" weight="171.936378(3)" abundance="21.83(67)"
+	spin="0"/>
+	<isotope A="173" weight="172.938208(3)" abundance="16.13(27)"
+	spin="2.5" mub="-0.6776"/>
+	<isotope A="174" weight="173.938859(3)" abundance="31.83(92)"
+	spin="0"/>
+	<isotope A="176" weight="175.942564(4)" abundance="12.76(41)"
+	spin="0"/>
+</element>
+
+<element Z="71">
+	<isotope A="175" weight="174.940770(3)" abundance="97.41(2)"
+	spin="3.5" mub="2.2327"/>
+	<isotope A="176" weight="175.942679(3)" abundance="2.59(2)"
+	spin="7" mub="3.19"/>
+</element>
+
+<element Z="72">
+	<isotope A="174" weight="173.940044(4)" abundance="0.16(1)"
+	spin="0"/>
+	<isotope A="176" weight="175.941406(4)" abundance="5.26(7)"
+	spin="0"/>
+	<isotope A="177" weight="176.943217(3)" abundance="18.6(9)"
+	spin="3.5" mub="0.7936"/>
+	<isotope A="178" weight="177.943696(3)" abundance="27.28(7)"
+	spin="0"/>
+	<isotope A="179" weight="178.9458122(29)" abundance="13.62(2)"
+	spin="4.5" mub="-0.6409"/>
+	<isotope A="180" weight="179.9465457(30)" abundance="35.08(16)"
+	spin="0"/>
+</element>
+
+<element Z="73">
+	<isotope A="180" weight="179.947462(4)" abundance="0.012(2)"
+	spin="8"/>
+	<isotope A="181" weight="180.947992(3)" abundance="99.988(2)"
+	spin="3.5" mub="2.371"/>
+</element>
+
+<element Z="74">
+	<isotope A="180" weight="179.946701(5)" abundance="0.12(1)"
+	spin="0"/>
+	<isotope A="182" weight="181.948202(3)" abundance="26.50(16)"
+	spin="0"/>
+	<isotope A="183" weight="182.950220(3)" abundance="14.31(4)"
+	spin="0.5" mub="0.1177847"/>
+	<isotope A="184" weight="183.950928(3)" abundance="30.64(2)"
+	spin="0"/>
+	<isotope A="186" weight="185.954357(4)" abundance="28.43(19)"
+	spin="0"/>
+</element>
+
+<element Z="75">
+	<isotope A="185" weight="184.952951(3)" abundance="37.40(2)"
+	spin="2.5" mub="3.1871"/>
+	<isotope A="187" weight="186.955744(3)" abundance="62.60(2)"
+	spin="2.5" mub="3.2197"/>
+</element>
+
+<element Z="76">
+	<isotope A="184" weight="183.952488(4)" abundance="0.02(1)"
+	spin="0"/>
+	<isotope A="186" weight="185.953830(4)" abundance="1.59(3)"
+	spin="0"/>
+	<isotope A="187" weight="186.955741(3)" abundance="1.96(2)"
+	spin="0.5" mub="0.06465185"/>
+	<isotope A="188" weight="187.955830(3)" abundance="13.24(8)"
+	spin="0"/>
+	<isotope A="189" weight="188.958137(3)" abundance="16.15(5)"
+	spin="1.5" mub="0.659933"/>
+	<isotope A="190" weight="189.958436(4)" abundance="26.26(2)"
+	spin="0"/>
+	<isotope A="192" weight="191.961467(4)" abundance="40.78(19)"
+	spin="0"/>
+</element>
+
+<element Z="77">
+	<isotope A="191" weight="190.960584(4)" abundance="37.3(2)"
+	spin="1.5" mub="0.1462"/>
+	<isotope A="193" weight="192.962817(4)" abundance="62.7(2)"
+	spin="1.5" mub="0.1592"/>
+</element>
+
+<element Z="78">
+	<isotope A="190" weight="189.959917(7)" abundance="0.014(1)"
+	spin="0"/>
+	<isotope A="192" weight="191.961019(5)" abundance="0.782(7)"
+	spin="0"/>
+	<isotope A="194" weight="193.962655(4)" abundance="32.967(99)"
+	spin="0"/>
+	<isotope A="195" weight="194.964766(4)" abundance="33.832(10)"
+	spin="0.5" mub="0.60950"/>
+	<isotope A="196" weight="195.964926(4)" abundance="25.242(41)"
+	spin="0"/>
+	<isotope A="198" weight="197.967869(6)" abundance="7.163(55)"
+	spin="0"/>
+</element>
+
+<element Z="79">
+	<isotope A="197" weight="196.966543(4)" abundance="100"
+	spin="1.5" mub="0.148159"/>
+</element>
+
+<element Z="80">
+	<isotope A="196" weight="195.965807(5)" abundance="0.15(1)"
+	spin="0"/>
+	<isotope A="198" weight="197.966743(4)" abundance="9.97(20)"
+	spin="0"/>
+	<isotope A="199" weight="198.968254(4)" abundance="16.87(22)"
+	spin="0.5" mub="0.5058852"/>
+	<isotope A="200" weight="199.968300(4)" abundance="23.10(19)"
+	spin="0"/>
+	<isotope A="201" weight="200.970277(4)" abundance="13.18(9)"
+	spin="1.5" mub="-0.560225"/>
+	<isotope A="202" weight="201.970617(4)" abundance="29.86(26)"
+	spin="0"/>
+	<isotope A="204" weight="203.973467(5)" abundance="6.87(15)"
+	spin="0"/>
+</element>
+
+<element Z="81">
+	<isotope A="203" weight="202.972320(5)" abundance="29.524(14)"
+	spin="0.5" mub="1.622257"/>
+	<isotope A="205" weight="204.974401(5)" abundance="70.476(14)"
+	spin="0.5" mub="1.6382135"/>
+</element>
+
+<element Z="82">
+	<isotope A="204" weight="203.973020(5)" abundance="1.4(1)"
+	spin="0"/>
+	<isotope A="206" weight="205.974440(4)" abundance="24.1(1)"
+	spin="0"/>
+	<isotope A="207" weight="206.975872(4)" abundance="22.1(1)"
+	spin="0.5" mub="0.58129"/>
+	<isotope A="208" weight="207.976627(4)" abundance="52.4(1)"
+	spin="0"/>
+</element>
+
+<element Z="83">
+	<isotope A="209" weight="208.980374(5)" abundance="100"
+	spin="4.5" mub="4.1106"/>
+</element>
+
+<element Z="84">
+</element>
+
+<element Z="85">
+</element>
+
+<element Z="86">
+</element>
+
+<element Z="87">
+</element>
+
+<element Z="88">
+</element>
+
+<element Z="89">
+</element>
+
+<element Z="90">
+	<isotope A="232" weight="232.0381(1)" abundance="100"
+	spin="0"/>
+</element>
+
+<element Z="91">
+	<isotope A="231" weight="231.03588(2)" abundance="100"
+	spin="1.5"/>
+</element>
+
+<element Z="92">
+	<isotope A="234" weight="234.0409468(24)" abundance="0.0055(2)"
+	spin="0" mub="0"/>
+	<isotope A="235" weight="235.0439242(24)" abundance="0.7200(51)"
+	spin="3.5" mub="-0.35"/>
+	<isotope A="238" weight="238.0507847(23)" abundance="99.2745(106)"
+	spin="0" mub="0"/>
+</element>
+
+<element Z="93">
+</element>
+
+<element Z="94">
+</element>
+
+<element Z="95">
+</element>
+
+<element Z="96">
+</element>
+
+<element Z="97">
+</element>
+
+<element Z="98">
+</element>
+
+<element Z="99">
+</element>
+
+<element Z="100">
+</element>
+
+<element Z="101">
+</element>
+
+<element Z="102">
+</element>
+
+<element Z="103">
+</element>
+
+<element Z="104">
+</element>
+
+<element Z="105">
+</element>
+
+<element Z="106">
+</element>
+
+<element Z="107">
+</element>
+
+<element Z="108">
+</element>
+
+<element Z="109">
+</element>
+
+<element Z="110">
+</element>
+
+<element Z="111">
+</element>
+
+<element Z="112">
+</element>
+
+<element Z="113">
+</element>
+
+<element Z="114">
+</element>
+
+<element Z="115">
+</element>
+
+<element Z="116">
+</element>
+
 </gpdata>
