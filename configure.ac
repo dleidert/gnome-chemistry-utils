@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.4.3)
+AC_INIT(gnome-chemistry-utils, 0.4.4)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -114,6 +114,12 @@ if test "$have_gtkgl" = "yes"; then
 	if test "$have_openbabel" = "yes"; then
 		GCU_CFLAGS="$GCU_CFLAGS `pkg-config --cflags openbabel`"
 		GCU_LIBS="$GCU_LIBS `pkg-config --libs openbabel`"
+
+		PKG_CHECK_MODULES(OB2, openbabel >= 2.0.0, [has_openbabel_2=yes], [has_openbabel_2=no])
+		
+		if test "$has_openbabel_2" = "yes"; then
+			AC_DEFINE_UNQUOTED(HAS_OPENBABEL_2, 1, [openbabel version is 2.0.0 or higher])
+		fi
 	fi
 fi
 

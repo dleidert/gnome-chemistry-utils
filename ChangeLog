@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-07-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.4.4 and test for openbabel-2.
+	* gcu/bonobo-control.cc: make it work with openbabel-2.
+	* gcu/gtkchem3dviewer.cc: ditto.
+
 2005-06-20  Daniel Leidert <daniel.leidert@wgdd.de>
 	* gcu/gchem3d-viewer.desktop.in: add NoDisplay=true to prevent making
 	a menu entry (only useful for desktops, which fully support the menu

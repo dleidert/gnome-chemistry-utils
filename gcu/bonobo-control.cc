@@ -22,6 +22,7 @@
  * Boston, MA  02111-1307, USA.
  */
 
+#ifndef HAS_OPENBABEL_2
 #include <data.h>
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT
@@ -30,14 +31,18 @@
 #undef PACKAGE_TARNAME
 #undef PACKAGE_VERSION
 #undef VERSION
+#endif
 #include "config.h"
 #include "gtkchem3dviewer.h"
 #include <libgnome/libgnome.h>
 #include <libbonobo.h>
 #include <libbonoboui.h>
 #include <string.h>
-
+#ifdef HAS_OPENBABEL_2
+#	include <obconversion.h>
+#else
 extern OpenBabel::OBExtensionTable et;
+#endif
 /*******************************************************************************
  * Persist Stream implementation
  ******************************************************************************/
@@ -68,7 +73,13 @@ static void on_load(gpointer p, Bonobo_Stream stream, const Bonobo_Persist_Conte
 	{
 		char mime[32];
 		Bonobo_StorageInfo   *info =  Bonobo_Stream_getInfo (stream, 0, ev);
+#ifdef HAS_OPENBABEL_2
+	OpenBabel::OBConversion Conv;
+	OpenBabel::OBFormat* pInFormat = Conv.FormatFromExt(info->name);
+	mime_type = pInFormat->GetMIMEType ();
+#else
 		et.TypeToMIME(et.FilenameToType(info->name), mime);
+#endif
 		mime_type = mime;
 	}
 	else mime_type = type;
