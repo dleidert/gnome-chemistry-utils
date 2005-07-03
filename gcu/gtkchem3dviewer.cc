@@ -22,14 +22,6 @@
  * Boston, MA  02111-1307, USA.
  */
 
-#include <mol.h>
-#undef PACKAGE
-#undef PACKAGE_BUGREPORT
-#undef PACKAGE_NAME
-#undef PACKAGE_STRING
-#undef PACKAGE_TARNAME
-#undef PACKAGE_VERSION
-#undef VERSION
 #include "config.h"
 #include "gtkchem3dviewer.h"
 #include "matrix.h"
@@ -47,6 +39,8 @@
 #include <libintl.h>
 #include <locale.h>
 #define _(String) gettext(String)
+#include <mol.h>
+#include <obconversion.h>
 
 /* Attribute list for gtkglarea widget. Specifies a
      list of Boolean attributes and enum/integer
@@ -107,8 +101,6 @@ static void gtk_chem3d_viewer_set_property(GObject *object, guint property_id,
 						const GValue *value, GParamSpec *pspec);
 static void gtk_chem3d_viewer_get_property(GObject *object, guint property_id,
 						GValue *value, GParamSpec *pspec);
-
-OBExtensionTable et;
 
 static bool on_init(GtkWidget* widget, GtkChem3DViewer *viewer) 
 {
@@ -420,7 +412,6 @@ void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, gchar *uri)
 	GnomeVFSFileSize n;
 	gnome_vfs_read (handle, buf, info->size, &n);
 	buf[info->size] = 0;
-puts(info->mime_type);
 	if (n == info->size)
 		gtk_chem3d_viewer_set_data (viewer, buf, info->mime_type);
 	gnome_vfs_file_info_unref (info);
@@ -432,11 +423,12 @@ void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, con
 {
 	istringstream is(data);
 	viewer->priv->Mol.Clear ();
-	viewer->priv->Mol.SetInputType(et.MIMEToType((char*)mime_type));
-	OBFileFormat fileFormat;
 	char *old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
 	setlocale(LC_NUMERIC, "C");
-	fileFormat.ReadMolecule(is, viewer->priv->Mol);
+	OBConversion Conv;
+	OBFormat* pInFormat = Conv.FormatFromMIME(mime_type);
+	Conv.SetInAndOutFormats(pInFormat, pInFormat);
+	Conv.Read(&viewer->priv->Mol,&is);
 	setlocale(LC_NUMERIC, old_num_locale);
 	if (viewer->priv->Init) gtk_chem3d_viewer_update(viewer);
 	g_free(old_num_locale);
