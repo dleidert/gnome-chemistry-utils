@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkchem3dviewer.c 
  *
- * Copyright (C) 2003-2004
+ * Copyright (C) 2003-2005
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -443,9 +443,9 @@ void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, con
 	setlocale(LC_NUMERIC, "C");
 #ifdef HAS_OPENBABEL_2
 	OBConversion Conv;
-	OBFormat* pInFormat = Conv.FormatFromMIME(mime_type);
-	Conv.SetInAndOutFormats(pInFormat, pInFormat);
-	Conv.Read(&viewer->priv->Mol,&is);
+	OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
+	Conv.SetInAndOutFormats (pInFormat, pInFormat);
+	Conv.Read (&viewer->priv->Mol, &is);
 #else
 	viewer->priv->Mol.SetInputType(et.MIMEToType((char*)mime_type));
 	OBFileFormat fileFormat;

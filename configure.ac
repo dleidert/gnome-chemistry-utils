@@ -118,7 +118,7 @@ if test "$have_gtkgl" = "yes"; then
 		PKG_CHECK_MODULES(OB2, openbabel >= 2.0.0, [has_openbabel_2=yes], [has_openbabel_2=no])
 		
 		if test "$has_openbabel_2" = "yes"; then
-			AC_DEFINE_UNQUOTED(HAS_OPENBABEL_2, 1, [openbabel version is 2.0.0 or higher])
+			GCU_CFLAGS="$GCU_CFLAGS -DHAS_OPENBABEL_2"
 		fi
 	fi
 fi

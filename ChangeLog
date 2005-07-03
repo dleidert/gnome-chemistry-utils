@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2005-07-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: rewrote openbabel-2 test and make it really work.
+	* gcu/gtkchem3dviewer.cc: minor typos.
+
 2005-07-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.4.4 and test for openbabel-2.
 	* gcu/bonobo-control.cc: make it work with openbabel-2.
