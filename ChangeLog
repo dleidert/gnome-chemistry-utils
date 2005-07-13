@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/object.cc: fixed a recent critical bug.
+
 2005-07-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: rewrote openbabel-2 test and make it really work.
 	* gcu/gtkchem3dviewer.cc: minor typos.

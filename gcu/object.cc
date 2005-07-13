@@ -394,7 +394,7 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 			TypeNames.push_back ("");
 	}
 #if HAS_VECTOR_AT
-	TypeNames.at (id) = TypeName;
+	TypeNames.at (typedesc.Id) = TypeName;
 #else
 	vector<string>::iterator it;
 	it = TypeNames.begin ();
