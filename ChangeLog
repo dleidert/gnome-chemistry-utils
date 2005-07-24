@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2005-07-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/isotopes.xml.in: name is now a child node instead of a property
+	to avoid duplication of the whole isotope node on translation.
+	* gcu/Makefile.am: add isotope.*
+	* gcu/chemistry.h: add GcuIsotope, GcuValue and GcuDimensionalValue structs
+	and use GcuValue instead of double in radii.
+	* gcu/crystalatom.cc: use GcuValue in radii.
+	* gcu/crystalatom.h: ditto.
+	* gcu/element.cc: load isotopes database.
+	* gcu/element.h: ditto.
+	* gcu/formula.cc: add gcu::Formula::CalculateIsotopicPattern (not yet
+	implemented).
+	* gcu/formula.h:
+	* gcu/isotope.cc: new file; implements gcu::Isotope and
+	gcu:IsotopicPattern.
+	* gcu/isotope.h: ditto.
+	* gcu/object.cc (gu::Object::AddType): use vector::resize instead 
+	of vector::reserve.
+	* gcu/xml-utils.cc: use GcuValue in radii.
+	* programs/gchemcalc.cc: load isotopes database.
+
 2005-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/object.cc: fixed a recent critical bug.
 

@@ -31,6 +31,7 @@
 #include <map>
 #include <list>
 #include <stdexcept>
+#include "isotope.h"
 
 using namespace std;
 
@@ -78,6 +79,7 @@ public:
 	void SetFormula (string entry) throw (parse_error);
 	void Clear ();
 	double GetMolecularWeight (int &prec, bool &artificial);
+	void CalculateIsotopicPattern (IsotopicPattern &pattern);
 
 private:
 	void Parse (string &formula, list<FormulaElt *>&result) throw (parse_error);

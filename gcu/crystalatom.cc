@@ -40,7 +40,8 @@ CrystalAtom::CrystalAtom(): Atom()
 	m_Radius.scale = NULL;
 	m_Radius.spin = GCU_N_A_SPIN,
 	m_Radius.charge = 0;
-	m_Radius.value = 0.0;
+	m_Radius.value.value = 0.0;
+	m_Radius.value.prec = 0;
 	m_Radius.cn = -1;
 	m_bCustomColor = false;
 	m_fRed = m_fBlue = m_fGreen = 0;
@@ -60,7 +61,8 @@ CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 	m_Radius.scale = NULL;
 	m_Radius.spin = GCU_N_A_SPIN,
 	m_Radius.charge = 0;
-	m_Radius.value = 0.0;
+	m_Radius.value.value = 0.0;
+	m_Radius.value.prec = 0;
 	m_Radius.cn = -1;
 	m_fAlpha = 1.;
 	if (Z) SetDefaultColor();
@@ -105,7 +107,7 @@ void CrystalAtom::Draw()
 	quadObj = gluNewQuadric() ;
     gluQuadricDrawStyle(quadObj, GL_FILL);
 	gluQuadricNormals(quadObj, GL_SMOOTH) ;
-	gluSphere(quadObj, m_Radius.value, 20, 10) ;
+	gluSphere(quadObj, m_Radius.value.value, 20, 10) ;
 	gluDeleteQuadric(quadObj) ;
 	glPopMatrix() ;
 }
@@ -143,14 +145,17 @@ void CrystalAtom::SetSize(double r)
 	m_Radius.scale = NULL;
 	m_Radius.spin = GCU_N_A_SPIN,
 	m_Radius.charge = 0;
+	m_Radius.value.value = 0.0;
+	m_Radius.value.prec = 0;
 	m_Radius.cn = -1;
-	m_Radius.value = r;
+	m_Radius.value.value = 0.0;
+	m_Radius.value.prec = 0;
 }
 
 
 double CrystalAtom::GetSize()
 {
-	return m_Radius.value;
+	return m_Radius.value.value;
 }
 
 bool CrystalAtom::operator==(CrystalAtom& caAtom)
@@ -171,7 +176,7 @@ double CrystalAtom::Distance(double dx, double dy, double dz, bool bFixed)
 	dx -= x() ;
 	dy -= y() ;
 	dz -= z() ;
-	return sqrt(dx * dx + dy * dy + dz * dz) + m_Radius.value ;
+	return sqrt(dx * dx + dy * dy + dz * dz) + m_Radius.value.value ;
 }
 
 void CrystalAtom::NetToCartesian(double a, double b, double c, double alpha, double beta, double gamma)

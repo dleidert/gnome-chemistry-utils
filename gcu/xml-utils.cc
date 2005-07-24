@@ -157,7 +157,7 @@ bool WriteColor (xmlDocPtr xml, xmlNodePtr node, const char* id, double red, dou
 
 bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 {
-	char *tmp;
+	char *tmp, *dot, *end;
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "type");
 	if (!tmp ||
 		((!((!strcmp (tmp, "unknown")) && (radius.type = GCU_RADIUS_UNKNOWN))) &&
@@ -196,7 +196,9 @@ bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 		xmlFree(tmp);
 	if (((tmp = (char*) xmlGetProp (node, (xmlChar*) "value")) ||
 		(tmp = (char*) xmlNodeGetContent (node))) && *tmp) {
-		radius.value = strtod (tmp, NULL);
+		radius.value.value = strtod (tmp, &end);
+		dot = strchr (tmp, '.');
+		radius.value.prec = (dot)? end - dot - 1: 0;
 		radius.scale = g_strdup ("custom");
 		xmlFree(tmp);
 	} else {
@@ -207,7 +209,7 @@ bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 		else if (!gcu_element_get_radius (&radius))
 			return false;
 	}
-	if (radius.value <= 0.0)
+	if (radius.value.value <= 0.0)
 		return false;
 	return true;
 }
@@ -246,7 +248,9 @@ bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 	if (tmp)
 		xmlNewProp (child, (xmlChar*) "type", (xmlChar*) tmp);
 	if ((radius.type == GCU_RADIUS_UNKNOWN) || (radius.scale && (!strcmp (radius.scale, "custom")))) {
-		g_snprintf (buf, sizeof (buf) - 1, "%g", radius.value);
+		char *format = g_strdup_printf ("%%0.%df",radius.value.prec);
+		g_snprintf (buf, sizeof (buf) - 1, format, radius.value.value);
+		g_free (format);
 		xmlNewProp (child, (xmlChar*) "value", (xmlChar*) buf);
 	}
 	if (radius.scale &&  strcmp (radius.scale, "custom"))

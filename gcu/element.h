@@ -28,9 +28,11 @@
 #define GCU_ELEMENT_H
 
 #include <glib.h>
+#include <map>
 #include <string>
 #include <vector>
 #include "chemistry.h"
+#include "isotope.h"
 
 using namespace std;
 
@@ -229,6 +231,9 @@ private:
 	string name;
 	vector<GcuAtomicRadius*> m_radii;
 	vector<GcuElectronegativity*> m_en;
+	vector<Isotope*> m_isotopes;
+	vector<IsotopicPattern*> m_patterns;
+	map<string, string> names;
 };
 
 } // namespace gcu

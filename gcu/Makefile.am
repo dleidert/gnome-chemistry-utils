@@ -6,6 +6,7 @@ libgcu_0_5_la_SOURCES = \
 		object.cc \
 		document.cc \
 		element.cc \
+		isotope.cc \
 		formula.cc \
 		matrix.cc \
 		matrix2d.cc \
@@ -27,6 +28,7 @@ libgcu_0_5_la_headers = \
 		object.h \
 		document.h \
 		element.h \
+		isotope.h \
 		formula.h \
 		matrix.h \
 		matrix2d.h \

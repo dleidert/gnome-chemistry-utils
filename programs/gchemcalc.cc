@@ -194,6 +194,7 @@ int main (int argc, char *argv[])
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
 		 window);
+	gcu_element_load_databases ("isotopes", NULL);
 	gtk_main ();
 	return 0;
 }

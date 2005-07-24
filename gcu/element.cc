@@ -36,6 +36,15 @@
 #include <string.h>
 #define _(String) gettext(String)
 
+static void ReadValue (char const *source, GcuValue &value)
+{
+	char *tmp, *dot;
+	value.value = strtod (source, &tmp);
+	dot = strchr (source, '.');
+	value.prec = (dot)? tmp - dot - 1: 0;
+	value.delta = (*tmp == '(')? strtol (tmp + 1, NULL, 10): 0;
+}
+
 using namespace gcu;
 using namespace std;
 
@@ -268,25 +277,25 @@ Element::Element(int Z, const char* Symbol)
 
 Element::~Element()
 {
-	while (!m_radii.empty())
-	{
+	while (!m_radii.empty()) {
 		GcuAtomicRadius *radius = m_radii.back();
-		if (radius)
-		{
+		if (radius) {
 			if (radius->scale) g_free(radius->scale);
 			delete radius;
 		}
 		m_radii.pop_back();
 	}
-	while (!m_en.empty())
-	{
+	while (!m_en.empty()) {
 		GcuElectronegativity* en = m_en.back();
-		if (en)
-		{
+		if (en) {
 			if (en->scale) g_free(en->scale);
 			delete en;
 		}
 		m_en.pop_back();
+	}
+	while (!m_isotopes.empty ()) {
+		delete (m_isotopes.back ());
+		m_isotopes.pop_back ();
 	}
 }
 
@@ -386,7 +395,7 @@ double Element::GetWeight (int Z, int &prec)
 void Element::LoadRadii ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *tmp, *num;
+	char *old_num_locale, *tmp, *num, *dot, *end;
 	unsigned char Z;
 	static bool loaded = false;
 	if (loaded)
@@ -457,7 +466,9 @@ void Element::LoadRadii ()
 						xmlFree (tmp);
 					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
 					if (tmp) {
-						radius->value = strtod (tmp, NULL);
+						radius->value.value = strtod (tmp, &end);
+						dot = strchr (tmp, '.');
+						radius->value.prec = (dot)? end - dot - 1: 0;
 						Elt->m_radii.push_back (radius);
 						xmlFree (tmp);
 					} else
@@ -479,7 +490,7 @@ void Element::LoadRadii ()
 void Element::LoadElectronicProps ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *tmp, *num;
+	char *old_num_locale, *tmp, *num, *dot, *end;
 	unsigned char Z;
 	static bool loaded = false;
 	if (loaded)
@@ -516,7 +527,9 @@ void Element::LoadElectronicProps ()
 						en->scale = NULL;
 					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
 					if (tmp) {
-						en->value = strtod (tmp, NULL);
+						en->value.value = strtod (tmp, &end);
+						dot = strchr (tmp, '.');
+						en->value.prec = (dot)? end - dot - 1: 0;
 						Elt->m_en.push_back (en);
 						xmlFree (tmp);
 					} else
@@ -552,22 +565,62 @@ void Element::LoadIsotopes ()
 	xmlNode* node = xml->children, *child;
 	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: isotopes.xml"));
 	node = node->children;
-	Element* Elt;
+	Element *Elt;
+	Isotope *Is;
+	int minA, maxA, niso;
 	while (node) {
-		if (strcmp ((const char*) node->name, "text"))
-		{
+		if (strcmp ((const char*) node->name, "text")) {
 			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: isotopes.xml"));
+			minA = maxA = niso = 0;
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];
+			xmlFree (num);
+			if (Elt == NULL)	// This should not occur
+				continue;
 			child = node->children;
-			while (child)
-			{
+			while (child) {
 				if (!strcmp ((const char*) child->name, "text")) {
 					child = child->next;
 					continue;
 				}
+				if (!strcmp ((const char*) child->name, "isotope")) {
+					Is = new Isotope ();
+					num = (char*) xmlGetProp (child, (xmlChar*) "A");
+					if (num) {
+						Is->A = strtol (num, NULL, 10);
+						xmlFree (num);
+					}
+					num = (char*) xmlGetProp (child, (xmlChar*) "weight");
+					if (num) {
+						ReadValue (num, Is->mass);
+						xmlFree (num);
+					}
+					num = (char*) xmlGetProp (child, (xmlChar*) "abundance");
+					if (num) {
+						ReadValue (num, Is->abundance);
+						xmlFree (num);
+						niso++;
+						if (minA == 0)
+							minA = maxA = Is->A;
+						else {
+							if (minA > Is->A)
+								minA = Is->A;
+							else if (maxA < Is->A)
+								maxA = Is->A;
+						}
+					}
+					Elt->m_isotopes.push_back (Is);
+				}
 				child = child->next;
 			}
+			IsotopicPattern *pattern = new IsotopicPattern (minA, maxA);
+			vector<Isotope*>::iterator i, iend = Elt->m_isotopes.end ();
+			for (i = Elt->m_isotopes.begin (); i != iend; i++) {
+				if ((*i)->abundance.value != 0.)
+					pattern->SetValue ((*i)->A, (*i)->abundance.value);
+			}
+			pattern->Normalize ();
+			Elt->m_patterns.push_back (pattern);
 		}
 		node = node->next;
 	}

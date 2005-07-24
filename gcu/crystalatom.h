@@ -166,7 +166,7 @@ than for the whole crystal. If bFixed is true, all atoms are taken into account.
 /*!
 @return the value of the radius (in pm).
 */
-	double r () {return m_Radius.value;}
+	double r () {return m_Radius.value.value;}
 /*!
 @return the GcuAtomicRadius containing the caracteristics of the atom radius.
 */

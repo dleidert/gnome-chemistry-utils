@@ -460,3 +460,10 @@ double Formula::GetMolecularWeight (int &prec, bool &artificial)
 	artificial = m_Artificial;
 	return m_Weight;
 }
+
+void Formula::CalculateIsotopicPattern (IsotopicPattern &pattern)
+{
+	map<int,int>::iterator i, end = Raw.end ();
+	for (i = Raw.begin (); i != end; i++) {
+	}
+}

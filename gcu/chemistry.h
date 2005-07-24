@@ -93,6 +93,34 @@ enum gcu_radius_type
 	GCU_VAN_DER_WAALS
 };
 
+/** GcuValue
+Structure used to store a numerical value.
+*/
+typedef struct
+{
+	/** The value. */
+	double value;
+	/** The precision (number of significative decimal figures. */
+	int prec;
+	/** The standard error (* 10^prec). */
+	int delta;
+} GcuValue;
+
+/** GcuDimensionalValue
+Structure used to store a dimensional value.
+*/
+typedef struct
+{
+	/** The value.*/
+	double value;
+	/** The precision (number of significative decimal figures.*/
+	int prec;
+	/** The standard error (* 10^prec). */
+	int delta;
+	/** The unit symbol.*/
+	char *unit;
+} GcuDimensionalValue;
+
 /** GcuAtomicRadius
 * Structure used to describe an atomic radius.
 */
@@ -102,8 +130,8 @@ typedef struct
 	unsigned char Z;
 	/** The radius type (unknown, ionic, metallic, covalent, or van der Waals).*/
 	enum gcu_radius_type type;
-	/** The radius value in pm. */
-	double value;
+	/** The radius value (the unit should always be pm). */
+	GcuValue value;
 	/** The charge of the atom (or ion). */
 	char charge;
 	/** The scale name, e.g. "Pauling" or "Shannon". */
@@ -122,10 +150,31 @@ typedef struct
 	/** The atomic number. */
 	unsigned char Z;
 	/*! The electronegativity value.*/
-	double value;
+	GcuValue value;
 	/** The scale name, e.g. "Pauling" or "Mulliken". */
 	char* scale;
 } GcuElectronegativity;
+
+/*! GcuIsotope
+Structure used to describe an isotope
+*/
+typedef struct
+{
+	/** The nucleon number. */
+	unsigned char A;
+	/** The name of the isotope if any.*/
+	char *name;
+	/*! The terrestrial percent abundance.*/
+	GcuValue abundance;
+	/*! The mass of an atom in atomic units.*/
+	GcuValue mass;
+	/*! The spin of an atom multipiled by 2.*/
+	char spin;
+	/*! The decay modes as a comma separated list.*/
+	char *decay_modes;
+	/*! The decay period.*/
+	GcuDimensionalValue decay_period;
+} GcuIsotope;
 
 
 /*!
