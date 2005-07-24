@@ -389,9 +389,7 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 		typedesc.Id = id;
 	if (TypeNames.capacity() <= typedesc.Id) {
 		size_t max = (((size_t) typedesc.Id / 10) + 1) * 10;
-		TypeNames.reserve (max);
-		while (max > TypeNames.size())
-			TypeNames.push_back ("");
+		TypeNames.resize (max);
 	}
 #if HAS_VECTOR_AT
 	TypeNames.at (typedesc.Id) = TypeName;

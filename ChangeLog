@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2005-07-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/object.cc (gu::Object::AddType): use vector::resize instead 
+	of vector::reserve.
+
 2005-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/object.cc: fixed a recent critical bug.
 
