@@ -1,5 +1,44 @@
 ##Text encoding: utf-8
 
+2005-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* COPYING: updated FSF address.
+	* gcu/atom.cc: ditto.
+	* gcu/atom.h: ditto.
+	* gcu/bond.cc: ditto.
+	* gcu/bond.h: ditto.
+	* gcu/bonobo-control.cc: ditto.
+	* gcu/chemistry.cc: ditto.
+	* gcu/chemistry.h: ditto.
+	* gcu/crystalatom.cc: ditto.
+	* gcu/crystalatom.h: ditto.
+	* gcu/crystalcleavage.cc: ditto.
+	* gcu/crystalcleavage.h: ditto.
+	* gcu/crystaldoc.cc: ditto.
+	* gcu/crystaldoc.h: ditto.
+	* gcu/crystalline.cc: ditto.
+	* gcu/crystalline.h: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/crystalview.h: ditto.
+	* gcu/document.cc: ditto.
+	* gcu/document.h: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/element.h: ditto.
+	* gcu/gchem3d-viewer.c: ditto.
+	* gcu/gtkchem3dviewer.cc: ditto.
+	* gcu/gtkchem3dviewer.h: ditto.
+	* gcu/gtkcrystalviewer.cc: ditto.
+	* gcu/gtkcrystalviewer.h: ditto.
+	* gcu/gtkperiodic.c: ditto.
+	* gcu/gtkperiodic.h: ditto.
+	* gcu/matrix.cc: ditto.
+	* gcu/matrix.h: ditto.
+	* gcu/matrix2d.cc: ditto.
+	* gcu/matrix2d.h: ditto.
+	* gcu/object.cc: ditto.
+	* gcu/object.h: ditto.
+	* gcu/xml-utils.cc: ditto.
+	* gcu/xml-utils.h: ditto.
+
 2005-07-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/object.cc (gu::Object::AddType): use vector::resize instead 
 	of vector::reserve.
