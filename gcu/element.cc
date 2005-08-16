@@ -613,14 +613,16 @@ void Element::LoadIsotopes ()
 				}
 				child = child->next;
 			}
-			IsotopicPattern *pattern = new IsotopicPattern (minA, maxA);
-			vector<Isotope*>::iterator i, iend = Elt->m_isotopes.end ();
-			for (i = Elt->m_isotopes.begin (); i != iend; i++) {
-				if ((*i)->abundance.value != 0.)
-					pattern->SetValue ((*i)->A, (*i)->abundance.value);
+			if (minA > 0) {
+				IsotopicPattern *pattern = new IsotopicPattern (minA, maxA);
+				vector<Isotope*>::iterator i, iend = Elt->m_isotopes.end ();
+				for (i = Elt->m_isotopes.begin (); i != iend; i++) {
+					if ((*i)->abundance.value != 0.)
+						pattern->SetValue ((*i)->A, (*i)->abundance.value);
+				}
+				pattern->Normalize ();
+				Elt->m_patterns.push_back (pattern);
 			}
-			pattern->Normalize ();
-			Elt->m_patterns.push_back (pattern);
 		}
 		node = node->next;
 	}
@@ -635,4 +637,31 @@ void Element::LoadAllData ()
 	LoadRadii ();
 	LoadElectronicProps ();
 	LoadIsotopes ();
+}
+
+IsotopicPattern *Element::GetIsotopicPattern (unsigned natoms)
+{
+	IsotopicPattern *pat, *pattern;
+	if (natoms == 0)
+		return NULL;
+	int i = 1;
+	while ((natoms & 1) == 0) {
+		natoms >>= 1;
+		i++;
+printf("natoms=%d i=%d\n",natoms,i);
+	}
+	while (m_patterns.size () < i) {
+puts("0");
+		pat = m_patterns[m_patterns.size () - 1]->square ();
+puts("1");
+		pattern = pat->Simplify ();
+puts("2");
+		pat->Unref ();
+puts("3");
+		m_patterns.push_back (pattern);
+puts("4");
+	}
+	if (natoms == 1)
+		pattern->Ref ();
+	return pattern;
 }

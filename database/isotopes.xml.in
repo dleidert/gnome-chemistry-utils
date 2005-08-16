@@ -221,12 +221,12 @@
 	</isotope>
 </element>
 
-<element Z="10">
+<element Z="11">
 	<isotope A="23" weight="22.9897677(10)" abundance="100"
 	spin="1.5" mub="2.217520"/>
 </element>
 
-<element Z="11">
+<element Z="12">
 	<isotope A="24" weight="23.9850423(8)" abundance="78.99(4)"
 	spin="0" mub="0"/>
 	<isotope A="25" weight="24.9858374(8)" abundance="10.00(1)"
@@ -235,14 +235,9 @@
 	spin="0" mub="0"/>
 </element>
 
-<element Z="12">
+<element Z="13">
 	<isotope A="27" weight="26.9815386(8)" abundance="100"
 	spin="2.5" mub="3.641504"/>
-</element>
-
-<element Z="13">
-	<isotope A="23" weight="22.9897677(10)" abundance="100"
-	spin="1.5" mub="2.217520"/>
 </element>
 
 <element Z="14">

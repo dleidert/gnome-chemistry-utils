@@ -48,17 +48,21 @@ public:
 	IsotopicPattern ();
 	IsotopicPattern (int min, int max);
 	~IsotopicPattern ();
-	IsotopicPattern& operator= (IsotopicPattern& pattern);
 
-	IsotopicPattern operator^ (int n);
-	IsotopicPattern operator* (IsotopicPattern& pattern);
+	IsotopicPattern *Simplify ();
+	IsotopicPattern *multiply (IsotopicPattern& pattern);
+	IsotopicPattern *square (void);
 
 	void SetValue (int A, double percent);
 	void Normalize ();
+	void Ref () {ref_count++;}
+	void Unref ();
 
 private:
-	int m_min, m_max, m_nIsotopes, m_mono;
+	int m_min, m_max, m_mono;
+	int ref_count;
 	vector<double> m_values;
+	static double epsilon;
 };
 
 }

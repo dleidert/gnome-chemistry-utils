@@ -58,7 +58,8 @@ Isotope::~Isotope ()
 
 IsotopicPattern::IsotopicPattern ()
 {
-	m_min = m_max = m_nIsotopes = m_mono = 0;
+	m_min = m_max = m_mono = 0;
+	ref_count = 1;
 }
 
 IsotopicPattern::IsotopicPattern (int min, int max)
@@ -70,28 +71,60 @@ IsotopicPattern::IsotopicPattern (int min, int max)
 		m_max = min;
 		m_min = max;
 	}
-	m_nIsotopes = m_mono = 0;
+	m_mono = 0;
 	m_values.resize (max - min + 1);
+	ref_count = 1;
 }
 
 IsotopicPattern::~IsotopicPattern ()
 {
 }
 
-IsotopicPattern& IsotopicPattern::operator= (IsotopicPattern& pattern)
-{
-	return *this;
-}
+double IsotopicPattern::epsilon = 1e-6;
 
-IsotopicPattern IsotopicPattern::operator^ (int n)
+IsotopicPattern *IsotopicPattern::Simplify ()
 {
-	IsotopicPattern pat;
+puts("1.0");
+	int min = 0, max = m_max - m_min;
+	int i, j, imax = max + 1;
+	double vmax = m_values[0], minval;
+	for (i = 1; i < imax; i++)
+		if (m_values[i] > vmax) {
+			vmax = m_values[i];
+		}
+	minval = epsilon * vmax;
+	while (m_values[min] < minval)
+		min++;
+	while (m_values[max] < minval)
+		max--;
+printf("min=%d max=%d\n",min,max);
+	IsotopicPattern *pat = new IsotopicPattern (min, max);
+puts("1.2");
+	pat->m_mono = m_mono;
+	for (i = min, j = 0; i <= max; i++, j++)
+		pat->m_values[j] = m_values[i];
 	return pat;
 }
 
-IsotopicPattern IsotopicPattern::operator* (IsotopicPattern& pattern)
+IsotopicPattern *IsotopicPattern::multiply (IsotopicPattern &pattern)
 {
-	IsotopicPattern pat;
+	IsotopicPattern *pat = new IsotopicPattern (m_min + pattern.m_min, m_max + pattern.m_max);
+	return pat;
+}
+
+IsotopicPattern *IsotopicPattern::square ()
+{
+	IsotopicPattern *pat = new IsotopicPattern (2 * m_min, 2 * m_max);
+	pat->m_mono = 2 * m_mono;
+	int i, j, k, imax = pat->m_max - pat->m_min + 1;
+	for (i = 0; i < imax; i++) {
+		pat->m_values[i] = 0.;
+		for (j = max (0, m_max - i), k = min (j, m_max - j); k > j; k--, j++) {
+			pat->m_values[i] += 2. * m_values[k] * m_values[j];
+		}
+		if (j == k)
+			pat->m_values[i] += m_values[j] * m_values[j];
+	}
 	return pat;
 }
 
@@ -100,7 +133,6 @@ void IsotopicPattern::SetValue (int A, double percent)
 	if (A >= m_min && A <= m_max) {
 		A -= m_min;
 #if HAS_VECTOR_AT
-printf("setting value %g at position %d\n",percent,A);
 		m_values.at (A) = percent;
 #else
 		vector<double>::iterator it;
@@ -113,4 +145,22 @@ printf("setting value %g at position %d\n",percent,A);
 
 void IsotopicPattern::Normalize ()
 {
+	double max = m_values[0];
+	int i, maxi = m_max - m_min + 1;
+	m_mono = 0;
+	for (i = 1; i < maxi; i++)
+		if (m_values[i] > max) {
+			m_mono = i;
+			max = m_values[i];
+		}
+	m_mono += m_min;
+	for (i = 1; i < maxi; i++)
+		m_values[i] /= max;
+}
+
+void IsotopicPattern::Unref ()
+{
+	ref_count--;
+	if (!ref_count)
+		delete this;
 }

@@ -345,6 +345,8 @@ void Formula::SetFormula (string entry) throw (parse_error)
 			oss << "<sub>" << nC << "</sub>";
 	}
 	RawMarkup = oss.str ();
+IsotopicPattern pattern;
+CalculateIsotopicPattern(pattern);
 }
 
 void Formula::Clear ()
@@ -464,6 +466,16 @@ double Formula::GetMolecularWeight (int &prec, bool &artificial)
 void Formula::CalculateIsotopicPattern (IsotopicPattern &pattern)
 {
 	map<int,int>::iterator i, end = Raw.end ();
-	for (i = Raw.begin (); i != end; i++) {
+	i = Raw.begin ();
+	IsotopicPattern *pat, *pat0;
+	pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second);
+//	pattern Assign (*pat);
+//	pat->Unref ();
+	for (i++; i != end; i++) {
+		pat0 = pattern.multiply (*(pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second)));
+		pat->Unref ();
+		pat = pat0->Simplify ();
+		pat->Unref ();
+		pat0->Unref ();
 	}
 }

@@ -218,6 +218,13 @@ public:
 	@return the atomic mass of the element.
 	*/
 	double GetWeight (int& prec) {prec = m_WeightPrec; return m_Weight;}
+	/*!
+	@param natoms: atoms count.
+
+	@return the isotopic pattern correponding to a fragment containing n atoms of the
+	element.
+	*/
+	IsotopicPattern *GetIsotopicPattern (unsigned natoms);
 	
 private:
 	unsigned char m_Z, m_nve, m_tve, m_maxve;

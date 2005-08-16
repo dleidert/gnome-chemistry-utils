@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2005-08-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: requires goffice >= 0.0.3.
+	* database/isotopes.xml.in: fixed errors.
+	* gcu/crystalatom.cc: added missing headers.
+	* gcu/element.cc: started work on isotopic pattern calculation.
+	* gcu/element.h: ditto.
+	* gcu/formula.cc: ditto.
+	* gcu/isotope.cc: ditto.
+	* gcu/isotope.h:ditto.
+	* glade/gchemcalc.glade: add widgets to display composition and
+	isotopic pattern.
+
 2005-07-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/isotopes.xml.in: name is now a child node instead of a property
 	to avoid duplication of the whole isotope node on translation.
