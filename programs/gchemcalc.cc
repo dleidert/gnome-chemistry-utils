@@ -39,6 +39,7 @@
 #include <gtk/gtkaboutdialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkbox.h>
+#include <goffice/gtk/go-graph-widget.h>
 #include <math.h>
 
 using namespace gcu;
@@ -48,6 +49,7 @@ public:
 	GChemCalc ();
 	Formula formula;
 	GtkLabel *markup, *raw, *weight;
+	GtkWidget *pattern_page;
 };
 
 GChemCalc::GChemCalc (): formula ("")
@@ -120,6 +122,21 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		gtk_label_set_text (App.weight, weightstr);
 		g_free (weightstr);
 		g_free (format);
+		IsotopicPattern pattern;
+		App.formula.CalculateIsotopicPattern (pattern);
+		double *values;
+		int n, mass, nb;
+		mass = pattern.GetMinMass ();
+		if (mass == 0) {
+			// invalid pattern, do not display anything
+			gtk_widget_hide (App.pattern_page);
+			return;
+		} else {
+			gtk_widget_show (App.pattern_page);
+			nb = pattern.GetValues (&values);
+			// do not display values < 0.1%
+			g_free (values);
+		}
 	}
 	catch (parse_error &error) {
 		int start, length;
@@ -170,6 +187,7 @@ int main (int argc, char *argv[])
 	g_signal_connect (GTK_OBJECT (window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
+	
 	GtkWidget *vbox = glade_xml_get_widget (xml, "vbox1");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
@@ -190,6 +208,8 @@ int main (int argc, char *argv[])
 	App.markup = GTK_LABEL (glade_xml_get_widget (xml, "markup"));
 	App.raw = GTK_LABEL (glade_xml_get_widget (xml, "raw"));
 	App.weight = GTK_LABEL (glade_xml_get_widget (xml, "weight"));
+	App.pattern_page = glade_xml_get_widget (xml, "pattern");
+	gtk_widget_hide (App.pattern_page);
 	GtkWidget *w = glade_xml_get_widget (xml, "entry");
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),

@@ -84,7 +84,6 @@ double IsotopicPattern::epsilon = 1e-6;
 
 IsotopicPattern *IsotopicPattern::Simplify ()
 {
-puts("1.0");
 	int min = 0, max = m_max - m_min;
 	int i, j, imax = max + 1;
 	double vmax = m_values[0], minval;
@@ -97,18 +96,24 @@ puts("1.0");
 		min++;
 	while (m_values[max] < minval)
 		max--;
-printf("min=%d max=%d\n",min,max);
-	IsotopicPattern *pat = new IsotopicPattern (min, max);
-puts("1.2");
+	IsotopicPattern *pat = new IsotopicPattern (min + m_min, max + m_min);
 	pat->m_mono = m_mono;
 	for (i = min, j = 0; i <= max; i++, j++)
-		pat->m_values[j] = m_values[i];
+		pat->m_values[j] = m_values[i] / vmax;
 	return pat;
 }
 
 IsotopicPattern *IsotopicPattern::multiply (IsotopicPattern &pattern)
 {
 	IsotopicPattern *pat = new IsotopicPattern (m_min + pattern.m_min, m_max + pattern.m_max);
+	pat->m_mono = m_mono + pattern.m_mono;
+	int i, j, k, imax = pat->m_max - pat->m_min + 1, jmax = m_values.size () - 1, kmax = pattern.m_values.size ();
+	for (i = 0; i < imax; i++) {
+		pat->m_values[i] = 0.;
+		for (j = min (i, jmax), k = i - j; (k < kmax) && (j >= 0); j--, k++) {
+			pat->m_values[i] += pattern.m_values[k] * m_values[j];
+		}
+	}
 	return pat;
 }
 
@@ -116,10 +121,10 @@ IsotopicPattern *IsotopicPattern::square ()
 {
 	IsotopicPattern *pat = new IsotopicPattern (2 * m_min, 2 * m_max);
 	pat->m_mono = 2 * m_mono;
-	int i, j, k, imax = pat->m_max - pat->m_min + 1;
+	int i, j, k, imax = pat->m_max - pat->m_min + 1, jmax = m_values.size ();
 	for (i = 0; i < imax; i++) {
 		pat->m_values[i] = 0.;
-		for (j = max (0, m_max - i), k = min (j, m_max - j); k > j; k--, j++) {
+		for (j = max (0, i - jmax), k = i - j; k > j; k--, j++) {
 			pat->m_values[i] += 2. * m_values[k] * m_values[j];
 		}
 		if (j == k)
@@ -132,14 +137,7 @@ void IsotopicPattern::SetValue (int A, double percent)
 {
 	if (A >= m_min && A <= m_max) {
 		A -= m_min;
-#if HAS_VECTOR_AT
-		m_values.at (A) = percent;
-#else
-		vector<double>::iterator it;
-		it = m_values.begin ();
-		it += A;
-		m_values.insert (it, percent);
-#endif
+		m_values[A] = percent;
 	}
 }
 
@@ -154,7 +152,7 @@ void IsotopicPattern::Normalize ()
 			max = m_values[i];
 		}
 	m_mono += m_min;
-	for (i = 1; i < maxi; i++)
+	for (i = 0; i < maxi; i++)
 		m_values[i] /= max;
 }
 
@@ -163,4 +161,30 @@ void IsotopicPattern::Unref ()
 	ref_count--;
 	if (!ref_count)
 		delete this;
+}
+
+int IsotopicPattern::GetValues (double **values)
+{
+	int i, result = m_values.size ();
+	*values = g_new (double, result);
+	for (i = 0; i < result; i++)
+		(*values)[i] = m_values[i];
+	return result;
+}
+
+void IsotopicPattern::Copy (IsotopicPattern& pattern)
+{
+	m_min = pattern.m_min;
+	m_max = pattern.m_max;
+	m_mono = pattern.m_mono;
+	int i, max = pattern.m_values.size();
+	m_values.resize (max);
+	for (i = 0; i < max; i++) {
+		m_values[i] = pattern.m_values[i];
+	}
+}
+
+void IsotopicPattern::Clear ()
+{
+	m_min = m_max = m_mono = 0;
 }

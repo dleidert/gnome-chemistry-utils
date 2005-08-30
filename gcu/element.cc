@@ -641,27 +641,40 @@ void Element::LoadAllData ()
 
 IsotopicPattern *Element::GetIsotopicPattern (unsigned natoms)
 {
-	IsotopicPattern *pat, *pattern;
+	if (m_patterns.size () == 0)
+		return NULL;
+	IsotopicPattern *pat, *pattern, *result = NULL;
 	if (natoms == 0)
 		return NULL;
 	int i = 1;
 	while ((natoms & 1) == 0) {
 		natoms >>= 1;
 		i++;
-printf("natoms=%d i=%d\n",natoms,i);
 	}
-	while (m_patterns.size () < i) {
-puts("0");
-		pat = m_patterns[m_patterns.size () - 1]->square ();
-puts("1");
-		pattern = pat->Simplify ();
-puts("2");
-		pat->Unref ();
-puts("3");
-		m_patterns.push_back (pattern);
-puts("4");
+	while (natoms) {
+		if (i == 1) {
+			result = m_patterns[0];
+			result->Ref ();
+		} else if (natoms & 1) {
+			while (m_patterns.size () < i) {
+				pat = m_patterns[m_patterns.size () - 1]->square ();
+				pattern = pat->Simplify ();
+				pat->Unref ();
+				m_patterns.push_back (pattern);
+			}
+			pattern = m_patterns[i - 1];
+			if (result) {
+				pat = result->multiply (*pattern);
+				result->Unref ();
+				result = pat->Simplify ();
+				pat->Unref ();
+			} else {
+				result = pattern;
+				result->Ref ();
+			}
+		}
+		natoms >>= 1;
+		i++;
 	}
-	if (natoms == 1)
-		pattern->Ref ();
-	return pattern;
+	return result;
 }

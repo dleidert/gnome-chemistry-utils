@@ -52,11 +52,16 @@ public:
 	IsotopicPattern *Simplify ();
 	IsotopicPattern *multiply (IsotopicPattern& pattern);
 	IsotopicPattern *square (void);
+	void Copy (IsotopicPattern& pattern);
 
 	void SetValue (int A, double percent);
 	void Normalize ();
+	void Clear ();
 	void Ref () {ref_count++;}
 	void Unref ();
+	int GetMinMass () {return m_min;}
+	int GetMonoMass () {return m_mono;}
+	int GetValues (double **values);
 
 private:
 	int m_min, m_max, m_mono;

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2005-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/element.cc: finished isotopic pattern calculation.
+	* gcu/formula.cc: ditto.
+	* gcu/isotope.cc: ditto.
+	* gcu/isotope.h: ditto.
+	* programs/gchemcalc.cc: calculate isotopic pattern and show the
+	notebook page only if valid.
+
 2005-08-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requires goffice >= 0.0.3.
 	* database/isotopes.xml.in: fixed errors.

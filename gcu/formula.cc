@@ -345,8 +345,6 @@ void Formula::SetFormula (string entry) throw (parse_error)
 			oss << "<sub>" << nC << "</sub>";
 	}
 	RawMarkup = oss.str ();
-IsotopicPattern pattern;
-CalculateIsotopicPattern(pattern);
 }
 
 void Formula::Clear ()
@@ -469,13 +467,20 @@ void Formula::CalculateIsotopicPattern (IsotopicPattern &pattern)
 	i = Raw.begin ();
 	IsotopicPattern *pat, *pat0;
 	pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second);
-//	pattern Assign (*pat);
-//	pat->Unref ();
+	pattern.Copy (*pat);
+	pat->Unref ();
 	for (i++; i != end; i++) {
-		pat0 = pattern.multiply (*(pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second)));
+		pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second);
+		if (!pat) {
+			// no stable isotope known for the element
+			pattern.Clear ();
+			return;
+		}
+		pat0 = pattern.multiply (*pat);
 		pat->Unref ();
 		pat = pat0->Simplify ();
-		pat->Unref ();
+		pattern.Copy (*pat);
 		pat0->Unref ();
+		pat->Unref ();
 	}
 }
