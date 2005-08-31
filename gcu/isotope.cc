@@ -127,7 +127,7 @@ IsotopicPattern *IsotopicPattern::square ()
 	IsotopicPattern *pat = new IsotopicPattern (2 * m_min, 2 * m_max);
 	pat->m_mono = 2 * m_mono;
 	pat->m_mono_mass = 2. * m_mono_mass;
-	int i, j, k, imax = pat->m_max - pat->m_min + 1, jmax = m_values.size ();
+	int i, j, k, imax = pat->m_max - pat->m_min + 1, jmax = m_values.size () - 1;
 	for (i = 0; i < imax; i++) {
 		pat->m_values[i] = 0.;
 		for (j = max (0, i - jmax), k = i - j; k > j; k--, j++) {

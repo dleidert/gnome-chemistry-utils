@@ -159,12 +159,12 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 			g_free (weightstr);
 			gtk_widget_show (App.pattern_page);
 			nb = pattern.GetValues (&values);
-			// do not display values < 0.1%
+			// do not display values < 0.1
 			min = 0;
-			while (values[min] < 0.001)
+			while (values[min] < 0.1)
 				min++;
 			max = nb - 1;
-			while (values[max] < 0.001)
+			while (values[max] < 0.1)
 				max--;
 			max = max - min + 1;
 			x = g_new (double, max);

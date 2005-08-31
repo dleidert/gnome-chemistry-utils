@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2005-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/isotope.cc: fixed a loop boundary bug.
+	* programs/gchemcalc.cc: do not display peaks lower than 0.1 in
+	isotopic patterns instead of 0.001.
+
+2005-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/isotopes.xml.in: fixed mass of 13C.
 	* gcu/element.cc: enhanced isotopic pattern calculation.
 	* gcu/isotope.cc: ditto.
