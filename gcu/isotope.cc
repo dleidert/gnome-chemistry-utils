@@ -59,6 +59,7 @@ Isotope::~Isotope ()
 IsotopicPattern::IsotopicPattern ()
 {
 	m_min = m_max = m_mono = 0;
+	m_mono_mass = 0.;
 	ref_count = 1;
 }
 
@@ -72,6 +73,7 @@ IsotopicPattern::IsotopicPattern (int min, int max)
 		m_min = max;
 	}
 	m_mono = 0;
+	m_mono_mass = 0.;
 	m_values.resize (max - min + 1);
 	ref_count = 1;
 }
@@ -98,6 +100,8 @@ IsotopicPattern *IsotopicPattern::Simplify ()
 		max--;
 	IsotopicPattern *pat = new IsotopicPattern (min + m_min, max + m_min);
 	pat->m_mono = m_mono;
+	pat->m_mono_mass = m_mono_mass;
+	vmax /= 100.;
 	for (i = min, j = 0; i <= max; i++, j++)
 		pat->m_values[j] = m_values[i] / vmax;
 	return pat;
@@ -107,6 +111,7 @@ IsotopicPattern *IsotopicPattern::multiply (IsotopicPattern &pattern)
 {
 	IsotopicPattern *pat = new IsotopicPattern (m_min + pattern.m_min, m_max + pattern.m_max);
 	pat->m_mono = m_mono + pattern.m_mono;
+	pat->m_mono_mass = m_mono_mass + pattern.m_mono_mass;
 	int i, j, k, imax = pat->m_max - pat->m_min + 1, jmax = m_values.size () - 1, kmax = pattern.m_values.size ();
 	for (i = 0; i < imax; i++) {
 		pat->m_values[i] = 0.;
@@ -121,6 +126,7 @@ IsotopicPattern *IsotopicPattern::square ()
 {
 	IsotopicPattern *pat = new IsotopicPattern (2 * m_min, 2 * m_max);
 	pat->m_mono = 2 * m_mono;
+	pat->m_mono_mass = 2. * m_mono_mass;
 	int i, j, k, imax = pat->m_max - pat->m_min + 1, jmax = m_values.size ();
 	for (i = 0; i < imax; i++) {
 		pat->m_values[i] = 0.;
@@ -152,6 +158,7 @@ void IsotopicPattern::Normalize ()
 			max = m_values[i];
 		}
 	m_mono += m_min;
+	max /= 100.;
 	for (i = 0; i < maxi; i++)
 		m_values[i] /= max;
 }
@@ -177,6 +184,7 @@ void IsotopicPattern::Copy (IsotopicPattern& pattern)
 	m_min = pattern.m_min;
 	m_max = pattern.m_max;
 	m_mono = pattern.m_mono;
+	m_mono_mass = pattern.m_mono_mass;
 	int i, max = pattern.m_values.size();
 	m_values.resize (max);
 	for (i = 0; i < max; i++) {
@@ -187,4 +195,11 @@ void IsotopicPattern::Copy (IsotopicPattern& pattern)
 void IsotopicPattern::Clear ()
 {
 	m_min = m_max = m_mono = 0;
+	m_mono_mass = 0.;
+}
+
+void IsotopicPattern::SetMonoMass (double mass)
+{
+	if (m_mono_mass == 0.)
+		m_mono_mass = mass;
 }

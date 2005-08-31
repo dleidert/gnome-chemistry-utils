@@ -60,13 +60,16 @@ public:
 	void Ref () {ref_count++;}
 	void Unref ();
 	int GetMinMass () {return m_min;}
-	int GetMonoMass () {return m_mono;}
+	int GetMonoNuclNb () {return m_mono;}
+	double GetMonoMass () {return m_mono_mass;}
+	void SetMonoMass (double mass);
 	int GetValues (double **values);
 
 private:
 	int m_min, m_max, m_mono;
 	int ref_count;
 	vector<double> m_values;
+	double m_mono_mass;
 	static double epsilon;
 };
 

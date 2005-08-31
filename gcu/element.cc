@@ -621,6 +621,11 @@ void Element::LoadIsotopes ()
 						pattern->SetValue ((*i)->A, (*i)->abundance.value);
 				}
 				pattern->Normalize ();
+				niso = pattern->GetMonoNuclNb ();
+				i = Elt->m_isotopes.begin ();
+				while ((*i)->A != niso)
+					i++;
+				pattern->SetMonoMass ((*i)->mass.value);
 				Elt->m_patterns.push_back (pattern);
 			}
 		}

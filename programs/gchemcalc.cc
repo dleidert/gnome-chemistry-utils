@@ -39,7 +39,20 @@
 #include <gtk/gtkaboutdialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkbox.h>
+#include <goffice/goffice.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/go-plugin-loader-module.h>
+#include <goffice/data/go-data-simple.h>
 #include <goffice/gtk/go-graph-widget.h>
+#include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-styled-object.h>
+#include <goffice/utils/go-line.h>
+#include <goffice/utils/go-marker.h>
 #include <math.h>
 
 using namespace gcu;
@@ -48,8 +61,13 @@ class GChemCalc {
 public:
 	GChemCalc ();
 	Formula formula;
-	GtkLabel *markup, *raw, *weight;
+	GtkLabel *markup, *raw, *weight, *mono, *monomass;
 	GtkWidget *pattern_page;
+	GogChart *chart;
+	GogGraph *graph;
+	GogLabel *label;
+	GogPlot *plot;
+	GogSeries *series;
 };
 
 GChemCalc::GChemCalc (): formula ("")
@@ -96,6 +114,7 @@ static void on_about (GtkWidget *widget, void *data)
 
 static void cb_entry_active (GtkEntry *entry, gpointer data)
 {
+	GError *error;
 	try {
 		char *format;
 		App.formula.SetFormula (gtk_entry_get_text (entry));
@@ -124,18 +143,59 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		g_free (format);
 		IsotopicPattern pattern;
 		App.formula.CalculateIsotopicPattern (pattern);
-		double *values;
-		int n, mass, nb;
+		double *values, *x, *y;
+		int n, mass, nb, min, max, i;
 		mass = pattern.GetMinMass ();
 		if (mass == 0) {
 			// invalid pattern, do not display anything
 			gtk_widget_hide (App.pattern_page);
 			return;
 		} else {
+			weightstr = g_strdup_printf ("%d", pattern.GetMonoNuclNb ());
+			gtk_label_set_text (App.mono, weightstr);
+			g_free (weightstr);
+			weightstr = g_strdup_printf ("%g", pattern.GetMonoMass ());
+			gtk_label_set_text (App.monomass, weightstr);
+			g_free (weightstr);
 			gtk_widget_show (App.pattern_page);
 			nb = pattern.GetValues (&values);
 			// do not display values < 0.1%
+			min = 0;
+			while (values[min] < 0.001)
+				min++;
+			max = nb - 1;
+			while (values[max] < 0.001)
+				max--;
+			max = max - min + 1;
+			x = g_new (double, max);
+			y  = g_new (double, max);
+			for (i = 0, n = min; i < max; i++, n++) {
+				x[i] = mass + n;
+				y[i] = values[n];
+			}
+			GOData *data = go_data_vector_val_new (x, max, g_free);
+			gog_series_set_dim (App.series, 0, data, &error);
+			data = go_data_vector_val_new (y, max, g_free);
+			gog_series_set_dim (App.series, 1, data, &error);
 			g_free (values);
+			// set axis bounds
+			if (max - min < 30) {
+				n = (30 - max + min) / 2;
+				max += n;
+				min -= n;
+				if (mass + min < 0) {
+					max -= mass + min;
+					min = - mass;
+				}
+			}
+			nb = (mass + min) / 10 * 10;
+			n = (mass + min + max + 10) / 10 * 10;
+			GogObject *obj = gog_object_get_child_by_role (GOG_OBJECT (App.chart),
+					gog_object_find_role_by_name (GOG_OBJECT (App.chart), "X-Axis"));
+			data = go_data_scalar_val_new (nb);
+			gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MIN, data, &error);
+			data = go_data_scalar_val_new (n);
+			gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MAX, data, &error);
 		}
 	}
 	catch (parse_error &error) {
@@ -181,6 +241,10 @@ int main (int argc, char *argv[])
 #endif
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
+	/* Initialize libgoffice */
+	libgoffice_init ();
+	/* Initialize plugins manager */
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
 	GladeXML *xml =  glade_xml_new (DATADIR"/"PACKAGE"/glade/gchemcalc.glade", "gchemcalc", NULL);
 	GtkWidget *window = glade_xml_get_widget (xml, "gchemcalc");
@@ -208,9 +272,32 @@ int main (int argc, char *argv[])
 	App.markup = GTK_LABEL (glade_xml_get_widget (xml, "markup"));
 	App.raw = GTK_LABEL (glade_xml_get_widget (xml, "raw"));
 	App.weight = GTK_LABEL (glade_xml_get_widget (xml, "weight"));
+	App.mono = GTK_LABEL (glade_xml_get_widget (xml, "mono"));
+	App.monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
 	App.pattern_page = glade_xml_get_widget (xml, "pattern");
+	GtkWidget *w = go_graph_widget_new ();
+	gtk_widget_show (w);
+	gtk_box_pack_end (GTK_BOX (App.pattern_page), w, TRUE, TRUE, 0);
+	/* Get the embedded graph */
+	App.graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
+	App.chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
+	App.plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
+	gog_object_add_by_name (GOG_OBJECT (App.chart), "Plot", GOG_OBJECT (App.plot));
+	/* Create a series for the plot and populate it with some simple data */
+	App.series = gog_plot_new_series (App.plot);
+	gog_object_add_by_name (GOG_OBJECT (App.series), "Vertical drop lines", NULL);
+	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (App.series));
+	style->marker.mark->shape = GO_MARKER_NONE;
+	style->marker.auto_shape = false;
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.auto_dash = false;
+	GogObject *obj = gog_object_get_child_by_role (GOG_OBJECT (App.chart),
+			gog_object_find_role_by_name (GOG_OBJECT (App.chart), "Y-Axis"));
+	GOData *data = go_data_scalar_val_new (100.);
+	gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MAX, data, &error);
+
 	gtk_widget_hide (App.pattern_page);
-	GtkWidget *w = glade_xml_get_widget (xml, "entry");
+	w = glade_xml_get_widget (xml, "entry");
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
 		 window);

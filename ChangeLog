@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2005-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/isotopes.xml.in: fixed mass of 13C.
+	* gcu/element.cc: enhanced isotopic pattern calculation.
+	* gcu/isotope.cc: ditto.
+	* gcu/isotope.h: ditto.
+	* glade/gchemcalc.glade: added monoisotopic mass.
+	* programs/gchemcalc.cc: display isotopic patterns.
+
 2005-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/element.cc: finished isotopic pattern calculation.
 	* gcu/formula.cc: ditto.
