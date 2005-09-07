@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/gchemcalc.cc: add elemental composition.
+
 2005-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/isotope.cc: fixed a loop boundary bug.
 	* programs/gchemcalc.cc: do not display peaks lower than 0.1 in

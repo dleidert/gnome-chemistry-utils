@@ -28,6 +28,7 @@
 #warning "the following lines should be removed for stable releases"
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
+#include <gcu/element.h>
 #include <gcu/formula.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
@@ -39,6 +40,8 @@
 #include <gtk/gtkaboutdialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkbox.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>
@@ -68,6 +71,7 @@ public:
 	GogLabel *label;
 	GogPlot *plot;
 	GogSeries *series;
+	GtkListStore *pclist;
 };
 
 GChemCalc::GChemCalc (): formula ("")
@@ -141,6 +145,65 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		gtk_label_set_text (App.weight, weightstr);
 		g_free (weightstr);
 		g_free (format);
+		// Composition
+		gtk_list_store_clear (App.pclist);
+		map<int,int> &raw = App.formula.GetRawFormula ();
+		map<int,int>::iterator ri, riend = raw.end ();
+		double pcent;
+		map<string, int> elts;
+		int nC = 0, nH = 0;
+		map<int, int>::iterator j, jend = raw.end();
+		for (j = raw.begin (); j != jend; j++) {
+			switch ((*j).first) {
+			case 1:
+				nH = (*j).second;
+				break;
+			case 6:
+				nC = (*j).second;
+				break;
+			default:
+				elts[Element::Symbol((*j).first)] = (*j).second;
+				break;
+			}
+		}
+		GtkTreeIter iter;
+		Element *elt;
+		if (nC > 0) {
+			elt = Element::GetElement (6);
+			pcent = nC * elt->GetWeight (prec) / weight * 100.;
+			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
+			gtk_list_store_append (App.pclist, &iter);
+			gtk_list_store_set (App.pclist, &iter,
+					  0, "C",
+					  1, weightstr,
+					  -1);
+			g_free (weightstr);
+		}
+		if (nH > 0) {
+			elt = Element::GetElement (1);
+			pcent = nH * elt->GetWeight (prec) / weight * 100.;
+			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
+			gtk_list_store_append (App.pclist, &iter);
+			gtk_list_store_set (App.pclist, &iter,
+					  0, "H",
+					  1, weightstr,
+					  -1);
+			g_free (weightstr);
+		}
+		map<string, int>::iterator k, kend = elts.end ();
+		for (k = elts.begin (); k != kend; k++) {
+			nC = (*k).second;
+			elt = Element::GetElement ((*k).first.c_str ());
+			pcent = nC * elt->GetWeight (prec) / weight * 100.;
+			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
+			gtk_list_store_append (App.pclist, &iter);
+			gtk_list_store_set (App.pclist, &iter,
+					  0, (*k).first.c_str (),
+					  1, weightstr,
+					  -1);
+			g_free (weightstr);
+		}
+		// Isotopic pattern
 		IsotopicPattern pattern;
 		App.formula.CalculateIsotopicPattern (pattern);
 		double *values, *x, *y;
@@ -272,18 +335,43 @@ int main (int argc, char *argv[])
 	App.markup = GTK_LABEL (glade_xml_get_widget (xml, "markup"));
 	App.raw = GTK_LABEL (glade_xml_get_widget (xml, "raw"));
 	App.weight = GTK_LABEL (glade_xml_get_widget (xml, "weight"));
+
+	//Add composition list
+	App.pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	GtkTreeView *tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "composition"));
+	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (App.pclist));
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
+	/* column for element */
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Element"), renderer, "text", 0, NULL);
+	/* set this column to a minimum sizing (of 100 pixels) */
+	gtk_tree_view_column_set_sizing(GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_GROW_ONLY);
+	gtk_tree_view_column_set_min_width(GTK_TREE_VIEW_COLUMN (column), 100);
+	gtk_tree_view_append_column (tree, column);
+	/* column for x */
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Mass %"), renderer, "text", 1, NULL);
+	gtk_tree_view_column_set_alignment (column, 1.0);
+	g_object_set (G_OBJECT (renderer), "xalign", 1.0, NULL);
+	/* set this column to a fixed sizing (of 150 pixels) */
+	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 150);
+	gtk_tree_view_append_column (tree, column);
+	
+	// Add isotopic pattern chart
 	App.mono = GTK_LABEL (glade_xml_get_widget (xml, "mono"));
 	App.monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
 	App.pattern_page = glade_xml_get_widget (xml, "pattern");
 	GtkWidget *w = go_graph_widget_new ();
 	gtk_widget_show (w);
 	gtk_box_pack_end (GTK_BOX (App.pattern_page), w, TRUE, TRUE, 0);
-	/* Get the embedded graph */
+	// Get the embedded graph
 	App.graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
 	App.chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
 	App.plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	gog_object_add_by_name (GOG_OBJECT (App.chart), "Plot", GOG_OBJECT (App.plot));
-	/* Create a series for the plot and populate it with some simple data */
+	// Create a series for the plot and populate it with some simple data
 	App.series = gog_plot_new_series (App.plot);
 	gog_object_add_by_name (GOG_OBJECT (App.series), "Vertical drop lines", NULL);
 	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (App.series));
