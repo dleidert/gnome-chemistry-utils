@@ -39,7 +39,7 @@
 #include <libbonoboui.h>
 #include <string.h>
 #ifdef HAS_OPENBABEL_2
-#	include <obconversion.h>
+#	include <openbabel/obconversion.h>
 #else
 extern OpenBabel::OBExtensionTable et;
 #endif

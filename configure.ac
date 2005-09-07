@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.4.4)
+AC_INIT(gnome-chemistry-utils, 0.4.5)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -103,22 +103,30 @@ dnl test if openbabel is present and chem3d can be built
 if test "$have_gtkgl" = "yes"; then
 	
 	OPENBABEL_REQUIRED_VERSION=1.100.2
-	PKG_CHECK_MODULES(GC3D, \
-		gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
-		libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED_VERSION \
-		openbabel >= $OPENBABEL_REQUIRED_VERSION, \
-		have_openbabel="yes", \
-		have_openbabel="no" && \
-		AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and OpenBabel will not be built ***))
-
-	if test "$have_openbabel" = "yes"; then
-		GCU_CFLAGS="$GCU_CFLAGS `pkg-config --cflags openbabel`"
-		GCU_LIBS="$GCU_LIBS `pkg-config --libs openbabel`"
-
-		PKG_CHECK_MODULES(OB2, openbabel >= 2.0.0, [has_openbabel_2=yes], [has_openbabel_2=no])
-		
-		if test "$has_openbabel_2" = "yes"; then
-			GCU_CFLAGS="$GCU_CFLAGS -DHAS_OPENBABEL_2"
+	OPENBABEL2_REQUIRED_VERSION=2.0.0
+	PKG_CHECK_MODULES(OB2, openbabel-2.0 >= $OPENBABEL2_REQUIRED_VERSION, [has_openbabel_2=yes], [has_openbabel_2=no])
+	if test "$has_openbabel_2" = "yes"; then
+		PKG_CHECK_MODULES(GC3D, \
+			gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
+			libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED_VERSION, \
+			have_openbabel="yes", \
+			have_openbabel="no" && \
+			AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and OpenBabel will not be built ***))
+		if test "$have_openbabel" = "yes"; then
+			GCU_CFLAGS="$GCU_CFLAGS `pkg-config --cflags openbabel-2.0` -DHAS_OPENBABEL_2"
+			GCU_LIBS="$GCU_LIBS `pkg-config --libs openbabel-2.0`"
+		fi
+	else
+		PKG_CHECK_MODULES(GC3D, \
+			gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
+			libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED_VERSION \
+			openbabel >= $OPENBABEL_REQUIRED_VERSION, \
+			have_openbabel="yes", \
+			have_openbabel="no" && \
+			AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and OpenBabel will not be built ***))
+		if test "$have_openbabel" = "yes"; then
+			GCU_CFLAGS="$GCU_CFLAGS `pkg-config --cflags openbabel`"
+			GCU_LIBS="$GCU_LIBS `pkg-config --libs openbabel`"
 		fi
 	fi
 fi

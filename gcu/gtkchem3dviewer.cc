@@ -50,8 +50,8 @@
 #include <locale.h>
 #define _(String) gettext(String)
 #ifdef HAS_OPENBABEL_2
-#	include <mol.h>
-#	include <obconversion.h>
+#	include <openbabel/mol.h>
+#	include <openbabel/obconversion.h>
 #endif
 
 /* Attribute list for gtkglarea widget. Specifies a
