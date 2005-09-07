@@ -4,4 +4,4 @@ database/elements.xml.in
 database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in
-gchemutils.keys.in
+gchemutils.xml.in
