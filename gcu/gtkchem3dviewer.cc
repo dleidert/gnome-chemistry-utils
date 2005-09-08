@@ -39,8 +39,8 @@
 #include <libintl.h>
 #include <locale.h>
 #define _(String) gettext(String)
-#include <mol.h>
-#include <obconversion.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
 
 /* Attribute list for gtkglarea widget. Specifies a
      list of Boolean attributes and enum/integer

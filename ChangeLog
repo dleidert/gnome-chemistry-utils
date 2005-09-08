@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-09-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: make distcheck should now work for non root users.
+	* configure.ac: update openbabel-2 stuff.
+	* gcu/gtkchem3dviewer.cc: ditto.
+
 2005-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/gchemcalc.cc: add elemental composition.
 
