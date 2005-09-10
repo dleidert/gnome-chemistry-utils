@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2005-09-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: enhanced openbabel-2 support.
+	* gcu.pc.in: ditto.
+
 2005-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.4.5 and updated openbabel-2 support.
 	* gcu/bonobo-control.cc: updated openbabel-2 support.

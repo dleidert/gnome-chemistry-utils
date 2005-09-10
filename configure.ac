@@ -114,7 +114,9 @@ if test "$have_gtkgl" = "yes"; then
 			AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and OpenBabel will not be built ***))
 		if test "$have_openbabel" = "yes"; then
 			GCU_CFLAGS="$GCU_CFLAGS `pkg-config --cflags openbabel-2.0` -DHAS_OPENBABEL_2"
-			GCU_LIBS="$GCU_LIBS `pkg-config --libs openbabel-2.0`"
+			GCU_LIBS="`pkg-config --libs openbabel-2.0` $GCU_LIBS "
+			OBFLAGS="-DHAS_OPENBABEL_2"
+			AC_SUBST(OBFLAGS)
 		fi
 	else
 		PKG_CHECK_MODULES(GC3D, \
@@ -126,7 +128,7 @@ if test "$have_gtkgl" = "yes"; then
 			AC_MSG_WARN(*** GtkChem3DViewer widget needs gnome-vfs-2.0 and OpenBabel will not be built ***))
 		if test "$have_openbabel" = "yes"; then
 			GCU_CFLAGS="$GCU_CFLAGS `pkg-config --cflags openbabel`"
-			GCU_LIBS="$GCU_LIBS `pkg-config --libs openbabel`"
+			GCU_LIBS="`pkg-config --libs openbabel` $GCU_LIBS "
 		fi
 	fi
 fi
