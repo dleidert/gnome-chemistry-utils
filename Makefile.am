@@ -33,6 +33,8 @@ DISTCLEANFILES = \
 	intltool-update \
 	intltool-merge
 
+DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --disable-update-databases
+
 install-data-hook:
 if UPDATE_DATABASES
 	update-mime-database $(datadir)/mime
