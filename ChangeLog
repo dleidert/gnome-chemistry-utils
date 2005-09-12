@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-09-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.4.6 and fix a pkgconfig problem
+	related to openbabel version.
+	* gcu.pc.in: ditto.
+
 2005-09-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add DISTCHECK_CONFIGURE_FLAGS so that make distcheck
 	works for a non root user.
