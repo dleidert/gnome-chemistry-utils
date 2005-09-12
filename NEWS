@@ -1,3 +1,15 @@
+Version 0.4.6
+	Make things still work with openbabel-1.100.2
+
+Version 0.4.5
+	Add openbabel-2.0 support
+
+Version 0.4.4
+	Fixes a critical bug in GObject class.
+
+Version 0.4.3
+	Fixed more build issues.
+
 Version 0.4.2
 	Enhanced signal handling.
 	Fixed compilation with g++-4.0 (#13273).
