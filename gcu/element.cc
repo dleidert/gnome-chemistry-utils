@@ -45,8 +45,8 @@ static void ReadValue (char const *source, GcuValue &value)
 	value.delta = (*tmp == '(')? strtol (tmp + 1, NULL, 10): 0;
 }
 
-using namespace gcu;
-using namespace std;
+namespace gcu
+{
 
 class EltTable
 {
@@ -63,6 +63,10 @@ private:
 	vector<Element*> Elements;
 	map <string, Element*> EltsMap;
 };
+
+} // namespace gcu
+
+using namespace gcu;
 
 EltTable Table;
 

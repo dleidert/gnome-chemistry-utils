@@ -36,13 +36,13 @@
 
 using namespace std;
 
-class EltTable;
-
 /*!\namespace gcu
 The namespace used for all C++ classes provided by the Gnome Chemistry Utils.
 */
 namespace gcu
 {
+
+class EltTable;
 
 /*!\class Element gcu/element.h
 	Represents a chemical element.
