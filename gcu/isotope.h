@@ -49,9 +49,9 @@ public:
 	IsotopicPattern (int min, int max);
 	~IsotopicPattern ();
 
-	IsotopicPattern *Simplify ();
-	IsotopicPattern *multiply (IsotopicPattern& pattern);
-	IsotopicPattern *square (void);
+	IsotopicPattern *Simplify (void);
+	IsotopicPattern *Multiply (IsotopicPattern& pattern);
+	IsotopicPattern *Square (void);
 	void Copy (IsotopicPattern& pattern);
 
 	void SetValue (int A, double percent);

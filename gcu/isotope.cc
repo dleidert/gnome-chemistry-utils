@@ -107,7 +107,7 @@ IsotopicPattern *IsotopicPattern::Simplify ()
 	return pat;
 }
 
-IsotopicPattern *IsotopicPattern::multiply (IsotopicPattern &pattern)
+IsotopicPattern *IsotopicPattern::Multiply (IsotopicPattern &pattern)
 {
 	IsotopicPattern *pat = new IsotopicPattern (m_min + pattern.m_min, m_max + pattern.m_max);
 	pat->m_mono = m_mono + pattern.m_mono;
@@ -122,7 +122,7 @@ IsotopicPattern *IsotopicPattern::multiply (IsotopicPattern &pattern)
 	return pat;
 }
 
-IsotopicPattern *IsotopicPattern::square ()
+IsotopicPattern *IsotopicPattern::Square ()
 {
 	IsotopicPattern *pat = new IsotopicPattern (2 * m_min, 2 * m_max);
 	pat->m_mono = 2 * m_mono;

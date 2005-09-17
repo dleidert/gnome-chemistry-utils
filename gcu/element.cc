@@ -666,14 +666,14 @@ IsotopicPattern *Element::GetIsotopicPattern (unsigned natoms)
 			result->Ref ();
 		} else if (natoms & 1) {
 			while (m_patterns.size () < i) {
-				pat = m_patterns[m_patterns.size () - 1]->square ();
+				pat = m_patterns[m_patterns.size () - 1]->Square ();
 				pattern = pat->Simplify ();
 				pat->Unref ();
 				m_patterns.push_back (pattern);
 			}
 			pattern = m_patterns[i - 1];
 			if (result) {
-				pat = result->multiply (*pattern);
+				pat = result->Multiply (*pattern);
 				result->Unref ();
 				result = pat->Simplify ();
 				pat->Unref ();

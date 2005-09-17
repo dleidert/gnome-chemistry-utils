@@ -476,7 +476,7 @@ void Formula::CalculateIsotopicPattern (IsotopicPattern &pattern)
 			pattern.Clear ();
 			return;
 		}
-		pat0 = pattern.multiply (*pat);
+		pat0 = pattern.Multiply (*pat);
 		pat->Unref ();
 		pat = pat0->Simplify ();
 		pattern.Copy (*pat);

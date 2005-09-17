@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2005-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.5.2
+	* gcu/element.cc: changed some method names in gcu::IsotopicPattern.
+	* gcu/formula.cc: ditto.
+	* gcu/isotope.cc: ditto.
+	* gcu/isotope.h: ditto.
+
 2005-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/element.cc: applied patch for #13273 (comiplation faied with gcc-4).
 	* gcu/element.h: ditto.
