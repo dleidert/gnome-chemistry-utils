@@ -1,3 +1,6 @@
+Version 0.4.7
+	Fixes a critical bug in GObject class.
+
 Version 0.4.6
 	Make things still work with openbabel-1.100.2
 
