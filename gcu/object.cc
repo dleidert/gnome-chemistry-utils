@@ -387,7 +387,7 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 		NextType = TypeId ((unsigned) NextType + 1);
 	} else
 		typedesc.Id = id;
-	if (TypeNames.capacity() <= typedesc.Id) {
+	if (TypeNames.size() <= typedesc.Id) {
 		size_t max = (((size_t) typedesc.Id / 10) + 1) * 10;
 		TypeNames.resize (max);
 	}
@@ -397,7 +397,9 @@ TypeId Object::AddType(string TypeName, Object*(*Create)(), TypeId id)
 	vector<string>::iterator it;
 	it = TypeNames.begin ();
 	it += typedesc.Id;
-	TypeNames.insert (it, TypeName);
+	it = TypeNames.insert (it, TypeName);
+	it++;
+	TypeNames.erase (it);
 #endif
 	return typedesc.Id;
 }
