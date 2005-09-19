@@ -168,7 +168,7 @@ static void set_prop (BonoboPropertyBag *bag,  const BonoboArg *arg, guint arg_i
 			else bonobo_exception_set(ev, ex_Bonobo_PropertyBag_BackendFailed);
 			break;
 		case PROP_BGCOLOR:
-			g_object_set(object, "bgcolor", BONOBO_ARG_GET_STRING(arg));
+			g_object_set(object, "bgcolor", BONOBO_ARG_GET_STRING(arg), NULL);
 			break;
 		default:
 			bonobo_exception_set(ev, ex_Bonobo_PropertyBag_NotFound);

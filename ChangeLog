@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-09-19  Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* gcu/bonobo-control.cc: Fixed missing sentinel.
+
 2005-09-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.4.7.
 	* gcu/object.cc: fix a new critical bug in Object::AddType.
