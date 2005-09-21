@@ -1,3 +1,0 @@
-debian/tmp/usr/bin/* usr/bin
-debian/tmp/usr/lib/bonobo/servers/* usr/lib/bonobo/servers
-debian/tmp/usr/share/applications/* usr/share/applications
