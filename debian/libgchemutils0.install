@@ -1,9 +1,0 @@
-debian/tmp/usr/lib/*.so.* usr/lib
-
-debian/tmp/usr/share/locale/de/LC_MESSAGES/* usr/share/locale/de/LC_MESSAGES
-debian/tmp/usr/share/locale/fr/LC_MESSAGES/* usr/share/locale/fr/LC_MESSAGES
-debian/tmp/usr/share/locale/it/LC_MESSAGES/* usr/share/locale/it/LC_MESSAGES
-debian/tmp/usr/share/locale/pl/LC_MESSAGES/* usr/share/locale/pl/LC_MESSAGES
-
-debian/tmp/usr/share/gchemutils/* usr/share/libgchemutils0
-debian/tmp/usr/share/gchemutils/glade/* usr/share/libgchemutils0/glade

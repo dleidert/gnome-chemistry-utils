@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-09-21  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* debian/*: removed all Debian packaging files.
+
 2005-03-14  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* Initial Import of Debian packaging files for 0.2 series
 

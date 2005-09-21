@@ -1,6 +1,0 @@
-debian/tmp/usr/bin/* usr/bin
-debian/tmp/usr/share/applications/* usr/share/applications
-debian/tmp/usr/share/mime-info/* usr/share/mime-info
-
-tests/.libs/* usr/share/gchemutils/bin
-tests/testbonobocontrol usr/share/gchemutils/bin
