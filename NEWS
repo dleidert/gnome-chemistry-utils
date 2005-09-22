@@ -1,3 +1,8 @@
+Version 0.5.2
+	Correct mean molecular mass for isotopic patterns of macromolecules.
+	Add a periodic table application.
+	Add a mozilla plugin skeleton.
+
 Version 0.5.1
 	Add mass composition and isotopic patterns to Calculator.
 
