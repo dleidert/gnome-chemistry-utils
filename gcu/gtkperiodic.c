@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <gtk/gtkstyle.h>
+#include <gtk/gtklabel.h>
 #include <glade/glade.h>
 #include <libintl.h>
 
@@ -59,6 +60,7 @@ struct _GtkPeriodicPrivate
 {
 	GtkVBox* vbox;
 	GtkToggleButton* buttons[119];
+	GtkLabel* labels[119];
 	guint Z;
 	gboolean can_unselect;
 	GtkTooltips* tips;
@@ -183,6 +185,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 		{
 			gtk_tooltips_set_tip(periodic->priv->tips, GTK_WIDGET(button), gcu_element_get_name(i), NULL);
 			periodic->priv->buttons[i] = button;
+			periodic->priv->labels[i] = GTK_LABEL (gtk_bin_get_child (GTK_BIN (button)));
 			g_signal_connect(G_OBJECT(button), "toggled", (GCallback)on_clicked, periodic);
 		}
 	}
@@ -347,6 +350,8 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 {
 	GtkStyle* style;
 	const double *colors;
+	PangoAttribute *attr;
+	PangoAttrList *l;
 	int i;
 	for (i = 1; i <= 118; i++)
 	{
@@ -354,26 +359,41 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 		style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->priv->buttons[i])));
 		switch (periodic->priv->colorstyle)
 		{
-			case GTK_PERIODIC_COLOR_NONE:
-				style->bg[0].red = DefaultRed[0];
-				style->bg[0].green = DefaultGreen[0];
-				style->bg[0].blue = DefaultBlue[0];
-				style->bg[1].red = DefaultRed[0];
-				style->bg[1].green = DefaultGreen[1];
-				style->bg[1].blue = DefaultBlue[1];
-				style->bg[2].red = DefaultRed[1];
-				style->bg[2].green = DefaultGreen[2];
-				style->bg[2].blue = DefaultBlue[2];
-				style->bg[3].red = DefaultRed[3];
-				style->bg[3].green = DefaultGreen[3];
-				style->bg[3].blue = DefaultBlue[3];
+		case GTK_PERIODIC_COLOR_NONE:
+			style->bg[0].red = DefaultRed[0];
+			style->bg[0].green = DefaultGreen[0];
+			style->bg[0].blue = DefaultBlue[0];
+			style->bg[1].red = DefaultRed[0];
+			style->bg[1].green = DefaultGreen[1];
+			style->bg[1].blue = DefaultBlue[1];
+			style->bg[2].red = DefaultRed[1];
+			style->bg[2].green = DefaultGreen[2];
+			style->bg[2].blue = DefaultBlue[2];
+			style->bg[3].red = DefaultRed[3];
+			style->bg[3].green = DefaultGreen[3];
+			style->bg[3].blue = DefaultBlue[3];
+			attr = pango_attr_foreground_new (0, 0, 0);
+			attr->start_index = 0;
+			attr->end_index = 100;
+			l = pango_attr_list_new ();
+			pango_attr_list_insert (l, attr);
+			gtk_label_set_attributes (periodic->priv->labels[i], l);
+		break;
+		case GTK_PERIODIC_COLOR_DEFAULT:
+			colors = gcu_element_get_default_color(i);
+			style->bg[0].red = style->bg[1].red = style->bg[2].red = style->bg[3].red = (guint16) (colors[0] * 65535.0);
+			style->bg[0].green = style->bg[1].green = style->bg[2].green = style->bg[3].green = (guint16) (colors[1] * 65535.0);
+			style->bg[0].blue = style->bg[1].blue = style->bg[2].blue = style->bg[3].blue = (guint16) (colors[2] * 65535.0);
+			if (colors[0] > 0.6 ||  colors[1] > 0.6 || colors[2] > 0.6)
+				attr = pango_attr_foreground_new (0, 0, 0);
+			else
+				attr = pango_attr_foreground_new (65535, 65535, 65535);
+			attr->start_index = 0;
+			attr->end_index = 100;
+			l = pango_attr_list_new ();
+			pango_attr_list_insert (l, attr);
+			gtk_label_set_attributes (periodic->priv->labels[i], l);
 			break;
-			case GTK_PERIODIC_COLOR_DEFAULT:
-				colors = gcu_element_get_default_color(i);
-				style->bg[0].red = style->bg[1].red = style->bg[2].red = style->bg[3].red = (guint16) (colors[0] * 65535.0);
-				style->bg[0].green = style->bg[1].green = style->bg[2].green = style->bg[3].green = (guint16) (colors[1] * 65535.0);
-				style->bg[0].blue = style->bg[1].blue = style->bg[2].blue = style->bg[3].blue = (guint16) (colors[2] * 65535.0);
-				break;
 		}
 		gtk_widget_set_style(GTK_WIDGET(periodic->priv->buttons[i]), style);
 		g_object_unref(style);

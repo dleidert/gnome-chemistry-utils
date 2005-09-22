@@ -22,7 +22,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">H</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -41,7 +41,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Cl</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -61,7 +61,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ar</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -81,7 +81,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">K</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -101,7 +101,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Rb</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -121,7 +121,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Cs</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -141,7 +141,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Fr</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -161,7 +161,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ca</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -181,7 +181,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Sr</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -201,7 +201,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ba</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -221,7 +221,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ra</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -241,7 +241,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Sc</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -261,7 +261,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Y</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -281,7 +281,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ti</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -301,7 +301,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Zr</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -321,7 +321,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Hf</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -341,7 +341,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Rf</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -361,7 +361,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">V</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -381,7 +381,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Nb</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -401,7 +401,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ta</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -421,7 +421,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Db</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -441,7 +441,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Cr</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -461,7 +461,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Mo</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -481,7 +481,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">W</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -501,7 +501,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Sg</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -521,7 +521,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Mn</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -541,7 +541,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Tc</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -561,7 +561,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Re</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -581,7 +581,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Bh</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -601,7 +601,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Fe</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -621,7 +621,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ru</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -641,7 +641,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Os</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -661,7 +661,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Hs</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -681,7 +681,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Co</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -701,7 +701,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Rh</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -721,7 +721,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ir</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -741,7 +741,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Mt</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -761,7 +761,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ni</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -781,7 +781,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Pd</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -801,7 +801,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Pt</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -821,7 +821,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ds</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -841,7 +841,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Cu</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -861,7 +861,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ag</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -881,7 +881,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Au</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -901,7 +901,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Rg</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -921,7 +921,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Uub</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -941,7 +941,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Hg</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -961,7 +961,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Cd</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -981,7 +981,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Zn</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1001,7 +1001,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ga</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1021,7 +1021,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">In</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1041,7 +1041,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Tl</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1061,7 +1061,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Uuq</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1081,7 +1081,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Pb</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1101,7 +1101,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Sn</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1121,7 +1121,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ge</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1141,7 +1141,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">As</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1161,7 +1161,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Sb</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1181,7 +1181,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Bi</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1201,7 +1201,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Se</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1221,7 +1221,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Te</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1241,7 +1241,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Po</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1261,7 +1261,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Br</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1281,7 +1281,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">I</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1301,7 +1301,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">At</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1321,7 +1321,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Kr</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1341,7 +1341,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Xe</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1361,7 +1361,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Rn</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1381,7 +1381,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">He</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1401,7 +1401,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Li</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1421,7 +1421,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Be</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1441,7 +1441,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Na</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1461,7 +1461,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Mg</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1481,7 +1481,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">B</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1501,7 +1501,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Al</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1521,7 +1521,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">C</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1541,7 +1541,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Si</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1561,7 +1561,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">N</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1581,7 +1581,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">P</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1601,7 +1601,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">O</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1621,7 +1621,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">S</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1641,7 +1641,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">F</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1661,7 +1661,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ne</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1681,7 +1681,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Uut</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1701,7 +1701,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Uup</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1721,7 +1721,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Uuh</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1816,7 +1816,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">La</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1835,7 +1835,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ce</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1855,7 +1855,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Pr</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1875,7 +1875,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Nd</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1895,7 +1895,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Pm</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1915,7 +1915,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Sm</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1935,7 +1935,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Eu</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1955,7 +1955,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Gd</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1975,7 +1975,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Tb</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -1995,7 +1995,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Dy</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2015,7 +2015,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ho</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2035,7 +2035,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Er</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2055,7 +2055,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Tm</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2075,7 +2075,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Yb</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2095,7 +2095,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Lu</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2115,7 +2115,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Ac</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2135,7 +2135,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Th</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2155,7 +2155,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Pa</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2175,7 +2175,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">U</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2195,7 +2195,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Np</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2215,7 +2215,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Pu</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2235,7 +2235,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Am</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2255,7 +2255,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Cm</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2275,7 +2275,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Bk</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2295,7 +2295,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Cf</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2315,7 +2315,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Es</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2335,7 +2335,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Fm</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2355,7 +2355,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Md</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2375,7 +2375,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">No</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>
@@ -2395,7 +2395,7 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="no">Lr</property>
-	  <property name="use_underline">True</property>
+	  <property name="use_underline">False</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="active">False</property>
 	  <property name="inconsistent">False</property>

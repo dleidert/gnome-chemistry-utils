@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2005-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add mozilla-plugin subdir
+	* configure.ac: ditto.
+	* gcu/gtkperiodic.c: set text color to white when the background is dark.
+	* gcu/object.cc: fixed one more Object::AddType bug.
+	* glade/eltpage.glade: new glade file for periodic table application.
+	* glade/gchemcalc.glade: removed deprecated item.
+	* glade/gtkperiodic.glade: removed underscore tag to buttons.
+	* mozilla-plugin/Makefile.am: new mozilla plugin.
+	* mozilla-plugin/moz-plugin.c: ditto.
+	* programs/Makefile.am: added gchemtable application
+	* programs/gchemcalc.cc: fixed isotopic pattern average mass for
+	high molecular mass formulas.
+	* programs/gchemtable-elt.cc: new periodic table application.
+	* programs/gchemtable-main.cc: ditto.
+	* programs/gchemtable-unstable.desktop.in: ditto.
+
 2005-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.5.2
 	* gcu/element.cc: changed some method names in gcu::IsotopicPattern.

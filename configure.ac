@@ -46,23 +46,24 @@ LIBGLADE_REQUIRED_VERSION=2.4.0
 GTKGLEXT_REQUIRED_VERSION=1.0.0
 GNOME_PRINT_REQUIRED_VERSION=2.4.0
 GNOME_VFS_REQUIRED_VERSION=2.4.0
-LIBGNOMEUI_REQUIRED_VERSION=2.4.0
 SHARED_MIME_INFO_REQUIRED_VERSION=0.12
 OPENBABEL_REQUIRED_VERSION=2.0.0
 GTK_REQUIRED_VERSION=2.6.0
-GNOME_OFFICE_REQUIRED_VERSION=0.0.3
+GNOME_OFFICE_REQUIRED_VERSION=0.1.0
+CHEMICAL_MIME_DATA_REQUIRED_VERSION=0.1.0
 
 REQUIREMENTS="libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtk+-2.0 >= $GTK_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprint-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
-libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED_VERSION \
 libgoffice-1 >= $GNOME_OFFICE_REQUIRED_VERSION \
+chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
+shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
+chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION"
 
 if test "$update_databases" = "yes"; then
-REQUIREMENTS="$REQUIREMENTS shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION";
 AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
 fi
 AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
@@ -82,6 +83,38 @@ AC_MSG_RESULT($at_ok)
 if test "$at_ok" = "yes"; then
 	AC_DEFINE_UNQUOTED(HAS_VECTOR_AT, 1, [vector::at can be used])
 fi
+
+##################################################
+# Check for mozilla plugin
+##################################################
+
+MOZILLA_CFLAGS=
+build_mozilla_plugin=no
+
+test_mozilla_plugin=true
+AC_ARG_ENABLE(mozilla-plugin, [  --enable-mozilla-plugin  Build a Mozilla/Firefox chemistry files viewing plugin [default = auto]],
+			 test_mozilla_plugin="$enableval")
+
+if test "x$test_mozilla_plugin" != "xno"; then
+   if test -z "$MOZILLA_CONFIG"; then
+      AC_PATH_PROG(MOZILLA_CONFIG, mozilla-config, no)
+   fi
+
+   if test "x$MOZILLA_CONFIG" != "xno"; then
+      _mozilla_include_dir=`mozilla-config --cflags|sed 's/-I\(.*\) .*/\1/'`
+      MOZILLA_CFLAGS="-I$_mozilla_include_dir/plugin -I$_mozilla_include_dir/java -I$_mozilla_include_dir/nspr"
+   else
+	PKG_CHECK_MODULES(MOZILLA, mozilla-plugin, build_mozilla_plugin=yes, 
+			[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])])
+   fi
+
+   if test "x$MOZILLA_CFLAGS" != "x"; then
+      build_mozilla_plugin=yes
+   fi
+fi
+
+AM_CONDITIONAL(WITH_MOZILLA,[test "x$build_mozilla_plugin" = "xyes"])
+AC_SUBST(MOZILLA_CFLAGS)
 
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
@@ -117,6 +150,7 @@ AC_OUTPUT([
 Makefile
 gcu/Makefile
 programs/Makefile
+mozilla-plugin/Makefile
 database/Makefile
 po/Makefile.in
 glade/Makefile

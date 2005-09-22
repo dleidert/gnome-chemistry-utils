@@ -214,14 +214,19 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 			gtk_widget_hide (App.pattern_page);
 			return;
 		} else {
-			weightstr = g_strdup_printf ("%d", pattern.GetMonoNuclNb ());
-			gtk_label_set_text (App.mono, weightstr);
-			g_free (weightstr);
 			weightstr = g_strdup_printf ("%g", pattern.GetMonoMass ());
 			gtk_label_set_text (App.monomass, weightstr);
 			g_free (weightstr);
 			gtk_widget_show (App.pattern_page);
 			nb = pattern.GetValues (&values);
+			// correct mean mass (for high molecular weights)
+			double t = 0., m = 0;
+			for (i = 0; i < nb; i++) {
+				pcent = values[i] / nb;
+				t += pcent;
+				m += i * pcent;
+			}
+			mass = (int) rint (weight - m / t);
 			// do not display values < 0.1
 			min = 0;
 			while (values[min] < 0.1)
@@ -281,7 +286,7 @@ static GtkActionEntry entries[] = {
 		  N_("Quit GChemCalc"), G_CALLBACK (on_quit) },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "About", NULL, N_("_About"), NULL,
-		  N_("About GChem3D"), G_CALLBACK (on_about) }
+		  N_("About GChemCalc"), G_CALLBACK (on_about) }
 };
 
 static const char *ui_description =
