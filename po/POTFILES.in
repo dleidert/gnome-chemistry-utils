@@ -5,3 +5,5 @@ database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in
 gchemutils.xml.in
+programs/gchemcalc.cc
+programs/gchemtable-main.cc
