@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2005-09-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED
+	-Wall to CFLAGS.
+	* gcu/element.cc: fixed various compilation warnings.
+	* programs/gchem3d-viewer.c: ditto.
+	* programs/gchemcalc.cc: ditto.
+	* programs/gchemtable-main.cc: ditto.
+
 2005-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add mozilla-plugin subdir
 	* configure.ac: ditto.

@@ -555,7 +555,7 @@ void Element::LoadElectronicProps ()
 void Element::LoadIsotopes ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *tmp, *num;
+	char *old_num_locale, *num;
 	unsigned char Z;
 	static bool loaded = false;
 	if (loaded)
@@ -655,7 +655,7 @@ IsotopicPattern *Element::GetIsotopicPattern (unsigned natoms)
 	IsotopicPattern *pat, *pattern, *result = NULL;
 	if (natoms == 0)
 		return NULL;
-	int i = 1;
+	unsigned i = 1;
 	while ((natoms & 1) == 0) {
 		natoms >>= 1;
 		i++;

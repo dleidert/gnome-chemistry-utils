@@ -88,7 +88,7 @@ static void on_quit (GtkWidget *widget, void *data)
 static void on_about (GtkWidget *widget, void *data)
 {
 	char * authors[] = {"Jean Bréfort", NULL};
-	char * documentors[] = {NULL};
+//	char * documentors[] = {NULL};
 	char license[] = "This program is free software; you can redistribute it and/or\n" 
 		"modify it under the terms of the GNU General Public License as\n"
  		"published by the Free Software Foundation; either version 2 of the\n"
@@ -269,7 +269,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 	catch (parse_error &error) {
 		int start, length;
 		char const *mess = error.what (start, length);
-		gtk_entry_select_region (entry, start, start + length);
+		gtk_editable_select_region (GTK_EDITABLE (entry), start, start + length);
 		GtkWidget *w = gtk_message_dialog_new (GTK_WINDOW (data),
 							GTK_DIALOG_DESTROY_WITH_PARENT,
 							GTK_MESSAGE_ERROR,

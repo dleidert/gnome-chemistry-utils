@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <string.h>
 #include <libgnomevfs/gnome-vfs.h>
 
 /*!\file
@@ -38,7 +39,7 @@ A simple sample of the use of the GtkChem3DViewer widget.
 static void on_file_open (GtkWidget *widget, void *data)
 {
 	char* filename;
-	GtkFileChooserDialog *dialog = (GtkFileChooser*) gtk_file_chooser_dialog_new (
+	GtkFileChooserDialog *dialog = (GtkFileChooserDialog*) gtk_file_chooser_dialog_new (
 															_("Open"),
 															GTK_WINDOW (data),
 															GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -72,7 +73,7 @@ static void on_quit (GtkWidget *widget, void *data)
 static void on_about (GtkWidget *widget, void *data)
 {
 	char * authors[] = {"Jean Bréfort", NULL};
-	char * documentors[] = {NULL};
+//	char * documentors[] = {NULL};
 	char license[] = "This program is free software; you can redistribute it and/or\n" 
 		"modify it under the terms of the GNU General Public License as\n"
  		"published by the Free Software Foundation; either version 2 of the\n"
