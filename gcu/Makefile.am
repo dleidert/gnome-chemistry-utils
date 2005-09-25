@@ -11,6 +11,8 @@ libgcu_0_5_la_SOURCES = \
 		matrix.cc \
 		matrix2d.cc \
 		xml-utils.cc \
+		application.cc \
+		dialog.cc \
 		chemistry.cc \
 		gtkperiodic.c \
 		gtkcrystalviewer.cc \
@@ -30,6 +32,8 @@ libgcu_0_5_la_headers = \
 		element.h \
 		isotope.h \
 		formula.h \
+		application.h \
+		dialog.h \
 		matrix.h \
 		matrix2d.h \
 		xml-utils.h \

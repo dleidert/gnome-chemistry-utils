@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * programs/gchemtable-main.cc 
+ * programs/gchemtable-app.h 
  *
  * Copyright (C) 2005
  *
@@ -24,22 +24,27 @@
  * USA
  */
 
-#include "config.h"
-#include "gchemtable-app.h"
+#ifndef GCHEMTABLE_APP_H
+#define GCHEMTABLE_APP_H
+
+#include <gcu/application.h>
+#include <gcu/dialog.h>
+#include <gtk/gtkwidget.h>
 
 using namespace gcu;
 
-int main (int argc, char *argv[])
+class GChemTableApp: public Application
 {
-	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
-#ifdef ENABLE_NLS
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#endif
-	textdomain (GETTEXT_PACKAGE);
-	gtk_init (&argc, &argv);
+public:
+	GChemTableApp ();
+	virtual ~GChemTableApp ();
 
-	new GChemTableApp ();
+	void OnElement (int Z);
+	GtkWindow *GetWindow () {return GTK_WINDOW (window);}
 
-	gtk_main();
-	return 0;
-}
+private:
+	Dialog *Pages[118];
+	GtkWidget *window;
+};
+
+#endif	// GCHEMTABLE_APP_H

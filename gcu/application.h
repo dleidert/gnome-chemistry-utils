@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * programs/gchemtable-main.cc 
+ * gcu/application.h
  *
  * Copyright (C) 2005
  *
@@ -20,26 +20,34 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
 
-#include "config.h"
-#include "gchemtable-app.h"
+#ifndef GCU_APPLICATION_H
+#define GCU_APPLICATION_H
 
-using namespace gcu;
+#include <string>
 
-int main (int argc, char *argv[])
+using namespace std;
+
+namespace gcu {
+
+class Application
 {
-	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
-#ifdef ENABLE_NLS
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#endif
-	textdomain (GETTEXT_PACKAGE);
-	gtk_init (&argc, &argv);
+public:
+	Application (string name);
+	virtual ~Application ();
 
-	new GChemTableApp ();
+	void OnHelp (string& s = "");
+	bool HasHelp ();
 
-	gtk_main();
-	return 0;
-}
+private:
+	string Name;
+	string HelpBrowser;
+	string HelpFilename;
+};
+
+}	// namespace gcu
+
+#endif // GCU_APPLICATION_H

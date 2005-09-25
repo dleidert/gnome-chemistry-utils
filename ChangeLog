@@ -1,5 +1,23 @@
 ##Text encoding: utf-8
 
+2005-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/Makefile.am: added some new utility classes.
+	* gcu/application.cc: a new generic application class.
+	* gcu/application.h: ditto.
+	* gcu/dialog.cc: a new generic dialog class (mostly
+	imported from GChemPaint)
+	* gcu/dialog.h: ditto.
+	* glade/Makefile.am: add eltpage.glade.
+	* glade/eltpage.glade: changed some widget names.
+	* programs/Makefile.am: add new files to gchemtable sources.
+	* programs/gchemtable-app.cc: implemented a gcu::Application
+	derived class.
+	* programs/gchemtable-app.h: ditto.
+	* programs/gchemtable-elt.cc: new class to display element properties
+	based on gcu::Dialog.
+	* programs/gchemtable-elt.h: ditto.
+	* programs/gchemtable-main.cc: moved most of the code to the app class.
+
 2005-09-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED
 	-Wall to CFLAGS.

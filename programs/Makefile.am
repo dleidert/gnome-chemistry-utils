@@ -8,6 +8,8 @@ gchem3d_viewer_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
 
 gchemtable_unstable_SOURCES =	\
 	gchemtable-main.cc	\
+	gchemtable-app.cc	\
+	gchemtable-app.h	\
 	gchemtable-elt.cc	\
 	gchemtable-elt.h
 gchemtable_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@

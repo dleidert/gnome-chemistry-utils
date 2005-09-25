@@ -25,6 +25,19 @@
  */
 
 #include "config.h"
+#include "gchemtable-elt.h"
+#include "gchemtable-app.h"
+#include <gcu/element.h>
+
 #warning "the following lines should be removed for stable releases"
 #undef PACKAGE
-#define PACKAGE "gchemutils-unstable"
+#define PACKAGE "gchemutils-unstable" 
+
+GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/"PACKAGE"/glade/eltpage.glade", "eltdlg")
+{
+	gtk_window_set_title (dialog, Element::GetElement (Z)->GetName ());
+}
+
+GChemTableElt::~GChemTableElt ()
+{
+}

@@ -3,7 +3,7 @@
 
 <glade-interface>
 
-<widget class="GtkDialog" id="dialog1">
+<widget class="GtkDialog" id="eltdlg">
   <property name="visible">True</property>
   <property name="title" translatable="yes">dialog1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -31,7 +31,7 @@
 	  <property name="layout_style">GTK_BUTTONBOX_END</property>
 
 	  <child>
-	    <widget class="GtkButton" id="helpbutton1">
+	    <widget class="GtkButton" id="help">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
@@ -44,7 +44,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkButton" id="closebutton1">
+	    <widget class="GtkButton" id="cancel">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
