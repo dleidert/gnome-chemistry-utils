@@ -41,6 +41,7 @@ public:
 
 	void OnHelp (string& s = "");
 	bool HasHelp ();
+	string &GetName () {return Name;}
 
 private:
 	string Name;

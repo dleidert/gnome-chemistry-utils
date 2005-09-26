@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2005-09-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.h: add gcu::Application::GetName
+	* gcu/dialog.cc: set the window icon using application name.
+
 2005-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/Makefile.am: added some new utility classes.
 	* gcu/application.cc: a new generic application class.
