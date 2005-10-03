@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2005-10-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/elecprops.xml.in: added electronic configurations.
+	* gcu/chemistry.cc: add new gcu_value_get_string and
+	gcu_dimensional_value_get_string.
+	* gcu/chemistry.h: ditto.
+	* gcu/element.cc: add electronic configuation support and store names
+	in all known languages.
+	* gcu/element.h: ditto.
+	* glade/eltpage.glade: add some content to display symbol, names,
+	atomic weight and electronic configuration.
+	* programs/gchemtable-app.cc: load all available data.
+	* programs/gchemtable-elt.cc: display symbol, names,
+	atomic weight and electronic configuration.
+
 2005-09-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.h: add gcu::Application::GetName
 	* gcu/dialog.cc: set the window icon using application name.

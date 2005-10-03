@@ -225,7 +225,8 @@ public:
 	element.
 	*/
 	IsotopicPattern *GetIsotopicPattern (unsigned natoms);
-	
+	string const& GetElectronicConfiguration () {return ElecConfig;}
+	map<string, string> const& GetNames () {return names;}
 private:
 	unsigned char m_Z, m_nve, m_tve, m_maxve;
 	char m_Symbol[4];
@@ -241,6 +242,7 @@ private:
 	vector<Isotope*> m_isotopes;
 	vector<IsotopicPattern*> m_patterns;
 	map<string, string> names;
+	string ElecConfig;
 };
 
 } // namespace gcu

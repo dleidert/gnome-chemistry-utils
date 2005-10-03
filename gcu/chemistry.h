@@ -100,7 +100,7 @@ typedef struct
 {
 	/** The value. */
 	double value;
-	/** The precision (number of significative decimal figures. */
+	/** The precision (number of significative decimal figures). */
 	int prec;
 	/** The standard error (* 10^prec). */
 	int delta;
@@ -248,11 +248,14 @@ Last value in the array is NULL.
 const GcuElectronegativity** gcu_element_get_electronegativities (gint Z);
 /*!
 \param name: name of a database to load such as "radii", "elecprops", "isotopes",
-the first name is followed by a list of other database terminanted by NULL.
+the first name is followed by a list of other database terminated by NULL.
 
 Loads the listed databases.
 */
 void gcu_element_load_databases (char* name, ...);
+
+gchar* gcu_value_get_string (GcuValue const *value);
+gchar* gcu_dimensional_value_get_string (GcuValue const *value);
 
 G_END_DECLS
 

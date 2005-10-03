@@ -34,15 +34,15 @@
 #include <string>
 #include <libintl.h>
 #include <string.h>
-#define _(String) gettext(String)
+#include <glib/gi18n.h>
 
 static void ReadValue (char const *source, GcuValue &value)
 {
-	char *tmp, *dot;
-	value.value = strtod (source, &tmp);
+	char *buf, *dot;
+	value.value = strtod (source, &buf);
 	dot = strchr (source, '.');
-	value.prec = (dot)? tmp - dot - 1: 0;
-	value.delta = (*tmp == '(')? strtol (tmp + 1, NULL, 10): 0;
+	value.prec = (dot)? buf - dot - 1: 0;
+	value.delta = (*buf == '(')? strtol (buf + 1, NULL, 10): 0;
 }
 
 namespace gcu
@@ -79,8 +79,13 @@ EltTable::EltTable()
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv ("LANG");
-	char *old_num_locale, *tmp, *num, *dot;
+	char *old_num_locale, *buf, *num, *dot;
 	unsigned char Z;
+	map <string, string> Langs;
+	Langs["de"] = _("German");
+	Langs["fr"] = _("French");
+	Langs["it"] = _("Italian");
+	Langs["pl"] = _("Polish");
 	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/elements.xml")))
 	{
 		g_error (_("Can't find and read elements.xml"));
@@ -96,18 +101,18 @@ EltTable::EltTable()
 		if (strcmp ((const char*) node->name, "text"))
 		{
 			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: elements.xml"));
-			tmp = (char*) xmlGetProp (node, (xmlChar*) "symbol");
+			buf = (char*) xmlGetProp (node, (xmlChar*) "symbol");
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
-			Elt = new Element (Z = atoi (num), tmp);
+			Elt = new Element (Z = atoi (num), buf);
 			xmlFree (num);
-			xmlFree (tmp);
+			xmlFree (buf);
 			num = (char*) xmlGetProp (node, (xmlChar*) "max_bonds");
 			Elt->m_MaxBonds = atoi (num);
 			xmlFree (num);
 			num = (char*) xmlGetProp (node, (xmlChar*) "weight");
-			Elt->m_Weight = strtod (num, &tmp);
+			Elt->m_Weight = strtod (num, &buf);
 			dot = strchr (num, '.');
-			Elt->m_WeightPrec = (dot)? tmp - dot - 1: 0;
+			Elt->m_WeightPrec = (dot)? buf - dot - 1: 0;
 			child = node->children;
 			DefaultName = NULL;
 			while (child)
@@ -117,31 +122,35 @@ EltTable::EltTable()
 					continue;
 				}
 				if (!strcmp((const char*)child->name, "name")) {
-					tmp = (char*) xmlNodeGetLang (child);
-					if ((tmp) && (lang) && (!strncmp (lang, tmp, 2))) {
-						xmlFree (tmp);
-						tmp = (char*) xmlNodeGetContent (child);
-						Elt->name = tmp;
-						xmlFree (tmp);
-					} else if (!tmp)
+					buf = (char*) xmlNodeGetLang (child);
+					if ((buf) && (lang)){
+						string Lang = Langs[buf];
+						char *Name = (char*) xmlNodeGetContent (child);
+						if (Lang.length ())
+							Elt->names[Lang] = Name;
+						if (!strncmp (lang, buf, 2))
+							Elt->name = Name;
+						xmlFree (Name);
+					} else if (!buf) {
 						DefaultName = (char*) xmlNodeGetContent (child);
-					else
-						xmlFree (tmp);
+						Elt->names[_("English")] = DefaultName;
+					}
+					xmlFree (buf);
 				} else if (!strcmp ((const char*) child->name, "color")) {
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "red");
-					if (tmp) {
-						Elt->m_DefaultColor[0] = strtod (tmp, NULL);
-						xmlFree (tmp);
+					buf = (char*) xmlGetProp (child, (xmlChar*) "red");
+					if (buf) {
+						Elt->m_DefaultColor[0] = strtod (buf, NULL);
+						xmlFree (buf);
 					}
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "green");
-					if (tmp) {
-						Elt->m_DefaultColor[1] = strtod (tmp, NULL);
-						xmlFree (tmp);
+					buf = (char*) xmlGetProp (child, (xmlChar*) "green");
+					if (buf) {
+						Elt->m_DefaultColor[1] = strtod (buf, NULL);
+						xmlFree (buf);
 					}
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "blue");
-					if (tmp) {
-						Elt->m_DefaultColor[2] = strtod (tmp, NULL);
-						xmlFree (tmp);
+					buf = (char*) xmlGetProp (child, (xmlChar*) "blue");
+					if (buf) {
+						Elt->m_DefaultColor[2] = strtod (buf, NULL);
+						xmlFree (buf);
 					}
 				}				child = child->next;
 			}
@@ -399,7 +408,7 @@ double Element::GetWeight (int Z, int &prec)
 void Element::LoadRadii ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *tmp, *num, *dot, *end;
+	char *old_num_locale, *buf, *num, *dot, *end;
 	unsigned char Z;
 	static bool loaded = false;
 	if (loaded)
@@ -430,51 +439,51 @@ void Element::LoadRadii ()
 				if (!strcmp ((const char*) child->name, "radius")) {
 					GcuAtomicRadius* radius = new GcuAtomicRadius;
 					radius->Z = Z;	//FIXME: is it really useful there?
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "type");
-					if (!tmp ||
-						((!((!strcmp (tmp, "covalent")) && (radius->type = GCU_COVALENT))) &&
-						(!((!strcmp (tmp, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
-						(!((!strcmp (tmp, "ionic")) && (radius->type = GCU_IONIC))) &&
-						(!((!strcmp (tmp, "metallic")) && (radius->type = GCU_METALLIC))) &&
-						(!((!strcmp (tmp, "atomic")) && ((radius->type = GCU_ATOMIC) || true))))) {
+					buf = (char*) xmlGetProp (child, (xmlChar*) "type");
+					if (!buf ||
+						((!((!strcmp (buf, "covalent")) && (radius->type = GCU_COVALENT))) &&
+						(!((!strcmp (buf, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
+						(!((!strcmp (buf, "ionic")) && (radius->type = GCU_IONIC))) &&
+						(!((!strcmp (buf, "metallic")) && (radius->type = GCU_METALLIC))) &&
+						(!((!strcmp (buf, "atomic")) && ((radius->type = GCU_ATOMIC) || true))))) {
 						//invalid radius
 						delete radius;
-						if (tmp)
-							xmlFree (tmp);
+						if (buf)
+							xmlFree (buf);
 						continue;
 					}
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "scale");
-					if (tmp) {
-						radius->scale = g_strdup (tmp);
-						xmlFree (tmp);
+					buf = (char*) xmlGetProp (child, (xmlChar*) "scale");
+					if (buf) {
+						radius->scale = g_strdup (buf);
+						xmlFree (buf);
 					} else
 						radius->scale = NULL;
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "charge");
-					if (tmp) {
-						radius->charge = strtol (tmp, NULL, 10);
-						xmlFree (tmp);
+					buf = (char*) xmlGetProp (child, (xmlChar*) "charge");
+					if (buf) {
+						radius->charge = strtol (buf, NULL, 10);
+						xmlFree (buf);
 					} else
 						radius->charge = 0;
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "cn");
-					if (tmp) {
-						radius->cn = strtol (tmp, NULL, 10);
-						xmlFree (tmp);
+					buf = (char*) xmlGetProp (child, (xmlChar*) "cn");
+					if (buf) {
+						radius->cn = strtol (buf, NULL, 10);
+						xmlFree (buf);
 					} else
 						radius->cn = -1;
-					tmp = (char*) xmlGetProp (child, (xmlChar*)"spin");
-					if ((!tmp) ||
-						(!((!strcmp (tmp, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
-						(!((!strcmp (tmp, "high")) && (radius->spin = GCU_HIGH_SPIN))))
+					buf = (char*) xmlGetProp (child, (xmlChar*)"spin");
+					if ((!buf) ||
+						(!((!strcmp (buf, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
+						(!((!strcmp (buf, "high")) && (radius->spin = GCU_HIGH_SPIN))))
 						radius->spin = GCU_N_A_SPIN;
-					if (tmp)
-						xmlFree (tmp);
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
-					if (tmp) {
-						radius->value.value = strtod (tmp, &end);
-						dot = strchr (tmp, '.');
+					if (buf)
+						xmlFree (buf);
+					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
+					if (buf) {
+						radius->value.value = strtod (buf, &end);
+						dot = strchr (buf, '.');
 						radius->value.prec = (dot)? end - dot - 1: 0;
 						Elt->m_radii.push_back (radius);
-						xmlFree (tmp);
+						xmlFree (buf);
 					} else
 						delete radius;
 				} else
@@ -494,7 +503,7 @@ void Element::LoadRadii ()
 void Element::LoadElectronicProps ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *tmp, *num, *dot, *end;
+	char *old_num_locale, *buf, *num, *dot, *end;
 	unsigned char Z;
 	static bool loaded = false;
 	if (loaded)
@@ -520,24 +529,51 @@ void Element::LoadElectronicProps ()
 					child = child->next;
 					continue;
 				}
-				if (!strcmp ((const char*) child->name, "electronegativity")) {
+				if (!strcmp ((const char*) child->name, "en")) {
 					GcuElectronegativity* en = new GcuElectronegativity;
 					en->Z = Z;	//FIXME: is it really useful there?
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "scale");
-					if (tmp) {
-						en->scale = g_strdup (tmp);
-						xmlFree (tmp);
+					buf = (char*) xmlGetProp (child, (xmlChar*) "scale");
+					if (buf) {
+						en->scale = g_strdup (buf);
+						xmlFree (buf);
 					} else
 						en->scale = NULL;
-					tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
-					if (tmp) {
-						en->value.value = strtod (tmp, &end);
-						dot = strchr (tmp, '.');
+					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
+					if (buf) {
+						en->value.value = strtod (buf, &end);
+						dot = strchr (buf, '.');
 						en->value.prec = (dot)? end - dot - 1: 0;
 						Elt->m_en.push_back (en);
-						xmlFree (tmp);
+						xmlFree (buf);
 					} else
 						delete en;	//without a value, the structure is useless and is discarded
+				} else if (!strcmp ((const char*) child->name, "config")) {
+					buf = (char*) xmlNodeGetContent (child);
+					char *cur = buf;
+					bool nonvoid = false;
+					int i;
+					if (buf[0] == '[') {
+						Elt->ElecConfig.append (buf, 4);
+						cur += 4;
+						nonvoid = true;
+					}
+					while (cur && *cur) {
+						if (nonvoid) {
+							cur++;
+							Elt->ElecConfig.append (" ");
+						}
+						Elt->ElecConfig.append (cur, 2);
+						cur += 2;
+						i = 1;
+						while (cur[i] > ' ')
+							i++;
+						Elt->ElecConfig.append ("<sup>");
+						Elt->ElecConfig.append (cur, i);
+						Elt->ElecConfig.append ("</sup>");
+						cur += i;
+					}
+					Elt->ElecConfig.append (" ");
+					xmlFree (buf);
 				} else
 					g_error ("Invalid property node");
 				child = child->next;

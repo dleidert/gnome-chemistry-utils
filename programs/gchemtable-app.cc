@@ -29,6 +29,7 @@
 #include "gchemtable-elt.h"
 #include <gcu/gtkperiodic.h>
 #include <gcu/chemistry.h>
+#include <gcu/element.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkaboutdialog.h>
@@ -107,7 +108,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 {
 	GtkWidget *periodic;
 	GtkVBox* vbox;
-	
+
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW(window), _("Periodic table of the elements"));
 	g_signal_connect (G_OBJECT (window), "destroy",
@@ -115,7 +116,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 		 NULL);
 
 	g_object_set (G_OBJECT(window), "allow-shrink", FALSE, NULL);
-
+	
 	vbox = (GtkVBox*)gtk_vbox_new(FALSE, 0);
 	// add menus
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
@@ -141,6 +142,8 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	gtk_widget_show_all(window);
 	for (int i = 0; i < 118; i++)
 		Pages[i] = NULL;
+	
+	gcu::Element::LoadAllData ();
 }
 
 GChemTableApp::~GChemTableApp ()

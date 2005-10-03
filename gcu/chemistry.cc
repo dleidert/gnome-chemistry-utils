@@ -89,4 +89,14 @@ void gcu_element_load_databases (char* name, ...)
 	va_end (l);
 }
 
+gchar* gcu_value_get_string (GcuValue const *value)
+{
+	return NULL;
+}
+
+gchar* gcu_dimensional_value_get_string (GcuValue const *value)
+{
+	return NULL;
+}
+
 } //extern "C"
