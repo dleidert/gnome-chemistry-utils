@@ -6,4 +6,5 @@ database/isotopes.xml.in
 database/radii.xml.in
 gchemutils.xml.in
 programs/gchemcalc.cc
-programs/gchemtable-main.cc
+programs/gchemtable-app.cc
+programs/gchemtable-elt.cc
