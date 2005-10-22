@@ -18,7 +18,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
 
@@ -84,7 +84,7 @@ static void on_about (GtkWidget *widget, void *data)
 		"GNU General Public License for more details.\n\n"
 		"You should have received a copy of the GNU General Public License\n"
 		"along with this program; if not, write to the Free Software\n"
-		"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307\n"
+		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
 /* Note to translators: replace the following string with the appropriate credits for you lang */
 	char *translator_credits = _("translator_credits");

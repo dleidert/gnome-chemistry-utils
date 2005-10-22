@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2005-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Changed license to GPL instead of LGPL.
+
+2005-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* mozilla-plugin/moz-plugin.c: add some code.
 
 2005-10-03  Jean Bréfort  <jean.brefort@normalesup.org>
@@ -72,7 +75,7 @@
 	* gcu/isotope.h: ditto.
 
 2005-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
-	* gcu/element.cc: applied patch for #13273 (comiplation faied with gcc-4).
+	* gcu/element.cc: applied patch for #13273 (compilation failed with gcc-4).
 	* gcu/element.h: ditto.
 
 2005-09-08  Jean Bréfort  <jean.brefort@normalesup.org>
