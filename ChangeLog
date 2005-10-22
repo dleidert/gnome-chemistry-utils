@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* mozilla-plugin/moz-plugin.c: add some code.
+
 2005-10-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elecprops.xml.in: added electronic configurations.
 	* gcu/chemistry.cc: add new gcu_value_get_string and
