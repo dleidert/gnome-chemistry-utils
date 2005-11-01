@@ -1,10 +1,14 @@
+[encoding: UTF-8]
 glade/gchemcalc.glade
 glade/gtkperiodic.glade
 database/elements.xml.in
 database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in
-gchemutils.xml.in
+gcu/element.cc
 programs/gchemcalc.cc
+programs/gchemcalc-unstable.desktop.in
 programs/gchemtable-app.cc
 programs/gchemtable-elt.cc
+programs/gchemtable-curve.cc
+programs/gchemtable-unstable.desktop.in

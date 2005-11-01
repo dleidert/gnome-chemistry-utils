@@ -7,526 +7,666 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-27 13:30+0200\n"
-"PO-Revision-Date: 2004-12-12 21:06+0200\n"
-"Last-Translator: Jean Bréfort <jean.brefort@norlakesup.org>\n"
+"POT-Creation-Date: 2005-11-01 16:49+0100\n"
+"PO-Revision-Date: 2005-11-01 16:53+0200\n"
+"Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: glade/gchemcalc.glade.h:1
+#: ../glade/gchemcalc.glade.h:1 ../programs/gchemcalc-unstable.desktop.in.h:2
 msgid "Chemical calculator"
 msgstr "Calculatrice chimique"
 
-#: glade/gchemcalc.glade.h:2
+#: ../glade/gchemcalc.glade.h:2
+msgid "Composition"
+msgstr "Composition"
+
+#: ../glade/gchemcalc.glade.h:3 ../programs/gchemcalc.cc:124
 msgid "Formula:"
 msgstr "Formule :"
 
-#: glade/gchemcalc.glade.h:3
+#: ../glade/gchemcalc.glade.h:4
+msgid "Isotopic Pattern"
+msgstr "Motif Isotopique"
+
+#: ../glade/gchemcalc.glade.h:5
 msgid "Molecular weight:"
 msgstr "Masse molaire :"
 
-#: glade/gchemcalc.glade.h:4
+#: ../glade/gchemcalc.glade.h:6
+msgid "Monoisitopic mass:"
+msgstr "Masse monoisotopique"
+
+#: ../glade/gchemcalc.glade.h:7 ../programs/gchemcalc.cc:127
 msgid "Raw formula:"
 msgstr "Formule brute :"
 
-#: glade/gtkperiodic.glade.h:1
+#: ../glade/gtkperiodic.glade.h:1
 msgid "Actinides"
 msgstr "Actinides"
 
-#: glade/gtkperiodic.glade.h:2
+#: ../glade/gtkperiodic.glade.h:2
 msgid "Lanthanides"
 msgstr "Lanthanides"
 
-#: database/elements.xml.in.h:1
+#: ../database/elements.xml.in.h:1
 msgid "Actinium"
 msgstr "Actinium"
 
-#: database/elements.xml.in.h:2
+#: ../database/elements.xml.in.h:2
 msgid "Aluminum"
 msgstr "Aluminium"
 
-#: database/elements.xml.in.h:3
+#: ../database/elements.xml.in.h:3
 msgid "Americium"
 msgstr "Américium"
 
-#: database/elements.xml.in.h:4
+#: ../database/elements.xml.in.h:4
 msgid "Antimony"
 msgstr "Antimoine"
 
-#: database/elements.xml.in.h:5
+#: ../database/elements.xml.in.h:5
 msgid "Argon"
 msgstr "Argon"
 
-#: database/elements.xml.in.h:6
+#: ../database/elements.xml.in.h:6
 msgid "Arsenic"
 msgstr "Arsenic"
 
-#: database/elements.xml.in.h:7
+#: ../database/elements.xml.in.h:7
 msgid "Astatine"
 msgstr "Astate"
 
-#: database/elements.xml.in.h:8
+#: ../database/elements.xml.in.h:8
 msgid "Barium"
 msgstr "Baryum"
 
-#: database/elements.xml.in.h:9
+#: ../database/elements.xml.in.h:9
 msgid "Berkelium"
 msgstr "Berkélium"
 
-#: database/elements.xml.in.h:10
+#: ../database/elements.xml.in.h:10
 msgid "Beryllium"
 msgstr "Béryllium"
 
-#: database/elements.xml.in.h:11
+#: ../database/elements.xml.in.h:11
 msgid "Bismuth"
 msgstr "Bismuth"
 
-#: database/elements.xml.in.h:12
+#: ../database/elements.xml.in.h:12
 msgid "Bohrium"
 msgstr "Bohrium"
 
-#: database/elements.xml.in.h:13
+#: ../database/elements.xml.in.h:13
 msgid "Boron"
 msgstr "Bore"
 
-#: database/elements.xml.in.h:14
+#: ../database/elements.xml.in.h:14
 msgid "Bromine"
 msgstr "Brome"
 
-#: database/elements.xml.in.h:15
+#: ../database/elements.xml.in.h:15
 msgid "Cadmium"
 msgstr "Cadmium"
 
-#: database/elements.xml.in.h:16
+#: ../database/elements.xml.in.h:16
 msgid "Caesium"
 msgstr "Césium"
 
-#: database/elements.xml.in.h:17
+#: ../database/elements.xml.in.h:17
 msgid "Calcium"
 msgstr "Calcium"
 
-#: database/elements.xml.in.h:18
+#: ../database/elements.xml.in.h:18
 msgid "Californium"
 msgstr "Californium"
 
-#: database/elements.xml.in.h:19
+#: ../database/elements.xml.in.h:19
 msgid "Carbon"
 msgstr "Carbone"
 
-#: database/elements.xml.in.h:20
+#: ../database/elements.xml.in.h:20
 msgid "Cerium"
 msgstr "Cérium"
 
-#: database/elements.xml.in.h:21
+#: ../database/elements.xml.in.h:21
 msgid "Chlorine"
 msgstr "Chlore"
 
-#: database/elements.xml.in.h:22
+#: ../database/elements.xml.in.h:22
 msgid "Chromium"
 msgstr "Chrome"
 
-#: database/elements.xml.in.h:23
+#: ../database/elements.xml.in.h:23
 msgid "Cobalt"
 msgstr "Cobalt"
 
-#: database/elements.xml.in.h:24
+#: ../database/elements.xml.in.h:24
 msgid "Copper"
 msgstr "Cuivre"
 
-#: database/elements.xml.in.h:25
+#: ../database/elements.xml.in.h:25
 msgid "Curium"
 msgstr "Curium"
 
-#: database/elements.xml.in.h:26
+#: ../database/elements.xml.in.h:26
 msgid "Darmstadtium"
 msgstr "Darmstadtium"
 
-#: database/elements.xml.in.h:27
+#: ../database/elements.xml.in.h:27
 msgid "Dubnium"
 msgstr "Dubnium"
 
-#: database/elements.xml.in.h:28
+#: ../database/elements.xml.in.h:28
 msgid "Dysprosium"
 msgstr "Dysprosium"
 
-#: database/elements.xml.in.h:29
+#: ../database/elements.xml.in.h:29
 msgid "Einsteinium"
 msgstr "Einsteinium"
 
-#: database/elements.xml.in.h:30
+#: ../database/elements.xml.in.h:30
 msgid "Erbium"
 msgstr "Erbium"
 
-#: database/elements.xml.in.h:31
+#: ../database/elements.xml.in.h:31
 msgid "Europium"
 msgstr "Europium"
 
-#: database/elements.xml.in.h:32
+#: ../database/elements.xml.in.h:32
 msgid "Fermium"
 msgstr "Fermium"
 
-#: database/elements.xml.in.h:33
+#: ../database/elements.xml.in.h:33
 msgid "Fluorine"
 msgstr "Fluor"
 
-#: database/elements.xml.in.h:34
+#: ../database/elements.xml.in.h:34
 msgid "Francium"
 msgstr "Francium"
 
-#: database/elements.xml.in.h:35
+#: ../database/elements.xml.in.h:35
 msgid "Gadolinium"
 msgstr "Gadolinium"
 
-#: database/elements.xml.in.h:36
+#: ../database/elements.xml.in.h:36
 msgid "Gallium"
 msgstr "Gallium"
 
-#: database/elements.xml.in.h:37
+#: ../database/elements.xml.in.h:37
 msgid "Germanium"
 msgstr "Germanium"
 
-#: database/elements.xml.in.h:38
+#: ../database/elements.xml.in.h:38
 msgid "Gold"
 msgstr "Or"
 
-#: database/elements.xml.in.h:39
+#: ../database/elements.xml.in.h:39
 msgid "Hafnium"
 msgstr "Hafnium"
 
-#: database/elements.xml.in.h:40
+#: ../database/elements.xml.in.h:40
 msgid "Hassium"
 msgstr "Hassium"
 
-#: database/elements.xml.in.h:41
+#: ../database/elements.xml.in.h:41
 msgid "Helium"
 msgstr "Hélium"
 
-#: database/elements.xml.in.h:42
+#: ../database/elements.xml.in.h:42
 msgid "Holmium"
 msgstr "Holmium"
 
-#: database/elements.xml.in.h:43
+#: ../database/elements.xml.in.h:43
 msgid "Hydrogen"
 msgstr "Hydrogène"
 
-#: database/elements.xml.in.h:44
+#: ../database/elements.xml.in.h:44
 msgid "Indium"
 msgstr "Indium"
 
-#: database/elements.xml.in.h:45
+#: ../database/elements.xml.in.h:45
 msgid "Iodine"
 msgstr "Iode"
 
-#: database/elements.xml.in.h:46
+#: ../database/elements.xml.in.h:46
 msgid "Iridium"
 msgstr "Iridium"
 
-#: database/elements.xml.in.h:47
+#: ../database/elements.xml.in.h:47
 msgid "Iron"
 msgstr "Fer"
 
-#: database/elements.xml.in.h:48
+#: ../database/elements.xml.in.h:48
 msgid "Krypton"
 msgstr "Krypton"
 
-#: database/elements.xml.in.h:49
+#: ../database/elements.xml.in.h:49
 msgid "Lanthanum"
 msgstr "Lanthane"
 
-#: database/elements.xml.in.h:50
+#: ../database/elements.xml.in.h:50
 msgid "Lawrencium"
 msgstr "Lawrencium"
 
-#: database/elements.xml.in.h:51
+#: ../database/elements.xml.in.h:51
 msgid "Lead"
 msgstr "Plomb"
 
-#: database/elements.xml.in.h:52
+#: ../database/elements.xml.in.h:52
 msgid "Lithium"
 msgstr "Lithium"
 
-#: database/elements.xml.in.h:53
+#: ../database/elements.xml.in.h:53
 msgid "Lutetium"
 msgstr "Lutécium"
 
-#: database/elements.xml.in.h:54
+#: ../database/elements.xml.in.h:54
 msgid "Magnesium"
 msgstr "Magnésium"
 
-#: database/elements.xml.in.h:55
+#: ../database/elements.xml.in.h:55
 msgid "Manganese"
 msgstr "Manganèse"
 
-#: database/elements.xml.in.h:56
+#: ../database/elements.xml.in.h:56
 msgid "Meitnerium"
 msgstr "Meitnérium"
 
-#: database/elements.xml.in.h:57
+#: ../database/elements.xml.in.h:57
 msgid "Mendelevium"
 msgstr "Mendélévium"
 
-#: database/elements.xml.in.h:58
+#: ../database/elements.xml.in.h:58
 msgid "Mercury"
 msgstr "Mercure"
 
-#: database/elements.xml.in.h:59
+#: ../database/elements.xml.in.h:59
 msgid "Molybdenum"
 msgstr "Molybdène"
 
-#: database/elements.xml.in.h:60
+#: ../database/elements.xml.in.h:60
 msgid "Neodymium"
 msgstr "Néodyme"
 
-#: database/elements.xml.in.h:61
+#: ../database/elements.xml.in.h:61
 msgid "Neon"
 msgstr "Néon"
 
-#: database/elements.xml.in.h:62
+#: ../database/elements.xml.in.h:62
 msgid "Neptunium"
 msgstr "Neptunium"
 
-#: database/elements.xml.in.h:63
+#: ../database/elements.xml.in.h:63
 msgid "Nickel"
 msgstr "Nickel"
 
-#: database/elements.xml.in.h:64
+#: ../database/elements.xml.in.h:64
 msgid "Niobium"
 msgstr "Niobium"
 
-#: database/elements.xml.in.h:65
+#: ../database/elements.xml.in.h:65
 msgid "Nitrogen"
 msgstr "Azote"
 
-#: database/elements.xml.in.h:66
+#: ../database/elements.xml.in.h:66
 msgid "Nobelium"
 msgstr "Nobélium"
 
-#: database/elements.xml.in.h:67
+#: ../database/elements.xml.in.h:67
 msgid "Osmium"
 msgstr "Osmium"
 
-#: database/elements.xml.in.h:68
+#: ../database/elements.xml.in.h:68
 msgid "Oxygen"
 msgstr "Oxygène"
 
-#: database/elements.xml.in.h:69
+#: ../database/elements.xml.in.h:69
 msgid "Palladium"
 msgstr "Palladium"
 
-#: database/elements.xml.in.h:70
+#: ../database/elements.xml.in.h:70
 msgid "Phosphorus"
 msgstr "Phosphore"
 
-#: database/elements.xml.in.h:71
+#: ../database/elements.xml.in.h:71
 msgid "Platinum"
 msgstr "Platine"
 
-#: database/elements.xml.in.h:72
+#: ../database/elements.xml.in.h:72
 msgid "Plutonium"
 msgstr "Plutonium"
 
-#: database/elements.xml.in.h:73
+#: ../database/elements.xml.in.h:73
 msgid "Polonium"
 msgstr "Polonium"
 
-#: database/elements.xml.in.h:74
+#: ../database/elements.xml.in.h:74
 msgid "Potassium"
 msgstr "Potassium"
 
-#: database/elements.xml.in.h:75
+#: ../database/elements.xml.in.h:75
 msgid "Praseodymium"
 msgstr "Praséodyme"
 
-#: database/elements.xml.in.h:76
+#: ../database/elements.xml.in.h:76
 msgid "Promethium"
 msgstr "Prométhéum"
 
-#: database/elements.xml.in.h:77
+#: ../database/elements.xml.in.h:77
 msgid "Protactinium"
 msgstr "Protactinium"
 
-#: database/elements.xml.in.h:78
+#: ../database/elements.xml.in.h:78
 msgid "Radium"
 msgstr "Radium"
 
-#: database/elements.xml.in.h:79
+#: ../database/elements.xml.in.h:79
 msgid "Radon"
 msgstr "Radon"
 
-#: database/elements.xml.in.h:80
+#: ../database/elements.xml.in.h:80
 msgid "Rhenium"
 msgstr "Rhénium"
 
-#: database/elements.xml.in.h:81
+#: ../database/elements.xml.in.h:81
 msgid "Rhodium"
 msgstr "Rhodium"
 
-#: database/elements.xml.in.h:82
+#: ../database/elements.xml.in.h:82
 msgid "Roentgenium"
 msgstr "Röntgenium"
 
-#: database/elements.xml.in.h:83
+#: ../database/elements.xml.in.h:83
 msgid "Rubidium"
 msgstr "Rubidium"
 
-#: database/elements.xml.in.h:84
+#: ../database/elements.xml.in.h:84
 msgid "Ruthenium"
 msgstr "Ruthénium"
 
-#: database/elements.xml.in.h:85
+#: ../database/elements.xml.in.h:85
 msgid "Rutherfordium"
 msgstr "Rutherfordium"
 
-#: database/elements.xml.in.h:86
+#: ../database/elements.xml.in.h:86
 msgid "Samarium"
 msgstr "Samarium"
 
-#: database/elements.xml.in.h:87
+#: ../database/elements.xml.in.h:87
 msgid "Scandium"
 msgstr "Scandium"
 
-#: database/elements.xml.in.h:88
+#: ../database/elements.xml.in.h:88
 msgid "Seaborgium"
 msgstr "Seaborgium"
 
-#: database/elements.xml.in.h:89
+#: ../database/elements.xml.in.h:89
 msgid "Selenium"
 msgstr "Sélénium"
 
-#: database/elements.xml.in.h:90
+#: ../database/elements.xml.in.h:90
 msgid "Silicon"
 msgstr "Silicium"
 
-#: database/elements.xml.in.h:91
+#: ../database/elements.xml.in.h:91
 msgid "Silver"
 msgstr "Argent"
 
-#: database/elements.xml.in.h:92
+#: ../database/elements.xml.in.h:92
 msgid "Sodium"
 msgstr "Sodium"
 
-#: database/elements.xml.in.h:93
+#: ../database/elements.xml.in.h:93
 msgid "Strontium"
 msgstr "Strontium"
 
-#: database/elements.xml.in.h:94
+#: ../database/elements.xml.in.h:94
 msgid "Sulfur"
 msgstr "Soufre"
 
-#: database/elements.xml.in.h:95
+#: ../database/elements.xml.in.h:95
 msgid "Tantalum"
 msgstr "Tantale"
 
-#: database/elements.xml.in.h:96
+#: ../database/elements.xml.in.h:96
 msgid "Technetium"
 msgstr "Technétium"
 
-#: database/elements.xml.in.h:97
+#: ../database/elements.xml.in.h:97
 msgid "Tellurium"
 msgstr "Tellure"
 
-#: database/elements.xml.in.h:98
+#: ../database/elements.xml.in.h:98
 msgid "Terbium"
 msgstr "Terbium"
 
-#: database/elements.xml.in.h:99
+#: ../database/elements.xml.in.h:99
 msgid "Thallium"
 msgstr "Thallium"
 
-#: database/elements.xml.in.h:100
+#: ../database/elements.xml.in.h:100
 msgid "Thorium"
 msgstr "Thorium"
 
-#: database/elements.xml.in.h:101
+#: ../database/elements.xml.in.h:101
 msgid "Thulium"
 msgstr "Thulium"
 
-#: database/elements.xml.in.h:102
+#: ../database/elements.xml.in.h:102
 msgid "Tin"
 msgstr "Étain"
 
-#: database/elements.xml.in.h:103
+#: ../database/elements.xml.in.h:103
 msgid "Titanium"
 msgstr "Titane"
 
-#: database/elements.xml.in.h:104
+#: ../database/elements.xml.in.h:104
 msgid "Tungsten"
 msgstr "Tungsten"
 
-#: database/elements.xml.in.h:105
+#: ../database/elements.xml.in.h:105
 msgid "Ununbium"
 msgstr "Ununbium"
 
-#: database/elements.xml.in.h:106
+#: ../database/elements.xml.in.h:106
 msgid "Ununhexium"
 msgstr "Ununhexium"
 
-#: database/elements.xml.in.h:107
+#: ../database/elements.xml.in.h:107
 msgid "Ununpentium"
 msgstr "Ununpentium"
 
-#: database/elements.xml.in.h:108
+#: ../database/elements.xml.in.h:108
 msgid "Ununquadium"
 msgstr "Ununquadium"
 
-#: database/elements.xml.in.h:109
+#: ../database/elements.xml.in.h:109
 msgid "Ununtrium"
 msgstr "Ununtrium"
 
-#: database/elements.xml.in.h:110
+#: ../database/elements.xml.in.h:110
 msgid "Uranium"
 msgstr "Uranium"
 
-#: database/elements.xml.in.h:111
+#: ../database/elements.xml.in.h:111
 msgid "Vanadium"
 msgstr "Vanadium"
 
-#: database/elements.xml.in.h:112
+#: ../database/elements.xml.in.h:112
 msgid "Xenon"
 msgstr "Xénon"
 
-#: database/elements.xml.in.h:113
+#: ../database/elements.xml.in.h:113
 msgid "Ytterbium"
 msgstr "Ytterbium"
 
-#: database/elements.xml.in.h:114
+#: ../database/elements.xml.in.h:114
 msgid "Yttrium"
 msgstr "Yttrium"
 
-#: database/elements.xml.in.h:115
+#: ../database/elements.xml.in.h:115
 msgid "Zinc"
 msgstr "Zinc"
 
-#: database/elements.xml.in.h:116
+#: ../database/elements.xml.in.h:116
 msgid "Zirconium"
 msgstr "Zirconium"
 
-#: database/isotopes.xml.in.h:1
+#: ../database/isotopes.xml.in.h:1
 msgid "deuterium"
 msgstr "deutérium"
 
-#: database/isotopes.xml.in.h:2
+#: ../database/isotopes.xml.in.h:2
 msgid "protium"
 msgstr "protium"
 
-#: database/isotopes.xml.in.h:3
+#: ../database/isotopes.xml.in.h:3
 msgid "tritium"
 msgstr "tritium"
 
-#: gchemutils.keys.in.h:1
-msgid "Documents/Sciences/Chemistry"
-msgstr "Documents/Sciences/Chimie"
+#: ../gcu/element.cc:86
+msgid "German"
+msgstr "Allemand"
 
-#: gchemutils.keys.in.h:2
-msgid "MDL MOL file"
-msgstr "Fichier MDL MOL"
+#: ../gcu/element.cc:87
+msgid "French"
+msgstr "Français"
 
-#: gchemutils.keys.in.h:3
-msgid "PDB file"
-msgstr "Fichier PDB"
+#: ../gcu/element.cc:88
+msgid "Italian"
+msgstr "Italien"
 
-#: gchemutils.keys.in.h:4
-msgid "XYZ file"
-msgstr "Fichier XYZ"
+#: ../gcu/element.cc:89
+msgid "Polish"
+msgstr "Polonais"
+
+#: ../gcu/element.cc:92
+msgid "Can't find and read elements.xml"
+msgstr "Impossible de trouver et lire elements.xml"
+
+#: ../gcu/element.cc:97 ../gcu/element.cc:104
+msgid "Uncorrect file format: elements.xml"
+msgstr "Format de fichier incorrect : elements.xml"
+
+#: ../gcu/element.cc:137
+msgid "English"
+msgstr "Anglais"
+
+#: ../gcu/element.cc:419
+msgid "Can't find and read radii.xml"
+msgstr "Impossible de trouver et lire radii.xml"
+
+#: ../gcu/element.cc:424 ../gcu/element.cc:430
+msgid "Uncorrect file format: radii.xml"
+msgstr "Format de fichier incorrect : radii.xml"
+
+#: ../gcu/element.cc:514
+msgid "Can't find and read elecprops.xml"
+msgstr "Impossible de trouver et lire elecprops.xml"
+
+#: ../gcu/element.cc:519 ../gcu/element.cc:524
+msgid "Uncorrect file format: elecprops.xml"
+msgstr "Format de fichier incorrect : elecprops.xml"
+
+#: ../gcu/element.cc:603
+msgid "Can't find and read isotopes.xml"
+msgstr "Impossible de trouver et lire isotopes.xml"
+
+#: ../gcu/element.cc:608 ../gcu/element.cc:615
+msgid "Uncorrect file format: isotopes.xml"
+msgstr "Format de fichier incorrect : isotopes.xml"
+
+#. Note to translators: replace the following string with the appropriate credits for you lang
+#: ../programs/gchemcalc.cc:104 ../programs/gchemtable-app.cc:65
+msgid "translator_credits"
+msgstr "Jean Bréfort"
+
+#: ../programs/gchemcalc.cc:108
+msgid "GChemCalc is a simple calculator for chemists"
+msgstr "GChemCalc est une calculatrice simple pour chimiste"
+
+#: ../programs/gchemcalc.cc:109 ../programs/gchemtable-app.cc:70
+msgid "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2005 par Jean Bréfort"
+
+#: ../programs/gchemcalc.cc:283 ../programs/gchemtable-app.cc:85
+msgid "_File"
+msgstr "_Fichier"
+
+#: ../programs/gchemcalc.cc:284 ../programs/gchemtable-app.cc:86
+msgid "_Quit"
+msgstr "_Quitter"
+
+#: ../programs/gchemcalc.cc:285
+msgid "Quit GChemCalc"
+msgstr "Quiiter GChemCalc"
+
+#: ../programs/gchemcalc.cc:286 ../programs/gchemtable-app.cc:88
+msgid "_Help"
+msgstr "_Aide"
+
+#: ../programs/gchemcalc.cc:287 ../programs/gchemtable-app.cc:89
+msgid "_About"
+msgstr "À _propos..."
+
+#: ../programs/gchemcalc.cc:288
+msgid "About GChemCalc"
+msgstr "À propos de GChemCalc"
+
+#: ../programs/gchemcalc.cc:351
+msgid "Element"
+msgstr "Élément"
+
+#: ../programs/gchemcalc.cc:358
+msgid "Mass %"
+msgstr "% Masse"
+
+#: ../programs/gchemcalc-unstable.desktop.in.h:1
+msgid "A simple calculator for chemistry"
+msgstr "Une calculatrice simple pour chimiste"
+
+#: ../programs/gchemtable-app.cc:69
+msgid "GChemTable is a chemical periodic table of the elements application"
+msgstr "GChemTable est une application de tableau périodique des éléments"
+
+#: ../programs/gchemtable-app.cc:87
+msgid "Quit GChemTable"
+msgstr "Quitter GChemTable"
+
+#: ../programs/gchemtable-app.cc:90
+msgid "About GChemTable"
+msgstr "À propos de GChemTable"
+
+#: ../programs/gchemtable-app.cc:111
+#: ../programs/gchemtable-unstable.desktop.in.h:2
+msgid "Periodic table of the elements"
+msgstr "Tableau périodique des éléments"
+
+#. The <sup> </sup> markup at the end of the chain is there to ensure that
+#. things will be correcly aligned, add the same to the translated string
+#: ../programs/gchemtable-elt.cc:69
+msgid "Electronic configuration:<sup> </sup>"
+msgstr "Configuration électronique :<sup> </sup>"
+
+#: ../programs/gchemtable-elt.cc:80
+msgid "Lang"
+msgstr "Langue"
+
+#: ../programs/gchemtable-elt.cc:87
+msgid "Name"
+msgstr "Nom"
+
+#: ../programs/gchemtable-elt.cc:113
+msgid "n.a."
+msgstr "n.d."
+
+#: ../programs/gchemtable-curve.cc:96 ../programs/gchemtable-curve.cc:100
+msgid "Pauling electronegativity"
+msgstr "Électronégaivité de Pauling"
+
+#: ../programs/gchemtable-unstable.desktop.in.h:1
+msgid "A Mendeleiev table of the chemical elements"
+msgstr "Tableau de Mendeleiev des éléments chimiques"
