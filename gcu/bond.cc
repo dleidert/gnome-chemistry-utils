@@ -141,9 +141,10 @@ bool Bond::Load (xmlNodePtr node)
 	if (!pObject || (pObject->GetType() != AtomType))
 		return false;
 	m_End = (Atom*)pObject;
+	bool result = LoadNode (node);
 	m_Begin->AddBond (this);
 	m_End->AddBond (this);
-	return LoadNode (node);
+	return result;
 }
 
 bool Bond::LoadNode(xmlNodePtr)

@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * programs/gchemtable-app.h 
+ * programs/gchemtable-curve.h 
  *
  * Copyright (C) 2005
  *
@@ -24,32 +24,24 @@
  * USA
  */
 
-#ifndef GCHEMTABLE_APP_H
-#define GCHEMTABLE_APP_H
+#ifndef GCHEMTABLE_CURVE_H
+#define GCHEMTABLE_CURVE_H
 
-#include <gcu/application.h>
 #include <gcu/dialog.h>
-#include <gcu/gtkperiodic.h>
-//#include <gtk/gtkwidget.h>
+#include <string>
 
 using namespace gcu;
 
-class GChemTableApp: public Application
+class GChemTableApp;
+	
+class GChemTableCurve: public Dialog
 {
 public:
-	GChemTableApp ();
-	virtual ~GChemTableApp ();
-
-	void OnElement (int Z);
-	GtkWindow *GetWindow () {return GTK_WINDOW (window);}
-	void ClearPage (int Z);
-	void SetCurZ (int Z);
+	GChemTableCurve (GChemTableApp *App, char const *name);
+	virtual ~GChemTableCurve ();
 
 private:
-	Dialog *Pages[118];
-	GtkWidget *window;
-	GtkPeriodic *periodic;
-	int m_CurZ;
+	string m_Name;
 };
 
-#endif	// GCHEMTABLE_APP_H
+#endif	// GCHEMTABLE_CURVE_H

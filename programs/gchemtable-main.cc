@@ -26,6 +26,9 @@
 
 #include "config.h"
 #include "gchemtable-app.h"
+#include <goffice/goffice.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/go-plugin-loader-module.h>
 
 using namespace gcu;
 
@@ -37,6 +40,10 @@ int main (int argc, char *argv[])
 #endif
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
+	/* Initialize libgoffice */
+	libgoffice_init ();
+	/* Initialize plugins manager */
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
 	new GChemTableApp ();
 

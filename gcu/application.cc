@@ -31,11 +31,16 @@
 
 using namespace gcu;
 
-Application::Application (string name)
+Application::Application (string name, string datadir)
 {
 	Name = name;
 	string lang = getenv ("LANG");
-	HelpFilename = string (DATADIR"/gnome/help/") + Name + string ("/") + lang + string ("/") + Name + ".xml";
+	HelpFilename = datadir + string ("/gnome/help/") + Name + string ("/") + lang + string ("/") + Name + ".xml";
+	struct stat buf;
+	gint err;
+	err = stat (HelpFilename.c_str (), &buf);
+	if (err)
+		HelpFilename = datadir + string ("/gnome/help/") + Name + string ("/C/") + Name + ".xml";
 	GConfClient* cli = gconf_client_get_default ();
 	if (cli) {
 		const char *value;
@@ -51,7 +56,7 @@ Application::~Application ()
 {
 }
 
-void Application::OnHelp (string& tag)
+void Application::OnHelp (string tag)
 {
 	if (!HasHelp ())
 		return;
@@ -71,6 +76,6 @@ bool Application::HasHelp ()
 		return false;
 	struct stat buf;
 	gint err;
-	err = stat(HelpFilename.c_str (), &buf);
+	err = stat (HelpFilename.c_str (), &buf);
 	return (err)? false: true;	
 }

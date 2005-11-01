@@ -27,7 +27,6 @@
 #include "config.h"
 #include "gchemtable-app.h"
 #include "gchemtable-elt.h"
-#include <gcu/gtkperiodic.h>
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <glib.h>
@@ -106,7 +105,6 @@ static const char *ui_description =
 #warning "the following line should be edited for stable releases"
 GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 {
-	GtkWidget *periodic;
 	GtkVBox* vbox;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -134,8 +132,11 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
-	periodic = gtk_periodic_new();
-	g_object_set(G_OBJECT(periodic), "color-style", GTK_PERIODIC_COLOR_DEFAULT, NULL);
+	periodic = GTK_PERIODIC (gtk_periodic_new());
+	g_object_set(G_OBJECT(periodic),
+			"color-style", GTK_PERIODIC_COLOR_DEFAULT,
+			"can_unselect", true,
+			NULL);
 	g_signal_connect(G_OBJECT(periodic), "element_changed", (GCallback)on_changed, this);
 	gtk_box_pack_end_defaults(GTK_BOX(vbox), GTK_WIDGET(GTK_PERIODIC(periodic)));
 	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(vbox));
@@ -152,9 +153,29 @@ GChemTableApp::~GChemTableApp ()
 
 void GChemTableApp::OnElement (int Z)
 {
+	m_CurZ = Z;
+	if (Z == 0)
+		return;
 	int t = Z - 1;
 	if (Pages[t] != NULL)
-		gdk_window_raise (GTK_WIDGET (Pages[t]->GetWindow ())->window);
+		gtk_window_present (Pages[t]->GetWindow ());
 	else
 		Pages[t] = new GChemTableElt (this, Z);
+}
+
+void GChemTableApp::ClearPage (int Z)
+{
+	Pages[Z - 1] = NULL;
+	gtk_periodic_set_element (periodic, 0);
+	if (Z == m_CurZ) {
+		SetCurZ (0);
+	}
+}
+
+void GChemTableApp::SetCurZ (int Z)
+{
+	if (Z != m_CurZ) {
+		gtk_periodic_set_element (periodic, Z);
+		m_CurZ = Z;
+	}
 }

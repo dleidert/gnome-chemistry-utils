@@ -11,7 +11,9 @@ gchemtable_unstable_SOURCES =	\
 	gchemtable-app.cc	\
 	gchemtable-app.h	\
 	gchemtable-elt.cc	\
-	gchemtable-elt.h
+	gchemtable-elt.h	\
+	gchemtable-curve.cc	\
+	gchemtable-curve.h
 gchemtable_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
 
 DEPS = \

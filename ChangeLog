@@ -1,5 +1,30 @@
 ##Text encoding: utf-8
 
+2005-11-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.cc: add datadir arg to constructor and fixed various
+	issues related to help files.
+	* gcu/application.h: ditto.
+	* gcu/bond.cc: fixed loading (for GChemPaint).
+	* gcu/chemistry.cc: implemented gcu_value_get_string.
+	* gcu/chemistry.h: Add MAX_ELT constant.
+	* gcu/element.cc: enhanced internationalization.
+	* gcu/gtkperiodic.h: fixed a typo in docs.
+	* glade/Makefile.am: add curve.glade.
+	* glade/curve.glade: glade file for curve display windows in gchemtable.
+	* glade/eltpage.glade: use a GtkWindow instead of a GtkDialog, and display
+	Pauling electronegativity for the element.
+	* programs/Makefile.am: add gchemtable-curve.*.
+	* programs/gchemcalc.cc: removed unnecessary code.
+	* programs/gchemtable-app.cc: activate the button corresponding to the last
+	viewed element.
+	* programs/gchemtable-app.h: ditto.
+	* programs/gchemtable-curve.cc: add curves (just Pauling electronegativity
+	at the moment).
+	* programs/gchemtable-curve.h: ditto.
+	* programs/gchemtable-elt.cc: add code for electronegativity.
+	* programs/gchemtable-elt.h: ditto.
+	* programs/gchemtable-main.cc: initialize goffice.
+
 2005-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Changed license to GPL instead of LGPL.
 

@@ -67,7 +67,6 @@ public:
 	GtkLabel *markup, *raw, *weight, *mono, *monomass;
 	GtkWidget *pattern_page;
 	GogChart *chart;
-	GogGraph *graph;
 	GogLabel *label;
 	GogPlot *plot;
 	GogSeries *series;
@@ -371,8 +370,6 @@ int main (int argc, char *argv[])
 	GtkWidget *w = go_graph_widget_new ();
 	gtk_widget_show (w);
 	gtk_box_pack_end (GTK_BOX (App.pattern_page), w, TRUE, TRUE, 0);
-	// Get the embedded graph
-	App.graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
 	App.chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
 	App.plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	gog_object_add_by_name (GOG_OBJECT (App.chart), "Plot", GOG_OBJECT (App.plot));

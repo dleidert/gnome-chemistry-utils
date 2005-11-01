@@ -36,10 +36,10 @@ namespace gcu {
 class Application
 {
 public:
-	Application (string name);
+	Application (string name, string datadir = DATADIR);
 	virtual ~Application ();
 
-	void OnHelp (string& s = "");
+	void OnHelp (string s = "");
 	bool HasHelp ();
 	string &GetName () {return Name;}
 

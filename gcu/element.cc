@@ -34,7 +34,7 @@
 #include <string>
 #include <libintl.h>
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 static void ReadValue (char const *source, GcuValue &value)
 {
@@ -79,6 +79,7 @@ EltTable::EltTable()
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv ("LANG");
+	setlocale (LC_ALL, lang);
 	char *old_num_locale, *buf, *num, *dot;
 	unsigned char Z;
 	map <string, string> Langs;
@@ -543,6 +544,7 @@ void Element::LoadElectronicProps ()
 						en->value.value = strtod (buf, &end);
 						dot = strchr (buf, '.');
 						en->value.prec = (dot)? end - dot - 1: 0;
+						en->value.delta = 0; // we should use a generic parser
 						Elt->m_en.push_back (en);
 						xmlFree (buf);
 					} else

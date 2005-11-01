@@ -55,6 +55,8 @@ To use this file, add the following line to your source file:
 
 G_BEGIN_DECLS
 
+#define MAX_ELT 116
+
 /** gcu_spin_state
 * gcu_spin_state describes the spin state of a central atom in a complex.
 * Possible values are:

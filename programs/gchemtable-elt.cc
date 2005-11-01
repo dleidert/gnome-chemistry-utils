@@ -34,11 +34,19 @@
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
 
+extern void on_show_curve (GObject *obj, char const* name);
+static void on_focus_in (GChemTableElt *dlg)
+{
+	dlg->OnFocusIn ();
+}
+
 GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/"PACKAGE"/glade/eltpage.glade", "eltdlg")
 {
 	Element *elt = Element::GetElement (Z);
+	m_Z = Z;
 	char *buf;
 	gtk_window_set_title (dialog, elt->GetName ());
+	g_signal_connect_swapped (G_OBJECT (dialog), "focus-in-event", G_CALLBACK (on_focus_in), this);
 	GtkWidget *w = glade_xml_get_widget (xml, "symbol");
 	buf = g_strconcat ("<span font_desc=\"64\">", elt->GetSymbol (), "</span>", NULL);
 	gtk_label_set_markup (GTK_LABEL (w), buf);
@@ -92,8 +100,28 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 				  1, (*i).second.c_str (),
 				  -1);
 	}
+	// electronic properties page
+	w = glade_xml_get_widget (xml, "pauling-en");
+	GcuElectronegativity en;
+	en.scale = "Pauling";
+	en.Z = elt->GetZ ();
+	if (elt->GetElectronegativity (&en)) {
+		buf = gcu_value_get_string (&en.value);
+		gtk_label_set_text (GTK_LABEL (w), buf);
+		g_free (buf);
+	} else
+		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
+	w = glade_xml_get_widget (xml, "pauling-btn");
+	g_object_set_data (G_OBJECT (w), "app", App);
+	g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (on_show_curve), (void*) "en/Pauling");
 }
 
 GChemTableElt::~GChemTableElt ()
 {
+	reinterpret_cast<GChemTableApp*> (m_App)->ClearPage (m_Z);
+}
+
+void GChemTableElt::OnFocusIn ()
+{
+	reinterpret_cast<GChemTableApp*> (m_App)->SetCurZ (m_Z);
 }

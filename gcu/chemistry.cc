@@ -91,7 +91,16 @@ void gcu_element_load_databases (char* name, ...)
 
 gchar* gcu_value_get_string (GcuValue const *value)
 {
-	return NULL;
+	gchar *format, *str;
+	if (value->delta > 0) {
+		format = g_strdup_printf ("%%.%df(%%d)", value->prec);
+		str = g_strdup_printf (format, value->value, value->delta);
+	} else {
+		format = g_strdup_printf ("%%.%df", value->prec);
+		str = g_strdup_printf (format, value->value);
+	}
+	g_free (format);
+	return str;
 }
 
 gchar* gcu_dimensional_value_get_string (GcuValue const *value)

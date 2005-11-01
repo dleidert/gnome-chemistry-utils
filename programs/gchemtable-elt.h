@@ -38,6 +38,11 @@ class GChemTableElt: public Dialog
 public:
 	GChemTableElt (GChemTableApp *App, int Z);
 	virtual ~GChemTableElt ();
+
+	void OnFocusIn ();
+
+private:
+	int m_Z;
 };
 
 #endif	// GCHEMTABLE_ELT_H

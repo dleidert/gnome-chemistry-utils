@@ -123,7 +123,7 @@ guint				gtk_periodic_get_element		(GtkPeriodic* periodic);
 /**
  * gtk_periodic_set_element:
  * \param periodic  a GtkPeriodic widget
- * \param element the atomic number of the element to select or %0
+ * \param element the atomic number of the element to select or 0
  *
  * Description: sets the selected element in the periodic table.
  */
