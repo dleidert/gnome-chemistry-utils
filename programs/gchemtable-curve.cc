@@ -69,7 +69,11 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 {
 	m_Name = name;
 	GtkWidget *w = glade_xml_get_widget (xml, "vbox1");
+#ifdef GO_GRAPH_WIDGET_OLD_API
 	GtkWidget *pw = go_graph_widget_new ();
+#else
+	GtkWidget *pw = go_graph_widget_new (NULL);
+#endif
 	gtk_widget_set_size_request (pw, 400, 250);
 	gtk_widget_show (pw);
 	gtk_box_pack_end (GTK_BOX (w), pw, TRUE, TRUE, 0);

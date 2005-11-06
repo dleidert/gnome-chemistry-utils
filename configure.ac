@@ -70,6 +70,15 @@ AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
+saved_cflags=$CFLAGS
+CFLAGS=$GCU_CFLAGS
+AC_COMPILE_IFELSE(AC_LANG_PROGRAM([#include <goffice/gtk/go-graph-widget.h>],
+[go_graph_widget_new(NULL)]), [new_go_graph_widget_api="yes"], [new_go_graph_widget_api="no"])
+if test "$new_go_graph_widget_api" = "no"; then
+AC_DEFINE_UNQUOTED(GO_GRAPH_WIDGET_OLD_API, 1,[go_graph_widget_new has no arg])
+fi
+CFLAGS=$saved_cflags
+
 GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
 AC_SUBST(GCU_CFLAGS)
 AC_SUBST(GCU_LIBS)
@@ -104,9 +113,11 @@ if test "x$test_mozilla_plugin" != "xno"; then
    if test "x$MOZILLA_CONFIG" != "xno"; then
       _mozilla_include_dir=`mozilla-config --cflags|sed 's/-I\(.*\) .*/\1/'`
       MOZILLA_CFLAGS="-I$_mozilla_include_dir/plugin -I$_mozilla_include_dir/java -I$_mozilla_include_dir/nspr"
+	  mozlibdir=`mozilla-config --libs|sed 's/-L//'`
    else
 	PKG_CHECK_MODULES(MOZILLA, mozilla-plugin, build_mozilla_plugin=yes, 
 			[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])])
+	mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
    fi
 
    if test "x$MOZILLA_CFLAGS" != "x"; then
@@ -116,6 +127,7 @@ fi
 
 AM_CONDITIONAL(WITH_MOZILLA,[test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST(MOZILLA_CFLAGS)
+AC_SUBST(mozlibdir)
 
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
@@ -127,9 +139,12 @@ if test "$exec_prefix" = "NONE"; then
 	eval lb=`echo $lb`
 	bd=`echo $bindir| sed 's/exec_prefix/prefix/'`
 	eval BINDIR=`echo $bd`
+	le=`echo $libexecdir| sed 's/exec_prefix/prefix/'`
+	eval le=`echo $le`
 else
 	eval lb=`echo $libdir`
 	eval BINDIR=`echo $bindir`
+	eval le=`echo $libexecdir`
 fi
 AC_DEFINE_UNQUOTED(PREFIX, "$prefix",[Where the Gnome Chemistry Utils are to be installed])
 case $srcdir in
@@ -143,6 +158,7 @@ esac
 AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Chemistry Utils data are to be installed (default=${prefix}/share)])
 AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Chemistry Utils configuration files are to be installed (default=${prefix}/etc)])
 AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Chemistry Utils libraries are to be installed (default=${prefix}/lib)])
+AC_DEFINE_UNQUOTED(LIBEXECDIR, "$le",[Where Gnome Chemistry Utils program executables are to be installed (default=${exec_prefix}/libexecdir)])
 AC_SUBST(BINDIR)
 PIXMAPSDIR=$dt/pixmaps
 AC_SUBST(PIXMAPSDIR)

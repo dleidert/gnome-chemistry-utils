@@ -25,59 +25,147 @@
 #include <config.h>
 #include "npapi.h"
 #include "npupp.h"
+#include <unistd.h>
 
 static NPNetscapeFuncs mozilla_funcs;
+static int pid = 0;
+static int to_pipe = 0;
+
+typedef struct {
+	
+	char *url;	/* The URL that this instance displays */
+	
+	char *mime_type;	/* The mime type that this instance displays */
+	
+	int width, height;	/* The size of the display area */
+	
+	unsigned long moz_xid;	/* The XID of the window mozilla has for us */
+	
+/*	int argc;	
+	char **args;
+	pthread_t thread;*/
+	NPP instance;
+} ChemPlugin;
 
 static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 				 uint16 mode, uint16 argc, char *argn[], char *argv[],
 				 NPSavedData *saved)
 {
+	ChemPlugin *plugin;
+	char buf [32];
+  
+	if (instance == NULL)
+		return NPERR_INVALID_INSTANCE_ERROR;
+	
+	instance->pdata = mozilla_funcs.memalloc (sizeof (ChemPlugin));
+	plugin = (ChemPlugin *) instance->pdata;
+
+	if (plugin == NULL)
+		return NPERR_OUT_OF_MEMORY_ERROR;
+	memset (plugin, 0, sizeof (ChemPlugin));
+
+	plugin->instance = instance;
+
+	if (pid == 0) {
+		int p[2];
+		char *argv[2];
+		argv[0] = LIBEXECDIR"/chem-viewer";
+		argv[1] = NULL;
+		int pipe1[2];
+		
+		if (pipe (p) < 0) {
+			perror ("pipe creation");
+			return NPERR_INVALID_INSTANCE_ERROR;
+		}	
+		if ((pid = fork()) < 0) {
+			perror ("fork");
+			return NPERR_INVALID_INSTANCE_ERROR;
+		} else if (pid > 0) {
+			close (p[0]);
+			to_pipe = p[1];
+		} else {
+			close(pipe1[1]);
+			if (p[0] != STDIN_FILENO){
+				if (dup2 (p[0], STDIN_FILENO) != STDIN_FILENO) {
+					perror("dup2 (stdin)");
+				}
+				close (p[0]);
+			}
+			if (execvp (argv[0], argv) < 0) {
+				perror ("execvp");
+			}
+		}
+	}
+	write (to_pipe, "new\n", 4);
+	snprintf (buf, 32, "%p\n", instance);
+	write (to_pipe, buf, strlen (buf));
+	write (to_pipe, mime_type, strlen ((char*) mime_type));
+	write (to_pipe, "\n", 1);
 	return NPERR_NO_ERROR;
 }
 
 static NPError ChemDestroy (NPP instance, NPSavedData **save)
 {
+	ChemPlugin *plugin;
+	char buf[32];
+
+	if (instance == NULL)
+		return NPERR_INVALID_INSTANCE_ERROR;
+	
+	plugin = (ChemPlugin *) instance->pdata;
+	if (plugin == NULL)
+		return NPERR_NO_ERROR;
+
+	write (to_pipe, "kill\n", 5);
+	snprintf (buf, 32, "%p\n", instance);
+	write (to_pipe, buf, strlen (buf));
+
+	mozilla_funcs.memfree (instance->pdata);
+	instance->pdata = NULL;
 	return NPERR_NO_ERROR;
 }
 
 static NPError ChemSetWindow (NPP instance, NPWindow *window)
 {
+	char buf[32];
+	write (to_pipe, "win\n", 4);
+	snprintf (buf, 32, "%p\n", instance);
+	write (to_pipe, buf, strlen (buf));
+	snprintf (buf, 32, "%p\n", window->window);
+	write (to_pipe, buf, strlen (buf));
 	return NPERR_NO_ERROR;
 }
 
 static NPError ChemNewStream (NPP instance, NPMIMEType type, NPStream *stream,
 		      NPBool seekable, uint16 *stype)
 {
-	return NPERR_NO_ERROR;
-}
+	ChemPlugin *plugin;
 
-static NPError ChemDestroyStream (NPP instance, NPStream *stream, NPError reason)
-{
-	return NPERR_NO_ERROR;
-}
+	if (instance == NULL)
+		return NPERR_INVALID_INSTANCE_ERROR;
+	
+	plugin = (ChemPlugin *) instance->pdata;
+	if (plugin == NULL)
+		return NPERR_NO_ERROR;	
+	
+	*stype = NP_ASFILEONLY;
 
-static int32 ChemWriteReady (NPP instance, NPStream *stream)
-{
-	return 0;
+	return NPERR_NO_ERROR;
 }
 
 static void ChemPrint (NPP instance, NPPrint *platformPrint)
 {
-}
-
-static int32 ChemWrite (NPP instance, NPStream *stream, int32 offset,
-			  int32 len, void *buffer)
-{
-	return 0;
+#warning TODO: implement !!!
 }
 
 static void ChemStreamAsFile (NPP instance, NPStream *stream, const char *fname)
 {
-}
-
-NPError ChemURLNotify (NPP instance, const char* url, const char* window, void* notifyData)
-{
-	return NPERR_NO_ERROR;
+	char buf[32];
+	write (to_pipe, "file\n", 5);
+	snprintf (buf, 32, "%p\n", instance);
+	write (to_pipe, buf, strlen (buf));
+	write (to_pipe, fname, strlen (fname));
+	write (to_pipe, "\n", 1);
 }
 
 NPError NP_GetValue (void *future, NPPVariable variable, void *value)
@@ -123,12 +211,12 @@ NPError NP_Initialize(NPNetscapeFuncs *mozFuncs, NPPluginFuncs *pluginFuncs) {
 	pluginFuncs->destroy    = NewNPP_DestroyProc (ChemDestroy);
 	pluginFuncs->setwindow  = NewNPP_SetWindowProc (ChemSetWindow);
 	pluginFuncs->newstream  = NewNPP_NewStreamProc (ChemNewStream);
-	pluginFuncs->destroystream = NewNPP_DestroyStreamProc (ChemDestroyStream);
+	pluginFuncs->destroystream = NULL;
 	pluginFuncs->asfile     = NewNPP_StreamAsFileProc (ChemStreamAsFile);
-	pluginFuncs->writeready = NewNPP_WriteReadyProc (ChemWriteReady);
-	pluginFuncs->write      = NewNPP_WriteProc (ChemWrite);
+	pluginFuncs->writeready = NULL;
+	pluginFuncs->write      = NULL;
 	pluginFuncs->print      = NewNPP_PrintProc (ChemPrint);
-	pluginFuncs->urlnotify  = NewNPP_URLNotifyProc (ChemURLNotify);
+	pluginFuncs->urlnotify  = NULL;
 	pluginFuncs->event      = NULL;
 #ifdef OJI
 	pluginFuncs->javaClass  = NULL;
@@ -139,5 +227,10 @@ NPError NP_Initialize(NPNetscapeFuncs *mozFuncs, NPPluginFuncs *pluginFuncs) {
 
 NPError	NP_Shutdown(void)
 {
+	/* stop the server and close all resources */
+	write (to_pipe, "halt\n", 5);
+	pid = 0;
+	close (to_pipe);
+	to_pipe = 0;
 	return NPERR_NO_ERROR;
 }

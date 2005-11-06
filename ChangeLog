@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2005-11-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add one more test for goffice.
+	* mozilla-plugin/Makefile.am: add chem-viewer program.
+	* mozilla-plugin/chem-viewer.cc: new viewer for the mozilla plugin.
+	* mozilla-plugin/moz-plugin.c: (ChemNew), (ChemDestroy),
+	(ChemSetWindow), (ChemNewStream), (ChemPrint), (ChemStreamAsFile),
+	(NP_Initialize), (NP_Shutdown): implemented.
+	* programs/gchemcalc.cc: take goffice api change into account.
+	* programs/gchemtable-curve.cc: ditto.
+
 2005-11-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.cc: add datadir arg to constructor and fixed various
 	issues related to help files.

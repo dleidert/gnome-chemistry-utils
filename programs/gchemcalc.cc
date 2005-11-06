@@ -367,7 +367,11 @@ int main (int argc, char *argv[])
 	App.mono = GTK_LABEL (glade_xml_get_widget (xml, "mono"));
 	App.monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
 	App.pattern_page = glade_xml_get_widget (xml, "pattern");
+#ifdef GO_GRAPH_WIDGET_OLD_API
 	GtkWidget *w = go_graph_widget_new ();
+#else
+	GtkWidget *w = go_graph_widget_new (NULL);
+#endif
 	gtk_widget_show (w);
 	gtk_box_pack_end (GTK_BOX (App.pattern_page), w, TRUE, TRUE, 0);
 	App.chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
