@@ -16,6 +16,7 @@ ln -sf $AMPATH/share/automake-$AMVER/missing .
 ln -sf $AMPATH/share/automake-$AMVER/mkinstalldirs .
 ln -sf $AMPATH/share/automake-$AMVER/install-sh .
 ln -sf $AMPATH/share/automake-$AMVER/depcomp .
+ln -sf $AMPATH/share/automake-$AMVER/compile .
 
 ## run aclocal
 if [ -r /usr/share/aclocal/gnome-common.m4 ]; then
