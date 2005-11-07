@@ -4,423 +4,752 @@
 <element Z="1">
 	<config>1s1</config>
 	<en scale="Pauling" value="2.20"/>
+	<ei value="1.320"/>
+	<ae value="72.775"/>
 </element>
 
 <element Z="2">
 	<config>1s2</config>
+	<ei value="2.3723"/>
+	<ei rank="2" value="5.2504"/>
+	<ae value="0"/>
 </element>
 
 <element Z="3">
 	<config>[He] 2s1</config>
 	<en scale="Pauling" value="0.98"/>
+	<ei value="0.5203"/>
+	<ei rank="2" value="7.2981"/>
+	<ei rank="3" value="11.8149"/>
+	<ae value="58.63"/>
 </element>
 
 <element Z="4">
 	<config>[He] 2s2</config>
 	<en scale="Pauling" value="1.57"/>
+	<ei value="0.8995"/>
+	<ei rank="2" value="1.7571"/>
+	<ei rank="3" value="14.8487"/>
+	<ae value="0"/>
 </element>
 
 <element Z="5">
 	<config>[He] 2s2 2p1</config>
 	<en scale="Pauling" value="2.04"/>
+	<ei value="0.8006"/>
+	<ei rank="2" value="2.4270"/>
+	<ei rank="3" value="3.6598"/>
+	<ae value="26.7"/>
 </element>
 
 <element Z="6">
 	<config>[He] 2s2 2p2</config>
 	<en scale="Pauling" value="2.55"/>
+	<ei value="1.0864"/>
+	<ei rank="2" value="2.5326"/>
+	<ei rank="3" value="4.6205"/>
+	<ae value="153.89"/>
 </element>
 
 <element Z="7">
 	<config>[He] 2s2 2p3</config>
 	<en scale="Pauling" value="3.04"/>
+	<ei value="1.4023"/>
+	<ei rank="2" value="2.8561"/>
+	<ei rank="3" value="4.5781"/>
+	<ae value="7"/>
+	<ae rank="2" value="-673"/>
+	<ae rank="3" value="-1070"/>
 </element>
 
 <element Z="8">
 	<config>[He] 2s2 2p4</config>
 	<en scale="Pauling" value="3.44"/>
+	<ei value="1.3140"/>
+	<ei rank="2" value="3.3882"/>
+	<ei rank="3" value="5.3004"/>
+	<ae value="140.986"/>
+	<ae rank="2" value="-744"/>
 </element>
 
 <element Z="9">
 	<config>[He] 2s2 2p5</config>
 	<en scale="Pauling" value="3.98"/>
+	<ei value="1.6810"/>
+	<ei rank="2" value="3.3742"/>
+	<ei rank="3" value="6.0504"/>
+	<ae value="328.0"/>
 </element>
 
 <element Z="10">
 	<config>[He] 2s2 2p6</config>
+	<ei value="2.0807"/>
+	<ei rank="2" value="3.9523"/>
+	<ei rank="3" value="6.122"/>
+	<ae value="0"/>
 </element>
 
 <element Z="11">
 	<config>[Ne] 3s1</config>
 	<en scale="Pauling" value="0.93"/>
+	<ei value="0.4958"/>
+	<ei rank="2" value="4.5624"/>
+	<ei rank="3" value="6.912"/>
+	<ae value="52.871"/>
 </element>
 
 <element Z="12">
 	<config>[Ne] 3s2</config>
 	<en scale="Pauling" value="1.31"/>
+	<ei value="0.7377"/>
+	<ei rank="2" value="1.4507"/>
+	<ei rank="3" value="7.7328"/>
+	<ae value="0"/>
 </element>
 
 <element Z="13">
 	<config>[Ne] 3s2 3p1</config>
 	<en scale="Pauling" value="1.61"/>
+	<ei value="0.5776"/>
+	<ei rank="2" value="1.8167"/>
+	<ei rank="3" value="2.7448"/>
+	<ae value="42.5"/>
 </element>
 
 <element Z="14">
 	<config>[Ne] 3s2 3p2</config>
 	<en scale="Pauling" value="1.90"/>
+	<ei value="0.7865"/>
+	<ei rank="2" value="1.5771"/>
+	<ei rank="3" value="3.2316"/>
+	<ae value="133.6"/>
 </element>
 
 <element Z="15">
 	<config>[Ne] 3s2 3p3</config>
 	<en scale="Pauling" value="2.19"/>
+	<ei value="1.0118"/>
+	<ei rank="2" value="1.9032"/>
+	<ei rank="3" value="2.912"/>
+	<ae value="72.02"/>
+	<ae rank="2" value="-468"/>
+	<ae rank="3" value="-886"/>
 </element>
 
 <element Z="16">
 	<config>[Ne] 3s2 3p4</config>
 	<en scale="Pauling" value="2.58"/>
+	<ei value="0.9996"/>
+	<ei rank="2" value="2.251"/>
+	<ei rank="3" value="3.361"/>
+	<ae value="200.42"/>
+	<ae rank="2" value="-456"/>
 </element>
 
 <element Z="17">
 	<config>[Ne] 3s2 3p5</config>
 	<en scale="Pauling" value="3.16"/>
+	<ei value="1.1211"/>
+	<ei rank="2" value="2.297"/>
+	<ei rank="3" value="3.822"/>
+	<ae value="349.0"/>
 </element>
 
 <element Z="18">
 	<config>[Ne] 3s2 3p6</config>
+	<ei value="1.5205"/>
+	<ei rank="2" value="2.6658"/>
+	<ei rank="3" value="3.931"/>
+	<ae value="0"/>
 </element>
 
 <element Z="19">
 	<config>[Ar] 4s1</config>
 	<en scale="Pauling" value="0.82"/>
+	<ei value="0.4189"/>
+	<ei rank="2" value="3.0514"/>
+	<ei rank="3" value="4.411"/>
+	<ae value="48.387"/>
 </element>
 
 <element Z="20">
 	<config>[Ar] 4s2</config>
 	<en scale="Pauling" value="1.00"/>
+	<ei value="0.5898"/>
+	<ei rank="2" value="1.1454"/>
+	<ei rank="3" value="4.9120"/>
+	<ae value="0"/>
 </element>
 
 <element Z="21">
 	<config>[Ar] 3d1 4s2</config>
 	<en scale="Pauling" value="1.36"/>
+	<ei value="0.631"/>
+	<ei rank="2" value="1.235"/>
+	<ei rank="3" value="2.389"/>
+	<ae value="18.1"/>
 </element>
 
 <element Z="22">
 	<config>[Ar] 3d2 4s2</config>
 	<en scale="Pauling" value="1.54"/>
+	<ei value="0.658"/>
+	<ei rank="2" value="1.310"/>
+	<ei rank="3" value="2.6525"/>
+	<ae value="7.62"/>
 </element>
 
 <element Z="23">
 	<config>[Ar] 3d3 4s2</config>
 	<en scale="Pauling" value="1.63"/>
+	<ei value="0.650"/>
+	<ei rank="2" value="1.414"/>
+	<ei rank="3" value="2.8280"/>
+	<ae value="50.6"/>
 </element>
 
 <element Z="24">
 	<config>[Ar] 3d5 4s1</config>
 	<en scale="Pauling" value="1.66"/>
+	<ei value="0.6528"/>
+	<ei rank="2" value="1.496"/>
+	<ei rank="3" value="2.987"/>
+	<ae value="64.26"/>
 </element>
 
 <element Z="25">
 	<config>[Ar] 3d5 4s2</config>
 	<en scale="Pauling" value="1.55"/>
+	<ei value="0.7174"/>
+	<ei rank="2" value="1.5091"/>
+	<ei rank="3" value="3.2484"/>
+	<ae value="0"/>
 </element>
 
 <element Z="26">
 	<config>[Ar] 3d6 4s2</config>
 	<en scale="Pauling" value="1.83"/>
+	<ei value="0.7594"/>
+	<ei rank="2" value="1.561"/>
+	<ei rank="3" value="2.9574"/>
+	<ae value="15.7"/>
 </element>
 
 <element Z="27">
 	<config>[Ar] 3d7 4s2</config>
 	<en scale="Pauling" value="1.88"/>
+	<ei value="0.758"/>
+	<ei rank="2" value="1.646"/>
+	<ei rank="3" value="3.232"/>
+	<ae value="63.7"/>
 </element>
 
 <element Z="28">
 	<config>[Ar] 3d8 4s2</config>
 	<en scale="Pauling" value="1.91"/>
+	<ei value="0.7367"/>
+	<ei rank="2" value="1.7530"/>
+	<ei rank="3" value="3.393"/>
+	<ae value="111.5"/>
 </element>
 
 <element Z="29">
 	<config>[Ar] 3d10 4s1</config>
 	<en scale="Pauling" value="1.90"/>
+	<ei value="0.7455"/>
+	<ei rank="2" value="1.9579"/>
+	<ei rank="3" value="3.554"/>
+	<ae value="118.4"/>
 </element>
 
 <element Z="30">
 	<config>[Ar] 3d10 4s2</config>
 	<en scale="Pauling" value="1.65"/>
+	<ei value="0.9064"/>
+	<ei rank="2" value="1.7333"/>
+	<ei rank="3" value="3.8327"/>
+	<ae value="0"/>
 </element>
 
 <element Z="31">
 	<config>[Ar] 3d10 4s2 4p1</config>
 	<en scale="Pauling" value="1.81"/>
+	<ei value="0.5788"/>
+	<ei rank="2" value="1.979"/>
+	<ei rank="3" value="2.963"/>
+	<ae value="28.9"/>
 </element>
 
 <element Z="32">
 	<config>[Ar] 3d10 4s2 4p2</config>
 	<en scale="Pauling" value="2.01"/>
+	<ei value="0.7622"/>
+	<ei rank="2" value="1.5372"/>
+	<ei rank="3" value="3.302"/>
+	<ae value="119.0"/>
 </element>
 
 <element Z="33">
 	<config>[Ar] 3d10 4s2 4p3</config>
 	<en scale="Pauling" value="2.18"/>
+	<ei value="0.944"/>
+	<ei rank="2" value="1.7978"/>
+	<ei rank="3" value="2.7355"/>
+	<ae value=""/>
+	<ae rank="2" value="-435"/>
+	<ae rank="3" value="-802"/>
 </element>
 
 <element Z="34">
 	<config>[Ar] 3d10 4s2 4p4</config>
 	<en scale="Pauling" value="2.55"/>
+	<ei value="0.9409"/>
+	<ei rank="2" value="2.045"/>
+	<ei rank="3" value="2.9737"/>
+	<ae value="194.980"/>
+	<ae rank="2" value="-410"/>
 </element>
 
 <element Z="35">
 	<config>[Ar] 3d10 4s2 4p5</config>
 	<en scale="Pauling" value="2.96"/>
+	<ei value="1.1399"/>
+	<ei rank="2" value="2.10"/>
+	<ei rank="3" value="3.5"/>
+	<ae value="324.6"/>
 </element>
 
 <element Z="36" >
 	<config>[Ar] 3d10 4s2 4p6</config>
 	<en scale="Pauling" value="3.00"/>
+	<ei value="1.3507"/>
+	<ei rank="2" value="2.3503"/>
+	<ei rank="3" value="3.565"/>
+	<ae value="0"/>
 </element>
 
 <element Z="37">
 	<config>[Kr] 5s1</config>
 	<en scale="Pauling" value="0.82"/>
+	<ei value="0.4030"/>
+	<ei rank="2" value="2.633"/>
+	<ei rank="3" value="3.9"/>
+	<ae value="46.887"/>
 </element>
 
 <element Z="38">
 	<config>[Kr] 5s2</config>
 	<en scale="Pauling" value="0.95"/>
+	<ei value="0.5495"/>
+	<ei rank="2" value="1.0643"/>
+	<ei rank="3" value="4.21"/>
+	<ae value="0"/>
 </element>
 
 <element Z="39">
 	<config>[Kr] 4d1 5s2</config>
 	<en scale="Pauling" value="1.22"/>
+	<ei value="0.616"/>
+	<ei rank="2" value="1.181"/>
+	<ei rank="3" value="1.980"/>
+	<ae value="29.6"/>
 </element>
 
 <element Z="40">
 	<config>[Kr] 4d2 5s2</config>
 	<en scale="Pauling" value="1.33"/>
+	<ei value="0.660"/>
+	<ei rank="2" value="1.267"/>
+	<ei rank="3" value="2.218"/>
+	<ae value="41.1"/>
 </element>
 
 <element Z="41">
 	<config>[Kr] 4d4 5s1</config>
 	<en scale="Pauling" value="1.6"/>
+	<ei value="0.664"/>
+	<ei rank="2" value="1.382"/>
+	<ei rank="3" value="2.416"/>
+	<ae value="86.1"/>
 </element>
 
 <element Z="42">
 	<config>[Kr] 4d5 5s1</config>
 	<en scale="Pauling" value="2.16"/>
+	<ei value="0.6850"/>
+	<ei rank="2" value="1.558"/>
+	<ei rank="3" value="2.621"/>
+	<ae value="71.9"/>
 </element>
 
 <element Z="43">
 	<config>[Kr] 4d5 5s2</config>
 	<en scale="Pauling" value="1.9"/>
+	<ei value="0.702"/>
+	<ei rank="2" value="1.472"/>
+	<ei rank="3" value="2.850"/>
+	<ae value="53"/>
 </element>
 
 <element Z="44">
 	<config>[Kr] 4d7 5s1</config>
 	<en scale="Pauling" value="2.2"/>
+	<ei value="0.711"/>
+	<ei rank="2" value="1.617"/>
+	<ei rank="3" value="2.747"/>
+	<ae value="101.3"/>
 </element>
 
 <element Z="45">
 	<config>[Kr] 4d8 5s1</config>
 	<en scale="Pauling" value="2.28"/>
+	<ei value="0.720"/>
+	<ei rank="2" value="1.744"/>
+	<ei rank="3" value="2.997"/>
+	<ae value="109.7"/>
 </element>
 
 <element Z="46">
 	<config>[Kr] 4d10</config>
 	<en scale="Pauling" value="2.20"/>
+	<ei value="0.805"/>
+	<ei rank="2" value="1.875"/>
+	<ei rank="3" value="3.177"/>
+	<ae value="53.7"/>
 </element>
 
 <element Z="47">
 	<config>[Kr] 4d10 5s1</config>
 	<en scale="Pauling" value="1.93"/>
+	<ei value="0.7310"/>
+	<ei rank="2" value="2.074"/>
+	<ei rank="3" value="3.361"/>
+	<ae value="125.6"/>
 </element>
 
 <element Z="48">
 	<config>[Kr] 4d10 5s2</config>
 	<en scale="Pauling" value="1.69"/>
+	<ei value="0.8677"/>
+	<ei rank="2" value="1.6314"/>
+	<ei rank="3" value="3.616"/>
+	<ae value="0"/>
 </element>
 
 <element Z="49">
 	<config>[Kr] 4d10 5s2 5p1</config>
 	<en scale="Pauling" value="1.78"/>
+	<ei value="0.5583"/>
+	<ei rank="2" value="1.8206"/>
+	<ei rank="3" value="2.705"/>
+	<ae value="28.9"/>
 </element>
 
 <element Z="50">
 	<config>[Kr] 4d10 5s2 5p2</config>
 	<en scale="Pauling" value="1.80"/>
+	<ei value="0.7086"/>
+	<ei rank="2" value="1.4118"/>
+	<ei rank="3" value="2.9431"/>
+	<ae value="107.3"/>
 </element>
 
 <element Z="51">
 	<config>[Kr] 4d10 5s2 5p3</config>
 	<en scale="Pauling" value="2.05"/>
+	<ei value="0.8316"/>
+	<ei rank="2" value="1.595"/>
+	<ei rank="3" value="2.44"/>
+	<ae value="103.2"/>
 </element>
 
 <element Z="52">
 	<config>[Kr] 4d10 5s2 5p4</config>
 	<en scale="Pauling" value="2.1"/>
+	<ei value="0.8693"/>
+	<ei rank="2" value="1.79"/>
+	<ei rank="3" value="2.698"/>
+	<ae value="190.16"/>
 </element>
 
 <element Z="53">
 	<config>[Kr] 4d10 5s2 5p5</config>
 	<en scale="Pauling" value="2.66"/>
+	<ei value="1.0084"/>
+	<ei rank="2" value="1.8459"/>
+	<ei rank="3" value="3.2"/>
+	<ae value="295.18"/>
 </element>
 
 <element Z="54">
 	<config>[Kr] 4d10 5s2 5p6</config>
 	<en scale="Pauling" value="2.60"/>
+	<ei value="1.1704"/>
+	<ei rank="2" value="2.046"/>
+	<ei rank="3" value="3.10"/>
+	<ae value="0"/>
 </element>
 
 <element Z="55">
 	<config>[Xe] 6s1</config>
 	<en scale="Pauling" value="0.79"/>
+	<ei value="0.3757"/>
+	<ei rank="2" value="2.23"/>
+	<ae value="45.509"/>
 </element>
 
 <element Z="56">
 	<config>[Xe] 6s2</config>
 	<en scale="Pauling" value="0.89"/>
+	<ei value="0.5029"/>
+	<ei rank="2" value="0.96526"/>
+	<ae value="0"/>
 </element>
 
 <element Z="57">
 	<config>[Xe] 5d1 6s2</config>
 	<en scale="Pauling" value="1.10"/>
+	<ei value="0.5381"/>
+	<ei rank="2" value="1.067"/>
+	<ei rank="3" value="1.8503"/>
+	<ae value="48"/>
 </element>
 
 <element Z="58">
 	<config>[Xe] 4f1 5d1 6s2</config>
 	<en scale="Pauling" value="1.12"/>
+	<ei value="0.528"/>
+	<ei rank="2" value="1.047"/>
+	<ei rank="3" value="1.949"/>
+	<ae value="50"/>
 </element>
 
 <element Z="59">
 	<config>[Xe] 4f3 6s2</config>
 	<en scale="Pauling" value="1.13"/>
+	<ei value="0.523"/>
+	<ei rank="2" value="1.018"/>
+	<ei rank="3" value="2.086"/>
+	<ae value="50"/>
 </element>
 
 <element Z="60">
 	<config>[Xe] 4f4 6s2</config>
 	<en scale="Pauling" value="1.14"/>
+	<ei value="0.530"/>
+	<ei rank="2" value="1.034"/>
+	<ei rank="3" value="2.13"/>
+	<ae value="50"/>
 </element>
 
 <element Z="61">
 	<config>[Xe] 4f5 6s2</config>
+	<ei value="0.536"/>
+	<ei rank="2" value="1.052"/>
+	<ei rank="3" value="2.15"/>
+	<ae value="50"/>
 </element>
 
 <element Z="62">
 	<config>[Xe] 4f6 6s2</config>
 	<en scale="Pauling" value="1.17"/>
+	<ei value="0.543"/>
+	<ei rank="2" value="1.068"/>
+	<ei rank="3" value="2.26"/>
+	<ae value="50"/>
 </element>
 
 <element Z="63">
 	<config>[Xe] 4f7 6s2</config>
+	<ei value="0.547"/>
+	<ei rank="2" value="1.085"/>
+	<ei rank="3" value="2.40"/>
+	<ae value="50"/>
 </element>
 
 <element Z="64">
 	<config>[Xe] 4f7 5d1 6s2</config>
 	<en scale="Pauling" value="1.20"/>
+	<ei value="0.592"/>
+	<ei rank="2" value="1.17"/>
+	<ei rank="3" value="1.99"/>
+	<ae value="50"/>
 </element>
 
 <element Z="65">
 	<config>[Xe] 4f9 6s2</config>
+	<ei value="0.564"/>
+	<ei rank="2" value="1.112"/>
+	<ei rank="3" value="2.11"/>
+	<ae value="50"/>
 </element>
 
 <element Z="66">
 	<config>[Xe] 4f10 6s2</config>
 	<en scale="Pauling" value="1.22"/>
+	<ei value="0.572"/>
+	<ei rank="2" value="1.126"/>
+	<ei rank="3" value="2.20"/>
+	<ae value="50"/>
 </element>
 
 <element Z="67">
 	<config>[Xe] 4f11 6s2</config>
 	<en scale="Pauling" value="1.23"/>
+	<ei value="0.581"/>
+	<ei rank="2" value="1.139"/>
+	<ei rank="3" value="2.20"/>
+	<ae value="50"/>
 </element>
 
 <element Z="68">
 	<config>[Xe] 4f12 6s2</config>
 	<en scale="Pauling" value="1.24"/>
+	<ei value="0.589"/>
+	<ei rank="2" value="1.151"/>
+	<ei rank="3" value="2.19"/>
+	<ae value="50"/>
 </element>
 
 <element Z="69">
 	<config>[Xe] 4f13 6s2</config>
 	<en scale="Pauling" value="1.25"/>
+	<ei value="0.5967"/>
+	<ei rank="2" value="1.163"/>
+	<ei rank="3" value="2.284"/>
+	<ae value="50"/>
 </element>
 
 <element Z="70">
 	<config>[Xe] 4f14 6s2</config>
+	<ei value="0.6034"/>
+	<ei rank="2" value="1.175"/>
+	<ei rank="3" value="2.415"/>
+	<ae value="50"/>
 </element>
 
 <element Z="71">
 	<config>[Xe] 4f14 5d1 6s2</config>
 	<en scale="Pauling" value="1.27"/>
+	<ei value="0.5235"/>
+	<ei rank="2" value="1.34"/>
+	<ei rank="3" value="2.022"/>
+	<ae value="50"/>
 </element>
 
 <element Z="72">
 	<config>[Xe] 4f14 5d2 6s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.654"/>
+	<ei rank="2" value="1.44"/>
+	<ei rank="3" value="2.25"/>
+	<ae value="0"/>
 </element>
 
 <element Z="73">
 	<config>[Xe] 4f14 5d3 6s2</config>
 	<en scale="Pauling" value="1.5"/>
+	<ei value="0.761"/>
+	<ae value="31.06"/>
 </element>
 
 <element Z="74">
 	<config>[Xe] 4f14 5d4 6s2</config>
 	<en scale="Pauling" value="2.36"/>
+	<ei value="0.770"/>
+	<ae value="78.63"/>
 </element>
 
 <element Z="75">
 	<config>[Xe] 4f14 5d5 6s2</config>
 	<en scale="Pauling" value="1.9"/>
+	<ei value="0.760"/>
+	<ae value="14.47"/>
 </element>
 
 <element Z="76">
 	<config>[Xe] 4f14 5d6 6s2</config>
 	<en scale="Pauling" value="2.2"/>
+	<ei value="0.84"/>
+	<ae value="106.1"/>
 </element>
 
 <element Z="77">
 	<config>[Xe] 4f14 5d7 6s2</config>
 	<en scale="Pauling" value="2.20"/>
+	<ei value="0.88"/>
+	<ae value="151.0"/>
 </element>
 
 <element Z="78">
 	<config>[Xe] 4f14 5d9 6s1</config>
 	<en scale="Pauling" value="2.28"/>
+	<ei value="0.87"/>
+	<ei rank="2" value="1.7911"/>
+	<ae value="205.3"/>
 </element>
 
 <element Z="79">
 	<config>[Xe] 4f14 5d10 6s1</config>
 	<en scale="Pauling" value="2.54"/>
+	<ei value="0.8901"/>
+	<ei rank="2" value="1.98"/>
+	<ae value="222.76"/>
 </element>
 
 <element Z="80">
 	<config>[Xe] 4f14 5d10 6s2</config>
 	<en scale="Pauling" value="2.00"/>
+	<ei value="1.0070"/>
+	<ei rank="2" value="1.8097"/>
+	<ei rank="3" value="3.30"/>
+	<ae value="0"/>
 </element>
 
 <element Z="81">
 	<config>[Xe] 4f14 5d10 6s2 6p1</config>
 	<en scale="Pauling" value="1.62"/>
+	<ei value="0.5893"/>
+	<ei rank="2" value="1.9710"/>
+	<ei rank="3" value="2.878"/>
+	<ae value="19.2"/>
 </element>
 
 <element Z="82">
 	<config>[Xe] 4f14 5d10 6s2 6p2</config>
 	<en scale="Pauling" value="1.87"/>
+	<ei value="0.7155"/>
+	<ei rank="2" value="1.4504"/>
+	<ei rank="3" value="3.0815"/>
+	<ae value="35.1"/>
 </element>
 
 <element Z="83">
 	<config>[Xe] 4f14 5d10 6s2 6p3</config>
 	<en scale="Pauling" value="2.02"/>
+	<ei value="0.7033"/>
+	<ei rank="2" value="1.610"/>
+	<ei rank="3" value="2.466"/>
+	<ae value="91.2"/>
 </element>
 
 <element Z="84">
 	<config>[Xe] 4f14 5d10 6s2 6p4</config>
 	<en scale="Pauling" value="2.0"/>
+	<ei value="0.812"/>
+	<ae value="183.3"/>
 </element>
 
 <element Z="85">
 	<config>[Xe] 4f14 5d10 6s2 6p5</config>
 	<en scale="Pauling" value="2.2"/>
+	<ae value="270.1"/>
 </element>
 
 <element Z="86">
 	<config>[Xe] 4f14 5d10 6s2 6p6</config>
+	<ei value="1.0370"/>
+	<ae value="0"/>
 </element>
 
 <element Z="87">
@@ -431,76 +760,95 @@
 <element Z="88">
 	<config>[Rn] 7s2</config>
 	<en scale="Pauling" value="0.9"/>
+	<ei value="0.5094"/>
+	<ei rank="2" value="0.97906"/>
 </element>
 
 <element Z="89">
 	<config>[Rn] 6d1 7s2</config>
 	<en scale="Pauling" value="1.1"/>
+	<ei value="0.49"/>
+	<ei rank="2" value="1.17"/>
 </element>
 
 <element Z="90">
 	<config>[Rn] 6d2 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.59"/>
+	<ei rank="2" value="1.11"/>
+	<ei rank="3" value="1.93"/>
 </element>
 
 <element Z="91">
 	<config>[Rn] 5f2 6d1 7s2</config>
 	<en scale="Pauling" value="1.5"/>
+	<ei value="0.57"/>
 </element>
 
 <element Z="92">
 	<config>[Rn] 5f3 6d1 7s2</config>
 	<en scale="Pauling" value="1.38"/>
+	<ei value="0.59"/>
 </element>
 
 <element Z="93">
 	<config>[Rn] 5f4 6d1 7s2</config>
 	<en scale="Pauling" value="1.36"/>
+	<ei value="0.60"/>
 </element>
 
 <element Z="94">
 	<config>[Rn] 5f6 7s2</config>
 	<en scale="Pauling" value="1.28"/>
+	<ei value="0.585"/>
 </element>
 
 <element Z="95">
 	<config>[Rn] 5f7 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.578"/>
 </element>
 
 <element Z="96">
 	<config>[Rn] 5f7 6d1 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.581"/>
 </element>
 
 <element Z="97">
 	<config>[Rn] 5f9 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.601"/>
 </element>
 
 <element Z="98">
 	<config>[Rn] 5f10 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.608"/>
 </element>
 
 <element Z="99">
 	<config>[Rn] 5f11 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.619"/>
 </element>
 
 <element Z="100">
 	<config>[Rn] 5f12 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.627"/>
 </element>
 
 <element Z="101">
 	<config>[Rn] 5f13 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.635"/>
 </element>
 
 <element Z="102">
 	<config>[Rn] 5f14 7s2</config>
 	<en scale="Pauling" value="1.3"/>
+	<ei value="0.642"/>
 </element>
 
 <element Z="103">

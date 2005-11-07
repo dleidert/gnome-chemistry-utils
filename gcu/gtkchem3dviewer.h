@@ -119,7 +119,7 @@ GType               gtk_chem3d_viewer_get_type          (void) G_GNUC_CONST;
 
 Creates a GtkChem3DViewer widget and fills it with the data from uri. If uri is NULL, the widget will be empty.
 */
-GtkWidget*            gtk_chem3d_viewer_new               (gchar* uri);
+GtkWidget*            gtk_chem3d_viewer_new               (const gchar* uri);
 /*!
 @param viewer: a pointer to GtkChem3DViewer widget.
 @param uri: the URI of the file containing the molecular structure to display. Any file supported by
@@ -127,16 +127,25 @@ GtkWidget*            gtk_chem3d_viewer_new               (gchar* uri);
 
 Changes the molecule displayed by the one described in the uri. Nothing happens if uri is NULL.
 */
-void	gtk_chem3d_viewer_set_uri	(GtkChem3DViewer * viewer, gchar* uri);
+void	gtk_chem3d_viewer_set_uri_with_mime_type	(GtkChem3DViewer * viewer, const gchar * uri, const gchar* mime_type);
+/*!
+@param viewer: a pointer to GtkChem3DViewer widget.
+@param uri: the URI of the file containing the molecular structure to display.
+@param mime_type: the mime_type of the data. Any type supported by
+<a href="http://openbabel.sourceforge.net">OpenBabel</a> may be used.
+
+Changes the molecule displayed by the one described in the uri. Nothing happens if uri is NULL.
+*/
+void	gtk_chem3d_viewer_set_uri	(GtkChem3DViewer * viewer, const gchar * uri);
 /*!
 @param viewer: a pointer to GtkChem3DViewer widget.
 @param data: a pointer to the raw data representing a serialized version of molecule to display
-@param mime_type: the URI of the representation of the molecular structure to display. Any type supported by
+@param mime_type: the mime_type of the data. Any type supported by
 <a href="http://openbabel.sourceforge.net">OpenBabel</a> may be used.
 
 Changes the molecule displayed by the one described in the data. Nothing happens if data or mime-type is NULL.
 */
-void	gtk_chem3d_viewer_set_data	(GtkChem3DViewer * viewer, const gchar* data, const gchar* mime_type);
+void	gtk_chem3d_viewer_set_data	(GtkChem3DViewer * viewer, const gchar * data, const gchar* mime_type);
 
 G_END_DECLS
 

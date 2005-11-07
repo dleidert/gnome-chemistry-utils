@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2005-11-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/elecprops.xml.in: added ionization energies and electron
+	affinities.
+	* gcu/gtkchem3dviewer.cc: (gtk_chem3d_viewer_set_uri_with_mime_type):
+	new.
+	* gcu/gtkchem3dviewer.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: make things work.
+
 2005-11-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add one more test for goffice.
 	* mozilla-plugin/Makefile.am: add chem-viewer program.

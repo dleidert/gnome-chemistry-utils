@@ -22,16 +22,87 @@
  * USA
  */
 
+#include "config.h"
+#include "gcu/gtkchem3dviewer.h"
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
+#include <gtk/gtkplug.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
-
-GIOChannel *in_channel;
+#include <map>
 
 using namespace std;
+
+class ChemComp
+{
+public:
+	ChemComp (void* instance, string& mime_type);
+	~ChemComp ();
+
+	void SetWindow (XID xid);
+	void SetFilename (string& filename);
+
+private:
+	void* Instance;
+	XID Xid;
+	string Filename, MimeType;
+	GtkWidget *Plug, *Viewer;
+	GdkWindow *Parent;
+};
+
+ChemComp::ChemComp (void* instance, string& mime_type)
+{
+	Instance = instance;
+	MimeType = mime_type;
+	Xid = 0;
+	Plug = NULL;
+}
+
+ChemComp::~ChemComp ()
+{
+	gtk_widget_unrealize (Plug);
+	gtk_widget_destroy (Plug);
+	g_object_unref (Parent);
+}
+
+void ChemComp::SetWindow (XID xid)
+{
+	int width, height;
+	if (Xid == xid) {
+		//just resize and redraw
+		gdk_window_get_geometry (Parent, NULL, NULL, &width, &height, NULL);
+		gtk_window_resize (GTK_WINDOW (Plug), width, height);
+	} else {
+		if (Plug) // does this happen ?
+			return;
+		Xid = xid;
+		Plug = gtk_plug_new (xid);    
+		Parent = gdk_window_foreign_new (xid);
+		gdk_window_get_geometry (Parent, NULL, NULL, &width, &height, NULL);
+		gtk_window_set_default_size (GTK_WINDOW (Plug), width, height);
+		gtk_widget_realize (Plug);
+		XReparentWindow (GDK_WINDOW_XDISPLAY (Plug->window),
+			GDK_WINDOW_XID (Plug->window), xid, 0, 0);
+		XMapWindow (GDK_WINDOW_XDISPLAY (Plug->window),
+			GDK_WINDOW_XID (Plug->window));
+		Viewer = gtk_chem3d_viewer_new (NULL);
+		gtk_container_add (GTK_CONTAINER (Plug), Viewer);
+		gtk_widget_show_all (Plug);
+	}
+}
+
+void ChemComp::SetFilename (string& filename)
+{
+	Filename = filename;
+	gtk_chem3d_viewer_set_uri_with_mime_type (GTK_CHEM3D_VIEWER (Viewer),
+			filename.c_str (), MimeType.c_str ());
+}
+
+GIOChannel *in_channel;
+map<void*, ChemComp*> components;
 
 static gboolean
 io_func (GIOChannel *source, GIOCondition condition, gpointer data)
@@ -44,7 +115,6 @@ io_func (GIOChannel *source, GIOCondition condition, gpointer data)
 	str[length - 1] = 0;
 	buf = str;
 	g_free (str);
-	cerr << buf << endl;
 
 	if (buf == "new") {
 		string mime_type;
@@ -60,7 +130,9 @@ io_func (GIOChannel *source, GIOCondition condition, gpointer data)
 		if (mime_type != "chemical/x-xyz")
 			return true; // only xyz files are allowed at the moment
 		iss >> hex >> instance;
-cerr << hex << instance << endl;
+		if (components[instance] != NULL) // this should not occur
+			delete components[instance];
+		components[instance] = new ChemComp (instance, mime_type);
 	} else if (buf == "win") {
 		string strwin;
 		g_io_channel_read_line (source, &str, &length, NULL, NULL);
@@ -72,10 +144,11 @@ cerr << hex << instance << endl;
 		strwin = str;
 		g_free (str);
 		istringstream iss (strinst), iss_ (strwin);
-		Window win;
+		XID xid;
 		iss >> hex >> instance;
-		iss_ >> hex >> win;
-cerr << "window:" << strwin << "??" << hex << win << endl;
+		iss_ >> hex >> xid;
+		if (components[instance] != NULL)
+			components[instance]->SetWindow (xid);
 	} else if (buf == "file") {
 		string filename;
 		g_io_channel_read_line (source, &str, &length, NULL, NULL);
@@ -89,7 +162,8 @@ cerr << "window:" << strwin << "??" << hex << win << endl;
 		filename = str;
 		g_free (str);
 		ifstream ifs (filename.c_str ());
-cerr << filename << endl;
+		if (components[instance] != NULL)
+			components[instance]->SetFilename (filename);
 	} else if (buf == "kill") {
 		string filename;
 		g_io_channel_read_line (source, &str, &length, NULL, NULL);
@@ -98,7 +172,9 @@ cerr << filename << endl;
 		g_free (str);
 		istringstream iss (strinst);
 		iss >> hex >> instance;
-cerr << "killing " << hex << instance << endl;
+		if (components[instance] != NULL)
+			delete components[instance];
+		components.erase (instance);
 	} else if (buf == "halt") {
 		gtk_main_quit ();
 	}
@@ -110,8 +186,17 @@ int main (int argc, char *argv[])
 	GError *error = NULL;
 
 	gtk_init (&argc, &argv);
+	if (!gnome_vfs_init ()) {
+		cerr << "Could not initialize GnomeVFS\n" << endl;
+		return 1;
+	}
 	in_channel = g_io_channel_unix_new (fileno (stdin));
 	g_io_add_watch (in_channel, G_IO_IN, io_func, &error);
 	gtk_main ();
+	g_io_channel_unref (in_channel);
+	map <void*, ChemComp*>::iterator i, end = components.end ();
+	for (i = components.begin (); i != end; i++)
+		delete (*i).second;
+	components.clear ();
 	return 0;
 }

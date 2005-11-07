@@ -269,17 +269,18 @@ gtk_chem3d_viewer_get_type (void)
 	return chem3d_viewer_type;
 }
 
-GtkWidget* gtk_chem3d_viewer_new(gchar *uri)
+GtkWidget* gtk_chem3d_viewer_new (const gchar *uri)
 {
-	GtkChem3DViewer* viewer = (GtkChem3DViewer*)g_object_new(GTK_TYPE_CHEM3D_VIEWER, NULL);
-	g_signal_connect(G_OBJECT(viewer), "size_allocate", GTK_SIGNAL_FUNC(on_size), NULL);
-	gtk_chem3d_viewer_set_uri (viewer, uri);
-	return GTK_WIDGET(viewer);
+	GtkChem3DViewer* viewer = (GtkChem3DViewer*) g_object_new (GTK_TYPE_CHEM3D_VIEWER, NULL);
+	g_signal_connect (G_OBJECT (viewer), "size_allocate", GTK_SIGNAL_FUNC (on_size), NULL);
+	if (uri)
+		gtk_chem3d_viewer_set_uri (viewer, uri);
+	return GTK_WIDGET (viewer);
 }
 
 } //extern "C"
 
-void gtk_chem3d_viewer_class_init(GtkChem3DViewerClass  *klass)
+void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	parent_class = (GtkBinClass*)gtk_type_class(gtk_bin_get_type());
@@ -307,7 +308,7 @@ void gtk_chem3d_viewer_class_init(GtkChem3DViewerClass  *klass)
                                       (GParamFlags)(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 }
 
-void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer)
+void gtk_chem3d_viewer_init (GtkChem3DViewer *viewer)
 {
 	g_return_if_fail (GTK_IS_CHEM3D_VIEWER(viewer));
 	viewer->priv = new GtkChem3DViewerPrivate;
@@ -394,7 +395,12 @@ void gtk_chem3d_viewer_finalize(GObject* object)
 	delete viewer->priv;
 }
 
-void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, gchar *uri)
+void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, const gchar *uri)
+{
+	gtk_chem3d_viewer_set_uri_with_mime_type (viewer, uri, NULL);
+}
+
+void gtk_chem3d_viewer_set_uri_with_mime_type (GtkChem3DViewer * viewer, const gchar * uri, const gchar* mime_type)
 {
 	g_return_if_fail (GTK_IS_CHEM3D_VIEWER (viewer));
 	g_return_if_fail (uri);
@@ -405,21 +411,24 @@ void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, gchar *uri)
 		gnome_vfs_file_info_unref (info);
 		return;
 	}
-	gnome_vfs_get_file_info_from_handle (handle, info,
-		(GnomeVFSFileInfoOptions)(GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
-							GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE));
+	if (mime_type)
+		gnome_vfs_get_file_info_from_handle (handle, info, (GnomeVFSFileInfoOptions) 0);
+	else
+		gnome_vfs_get_file_info_from_handle (handle, info,
+			(GnomeVFSFileInfoOptions)(GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
+								GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE));
 	gchar *buf = new gchar[info->size + 1];
 	GnomeVFSFileSize n;
 	gnome_vfs_read (handle, buf, info->size, &n);
 	buf[info->size] = 0;
 	if (n == info->size)
-		gtk_chem3d_viewer_set_data (viewer, buf, info->mime_type);
+		gtk_chem3d_viewer_set_data (viewer, buf, (mime_type)? mime_type: info->mime_type);
 	gnome_vfs_file_info_unref (info);
 	delete [] buf;
 	g_free (handle);
 }
 
-void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
+void gtk_chem3d_viewer_set_data (GtkChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
 {
 	istringstream is(data);
 	viewer->priv->Mol.Clear ();
@@ -434,7 +443,7 @@ void gtk_chem3d_viewer_set_data(GtkChem3DViewer * viewer, const gchar *data, con
 	g_free(old_num_locale);
 }
 
-void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer)
+void gtk_chem3d_viewer_update (GtkChem3DViewer *viewer)
 {
 	GdkGLContext *glcontext = gtk_widget_get_gl_context(viewer->priv->widget);
 	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(viewer->priv->widget);
