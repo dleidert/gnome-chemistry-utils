@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2005-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/chemistry.cc: made some work related to ionization energies
+	and electron affinities.
+	* gcu/chemistry.h: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/element.h: ditto.
+	* glade/eltpage.glade: hide isotopes page for now.
+	* mozilla-plugin/Makefile.am: fix make install.
+
 2005-11-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elecprops.xml.in: added ionization energies and electron
 	affinities.

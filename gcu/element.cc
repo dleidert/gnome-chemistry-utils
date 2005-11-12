@@ -576,6 +576,8 @@ void Element::LoadElectronicProps ()
 					}
 					Elt->ElecConfig.append (" ");
 					xmlFree (buf);
+				} else if (!strcmp ((const char*) child->name, "ei")) {
+				} else if (!strcmp ((const char*) child->name, "ae")) {
 				} else
 					g_error ("Invalid property node");
 				child = child->next;
@@ -724,4 +726,14 @@ IsotopicPattern *Element::GetIsotopicPattern (unsigned natoms)
 		i++;
 	}
 	return result;
+}
+
+GcuDimensionalValue const *Element::GetIonizationEnergy (int rank)
+{
+	return NULL;
+}
+
+GcuDimensionalValue const *Element::GetElectronAffinity (int rank)
+{
+	return NULL;
 }

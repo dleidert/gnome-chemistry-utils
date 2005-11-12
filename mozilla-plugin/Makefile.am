@@ -1,11 +1,11 @@
-plugindir = $(mozlibdir)/plugins/
-
 if WITH_MOZILLA
 plugin_LTLIBRARIES = libmozgcu.la
 libexec_PROGRAMS = chem-viewer
+plugindir = $(mozlibdir)/plugins/
 else
 plugin_LTLIBRARIES =
 libexec_PROGRAMS =
+plugindir =
 endif
 
 libmozgcu_la_SOURCES = moz-plugin.c

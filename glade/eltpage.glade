@@ -447,7 +447,7 @@
 
 	  <child>
 	    <widget class="GtkVBox" id="isot-table">
-	      <property name="visible">True</property>
+	      <property name="sensitive">False</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">0</property>
 
@@ -471,8 +471,8 @@
 
 	  <child>
 	    <widget class="GtkLabel" id="isotope-lbl">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Stable isotopes</property>
+	      <property name="sensitive">False</property>
+	      <property name="label" translatable="yes">Isotopes</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>

@@ -178,7 +178,6 @@ typedef struct
 	GcuDimensionalValue decay_period;
 } GcuIsotope;
 
-
 /*!
 \param Z: the atomic number of the element.
 
@@ -234,6 +233,29 @@ the value and the scale (if NULL on calling)  are given the corresponding values
 \return TRUE if a match has been found and FALSE if not.
 */
 gboolean gcu_element_get_electronegativity (GcuElectronegativity* en);
+/*!
+\param Z: the atomic number.
+\param N: the rank of the ionization.
+
+The program searches for the Nth ionization energy value for the element and returns
+it if found.
+
+\return the ionization energy as a GcuDimensionalValue if known or NULL.
+*/
+GcuDimensionalValue const *gcu_element_get_ionization_energy (int Z, int N);
+/*!
+\param Z: the atomic number.
+\param N: the rank of the extra electron.
+
+For some elements, second and even third electron affinities have been estimated.
+The program searches the Nth electron affinity value for the element and returns
+it if found.
+A value of 0 means that the anion is unstable in the gaseous phase and that no better
+etimation is available.
+
+\return the electronic affinity as a GcuDimensionalValue if known or NULL.
+*/
+GcuDimensionalValue const *gcu_element_get_electron_affinity (int Z, int N);
 /*!
 \param Z: the atomic number of the element.
 

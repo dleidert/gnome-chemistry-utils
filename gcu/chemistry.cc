@@ -108,4 +108,14 @@ gchar* gcu_dimensional_value_get_string (GcuValue const *value)
 	return NULL;
 }
 
+GcuDimensionalValue const *gcu_element_get_ionization_energy (int Z, int rank)
+{
+	return Element::GetElement(Z)->GetIonizationEnergy (rank);
+}
+
+GcuDimensionalValue const *gcu_element_get_electron_affinity (int Z, int rank)
+{
+	return Element::GetElement(Z)->GetElectronAffinity (rank);
+}
+
 } //extern "C"
