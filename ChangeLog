@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2005-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.5.3 (post release version bump).
+	* mozilla-plugin/Makefile.am: fix AM_CXXFLAGS.
+
+2005-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/chemistry.cc: made some work related to ionization energies
 	and electron affinities.
 	* gcu/chemistry.h: ditto.
