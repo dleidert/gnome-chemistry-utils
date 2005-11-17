@@ -244,6 +244,8 @@ private:
 	vector<GcuElectronegativity*> m_en;
 	vector<Isotope*> m_isotopes;
 	vector<IsotopicPattern*> m_patterns;
+	vector<GcuDimensionalValue> m_ei;
+	vector<GcuDimensionalValue> m_ae;
 	map<string, string> names;
 	string ElecConfig;
 };

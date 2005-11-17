@@ -31,10 +31,15 @@
 #include <locale.h>
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 #include <libintl.h>
+#include <math.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
+#include <goffice/utils/go-math.h>
+
+static set<string>units;
 
 static void ReadValue (char const *source, GcuValue &value)
 {
@@ -577,7 +582,69 @@ void Element::LoadElectronicProps ()
 					Elt->ElecConfig.append (" ");
 					xmlFree (buf);
 				} else if (!strcmp ((const char*) child->name, "ei")) {
+					unsigned rank;
+					buf = (char*) xmlGetProp (child, (xmlChar*) "rank");
+					if (buf) {
+						rank = strtol (buf, NULL, 10);
+						xmlFree (buf);
+					} else
+						rank = 1;
+					if (Elt->m_ei.size () < rank)
+						Elt->m_ei.resize (rank);
+					rank--;
+					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
+					if (buf) {
+						ReadValue (buf, (GcuValue&)Elt->m_ei[rank]) ;
+						xmlFree (buf);
+					} else {
+						//no need to read the unit
+						Elt->m_ei[rank].value = go_nan;
+						break;
+					}
+					buf = (char*) xmlGetProp (child, (xmlChar*) "unit");
+					if (buf) {
+						string str(buf);
+						set<string>::iterator it = units.find (str);
+						if (it == units.end ()) {
+							units.insert (str);
+							it = units.find (str);
+						}
+						Elt->m_ei[rank].unit = (*it).c_str ();
+						xmlFree (buf);
+					} else
+						Elt->m_ei[rank].unit = "MJ.mol<sup>-1</sup>";
 				} else if (!strcmp ((const char*) child->name, "ae")) {
+					unsigned rank;
+					buf = (char*) xmlGetProp (child, (xmlChar*) "rank");
+					if (buf) {
+						rank = strtol (buf, NULL, 10);
+						xmlFree (buf);
+					} else
+						rank = 1;
+					if (Elt->m_ae.size () < rank)
+						Elt->m_ae.resize (rank);
+					rank--;
+					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
+					if (buf) {
+						ReadValue (buf, (GcuValue&)Elt->m_ae[rank]) ;
+						xmlFree (buf);
+					} else {
+						//no need to read the unit
+						Elt->m_ae[rank].value = go_nan;
+						break;
+					}
+					buf = (char*) xmlGetProp (child, (xmlChar*) "unit");
+					if (buf) {
+						string str(buf);
+						set<string>::iterator it = units.find (str);
+						if (it == units.end ()) {
+							units.insert (str);
+							it = units.find (str);
+						}
+						Elt->m_ae[rank].unit = (*it).c_str ();
+						xmlFree (buf);
+					} else
+						Elt->m_ae[rank].unit = "MJ.mol<sup>-1</sup>";
 				} else
 					g_error ("Invalid property node");
 				child = child->next;

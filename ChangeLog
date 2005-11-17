@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2005-11-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/chemistry.h: add const to unit in GcuDimensionalValue.
+	* gcu/element.cc: load ionization energies and electron affinities.
+	* gcu/element.h: ditto.
+	* gcu/isotope.cc: do not free unit.
+
 2005-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.5.3 (post release version bump).
 	* mozilla-plugin/Makefile.am: fix AM_CXXFLAGS.

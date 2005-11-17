@@ -52,8 +52,6 @@ Isotope::~Isotope ()
 		g_free (name);
 	if (decay_modes != NULL)
 		g_free (decay_modes);
-	if (decay_period.unit != NULL)
-		g_free (decay_period.unit);
 }
 
 IsotopicPattern::IsotopicPattern ()

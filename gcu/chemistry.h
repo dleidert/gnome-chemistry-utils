@@ -120,7 +120,7 @@ typedef struct
 	/** The standard error (* 10^prec). */
 	int delta;
 	/** The unit symbol.*/
-	char *unit;
+	const char *unit;
 } GcuDimensionalValue;
 
 /** GcuAtomicRadius
