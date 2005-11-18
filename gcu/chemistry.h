@@ -279,7 +279,7 @@ Loads the listed databases.
 void gcu_element_load_databases (char* name, ...);
 
 gchar* gcu_value_get_string (GcuValue const *value);
-gchar* gcu_dimensional_value_get_string (GcuValue const *value);
+gchar* gcu_dimensional_value_get_string (GcuDimensionalValue const *value);
 
 G_END_DECLS
 

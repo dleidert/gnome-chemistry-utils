@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2005-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/chemistry.cc: implemented gcu_dimensional_value_get_string.
+	* gcu/chemistry.h: fixed signature of gcu_dimensional_value_get_string.
+	* gcu/element.cc: implemented GetElectronAffinity and GetIonizationEnergy.
+	* gcu/element.h: use an unsigned parameter for these two methods.
+	* glade/eltpage.glade: add ionization energies and electron affinity 
+	support.
+	* programs/gchemtable-elt.cc: ditto.
+	* programs/gchemtable-curve.cc: started work on new curves.
+
 2005-11-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/chemistry.h: add const to unit in GcuDimensionalValue.
 	* gcu/element.cc: load ionization energies and electron affinities.

@@ -227,8 +227,8 @@ public:
 	IsotopicPattern *GetIsotopicPattern (unsigned natoms);
 	string const& GetElectronicConfiguration () {return ElecConfig;}
 	map<string, string> const& GetNames () {return names;}
-	GcuDimensionalValue const *GetIonizationEnergy (int rank = 1);
-	GcuDimensionalValue const *GetElectronAffinity (int rank = 1);
+	GcuDimensionalValue const *GetIonizationEnergy (unsigned rank = 1);
+	GcuDimensionalValue const *GetElectronAffinity (unsigned rank = 1);
 
 private:
 	unsigned char m_Z, m_nve, m_tve, m_maxve;

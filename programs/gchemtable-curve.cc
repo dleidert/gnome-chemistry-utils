@@ -102,6 +102,8 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Pauling electronegativity"));
+	} else if (!strcmp (name, "ae")) {
+	} else if (!strncmp (name, "ei/", 3)) {
 	} else
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 	data = go_data_vector_val_new (yvals, MAX_ELT, g_free);

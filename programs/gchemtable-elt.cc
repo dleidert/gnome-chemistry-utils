@@ -114,6 +114,83 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 	w = glade_xml_get_widget (xml, "pauling-btn");
 	g_object_set_data (G_OBJECT (w), "app", App);
 	g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (on_show_curve), (void*) "en/Pauling");
+	// ionization energies
+	int n = 1;
+	GcuDimensionalValue const *value;
+	GtkWidget *val, *button;
+	GtkTable *table = GTK_TABLE (glade_xml_get_widget (xml, "ei-table"));
+	while ((value = elt->GetIonizationEnergy (n))) {
+		if (n > 1) {
+			gtk_table_resize (table, 4, n);
+			buf = g_strdup_printf (_("%d:"), n);
+			w = gtk_label_new (buf);
+			g_free (buf);
+			gtk_table_attach (table, w, 0, 1, n - 1, n,
+				(GtkAttachOptions) (GTK_SHRINK | GTK_FILL),
+				(GtkAttachOptions) 0 , 0, 0);
+			val = gtk_label_new ("");
+			gtk_table_attach (table, val, 1, 2, n - 1, n,
+				(GtkAttachOptions) (GTK_EXPAND | GTK_SHRINK | GTK_FILL),
+				(GtkAttachOptions) 0 , 0, 0);
+			button = gtk_button_new_with_label (_("Show curve"));
+			gtk_table_attach (table, button, 2, 3, n - 1, n,
+				(GtkAttachOptions) GTK_FILL,
+				(GtkAttachOptions) 0 , 0, 0);
+		} else {
+			val = glade_xml_get_widget (xml, "ei-value");
+			button = glade_xml_get_widget (xml, "ei-btn");
+		}
+		buf = gcu_dimensional_value_get_string (value);
+		gtk_label_set_markup (GTK_LABEL (val), buf);
+		g_free (buf);
+		buf = g_strdup_printf ("ei/%d", n);
+		g_object_set_data (G_OBJECT (button), "app", App);
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) buf);
+#warning FIXME: clean this on exit
+		n++;
+	}
+	gtk_widget_show_all (GTK_WIDGET (table));
+	if (n == 1) {
+		w = glade_xml_get_widget (xml, "ei-lbl");
+		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
+		w = glade_xml_get_widget (xml, "ei-btn");
+		gtk_widget_hide (w);
+	}
+	// electronic affinities
+	n = 1;
+	table = GTK_TABLE (glade_xml_get_widget (xml, "ae-table"));
+	while ((value = elt->GetElectronAffinity (n))) {
+		if (n > 1) {
+			gtk_table_resize (table, 4, n);
+			buf = g_strdup_printf (_("%d:"), n);
+			w = gtk_label_new (buf);
+			g_free (buf);
+			gtk_table_attach (table, w, 0, 1, n - 1, n,
+				(GtkAttachOptions) (GTK_SHRINK | GTK_FILL),
+				(GtkAttachOptions) 0 , 0, 0);
+			val = gtk_label_new ("");
+			gtk_table_attach (table, val, 1, 2, n - 1, n,
+				(GtkAttachOptions) (GTK_EXPAND | GTK_SHRINK | GTK_FILL),
+				(GtkAttachOptions) 0 , 0, 0);
+			button = NULL; // not enough values to draw a curve.
+		} else {
+			val = glade_xml_get_widget (xml, "ae-value");
+			button = glade_xml_get_widget (xml, "ae-btn");
+			g_object_set_data (G_OBJECT (button), "app", App);
+			g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "ae");
+		}
+		buf = gcu_dimensional_value_get_string (value);
+		gtk_label_set_markup (GTK_LABEL (val), buf);
+		g_free (buf);
+		n++;
+	}
+	gtk_widget_show_all (GTK_WIDGET (table));
+	if (n == 1) {
+		w = glade_xml_get_widget (xml, "ae-lbl");
+		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
+		w = glade_xml_get_widget (xml, "ae-btn");
+		gtk_widget_hide (w);
+	}
 }
 
 GChemTableElt::~GChemTableElt ()

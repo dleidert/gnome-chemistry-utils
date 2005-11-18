@@ -103,9 +103,18 @@ gchar* gcu_value_get_string (GcuValue const *value)
 	return str;
 }
 
-gchar* gcu_dimensional_value_get_string (GcuValue const *value)
+gchar* gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 {
-	return NULL;
+	gchar *format, *str;
+	if (value->delta > 0) {
+		format = g_strdup_printf ("%%.%df(%%d) %%s", value->prec);
+		str = g_strdup_printf (format, value->value, value->delta, value->unit);
+	} else {
+		format = g_strdup_printf ("%%.%df %%s", value->prec);
+		str = g_strdup_printf (format, value->value, value->unit);
+	}
+	g_free (format);
+	return str;
 }
 
 GcuDimensionalValue const *gcu_element_get_ionization_energy (int Z, int rank)

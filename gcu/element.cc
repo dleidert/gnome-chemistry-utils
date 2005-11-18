@@ -511,6 +511,7 @@ void Element::LoadElectronicProps ()
 	xmlDocPtr xml;
 	char *old_num_locale, *buf, *num, *dot, *end;
 	unsigned char Z;
+	unsigned i;
 	static bool loaded = false;
 	if (loaded)
 		return;
@@ -558,7 +559,6 @@ void Element::LoadElectronicProps ()
 					buf = (char*) xmlNodeGetContent (child);
 					char *cur = buf;
 					bool nonvoid = false;
-					int i;
 					if (buf[0] == '[') {
 						Elt->ElecConfig.append (buf, 4);
 						cur += 4;
@@ -589,8 +589,11 @@ void Element::LoadElectronicProps ()
 						xmlFree (buf);
 					} else
 						rank = 1;
-					if (Elt->m_ei.size () < rank)
+					if ((i = Elt->m_ei.size ()) < rank) {
 						Elt->m_ei.resize (rank);
+						for (; i < rank; i++)
+							Elt->m_ei[i].value = go_nan;
+					}
 					rank--;
 					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
 					if (buf) {
@@ -621,8 +624,11 @@ void Element::LoadElectronicProps ()
 						xmlFree (buf);
 					} else
 						rank = 1;
-					if (Elt->m_ae.size () < rank)
+					if ((i = Elt->m_ae.size ()) < rank) {
 						Elt->m_ae.resize (rank);
+						for (; i < rank; i++)
+							Elt->m_ae[i].value = go_nan;
+					}
 					rank--;
 					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
 					if (buf) {
@@ -644,7 +650,7 @@ void Element::LoadElectronicProps ()
 						Elt->m_ae[rank].unit = (*it).c_str ();
 						xmlFree (buf);
 					} else
-						Elt->m_ae[rank].unit = "MJ.mol<sup>-1</sup>";
+						Elt->m_ae[rank].unit = "kJ.mol<sup>-1</sup>";
 				} else
 					g_error ("Invalid property node");
 				child = child->next;
@@ -795,12 +801,12 @@ IsotopicPattern *Element::GetIsotopicPattern (unsigned natoms)
 	return result;
 }
 
-GcuDimensionalValue const *Element::GetIonizationEnergy (int rank)
+GcuDimensionalValue const *Element::GetIonizationEnergy (unsigned rank)
 {
-	return NULL;
+	return (rank <= m_ei.size ())? &m_ei[rank - 1]: NULL;
 }
 
-GcuDimensionalValue const *Element::GetElectronAffinity (int rank)
+GcuDimensionalValue const *Element::GetElectronAffinity (unsigned rank)
 {
-	return NULL;
+	return (rank <= m_ae.size ())? &m_ae[rank - 1]: NULL;
 }
