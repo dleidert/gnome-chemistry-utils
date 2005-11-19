@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2005-11-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/gchemtable-curve.cc: add curves for electron affinities
+	and ionization energies.
+
 2005-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/chemistry.cc: implemented gcu_dimensional_value_get_string.
 	* gcu/chemistry.h: fixed signature of gcu_dimensional_value_get_string.

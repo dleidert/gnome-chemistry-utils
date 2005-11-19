@@ -28,6 +28,7 @@
 #include "gchemtable-curve.h"
 #include "gchemtable-app.h"
 #include <gcu/chemistry.h>
+#include <gcu/element.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/gtk/go-graph-widget.h>
 #include <goffice/graph/gog-axis.h>
@@ -86,11 +87,12 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	GError *error;
 	GogObject *obj, *label;
 	GOData *data;
+	int i;
 	// FIXME: find a better way to do the following things !
 	if (!strcmp (name, "en/Pauling")) {
 		GcuElectronegativity en;
 		en.scale = "Pauling";
-		for (int i = 1; i <= MAX_ELT; i++) {
+		for (i = 1; i <= MAX_ELT; i++) {
 			en.Z = i;
 			yvals[i - 1] = (gcu_element_get_electronegativity (&en))?
 				 				en.value.value: go_nan;
@@ -103,9 +105,67 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Pauling electronegativity"));
 	} else if (!strcmp (name, "ae")) {
+		GcuDimensionalValue const *val;
+		Element *elt;
+		// assuming all data are in kJ/mol
+		for (i = 1; i <= MAX_ELT; i++) {
+			elt = Element::GetElement (i);
+			val = (elt)? elt->GetElectronAffinity (): NULL;
+			yvals[i - 1] = (val)? val->value: go_nan;
+		}
+		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
+				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
+		data = go_data_scalar_str_new (_("Electron affinity (kJ/mol)"), FALSE);
+		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
+		gog_object_add_by_name (obj, "Label", label);
+		gtk_window_set_title (dialog, _("Electron affinity"));
 	} else if (!strncmp (name, "ei/", 3)) {
+		unsigned rank = strtol (name + 3, NULL, 10);
+		GcuDimensionalValue const *val;
+		Element *elt;
+		// assuming all data are in MJ/mol
+		for (i = 1; i <= MAX_ELT; i++) {
+			elt = Element::GetElement (i);
+			val = (elt)? elt->GetIonizationEnergy (rank): NULL;
+			yvals[i - 1] = (val)? val->value: go_nan;
+		}
+		char *rk, *buf;
+		switch (rank) {
+		case 1:
+			rk = g_strdup (_("1st. "));
+			break;
+		case 2:
+			rk = g_strdup (_("2nd. "));
+			break;
+		case 3:
+			rk = g_strdup (_("3rd. "));
+			break;
+		default:
+			rk = g_strdup_printf (_("%dth. "), rank);
+			break;
+		}
+		buf = g_strconcat (rk, _("ionization energy (MJ/mol)"), NULL);
+		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
+				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
+		data = go_data_scalar_str_new (buf, TRUE);
+		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
+		gog_object_add_by_name (obj, "Label", label);
+		buf = g_strconcat (rk, _("ionization energy"), NULL);
+		gtk_window_set_title (dialog, buf);
+		g_free (buf);
+		g_free (rk);
 	} else
 		gtk_widget_destroy (GTK_WIDGET (dialog));
+	i = MAX_ELT - 1;
+	while (!go_finite (yvals[i]))
+		i--;
+	i++;
+	obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
+			gog_object_find_role_by_name (GOG_OBJECT (chart), "X-Axis"));
+	data = go_data_scalar_val_new ((double) i);
+	gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MAX, data, &error);
 	data = go_data_vector_val_new (yvals, MAX_ELT, g_free);
 	gog_series_set_dim (series, 1, data, &error);
 	obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
