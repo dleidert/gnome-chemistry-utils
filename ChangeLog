@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add ru to ALL_LINGUAS.
+
 2005-09-21  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* debian/*: removed all Debian packaging files.
 
