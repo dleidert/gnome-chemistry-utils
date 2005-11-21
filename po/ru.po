@@ -1,0 +1,671 @@
+# Copyright (C) 2005
+# This file is distributed under the same license as the PACKAGE package.
+# Valek Filippov <frob@df.ru>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-chemistry-utils\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-11-16 23:28+0300\n"
+"PO-Revision-Date: 2005-11-20 23:58+0300\n"
+"Last-Translator: Valek Filippov <frob@df.ru>\n"
+"Language-Team: Russian <ru@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../glade/gchemcalc.glade.h:1 ../programs/gchemcalc-unstable.desktop.in.h:2
+msgid "Chemical calculator"
+msgstr "Химический калькулятор"
+
+#: ../glade/gchemcalc.glade.h:2
+msgid "Composition"
+msgstr "Соединение"
+
+#: ../glade/gchemcalc.glade.h:3 ../programs/gchemcalc.cc:124
+msgid "Formula:"
+msgstr "Формула:"
+
+#: ../glade/gchemcalc.glade.h:4
+msgid "Isotopic Pattern"
+msgstr "Изотопный шаблон"
+
+#: ../glade/gchemcalc.glade.h:5
+msgid "Molecular weight:"
+msgstr "Молекулярный вес:"
+
+#: ../glade/gchemcalc.glade.h:6
+msgid "Monoisitopic mass:"
+msgstr "Моноизотопная масса:"
+
+#: ../glade/gchemcalc.glade.h:7 ../programs/gchemcalc.cc:127
+msgid "Raw formula:"
+msgstr ""
+
+#: ../glade/gtkperiodic.glade.h:1
+msgid "Actinides"
+msgstr "Актиноиды"
+
+#: ../glade/gtkperiodic.glade.h:2
+msgid "Lanthanides"
+msgstr "Лантаноиды"
+
+#: ../database/elements.xml.in.h:1
+msgid "Actinium"
+msgstr "Актиний"
+
+#: ../database/elements.xml.in.h:2
+msgid "Aluminum"
+msgstr "Алюминий"
+
+#: ../database/elements.xml.in.h:3
+msgid "Americium"
+msgstr "Америций"
+
+#: ../database/elements.xml.in.h:4
+msgid "Antimony"
+msgstr "Сурьма"
+
+#: ../database/elements.xml.in.h:5
+msgid "Argon"
+msgstr "Аргон"
+
+#: ../database/elements.xml.in.h:6
+msgid "Arsenic"
+msgstr "Мышьяк"
+
+#: ../database/elements.xml.in.h:7
+msgid "Astatine"
+msgstr "Астат"
+
+#: ../database/elements.xml.in.h:8
+msgid "Barium"
+msgstr "Барий"
+
+#: ../database/elements.xml.in.h:9
+msgid "Berkelium"
+msgstr "Берклий"
+
+#: ../database/elements.xml.in.h:10
+msgid "Beryllium"
+msgstr "Бериллий"
+
+#: ../database/elements.xml.in.h:11
+msgid "Bismuth"
+msgstr "Висмут"
+
+#: ../database/elements.xml.in.h:12
+msgid "Bohrium"
+msgstr "Экарений"
+
+#: ../database/elements.xml.in.h:13
+msgid "Boron"
+msgstr "Бор"
+
+#: ../database/elements.xml.in.h:14
+msgid "Bromine"
+msgstr "Бром"
+
+#: ../database/elements.xml.in.h:15
+msgid "Cadmium"
+msgstr "Кадмий"
+
+#: ../database/elements.xml.in.h:16
+msgid "Caesium"
+msgstr "Цезий"
+
+#: ../database/elements.xml.in.h:17
+msgid "Calcium"
+msgstr "Кальций"
+
+#: ../database/elements.xml.in.h:18
+msgid "Californium"
+msgstr "Калифорний"
+
+#: ../database/elements.xml.in.h:19
+msgid "Carbon"
+msgstr "Углерод"
+
+#: ../database/elements.xml.in.h:20
+msgid "Cerium"
+msgstr "Церий"
+
+#: ../database/elements.xml.in.h:21
+msgid "Chlorine"
+msgstr "Хлор"
+
+#: ../database/elements.xml.in.h:22
+msgid "Chromium"
+msgstr "Хром"
+
+#: ../database/elements.xml.in.h:23
+msgid "Cobalt"
+msgstr "Кобальт"
+
+#: ../database/elements.xml.in.h:24
+msgid "Copper"
+msgstr "Медь"
+
+#: ../database/elements.xml.in.h:25
+msgid "Curium"
+msgstr "Кюрий"
+
+#: ../database/elements.xml.in.h:26
+msgid "Darmstadtium"
+msgstr ""
+
+#: ../database/elements.xml.in.h:27
+msgid "Dubnium"
+msgstr "Дубний"
+
+#: ../database/elements.xml.in.h:28
+msgid "Dysprosium"
+msgstr "Диспрозий"
+
+#: ../database/elements.xml.in.h:29
+msgid "Einsteinium"
+msgstr "Эйнштейний"
+
+#: ../database/elements.xml.in.h:30
+msgid "Erbium"
+msgstr "Эрбий"
+
+#: ../database/elements.xml.in.h:31
+msgid "Europium"
+msgstr "Европий"
+
+#: ../database/elements.xml.in.h:32
+msgid "Fermium"
+msgstr "Фермий"
+
+#: ../database/elements.xml.in.h:33
+msgid "Fluorine"
+msgstr "Фтор"
+
+#: ../database/elements.xml.in.h:34
+msgid "Francium"
+msgstr "Франций"
+
+#: ../database/elements.xml.in.h:35
+msgid "Gadolinium"
+msgstr "Гадолиний"
+
+#: ../database/elements.xml.in.h:36
+msgid "Gallium"
+msgstr "Галлий"
+
+#: ../database/elements.xml.in.h:37
+msgid "Germanium"
+msgstr "Германий"
+
+#: ../database/elements.xml.in.h:38
+msgid "Gold"
+msgstr "Золото"
+
+#: ../database/elements.xml.in.h:39
+msgid "Hafnium"
+msgstr "Гафний"
+
+#: ../database/elements.xml.in.h:40
+msgid "Hassium"
+msgstr "Экаосмий"
+
+#: ../database/elements.xml.in.h:41
+msgid "Helium"
+msgstr "Гелий"
+
+#: ../database/elements.xml.in.h:42
+msgid "Holmium"
+msgstr "Гольмий"
+
+#: ../database/elements.xml.in.h:43
+msgid "Hydrogen"
+msgstr "Водород"
+
+#: ../database/elements.xml.in.h:44
+msgid "Indium"
+msgstr "Индий"
+
+#: ../database/elements.xml.in.h:45
+msgid "Iodine"
+msgstr "Йод"
+
+#: ../database/elements.xml.in.h:46
+msgid "Iridium"
+msgstr "Иридий"
+
+#: ../database/elements.xml.in.h:47
+msgid "Iron"
+msgstr "Железо"
+
+#: ../database/elements.xml.in.h:48
+msgid "Krypton"
+msgstr "Криптон"
+
+#: ../database/elements.xml.in.h:49
+msgid "Lanthanum"
+msgstr "Лантан"
+
+#: ../database/elements.xml.in.h:50
+msgid "Lawrencium"
+msgstr "Лоуренсий"
+
+#: ../database/elements.xml.in.h:51
+msgid "Lead"
+msgstr "Свинец"
+
+#: ../database/elements.xml.in.h:52
+msgid "Lithium"
+msgstr "Литий"
+
+#: ../database/elements.xml.in.h:53
+msgid "Lutetium"
+msgstr "Лютеций"
+
+#: ../database/elements.xml.in.h:54
+msgid "Magnesium"
+msgstr "Магний"
+
+#: ../database/elements.xml.in.h:55
+msgid "Manganese"
+msgstr "Марганец"
+
+#: ../database/elements.xml.in.h:56
+msgid "Meitnerium"
+msgstr "Экаиридий"
+
+#: ../database/elements.xml.in.h:57
+msgid "Mendelevium"
+msgstr "Менделевий"
+
+#: ../database/elements.xml.in.h:58
+msgid "Mercury"
+msgstr "Ртуть"
+
+#: ../database/elements.xml.in.h:59
+msgid "Molybdenum"
+msgstr "Молибден"
+
+#: ../database/elements.xml.in.h:60
+msgid "Neodymium"
+msgstr "Неодим"
+
+#: ../database/elements.xml.in.h:61
+msgid "Neon"
+msgstr "Неон"
+
+#: ../database/elements.xml.in.h:62
+msgid "Neptunium"
+msgstr "Нептуний"
+
+#: ../database/elements.xml.in.h:63
+msgid "Nickel"
+msgstr "Никель"
+
+#: ../database/elements.xml.in.h:64
+msgid "Niobium"
+msgstr "Ниобий"
+
+#: ../database/elements.xml.in.h:65
+msgid "Nitrogen"
+msgstr "Азот"
+
+#: ../database/elements.xml.in.h:66
+msgid "Nobelium"
+msgstr "Нобелий"
+
+#: ../database/elements.xml.in.h:67
+msgid "Osmium"
+msgstr "Осмий"
+
+#: ../database/elements.xml.in.h:68
+msgid "Oxygen"
+msgstr "Кислород"
+
+#: ../database/elements.xml.in.h:69
+msgid "Palladium"
+msgstr "Палладий"
+
+#: ../database/elements.xml.in.h:70
+msgid "Phosphorus"
+msgstr "Фосфор"
+
+#: ../database/elements.xml.in.h:71
+msgid "Platinum"
+msgstr "Платина"
+
+#: ../database/elements.xml.in.h:72
+msgid "Plutonium"
+msgstr "Плутоний"
+
+#: ../database/elements.xml.in.h:73
+msgid "Polonium"
+msgstr "Полоний"
+
+#: ../database/elements.xml.in.h:74
+msgid "Potassium"
+msgstr "Калий"
+
+#: ../database/elements.xml.in.h:75
+msgid "Praseodymium"
+msgstr "Празеодим"
+
+#: ../database/elements.xml.in.h:76
+msgid "Promethium"
+msgstr "Прометий"
+
+#: ../database/elements.xml.in.h:77
+msgid "Protactinium"
+msgstr "Протактиний"
+
+#: ../database/elements.xml.in.h:78
+msgid "Radium"
+msgstr "Радий"
+
+#: ../database/elements.xml.in.h:79
+msgid "Radon"
+msgstr "Радон"
+
+#: ../database/elements.xml.in.h:80
+msgid "Rhenium"
+msgstr "Рений"
+
+#: ../database/elements.xml.in.h:81
+msgid "Rhodium"
+msgstr "Родий"
+
+#: ../database/elements.xml.in.h:82
+msgid "Roentgenium"
+msgstr ""
+
+#: ../database/elements.xml.in.h:83
+msgid "Rubidium"
+msgstr "Рубидий"
+
+#: ../database/elements.xml.in.h:84
+msgid "Ruthenium"
+msgstr "Рутений"
+
+#: ../database/elements.xml.in.h:85
+msgid "Rutherfordium"
+msgstr "Курчатовий"
+
+#: ../database/elements.xml.in.h:86
+msgid "Samarium"
+msgstr "Самарий"
+
+#: ../database/elements.xml.in.h:87
+msgid "Scandium"
+msgstr "Скандий"
+
+#: ../database/elements.xml.in.h:88
+msgid "Seaborgium"
+msgstr "Экавольфрам"
+
+#: ../database/elements.xml.in.h:89
+msgid "Selenium"
+msgstr "Селен"
+
+#: ../database/elements.xml.in.h:90
+msgid "Silicon"
+msgstr "Кремний"
+
+#: ../database/elements.xml.in.h:91
+msgid "Silver"
+msgstr "Серебро"
+
+#: ../database/elements.xml.in.h:92
+msgid "Sodium"
+msgstr "Натрий"
+
+#: ../database/elements.xml.in.h:93
+msgid "Strontium"
+msgstr "Стронций"
+
+#: ../database/elements.xml.in.h:94
+msgid "Sulfur"
+msgstr "Сера"
+
+#: ../database/elements.xml.in.h:95
+msgid "Tantalum"
+msgstr "Тантал"
+
+#: ../database/elements.xml.in.h:96
+msgid "Technetium"
+msgstr "Технеций"
+
+#: ../database/elements.xml.in.h:97
+msgid "Tellurium"
+msgstr "Теллур"
+
+#: ../database/elements.xml.in.h:98
+msgid "Terbium"
+msgstr "Тербий"
+
+#: ../database/elements.xml.in.h:99
+msgid "Thallium"
+msgstr "Таллий"
+
+#: ../database/elements.xml.in.h:100
+msgid "Thorium"
+msgstr "Торий"
+
+#: ../database/elements.xml.in.h:101
+msgid "Thulium"
+msgstr "Тулий"
+
+#: ../database/elements.xml.in.h:102
+msgid "Tin"
+msgstr "Олово"
+
+#: ../database/elements.xml.in.h:103
+msgid "Titanium"
+msgstr "Титан"
+
+#: ../database/elements.xml.in.h:104
+msgid "Tungsten"
+msgstr "Вольфрам"
+
+#: ../database/elements.xml.in.h:105
+msgid "Ununbium"
+msgstr ""
+
+#: ../database/elements.xml.in.h:106
+msgid "Ununhexium"
+msgstr ""
+
+#: ../database/elements.xml.in.h:107
+msgid "Ununpentium"
+msgstr ""
+
+#: ../database/elements.xml.in.h:108
+msgid "Ununquadium"
+msgstr ""
+
+#: ../database/elements.xml.in.h:109
+msgid "Ununtrium"
+msgstr ""
+
+#: ../database/elements.xml.in.h:110
+msgid "Uranium"
+msgstr "Уран"
+
+#: ../database/elements.xml.in.h:111
+msgid "Vanadium"
+msgstr "Ванадий"
+
+#: ../database/elements.xml.in.h:112
+msgid "Xenon"
+msgstr "Ксенон"
+
+#: ../database/elements.xml.in.h:113
+msgid "Ytterbium"
+msgstr "Иттербий"
+
+#: ../database/elements.xml.in.h:114
+msgid "Yttrium"
+msgstr "Иттрий"
+
+#: ../database/elements.xml.in.h:115
+msgid "Zinc"
+msgstr "Цинк"
+
+#: ../database/elements.xml.in.h:116
+msgid "Zirconium"
+msgstr "Цирконий"
+
+#: ../database/isotopes.xml.in.h:1
+msgid "deuterium"
+msgstr "дейтерий"
+
+#: ../database/isotopes.xml.in.h:2
+msgid "protium"
+msgstr "протий"
+
+#: ../database/isotopes.xml.in.h:3
+msgid "tritium"
+msgstr "тритий"
+
+#: ../gcu/element.cc:86
+msgid "German"
+msgstr "Немецкий"
+
+#: ../gcu/element.cc:87
+msgid "French"
+msgstr "Французский"
+
+#: ../gcu/element.cc:88
+msgid "Italian"
+msgstr "Итальянский"
+
+#: ../gcu/element.cc:89
+msgid "Polish"
+msgstr "Польский"
+
+#: ../gcu/element.cc:92
+msgid "Can't find and read elements.xml"
+msgstr "Не удалось найти и прочитать elements.xml "
+
+#: ../gcu/element.cc:97 ../gcu/element.cc:104
+msgid "Uncorrect file format: elements.xml"
+msgstr "Неправильный формат файла: elements.xml"
+
+#: ../gcu/element.cc:137
+msgid "English"
+msgstr "Английский"
+
+#: ../gcu/element.cc:419
+msgid "Can't find and read radii.xml"
+msgstr "Не удалось найти и прочитать radii.xml"
+
+#: ../gcu/element.cc:424 ../gcu/element.cc:430
+msgid "Uncorrect file format: radii.xml"
+msgstr "Неправильный формат файла: radii.xml"
+
+#: ../gcu/element.cc:514
+msgid "Can't find and read elecprops.xml"
+msgstr "Не удалось найти и прочитать elecprops.xml"
+
+#: ../gcu/element.cc:519 ../gcu/element.cc:524
+msgid "Uncorrect file format: elecprops.xml"
+msgstr "Неправильный формат файла: elecprops.xml"
+
+#: ../gcu/element.cc:605
+msgid "Can't find and read isotopes.xml"
+msgstr "Не удалось найти и прочитать isotopes.xml"
+
+#: ../gcu/element.cc:610 ../gcu/element.cc:617
+msgid "Uncorrect file format: isotopes.xml"
+msgstr "Неправильный формат файла: isotopes.xml"
+
+#. Note to translators: replace the following string with the appropriate credits for you lang
+#: ../programs/gchemcalc.cc:104 ../programs/gchemtable-app.cc:65
+msgid "translator_credits"
+msgstr "Перевод на русский: Валек Филиппов"
+
+#: ../programs/gchemcalc.cc:108
+msgid "GChemCalc is a simple calculator for chemists"
+msgstr "GChemCalc - простой калькулятор для химиков"
+
+#: ../programs/gchemcalc.cc:109 ../programs/gchemtable-app.cc:70
+msgid "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2005 by Jean Bréfort"
+
+#: ../programs/gchemcalc.cc:283 ../programs/gchemtable-app.cc:85
+msgid "_File"
+msgstr "_Файл"
+
+#: ../programs/gchemcalc.cc:284 ../programs/gchemtable-app.cc:86
+msgid "_Quit"
+msgstr "В_ыход"
+
+#: ../programs/gchemcalc.cc:285
+msgid "Quit GChemCalc"
+msgstr "Выйти из GChemCalc"
+
+#: ../programs/gchemcalc.cc:286 ../programs/gchemtable-app.cc:88
+msgid "_Help"
+msgstr "_Справка"
+
+#: ../programs/gchemcalc.cc:287 ../programs/gchemtable-app.cc:89
+msgid "_About"
+msgstr "О программе"
+
+#: ../programs/gchemcalc.cc:288
+msgid "About GChemCalc"
+msgstr "О программе GChemCalc"
+
+#: ../programs/gchemcalc.cc:351
+msgid "Element"
+msgstr "Элемент"
+
+#: ../programs/gchemcalc.cc:358
+msgid "Mass %"
+msgstr "Масса %"
+
+#: ../programs/gchemcalc-unstable.desktop.in.h:1
+msgid "A simple calculator for chemistry"
+msgstr "Простой химический калькулятор"
+
+#: ../programs/gchemtable-app.cc:69
+msgid "GChemTable is a chemical periodic table of the elements application"
+msgstr "GChemTable - периодическая таблица химических элементов"
+
+#: ../programs/gchemtable-app.cc:87
+msgid "Quit GChemTable"
+msgstr "Выйти из GChemTable"
+
+#: ../programs/gchemtable-app.cc:90
+msgid "About GChemTable"
+msgstr "О программе GChemTable"
+
+#: ../programs/gchemtable-app.cc:111
+#: ../programs/gchemtable-unstable.desktop.in.h:2
+msgid "Periodic table of the elements"
+msgstr "Периодическая таблица элементов"
+
+#. The <sup> </sup> markup at the end of the chain is there to ensure that
+#. things will be correcly aligned, add the same to the translated string
+#: ../programs/gchemtable-elt.cc:69
+msgid "Electronic configuration:<sup> </sup>"
+msgstr "Электронная конфигурация: <sup> </sup>"
+
+#: ../programs/gchemtable-elt.cc:80
+msgid "Lang"
+msgstr "Язык"
+
+#: ../programs/gchemtable-elt.cc:87
+msgid "Name"
+msgstr "Название"
+
+#: ../programs/gchemtable-elt.cc:113
+msgid "n.a."
+msgstr "н.д."
+
+#: ../programs/gchemtable-curve.cc:100 ../programs/gchemtable-curve.cc:104
+msgid "Pauling electronegativity"
+msgstr "Электроотрицательность Паули"
+
+#: ../programs/gchemtable-unstable.desktop.in.h:1
+msgid "A Mendeleiev table of the chemical elements"
+msgstr "Периодическая таблица химических элементов Д.И.Менделеева"

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-11-21 Valek Filippov
+	* New Russian translation.
+
 2005-11-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* po/POTFILES.in: add new files.
 	* po/fr.po: update french translation.
