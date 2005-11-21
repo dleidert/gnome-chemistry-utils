@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2005-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add ru to ALL_LINGUAS.
+	* gcu/element.cc: add Russian to langs list.
+
 2005-11-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/gchemtable-curve.cc: add curves for electron affinities
 	and ionization energies.
