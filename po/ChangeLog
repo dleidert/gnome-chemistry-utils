@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2005-11-21 Valek Filippov
+	* New Russian translation.
+
 2005-06-20 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* Fixed German translation (1 fuzzy and 3 untranslated fixed)
 	* Update headers in de.po
