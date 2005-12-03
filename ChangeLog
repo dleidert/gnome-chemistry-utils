@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2005-12-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/gchemcalc.cc: gchemcalc now accept a formula from the command
+	line.
+	* database/isotopes.xml.in: add missing tag ends.
+
 2005-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/isotopes.xml.in: add some radioisotopes.
 

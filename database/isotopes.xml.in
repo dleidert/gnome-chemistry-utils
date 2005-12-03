@@ -247,6 +247,7 @@
 	</isotope>
 	<isotope A="23" weight="22.994124" spin="1.5" mub="0.536">
 		<decay type="EC" value="11.32" unit="s"/>
+	</isotope>
 	<isotope A="24" weight="23.9850423(8)" abundance="78.99(4)"
 	spin="0" mub="0"/>
 	<isotope A="25" weight="24.9858374(8)" abundance="10.00(1)"
@@ -255,10 +256,13 @@
 	spin="0" mub="0"/>
 	<isotope A="27" weight="26.984341" spin="1.5">
 		<decay type="b-" value="9.45" unit="m"/>
+	</isotope>
 	<isotope A="28" weight="27.983876" spin="0">
 		<decay type="b-" value="21.0" unit="h"/>
+	</isotope>
 	<isotope A="29" weight="28.9855" spin="1.5">
 		<decay type="b-" value="1.3" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="13">

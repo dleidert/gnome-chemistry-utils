@@ -57,8 +57,11 @@
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
 #include <math.h>
+#include <iostream>
 
 using namespace gcu;
+
+using namespace std;
 
 class GChemCalc {
 public:
@@ -300,14 +303,52 @@ static const char *ui_description =
 "  </menubar>"
 "</ui>";
 
+gboolean cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
+{
+	char *version = g_strconcat (_("Gnome Chemistry Utils version: "), VERSION, NULL);
+	puts (version);
+	g_free (version);
+	exit (0);
+	return TRUE;
+}
+
+static GOptionEntry options[] = 
+{
+  { "version", 'v', 0, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints GChemCalc version", NULL },
+   { NULL }
+};
+
 int main (int argc, char *argv[])
 {
+	GOptionContext *context;
+	GError *error = NULL;
 	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
 #ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
+	if (argc > 1 && argv[1][0] == '-') {
+		context = g_option_context_new (_(" [formula]"));
+		g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
+		g_option_context_add_group (context, gtk_get_option_group (TRUE));
+		g_option_context_parse (context, &argc, &argv, &error);
+		if (error) {
+			puts (error->message);
+			g_error_free (error);
+			return -1;
+		}
+	} else {
+		argc --;
+		argv ++;
+	}
+
+#warning "the following line should be edited for stable releases"
+	if (argc > 1) {
+		cout << _("Usage: gchemcalc-unstable [OPTION...] [formula]") << endl;
+		return -1;
+	}
+	
 	/* Initialize libgoffice */
 	libgoffice_init ();
 	/* Initialize plugins manager */
@@ -327,7 +368,6 @@ int main (int argc, char *argv[])
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
-	GError *error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
@@ -396,6 +436,12 @@ int main (int argc, char *argv[])
 		 G_CALLBACK (cb_entry_active),
 		 window);
 	gcu_element_load_databases ("isotopes", NULL);
+
+	if (argc == 1){
+		gtk_entry_set_text (GTK_ENTRY (w), argv[0]);
+		cb_entry_active (GTK_ENTRY (w), window);
+	}
+
 	gtk_main ();
 	return 0;
 }
