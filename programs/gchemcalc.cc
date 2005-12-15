@@ -421,7 +421,7 @@ int main (int argc, char *argv[])
 	App.series = gog_plot_new_series (App.plot);
 	gog_object_add_by_name (GOG_OBJECT (App.series), "Vertical drop lines", NULL);
 	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (App.series));
-	style->marker.mark->shape = GO_MARKER_NONE;
+	go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 	style->marker.auto_shape = false;
 	style->line.dash_type = GO_LINE_NONE;
 	style->line.auto_dash = false;
