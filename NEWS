@@ -7,6 +7,7 @@ Version 0.5.3
 	background color and display mode.
 	GtkComboPeriodic: new periodic table combo box.
 	Some minor bugs fixed.
+	New translation: ru (thanks to Valek Filippov).
 
 Version 0.5.2
 	Correct mean molecular mass for isotopic patterns of macromolecules.
