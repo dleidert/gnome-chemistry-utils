@@ -6,6 +6,8 @@ database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in
 gcu/element.cc
+gcu/gtkcomboperiodic.c
+programs/gchem3d-viewer.c
 programs/gchemcalc.cc
 programs/gchemcalc-unstable.desktop.in
 programs/gchemtable-app.cc
