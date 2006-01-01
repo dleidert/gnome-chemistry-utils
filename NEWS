@@ -1,3 +1,13 @@
+Version 0.5.3
+	periodic table: display ionization energy and electron affinity.
+	mozilla plugin: display pdb and mol files, and support limited
+	bgcolor and display3d properties.
+	gchemcalc: accepts a formula from the command line.
+	3d viewer: new menus entries and command line options for
+	background color and display mode.
+	GtkComboPeriodic: new periodic table combo box.
+	Some minor bugs fixed.
+
 Version 0.5.2
 	Correct mean molecular mass for isotopic patterns of macromolecules.
 	Add a periodic table application.
