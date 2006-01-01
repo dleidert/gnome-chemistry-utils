@@ -332,6 +332,7 @@ int main (int argc, char *argv[])
 		context = g_option_context_new (_(" [formula]"));
 		g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
 		g_option_context_add_group (context, gtk_get_option_group (TRUE));
+		g_option_context_set_help_enabled (context, TRUE);
 		g_option_context_parse (context, &argc, &argv, &error);
 		if (error) {
 			puts (error->message);

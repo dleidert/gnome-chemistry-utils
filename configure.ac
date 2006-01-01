@@ -116,8 +116,12 @@ if test "x$test_mozilla_plugin" != "xno"; then
 	  mozlibdir=`mozilla-config --libs|sed 's/-L//'`
    else
 	PKG_CHECK_MODULES(MOZILLA, mozilla-plugin, build_mozilla_plugin=yes, 
-			[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])])
+			[PKG_CHECK_MODULES(MOZILLA, firefox-plugin, build_mozilla_plugin=yes,
+			[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])])])
 	mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
+	if test "x$mozlibdir" = "x"; then
+		mozlibdir=`pkg-config --variable=libdir firefox-plugin`
+	fi
    fi
 
    if test "x$MOZILLA_CFLAGS" != "x"; then

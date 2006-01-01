@@ -15,6 +15,7 @@ libgcu_0_5_la_SOURCES = \
 		dialog.cc \
 		chemistry.cc \
 		gtkperiodic.c \
+		gtkcomboperiodic.c \
 		gtkcrystalviewer.cc \
 		crystalview.cc \
 		crystaldoc.cc \
@@ -39,6 +40,7 @@ libgcu_0_5_la_headers = \
 		xml-utils.h \
 		chemistry.h \
 		gtkperiodic.h \
+		gtkcomboperiodic.h \
 		gtkcrystalviewer.h \
 		crystalview.h \
 		crystaldoc.h \

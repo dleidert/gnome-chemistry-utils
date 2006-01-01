@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2006-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: enhance mozilla related test (now supports firefox).
+	* gcu/Makefile.am: add gtkcomboperiodic.[c,h].
+	* gcu/gtkchem3dviewer.cc: enhance mime type detection.
+	* gcu/gtkcomboperiodic.c: new periodic table combo box widget.
+	* gcu/gtkcomboperiodic.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: supports bgcolor and display3d
+	properties; support mol and pdb files.
+	* mozilla-plugin/moz-plugin.c: ditto.
+	* programs/gchem3d-viewer.c: new menu entries to change display mode
+	and background color changes; also add corresponding command line
+	options
+	* programs/gchemcalc.cc: add full command line help options.
+
 2005-12-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu-0.5.pc.in: require openbalel-2, not openbabel.
 	* programs/gchemcalc.cc: do not access GOMarker private members.

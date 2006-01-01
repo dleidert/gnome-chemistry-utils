@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkchem3dviewer.c 
  *
- * Copyright (C) 2003-2004
+ * Copyright (C) 2003-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -413,10 +413,14 @@ void gtk_chem3d_viewer_set_uri_with_mime_type (GtkChem3DViewer * viewer, const g
 	}
 	if (mime_type)
 		gnome_vfs_get_file_info_from_handle (handle, info, (GnomeVFSFileInfoOptions) 0);
-	else
+	else {
 		gnome_vfs_get_file_info_from_handle (handle, info,
 			(GnomeVFSFileInfoOptions)(GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
 								GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE));
+		if (!strncmp (info->mime_type, "text", 4))
+			gnome_vfs_get_file_info_from_handle (handle, info,
+				(GnomeVFSFileInfoOptions)GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
+	}
 	gchar *buf = new gchar[info->size + 1];
 	GnomeVFSFileSize n;
 	gnome_vfs_read (handle, buf, info->size, &n);
@@ -436,6 +440,8 @@ void gtk_chem3d_viewer_set_data (GtkChem3DViewer * viewer, const gchar *data, co
 	setlocale(LC_NUMERIC, "C");
 	OBConversion Conv;
 	OBFormat* pInFormat = Conv.FormatFromMIME(mime_type);
+	if (!pInFormat)
+		return;
 	Conv.SetInAndOutFormats(pInFormat, pInFormat);
 	Conv.Read(&viewer->priv->Mol,&is);
 	setlocale(LC_NUMERIC, old_num_locale);

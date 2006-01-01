@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * chem-viewer.c 
  *
- * Copyright (C) 2005
+ * Copyright (C) 2005-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -44,6 +44,7 @@ public:
 
 	void SetWindow (XID xid);
 	void SetFilename (string& filename);
+	void SetProperty (string& name, char const *value) {Params[name] = value;}
 
 private:
 	void* Instance;
@@ -51,6 +52,7 @@ private:
 	string Filename, MimeType;
 	GtkWidget *Plug, *Viewer;
 	GdkWindow *Parent;
+	map<string, string> Params;
 };
 
 ChemComp::ChemComp (void* instance, string& mime_type)
@@ -99,6 +101,18 @@ void ChemComp::SetFilename (string& filename)
 	Filename = filename;
 	gtk_chem3d_viewer_set_uri_with_mime_type (GTK_CHEM3D_VIEWER (Viewer),
 			filename.c_str (), MimeType.c_str ());
+	map<string, string>::iterator i, iend = Params.end ();
+	for (i = Params.begin (); i != iend; i++) {
+		if ((*i).first == "display3d") {
+			if ((*i).second == "ball&stick")
+				g_object_set (G_OBJECT (Viewer), "display3d", BALL_AND_STICK, NULL);
+			else if ((*i).second == "spacefill")
+				g_object_set (G_OBJECT (Viewer), "display3d", SPACEFILL, NULL);
+		}
+		else
+			g_object_set (G_OBJECT (Viewer), (*i).first.c_str (), (*i).second.c_str (), NULL);
+	}
+	Params.clear ();
 }
 
 GIOChannel *in_channel;
@@ -127,12 +141,24 @@ io_func (GIOChannel *source, GIOCondition condition, gpointer data)
 		mime_type = str;
 		g_free (str);
 		istringstream iss (strinst);
-		if (mime_type != "chemical/x-xyz")
-			return true; // only xyz files are allowed at the moment
 		iss >> hex >> instance;
 		if (components[instance] != NULL) // this should not occur
 			delete components[instance];
 		components[instance] = new ChemComp (instance, mime_type);
+		g_io_channel_read_line (source, &str, &length, NULL, NULL);
+		str[length - 1] = 0;
+		buf = str;
+		g_free (str);
+		while (buf != "end") {
+			g_io_channel_read_line (source, &str, &length, NULL, NULL);
+			str[length - 1] = 0;
+			components[instance]->SetProperty (buf, str);
+			g_free (str);
+			g_io_channel_read_line (source, &str, &length, NULL, NULL);
+			str[length - 1] = 0;
+			buf = str;
+			g_free (str);
+		}
 	} else if (buf == "win") {
 		string strwin;
 		g_io_channel_read_line (source, &str, &length, NULL, NULL);

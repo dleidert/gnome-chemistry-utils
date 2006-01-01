@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * programs/gchem3d-viewer.c
  *
- * Copyright (C) 2004-2005
+ * Copyright (C) 2004-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <string.h>
+#include <goffice/gtk/go-action-combo-color.h>
 #include <libgnomevfs/gnome-vfs.h>
 
 /*!\file
@@ -70,6 +71,20 @@ static void on_quit (GtkWidget *widget, void *data)
 	gtk_main_quit();
 }
 
+static void on_color_changed (GOActionComboColor *combo, GObject *obj)
+{
+	GOColor color = go_action_combo_color_get_color (combo, FALSE);
+	char *scolor = g_strdup_printf ("#%02x%02x%02x", UINT_RGBA_R (color),
+		UINT_RGBA_G (color), UINT_RGBA_B (color));
+	g_object_set (obj, "bgcolor", scolor, NULL);
+	g_free (scolor);
+}
+
+static void on_display (GtkRadioAction *action, GtkRadioAction *current, GObject *obj)
+{
+	g_object_set (obj, "display3d", gtk_radio_action_get_current_value (action), NULL);
+}
+
 static void on_about (GtkWidget *widget, void *data)
 {
 	char * authors[] = {"Jean Bréfort", NULL};
@@ -107,9 +122,19 @@ static GtkActionEntry entries[] = {
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
  	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChem3D"), G_CALLBACK (on_quit) },
+  { "ViewMenu", NULL, N_("_View") },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "About", NULL, N_("_About"), NULL,
 		  N_("About GChem3D"), G_CALLBACK (on_about) }
+};
+
+static GtkRadioActionEntry radios[] = {
+	{	"BallnStick", NULL, N_("Balls and sticks"), NULL,
+		N_("Display a balls and sticks model"),
+		0	},
+	{	"SpaceFill", "NULL", N_("Space filling"), NULL,
+		N_("Display a space filling model"),
+		1	},
 };
 
 static const char *ui_description =
@@ -119,11 +144,36 @@ static const char *ui_description =
 "      <menuitem action='Open'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"
+"    <menu action='ViewMenu'>"
+"      <menuitem action='BallnStick'/>"
+"      <menuitem action='SpaceFill'/>"
+"	   <separator name='view-sep1'/>"
+"      <menuitem action='Background'/>"
+"    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='About'/>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
+
+void cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
+{
+	char *version = g_strconcat (_("GChem3d Viewer version: "), VERSION, NULL);
+	puts (version);
+	g_free (version);
+	exit (0);
+}
+
+static char *bgcolor = NULL;
+static char *display3d = NULL;
+
+static GOptionEntry options[] = 
+{
+	{ "version", 'v', 0, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, N_("Prints GChem3d Viewer version"), NULL },
+	{ "bgcolor", 'b', 0, G_OPTION_ARG_STRING, &bgcolor, N_("Background color: white, black or #rrggbb (default is black)"), NULL },
+	{ "display3d", 'd', 0, G_OPTION_ARG_STRING, &display3d, N_("How molecules are displayed; possible values are BallnStick (the default) and SpaceFill"), NULL },
+	{ NULL }
+};
 
 int main(int argc, char *argv[])
 {
@@ -134,7 +184,8 @@ int main(int argc, char *argv[])
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkAccelGroup *accel_group;
-	GError *error;
+	GError *error = NULL;
+	GOptionContext *context;
 
 	gtk_init (&argc, &argv);
 	if (!gnome_vfs_init ()) {
@@ -143,6 +194,33 @@ int main(int argc, char *argv[])
 	}
 
 	gcu_element_load_databases ("radii", NULL);
+	if (argc > 1 && argv[1][0] == '-') {
+		context = g_option_context_new (_(" [file]"));
+		g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
+		g_option_context_add_group (context, gtk_get_option_group (TRUE));
+		g_option_context_set_help_enabled (context, TRUE);
+		g_option_context_parse (context, &argc, &argv, &error);
+		if (error) {
+			puts (error->message);
+			g_error_free (error);
+			return -1;
+		}
+	}
+
+	if (argc > 1) {
+		path = g_get_current_dir ();
+		dir = g_strconcat (path, "/", NULL);
+		g_free (path);
+		uri = gnome_vfs_uri_new (dir);
+		auri = gnome_vfs_uri_resolve_relative (uri, argv[1]);
+		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
+		viewer = gtk_chem3d_viewer_new (path);
+		g_free (path);
+		gnome_vfs_uri_unref (auri);
+		gnome_vfs_uri_unref (uri);
+		g_free (dir);
+	} else
+		viewer = gtk_chem3d_viewer_new("");
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "GtkChem3dViewer");
@@ -156,6 +234,12 @@ int main(int argc, char *argv[])
 	action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), window);
+	GOActionComboColor *combo = go_action_combo_color_new ("Background", "gcu_Background", "", RGBA_BLACK, NULL);
+	g_object_set (G_OBJECT (combo), "label", _("Background color"), "tooltip",
+		_("Choose a new background color"), NULL);
+	g_signal_connect (G_OBJECT (combo), "activate", G_CALLBACK (on_color_changed), viewer);
+	gtk_action_group_add_action (action_group, GTK_ACTION (combo));
+	gtk_action_group_add_radio_actions (action_group, radios, G_N_ELEMENTS (radios), 0, G_CALLBACK (on_display), viewer);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
@@ -167,24 +251,24 @@ int main(int argc, char *argv[])
 	}
 	bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
-
-	if (argc >= 2) {
-		path = g_get_current_dir ();
-		dir = g_strconcat (path, "/", NULL);
-		g_free (path);
-		uri = gnome_vfs_uri_new (dir);
-		auri = gnome_vfs_uri_resolve_relative (uri, argv[1]);
-		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
-		viewer = gtk_chem3d_viewer_new(path);
-		g_free (path);
-		gnome_vfs_uri_unref (auri);
-		gnome_vfs_uri_unref (uri);
-		g_free (dir);
-	} else
-		viewer = gtk_chem3d_viewer_new("");
 	gtk_container_add(GTK_CONTAINER(vbox), viewer);
 	g_object_set_data (G_OBJECT (window), "viewer", viewer);
 	gtk_widget_show_all(window);
+	if (bgcolor) {
+		g_object_set (G_OBJECT (viewer), "bgcolor", bgcolor, NULL);
+		g_free (bgcolor);
+	}
+
+	if (display3d) {
+		Display3DMode mode = BALL_AND_STICK;
+		if (!strcmp (display3d, "SpaceFill"))
+			mode = SPACEFILL;
+		else if (strcmp (display3d, "BallnStick"))
+			g_warning (_("Unknown display mode"));
+		g_object_set (G_OBJECT (viewer), "display3d", mode, NULL);
+		g_free (display3d);
+	}
+
 	gtk_main();
 	
 	return(0);

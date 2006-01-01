@@ -53,6 +53,7 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 {
 	ChemPlugin *plugin;
 	char buf [32];
+	int i;
   
 	if (instance == NULL)
 		return NPERR_INVALID_INSTANCE_ERROR;
@@ -101,6 +102,15 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 	write (to_pipe, buf, strlen (buf));
 	write (to_pipe, mime_type, strlen ((char*) mime_type));
 	write (to_pipe, "\n", 1);
+	i = 0;
+	while (strcmp (argn[i++], "PARAM"));
+	for (; i < argc; i++) {
+		write (to_pipe, argn[i], strlen (argn[i]));
+		write (to_pipe, "\n", 1);
+		write (to_pipe, argv[i], strlen (argv[i]));
+		write (to_pipe, "\n", 1);
+	}
+	write (to_pipe, "end\n", 4);
 	return NPERR_NO_ERROR;
 }
 
@@ -187,7 +197,9 @@ NPError NP_GetValue (void *future, NPPVariable variable, void *value)
 
 char *NP_GetMIMEDescription (void)
 {
-	return ("chemical/x-xyz:XYZ Coordinate Format");
+	return ("chemical/x-xyz:xyz:XYZ Coordinate Format;"
+			"chemical/x-mdl-molfile:mol:MDL Molfile;"
+			"chemical/x-pdb:pdb,ent:Protein DataBank");
 }
 
 /* This is called to initialise the plugin
