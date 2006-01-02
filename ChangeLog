@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.4.8.
+
 2005-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add ru to ALL_LINGUAS.
 
