@@ -1,3 +1,6 @@
+Version 0.4.8
+	New ru translation (thanks to Valek Filippov).
+
 Version 0.4.7
 	Fixes a critical bug in GObject class.
 
