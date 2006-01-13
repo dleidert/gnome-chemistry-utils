@@ -2,518 +2,823 @@
 # Copyright (C) 2004 Jean Bréfort
 # This file is distributed under the same license as the gnome-chemistry-utils package.
 # Christian Lohmaier <cloph@cup.uni-muenchen.de>, 2004.
-# , fuzzy
+# Daniel Leidert <daniel.leidert.spam@gmx.net>, 2006.
 # 
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-chemistry-utils 0.3.1\n"
+"Project-Id-Version: gnome-chemistry-utils 0.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-16 12:30+0100\n"
-"PO-Revision-Date: 2004-10-13 18:21+0200\n"
-"Last-Translator: Christian Lohmaier <cloph@cup.uni-muenchen.de>\n"
-"Language-Team: German <gnome-de@gnome.org>\n"
+"POT-Creation-Date: 2006-01-13 10:56+0100\n"
+"PO-Revision-Date: 2006-01-13 10:56+0100\n"
+"Last-Translator: Daniel Leidert <daniel.leidert.spam@gmx.net>\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: glade/gtkperiodic.glade.h:1
+#: ../glade/gchemcalc.glade.h:1 ../programs/gchemcalc-unstable.desktop.in.h:2
+msgid "Chemical calculator"
+msgstr "Chemie-Rechner"
+
+#: ../glade/gchemcalc.glade.h:2
+msgid "Composition"
+msgstr "Zusammensetzung"
+
+#: ../glade/gchemcalc.glade.h:3 ../programs/gchemcalc.cc:127
+msgid "Formula:"
+msgstr "Formel:"
+
+#: ../glade/gchemcalc.glade.h:4
+msgid "Isotopic Pattern"
+msgstr ""
+
+#: ../glade/gchemcalc.glade.h:5
+msgid "Molecular weight:"
+msgstr "Molekulargewicht:"
+
+#: ../glade/gchemcalc.glade.h:6
+msgid "Monoisitopic mass:"
+msgstr ""
+
+#: ../glade/gchemcalc.glade.h:7 ../programs/gchemcalc.cc:130
+msgid "Raw formula:"
+msgstr ""
+
+#: ../glade/gtkperiodic.glade.h:1
 msgid "Actinides"
 msgstr "Actiniden"
 
-#: glade/gtkperiodic.glade.h:2
+#: ../glade/gtkperiodic.glade.h:2
 msgid "Lanthanides"
 msgstr "Lanthaniden"
 
-#: gcu/elements.xml.in.h:1
+#: ../database/elements.xml.in.h:1
 msgid "Actinium"
 msgstr "Actinium"
 
-#: gcu/elements.xml.in.h:2
+#: ../database/elements.xml.in.h:2
 msgid "Aluminum"
 msgstr "Aluminum"
 
-#: gcu/elements.xml.in.h:3
+#: ../database/elements.xml.in.h:3
 msgid "Americium"
 msgstr "Americium"
 
-#: gcu/elements.xml.in.h:4
+#: ../database/elements.xml.in.h:4
 msgid "Antimony"
 msgstr "Antimon"
 
-#: gcu/elements.xml.in.h:5
+#: ../database/elements.xml.in.h:5
 msgid "Argon"
 msgstr "Argon"
 
-#: gcu/elements.xml.in.h:6
+#: ../database/elements.xml.in.h:6
 msgid "Arsenic"
 msgstr "Arsen"
 
-#: gcu/elements.xml.in.h:7
+#: ../database/elements.xml.in.h:7
 msgid "Astatine"
 msgstr "Astat"
 
-#: gcu/elements.xml.in.h:8
+#: ../database/elements.xml.in.h:8
 msgid "Barium"
 msgstr "Barium"
 
-#: gcu/elements.xml.in.h:9
+#: ../database/elements.xml.in.h:9
 msgid "Berkelium"
 msgstr "Berkelium"
 
-#: gcu/elements.xml.in.h:10
+#: ../database/elements.xml.in.h:10
 msgid "Beryllium"
 msgstr "Beryllium"
 
-#: gcu/elements.xml.in.h:11
+#: ../database/elements.xml.in.h:11
 msgid "Bismuth"
 msgstr "Bismut"
 
-#: gcu/elements.xml.in.h:12
+#: ../database/elements.xml.in.h:12
 msgid "Bohrium"
 msgstr "Bohrium"
 
-#: gcu/elements.xml.in.h:13
+#: ../database/elements.xml.in.h:13
 msgid "Boron"
 msgstr "Bor"
 
-#: gcu/elements.xml.in.h:14
+#: ../database/elements.xml.in.h:14
 msgid "Bromine"
 msgstr "Brom"
 
-#: gcu/elements.xml.in.h:15
+#: ../database/elements.xml.in.h:15
 msgid "Cadmium"
 msgstr "Cadmium"
 
-#: gcu/elements.xml.in.h:16
+#: ../database/elements.xml.in.h:16
+msgid "Caesium"
+msgstr "Cäsium"
+
+#: ../database/elements.xml.in.h:17
 msgid "Calcium"
 msgstr "Calcium"
 
-#: gcu/elements.xml.in.h:17
+#: ../database/elements.xml.in.h:18
 msgid "Californium"
 msgstr "Californium"
 
-#: gcu/elements.xml.in.h:18
+#: ../database/elements.xml.in.h:19
 msgid "Carbon"
 msgstr "Kohlenstoff"
 
-#: gcu/elements.xml.in.h:19
+#: ../database/elements.xml.in.h:20
 msgid "Cerium"
 msgstr "Cer"
 
-#: gcu/elements.xml.in.h:20
-msgid "Cesium"
-msgstr "Cäsium"
-
-#: gcu/elements.xml.in.h:21
+#: ../database/elements.xml.in.h:21
 msgid "Chlorine"
 msgstr "Chlor"
 
-#: gcu/elements.xml.in.h:22
+#: ../database/elements.xml.in.h:22
 msgid "Chromium"
 msgstr "Chrom"
 
-#: gcu/elements.xml.in.h:23
+#: ../database/elements.xml.in.h:23
 msgid "Cobalt"
 msgstr "Cobalt"
 
-#: gcu/elements.xml.in.h:24
+#: ../database/elements.xml.in.h:24
 msgid "Copper"
 msgstr "Kupfer"
 
-#: gcu/elements.xml.in.h:25
+#: ../database/elements.xml.in.h:25
 msgid "Curium"
 msgstr "Curium"
 
-#: gcu/elements.xml.in.h:26
+#: ../database/elements.xml.in.h:26
 msgid "Darmstadtium"
 msgstr "Darmstadtium"
 
-#: gcu/elements.xml.in.h:27
+#: ../database/elements.xml.in.h:27
 msgid "Dubnium"
 msgstr "Dubnium"
 
-#: gcu/elements.xml.in.h:28
+#: ../database/elements.xml.in.h:28
 msgid "Dysprosium"
 msgstr "Dysprosium"
 
-#: gcu/elements.xml.in.h:29
+#: ../database/elements.xml.in.h:29
 msgid "Einsteinium"
 msgstr "Einsteinium"
 
-#: gcu/elements.xml.in.h:30
+#: ../database/elements.xml.in.h:30
 msgid "Erbium"
 msgstr "Erbium"
 
-#: gcu/elements.xml.in.h:31
+#: ../database/elements.xml.in.h:31
 msgid "Europium"
 msgstr "Europium"
 
-#: gcu/elements.xml.in.h:32
+#: ../database/elements.xml.in.h:32
 msgid "Fermium"
 msgstr "Fermium"
 
-#: gcu/elements.xml.in.h:33
+#: ../database/elements.xml.in.h:33
 msgid "Fluorine"
 msgstr "Fluor"
 
-#: gcu/elements.xml.in.h:34
+#: ../database/elements.xml.in.h:34
 msgid "Francium"
 msgstr "Francium"
 
-#: gcu/elements.xml.in.h:35
+#: ../database/elements.xml.in.h:35
 msgid "Gadolinium"
 msgstr "Gadolinium"
 
-#: gcu/elements.xml.in.h:36
+#: ../database/elements.xml.in.h:36
 msgid "Gallium"
 msgstr "Gallium"
 
-#: gcu/elements.xml.in.h:37
+#: ../database/elements.xml.in.h:37
 msgid "Germanium"
 msgstr "Germanium"
 
-#: gcu/elements.xml.in.h:38
+#: ../database/elements.xml.in.h:38
 msgid "Gold"
 msgstr "Gold"
 
-#: gcu/elements.xml.in.h:39
+#: ../database/elements.xml.in.h:39
 msgid "Hafnium"
 msgstr "Hafnium"
 
-#: gcu/elements.xml.in.h:40
+#: ../database/elements.xml.in.h:40
 msgid "Hassium"
 msgstr "Hassium"
 
-#: gcu/elements.xml.in.h:41
+#: ../database/elements.xml.in.h:41
 msgid "Helium"
 msgstr "Helium"
 
-#: gcu/elements.xml.in.h:42
+#: ../database/elements.xml.in.h:42
 msgid "Holmium"
 msgstr "Holmium"
 
-#: gcu/elements.xml.in.h:43
+#: ../database/elements.xml.in.h:43
 msgid "Hydrogen"
 msgstr "Wasserstoff"
 
-#: gcu/elements.xml.in.h:44
+#: ../database/elements.xml.in.h:44
 msgid "Indium"
 msgstr "Indium"
 
-#: gcu/elements.xml.in.h:45
+#: ../database/elements.xml.in.h:45
 msgid "Iodine"
 msgstr "Iod"
 
-#: gcu/elements.xml.in.h:46
+#: ../database/elements.xml.in.h:46
 msgid "Iridium"
 msgstr "Iridium"
 
-#: gcu/elements.xml.in.h:47
+#: ../database/elements.xml.in.h:47
 msgid "Iron"
 msgstr "Eisen"
 
-#: gcu/elements.xml.in.h:48
+#: ../database/elements.xml.in.h:48
 msgid "Krypton"
 msgstr "Krypton"
 
-#: gcu/elements.xml.in.h:49
+#: ../database/elements.xml.in.h:49
 msgid "Lanthanum"
 msgstr "Lanthan"
 
-#: gcu/elements.xml.in.h:50
+#: ../database/elements.xml.in.h:50
 msgid "Lawrencium"
 msgstr "Lawrencium"
 
-#: gcu/elements.xml.in.h:51
+#: ../database/elements.xml.in.h:51
 msgid "Lead"
 msgstr "Blei"
 
-#: gcu/elements.xml.in.h:52
+#: ../database/elements.xml.in.h:52
 msgid "Lithium"
 msgstr "Lithium"
 
-#: gcu/elements.xml.in.h:53
+#: ../database/elements.xml.in.h:53
 msgid "Lutetium"
 msgstr "Lutetium"
 
-#: gcu/elements.xml.in.h:54
+#: ../database/elements.xml.in.h:54
 msgid "Magnesium"
 msgstr "Magnesium"
 
-#: gcu/elements.xml.in.h:55
+#: ../database/elements.xml.in.h:55
 msgid "Manganese"
 msgstr "Mangan"
 
-#: gcu/elements.xml.in.h:56
+#: ../database/elements.xml.in.h:56
 msgid "Meitnerium"
 msgstr "Meitnerium"
 
-#: gcu/elements.xml.in.h:57
+#: ../database/elements.xml.in.h:57
 msgid "Mendelevium"
 msgstr "Mendelevium"
 
-#: gcu/elements.xml.in.h:58
+#: ../database/elements.xml.in.h:58
 msgid "Mercury"
 msgstr "Quecksilber"
 
-#: gcu/elements.xml.in.h:59
+#: ../database/elements.xml.in.h:59
 msgid "Molybdenum"
 msgstr "Molybdän"
 
-#: gcu/elements.xml.in.h:60
+#: ../database/elements.xml.in.h:60
 msgid "Neodymium"
 msgstr "Neodym"
 
-#: gcu/elements.xml.in.h:61
+#: ../database/elements.xml.in.h:61
 msgid "Neon"
 msgstr "Neon"
 
-#: gcu/elements.xml.in.h:62
+#: ../database/elements.xml.in.h:62
 msgid "Neptunium"
 msgstr "Neptunium"
 
-#: gcu/elements.xml.in.h:63
+#: ../database/elements.xml.in.h:63
 msgid "Nickel"
 msgstr "Nickel"
 
-#: gcu/elements.xml.in.h:64
+#: ../database/elements.xml.in.h:64
 msgid "Niobium"
 msgstr "Niob"
 
-#: gcu/elements.xml.in.h:65
+#: ../database/elements.xml.in.h:65
 msgid "Nitrogen"
 msgstr "Stickstoff"
 
-#: gcu/elements.xml.in.h:66
+#: ../database/elements.xml.in.h:66
 msgid "Nobelium"
 msgstr "Nobelium"
 
-#: gcu/elements.xml.in.h:67
+#: ../database/elements.xml.in.h:67
 msgid "Osmium"
 msgstr "Osmium"
 
-#: gcu/elements.xml.in.h:68
+#: ../database/elements.xml.in.h:68
 msgid "Oxygen"
 msgstr "Sauerstoff"
 
-#: gcu/elements.xml.in.h:69
+#: ../database/elements.xml.in.h:69
 msgid "Palladium"
 msgstr "Palladium"
 
-#: gcu/elements.xml.in.h:70
+#: ../database/elements.xml.in.h:70
 msgid "Phosphorus"
 msgstr "Phosphor"
 
-#: gcu/elements.xml.in.h:71
+#: ../database/elements.xml.in.h:71
 msgid "Platinum"
 msgstr "Platin"
 
-#: gcu/elements.xml.in.h:72
+#: ../database/elements.xml.in.h:72
 msgid "Plutonium"
 msgstr "Plutonium"
 
-#: gcu/elements.xml.in.h:73
+#: ../database/elements.xml.in.h:73
 msgid "Polonium"
 msgstr "Polonium"
 
-#: gcu/elements.xml.in.h:74
+#: ../database/elements.xml.in.h:74
 msgid "Potassium"
 msgstr "Kalium"
 
-#: gcu/elements.xml.in.h:75
+#: ../database/elements.xml.in.h:75
 msgid "Praseodymium"
 msgstr "Praseodym"
 
-#: gcu/elements.xml.in.h:76
+#: ../database/elements.xml.in.h:76
 msgid "Promethium"
 msgstr "Promethium"
 
-#: gcu/elements.xml.in.h:77
+#: ../database/elements.xml.in.h:77
 msgid "Protactinium"
 msgstr "Protactinium"
 
-#: gcu/elements.xml.in.h:78
+#: ../database/elements.xml.in.h:78
 msgid "Radium"
 msgstr "Radium"
 
-#: gcu/elements.xml.in.h:79
+#: ../database/elements.xml.in.h:79
 msgid "Radon"
 msgstr "Radon"
 
-#: gcu/elements.xml.in.h:80
+#: ../database/elements.xml.in.h:80
 msgid "Rhenium"
 msgstr "Rhenium"
 
-#: gcu/elements.xml.in.h:81
+#: ../database/elements.xml.in.h:81
 msgid "Rhodium"
 msgstr "Rhodium"
 
-#: gcu/elements.xml.in.h:82
+#: ../database/elements.xml.in.h:82
 msgid "Roentgenium"
 msgstr "Roentgenium"
 
-#: gcu/elements.xml.in.h:83
+#: ../database/elements.xml.in.h:83
 msgid "Rubidium"
 msgstr "Rubidium"
 
-#: gcu/elements.xml.in.h:84
+#: ../database/elements.xml.in.h:84
 msgid "Ruthenium"
 msgstr "Ruthenium"
 
-#: gcu/elements.xml.in.h:85
+#: ../database/elements.xml.in.h:85
 msgid "Rutherfordium"
 msgstr "Rutherfordium"
 
-#: gcu/elements.xml.in.h:86
+#: ../database/elements.xml.in.h:86
 msgid "Samarium"
 msgstr "Samarium"
 
-#: gcu/elements.xml.in.h:87
+#: ../database/elements.xml.in.h:87
 msgid "Scandium"
 msgstr "Scandium"
 
-#: gcu/elements.xml.in.h:88
+#: ../database/elements.xml.in.h:88
 msgid "Seaborgium"
 msgstr "Seaborgium"
 
-#: gcu/elements.xml.in.h:89
+#: ../database/elements.xml.in.h:89
 msgid "Selenium"
 msgstr "Selen"
 
-#: gcu/elements.xml.in.h:90
+#: ../database/elements.xml.in.h:90
 msgid "Silicon"
 msgstr "Silicium"
 
-#: gcu/elements.xml.in.h:91
+#: ../database/elements.xml.in.h:91
 msgid "Silver"
 msgstr "Silber"
 
-#: gcu/elements.xml.in.h:92
+#: ../database/elements.xml.in.h:92
 msgid "Sodium"
 msgstr "Natrium"
 
-#: gcu/elements.xml.in.h:93
+#: ../database/elements.xml.in.h:93
 msgid "Strontium"
 msgstr "Strontium"
 
-#: gcu/elements.xml.in.h:94
+#: ../database/elements.xml.in.h:94
 msgid "Sulfur"
 msgstr "Schwefel"
 
-#: gcu/elements.xml.in.h:95
+#: ../database/elements.xml.in.h:95
 msgid "Tantalum"
 msgstr "Tantal"
 
-#: gcu/elements.xml.in.h:96
+#: ../database/elements.xml.in.h:96
 msgid "Technetium"
 msgstr "Technetium"
 
-#: gcu/elements.xml.in.h:97
+#: ../database/elements.xml.in.h:97
 msgid "Tellurium"
 msgstr "Tellur"
 
-#: gcu/elements.xml.in.h:98
+#: ../database/elements.xml.in.h:98
 msgid "Terbium"
 msgstr "Terbium"
 
-#: gcu/elements.xml.in.h:99
+#: ../database/elements.xml.in.h:99
 msgid "Thallium"
 msgstr "Thallium"
 
-#: gcu/elements.xml.in.h:100
+#: ../database/elements.xml.in.h:100
 msgid "Thorium"
 msgstr "Thorium"
 
-#: gcu/elements.xml.in.h:101
+#: ../database/elements.xml.in.h:101
 msgid "Thulium"
 msgstr "Thulium"
 
-#: gcu/elements.xml.in.h:102
+#: ../database/elements.xml.in.h:102
 msgid "Tin"
 msgstr "Zinn"
 
-#: gcu/elements.xml.in.h:103
+#: ../database/elements.xml.in.h:103
 msgid "Titanium"
 msgstr "Titan"
 
-#: gcu/elements.xml.in.h:104
+#: ../database/elements.xml.in.h:104
 msgid "Tungsten"
 msgstr "Wolfram"
 
-#: gcu/elements.xml.in.h:105
+#: ../database/elements.xml.in.h:105
 msgid "Ununbium"
 msgstr "Ununbium"
 
-#: gcu/elements.xml.in.h:106
+#: ../database/elements.xml.in.h:106
+msgid "Ununhexium"
+msgstr "Ununhexium"
+
+#: ../database/elements.xml.in.h:107
+msgid "Ununpentium"
+msgstr "Ununpentium"
+
+#: ../database/elements.xml.in.h:108
 msgid "Ununquadium"
 msgstr "Ununquadium"
 
-#: gcu/elements.xml.in.h:107
+#: ../database/elements.xml.in.h:109
+msgid "Ununtrium"
+msgstr "Ununtrium"
+
+#: ../database/elements.xml.in.h:110
 msgid "Uranium"
 msgstr "Uran"
 
-#: gcu/elements.xml.in.h:108
+#: ../database/elements.xml.in.h:111
 msgid "Vanadium"
 msgstr "Vanadium"
 
-#: gcu/elements.xml.in.h:109
+#: ../database/elements.xml.in.h:112
 msgid "Xenon"
 msgstr "Xenon"
 
-#: gcu/elements.xml.in.h:110
+#: ../database/elements.xml.in.h:113
 msgid "Ytterbium"
 msgstr "Ytterbium"
 
-#: gcu/elements.xml.in.h:111
+#: ../database/elements.xml.in.h:114
 msgid "Yttrium"
 msgstr "Yttrium"
 
-#: gcu/elements.xml.in.h:112
+#: ../database/elements.xml.in.h:115
 msgid "Zinc"
 msgstr "Zink"
 
-#: gcu/elements.xml.in.h:113
+#: ../database/elements.xml.in.h:116
 msgid "Zirconium"
 msgstr "Zirconium"
 
-#: gcu/gchem3d.server.in.in.h:1
-msgid "Gnome Chemistry 3D Viewer component"
-msgstr "Gnome Chemistry 3D Betrachtermodul"
+#: ../database/isotopes.xml.in.h:1
+msgid "deuterium"
+msgstr "Deuterium"
 
-#: gcu/gchem3d.server.in.in.h:2
-msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
+#: ../database/isotopes.xml.in.h:2
+msgid "protium"
+msgstr "Protium"
+
+#: ../database/isotopes.xml.in.h:3
+msgid "tritium"
+msgstr "Tritium"
+
+#: ../gcu/element.cc:91
+msgid "German"
+msgstr "Deutsch"
+
+#: ../gcu/element.cc:92
+msgid "French"
+msgstr "Französisch"
+
+#: ../gcu/element.cc:93
+msgid "Italian"
+msgstr "Italienisch"
+
+#: ../gcu/element.cc:94
+msgid "Polish"
+msgstr "Polnisch"
+
+#: ../gcu/element.cc:95
+msgid "Russian"
+msgstr "Russisch"
+
+#: ../gcu/element.cc:98
+msgid "Can't find and read elements.xml"
+msgstr "Kann elements.xml nicht finden/lesen."
+
+#: ../gcu/element.cc:103 ../gcu/element.cc:110
+msgid "Incorrect file format: elements.xml"
+msgstr "Fehlerhaftes Dateiformat: elements.xml"
+
+#: ../gcu/element.cc:143
+msgid "English"
+msgstr "Englisch"
+
+#: ../gcu/element.cc:425
+msgid "Can't find and read radii.xml"
+msgstr "Kann radii.xml nicht finden/lesen."
+
+#: ../gcu/element.cc:430 ../gcu/element.cc:436
+msgid "Incorrect file format: radii.xml"
+msgstr "Fehlerhaftes Dateiformat: radii.xml"
+
+#: ../gcu/element.cc:521
+msgid "Can't find and read elecprops.xml"
+msgstr "Kann elecprops.xml nicht finden/lesen."
+
+#: ../gcu/element.cc:526 ../gcu/element.cc:531
+msgid "Incorrect file format: elecprops.xml"
+msgstr "Fehlerhaftes Dateiformat: elecprops.xml"
+
+#: ../gcu/element.cc:679
+msgid "Can't find and read isotopes.xml"
+msgstr "Kann isotopes.xml nicht finden/lesen."
+
+#: ../gcu/element.cc:684 ../gcu/element.cc:691
+msgid "Incorrect file format: isotopes.xml"
+msgstr "Fehlerhaftes Dateiformat: isotopes.xml"
+
+#: ../gcu/gtkcomboperiodic.c:98 ../programs/gchemtable-app.cc:111
+#: ../programs/gchemtable-unstable.desktop.in.h:2
+msgid "Periodic table of the elements"
+msgstr "Periodensystem der Elemente"
+
+#: ../programs/gchem3d-viewer.c:44
+msgid "Open"
+msgstr "Öffnen"
+
+#. Note to translators: replace the following string with the appropriate credits for you lang
+#: ../programs/gchem3d-viewer.c:105 ../programs/gchemcalc.cc:107
+#: ../programs/gchemtable-app.cc:65
+msgid "translator_credits"
 msgstr ""
-"Gnome Chemistry 3D Betrachter komponente zur Darstellung molekularer "
-"Strukturen"
+"Christian Lohmaier <cloph@cup.uni-muenchen.de>\n"
+"Daniel Leidert <daniel.leidert@wgdd.de>"
 
-#: gcu/gchem3d.server.in.in.h:3
-msgid "Gnome Chemistry 3D Viewer embeddable factory"
-msgstr "Gnome Chemistry 3D Betrachter (einbettbare Komponente)"
+#: ../programs/gchem3d-viewer.c:109
+msgid "GChem3D is a molecular structures viewer for Gnome"
+msgstr "GChem3D ist ein Molekülbetrachter für GNOME"
 
-#: gcu/gchem3d.server.in.in.h:4
-msgid "Gnome Chemistry 3D Viewer object factory"
-msgstr "Gnome Chemistry 3D Betrachter Objektkomponente"
+#: ../programs/gchem3d-viewer.c:110
+msgid "(C) 2004-2005 by Jean Bréfort"
+msgstr "(C) 2004-2005 by Jean Bréfort"
 
-#: gcu/gchem3d.server.in.in.h:5
-msgid "Molecular Model"
-msgstr "Molekülmodell"
+#: ../programs/gchem3d-viewer.c:120 ../programs/gchemcalc.cc:286
+#: ../programs/gchemtable-app.cc:85
+msgid "_File"
+msgstr "_Datei"
 
-#: gchemutils.keys.in.h:1
-msgid "Documents/Sciences/Chemistry"
-msgstr "Dokumente/Wissenschaft/Chemie"
+#: ../programs/gchem3d-viewer.c:121
+msgid "_Open..."
+msgstr "_Öffnen"
 
-#: gchemutils.keys.in.h:2
-msgid "MDL MOL file"
-msgstr "MDL MOL Datei"
+#: ../programs/gchem3d-viewer.c:122
+msgid "Open a file"
+msgstr "Datei öffnen"
 
-#: gchemutils.keys.in.h:3
-msgid "PDB file"
-msgstr "PDB Datei"
+#: ../programs/gchem3d-viewer.c:123 ../programs/gchemcalc.cc:287
+#: ../programs/gchemtable-app.cc:86
+msgid "_Quit"
+msgstr "_Beenden"
 
-#: gchemutils.keys.in.h:4
-msgid "XYZ file"
-msgstr "XYZ Datei"
+#: ../programs/gchem3d-viewer.c:124
+msgid "Quit GChem3D"
+msgstr "GChem3D beenden"
 
-#~ msgid "Unununium"
-#~ msgstr "Unununium"
+#: ../programs/gchem3d-viewer.c:125
+msgid "_View"
+msgstr "_Ansicht"
+
+#: ../programs/gchem3d-viewer.c:126 ../programs/gchemcalc.cc:289
+#: ../programs/gchemtable-app.cc:88
+msgid "_Help"
+msgstr "_Hilfe"
+
+#: ../programs/gchem3d-viewer.c:127 ../programs/gchemcalc.cc:290
+#: ../programs/gchemtable-app.cc:89
+msgid "_About"
+msgstr "_Über"
+
+#: ../programs/gchem3d-viewer.c:128
+msgid "About GChem3D"
+msgstr "Über GChem3D"
+
+#: ../programs/gchem3d-viewer.c:132
+msgid "Balls and sticks"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:133
+msgid "Display a balls and sticks model"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:135
+msgid "Space filling"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:136
+msgid "Display a space filling model"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:161
+msgid "GChem3d Viewer version: "
+msgstr "Version des Betrachters GChem3d: "
+
+#: ../programs/gchem3d-viewer.c:172
+msgid "Prints GChem3d Viewer version"
+msgstr "Gibt die Version des Betrachters GChem3D aus"
+
+#: ../programs/gchem3d-viewer.c:173
+msgid "Background color: white, black or #rrggbb (default is black)"
+msgstr "Hintergrundfarbe: weiß, schwarz oder #rrggbb (Standard ist schwarz)"
+
+#: ../programs/gchem3d-viewer.c:174
+msgid ""
+"How molecules are displayed; possible values are BallnStick (the default) "
+"and SpaceFill"
+msgstr ""
+"Wie Moleküle angezeigt werden; mögliche Werte sind BallnStick (Standard) und "
+"Spacefill"
+
+#: ../programs/gchem3d-viewer.c:198
+msgid " [file]"
+msgstr " [Datei]"
+
+#: ../programs/gchem3d-viewer.c:238
+msgid "Background color"
+msgstr "Hintergrundfarbe"
+
+#: ../programs/gchem3d-viewer.c:239
+msgid "Choose a new background color"
+msgstr "Eine neue Hintergrundfarbe wählen"
+
+#: ../programs/gchem3d-viewer.c:267
+msgid "Unknown display mode"
+msgstr "Unbekannter Anzeige-Modus"
+
+#: ../programs/gchemcalc.cc:111
+msgid "GChemCalc is a simple calculator for chemists"
+msgstr "GChemCalc ist ein einfacher Rechner für Chemiker"
+
+#: ../programs/gchemcalc.cc:112 ../programs/gchemtable-app.cc:70
+msgid "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2005 by Jean Bréfort"
+
+#: ../programs/gchemcalc.cc:288
+msgid "Quit GChemCalc"
+msgstr "GChemCalc beenden"
+
+#: ../programs/gchemcalc.cc:291
+msgid "About GChemCalc"
+msgstr "Über GChemCalc"
+
+#: ../programs/gchemcalc.cc:308
+msgid "Gnome Chemistry Utils version: "
+msgstr "Gnome Chemistry Utils Version: "
+
+#: ../programs/gchemcalc.cc:332
+msgid " [formula]"
+msgstr " [Formel]"
+
+#: ../programs/gchemcalc.cc:349
+msgid "Usage: gchemcalc-unstable [OPTION...] [formula]"
+msgstr "Verwendung: gchemcalc-unstable [OPTION...] [Formel]"
+
+#: ../programs/gchemcalc.cc:392
+msgid "Element"
+msgstr "Element"
+
+#: ../programs/gchemcalc.cc:399
+msgid "Mass %"
+msgstr "Masseprozent"
+
+#: ../programs/gchemcalc-unstable.desktop.in.h:1
+msgid "A simple calculator for chemistry"
+msgstr "Ein einfacher Rechner für Chemiker"
+
+#: ../programs/gchemtable-app.cc:69
+msgid "GChemTable is a chemical periodic table of the elements application"
+msgstr "GChemTable enthält ein Periodensystem der Elemente"
+
+#: ../programs/gchemtable-app.cc:87
+msgid "Quit GChemTable"
+msgstr "GChemTable beenden"
+
+#: ../programs/gchemtable-app.cc:90
+msgid "About GChemTable"
+msgstr "Über GChemTable"
+
+#. The <sup> </sup> markup at the end of the chain is there to ensure that
+#. things will be correcly aligned, add the same to the translated string
+#: ../programs/gchemtable-elt.cc:69
+msgid "Electronic configuration:<sup> </sup>"
+msgstr ""
+
+#: ../programs/gchemtable-elt.cc:80
+msgid "Lang"
+msgstr "Sprache"
+
+#: ../programs/gchemtable-elt.cc:87
+msgid "Name"
+msgstr "Name"
+
+#: ../programs/gchemtable-elt.cc:113 ../programs/gchemtable-elt.cc:155
+#: ../programs/gchemtable-elt.cc:190
+msgid "n.a."
+msgstr "n.v."
+
+#: ../programs/gchemtable-elt.cc:125 ../programs/gchemtable-elt.cc:165
+#, c-format
+msgid "%d:"
+msgstr "%d:"
+
+#: ../programs/gchemtable-elt.cc:135
+msgid "Show curve"
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:102 ../programs/gchemtable-curve.cc:106
+msgid "Pauling electronegativity"
+msgstr "Elektronegativität nach Pauling"
+
+#: ../programs/gchemtable-curve.cc:118
+msgid "Electron affinity (kJ/mol)"
+msgstr "Elektronenaffinität (kJ/mol)"
+
+#: ../programs/gchemtable-curve.cc:122
+msgid "Electron affinity"
+msgstr "Elektronenaffinität"
+
+#: ../programs/gchemtable-curve.cc:136
+msgid "1st. "
+msgstr "1. "
+
+#: ../programs/gchemtable-curve.cc:139
+msgid "2nd. "
+msgstr "2. "
+
+#: ../programs/gchemtable-curve.cc:142
+msgid "3rd. "
+msgstr "3. "
+
+#: ../programs/gchemtable-curve.cc:145
+#, c-format
+msgid "%dth. "
+msgstr "%d. "
+
+#: ../programs/gchemtable-curve.cc:148
+msgid "ionization energy (MJ/mol)"
+msgstr "Ionisationsenergie (MJ/mol)"
+
+#: ../programs/gchemtable-curve.cc:155
+msgid "ionization energy"
+msgstr "Ionisationsenergie"
+
+#: ../programs/gchemtable-unstable.desktop.in.h:1
+msgid "A Mendeleiev table of the chemical elements"
+msgstr "Mendelejew's Periodensystem der Elemente"
