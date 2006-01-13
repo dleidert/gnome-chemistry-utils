@@ -100,14 +100,14 @@ EltTable::EltTable()
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: elements.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: elements.xml"));
 	node = node->children;
 	Element* Elt;
 	while (node)
 	{
 		if (strcmp ((const char*) node->name, "text"))
 		{
-			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: elements.xml"));
+			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: elements.xml"));
 			buf = (char*) xmlGetProp (node, (xmlChar*) "symbol");
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = new Element (Z = atoi (num), buf);
@@ -427,13 +427,13 @@ void Element::LoadRadii ()
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: radii.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: radii.xml"));
 	node = node->children;
 	Element* Elt;
 	while (node) {
 		if (strcmp ((const char*) node->name, "text"))
 		{
-			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: radii.xml"));
+			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: radii.xml"));
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];
 			child = node->children;
@@ -523,12 +523,12 @@ void Element::LoadElectronicProps ()
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: elecprops.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: elecprops.xml"));
 	node = node->children;
 	Element* Elt;
 	while (node) {
 		if (strcmp ((const char*) node->name, "text")) {
-			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: elecprops.xml"));
+			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: elecprops.xml"));
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];
 			child = node->children;
@@ -681,14 +681,14 @@ void Element::LoadIsotopes ()
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Uncorrect file format: isotopes.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: isotopes.xml"));
 	node = node->children;
 	Element *Elt;
 	Isotope *Is;
 	int minA, maxA, niso;
 	while (node) {
 		if (strcmp ((const char*) node->name, "text")) {
-			if (strcmp ((const char*) node->name, "element")) g_error (_("Uncorrect file format: isotopes.xml"));
+			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: isotopes.xml"));
 			minA = maxA = niso = 0;
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];

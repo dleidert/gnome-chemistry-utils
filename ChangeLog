@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2006-01-13  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* glade/gchemcalc.glade: Fix a typo.
+	* gcu/element.cc: Ditto.
+	
+2006-01-13  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* configure.ac: Remove a duplicate entry.
 
 2006-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
