@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-01-13  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* configure.ac: Remove a duplicate entry.
+
 2006-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: enhance mozilla related test (now supports firefox).
 	* gcu/Makefile.am: add gtkcomboperiodic.[c,h].

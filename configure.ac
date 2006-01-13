@@ -60,7 +60,6 @@ gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
 libgoffice-1 >= $GNOME_OFFICE_REQUIRED_VERSION \
 chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
 shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
-chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION"
 
 if test "$update_databases" = "yes"; then
