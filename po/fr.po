@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-01 16:49+0100\n"
-"PO-Revision-Date: 2005-11-01 16:53+0200\n"
+"POT-Creation-Date: 2006-01-14 20:59+0100\n"
+"PO-Revision-Date: 2006-01-15 12:53+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Calculatrice chimique"
 msgid "Composition"
 msgstr "Composition"
 
-#: ../glade/gchemcalc.glade.h:3 ../programs/gchemcalc.cc:124
+#: ../glade/gchemcalc.glade.h:3 ../programs/gchemcalc.cc:127
 msgid "Formula:"
 msgstr "Formule :"
 
@@ -36,10 +36,10 @@ msgid "Molecular weight:"
 msgstr "Masse molaire :"
 
 #: ../glade/gchemcalc.glade.h:6
-msgid "Monoisitopic mass:"
-msgstr "Masse monoisotopique"
+msgid "Monoisotopic mass:"
+msgstr "Masse monoisotopique :"
 
-#: ../glade/gchemcalc.glade.h:7 ../programs/gchemcalc.cc:127
+#: ../glade/gchemcalc.glade.h:7 ../programs/gchemcalc.cc:130
 msgid "Raw formula:"
 msgstr "Formule brute :"
 
@@ -527,100 +527,208 @@ msgstr "protium"
 msgid "tritium"
 msgstr "tritium"
 
-#: ../gcu/element.cc:86
+#: ../gcu/element.cc:91
 msgid "German"
 msgstr "Allemand"
 
-#: ../gcu/element.cc:87
+#: ../gcu/element.cc:92
 msgid "French"
 msgstr "Français"
 
-#: ../gcu/element.cc:88
+#: ../gcu/element.cc:93
 msgid "Italian"
 msgstr "Italien"
 
-#: ../gcu/element.cc:89
+#: ../gcu/element.cc:94
 msgid "Polish"
 msgstr "Polonais"
 
-#: ../gcu/element.cc:92
+#: ../gcu/element.cc:95
+msgid "Russian"
+msgstr ""
+
+#: ../gcu/element.cc:98
 msgid "Can't find and read elements.xml"
 msgstr "Impossible de trouver et lire elements.xml"
 
-#: ../gcu/element.cc:97 ../gcu/element.cc:104
-msgid "Uncorrect file format: elements.xml"
+#: ../gcu/element.cc:103 ../gcu/element.cc:110
+msgid "Incorrect file format: elements.xml"
 msgstr "Format de fichier incorrect : elements.xml"
 
-#: ../gcu/element.cc:137
+#: ../gcu/element.cc:143
 msgid "English"
 msgstr "Anglais"
 
-#: ../gcu/element.cc:419
+#: ../gcu/element.cc:425
 msgid "Can't find and read radii.xml"
 msgstr "Impossible de trouver et lire radii.xml"
 
-#: ../gcu/element.cc:424 ../gcu/element.cc:430
-msgid "Uncorrect file format: radii.xml"
+#: ../gcu/element.cc:430 ../gcu/element.cc:436
+msgid "Incorrect file format: radii.xml"
 msgstr "Format de fichier incorrect : radii.xml"
 
-#: ../gcu/element.cc:514
+#: ../gcu/element.cc:521
 msgid "Can't find and read elecprops.xml"
 msgstr "Impossible de trouver et lire elecprops.xml"
 
-#: ../gcu/element.cc:519 ../gcu/element.cc:524
-msgid "Uncorrect file format: elecprops.xml"
+#: ../gcu/element.cc:526 ../gcu/element.cc:531
+msgid "Incorrect file format: elecprops.xml"
 msgstr "Format de fichier incorrect : elecprops.xml"
 
-#: ../gcu/element.cc:603
+#: ../gcu/element.cc:679
 msgid "Can't find and read isotopes.xml"
 msgstr "Impossible de trouver et lire isotopes.xml"
 
-#: ../gcu/element.cc:608 ../gcu/element.cc:615
-msgid "Uncorrect file format: isotopes.xml"
+#: ../gcu/element.cc:684 ../gcu/element.cc:691
+msgid "Incorrect file format: isotopes.xml"
 msgstr "Format de fichier incorrect : isotopes.xml"
 
+#: ../gcu/gtkcomboperiodic.c:98 ../programs/gchemtable-app.cc:111
+#: ../programs/gchemtable-unstable.desktop.in.h:2
+msgid "Periodic table of the elements"
+msgstr "Tableau périodique des éléments"
+
+#: ../programs/gchem3d-viewer.c:44
+msgid "Open"
+msgstr ""
+
 #. Note to translators: replace the following string with the appropriate credits for you lang
-#: ../programs/gchemcalc.cc:104 ../programs/gchemtable-app.cc:65
+#: ../programs/gchem3d-viewer.c:105 ../programs/gchemcalc.cc:107
+#: ../programs/gchemtable-app.cc:65
 msgid "translator_credits"
 msgstr "Jean Bréfort"
 
-#: ../programs/gchemcalc.cc:108
-msgid "GChemCalc is a simple calculator for chemists"
-msgstr "GChemCalc est une calculatrice simple pour chimiste"
+#: ../programs/gchem3d-viewer.c:109
+msgid "GChem3D is a molecular structures viewer for Gnome"
+msgstr ""
 
-#: ../programs/gchemcalc.cc:109 ../programs/gchemtable-app.cc:70
-msgid "(C) 2005 by Jean Bréfort"
-msgstr "(C) 2005 par Jean Bréfort"
+#: ../programs/gchem3d-viewer.c:110
+msgid "(C) 2004-2005 by Jean Bréfort"
+msgstr "(C) 2004-2006 par Jean Bréfort"
 
-#: ../programs/gchemcalc.cc:283 ../programs/gchemtable-app.cc:85
+#: ../programs/gchem3d-viewer.c:120 ../programs/gchemcalc.cc:286
+#: ../programs/gchemtable-app.cc:85
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../programs/gchemcalc.cc:284 ../programs/gchemtable-app.cc:86
+#: ../programs/gchem3d-viewer.c:121
+msgid "_Open..."
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:122
+msgid "Open a file"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:123 ../programs/gchemcalc.cc:287
+#: ../programs/gchemtable-app.cc:86
 msgid "_Quit"
 msgstr "_Quitter"
 
-#: ../programs/gchemcalc.cc:285
-msgid "Quit GChemCalc"
-msgstr "Quiiter GChemCalc"
+#: ../programs/gchem3d-viewer.c:124
+msgid "Quit GChem3D"
+msgstr "Quiiter GChem3D"
 
-#: ../programs/gchemcalc.cc:286 ../programs/gchemtable-app.cc:88
+#: ../programs/gchem3d-viewer.c:125
+msgid "_View"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:126 ../programs/gchemcalc.cc:289
+#: ../programs/gchemtable-app.cc:88
 msgid "_Help"
 msgstr "_Aide"
 
-#: ../programs/gchemcalc.cc:287 ../programs/gchemtable-app.cc:89
+#: ../programs/gchem3d-viewer.c:127 ../programs/gchemcalc.cc:290
+#: ../programs/gchemtable-app.cc:89
 msgid "_About"
 msgstr "À _propos..."
 
+#: ../programs/gchem3d-viewer.c:128
+msgid "About GChem3D"
+msgstr "À propos de GChem3D"
+
+#: ../programs/gchem3d-viewer.c:132
+msgid "Balls and sticks"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:133
+msgid "Display a balls and sticks model"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:135
+msgid "Space filling"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:136
+msgid "Display a space filling model"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:161
+msgid "GChem3d Viewer version: "
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:172
+msgid "Prints GChem3d Viewer version"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:173
+msgid "Background color: white, black or #rrggbb (default is black)"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:174
+msgid ""
+"How molecules are displayed; possible values are BallnStick (the default) "
+"and SpaceFill"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:198
+msgid " [file]"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:238
+msgid "Background color"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:239
+msgid "Choose a new background color"
+msgstr ""
+
+#: ../programs/gchem3d-viewer.c:267
+msgid "Unknown display mode"
+msgstr ""
+
+#: ../programs/gchemcalc.cc:111
+msgid "GChemCalc is a simple calculator for chemists"
+msgstr "GChemCalc est une calculatrice simple pour chimiste"
+
+#: ../programs/gchemcalc.cc:112 ../programs/gchemtable-app.cc:70
+msgid "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2005 par Jean Bréfort"
+
 #: ../programs/gchemcalc.cc:288
+msgid "Quit GChemCalc"
+msgstr "Quiiter GChemCalc"
+
+#: ../programs/gchemcalc.cc:291
 msgid "About GChemCalc"
 msgstr "À propos de GChemCalc"
 
-#: ../programs/gchemcalc.cc:351
+#: ../programs/gchemcalc.cc:308
+msgid "Gnome Chemistry Utils version: "
+msgstr ""
+
+#: ../programs/gchemcalc.cc:332
+msgid " [formula]"
+msgstr "[formule]"
+
+#: ../programs/gchemcalc.cc:349
+msgid "Usage: gchemcalc-unstable [OPTION...] [formula]"
+msgstr ""
+
+#: ../programs/gchemcalc.cc:392
 msgid "Element"
 msgstr "Élément"
 
-#: ../programs/gchemcalc.cc:358
+#: ../programs/gchemcalc.cc:399
 msgid "Mass %"
 msgstr "% Masse"
 
@@ -640,11 +748,6 @@ msgstr "Quitter GChemTable"
 msgid "About GChemTable"
 msgstr "À propos de GChemTable"
 
-#: ../programs/gchemtable-app.cc:111
-#: ../programs/gchemtable-unstable.desktop.in.h:2
-msgid "Periodic table of the elements"
-msgstr "Tableau périodique des éléments"
-
 #. The <sup> </sup> markup at the end of the chain is there to ensure that
 #. things will be correcly aligned, add the same to the translated string
 #: ../programs/gchemtable-elt.cc:69
@@ -659,13 +762,56 @@ msgstr "Langue"
 msgid "Name"
 msgstr "Nom"
 
-#: ../programs/gchemtable-elt.cc:113
+#: ../programs/gchemtable-elt.cc:113 ../programs/gchemtable-elt.cc:155
+#: ../programs/gchemtable-elt.cc:190
 msgid "n.a."
 msgstr "n.d."
 
-#: ../programs/gchemtable-curve.cc:96 ../programs/gchemtable-curve.cc:100
+#: ../programs/gchemtable-elt.cc:125 ../programs/gchemtable-elt.cc:165
+#, c-format
+msgid "%d:"
+msgstr ""
+
+#: ../programs/gchemtable-elt.cc:135
+msgid "Show curve"
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:102 ../programs/gchemtable-curve.cc:106
 msgid "Pauling electronegativity"
 msgstr "Électronégaivité de Pauling"
+
+#: ../programs/gchemtable-curve.cc:118
+msgid "Electron affinity (kJ/mol)"
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:122
+msgid "Electron affinity"
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:136
+msgid "1st. "
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:139
+msgid "2nd. "
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:142
+msgid "3rd. "
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:145
+#, c-format
+msgid "%dth. "
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:148
+msgid "ionization energy (MJ/mol)"
+msgstr ""
+
+#: ../programs/gchemtable-curve.cc:155
+msgid "ionization energy"
+msgstr ""
 
 #: ../programs/gchemtable-unstable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
