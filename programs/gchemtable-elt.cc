@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-elt.cc 
  *
- * Copyright (C) 2005
+ * Copyright (C) 2005-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -190,6 +190,56 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
 		w = glade_xml_get_widget (xml, "ae-btn");
 		gtk_widget_hide (w);
+	}
+	// Radii page
+	// First covalent radius
+	GcuAtomicRadius r;
+	r.Z = Z;
+	r.type = GCU_COVALENT;
+	r.charge = 0;
+	r.scale = NULL;
+	r.cn = -1;
+	r.spin = GCU_N_A_SPIN;
+	button = glade_xml_get_widget (xml, "covalent-btn");
+	if (elt->GetRadius (&r)) {
+		buf = gcu_dimensional_value_get_string (&r.value);
+		w = glade_xml_get_widget (xml, "covalent-radius");
+		gtk_label_set_text (GTK_LABEL (w), buf);
+		g_free (buf);
+		g_object_set_data (G_OBJECT (button), "app", App);
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "covalent");
+	} else {
+		w = glade_xml_get_widget (xml, "covalent-radius");
+		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
+		gtk_widget_hide (button);
+	}
+	r.type = GCU_VAN_DER_WAALS;
+	button = glade_xml_get_widget (xml, "vdw-btn");
+	if (elt->GetRadius (&r)) {
+		buf = gcu_dimensional_value_get_string (&r.value);
+		w = glade_xml_get_widget (xml, "vdw-radius");
+		gtk_label_set_text (GTK_LABEL (w), buf);
+		g_free (buf);
+		g_object_set_data (G_OBJECT (button), "app", App);
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "vdw");
+	} else {
+		w = glade_xml_get_widget (xml, "vdw-radius");
+		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
+		gtk_widget_hide (button);
+	}
+	r.type = GCU_METALLIC;
+	button = glade_xml_get_widget (xml, "metallic-btn");
+	if (elt->GetRadius (&r)) {
+		buf = gcu_dimensional_value_get_string (&r.value);
+		w = glade_xml_get_widget (xml, "metallic-radius");
+		gtk_label_set_text (GTK_LABEL (w), buf);
+		g_free (buf);
+		g_object_set_data (G_OBJECT (button), "app", App);
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "metallic");
+	} else {
+		w = glade_xml_get_widget (xml, "metallic-radius");
+		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
+		gtk_widget_hide (button);
 	}
 }
 

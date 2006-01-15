@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * chemistry.h 
  *
- * Copyright (C) 2003-2004
+ * Copyright (C) 2003-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -133,7 +133,7 @@ typedef struct
 	/** The radius type (unknown, ionic, metallic, covalent, or van der Waals).*/
 	enum gcu_radius_type type;
 	/** The radius value (the unit should always be pm). */
-	GcuValue value;
+	GcuDimensionalValue value;
 	/** The charge of the atom (or ion). */
 	char charge;
 	/** The scale name, e.g. "Pauling" or "Shannon". */

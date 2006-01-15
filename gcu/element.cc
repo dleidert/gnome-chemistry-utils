@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * element.cc 
  *
- * Copyright (C) 2002-2005
+ * Copyright (C) 2002-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -356,7 +356,8 @@ unsigned Element::GetMaxBonds(gint Z)
 bool Element::GetRadius(GcuAtomicRadius* radius)
 {
 	Element* Elt = Table[radius->Z];
-	if (!Elt) return false;
+	if (!Elt || !Elt->m_radii.size ())
+		return false;
 	for (int i = 0; Elt->m_radii[i]; i++)
 	{
 		if (radius->type != Elt->m_radii[i]->type) continue;
@@ -415,7 +416,7 @@ double Element::GetWeight (int Z, int &prec)
 void Element::LoadRadii ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *buf, *num, *dot, *end;
+	char *old_num_locale, *buf, *num;
 	unsigned char Z;
 	static bool loaded = false;
 	if (loaded)
@@ -430,6 +431,11 @@ void Element::LoadRadii ()
 	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: radii.xml"));
 	node = node->children;
 	Element* Elt;
+	set<string>::iterator it = units.find ("pm");
+	if (it == units.end ()) {
+		units.insert ("pm");
+		it = units.find ("pm");
+	}
 	while (node) {
 		if (strcmp ((const char*) node->name, "text"))
 		{
@@ -486,9 +492,8 @@ void Element::LoadRadii ()
 						xmlFree (buf);
 					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
 					if (buf) {
-						radius->value.value = strtod (buf, &end);
-						dot = strchr (buf, '.');
-						radius->value.prec = (dot)? end - dot - 1: 0;
+						ReadValue (buf, (GcuValue&) radius->value) ;
+						radius->value.unit = (*it).c_str ();
 						Elt->m_radii.push_back (radius);
 						xmlFree (buf);
 					} else

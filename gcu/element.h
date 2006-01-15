@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * element.h 
  *
- * Copyright (C) 2002-2005
+ * Copyright (C) 2002-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -121,6 +121,9 @@ public:
 	
 	Before calling this function, the following fields in the GcuElectronegativity structure must be filled:
 	- Z: the atomic number, mandatory
+	- type: the gcu_radius_type, mandatory
+	- charge: the charge of the atom, mandatory; must be 0 for non ionic radii
+	and non null for ionic radii.
 	- scale: the name of the scale (e.g. "Pauling") or NULL
 	
 	The programs searches an electronegativity value for the element in the scale if given. If one is found

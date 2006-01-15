@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.cc 
  *
- * Copyright (C) 2005
+ * Copyright (C) 2005-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -156,8 +156,70 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gtk_window_set_title (dialog, buf);
 		g_free (buf);
 		g_free (rk);
-	} else
+	} else if (!strcmp (name, "covalent")) {
+		Element *elt;
+		GcuAtomicRadius r;
+		r.type = GCU_COVALENT;
+		r.charge = 0;
+		r.scale = NULL;
+		r.cn = -1;
+		r.spin = GCU_N_A_SPIN;
+		for (i = 1; i <= MAX_ELT; i++) {
+			r.Z = i;
+			elt = Element::GetElement (i);
+			yvals[i - 1] = (elt && elt->GetRadius (&r))? r.value.value: go_nan;
+		}
+		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
+				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
+		data = go_data_scalar_str_new (_("Covalent radii"), FALSE);
+		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
+		gog_object_add_by_name (obj, "Label", label);
+		gtk_window_set_title (dialog, _("Covalent radii"));
+	} else if (!strcmp (name, "vdw")) {
+		Element *elt;
+		GcuAtomicRadius r;
+		r.type = GCU_VAN_DER_WAALS;
+		r.charge = 0;
+		r.scale = NULL;
+		r.cn = -1;
+		r.spin = GCU_N_A_SPIN;
+		for (i = 1; i <= MAX_ELT; i++) {
+			r.Z = i;
+			elt = Element::GetElement (i);
+			yvals[i - 1] = (elt && elt->GetRadius (&r))? r.value.value: go_nan;
+		}
+		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
+				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
+		data = go_data_scalar_str_new (_("Van der Waals radii"), FALSE);
+		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
+		gog_object_add_by_name (obj, "Label", label);
+		gtk_window_set_title (dialog, _("Van der Waals radii"));
+	} else if (!strcmp (name, "metallic")) {
+		Element *elt;
+		GcuAtomicRadius r;
+		r.type = GCU_METALLIC;
+		r.charge = 0;
+		r.scale = NULL;
+		r.cn = -1;
+		r.spin = GCU_N_A_SPIN;
+		for (i = 1; i <= MAX_ELT; i++) {
+			r.Z = i;
+			elt = Element::GetElement (i);
+			yvals[i - 1] = (elt && elt->GetRadius (&r))? r.value.value: go_nan;
+		}
+		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
+				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
+		data = go_data_scalar_str_new (_("Metallic radii"), FALSE);
+		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
+		gog_object_add_by_name (obj, "Label", label);
+		gtk_window_set_title (dialog, _("Metallic radii"));
+	} else {
 		gtk_widget_destroy (GTK_WIDGET (dialog));
+		return;
+	}
 	i = MAX_ELT - 1;
 	while (!go_finite (yvals[i]))
 		i--;

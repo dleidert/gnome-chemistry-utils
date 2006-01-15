@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2006-01-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/chemistry.h: change GcuValue to GcuDimensionalValue in
+	GcuAtomicRadius.
+	* gcu/element.cc: ditto.
+	* gcu/element.h: update Element::GetRadius documentation.
+	* glade/eltpage.glade: add support for radii.
+	* programs/gchemtable-curve.cc: ditto.
+	* programs/gchemtable-elt.cc: ditto.
+
 2006-01-13  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* glade/gchemcalc.glade: Fix a typo.
 	* gcu/element.cc: Ditto.
