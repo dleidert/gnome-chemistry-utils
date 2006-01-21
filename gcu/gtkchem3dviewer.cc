@@ -158,6 +158,7 @@ static bool on_reshape(GtkWidget* widget, GdkEventConfigure *event, GtkChem3DVie
 	    glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glTranslatef(0, 0, - viewer->priv->Radius);
+		gdk_gl_drawable_gl_end (gldrawable);
 	}
 	return true;
 }
@@ -183,7 +184,8 @@ static bool on_draw(GtkWidget *widget, GdkEventExpose *event, GtkChem3DViewer *v
 		}
 	/* Swap backbuffer to front */
 		gdk_gl_drawable_swap_buffers(gldrawable);
-    }
+ 		gdk_gl_drawable_gl_end (gldrawable);
+   }
 	return true;
 }
 
@@ -449,6 +451,97 @@ void gtk_chem3d_viewer_set_data (GtkChem3DViewer * viewer, const gchar *data, co
 	g_free(old_num_locale);
 }
 
+static void draw_list (GtkChem3DViewer *viewer)
+{
+	std::vector< OBNodeBase * >::iterator i;
+	OBAtom* atom = viewer->priv->Mol.BeginAtom(i);
+	guint Z;
+	gdouble R, w, x, y, z, x0, y0, z0, dist;
+	x0 = y0 = z0 = 0.0;
+	const gdouble* color;
+	while (atom)
+	{
+		Z = atom->GetAtomicNum();
+		x0 += atom->GetX();
+		y0 += atom->GetY();
+		z0 += atom->GetZ();
+		atom = viewer->priv->Mol.NextAtom(i);
+	}
+	x0 /= viewer->priv->Mol.NumAtoms();
+	y0 /= viewer->priv->Mol.NumAtoms();
+	z0 /= viewer->priv->Mol.NumAtoms();
+	atom = viewer->priv->Mol.BeginAtom(i);
+	GLUquadricObj *quadObj ;
+	dist = 0;
+	while (atom)
+	{
+		Z = atom->GetAtomicNum();
+		R = etab.GetVdwRad(Z);
+		if (viewer->priv->display3d == BALL_AND_STICK) R*= 0.2;
+		x = atom->GetX() - x0;
+		y = atom->GetY() - y0;
+		z = atom->GetZ() - z0;
+		color = gcu_element_get_default_color(Z);
+		if ((w = sqrt(x * x + y * y + z * z)) > dist - R)
+			dist = w + R;
+		glPushMatrix() ;
+		glTranslated(x, y, z) ;
+		glColor3d(color[0], color[1], color[2]) ;
+		quadObj = gluNewQuadric() ;
+		gluQuadricDrawStyle(quadObj, GL_FILL);
+		gluQuadricNormals(quadObj, GL_SMOOTH) ;
+		gluSphere(quadObj, R, 20, 10) ;
+		gluDeleteQuadric(quadObj) ;
+		glPopMatrix() ;
+		atom = viewer->priv->Mol.NextAtom(i);
+	}
+	viewer->priv->MaxDist = dist * 1.05;
+	std::vector< OBEdgeBase * >::iterator j;
+	OBBond* bond = viewer->priv->Mol.BeginBond(j);
+	double x1, y1, z1, arot, xrot, yrot;
+	if (viewer->priv->display3d == BALL_AND_STICK) while(bond)
+	{
+		atom = bond->GetBeginAtom();
+		x = atom->GetX() - x0;
+		y = atom->GetY() - y0;
+		z = atom->GetZ() - z0;
+		atom = bond->GetEndAtom();
+		x1 = atom->GetX() - x0 - x;
+		y1 = atom->GetY() - y0 - y;
+		z1 = atom->GetZ() - z0 - z;
+		dist = sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+		w = sqrt(x1 * x1 + y1 * y1);
+		if (w > 0)
+		{
+			xrot = - y1 / w ;
+			yrot = x1 / w ;
+			arot = atan2(w, z1) * 90 / 1.570796326794897 ;
+		}
+		else
+		{
+			xrot = 0;
+			if (z1 > 0) yrot = arot = 0.0;
+			else
+			{
+				yrot = 1.0;
+				arot = 180.0;
+			}
+		}
+		glPushMatrix();
+		glTranslated(x, y, z);
+		glRotated(arot, xrot, yrot, 0.0f);
+		glColor3f(0.75, 0.75, 0.75);
+		quadObj = gluNewQuadric();
+		gluQuadricDrawStyle(quadObj, GL_FILL);
+		gluQuadricNormals(quadObj, GL_SMOOTH);
+		gluCylinder(quadObj, 0.12, 0.12, dist, 20, 10);
+		gluDeleteQuadric(quadObj);
+		glPopMatrix();
+		bond = viewer->priv->Mol.NextBond(j);
+	}
+	glEndList();
+}
+
 void gtk_chem3d_viewer_update (GtkChem3DViewer *viewer)
 {
 	GdkGLContext *glcontext = gtk_widget_get_gl_context(viewer->priv->widget);
@@ -458,93 +551,7 @@ void gtk_chem3d_viewer_update (GtkChem3DViewer *viewer)
 		if (viewer->priv->glList) glDeleteLists(viewer->priv->glList,1);
 		viewer->priv->glList = glGenLists(1);
 		glNewList(viewer->priv->glList, GL_COMPILE);
-		std::vector< OBNodeBase * >::iterator i;
-		OBAtom* atom = viewer->priv->Mol.BeginAtom(i);
-		guint Z;
-		gdouble R, w, x, y, z, x0, y0, z0, dist;
-		x0 = y0 = z0 = 0.0;
-		const gdouble* color;
-		while (atom)
-		{
-			Z = atom->GetAtomicNum();
-			x0 += atom->GetX();
-			y0 += atom->GetY();
-			z0 += atom->GetZ();
-			atom = viewer->priv->Mol.NextAtom(i);
-		}
-		x0 /= viewer->priv->Mol.NumAtoms();
-		y0 /= viewer->priv->Mol.NumAtoms();
-		z0 /= viewer->priv->Mol.NumAtoms();
-		atom = viewer->priv->Mol.BeginAtom(i);
-		GLUquadricObj *quadObj ;
-		dist = 0;
-		while (atom)
-		{
-			Z = atom->GetAtomicNum();
-			R = etab.GetVdwRad(Z);
-			if (viewer->priv->display3d == BALL_AND_STICK) R*= 0.2;
-			x = atom->GetX() - x0;
-			y = atom->GetY() - y0;
-			z = atom->GetZ() - z0;
-			color = gcu_element_get_default_color(Z);
-			if ((w = sqrt(x * x + y * y + z * z)) > dist - R)
-				dist = w + R;
-			glPushMatrix() ;
-			glTranslated(x, y, z) ;
-			glColor3d(color[0], color[1], color[2]) ;
-			quadObj = gluNewQuadric() ;
-			gluQuadricDrawStyle(quadObj, GL_FILL);
-			gluQuadricNormals(quadObj, GL_SMOOTH) ;
-			gluSphere(quadObj, R, 20, 10) ;
-			gluDeleteQuadric(quadObj) ;
-			glPopMatrix() ;
-			atom = viewer->priv->Mol.NextAtom(i);
-		}
-		viewer->priv->MaxDist = dist * 1.05;
-		std::vector< OBEdgeBase * >::iterator j;
-		OBBond* bond = viewer->priv->Mol.BeginBond(j);
-		double x1, y1, z1, arot, xrot, yrot;
-		if (viewer->priv->display3d == BALL_AND_STICK) while(bond)
-		{
-			atom = bond->GetBeginAtom();
-			x = atom->GetX() - x0;
-			y = atom->GetY() - y0;
-			z = atom->GetZ() - z0;
-			atom = bond->GetEndAtom();
-			x1 = atom->GetX() - x0 - x;
-			y1 = atom->GetY() - y0 - y;
-			z1 = atom->GetZ() - z0 - z;
-			dist = sqrt(x1 * x1 + y1 * y1 + z1 * z1);
-			w = sqrt(x1 * x1 + y1 * y1);
-			if (w > 0)
-			{
-				xrot = - y1 / w ;
-				yrot = x1 / w ;
-				arot = atan2(w, z1) * 90 / 1.570796326794897 ;
-			}
-			else
-			{
-				xrot = 0;
-				if (z1 > 0) yrot = arot = 0.0;
-				else
-				{
-					yrot = 1.0;
-					arot = 180.0;
-				}
-			}
-			glPushMatrix();
-			glTranslated(x, y, z);
-			glRotated(arot, xrot, yrot, 0.0f);
-			glColor3f(0.75, 0.75, 0.75);
-			quadObj = gluNewQuadric();
-			gluQuadricDrawStyle(quadObj, GL_FILL);
-			gluQuadricNormals(quadObj, GL_SMOOTH);
-			gluCylinder(quadObj, 0.12, 0.12, dist, 20, 10);
-			gluDeleteQuadric(quadObj);
-			glPopMatrix();
-			bond = viewer->priv->Mol.NextBond(j);
-		}
-		glEndList();
+		draw_list (viewer);
 	}
 	on_reshape(viewer->priv->widget, NULL, viewer);
 }
@@ -619,4 +626,72 @@ static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
 			break;
 	}
 	gtk_chem3d_viewer_update(viewer);
+}
+
+void gtk_chem3d_viewer_print (GtkChem3DViewer * viewer, GnomePrintContext *pc, gdouble width, gdouble height)
+{
+	int Width = viewer->priv->widget->allocation.width;
+	int Height = viewer->priv->widget->allocation.height;
+	if (Width > width) {
+		Height = (int) (Height * width / Width);
+		Width = (int) width;
+	}
+	if (Height > height) {
+		Width = (int) (Width * height / Height);
+		Height = (int) height;
+	}
+	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
+		GdkGLConfigMode (GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
+	double matrix [6] = {Width, 0, 0, Height,
+						(width - Width) / 2, (height - Height )/ 2};
+	int w= (int) (Width * 300. / 72.), h = (int) (Height * 300. / 72.);
+	GdkPixmap *pixmap = gdk_pixmap_new (
+			(GdkDrawable*) (viewer->priv->widget->window),
+			w, h, -1);
+	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability( pixmap,
+							       glconfig,
+							       NULL );
+	GdkGLDrawable * drawable = gdk_pixmap_get_gl_drawable (pixmap);
+	GdkGLContext * context = gdk_gl_context_new(drawable,
+						     NULL,
+						     FALSE,
+						     GDK_GL_RGBA_TYPE);
+	if (gdk_gl_drawable_gl_begin (drawable, context)) {
+	    glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_COLOR_MATERIAL);
+		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spec);
+		glViewport (0, 0, w, h);
+	    glMatrixMode(GL_PROJECTION);
+	    glLoadIdentity();
+		glFrustum(- viewer->priv->width, viewer->priv->width, - viewer->priv->height, viewer->priv->height, viewer->priv->near , viewer->priv->far);
+	    glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(0, 0, - viewer->priv->Radius);
+		glClearColor (viewer->priv->Red, viewer->priv->Green, viewer->priv->Blue, viewer->priv->Alpha);
+		glClearDepth (1.0);
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glPushMatrix ();
+		glRotated (viewer->priv->psi, 0.0, 1.0, 0.0);
+		glRotated (viewer->priv->theta, 0.0, 0.0, 1.0);
+		glRotated (viewer->priv->phi, 0.0, 1.0, 0.0);
+		draw_list (viewer);
+		glPopMatrix ();
+		gdk_gl_drawable_gl_end (drawable);
+		GdkPixbuf* pixbuf = gdk_pixbuf_get_from_drawable    (NULL,
+			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
+		gnome_print_gsave(pc);
+		gnome_print_concat (pc, matrix);
+		gnome_print_rgbimage (pc, (const guchar*) gdk_pixbuf_get_pixels (pixbuf), w, h, gdk_pixbuf_get_rowstride (pixbuf));
+		gnome_print_grestore(pc);
+		g_object_unref (pixbuf);
+	}
+
+	gdk_gl_context_destroy (context);
+	gdk_gl_pixmap_destroy (gl_pixmap);
+	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
 }

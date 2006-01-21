@@ -29,6 +29,7 @@
 //#include <gtkgl/gtkglarea.h>
 #include <gtk/gtkbin.h>
 #include <libxml/tree.h>
+#include <libgnomeprint/gnome-print.h>
 
 G_BEGIN_DECLS
 
@@ -146,6 +147,16 @@ void	gtk_chem3d_viewer_set_uri	(GtkChem3DViewer * viewer, const gchar * uri);
 Changes the molecule displayed by the one described in the data. Nothing happens if data or mime-type is NULL.
 */
 void	gtk_chem3d_viewer_set_data	(GtkChem3DViewer * viewer, const gchar * data, const gchar* mime_type);
+
+/*!
+@param viewer: a pointer to GtkChem3DViewer widget.
+@param pc: a pointer to the GnomePrintContext.
+@param width: the width of the rectangle.
+@param height: the height of the rectangle.
+
+Prints the scene to a GnomePrintContext using a 300 dpi resolution.
+*/
+void gtk_chem3d_viewer_print(GtkChem3DViewer * viewer, GnomePrintContext *pc, gdouble width, gdouble height);
 
 G_END_DECLS
 

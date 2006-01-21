@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2006-01-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: requires libgnomeprintui.
+	* database/isotopes.xml.in: More radioisotopes.
+	* gcu-0.5.pc.in: requires libgnomeprintui.
+	* gcu.pc.in: ditto.
+	* gcu/gtkchem3dviewer.cc: add print support.
+	* gcu/gtkchem3dviewer.h: ditto.
+	* programs/gchem3d-viewer.c: ditto.
+
 2006-01-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/chemistry.h: change GcuValue to GcuDimensionalValue in
 	GcuAtomicRadius.

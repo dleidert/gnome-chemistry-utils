@@ -32,6 +32,10 @@
 #include <string.h>
 #include <goffice/gtk/go-action-combo-color.h>
 #include <libgnomevfs/gnome-vfs.h>
+#include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-print-job.h>
+#include <libgnomeprintui/gnome-print-dialog.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 
 /*!\file
 A simple sample of the use of the GtkChem3DViewer widget.
@@ -64,6 +68,48 @@ static void on_file_open (GtkWidget *widget, void *data)
 		break;
 	}
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void on_file_print (GtkWidget *widget, void *data)
+{
+	GnomePrintConfig* config = gnome_print_config_default ();
+	GnomePrintContext *pc;
+	GnomePrintJob *gpj = gnome_print_job_new (config);
+	int do_preview = 0, copies = 1, collate = 0;
+	GnomePrintDialog *gpd;
+	GtkChem3DViewer *viewer = GTK_CHEM3D_VIEWER (g_object_get_data (G_OBJECT (data), "viewer"));
+	gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new (gpj, (const guchar*) "Print test", GNOME_PRINT_DIALOG_COPIES));
+	gnome_print_dialog_set_copies (gpd, copies, collate);
+	switch (gtk_dialog_run (GTK_DIALOG (gpd)))
+	{
+	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+		do_preview = 1;
+		break;
+	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
+		gtk_widget_destroy (GTK_WIDGET (gpd));
+		g_object_unref (gpj);
+		gnome_print_config_unref (config);
+		return;
+	}
+	gtk_widget_destroy (GTK_WIDGET (gpd));
+	pc = gnome_print_job_get_context (gpj);
+	gnome_print_beginpage (pc, (const guchar*)"");
+	gdouble width, height;
+	gnome_print_config_get_double (config, GNOME_PRINT_KEY_PAPER_WIDTH, &width);
+	gnome_print_config_get_double (config, GNOME_PRINT_KEY_PAPER_HEIGHT, &height);
+	gtk_chem3d_viewer_print (viewer, pc, width, height);
+	gnome_print_showpage (pc);
+	g_object_unref (pc);
+	gnome_print_job_close (gpj);
+	if (do_preview)
+	{
+		GtkWidget *preview = gnome_print_job_preview_new (gpj, (const guchar*) _("Preview"));
+		gtk_widget_show (preview);
+	} else {
+		gnome_print_job_print (gpj);
+	}
+	g_object_unref (gpj);
+	gnome_print_config_unref (config);
 }
 
 static void on_quit (GtkWidget *widget, void *data)
@@ -120,6 +166,8 @@ static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
+	  { "Print", GTK_STOCK_OPEN, N_("_Print..."), "<control>P",
+		  N_("Print the current scene"), G_CALLBACK (on_file_print) },
  	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChem3D"), G_CALLBACK (on_quit) },
   { "ViewMenu", NULL, N_("_View") },
@@ -142,6 +190,7 @@ static const char *ui_description =
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"
 "      <menuitem action='Open'/>"
+"      <menuitem action='Print'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
