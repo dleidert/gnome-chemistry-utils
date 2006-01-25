@@ -423,35 +423,115 @@
 </element>
 
 <element Z="19">
+	<isotope A="37" weight="36.9733769(3)" spin="1.5" mub="0.2032">
+		<decay type="EC" value="1.226" unit="s"/>
+	</isotope>
+	<isotope A="38" weight="37.9690801(8)" spin="3" mub="1.37">
+		<decay type="EC" value="7.636" unit="m"/>
+	</isotope>
 	<isotope A="39" weight="38.9637074(12)" abundance="93.2581(44)"
 	spin="1.5" mub="0.3914658"/>
-	<isotope A="40" weight="39.9639992(12)" abundance="0.0117(1)"
-	spin="4" mub="-1.298099"/>
+	<isotope A="40" weight="39.9639987(3)" abundance="0.0117(1)"
+	spin="4" mub="-1.298099">
+		<decay type="b-,EC" value="1.277e9" unit="y"/>
+	</isotope>
 	<isotope A="41" weight="40.9618254(12)" abundance="6.7302(44)"
 	spin="1.5" mub="0.2148699"/>
+	<isotope A="42" weight="41.9624031" spin="2" mub="-1.1425">
+		<decay type="b-" value="12.36" unit="h"/>
+	</isotope>
+	<isotope A="43" weight="42.96072" spin="1.5" mub="0.163">
+		<decay type="b-" value="22.3" unit="h"/>
+	</isotope>
+	<isotope A="44" weight="43.96156" spin="2" mub="-0.856">
+		<decay type="b-" value="22.1" unit="m"/>
+	</isotope>
+	<isotope A="45" weight="44.96070" spin="1.5" mub="0.1734">
+		<decay type="b-" value="17.8" unit="m"/>
+	</isotope>
+	<isotope A="46" weight="15.96168" spin="2" mub="-1.05">
+		<decay type="b-" value="1.8" unit="m"/>
+	</isotope>
+	<isotope A="47" weight="46.96551" spin=".5" mub="1.93">
+		<decay type="b-" value="" unit="s"/>
+	</isotope>
+	<isotope A="48" weight="47.96551" spin="2">
+		<decay type="b-" value="6.8" unit="s"/>
+	</isotope>
+	<isotope A="49" weight="48.96745" spin="1.5">
+		<decay type="b-" value="1.26" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="20">
 	<isotope A="40" weight="39.9625906(13)" abundance="93.941(156)"
-	spin="0" mub=""/>
+	spin="0"/>
+	<isotope A="41" weight="40.9622783" spin="3.5" mub="-1.595">
+		<decay type="EC" value="102000" unit="y"/>
+	</isotope>
 	<isotope A="42" weight="41.9586176(13)" abundance="0.647(23)"
-	spin="0" mub=""/>
+	spin="0"/>
 	<isotope A="43" weight="42.9587662(13)" abundance="0.135(10)"
 	spin="3.5" mub="-1.31727"/>
 	<isotope A="44" weight="43.9554806(14)" abundance="2.086(110)"
-	spin="0" mub=""/>
+	spin="0"/>
+	<isotope A="45" weight="44.956186" spin="3.5" mub="-1.327">
+		<decay type="b-" value="162.7" unit="d"/>
+	</isotope>
 	<isotope A="46" weight="45.953689(4)" abundance="0.004(3)"
-	spin="0" mub="0"/>
+	spin="0"/>
+	<isotope A="47" weight="46.954546" spin="3.5" mub="-1.38">
+		<decay type="b-" value="4.536" unit="d"/>
+	</isotope>
 	<isotope A="48" weight="47.952533(4)" abundance="0.187(21)"
-	spin="0" mub="0"/>
+	spin="0"/>
+	<isotope A="49" weight="48.955673" spin="1.5">
+		<decay type="b-" value="8.72" unit="m"/>
+	</isotope>
+	<isotope A="50" weight="49.95752" spin="0">
+		<decay type="b-" value="14" unit="s"/>
+	</isotope>
+	<isotope A="51" weight="50.9615" spin="1.5">
+		<decay type="b-,b-+n" value="10" unit="s"/>
+	</isotope>
+	<isotope A="52" weight="51.9651(5)" spin="0">
+		<decay type="b-" value="4.6" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="21">
+	<isotope A="43" weight="42.961150" spin="3.5" mub="4.62">
+		<decay type="EC" value="3.98" unit="h"/>
+	</isotope>
+	<isotope A="44" weight="43.959404" spin="2" mub="2.56">
+		<decay type="EC" value="3.93" unit="h"/>
+	</isotope>
 	<isotope A="45" weight="44.9559100(14)" abundance="100"
 	spin="3.5" mub="4.756483"/>
+	<isotope A="46" weight="45.955170" spin="4" mub="3.03">
+		<decay type="b-" value="83.81" unit="d"/>
+	</isotope>
+	<isotope A="47" weight="16.952408" spin="3.5" mub="5.34">
+		<decay type="b-" value="3.349" unit="d"/>
+	</isotope>
+	<isotope A="48" weight="47.952235" spin="6">
+		<decay type="b-" value="43.7" unit="h"/>
+	</isotope>
+	<isotope A="49" weight="48.950024" spin="3.5">
+		<decay type="b-" value="57.3" unit="m"/>
+	</isotope>
+	<isotope A="50" weight="49.950024" spin="3.5">
+		<decay type="b-" value="1.71" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="22">
+	<isotope A="44" weight="43.959690" spin="0">
+		<decay type="EC" value="67" unit="y"/>
+	</isotope>
+	<isotope A="45" weight="44.958124" spin="3.5" mub="0.095">
+		<decay type="EC" value="3.078" unit="h"/>
+	</isotope>
 	<isotope A="46" weight="45.9526294(14)" abundance="8.25(3)"
 	spin="0"/>
 	<isotope A="47" weight="46.9517640(11)" abundance="7.44(2)"
@@ -462,65 +542,243 @@
 	spin="7.5" mub="-1.10417"/>
 	<isotope A="50" weight="49.9447921(12)" abundance="5.18(2)"
 	spin="0"/>
+	<isotope A="51" weight="50.946616" spin="0">
+		<decay type="b-" value="5.76" unit="m"/>
+	</isotope>
+	<isotope A="52" weight="51.94690" spin="1.5">
+		<decay type="b-" value="1.7" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="23">
+	<isotope A="47" weight="46.954907" spin="1.5">
+		<decay type="EC" value="32.6" unit="m"/>
+	</isotope>
+	<isotope A="48" weight="47.952254" spin="4" mub="2.01">
+		<decay type="EC" value="15.98" unit="d"/>
+	</isotope>
+	<isotope A="49" weight="48.948517" spin="3.5" mub="4.47">
+		<decay type="EC" value="337" unit="d"/>
+	</isotope>
 	<isotope A="50" weight="79.9471609(17)" abundance="0.250(4)"
 	spin="6" mub="3.34745"/>
 	<isotope A="51" weight="50.9439617(17)" abundance="99.750(4)"
 	spin="3.5" mub="5.1514"/>
+	<isotope A="52" weight="51.944780" spin="3">
+		<decay type="b-" value="3.76" unit="m"/>
+	</isotope>
+	<isotope A="53" weight="52.944342" spin="3.5">
+		<decay type="b-" value="1.61" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="24">
+	<isotope A="48" weight="47.9540359(79)" spin="0">
+		<decay type="EC" value="21.56" unit="h"/>
+	</isotope>
+	<isotope A="49" weight="48.951341" spin="2.5" mub="0.476">
+		<decay type="EC" value="42.3" unit="m"/>
+	</isotope>
 	<isotope A="50" weight="49.9460464(17)" abundance="4.345(13)"
 	spin="0"/>
+	<isotope A="51" weight="50.944772" spin="3.5" mub="-0.934">
+		<decay type="EC" value="27.70" unit="d"/>
+	</isotope>
 	<isotope A="52" weight="51.9405098(17)" abundance="83.789(18)"
 	spin="0"/>
 	<isotope A="53" weight="52.9406513(17)" abundance="9.501(17)"
 	spin="1.5" mub="-0.47454"/>
 	<isotope A="54" weight="53.9388825(17)" abundance="2.365(7)"
 	spin="0"/>
+	<isotope A="55" weight="54.9408442(16)" spin="1.5">
+		<decay type="b-" value="3.497" unit="m"/>
+	</isotope>
+	<isotope A="56" weight="55.94065" spin="0">
+		<decay type="b-" value="5.9" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="25">
+	<isotope A="51" weight="50.9482155(14)" spin="2.5" mub="3.5683(13)">
+		<decay type="EC" value="46.2" unit="m"/>
+	</isotope>
+	<isotope A="52" weight="51.945570" spin="6" mub="3.063">
+		<decay type="EC" value="5.591" unit="d"/>
+	</isotope>
+	<isotope A="53" weight="52.941294" spin="3.5" mub="5.024">
+		<decay type="EC" value="3.7e6" unit="y"/>
+	</isotope>
+	<isotope A="54" weight="53.940363" spin="3" mub="3.282">
+		<decay type="EC,b-" value="312.2" unit="d"/>
+	</isotope>
 	<isotope A="55" weight="54.9380471(16)" abundance="100"
-	spin="2.5" mub="3.4532"/>
+	spin="2.5" mub="3.4532(13)"/>
+	<isotope A="56" weight="55.938909" spin="3" mub="3.2266">
+		<decay type="b-" value="2.579" unit="h"/>
+	</isotope>
+	<isotope A="57" weight="56.938287" spin="2.5">
+		<decay type="b-" value="1.45" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="26">
+	<isotope A="52" weight="51.94812" spin="0">
+		<decay type="EC" value="8.28" unit="h"/>
+	</isotope>
+	<isotope A="53" weight="52.945312" spin="3.5">
+		<decay type="EC" value="8.51" unit="m"/>
+	</isotope>
 	<isotope A="54" weight="53.9396127(15)" abundance="5.845(35)"
 	spin="0"/>
+	<isotope A="55" weight="54.938298" spin="1.5">
+		<decay type="EC" value="2.73" unit="y"/>
+	</isotope>
 	<isotope A="56" weight="55.9349393(16)" abundance="91.754(36)"
 	spin="0"/>
 	<isotope A="57" weight="56.9353958(16)" abundance="2.119(10)"
 	spin="0.5" mub="0.09062294"/>
 	<isotope A="58" weight="57.9332773(16)" abundance="0.282(4)"
 	spin="0"/>
+	<isotope A="59" weight="58.934880" spin="1.5" mub="0.29">
+		<decay type="b-" value="44.51" unit="d"/>
+	</isotope>
+	<isotope A="60" weight="59.934077" spin="0">
+		<decay type="b-" value="1.5e6" unit="y"/>
+	</isotope>
+	<isotope A="61" weight="60.93675">
+		<decay type="b-" value="6.0" unit="m"/>
+	</isotope>
+	<isotope A="62" weight="61.93677" spin="0">
+		<decay type="b-" value="68" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="27">
+	<isotope A="55" weight="54.942003" spin="3.5" mub="4.822">
+		<decay type="EC" value="17.53" unit="h"/>
+	</isotope>
+	<isotope A="56" weight="55.939844" spin="4" mub="3.85">
+		<decay type="EC" value="77.3" unit="d"/>
+	</isotope>
+	<isotope A="57" weight="56.936296" spin="3.5" mub="4.72">
+		<decay type="EC" value="271.8" unit="d"/>
+	</isotope>
+	<isotope A="58" weight="57.935757" spin="2" mub="4.04">
+		<decay type="EC" value="70.88" unit="d"/>
+	</isotope>
 	<isotope A="59" weight="58.9331976(16)" abundance="100"
 	spin="3.5" mub="4.627"/>
+	<isotope A="60" weight="59.933822" spin="5" mub="3.799">
+		<decay type="b-" value="5.271" unit="y"/>
+	</isotope>
+	<isotope A="61" weight="60.932479" spin="3.5">
+		<decay type="b-" value="1.650" unit="h"/>
+	</isotope>
+	<isotope A="62" weight="61.93405" spin="2">
+		<decay type="b-" value="13.9" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="28">
+	<isotope A="56" weight="55.94214" spin="0">
+		<decay type="EC" value="6.08" unit="d"/>
+	</isotope>
+	<isotope A="57" weight="56.939800" spin="1.5" mub="0.88">
+		<decay type="EC" value="35.6" unit="h"/>
+	</isotope>
 	<isotope A="58" weight="57.9353462(16)" abundance="68.0769(89)"
 	spin="0"/>
+	<isotope A="59" weight="58.934351" spin="1.5">
+		<decay type="EC" value="76000" unit="y"/>
+	</isotope>
 	<isotope A="60" weight="59.9307884(16)" abundance="26.2231(77)"
 	spin="0"/>
 	<isotope A="61" weight="60.9310589(16)" abundance="1.1399(6)"
 	spin="1.5" mub="-0.75002"/>
 	<isotope A="62" weight="61.9283461(16)" abundance="3.6345(17)"
 	spin="0"/>
+	<isotope A="63" weight="62.929673" spin=".5">
+		<decay type="b-" value="100" unit="y"/>
+	</isotope>
 	<isotope A="64" weight="63.9279689(17)" abundance="0.9256(9)"
 	spin="0"/>
+	<isotope A="65" weight="64.930088" spin="2.5" mub="0.69">
+		<decay type="b-" value="2.517" unit="h"/>
+	</isotope>
+	<isotope A="66" weight="65.92912" spin="0">
+		<decay type="b-" value="54.6" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="29">
+	<isotope A="59" weight="58.939504" spin="1.5">
+		<decay type="EC" value="1.36" unit="m"/>
+	</isotope>
+	<isotope A="60" weight="59.937368" spin="2" mub="1.219">
+		<decay type="EC" value="23.7" unit="m"/>
+	</isotope>
+	<isotope A="61" weight="60.933462" spin="1.5" mub="2.14">
+		<decay type="EC" value="3.35" unit="h"/>
+	</isotope>
+	<isotope A="62" weight="61.932587" spin="1" mub="-0.380">
+		<decay type="EC" value="9.74" unit="m"/>
+	</isotope>
 	<isotope A="63" weight="62.9295989(17)" abundance="69.17(3)"
 	spin="1.5" mub="2.2233"/>
+	<isotope A="64" weight="63.929768" spin="1" mub="-0.217">
+		<decay type="EC,b-" value="12.701" unit="h"/>
+	</isotope>
 	<isotope A="65" weight="64.9277929(20)" abundance="30.83(3)"
 	spin="1.5" mub="2.8917"/>
+	<isotope A="66" weight="65.928873" spin="1" mub="-0.282">
+		<decay type="b-" value="5.09" unit="m"/>
+	</isotope>
+	<isotope A="67" weight="66.92775" spin="1.5">
+		<decay type="b-" value="2.580" unit="d"/>
+	</isotope>
+	<isotope A="68" weight="67.92964" spin="1">
+		<decay type="b-" value="31" unit="s"/>
+	</isotope>
+	<isotope A="69" weight="68.92943" spin="1.5">
+		<decay type="b-" value="2.8" unit="m"/>
+	</isotope>
+</element>
+
+<element Z="30">
+	<isotope A="60" weight="59.94183" spin="0">
+		<decay type="EC" value="2.40" unit="m"/>
+	</isotope>
+	<isotope A="61" weight="60.93951" spin="1.5">
+		<decay type="EC" value="1.485" unit="m"/>
+	</isotope>
+	<isotope A="62" weight="61.93433" spin="0">
+		<decay type="EC" value="9.22" unit="h"/>
+	</isotope>
+	<isotope A="63" weight="62.933215" spin="1.5">
+		<decay type="EC" value="38.5" unit="m"/>
+	</isotope>
+	<isotope A="64" weight="63.9291448(19)" abundance="48.63(60)"
+	spin="0"/>
+	<isotope A="65" weight="64.929245" spin="2.5">
+		<decay type="EC" value="243.8" unit="d"/>
+	</isotope>
+	<isotope A="66" weight="65.9260347(17)" abundance="27.90(27)"
+	spin="0"/>
+	<isotope A="67" weight="66.9271291(18)" abundance="4.10(13)"
+	spin="2.5" mub="0.87479"/>
+	<isotope A="68" weight="67.9248459(18)" abundance="18.75(51)"
+	spin="0"/>
+	<isotope A="69" weight="68.926553" spin=".5">
+		<decay type="b-" value="56" unit="m"/>
+	</isotope>
+	<isotope A="70" weight="69.825325(4)" abundance="0.62(3)"
+	spin="0"/>
+	<isotope A="71" weight="70.92773" spin=".5">
+		<decay type="b-" value="2.4" unit="m"/>
+	</isotope>
+	<isotope A="72" weight="71.92686" spin="0">
+		<decay type="b-" value="46.5" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="31">
@@ -577,7 +835,7 @@
 		<decay type="EC" value="270.8" unit="d"/>
 	</isotope>
 	<isotope A="69" weight="68.927973" spin="2.5" mub="0.735">
-		<decay type="EC" value=1.63"" unit="d"/>
+		<decay type="EC" value="1.63" unit="d"/>
 	</isotope>
 	<isotope A="70" weight="69.9242497(16)" abundance="20.84(87)"
 	spin="0"/>
@@ -792,7 +1050,7 @@
 	<isotope A="87" weight="86.909187(3)" abundance="27.83(2)"
 	spin="1.5" mub="2.75124">
 		<decay type="b-" value="4.75e10" unit="y"/>
-	<isotope/>
+	</isotope>
 </element>
 
 <element Z="38">
@@ -1072,17 +1330,50 @@
 </element>
 
 <element Z="47">
+	<isotope A="103" weight="102.90897" spin="305" mub="4.47">
+		<decay type="EC" value="1.10" unit="h"/>
+	</isotope>
+	<isotope A="104" weight="103.90863" spin="5" mub="3.92">
+		<decay type="EC" value="69" unit="m"/>
+	</isotope>
+	<isotope A="105" weight="104.90653" spin=".5" mub="0.1014">
+		<decay type="EC" value="41.3" unit="d"/>
+	</isotope>
+	<isotope A="106" weight="105.90667" spin="6" mub="3.71">
+		<decay type="EC,b-" value="8.4" unit="d"/>
+	</isotope>
 	<isotope A="107" weight="106.905092(6)" abundance="51.839(7)"
 	spin="0.5" mub="-0.113570"/>
+	<isotope A="108" weight="107.905954" spin="1" mub="2.6884">
+		<decay type="EC,b-" value="2.39" unit="m"/>
+	</isotope>
 	<isotope A="109" weight="108.904756(4)" abundance="48.161(7)"
 	spin="0.5" mub="-0.1306905"/>
+	<isotope A="110" weight="109.906111" spin="1" mub="2.7271">
+		<decay type="EC;b-" value="24.6" unit="s"/>
+	</isotope>
+	<isotope A="111" weight="110.905295" spin=".5" mub="-0.146">
+		<decay type="b-" value="7.47" unit="d"/>
+	</isotope>
+	<isotope A="112" weight="111.90701" spin="2" mub="0.0547">
+		<decay type="b-" value="3.13" unit="h"/>
+	</isotope>
+	<isotope A="113" weight="112.90657" spin=".5">
+		<decay type="b-" value="5.3" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="48">
 	<isotope A="106" weight="105.906461(7)" abundance="1.25(6)"
 	spin="0"/>
+	<isotope A="107" weight="106.90661" spin="2.5" mub="-0.615055">
+		<decay type="EC" value="6.52" unit="h"/>
+	</isotope>
 	<isotope A="108" weight="107.904176(6)" abundance="0.89(3)"
 	spin="0"/>
+	<isotope A="109" weight="108.90495" spin="2.5" mub="-0.827846">
+		<decay type="EC" value="462" unit="d"/>
+	</isotope>
 	<isotope A="110" weight="109.903005(4)" abundance="12.49(18)"
 	spin="0"/>
 	<isotope A="111" weight="110.904182(3)" abundance="12.80(12)"
@@ -1093,20 +1384,52 @@
 	spin="0.5" mub="-0.6223005"/>
 	<isotope A="114" weight="113.903357(3)" abundance="28.73(42)"
 	spin="0"/>
+	<isotope A="115" weight="114.905431" spin=".5" mub="-1.087">
+		<decay type="b-" value="2.228" unit="h"/>
+	</isotope>
 	<isotope A="116" weight="115.904755(4)" abundance="7.49(18)"
 	spin="0"/>
+	<isotope A="117" weight="116.907228" spin=".5">
+		<decay type="b-" value="2.49" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="49">
+	<isotope A="109" weight="108.90715" spin="4.5" mub="5.54">
+		<decay type="EC" value="4.2" unit="h"/>
+	</isotope>
+	<isotope A="110" weight="109.90717" spin="2" mub="4.37">
+		<decay type="EC" value="1.15" unit="h"/>
+	</isotope>
+	<isotope A="111" weight="110.90511" spin="4.5" mub="5.50">
+		<decay type="EC" value="2.8049" unit="d"/>
+	</isotope>
+	<isotope A="112" weight="111.90553" spin="1" mub="2.82">
+		<decay type="EC,b-" value="14.4" unit="m"/>
+	</isotope>
 	<isotope A="113" weight="112.904061(4)" abundance="4.29(5)"
 	spin="4.5" mub="5.5289"/>
+	<isotope A="114" weight="113.9049168(34)" spin="1" mub="2.82">
+		<decay type="EC,b-" value="1.198" unit="m"/>
+	</isotope>
 	<isotope A="115" weight="114.903882(4)" abundance="(95.71)5"
-	spin="4.5" mub="5.5408"/>
+	spin="4.5" mub="5.5408">
+		<decay type="b-" value="4.4e14" unit="y"/>
+	</isotope>
 </element>
 
 <element Z="50">
+	<isotope A="110" weight="109.90785" spin="0">
+		<decay type="EC" value="4.1" unit="h"/>
+	</isotope>
+	<isotope A="111" weight="110.90774" spin="3.5" mub="0.61">
+		<decay type="EC" value="35" unit="m"/>
+	</isotope>
 	<isotope A="112" weight="111.904926(5)" abundance="0.97(1)"
 	spin="0"/>
+	<isotope A="113" weight="112.905174" spin=".5" mub="-0.879">
+		<decay type="EC" value="115.1" unit="d"/>
+	</isotope>
 	<isotope A="114" weight="113.902784(4)" abundance="0.66(1)"
 	spin="0"/>
 	<isotope A="115" weight="114.903348(3)" abundance="0.34(1)"
@@ -1121,22 +1444,85 @@
 	spin="0.5" mub="-1.04729"/>
 	<isotope A="120" weight="119.9021991(29)" abundance="32.58(9)"
 	spin="0"/>
+	<isotope A="121" weight="120.905723" spin="1.5" mub="0.698">
+		<decay type="b-" value="1.128" unit="d"/>
+	</isotope>
 	<isotope A="122" weight="121.90344404(30)" abundance="4.63(3)"
 	spin="0"/>
+	<isotope A="123" weight="122.905723" spin="5.5" mub="-1.370">
+		<decay type="b-" value="129.2" unit="-1.370"/>
+	</isotope>
 	<isotope A="124" weight="123.9052743(17)" abundance="5.79(5)"
 	spin="0"/>
+	<isotope A="125" weight="124.907785" spin="5.5" mub="-1.35">
+		<decay type="b-" value="9.63" unit="d"/>
+	</isotope>
+	<isotope A="126" weight="125.90765" spin="0">
+		<decay type="b-" value="10000" unit="y"/>
+	</isotope>
+	<isotope A="127" weight="126.91035" spin="5.5">
+		<decay type="b-" value="2.12" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="51">
+	<isotope A="117" weight="116.90484" spin="2.5">
+		<decay type="EC" value="2.80" unit="h"/>
+	</isotope>
+	<isotope A="118" weight="117.905533" spin="1">
+		<decay type="EC" value="3.6" unit="m"/>
+	</isotope>
+	<isotope A="119" weight="118.90395" spin="2.5" mub="3.45">
+		<decay type="EC" value="38.1" unit="h"/>
+	</isotope>
+	<isotope A="120" weight="119.90508" spin="1" mub="2.3">
+		<decay type="EC" value="15.89" unit="m"/>
+	</isotope>
 	<isotope A="121" weight="120.9038212(29)" abundance="57.21(5)"
 	spin="2.5" mub="3.3634"/>
+	<isotope A="122" weight="121.90518" spin="2" mub="-1.90">
+		<decay type="EC,b-" value="2.72" unit="d"/>
+	</isotope>
 	<isotope A="123" weight="122.9042160(24)" abundance="42.79(5)"
 	spin="3.5" mub="2.5498"/>
+	<isotope A="124" weight="123.905938" spin="3" mub="1.2">
+		<decay type="b-" value="60.30" unit="d"/>
+	</isotope>
+	<isotope A="125" weight="124.905247" spin="3.5" mub="2.63">
+		<decay type="b-" value="2.758" unit="y"/>
+	</isotope>
+	<isotope A="126" weight="125.90725" spin="8" mub="1.3">
+		<decay type="b-" value="12.4" unit="d"/>
+	</isotope>
+	<isotope A="127" weight="126.906914" spin="3.5" mub="2.7">
+		<decay type="b-" value="3.84" unit="d"/>
+	</isotope>
+	<isotope A="128" weight="127.90917" spin="8" mub="1.3">
+		<decay type="b-" value="9.1" unit="h"/>
+	</isotope>
+	<isotope A="129" weight="128.90915" spin="3.5">
+		<decay type="b-" value="4.40" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="52">
+	<isotope A="116" weight="115.9084" spin="0">
+		<decay type="EC" value="2.49" unit="h"/>
+	</isotope>
+	<isotope A="117" weight="116.90864" spin=".5">
+		<decay type="EC" value="1.03" unit="h"/>
+	</isotope>
+	<isotope A="118" weight="117.90583" spin="0">
+		<decay type="EC" value="6.00" unit="d"/>
+	</isotope>
+	<isotope A="119" weight="118.90641" spin=".5" mub="0.25">
+		<decay type="EC" value="16.0" unit="h"/>
+	</isotope>
 	<isotope A="120" weight="119.904048(21)" abundance="0.09(1)"
 	spin="0"/>
+	<isotope A="121" weight="120.90494" spin=".5">
+		<decay type="EC" value="16.8" unit="d"/>
+	</isotope>
 	<isotope A="122" weight="121.903050(3)" abundance="2.55(12)"
 	spin="0"/>
 	<isotope A="123" weight="122.9042710(22)" abundance="0.89(3)"
@@ -1147,22 +1533,85 @@
 	spin=".5" mub="-0.88828"/>
 	<isotope A="126" weight="128.9033095(25)" abundance="18.84(25)"
 	spin="0"/>
+	<isotope A="127" weight="126.905217" spin="1.5" mub="0.64">
+		<decay type="b-" value="9.4" unit="h"/>
+	</isotope>
 	<isotope A="128" weight="127.904463(8)" abundance="31.74(8)"
 	spin="0"/>
+	<isotope A="129" weight="128.906596" spin="1.5" mub="0.70">
+		<decay type="b-" value="33.6" unit="d"/>
+	</isotope>
 	<isotope A="130" weight="129.906229(5)" abundance="34.08(62)"
 	spin="0"/>
 </element>
 
 <element Z="53">
+	<isotope A="120" weight="119.91005" spin="2" mub="1.23">
+		<decay type="EC" value="1.35" unit="h"/>
+	</isotope>
+	<isotope A="121" weight="120.90737" spin="2.5" mub="2.3">
+		<decay type="EC" value="2.12" unit="h"/>
+	</isotope>
+	<isotope A="122" weight="121.90760" spin="1" mub="0.94">
+		<decay type="EC" value="3.6" unit="m"/>
+	</isotope>
+	<isotope A="123" weight="122.905605" spin="2.5" mub="2.82">
+		<decay type="EC" value="13.2" unit="h"/>
+	</isotope>
+	<isotope A="124" weight="123.906211" spin="2" mub="1.44">
+		<decay type="EC" value="4.18" unit="d"/>
+	</isotope>
+	<isotope A="125" weight="124.904624" spin="2.5" mub="2.82">
+		<decay type="EC" value="59.4" unit="d"/>
+	</isotope>
+	<isotope A="126" weight="125.905619" spin="2" mub="1.44">
+		<decay type="EC,b-" value="13.0" unit="d"/>
+	</isotope>
 	<isotope A="127" weight="126.904473(5)" abundance="100"
 	spin="2.5" mub="2.81328"/>
+	<isotope A="128" weight="127.904988" spin="1">
+		<decay type="EC,b-" value="25.0" unit="m"/>
+	</isotope>
+	<isotope A="129" weight="128.904988" spin="3.5" mub="2.621">
+		<decay type="b-" value="1.7e7" unit="y"/>
+	</isotope>
+	<isotope A="130" weight="129.906674" spin="5" mub="3.35">
+		<decay type="b-" value="12.36" unit="h"/>
+	</isotope>
+	<isotope A="131" weight="130.906125" spin="3.5" mub="2.742">
+		<decay type="b-" value="8.040" unit="d"/>
+	</isotope>
+	<isotope A="132" weight="131.90800" spin="4">
+		<decay type="b-" value="2.28" unit="h"/>
+	</isotope>
+	<isotope A="133" weight="132.90781" spin="3.5" mub="2.86">
+		<decay type="b-" value="20.8" unit="h"/>
+	</isotope>
+	<isotope A="134" weight="133.9099" spin="4">
+		<decay type="b-" value="52.6" unit="m"/>
+	</isotope>
+	<isotope A="135" weight="134.91005" spin="3.5">
+		<decay type="b-" value="6.57" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="54">
+	<isotope A="122" weight="121.9086" spin="0">
+		<decay type="EC" value="20.1" unit="h"/>
+	</isotope>
+	<isotope A="123" weight="122.90848" spin=".5">
+		<decay type="EC" value="2.00" unit="h"/>
+	</isotope>
 	<isotope A="124" weight="123.9058942(22)" abundance="0.09(1)"
 	spin="0"/>
+	<isotope A="125" weight="124.906398" spin=".5">
+		<decay type="EC" value="17.1" unit="h"/>
+	</isotope>
 	<isotope A="126" weight="125.904281(8)" abundance="0.09(1)"
 	spin="0"/>
+	<isotope A="127" weight="126.905179" spin=".5" mub="-0.504">
+		<decay type="EC" value="36.4" unit="d"/>
+	</isotope>
 	<isotope A="128" weight="127.9035312(17)" abundance="1.92(3)"
 	spin="0"/>
 	<isotope A="129" weight="128.9047801(21)" abundance="26.44(24)"
@@ -1173,22 +1622,64 @@
 	spin="1.5" mub="0.691861"/>
 	<isotope A="132" weight="131.904144(5)" abundance="26.89(6)"
 	spin="0"/>
+	<isotope A="133" weight="132.9059057(41)" spin="1.5" mub="0.813">
+		<decay type="b-" value="5.243" unit="d"/>
+	</isotope>
 	<isotope A="134" weight="133.905395(8)" abundance="10.44(10)"
 	spin="0"/>
+	<isotope A="135" weight="134.90721" spin="1.5" mub="0.903">
+		<decay type="b-" value="9.10" unit="h"/>
+	</isotope>
 	<isotope A="136" weight="135.907214(8)" abundance="8.87(16)"
 	spin="0"/>
 </element>
 
 <element Z="55">
+	<isotope A="129" weight="128.90606" spin=".5" mub="1.49">
+		<decay type="EC" value="1.336" unit="d"/>
+	</isotope>
+	<isotope A="130" weight="129.90671" spin="1" mub="1.46">
+		<decay type="EC,b-" value="29.21" unit="m"/>
+	</isotope>
+	<isotope A="131" weight="130.90546" spin="2.5" mub="3.54">
+		<decay type="EC" value="9.69" unit="d"/>
+	</isotope>
+	<isotope A="132" weight="131.906430" spin="2" mub="2.22">
+		<decay type="EC,b-" value="6.48" unit="d"/>
+	</isotope>
 	<isotope A="133" weight="132.905429(7)" abundance="100"
 	spin="3.5" mub="2.582024"/>
+	<isotope A="134" weight="133.906714" spin="4" mub="2.994">
+		<decay type="EC,b-" value="2.065" unit="y"/>
+	</isotope>
+	<isotope A="135" weight="134.905972" spin="3.5" mub="2.732">
+		<decay type="b-" value="2.3e6" unit="y"/>
+	</isotope>
+	<isotope A="136" weight="135.907307" spin="5" mub="3.71">
+		<decay type="b-" value="13.16" unit="d"/>
+	</isotope>
+	<isotope A="137" weight="136.907085" spin="3.5" mub="2.84">
+		<decay type="b-" value="30.2" unit="y"/>
+	</isotope>
 </element>
 
 <element Z="56">
+	<isotope A="128" weight="127.90831" spin="0">
+		<decay type="EC" value="2.43" unit="d"/>
+	</isotope>
+	<isotope A="129" weight="128.90968" spin=".5" mub="-0.40">
+		<decay type="EC" value="2.2" unit="h"/>
+	</isotope>
 	<isotope A="130" weight="129.906282(8)" abundance="0.106(1)"
 	spin="0"/>
+	<isotope A="131" weight="130.90693" spin=".5" mub="0.7081">
+		<decay type="EC" value="11.7" unit="d"/>
+	</isotope>
 	<isotope A="132" weight="131.905042(9)" abundance="0.101.1()"
 	spin="0"/>
+	<isotope A="133" weight="132.906003" spin=".5" mub="0.7717">
+		<decay type="EC" value="10.53" unit="y"/>
+	</isotope>
 	<isotope A="134" weight="133.904486(7)" abundance="2.417(18)"
 	spin="0"/>
 	<isotope A="135" weight="134.905665(7)" abundance="6.592(12)"
@@ -1199,32 +1690,122 @@
 	spin="1.5" mub="0.937365"/>
 	<isotope A="138" weight="137.905232(6)" abundance="71.698(42)"
 	spin="0"/>
+	<isotope A="139" weight="138.908836" spin="3.5" mub="-0.97">
+		<decay type="b-" value="1.396" unit="h"/>
+	</isotope>
+	<isotope A="140" weight="139.91060" spin="0">
+		<decay type="b-" value="12.75" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="57">
+	<isotope A="132" weight="131.91011" spin="2">
+		<decay type="EC" value="4.8" unit="h"/>
+	</isotope>
+	<isotope A="133" weight="132.9084" spin="2.5">
+		<decay type="EC" value="3.91" unit="h"/>
+	</isotope>
+	<isotope A="134" weight="133.90849" spin="1">
+		<decay type="EC" value="6.5" unit="m"/>
+	</isotope>
+	<isotope A="135" weight="134.90849" spin="2.5">
+		<decay type="EC" value="19.5" unit="h"/>
+	</isotope>
+	<isotope A="136" weight="135.9077" spin="1">
+		<decay type="EC" value="9.87" unit="m"/>
+	</isotope>
+	<isotope A="137" weight="136.90647" spin="3.5" mub="2.70">
+		<decay type="EC" value="60000" unit="y"/>
+	</isotope>
 	<isotope A="138" weight="137.907105(6)" abundance="0.090(1)"
 	spin="5" mub="3.7139"/>
 	<isotope A="139" weight="138.906347(5)" abundance="99.910(1)"
 	spin="3.5" mub="2.7832"/>
+	<isotope A="140" weight="139.909473" spin="3">
+		<decay type="b-" value="1.678" unit="d"/>
+	</isotope>
+	<isotope A="141" weight="140.910958" spin="3.5">
+		<decay type="b-" value="3.90" unit="h"/>
+	</isotope>
+	<isotope A="142" weight="141.91408" spin="2">
+		<decay type="b-" value="1.54" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="58">
+	<isotope A="134" weight="133.9090" spin="0">
+		<decay type="EC" value="3.16" unit="d"/>
+	</isotope>
+	<isotope A="135" weight="134.90915" spin=".5">
+		<decay type="EC" value="17.7" unit="h"/>
+	</isotope>
 	<isotope A="136" weight="135.907140(50)" abundance="0.185(2)"
 	spin="0"/>
+	<isotope A="137" weight="136.90788" spin="1.5">
+		<decay type="EC" value="9.0" unit="h"/>
+	</isotope>
 	<isotope A="138" weight="137.905985(12)" abundance="0.251(2)"
 	spin="0"/>
+	<isotope A="139" weight="138.90665" spin="3.5" mub="0.9">
+		<decay type="EC" value="137.6" unit="d"/>
+	</isotope>
 	<isotope A="140" weight="139.905433(4)" abundance="88.450(51)"
 	spin="0"/>
+	<isotope A="141" weight="140.908272" spin="3.5" mub="1.1">
+		<decay type="b-" value="32.5" unit="d"/>
+	</isotope>
 	<isotope A="142" weight="141.909241(4)" abundance="11.114(51)"
 	spin="0"/>
+	<isotope A="143" weight="142.912382" spin="1.5">
+		<decay type="b-" value="1.38" unit="d"/>
+	</isotope>
+	<isotope A="144" weight="143.913643" spin="0">
+		<decay type="b-" value="284.6" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="59">
+	<isotope A="137" weight="136.91068" spin="2.5">
+		<decay type="EC" value="1.28" unit="h"/>
+	</isotope>
+	<isotope A="138" weight="137.91075" spin="1">
+		<decay type="EC" value="1.45" unit="m"/>
+	</isotope>
+	<isotope A="139" weight="138.90893" spin="2.5">
+		<decay type="EC" value="4.41" unit="h"/>
+	</isotope>
+	<isotope A="140" weight="139.90907" spin="1">
+		<decay type="EC" value="3.39" unit="m"/>
+	</isotope>
 	<isotope A="141" weight="140.907647(4)" abundance="100"
 	spin="2.5" mub="4.136"/>
+	<isotope A="142" weight="141.910041" spin="2" mub="0.234">
+		<decay type="EC,b-" value="19.12" unit="h"/>
+	</isotope>
+	<isotope A="143" weight="142.910813" spin="3.5" mub="2.7">
+		<decay type="b-" value="13.57" unit="d"/>
+	</isotope>
+	<isotope A="144" weight="143.913301" spin="0">
+		<decay type="b-" value="17.28" unit="m"/>
+	</isotope>
+	<isotope A="145" weight="144.9145" spin="3.5">
+		<decay type="b-" value="5.98" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="60">
+	<isotope A="138" weight="137.9119" spin="0">
+		<decay type="EC" value="5.1" unit="h"/>
+	</isotope>
+	<isotope A="139" weight="138.91192" spin="5.5">
+		<decay type="EC" value="5.5" unit="h"/>
+	</isotope>
+	<isotope A="140" weight="139.90931" spin="0">
+		<decay type="EC" value="3.37" unit="d"/>
+	</isotope>
+	<isotope A="141" weight="140.909605" spin="3.5" mub="1.01">
+		<decay type="EC" value="2.49" unit="h"/>
+	</isotope>
 	<isotope A="142" weight="141.907719(4)" abundance="27.2(5)"
 	spin="0"/>
 	<isotope A="143" weight="142.909810(4)" abundance="12.2(2)"
@@ -1235,18 +1816,57 @@
 	spin="3.5" mub="-0.656"/>
 	<isotope A="146" weight="145.913113(4)" abundance="17.2(3)"
 	spin="0"/>
+	<isotope A="147" weight="146.916096" spin="2.5" mub="0.58">
+		<decay type="b-" value="10.98" unit="d"/>
+	</isotope>
 	<isotope A="148" weight="147.916889(4)" abundance="5.7(1)"
 	spin="0"/>
+	<isotope A="149" weight="148.920145" spin="2.5" mub="0.35">
+		<decay type="b-" value="1.73" unit="h"/>
+	</isotope>
 	<isotope A="150" weight="149.920889(4)" abundance="5.6(2)"
 	spin="0"/>
 </element>
 
 <element Z="61">
+	<isotope A="143" weight="142.910928" spin="2.5" mub="3.8">
+		<decay type="EC" value="265" unit="d"/>
+	</isotope>
+	<isotope A="144" weight="143.912586" spin="5" mub="1.7">
+		<decay type="EC" value="360" unit="d"/>
+	</isotope>
+	<isotope A="145" weight="144.912743(4)" spin="2.5">
+		<decay type="EC,a" value="17.7" unit="y"/>
+	</isotope>
+	<isotope A="146" weight="145.914693" spin="3">
+		<decay type="EC,b-" value="5.53" unit="y"/>
+	</isotope>
+	<isotope A="147" weight="146.915134" spin="3.5" mub="2.6">
+		<decay type="b-" value="2.6234" unit="y"/>
+	</isotope>
+	<isotope A="148" weight="147.91747" spin="1" mub="2.0">
+		<decay type="b-" value="5.37" unit="d"/>
+	</isotope>
+	<isotope A="149" weight="148.918330" spin="3.5" mub="3.3">
+		<decay type="b-" value="2.212" unit="d"/>
+	</isotope>
+	<isotope A="150" weight="149.92098" spin="1">
+		<decay type="b-" value="2.68" unit="h"/>
+	</isotope>
+	<isotope A="151" weight="150.92120" spin="2.5" mub="1.8">
+		<decay type="b-" value="1.183" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="62">
 	<isotope A="144" weight="143.911998(4)" abundance="3.07(7)"
 	spin="0"/>
+	<isotope A="145" weight="144.913407" spin="3.5" mub="-1.1">
+		<decay type="EC" value="340" unit="d"/>
+	</isotope>
+	<isotope A="146" weight="145.913038" spin="0">
+		<decay type="a" value="1.03e8" unit="y"/>
+	</isotope>
 	<isotope A="147" weight="146.914894(4)" abundance="14.99(18)"
 	spin="3.5" mub="-0.8149"/>
 	<isotope A="148" weight="147.914819(4)" abundance="11.24(10)"
@@ -1255,22 +1875,85 @@
 	spin="3.5" mub="-0.6718"/>
 	<isotope A="150" weight="149.917273(4)" abundance="7.38(1)"
 	spin="0"/>
+	<isotope A="151" weight="150.919929" spin="2.5" mub="-0.363">
+		<decay type="b-" value="90" unit="y"/>
+	</isotope>
 	<isotope A="152" weight="151.919728(4)" abundance="26.75(16)"
 	spin="0"/>
+	<isotope A="153" weight="152.922094" spin="1.5" mub="-0.0216">
+		<decay type="b-" value="1.929" unit="d"/>
+	</isotope>
 	<isotope A="154" weight="153.922205(4)" abundance="22.75(29)"
 	spin="0"/>
+	<isotope A="155" weight="154.924636" spin="1.5">
+		<decay type="b-" value="22.2" unit="m"/>
+	</isotope>
+	<isotope A="156" weight="155.92553" spin="0">
+		<decay type="b-" value="9.4" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="63">
+	<isotope A="145" weight="144.916263" spin="2.5" mub="3.99">
+		<decay type="EC" value="5.93" unit="d"/>
+	</isotope>
+	<isotope A="146" weight="145.91720" spin="4" mub="1.43">
+		<decay type="EC" value="4.57" unit="d"/>
+	</isotope>
+	<isotope A="147" weight="146.916742" spin="2.5" mub="3.72">
+		<decay type="EC,a" value="24.4" unit="d"/>
+	</isotope>
+	<isotope A="148" weight="147.91815" spin="5" mub="2.34">
+		<decay type="EC,a" value="54.5" unit="d"/>
+	</isotope>
+	<isotope A="149" weight="148.91792" spin="2.5" mub="3.57">
+		<decay type="EC" value="93.1" unit="d"/>
+	</isotope>
+	<isotope A="150" weight="149.91970" spin="5" mub="2.71">
+		<decay type="EC" value="36" unit="y"/>
+	</isotope>
 	<isotope A="151" weight="150.919702(8)" abundance="47.81(3)"
 	spin="2.5" mub="3.4718"/>
+	<isotope A="152" weight="151.921741" spin="3" mub="-1.91">
+		<decay type="EC,b-" value="13.5" unit="y"/>
+	</isotope>
 	<isotope A="153" weight="152.921225(4)" abundance="52.19(3)"
 	spin="2.5" mub="1.5331"/>
+	<isotope A="154" weight="153.922976" spin="3" mub="2.000">
+		<decay type="EC,b-" value="8.59" unit="y"/>
+	</isotope>
+	<isotope A="155" weight="154.922890" spin="2.5" mub="1.6">
+		<decay type="b-" value="4.76" unit="y"/>
+	</isotope>
+	<isotope A="156" weight="155.92475" spin="3" mub="-2.01">
+		<decay type="b-" value="15.2" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="64">
+	<isotope A="146" weight="145.91831" spin="0">
+		<decay type="EC" value="48.3" unit="d"/>
+	</isotope>
+	<isotope A="147" weight="146.919090" spin="3.5" mub="1.0">
+		<decay type="EC" value="1.588" unit="d"/>
+	</isotope>
+	<isotope A="148" weight="147.91811" spin="0">
+		<decay type="a" value="75" unit="y"/>
+	</isotope>
+	<isotope A="149" weight="148.919339" spin="3.5" mub="0.9">
+		<decay type="EC,a" value="9.3" unit="d"/>
+	</isotope>
+	<isotope A="150" weight="149.91866" spin="0">
+		<decay type="a" value="1.8e6" unit="y"/>
+	</isotope>
+	<isotope A="151" weight="150.920345" spin="3.5" mub="0.8">
+		<decay type="EC,a" value="124" unit="d"/>
+	</isotope>
 	<isotope A="152" weight="151.919786(4)" abundance="0.20(1)"
 	spin="0"/>
+	<isotope A="153" weight="152.921747" spin="1.5" mub="0.4">
+		<decay type="EC" value="241.6" unit="d"/>
+	</isotope>
 	<isotope A="154" weight="153.920861(4)" abundance="2.18(3)"
 	spin="0"/>
 	<isotope A="155" weight="154.922618(4)" abundance="14.80(12)"
@@ -1281,20 +1964,65 @@
 	spin="1.5" mub="-0.3399"/>
 	<isotope A="158" weight="157.924019(4)" abundance="24.84(7)"
 	spin="0"/>
+	<isotope A="159" weight="158.926385" spin="1.5" mub="-0.44">
+		<decay type="b-" value="18.6" unit="h"/>
+	</isotope>
 	<isotope A="160" weight="159.927046(4)" abundance="21.86(19)"
 	spin="0"/>
 </element>
 
 <element Z="65">
+	<isotope A="153" weight="152.923433" spin="2.5" mub="3.5">
+		<decay type="EC" value="2.34" unit="d"/>
+	</isotope>
+	<isotope A="154" weight="153.02469" spin="0">
+		<decay type="EC,b-" value="21.5" unit="h"/>
+	</isotope>
+	<isotope A="155" weight="154.92350" spin="1.5" mub="2.0">
+		<decay type="EC" value="5.3" unit="d"/>
+	</isotope>
+	<isotope A="156" weight="155.924744" spin="3" mub="1.4">
+		<decay type="EC,b-" value="5.3" unit="d"/>
+	</isotope>
+	<isotope A="157" weight="156.924021" spin="1.5" mub="2.0">
+		<decay type="EC" value="110" unit="y"/>
+	</isotope>
+	<isotope A="158" weight="157.925410" spin="3" mub="1.76">
+		<decay type="EC,b-" value="180" unit="y"/>
+	</isotope>
 	<isotope A="159" weight="158.925343(4)" abundance="100"
 	spin="1.5" mub="2.014"/>
+	<isotope A="160" weight="159.927164" spin="3" mub="1.79">
+		<decay type="b-" value="72.3" unit="d"/>
+	</isotope>
+	<isotope A="161" weight="160.927566" spin="1.5" mub="2.2">
+		<decay type="b-" value="6.91" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="66">
+	<isotope A="152" weight="151.92472" spin="0">
+		<decay type="EC,a" value="2.37" unit="h"/>
+	</isotope>
+	<isotope A="153" weight="152.925763" spin="3.5" mub="-0.78">
+		<decay type="EC,a" value="6.3" unit="h"/>
+	</isotope>
+	<isotope A="154" weight="153.92442" spin="0">
+		<decay type="a" value="3e6" unit="y"/>
+	</isotope>
+	<isotope A="155" weight="154.92575" spin="1.5" mub="-0.385">
+		<decay type="EC" value="9.9" unit="h"/>
+	</isotope>
 	<isotope A="156" weight="155.924277(8)" abundance="0.06(1)"
 	spin="0"/>
+	<isotope A="157" weight="156.92543" spin="1.5" mub="-0.301">
+		<decay type="EC" value="8.1" unit="h"/>
+	</isotope>
 	<isotope A="158" weight="157.924403(5)" abundance="0.10(1)"
 	spin="0"/>
+	<isotope A="159" weight="158.925736" spin="1.5" mub="-0.354">
+		<decay type="EC" value="144" unit="d"/>
+	</isotope>
 	<isotope A="160" weight="159.925193(4)" abundance="2.34(8)"
 	spin="0"/>
 	<isotope A="161" weight="160.926930(4)" abundance="18.91(24)"
@@ -1305,36 +2033,108 @@
 	spin="2.5" mub="0.6726"/>
 	<isotope A="164" weight="163.929171(4)" abundance="28.18(37)"
 	spin="0"/>
+	<isotope A="165" weight="164.931700" spin="3.5" mub="-0.52">
+		<decay type="b-" value="2.33" unit="h"/>
+	</isotope>
+	<isotope A="166" weight="165.932803" spin="0">
+		<decay type="b-" value="3.400" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="67">
+	<isotope A="161" weight="160.927852" spin="3.5" mub="4.25">
+		<decay type="EC" value="2.48" unit="h"/>
+	</isotope>
+	<isotope A="162" weight="161.929092" spin="1">
+		<decay type="EC" value="15" unit="m"/>
+	</isotope>
+	<isotope A="163" weight="162.928730" spin="3.5" mub="4.23">
+		<decay type="EC" value="4570" unit="y"/>
+	</isotope>
+	<isotope A="164" weight="163.930231" spin="1">
+		<decay type="EC,b-" value="29" unit="m"/>
+	</isotope>
 	<isotope A="165" weight="164.930319(4)" abundance="100"
 	spin="3.5" mub="4.173"/>
+	<isotope A="166" weight="165.932281" spin="0">
+		<decay type="b-" value="1.117" unit="d"/>
+	</isotope>
+	<isotope A="167" weight="166.933127" spin="3.5">
+		<decay type="b-" value="3.1" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="68">
+	<isotope A="160" weight="159.92908" spin="0">
+		<decay type="EC" value="1.19" unit="d"/>
+	</isotope>
+	<isotope A="161" weight="160.9300" spin="1.5" mub="-0.37">
+		<decay type="EC" value="3.21" unit="h"/>
+	</isotope>
 	<isotope A="162" weight="161.928775(4)" abundance="0.14(1)"
 	spin="0"/>
+	<isotope A="163" weight="162.93003" spin="2.5" mub="0.557">
+		<decay type="EC" value="1.25" unit="h"/>
+	</isotope>
 	<isotope A="164" weight="163.929198(4)" abundance="1.61(3)"
 	spin="0"/>
+	<isotope A="165" weight="164.930723" spin="2.5" mub="0.643">
+		<decay type="EC" value="10.36" unit="h"/>
+	</isotope>
 	<isotope A="166" weight="165.930290(4)" abundance="33.61(35)"
 	spin="0"/>
 	<isotope A="167" weight="166.932046(4)" abundance="22.93(17)"
 	spin="3.5" mub="-0.5665"/>
 	<isotope A="168" weight="167.932368(4)" abundance="26.78(26)"
 	spin="0"/>
+	<isotope A="169" weight="168.934588" spin=".5" mub="0.515">
+		<decay type="b-" value="9.40" unit="d"/>
+	</isotope>
 	<isotope A="170" weight="169.935461(4)" abundance="14.93(27)"
 	spin="0"/>
+	<isotope A="171" weight="170.938026" spin="2.5" mub="0.66">
+		<decay type="b-" value="7.52" unit="h"/>
+	</isotope>
+	<isotope A="172" weight="171.939352" spin="0">
+		<decay type="b-" value="2.05" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="69">
+	<isotope A="166" weight="165.93355" spin="2" mub="0.092">
+		<decay type="EC" value="7.70" unit="h"/>
+	</isotope>
+	<isotope A="167" weight="166.932849" spin=".5" mub="-0.197">
+		<decay type="EC" value="9.24" unit="d"/>
+	</isotope>
+	<isotope A="168" weight="167.34171" spin="3" mub="0.23">
+		<decay type="EC,b-" value="93.1" unit="d"/>
+	</isotope>
 	<isotope A="169" weight="168.934212(4)" abundance="100"
 	spin="0.5" mub="-0.2316"/>
+	<isotope A="170" weight="169.935798" spin="1" mub="0.2476">
+		<decay type="EC,b-" value="128.6" unit="d"/>
+	</isotope>
+	<isotope A="171" weight="170.936426" spin=".5" mub="-0.2303">
+		<decay type="b-" value="1.92" unit="y"/>
+	</isotope>
+	<isotope A="172" weight="171.93840" spin="2">
+		<decay type="b-" value="2.65" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="70">
+	<isotope A="166" weight="165.933875" spin="0">
+		<decay type="EC" value="2.363" unit="d"/>
+	</isotope>
+	<isotope A="167" weight="166.934947" spin="2.5" mub="0.62">
+		<decay type="EC" value="17.5" unit="m"/>
+	</isotope>
 	<isotope A="168" weight="167.933894(5)" abundance="0.13(1)"
 	spin="0"/>
+	<isotope A="169" weight="168.935187" spin="3.5" mub="-0.63">
+		<decay type="EC" value="32.03" unit="d"/>
+	</isotope>
 	<isotope A="170" weight="169.934759(4)" abundance="3.04(15)"
 	spin="0"/>
 	<isotope A="171" weight="170.936323(3)" abundance="14.28(57)"
@@ -1345,20 +2145,56 @@
 	spin="2.5" mub="-0.6776"/>
 	<isotope A="174" weight="173.938859(3)" abundance="31.83(92)"
 	spin="0"/>
+	<isotope A="175" weight="174.941273" spin="3.5" mub="0.6">
+		<decay type="b-" value="4.19" unit="d"/>
+	</isotope>
 	<isotope A="176" weight="175.942564(4)" abundance="12.76(41)"
 	spin="0"/>
+	<isotope A="177" weight="176.945257" spin="4.5">
+		<decay type="b-" value="1.9" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="71">
+	<isotope A="169" weight="168.93765" spin="3.5">
+		<decay type="EC" value="1.419" unit="d"/>
+	</isotope>
+	<isotope A="170" weight="169.93847" spin="0">
+		<decay type="EC" value="2.01" unit="d"/>
+	</isotope>
+	<isotope A="171" weight="170.937910" spin="3.5" mub="2.0">
+		<decay type="EC" value="8.24" unit="d"/>
+	</isotope>
+	<isotope A="172" weight="171.939082" spin="4" mub="2.25">
+		<decay type="EC" value="6.70" unit="d"/>
+	</isotope>
+	<isotope A="173" weight="172.938927" spin="3.5" mub="2.3">
+		<decay type="EC" value="1.37" unit="y"/>
+	</isotope>
+	<isotope A="174" weight="173.940334" spin="1" mub="1.9">
+		<decay type="EC" value="3.3" unit="y"/>
+	</isotope>
 	<isotope A="175" weight="174.940770(3)" abundance="97.41(2)"
 	spin="3.5" mub="2.2327"/>
 	<isotope A="176" weight="175.942679(3)" abundance="2.59(2)"
 	spin="7" mub="3.19"/>
+	<isotope A="177" weight="176.943755" spin="3.5" mub="2.239">
+		<decay type="b-" value="6.75" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="72">
+	<isotope A="172" weight="171.93946" spin="0">
+		<decay type="EC" value="1.87" unit="y"/>
+	</isotope>
+	<isotope A="173" weight="172.9407" spin=".5">
+		<decay type="EC" value="23.6" unit="h"/>
+	</isotope>
 	<isotope A="174" weight="173.940044(4)" abundance="0.16(1)"
 	spin="0"/>
+	<isotope A="175" weight="174.941504" spin="2.5" mub="0.54">
+		<decay type="EC" value="70" unit="d"/>
+	</isotope>
 	<isotope A="176" weight="175.941406(4)" abundance="5.26(7)"
 	spin="0"/>
 	<isotope A="177" weight="176.943217(3)" abundance="18.6(9)"
@@ -1369,38 +2205,109 @@
 	spin="4.5" mub="-0.6409"/>
 	<isotope A="180" weight="179.9465457(30)" abundance="35.08(16)"
 	spin="0"/>
+	<isotope A="181" weight="180.949099" spin=".5">
+		<decay type="b-" value="42.4" unit="d"/>
+	</isotope>
+	<isotope A="182" weight="181.95055" spin="0">
+		<decay type="b-" value="9e6" unit="y"/>
+	</isotope>
 </element>
 
 <element Z="73">
-	<isotope A="180" weight="179.947462(4)" abundance="0.012(2)"
-	spin="8"/>
+	<isotope A="177" weight="176.944472" spin="3.5" mub="2.25">
+		<decay type="EC" value="2.356" unit="d"/>
+	</isotope>
+	<isotope A="178" weight="177.9458" spin="1" mub="2.74">
+		<decay type="EC" value="9.29" unit="m"/>
+	</isotope>
+	<isotope A="179" weight="178.94593" spin="3.5">
+		<decay type="EC" value="1.8" unit="y"/>
+	</isotope>
+	<isotope A="180" weight="179.947466" spin="1">
+		<decay type="EC,b-" value="8.15" unit="h"/>
+	</isotope>
+	<isotope A="180m" weight="179.947462(4)" abundance="0.012(2)"
+	spin="9">
+		<decay type="EC,b-" value="1.2e15" unit="y"/>
+	</isotope>
 	<isotope A="181" weight="180.947992(3)" abundance="99.988(2)"
 	spin="3.5" mub="2.371"/>
+	<isotope A="182" weight="181.950152" spin="3" mub="3.02">
+		<decay type="b-" value="114.43" unit="d"/>
+	</isotope>
+	<isotope A="183" weight="182.951373" spin="3.5">
+		<decay type="b-" value="5.1" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="74">
+	<isotope A="178" weight="177.9459" spin="0">
+		<decay type="EC" value="21.6" unit="d"/>
+	</isotope>
+	<isotope A="179" weight="178.94707" spin="3.5">
+		<decay type="EC" value="38" unit="m"/>
+	</isotope>
 	<isotope A="180" weight="179.946701(5)" abundance="0.12(1)"
 	spin="0"/>
+	<isotope A="181" weight="180.94820" spin="4.5">
+		<decay type="EC" value="121.2" unit="d"/>
+	</isotope>
 	<isotope A="182" weight="181.948202(3)" abundance="26.50(16)"
 	spin="0"/>
 	<isotope A="183" weight="182.950220(3)" abundance="14.31(4)"
 	spin="0.5" mub="0.1177847"/>
 	<isotope A="184" weight="183.950928(3)" abundance="30.64(2)"
 	spin="0"/>
+	<isotope A="185" weight="184.953420" spin="1.5">
+		<decay type="b-" value="74.8" unit="d"/>
+	</isotope>
 	<isotope A="186" weight="185.954357(4)" abundance="28.43(19)"
 	spin="0"/>
+	<isotope A="187" weight="186.957158" spin="1.5" mub="0.62">
+		<decay type="b-" value="23.9" unit="h"/>
+	</isotope>
+	<isotope A="188" weight="187.958487" spin="0">
+		<decay type="b-" value="69.4" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="75">
+	<isotope A="182" weight="181.9512" spin="7" mub="2.8">
+		<decay type="EC" value="2.67" unit="d"/>
+	</isotope>
+	<isotope A="183" weight="182.95082" spin="2.5" mub="3.17">
+		<decay type="EC" value="70" unit="d"/>
+	</isotope>
+	<isotope A="184" weight="183.95252" spin="3" mub="2.53">
+		<decay type="EC" value="38" unit="d"/>
+	</isotope>
 	<isotope A="185" weight="184.952951(3)" abundance="37.40(2)"
 	spin="2.5" mub="3.1871"/>
+	<isotope A="186" weight="185.954986" spin="1" mub="1.739">
+		<decay type="EC,b-" value="3.78" unit="d"/>
+	</isotope>
 	<isotope A="187" weight="186.955744(3)" abundance="62.60(2)"
 	spin="2.5" mub="3.2197"/>
+	<isotope A="188" weight="187.958112" spin="1" mub="1.788">
+		<decay type="b-" value="16.94" unit="h"/>
+	</isotope>
+	<isotope A="189" weight="188.959228" spin="2.5">
+		<decay type="b-" value="24" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="76">
+	<isotope A="182" weight="181.95219" spin="0">
+		<decay type="EC" value="21.5" unit="h"/>
+	</isotope>
+	<isotope A="183" weight="182.9531" spin="4.5">
+		<decay type="EC" value="13" unit="h"/>
+	</isotope>
 	<isotope A="184" weight="183.952488(4)" abundance="0.02(1)"
 	spin="0"/>
+	<isotope A="185" weight="184.954043" spin=".5">
+		<decay type="EC" value="93.6" unit="d"/>
+	</isotope>
 	<isotope A="186" weight="185.953830(4)" abundance="1.59(3)"
 	spin="0"/>
 	<isotope A="187" weight="186.955741(3)" abundance="1.96(2)"
@@ -1411,13 +2318,34 @@
 	spin="1.5" mub="0.659933"/>
 	<isotope A="190" weight="189.958436(4)" abundance="26.26(2)"
 	spin="0"/>
+	<isotope A="191" weight="190.960928" spin="4.5">
+		<decay type="b-" value="15.4" unit="d"/>
+	</isotope>
 	<isotope A="192" weight="191.961467(4)" abundance="40.78(19)"
 	spin="0"/>
+	<isotope A="193" weight="192.964138" spin="1.5" mub="0.73">
+		<decay type="b-" value="30.5" unit="h"/>
+	</isotope>
+	<isotope A="194" weight="193.965179" spin="0">
+		<decay type="b-" value="6.0" unit="y"/>
+	</isotope>
 </element>
 
 <element Z="77">
+	<isotope A="188" weight="187.95885" spin="2" mub="0.30">
+		<decay type="EC" value="1.72" unit="d"/>
+	</isotope>
+	<isotope A="189" weight="188.95872" spin="1.5" mub="0.13">
+		<decay type="EC" value="13.2" unit="d"/>
+	</isotope>
+	<isotope A="190" weight="189.9606" spin="4" mub="0.04">
+		<decay type="EC" value="11.8" unit="d"/>
+	</isotope>
 	<isotope A="191" weight="190.960584(4)" abundance="37.3(2)"
 	spin="1.5" mub="0.1462"/>
+	<isotope A="192" weight="191.962602" spin="4" mub="1.92">
+		<decay type="b-" value="73.83" unit="d"/>
+	</isotope>
 	<isotope A="193" weight="192.962817(4)" abundance="62.7(2)"
 	spin="1.5" mub="0.1592"/>
 </element>
@@ -1425,26 +2353,59 @@
 <element Z="78">
 	<isotope A="190" weight="189.959917(7)" abundance="0.014(1)"
 	spin="0"/>
+	<isotope A="191" weight="190.961684" spin="1.5" mub="0.50">
+		<decay type="EC" value="2.96" unit="d"/>
+	</isotope>
 	<isotope A="192" weight="191.961019(5)" abundance="0.782(7)"
 	spin="0"/>
+	<isotope A="193" weight="192.962984" spin=".5">
+		<decay type="EC" value="60" unit="y"/>
+	</isotope>
 	<isotope A="194" weight="193.962655(4)" abundance="32.967(99)"
 	spin="0"/>
 	<isotope A="195" weight="194.964766(4)" abundance="33.832(10)"
 	spin="0.5" mub="0.60950"/>
 	<isotope A="196" weight="195.964926(4)" abundance="25.242(41)"
 	spin="0"/>
+	<isotope A="197" weight="196.967323" spin=".5" mub="0.51">
+		<decay type="b-" value="18.3" unit="h"/>
+	</isotope>
 	<isotope A="198" weight="197.967869(6)" abundance="7.163(55)"
 	spin="0"/>
 </element>
 
 <element Z="79">
+	<isotope A="194" weight="193.96534" spin="1" mub="0.075">
+		<decay type="EC" value="1.64" unit="d"/>
+	</isotope>
+	<isotope A="195" weight="194.965017" spin="1.5" mub="0.149">
+		<decay type="EC" value="186.12" unit="d"/>
+	</isotope>
+	<isotope A="196" weight="195.966551	" spin="2" mub="0.591">
+		<decay type="EC,b-" value="6.18" unit="d"/>
+	</isotope>
 	<isotope A="197" weight="196.966543(4)" abundance="100"
 	spin="1.5" mub="0.148159"/>
+	<isotope A="198" weight="197.968225" spin="2" mub="0.5934">
+		<decay type="b-" value="2.694" unit="d"/>
+	</isotope>
+	<isotope A="199" weight="198.968748" spin="1.5" mub="0.2715">
+		<decay type="b-" value="3.14" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="80">
+	<isotope A="194" weight="193.96538" spin="0">
+		<decay type="EC" value="520" unit="y"/>
+	</isotope>
+	<isotope A="195" weight="194.96664" spin=".5" mub="0.541475">
+		<decay type="EC" value="9.5" unit="h"/>
+	</isotope>
 	<isotope A="196" weight="195.965807(5)" abundance="0.15(1)"
 	spin="0"/>
+	<isotope A="197" weight="196.967195" spin=".5" mub="0.527374">
+		<decay type="EC" value="2.672" unit="d"/>
+	</isotope>
 	<isotope A="198" weight="197.966743(4)" abundance="9.97(20)"
 	spin="0"/>
 	<isotope A="199" weight="198.968254(4)" abundance="16.87(22)"
@@ -1455,140 +2416,881 @@
 	spin="1.5" mub="-0.560225"/>
 	<isotope A="202" weight="201.970617(4)" abundance="29.86(26)"
 	spin="0"/>
+	<isotope A="203" weight="202.972857" spin="2.5" mub="0.8489">
+		<decay type="b-" value="46.61" unit="d"/>
+	</isotope>
 	<isotope A="204" weight="203.973467(5)" abundance="6.87(15)"
 	spin="0"/>
 </element>
 
 <element Z="81">
+	<isotope A="200" weight="199.97095" spin="2" mub="0.04">
+		<decay type="EC" value="1.087" unit="d"/>
+	</isotope>
+	<isotope A="201" weight="200.97078" spin=".5" mub="1.605">
+		<decay type="EC" value="3.040" unit="d"/>
+	</isotope>
+	<isotope A="202" weight="201.97209" spin="2" mub="0.06">
+		<decay type="EC" value="12.23" unit="d"/>
+	</isotope>
 	<isotope A="203" weight="202.972320(5)" abundance="29.524(14)"
 	spin="0.5" mub="1.622257"/>
+	<isotope A="204" weight="203.97385" spin="2" mub="0.09">
+		<decay type="EC,b-" value="3.78" unit="y"/>
+	</isotope>
 	<isotope A="205" weight="204.974401(5)" abundance="70.476(14)"
 	spin="0.5" mub="1.6382135"/>
 </element>
 
 <element Z="82">
+	<isotope A="200" weight="199.97182" spin="0">
+		<decay type="EC" value="21.5" unit="h"/>
+	</isotope>
+	<isotope A="201" weight="200.97285" spin="2.5" mub="0.675">
+		<decay type="EC" value="9.33" unit="h"/>
+	</isotope>
+	<isotope A="202" weight="201.97214" spin="0">
+		<decay type="EC,a" value="53000" unit="y"/>
+	</isotope>
+	<isotope A="203" weight="202.97338" spin="2.5" mub="0.686">
+		<decay type="EC" value="2.1615" unit="d"/>
+	</isotope>
 	<isotope A="204" weight="203.973020(5)" abundance="1.4(1)"
 	spin="0"/>
+	<isotope A="205" weight="204.97447" spin="2.5" mub="0.712">
+		<decay type="EC" value="1.51e7" unit="y"/>
+	</isotope>
 	<isotope A="206" weight="205.974440(4)" abundance="24.1(1)"
 	spin="0"/>
 	<isotope A="207" weight="206.975872(4)" abundance="22.1(1)"
 	spin="0.5" mub="0.58129"/>
 	<isotope A="208" weight="207.976627(4)" abundance="52.4(1)"
 	spin="0"/>
+	<isotope A="209" weight="208.9810748(34)" spin="4.5" mub="-1.4735(16)">
+		<decay type="b-" value="3.253" unit="h"/>
+	</isotope>
+	<isotope A="210" weight="209.98417" spin="0">
+		<decay type="b-,a" value="22.6" unit="y"/>
+	</isotope>
+	<isotope A="211" weight="210.98873" spin="4.5" mub="-1.414">
+		<decay type="b-" value="36.1" unit="m"/>
+	</isotope>
+	<isotope A="212" weight="211.99187" spin="0">
+		<decay type="b-" value="10.64" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="83">
+	<isotope A="205" weight="204.97737" spin="4.5" mub="4.16">
+		<decay type="EC" value="15.31" unit="d"/>
+	</isotope>
+	<isotope A="206" weight="205.97848" spin="6" mub="4.60">
+		<decay type="EC" value="6.243" unit="d"/>
+	</isotope>
+	<isotope A="207" weight="206.97846" spin="4.5" mub="4.08">
+		<decay type="EC" value="35" unit="y"/>
+	</isotope>
+	<isotope A="208" weight="207.97973" spin="5">
+		<decay type="EC" value="3.68e5" unit="y"/>
+	</isotope>
 	<isotope A="209" weight="208.980374(5)" abundance="100"
 	spin="4.5" mub="4.1106"/>
+	<isotope A="210" weight="209.98410 	" spin="1" mub="-0.0445">
+		<decay type="b-,a" value="5.01" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="84">
+	<isotope A="206" weight="205.98047" spin="0">
+		<decay type="EC,a" value="8.8" unit="d"/>
+	</isotope>
+	<isotope A="207" weight="206.98158" spin="2.5" mub="">
+		<decay type="EC,a" value="5.80" unit="h"/>
+	</isotope>
+	<isotope A="208" weight="207.98123" spin="0">
+		<decay type="EC,a" value="2.898" unit="y"/>
+	</isotope>
+	<isotope A="209" weight="208.982404(5)" spin=".5" mub="">
+		<decay type="EC,a" value="102" unit="y"/>
+	</isotope>
+	<isotope A="210" weight="209.98286" spin="0">
+		<decay type="a" value="138.38" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="85">
+	<isotope A="207" weight="206.98578" spin="4.5">
+		<decay type="EC,a" value="1.81" unit="h"/>
+	</isotope>
+	<isotope A="208" weight="207.98657" spin="6">
+		<decay type="EC,a" value="1.63" unit="h"/>
+	</isotope>
+	<isotope A="209" weight="208.98616" spin="4.5">
+		<decay type="EC,a" value="5.4" unit="h"/>
+	</isotope>
+	<isotope A="210" weight="209.987126(12)" spin="5">
+		<decay type="EC,a" value="8.1" unit="h"/>
+	</isotope>
+	<isotope A="211" weight="210.98748" spin="4.5">
+		<decay type="EC,a" value="7.21" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="86">
+	<isotope A="210" weight="209.98968" spin="0">
+		<decay type="EC,a" value="2.4" unit="h"/>
+	</isotope>
+	<isotope A="211" weight="210.99059" spin=".5" mub="0.60">
+		<decay type="EC,a" value="14.6" unit="h"/>
+	</isotope>
+	<isotope A="212" weight="211.99069" spin="0">
+		<decay type="a" value="24" unit="m"/>
+	</isotope>
+	<isotope A="213" weight="212.99387" spin="4.5">
+		<decay type="a" value="0.025" unit="s"/>
+	</isotope>
+	<isotope A="214" weight="213.99535" spin="0">
+		<decay type="a" value="0.000027" unit="s"/>
+	</isotope>
+	<isotope A="215" weight="214.99873" spin="4.5">
+		<decay type="a" value="0.0000023" unit="s"/>
+	</isotope>
+	<isotope A="216" weight="216.00026" spin="0">
+		<decay type="a" value="0.000045" unit="s"/>
+	</isotope>
+	<isotope A="217" weight="217.00391" spin="4.5">
+		<decay type="a" value="0.0006" unit="s"/>
+	</isotope>
+	<isotope A="218" weight="218.00559" spin="0">
+		<decay type="a" value="0.035" unit="s"/>
+	</isotope>
+	<isotope A="219" weight="219.00948" spin="2.5">
+		<decay type="a" value="3.96" unit="s"/>
+	</isotope>
+	<isotope A="220" weight="220.01138" spin="0">
+		<decay type="a" value="55.6" unit="s"/>
+	</isotope>
+	<isotope A="221" weight="221.0156" spin="3.5">
+		<decay type="a,b-" value="25" unit="m"/>
+	</isotope>
+	<isotope A="222" weight="222.017571(3)" spin="">
+		<decay type="a" value="3.8235" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="87">
+	<isotope A="210" weight="209.99640" spin="6" mub="4.4">
+		<decay type="a,EC" value="3.2" unit="m"/>
+	</isotope>
+	<isotope A="211" weight="210.99553" spin="4.5" mub="4.0">
+		<decay type="a,EC" value="3.10" unit="m"/>
+	</isotope>
+	<isotope A="212" weight="211.99618" spin="5" mub="4.6">
+		<decay type="a,EC" value="20" unit="m"/>
+	</isotope>
+	<isotope A="213" weight="212.99617" spin="4.5" mub="4.0">
+		<decay type="a,EC" value="34.6" unit="s"/>
+	</isotope>
+	<isotope A="214" weight="213.99895" spin="1">
+		<decay type="a" value="0.0051" unit="s"/>
+	</isotope>
+	<isotope A="215" weight="215.00033" spin="4.5">
+		<decay type="a" value="0.0000012" unit="s"/>
+	</isotope>
+	<isotope A="216" weight="216.00319" spin="1">
+		<decay type="a,EC" value="0.000007" unit="s"/>
+	</isotope>
+	<isotope A="217" weight="217.00462" spin="4.5">
+		<decay type="a" value="0.00016" unit="s"/>
+	</isotope>
+	<isotope A="218" weight="218.00756" spin="1">
+		<decay type="a" value="0.001" unit="s"/>
+	</isotope>
+	<isotope A="219" weight="219.00924" spin="4.5">
+		<decay type="a" value="0.021" unit="s"/>
+	</isotope>
+	<isotope A="220" weight="220.01231" spin="1">
+		<decay type="a,b-" value="27.4" unit="s"/>
+	</isotope>
+	<isotope A="221" weight="221.01425" spin="2.5" mub="1.58">
+		<decay type="a,b-" value="4.8" unit="m"/>
+	</isotope>
+	<isotope A="222" weight="222.01754 	" spin="2" mub="0.63">
+		<decay type="b-" value="14.3" unit="m"/>
+	</isotope>
+	<isotope A="223" weight="223.019733(4)" spin="1.5" mub="1.17">
+		<decay type="a,b-" value="22" unit="m"/>
+	</isotope>
+	<isotope A="224" weight="224.02323" spin="1" mub="0.40">
+		<decay type="b-" value="3" unit="m"/>
+	</isotope>
+	<isotope A="225" weight="225.02561" spin="1.5" mub="1.07">
+		<decay type="b-" value="3.9" unit="m"/>
+	</isotope>
+	<isotope A="226" weight="226.0293" spin="1" mub="0.071">
+		<decay type="b-" value="49" unit="s"/>
+	</isotope>
+	<isotope A="227" weight="227.0318" spin=".5" mub="1.50">
+		<decay type="b-" value="2.48" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="88">
+	<isotope A="223" weight="223.018497" spin="1.5" mub="0.271">
+		<decay type="a" value="11.435" unit="d"/>
+	</isotope>
+	<isotope A="224" weight="224.020202" spin="0">
+		<decay type="a" value="3.66" unit="d"/>
+	</isotope>
+	<isotope A="225" weight="225.023603" spin="1.5" mub="-0.734">
+		<decay type="b-" value="14.9" unit="d"/>
+	</isotope>
+	<isotope A="226" weight="226.025403(3)" spin="0">
+		<decay type="a" value="1599" unit="y"/>
+	</isotope>
+	<isotope A="227" weight="227.029170" spin="1.5" mub="-0.404">
+		<decay type="b-" value="42" unit="m"/>
+	</isotope>
+	<isotope A="228" weight="228.031063" spin="0">
+		<decay type="b-" value="5.76" unit="y"/>
+	</isotope>
 </element>
 
 <element Z="89">
+	<isotope A="224" weight="224.021708" spin="">
+		<decay type="b-,a,EC" value="2.7" unit="h"/>
+	</isotope>
+	<isotope A="225" weight="225.02322" spin="">
+		<decay type="a" value="10.0" unit="d"/>
+	</isotope>
+	<isotope A="226" weight="226.026089" spin="">
+		<decay type="b-,a,EC" value="1.224" unit="d"/>
+	</isotope>
+	<isotope A="227" weight="227.027750(3)" spin="">
+		<decay type="b-,a" value="21.77" unit="y"/>
+	</isotope>
+	<isotope A="228" weight="228.031104" spin="">
+		<decay type="b-" value="6.15" unit="h"/>
+	</isotope>
+	<isotope A="229" weight="229.03293" spin="">
+		<decay type="b-" value="1.04" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="90">
-	<isotope A="232" weight="232.0381(1)" abundance="100"
-	spin="0"/>
+	<isotope A="227" weight="227.027699" spin="1.5">
+		<decay type="a" value="18.72" unit="d"/>
+	</isotope>
+	<isotope A="228" weight="228.028731" spin="0">
+		<decay type="a" value="1.913" unit="y"/>
+	</isotope>
+	<isotope A="229" weight="229.031754" spin="2.5" mub="0.46">
+		<decay type="a" value="7900" unit="y"/>
+	</isotope>
+	<isotope A="230" weight="230.033126" spin="0">
+		<decay type="a,SF" value="75400" unit="y"/>
+	</isotope>
+	<isotope A="231" weight="231.036296" spin="2.5">
+		<decay type="a,b-" value="1.063" unit="d"/>
+	</isotope>
+	<isotope A="232" weight="232.0380508(23)" abundance="100"
+	spin="0">
+		<decay type="a,SF" value="1.4e10" unit="y"/>
+	</isotope>
+	<isotope A="233" weight="233.041576" spin=".5">
+		<decay type="b-" value="22.3" unit="m"/>
+	</isotope>
+	<isotope A="234" weight="234.036596" spin="0">
+		<decay type="b-" value="24.10" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="91">
+	<isotope A="228" weight="228.03100" spin="3" mub="3.5">
+		<decay type="EC,a" value="22" unit="h"/>
+	</isotope>
+	<isotope A="229" weight="229.03209" spin="2.5">
+		<decay type="EC,a" value="1.5" unit="d"/>
+	</isotope>
+	<isotope A="230" weight="230.03453 	" spin="2" mub="2.0">
+		<decay type="EC,a,b-" value="17.4" unit="d"/>
+	</isotope>
 	<isotope A="231" weight="231.03588(2)" abundance="100"
-	spin="1.5"/>
+	spin="1.5" mub="2.01">
+		<decay type="a,SF" value="32500" unit="y"/>
+	</isotope>
+	<isotope A="232" weight="232.03858" spin="2">
+		<decay type="EC,b-" value="1.31" unit="d"/>
+	</isotope>
+	<isotope A="233" weight="233.04024" spin="1.5" mub="4.0">
+		<decay type="b-" value="27.0" unit="d"/>
+	</isotope>
+	<isotope A="234" weight="234.04330" spin="4">
+		<decay type="b-" value="6.69" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="92">
+	<isotope A="230" weight="230.03393" spin="0">
+		<decay type="a" value="20.8" unit="d"/>
+	</isotope>
+	<isotope A="231" weight="231.03626" spin="2.5">
+		<decay type="a" value="4.2" unit="d"/>
+	</isotope>
+	<isotope A="232" weight="232.03715" spin="0">
+		<decay type="a" value="68.9" unit="y"/>
+	</isotope>
+	<isotope A="233" weight="233.039628" spin="2.5" mub="0.59">
+		<decay type="a,SF" value="1.59e5" unit="y"/>
+	</isotope>
 	<isotope A="234" weight="234.0409468(24)" abundance="0.0055(2)"
-	spin="0" mub="0"/>
+	spin="0" mub="0">
+		<decay type="a,SF" value="2.45e5" unit="y"/>
+	</isotope>
 	<isotope A="235" weight="235.0439242(24)" abundance="0.7200(51)"
-	spin="3.5" mub="-0.35"/>
+	spin="3.5" mub="-0.35">
+		<decay type="a,SF" value="7.04e8" unit="y"/>
+	</isotope>
+	<isotope A="236" weight="236.045561" spin="0">
+		<decay type="a,SF" value="2.34e7" unit="y"/>
+	</isotope>
+	<isotope A="237" weight="237.048723" spin=".5">
+		<decay type="b-" value="6.75" unit="d"/>
+	</isotope>
 	<isotope A="238" weight="238.0507847(23)" abundance="99.2745(106)"
-	spin="0" mub="0"/>
+	spin="0" mub="0">
+		<decay type="a,SF" value="4.46e9" unit="y"/>
+	</isotope>
 </element>
 
 <element Z="93">
+	<isotope A="234" weight="234.04289" spin="0">
+		<decay type="EC" value="4.4" unit="d"/>
+	</isotope>
+	<isotope A="235" weight="235.04406" spin="2.5">
+		<decay type="EC,a" value="1.058" unit="y"/>
+	</isotope>
+	<isotope A="236" weight="236.04657" spin="6">
+		<decay type="EC,a,b-" value="155000" unit="y"/>
+	</isotope>
+	<isotope A="237" weight="237.0481678(23)" spin="2.5" mub="3.14">
+		<decay type="a,SF" value="2.14e6" unit="y"/>
+	</isotope>
+	<isotope A="238" weight="238.05094" spin="2">
+		<decay type="b-" value="2.117" unit="d"/>
+	</isotope>
+	<isotope A="239" weight="239.05293" spin="2.5">
+		<decay type="b-" value="2.355" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="94">
+	<isotope A="236" weight="236.04605" spin="0">
+		<decay type="a,SF" value="2.87" unit="y"/>
+	</isotope>
+	<isotope A="237" weight="237.04840" spin="3.5">
+		<decay type="EC,a" value="45.7" unit="d"/>
+	</isotope>
+	<isotope A="238" weight="238.04955" spin="0">
+		<decay type="a,SF" value="87.74" unit="y"/>
+	</isotope>
+	<isotope A="239" weight="239.05216" spin=".5" mub="0.203">
+		<decay type="a,SF" value="24110" unit="y"/>
+	</isotope>
+	<isotope A="240" weight="240.05381" spin="0">
+		<decay type="a,SF" value="6537" unit="y"/>
+	</isotope>
+	<isotope A="241" weight="241.05684" spin="2.5" mub="-0.683">
+		<decay type="a,b-" value="14.4" unit="y"/>
+	</isotope>
+	<isotope A="242" weight="242.05874" spin="0">
+		<decay type="a,SF" value="3.76e5" unit="y"/>
+	</isotope>
+	<isotope A="243" weight="243.06200" spin="3.5">
+		<decay type="b-" value="4.956" unit="h"/>
+	</isotope>
+	<isotope A="244" weight="244.064199(5)" spin="0">
+		<decay type="a,SF" value="8.2e7" unit="y"/>
+	</isotope>
+	<isotope A="245" weight="245.06774" spin="4.5">
+		<decay type="b-" value="10.5" unit="h"/>
+	</isotope>
+	<isotope A="246" weight="246.07020 	" spin="0">
+		<decay type="b-" value="10.82" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="95">
+	<isotope A="237" weight="237.0503" spin="2.5">
+		<decay type="EC,a" value="1.22" unit="h"/>
+	</isotope>
+	<isotope A="238" weight="238.05198" spin="1">
+		<decay type="EC,a" value="1.63" unit="h"/>
+	</isotope>
+	<isotope A="239" weight="239.05302" spin="2.5">
+		<decay type="EC,a" value="11.9" unit="h"/>
+	</isotope>
+	<isotope A="240" weight="240.05529" spin="3">
+		<decay type="EC,a" value="2.12" unit="d"/>
+	</isotope>
+	<isotope A="241" weight="241.05682" spin="2.5" mub="1.58">
+		<decay type="a,SF" value="432.2" unit="y"/>
+	</isotope>
+	<isotope A="242" weight="242.05654" spin="1" mub="0.388">
+		<decay type="EC,b-" value="16.02" unit="h"/>
+	</isotope>
+	<isotope A="243" weight="243.061375(3)" spin="2.5" mub="1.50">
+		<decay type="a,SF" value="7370" unit="y"/>
+	</isotope>
+	<isotope A="244" weight="244.06428" spin="1">
+		<decay type="b-" value="10.1" unit="h"/>
+	</isotope>
+	<isotope A="245" weight="245.06644" spin="2.5">
+		<decay type="b-" value="2.05" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="96">
+	<isotope A="240" weight="240.05552" spin="0">
+		<decay type="a,EC,SF" value="27" unit="h"/>
+	</isotope>
+	<isotope A="241" weight="241.05765" spin=".5">
+		<decay type="a,EC" value="32.8" unit="d"/>
+	</isotope>
+	<isotope A="242" weight="242.05883" spin="0">
+		<decay type="a,SF" value="162.8" unit="d"/>
+	</isotope>
+	<isotope A="243" weight="243.06138" spin="2.5" mub="0.41">
+		<decay type="a,EC" value="28.5" unit="y"/>
+	</isotope>
+	<isotope A="244" weight="244.06275" spin="0">
+		<decay type="a,SF" value="18.11" unit="y"/>
+	</isotope>
+	<isotope A="245" weight="245.06548" spin="3.5" mub="0.5">
+		<decay type="a,SF" value="8500" unit="y"/>
+	</isotope>
+	<isotope A="246" weight="246.06722" spin="0">
+		<decay type="a,SF" value="4780" unit="y"/>
+	</isotope>
+	<isotope A="247" weight="247.070347(5)" spin="4.5" mub="0.37">
+		<decay type="a" value="1.56e7" unit="y"/>
+	</isotope>
+	<isotope A="248" weight="248.07234" spin="0">
+		<decay type="a,SF" value="3.4e5" unit="y"/>
+	</isotope>
+	<isotope A="249" weight="249.07595" spin=".5">
+		<decay type="b-" value="64.15" unit="m"/>
+	</isotope>
+	<isotope A="250" weight="250.07835" spin="0">
+		<decay type="a,b-,SF" value="9700" unit="y"/>
+	</isotope>
 </element>
 
 <element Z="97">
+	<isotope A="245" weight="245.06636" spin="1.5">
+		<decay type="EC,a" value="4.94" unit="d"/>
+	</isotope>
+	<isotope A="246" weight="246.0687" spin="2">
+		<decay type="EC,a" value="1.80" unit="d"/>
+	</isotope>
+	<isotope A="247" weight="247.0702985(59)" spin="1.5">
+		<decay type="a" value="1400" unit="y"/>
+	</isotope>
+	<isotope A="248" weight="248.07310" spin="1">
+		<decay type="EC,a,b-" value="23.7" unit="h"/>
+	</isotope>
+	<isotope A="249" weight="249.07498" spin="3.5" mub="2.0">
+		<decay type="a,b-,SF" value="320" unit="d"/>
+	</isotope>
+	<isotope A="250" weight="250.07831" spin="2">
+		<decay type="b-" value="3.217" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="98">
+	<isotope A="248" weight="248.07218" spin="0">
+		<decay type="a,SF" value="334" unit="d"/>
+	</isotope>
+	<isotope A="249" weight="249.07485" spin="4.5">
+		<decay type="a,SF" value="351" unit="y"/>
+	</isotope>
+	<isotope A="250" weight="250.07640" spin="0">
+		<decay type="a,SF" value="13.1" unit="y"/>
+	</isotope>
+	<isotope A="251" weight="251.079580(5)" spin=".5">
+		<decay type="a" value="900" unit="y"/>
+	</isotope>
+	<isotope A="252" weight="252.08162" spin="0">
+		<decay type="a,SF" value="2.64" unit="y"/>
+	</isotope>
+	<isotope A="253" weight="253.08513" spin="3.5">
+		<decay type="a,b-" value="17.8" unit="d"/>
+	</isotope>
+	<isotope A="254" weight="254.08732" spin="0">
+		<decay type="a,SF" value="60.5" unit="d"/>
+	</isotope>
+	<isotope A="255" weight="255.0910" spin="4.5">
+		<decay type="b-" value="1.4" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="99">
+	<isotope A="249" weight="249.07640" spin="3.5">
+		<decay type="EC,a" value="1.70" unit="h"/>
+	</isotope>
+	<isotope A="250" weight="250.0787" spin="6">
+		<decay type="EC,a" value="8.6" unit="h"/>
+	</isotope>
+	<isotope A="251" weight="251.07998" spin="1.5">
+		<decay type="EC,a" value="1.38" unit="d"/>
+	</isotope>
+	<isotope A="252" weight="252.082944(23)" spin="5">
+		<decay type="EC,a,b-" value="1.29" unit="y"/>
+	</isotope>
+	<isotope A="253" weight="253.08482" spin="3.5" mub="4.10">
+		<decay type="a,SF" value="20.47" unit="d"/>
+	</isotope>
+	<isotope A="254" weight="254.08802" spin="7">
+		<decay type="EC,a,b-,SF" value="276" unit="d"/>
+	</isotope>
+	<isotope A="255" weight="255.09027" spin="3.5">
+		<decay type="a,b-,SF" value="40" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="100">
+	<isotope A="251" weight="251.08157" spin="4.5">
+		<decay type="EC,a" value="5.3" unit="h"/>
+	</isotope>
+	<isotope A="252" weight="252.08246" spin="0">
+		<decay type="a, SF" value="1.058" unit="d"/>
+	</isotope>
+	<isotope A="253" weight="253.08517" spin=".5">
+		<decay type="EC,a" value="3" unit="d"/>
+	</isotope>
+	<isotope A="254" weight="254.08685" spin="0">
+		<decay type="a,SF" value="3.24" unit="h"/>
+	</isotope>
+	<isotope A="255" weight="255.08995" spin="3.5">
+		<decay type="a,SF" value="20.1" unit="h"/>
+	</isotope>
+	<isotope A="256" weight="256.09177" spin="0">
+		<decay type="a,SF" value="2.63" unit="h"/>
+	</isotope>
+	<isotope A="257" weight="257.095099(8)" spin="4.5">
+		<decay type="a,SF" value="100.5 " unit="d"/>
+	</isotope>
 </element>
 
 <element Z="101">
+	<isotope A="255" weight="255.09108" spin="3.5">
+		<decay type="a,EC,SF" value="" unit="m"/>
+	</isotope>
+	<isotope A="256" weight="256.0941">
+		<decay type="a,EC,SF" value="" unit="h"/>
+	</isotope>
+	<isotope A="257" weight="257.09553" spin="3.5">
+		<decay type="a,EC,SF" value="" unit="m"/>
+	</isotope>
+	<isotope A="258" weight="258.09857(22)" spin="1">
+		<decay type="EC" value="" unit="d"/>
+	</isotope>
+	<isotope A="259" weight="259.1005" spin="3.5">
+		<decay type="a,SF" value="" unit="h"/>
+	</isotope>
+	<isotope A="260" weight="260.104">
+		<decay type="a,b-,EC,SF" value="" unit="d"/>
+	</isotope>
 </element>
 
 <element Z="102">
+	<isotope A="253" weight="253.0907" spin="4.5">
+		<decay type="a,EC" value="1.7" unit="m"/>
+	</isotope>
+	<isotope A="254" weight="254.0909" spin="0">
+		<decay type="a,EC,SF" value="55" unit="s"/>
+	</isotope>
+	<isotope A="255" weight="255.0932" spin=".5">
+		<decay type="a,EC" value="3.1" unit="m"/>
+	</isotope>
+	<isotope A="256" weight="256.0943" spin="0">
+		<decay type="a,SF" value="2.9" unit="s"/>
+	</isotope>
+	<isotope A="257" weight="257.0968" spin="3.5">
+		<decay type="a" value="25" unit="s"/>
+	</isotope>
+	<isotope A="258" weight="258.0983" spin="0">
+		<decay type="a,SF" value="0.0012" unit="s"/>
+	</isotope>
+	<isotope A="259" weight="259.100931(12)" spin="4.5">
+		<decay type="a,EC,SF" value="58" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="103">
+	<isotope A="255" weight="255.0967">
+		<decay type="a,EC" value="22" unit="s"/>
+	</isotope>
+	<isotope A="256" weight="256.0988">
+		<decay type="a,EC,SF" value="28" unit="s"/>
+	</isotope>
+	<isotope A="257" weight="257.0996" spin="3.5">
+		<decay type="a,SF" value="0.65" unit="s"/>
+	</isotope>
+	<isotope A="258" weight="258.1019">
+		<decay type="a,EC,SF" value="3.9" unit="s"/>
+	</isotope>
+	<isotope A="259" weight="259.1030">
+		<decay type="a,EC,SF" value="6.1" unit="s"/>
+	</isotope>
+	<isotope A="260" weight="260.105320(60)">
+		<decay type="a,EC,SF" value="3" unit="m"/>
+	</isotope>
+	<isotope A="261" weight="261.1069">
+		<decay type="SF" value="40" unit="m"/>
+	</isotope>
+	<isotope A="262" weight="262.110">
+		<decay type="EC,SF" value="3.6" unit="h"/>
+	</isotope>
 </element>
 
 <element Z="104">
+	<isotope A="255" weight="255.1015">
+		<decay type="a,SF" value="1.7" unit="s"/>
+	</isotope>
+	<isotope A="256" weight="256.1012">
+		<decay type="a,SF" value="0.007" unit="s"/>
+	</isotope>
+	<isotope A="257" weight="257.1032">
+		<decay type="a,SF,EC" value="4.7" unit="s"/>
+	</isotope>
+	<isotope A="258" weight="258.1035">
+		<decay type="a,SF" value="0.012" unit="s"/>
+	</isotope>
+	<isotope A="259" weight="259.1056">
+		<decay type="a,SF,EC" value="3.4" unit="s"/>
+	</isotope>
+	<isotope A="260" weight="260.1065">
+		<decay type="a,SF" value="0.020" unit="s"/>
+	</isotope>
+	<isotope A="261" weight="261.10869(22)">
+		<decay type="a,SF,EC" value="1.1" unit="ù"/>
+	</isotope>
+	<isotope A="262" weight="262.1101">
+		<decay type="SF" value="1.2" unit="s"/>
+	</isotope>
+	<isotope A="263" weight="263.1125">
+		<decay type="a,SF" value="10" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="105">
+	<isotope A="255" weight="255.1074">
+		<decay type="a,SF" value="1.6" unit="s"/>
+	</isotope>
+	<isotope A="256" weight="256.1081">
+		<decay type="a,SF,EC" value="2.6" unit="s"/>
+	</isotope>
+	<isotope A="257" weight="257.1079">
+		<decay type="a,SF,EC" value="1.5" unit="s"/>
+	</isotope>
+	<isotope A="258" weight="258.1093">
+		<decay type="a,SF,EC" value="4.2" unit="s"/>
+	</isotope>
+	<isotope A="259" weight="259.1097">
+		<decay type="a" value="1.2" unit="s"/>
+	</isotope>
+	<isotope A="260" weight="260.1114">
+		<decay type="a,SF,EC" value="1.5" unit="s"/>
+	</isotope>
+	<isotope A="261" weight="261.1121">
+		<decay type="a,SF" value="1.8" unit="s"/>
+	</isotope>
+	<isotope A="262" weight="262.11376(16)">
+		<decay type="a,SF,EC" value="34" unit="s"/>
+	</isotope>
+	<isotope A="263" weight="263.1153">
+		<decay type="a,SF" value="30" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="106">
+	<isotope A="258" weight="258.1132">
+		<decay type="a,SF" value="0.0029" unit="s"/>
+	</isotope>
+	<isotope A="259" weight="259.1147" spin=".5">
+		<decay type="a" value="0.9" unit="s"/>
+	</isotope>
+	<isotope A="260" weight="260.1144" spin="0">
+		<decay type="a" value="0.0036" unit="s"/>
+	</isotope>
+	<isotope A="261" weight="261.1162">
+		<decay type="a,SF" value="0.23" unit="s"/>
+	</isotope>
+	<isotope A="263" weight="263.11822(13)">
+		<decay type="a" value="0.8" unit="s"/>
+	</isotope>
+	<isotope A="265" weight="265.1211">
+		<decay type="a" value="16" unit="s"/>
+	</isotope>
+	<isotope A="266" weight="266.1219" spin="0">
+		<decay type="a,SF" value="20" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="107">
+	<isotope A="260" weight="260.1218">
+		<decay type="a"/>
+	</isotope>
+	<isotope A="261" weight="261.1218">
+		<decay type="a,SF" value="0.0118" unit="s"/>
+	</isotope>
+	<isotope A="262" weight="262.12293(45)">
+		<decay type="a,SF" value="0.102" unit="s"/>
+	</isotope>
+	<isotope A="263" weight="263.1231"/>
+	<isotope A="264" weight="264.1247">
+		<decay type="a" value="0.44" unit="s"/>
+	</isotope>
+	<isotope A="265" weight="265.1251"/>
+	<isotope A="266" weight="266.1270">
+		<decay type="a"/>
+	</isotope>
+	<isotope A="267" weight="267.1277">
+		<decay type="a"/>
+	</isotope>
 </element>
 
 <element Z="108">
+	<isotope A="263" weight="263.1287">
+		<decay type="a" value="1" unit="s"/>
+	</isotope>
+	<isotope A="264" weight="264.1284">
+		<decay type="a,SF" value="0.00008" unit="s"/>
+	</isotope>
+	<isotope A="265" weight="265.13016(99)">
+		<decay type="a,SF" value="0.0018" unit="s"/>
+	</isotope>
+	<isotope A="266" weight="266.1300"/>
+	<isotope A="267" weight="267.1318">
+		<decay type="a,SF" value="0.033" unit="s"/>
+	</isotope>
+	<isotope A="268" weight="268.1321"/>
+	<isotope A="269" weight="269.1341">
+		<decay type="a" value="9.3" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="109">
+	<isotope A="265" weight="266.1366"/>
+	<isotope A="266" weight="266.13764(45)">
+		<decay type="a" value="0.0034" unit="s"/>
+	</isotope>
+	<isotope A="267" weight="267.1375"/>
+	<isotope A="268" weight="268.1388">
+		<decay type="a" value="0.70" unit="s"/>
+	</isotope>
+	<isotope A="269" weight="269.1391"/>
+	<isotope A="270" weight="270.1407"/>
+	<isotope A="271" weight="271.1412"/>
 </element>
 
 <element Z="110">
+	<isotope A="267" weight="267.1440">
+		<decay type="a" value="3e-6" unit="s"/>
+	</isotope>
+	<isotope A="268" weight="268.1435"/>
+	<isotope A="269" weight="269.1451">
+		<decay type="a" value="0.00017" unit="s"/>
+	</isotope>
+	<isotope A="270" weight="270.1446"/>
+	<isotope A="271" weight="271.1461">
+		<decay type="a" value="0.0011" unit="s"/>
+	</isotope>
+	<isotope A="272" weight="272.1463" spin="0">
+		<decay type="SF" value="0.00086" unit="s"/>
+	</isotope>
+	<isotope A="273" weight="273.1492">
+		<decay type="a" value="0.00018" unit="s"/>
+	</isotope>
+	<isotope A="280" weight="280">
+		<decay type="SF" value="7.6" unit="s"/>
+	</isotope>
+	<isotope A="281" weight="281">
+		<decay type="a" value="1.1" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="111">
+	<isotope A="272" weight="272.1535">
+		<decay type="a" value="0.0015" unit="s"/>
+	</isotope>
+	<isotope A="" weight="">
+		<decay type="a" value="0.17" unit="s"/>
+	</isotope>
+	<isotope A="" weight="">
+		<decay type="a" value="3.6" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="112">
+	<isotope A="277" weight="277">
+		<decay type="a" value="0.00024" unit="s"/>
+	</isotope>
+	<isotope A="283" weight="283">
+		<decay type="SF" value="3" unit="m"/>
+	</isotope>
+	<isotope A="284" weight="284">
+		<decay type="a" value="44.3" unit="s"/>
+	</isotope>
+	<isotope A="285" weight="285">
+		<decay type="a" value="11" unit="m"/>
+	</isotope>
 </element>
 
 <element Z="113">
+	<isotope A="283" weight="283">
+		<decay type="a" value="0.147" unit="s"/>
+	</isotope>
+	<isotope A="284" weight="284">
+		<decay type="a" value="0.376-1.196" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="114">
+	<isotope A="285" weight="285">
+		<decay type="a" value="0.00058" unit="s"/>
+	</isotope>
+	<isotope A="286" weight="286">
+		<decay type="SF" value="0.1" unit="s"/>
+	</isotope>
+	<isotope A="287" weight="287">
+		<decay type="a" value="5" unit="s"/>
+	</isotope>
+	<isotope A="288" weight="288">
+		<decay type="a" value="6" unit="s"/>
+	</isotope>
+	<isotope A="289" weight="289">
+		<decay type="a" value="21" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="115">
+	<isotope A="287" weight="287">
+		<decay type="a" value="0.0466" unit="s"/>
+	</isotope>
+	<isotope A="288" weight="288">
+		<decay type="a" value="0.0466" unit="s"/>
+	</isotope>
 </element>
 
 <element Z="116">
+	<isotope A="290" weight="290">
+		<decay type="a" value="0.029" unit="s"/>
+	</isotope>
+	<isotope A="292" weight="292">
+		<decay type="a" value="0.0186-0.280" unit="s"/>
+	</isotope>
 </element>
 
 </gpdata>

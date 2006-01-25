@@ -42,20 +42,27 @@
 #include <gtk/gtkbox.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkclipboard.h>
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/gtk/go-graph-widget.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-renderer-pixbuf.h>
+#include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
+#include <goffice/utils/go-format.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
+#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-output-memory.h>
 #include <math.h>
 #include <iostream>
 
@@ -282,6 +289,110 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 	}
 }
 
+static gboolean gsf_gdk_pixbuf_save (const char *buf,
+			 gsize count,
+			 GError **error,
+			 gpointer data)
+{
+	GsfOutput *output = GSF_OUTPUT (data);
+	gboolean ok = gsf_output_write (output, count, (const guint8*) buf);
+
+	if (!ok && error)
+		*error = g_error_copy (gsf_output_error (output));
+
+	return ok;
+}
+
+static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
+{
+	guchar *buffer = NULL;
+	char *format = NULL;
+	GsfOutput *output;
+	GsfOutputMemory *omem;
+	gsf_off_t osize;
+	GError *error = NULL;
+	double w, h;
+	gog_graph_get_size (graph, &w, &h);
+	output = gsf_output_memory_new ();
+	omem   = GSF_OUTPUT_MEMORY (output);
+	switch (info) {
+	case 0: {
+			GsfXMLOut *xout;
+			char *old_num_locale, *old_monetary_locale;
+		
+			old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
+			go_setlocale (LC_NUMERIC, "C");
+			old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
+			go_setlocale (LC_MONETARY, "C");
+			go_set_untranslated_bools ();
+		
+			xout = gsf_xml_out_new (output);
+			gog_object_write_xml_sax (GOG_OBJECT (graph), xout);
+			g_object_unref (xout);
+		
+			/* go_setlocale restores bools to locale translation */
+			go_setlocale (LC_MONETARY, old_monetary_locale);
+			g_free (old_monetary_locale);
+			go_setlocale (LC_NUMERIC, old_num_locale);
+			g_free (old_num_locale);
+		}
+		break;
+	case 1:
+	case 2:
+		gog_graph_export_to_svg (graph, output, w, h, 1.0);
+		break;
+	default: {
+			GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (
+				g_object_new (GOG_RENDERER_PIXBUF_TYPE,
+						  "model", graph,
+						  NULL));
+			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (prend);
+	
+			if (!pixbuf) {
+				gog_renderer_pixbuf_update (prend, (int) w, (int) h, 1.);
+				pixbuf = gog_renderer_pixbuf_get (prend);
+			}
+			gdk_pixbuf_save_to_callback (pixbuf,
+							   gsf_gdk_pixbuf_save,
+							   output, format,
+							   &error, NULL);
+			g_object_unref (prend);
+		}
+		break;
+	}
+	osize = gsf_output_size (output);
+			
+	buffer = (guchar*) g_malloc (osize);
+	memcpy (buffer, gsf_output_memory_get_bytes (omem), osize);
+	gsf_output_close (output);
+	g_object_unref (output);
+	g_free (format);
+	gtk_selection_data_set (selection_data,
+				selection_data->target, 8,
+				(guchar *) buffer, osize);
+	g_free (buffer);
+}
+
+void on_clear_data(GtkClipboard *clipboard, GogGraph *graph)
+{
+	g_object_unref (graph);
+}
+
+static GtkTargetEntry const targets[] = {
+	{(char *) "application/x-goffice-graph",  0, 0},
+	{(char *) "image/svg+xml", 0, 2},
+	{(char *) "image/svg", 0, 1},
+	{(char *) "image/png", 0, 3}
+};
+
+static void on_copy (GOGraphWidget *widget)
+{
+	GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_set_with_data (clipboard, targets, 4,
+		(GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data,
+		gog_object_dup (GOG_OBJECT (go_graph_widget_get_graph (widget)), NULL, NULL));
+}
+
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
@@ -409,13 +520,13 @@ int main (int argc, char *argv[])
 	App.monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
 	App.pattern_page = glade_xml_get_widget (xml, "pattern");
 #ifdef GO_GRAPH_WIDGET_OLD_API
-	GtkWidget *w = go_graph_widget_new ();
+	GtkWidget *pw = go_graph_widget_new ();
 #else
-	GtkWidget *w = go_graph_widget_new (NULL);
+	GtkWidget *pw = go_graph_widget_new (NULL);
 #endif
-	gtk_widget_show (w);
-	gtk_box_pack_end (GTK_BOX (App.pattern_page), w, TRUE, TRUE, 0);
-	App.chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
+	gtk_widget_show (pw);
+	gtk_box_pack_end (GTK_BOX (App.pattern_page), pw, TRUE, TRUE, 0);
+	App.chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (pw));
 	App.plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	gog_object_add_by_name (GOG_OBJECT (App.chart), "Plot", GOG_OBJECT (App.plot));
 	// Create a series for the plot and populate it with some simple data
@@ -432,11 +543,13 @@ int main (int argc, char *argv[])
 	gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MAX, data, &error);
 
 	gtk_widget_hide (App.pattern_page);
-	w = glade_xml_get_widget (xml, "entry");
+	GtkWidget *w = glade_xml_get_widget (xml, "entry");
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
 		 window);
 	gcu_element_load_databases ("isotopes", NULL);
+	w = glade_xml_get_widget (xml, "copy");
+	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), pw);
 
 	if (argc == 1){
 		gtk_entry_set_text (GTK_ENTRY (w), argv[0]);
