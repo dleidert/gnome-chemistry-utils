@@ -1,3 +1,9 @@
+Version 0.5.4
+	periodic table: display atomic radii, copy charts to other apps.
+	mozilla plugin and 2d viewer: support background changes
+	and spacefill model display.
+	gchemcalc: copy isotopic patterns charts to other apps.
+	
 Version 0.5.3
 	periodic table: display ionization energy and electron affinity.
 	mozilla plugin: display pdb and mol files, and support limited
