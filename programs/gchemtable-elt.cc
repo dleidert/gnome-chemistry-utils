@@ -29,6 +29,7 @@
 #include "gchemtable-app.h"
 #include <gcu/element.h>
 #include <glib/gi18n.h>
+#include <list>
 
 #warning "the following lines should be removed for stable releases"
 #undef PACKAGE
@@ -240,6 +241,96 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 		w = glade_xml_get_widget (xml, "metallic-radius");
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
 		gtk_widget_hide (button);
+	}
+	GcuAtomicRadius const **radii = elt->GetRadii ();
+	list <GcuAtomicRadius const*> radii_list;
+	list <GcuAtomicRadius const*>::iterator j, jend;
+	int maxspin = 0;
+	if (radii) while (*radii) {
+		if (((*radii)->type == GCU_IONIC) && !strcmp ((*radii)->scale, "Shannon")) {
+			j = radii_list.begin ();
+			jend = radii_list.end ();
+			while ((j != jend) && (((*j)->charge < (*radii)->charge) || 
+				(((*j)->charge == (*radii)->charge) && ((*j)->cn < (*radii)->cn) ||
+				(((*j)->cn == (*radii)->cn) && ((*j)->spin < (*radii)->spin)))))
+				j++;
+			radii_list.insert (j, *radii);
+			if ((*radii)->spin > maxspin)
+				maxspin = (*radii)->spin;
+		}
+		radii++;
+	}
+	if (radii_list.size () == 0) {
+		w = gtk_label_new (_("n.a."));
+		gtk_widget_show (w);
+		gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (xml, "ionic-radii")),
+								w, FALSE, FALSE, 0);
+		gtk_widget_hide (glade_xml_get_widget (xml, "radii-scrolled"));
+	} else {
+		pclist = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+		tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "radii-list"));
+		gtk_tree_view_set_model (tree, GTK_TREE_MODEL (pclist));
+		/* column for element */
+		renderer = gtk_cell_renderer_text_new ();
+		column = gtk_tree_view_column_new_with_attributes (_("Ion"), renderer, "markup", 0, NULL);
+		/* set this column to a minimum sizing (of 80 pixels) */
+		gtk_tree_view_column_set_spacing (column, 5);
+		gtk_tree_view_append_column (tree, column);
+		/* column for x */
+		renderer = gtk_cell_renderer_text_new ();
+		/* C.N. stands for coordination number */
+		column = gtk_tree_view_column_new_with_attributes (_("C.N."), renderer, "text", 1, NULL);
+		g_object_set (G_OBJECT (renderer), "xalign", 1.0, NULL);
+		/* set this column to a fixed sizing (of 50 pixels) */
+		gtk_tree_view_column_set_spacing (column, 5);
+		gtk_tree_view_append_column (tree, column);
+		column = gtk_tree_view_column_new_with_attributes (_("Spin"), renderer, "text", 2, NULL);
+		if (maxspin == 0)
+			g_object_set (G_OBJECT (column), "visible", false, NULL);
+		g_object_set (G_OBJECT (renderer), "xalign", 1.0, NULL);
+		/* set this column to a fixed sizing (of 50 pixels) */
+		gtk_tree_view_column_set_spacing (column, 5);
+		gtk_tree_view_append_column (tree, column);
+		column = gtk_tree_view_column_new_with_attributes (_("Value"), renderer, "text", 3, NULL);
+		g_object_set (G_OBJECT (renderer), "xalign", 1.0, NULL);
+		/* set this column to a fixed sizing (of 50 pixels) */
+		gtk_tree_view_column_set_spacing (column, 5);
+		gtk_tree_view_append_column (tree, column);
+		jend = radii_list.end ();
+		char *ion, *cn, *spin;
+		for (j = radii_list.begin (); j != jend; j++) {
+			if ((*j)->charge > 1)
+				ion = g_strdup_printf ("%s<sup>%d+</sup><sub> </sub>",elt->GetSymbol (),(*j)->charge);
+			else if ((*j)->charge < -1)
+				ion = g_strdup_printf ("%s<sup>%d\xE2\x88\x92</sup><sub> </sub>",elt->GetSymbol (),-(*j)->charge);
+			else if ((*j)->charge == 1)
+				ion = g_strdup_printf ("%s<sup>+</sup><sub> </sub>",elt->GetSymbol ());
+			else
+				ion = g_strdup_printf ("%s<sup>\xE2\x88\x92</sup><sub> </sub>",elt->GetSymbol ());
+			cn = g_strdup_printf ("%d", (*j)->cn);
+			switch ((*j)->spin) {
+			case GCU_LOW_SPIN:
+				spin = _("Low");
+				break;
+			case GCU_HIGH_SPIN:
+				spin = _("High");
+				break;
+			default:
+				spin = "";
+				break;
+			}
+			buf = gcu_dimensional_value_get_string (&(*j)->value);
+			gtk_list_store_append (pclist, &iter);
+			gtk_list_store_set (pclist, &iter,
+					  0, ion,
+					  1, cn,
+					  2, spin,
+					  3, buf,
+					  -1);
+			g_free (ion);
+			g_free (cn);
+			g_free (buf);
+		}
 	}
 }
 

@@ -88,7 +88,7 @@
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="headers_visible">True</property>
-			  <property name="rules_hint">False</property>
+			  <property name="rules_hint">True</property>
 			  <property name="reorderable">False</property>
 			  <property name="enable_search">True</property>
 			  <property name="fixed_height_mode">False</property>
@@ -1083,7 +1083,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkHBox" id="hbox4">
+		<widget class="GtkHBox" id="ionic-radii">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">0</property>
@@ -1125,7 +1125,50 @@
 	      </child>
 
 	      <child>
-		<placeholder/>
+		<widget class="GtkHBox" id="hbox4">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">0</property>
+
+		  <child>
+		    <widget class="GtkScrolledWindow" id="radii-scrolled">
+		      <property name="visible">True</property>
+		      <property name="can_focus">True</property>
+		      <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+		      <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+		      <property name="shadow_type">GTK_SHADOW_IN</property>
+		      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
+		      <child>
+			<widget class="GtkTreeView" id="radii-list">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="headers_visible">True</property>
+			  <property name="rules_hint">True</property>
+			  <property name="reorderable">False</property>
+			  <property name="enable_search">True</property>
+			  <property name="fixed_height_mode">False</property>
+			  <property name="hover_selection">False</property>
+			  <property name="hover_expand">False</property>
+			</widget>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="padding">50</property>
+		      <property name="expand">False</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <placeholder/>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
 	      </child>
 	    </widget>
 	    <packing>
@@ -1170,8 +1213,8 @@
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
-	  <property name="expand">True</property>
-	  <property name="fill">True</property>
+	  <property name="expand">False</property>
+	  <property name="fill">False</property>
 	</packing>
       </child>
 
@@ -1235,8 +1278,8 @@
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
-	  <property name="expand">True</property>
-	  <property name="fill">True</property>
+	  <property name="expand">False</property>
+	  <property name="fill">False</property>
 	</packing>
       </child>
     </widget>
