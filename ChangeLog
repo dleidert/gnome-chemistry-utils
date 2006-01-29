@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2006-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.5.4.
+	* docs/reference/Doxyfile.in: exclude gcu/gtkcomboperiodic.c
+	* gcu/application.h: update reference documentation.
+	* gcu/chemistry.h: ditto.
+	* gcu/dialog.cc: fixed Dialog::GetNumber.
+	* gcu/dialog.h: update reference documentation.
+	* gcu/element.h: ditto.
+	* gcu/formula.h: ditto.
+	* gcu/gtkchem3dviewer.h: ditto.
+	* gcu/gtkcomboperiodic.h: ditto.
+	* gcu/isotope.h: ditto.
+	* programs/gchem3d-viewer.c: updated copyright in About box.
+	* programs/gchemcalc.cc: ditto.
+	* programs/gchemtable-app.cc: ditto.
+
 2006-01-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/eltpage.glade: add ionic radii list.
 	* programs/gchemtable-elt.cc: ditto.

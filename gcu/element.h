@@ -228,9 +228,28 @@ public:
 	element.
 	*/
 	IsotopicPattern *GetIsotopicPattern (unsigned natoms);
+	/*!
+	@return the fundamental electronic configuration for the element. The
+	returned string is formated as a pango markup, with electron numbers
+	for each sublevel as superscript.
+	*/
 	string const& GetElectronicConfiguration () {return ElecConfig;}
+	/*!
+	@return the map of known names for the element indexed by language.
+	*/
 	map<string, string> const& GetNames () {return names;}
+	/*!
+	@param rank: the rank of the ionization.
+
+	@return the requested ionization energy as a &GcuDimensionalValue.
+	*/
 	GcuDimensionalValue const *GetIonizationEnergy (unsigned rank = 1);
+	/*!
+	@param rank: the rank of the electron affinity.
+
+	@return the requested electron affinity as a &GcuDimensionalValue.
+	For most elements, only the first is known.
+	*/
 	GcuDimensionalValue const *GetElectronAffinity (unsigned rank = 1);
 
 private:

@@ -31,10 +31,11 @@ The Gnome Chemistry Utils provide some widgets and C++ classes related to chemis
 
 Available widgets are:
 - GtkPeriodic: a periodic table of the elements.
+- GtkComboPeriodic: a combo box witha dropdown periodic table widget.
 - GtkCrystalViewer: a crystal structure viewer.
 - GtkChem3DViewer: a 3D molecular structure viewer. This widget is also available as a Bonobo control.
 
-The C++ classes are grouped in te gcu namespace. A C interface exists to use some of the
+The C++ classes are grouped in the gcu namespace. A C interface exists to use some of the
 functionalities offered in these classes; the corresponding documentation is available in the
 chemistry.h file.
 */
@@ -115,7 +116,7 @@ typedef struct
 {
 	/** The value.*/
 	double value;
-	/** The precision (number of significative decimal figures.*/
+	/** The precision (number of significative decimal figures).*/
 	int prec;
 	/** The standard error (* 10^prec). */
 	int delta;
@@ -278,7 +279,20 @@ Loads the listed databases.
 */
 void gcu_element_load_databases (char* name, ...);
 
+/*!
+\param value: the GcuValue to represent as a string.
+
+\return the GcuValue as a string taking into account the precision and
+incertitude
+*/
 gchar* gcu_value_get_string (GcuValue const *value);
+
+/*!
+\param value: the GcuDimensionalValue to represent as a string.
+
+\return the GcuDimensionalValue as a string taking into account the precision and
+incertitude
+*/
 gchar* gcu_dimensional_value_get_string (GcuDimensionalValue const *value);
 
 G_END_DECLS

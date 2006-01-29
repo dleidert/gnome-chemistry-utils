@@ -153,7 +153,7 @@ static void on_about (GtkWidget *widget, void *data)
 					"name", "GChem3D",
 					"authors", authors,
 					"comments", _("GChem3D is a molecular structures viewer for Gnome"),
-					"copyright", _("(C) 2004-2005 by Jean Bréfort"),
+					"copyright", _("(C) 2004-2006 by Jean Bréfort"),
 					"license", license,
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
 											(const char *)translator_credits : NULL,

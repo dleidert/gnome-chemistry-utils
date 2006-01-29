@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkchem3dviewer.h 
  *
- * Copyright (C) 2003-2004
+ * Copyright (C) 2003-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -67,7 +67,7 @@ GType gtk_display3d_get_type (void);
  Test programs are available in the tests directory of the Gnome Chemistry Utils source archive (sources in testgtkchem3dviewer.c
 for the use of the widget and in testbonobocontrol.c for the use of the Bonobo control).
 <hr>
-<<h2>Properties</h2>
+<h2>Properties</h2>
 There are two properties:
 - "display3d": Display3DMode (Read / Write).
 	<br>This property is used to set the display mode. When using the Bonobo control, a string is used instead the enumeration.
@@ -80,17 +80,6 @@ There are two properties:
 	
 - "bgcolor": gchar* (Read / Write).
 	<br>The background color for the display, for example "black" or "#ffffe6".
-.
-To set one of these properties when using the Bonobo control, use the associated Bonobo_PropertyBag. Example
-where control is an already existing BonoboControl widget (without error checking):
-\code
-BonoboControlFrame *control_frame;
-Bonobo_PropertyBag prop_bag;
-control_frame = bonobo_widget_get_control_frame(BONOBO_WIDGET(control));
-prop_bag = bonobo_control_frame_get_control_property_bag (control_frame, NULL);
-bonobo_pbclient_set_string (prop_bag, "display3d", "ball&stick", NULL);
-\endcode
-<hr>
 <h2>Functions</h2>
 
 Functions related to the GtkChem3DViewer Widget are described in the gtkchem3dviewer.h page.
@@ -124,6 +113,7 @@ GtkWidget*            gtk_chem3d_viewer_new               (const gchar* uri);
 /*!
 @param viewer: a pointer to GtkChem3DViewer widget.
 @param uri: the URI of the file containing the molecular structure to display. Any file supported by
+@param mime_type: the mime_type of the data. Any type supported by
 <a href="http://openbabel.sourceforge.net">OpenBabel</a> may be used.
 
 Changes the molecule displayed by the one described in the uri. Nothing happens if uri is NULL.
@@ -132,7 +122,6 @@ void	gtk_chem3d_viewer_set_uri_with_mime_type	(GtkChem3DViewer * viewer, const g
 /*!
 @param viewer: a pointer to GtkChem3DViewer widget.
 @param uri: the URI of the file containing the molecular structure to display.
-@param mime_type: the mime_type of the data. Any type supported by
 <a href="http://openbabel.sourceforge.net">OpenBabel</a> may be used.
 
 Changes the molecule displayed by the one described in the uri. Nothing happens if uri is NULL.

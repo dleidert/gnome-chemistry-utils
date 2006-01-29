@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemcalc.cc 
  *
- * Copyright (C) 2005
+ * Copyright (C) 2005-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -116,7 +116,7 @@ static void on_about (GtkWidget *widget, void *data)
 					"name", "GChemCalc",
 					"authors", authors,
 					"comments", _("GChemCalc is a simple calculator for chemists"),
-					"copyright", _("(C) 2005 by Jean Bréfort"),
+					"copyright", _("(C) 2005-2006 by Jean Bréfort"),
 					"license", license,
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
 											(const char *)translator_credits : NULL,
