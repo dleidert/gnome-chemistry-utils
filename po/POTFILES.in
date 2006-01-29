@@ -1,11 +1,16 @@
 [encoding: UTF-8]
+glade/eltpage.glade
 glade/gchemcalc.glade
 glade/gtkperiodic.glade
 database/elements.xml.in
 database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in
+gcu/crystaldoc.cc
+gcu/dialog.cc
 gcu/element.cc
+gcu/formula.cc
+gcu/gtkchem3dviewer.cc
 gcu/gtkcomboperiodic.c
 programs/gchem3d-viewer.c
 programs/gchemcalc.cc
