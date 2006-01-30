@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: remove unstable desktop files and add stable ones.
+
 2006-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* po/POTFILES.in: add missing files.
 	* po/fr.po: update french trnaslation.
