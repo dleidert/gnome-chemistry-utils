@@ -13,6 +13,7 @@ gcu/formula.cc
 gcu/gtkchem3dviewer.cc
 gcu/gtkcomboperiodic.c
 programs/gchem3d-viewer.c
+programs/gchem3d-viewer-unstable.desktop.in
 programs/gchemcalc.cc
 programs/gchemcalc-unstable.desktop.in
 programs/gchemtable-app.cc
