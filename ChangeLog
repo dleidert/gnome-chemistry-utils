@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2006-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu.pc.in: removed unuseful things from Libs and Cflags,
+	added -DHAS_OPENBABEL_2 to Cflags for compatibility with 0.4.
+
+2006-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post branching version bump to 0.5.90.
 	* Makefile.am: remove all unstable stuff.
 	* database/Makefile.am: ditto.
