@@ -59,6 +59,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-image.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
 #include <gsf/gsf-input-memory.h>
@@ -289,20 +290,6 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 	}
 }
 
-static gboolean gsf_gdk_pixbuf_save (const char *buf,
-			 gsize count,
-			 GError **error,
-			 gpointer data)
-{
-	GsfOutput *output = GSF_OUTPUT (data);
-	gboolean ok = gsf_output_write (output, count, (const guint8*) buf);
-
-	if (!ok && error)
-		*error = g_error_copy (gsf_output_error (output));
-
-	return ok;
-}
-
 static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
 {
 	guchar *buffer = NULL;
@@ -310,7 +297,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	GsfOutput *output;
 	GsfOutputMemory *omem;
 	gsf_off_t osize;
-	GError *error = NULL;
+	GOImageFormat fmt = GO_IMAGE_FORMAT_UNKNOWN;
 	double w, h;
 	gog_graph_get_size (graph, &w, &h);
 	output = gsf_output_memory_new ();
@@ -339,38 +326,29 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		break;
 	case 1:
 	case 2:
-		gog_graph_export_to_svg (graph, output, w, h, 1.0);
+		fmt = GO_IMAGE_FORMAT_SVG;
 		break;
-	default: {
-			GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (
-				g_object_new (GOG_RENDERER_PIXBUF_TYPE,
-						  "model", graph,
-						  NULL));
-			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (prend);
-	
-			if (!pixbuf) {
-				gog_renderer_pixbuf_update (prend, (int) w, (int) h, 1.);
-				pixbuf = gog_renderer_pixbuf_get (prend);
-			}
-			gdk_pixbuf_save_to_callback (pixbuf,
-							   gsf_gdk_pixbuf_save,
-							   output, format,
-							   &error, NULL);
-			g_object_unref (prend);
-		}
+	case 3:
+		fmt = GO_IMAGE_FORMAT_PNG;
 		break;
 	}
-	osize = gsf_output_size (output);
-			
-	buffer = (guchar*) g_malloc (osize);
-	memcpy (buffer, gsf_output_memory_get_bytes (omem), osize);
-	gsf_output_close (output);
-	g_object_unref (output);
-	g_free (format);
-	gtk_selection_data_set (selection_data,
-				selection_data->target, 8,
-				(guchar *) buffer, osize);
-	g_free (buffer);
+	/* FIXME Add a dpi editor. Default dpi to 150 for now */
+	bool res = (fmt != GO_IMAGE_FORMAT_UNKNOWN)?
+		gog_graph_export_image (graph, fmt, output, 150.0, 150.0):
+		true;
+	if (res) {
+		osize = gsf_output_size (output);
+				
+		buffer = (guchar*) g_malloc (osize);
+		memcpy (buffer, gsf_output_memory_get_bytes (omem), osize);
+		gsf_output_close (output);
+		g_object_unref (output);
+		g_free (format);
+		gtk_selection_data_set (selection_data,
+					selection_data->target, 8,
+					(guchar *) buffer, osize);
+		g_free (buffer);
+	}
 }
 
 void on_clear_data(GtkClipboard *clipboard, GogGraph *graph)
@@ -496,6 +474,7 @@ int main (int argc, char *argv[])
 	App.pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	GtkTreeView *tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "composition"));
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (App.pclist));
+	g_object_unref (App.pclist);
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	/* column for element */

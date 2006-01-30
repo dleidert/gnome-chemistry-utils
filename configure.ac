@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.5.4)
+AC_INIT(gnome-chemistry-utils, 0.7.0)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -49,7 +49,7 @@ GNOME_VFS_REQUIRED_VERSION=2.4.0
 SHARED_MIME_INFO_REQUIRED_VERSION=0.12
 OPENBABEL_REQUIRED_VERSION=2.0.0
 GTK_REQUIRED_VERSION=2.6.0
-GNOME_OFFICE_REQUIRED_VERSION=0.1.0
+GNOME_OFFICE_REQUIRED_VERSION=0.3.0
 CHEMICAL_MIME_DATA_REQUIRED_VERSION=0.1.0
 
 REQUIREMENTS="libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
@@ -57,7 +57,7 @@ gtk+-2.0 >= $GTK_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprintui-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
-libgoffice-1 >= $GNOME_OFFICE_REQUIRED_VERSION \
+libgoffice-0.3 >= $GNOME_OFFICE_REQUIRED_VERSION \
 chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
 shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION"
@@ -115,7 +115,7 @@ if test "x$test_mozilla_plugin" != "xno"; then
 	  mozlibdir=`mozilla-config --libs|sed 's/-L//'`
    else
 	PKG_CHECK_MODULES(MOZILLA, mozilla-plugin, build_mozilla_plugin=yes, 
-			[PKG_CHECK_MODULES(MOZILLA, firefox-plugin, build_mozilla_plugin=yes,
+			[echo "no"; PKG_CHECK_MODULES(MOZILLA, firefox-plugin, build_mozilla_plugin=yes,
 			[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])])])
 	mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
 	if test "x$mozlibdir" = "x"; then
@@ -179,5 +179,5 @@ dtds/Makefile
 docs/Makefile
 docs/reference/Makefile
 docs/reference/Doxyfile
-gcu-0.5.pc
+gcu-unstable.pc
 ])

@@ -74,6 +74,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 	GtkListStore *pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	GtkTreeView *tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "names"));
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (pclist));
+	g_object_unref (pclist);
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	/* column for element */
@@ -270,6 +271,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 		pclist = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 		tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "radii-list"));
 		gtk_tree_view_set_model (tree, GTK_TREE_MODEL (pclist));
+		g_object_unref (pclist);
 		/* column for element */
 		renderer = gtk_cell_renderer_text_new ();
 		column = gtk_tree_view_column_new_with_attributes (_("Ion"), renderer, "markup", 0, NULL);

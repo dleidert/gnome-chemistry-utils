@@ -1,10 +1,10 @@
 bin_PROGRAMS = gchemcalc-unstable gchem3d-viewer-unstable gchemtable-unstable
 
 gchemcalc_unstable_SOURCES = gchemcalc.cc
-gchemcalc_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
+gchemcalc_unstable_LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
 
 gchem3d_viewer_unstable_SOURCES = gchem3d-viewer.c
-gchem3d_viewer_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
+gchem3d_viewer_unstable_LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
 
 gchemtable_unstable_SOURCES =	\
 	gchemtable-main.cc	\
@@ -14,10 +14,10 @@ gchemtable_unstable_SOURCES =	\
 	gchemtable-elt.h	\
 	gchemtable-curve.cc	\
 	gchemtable-curve.h
-gchemtable_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
+gchemtable_unstable_LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
 
 DEPS = \
-	$(top_builddir)/gcu/libgcu-0.5.la
+	$(top_builddir)/gcu/libgcu-unstable.la
 
 INCLUDES = @GCU_CFLAGS@
 

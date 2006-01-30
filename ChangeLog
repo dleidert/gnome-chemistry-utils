@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2006-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: changed to new develop branch.
+	* configure.ac: ditto, post branching version bump to 0.7.0, and requires
+	libgoffice-0.3 >= 0.3.0.
+	* gcu-0.5.pc.in: removed obsolete.
+	* gcu-unstable.pc.in: add new one and fix some details.
+	* gcu.pc.in: remove unuseful things from Libs and Cflags, add
+	libgoffice-1 to Requires.
+	* gcu/Makefile.am: changed to new develop branch.
+	* mozilla-plugin/Makefile.am: ditto.
+	* programs/Makefile.am: ditto.
+	* programs/gchemcalc.cc: ditto, and fix a memory leak.
+	* programs/gchemtable-curve.cc: ditto.
+	* programs/gchemtable-elt.cc: ditto, and fix a couple of memory leaks.
+	* tests/Makefile.am: ditto.
+
 2006-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.5.4.
 	* docs/reference/Doxyfile.in: exclude gcu/gtkcomboperiodic.c

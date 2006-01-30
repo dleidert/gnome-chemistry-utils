@@ -1,13 +1,13 @@
 SUBDIRS = po database glade gcu programs mozilla-plugin tests dtds docs
 
 EXTRA_DIST=	\
-	gcu-0.5.pc.in \
+	gcu-unstable.pc.in \
 	intltool-extract.in	\
 	intltool-update.in	\
 	intltool-merge.in
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA= gcu-0.5.pc
+pkgconfig_DATA= gcu-unstable.pc
 	
 DISTCLEANFILES = \
 	intltool-extract \

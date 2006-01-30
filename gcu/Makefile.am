@@ -1,6 +1,6 @@
-lib_LTLIBRARIES= libgcu-0.5.la
+lib_LTLIBRARIES= libgcu-unstable.la
 
-libgcu_0_5_la_SOURCES = \
+libgcu_unstable_la_SOURCES = \
 		atom.cc \
 		bond.cc \
 		object.cc \
@@ -25,7 +25,7 @@ libgcu_0_5_la_SOURCES = \
 		crystalcleavage.cc \
 		gtkchem3dviewer.cc
 
-libgcu_0_5_la_headers = \
+libgcu_unstable_la_headers = \
 		atom.h \
 		bond.h \
 		object.h \
@@ -50,9 +50,9 @@ libgcu_0_5_la_headers = \
 		crystalcleavage.h \
 		gtkchem3dviewer.h
 
-gcuincludedir = $(includedir)/gcu-0.5/gcu
-gcuinclude_HEADERS = $(libgcu_0_5_la_headers)
+gcuincludedir = $(includedir)/gcu-unstable/gcu
+gcuinclude_HEADERS = $(libgcu_unstable_la_headers)
 		
-libgcu_0_5_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
+libgcu_unstable_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
