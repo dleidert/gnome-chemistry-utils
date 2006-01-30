@@ -23,9 +23,6 @@
  */
 
 #include "config.h"
-#warning "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
 #include "gtkperiodic.h"
 #include "chemistry.h"
 #include <string.h>
@@ -168,7 +165,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	int i;
 	char* domain = g_strdup(textdomain(NULL));
 	textdomain(GETTEXT_PACKAGE);
-	xml =  glade_xml_new(DATADIR"/"PACKAGE"/glade/gtkperiodic.glade", "vbox1", NULL);
+	xml =  glade_xml_new(DATADIR"/gchemutils/glade/gtkperiodic.glade", "vbox1", NULL);
 	g_return_if_fail (xml);
 	g_object_set_data(G_OBJECT(periodic), "xml", xml);
 	glade_xml_signal_autoconnect (xml);

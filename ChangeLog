@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2006-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post branching version bump to 0.5.90.
+	* Makefile.am: remove all unstable stuff.
+	* database/Makefile.am: ditto.
+	* gcu/Makefile.am: ditto.
+	* gcu/crystalbond.cc: ditto.
+	* gcu/crystalbond.h: ditto.
+	* gcu/crystaldoc.h: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/gtkperiodic.c: (gtk_periodic_init): ditto.
+	* glade/Makefile.am: ditto.
+	* mozilla-plugin/Makefile.am: ditto.
+	* mozilla-plugin/moz-plugin.c: (ChemPrint): ditto.
+	* programs/Makefile.am: ditto.
+	* programs/gchemcalc.cc: ditto, fix a memory leak.
+	* programs/gchemtable-app.cc: ditto.
+	* programs/gchemtable-curve.cc: ditto.
+	* programs/gchemtable-elt.cc: ditto, fix a couple of memory leaks.
+	* tests/Makefile.am: ditto.
+
 2006-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.5.4.
 	* docs/reference/Doxyfile.in: exclude gcu/gtkcomboperiodic.c

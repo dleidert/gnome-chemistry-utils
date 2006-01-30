@@ -93,7 +93,7 @@ EltTable::EltTable()
 	Langs["it"] = _("Italian");
 	Langs["pl"] = _("Polish");
 	Langs["ru"] = _("Russian");
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/elements.xml")))
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils/elements.xml")))
 	{
 		g_error (_("Can't find and read elements.xml"));
 	}
@@ -421,7 +421,7 @@ void Element::LoadRadii ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/radii.xml")))
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils/radii.xml")))
 	{
 		g_error (_("Can't find and read radii.xml"));
 	}
@@ -521,7 +521,7 @@ void Element::LoadElectronicProps ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/elecprops.xml")))
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils/elecprops.xml")))
 	{
 		g_error (_("Can't find and read elecprops.xml"));
 	}
@@ -679,7 +679,7 @@ void Element::LoadIsotopes ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/isotopes.xml")))
+	if (!(xml = xmlParseFile (DATADIR"/gchemutils/isotopes.xml")))
 	{
 		g_error (_("Can't find and read isotopes.xml"));
 	}

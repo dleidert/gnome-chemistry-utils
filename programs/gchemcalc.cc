@@ -25,9 +25,6 @@
  */
 
 #include "config.h"
-#warning "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
 #include <gcu/element.h>
 #include <gcu/formula.h>
 #include <glib/gi18n.h>
@@ -455,9 +452,8 @@ int main (int argc, char *argv[])
 		argv ++;
 	}
 
-#warning "the following line should be edited for stable releases"
 	if (argc > 1) {
-		cout << _("Usage: gchemcalc-unstable [OPTION...] [formula]") << endl;
+		cout << _("Usage: gchemcalc [OPTION...] [formula]") << endl;
 		return -1;
 	}
 	
@@ -466,7 +462,7 @@ int main (int argc, char *argv[])
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
-	GladeXML *xml =  glade_xml_new (DATADIR"/"PACKAGE"/glade/gchemcalc.glade", "gchemcalc", NULL);
+	GladeXML *xml =  glade_xml_new (DATADIR"/gchemutils/glade/gchemcalc.glade", "gchemcalc", NULL);
 	GtkWidget *window = glade_xml_get_widget (xml, "gchemcalc");
 	g_signal_connect (GTK_OBJECT (window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
@@ -496,6 +492,7 @@ int main (int argc, char *argv[])
 	App.pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	GtkTreeView *tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "composition"));
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (App.pclist));
+	g_object_unref (App.pclist);
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	/* column for element */

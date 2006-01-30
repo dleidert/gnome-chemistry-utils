@@ -31,7 +31,6 @@
 #include <glib.h>
 #include "chemistry.h"
 #include "crystalatom.h"
-#include "crystalbond.h"
 #include "crystalline.h"
 #include "crystalcleavage.h"
 

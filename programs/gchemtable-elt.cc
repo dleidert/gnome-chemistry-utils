@@ -31,17 +31,13 @@
 #include <glib/gi18n.h>
 #include <list>
 
-#warning "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
-
 extern void on_show_curve (GObject *obj, char const* name);
 static void on_focus_in (GChemTableElt *dlg)
 {
 	dlg->OnFocusIn ();
 }
 
-GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/"PACKAGE"/glade/eltpage.glade", "eltdlg")
+GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/gchemutils/glade/eltpage.glade", "eltdlg")
 {
 	Element *elt = Element::GetElement (Z);
 	m_Z = Z;
@@ -74,6 +70,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 	GtkListStore *pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	GtkTreeView *tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "names"));
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (pclist));
+	g_object_unref (pclist);
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	/* column for element */
@@ -147,7 +144,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 		buf = g_strdup_printf ("ei/%d", n);
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) buf);
-#warning FIXME: clean this on exit
+// FIXME: clean this on exit
 		n++;
 	}
 	gtk_widget_show_all (GTK_WIDGET (table));
@@ -270,6 +267,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 		pclist = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 		tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "radii-list"));
 		gtk_tree_view_set_model (tree, GTK_TREE_MODEL (pclist));
+		g_object_unref (pclist);
 		/* column for element */
 		renderer = gtk_cell_renderer_text_new ();
 		column = gtk_tree_view_column_new_with_attributes (_("Ion"), renderer, "markup", 0, NULL);

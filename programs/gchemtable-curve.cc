@@ -53,10 +53,6 @@
 
 using namespace gcu;
 
-#warning "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
-
 map<string, GChemTableCurve*> curves;
 
 void on_show_curve (GObject *obj, char const* name)
@@ -176,7 +172,7 @@ static void on_copy (GogGraph *graph)
 }
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
-	Dialog (App, DATADIR"/"PACKAGE"/glade/curve.glade", "curvedlg")
+	Dialog (App, DATADIR"/gchemutils/glade/curve.glade", "curvedlg")
 {
 	m_Name = name;
 	GtkWidget *w = glade_xml_get_widget (xml, "vbox1");

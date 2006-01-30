@@ -1,12 +1,12 @@
-bin_PROGRAMS = gchemcalc-unstable gchem3d-viewer-unstable gchemtable-unstable
+bin_PROGRAMS = gchemcalc gchem3d-viewer gchemtable
 
-gchemcalc_unstable_SOURCES = gchemcalc.cc
-gchemcalc_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
+gchemcalc_SOURCES = gchemcalc.cc
+gchemcalc_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 
-gchem3d_viewer_unstable_SOURCES = gchem3d-viewer.c
-gchem3d_viewer_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
+gchem3d_viewer_SOURCES = gchem3d-viewer.c
+gchem3d_viewer_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 
-gchemtable_unstable_SOURCES =	\
+gchemtable_SOURCES =	\
 	gchemtable-main.cc	\
 	gchemtable-app.cc	\
 	gchemtable-app.h	\
@@ -14,28 +14,28 @@ gchemtable_unstable_SOURCES =	\
 	gchemtable-elt.h	\
 	gchemtable-curve.cc	\
 	gchemtable-curve.h
-gchemtable_unstable_LDADD = $(top_builddir)/gcu/libgcu-0.5.la @GCU_LIBS@
+gchemtable_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 
 DEPS = \
-	$(top_builddir)/gcu/libgcu-0.5.la
+	$(top_builddir)/gcu/libgcu.la
 
 INCLUDES = @GCU_CFLAGS@
 
 desktopdir=$(datadir)/applications
 desktop_in_files = \
-	gchem3d-viewer-unstable.desktop.in \
-	gchemcalc-unstable.desktop.in	\
-	gchemtable-unstable.desktop.in
+	gchem3d-viewer.desktop.in \
+	gchemcalc.desktop.in	\
+	gchemtable.desktop.in
 desktop_DATA = \
-	gchem3d-viewer-unstable.desktop \
-	gchemcalc-unstable.desktop	\
-	gchemtable-unstable.desktop
+	gchem3d-viewer.desktop \
+	gchemcalc.desktop	\
+	gchemtable.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 CLEANFILES = \
-	gchem3d-viewer-unstable.desktop \
-	gchemcalc-unstable.desktop	\
-	gchemtable-unstable.desktop
+	gchem3d-viewer.desktop \
+	gchemcalc.desktop	\
+	gchemtable.desktop
 		
 EXTRA_DIST=$(desktop_in_files)
 

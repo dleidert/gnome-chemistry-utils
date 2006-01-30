@@ -1,4 +1,4 @@
-xmldir = $(datadir)/gchemutils-unstable
+xmldir = $(datadir)/gchemutils
 
 xml_in_files = \
 	elements.xml.in \

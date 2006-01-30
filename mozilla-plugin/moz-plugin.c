@@ -26,6 +26,7 @@
 #include "npapi.h"
 #include "npupp.h"
 #include <unistd.h>
+#include <string.h>
 
 static NPNetscapeFuncs mozilla_funcs;
 static int pid = 0;
@@ -165,7 +166,7 @@ static NPError ChemNewStream (NPP instance, NPMIMEType type, NPStream *stream,
 
 static void ChemPrint (NPP instance, NPPrint *platformPrint)
 {
-#warning TODO: implement !!!
+// TODO: implement !!!
 }
 
 static void ChemStreamAsFile (NPP instance, NPStream *stream, const char *fname)

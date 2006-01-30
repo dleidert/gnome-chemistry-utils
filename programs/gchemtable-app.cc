@@ -102,8 +102,7 @@ static const char *ui_description =
 "  </menubar>"
 "</ui>";
 
-#warning "the following line should be edited for stable releases"
-GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
+GChemTableApp::GChemTableApp (): Application ("gchemtable")
 {
 	GtkVBox* vbox;
 

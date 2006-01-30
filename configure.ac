@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.5.4)
+AC_INIT(gnome-chemistry-utils, 0.5.90)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -78,7 +78,7 @@ AC_DEFINE_UNQUOTED(GO_GRAPH_WIDGET_OLD_API, 1,[go_graph_widget_new has no arg])
 fi
 CFLAGS=$saved_cflags
 
-GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
+GCU_CFLAGS="$GCU_CFLAGS -Wall"
 AC_SUBST(GCU_CFLAGS)
 AC_SUBST(GCU_LIBS)
 
@@ -115,7 +115,7 @@ if test "x$test_mozilla_plugin" != "xno"; then
 	  mozlibdir=`mozilla-config --libs|sed 's/-L//'`
    else
 	PKG_CHECK_MODULES(MOZILLA, mozilla-plugin, build_mozilla_plugin=yes, 
-			[PKG_CHECK_MODULES(MOZILLA, firefox-plugin, build_mozilla_plugin=yes,
+			[echo "no"; PKG_CHECK_MODULES(MOZILLA, firefox-plugin, build_mozilla_plugin=yes,
 			[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])])])
 	mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
 	if test "x$mozlibdir" = "x"; then
@@ -179,5 +179,5 @@ dtds/Makefile
 docs/Makefile
 docs/reference/Makefile
 docs/reference/Doxyfile
-gcu-0.5.pc
+gcu.pc
 ])
