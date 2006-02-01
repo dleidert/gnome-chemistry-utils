@@ -1,5 +1,85 @@
 ##Text encoding: utf-8
 
+2006-02-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/Makefile.am: move all programs to subdirectories
+	and import Gnome Crystal source code.
+	* programs/3d/Makefile.am: new Makefile for gchem3d-viewer.
+	* programs/3d/gchem3d-viewer-unstable.desktop.in: file moved
+	from the programs directory.
+	* programs/3d/gchem3d-viewer.c: ditto.
+	* programs/3d/gchem3d-viewer.desktop.in: ditto.
+	* programs/calc/Makefile.am: new Makefile for gchemcalc.
+	* programs/calc/gchemcalc-unstable.desktop.in: file moved
+	from the programs directory.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/calc/gchemcalc.desktop.in: ditto.
+	* programs/crystal/Makefile.am: new Makefile for gcrystal.
+	* programs/crystal/application.cc: file imported from
+	the gcrystal project.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/atom.cc: ditto.
+	* programs/crystal/atom.h: ditto.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/atomsdlg.h: ditto.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/celldlg.h: ditto.
+	* programs/crystal/cleavage.cc: ditto.
+	* programs/crystal/cleavage.h: ditto.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/cleavagesdlg.h: ditto.
+	* programs/crystal/dialog.cc: ditto.
+	* programs/crystal/dialog.h: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/element.cc: ditto.
+	* programs/crystal/element.h: ditto.
+	* programs/crystal/filesel.cc: ditto.
+	* programs/crystal/filesel.h: ditto.
+	* programs/crystal/gcrystal-unstable.desktop.in: ditto.
+	* programs/crystal/gcrystal.desktop.in: ditto.
+	* programs/crystal/gcrystal.h: ditto.
+	* programs/crystal/globals.h: ditto.
+	* programs/crystal/line.cc: ditto.
+	* programs/crystal/line.h: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/crystal/linesdlg.h: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/prefs.cc: ditto.
+	* programs/crystal/prefs.h: ditto.
+	* programs/crystal/sizedlg.cc: ditto.
+	* programs/crystal/sizedlg.h: ditto.
+	* programs/crystal/view-settings.cc: ditto.
+	* programs/crystal/view-settings.h: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/gchem3d-viewer-unstable.desktop.in: file moved
+	to new subdirectory.
+	* programs/gchem3d-viewer.c: ditto.
+	* programs/gchem3d-viewer.desktop.in: ditto.
+	* programs/gchemcalc-unstable.desktop.in: ditto.
+	* programs/gchemcalc.cc: ditto.
+	* programs/gchemcalc.desktop.in: ditto.
+	* programs/gchemtable-app.cc: ditto.
+	* programs/gchemtable-app.h: ditto.
+	* programs/gchemtable-curve.cc: ditto.
+	* programs/gchemtable-curve.h: ditto.
+	* programs/gchemtable-elt.cc: ditto.
+	* programs/gchemtable-elt.h: ditto.
+	* programs/gchemtable-main.cc: ditto.
+	* programs/gchemtable-unstable.desktop.in: ditto.
+	* programs/gchemtable.desktop.in: ditto.
+	* programs/table/Makefile.am: new Makefile for gchemtable.
+	* programs/table/gchemtable-app.cc: file moved from the
+	programs directory.
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* programs/table/gchemtable-elt.cc: ditto.
+	* programs/table/gchemtable-elt.h: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+	* programs/table/gchemtable-unstable.desktop.in: ditto.
+	* programs/table/gchemtable.desktop.in: ditto.
+
 2006-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: changed to new develop branch.
 	* configure.ac: ditto, post branching version bump to 0.7.0, and requires
