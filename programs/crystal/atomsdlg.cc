@@ -28,6 +28,7 @@
 #include "atom.h"
 #include "atomsdlg.h"
 #include "document.h"
+#include "application.h"
 #include <gcu/element.h>
 #include <list>
 #include <string>
@@ -101,7 +102,7 @@ static void on_charge_changed (GtkSpinButton *btn, gcAtomsDlg *pBox)
 	pBox->SetCharge (gtk_spin_button_get_value_as_int (btn));
 }
 
-gcAtomsDlg::gcAtomsDlg (gcDocument* pDoc): gcDialog (DATADIR"/gcrystal-unstable/glade/atoms.glade", "atoms")
+gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gcrystal-unstable/glade/atoms.glade", "atoms")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog (this);
@@ -206,7 +207,7 @@ gcAtomsDlg::gcAtomsDlg (gcDocument* pDoc): gcDialog (DATADIR"/gcrystal-unstable/
 	m_Radius.type = GCU_RADIUS_UNKNOWN;
 	m_Radius.cn = -1;
 	m_Radius.spin = GCU_N_A_SPIN;
-	m_Radius.value = 0.;
+	m_Radius.value.value = 0.;
 	m_Radius.scale = "custom";
 	PopulateRadiiMenu ();
 }
@@ -230,7 +231,7 @@ bool gcAtomsDlg::Apply ()
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Alpha = gtk_color_button_get_alpha (AtomColor) / 65535.;
 		} else
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).CustomColor = false;
-		if ((!GetNumber (AtomR, &(m_Radius.value), gccMin, 0)) || (m_Radius.value == 0.0)) {
+		if ((!GetNumber (AtomR, &(m_Radius.value.value), Min, 0)) || (m_Radius.value.value == 0.0)) {
 		} else
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Radius = m_Radius;
 	}
@@ -244,7 +245,7 @@ bool gcAtomsDlg::Apply ()
 	
 	struct AtomStruct* s;
 	gcAtom* pAtom;
-	for (int i = 0; i  < m_Atoms->len; i++) {
+	for (unsigned i = 0; i  < m_Atoms->len; i++) {
 		s = &g_array_index (m_Atoms, struct AtomStruct, i);
 		pAtom = new gcAtom (s->Elt, s->x, s->y, s->z);
 		pAtom->SetRadius (s->Radius);
@@ -270,7 +271,7 @@ void gcAtomsDlg::AtomAdd ()
 	s.Blue = color.blue / 65535.;
 	s.Alpha = gtk_color_button_get_alpha (AtomColor) / 65535.;
 	s.CustomColor = gtk_toggle_button_get_active (CustomColor);
-	GetNumber (AtomR, &m_Radius.value);
+	GetNumber (AtomR, &m_Radius.value.value);
 	s.Radius = m_Radius;
 	g_array_append_vals (m_Atoms, &s, 1);
 	gtk_list_store_append (AtomList, &iter);
@@ -326,7 +327,7 @@ void gcAtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Alpha = gtk_color_button_get_alpha (AtomColor) / 65535.;
 		} else
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).CustomColor = false;
-		if ((!GetNumber (AtomR, &(m_Radius.value), gccMin, 0)) || (m_Radius.value == 0.0)) {
+		if ((!GetNumber (AtomR, &(m_Radius.value.value), Min, 0)) || (m_Radius.value.value == 0.0)) {
 		} else
 			g_array_index(m_Atoms, struct AtomStruct, m_AtomSelected).Radius = m_Radius;
 	}
@@ -355,10 +356,10 @@ void gcAtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 		if (r.scale && !strcmp (r.scale, "custom")) {
 			m_Radius = r;
 			char buf[20];
-			g_snprintf (buf, sizeof (buf), "%g", m_Radius.value);
+			g_snprintf (buf, sizeof (buf), "%g", m_Radius.value.value);
 			gtk_entry_set_text (AtomR, buf);
 			gtk_combo_box_set_active (RadiusMenu, 0);
-		} else for (int i = 1; i < m_RadiiIndex.size(); i++) {
+		} else for (unsigned i = 1; i < m_RadiiIndex.size (); i++) {
 			int j = m_RadiiIndex[i];
 			if (r.type != m_Radii[j]->type)
 				continue;
@@ -418,7 +419,7 @@ void gcAtomsDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, 
 
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (AtomList), &iter, path);
 
-	long i = gtk_tree_path_get_indices (path)[0], j  = (long) g_object_get_data (G_OBJECT (cell), "column");
+	long j  = (long) g_object_get_data (G_OBJECT (cell), "column");
 	double x = atof(new_text);
 	gtk_list_store_set (AtomList, &iter, j, x, -1);
 	switch (j) {
@@ -495,7 +496,7 @@ void gcAtomsDlg::SetRadiusIndex(int index)
 	{
 		m_Radius = *(m_Radii[i]);
 		char buf[20];
-		g_snprintf(buf, sizeof(buf), "%g", m_Radius.value);
+		g_snprintf (buf, sizeof (buf), "%g", m_Radius.value.value);
 		gtk_entry_set_text(AtomR, buf);
 	}
 	else
@@ -538,7 +539,7 @@ void gcAtomsDlg::PopulateRadiiMenu ()
 	i = 0;
 	if (radius)
 		while (*radius) {
-			if (((*radius)->type != m_RadiusType) ||  ((*radius)->charge != m_Charge) || ((*radius)->value <= 0.)) {
+			if (((*radius)->type != m_RadiusType) ||  ((*radius)->charge != m_Charge) || ((*radius)->value.value <= 0.)) {
 				radius++;
 				i++;
 				continue;

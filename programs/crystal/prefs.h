@@ -4,7 +4,7 @@
  * Gnome Crystal
  * prefs.h 
  *
- * Copyright (C) 2001-2005
+ * Copyright (C) 2001-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,13 +27,16 @@
 #ifndef GCRYSTAL_PREFS_H
 #define GCRYSTAL_PREFS_H
 
-#include "dialog.h"
+#include <gcu/dialog.h>
 
+using namespace gcu;
 
-class gcPrefsDlg: public gcDialog
+class gcApplication;
+
+class gcPrefsDlg: public Dialog
 {
 public:
-	gcPrefsDlg ();
+	gcPrefsDlg (gcApplication *App);
 	virtual ~gcPrefsDlg ();
 
 	virtual bool Apply ();

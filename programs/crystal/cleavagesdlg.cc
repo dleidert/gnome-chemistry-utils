@@ -27,6 +27,7 @@
 #include "config.h"
 #include "cleavagesdlg.h"
 #include "document.h"
+#include "application.h"
 
 using namespace std;
 
@@ -68,7 +69,7 @@ static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const
 	pBox->OnEdited(cell, path_string, new_text);
 }
 
-gcCleavagesDlg::gcCleavagesDlg (gcDocument* pDoc): gcDialog (DATADIR"/gcrystal-unstable/glade/cleavages.glade", "cleavages")
+gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gcrystal-unstable/glade/cleavages.glade", "cleavages")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog(this);
@@ -170,7 +171,7 @@ bool gcCleavagesDlg::Apply()
 	
 	CrystalCleavage* c;
 	struct CleavageStruct* s;
-	for (int i = 0; i  < m_Cleavages->len; i++)
+	for (unsigned i = 0; i  < m_Cleavages->len; i++)
 	{
 		s = &g_array_index(m_Cleavages, struct CleavageStruct, i);
 		if (!s->planes || ((!s->h) && (!s->k) && (!s->l))) continue;

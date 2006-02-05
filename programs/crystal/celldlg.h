@@ -4,7 +4,7 @@
  * Gnome Crystal
  * celldlg.h 
  *
- * Copyright (C) 2002-2005
+ * Copyright (C) 2002-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,14 +27,17 @@
 #ifndef GCRYSTAL_CELLDLG_H
 #define GCRYSTAL_CELLDLG_H
 
-#include "dialog.h"
+#include <gcu/dialog.h>
 
 class gcDocument;
+class gcApplication;
 
-class gcCellDlg: public gcDialog
+using namespace gcu;
+
+class gcCellDlg: public Dialog
 {
 public:
-	gcCellDlg (gcDocument* pDoc);
+	gcCellDlg (gcApplication *App, gcDocument* pDoc);
 	virtual ~gcCellDlg ();
 	
 	virtual bool Apply ();

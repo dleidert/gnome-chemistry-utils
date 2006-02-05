@@ -28,9 +28,9 @@
 #define GCRYSTAL_VIEW_SETTINGS_H
 
 #include "view.h"
-#include "dialog.h"
+#include <gcu/dialog.h>
 
-class gcViewSettingsDlg: public gcDialog
+class gcViewSettingsDlg: public Dialog
 {
 public:
 	gcViewSettingsDlg (gcView* pView);

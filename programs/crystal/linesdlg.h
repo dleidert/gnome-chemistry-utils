@@ -4,7 +4,7 @@
  * Gnome Crystal
  * linesdlg.h 
  *
- * Copyright (C) 2002-2005
+ * Copyright (C) 2002-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,14 +27,17 @@
 #ifndef GCRYSTAL_LINESDLG_H
 #define GCRYSTAL_LINESDLG_H
 
-#include "dialog.h"
+#include <gcu/dialog.h>
+
+using namespace gcu;
 
 class gcDocument;
+class gcApplication;
 
-class gcLinesDlg: public gcDialog
+class gcLinesDlg: public Dialog
 {
 public:
-	gcLinesDlg (gcDocument* pDoc);
+	gcLinesDlg (gcApplication *App, gcDocument* pDoc);
 	virtual ~gcLinesDlg ();
 	
 	virtual bool Apply ();

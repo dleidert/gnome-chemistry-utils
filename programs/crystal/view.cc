@@ -86,10 +86,10 @@ static void on_destroyed(GtkWidget *widget, gcView *pView)
 	pView->OnDestroyed(widget);
 }
 
-gcView::gcView(gcDocument *pDoc): CrystalView((CrystalDoc*)pDoc)
+gcView::gcView (gcDocument *pDoc): CrystalView ((CrystalDoc*) pDoc)
 {
 	m_fAngle = FoV;
-	SetRotation(Psi, Theta, Phi);
+	SetRotation (Psi, Theta, Phi);
 	m_nGLList = 0;
 	m_fBlue = Blue;
 	m_fRed = Red;
@@ -99,7 +99,7 @@ gcView::gcView(gcDocument *pDoc): CrystalView((CrystalDoc*)pDoc)
 	m_bLocked = false;
 }
 
-gcView::gcView(gcView*pView): CrystalView((CrystalDoc*)(pView->m_pDoc))
+gcView::gcView (gcView*pView): CrystalView ((CrystalDoc*) (pView->m_pDoc))
 {
 	m_fGreen = pView->m_fGreen;
 	m_fAngle = pView->m_fAngle;
@@ -109,20 +109,16 @@ gcView::gcView(gcView*pView): CrystalView((CrystalDoc*)(pView->m_pDoc))
 	m_fRed = pView->m_fRed;
 	m_fGreen = pView->m_fGreen;
 	m_fAlpha = pView->m_fAlpha;
-	((gcDocument*)m_pDoc)->AddView(this);
+	((gcDocument*) m_pDoc)->AddView (this);
 	m_pLabel = NULL;
 	m_bLocked = false;
 }
 
-gcView::~gcView()
+gcView::~gcView ()
 {
-	if (!IsEmbedded())
-	{
-		gtk_widget_destroy(GTK_WIDGET(m_pMenu));
-	}
-	gcDialog *dialog;
-	while (!m_Dialogs.empty())
-	{
+	gtk_widget_destroy(GTK_WIDGET(m_pMenu));
+	Dialog *dialog;
+	while (!m_Dialogs.empty ()) {
 		dialog = m_Dialogs.front();
 		m_Dialogs.pop_front();
 		dialog->Destroy();
@@ -190,14 +186,11 @@ bool gcView::LoadOld(xmlNodePtr node)
 				sscanf(txt, "%g %g %g %g", &m_fBlue, &m_fRed, &m_fGreen, &m_fAlpha);
 				xmlFree(txt);
 			}
-		}
-		else if (!strcmp((gchar*)child->name, "fov"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			if (txt)
-			{
-				int result = sscanf(txt, "%lg", &m_fAngle);
-				xmlFree(txt);
+		} else if (!strcmp((gchar*)child->name, "fov")) {
+			txt = (char*) xmlNodeGetContent (child);
+			if (txt) {
+				sscanf (txt, "%lg", &m_fAngle);
+				xmlFree (txt);
 			}
 		}
 		child = child->next;
@@ -386,15 +379,9 @@ void gcView::Print(GnomePrintContext *pc, gdouble width, gdouble height)
 		matrix[3] = (j < jmax) ? - vstep : - Height + vstep * jmax;
 		for (i = 0; i <= imax; i++)
 		{
-#ifdef USE_GTKGLAREA		
-			if (gtk_gl_area_make_current(GTK_GL_AREA(m_pWidget)))
-#elif defined(USE_GTKGLEXT)
 			GdkGLContext *glcontext = gtk_widget_get_gl_context(m_pWidget);
 			GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(m_pWidget);
 			if (gdk_gl_drawable_gl_begin(gldrawable, glcontext))
-#else
-#	error "OpenGL binding needed!"
-#endif
 			{
 				glMatrixMode(GL_PROJECTION);
 				glLoadIdentity();
@@ -446,12 +433,12 @@ void gcView::SetMenu(GtkMenuItem* item)
 		}
 }
 
-void gcView::NotifyDialog(gcDialog* dialog)
+void gcView::NotifyDialog (Dialog* dialog)
 {
-	m_Dialogs.push_front(dialog);
+	m_Dialogs.push_front (dialog);
 }
 
-void gcView::RemoveDialog(gcDialog* dialog)
+void gcView::RemoveDialog (Dialog* dialog)
 {
-	m_Dialogs.remove(dialog);
+	m_Dialogs.remove (dialog);
 }

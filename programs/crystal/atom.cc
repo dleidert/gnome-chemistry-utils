@@ -93,17 +93,16 @@ bool gcAtom::LoadOld(xmlNodePtr node, unsigned version)
 				xmlFree(txt);
 			}
 		}
-		else if (!strcmp((gchar*)child->name, "radius"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			if (txt)
-			{
-				sscanf(txt, "%lg", &m_Radius.value);
-				xmlFree(txt);
+		else if (!strcmp((gchar*)child->name, "radius")) {
+			txt = (char*) xmlNodeGetContent (child);
+			if (txt) {
+				sscanf (txt, "%lg", &m_Radius.value.value);
+				xmlFree (txt);
 			}
 		}
 		child = child->next;
 	}
-	if (m_Radius.value <= 0) return false;
+	if (m_Radius.value.value <= 0)
+		return false;
 	return true;
 }

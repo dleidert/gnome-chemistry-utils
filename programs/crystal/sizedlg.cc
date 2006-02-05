@@ -27,8 +27,9 @@
 #include "config.h"
 #include "sizedlg.h"
 #include "document.h"
+#include "application.h"
 
-gcSizeDlg::gcSizeDlg (gcDocument* pDoc): gcDialog (DATADIR"/gcrystal-unstable/glade/size.glade", "size")
+gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gcrystal-unstable/glade/size.glade", "size")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog(this);
@@ -59,24 +60,34 @@ gcSizeDlg::~gcSizeDlg()
 	m_pDoc->RemoveDialog(this);
 }
 
-bool gcSizeDlg::Apply()
+bool gcSizeDlg::Apply ()
 {
 	double xmin, xmax, ymin, ymax, zmin, zmax, x;
-	if ((!GetNumber(MinX, &xmin)) ||
-		(!GetNumber(MaxX, &xmax)) ||
-		(!GetNumber(MinY, &ymin)) ||
-		(!GetNumber(MaxY, &ymax)) ||
-		(!GetNumber(MinZ, &zmin)) ||
-		(!GetNumber(MaxZ, &zmax)))
-	{
-		gtk_notebook_set_current_page(notebook, 3);
+	if ((!GetNumber (MinX, &xmin)) ||
+		(!GetNumber (MaxX, &xmax)) ||
+		(!GetNumber (MinY, &ymin)) ||
+		(!GetNumber (MaxY, &ymax)) ||
+		(!GetNumber (MinZ, &zmin)) ||
+		(!GetNumber (MaxZ, &zmax))) {
 		return false;
 	}
-	if (xmin > xmax) {x = xmin; xmin = xmax; xmax = x;}
-	if (ymin > ymax) {x = ymin; ymin = ymax; ymax = x;}
-	if (zmin > zmax) {x = zmin; zmin = zmax; zmax = x;}
-	m_pDoc->SetSize(xmin, xmax, ymin, ymax, zmin, zmax);
-	m_pDoc->Update();
-	m_pDoc->SetDirty();
+	if (xmin > xmax) {
+		x = xmin;
+		xmin = xmax;
+		xmax = x;
+	}
+	if (ymin > ymax) {
+		x = ymin;
+		ymin = ymax;
+		ymax = x;
+	}
+	if (zmin > zmax) {
+		x = zmin;
+		zmin = zmax;
+		zmax = x;
+	}
+	m_pDoc->SetSize (xmin, xmax, ymin, ymax, zmin, zmax);
+	m_pDoc->Update ();
+	m_pDoc->SetDirty ();
 	return true;
 }

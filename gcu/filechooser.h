@@ -1,12 +1,12 @@
 // -*- C++ -*-
 
 /* 
- * Gnome Crystal
- * element.h 
+ * Gnome Chemistry Utils
+ * filechooser.h 
  *
- * Copyright (C) 2000-2002
+ * Copyright (C) 2006
  *
- * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
+ * Developed by Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -20,32 +20,37 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
 
-#ifndef GCRYSTAL_ELEMENT_H
-#define GCRYSTAL_ELEMENT_H
+#ifndef GCU_FILECHOOSER_H
+#define GCU_FILECHOOSER_H
 
-#include <map>
-#include <string>
-#include <vector>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkfilechooser.h>
+#include <list>
 
-class gcElement
+using namespace std;
+
+namespace gcu
+{
+
+class Application;
+class Document;
+
+class FileChooser
 {
 public:
-	gcElement(unsigned char Z, const char* Symbol);
-	~gcElement();
-	
-	unsigned char Z() {return m_Z;}
-	const char* Symbol() {return m_Symbol;}
+	FileChooser (Application *App, bool Save, list<char const*> mime_types, Document *pDoc = NULL, char const *title = NULL);
 	
 private:
-	unsigned char m_Z;
-	char m_Symbol[4];
+	GtkFileChooser* dialog;
+	bool m_bSave;
+	Application* m_pApp;
+	Document* m_pDoc;
 };
 
-extern std::vector<gcElement*> Elt;
-extern std::map<std::string, int> EltsMap;
+}
 
-#endif //GCRYSTAL_ELEMENT_H
+#endif	// GCU_FILECHOOSER_H

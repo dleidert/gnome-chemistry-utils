@@ -27,7 +27,7 @@ AC_SUBST(GCU_VERSION_INFO)
 
 ALL_LINGUAS="de fr it pl ru"
 AM_GLIB_GNU_GETTEXT
-GETTEXT_PACKAGE=AC_PACKAGE_NAME
+GETTEXT_PACKAGE="gchemutils-unstable"
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for internationalization])
 
@@ -132,6 +132,10 @@ AM_CONDITIONAL(WITH_MOZILLA,[test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST(MOZILLA_CFLAGS)
 AC_SUBST(mozlibdir)
 
+AC_LANG(C++)
+AC_CHECK_HEADER(fstream,AC_DEFINE(HAVE_FSTREAM,1,[fstream present]))
+AC_CHECK_HEADER(ostream,AC_DEFINE(HAVE_OSTREAM,1,[fstream present]))
+
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
 fi
@@ -170,6 +174,10 @@ AC_OUTPUT([
 Makefile
 gcu/Makefile
 programs/Makefile
+programs/3d/Makefile
+programs/calc/Makefile
+programs/crystal/Makefile
+programs/table/Makefile
 mozilla-plugin/Makefile
 database/Makefile
 po/Makefile.in

@@ -27,11 +27,10 @@
 #include "config.h"
 #include "view-settings.h"
 #include "document.h"
-#include <libgnome/libgnome.h>
-#include <libgnomeui/libgnomeui.h>
+#include "application.h"
 #include <glade/glade.h>
 
-gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): gcDialog (DATADIR"/gcrystal-unstable/glade/view-settings.glade", "view_settings")
+gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetApp (), DATADIR"/gcrystal-unstable/glade/view-settings.glade", "view_settings")
 {
 	m_pView = pView;
 	m_pView->NotifyDialog (this);
@@ -68,12 +67,12 @@ gcViewSettingsDlg::~gcViewSettingsDlg ()
 
 bool gcViewSettingsDlg::Apply()
 {
-	double x0, x1, x2, x3;
-	if (!GetNumber (Psi, &x0, gccMinEqMax, -180, 180))
+	double x0, x1, x2;
+	if (!GetNumber (Psi, &x0, MinEqMax, -180, 180))
 		return false;
-	if (!GetNumber (Theta, &x1, gccMinEqMaxEq, 0, 180))
+	if (!GetNumber (Theta, &x1, MinEqMaxEq, 0, 180))
 		return false;
-	if (!GetNumber (Phi, &x2, gccMinEqMax, -180, 180))
+	if (!GetNumber (Phi, &x2, MinEqMax, -180, 180))
 		return false;
 	m_pView->SetRotation (x0, x1, x2);
 	m_pView->GetFoV () = gtk_spin_button_get_value (FoV);

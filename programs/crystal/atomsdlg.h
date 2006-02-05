@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atomsdlg.h 
  *
- * Copyright (C) 2002-2005
+ * Copyright (C) 2002-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,20 +27,23 @@
 #ifndef GCRYSTAL_ATOMSDLG_H
 #define GCRYSTAL_ATOMSDLG_H
 
-#include "dialog.h"
+#include <gcu/dialog.h>
 #include <gcu/gtkperiodic.h>
 #include <vector>
 
 using namespace std;
 
 class gcDocument;
+class gcApplication;
 
 struct AtomsStruct;
 
-class gcAtomsDlg: public gcDialog
+using namespace gcu;
+
+class gcAtomsDlg: public Dialog
 {
 public:
-	gcAtomsDlg (gcDocument* pDoc);
+	gcAtomsDlg (gcApplication *App, gcDocument* pDoc);
 	virtual ~gcAtomsDlg ();
 	
 	virtual bool Apply ();

@@ -13,6 +13,7 @@ libgcu_unstable_la_SOURCES = \
 		xml-utils.cc \
 		application.cc \
 		dialog.cc \
+		filechooser.cc \
 		chemistry.cc \
 		gtkperiodic.c \
 		gtkcomboperiodic.c \
@@ -35,6 +36,7 @@ libgcu_unstable_la_headers = \
 		formula.h \
 		application.h \
 		dialog.h \
+		filechooser.h \
 		matrix.h \
 		matrix2d.h \
 		xml-utils.h \

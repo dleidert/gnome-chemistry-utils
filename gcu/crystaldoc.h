@@ -34,6 +34,7 @@
 #include "crystalbond.h"
 #include "crystalline.h"
 #include "crystalcleavage.h"
+#include "document.h"
 
 namespace gcu
 {
@@ -78,7 +79,7 @@ enum gcLattices {cubic=0,
 /*!\class CrystalDoc gcu/crystaldoc.h
 The document containing the crystal structure.
 */				 
-class CrystalDoc
+class CrystalDoc: public Document
 {
 public:
 /*!

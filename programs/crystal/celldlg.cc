@@ -27,13 +27,14 @@
 #include "config.h"
 #include "celldlg.h"
 #include "document.h"
+#include "application.h"
 
 void on_type_changed (GtkWidget* w, gcCellDlg *pBox)
 {
 	pBox->OnTypeChanged ();
 }
 
-gcCellDlg::gcCellDlg (gcDocument* pDoc): gcDialog (DATADIR"/gcrystal-unstable/glade/cell.glade", "cell")
+gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/cell.glade", "cell")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog (this);
@@ -76,14 +77,14 @@ bool gcCellDlg::Apply ()
 	case cubic:
 	case body_centered_cubic:
 	case face_centered_cubic:
-		if (!GetNumber (A, &m_a, gccMin, 0))
+		if (!GetNumber (A, &m_a, Min, 0))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		m_b = m_c = m_a;
 		break;
 	case hexagonal:
-		if ((!GetNumber (A, &m_a, gccMin, 0)) ||
-			(!GetNumber (C, &m_c, gccMin, 0)))
+		if ((!GetNumber (A, &m_a, Min, 0)) ||
+			(!GetNumber (C, &m_c, Min, 0)))
 			return false;
 		m_alpha = m_beta = 90;
 		m_gamma  = 120;
@@ -91,8 +92,8 @@ bool gcCellDlg::Apply ()
 		break;
 	case tetragonal:
 	case body_centered_tetragonal:
-		if ((!GetNumber (A, &m_a, gccMin, 0)) ||
-			(!GetNumber (C, &m_c, gccMin, 0)))
+		if ((!GetNumber (A, &m_a, Min, 0)) ||
+			(!GetNumber (C, &m_c, Min, 0)))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		m_b = m_a;
@@ -101,35 +102,35 @@ bool gcCellDlg::Apply ()
 	case base_centered_orthorhombic:
 	case body_centered_orthorhombic:
 	case face_centered_orthorhombic:
-		if ((!GetNumber (A, &m_a, gccMin, 0)) ||
-			(!GetNumber (B, &m_b, gccMin, 0)) ||
-			(!GetNumber (C, &m_c, gccMin, 0)))
+		if ((!GetNumber (A, &m_a, Min, 0)) ||
+			(!GetNumber (B, &m_b, Min, 0)) ||
+			(!GetNumber (C, &m_c, Min, 0)))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		break;
 	case rhombohedral:
-		if ((!GetNumber (A, &m_a, gccMin, 0)) ||
-			(!GetNumber (Alpha, &m_alpha, gccMinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, Min, 0)) ||
+			(!GetNumber (Alpha, &m_alpha, MinMax, 0, 180)))
 			return false;
 		m_beta = m_gamma = m_alpha;
 		m_b = m_c = m_a;
 		break;
 	case monoclinic:
 	case base_centered_monoclinic:
-		if ((!GetNumber (A, &m_a, gccMin, 0)) ||
-			(!GetNumber (B, &m_b, gccMin, 0)) ||
-			(!GetNumber (C, &m_c, gccMin, 0)) ||
-			(!GetNumber (Beta, &m_beta, gccMinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, Min, 0)) ||
+			(!GetNumber (B, &m_b, Min, 0)) ||
+			(!GetNumber (C, &m_c, Min, 0)) ||
+			(!GetNumber (Beta, &m_beta, MinMax, 0, 180)))
 			return false;
 		m_alpha = m_gamma  = 90;
 		break;
 	case triclinic:
-		if ((!GetNumber (A, &m_a, gccMin, 0)) ||
-			(!GetNumber (B, &m_b, gccMin, 0)) ||
-			(!GetNumber (C, &m_c, gccMin, 0)) ||
-			(!GetNumber (Alpha, &m_alpha, gccMinMax, 0, 180)) ||
-			(!GetNumber (Beta, &m_beta, gccMinMax, 0, 180)) ||
-			(!GetNumber (Gamma, &m_gamma, gccMinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, Min, 0)) ||
+			(!GetNumber (B, &m_b, Min, 0)) ||
+			(!GetNumber (C, &m_c, Min, 0)) ||
+			(!GetNumber (Alpha, &m_alpha, MinMax, 0, 180)) ||
+			(!GetNumber (Beta, &m_beta, MinMax, 0, 180)) ||
+			(!GetNumber (Gamma, &m_gamma, MinMax, 0, 180)))
 			return false;
 		break;
 	}

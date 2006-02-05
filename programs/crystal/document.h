@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.h 
  *
- * Copyright (C) 2000-2004
+ * Copyright (C) 2000-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,19 +27,15 @@
 #ifndef GCRYSTAL_DOCUMENT_H
 #define GCRYSTAL_DOCUMENT_H
 
-#include <libgnome/libgnome.h>
-#include <libgnomeui/libgnomeui.h>
 #include <libxml/parser.h>
-#ifdef GCU_OLD_VER
-#	include <crystalviewer/crystaldoc.h>
-#else
-#	include <gcu/crystaldoc.h>
-#endif
+#include <gcu/crystaldoc.h>
+#include <gcu/dialog.h>
 #include "atom.h"
 #include "line.h"
 #include "cleavage.h"
-#include "dialog.h"
 #include <libbonobo.h>
+
+using namespace gcu;
 
 class gcView;
 
@@ -80,8 +76,8 @@ public:
 	bool RemoveView(gcView* pView);
 	bool VerifySaved();
 	void SetBonoboPersist(BonoboPersist* ps) {m_ps = ps;}
-	void NotifyDialog(gcDialog* dialog);
-	void RemoveDialog(gcDialog* dialog);
+	void NotifyDialog(Dialog* dialog);
+	void RemoveDialog(Dialog* dialog);
 	bool GetFixedSize() {return m_bFixedSize;}
 	void SetFixedSize(bool FixedSize) {m_bFixedSize = FixedSize;}
 	virtual CrystalView* CreateNewView();
@@ -98,7 +94,7 @@ private:
 	gchar *m_filename, *m_title;
 	bool m_bClosing;
 	GtkWidget* m_widget;
-	std::list <gcDialog *> m_Dialogs;
+	std::list <Dialog *> m_Dialogs;
 	BonoboPersist* m_ps;
 };
 

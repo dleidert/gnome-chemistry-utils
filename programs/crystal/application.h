@@ -4,7 +4,7 @@
  * Gnome Crystal
  * application.h 
  *
- * Copyright (C) 2001-2005
+ * Copyright (C) 2001-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,14 +27,15 @@
 #ifndef GCRYSTAL_APPLICATION_H
 #define GCRYSTAL_APPLICATION_H
 
-#include <libgnome/libgnome.h>
-#include <libgnomeui/libgnomeui.h>
 #include <list>
 #include "config.h"
 #include "document.h"
 #include "view.h"
+#include <gcu/application.h>
 
-class gcApplication
+using namespace gcu;
+
+class gcApplication: public Application
 {
 public:
 	gcApplication();
@@ -65,13 +66,20 @@ public:
 	void SetOpening() {m_bFileOpening = true;}
 	void SelectView(gcView* pView);
 	void OnChangePage(int i);
+	void ClearStatus();
+	void SetStatusText(const char* text);
+	virtual GtkWindow * GetWindow ();
 	
 private:
 	std::list<gcView*>m_Views;
 	gcView* m_pActiveView;
-	GtkWidget* m_App;
+	GtkWindow* m_Window;
 	GtkNotebook* m_Notebook;
-	GtkMenu* m_WindowsMenu;
+	GtkWidget* m_Bar;	//GtkStatusBar
+//	GtkMenu* m_WindowsMenu;
+	GtkUIManager* m_UIManager;
+	unsigned m_statusId;
+	unsigned m_MessageId; //currently displayed message in the status bar
 	bool m_bFileOpening;
 };
 

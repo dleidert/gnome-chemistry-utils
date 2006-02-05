@@ -4,7 +4,7 @@
  * Gnome Crystal
  * cleavagesdlg.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2006
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -27,24 +27,27 @@
 #ifndef GCRYSTAL_CLEAVAGESDLG_H
 #define GCRYSTAL_CLEAVAGESDLG_H
 
-#include "dialog.h"
+#include <gcu/dialog.h>
 
 class gcDocument;
+class gcApplication;
 
 struct CleavageStruct;
 
-class gcCleavagesDlg: public gcDialog
+using namespace gcu;
+
+class gcCleavagesDlg: public Dialog
 {
 public:
-	gcCleavagesDlg(gcDocument* pDoc);
-	virtual ~gcCleavagesDlg();
+	gcCleavagesDlg (gcApplication *App, gcDocument* pDoc);
+	virtual ~gcCleavagesDlg ();
 	
-	void CleavageAdd();
-	void CleavageDelete();
-	void CleavageDeleteAll();
-	void CleavageSelect(GtkTreeSelection *Selection);
-	void OnEdited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
-	virtual bool Apply();
+	void CleavageAdd ();
+	void CleavageDelete ();
+	void CleavageDeleteAll ();
+	void CleavageSelect (GtkTreeSelection *Selection);
+	void OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
+	virtual bool Apply ();
 
 private:
 	char m_buf[64];

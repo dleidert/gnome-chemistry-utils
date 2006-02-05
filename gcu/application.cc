@@ -50,10 +50,13 @@ Application::Application (string name, string datadir)
 			if (value) HelpBrowser = value;
 		}
 	}
+	CurDir = NULL;
 }
 
 Application::~Application ()
 {
+	if (CurDir)
+		g_free (CurDir);
 }
 
 void Application::OnHelp (string tag)
@@ -78,4 +81,11 @@ bool Application::HasHelp ()
 	gint err;
 	err = stat (HelpFilename.c_str (), &buf);
 	return (err)? false: true;	
+}
+
+void Application::SetCurDir (char const* dir)
+{
+	if (CurDir)
+		g_free (CurDir);
+	CurDir = g_strdup (dir);
 }

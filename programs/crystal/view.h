@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view.h 
  *
- * Copyright (C) 2000-2005
+ * Copyright (C) 2000-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,14 +27,12 @@
 #ifndef GCRYSTAL_VIEW_H
 #define GCRYSTAL_VIEW_H
 
-#include <libgnome/libgnome.h>
-#include <libgnomeui/libgnomeui.h>
 #include <libxml/parser.h>
 #include <libgnomeprint/gnome-print.h>
 #include <list>
 #include <gcu/crystalview.h>
 #include <gcu/matrix.h>
-#include "dialog.h"
+#include <gcu/dialog.h>
 
 class gcDocument;
 class gcApplication;
@@ -64,8 +62,8 @@ public:
 	void SetMenu (GtkMenuItem* item);
 	GtkLabel* GetLabel () {return m_pLabel;}
 	GtkLabel* GetMenuLabel () {return m_pMenuLabel;}
-	void NotifyDialog (gcDialog* dialog);
-	void RemoveDialog (gcDialog* dialog);
+	void NotifyDialog (Dialog* dialog);
+	void RemoveDialog (Dialog* dialog);
 	void Lock () {m_bLocked = true;}
 	void Unlock () {m_bLocked = false;}
 	bool IsLocked () {return m_bLocked;}
@@ -78,7 +76,7 @@ private:
 	GtkLabel *m_pLabel, *m_pMenuLabel;
 	GtkMenuItem* m_pMenu;
 	bool m_bLocked;
-	std::list <gcDialog *> m_Dialogs;
+	std::list <Dialog *> m_Dialogs;
 };
 
 #endif //GCRYSTAL_VIEW_H

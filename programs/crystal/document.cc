@@ -30,6 +30,7 @@
 #include <locale.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "application.h"
 #include "document.h"
 #include "view.h"
 #include "celldlg.h"
@@ -38,8 +39,7 @@
 #include "sizedlg.h"
 #include "cleavagesdlg.h"
 #include "globals.h"
-#include "filesel.h"
-#include <libgnome/libgnome.h>
+#include <gcu/filechooser.h>
 #include <glade/glade.h>
 #include <math.h>
 #include <libxml/parserInternals.h>
@@ -81,12 +81,6 @@ char *LatticeName[] = {"simple cubic",
 	"base-centered monoclinic",
 	"triclinic"};
 
-static void do_save_as(const gchar* filename, gcView* pView)
-{
-	gcDocument *pDoc = pView->GetDocument();
-	pDoc->SetFileName(filename);
-}
-
 gcDocument::gcDocument():CrystalDoc()
 {
 	Init();
@@ -109,7 +103,7 @@ gcDocument::~gcDocument()
 	if (m_filename != NULL) g_free(m_filename);
 	if (m_title) g_free(m_title);
 	Reinit();
-	gcDialog *dialog;
+	Dialog *dialog;
 	while (!m_Dialogs.empty())
 	{
 		dialog = m_Dialogs.front();
@@ -118,25 +112,24 @@ gcDocument::~gcDocument()
 	}
 }
 
-void gcDocument::Define(unsigned nPage)
+void gcDocument::Define (unsigned nPage)
 {
-	switch(nPage)
-	{
-		case 0:
-			new gcCellDlg(this);
-			break;
-		case 1:
-			new gcAtomsDlg(this);
-			break;
-		case 2:
-			new gcLinesDlg(this);
-			break;
-		case 3:
-			new gcSizeDlg(this);
-			break;
-		case 4:
-			new gcCleavagesDlg(this);
-			break;
+	switch(nPage) {
+	case 0:
+		new gcCellDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		break;
+	case 1:
+		new gcAtomsDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		break;
+	case 2:
+		new gcLinesDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		break;
+	case 3:
+		new gcSizeDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		break;
+	case 4:
+		new gcCleavagesDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		break;
 	}
 }
 
@@ -229,98 +222,98 @@ void gcDocument::SetTitle(const gchar* title)
 
 void gcDocument::Save()
 {
-	if (!m_filename) return;
-	gchar buf[256];
-	xmlDocPtr xml;
-	xmlNodePtr node;
-	char *old_num_locale;
+	if (!m_filename)
+		return;
+	xmlDocPtr xml = NULL;
 
-	try
-	{
+	try {
 		xml = BuildXMLTree();
 	
-		if (xmlSaveFile(m_filename, xml) < 0) Error(SAVE);
+		if (xmlSaveFile (m_filename, xml) < 0)
+			Error (SAVE);
 			
-		xmlFreeDoc(xml);
+		xmlFreeDoc (xml);
 		m_bDirty = false;
 	}
-	catch (int num)
-	{
-		xmlFreeDoc(xml);
-		setlocale(LC_NUMERIC, old_num_locale);
-		g_free(old_num_locale);
-		Error(SAVE);
+	catch (int num) {
+		xmlFreeDoc (xml);
+		Error (SAVE);
 	}
 }
 
-void gcDocument::Error(int num)
+void gcDocument::Error (int num)
 {
-	gchar *mess;
+	gchar *mess = NULL;
 	GtkWidget* message;
-	switch (num)
-	{
+	switch (num) {
 	case SAVE:
-		mess = g_strdup_printf(_("Could not save file\n%s"),m_filename);
+		mess = g_strdup_printf (_("Could not save file\n%s"), m_filename);
 		break;
 	case LOAD:
-		mess = g_strdup_printf(_("Could not load file\n%s"),m_filename);
+		mess = g_strdup_printf (_("Could not load file\n%s"), m_filename);
 		break;
 	case XML:
-		mess = g_strdup_printf(_("%s: invalid xml file.\nTree is empty?"),m_filename);
+		mess = g_strdup_printf (_("%s: invalid xml file.\nTree is empty?"), m_filename);
 		break;
 	case FORMAT:
-		mess = g_strdup_printf(_("%s: invalid file format."),m_filename);
+		mess = g_strdup_printf (_("%s: invalid file format."), m_filename);
 		break;
 	}
-	message = gtk_message_dialog_new(NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
+	message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
 	g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
-	gtk_widget_show(message);
-	g_free(mess);
+	gtk_widget_show (message);
+	g_free (mess);
 }
 
-bool gcDocument::Load(const gchar* filename)
+bool gcDocument::Load (const gchar* filename)
 {
-	xmlDocPtr xml;
+	xmlDocPtr xml = NULL;
 	gchar *oldfilename, *oldtitle;
-	if (m_filename) oldfilename = g_strdup(m_filename);
+	if (m_filename)
+		oldfilename = g_strdup (m_filename);
 	else oldfilename = NULL;
-	oldtitle = g_strdup(m_title);
-	try
-	{
-		if (SetFileName(filename),!m_filename || !m_title) throw (int) 0;
-		if (!(xml = xmlParseFile(filename))) throw (int) 1;
-		if (xml->children == NULL) throw (int) 2;
-		if (strcmp((char*)xml->children->name, "crystal")) throw (int) 3;
-		if (oldfilename) g_free(oldfilename);
-		g_free(oldtitle);
-		ParseXMLTree(xml->children);
-		xmlFreeDoc(xml);
+	oldtitle = g_strdup (m_title);
+	try {
+		if (SetFileName (filename), !m_filename || !m_title)
+			throw (int) 0;
+		if (!(xml = xmlParseFile (filename)))
+			throw (int) 1;
+		if (xml->children == NULL)
+			throw (int) 2;
+		if (strcmp ((char*) xml->children->name, "crystal"))
+			throw (int) 3;
+		if (oldfilename)
+			g_free(oldfilename);
+		g_free (oldtitle);
+		ParseXMLTree (xml->children);
+		xmlFreeDoc (xml);
 		return true;
 	}
-	catch (int num)
-	{
+	catch (int num) {
 		switch (num)
 		{
-			case 2: Error(XML); break;
-			case 3: Error(FORMAT); break;
-			default: Error(LOAD);
+		case 2:
+			Error(XML);
+			break;
+		case 3:
+			Error(FORMAT);
+			break;
+		default:
+			Error(LOAD);
 		}
-		if (num > 0)
-		{
-			if (oldfilename) 
-			{
-				SetFileName(oldfilename);
-				g_free(oldfilename);
-			}
-			else
-			{
-				g_free(m_filename);
+		if (num > 0) {
+			if (oldfilename)  {
+				SetFileName (oldfilename);
+				g_free (oldfilename);
+			} else {
+				g_free (m_filename);
 				m_filename = NULL;
 			}
-			SetTitle(oldtitle);
-			g_free(oldtitle);
+			SetTitle (oldtitle);
+			g_free (oldtitle);
 		}
-		if (num > 1) xmlFreeDoc(xml);
+		if (num > 1)
+			xmlFreeDoc(xml);
 		return false;
 	}
 }
@@ -416,8 +409,7 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 			}
 			else if (!strcmp((gchar*)node->name, "view"))
 			{
-				if (bViewLoaded && !IsEmbedded())
-				{
+				if (bViewLoaded) {
 					gcView* pView = new gcView(this);
 					pView->LoadOld(node);
 					m_Views.push_back(pView);
@@ -571,6 +563,7 @@ void gcDocument::OnExportVRML(const gchar* FileName, gcView* pView)
 
 gcView *gcDocument::GetNewView()
 {
+	return NULL;
 }
 
 void gcDocument::SetDirty()
@@ -615,15 +608,17 @@ bool gcDocument::VerifySaved()
 		gtk_dialog_add_button(GTK_DIALOG(mbox),  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		res = gtk_dialog_run(GTK_DIALOG(mbox));
 		gtk_widget_destroy(mbox);
-		if (res == GTK_RESPONSE_YES)
-		{
-			if (m_filename == NULL)
-			{
-				gcFileSel* FileSel = new gcFileSel(_("Save model as..."), do_save_as, true, ".gcrystal", (gcView*)m_Views.front(), true);
-				while (((gcView*)(m_Views.front()))->IsLocked())
-					if (gtk_events_pending()) gtk_main_iteration();
+		if (res == GTK_RESPONSE_YES) {
+			if (m_filename == NULL) {
+				list<char const*> l;
+				l.push_front ("application/x-gcrystal");
+				FileChooser (((gcView*) m_Views.front ())->GetApp (), true, l, this);
+				while (((gcView*) (m_Views.front ()))->IsLocked ())
+					if (gtk_events_pending ())
+						gtk_main_iteration ();
 			}
-			if (m_filename) Save();
+			if (m_filename)
+				Save ();
 		}
 	}
 	while ((res == GTK_RESPONSE_YES) && (m_filename == NULL));
@@ -633,12 +628,12 @@ bool gcDocument::VerifySaved()
 	return (res != GTK_RESPONSE_CANCEL);
 }
 
-void gcDocument::NotifyDialog(gcDialog* dialog)
+void gcDocument::NotifyDialog (Dialog* dialog)
 {
 	m_Dialogs.push_front(dialog);
 }
 
-void gcDocument::RemoveDialog(gcDialog* dialog)
+void gcDocument::RemoveDialog (Dialog* dialog)
 {
 	m_Dialogs.remove(dialog);
 }

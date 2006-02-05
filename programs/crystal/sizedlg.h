@@ -4,7 +4,7 @@
  * Gnome Crystal
  * sizedlg.h 
  *
- * Copyright (C) 2002-2003
+ * Copyright (C) 2002-2006
  *
  * Developed by Jean Bréfort <jean.brefort@ac-dijon.fr>
  *
@@ -27,17 +27,20 @@
 #ifndef GCRYSTAL_SIZEDLG_H
 #define GCRYSTAL_SIZEDLG_H
 
-#include "dialog.h"
+#include <gcu/dialog.h>
 
 class gcDocument;
+class gcApplication;
 
-class gcSizeDlg: public gcDialog
+using namespace gcu;
+
+class gcSizeDlg: public Dialog
 {
 public:
-	gcSizeDlg(gcDocument* pDoc);
-	virtual ~gcSizeDlg();
+	gcSizeDlg (gcApplication *App, gcDocument* pDoc);
+	virtual ~gcSizeDlg ();
 	
-	virtual bool Apply();
+	virtual bool Apply ();
 
 private:
 	char m_buf[64];

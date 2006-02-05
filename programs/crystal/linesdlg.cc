@@ -4,7 +4,7 @@
  * Gnome Crystal
  * linesdlg.cc 
  *
- * Copyright (C) 2002-2005
+ * Copyright (C) 2002-2006
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -27,6 +27,7 @@
 #include "config.h"
 #include "linesdlg.h"
 #include "document.h"
+#include "application.h"
 
 enum
 {
@@ -90,7 +91,7 @@ static void on_medians_toggled (GtkToggleButton* btn, gcLinesDlg *pBox)
 	pBox->OnToggledSpecial (medians);
 }
 
-gcLinesDlg::gcLinesDlg (gcDocument* pDoc): gcDialog (DATADIR"/gcrystal-unstable/glade/lines.glade", "lines")
+gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gcrystal-unstable/glade/lines.glade", "lines")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog (this);
@@ -285,7 +286,7 @@ bool gcLinesDlg::Apply ()
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Green = color.green / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Blue = color.blue / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Alpha = gtk_color_button_get_alpha (LineColor) / 65535.;
-		if ((!GetNumber(LineR, &g_array_index (m_Lines, struct LineStruct, m_LineSelected).r, gccMin, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
+		if ((!GetNumber(LineR, &g_array_index (m_Lines, struct LineStruct, m_LineSelected).r, Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
 		}
 	}
 	CrystalLineList* Lines = m_pDoc->GetLineList ();
@@ -299,7 +300,7 @@ bool gcLinesDlg::Apply ()
 	CrystalLine* pLine;
 	double r, Red, Green, Blue, Alpha;
 	if (GTK_TOGGLE_BUTTON (Edges)->active) {
-		GetNumber (EdgesR, &r, gccMin, 0);
+		GetNumber (EdgesR, &r, Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (EdgesColor, &color);
 			Red = color.red / 65535.;
@@ -311,7 +312,7 @@ bool gcLinesDlg::Apply ()
 		}
 	}
 	if (GTK_TOGGLE_BUTTON (Diags)->active) {
-		GetNumber (DiagsR, &r, gccMin, 0);
+		GetNumber (DiagsR, &r, Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (DiagsColor, &color);
 			Red = color.red / 65535.;
@@ -323,7 +324,7 @@ bool gcLinesDlg::Apply ()
 		}
 	}
 	if (GTK_TOGGLE_BUTTON (Medians)->active) {
-		GetNumber (MediansR, &r, gccMin, 0);
+		GetNumber (MediansR, &r, Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (MediansColor, &color);
 			Red = color.red / 65535.;
@@ -337,7 +338,7 @@ bool gcLinesDlg::Apply ()
 	//Add new lines from array
 	
 	struct LineStruct* s;
-	for (int i = 0; i  < m_Lines->len; i++) {
+	for (unsigned i = 0; i  < m_Lines->len; i++) {
 		s = &g_array_index (m_Lines, struct LineStruct, i);
 		Lines->push_back (new CrystalLine((s->duplicated)? normal: gcu::unique, s->x1, s->y1, s->z1, s->x2, s->y2, s->z2, s->r, (float)s->Red, (float)s->Green, (float)s->Blue, (float)s->Alpha));
 	}
@@ -411,7 +412,7 @@ void gcLinesDlg::LineSelect (GtkTreeSelection *Selection)
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Green = color.green / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Blue = color.blue / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Alpha = gtk_color_button_get_alpha (LineColor) / 65535.;
-		if ((!GetNumber (LineR, &g_array_index(m_Lines, struct LineStruct, m_LineSelected).r, gccMin, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
+		if ((!GetNumber (LineR, &g_array_index(m_Lines, struct LineStruct, m_LineSelected).r, Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
 		}
 	}
 	GtkTreeModel* model = GTK_TREE_MODEL (LineList);
@@ -443,7 +444,7 @@ void gcLinesDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, 
 
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (LineList), &iter, path);
 
-	long i = gtk_tree_path_get_indices (path)[0], j  = (long) g_object_get_data (G_OBJECT (cell), "column");
+	long j  = (long) g_object_get_data (G_OBJECT (cell), "column");
 	double x = atof (new_text);
 	gtk_list_store_set (LineList, &iter, j, x, -1);
 	switch (j) {

@@ -36,7 +36,7 @@ static void on_print_resolution (GtkWidget *widget, gcPrefsDlg * dialog)
 	dialog->UpdatePrinting ();
 }
 
-gcPrefsDlg::gcPrefsDlg (): gcDialog (DATADIR"/gcrystal-unstable/glade/prefs.glade", "prefs")
+gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, DATADIR"/gcrystal-unstable/glade/prefs.glade", "prefs")
 {
 	TabsMenu = (GtkComboBox *) glade_xml_get_widget (xml, "tabpos");
 	gtk_combo_box_set_active (TabsMenu, TabPos);
@@ -103,11 +103,11 @@ gcPrefsDlg::~gcPrefsDlg()
 bool gcPrefsDlg::Apply()
 {
 	double x0, x1, x2;
-	if (!GetNumber (PsiEnt, &x0, gccMinEqMax, -180, 180))
+	if (!GetNumber (PsiEnt, &x0, MinEqMax, -180, 180))
 		return false;
-	if (!GetNumber (ThetaEnt, &x1, gccMinEqMaxEq, 0, 180))
+	if (!GetNumber (ThetaEnt, &x1, MinEqMaxEq, 0, 180))
 		return false;
-	if (!GetNumber (PhiEnt, &x2, gccMinEqMax, -180, 180))
+	if (!GetNumber (PhiEnt, &x2, MinEqMax, -180, 180))
 		return false;
 	TabPos = gtk_combo_box_get_active (TabsMenu);
 	std::list<gcApplication*>::iterator i;

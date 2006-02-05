@@ -28,10 +28,13 @@
 #define GCU_APPLICATION_H
 
 #include <string>
+#include <gtk/gtkwindow.h>
 
 using namespace std;
 
 namespace gcu {
+
+class Document;
 
 /*!\class Application gcu/application.h
 This class is a base class for applications. It provides some basic services.
@@ -68,10 +71,41 @@ helpfilename#myapp-mytag.
 */
 	string &GetName () {return Name;}
 
+/*!
+@return a GtkWindow if any. Should be overloaded by children classes.
+*/
+	virtual GtkWindow * GetWindow () {return NULL;}
+
+/*!
+@param filename: the uri of the file.
+@param bSave: true if saving, and false if loading.
+@param window: the current top level window.
+@param pDoc: an optional document.
+
+Called by the FileChooser when a file name has been selected. This method does
+nothing in the parent class and must be implemented in children classes
+if they use the FileChooser.
+	
+@return true if no error occured.
+*/
+	virtual bool FileProcess (const gchar* filename, bool bSave, GtkWindow *window, Document *pDoc = NULL)
+		{return false;}
+
+/*!
+@return the path to the current directory.
+*/
+	char const* GetCurDir () {return CurDir;}
+
+/*!
+@param dir: the path to the new current directory.
+*/
+	void SetCurDir (char const* dir);
+
 private:
 	string Name;
 	string HelpBrowser;
 	string HelpFilename;
+	char *CurDir;
 };
 
 }	// namespace gcu
