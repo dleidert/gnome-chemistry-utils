@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
-2006-02-05  Jean Brefort  <jean.brefort@normalesup.org>
+2006-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/calc/Makefile.am: fixed some typos.
+	* programs/crystal/Makefile.am: removed obsolete files.
+
+2006-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* README: update the contents to include Gnome Crystal.
 	* configure.ac: add checks for some c++ headers.
 	* gcu/Makefile.am: add new files.

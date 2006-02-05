@@ -10,13 +10,13 @@ INCLUDES = @GCU_CFLAGS@
 
 desktopdir=$(datadir)/applications
 desktop_in_files = \
-	gchemcalc-unstable.desktop.in	\
+	gchemcalc-unstable.desktop.in
 desktop_DATA = \
-	gchemcalc-unstable.desktop	\
+	gchemcalc-unstable.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 CLEANFILES = \
-	gchemcalc-unstable.desktop	\
+	gchemcalc-unstable.desktop
 		
 EXTRA_DIST=$(desktop_in_files)
 
