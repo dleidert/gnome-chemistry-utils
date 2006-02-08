@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2006-02-08  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* Makefile.am: Clean-up and reorder (cleaner).
+	(MAINTAINERCLEANFILES): Introduce maintainer-clean target.
+	(uninstall-hook): Remove obsolete clean stuff (already fixed by using
+	the DISTCHECK_CONFIGURE_FLAGS).
+	* docs/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* dtds/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* gcu/Makefile.am: Ditto.
+	(MAINTAINERCLEANFILES): Ditto.
+	* glade/Makefile.am: Ditto.
+	* docs/reference/Makefile.am: Ditto.
+	(MAINTAINERCLEANFILES): Ditto.
+	(DISTCLEANFILES, distclean-generic): Fixed distclean -> clean target.
+	(html, html_stamp, CLEANFILES): Fixed an issue with automake 1.9,
+	where the reference is created even if html exists.
+	* tests/Makefile.am: Ditto.
+	(MAINTAINERCLEANFILES): Ditto.
+	(noinst_PROGRAMS, check_PROGRAMS): Introduce of the check target. This
+	is a first attempt to introduce the automatic testing.
+
 2006-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.4.8.
 

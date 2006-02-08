@@ -1,3 +1,9 @@
+EXTRA_DIST=$(xml_in_files) $(server_in_files) $(desktop_in_files)
+
+CLEANFILES = $(server_DATA) $(desktop_DATA) $(xml_DATA)
+
+MAINTAINERCLEANFILES = Makefile.in
+
 lib_LTLIBRARIES= libgcu.la
 
 libgcu_la_SOURCES = \
@@ -43,11 +49,10 @@ libgcu_la_headers += \
 		crystalcleavage.h
 		
 if WITH_OPENBABEL
-libgcu_la_SOURCES += \
-		gtkchem3dviewer.cc
 
-libgcu_la_headers += \
-		gtkchem3dviewer.h
+libgcu_la_SOURCES += gtkchem3dviewer.cc
+
+libgcu_la_headers += gtkchem3dviewer.h
 
 bin_PROGRAMS = gchem3d gchem3d-viewer
 
@@ -69,8 +74,6 @@ desktop_in_files = gchem3d-viewer.desktop.in
 desktop_DATA=gchem3d-viewer.desktop
 @INTLTOOL_DESKTOP_RULE@
 
-CLEANFILES = gchem3d.server gchem3d-viewer.desktop elements.xml
-
 endif #WITH_OPENBABEL
 endif #WITH_GTKGL
 		
@@ -82,10 +85,7 @@ AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 
 xmldir = $(datadir)/gchemutils
-
 xml_in_files = elements.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
-
 @INTLTOOL_XML_RULE@
 
-EXTRA_DIST=$(xml_in_files) $(server_in_files) $(desktop_in_files)

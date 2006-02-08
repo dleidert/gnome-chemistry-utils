@@ -1,41 +1,40 @@
-## Makefile.am for gcheputils/tests
+EXTRA_DIST = nickel.gcrystal methane.xyz
+
+MAINTAINERCLEANFILES = Makefile.in
 
 INCLUDES = -I$(top_srcdir)/gcu
 
-DEPS = \
-	$(top_builddir)/gcu/libgcu.la
+DEPS = $(top_builddir)/gcu/libgcu.la
 
 AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@ -Werror-implicit-function-declaration
 
-noinst_PROGRAMS = 			\
-	testgtkperiodic
+check_PROGRAMS = testgtkperiodic
+
+#TESTS = testgtkperiodic
 
 if WITH_GTKGL
 
-noinst_PROGRAMS += 			\
-	testgtkcrystalviewer	\
+check_PROGRAMS += \
+	testgtkcrystalviewer \
 	testgtkchem3dviewer \
 	testbonobocontrol
 
-testgtkcrystalviewer_SOURCES =	\
-	testgtkcrystalviewer.c 	
+#TESTS += \
+#	testgtkcrystalviewer \
+#	testgtkchem3dviewer
 
+testgtkcrystalviewer_SOURCES = testgtkcrystalviewer.c 	
 testgtkcrystalviewer_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 
-testgtkchem3dviewer_SOURCES =	\
-	testgtkchem3dviewer.c 	
-
+testgtkchem3dviewer_SOURCES = testgtkchem3dviewer.c 	
 testgtkchem3dviewer_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 
 testbonobocontrol_SOURCES = testbonobocontrol.c
-testbonobocontrol_LDADD =  @GCU_LIBS@
+testbonobocontrol_LDADD = @GCU_LIBS@
 
-endif
+endif #WITH_GTKGL
 
 testgtkperiodic_DEPENDENCIES = $(DEPS)
+testgtkperiodic_SOURCES = testgtkperiodic.c
 testgtkperiodic_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 
-testgtkperiodic_SOURCES =	\
-	testgtkperiodic.c 	
-
-EXTRA_DIST = nickel.gcrystal methane.xyz

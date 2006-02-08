@@ -1,9 +1,17 @@
 EXTRA_DIST = html-upstream.tar.gz
 
+CLEANFILES = html_stamp
+
+DISTCLEANFILES = Doxyfile
+
+MAINTAINERCLEANFILES = Makefile.in
+
 docsdir = $(datadir)/doc/gchemutils/reference
 docs_DATA = html
 
-html:
+html: html_stamp
+
+html_stamp:
 if DOXYGEN_AVAILABLE
 	$(DOXYGEN) -u Doxyfile
 	if [ -w Doxyfile.bak ]; then rm Doxyfile.bak; fi
@@ -13,18 +21,18 @@ else
 	then \
 		tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz; \
 	fi
-endif
+endif #DOXYGEN_AVAILABLE
+	touch html_stamp
 
 install-docsDATA:
-	$(mkinstalldirs) $(DESTDIR)$(docsdir)
-	cp -r html $(DESTDIR)$(docsdir)
+	$(mkinstalldirs) $(DESTDIR)$(docsdir)/html
+	$(INSTALL_DATA) html/* $(DESTDIR)$(docsdir)/html
 
 uninstall-docsDATA:
 	rm -rf $(DESTDIR)$(docsdir)/html
 
-distclean-generic:
-	-rm -rf html
-	-rm -f Doxyfile
+clean-local:
+	rm -rf html
 
 html-upstream.tar.gz: html
 	if [ ! -d html ]; then echo "You need doxygen to make dist"; fi
@@ -33,3 +41,4 @@ html-upstream.tar.gz: html
 # Make distcheck happy for maintainers as well
 dist-hook:
 	rm -f html-upstream.tar.gz
+
