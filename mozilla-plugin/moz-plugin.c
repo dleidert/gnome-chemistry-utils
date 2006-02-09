@@ -2,9 +2,7 @@
  * Gnome Chemisty Utils
  * moz-plugin.c 
  *
- * Copyright (C) 2002-2005
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2005 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

@@ -1,7 +1,7 @@
 The Gnome chemistry Utils are a collection of 
 
-Copyright 2002-2005 Jean Bréfort jean.brefort@ac-dijon.fr, All Rights Reserved.
-	http://jean.brefort.normalesup.org
+Copyright 2002-2005 Jean Bréfort jean.brefort@normalesup.org, All Rights Reserved.
+	http://jean.brefort.free.fr
 
 This software is copyrighted under the GNU GPL.  Please see the file COPYING,
 Or, to obtain a copy of the GNU GPL, please visit:
@@ -17,6 +17,8 @@ See the file ChangeLog for more information about this software.
 
 What is needed to install the Gnome Chemistry Utils:
 	liblade-2
+	libgnomeui
+	libgnomeprintui
 	GtkGLExt
 	GOffice
 	All dependencies of these two libraries
@@ -28,16 +30,15 @@ Odd minor versions are development version. To see what remains to be done
 before a stable version can be released read the TODO file. Help is of course
 welcomed.
 
-Three widgets are present in this version of the software:
+Four widgets are present in this version of the software:
 * GtkPeriodic is a periodic table of the elements.
+* GtkComboPeriodic is a combo button with a drop down
+periodic table.
 * GtkCrystalViewer is a crystal structure viewer.
 * GtkChem3DViewer is a 3D molecular structure viewer.
-Simple samples of their use is provided in the test programs
+Simple samples of their use are provided in the test programs
 
-Please, note that GtkCrystalViewer cannot use files created with Gnome Crystal
-versions smaller than 0.5. The sample file is indented, but files created by Gnome Crystal
-are written on a single line (using libxml2).
-
-Two programs are avaible:
+Three programs are avaible:
 * A 3D molecular structure viewer (GChem3Viewer).
 * A Chemical calculator (GChemCalc).
+* A periodic table of the elements application (GChemTable).
