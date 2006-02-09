@@ -27,7 +27,8 @@ MAINTAINERCLEANFILES = \
 	mkinstalldirs \
 	Makefile.in
 
-DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --disable-update-databases
+DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --disable-update-databases \
+	--with-mozilla-libdir='$$(libdir)/mozilla'
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= gcu.pc
@@ -44,4 +45,3 @@ endif #WITH_UPDATE_DESKTOP
 
 distcleancheck_listfiles = \
 	find -type f -exec sh -c 'test -f $(srcdir)/{} || echo {}' ';'
-

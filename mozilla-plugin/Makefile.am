@@ -5,7 +5,7 @@ AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 if WITH_MOZILLA
 plugin_LTLIBRARIES = libmozgcu.la
 libexec_PROGRAMS = chem-viewer
-plugindir = $(mozlibdir)/plugins/
+plugindir = $(mozlibdir)/plugins
 else #WITH_MOZILLA
 plugin_LTLIBRARIES =
 libexec_PROGRAMS =
@@ -20,4 +20,3 @@ libmozgcu_la_LIBADD = $(MOZILLA_LIBS)
 chem_viewer_SOURCES = chem-viewer.cc
 chem_viewer_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 chem_viewer_CPPFLAGS = @GCU_CFLAGS@
-

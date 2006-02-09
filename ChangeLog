@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-02-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed make distcheck
+	* configure.ac: ditto, and add --with-mozilla-libdir in options.
+	* mozilla-plugin/Makefile.am: ditto.
+
 2006-02-08  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* Makefile.am: Ease, clean-up and reorder.
 	(MAINTAINERCLEANFILES): Add everything necessary for the

@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.5.90)
+AC_INIT(gnome-chemistry-utils, 0.5.91)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -127,6 +127,10 @@ if test "x$test_mozilla_plugin" != "xno"; then
       build_mozilla_plugin=yes
    fi
 fi
+
+AC_ARG_WITH([mozilla-libdir], 
+AS_HELP_STRING([--with-mozilla-libdir],
+[path to mozilla/firefox libdir (default=auto)]),[mozlibdir=$withval],[])
 
 AM_CONDITIONAL(WITH_MOZILLA,[test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST(MOZILLA_CFLAGS)
