@@ -32,10 +32,12 @@ AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for internationalization])
 
 AC_ARG_ENABLE([update-databases],
-	AC_HELP_STRING([--disable-update-databases],[do not run the update-desktop-database or update-mime-database utilities, mostly useful for package maintainers]),[
-	update_databases=$enableval
-	],[
-	update_databases=yes]
+	[AC_HELP_STRING(
+		[--disable-update-databases],
+		[do not run the update-desktop-database or update-mime-database utilities, mostly useful for package maintainers]
+	)],
+	[update_databases=$enableval],
+	[update_databases=yes]
 )
 AM_CONDITIONAL(UPDATE_DATABASES,test "$update_databases" = "yes")
 
@@ -63,7 +65,7 @@ shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION"
 
 if test "$update_databases" = "yes"; then
-AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
+	AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
 fi
 AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
 
@@ -71,10 +73,16 @@ PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
 saved_cflags=$CFLAGS
 CFLAGS=$GCU_CFLAGS
-AC_COMPILE_IFELSE(AC_LANG_PROGRAM([#include <goffice/gtk/go-graph-widget.h>],
-[go_graph_widget_new(NULL)]), [new_go_graph_widget_api="yes"], [new_go_graph_widget_api="no"])
+AC_COMPILE_IFELSE(
+	AC_LANG_PROGRAM(
+		[#include <goffice/gtk/go-graph-widget.h>],
+		[go_graph_widget_new(NULL)]
+	),
+	[new_go_graph_widget_api="yes"],
+	[new_go_graph_widget_api="no"]
+)
 if test "$new_go_graph_widget_api" = "no"; then
-AC_DEFINE_UNQUOTED(GO_GRAPH_WIDGET_OLD_API, 1,[go_graph_widget_new has no arg])
+	AC_DEFINE_UNQUOTED(GO_GRAPH_WIDGET_OLD_API, 1,[go_graph_widget_new has no arg])
 fi
 CFLAGS=$saved_cflags
 
@@ -84,10 +92,12 @@ AC_SUBST(GCU_LIBS)
 
 AC_LANG(C++)
 AC_MSG_CHECKING([for vector::at usability])
-AC_TRY_COMPILE([#include <vector>],
-      [std::vector<int> v; v.at(0) = 0;],
-      at_ok=yes,
-      at_ok=no)
+AC_TRY_COMPILE(
+	[#include <vector>],
+	[std::vector<int> v; v.at(0) = 0;],
+	[at_ok=yes],
+	[at_ok=no]
+)
 AC_MSG_RESULT($at_ok)
 if test "$at_ok" = "yes"; then
 	AC_DEFINE_UNQUOTED(HAS_VECTOR_AT, 1, [vector::at can be used])
@@ -101,36 +111,55 @@ MOZILLA_CFLAGS=
 build_mozilla_plugin=no
 
 test_mozilla_plugin=true
-AC_ARG_ENABLE(mozilla-plugin, [  --enable-mozilla-plugin  Build a Mozilla/Firefox chemistry files viewing plugin [default = auto]],
-			 test_mozilla_plugin="$enableval")
+AC_ARG_ENABLE(
+	[mozilla-plugin],
+	[AC_HELP_STRING(
+		[--enable-mozilla-plugin],
+		[Build a Mozilla/Firefox chemistry files viewing plugin (default = auto).]
+	)],
+	[test_mozilla_plugin="$enableval"]
+)
 
 if test "x$test_mozilla_plugin" != "xno"; then
-   if test -z "$MOZILLA_CONFIG"; then
-      AC_PATH_PROG(MOZILLA_CONFIG, mozilla-config, no)
-   fi
-
-   if test "x$MOZILLA_CONFIG" != "xno"; then
-      _mozilla_include_dir=`mozilla-config --cflags|sed 's/-I\(.*\) .*/\1/'`
-      MOZILLA_CFLAGS="-I$_mozilla_include_dir/plugin -I$_mozilla_include_dir/java -I$_mozilla_include_dir/nspr"
-	  mozlibdir=`mozilla-config --libs|sed 's/-L//'`
-   else
-	PKG_CHECK_MODULES(MOZILLA, mozilla-plugin, build_mozilla_plugin=yes, 
-			[echo "no"; PKG_CHECK_MODULES(MOZILLA, firefox-plugin, build_mozilla_plugin=yes,
-			[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])])])
-	mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
-	if test "x$mozlibdir" = "x"; then
-		mozlibdir=`pkg-config --variable=libdir firefox-plugin`
+	if test -z "$MOZILLA_CONFIG"; then
+		AC_PATH_PROG(MOZILLA_CONFIG, mozilla-config, no)
 	fi
-   fi
-
-   if test "x$MOZILLA_CFLAGS" != "x"; then
-      build_mozilla_plugin=yes
-   fi
+	
+	if test "x$MOZILLA_CONFIG" != "xno"; then
+		_mozilla_include_dir=`mozilla-config --cflags|sed 's/-I\(.*\) .*/\1/'`
+		MOZILLA_CFLAGS="-I$_mozilla_include_dir/plugin -I$_mozilla_include_dir/java -I$_mozilla_include_dir/nspr"
+		mozlibdir=`mozilla-config --libs|sed 's/-L//'`
+	else
+		PKG_CHECK_MODULES(
+			[MOZILLA],
+			[mozilla-plugin],
+			[build_mozilla_plugin=yes],
+			[echo "no"; PKG_CHECK_MODULES(
+				[MOZILLA],
+				[firefox-plugin],
+				[build_mozilla_plugin=yes],
+				[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])]
+			)]
+		)
+		mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
+		if test "x$mozlibdir" = "x"; then
+			mozlibdir=`pkg-config --variable=libdir firefox-plugin`
+		fi
+	fi
+	
+	if test "x$MOZILLA_CFLAGS" != "x"; then
+		build_mozilla_plugin=yes
+	fi
 fi
 
-AC_ARG_WITH([mozilla-libdir], 
-AS_HELP_STRING([--with-mozilla-libdir],
-[path to mozilla/firefox libdir (default=auto)]),[mozlibdir=$withval],[])
+AC_ARG_WITH(
+	[mozilla-libdir],
+	[AC_HELP_STRING(
+		[--with-mozilla-libdir],
+		[path to mozilla/firefox libdir (default=auto)]
+	)],
+	[mozlibdir=$withval]
+)
 
 AM_CONDITIONAL(WITH_MOZILLA,[test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST(MOZILLA_CFLAGS)

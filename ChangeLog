@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2006-02-09  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* configure.ac: Fixed a minor typo bug and cleaned up the source a
+	bit.
+
 2006-02-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* README: updated for 0.6.0
 	* gcu/application.cc: fixed copyright.
