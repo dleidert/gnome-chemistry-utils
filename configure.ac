@@ -138,7 +138,7 @@ if test "x$test_mozilla_plugin" != "xno"; then
 				[MOZILLA],
 				[firefox-plugin],
 				[build_mozilla_plugin=yes],
-				[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])]
+				[echo "no"; AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])]
 			)]
 		)
 		mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
