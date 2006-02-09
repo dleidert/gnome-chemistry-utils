@@ -115,7 +115,7 @@ AC_ARG_ENABLE(
 	[mozilla-plugin],
 	[AC_HELP_STRING(
 		[--enable-mozilla-plugin],
-		[Build a Mozilla/Firefox chemistry files viewing plugin (default = auto).]
+		[build a Mozilla/Firefox chemistry files viewing plugin [default=auto]]
 	)],
 	[test_mozilla_plugin="$enableval"]
 )
@@ -156,7 +156,7 @@ AC_ARG_WITH(
 	[mozilla-libdir],
 	[AC_HELP_STRING(
 		[--with-mozilla-libdir],
-		[path to mozilla/firefox libdir (default=auto)]
+		[path to mozilla/firefox libdir [default=auto]]
 	)],
 	[mozlibdir=$withval]
 )
