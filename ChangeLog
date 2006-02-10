@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-02-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* tests/testgtkchem3dviewer.c: add a copyright.
+	* tests/testgtkcrystalviewer.c: ditto.
+	* tests/testgtkperiodic.c: ditto.
+
 2006-02-09  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* configure.ac: Fixed a minor typo bug and cleaned up the source a
 	bit.
