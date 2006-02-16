@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-02-16  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* gcu.pc.in: Added URL field.
+
 2006-02-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* tests/testgtkchem3dviewer.c: add a copyright.
 	* tests/testgtkcrystalviewer.c: ditto.
