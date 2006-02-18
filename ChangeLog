@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2006-02-18  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* docs/reference/Makefile.am: Fixed a bug I introduced. Final changes.
+
+2006-02-18  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* docs/reference/Makefile.am: If Doxygen is missing, result in an
 	error message, which is only shown in this case. If doxygen exists, be
 	quiet.

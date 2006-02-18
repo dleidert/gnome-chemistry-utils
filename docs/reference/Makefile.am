@@ -11,25 +11,33 @@ docs_DATA = html/*
 
 html/*: html_stamp
 
-html_stamp:
 if DOXYGEN_AVAILABLE
+
+html_stamp:
 	$(DOXYGEN) -u Doxyfile
 	$(DOXYGEN) Doxyfile
-else
-	tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz
-endif #DOXYGEN_AVAILABLE
 	touch html_stamp
+
+html-upstream.tar.gz: html/*
+	tar -czf $@ html
+
+else #DOXYGEN_AVAILABLE
+
+## Make sure, that html-upstream.tar.gz exists. If not, fail.
+## This will force the existance of documentation!
+html_stamp: html-upstream.tar.gz
+	tar -xzf $<
+	touch html_stamp
+
+## Fail during make dist, because the documentation cannot be created.
+html-upstream.tar.gz: ; $(error "Error: You need doxygen to create the documentation.")
+
+endif #DOXYGEN_AVAILABLE
 
 clean-local:
 	rm -rf html
 
-if DOXYGEN_AVAILABLE
-html-upstream.tar.gz: html/*
-	tar czf html-upstream.tar.gz html
-else
-html-upstream.tar.gz: ; $(error "Error: You need doxygen to 'make dist'.")
-endif #DOXYGEN_AVAILABLE
-
+## Make distcheck happy for maintainers as well
 dist-hook:
 	rm -f html-upstream.tar.gz
 
