@@ -26,7 +26,7 @@ clean-local:
 	rm -rf html
 
 html-upstream.tar.gz: html/*
-	if [ ! -d html ]; then echo "You need doxygen to make dist"; fi
+	@if [ ! -d html ]; then $(error "Error: You need doxygen to make dist"); fi
 	tar czf html-upstream.tar.gz html
 
 dist-hook:
