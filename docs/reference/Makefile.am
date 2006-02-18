@@ -16,18 +16,19 @@ if DOXYGEN_AVAILABLE
 	$(DOXYGEN) -u Doxyfile
 	$(DOXYGEN) Doxyfile
 else
-	if [ -r $(top_srcdir)/docs/reference/html-upstream.tar.gz ]; then \
-		tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz; \
-	fi
+	tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz
 endif #DOXYGEN_AVAILABLE
 	touch html_stamp
 
 clean-local:
 	rm -rf html
 
+if DOXYGEN_AVAILABLE
 html-upstream.tar.gz: html/*
-	@if [ ! -d html ]; then $(error "Error: You need doxygen to make dist"); fi
 	tar czf html-upstream.tar.gz html
+else
+html-upstream.tar.gz: ; $(error "Error: You need doxygen to 'make dist'.")
+endif #DOXYGEN_AVAILABLE
 
 dist-hook:
 	rm -f html-upstream.tar.gz
