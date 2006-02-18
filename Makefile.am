@@ -1,7 +1,6 @@
 SUBDIRS = po database glade gcu programs mozilla-plugin tests dtds docs
 
 EXTRA_DIST = \
-	gcu.pc.in \
 	intltool-extract.in \
 	intltool-update.in \
 	intltool-merge.in
@@ -27,8 +26,10 @@ MAINTAINERCLEANFILES = \
 	mkinstalldirs \
 	Makefile.in
 
-DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper --disable-update-databases \
-	--with-mozilla-libdir='$$(libdir)/mozilla'
+DISTCHECK_CONFIGURE_FLAGS = \
+	--disable-scrollkeeper \
+	--disable-update-databases \
+	--with-mozilla-libdir=\$$(libdir)/mozilla
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= gcu.pc

@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2006-02-18  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* Makefile.am: Cleaned up EXTRA_DIST. Minor change to
+	DISTCHECK_CONFIGURE_FLAGS.
+	* database/Makefile.am: Small clean-up.
+	* programs/Makefile.am: Ditto. Because all programs use the same
+	_LDADD suffix, we can safely use the global LDADD variable (makes 1
+	line from 3)
+	* tests/Makefile.am: Ditto. Further removed obsolete _DEPENDENCIES
+	macro, because DEPS has the same value.
+	* docs/reference/Makefile.am: Change the construct to install
+	reference files a bit. Because of the usage of a stamp file, _DATA can
+	be set to html/* and all files in html/ will be installed with this
+	rule. So we can safely remove the user-written install/uninstall
+	target for these files.
+
 2006-02-16  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* gcu.pc.in: Added URL field.
 
