@@ -1,44 +1,43 @@
 EXTRA_DIST = html-upstream.tar.gz
 
-CLEANFILES = html_stamp
+CLEANFILES = html_stamp Doxyfile.bak
 
 DISTCLEANFILES = Doxyfile
 
 MAINTAINERCLEANFILES = Makefile.in
 
 docsdir = $(datadir)/doc/gchemutils/reference
-docs_DATA = html
+docs_DATA = html/*
 
-html: html_stamp
+html/*: html_stamp
+
+if DOXYGEN_AVAILABLE
 
 html_stamp:
-if DOXYGEN_AVAILABLE
 	$(DOXYGEN) -u Doxyfile
-	if [ -w Doxyfile.bak ]; then rm Doxyfile.bak; fi
 	$(DOXYGEN) Doxyfile
-else
-	if [ -r $(top_srcdir)/docs/reference/html-upstream.tar.gz ]; \
-	then \
-		tar -xzf $(top_srcdir)/docs/reference/html-upstream.tar.gz; \
-	fi
-endif #DOXYGEN_AVAILABLE
 	touch html_stamp
 
-install-docsDATA:
-	$(mkinstalldirs) $(DESTDIR)$(docsdir)/html
-	$(INSTALL_DATA) html/* $(DESTDIR)$(docsdir)/html
+html-upstream.tar.gz: html/*
+	tar -czf $@ html
 
-uninstall-docsDATA:
-	rm -rf $(DESTDIR)$(docsdir)/html
+else #DOXYGEN_AVAILABLE
+
+## Make sure, that html-upstream.tar.gz exists. If not, fail.
+## This will force the existance of documentation!
+html_stamp: html-upstream.tar.gz
+	tar -xzf $<
+	touch html_stamp
+
+## Fail during make dist, because the documentation cannot be created.
+html-upstream.tar.gz: ; $(error "Error: You need doxygen to create the documentation.")
+
+endif #DOXYGEN_AVAILABLE
 
 clean-local:
 	rm -rf html
 
-html-upstream.tar.gz: html
-	if [ ! -d html ]; then echo "You need doxygen to make dist"; fi
-	tar czf html-upstream.tar.gz html
-
-# Make distcheck happy for maintainers as well
+## Make distcheck happy for maintainers as well
 dist-hook:
 	rm -f html-upstream.tar.gz
 

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-02-19  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* docs/reference/Makefile.am: More clean-up.
+	* tests/Makefile.am: Ditto.
+	* po/Makefile.in.in: Removed. Automatically created by autogen.sh.
+
 2006-02-08  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* Makefile.am: Clean-up and reorder (cleaner).
 	(MAINTAINERCLEANFILES): Introduce maintainer-clean target.
