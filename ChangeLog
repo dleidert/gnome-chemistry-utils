@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2006-02-19  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* glade/Makefile.am: More cleaning.
+	* mozilla-plugin/Makefile.am: Ditto.
+
 2006-02-18  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* docs/reference/Makefile.am: Fixed a bug I introduced. Final changes.
 

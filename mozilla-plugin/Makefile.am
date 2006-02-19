@@ -20,3 +20,4 @@ libmozgcu_la_LIBADD = $(MOZILLA_LIBS)
 chem_viewer_SOURCES = chem-viewer.cc
 chem_viewer_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 chem_viewer_CPPFLAGS = @GCU_CFLAGS@
+
