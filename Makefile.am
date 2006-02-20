@@ -13,10 +13,12 @@ DISTCLEANFILES = \
 
 MAINTAINERCLEANFILES = \
 	aclocal.m4 \
+	compile \
 	config.guess \
 	config.sub \
 	config.h.in \
 	configure \
+	depcomp \
 	install-sh \
 	intltool-extract.in \
 	intltool-merge.in \

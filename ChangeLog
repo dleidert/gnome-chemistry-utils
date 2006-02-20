@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-02-20  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* Makefile.am: Fixed MAINTAINERCLEANFILES which missed two files.
+
 2006-02-19  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* glade/Makefile.am: More cleaning.
 	* mozilla-plugin/Makefile.am: Ditto.
