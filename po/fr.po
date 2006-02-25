@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-30 11:17+0100\n"
-"PO-Revision-Date: 2006-01-30 11:20+0200\n"
+"PO-Revision-Date: 2006-02-19 15:58+0100\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -808,7 +808,7 @@ msgstr "Affiche un modèle compact"
 
 #: ../programs/gchem3d-viewer.c:210
 msgid "GChem3d Viewer version: "
-msgstr "Version de la visionneuse GChem3D :"
+msgstr "Version de la visionneuse GChem3D : "
 
 #: ../programs/gchem3d-viewer.c:221
 msgid "Prints GChem3d Viewer version"
@@ -868,7 +868,7 @@ msgstr "À propos de GChemCalc"
 
 #: ../programs/gchemcalc.cc:416
 msgid "Gnome Chemistry Utils version: "
-msgstr "Version de Gnome Chemistry Utils :"
+msgstr "Version de Gnome Chemistry Utils : "
 
 #: ../programs/gchemcalc.cc:440
 msgid " [formula]"
