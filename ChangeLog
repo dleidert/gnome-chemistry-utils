@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/dialog.cc: fixed message boxes.
+	* programs/gchem3d-viewer.c: fixed --version option.
+	* programs/gchemcalc.cc: ditto.
+
 2006-02-20  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* Makefile.am: Fixed MAINTAINERCLEANFILES which missed two files.
 

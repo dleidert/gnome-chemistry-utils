@@ -420,7 +420,7 @@ gboolean cb_print_version (const gchar *option_name, const gchar *value, gpointe
 
 static GOptionEntry options[] = 
 {
-  { "version", 'v', 0, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints GChemCalc version", NULL },
+  { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints GChemCalc version", NULL },
    { NULL }
 };
 
