@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-16 12:30+0100\n"
+"POT-Creation-Date: 2006-02-14 15:53+0100\n"
 "PO-Revision-Date: 2004-03-08 18:45+0100\n"
 "Last-Translator: Nikodem Kuznik <nkuznik@yahoo.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -19,504 +19,1903 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.2\n"
 
-#: glade/gtkperiodic.glade.h:1
+#: ../glade/eltpage.glade.h:1
+msgid "1:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:2
+msgid "Atomic number:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:3
+msgid "Atomic weight:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:4
+#, fuzzy
+msgid "Covalent:"
+msgstr "Kowalencyjne"
+
+#: ../glade/eltpage.glade.h:5
+msgid "Electronic affinities:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:6
+msgid "Electronic properties"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:7
+msgid "Ionic radii (Shannon and Prewitt):"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:8
+msgid "Ionization energies:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:9
+msgid "Isotopes"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:10
+msgid "Main"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:11
+#, fuzzy
+msgid "Metallic:"
+msgstr "Metaliczne"
+
+#: ../glade/eltpage.glade.h:12
+msgid "Pauling electronegativity:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:13
+#, fuzzy
+msgid "Radii"
+msgstr "Rad"
+
+#: ../glade/eltpage.glade.h:14 ../programs/table/gchemtable-elt.cc:135
+msgid "Show curve"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:15
+#, fuzzy
+msgid "Van der Waals:"
+msgstr "Van der Waalsa"
+
+#: ../glade/gchemcalc.glade.h:1
+msgid "Chemical calculator"
+msgstr ""
+
+#: ../glade/gchemcalc.glade.h:2
+msgid "Composition"
+msgstr ""
+
+#: ../glade/gchemcalc.glade.h:3 ../programs/calc/gchemcalc.cc:133
+msgid "Formula:"
+msgstr ""
+
+#: ../glade/gchemcalc.glade.h:4
+msgid "Isotopic Pattern"
+msgstr ""
+
+#: ../glade/gchemcalc.glade.h:5
+#, fuzzy
+msgid "Molecular weight:"
+msgstr "Model cząsteczki"
+
+#: ../glade/gchemcalc.glade.h:6
+msgid "Monoisotopic mass:"
+msgstr ""
+
+#: ../glade/gchemcalc.glade.h:7 ../programs/calc/gchemcalc.cc:136
+msgid "Raw formula:"
+msgstr ""
+
+#: ../glade/gtkperiodic.glade.h:1
 msgid "Actinides"
 msgstr "Aktynowce"
 
-#: glade/gtkperiodic.glade.h:2
+#: ../glade/gtkperiodic.glade.h:2
 msgid "Lanthanides"
 msgstr "Lantanowce"
 
-#: gcu/elements.xml.in.h:1
+#: ../glade/crystal/cell.glade.h:1
+msgid "Cell"
+msgstr "Komórka"
+
+#: ../glade/crystal/cell.glade.h:2
+msgid "Cell parameters"
+msgstr "Parametry komórki"
+
+#: ../glade/crystal/cell.glade.h:3
+msgid "Lattice:"
+msgstr "Sieć:"
+
+#: ../glade/crystal/cell.glade.h:4
+msgid ""
+"Simple cubic\n"
+"Body-centered cubic\n"
+"Face-centered cubic\n"
+"Hexagonal\n"
+"Tetragonal\n"
+"Body-centered tetragonal\n"
+"Orthorhombic\n"
+"Base-centered orthorhombic\n"
+"Body-centered orthorhombic\n"
+"Face-centered orthorhombic\n"
+"Rhombohedral\n"
+"Monoclinic\n"
+"Base-centered monoclinic\n"
+"Triclinic"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:18
+msgid "a (pm): "
+msgstr "a (pm): "
+
+#: ../glade/crystal/cell.glade.h:19
+msgid "b (pm):"
+msgstr "b (pm):"
+
+#: ../glade/crystal/cell.glade.h:20
+msgid "c (pm):"
+msgstr "c (pm):"
+
+#: ../glade/crystal/cell.glade.h:21
+msgid "α (°):"
+msgstr "α (°):"
+
+#: ../glade/crystal/cell.glade.h:22
+msgid "β (°):"
+msgstr "β (°):"
+
+#: ../glade/crystal/cell.glade.h:23
+msgid "γ (°):"
+msgstr "γ (°):"
+
+#: ../glade/crystal/prefs.glade.h:1 ../glade/crystal/view-settings.glade.h:1
+msgid "Background color:"
+msgstr "Kolor tła:"
+
+#: ../glade/crystal/prefs.glade.h:2
+msgid "Bottom"
+msgstr "Na dole"
+
+#: ../glade/crystal/prefs.glade.h:3
+msgid "Default views settings"
+msgstr "Domyślne ustawienia widoku"
+
+#: ../glade/crystal/prefs.glade.h:4
+msgid "Documents"
+msgstr "Dokumenty"
+
+#: ../glade/crystal/prefs.glade.h:5 ../glade/crystal/view-settings.glade.h:2
+msgid "Euler's angles"
+msgstr "Kąty Eulera"
+
+#: ../glade/crystal/prefs.glade.h:6 ../glade/crystal/view-settings.glade.h:3
+msgid "Field of view (between 1 and 45°):"
+msgstr "Pole widzenia (pomiędzy 1 a 45°):"
+
+#: ../glade/crystal/prefs.glade.h:7
+msgid "Hidden"
+msgstr "Ukryte"
+
+#: ../glade/crystal/prefs.glade.h:8
+msgid "Left"
+msgstr "Po lewej"
+
+#: ../glade/crystal/prefs.glade.h:9
+msgid "MDI configuation"
+msgstr "Konfiguracja MDI"
+
+#: ../glade/crystal/prefs.glade.h:10 ../glade/crystal/view-settings.glade.h:4
+msgid "Model orientation in space:"
+msgstr "Orientacja modelu w przestrzeni:"
+
+#: ../glade/crystal/prefs.glade.h:11
+msgid "Notebook tab position:"
+msgstr "Pozycja zakładek:"
+
+#: ../glade/crystal/prefs.glade.h:12
+msgid "Other"
+msgstr "Inne"
+
+#: ../glade/crystal/prefs.glade.h:13
+msgid "Preferences"
+msgstr "Ustawienia"
+
+#: ../glade/crystal/prefs.glade.h:14
+msgid "Printer resolution:"
+msgstr "Rozdzielczość drukarki:"
+
+#: ../glade/crystal/prefs.glade.h:15
+msgid "Printing"
+msgstr "Drukowanie"
+
+#: ../glade/crystal/prefs.glade.h:16
+msgid "Right"
+msgstr "Po prawej"
+
+#: ../glade/crystal/prefs.glade.h:17
+msgid "Top"
+msgstr "U góry"
+
+#: ../glade/crystal/prefs.glade.h:18 ../glade/crystal/view-settings.glade.h:6
+msgid "θ (°):"
+msgstr "θ (°):"
+
+#: ../glade/crystal/prefs.glade.h:19 ../glade/crystal/view-settings.glade.h:7
+msgid "φ (°):"
+msgstr "φ (°):"
+
+#: ../glade/crystal/prefs.glade.h:20 ../glade/crystal/view-settings.glade.h:8
+msgid "ψ (°):"
+msgstr "ψ (°):"
+
+#: ../glade/crystal/view-settings.glade.h:5
+msgid "View settings"
+msgstr "Ustawienia widoku"
+
+#: ../glade/crystal/atoms.glade.h:1
+msgid "Atoms"
+msgstr "Atomy"
+
+#: ../glade/crystal/atoms.glade.h:2
+msgid "Charge: "
+msgstr "Ładunek: "
+
+#: ../glade/crystal/atoms.glade.h:3
+msgid "Covalent"
+msgstr "Kowalencyjne"
+
+#: ../glade/crystal/atoms.glade.h:4
+msgid "Custom"
+msgstr "Użytkownika"
+
+#: ../glade/crystal/atoms.glade.h:5
+msgid "Custom color:"
+msgstr "Kolor użytkownika:"
+
+#: ../glade/crystal/atoms.glade.h:6 ../glade/crystal/cleavages.glade.h:2
+#: ../glade/crystal/lines.glade.h:3
+msgid "Dele_te all"
+msgstr "Wyczyść wszys_tko"
+
+#: ../glade/crystal/atoms.glade.h:7
+msgid "Ionic"
+msgstr "Jonowe"
+
+#: ../glade/crystal/atoms.glade.h:8
+msgid "Metallic"
+msgstr "Metaliczne"
+
+#: ../glade/crystal/atoms.glade.h:9 ../gcu/gtkcomboperiodic.c:96
+#: ../programs/table/gchemtable-app.cc:109
+msgid "Periodic table of the elements"
+msgstr "Układ okresowy pierwiastków"
+
+#: ../glade/crystal/atoms.glade.h:10
+msgid "Radius"
+msgstr "Promień"
+
+#: ../glade/crystal/atoms.glade.h:11
+msgid "Type:"
+msgstr "Typ:"
+
+#: ../glade/crystal/atoms.glade.h:12 ../programs/crystal/atomsdlg.cc:182
+#: ../programs/crystal/atomsdlg.cc:277 ../programs/crystal/atomsdlg.cc:409
+msgid "Unknown"
+msgstr "Nieznany"
+
+#: ../glade/crystal/atoms.glade.h:13
+msgid "Van der Waals"
+msgstr "Van der Waalsa"
+
+#: ../glade/crystal/atoms.glade.h:14 ../glade/crystal/cleavages.glade.h:5
+#: ../glade/crystal/lines.glade.h:8
+msgid "_Add"
+msgstr "Dod_aj"
+
+#: ../glade/crystal/atoms.glade.h:15 ../glade/crystal/cleavages.glade.h:6
+#: ../glade/crystal/lines.glade.h:9
+msgid "_Delete"
+msgstr "_Usuń"
+
+#: ../glade/crystal/atoms.glade.h:16
+msgid "value (pm):"
+msgstr "objętość (pm):"
+
+#: ../glade/crystal/cleavages.glade.h:1
+msgid "Cleavages"
+msgstr "Przecięcia"
+
+#: ../glade/crystal/cleavages.glade.h:3
+msgid "Fixed model size"
+msgstr "Ustalona wielkość modelu"
+
+#: ../glade/crystal/cleavages.glade.h:4
+msgid "List of defined cleavages (h, k, and l are the Miller indices)"
+msgstr "Lista zdefiniowanych odcięć (h, k, l są wskaźnikami Millera)"
+
+#: ../glade/crystal/lines.glade.h:1
+msgid "Cell edges"
+msgstr "Brzegi komórki"
+
+#: ../glade/crystal/lines.glade.h:2
+msgid "Choose a color"
+msgstr "Wybierz kolor"
+
+#: ../glade/crystal/lines.glade.h:4
+msgid "Diagonals"
+msgstr "Przekątne"
+
+#: ../glade/crystal/lines.glade.h:5
+msgid "Lines"
+msgstr "Linie"
+
+#: ../glade/crystal/lines.glade.h:6
+msgid "Medians"
+msgstr "Mediany"
+
+#: ../glade/crystal/lines.glade.h:7
+msgid "Other lines"
+msgstr "Inne linie"
+
+#: ../glade/crystal/lines.glade.h:10
+msgid "color:"
+msgstr "kolor:"
+
+#: ../glade/crystal/lines.glade.h:11
+msgid "radius (pm):"
+msgstr "promień (pm):"
+
+#: ../glade/crystal/size.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: ../glade/crystal/size.glade.h:2
+msgid "Crystal size"
+msgstr "Wielkość kryształu"
+
+#: ../glade/crystal/size.glade.h:3
+msgid "Give minimum and maximum coordinates in cell units"
+msgstr "Wprowadź minimalne i maksymalne współrzędne fragmentu sieci"
+
+#: ../glade/crystal/size.glade.h:4
+msgid "Maximum"
+msgstr "Maksimum"
+
+#: ../glade/crystal/size.glade.h:5
+msgid "Minimum"
+msgstr "Minimum"
+
+#: ../glade/crystal/size.glade.h:6 ../programs/crystal/atomsdlg.cc:138
+msgid "x"
+msgstr "x"
+
+#: ../glade/crystal/size.glade.h:7 ../programs/crystal/atomsdlg.cc:148
+msgid "y"
+msgstr "y"
+
+#: ../glade/crystal/size.glade.h:8 ../programs/crystal/atomsdlg.cc:158
+msgid "z"
+msgstr "z"
+
+#: ../database/elements.xml.in.h:1
 msgid "Actinium"
 msgstr "Aktyn"
 
-#: gcu/elements.xml.in.h:2
+#: ../database/elements.xml.in.h:2
 msgid "Aluminum"
 msgstr "Glin"
 
-#: gcu/elements.xml.in.h:3
+#: ../database/elements.xml.in.h:3
 msgid "Americium"
 msgstr "Ameryk"
 
-#: gcu/elements.xml.in.h:4
+#: ../database/elements.xml.in.h:4
 msgid "Antimony"
 msgstr "Antymon"
 
-#: gcu/elements.xml.in.h:5
+#: ../database/elements.xml.in.h:5
 msgid "Argon"
 msgstr "Argon"
 
-#: gcu/elements.xml.in.h:6
+#: ../database/elements.xml.in.h:6
 msgid "Arsenic"
 msgstr "Arsen"
 
-#: gcu/elements.xml.in.h:7
+#: ../database/elements.xml.in.h:7
 msgid "Astatine"
 msgstr "Astat"
 
-#: gcu/elements.xml.in.h:8
+#: ../database/elements.xml.in.h:8
 msgid "Barium"
 msgstr "Bar"
 
-#: gcu/elements.xml.in.h:9
+#: ../database/elements.xml.in.h:9
 msgid "Berkelium"
 msgstr "Berkel"
 
-#: gcu/elements.xml.in.h:10
+#: ../database/elements.xml.in.h:10
 msgid "Beryllium"
 msgstr "Beryl"
 
-#: gcu/elements.xml.in.h:11
+#: ../database/elements.xml.in.h:11
 msgid "Bismuth"
 msgstr "Bizmut"
 
-#: gcu/elements.xml.in.h:12
+#: ../database/elements.xml.in.h:12
 msgid "Bohrium"
 msgstr "Bohr"
 
-#: gcu/elements.xml.in.h:13
+#: ../database/elements.xml.in.h:13
 msgid "Boron"
 msgstr "Bor"
 
-#: gcu/elements.xml.in.h:14
+#: ../database/elements.xml.in.h:14
 msgid "Bromine"
 msgstr "Brom"
 
-#: gcu/elements.xml.in.h:15
+#: ../database/elements.xml.in.h:15
 msgid "Cadmium"
 msgstr "Kadm"
 
-#: gcu/elements.xml.in.h:16
+#: ../database/elements.xml.in.h:16
+#, fuzzy
+msgid "Caesium"
+msgstr "Cez"
+
+#: ../database/elements.xml.in.h:17
 msgid "Calcium"
 msgstr "Wapń"
 
-#: gcu/elements.xml.in.h:17
+#: ../database/elements.xml.in.h:18
 msgid "Californium"
 msgstr "Kaliforn"
 
-#: gcu/elements.xml.in.h:18
+#: ../database/elements.xml.in.h:19
 msgid "Carbon"
 msgstr "Węgiel"
 
-#: gcu/elements.xml.in.h:19
+#: ../database/elements.xml.in.h:20
 msgid "Cerium"
 msgstr "Cer"
 
-#: gcu/elements.xml.in.h:20
-msgid "Cesium"
-msgstr "Cez"
-
-#: gcu/elements.xml.in.h:21
+#: ../database/elements.xml.in.h:21
 msgid "Chlorine"
 msgstr "Chlor"
 
-#: gcu/elements.xml.in.h:22
+#: ../database/elements.xml.in.h:22
 msgid "Chromium"
 msgstr "Chrom"
 
-#: gcu/elements.xml.in.h:23
+#: ../database/elements.xml.in.h:23
 msgid "Cobalt"
 msgstr "Kobalt"
 
-#: gcu/elements.xml.in.h:24
+#: ../database/elements.xml.in.h:24
 msgid "Copper"
 msgstr "Miedź"
 
-#: gcu/elements.xml.in.h:25
+#: ../database/elements.xml.in.h:25
 msgid "Curium"
 msgstr "Kiur"
 
-#: gcu/elements.xml.in.h:26
+#: ../database/elements.xml.in.h:26
 msgid "Darmstadtium"
 msgstr "Ununnil"
 
-#: gcu/elements.xml.in.h:27
+#: ../database/elements.xml.in.h:27
 msgid "Dubnium"
 msgstr "Dubn"
 
-#: gcu/elements.xml.in.h:28
+#: ../database/elements.xml.in.h:28
 msgid "Dysprosium"
 msgstr "Dysproz"
 
-#: gcu/elements.xml.in.h:29
+#: ../database/elements.xml.in.h:29
 msgid "Einsteinium"
 msgstr "Einstein"
 
-#: gcu/elements.xml.in.h:30
+#: ../database/elements.xml.in.h:30
 msgid "Erbium"
 msgstr "Erb"
 
-#: gcu/elements.xml.in.h:31
+#: ../database/elements.xml.in.h:31
 msgid "Europium"
 msgstr "Europ"
 
-#: gcu/elements.xml.in.h:32
+#: ../database/elements.xml.in.h:32
 msgid "Fermium"
 msgstr "Ferm"
 
-#: gcu/elements.xml.in.h:33
+#: ../database/elements.xml.in.h:33
 msgid "Fluorine"
 msgstr "Fluor"
 
-#: gcu/elements.xml.in.h:34
+#: ../database/elements.xml.in.h:34
 msgid "Francium"
 msgstr "Frans"
 
-#: gcu/elements.xml.in.h:35
+#: ../database/elements.xml.in.h:35
 msgid "Gadolinium"
 msgstr "Gadolin"
 
-#: gcu/elements.xml.in.h:36
+#: ../database/elements.xml.in.h:36
 msgid "Gallium"
 msgstr "Gal"
 
-#: gcu/elements.xml.in.h:37
+#: ../database/elements.xml.in.h:37
 msgid "Germanium"
 msgstr "German"
 
-#: gcu/elements.xml.in.h:38
+#: ../database/elements.xml.in.h:38
 msgid "Gold"
 msgstr "Złoto"
 
-#: gcu/elements.xml.in.h:39
+#: ../database/elements.xml.in.h:39
 msgid "Hafnium"
 msgstr "Hafn"
 
-#: gcu/elements.xml.in.h:40
+#: ../database/elements.xml.in.h:40
 msgid "Hassium"
 msgstr "Has"
 
-#: gcu/elements.xml.in.h:41
+#: ../database/elements.xml.in.h:41
 msgid "Helium"
 msgstr "Hel"
 
-#: gcu/elements.xml.in.h:42
+#: ../database/elements.xml.in.h:42
 msgid "Holmium"
 msgstr "Holm"
 
-#: gcu/elements.xml.in.h:43
+#: ../database/elements.xml.in.h:43
 msgid "Hydrogen"
 msgstr "Wodór"
 
-#: gcu/elements.xml.in.h:44
+#: ../database/elements.xml.in.h:44
 msgid "Indium"
 msgstr "Ind"
 
-#: gcu/elements.xml.in.h:45
+#: ../database/elements.xml.in.h:45
 msgid "Iodine"
 msgstr "Jod"
 
-#: gcu/elements.xml.in.h:46
+#: ../database/elements.xml.in.h:46
 msgid "Iridium"
 msgstr "Iryd"
 
-#: gcu/elements.xml.in.h:47
+#: ../database/elements.xml.in.h:47
 msgid "Iron"
 msgstr "Żelazo"
 
-#: gcu/elements.xml.in.h:48
+#: ../database/elements.xml.in.h:48
 msgid "Krypton"
 msgstr "Krypton"
 
-#: gcu/elements.xml.in.h:49
+#: ../database/elements.xml.in.h:49
 msgid "Lanthanum"
 msgstr "Lantan"
 
-#: gcu/elements.xml.in.h:50
+#: ../database/elements.xml.in.h:50
 msgid "Lawrencium"
 msgstr "Lorens"
 
-#: gcu/elements.xml.in.h:51
+#: ../database/elements.xml.in.h:51
 msgid "Lead"
 msgstr "Ołów"
 
-#: gcu/elements.xml.in.h:52
+#: ../database/elements.xml.in.h:52
 msgid "Lithium"
 msgstr "Lit"
 
-#: gcu/elements.xml.in.h:53
+#: ../database/elements.xml.in.h:53
 msgid "Lutetium"
 msgstr "Lutet"
 
-#: gcu/elements.xml.in.h:54
+#: ../database/elements.xml.in.h:54
 msgid "Magnesium"
 msgstr "Magnez"
 
-#: gcu/elements.xml.in.h:55
+#: ../database/elements.xml.in.h:55
 msgid "Manganese"
 msgstr "Mangan"
 
-#: gcu/elements.xml.in.h:56
+#: ../database/elements.xml.in.h:56
 msgid "Meitnerium"
 msgstr "Meitner"
 
-#: gcu/elements.xml.in.h:57
+#: ../database/elements.xml.in.h:57
 msgid "Mendelevium"
 msgstr "Mendelew"
 
-#: gcu/elements.xml.in.h:58
+#: ../database/elements.xml.in.h:58
 msgid "Mercury"
 msgstr "Rtęć"
 
-#: gcu/elements.xml.in.h:59
+#: ../database/elements.xml.in.h:59
 msgid "Molybdenum"
 msgstr "Molibden"
 
-#: gcu/elements.xml.in.h:60
+#: ../database/elements.xml.in.h:60
 msgid "Neodymium"
 msgstr "Neodym"
 
-#: gcu/elements.xml.in.h:61
+#: ../database/elements.xml.in.h:61
 msgid "Neon"
 msgstr "Neon"
 
-#: gcu/elements.xml.in.h:62
+#: ../database/elements.xml.in.h:62
 msgid "Neptunium"
 msgstr "Neptun"
 
-#: gcu/elements.xml.in.h:63
+#: ../database/elements.xml.in.h:63
 msgid "Nickel"
 msgstr "Nikiel"
 
-#: gcu/elements.xml.in.h:64
+#: ../database/elements.xml.in.h:64
 msgid "Niobium"
 msgstr "Niob"
 
-#: gcu/elements.xml.in.h:65
+#: ../database/elements.xml.in.h:65
 msgid "Nitrogen"
 msgstr "Azot"
 
-#: gcu/elements.xml.in.h:66
+#: ../database/elements.xml.in.h:66
 msgid "Nobelium"
 msgstr "Nobel"
 
-#: gcu/elements.xml.in.h:67
+#: ../database/elements.xml.in.h:67
 msgid "Osmium"
 msgstr "Osm"
 
-#: gcu/elements.xml.in.h:68
+#: ../database/elements.xml.in.h:68
 msgid "Oxygen"
 msgstr "Tlen"
 
-#: gcu/elements.xml.in.h:69
+#: ../database/elements.xml.in.h:69
 msgid "Palladium"
 msgstr "Pallad"
 
-#: gcu/elements.xml.in.h:70
+#: ../database/elements.xml.in.h:70
 msgid "Phosphorus"
 msgstr "Fosfor"
 
-#: gcu/elements.xml.in.h:71
+#: ../database/elements.xml.in.h:71
 msgid "Platinum"
 msgstr "Platyna"
 
-#: gcu/elements.xml.in.h:72
+#: ../database/elements.xml.in.h:72
 msgid "Plutonium"
 msgstr "Pluton"
 
-#: gcu/elements.xml.in.h:73
+#: ../database/elements.xml.in.h:73
 msgid "Polonium"
 msgstr "Polon"
 
-#: gcu/elements.xml.in.h:74
+#: ../database/elements.xml.in.h:74
 msgid "Potassium"
 msgstr "Potas"
 
-#: gcu/elements.xml.in.h:75
+#: ../database/elements.xml.in.h:75
 msgid "Praseodymium"
 msgstr "Prazeodym"
 
-#: gcu/elements.xml.in.h:76
+#: ../database/elements.xml.in.h:76
 msgid "Promethium"
 msgstr "Promet"
 
-#: gcu/elements.xml.in.h:77
+#: ../database/elements.xml.in.h:77
 msgid "Protactinium"
 msgstr "Protaktyn"
 
-#: gcu/elements.xml.in.h:78
+#: ../database/elements.xml.in.h:78
 msgid "Radium"
 msgstr "Rad"
 
-#: gcu/elements.xml.in.h:79
+#: ../database/elements.xml.in.h:79
 msgid "Radon"
 msgstr "Radon"
 
-#: gcu/elements.xml.in.h:80
+#: ../database/elements.xml.in.h:80
 msgid "Rhenium"
 msgstr "Ren"
 
-#: gcu/elements.xml.in.h:81
+#: ../database/elements.xml.in.h:81
 msgid "Rhodium"
 msgstr "Rod"
 
-#: gcu/elements.xml.in.h:82
+#: ../database/elements.xml.in.h:82
 msgid "Roentgenium"
 msgstr "Rentgen"
 
-#: gcu/elements.xml.in.h:83
+#: ../database/elements.xml.in.h:83
 msgid "Rubidium"
 msgstr "Rubid"
 
-#: gcu/elements.xml.in.h:84
+#: ../database/elements.xml.in.h:84
 msgid "Ruthenium"
 msgstr "Ruten"
 
-#: gcu/elements.xml.in.h:85
+#: ../database/elements.xml.in.h:85
 msgid "Rutherfordium"
 msgstr "Rutherford"
 
-#: gcu/elements.xml.in.h:86
+#: ../database/elements.xml.in.h:86
 msgid "Samarium"
 msgstr "Samar"
 
-#: gcu/elements.xml.in.h:87
+#: ../database/elements.xml.in.h:87
 msgid "Scandium"
 msgstr "Skand"
 
-#: gcu/elements.xml.in.h:88
+#: ../database/elements.xml.in.h:88
 msgid "Seaborgium"
 msgstr "Seaborg"
 
-#: gcu/elements.xml.in.h:89
+#: ../database/elements.xml.in.h:89
 msgid "Selenium"
 msgstr "Selen"
 
-#: gcu/elements.xml.in.h:90
+#: ../database/elements.xml.in.h:90
 msgid "Silicon"
 msgstr "Krzem"
 
-#: gcu/elements.xml.in.h:91
+#: ../database/elements.xml.in.h:91
 msgid "Silver"
 msgstr "Srebro"
 
-#: gcu/elements.xml.in.h:92
+#: ../database/elements.xml.in.h:92
 msgid "Sodium"
 msgstr "Sód"
 
-#: gcu/elements.xml.in.h:93
+#: ../database/elements.xml.in.h:93
 msgid "Strontium"
 msgstr "Stront"
 
-#: gcu/elements.xml.in.h:94
+#: ../database/elements.xml.in.h:94
 msgid "Sulfur"
 msgstr "Siarka"
 
-#: gcu/elements.xml.in.h:95
+#: ../database/elements.xml.in.h:95
 msgid "Tantalum"
 msgstr "Tantal"
 
-#: gcu/elements.xml.in.h:96
+#: ../database/elements.xml.in.h:96
 msgid "Technetium"
 msgstr "Technet"
 
-#: gcu/elements.xml.in.h:97
+#: ../database/elements.xml.in.h:97
 msgid "Tellurium"
 msgstr "Tellur"
 
-#: gcu/elements.xml.in.h:98
+#: ../database/elements.xml.in.h:98
 msgid "Terbium"
 msgstr "Terb"
 
-#: gcu/elements.xml.in.h:99
+#: ../database/elements.xml.in.h:99
 msgid "Thallium"
 msgstr "Tal"
 
-#: gcu/elements.xml.in.h:100
+#: ../database/elements.xml.in.h:100
 msgid "Thorium"
 msgstr "Tor"
 
-#: gcu/elements.xml.in.h:101
+#: ../database/elements.xml.in.h:101
 msgid "Thulium"
 msgstr "Tul"
 
-#: gcu/elements.xml.in.h:102
+#: ../database/elements.xml.in.h:102
 msgid "Tin"
 msgstr "Cyna"
 
-#: gcu/elements.xml.in.h:103
+#: ../database/elements.xml.in.h:103
 msgid "Titanium"
 msgstr "Tytan"
 
-#: gcu/elements.xml.in.h:104
+#: ../database/elements.xml.in.h:104
 msgid "Tungsten"
 msgstr "Wolfram"
 
-#: gcu/elements.xml.in.h:105
+#: ../database/elements.xml.in.h:105
 msgid "Ununbium"
 msgstr "Ununbi"
 
-#: gcu/elements.xml.in.h:106
+#: ../database/elements.xml.in.h:106
+#, fuzzy
+msgid "Ununhexium"
+msgstr "Ununbi"
+
+#: ../database/elements.xml.in.h:107
+#, fuzzy
+msgid "Ununpentium"
+msgstr "Ununum"
+
+#: ../database/elements.xml.in.h:108
 msgid "Ununquadium"
 msgstr "Unukwad"
 
-#: gcu/elements.xml.in.h:107
+#: ../database/elements.xml.in.h:109
+#, fuzzy
+msgid "Ununtrium"
+msgstr "Ununbi"
+
+#: ../database/elements.xml.in.h:110
 msgid "Uranium"
 msgstr "Uran"
 
-#: gcu/elements.xml.in.h:108
+#: ../database/elements.xml.in.h:111
 msgid "Vanadium"
 msgstr "Wanad"
 
-#: gcu/elements.xml.in.h:109
+#: ../database/elements.xml.in.h:112
 msgid "Xenon"
 msgstr "Ksenon"
 
-#: gcu/elements.xml.in.h:110
+#: ../database/elements.xml.in.h:113
 msgid "Ytterbium"
 msgstr "Iterb"
 
-#: gcu/elements.xml.in.h:111
+#: ../database/elements.xml.in.h:114
 msgid "Yttrium"
 msgstr "Itr"
 
-#: gcu/elements.xml.in.h:112
+#: ../database/elements.xml.in.h:115
 msgid "Zinc"
 msgstr "Cynk"
 
-#: gcu/elements.xml.in.h:113
+#: ../database/elements.xml.in.h:116
 msgid "Zirconium"
 msgstr "Cyrkon"
 
-#: gcu/gchem3d.server.in.in.h:1
-msgid "Gnome Chemistry 3D Viewer component"
-msgstr "Komponent Gnome - Trójwymiarowa przeglądarka wzorów chemicznych"
+#: ../database/isotopes.xml.in.h:1
+#, fuzzy
+msgid "deuterium"
+msgstr "Meitner"
 
-#: gcu/gchem3d.server.in.in.h:2
-msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
-msgstr "Komponent Gnome - Przeglądarka trójwymiarowych wzorów chemicznych"
+#: ../database/isotopes.xml.in.h:2
+#, fuzzy
+msgid "protium"
+msgstr "Stront"
 
-#: gcu/gchem3d.server.in.in.h:3
-msgid "Gnome Chemistry 3D Viewer embeddable factory"
+#: ../database/isotopes.xml.in.h:3
+#, fuzzy
+msgid "tritium"
+msgstr "Stront"
+
+#: ../gcu/crystaldoc.cc:406
+msgid "Everything has been cleaved"
 msgstr ""
-"Wbudowalny generator obiektów Gnome - Trójwymiarowa przeglądarka wzorów "
-"chemicznych"
 
-#: gcu/gchem3d.server.in.in.h:4
-msgid "Gnome Chemistry 3D Viewer object factory"
+#: ../gcu/dialog.cc:115
+msgid "Type a number"
+msgstr "Wprowadź liczbę"
+
+#: ../gcu/dialog.cc:123
+#, fuzzy, c-format
+msgid "Type a number greater than or equal %g and lower than to %g"
+msgstr "Wprowadź liczbę większą od %g"
+
+#: ../gcu/dialog.cc:132
+#, fuzzy, c-format
+msgid "Type a number greater than %g and lower than or equal to %g"
+msgstr "Wprowadź liczbę większą od %g"
+
+#: ../gcu/dialog.cc:141
+#, fuzzy, c-format
+msgid "Type a number between %g and %g, the limits are valid."
+msgstr "Wprowadź liczbę pomiędzy %g a %g"
+
+#: ../gcu/dialog.cc:150
+#, fuzzy, c-format
+msgid "Type a number greater than %g and lower than %g"
+msgstr "Wprowadź liczbę większą od %g"
+
+#: ../gcu/dialog.cc:159
+#, fuzzy, c-format
+msgid "Type a number lower than %g"
+msgstr "Wprowadź liczbę większą od %g"
+
+#: ../gcu/dialog.cc:168
+#, c-format
+msgid "Type a number greater than %g"
+msgstr "Wprowadź liczbę większą od %g"
+
+#: ../gcu/dialog.cc:177
+#, fuzzy, c-format
+msgid "Type a number lower than or equal to %g"
+msgstr "Wprowadź liczbę większą od %g"
+
+#: ../gcu/dialog.cc:186
+#, fuzzy, c-format
+msgid "Type a number greater than or equal to %g"
+msgstr "Wprowadź liczbę większą od %g"
+
+#: ../gcu/element.cc:89
+#, fuzzy
+msgid "German"
+msgstr "German"
+
+#: ../gcu/element.cc:90
+#, fuzzy
+msgid "French"
+msgstr "Arsen"
+
+#: ../gcu/element.cc:91
+msgid "Italian"
 msgstr ""
-"Generator obiektów Gnome - Trójwymiarowa przeglądarka wzorów chemicznych"
 
-#: gcu/gchem3d.server.in.in.h:5
-msgid "Molecular Model"
-msgstr "Model cząsteczki"
+#: ../gcu/element.cc:92
+msgid "Polish"
+msgstr ""
 
-#: gchemutils.keys.in.h:1
-msgid "Documents/Sciences/Chemistry"
-msgstr "Dokumenty/Nauka/Chemia"
+#: ../gcu/element.cc:93
+msgid "Russian"
+msgstr ""
 
-#: gchemutils.keys.in.h:2
-msgid "MDL MOL file"
-msgstr "Plik MOL MDL"
+#: ../gcu/element.cc:96
+msgid "Can't find and read elements.xml"
+msgstr ""
 
-#: gchemutils.keys.in.h:3
-msgid "PDB file"
-msgstr "Plik PDB"
+#: ../gcu/element.cc:101 ../gcu/element.cc:108
+msgid "Incorrect file format: elements.xml"
+msgstr ""
 
-#: gchemutils.keys.in.h:4
-msgid "XYZ file"
+#: ../gcu/element.cc:141
+msgid "English"
+msgstr ""
+
+#: ../gcu/element.cc:424
+msgid "Can't find and read radii.xml"
+msgstr ""
+
+#: ../gcu/element.cc:429 ../gcu/element.cc:440
+msgid "Incorrect file format: radii.xml"
+msgstr ""
+
+#: ../gcu/element.cc:524
+msgid "Can't find and read elecprops.xml"
+msgstr ""
+
+#: ../gcu/element.cc:529 ../gcu/element.cc:534
+msgid "Incorrect file format: elecprops.xml"
+msgstr ""
+
+#: ../gcu/element.cc:682
+msgid "Can't find and read isotopes.xml"
+msgstr ""
+
+#: ../gcu/element.cc:687 ../gcu/element.cc:694
+msgid "Incorrect file format: isotopes.xml"
+msgstr ""
+
+#: ../gcu/formula.cc:390 ../gcu/formula.cc:428
+msgid "Unmatched parenthesis"
+msgstr ""
+
+#: ../gcu/formula.cc:416
+msgid "Could not interpret the symbol list"
+msgstr ""
+
+#: ../gcu/formula.cc:422
+msgid "Parser failed, please fill a bug report."
+msgstr ""
+
+#: ../gcu/formula.cc:430
+msgid "Invalid character"
+msgstr ""
+
+#: ../gcu/gtkchem3dviewer.cc:305
+#, fuzzy
+msgid "Background Color"
+msgstr "Kolor tła:"
+
+#: ../gcu/gtkchem3dviewer.cc:306
+msgid "Color used to paint the background"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:46
+msgid "Open"
+msgstr "Otwórz"
+
+#: ../programs/3d/gchem3d-viewer.c:104 ../programs/crystal/application.cc:677
+msgid "Preview"
+msgstr "Podgląd"
+
+#. Note to translators: replace the following string with the appropriate credits for you lang
+#: ../programs/3d/gchem3d-viewer.c:149 ../programs/calc/gchemcalc.cc:113
+#: ../programs/crystal/application.cc:128
+#: ../programs/table/gchemtable-app.cc:63
+msgid "translator_credits"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:153
+#, fuzzy
+msgid "GChem3D is a molecular structures viewer for Gnome"
+msgstr "Gnome Crystal jest prostą przedlądarką struktur kryształów dla Gnome"
+
+#: ../programs/3d/gchem3d-viewer.c:154
+#, fuzzy
+msgid "(C) 2004-2006 by Jean Bréfort"
+msgstr "Prawa autorskie dla Jean Bréfort (C) 1999-2004"
+
+#: ../programs/3d/gchem3d-viewer.c:164 ../programs/calc/gchemcalc.cc:373
+#: ../programs/crystal/application.cc:361
+#: ../programs/table/gchemtable-app.cc:83
+#, fuzzy
+msgid "_File"
+msgstr "_Nowy plik"
+
+#: ../programs/3d/gchem3d-viewer.c:165 ../programs/crystal/application.cc:364
+#, fuzzy
+msgid "_Open..."
+msgstr "Otwórz"
+
+#: ../programs/3d/gchem3d-viewer.c:166 ../programs/crystal/application.cc:365
+msgid "Open a file"
+msgstr "Otwórz plik"
+
+#: ../programs/3d/gchem3d-viewer.c:167 ../programs/crystal/application.cc:379
+#, fuzzy
+msgid "_Print..."
+msgstr "Drukuj"
+
+#: ../programs/3d/gchem3d-viewer.c:168
+msgid "Print the current scene"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:169 ../programs/calc/gchemcalc.cc:374
+#: ../programs/crystal/application.cc:383
+#: ../programs/table/gchemtable-app.cc:84
+#, fuzzy
+msgid "_Quit"
+msgstr "Zakończ"
+
+#: ../programs/3d/gchem3d-viewer.c:170
+msgid "Quit GChem3D"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:171 ../programs/crystal/application.cc:399
+msgid "_View"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:172 ../programs/calc/gchemcalc.cc:376
+#: ../programs/crystal/application.cc:411
+#: ../programs/table/gchemtable-app.cc:86
+msgid "_Help"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:173 ../programs/calc/gchemcalc.cc:377
+#: ../programs/crystal/application.cc:414
+#: ../programs/table/gchemtable-app.cc:87
+msgid "_About"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:174
+msgid "About GChem3D"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:178
+msgid "Balls and sticks"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:179
+msgid "Display a balls and sticks model"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:181
+msgid "Space filling"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:182
+msgid "Display a space filling model"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:208
+msgid "GChem3d Viewer version: "
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:219
+msgid "Prints GChem3d Viewer version"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:220
+msgid "Background color: white, black or #rrggbb (default is black)"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:221
+msgid ""
+"How molecules are displayed; possible values are BallnStick (the default) "
+"and SpaceFill"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:245
+#, fuzzy
+msgid " [file]"
 msgstr "Plik XYZ"
 
-#~ msgid "Unununium"
-#~ msgstr "Ununum"
+#: ../programs/3d/gchem3d-viewer.c:285
+#, fuzzy
+msgid "Background color"
+msgstr "Kolor tła:"
+
+#: ../programs/3d/gchem3d-viewer.c:286
+#, fuzzy
+msgid "Choose a new background color"
+msgstr "Kolor tła:"
+
+#: ../programs/3d/gchem3d-viewer.c:314
+msgid "Unknown display mode"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer-unstable.desktop.in.h:1
+#, fuzzy
+msgid "Display chemical 3D structures"
+msgstr "Przeglądanie i edycja struktur kryształów"
+
+#: ../programs/3d/gchem3d-viewer-unstable.desktop.in.h:2
+msgid "Molecules Viewer (unstable)"
+msgstr ""
+
+#: ../programs/calc/gchemcalc.cc:117
+msgid "GChemCalc is a simple calculator for chemists"
+msgstr ""
+
+#: ../programs/calc/gchemcalc.cc:118 ../programs/table/gchemtable-app.cc:68
+#, fuzzy
+msgid "(C) 2005-2006 by Jean Bréfort"
+msgstr "Prawa autorskie dla Jean Bréfort (C) 1999-2004"
+
+#: ../programs/calc/gchemcalc.cc:375
+#, fuzzy
+msgid "Quit GChemCalc"
+msgstr "Zakończ Gnome Crystal"
+
+#: ../programs/calc/gchemcalc.cc:378
+msgid "About GChemCalc"
+msgstr ""
+
+#: ../programs/calc/gchemcalc.cc:395 ../programs/crystal/main.cc:112
+#, fuzzy
+msgid "Gnome Chemistry Utils version: "
+msgstr "Komponent Gnome - Trójwymiarowa przeglądarka wzorów chemicznych"
+
+#: ../programs/calc/gchemcalc.cc:419
+msgid " [formula]"
+msgstr ""
+
+#: ../programs/calc/gchemcalc.cc:436
+msgid "Usage: gchemcalc-unstable [OPTION...] [formula]"
+msgstr ""
+
+#: ../programs/calc/gchemcalc.cc:480
+msgid "Element"
+msgstr ""
+
+#: ../programs/calc/gchemcalc.cc:487
+msgid "Mass %"
+msgstr ""
+
+#: ../programs/calc/gchemcalc-unstable.desktop.in.h:1
+msgid "A simple calculator for chemistry"
+msgstr ""
+
+#: ../programs/calc/gchemcalc-unstable.desktop.in.h:2
+msgid "Chemical calculator (unstable)"
+msgstr ""
+
+#: ../programs/crystal/gcrystal-unstable.desktop.in.h:1
+msgid "Edit and display crystalline structures"
+msgstr "Przeglądanie i edycja struktur kryształów"
+
+#: ../programs/crystal/gcrystal-unstable.desktop.in.h:2
+#, fuzzy
+msgid "Gnome Crystal Crystalline Structures Viewer (unstable)"
+msgstr "Przeglądarka struktur kryształów"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:1
+msgid "Backgroud color blue value"
+msgstr "Niebieski składnik koloru tła"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:2
+msgid "Backgroud color green value"
+msgstr "Zielony składnik koloru tła"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:3
+msgid "Backgroud color red value"
+msgstr "Czerwony składnik koloru tła"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:4
+msgid ""
+"Blue value for the default background color. Acceptable values are 0. to 1."
+msgstr "Niebieski składnik koloru tła. Dopuszczalne wartości od 0 do 1."
+
+#: ../programs/crystal/gcrystal.schemas.in.h:5
+msgid ""
+"Default Euler's nutation angle for model display. Acceptable values are 0. "
+"to + 180."
+msgstr ""
+"Domyślny kąt nutacji Eulera dla wyświetlanego modelu. Dopuszczalne wartości "
+"od 0 do+ 180."
+
+#: ../programs/crystal/gcrystal.schemas.in.h:6
+msgid ""
+"Default Euler's precession angle for model display. Acceptable values are -"
+"180. to + 180."
+msgstr ""
+"Domyślny kąt precesji Eulera dla wyświetlanego modelu. Dopuszczalne wartości "
+"od 180 do+ 180."
+
+#: ../programs/crystal/gcrystal.schemas.in.h:7
+msgid ""
+"Default Euler's spin angle for model display. Acceptable values are -180. to "
+"+ 180."
+msgstr ""
+"Domyślny kąt wirowania Eulera dla wyświetlanego modelu. Dopuszczalne "
+"wartości od - 180 do+ 180."
+
+#: ../programs/crystal/gcrystal.schemas.in.h:8
+msgid "Default field of view"
+msgstr "Domyślne pole widzenia"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:9
+msgid "Default nutation"
+msgstr "Domyślna nutacja"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:10
+msgid "Default precession"
+msgstr "Domyślna precesja"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:11
+msgid "Default spin"
+msgstr "Domyślne wirowanie"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:12
+msgid "Field of view used by default for the model display."
+msgstr "Pole widzenia użyte domyślnie podczas wyświetlania modelu."
+
+#: ../programs/crystal/gcrystal.schemas.in.h:13
+msgid ""
+"Green value for the default background color. Acceptable values are 0. to 1."
+msgstr ""
+"Zielony składnik domyślnego koloru tła. Dopuszczalne wartości od 0 do 1."
+
+#: ../programs/crystal/gcrystal.schemas.in.h:14
+msgid "Notebook tabs position"
+msgstr "Pozycja zakładek"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:15
+msgid "Printing resolution"
+msgstr "Rozdzielczość drukowania"
+
+#: ../programs/crystal/gcrystal.schemas.in.h:16
+msgid "Printing resolution if not automatically detected."
+msgstr "Rozdzielczość drukowania, jeśli nie została wykryta atuomatycznie."
+
+#: ../programs/crystal/gcrystal.schemas.in.h:17
+msgid ""
+"Red value for the default background color. Acceptable values are 0. to 1."
+msgstr ""
+"Czerwony składnik domyślnego koloru tła. Dopuszczalne wartości od 0 do 1."
+
+#: ../programs/crystal/gcrystal.schemas.in.h:18
+msgid ""
+"Whether to display or not the notebook tabs and where. Possible values are: "
+"0: hide, 1: left, 2: right, 3: top, and 4:bottom."
+msgstr ""
+"Ustawienie wyświetlania pozycji zakładek. Dopuszczalne wartości: 0: ukryte, "
+"1: po lewej, 2: po prawej, 3: u góry, 4: na dole."
+
+#: ../programs/crystal/main.cc:147
+msgid " [file...]"
+msgstr ""
+
+#: ../programs/crystal/main.cc:251
+#, c-format
+msgid "Invalid or misplaced argument: %s\n"
+msgstr ""
+
+#: ../programs/crystal/document.cc:248
+#, c-format
+msgid ""
+"Could not save file\n"
+"%s"
+msgstr ""
+"Nie można zapisać do pliku\n"
+"%s"
+
+#: ../programs/crystal/document.cc:251
+#, c-format
+msgid ""
+"Could not load file\n"
+"%s"
+msgstr ""
+"Nie można wczytać pliku\n"
+"%s"
+
+#: ../programs/crystal/document.cc:254
+#, c-format
+msgid ""
+"%s: invalid xml file.\n"
+"Tree is empty?"
+msgstr ""
+"%s: błędny plik xml.\n"
+"Drzewo jest puste?"
+
+#: ../programs/crystal/document.cc:257
+#, c-format
+msgid "%s: invalid file format."
+msgstr "%s: błędny format pliku."
+
+#: ../programs/crystal/document.cc:452
+#, c-format
+msgid "Can't create file %s"
+msgstr "Nie można utworzyć pliku %s"
+
+#: ../programs/crystal/document.cc:600
+#, fuzzy, c-format
+msgid "\"%s\" has been modified.  Do you wish to save it?"
+msgstr "'%s' został zmodyfikowany. Czy zachować zmiany?"
+
+#: ../programs/crystal/application.cc:130
+#: ../programs/crystal/application.cc:481
+msgid "Gnome Crystal"
+msgstr "Gnome Crystal"
+
+#: ../programs/crystal/application.cc:133
+msgid "Gnome Crystal is a lightweight crystal structures viewer for Gnome"
+msgstr "Gnome Crystal jest prostą przedlądarką struktur kryształów dla Gnome"
+
+#: ../programs/crystal/application.cc:134
+#, fuzzy
+msgid "(C) 1999-2006 by Jean Bréfort"
+msgstr "Prawa autorskie dla Jean Bréfort (C) 1999-2004"
+
+#: ../programs/crystal/application.cc:248
+#, fuzzy, c-format
+msgid ""
+"\"%s\" has been modified since last saving. Do you wish to come back to "
+"saved version?"
+msgstr ""
+"``%s'' został zmodyfikowany od ostatniego zapisu. Przywrócić zapisaną wersję?"
+
+#: ../programs/crystal/application.cc:362
+msgid "_New File"
+msgstr "_Nowy plik"
+
+#: ../programs/crystal/application.cc:363
+msgid "Create a new file"
+msgstr "Utwórz nowy plik"
+
+#: ../programs/crystal/application.cc:366
+msgid "O_pen in a new window..."
+msgstr "Otwórz nowe _okno"
+
+#: ../programs/crystal/application.cc:367
+msgid "Open a file in a new window"
+msgstr "Otwórz plik w nowym oknie"
+
+#: ../programs/crystal/application.cc:368
+#, fuzzy
+msgid "_Save"
+msgstr "Zapisz"
+
+#: ../programs/crystal/application.cc:369
+#, fuzzy
+msgid "Save the current file"
+msgstr "Zapisz bieżący plik"
+
+#: ../programs/crystal/application.cc:370
+#, fuzzy
+msgid "Save _As..."
+msgstr "Zapisz jako..."
+
+#: ../programs/crystal/application.cc:371
+msgid "Save the current file with a different name"
+msgstr ""
+
+#: ../programs/crystal/application.cc:372
+msgid "_Export"
+msgstr "_Eksportuj"
+
+#: ../programs/crystal/application.cc:373
+msgid "VRML"
+msgstr "VRML"
+
+#: ../programs/crystal/application.cc:374
+msgid "Export to VRML"
+msgstr "Eksportuj do VRML"
+
+#: ../programs/crystal/application.cc:375
+msgid "PNG"
+msgstr "PNG"
+
+#: ../programs/crystal/application.cc:376
+msgid "Export view to png file"
+msgstr "Eksportuj do pliku png"
+
+#: ../programs/crystal/application.cc:377
+msgid "Jpeg"
+msgstr "Jpeg"
+
+#: ../programs/crystal/application.cc:378
+msgid "Export view to jpeg file"
+msgstr "Eksportuj do pliku jpeg"
+
+#: ../programs/crystal/application.cc:380
+#: ../programs/crystal/application.cc:387
+msgid "Print the current file"
+msgstr ""
+
+#: ../programs/crystal/application.cc:381
+#, fuzzy
+msgid "_Close"
+msgstr "Zamknij"
+
+#: ../programs/crystal/application.cc:382
+#, fuzzy
+msgid "Close the current file"
+msgstr "Zamknij bieżący plik"
+
+#: ../programs/crystal/application.cc:384
+msgid "Quit Gnome Crystal"
+msgstr "Zakończ Gnome Crystal"
+
+#: ../programs/crystal/application.cc:385
+msgid "_Edit"
+msgstr ""
+
+#: ../programs/crystal/application.cc:386
+#, fuzzy
+msgid "Prefere_nces..."
+msgstr "Ustawienia"
+
+#: ../programs/crystal/application.cc:388
+msgid "_Crystal"
+msgstr "_Crystal"
+
+#: ../programs/crystal/application.cc:389
+msgid "_Lattice..."
+msgstr "_Sieć"
+
+#: ../programs/crystal/application.cc:390
+msgid "Define the lattice"
+msgstr "Zdefiniuj sieć"
+
+#: ../programs/crystal/application.cc:391
+msgid "_Atoms..."
+msgstr "_Atomy..."
+
+#: ../programs/crystal/application.cc:392
+msgid "Add or edit atoms"
+msgstr ""
+
+#: ../programs/crystal/application.cc:393
+msgid "_Bonds and lines..."
+msgstr "_Wiązania i linie..."
+
+#: ../programs/crystal/application.cc:394
+#, fuzzy
+msgid "Add or edit bonds and lines"
+msgstr "Dodaj wiązania i linie"
+
+#: ../programs/crystal/application.cc:395
+msgid "_Size..."
+msgstr "_Rozmiar..."
+
+#: ../programs/crystal/application.cc:396
+msgid "Define size"
+msgstr "Zdefiniuj rozmiar"
+
+#: ../programs/crystal/application.cc:397
+msgid "_Cleavages..."
+msgstr "_Przecięcia..."
+
+#: ../programs/crystal/application.cc:398
+#, fuzzy
+msgid "Add or edit cleavages to remove some planes"
+msgstr "Dodaj odcięcia, aby usuń wybrane płaszczyzny"
+
+#: ../programs/crystal/application.cc:400
+msgid "View _settings..."
+msgstr "_Ustawienia widoku.."
+
+#: ../programs/crystal/application.cc:401
+msgid "Choose background color and model position"
+msgstr "Wybierz kolor tła oraz pozycję modelu"
+
+#: ../programs/crystal/application.cc:402
+msgid "_Windows"
+msgstr ""
+
+#. { "SaveAll", GTK_STOCK_SAVE, N_("_Save All"), "<shift><control>L",
+#. N_("Save all open files"), G_CALLBACK (on_save_all) },
+#. { "CloseAll", GTK_STOCK_CLOSE, N_("_Close All"), "<control>W",
+#. N_("Close all open files"), G_CALLBACK (on_close_all) },
+#: ../programs/crystal/application.cc:407
+#, fuzzy
+msgid "Create new _windowl"
+msgstr "Utwórz nowy plik"
+
+#: ../programs/crystal/application.cc:408
+#, fuzzy
+msgid "Create a new window"
+msgstr "Utwórz nowy plik"
+
+#: ../programs/crystal/application.cc:409
+msgid "_Close this window"
+msgstr ""
+
+#: ../programs/crystal/application.cc:410
+msgid "Close the current window"
+msgstr ""
+
+#: ../programs/crystal/application.cc:412
+msgid "_Contents"
+msgstr ""
+
+#: ../programs/crystal/application.cc:413
+msgid "View help for Gnome Crystal"
+msgstr "Otwórz plik pomocy programu Gnome Crystal"
+
+#: ../programs/crystal/application.cc:415
+#, fuzzy
+msgid "About Gnome Crystal"
+msgstr "Zakończ Gnome Crystal"
+
+#: ../programs/crystal/application.cc:523
+#, fuzzy
+msgid "Ready"
+msgstr "Gotowy."
+
+#: ../programs/crystal/application.cc:537
+#, c-format
+msgid "Untitled%d"
+msgstr "Bez_nazwy%d"
+
+#: ../programs/crystal/application.cc:693
+msgid "Export model as a Jpeg file..."
+msgstr "Eksportuj model jako plik jpeg..."
+
+#: ../programs/crystal/application.cc:702
+msgid "Export model as a PNG file..."
+msgstr "Eksportuj model jako plik PNG..."
+
+#: ../programs/crystal/application.cc:711
+msgid "Export model as a VRML file..."
+msgstr "Eksportuj model jako plik VRML..."
+
+#: ../programs/crystal/atomsdlg.cc:128
+msgid "Atom"
+msgstr "Atom"
+
+#. Note for translators: c.n. is for coordination number
+#: ../programs/crystal/atomsdlg.cc:548
+msgid " c.n.="
+msgstr " c.n.="
+
+#: ../programs/crystal/atomsdlg.cc:554
+msgid "low spin"
+msgstr "powolne wirowanie"
+
+#: ../programs/crystal/atomsdlg.cc:554
+msgid "high spin"
+msgstr "szybkie wirowanie"
+
+#: ../programs/crystal/atomsdlg.cc:556
+msgid "Database"
+msgstr "Baza danych"
+
+#: ../programs/crystal/linesdlg.cc:114
+msgid "x1"
+msgstr "x1"
+
+#: ../programs/crystal/linesdlg.cc:124
+msgid "y1"
+msgstr "y1"
+
+#: ../programs/crystal/linesdlg.cc:134
+msgid "z1"
+msgstr "z1"
+
+#: ../programs/crystal/linesdlg.cc:144
+msgid "x2"
+msgstr "x2"
+
+#: ../programs/crystal/linesdlg.cc:154
+msgid "y2"
+msgstr "y2"
+
+#: ../programs/crystal/linesdlg.cc:164
+msgid "z2"
+msgstr "z2"
+
+#: ../programs/crystal/linesdlg.cc:173
+msgid "Single"
+msgstr "Pojedyncze"
+
+#: ../programs/crystal/cleavagesdlg.cc:93
+msgid "h"
+msgstr "h"
+
+#: ../programs/crystal/cleavagesdlg.cc:103
+msgid "k"
+msgstr "k"
+
+#: ../programs/crystal/cleavagesdlg.cc:113
+msgid "l"
+msgstr "l"
+
+#: ../programs/crystal/cleavagesdlg.cc:123
+msgid "Planes cleaved"
+msgstr "Płaszczyzny odcięte"
+
+#: ../programs/table/gchemtable-app.cc:67
+msgid "GChemTable is a chemical periodic table of the elements application"
+msgstr ""
+
+#: ../programs/table/gchemtable-app.cc:85
+msgid "Quit GChemTable"
+msgstr ""
+
+#: ../programs/table/gchemtable-app.cc:88
+msgid "About GChemTable"
+msgstr ""
+
+#. The <sup> </sup> markup at the end of the chain is there to ensure that
+#. things will be correcly aligned, add the same to the translated string
+#: ../programs/table/gchemtable-elt.cc:68
+msgid "Electronic configuration:<sup> </sup>"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:80
+msgid "Lang"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:87
+msgid "Name"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:113
+#: ../programs/table/gchemtable-elt.cc:155
+#: ../programs/table/gchemtable-elt.cc:190
+#: ../programs/table/gchemtable-elt.cc:213
+#: ../programs/table/gchemtable-elt.cc:227
+#: ../programs/table/gchemtable-elt.cc:241
+#: ../programs/table/gchemtable-elt.cc:263
+msgid "n.a."
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:125
+#: ../programs/table/gchemtable-elt.cc:165
+#, c-format
+msgid "%d:"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:275
+#, fuzzy
+msgid "Ion"
+msgstr "Żelazo"
+
+#. C.N. stands for coordination number
+#: ../programs/table/gchemtable-elt.cc:282
+msgid "C.N."
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:287
+#, fuzzy
+msgid "Spin"
+msgstr "Pojedyncze"
+
+#: ../programs/table/gchemtable-elt.cc:294
+msgid "Value"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:313
+msgid "Low"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:316
+#, fuzzy
+msgid "High"
+msgstr "Po prawej"
+
+#: ../programs/table/gchemtable-curve.cc:188
+#: ../programs/table/gchemtable-curve.cc:192
+msgid "Pauling electronegativity"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:204
+msgid "Electron affinity (kJ/mol)"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:208
+msgid "Electron affinity"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:222
+msgid "1st. "
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:225
+msgid "2nd. "
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:228
+msgid "3rd. "
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:231
+#, c-format
+msgid "%dth. "
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:234
+msgid "ionization energy (MJ/mol)"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:241
+msgid "ionization energy"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:260
+#: ../programs/table/gchemtable-curve.cc:264
+#, fuzzy
+msgid "Covalent radii"
+msgstr "Kowalencyjne"
+
+#: ../programs/table/gchemtable-curve.cc:280
+#: ../programs/table/gchemtable-curve.cc:284
+#, fuzzy
+msgid "Van der Waals radii"
+msgstr "Van der Waalsa"
+
+#: ../programs/table/gchemtable-curve.cc:300
+#: ../programs/table/gchemtable-curve.cc:304
+#, fuzzy
+msgid "Metallic radii"
+msgstr "Metaliczne"
+
+#: ../programs/table/gchemtable-unstable.desktop.in.h:1
+#, fuzzy
+msgid "A Mendeleiev table of the chemical elements"
+msgstr "Układ okresowy pierwiastków"
+
+#: ../programs/table/gchemtable-unstable.desktop.in.h:2
+#, fuzzy
+msgid "Periodic table of the elements (unstable)"
+msgstr "Układ okresowy pierwiastków"
+
+#~ msgid "Gnome Chemistry 3D Viewer component to display molecular structures"
+#~ msgstr "Komponent Gnome - Przeglądarka trójwymiarowych wzorów chemicznych"
+
+#~ msgid "Gnome Chemistry 3D Viewer embeddable factory"
+#~ msgstr ""
+#~ "Wbudowalny generator obiektów Gnome - Trójwymiarowa przeglądarka wzorów "
+#~ "chemicznych"
+
+#~ msgid "Gnome Chemistry 3D Viewer object factory"
+#~ msgstr ""
+#~ "Generator obiektów Gnome - Trójwymiarowa przeglądarka wzorów chemicznych"
+
+#~ msgid "Documents/Sciences/Chemistry"
+#~ msgstr "Dokumenty/Nauka/Chemia"
+
+#~ msgid "MDL MOL file"
+#~ msgstr "Plik MOL MDL"
+
+#~ msgid "PDB file"
+#~ msgstr "Plik PDB"
+
+#~ msgid "Crystal Model"
+#~ msgstr "Model kryształu"
+
+#~ msgid "Gnome Crystal component"
+#~ msgstr "Komponent Gnome Crystal"
+
+#~ msgid "Gnome Crystal component to display crystalline structures"
+#~ msgstr "Komponent Gnome Crystal służący do przeglądania struktur kryształów"
+
+#~ msgid "Gnome Crystal embeddable factory"
+#~ msgstr "Wbudowalny generator obiektów Gnome Crystal"
+
+#~ msgid "Gnome Crystal object factory"
+#~ msgstr "Generator obiektów Gnome Crystal"
+
+#~ msgid "Crystalline structure model"
+#~ msgstr "Model struktury kryształu"
+
+#~ msgid "Documents/Chemistry"
+#~ msgstr "Dokumenty/Chemia"
+
+#~ msgid "Base-centered monoclinic"
+#~ msgstr "Jednoskośna o centrowanych podstawach"
+
+#~ msgid "Base-centered orthorhombic"
+#~ msgstr "Rombowa o centrowanych podstawach"
+
+#~ msgid "Body-centered cubic"
+#~ msgstr "Regularna przestrzennie centrowana"
+
+#~ msgid "Body-centered orthorhombic"
+#~ msgstr "Rombowa przestrzennie centrowana"
+
+#~ msgid "Body-centered tetragonal"
+#~ msgstr "Tetragonalna przestrzennie centrowana"
+
+#~ msgid "Face-centered cubic"
+#~ msgstr "Regularna o centrowanych wszystkich ścianach"
+
+#~ msgid "Face-centered orthorhombic"
+#~ msgstr "Rombowa o centrowanych wszystkich ścianach"
+
+#~ msgid "Hexagonal"
+#~ msgstr "Heksagonalna"
+
+#~ msgid "Monoclinic"
+#~ msgstr "Jednoskośna"
+
+#~ msgid "Orthorhombic"
+#~ msgstr "Rombowa"
+
+#~ msgid "Rhombohedral"
+#~ msgstr "Romboedryczna"
+
+#~ msgid "Simple cubic"
+#~ msgstr "Regularna prymitywna"
+
+#~ msgid "Tetragonal"
+#~ msgstr "Tetragonalna"
+
+#~ msgid "Triclinic"
+#~ msgstr "Trójskośna"
+
+#~ msgid "Select a color"
+#~ msgstr "Wybierz kolor"
+
+#~ msgid "Allow Gnome Crystal to act as a Bonobo server."
+#~ msgstr "Zezwól na działanie Crystal jako serwera Bonobo."
+
+#~ msgid ""
+#~ "Please enter a file name,\n"
+#~ "not a directory"
+#~ msgstr ""
+#~ "Podaj nazwę pliku,\n"
+#~ "nie katalogu"
+
+#~ msgid ""
+#~ "File %s\n"
+#~ "exists, overwrite?"
+#~ msgstr ""
+#~ "Plik %s\n"
+#~ "istnieje. Czy nadpisać?"
+
+#~ msgid "Jean Bréfort: French"
+#~ msgstr "Jean Bréfort: Francuski"
+
+#~ msgid "Tigrux: Spanish"
+#~ msgstr "Tigrux: Hiszpański"
+
+#~ msgid "Costantino Ceoldo: Italian"
+#~ msgstr "Costantino Ceoldo: Włoski"
+
+#~ msgid "Nikodem Kuznik: Polish"
+#~ msgstr "Nikodem Kuźnik: Polski"
+
+#~ msgid "Export data or graphics"
+#~ msgstr "Eksportuj dane lub grafikę"
+
+#~ msgid "New"
+#~ msgstr "Nowy"
+
+#~ msgid "Print active view"
+#~ msgstr "Drukuj bieżący widok"
+
+#~ msgid "Load a model..."
+#~ msgstr "Otwórz model..."
+
+#~ msgid "Gnome Crystal help contents"
+#~ msgstr "Zawartość pliku pomocy programu Gnome Crystal"

@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2006-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: imported Gnome Crystal stuff
+	* de.po: ditto.
+	* es.po: ditto.
+	* fr.po: ditto.
+	* it.po: ditto.
+	* pl.po: ditto.
+	* ru.po: ditto.
+
 2006-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: add one more missing file.
 	* fr.po: update french translation.

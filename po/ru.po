@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-16 23:28+0300\n"
+"POT-Creation-Date: 2006-02-14 15:53+0100\n"
 "PO-Revision-Date: 2005-11-20 23:58+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -14,7 +14,71 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../glade/gchemcalc.glade.h:1 ../programs/gchemcalc-unstable.desktop.in.h:2
+#: ../glade/eltpage.glade.h:1
+msgid "1:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:2
+msgid "Atomic number:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:3
+#, fuzzy
+msgid "Atomic weight:"
+msgstr "Молекулярный вес:"
+
+#: ../glade/eltpage.glade.h:4
+#, fuzzy
+msgid "Covalent:"
+msgstr "Кобальт"
+
+#: ../glade/eltpage.glade.h:5
+msgid "Electronic affinities:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:6
+msgid "Electronic properties"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:7
+msgid "Ionic radii (Shannon and Prewitt):"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:8
+msgid "Ionization energies:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:9
+msgid "Isotopes"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:10
+msgid "Main"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:11
+msgid "Metallic:"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:12
+#, fuzzy
+msgid "Pauling electronegativity:"
+msgstr "Электроотрицательность Паули"
+
+#: ../glade/eltpage.glade.h:13
+#, fuzzy
+msgid "Radii"
+msgstr "Радий"
+
+#: ../glade/eltpage.glade.h:14 ../programs/table/gchemtable-elt.cc:135
+msgid "Show curve"
+msgstr ""
+
+#: ../glade/eltpage.glade.h:15
+msgid "Van der Waals:"
+msgstr ""
+
+#: ../glade/gchemcalc.glade.h:1
 msgid "Chemical calculator"
 msgstr "Химический калькулятор"
 
@@ -22,7 +86,7 @@ msgstr "Химический калькулятор"
 msgid "Composition"
 msgstr "Соединение"
 
-#: ../glade/gchemcalc.glade.h:3 ../programs/gchemcalc.cc:124
+#: ../glade/gchemcalc.glade.h:3 ../programs/calc/gchemcalc.cc:133
 msgid "Formula:"
 msgstr "Формула:"
 
@@ -35,10 +99,11 @@ msgid "Molecular weight:"
 msgstr "Молекулярный вес:"
 
 #: ../glade/gchemcalc.glade.h:6
-msgid "Monoisitopic mass:"
+#, fuzzy
+msgid "Monoisotopic mass:"
 msgstr "Моноизотопная масса:"
 
-#: ../glade/gchemcalc.glade.h:7 ../programs/gchemcalc.cc:127
+#: ../glade/gchemcalc.glade.h:7 ../programs/calc/gchemcalc.cc:136
 msgid "Raw formula:"
 msgstr ""
 
@@ -49,6 +114,294 @@ msgstr "Актиноиды"
 #: ../glade/gtkperiodic.glade.h:2
 msgid "Lanthanides"
 msgstr "Лантаноиды"
+
+#: ../glade/crystal/cell.glade.h:1
+msgid "Cell"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:2
+msgid "Cell parameters"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:3
+msgid "Lattice:"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:4
+msgid ""
+"Simple cubic\n"
+"Body-centered cubic\n"
+"Face-centered cubic\n"
+"Hexagonal\n"
+"Tetragonal\n"
+"Body-centered tetragonal\n"
+"Orthorhombic\n"
+"Base-centered orthorhombic\n"
+"Body-centered orthorhombic\n"
+"Face-centered orthorhombic\n"
+"Rhombohedral\n"
+"Monoclinic\n"
+"Base-centered monoclinic\n"
+"Triclinic"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:18
+msgid "a (pm): "
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:19
+msgid "b (pm):"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:20
+msgid "c (pm):"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:21
+msgid "α (°):"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:22
+msgid "β (°):"
+msgstr ""
+
+#: ../glade/crystal/cell.glade.h:23
+msgid "γ (°):"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:1 ../glade/crystal/view-settings.glade.h:1
+msgid "Background color:"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:2
+msgid "Bottom"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:3
+msgid "Default views settings"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:4
+msgid "Documents"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:5 ../glade/crystal/view-settings.glade.h:2
+msgid "Euler's angles"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:6 ../glade/crystal/view-settings.glade.h:3
+msgid "Field of view (between 1 and 45°):"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:7
+msgid "Hidden"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:8
+msgid "Left"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:9
+msgid "MDI configuation"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:10 ../glade/crystal/view-settings.glade.h:4
+msgid "Model orientation in space:"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:11
+msgid "Notebook tab position:"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:12
+msgid "Other"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:13
+msgid "Preferences"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:14
+msgid "Printer resolution:"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:15
+msgid "Printing"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:16
+msgid "Right"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:17
+msgid "Top"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:18 ../glade/crystal/view-settings.glade.h:6
+msgid "θ (°):"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:19 ../glade/crystal/view-settings.glade.h:7
+msgid "φ (°):"
+msgstr ""
+
+#: ../glade/crystal/prefs.glade.h:20 ../glade/crystal/view-settings.glade.h:8
+msgid "ψ (°):"
+msgstr ""
+
+#: ../glade/crystal/view-settings.glade.h:5
+msgid "View settings"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:1
+msgid "Atoms"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:2
+msgid "Charge: "
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:3
+#, fuzzy
+msgid "Covalent"
+msgstr "Кобальт"
+
+#: ../glade/crystal/atoms.glade.h:4
+msgid "Custom"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:5
+msgid "Custom color:"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:6 ../glade/crystal/cleavages.glade.h:2
+#: ../glade/crystal/lines.glade.h:3
+msgid "Dele_te all"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:7
+#, fuzzy
+msgid "Ionic"
+msgstr "Железо"
+
+#: ../glade/crystal/atoms.glade.h:8
+msgid "Metallic"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:9 ../gcu/gtkcomboperiodic.c:96
+#: ../programs/table/gchemtable-app.cc:109
+msgid "Periodic table of the elements"
+msgstr "Периодическая таблица элементов"
+
+#: ../glade/crystal/atoms.glade.h:10
+#, fuzzy
+msgid "Radius"
+msgstr "Радий"
+
+#: ../glade/crystal/atoms.glade.h:11
+msgid "Type:"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:12 ../programs/crystal/atomsdlg.cc:182
+#: ../programs/crystal/atomsdlg.cc:277 ../programs/crystal/atomsdlg.cc:409
+msgid "Unknown"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:13
+msgid "Van der Waals"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:14 ../glade/crystal/cleavages.glade.h:5
+#: ../glade/crystal/lines.glade.h:8
+msgid "_Add"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:15 ../glade/crystal/cleavages.glade.h:6
+#: ../glade/crystal/lines.glade.h:9
+msgid "_Delete"
+msgstr ""
+
+#: ../glade/crystal/atoms.glade.h:16
+msgid "value (pm):"
+msgstr ""
+
+#: ../glade/crystal/cleavages.glade.h:1
+msgid "Cleavages"
+msgstr ""
+
+#: ../glade/crystal/cleavages.glade.h:3
+msgid "Fixed model size"
+msgstr ""
+
+#: ../glade/crystal/cleavages.glade.h:4
+msgid "List of defined cleavages (h, k, and l are the Miller indices)"
+msgstr ""
+
+#: ../glade/crystal/lines.glade.h:1
+msgid "Cell edges"
+msgstr ""
+
+#: ../glade/crystal/lines.glade.h:2
+msgid "Choose a color"
+msgstr ""
+
+#: ../glade/crystal/lines.glade.h:4
+msgid "Diagonals"
+msgstr ""
+
+#: ../glade/crystal/lines.glade.h:5
+msgid "Lines"
+msgstr ""
+
+#: ../glade/crystal/lines.glade.h:6
+msgid "Medians"
+msgstr ""
+
+#: ../glade/crystal/lines.glade.h:7
+msgid "Other lines"
+msgstr ""
+
+#: ../glade/crystal/lines.glade.h:10
+msgid "color:"
+msgstr ""
+
+#: ../glade/crystal/lines.glade.h:11
+msgid "radius (pm):"
+msgstr ""
+
+#: ../glade/crystal/size.glade.h:1
+msgid "*"
+msgstr ""
+
+#: ../glade/crystal/size.glade.h:2
+msgid "Crystal size"
+msgstr ""
+
+#: ../glade/crystal/size.glade.h:3
+msgid "Give minimum and maximum coordinates in cell units"
+msgstr ""
+
+#: ../glade/crystal/size.glade.h:4
+#, fuzzy
+msgid "Maximum"
+msgstr "Магний"
+
+#: ../glade/crystal/size.glade.h:5
+#, fuzzy
+msgid "Minimum"
+msgstr "Экаиридий"
+
+#: ../glade/crystal/size.glade.h:6 ../programs/crystal/atomsdlg.cc:138
+msgid "x"
+msgstr ""
+
+#: ../glade/crystal/size.glade.h:7 ../programs/crystal/atomsdlg.cc:148
+msgid "y"
+msgstr ""
+
+#: ../glade/crystal/size.glade.h:8 ../programs/crystal/atomsdlg.cc:158
+msgid "z"
+msgstr ""
 
 #: ../database/elements.xml.in.h:1
 msgid "Actinium"
@@ -526,146 +879,876 @@ msgstr "протий"
 msgid "tritium"
 msgstr "тритий"
 
-#: ../gcu/element.cc:86
+#: ../gcu/crystaldoc.cc:406
+msgid "Everything has been cleaved"
+msgstr ""
+
+#: ../gcu/dialog.cc:115
+msgid "Type a number"
+msgstr ""
+
+#: ../gcu/dialog.cc:123
+#, c-format
+msgid "Type a number greater than or equal %g and lower than to %g"
+msgstr ""
+
+#: ../gcu/dialog.cc:132
+#, c-format
+msgid "Type a number greater than %g and lower than or equal to %g"
+msgstr ""
+
+#: ../gcu/dialog.cc:141
+#, c-format
+msgid "Type a number between %g and %g, the limits are valid."
+msgstr ""
+
+#: ../gcu/dialog.cc:150
+#, c-format
+msgid "Type a number greater than %g and lower than %g"
+msgstr ""
+
+#: ../gcu/dialog.cc:159
+#, c-format
+msgid "Type a number lower than %g"
+msgstr ""
+
+#: ../gcu/dialog.cc:168
+#, c-format
+msgid "Type a number greater than %g"
+msgstr ""
+
+#: ../gcu/dialog.cc:177
+#, c-format
+msgid "Type a number lower than or equal to %g"
+msgstr ""
+
+#: ../gcu/dialog.cc:186
+#, c-format
+msgid "Type a number greater than or equal to %g"
+msgstr ""
+
+#: ../gcu/element.cc:89
 msgid "German"
 msgstr "Немецкий"
 
-#: ../gcu/element.cc:87
+#: ../gcu/element.cc:90
 msgid "French"
 msgstr "Французский"
 
-#: ../gcu/element.cc:88
+#: ../gcu/element.cc:91
 msgid "Italian"
 msgstr "Итальянский"
 
-#: ../gcu/element.cc:89
+#: ../gcu/element.cc:92
 msgid "Polish"
 msgstr "Польский"
 
-#: ../gcu/element.cc:92
+#: ../gcu/element.cc:93
+msgid "Russian"
+msgstr ""
+
+#: ../gcu/element.cc:96
 msgid "Can't find and read elements.xml"
 msgstr "Не удалось найти и прочитать elements.xml "
 
-#: ../gcu/element.cc:97 ../gcu/element.cc:104
-msgid "Uncorrect file format: elements.xml"
+#: ../gcu/element.cc:101 ../gcu/element.cc:108
+#, fuzzy
+msgid "Incorrect file format: elements.xml"
 msgstr "Неправильный формат файла: elements.xml"
 
-#: ../gcu/element.cc:137
+#: ../gcu/element.cc:141
 msgid "English"
 msgstr "Английский"
 
-#: ../gcu/element.cc:419
+#: ../gcu/element.cc:424
 msgid "Can't find and read radii.xml"
 msgstr "Не удалось найти и прочитать radii.xml"
 
-#: ../gcu/element.cc:424 ../gcu/element.cc:430
-msgid "Uncorrect file format: radii.xml"
+#: ../gcu/element.cc:429 ../gcu/element.cc:440
+#, fuzzy
+msgid "Incorrect file format: radii.xml"
 msgstr "Неправильный формат файла: radii.xml"
 
-#: ../gcu/element.cc:514
+#: ../gcu/element.cc:524
 msgid "Can't find and read elecprops.xml"
 msgstr "Не удалось найти и прочитать elecprops.xml"
 
-#: ../gcu/element.cc:519 ../gcu/element.cc:524
-msgid "Uncorrect file format: elecprops.xml"
+#: ../gcu/element.cc:529 ../gcu/element.cc:534
+#, fuzzy
+msgid "Incorrect file format: elecprops.xml"
 msgstr "Неправильный формат файла: elecprops.xml"
 
-#: ../gcu/element.cc:605
+#: ../gcu/element.cc:682
 msgid "Can't find and read isotopes.xml"
 msgstr "Не удалось найти и прочитать isotopes.xml"
 
-#: ../gcu/element.cc:610 ../gcu/element.cc:617
-msgid "Uncorrect file format: isotopes.xml"
+#: ../gcu/element.cc:687 ../gcu/element.cc:694
+#, fuzzy
+msgid "Incorrect file format: isotopes.xml"
 msgstr "Неправильный формат файла: isotopes.xml"
 
+#: ../gcu/formula.cc:390 ../gcu/formula.cc:428
+msgid "Unmatched parenthesis"
+msgstr ""
+
+#: ../gcu/formula.cc:416
+msgid "Could not interpret the symbol list"
+msgstr ""
+
+#: ../gcu/formula.cc:422
+msgid "Parser failed, please fill a bug report."
+msgstr ""
+
+#: ../gcu/formula.cc:430
+msgid "Invalid character"
+msgstr ""
+
+#: ../gcu/gtkchem3dviewer.cc:305
+msgid "Background Color"
+msgstr ""
+
+#: ../gcu/gtkchem3dviewer.cc:306
+msgid "Color used to paint the background"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:46
+#, fuzzy
+msgid "Open"
+msgstr "Кислород"
+
+#: ../programs/3d/gchem3d-viewer.c:104 ../programs/crystal/application.cc:677
+msgid "Preview"
+msgstr ""
+
 #. Note to translators: replace the following string with the appropriate credits for you lang
-#: ../programs/gchemcalc.cc:104 ../programs/gchemtable-app.cc:65
+#: ../programs/3d/gchem3d-viewer.c:149 ../programs/calc/gchemcalc.cc:113
+#: ../programs/crystal/application.cc:128
+#: ../programs/table/gchemtable-app.cc:63
 msgid "translator_credits"
 msgstr "Перевод на русский: Валек Филиппов"
 
-#: ../programs/gchemcalc.cc:108
-msgid "GChemCalc is a simple calculator for chemists"
-msgstr "GChemCalc - простой калькулятор для химиков"
+#: ../programs/3d/gchem3d-viewer.c:153
+msgid "GChem3D is a molecular structures viewer for Gnome"
+msgstr ""
 
-#: ../programs/gchemcalc.cc:109 ../programs/gchemtable-app.cc:70
-msgid "(C) 2005 by Jean Bréfort"
+#: ../programs/3d/gchem3d-viewer.c:154
+#, fuzzy
+msgid "(C) 2004-2006 by Jean Bréfort"
 msgstr "(C) 2005 by Jean Bréfort"
 
-#: ../programs/gchemcalc.cc:283 ../programs/gchemtable-app.cc:85
+#: ../programs/3d/gchem3d-viewer.c:164 ../programs/calc/gchemcalc.cc:373
+#: ../programs/crystal/application.cc:361
+#: ../programs/table/gchemtable-app.cc:83
 msgid "_File"
 msgstr "_Файл"
 
-#: ../programs/gchemcalc.cc:284 ../programs/gchemtable-app.cc:86
+#: ../programs/3d/gchem3d-viewer.c:165 ../programs/crystal/application.cc:364
+msgid "_Open..."
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:166 ../programs/crystal/application.cc:365
+msgid "Open a file"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:167 ../programs/crystal/application.cc:379
+msgid "_Print..."
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:168
+msgid "Print the current scene"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:169 ../programs/calc/gchemcalc.cc:374
+#: ../programs/crystal/application.cc:383
+#: ../programs/table/gchemtable-app.cc:84
 msgid "_Quit"
 msgstr "В_ыход"
 
-#: ../programs/gchemcalc.cc:285
-msgid "Quit GChemCalc"
+#: ../programs/3d/gchem3d-viewer.c:170
+#, fuzzy
+msgid "Quit GChem3D"
 msgstr "Выйти из GChemCalc"
 
-#: ../programs/gchemcalc.cc:286 ../programs/gchemtable-app.cc:88
+#: ../programs/3d/gchem3d-viewer.c:171 ../programs/crystal/application.cc:399
+#, fuzzy
+msgid "_View"
+msgstr "_Файл"
+
+#: ../programs/3d/gchem3d-viewer.c:172 ../programs/calc/gchemcalc.cc:376
+#: ../programs/crystal/application.cc:411
+#: ../programs/table/gchemtable-app.cc:86
 msgid "_Help"
 msgstr "_Справка"
 
-#: ../programs/gchemcalc.cc:287 ../programs/gchemtable-app.cc:89
+#: ../programs/3d/gchem3d-viewer.c:173 ../programs/calc/gchemcalc.cc:377
+#: ../programs/crystal/application.cc:414
+#: ../programs/table/gchemtable-app.cc:87
 msgid "_About"
 msgstr "О программе"
 
-#: ../programs/gchemcalc.cc:288
+#: ../programs/3d/gchem3d-viewer.c:174
+#, fuzzy
+msgid "About GChem3D"
+msgstr "О программе GChemCalc"
+
+#: ../programs/3d/gchem3d-viewer.c:178
+msgid "Balls and sticks"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:179
+msgid "Display a balls and sticks model"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:181
+msgid "Space filling"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:182
+msgid "Display a space filling model"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:208
+msgid "GChem3d Viewer version: "
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:219
+msgid "Prints GChem3d Viewer version"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:220
+msgid "Background color: white, black or #rrggbb (default is black)"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:221
+msgid ""
+"How molecules are displayed; possible values are BallnStick (the default) "
+"and SpaceFill"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:245
+msgid " [file]"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:285
+msgid "Background color"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:286
+msgid "Choose a new background color"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer.c:314
+msgid "Unknown display mode"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer-unstable.desktop.in.h:1
+msgid "Display chemical 3D structures"
+msgstr ""
+
+#: ../programs/3d/gchem3d-viewer-unstable.desktop.in.h:2
+#, fuzzy
+msgid "Molecules Viewer (unstable)"
+msgstr "Молекулярный вес:"
+
+#: ../programs/calc/gchemcalc.cc:117
+msgid "GChemCalc is a simple calculator for chemists"
+msgstr "GChemCalc - простой калькулятор для химиков"
+
+#: ../programs/calc/gchemcalc.cc:118 ../programs/table/gchemtable-app.cc:68
+#, fuzzy
+msgid "(C) 2005-2006 by Jean Bréfort"
+msgstr "(C) 2005 by Jean Bréfort"
+
+#: ../programs/calc/gchemcalc.cc:375
+msgid "Quit GChemCalc"
+msgstr "Выйти из GChemCalc"
+
+#: ../programs/calc/gchemcalc.cc:378
 msgid "About GChemCalc"
 msgstr "О программе GChemCalc"
 
-#: ../programs/gchemcalc.cc:351
+#: ../programs/calc/gchemcalc.cc:395 ../programs/crystal/main.cc:112
+msgid "Gnome Chemistry Utils version: "
+msgstr ""
+
+#: ../programs/calc/gchemcalc.cc:419
+#, fuzzy
+msgid " [formula]"
+msgstr "Формула:"
+
+#: ../programs/calc/gchemcalc.cc:436
+msgid "Usage: gchemcalc-unstable [OPTION...] [formula]"
+msgstr ""
+
+#: ../programs/calc/gchemcalc.cc:480
 msgid "Element"
 msgstr "Элемент"
 
-#: ../programs/gchemcalc.cc:358
+#: ../programs/calc/gchemcalc.cc:487
 msgid "Mass %"
 msgstr "Масса %"
 
-#: ../programs/gchemcalc-unstable.desktop.in.h:1
+#: ../programs/calc/gchemcalc-unstable.desktop.in.h:1
 msgid "A simple calculator for chemistry"
 msgstr "Простой химический калькулятор"
 
-#: ../programs/gchemtable-app.cc:69
+#: ../programs/calc/gchemcalc-unstable.desktop.in.h:2
+#, fuzzy
+msgid "Chemical calculator (unstable)"
+msgstr "Химический калькулятор"
+
+#: ../programs/crystal/gcrystal-unstable.desktop.in.h:1
+msgid "Edit and display crystalline structures"
+msgstr ""
+
+#: ../programs/crystal/gcrystal-unstable.desktop.in.h:2
+msgid "Gnome Crystal Crystalline Structures Viewer (unstable)"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:1
+msgid "Backgroud color blue value"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:2
+msgid "Backgroud color green value"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:3
+msgid "Backgroud color red value"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:4
+msgid ""
+"Blue value for the default background color. Acceptable values are 0. to 1."
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:5
+msgid ""
+"Default Euler's nutation angle for model display. Acceptable values are 0. "
+"to + 180."
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:6
+msgid ""
+"Default Euler's precession angle for model display. Acceptable values are -"
+"180. to + 180."
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:7
+msgid ""
+"Default Euler's spin angle for model display. Acceptable values are -180. to "
+"+ 180."
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:8
+msgid "Default field of view"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:9
+msgid "Default nutation"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:10
+msgid "Default precession"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:11
+msgid "Default spin"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:12
+msgid "Field of view used by default for the model display."
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:13
+msgid ""
+"Green value for the default background color. Acceptable values are 0. to 1."
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:14
+msgid "Notebook tabs position"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:15
+msgid "Printing resolution"
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:16
+msgid "Printing resolution if not automatically detected."
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:17
+msgid ""
+"Red value for the default background color. Acceptable values are 0. to 1."
+msgstr ""
+
+#: ../programs/crystal/gcrystal.schemas.in.h:18
+msgid ""
+"Whether to display or not the notebook tabs and where. Possible values are: "
+"0: hide, 1: left, 2: right, 3: top, and 4:bottom."
+msgstr ""
+
+#: ../programs/crystal/main.cc:147
+msgid " [file...]"
+msgstr ""
+
+#: ../programs/crystal/main.cc:251
+#, c-format
+msgid "Invalid or misplaced argument: %s\n"
+msgstr ""
+
+#: ../programs/crystal/document.cc:248
+#, c-format
+msgid ""
+"Could not save file\n"
+"%s"
+msgstr ""
+
+#: ../programs/crystal/document.cc:251
+#, c-format
+msgid ""
+"Could not load file\n"
+"%s"
+msgstr ""
+
+#: ../programs/crystal/document.cc:254
+#, c-format
+msgid ""
+"%s: invalid xml file.\n"
+"Tree is empty?"
+msgstr ""
+
+#: ../programs/crystal/document.cc:257
+#, c-format
+msgid "%s: invalid file format."
+msgstr ""
+
+#: ../programs/crystal/document.cc:452
+#, c-format
+msgid "Can't create file %s"
+msgstr ""
+
+#: ../programs/crystal/document.cc:600
+#, c-format
+msgid "\"%s\" has been modified.  Do you wish to save it?"
+msgstr ""
+
+#: ../programs/crystal/application.cc:130
+#: ../programs/crystal/application.cc:481
+msgid "Gnome Crystal"
+msgstr ""
+
+#: ../programs/crystal/application.cc:133
+msgid "Gnome Crystal is a lightweight crystal structures viewer for Gnome"
+msgstr ""
+
+#: ../programs/crystal/application.cc:134
+#, fuzzy
+msgid "(C) 1999-2006 by Jean Bréfort"
+msgstr "(C) 2005 by Jean Bréfort"
+
+#: ../programs/crystal/application.cc:248
+#, c-format
+msgid ""
+"\"%s\" has been modified since last saving. Do you wish to come back to "
+"saved version?"
+msgstr ""
+
+#: ../programs/crystal/application.cc:362
+#, fuzzy
+msgid "_New File"
+msgstr "_Файл"
+
+#: ../programs/crystal/application.cc:363
+msgid "Create a new file"
+msgstr ""
+
+#: ../programs/crystal/application.cc:366
+msgid "O_pen in a new window..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:367
+msgid "Open a file in a new window"
+msgstr ""
+
+#: ../programs/crystal/application.cc:368
+msgid "_Save"
+msgstr ""
+
+#: ../programs/crystal/application.cc:369
+msgid "Save the current file"
+msgstr ""
+
+#: ../programs/crystal/application.cc:370
+msgid "Save _As..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:371
+msgid "Save the current file with a different name"
+msgstr ""
+
+#: ../programs/crystal/application.cc:372
+msgid "_Export"
+msgstr ""
+
+#: ../programs/crystal/application.cc:373
+msgid "VRML"
+msgstr ""
+
+#: ../programs/crystal/application.cc:374
+msgid "Export to VRML"
+msgstr ""
+
+#: ../programs/crystal/application.cc:375
+msgid "PNG"
+msgstr ""
+
+#: ../programs/crystal/application.cc:376
+msgid "Export view to png file"
+msgstr ""
+
+#: ../programs/crystal/application.cc:377
+msgid "Jpeg"
+msgstr ""
+
+#: ../programs/crystal/application.cc:378
+msgid "Export view to jpeg file"
+msgstr ""
+
+#: ../programs/crystal/application.cc:380
+#: ../programs/crystal/application.cc:387
+msgid "Print the current file"
+msgstr ""
+
+#: ../programs/crystal/application.cc:381
+msgid "_Close"
+msgstr ""
+
+#: ../programs/crystal/application.cc:382
+msgid "Close the current file"
+msgstr ""
+
+#: ../programs/crystal/application.cc:384
+#, fuzzy
+msgid "Quit Gnome Crystal"
+msgstr "Выйти из GChemCalc"
+
+#: ../programs/crystal/application.cc:385
+#, fuzzy
+msgid "_Edit"
+msgstr "В_ыход"
+
+#: ../programs/crystal/application.cc:386
+msgid "Prefere_nces..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:388
+msgid "_Crystal"
+msgstr ""
+
+#: ../programs/crystal/application.cc:389
+msgid "_Lattice..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:390
+msgid "Define the lattice"
+msgstr ""
+
+#: ../programs/crystal/application.cc:391
+msgid "_Atoms..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:392
+msgid "Add or edit atoms"
+msgstr ""
+
+#: ../programs/crystal/application.cc:393
+msgid "_Bonds and lines..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:394
+msgid "Add or edit bonds and lines"
+msgstr ""
+
+#: ../programs/crystal/application.cc:395
+msgid "_Size..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:396
+msgid "Define size"
+msgstr ""
+
+#: ../programs/crystal/application.cc:397
+msgid "_Cleavages..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:398
+msgid "Add or edit cleavages to remove some planes"
+msgstr ""
+
+#: ../programs/crystal/application.cc:400
+msgid "View _settings..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:401
+msgid "Choose background color and model position"
+msgstr ""
+
+#: ../programs/crystal/application.cc:402
+msgid "_Windows"
+msgstr ""
+
+#. { "SaveAll", GTK_STOCK_SAVE, N_("_Save All"), "<shift><control>L",
+#. N_("Save all open files"), G_CALLBACK (on_save_all) },
+#. { "CloseAll", GTK_STOCK_CLOSE, N_("_Close All"), "<control>W",
+#. N_("Close all open files"), G_CALLBACK (on_close_all) },
+#: ../programs/crystal/application.cc:407
+msgid "Create new _windowl"
+msgstr ""
+
+#: ../programs/crystal/application.cc:408
+msgid "Create a new window"
+msgstr ""
+
+#: ../programs/crystal/application.cc:409
+msgid "_Close this window"
+msgstr ""
+
+#: ../programs/crystal/application.cc:410
+msgid "Close the current window"
+msgstr ""
+
+#: ../programs/crystal/application.cc:412
+msgid "_Contents"
+msgstr ""
+
+#: ../programs/crystal/application.cc:413
+msgid "View help for Gnome Crystal"
+msgstr ""
+
+#: ../programs/crystal/application.cc:415
+#, fuzzy
+msgid "About Gnome Crystal"
+msgstr "О программе GChemCalc"
+
+#: ../programs/crystal/application.cc:523
+#, fuzzy
+msgid "Ready"
+msgstr "Свинец"
+
+#: ../programs/crystal/application.cc:537
+#, c-format
+msgid "Untitled%d"
+msgstr ""
+
+#: ../programs/crystal/application.cc:693
+msgid "Export model as a Jpeg file..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:702
+msgid "Export model as a PNG file..."
+msgstr ""
+
+#: ../programs/crystal/application.cc:711
+msgid "Export model as a VRML file..."
+msgstr ""
+
+#: ../programs/crystal/atomsdlg.cc:128
+msgid "Atom"
+msgstr ""
+
+#. Note for translators: c.n. is for coordination number
+#: ../programs/crystal/atomsdlg.cc:548
+msgid " c.n.="
+msgstr ""
+
+#: ../programs/crystal/atomsdlg.cc:554
+msgid "low spin"
+msgstr ""
+
+#: ../programs/crystal/atomsdlg.cc:554
+msgid "high spin"
+msgstr ""
+
+#: ../programs/crystal/atomsdlg.cc:556
+msgid "Database"
+msgstr ""
+
+#: ../programs/crystal/linesdlg.cc:114
+msgid "x1"
+msgstr ""
+
+#: ../programs/crystal/linesdlg.cc:124
+msgid "y1"
+msgstr ""
+
+#: ../programs/crystal/linesdlg.cc:134
+msgid "z1"
+msgstr ""
+
+#: ../programs/crystal/linesdlg.cc:144
+msgid "x2"
+msgstr ""
+
+#: ../programs/crystal/linesdlg.cc:154
+msgid "y2"
+msgstr ""
+
+#: ../programs/crystal/linesdlg.cc:164
+msgid "z2"
+msgstr ""
+
+#: ../programs/crystal/linesdlg.cc:173
+#, fuzzy
+msgid "Single"
+msgstr "Серебро"
+
+#: ../programs/crystal/cleavagesdlg.cc:93
+msgid "h"
+msgstr ""
+
+#: ../programs/crystal/cleavagesdlg.cc:103
+msgid "k"
+msgstr ""
+
+#: ../programs/crystal/cleavagesdlg.cc:113
+msgid "l"
+msgstr ""
+
+#: ../programs/crystal/cleavagesdlg.cc:123
+msgid "Planes cleaved"
+msgstr ""
+
+#: ../programs/table/gchemtable-app.cc:67
 msgid "GChemTable is a chemical periodic table of the elements application"
 msgstr "GChemTable - периодическая таблица химических элементов"
 
-#: ../programs/gchemtable-app.cc:87
+#: ../programs/table/gchemtable-app.cc:85
 msgid "Quit GChemTable"
 msgstr "Выйти из GChemTable"
 
-#: ../programs/gchemtable-app.cc:90
+#: ../programs/table/gchemtable-app.cc:88
 msgid "About GChemTable"
 msgstr "О программе GChemTable"
 
-#: ../programs/gchemtable-app.cc:111
-#: ../programs/gchemtable-unstable.desktop.in.h:2
-msgid "Periodic table of the elements"
-msgstr "Периодическая таблица элементов"
-
 #. The <sup> </sup> markup at the end of the chain is there to ensure that
 #. things will be correcly aligned, add the same to the translated string
-#: ../programs/gchemtable-elt.cc:69
+#: ../programs/table/gchemtable-elt.cc:68
 msgid "Electronic configuration:<sup> </sup>"
 msgstr "Электронная конфигурация: <sup> </sup>"
 
-#: ../programs/gchemtable-elt.cc:80
+#: ../programs/table/gchemtable-elt.cc:80
 msgid "Lang"
 msgstr "Язык"
 
-#: ../programs/gchemtable-elt.cc:87
+#: ../programs/table/gchemtable-elt.cc:87
 msgid "Name"
 msgstr "Название"
 
-#: ../programs/gchemtable-elt.cc:113
+#: ../programs/table/gchemtable-elt.cc:113
+#: ../programs/table/gchemtable-elt.cc:155
+#: ../programs/table/gchemtable-elt.cc:190
+#: ../programs/table/gchemtable-elt.cc:213
+#: ../programs/table/gchemtable-elt.cc:227
+#: ../programs/table/gchemtable-elt.cc:241
+#: ../programs/table/gchemtable-elt.cc:263
 msgid "n.a."
 msgstr "н.д."
 
-#: ../programs/gchemtable-curve.cc:100 ../programs/gchemtable-curve.cc:104
+#: ../programs/table/gchemtable-elt.cc:125
+#: ../programs/table/gchemtable-elt.cc:165
+#, c-format
+msgid "%d:"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:275
+#, fuzzy
+msgid "Ion"
+msgstr "Железо"
+
+#. C.N. stands for coordination number
+#: ../programs/table/gchemtable-elt.cc:282
+msgid "C.N."
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:287
+msgid "Spin"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:294
+msgid "Value"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:313
+msgid "Low"
+msgstr ""
+
+#: ../programs/table/gchemtable-elt.cc:316
+msgid "High"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:188
+#: ../programs/table/gchemtable-curve.cc:192
 msgid "Pauling electronegativity"
 msgstr "Электроотрицательность Паули"
 
-#: ../programs/gchemtable-unstable.desktop.in.h:1
+#: ../programs/table/gchemtable-curve.cc:204
+msgid "Electron affinity (kJ/mol)"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:208
+msgid "Electron affinity"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:222
+msgid "1st. "
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:225
+msgid "2nd. "
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:228
+msgid "3rd. "
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:231
+#, c-format
+msgid "%dth. "
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:234
+msgid "ionization energy (MJ/mol)"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:241
+msgid "ionization energy"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:260
+#: ../programs/table/gchemtable-curve.cc:264
+msgid "Covalent radii"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:280
+#: ../programs/table/gchemtable-curve.cc:284
+msgid "Van der Waals radii"
+msgstr ""
+
+#: ../programs/table/gchemtable-curve.cc:300
+#: ../programs/table/gchemtable-curve.cc:304
+msgid "Metallic radii"
+msgstr ""
+
+#: ../programs/table/gchemtable-unstable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "Периодическая таблица химических элементов Д.И.Менделеева"
+
+#: ../programs/table/gchemtable-unstable.desktop.in.h:2
+#, fuzzy
+msgid "Periodic table of the elements (unstable)"
+msgstr "Периодическая таблица элементов"
+
+#, fuzzy
+#~ msgid "GChemPaint"
+#~ msgstr "Немецкий"
