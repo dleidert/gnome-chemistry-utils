@@ -1,5 +1,5 @@
 [Desktop Entry]
-_Name=Gnome Crystal Crystalline Structures Viewer 
+_Name=Gnome Crystal Crystalline Structures Viewer (unstable)
 _Comment=Edit and display crystalline structures
 Exec=gcrystal-unstable %U
 Icon=gcrystal

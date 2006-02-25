@@ -4,9 +4,7 @@
  * Gnome Crystal
  * main.cc 
  *
- * Copyright (C) 2000-2004
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -119,7 +117,7 @@ static void cb_print_version (const gchar *option_name, const gchar *value, gpoi
 
 static GOptionEntry entries[] = 
 {
-  { "version", 'v', 0, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints Gnome Crystal version", NULL },
+  { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints Gnome Crystal version", NULL },
    { NULL }
 };
 
@@ -143,6 +141,7 @@ int main(int argc, char *argv[])
 
 	gtk_init (&argc, &argv);
 	gnome_vfs_init ();
+	Element::LoadRadii ();
 //	gnome_authentication_manager_init ();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));

@@ -4,9 +4,7 @@
  * Gnome Crystal
  * application.cc 
  *
- * Copyright (C) 2001-2005
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -376,7 +374,7 @@ static GtkActionEntry entries[] = {
 		  N_("Export to VRML"), G_CALLBACK (on_export_vrml) },
 		{ "PNG", NULL, N_("PNG"), NULL,
 		  N_("Export view to png file"), G_CALLBACK (on_export_png) },
-		{ "Jpeg", NULL, N_("Jpeg"), NULL,
+		{ "JPEG", NULL, N_("Jpeg"), NULL,
 		  N_("Export view to jpeg file"), G_CALLBACK (on_export_jpeg) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current file"), G_CALLBACK (on_file_print) },
@@ -451,7 +449,8 @@ static const char *ui_description =
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ViewSettings'/>"
 "    </menu>"
-"    <menu action='NewView'>"
+"    <menu action='WindowsMenu'>"
+"      <menuitem action='NewView'/>"
 "      <menuitem action='CloseView'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
@@ -479,8 +478,8 @@ gcApplication::gcApplication(): Application ("gcrystal-unstable", DATADIR)
 
 	m_MessageId = 0;
 	m_Window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
-	gtk_window_set_title (m_Window, _("GChemPaint"));
-	gtk_window_set_icon_name (m_Window, "gchempaint");
+	gtk_window_set_title (m_Window, _("Gnome Crystal"));
+	gtk_window_set_icon_name (m_Window, "gcrystal");
 	g_signal_connect (G_OBJECT (m_Window), "delete_event", G_CALLBACK (on_delete), this);
 	g_signal_connect (G_OBJECT (m_Window), "destroy", G_CALLBACK (on_destroy), NULL);
 	vbox = gtk_vbox_new (FALSE, 0);
@@ -512,11 +511,12 @@ gcApplication::gcApplication(): Application ("gcrystal-unstable", DATADIR)
 	gtk_toolbar_set_style(GTK_TOOLBAR(bar), GTK_TOOLBAR_ICONS);
 	gtk_toolbar_set_show_arrow(GTK_TOOLBAR(bar), false);
 	gtk_toolbar_set_tooltips(GTK_TOOLBAR(bar), true);
-	gtk_box_pack_start (GTK_BOX (vbox), bar, true, true, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
 
 	m_Notebook = GTK_NOTEBOOK (gtk_notebook_new ());
+	gtk_widget_set_size_request (GTK_WIDGET (m_Notebook), 300, 300);
 	gtk_notebook_set_tab_pos (m_Notebook, GTK_POS_TOP);
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (m_Notebook), false, false, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (m_Notebook), true, true, 0);
 
 	m_Bar = gtk_statusbar_new ();
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");
@@ -926,4 +926,13 @@ void gcApplication::SetStatusText (const char* text)
 GtkWindow * gcApplication::GetWindow ()
 {
 	return m_Window;
+}
+
+bool gcApplication::FileProcess (const gchar* filename, bool bSave, GtkWindow *window, Document *pDoc)
+{
+	if (bSave) {
+		do_save_as (filename, m_pActiveView);
+	} else
+		return do_load (filename, m_pActiveView);
+	return true;
 }

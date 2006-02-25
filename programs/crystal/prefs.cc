@@ -4,9 +4,7 @@
  * Gnome Crystal
  * prefs.cc 
  *
- * Copyright (C) 2001-2005
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -36,7 +34,7 @@ static void on_print_resolution (GtkWidget *widget, gcPrefsDlg * dialog)
 	dialog->UpdatePrinting ();
 }
 
-gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, DATADIR"/gcrystal-unstable/glade/prefs.glade", "prefs")
+gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/prefs.glade", "prefs")
 {
 	TabsMenu = (GtkComboBox *) glade_xml_get_widget (xml, "tabpos");
 	gtk_combo_box_set_active (TabsMenu, TabPos);

@@ -4,9 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/dialog.cc 
  *
- * Copyright (C) 2001-2006
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -116,7 +114,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 		GtkDialog* box = GTK_DIALOG(gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL,
 										GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Type a number")));
 		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-		gtk_dialog_run (box);
+		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+			gtk_widget_destroy (GTK_WIDGET (box));
 		return false;
 	}
 	switch (c) {
@@ -125,7 +124,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than or equal %g and lower than to %g"), min, max);
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			gtk_dialog_run (box);
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return false;
 		}
 		break;
@@ -134,7 +134,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than %g and lower than or equal to %g"), min, max);
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			gtk_dialog_run (box);
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return false;
 		}
 		break;
@@ -143,7 +144,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 			snprintf (m_buf, sizeof (m_buf), _("Type a number between %g and %g, the limits are valid."), min, max);
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			gtk_dialog_run (box);
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return false;
 		}
 		break;
@@ -152,7 +154,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than %g and lower than %g"), min, max);
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			gtk_dialog_run (box);
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return false;
 		}
 		break;
@@ -161,7 +164,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 			snprintf (m_buf, sizeof (m_buf), _("Type a number lower than %g"), max);
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			gtk_dialog_run (box);
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return false;
 		}
 		break;
@@ -170,7 +174,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than %g"), min);
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			gtk_dialog_run (box);
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return false;
 		}
 		break;
@@ -179,7 +184,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 			snprintf (m_buf, sizeof (m_buf), _("Type a number lower than or equal to %g"), max);
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			gtk_dialog_run (box);
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return false;
 		}
 		break;
@@ -188,7 +194,8 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than or equal to %g"), min);
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			gtk_dialog_run (box);
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
 			return false;
 		}
 		break;

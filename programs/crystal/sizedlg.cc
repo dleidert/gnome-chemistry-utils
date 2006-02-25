@@ -4,9 +4,7 @@
  * Gnome Crystal
  * sizedlg.cc 
  *
- * Copyright (C) 2002-2005
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,7 +27,7 @@
 #include "document.h"
 #include "application.h"
 
-gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gcrystal-unstable/glade/size.glade", "size")
+gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/size.glade", "size")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog(this);

@@ -1,5 +1,132 @@
 ##Text encoding: utf-8
 
+2006-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add Gnome Crystal stuff.
+	* README: ditto.
+	* autogen.sh: add gnome-docs-utils initialization.
+	* configure.ac: add new directories.
+	* docs/Makefile.am: add Gnome Crystal stuff.
+	* docs/help/Makefile.am: ditto.
+	* docs/help/crystal/C/gcrystal-unstable.xml: ditto.
+	* docs/help/crystal/C/gcrystal.xml: ditto.
+	* docs/help/crystal/C/legal.xml: ditto.
+	* docs/help/crystal/Makefile.am: ditto.
+	* docs/help/crystal/gcrystal-unstable.omf.in: ditto.
+	* gchemutils.xml.in: ditto.
+	* gcu/application.cc: fixed license.
+	* gcu/application.h: ditto.
+	* gcu/atom.cc: ditto.
+	* gcu/atom.h: ditto.
+	* gcu/bond.cc: ditto.
+	* gcu/bond.h: ditto.
+	* gcu/chemistry.cc: ditto.
+	* gcu/chemistry.h: ditto.
+	* gcu/crystalatom.cc: ditto.
+	* gcu/crystalatom.h: ditto.
+	* gcu/crystalbond.cc: ditto.
+	* gcu/crystalbond.h: ditto.
+	* gcu/crystalcleavage.cc: ditto.
+	* gcu/crystalcleavage.h: ditto.
+	* gcu/crystaldoc.cc: ditto.
+	* gcu/crystaldoc.h: ditto.
+	* gcu/crystalline.cc: ditto.
+	* gcu/crystalline.h: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/crystalview.h: ditto.
+	* gcu/dialog.cc: ditto.
+	* gcu/dialog.h: ditto.
+	* gcu/document.cc: ditto.
+	* gcu/document.h: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/element.h: ditto.
+	* gcu/filechooser.cc: ditto.
+	* gcu/filechooser.h: ditto.
+	* gcu/formula.cc: ditto.
+	* gcu/formula.h: ditto.
+	* gcu/gtkchem3dviewer.cc: ditto.
+	* gcu/gtkchem3dviewer.h: ditto.
+	* gcu/gtkcomboperiodic.c: ditto.
+	* gcu/gtkcomboperiodic.h: ditto.
+	* gcu/gtkcrystalviewer.cc: ditto.
+	* gcu/gtkcrystalviewer.h: ditto.
+	* gcu/gtkperiodic.c: ditto.
+	* gcu/gtkperiodic.h: ditto.
+	* gcu/isotope.cc: ditto.
+	* gcu/isotope.h: ditto.
+	* gcu/matrix.cc: ditto.
+	* gcu/matrix.h: ditto.
+	* gcu/matrix2d.cc: ditto.
+	* gcu/matrix2d.h: ditto.
+	* gcu/object.cc: ditto.
+	* gcu/object.h: ditto.
+	* gcu/xml-utils.cc: ditto.
+	* gcu/xml-utils.h: ditto.
+	* glade/Makefile.am: ditto.
+	* glade/crystal/Makefile.am: add Gnome Crystal stuff.
+	* glade/crystal/atoms.glade: ditto.
+	* glade/crystal/bonds.glade: ditto.
+	* glade/crystal/cell.glade: ditto.
+	* glade/crystal/cleavages.glade: ditto.
+	* glade/crystal/docprop.glade: ditto.
+	* glade/crystal/lines.glade: ditto.
+	* glade/crystal/prefs.glade: ditto.
+	* glade/crystal/size.glade: ditto.
+	* glade/crystal/view-settings.glade: ditto.
+	* mozilla-plugin/chem-viewer.cc: fixed license.
+	* mozilla-plugin/moz-plugin.c: ditto.
+	* programs/3d/gchem3d-viewer-unstable.desktop.in: add unstable to Name.
+	* programs/3d/gchem3d-viewer.c: fixed license.
+	* programs/calc/gchemcalc-unstable.desktop.in: add unstable to Name.
+	* programs/calc/gchemcalc.cc: fixed license.
+	* programs/crystal/Makefile.am: add GConf keys.
+	* programs/crystal/application.cc: fixed license.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/atom.cc: ditto.
+	* programs/crystal/atom.h: ditto.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/atomsdlg.h: ditto.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/celldlg.h: ditto.
+	* programs/crystal/cleavage.cc: ditto.
+	* programs/crystal/cleavage.h: ditto.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/cleavagesdlg.h: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/gcrystal-unstable.desktop.in: add unstable to Name.
+	* programs/crystal/gcrystal.h: fixed license.
+	* programs/crystal/globals.h: ditto.
+	* programs/crystal/line.cc: ditto.
+	* programs/crystal/line.h: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/crystal/linesdlg.h: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/prefs.cc: ditto.
+	* programs/crystal/prefs.h: ditto.
+	* programs/crystal/sizedlg.cc: ditto.
+	* programs/crystal/sizedlg.h: ditto.
+	* programs/crystal/view-settings.cc: ditto.
+	* programs/crystal/view-settings.h: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* programs/table/gchemtable-elt.cc: ditto.
+	* programs/table/gchemtable-elt.h: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+	* programs/table/gchemtable-unstable.desktop.in: add unstable to Name.
+	* samples/CO2.gcrystal: add Gnome Crystal stuff.
+	* samples/CO2_C.gcrystal: ditto.
+	* samples/CO2_O.gcrystal: ditto.
+	* samples/Makefile.am: ditto.
+	* samples/NaCl.gcrystal: ditto.
+	* samples/diamond.gcrystal: ditto.
+	* samples/graphite.gcrystal: ditto.
+	* samples/nickel.gcrystal: ditto.
+	* samples/zinc.gcrystal: ditto.
+
 2006-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/calc/Makefile.am: fixed some typos.
 	* programs/crystal/Makefile.am: removed obsolete files.

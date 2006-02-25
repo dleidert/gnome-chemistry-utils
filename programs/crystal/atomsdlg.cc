@@ -4,9 +4,7 @@
  * Gnome Crystal
  * atomsdlg.cc 
  *
- * Copyright (C) 2002-2005
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -102,7 +100,7 @@ static void on_charge_changed (GtkSpinButton *btn, gcAtomsDlg *pBox)
 	pBox->SetCharge (gtk_spin_button_get_value_as_int (btn));
 }
 
-gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gcrystal-unstable/glade/atoms.glade", "atoms")
+gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/atoms.glade", "atoms")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog (this);

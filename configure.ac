@@ -20,12 +20,13 @@ AC_PROG_CXX
 AC_HEADER_STDC
 AC_PROG_LIBTOOL
 AC_PROG_INTLTOOL
+GNOME_DOC_INIT
 
 GCU_VERSION_INFO=`echo $GCU_VERSION|awk -F . '{ print $1+$2":"$3":"$2 }'`
 
 AC_SUBST(GCU_VERSION_INFO)
 
-ALL_LINGUAS="de fr it pl ru"
+ALL_LINGUAS="de es fr it pl ru"
 AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE="gchemutils-unstable"
 AC_SUBST(GETTEXT_PACKAGE)
@@ -66,6 +67,8 @@ if test "$update_databases" = "yes"; then
 AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
 fi
 AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
+
+AM_GCONF_SOURCE_2
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
@@ -182,9 +185,13 @@ mozilla-plugin/Makefile
 database/Makefile
 po/Makefile.in
 glade/Makefile
+glade/crystal/Makefile
+samples/Makefile
 tests/Makefile
 dtds/Makefile
 docs/Makefile
+docs/help/Makefile
+docs/help/crystal/Makefile
 docs/reference/Makefile
 docs/reference/Doxyfile
 gcu-unstable.pc

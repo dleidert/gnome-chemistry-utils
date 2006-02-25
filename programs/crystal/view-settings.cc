@@ -4,9 +4,7 @@
  * Gnome Crystal
  * view-settings.cc
  *
- * Copyright (C) 2001-2005
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,7 +28,7 @@
 #include "application.h"
 #include <glade/glade.h>
 
-gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetApp (), DATADIR"/gcrystal-unstable/glade/view-settings.glade", "view_settings")
+gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetApp (), DATADIR"/gchemutils-unstable/glade/crystal/view-settings.glade", "view_settings")
 {
 	m_pView = pView;
 	m_pView->NotifyDialog (this);

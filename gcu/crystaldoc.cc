@@ -4,9 +4,7 @@
  * Gnome Chemisty Utils
  * crystaldoc.cc 
  *
- * Copyright (C) 2002-2005
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -155,7 +153,8 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 	}
 	node = xml->children;
 	while(node) {
-		if (!strcmp ((gchar*) node->name, "lattice")) {
+		if (!strcmp ((gchar*) node->name, "text"));
+		else if (!strcmp ((gchar*) node->name, "lattice")) {
 			txt = (char*) xmlNodeGetContent (node);
 			int i = 0;
 			while (strcmp (txt, LatticeName[i]) && (i < 14))

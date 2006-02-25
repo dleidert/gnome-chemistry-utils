@@ -28,7 +28,7 @@ fi
 ## libtool and intltool
 libtoolize --force
 intltoolize --force
-
+gnome-doc-prepare --force
 
 ## autoheader, automake, autoconf
 autoheader
@@ -36,4 +36,4 @@ automake --gnu
 autoconf
 
 ## Job ended
-echo "run ./configure with the appropriate options, the make and enjoy"
+echo "run ./configure with the appropriate options, then make and enjoy"

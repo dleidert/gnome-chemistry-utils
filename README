@@ -1,7 +1,7 @@
 The Gnome chemistry Utils are a collection of 
 
-Copyright 2002-2005 Jean Bréfort jean.brefort@ac-dijon.fr, All Rights Reserved.
-	http://jean.brefort.normalesup.org
+Copyright 2002-2005 Jean Bréfort jean.brefort@normalesup.org, All Rights Reserved.
+	http://jean.brefort.free.fr
 
 This software is copyrighted under the GNU GPL.  Please see the file COPYING,
 Or, to obtain a copy of the GNU GPL, please visit:
@@ -17,13 +17,12 @@ See the file ChangeLog for more information about this software.
 
 What is needed to install the Gnome Chemistry Utils:
 	liblade-2
-	libgnomeui
-	libgnomeprintui
+	libgnomeprintui-2.2
 	GtkGLExt
 	GOffice
 	All dependencies of these two libraries
 These libraries are available from ftp://ftp.gnome.org or one of its mirrors
-	OpenBabel (available from openbabel.sourceforge.net)
+	OpenBabel-2 (available from openbabel.sourceforge.net)
 
 Versions numbering:
 Odd minor versions are development version. To see what remains to be done

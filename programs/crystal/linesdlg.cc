@@ -4,9 +4,7 @@
  * Gnome Crystal
  * linesdlg.cc 
  *
- * Copyright (C) 2002-2006
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -91,7 +89,7 @@ static void on_medians_toggled (GtkToggleButton* btn, gcLinesDlg *pBox)
 	pBox->OnToggledSpecial (medians);
 }
 
-gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gcrystal-unstable/glade/lines.glade", "lines")
+gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/lines.glade", "lines")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog (this);

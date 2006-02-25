@@ -1,0 +1,549 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE article PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+
+ <article id="index">
+
+  <artheader> 
+    <title>Gnome Crystal Manual</title>
+    <copyright>
+      <year>2001</year>
+      <holder>Jean Br&eacute;fort</holder>
+    </copyright>
+
+	<releaseinfo>
+ 		This is version 0.1 of the Gnome Crystal manual.
+ 	</releaseinfo>
+
+    <legalnotice>
+      <para>
+        Permission is granted to copy, distribute and/or modify this
+        document under the terms of the <ulink type="help"
+        url="ghelp:fdl"><citetitle>GNU Free Documentation
+        License</citetitle></ulink>, Version 1.1 or any later version
+        published by the Free Software Foundation with no Invariant
+        Sections, no Front-Cover Texts, and no Back-Cover Texts. You
+        may obtain a copy of the <citetitle>GNU Free Documentation
+        License</citetitle> from the Free Software Foundation by
+        visiting <ulink type="http" url="http://www.fsf.org">their Web
+        site</ulink> or by writing to: Free Software Foundation, Inc.,
+        59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+      </para>
+      <para>
+        Many of the names used by companies to distinguish their
+        products and services are claimed as trademarks. Where those
+        names appear in any Gnome documentation, and those trademarks
+        are made aware to the members of the Gnome Documentation
+        Project, the names have been printed in caps or initial caps.
+      </para>
+    </legalnotice>
+  </artheader>
+
+<sect1 id="intro">
+  <title>Introduction</title>
+  <para>Gnome Crystal is a crystalline structures visualizer.</para>
+  <warning><para>This document is by no way a crystallography manual and used notions are not
+  systematically described here in.</para></warning>
+   <para>Greek characters used in this document are not correctly displayed if you use the default
+   <ulink url="http://www.gnome.org">   <citetitle>Gnome</citetitle></ulink> help browser.
+   Use of <ulink url="http://galeon.sourceforge.net"><citetitle>Galeon</citetitle></ulink> is highly
+   recommended.</para>
+</sect1>
+
+<sect1 id="file">
+  <title>Files</title>
+  <para>File menu commands are:</para>
+  <sect2>
+  <title>New</title>
+  <para>Open a new empty file.</para>
+  </sect2>
+  <sect2>
+    <title>Open</title>
+    <para>Open an existing file. If the file was created with an prior Gnome Crystal version, it will be open as
+	it would have been in that version. If it has been generated with an ulterior version, new functionalities
+	will be ignored.</para>
+  </sect2>
+   <sect2>
+    <title>Open in a new window</title>
+    <para>Open an existing file and places its first view in a new top level window.</para>
+  </sect2>
+  <sect2>
+    <title>Save</title>
+    <para>Save a file with all its opened view. Each view will be restored on next opening of the same file.</para>
+  </sect2>
+  <sect2>
+    <title>Save as</title>
+    <para>Save a file with a new name. ".gcrystal" extension is added automatically if it is not
+	present at the end on the selected file name.</para>
+  </sect2>
+  <sect2>
+    <title>Export</title>
+    <para>Gnome Crystal can export a view contents to several file formats (but importation from such files is
+	impossible).</para>
+    <sect3>
+      <title>VRML</title>
+      <para>The view contents are exported to a VRML file. The file so obtained may be opened with a viewer
+	  such as <ulink url="http://www.crc.ca/FreeWRL/"><citetitle>FreeWRL</citetitle></ulink>. The
+      ".wrl" file extension is added automatically if it is not present in the selected file name.</para>
+    </sect3>
+    <sect3>
+      <title>PNG</title>
+      <para>The view contents are exported as a PNG image with default parameters. The image can be
+	  modified with <ulink url="http://www.gimp.org"><citetitle>the Gimp</citetitle></ulink>. The
+      ".png" file extension is added automatically if it is not present in the selected file name.</para>
+    </sect3>
+    <sect3>
+      <title>Jpeg</title>
+      <para>The view contents are exported as a Jpeg image with default parameters. The image can be
+	  modified with <ulink url="http://www.gimp.org"><citetitle>the Gimp</citetitle></ulink>. The
+      ".jpg" file extension is added automatically if it is not present in the selected file name.</para>
+    </sect3>
+  </sect2>
+  <sect2>
+    <title>Print</title>
+    <para>Prints the contents of the active window. Printing uses a window places top left of the screen. This window size
+	may be modified inside the dialog box Settings <xref linkend="printing">.</para>
+    <para>Gnome Crystal uses OpenGL to print the image. The color depth will be for this reason the one used
+	by the X server.</para>
+  </sect2>
+  <sect2>
+    <title>Close</title>
+    <para>Close the file which owns the active window. if the file has been modified and not saved, a dialog
+	box pops so to allow changes saving, ignore changes or abort file closing. When a file has
+	been closed, empty top level windows are closed except one when no file remains open.</para>
+  </sect2>
+  <sect2>
+    <title>Quit</title>
+    <para>Quits Gnome Crystal after closing every window. If files have been modified, the user will be prompted
+	if he wants to save the changes, ignore them or abort quitting.</para>
+  </sect2>
+</sect1>
+
+<sect1 id="crystal"><title>Crystal definition</title>
+
+<sect2 id="cell"><title>Lattice</title>
+	<para>The unit cell is defined by the length of its three edges
+	<parameter>a</parameter>, <parameter>b</parameter> et <parameter>c</parameter>
+	and by the three angles &alpha;, &beta; et &gamma; between two vertices.</para>
+	<para>Depending upon the selected Bravais lattice, some of these parameters are fixed
+	or dependents. Only independent parameters may be changed, entries corresponding to constant or
+	dependent values are disabled.</para>
+	<para>Lengths must be given in picometers and angles are expressed in degrees.</para>
+</sect2>
+
+<sect2 id="atoms"><title>Atoms</title>
+    <para>Every atom in the unit cell must be defined. Necessary parameters are:</para>
+	<variablelist>
+	 <varlistentry>
+	  <term>x</term>
+	  <term>y</term>
+	  <term>z</term>
+	  <listitem>
+	   <para>
+	    x, y et z are the atom coordinates in the cell given respective to the cell size.
+		For instance, the triplet 0, 0, 0 puts the atom at the cell vertices and if
+		the threee coordinates ere equal to 0.5, the atom will rest at the center of the cell.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>&Eacute;l&eacute;ment</term>
+	  <listitem>
+	   <para>
+	    Clicking this button allows to change the selected chemical element or to select one
+		is there is no label in the button. Selection is made inside the dialog box containing
+		the periodic table of the elements (see <xref linkend="mendeleiev">)
+	   </para>
+	   <para>
+	    In this software version, choosing an element is optional. In future versions, it might be used to access
+		a database.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Radius</term>
+	  <listitem>
+	   <para>
+	    The atom is figured as a sphere whose radius is expressed in picometers in the same way as the cell size.
+		While the radius is null, no atom can be added in the list.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Color</term>
+	  <listitem>
+	   <para>
+	    The color used to paint the sphere representing the atom is selected by clicking on the button and picking a
+		color in the dialog box that pops.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	</variablelist>
+	<para>The number of visible atoms depends on the model size (see <xref linkend="size">) and on cleavages
+	(see <xref linkend="cleavages">).</para>
+	<para>
+		Buttons at bottom right are used to manage the atoms list:
+	</para>
+	<itemizedlist>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Add</guibutton> adds an atom to the list with the current parameters if the radius is not null.
+	   If there is an inappropriate value, a message appears and the action aborts.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete</guibutton> deletes the selected atom from the list.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Modify</guibutton> replaces the selected atom in the list by a new one
+	   corresponding to the current parameters if the radius is not null.
+	   If there is an inappropriate value, a message appears and the action aborts.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete all</guibutton> removes every atom from the list.
+	  </para>
+	 </listitem>
+	</itemizedlist>
+</sect2>
+
+<sect2 id="bonds"><title>Bonds and lines</title>
+    <para>Every bond or line present in the model must be defined. Necessary parameters are:</para>
+	<variablelist>
+	 <varlistentry>
+	  <term>Coordinates</term>
+	  <listitem>
+	   <para>
+	    x, y et z are the coordinates of the two ends of the line or bond. These parameters are only available
+		for bonds and some lines. They must be given in cell coordinates for the two ends in the respective entries.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Radius</term>
+	  <listitem>
+	   <para>
+	    The radius of the cylinder used to figure the bond or line must be given in pm as is the cell size.
+		While the radius is null, nothing can be added in the list.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Color</term>
+	  <listitem>
+	   <para>
+	    The color of the cylinder used to figure the bond or line is selected by clicking on the button and picking a
+		color in the dialog box that pops.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Type</term>
+	  <listitem>
+	   <para>
+	    Lines, figured as cylinders, are of several types:
+	   </para>
+	   <itemizedlist>
+	    <listitem>
+		 <para>
+		  <guilabel>Cell edges</guilabel>: if this type is selected, a cylinder is added
+		  for each cell edge.
+		 <para>
+		</listitem>
+	    <listitem>
+		 <para>
+		  <guilabel>Diagonals</guilabel>: cylinders are added that join opposite vertices in the cell.
+		 <para>
+		</listitem>
+	    <listitem>
+		 <para>
+		  <guilabel>Medians</guilabel>:cylinders are added that join opposite face centers in the cell.
+		 <para>
+		</listitem>
+	    <listitem>
+		 <para>
+		  <guilabel>Bonds and lines</guilabel>: a cylinder is added to join the points whose coordinates are given in the
+		  appropriate entries. A Cylinder is added for every visible cell.
+		 <para>
+		</listitem>
+	    <listitem>
+		 <para>
+		  <guilabel>Not duplicated lines</guilabel>&nbsp;: a cylinder is added to join the points whose coordinates are given in the
+		  appropriate entries. Only one cylinder is added whathever the visible cells number is.
+		 <para>
+		</listitem>
+	   </itemizedlist>
+	  </listitem>
+	 </varlistentry>
+	</variablelist>
+	<para>Bonds and lines effectively visible depend on model size (see <xref linkend="size">) and cleavages
+	(see <xref linkend="cleavages">). If one end of the cylinder lies outside of the visible part of the model,
+	the cylinder will be hidden.</para>
+	<para>
+		Buttons at bottom right are used to manage the bonds and lines list:
+	</para>
+	<itemizedlist>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Add</guibutton> adds an item to the list with the current parameters if the radius is not null.
+	   If there is an inappropriate value, a message appears and the action aborts.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete</guibutton> deletes the selected item from the list.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Modify</guibutton> replaces the selected item in the list by a new one
+	   corresponding to the current parameters if the radius is not null.
+	   If there is an inappropriate value, a message appears and the action aborts.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete all</guibutton> removes every item from the list.
+	  </para>
+	 </listitem>
+	</itemizedlist>
+</sect2>
+
+<sect2 id="size">
+  <title>Size</title>
+    <para>Model size is expressed as relative cell coordinates.
+	The necessary values are maximums and minimums of the three coordinates</para>
+	<para>It is also possible to cut the model using cleavages (see 
+	<xref linkend="cleavages">)	if one wishes to limit the visible part by planes others than those corresponding
+	to a constant value of a coordinate.</para>
+</sect2>
+
+<sect2 id="cleavages">
+  <title>Cleavages</title>
+    <para>Cleavages are used to hide from the views atoms from planes with a orientation fixed by the
+	Miller indices h, k and l.</para>
+	<para>If x, y and z are the atomic coordinates relative to the cell, Miller indices define planes
+	as all the points such that hx + ky + lz is a constant. By instance, in a cubic network, (111) planes
+	are perpendicular to the diagonal of the cubic cell going from vertex 0,0,0 to vertex 1,1,1.</para>
+	<para>Each define cleavage will hide the chosen number of planes beginning from the greatest value
+	for hx + ky + lz that is present in the model. To remove planes from the other side of the model,
+	signs of h, k and l must be reversed.</para>
+	<para>There is no need to define cleavages of (100), (010) or (001) planes because the same
+	effect may be obtained more easily by changing the size of the model (see below <xref linkend="size">).</para>
+	<para>
+	 When a cleavage is defined, the model is zoomed so that it fills the view as explained elsewhere
+	 (see <xref linkend="view">). The <guibutton>Fixed model size</guibutton> button allows
+	 to keep remaining atoms at the same place in the view which may be useful to chain
+	 pictures in a presentation.
+	</para>
+	<para>
+		Buttons at bottom right are used to manage the cleavages list:
+	</para>
+	<itemizedlist>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Add</guibutton> adds acleavage to the list with the current parameters.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete</guibutton> deletes the selected cleavage from the list.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Modify</guibutton> replaces the selected cleavage in the list by a new one
+	   corresponding to the current parameters.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete all</guibutton> removes every cleavage from the list.
+	  </para>
+	 </listitem>
+	</itemizedlist>
+</sect2>
+</sect1>
+
+<sect1 id="view">
+  <title>View</title>
+  <para>This dialog box can be used to change the following parameters:</para>
+  <variablelist>
+   <varlistentry>
+   	<term>Background color</term>
+    <listitem>
+	 <para>
+	    The background color is selected by clicking on the button and picking a
+		color in the dialog box that pops.
+	 </para>
+    </listitem>
+   </varlistentry>
+   <varlistentry>
+   	<term>Field of view</term>
+    <listitem>
+	 <para>
+	  The field of view is the angle which sides join the point from which the model is viewed
+	  to the nearest sides of the view. So if the view has a larger horizontal size than its vertical size
+	  the sides taken into account are the horizontal ones, otherwise, the vertical sides are used.
+	  Acceptable values for the field of view are betwwen 1 and 45°. With a 1° field of view, the perspective effect
+	  will be hardly perceptible and with a 45° angle, the model will appear sowhat distorted.
+	  The default field of view is 10° and gives a sensible perspective.
+	 </para>
+	 <para>
+	  The distance between the viewpoint and the model is calculated to be the shortest so that the whole model remains
+	  visible whatever its orientation is. The only solution to see the model from a longer distance consist,
+	  in the present version, in defining a greater model size (see <xref linkend="size">) and defining cleavages
+	  to remove extra atoms (see <xref linkend="cleavages">) while selecting the option of constant model size.
+	 </para>
+    </listitem>
+   </varlistentry>
+   <varlistentry>
+   	<term>Spatial model orientation</term>
+    <listitem>
+	 <para>
+	  The model may be oriented with the mouse, clicking on the left button inside the view,
+	  dragging until a convenient orientation is obtained, and releasing the button.
+	  It also is possible to use this dialog box to choose an orientation by modifying the three
+	  Euler's angles &psi;, &thetas;, and &phis;.
+	 </para>
+     <para>
+	  When the three angles are null, <parameter>c</parameter> axis is vertical, with positive values up,
+	  <parameter>b</parameter> axis is in the view plane with positive values towards the right,
+	  and <parameter>a</parameter> axis points in the direction of the viewer. To bring the model
+	  to the position defined by Euler's angles, the operations are, in order:</para>
+	  <itemizedlist>
+	   <listitem>
+	   	<para>
+	     A rotation by angle &phis; around the vertical axis oriented upwards. Possible values
+		 for &phis; are in the range - 180° to 180°.
+		</para>
+	   </listitem>
+	   <listitem>
+	   	<para>
+	     A rotation by angle &thetas; around the axis perpendicular to the view and pointing
+		 towards the viewer. Possible values for &thetas; are from 0° to 180°.
+		</para>
+	   </listitem>
+	   <listitem>
+	   	<para>
+	     A rotation by angle &psi; around the vertical axis oriented upwards. Possible values
+		 for &psi; are in the range - 180° to 180°.
+		</para>
+	   </listitem>
+	  </itemizedlist>
+	 </para>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+</sect1>
+
+<sect1 id="settings">
+  <title>Settings</title>
+  
+  <sect2 id="documents">
+    <title>Multi-documents interface</title>
+    <para>In this page, you can set the notebook tab position (left, right, top, or bottom).  
+    You may also hide the tabs.</para>
+  </sect2>
+  
+  <sect2 id="printing">
+    <title>Printing parameters</title>
+    <para>Printing needs that an OpenGL window is active. As the application window might be hidden
+	or could not exist in the case of a view embedded inside a file using the bonobo server, Gnome
+	Crystal creates one at top left of the screen. The model is reproduced in this window, but only
+	for aesthetics, the real work being done in a background buffer. The properties page "Printing
+	parameters" allows you to change the size of this window and to choose the printer
+	resolution in the list. If your printer resolution is not in the list, select the "Other" option
+	and give the right value in the appropriate text entry.</para>
+  </sect2>
+  
+  <sect2 id="views">
+    <title>Views default parameters </title>
+	  <para>Parameters available in this page are those that will concern every new view when it
+	  is created. To change the same parameters for already opened views, you should use the View menu
+	  (see <xref linkend="view">)</para>
+	  <para>Available parameters are background color, field of view, and model orientation
+	  defined by Euler's angles.</para>
+  </sect2>
+</sect1>
+
+<sect1 id="windows">
+  <title>Windows</title>
+  <para>Windows menu commands are:</para>
+  <sect2>
+    <title>Create New Window</title>
+    <para>
+	  Open a new view of the active document in a new top-level window. The new view is identical
+	  to the document active view. This is considered as a modification of the active document.
+    </para>
+  </sect2>
+  <sect2>
+    <title>Close This Window</title>
+    <para>
+	 Close active view. If this view is the only one opened for the document and the document has been changed
+	 but not saved, a dialog box pops so that you can save the changes, ignore them, or abort the operation.
+	 If other views exist, the view is closed without asking anything and the document is marked as dirty.
+    </para>
+    <para>
+      If after closing a view, the top-level window remains empty and this top-level window is not the only one opened,
+	  it will be closed.
+    </para>
+  </sect2>
+  <sect2>
+    <title>Opened windows</title>
+    <para>
+      Below the two first commands, you find the list of all the opened views in the top-level window.
+      Clicking on a view name makes it active.
+    </para>
+  </sect2>
+</sect1>
+
+<sect1 id="mendeleiev">
+ <title>Selection of a chemical element</title>
+ <para>
+  To select a chemical element, click on the appropriate button in the Mendeleiev's table.
+  Then click on one of the buttons <guibutton>OK</guibutton> of <guibutton>Apply</guibutton> and
+  the element you selected becomes the current one.
+ </para>
+ <para>
+  You can delete the current selection by clicking a second time the button corresponding to
+  the currently selected element.
+ </para>
+</sect1>
+
+<sect1 id="license">
+  <title>License</title>
+  <para>
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the  <ulink type="help" url="gnome-help:gpl">
+    <citetitle>GNU General Public License</citetitle></ulink> as
+   published by the Free Software Foundation; 
+   either version 2 of the License, or (at your option) any later
+   version.
+  </para>
+  <para>
+   This program is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   <citetitle>GNU General Public License</citetitle> for more details.
+  </para>
+  <para>
+   A copy of the <citetitle>GNU General Public License</citetitle> is
+   included as an appendix to the <citetitle>Gnome Users
+   Guide</citetitle>.  You may also obtain a copy of the
+   <citetitle>GNU General Public License</citetitle> from the Free
+   Software Foundation by visiting <ulink type="http"
+   url="http://www.fsf.org">their Web site</ulink> or by writing to
+   <address>
+    Free Software Foundation, Inc.
+    <street>59 Temple Place</street> - Suite 330
+    <city>Boston</city>, <state>MA</state> <postcode>02111-1307</postcode>
+    <country>USA</country>
+   </address>
+  </para>
+ </sect1>
+
+</article>

@@ -4,9 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemcalc.cc 
  *
- * Copyright (C) 2005-2006
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -403,7 +401,7 @@ gboolean cb_print_version (const gchar *option_name, const gchar *value, gpointe
 
 static GOptionEntry options[] = 
 {
-  { "version", 'v', 0, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints GChemCalc version", NULL },
+  { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints GChemCalc version", NULL },
    { NULL }
 };
 

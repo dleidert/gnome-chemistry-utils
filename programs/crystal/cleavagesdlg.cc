@@ -4,9 +4,7 @@
  * Gnome Crystal
  * cleavagesdlg.cc 
  *
- * Copyright (C) 2002-2005
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -69,7 +67,7 @@ static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const
 	pBox->OnEdited(cell, path_string, new_text);
 }
 
-gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gcrystal-unstable/glade/cleavages.glade", "cleavages")
+gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/rystal/cleavages.glade", "cleavages")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog(this);

@@ -2,9 +2,7 @@
  * Gnome Chemisty Utils
  * gtkchem3dviewer.c 
  *
- * Copyright (C) 2003-2006
- *
- * Developed by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

@@ -1,3 +1,5 @@
+SUBDIRS = crystal
+
 gladedir = $(datadir)/gchemutils-unstable/glade
 
 glade_DATA = \

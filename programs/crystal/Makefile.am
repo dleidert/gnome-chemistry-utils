@@ -38,6 +38,11 @@ DEPS = \
 
 INCLUDES = @GCU_CFLAGS@
 
+schemasdir = $(sysconfdir)/gconf/schemas
+schemas_in_files = gcrystal.schemas.in
+schemas_DATA 	 = $(schemas_in_files:.schemas.in=.schemas)
+@INTLTOOL_SCHEMAS_RULE@
+
 desktopdir=$(datadir)/applications
 desktop_in_files = \
 	gcrystal-unstable.desktop.in
@@ -48,7 +53,11 @@ desktop_DATA = \
 CLEANFILES = \
 	gcrystal-unstable.desktop
 		
-EXTRA_DIST=$(desktop_in_files)
+EXTRA_DIST=$(desktop_in_files) $(schemas_in_files)
 
 AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
+
+install-data-local:
+	      GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+	      gconftool-2 --makefile-install-rule gcrystal.schemas
