@@ -7,9 +7,9 @@ DISTCLEANFILES = Doxyfile
 MAINTAINERCLEANFILES = Makefile.in
 
 docsdir = $(datadir)/doc/gchemutils/reference
-docs_DATA = html/*
+docs_DATA = html/*.*
 
-html/*: html_stamp
+html/*.*: html_stamp
 
 if DOXYGEN_AVAILABLE
 
@@ -18,8 +18,8 @@ html_stamp:
 	$(DOXYGEN) Doxyfile
 	touch html_stamp
 
-html-upstream.tar.gz: html/*
-	tar -czf $@ html
+html-upstream.tar.gz: html/*.*
+	tar -czf $@ html/*.*
 
 else #DOXYGEN_AVAILABLE
 
@@ -40,4 +40,3 @@ clean-local:
 ## Make distcheck happy for maintainers as well
 dist-hook:
 	rm -f html-upstream.tar.gz
-
