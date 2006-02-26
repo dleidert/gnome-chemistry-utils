@@ -1,3 +1,15 @@
+Version 0.6.0
+	fixed still more build issues (Daniel and Jean).
+	fixed --version command line option.
+	fixed a documentation typo.
+	chemical-mime-data dependencu is optional.
+
+Version 0.5.91
+	fixed more build issues (Daniel Leidert).
+
+Version 0.5.90
+	removed unstable stuff, and fix some build issues.
+
 Version 0.5.4
 	periodic table: display atomic radii, copy charts to other apps.
 	mozilla plugin and 2d viewer: support background changes
