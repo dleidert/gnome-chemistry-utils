@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2006-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add pixmaps subdir.
+	* configure.ac: ditto.
+	* gcu/gtkcomboperiodic.h: fixed documentation typo.
+	* pixmaps/Makefile.am: new pixmaps.
+	* pixmaps/gcrystal128.png: ditto.
+	* pixmaps/gcrystal32.png: ditto.
+	* pixmaps/gcrystal48.png: ditto.
+	* pixmaps/gcrystal72.png: ditto.
+	* pixmaps/gcrystal_logo.png: ditto.
+
 2006-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add Gnome Crystal stuff.
 	* README: ditto.

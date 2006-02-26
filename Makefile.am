@@ -1,4 +1,5 @@
-SUBDIRS = po database glade gcu programs mozilla-plugin samples tests dtds docs
+SUBDIRS = po database glade pixmaps gcu programs mozilla-plugin \
+	samples tests dtds docs
 
 mimedir = $(datadir)/mime/packages
 mime_in_files = gchemutils.xml.in

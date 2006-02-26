@@ -186,6 +186,7 @@ database/Makefile
 po/Makefile.in
 glade/Makefile
 glade/crystal/Makefile
+pixmaps/Makefile
 samples/Makefile
 tests/Makefile
 dtds/Makefile

@@ -51,7 +51,7 @@ Declaration of the GtkComboPeriodic widget.
 <hr>
 <h2>Functions</h2>
 
-Functions related to the GtkChem3DViewer Widget are described in the gtkcomboperiodic.h page.
+Functions related to the GtkComboPeriodic Widget are described in the gtkcomboperiodic.h page.
 */
 typedef struct _GtkComboPeriodic	GtkComboPeriodic;
 
