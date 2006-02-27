@@ -1,0 +1,123 @@
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/gchemutils/crystal/general/tab_pos</key>
+      <applyto>/apps/gchemutils/crystal/general/tab_pos</applyto>
+      <owner>gchemutils</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Notebook tabs position</short>
+		<long>Whether to display or not the notebook tabs and where.
+		Possible values are: 0: hide, 1: left, 2: right, 3: top, and 4:bottom.</long>
+      </locale>
+    </schema>
+
+	<schema>
+      <key>/schemas/apps/gchemutils/crystal/printing/resolution</key>
+      <applyto>/apps/gchemutils/crystal/printing/resolution</applyto>
+      <owner>gchemutils</owner>
+      <type>int</type>
+      <default>300</default>
+      <locale name="C">
+        <short>Printing resolution</short>
+		<long>Printing resolution if not automatically detected.</long>
+      </locale>
+       <locale name="fr">
+        <short>Résolution de l'impression</short>
+		<long>Résoluton de l'impression dans le cas où celle-ci n'est pas
+		détectée automatiquement.</long>
+      </locale>
+    </schema>
+
+	<schema>
+      <key>/schemas/apps/gchemutils/crystal/views/fov</key>
+      <applyto>/apps/gchemutils/crystal/views/fov</applyto>
+      <owner>gchemutils</owner>
+      <type>int</type>
+      <default>10</default>
+      <locale name="C">
+        <short>Default field of view</short>
+		<long>Field of view used by default for the model display.</long>
+      </locale>
+    </schema>
+
+	<schema>
+      <key>/schemas/apps/gchemutils/crystal/views/psi</key>
+      <applyto>/apps/gchemutils/crystal/views/psi</applyto>
+      <owner>gchemutils</owner>
+      <type>float</type>
+      <default>70.</default>
+      <locale name="C">
+        <short>Default precession</short>
+		<long>Default Euler's precession angle for model display.
+		Acceptable values are -180. to + 180.</long>
+      </locale>
+    </schema>
+
+	<schema>
+      <key>/schemas/apps/gchemutils/crystal/views/theta</key>
+      <applyto>/apps/gchemutils/crystal/views/theta</applyto>
+      <owner>gchemutils</owner>
+      <type>float</type>
+      <default>10.</default>
+      <locale name="C">
+        <short>Default nutation</short>
+		<long>Default Euler's nutation angle for model display.
+		Acceptable values are 0. to + 180.</long>
+      </locale>
+    </schema>
+
+	<schema>
+      <key>/schemas/apps/gchemutils/crystal/views/phi</key>
+      <applyto>/apps/gchemutils/crystal/views/phi</applyto>
+      <owner>gchemutils</owner>
+      <type>float</type>
+      <default>-90.</default>
+      <locale name="C">
+        <short>Default spin</short>
+		<long>Default Euler's spin angle for model display.
+		Acceptable values are -180. to + 180.</long>
+      </locale>
+    </schema>
+
+	<schema>
+      <key>/schemas/apps/gchemutils/crystal/views/red</key>
+      <applyto>/apps/gchemutils/crystal/views/red</applyto>
+      <owner>gchemutils</owner>
+      <type>float</type>
+      <default>1.</default>
+      <locale name="C">
+        <short>Backgroud color red value</short>
+		<long>Red value for the default background color.
+		Acceptable values are 0. to 1.</long>
+      </locale>
+    </schema>
+
+	<schema>
+      <key>/schemas/apps/gchemutils/crystal/views/green</key>
+      <applyto>/apps/gchemutils/crystal/views/green</applyto>
+      <owner>gchemutils</owner>
+      <type>float</type>
+      <default>1.</default>
+      <locale name="C">
+        <short>Backgroud color green value</short>
+		<long>Green value for the default background color.
+		Acceptable values are 0. to 1.</long>
+      </locale>
+    </schema>
+
+	<schema>
+      <key>/schemas/apps/gchemutils/crystal/views/blue</key>
+      <applyto>/apps/gchemutils/crystal/views/blue</applyto>
+      <owner>gchemutils</owner>
+      <type>float</type>
+      <default>1.</default>
+      <locale name="C">
+        <short>Backgroud color blue value</short>
+		<long>Blue value for the default background color.
+		Acceptable values are 0. to 1.</long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>

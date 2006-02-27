@@ -51,7 +51,8 @@ desktop_DATA = \
 @INTLTOOL_DESKTOP_RULE@
 
 CLEANFILES = \
-	gcrystal-unstable.desktop
+	gcrystal-unstable.desktop	\
+	gcrystal.schemas
 		
 EXTRA_DIST=$(desktop_in_files) $(schemas_in_files)
 

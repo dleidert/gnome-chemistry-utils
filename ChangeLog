@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2006-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* COPYING-DOCS: add missing file.
+	* Makefile.am: add --with-mozilla-libdir to DISCHECK_CONFIGURE_FLAGS.
+	* configure.ac: add --with-mozilla-libdir option and pushed some
+	cleaning by Daniel.
+	* docs/help/crystal/gcrystal-unstable.omf.in: make it conform to the dtd.
+	* programs/crystal/Makefile.am: add gcrystal.schemas to CLEANFILES.
+	* programs/crystal/gcrystal.schemas.in: add missing file.
+
 2006-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add pixmaps subdir.
 	* configure.ac: ditto.

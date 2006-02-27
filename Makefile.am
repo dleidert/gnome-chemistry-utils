@@ -13,7 +13,7 @@ EXTRA_DIST=	\
 	intltool-merge.in	\
 	gnome-doc-utils.make \
 	COPYING-DOCS	\
-	mime_in_files
+	$(mime_in_files)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= gcu-unstable.pc
