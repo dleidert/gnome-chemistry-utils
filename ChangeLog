@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2006-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.6.1).
+
+2006-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: fixed make distcheck.
 	* configure.ac: some cleaning.
 
