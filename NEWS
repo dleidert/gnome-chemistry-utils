@@ -1,3 +1,8 @@
+Version 0.7.0
+	fixed --version command line option.
+	fixed some build issues.
+	include Gnome Crystal.
+
 Version 0.5.4
 	periodic table: display atomic radii, copy charts to other apps.
 	mozilla plugin and 2d viewer: support background changes
