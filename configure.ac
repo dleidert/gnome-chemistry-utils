@@ -91,10 +91,10 @@ AC_SUBST(GCU_LIBS)
 
 dnl check for chemical-mime-data
 PKG_CHECK_MODULES(chemical_mime_data, \
-	chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION, \
-	have_chemical_mime_data="yes", \
+	[chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION], \
+	[have_chemical_mime_data="yes"], \
 	[have_chemical_mime_data="no", echo "no"])
-AM_CONDITIONAL(HAVE_CHEMICAL_MIME_DATA,test "$have_chemical_mime_data" = "yes")
+AM_CONDITIONAL(HAVE_CHEMICAL_MIME_DATA,[test "$have_chemical_mime_data" = "yes"])
 
 AC_LANG(C++)
 AC_MSG_CHECKING([for vector::at usability])
