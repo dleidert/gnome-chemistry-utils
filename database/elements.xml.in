@@ -171,7 +171,7 @@
 	<color red="1.00" green="0.63" blue="0.00"/>
 </element>
 
-<element Z="35" symbol="Br" max_bonds="6" weight="97.904">
+<element Z="35" symbol="Br" max_bonds="6" weight="79.904">
 	<_name>Bromine</_name>
 	<color red="0.65" green="0.16" blue="0.16"/>
 </element>
