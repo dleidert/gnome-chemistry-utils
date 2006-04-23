@@ -29,7 +29,7 @@ The Gnome Chemistry Utils provide some widgets and C++ classes related to chemis
 
 Available widgets are:
 - GtkPeriodic: a periodic table of the elements.
-- GtkComboPeriodic: a combo box witha dropdown periodic table widget.
+- GtkComboPeriodic: a combo box with a dropdown periodic table widget.
 - GtkCrystalViewer: a crystal structure viewer.
 - GtkChem3DViewer: a 3D molecular structure viewer. This widget is also available as a Bonobo control.
 

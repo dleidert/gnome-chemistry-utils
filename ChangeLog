@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2006-04-23  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* gcu/chemistry.h: fixed a typo in the Doxygen stuff (\section intro
+	Introduction).
+
 2006-02-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elements.xml.in: fixed bromine molar weight.
 
