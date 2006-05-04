@@ -29,16 +29,17 @@
 
 using namespace gcu;
 
-Application::Application (string name, string datadir)
+Application::Application (string name, string datadir, char const *help_name, char const *icon_name)
 {
 	Name = name;
 	string lang = getenv ("LANG");
-	HelpFilename = datadir + string ("/gnome/help/") + Name + string ("/") + lang + string ("/") + Name + ".xml";
+	string HelpName = help_name? help_name: Name;
+	HelpFilename = datadir + string ("/gnome/help/") + HelpName + string ("/") + lang + string ("/") + HelpName + ".xml";
 	struct stat buf;
 	gint err;
 	err = stat (HelpFilename.c_str (), &buf);
 	if (err)
-		HelpFilename = datadir + string ("/gnome/help/") + Name + string ("/C/") + Name + ".xml";
+		HelpFilename = datadir + string ("/gnome/help/") + HelpName + string ("/C/") + HelpName + ".xml";
 	GConfClient* cli = gconf_client_get_default ();
 	if (cli) {
 		const char *value;
@@ -49,6 +50,8 @@ Application::Application (string name, string datadir)
 		}
 	}
 	CurDir = NULL;
+	g_set_application_name (name.c_str ());
+	gtk_window_set_default_icon_name (icon_name? icon_name: (help_name? help_name: Name.c_str ()));
 }
 
 Application::~Application ()

@@ -40,7 +40,7 @@ public:
 	~gcApplication();
 
 //Callbacks methods
-	void OnFileNew();
+	gcDocument *OnFileNew();
 	void OnFileOpen();
 	void OnFileSave();
 	void OnFileSaveAs();
@@ -51,35 +51,32 @@ public:
 	void OnExportVRML();
 	void OnViewNew();
 	bool OnViewClose(gcView *pView = NULL);
-	void OnSelectView(GtkWidget* widget);
-	void OnCrystalDefine(int page);
 	void OnViewSettings();
-	bool LoadFile(char* filename);
 	bool HasDocument(gcDocument* pDoc);
 	void AddView(gcView* pView);
 	bool IsEmpty() {return m_Views.empty();}
-	void UpdateConfig();
-	gcView* GetDocView(const char* filename);
-	gcView* GetView(gcDocument* pDoc);
+	gcDocument* GetDoc (const char* filename);
 	void SetOpening() {m_bFileOpening = true;}
-	void SelectView(gcView* pView);
-	void OnChangePage(int i);
-	void ClearStatus();
-	void SetStatusText(const char* text);
-	virtual GtkWindow * GetWindow ();
 	bool FileProcess (const gchar* filename, bool bSave, GtkWindow *window, Document *pDoc = NULL);
+	void OnBug ();
+	void OnWeb ();
+	void OnMail ();
+	void ShowURI (string& uri);
+	bool HasMailAgent () {return MailAgent.length () > 0;}
+	bool HasWebBrowser () {return WebBrowser.length () > 0;}
+	void SetActiveDocument (gcDocument *doc) {m_pActiveDoc = doc;}
+	void AddDocument (gcDocument *pDoc) {m_Docs.push_front (pDoc);}
+	void RemoveDocument (gcDocument *pDoc);
 	
 private:
-	std::list<gcView*>m_Views;
-	gcView* m_pActiveView;
-	GtkWindow* m_Window;
-	GtkNotebook* m_Notebook;
-	GtkWidget* m_Bar;	//GtkStatusBar
-//	GtkMenu* m_WindowsMenu;
+	list<gcView*>m_Views;
+	list<gcDocument*> m_Docs;
+	gcDocument* m_pActiveDoc;
 	GtkUIManager* m_UIManager;
 	unsigned m_statusId;
-	unsigned m_MessageId; //currently displayed message in the status bar
 	bool m_bFileOpening;
+	string WebBrowser;
+	string MailAgent;
 };
 
 extern std::list<gcApplication*> Apps;

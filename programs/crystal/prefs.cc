@@ -108,9 +108,6 @@ bool gcPrefsDlg::Apply()
 	if (!GetNumber (PhiEnt, &x2, MinEqMax, -180, 180))
 		return false;
 	TabPos = gtk_combo_box_get_active (TabsMenu);
-	std::list<gcApplication*>::iterator i;
-	for (i = Apps.begin (); i != Apps.end (); i++)
-		(*i)->UpdateConfig ();
 	PrintResolution = gtk_spin_button_get_value_as_int (PrintResBtn);
 	Psi = x0;
 	Theta= x1;

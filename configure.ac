@@ -168,6 +168,10 @@ AM_CONDITIONAL(WITH_MOZILLA,[test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST(MOZILLA_CFLAGS)
 AC_SUBST(mozlibdir)
 
+AC_LANG(C++)
+AC_CHECK_HEADER(fstream,AC_DEFINE(HAVE_FSTREAM,1,[fstream present]))
+AC_CHECK_HEADER(ostream,AC_DEFINE(HAVE_OSTREAM,1,[fstream present]))
+
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
 fi

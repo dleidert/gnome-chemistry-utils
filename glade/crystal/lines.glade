@@ -297,63 +297,6 @@
 	  </child>
 
 	  <child>
-	    <widget class="GnomeColorPicker" id="edges_color">
-	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="dither">True</property>
-	      <property name="use_alpha">False</property>
-	      <property name="title" translatable="yes">Choose a color</property>
-	      <property name="focus_on_click">True</property>
-	    </widget>
-	    <packing>
-	      <property name="left_attach">4</property>
-	      <property name="right_attach">5</property>
-	      <property name="top_attach">0</property>
-	      <property name="bottom_attach">1</property>
-	      <property name="x_options">fill</property>
-	      <property name="y_options"></property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GnomeColorPicker" id="diag_color">
-	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="dither">True</property>
-	      <property name="use_alpha">False</property>
-	      <property name="title" translatable="yes">Choose a color</property>
-	      <property name="focus_on_click">True</property>
-	    </widget>
-	    <packing>
-	      <property name="left_attach">4</property>
-	      <property name="right_attach">5</property>
-	      <property name="top_attach">1</property>
-	      <property name="bottom_attach">2</property>
-	      <property name="x_options">fill</property>
-	      <property name="y_options"></property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GnomeColorPicker" id="med_color">
-	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="dither">True</property>
-	      <property name="use_alpha">False</property>
-	      <property name="title" translatable="yes">Choose a color</property>
-	      <property name="focus_on_click">True</property>
-	    </widget>
-	    <packing>
-	      <property name="left_attach">4</property>
-	      <property name="right_attach">5</property>
-	      <property name="top_attach">2</property>
-	      <property name="bottom_attach">3</property>
-	      <property name="x_options">fill</property>
-	      <property name="y_options"></property>
-	    </packing>
-	  </child>
-
-	  <child>
 	    <widget class="GtkLabel" id="label2">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">radius (pm):</property>
@@ -458,6 +401,57 @@
 	    <packing>
 	      <property name="left_attach">3</property>
 	      <property name="right_attach">4</property>
+	      <property name="top_attach">2</property>
+	      <property name="bottom_attach">3</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkColorButton" id="edges-color">
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="use_alpha">False</property>
+	      <property name="focus_on_click">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">4</property>
+	      <property name="right_attach">5</property>
+	      <property name="top_attach">0</property>
+	      <property name="bottom_attach">1</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkColorButton" id="diag-color">
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="use_alpha">False</property>
+	      <property name="focus_on_click">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">4</property>
+	      <property name="right_attach">5</property>
+	      <property name="top_attach">1</property>
+	      <property name="bottom_attach">2</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkColorButton" id="med-color">
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="use_alpha">False</property>
+	      <property name="focus_on_click">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">4</property>
+	      <property name="right_attach">5</property>
 	      <property name="top_attach">2</property>
 	      <property name="bottom_attach">3</property>
 	      <property name="x_options">fill</property>

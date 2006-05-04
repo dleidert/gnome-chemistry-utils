@@ -41,14 +41,17 @@ class Application
 {
 public:
 /*!
-@param name: the name to use for the default icon of all windows and the
-help file (with .xml extension).
+@param name: the name of the application.
 @param datadir: where data for the application are stored.
+@param help_name: the name to use for the help file (with .xml extension). 
+If NULL, the name strng is used.
+@param icon_name: the name to use for the default icon of all windows. If NULL,
+the help_name or name parameters will be used.
 
 The datadir variable is used to build the full path to the help file:
 datadir+"/gnome/help/"+name+"/"+LANG+"/"+name".xml".
 */
-	Application (string name, string datadir = DATADIR);
+	Application (string name, string datadir = DATADIR, char const *help_name = NULL, char const *icon_name = NULL);
 	virtual ~Application ();
 
 /*!

@@ -27,7 +27,6 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <list>
 #include <gcu/element.h>
 #include "application.h"
 #include "document.h"
@@ -42,12 +41,12 @@ using namespace std;
 extern GtkWidget *vbox1;
 
 gcDocument* pDoc;
-std::list<gcDocument*> Docs;
 gcView* pView;
 GtkWidget *mainwindow, *vbox1 ;
 GConfClient *conf_client;
 guint NotificationId;
 
+/*
 gcDocument* GetNewDocument ()
 {
 	gcDocument* pDoc = new gcDocument ();
@@ -60,6 +59,7 @@ void RemoveDocument (gcDocument* pDoc)
 	Docs.remove (pDoc);
 	delete pDoc;
 }
+*/
 
 /* Following code is removed because libgnomeui is going to be deprecated
 * Just I don't know what will replace GnomeClient *
@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 	NotificationId = gconf_client_notify_add (conf_client, "/apps/gchemutils/crystal", on_config_changed, NULL, NULL, NULL);
 	gcApplication* gcApp = new gcApplication();
 	Apps.push_back(gcApp);
-	gcApp->OnFileNew();
+	gcDocument *pDoc = gcApp->OnFileNew();
 	gcApp->SetOpening();
 
 	GnomeVFSURI *uri, *auri;
@@ -257,10 +257,10 @@ int main(int argc, char *argv[])
 		auri = gnome_vfs_uri_resolve_relative (uri, *argv);
 		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
 		if (bres) {
-			gcApp->OnFileNew ();
-			gcApp->SetOpening ();
+			pDoc = gcApp->OnFileNew ();
+//			gcApp->SetOpening ();
 		}
-		bres = gcApp->LoadFile (path);
+		bres = gcApp->FileProcess (path, false, NULL, pDoc);
 		g_free (path);
 		gnome_vfs_uri_unref (auri);
 		argv++;

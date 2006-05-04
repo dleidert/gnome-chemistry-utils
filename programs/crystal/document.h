@@ -36,12 +36,13 @@
 using namespace gcu;
 
 class gcView;
+class gcApplication;
 
 class gcDocument: public CrystalDoc
 {
 	//Constructor and destructor
 public:
-	gcDocument();
+	gcDocument (gcApplication *App);
 	~gcDocument();
 	
 	//Interface
@@ -83,6 +84,7 @@ public:
 	virtual CrystalLine* CreateNewLine();
 	virtual CrystalCleavage* CreateNewCleavage();
 	virtual const char* GetProgramId();
+	gcApplication* GetApplication () {return m_App;}
 
 private:
 	void Error(int num);
@@ -94,6 +96,7 @@ private:
 	GtkWidget* m_widget;
 	std::list <Dialog *> m_Dialogs;
 	BonoboPersist* m_ps;
+	gcApplication* m_App;
 };
 
 #endif //GCRYSTAL_DOCUMENT_H

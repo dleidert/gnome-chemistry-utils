@@ -79,15 +79,17 @@ char *LatticeName[] = {"simple cubic",
 	"base-centered monoclinic",
 	"triclinic"};
 
-gcDocument::gcDocument():CrystalDoc()
+gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc ()
 {
-	Init();
+	Init ();
 	m_filename = NULL;
 	m_title = NULL;
 	m_bEmpty = true;
 	m_bDirty = false;
 	m_bClosing = false;
 	m_ps = NULL;
+	m_App = pApp;
+	m_App->AddDocument (this);
 }
 
 /*gcDocument::gcDocument(bool create_view)
@@ -114,19 +116,19 @@ void gcDocument::Define (unsigned nPage)
 {
 	switch(nPage) {
 	case 0:
-		new gcCellDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		new gcCellDlg (m_App, this);
 		break;
 	case 1:
-		new gcAtomsDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		new gcAtomsDlg (m_App, this);
 		break;
 	case 2:
-		new gcLinesDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		new gcLinesDlg (m_App, this);
 		break;
 	case 3:
-		new gcSizeDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		new gcSizeDlg (m_App, this);
 		break;
 	case 4:
-		new gcCleavagesDlg (((gcView*) m_Views.front ())->GetApp (), this);
+		new gcCleavagesDlg (m_App, this);
 		break;
 	}
 }
@@ -589,7 +591,9 @@ bool gcDocument::RemoveView(gcView* pView)
 	{
 		if (!VerifySaved()) return false;
 	}
-	RemoveDocument(this);
+//	RemoveDocument(this);
+	m_App->RemoveDocument (this);
+	delete this;
 	return true;
 }
 
@@ -610,7 +614,7 @@ bool gcDocument::VerifySaved()
 			if (m_filename == NULL) {
 				list<char const*> l;
 				l.push_front ("application/x-gcrystal");
-				FileChooser (((gcView*) m_Views.front ())->GetApp (), true, l, this);
+				FileChooser (m_App, true, l, this);
 				while (((gcView*) (m_Views.front ()))->IsLocked ())
 					if (gtk_events_pending ())
 						gtk_main_iteration ();

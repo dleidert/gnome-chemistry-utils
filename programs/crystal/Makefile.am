@@ -13,7 +13,8 @@ gcrystal_unstable_SOURCES = main.cc\
 				   view.cc\
 				   cleavage.cc\
 				   prefs.cc \
-				   view-settings.cc
+				   view-settings.cc \
+				   window.cc
 
 noinst_HEADERS = gcrystal.h\
 				 globals.h\
@@ -29,7 +30,8 @@ noinst_HEADERS = gcrystal.h\
 				 view.h\
 				 cleavage.h\
 				 prefs.h \
-				 view-settings.h
+				 view-settings.h \
+				 window.h
 
 gcrystal_unstable_LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
 

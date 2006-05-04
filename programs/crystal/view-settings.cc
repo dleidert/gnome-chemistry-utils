@@ -28,7 +28,7 @@
 #include "application.h"
 #include <glade/glade.h>
 
-gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetApp (), DATADIR"/gchemutils-unstable/glade/crystal/view-settings.glade", "view_settings")
+gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDocument ()->GetApplication (), DATADIR"/gchemutils-unstable/glade/crystal/view-settings.glade", "view_settings")
 {
 	m_pView = pView;
 	m_pView->NotifyDialog (this);

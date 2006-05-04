@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2006-05-04  Jean Bréfort  <jean.brefort@normalesup.org>
+
+	* configure.ac: add c++ headers tests for gcrystal.
+	* gcu/application.cc: enhanced Application startup in constructor.
+	* gcu/application.h: ditto.
+	* glade/crystal/lines.glade: replaced last GnomeColorPicker instances.
+	* programs/crystal/Makefile.am: add window.*.
+	* programs/crystal/application.cc: start work on new ui (one view per window).
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/cleavagesdlg.cc: fixed glade file path.
+	* programs/crystal/document.cc: start work on new ui.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/linesdlg.cc: fixed color buttons names.
+	* programs/crystal/main.cc: start work on new ui.
+	* programs/crystal/prefs.cc: ditto.
+	* programs/crystal/view-settings.cc: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/crystal/window.h: ditto.
+
 2006-02-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elements.xml.in: fixed bromine molar weight.
 
