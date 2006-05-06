@@ -23,7 +23,7 @@ man1_MANS = $(patsubst %.1.xml,%.1,$(filter %.1.xml,$(gcu_man_src)))
 man3_MANS = $(patsubst %.3.xml,%.3,$(filter %.3.xml,$(gcu_man_src)))
 
 
-% : %.xml gcu_entities.dtd
+% : %.xml
 	$(XSLTPROC) $(XSLTPROC_FLAGS) $<
 
 
@@ -35,7 +35,7 @@ else
 	$(warning "Cannot check the XML sources because 'xmllint' is missing.")
 endif
 if HAVE_MAN
-	LANG=C MANWIDTH=80 $(MAN) -l $(man1_MANS) $(man3_MANS) > /dev/null
+	LANG=C MANWIDTH=80 $(MAN) $(addprefix ./,$(man1_MANS) $(man3_MANS)) > /dev/null
 else
 	$(warning "Cannot check the manpages because 'man' is missing.")
 endif	
