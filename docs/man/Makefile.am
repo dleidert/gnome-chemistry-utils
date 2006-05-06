@@ -35,7 +35,7 @@ else
 	$(warning "Cannot check the XML sources because 'xmllint' is missing.")
 endif
 if HAVE_MAN
-	LANG=C MANWIDTH=80 $(MAN) $(addprefix ./,$(man1_MANS) $(man3_MANS)) > /dev/null
+	LANG=C MANWIDTH=80 $(MAN) $(addprefix $(srcdir)/,$(man1_MANS) $(man3_MANS)) > /dev/null
 else
 	$(warning "Cannot check the manpages because 'man' is missing.")
 endif	

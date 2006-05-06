@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* docs/man/Makefile.am: Fixed prefix to add to manpages in check
+	target.
+
+2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* acinclude.m4: Remove some obsolete stuff.
 
 2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
