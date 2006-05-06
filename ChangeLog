@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-05-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.6.2).
+
 2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* docs/man/Makefile.am: Fixed prefix to add to manpages in check
 	target.
