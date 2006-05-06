@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* acinclude.m4: Added 3 macros necessary for man target applications.
+	* configure.ac: Call the macros and fixed the AC_OUTPUT.
+	* programs/Makefile.am: Added missing MAINTAINERCLEANFILES target.
+	* docs/Makefile.am (SUBDIRS): Added man directory.
+	* docs/man/Makefile.am: Initially added.
+	* docs/man/gcu_entities.dtd.in: Ditto.
+	* docs/man/gchem3d-viewer.1: Ditto.
+	* docs/man/gchem3d-viewer.1.xml: Ditto.
+	* docs/man/gchemcalc.1: Ditto.
+	* docs/man/gchemcalc.1.xml: Ditto.
+	* docs/man/gchemtable.1: Ditto.
+	* docs/man/gchemtable.1.xml: Ditto.
+	* docs/man/libgcu.3: Ditto.
+	* docs/man/libgcu.3.xml: Ditto.
+
 2006-04-23  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* gcu/chemistry.h: fixed a typo in the Doxygen stuff (\section intro
 	Introduction).

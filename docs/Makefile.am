@@ -1,4 +1,4 @@
-SUBDIRS = reference
+SUBDIRS = man reference
 
 MAINTAINERCLEANFILES = Makefile.in
 

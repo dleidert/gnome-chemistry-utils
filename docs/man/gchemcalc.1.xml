@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-stylesheet type="text/xsl" href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
+
+<!--
+	$Id: gchemcalc.1.xml,v 1.1.2.1 2006-05-06 12:46:25 dleidert Exp $
+
+  Copyright (C) 2006 Daniel Leidert <daniel.leidert@wgdd.de>.
+
+	This manual page is free software; you can redistribute it and/or modify it
+	under the terms of the GNU General Public License as published by the Free
+	Software Foundation; either version 2 of the License, or (at your option)
+	any later version.
+
+	This manual page is distributed in the hope that it will be useful, but
+	WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+	or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+	more details.
+
+	You should have received a copy of the GNU General Public License along with
+	this manual page; if not, write to the Free Software Foundation, Inc.,
+	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+-->
+
+	<!ENTITY dhpackage   "gchemcalc">
+
+	<!ENTITY dhdate      "$Date: 2006-05-06 12:46:25 $">
+	<!ENTITY dhsection   "1">
+
+	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
+	%_gcu_entities;
+]>
+
+<refentry>
+	<refentryinfo>
+		<title>&dhulpackage;</title>
+		<productname>&dhulpackage;</productname>
+		<edition>&dhedition;</edition>
+		<date>&dhdate;</date>
+		<authorgroup>
+			<author>
+				<firstname>Daniel</firstname>
+				<surname>Leidert</surname>
+				<affiliation>
+					<address>
+						<email>daniel.leidert@wgdd.de</email>
+					</address>
+				</affiliation>
+			</author>
+		</authorgroup>
+	</refentryinfo>
+	<refmeta>
+		<refentrytitle>&dhpackage;</refentrytitle>
+		<manvolnum>&dhsection;</manvolnum>
+	</refmeta>
+	<refnamediv>
+		<refname>&dhpackage;</refname>
+		<refpurpose>...</refpurpose>
+	</refnamediv>
+	<refsect1>
+		<title>DESCRIPTION</title>
+		<para>
+			<command>&dhpackage;</command> ...
+		</para>
+	</refsect1>
+	<refsect1>
+		<title>OPTIONS</title>
+		<para>
+			No options are available.
+		</para>
+	</refsect1>
+</refentry>
+

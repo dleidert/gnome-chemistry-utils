@@ -171,6 +171,18 @@ AM_CONDITIONAL(WITH_MOZILLA,[test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST(MOZILLA_CFLAGS)
 AC_SUBST(mozlibdir)
 
+##################################################
+# Check for manpage target applications
+##################################################
+
+MP_PROG_XMLLINT
+MP_PROG_XSLTPROC
+MP_PROG_MAN
+
+##################################################
+# Path checks
+##################################################
+
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
 fi
@@ -207,16 +219,18 @@ AC_SUBST(PIXMAPSDIR)
 
 AC_OUTPUT([
 Makefile
-gcu/Makefile
-programs/Makefile
-mozilla-plugin/Makefile
+gcu.pc
 database/Makefile
-po/Makefile.in
-glade/Makefile
-tests/Makefile
-dtds/Makefile
 docs/Makefile
+docs/man/gcu_entities.dtd
+docs/man/Makefile
 docs/reference/Makefile
 docs/reference/Doxyfile
-gcu.pc
+dtds/Makefile
+gcu/Makefile
+glade/Makefile
+mozilla-plugin/Makefile
+po/Makefile.in
+programs/Makefile
+tests/Makefile
 ])

@@ -2,6 +2,8 @@ EXTRA_DIST = $(desktop_in_files)
 
 CLEANFILES = $(desktop_DATA)
 
+MAINTAINERCLEANFILES = Makefile.in
+
 DEPS = $(top_builddir)/gcu/libgcu.la
 INCLUDES = @GCU_CFLAGS@
 LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
