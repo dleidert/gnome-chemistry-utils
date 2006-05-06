@@ -68,19 +68,19 @@ static void on_file_print (GtkWidget *widget, gcWindow* Win)
 	Win->GetApplication ()->OnFilePrint ();
 }
 
-static void on_export_jpeg (GtkWidget *widget, gcApplication *app)
+static void on_export_jpeg (GtkWidget *widget, gcWindow* Win)
 {
-	app->OnExportJPEG ();
+	Win->GetApplication ()->OnExportJPEG ();
 }
 
-static void on_export_png (GtkWidget *widget, gcApplication *app)
+static void on_export_png (GtkWidget *widget, gcWindow* Win)
 {
-	app->OnExportPNG ();
+	Win->GetApplication ()->OnExportPNG ();
 }
 
-static void on_export_vrml (GtkWidget *widget, gcApplication *app)
+static void on_export_vrml (GtkWidget *widget, gcWindow* Win)
 {
-	app->OnExportVRML ();
+	Win->GetApplication ()->OnExportVRML ();
 }
 
 static void on_view_new (GtkWidget *widget, gcApplication *app)
@@ -209,6 +209,7 @@ static void on_bug (GtkWidget *widget, gcWindow* Win)
 static bool on_focus_in (GtkWidget *widget, GdkEventFocus *event, gcWindow* Win)
 {
 	gcApplication *App = Win->GetApplication ();
+	Win->GetDocument ()->SetActiveView (Win->GetView ());
 	App->SetActiveDocument (Win->GetDocument ());
 	return false;
 }

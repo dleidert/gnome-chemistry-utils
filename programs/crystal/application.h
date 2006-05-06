@@ -57,7 +57,7 @@ public:
 	bool IsEmpty() {return m_Views.empty();}
 	gcDocument* GetDoc (const char* filename);
 	void SetOpening() {m_bFileOpening = true;}
-	bool FileProcess (const gchar* filename, bool bSave, GtkWindow *window, Document *pDoc = NULL);
+	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
 	void OnBug ();
 	void OnWeb ();
 	void OnMail ();

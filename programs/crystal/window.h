@@ -44,6 +44,7 @@ public:
 	void SetStatusText (const char* text);
 	gcDocument *GetDocument () {return m_Doc;}
 	bool TryClose ();
+	gcView *GetView () {return m_View;}
 
 private:
 	gcApplication *m_App;

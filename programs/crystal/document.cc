@@ -42,6 +42,8 @@
 #include <math.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
+//#include <libgnomevfs/gnome-vfs-file-info.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include <vector>
 #include <map>
 #ifdef HAVE_FSTREAM
@@ -53,6 +55,11 @@
 #	include <ostream>
 #else
 #	include <ostream.h>
+#endif
+#ifdef HAVE_SSTREAM
+#	include <sstream>
+#else
+#	include <sstream.h>
 #endif
 
 #define SAVE	1
@@ -413,10 +420,10 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 					gcView* pView = new gcView(this);
 					pView->LoadOld(node);
 					m_Views.push_back(pView);
-					if (!RequestApp(pView))
+/*					if (!RequestApp(pView))
 					{
 						delete pView;
-					}
+					}*/
 				}
 				else
 				{
@@ -441,124 +448,130 @@ void gcDocument::OnNewDocument()
 typedef struct {int n; std::list<CrystalAtom*> l;} sAtom;
 typedef struct {int n; std::list<CrystalLine*> l;} sLine;
 
-void gcDocument::OnExportVRML(const gchar* FileName, gcView* pView)
+void gcDocument::OnExportVRML(const gchar* FileName)
 {
 	char *old_num_locale, tmp[128];
 	double x0, x1, x2, x3, x4, x5;
 	int n = 0;
-	ofstream file(FileName);
-	std::map<std::string, sAtom /*list<gcAtom*>*/ >AtomsMap;
-	std::map<std::string, sLine>LinesMap;
-	if (!file)
-	{
-		gchar* mess = g_strdup_printf(_("Can't create file %s"), FileName);
-		GtkWidget* message = gtk_message_dialog_new(NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
-		gtk_widget_show(message);
-		g_free(mess);
-	}
-	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-	setlocale(LC_NUMERIC, "C");
-	file << "#VRML V2.0 utf8" << endl;
-	
-	//Create prototypes for atoms
-	CrystalAtomList::iterator i;
-	for (i = Atoms.begin(); i != Atoms.end(); i++)
-	{
-		(*i)->GetColor(&x0, &x1, &x2, &x3);
-		snprintf(tmp, sizeof(tmp), "%g %g %g %g %g", (*i)->GetSize(), x0, x1, x2, x3);
-		if (AtomsMap[tmp].l.empty())
-		{
-			AtomsMap[tmp].n = n;
-			file << "PROTO Atom" << n++ << " [] {Shape {" << endl << "\tgeometry Sphere {radius " << (*i)->GetSize() / 100 << "}" << endl;
-			file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << x0 << " " << x1 << " " << x2 << endl;
-			if (x3 < 1) file << "\t\t\ttransparency " << (1 - x3) << endl;
-			file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
-		}
-		AtomsMap[tmp].l.push_back(*i);
-	}
+	try {
+		ostringstream file;
+		GnomeVFSHandle *handle = NULL;
+		GnomeVFSFileSize fs;
+		GnomeVFSResult res;
+		std::map<std::string, sAtom>AtomsMap;
+		std::map<std::string, sLine>LinesMap;
+		if ((res = gnome_vfs_create (&handle, FileName, GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
+			throw (int) res;
+		old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
+		setlocale(LC_NUMERIC, "C");
 
-	//Create prototypes for bonds
-	CrystalLineList::iterator j;
-	n = 0;
-	for (j = Lines.begin(); j != Lines.end(); j++)
-	{
-		(*j)->GetColor(&x0, &x1, &x2, &x3);
-		snprintf(tmp, sizeof(tmp), "%g %g %g %g %g %g", (*j)->Long(), (*j)->GetRadius(), x0, x1, x2, x3);
-		if (LinesMap[tmp].l.empty())
+		file << "#VRML V2.0 utf8" << endl;
+		
+		//Create prototypes for atoms
+		CrystalAtomList::iterator i;
+		for (i = Atoms.begin(); i != Atoms.end(); i++)
 		{
-			LinesMap[tmp].n = n;
-			file << "PROTO Bond" << n++ << " [] {Shape {" << endl << "\tgeometry Cylinder {radius " << (*j)->GetRadius() / 100 << "\theight " << (*j)->Long() / 100 << "}" << endl;
-			file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << x0 << " " << x1 << " " << x2 << endl;
-			if (x3 < 1) file << "\t\t\ttransparency " << (1 - x3) << endl;
-			file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
-		}
-		LinesMap[tmp].l.push_back(*j);
-	}
-	
-	//world begin
-	pView->GetBackgroundColor(&x0, &x1, &x2, &x3);
-	file << "Background{skyColor " << x0 << " " << x1 << " " << x2 << "}" << endl;
-	file << "Viewpoint {fieldOfView " << pView->GetFoV()/90*1.570796326794897 <<"\tposition 0 0 " << pView->GetPos() / 100 << "}" << endl;
-	pView->GetRotation(&x0, &x1, &x2);
-	Matrix m(x0/90*1.570796326794897, x1/90*1.570796326794897, x2/90*1.570796326794897, euler);
-	file << "Transform {" << endl << "\tchildren [" << endl;
-
-	std::map<std::string, sAtom>::iterator k;
-	for (k = AtomsMap.begin(); k != AtomsMap.end(); k++)
-	{
-		for (i = (*k).second.l.begin(); i != (*k).second.l.end(); i++)
-		{
-			if (!(*i)->IsCleaved())
+			(*i)->GetColor(&x0, &x1, &x2, &x3);
+			snprintf(tmp, sizeof(tmp), "%g %g %g %g %g", (*i)->GetSize(), x0, x1, x2, x3);
+			if (AtomsMap[tmp].l.empty())
 			{
-				x0 = (*i)->x();
-				x1 = (*i)->y();
-				x2 = (*i)->z();
-				m.Transform(x0, x1, x2);
-				file << "\t\tTransform {translation " << x1 / 100 << " " << x2 / 100 << " " << x0 / 100\
-					<<  " children [Atom" << (*k).second.n << " {}]}" << endl;
+				AtomsMap[tmp].n = n;
+				file << "PROTO Atom" << n++ << " [] {Shape {" << endl << "\tgeometry Sphere {radius " << (*i)->GetSize() / 100 << "}" << endl;
+				file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << x0 << " " << x1 << " " << x2 << endl;
+				if (x3 < 1) file << "\t\t\ttransparency " << (1 - x3) << endl;
+				file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
 			}
+			AtomsMap[tmp].l.push_back(*i);
 		}
-		(*k).second.l.clear();
-	}
-	AtomsMap.clear();
 	
-	std::map<std::string, sLine>::iterator l;
-	n = 0;
-	for (l = LinesMap.begin(); l != LinesMap.end(); l++)
-	{
-		for (j = (*l).second.l.begin(); j != (*l).second.l.end(); j++)
+		//Create prototypes for bonds
+		CrystalLineList::iterator j;
+		n = 0;
+		for (j = Lines.begin(); j != Lines.end(); j++)
 		{
-			if (!(*j)->IsCleaved())
+			(*j)->GetColor(&x0, &x1, &x2, &x3);
+			snprintf(tmp, sizeof(tmp), "%g %g %g %g %g %g", (*j)->Long(), (*j)->GetRadius(), x0, x1, x2, x3);
+			if (LinesMap[tmp].l.empty())
 			{
-				x0 = (*j)->X1();
-				x1 = (*j)->Y1();
-				x2 = (*j)->Z1();
-				m.Transform(x0, x1, x2);
-				x3 = (*j)->X2();
-				x4 = (*j)->Y2();
-				x5 = (*j)->Z2();
-				m.Transform(x3, x4, x5);
-				CrystalLine line(gcu::unique, x0, x1, x2, x3, x4, x5, 0.0, 0.0, 0.0, 0.0, 0.0);
-				line.GetRotation(x0, x1, x2, x3);
-				file << "\t\tTransform {" << endl << "\t\t\trotation " << x1 << " " << x2 << " " << x0 << " " << x3 << endl;
-				x0 = (line.X1() + line.X2()) / 200;
-				x1 = (line.Y1() + line.Y2()) / 200;
-				x2 = (line.Z1() + line.Z2()) / 200;
-				file << "\t\t\ttranslation " << x1 << " " << x2  << " " << x0 <<  endl\
-						<< "\t\t\tchildren [Bond" << (*l).second.n << " {}]}" << endl;
+				LinesMap[tmp].n = n;
+				file << "PROTO Bond" << n++ << " [] {Shape {" << endl << "\tgeometry Cylinder {radius " << (*j)->GetRadius() / 100 << "\theight " << (*j)->Long() / 100 << "}" << endl;
+				file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << x0 << " " << x1 << " " << x2 << endl;
+				if (x3 < 1) file << "\t\t\ttransparency " << (1 - x3) << endl;
+				file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
 			}
+			LinesMap[tmp].l.push_back(*j);
 		}
-		n++;
-		(*l).second.l.clear();
-	}
-	LinesMap.clear();
+		
+		//world begin
+		m_pActiveView->GetBackgroundColor(&x0, &x1, &x2, &x3);
+		file << "Background{skyColor " << x0 << " " << x1 << " " << x2 << "}" << endl;
+		file << "Viewpoint {fieldOfView " << m_pActiveView->GetFoV()/90*1.570796326794897 <<"\tposition 0 0 " << m_pActiveView->GetPos() / 100 << "}" << endl;
+		m_pActiveView->GetRotation(&x0, &x1, &x2);
+		Matrix m(x0/90*1.570796326794897, x1/90*1.570796326794897, x2/90*1.570796326794897, euler);
+		file << "Transform {" << endl << "\tchildren [" << endl;
 	
-	//end of the world
-	file << "\t]" << endl << "}" << endl;
+		std::map<std::string, sAtom>::iterator k;
+		for (k = AtomsMap.begin(); k != AtomsMap.end(); k++)
+		{
+			for (i = (*k).second.l.begin(); i != (*k).second.l.end(); i++)
+			{
+				if (!(*i)->IsCleaved())
+				{
+					x0 = (*i)->x();
+					x1 = (*i)->y();
+					x2 = (*i)->z();
+					m.Transform(x0, x1, x2);
+					file << "\t\tTransform {translation " << x1 / 100 << " " << x2 / 100 << " " << x0 / 100\
+						<<  " children [Atom" << (*k).second.n << " {}]}" << endl;
+				}
+			}
+			(*k).second.l.clear();
+		}
+		AtomsMap.clear();
+		
+		std::map<std::string, sLine>::iterator l;
+		n = 0;
+		for (l = LinesMap.begin(); l != LinesMap.end(); l++)
+		{
+			for (j = (*l).second.l.begin(); j != (*l).second.l.end(); j++)
+			{
+				if (!(*j)->IsCleaved())
+				{
+					x0 = (*j)->X1();
+					x1 = (*j)->Y1();
+					x2 = (*j)->Z1();
+					m.Transform(x0, x1, x2);
+					x3 = (*j)->X2();
+					x4 = (*j)->Y2();
+					x5 = (*j)->Z2();
+					m.Transform(x3, x4, x5);
+					CrystalLine line(gcu::unique, x0, x1, x2, x3, x4, x5, 0.0, 0.0, 0.0, 0.0, 0.0);
+					line.GetRotation(x0, x1, x2, x3);
+					file << "\t\tTransform {" << endl << "\t\t\trotation " << x1 << " " << x2 << " " << x0 << " " << x3 << endl;
+					x0 = (line.X1() + line.X2()) / 200;
+					x1 = (line.Y1() + line.Y2()) / 200;
+					x2 = (line.Z1() + line.Z2()) / 200;
+					file << "\t\t\ttranslation " << x1 << " " << x2  << " " << x0 <<  endl\
+							<< "\t\t\tchildren [Bond" << (*l).second.n << " {}]}" << endl;
+				}
+			}
+			n++;
+			(*l).second.l.clear();
+		}
+		LinesMap.clear();
+		
+		//end of the world
+		file << "\t]" << endl << "}" << endl;
 
-	file.close();
-	setlocale(LC_NUMERIC, old_num_locale);
-	g_free(old_num_locale);
+		setlocale(LC_NUMERIC, old_num_locale);
+		g_free(old_num_locale);
+		if ((res = gnome_vfs_write (handle, file.str ().c_str (), (GnomeVFSFileSize) file.str ().size (), &fs)) != GNOME_VFS_OK)
+			throw (int) res;
+		gnome_vfs_close (handle);
+	}
+	catch (int n) {
+		fprintf (stderr, "gnome-vfs error #%d\n",n);
+	}
 }
 
 gcView *gcDocument::GetNewView()

@@ -260,7 +260,7 @@ int main(int argc, char *argv[])
 			pDoc = gcApp->OnFileNew ();
 //			gcApp->SetOpening ();
 		}
-		bres = gcApp->FileProcess (path, false, NULL, pDoc);
+		bres = gcApp->FileProcess (path, "application/x-gcrystal", false, NULL, pDoc);
 		g_free (path);
 		gnome_vfs_uri_unref (auri);
 		argv++;

@@ -79,6 +79,7 @@ helpfilename#myapp-mytag.
 
 /*!
 @param filename: the uri of the file.
+@param mime-type: the mime type of the file if known.
 @param bSave: true if saving, and false if loading.
 @param window: the current top level window.
 @param pDoc: an optional document.
@@ -89,7 +90,7 @@ if they use the FileChooser.
 	
 @return true if no error occured.
 */
-	virtual bool FileProcess (const gchar* filename, bool bSave, GtkWindow *window, Document *pDoc = NULL)
+	virtual bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL)
 		{return false;}
 
 /*!

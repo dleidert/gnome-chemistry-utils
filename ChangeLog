@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2006-05-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add a check for <sstream>.
+	* gcu/application.h: changed FileProcess signature to add a mime type.
+	* gcu/crystaldoc.cc: use xmlDocSetRootElement instead of =.
+	* gcu/filechooser.cc: add a combo box for supported mime type and pass
+	the mime type to Application::FileProcess.
+	* programs/crystal/application.cc: update FileProcess to support the mime
+	type and add vrml export support there.
+	* programs/crystal/application.h: changed FileProcess signature.
+	* programs/crystal/document.cc: export VRML using gnome-vfs.
+	* programs/crystal/document.h: change signature for OnExportVRML.
+	* programs/crystal/main.cc: use new signature of Application::FileProcess.
+	* programs/crystal/window.cc: implement export VRML.
+	* programs/crystal/window.h: add an inline method to get the associated
+	view.
+
 2006-05-04  Jean Bréfort  <jean.brefort@normalesup.org>
 
 	* configure.ac: add c++ headers tests for gcrystal.

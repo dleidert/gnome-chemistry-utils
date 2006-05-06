@@ -170,7 +170,8 @@ AC_SUBST(mozlibdir)
 
 AC_LANG(C++)
 AC_CHECK_HEADER(fstream,AC_DEFINE(HAVE_FSTREAM,1,[fstream present]))
-AC_CHECK_HEADER(ostream,AC_DEFINE(HAVE_OSTREAM,1,[fstream present]))
+AC_CHECK_HEADER(ostream,AC_DEFINE(HAVE_OSTREAM,1,[ostream present]))
+AC_CHECK_HEADER(sstream,AC_DEFINE(HAVE_SSTREAM,1,[sstream present]))
 
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"

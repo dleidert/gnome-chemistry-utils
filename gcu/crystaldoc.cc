@@ -539,7 +539,7 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 	
 	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
 	setlocale(LC_NUMERIC, "C");
-	xml->children =  xmlNewDocNode(xml, NULL, (xmlChar*)"crystal", NULL);
+	xmlDocSetRootElement (xml,  xmlNewDocNode(xml, NULL, (xmlChar*)"crystal", NULL));
 	
 	try
 	{

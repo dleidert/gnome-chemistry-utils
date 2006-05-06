@@ -67,7 +67,7 @@ public:
 	bool Load(const gchar* filename);
 	void ParseXMLTree(xmlNode* xml);
 	void OnNewDocument();
-	void OnExportVRML(const gchar* FileName, gcView* pView);
+	void OnExportVRML(const gchar* FileName);
 	gcView* GetNewView();
 	void SetDirty();
 	bool IsEmpty() {return m_bEmpty;}
@@ -85,6 +85,7 @@ public:
 	virtual CrystalCleavage* CreateNewCleavage();
 	virtual const char* GetProgramId();
 	gcApplication* GetApplication () {return m_App;}
+	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
 
 private:
 	void Error(int num);
@@ -97,6 +98,7 @@ private:
 	std::list <Dialog *> m_Dialogs;
 	BonoboPersist* m_ps;
 	gcApplication* m_App;
+	gcView *m_pActiveView;
 };
 
 #endif //GCRYSTAL_DOCUMENT_H

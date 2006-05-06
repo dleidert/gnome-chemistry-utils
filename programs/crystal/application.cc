@@ -29,6 +29,8 @@
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "application.h"
 #include "globals.h"
 #include <gcu/filechooser.h>
@@ -41,6 +43,7 @@ static unsigned short nNewDocs = 1;
 guint TabPos =  0;
 
 //Callbacks
+/*
 static void on_file_new (GtkWidget *widget, gcApplication *app)
 {
 	app->OnFileNew ();
@@ -124,9 +127,9 @@ static void on_about (GtkWidget *widget, void *data)
 		"You should have received a copy of the GNU General Public License\n"
 		"along with this program; if not, write to the Free Software\n"
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
-		"USA";
+		"USA";*/
 /* Note to translators: replace the following string with the appropriate credits for you lang */
-	char *translator_credits = _("translator_credits");
+/*	char *translator_credits = _("translator_credits");
 	gtk_show_about_dialog (NULL,
 					"name", _("Gnome Crystal"),
 					"authors", authors,
@@ -213,12 +216,12 @@ static bool do_load (const gchar* filename, gcApplication *pApp, gcDocument* pDo
 				return true;
 		}
 	}
-	if (pDoc->Load (filename)) {
+	if (pDoc->Load (filename)) {*/
 /*		gtk_label_set_text (pView->GetLabel (), pDoc->GetTitle ());
 		GtkLabel *pLabel = pView->GetMenuLabel ();
 		if (pLabel)
 			gtk_label_set_text (pLabel, pDoc->GetTitle ());*/
-		return true;
+/*		return true;
 	}
 	nNewDocs++;
 	return false;
@@ -274,7 +277,7 @@ bool RequestApp (gcView* pView)
 			gtk_label_set_text (pLabel, pDoc->GetTitle ());
 	}
 	return (pApp != NULL);
-}
+}*/
 
 gcApplication::gcApplication(): Application ("gcrystal-unstable", DATADIR)
 {
@@ -552,7 +555,7 @@ void gcApplication::AddView (gcView* pView)
 
 gcDocument* gcApplication::GetDoc (const char* filename)
 {
-	gcDocument* pDoc;
+	gcDocument* pDoc = NULL;
 	std::list<gcDocument*>::iterator i, iend = m_Docs.end ();
 	for (i = m_Docs.begin (); i != iend; i++) {
 		pDoc = *i;
@@ -561,7 +564,7 @@ gcDocument* gcApplication::GetDoc (const char* filename)
 		if (!strcmp (pDoc->GetFileName (), filename))
 			break;
 	}
-	if (pDoc)
+	if (i != iend && pDoc)
 		return pDoc;
 	if (m_bFileOpening) {
 		pDoc = m_Docs.back ();
@@ -576,12 +579,76 @@ gcDocument* gcApplication::GetDoc (const char* filename)
 	return pDoc;
 }
 
-bool gcApplication::FileProcess (const gchar* filename, bool bSave, GtkWindow *window, Document *pDoc)
+enum {
+	GCRYSTAL,
+	VRML,
+	JPEG,
+	PNG
+};
+
+bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc)
 {
 	gcDocument *Doc = static_cast<gcDocument*> (pDoc);
+	if (!mime_type)
+		mime_type = "application/x-gcrystal";
 	if (bSave) {
-		do_save_as (filename, Doc);
+		int type = GCRYSTAL;
+		if (!strcmp (mime_type, "image/png"))
+			type = PNG;
+		else if (!strcmp (mime_type, "image/jpeg"))
+			type = JPEG;
+		else if (!strcmp (mime_type, "image/vrml"))
+			type = VRML;
+		char *filename2, *ext = "";
+		switch (type) {
+		case GCRYSTAL:
+			ext = ".gcrystal";
+			break;
+		case VRML:
+			ext = ".wrl";
+			break;
+		case JPEG:
+			ext = ".jpg";
+			break;
+		case PNG:
+			ext = ".png";
+			break;
+		}
+		int i = strlen(filename) - strlen (ext);
+		if ((i > 0) && (!strcmp(filename +i, ext)))
+			filename2 = g_strdup(filename);
+		else
+			filename2 = g_strdup_printf("%s%s", filename, ext);
+		GnomeVFSURI *uri = gnome_vfs_uri_new (filename2);
+		bool err = gnome_vfs_uri_exists (uri);
+		gnome_vfs_uri_unref (uri);
+		gint result = GTK_RESPONSE_YES;
+		if (err) {
+			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2);
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+			gtk_window_set_icon_name (GTK_WINDOW (Box), "gcrystal");
+			result = gtk_dialog_run (Box);
+			gtk_widget_destroy (GTK_WIDGET (Box));
+			g_free (message);
+		}
+		if (result == GTK_RESPONSE_YES)
+			switch (type) {
+			case GCRYSTAL:
+				Doc->SetFileName (filename2);
+				Doc->Save ();
+				break;
+			case VRML:
+				Doc->OnExportVRML (filename2);
+				break;
+			case JPEG:
+				break;
+			case PNG:
+				break;
+			}
+		g_free (filename2);
 	} else {
+		if (strcmp (mime_type, "application/x-gcrystal"))
+			return true;
 		if (!Doc)
 			Doc = GetDoc (filename);
 		if (!Doc)
@@ -602,11 +669,9 @@ bool gcApplication::FileProcess (const gchar* filename, bool bSave, GtkWindow *w
 			GtkLabel *pLabel = pView->GetMenuLabel ();
 			if (pLabel)
 				gtk_label_set_text (pLabel, pDoc->GetTitle ());*/
-			return true;
 		}
-		return true;
 	}
-	return true;
+	return false;
 }
 
 void gcApplication::OnBug ()
