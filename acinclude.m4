@@ -12,7 +12,7 @@ dnl be overridden by the user) and special options to use.
 dnl
 dnl @category InstalledPackages
 dnl @author Daniel Leidert <daniel.leidert@wgdd.de>
-dnl @version 2006-03-10
+dnl @version 2006-05-06
 dnl @license AllPermissive
 AC_DEFUN([MP_PROG_XMLLINT],[
 AC_ARG_VAR(
@@ -22,6 +22,13 @@ AC_ARG_VAR(
 AC_PATH_PROG([XMLLINT], [xmllint])
 if test -z $XMLLINT ; then
 	AC_MSG_WARN(['xmllint' was not found. We cannot validate the XML sources. See README.]) ;
+else
+	echo -n "checking for xmllint >= 2.6.24... "
+	PKG_CHECK_EXISTS(
+		[libxml-2.0 >= 2.6.24],
+		[echo "yes"],
+		[echo "no"  ; XMLLINT="" ; AC_MSG_WARN(['xmllint' too old.])]
+	)
 fi
 AC_SUBST([XMLLINT])
 AM_CONDITIONAL([HAVE_XMLLINT], [test "x$XMLLINT" != "x"])
