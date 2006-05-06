@@ -32,11 +32,11 @@ check-local:
 if HAVE_XMLLINT
 	$(XMLLINT) $(XMLLINT_FLAGS) $(gcu_man_src)
 else
-	$(error "Cannot check the XML sources because 'xmllint' is missing.")
+	$(warning "Cannot check the XML sources because 'xmllint' is missing.")
 endif
 if HAVE_MAN
 	LANG=C MANWIDTH=80 $(MAN) -l $(man1_MANS) $(man3_MANS) > /dev/null
 else
-	$(error "Cannot check the manpages because 'man' is missing.")
+	$(warning "Cannot check the manpages because 'man' is missing.")
 endif	
 
