@@ -21,13 +21,13 @@ AC_ARG_VAR(
 )
 AC_PATH_PROG([XMLLINT], [xmllint])
 if test -z $XMLLINT ; then
-	AC_MSG_WARN(['xmllint' was not found. We cannot validate the XML sources. See README.]) ;
+	AC_MSG_WARN(['xmllint' was not found. We cannot validate the XML sources.]) ;
 else
 	echo -n "checking for xmllint >= 2.6.24... "
 	PKG_CHECK_EXISTS(
 		[libxml-2.0 >= 2.6.24],
 		[echo "yes"],
-		[echo "no"  ; XMLLINT="" ; AC_MSG_WARN(['xmllint' too old.])]
+		[echo "no"  ; XMLLINT="" ; AC_MSG_WARN(['xmllint' too old. We cannot validate the XML sources.])]
 	)
 fi
 AC_SUBST([XMLLINT])

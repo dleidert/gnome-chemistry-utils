@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* acinclude.m4: Remove some obsolete stuff.
+
+2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* docs/man/Makefile.am: Fixed man-usage in the check target. Removed
 	gcu_entities.dtd as prerequisite.
 	* docs/man/gchemcalc.1: Updated.
