@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* docs/man/gchemcalc.1: Updated.
+	* docs/man/gchemtable.1: Ditto.
+
+2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* Add a test on xmllint's version.
 
 2006-05-06  Daniel Leidert  <daniel.leidert.spam@gmx.net>
