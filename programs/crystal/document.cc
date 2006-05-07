@@ -677,3 +677,8 @@ const char* gcDocument::GetProgramId()
 {
 	return "Gnome Crystal "VERSION;
 }
+
+void gcDocument::SaveAsImage (char const *filename, char const *type, map<string, string>& options)
+{
+	m_pActiveView->SaveAsImage (filename, type, options);
+}

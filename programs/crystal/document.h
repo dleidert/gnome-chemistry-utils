@@ -86,6 +86,7 @@ public:
 	virtual const char* GetProgramId();
 	gcApplication* GetApplication () {return m_App;}
 	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
+	void SaveAsImage (char const *filename, char const *type, map<string, string>& options);
 
 private:
 	void Error(int num);

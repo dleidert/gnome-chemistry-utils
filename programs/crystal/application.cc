@@ -614,11 +614,11 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			ext = ".png";
 			break;
 		}
-		int i = strlen(filename) - strlen (ext);
-		if ((i > 0) && (!strcmp(filename +i, ext)))
-			filename2 = g_strdup(filename);
+		int i = strlen (filename) - strlen (ext);
+		if ((i > 0) && (!strcmp (filename +i, ext)))
+			filename2 = g_strdup (filename);
 		else
-			filename2 = g_strdup_printf("%s%s", filename, ext);
+			filename2 = g_strdup_printf ("%s%s", filename, ext);
 		GnomeVFSURI *uri = gnome_vfs_uri_new (filename2);
 		bool err = gnome_vfs_uri_exists (uri);
 		gnome_vfs_uri_unref (uri);
@@ -630,7 +630,10 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
 			g_free (message);
+			if (result == GTK_RESPONSE_YES)
+				gnome_vfs_unlink (filename2);
 		}
+		map <string, string> options; // not used at the moment
 		if (result == GTK_RESPONSE_YES)
 			switch (type) {
 			case GCRYSTAL:
@@ -641,8 +644,10 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				Doc->OnExportVRML (filename2);
 				break;
 			case JPEG:
+				Doc->SaveAsImage (filename2, "jpeg", options);
 				break;
 			case PNG:
+				Doc->SaveAsImage (filename2, "png", options);
 				break;
 			}
 		g_free (filename2);

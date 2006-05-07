@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2006-05-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/crystalview.cc: add CrystalView::SaveAsImage.
+	* gcu/crystalview.h: ditto.
+	* programs/crystal/application.cc: reimplemented image export.
+	* programs/crystal/document.cc: add gcDocumentSaveAsImage.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/main.cc: call gnome_vfs_shutdown on exit.
+	* programs/crystal/view.cc: removed obsolete gcView::OnExportPNG and
+	gcView::OnExportJPEG.
+	* programs/crystal/view.h:
+
 2006-05-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add a check for <sstream>.
 	* gcu/application.h: changed FileProcess signature to add a mime type.

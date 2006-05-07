@@ -28,6 +28,7 @@
 #include <libxml/parser.h>
 #include <gcu/matrix.h>
 #include <list>
+#include <map>
 #include <gtk/gtkwidget.h>
 
 using namespace std;
@@ -122,6 +123,14 @@ Loads the parameters of the view from an xmlNode.
 @return a pointer to the xmlNode containig the view parameters or NULL if an error occured.
 */
 	virtual xmlNodePtr Save (xmlDocPtr xml);
+/*!
+@param filename: the name of the file.
+@param type: the type as supported by GdkPixbuf (e.g. "png" or "jpeg").
+@param options: the pairs of keys/values to pass GdkPixbuf.
+
+Export the view contents as an image.
+*/
+	void SaveAsImage (char const *filename, char const *type, map<string, string>& options);
 
 private:
 /*!

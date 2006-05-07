@@ -29,6 +29,8 @@
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
 #include <math.h>
+#include <glib/gi18n-lib.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 
 static GdkGLConfig *glconfig = NULL;
 
@@ -102,6 +104,7 @@ void CrystalView::Init(GtkWidget *widget)
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spec);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		m_bInit = true;
+		gdk_gl_drawable_gl_end (gldrawable);
 		Update(widget);
     }
 }
@@ -317,6 +320,7 @@ void CrystalView::Reshape(GtkWidget *widget)
 	    glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glTranslatef(0, 0, -m_fRadius);
+		gdk_gl_drawable_gl_end (gldrawable);
 	}
 }
 
@@ -342,6 +346,7 @@ void CrystalView::Draw(GtkWidget *widget)
 			glDisable (GL_BLEND);
 			glPopMatrix();
 		}
+		gdk_gl_drawable_gl_end (gldrawable);
 	/* Swap backbuffer to front */
 		gdk_gl_drawable_swap_buffers(gldrawable);
     }
@@ -368,6 +373,7 @@ void CrystalView::Update(GtkWidget* widget)
 		glNewList(m_nGLList, GL_COMPILE);
 		m_pDoc->Draw();
 		glEndList();
+		gdk_gl_drawable_gl_end (gldrawable);
 	}
 	Draw(widget);
 }
@@ -387,4 +393,100 @@ void CrystalView::Rotate(gdouble x, gdouble y)
 	m_psi /= 0.0174532925199433;
 	m_theta /= 0.0174532925199433;
 	m_phi /= 0.0174532925199433;
+}
+
+static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
+{
+	GnomeVFSHandle *handle = (GnomeVFSHandle*) data;
+	gsize written = 0;
+	GnomeVFSResult res;
+	while (count) {
+		res = gnome_vfs_write (handle, buf, count, &written);
+		if (res != GNOME_VFS_OK) {
+			g_set_error (error, g_quark_from_static_string ("gchemutils"), res, gnome_vfs_result_to_string (res));
+			return false;
+		}
+		count -= written;
+	}
+	return true;
+}
+
+void CrystalView::SaveAsImage (char const *filename, char const *type, map<string, string>& options)
+{
+	int w = m_pWidget->allocation.width;
+	int h = m_pWidget->allocation.height;
+	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
+		GdkGLConfigMode (GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
+	GdkPixmap *pixmap = gdk_pixmap_new (
+			(GdkDrawable*) (m_pWidget->window),
+			w, h, -1);
+	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability (pixmap,
+							       glconfig,
+							       NULL );
+	GdkGLDrawable * drawable = gdk_pixmap_get_gl_drawable (pixmap);
+	GdkGLContext * context = gdk_gl_context_new (drawable,
+						     NULL,
+						     FALSE,
+						     GDK_GL_RGBA_TYPE);
+	if (gdk_gl_drawable_gl_begin (drawable, context)) {
+	    glEnable (GL_LIGHTING);
+		glEnable (GL_LIGHT0);
+		glEnable (GL_DEPTH_TEST);
+		glEnable (GL_CULL_FACE);
+		glEnable (GL_COLOR_MATERIAL);
+		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
+		glViewport (0, 0, w, h);
+	    glMatrixMode (GL_PROJECTION);
+	    glLoadIdentity ();
+		glFrustum (- m_width, m_width, - m_height, m_height, m_near , m_far);
+	    glMatrixMode (GL_MODELVIEW);
+		glLoadIdentity ();
+		glTranslatef (0, 0, -m_fRadius);
+		glClearColor (m_fRed, m_fGreen, m_fBlue, m_fAlpha);
+		glClearDepth (1.0);
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (m_pWidget), "gldata");
+		m_nGLList = pData->glList;
+		if  (m_nGLList) {
+			glPushMatrix ();
+			glRotated (m_psi, 0.0, 1.0, 0.0);
+			glRotated (m_theta, 0.0, 0.0, 1.0);
+			glRotated (m_phi, 0.0, 1.0, 0.0);
+			glEnable (GL_BLEND);
+			m_pDoc->Draw();
+			glDisable (GL_BLEND);
+			glPopMatrix ();
+		}
+		glFlush ();
+		gdk_gl_drawable_gl_end (drawable);
+		GdkPixbuf* pixbuf = gdk_pixbuf_get_from_drawable (NULL,
+			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
+		char const **keys = g_new0 (char const*, options.size () + 1);
+		char const **values = g_new0 (char const*, options.size ());
+		GError *error = NULL;
+		map<string, string>::iterator i, iend = options.end ();
+		int j = 0;
+		for (i = options.begin (); i != iend; i++) {
+			keys[j] = (*i).first.c_str ();
+			values[j++] = (*i).second.c_str ();
+		}
+		GnomeVFSHandle *handle = NULL;
+		if (gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
+			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, handle, type, (char**) keys, (char**) values, &error);
+			if (error) {
+				fprintf (stderr, _("Unable to save image file: %s\n"), error->message);
+				g_error_free (error);
+			}
+			gnome_vfs_close (handle); // hope there will be no error there
+		}
+		g_free (keys);
+		g_free (values);
+		g_object_unref (pixbuf);
+	}
+
+	gdk_gl_context_destroy (context);
+	gdk_gl_pixmap_destroy (gl_pixmap);
+	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
 }

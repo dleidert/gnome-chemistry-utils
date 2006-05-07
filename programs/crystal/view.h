@@ -54,8 +54,6 @@ public:
 	void GetRotation (double *psi, double *theta, double *phi);
 	void SetRotation (double psi, double theta, double phi);
 	bool LoadOld (xmlNodePtr node);
-	void ExportPNG (const gchar* filename);
-	void ExportJPG (const gchar* filename);
 	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
 	void SetLabel (GtkLabel* Label) {m_pLabel = Label;}
 	void SetMenu (GtkMenuItem* item);

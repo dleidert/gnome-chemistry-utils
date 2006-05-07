@@ -275,5 +275,7 @@ int main(int argc, char *argv[])
 	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/views", NULL);
 //	g_object_unref(G_OBJECT(conf_client));
 
+	gnome_vfs_shutdown ();
+
 	return 0 ;
 }
