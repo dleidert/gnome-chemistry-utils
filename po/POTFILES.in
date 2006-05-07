@@ -18,6 +18,7 @@ gcu/crystaldoc.cc
 gcu/dialog.cc
 gcu/element.cc
 gcu/formula.cc
+gcu/crystalview.cc
 gcu/gtkchem3dviewer.cc
 gcu/gtkcomboperiodic.c
 programs/3d/gchem3d-viewer.c

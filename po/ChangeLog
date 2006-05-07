@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-05-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: add gcu/crystalview.cc.
+
 2006-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: imported Gnome Crystal stuff
 	* de.po: ditto.
