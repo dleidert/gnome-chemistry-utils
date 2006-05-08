@@ -93,8 +93,8 @@ static void on_file_print (GtkWidget *widget, void *data)
 	pc = gnome_print_job_get_context (gpj);
 	gnome_print_beginpage (pc, (const guchar*)"");
 	gdouble width, height;
-	gnome_print_config_get_double (config, GNOME_PRINT_KEY_PAPER_WIDTH, &width);
-	gnome_print_config_get_double (config, GNOME_PRINT_KEY_PAPER_HEIGHT, &height);
+	gnome_print_config_get_double (config, (const guchar*) GNOME_PRINT_KEY_PAPER_WIDTH, &width);
+	gnome_print_config_get_double (config, (const guchar*) GNOME_PRINT_KEY_PAPER_HEIGHT, &height);
 	gtk_chem3d_viewer_print (viewer, pc, width, height);
 	gnome_print_showpage (pc);
 	g_object_unref (pc);
