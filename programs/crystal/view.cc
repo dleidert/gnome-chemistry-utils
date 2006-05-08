@@ -200,86 +200,77 @@ bool gcView::LoadOld(xmlNodePtr node)
 
 void gcView::Print(GnomePrintContext *pc, gdouble width, gdouble height)
 {
-	double hstep, vstep, dxStep, dyStep;
-	hstep = m_width;
-	vstep = m_height;
-	dxStep = m_near;
-	dyStep = m_far;
-	WidgetData* pData = (WidgetData*)g_object_get_data(G_OBJECT(m_pWidget), "gldata");
-	while(gtk_events_pending()) gtk_main_iteration();
-	m_width = hstep;
-	m_height = vstep;
-	m_near = dxStep;
-	m_far = dyStep;
-	unsigned char *tmp;
-	unsigned LineWidth, s = sizeof(int);
-	if (m_pWidget->allocation.width & (s - 1))
-	{
-		LineWidth = ((~(s - 1)) & (m_pWidget->allocation.width * 3)) + s;
+	int Width = m_pWidget->allocation.width;
+	int Height = m_pWidget->allocation.height;
+	if (Width > width) {
+		Height = (int) (Height * width / Width);
+		Width = (int) width;
 	}
-	else LineWidth = m_pWidget->allocation.width * 3;
-	unsigned size = LineWidth * m_pWidget->allocation.height;
-	int i, j;
-	//hstep, vstep: size of the printing window in gnome-print units
-	hstep = (double) m_pWidget->allocation.width *72 / PrintResolution;
-	vstep = (double) m_pWidget->allocation.height *72 / PrintResolution;
-	tmp = new unsigned char[size];
-	if (!tmp) return;
-	double Width, Height;//size of print area
-	int n, m, imax, jmax;
-	Width = m_pWidget->allocation.width;
-	Height = m_pWidget->allocation.height;
-	imax = int(Width / hstep);
-	jmax = int(Height / vstep);
-	dxStep = hstep / Width * 2; 
-	dyStep = vstep / Height *2;
-	double matrix [6] = {hstep, 0, 0, - vstep,
-						0, (height + Height )/ 2};
-	for (j = 0; j <= jmax; j++)
-	{
-		matrix[4] = (width - Width)/ 2;
-		matrix[3] = (j < jmax) ? - vstep : - Height + vstep * jmax;
-		for (i = 0; i <= imax; i++)
-		{
-			GdkGLContext *glcontext = gtk_widget_get_gl_context(m_pWidget);
-			GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(m_pWidget);
-			if (gdk_gl_drawable_gl_begin(gldrawable, glcontext))
-			{
-				glMatrixMode(GL_PROJECTION);
-				glLoadIdentity();
-				glFrustum(m_width * ( -1 + i * dxStep), m_width * ( -1 + (i + 1)* dxStep),
-							m_height * ( 1 - (j + 1)* dyStep), m_height * ( 1 - j* dyStep), m_near , m_far);
-				glMatrixMode(GL_MODELVIEW);
-				glLoadIdentity();
-				glTranslatef(0, 0, -m_fRadius);
-				glClearColor(m_fRed, m_fGreen, m_fBlue, m_fAlpha);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				if  (pData->glList)
-				{
-					glPushMatrix();
-					glRotated(m_psi, 0.0, 1.0, 0.0);
-					glRotated(m_theta, 0.0, 0.0, 1.0);
-					glRotated(m_phi, 0.0, 1.0, 0.0);
-					glCallList(pData->glList);
-					glPopMatrix();
-				}
-				glPixelStorei(GL_PACK_ALIGNMENT, s);
-				glReadBuffer(GL_BACK_LEFT);
-				glReadPixels(0, 0, m_pWidget->allocation.width, m_pWidget->allocation.height, GL_RGB,
-									GL_UNSIGNED_BYTE, tmp);
-			}
-			gnome_print_gsave(pc);
-			matrix[0] = (i < imax) ? hstep : Width - imax * hstep;
-			gnome_print_concat (pc, matrix);
-			m = (i < imax) ? m_pWidget->allocation.width : (int(Width) * PrintResolution / 72)  % m_pWidget->allocation.width;
-			n = (j < jmax) ? m_pWidget->allocation.height: (int(Height) * PrintResolution / 72) % m_pWidget->allocation.height;
-			gnome_print_rgbimage(pc, (const guchar *) tmp + (m_pWidget->allocation.height - n) * LineWidth, m, n, LineWidth);
-			gnome_print_grestore(pc);
-			matrix[4] += hstep;
+	if (Height > height) {
+		Width = (int) (Width * height / Height);
+		Height = (int) height;
+	}
+	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
+		GdkGLConfigMode (GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
+	double matrix [6] = {Width, 0, 0, Height,
+						(width - Width) / 2, (height - Height )/ 2};
+	int w= (int) (Width * PrintResolution / 72.), h = (int) (Height * PrintResolution / 72.);
+	GdkPixmap *pixmap = gdk_pixmap_new (
+			(GdkDrawable*) (m_pWidget->window),
+			w, h, -1);
+	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability( pixmap,
+							       glconfig,
+							       NULL );
+	GdkGLDrawable * drawable = gdk_pixmap_get_gl_drawable (pixmap);
+	GdkGLContext * context = gdk_gl_context_new(drawable,
+						     NULL,
+						     FALSE,
+						     GDK_GL_RGBA_TYPE);
+	if (gdk_gl_drawable_gl_begin (drawable, context)) {
+	    glEnable (GL_LIGHTING);
+		glEnable (GL_LIGHT0);
+		glEnable (GL_DEPTH_TEST);
+		glEnable (GL_CULL_FACE);
+		glEnable (GL_COLOR_MATERIAL);
+		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
+		glViewport (0, 0, w, h);
+	    glMatrixMode (GL_PROJECTION);
+	    glLoadIdentity ();
+		glFrustum (- m_width, m_width, - m_height, m_height, m_near , m_far);
+	    glMatrixMode (GL_MODELVIEW);
+		glLoadIdentity ();
+		glTranslatef (0, 0, -m_fRadius);
+		glClearColor (m_fRed, m_fGreen, m_fBlue, m_fAlpha);
+		glClearDepth (1.0);
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (m_pWidget), "gldata");
+		m_nGLList = pData->glList;
+		if  (m_nGLList) {
+			glPushMatrix ();
+			glRotated (m_psi, 0.0, 1.0, 0.0);
+			glRotated (m_theta, 0.0, 0.0, 1.0);
+			glRotated (m_phi, 0.0, 1.0, 0.0);
+			glEnable (GL_BLEND);
+			m_pDoc->Draw();
+			glDisable (GL_BLEND);
+			glPopMatrix ();
 		}
-		matrix[5] -= vstep;
+		glFlush ();
+		gdk_gl_drawable_gl_end (drawable);
+		GdkPixbuf* pixbuf = gdk_pixbuf_get_from_drawable    (NULL,
+			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
+		gnome_print_gsave(pc);
+		gnome_print_concat (pc, matrix);
+		gnome_print_rgbimage (pc, (const guchar*) gdk_pixbuf_get_pixels (pixbuf), w, h, gdk_pixbuf_get_rowstride (pixbuf));
+		gnome_print_grestore(pc);
+		g_object_unref (pixbuf);
 	}
-	Update(m_pWidget);
+
+	gdk_gl_context_destroy (context);
+	gdk_gl_pixmap_destroy (gl_pixmap);
+	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
 }
 
 void gcView::SetMenu(GtkMenuItem* item)

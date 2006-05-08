@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2006-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: needs goffice >= 0.3.1.
+	* programs/crystal/application.cc: reimplemented printing.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/view.cc: ditto.
+
 2006-05-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/crystalview.cc: add CrystalView::SaveAsImage.
 	* gcu/crystalview.h: ditto.

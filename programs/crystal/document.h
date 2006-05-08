@@ -87,6 +87,7 @@ public:
 	gcApplication* GetApplication () {return m_App;}
 	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
 	void SaveAsImage (char const *filename, char const *type, map<string, string>& options);
+	gcView *GetActiveView () {return m_pActiveView;}
 
 private:
 	void Error(int num);

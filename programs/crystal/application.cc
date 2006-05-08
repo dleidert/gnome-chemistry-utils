@@ -424,7 +424,7 @@ void gcApplication::OnFilePrint ()
 	gdouble width, height;
 	gnome_print_config_get_double (config, (const guchar*) GNOME_PRINT_KEY_PAPER_WIDTH, &width);
 	gnome_print_config_get_double (config, (const guchar*) GNOME_PRINT_KEY_PAPER_HEIGHT, &height);
-//	m_pActiveView->Print (pc, width, height);
+	m_pActiveDoc->GetActiveView ()->Print (pc, width, height);
 	gnome_print_showpage (pc);
 	g_object_unref (pc);
 	gnome_print_job_close (gpj);
