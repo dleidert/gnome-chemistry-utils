@@ -45,6 +45,7 @@ public:
 	gcDocument *GetDocument () {return m_Doc;}
 	bool TryClose ();
 	gcView *GetView () {return m_View;}
+	void Destroy ();
 
 private:
 	gcApplication *m_App;

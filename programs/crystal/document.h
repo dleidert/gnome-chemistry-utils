@@ -88,6 +88,7 @@ public:
 	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
 	void SaveAsImage (char const *filename, char const *type, map<string, string>& options);
 	gcView *GetActiveView () {return m_pActiveView;}
+	virtual bool LoadNewView (xmlNodePtr node);
 
 private:
 	void Error(int num);

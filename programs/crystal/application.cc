@@ -670,6 +670,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			}
 		}
 		if (Doc->Load (filename)) {
+			// TODO: change titles in every window
 	/*		gtk_label_set_text (pView->GetLabel (), pDoc->GetTitle ());
 			GtkLabel *pLabel = pView->GetMenuLabel ();
 			if (pLabel)

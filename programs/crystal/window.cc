@@ -83,14 +83,14 @@ static void on_export_vrml (GtkWidget *widget, gcWindow* Win)
 	Win->GetApplication ()->OnExportVRML ();
 }
 
-static void on_view_new (GtkWidget *widget, gcApplication *app)
+static void on_view_new (GtkWidget *widget, gcWindow* Win)
 {
-	app->OnViewNew ();
+	new gcWindow (Win->GetApplication (), Win->GetDocument ());
 }
 
-static void on_view_close (GtkWidget *widget, gcApplication *app)
+static void on_view_close (GtkWidget *widget, gcWindow* Win)
 {
-	app->OnViewClose ();
+	Win->Destroy ();
 }
 
 static bool on_quit (GtkWidget *widget, gcApplication *app)
@@ -445,8 +445,10 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
 	gtk_toolbar_set_tooltips(GTK_TOOLBAR(bar), true);
 	m_View = dynamic_cast<gcView *> (m_Doc->GetView ());
-	if (m_View->GetWindow () != NULL)
+	if (m_View->GetWindow () != NULL) {
 		m_View = dynamic_cast<gcView *> (m_Doc->CreateNewView ());
+		m_Doc->AddView (m_View);
+	}
 	m_View->SetWindow (this);
 	gtk_box_pack_start (GTK_BOX (vbox), m_View->CreateNewWidget (), true, true, 0);
 	m_Bar = gtk_statusbar_new ();
@@ -480,4 +482,10 @@ void gcWindow::SetStatusText(const char* text)
 bool gcWindow::TryClose ()
 {
 	return m_Doc->RemoveView (m_View);
+}
+
+void gcWindow::Destroy ()
+{
+	if (TryClose ())
+		gtk_widget_destroy (GTK_WIDGET (m_Window));
 }

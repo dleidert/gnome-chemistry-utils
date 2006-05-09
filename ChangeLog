@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2006-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/application.cc: add a comment.
+	* programs/crystal/document.cc: reimplement add/remove views.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/crystal/window.h: ditto.
+
 2006-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: needs goffice >= 0.3.1.
 	* programs/crystal/application.cc: reimplemented printing.

@@ -31,6 +31,7 @@
 #include "application.h"
 #include "document.h"
 #include "view.h"
+#include "window.h"
 #include "celldlg.h"
 #include "atomsdlg.h"
 #include "linesdlg.h"
@@ -414,20 +415,13 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 				if (pCleavage->LoadOld(node)) Cleavages.push_back((CrystalCleavage*)pCleavage);
 				else delete pCleavage;
 			}
-			else if (!strcmp((gchar*)node->name, "view"))
-			{
+			else if (!strcmp( (gchar*) node->name, "view")) {
 				if (bViewLoaded) {
-					gcView* pView = new gcView(this);
+					gcWindow *pWindow = new gcWindow (m_App, this);
+					gcView *pView = pWindow->GetView ();
 					pView->LoadOld(node);
-					m_Views.push_back(pView);
-/*					if (!RequestApp(pView))
-					{
-						delete pView;
-					}*/
-				}
-				else
-				{
-					m_Views.front()->Load(node); //the first view is created with the document
+				} else {
+					m_Views.front ()->Load (node); //the first view is created with the document
 					bViewLoaded = true;
 				}
 			}
@@ -591,20 +585,20 @@ void gcDocument::AddView(gcView* pView)
 	if (!m_bEmpty) m_bDirty = true;
 }
 
-bool gcDocument::RemoveView(gcView* pView)
+bool gcDocument::RemoveView (gcView* pView)
 {
-	if (pView->IsLocked()) return false;
-	if (m_Views.size() > 1)
-	{
-		m_Views.remove(pView);
-		if (!m_bClosing && !m_bEmpty) m_bDirty = true;
+	if (pView->IsLocked ())
+		return false;
+	if (m_Views.size () > 1) {
+		m_Views.remove (pView);
+		if (!m_bClosing && !m_bEmpty)
+			m_bDirty = true;
 		return true;
 	}
-	if (IsDirty())
-	{
-		if (!VerifySaved()) return false;
+	if (IsDirty ()) {
+		if (!VerifySaved ())
+			return false;
 	}
-//	RemoveDocument(this);
 	m_App->RemoveDocument (this);
 	delete this;
 	return true;
@@ -681,4 +675,14 @@ const char* gcDocument::GetProgramId()
 void gcDocument::SaveAsImage (char const *filename, char const *type, map<string, string>& options)
 {
 	m_pActiveView->SaveAsImage (filename, type, options);
+}
+
+bool gcDocument::LoadNewView (xmlNodePtr node)
+{
+	gcWindow *pWindow = new gcWindow (m_App, this);
+	gcView *pView = pWindow->GetView ();
+	bool result = pView->Load (node);
+	if (!result)
+		delete pWindow;
+	return result;
 }
