@@ -94,7 +94,6 @@ gcView::gcView (gcDocument *pDoc): CrystalView ((CrystalDoc*) pDoc)
 	m_fGreen = Green;
 	m_fAlpha = 1.0;
 	m_pLabel = NULL;
-	m_bLocked = false;
 	m_Window = NULL;
 }
 
@@ -110,7 +109,6 @@ gcView::gcView (gcView*pView): CrystalView ((CrystalDoc*) (pView->m_pDoc))
 	m_fAlpha = pView->m_fAlpha;
 	((gcDocument*) m_pDoc)->AddView (this);
 	m_pLabel = NULL;
-	m_bLocked = false;
 	m_Window = NULL;
 }
 

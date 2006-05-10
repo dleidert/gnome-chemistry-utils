@@ -587,8 +587,6 @@ void gcDocument::AddView(gcView* pView)
 
 bool gcDocument::RemoveView (gcView* pView)
 {
-	if (pView->IsLocked ())
-		return false;
 	if (m_Views.size () > 1) {
 		m_Views.remove (pView);
 		if (!m_bClosing && !m_bEmpty)
@@ -602,6 +600,14 @@ bool gcDocument::RemoveView (gcView* pView)
 	m_App->RemoveDocument (this);
 	delete this;
 	return true;
+}
+
+void gcDocument::RemoveAllViews ()
+{
+	while (m_Views.size () > 1)
+		dynamic_cast<gcView*> (m_Views.front ())->GetWindow ()->Destroy ();
+	// The last one is deleted separately since this will be destroyed !
+	dynamic_cast<gcView*> (m_Views.front ())->GetWindow ()->Destroy ();
 }
 
 bool gcDocument::VerifySaved()
@@ -622,9 +628,6 @@ bool gcDocument::VerifySaved()
 				list<char const*> l;
 				l.push_front ("application/x-gcrystal");
 				FileChooser (m_App, true, l, this);
-				while (((gcView*) (m_Views.front ()))->IsLocked ())
-					if (gtk_events_pending ())
-						gtk_main_iteration ();
 			}
 			if (m_filename)
 				Save ();

@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2006-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add a value for PACKAGE_BUGREPORT.
+	* programs/crystal/application.cc: rewrote gcApplication::OnFileClose
+	* programs/crystal/document.cc: add gcDocument::RemoveAllViews.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/view.cc: removed the obsolete Lock stuff.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/window.cc: reorder the Help menu.
+
 2006-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/application.cc: add a comment.
 	* programs/crystal/document.cc: reimplement add/remove views.

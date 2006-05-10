@@ -73,6 +73,7 @@ public:
 	bool IsEmpty() {return m_bEmpty;}
 	void AddView(gcView* pView);
 	bool RemoveView(gcView* pView);
+	void RemoveAllViews ();
 	bool VerifySaved();
 	void SetBonoboPersist(BonoboPersist* ps) {m_ps = ps;}
 	void NotifyDialog(Dialog* dialog);

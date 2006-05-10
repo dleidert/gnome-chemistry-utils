@@ -343,8 +343,6 @@ void gcApplication::OnFileSave ()
 
 void gcApplication::OnFileSaveAs ()
 {
-	if (!m_pActiveDoc)
-		return;
 	list<char const*> l;
 	l.push_front ("application/x-gcrystal");
 	FileChooser (this, true, l, m_pActiveDoc);
@@ -352,41 +350,9 @@ void gcApplication::OnFileSaveAs ()
 
 bool gcApplication::OnFileClose ()
 {
-/*	if (m_pActiveView == NULL) {
-		if (m_Views.empty () && (Apps.size () > 1)) {
-			Apps.remove (this);
-			gtk_widget_destroy (GTK_WIDGET (m_Window));
-			return true;
-		}
-		else
-			return false;
-	}*/
-/*	if (m_pActiveView->IsLocked ())
+	if (!m_pActiveDoc->VerifySaved ())
 		return false;
-	gcDocument* pDoc = m_pActiveView->GetDocument ();
-	if (!pDoc->VerifySaved ())
-		return false;
-	std::list<gcApplication*>::iterator i, iend = Apps.end ();
-	std::list<gcView*>::iterator j, jend;
-	bool bEnded;
-	do {
-		bEnded = true;
-		for (i = Apps.begin(); i != iend; i++) {
-			if (*i == this)
-				continue;
-			jend = (*i)->m_Views.end ();
-			for (j = (*i)->m_Views.begin (); j != jend; j++)
-				if ((*j)->GetDocument () == pDoc) {
-					(*i)->OnViewClose (*j);
-					bEnded = false;
-					break;
-				}
-			if (!bEnded)
-				break;
-		}
-	} while (!bEnded);
-	OnViewClose (m_pActiveView);
-	m_Docs.remove (pDoc);*/
+	m_pActiveDoc->RemoveAllViews ();
 	return true;
 }
 

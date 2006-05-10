@@ -61,9 +61,6 @@ public:
 	GtkLabel* GetMenuLabel () {return m_pMenuLabel;}
 	void NotifyDialog (Dialog* dialog);
 	void RemoveDialog (Dialog* dialog);
-	void Lock () {m_bLocked = true;}
-	void Unlock () {m_bLocked = false;}
-	bool IsLocked () {return m_bLocked;}
 	gcWindow *GetWindow () {return m_Window;}
 	void SetWindow (gcWindow *window) {m_Window = window;}
 	
@@ -71,7 +68,6 @@ private:
 
 	GtkLabel *m_pLabel, *m_pMenuLabel;
 	GtkMenuItem* m_pMenu;
-	bool m_bLocked;
 	std::list <Dialog *> m_Dialogs;
 	gcWindow *m_Window;
 };
