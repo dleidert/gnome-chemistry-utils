@@ -36,8 +36,6 @@ static void on_print_resolution (GtkWidget *widget, gcPrefsDlg * dialog)
 
 gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/prefs.glade", "prefs")
 {
-	TabsMenu = (GtkComboBox *) glade_xml_get_widget (xml, "tabpos");
-	gtk_combo_box_set_active (TabsMenu, TabPos);
 	PrintResMenu = (GtkComboBox *) glade_xml_get_widget (xml, "printres");
 	PrintResBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "printresbtn");
 	int PrintIndex;
@@ -107,7 +105,6 @@ bool gcPrefsDlg::Apply()
 		return false;
 	if (!GetNumber (PhiEnt, &x2, MinEqMax, -180, 180))
 		return false;
-	TabPos = gtk_combo_box_get_active (TabsMenu);
 	PrintResolution = gtk_spin_button_get_value_as_int (PrintResBtn);
 	Psi = x0;
 	Theta= x1;
@@ -118,7 +115,6 @@ bool gcPrefsDlg::Apply()
 	Red = color.red / 65535.;
 	Green = color.green / 65535.;
 	Blue = color.blue / 65535.;
-	gconf_client_set_int (conf_client, "/apps/gcrystal/general/tab_pos", TabPos, NULL);
 	gconf_client_set_int (conf_client, "/apps/gcrystal/printing/resolution", PrintResolution, NULL);
 	gconf_client_set_int (conf_client, "/apps/gcrystal/views/fov", FoV, NULL);
 	gconf_client_set_float (conf_client, "/apps/gcrystal/views/psi", Psi, NULL);

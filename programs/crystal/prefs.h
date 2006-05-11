@@ -41,7 +41,7 @@ public:
 	void UpdatePrinting ();
 
 private:
-	GtkComboBox *TabsMenu, *PrintResMenu;
+	GtkComboBox *PrintResMenu;
 	GtkSpinButton *PrintResBtn;
 	GtkColorButton *BackgroundBtn;
 	GtkSpinButton *FoVBtn;

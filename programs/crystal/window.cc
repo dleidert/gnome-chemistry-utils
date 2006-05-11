@@ -27,6 +27,7 @@
 #include "application.h"
 #include "document.h"
 #include "prefs.h"
+#include "view-settings.h"
 #include <gcu/crystalview.h>
 
 //Callbacks
@@ -93,21 +94,10 @@ static void on_view_close (GtkWidget *widget, gcWindow* Win)
 	Win->Destroy ();
 }
 
-static bool on_quit (GtkWidget *widget, gcApplication *app)
+static bool on_quit (GtkWidget *widget, gcWindow* Win)
 {
-/*	while (Apps.size()) {
-		if (Apps.front ()->OnFileClose ())
-			while (gtk_events_pending ())
-				gtk_main_iteration ();
-		else
-			break;
-	}
-	if (Docs.size ())
+	if (!Win->GetApplication ()->OnQuit ())
 		return false;
-	delete Apps.front ();
-	Apps.pop_front ();
-	if  (Apps.size() != 0)
-		return false;*/
 	gtk_main_quit ();
 	return true;
 }
@@ -180,10 +170,10 @@ static void on_cleavages (GtkWidget *widget, gcWindow *Win)
 		Win->GetDocument ()->Define (4);
 }
 
-static void on_view_settings (GtkWidget *widget, gcApplication *app)
+static void on_view_settings (GtkWidget *widget, gcWindow *Win)
 {
-	if (app)
-		app->OnViewSettings ();
+	if (Win)
+		new gcViewSettingsDlg (Win->GetView ());
 }
 
 static void on_help (GtkWidget *widget, gcWindow* Win)

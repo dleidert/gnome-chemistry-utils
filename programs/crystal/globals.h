@@ -33,7 +33,6 @@ void RemoveDocument(gcDocument* pDoc);
 bool RequestApp(gcView* pView);
 
 extern guint PrintWidth, PrintHeight, PrintResolution;
-extern guint TabPos;
 extern guint FoV;
 extern gdouble Phi, Theta, Psi;
 extern gdouble Red, Green, Blue;

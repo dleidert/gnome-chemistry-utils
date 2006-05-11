@@ -49,11 +49,6 @@ public:
 	void OnExportJPEG();
 	void OnExportPNG();
 	void OnExportVRML();
-	void OnViewNew();
-	bool OnViewClose(gcView *pView = NULL);
-	void OnViewSettings();
-	bool HasDocument(gcDocument* pDoc);
-	void AddView(gcView* pView);
 	bool IsEmpty() {return m_Views.empty();}
 	gcDocument* GetDoc (const char* filename);
 	void SetOpening() {m_bFileOpening = true;}
@@ -67,6 +62,7 @@ public:
 	void SetActiveDocument (gcDocument *doc) {m_pActiveDoc = doc;}
 	void AddDocument (gcDocument *pDoc) {m_Docs.push_front (pDoc);}
 	void RemoveDocument (gcDocument *pDoc);
+	bool OnQuit ();
 	
 private:
 	list<gcView*>m_Views;
@@ -79,5 +75,4 @@ private:
 	string MailAgent;
 };
 
-extern std::list<gcApplication*> Apps;
 #endif //GCRYSTAL_APPLICATION_H

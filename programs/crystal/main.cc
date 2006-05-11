@@ -46,21 +46,6 @@ GtkWidget *mainwindow, *vbox1 ;
 GConfClient *conf_client;
 guint NotificationId;
 
-/*
-gcDocument* GetNewDocument ()
-{
-	gcDocument* pDoc = new gcDocument ();
-	Docs.push_back (pDoc);
-	return pDoc;
-}
-
-void RemoveDocument (gcDocument* pDoc)
-{
-	Docs.remove (pDoc);
-	delete pDoc;
-}
-*/
-
 /* Following code is removed because libgnomeui is going to be deprecated
 * Just I don't know what will replace GnomeClient *
 static void session_die(GnomeClient *client, gpointer data)
@@ -87,9 +72,7 @@ static void on_config_changed (GConfClient *client,  guint cnxn_id, GConfEntry *
 {
 	g_return_if_fail (client == conf_client);
 	g_return_if_fail (cnxn_id == NotificationId);
-	if (!strcmp (entry->key,"/apps/gcrystal/general/tab_pos"))
-		TabPos = gconf_value_get_int (entry->value);
-	else if (!strcmp (entry->key,"/apps/gcrystal/printing/resolution"))
+	if (!strcmp (entry->key,"/apps/gcrystal/printing/resolution"))
 		PrintResolution = gconf_value_get_int (entry->value);
 	else if (!strcmp (entry->key,"/apps/gcrystal/views/fov"))
 		FoV = gconf_value_get_int (entry->value);
@@ -170,13 +153,6 @@ int main(int argc, char *argv[])
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/general", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/printing", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/views", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	TabPos = gconf_client_get_int (conf_client, "/apps/gchemutils/crystal/general/tab_pos", &error);
-	if (error) {
-		TabPos = 0;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
 	PrintResolution = gconf_client_get_int (conf_client, "/apps/gchemutils/crystal/printing/resolution", &error);
 	if (error) {
 		PrintResolution = 300;
@@ -234,8 +210,7 @@ int main(int argc, char *argv[])
 		error = NULL;
 	}
 	NotificationId = gconf_client_notify_add (conf_client, "/apps/gchemutils/crystal", on_config_changed, NULL, NULL, NULL);
-	gcApplication* gcApp = new gcApplication();
-	Apps.push_back(gcApp);
+	gcApplication* gcApp = new gcApplication ();
 	gcDocument *pDoc = gcApp->OnFileNew();
 	gcApp->SetOpening();
 
@@ -245,8 +220,7 @@ int main(int argc, char *argv[])
 	g_free (path);
 	uri = gnome_vfs_uri_new (dir);
 	bool bres = false;
-	while (*argv)
-	{
+	while (*argv) {
 		if (**argv == '-') {
 			printf (_("Invalid or misplaced argument: %s\n"), *argv);
 			delete gcApp;
@@ -256,10 +230,8 @@ int main(int argc, char *argv[])
 		}
 		auri = gnome_vfs_uri_resolve_relative (uri, *argv);
 		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
-		if (bres) {
+		if (bres)
 			pDoc = gcApp->OnFileNew ();
-//			gcApp->SetOpening ();
-		}
 		bres = gcApp->FileProcess (path, "application/x-gcrystal", false, NULL, pDoc);
 		g_free (path);
 		gnome_vfs_uri_unref (auri);
@@ -269,11 +241,11 @@ int main(int argc, char *argv[])
 	g_free (dir);
 	gtk_main ();
 
-//	gconf_client_notify_remove(conf_client, NotificationId);
+	gconf_client_notify_remove (conf_client, NotificationId);
 	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/general", NULL);
 	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/printing", NULL);
 	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/views", NULL);
-//	g_object_unref(G_OBJECT(conf_client));
+	g_object_unref (G_OBJECT(conf_client));
 
 	gnome_vfs_shutdown ();
 

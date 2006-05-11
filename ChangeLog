@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2006-05-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/crystal/prefs.glade: removed obsolete MDI page.
+	* programs/crystal/application.cc: Add OnQuit and remove several obsolete
+	methods.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/globals.h: removed obsolete TabPos variable.
+	* programs/crystal/main.cc: cleaned code.
+	* programs/crystal/prefs.cc: removed obsolete MDI page.
+	* programs/crystal/prefs.h: ditto.
+	* programs/crystal/window.cc: fixed on_quit and implemetn on_view_settings.
+
 2006-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add a value for PACKAGE_BUGREPORT.
 	* programs/crystal/application.cc: rewrote gcApplication::OnFileClose
