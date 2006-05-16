@@ -1,18 +1,5 @@
 <gconfschemafile>
   <schemalist>
-    <schema>
-      <key>/schemas/apps/gchemutils/crystal/general/tab_pos</key>
-      <applyto>/apps/gchemutils/crystal/general/tab_pos</applyto>
-      <owner>gchemutils</owner>
-      <type>int</type>
-      <default>0</default>
-      <locale name="C">
-        <short>Notebook tabs position</short>
-		<long>Whether to display or not the notebook tabs and where.
-		Possible values are: 0: hide, 1: left, 2: right, 3: top, and 4:bottom.</long>
-      </locale>
-    </schema>
-
 	<schema>
       <key>/schemas/apps/gchemutils/crystal/printing/resolution</key>
       <applyto>/apps/gchemutils/crystal/printing/resolution</applyto>

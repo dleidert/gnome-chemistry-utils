@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-05-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: port to new LINGUAS framework.
+	* po/LINGUAS: new file.
+	* programs/crystal/gcrystal.schemas.in: removed obsolete TabPos.
+
 2006-05-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/crystal/prefs.glade: removed obsolete MDI page.
 	* programs/crystal/application.cc: Add OnQuit and remove several obsolete
