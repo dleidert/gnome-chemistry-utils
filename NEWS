@@ -1,3 +1,9 @@
+Version 0.7.1
+	Gnome Crystal: changed the user interface for a more HIG compilant one.
+	Library: various little changes to the gcu::Application and
+	gcu::FileChooser classes.
+	Database: fixed bromine molar weight.
+
 Version 0.7.0
 	fixed --version command line option.
 	fixed some build issues.
