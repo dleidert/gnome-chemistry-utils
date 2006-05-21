@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-05-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.7.2).
+
 2006-05-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: port to new LINGUAS framework.
 	* po/LINGUAS: new file.

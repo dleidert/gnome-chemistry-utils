@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.7.1, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
+AC_INIT(gnome-chemistry-utils, 0.7.2, http://savannah.nongnu.org/bugs/?func=additem&group=gchemutils)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
