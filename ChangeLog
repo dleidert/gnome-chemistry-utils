@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2006-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed mozilla-config use (thanks to Pav Lucistnik).
+	* programs/crystal/window.cc: made on_delete_event static.
+
 2006-05-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.7.2).
 

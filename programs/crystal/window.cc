@@ -31,7 +31,7 @@
 #include <gcu/crystalview.h>
 
 //Callbacks
-bool on_delete_event (GtkWidget* widget, GdkEvent *event, gcWindow* Win)
+static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gcWindow* Win)
 {
 	if (Win->TryClose ()) {
 		delete Win;
@@ -39,6 +39,7 @@ bool on_delete_event (GtkWidget* widget, GdkEvent *event, gcWindow* Win)
 	}
 	return true;
 }
+
 static void on_file_new (GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnFileNew ();

@@ -128,8 +128,7 @@ if test "x$test_mozilla_plugin" != "xno"; then
 	fi
 	
 	if test "x$MOZILLA_CONFIG" != "xno"; then
-		_mozilla_include_dir=`mozilla-config --cflags|sed 's/-I\(.*\) .*/\1/'`
-		MOZILLA_CFLAGS="-I$_mozilla_include_dir/plugin -I$_mozilla_include_dir/java -I$_mozilla_include_dir/nspr"
+		MOZILLA_CFLAGS=`mozilla-config --cflags`
 		mozlibdir=`mozilla-config --libs|sed 's/-L//'`
 	else
 		PKG_CHECK_MODULES(
