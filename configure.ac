@@ -25,7 +25,7 @@ GCU_VERSION_INFO=`echo $GCU_VERSION|awk -F . '{ print $1+$2":"$3":"$2 }'`
 
 AC_SUBST(GCU_VERSION_INFO)
 
-ALL_LINGUAS="de fr it pl ru"
+ALL_LINGUAS="de fr it pl pt_BR ru"
 AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
@@ -132,8 +132,7 @@ if test "x$test_mozilla_plugin" != "xno"; then
 	fi
 	
 	if test "x$MOZILLA_CONFIG" != "xno"; then
-		_mozilla_include_dir=`mozilla-config --cflags|sed 's/-I\(.*\) .*/\1/'`
-		MOZILLA_CFLAGS="-I$_mozilla_include_dir/plugin -I$_mozilla_include_dir/java -I$_mozilla_include_dir/nspr"
+		MOZILLA_CFLAGS=`mozilla-config --cflags`
 		mozlibdir=`mozilla-config --libs|sed 's/-L//'`
 	else
 		PKG_CHECK_MODULES(

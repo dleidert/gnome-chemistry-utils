@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed mozilla-config use (thanks to Pav Lucistnik).
+	
 2006-05-08  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* programs/gchem3d-viewer.c: Fixed a compilation warning using a
 	typecast.
