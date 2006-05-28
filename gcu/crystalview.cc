@@ -398,7 +398,7 @@ void CrystalView::Rotate(gdouble x, gdouble y)
 static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
 {
 	GnomeVFSHandle *handle = (GnomeVFSHandle*) data;
-	gsize written = 0;
+	GnomeVFSFileSize written = 0;
 	GnomeVFSResult res;
 	while (count) {
 		res = gnome_vfs_write (handle, buf, count, &written);
