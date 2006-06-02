@@ -356,8 +356,6 @@ static const char *ui_description =
 "    <toolitem action='Open'/>"
 "    <toolitem action='Save'/>"
 "    <toolitem action='Print'/>"
-"    <toolitem action='Close'/>"
-"    <toolitem action='Quit'/>"
 "  </toolbar>"
 "</ui>";
 

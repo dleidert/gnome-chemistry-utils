@@ -33,7 +33,7 @@ using namespace gcu;
 
 FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_types, Document *pDoc, char const *title)
 {
-	char* filename;
+	char* filename = NULL;
 	m_pDoc = pDoc;
 	dialog = (GtkFileChooser*) gtk_file_chooser_dialog_new (
 															(title != NULL)? title: ((Save)? _("Save as"): _("Open")),

@@ -102,12 +102,24 @@ if they use the FileChooser.
 @param dir: the path to the new current directory.
 */
 	void SetCurDir (char const* dir);
+	void ShowURI (string& uri);
+	void OnBug (char *uri = PACKAGE_BUGREPORT)
+		{string s (uri); ShowURI (s);}
+	void OnWeb (char *uri = "http://gchemutils.nongnu.org/")
+		{string s (uri); ShowURI (s);}
+	void OnMail (char *MailAddress = "mailto:gchemutils-main@nongnu.org");
+	bool HasMailAgent () {return MailAgent.length () > 0;}
+	bool HasWebBrowser () {return WebBrowser.length () > 0;}
 
 private:
 	string Name;
 	string HelpBrowser;
 	string HelpFilename;
 	char *CurDir;
+
+protected:
+	string WebBrowser;
+	string MailAgent;
 };
 
 }	// namespace gcu

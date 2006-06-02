@@ -48,8 +48,23 @@ Application::Application (string name, string datadir, char const *help_name, ch
 			value = gconf_value_get_string (gconf_entry_get_value (entry));
 			if (value) HelpBrowser = value;
 		}
+		entry = gconf_client_get_entry (cli, "/desktop/gnome/applications/browser/exec", NULL, true, NULL);
+		if (entry) {
+			value = gconf_value_get_string (gconf_entry_get_value (entry));
+			if (value) WebBrowser = value;
+		}
+		entry = gconf_client_get_entry (cli, "/desktop/gnome/url-handlers/mailto/command", NULL, true, NULL);
+		if (entry) {
+			value = gconf_value_get_string (gconf_entry_get_value (entry));
+			if (value) {
+				MailAgent = value;
+				int i = MailAgent.find (" %s");
+				if (i > 0)
+					MailAgent.erase (i, MailAgent.size ());
+			}
+		}
 	}
-	CurDir = NULL;
+	CurDir = g_get_current_dir ();
 	g_set_application_name (name.c_str ());
 	gtk_window_set_default_icon_name (icon_name? icon_name: (help_name? help_name: Name.c_str ()));
 }
@@ -89,4 +104,25 @@ void Application::SetCurDir (char const* dir)
 	if (CurDir)
 		g_free (CurDir);
 	CurDir = g_strdup (dir);
+}
+
+void Application::OnMail (char *MailAddress)
+{
+	if (!MailAgent.size ())
+		return;
+	char *argv[3] = {NULL, MailAddress, NULL};
+	argv[0] = (char*) MailAgent.c_str();
+	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
+		NULL, NULL, NULL, NULL);
+}
+
+void Application::ShowURI (string& uri)
+{
+	if (!WebBrowser.size ())
+		return;
+	char *argv[3] = {NULL, NULL, NULL};
+	argv[0] = (char*) WebBrowser.c_str();
+	argv[1] = (char*) uri.c_str ();
+	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
+		NULL, NULL, NULL, NULL);
 }

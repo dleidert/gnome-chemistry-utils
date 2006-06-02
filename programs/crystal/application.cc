@@ -41,26 +41,6 @@ static unsigned short nNewDocs = 1;
 
 gcApplication::gcApplication(): Application ("gcrystal-unstable", DATADIR)
 {
-	// get default programs
-	GConfClient* cli = gconf_client_get_default ();
-	if (cli) {
-		const char *value;
-		GConfEntry* entry = gconf_client_get_entry (cli, "/desktop/gnome/applications/browser/exec", NULL, true, NULL);
-		if (entry) {
-			value = gconf_value_get_string (gconf_entry_get_value (entry));
-			if (value) WebBrowser = value;
-		}
-		entry = gconf_client_get_entry (cli, "/desktop/gnome/url-handlers/mailto/command", NULL, true, NULL);
-		if (entry) {
-			value = gconf_value_get_string (gconf_entry_get_value (entry));
-			if (value) {
-				MailAgent = value;
-				int i = MailAgent.find (" %s");
-				if (i)
-					MailAgent.erase (i, MailAgent.size ());
-			}
-		}
-	}
 }
 
 gcApplication::~gcApplication ()
@@ -304,47 +284,6 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		}
 	}
 	return false;
-}
-
-void gcApplication::OnBug ()
-{
-	if (!WebBrowser.size ())
-		return;
-	char *argv[3] = {NULL, PACKAGE_BUGREPORT, NULL};
-	argv[0] = (char*) WebBrowser.c_str();
-	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, NULL);
-}
-
-void gcApplication::ShowURI (string& uri)
-{
-	if (!WebBrowser.size ())
-		return;
-	char *argv[3] = {NULL, NULL, NULL};
-	argv[0] = (char*) WebBrowser.c_str();
-	argv[1] = (char*) uri.c_str ();
-	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, NULL);
-}
-
-void gcApplication::OnWeb ()
-{
-	if (!WebBrowser.size ())
-		return;
-	char *argv[3] = {NULL, "http://gchemutils.nongnu.org/", NULL};
-	argv[0] = (char*) WebBrowser.c_str();
-	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, NULL);
-}
-
-void gcApplication::OnMail ()
-{
-	if (!MailAgent.size ())
-		return;
-	char *argv[3] = {NULL, "mailto:gchemutils-main@nongnu.org", NULL};
-	argv[0] = (char*) MailAgent.c_str();
-	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, NULL);
 }
 
 void gcApplication::RemoveDocument (gcDocument *pDoc)

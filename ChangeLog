@@ -1,7 +1,18 @@
 ##Text encoding: utf-8
 
+2006-06-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: changed version to 0.7.3.
+	* gcu/application.cc: add some new helper methods.
+	* gcu/application.h: ditto.
+	* gcu/element.cc: fixed a compilation warning.
+	* gcu/filechooser.cc: fixed another one.
+	* programs/crystal/application.cc: removed methods moved
+	to gcu::Application.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/window.cc: removed Close and Quit buttons from toolbar.
+
 2006-05-28  Jean Bréfort  <jean.brefort@normalesup.org>
-	* gcu/crystalview.cc:
+	* gcu/crystalview.cc: fix a data size issue [#16680].
 
 2006-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed mozilla-config use (thanks to Pav Lucistnik).

@@ -53,12 +53,6 @@ public:
 	gcDocument* GetDoc (const char* filename);
 	void SetOpening() {m_bFileOpening = true;}
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
-	void OnBug ();
-	void OnWeb ();
-	void OnMail ();
-	void ShowURI (string& uri);
-	bool HasMailAgent () {return MailAgent.length () > 0;}
-	bool HasWebBrowser () {return WebBrowser.length () > 0;}
 	void SetActiveDocument (gcDocument *doc) {m_pActiveDoc = doc;}
 	void AddDocument (gcDocument *pDoc) {m_Docs.push_front (pDoc);}
 	void RemoveDocument (gcDocument *pDoc);
@@ -71,8 +65,6 @@ private:
 	GtkUIManager* m_UIManager;
 	unsigned m_statusId;
 	bool m_bFileOpening;
-	string WebBrowser;
-	string MailAgent;
 };
 
 #endif //GCRYSTAL_APPLICATION_H
