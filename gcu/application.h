@@ -25,7 +25,9 @@
 #ifndef GCU_APPLICATION_H
 #define GCU_APPLICATION_H
 
+#include <set>
 #include <string>
+#include <gtk/gtkmain.h>
 #include <gtk/gtkwindow.h>
 
 using namespace std;
@@ -110,6 +112,8 @@ if they use the FileChooser.
 	void OnMail (char *MailAddress = "mailto:gchemutils-main@nongnu.org");
 	bool HasMailAgent () {return MailAgent.length () > 0;}
 	bool HasWebBrowser () {return WebBrowser.length () > 0;}
+	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
+	void RemoveDocument (Document *Doc) {m_Docs.erase (Doc); if (m_Docs.size () == 0) gtk_main_quit ();}
 
 private:
 	string Name;
@@ -120,6 +124,7 @@ private:
 protected:
 	string WebBrowser;
 	string MailAgent;
+	set <Document*> m_Docs;
 };
 
 }	// namespace gcu

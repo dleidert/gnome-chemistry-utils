@@ -1,7 +1,19 @@
 bin_PROGRAMS = gchem3d-viewer-unstable
 
-gchem3d_viewer_unstable_SOURCES = gchem3d-viewer.c
+gchem3d_viewer_unstable_SOURCES = \
+	application.cc \
+	document.cc \
+	main.cc	\
+	view.cc	\
+	window.cc
+
 gchem3d_viewer_unstable_LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
+
+noinst_HEADERS = \
+	application.h	\
+	document.h	\
+	view.h	\
+	window.h
 
 DEPS = \
 	$(top_builddir)/gcu/libgcu-unstable.la

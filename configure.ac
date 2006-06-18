@@ -73,6 +73,11 @@ AM_GCONF_SOURCE_2
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
+dnl Now test for bodr
+PKG_CHECK_MODULES(bodr, bodr >= 3)
+bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
+AC_DEFINE_UNQUOTED(BODR_PKGDATADIR, $bodr_pkgdatadir, [Path to Blue Obelisk Data Repository])
+
 saved_cflags=$CFLAGS
 CFLAGS=$GCU_CFLAGS
 AC_COMPILE_IFELSE(

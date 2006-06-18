@@ -143,7 +143,7 @@ Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 
 protected:
 /*!
-he field of view.
+The field of view.
 */
 	gdouble m_fAngle;
 /*!

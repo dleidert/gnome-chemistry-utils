@@ -24,7 +24,10 @@ libgcu_unstable_la_SOURCES = \
 		crystalbond.cc \
 		crystalline.cc \
 		crystalcleavage.cc \
-		gtkchem3dviewer.cc
+		chem3ddoc.cc	\
+		gtkchem3dviewer.cc \
+		gldocument.cc	\
+		glview.cc
 
 libgcu_unstable_la_headers = \
 		atom.h \
@@ -37,8 +40,9 @@ libgcu_unstable_la_headers = \
 		application.h \
 		dialog.h \
 		filechooser.h \
-		matrix.h \
-		matrix2d.h \
+		macros.h	\
+		matrix.h	\
+		matrix2d.h	\
 		xml-utils.h \
 		chemistry.h \
 		gtkperiodic.h \
@@ -50,7 +54,12 @@ libgcu_unstable_la_headers = \
 		crystalbond.h \
 		crystalline.h \
 		crystalcleavage.h \
-		gtkchem3dviewer.h
+		chem3ddoc.h	\
+		gtkchem3dviewer.h \
+		gldocument.h	\
+		glview.h	\
+		view.h	\
+		window.h
 
 gcuincludedir = $(includedir)/gcu-unstable/gcu
 gcuinclude_HEADERS = $(libgcu_unstable_la_headers)

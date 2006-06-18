@@ -67,6 +67,7 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 		gtk_file_chooser_set_extra_widget (dialog, box);
 		gtk_widget_show_all (box);
 	}
+	gtk_file_chooser_add_filter (chooser, filter);
 	// Now add network directories
 	gtk_file_chooser_set_local_only (chooser, false);
 	char const* dir = App->GetCurDir ();
@@ -86,10 +87,10 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 				mime_type = *i;
 			}
 		}
-		if (!mime_type)
-			mime_type = go_get_mime_type (filename);
 		if (Save) {
 			filename = gtk_file_chooser_get_uri (chooser);
+			if (!mime_type)
+				mime_type = go_get_mime_type (filename);
 			if (!App->FileProcess (filename, mime_type, Save, GTK_WINDOW (dialog), m_pDoc)) {
 				g_free (filename);
 				break;
@@ -100,10 +101,7 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 			GSList* iter = files;
 			while (iter) {
 				filename = (char*) iter->data;
-				if (!App->FileProcess(filename, mime_type, Save, GTK_WINDOW (dialog), m_pDoc)) {
-					g_free (filename);
-					break;
-				}
+				App->FileProcess(filename, (mime_type)? mime_type: go_get_mime_type (filename), Save, GTK_WINDOW (dialog), m_pDoc);
 				g_free (filename);
 				iter = iter->next;
 			}

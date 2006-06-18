@@ -27,11 +27,15 @@
 #define GCU_DOCUMENT_H
 
 #include "object.h"
+#include <string>
 
 using namespace std;
 
 namespace gcu
 {
+
+class Application;
+
 /*!\class Document gcu/document.h
 This class is the base document class.
 */
@@ -40,9 +44,11 @@ class Document: public Object
 friend class gcu::Object;
 public:
 /*!
+@param App: the Appllcation which owns the new document.
+
 The default constructor. Creates an empty document.
 */
-	Document ();
+	Document (Application *App = NULL);
 /*!
 The destructor of Document.
 */
@@ -74,6 +80,10 @@ to avoid errors on the next paste event.
 */
 	void EmptyTranslationTable() {m_TranslationTable.clear();}
 
+	void SetTitle (string& title) {m_Title = title;}
+	void SetTitle (char const *title) {m_Title = title;}
+	string &GetTitle () {return m_Title;}
+
 private:
 
 /*!
@@ -89,6 +99,10 @@ GetNewId returns the translated id
 
 private:
 	map <string, string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
+
+protected:
+	Application *m_App;
+	string m_Title;
 };
 
 }

@@ -22,16 +22,23 @@
  * USA
  */
 
+#include "config.h"
 #include "document.h"
+#include "application.h"
 
 using namespace gcu;
 
-Document::Document (): Object (DocumentType)
+Document::Document (Application *App): Object (DocumentType)
 {
+	m_App = App;
+	if (m_App)
+		m_App->AddDocument (this);
 }
 
 Document::~Document ()
 {
+	if (m_App)
+		m_App->RemoveDocument (this);
 }
 
 gchar* Document::GetNewId (gchar* id, bool Cache)
