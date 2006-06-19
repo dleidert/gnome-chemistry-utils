@@ -20,7 +20,8 @@
  */
 
 #include "config.h"
-#include "gcu/gtkchem3dviewer.h"
+#include <gcu/gtkchem3dviewer.h>
+#include <gcu/chem3ddoc.h>
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkplug.h>
@@ -32,6 +33,7 @@
 #include <map>
 
 using namespace std;
+using namespace gcu;
 
 class ChemComp
 {

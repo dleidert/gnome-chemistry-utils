@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2006-06-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/chem3ddoc.cc: add LoadData method.
+	* gcu/chem3ddoc.h: ditoo.
+	* gcu/gtkchem3dviewer.cc: use the Chem3dDoc class;
+	* gcu/gtkchem3dviewer.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: include gcu/chem3ddoc.h for Display2DMode
+	declaration.
+
 2006-06-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requires bodr-3.
 	* gcu/Makefile.am: add new files.

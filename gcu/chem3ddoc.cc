@@ -38,6 +38,12 @@
 
 using namespace gcu;
 
+Chem3dDoc::Chem3dDoc (): GLDocument (NULL)
+{
+	m_View = new GLView (this);
+	m_Display3D = BALL_AND_STICK;
+}
+
 Chem3dDoc::Chem3dDoc (Application *App, GLView *View): GLDocument (App)
 {
 	m_View = (View)? View: new GLView (this);
@@ -161,25 +167,32 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	if (n == info->size) {
 		if (!mime_type)
 			mime_type = info->mime_type;
-		istringstream is (buf);
-		m_Mol.Clear ();
-		char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-		setlocale (LC_NUMERIC, "C");
-		OBConversion Conv;
-		OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
-		if (pInFormat) {
-			Conv.SetInAndOutFormats (pInFormat, pInFormat);
-			Conv.Read (&m_Mol,&is);
+		LoadData (buf, mime_type);
+		if (m_App) {
+			char *dirname = g_path_get_dirname (uri);
+			m_App->SetCurDir (dirname);
+			g_free (dirname);
 		}
-		setlocale (LC_NUMERIC, old_num_locale);
-		m_View->Update ();
-		g_free (old_num_locale);
-		char *dirname = g_path_get_dirname (uri);
-		m_App->SetCurDir (dirname);
-		g_free (dirname);
 	}
 	gnome_vfs_file_info_unref (info);
 	delete [] buf;
 	g_free (handle);
 	
+}
+
+void Chem3dDoc::LoadData (char const *data, char const *mime_type)
+{
+	istringstream is (data);
+	m_Mol.Clear ();
+	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	OBConversion Conv;
+	OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
+	if (pInFormat) {
+		Conv.SetInAndOutFormats (pInFormat, pInFormat);
+		Conv.Read (&m_Mol,&is);
+	}
+	setlocale (LC_NUMERIC, old_num_locale);
+	m_View->Update ();
+	g_free (old_num_locale);
 }

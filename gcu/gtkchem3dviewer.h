@@ -44,11 +44,6 @@ Declaration of the GtkChem3DViewer widget.
 	 their van der Waals radius; bonds are not displayed.
 	 .
 */
-typedef enum
-{
-	BALL_AND_STICK,
-	SPACEFILL
-} Display3DMode;
 
 GType gtk_display3d_get_type (void);
 #define GTK_DISPLAY_3D (gtk_display3d_get_type ())

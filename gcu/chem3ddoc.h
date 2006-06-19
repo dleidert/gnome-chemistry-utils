@@ -44,12 +44,14 @@ class Application;
 class Chem3dDoc: public GLDocument
 {
 public:
+	Chem3dDoc ();
 	Chem3dDoc (Application *App, GLView *View);
 	virtual ~Chem3dDoc ();
 
 	void Draw ();
 	bool IsEmpty () {return m_Mol.NumNodes () == 0;}
 	void Load (char const *uri, char const *mime_type);
+	void LoadData (char const *data, char const *mime_type);
 	const char *GetTitle () {return m_Mol.GetTitle ();}
 
 private:
