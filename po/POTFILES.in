@@ -21,7 +21,9 @@ gcu/formula.cc
 gcu/crystalview.cc
 gcu/gtkchem3dviewer.cc
 gcu/gtkcomboperiodic.c
-programs/3d/gchem3d-viewer.c
+programs/3d/application.cc
+programs/3d/main.cc
+programs/3d/window.cc
 programs/3d/gchem3d-viewer-unstable.desktop.in
 programs/calc/gchemcalc.cc
 programs/calc/gchemcalc-unstable.desktop.in
