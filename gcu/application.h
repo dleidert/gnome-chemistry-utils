@@ -113,8 +113,9 @@ if they use the FileChooser.
 	bool HasMailAgent () {return MailAgent.length () > 0;}
 	bool HasWebBrowser () {return WebBrowser.length () > 0;}
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
-	void RemoveDocument (Document *Doc) {m_Docs.erase (Doc); if (m_Docs.size () == 0) gtk_main_quit ();}
-
+	void RemoveDocument (Document *Doc) {m_Docs.erase (Doc); if (m_Docs.size () == 0) NoMoreDocsEvent ();}
+	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
+	
 private:
 	string Name;
 	string HelpBrowser;
