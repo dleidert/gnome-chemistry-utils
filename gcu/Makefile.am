@@ -57,9 +57,7 @@ libgcu_unstable_la_headers = \
 		chem3ddoc.h	\
 		gtkchem3dviewer.h \
 		gldocument.h	\
-		glview.h	\
-		view.h	\
-		window.h
+		glview.h
 
 gcuincludedir = $(includedir)/gcu-unstable/gcu
 gcuinclude_HEADERS = $(libgcu_unstable_la_headers)

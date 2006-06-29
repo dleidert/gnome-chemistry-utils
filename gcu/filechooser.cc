@@ -67,7 +67,7 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 		gtk_file_chooser_set_extra_widget (dialog, box);
 		gtk_widget_show_all (box);
 	}
-	gtk_file_chooser_add_filter (chooser, filter);
+	gtk_file_chooser_set_filter (chooser, filter);
 	// Now add network directories
 	gtk_file_chooser_set_local_only (chooser, false);
 	char const* dir = App->GetCurDir ();

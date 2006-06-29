@@ -26,7 +26,6 @@
 #include "chem3ddoc.h"
 #include "application.h"
 #include "glview.h"
-#include "window.h"
 #include <gcu/chemistry.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <sstream>

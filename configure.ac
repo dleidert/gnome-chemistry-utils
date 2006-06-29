@@ -180,6 +180,8 @@ if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
 fi
 eval dt=`echo $datadir`
+dnl a second eval is necessary for GNU autoconf >= 2.59c
+eval dt=`echo $dt`
 eval sy=`echo $sysconfdir`
 if test "$exec_prefix" = "NONE"; then
 	lb=`echo $libdir| sed 's/exec_prefix/prefix/'`

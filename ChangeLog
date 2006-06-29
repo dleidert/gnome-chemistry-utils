@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2006-06-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: double eval datadir for GNU autoconf >= 2.59c
+	* gcu/Makefile.am: removed extra header files.
+	* gcu/chem3ddoc.cc: don't include window.h.
+	* gcu/filechooser.cc: don't show filter name.
+
 2006-06-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.h: don't systematically quit when there are no more
 	open documents.
