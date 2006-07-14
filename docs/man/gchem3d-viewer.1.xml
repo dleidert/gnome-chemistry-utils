@@ -4,7 +4,7 @@
 "/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchem3d-viewer.1.xml,v 1.1.2.1 2006-05-06 12:46:25 dleidert Exp $
+	$Id: gchem3d-viewer.1.xml,v 1.1.2.2 2006-07-14 22:11:11 dleidert Exp $
 
   Copyright (C) 2004-2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -23,10 +23,11 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage   "gchem3d-viewer">
+	<!ENTITY dhpackage    "gchem3d-viewer">
+	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate      "$Date: 2006-05-06 12:46:25 $">
-	<!ENTITY dhsection   "1">
+	<!ENTITY dhdate       "$Date: 2006-07-14 22:11:11 $">
+	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
@@ -35,7 +36,7 @@
 <refentry>
 	<refentryinfo>
 		<title>&dhulpackage;</title>
-		<productname>&dhulpackage;</productname>
+		<productname>&dhulapackage;</productname>
 		<edition>&dhedition;</edition>
 		<date>&dhdate;</date>
 		<authorgroup>
@@ -61,21 +62,71 @@
 	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>&dhpackage;</command>
-			<arg choice="req" rep="norepeat"><replaceable>FILE</replaceable></arg>
+			<arg choice="opt" rep="repeat"><option>OPTION(S)</option></arg>
+			<arg choice="opt" rep="norepeat"><replaceable>FILE</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 	<refsect1>
 		<title>DESCRIPTION</title>
 		<para>
 			<command>&dhpackage;</command> is a small chemical viewer application, which can
-			show chemical/x-pdb, chemical/x-mdl-molfile and chemical/x-xyz file formats.
+			show several chemical file formats.
 		</para>
 	</refsect1>
 	<refsect1>
 		<title>OPTIONS</title>
 		<para>
-			No options are available.
+			The following options are accepted:
 		</para>
+		<variablelist>
+			<varlistentry>
+				<term><option>-b <replaceable>COLOR</replaceable></option></term>
+				<term><option>--bgcolor=<replaceable>COLOR</replaceable></option></term>
+				<listitem>
+					<para>Use the given color as background color. <replaceable>COLOR</replaceable> can be one of <simplelist type="inline">
+						<member><replaceable class="parameter">black</replaceable> (default)</member>
+						<member><replaceable class="parameter">white</replaceable></member>
+						<member><replaceable class="parameter">#rrggbb</replaceable> (don't forget to escape the <quote>#</quote> character in the shell)</member>
+					</simplelist>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-d</option></term>
+				<term><option>--display3d</option></term>
+				<listitem>
+					<para>Choose how molecules are displayed. Possible values are <simplelist type="inline">
+						<member><replaceable class="parameter">BallnStick</replaceable> (default)</member>
+						<member><replaceable class="parameter">SpaceFillShow</replaceable></member>
+					</simplelist>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-?</option></term>
+				<term><option>--help</option></term>
+				<listitem>
+					<para>Show help options.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--help-all</option></term>
+				<listitem>
+					<para>Show all help options.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--help-gtk</option></term>
+				<listitem>
+					<para>Show only GTK+ options (not documented here).</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-v</option></term>
+				<term><option>--version</option></term>
+				<listitem>
+					<para>Print &dhpackage; version information.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsect1>
 </refentry>
 
