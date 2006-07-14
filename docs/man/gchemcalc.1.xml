@@ -4,7 +4,7 @@
 "/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchemcalc.1.xml,v 1.1.2.1 2006-05-06 12:46:25 dleidert Exp $
+	$Id: gchemcalc.1.xml,v 1.1.2.2 2006-07-14 22:25:55 dleidert Exp $
 
   Copyright (C) 2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -23,10 +23,11 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage   "gchemcalc">
+	<!ENTITY dhpackage    "gchemcalc">
+	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate      "$Date: 2006-05-06 12:46:25 $">
-	<!ENTITY dhsection   "1">
+	<!ENTITY dhdate       "$Date: 2006-07-14 22:25:55 $">
+	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
@@ -35,7 +36,7 @@
 <refentry>
 	<refentryinfo>
 		<title>&dhulpackage;</title>
-		<productname>&dhulpackage;</productname>
+		<productname>&dhulapackage;</productname>
 		<edition>&dhedition;</edition>
 		<date>&dhdate;</date>
 		<authorgroup>
@@ -56,19 +57,54 @@
 	</refmeta>
 	<refnamediv>
 		<refname>&dhpackage;</refname>
-		<refpurpose>...</refpurpose>
+		<refpurpose>simple calculator for chemists</refpurpose>
 	</refnamediv>
+	<refsynopsisdiv>
+		<cmdsynopsis>
+			<command>&dhpackage;</command>
+			<arg choice="opt" rep="repeat"><option>OPTION(S)</option></arg>
+			<arg choice="opt" rep="norepeat"><replaceable>FORMULA</replaceable></arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
 	<refsect1>
 		<title>DESCRIPTION</title>
 		<para>
-			<command>&dhpackage;</command> ...
+			<command>&dhpackage;</command> is a simple calculator for chemists.
 		</para>
 	</refsect1>
 	<refsect1>
 		<title>OPTIONS</title>
 		<para>
-			No options are available.
+			The following options are accepted:
 		</para>
+		<variablelist>
+			<varlistentry>
+				<term><option>-?</option></term>
+				<term><option>--help</option></term>
+				<listitem>
+					<para>Show help options.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--help-all</option></term>
+				<listitem>
+					<para>Show all help options.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--help-gtk</option></term>
+				<listitem>
+					<para>Show only GTK+ options (not documented here).</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-v</option></term>
+				<term><option>--version</option></term>
+				<listitem>
+					<para>Print &dhpackage; version information.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</refsect1>
 </refentry>
 
