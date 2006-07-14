@@ -4,7 +4,7 @@
 "/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchem3d-viewer.1.xml,v 1.1.2.2 2006-07-14 22:11:11 dleidert Exp $
+	$Id: gchem3d-viewer.1.xml,v 1.1.2.3 2006-07-14 22:15:55 dleidert Exp $
 
   Copyright (C) 2004-2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -26,7 +26,7 @@
 	<!ENTITY dhpackage    "gchem3d-viewer">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-07-14 22:11:11 $">
+	<!ENTITY dhdate       "$Date: 2006-07-14 22:15:55 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
@@ -80,10 +80,10 @@
 		</para>
 		<variablelist>
 			<varlistentry>
-				<term><option>-b <replaceable>COLOR</replaceable></option></term>
-				<term><option>--bgcolor=<replaceable>COLOR</replaceable></option></term>
+				<term><option>-b <replaceable class="parameter">COLOR</replaceable></option></term>
+				<term><option>--bgcolor=<replaceable class="parameter">COLOR</replaceable></option></term>
 				<listitem>
-					<para>Use the given color as background color. <replaceable>COLOR</replaceable> can be one of <simplelist type="inline">
+					<para>Use the given color as background color. <replaceable class="parameter">COLOR</replaceable> can be one of <simplelist type="inline">
 						<member><replaceable class="parameter">black</replaceable> (default)</member>
 						<member><replaceable class="parameter">white</replaceable></member>
 						<member><replaceable class="parameter">#rrggbb</replaceable> (don't forget to escape the <quote>#</quote> character in the shell)</member>
@@ -91,10 +91,10 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><option>-d</option></term>
-				<term><option>--display3d</option></term>
+				<term><option>-d <replaceable class="parameter">MODEL</replaceable></option></term>
+				<term><option>--display3d=<replaceable class="parameter">MODEL</replaceable></option></term>
 				<listitem>
-					<para>Choose how molecules are displayed. Possible values are <simplelist type="inline">
+					<para>Choose how molecules are displayed. <replaceable class="parameter">MODEL</replaceable> can be one of <simplelist type="inline">
 						<member><replaceable class="parameter">BallnStick</replaceable> (default)</member>
 						<member><replaceable class="parameter">SpaceFillShow</replaceable></member>
 					</simplelist>.</para>
