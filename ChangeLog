@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2006-07-15  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* docs/man/gchem3d-viewer.1: Updated from last XML source.
+	* docs/man/gchemcalc.1: Ditto.
+	* docs/man/gchemtable.1: Ditto.
+
+2006-07-15  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* docs/man/gchemcalc.1.xml: Added more information about the program,
 	completing the options section.
 	* docs/man/gchemtable.1.xml: Ditto.

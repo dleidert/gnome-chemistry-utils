@@ -1,8 +1,11 @@
-.\" ** You probably do not want to edit this file directly **
-.\" It was generated using the DocBook XSL Stylesheets (version 1.69.1).
-.\" Instead of manually editing it, you probably should edit the DocBook XML
-.\" source for it and then use the DocBook XSL Stylesheets to regenerate it.
-.TH "GCHEM3D\-VIEWER" "1" "$Date: 2006-05-06 12:46:25 $" "gnome\-chemistry\-utils 0.6.1" ""
+.\"     Title: gchem3d\-viewer
+.\"    Author: Daniel Leidert <daniel.leidert@wgdd.de>
+.\" Generator: DocBook XSL Stylesheets v1.70.1 <http://docbook.sf.net/>
+.\"      Date: $Date: 2006-07-14 22:27:55 $
+.\"    Manual: gnome\-chemistry\-utils
+.\"    Source: gcu 0.6.2
+.\"
+.TH "GCHEM3D\-VIEWER" "1" "$Date: 2006-07-14 22:27:55 $" "gcu 0.6.2" "gnome\-chemistry\-utils"
 .\" disable hyphenation
 .nh
 .\" disable justification (adjust text to left margin only)
@@ -11,13 +14,50 @@
 gchem3d\-viewer \- a small chemical viewer application
 .SH "SYNOPSIS"
 .HP 15
-\fBgchem3d\-viewer\fR {\fIFILE\fR}
+\fBgchem3d\-viewer\fR [\fBOPTION(S)\fR...] [\fIFILE\fR]
 .SH "DESCRIPTION"
 .PP
+
 \fBgchem3d\-viewer\fR
-is a small chemical viewer application, which can show chemical/x\-pdb, chemical/x\-mdl\-molfile and chemical/x\-xyz file formats.
+is a small chemical viewer application, which can show several chemical file formats.
 .SH "OPTIONS"
 .PP
-No options are available.
+The following options are accepted:
+.PP
+\fB\-b \fR\fB\fICOLOR\fR\fR, \fB\-\-bgcolor=\fR\fB\fICOLOR\fR\fR
+.RS 3n
+Use the given color as background color.
+\fICOLOR\fR
+can be one of
+\fIblack\fR (default), \fIwhite\fR, \fI#rrggbb\fR (don't forget to escape the \(lq#\(rq character in the shell).
+.RE
+.PP
+\fB\-d \fR\fB\fIMODEL\fR\fR, \fB\-\-display3d=\fR\fB\fIMODEL\fR\fR
+.RS 3n
+Choose how molecules are displayed.
+\fIMODEL\fR
+can be one of
+\fIBallnStick\fR (default), \fISpaceFillShow\fR.
+.RE
+.PP
+\fB\-?\fR, \fB\-\-help\fR
+.RS 3n
+Show help options.
+.RE
+.TP 3n
+\fB\-\-help\-all\fR
+Show all help options.
+.TP 3n
+\fB\-\-help\-gtk\fR
+Show only GTK+ options (not documented here).
+.PP
+\fB\-v\fR, \fB\-\-version\fR
+.RS 3n
+Print gchem3d\-viewer version information.
+.RE
 .SH "AUTHOR"
-Daniel Leidert <daniel.leidert@wgdd.de>. 
+.PP
+\fBDaniel\fR \fBLeidert\fR <daniel.leidert@wgdd.de>
+.sp -1n
+.IP "" 3n
+Author.
