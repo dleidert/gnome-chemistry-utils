@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2006-07-15  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* docs/man/libgcu.3.xml: Small change to get the same headers *.1
+	provide.
+
+2006-07-15  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* docs/man/gchem3d-viewer.1: Updated from last XML source.
 	* docs/man/gchemcalc.1: Ditto.
 	* docs/man/gchemtable.1: Ditto.

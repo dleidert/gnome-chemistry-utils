@@ -4,7 +4,7 @@
 "/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: libgcu.3.xml,v 1.1.2.1 2006-05-06 12:46:25 dleidert Exp $
+	$Id: libgcu.3.xml,v 1.1.2.2 2006-07-14 22:33:21 dleidert Exp $
 
   Copyright (C) 2004-2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -23,10 +23,11 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage   "libgcu">
+	<!ENTITY dhpackage    "libgcu">
+	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate      "$Date: 2006-05-06 12:46:25 $">
-	<!ENTITY dhsection   "3">
+	<!ENTITY dhdate       "$Date: 2006-07-14 22:33:21 $">
+	<!ENTITY dhsection    "3">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
@@ -35,7 +36,7 @@
 <refentry>
 	<refentryinfo>
 		<title>&dhulpackage;</title>
-		<productname>&dhulpackage;</productname>
+		<productname>&dhulapackage;</productname>
 		<edition>&dhedition;</edition>
 		<date>&dhdate;</date>
 		<authorgroup>
