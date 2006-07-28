@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<?xml-stylesheet type="text/xsl" href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
+<?xml-stylesheet type="text/xsl"
+	href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
 <!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
+	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchemtable.1.xml,v 1.1.2.2 2006-07-14 22:25:55 dleidert Exp $
+	$Id: gchemtable.1.xml,v 1.1.2.3 2006-07-28 01:03:20 dleidert Exp $
 
   Copyright (C) 2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -26,7 +27,7 @@
 	<!ENTITY dhpackage    "gchemtable">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-07-14 22:25:55 $">
+	<!ENTITY dhdate       "$Date: 2006-07-28 01:03:20 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">

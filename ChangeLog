@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2006-07-28  Daniel Leidert  <daniel.leidert.spam@gmx.net>
+	* docs/man/gchem3d-viewer.1.xml: Fixed Header.
+	(OPTIONS): Cosmetic changes. More general description of the --help-*
+	option(s).
+	* docs/man/gchemcalc.1.xml: Ditto.
+	* docs/man/gchemtable.1.xml: Fixed Header.
+	* docs/man/libgcu.3.xml: Ditto.
+	* docs/man/gchem3d-viewer.1: Updated.
+	* docs/man/gchemcalc.1: Ditto.
+	* docs/man/gchemtable.1: Ditto.
+	* docs/man/libgcu.3: Ditto.
+
 2006-07-15  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* docs/man/libgcu.3: Updated from last XML source.
 

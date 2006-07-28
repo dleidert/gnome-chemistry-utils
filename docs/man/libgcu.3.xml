@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<?xml-stylesheet type="text/xsl" href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
+<?xml-stylesheet type="text/xsl"
+	href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
 <!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
+	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: libgcu.3.xml,v 1.1.2.2 2006-07-14 22:33:21 dleidert Exp $
+	$Id: libgcu.3.xml,v 1.1.2.3 2006-07-28 01:03:20 dleidert Exp $
 
-  Copyright (C) 2004-2006 Daniel Leidert <daniel.leidert@wgdd.de>.
+  Copyright (C) 2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
 	This manual page is free software; you can redistribute it and/or modify it
 	under the terms of the GNU General Public License as published by the Free
@@ -26,7 +27,7 @@
 	<!ENTITY dhpackage    "libgcu">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-07-14 22:33:21 $">
+	<!ENTITY dhdate       "$Date: 2006-07-28 01:03:20 $">
 	<!ENTITY dhsection    "3">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
