@@ -150,6 +150,12 @@ public:
 	Loads the isotopes database.
 	*/
 	static void LoadIsotopes ();
+#ifdef WITH_BODR
+	/*!
+	Loads the Blue Obelisk Database.
+	*/
+	static void LoadBODR ();
+#endif
 	/*!
 	Loads all databases.
 	*/

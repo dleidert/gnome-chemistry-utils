@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <gcu/element.h>
+#include <gcu/macros.h>
 #include "application.h"
 #include "document.h"
 #include "view.h"
@@ -104,6 +105,10 @@ static GOptionEntry entries[] =
    { NULL }
 };
 
+// defines used for GCU_GCONF_GET
+#define ROOTDIR	"/apps/gchemutils/crystal/"
+#define m_ConfClient conf_client
+
 int main(int argc, char *argv[])
 {
 	GOptionContext *context;
@@ -114,13 +119,6 @@ int main(int argc, char *argv[])
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 #endif
 	textdomain(GETTEXT_PACKAGE);
-
-	if (gconf_init (argc, argv, &error) == FALSE) {
-		g_assert (error != NULL);
-		g_message ("GConf init failed: %s", error->message);
-		g_error_free (error);
-		exit (EXIT_FAILURE);
-	}
 
 	gtk_init (&argc, &argv);
 	gnome_vfs_init ();
@@ -141,74 +139,20 @@ int main(int argc, char *argv[])
 		argc --;
 		argv ++;
 	}
-
-/*	g_object_get(G_OBJECT(prog), GNOME_PARAM_POPT_CONTEXT, &pctx, NULL);
-
-	GnomeClient* client = gnome_master_client();
-	g_signal_connect(G_OBJECT(client), "save_yourself", GTK_SIGNAL_FUNC(session_save), argv[0]);
-	g_signal_connect(G_OBJECT(client), "die", GTK_SIGNAL_FUNC(session_die), NULL);*/
 	
 //Configuration loading
 	conf_client = gconf_client_get_default ();
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/general", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/printing", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/views", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	PrintResolution = gconf_client_get_int (conf_client, "/apps/gchemutils/crystal/printing/resolution", &error);
-	if (error) {
-		PrintResolution = 300;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
-	FoV = gconf_client_get_int (conf_client, "/apps/gchemutils/crystal/views/fov", &error);
-	if (error) {
-		FoV = 10;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
-	Psi = gconf_client_get_float (conf_client, "/apps/gchemutils/crystal/views/psi", &error);
-	if (error) {
-		Psi = 70.;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
-	Theta = gconf_client_get_float (conf_client, "/apps/gchemutils/crystal/views/theta", &error);
-	if (error) {
-		Theta = 10.;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
-	Phi = gconf_client_get_float (conf_client, "/apps/gchemutils/crystal/views/phi", &error);
-	if (error) {
-		Phi = -90.;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
-	Red = gconf_client_get_float (conf_client, "/apps/gchemutils/crystal/views/red", &error);
-	if (error) {
-		Red = 1.;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
-	Green = gconf_client_get_float (conf_client, "/apps/gchemutils/crystal/views/green", &error);
-	if (error) {
-		Green = 1.;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free(error);
-		error = NULL;
-	}
-	Blue	= gconf_client_get_float (conf_client, "/apps/gchemutils/crystal/views/blue", &error);
-	if (error) {
-		Blue = 1.;
-		g_message ("GConf failed: %s", error->message);
-		g_error_free (error);
-		error = NULL;
-	}
+	GCU_GCONF_GET (ROOTDIR"printing/resolution", int, PrintResolution, 300)
+	GCU_GCONF_GET (ROOTDIR"views/fov", int, FoV, 10)
+	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/psi", float, Psi, 70.)
+	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/theta", float,Theta, 10.)
+	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/phi", float, Phi, -90.)
+	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/red", float, Red, 1.)
+	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/green", float, Green, 1.)
+	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/blue", float, Blue, 1.)
 	NotificationId = gconf_client_notify_add (conf_client, "/apps/gchemutils/crystal", on_config_changed, NULL, NULL, NULL);
 	gcApplication* gcApp = new gcApplication ();
 	gcDocument *pDoc = gcApp->OnFileNew();

@@ -772,6 +772,9 @@ void Element::LoadAllData ()
 	LoadRadii ();
 	LoadElectronicProps ();
 	LoadIsotopes ();
+#ifdef WITH_BODR
+	LoadBODR ();
+#endif
 }
 
 IsotopicPattern *Element::GetIsotopicPattern (unsigned natoms)
@@ -823,3 +826,44 @@ GcuDimensionalValue const *Element::GetElectronAffinity (unsigned rank)
 {
 	return (rank <= m_ae.size ())? &m_ae[rank - 1]: NULL;
 }
+
+#ifdef WITH_BODR
+void Element::LoadBODR ()
+{
+	xmlDocPtr xml = xmlParseFile (BODR_PKGDATADIR"/elements.xml");
+	if (!xml)
+		return;
+	xmlNodePtr node = xml->children, child;
+	char *buf, *unit;
+	Element *elt;
+	if (!strcmp ((char const*) node->name, "elementTypeList")) {
+		node = node->children;
+		while (node) {
+			if (!strcmp ((char const*) node->name, "elementType")) {
+				buf = (char*) xmlGetProp (node, (xmlChar const*) "id");
+				elt = Table[buf];
+				if (!elt) {
+					xmlFree (buf);
+					node = node->next;
+					continue;
+				}
+				child = node->children;
+				while (child) {
+					if (!strcmp ((char const*) child->name, "scalar")) {
+						buf = (char*) xmlGetProp (child, (xmlChar const*) "dataType");
+						if (!strcmp (buf, "xsd:float")) {
+						} else if (!strcmp (buf, "xsd:String") || !strcmp (buf, "xsd:string")) {
+						} else if (!strcmp (buf, "xsd:int")) {
+						} else if (!strcmp (buf, "xsd:date")) {
+						}
+					}
+					child = child->next;
+				}
+				xmlFree (buf);
+			}
+			node = node->next;
+		}
+	}
+	xmlFreeDoc (xml);
+}
+#endif

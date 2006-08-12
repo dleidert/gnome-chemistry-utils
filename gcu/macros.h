@@ -44,4 +44,52 @@ public:	\
 protected:	\
 	type m_##member;
 
+#define GCU_GCONF_GET(key,type,target,defaultval) \
+	type target = gconf_client_get_##type (m_ConfClient, key, &error); \
+	if (error) {	\
+		target = defaultval;	\
+		g_message ("GConf failed: %s", error->message);	\
+		g_error_free (error);	\
+		error = NULL;	\
+	}	\
+	if (target == (type) 0)	\
+		target = defaultval;
+
+#define GCU_GCONF_GET_NO_CHECK(key,type,target,defaultval) \
+	target = gconf_client_get_##type (m_ConfClient, key, &error); \
+	if (error) {	\
+		target = defaultval;	\
+		g_message ("GConf failed: %s", error->message);	\
+		g_error_free (error);	\
+		error = NULL;	\
+	}
+
+#define GCU_GCONF_GET_N_TRANSFORM(key,type,target,defaultval,func) \
+	{	\
+		type val = gconf_client_get_##type (m_ConfClient, key, &error); \
+		if (error) {	\
+			val = defaultval;	\
+			g_message ("GConf failed: %s", error->message);	\
+			g_error_free (error);	\
+			error = NULL;	\
+		}	\
+		if (val == (type) 0)	\
+			val = defaultval; \
+		target = func (val);	\
+	}
+
+#define GCU_GCONF_GET_STRING(key,target,defaultval) \
+	if (target) {	\
+		g_free (target);	\
+		target = NULL;	\
+	}	\
+	target = gconf_client_get_string (m_ConfClient, key, &error); \
+	if (error) {	\
+		if (defaultval)	\
+			target = g_strdup (defaultval);	\
+		g_message ("GConf failed: %s", error->message);	\
+		g_error_free (error);	\
+		error = NULL;	\
+	}
+
 #endif	//	GCU_MACROS_H

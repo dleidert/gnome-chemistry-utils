@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2006-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: optionaly needs bodr >= 4.
+	* gcu/element.cc: started work on loading bodr data.
+	* gcu/element.h: ditto.
+	* gcu/macros.h: add some gconf related macros.
+	* programs/crystal/main.cc: use the new gconf macros.
+
 2006-06-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: double eval datadir for GNU autoconf >= 2.59c
 	* gcu/Makefile.am: removed extra header files.
