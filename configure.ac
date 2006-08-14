@@ -75,7 +75,6 @@ PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
 dnl Now test for bodr
 PKG_CHECK_MODULES(bodr, bodr >= 4, [have_bodr="yes"], [have_bodr="no"])
-echo -n "have_bodr=";echo $have_bodr
 if test "$have_bodr" = "yes"; then
 	bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
 	AC_DEFINE_UNQUOTED(BODR_PKGDATADIR, "$bodr_pkgdatadir", [Path to Blue Obelisk Data Repository])

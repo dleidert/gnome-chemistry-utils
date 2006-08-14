@@ -324,6 +324,10 @@ Element::~Element()
 		delete (m_isotopes.back ());
 		m_isotopes.pop_back ();
 	}
+	map<string, Value*>::iterator i, iend = props.end ();
+	for (i = props.begin (); i != iend; i++)
+		delete (*i).second;
+	props.clear ();
 }
 
 const gchar* Element::Symbol(gint Z)
@@ -830,40 +834,100 @@ GcuDimensionalValue const *Element::GetElectronAffinity (unsigned rank)
 #ifdef WITH_BODR
 void Element::LoadBODR ()
 {
+	char *old_num_locale;
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
 	xmlDocPtr xml = xmlParseFile (BODR_PKGDATADIR"/elements.xml");
 	if (!xml)
 		return;
 	xmlNodePtr node = xml->children, child;
-	char *buf, *unit;
+	char *buf = NULL, *unit;
 	Element *elt;
-	if (!strcmp ((char const*) node->name, "elementTypeList")) {
+	map <string, Value*> props;
+	if (!strcmp ((char const*) node->name, "list")) {
 		node = node->children;
 		while (node) {
-			if (!strcmp ((char const*) node->name, "elementType")) {
-				buf = (char*) xmlGetProp (node, (xmlChar const*) "id");
-				elt = Table[buf];
-				if (!elt) {
-					xmlFree (buf);
-					node = node->next;
-					continue;
-				}
+			if (!strcmp ((char const*) node->name, "atom")) {
+				elt = NULL;
 				child = node->children;
 				while (child) {
 					if (!strcmp ((char const*) child->name, "scalar")) {
+						Value *val;
 						buf = (char*) xmlGetProp (child, (xmlChar const*) "dataType");
 						if (!strcmp (buf, "xsd:float")) {
+							char *end, *dot;
+							xmlFree (buf);
+							buf = (char*) xmlNodeGetContent (child);
+							double x = strtod (buf, &end);
+							dot = strchr (buf, '.');
+							int prec = (dot)? end - dot - 1: 0;
+							unit = (char*) xmlGetProp (child, (xmlChar const*) "units");
+							xmlFree (buf);
+							buf = (char*) xmlGetProp (child, (xmlChar const*) "errorValue");
+							int delta;
+							if (buf)
+								delta = strtol (buf, NULL, 10);
+							else
+								delta = 0;
+							xmlFree (buf);
+							if (unit) {
+								DimensionalValue *v = new DimensionalValue ();
+								if (!strcmp (unit, "units:atmass"))
+									// amu stands for "atomic mass units"
+									v->val.unit = _("amu");
+								else if (!strcmp (unit, "units:ev"))
+									v->val.unit = "eV";
+								else if (!strcmp (unit, "units:ang"))
+									v->val.unit = "Å";
+								else if (!strcmp (unit, "siUnits:kelvin"))
+									v->val.unit = "K";
+//								else if (!strcmp (unit, ""))
+//									v->val.unit = "";
+								else
+									v->val.unit = "";
+								xmlFree (unit);
+								v->val.value = x;
+								v->val.prec = prec;
+								v->val.delta = delta;
+								val = v;
+							} else {
+								SimpleValue *v = new SimpleValue ();
+								v->val.value = x;
+								v->val.prec = prec;
+								v->val.delta = delta;
+								val = v;
+							}
+							buf = (char*) xmlGetProp (child, (xmlChar const*) "dictRef");
+							if (elt)
+								elt->props[(strncmp (buf, "bo:", 3))? buf: buf + 3] = val;
+							xmlFree (buf);
 						} else if (!strcmp (buf, "xsd:String") || !strcmp (buf, "xsd:string")) {
-						} else if (!strcmp (buf, "xsd:int")) {
+						} else if (!strcmp (buf, "xsd:int") || !strcmp (buf, "xsd:Integer")) {
+							xmlFree (buf);
+							buf = (char*) xmlNodeGetContent (child);
+							int val = strtol (buf, NULL, 10);
+							xmlFree (buf);
+							buf = (char*) xmlGetProp (child, (xmlChar const*) "dictRef");
+							if (!strcmp (buf, "bo:atomicNumber"))
+								elt = Table[val];
+							xmlFree (buf);
 						} else if (!strcmp (buf, "xsd:date")) {
 						}
 					}
+					if (props.size () > 0) {
+						map <string, Value*>:: iterator i, iend = props.end ();
+						for (i = props.begin (); i != iend; i++)
+							elt->props[(*i).first] = (*i).second;
+						props.clear ();
+					}
 					child = child->next;
 				}
-				xmlFree (buf);
 			}
 			node = node->next;
 		}
 	}
 	xmlFreeDoc (xml);
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 }
 #endif

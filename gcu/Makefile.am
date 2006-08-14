@@ -8,6 +8,7 @@ libgcu_unstable_la_SOURCES = \
 		element.cc \
 		isotope.cc \
 		formula.cc \
+		value.cc \
 		matrix.cc \
 		matrix2d.cc \
 		xml-utils.cc \
@@ -37,6 +38,7 @@ libgcu_unstable_la_headers = \
 		element.h \
 		isotope.h \
 		formula.h \
+		value.h \
 		application.h \
 		dialog.h \
 		filechooser.h \

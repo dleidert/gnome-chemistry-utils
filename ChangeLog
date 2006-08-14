@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2006-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: remove debug extra line.
+	* gcu/Makefile.am: add value.*.
+	* gcu/element.cc: add support for bodr data.
+	* gcu/element.h: ditto.
+	* gcu/value.cc: new classes to support bodr.
+	* gcu/value.h: ditto.
+	* glade/eltpage.glade: add thermodynamic properties page.
+	* programs/table/gchemtable-curve.cc: add boiling and melting points curves.
+	* programs/table/gchemtable-elt.cc: add boiling and melting points.
+
 2006-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: optionaly needs bodr >= 4.
 	* gcu/element.cc: started work on loading bodr data.

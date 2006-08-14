@@ -302,6 +302,36 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Metallic radii"));
+	} else if (!strcmp (name, "mp")) {
+		Element *elt;
+		Value *prop;
+		for (i = 1; i <= MAX_ELT; i++) {
+			elt = Element::GetElement (i);
+			prop = elt->GetProperty ("meltingpoint");
+			yvals[i - 1] = (prop)? prop->GetAsDouble (): go_nan;
+		}
+		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
+				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
+		data = go_data_scalar_str_new (_("Melting point"), FALSE);
+		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
+		gog_object_add_by_name (obj, "Label", label);
+		gtk_window_set_title (dialog, _("Melting point"));
+	} else if (!strcmp (name, "bp")) {
+		Element *elt;
+		Value *prop;
+		for (i = 1; i <= MAX_ELT; i++) {
+			elt = Element::GetElement (i);
+			prop = elt->GetProperty ("boilingpoint");
+			yvals[i - 1] = (prop)? prop->GetAsDouble (): go_nan;
+		}
+		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
+				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
+		data = go_data_scalar_str_new (_("Boiling point"), FALSE);
+		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
+		gog_object_add_by_name (obj, "Label", label);
+		gtk_window_set_title (dialog, _("Boiling point"));
 	} else {
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return;

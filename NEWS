@@ -2,6 +2,7 @@ Version 0.7.2
 	3d viewer: open several documents at once, and use new 3d classes
 	in the library..
 	Gnome Crystal: use the new 3d classes and macros in the library.
+	periodic table: display melting and boiling points (needs bodr-4).
 	Library: some new classes used for 3d display in both Gnome Crystal
 	and the 3d viewer; also some new macros related to get/set class
 	properties and GConf entries.

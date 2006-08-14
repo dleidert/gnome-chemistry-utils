@@ -332,6 +332,29 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/
 			g_free (buf);
 		}
 	}
+#ifdef WITH_BODR
+	Value *prop = elt->GetProperty ("meltingpoint");
+	button = glade_xml_get_widget (xml, "melting-btn");
+	if (prop) {
+		w = glade_xml_get_widget (xml, "melting");
+		gtk_label_set_text (GTK_LABEL (w), prop->GetAsString ());
+		g_object_set_data (G_OBJECT (button), "app", App);
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "mp");
+	} else
+		gtk_widget_hide (w);
+	prop = elt->GetProperty ("boilingpoint");
+	button = glade_xml_get_widget (xml, "boiling-btn");
+	if (prop) {
+		w = glade_xml_get_widget (xml, "boiling");
+		gtk_label_set_text (GTK_LABEL (w), prop->GetAsString ());
+		g_object_set_data (G_OBJECT (button), "app", App);
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "bp");
+	} else
+		gtk_widget_hide (button);
+#else
+	w = glade_xml_get_widget (xml, "thermal-table");
+	gtk_widget_hide (w);
+#endif
 }
 
 GChemTableElt::~GChemTableElt ()

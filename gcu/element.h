@@ -31,6 +31,7 @@
 #include <vector>
 #include "chemistry.h"
 #include "isotope.h"
+#include "value.h"
 
 using namespace std;
 
@@ -255,6 +256,13 @@ public:
 	For most elements, only the first is known.
 	*/
 	GcuDimensionalValue const *GetElectronAffinity (unsigned rank = 1);
+	/*!
+	@param property_name: the name of the property as used in the Blue
+	Obelisk Data Repository (without the "bo:" prefix).
+
+	@return the requested property if known, or NULL.
+	*/
+	Value *const GetProperty (char const *property_name) {return props[property_name];}
 
 private:
 	unsigned char m_Z, m_nve, m_tve, m_maxve;
@@ -273,6 +281,7 @@ private:
 	vector<GcuDimensionalValue> m_ei;
 	vector<GcuDimensionalValue> m_ae;
 	map<string, string> names;
+	map<string, Value*> props;
 	string ElecConfig;
 };
 
