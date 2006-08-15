@@ -1,6 +1,15 @@
 ##Text encoding: utf-8
 
 2006-08-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* configure.ac: Escaped squared brackets. Fixed the AC_ARG_ENABLE and
+	AC_ARG_WITH macro usage. Some $foodir variables need be be processed
+	twice with eval or we will observe a bug. Some cosmetic improvements.
+	Small changes for the way we detect the fd.o helper utils and ask the
+	question, if they should run after installation.
+	* Makefile.am: Ditto. Implemented the changes if the fd.o helper utils
+	should run after installation.
+
+2006-08-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* docs/man/gchem3d-viewer.1.xml: Added Jean as program author to
 	AUTHORs section.
 	* docs/man/gchemcalc.1.xml: Ditto.

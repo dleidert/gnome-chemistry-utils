@@ -21,28 +21,45 @@ AC_HEADER_STDC
 AC_PROG_LIBTOOL
 AC_PROG_INTLTOOL
 
-GCU_VERSION_INFO=`echo $GCU_VERSION|awk -F . '{ print $1+$2":"$3":"$2 }'`
+GCU_VERSION_INFO=`echo $GCU_VERSION | awk -F . '{ print $1+$2":"$3":"$2 }'`
 
 AC_SUBST(GCU_VERSION_INFO)
 
-ALL_LINGUAS="de fr it pl pt_BR ru"
+ALL_LINGUAS="de fr it pl ru"
 AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",[Package name for internationalization])
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Package name for internationalization])
 
 AC_ARG_ENABLE([update-databases],
-	[AC_HELP_STRING(
-		[--disable-update-databases],
-		[do not run the update-desktop-database or update-mime-database utilities, mostly useful for package maintainers]
-	)],
-	[update_databases=$enableval],
-	[update_databases=yes]
+	[
+	 AC_HELP_STRING(
+		[--enable-update-databases],
+		[
+		 enable (or disable) the running of the update-desktop-database and update-mime-database
+		 utilities (mostly useful for package maintainers) @<:@default=yes@:>@
+		]
+	 )
+	],
+	[
+	 if test "x$enableval" != "xno"; then
+	 	AC_PATH_PROG([UPDATE_DESKTOP_DATABASE], [update-desktop-database], [no])
+		AC_PATH_PROG([UPDATE_MIME_DATABASE], [update-mime-database], [no])
+	 else
+	 	UPDATE_DESKTOP_DATABASE=no
+		UPDATE_MIME_DATABASE=no
+	 fi
+	],
+	[
+	 AC_PATH_PROG([UPDATE_DESKTOP_DATABASE], [update-desktop-database], [no])
+	 AC_PATH_PROG([UPDATE_MIME_DATABASE], [update-mime-database], [no])
+	]
 )
-AM_CONDITIONAL(UPDATE_DATABASES,test "$update_databases" = "yes")
 
-AC_PATH_PROG(DOXYGEN, doxygen, no)
-AM_CONDITIONAL(DOXYGEN_AVAILABLE,test "$DOXYGEN" != "no")
+AM_CONDITIONAL([WITH_UPDATE_DESKTOP], [test "x$UPDATE_DESKTOP_DATABASE" != "xno"])
+
+AC_PATH_PROG([DOXYGEN], [doxygen], [no])
+AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
 LIBGLADE_REQUIRED_VERSION=2.4.0
 GTKGLEXT_REQUIRED_VERSION=1.0.0
@@ -63,12 +80,7 @@ libgoffice-1 >= $GNOME_OFFICE_REQUIRED_VERSION \
 shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION"
 
-if test "$update_databases" = "yes"; then
-	AC_CHECK_PROG(UPDATE_DESKTOP, update-desktop-database, yes)
-fi
-AM_CONDITIONAL(WITH_UPDATE_DESKTOP,test "$UPDATE_DESKTOP" = "yes")
-
-PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
+PKG_CHECK_MODULES([GCU], [$REQUIREMENTS])
 
 saved_cflags=$CFLAGS
 CFLAGS=$GCU_CFLAGS
@@ -76,13 +88,9 @@ AC_COMPILE_IFELSE(
 	AC_LANG_PROGRAM(
 		[#include <goffice/gtk/go-graph-widget.h>],
 		[go_graph_widget_new(NULL)]
-	),
-	[new_go_graph_widget_api="yes"],
-	[new_go_graph_widget_api="no"]
+	),,
+	[AC_DEFINE([GO_GRAPH_WIDGET_OLD_API], [1], [Define to 1 if go_graph_widget_new() has no arg.])]
 )
-if test "$new_go_graph_widget_api" = "no"; then
-	AC_DEFINE_UNQUOTED(GO_GRAPH_WIDGET_OLD_API, 1,[go_graph_widget_new has no arg])
-fi
 CFLAGS=$saved_cflags
 
 GCU_CFLAGS="$GCU_CFLAGS -Wall"
@@ -90,24 +98,26 @@ AC_SUBST(GCU_CFLAGS)
 AC_SUBST(GCU_LIBS)
 
 dnl check for chemical-mime-data
-PKG_CHECK_MODULES(chemical_mime_data, \
-	[chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION], \
-	[have_chemical_mime_data="yes"], \
-	[have_chemical_mime_data="no", echo "no"])
-AM_CONDITIONAL(HAVE_CHEMICAL_MIME_DATA,[test "$have_chemical_mime_data" = "yes"])
+AC_MSG_CHECKING([for chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION])
+PKG_CHECK_EXISTS(
+	[chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION],
+	[have_chemical_mime_data="yes"],
+	[have_chemical_mime_data="no"]
+)
+AC_MSG_RESULT([$have_chemical_mime_data])
+AM_CONDITIONAL([WITH_UPDATE_MIME], [test "x$UPDATE_MIME_DATABASE" != "xno" -a "x$have_chemical_mime_data" != "xyes"])
 
 AC_LANG(C++)
 AC_MSG_CHECKING([for vector::at usability])
 AC_TRY_COMPILE(
 	[#include <vector>],
 	[std::vector<int> v; v.at(0) = 0;],
-	[at_ok=yes],
-	[at_ok=no]
+	[
+	 AC_DEFINE([HAS_VECTOR_AT], [1], [Define to 1 if vector::at can be used.])
+	 AC_MSG_RESULT([yes])
+	],
+	[AC_MSG_RESULT([no])]
 )
-AC_MSG_RESULT($at_ok)
-if test "$at_ok" = "yes"; then
-	AC_DEFINE_UNQUOTED(HAS_VECTOR_AT, 1, [vector::at can be used])
-fi
 
 ##################################################
 # Check for mozilla plugin
@@ -119,35 +129,43 @@ build_mozilla_plugin=no
 test_mozilla_plugin=true
 AC_ARG_ENABLE(
 	[mozilla-plugin],
-	[AC_HELP_STRING(
+	[
+	 AC_HELP_STRING(
 		[--enable-mozilla-plugin],
-		[build a Mozilla/Firefox chemistry files viewing plugin [default=auto]]
-	)],
+		[build a Mozilla/Firefox chemistry files viewing plugin @<:@default=auto@:>@]
+	 )
+	],
 	[test_mozilla_plugin="$enableval"]
 )
 
 if test "x$test_mozilla_plugin" != "xno"; then
 	if test -z "$MOZILLA_CONFIG"; then
-		AC_PATH_PROG(MOZILLA_CONFIG, mozilla-config, no)
+		AC_PATH_PROG([MOZILLA_CONFIG], [mozilla-config], [no])
 	fi
 	
 	if test "x$MOZILLA_CONFIG" != "xno"; then
 		MOZILLA_CFLAGS=`mozilla-config --cflags`
-		mozlibdir=`mozilla-config --libs|sed 's/-L//'`
+		mozlibdir=`mozilla-config --libs | sed 's/-L//'`
 	else
 		PKG_CHECK_MODULES(
 			[MOZILLA],
 			[mozilla-plugin],
 			[build_mozilla_plugin=yes],
-			[echo "no"; PKG_CHECK_MODULES(
+			[
+			 echo "no"
+			 PKG_CHECK_MODULES(
 				[MOZILLA],
 				[firefox-plugin],
 				[build_mozilla_plugin=yes],
-				[echo "no"; AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])]
-			)]
+				[
+				 echo "no"
+				 AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])
+				]
+			 )
+			]
 		)
 		mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
-		if test "x$mozlibdir" = "x"; then
+		if test -z "$mozlibdir"; then
 			mozlibdir=`pkg-config --variable=libdir firefox-plugin`
 		fi
 	fi
@@ -159,16 +177,18 @@ fi
 
 AC_ARG_WITH(
 	[mozilla-libdir],
-	[AC_HELP_STRING(
+	[
+	 AC_HELP_STRING(
 		[--with-mozilla-libdir],
-		[path to mozilla/firefox libdir [default=auto]]
-	)],
+		[path to mozilla/firefox libdir @<:@default=auto@:>@]
+	 )
+	],
 	[mozlibdir=$withval]
 )
 
-AM_CONDITIONAL(WITH_MOZILLA,[test "x$build_mozilla_plugin" = "xyes"])
-AC_SUBST(MOZILLA_CFLAGS)
-AC_SUBST(mozlibdir)
+AM_CONDITIONAL([WITH_MOZILLA], [test "x$build_mozilla_plugin" = "xyes"])
+AC_SUBST([MOZILLA_CFLAGS])
+AC_SUBST([mozlibdir])
 
 ##################################################
 # Check for manpage target applications
@@ -185,36 +205,30 @@ MP_PROG_MAN
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
 fi
-eval dt=`echo $datadir`
+eval eval dt=`echo $datadir`
 eval sy=`echo $sysconfdir`
 if test "$exec_prefix" = "NONE"; then
-	lb=`echo $libdir| sed 's/exec_prefix/prefix/'`
+	lb=`echo $libdir | sed 's/exec_prefix/prefix/'`
 	eval lb=`echo $lb`
-	bd=`echo $bindir| sed 's/exec_prefix/prefix/'`
-	eval BINDIR=`echo $bd`
-	le=`echo $libexecdir| sed 's/exec_prefix/prefix/'`
+	le=`echo $libexecdir | sed 's/exec_prefix/prefix/'`
 	eval le=`echo $le`
 else
-	eval lb=`echo $libdir`
-	eval BINDIR=`echo $bindir`
-	eval le=`echo $libexecdir`
+	eval eval lb=`echo $libdir`
+	eval eval le=`echo $libexecdir`
 fi
-AC_DEFINE_UNQUOTED(PREFIX, "$prefix",[Where the Gnome Chemistry Utils are to be installed])
+AC_DEFINE_UNQUOTED([PREFIX], ["$prefix"], [Where the Gnome Chemistry Utils are to be installed])
 case $srcdir in
 	/*)
-		AC_DEFINE_UNQUOTED(SRCDIR, "$srcdir",[Where the Gnome Chemistry Utils are compiled])
+		AC_DEFINE_UNQUOTED([SRCDIR], ["$srcdir"], [Where the Gnome Chemistry Utils are compiled.])
 	;;
 	*)
-		AC_DEFINE_UNQUOTED(SRCDIR, "`pwd`/$srcdir",[Where the Gnome Chemistry Utils are compiled])
+		AC_DEFINE_UNQUOTED([SRCDIR], ["`pwd`/$srcdir"], [Where the Gnome Chemistry Utils are compiled.])
 	;;
 esac
-AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Chemistry Utils data are to be installed (default=${prefix}/share)])
-AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Chemistry Utils configuration files are to be installed (default=${prefix}/etc)])
-AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Chemistry Utils libraries are to be installed (default=${prefix}/lib)])
-AC_DEFINE_UNQUOTED(LIBEXECDIR, "$le",[Where Gnome Chemistry Utils program executables are to be installed (default=${exec_prefix}/libexecdir)])
-AC_SUBST(BINDIR)
-PIXMAPSDIR=$dt/pixmaps
-AC_SUBST(PIXMAPSDIR)
+AC_DEFINE_UNQUOTED([DATADIR], ["$dt"], [Where Gnome Chemistry Utils data are to be installed. (default=${prefix}/share)])
+AC_DEFINE_UNQUOTED([SYSCONFDIR], ["$sy"] ,[Where Gnome Chemistry Utils configuration files are to be installed. (default=${prefix}/etc)])
+AC_DEFINE_UNQUOTED([LIBDIR], ["$lb"] ,[Where Gnome Chemistry Utils libraries are to be installed. (default=${prefix}/lib)])
+AC_DEFINE_UNQUOTED([LIBEXECDIR], ["$le"] ,[Where Gnome Chemistry Utils program executables are to be installed. (default=${exec_prefix}/libexecdir)])
 
 AC_OUTPUT([
 Makefile
