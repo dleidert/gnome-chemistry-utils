@@ -5,7 +5,7 @@
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchem3d-viewer.1.xml,v 1.1.2.4 2006-07-28 01:03:20 dleidert Exp $
+	$Id: gchem3d-viewer.1.xml,v 1.1.2.5 2006-08-15 00:37:57 dleidert Exp $
 
   Copyright (C) 2004-2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -27,7 +27,7 @@
 	<!ENTITY dhpackage    "gchem3d-viewer">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-07-28 01:03:20 $">
+	<!ENTITY dhdate       "$Date: 2006-08-15 00:37:57 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
@@ -67,18 +67,13 @@
 			<arg choice="opt" rep="norepeat"><replaceable>FILE</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
-	<refsect1>
+	<refsect1 id="description">
 		<title>DESCRIPTION</title>
-		<para>
-			<command>&dhpackage;</command> is a small chemical viewer application, which can
-			show several chemical file formats.
-		</para>
+		<para><command>&dhpackage;</command> is a small chemical viewer application, which can show several chemical file formats.</para>
 	</refsect1>
-	<refsect1>
+	<refsect1 id="options">
 		<title>OPTIONS</title>
-		<para>
-			The following options are accepted:
-		</para>
+		<para>The following options are accepted:</para>
 		<variablelist>
 			<varlistentry>
 				<term><option>-b <replaceable class="parameter">COLOR</replaceable></option></term>
@@ -97,7 +92,7 @@
 				<listitem>
 					<para>Choose how molecules are displayed. <replaceable class="parameter">MODEL</replaceable> can be one of <simplelist type="inline">
 						<member>"<replaceable class="parameter">BallnStick</replaceable>" (default)</member>
-						<member>"<replaceable class="parameter">SpaceFillShow</replaceable>"</member>
+						<member>"<replaceable class="parameter">SpaceFill</replaceable>"</member>
 					</simplelist>.</para>
 				</listitem>
 			</varlistentry>
@@ -110,14 +105,15 @@
 			</varlistentry>
 			<varlistentry>
 				<term><option>--help-all</option></term>
-				<listitem>
-					<para>Show all help options (not all documented here).</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
 				<term><option>--help-*</option></term>
 				<listitem>
-					<para>Show grouped help options (not documented here).</para>
+					<para>Print all or just a group of help options. These options are not documented here. Instead see <citerefentry>
+						<refentrytitle>gtk-options</refentrytitle>
+						<manvolnum>7</manvolnum>
+					</citerefentry> and <citerefentry>
+						<refentrytitle>gnome-otions</refentrytitle>
+						<manvolnum>7</manvolnum>
+					</citerefentry>.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -128,6 +124,16 @@
 				</listitem>
 			</varlistentry>
 		</variablelist>
+	</refsect1>
+	<refsect1 id="see_also">
+		<title>SEE ALSO</title>
+		<para><citerefentry>
+			<refentrytitle>gnome-options</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry>, <citerefentry>
+			<refentrytitle>gtk-options</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry></para>
 	</refsect1>
 </refentry>
 

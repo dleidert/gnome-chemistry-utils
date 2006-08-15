@@ -1,11 +1,11 @@
 .\"     Title: gchem3d\-viewer
 .\"    Author: Daniel Leidert <daniel.leidert@wgdd.de>
 .\" Generator: DocBook XSL Stylesheets v1.70.1 <http://docbook.sf.net/>
-.\"      Date: $Date: 2006-07-28 01:03:20 $
+.\"      Date: $Date: 2006-08-15 00:37:57 $
 .\"    Manual: gnome\-chemistry\-utils
 .\"    Source: gcu 0.6.2
 .\"
-.TH "GCHEM3D\-VIEWER" "1" "$Date: 2006-07-28 01:03:20 $" "gcu 0.6.2" "gnome\-chemistry\-utils"
+.TH "GCHEM3D\-VIEWER" "1" "$Date: 2006-08-15 00:37:57 $" "gcu 0.6.2" "gnome\-chemistry\-utils"
 .\" disable hyphenation
 .nh
 .\" disable justification (adjust text to left margin only)
@@ -17,7 +17,6 @@ gchem3d\-viewer \- a small chemical viewer application
 \fBgchem3d\-viewer\fR [\fBOPTION(S)\fR...] [\fIFILE\fR]
 .SH "DESCRIPTION"
 .PP
-
 \fBgchem3d\-viewer\fR
 is a small chemical viewer application, which can show several chemical file formats.
 .SH "OPTIONS"
@@ -37,24 +36,30 @@ can be one of
 Choose how molecules are displayed.
 \fIMODEL\fR
 can be one of
-"\fIBallnStick\fR" (default), "\fISpaceFillShow\fR".
+"\fIBallnStick\fR" (default), "\fISpaceFill\fR".
 .RE
 .PP
 \fB\-?\fR, \fB\-\-help\fR
 .RS 3n
 Show help options.
 .RE
-.TP 3n
-\fB\-\-help\-all\fR
-Show all help options (not all documented here).
-.TP 3n
-\fB\-\-help\-*\fR
-Show grouped help options (not documented here).
+.PP
+\fB\-\-help\-all\fR, \fB\-\-help\-*\fR
+.RS 3n
+Print all or just a group of help options. These options are not documented here. Instead see
+\fBgtk\-options\fR(7)
+and
+\fBgnome\-otions\fR(7).
+.RE
 .PP
 \fB\-v\fR, \fB\-\-version\fR
 .RS 3n
 Print gchem3d\-viewer version information.
 .RE
+.SH "SEE ALSO"
+.PP
+\fBgnome\-options\fR(7),
+\fBgtk\-options\fR(7)
 .SH "AUTHOR"
 .PP
 \fBDaniel\fR \fBLeidert\fR <daniel.leidert@wgdd.de>

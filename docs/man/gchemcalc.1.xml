@@ -5,7 +5,7 @@
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchemcalc.1.xml,v 1.1.2.3 2006-07-28 01:03:20 dleidert Exp $
+	$Id: gchemcalc.1.xml,v 1.1.2.4 2006-08-15 00:37:57 dleidert Exp $
 
   Copyright (C) 2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -27,7 +27,7 @@
 	<!ENTITY dhpackage    "gchemcalc">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-07-28 01:03:20 $">
+	<!ENTITY dhdate       "$Date: 2006-08-15 00:37:57 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
@@ -67,35 +67,32 @@
 			<arg choice="opt" rep="norepeat"><replaceable>FORMULA</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
-	<refsect1>
+	<refsect1 id="description">
 		<title>DESCRIPTION</title>
-		<para>
-			<command>&dhpackage;</command> is a simple calculator for chemists.
-		</para>
+		<para><command>&dhpackage;</command> is a simple calculator for chemists.</para>
 	</refsect1>
-	<refsect1>
+	<refsect1 id="options">
 		<title>OPTIONS</title>
-		<para>
-			The following options are accepted:
-		</para>
+		<para>The following options are accepted:</para>
 		<variablelist>
 			<varlistentry>
 				<term><option>-?</option></term>
 				<term><option>--help</option></term>
 				<listitem>
-					<para>Show help options.</para>
+					<para>Show application help options.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
 				<term><option>--help-all</option></term>
-				<listitem>
-					<para>Show all help options (not all documented here).</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
 				<term><option>--help-*</option></term>
 				<listitem>
-					<para>Show grouped help options (not documented here).</para>
+					<para>Print all or just a group of help options. These options are not documented here. Instead see <citerefentry>
+						<refentrytitle>gtk-options</refentrytitle>
+						<manvolnum>7</manvolnum>
+					</citerefentry> and <citerefentry>
+						<refentrytitle>gnome-otions</refentrytitle>
+						<manvolnum>7</manvolnum>
+					</citerefentry>.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -106,6 +103,16 @@
 				</listitem>
 			</varlistentry>
 		</variablelist>
+	</refsect1>
+	<refsect1 id="see_also">
+		<title>SEE ALSO</title>
+		<para><citerefentry>
+			<refentrytitle>gnome-options</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry>, <citerefentry>
+			<refentrytitle>gtk-options</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry></para>
 	</refsect1>
 </refentry>
 

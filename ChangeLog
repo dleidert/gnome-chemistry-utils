@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2006-07-28 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* docs/man/gchem3d-viewer.1.xml: Fixed a bug in the -d|--display3d
+	option description. Added cross-references for the GTK and GNOME
+	options. Some XML clean-up.
+	* docs/man/gchemcalc.1.xml: Ditto.
+	* docs/man/gchemtable.1.xml: Ditto.
+	* docs/man/libgcu.3.xml: Ditto.
+	* docs/man/gchem3d-viewer.1: Updated from source.
+	* docs/man/gchemcalc.1: Ditto.
+	* docs/man/gchemtable.1: Ditto.
+
 2006-07-28  Daniel Leidert  <daniel.leidert.spam@gmx.net>
 	* docs/man/gchem3d-viewer.1.xml: Fixed Header.
 	(OPTIONS): Cosmetic changes. More general description of the --help-*
