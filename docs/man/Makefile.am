@@ -9,7 +9,7 @@ DISTCLEAN = gcu_entities.dtd
 MAINTAINERCLEANFILES = Makefile.in
 
 XMLLINT_FLAGS  += --path "$(VPATH)" --noout --valid 
-XSLTPROC_FLAGS += --path "$(VPATH)"
+XSLTPROC_FLAGS += --path "$(VPATH)" --param man.charmap.use.subset "0"
 
 VPATH += @builddir@
 

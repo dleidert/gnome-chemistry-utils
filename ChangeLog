@@ -1,6 +1,19 @@
 ##Text encoding: utf-8
 
 2006-08-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* docs/man/gchem3d-viewer.1.xml: Added Jean as program author to
+	AUTHORs section.
+	* docs/man/gchemcalc.1.xml: Ditto.
+	* docs/man/gchemtable.1.xml: Ditto.
+	* docs/man/libgcu.3.xml: Ditto.
+	* docs/man/gchem3d-viewer.1: Updated from source.
+	* docs/man/gchemcalc.1: Ditto.
+	* docs/man/gchemtable.1: Ditto.
+	* docs/man/libgcu.3: Ditto.
+	* docs/man/Makefile.am (XSLTPROC_FLAGS): Added man.charmap.use.subset
+	parameter to allow the correctly formatted output of Jeans surname :).
+
+2006-08-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* docs/man/gchem3d-viewer.1.xml: One small adjustment, so the option
 	description is equal to gchemcalc.1.
 	* docs/man/libgcu.3.xml: Another small adjustment to the description.
