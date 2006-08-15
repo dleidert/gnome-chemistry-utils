@@ -5,7 +5,7 @@
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: libgcu.3.xml,v 1.1.2.4 2006-08-15 00:37:57 dleidert Exp $
+	$Id: libgcu.3.xml,v 1.1.2.5 2006-08-15 00:45:37 dleidert Exp $
 
   Copyright (C) 2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -27,7 +27,7 @@
 	<!ENTITY dhpackage    "libgcu">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-08-15 00:37:57 $">
+	<!ENTITY dhdate       "$Date: 2006-08-15 00:45:37 $">
 	<!ENTITY dhsection    "3">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
@@ -87,7 +87,7 @@
 	</refsect1>
 	<refsect1 id="see_also">
 		<title>SEE ALSO</title>
-		<para>The complete reference with examples is available online at <ulink url="http://www.nongnu.org/gchemutils/reference/"/> or (depending on your distribution) also locally at <filename>${datadir}/doc/gchemutils/reference</filename>.</para>
+		<para>The complete reference with examples is available online at <ulink url="http://www.nongnu.org/gchemutils/reference/"/> or (depending on your installation) also locally at <filename>${datadir}/doc/gchemutils/reference</filename>.</para>
 	</refsect1>
 </refentry>
 

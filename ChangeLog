@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
-2006-07-28 Daniel Leidert <daniel.leidert.spam@gmx.net>
+2006-08-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* docs/man/gchem3d-viewer.1.xml: One small adjustment, so the option
+	description is equal to gchemcalc.1.
+	* docs/man/libgcu.3.xml: Another small adjustment to the description.
+	* docs/man/gchem3d-viewer.1: Updated from source.
+	* docs/man/libgcu.3: Ditto.
+
+2006-08-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* docs/man/gchem3d-viewer.1.xml: Fixed a bug in the -d|--display3d
 	option description. Added cross-references for the GTK and GNOME
 	options. Some XML clean-up.
