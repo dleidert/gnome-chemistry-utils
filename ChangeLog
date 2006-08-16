@@ -1,6 +1,18 @@
 ##Text encoding: utf-8
 
 2006-08-16 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* programs/gchem3d-viewer.c (entries[]): Fixed GTK_STOCK_PRINT and
+	added GTK_STOCK_ABOUT icon.
+	(on_about, on_about_activate_url): Added some improvements and a
+	"clickable" Homepage-URL.
+	* programs/gchemcalc.cc (main): More general usage output.
+	(entries[]): Ditto (see above).
+	(on_about, on_about_activate_url): Ditto (see above).
+	(cb_print_version): Fixed output string.
+	* programs/gchemtable-app.cc (entries[]): Ditto (see above).
+	(on_about, on_about_activate_url): Ditto (see above).
+
+2006-08-16 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* programs/gchem3d-viewer.c (main): Added missing i18n-support
 	initialisation. Fixed a bug in the handling og the [-d|--display3d]
 	option (SpaceFill was not recognized).
