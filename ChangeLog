@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-08-16 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* programs/gchem3d-viewer.c (main): Added missing i18n-support
+	initialisation. Fixed a bug in the handling og the [-d|--display3d]
+	option (SpaceFill was not recognized).
+
 2006-08-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* configure.ac: Escaped squared brackets. Fixed the AC_ARG_ENABLE and
 	AC_ARG_WITH macro usage. Some $foodir variables need be be processed

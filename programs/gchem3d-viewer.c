@@ -234,6 +234,12 @@ int main(int argc, char *argv[])
 	GError *error = NULL;
 	GOptionContext *context;
 
+	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
+#ifdef ENABLE_NLS
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+#endif
+	textdomain (GETTEXT_PACKAGE);
+
 	gtk_init (&argc, &argv);
 	if (!gnome_vfs_init ()) {
 		printf ("Could not initialize GnomeVFS\n");
@@ -308,7 +314,7 @@ int main(int argc, char *argv[])
 
 	if (display3d) {
 		Display3DMode mode = BALL_AND_STICK;
-		if (!strcmp (display3d, "SpaceFill"))
+		if (strcmp (display3d, "SpaceFill"))
 			mode = SPACEFILL;
 		else if (strcmp (display3d, "BallnStick"))
 			g_warning (_("Unknown display mode"));
