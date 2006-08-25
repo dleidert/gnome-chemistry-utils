@@ -50,6 +50,15 @@ static void ReadValue (char const *source, GcuValue &value)
 	value.delta = (*buf == '(')? strtol (buf + 1, NULL, 10): 0;
 }
 
+static void ReadDimensionalValue (char const *source, GcuDimensionalValue &value)
+{
+	char *buf, *dot;
+	value.value = strtod (source, &buf);
+	dot = strchr (source, '.');
+	value.prec = (dot)? buf - dot - 1: 0;
+	value.delta = (*buf == '(')? strtol (buf + 1, NULL, 10): 0;
+}
+
 namespace gcu
 {
 
@@ -492,7 +501,7 @@ void Element::LoadRadii ()
 						xmlFree (buf);
 					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
 					if (buf) {
-						ReadValue (buf, (GcuValue&) radius->value) ;
+						ReadDimensionalValue (buf, radius->value) ;
 						radius->value.unit = (*it).c_str ();
 						Elt->m_radii.push_back (radius);
 						xmlFree (buf);

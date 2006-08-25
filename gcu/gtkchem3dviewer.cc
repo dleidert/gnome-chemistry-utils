@@ -459,7 +459,6 @@ static void draw_list (GtkChem3DViewer *viewer)
 	const gdouble* color;
 	while (atom)
 	{
-		Z = atom->GetAtomicNum();
 		x0 += atom->GetX();
 		y0 += atom->GetY();
 		z0 += atom->GetZ();

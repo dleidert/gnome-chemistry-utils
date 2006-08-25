@@ -247,12 +247,7 @@ int main(int argc, char *argv[])
 	GError *error = NULL;
 	GOptionContext *context;
 
-	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
-#ifdef ENABLE_NLS
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#endif
 	textdomain (GETTEXT_PACKAGE);
-
 	gtk_init (&argc, &argv);
 	if (!gnome_vfs_init ()) {
 		printf ("Could not initialize GnomeVFS\n");

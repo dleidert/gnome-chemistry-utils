@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2006-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/element.cc: fixed a compilation warning with gcc-4.
+	* gcu/gtkchem3dviewer.cc: removed an unuseful line.
+	* programs/gchem3d-viewer.c: removed duplicate call to bindtextdomain.
+	* programs/gchemcalc.cc: ditto.
+	* programs/gchemtable-main.cc: ditto.
+
 2006-08-16 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* programs/gchem3d-viewer.c (entries[]): Fixed GTK_STOCK_PRINT and
 	added GTK_STOCK_ABOUT icon.
