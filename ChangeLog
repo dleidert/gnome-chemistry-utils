@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2006-08-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed typos.
+
 2006-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/element.cc: fixed a compilation warning with gcc-4.
 	* gcu/gtkchem3dviewer.cc: removed an unuseful line.

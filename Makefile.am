@@ -55,7 +55,7 @@ if WITH_UPDATE_MIME
 	$(UPDATE_MIME_DATABASE) $(datadir)/mime
 endif
 if WITH_UPDATE_DESKTOP
-	$(UPDATE_DESTOP_DATABASE) $(datadir)/applications
+	$(UPDATE_DESKTOP_DATABASE) $(datadir)/applications
 endif #WITH_UPDATE_DESKTOP
 
 uninstall-hook:
@@ -63,9 +63,8 @@ if WITH_UPDATE_MIME
 	$(UPDATE_MIME_DATABASE) $(datadir)/mime
 endif #WITH_UPDATE_MIME
 if WITH_UPDATE_DESKTOP
-	$(UPDATE_DESTOP_DATABASE) $(datadir)/applications
+	$(UPDATE_DESKTOP_DATABASE) $(datadir)/applications
 endif #WITH_UPDATE_DESKTOP
 
 distcleancheck_listfiles = \
 	find -type f -exec sh -c 'test -f $(srcdir)/{} || echo {}' ';'
-
