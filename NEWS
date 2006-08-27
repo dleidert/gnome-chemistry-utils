@@ -1,3 +1,10 @@
+Version 0.6.2
+	Daniel Leidert:
+		add man pages.
+		fix various build issues.
+	Jean Bréfort:
+		fix various build issues.
+
 Version 0.6.1
 	fixed bromine atomic mass in database.
 
