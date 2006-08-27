@@ -5,7 +5,7 @@
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchemcalc.1.xml,v 1.1.2.5 2006-08-15 01:00:25 dleidert Exp $
+	$Id: gchemcalc.1.xml,v 1.1.2.6 2006-08-27 14:58:19 jean_brefort Exp $
 
   Copyright (C) 2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -27,7 +27,7 @@
 	<!ENTITY dhpackage    "gchemcalc">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-08-15 01:00:25 $">
+	<!ENTITY dhdate       "$Date: 2006-08-27 14:58:19 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
@@ -101,7 +101,7 @@
 						<refentrytitle>gtk-options</refentrytitle>
 						<manvolnum>7</manvolnum>
 					</citerefentry> and <citerefentry>
-						<refentrytitle>gnome-otions</refentrytitle>
+						<refentrytitle>gnome-options</refentrytitle>
 						<manvolnum>7</manvolnum>
 					</citerefentry>.</para>
 				</listitem>
@@ -126,4 +126,3 @@
 		</citerefentry></para>
 	</refsect1>
 </refentry>
-

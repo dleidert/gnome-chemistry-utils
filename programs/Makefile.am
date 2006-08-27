@@ -8,7 +8,7 @@ DEPS = $(top_builddir)/gcu/libgcu.la
 INCLUDES = @GCU_CFLAGS@
 LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
-AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
+DEFS +=  -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils/glade\"
 
 bin_PROGRAMS = gchemcalc gchem3d-viewer gchemtable
 
@@ -31,4 +31,3 @@ desktopdir=$(datadir)/applications
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
-

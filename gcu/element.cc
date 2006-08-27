@@ -86,7 +86,7 @@ EltTable Table;
 
 EltTable::EltTable()
 {
-	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
+	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 #ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
@@ -102,7 +102,7 @@ EltTable::EltTable()
 	Langs["it"] = _("Italian");
 	Langs["pl"] = _("Polish");
 	Langs["ru"] = _("Russian");
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils/elements.xml")))
+	if (!(xml = xmlParseFile (PKGDATADIR"/elements.xml")))
 	{
 		g_error (_("Can't find and read elements.xml"));
 	}
@@ -430,7 +430,7 @@ void Element::LoadRadii ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils/radii.xml")))
+	if (!(xml = xmlParseFile (PKGDATADIR"/radii.xml")))
 	{
 		g_error (_("Can't find and read radii.xml"));
 	}
@@ -530,7 +530,7 @@ void Element::LoadElectronicProps ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils/elecprops.xml")))
+	if (!(xml = xmlParseFile (PKGDATADIR"/elecprops.xml")))
 	{
 		g_error (_("Can't find and read elecprops.xml"));
 	}
@@ -688,7 +688,7 @@ void Element::LoadIsotopes ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils/isotopes.xml")))
+	if (!(xml = xmlParseFile (PKGDATADIR"/isotopes.xml")))
 	{
 		g_error (_("Can't find and read isotopes.xml"));
 	}

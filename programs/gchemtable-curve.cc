@@ -170,7 +170,7 @@ static void on_copy (GogGraph *graph)
 }
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
-	Dialog (App, DATADIR"/gchemutils/glade/curve.glade", "curvedlg")
+	Dialog (App, GLADEDIR"/curve.glade", "curvedlg")
 {
 	m_Name = name;
 	GtkWidget *w = glade_xml_get_widget (xml, "vbox1");

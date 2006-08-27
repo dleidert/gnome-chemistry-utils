@@ -471,7 +471,7 @@ int main (int argc, char *argv[])
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
-	GladeXML *xml =  glade_xml_new (DATADIR"/gchemutils/glade/gchemcalc.glade", "gchemcalc", NULL);
+	GladeXML *xml =  glade_xml_new (GLADEDIR"/gchemcalc.glade", "gchemcalc", NULL);
 	GtkWidget *window = glade_xml_get_widget (xml, "gchemcalc");
 	g_signal_connect (GTK_OBJECT (window), "destroy",
 		 G_CALLBACK (gtk_main_quit),

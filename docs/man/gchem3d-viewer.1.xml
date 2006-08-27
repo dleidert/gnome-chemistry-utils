@@ -5,7 +5,7 @@
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchem3d-viewer.1.xml,v 1.1.2.8 2006-08-15 01:05:51 dleidert Exp $
+	$Id: gchem3d-viewer.1.xml,v 1.1.2.9 2006-08-27 14:58:19 jean_brefort Exp $
 
   Copyright (C) 2004-2006 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -27,7 +27,7 @@
 	<!ENTITY dhpackage    "gchem3d-viewer">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-08-15 01:05:51 $">
+	<!ENTITY dhdate       "$Date: 2006-08-27 14:58:19 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
@@ -122,7 +122,7 @@
 						<refentrytitle>gtk-options</refentrytitle>
 						<manvolnum>7</manvolnum>
 					</citerefentry> and <citerefentry>
-						<refentrytitle>gnome-otions</refentrytitle>
+						<refentrytitle>gnome-options</refentrytitle>
 						<manvolnum>7</manvolnum>
 					</citerefentry>.</para>
 				</listitem>
@@ -147,4 +147,3 @@
 		</citerefentry></para>
 	</refsect1>
 </refentry>
-

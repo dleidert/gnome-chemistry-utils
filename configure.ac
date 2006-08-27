@@ -202,33 +202,22 @@ MP_PROG_MAN
 # Path checks
 ##################################################
 
-if test "$prefix" = "NONE"; then
-	prefix="/usr/local"
-fi
-eval eval dt=`echo $datadir`
-eval sy=`echo $sysconfdir`
-if test "$exec_prefix" = "NONE"; then
-	lb=`echo $libdir | sed 's/exec_prefix/prefix/'`
-	eval lb=`echo $lb`
-	le=`echo $libexecdir | sed 's/exec_prefix/prefix/'`
-	eval le=`echo $le`
-else
-	eval eval lb=`echo $libdir`
-	eval eval le=`echo $libexecdir`
-fi
-AC_DEFINE_UNQUOTED([PREFIX], ["$prefix"], [Where the Gnome Chemistry Utils are to be installed])
 case $srcdir in
 	/*)
-		AC_DEFINE_UNQUOTED([SRCDIR], ["$srcdir"], [Where the Gnome Chemistry Utils are compiled.])
+		TESTSSRCDIR="$srcdir/tests"
 	;;
 	*)
-		AC_DEFINE_UNQUOTED([SRCDIR], ["`pwd`/$srcdir"], [Where the Gnome Chemistry Utils are compiled.])
+		TESTSSRCDIR=`pwd`"/$srcdir/tests"
 	;;
 esac
-AC_DEFINE_UNQUOTED([DATADIR], ["$dt"], [Where Gnome Chemistry Utils data are to be installed. (default=${prefix}/share)])
-AC_DEFINE_UNQUOTED([SYSCONFDIR], ["$sy"] ,[Where Gnome Chemistry Utils configuration files are to be installed. (default=${prefix}/etc)])
-AC_DEFINE_UNQUOTED([LIBDIR], ["$lb"] ,[Where Gnome Chemistry Utils libraries are to be installed. (default=${prefix}/lib)])
-AC_DEFINE_UNQUOTED([LIBEXECDIR], ["$le"] ,[Where Gnome Chemistry Utils program executables are to be installed. (default=${exec_prefix}/libexecdir)])
+
+AC_SUBST(TESTSSRCDIR)
+dnl AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Chemistry Utils data are to be installed (default=${prefix}/share)])
+dnl AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Chemistry Utils configuration files are to be installed (default=${prefix}/etc)])
+dnl AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Chemistry Utils libraries are to be installed (default=${prefix}/lib)])
+dnl AC_DEFINE_UNQUOTED(LIBEXECDIR, "$le",[Where Gnome Chemistry Utils program executables are to be installed (default=${exec_prefix}/libexecdir)])
+dnl PIXMAPSDIR=$dt/pixmaps
+dnl AC_SUBST(PIXMAPSDIR)
 
 AC_OUTPUT([
 Makefile
