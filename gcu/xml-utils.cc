@@ -24,6 +24,10 @@
 
 #include "xml-utils.h"
 #include <string.h>
+#include <set>
+#include <string>
+
+using namespace std;
 
 xmlNodePtr FindNodeByNameAndId (xmlNodePtr node, const char* name, const char* id)
 {
@@ -153,6 +157,9 @@ bool WriteColor (xmlDocPtr xml, xmlNodePtr node, const char* id, double red, dou
 	return true;
 }
 
+// we must have static strings 
+set <string> ScaleNames;
+
 bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 {
 	char *tmp, *dot, *end;
@@ -169,7 +176,15 @@ bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 		xmlFree (tmp);
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "scale");
 	if (tmp) {
-		radius.scale = g_strdup (tmp);
+		set <string>::iterator i = ScaleNames.find (tmp);
+		if (i == ScaleNames.end ()) {
+			std::pair<set <string>::iterator,bool> res = ScaleNames.insert (tmp);
+			if (res.second)
+				radius.scale = (*res.first).c_str ();
+			else
+			radius.scale = "custom";
+		} else
+			radius.scale = (*i).c_str ();
 		xmlFree (tmp);
 	} else
 		radius.scale = NULL;
@@ -197,7 +212,7 @@ bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 		radius.value.value = strtod (tmp, &end);
 		dot = strchr (tmp, '.');
 		radius.value.prec = (dot)? end - dot - 1: 0;
-		radius.scale = g_strdup ("custom");
+		radius.scale = "custom";
 		xmlFree(tmp);
 	} else {
 		if (tmp)

@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.7.3, http://savannah.nongnu.org/bugs/?group=gchemutils)
+AC_INIT(gnome-chemistry-utils, 0.7.4, http://savannah.nongnu.org/bugs/?group=gchemutils)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -182,17 +182,13 @@ AC_CHECK_HEADER(sstream,AC_DEFINE(HAVE_SSTREAM,1,[sstream present]))
 if test "$prefix" = "NONE"; then
 	prefix="/usr/local"
 fi
-eval dt=`echo $datadir`
 dnl a second eval is necessary for GNU autoconf >= 2.59c
-eval dt=`echo $dt`
+eval eval dt=`echo $datadir`
 eval sy=`echo $sysconfdir`
 if test "$exec_prefix" = "NONE"; then
-	lb=`echo $libdir| sed 's/exec_prefix/prefix/'`
-	eval lb=`echo $lb`
-	bd=`echo $bindir| sed 's/exec_prefix/prefix/'`
-	eval BINDIR=`echo $bd`
-	le=`echo $libexecdir| sed 's/exec_prefix/prefix/'`
-	eval le=`echo $le`
+	eval lb=`echo $libdir| sed 's/exec_prefix/\${exec_prefix}/\${prefix}/'`
+	eval BINDIR=`echo $bindir| sed 's/\${exec_prefix}/\${prefix}/'`
+	eval le=`echo $libexecdir| sed 's/\${exec_prefix}/\${prefix}/'`
 else
 	eval lb=`echo $libdir`
 	eval BINDIR=`echo $bindir`

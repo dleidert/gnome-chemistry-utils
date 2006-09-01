@@ -306,10 +306,8 @@ Element::~Element()
 {
 	while (!m_radii.empty()) {
 		GcuAtomicRadius *radius = m_radii.back();
-		if (radius) {
-			if (radius->scale) g_free(radius->scale);
+		if (radius)
 			delete radius;
-		}
 		m_radii.pop_back();
 	}
 	while (!m_en.empty()) {

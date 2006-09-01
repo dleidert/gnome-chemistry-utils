@@ -599,7 +599,7 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 	
 		setlocale(LC_NUMERIC, old_num_locale);
 		g_free(old_num_locale);
-		
+
 		return xml;
 	}
 	catch (int num)

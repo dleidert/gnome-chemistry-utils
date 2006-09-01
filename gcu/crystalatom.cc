@@ -51,7 +51,6 @@ CrystalAtom::CrystalAtom(): Atom()
 
 CrystalAtom::~CrystalAtom()
 {
-	if (m_Radius.scale) g_free(m_Radius.scale);
 }
 
 CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
@@ -189,12 +188,14 @@ void CrystalAtom::NetToCartesian(double a, double b, double c, double alpha, dou
 		(dx * cos(beta) + dy * cos(alpha) + dz));
 }
 
-bool CrystalAtom::SaveNode(xmlDocPtr xml, xmlNodePtr node)
+bool CrystalAtom::SaveNode (xmlDocPtr xml, xmlNodePtr node)
 {
-	if (!WriteRadius(xml, node, m_Radius)) return false;
-	
-	if (m_bCustomColor && !WriteColor(xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha)) return false;
-	
+	if (!WriteRadius (xml, node, m_Radius))
+		return false;
+
+	if (m_bCustomColor && !WriteColor (xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha))
+		return false;
+
 	return true;
 }
 
@@ -219,9 +220,7 @@ void CrystalAtom::SetRadius(const GcuAtomicRadius& r)
 	m_Radius.type = r.type;
 	m_Radius.value = r.value;
 	m_Radius.charge = r.charge;
-	if (m_Radius.scale) g_free(m_Radius.scale);
-	if (r.scale) m_Radius.scale = g_strdup(r.scale);
-	else m_Radius.scale = NULL;
+	m_Radius.scale = r.scale;
 	m_Radius.cn = r.cn;	//coordination number: -1: unspecified
 	m_Radius.spin = r.spin;
 }

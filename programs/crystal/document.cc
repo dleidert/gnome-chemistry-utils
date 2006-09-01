@@ -236,7 +236,7 @@ void gcDocument::Save()
 
 	try {
 		xml = BuildXMLTree();
-	
+
 		if (xmlSaveFile (m_filename, xml) < 0)
 			Error (SAVE);
 			

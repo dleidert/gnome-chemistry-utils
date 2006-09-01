@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2006-09-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* NEWS: add some news.
+	* configure.ac: post release version bump (0.7.4).
+	* gcu/chemistry.h: make radius scale a const char* (fixes a major bug
+	in gcrystal).
+	* gcu/crystalatom.cc: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/xml-utils.cc: ditto.
+	* gcu/crystaldoc.cc: minor typographic fix.
+	* programs/crystal/document.cc: ditto.
+
 2006-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: remove debug extra line.
 	* gcu/Makefile.am: add value.*.
