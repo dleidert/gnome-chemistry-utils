@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2006-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/xml-utils.cc:updated copyright years.
+	* gcu/xml-utils.h: ditto.
+	* programs/3d/main.cc: initialize libgoffice (for translation).
+
+2006-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/Makefile.am: add man subdir.
 	* docs/help/Makefile.am: add MAINTAINERCLEANFILES.
 	* docs/help/crystal/Makefile.am: ditto.
