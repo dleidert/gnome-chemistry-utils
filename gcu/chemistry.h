@@ -136,7 +136,7 @@ typedef struct
 	/** The charge of the atom (or ion). */
 	char charge;
 	/** The scale name, e.g. "Pauling" or "Shannon". */
-	char* scale;
+	char const *scale;
 	/** the coordination number of the atom or -1 if unknown. */
 	char cn;	//coordination number: -1: unspecified
 	/** The spin state (unknown, low or high).*/
@@ -153,7 +153,7 @@ typedef struct
 	/*! The electronegativity value.*/
 	GcuValue value;
 	/** The scale name, e.g. "Pauling" or "Mulliken". */
-	char* scale;
+	char const *scale;
 } GcuElectronegativity;
 
 /*! GcuIsotope

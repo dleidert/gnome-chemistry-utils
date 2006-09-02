@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.6.2)
+AC_INIT(gnome-chemistry-utils, 0.6.3)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -212,12 +212,6 @@ case $srcdir in
 esac
 
 AC_SUBST(TESTSSRCDIR)
-dnl AC_DEFINE_UNQUOTED(DATADIR, "$dt",[Where Gnome Chemistry Utils data are to be installed (default=${prefix}/share)])
-dnl AC_DEFINE_UNQUOTED(SYSCONFDIR, "$sy",[Where Gnome Chemistry Utils configuration files are to be installed (default=${prefix}/etc)])
-dnl AC_DEFINE_UNQUOTED(LIBDIR, "$lb",[Where Gnome Chemistry Utils libraries are to be installed (default=${prefix}/lib)])
-dnl AC_DEFINE_UNQUOTED(LIBEXECDIR, "$le",[Where Gnome Chemistry Utils program executables are to be installed (default=${exec_prefix}/libexecdir)])
-dnl PIXMAPSDIR=$dt/pixmaps
-dnl AC_SUBST(PIXMAPSDIR)
 
 AC_OUTPUT([
 Makefile

@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2006-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.6.3).
+	* gcu/chemistry.h: make radius scale a const char* (fixes a major bug
+	in gcrystal).
+	* gcu/crystalatom.cc: ditto.
+	* gcu/element.cc:ditto.
+	* gcu/xml-utils.cc: add new GetStaticScale function to help the above.
+	* gcu/xml-utils.h: ditto.
+	* programs/gchem3d-viewer.c: (main): initialize libgoffice.
+
 2006-08-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: removed DATADIR and others from config.h.
 	* docs/man/gchem3d-viewer.1.xml: fixed typo.

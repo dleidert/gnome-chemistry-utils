@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalatom.cc 
  *
- * Copyright (C) 2002-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -49,9 +49,8 @@ CrystalAtom::CrystalAtom(): Atom()
 	m_nCleave = 0;
 }
 
-CrystalAtom::~CrystalAtom()
+CrystalAtom::~CrystalAtom ()
 {
-	if (m_Radius.scale) g_free(m_Radius.scale);
 }
 
 CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
@@ -219,9 +218,7 @@ void CrystalAtom::SetRadius(const GcuAtomicRadius& r)
 	m_Radius.type = r.type;
 	m_Radius.value = r.value;
 	m_Radius.charge = r.charge;
-	if (m_Radius.scale) g_free(m_Radius.scale);
-	if (r.scale) m_Radius.scale = g_strdup(r.scale);
-	else m_Radius.scale = NULL;
+	m_Radius.scale = r.scale;
 	m_Radius.cn = r.cn;	//coordination number: -1: unspecified
 	m_Radius.spin = r.spin;
 }

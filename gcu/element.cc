@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "element.h"
+#include "xml-utils.h"
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
@@ -307,19 +308,11 @@ Element::Element(int Z, const char* Symbol)
 Element::~Element()
 {
 	while (!m_radii.empty()) {
-		GcuAtomicRadius *radius = m_radii.back();
-		if (radius) {
-			if (radius->scale) g_free(radius->scale);
-			delete radius;
-		}
+		delete m_radii.back();
 		m_radii.pop_back();
 	}
 	while (!m_en.empty()) {
-		GcuElectronegativity* en = m_en.back();
-		if (en) {
-			if (en->scale) g_free(en->scale);
-			delete en;
-		}
+		delete m_en.back();
 		m_en.pop_back();
 	}
 	while (!m_isotopes.empty ()) {
@@ -476,7 +469,7 @@ void Element::LoadRadii ()
 					}
 					buf = (char*) xmlGetProp (child, (xmlChar*) "scale");
 					if (buf) {
-						radius->scale = g_strdup (buf);
+						radius->scale = GetStaticScale (buf);
 						xmlFree (buf);
 					} else
 						radius->scale = NULL;
@@ -556,7 +549,7 @@ void Element::LoadElectronicProps ()
 					en->Z = Z;	//FIXME: is it really useful there?
 					buf = (char*) xmlGetProp (child, (xmlChar*) "scale");
 					if (buf) {
-						en->scale = g_strdup (buf);
+						en->scale = GetStaticScale (buf);
 						xmlFree (buf);
 					} else
 						en->scale = NULL;

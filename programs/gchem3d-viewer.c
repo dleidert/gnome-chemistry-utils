@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <string.h>
+#include <goffice/goffice.h>
 #include <goffice/gtk/go-action-combo-color.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomeprint/gnome-print.h>
@@ -282,6 +283,9 @@ int main(int argc, char *argv[])
 		g_free (dir);
 	} else
 		viewer = gtk_chem3d_viewer_new("");
+
+	/* Initialize libgoffice */
+	libgoffice_init ();
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "GtkChem3dViewer");
