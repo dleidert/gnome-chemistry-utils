@@ -1,1 +1,3 @@
-SUBDIRS = help reference
+SUBDIRS = help man reference
+
+MAINTAINERCLEANFILES = Makefile.in

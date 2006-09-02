@@ -1,6 +1,15 @@
 ##Text encoding: utf-8
 
 2006-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/Makefile.am: add man subdir.
+	* docs/help/Makefile.am: add MAINTAINERCLEANFILES.
+	* docs/help/crystal/Makefile.am: ditto.
+	* docs/reference/Makefile.am: ditto.
+	* glade/crystal/Makefile.am: ditto.
+	* pixmaps/Makefile.am: ditto.
+	* samples/Makefile.am: ditto.
+
+2006-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: fixed paths and other build issues.
 	* acinclude.m4: new file from Daniel.
 	* configure.ac: fixed paths and other build issues.

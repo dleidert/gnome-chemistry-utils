@@ -1,3 +1,5 @@
+MAINTAINERCLEANFILES = Makefile.in
+
 pixmapdir = $(datadir)/@PACKAGE@/pixmaps
 pixmap_DATA = gcrystal_logo.png
 

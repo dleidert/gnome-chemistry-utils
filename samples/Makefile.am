@@ -1,3 +1,5 @@
+MAINTAINERCLEANFILES = Makefile.in
+
 EXTRA_DIST =	CO2.gcrystal \
 				CO2_C.gcrystal \
 				CO2_O.gcrystal \

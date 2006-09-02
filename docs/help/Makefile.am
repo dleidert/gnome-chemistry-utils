@@ -1,1 +1,3 @@
 SUBDIRS = crystal
+
+MAINTAINERCLEANFILES = Makefile.in

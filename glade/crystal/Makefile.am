@@ -1,3 +1,5 @@
+MAINTAINERCLEANFILES = Makefile.in
+
 gladedir = $(datadir)/gchemutils-unstable/glade/crystal
 
 glade_DATA = \
