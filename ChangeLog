@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2006-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/man/Makefile.am: imported Daniel's work in HEAD.
+	* docs/man/gchem3d-viewer.1: ditto.
+	* docs/man/gchem3d-viewer.1.xml: ditto.
+	* docs/man/gchemcalc.1: ditto.
+	* docs/man/gchemcalc.1.xml: ditto.
+	* docs/man/gchemtable.1: ditto.
+	* docs/man/gchemtable.1.xml: ditto.
+	* docs/man/gcu_entities.dtd.in: ditto.
+	* docs/man/libgcu.3: ditto.
+	* docs/man/libgcu.3.xml: ditto.
+
 2006-09-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* NEWS: add some news.
 	* configure.ac: post release version bump (0.7.4).
