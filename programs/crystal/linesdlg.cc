@@ -89,7 +89,7 @@ static void on_medians_toggled (GtkToggleButton* btn, gcLinesDlg *pBox)
 	pBox->OnToggledSpecial (medians);
 }
 
-gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/lines.glade", "lines")
+gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/lines.glade", "lines")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog (this);

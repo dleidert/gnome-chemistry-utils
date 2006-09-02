@@ -1,6 +1,42 @@
 ##Text encoding: utf-8
 
 2006-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed paths and other build issues.
+	* acinclude.m4: new file from Daniel.
+	* configure.ac: fixed paths and other build issues.
+	* database/Makefile.am: ditto.
+	* dtds/Makefile.am: ditto.
+	* gcu/Makefile.am: ditto.
+	* gcu/chemistry.h: make scale a const char* in GcuElectronegativity.
+	* gcu/element.cc: ditto.
+	* gcu/xml-utils.cc: add new function GetStaticScale.
+	* gcu/xml-utils.h: ditto.
+	* glade/Makefile.am: fixed paths and other build issues.
+	* mozilla-plugin/Makefile.am: ditto.
+	* mozilla-plugin/moz-plugin.c: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/3d/main.cc: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/prefs.cc: ditto.
+	* programs/crystal/sizedlg.cc: ditto.
+	* programs/crystal/view-settings.cc: ditto.
+	* programs/table/Makefile.am: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-elt.cc: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+	* tests/Makefile.am: ditto.
+	* tests/testgtkchem3dviewer.c: (main): ditto.
+	* tests/testgtkcrystalviewer.c: (main): ditto.
+
+2006-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/man/Makefile.am: imported Daniel's work in HEAD.
 	* docs/man/gchem3d-viewer.1: ditto.
 	* docs/man/gchem3d-viewer.1.xml: ditto.

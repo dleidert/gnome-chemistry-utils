@@ -157,9 +157,6 @@ bool WriteColor (xmlDocPtr xml, xmlNodePtr node, const char* id, double red, dou
 	return true;
 }
 
-// we must have static strings 
-set <string> ScaleNames;
-
 bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 {
 	char *tmp, *dot, *end;
@@ -176,15 +173,7 @@ bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 		xmlFree (tmp);
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "scale");
 	if (tmp) {
-		set <string>::iterator i = ScaleNames.find (tmp);
-		if (i == ScaleNames.end ()) {
-			std::pair<set <string>::iterator,bool> res = ScaleNames.insert (tmp);
-			if (res.second)
-				radius.scale = (*res.first).c_str ();
-			else
-			radius.scale = "custom";
-		} else
-			radius.scale = (*i).c_str ();
+		radius.scale = GetStaticScale (tmp);
 		xmlFree (tmp);
 	} else
 		radius.scale = NULL;
@@ -279,4 +268,20 @@ bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 	if (radius.spin != GCU_N_A_SPIN)
 		xmlNewProp (child, (xmlChar*) "spin", (xmlChar*)((radius.spin == GCU_LOW_SPIN)? "low": "high"));
 	return true;
+}
+
+// we must have static strings 
+static set <string> ScaleNames;
+
+char const *GetStaticScale (char *buf)
+{
+	set <string>::iterator i = ScaleNames.find (buf);
+	if (i == ScaleNames.end ()) {
+		std::pair<set <string>::iterator,bool> res = ScaleNames.insert (buf);
+		if (res.second)
+			return (*res.first).c_str ();
+		else
+			return NULL;
+	}
+	return (*i).c_str ();
 }

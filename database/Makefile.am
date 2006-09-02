@@ -1,3 +1,9 @@
+MAINTAINERCLEANFILES = Makefile.in
+
+EXTRA_DIST = $(xml_in_files)
+
+CLEANFILES = $(xml_DATA)
+
 xmldir = $(datadir)/gchemutils-unstable
 
 xml_in_files = \
@@ -9,11 +15,3 @@ xml_in_files = \
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
-
-CLEANFILES = \
-	elements.xml \
-	elecprops.xml \
-	isotopes.xml \
-	radii.xml
-
-EXTRA_DIST=$(xml_in_files)

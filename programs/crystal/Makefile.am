@@ -1,3 +1,9 @@
+EXTRA_DIST = $(desktop_in_files) $(schemas_in_files)
+
+CLEANFILES = $(desktop_DATA) $(schemas_DATA)
+
+MAINTAINERCLEANFILES = Makefile.in
+
 bin_PROGRAMS = gcrystal-unstable
 
 gcrystal_unstable_SOURCES = main.cc\
@@ -35,32 +41,21 @@ noinst_HEADERS = gcrystal.h\
 
 gcrystal_unstable_LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
 
-DEPS = \
-	$(top_builddir)/gcu/libgcu-unstable.la
-
-INCLUDES = @GCU_CFLAGS@
+DEPS = $(top_builddir)/gcu/libgcu-unstable.la
+INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
+LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
+DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/crystal\"
 
 schemasdir = $(sysconfdir)/gconf/schemas
 schemas_in_files = gcrystal.schemas.in
-schemas_DATA 	 = $(schemas_in_files:.schemas.in=.schemas)
+schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
 desktopdir=$(datadir)/applications
-desktop_in_files = \
-	gcrystal-unstable.desktop.in
-desktop_DATA = \
-	gcrystal-unstable.desktop
+desktop_in_files = gcrystal-unstable.desktop.in
+desktop_DATA = gcrystal-unstable.desktop
 @INTLTOOL_DESKTOP_RULE@
-
-CLEANFILES = \
-	gcrystal-unstable.desktop	\
-	gcrystal.schemas
-		
-EXTRA_DIST=$(desktop_in_files) $(schemas_in_files)
-
-AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
-AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 
 install-data-local:
 	      GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
-	      gconftool-2 --makefile-install-rule gcrystal.schemas
+	      $(GCONFTOOL) --makefile-install-rule gcrystal.schemas

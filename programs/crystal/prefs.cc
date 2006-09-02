@@ -34,7 +34,7 @@ static void on_print_resolution (GtkWidget *widget, gcPrefsDlg * dialog)
 	dialog->UpdatePrinting ();
 }
 
-gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/prefs.glade", "prefs")
+gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, GLADEDIR"/prefs.glade", "prefs")
 {
 	PrintResMenu = (GtkComboBox *) glade_xml_get_widget (xml, "printres");
 	PrintResBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "printresbtn");

@@ -100,7 +100,7 @@ static void on_charge_changed (GtkSpinButton *btn, gcAtomsDlg *pBox)
 	pBox->SetCharge (gtk_spin_button_get_value_as_int (btn));
 }
 
-gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/atoms.glade", "atoms")
+gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/atoms.glade", "atoms")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog (this);

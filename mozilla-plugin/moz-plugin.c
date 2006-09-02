@@ -24,6 +24,7 @@
 #include "npapi.h"
 #include "npupp.h"
 #include <unistd.h>
+#include <string.h>
 
 static NPNetscapeFuncs mozilla_funcs;
 static int pid = 0;

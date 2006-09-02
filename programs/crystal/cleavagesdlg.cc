@@ -67,7 +67,7 @@ static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const
 	pBox->OnEdited(cell, path_string, new_text);
 }
 
-gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/cleavages.glade", "cleavages")
+gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/cleavages.glade", "cleavages")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog(this);

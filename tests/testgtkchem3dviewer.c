@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 		 NULL);
 
 	if (argc >= 2) uri = argv[1];
-		else uri = "file://"SRCDIR"/tests/methane.xyz";
+		else uri = "file://"SRCDIR"/methane.xyz";
 	
 	viewer = gtk_chem3d_viewer_new(uri);
 	gtk_container_add(GTK_CONTAINER(window), viewer);

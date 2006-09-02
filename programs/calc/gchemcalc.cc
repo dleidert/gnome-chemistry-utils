@@ -409,10 +409,6 @@ int main (int argc, char *argv[])
 {
 	GOptionContext *context;
 	GError *error = NULL;
-	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
-#ifdef ENABLE_NLS
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#endif
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 	if (argc > 1 && argv[1][0] == '-') {
@@ -442,7 +438,7 @@ int main (int argc, char *argv[])
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
-	GladeXML *xml =  glade_xml_new (DATADIR"/"PACKAGE"/glade/gchemcalc.glade", "gchemcalc", NULL);
+	GladeXML *xml =  glade_xml_new (GLADEDIR"/gchemcalc.glade", "gchemcalc", NULL);
 	GtkWidget *window = glade_xml_get_widget (xml, "gchemcalc");
 	g_signal_connect (GTK_OBJECT (window), "destroy",
 		 G_CALLBACK (gtk_main_quit),

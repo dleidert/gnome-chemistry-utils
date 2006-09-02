@@ -32,7 +32,7 @@ void on_type_changed (GtkWidget* w, gcCellDlg *pBox)
 	pBox->OnTypeChanged ();
 }
 
-gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/cell.glade", "cell")
+gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/cell.glade", "cell")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog (this);

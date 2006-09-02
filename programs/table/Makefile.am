@@ -1,4 +1,15 @@
+EXTRA_DIST = $(desktop_in_files)
+
+CLEANFILES = $(desktop_DATA)
+
+MAINTAINERCLEANFILES = Makefile.in
+
 bin_PROGRAMS = gchemtable-unstable
+
+DEPS = $(top_builddir)/gcu/libgcu-unstable.la
+INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
+LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
+DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
 
 gchemtable_unstable_SOURCES =	\
 	gchemtable-main.cc	\
@@ -8,24 +19,8 @@ gchemtable_unstable_SOURCES =	\
 	gchemtable-elt.h	\
 	gchemtable-curve.cc	\
 	gchemtable-curve.h
-gchemtable_unstable_LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
-
-DEPS = \
-	$(top_builddir)/gcu/libgcu-unstable.la
-
-INCLUDES = @GCU_CFLAGS@
 
 desktopdir=$(datadir)/applications
-desktop_in_files = \
-	gchemtable-unstable.desktop.in
-desktop_DATA = \
-	gchemtable-unstable.desktop
+desktop_in_files = gchemtable-unstable.desktop.in
+desktop_DATA = gchemtable-unstable.desktop
 @INTLTOOL_DESKTOP_RULE@
-
-CLEANFILES = \
-	gchemtable-unstable.desktop
-		
-EXTRA_DIST=$(desktop_in_files)
-
-AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
-AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@

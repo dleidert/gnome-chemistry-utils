@@ -54,16 +54,12 @@ static GOptionEntry options[] =
 
 int main(int argc, char *argv[])
 {
-	GtkWidget *window;
-	GtkWidget *viewer, *vbox, *bar;
 	GnomeVFSURI *uri, *auri;
 	char *path, *dir;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
-	GtkAccelGroup *accel_group;
 	GError *error = NULL;
 	GOptionContext *context;
 
+	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 	if (!gnome_vfs_init ()) {
 		printf ("Could not initialize GnomeVFS\n");
@@ -108,67 +104,6 @@ int main(int argc, char *argv[])
 		gnome_vfs_uri_unref (auri);
 		argv++;
 	}
-/*	if (argc > 1) {
-		path = g_get_current_dir ();
-		dir = g_strconcat (path, "/", NULL);
-		g_free (path);
-		uri = gnome_vfs_uri_new (dir);
-		auri = gnome_vfs_uri_resolve_relative (uri, argv[1]);
-		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
-		viewer = gtk_chem3d_viewer_new (path);
-		g_free (path);
-		gnome_vfs_uri_unref (auri);
-		gnome_vfs_uri_unref (uri);
-		g_free (dir);
-	} else
-		viewer = gtk_chem3d_viewer_new("");
-
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(window), "GtkChem3dViewer");
-	gtk_window_set_default_size (GTK_WINDOW(window), 200, 230);
-	g_signal_connect(GTK_OBJECT(window), "destroy",
-		GTK_SIGNAL_FUNC(gtk_main_quit),
-		NULL);
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (window), vbox);
-	ui_manager = gtk_ui_manager_new ();
-	action_group = gtk_action_group_new ("MenuActions");
-	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
-	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), window);
-	GOActionComboColor *combo = go_action_combo_color_new ("Background", "gcu_Background", "", RGBA_BLACK, NULL);
-	g_object_set (G_OBJECT (combo), "label", _("Background color"), "tooltip",
-		_("Choose a new background color"), NULL);
-	g_signal_connect (G_OBJECT (combo), "activate", G_CALLBACK (on_color_changed), viewer);
-	gtk_action_group_add_action (action_group, GTK_ACTION (combo));
-	gtk_action_group_add_radio_actions (action_group, radios, G_N_ELEMENTS (radios), 0, G_CALLBACK (on_display), viewer);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
-	error = NULL;
-	if (!gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-		exit (EXIT_FAILURE);
-	}
-	bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(vbox), viewer);
-	g_object_set_data (G_OBJECT (window), "viewer", viewer);
-	gtk_widget_show_all(window);
-	if (bgcolor) {
-		g_object_set (G_OBJECT (viewer), "bgcolor", bgcolor, NULL);
-		g_free (bgcolor);
-	}
-
-	if (display3d) {
-		Display3DMode mode = BALL_AND_STICK;
-		if (!strcmp (display3d, "SpaceFill"))
-			mode = SPACEFILL;
-		else if (strcmp (display3d, "BallnStick"))
-			g_warning (_("Unknown display mode"));
-		g_object_set (G_OBJECT (viewer), "display3d", mode, NULL);
-		g_free (display3d);
-	}*/
 
 	gtk_main();
 	

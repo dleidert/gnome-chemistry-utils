@@ -22,6 +22,7 @@
 
 #include "config.h"
 #include "element.h"
+#include "xml-utils.h"
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
@@ -84,7 +85,7 @@ EltTable Table;
 
 EltTable::EltTable()
 {
-	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
+	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 #ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
@@ -100,7 +101,7 @@ EltTable::EltTable()
 	Langs["it"] = _("Italian");
 	Langs["pl"] = _("Polish");
 	Langs["ru"] = _("Russian");
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/elements.xml")))
+	if (!(xml = xmlParseFile (PKGDATADIR"/elements.xml")))
 	{
 		g_error (_("Can't find and read elements.xml"));
 	}
@@ -305,17 +306,11 @@ Element::Element(int Z, const char* Symbol)
 Element::~Element()
 {
 	while (!m_radii.empty()) {
-		GcuAtomicRadius *radius = m_radii.back();
-		if (radius)
-			delete radius;
+		delete m_radii.back();
 		m_radii.pop_back();
 	}
 	while (!m_en.empty()) {
-		GcuElectronegativity* en = m_en.back();
-		if (en) {
-			if (en->scale) g_free(en->scale);
-			delete en;
-		}
+		delete m_en.back();
 		m_en.pop_back();
 	}
 	while (!m_isotopes.empty ()) {
@@ -430,7 +425,7 @@ void Element::LoadRadii ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/radii.xml")))
+	if (!(xml = xmlParseFile (PKGDATADIR"/radii.xml")))
 	{
 		g_error (_("Can't find and read radii.xml"));
 	}
@@ -530,7 +525,7 @@ void Element::LoadElectronicProps ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/elecprops.xml")))
+	if (!(xml = xmlParseFile (PKGDATADIR"/elecprops.xml")))
 	{
 		g_error (_("Can't find and read elecprops.xml"));
 	}
@@ -556,7 +551,7 @@ void Element::LoadElectronicProps ()
 					en->Z = Z;	//FIXME: is it really useful there?
 					buf = (char*) xmlGetProp (child, (xmlChar*) "scale");
 					if (buf) {
-						en->scale = g_strdup (buf);
+						en->scale = GetStaticScale (buf);
 						xmlFree (buf);
 					} else
 						en->scale = NULL;
@@ -688,7 +683,7 @@ void Element::LoadIsotopes ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (DATADIR"/gchemutils-unstable/isotopes.xml")))
+	if (!(xml = xmlParseFile (PKGDATADIR"/isotopes.xml")))
 	{
 		g_error (_("Can't find and read isotopes.xml"));
 	}

@@ -115,6 +115,7 @@ structure with the data parsed.
 @return true on success and false on failure.
 */
 bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius);
+
 /*!
 @param xml: a pointer to the xmlDoc used to serialize the document.
 @param node: a pointer to the xmlNode representing an Object instance.
@@ -125,4 +126,15 @@ Save a radius as an XML node added to the children of node. This radius can then
 @return true on success and false on failure.
 */
 bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius);
+
+/*!
+@param buf: a string to convert to a static instance.
+
+This function is used to replace a dynamically allocated string by a static instance. It
+works managing a set of string instances. It is used for scale names (as for radii and
+electronegativity), hence its name.
+
+@return a static version of buf or NULL if a new static string could not be created.
+*/
+char const *GetStaticScale (char *buf);
 #endif	// GCU_XML_UTILS_H

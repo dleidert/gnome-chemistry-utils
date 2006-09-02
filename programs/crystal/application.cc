@@ -39,7 +39,7 @@
 
 static unsigned short nNewDocs = 1;
 
-gcApplication::gcApplication(): Application ("gcrystal-unstable", DATADIR)
+gcApplication::gcApplication(): Application ("gcrystal-unstable")
 {
 }
 

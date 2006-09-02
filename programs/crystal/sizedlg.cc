@@ -27,7 +27,7 @@
 #include "document.h"
 #include "application.h"
 
-gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, DATADIR"/gchemutils-unstable/glade/crystal/size.glade", "size")
+gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/size.glade", "size")
 {
 	m_pDoc = pDoc;
 	pDoc->NotifyDialog(this);

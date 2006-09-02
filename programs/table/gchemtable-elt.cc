@@ -39,7 +39,7 @@ static void on_focus_in (GChemTableElt *dlg)
 	dlg->OnFocusIn ();
 }
 
-GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, DATADIR"/"PACKAGE"/glade/eltpage.glade", "eltdlg")
+GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"/eltpage.glade", "eltdlg")
 {
 	Element *elt = Element::GetElement (Z);
 	m_Z = Z;

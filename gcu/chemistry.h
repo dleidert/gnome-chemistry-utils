@@ -153,7 +153,7 @@ typedef struct
 	/*! The electronegativity value.*/
 	GcuValue value;
 	/** The scale name, e.g. "Pauling" or "Mulliken". */
-	char* scale;
+	char const *scale;
 } GcuElectronegativity;
 
 /*! GcuIsotope
