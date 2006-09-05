@@ -45,5 +45,7 @@ void gc3dDocument::Load (char const *uri, char const *mime_type)
 		title = g_path_get_basename (uri);
 	dynamic_cast <gc3dView *> (m_View)->GetWindow ()->SetTitle (title);
 	g_free (title);
-	
+	char *dirname = g_path_get_dirname (filename);
+	m_App->SetCurDir (dirname);
+	g_free (dirname);
 }

@@ -199,6 +199,9 @@ void gcDocument::SetFileName(const gchar* filename)
 {
 	if (m_filename) g_free(m_filename);
 	m_filename = g_strdup(filename);
+	char *dirname = g_path_get_dirname (filename);
+	m_App->SetCurDir (dirname);
+	g_free (dirname);
 	int i = strlen(filename) - 1;
 	while ((m_filename[i] != '/') && (i >= 0)) i--;
 	if (i >=0) 
