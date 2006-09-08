@@ -1,6 +1,19 @@
 ##Text encoding: utf-8
 
 2006-09-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/Makefile.am: define GLADEDIR.
+	* gcu/gtkperiodic.c: (gtk_periodic_init): initaialize a new notebook.
+	* glade/Makefile.am: add table subdir and move two glade files to it.
+	* glade/curve.glade: moved to table subdir.
+	* glade/eltpage.glade: ditto.
+	* glade/gtkperiodic.glade: add a notebook to llow for extra widgets.
+	* glade/table/Makefile.am: new directory.
+	* glade/table/curve.glade: moved from parent directory.
+	* glade/table/eltpage.glade: ditto.
+	* glade/table/state-thermometer.glade: new thermometer for physical
+	state.
+
+2006-09-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/3d/document.cc: fixed typo.
 
 2006-09-05  Jean Bréfort  <jean.brefort@normalesup.org>

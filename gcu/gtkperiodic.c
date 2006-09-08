@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <gtk/gtkstyle.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtknotebook.h>
 #include <glade/glade.h>
 #include <libintl.h>
 
@@ -59,6 +60,7 @@ struct _GtkPeriodicPrivate
 	GtkVBox* vbox;
 	GtkToggleButton* buttons[119];
 	GtkLabel* labels[119];
+	GtkNotebook *book;
 	guint Z;
 	gboolean can_unselect;
 	GtkTooltips* tips;
@@ -166,13 +168,14 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	int i;
 	char* domain = g_strdup(textdomain(NULL));
 	textdomain(GETTEXT_PACKAGE);
-	xml =  glade_xml_new(DATADIR"/"PACKAGE"/glade/gtkperiodic.glade", "vbox1", NULL);
+	xml =  glade_xml_new(GLADEDIR"/gtkperiodic.glade", "vbox1", NULL);
 	g_return_if_fail (xml);
 	g_object_set_data(G_OBJECT(periodic), "xml", xml);
 	glade_xml_signal_autoconnect (xml);
 	periodic->priv = g_new0(GtkPeriodicPrivate, 1);
 	periodic->priv->tips = gtk_tooltips_new();
 	periodic->priv->vbox = GTK_VBOX(glade_xml_get_widget(xml, "vbox1"));
+	periodic->priv->book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "book"));
 	periodic->priv->colorstyle = GTK_PERIODIC_COLOR_NONE;
 	memset(periodic->priv->buttons, 0, sizeof(GtkToggleButton*) * 119);
 	for (i = 1; i <= 118; i++)

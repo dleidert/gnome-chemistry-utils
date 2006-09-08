@@ -1,2422 +1,1825 @@
-<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
-<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!-- Generated with glade3
+	Version: 3.0.1
+	Date: Fri Sep  8 16:42:03 2006
+	User: jean
+	Host: gericom
+-->
 <glade-interface>
-
-<widget class="GtkVBox" id="vbox1">
-  <property name="visible">True</property>
-  <property name="homogeneous">False</property>
-  <property name="spacing">0</property>
-
-  <child>
-    <widget class="GtkTable" id="table1">
-      <property name="visible">True</property>
-      <property name="n_rows">7</property>
-      <property name="n_columns">18</property>
-      <property name="homogeneous">True</property>
-      <property name="row_spacing">0</property>
-      <property name="column_spacing">0</property>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt1">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">H</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt17">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Cl</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">16</property>
-	  <property name="right_attach">17</property>
-	  <property name="top_attach">2</property>
-	  <property name="bottom_attach">3</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt18">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ar</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">17</property>
-	  <property name="right_attach">18</property>
-	  <property name="top_attach">2</property>
-	  <property name="bottom_attach">3</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt19">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">K</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt37">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Rb</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt55">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Cs</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt87">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Fr</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt20">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ca</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">1</property>
-	  <property name="right_attach">2</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt38">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Sr</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">1</property>
-	  <property name="right_attach">2</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt56">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ba</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">1</property>
-	  <property name="right_attach">2</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt88">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ra</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">1</property>
-	  <property name="right_attach">2</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt21">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Sc</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">2</property>
-	  <property name="right_attach">3</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt39">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Y</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">2</property>
-	  <property name="right_attach">3</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt22">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ti</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">3</property>
-	  <property name="right_attach">4</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt40">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Zr</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">3</property>
-	  <property name="right_attach">4</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt72">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Hf</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">3</property>
-	  <property name="right_attach">4</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt104">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Rf</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">3</property>
-	  <property name="right_attach">4</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt23">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">V</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">4</property>
-	  <property name="right_attach">5</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt41">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Nb</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">4</property>
-	  <property name="right_attach">5</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt73">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ta</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">4</property>
-	  <property name="right_attach">5</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt105">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Db</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">4</property>
-	  <property name="right_attach">5</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt24">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Cr</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">5</property>
-	  <property name="right_attach">6</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt42">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Mo</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">5</property>
-	  <property name="right_attach">6</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt74">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">W</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">5</property>
-	  <property name="right_attach">6</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt106">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Sg</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">5</property>
-	  <property name="right_attach">6</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt25">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Mn</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">6</property>
-	  <property name="right_attach">7</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt43">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Tc</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">6</property>
-	  <property name="right_attach">7</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt75">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Re</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">6</property>
-	  <property name="right_attach">7</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt107">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Bh</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">6</property>
-	  <property name="right_attach">7</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt26">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Fe</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">7</property>
-	  <property name="right_attach">8</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt44">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ru</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">7</property>
-	  <property name="right_attach">8</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt76">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Os</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">7</property>
-	  <property name="right_attach">8</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt108">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Hs</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">7</property>
-	  <property name="right_attach">8</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt27">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Co</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">8</property>
-	  <property name="right_attach">9</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt45">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Rh</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">8</property>
-	  <property name="right_attach">9</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt77">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ir</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">8</property>
-	  <property name="right_attach">9</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt109">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Mt</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">8</property>
-	  <property name="right_attach">9</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt28">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ni</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">9</property>
-	  <property name="right_attach">10</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt46">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Pd</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">9</property>
-	  <property name="right_attach">10</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt78">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Pt</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">9</property>
-	  <property name="right_attach">10</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt110">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ds</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">9</property>
-	  <property name="right_attach">10</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt29">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Cu</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">10</property>
-	  <property name="right_attach">11</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt47">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ag</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">10</property>
-	  <property name="right_attach">11</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt79">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Au</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">10</property>
-	  <property name="right_attach">11</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt111">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Rg</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">10</property>
-	  <property name="right_attach">11</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt112">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Uub</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">11</property>
-	  <property name="right_attach">12</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt80">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Hg</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">11</property>
-	  <property name="right_attach">12</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt48">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Cd</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">11</property>
-	  <property name="right_attach">12</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt30">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Zn</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">11</property>
-	  <property name="right_attach">12</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt31">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ga</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">12</property>
-	  <property name="right_attach">13</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt49">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">In</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">12</property>
-	  <property name="right_attach">13</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt81">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Tl</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">12</property>
-	  <property name="right_attach">13</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt114">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Uuq</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">13</property>
-	  <property name="right_attach">14</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt82">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Pb</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">13</property>
-	  <property name="right_attach">14</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt50">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Sn</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">13</property>
-	  <property name="right_attach">14</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt32">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ge</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">13</property>
-	  <property name="right_attach">14</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt33">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">As</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">14</property>
-	  <property name="right_attach">15</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt51">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Sb</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">14</property>
-	  <property name="right_attach">15</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt83">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Bi</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">14</property>
-	  <property name="right_attach">15</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt34">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Se</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">15</property>
-	  <property name="right_attach">16</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt52">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Te</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">15</property>
-	  <property name="right_attach">16</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt84">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Po</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">15</property>
-	  <property name="right_attach">16</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt35">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Br</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">16</property>
-	  <property name="right_attach">17</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt53">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">I</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">16</property>
-	  <property name="right_attach">17</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt85">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">At</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">16</property>
-	  <property name="right_attach">17</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt36">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Kr</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">17</property>
-	  <property name="right_attach">18</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt54">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Xe</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">17</property>
-	  <property name="right_attach">18</property>
-	  <property name="top_attach">4</property>
-	  <property name="bottom_attach">5</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt86">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Rn</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">17</property>
-	  <property name="right_attach">18</property>
-	  <property name="top_attach">5</property>
-	  <property name="bottom_attach">6</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt2">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">He</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">17</property>
-	  <property name="right_attach">18</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt3">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Li</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt4">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Be</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">1</property>
-	  <property name="right_attach">2</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt11">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Na</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">1</property>
-	  <property name="top_attach">2</property>
-	  <property name="bottom_attach">3</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt12">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Mg</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">1</property>
-	  <property name="right_attach">2</property>
-	  <property name="top_attach">2</property>
-	  <property name="bottom_attach">3</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt5">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">B</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">12</property>
-	  <property name="right_attach">13</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt13">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Al</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">12</property>
-	  <property name="right_attach">13</property>
-	  <property name="top_attach">2</property>
-	  <property name="bottom_attach">3</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt6">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">C</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">13</property>
-	  <property name="right_attach">14</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt14">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Si</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">13</property>
-	  <property name="right_attach">14</property>
-	  <property name="top_attach">2</property>
-	  <property name="bottom_attach">3</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt7">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">N</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">14</property>
-	  <property name="right_attach">15</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt15">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">P</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">14</property>
-	  <property name="right_attach">15</property>
-	  <property name="top_attach">2</property>
-	  <property name="bottom_attach">3</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt8">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">O</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">15</property>
-	  <property name="right_attach">16</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt16">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">S</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">15</property>
-	  <property name="right_attach">16</property>
-	  <property name="top_attach">2</property>
-	  <property name="bottom_attach">3</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt9">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">F</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">16</property>
-	  <property name="right_attach">17</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt10">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ne</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">17</property>
-	  <property name="right_attach">18</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt113">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Uut</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">12</property>
-	  <property name="right_attach">13</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
- 
-      <child>
-	<widget class="GtkToggleButton" id="elt115">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Uup</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">14</property>
-	  <property name="right_attach">15</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt116">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Uuh</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">15</property>
-	  <property name="right_attach">16</property>
-	  <property name="top_attach">6</property>
-	  <property name="bottom_attach">7</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-    </widget>
-    <packing>
-      <property name="padding">0</property>
-      <property name="expand">True</property>
-      <property name="fill">True</property>
-    </packing>
-  </child>
-
-  <child>
-    <widget class="GtkHSeparator" id="hseparator1">
-      <property name="visible">True</property>
-    </widget>
-    <packing>
-      <property name="padding">4</property>
-      <property name="expand">False</property>
-      <property name="fill">True</property>
-    </packing>
-  </child>
-
-  <child>
-    <widget class="GtkTable" id="table2">
-      <property name="visible">True</property>
-      <property name="n_rows">2</property>
-      <property name="n_columns">18</property>
-      <property name="homogeneous">True</property>
-      <property name="row_spacing">0</property>
-      <property name="column_spacing">0</property>
-
-      <child>
-	<widget class="GtkLabel" id="label1">
-	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Lanthanides</property>
-	  <property name="use_underline">False</property>
-	  <property name="use_markup">False</property>
-	  <property name="justify">GTK_JUSTIFY_CENTER</property>
-	  <property name="wrap">False</property>
-	  <property name="selectable">False</property>
-	  <property name="xalign">0</property>
-	  <property name="yalign">0.5</property>
-	  <property name="xpad">4</property>
-	  <property name="ypad">0</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">3</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkLabel" id="label2">
-	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Actinides</property>
-	  <property name="use_underline">False</property>
-	  <property name="use_markup">False</property>
-	  <property name="justify">GTK_JUSTIFY_CENTER</property>
-	  <property name="wrap">False</property>
-	  <property name="selectable">False</property>
-	  <property name="xalign">0</property>
-	  <property name="yalign">0.5</property>
-	  <property name="xpad">4</property>
-	  <property name="ypad">0</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">3</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt57">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">La</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">3</property>
-	  <property name="right_attach">4</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt58">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ce</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">4</property>
-	  <property name="right_attach">5</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt59">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Pr</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">5</property>
-	  <property name="right_attach">6</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt60">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Nd</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">6</property>
-	  <property name="right_attach">7</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt61">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Pm</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">7</property>
-	  <property name="right_attach">8</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt62">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Sm</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">8</property>
-	  <property name="right_attach">9</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt63">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Eu</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">9</property>
-	  <property name="right_attach">10</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt64">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Gd</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">10</property>
-	  <property name="right_attach">11</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt65">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Tb</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">11</property>
-	  <property name="right_attach">12</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt66">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Dy</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">12</property>
-	  <property name="right_attach">13</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt67">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ho</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">13</property>
-	  <property name="right_attach">14</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt68">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Er</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">14</property>
-	  <property name="right_attach">15</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt69">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Tm</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">15</property>
-	  <property name="right_attach">16</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt70">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Yb</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">16</property>
-	  <property name="right_attach">17</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt71">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Lu</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">17</property>
-	  <property name="right_attach">18</property>
-	  <property name="top_attach">0</property>
-	  <property name="bottom_attach">1</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt89">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Ac</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">3</property>
-	  <property name="right_attach">4</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt90">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Th</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">4</property>
-	  <property name="right_attach">5</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt91">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Pa</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">5</property>
-	  <property name="right_attach">6</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt92">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">U</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">6</property>
-	  <property name="right_attach">7</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt93">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Np</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">7</property>
-	  <property name="right_attach">8</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt94">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Pu</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">8</property>
-	  <property name="right_attach">9</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt95">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Am</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">9</property>
-	  <property name="right_attach">10</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt96">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Cm</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">10</property>
-	  <property name="right_attach">11</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt97">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Bk</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">11</property>
-	  <property name="right_attach">12</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt98">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Cf</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">12</property>
-	  <property name="right_attach">13</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt99">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Es</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">13</property>
-	  <property name="right_attach">14</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt100">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Fm</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">14</property>
-	  <property name="right_attach">15</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt101">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Md</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">15</property>
-	  <property name="right_attach">16</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt102">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">No</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">16</property>
-	  <property name="right_attach">17</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkToggleButton" id="elt103">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="no">Lr</property>
-	  <property name="use_underline">False</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">17</property>
-	  <property name="right_attach">18</property>
-	  <property name="top_attach">1</property>
-	  <property name="bottom_attach">2</property>
-	  <property name="x_options">fill</property>
-	  <property name="y_options"></property>
-	</packing>
-      </child>
-
-   </widget>
-    <packing>
-      <property name="padding">0</property>
-      <property name="expand">True</property>
-      <property name="fill">True</property>
-    </packing>
-  </child>
-</widget>
-
+  <widget class="GtkWindow" id="window1">
+    <child>
+      <widget class="GtkVBox" id="vbox1">
+        <property name="visible">True</property>
+        <child>
+          <widget class="GtkTable" id="table1">
+            <property name="visible">True</property>
+            <property name="n_rows">7</property>
+            <property name="n_columns">18</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <widget class="GtkNotebook" id="book">
+                <property name="visible">True</property>
+                <property name="show_tabs">False</property>
+                <child>
+                  <widget class="GtkLabel" id="label3">
+                    <property name="visible">True</property>
+                  </widget>
+                  <packing>
+                    <property name="tab_expand">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                  <packing>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">12</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt86">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">H</property>
+              </widget>
+              <packing>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt85">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Cl</property>
+              </widget>
+              <packing>
+                <property name="left_attach">16</property>
+                <property name="right_attach">17</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt84">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ar</property>
+              </widget>
+              <packing>
+                <property name="left_attach">17</property>
+                <property name="right_attach">18</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt83">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">K</property>
+              </widget>
+              <packing>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt82">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Rb</property>
+              </widget>
+              <packing>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt81">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Cs</property>
+              </widget>
+              <packing>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt80">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Fr</property>
+              </widget>
+              <packing>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt79">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ca</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt78">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Sr</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt77">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ba</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt76">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ra</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt75">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Sc</property>
+              </widget>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt74">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Y</property>
+              </widget>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt73">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ti</property>
+              </widget>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt72">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Zr</property>
+              </widget>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt71">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Hf</property>
+              </widget>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt70">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Rf</property>
+              </widget>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt69">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">V</property>
+              </widget>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt68">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Nb</property>
+              </widget>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt67">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ta</property>
+              </widget>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt66">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Db</property>
+              </widget>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt65">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Cr</property>
+              </widget>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt64">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Mo</property>
+              </widget>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt63">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">W</property>
+              </widget>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt62">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Sg</property>
+              </widget>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt61">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Mn</property>
+              </widget>
+              <packing>
+                <property name="left_attach">6</property>
+                <property name="right_attach">7</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt60">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Tc</property>
+              </widget>
+              <packing>
+                <property name="left_attach">6</property>
+                <property name="right_attach">7</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt59">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Re</property>
+              </widget>
+              <packing>
+                <property name="left_attach">6</property>
+                <property name="right_attach">7</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt58">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Bh</property>
+              </widget>
+              <packing>
+                <property name="left_attach">6</property>
+                <property name="right_attach">7</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt57">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Fe</property>
+              </widget>
+              <packing>
+                <property name="left_attach">7</property>
+                <property name="right_attach">8</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt56">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ru</property>
+              </widget>
+              <packing>
+                <property name="left_attach">7</property>
+                <property name="right_attach">8</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt55">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Os</property>
+              </widget>
+              <packing>
+                <property name="left_attach">7</property>
+                <property name="right_attach">8</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt54">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Hs</property>
+              </widget>
+              <packing>
+                <property name="left_attach">7</property>
+                <property name="right_attach">8</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt53">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Co</property>
+              </widget>
+              <packing>
+                <property name="left_attach">8</property>
+                <property name="right_attach">9</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt52">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Rh</property>
+              </widget>
+              <packing>
+                <property name="left_attach">8</property>
+                <property name="right_attach">9</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt51">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ir</property>
+              </widget>
+              <packing>
+                <property name="left_attach">8</property>
+                <property name="right_attach">9</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt50">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Mt</property>
+              </widget>
+              <packing>
+                <property name="left_attach">8</property>
+                <property name="right_attach">9</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt49">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ni</property>
+              </widget>
+              <packing>
+                <property name="left_attach">9</property>
+                <property name="right_attach">10</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt48">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Pd</property>
+              </widget>
+              <packing>
+                <property name="left_attach">9</property>
+                <property name="right_attach">10</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt47">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Pt</property>
+              </widget>
+              <packing>
+                <property name="left_attach">9</property>
+                <property name="right_attach">10</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt46">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ds</property>
+              </widget>
+              <packing>
+                <property name="left_attach">9</property>
+                <property name="right_attach">10</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt45">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Cu</property>
+              </widget>
+              <packing>
+                <property name="left_attach">10</property>
+                <property name="right_attach">11</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt44">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ag</property>
+              </widget>
+              <packing>
+                <property name="left_attach">10</property>
+                <property name="right_attach">11</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt43">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Au</property>
+              </widget>
+              <packing>
+                <property name="left_attach">10</property>
+                <property name="right_attach">11</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt42">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Rg</property>
+              </widget>
+              <packing>
+                <property name="left_attach">10</property>
+                <property name="right_attach">11</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt41">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Uub</property>
+              </widget>
+              <packing>
+                <property name="left_attach">11</property>
+                <property name="right_attach">12</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt40">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Hg</property>
+              </widget>
+              <packing>
+                <property name="left_attach">11</property>
+                <property name="right_attach">12</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt39">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Cd</property>
+              </widget>
+              <packing>
+                <property name="left_attach">11</property>
+                <property name="right_attach">12</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt38">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Zn</property>
+              </widget>
+              <packing>
+                <property name="left_attach">11</property>
+                <property name="right_attach">12</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt37">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ga</property>
+              </widget>
+              <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt36">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">In</property>
+              </widget>
+              <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt35">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Tl</property>
+              </widget>
+              <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt34">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Uuq</property>
+              </widget>
+              <packing>
+                <property name="left_attach">13</property>
+                <property name="right_attach">14</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt33">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Pb</property>
+              </widget>
+              <packing>
+                <property name="left_attach">13</property>
+                <property name="right_attach">14</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt32">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Sn</property>
+              </widget>
+              <packing>
+                <property name="left_attach">13</property>
+                <property name="right_attach">14</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt31">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ge</property>
+              </widget>
+              <packing>
+                <property name="left_attach">13</property>
+                <property name="right_attach">14</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt30">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">As</property>
+              </widget>
+              <packing>
+                <property name="left_attach">14</property>
+                <property name="right_attach">15</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt29">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Sb</property>
+              </widget>
+              <packing>
+                <property name="left_attach">14</property>
+                <property name="right_attach">15</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt28">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Bi</property>
+              </widget>
+              <packing>
+                <property name="left_attach">14</property>
+                <property name="right_attach">15</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt27">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Se</property>
+              </widget>
+              <packing>
+                <property name="left_attach">15</property>
+                <property name="right_attach">16</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt26">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Te</property>
+              </widget>
+              <packing>
+                <property name="left_attach">15</property>
+                <property name="right_attach">16</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt25">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Po</property>
+              </widget>
+              <packing>
+                <property name="left_attach">15</property>
+                <property name="right_attach">16</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt24">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Br</property>
+              </widget>
+              <packing>
+                <property name="left_attach">16</property>
+                <property name="right_attach">17</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt23">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">I</property>
+              </widget>
+              <packing>
+                <property name="left_attach">16</property>
+                <property name="right_attach">17</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt22">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">At</property>
+              </widget>
+              <packing>
+                <property name="left_attach">16</property>
+                <property name="right_attach">17</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt21">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Kr</property>
+              </widget>
+              <packing>
+                <property name="left_attach">17</property>
+                <property name="right_attach">18</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt20">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Xe</property>
+              </widget>
+              <packing>
+                <property name="left_attach">17</property>
+                <property name="right_attach">18</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt19">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Rn</property>
+              </widget>
+              <packing>
+                <property name="left_attach">17</property>
+                <property name="right_attach">18</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt18">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">He</property>
+              </widget>
+              <packing>
+                <property name="left_attach">17</property>
+                <property name="right_attach">18</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt17">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Li</property>
+              </widget>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt16">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Be</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt15">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Na</property>
+              </widget>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt14">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Mg</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt13">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">B</property>
+              </widget>
+              <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt12">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Al</property>
+              </widget>
+              <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt11">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">C</property>
+              </widget>
+              <packing>
+                <property name="left_attach">13</property>
+                <property name="right_attach">14</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt10">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Si</property>
+              </widget>
+              <packing>
+                <property name="left_attach">13</property>
+                <property name="right_attach">14</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt9">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">N</property>
+              </widget>
+              <packing>
+                <property name="left_attach">14</property>
+                <property name="right_attach">15</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt8">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">P</property>
+              </widget>
+              <packing>
+                <property name="left_attach">14</property>
+                <property name="right_attach">15</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt7">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">O</property>
+              </widget>
+              <packing>
+                <property name="left_attach">15</property>
+                <property name="right_attach">16</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt6">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">S</property>
+              </widget>
+              <packing>
+                <property name="left_attach">15</property>
+                <property name="right_attach">16</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt5">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">F</property>
+              </widget>
+              <packing>
+                <property name="left_attach">16</property>
+                <property name="right_attach">17</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt4">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ne</property>
+              </widget>
+              <packing>
+                <property name="left_attach">17</property>
+                <property name="right_attach">18</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt3">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Uut</property>
+              </widget>
+              <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt2">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Uup</property>
+              </widget>
+              <packing>
+                <property name="left_attach">14</property>
+                <property name="right_attach">15</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt1">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Uuh</property>
+              </widget>
+              <packing>
+                <property name="left_attach">15</property>
+                <property name="right_attach">16</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+          </widget>
+        </child>
+        <child>
+          <widget class="GtkHSeparator" id="hseparator1">
+            <property name="visible">True</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="padding">4</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkTable" id="table2">
+            <property name="visible">True</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">18</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <widget class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="xalign">0,000000</property>
+                <property name="yalign">0,000000</property>
+                <property name="xpad">4</property>
+                <property name="label" translatable="yes">Lanthanides</property>
+                <property name="justify">GTK_JUSTIFY_CENTER</property>
+              </widget>
+              <packing>
+                <property name="right_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="xalign">0,000000</property>
+                <property name="yalign">0,000000</property>
+                <property name="xpad">4</property>
+                <property name="label" translatable="yes">Actinides</property>
+                <property name="justify">GTK_JUSTIFY_CENTER</property>
+              </widget>
+              <packing>
+                <property name="right_attach">3</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt116">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">La</property>
+              </widget>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt115">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ce</property>
+              </widget>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt114">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Pr</property>
+              </widget>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt113">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Nd</property>
+              </widget>
+              <packing>
+                <property name="left_attach">6</property>
+                <property name="right_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt112">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Pm</property>
+              </widget>
+              <packing>
+                <property name="left_attach">7</property>
+                <property name="right_attach">8</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt111">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Sm</property>
+              </widget>
+              <packing>
+                <property name="left_attach">8</property>
+                <property name="right_attach">9</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt110">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Eu</property>
+              </widget>
+              <packing>
+                <property name="left_attach">9</property>
+                <property name="right_attach">10</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt109">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Gd</property>
+              </widget>
+              <packing>
+                <property name="left_attach">10</property>
+                <property name="right_attach">11</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt108">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Tb</property>
+              </widget>
+              <packing>
+                <property name="left_attach">11</property>
+                <property name="right_attach">12</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt107">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Dy</property>
+              </widget>
+              <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt106">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ho</property>
+              </widget>
+              <packing>
+                <property name="left_attach">13</property>
+                <property name="right_attach">14</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt105">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Er</property>
+              </widget>
+              <packing>
+                <property name="left_attach">14</property>
+                <property name="right_attach">15</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt104">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Tm</property>
+              </widget>
+              <packing>
+                <property name="left_attach">15</property>
+                <property name="right_attach">16</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt103">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Yb</property>
+              </widget>
+              <packing>
+                <property name="left_attach">16</property>
+                <property name="right_attach">17</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt102">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Lu</property>
+              </widget>
+              <packing>
+                <property name="left_attach">17</property>
+                <property name="right_attach">18</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt101">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Ac</property>
+              </widget>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt100">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Th</property>
+              </widget>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt99">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Pa</property>
+              </widget>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt98">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">U</property>
+              </widget>
+              <packing>
+                <property name="left_attach">6</property>
+                <property name="right_attach">7</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt97">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Np</property>
+              </widget>
+              <packing>
+                <property name="left_attach">7</property>
+                <property name="right_attach">8</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt96">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Pu</property>
+              </widget>
+              <packing>
+                <property name="left_attach">8</property>
+                <property name="right_attach">9</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt95">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Am</property>
+              </widget>
+              <packing>
+                <property name="left_attach">9</property>
+                <property name="right_attach">10</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt94">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Cm</property>
+              </widget>
+              <packing>
+                <property name="left_attach">10</property>
+                <property name="right_attach">11</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt93">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Bk</property>
+              </widget>
+              <packing>
+                <property name="left_attach">11</property>
+                <property name="right_attach">12</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt92">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Cf</property>
+              </widget>
+              <packing>
+                <property name="left_attach">12</property>
+                <property name="right_attach">13</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt91">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Es</property>
+              </widget>
+              <packing>
+                <property name="left_attach">13</property>
+                <property name="right_attach">14</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt90">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Fm</property>
+              </widget>
+              <packing>
+                <property name="left_attach">14</property>
+                <property name="right_attach">15</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt89">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Md</property>
+              </widget>
+              <packing>
+                <property name="left_attach">15</property>
+                <property name="right_attach">16</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt88">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">No</property>
+              </widget>
+              <packing>
+                <property name="left_attach">16</property>
+                <property name="right_attach">17</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToggleButton" id="elt87">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label">Lr</property>
+              </widget>
+              <packing>
+                <property name="left_attach">17</property>
+                <property name="right_attach">18</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
 </glade-interface>

@@ -1,4 +1,4 @@
-SUBDIRS = crystal
+SUBDIRS = crystal table
 
 MAINTAINERCLEANFILES = Makefile.in
 
