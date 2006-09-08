@@ -6,7 +6,7 @@
 	* glade/Makefile.am: add table subdir and move two glade files to it.
 	* glade/curve.glade: moved to table subdir.
 	* glade/eltpage.glade: ditto.
-	* glade/gtkperiodic.glade: add a notebook to llow for extra widgets.
+	* glade/gtkperiodic.glade: add a notebook to allow for extra widgets.
 	* glade/table/Makefile.am: new directory.
 	* glade/table/curve.glade: moved from parent directory.
 	* glade/table/eltpage.glade: ditto.
