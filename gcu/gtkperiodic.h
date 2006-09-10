@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * gtkperiodic.h 
  *
- * Copyright (C) 2002-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,18 +35,19 @@ G_BEGIN_DECLS
 /*!\file
 Declaration of the GtkPeriodic widget.
 */
-/*! \enum GtkPeriodicColorStyle
+/*! \enum
  Coloring scheme used for the buttons when displaying the periodic table of the GtkPeriodic widget.
  Possible values are:
 	 - GTK_PERIODIC_COLOR_NONE: the default Gtk theme is used.
 	 - GTK_PERIODIC_COLOR_DEFAULT: the default color for each element is used as returned by gcu_element_get_default_color.
-	 .
+ Other values can be added using gtk_periodic_add_color_scheme.
 */
-typedef enum
+enum
 {
   GTK_PERIODIC_COLOR_NONE,
   GTK_PERIODIC_COLOR_DEFAULT,
-} GtkPeriodicColorStyle;
+  GTK_PERIODIC_COLOR_MAX,
+};
 
 #define GTK_TYPE_PERIODIC		  (gtk_periodic_get_type ())
 #define GTK_PERIODIC(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_PERIODIC, GtkPeriodic))
@@ -92,6 +93,8 @@ There are two properties:
 Functions related to the GtkPeriodic Widget are described in the gtkperiodic.h page.
 */
 
+typedef void (*GtkPeriodicColorFunc) (int, GdkColor*, gpointer);
+
 struct _GtkPeriodic
 {
 	GtkBin bin;
@@ -128,6 +131,10 @@ guint				gtk_periodic_get_element		(GtkPeriodic* periodic);
 
 void				gtk_periodic_set_element		(GtkPeriodic* periodic, guint element);
 
+int					gtk_periodic_add_color_scheme	(GtkPeriodic *periodic,
+											GtkPeriodicColorFunc func,
+											GtkWidget *extra_widget,
+											gpointer user_data);
 G_END_DECLS
 
 #endif //GTK_PERIODIC_H

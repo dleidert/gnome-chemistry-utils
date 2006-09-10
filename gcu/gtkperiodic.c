@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkperiodic.c 
  *
- * Copyright (C) 2002-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -21,9 +21,6 @@
  */
 
 #include "config.h"
-#warning "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
 #include "gtkperiodic.h"
 #include "chemistry.h"
 #include <string.h>
@@ -33,7 +30,8 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
 #include <glade/glade.h>
-#include <libintl.h>
+#include <glib/garray.h>
+#include <glib/gi18n-lib.h>
 
 static unsigned DefaultRed[4], DefaultGreen[4], DefaultBlue[4];
 
@@ -55,6 +53,12 @@ gtk_periodic_color_style_get_type (void)
 
 static GtkBinClass *parent_class = NULL;
 
+struct ColorScheme {
+	GtkPeriodicColorFunc f;
+	int page;
+	gpointer data;
+};
+
 struct _GtkPeriodicPrivate
 {
 	GtkVBox* vbox;
@@ -64,7 +68,9 @@ struct _GtkPeriodicPrivate
 	guint Z;
 	gboolean can_unselect;
 	GtkTooltips* tips;
-	GtkPeriodicColorStyle colorstyle;
+	unsigned colorstyle;
+	GArray *colorschemes;
+	unsigned nbschemes;
 };
 
 enum {
@@ -150,8 +156,8 @@ void gtk_periodic_class_init (GtkPeriodicClass *class)
 	g_object_class_install_property
 			(gobject_class,
 			 PROP_COLOR_STYLE,
-			 g_param_spec_enum ("color-style", NULL, NULL,
-								GTK_TYPE_PERIODIC_COLOR_STYLE_TYPE,
+			 g_param_spec_uint ("color-style", NULL, NULL,
+								GTK_PERIODIC_COLOR_NONE, G_MAXUINT,
 								GTK_PERIODIC_COLOR_NONE,
 								(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	gobject_class->finalize = gtk_periodic_finalize;
@@ -209,6 +215,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	gtk_widget_show_all(GTK_WIDGET(periodic));
 	textdomain(domain);
 	g_free(domain);
+	periodic->priv->colorschemes = g_array_new (FALSE, FALSE, sizeof (struct ColorScheme));
 }
 
 static void gtk_periodic_finalize (GObject *object)
@@ -217,6 +224,7 @@ static void gtk_periodic_finalize (GObject *object)
 	GObject *obj = (GObject*) g_object_get_data (object, "xml");
 
 	gtk_object_sink (GTK_OBJECT (periodic->priv->tips));
+	g_array_free (periodic->priv->colorschemes, FALSE);
 	g_free (periodic->priv);
 	if (obj) g_object_unref (obj);
 
@@ -308,10 +316,21 @@ gtk_periodic_set_property (GObject              *object,
 		periodic->priv->can_unselect = g_value_get_boolean (value);
 		break;
 
-	case PROP_COLOR_STYLE:
-		periodic->priv->colorstyle = g_value_get_enum (value);
-		if (periodic->priv->colorstyle <= GTK_PERIODIC_COLOR_DEFAULT) gtk_periodic_set_colors(periodic);
+	case PROP_COLOR_STYLE: {
+		int style = g_value_get_uint (value);
+		if (style < GTK_PERIODIC_COLOR_MAX + periodic->priv->nbschemes) {
+			periodic->priv->colorstyle = style;
+			if (style >= GTK_PERIODIC_COLOR_MAX) {
+				int page = g_array_index (periodic->priv->colorschemes, struct ColorScheme, style - GTK_PERIODIC_COLOR_MAX).page;
+				if (page > 0)
+					gtk_notebook_set_current_page (periodic->priv->book, page);
+			} else
+				gtk_notebook_set_current_page (periodic->priv->book, 0);
+			gtk_periodic_set_colors (periodic);
+		} else
+			g_warning (_("Out of range value %d for property \"color-style\" for GtkPeriodic instance %p\n"), style, periodic);
 		break;
+	}
 
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
@@ -338,7 +357,7 @@ gtk_periodic_get_property (GObject              *object,
 		break;
 
 	case PROP_COLOR_STYLE:
-		g_value_set_enum (value, periodic->priv->colorstyle);
+		g_value_set_uint (value, periodic->priv->colorstyle);
 		break;
 
 	default:
@@ -354,6 +373,13 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 	PangoAttribute *attr;
 	PangoAttrList *l;
 	int i;
+	GdkColor color;
+	GtkPeriodicColorFunc func = NULL;
+	gpointer data = NULL;
+	if (periodic->priv->colorstyle >= GTK_PERIODIC_COLOR_MAX) {
+		func = g_array_index (periodic->priv->colorschemes, struct ColorScheme, periodic->priv->colorstyle - GTK_PERIODIC_COLOR_MAX).f;
+		data = g_array_index (periodic->priv->colorschemes, struct ColorScheme, periodic->priv->colorstyle - GTK_PERIODIC_COLOR_MAX).data;
+	}
 	for (i = 1; i <= 118; i++)
 	{
 		if (!periodic->priv->buttons[i]) continue;
@@ -395,8 +421,36 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 			pango_attr_list_insert (l, attr);
 			gtk_label_set_attributes (periodic->priv->labels[i], l);
 			break;
+		default: {
+			func (i, &color, data);
+			style->bg[0] = style->bg[1] = style->bg[2] = style->bg[3] = color;
+			if (color.red > 39321 ||  color.green > 39321 || color.blue > 39321)
+				attr = pango_attr_foreground_new (0, 0, 0);
+			else
+				attr = pango_attr_foreground_new (65535, 65535, 65535);
+			attr->start_index = 0;
+			attr->end_index = 100;
+			l = pango_attr_list_new ();
+			pango_attr_list_insert (l, attr);
+			gtk_label_set_attributes (periodic->priv->labels[i], l);
+			break;
+		}
 		}
 		gtk_widget_set_style(GTK_WIDGET(periodic->priv->buttons[i]), style);
 		g_object_unref(style);
 	}
+}
+
+int	gtk_periodic_add_color_scheme (GtkPeriodic *periodic,
+		GtkPeriodicColorFunc func, GtkWidget *extra_widget, gpointer user_data)
+{
+	struct ColorScheme s;
+	s.f = func;
+	if (extra_widget)
+		s.page = gtk_notebook_append_page (periodic->priv->book, extra_widget, NULL);
+	else
+		s.page = 0;
+	s.data = user_data;
+	g_array_append_val (periodic->priv->colorschemes, s);
+	return GTK_PERIODIC_COLOR_MAX + periodic->priv->nbschemes++;
 }

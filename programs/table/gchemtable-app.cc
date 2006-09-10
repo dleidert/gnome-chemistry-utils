@@ -43,6 +43,23 @@ static void on_quit (GtkWidget *widget, void *data)
 	gtk_main_quit();
 }
 
+void on_no_colors (GtkWidget *widget, GChemTableApp *App)
+{
+	App->SetColorScheme ("none");
+}
+
+void on_default_colors (GtkWidget *widget, GChemTableApp *App)
+{
+	App->SetColorScheme ("default");
+}
+
+#ifdef WITH_BODR
+void on_state_colors (GtkWidget *widget, GChemTableApp *App)
+{
+	App->SetColorScheme ("state");
+}
+#endif
+
 static void on_about (GtkWidget *widget, GChemTableApp *app)
 {
 	char * authors[] = {"Jean Bréfort", NULL};
@@ -74,7 +91,7 @@ static void on_about (GtkWidget *widget, GChemTableApp *app)
 					NULL);
 }
 
-void on_changed(GtkPeriodic* periodic, guint Z, GChemTableApp *app)
+void on_changed (GtkPeriodic* periodic, guint Z, GChemTableApp *app)
 {
 	app->OnElement (Z);
 }
@@ -83,6 +100,17 @@ static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemTable"), G_CALLBACK (on_quit) },
+  { "ViewMenu", NULL, N_("_View") },
+    {"ColorMenu", NULL, N_("Color scheme") },
+	  {"NoColors", NULL, N_("No colors"), NULL,
+		  N_("Use default Gtk theme colors"), G_CALLBACK (on_no_colors) },
+	  {"DefaultColors", NULL, N_("Default"), NULL,
+		  N_("Use default symbolic element colors"), G_CALLBACK (on_default_colors), },
+#ifdef WITH_BODR
+	  {"StateColors", NULL, N_("Physical states"), NULL,
+		  N_("Use colors to display physical state at a given temperature"),
+		  G_CALLBACK (on_state_colors) },
+#endif
   { "HelpMenu", NULL, N_("_Help") },
 	  { "About", NULL, N_("_About"), NULL,
 		  N_("About GChemTable"), G_CALLBACK (on_about) }
@@ -94,11 +122,25 @@ static const char *ui_description =
 "    <menu action='FileMenu'>"
 "      <menuitem action='Quit'/>"
 "    </menu>"
+"    <menu action='ViewMenu'>"
+"      <menu action='ColorMenu'>"
+"        <menuitem action='NoColors'/>"
+"        <menuitem action='DefaultColors'/>"
+#ifdef WITH_BODR
+"        <menuitem action='StateColors'/>"
+#endif
+"      </menu>"
+"    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='About'/>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
+
+static void get_state_color (int Z, GdkColor *color, GChemTableApp *App)
+{
+	color->red= color->green = color->blue = 0;
+}
 
 #warning "the following line should be edited for stable releases"
 GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
@@ -143,6 +185,14 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 		Pages[i] = NULL;
 	
 	gcu::Element::LoadAllData ();
+	colorschemes["none"] = GTK_PERIODIC_COLOR_NONE;
+	colorschemes["default"] = GTK_PERIODIC_COLOR_DEFAULT;
+#ifdef WITH_BODR
+	GladeXML *xml = glade_xml_new (GLADEDIR"/state-thermometer.glade", "state-thermometer", NULL);
+	GtkWidget *thermometer = glade_xml_get_widget (xml, "state-thermometer");
+	colorschemes["state"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_state_color, thermometer, this);
+	gtk_widget_show_all (thermometer);
+#endif
 }
 
 GChemTableApp::~GChemTableApp ()
@@ -176,4 +226,9 @@ void GChemTableApp::SetCurZ (int Z)
 		gtk_periodic_set_element (periodic, Z);
 		m_CurZ = Z;
 	}
+}
+
+void GChemTableApp::SetColorScheme (char const *name)
+{
+	g_object_set (G_OBJECT (periodic), "color-style", colorschemes[name], NULL);
 }

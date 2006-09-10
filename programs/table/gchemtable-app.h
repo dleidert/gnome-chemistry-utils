@@ -28,7 +28,7 @@
 #include <gcu/application.h>
 #include <gcu/dialog.h>
 #include <gcu/gtkperiodic.h>
-//#include <gtk/gtkwidget.h>
+#include <map>
 
 using namespace gcu;
 
@@ -42,12 +42,14 @@ public:
 	GtkWindow *GetWindow () {return GTK_WINDOW (window);}
 	void ClearPage (int Z);
 	void SetCurZ (int Z);
+	void SetColorScheme (char const *name);
 
 private:
 	Dialog *Pages[118];
 	GtkWidget *window;
 	GtkPeriodic *periodic;
 	int m_CurZ;
+	map <string, unsigned> colorschemes;
 };
 
 #endif	// GCHEMTABLE_APP_H

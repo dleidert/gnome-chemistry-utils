@@ -229,6 +229,7 @@ dtds/Makefile
 gcu/Makefile
 glade/Makefile
 glade/crystal/Makefile
+glade/table/Makefile
 mozilla-plugin/Makefile
 pixmaps/Makefile
 po/Makefile.in
