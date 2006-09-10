@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-09-10 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* gcu/gtkperiodic.c (gtk_periodic_init): Use GLADEDIR too.
+	* gcu/Makefile.am (DEFS): Added -DGLADEDIR.
+	* programs/Makefile.am (DEFS): Removed a leading whitespace.
+
 2006-09-05 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* gcu/element.cc: Make translators life a bit easier by using unique
 	strings to translate and concatenating filenames separately.

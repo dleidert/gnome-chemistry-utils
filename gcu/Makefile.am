@@ -2,7 +2,7 @@ MAINTAINERCLEANFILES = Makefile.in
 
 AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
-DEFS += -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" -DPKGDATADIR=\"$(datadir)/gchemutils\"
+DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils/glade\" -DLOCALEDIR=\"$(localedir)\" -DPKGDATADIR=\"$(datadir)/gchemutils\"
 
 lib_LTLIBRARIES = libgcu.la
 

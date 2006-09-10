@@ -9,7 +9,7 @@ INCLUDES = @GCU_CFLAGS@
 LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 AM_CXXFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
 AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@
-DEFS +=  -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils/glade\"
+DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils/glade\"
 
 bin_PROGRAMS = gchemcalc gchem3d-viewer gchemtable
 
