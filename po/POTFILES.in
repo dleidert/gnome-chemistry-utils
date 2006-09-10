@@ -1,5 +1,4 @@
 [encoding: UTF-8]
-glade/eltpage.glade
 glade/gchemcalc.glade
 glade/gtkperiodic.glade
 glade/crystal/cell.glade
@@ -10,6 +9,8 @@ glade/crystal/cell.glade
 glade/crystal/cleavages.glade
 glade/crystal/lines.glade
 glade/crystal/size.glade
+glade/table/eltpage.glade
+glade/table/state-thermometer.glade
 database/elements.xml.in
 database/elecprops.xml.in
 database/isotopes.xml.in
