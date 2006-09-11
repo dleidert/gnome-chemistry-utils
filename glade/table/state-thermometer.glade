@@ -2,9 +2,9 @@
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
 <!-- Generated with glade3
 	Version: 3.0.1
-	Date: Sun Sep 10 16:10:21 2006
+	Date: Mon Sep 11 21:20:00 2006
 	User: jean
-	Host: gericom
+	Host: athlon
 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
@@ -22,7 +22,7 @@
         <child>
           <widget class="GtkLabel" id="label1">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Temperature:</property>
+            <property name="label" translatable="yes">Temperature (K):</property>
           </widget>
           <packing>
             <property name="x_options"></property>
@@ -45,9 +45,9 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkHScale" id="hscale1">
+          <widget class="GtkHScale" id="temperature">
             <property name="visible">True</property>
-            <property name="adjustment">298 0 4010 1 10 10</property>
+            <property name="adjustment">298 0 6010 1 10 10</property>
             <property name="digits">0</property>
           </widget>
           <packing>

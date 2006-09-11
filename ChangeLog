@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2006-09-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/gtkperiodic.c: made gtk_periodic_set_colors public.
+	* gcu/gtkperiodic.h: ditto.
+	* glade/table/state-thermometer.glade: fixed some issues.
+	* programs/table/gchemtable-app.cc: implemented colors by physical state.
+	* programs/table/gchemtable-app.h: ditto.
+
 2006-09-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add glade/table/Makefile to AC_OUTPUT.
 	* gcu/gtkperiodic.c: fixed new color scheme mechanism.

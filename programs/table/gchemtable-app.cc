@@ -139,8 +139,15 @@ static const char *ui_description =
 
 static void get_state_color (int Z, GdkColor *color, GChemTableApp *App)
 {
-	color->red= color->green = color->blue = 0;
+	App->GetStateColor (Z, color);
 }
+
+#ifdef WITH_BODR
+void on_changed_temp (GtkRange *range, GChemTableApp *app)
+{
+	app->SetTemperature (gtk_range_get_value (range));
+}
+#endif
 
 #warning "the following line should be edited for stable releases"
 GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
@@ -192,6 +199,9 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	GtkWidget *thermometer = glade_xml_get_widget (xml, "state-thermometer");
 	colorschemes["state"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_state_color, thermometer, this);
 	gtk_widget_show_all (thermometer);
+	thermometer = glade_xml_get_widget (xml, "temperature");
+	g_signal_connect (G_OBJECT (thermometer), "value-changed", G_CALLBACK (on_changed_temp), this);
+	temperature = gtk_range_get_value (GTK_RANGE (thermometer));
 #endif
 }
 
@@ -232,3 +242,35 @@ void GChemTableApp::SetColorScheme (char const *name)
 {
 	g_object_set (G_OBJECT (periodic), "color-style", colorschemes[name], NULL);
 }
+
+#ifdef WITH_BODR
+void GChemTableApp::SetTemperature (double T)
+{
+	temperature = T;
+	gtk_periodic_set_colors (periodic);
+}
+
+void GChemTableApp::GetStateColor (int Z, GdkColor *color)
+{
+	color->red= color->green = color->blue = 0;
+	Element *elt = Element::GetElement (Z);
+	Value *value = elt->GetProperty ("meltingpoint");
+	if (!value)
+		return;
+	double t = value->GetAsDouble ();
+	if (t > temperature) {
+		color->blue = 0xffff;
+		return;
+	}
+	value = elt->GetProperty ("boilingpoint");
+	if (!value)
+		return;
+	t = value->GetAsDouble ();
+	if (t > temperature) {
+		color->green = 0xffff;
+		return;
+	}
+	color->red = 0xffff;
+}
+
+#endif

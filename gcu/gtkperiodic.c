@@ -100,7 +100,6 @@ static void gtk_periodic_get_property (GObject              *object,
 					    GValue               *value,
 					    GParamSpec           *pspec);
 static void on_clicked(GtkToggleButton *button, GtkPeriodic* periodic);
-static void gtk_periodic_set_colors(GtkPeriodic *periodic);
 
 GType
 gtk_periodic_get_type (void)

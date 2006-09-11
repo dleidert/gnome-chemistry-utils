@@ -134,7 +134,8 @@ void				gtk_periodic_set_element		(GtkPeriodic* periodic, guint element);
 int					gtk_periodic_add_color_scheme	(GtkPeriodic *periodic,
 											GtkPeriodicColorFunc func,
 											GtkWidget *extra_widget,
-											gpointer user_data);
+										gpointer user_data);
+void				gtk_periodic_set_colors(GtkPeriodic *periodic);
 G_END_DECLS
 
 #endif //GTK_PERIODIC_H

@@ -43,6 +43,10 @@ public:
 	void ClearPage (int Z);
 	void SetCurZ (int Z);
 	void SetColorScheme (char const *name);
+#ifdef WITH_BODR
+	void SetTemperature (double T);
+	void GetStateColor (int Z, GdkColor *color);
+#endif
 
 private:
 	Dialog *Pages[118];
@@ -50,6 +54,9 @@ private:
 	GtkPeriodic *periodic;
 	int m_CurZ;
 	map <string, unsigned> colorschemes;
+#ifdef WITH_BODR
+	double temperature;
+#endif
 };
 
 #endif	// GCHEMTABLE_APP_H
