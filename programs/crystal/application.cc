@@ -295,7 +295,7 @@ void gcApplication::RemoveDocument (gcDocument *pDoc)
 
 bool gcApplication::OnQuit ()
 {
-	while (m_Docs.size () > 1) {
+	while (m_Docs.size () > 0) {
 		m_pActiveDoc = m_Docs.front ();
 		if (!OnFileClose ())
 			return false;

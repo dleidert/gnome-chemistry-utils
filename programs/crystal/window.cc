@@ -442,7 +442,7 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 		m_Doc->AddView (m_View);
 	}
 	m_View->SetWindow (this);
-	gtk_box_pack_start (GTK_BOX (vbox), m_View->CreateNewWidget (), true, true, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), m_View->GetWidget (), true, true, 0);
 	m_Bar = gtk_statusbar_new ();
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");
 	gtk_statusbar_push (GTK_STATUSBAR (m_Bar), m_statusId, _("Ready"));

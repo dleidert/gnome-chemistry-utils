@@ -33,6 +33,7 @@
 #include "crystalline.h"
 #include "crystalcleavage.h"
 #include "document.h"
+#include <gcu/gldocument.h>
 
 namespace gcu
 {
@@ -77,13 +78,13 @@ enum gcLattices {cubic=0,
 /*!\class CrystalDoc gcu/crystaldoc.h
 The document containing the crystal structure.
 */				 
-class CrystalDoc: public Document
+class CrystalDoc: public GLDocument
 {
 public:
 /*!
 The constructor of CrystalDoc
 */
-	CrystalDoc ();
+	CrystalDoc (Application *App);
 /*!
 The destructor of CrystalDoc
 */
@@ -121,10 +122,6 @@ Signals the document as modified since the last saving operation.
 Draws the document using OpenGL primitives.
 */
 	void Draw ();
-/*!
-@return the largest distance from an object displayed in the document to the center of the model.
-*/
-	gdouble GetMaxDist () {return m_dDist;}
 /*!
 Creates a view of the document. This method should be overrided by programs deriving a new view class from
 CrystalView.
@@ -237,10 +234,6 @@ The maximum y coordinate in the representation of the crystal structure.
 The maximum z coordinate in the representation of the crystal structure.
 */
 	gdouble m_zmax;
-/*!
-The maximum distance between an object and the center.
-*/
-	gdouble m_dDist; //maximum distance between an object and the center
 /*!
 true if cleavages must not change positions in the view.
 */

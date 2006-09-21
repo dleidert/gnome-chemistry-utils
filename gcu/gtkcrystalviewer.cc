@@ -91,9 +91,9 @@ GtkWidget* gtk_crystal_viewer_new(xmlNodePtr node)
 {
 	GtkCrystalViewer* viewer = (GtkCrystalViewer*)g_object_new(GTK_TYPE_CRYSTAL_VIEWER, NULL);
 	viewer->priv = new GtkCrystalViewerPrivate;
-	viewer->priv->pDoc = new gcu::CrystalDoc();
+	viewer->priv->pDoc = new gcu::CrystalDoc (NULL);
 	viewer->priv->pView = viewer->priv->pDoc->GetView();
-	GtkWidget* w = viewer->priv->pView->CreateNewWidget();
+	GtkWidget* w = viewer->priv->pView->GetWidget ();
 	gtk_container_add(GTK_CONTAINER(viewer), w);
 	if (node) viewer->priv->pDoc->ParseXMLTree(node);
 	g_signal_connect(G_OBJECT(viewer), "size_allocate", GTK_SIGNAL_FUNC(on_size), NULL);

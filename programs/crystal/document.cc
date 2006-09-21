@@ -87,7 +87,7 @@ char *LatticeName[] = {"simple cubic",
 	"base-centered monoclinic",
 	"triclinic"};
 
-gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc ()
+gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 {
 	Init ();
 	m_filename = NULL;
@@ -95,9 +95,6 @@ gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc ()
 	m_bEmpty = true;
 	m_bDirty = false;
 	m_bClosing = false;
-	m_ps = NULL;
-	m_App = pApp;
-	m_App->AddDocument (this);
 }
 
 /*gcDocument::gcDocument(bool create_view)
@@ -124,19 +121,19 @@ void gcDocument::Define (unsigned nPage)
 {
 	switch(nPage) {
 	case 0:
-		new gcCellDlg (m_App, this);
+		new gcCellDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 1:
-		new gcAtomsDlg (m_App, this);
+		new gcAtomsDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 2:
-		new gcLinesDlg (m_App, this);
+		new gcLinesDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 3:
-		new gcSizeDlg (m_App, this);
+		new gcSizeDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 4:
-		new gcCleavagesDlg (m_App, this);
+		new gcCleavagesDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	}
 }
@@ -420,7 +417,7 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 			}
 			else if (!strcmp( (gchar*) node->name, "view")) {
 				if (bViewLoaded) {
-					gcWindow *pWindow = new gcWindow (m_App, this);
+					gcWindow *pWindow = new gcWindow (dynamic_cast <gcApplication *> (m_App), this);
 					gcView *pView = pWindow->GetView ();
 					pView->LoadOld(node);
 				} else {
@@ -576,12 +573,6 @@ gcView *gcDocument::GetNewView()
 	return NULL;
 }
 
-void gcDocument::SetDirty()
-{
-	m_bDirty = true;
-	if (m_ps) bonobo_persist_set_dirty(m_ps, m_bDirty);
-}
-
 void gcDocument::AddView(gcView* pView)
 {
 	m_Views.push_back(pView);
@@ -600,7 +591,7 @@ bool gcDocument::RemoveView (gcView* pView)
 		if (!VerifySaved ())
 			return false;
 	}
-	m_App->RemoveDocument (this);
+	dynamic_cast <gcApplication *> (m_App)->RemoveDocument (this);
 	delete this;
 	return true;
 }
@@ -685,7 +676,7 @@ void gcDocument::SaveAsImage (char const *filename, char const *type, map<string
 
 bool gcDocument::LoadNewView (xmlNodePtr node)
 {
-	gcWindow *pWindow = new gcWindow (m_App, this);
+	gcWindow *pWindow = new gcWindow (dynamic_cast <gcApplication *> (m_App), this);
 	gcView *pView = pWindow->GetView ();
 	bool result = pView->Load (node);
 	if (!result)

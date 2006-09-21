@@ -29,6 +29,8 @@
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
 #include <math.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
+#include <glib/gi18n-lib.h>
 
 static GdkGLConfig *glconfig = NULL;
 double DefaultPsi = 70.;
@@ -74,7 +76,7 @@ static bool on_pressed(GtkWidget *widget, GdkEventButton *event, GLView* View)
 GLView::GLView (GLDocument* pDoc)
 {
 	m_bInit = false;
-	m_pDoc = pDoc;
+	m_Doc = pDoc;
 	m_nGLList = 0;
 	m_Red = m_Green = m_Blue = 0.;
 	m_Alpha = 1.;
@@ -104,37 +106,37 @@ GLView::GLView (GLDocument* pDoc)
 	}
 	/* create new OpenGL widget */
 	m_pWidget = GTK_WIDGET(gtk_drawing_area_new());
-
+	
 	/* Set OpenGL-capability to the widget. */
 	gtk_widget_set_gl_capability(m_pWidget,
-                                glconfig,
-                                NULL,
-                                TRUE,
-                                GDK_GL_RGBA_TYPE);
-
+					glconfig,
+					NULL,
+					TRUE,
+					GDK_GL_RGBA_TYPE);
+	
 	gtk_widget_set_events(GTK_WIDGET(m_pWidget),
-			GDK_EXPOSURE_MASK|
-			GDK_BUTTON_MOTION_MASK|
-			GDK_POINTER_MOTION_HINT_MASK|
-			GDK_BUTTON_PRESS_MASK);
-
-// Connect signal handlers
-// Do initialization when widget has been realized.
+	GDK_EXPOSURE_MASK|
+	GDK_BUTTON_MOTION_MASK|
+	GDK_POINTER_MOTION_HINT_MASK|
+	GDK_BUTTON_PRESS_MASK);
+	
+	// Connect signal handlers
+	// Do initialization when widget has been realized.
 	g_signal_connect (G_OBJECT (m_pWidget), "realize",
-		     G_CALLBACK (on_init), this);
-// When window is resized viewport needs to be resized also.
+				G_CALLBACK (on_init), this);
+	// When window is resized viewport needs to be resized also.
 	g_signal_connect (G_OBJECT (m_pWidget), "configure_event",
-		     G_CALLBACK (on_reshape), this);
-// Redraw image when exposed. 
+				G_CALLBACK (on_reshape), this);
+	// Redraw image when exposed. 
 	g_signal_connect (G_OBJECT (m_pWidget), "expose_event",
-		     G_CALLBACK (on_draw), this);
-// When moving mouse 
-  g_signal_connect (G_OBJECT (m_pWidget), "motion_notify_event",
-		      G_CALLBACK (on_motion), this);
-// When a mouse button is pressed
-  g_signal_connect (G_OBJECT (m_pWidget), "button_press_event",
-		      G_CALLBACK (on_pressed), this);
-
+				G_CALLBACK (on_draw), this);
+	// When moving mouse 
+	g_signal_connect (G_OBJECT (m_pWidget), "motion_notify_event",
+				G_CALLBACK (on_motion), this);
+	// When a mouse button is pressed
+	g_signal_connect (G_OBJECT (m_pWidget), "button_press_event",
+				G_CALLBACK (on_pressed), this);
+	
 	gtk_widget_show (GTK_WIDGET (m_pWidget));
 }
 
@@ -176,10 +178,9 @@ void GLView::Reshape ()
 				fAspect = 1.0;
 		} else	// don't divide by zero, not that we should ever run into that...
 			fAspect = 1.0f;
-		double x = m_pDoc->GetMaxDist ();
+		double x = m_Doc->GetMaxDist ();
 		if (x == 0)
 			x = 1;
-		m_Radius = (float) (x / sin (m_Angle / 360 * M_PI)) ;
 		glViewport (0,0, m_pWidget->allocation.width, m_pWidget->allocation.height);
 		if (fAspect > 1.0) {
 			m_Height = x * (1 - tan (m_Angle / 360 * M_PI));
@@ -188,12 +189,20 @@ void GLView::Reshape ()
 			m_Width = x * (1 - tan (m_Angle / 360 * M_PI));
 			m_Height = m_Width / fAspect;
 		}
-		m_Near = m_Radius - x;
-		m_Far = m_Radius + x;
-	    glMatrixMode (GL_PROJECTION);
-	    glLoadIdentity();
-		glFrustum (- m_Width, m_Width, - m_Height, m_Height, m_Near , m_Far);
-	    glMatrixMode (GL_MODELVIEW);
+		glMatrixMode (GL_PROJECTION);
+		glLoadIdentity();
+		if (m_Angle > 0.) {
+			m_Radius = (float) (x / sin (m_Angle / 360 * M_PI)) ;
+			m_Near = m_Radius - x;
+			m_Far = m_Radius + x;
+			glFrustum (- m_Width, m_Width, - m_Height, m_Height, m_Near, m_Far);
+		} else {
+			m_Radius = 2 * x;
+			m_Near = m_Radius - x;
+			m_Far = m_Radius + x;
+			glOrtho (- m_Width, m_Width, - m_Height, m_Height, m_Near, m_Far);
+		}
+		glMatrixMode (GL_MODELVIEW);
 		glLoadIdentity ();
 		glTranslatef (0, 0, -m_Radius);
 		gdk_gl_drawable_gl_end (gldrawable);
@@ -233,10 +242,10 @@ void GLView::Update()
 	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
 	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
 		if (m_nGLList)
-			glDeleteLists (m_nGLList,1);
-		m_nGLList = glGenLists (1);
+			glDeleteLists(m_nGLList,1);
+		m_nGLList = glGenLists(1);
 		glNewList (m_nGLList, GL_COMPILE);
-		m_pDoc->Draw ();
+		m_Doc->Draw ();
 		glEndList ();
 		gdk_gl_drawable_gl_end (gldrawable);
 	}
@@ -264,7 +273,7 @@ bool GLView::OnPressed (GdkEventButton *event)
   return false;
 }
 
-void GLView::OnMotion(GdkEventMotion *event)
+bool GLView::OnMotion(GdkEventMotion *event)
 {
 	gint x, y;
 	GdkModifierType state;
@@ -278,12 +287,13 @@ void GLView::OnMotion(GdkEventMotion *event)
 	}
 	if (state & GDK_BUTTON1_MASK) {
 		if ((x == m_Lastx) && (y == m_Lasty))
-			return;
+			return false;
 		Rotate (x - m_Lastx, y - m_Lasty);
 		m_Lastx = x;
 		m_Lasty = y;
 		gtk_widget_queue_draw_area(m_pWidget, 0, 0, m_pWidget->allocation.width, m_pWidget->allocation.height);
 	}
+	return true;
 }
 
 void GLView::Rotate (gdouble x, gdouble y)
@@ -348,7 +358,7 @@ void GLView::Print (GnomePrintContext *pc, gdouble width, gdouble height)
 		glRotated (m_Psi, 0.0, 1.0, 0.0);
 		glRotated (m_Theta, 0.0, 0.0, 1.0);
 		glRotated (m_Phi, 0.0, 1.0, 0.0);
-		m_pDoc->Draw ();
+		m_Doc->Draw ();
 		glPopMatrix ();
 		glFlush ();
 		gdk_gl_drawable_gl_end (drawable);
@@ -358,6 +368,100 @@ void GLView::Print (GnomePrintContext *pc, gdouble width, gdouble height)
 		gnome_print_concat (pc, matrix);
 		gnome_print_rgbimage (pc, (const guchar*) gdk_pixbuf_get_pixels (pixbuf), w, h, gdk_pixbuf_get_rowstride (pixbuf));
 		gnome_print_grestore (pc);
+		g_object_unref (pixbuf);
+	}
+
+	gdk_gl_context_destroy (context);
+	gdk_gl_pixmap_destroy (gl_pixmap);
+	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
+}
+
+static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
+{
+	GnomeVFSHandle *handle = (GnomeVFSHandle*) data;
+	GnomeVFSFileSize written = 0;
+	GnomeVFSResult res;
+	while (count) {
+		res = gnome_vfs_write (handle, buf, count, &written);
+		if (res != GNOME_VFS_OK) {
+			g_set_error (error, g_quark_from_static_string ("gchemutils"), res, gnome_vfs_result_to_string (res));
+			return false;
+		}
+		count -= written;
+	}
+	return true;
+}
+
+void GLView::SaveAsImage (char const *filename, char const *type, map<string, string>& options, int resolution)
+{
+	int w = m_pWidget->allocation.width;
+	int h = m_pWidget->allocation.height;
+	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
+		GdkGLConfigMode (GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
+	GdkPixmap *pixmap = gdk_pixmap_new (
+			(GdkDrawable*) (m_pWidget->window),
+			w, h, -1);
+	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability (pixmap,
+							       glconfig,
+							       NULL );
+	GdkGLDrawable * drawable = gdk_pixmap_get_gl_drawable (pixmap);
+	GdkGLContext * context = gdk_gl_context_new (drawable,
+						     NULL,
+						     FALSE,
+						     GDK_GL_RGBA_TYPE);
+	if (gdk_gl_drawable_gl_begin (drawable, context)) {
+	    glEnable (GL_LIGHTING);
+		glEnable (GL_LIGHT0);
+		glEnable (GL_DEPTH_TEST);
+		glEnable (GL_CULL_FACE);
+		glEnable (GL_COLOR_MATERIAL);
+		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
+		glViewport (0, 0, w, h);
+	    glMatrixMode (GL_PROJECTION);
+	    glLoadIdentity ();
+		glFrustum (- m_Width, m_Width, - m_Height, m_Height, m_Near , m_Far);
+	    glMatrixMode (GL_MODELVIEW);
+		glLoadIdentity ();
+		glTranslatef (0, 0, -m_Radius);
+		glClearColor (m_Red, m_Green, m_Blue, m_Alpha);
+		glClearDepth (1.0);
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		if  (m_nGLList) {
+			glPushMatrix ();
+			glRotated (m_Psi, 0.0, 1.0, 0.0);
+			glRotated (m_Theta, 0.0, 0.0, 1.0);
+			glRotated (m_Phi, 0.0, 1.0, 0.0);
+			glEnable (GL_BLEND);
+			GetDoc ()->Draw();
+			glDisable (GL_BLEND);
+			glPopMatrix ();
+		}
+		glFlush ();
+		gdk_gl_drawable_gl_end (drawable);
+		GdkPixbuf* pixbuf = gdk_pixbuf_get_from_drawable (NULL,
+			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
+		char const **keys = g_new0 (char const*, options.size () + 1);
+		char const **values = g_new0 (char const*, options.size ());
+		GError *error = NULL;
+		map<string, string>::iterator i, iend = options.end ();
+		int j = 0;
+		for (i = options.begin (); i != iend; i++) {
+			keys[j] = (*i).first.c_str ();
+			values[j++] = (*i).second.c_str ();
+		}
+		GnomeVFSHandle *handle = NULL;
+		if (gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
+			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, handle, type, (char**) keys, (char**) values, &error);
+			if (error) {
+				fprintf (stderr, _("Unable to save image file: %s\n"), error->message);
+				g_error_free (error);
+			}
+			gnome_vfs_close (handle); // hope there will be no error there
+		}
+		g_free (keys);
+		g_free (values);
 		g_object_unref (pixbuf);
 	}
 

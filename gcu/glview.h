@@ -29,8 +29,11 @@
 #include "matrix.h"
 #include <gtk/gtkwidget.h>
 #include <libgnomeprint/gnome-print.h>
+#include <map>
 
 extern double DefaultPsi, DefaultTheta, DefaultPhi;
+
+using namespace std;
 
 namespace gcu {
 
@@ -77,8 +80,10 @@ associated widget drawing area.
 
 Automatically called by the framework when the mouse cursor moves over the
 associated widget drawing area.
+
+@return true if a motion really occured, false otherwise.
 */
-	void OnMotion (GdkEventMotion *event);
+	bool OnMotion (GdkEventMotion *event);
 /*!
 Update the contents of the associated widget. This method must be called
 each time the document or the view are modified.
@@ -86,6 +91,17 @@ each time the document or the view are modified.
 	void Update ();
 	void SetRotation (double psi, double theta, double phi);
 	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
+/*!
+@param filename: the name of the file.
+@param type: the type as supported by GdkPixbuf (e.g. "png" or "jpeg").
+@param options: the pairs of keys/values to pass GdkPixbuf.
+@param resolution: the resolution to use. This means that the image size will
+be the view size multiplied by resolution divided by the screen resolution.
+If 0, the screen resolution is used.
+
+Export the view contents as an image.
+*/
+	void SaveAsImage (char const *filename, char const *type, map<string, string>& options, int resolution = 0);
 
 private:
 /*!
@@ -99,12 +115,12 @@ Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 protected:
 	GtkWidget *m_pWidget;
 	unsigned m_nGLList;
+	double m_Radius;
 
 private:
 	bool m_bInit;
-	GLDocument *m_pDoc;
 	Matrix m_Euler;
-	double m_Radius, m_Height, m_Width, m_Near, m_Far;
+	double m_Height, m_Width, m_Near, m_Far;
 	double m_Lastx, m_Lasty;
 
 // Properties
@@ -116,6 +132,7 @@ GCU_PROP (float, Red)
 GCU_PROP (float, Green)
 GCU_PROP (float, Blue)
 GCU_PROP (float, Alpha)
+GCU_RO_PROP (GLDocument *, Doc)
 };
 
 }	// namespace gcu

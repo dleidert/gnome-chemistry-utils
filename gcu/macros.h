@@ -29,6 +29,7 @@
 public:	\
 	void Set##member (type val) {m_##member = val;}	\
 	type Get##member (void) {return m_##member;}	\
+	type &GetRef##member (void) {return m_##member;}	\
 private:	\
 	type m_##member;
 

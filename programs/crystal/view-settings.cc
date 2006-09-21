@@ -28,7 +28,7 @@
 #include "application.h"
 #include <glade/glade.h>
 
-gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDocument ()->GetApplication (), GLADEDIR"/view-settings.glade", "view_settings")
+gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDoc ()->GetApp (), GLADEDIR"/view-settings.glade", "view_settings")
 {
 	m_pView = pView;
 	m_pView->NotifyDialog (this);
@@ -78,6 +78,6 @@ bool gcViewSettingsDlg::Apply()
 	gtk_color_button_get_color (Background, &color);
 	m_pView->SetBackgroundColor (color.red / 65535., color.green / 65535., color.blue / 65535., gtk_color_button_get_alpha (Background) / 65535.);
 	m_pView->Update ();
-	m_pView->GetDocument ()->SetDirty ();
+	dynamic_cast <gcDocument *> (m_pView->GetDoc ())->SetDirty ();
 	return true;	
 }

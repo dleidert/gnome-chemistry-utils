@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2006-09-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/crystaldoc.cc: make GCrystal use GLView and GLDocument classes,
+	and allow for orthogonal projection (FoV == 0).
+	* gcu/crystaldoc.h: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/crystalview.h: ditto.
+	* gcu/document.h: ditto.
+	* gcu/glview.cc: ditto.
+	* gcu/glview.h: ditto.
+	* gcu/gtkcrystalviewer.cc: ditto.
+	* gcu/macros.h: ditto.
+	* glade/crystal/prefs.glade: ditto.
+	* glade/crystal/view-settings.glade: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/view-settings.cc: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/window.cc: ditto.
+
 2006-09-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/gtkperiodic.c: made gtk_periodic_set_colors public.
 	* gcu/gtkperiodic.h: ditto.

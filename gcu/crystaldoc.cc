@@ -54,7 +54,7 @@ gchar *LatticeName[] = {"simple cubic",
 	"base-centered monoclinic",
 	"triclinic"};
 
-CrystalDoc::CrystalDoc()
+CrystalDoc::CrystalDoc (Application *App): GLDocument (App)
 {
 }
 
@@ -120,7 +120,7 @@ void CrystalDoc::Init()
 	m_xmin = m_ymin = m_zmin = 0;
 	m_xmax = m_ymax = m_zmax = 1;
 	m_bFixedSize = false;
-	m_dDist = 0;
+	m_MaxDist = 0;
 	if (m_Views.size() == 0)
 	{
 		CrystalView* pView = CreateNewView();
@@ -427,12 +427,12 @@ void CrystalDoc::Update()
 	//Transform coordinates to Cartesians and find maximum distance from center
 	gdouble x, y, z, d;
 	Atom.GetCoords(&x, &y, &z);
-	m_dDist = 0;
+	m_MaxDist = 0;
 	for (i = Atoms.begin(); i != Atoms.end(); i++)
 	{
 		(*i)->NetToCartesian(m_a, m_b, m_c, alpha, beta, gamma);
 		d =  (*i)->Distance(x, y, z, m_bFixedSize);
-		m_dDist = __max(m_dDist, d);
+		m_MaxDist = __max(m_MaxDist, d);
 		(*i)->Move(- x, - y, - z);
 	}
 
@@ -440,7 +440,7 @@ void CrystalDoc::Update()
 	{
 		(*j)->NetToCartesian(m_a, m_b, m_c, alpha, beta, gamma);
 		d =  (*j)->Distance(x, y, z, m_bFixedSize);
-		m_dDist = __max(m_dDist, d);
+		m_MaxDist = __max(m_MaxDist, d);
 		(*j)->Move(- x, - y, - z);
 	}
 }

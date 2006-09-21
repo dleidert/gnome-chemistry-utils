@@ -45,16 +45,12 @@ public:
 	gcView (gcView *pView);
 	~gcView ();
 	
-	void SetDocument (gcDocument *pDoc);
-	gcDocument* GetDocument() {return (gcDocument *) m_pDoc;}
 	void SetBackgroundColor (float red, float green, float blue, float alpha);
 	void GetBackgroundColor (double *red, double *green, double *blue, double *alpha);
-	gdouble& GetFoV () {return m_fAngle;}
-	gdouble& GetPos () {return m_fRadius;}
+	gdouble& GetFoV () {return GetRefAngle ();}
+	gdouble& GetPos () {return m_Radius;}
 	void GetRotation (double *psi, double *theta, double *phi);
-	void SetRotation (double psi, double theta, double phi);
 	bool LoadOld (xmlNodePtr node);
-	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
 	void SetLabel (GtkLabel* Label) {m_pLabel = Label;}
 	void SetMenu (GtkMenuItem* item);
 	GtkLabel* GetLabel () {return m_pLabel;}

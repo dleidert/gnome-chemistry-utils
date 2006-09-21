@@ -26,7 +26,8 @@
 #ifndef GCU_DOCUMENT_H
 #define GCU_DOCUMENT_H
 
-#include "object.h"
+#include <gcu/object.h>
+#include <gcu/macros.h>
 #include <string>
 
 using namespace std;
@@ -101,8 +102,9 @@ private:
 	map <string, string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
 
 protected:
-	Application *m_App;
 	string m_Title;
+
+GCU_PROT_PROP (Application *, App)
 };
 
 }

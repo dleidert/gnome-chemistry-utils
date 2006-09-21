@@ -54,7 +54,6 @@ public:
 	void Update();
 	void UpdateAllViews();
 	void SetWidget(GtkWidget* widget){m_widget = widget;}
-	gdouble GetMaxDist() {return m_dDist;}
 	void GetSize(gdouble* xmin, gdouble* xmax, gdouble* ymin, gdouble* ymax, gdouble* zmin, gdouble* zmax);
 	void SetSize(gdouble xmin, gdouble xmax, gdouble ymin, gdouble ymax, gdouble zmin, gdouble zmax);
 	void GetCell(gcLattices *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma);
@@ -69,13 +68,11 @@ public:
 	void OnNewDocument();
 	void OnExportVRML(const gchar* FileName);
 	gcView* GetNewView();
-	void SetDirty();
 	bool IsEmpty() {return m_bEmpty;}
 	void AddView(gcView* pView);
 	bool RemoveView(gcView* pView);
 	void RemoveAllViews ();
 	bool VerifySaved();
-	void SetBonoboPersist(BonoboPersist* ps) {m_ps = ps;}
 	void NotifyDialog(Dialog* dialog);
 	void RemoveDialog(Dialog* dialog);
 	bool GetFixedSize() {return m_bFixedSize;}
@@ -85,7 +82,6 @@ public:
 	virtual CrystalLine* CreateNewLine();
 	virtual CrystalCleavage* CreateNewCleavage();
 	virtual const char* GetProgramId();
-	gcApplication* GetApplication () {return m_App;}
 	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
 	void SaveAsImage (char const *filename, char const *type, map<string, string>& options);
 	gcView *GetActiveView () {return m_pActiveView;}
@@ -100,8 +96,6 @@ private:
 	bool m_bClosing;
 	GtkWidget* m_widget;
 	std::list <Dialog *> m_Dialogs;
-	BonoboPersist* m_ps;
-	gcApplication* m_App;
 	gcView *m_pActiveView;
 };
 
