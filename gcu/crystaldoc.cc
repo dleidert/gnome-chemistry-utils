@@ -404,6 +404,7 @@ void CrystalDoc::Update()
 		if ((n = (*k)->Planes()) >= ScalarProducts.size())
 		{
 			GtkWidget* message = gtk_message_dialog_new(NULL, (GtkDialogFlags) 0, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, _("Everything has been cleaved"));
+			g_signal_connect (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), NULL);
 			gtk_widget_show(message);
 			for (i = Atoms.begin(); i != Atoms.end(); i++) (*i)->Cleave();
 			for (j = Lines.begin(); j != Lines.end(); j++) (*j)->Cleave();

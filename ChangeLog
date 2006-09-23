@@ -1,7 +1,10 @@
 ##Text encoding: utf-8
 
 2006-09-23  Jean Bréfort  <jean.brefort@normalesup.org>
-	* programs/table/gchemtable-app.cc:
+	* gcu/crystaldoc.cc: close message box when button is clicked. [#17830].
+
+2006-09-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-app.cc: make things compile without bodr.
 
 2006-09-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/application.cc: include gi18n.h.
