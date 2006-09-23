@@ -137,12 +137,12 @@ static const char *ui_description =
 "  </menubar>"
 "</ui>";
 
+#ifdef WITH_BODR
 static void get_state_color (int Z, GdkColor *color, GChemTableApp *App)
 {
 	App->GetStateColor (Z, color);
 }
 
-#ifdef WITH_BODR
 void on_changed_temp (GtkRange *range, GChemTableApp *app)
 {
 	app->SetTemperature (gtk_range_get_value (range));
