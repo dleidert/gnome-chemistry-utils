@@ -30,6 +30,7 @@
 #include <gcu/element.h>
 #include <list>
 #include <string>
+#include <glib/gi18n.h>
 
 using namespace std;
 using namespace gcu;

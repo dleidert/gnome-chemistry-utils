@@ -36,6 +36,7 @@
 #include <gcu/filechooser.h>
 #include "prefs.h"
 #include "window.h"
+#include <glib/gi18n.h>
 
 static unsigned short nNewDocs = 1;
 

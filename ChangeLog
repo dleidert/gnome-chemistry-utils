@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2006-09-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/application.cc: include gi18n.h.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/crystal/document.h: remove bonobo.h.
+
 2006-09-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/crystaldoc.cc: make GCrystal use GLView and GLDocument classes,
 	and allow for orthogonal projection (FoV == 0).

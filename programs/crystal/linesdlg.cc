@@ -26,6 +26,7 @@
 #include "linesdlg.h"
 #include "document.h"
 #include "application.h"
+#include <glib/gi18n.h>
 
 enum
 {

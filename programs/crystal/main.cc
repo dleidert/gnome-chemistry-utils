@@ -35,6 +35,7 @@
 #include "globals.h"
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <glib/gi18n.h>
 
 using namespace gcu;
 using namespace std;

@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.h 
  *
- * Copyright (C) 2000-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2006 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,7 +31,6 @@
 #include "atom.h"
 #include "line.h"
 #include "cleavage.h"
-#include <libbonobo.h>
 
 using namespace gcu;
 
