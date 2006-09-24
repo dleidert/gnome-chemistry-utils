@@ -24,6 +24,11 @@ What is needed to install the Gnome Chemistry Utils:
 These libraries are available from ftp://ftp.gnome.org or one of its mirrors
 	OpenBabel-2 (available from openbabel.sourceforge.net)
 
+Further man, xmllint, xsltproc and maybe a local docbook-xsl installation
+are required for manpage building. We deliver ready-to-use manpages, so you
+don't need to build them yourself. But if you e.g. change something in their
+XML source, you need xsltproc to update the manpages too.
+
 Versions numbering:
 Odd minor versions are development version. To see what remains to be done
 before a stable version can be released read the TODO file. Help is of course

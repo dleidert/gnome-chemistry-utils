@@ -190,9 +190,9 @@ AC_SUBST([mozlibdir])
 # Check for manpage target applications
 ##################################################
 
-MP_PROG_XMLLINT
-MP_PROG_XSLTPROC
-MP_PROG_MAN
+GCU_PROG_XMLLINT
+GCU_PROG_XSLTPROC
+GCU_PROG_MAN
 
 AC_LANG(C++)
 AC_CHECK_HEADER([fstream], [AC_DEFINE([HAVE_FSTREAM], [1], [fstream present])])

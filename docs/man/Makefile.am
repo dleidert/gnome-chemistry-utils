@@ -24,7 +24,11 @@ man3_MANS = $(patsubst %.3.xml,%.3,$(filter %.3.xml,$(gcu_man_src)))
 
 
 % : %.xml
+if HAVE_XSLTPROC
 	$(XSLTPROC) $(XSLTPROC_FLAGS) $<
+else
+	$(warning "Cannot update the XML sources without `xsltproc'.")
+endif
 
 
 check-local:
@@ -32,11 +36,11 @@ check-local:
 if HAVE_XMLLINT
 	$(XMLLINT) $(XMLLINT_FLAGS) $(gcu_man_src)
 else
-	$(warning "Cannot check the XML sources because 'xmllint' is missing.")
+	$(warning "Cannot check the XML sources without `xmllint'.")
 endif
 if HAVE_MAN
 	LANG=C MANWIDTH=80 $(MAN) $(addprefix $(srcdir)/,$(man1_MANS) $(man3_MANS)) > /dev/null
 else
-	$(warning "Cannot check the manpages because 'man' is missing.")
+	$(warning "Cannot check the manpages without `man'.")
 endif	
 

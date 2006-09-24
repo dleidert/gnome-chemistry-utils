@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2006-09-24 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* configure.ac (MP_*): Replaced by GCU_* macros.
+	* AUTHORS: Updated information.
+	* README: Added a note about the applications for manpage processing.
+	* acinclude.m4: Updated. All macros have been renamed to GCU_* instead
+	of MP_*.
+	(MP_PROG_XMLLINT): Added check, if PKG_CHECK_EXISTS macro is
+	available. Removed `echo' usage by using AC_MSG_* macros.
+	(MP_PROG_XSLTPROC): Make xsltproc optional, so users don't need a
+	local installation. Likewise for `echo' usage.
+	(MP_PROG_MAN): Likewise.
+	* docs/man/Makefile.am (man1_MANS, man3_MANS): Made xsltproc optional.
+	(check-local): Cosmetic fixes.
+
 2006-09-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/window.cc: fixed typo in menus. [#17832].
 
