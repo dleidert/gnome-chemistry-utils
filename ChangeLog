@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2006-09-24 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* configure.ac (AC_PACKAGE_VERSION): Post-release version bump.
+	* 
+
 2006-09-10 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* docs/man/libgcu.3.xml: Added Debian specific information.
 	* docs/man/libgcu.3: Ditto (updated from XML source).

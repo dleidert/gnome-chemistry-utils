@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.6.3)
+AC_INIT(gnome-chemistry-utils, 0.6.4)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -194,9 +194,9 @@ AC_SUBST([mozlibdir])
 # Check for manpage target applications
 ##################################################
 
-MP_PROG_XMLLINT
-MP_PROG_XSLTPROC
-MP_PROG_MAN
+GCU_PROG_XMLLINT
+GCU_PROG_XSLTPROC
+GCU_PROG_MAN
 
 ##################################################
 # Path checks
