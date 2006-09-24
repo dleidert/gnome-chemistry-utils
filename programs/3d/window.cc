@@ -31,6 +31,7 @@
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
@@ -79,13 +80,24 @@ static void on_display (GtkRadioAction *action, GtkRadioAction *current, gc3dWin
 	window->GetView ()->Update ();
 }
 
+static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+{
+	GnomeVFSResult error = gnome_vfs_url_show(url);
+	if (error != GNOME_VFS_OK) {
+		g_print("GnomeVFSResult while trying to launch URL in about dialog: error %u\n", error);
+	}
+}
+
 static void on_about (GtkWidget *widget, void *data)
 {
-	char * authors[] = {"Jean Bréfort", NULL};
-//	char * documentors[] = {NULL};
-	char license[] = "This program is free software; you can redistribute it and/or\n" 
+	const gchar * authors[] = {"Jean Bréfort", NULL};
+	const gchar * comments = _("GChem3D is a molecular structures viewer for Gnome");
+	/* const gchar * documentors[] = {NULL}; */
+	const gchar * copyright = "Copyright \xc2\xa9 2004-2006 Jean Bréfort\n";
+	const gchar * license =
+		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
- 		"published by the Free Software Foundation; either version 2 of the\n"
+		"published by the Free Software Foundation; either version 2 of the\n"
 		"License, or (at your option) any later version.\n\n"
 		"This program is distributed in the hope that it will be useful,\n"
 		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
@@ -95,26 +107,28 @@ static void on_about (GtkWidget *widget, void *data)
 		"along with this program; if not, write to the Free Software\n"
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
-/* Note to translators: replace the following string with the appropriate credits for you lang */
-	char *translator_credits = _("translator_credits");
+	
+	gtk_about_dialog_set_url_hook(on_about_activate_url, NULL, NULL);
+
+	/* Note to translators: replace the following string with the appropriate credits for you lang */
+	const gchar * translator_credits = _("translator_credits");
 	gtk_show_about_dialog (NULL,
-					"name", "GChem3D",
-					"authors", authors,
-					"comments", _("GChem3D is a molecular structures viewer for Gnome"),
-					"copyright", _("(C) 2004-2006 by Jean Bréfort"),
-					"license", license,
-					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
-											(const char *)translator_credits : NULL,
-					"version", VERSION,
-					"website", "http://www.nongnu.org/gchemutils",
-					NULL);
+	                       "name", "GChem3D",
+	                       "authors", authors,
+	                       "comments", comments,
+	                       "copyright", copyright,
+	                       "license", license,
+	                       "translator_credits", translator_credits,
+	                       "version", VERSION,
+	                       "website", "http://www.nongnu.org/gchemutils",
+	                       NULL);
 }
 
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
-	  { "Print", GTK_STOCK_OPEN, N_("_Print..."), "<control>P",
+	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current scene"), G_CALLBACK (on_file_print) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
 		  N_("Close the current file"), G_CALLBACK (on_file_close) },
@@ -122,17 +136,17 @@ static GtkActionEntry entries[] = {
 		  N_("Quit GChem3D"), G_CALLBACK (on_quit) },
   { "ViewMenu", NULL, N_("_View") },
   { "HelpMenu", NULL, N_("_Help") },
-	  { "About", NULL, N_("_About"), NULL,
+	  { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
 		  N_("About GChem3D"), G_CALLBACK (on_about) }
 };
 
 static GtkRadioActionEntry radios[] = {
-	{	"BallnStick", NULL, N_("Balls and sticks"), NULL,
+	{ "BallnStick", NULL, N_("Balls and sticks"), NULL,
 		N_("Display a balls and sticks model"),
-		0	},
-	{	"SpaceFill", "NULL", N_("Space filling"), NULL,
+		0 },
+	{ "SpaceFill", "NULL", N_("Space filling"), NULL,
 		N_("Display a space filling model"),
-		1	},
+		1 },
 };
 
 static const char *ui_description =

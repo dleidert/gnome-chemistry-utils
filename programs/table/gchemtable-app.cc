@@ -34,6 +34,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkuimanager.h>
 #include <gtk/gtkwindow.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -60,13 +61,24 @@ void on_state_colors (GtkWidget *widget, GChemTableApp *App)
 }
 #endif
 
+static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+{
+	GnomeVFSResult error = gnome_vfs_url_show(url);
+	if (error != GNOME_VFS_OK) {
+		g_print("GnomeVFSResult while trying to launch URL in about dialog: error %u\n", error);
+	}
+}
+
 static void on_about (GtkWidget *widget, GChemTableApp *app)
 {
-	char * authors[] = {"Jean Bréfort", NULL};
-//	char * documentors[] = {NULL};
-	char license[] = "This program is free software; you can redistribute it and/or\n" 
+	const gchar * authors[] = {"Jean Bréfort", NULL};
+	const gchar * comments = _("GChemTable is a chemical periodic table of the elements application");
+	/* const gchar * documentors[] = {NULL}; */
+	const gchar * copyright = "Copyright \xc2\xa9 2005,2006 Jean Bréfort";
+	const gchar * license =
+		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
- 		"published by the Free Software Foundation; either version 2 of the\n"
+		"published by the Free Software Foundation; either version 2 of the\n"
 		"License, or (at your option) any later version.\n\n"
 		"This program is distributed in the hope that it will be useful,\n"
 		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
@@ -76,19 +88,21 @@ static void on_about (GtkWidget *widget, GChemTableApp *app)
 		"along with this program; if not, write to the Free Software\n"
 		"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307\n"
 		"USA";
-/* Note to translators: replace the following string with the appropriate credits for you lang */
-	char *translator_credits = _("translator_credits");
+	
+	gtk_about_dialog_set_url_hook(on_about_activate_url, NULL, NULL);
+
+	/* Note to translators: replace the following string with the appropriate credits for you lang */
+	const gchar * translator_credits = _("translator_credits");
 	gtk_show_about_dialog (app->GetWindow (),
-					"name", "GChemTable",
-					"authors", authors,
-					"comments", _("GChemTable is a chemical periodic table of the elements application"),
-					"copyright", _("(C) 2005-2006 by Jean Bréfort"),
-					"license", license,
-					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
-											(const char *)translator_credits : NULL,
-					"version", VERSION,
-					"website", "http://www.nongnu.org/gchemutils",
-					NULL);
+	                       "name", "GChemTable",
+	                       "authors", authors,
+	                       "comments", comments,
+	                       "copyright", copyright,
+	                       "license", license,
+	                       "translator_credits", translator_credits,
+	                       "version", VERSION,
+	                       "website", "http://www.nongnu.org/gchemutils",
+	                       NULL);
 }
 
 void on_changed (GtkPeriodic* periodic, guint Z, GChemTableApp *app)
@@ -112,7 +126,7 @@ static GtkActionEntry entries[] = {
 		  G_CALLBACK (on_state_colors) },
 #endif
   { "HelpMenu", NULL, N_("_Help") },
-	  { "About", NULL, N_("_About"), NULL,
+	  { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
 		  N_("About GChemTable"), G_CALLBACK (on_about) }
 };
 

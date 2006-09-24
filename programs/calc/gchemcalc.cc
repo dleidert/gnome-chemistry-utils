@@ -62,6 +62,7 @@
 #include <goffice/utils/go-marker.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include <math.h>
 #include <iostream>
 
@@ -93,13 +94,24 @@ static void on_quit (GtkWidget *widget, void *data)
 	gtk_main_quit();
 }
 
+static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+{
+	GnomeVFSResult error = gnome_vfs_url_show(url);
+	if (error != GNOME_VFS_OK) {
+		g_print("GnomeVFSResult while trying to launch URL in about dialog: error %u\n", error);
+	}
+}
+
 static void on_about (GtkWidget *widget, void *data)
 {
-	char * authors[] = {"Jean Bréfort", NULL};
-//	char * documentors[] = {NULL};
-	char license[] = "This program is free software; you can redistribute it and/or\n" 
+	const gchar * authors[] = {"Jean Bréfort", NULL};
+	const gchar * comments = _("GChemCalc is a simple calculator for chemists");
+	/* const gchar * documentors[] = {NULL}; */
+	const gchar * copyright = "Copyright \xc2\xa9 2005,2006 Jean Bréfort\n";
+	const gchar * license =
+		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
- 		"published by the Free Software Foundation; either version 2 of the\n"
+		"published by the Free Software Foundation; either version 2 of the\n"
 		"License, or (at your option) any later version.\n\n"
 		"This program is distributed in the hope that it will be useful,\n"
 		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
@@ -109,19 +121,22 @@ static void on_about (GtkWidget *widget, void *data)
 		"along with this program; if not, write to the Free Software\n"
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
-/* Note to translators: replace the following string with the appropriate credits for you lang */
-	char *translator_credits = _("translator_credits");
+	
+	gtk_about_dialog_set_url_hook(on_about_activate_url, NULL, NULL);
+
+	/* Note to translators: replace the following string with the appropriate credits for you lang */
+	const gchar * translator_credits = _("translator_credits");
+
 	gtk_show_about_dialog (NULL,
-					"name", "GChemCalc",
-					"authors", authors,
-					"comments", _("GChemCalc is a simple calculator for chemists"),
-					"copyright", _("(C) 2005-2006 by Jean Bréfort"),
-					"license", license,
-					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
-											(const char *)translator_credits : NULL,
-					"version", VERSION,
-					"website", "http://www.nongnu.org/gchemutils",
-					NULL);
+	                       "name", "GChemCalc",
+	                       "authors", authors,
+	                       "comments", comments,
+	                       "copyright", copyright,
+	                       "license", license,
+	                       "translator_credits", translator_credits,
+	                       "version", VERSION,
+	                       "website", "http://www.nongnu.org/gchemutils",
+	                       NULL);
 }
 
 static void cb_entry_active (GtkEntry *entry, gpointer data)
@@ -374,7 +389,7 @@ static GtkActionEntry entries[] = {
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemCalc"), G_CALLBACK (on_quit) },
   { "HelpMenu", NULL, N_("_Help") },
-	  { "About", NULL, N_("_About"), NULL,
+	  { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
 		  N_("About GChemCalc"), G_CALLBACK (on_about) }
 };
 
@@ -392,7 +407,7 @@ static const char *ui_description =
 
 gboolean cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
 {
-	char *version = g_strconcat (_("Gnome Chemistry Utils version: "), VERSION, NULL);
+	char *version = g_strconcat (_("GChemCalc Calculator version: "), VERSION, NULL);
 	puts (version);
 	g_free (version);
 	exit (0);
@@ -429,7 +444,7 @@ int main (int argc, char *argv[])
 
 #warning "the following line should be edited for stable releases"
 	if (argc > 1) {
-		cout << _("Usage: gchemcalc-unstable [OPTION...] [formula]") << endl;
+		cout << _("For usage see: gchemcalc-unstable [-?|--help]") << endl;
 		return -1;
 	}
 	

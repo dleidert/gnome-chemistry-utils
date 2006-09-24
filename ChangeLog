@@ -1,6 +1,18 @@
 ##Text encoding: utf-8
 
 2006-09-24 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* gcu/Makefile.am: Fixed automake warning.
+	* programs/3d/window.cc (on_about, on_about_activate_url): Just some
+	cleanup and improvements. Added "clickable" Homepage URL.
+	(entries[]): Fixed print and added about icon.
+	* programs/table/gchemtable-app.cc (on_about, on_about_activate_url)
+	(entries[]): Ditto.
+	* programs/calc/gchemcalc.cc (on_about, on_about_activate_url)
+	(entries[]): Ditto.
+	(cb_print_version): Fixed string.
+	(main): Improved usage output.
+
+2006-09-24 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* configure.ac (MP_*): Replaced by GCU_* macros.
 	* AUTHORS: Updated information.
 	* README: Added a note about the applications for manpage processing.

@@ -1,9 +1,11 @@
 MAINTAINERCLEANFILES = Makefile.in
 
 INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
-DEFS += -DDATADIR=\"$(datadir)\" -DLOCALEDIR=\"$(localedir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
-
+AM_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
+DEFS += -DDATADIR=\"$(datadir)\" \
+	-DLOCALEDIR=\"$(localedir)\" \
+	-DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
+	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
 lib_LTLIBRARIES= libgcu-unstable.la
 
 libgcu_unstable_la_SOURCES = \
