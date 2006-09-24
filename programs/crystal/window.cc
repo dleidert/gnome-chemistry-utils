@@ -290,7 +290,7 @@ static GtkActionEntry entries[] = {
 		  N_("Save all open files"), G_CALLBACK (on_save_all) },
 	  { "CloseAll", GTK_STOCK_CLOSE, N_("_Close All"), "<control>W",
 		  N_("Close all open files"), G_CALLBACK (on_close_all) },*/
-	  { "NewView", NULL, N_("Create new _windowl"), NULL,
+	  { "NewView", NULL, N_("Create new _window"), NULL,
 		  N_("Create a new window"), G_CALLBACK (on_view_new) },
 	  { "CloseView", NULL, N_("_Close this window"), NULL,
 		  N_("Close the current window"), G_CALLBACK (on_view_close) },
