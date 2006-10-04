@@ -51,8 +51,7 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-renderer-pixbuf.h>
-#include <goffice/graph/gog-renderer-svg.h>
+#include <goffice/graph/gog-renderer-cairo.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>

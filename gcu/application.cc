@@ -26,6 +26,7 @@
 #include "application.h"
 #include <gconf/gconf-client.h>
 #include <sys/stat.h>
+#include <math.h>
 
 using namespace gcu;
 
@@ -67,6 +68,8 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	CurDir = g_get_current_dir ();
 	g_set_application_name (name.c_str ());
 	gtk_window_set_default_icon_name (icon_name? icon_name: (help_name? help_name: Name.c_str ()));
+	GdkScreen *screen = gdk_screen_get_default ();
+	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
 }
 
 Application::~Application ()

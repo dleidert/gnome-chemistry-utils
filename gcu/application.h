@@ -29,6 +29,7 @@
 #include <string>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkwindow.h>
+#include <gcu/macros.h>
 
 using namespace std;
 
@@ -126,6 +127,8 @@ protected:
 	string WebBrowser;
 	string MailAgent;
 	set <Document*> m_Docs;
+
+GCU_RO_PROP (unsigned, ScreenResolution);
 };
 
 }	// namespace gcu

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2006-10-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.cc: add screen resolution detection (assuming vertical
+	and horizontal resolution are the same).
+	* gcu/application.h: ditto.
+	* programs/calc/gchemcalc.cc: removed obsolete headers.
+	* programs/table/gchemtable-curve.cc: ditto.
+
 2006-09-24 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* gcu/Makefile.am: Fixed automake warning.
 	* programs/3d/window.cc (on_about, on_about_activate_url): Just some
