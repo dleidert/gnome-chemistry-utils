@@ -1,4 +1,30 @@
-* Add a periodic table app.
-* Extend gchem3d stuff.
-* Write mozilla plugins.
-* Write more docs.
+* Periodic table:
+	* add more data using bodr.
+	* add crystal structures.
+	* allow plotting any property againt another one, i.e. ei vs vdw radius.
+	* allow charts customization (using the code in goffice).
+	* write help.
+
+* Calculator:
+	* write help.
+
+* 3d viewer:
+	* display multiple bonds.
+	* add more display options.
+	* export png and jpeg files at any resolution.
+	* write help.
+
+* Mozilla plugin:
+	* implement printing.
+	* support 2d rendering (when gchempaint will be incorporated).
+	* support crystals.
+
+* Gnome Crystal:
+	* open files from other formats (cif, cml) using openbabel.
+	* rewrite help.
+
+* Library:
+	* update devel docs.
+
+* Other:
+	* get gchempaint in there after branching for 0.8
