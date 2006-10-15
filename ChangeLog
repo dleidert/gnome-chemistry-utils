@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2006-10-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: needs gtk+ >= 2.10.0.
+	* gcu/application.cc: add a GtkRecentManager member.
+	* gcu/application.h: ditto.
+	* programs/3d/application.cc: implement recent files for the 3d viewer.
+	* programs/3d/window.cc: ditto.
+
 2006-10-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.cc: add screen resolution detection (assuming vertical
 	and horizontal resolution are the same).

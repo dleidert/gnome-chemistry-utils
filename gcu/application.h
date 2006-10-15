@@ -29,6 +29,7 @@
 #include <string>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtkrecentmanager.h>
 #include <gcu/macros.h>
 
 using namespace std;
@@ -129,6 +130,7 @@ protected:
 	set <Document*> m_Docs;
 
 GCU_RO_PROP (unsigned, ScreenResolution);
+GCU_RO_PROP (GtkRecentManager*, RecentManager);
 };
 
 }	// namespace gcu

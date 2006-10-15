@@ -124,6 +124,14 @@ static void on_about (GtkWidget *widget, void *data)
 	                       NULL);
 }
 
+static void on_recent (GtkRecentChooser *widget, gc3dWindow *Win)
+{
+	gc3dApplication *App = Win->GetApp ();
+	GtkRecentInfo *info = gtk_recent_chooser_get_current_item (widget);
+	App->FileProcess (gtk_recent_info_get_uri (info), gtk_recent_info_get_mime_type (info), false, NULL, Win->GetDoc ());
+	gtk_recent_info_unref(info);
+}
+
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
@@ -154,6 +162,7 @@ static const char *ui_description =
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"
 "      <menuitem action='Open'/>"
+"	   <separator name='file-sep1'/>"
 "      <menuitem action='Print'/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
@@ -205,6 +214,13 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 		g_error_free (error);
 		exit (EXIT_FAILURE);
 	}
+	GtkWidget *menu = gtk_ui_manager_get_widget (ui_manager, "/MainMenu/FileMenu/Open");
+	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
+	g_signal_connect (G_OBJECT (w), "item-activated", G_CALLBACK (on_recent), this);
+	GtkWidget *item = gtk_menu_item_new_with_label (_("Open recent"));
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), w);
+	gtk_widget_show_all (item);
+	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 2);
 	bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
 	m_View = dynamic_cast<gc3dView *> (m_Doc->GetView ());

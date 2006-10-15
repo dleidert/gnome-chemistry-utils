@@ -67,10 +67,20 @@ void gc3dApplication::OnQuit ()
 
 bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
 {
-	if (Doc && !dynamic_cast <gc3dDocument *> (Doc)->IsEmpty ())
-			Doc = NULL;
-	if (!Doc)
-		Doc = OnFileNew ();
-	dynamic_cast <gc3dDocument *> (Doc)->Load (filename, mime_type);
+	gc3dDocument *pDoc = dynamic_cast <gc3dDocument *> (Doc);
+	if (pDoc && !pDoc->IsEmpty ())
+			pDoc = NULL;
+	if (!pDoc)
+		pDoc = OnFileNew ();
+	pDoc->Load (filename, mime_type);
+	GtkRecentData data;
+	data.display_name = (char*) pDoc->GetTitle ();
+	data.description = NULL;
+	data.mime_type = (char*) mime_type;
+	data.app_name = "gchem3d-viewer";
+	data.app_exec = "gchem3d-viewer %u";
+	data.groups = NULL;
+	data.is_private =  FALSE;
+	gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
 	return false;
 }

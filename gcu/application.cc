@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/application.cc 
  *
- * Copyright (C) 2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -70,12 +70,14 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	gtk_window_set_default_icon_name (icon_name? icon_name: (help_name? help_name: Name.c_str ()));
 	GdkScreen *screen = gdk_screen_get_default ();
 	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
+	m_RecentManager = gtk_recent_manager_new ();
 }
 
 Application::~Application ()
 {
 	if (CurDir)
 		g_free (CurDir);
+	g_object_unref (m_RecentManager);
 }
 
 void Application::OnHelp (string tag)
