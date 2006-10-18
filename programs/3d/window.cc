@@ -216,6 +216,12 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	}
 	GtkWidget *menu = gtk_ui_manager_get_widget (ui_manager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
+	GtkRecentFilter *filter = gtk_recent_filter_new ();
+	gtk_recent_filter_add_mime_type (filter, "chemical/x-cml");
+	gtk_recent_filter_add_mime_type (filter, "chemical/x-mdl-molfile");
+	gtk_recent_filter_add_mime_type (filter, "chemical/x-pdb");
+	gtk_recent_filter_add_mime_type (filter, "chemical/x-xyz");
+	gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (w), filter);
 	g_signal_connect (G_OBJECT (w), "item-activated", G_CALLBACK (on_recent), this);
 	GtkWidget *item = gtk_menu_item_new_with_label (_("Open recent"));
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), w);

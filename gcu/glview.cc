@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include <gcu/application.h>
 #include <gcu/gldocument.h>
 #include <gcu/glview.h>
 #include <GL/gl.h>
@@ -396,6 +397,11 @@ void GLView::SaveAsImage (char const *filename, char const *type, map<string, st
 {
 	int w = m_pWidget->allocation.width;
 	int h = m_pWidget->allocation.height;
+	if (resolution > 0) {
+		int screenres = m_Doc->GetApp ()->GetScreenResolution ();
+		w = (int) rint ((double) w * resolution / screenres);
+		h = (int) rint ((double) h * resolution / screenres);
+	}
 	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
 		GdkGLConfigMode (GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
 	GdkPixmap *pixmap = gdk_pixmap_new (

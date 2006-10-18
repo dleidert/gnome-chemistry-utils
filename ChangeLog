@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2006-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/element.cc: support more bodr data.
+	* gcu/element.h: ditto.
+	* gcu/glview.cc: export image at any resolution.
+	* programs/3d/window.cc: add a filter to the recent files list so
+	that only supported files are listed.
+
 2006-10-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: needs gtk+ >= 2.10.0.
 	* gcu/application.cc: add a GtkRecentManager member.

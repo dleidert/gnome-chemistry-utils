@@ -895,6 +895,12 @@ void Element::LoadBODR ()
 								elt->props[(strncmp (buf, "bo:", 3))? buf: buf + 3] = val;
 							xmlFree (buf);
 						} else if (!strcmp (buf, "xsd:String") || !strcmp (buf, "xsd:string")) {
+							buf = (char*) xmlGetProp (child, (xmlChar const*) "dictRef");
+							char *val = (char*) xmlNodeGetContent (child);
+							if (elt)
+								elt->sprops[(strncmp (buf, "bo:", 3))? buf: buf + 3] = val;
+							xmlFree (buf);
+							xmlFree (val);
 						} else if (!strcmp (buf, "xsd:int") || !strcmp (buf, "xsd:Integer")) {
 							xmlFree (buf);
 							buf = (char*) xmlNodeGetContent (child);
@@ -903,8 +909,19 @@ void Element::LoadBODR ()
 							buf = (char*) xmlGetProp (child, (xmlChar const*) "dictRef");
 							if (!strcmp (buf, "bo:atomicNumber"))
 								elt = Table[val];
+							else if (elt)
+								elt->iprops[(strncmp (buf, "bo:", 3))? buf: buf + 3] = val;
 							xmlFree (buf);
 						} else if (!strcmp (buf, "xsd:date")) {
+							// assumeing only the discovery year is useful for us
+							xmlFree (buf);
+							buf = (char*) xmlNodeGetContent (child);
+							int val = strtol (buf, NULL, 10);
+							xmlFree (buf);
+							buf = (char*) xmlGetProp (child, (xmlChar const*) "dictRef");
+							if (!strcmp (buf, "bo:discoveryDate"))
+								elt->iprops["discoveryDate"] = val;
+							xmlFree (buf);
 						}
 					}
 					if (props.size () > 0) {
