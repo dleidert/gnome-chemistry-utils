@@ -25,6 +25,7 @@
 #ifndef GCRYSTAL_WINDOW_H
 #define GCRYSTAL_WINDOW_H
 
+#include <gcu/macros.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkuimanager.h>
@@ -42,20 +43,19 @@ public:
 	gcApplication *GetApplication () {return m_App;}
 	void ClearStatus ();
 	void SetStatusText (const char* text);
-	gcDocument *GetDocument () {return m_Doc;}
 	bool TryClose ();
-	gcView *GetView () {return m_View;}
 	void Destroy ();
 
 private:
-	gcApplication *m_App;
-	gcDocument *m_Doc;
-	gcView *m_View;
 	GtkUIManager* m_UIManager;
 	GtkWindow* m_Window;
 	GtkWidget* m_Bar;	//GtkStatusBar
 	unsigned m_statusId;
 	unsigned m_MessageId; //currently displayed message in the status bar
+
+GCU_RO_PROP (gcApplication *, App);
+GCU_RO_PROP (gcView *, View);
+GCU_RO_PROP (gcDocument *, Doc);
 };
 
 #endif	//	GCRYSTAL_WINDOW_H

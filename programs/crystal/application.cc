@@ -246,6 +246,15 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			case GCRYSTAL:
 				Doc->SetFileName (filename2);
 				Doc->Save ();
+				GtkRecentData data;
+				data.display_name = (char*) Doc->GetTitle ();
+				data.description = NULL;
+				data.mime_type = "application/x-gcrystal";
+				data.app_name = "gcrystal";
+				data.app_exec = "gcrystal %u";
+				data.groups = NULL;
+				data.is_private =  FALSE;
+				gtk_recent_manager_add_full (GetRecentManager (), filename2, &data);
 				break;
 			case VRML:
 				Doc->OnExportVRML (filename2);
@@ -277,6 +286,15 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			}
 		}
 		if (Doc->Load (filename)) {
+			GtkRecentData data;
+			data.display_name = (char*) Doc->GetTitle ();
+			data.description = NULL;
+			data.mime_type = "application/x-gcrystal";
+			data.app_name = "gcrystal";
+			data.app_exec = "gcrystal %u";
+			data.groups = NULL;
+			data.is_private =  FALSE;
+			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
 			// TODO: change titles in every window
 	/*		gtk_label_set_text (pView->GetLabel (), pDoc->GetTitle ());
 			GtkLabel *pLabel = pView->GetMenuLabel ();

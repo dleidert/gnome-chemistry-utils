@@ -88,7 +88,7 @@ static void on_export_vrml (GtkWidget *widget, gcWindow* Win)
 
 static void on_view_new (GtkWidget *widget, gcWindow* Win)
 {
-	new gcWindow (Win->GetApplication (), Win->GetDocument ());
+	new gcWindow (Win->GetApplication (), Win->GetDoc ());
 }
 
 static void on_view_close (GtkWidget *widget, gcWindow* Win)
@@ -145,31 +145,31 @@ static void on_about (GtkWidget *widget, void *data)
 static void on_lattice(GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
-		Win->GetDocument ()->Define (0);
+		Win->GetDoc ()->Define (0);
 }
 
 static void on_atoms(GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
-		Win->GetDocument ()->Define (1);
+		Win->GetDoc ()->Define (1);
 }
 
 static void on_lines (GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
-		Win->GetDocument ()->Define (2);
+		Win->GetDoc ()->Define (2);
 }
 
 static void on_size (GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
-		Win->GetDocument ()->Define (3);
+		Win->GetDoc ()->Define (3);
 }
 
 static void on_cleavages (GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
-		Win->GetDocument ()->Define (4);
+		Win->GetDoc ()->Define (4);
 }
 
 static void on_view_settings (GtkWidget *widget, gcWindow *Win)
@@ -185,12 +185,12 @@ static void on_help (GtkWidget *widget, gcWindow* Win)
 
 static void on_web (GtkWidget *widget, gcWindow* Win)
 {
-	Win->GetApplication ()->OnWeb ();
+	Win->GetApp ()->OnWeb ();
 }
 
 static void on_mail (GtkWidget *widget, gcWindow* Win)
 {
-	Win->GetApplication ()->OnMail ();
+	Win->GetApp ()->OnMail ();
 }
 
 static void on_bug (GtkWidget *widget, gcWindow* Win)
@@ -200,9 +200,9 @@ static void on_bug (GtkWidget *widget, gcWindow* Win)
 
 static bool on_focus_in (GtkWidget *widget, GdkEventFocus *event, gcWindow* Win)
 {
-	gcApplication *App = Win->GetApplication ();
-	Win->GetDocument ()->SetActiveView (Win->GetView ());
-	App->SetActiveDocument (Win->GetDocument ());
+	gcApplication *App = Win->GetApp ();
+	Win->GetDoc ()->SetActiveView (Win->GetView ());
+	App->SetActiveDocument (Win->GetDoc ());
 	return false;
 }
 
@@ -243,6 +243,14 @@ static void on_disconnect_proxy (GtkUIManager *ui, GtkAction *action, GtkWidget 
 			"any_signal::deselect", G_CALLBACK (on_clear_menu_tip), Win,
 			NULL);
 	}
+}
+
+static void on_recent (GtkRecentChooser *widget, gcWindow *Win)
+{
+	gcApplication *App = Win->GetApp ();
+	GtkRecentInfo *info = gtk_recent_chooser_get_current_item (widget);
+	App->FileProcess (gtk_recent_info_get_uri (info), gtk_recent_info_get_mime_type (info), false, NULL, Win->GetDoc ());
+	gtk_recent_info_unref(info);
 }
 
 static GtkActionEntry entries[] = {
@@ -431,6 +439,17 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
+
+	GtkWidget *menu = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/FileMenu/Open");
+	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
+	GtkRecentFilter *filter = gtk_recent_filter_new ();
+	gtk_recent_filter_add_mime_type (filter, "application/x-gcrystal");
+	gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (w), filter);
+	g_signal_connect (G_OBJECT (w), "item-activated", G_CALLBACK (on_recent), this);
+	GtkWidget *item = gtk_menu_item_new_with_label (_("Open recent"));
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), w);
+	gtk_widget_show_all (item);
+	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 3);
 
 	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);

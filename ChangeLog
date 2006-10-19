@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-10-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/application.cc: add recent files support to gcrystal.
+	* programs/crystal/window.cc: ditto.
+	* programs/crystal/window.h: ditto.
+
 2006-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/element.cc: support more bodr data.
 	* gcu/element.h: ditto.
