@@ -319,12 +319,9 @@ gtk_periodic_set_property (GObject              *object,
 		int style = g_value_get_uint (value);
 		if (style < GTK_PERIODIC_COLOR_MAX + periodic->priv->nbschemes) {
 			periodic->priv->colorstyle = style;
-			if (style >= GTK_PERIODIC_COLOR_MAX) {
-				int page = g_array_index (periodic->priv->colorschemes, struct ColorScheme, style - GTK_PERIODIC_COLOR_MAX).page;
-				if (page > 0)
-					gtk_notebook_set_current_page (periodic->priv->book, page);
-			} else
-				gtk_notebook_set_current_page (periodic->priv->book, 0);
+			int page = (style >= GTK_PERIODIC_COLOR_MAX)? 
+				g_array_index (periodic->priv->colorschemes, struct ColorScheme, style - GTK_PERIODIC_COLOR_MAX).page: 0;
+			gtk_notebook_set_current_page (periodic->priv->book, page);
 			gtk_periodic_set_colors (periodic);
 		} else
 			g_warning (_("Out of range value %d for property \"color-style\" for GtkPeriodic instance %p\n"), style, periodic);
