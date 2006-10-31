@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2006-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.cc: do not crash on startup when the LANG environment
+	variable is not set. [see GChemPaint bug #18159]
+
 2006-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/gtkperiodic.c: (gtk_periodic_set_property): always show the correct
 	notebook page when changing color scheme.

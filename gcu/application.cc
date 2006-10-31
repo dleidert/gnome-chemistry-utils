@@ -33,7 +33,8 @@ using namespace gcu;
 Application::Application (string name, string datadir, char const *help_name, char const *icon_name)
 {
 	Name = name;
-	string lang = getenv ("LANG");
+	char const *szlang = getenv ("LANG");
+	string lang = (szlang)? szlang: "C";
 	string HelpName = help_name? help_name: Name;
 	HelpFilename = datadir + string ("/gnome/help/") + HelpName + string ("/") + lang + string ("/") + HelpName + ".xml";
 	struct stat buf;
