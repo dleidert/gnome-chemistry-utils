@@ -31,7 +31,7 @@
 
 using namespace gcu;
 
-FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_types, Document *pDoc, char const *title)
+FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_types, Document *pDoc, char const *title, GtkWidget *extra_widget)
 {
 	char* filename = NULL;
 	m_pDoc = pDoc;
@@ -42,6 +42,8 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 															(Save)? GTK_STOCK_SAVE: GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 															GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 															NULL);
+	if (extra_widget)
+		gtk_file_chooser_set_extra_widget (dialog, extra_widget);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	GtkFileChooser* chooser = GTK_FILE_CHOOSER (dialog);
 	GtkFileFilter* filter = gtk_file_filter_new ();

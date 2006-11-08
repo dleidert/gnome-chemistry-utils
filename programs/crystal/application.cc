@@ -139,7 +139,7 @@ void gcApplication::OnExportJPEG ()
 		return;
 	list<char const*> l;
 	l.push_front ("image/jpeg");
-	FileChooser (this, true, l, m_pActiveDoc, _("Export model as a Jpeg file..."));
+	FileChooser (this, true, l, m_pActiveDoc, _("Export model as a Jpeg file..."), GetImageResolutionWidget ());
 }
 
 void gcApplication::OnExportPNG ()
@@ -148,7 +148,7 @@ void gcApplication::OnExportPNG ()
 		return;
 	list<char const*> l;
 	l.push_front ("image/png");
-	FileChooser (this, true, l, m_pActiveDoc, _("Export model as a PNG file..."));
+	FileChooser (this, true, l, m_pActiveDoc, _("Export model as a PNG file..."), GetImageResolutionWidget ());
 }
 
 void gcApplication::OnExportVRML ()

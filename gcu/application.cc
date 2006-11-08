@@ -24,7 +24,11 @@
 
 #include "config.h"
 #include "application.h"
+#include <glade/glade.h>
 #include <gconf/gconf-client.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkspinbutton.h>
+#include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <math.h>
 
@@ -71,6 +75,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	gtk_window_set_default_icon_name (icon_name? icon_name: (help_name? help_name: Name.c_str ()));
 	GdkScreen *screen = gdk_screen_get_default ();
 	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
+	m_ImageResolution = m_ScreenResolution;
 	m_RecentManager = gtk_recent_manager_new ();
 }
 
@@ -131,4 +136,23 @@ void Application::ShowURI (string& uri)
 	argv[1] = (char*) uri.c_str ();
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, NULL);
+}
+
+static void on_res_changed (GtkSpinButton *btn, Application *app)
+{
+	app->SetImageResolution (gtk_spin_button_get_value_as_int (btn));
+}
+
+GtkWidget *Application::GetImageResolutionWidget ()
+{
+	GladeXML *xml = glade_xml_new (GLADEDIR"/image-resolution.glade", "res-table", NULL);
+	GtkWidget *w = glade_xml_get_widget (xml, "screen-lbl");
+	char *buf = g_strdup_printf (_("(screen resolution is %u)"), m_ScreenResolution);
+	gtk_label_set_text (GTK_LABEL (w), buf);
+	g_free (buf);
+	w = glade_xml_get_widget (xml, "res-btn");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageResolution);
+	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_res_changed), this);
+	w = glade_xml_get_widget (xml, "res-table");
+	return w;
 }

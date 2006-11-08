@@ -117,6 +117,7 @@ if they use the FileChooser.
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
 	void RemoveDocument (Document *Doc) {m_Docs.erase (Doc); if (m_Docs.size () == 0) NoMoreDocsEvent ();}
 	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
+	GtkWidget *GetImageResolutionWidget ();
 	
 private:
 	string Name;
@@ -130,6 +131,7 @@ protected:
 	set <Document*> m_Docs;
 
 GCU_RO_PROP (unsigned, ScreenResolution);
+GCU_PROP (unsigned, ImageResolution);
 GCU_RO_PROP (GtkRecentManager*, RecentManager);
 };
 

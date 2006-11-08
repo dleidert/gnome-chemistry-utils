@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2006-11-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.cc: add support for abitrary resolution image export.
+	* gcu/application.h: ditto.
+	* gcu/filechooser.cc: add an optional extra widget.
+	* gcu/filechooser.h: ditto.
+	* glade/Makefile.am: new glade file added.
+	* glade/image-resolution.glade: ditto.
+	* programs/crystal/application.cc: export images with arbitrary resolution.
+	* programs/crystal/document.cc: ditto.
+
 2006-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.cc: do not crash on startup when the LANG environment
 	variable is not set. [see GChemPaint bug #18159]

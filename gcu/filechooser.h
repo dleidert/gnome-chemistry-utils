@@ -40,7 +40,7 @@ class Document;
 class FileChooser
 {
 public:
-	FileChooser (Application *App, bool Save, list<char const*> mime_types, Document *pDoc = NULL, char const *title = NULL);
+	FileChooser (Application *App, bool Save, list<char const*> mime_types, Document *pDoc = NULL, char const *title = NULL, GtkWidget *extra_widget = NULL);
 	
 private:
 	GtkFileChooser* dialog;

@@ -672,7 +672,7 @@ const char* gcDocument::GetProgramId()
 
 void gcDocument::SaveAsImage (char const *filename, char const *type, map<string, string>& options)
 {
-	m_pActiveView->SaveAsImage (filename, type, options);
+	m_pActiveView->SaveAsImage (filename, type, options, GetApp ()->GetImageResolution ());
 }
 
 bool gcDocument::LoadNewView (xmlNodePtr node)
