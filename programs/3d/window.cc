@@ -47,6 +47,11 @@ static void on_file_open (GtkWidget *widget, gc3dWindow* Win)
 	Win->OnFileOpen ();
 }
 
+static void on_file_save_as_image(GtkWidget* widget, gc3dWindow* Win)
+{
+	Win->GetApp ()->OnSaveAsImage (Win->GetDoc ());
+}
+
 static void on_file_close (GtkWidget *widget, gc3dWindow* Win)
 {
 	Win->OnFileClose ();
@@ -136,6 +141,8 @@ static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
+	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
+		  N_("Save the current file as an image"), G_CALLBACK (on_file_save_as_image) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current scene"), G_CALLBACK (on_file_print) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
@@ -162,6 +169,7 @@ static const char *ui_description =
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"
 "      <menuitem action='Open'/>"
+"      <menuitem action='SaveAsImage'/>"
 "	   <separator name='file-sep1'/>"
 "      <menuitem action='Print'/>"
 "      <menuitem action='Close'/>"

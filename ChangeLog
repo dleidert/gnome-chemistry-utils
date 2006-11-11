@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2006-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/filechooser.cc: show mime type list even if an extra widget is
+	added and detect mime type for non existant files.
+	* gcu/gtkperiodic.c: (gtk_periodic_finalize): replace deprecated
+	gtk_object_sink.
+	* programs/3d/application.cc: initial support for image export.
+	* programs/3d/application.h: ditto.
+	* programs/3d/window.cc: ditto.
+	* programs/crystal/application.cc: fix vrml mime type.
+
 2006-11-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.cc: add support for abitrary resolution image export.
 	* gcu/application.h: ditto.

@@ -156,7 +156,7 @@ void gcApplication::OnExportVRML ()
 	if (!m_pActiveDoc)
 		return;
 	list<char const*> l;
-	l.push_front ("image/vrml");
+	l.push_front ("model/vrml");
 	FileChooser (this, true, l, m_pActiveDoc, _("Export model as a VRML file..."));
 }
 

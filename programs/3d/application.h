@@ -39,6 +39,7 @@ public:
 
 	gc3dDocument *OnFileNew ();
 	void OnFileOpen (gc3dDocument *Doc);
+	void OnSaveAsImage (gc3dDocument *Doc);
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
 	void OnQuit ();
 };

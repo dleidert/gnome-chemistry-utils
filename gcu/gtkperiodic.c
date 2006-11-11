@@ -222,7 +222,7 @@ static void gtk_periodic_finalize (GObject *object)
 	GtkPeriodic *periodic = (GtkPeriodic*) object;
 	GObject *obj = (GObject*) g_object_get_data (object, "xml");
 
-	gtk_object_sink (GTK_OBJECT (periodic->priv->tips));
+	g_object_ref_sink (G_OBJECT (periodic->priv->tips));
 	g_array_free (periodic->priv->colorschemes, FALSE);
 	g_free (periodic->priv);
 	if (obj) g_object_unref (obj);

@@ -28,6 +28,7 @@
 #include <gcu/document.h>
 #include <glib/gi18n.h>
 #include <goffice/utils/go-file.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 
 using namespace gcu;
 
@@ -58,15 +59,29 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 		GtkWidget *label = gtk_label_new_with_mnemonic (_("File _type:"));
 		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
 		gtk_combo_box_append_text (format_combo, _("Automatic"));
-		for (i = mime_types.begin (); i != iend; i++)
-			gtk_combo_box_append_text (format_combo, go_mime_type_get_description (*i));
+		for (i = mime_types.begin (); i != iend; i++) {
+			char const *type = go_mime_type_get_description (*i);
+			if (type)
+				gtk_combo_box_append_text (format_combo, type);
+		}
 		gtk_combo_box_set_active (format_combo, 0);
 
-		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 6);
-		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 6);
+		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 12);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
-		gtk_file_chooser_set_extra_widget (dialog, box);
+		if (extra_widget) {
+			if (GTK_IS_TABLE (extra_widget)) {
+				GtkTable *t = GTK_TABLE (extra_widget);
+				guint rows, cols;
+				g_object_get (G_OBJECT (t), "n-rows", &rows, "n-columns", &cols, NULL);
+				gtk_table_resize (t, rows + 1, cols);
+				gtk_box_pack_start (GTK_BOX (box), gtk_label_new (""), TRUE, TRUE, 0);
+				gtk_table_attach (t, box, 0, cols, rows, rows + 1, GTK_FILL, static_cast<GtkAttachOptions> (0), 0, 0);
+			} else
+				g_warning ("not implemented, please file a bug report");
+		} else
+			gtk_file_chooser_set_extra_widget (dialog, box);
 		gtk_widget_show_all (box);
 	}
 	gtk_file_chooser_set_filter (chooser, filter);
@@ -91,8 +106,11 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 		}
 		if (Save) {
 			filename = gtk_file_chooser_get_uri (chooser);
-			if (!mime_type)
+			if (!mime_type) {
 				mime_type = go_get_mime_type (filename);
+				if (!mime_type)
+					mime_type = gnome_vfs_get_file_mime_type_fast (filename, NULL);
+			}
 			if (!App->FileProcess (filename, mime_type, Save, GTK_WINDOW (dialog), m_pDoc)) {
 				g_free (filename);
 				break;

@@ -68,19 +68,43 @@ void gc3dApplication::OnQuit ()
 bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
 {
 	gc3dDocument *pDoc = dynamic_cast <gc3dDocument *> (Doc);
+	if(bSave) {
+		map <string, string> options; // not used at the moment
+		if (!strcmp (mime_type, "image/png"))
+			pDoc->GetView ()->SaveAsImage (filename, "png", options, GetImageResolution ());
+		else if (!strcmp (mime_type, "image/jpeg"))
+			pDoc->GetView ()->SaveAsImage (filename, "jpeg", options, GetImageResolution ());
+		else if (!strcmp (mime_type, "model/vrml"))
+			;
+		else
+			;
+			
+	} else {
 	if (pDoc && !pDoc->IsEmpty ())
 			pDoc = NULL;
-	if (!pDoc)
-		pDoc = OnFileNew ();
-	pDoc->Load (filename, mime_type);
-	GtkRecentData data;
-	data.display_name = (char*) pDoc->GetTitle ();
-	data.description = NULL;
-	data.mime_type = (char*) mime_type;
-	data.app_name = "gchem3d-viewer";
-	data.app_exec = "gchem3d-viewer %u";
-	data.groups = NULL;
-	data.is_private =  FALSE;
-	gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
+		if (!pDoc)
+			pDoc = OnFileNew ();
+		pDoc->Load (filename, mime_type);
+		GtkRecentData data;
+		data.display_name = (char*) pDoc->GetTitle ();
+		data.description = NULL;
+		data.mime_type = (char*) mime_type;
+		data.app_name = "gchem3d-viewer";
+		data.app_exec = "gchem3d-viewer %u";
+		data.groups = NULL;
+		data.is_private =  FALSE;
+		gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
+	}
 	return false;
+}
+
+void gc3dApplication::OnSaveAsImage (gc3dDocument *Doc)
+{
+	if (!Doc)
+		return;
+	list<char const*> l;
+	l.push_front ("image/jpeg");
+	l.push_front ("image/png");
+//	l.push_front ("model/vrml");
+	FileChooser (this, true, l, Doc, _("Save as image"), GetImageResolutionWidget ());
 }
