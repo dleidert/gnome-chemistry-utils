@@ -27,6 +27,7 @@
 #include "application.h"
 #include "glview.h"
 #include <gcu/chemistry.h>
+#include <gcu/element.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <sstream>
 #include <libintl.h>
@@ -34,6 +35,21 @@
 #include <openbabel/obconversion.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#ifdef HAVE_FSTREAM
+#	include <fstream>
+#else
+#	include <fstream.h>
+#endif
+#ifdef HAVE_OSTREAM
+#	include <ostream>
+#else
+#	include <ostream.h>
+#endif
+#ifdef HAVE_SSTREAM
+#	include <sstream>
+#else
+#	include <sstream.h>
+#endif
 
 using namespace gcu;
 
@@ -194,4 +210,93 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 	setlocale (LC_NUMERIC, old_num_locale);
 	m_View->Update ();
 	g_free (old_num_locale);
+}
+
+typedef struct {int n; list<OBAtom*> l;} sAtom;
+
+void Chem3dDoc::OnExportVRML (char const *filename)
+{
+	char *old_num_locale;
+	double R, w, x, y, z, x0, y0, z0, dist;
+	int n = 0, Z;
+	const gdouble* color;
+	char const *symbol;
+	try {
+		ostringstream file;
+		GnomeVFSHandle *handle = NULL;
+		GnomeVFSFileSize fs;
+		GnomeVFSResult res;
+		map<string, sAtom> AtomsMap;
+		if ((res = gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
+			throw (int) res;
+		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+		setlocale (LC_NUMERIC, "C");
+
+		file << "#VRML V2.0 utf8" << endl;
+		
+		x0 = y0 = z0 = 0.0;
+		std::vector < OBNodeBase * >::iterator i;
+		OBAtom* atom = m_Mol.BeginAtom (i);
+		while (atom) {
+			Z = atom->GetAtomicNum ();
+			x0 += atom->GetX ();
+			y0 += atom->GetY ();
+			z0 += atom->GetZ ();
+			atom = m_Mol.NextAtom (i);
+		}
+		x0 /= m_Mol.NumAtoms ();
+		y0 /= m_Mol.NumAtoms ();
+		z0 /= m_Mol.NumAtoms ();
+
+		//Create prototypes for atoms
+		for (atom = m_Mol.BeginAtom (i); atom; atom = m_Mol.NextAtom (i)) {
+			Z = atom->GetAtomicNum ();
+			symbol = Element::Symbol (Z);
+			if (AtomsMap[symbol].l.empty()) {
+				AtomsMap[symbol].n = n;
+				R = etab.GetVdwRad (Z);
+				if (m_Display3D == BALL_AND_STICK)
+					R *= 0.2;
+				color = gcu_element_get_default_color (Z);
+				file << "PROTO Atom" << n++ << " [] {Shape {" << endl << "\tgeometry Sphere {radius " << R << "}" << endl;
+				file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << color[0] << " " << color[1] << " " << color[2] << endl;
+				file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
+			}
+			AtomsMap[symbol].l.push_back(atom);
+		}
+
+		//world begin
+		double conv = M_PI / 180;
+		file << "Background{skyColor " << m_View->GetRed () << " " << m_View->GetBlue () << " " << m_View->GetGreen () << "}" << endl;
+		file << "Viewpoint {fieldOfView " << m_View->GetAngle () / 90*1.570796326794897 << "\tposition 0 0 " << m_View->GetRadius () << "}" << endl;
+		Matrix m (m_View->GetPsi () * conv, m_View->GetTheta () * conv, m_View->GetPhi () * conv, euler);
+		file << "Transform {" << endl << "\tchildren [" << endl;
+	
+		map<std::string, sAtom>::iterator k, kend = AtomsMap.end ();
+		list<OBAtom*>::iterator j, jend;
+		for (k = AtomsMap.begin (); k != kend; k++) {
+			jend = (*k).second.l.end ();
+			for (j = (*k).second.l.begin (); j != jend; j++) {
+				x = (*j)->GetX ();
+				y = (*j)->GetY ();
+				z = (*j)->GetZ ();
+				m.Transform(x, y, z);
+				file << "\t\tTransform {translation " << x << " " << y << " " << z <<  " children [Atom" << (*k).second.n << " {}]}" << endl;
+			}
+			(*k).second.l.clear();
+		}
+		AtomsMap.clear();
+
+		//end of the world
+		file << "\t]" << endl << "}" << endl;
+
+		setlocale(LC_NUMERIC, old_num_locale);
+		g_free(old_num_locale);
+		if ((res = gnome_vfs_write (handle, file.str ().c_str (), (GnomeVFSFileSize) file.str ().size (), &fs)) != GNOME_VFS_OK)
+			throw (int) res;
+		gnome_vfs_close (handle);
+	}
+	catch (int n) {
+		cerr <<"gnome-vfs error" << n << endl;
+	}
 }

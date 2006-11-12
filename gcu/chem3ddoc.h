@@ -53,6 +53,7 @@ public:
 	void Load (char const *uri, char const *mime_type);
 	void LoadData (char const *data, char const *mime_type);
 	const char *GetTitle () {return m_Mol.GetTitle ();}
+	void OnExportVRML (char const *filename);
 
 private:
 	OBMol m_Mol;

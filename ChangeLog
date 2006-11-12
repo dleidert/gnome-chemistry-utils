@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2006-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/chem3ddoc.cc: started work on vrml export.
+	* gcu/chem3ddoc.h: ditto.
+	* gcu/glview.h: ditto.
+	* programs/3d/application.cc: enhanced image export.
+	* programs/crystal/application.cc: fix on emore instance of the
+	vrml mime type.
+
 2006-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/filechooser.cc: show mime type list even if an extra widget is
 	added and detect mime type for non existant files.

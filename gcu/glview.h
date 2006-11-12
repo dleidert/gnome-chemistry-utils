@@ -115,7 +115,6 @@ Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 protected:
 	GtkWidget *m_pWidget;
 	unsigned m_nGLList;
-	double m_Radius;
 
 private:
 	bool m_bInit;
@@ -133,6 +132,7 @@ GCU_PROP (float, Green)
 GCU_PROP (float, Blue)
 GCU_PROP (float, Alpha)
 GCU_RO_PROP (GLDocument *, Doc)
+GCU_PROT_PROP (double, Radius);
 };
 
 }	// namespace gcu

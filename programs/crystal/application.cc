@@ -204,7 +204,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			type = PNG;
 		else if (!strcmp (mime_type, "image/jpeg"))
 			type = JPEG;
-		else if (!strcmp (mime_type, "image/vrml"))
+		else if (!strcmp (mime_type, "model/vrml"))
 			type = VRML;
 		char *filename2, *ext = "";
 		switch (type) {
