@@ -6,12 +6,13 @@
 	* write help.
 
 * Calculator:
+	* accept abbreviations as Ph and others (what about Ac?).
 	* write help.
 
 * 3d viewer:
 	* display multiple bonds.
 	* add more display options.
-	* export png and jpeg files at any resolution.
+	* export vrml.
 	* write help.
 
 * Mozilla plugin:

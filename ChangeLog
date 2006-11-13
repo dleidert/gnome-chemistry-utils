@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2006-11-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* TODO: updated to current state.
+	* gcu/chem3ddoc.cc: export vrml now works.
+	* programs/3d/application.cc: add model/vrml to mime types for save
+	as image.
+
 2006-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/chem3ddoc.cc: started work on vrml export.
 	* gcu/chem3ddoc.h: ditto.

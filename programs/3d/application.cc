@@ -143,7 +143,7 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 			}
 		g_free (filename2);
 	} else {
-	if (pDoc && !pDoc->IsEmpty ())
+		if (pDoc && !pDoc->IsEmpty ())
 			pDoc = NULL;
 		if (!pDoc)
 			pDoc = OnFileNew ();
@@ -168,6 +168,6 @@ void gc3dApplication::OnSaveAsImage (gc3dDocument *Doc)
 	list<char const*> l;
 	l.push_front ("image/jpeg");
 	l.push_front ("image/png");
-//	l.push_front ("model/vrml");
+	l.push_front ("model/vrml");
 	FileChooser (this, true, l, Doc, _("Save as image"), GetImageResolutionWidget ());
 }

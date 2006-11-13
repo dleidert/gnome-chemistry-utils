@@ -189,6 +189,8 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 			g_free (dirname);
 		}
 	}
+	if (!strlen (m_Mol.GetTitle()))
+		m_Mol.SetTitle (g_path_get_basename (uri));
 	gnome_vfs_file_info_unref (info);
 	delete [] buf;
 	g_free (handle);
@@ -212,7 +214,12 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 	g_free (old_num_locale);
 }
 
+struct VrmlBond {
+	double x, y, z;
+	double xrot, zrot, arot;
+};
 typedef struct {int n; list<OBAtom*> l;} sAtom;
+typedef struct {int n; list<struct VrmlBond> l;} sBond;
 
 void Chem3dDoc::OnExportVRML (char const *filename)
 {
@@ -227,6 +234,7 @@ void Chem3dDoc::OnExportVRML (char const *filename)
 		GnomeVFSFileSize fs;
 		GnomeVFSResult res;
 		map<string, sAtom> AtomsMap;
+		map<string, sBond> BondsMap;
 		if ((res = gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
 			throw (int) res;
 		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
@@ -265,11 +273,55 @@ void Chem3dDoc::OnExportVRML (char const *filename)
 			AtomsMap[symbol].l.push_back(atom);
 		}
 
-		//world begin
+		//Create prototypes for bonds
 		double conv = M_PI / 180;
+		Matrix m (m_View->GetPsi () * conv, m_View->GetTheta () * conv, m_View->GetPhi () * conv, euler);
+		if (m_Display3D == BALL_AND_STICK) {
+			std::vector < OBEdgeBase * >::iterator b;
+			OBBond* bond = m_Mol.BeginBond (b);
+			double x1, y1, z1;
+			struct VrmlBond vb;
+			n = 0;
+			while (bond) {
+				atom = bond->GetBeginAtom ();
+				vb.x = atom->GetX () - x0;
+				vb.y = atom->GetY () - y0;
+				vb.z = atom->GetZ () - z0;
+				atom = bond->GetEndAtom ();
+				x1 = atom->GetX () - x0 - vb.x;
+				y1 = atom->GetY () - y0 - vb.y;
+				z1 = atom->GetZ () - z0 - vb.z;
+				vb.x += x1 / 2;
+				vb.y += y1 / 2;
+				vb.z += z1 / 2;
+				m.Transform(vb.x, vb.y, vb.z);
+				m.Transform(x1, y1, z1);
+				dist = sqrt (x1 * x1 + y1 * y1 + z1 * z1);
+				w = sqrt (x1 * x1 + z1 * z1);
+				if (w > 0) {
+					vb.xrot = z1 / w;
+					vb.zrot = -x1 / w;
+					vb.arot = atan2 (w, y1);
+				} else {
+					vb.zrot = 0.;
+					vb.xrot = 0.;
+					vb.arot = 0.0;
+				}
+				char *buf = g_strdup_printf ("%g", dist);
+				if (BondsMap[buf].l.empty()) {
+					BondsMap[buf].n = n;
+					file << "PROTO Bond" << n++ << " [] {Shape {" << endl << "\tgeometry Cylinder {radius " << 0.12 << "\theight " << dist << "}" << endl;
+					file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << .75 << " " << .75 << " " << .75 << endl;
+					file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
+				}
+				BondsMap[buf].l.push_back (vb);
+				bond = m_Mol.NextBond (b);
+			}
+		}
+
+		//world begin
 		file << "Background{skyColor " << m_View->GetRed () << " " << m_View->GetBlue () << " " << m_View->GetGreen () << "}" << endl;
 		file << "Viewpoint {fieldOfView " << m_View->GetAngle () / 90*1.570796326794897 << "\tposition 0 0 " << m_View->GetRadius () << "}" << endl;
-		Matrix m (m_View->GetPsi () * conv, m_View->GetTheta () * conv, m_View->GetPhi () * conv, euler);
 		file << "Transform {" << endl << "\tchildren [" << endl;
 	
 		map<std::string, sAtom>::iterator k, kend = AtomsMap.end ();
@@ -286,6 +338,17 @@ void Chem3dDoc::OnExportVRML (char const *filename)
 			(*k).second.l.clear();
 		}
 		AtomsMap.clear();
+
+		map<std::string, sBond>::iterator l, lend = BondsMap.end ();
+		list<struct VrmlBond>::iterator mc, mend;
+		for (l = BondsMap.begin (); l != lend; l++) {
+			mend = (*l).second.l.end ();
+			for (mc = (*l).second.l.begin (); mc != mend; mc++) {
+				file << "\t\tTransform {" << endl << "\t\t\trotation " << (*mc).xrot << " " << 0. << " " << (*mc).zrot << " " << (*mc).arot << endl;
+				file << "\t\t\ttranslation " << (*mc).x << " " << (*mc).y  << " " << (*mc).z <<  endl\
+						<< "\t\t\tchildren [Bond" << (*l).second.n << " {}]}" << endl;
+			}
+		}
 
 		//end of the world
 		file << "\t]" << endl << "}" << endl;
