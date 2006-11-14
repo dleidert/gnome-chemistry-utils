@@ -221,7 +221,7 @@ struct VrmlBond {
 typedef struct {int n; list<OBAtom*> l;} sAtom;
 typedef struct {int n; list<struct VrmlBond> l;} sBond;
 
-void Chem3dDoc::OnExportVRML (char const *filename)
+void Chem3dDoc::OnExportVRML (string const &filename)
 {
 	char *old_num_locale;
 	double R, w, x, y, z, x0, y0, z0, dist;
@@ -235,7 +235,7 @@ void Chem3dDoc::OnExportVRML (char const *filename)
 		GnomeVFSResult res;
 		map<string, sAtom> AtomsMap;
 		map<string, sBond> BondsMap;
-		if ((res = gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
+		if ((res = gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
 			throw (int) res;
 		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 		setlocale (LC_NUMERIC, "C");

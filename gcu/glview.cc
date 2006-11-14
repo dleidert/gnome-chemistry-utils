@@ -393,7 +393,7 @@ static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gp
 	return true;
 }
 
-void GLView::SaveAsImage (char const *filename, char const *type, map<string, string>& options, int resolution)
+void GLView::SaveAsImage (string const &filename, char const *type, map<string, string>& options, int resolution)
 {
 	int w = m_pWidget->allocation.width;
 	int h = m_pWidget->allocation.height;
@@ -458,7 +458,7 @@ void GLView::SaveAsImage (char const *filename, char const *type, map<string, st
 			values[j++] = (*i).second.c_str ();
 		}
 		GnomeVFSHandle *handle = NULL;
-		if (gnome_vfs_create (&handle, filename, GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
+		if (gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
 			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, handle, type, (char**) keys, (char**) values, &error);
 			if (error) {
 				fprintf (stderr, _("Unable to save image file: %s\n"), error->message);

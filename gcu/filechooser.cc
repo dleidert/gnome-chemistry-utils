@@ -63,6 +63,8 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 			char const *type = go_mime_type_get_description (*i);
 			if (type)
 				gtk_combo_box_append_text (format_combo, type);
+			else
+				gtk_combo_box_append_text (format_combo, *i);
 		}
 		gtk_combo_box_set_active (format_combo, 0);
 

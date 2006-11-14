@@ -67,81 +67,55 @@ void gc3dApplication::OnQuit ()
 	}
 }
 
-enum {
-	UNKNOWN,
-	VRML,
-	JPEG,
-	PNG
-};
-
 bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
 {
 	gc3dDocument *pDoc = dynamic_cast <gc3dDocument *> (Doc);
 	if(bSave) {
-		if (!mime_type)
-			mime_type = "";
-		int type = UNKNOWN;
-		if (!strcmp (mime_type, "image/png"))
-			type = PNG;
-		else if (!strcmp (mime_type, "image/jpeg"))
-			type = JPEG;
-		else if (!strcmp (mime_type, "model/vrml"))
-			type = VRML;
-		if (type == UNKNOWN) {
+		bool supported = false, vrml = false;
+		string filename2 = filename;
+		char const *pixbuf_type = NULL;
+		int i;
+		if (mime_type) {
+			if (!strcmp (mime_type, "model/vrml")) {
+				supported = true;
+				vrml = true;
+				i = strlen (filename) - 4;
+				if ((i <= 0) || (strcmp (filename + i, ".wrl")))
+					filename2 += ".wrl";
+			} else {
+				pixbuf_type = GetPixbufTypeName (filename2, mime_type);
+				supported = (pixbuf_type);
+			}
+		}
+		if (!supported) {
 			GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
 														_("Sorry, format not supported!"));
 			gtk_dialog_run (GTK_DIALOG (message));
 			gtk_widget_destroy (message);
 			return true;
 		}
-		char *filename2, *ext = "";
-		switch (type) {
-		case VRML:
-			ext = ".wrl";
-			break;
-		case JPEG:
-			ext = ".jpg";
-			break;
-		case PNG:
-			ext = ".png";
-			break;
-		}
-		int i = strlen (filename) - strlen (ext);
-		if ((i > 0) && (!strcmp (filename +i, ext)))
-			filename2 = g_strdup (filename);
-		else
-			filename2 = g_strdup_printf ("%s%s", filename, ext);
-		GnomeVFSURI *uri = gnome_vfs_uri_new (filename2);
+		GnomeVFSURI *uri = gnome_vfs_uri_new (filename2.c_str ());
 		bool err = gnome_vfs_uri_exists (uri);
 		gnome_vfs_uri_unref (uri);
 		gint result = GTK_RESPONSE_YES;
 		if (err) {
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2);
+			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2.c_str ());
 			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
 			g_free (message);
 			if (result == GTK_RESPONSE_YES)
-				gnome_vfs_unlink (filename2);
-			else {
-				g_free (filename2);
+				gnome_vfs_unlink (filename2.c_str ());
+			else
 				return true;
-			}
 		}
 		map <string, string> options; // not used at the moment
-		if (result == GTK_RESPONSE_YES)
-			switch (type) {
-			case VRML:
+		if (result == GTK_RESPONSE_YES) {
+			if (vrml)
 				pDoc->OnExportVRML (filename2);
-				break;
-			case JPEG:
-				pDoc->GetView ()->SaveAsImage (filename, "jpeg", options, GetImageResolution ());
-				break;
-			case PNG:
-				pDoc->GetView ()->SaveAsImage (filename, "png", options, GetImageResolution ());
-				break;
-			}
-		g_free (filename2);
+			else
+				pDoc->GetView ()->SaveAsImage (filename2, pixbuf_type, options, GetImageResolution ());
+		}
 	} else {
 		if (pDoc && !pDoc->IsEmpty ())
 			pDoc = NULL;
@@ -166,8 +140,9 @@ void gc3dApplication::OnSaveAsImage (gc3dDocument *Doc)
 	if (!Doc)
 		return;
 	list<char const*> l;
-	l.push_front ("image/jpeg");
-	l.push_front ("image/png");
+	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
+	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
+		l.push_front ((*i).first.c_str ());
 	l.push_front ("model/vrml");
 	FileChooser (this, true, l, Doc, _("Save as image"), GetImageResolutionWidget ());
 }

@@ -77,6 +77,22 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
 	m_ImageResolution = m_ScreenResolution;
 	m_RecentManager = gtk_recent_manager_new ();
+
+	// check supported pixbuf formats
+	GSList *formats = gdk_pixbuf_get_formats ();
+	GSList *l = formats;
+	GdkPixbufFormat *format;
+	char **mimes;
+	while (l) {
+		format = (GdkPixbufFormat*) l->data;
+		if (gdk_pixbuf_format_is_writable (format)) {
+			mimes = gdk_pixbuf_format_get_mime_types (format);
+			m_SupportedPixbufFormats[*mimes] = format;
+			g_strfreev (mimes);
+		}
+		l = l->next;
+	}
+	g_slist_free (formats);
 }
 
 Application::~Application ()
@@ -155,4 +171,29 @@ GtkWidget *Application::GetImageResolutionWidget ()
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_res_changed), this);
 	w = glade_xml_get_widget (xml, "res-table");
 	return w;
+}
+
+char const *Application::GetPixbufTypeName (string& filename, char const *mime_type)
+{
+	GdkPixbufFormat *format = m_SupportedPixbufFormats[mime_type];
+	char **exts, **ext;
+	bool found = false;
+	int i;
+	if (!format)
+		return NULL;
+	// ensure the file name has a valid extension and add the default one if not
+	exts = gdk_pixbuf_format_get_extensions (format);
+	ext = exts;
+	while (*ext) {
+		i = filename.length() - strlen (*ext);
+		if ((i > 1) && (filename[i - 1] == '.') && !filename.compare (i, strlen (*ext), *ext)) {
+			found = true;
+			break;
+		}
+		ext++;
+	}
+	if (!found)
+		filename += string (".") + *exts;
+	g_strfreev (exts);
+	return gdk_pixbuf_format_get_name (format);
 }

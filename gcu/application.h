@@ -25,6 +25,7 @@
 #ifndef GCU_APPLICATION_H
 #define GCU_APPLICATION_H
 
+#include <map>
 #include <set>
 #include <string>
 #include <gtk/gtkmain.h>
@@ -118,7 +119,9 @@ if they use the FileChooser.
 	void RemoveDocument (Document *Doc) {m_Docs.erase (Doc); if (m_Docs.size () == 0) NoMoreDocsEvent ();}
 	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
 	GtkWidget *GetImageResolutionWidget ();
-	
+	map<string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}
+	char const *GetPixbufTypeName (string& filename, char const *mime_type);
+
 private:
 	string Name;
 	string HelpBrowser;
@@ -129,6 +132,7 @@ protected:
 	string WebBrowser;
 	string MailAgent;
 	set <Document*> m_Docs;
+	map<string, GdkPixbufFormat*> m_SupportedPixbufFormats;
 
 GCU_RO_PROP (unsigned, ScreenResolution);
 GCU_PROP (unsigned, ImageResolution);

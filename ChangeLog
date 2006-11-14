@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2006-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.cc: add image mime types support.
+	* gcu/application.h: ditto.
+	* gcu/chem3ddoc.cc: use a c++ string instead of char* for filename in
+	Chem3dDoc::OnExportVrml.
+	* gcu/chem3ddoc.h: ditto.
+	* gcu/filechooser.cc: add mime type to the combo box if no description
+	is available.
+	* gcu/glview.cc: use a c++ string instead of char* for filename in
+	GLView::SaveAsImage.
+	* gcu/glview.h: ditto.
+	* programs/3d/application.cc: use new image mime type support in
+	gcu::Application.
+
 2006-11-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* TODO: updated to current state.
 	* gcu/chem3ddoc.cc: export vrml now works.
