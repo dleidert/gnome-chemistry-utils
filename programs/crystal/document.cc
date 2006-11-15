@@ -193,27 +193,29 @@ void gcDocument::SetCell(gcLattices lattice, gdouble a, gdouble b, gdouble c, gd
 	m_gamma = gamma;
 }
 
-void gcDocument::SetFileName(const gchar* filename)
+void gcDocument::SetFileName (const string &filename)
 {
-	if (m_filename) g_free(m_filename);
-	m_filename = g_strdup(filename);
-	char *dirname = g_path_get_dirname (filename);
+	if (m_filename)
+		g_free (m_filename);
+	m_filename = g_strdup (filename.c_str ());
+	char *dirname = g_path_get_dirname (m_filename);
 	m_App->SetCurDir (dirname);
 	g_free (dirname);
-	int i = strlen(filename) - 1;
-	while ((m_filename[i] != '/') && (i >= 0)) i--;
-	if (i >=0) 
-	{
-		m_filename[i] = 0;
-		chdir(m_filename);
+	int i = filename.length () - 1;
+	while ((m_filename[i] != '/') && (i >= 0))
+		i--;
+	if (i >=0) {
+		m_filename [i] = 0;
+		chdir (m_filename);
 		m_filename[i] = '/';
 	}
 	i++;
-	int j = strlen(filename) - 1;
-	while ((i < j) && (m_filename[j] != '.')) j--;
-	gchar* title = (strcmp(m_filename + j, ".gcrystal"))? g_strdup(m_filename + i):g_strndup(m_filename + i, j - i);
-	SetTitle(title);
-	g_free(title);
+	int j = filename.length () - 1;
+	while ((i < j) && (m_filename[j] != '.'))
+		j--;
+	gchar* title = (strcmp (m_filename + j, ".gcrystal"))? g_strdup (m_filename + i):g_strndup (m_filename + i, j - i);
+	SetTitle (title);
+	g_free (title);
 }
 
 void gcDocument::SetTitle(const gchar* title)
@@ -274,7 +276,7 @@ void gcDocument::Error (int num)
 	g_free (mess);
 }
 
-bool gcDocument::Load (const gchar* filename)
+bool gcDocument::Load (const string &filename)
 {
 	xmlDocPtr xml = NULL;
 	gchar *oldfilename, *oldtitle;
@@ -285,7 +287,7 @@ bool gcDocument::Load (const gchar* filename)
 	try {
 		if (SetFileName (filename), !m_filename || !m_title)
 			throw (int) 0;
-		if (!(xml = xmlParseFile (filename)))
+		if (!(xml = xmlParseFile (filename.c_str ())))
 			throw (int) 1;
 		if (xml->children == NULL)
 			throw (int) 2;
@@ -443,7 +445,7 @@ void gcDocument::OnNewDocument()
 typedef struct {int n; std::list<CrystalAtom*> l;} sAtom;
 typedef struct {int n; std::list<CrystalLine*> l;} sLine;
 
-void gcDocument::OnExportVRML(const gchar* FileName)
+void gcDocument::OnExportVRML (const string &FileName)
 {
 	char *old_num_locale, tmp[128];
 	double x0, x1, x2, x3, x4, x5;
@@ -455,7 +457,7 @@ void gcDocument::OnExportVRML(const gchar* FileName)
 		GnomeVFSResult res;
 		std::map<std::string, sAtom>AtomsMap;
 		std::map<std::string, sLine>LinesMap;
-		if ((res = gnome_vfs_create (&handle, FileName, GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
+		if ((res = gnome_vfs_create (&handle, FileName.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
 			throw (int) res;
 		old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
 		setlocale(LC_NUMERIC, "C");
@@ -670,7 +672,7 @@ const char* gcDocument::GetProgramId()
 	return "Gnome Crystal "VERSION;
 }
 
-void gcDocument::SaveAsImage (char const *filename, char const *type, map<string, string>& options)
+void gcDocument::SaveAsImage (const string &filename, char const *type, map<string, string>& options)
 {
 	m_pActiveView->SaveAsImage (filename, type, options, GetApp ()->GetImageResolution ());
 }

@@ -46,9 +46,7 @@ public:
 	void OnFileSaveAs();
 	bool OnFileClose();
 	void OnFilePrint();
-	void OnExportJPEG();
-	void OnExportPNG();
-	void OnExportVRML();
+	void OnSaveAsImage ();
 	bool IsEmpty() {return m_Views.empty();}
 	gcDocument* GetDoc (const char* filename);
 	void SetOpening() {m_bFileOpening = true;}

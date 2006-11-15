@@ -32,7 +32,7 @@
 
 using namespace gcu;
 
-FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_types, Document *pDoc, char const *title, GtkWidget *extra_widget)
+FileChooser::FileChooser (Application *App, bool Save, list<char const*> mime_types, Document *pDoc, char const *title, GtkWidget *extra_widget)
 {
 	char* filename = NULL;
 	m_pDoc = pDoc;
@@ -112,6 +112,18 @@ FileChooser::FileChooser (Application *App, bool Save,list<char const*> mime_typ
 				mime_type = go_get_mime_type (filename);
 				if (!mime_type)
 					mime_type = gnome_vfs_get_file_mime_type_fast (filename, NULL);
+				// ensure the found mime type is in the list
+				bool found = false;
+				if (mime_type) {
+					list<char const*>::iterator it, itend = mime_types.end ();
+					for (it = mime_types.begin (); it != itend; it++)
+						if (!strcmp (mime_type, *it)) {
+							found = true;
+							break;
+						}
+				}
+				if (!found)
+					mime_type = mime_types.front ();
 			}
 			if (!App->FileProcess (filename, mime_type, Save, GTK_WINDOW (dialog), m_pDoc)) {
 				g_free (filename);

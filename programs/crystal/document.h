@@ -58,14 +58,14 @@ public:
 	void GetCell(gcLattices *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma);
 	void SetCell(gcLattices lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma);
 	const gchar* GetFileName() {return m_filename;}
-	void SetFileName(const gchar* filename);
+	void SetFileName(const string &filename);
 	gchar* GetTitle() {return m_title;}
 	void SetTitle(const gchar* title);
-	void Save();
-	bool Load(const gchar* filename);
+	void Save ();
+	bool Load (const string &filename);
 	void ParseXMLTree(xmlNode* xml);
 	void OnNewDocument();
-	void OnExportVRML(const gchar* FileName);
+	void OnExportVRML (const string &FileName);
 	gcView* GetNewView();
 	bool IsEmpty() {return m_bEmpty;}
 	void AddView(gcView* pView);
@@ -82,7 +82,7 @@ public:
 	virtual CrystalCleavage* CreateNewCleavage();
 	virtual const char* GetProgramId();
 	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
-	void SaveAsImage (char const *filename, char const *type, map<string, string>& options);
+	void SaveAsImage (const string &filename, char const *type, map<string, string>& options);
 	gcView *GetActiveView () {return m_pActiveView;}
 	virtual bool LoadNewView (xmlNodePtr node);
 

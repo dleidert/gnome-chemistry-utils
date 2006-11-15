@@ -71,19 +71,9 @@ static void on_file_print (GtkWidget *widget, gcWindow* Win)
 	Win->GetApplication ()->OnFilePrint ();
 }
 
-static void on_export_jpeg (GtkWidget *widget, gcWindow* Win)
+static void on_file_save_as_image(GtkWidget* widget, gcWindow* Win)
 {
-	Win->GetApplication ()->OnExportJPEG ();
-}
-
-static void on_export_png (GtkWidget *widget, gcWindow* Win)
-{
-	Win->GetApplication ()->OnExportPNG ();
-}
-
-static void on_export_vrml (GtkWidget *widget, gcWindow* Win)
-{
-	Win->GetApplication ()->OnExportVRML ();
+	Win->GetApplication ()->OnSaveAsImage ();
 }
 
 static void on_view_new (GtkWidget *widget, gcWindow* Win)
@@ -263,13 +253,8 @@ static GtkActionEntry entries[] = {
 		  N_("Save the current file"), G_CALLBACK (on_file_save) },
 	  { "SaveAs", GTK_STOCK_SAVE_AS, N_("Save _As..."), "<shift><control>S",
 		  N_("Save the current file with a different name"), G_CALLBACK (on_file_save_as) },
-	  { "ExportFileMenu", NULL, N_("_Export") },
-		{ "VRML", NULL, N_("VRML"), NULL,
-		  N_("Export to VRML"), G_CALLBACK (on_export_vrml) },
-		{ "PNG", NULL, N_("PNG"), NULL,
-		  N_("Export view to png file"), G_CALLBACK (on_export_png) },
-		{ "JPEG", NULL, N_("Jpeg"), NULL,
-		  N_("Export view to jpeg file"), G_CALLBACK (on_export_jpeg) },
+	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
+		  N_("Save the current file as an image"), G_CALLBACK (on_file_save_as_image) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current file"), G_CALLBACK (on_file_print) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
@@ -323,15 +308,10 @@ static const char *ui_description =
 "      <menuitem action='Open'/>"
 "      <menuitem action='Save'/>"
 "      <menuitem action='SaveAs'/>"
+"      <menuitem action='SaveAsImage'/>"
 "      <separator name='file-sep1'/>"
-"      <menu action='ExportFileMenu'>"
-"        <menuitem action='VRML'/>"
-"        <menuitem action='PNG'/>"
-"        <menuitem action='JPEG'/>"
-"      </menu>"
-"      <separator name='file-sep2'/>"
 "      <menuitem action='Print'/>"
-"      <separator name='file-sep3'/>"
+"      <separator name='file-sep2'/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"

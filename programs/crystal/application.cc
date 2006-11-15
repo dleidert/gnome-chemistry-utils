@@ -133,31 +133,16 @@ void gcApplication::OnFilePrint ()
 	gnome_print_config_unref (config);
 }
 
-void gcApplication::OnExportJPEG ()
+void gcApplication::OnSaveAsImage ()
 {
 	if (!m_pActiveDoc)
 		return;
 	list<char const*> l;
-	l.push_front ("image/jpeg");
-	FileChooser (this, true, l, m_pActiveDoc, _("Export model as a Jpeg file..."), GetImageResolutionWidget ());
-}
-
-void gcApplication::OnExportPNG ()
-{
-	if (!m_pActiveDoc)
-		return;
-	list<char const*> l;
-	l.push_front ("image/png");
-	FileChooser (this, true, l, m_pActiveDoc, _("Export model as a PNG file..."), GetImageResolutionWidget ());
-}
-
-void gcApplication::OnExportVRML ()
-{
-	if (!m_pActiveDoc)
-		return;
-	list<char const*> l;
+	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
+	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
+		l.push_front ((*i).first.c_str ());
 	l.push_front ("model/vrml");
-	FileChooser (this, true, l, m_pActiveDoc, _("Export model as a VRML file..."));
+	FileChooser (this, true, l, m_pActiveDoc, _("Save as image"), GetImageResolutionWidget ());
 }
 
 gcDocument* gcApplication::GetDoc (const char* filename)
@@ -189,8 +174,7 @@ gcDocument* gcApplication::GetDoc (const char* filename)
 enum {
 	GCRYSTAL,
 	VRML,
-	JPEG,
-	PNG
+	PIXBUF
 };
 
 bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc)
@@ -198,15 +182,15 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 	gcDocument *Doc = static_cast<gcDocument*> (pDoc);
 	if (!mime_type)
 		mime_type = "application/x-gcrystal";
+	string filename2 = filename;
 	if (bSave) {
 		int type = GCRYSTAL;
-		if (!strcmp (mime_type, "image/png"))
-			type = PNG;
-		else if (!strcmp (mime_type, "image/jpeg"))
-			type = JPEG;
-		else if (!strcmp (mime_type, "model/vrml"))
+		char const *pixbuf_type = NULL;
+		if (!strcmp (mime_type, "model/vrml"))
 			type = VRML;
-		char *filename2, *ext = "";
+		else if ((pixbuf_type = GetPixbufTypeName (filename2, mime_type)))
+			type = PIXBUF;
+		char *ext = NULL;
 		switch (type) {
 		case GCRYSTAL:
 			ext = ".gcrystal";
@@ -214,31 +198,27 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		case VRML:
 			ext = ".wrl";
 			break;
-		case JPEG:
-			ext = ".jpg";
-			break;
-		case PNG:
-			ext = ".png";
+		default:
 			break;
 		}
-		int i = strlen (filename) - strlen (ext);
-		if ((i > 0) && (!strcmp (filename +i, ext)))
-			filename2 = g_strdup (filename);
-		else
-			filename2 = g_strdup_printf ("%s%s", filename, ext);
-		GnomeVFSURI *uri = gnome_vfs_uri_new (filename2);
+		if (ext) { 
+			int i = strlen (filename) - strlen (ext);
+			if ((i <= 0) || (strcmp (filename +i, ext)))
+				filename2 += ext;
+		}
+		GnomeVFSURI *uri = gnome_vfs_uri_new (filename2.c_str ());
 		bool err = gnome_vfs_uri_exists (uri);
 		gnome_vfs_uri_unref (uri);
 		gint result = GTK_RESPONSE_YES;
 		if (err) {
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2);
+			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2.c_str ());
 			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 			gtk_window_set_icon_name (GTK_WINDOW (Box), "gcrystal");
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
 			g_free (message);
 			if (result == GTK_RESPONSE_YES)
-				gnome_vfs_unlink (filename2);
+				gnome_vfs_unlink (filename2.c_str ());
 		}
 		map <string, string> options; // not used at the moment
 		if (result == GTK_RESPONSE_YES)
@@ -254,19 +234,15 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				data.app_exec = "gcrystal %u";
 				data.groups = NULL;
 				data.is_private =  FALSE;
-				gtk_recent_manager_add_full (GetRecentManager (), filename2, &data);
+				gtk_recent_manager_add_full (GetRecentManager (), filename2.c_str (), &data);
 				break;
 			case VRML:
 				Doc->OnExportVRML (filename2);
 				break;
-			case JPEG:
-				Doc->SaveAsImage (filename2, "jpeg", options);
-				break;
-			case PNG:
-				Doc->SaveAsImage (filename2, "png", options);
+			case PIXBUF:
+				Doc->SaveAsImage (filename2, pixbuf_type, options);
 				break;
 			}
-		g_free (filename2);
 	} else {
 		if (strcmp (mime_type, "application/x-gcrystal"))
 			return true;

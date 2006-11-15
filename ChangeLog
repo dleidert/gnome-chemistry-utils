@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2006-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/filechooser.cc: choose the default mime type if the mime type
+	can't be determined.
+	* programs/crystal/application.cc: rewrote save as image code to make
+	it consistent with 3d viewer and gchempaint.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/window.cc: ditto.
+
 2006-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.cc: add image mime types support.
 	* gcu/application.h: ditto.
