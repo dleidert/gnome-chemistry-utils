@@ -12,7 +12,7 @@
 * 3d viewer:
 	* display multiple bonds.
 	* add more display options.
-	* export vrml.
+	* export encapsulated postscript.
 	* write help.
 
 * Mozilla plugin:
@@ -22,6 +22,7 @@
 
 * Gnome Crystal:
 	* open files from other formats (cif, cml) using openbabel.
+	* export encapsulated postscript.
 	* rewrite help.
 
 * Library:
