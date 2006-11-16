@@ -297,7 +297,7 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 			while (bond) {
 				atom = bond->GetBeginAtom ();
 				if (atom->GetAtomicNum () == 0) {
-					bond = m_Mol.NextBond (j);
+					bond = m_Mol.NextBond (b);
 					continue;
 				}
 				vb.x = atom->GetX () - x0;
@@ -305,7 +305,7 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 				vb.z = atom->GetZ () - z0;
 				atom = bond->GetEndAtom ();
 				if (atom->GetAtomicNum () == 0) {
-					bond = m_Mol.NextBond (j);
+					bond = m_Mol.NextBond (b);
 					continue;
 				}
 				x1 = atom->GetX () - x0 - vb.x;
