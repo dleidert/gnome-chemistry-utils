@@ -92,24 +92,26 @@ void Chem3dDoc::Draw ()
 	dist = 0;
 	while (atom) {
 		Z = atom->GetAtomicNum ();
-		R = etab.GetVdwRad (Z);
-		if (m_Display3D == BALL_AND_STICK)
-			R *= 0.2;
-		x = atom->GetX () - x0;
-		y = atom->GetY () - y0;
-		z = atom->GetZ () - z0;
-		color = gcu_element_get_default_color (Z);
-		if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
-			dist = w + R;
-		glPushMatrix () ;
-		glTranslated (x, y, z) ;
-		glColor3d (color[0], color[1], color[2]) ;
-		quadObj = gluNewQuadric () ;
-		gluQuadricDrawStyle (quadObj, GL_FILL);
-		gluQuadricNormals (quadObj, GL_SMOOTH) ;
-		gluSphere (quadObj, R, 20, 10) ;
-		gluDeleteQuadric (quadObj) ;
-		glPopMatrix () ;
+		if (Z > 0) {
+			R = etab.GetVdwRad (Z);
+			if (m_Display3D == BALL_AND_STICK)
+				R *= 0.2;
+			x = atom->GetX () - x0;
+			y = atom->GetY () - y0;
+			z = atom->GetZ () - z0;
+			color = gcu_element_get_default_color (Z);
+			if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
+				dist = w + R;
+			glPushMatrix () ;
+			glTranslated (x, y, z) ;
+			glColor3d (color[0], color[1], color[2]) ;
+			quadObj = gluNewQuadric () ;
+			gluQuadricDrawStyle (quadObj, GL_FILL);
+			gluQuadricNormals (quadObj, GL_SMOOTH) ;
+			gluSphere (quadObj, R, 20, 10) ;
+			gluDeleteQuadric (quadObj) ;
+			glPopMatrix () ;
+		}
 		atom = m_Mol.NextAtom (i);
 	}
 	m_MaxDist = dist * 1.05;
@@ -119,10 +121,18 @@ void Chem3dDoc::Draw ()
 	if (m_Display3D == BALL_AND_STICK)
 		while (bond) {
 			atom = bond->GetBeginAtom ();
+			if (atom->GetAtomicNum () == 0) {
+				bond = m_Mol.NextBond (j);
+				continue;
+			}
 			x = atom->GetX () - x0;
 			y = atom->GetY () - y0;
 			z = atom->GetZ () - z0;
 			atom = bond->GetEndAtom ();
+			if (atom->GetAtomicNum () == 0) {
+				bond = m_Mol.NextBond (j);
+				continue;
+			}
 			x1 = atom->GetX () - x0 - x;
 			y1 = atom->GetY () - y0 - y;
 			z1 = atom->GetZ () - z0 - z;
@@ -259,6 +269,8 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 		//Create prototypes for atoms
 		for (atom = m_Mol.BeginAtom (i); atom; atom = m_Mol.NextAtom (i)) {
 			Z = atom->GetAtomicNum ();
+			if (!Z)
+				continue;
 			symbol = Element::Symbol (Z);
 			if (AtomsMap[symbol].l.empty()) {
 				AtomsMap[symbol].n = n;
@@ -284,10 +296,18 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 			n = 0;
 			while (bond) {
 				atom = bond->GetBeginAtom ();
+				if (atom->GetAtomicNum () == 0) {
+					bond = m_Mol.NextBond (j);
+					continue;
+				}
 				vb.x = atom->GetX () - x0;
 				vb.y = atom->GetY () - y0;
 				vb.z = atom->GetZ () - z0;
 				atom = bond->GetEndAtom ();
+				if (atom->GetAtomicNum () == 0) {
+					bond = m_Mol.NextBond (j);
+					continue;
+				}
 				x1 = atom->GetX () - x0 - vb.x;
 				y1 = atom->GetY () - y0 - vb.y;
 				z1 = atom->GetZ () - z0 - vb.z;
