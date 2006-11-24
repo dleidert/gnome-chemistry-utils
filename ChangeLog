@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-11-24  Jean Bréfort  <jean.brefort@normalesup.org> (for Jordan Mantha)
+	* programs/table/gchemtable-app.cc: initial work on new color schemes
+	(family and acidity).
+	* programs/table/gchemtable-app.h: ditto.
+
 2006-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/chem3ddoc.cc: don't crash on invalid atoms, just remove them.
 

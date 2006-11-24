@@ -38,7 +38,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 static void on_quit (GtkWidget *widget, void *data)
 {
 	gtk_main_quit();
@@ -59,6 +58,17 @@ void on_state_colors (GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("state");
 }
+
+void on_family_colors (GtkWidget *widget, GChemTableApp *App)
+{
+	App->SetColorScheme ("family");
+}
+
+void on_acidity_colors (GtkWidget *widget, GChemTableApp *App)
+{
+	App->SetColorScheme ("acidity");
+}
+
 #endif
 
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
@@ -123,7 +133,13 @@ static GtkActionEntry entries[] = {
 #ifdef WITH_BODR
 	  {"StateColors", NULL, N_("Physical states"), NULL,
 		  N_("Use colors to display physical state at a given temperature"),
-		  G_CALLBACK (on_state_colors) },
+		  G_CALLBACK (on_state_colors), },
+	  {"FamilyColors", NULL, N_("Family"), NULL,
+		  N_("Use colors to display the family grouping of the elements"),
+                  G_CALLBACK (on_family_colors) },
+	  {"AcidityColors", NULL, N_("Acidity"), NULL,
+		  N_("Use colors to display the acidity of the elements"),
+                  G_CALLBACK (on_acidity_colors) },
 #endif
   { "HelpMenu", NULL, N_("_Help") },
 	  { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
@@ -142,6 +158,8 @@ static const char *ui_description =
 "        <menuitem action='DefaultColors'/>"
 #ifdef WITH_BODR
 "        <menuitem action='StateColors'/>"
+"        <menuitem action='FamilyColors'/>"
+"        <menuitem action='AcidityColors'/>"
 #endif
 "      </menu>"
 "    </menu>"
@@ -160,6 +178,16 @@ static void get_state_color (int Z, GdkColor *color, GChemTableApp *App)
 void on_changed_temp (GtkRange *range, GChemTableApp *app)
 {
 	app->SetTemperature (gtk_range_get_value (range));
+}
+
+static void get_family_color (int Z, GdkColor *color, GChemTableApp *App)
+{
+	App->GetFamilyColor (Z, color);
+}
+
+static void get_acidity_color (int Z, GdkColor *color, GChemTableApp *App)
+{
+	App->GetAcidityColor (Z, color);
 }
 #endif
 
@@ -208,7 +236,9 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	gcu::Element::LoadAllData ();
 	colorschemes["none"] = GTK_PERIODIC_COLOR_NONE;
 	colorschemes["default"] = GTK_PERIODIC_COLOR_DEFAULT;
+
 #ifdef WITH_BODR
+
 	GladeXML *xml = glade_xml_new (GLADEDIR"/state-thermometer.glade", "state-thermometer", NULL);
 	GtkWidget *thermometer = glade_xml_get_widget (xml, "state-thermometer");
 	colorschemes["state"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_state_color, thermometer, this);
@@ -216,6 +246,10 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	thermometer = glade_xml_get_widget (xml, "temperature");
 	g_signal_connect (G_OBJECT (thermometer), "value-changed", G_CALLBACK (on_changed_temp), this);
 	temperature = gtk_range_get_value (GTK_RANGE (thermometer));
+
+	colorschemes["family"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_family_color, NULL, this);
+	colorschemes["acidity"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_acidity_color, NULL, this);
+
 #endif
 }
 
@@ -287,4 +321,107 @@ void GChemTableApp::GetStateColor (int Z, GdkColor *color)
 	color->red = 0xffff;
 }
 
+void GChemTableApp::GetFamilyColor (int Z, GdkColor *color)
+{
+	color->red= color->green = color->blue = 0;
+        Element *elt = Element::GetElement (Z);
+	std::string &value = elt->GetStringProperty ("family");
+	if (!value.length())
+		return;
+
+/*
+	Alkali_Earth
+	Alkaline_Earth
+	Non-Metal
+	Metalloids
+	Transition
+	Other_Metal
+	Halogene
+	Noblegas
+	Rare_Earth
+*/
+	
+	if (value == "Alkali_Earth") {
+		color->blue = 0x8eff;
+		return;
+	}
+
+	if (value == "Alkaline_Earth") {
+		color->blue = 0xffff;
+		return;
+	}
+
+	if (value == "Non-Metal") {
+		color->green = 0xffff;
+		return;
+	}
+
+	if (value == "Metalloids") {
+		color->green = 0x8eff;
+		return;
+	}
+
+	if (value == "Transition") {
+		color->red = 0xffff;
+		color->green = 0xffff;
+		return;
+	}
+
+	if (value == "Other_Metal") {
+		color->red = 0xffff;
+		color->green = 0x8eff;
+		return;
+	}
+
+	if (value == "Halogene") {
+		color->red = 0xffff;
+		return;
+	}
+
+	if (value == "Noblegas") {
+		color->red = 0x8eff; 
+		return;
+	}
+
+	if (value == "Rare_Earth") {
+		color->red = 0xffff;
+		color->blue = 0xffff;
+		return;
+	}
+}
+
+void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
+{
+	color->red= color->green = color->blue = 0;
+	Element *elt = Element::GetElement (Z);
+	int value = elt->GetIntegerProperty ("acidicbehaviour");
+	if (!value) 
+		return;
+
+/*
+	0 means acidic
+	1 means basic
+	2 means neutral
+	3 means amphoteric
+*/
+
+	switch (value {
+	case 0:
+		color->red = 0xffff;
+		return;
+
+	case 1:
+		color->blue = 0xffff;
+		return;
+
+	case 2:
+		color->green = 0xffff;
+		return;
+
+	case 3:
+		color->red = 0xffff;
+		color->blue = 0xffff;
+		return;
+	}
+}
 #endif

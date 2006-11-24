@@ -46,6 +46,8 @@ public:
 #ifdef WITH_BODR
 	void SetTemperature (double T);
 	void GetStateColor (int Z, GdkColor *color);
+	void GetFamilyColor (int Z, GdkColor *color);
+	void GetAcidityColor (int Z, GdkColor *color);
 #endif
 
 private:
