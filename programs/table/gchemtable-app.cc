@@ -321,7 +321,6 @@ void GChemTableApp::GetStateColor (int Z, GdkColor *color)
 	color->red = 0xffff;
 }
 
-<<<<<<< gchemtable-app.cc
 void GChemTableApp::GetFamilyColor (int Z, GdkColor *color)
 {
 	color->red= color->green = color->blue = 0;
@@ -425,109 +424,4 @@ void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
 		return;
 	}
 }
-=======
-void GChemTableApp::GetFamilyColor (int Z, GdkColor *color)
-{
-	color->red= color->green = color->blue = 0;
-        Element *elt = Element::GetElement (Z);
-	std::string &value = elt->GetStringProperty ("family");
-	if (!value.length())
-		return;
-
-/*
-	Alkali_Earth
-	Alkaline_Earth
-	Non-Metal
-	Metalloids
-	Transition
-	Other_Metal
-	Halogene
-	Noblegas
-	Rare_Earth
-*/
-	
-	if (value == "Alkali_Earth") {
-		color->blue = 0x8eff;
-		return;
-	}
-
-	if (value == "Alkaline_Earth") {
-		color->blue = 0xffff;
-		return;
-	}
-
-	if (value == "Non-Metal") {
-		color->green = 0xffff;
-		return;
-	}
-
-	if (value == "Metalloids") {
-		color->green = 0x8eff;
-		return;
-	}
-
-	if (value == "Transition") {
-		color->red = 0xffff;
-		color->green = 0xffff;
-		return;
-	}
-
-	if (value == "Other_Metal") {
-		color->red = 0xffff;
-		color->green = 0x8eff;
-		return;
-	}
-
-	if (value == "Halogene") {
-		color->red = 0xffff;
-		return;
-	}
-
-	if (value == "Noblegas") {
-		color->red = 0x8eff; 
-		return;
-	}
-
-	if (value == "Rare_Earth") {
-		color->red = 0xffff;
-		color->blue = 0xffff;
-		return;
-	}
-}
-
-void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
-{
-	color->red= color->green = color->blue = 0;
-	Element *elt = Element::GetElement (Z);
-	int value = elt->GetIntegerProperty ("acidicbehaviour");
-	if (!value) 
-		return;
-
-/*
-	0 means acidic
-	1 means basic
-	2 means neutral
-	3 means amphoteric
-*/
-
-	switch (value {
-	case 0:
-		color->red = 0xffff;
-		return;
-
-	case 1:
-		color->blue = 0xffff;
-		return;
-
-	case 2:
-		color->green = 0xffff;
-		return;
-
-	case 3:
-		color->red = 0xffff;
-		color->blue = 0xffff;
-		return;
-	}
-}
->>>>>>> 1.7
 #endif
