@@ -941,3 +941,9 @@ void Element::LoadBODR ()
 	g_free (old_num_locale);
 }
 #endif
+
+int Element::GetIntegerProperty (char const *property_name)
+{
+	map<string, int>::iterator i = iprops.find (property_name);
+	return (i == iprops.end ())? GCU_ERROR: (*i).second;
+}

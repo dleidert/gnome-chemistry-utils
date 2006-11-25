@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2006-11-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/element.cc: Element::GetIntegerProperty returns GCU_ERROR
+	for unknown properties instead of 0.
+	* gcu/element.h: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+
 2006-11-24  Jean Bréfort  <jean.brefort@normalesup.org> (for Jordan Mantha)
 	* programs/table/gchemtable-app.cc: initial work on new color schemes
 	(family and acidity).

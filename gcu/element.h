@@ -33,6 +33,8 @@
 #include "isotope.h"
 #include "value.h"
 
+#define GCU_ERROR (1 << (sizeof(int) - 1))
+
 using namespace std;
 
 /*!\namespace gcu
@@ -274,9 +276,9 @@ public:
 	@param property_name: the name of the property as used in the Blue
 	Obelisk Data Repository (without the "bo:" prefix).
 
-	@return the requested integer property if known, or 0.
+	@return the requested integer property if known, or G_MININT32.
 	*/
-	int GetIntegerProperty (char const *property_name) {return iprops[property_name];}
+	int GetIntegerProperty (char const *property_name);
 
 private:
 	unsigned char m_Z, m_nve, m_tve, m_maxve;

@@ -395,7 +395,7 @@ void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
 	color->red= color->green = color->blue = 0;
 	Element *elt = Element::GetElement (Z);
 	int value = elt->GetIntegerProperty ("acidicbehaviour");
-	if (!value) 
+	if (value == GCU_ERROR) 
 		return;
 
 /*
