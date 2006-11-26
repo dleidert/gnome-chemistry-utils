@@ -248,7 +248,12 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	temperature = gtk_range_get_value (GTK_RANGE (thermometer));
 
 	colorschemes["family"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_family_color, NULL, this);
-	colorschemes["acidity"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_acidity_color, NULL, this);
+
+
+	GladeXML *testxml = glade_xml_new (GLADEDIR"/acidity.glade", "acidity-legend", NULL);
+	GtkWidget *aciditylegend = glade_xml_get_widget (testxml, "acidity-legend");
+	colorschemes["acidity"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_acidity_color, aciditylegend, this);
+	gtk_widget_show_all (aciditylegend);
 
 #endif
 }
@@ -395,7 +400,7 @@ void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
 	color->red= color->green = color->blue = 0;
 	Element *elt = Element::GetElement (Z);
 	int value = elt->GetIntegerProperty ("acidicbehaviour");
-	if (value == GCU_ERROR) 
+	if (value == GCU_ERROR)
 		return;
 
 /*

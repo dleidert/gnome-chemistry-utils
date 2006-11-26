@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2006-11-26  Jean Bréfort  <jean.brefort@normalesup.org> (for Jordan Mantha)
+	* glade/table/Makefile.am: added a new glade file.
+	* glade/table/acidity.glade: legend for acidity property.
+	* programs/table/gchemtable-app.cc: show the new legend.
+
 2006-11-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/element.cc: Element::GetIntegerProperty returns GCU_ERROR
 	for unknown properties instead of 0.

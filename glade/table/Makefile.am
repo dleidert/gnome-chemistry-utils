@@ -5,6 +5,7 @@ gladedir = $(datadir)/gchemutils-unstable/glade/table
 glade_DATA = \
 	eltpage.glade \
 	curve.glade \
-	state-thermometer.glade
+	state-thermometer.glade \
+	acidity.glade
 
 EXTRA_DIST = $(glade_DATA)
