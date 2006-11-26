@@ -148,13 +148,11 @@ if test "x$test_mozilla_plugin" != "xno"; then
 			[mozilla-plugin],
 			[build_mozilla_plugin=yes],
 			[
-			 echo "no"
 			 PKG_CHECK_MODULES(
 				[MOZILLA],
 				[firefox-plugin],
 				[build_mozilla_plugin=yes],
 				[
-				 echo "no"
 				 AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])
 				]
 			 )
