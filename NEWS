@@ -1,3 +1,20 @@
+Version 0.7.4
+	3d viewer:
+		* add recent files support.
+		* image export at any resolution.
+	Gnome Crystal:
+		* add recent files support.
+		* image export at any resolution.
+		* share more code with the 3d molecules viewer.
+	periodic table:
+		* add new color schemes to the table (thanks to Jordan Mantha
+		for his help with this feature).
+	Library:
+		* extend color schemes mechanism in the GtkPeriodic widget.
+		* now parse all BODR data in element class.
+	Other:
+		* fixed various build issues (Daniel Leidert).
+
 Version 0.7.3
 	3d viewer: open several documents at once, and use new 3d classes
 	in the library..
