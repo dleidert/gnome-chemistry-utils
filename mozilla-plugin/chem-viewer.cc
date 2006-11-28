@@ -20,7 +20,9 @@
  */
 
 #include "config.h"
+#include <gcu/element.h>
 #include <gcu/gtkchem3dviewer.h>
+#include <gcu/gtkcrystalviewer.h>
 #include <gcu/chem3ddoc.h>
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
@@ -34,6 +36,8 @@
 
 using namespace std;
 using namespace gcu;
+
+static bool loaded_radii = false;
 
 class ChemComp
 {
@@ -89,7 +93,10 @@ void ChemComp::SetWindow (XID xid)
 			GDK_WINDOW_XID (Plug->window), xid, 0, 0);
 		XMapWindow (GDK_WINDOW_XDISPLAY (Plug->window),
 			GDK_WINDOW_XID (Plug->window));
-		Viewer = gtk_chem3d_viewer_new (NULL);
+		if (MimeType == "application/x-gcrystal")
+			Viewer = gtk_crystal_viewer_new (NULL);
+		else
+			Viewer = gtk_chem3d_viewer_new (NULL);
 		gtk_container_add (GTK_CONTAINER (Plug), Viewer);
 		gtk_widget_show_all (Plug);
 	}
@@ -98,20 +105,31 @@ void ChemComp::SetWindow (XID xid)
 void ChemComp::SetFilename (string& filename)
 {
 	Filename = filename;
-	gtk_chem3d_viewer_set_uri_with_mime_type (GTK_CHEM3D_VIEWER (Viewer),
-			filename.c_str (), MimeType.c_str ());
-	map<string, string>::iterator i, iend = Params.end ();
-	for (i = Params.begin (); i != iend; i++) {
-		if ((*i).first == "display3d") {
-			if ((*i).second == "ball&stick")
-				g_object_set (G_OBJECT (Viewer), "display3d", BALL_AND_STICK, NULL);
-			else if ((*i).second == "spacefill")
-				g_object_set (G_OBJECT (Viewer), "display3d", SPACEFILL, NULL);
+	if (MimeType == "application/x-gcrystal") {
+		if (!loaded_radii) {
+			Element::LoadRadii ();
+			loaded_radii = true;
 		}
-		else
-			g_object_set (G_OBJECT (Viewer), (*i).first.c_str (), (*i).second.c_str (), NULL);
+		xmlDocPtr xml = xmlParseFile (filename.c_str ());
+		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "crystal"))
+			return;
+		gtk_crystal_viewer_set_data (GTK_CRYSTAL_VIEWER (Viewer), xml->children);
+	} else {
+		gtk_chem3d_viewer_set_uri_with_mime_type (GTK_CHEM3D_VIEWER (Viewer),
+				filename.c_str (), MimeType.c_str ());
+		map<string, string>::iterator i, iend = Params.end ();
+		for (i = Params.begin (); i != iend; i++) {
+			if ((*i).first == "display3d") {
+				if ((*i).second == "ball&stick")
+					g_object_set (G_OBJECT (Viewer), "display3d", BALL_AND_STICK, NULL);
+				else if ((*i).second == "spacefill")
+					g_object_set (G_OBJECT (Viewer), "display3d", SPACEFILL, NULL);
+			}
+			else
+				g_object_set (G_OBJECT (Viewer), (*i).first.c_str (), (*i).second.c_str (), NULL);
+		}
+		Params.clear ();
 	}
-	Params.clear ();
 }
 
 GIOChannel *in_channel;

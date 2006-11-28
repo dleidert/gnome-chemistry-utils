@@ -198,7 +198,8 @@ char *NP_GetMIMEDescription (void)
 {
 	return ("chemical/x-xyz:xyz:XYZ Coordinate Format;"
 			"chemical/x-mdl-molfile:mol:MDL Molfile;"
-			"chemical/x-pdb:pdb,ent:Protein DataBank");
+			"chemical/x-pdb:pdb,ent:Protein DataBank;"
+			"application/x-gcrystal:gcrystal:Crystalline structure model");
 }
 
 /* This is called to initialise the plugin

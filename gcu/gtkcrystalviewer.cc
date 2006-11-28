@@ -115,6 +115,7 @@ void gtk_crystal_viewer_set_data (GtkCrystalViewer * viewer, xmlNodePtr node)
 	g_return_if_fail (GTK_IS_CRYSTAL_VIEWER(viewer));
 	g_return_if_fail(node);
 	viewer->priv->pDoc->ParseXMLTree(node);
+	viewer->priv->pView->Update ();
 }
 
 } //extern "C"
