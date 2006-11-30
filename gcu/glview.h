@@ -101,7 +101,7 @@ If 0, the screen resolution is used.
 
 Export the view contents as an image.
 */
-	void SaveAsImage (string const &filename, char const *type, map<string, string>& options, int resolution = 0);
+	void SaveAsImage (string const &filename, char const *type, map<string, string>& options, unsigned width, unsigned height);
 
 private:
 /*!

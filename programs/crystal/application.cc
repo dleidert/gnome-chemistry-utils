@@ -142,7 +142,7 @@ void gcApplication::OnSaveAsImage ()
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
 		l.push_front ((*i).first.c_str ());
 	l.push_front ("model/vrml");
-	FileChooser (this, true, l, m_pActiveDoc, _("Save as image"), GetImageResolutionWidget ());
+	FileChooser (this, true, l, m_pActiveDoc, _("Save as image"), GetImageSizeWidget ());
 }
 
 gcDocument* gcApplication::GetDoc (const char* filename)

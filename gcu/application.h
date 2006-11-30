@@ -119,6 +119,7 @@ if they use the FileChooser.
 	void RemoveDocument (Document *Doc) {m_Docs.erase (Doc); if (m_Docs.size () == 0) NoMoreDocsEvent ();}
 	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
 	GtkWidget *GetImageResolutionWidget ();
+	GtkWidget *GetImageSizeWidget ();
 	map<string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}
 	char const *GetPixbufTypeName (string& filename, char const *mime_type);
 
@@ -136,6 +137,8 @@ protected:
 
 GCU_RO_PROP (unsigned, ScreenResolution);
 GCU_PROP (unsigned, ImageResolution);
+GCU_PROP (unsigned, ImageWidth);
+GCU_PROP (unsigned, ImageHeight);
 GCU_RO_PROP (GtkRecentManager*, RecentManager);
 };
 

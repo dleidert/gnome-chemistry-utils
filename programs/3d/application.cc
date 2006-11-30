@@ -114,7 +114,7 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 			if (vrml)
 				pDoc->OnExportVRML (filename2);
 			else
-				pDoc->GetView ()->SaveAsImage (filename2, pixbuf_type, options, GetImageResolution ());
+				pDoc->GetView ()->SaveAsImage (filename2, pixbuf_type, options, GetImageWidth (), GetImageHeight ());
 		}
 	} else {
 		if (pDoc && !pDoc->IsEmpty ())
@@ -144,5 +144,5 @@ void gc3dApplication::OnSaveAsImage (gc3dDocument *Doc)
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
 		l.push_front ((*i).first.c_str ());
 	l.push_front ("model/vrml");
-	FileChooser (this, true, l, Doc, _("Save as image"), GetImageResolutionWidget ());
+	FileChooser (this, true, l, Doc, _("Save as image"), GetImageSizeWidget ());
 }

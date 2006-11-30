@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2006-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.cc: add a new method and corresponding data for
+	changing size of saved images (instead of changing resolution).
+	* gcu/application.h: ditto.
+	* gcu/glview.cc: save image to pixbuf with user defined width and height.
+	* gcu/glview.h: ditto.
+	* glade/Makefile.am: add new glade file.
+	* glade/image-size.glade: new glade file.
+	* programs/3d/application.cc:  save image to pixbuf with user defined
+	width and height.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+
 2006-11-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/gtkcrystalviewer.cc: force update of the view after loading.
 	* mozilla-plugin/chem-viewer.cc: add support for Gnome Crystal files.

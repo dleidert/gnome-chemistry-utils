@@ -348,7 +348,10 @@ void GLView::Print (GnomePrintContext *pc, gdouble width, gdouble height)
 		glViewport (0, 0, w, h);
 	    glMatrixMode (GL_PROJECTION);
 	    glLoadIdentity ();
-		glFrustum(- m_Width, m_Width, - m_Height, m_Height, m_Near , m_Far);
+		if (m_Angle > 0.)
+			glFrustum (- m_Width, m_Width, - m_Height, m_Height, m_Near , m_Far);
+		else
+			glOrtho (- m_Width, m_Width, - m_Height, m_Height, m_Near, m_Far);
 	    glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glTranslatef(0, 0, - m_Radius);
@@ -393,20 +396,16 @@ static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gp
 	return true;
 }
 
-void GLView::SaveAsImage (string const &filename, char const *type, map<string, string>& options, int resolution)
+void GLView::SaveAsImage (string const &filename, char const *type, map<string, string>& options, unsigned width, unsigned height)
 {
-	int w = m_pWidget->allocation.width;
-	int h = m_pWidget->allocation.height;
-	if (resolution > 0) {
-		int screenres = m_Doc->GetApp ()->GetScreenResolution ();
-		w = (int) rint ((double) w * resolution / screenres);
-		h = (int) rint ((double) h * resolution / screenres);
-	}
+	if (width == 0 || height == 0)
+		return;
+
 	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
 		GdkGLConfigMode (GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
 	GdkPixmap *pixmap = gdk_pixmap_new (
 			(GdkDrawable*) (m_pWidget->window),
-			w, h, -1);
+			width, height, -1);
 	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability (pixmap,
 							       glconfig,
 							       NULL );
@@ -415,6 +414,10 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 						     NULL,
 						     FALSE,
 						     GDK_GL_RGBA_TYPE);
+	double aspect = (GLfloat) width / height;
+	double x = m_Doc->GetMaxDist (), w, h;
+	if (x == 0)
+		x = 1;
 	if (gdk_gl_drawable_gl_begin (drawable, context)) {
 	    glEnable (GL_LIGHTING);
 		glEnable (GL_LIGHT0);
@@ -424,10 +427,28 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
 		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
 		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
-		glViewport (0, 0, w, h);
+		glViewport (0, 0, width, height);
 	    glMatrixMode (GL_PROJECTION);
 	    glLoadIdentity ();
-		glFrustum (- m_Width, m_Width, - m_Height, m_Height, m_Near , m_Far);
+		if (aspect > 1.0) {
+			h = x * (1 - tan (m_Angle / 360 * M_PI));
+			w = h * aspect;
+		} else {
+			w = x * (1 - tan (m_Angle / 360 * M_PI));
+			h = w / aspect;
+		}
+		GLfloat radius, near, far;
+		if (m_Angle > 0.) {
+			radius = (float) (x / sin (m_Angle / 360 * M_PI)) ;
+			near = radius - x;
+			far = radius + x;
+			glFrustum (- w, w, - h, h, near, far);
+		} else {
+			radius = 2 * x;
+			near = radius - x;
+			far = radius + x;
+			glOrtho (- w, w, - h, h, near, far);
+		}
 	    glMatrixMode (GL_MODELVIEW);
 		glLoadIdentity ();
 		glTranslatef (0, 0, -m_Radius);

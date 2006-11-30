@@ -76,6 +76,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	GdkScreen *screen = gdk_screen_get_default ();
 	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
 	m_ImageResolution = m_ScreenResolution;
+	m_ImageHeight = m_ImageWidth = 300;
 	m_RecentManager = gtk_recent_manager_new ();
 
 	// check supported pixbuf formats
@@ -159,6 +160,16 @@ static void on_res_changed (GtkSpinButton *btn, Application *app)
 	app->SetImageResolution (gtk_spin_button_get_value_as_int (btn));
 }
 
+static void on_width_changed (GtkSpinButton *btn, Application *app)
+{
+	app->SetImageWidth (gtk_spin_button_get_value_as_int (btn));
+}
+
+static void on_height_changed (GtkSpinButton *btn, Application *app)
+{
+	app->SetImageHeight (gtk_spin_button_get_value_as_int (btn));
+}
+
 GtkWidget *Application::GetImageResolutionWidget ()
 {
 	GladeXML *xml = glade_xml_new (GLADEDIR"/image-resolution.glade", "res-table", NULL);
@@ -170,6 +181,20 @@ GtkWidget *Application::GetImageResolutionWidget ()
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageResolution);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_res_changed), this);
 	w = glade_xml_get_widget (xml, "res-table");
+	g_object_unref (G_OBJECT (xml));
+	return w;
+}
+
+GtkWidget *Application::GetImageSizeWidget ()
+{
+	GladeXML *xml = glade_xml_new (GLADEDIR"/image-size.glade", "size-table", NULL);
+	GtkWidget *w = glade_xml_get_widget (xml, "width");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageWidth);
+	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_width_changed), this);
+	w = glade_xml_get_widget (xml, "height");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageHeight);
+	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_height_changed), this);
+	w = glade_xml_get_widget (xml, "size-table");
 	return w;
 }
 
