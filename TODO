@@ -6,7 +6,7 @@
 	* write help.
 
 * Calculator:
-	* accept abbreviations as Ph and others (what about Ac?).
+	* accept abbreviations as Ph and others (what about Ac, Pr,...?).
 	* write help.
 
 * 3d viewer:
@@ -18,7 +18,7 @@
 * Mozilla plugin:
 	* implement printing.
 	* support 2d rendering (when gchempaint will be incorporated).
-	* support crystals.
+	* add a contextual dropdown menu.
 
 * Gnome Crystal:
 	* open files from other formats (cif, cml) using openbabel.
