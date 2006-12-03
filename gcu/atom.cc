@@ -150,8 +150,10 @@ xmlNodePtr Atom::Save(xmlDocPtr xml)
 	if (!parent) return NULL;
 	SaveId(parent);
 
-	strncpy(buf, GetSymbol(), sizeof(buf));
-	xmlNewProp(parent, (xmlChar*)"element", (xmlChar*)buf);
+	if (m_Z) {
+		strncpy(buf, GetSymbol(), sizeof(buf));
+		xmlNewProp(parent, (xmlChar*)"element", (xmlChar*)buf);
+	}
 	
 	if (m_Charge)
 	{
