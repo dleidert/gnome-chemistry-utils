@@ -160,7 +160,7 @@ gcDocument* gcApplication::GetDoc (const char* filename)
 		return pDoc;
 	if (m_bFileOpening) {
 		pDoc = m_Docs.back ();
-		if (!pDoc->IsEmpty () || pDoc->IsDirty ())
+		if (!pDoc->GetEmpty () || pDoc->GetDirty ())
 			pDoc = NULL;
 	}
 	if (!pDoc) {
@@ -246,12 +246,15 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 	} else {
 		if (strcmp (mime_type, "application/x-gcrystal"))
 			return true;
-		if (!Doc)
-			Doc = GetDoc (filename);
+		gcDocument *xDoc = GetDoc (filename);
+		if (xDoc)
+			Doc = xDoc;
+		else if (!pDoc->GetEmpty () || pDoc->GetDirty ())
+			Doc = NULL;
 		if (!Doc)
 			Doc = OnFileNew ();
 		if (Doc->GetFileName () && !strcmp (Doc->GetFileName(), filename)) {
-			if (!Doc->IsDirty ())
+			if (!Doc->GetDirty ())
 				return true;
 			else {
 				gchar* str = g_strdup_printf (_("\"%s\" has been modified since last saving. Do you wish to come back to saved version?"), Doc->GetTitle ());
@@ -271,11 +274,21 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			data.groups = NULL;
 			data.is_private =  FALSE;
 			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
-			// TODO: change titles in every window
-	/*		gtk_label_set_text (pView->GetLabel (), pDoc->GetTitle ());
-			GtkLabel *pLabel = pView->GetMenuLabel ();
-			if (pLabel)
-				gtk_label_set_text (pLabel, pDoc->GetTitle ());*/
+			// change titles in every window and bring to front
+			list <CrystalView *> *Views = Doc->GetViews ();
+			list <CrystalView *>::iterator i, iend = Views->end ();
+			int n = 1, max = Views->size ();
+			char const *title = Doc->GetTitle ();
+			for (i = Views->begin (); i != iend; i++) {
+				GtkWindow *w = dynamic_cast <gcView*> (*i)->GetWindow ()->GetWindow ();
+				gtk_window_present (w);
+				if (max > 1) {
+					char *t = g_strdup_printf ("%s (%i)", title, n++);
+					gtk_window_set_title (w, t);
+					g_free (t);
+				} else
+					gtk_window_set_title (w, title);
+			}
 		}
 	}
 	return false;

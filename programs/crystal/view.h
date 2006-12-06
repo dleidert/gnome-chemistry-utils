@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view.h 
  *
- * Copyright (C) 2000-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2006 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -51,10 +51,6 @@ public:
 	gdouble& GetPos () {return m_Radius;}
 	void GetRotation (double *psi, double *theta, double *phi);
 	bool LoadOld (xmlNodePtr node);
-	void SetLabel (GtkLabel* Label) {m_pLabel = Label;}
-	void SetMenu (GtkMenuItem* item);
-	GtkLabel* GetLabel () {return m_pLabel;}
-	GtkLabel* GetMenuLabel () {return m_pMenuLabel;}
 	void NotifyDialog (Dialog* dialog);
 	void RemoveDialog (Dialog* dialog);
 	gcWindow *GetWindow () {return m_Window;}
@@ -62,7 +58,6 @@ public:
 	
 private:
 
-	GtkLabel *m_pLabel, *m_pMenuLabel;
 	GtkMenuItem* m_pMenu;
 	std::list <Dialog *> m_Dialogs;
 	gcWindow *m_Window;

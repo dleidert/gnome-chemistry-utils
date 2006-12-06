@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * crystalview.cc 
  *
- * Copyright (C) 2002-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,48 +33,6 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 
 using namespace gcu;
-
-/*typedef struct
-{
-	unsigned glList;
-} WidgetData;
-
-static bool on_init(GtkWidget *widget, CrystalView* View) 
-{
-	View->Init(widget);
-	return true;
-}
-
-bool on_reshape(GtkWidget *widget, GdkEventConfigure *event, CrystalView* View) 
-{
-	View->Reshape(widget);
-	return true;
-}
-
-static bool on_draw(GtkWidget *widget, GdkEventExpose *event, CrystalView* View) 
-{*/
-	/* Draw only last expose. */
-/*	if (event->count > 0) return TRUE;
-
-	View->Draw(widget);
-	return true;
-}
-
-static bool on_motion(GtkWidget *widget, GdkEventMotion *event, CrystalView* View) 
-{
-	View->OnMotion(widget, event);
-	return true;
-}
-
-static bool on_pressed(GtkWidget *widget, GdkEventButton *event, CrystalView* View) 
-{
-	return View->OnPressed(widget, event);
-}
-
-static void on_destroyed(GtkWidget *widget, CrystalView *pView)
-{
-	pView->OnDestroyed(widget);
-}*/
 
 CrystalView::CrystalView(CrystalDoc* pDoc): GLView (pDoc)
 {

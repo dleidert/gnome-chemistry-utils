@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystaldoc.h 
  *
- * Copyright (C) 2002-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -110,14 +110,6 @@ everything and updates all the views.
 @return a pointer to the first CrystalView of the document. The view will be created if it does not already exist.
 */
 	CrystalView* GetView ();
-/*!
-@return true if the document has been modified, false if not.
-*/
-	bool IsDirty () {return m_bDirty;}
-/*!
-Signals the document as modified since the last saving operation.
-*/
-	virtual void SetDirty ();
 /*!
 Draws the document using OpenGL primitives.
 */
@@ -262,17 +254,8 @@ List of the cleavages defined.
 List of the views of the document.
 */
 	list <CrystalView *> m_Views;
-/*!
-true if the document has changed since the last saving. Changing the orientation of the model
-in one of the views is considered as a change.
-*/
-	bool m_bDirty;
-/*!
-true if the document does not contain anything displayable.
-*/
-	bool m_bEmpty;
 };
-	
+
 } //namespace gcu
 
 #endif //CRYSTAL_DOC_H

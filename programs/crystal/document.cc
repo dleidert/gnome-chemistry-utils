@@ -93,8 +93,6 @@ gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 	Init ();
 	m_filename = NULL;
 	m_title = NULL;
-	m_bEmpty = true;
-	m_bDirty = false;
 	m_bClosing = false;
 }
 
@@ -223,12 +221,6 @@ void gcDocument::SetTitle(const gchar* title)
 	if (m_title) g_free(m_title);
 	m_title = g_strdup(title);
 	list<CrystalView*>::iterator view;
-	GtkLabel *label;
-	for (view = m_Views.begin(); view != m_Views.end(); view++)
-	{
-		label = ((gcView*)(*view))->GetLabel();
-		if (label) gtk_label_set_text(label, title);
-	}
 }
 
 void gcDocument::Save()
@@ -244,7 +236,7 @@ void gcDocument::Save()
 			Error (SAVE);
 			
 		xmlFreeDoc (xml);
-		m_bDirty = false;
+		SetDirty (false);
 	}
 	catch (int num) {
 		xmlFreeDoc (xml);
@@ -578,19 +570,22 @@ gcView *gcDocument::GetNewView()
 
 void gcDocument::AddView(gcView* pView)
 {
-	m_Views.push_back(pView);
-	if (!m_bEmpty) m_bDirty = true;
+	m_Views.push_back (pView);
+	RenameViews ();
+	if (!GetEmpty ())
+		SetDirty (true);
 }
 
 bool gcDocument::RemoveView (gcView* pView)
 {
 	if (m_Views.size () > 1) {
 		m_Views.remove (pView);
-		if (!m_bClosing && !m_bEmpty)
-			m_bDirty = true;
+		RenameViews ();
+		if (!m_bClosing && !GetEmpty ())
+			SetDirty (true);
 		return true;
 	}
-	if (IsDirty ()) {
+	if (GetDirty ()) {
 		if (!VerifySaved ())
 			return false;
 	}
@@ -610,7 +605,8 @@ void gcDocument::RemoveAllViews ()
 bool gcDocument::VerifySaved()
 {
 	m_bClosing = true;
-	if (!m_bDirty) return true;
+	if (!GetDirty ())
+		return true;
 	gchar* str = g_strdup_printf(_("\"%s\" has been modified.  Do you wish to save it?"), m_title);
 	GtkWidget* mbox;
 	int res;
@@ -631,7 +627,8 @@ bool gcDocument::VerifySaved()
 		}
 	}
 	while ((res == GTK_RESPONSE_YES) && (m_filename == NULL));
-	if (res == GTK_RESPONSE_NO) m_bDirty = false;
+	if (res == GTK_RESPONSE_NO)
+		SetDirty (false);
 	else if (res == GTK_RESPONSE_CANCEL) m_bClosing = false;
 	g_free(str);
 	return (res != GTK_RESPONSE_CANCEL);
@@ -685,4 +682,21 @@ bool gcDocument::LoadNewView (xmlNodePtr node)
 	if (!result)
 		delete pWindow;
 	return result;
+}
+
+void gcDocument::RenameViews ()
+{
+	list <CrystalView *>::iterator i, iend = m_Views.end ();
+	int n = 1, max = m_Views.size ();
+	for (i = m_Views.begin (); i != iend; i++) {
+		GtkWindow *w = dynamic_cast <gcView*> (*i)->GetWindow ()->GetWindow ();
+		if (!w)
+			continue;
+		if (max > 1) {
+			char *t = g_strdup_printf ("%s (%i)", m_title, n++);
+			gtk_window_set_title (w, t);
+			g_free (t);
+		} else
+			gtk_window_set_title (w, m_title);
+	}
 }

@@ -231,6 +231,7 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 	}
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
+	SetDirty (false);
 	Update ();
 }
 
@@ -251,7 +252,7 @@ CrystalView *CrystalDoc::GetView()
 
 void CrystalDoc::Update()
 {
-	m_bEmpty = (AtomDef.empty() && LineDef.empty()) ? true : false;
+	SetEmpty ((AtomDef.empty() && LineDef.empty()) ? true : false);
 	CrystalAtom Atom;
 	CrystalLine Line;
 	gdouble alpha = m_alpha * M_PI / 180;
@@ -272,14 +273,11 @@ void CrystalDoc::Update()
 
 	////////////////////////////////////////////////////////////
 	//Establish list of atoms
-	CrystalAtomList::iterator i;
+	CrystalAtomList::iterator i, iend = AtomDef.end ();
 	
-	for (i = AtomDef.begin(); i != AtomDef.end(); i++)
-	{
-		
+	for (i = AtomDef.begin(); i != iend; i++) {
 		Duplicate(**i);
-		switch (m_lattice)
-		{
+		switch (m_lattice) {
 		case body_centered_cubic:
 		case body_centered_tetragonal:
 		case body_centered_orthorhombic:
@@ -308,8 +306,8 @@ void CrystalDoc::Update()
 	
 	////////////////////////////////////////////////////////////
 	//Establish list of atoms
-	CrystalLineList::iterator j;
-	for (j = LineDef.begin() ; j != LineDef.end() ; j++)
+	CrystalLineList::iterator j, jend = LineDef.end();
+	for (j = LineDef.begin() ; j != jend ; j++)
 	{
 		switch ((*j)->Type())
 		{
@@ -379,10 +377,6 @@ void CrystalDoc::Update()
 		}
 	}
 
-	//Searching the center of the crystal
-	Atom.SetCoords((m_xmax +m_xmin) / 2, (m_ymax + m_ymin) / 2, (m_zmax + m_zmin) / 2);
-	Atom.NetToCartesian(m_a, m_b, m_c, alpha, beta, gamma);
-	
 	//Manage cleavages
 	CrystalCleavageList::iterator k;
 	for (k = Cleavages.begin(); k != Cleavages.end(); k++)
@@ -425,24 +419,69 @@ void CrystalDoc::Update()
 		ScalarProducts.clear() ;
 	}
 	
-	//Transform coordinates to Cartesians and find maximum distance from center
-	gdouble x, y, z, d;
-	Atom.GetCoords(&x, &y, &z);
-	m_MaxDist = 0;
-	for (i = Atoms.begin(); i != Atoms.end(); i++)
-	{
+	//Transform coordinates to Cartesians and find center of visible view
+	gdouble x, y, z, d,
+		xmin = G_MAXDOUBLE, ymin = G_MAXDOUBLE, zmin = G_MAXDOUBLE,
+		xmax = -G_MAXDOUBLE, ymax = -G_MAXDOUBLE, zmax = -G_MAXDOUBLE;
+	iend = Atoms.end ();
+	for (i = Atoms.begin(); i != iend; i++) {
 		(*i)->NetToCartesian(m_a, m_b, m_c, alpha, beta, gamma);
-		d =  (*i)->Distance(x, y, z, m_bFixedSize);
-		m_MaxDist = __max(m_MaxDist, d);
-		(*i)->Move(- x, - y, - z);
+		if ((*i)->IsCleaved ())
+			continue;
+		(*i)->GetCoords (&x, &y, &z);
+		if (x < xmin)
+			xmin = x;
+		if (y < ymin)
+			ymin = y;
+		if (z < zmin)
+			zmin = z;
+		if (x > xmax)
+			xmax = x;
+		if (y > ymax)
+			ymax = y;
+		if (z > zmax)
+			zmax = z;
+	}
+	jend = Lines.end ();
+	for (j = Lines.begin (); j != jend; j++) {
+		(*j)->NetToCartesian (m_a, m_b, m_c, alpha, beta, gamma);
+		if ((*j)->IsCleaved ())
+			continue;
+		x = (*j)->Xmin ();
+		y = (*j)->Ymin ();
+		z = (*j)->Zmin ();
+		if (x < xmin)
+			xmin = x;
+		if (y < ymin)
+			ymin = y;
+		if (z < zmin)
+			zmin = z;
+		x = (*j)->Xmax ();
+		y = (*j)->Ymax ();
+		z = (*j)->Zmax ();
+		if (x > xmax)
+			xmax = x;
+		if (y > ymax)
+			ymax = y;
+		if (z > zmax)
+			zmax = z;
 	}
 
-	for (j = Lines.begin(); j != Lines.end(); j++)
-	{
-		(*j)->NetToCartesian(m_a, m_b, m_c, alpha, beta, gamma);
-		d =  (*j)->Distance(x, y, z, m_bFixedSize);
-		m_MaxDist = __max(m_MaxDist, d);
-		(*j)->Move(- x, - y, - z);
+	//Searching the center of the crystal and find maximum distance from center
+	x = (xmin + xmax) / 2.;
+	y = (ymin + ymax) / 2.;
+	z = (zmin + zmax) / 2.;
+	m_MaxDist = 0;
+	for (i = Atoms.begin(); i != iend; i++) {
+		d =  (*i)->Distance (x, y, z, m_bFixedSize);
+		m_MaxDist = __max (m_MaxDist, d);
+		(*i)->Move (- x, - y, - z);
+	}
+
+	for (j = Lines.begin(); j != Lines.end(); j++) {
+		d =  (*j)->Distance (x, y, z, m_bFixedSize);
+		m_MaxDist = __max (m_MaxDist, d);
+		(*j)->Move (- x, - y, - z);
 	}
 }
 
@@ -488,11 +527,6 @@ void CrystalDoc::Duplicate(CrystalLine& Line)
 		}
 		LineX.Move(1,0,0) ;
 	}
-}
-
-void CrystalDoc::SetDirty()
-{
-	m_bDirty = true;
 }
 
 void CrystalDoc::Draw()

@@ -44,13 +44,14 @@ This class is a base class for applications. It provides some basic services.
 */
 class Application
 {
+friend class Document;
 public:
 /*!
-@param name: the name of the application.
-@param datadir: where data for the application are stored.
-@param help_name: the name to use for the help file (with .xml extension). 
+@param name the name of the application.
+@param datadir where data for the application are stored.
+@param help_name the name to use for the help file (with .xml extension). 
 If NULL, the name strng is used.
-@param icon_name: the name to use for the default icon of all windows. If NULL,
+@param icon_name the name to use for the default icon of all windows. If NULL,
 the help_name or name parameters will be used.
 
 The datadir variable is used to build the full path to the help file:
@@ -60,7 +61,7 @@ datadir+"/gnome/help/"+name+"/"+LANG+"/"+name".xml".
 	virtual ~Application ();
 
 /*!
-@param s: an optional tag in the help file.
+@param s an optional tag in the help file.
 Displays the help file using the file browser retrieved from GConf using the
 "/desktop/gnome/applications/help_viewer/exec" key. If a tag is given, it will
 be added to the help uri.
@@ -83,11 +84,11 @@ helpfilename#myapp-mytag.
 	virtual GtkWindow * GetWindow () {return NULL;}
 
 /*!
-@param filename: the uri of the file.
-@param mime-type: the mime type of the file if known.
-@param bSave: true if saving, and false if loading.
-@param window: the current top level window.
-@param pDoc: an optional document.
+@param filename the uri of the file.
+@param mime-type the mime type of the file if known.
+@param bSave true if saving, and false if loading.
+@param window the current top level window.
+@param pDoc an optional document.
 
 Called by the FileChooser when a file name has been selected. This method does
 nothing in the parent class and must be implemented in children classes
@@ -104,24 +105,83 @@ if they use the FileChooser.
 	char const* GetCurDir () {return CurDir;}
 
 /*!
-@param dir: the path to the new current directory.
+@param dir the path to the new current directory.
 */
 	void SetCurDir (char const* dir);
+
+/*!
+@param uri the uri to display.
+
+Displays uri in the default web browser if any.
+*/
 	void ShowURI (string& uri);
+
+/*!
+@param uri the uri to the package bugs database. Default value is PACKAGE_BUGREPORT.
+
+Opens the bugs web page in the default browser if any.
+*/
 	void OnBug (char *uri = PACKAGE_BUGREPORT)
 		{string s (uri); ShowURI (s);}
+
+/*!
+@param uri the uri to the main web page of the program. Default value is
+"http://gchemutils.nongnu.org/".
+*/
 	void OnWeb (char *uri = "http://gchemutils.nongnu.org/")
 		{string s (uri); ShowURI (s);}
+
+/*!
+@param MailAdress the mail adress to which a message will be sent. Defaults to the
+		Gnome Chemistry Utils main list.
+
+Creates a new empty message using the default mail if any.
+*/
 	void OnMail (char *MailAddress = "mailto:gchemutils-main@nongnu.org");
+
+/*!
+@return true if the default mail agent is known, false otherwise.
+*/
 	bool HasMailAgent () {return MailAgent.length () > 0;}
+
+/*!
+@return true if the default web browser is known, false otherwise.
+*/
 	bool HasWebBrowser () {return WebBrowser.length () > 0;}
+
+/*!
+*/
+	GtkWidget *GetImageResolutionWidget ();
+
+/*!
+*/
+	GtkWidget *GetImageSizeWidget ();
+
+/*!
+*/
+	map<string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}
+
+/*!
+@param filename the file name.
+@param mime_type the file mime type.
+
+@return the GdkPixbuf name associated to mime_type or NULL if the file type
+is not supported by GdkPixbuf.
+*/
+	char const *GetPixbufTypeName (string& filename, char const *mime_type);
+
+protected:
+
+/*!
+This method is called by the framework when all the documents have been removed from
+the set of opened documents. The default behavior is to call gtk_main_quit and exit
+the program. Derived class might overide this method to change this.
+*/
+	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
+
+private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
 	void RemoveDocument (Document *Doc) {m_Docs.erase (Doc); if (m_Docs.size () == 0) NoMoreDocsEvent ();}
-	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
-	GtkWidget *GetImageResolutionWidget ();
-	GtkWidget *GetImageSizeWidget ();
-	map<string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}
-	char const *GetPixbufTypeName (string& filename, char const *mime_type);
 
 private:
 	string Name;

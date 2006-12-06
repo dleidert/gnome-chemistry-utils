@@ -48,7 +48,6 @@ public:
 
 private:
 	GtkUIManager* m_UIManager;
-	GtkWindow* m_Window;
 	GtkWidget* m_Bar;	//GtkStatusBar
 	unsigned m_statusId;
 	unsigned m_MessageId; //currently displayed message in the status bar
@@ -56,6 +55,7 @@ private:
 GCU_RO_PROP (gcApplication *, App);
 GCU_RO_PROP (gcView *, View);
 GCU_RO_PROP (gcDocument *, Doc);
+GCU_RO_PROP (GtkWindow *, Window);
 };
 
 #endif	//	GCRYSTAL_WINDOW_H

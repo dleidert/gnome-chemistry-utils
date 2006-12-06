@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view.cc 
  *
- * Copyright (C) 2000-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2006 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -46,7 +46,6 @@ gcView::gcView (gcDocument *pDoc): CrystalView (pDoc)
 	SetRed (Red);
 	SetGreen (Green);
 	SetAlpha (1.0);
-	m_pLabel = NULL;
 	m_Window = NULL;
 }
 
@@ -59,8 +58,6 @@ gcView::gcView (gcView *pView): CrystalView (dynamic_cast <CrystalDoc *> (pView-
 	SetGreen (pView->GetGreen ());
 	SetAlpha (pView->GetAlpha ());
 	dynamic_cast <gcDocument*> (GetDoc())->AddView (this);
-	m_pLabel = NULL;
-	m_Window = NULL;
 }
 
 gcView::~gcView ()
@@ -139,19 +136,6 @@ bool gcView::LoadOld(xmlNodePtr node)
 		child = child->next;
 	}
 	return true;
-}
-
-void gcView::SetMenu(GtkMenuItem* item)
-{
-	m_pMenu = item;
-	m_pMenuLabel = NULL;
-	GList* l;
-	for (l = gtk_container_get_children(GTK_CONTAINER(item)); l != NULL; l = g_list_next(l))
-		if (GTK_IS_LABEL(l->data))
-		{
-			m_pMenuLabel = (GtkLabel*)(l->data);
-			break;
-		}
 }
 
 void gcView::NotifyDialog (Dialog* dialog)

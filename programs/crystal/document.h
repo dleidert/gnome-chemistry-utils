@@ -67,7 +67,6 @@ public:
 	void OnNewDocument();
 	void OnExportVRML (const string &FileName);
 	gcView* GetNewView();
-	bool IsEmpty() {return m_bEmpty;}
 	void AddView(gcView* pView);
 	bool RemoveView(gcView* pView);
 	void RemoveAllViews ();
@@ -85,6 +84,8 @@ public:
 	void SaveAsImage (const string &filename, char const *type, map<string, string>& options);
 	gcView *GetActiveView () {return m_pActiveView;}
 	virtual bool LoadNewView (xmlNodePtr node);
+	list <CrystalView *> *GetViews () {return &m_Views;}
+	void RenameViews ();
 
 private:
 	void Error(int num);

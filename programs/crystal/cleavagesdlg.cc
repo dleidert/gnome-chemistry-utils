@@ -181,9 +181,9 @@ bool gcCleavagesDlg::Apply()
 		c->Planes() = s->planes;
 		Cleavages->push_back(c);
 	}
-	m_pDoc->SetFixedSize(gtk_toggle_button_get_active(FixedBtn));
-	m_pDoc->Update();
-	m_pDoc->SetDirty();
+	m_pDoc->SetFixedSize (gtk_toggle_button_get_active (FixedBtn));
+	m_pDoc->Update ();
+	m_pDoc->SetDirty (true);
 	return true;
 }
 

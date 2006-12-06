@@ -289,6 +289,7 @@ bool GLView::OnMotion(GdkEventMotion *event)
 	if (state & GDK_BUTTON1_MASK) {
 		if ((x == m_Lastx) && (y == m_Lasty))
 			return false;
+		m_Doc->SetDirty (true);
 		Rotate (x - m_Lastx, y - m_Lasty);
 		m_Lastx = x;
 		m_Lasty = y;

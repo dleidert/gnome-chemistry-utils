@@ -86,6 +86,6 @@ bool gcSizeDlg::Apply ()
 	}
 	m_pDoc->SetSize (xmin, xmax, ymin, ymax, zmin, zmax);
 	m_pDoc->Update ();
-	m_pDoc->SetDirty ();
+	m_pDoc->SetDirty (true);
 	return true;
 }

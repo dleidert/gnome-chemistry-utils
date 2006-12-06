@@ -78,6 +78,6 @@ bool gcViewSettingsDlg::Apply()
 	gtk_color_button_get_color (Background, &color);
 	m_pView->SetBackgroundColor (color.red / 65535., color.green / 65535., color.blue / 65535., gtk_color_button_get_alpha (Background) / 65535.);
 	m_pView->Update ();
-	dynamic_cast <gcDocument *> (m_pView->GetDoc ())->SetDirty ();
+	dynamic_cast <gcDocument *> (m_pView->GetDoc ())->SetDirty (true);
 	return true;	
 }

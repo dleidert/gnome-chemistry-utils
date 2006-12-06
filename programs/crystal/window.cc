@@ -94,9 +94,9 @@ static bool on_quit (GtkWidget *widget, gcWindow* Win)
 	return true;
 }
 
-static void on_prefs (GtkWidget* widget, gcApplication *app)
+static void on_prefs (GtkWidget* widget, gcWindow* Win)
 {
-	new gcPrefsDlg (app);
+	new gcPrefsDlg (Win->GetApp ());
 }
 
 static void on_about (GtkWidget *widget, void *data)
@@ -439,9 +439,10 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	m_View = dynamic_cast<gcView *> (m_Doc->GetView ());
 	if (m_View->GetWindow () != NULL) {
 		m_View = dynamic_cast<gcView *> (m_Doc->CreateNewView ());
+		m_View->SetWindow (this);
 		m_Doc->AddView (m_View);
-	}
-	m_View->SetWindow (this);
+	} else
+		m_View->SetWindow (this);
 	gtk_box_pack_start (GTK_BOX (vbox), m_View->GetWidget (), true, true, 0);
 	m_Bar = gtk_statusbar_new ();
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");

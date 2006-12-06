@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/document.cc
  *
- * Copyright (C) 2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2006 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,7 +28,9 @@
 
 using namespace gcu;
 
-Document::Document (Application *App): Object (DocumentType)
+Document::Document (Application *App): Object (DocumentType),
+m_Dirty (false),
+m_Empty (true)
 {
 	m_App = App;
 	if (m_App)

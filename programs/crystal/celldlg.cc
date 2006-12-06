@@ -141,7 +141,7 @@ bool gcCellDlg::Apply ()
 	}
 	m_pDoc->SetCell (i, m_a, m_b, m_c, m_alpha, m_beta, m_gamma);
 	m_pDoc->Update ();
-	m_pDoc->SetDirty ();
+	m_pDoc->SetDirty (true);
 	return true;
 }
 

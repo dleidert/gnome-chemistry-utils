@@ -128,7 +128,7 @@ bool gcPrefsDlg::Apply()
 
 void gcPrefsDlg::UpdatePrinting ()
 {
-	int PrintRes;
+	int PrintRes = PrintResolution ;
 	int PrintIndex = gtk_combo_box_get_active (PrintResMenu);
 	switch (PrintIndex)
 	{

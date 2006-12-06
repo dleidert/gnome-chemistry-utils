@@ -1,5 +1,29 @@
 ##Text encoding: utf-8
 
+2006-12-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.h: cleaned code and wrote more documentation.
+	* gcu/crystaldoc.cc: fix various gcrystal issues.
+	* gcu/crystaldoc.h: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/document.cc: ditto.
+	* gcu/document.h: ditto.
+	* gcu/glview.cc: ditto.
+	* gcu/gtkcrystalviewer.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/crystal/prefs.cc: ditto.
+	* programs/crystal/sizedlg.cc: ditto.
+	* programs/crystal/view-settings.cc: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/crystal/window.h: ditto.
+
 2006-12-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/atom.cc: don't crash when saving dummy atoms.
 

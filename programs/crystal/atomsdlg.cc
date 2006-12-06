@@ -253,7 +253,7 @@ bool gcAtomsDlg::Apply ()
 		Atoms->push_back (pAtom);
 	}
 	m_pDoc->Update ();
-	m_pDoc->SetDirty ();
+	m_pDoc->SetDirty (true);
 	return true;
 }
 

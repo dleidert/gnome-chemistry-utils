@@ -342,7 +342,7 @@ bool gcLinesDlg::Apply ()
 		Lines->push_back (new CrystalLine((s->duplicated)? normal: gcu::unique, s->x1, s->y1, s->z1, s->x2, s->y2, s->z2, s->r, (float)s->Red, (float)s->Green, (float)s->Blue, (float)s->Alpha));
 	}
 	m_pDoc->Update ();
-	m_pDoc->SetDirty ();
+	m_pDoc->SetDirty (true);
 	return true;
 }
 
