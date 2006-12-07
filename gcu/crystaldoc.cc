@@ -603,6 +603,8 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		WritePosition(xml, node, "start", m_xmin, m_ymin, m_zmin);
 		WritePosition(xml, node, "end", m_xmax, m_ymax, m_zmax);
+		if (m_bFixedSize)
+			xmlNewProp (node, (xmlChar *) "fixed", (xmlChar *) "true");
 		
 		CrystalAtomList::iterator i;
 		for (i = AtomDef.begin(); i != AtomDef.end(); i++)

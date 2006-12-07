@@ -235,6 +235,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				data.groups = NULL;
 				data.is_private =  FALSE;
 				gtk_recent_manager_add_full (GetRecentManager (), filename2.c_str (), &data);
+				Doc->RenameViews ();
 				break;
 			case VRML:
 				Doc->OnExportVRML (filename2);
