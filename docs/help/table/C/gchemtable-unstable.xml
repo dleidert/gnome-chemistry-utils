@@ -1,0 +1,141 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
+  <!ENTITY legal SYSTEM "legal.xml">
+  <!ENTITY appversion "0.1">
+  <!ENTITY manrevision "0.1">
+  <!ENTITY date "December 2006">
+  <!ENTITY app "GChemTable">
+]>
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the GNOME Documentation Project
+  http://developer.GNOME.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Jan 30, 2002
+-->
+<!-- =============Document Header ============================= -->
+<book id="index" lang="en">
+  <title>&app; manual</title>
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <bookinfo> 
+	 <title>&app; Manual V&manrevision;</title>
+	 <copyright> 
+       <year>2006</year>
+       <holder>Jean Bréfort</holder>
+     </copyright>
+
+  <!-- translators: uncomment this and add lang=".." to the <book> tag:
+
+  <copyright>
+   <year>2002</year>
+   <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+  </copyright>
+
+   -->
+
+	&legal;
+
+	<publisher role="maintainer">
+		<publishername>GNOME Documentation Project</publishername>
+	</publisher>
+
+	 <authorgroup> 
+		<author> 
+		  <firstname>Jean</firstname>
+		  <surname>Bréfort</surname>
+		  <affiliation> 
+			 <address> <email>jean.brefort@normalesup.org</email> </address>
+		  </affiliation>
+		</author> 
+<!-- This is appropriate place for other contributors: translators,
+      maintainers,  etc. Commented out by default.
+       <othercredit role="translator">
+	<firstname>Latin</firstname> 
+	<surname>Translator 1</surname> 
+	<affiliation> 
+	  <orgname>Latin Translation Team</orgname> 
+	  <address> <email>translator@gnome.org</email> </address> 
+	</affiliation>
+	<contrib>Latin translation</contrib>
+      </othercredit>
+-->
+	 </authorgroup>
+
+<!-- According to GNU FDL, revision history is mandatory if you are -->
+<!-- modifying/reusing someone else's document.  If not, you can omit it. -->
+	 <revhistory>
+<!-- Remember to remove the &manrevision; entity from the revision entries other
+   than the current revision. -->
+   		<revision> 
+		  <revnumber>&app; Manual V&manrevision;</revnumber>
+		  <date>&date;</date> 
+		  <revdescription> 
+			 <para role="author">Jean Bréfort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+	 </revhistory>
+	 <releaseinfo> This manual describes version &appversion; of &app;.
+		</releaseinfo>
+	 <legalnotice> 
+		<title>Feedback</title>
+		<para>To report a bug or make a suggestion regarding the &app; application or
+		this manual, go to the
+		<ulink url="http://savannah.nongnu.org/projects/gchemutils" type="html"><application>&app;</application> home page</ulink>. 
+      </para>
+<!-- Translators may also add here feedback address for translations -->
+	 </legalnotice>
+	<abstract role="description">
+		<para>&app; is a chemistry elements periodic table application.</para>
+	</abstract>
+  </bookinfo>  
+
+<!-- ============= Document Body ============================= -->
+
+<!-- ============= Introduction ============================= -->
+ <preface id="gchemtable-unstable-intro">
+    <title>Introduction</title>
+
+ </preface>
+
+ <chapter id="gchemtable-unstable-curvedlg">
+    <title>Curves</title>
+ </chapter>
+<!-- ============= Application License ============================= -->
+
+ <chapter id="license">
+  <title>License</title>
+  <para>
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the  <ulink type="help" url="ghelp:gpl">GNU
+   General Public License</ulink> as
+   published by the Free Software Foundation; 
+   either version 2 of the License, or (at your option) any later
+   version.
+  </para>
+  <para>
+   This program is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   <citetitle>GNU General Public License</citetitle> for more details.
+  </para>
+  <para>
+   A copy of the <citetitle>GNU General Public License</citetitle> is
+   included as an appendix to the <citetitle>GNOME Users
+   Guide</citetitle>.  You may also obtain a copy of the
+   <citetitle>GNU General Public License</citetitle> from the Free
+   Software Foundation by visiting <ulink type="http"
+   url="http://www.fsf.org">their Web site</ulink> or by writing to
+   <address>
+    Free Software Foundation, Inc.
+    <street>51 Franklin St</street> - Fifth Floor
+    <city>Boston</city>, <state>MA</state> <postcode>02111-1307</postcode>
+    <country>USA</country>
+   </address>
+  </para>
+ </chapter>
+
+</book>

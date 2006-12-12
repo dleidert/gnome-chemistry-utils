@@ -1,5 +1,29 @@
 ##Text encoding: utf-8
 
+2006-12-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add new help directories.
+	* docs/help/3d/C/gchem3d-viewer-unstable.xml: new help related file.
+	* docs/help/3d/C/legal.xml: ditto.
+	* docs/help/3d/Makefile.am: ditto.
+	* docs/help/3d/gchem3d-viewer-unstable.omf.in: ditto.
+	* docs/help/Makefile.am: ditto.
+	* docs/help/calc/C/gchemcalc-unstable.xml: ditto.
+	* docs/help/calc/C/legal.xml: ditto.
+	* docs/help/calc/Makefile.am: ditto.
+	* docs/help/calc/gchemcalc-unstable.omf.in: ditto.
+	* docs/help/table/C/gchemtable-unstable.xml: ditto.
+	* docs/help/table/C/legal.xml: ditto.
+	* docs/help/table/Makefile.am: ditto.
+	* docs/help/table/gchemtable-unstable.omf.in: ditto.
+	* gcu/application.cc: fixed help paths (yelp seems to not support
+	filenames anymore, just uris).
+	* programs/3d/application.cc: populate help menu.
+	* programs/3d/window.cc: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+
 2006-12-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/crystaldoc.cc: save the FixedSize flag.
 	* programs/crystal/application.cc: set windows names after saving.

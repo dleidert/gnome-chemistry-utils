@@ -26,6 +26,7 @@
 #warning "the following lines should be removed for stable releases"
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
+#include <gcu/application.h>
 #include <gcu/element.h>
 #include <gcu/formula.h>
 #include <glib/gi18n.h>
@@ -69,7 +70,8 @@ using namespace gcu;
 
 using namespace std;
 
-class GChemCalc {
+class GChemCalc: public Application
+{
 public:
 	GChemCalc ();
 	Formula formula;
@@ -82,15 +84,36 @@ public:
 	GtkListStore *pclist;
 };
 
-GChemCalc::GChemCalc (): formula ("")
+GChemCalc::GChemCalc (): Application ("gchemcalc-unstable"),
+formula ("")
 {
 }
 
-GChemCalc App;
+GChemCalc *App;
 
 static void on_quit (GtkWidget *widget, void *data)
 {
 	gtk_main_quit();
+}
+
+static void on_help (GtkWidget *widget, gpointer data)
+{
+	App->OnHelp ();
+}
+
+static void on_web (GtkWidget *widget, gpointer data)
+{
+	App->OnWeb ();
+}
+
+static void on_mail (GtkWidget *widget, gpointer data)
+{
+	App->OnMail ();
+}
+
+static void on_bug (GtkWidget *widget, gpointer data)
+{
+	App->OnBug ();
 }
 
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
@@ -143,16 +166,16 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 	GError *error;
 	try {
 		char *format;
-		App.formula.SetFormula (gtk_entry_get_text (entry));
-		format = g_strconcat (_("Formula:"), " \t", App.formula.GetMarkup (), NULL);
-		gtk_label_set_markup (App.markup, format);
+		App->formula.SetFormula (gtk_entry_get_text (entry));
+		format = g_strconcat (_("Formula:"), " \t", App->formula.GetMarkup (), NULL);
+		gtk_label_set_markup (App->markup, format);
 		g_free (format);
-		format = g_strconcat (_("Raw formula:"), " \t", App.formula.GetRawMarkup (), NULL);
-		gtk_label_set_markup (App.raw, format);
+		format = g_strconcat (_("Raw formula:"), " \t", App->formula.GetRawMarkup (), NULL);
+		gtk_label_set_markup (App->raw, format);
 		g_free (format);
 		int prec;
 		bool artificial;
-		double weight = App.formula.GetMolecularWeight (prec, artificial);
+		double weight = App->formula.GetMolecularWeight (prec, artificial);
 		if (prec > 0) {
 			format = g_strdup_printf ("%%0.%df",prec);
 		} else {
@@ -164,12 +187,12 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 			format = artificial? g_strdup ("(%.0f)"): g_strdup ("%.0f");
 		}
 		char *weightstr = g_strdup_printf (format, weight);
-		gtk_label_set_text (App.weight, weightstr);
+		gtk_label_set_text (App->weight, weightstr);
 		g_free (weightstr);
 		g_free (format);
 		// Composition
-		gtk_list_store_clear (App.pclist);
-		map<int,int> &raw = App.formula.GetRawFormula ();
+		gtk_list_store_clear (App->pclist);
+		map<int,int> &raw = App->formula.GetRawFormula ();
 		map<int,int>::iterator ri, riend = raw.end ();
 		double pcent;
 		map<string, int> elts;
@@ -194,8 +217,8 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 			elt = Element::GetElement (6);
 			pcent = nC * elt->GetWeight (prec) / weight * 100.;
 			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
-			gtk_list_store_append (App.pclist, &iter);
-			gtk_list_store_set (App.pclist, &iter,
+			gtk_list_store_append (App->pclist, &iter);
+			gtk_list_store_set (App->pclist, &iter,
 					  0, "C",
 					  1, weightstr,
 					  -1);
@@ -205,8 +228,8 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 			elt = Element::GetElement (1);
 			pcent = nH * elt->GetWeight (prec) / weight * 100.;
 			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
-			gtk_list_store_append (App.pclist, &iter);
-			gtk_list_store_set (App.pclist, &iter,
+			gtk_list_store_append (App->pclist, &iter);
+			gtk_list_store_set (App->pclist, &iter,
 					  0, "H",
 					  1, weightstr,
 					  -1);
@@ -218,8 +241,8 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 			elt = Element::GetElement ((*k).first.c_str ());
 			pcent = nC * elt->GetWeight (prec) / weight * 100.;
 			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
-			gtk_list_store_append (App.pclist, &iter);
-			gtk_list_store_set (App.pclist, &iter,
+			gtk_list_store_append (App->pclist, &iter);
+			gtk_list_store_set (App->pclist, &iter,
 					  0, (*k).first.c_str (),
 					  1, weightstr,
 					  -1);
@@ -227,19 +250,19 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		}
 		// Isotopic pattern
 		IsotopicPattern pattern;
-		App.formula.CalculateIsotopicPattern (pattern);
+		App->formula.CalculateIsotopicPattern (pattern);
 		double *values, *x, *y;
 		int n, mass, nb, min, max, i;
 		mass = pattern.GetMinMass ();
 		if (mass == 0) {
 			// invalid pattern, do not display anything
-			gtk_widget_hide (App.pattern_page);
+			gtk_widget_hide (App->pattern_page);
 			return;
 		} else {
 			weightstr = g_strdup_printf ("%g", pattern.GetMonoMass ());
-			gtk_label_set_text (App.monomass, weightstr);
+			gtk_label_set_text (App->monomass, weightstr);
 			g_free (weightstr);
-			gtk_widget_show (App.pattern_page);
+			gtk_widget_show (App->pattern_page);
 			nb = pattern.GetValues (&values);
 			// correct mean mass (for high molecular weights)
 			double t = 0., m = 0;
@@ -264,9 +287,9 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 				y[i] = values[n];
 			}
 			GOData *data = go_data_vector_val_new (x, max, g_free);
-			gog_series_set_dim (App.series, 0, data, &error);
+			gog_series_set_dim (App->series, 0, data, &error);
 			data = go_data_vector_val_new (y, max, g_free);
-			gog_series_set_dim (App.series, 1, data, &error);
+			gog_series_set_dim (App->series, 1, data, &error);
 			g_free (values);
 			// set axis bounds
 			if (max - min < 30) {
@@ -280,8 +303,8 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 			}
 			nb = (mass + min) / 10 * 10;
 			n = (mass + min + max + 10) / 10 * 10;
-			GogObject *obj = gog_object_get_child_by_role (GOG_OBJECT (App.chart),
-					gog_object_find_role_by_name (GOG_OBJECT (App.chart), "X-Axis"));
+			GogObject *obj = gog_object_get_child_by_role (GOG_OBJECT (App->chart),
+					gog_object_find_role_by_name (GOG_OBJECT (App->chart), "X-Axis"));
 			data = go_data_scalar_val_new (nb);
 			gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MIN, data, &error);
 			data = go_data_scalar_val_new (n);
@@ -388,6 +411,14 @@ static GtkActionEntry entries[] = {
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemCalc"), G_CALLBACK (on_quit) },
   { "HelpMenu", NULL, N_("_Help") },
+	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
+		  N_("View help for the Chemical Calculator"), G_CALLBACK (on_help) },
+	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
+		  N_("Browse the Gnome Chemistry Utils's web site"), G_CALLBACK (on_web) },
+	  { "Mail", NULL, N_("_Ask a question"), NULL,
+		  N_("Ask a question about the Gnome Chemistry Utils"), G_CALLBACK (on_mail) },
+	  { "Bug", NULL, N_("Report _Bugs"), NULL,
+		  N_("Submit a bug report for the Gnome Chemistry Utils"), G_CALLBACK (on_bug) },
 	  { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
 		  N_("About GChemCalc"), G_CALLBACK (on_about) }
 };
@@ -399,7 +430,36 @@ static const char *ui_description =
 "      <menuitem action='Quit'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
+"      <menuitem action='Help'/>"
+"      <placeholder name='mail'/>"
+"      <placeholder name='web'/>"
+"      <placeholder name='bug'/>"
 "      <menuitem action='About'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static const char *ui_mail_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='HelpMenu'>"
+"      <placeholder name='mail'>"
+"        <menuitem action='Mail'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static const char *ui_web_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='HelpMenu'>"
+"      <placeholder name='web'>"
+"        <menuitem action='Web'/>"
+"      </placeholder>"
+"      <placeholder name='bug'>"
+"        <menuitem action='Bug'/>"
+"      </placeholder>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
@@ -425,6 +485,7 @@ int main (int argc, char *argv[])
 	GError *error = NULL;
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
+	gnome_vfs_init ();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [formula]"));
 		g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
@@ -452,6 +513,8 @@ int main (int argc, char *argv[])
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
+	App = new GChemCalc ();
+
 	GladeXML *xml =  glade_xml_new (GLADEDIR"/gchemcalc.glade", "gchemcalc", NULL);
 	GtkWidget *window = glade_xml_get_widget (xml, "gchemcalc");
 	g_signal_connect (GTK_OBJECT (window), "destroy",
@@ -471,18 +534,26 @@ int main (int argc, char *argv[])
 		g_error_free (error);
 		exit (EXIT_FAILURE);
 	}
+	if (App->HasWebBrowser () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_web_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+	if (App->HasMailAgent () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_mail_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (vbox), bar, 0);
-	App.markup = GTK_LABEL (glade_xml_get_widget (xml, "markup"));
-	App.raw = GTK_LABEL (glade_xml_get_widget (xml, "raw"));
-	App.weight = GTK_LABEL (glade_xml_get_widget (xml, "weight"));
+	App->markup = GTK_LABEL (glade_xml_get_widget (xml, "markup"));
+	App->raw = GTK_LABEL (glade_xml_get_widget (xml, "raw"));
+	App->weight = GTK_LABEL (glade_xml_get_widget (xml, "weight"));
 
 	//Add composition list
-	App.pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	App->pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	GtkTreeView *tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "composition"));
-	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (App.pclist));
-	g_object_unref (App.pclist);
+	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (App->pclist));
+	g_object_unref (App->pclist);
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	/* column for element */
@@ -503,33 +574,33 @@ int main (int argc, char *argv[])
 	gtk_tree_view_append_column (tree, column);
 	
 	// Add isotopic pattern chart
-	App.mono = GTK_LABEL (glade_xml_get_widget (xml, "mono"));
-	App.monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
-	App.pattern_page = glade_xml_get_widget (xml, "pattern");
+	App->mono = GTK_LABEL (glade_xml_get_widget (xml, "mono"));
+	App->monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
+	App->pattern_page = glade_xml_get_widget (xml, "pattern");
 #ifdef GO_GRAPH_WIDGET_OLD_API
 	GtkWidget *pw = go_graph_widget_new ();
 #else
 	GtkWidget *pw = go_graph_widget_new (NULL);
 #endif
 	gtk_widget_show (pw);
-	gtk_box_pack_end (GTK_BOX (App.pattern_page), pw, TRUE, TRUE, 0);
-	App.chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (pw));
-	App.plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
-	gog_object_add_by_name (GOG_OBJECT (App.chart), "Plot", GOG_OBJECT (App.plot));
+	gtk_box_pack_end (GTK_BOX (App->pattern_page), pw, TRUE, TRUE, 0);
+	App->chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (pw));
+	App->plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
+	gog_object_add_by_name (GOG_OBJECT (App->chart), "Plot", GOG_OBJECT (App->plot));
 	// Create a series for the plot and populate it with some simple data
-	App.series = gog_plot_new_series (App.plot);
-	gog_object_add_by_name (GOG_OBJECT (App.series), "Vertical drop lines", NULL);
-	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (App.series));
+	App->series = gog_plot_new_series (App->plot);
+	gog_object_add_by_name (GOG_OBJECT (App->series), "Vertical drop lines", NULL);
+	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (App->series));
 	go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 	style->marker.auto_shape = false;
 	style->line.dash_type = GO_LINE_NONE;
 	style->line.auto_dash = false;
-	GogObject *obj = gog_object_get_child_by_role (GOG_OBJECT (App.chart),
-			gog_object_find_role_by_name (GOG_OBJECT (App.chart), "Y-Axis"));
+	GogObject *obj = gog_object_get_child_by_role (GOG_OBJECT (App->chart),
+			gog_object_find_role_by_name (GOG_OBJECT (App->chart), "Y-Axis"));
 	GOData *data = go_data_scalar_val_new (100.);
 	gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MAX, data, &error);
 
-	gtk_widget_hide (App.pattern_page);
+	gtk_widget_hide (App->pattern_page);
 	GtkWidget *w = glade_xml_get_widget (xml, "entry");
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
@@ -544,5 +615,6 @@ int main (int argc, char *argv[])
 	}
 
 	gtk_main ();
+	delete App;
 	return 0;
 }

@@ -85,6 +85,26 @@ static void on_display (GtkRadioAction *action, GtkRadioAction *current, gc3dWin
 	window->GetView ()->Update ();
 }
 
+static void on_help (GtkWidget *widget, gc3dWindow* window)
+{
+	window->GetApp ()->OnHelp ();
+}
+
+static void on_web (GtkWidget *widget, gc3dWindow* window)
+{
+	window->GetApp ()->OnWeb ();
+}
+
+static void on_mail (GtkWidget *widget, gc3dWindow* window)
+{
+	window->GetApp ()->OnMail ();
+}
+
+static void on_bug (GtkWidget *widget, gc3dWindow* window)
+{
+	window->GetApp ()->OnBug ();
+}
+
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
 {
 	GnomeVFSResult error = gnome_vfs_url_show(url);
@@ -151,6 +171,14 @@ static GtkActionEntry entries[] = {
 		  N_("Quit GChem3D"), G_CALLBACK (on_quit) },
   { "ViewMenu", NULL, N_("_View") },
   { "HelpMenu", NULL, N_("_Help") },
+	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
+		  N_("View help for the Molecules Viewer"), G_CALLBACK (on_help) },
+	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
+		  N_("Browse the Gnome Chemistry Utils's web site"), G_CALLBACK (on_web) },
+	  { "Mail", NULL, N_("_Ask a question"), NULL,
+		  N_("Ask a question about the Gnome Chemistry Utils"), G_CALLBACK (on_mail) },
+	  { "Bug", NULL, N_("Report _Bugs"), NULL,
+		  N_("Submit a bug report for the Gnome Chemistry Utils"), G_CALLBACK (on_bug) },
 	  { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
 		  N_("About GChem3D"), G_CALLBACK (on_about) }
 };
@@ -182,7 +210,36 @@ static const char *ui_description =
 "      <menuitem action='Background'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
+"      <menuitem action='Help'/>"
+"      <placeholder name='mail'/>"
+"      <placeholder name='web'/>"
+"      <placeholder name='bug'/>"
 "      <menuitem action='About'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static const char *ui_mail_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='HelpMenu'>"
+"      <placeholder name='mail'>"
+"        <menuitem action='Mail'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static const char *ui_web_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='HelpMenu'>"
+"      <placeholder name='web'>"
+"        <menuitem action='Web'/>"
+"      </placeholder>"
+"      <placeholder name='bug'>"
+"        <menuitem action='Bug'/>"
+"      </placeholder>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
@@ -221,6 +278,14 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
+	}
+	if (App->HasWebBrowser () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_web_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+	if (App->HasMailAgent () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_mail_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
 	}
 	GtkWidget *menu = gtk_ui_manager_get_widget (ui_manager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());

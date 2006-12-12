@@ -24,6 +24,8 @@
 
 #include "config.h"
 #include "application.h"
+#include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
 #include <gtk/gtklabel.h>
@@ -44,8 +46,10 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	struct stat buf;
 	gint err;
 	err = stat (HelpFilename.c_str (), &buf);
-	if (err)
-		HelpFilename = datadir + string ("/gnome/help/") + HelpName + string ("/C/") + HelpName + ".xml";
+	if (err) {
+		HelpFilename = "file://";
+		HelpFilename += datadir + string ("/gnome/help/") + HelpName + string ("/C/") + HelpName + ".xml";
+	}
 	GConfClient* cli = gconf_client_get_default ();
 	if (cli) {
 		const char *value;
@@ -121,10 +125,10 @@ bool Application::HasHelp ()
 {
 	if (!HelpBrowser.length () || !HelpFilename.length ())
 		return false;
-	struct stat buf;
-	gint err;
-	err = stat (HelpFilename.c_str (), &buf);
-	return (err)? false: true;	
+	GnomeVFSURI *uri = gnome_vfs_uri_new (HelpFilename.c_str ());
+	bool err = gnome_vfs_uri_exists (uri);
+	gnome_vfs_uri_unref (uri);
+	return err;	
 }
 
 void Application::SetCurDir (char const* dir)

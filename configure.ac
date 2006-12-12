@@ -218,7 +218,10 @@ gcu-unstable.pc
 database/Makefile
 docs/Makefile
 docs/help/Makefile
+docs/help/3d/Makefile
+docs/help/calc/Makefile
 docs/help/crystal/Makefile
+docs/help/table/Makefile
 docs/man/gcu_entities.dtd
 docs/man/Makefile
 docs/reference/Makefile

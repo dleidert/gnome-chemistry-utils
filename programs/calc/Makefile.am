@@ -7,7 +7,7 @@ MAINTAINERCLEANFILES = Makefile.in
 DEPS = $(top_builddir)/gcu/libgcu-unstable.la
 INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
 LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
-DEFS += -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
+DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
 
 bin_PROGRAMS = gchemcalc-unstable
 

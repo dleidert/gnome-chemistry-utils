@@ -79,6 +79,26 @@ static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpoi
 	}
 }
 
+static void on_help (GtkWidget *widget, GChemTableApp *app)
+{
+	app->OnHelp ();
+}
+
+static void on_web (GtkWidget *widget, GChemTableApp *app)
+{
+	app->OnWeb ();
+}
+
+static void on_mail (GtkWidget *widget, GChemTableApp *app)
+{
+	app->OnMail ();
+}
+
+static void on_bug (GtkWidget *widget, GChemTableApp *app)
+{
+	app->OnBug ();
+}
+
 static void on_about (GtkWidget *widget, GChemTableApp *app)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
@@ -142,6 +162,14 @@ static GtkActionEntry entries[] = {
                   G_CALLBACK (on_acidity_colors) },
 #endif
   { "HelpMenu", NULL, N_("_Help") },
+	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
+		  N_("View help for the Periodic Table"), G_CALLBACK (on_help) },
+	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
+		  N_("Browse the Gnome Chemistry Utils's web site"), G_CALLBACK (on_web) },
+	  { "Mail", NULL, N_("_Ask a question"), NULL,
+		  N_("Ask a question about the Gnome Chemistry Utils"), G_CALLBACK (on_mail) },
+	  { "Bug", NULL, N_("Report _Bugs"), NULL,
+		  N_("Submit a bug report for the Gnome Chemistry Utils"), G_CALLBACK (on_bug) },
 	  { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
 		  N_("About GChemTable"), G_CALLBACK (on_about) }
 };
@@ -164,7 +192,36 @@ static const char *ui_description =
 "      </menu>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
+"      <menuitem action='Help'/>"
+"      <placeholder name='mail'/>"
+"      <placeholder name='web'/>"
+"      <placeholder name='bug'/>"
 "      <menuitem action='About'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static const char *ui_mail_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='HelpMenu'>"
+"      <placeholder name='mail'>"
+"        <menuitem action='Mail'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static const char *ui_web_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='HelpMenu'>"
+"      <placeholder name='web'>"
+"        <menuitem action='Web'/>"
+"      </placeholder>"
+"      <placeholder name='bug'>"
+"        <menuitem action='Bug'/>"
+"      </placeholder>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
@@ -218,6 +275,14 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
+	}
+	if (HasWebBrowser () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_web_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+	if (HasMailAgent () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_mail_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);

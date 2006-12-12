@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "gchemtable-app.h"
+#include <libgnomevfs/gnome-vfs-init.h>
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>
@@ -34,6 +35,7 @@ int main (int argc, char *argv[])
 {
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
+	gnome_vfs_init ();
 	/* Initialize libgoffice */
 	libgoffice_init ();
 	/* Initialize plugins manager */
