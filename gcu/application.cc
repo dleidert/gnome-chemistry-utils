@@ -42,13 +42,12 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	char const *szlang = getenv ("LANG");
 	string lang = (szlang)? szlang: "C";
 	string HelpName = help_name? help_name: Name;
-	HelpFilename = datadir + string ("/gnome/help/") + HelpName + string ("/") + lang + string ("/") + HelpName + ".xml";
-	struct stat buf;
-	gint err;
-	err = stat (HelpFilename.c_str (), &buf);
-	if (err) {
-		HelpFilename = "file://";
-		HelpFilename += datadir + string ("/gnome/help/") + HelpName + string ("/C/") + HelpName + ".xml";
+	HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("/") + lang + string ("/") + HelpName + ".xml";
+	GnomeVFSURI *uri = gnome_vfs_uri_new (HelpFilename.c_str ());
+	bool exists = gnome_vfs_uri_exists (uri);
+	gnome_vfs_uri_unref (uri);
+	if (!exists) {
+		HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("/C/") + HelpName + ".xml";
 	}
 	GConfClient* cli = gconf_client_get_default ();
 	if (cli) {

@@ -52,7 +52,6 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-renderer-cairo.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
@@ -606,13 +605,13 @@ int main (int argc, char *argv[])
 		 G_CALLBACK (cb_entry_active),
 		 window);
 	gcu_element_load_databases ("isotopes", NULL);
-	w = glade_xml_get_widget (xml, "copy");
-	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), pw);
-
 	if (argc == 1){
 		gtk_entry_set_text (GTK_ENTRY (w), argv[0]);
 		cb_entry_active (GTK_ENTRY (w), window);
 	}
+
+	w = glade_xml_get_widget (xml, "copy");
+	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), pw);
 
 	gtk_main ();
 	delete App;

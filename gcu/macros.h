@@ -46,7 +46,7 @@ protected:	\
 	type m_##member;
 
 #define GCU_GCONF_GET(key,type,target,defaultval) \
-	type target = gconf_client_get_##type (m_ConfClient, key, &error); \
+	target = gconf_client_get_##type (m_ConfClient, key, &error); \
 	if (error) {	\
 		target = defaultval;	\
 		g_message ("GConf failed: %s", error->message);	\

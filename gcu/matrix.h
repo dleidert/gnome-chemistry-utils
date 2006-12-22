@@ -62,8 +62,8 @@ The destructor of Matrix.
 @param Type: the type of the Matrix.
 
 Constructs a Matrix instance starting from three angles and the type. if Type is euler or antieuler, the angles are the
-Euler's angles. If Type is rotation, the values have a somewhat different meaning: they are the angles rotation describing
-the rotation applid to a solid; the result ing matrix is then multiplied by the current "euler" matrix to give th new euler
+Euler's angles. If Type is rotation, the values have a somewhat different meaning: they are the angles describing
+the rotation applied to a solid; the resulting matrix is then multiplied by the current "euler" matrix to give the new euler
 matrix.
 The code used in CrystalView::Rotate and in GtkChem3DViewer code is (when mouse has moved by x and y on the screen):
 \code
