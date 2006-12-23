@@ -115,29 +115,32 @@ LocalizedStringValue::~LocalizedStringValue ()
 char const *LocalizedStringValue::GetAsString ()
 {
 	char *lang = getenv ("LANG");
-	string s = vals[lang];
-	if (s.length () == 0) {
-		lang = g_strdup (lang);
-		char *dot = strchr (lang, '.');
-		if (dot) {
-			*dot = 0;
-			s = vals[lang];
-			if (s.length () > 0) {
-				g_free (lang);
-				return s.c_str ();
+	string s;
+	if (lang) {
+		s = vals[lang];
+		if (s.length () == 0) {
+			lang = g_strdup (lang);
+			char *dot = strchr (lang, '.');
+			if (dot) {
+				*dot = 0;
+				s = vals[lang];
+				if (s.length () > 0) {
+					g_free (lang);
+					return s.c_str ();
+				}
 			}
-		}
-		if (strlen (lang) > 2) {
-			lang[2] = 0;
-			s = vals[lang];
-			if (s.length () > 0) {
-				g_free (lang);
-				return s.c_str ();
+			if (strlen (lang) > 2) {
+				lang[2] = 0;
+				s = vals[lang];
+				if (s.length () > 0) {
+					g_free (lang);
+					return s.c_str ();
+				}
 			}
-		}
-		g_free (lang);
-	} else
-		return s.c_str ();
+			g_free (lang);
+		} else
+			return s.c_str ();
+	}
 	// if we are there, try "C" or "en" locales
 	s = vals["C"];
 	if (s.length () > 0)
@@ -153,6 +156,8 @@ char const *LocalizedStringValue::GetAsString ()
 
 char const *LocalizedStringValue::GetLocalizedString (char const *lang)
 {
-	string s = vals[lang];
+	string s;
+	if (lang)
+		s = vals[lang];
 	return (s.length () > 0)? s.c_str (): GetAsString ();
 }

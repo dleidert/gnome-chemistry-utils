@@ -39,6 +39,11 @@ namespace gcu {
 
 class GLDocument;
 
+/*!
+\class GLView gcu/glview.h
+View class based on OpenGL for rendering. Used to display 3d chemical structures
+such as molecules or crystals cells.
+*/
 class GLView
 {
 public:
@@ -55,6 +60,9 @@ The destructor of GLView.
 */
 	virtual ~GLView ();
 
+/*!
+@return the associated GtkWidget.
+*/
 	GtkWidget *GetWidget () {return m_pWidget;}
 /*!
 Initialize the associated widget. Automatically called by the framework.
@@ -89,31 +97,51 @@ Update the contents of the associated widget. This method must be called
 each time the document or the view are modified.
 */
 	void Update ();
+/*!
+@param psi the first Euler's angle.
+@param theta the second Euler's angle.
+@param phi the third Euler's angle.
+
+Sets the orientation of the model, using the Euler's angles.
+*/
 	void SetRotation (double psi, double theta, double phi);
+/*!
+@param pc the GnomePrintContext used for printing.
+@param width the width of the printed view.
+@param height th height of the printed view.
+
+Prints the current view to a printing context inside a rectangle with predefined size.
+*/
 	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
 /*!
-@param filename: the name of the file.
-@param type: the type as supported by GdkPixbuf (e.g. "png" or "jpeg").
-@param options: the pairs of keys/values to pass GdkPixbuf.
-@param resolution: the resolution to use. This means that the image size will
-be the view size multiplied by resolution divided by the screen resolution.
-If 0, the screen resolution is used.
+@param filename the name of the file.
+@param type the type as supported by GdkPixbuf (e.g. "png" or "jpeg").
+@param options the pairs of keys/values to pass GdkPixbuf.
+@param width the width of the generated image.
+@param height the height of the enerated image.
 
-Export the view contents as an image.
+Export the view contents as an image. The size of the new image is defined by the width
+and height parameters.
 */
 	void SaveAsImage (string const &filename, char const *type, map<string, string>& options, unsigned width, unsigned height);
 
 private:
 /*!
-@param x: the x component of the rotation.
-@param y: the y component of the rotation.
+@param x the x component of the rotation.
+@param y the y component of the rotation.
 
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
 	void Rotate (gdouble x, gdouble y);
 
 protected:
+/*!
+The associated widget.
+*/
 	GtkWidget *m_pWidget;
+/*!
+The current GLList.
+*/
 	unsigned m_nGLList;
 
 private:
@@ -123,15 +151,103 @@ private:
 	double m_Lastx, m_Lasty;
 
 // Properties
+/*!\fn SetAngle(double angle)
+@param angle the new half field of view.
+*/
+/*!\fn GetAngle()
+@return the current half field of view.
+*/
+/*!\fn GetRefAngle()
+@return the current half field of view as a reference.
+*/
 GCU_PROP (double, Angle)
+/*!\fn SetPsi(double psi)
+@param psi the new psi Euler's angle.
+*/
+/*!\fn GetPsi()
+@return the current psi Euler's angle.
+*/
+/*!\fn GetRefPsi()
+@return the current psi Euler's angle as a reference.
+*/
 GCU_PROP (double, Psi)
+/*!\fn SetPhi(double phi)
+@param phi the new phi Euler's angle.
+*/
+/*!\fn GetPhi()
+@return the current phi Euler's angle.
+*/
+/*!\fn GetRefPhi()
+@return the current psh Euler's angle as a reference.
+*/
 GCU_PROP (double, Phi)
+/*!\fn SetTheta(double theta)
+@param theta the new theta Euler's angle.
+*/
+/*!\fn GetTheta()
+@return the current theta Euler's angle.
+*/
+/*!\fn GetRefTheta()
+@return the current theta Euler's angle as a reference.
+*/
 GCU_PROP (double, Theta)
+/*!\fn SetRed(float red)
+@param red the new red component for the background color.
+*/
+/*!\fn GetRed()
+@return the current red component of the background color.
+*/
+/*!\fn GetRefRed()
+@return the current red component of the background color as a reference.
+*/
 GCU_PROP (float, Red)
+/*!\fn SetGreen(float green)
+@param green the new green component for the background color.
+*/
+/*!\fn GetGreen()
+@return the current green component of the background color.
+*/
+/*!\fn GetRefGreen()
+@return the current green component of the background color as a reference.
+*/
 GCU_PROP (float, Green)
+/*!\fn SetBlue(float blue)
+@param blue the new blue component for the background color.
+*/
+/*!\fn GetBlue()
+@return the current blue component of the background color.
+*/
+/*!\fn GetRefBlue()
+@return the current blue component of the background color as a reference.
+*/
 GCU_PROP (float, Blue)
+/*!\fn SetAlpha(float alpha)
+@param alpha the new alpha value for the background.
+
+The alpha value for the background is not supported in this version and this is only
+a place holder.
+*/
+/*!\fn GetAlpha()
+The alpha value for the background is not supported in this version and this is only
+a place holder.
+@return the current alpha value of the background color.
+*/
+/*!\fn GetRefAlpha()
+The alpha value for the background is not supported in this version and this is only
+a place holder.
+@return the current alpha value of the background color as a reference.
+*/
 GCU_PROP (float, Alpha)
+/*!\fn GetDoc()
+@return the associated document.
+*/
 GCU_RO_PROP (GLDocument *, Doc)
+/*!\var m_Radius
+The distance between the center of the model and the point of view.
+*/
+/*!\fn GetRadius()
+@return the distance between the center of the model and the point of view.
+*/
 GCU_PROT_PROP (double, Radius);
 };
 

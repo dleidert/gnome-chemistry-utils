@@ -35,16 +35,6 @@ G_BEGIN_DECLS
 Declaration of the GtkChem3DViewer widget.
 */
 
-/*! \enum Display3DMode
- 3D display mode.
- Possible values are:
-	 - BALL_AND_STICK: use ball and stick representation; atoms are represented by spheres with a radius equal to 20% of
-	 their van der Waals radius and bonds are displayed as cylinders.
-	 - SPACEFILL: use space filling representation; atoms are represented by spheres with a radius equal
-	 their van der Waals radius; bonds are not displayed.
-	 .
-*/
-
 GType gtk_display3d_get_type (void);
 #define GTK_DISPLAY_3D (gtk_display3d_get_type ())
 

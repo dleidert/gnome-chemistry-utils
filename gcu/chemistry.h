@@ -25,7 +25,7 @@
 
 /*! \mainpage
   \section intro Introduction
-The Gnome Chemistry Utils provide some widgets and C++ classes related to chemistry.
+The Gnome Chemistry Utils Library provides some widgets and C++ classes related to chemistry.
 
 Available widgets are:
 - GtkPeriodic: a periodic table of the elements.
@@ -54,6 +54,9 @@ To use this file, add the following line to your source file:
 
 G_BEGIN_DECLS
 
+/**
+The greatest atomic number known in this version of the Gnome Chemictry Utils
+*/
 #define MAX_ELT 116
 
 /** gcu_spin_state

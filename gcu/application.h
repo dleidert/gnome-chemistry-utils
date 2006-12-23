@@ -50,12 +50,12 @@ public:
 @param name the name of the application.
 @param datadir where data for the application are stored.
 @param help_name the name to use for the help file (with .xml extension). 
-If NULL, the name strng is used.
+If NULL, the name parameter is used.
 @param icon_name the name to use for the default icon of all windows. If NULL,
 the help_name or name parameters will be used.
 
 The datadir variable is used to build the full path to the help file:
-datadir+"/gnome/help/"+name+"/"+LANG+"/"+name".xml".
+"file://"+datadir+"/gnome/help/"+name+"/"+LANG+"/"+name".xml".
 */
 	Application (string name, string datadir = DATADIR, char const *help_name = NULL, char const *icon_name = NULL);
 	virtual ~Application ();
@@ -66,7 +66,7 @@ Displays the help file using the file browser retrieved from GConf using the
 "/desktop/gnome/applications/help_viewer/exec" key. If a tag is given, it will
 be added to the help uri.
 For an application named "myapp" and a tag "mytag", the uri will be:
-helpfilename#myapp-mytag.
+helpfilename\#myapp-mytag.
 */
 	void OnHelp (string s = "");
 /*!
@@ -85,7 +85,7 @@ helpfilename#myapp-mytag.
 
 /*!
 @param filename the uri of the file.
-@param mime-type the mime type of the file if known.
+@param mime_type the mime type of the file if known.
 @param bSave true if saving, and false if loading.
 @param window the current top level window.
 @param pDoc an optional document.
@@ -132,7 +132,7 @@ Opens the bugs web page in the default browser if any.
 		{string s (uri); ShowURI (s);}
 
 /*!
-@param MailAdress the mail adress to which a message will be sent. Defaults to the
+@param MailAddress the mail adress to which a message will be sent. Defaults to the
 		Gnome Chemistry Utils main list.
 
 Creates a new empty message using the default mail if any.
@@ -150,20 +150,27 @@ Creates a new empty message using the default mail if any.
 	bool HasWebBrowser () {return WebBrowser.length () > 0;}
 
 /*!
+@return a GtkWidget for managing pixmap resolution when saving as image. This widget is
+intended to be added to a GtkFileChooserDialog.
 */
 	GtkWidget *GetImageResolutionWidget ();
 
 /*!
+@return a GtkWidget for managing pixmap width and height when saving as image. This
+widget is intended to be added to a GtkFileChooserDialog.
 */
 	GtkWidget *GetImageSizeWidget ();
 
 /*!
+@return a std::map of the supported pixbuf formats. Keys are the mime type names.
 */
 	map<string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}
 
 /*!
 @param filename the file name.
 @param mime_type the file mime type.
+
+A default extension is appended to filename if none is detected.
 
 @return the GdkPixbuf name associated to mime_type or NULL if the file type
 is not supported by GdkPixbuf.
@@ -188,17 +195,68 @@ private:
 	string HelpBrowser;
 	string HelpFilename;
 	char *CurDir;
-
-protected:
 	string WebBrowser;
 	string MailAgent;
-	set <Document*> m_Docs;
-	map<string, GdkPixbufFormat*> m_SupportedPixbufFormats;
 
+protected:
+/*!
+std::map of the supported pixbuf formats. Keys are the mime type names.
+*/
+	map<string, GdkPixbufFormat*> m_SupportedPixbufFormats;	
+
+/*!\var m_Docs
+The currently opened documents.
+*/
+/*!\fn GetDocs()
+@return the set of currently opened documents.
+*/
+GCU_PROT_PROP (set <Document*>, Docs);
+/*!\fn GetImageResolution()
+@return the current screen resolution.
+*/
 GCU_RO_PROP (unsigned, ScreenResolution);
+/*!\fn SetImageResolution(unsigned ImageResolution)
+@param ImageResolution the new image resolution.
+Sets the image resolution used when exporting a pixmap.
+Applications can use either the image resolution or the width and height to select
+an exported image size, but not both.
+/*
+/*!\fn GetImageResolution()
+@return the current image resolution used on export.
+*/
+/*!\fn GetRefImageResolution()
+@return the current image resolution used on export as a reference.
+*/
 GCU_PROP (unsigned, ImageResolution);
+/*!\fn SetImageWidth(unsigned Width)
+@param Width the new image width.
+Sets the image width used when exporting a pixmap.
+Applications can use either the image resolution or the width and height to select
+an exported image size, but not both.
+/*
+/*!\fn GetImageWidth()
+@return the current image width used on export.
+*/
+/*!\fn GetRefImageWidth()
+@return the current image width used on export as a reference.
+*/
 GCU_PROP (unsigned, ImageWidth);
+/*!\fn SetImageHeight(unsigned Height)
+@param Height the new image height.
+Sets the image height used when exporting a pixmap.
+Applications can use either the image resolution or the width and height to select
+an exported image size, but not both.
+/*
+/*!\fn GetImageResolution()
+@return the current image height used on export.
+*/
+/*!\fn GetRefImageResolution()
+@return the current image height used on export as a reference.
+*/
 GCU_PROP (unsigned, ImageHeight);
+/*!\fn GetRecentManager()
+@return the GtkRecentFileManager attached to the application.
+*/
 GCU_RO_PROP (GtkRecentManager*, RecentManager);
 };
 
