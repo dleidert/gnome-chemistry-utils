@@ -81,8 +81,17 @@ to avoid errors on the next paste event.
 */
 	void EmptyTranslationTable() {m_TranslationTable.clear();}
 
+/*!
+@param title the new document title.
+*/
 	void SetTitle (string& title) {m_Title = title;}
+/*!
+@param title the new document title.
+*/
 	void SetTitle (char const *title) {m_Title = title;}
+/*!
+@return the current document title.
+*/
 	string &GetTitle () {return m_Title;}
 
 private:
@@ -102,18 +111,38 @@ private:
 	map <string, string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
 
 protected:
+/*!
+The document title.
+*/
 	string m_Title;
 
+/*!\var m_App
+The Application instance owning the document.
+*/
+/*!\fn GetApp()
+@return a pointer to the Appication instance owning the ocument or NULL for
+an orphan document.
+*/
 GCU_PROT_PROP (Application *, App)
+/*!\fn SetDirty(bool dirty)
+@param dirty should be true if the document has changed, false otherwise.
+*/
+/*!\fn GetDirty()
+@return true if the document has changed since it was opened or last saved,
+false otherwise.
+*/
+/*!\fn GetRefDirty()
+*@return the current state of the document as a reference:
+true if the document has changed since it was opened or last saved, false otherwise.
+*/
 GCU_PROP (bool, Dirty);
-GCU_PROP (bool, Empty);
-/*!
-true if the document has changed since the last saving. Changing the orientation of the model
-in one of the views is considered as a change.
+/*!\var m_Empty
+Tells if the document is empty or not.
 */
-/*!
-true if the document does not contain anything displayable.
+/*!\fn GetEmpty()
+@return true if the document does not contain anything, false otherwise.
 */
+GCU_PROT_PROP (bool, Empty);
 };
 
 

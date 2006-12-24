@@ -252,7 +252,7 @@ CrystalView *CrystalDoc::GetView()
 
 void CrystalDoc::Update()
 {
-	SetEmpty ((AtomDef.empty() && LineDef.empty()) ? true : false);
+	m_Empty = (AtomDef.empty() && LineDef.empty()) ? true : false;
 	CrystalAtom Atom;
 	CrystalLine Line;
 	gdouble alpha = m_alpha * M_PI / 180;

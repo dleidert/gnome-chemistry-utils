@@ -40,13 +40,36 @@ This class is a base class for documents representing 3d objects.
 class GLDocument: public Document
 {
 public:
+/*!
+@param App the application owning the new document.
+
+Default constructor.
+*/
 	GLDocument (Application *App);
+/*!
+Default destructor.
+*/
 	virtual ~GLDocument ();
 
+/*!
+Called by GLView::Update to populate its GLList.
+*/
 	virtual void Draw () = 0;
 
 // Properties
+/*!\var m_MaxDist
+The longest distance between any object and the center of the model.
+*/
+/*!\fn GetMaxDist()
+@return the longest distance between any object and the center of the model.
+*/
 GCU_PROT_PROP (double, MaxDist);
+/*!\var m_View
+The associated GLView instance.
+*/
+/*!\fn GetView()
+@return the associated GLView instance.
+*/
 GCU_PROT_PROP (GLView*, View);
 };
 

@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2006-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.h: fixed typos in docs
+	* gcu/chem3ddoc.cc: update m_Empty after loading.
+	* gcu/crystaldoc.cc: use m_Emty instead of deprecated SetEmpty().
+	* gcu/document.h: updated API docs.
+	* gcu/filechooser.h: ditto.
+	* gcu/formula.h: minot update.
+	* gcu/gldocument.h: updated API docs.
+
 2006-12-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: updated options.
 	* gcu/application.h: updated API docs.

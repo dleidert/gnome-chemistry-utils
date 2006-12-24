@@ -37,6 +37,10 @@ namespace gcu
 class Application;
 class Document;
 
+/*!\class FileChooser gcu/filechooser.h
+This class is used each time a file name must be choosen. It embeds a GtkFileChooserDialog
+window.
+*/
 class FileChooser
 {
 public:

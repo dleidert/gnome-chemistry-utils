@@ -211,7 +211,7 @@ The currently opened documents.
 @return the set of currently opened documents.
 */
 GCU_PROT_PROP (set <Document*>, Docs);
-/*!\fn GetImageResolution()
+/*!\fn GetScreenResolution()
 @return the current screen resolution.
 */
 GCU_RO_PROP (unsigned, ScreenResolution);
@@ -220,7 +220,7 @@ GCU_RO_PROP (unsigned, ScreenResolution);
 Sets the image resolution used when exporting a pixmap.
 Applications can use either the image resolution or the width and height to select
 an exported image size, but not both.
-/*
+*/
 /*!\fn GetImageResolution()
 @return the current image resolution used on export.
 */
@@ -233,7 +233,7 @@ GCU_PROP (unsigned, ImageResolution);
 Sets the image width used when exporting a pixmap.
 Applications can use either the image resolution or the width and height to select
 an exported image size, but not both.
-/*
+*/
 /*!\fn GetImageWidth()
 @return the current image width used on export.
 */
@@ -246,11 +246,11 @@ GCU_PROP (unsigned, ImageWidth);
 Sets the image height used when exporting a pixmap.
 Applications can use either the image resolution or the width and height to select
 an exported image size, but not both.
-/*
-/*!\fn GetImageResolution()
+*/
+/*!\fn GetImageHeight()
 @return the current image height used on export.
 */
-/*!\fn GetRefImageResolution()
+/*!\fn GetRefImageHeight()
 @return the current image height used on export as a reference.
 */
 GCU_PROP (unsigned, ImageHeight);

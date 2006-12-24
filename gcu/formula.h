@@ -42,9 +42,6 @@ when parsing a formula.
 
 class parse_error: public exception
 {
-	string m_msg;
-	int m_start, m_length;
-
 public:
 /*! Takes a character string describing the error and two integers
 * indicating where the error occured.
@@ -70,6 +67,10 @@ public:
 class when an exception occurs while parsing a substring.
 */
 	void add_offset (int offset) {m_start += offset;}
+
+private:
+	string m_msg;
+	int m_start, m_length;
 
 };
 
