@@ -131,13 +131,25 @@ displayed which let the user know why the value is not correct.
 */
 	bool GetNumber (GtkEntry *Entry, double *x, CheckType c = NoCheck, double min = 0, double max = 0);
 
+protected:
+/*!
+The GladeXML structure used to build the dialog.
+*/
+	GladeXML* xml;
+/*!
+The associated GtkWindow instance.
+*/
+	GtkWindow *dialog;
+/*!
+The Application instance owning the dialog.
+*/
+	Application *m_App;
+	
+private:
 	void (*m_extra_destroy) (gpointer);
 	gpointer m_data;
-	GladeXML* xml;
 	char m_buf[64];
 	string m_windowname;
-	GtkWindow *dialog;
-	Application *m_App;
 };
 
 }	// namespace gcu

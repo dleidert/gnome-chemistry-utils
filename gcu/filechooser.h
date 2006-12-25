@@ -44,6 +44,20 @@ window.
 class FileChooser
 {
 public:
+/*!
+@param App the Application instance owning the dialog.
+@param Save tells if the requested file is to be saved or loaded.
+@param mime_types a std::list of supported mime types.
+@param pDoc the document to save, the parameter is optional when loading.
+Default value is NULL.
+@param title an optional title for the dialog box. Default value is NULL.
+@param extra_widget an optional widget to add to the GtkFileChooserDialog
+window. Default value is NULL.
+
+The constructor shows the GtkFileChooserDialog window, retrieve it's response and calls
+Application::FileProcess if needed. The dialog is modal (nothing else can be done while
+it is opened).
+*/
 	FileChooser (Application *App, bool Save, list<char const*> mime_types, Document *pDoc = NULL, char const *title = NULL, GtkWidget *extra_widget = NULL);
 	
 private:

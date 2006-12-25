@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2006-12-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/dialog.h: updated API docs and made some members private.
+	* gcu/filechooser.h: updated API docs.
+
 2006-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.h: fixed typos in docs
 	* gcu/chem3ddoc.cc: update m_Empty after loading.
