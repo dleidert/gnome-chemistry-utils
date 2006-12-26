@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2006-12-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/crystalatom.h: updated API docs.
+	* gcu/crystalcleavage.h: ditto.
+	* gcu/crystalline.h: ditto.
+	* gcu/macros.h: ditto.
+	* gcu/object.h: ditto.
+
 2006-12-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/dialog.h: updated API docs and made some members private.
 	* gcu/filechooser.h: updated API docs.

@@ -87,6 +87,10 @@ enum
 	OtherType
 };
 
+/*!
+The type of an object instance. Either predefined types are defined in the enum above
+or dynamically defined types by calls to Object::AddType.
+*/
 typedef unsigned TypeId;
 
 /*!\enum RuleId
@@ -109,6 +113,10 @@ enum RuleId
 	RuleMustBeIn
 };
 
+/*!
+The types of the signals used in Object::EmitSignal() and Object::OnSignal(). Each signal
+must type be retrieved from a call to Object::CreateNewSignalId().
+*/
 typedef unsigned SignalId;
 
 class Document;

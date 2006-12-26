@@ -115,7 +115,7 @@ Number of planes cleaved.
 	int m_nPlanes ;
 };
 
-/*!\class CrystalClevageList
+/*!
 a list of pointers to CrystalCleavage instances derived from std::list.
 */
 typedef std::list<CrystalCleavage*> CrystalCleavageList;

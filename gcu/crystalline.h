@@ -347,7 +347,7 @@ private:
 	double m_darot;//rotation axis coordinates (z = 0) and angle
 };
 
-/*!\class CrystalLineList
+/*!
 a list of pointers to CrystalLine instances derived from std::list.
 */
 typedef list<CrystalLine*> CrystalLineList;
