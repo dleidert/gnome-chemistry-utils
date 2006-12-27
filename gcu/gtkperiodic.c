@@ -33,6 +33,29 @@
 #include <glib/garray.h>
 #include <glib/gi18n-lib.h>
 
+struct _GtkPeriodic
+{
+	GtkBin bin;
+	
+	GtkVBox* vbox;
+	GtkToggleButton* buttons[119];
+	GtkLabel* labels[119];
+	GtkNotebook *book;
+	guint Z;
+	gboolean can_unselect;
+	GtkTooltips* tips;
+	unsigned colorstyle;
+	GArray *colorschemes;
+	unsigned nbschemes;
+};
+
+struct _GtkPeriodicClass
+{
+	GtkBinClass parent_class;
+
+	void (* element_changed_event)(GtkPeriodic *periodic);
+};
+
 static unsigned DefaultRed[4], DefaultGreen[4], DefaultBlue[4];
 
 GType
@@ -57,20 +80,6 @@ struct ColorScheme {
 	GtkPeriodicColorFunc f;
 	int page;
 	gpointer data;
-};
-
-struct _GtkPeriodicPrivate
-{
-	GtkVBox* vbox;
-	GtkToggleButton* buttons[119];
-	GtkLabel* labels[119];
-	GtkNotebook *book;
-	guint Z;
-	gboolean can_unselect;
-	GtkTooltips* tips;
-	unsigned colorstyle;
-	GArray *colorschemes;
-	unsigned nbschemes;
 };
 
 enum {
@@ -177,25 +186,24 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	g_return_if_fail (xml);
 	g_object_set_data(G_OBJECT(periodic), "xml", xml);
 	glade_xml_signal_autoconnect (xml);
-	periodic->priv = g_new0(GtkPeriodicPrivate, 1);
-	periodic->priv->tips = gtk_tooltips_new();
-	periodic->priv->vbox = GTK_VBOX(glade_xml_get_widget(xml, "vbox1"));
-	periodic->priv->book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "book"));
-	periodic->priv->colorstyle = GTK_PERIODIC_COLOR_NONE;
-	memset(periodic->priv->buttons, 0, sizeof(GtkToggleButton*) * 119);
+	periodic->tips = gtk_tooltips_new();
+	periodic->vbox = GTK_VBOX(glade_xml_get_widget(xml, "vbox1"));
+	periodic->book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "book"));
+	periodic->colorstyle = GTK_PERIODIC_COLOR_NONE;
+	memset(periodic->buttons, 0, sizeof(GtkToggleButton*) * 119);
 	for (i = 1; i <= 118; i++)
 	{
 		sprintf(name + 3, "%d", i);
 		button = (GtkToggleButton*)glade_xml_get_widget(xml, name);
 		if (GTK_IS_TOGGLE_BUTTON(button))
 		{
-			gtk_tooltips_set_tip(periodic->priv->tips, GTK_WIDGET(button), gcu_element_get_name(i), NULL);
-			periodic->priv->buttons[i] = button;
-			periodic->priv->labels[i] = GTK_LABEL (gtk_bin_get_child (GTK_BIN (button)));
+			gtk_tooltips_set_tip(periodic->tips, GTK_WIDGET(button), gcu_element_get_name(i), NULL);
+			periodic->buttons[i] = button;
+			periodic->labels[i] = GTK_LABEL (gtk_bin_get_child (GTK_BIN (button)));
 			g_signal_connect(G_OBJECT(button), "toggled", (GCallback)on_clicked, periodic);
 		}
 	}
-	style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->priv->buttons[1])));
+	style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->buttons[1])));
 	DefaultRed[0] = style->bg[0].red;
 	DefaultGreen[0] = style->bg[0].green;
 	DefaultBlue[0] = style->bg[0].blue;
@@ -209,12 +217,12 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	DefaultGreen[3] = style->bg[3].green;
 	DefaultBlue[3] = style->bg[3].blue;
 	g_object_unref(style);
-	periodic->priv->Z = 0;
-	gtk_container_add(GTK_CONTAINER(periodic), GTK_WIDGET(periodic->priv->vbox));
+	periodic->Z = 0;
+	gtk_container_add(GTK_CONTAINER(periodic), GTK_WIDGET(periodic->vbox));
 	gtk_widget_show_all(GTK_WIDGET(periodic));
 	textdomain(domain);
 	g_free(domain);
-	periodic->priv->colorschemes = g_array_new (FALSE, FALSE, sizeof (struct ColorScheme));
+	periodic->colorschemes = g_array_new (FALSE, FALSE, sizeof (struct ColorScheme));
 }
 
 static void gtk_periodic_finalize (GObject *object)
@@ -222,9 +230,8 @@ static void gtk_periodic_finalize (GObject *object)
 	GtkPeriodic *periodic = (GtkPeriodic*) object;
 	GObject *obj = (GObject*) g_object_get_data (object, "xml");
 
-	g_object_ref_sink (G_OBJECT (periodic->priv->tips));
-	g_array_free (periodic->priv->colorschemes, FALSE);
-	g_free (periodic->priv);
+	g_object_ref_sink (G_OBJECT (periodic->tips));
+	g_array_free (periodic->colorschemes, FALSE);
 	if (obj) g_object_unref (obj);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
@@ -240,26 +247,26 @@ GtkWidget* gtk_periodic_new()
 void on_clicked(GtkToggleButton *button, GtkPeriodic* periodic)
 {
 	static gboolean change = FALSE;
-	if (button != periodic->priv->buttons[0])
+	if (button != periodic->buttons[0])
 	{
 		const gchar* name;
 		change = TRUE;
-		if (periodic->priv->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->priv->buttons[0]), FALSE);
-		periodic->priv->buttons[0] = button;
-		name = gtk_widget_get_name(GTK_WIDGET(periodic->priv->buttons[0]));
-		periodic->priv->Z = atoi(name + 3);
-		g_signal_emit(periodic, gtk_periodic_signals[ELEMENT_CHANGED], 0, periodic->priv->Z);
+		if (periodic->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->buttons[0]), FALSE);
+		periodic->buttons[0] = button;
+		name = gtk_widget_get_name(GTK_WIDGET(periodic->buttons[0]));
+		periodic->Z = atoi(name + 3);
+		g_signal_emit(periodic, gtk_periodic_signals[ELEMENT_CHANGED], 0, periodic->Z);
 		change = FALSE;
 	}
 	else if (!change)
 	{
-		if (periodic->priv->can_unselect)
+		if (periodic->can_unselect)
 		{
-			periodic->priv->buttons[0] = NULL;
-			periodic->priv->Z = 0;
+			periodic->buttons[0] = NULL;
+			periodic->Z = 0;
 			g_signal_emit(periodic, gtk_periodic_signals[ELEMENT_CHANGED], 0, 0);
 		}
-		else if (periodic->priv->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->priv->buttons[0]), TRUE);
+		else if (periodic->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->buttons[0]), TRUE);
 	}
 }
 
@@ -278,23 +285,23 @@ void gtk_periodic_size_request(GtkPeriodic* w, GtkRequisition *requisition)
 guint gtk_periodic_get_element(GtkPeriodic* periodic)
 {
 	g_return_val_if_fail(GTK_IS_PERIODIC(periodic), 0);
-	return periodic->priv->Z;
+	return periodic->Z;
 }
 
 void gtk_periodic_set_element (GtkPeriodic* periodic, guint element)
 {
 	g_return_if_fail(GTK_IS_PERIODIC(periodic));
-	if (periodic->priv->can_unselect && periodic->priv->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->priv->buttons[0]), FALSE);
+	if (periodic->can_unselect && periodic->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->buttons[0]), FALSE);
 	if (element) 
 	{
-		gtk_toggle_button_set_active(periodic->priv->buttons[element], TRUE);
-		periodic->priv->buttons[0] = periodic->priv->buttons[element];
-		periodic->priv->Z = element;
+		gtk_toggle_button_set_active(periodic->buttons[element], TRUE);
+		periodic->buttons[0] = periodic->buttons[element];
+		periodic->Z = element;
 	}
-	else if (periodic->priv->can_unselect)
+	else if (periodic->can_unselect)
 	{
-		periodic->priv->buttons[0] = NULL;
-		periodic->priv->Z = 0;
+		periodic->buttons[0] = NULL;
+		periodic->Z = 0;
 	}
 }
 
@@ -312,16 +319,16 @@ gtk_periodic_set_property (GObject              *object,
 
 	switch (param_id) {
 	case PROP_CAN_UNSELECT:
-		periodic->priv->can_unselect = g_value_get_boolean (value);
+		periodic->can_unselect = g_value_get_boolean (value);
 		break;
 
 	case PROP_COLOR_STYLE: {
 		int style = g_value_get_uint (value);
-		if (style < GTK_PERIODIC_COLOR_MAX + periodic->priv->nbschemes) {
-			periodic->priv->colorstyle = style;
+		if (style < GTK_PERIODIC_COLOR_MAX + periodic->nbschemes) {
+			periodic->colorstyle = style;
 			int page = (style >= GTK_PERIODIC_COLOR_MAX)? 
-				g_array_index (periodic->priv->colorschemes, struct ColorScheme, style - GTK_PERIODIC_COLOR_MAX).page: 0;
-			gtk_notebook_set_current_page (periodic->priv->book, page);
+				g_array_index (periodic->colorschemes, struct ColorScheme, style - GTK_PERIODIC_COLOR_MAX).page: 0;
+			gtk_notebook_set_current_page (periodic->book, page);
 			gtk_periodic_set_colors (periodic);
 		} else
 			g_warning (_("Out of range value %d for property \"color-style\" for GtkPeriodic instance %p\n"), style, periodic);
@@ -349,11 +356,11 @@ gtk_periodic_get_property (GObject              *object,
 
 	switch (param_id) {
 	case PROP_CAN_UNSELECT:
-		g_value_set_boolean (value, periodic->priv->can_unselect);
+		g_value_set_boolean (value, periodic->can_unselect);
 		break;
 
 	case PROP_COLOR_STYLE:
-		g_value_set_uint (value, periodic->priv->colorstyle);
+		g_value_set_uint (value, periodic->colorstyle);
 		break;
 
 	default:
@@ -372,15 +379,15 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 	GdkColor color;
 	GtkPeriodicColorFunc func = NULL;
 	gpointer data = NULL;
-	if (periodic->priv->colorstyle >= GTK_PERIODIC_COLOR_MAX) {
-		func = g_array_index (periodic->priv->colorschemes, struct ColorScheme, periodic->priv->colorstyle - GTK_PERIODIC_COLOR_MAX).f;
-		data = g_array_index (periodic->priv->colorschemes, struct ColorScheme, periodic->priv->colorstyle - GTK_PERIODIC_COLOR_MAX).data;
+	if (periodic->colorstyle >= GTK_PERIODIC_COLOR_MAX) {
+		func = g_array_index (periodic->colorschemes, struct ColorScheme, periodic->colorstyle - GTK_PERIODIC_COLOR_MAX).f;
+		data = g_array_index (periodic->colorschemes, struct ColorScheme, periodic->colorstyle - GTK_PERIODIC_COLOR_MAX).data;
 	}
 	for (i = 1; i <= 118; i++)
 	{
-		if (!periodic->priv->buttons[i]) continue;
-		style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->priv->buttons[i])));
-		switch (periodic->priv->colorstyle)
+		if (!periodic->buttons[i]) continue;
+		style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->buttons[i])));
+		switch (periodic->colorstyle)
 		{
 		case GTK_PERIODIC_COLOR_NONE:
 			style->bg[0].red = DefaultRed[0];
@@ -400,7 +407,7 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 			attr->end_index = 100;
 			l = pango_attr_list_new ();
 			pango_attr_list_insert (l, attr);
-			gtk_label_set_attributes (periodic->priv->labels[i], l);
+			gtk_label_set_attributes (periodic->labels[i], l);
 		break;
 		case GTK_PERIODIC_COLOR_DEFAULT:
 			colors = gcu_element_get_default_color(i);
@@ -415,7 +422,7 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 			attr->end_index = 100;
 			l = pango_attr_list_new ();
 			pango_attr_list_insert (l, attr);
-			gtk_label_set_attributes (periodic->priv->labels[i], l);
+			gtk_label_set_attributes (periodic->labels[i], l);
 			break;
 		default: {
 			func (i, &color, data);
@@ -428,11 +435,11 @@ void gtk_periodic_set_colors(GtkPeriodic *periodic)
 			attr->end_index = 100;
 			l = pango_attr_list_new ();
 			pango_attr_list_insert (l, attr);
-			gtk_label_set_attributes (periodic->priv->labels[i], l);
+			gtk_label_set_attributes (periodic->labels[i], l);
 			break;
 		}
 		}
-		gtk_widget_set_style(GTK_WIDGET(periodic->priv->buttons[i]), style);
+		gtk_widget_set_style(GTK_WIDGET(periodic->buttons[i]), style);
 		g_object_unref(style);
 	}
 }
@@ -443,10 +450,10 @@ int	gtk_periodic_add_color_scheme (GtkPeriodic *periodic,
 	struct ColorScheme s;
 	s.f = func;
 	if (extra_widget)
-		s.page = gtk_notebook_append_page (periodic->priv->book, extra_widget, NULL);
+		s.page = gtk_notebook_append_page (periodic->book, extra_widget, NULL);
 	else
 		s.page = 0;
 	s.data = user_data;
-	g_array_append_val (periodic->priv->colorschemes, s);
-	return GTK_PERIODIC_COLOR_MAX + periodic->priv->nbschemes++;
+	g_array_append_val (periodic->colorschemes, s);
+	return GTK_PERIODIC_COLOR_MAX + periodic->nbschemes++;
 }
