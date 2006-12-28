@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 /*!\file
 Declaration of the GtkPeriodic widget.
 */
-/*! \enum ColorSchemes
+/*! \enum GtkPeriodicColorSchemes
  Predefined coloring scheme used for the buttons when displaying the periodic table of the GtkPeriodic widget.
  Possible values are:
 	 - GTK_PERIODIC_COLOR_NONE: the default Gtk theme is used.
@@ -49,7 +49,7 @@ enum GtkPeriodicColorSchemes
   GTK_PERIODIC_COLOR_MAX,
 };
 
-/*! The GType associated to GtkPeriodic */
+/*!\return the GType associated to GtkPeriodic */
 #define GTK_TYPE_PERIODIC		  (gtk_periodic_get_type ())
 /*!
 Casts \a obj to a GtkPeriodic * pointer.
@@ -71,7 +71,7 @@ Casts \a klass to a GtkPeriodicClass * pointer.
 */
 #define GTK_IS_PERIODIC_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_PERIODIC))
 /*!
-return the GtkPeriodicClass * associated to \a obj if obj points to a GtkPeriodic widget,
+\return the GtkPeriodicClass * associated to \a obj if obj points to a GtkPeriodic widget,
 NULL otherwise.
 */
 #define GTK_PERIODIC_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_PERIODIC, GtkPeriodicClass))

@@ -55,8 +55,8 @@ int main (int argc, char *argv[])
 	
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW (window), "GtkPeriodic test");
-	g_signal_connect (GTK_OBJECT (window), "destroy",
-		 GTK_SIGNAL_FUNC (gtk_main_quit),
+	g_signal_connect (G_OBJECT (window), "destroy",
+		 G_CALLBACK (gtk_main_quit),
 		 NULL);
 
 	g_object_set (G_OBJECT (window), "allow-shrink", FALSE, NULL);

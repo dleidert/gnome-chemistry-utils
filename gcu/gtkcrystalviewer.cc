@@ -27,25 +27,32 @@
 extern "C"
 {
 
-static void on_size(GtkCrystalViewer* w, GtkAllocation *allocation, gpointer user_data)
+struct _GtkCrystalViewer
 {
-	if (GTK_BIN(w)->child && GTK_WIDGET_VISIBLE (GTK_BIN(w)->child))
-		gtk_widget_size_allocate (GTK_BIN(w)->child, allocation);
-}
+	GtkBin bin;
 
-typedef struct _GtkCrystalViewerPrivate
-{
 	gcu::CrystalView *pView;
 	gcu::CrystalDoc *pDoc;
 	guint glList;
-} GtkCrystalViewerPrivate;
+};
 
+struct _GtkCrystalViewerClass
+{
+	GtkBinClass parent_class;
+};
+
+
+static void on_size (GtkCrystalViewer* w, GtkAllocation *allocation, gpointer user_data)
+{
+	if (GTK_BIN (w)->child && GTK_WIDGET_VISIBLE (GTK_BIN (w)->child))
+		gtk_widget_size_allocate (GTK_BIN (w)->child, allocation);
+}
 
 static GtkBinClass *parent_class = NULL;
 
 static void gtk_crystal_viewer_class_init (GtkCrystalViewerClass  *klass);
-static void gtk_crystal_viewer_init(GtkCrystalViewer *viewer);
-static void gtk_crystal_viewer_finalize(GObject* object);
+static void gtk_crystal_viewer_init (GtkCrystalViewer *viewer);
+static void gtk_crystal_viewer_finalize (GObject* object);
 
 GType
 gtk_crystal_viewer_get_type (void)
@@ -67,55 +74,52 @@ gtk_crystal_viewer_get_type (void)
 			(GInstanceInitFunc) gtk_crystal_viewer_init,
 		};
 
-//		crystal_viewer_type = g_type_register_static (GTK_TYPE_GL_AREA, "GtkCrystalViewer", &crystal_viewer_info, (GTypeFlags)0);
 		crystal_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GtkCrystalViewer", &crystal_viewer_info, (GTypeFlags)0);
 	}
   
 	return crystal_viewer_type;
 }
 
-void gtk_crystal_viewer_class_init(GtkCrystalViewerClass  *klass)
+void gtk_crystal_viewer_class_init (GtkCrystalViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-//	parent_class = (GtkGLAreaClass*)gtk_type_class(gtk_gl_area_get_type());
-	parent_class = (GtkBinClass*)gtk_type_class(gtk_bin_get_type());
+	parent_class = (GtkBinClass*) gtk_type_class (gtk_bin_get_type ());
 	
 	gobject_class->finalize = gtk_crystal_viewer_finalize;
 }
 
-void gtk_crystal_viewer_init(GtkCrystalViewer *viewer)
+void gtk_crystal_viewer_init (GtkCrystalViewer *viewer)
 {
 }
 
-GtkWidget* gtk_crystal_viewer_new(xmlNodePtr node)
+GtkWidget* gtk_crystal_viewer_new (xmlNodePtr node)
 {
-	GtkCrystalViewer* viewer = (GtkCrystalViewer*)g_object_new(GTK_TYPE_CRYSTAL_VIEWER, NULL);
-	viewer->priv = new GtkCrystalViewerPrivate;
-	viewer->priv->pDoc = new gcu::CrystalDoc (NULL);
-	viewer->priv->pView = viewer->priv->pDoc->GetView();
-	GtkWidget* w = viewer->priv->pView->GetWidget ();
-	gtk_container_add(GTK_CONTAINER(viewer), w);
-	if (node) viewer->priv->pDoc->ParseXMLTree(node);
-	g_signal_connect(G_OBJECT(viewer), "size_allocate", GTK_SIGNAL_FUNC(on_size), NULL);
-	gtk_widget_show(w);
-	return GTK_WIDGET(viewer);
+	GtkCrystalViewer* viewer = (GtkCrystalViewer*) g_object_new (GTK_TYPE_CRYSTAL_VIEWER, NULL);
+	viewer->pDoc = new gcu::CrystalDoc (NULL);
+	viewer->pView = viewer->pDoc->GetView();
+	GtkWidget* w = viewer->pView->GetWidget ();
+	gtk_container_add (GTK_CONTAINER (viewer), w);
+	if (node)
+		viewer->pDoc->ParseXMLTree (node);
+	g_signal_connect (G_OBJECT (viewer), "size_allocate", G_CALLBACK (on_size), NULL);
+	gtk_widget_show (w);
+	return GTK_WIDGET (viewer);
 }
 
 void gtk_crystal_viewer_finalize (GObject* object)
 {
 	((GObjectClass*) parent_class)->finalize (object);
 	GtkCrystalViewer* viewer = GTK_CRYSTAL_VIEWER (object);
-	delete viewer->priv->pView;
-	delete viewer->priv->pDoc;
-	delete viewer->priv;
+	delete viewer->pView;
+	delete viewer->pDoc;
 }
 
 void gtk_crystal_viewer_set_data (GtkCrystalViewer * viewer, xmlNodePtr node)
 {
-	g_return_if_fail (GTK_IS_CRYSTAL_VIEWER(viewer));
-	g_return_if_fail(node);
-	viewer->priv->pDoc->ParseXMLTree(node);
-	viewer->priv->pView->Update ();
+	g_return_if_fail (GTK_IS_CRYSTAL_VIEWER (viewer));
+	g_return_if_fail (node);
+	viewer->pDoc->ParseXMLTree (node);
+	viewer->pView->Update ();
 }
 
 } //extern "C"

@@ -27,8 +27,17 @@
 
 G_BEGIN_DECLS
 
+/*!\return the GType associated to GtkComboPeriodic */
 #define GTK_COMBO_PERIODIC_TYPE	(gtk_combo_periodic_get_type ())
+/*!
+Casts \a obj to a GtkComboPeriodic * pointer.
+\return a pointer to the GtkComboPeriodic * or NULL if \a obj does not point to 
+a GtkComboPeriodic widget.
+*/
 #define GTK_COMBO_PERIODIC(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GTK_COMBO_PERIODIC_TYPE, GtkComboPeriodic))
+/*!
+\return TRUE if \a obj points to a GtkComboPeriodic widget, FALSE otherwise.
+*/
 #define GTK_IS_COMBO_PERIODIC(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GTK_COMBO_PERIODIC_TYPE))
 
 /*!\file
@@ -53,6 +62,7 @@ Declaration of the GtkComboPeriodic widget.
 
 Functions related to the GtkComboPeriodic Widget are described in the gtkcomboperiodic.h page.
 */
+/*! The GtkComboPeriodic widget.*/
 typedef struct _GtkComboPeriodic	GtkComboPeriodic;
 
 GType      gtk_combo_periodic_get_type	 (void);

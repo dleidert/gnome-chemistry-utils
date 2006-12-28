@@ -43,7 +43,7 @@ using namespace std;
 namespace gcu
 {
 
-/*!\enum TypeId
+/*!\enum GcuTypeId
 This enumeration is used to determine the type of an Object instance.
 Possible values are:
 	- NoType: invalid type
@@ -67,7 +67,7 @@ Possible values are:
 Some types are not used in  the Gnome Chemistry Utils, but only in GChemPaint
 and might disappear from this list in future versions and replaced by dynamically created types.
 */	
-enum
+enum GcuTypeId
 {
 	NoType,
 	AtomType,

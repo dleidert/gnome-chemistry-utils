@@ -36,13 +36,36 @@ Declaration of the GtkChem3DViewer widget.
 */
 
 GType gtk_display3d_get_type (void);
+/*!
+\return the GType associated to the Display3D enum.
+*/
 #define GTK_DISPLAY_3D (gtk_display3d_get_type ())
 
+/*!\return the GType associated to GtkChem3DViewer */
 #define GTK_TYPE_CHEM3D_VIEWER		  (gtk_chem3d_viewer_get_type ())
+/*!
+Casts \a obj to a GtkChem3DViewer * pointer.
+\return a pointer to the GtkChem3DViewer * or NULL if \a obj does not point to 
+a GtkChem3DViewer widget.
+*/
 #define GTK_CHEM3D_VIEWER(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewer))
+/*!
+Casts \a klass to a GtkChem3DViewerClass * pointer.
+\return a pointer to the GtkChem3DViewerClass * or NULL if \a obj not point to a GtkChem3DViewerClass.
+*/
 #define GTK_CHEM3D_VIEWER_CLASS(klass)	  (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))
+/*!
+\return TRUE if \a obj points to a GtkChem3DViewer widget, FALSE otherwise.
+*/
 #define GTK_IS_CHEM3D_VIEWER(obj)	  (GTK_CHECK_TYPE ((obj), GTK_TYPE_CHEM3D_VIEWER))
+/*!
+\return TRUE if \a klass points to a GtkChem3DViewerClass, FALSE otherwise.
+*/
 #define GTK_IS_CHEM3D_VIEWER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CHEM3D_VIEWER))
+/*!
+\return the GtkChem3DViewerClass * associated to \a obj if obj points to a GtkChem3DViewer widget,
+NULL otherwise.
+*/
 #define GTK_CHEM3D_VIEWER_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))
 
 /*! \struct GtkChem3DViewer gcu/gtkchem3dviewer.h
@@ -62,28 +85,16 @@ There are two properties:
 	.
 	
 - "bgcolor": gchar* (Read / Write).
-	<br>The background color for the display, for example "black" or "#ffffe6".
+	<br>The background color for the display, for example "black" or "#ffffe6". Only "black",
+	"white" and "#rrggbb" are accepted in this version of the Gnome Chemistry Utils.
 <h2>Functions</h2>
 
 Functions related to the GtkChem3DViewer Widget are described in the gtkchem3dviewer.h page.
 */
+/*! The GtkChem3DViewer widget.*/
 typedef struct _GtkChem3DViewer       GtkChem3DViewer;
+/*! The GtkChem3DViewer widget object class.*/
 typedef struct _GtkChem3DViewerClass  GtkChem3DViewerClass;
-
-struct _GtkChem3DViewer
-{
-//  GtkGLArea area;
-	GtkBin bin;
-
-  /*< private >*/
-	struct _GtkChem3DViewerPrivate *priv;
-};
-
-struct _GtkChem3DViewerClass
-{
-//	GtkGLAreaClass parent_class;
-	GtkBinClass parent_class;
-};
 
 GType               gtk_chem3d_viewer_get_type          (void) G_GNUC_CONST;
 /*!

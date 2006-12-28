@@ -32,14 +32,36 @@ Declaration of the GtkCrystalViewer widget.
 
 G_BEGIN_DECLS
 
+/*!\return the GType associated to GtkCrystalViewer */
 #define GTK_TYPE_CRYSTAL_VIEWER		  (gtk_crystal_viewer_get_type ())
+/*!
+Casts \a obj to a GtkCrystalViewer * pointer.
+\return a pointer to the GtkCrystalViewer * or NULL if \a obj does not point to 
+a GtkCrystalViewer widget.
+*/
 #define GTK_CRYSTAL_VIEWER(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewer))
+/*!
+Casts \a klass to a GtkCrystalViewerClass * pointer.
+\return a pointer to the GtkCrystalViewerClass * or NULL if \a obj not point to a GtkCrystalViewerClass.
+*/
 #define GTK_CRYSTAL_VIEWER_CLASS(klass)	  (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewerClass))
+/*!
+\return TRUE if \a obj points to a GtkCrystalViewer widget, FALSE otherwise.
+*/
 #define GTK_IS_CRYSTAL_VIEWER(obj)	  (GTK_CHECK_TYPE ((obj), GTK_TYPE_CRYSTAL_VIEWER))
+/*!
+\return TRUE if \a klass points to a GtkCrystalViewerClass, FALSE otherwise.
+*/
 #define GTK_IS_CRYSTAL_VIEWER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CRYSTAL_VIEWER))
+/*!
+\return the GtkCrystalViewerClass * associated to \a obj if obj points to a GtkCrystalViewer widget,
+NULL otherwise.
+*/
 #define GTK_CRYSTAL_VIEWER_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewerClass))
 
+/*! The GtkCrystalViewer widget.*/
 typedef struct _GtkCrystalViewer       GtkCrystalViewer;
+/*! The GtkCrystalViewer widget object class.*/
 typedef struct _GtkCrystalViewerClass  GtkCrystalViewerClass;
 
 /*!\struct GtkCrystalViewer
@@ -48,21 +70,8 @@ directory of the Gnome Chemistry Utils source archive (source in testgtkcrystalv
 <hr>
 <h2>Functions</h2>
 
-Functions related to the GtkPeriodic Widget are described in the gtkcrystalviewer.h page.
+Functions related to the GtkCrystalViewer Widget are described in the gtkcrystalviewer.h page.
 */
-struct _GtkCrystalViewer
-{
-	GtkBin bin;
-
-  /*< private >*/
-	struct _GtkCrystalViewerPrivate *priv;
-};
-
-struct _GtkCrystalViewerClass
-{
-//	GtkGLAreaClass parent_class;
-	GtkBinClass parent_class;
-};
 
 GType               gtk_crystal_viewer_get_type          (void) G_GNUC_CONST;
 /*!
