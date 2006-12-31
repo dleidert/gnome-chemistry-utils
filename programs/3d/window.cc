@@ -255,7 +255,7 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	GError *error = NULL;
 
 	m_Window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
-	gtk_window_set_default_size (m_Window, 200, 230);
+	gtk_window_set_default_size (m_Window, 250, 280);
 	g_signal_connect (G_OBJECT (m_Window), "delete-event", G_CALLBACK (on_delete_event), this);
 
 	vbox = gtk_vbox_new (FALSE, 0);

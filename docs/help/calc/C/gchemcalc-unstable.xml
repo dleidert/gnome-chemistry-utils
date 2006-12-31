@@ -98,6 +98,9 @@
 <!-- ============= Introduction ============================= -->
  <preface id="gchemcalc-unstable-intro">
     <title>Introduction</title>
+	<para>The <application>&app;</application> application is a simple
+	calculator for chemistry. It parses chemical formula to calculate
+	raw formula, molecular weights, mass composition and isotopic patterns.</para>
 
  </preface>
 

@@ -96,11 +96,79 @@
 <!-- ============= Document Body ============================= -->
 
 <!-- ============= Introduction ============================= -->
- <preface id="gcrystal-unstable-intro">
+ <preface id="gchem3d-viewer-unstable-intro">
     <title>Introduction</title>
+	<para>The <application>&app;</application> application is a simple
+	molecular structures visualizer.</para>
 
  </preface>
 
+<!-- ============= Getting started ============================= -->
+ <chapter id="gchem3d-viewer-unstable-getting-started">
+    <title>Getting started</title>
+	<sect1 id="gchem3d-viewer-unstable-to-start">
+		<title>To Start &app;</title>
+		<para>You can start <application>&app;</application> in the following ways:</para>
+		<variablelist>
+    		<varlistentry>
+    		<term><guimenu>Applications</guimenu> menu</term>
+    		<listitem>
+    		<para>Choose 
+    		<menuchoice>
+    		<guisubmenu>Education</guisubmenu>
+    		<guimenuitem>Molecules Viewer (unstable)</guimenuitem>
+    		</menuchoice>. </para>
+    		</listitem>
+    		</varlistentry>
+    		<varlistentry>
+    		<term>Command line</term>
+    		<listitem>
+    		<para>Type <command>gchem3d-viewer-unstable</command>, then press <keycap>Return</keycap>.</para>
+    		</listitem>
+    		</varlistentry>
+    		</variablelist>
+	</sect1>
+	<sect1 id="gchem3d-viewer-unstable-when-you-start">
+		<title>When You Start &app;</title>
+		<para>When you start <application>&app;</application>, the following window is displayed:</para>
+ 			<figure id="gchem3d-viewer-unstable-main-window"> 
+			  <title>&app; main window</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the <application>&app;</application> main window.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/main-window.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+	
+		<para>The <application>&app;</application> window contains the following
+		  elements: </para>
+		<variablelist> 
+		  <varlistentry> <term>Menubar</term> 
+			 <listitem> 
+				<para>The menus on the menubar contain all of the commands you need
+				  to work with files in <application>&app;</application>.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Display area</term> 
+			 <listitem> 
+				<para> The display area contains the contents of an opened file
+				if any. </para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Statusbar</term> 
+			 <listitem> 
+				<para>The statusbar displays information about current
+				  <application>&app;</application> activity and contextual information about the
+				  menu items. </para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist>
+	</sect1>
+ </chapter>
 <!-- ============= Application License ============================= -->
 
  <chapter id="license">

@@ -98,11 +98,13 @@
 <!-- ============= Introduction ============================= -->
  <preface id="gchemtable-unstable-intro">
     <title>Introduction</title>
-
+	<para>The <application>&app;</application> application is a chemical
+	elements periodic table application.</para>
  </preface>
 
  <chapter id="gchemtable-unstable-curvedlg">
     <title>Curves</title>
+	<para></para>
  </chapter>
 <!-- ============= Application License ============================= -->
 
