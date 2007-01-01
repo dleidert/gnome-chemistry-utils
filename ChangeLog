@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/C/gchem3d-viewer-unstable.xml: more work on help.
+
 2006-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/3d/C/figures/main-window.png: new screenshot.
 	* docs/help/3d/C/gchem3d-viewer-unstable.xml: pass make check.

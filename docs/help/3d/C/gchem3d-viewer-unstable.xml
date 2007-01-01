@@ -159,17 +159,76 @@
 				if any. </para>
 			 </listitem>
 		  </varlistentry>
-		  <varlistentry> <term>Statusbar</term> 
-			 <listitem> 
-				<para>The statusbar displays information about current
-				  <application>&app;</application> activity and contextual information about the
-				  menu items. </para>
-			 </listitem>
-		  </varlistentry>
 		</variablelist>
 	</sect1>
- </chapter>
-<!-- ============= Application License ============================= -->
+	<sect1 id="gchem3d-viewer-unstable-open-file">
+		<title>To Open a File</title>
+		<para>To open a file, choose 
+		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>
+			 </menuchoice>
+		  to display the <guilabel>Open File</guilabel> dialog. Select the file
+		  that you want to open, then click <guibutton>OK</guibutton>. The file is
+		  displayed in the <application>&app;</application> main window. </para>
+		<para><application>&app;</application> can open files on a distant server using the Gnome Virtual
+		File System.</para>
+		<para><application>&app;</application> can open several file formats. Available formats are:</para>
+		<itemizedlist> 
+		  <listitem><para>ChemML files (*.cml)</para>
+		  </listitem>
+		  <listitem><para>MDL MOL files, MDL Structure Data files (*.mol;*.sd;*.sdf)</para>
+		  </listitem>
+		  <listitem><para>PDB files (*.pdb;*.ent)</para>
+		  </listitem>
+		  <listitem><para>XYZ Coordinate Format files (*.xyz)</para>
+		  </listitem>
+	  </itemizedlist>
+	  <para>You can open multiple files in <application>&app;</application>.
+	  The application displays each file in its own window.</para>
+	  <para>Recently opened file appear in the <menuchoice> <guimenu>File</guimenu>
+	   <guimenu>Open recent</guimenu></menuchoice> sub-menu.</para>
+	</sect1>
+	<sect1 id="gchem3d-viewer-unstable-run-from-cmd-line">
+		<title>To Open Multiple Files from a Command Line</title>
+		<para>You can run <application>&app;</application> from a command line
+		  and open a single file or multiple files. To open multiple files from a command
+		  line, type the following command, then press <keycap>Return</keycap>:</para>
+		<para><command>gchem3d-viewer-unstable <replaceable>file1 file2 file3</replaceable></command></para>
+	</sect1>
+</chapter>
+
+<chapter id="gchem3d-viewer-unstable-usage">
+    <title>Usage</title>
+	<sect1 id="gchem3d-viewer-unstable-save-as-image">
+		<title>To Save the View as an Image</title>
+		<para></para>
+	</sect1>
+	<sect1 id="gchem3d-viewer-unstable-print">
+		<title>To Print the View</title>
+		<para></para>
+	</sect1>
+	<sect1 id="gchem3d-viewer-unstable-mode">
+		<title>To Change the Model Options</title>
+		<para></para>
+	</sect1>
+	<sect1 id="gchem3d-viewer-unstable-background">
+		<title>To Change the Background Color</title>
+		<para></para>
+	</sect1>
+	<sect1 id="gchem3d-viewer-unstable-question">
+		<title>To Ask a Question</title>
+		<para></para>
+	</sect1>
+	<sect1 id="gchem3d-viewer-unstable-web">
+		<title>To Find the Gnome Chemistry Utils on the Web.</title>
+		<para></para>
+	</sect1>
+	<sect1 id="gchem3d-viewer-unstable-bug">
+		<title>To Report a Bug</title>
+		<para></para>
+	</sect1>
+</chapter>
+
+ <!-- ============= Application License ============================= -->
 
  <chapter id="license">
   <title>License</title>
