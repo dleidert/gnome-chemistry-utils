@@ -61,7 +61,7 @@ gcDocument *gcApplication::OnFileNew ()
 
 void gcApplication::OnFileOpen ()
 {
-	list<char const*> l;
+	list<string> l;
 	l.push_front ("application/x-gcrystal");
 	FileChooser (this, false, l);
 }
@@ -78,7 +78,7 @@ void gcApplication::OnFileSave ()
 
 void gcApplication::OnFileSaveAs ()
 {
-	list<char const*> l;
+	list<string> l;
 	l.push_front ("application/x-gcrystal");
 	FileChooser (this, true, l, m_pActiveDoc);
 }
@@ -137,7 +137,7 @@ void gcApplication::OnSaveAsImage ()
 {
 	if (!m_pActiveDoc)
 		return;
-	list<char const*> l;
+	list<string> l;
 	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
 		l.push_front ((*i).first.c_str ());

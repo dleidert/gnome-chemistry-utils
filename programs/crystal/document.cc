@@ -618,7 +618,7 @@ bool gcDocument::VerifySaved()
 		gtk_widget_destroy(mbox);
 		if (res == GTK_RESPONSE_YES) {
 			if (m_filename == NULL) {
-				list<char const*> l;
+				list<string> l;
 				l.push_front ("application/x-gcrystal");
 				FileChooser (m_App, true, l, this);
 			}

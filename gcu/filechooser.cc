@@ -32,7 +32,7 @@
 
 using namespace gcu;
 
-FileChooser::FileChooser (Application *App, bool Save, list<char const*> mime_types, Document *pDoc, char const *title, GtkWidget *extra_widget)
+FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, Document *pDoc, char const *title, GtkWidget *extra_widget)
 {
 	char* filename = NULL;
 	m_pDoc = pDoc;
@@ -48,9 +48,9 @@ FileChooser::FileChooser (Application *App, bool Save, list<char const*> mime_ty
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	GtkFileChooser* chooser = GTK_FILE_CHOOSER (dialog);
 	GtkFileFilter* filter = gtk_file_filter_new ();
-	list<char const*>::iterator i, iend = mime_types.end ();
+	list<string>::iterator i, iend = mime_types.end ();
 	for (i = mime_types.begin (); i != iend; i++)
-		gtk_file_filter_add_mime_type (filter, *i);
+		gtk_file_filter_add_mime_type (filter, (*i).c_str ());
 	GtkComboBox *format_combo = NULL;
 	if (!Save)
 		gtk_file_chooser_set_select_multiple (chooser, true);
@@ -60,11 +60,11 @@ FileChooser::FileChooser (Application *App, bool Save, list<char const*> mime_ty
 		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
 		gtk_combo_box_append_text (format_combo, _("Automatic"));
 		for (i = mime_types.begin (); i != iend; i++) {
-			char const *type = go_mime_type_get_description (*i);
+			char const *type = go_mime_type_get_description ((*i).c_str ());
 			if (type)
 				gtk_combo_box_append_text (format_combo, type);
 			else
-				gtk_combo_box_append_text (format_combo, *i);
+				gtk_combo_box_append_text (format_combo, (*i).c_str ());
 		}
 		gtk_combo_box_set_active (format_combo, 0);
 
@@ -96,14 +96,14 @@ FileChooser::FileChooser (Application *App, bool Save, list<char const*> mime_ty
 		// find the mime_type
 		char const *mime_type = NULL;
 		if (mime_types.size () == 1)
-			mime_type = mime_types.front ();
+			mime_type = mime_types.front ().c_str ();
 		else if (mime_types.size () > 0) {
 			int j = gtk_combo_box_get_active (format_combo);
 			if (j > 0) {
 				i = mime_types.begin ();
 				while (--j > 0)
 					i++;
-				mime_type = *i;
+				mime_type = (*i).c_str ();
 			}
 		}
 		if (Save) {
@@ -115,15 +115,15 @@ FileChooser::FileChooser (Application *App, bool Save, list<char const*> mime_ty
 				// ensure the found mime type is in the list
 				bool found = false;
 				if (mime_type) {
-					list<char const*>::iterator it, itend = mime_types.end ();
+					list<string>::iterator it, itend = mime_types.end ();
 					for (it = mime_types.begin (); it != itend; it++)
-						if (!strcmp (mime_type, *it)) {
+						if (*it == mime_type) {
 							found = true;
 							break;
 						}
 				}
 				if (!found)
-					mime_type = mime_types.front ();
+					mime_type = mime_types.front ().c_str ();
 			}
 			if (!App->FileProcess (filename, mime_type, Save, GTK_WINDOW (dialog), m_pDoc)) {
 				g_free (filename);

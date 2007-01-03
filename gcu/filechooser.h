@@ -28,6 +28,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkfilechooser.h>
 #include <list>
+#include <string>
 
 using namespace std;
 
@@ -58,7 +59,7 @@ The constructor shows the GtkFileChooserDialog window, retrieve it's response an
 Application::FileProcess if needed. The dialog is modal (nothing else can be done while
 it is opened).
 */
-	FileChooser (Application *App, bool Save, list<char const*> mime_types, Document *pDoc = NULL, char const *title = NULL, GtkWidget *extra_widget = NULL);
+	FileChooser (Application *App, bool Save, list<string> mime_types, Document *pDoc = NULL, char const *title = NULL, GtkWidget *extra_widget = NULL);
 	
 private:
 	GtkFileChooser* dialog;

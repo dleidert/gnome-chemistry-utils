@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2007-01-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/chem3ddoc.cc: don't use deprecated Openbabel api.
+	* gcu/chem3ddoc.h: ditto.
+	* gcu/filechooser.cc: change list<char*> to list<string> for mime types.
+	* gcu/filechooser.h: ditto.
+	* programs/3d/application.cc: update for filechooser changes.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+
 2007-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/3d/C/gchem3d-viewer-unstable.xml: more work on help.
 

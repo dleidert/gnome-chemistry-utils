@@ -218,7 +218,7 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 	if (pInFormat) {
 		Conv.SetInAndOutFormats (pInFormat, pInFormat);
 		Conv.Read (&m_Mol,&is);
-		m_Empty = m_Mol.NumNodes () == 0;
+		m_Empty = m_Mol.NumAtoms () == 0;
 	}
 	setlocale (LC_NUMERIC, old_num_locale);
 	m_View->Update ();

@@ -50,7 +50,7 @@ gc3dDocument *gc3dApplication::OnFileNew ()
 
 void gc3dApplication::OnFileOpen (gc3dDocument *Doc)
 {
-	list<char const*> l;
+	list<string> l;
 	l.push_front ("chemical/x-cml");
 	l.push_front ("chemical/x-mdl-molfile");
 	l.push_front ("chemical/x-pdb");
@@ -139,7 +139,7 @@ void gc3dApplication::OnSaveAsImage (gc3dDocument *Doc)
 {
 	if (!Doc)
 		return;
-	list<char const*> l;
+	list<string> l;
 	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
 		l.push_front ((*i).first.c_str ());

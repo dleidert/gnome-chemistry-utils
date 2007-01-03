@@ -80,7 +80,7 @@ Displays the molecule using OpenGL.
 /*!
 @return true if the molecule have no atom, false otherwise.
 */
-	bool IsEmpty () {return m_Mol.NumNodes () == 0;}
+	bool IsEmpty () {return m_Mol.NumAtoms () == 0;}
 
 /*!
 @param uri the uri of the molecule file.
