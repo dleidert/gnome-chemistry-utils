@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-01-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/C/gchem3d-viewer-unstable.xml: completed.
+	* programs/crystal/window.cc: fixed a tip.
+
 2007-01-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/chem3ddoc.cc: don't use deprecated Openbabel api.
 	* gcu/chem3ddoc.h: ditto.
