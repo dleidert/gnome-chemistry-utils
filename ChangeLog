@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2007-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/gchem3d-viewer-unstable.omf.in: removed Education from
+	categories, so that yelp lists it in Other docs instead of nowhere.
+	* docs/help/calc/gchemcalc-unstable.omf.in: ditto.
+	* docs/help/crystal/gcrystal-unstable.omf.in: ditto.
+	* docs/help/table/gchemtable-unstable.omf.in: ditto.
+	* docs/help/crystal/C/gcrystal-unstable.xml: typos.
+
 2007-01-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/3d/C/gchem3d-viewer-unstable.xml: completed.
 	* programs/crystal/window.cc: fixed a tip.

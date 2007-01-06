@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <omf>
   <resource>
-    <subject category="GNOME|Applications|Education"/>
+    <subject category="GNOME|Applications"/>
     <type>manual</type>
     <relation seriesid="2f848160-7dcd-448a-9c23-a66ed39053d4"/>
     <rights type="GNU FDL" license.version="1.1" holder="Jean Bréfort"/>
