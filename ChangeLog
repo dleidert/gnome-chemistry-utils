@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2007-01-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/calc/C/figures/braces.png: new screenshot.
+	* docs/help/calc/C/figures/composition.png: ditto.
+	* docs/help/calc/C/figures/formula.png: ditto.
+	* docs/help/calc/C/figures/pattern.png: ditto.
+	* docs/help/calc/C/figures/start.png: ditto.
+
 2007-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/3d/gchem3d-viewer-unstable.omf.in: removed Education from
 	categories, so that yelp lists it in Other docs instead of nowhere.
