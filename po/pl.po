@@ -1,17 +1,17 @@
 # translation of pl.po to
 # Gnome Chemistry Utils pl.po
-# Copyright (C) 2003, 2004, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2006, 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the Gnome Chemistry Utils package.
 #
 # Michał Sałaban <emes@pld-linux.org>, 2003.
 # Nikodem Kuznik <nkuznik@yahoo.com>, 2004.
-# Julian Sikorski <belegdol@gmail.com>, 2006.
+# Julian Sikorski <belegdol@gmail.com>, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-20 23:01+0100\n"
-"PO-Revision-Date: 2006-12-21 00:00+0100\n"
+"PO-Revision-Date: 2007-01-07 23:46+0100\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team:  <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -771,19 +771,19 @@ msgstr "Informacje o GChem3D"
 
 #: ../programs/gchem3d-viewer.c:192
 msgid "Balls and sticks"
-msgstr "Kulki i patyczki"
+msgstr "Model kulkowy"
 
 #: ../programs/gchem3d-viewer.c:193
 msgid "Display a balls and sticks model"
-msgstr "Wyświetl model w postaci kulek i patyczków"
+msgstr "Wyświetl model kulkowy"
 
 #: ../programs/gchem3d-viewer.c:195
 msgid "Space filling"
-msgstr "Wypełnianie przestrzeni"
+msgstr "Model przestrzenny"
 
 #: ../programs/gchem3d-viewer.c:196
 msgid "Display a space filling model"
-msgstr "Wyświetl model wypełniający przestrzeń"
+msgstr "Wyświetl model przestrzenny"
 
 #: ../programs/gchem3d-viewer.c:222
 msgid "GChem3d Viewer version: "
@@ -801,7 +801,7 @@ msgstr "Kolor tła: biały, czarny albo #rrggbb (domyślnym jest czarny)"
 msgid ""
 "How molecules are displayed; possible values are BallnStick (the default) "
 "and SpaceFill"
-msgstr "Jak są wyświetlane cząsteczki: możliwe wartości to BallnStick (kulki i patyczki, domyśny) i SpaceFill (wypełnianie przestrzeni)"
+msgstr "Jak są wyświetlane cząsteczki: możliwe wartości to BallnStick (model kulkowy, domyśny) i SpaceFill (model przestrzenny)"
 
 #: ../programs/gchem3d-viewer.c:260
 msgid " [file]"
