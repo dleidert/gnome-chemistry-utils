@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-01-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/formula.cc: don't crash for an empty formula.
+
 2006-09-24 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* configure.ac (AC_PACKAGE_VERSION): Post-release version bump.
 	(MP_*): Replaced by GCU_* macros.
