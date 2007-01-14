@@ -463,6 +463,8 @@ void Formula::CalculateIsotopicPattern (IsotopicPattern &pattern)
 {
 	map<int,int>::iterator i, end = Raw.end ();
 	i = Raw.begin ();
+	if (i == end) // empty formula
+		return;
 	IsotopicPattern *pat, *pat0;
 	pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second);
 	pattern.Copy (*pat);

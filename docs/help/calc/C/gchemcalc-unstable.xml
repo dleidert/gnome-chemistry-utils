@@ -103,6 +103,182 @@
 	raw formula, molecular weights, mass composition and isotopic patterns.</para>
 
  </preface>
+ 
+<!-- ============= Getting started ============================= -->
+ <chapter id="gchemcalc-unstable-getting-started">
+    <title>Getting started</title>
+	<sect1 id="gchemcalc-unstable-to-start">
+		<title>To Start &app;</title>
+		<para>You can start <application>&app;</application> in the following ways:</para>
+		<variablelist>
+    		<varlistentry>
+    		<term><guimenu>Applications</guimenu> menu</term>
+    		<listitem>
+    		<para>Choose 
+    		<menuchoice>
+    		<guisubmenu>Education</guisubmenu>
+    		<guimenuitem>Chemical calculator (unstable)</guimenuitem>
+    		</menuchoice>. </para>
+    		</listitem>
+    		</varlistentry>
+    		<varlistentry>
+    		<term>Command line</term>
+    		<listitem>
+    		<para>Type <command>gchemcalc-unstable</command> [formula], then press <keycap>Return</keycap>.
+			[Formula] stands for an optional chemical formula.</para>
+    		</listitem>
+    		</varlistentry>
+    		</variablelist>
+	</sect1>
+	<sect1 id="gchemcalc-unstable-when-you-start">
+		<title>When You Start &app;</title>
+		<para>When you start <application>&app;</application>, the following window is displayed:</para>
+ 			<figure id="gchemcalc-unstable-main-window"> 
+			  <title>&app; window</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the <application>&app;</application>window.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/start.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+	
+		<para>The <application>&app;</application> window contains the following
+		  elements: </para>
+		<variablelist> 
+		  <varlistentry> <term>Menubar</term> 
+			 <listitem> 
+				<para>The menus on the menubar contain all of the commands you need
+				  to work with <application>&app;</application>.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Formula entry</term> 
+			 <listitem> 
+				<para>This is where you can type a formula. </para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Results</term> 
+			 <listitem> 
+				<para>The next three lines give the entered formula as parsed
+				by <application>&app;</application>, the raw formula and the
+				molecular weight. </para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Notebook</term> 
+			 <listitem> 
+				<para>The first page of the notebook gives the analysis as mass
+				percent of the elements of the current formula. The second page
+				displays the isotopic pattern. This page is hidden when the
+				formula is empty.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist>
+	</sect1>
+</chapter>
+
+<chapter id="gchemcalc-unstable-usage">
+    <title>Usage</title>
+	<sect1 id="gchemcalc-unstable-formula">
+		<title>Entering a formula</title>
+		<para>Formulas can be entered from the <link linkend="gchemcalc-unstable-to-start">command line</link>,
+		from <application>GChemPaint</application>, or directly in the <guilabel>formula entry</guilabel>.</para>
+		<para>When using the formula entry, just type a valid formula as in the following example:</para>
+		<figure id="gchemcalc-unstable-formula-window"> 
+		  <title>Entering a formula</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Entering a formula.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/formula.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>After validating, if the formula has been succesfully parsed, you get:</para>
+		<figure id="gchemcalc-unstable-composition-window"> 
+		  <title>Results</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Result after parsing a formula.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/composition.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>The isotopic pattern is displayed on the second page of the notebook:</para>
+		<figure id="gchemcalc-unstable-pattern-window"> 
+		  <title>Isotopic pattern</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Result after parsing a formula.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/pattern.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>If an error occurs while parsing the formula, a message box will pop up and the cursor
+		will be moved in the entry to the error position.</para>
+	</sect1>
+	<sect1 id="gchemcalc-unstable-supported">
+		<title>Limitations</title>
+		<para><application>&app;</application> supports parenthesis and brackets to any level
+		provided each one is matched as in the following example:</para>
+		<figure id="gchemcalc-unstable-braces-window"> 
+		  <title>Using parenthesis and brackets</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Using parenthesis and brackets.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/braces.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>Abbreviations such as "Ph" for a phenyl substituant are not supported
+		in this version of <application>&app;</application>.</para>
+	</sect1>
+	<sect1 id="gchemcalc-unstable-graph">
+		<title>Copying the isotopic pattern graph.</title>
+		<para>To copy the isotopic pattern graph, press the <guilabel>Copy</guilabel> button
+		and paste in the target application. Graphs will be copied as native graphs to
+		Abiword and as svg or png data to other applications which support such formats.</para>
+	</sect1>
+	<sect1 id="gchemcalc-unstable-question">
+		<title>To Ask a Question</title>
+		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
+		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchemutils-main@nongnu.org">Gnome Chemistry Utils
+		mailing list</ulink>.</para>
+		<para>Another way to get some help is to connect on the #gchemutils channel
+		at irc.gimp.net and ask your question there (if you are not alone on the channel).</para>
+	</sect1>
+	<sect1 id="gchemcalc-unstable-web">
+		<title>To Find the Gnome Chemistry Utils on the Web.</title>
+		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Gnome Chemistry Utils on the web</guimenuitem></menuchoice>,
+		the default web browser should pop up and display the main page for the Gnome Chemsitry Utils.</para>
+		<para>The main page is
+		<ulink type="http" url="http://gchemutils.nongnu.org">http://gchemutils.nongnu.org</ulink> and the project
+		page at savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchemutils">http://savannah.nongnu.org/projects/gchemutils</ulink>.</para>
+	</sect1>
+	<sect1 id="gchemcalc-unstable-bug">
+		<title>To Report a Bug</title>
+		<para>To report a bug, you must use the bug page for the Gnome Chemistry
+		Utils at Savannah. You can access it by choosing
+		<menuchoice> <guimenu>Help</guimenu> <guimenuitem>Report Bugs</guimenuitem></menuchoice>
+		(hopefully you'll have only one at once to report).</para>
+		<para>You can also type the bug report page address directly in
+		the browser. The bug repository is at
+		<ulink type="http" url="https://savannah.nongnu.org/bugs/?group=gchemutils">https://savannah.nongnu.org/bugs/?group=gchemutils</ulink></para>
+	</sect1>
+</chapter>
 
 <!-- ============= Application License ============================= -->
 
