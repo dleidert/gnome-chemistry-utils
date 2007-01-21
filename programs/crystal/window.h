@@ -45,6 +45,7 @@ public:
 	void SetStatusText (const char* text);
 	bool TryClose ();
 	void Destroy ();
+	void ActivateActionWidget (char const *path, bool activate); 
 
 private:
 	GtkUIManager* m_UIManager;

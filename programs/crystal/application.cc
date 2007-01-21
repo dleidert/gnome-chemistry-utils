@@ -281,7 +281,8 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			int n = 1, max = Views->size ();
 			char const *title = Doc->GetTitle ();
 			for (i = Views->begin (); i != iend; i++) {
-				GtkWindow *w = dynamic_cast <gcView*> (*i)->GetWindow ()->GetWindow ();
+				gcWindow *window = dynamic_cast <gcView*> (*i)->GetWindow ();
+				GtkWindow *w = window->GetWindow ();
 				gtk_window_present (w);
 				if (max > 1) {
 					char *t = g_strdup_printf ("%s (%i)", title, n++);
@@ -289,6 +290,8 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 					g_free (t);
 				} else
 					gtk_window_set_title (w, title);
+				window->ActivateActionWidget ("ui/MainMenu/FileMenu/Save", !Doc->GetReadOnly ());
+				window->ActivateActionWidget ("ui/MainToolbar/Save", !Doc->GetReadOnly ());
 			}
 		}
 	}

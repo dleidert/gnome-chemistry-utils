@@ -110,11 +110,111 @@
 
 	<para>The <application>&app;</application> application is a simple
 	crystalline structures visualizer.</para>
+	<para><application>&app;</application> files can also be displayed in a html page if you use a
+	<ulink type="help" url="http://www.mozilla.org">mozilla</ulink>
+	based navigator.</para>
 	<warning><para>This document is by no way a crystallography manual and used notions are not
 	systematically described here in.</para></warning>
 	<warning><para>This document refers to a development release of &app;. This means that its use is
 	unsure. It might crash at any moment and loose or alter your data.</para></warning>
  </preface>
+ 
+<!-- ============= Getting started ============================= -->
+ <chapter id="gcrystal-unstable-getting-started">
+    <title>Getting started</title>
+	<sect1 id="gcrystal-unstable-to-start">
+		<title>To Start &app;</title>
+		<para>You can start <application>&app;</application> in the following ways:</para>
+		<variablelist>
+    		<varlistentry>
+    		<term><guimenu>Applications</guimenu> menu</term>
+    		<listitem>
+    		<para>Choose 
+    		<menuchoice>
+    		<guisubmenu>Education</guisubmenu>
+    		<guimenuitem>Gnome Crystal Crystalline Structures Viewer (unstable)</guimenuitem>
+    		</menuchoice>. </para>
+    		</listitem>
+    		</varlistentry>
+    		<varlistentry>
+    		<term>Command line</term>
+    		<listitem>
+    		<para>Type <command>gcrystal-unstable</command>, then press <keycap>Return</keycap>.</para>
+    		</listitem>
+    		</varlistentry>
+    		</variablelist>
+	</sect1>
+	<sect1 id="gcrystal-unstable-when-you-start">
+		<title>When You Start &app;</title>
+		<para>When you start <application>&app;</application>, the following window is displayed:</para>
+ 			<figure id="gcrystal-unstable-main-window"> 
+			  <title>&app; document window</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the Gnome Crystal document window.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/main-window.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+	
+		<para>The <application>&app;</application> window contains the following
+		  elements: </para>
+		<variablelist> 
+		  <varlistentry> <term>Menubar</term> 
+			 <listitem> 
+				<para>The menus on the menubar contain all of the commands you need
+				  to work with files in <application>&app;</application>.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Main Toolbar</term> 
+			 <listitem> 
+				<para> The toolbar contains a subset of the commands that you can
+				  access from the menubar.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Display area</term> 
+			 <listitem> 
+				<para> The display area contains the contents of the file that you are
+				  displaying and/or editing. </para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Statusbar</term> 
+			 <listitem> 
+				<para>The statusbar displays information about current
+				  <application>&app;</application> activity and contextual information about the
+				  menu items. </para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist>
+	</sect1>
+	<sect1 id="gcrystal-unstable-open-file">
+		<title>To Open a File</title>
+		<para>To open a file, choose 
+		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>
+			 </menuchoice>
+		  to display the <guilabel>Open File</guilabel> dialog. Select the file
+		  that you want to open, then click <guibutton>OK</guibutton>. The file is
+		  displayed in the <application>&app;</application> main window. </para>
+		<para><application>&app;</application> can open files on a distant server using the Gnome Virtual
+		File System. If the file is read-only, the <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>
+			 </menuchoice> menu item and the corresponding tool button are disabled.</para>
+		<para>You can open multiple files in <application>&app;</application>.
+		  Each file is opened in it's own top-level window.</para>
+	</sect1>
+	<sect1 id="gcrystal-unstable-run-from-cmd-line">
+		<title>To Open Multiple Files from a Command Line</title>
+		<para>You can run <application>&app;</application> from a command line
+		  and open a single file or multiple files. To open multiple files from a command
+		  line, type the following command, then press <keycap>Return</keycap>:</para>
+		<para><command>gcrystal-unstable <replaceable>file1 file2 file2 ...</replaceable></command> where
+		file1 and others, might be relative, absolute paths or uris.</para>
+		<para>When the application starts, a <application>&app;</application> window is created
+		for each file that you specified.</para>
+	</sect1>
+ </chapter>
 
 <!-- ============= Application License ============================= -->
 

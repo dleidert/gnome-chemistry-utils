@@ -316,8 +316,15 @@ bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
 	return (m_Parent)? m_Parent->BuildContextualMenu (UIManager, object): false;
 }
 
-void Object::Add(GtkWidget* w)
+void Object::Add (GtkWidget* w)
 {
+	map<string, Object*>::iterator i;
+	Object* p = GetFirstChild (i);
+	while (p)
+	{
+		p->Add (w);
+		p = GetNextChild (i);
+	}
 }
 
 void Object::Print(GnomePrintContext *pc)

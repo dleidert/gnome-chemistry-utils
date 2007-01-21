@@ -94,13 +94,8 @@ gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 	m_filename = NULL;
 	m_title = NULL;
 	m_bClosing = false;
+	m_ReadOnly = false;
 }
-
-/*gcDocument::gcDocument(bool create_view)
-{
-	Init();
-	if (create_view) pView = m_pView = new gcView(this);
-}*/
 
 gcDocument::~gcDocument()
 {
@@ -193,6 +188,10 @@ void gcDocument::SetCell(gcLattices lattice, gdouble a, gdouble b, gdouble c, gd
 
 void gcDocument::SetFileName (const string &filename)
 {
+	GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
+	gnome_vfs_get_file_info (filename.c_str (), info, GNOME_VFS_FILE_INFO_DEFAULT);
+	m_ReadOnly = !(info->permissions & (GNOME_VFS_PERM_USER_WRITE | GNOME_VFS_PERM_GROUP_WRITE));
+	gnome_vfs_file_info_unref (info);
 	if (m_filename)
 		g_free (m_filename);
 	m_filename = g_strdup (filename.c_str ());
@@ -220,7 +219,6 @@ void gcDocument::SetTitle(const gchar* title)
 {
 	if (m_title) g_free(m_title);
 	m_title = g_strdup(title);
-	list<CrystalView*>::iterator view;
 }
 
 void gcDocument::Save()
@@ -689,7 +687,8 @@ void gcDocument::RenameViews ()
 	list <CrystalView *>::iterator i, iend = m_Views.end ();
 	int n = 1, max = m_Views.size ();
 	for (i = m_Views.begin (); i != iend; i++) {
-		GtkWindow *w = dynamic_cast <gcView*> (*i)->GetWindow ()->GetWindow ();
+		gcWindow *window = dynamic_cast <gcView*> (*i)->GetWindow ();
+		GtkWindow *w = window->GetWindow ();
 		if (!w)
 			continue;
 		if (max > 1) {
@@ -698,5 +697,7 @@ void gcDocument::RenameViews ()
 			g_free (t);
 		} else
 			gtk_window_set_title (w, m_title);
+		window->ActivateActionWidget ("ui/MainMenu/FileMenu/Save", !m_ReadOnly);
+		window->ActivateActionWidget ("ui/MainToolbar/Save", !m_ReadOnly);
 	}
 }

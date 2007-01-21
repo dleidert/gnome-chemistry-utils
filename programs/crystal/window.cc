@@ -478,3 +478,10 @@ void gcWindow::Destroy ()
 	if (TryClose ())
 		gtk_widget_destroy (GTK_WIDGET (m_Window));
 }
+
+void gcWindow::ActivateActionWidget (char const *path, bool activate)
+{
+	GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, path);
+	if (w)
+		gtk_widget_set_sensitive (w, activate);
+}

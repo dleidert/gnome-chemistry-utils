@@ -28,6 +28,7 @@
 #include <libxml/parser.h>
 #include <gcu/crystaldoc.h>
 #include <gcu/dialog.h>
+#include <gcu/macros.h>
 #include "atom.h"
 #include "line.h"
 #include "cleavage.h"
@@ -97,6 +98,8 @@ private:
 	GtkWidget* m_widget;
 	std::list <Dialog *> m_Dialogs;
 	gcView *m_pActiveView;
+
+GCU_RO_PROP (bool, ReadOnly);
 };
 
 #endif //GCRYSTAL_DOCUMENT_H
