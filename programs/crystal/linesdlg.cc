@@ -429,6 +429,7 @@ void gcLinesDlg::LineSelect (GtkTreeSelection *Selection)
 		tmp = g_strdup_printf ("%g", g_array_index (m_Lines, struct LineStruct, m_LineSelected).r);
 		gtk_entry_set_text (LineR, tmp);
 		g_free (tmp);
+		gtk_tree_path_free (path);
 	} else {
 		gtk_widget_set_sensitive (DeleteBtn, false);
 		if (!m_Lines->len) gtk_widget_set_sensitive (DeleteAllBtn, false);
@@ -466,6 +467,7 @@ void gcLinesDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, 
 		g_array_index (m_Lines, struct LineStruct, m_LineSelected).z2 = x;
 		break;
 	}
+	gtk_tree_path_free (path);
 }
 
 void gcLinesDlg::OnToggled (GtkCellRendererToggle *cell, const gchar *path_string)
@@ -478,7 +480,8 @@ void gcLinesDlg::OnToggled (GtkCellRendererToggle *cell, const gchar *path_strin
 	gtk_tree_model_get (GTK_TREE_MODEL (LineList), &iter, COLUMN_SINGLE, &single, -1);
 	single ^= 1;
 	gtk_list_store_set (LineList, &iter, COLUMN_SINGLE, single, -1);
-	g_array_index (m_Lines, struct LineStruct, m_LineSelected).duplicated = !single;
+	g_array_index (m_Lines, struct LineStruct, gtk_tree_path_get_indices (path)[0]).duplicated = !single;
+	gtk_tree_path_free (path);
 }
 
 void gcLinesDlg::OnToggledSpecial (int Type)

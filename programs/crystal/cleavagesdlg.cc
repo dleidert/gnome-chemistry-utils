@@ -237,18 +237,14 @@ void gcCleavagesDlg::CleavageDeleteAll()
 
 void gcCleavagesDlg::CleavageSelect(GtkTreeSelection *Selection)
 {
-	GtkTreeModel* model = GTK_TREE_MODEL(CleavageList);
-	GtkTreePath *path;
+	GtkTreeModel* model = GTK_TREE_MODEL (CleavageList);
 	GtkTreeIter iter;
-	if (gtk_tree_selection_get_selected(Selection, &model, &iter))
-	{
-		gtk_widget_set_sensitive(DeleteBtn, true);
-		path = gtk_tree_model_get_path(model, &iter);
-	}
-	else
-	{
-		gtk_widget_set_sensitive(DeleteBtn, false);
-		if (!m_Cleavages->len) gtk_widget_set_sensitive(DeleteAllBtn, false);
+	if (gtk_tree_selection_get_selected (Selection, &model, &iter)) {
+		gtk_widget_set_sensitive (DeleteBtn, true);
+	} else {
+		gtk_widget_set_sensitive (DeleteBtn, false);
+		if (!m_Cleavages->len)
+			gtk_widget_set_sensitive (DeleteAllBtn, false);
 	}
 }
 
@@ -277,4 +273,5 @@ void gcCleavagesDlg::OnEdited(GtkCellRendererText *cell, const gchar *path_strin
 			g_array_index(m_Cleavages, struct CleavageStruct, i).planes = x;
 			break;
 	}
+	gtk_tree_path_free (path);
 }

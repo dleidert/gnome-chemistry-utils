@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2007-01-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/atomsdlg.cc: fixed a few memory leaks.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/document.cc: fix read only issue.
+	* programs/crystal/linesdlg.cc: use correct line number when clicking
+	the "unique" box and fix some leaks.
+
+2007-01-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/C/gcrystal-unstable.xml: write some doc.
+	* docs/help/crystal/C/figures/main-window.png: new screenshot.
+	* gcu/object.cc:  implement a default behavior for Object::Add.
+	* programs/crystal/application.cc: disable saving for read-only files.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/crystal/window.h: ditto.
+
 2007-01-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/calc/C/gchemcalc-unstable.xml: completed.
 	* gcu/formula.cc: fixed a crasher when parsing an empty string.

@@ -235,6 +235,7 @@ void gcDocument::Save()
 			
 		xmlFreeDoc (xml);
 		SetDirty (false);
+		m_ReadOnly = false;	// if saving succeded, the file is not read only...
 	}
 	catch (int num) {
 		xmlFreeDoc (xml);

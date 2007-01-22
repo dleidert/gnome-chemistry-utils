@@ -373,6 +373,7 @@ void gcAtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 			continue;
 			gtk_combo_box_set_active (RadiusMenu, i);
 		}
+		gtk_tree_path_free (path);
 	} else {
 		gtk_widget_set_sensitive (DeleteBtn, false);
 		if (!m_Atoms->len)
@@ -432,6 +433,7 @@ void gcAtomsDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, 
 		g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).z = x;
 		break;
 	}
+	gtk_tree_path_free (path);
 }
 
 void gcAtomsDlg::SetCustomColor (bool custom)
