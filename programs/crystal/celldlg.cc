@@ -4,7 +4,7 @@
  * Gnome Crystal
  * sizedlg.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,10 +33,13 @@ void on_type_changed (GtkWidget* w, gcCellDlg *pBox)
 	pBox->OnTypeChanged ();
 }
 
-gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/cell.glade", "cell")
+gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/cell.glade", "cell", pDoc)
 {
+	if (!xml) {
+		delete this;
+		return;
+	}
 	m_pDoc = pDoc;
-	pDoc->NotifyDialog (this);
 	TypeMenu = GTK_COMBO_BOX (glade_xml_get_widget (xml, "lattice-type"));
 	g_signal_connect (G_OBJECT (TypeMenu), "changed", G_CALLBACK (on_type_changed), this);
 	A = (GtkEntry*) glade_xml_get_widget (xml, "a");
@@ -65,7 +68,6 @@ gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADED
 
 gcCellDlg::~gcCellDlg ()
 {
-	m_pDoc->RemoveDialog (this);
 }
 
 bool gcCellDlg::Apply ()

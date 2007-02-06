@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atomsdlg.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -101,10 +101,14 @@ static void on_charge_changed (GtkSpinButton *btn, gcAtomsDlg *pBox)
 	pBox->SetCharge (gtk_spin_button_get_value_as_int (btn));
 }
 
-gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/atoms.glade", "atoms")
+gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/atoms.glade", "atoms", pDoc)
 {
+	if (!xml) {
+		m_Atoms = NULL;
+		delete this;
+		return;
+	}
 	m_pDoc = pDoc;
-	pDoc->NotifyDialog (this);
 	GtkWidget *frame = glade_xml_get_widget (xml, "mendeleiev");
 	periodic = (GtkPeriodic*) gtk_periodic_new ();
 	g_signal_connect (G_OBJECT (periodic), "element_changed", G_CALLBACK (on_element), this);
@@ -213,8 +217,8 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 
 gcAtomsDlg::~gcAtomsDlg ()
 {
-	g_array_free (m_Atoms, false);
-	m_pDoc->RemoveDialog (this);
+	if (m_Atoms)
+		g_array_free (m_Atoms, false);
 }
 
 bool gcAtomsDlg::Apply ()

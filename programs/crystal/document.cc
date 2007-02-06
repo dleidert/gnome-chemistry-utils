@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.cc 
  *
- * Copyright (C) 2000-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -631,16 +631,6 @@ bool gcDocument::VerifySaved()
 	else if (res == GTK_RESPONSE_CANCEL) m_bClosing = false;
 	g_free(str);
 	return (res != GTK_RESPONSE_CANCEL);
-}
-
-void gcDocument::NotifyDialog (Dialog* dialog)
-{
-	m_Dialogs.push_front(dialog);
-}
-
-void gcDocument::RemoveDialog (Dialog* dialog)
-{
-	m_Dialogs.remove(dialog);
 }
 
 CrystalView* gcDocument::CreateNewView()

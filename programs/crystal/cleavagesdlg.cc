@@ -4,7 +4,7 @@
  * Gnome Crystal
  * cleavagesdlg.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -68,10 +68,14 @@ static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const
 	pBox->OnEdited(cell, path_string, new_text);
 }
 
-gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/cleavages.glade", "cleavages")
+gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/cleavages.glade", "cleavages", pDoc)
 {
+	if (!xml) {
+		m_Cleavages = NULL;
+		delete this;
+		return;
+	}
 	m_pDoc = pDoc;
-	pDoc->NotifyDialog(this);
 	GtkWidget* button = glade_xml_get_widget(xml, "add");
 	g_signal_connect(G_OBJECT(button), "clicked", GTK_SIGNAL_FUNC(on_add), this);
 	DeleteBtn = glade_xml_get_widget(xml, "delete");
@@ -153,8 +157,8 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 
 gcCleavagesDlg::~gcCleavagesDlg()
 {
-	g_array_free(m_Cleavages, false);
-	m_pDoc->RemoveDialog(this);
+	if (m_Cleavages)
+		g_array_free (m_Cleavages, false);
 }
 
 bool gcCleavagesDlg::Apply()

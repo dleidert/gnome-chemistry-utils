@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.cc 
  *
- * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -39,7 +39,7 @@
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
-#include <goffice/utils/go-format.h>
+#include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-image.h>
 #include <goffice/utils/go-marker.h>
@@ -90,7 +90,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 			go_setlocale (LC_NUMERIC, "C");
 			old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
 			go_setlocale (LC_MONETARY, "C");
-			go_set_untranslated_bools ();
+			go_locale_untranslated_booleans ();
 		
 			xout = gsf_xml_out_new (output);
 			gog_object_write_xml_sax (GOG_OBJECT (graph), xout);

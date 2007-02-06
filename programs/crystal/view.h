@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view.h 
  *
- * Copyright (C) 2000-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,6 +31,7 @@
 #include <gcu/crystalview.h>
 #include <gcu/matrix.h>
 #include <gcu/dialog.h>
+#include <gcu/dialog-owner.h>
 
 class gcDocument;
 class gcApplication;
@@ -38,7 +39,7 @@ class gcWindow;
 
 using namespace gcu;
 
-class gcView: public CrystalView
+class gcView: public CrystalView, public DialogOwner
 {
 public:
 	gcView (gcDocument *pDoc);
@@ -51,8 +52,6 @@ public:
 	gdouble& GetPos () {return m_Radius;}
 	void GetRotation (double *psi, double *theta, double *phi);
 	bool LoadOld (xmlNodePtr node);
-	void NotifyDialog (Dialog* dialog);
-	void RemoveDialog (Dialog* dialog);
 	gcWindow *GetWindow () {return m_Window;}
 	void SetWindow (gcWindow *window) {m_Window = window;}
 	

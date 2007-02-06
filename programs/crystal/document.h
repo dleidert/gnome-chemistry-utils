@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.h 
  *
- * Copyright (C) 2000-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -72,8 +72,6 @@ public:
 	bool RemoveView(gcView* pView);
 	void RemoveAllViews ();
 	bool VerifySaved();
-	void NotifyDialog(Dialog* dialog);
-	void RemoveDialog(Dialog* dialog);
 	bool GetFixedSize() {return m_bFixedSize;}
 	void SetFixedSize(bool FixedSize) {m_bFixedSize = FixedSize;}
 	virtual CrystalView* CreateNewView();

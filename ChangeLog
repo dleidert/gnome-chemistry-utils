@@ -1,5 +1,41 @@
 ##Text encoding: utf-8
 
+2007-02-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: needs goffice-0.3.6.
+	* gcu/Makefile.am: add dialog-owner.*.
+	* gcu/application.cc: derives from DialogOwner.
+	* gcu/application.h: ditto.
+	* gcu/chem3ddoc.cc: update copyright.
+	* gcu/chem3ddoc.h: ditto.
+	* gcu/dialog.cc: use new DialogOwner class.
+	* gcu/dialog.h: ditto.
+	* gcu/dialog-owner.cc: new DialogOwner class used to ensure the
+	uniqueness of some dialogs.
+	* gcu/dialog-owner.h: ditto.
+	* gcu/document.cc: derives from DialogOwner.
+	* gcu/document.h: ditto.
+	* gcu/filechooser.cc: update copyright.
+	* gcu/filechooser.h: ditto.
+	* gcu/formula.cc: ditto.
+	* gcu/object.cc: ditto.
+	* programs/calc/gchemcalc.cc: update to new goffice api.
+	* programs/crystal/application.cc: derives from DialogOwner.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/atomsdlg.cc: make it unique for a document.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/document.cc: derives from DialogOwner.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/linesdlg.cc: make it unique for a document.
+	* programs/crystal/prefs.cc: make it unique for the application.
+	* programs/crystal/sizedlg.cc: make it unique for a document.
+	* programs/crystal/view-settings.cc: make it unique for a view.
+	* programs/crystal/view.cc: derives from DialogOwner.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/window.cc: update copyright.
+	* programs/crystal/window.h: ditto.
+	* programs/table/gchemtable-curve.cc: update to new goffice api.
+
 2007-01-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/atomsdlg.cc: fixed a few memory leaks.
 	* programs/crystal/cleavagesdlg.cc: ditto.

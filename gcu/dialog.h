@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/dialog.h 
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -61,7 +61,8 @@ enum CheckType
 };
 
 class Application;
-	
+class DialogOwner;
+
 /*!\class Dialog gcu/dialog.h
 This class is base class for dialog boxes. It provides some basic services.
 */
@@ -73,7 +74,10 @@ public:
 @param filename: the glade file name which contains the description of
 the dialog.
 @param windowname: the name of the top level GtkWidget of the dialog box in
-the glade file.
+the glade file. This name should be unique for the application. It is used to access
+the contextual help and to ensure the uniqueness of the dialog (in some cases).
+@param owner: the address of an owner object, might be App or a document
+or NULL (the default). when owner is not NULL, the dialog will be unique for it.
 @param extra_destroy: a callback to be called when the dialog is detroyed
 by calling Dialog::Destroy. Useful to perform non standard cleaning operations
 before calling gtk_widget_destroy. The destructor being called afterwards, it
@@ -84,7 +88,7 @@ If the glade file declares buttons with names "OK", "apply", "cancel" and "help"
 default actions will be associated with these buttons.
 If the Application does not provide help support, the Help button will be hidden.
 */
-	Dialog (Application* App, const char* filename, const char* windowname, void (*extra_destroy)(gpointer) = NULL, gpointer data = NULL);
+	Dialog (Application* App, const char* filename, const char* windowname, DialogOwner *owner = NULL, void (*extra_destroy)(gpointer) = NULL, gpointer data = NULL);
 	virtual ~Dialog ();
 
 /*!
@@ -133,7 +137,8 @@ displayed which let the user know why the value is not correct.
 
 protected:
 /*!
-The GladeXML structure used to build the dialog.
+The GladeXML structure used to build the dialog. If NULL, an error
+occured and the dialog should be deleted.
 */
 	GladeXML* xml;
 /*!
@@ -150,6 +155,7 @@ private:
 	gpointer m_data;
 	char m_buf[64];
 	string m_windowname;
+	DialogOwner *m_Owner;
 };
 
 }	// namespace gcu

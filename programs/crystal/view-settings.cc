@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view-settings.cc
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,10 +28,13 @@
 #include "application.h"
 #include <glade/glade.h>
 
-gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDoc ()->GetApp (), GLADEDIR"/view-settings.glade", "view_settings")
+gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDoc ()->GetApp (), GLADEDIR"/view-settings.glade", "view_settings", pView)
 {
+	if (!xml) {
+		delete this;
+		return;
+	}
 	m_pView = pView;
-	m_pView->NotifyDialog (this);
 	FoV = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "fov"));
 	Psi = (GtkEntry *) glade_xml_get_widget (xml, "psi");
 	Theta = (GtkEntry *) glade_xml_get_widget (xml, "theta");
@@ -60,7 +63,6 @@ gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDoc ()->
 
 gcViewSettingsDlg::~gcViewSettingsDlg ()
 {
-	m_pView->RemoveDialog (this);
 }
 
 bool gcViewSettingsDlg::Apply()

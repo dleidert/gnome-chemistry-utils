@@ -4,7 +4,7 @@
  * Gnome Crystal
  * sizedlg.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,10 +27,13 @@
 #include "document.h"
 #include "application.h"
 
-gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/size.glade", "size")
+gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/size.glade", "size", pDoc)
 {
+	if (!xml) {
+		delete this;
+		return;
+	}
 	m_pDoc = pDoc;
-	pDoc->NotifyDialog(this);
 	MinX = (GtkEntry*) glade_xml_get_widget(xml, "xmin");
 	MaxX = (GtkEntry*) glade_xml_get_widget(xml, "xmax");
 	MinY = (GtkEntry*) glade_xml_get_widget(xml, "ymin");
@@ -55,7 +58,6 @@ gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADED
 
 gcSizeDlg::~gcSizeDlg()
 {
-	m_pDoc->RemoveDialog(this);
 }
 
 bool gcSizeDlg::Apply ()

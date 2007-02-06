@@ -4,7 +4,7 @@
  * Gnome Crystal
  * prefs.cc 
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -34,8 +34,12 @@ static void on_print_resolution (GtkWidget *widget, gcPrefsDlg * dialog)
 	dialog->UpdatePrinting ();
 }
 
-gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, GLADEDIR"/prefs.glade", "prefs")
+gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, GLADEDIR"/prefs.glade", "prefs", App)
 {
+	if (!xml) {
+		delete this;
+		return;
+	}
 	PrintResMenu = (GtkComboBox *) glade_xml_get_widget (xml, "printres");
 	PrintResBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "printresbtn");
 	int PrintIndex;

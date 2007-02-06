@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/document.h 
  *
- * Copyright (C) 2004-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +27,7 @@
 #define GCU_DOCUMENT_H
 
 #include <gcu/object.h>
+#include <gcu/dialog-owner.h>
 #include <gcu/macros.h>
 #include <string>
 
@@ -36,13 +37,15 @@ namespace gcu
 {
 
 class Application;
+class Dialog;
 
 /*!\class Document gcu/document.h
 This class is the base document class.
 */
-class Document: public Object
+class Document: public Object, public DialogOwner
 {
 friend class gcu::Object;
+friend class gcu::Dialog;
 public:
 /*!
 @param App: the Appllcation which owns the new document.

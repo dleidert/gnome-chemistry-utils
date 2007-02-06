@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/application.cc 
  *
- * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -225,3 +225,4 @@ char const *Application::GetPixbufTypeName (string& filename, char const *mime_t
 	g_strfreev (exts);
 	return gdk_pixbuf_format_get_name (format);
 }
+

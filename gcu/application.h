@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/application.h
  *
- * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,6 +25,7 @@
 #ifndef GCU_APPLICATION_H
 #define GCU_APPLICATION_H
 
+#include "dialog-owner.h"
 #include <map>
 #include <set>
 #include <string>
@@ -38,13 +39,15 @@ using namespace std;
 namespace gcu {
 
 class Document;
+class Dialog;
 
 /*!\class Application gcu/application.h
 This class is a base class for applications. It provides some basic services.
 */
-class Application
+class Application: public DialogOwner
 {
 friend class Document;
+friend class Dialog;
 public:
 /*!
 @param name the name of the application.
@@ -210,11 +213,11 @@ The currently opened documents.
 /*!\fn GetDocs()
 @return the set of currently opened documents.
 */
-GCU_PROT_PROP (set <Document*>, Docs);
+GCU_PROT_PROP (set <Document*>, Docs)
 /*!\fn GetScreenResolution()
 @return the current screen resolution.
 */
-GCU_RO_PROP (unsigned, ScreenResolution);
+GCU_RO_PROP (unsigned, ScreenResolution)
 /*!\fn SetImageResolution(unsigned ImageResolution)
 @param ImageResolution the new image resolution.
 Sets the image resolution used when exporting a pixmap.
@@ -227,7 +230,7 @@ an exported image size, but not both.
 /*!\fn GetRefImageResolution()
 @return the current image resolution used on export as a reference.
 */
-GCU_PROP (unsigned, ImageResolution);
+GCU_PROP (unsigned, ImageResolution)
 /*!\fn SetImageWidth(unsigned Width)
 @param Width the new image width.
 Sets the image width used when exporting a pixmap.
@@ -240,7 +243,7 @@ an exported image size, but not both.
 /*!\fn GetRefImageWidth()
 @return the current image width used on export as a reference.
 */
-GCU_PROP (unsigned, ImageWidth);
+GCU_PROP (unsigned, ImageWidth)
 /*!\fn SetImageHeight(unsigned Height)
 @param Height the new image height.
 Sets the image height used when exporting a pixmap.
@@ -253,11 +256,11 @@ an exported image size, but not both.
 /*!\fn GetRefImageHeight()
 @return the current image height used on export as a reference.
 */
-GCU_PROP (unsigned, ImageHeight);
+GCU_PROP (unsigned, ImageHeight)
 /*!\fn GetRecentManager()
 @return the GtkRecentFileManager attached to the application.
 */
-GCU_RO_PROP (GtkRecentManager*, RecentManager);
+GCU_RO_PROP (GtkRecentManager*, RecentManager)
 };
 
 }	// namespace gcu

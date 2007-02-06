@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/dialog.cc 
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -57,9 +57,15 @@ static bool on_destroy (GtkWidget *widget, Dialog* pBox)
 	return true;
 }
 
-Dialog::Dialog (Application* App, const char* filename, const char* windowname, void (*extra_destroy)(gpointer), gpointer data)
+Dialog::Dialog (Application* App, const char* filename, const char* windowname, DialogOwner *owner, void (*extra_destroy)(gpointer), gpointer data)
 {
 	m_App = App;
+	m_Owner = NULL;
+	if (owner && !owner->AddDialog (windowname, this)) {
+		xml = NULL;
+		return;
+	}
+	m_Owner = owner;
 	xml =  glade_xml_new (filename, windowname, NULL);
 	m_extra_destroy = extra_destroy;
 	m_windowname = windowname;
@@ -85,7 +91,10 @@ Dialog::Dialog (Application* App, const char* filename, const char* windowname, 
 
 Dialog::~Dialog()
 {
-	g_object_unref (G_OBJECT (xml));
+	if (xml)
+		g_object_unref (G_OBJECT (xml));
+	if (m_Owner)
+		m_Owner->RemoveDialog (m_windowname);
 }
 
 void Dialog::Destroy()

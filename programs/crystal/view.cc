@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view.cc 
  *
- * Copyright (C) 2000-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -49,7 +49,9 @@ gcView::gcView (gcDocument *pDoc): CrystalView (pDoc)
 	m_Window = NULL;
 }
 
-gcView::gcView (gcView *pView): CrystalView (dynamic_cast <CrystalDoc *> (pView->GetDoc ()))
+gcView::gcView (gcView *pView):
+	CrystalView (dynamic_cast <CrystalDoc *> (pView->GetDoc ())),
+	DialogOwner ()
 {
 	SetAngle (pView->GetAngle ());
 	SetRotation (pView->GetPsi (), pView->GetTheta (), pView->GetPhi ());
@@ -136,14 +138,4 @@ bool gcView::LoadOld(xmlNodePtr node)
 		child = child->next;
 	}
 	return true;
-}
-
-void gcView::NotifyDialog (Dialog* dialog)
-{
-	m_Dialogs.push_front (dialog);
-}
-
-void gcView::RemoveDialog (Dialog* dialog)
-{
-	m_Dialogs.remove (dialog);
 }

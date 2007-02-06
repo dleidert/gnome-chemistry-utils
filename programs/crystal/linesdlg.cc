@@ -4,7 +4,7 @@
  * Gnome Crystal
  * linesdlg.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -90,10 +90,14 @@ static void on_medians_toggled (GtkToggleButton* btn, gcLinesDlg *pBox)
 	pBox->OnToggledSpecial (medians);
 }
 
-gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/lines.glade", "lines")
+gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/lines.glade", "lines", pDoc)
 {
+	if (!xml) {
+		m_Lines = NULL;
+		delete this;
+		return;
+	}
 	m_pDoc = pDoc;
-	pDoc->NotifyDialog (this);
 	GtkWidget* button = glade_xml_get_widget (xml, "add");
 	g_signal_connect (G_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (on_add), this);
 	DeleteBtn = glade_xml_get_widget (xml, "delete");
@@ -273,7 +277,8 @@ gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 
 gcLinesDlg::~gcLinesDlg ()
 {
-	m_pDoc->RemoveDialog (this);
+	if (m_Lines)
+		g_array_free (m_Lines, false);
 }
 
 bool gcLinesDlg::Apply ()
