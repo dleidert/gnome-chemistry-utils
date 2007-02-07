@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2007-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/dialog-owner.cc: fix some issues.
+	* gcu/dialog.h: add Dialog::Present.
+	* programs/table/gchemtable-app.cc: don't display acidity
+	color scheme in menu.
+
 2007-02-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: needs goffice-0.3.6.
 	* gcu/Makefile.am: add dialog-owner.*.

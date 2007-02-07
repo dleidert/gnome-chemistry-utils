@@ -34,19 +34,26 @@ DialogOwner::DialogOwner ()
 
 DialogOwner::~DialogOwner ()
 {
-	while (!Dialogs.empty ())
-		(*Dialogs.begin ()).second->Destroy ();
+	map <string, Dialog *>::iterator i;
+	while (!Dialogs.empty ()) {
+		i = Dialogs.begin ();
+		if ((*i).second)
+			(*i).second->Destroy ();
+		else
+			Dialogs.erase (i);
+	}
 }
 
 Dialog *DialogOwner::GetDialog (string name)
 {
-	return (*Dialogs.find (name)).second;
+	map <string, Dialog *>::iterator i = Dialogs.find (name);
+	return (i != Dialogs.end ())? (*i).second: NULL;
 }
 
 bool DialogOwner::AddDialog (string name, Dialog *dialog) 
 {
 	if (Dialogs[name]) {
-		gtk_window_present (Dialogs[name]->GetWindow ());
+		Dialogs[name]->Present ();
 		return false;
 	}
 	Dialogs[name] = dialog;

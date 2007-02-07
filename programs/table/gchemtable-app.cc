@@ -187,7 +187,7 @@ static const char *ui_description =
 #ifdef WITH_BODR
 "        <menuitem action='StateColors'/>"
 "        <menuitem action='FamilyColors'/>"
-"        <menuitem action='AcidityColors'/>"
+//"        <menuitem action='AcidityColors'/>"
 #endif
 "      </menu>"
 "    </menu>"

@@ -120,6 +120,11 @@ should not be closed.
 */
 	GtkWindow* GetWindow () {return dialog;}
 
+/*!
+	Brings the dialog to top of the windows stack.
+*/
+	void Present () {gtk_window_present (dialog);}
+
 protected:
 /*!
 @param Entry: the GtkEntry from which the number should be retrieved.
