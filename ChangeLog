@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2007-02-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/C/figures/atoms-dlg.png: new screenshot.
+	* docs/help/crystal/C/figures/cleavages-dlg.png: ditto.
+	* docs/help/crystal/C/figures/default-view.png: ditto.
+	* docs/help/crystal/C/figures/lattice-dlg.png: ditto.
+	* docs/help/crystal/C/figures/lines-dlg.png: ditto.
+	* docs/help/crystal/C/figures/print-res.png: ditto.
+	* docs/help/crystal/C/figures/size-dlg.png: ditto.
+	* docs/help/crystal/C/figures/view-settings.png: ditto.
+	* docs/help/crystal/C/gcrystal-unstable.xml: updated
+	Gnome Crystal documentation.
+	* programs/crystal/prefs.cc: make print resolution
+	insensitive when needed on dialog creation.
+
 2007-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/dialog-owner.cc: fix some issues.
 	* gcu/dialog.h: add Dialog::Present.

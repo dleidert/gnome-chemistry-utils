@@ -43,6 +43,7 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, GLADEDIR"/prefs.glade"
 	PrintResMenu = (GtkComboBox *) glade_xml_get_widget (xml, "printres");
 	PrintResBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "printresbtn");
 	int PrintIndex;
+	bool active = false;
 	switch (PrintResolution) {
 	case 300:
 		PrintIndex = 0;
@@ -70,9 +71,11 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, GLADEDIR"/prefs.glade"
 		break;
 	default:
 		PrintIndex = 8;
-		gtk_spin_button_set_value (PrintResBtn, PrintResolution);
+		active = true;
 		break;
 	}
+	gtk_spin_button_set_value (PrintResBtn, PrintResolution);
+	gtk_widget_set_sensitive (GTK_WIDGET (PrintResBtn), active);
 	gtk_combo_box_set_active (PrintResMenu, PrintIndex);
 	g_signal_connect (PrintResMenu, "changed", G_CALLBACK (on_print_resolution), this);
 	FoVBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "fov"));

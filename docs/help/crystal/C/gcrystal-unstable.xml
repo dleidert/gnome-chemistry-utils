@@ -197,7 +197,10 @@
 			 </menuchoice>
 		  to display the <guilabel>Open File</guilabel> dialog. Select the file
 		  that you want to open, then click <guibutton>OK</guibutton>. The file is
-		  displayed in the <application>&app;</application> main window. </para>
+		  displayed in a new <application>&app;</application> document window. </para>
+		<para>To Open a recently opened file, choose the appropriate entry
+		in <menuchoice> <guimenu>File</guimenu> <guimenuitem>Open recent</guimenuitem>
+		</menuchoice></para>
 		<para><application>&app;</application> can open files on a distant server using the Gnome Virtual
 		File System. If the file is read-only, the <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>
 			 </menuchoice> menu item and the corresponding tool button are disabled.</para>
@@ -215,6 +218,548 @@
 		for each file that you specified.</para>
 	</sect1>
  </chapter>
+
+<!-- ============ Usage ============================================ -->
+
+ <chapter id="gcrystal-unstable-usage">
+    <title>General operations</title>
+<!-- ============= To Create a New File ======================== -->
+	 <sect1 id="gnome-crystal-unstable-create-new-file"> 
+		<title>To Create a New File</title>
+		<para>To create a new file, choose 
+		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>
+			 </menuchoice>. The application displays a new file in the
+		  <application>&app;</application> window.</para>
+	 </sect1>
+<!-- ============= To Save a File ============================== -->
+	 <sect1 id="gnome-crystal-unstable-save-file"> 
+		<title>To Save a File</title>
+		<para>You can save files in the following ways:</para>
+		<itemizedlist> 
+		  <listitem><para>To save changes to the current file, choose 
+				<menuchoice> <guimenu>File</guimenu>
+				  <guimenuitem>Save</guimenuitem> </menuchoice> or click <guibutton>Save</guibutton>
+				  on the toolbar. If the file does not have a file name, <application>&app;</application> 
+					 displays the <guilabel>Save As</guilabel> dialog. Enter a name for the file in the <guilabel>Save
+				As</guilabel> dialog, choose a file format, then click <guibutton>OK</guibutton>.</para>
+		  </listitem>
+		  <listitem><para>To save a new file or to save an existing file under a new file name, choose 
+				<menuchoice> <guimenu>File</guimenu> <guimenuitem>Save
+				  As</guimenuitem> </menuchoice>. Enter a name for the file in the <guilabel>Save
+				As</guilabel> dialog box, choose a file format, then click <guibutton>OK</guibutton>. </para>
+		  </listitem>
+		</itemizedlist> 
+	  <para><application>&app;</application> file names use the .gcrystal extension. You do not have to type
+	  the extension, it will be added automatically.</para>
+  </sect1>
+	 <sect1 id="gnome-crystal-unstable-export"> 
+		<title>To Export the Current View to a Graphic Format</title>
+		<para>To export the current file to an image, use 
+		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save As Image</guimenuitem>
+			 </menuchoice>.</para>
+		<para>Available formats are VRML, EPS, and the formats with write support in
+		GdkPixbuf.</para>
+		<para>To choose a format, you can use an appropriate extension
+		in the file name, or explicitly select a format in the combo box.
+		With the first method, if <application>&app;</application> does
+		not recognize an extension, the exported file will be a VRML
+		file. <application>&app;</application> will add an extension
+		to the file name if needed.</para>
+	</sect1>
+	 <sect1 id="gnome-crystal-unstable-print"> 
+		<title>To Print the Current View</title>
+			<para>To print the contents of the current view, use <menuchoice> <guimenu>File</guimenu> <guimenuitem>Print</guimenuitem> </menuchoice>.</para>
+			<para><application>&app;</application> uses OpenGL to print the image. The color depth will be for this reason the one used
+			by the X server. As the printer resolution is much larger than the screen resolution and the buffer used has the same size as the view, the
+			scene is splitted in as many parts as necessary to build the whole image sent to the printer. The resolution used for printing can be
+			changed in the Settings Dialog choose <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Preferences</guimenuitem>
+			 </menuchoice>. The Preferences dialog box opens (see <xref linkend="gnome-crystal-unstable-prefs"/>). Printing can be a lengthy operation
+			even with a 300 dpi resolution; higher resolutions might be unpracticable.</para>
+	</sect1>
+	<sect1 id="gnome-crystal-unstable-prefs">
+  <title>To Change &app; Settings</title>
+    
+  <sect2 id="gnome-crystal-unstable-printing">
+    <title>Printing resolution</title>
+		<figure id="gnome-crystal-unstable-print-res"> 
+ 		  <title>Printer Resolution Page</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="figures/print-res.png" format="png"/>
+						<textobject> <phrase>Screenshot of the Printer Resolution Page.</phrase>
+						</textobject> 
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+   <para>Printing needs that an OpenGL window. The properties page "Printing
+	parameters" allows you choose the printer
+	resolution in the list. If your printer resolution is not in the list, select the "Other" option
+	and give the right value in the appropriate text entry.
+	As the printer resolution is much larger than the screen resolution and the buffer used has the same size as the view, the
+	scene is splitted in as many parts as necessary to build the whole image sent to the printer. Printing can be a lengthy operation
+	even with a 300 dpi resolution; higher resolutions might be unpracticable.</para>
+  </sect2>
+  
+  <sect2 id="gnome-crystal-unstable-views">
+    <title>Views default parameters </title>
+		<figure id="gnome-crystal-unstable-default-view-page"> 
+		  <title>View Defaults Page</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="figures/default-view.png" format="png"/>
+						<textobject> <phrase>Screenshot of the Default View Settings Page.</phrase>
+						</textobject> 
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+	  <para>Parameters available in this page are those that will concern every new view when it
+	  is created. To change the same parameters for already opened views, you should use the View menu
+	  (see <xref linkend="gnome-crystal-unstable-view_settings"/>)</para>
+	  <para>Available parameters are background color, field of view, and model orientation
+	  defined by Euler's angles.</para>
+  </sect2>
+  </sect1>
+ </chapter>
+
+  <chapter id="gcrystal-unstable-definition">
+    <title>Defining the crystal.</title>
+
+    <sect1 id="gcrystal-unstable-cell"><title>Lattice</title>
+	  <figure id="gcrystal-unstable-cell-dialog"> 
+	    <title>Lattice Dialog</title>
+	    <screenshot> 
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="figures/lattice-dlg.png" format="png"/>
+			  <textobject> <phrase>Screenshot of the Lattice Dialog Box.</phrase>
+			  </textobject> 
+			</imageobject>
+		  </mediaobject>
+		</screenshot>
+	  </figure>
+	<para>The unit cell is defined by the length of its three edges
+	<parameter>a</parameter>, <parameter>b</parameter> et <parameter>c</parameter>
+	and by the three angles &alpha;, &beta; et &gamma; between two vertices.</para>
+	<para>Depending upon the selected Bravais lattice, some of these parameters are fixed
+	or dependents. Only independent parameters may be changed, entries corresponding to constant or
+	dependent values are disabled.</para>
+	<para>Lengths must be given in picometers and angles are expressed in degrees.</para>
+</sect1>
+
+<sect1 id="gcrystal-unstable-atoms"><title>Atoms</title>
+	  <figure id="gcrystal-unstable-atoms-dialog"> 
+	    <title>Atoms Dialog</title>
+	    <screenshot> 
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="figures/atoms-dlg.png" format="png"/>
+			  <textobject> <phrase>Screenshot of the Atoms Dialog Box.</phrase>
+			  </textobject> 
+			</imageobject>
+		  </mediaobject>
+		</screenshot>
+	  </figure>
+    <para>The screenshot above defines the atoms of a sodium chloride cell.</para>
+    <para>After adding an atom, it is possible to modify the associated parameters:</para>
+	<variablelist>
+	 <varlistentry>
+	  <term>x</term>
+	  <term>y</term>
+	  <term>z</term>
+	  <listitem>
+	   <para>
+	    x, y et z are the atom coordinates in the cell given respective to the cell size.
+		For instance, the triplet 0, 0, 0 puts the atom at the cell vertices and if
+		the threee coordinates ere equal to 0.5, the atom will rest at the center of the cell.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Element</term>
+	  <listitem>
+	   <para>
+	    The element is changed by choosing the corresponding button in the periodic table.
+		If no button is checked, the element is unknown.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Charge</term>
+	  <listitem>
+	   <para>
+	    The charge of the atom.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Radius</term>
+	  <listitem>
+	   <para>
+	    The atom is figured as a sphere whose radius is expressed in picometers in the same way as the cell size.
+		While the radius is null, no atom can be added to the model. Gnome Crystal uses a database for radii.
+		In the <guilabel>Radius</guilabel> frame, it is possible to choose the type of the radius
+		(<guilabel>Unknown</guilabel>, <guilabel>Covalent</guilabel>, <guilabel>Ionic</guilabel>,
+		<guilabel>Metallic</guilabel>, or <guilabel>Van der Waals</guilabel>). Only ionic radii can
+		be used when the charge of the atom is not zero. Depending on the choice of element, charge and
+		radius type, a list of corresponding radii from the database is available. If none of these radii is
+		convenient, choose the <guilabel>Custom</guilabel> option and give a value in the entry.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Color</term>
+	  <listitem>
+	   <para>
+	    The default color for each element is the color used in the periodic table. To change the color displayed or
+		for an unknown element atom, use the custom color chooser.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	</variablelist>
+	<para>The number of visible atoms depends on the model size (see <xref linkend="gcrystal-unstable-size"/>) and on cleavages
+	(see <xref linkend="gcrystal-unstable-cleavages"/>).</para>
+	<para>
+		Buttons at bottom right are used to manage the atoms list:
+	</para>
+	<itemizedlist>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Add</guibutton> adds an atom to the list with the current parameters if the radius is not null.
+	   If there is an inappropriate value, a message appears and the action aborts.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete</guibutton> deletes the selected atom from the list.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete all</guibutton> removes every atom from the list.
+	  </para>
+	 </listitem>
+	</itemizedlist>
+</sect1>
+
+<sect1 id="gcrystal-unstable-lines"><title>Lines and Bonds</title>
+	  <figure id="gcrystal-unstable-lines-dialog"> 
+	    <title>Lines and Bonds Dialog</title>
+	    <screenshot> 
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="figures/lines-dlg.png" format="png"/>
+			  <textobject> <phrase>Screenshot of the Lines and Bonds Dialog Box.</phrase>
+			  </textobject> 
+			</imageobject>
+		  </mediaobject>
+		</screenshot>
+	  </figure>
+		<para>Bonds are not really supported in this version of Gnome Crystal. Lines must be used instead.
+		The difference is that bonds should be defined by the atoms they join when lines are defined by
+		the coordinates or their extremities.</para>
+		<para>Some special lines can be easily added, checking the corresponding box:</para>
+	   <itemizedlist>
+	    <listitem>
+		 <para>
+		  <guilabel>Cell edges</guilabel>: if the box is checked, a cylinder is added
+		  for each cell edge.
+		 </para>
+		</listitem>
+	    <listitem>
+		 <para>
+		  <guilabel>Diagonals</guilabel>: cylinders are added that join opposite vertices in the cell.
+		 </para>
+		</listitem>
+	    <listitem>
+		 <para>
+		  <guilabel>Medians</guilabel>: cylinders are added that join opposite face centers in the cell.
+		 </para>
+		</listitem>
+	   </itemizedlist>
+		 <para>
+		  For <guilabel>Other lines</guilabel> defined in the list, a cylinder is added to join the points whose coordinates are given in the
+		  appropriate entries. A Cylinder is added for every visible cell if the Single checkbox is not checked.
+		 </para>
+	   <para>These lines need coordinates x1, y1, z1 and x2, y2, z2
+	    are the coordinates of the two ends of the line or bond.
+		They must be given in cell coordinates for the two ends in the respective entries.
+		</para>
+    <para>For very line present in the model, the two following parameters must be defined
+	(for special lines, use the appropriate widgets and for the lines added to the list, use the wigets
+	displayed in the Other lines frame):</para>
+	<variablelist>
+	 <varlistentry>
+	  <term>Radius</term>
+	  <listitem>
+	   <para>
+	    The radius of the cylinder used to figure the bond or line must be given in pm as is the cell size.
+		If the radius is null, nothing will be added to the model.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	  <term>Color</term>
+	  <listitem>
+	   <para>
+	    The color of the cylinder used to figure the bond or line is selected by clicking on the button and picking a
+		color in the dialog box that pops.
+	   </para>
+	  </listitem>
+	 </varlistentry>
+	</variablelist>
+	<para>In the screenshot above (got from the diamond sample provided
+	with the sources), cell edges defined with grey color, a 10 pm radius, and some
+	bonds with the same radius, are added and will
+	be repeated in every visible cell.
+	</para>
+	<para>Bonds and lines effectively visible depend on model size (see <xref linkend="gcrystal-unstable-size"/>) and cleavages
+	(see <xref linkend="gcrystal-unstable-cleavages"/>). If one end of the cylinder lies outside of the visible part of the model,
+	the cylinder will be hidden.</para>
+	<para>
+		Buttons at bottom right are used to manage the bonds and lines list:
+	</para>
+	<itemizedlist>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Add</guibutton> adds an item to the list with the current parameters if the radius is not null.
+	   If there is an inappropriate value, a message appears and the action aborts.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete</guibutton> deletes the selected item from the list.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete all</guibutton> removes every item from the list.
+	  </para>
+	 </listitem>
+	</itemizedlist>
+</sect1>
+
+<sect1 id="gcrystal-unstable-size">
+  <title>Size</title>
+	  <figure id="gcrystal-unstable-size-dialog"> 
+	    <title>Size Dialog</title>
+	    <screenshot> 
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="figures/size-dlg.png" format="png"/>
+			  <textobject> <phrase>Screenshot of the Size Dialog Box.</phrase>
+			  </textobject> 
+			</imageobject>
+		  </mediaobject>
+		</screenshot>
+	  </figure>
+    <para>Model size is expressed as relative cell coordinates.
+	The necessary values are maximums and minimums of the three coordinates</para>
+	<para>It is also possible to cut the model using cleavages (see 
+	<xref linkend="gcrystal-unstable-cleavages"/>)	if one wishes to limit the visible part by planes others than those corresponding
+	to a constant value of a coordinate.</para>
+</sect1>
+
+<sect1 id="gcrystal-unstable-cleavages">
+  <title>Cleavages</title>
+	  <figure id="gcrystal-unstable-cleavages-dialog"> 
+	    <title>Cleavages Dialog</title>
+	    <screenshot> 
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="figures/cleavages-dlg.png" format="png"/>
+			  <textobject> <phrase>Screenshot of the Cleavages Dialog Box.</phrase>
+			  </textobject> 
+			</imageobject>
+		  </mediaobject>
+		</screenshot>
+	  </figure>
+    <para>Cleavages are used to hide from the views atoms from planes with a orientation fixed by the
+	Miller indices h, k and l.</para>
+	<para>If x, y and z are the atomic coordinates relative to the cell, Miller indices define planes
+	as all the points such that hx + ky + lz is a constant. By instance, in a cubic network, (111) planes
+	are perpendicular to the diagonal of the cubic cell going from vertex 0,0,0 to vertex 1,1,1.</para>
+	<para>Each define cleavage will hide the chosen number of planes beginning from the greatest value
+	for hx + ky + lz that is present in the model. To remove planes from the other side of the model,
+	signs of h, k and l must be reversed.</para>
+	<para>There is no need to define cleavages of (100), (010) or (001) planes because the same
+	effect may be obtained more easily by changing the size of the model (see below <xref linkend="gcrystal-unstable-size"/>).</para>
+	<para>
+	 When a cleavage is defined, the model is zoomed so that it fills the view as explained elsewhere
+	 (see <xref linkend="gcrystal-unstable-view_settings"/>). The <guibutton>Fixed model size</guibutton> button allows
+	 to keep remaining atoms at the same place in the view which may be useful to chain
+	 pictures in a presentation.
+	</para>
+	<para>
+		Buttons at bottom right are used to manage the cleavages list:
+	</para>
+	<itemizedlist>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Add</guibutton> adds acleavage to the list with the current parameters.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete</guibutton> deletes the selected cleavage from the list.
+	  </para>
+	 </listitem>
+	 <listitem>
+	  <para>
+	   Button <guibutton>Delete all</guibutton> removes every cleavage from the list.
+	  </para>
+	 </listitem>
+	</itemizedlist>
+    </sect1>
+  </chapter>
+
+<!-- ============= Views =========================================== -->
+
+  <chapter id="gcrystal-unstable-views">
+    <title>Views operations.</title>
+  <sect1 id="gcrystal-unstable-new-view">
+    <title>To Create a New View</title>
+  	<para>To create a new view of the active document,  choose <menuchoice> <guimenu>Windows</guimenu> <guimenuitem>Create New Window</guimenuitem>
+			 </menuchoice>.</para>
+    <para>
+	  A new view of the active document is created.</para>
+	  <para>The new view is identical
+	  to the document active view. This is considered as a modification of the active document.</para>
+	  <para>The new view becomes the active view.
+    </para>
+  </sect1>
+  <sect1 id="gcrystal-unstable-close-view">
+    <title>To Close The Current View</title>
+   	<para>To close the current view,  choose <menuchoice> <guimenu>Windows</guimenu> <guimenuitem>Close This Window</guimenuitem>
+			 </menuchoice>.</para>
+   <para>
+	 The active view will be closed. If this view is the only one opened for the document and the document has been changed
+	 but not saved, a dialog box pops so that you can save the changes, ignore them, or abort the operation.
+	 If other views exist, the view is closed without asking anything and the document is marked as dirty.
+    </para>
+  </sect1>
+	<sect1 id="gcrystal-unstable-view_settings">
+  <title>To Tune a View</title>
+  	<para>To tune a view,  choose <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Settings</guimenuitem>
+			 </menuchoice>. The View Settings Dialog Box opens.</para>
+	<figure id="gnome-crystal-view-settings-dialog"> 
+	  <title>View Settings Page</title>
+	  <screenshot> 
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="figures/view-settings.png" format="png"/>
+					<textobject> <phrase>Screenshot of the View Settings Dialog.</phrase>
+					</textobject> 
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</figure>
+  <para>This dialog box can be used to change the following parameters:</para>
+  <variablelist>
+   <varlistentry>
+   	<term>Background color</term>
+    <listitem>
+	 <para>
+	    The background color is selected by clicking on the button and picking a
+		color in the dialog box that pops.
+	 </para>
+    </listitem>
+   </varlistentry>
+   <varlistentry>
+   	<term>Field of view</term>
+    <listitem>
+	 <para>
+	  The field of view is the angle which sides join the point from which the model is viewed
+	  to the nearest sides of the view. So if the view has a larger horizontal size than its vertical size
+	  the sides taken into account are the horizontal ones, otherwise, the vertical sides are used.
+	  Acceptable values for the field of view are betwwen 0 and 45°.
+	  When a 0° field of view is used the projecton is orthogonal.
+      With a 1° field of view, the perspective effect
+	  will be hardly perceptible and with a 45° angle, the model will appear sowhat distorted.
+	  The default field of view is 10° (unless you changed it) and gives a sensible perspective.
+	 </para>
+	 <para>
+	  The distance between the viewpoint and the model is calculated to be the shortest so that the whole model remains
+	  visible whatever its orientation is. The only solution to see the model from a longer distance consist,
+	  in the present version, in defining a greater model size (see <xref linkend="gnome-crystal-size"/>) and defining cleavages
+	  to remove extra atoms (see <xref linkend="gnome-crystal-cleavages"/>) while selecting the option of constant model size.
+	 </para>
+    </listitem>
+   </varlistentry>
+   <varlistentry>
+   	<term>Spatial model orientation</term>
+    <listitem>
+	 <para>
+	  The model may be oriented with the mouse, clicking on the left button inside the view,
+	  dragging until a convenient orientation is obtained, and releasing the button.
+	  It also is possible to use this dialog box to choose an orientation by modifying the three
+	  Euler's angles &psi;, &thetas;, and &phis;.
+	 </para>
+     <para>
+	  When the three angles are null, <parameter>c</parameter> axis is vertical, with positive values up,
+	  <parameter>b</parameter> axis is in the view plane with positive values towards the right,
+	  and <parameter>a</parameter> axis points in the direction of the viewer. To bring the model
+	  to the position defined by Euler's angles, the operations are, in order:</para>
+	  <itemizedlist>
+	   <listitem>
+	   	<para>
+	     A rotation by angle &phis; around the vertical axis oriented upwards. Possible values
+		 for &phis; are in the range - 180° to 180°.
+		</para>
+	   </listitem>
+	   <listitem>
+	   	<para>
+	     A rotation by angle &thetas; around the axis perpendicular to the view and pointing
+		 towards the viewer. Possible values for &thetas; are from 0° to 180°.
+		</para>
+	   </listitem>
+	   <listitem>
+	   	<para>
+	     A rotation by angle &psi; around the vertical axis oriented upwards. Possible values
+		 for &psi; are in the range - 180° to 180°.
+		</para>
+	   </listitem>
+	  </itemizedlist>
+    </listitem>
+   </varlistentry>
+  </variablelist>
+  </sect1>
+  </chapter>
+
+<!-- ============= Support ========================================= -->
+
+ <chapter id="gcrystal-unstable-support">
+    <title>Support.</title>
+	<sect1 id="gcrystal-unstable-question">
+		<title>To Ask a Question</title>
+		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
+		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchemutils-main@nongnu.org">Gnome Chemistry Utils
+		mailing list</ulink>.</para>
+		<para>Another way to get some help is to connect on the #gchemutils channel
+		at irc.gimp.net and ask your question there (if you are not alone on the channel).</para>
+	</sect1>
+	<sect1 id="gcrystal-unstable-web">
+		<title>To Find the Gnome Chemistry Utils on the Web.</title>
+		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Gnome Chemistry Utils on the web</guimenuitem></menuchoice>,
+		the default web browser should pop up and display the main page for the Gnome Chemsitry Utils.</para>
+		<para>The main page is
+		<ulink type="http" url="http://gchemutils.nongnu.org">http://gchemutils.nongnu.org</ulink> and the project
+		page at savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchemutils">http://savannah.nongnu.org/projects/gchemutils</ulink>.</para>
+	</sect1>
+	<sect1 id="gcrystal-unstable-bug">
+		<title>To Report a Bug</title>
+		<para>To report a bug, you must use the bug page for the Gnome Chemistry
+		Utils at Savannah. You can access it by choosing
+		<menuchoice> <guimenu>Help</guimenu> <guimenuitem>Report Bugs</guimenuitem></menuchoice>
+		(hopefully you'll have only one at once to report).</para>
+		<para>You can also type the bug report page address directly in
+		the browser. The bug repository is at
+		<ulink type="http" url="https://savannah.nongnu.org/bugs/?group=gchemutils">https://savannah.nongnu.org/bugs/?group=gchemutils</ulink></para>
+	</sect1>
+  </chapter>
 
 <!-- ============= Application License ============================= -->
 
