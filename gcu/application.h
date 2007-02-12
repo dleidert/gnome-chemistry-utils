@@ -195,6 +195,7 @@ private:
 
 private:
 	string Name;
+	string HelpName;
 	string HelpBrowser;
 	string HelpFilename;
 	char *CurDir;

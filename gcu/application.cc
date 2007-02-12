@@ -41,7 +41,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	Name = name;
 	char const *szlang = getenv ("LANG");
 	string lang = (szlang)? szlang: "C";
-	string HelpName = help_name? help_name: Name;
+	HelpName = help_name? help_name: Name;
 	HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("/") + lang + string ("/") + HelpName + ".xml";
 	GnomeVFSURI *uri = gnome_vfs_uri_new (HelpFilename.c_str ());
 	bool exists = gnome_vfs_uri_exists (uri);
@@ -114,7 +114,7 @@ void Application::OnHelp (string tag)
 	argv[0] = (char*) HelpBrowser.c_str();
 	string path = HelpFilename;
 	if (tag.length ())
-		path += string("#") + Name + string ("-") + tag;
+		path += string("#") + HelpName + string ("-") + tag;
 	argv[1] = (char*) path.c_str ();
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, NULL);
