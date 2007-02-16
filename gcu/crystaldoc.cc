@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystaldoc.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,6 +22,7 @@
  * USA
  */
 
+#include "config.h"
 #include "crystaldoc.h"
 #include "crystalview.h"
 #include "xml-utils.h"
