@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-elt.cc 
  *
- * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -332,7 +332,6 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 			g_free (buf);
 		}
 	}
-#ifdef WITH_BODR
 	Value *prop = elt->GetProperty ("meltingpoint");
 	button = glade_xml_get_widget (xml, "melting-btn");
 	if (prop) {
@@ -351,10 +350,6 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "bp");
 	} else
 		gtk_widget_hide (button);
-#else
-	w = glade_xml_get_widget (xml, "thermal-table");
-	gtk_widget_hide (w);
-#endif
 }
 
 GChemTableElt::~GChemTableElt ()

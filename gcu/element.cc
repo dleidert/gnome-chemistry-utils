@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * element.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -769,9 +769,7 @@ void Element::LoadAllData ()
 	LoadRadii ();
 	LoadElectronicProps ();
 	LoadIsotopes ();
-#ifdef WITH_BODR
 	LoadBODR ();
-#endif
 }
 
 IsotopicPattern *Element::GetIsotopicPattern (unsigned natoms)
@@ -824,7 +822,6 @@ GcuDimensionalValue const *Element::GetElectronAffinity (unsigned rank)
 	return (rank <= m_ae.size ())? &m_ae[rank - 1]: NULL;
 }
 
-#ifdef WITH_BODR
 void Element::LoadBODR ()
 {
 	char *old_num_locale;
@@ -940,7 +937,6 @@ void Element::LoadBODR ()
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 }
-#endif
 
 int Element::GetIntegerProperty (char const *property_name)
 {

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!--Generated with glade3 3.1.4 on Tue Feb 13 23:28:13 2007 by mantha@electron-->
+<glade-interface>
+  <widget class="GtkWindow" id="window1">
+    <child>
+      <widget class="GtkTable" id="family-legend">
+        <property name="visible">True</property>
+        <property name="n_rows">1</property>
+        <property name="n_columns">2</property>
+        <child>
+          <widget class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="xalign">1</property>
+            <property name="label" translatable="yes">Selected Family:</property>
+            <property name="justify">GTK_JUSTIFY_RIGHT</property>
+          </widget>
+        </child>
+        <child>
+          <widget class="GtkComboBox" id="family-box">
+            <property name="visible">True</property>
+            <property name="items" translatable="yes">All
+Alkali Earths
+Alkaline Earths
+Halogenes
+Metalloids
+Noble Gases
+Non-Metals
+Rare Earths
+Transition Metals
+Other Metals
+</property>
+          </widget>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_SHRINK</property>
+            <property name="x_padding">20</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>

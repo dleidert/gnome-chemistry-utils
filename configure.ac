@@ -67,10 +67,11 @@ GTKGLEXT_REQUIRED_VERSION=1.0.0
 GNOME_PRINT_REQUIRED_VERSION=2.4.0
 GNOME_VFS_REQUIRED_VERSION=2.4.0
 SHARED_MIME_INFO_REQUIRED_VERSION=0.12
-OPENBABEL_REQUIRED_VERSION=2.0.0
+OPENBABEL_REQUIRED_VERSION=2.1.0
 GTK_REQUIRED_VERSION=2.10.0
 GNOME_OFFICE_REQUIRED_VERSION=0.3.6
-CHEMICAL_MIME_DATA_REQUIRED_VERSION=0.1.0
+CHEMICAL_MIME_DATA_REQUIRED_VERSION=0.1.94
+BODR_REQUIRED_VERSION=5
 
 REQUIREMENTS="libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtk+-2.0 >= $GTK_REQUIRED_VERSION \
@@ -80,7 +81,8 @@ gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
 libgoffice-0.3 >= $GNOME_OFFICE_REQUIRED_VERSION \
 chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
 shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
-openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION"
+openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION \
+bodr >= $BODR_REQUIRED_VERSION"
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
@@ -90,15 +92,9 @@ if test "x$GCONFTOOL" = "xno"; then
 fi
 AM_GCONF_SOURCE_2
 
-dnl Now test for bodr
-PKG_CHECK_MODULES([bodr], [bodr >= 4], [have_bodr="yes"], [have_bodr="no"])
-if test "$have_bodr" = "yes"; then
-	bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
-	AC_DEFINE_UNQUOTED([BODR_PKGDATADIR], ["$bodr_pkgdatadir"], [Path to Blue Obelisk Data Repository])
-	AC_DEFINE_UNQUOTED([WITH_BODR], [1], [the Blue Obelisk Data Repository is available])
-else
-	echo "$have_bodr"
-fi
+dnl retrieve BODR data directory
+bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
+AC_DEFINE_UNQUOTED([BODR_PKGDATADIR], ["$bodr_pkgdatadir"], [Path to Blue Obelisk Data Repository])
 
 GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
 AC_SUBST([GCU_CFLAGS])

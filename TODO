@@ -7,13 +7,11 @@
 
 * Calculator:
 	* accept abbreviations as Ph and others (what about Ac, Pr,...?).
-	* write help.
 
 * 3d viewer:
 	* display multiple bonds.
 	* add more display options.
 	* export encapsulated postscript.
-	* write help.
 
 * Mozilla plugin:
 	* implement printing.
@@ -23,10 +21,8 @@
 * Gnome Crystal:
 	* open files from other formats (cif, cml) using openbabel.
 	* export encapsulated postscript.
-	* rewrite help.
 
 * Library:
-	* update devel docs.
 
 * Other:
 	* get gchempaint in there after branching for 0.8

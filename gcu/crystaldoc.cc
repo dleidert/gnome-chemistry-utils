@@ -31,7 +31,7 @@
 #include <math.h>
 #include <gtk/gtk.h>
 #include <libintl.h>
-#define _(String) gettext (String)
+#include <glib/gi18n-lib.h>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)

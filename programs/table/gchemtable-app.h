@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-app.h 
  *
- * Copyright (C) 2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -43,12 +43,11 @@ public:
 	void ClearPage (int Z);
 	void SetCurZ (int Z);
 	void SetColorScheme (char const *name);
-#ifdef WITH_BODR
 	void SetTemperature (double T);
+ 	void SetFamily (int family_N);
 	void GetStateColor (int Z, GdkColor *color);
 	void GetFamilyColor (int Z, GdkColor *color);
 	void GetAcidityColor (int Z, GdkColor *color);
-#endif
 
 private:
 	Dialog *Pages[118];
@@ -56,9 +55,8 @@ private:
 	GtkPeriodic *periodic;
 	int m_CurZ;
 	map <string, unsigned> colorschemes;
-#ifdef WITH_BODR
 	double temperature;
-#endif
+ 	int family;
 };
 
 #endif	// GCHEMTABLE_APP_H

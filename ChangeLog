@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2007-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* TODO: updated.
+	* configure.ac: requires openbabel-2.1, chemical-mme-data
+	0.1.94 and bodr 5.
+	* gcu/crystaldoc.cc: include gi18n-lib.h.
+	* gcu/element.cc: remove ifdef BODR.
+	* gcu/element.h: ditto.
+	* glade/table/Makefile.am: add new glade file (Jordan Mantha).
+	* glade/table/family.glade: new glade file (Jordan).
+	* programs/table/gchemtable-app.cc: new family legend (Jordan).
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-elt.cc: remove ifdef BODR.
+
 2007-02-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.cc: fix contextual help tags.
 	* gcu/application.h: ditto.
