@@ -35,7 +35,7 @@ struct _GtkChem3DViewer
 {
 	GtkBin bin;
 
-	Chem3dDoc Doc;
+	Chem3dDoc *Doc;
 	GtkWidget *widget;
 };
 
@@ -119,6 +119,16 @@ static void on_size(GtkWidget *w, GtkAllocation *allocation, gpointer data)
 		gtk_widget_size_allocate (GTK_BIN (w)->child, allocation);
 }
 
+static void gtk_chem3d_viewer_finalize (GObject *obj)
+{
+	GtkChem3DViewer *viewer = GTK_CHEM3D_VIEWER (obj);
+	if (viewer->Doc)  {
+		delete viewer->Doc->GetView ();
+		delete viewer->Doc;
+	}
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
+}
+
 void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
@@ -126,6 +136,7 @@ void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass)
 	
 	gobject_class->set_property = gtk_chem3d_viewer_set_property;
 	gobject_class->get_property = gtk_chem3d_viewer_get_property;
+	gobject_class->finalize = gtk_chem3d_viewer_finalize;
 	
 	g_object_class_install_property (
 		gobject_class,
@@ -149,7 +160,8 @@ void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass)
 void gtk_chem3d_viewer_init (GtkChem3DViewer *viewer)
 {
 	g_return_if_fail (GTK_IS_CHEM3D_VIEWER (viewer));
-	viewer->widget = viewer->Doc.GetView ()->GetWidget ();
+	viewer->Doc = new Chem3dDoc ();
+	viewer->widget = viewer->Doc->GetView ()->GetWidget ();
 	gtk_widget_show (GTK_WIDGET (viewer->widget));
 	gtk_container_add (GTK_CONTAINER (viewer), viewer->widget);
 	gtk_widget_show_all (GTK_WIDGET (viewer));
@@ -165,17 +177,17 @@ void gtk_chem3d_viewer_set_uri_with_mime_type (GtkChem3DViewer * viewer, const g
 {
 	g_return_if_fail (GTK_IS_CHEM3D_VIEWER (viewer));
 	g_return_if_fail (uri);
-	viewer->Doc.Load (uri, mime_type);
+	viewer->Doc->Load (uri, mime_type);
 }
 
 void gtk_chem3d_viewer_set_data (GtkChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
 {
-	viewer->Doc.LoadData (data, mime_type);
+	viewer->Doc->LoadData (data, mime_type);
 }
 
 void gtk_chem3d_viewer_update (GtkChem3DViewer *viewer)
 {
-	viewer->Doc.GetView ()->Update ();
+	viewer->Doc->GetView ()->Update ();
 }
 
 static void gtk_chem3d_viewer_get_property (GObject *object, guint property_id,
@@ -185,13 +197,13 @@ static void gtk_chem3d_viewer_get_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case PROP_DISPLAY3D:
-		g_value_set_enum (value, viewer->Doc.GetDisplay3D ());
+		g_value_set_enum (value, viewer->Doc->GetDisplay3D ());
 		break;
 	case PROP_BGCOLOR:
 		{
-			int r = (int) (viewer->Doc.GetView ()->GetRed () * 255.),
-				g = (int) (viewer->Doc.GetView ()->GetGreen () * 255.),
-				b = (int) (viewer->Doc.GetView ()->GetBlue () * 255.);
+			int r = (int) (viewer->Doc->GetView ()->GetRed () * 255.),
+				g = (int) (viewer->Doc->GetView ()->GetGreen () * 255.),
+				b = (int) (viewer->Doc->GetView ()->GetBlue () * 255.);
 			if ((r ==0) && (g == 0) && (b == 0))
 				g_value_set_string (value, "black");
 			else if ((r ==255) && (g == 255) && (b == 255))
@@ -217,19 +229,19 @@ static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 		case PROP_DISPLAY3D:
-			viewer->Doc.SetDisplay3D ((Display3DMode) g_value_get_enum (value));
+			viewer->Doc->SetDisplay3D ((Display3DMode) g_value_get_enum (value));
 			break;
 		case PROP_BGCOLOR:
 			{
 				const gchar* str = g_value_get_string (value);
 				if (!strcmp (str, "black")) {
-					viewer->Doc.GetView ()->SetRed (0.);
-					viewer->Doc.GetView ()->SetGreen (0.);
-					viewer->Doc.GetView ()->SetBlue (0.);
+					viewer->Doc->GetView ()->SetRed (0.);
+					viewer->Doc->GetView ()->SetGreen (0.);
+					viewer->Doc->GetView ()->SetBlue (0.);
 				} else if (!strcmp (str, "white")) {
-					viewer->Doc.GetView ()->SetRed (1.);
-					viewer->Doc.GetView ()->SetGreen (1.);
-					viewer->Doc.GetView ()->SetBlue (1.);
+					viewer->Doc->GetView ()->SetRed (1.);
+					viewer->Doc->GetView ()->SetGreen (1.);
+					viewer->Doc->GetView ()->SetBlue (1.);
 				} else {
 					if ((strlen (str) != 7) || (*str != '#')) {
 						g_warning ("Unrecognized color: %s\n", str);
@@ -238,12 +250,12 @@ static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
 					int r, g, b;
 					r = strtoul (str + 1, NULL, 16);
 					b = r & 0xff;
-					viewer->Doc.GetView ()->SetBlue ((float) b / 255.);
+					viewer->Doc->GetView ()->SetBlue ((float) b / 255.);
 					r >>= 8;
 					g = r & 0xff;
-					viewer->Doc.GetView ()->SetGreen ((float) g / 255.);
+					viewer->Doc->GetView ()->SetGreen ((float) g / 255.);
 					r >>=8;
-					viewer->Doc.GetView ()->SetRed ((float) r / 255.);
+					viewer->Doc->GetView ()->SetRed ((float) r / 255.);
 				}
 			}
 			break;
@@ -256,5 +268,5 @@ static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
 
 void gtk_chem3d_viewer_print (GtkChem3DViewer * viewer, GnomePrintContext *pc, gdouble width, gdouble height)
 {
-	viewer->Doc.GetView ()->Print (pc, width, height);
+	viewer->Doc->GetView ()->Print (pc, width, height);
 }

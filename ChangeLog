@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-02-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/gtkchem3dviewer.cc: use a pointer to Chem3dDoc to ensure
+	the constructor call and add a finalize method to clean. [#19077]
+
 2007-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* TODO: updated.
 	* configure.ac: requires openbabel-2.1, chemical-mme-data
