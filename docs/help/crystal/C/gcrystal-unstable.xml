@@ -286,9 +286,9 @@
 		  <screenshot> 
 				<mediaobject>
 					<imageobject>
-						<imagedata fileref="figures/print-res.png" format="png"/>
-						<textobject> <phrase>Screenshot of the Printer Resolution Page.</phrase>
-						</textobject> 
+						<objectinfo> <abstract><para>Screenshot of the Printer Resolution Page.</para></abstract>
+						</objectinfo>
+						<imagedata fileref="figures/print-res.png"/>
 					</imageobject>
 				</mediaobject>
 			</screenshot>
@@ -309,16 +309,16 @@
 		  <screenshot> 
 				<mediaobject>
 					<imageobject>
-						<imagedata fileref="figures/default-view.png" format="png"/>
-						<textobject> <phrase>Screenshot of the Default View Settings Page.</phrase>
-						</textobject> 
+						<objectinfo> <abstract><para>Screenshot of the Default View Settings Page.</para></abstract>
+						</objectinfo>
+						<imagedata fileref="figures/default-view.png"/>
 					</imageobject>
 				</mediaobject>
 			</screenshot>
 		</figure>
 	  <para>Parameters available in this page are those that will concern every new view when it
 	  is created. To change the same parameters for already opened views, you should use the View menu
-	  (see <xref linkend="gnome-crystal-unstable-view_settings"/>)</para>
+	  (see <xref linkend="gcrystal-unstable-view_settings"/>)</para>
 	  <para>Available parameters are background color, field of view, and model orientation
 	  defined by Euler's angles.</para>
   </sect2>
@@ -334,16 +334,16 @@
 	    <screenshot> 
 		  <mediaobject>
 		    <imageobject>
-		      <imagedata fileref="figures/lattice-dlg.png" format="png"/>
-			  <textobject> <phrase>Screenshot of the Lattice Dialog Box.</phrase>
-			  </textobject> 
+			  <objectinfo> <abstract><para>Screenshot of the Lattice Dialog Box.</para></abstract>
+			  </objectinfo>
+		      <imagedata fileref="figures/lattice-dlg.png"/>
 			</imageobject>
 		  </mediaobject>
 		</screenshot>
 	  </figure>
 	<para>The unit cell is defined by the length of its three edges
 	<parameter>a</parameter>, <parameter>b</parameter> et <parameter>c</parameter>
-	and by the three angles &alpha;, &beta; et &gamma; between two vertices.</para>
+	and by the three angles α, β, et γ between two vertices.</para>
 	<para>Depending upon the selected Bravais lattice, some of these parameters are fixed
 	or dependents. Only independent parameters may be changed, entries corresponding to constant or
 	dependent values are disabled.</para>
@@ -356,9 +356,9 @@
 	    <screenshot> 
 		  <mediaobject>
 		    <imageobject>
-		      <imagedata fileref="figures/atoms-dlg.png" format="png"/>
-			  <textobject> <phrase>Screenshot of the Atoms Dialog Box.</phrase>
-			  </textobject> 
+			  <objectinfo> <abstract><para>Screenshot of the Atoms Dialog Box.</para></abstract>
+			  </objectinfo>
+		      <imagedata fileref="figures/atoms-dlg.png"/>
 			</imageobject>
 		  </mediaobject>
 		</screenshot>
@@ -451,9 +451,9 @@
 	    <screenshot> 
 		  <mediaobject>
 		    <imageobject>
-		      <imagedata fileref="figures/lines-dlg.png" format="png"/>
-			  <textobject> <phrase>Screenshot of the Lines and Bonds Dialog Box.</phrase>
-			  </textobject> 
+			  <objectinfo> <abstract><para>Screenshot of the Lines and Bonds Dialog Box.</para></abstract>
+			  </objectinfo>
+		      <imagedata fileref="figures/lines-dlg.png"/>
 			</imageobject>
 		  </mediaobject>
 		</screenshot>
@@ -549,9 +549,9 @@
 	    <screenshot> 
 		  <mediaobject>
 		    <imageobject>
-		      <imagedata fileref="figures/size-dlg.png" format="png"/>
-			  <textobject> <phrase>Screenshot of the Size Dialog Box.</phrase>
-			  </textobject> 
+			  <objectinfo> <abstract><para>Screenshot of the Size Dialog Box.</para></abstract>
+			  </objectinfo>
+		      <imagedata fileref="figures/size-dlg.png"/>
 			</imageobject>
 		  </mediaobject>
 		</screenshot>
@@ -570,9 +570,9 @@
 	    <screenshot> 
 		  <mediaobject>
 		    <imageobject>
-		      <imagedata fileref="figures/cleavages-dlg.png" format="png"/>
-			  <textobject> <phrase>Screenshot of the Cleavages Dialog Box.</phrase>
-			  </textobject> 
+			  <objectinfo> <abstract><para>Screenshot of the Cleavages Dialog Box.</para></abstract>
+			  </objectinfo>
+		      <imagedata fileref="figures/cleavages-dlg.png"/>
 			</imageobject>
 		  </mediaobject>
 		</screenshot>
@@ -650,9 +650,9 @@
 	  <screenshot> 
 			<mediaobject>
 				<imageobject>
-					<imagedata fileref="figures/view-settings.png" format="png"/>
-					<textobject> <phrase>Screenshot of the View Settings Dialog.</phrase>
-					</textobject> 
+					<objectinfo> <abstract><para>Screenshot of the View Settings Dialog.</para></abstract>
+					</objectinfo>
+					<imagedata fileref="figures/view-settings.png"/>
 				</imageobject>
 			</mediaobject>
 		</screenshot>
@@ -684,8 +684,8 @@
 	 <para>
 	  The distance between the viewpoint and the model is calculated to be the shortest so that the whole model remains
 	  visible whatever its orientation is. The only solution to see the model from a longer distance consist,
-	  in the present version, in defining a greater model size (see <xref linkend="gnome-crystal-size"/>) and defining cleavages
-	  to remove extra atoms (see <xref linkend="gnome-crystal-cleavages"/>) while selecting the option of constant model size.
+	  in the present version, in defining a greater model size (see <xref linkend="gcrystal-unstable-size"/>) and defining cleavages
+	  to remove extra atoms (see <xref linkend="gcrystal-unstable-cleavages"/>) while selecting the option of constant model size.
 	 </para>
     </listitem>
    </varlistentry>
@@ -696,7 +696,7 @@
 	  The model may be oriented with the mouse, clicking on the left button inside the view,
 	  dragging until a convenient orientation is obtained, and releasing the button.
 	  It also is possible to use this dialog box to choose an orientation by modifying the three
-	  Euler's angles &psi;, &thetas;, and &phis;.
+	  Euler's angles ψ, θ, and φ.
 	 </para>
      <para>
 	  When the three angles are null, <parameter>c</parameter> axis is vertical, with positive values up,
@@ -706,20 +706,20 @@
 	  <itemizedlist>
 	   <listitem>
 	   	<para>
-	     A rotation by angle &phis; around the vertical axis oriented upwards. Possible values
-		 for &phis; are in the range - 180° to 180°.
+	     A rotation by angle φ around the vertical axis oriented upwards. Possible values
+		 for φ are in the range - 180° to 180°.
 		</para>
 	   </listitem>
 	   <listitem>
 	   	<para>
-	     A rotation by angle &thetas; around the axis perpendicular to the view and pointing
-		 towards the viewer. Possible values for &thetas; are from 0° to 180°.
+	     A rotation by angle θ around the axis perpendicular to the view and pointing
+		 towards the viewer. Possible values for θ are from 0° to 180°.
 		</para>
 	   </listitem>
 	   <listitem>
 	   	<para>
-	     A rotation by angle &psi; around the vertical axis oriented upwards. Possible values
-		 for &psi; are in the range - 180° to 180°.
+	     A rotation by angle ψ around the vertical axis oriented upwards. Possible values
+		 for ψ are in the range - 180° to 180°.
 		</para>
 	   </listitem>
 	  </itemizedlist>

@@ -208,7 +208,7 @@
 				<para>The data used are the element family as given in the
 				<ulink type="http" url="http://www.blueobelisk.org">Blue Obelisk</ulink> Data Repository.
 				If no family is given in the database, the button will have a black background.</para>
-				<figure id="gchemtable-unstable-state"> 
+				<figure id="gchemtable-unstable-family"> 
 				  <title>Family color scheme</title>
 				  <screenshot> 
 						<mediaobject>
@@ -235,66 +235,72 @@
 		It is possible to display several such windows at once.</para>
 		<para>The data are spread over several pages, the following 
 		screenshots show the various pages for the iron element:</para>
-		<sect2>
-			<title>Main Page</title>
-			<figure id="gchemtable-unstable-main-page"> 
-			  <title>Main Page</title>
-			  <screenshot> 
-					<mediaobject>
-						<imageobject>
-							<objectinfo> <abstract><para>Screenshot of the Main Page.</para></abstract>
-							</objectinfo> 
-							<imagedata fileref="figures/main.png"/>
-						</imageobject>
-					</mediaobject>
-				</screenshot>
-			</figure>
-		</sect2>
-		<sect2>
-			<title>Electronic Properties</title>
-			<figure id="gchemtable-unstable-electronic"> 
-			  <title>Electronic Properties Page</title>
-			  <screenshot> 
-					<mediaobject>
-						<imageobject>
-							<objectinfo> <abstract><para>Screenshot of the Electronic Properties Page.</para></abstract>
-							</objectinfo> 
-							<imagedata fileref="figures/elec.png"/>
-						</imageobject>
-					</mediaobject>
-				</screenshot>
-			</figure>
-		</sect2>
-		<sect2>
-			<title>Radii</title>
-			<figure id="gchemtable-unstable-radii"> 
-			  <title>Radii Page</title>
-			  <screenshot> 
-					<mediaobject>
-						<imageobject>
-							<objectinfo> <abstract><para>Screenshot of the Radii Page.</para></abstract>
-							</objectinfo> 
-							<imagedata fileref="figures/radii.png"/>
-						</imageobject>
-					</mediaobject>
-				</screenshot>
-			</figure>
-		</sect2>
-		<sect2>
-			<title>Thermodynamic Properties</title>
-			<figure id="gchemtable-unstable-thermodynamics"> 
-			  <title>Thermodynamic Properties Page</title>
-			  <screenshot> 
-					<mediaobject>
-						<imageobject>
-							<objectinfo> <abstract><para>Screenshot of the Thermodynamic Properties Page.</para></abstract>
-							</objectinfo> 
-							<imagedata fileref="figures/thermo.png"/>
-						</imageobject>
-					</mediaobject>
-				</screenshot>
-			</figure>
-		</sect2>
+		<variablelist> 
+		  <varlistentry> <term>Main Page</term> 
+			 <listitem> 
+				<figure id="gchemtable-unstable-main-page"> 
+				  <title>Main Page</title>
+				  <screenshot> 
+						<mediaobject>
+							<imageobject>
+								<objectinfo> <abstract><para>Screenshot of the Main Page.</para></abstract>
+								</objectinfo> 
+								<imagedata fileref="figures/main.png"/>
+							</imageobject>
+						</mediaobject>
+					</screenshot>
+				</figure>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Electronic Properties</term> 
+			 <listitem> 
+				<figure id="gchemtable-unstable-electronic"> 
+				  <title>Electronic Properties Page</title>
+				  <screenshot> 
+						<mediaobject>
+							<imageobject>
+								<objectinfo> <abstract><para>Screenshot of the Electronic Properties Page.</para></abstract>
+								</objectinfo> 
+								<imagedata fileref="figures/elec.png"/>
+							</imageobject>
+						</mediaobject>
+					</screenshot>
+				</figure>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Radii</term> 
+			 <listitem> 
+				<figure id="gchemtable-unstable-radii"> 
+				  <title>Radii Page</title>
+				  <screenshot> 
+						<mediaobject>
+							<imageobject>
+								<objectinfo> <abstract><para>Screenshot of the Radii Page.</para></abstract>
+								</objectinfo> 
+								<imagedata fileref="figures/radii.png"/>
+							</imageobject>
+						</mediaobject>
+					</screenshot>
+				</figure>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Thermodynamic Properties</term> 
+			 <listitem> 
+				<figure id="gchemtable-unstable-thermodynamics"> 
+				  <title>Thermodynamic Properties Page</title>
+				  <screenshot> 
+						<mediaobject>
+							<imageobject>
+								<objectinfo> <abstract><para>Screenshot of the Thermodynamic Properties Page.</para></abstract>
+								</objectinfo> 
+								<imagedata fileref="figures/thermo.png"/>
+							</imageobject>
+						</mediaobject>
+					</screenshot>
+				</figure>
+			 </listitem>
+		  </varlistentry>
+		</variablelist>
 		<para>When a <guibutton>Show curve</guibutton> appears on the same line
 		than a data, it is possible to display a <link linkend="gchemtable-unstable-curvedlg">chart</link> of this data as a function
 		of the element atomic number by clicking on the button.</para>

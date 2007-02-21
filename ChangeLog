@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2007-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/C/gcrystal-unstable.xml: make it
+	conform to the schema.
+	* docs/help/table/C/gchemtable-unstable.xml: ditto.
+
+2007-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/table/C/figures/curve.png: new screenshot.
 	* docs/help/table/C/figures/elec.png: ditto.
 	* docs/help/table/C/figures/family.png: ditto.
