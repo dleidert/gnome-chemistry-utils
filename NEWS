@@ -1,3 +1,13 @@
+Version 0.7.5
+	periodic table:
+		* add a widget to control family color scheme (Jordan Mantha).
+	Library:
+		* add a new DialogOwner class and make the Application and
+		Document classes derive from it.
+	Other:
+		* add or update API and applications documentation.
+		* fixed various issues in both the library and the applications.
+
 Version 0.7.4
 	3d viewer:
 		* add recent files support.
