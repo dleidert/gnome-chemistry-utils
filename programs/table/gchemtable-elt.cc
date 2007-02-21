@@ -124,13 +124,15 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 			gtk_table_resize (table, 4, n);
 			buf = g_strdup_printf (_("%d:"), n);
 			w = gtk_label_new (buf);
-			g_free (buf);
+			gtk_misc_set_padding (GTK_MISC (w), 8, 0);
+ 			g_free (buf);
 			gtk_table_attach (table, w, 0, 1, n - 1, n,
 				(GtkAttachOptions) (GTK_SHRINK | GTK_FILL),
 				(GtkAttachOptions) 0 , 0, 0);
 			val = gtk_label_new ("");
+			gtk_misc_set_alignment (GTK_MISC (val), 0., 0.);
 			gtk_table_attach (table, val, 1, 2, n - 1, n,
-				(GtkAttachOptions) (GTK_EXPAND | GTK_SHRINK | GTK_FILL),
+				(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 				(GtkAttachOptions) 0 , 0, 0);
 			button = gtk_button_new_with_label (_("Show curve"));
 			gtk_table_attach (table, button, 2, 3, n - 1, n,
@@ -164,13 +166,14 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 			gtk_table_resize (table, 4, n);
 			buf = g_strdup_printf (_("%d:"), n);
 			w = gtk_label_new (buf);
+			gtk_misc_set_alignment (GTK_MISC (w), 0., 0.);
 			g_free (buf);
 			gtk_table_attach (table, w, 0, 1, n - 1, n,
 				(GtkAttachOptions) (GTK_SHRINK | GTK_FILL),
 				(GtkAttachOptions) 0 , 0, 0);
 			val = gtk_label_new ("");
 			gtk_table_attach (table, val, 1, 2, n - 1, n,
-				(GtkAttachOptions) (GTK_EXPAND | GTK_SHRINK | GTK_FILL),
+				(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 				(GtkAttachOptions) 0 , 0, 0);
 			button = NULL; // not enough values to draw a curve.
 		} else {

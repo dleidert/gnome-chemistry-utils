@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.1">
+  <!ENTITY appversion "0.7.5">
   <!ENTITY manrevision "0.1">
-  <!ENTITY date "December 2006">
+  <!ENTITY date "February 2007">
   <!ENTITY app "GChemTable">
 ]>
 <!-- 
@@ -102,10 +102,225 @@
 	elements periodic table application.</para>
  </preface>
 
- <chapter id="gchemtable-unstable-curvedlg">
-    <title>Curves</title>
-	<para></para>
- </chapter>
+<!-- ============= Getting started ============================= -->
+ <chapter id="gchemtable-unstable-getting-started">
+    <title>Getting started</title>
+	<sect1 id="gchemtable-unstable-to-start">
+		<title>To Start &app;</title>
+		<para>You can start <application>&app;</application> in the following ways:</para>
+		<variablelist>
+    		<varlistentry>
+    		<term><guimenu>Applications</guimenu> menu</term>
+    		<listitem>
+    		<para>Choose 
+    		<menuchoice>
+    		<guisubmenu>Education</guisubmenu>
+    		<guimenuitem>Periodic table of the elements (unstable)</guimenuitem>
+    		</menuchoice>. </para>
+    		</listitem>
+    		</varlistentry>
+    		<varlistentry>
+    		<term>Command line</term>
+    		<listitem>
+    		<para>Type <command>gchemtable-unstable</command>, then press <keycap>Return</keycap>.
+		</para>
+    		</listitem>
+    		</varlistentry>
+    		</variablelist>
+	</sect1>
+	<sect1 id="gchemtable-unstable-when-you-start">
+		<title>When You Start &app;</title>
+		<para>When you start <application>&app;</application>, the following window is displayed:</para>
+ 			<figure id="gchemtable-unstable-main-window"> 
+			  <title>&app; window</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the <application>&app;</application>window.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/start.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+	
+		<para>The <application>&app;</application> window contains the following
+		  elements: </para>
+		<variablelist> 
+		  <varlistentry> <term>Menubar</term> 
+			 <listitem> 
+				<para>The menus on the menubar contain all of the commands you need
+				  to work with <application>&app;</application>.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Periodic table</term> 
+			 <listitem> 
+				<para>A periodic table of the elements. The colors used for
+				the buttons are conventional colors for the elements. Other
+				color schemes are available as explained
+				<link linkend="gchemtable-unstable-colors">there</link>.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist>
+	</sect1>
+</chapter>
+
+<!-- ============= Usage ============================= -->
+ <chapter id="gchemtable-unstable-usage">
+    <title>Usage</title>
+	<sect1 id="gchemtable-unstable-colors">
+		<title>Color Schemes</title>
+		<para>Several color schemes are available:</para>
+		<variablelist> 
+		  <varlistentry> <term>No colors</term> 
+			 <listitem> 
+				<para>All buttons are grey.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Default</term> 
+			 <listitem>
+				<para>Conventional colors are used.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Physical state</term> 
+			 <listitem>
+				<para>The color of the button depends on the
+				physical state of the element at a given temperature.
+				This temperature can be changed using the horizontal scale.</para>
+				<figure id="gchemtable-unstable-state"> 
+				  <title>Physical state color scheme</title>
+				  <screenshot> 
+						<mediaobject>
+							<imageobject>
+								<objectinfo> <abstract><para>Screenshot of the Main Page with Physical state color scheme.</para></abstract>
+								</objectinfo> 
+								<imagedata fileref="figures/state.png"/>
+							</imageobject>
+						</mediaobject>
+					</screenshot>
+				</figure>
+				<para>Buttons with a black background indicate that the state is
+				unknown at the given temperature.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Family</term> 
+			 <listitem>
+				<para>The data used are the element family as given in the
+				<ulink type="http" url="http://www.blueobelisk.org">Blue Obelisk</ulink> Data Repository.
+				If no family is given in the database, the button will have a black background.</para>
+				<figure id="gchemtable-unstable-state"> 
+				  <title>Family color scheme</title>
+				  <screenshot> 
+						<mediaobject>
+							<imageobject>
+								<objectinfo> <abstract><para>Screenshot of the Main Page with Physical state color scheme.</para></abstract>
+								</objectinfo> 
+								<imagedata fileref="figures/family.png"/>
+							</imageobject>
+						</mediaobject>
+					</screenshot>
+				</figure>
+			<para>If a family is selected in the combo box, only elements of this family
+			will be displayed with their family color used as background, other elements
+			are attributed a black background.</para>
+			</listitem>
+		  </varlistentry>
+		</variablelist>
+		
+	</sect1>
+	<sect1 id="gchemtable-unstable-eltdlg">
+		<title>Element Window</title>
+		<para>This window shows the data for an element. To display it,
+		press the corresponding element button in the periodic table.
+		It is possible to display several such windows at once.</para>
+		<para>The data are spread over several pages, the following 
+		screenshots show the various pages for the iron element:</para>
+		<sect2>
+			<title>Main Page</title>
+			<figure id="gchemtable-unstable-main-page"> 
+			  <title>Main Page</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the Main Page.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/main.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+		</sect2>
+		<sect2>
+			<title>Electronic Properties</title>
+			<figure id="gchemtable-unstable-electronic"> 
+			  <title>Electronic Properties Page</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the Electronic Properties Page.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/elec.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+		</sect2>
+		<sect2>
+			<title>Radii</title>
+			<figure id="gchemtable-unstable-radii"> 
+			  <title>Radii Page</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the Radii Page.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/radii.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+		</sect2>
+		<sect2>
+			<title>Thermodynamic Properties</title>
+			<figure id="gchemtable-unstable-thermodynamics"> 
+			  <title>Thermodynamic Properties Page</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the Thermodynamic Properties Page.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/thermo.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+		</sect2>
+		<para>When a <guibutton>Show curve</guibutton> appears on the same line
+		than a data, it is possible to display a <link linkend="gchemtable-unstable-curvedlg">chart</link> of this data as a function
+		of the element atomic number by clicking on the button.</para>
+	</sect1>
+	<sect1 id="gchemtable-unstable-curvedlg">
+		<title>Curves</title>
+		<para>Curves as displayed in <application>app;</application> look like:</para>
+		<figure id="gchemtable-unstable-curve"> 
+		  <title>First ionization energy curve</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the first ionization energy curve.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/curve.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>Consecutive points are joined by a segment. The absence of a segment
+		means that at least one data is missing.</para>
+		<para>The chart can be copied to other applications with the use of the <guibutton>Copy</guibutton>
+		button.</para>
+	</sect1>
+</chapter>
+
 <!-- ============= Application License ============================= -->
 
  <chapter id="license">

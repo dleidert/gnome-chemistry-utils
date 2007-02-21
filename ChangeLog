@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2007-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/table/C/figures/curve.png: new screenshot.
+	* docs/help/table/C/figures/elec.png: ditto.
+	* docs/help/table/C/figures/family.png: ditto.
+	* docs/help/table/C/figures/main.png: ditto.
+	* docs/help/table/C/figures/radii.png: ditto.
+	* docs/help/table/C/figures/start.png: ditto.
+	* docs/help/table/C/figures/state.png: ditto.
+	* docs/help/table/C/figures/thermo.png: ditto.
+	* docs/help/table/C/gchemtable-unstable.xml: written.
+	* gcu/gtkchem3dviewer.cc: copyright update.
+	* glade/table/eltpage.glade: minor UI enhancement.
+	* programs/table/gchemtable-elt.cc: ditto.
+
 2007-02-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/gtkchem3dviewer.cc: use a pointer to Chem3dDoc to ensure
 	the constructor call and add a finalize method to clean. [#19077]
