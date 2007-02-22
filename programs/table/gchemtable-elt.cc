@@ -29,10 +29,6 @@
 #include <glib/gi18n.h>
 #include <list>
 
-#warning "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
-
 extern void on_show_curve (GObject *obj, char const* name);
 static void on_focus_in (GChemTableElt *dlg)
 {

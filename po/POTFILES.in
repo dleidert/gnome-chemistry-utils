@@ -32,10 +32,10 @@ gcu/gtkperiodic.c
 programs/3d/application.cc
 programs/3d/main.cc
 programs/3d/window.cc
-programs/3d/gchem3d-viewer-unstable.desktop.in
+programs/3d/gchem3d-viewer.desktop.in
 programs/calc/gchemcalc.cc
-programs/calc/gchemcalc-unstable.desktop.in
-programs/crystal/gcrystal-unstable.desktop.in
+programs/calc/gchemcalc.desktop.in
+programs/crystal/gcrystal.desktop.in
 programs/crystal/gcrystal.schemas.in
 programs/crystal/application.cc
 programs/crystal/atomsdlg.cc
@@ -48,4 +48,4 @@ programs/crystal/window.cc
 programs/table/gchemtable-app.cc
 programs/table/gchemtable-elt.cc
 programs/table/gchemtable-curve.cc
-programs/table/gchemtable-unstable.desktop.in
+programs/table/gchemtable.desktop.in

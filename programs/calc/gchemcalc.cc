@@ -23,9 +23,6 @@
  */
 
 #include "config.h"
-#warning "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
 #include <gcu/application.h>
 #include <gcu/element.h>
 #include <gcu/formula.h>
@@ -83,7 +80,7 @@ public:
 	GtkListStore *pclist;
 };
 
-GChemCalc::GChemCalc (): Application ("gchemcalc-unstable"),
+GChemCalc::GChemCalc (): Application ("gchemcalc"),
 formula ("")
 {
 }
@@ -503,7 +500,7 @@ int main (int argc, char *argv[])
 
 #warning "the following line should be edited for stable releases"
 	if (argc > 1) {
-		cout << _("For usage see: gchemcalc-unstable [-?|--help]") << endl;
+		cout << _("For usage see: gchemcalc [-?|--help]") << endl;
 		return -1;
 	}
 	

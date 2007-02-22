@@ -4,16 +4,16 @@ CLEANFILES = $(desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-DEPS = $(top_builddir)/gcu/libgcu-unstable.la
+DEPS = $(top_builddir)/gcu/libgcu.la
 INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
-DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
+LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
+DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils/glade\"
 
-bin_PROGRAMS = gchemcalc-unstable
+bin_PROGRAMS = gchemcalc
 
-gchemcalc_unstable_SOURCES = gchemcalc.cc
+gchemcalc_SOURCES = gchemcalc.cc
 
 desktopdir=$(datadir)/applications
-desktop_in_files = gchemcalc-unstable.desktop.in
-desktop_DATA = gchemcalc-unstable.desktop
+desktop_in_files = gchemcalc.desktop.in
+desktop_DATA = gchemcalc.desktop
 @INTLTOOL_DESKTOP_RULE@

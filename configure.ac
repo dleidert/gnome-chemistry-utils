@@ -1,4 +1,4 @@
-AC_INIT([gnome-chemistry-utils], [0.7.5], [http://savannah.nongnu.org/bugs/?group=gchemutils])
+AC_INIT([gnome-chemistry-utils], [0.7.90], [http://savannah.nongnu.org/bugs/?group=gchemutils])
 AC_CONFIG_SRCDIR([gcu/gtkperiodic.c])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -27,7 +27,7 @@ GCU_VERSION_INFO=`echo $GCU_VERSION | awk -F . '{ print $1+$2":"$3":"$2 }'`
 AC_SUBST([GCU_VERSION_INFO])
 
 AM_GLIB_GNU_GETTEXT
-GETTEXT_PACKAGE="gchemutils-unstable"
+GETTEXT_PACKAGE="gchemutils"
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Package name for internationalization])
 
@@ -210,7 +210,7 @@ AC_SUBST(TESTSSRCDIR)
 
 AC_OUTPUT([
 Makefile
-gcu-unstable.pc
+gcu.pc
 database/Makefile
 docs/Makefile
 docs/help/Makefile

@@ -4,11 +4,11 @@ INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
 AM_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
-	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
-lib_LTLIBRARIES= libgcu-unstable.la
+	-DPKGDATADIR=\"$(datadir)/gchemutils\" \
+	-DGLADEDIR=\"$(datadir)/gchemutils/glade\"
+lib_LTLIBRARIES= libgcu.la
 
-libgcu_unstable_la_SOURCES = \
+libgcu_la_SOURCES = \
 		atom.cc \
 		bond.cc \
 		object.cc \
@@ -39,7 +39,7 @@ libgcu_unstable_la_SOURCES = \
 		gldocument.cc	\
 		glview.cc
 
-libgcu_unstable_la_headers = \
+libgcu_la_headers = \
 		atom.h \
 		bond.h \
 		object.h \
@@ -71,5 +71,5 @@ libgcu_unstable_la_headers = \
 		gldocument.h	\
 		glview.h
 
-gcuincludedir = $(includedir)/gcu-unstable/gcu
-gcuinclude_HEADERS = $(libgcu_unstable_la_headers)
+gcuincludedir = $(includedir)/gcu/gcu
+gcuinclude_HEADERS = $(libgcu_la_headers)

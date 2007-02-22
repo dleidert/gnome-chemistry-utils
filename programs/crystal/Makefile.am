@@ -4,9 +4,9 @@ CLEANFILES = $(desktop_DATA) $(schemas_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-bin_PROGRAMS = gcrystal-unstable
+bin_PROGRAMS = gcrystal
 
-gcrystal_unstable_SOURCES = main.cc\
+gcrystal_SOURCES = main.cc\
 				   application.cc\
 				   document.cc\
 				   atom.cc\
@@ -39,12 +39,12 @@ noinst_HEADERS = gcrystal.h\
 				 view-settings.h \
 				 window.h
 
-gcrystal_unstable_LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
+gcrystal_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 
-DEPS = $(top_builddir)/gcu/libgcu-unstable.la
+DEPS = $(top_builddir)/gcu/libgcu.la
 INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/crystal\"
+LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
+DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils\" -DGLADEDIR=\"$(datadir)/gchemutils/glade/crystal\"
 
 schemasdir = $(sysconfdir)/gconf/schemas
 schemas_in_files = gcrystal.schemas.in
@@ -52,8 +52,8 @@ schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
 desktopdir=$(datadir)/applications
-desktop_in_files = gcrystal-unstable.desktop.in
-desktop_DATA = gcrystal-unstable.desktop
+desktop_in_files = gcrystal.desktop.in
+desktop_DATA = gcrystal.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 install-data-local:

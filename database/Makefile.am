@@ -4,7 +4,7 @@ EXTRA_DIST = $(xml_in_files)
 
 CLEANFILES = $(xml_DATA)
 
-xmldir = $(datadir)/gchemutils-unstable
+xmldir = $(datadir)/gchemutils
 
 xml_in_files = \
 	elements.xml.in \

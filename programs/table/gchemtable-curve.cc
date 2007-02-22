@@ -51,10 +51,6 @@
 
 using namespace gcu;
 
-#warning "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
-
 map<string, GChemTableCurve*> curves;
 
 void on_show_curve (GObject *obj, char const* name)

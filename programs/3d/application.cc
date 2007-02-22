@@ -32,7 +32,7 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n.h>
 
-gc3dApplication::gc3dApplication (): Application (_("GChem3D Viewer"), DATADIR, "gchem3d-viewer-unstable")
+gc3dApplication::gc3dApplication (): Application (_("GChem3D Viewer"), DATADIR, "gchem3d-viewer")
 {
 }
 

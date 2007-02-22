@@ -1,5 +1,33 @@
 ##Text encoding: utf-8
 
+2007-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: remove unstable stuff.
+	* configure.ac: ditto and changed version to 0.7.90.
+	* database/Makefile.am: remove unstable stuff.
+	* gcu-unstable.pc.in: ditto.
+	* gcu.pc.in: ditto.
+	* gcu/Makefile.am: ditto.
+	* glade/Makefile.am: ditto.
+	* glade/crystal/Makefile.am: ditto.
+	* glade/table/Makefile.am: ditto.
+	* mozilla-plugin/Makefile.am: ditto.
+	* po/POTFILES.in: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/3d/application.cc: ditto.
+	* programs/3d/gchem3d-viewer-unstable.desktop.in: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/calc/gchemcalc-unstable.desktop.in: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/gcrystal-unstable.desktop.in: ditto.
+	* programs/table/Makefile.am: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-elt.cc: ditto.
+	* programs/table/gchemtable-unstable.desktop.in: ditto.
+	* tests/Makefile.am: ditto.
+
 2007-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/crystal/C/gcrystal-unstable.xml: make it
 	conform to the schema.

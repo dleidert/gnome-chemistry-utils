@@ -1,8 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-_Name=Chemical calculator (unstable)
-_Comment=A simple calculator for chemistry
-Exec=gchemcalc-unstable
-Terminal=false
-Type=Application
-Categories=GTK;GNOME;Education;Science;Chemistry;

@@ -4,14 +4,14 @@ CLEANFILES = $(desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-bin_PROGRAMS = gchemtable-unstable
+bin_PROGRAMS = gchemtable
 
-DEPS = $(top_builddir)/gcu/libgcu-unstable.la
+DEPS = $(top_builddir)/gcu/libgcu.la
 INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
-DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/table\"
+LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
+DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils/glade/table\"
 
-gchemtable_unstable_SOURCES =	\
+gchemtable_SOURCES =	\
 	gchemtable-main.cc	\
 	gchemtable-app.cc	\
 	gchemtable-app.h	\
@@ -21,6 +21,6 @@ gchemtable_unstable_SOURCES =	\
 	gchemtable-curve.h
 
 desktopdir=$(datadir)/applications
-desktop_in_files = gchemtable-unstable.desktop.in
-desktop_DATA = gchemtable-unstable.desktop
+desktop_in_files = gchemtable.desktop.in
+desktop_DATA = gchemtable.desktop
 @INTLTOOL_DESKTOP_RULE@

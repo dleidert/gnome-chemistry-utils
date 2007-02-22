@@ -244,8 +244,7 @@ static void get_acidity_color (int Z, GdkColor *color, GChemTableApp *App)
 	App->GetAcidityColor (Z, color);
 }
 
-#warning "the following line should be edited for stable releases"
-GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
+GChemTableApp::GChemTableApp (): Application ("gchemtable")
 {
 	GtkVBox* vbox;
 

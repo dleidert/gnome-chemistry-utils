@@ -2,7 +2,7 @@ SUBDIRS = po database glade pixmaps gcu programs mozilla-plugin \
 	samples tests dtds docs
 
 EXTRA_DIST=	\
-	gcu-unstable.pc.in	\
+	gcu.pc.in	\
 	$(mime_in_files)	\
 	intltool-extract.in	\
 	intltool-update.in	\
@@ -14,7 +14,7 @@ CLEANFILES = \
 	gchemutils.xml
 
 DISTCLEANFILES = \
-	gcu-unstable.pc \
+	gcu.pc \
 	intltool-extract \
 	intltool-update \
 	intltool-merge
@@ -42,7 +42,7 @@ DISTCHECK_CONFIGURE_FLAGS = \
 	--with-mozilla-libdir=\$${libdir}/mozilla
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA= gcu-unstable.pc
+pkgconfig_DATA= gcu.pc
 
 mime_in_files = gchemutils.xml.in
 mimedir = $(datadir)/mime/packages

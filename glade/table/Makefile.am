@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-gladedir = $(datadir)/gchemutils-unstable/glade/table
+gladedir = $(datadir)/gchemutils/glade/table
 
 glade_DATA = \
 	eltpage.glade \
