@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post branching version bump (0.9.0).
+
 2007-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/crystal/C/gcrystal-unstable.xml: make it
 	conform to the schema.
