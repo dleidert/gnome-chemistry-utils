@@ -2,8 +2,8 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.7.5">
-  <!ENTITY manrevision "0.1">
+  <!ENTITY appversion "0.7.90">
+  <!ENTITY manrevision "0.7.90">
   <!ENTITY date "February 2007">
   <!ENTITY app "GChemTable">
 ]>
@@ -96,16 +96,16 @@
 <!-- ============= Document Body ============================= -->
 
 <!-- ============= Introduction ============================= -->
- <preface id="gchemtable-unstable-intro">
+ <preface id="gchemtable-intro">
     <title>Introduction</title>
 	<para>The <application>&app;</application> application is a chemical
 	elements periodic table application.</para>
  </preface>
 
 <!-- ============= Getting started ============================= -->
- <chapter id="gchemtable-unstable-getting-started">
+ <chapter id="gchemtable-getting-started">
     <title>Getting started</title>
-	<sect1 id="gchemtable-unstable-to-start">
+	<sect1 id="gchemtable-to-start">
 		<title>To Start &app;</title>
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
@@ -115,23 +115,23 @@
     		<para>Choose 
     		<menuchoice>
     		<guisubmenu>Education</guisubmenu>
-    		<guimenuitem>Periodic table of the elements (unstable)</guimenuitem>
+    		<guimenuitem>Periodic table of the elements</guimenuitem>
     		</menuchoice>. </para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
     		<term>Command line</term>
     		<listitem>
-    		<para>Type <command>gchemtable-unstable</command>, then press <keycap>Return</keycap>.
+    		<para>Type <command>gchemtable</command>, then press <keycap>Return</keycap>.
 		</para>
     		</listitem>
     		</varlistentry>
     		</variablelist>
 	</sect1>
-	<sect1 id="gchemtable-unstable-when-you-start">
+	<sect1 id="gchemtable-when-you-start">
 		<title>When You Start &app;</title>
 		<para>When you start <application>&app;</application>, the following window is displayed:</para>
- 			<figure id="gchemtable-unstable-main-window"> 
+ 			<figure id="gchemtable-main-window"> 
 			  <title>&app; window</title>
 			  <screenshot> 
 					<mediaobject>
@@ -158,7 +158,7 @@
 				<para>A periodic table of the elements. The colors used for
 				the buttons are conventional colors for the elements. Other
 				color schemes are available as explained
-				<link linkend="gchemtable-unstable-colors">there</link>.</para>
+				<link linkend="gchemtable-colors">there</link>.</para>
 			 </listitem>
 		  </varlistentry>
 		</variablelist>
@@ -166,9 +166,9 @@
 </chapter>
 
 <!-- ============= Usage ============================= -->
- <chapter id="gchemtable-unstable-usage">
+ <chapter id="gchemtable-usage">
     <title>Usage</title>
-	<sect1 id="gchemtable-unstable-colors">
+	<sect1 id="gchemtable-colors">
 		<title>Color Schemes</title>
 		<para>Several color schemes are available:</para>
 		<variablelist> 
@@ -187,7 +187,7 @@
 				<para>The color of the button depends on the
 				physical state of the element at a given temperature.
 				This temperature can be changed using the horizontal scale.</para>
-				<figure id="gchemtable-unstable-state"> 
+				<figure id="gchemtable-state"> 
 				  <title>Physical state color scheme</title>
 				  <screenshot> 
 						<mediaobject>
@@ -208,7 +208,7 @@
 				<para>The data used are the element family as given in the
 				<ulink type="http" url="http://www.blueobelisk.org">Blue Obelisk</ulink> Data Repository.
 				If no family is given in the database, the button will have a black background.</para>
-				<figure id="gchemtable-unstable-family"> 
+				<figure id="gchemtable-family"> 
 				  <title>Family color scheme</title>
 				  <screenshot> 
 						<mediaobject>
@@ -228,7 +228,7 @@
 		</variablelist>
 		
 	</sect1>
-	<sect1 id="gchemtable-unstable-eltdlg">
+	<sect1 id="gchemtable-eltdlg">
 		<title>Element Window</title>
 		<para>This window shows the data for an element. To display it,
 		press the corresponding element button in the periodic table.
@@ -238,7 +238,7 @@
 		<variablelist> 
 		  <varlistentry> <term>Main Page</term> 
 			 <listitem> 
-				<figure id="gchemtable-unstable-main-page"> 
+				<figure id="gchemtable-main-page"> 
 				  <title>Main Page</title>
 				  <screenshot> 
 						<mediaobject>
@@ -254,7 +254,7 @@
 		  </varlistentry>
 		  <varlistentry> <term>Electronic Properties</term> 
 			 <listitem> 
-				<figure id="gchemtable-unstable-electronic"> 
+				<figure id="gchemtable-electronic"> 
 				  <title>Electronic Properties Page</title>
 				  <screenshot> 
 						<mediaobject>
@@ -270,7 +270,7 @@
 		  </varlistentry>
 		  <varlistentry> <term>Radii</term> 
 			 <listitem> 
-				<figure id="gchemtable-unstable-radii"> 
+				<figure id="gchemtable-radii"> 
 				  <title>Radii Page</title>
 				  <screenshot> 
 						<mediaobject>
@@ -286,7 +286,7 @@
 		  </varlistentry>
 		  <varlistentry> <term>Thermodynamic Properties</term> 
 			 <listitem> 
-				<figure id="gchemtable-unstable-thermodynamics"> 
+				<figure id="gchemtable-thermodynamics"> 
 				  <title>Thermodynamic Properties Page</title>
 				  <screenshot> 
 						<mediaobject>
@@ -302,13 +302,13 @@
 		  </varlistentry>
 		</variablelist>
 		<para>When a <guibutton>Show curve</guibutton> appears on the same line
-		than a data, it is possible to display a <link linkend="gchemtable-unstable-curvedlg">chart</link> of this data as a function
+		than a data, it is possible to display a <link linkend="gchemtable-curvedlg">chart</link> of this data as a function
 		of the element atomic number by clicking on the button.</para>
 	</sect1>
-	<sect1 id="gchemtable-unstable-curvedlg">
+	<sect1 id="gchemtable-curvedlg">
 		<title>Curves</title>
 		<para>Curves as displayed in <application>app;</application> look like:</para>
-		<figure id="gchemtable-unstable-curve"> 
+		<figure id="gchemtable-curve"> 
 		  <title>First ionization energy curve</title>
 		  <screenshot> 
 				<mediaobject>

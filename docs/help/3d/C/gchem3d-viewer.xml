@@ -2,8 +2,8 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.1">
-  <!ENTITY manrevision "0.1">
+  <!ENTITY appversion "0.7.90">
+  <!ENTITY manrevision "0.7.90">
   <!ENTITY date "Febrary 2006">
   <!ENTITY app "GChem3d Viewer">
 ]>
@@ -96,7 +96,7 @@
 <!-- ============= Document Body ============================= -->
 
 <!-- ============= Introduction ============================= -->
- <preface id="gchem3d-viewer-unstable-intro">
+ <preface id="gchem3d-viewer-intro">
     <title>Introduction</title>
 	<para>The <application>&app;</application> application is a simple
 	molecular structures visualizer.</para>
@@ -104,9 +104,9 @@
  </preface>
 
 <!-- ============= Getting started ============================= -->
- <chapter id="gchem3d-viewer-unstable-getting-started">
+ <chapter id="gchem3d-viewer-getting-started">
     <title>Getting started</title>
-	<sect1 id="gchem3d-viewer-unstable-to-start">
+	<sect1 id="gchem3d-viewer-to-start">
 		<title>To Start &app;</title>
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
@@ -116,22 +116,22 @@
     		<para>Choose 
     		<menuchoice>
     		<guisubmenu>Education</guisubmenu>
-    		<guimenuitem>Molecules Viewer (unstable)</guimenuitem>
+    		<guimenuitem>Molecules Viewer</guimenuitem>
     		</menuchoice>. </para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
     		<term>Command line</term>
     		<listitem>
-    		<para>Type <command>gchem3d-viewer-unstable</command>, then press <keycap>Return</keycap>.</para>
+    		<para>Type <command>gchem3d-viewer</command>, then press <keycap>Return</keycap>.</para>
     		</listitem>
     		</varlistentry>
     		</variablelist>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-when-you-start">
+	<sect1 id="gchem3d-viewer-when-you-start">
 		<title>When You Start &app;</title>
 		<para>When you start <application>&app;</application>, the following window is displayed:</para>
- 			<figure id="gchem3d-viewer-unstable-main-window"> 
+ 			<figure id="gchem3d-viewer-main-window"> 
 			  <title>&app; main window</title>
 			  <screenshot> 
 					<mediaobject>
@@ -161,7 +161,7 @@
 		  </varlistentry>
 		</variablelist>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-open-file">
+	<sect1 id="gchem3d-viewer-open-file">
 		<title>To Open a File</title>
 		<para>To open a file, choose 
 		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>
@@ -187,18 +187,18 @@
 	  <para>Recently opened file appear in the <menuchoice> <guimenu>File</guimenu>
 	   <guimenu>Open recent</guimenu></menuchoice> sub-menu.</para>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-run-from-cmd-line">
+	<sect1 id="gchem3d-viewer-run-from-cmd-line">
 		<title>To Open Multiple Files from a Command Line</title>
 		<para>You can run <application>&app;</application> from a command line
 		  and open a single file or multiple files. To open multiple files from a command
 		  line, type the following command, then press <keycap>Return</keycap>:</para>
-		<para><command>gchem3d-viewer-unstable <replaceable>file1 file2 file3</replaceable></command></para>
+		<para><command>gchem3d-viewer <replaceable>file1 file2 file3</replaceable></command></para>
 	</sect1>
 </chapter>
 
-<chapter id="gchem3d-viewer-unstable-usage">
+<chapter id="gchem3d-viewer-usage">
     <title>Usage</title>
-	<sect1 id="gchem3d-viewer-unstable-save-as-image">
+	<sect1 id="gchem3d-viewer-save-as-image">
 		<title>To Save the View as an Image</title>
 		  <para>To open a file, choose 
 		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save as Image...</guimenuitem>
@@ -214,19 +214,19 @@
 		  <para>An appropriate extension will be added to the file name if none
 		  is found.</para>
 		  <para>PostScript and PDF files can also be obtained with the <link
- 		  linkend="gchem3d-viewer-unstable-print">Print command</link>.</para>
+ 		  linkend="gchem3d-viewer-print">Print command</link>.</para>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-print">
+	<sect1 id="gchem3d-viewer-print">
 		<title>To Print the View</title>
 		  <para>To open a file, choose 
 		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
 			 </menuchoice>.</para>
 		<para><application>&app;</application> uses a 300 dpi resolution
 		when printing.</para>
-		<para>You might want to <link linkend="gchem3d-viewer-unstable-background">
+		<para>You might want to <link linkend="gchem3d-viewer-background">
 		change the Background color</link> before printing.</para>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-mode">
+	<sect1 id="gchem3d-viewer-mode">
 		<title>To Change the Model Options</title>
 		<para><application>&app;</application> id able to display a molecule
 		using two model types: the ball ans stick model and the compact
@@ -237,14 +237,14 @@
 		<para>You can also change the orientation. Just click somewhere in
 		the view and drag the mouse until you get the wanted orientation.</para>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-background">
+	<sect1 id="gchem3d-viewer-background">
 		<title>To Change the Background Color</title>
 		<para>To change the backgound color, choose 
 		  <menuchoice> <guimenu>View</guimenu> <guimenuitem>Background color</guimenuitem>
 			 </menuchoice> and select the appropriate color in the palette, or
 			 choose a custom color.</para>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-question">
+	<sect1 id="gchem3d-viewer-question">
 		<title>To Ask a Question</title>
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
 		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchemutils-main@nongnu.org">Gnome Chemistry Utils
@@ -252,7 +252,7 @@
 		<para>Another way to get some help is to connect on the #gchemutils channel
 		at irc.gimp.net and ask your question there (if you are not alone on the channel).</para>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-web">
+	<sect1 id="gchem3d-viewer-web">
 		<title>To Find the Gnome Chemistry Utils on the Web.</title>
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Gnome Chemistry Utils on the web</guimenuitem></menuchoice>,
 		the default web browser should pop up and display the main page for the Gnome Chemsitry Utils.</para>
@@ -260,7 +260,7 @@
 		<ulink type="http" url="http://gchemutils.nongnu.org">http://gchemutils.nongnu.org</ulink> and the project
 		page at savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchemutils">http://savannah.nongnu.org/projects/gchemutils</ulink>.</para>
 	</sect1>
-	<sect1 id="gchem3d-viewer-unstable-bug">
+	<sect1 id="gchem3d-viewer-bug">
 		<title>To Report a Bug</title>
 		<para>To report a bug, you must use the bug page for the Gnome Chemistry
 		Utils at Savannah. You can access it by choosing

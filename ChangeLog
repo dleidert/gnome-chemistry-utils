@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2007-02-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/C/gchem3d-viewer-unstable.xml: renamed.
+	* docs/help/3d/C/gchem3d-viewer.xml: new name.
+	* docs/help/3d/Makefile.am: removed unstable.
+	* docs/help/calc/C/gchemcalc-unstable.xml: renamed.
+	* docs/help/calc/C/gchemcalc.xml: new name.
+	* docs/help/calc/Makefile.am: removed unstable.
+	* docs/help/crystal/C/gcrystal-unstable.xml: renamed.
+	* docs/help/crystal/C/gcrystal.xml: new name.
+	* docs/help/crystal/Makefile.am: removed unstable.
+	* docs/help/table/C/gchemtable-unstable.xml: renamed.
+	* docs/help/table/C/gchemtable.xml: new name.
+	* docs/help/table/Makefile.am: removed unstable.
+
 2007-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: remove unstable stuff.
 	* configure.ac: ditto and changed version to 0.7.90.
