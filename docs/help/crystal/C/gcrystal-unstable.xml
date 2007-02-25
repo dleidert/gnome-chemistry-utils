@@ -77,6 +77,15 @@
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
 		</revision>
+    		<revision> 
+		  <revnumber>&app; Manual V0.6.0</revnumber>
+		  <date>November 2003</date> 
+		  <revdescription> 
+			 <para role="author">Jean Br&eacute;fort
+				<email>jean.brefort@ac-dijon.fr</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
    		<revision> 
 		  <revnumber>&app; Manual V0.1</revnumber>
 		  <date>2001</date> 

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/C/gcrystal-unstable.xml: updated history.
+	* programs/3d/main.cc: calls gtk_gl_init.
+	* programs/crystal/main.cc: ditto.
+
 2007-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post branching version bump (0.9.0).
 

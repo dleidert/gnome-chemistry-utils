@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/3d/main.cc 
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <gtk/gtkglinit.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gcu/chemistry.h>
@@ -62,6 +63,7 @@ int main(int argc, char *argv[])
 
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
+	gtk_gl_init (&argc, &argv);
 	if (!gnome_vfs_init ()) {
 		printf ("Could not initialize GnomeVFS\n");
 		return 1;

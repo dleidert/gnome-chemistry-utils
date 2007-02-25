@@ -4,7 +4,7 @@
  * Gnome Crystal
  * main.cc 
  *
- * Copyright (C) 2000-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,6 +35,7 @@
 #include "globals.h"
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <gtk/gtkglinit.h>
 #include <glib/gi18n.h>
 
 using namespace gcu;
@@ -118,6 +119,7 @@ int main(int argc, char *argv[])
 	textdomain(GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
+	gtk_gl_init (&argc, &argv);
 	gnome_vfs_init ();
 	Element::LoadRadii ();
 //	gnome_authentication_manager_init ();
