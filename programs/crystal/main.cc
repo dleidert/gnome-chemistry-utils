@@ -33,6 +33,7 @@
 #include "document.h"
 #include "view.h"
 #include "globals.h"
+#include <gtk/gtkglinit.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n.h>
@@ -47,28 +48,6 @@ gcView* pView;
 GtkWidget *mainwindow, *vbox1 ;
 GConfClient *conf_client;
 guint NotificationId;
-
-/* Following code is removed because libgnomeui is going to be deprecated
-* Just I don't know what will replace GnomeClient *
-static void session_die(GnomeClient *client, gpointer data)
-{
-   gtk_main_quit();
-}
-
-static gint session_save(GnomeClient *client, gint phase, GnomeSaveStyle save_style, gint is_shutdown, GnomeInteractStyle interact_style, gint is_fast, gpointer client_data)
-{
-	gchar **argv;
-	gint argc;
-	if (IsEmbedded())
-	{
-		argv = (gchar**) g_malloc0(sizeof(gchar*) * 3);
-		argc = 2;
-		argv[0] = (gchar*) client_data;
-		argv[1] = "--bonobo-server";
-		gnome_client_set_clone_command(client, argc, argv);
-		gnome_client_set_restart_command(client, argc, argv);
-	}
-}*/
 
 static void on_config_changed (GConfClient *client,  guint cnxn_id, GConfEntry *entry, gpointer user_data)
 {
@@ -118,9 +97,9 @@ int main(int argc, char *argv[])
 	textdomain(GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
+	gtk_gl_init (&argc, &argv);
 	gnome_vfs_init ();
 	Element::LoadRadii ();
-//	gnome_authentication_manager_init ();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));
 		g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
