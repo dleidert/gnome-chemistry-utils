@@ -123,7 +123,7 @@ static void on_about (GtkWidget *widget, void *data)
 					"authors", authors,
 					"artists", artists,
 					"comments", _("Gnome Crystal is a lightweight crystal structures viewer for Gnome"),
-					"copyright", _("(C) 1999-2006 by Jean Bréfort"),
+					"copyright", _("Copyright © 1999-2007 by Jean Bréfort"),
 					"license", license,
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
 											(const char *)translator_credits : NULL,

@@ -101,7 +101,7 @@ static void on_about (GtkWidget *widget, GChemTableApp *app)
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GChemTable is a chemical periodic table of the elements application");
 	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = "Copyright \xc2\xa9 2005,2006 Jean Bréfort";
+	const gchar * copyright = _("Copyright © 2005-2007 Jean Bréfort");
 	const gchar * license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
