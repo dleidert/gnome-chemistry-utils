@@ -1,3 +1,6 @@
+Version 0.7.90
+	* removed unstable stuff.
+
 Version 0.7.5
 	periodic table:
 		* add a widget to control family color scheme (Jordan Mantha).
