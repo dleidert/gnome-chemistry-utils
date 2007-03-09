@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/*: moved to libs/gcu.
+	* libs/gcu/*: moved from gcu.
+
 2007-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/3d/window.cc: updated copyright in about box.
 	* programs/calc/gchemcalc.cc: ditto.
