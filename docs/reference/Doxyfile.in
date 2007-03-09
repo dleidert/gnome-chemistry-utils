@@ -444,8 +444,9 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
 
-INPUT                  = @top_srcdir@/gcu \
-                         @top_srcdir@/tests
+INPUT                  = @top_srcdir@/libs/gcu \
+							@top_srcdir@/libs/gcp \
+							@top_srcdir@/tests
 
 # If the value of the INPUT tag contains directories, you can use the 
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -467,8 +468,8 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = @top_srcdir@/gcu/gtkperiodic.c \
-						@top_srcdir@/gcu/gtkcomboperiodic.c
+EXCLUDE                = @top_srcdir@/libs/gcu/gtkperiodic.c \
+						@top_srcdir@/libs/gcu/gtkcomboperiodic.c
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 

@@ -4,9 +4,9 @@ CLEANFILES = $(desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-DEPS = $(top_builddir)/gcu/libgcu-unstable.la
-INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
+DEPS = $(top_builddir)/gcu/libs/libgcu-unstable.la
+INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+LDADD = $(top_builddir)/gcu/libs/libgcu-unstable.la @GCU_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
 
 bin_PROGRAMS = gchemcalc-unstable

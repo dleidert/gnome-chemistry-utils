@@ -223,10 +223,11 @@ docs/man/Makefile
 docs/reference/Makefile
 docs/reference/Doxyfile
 dtds/Makefile
-gcu/Makefile
 glade/Makefile
 glade/crystal/Makefile
 glade/table/Makefile
+libs/Makefile
+libs/gcu/Makefile
 mozilla-plugin/Makefile
 pixmaps/Makefile
 po/Makefile.in

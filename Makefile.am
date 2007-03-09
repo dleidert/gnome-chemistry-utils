@@ -1,4 +1,4 @@
-SUBDIRS = po database glade pixmaps gcu programs mozilla-plugin \
+SUBDIRS = po database glade pixmaps libs programs mozilla-plugin \
 	samples tests dtds docs
 
 EXTRA_DIST=	\
