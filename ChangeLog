@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
 2007-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: make things build again.
+	* libs/gcu/Makefile.am: ditto.
+	* mozilla-plugin/Makefile.am: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/calc/Makefile.am: ditto.
+
+2007-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: updated to new architecture.
 	* configure.ac: ditto.
 	* docs/reference/Doxyfile.in: ditto.

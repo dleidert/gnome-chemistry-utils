@@ -1,5 +1,5 @@
 AC_INIT([gnome-chemistry-utils], [0.9.0], [http://savannah.nongnu.org/bugs/?group=gchemutils])
-AC_CONFIG_SRCDIR([gcu/gtkperiodic.c])
+AC_CONFIG_SRCDIR([libs/gcu/gtkperiodic.c])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST

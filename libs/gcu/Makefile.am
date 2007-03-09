@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
+INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 AM_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
