@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-28 16:58+0100\n"
-"PO-Revision-Date: 2006-01-29 08:00+0200\n"
+"PO-Revision-Date: 2007-03-22 14:00+0100\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1857,20 +1857,20 @@ msgstr "Affinité électronique"
 
 #: ../programs/table/gchemtable-curve.cc:217
 msgid "1st. "
-msgstr "1ère"
+msgstr "1ère "
 
 #: ../programs/table/gchemtable-curve.cc:220
 msgid "2nd. "
-msgstr "2ème"
+msgstr "2ème "
 
 #: ../programs/table/gchemtable-curve.cc:223
 msgid "3rd. "
-msgstr "3ème"
+msgstr "3ème<"
 
 #: ../programs/table/gchemtable-curve.cc:226
 #, c-format
 msgid "%dth. "
-msgstr "%dème"
+msgstr "%ème "
 
 #: ../programs/table/gchemtable-curve.cc:229
 msgid "ionization energy (MJ/mol)"
