@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-03-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: removed *_DISABLE_DEPRECATED.
+	* docs/help/table/C/gchemtable.xml: fixed some typos.
+
 2007-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.7.91).
 

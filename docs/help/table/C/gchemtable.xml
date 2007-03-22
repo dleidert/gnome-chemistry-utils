@@ -106,7 +106,7 @@
  <chapter id="gchemtable-getting-started">
     <title>Getting started</title>
 	<sect1 id="gchemtable-to-start">
-		<title>To Start &app;</title>
+		<title>To Start <application>&app;</application></title>
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
     		<varlistentry>
@@ -129,7 +129,7 @@
     		</variablelist>
 	</sect1>
 	<sect1 id="gchemtable-when-you-start">
-		<title>When You Start &app;</title>
+		<title>When You Start <application>&app;</application></title>
 		<para>When you start <application>&app;</application>, the following window is displayed:</para>
  			<figure id="gchemtable-main-window"> 
 			  <title>&app; window</title>
@@ -307,7 +307,7 @@
 	</sect1>
 	<sect1 id="gchemtable-curvedlg">
 		<title>Curves</title>
-		<para>Curves as displayed in <application>app;</application> look like:</para>
+		<para>Curves as displayed in <application>&app;</application> look like:</para>
 		<figure id="gchemtable-curve"> 
 		  <title>First ionization energy curve</title>
 		  <screenshot> 
