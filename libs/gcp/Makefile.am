@@ -1,0 +1,86 @@
+lib_LTLIBRARIES= libgchempaint-unstable.la
+
+libgchempaint_unstable_la_SOURCES = \
+		application.cc \
+		plugin.cc \
+		settings.cc \
+		document.cc \
+		window.cc \
+		operation.cc \
+		arrow.cc \
+		atom.cc \
+		electron.cc \
+		bond.cc \
+		chain.cc \
+		cycle.cc \
+		fragment-atom.cc \
+		fragment.cc \
+		molecule.cc \
+		reaction.cc \
+		reactant.cc \
+		reaction-step.cc \
+		reaction-arrow.cc \
+		reaction-operator.cc \
+		mesomery.cc \
+		mesomer.cc \
+		mesomery-arrow.cc \
+		text.cc \
+		text-object.cc \
+		docprop.cc \
+		fontsel.cc \
+		newfiledlg.cc \
+		preferences.cc \
+		stringdlg.cc \
+		about.cc \
+		tool.cc \
+		tools.cc \
+		view.cc \
+		widgetdata.cc \
+		zoomdlg.cc \
+		theme.cc 
+
+noinst_HEADERS = \
+		application.h \
+		plugin.h \
+		settings.h \
+		document.h \
+		window.h \
+		operation.h \
+		arrow.h \
+		atom.h \
+		electron.h \
+		bond.h \
+		chain.h \
+		cycle.h \
+		fragment-atom.h \
+		fragment.h \
+		molecule.h \
+		reaction.h \
+		reactant.h \
+		reaction-step.h \
+		reaction-arrow.h \
+		reaction-operator.h \
+		mesomery.h \
+		mesomer.h \
+		mesomery-arrow.h \
+		text.h \
+		text-object.h \
+		docprop.h \
+		fontsel.h \
+		newfiledlg.h \
+		preferences.h \
+		stringdlg.h \
+		about.h \
+		tool.h \
+		tools.h \
+		view.h \
+		widgetdata.h \
+		zoomdlg.h \
+		theme.h
+		
+libgchempaint_unstable_la_LDFLAGS = -release $(VERSION) -L$(top_srcdir)/libs/canvas -lgcpcanvas-unstable -L$(top_srcdir)/libs/gcu -lgcu-unstable @GCU_LIBS@
+AM_CXXFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
+	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint\" \
+	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\"
+
