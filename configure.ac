@@ -77,7 +77,7 @@ REQUIREMENTS="libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gtk+-2.0 >= $GTK_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprintui-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
-gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
+gnome-vfs-module-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
 libgoffice-0.3 >= $GNOME_OFFICE_REQUIRED_VERSION \
 chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
 shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
@@ -188,6 +188,9 @@ GCU_PROG_XMLLINT
 GCU_PROG_XSLTPROC
 GCU_PROG_MAN
 
+AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
+AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
+
 AC_LANG(C++)
 AC_CHECK_HEADER([fstream], [AC_DEFINE([HAVE_FSTREAM], [1], [fstream present])])
 AC_CHECK_HEADER([ostream], [AC_DEFINE([HAVE_OSTREAM], [1], [ostream present])])
@@ -225,9 +228,15 @@ docs/reference/Doxyfile
 dtds/Makefile
 glade/Makefile
 glade/crystal/Makefile
+glade/paint/Makefile
 glade/table/Makefile
 libs/Makefile
+libs/canvas/Makefile
+libs/gcp/Makefile
 libs/gcu/Makefile
+plugins/Makefile
+plugins/paint/Makefile
+plugins/paint/selection/Makefile
 mozilla-plugin/Makefile
 pixmaps/Makefile
 po/Makefile.in
@@ -236,6 +245,7 @@ programs/Makefile
 programs/3d/Makefile
 programs/calc/Makefile
 programs/crystal/Makefile
+programs/paint/Makefile
 programs/table/Makefile
 tests/Makefile
 ])

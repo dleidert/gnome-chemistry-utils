@@ -98,38 +98,7 @@ static void on_bug (GtkWidget *widget, GChemTableApp *app)
 
 static void on_about (GtkWidget *widget, GChemTableApp *app)
 {
-	const gchar * authors[] = {"Jean Bréfort", NULL};
-	const gchar * comments = _("GChemTable is a chemical periodic table of the elements application");
-	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2005-2007 Jean Bréfort");
-	const gchar * license =
-		"This program is free software; you can redistribute it and/or\n"
-		"modify it under the terms of the GNU General Public License as\n"
-		"published by the Free Software Foundation; either version 2 of the\n"
-		"License, or (at your option) any later version.\n\n"
-		"This program is distributed in the hope that it will be useful,\n"
-		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-		"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-		"GNU General Public License for more details.\n\n"
-		"You should have received a copy of the GNU General Public License\n"
-		"along with this program; if not, write to the Free Software\n"
-		"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307\n"
-		"USA";
-	
-	gtk_about_dialog_set_url_hook(on_about_activate_url, NULL, NULL);
-
-	/* Note to translators: replace the following string with the appropriate credits for you lang */
-	const gchar * translator_credits = _("translator_credits");
-	gtk_show_about_dialog (app->GetWindow (),
-	                       "name", "GChemTable",
-	                       "authors", authors,
-	                       "comments", comments,
-	                       "copyright", copyright,
-	                       "license", license,
-	                       "translator_credits", translator_credits,
-	                       "version", VERSION,
-	                       "website", "http://www.nongnu.org/gchemutils",
-	                       NULL);
+	app->OnAbout ();
 }
 
 void on_changed (GtkPeriodic* periodic, guint Z, GChemTableApp *app)
@@ -324,6 +293,42 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 
 GChemTableApp::~GChemTableApp ()
 {
+}
+
+void GChemTableApp::OnAbout ()
+{
+	const gchar * authors[] = {"Jean Bréfort", NULL};
+	const gchar * comments = _("GChemTable is a chemical periodic table of the elements application");
+	/* const gchar * documentors[] = {NULL}; */
+	const gchar * copyright = _("Copyright © 2005-2007 Jean Bréfort");
+	const gchar * license =
+		"This program is free software; you can redistribute it and/or\n"
+		"modify it under the terms of the GNU General Public License as\n"
+		"published by the Free Software Foundation; either version 2 of the\n"
+		"License, or (at your option) any later version.\n\n"
+		"This program is distributed in the hope that it will be useful,\n"
+		"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+		"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+		"GNU General Public License for more details.\n\n"
+		"You should have received a copy of the GNU General Public License\n"
+		"along with this program; if not, write to the Free Software\n"
+		"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307\n"
+		"USA";
+	
+	gtk_about_dialog_set_url_hook(on_about_activate_url, NULL, NULL);
+
+	/* Note to translators: replace the following string with the appropriate credits for you lang */
+	const gchar * translator_credits = _("translator_credits");
+	gtk_show_about_dialog (GetWindow (),
+	                       "name", "GChemTable",
+	                       "authors", authors,
+	                       "comments", comments,
+	                       "copyright", copyright,
+	                       "license", license,
+	                       "translator_credits", translator_credits,
+	                       "version", VERSION,
+	                       "website", "http://www.nongnu.org/gchemutils",
+	                       NULL);
 }
 
 void GChemTableApp::OnElement (int Z)

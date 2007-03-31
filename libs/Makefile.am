@@ -1,1 +1,1 @@
-SUBDIRS = gcu
+SUBDIRS = gcu canvas gcp

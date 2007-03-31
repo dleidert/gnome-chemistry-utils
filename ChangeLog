@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2007-03-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add gchempaint stuff.
+	* configure.ac: ditto.
+	* docs/help/table/C/gchemtable-unstable.xml: fixed typos.
+	* glade/Makefile.am: add gchempaint stuff.
+	* glade/table/curve.glade: add printing.
+	* libs/Makefile.am: add gchempaint stuff.
+	* programs/Makefile.am: ditto.
+	* programs/table/gchemtable-app.cc: add an OnAbout method to the class.
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-curve.cc: add a menu and implement prnting.
+	* programs/table/gchemtable-curve.h: ditto.
+
 2007-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/paint/*: copied from GChemPaint.
 	* libs/canvas/*: ditto.

@@ -27,19 +27,28 @@
 
 #include <gcu/dialog.h>
 #include <string>
+#include "gchemtable-app.h"
+#include <goffice/graph/gog-graph.h>
 
 using namespace gcu;
 
-class GChemTableApp;
-	
 class GChemTableCurve: public Dialog
 {
 public:
 	GChemTableCurve (GChemTableApp *App, char const *name);
 	virtual ~GChemTableCurve ();
 
+	GChemTableApp *GetApplication () {return dynamic_cast <GChemTableApp *> (m_App);}
+
+	void OnPrint ();
+	void OnCopy ();
+	void OnClose ();
+
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+
 private:
 	string m_Name;
+	GogGraph *m_Graph;
 };
 
 #endif	// GCHEMTABLE_CURVE_H

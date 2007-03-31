@@ -24,7 +24,6 @@
 
 #include "config.h"
 #include "gchemtable-curve.h"
-#include "gchemtable-app.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <goffice/data/go-data-simple.h>
@@ -142,19 +141,153 @@ static GtkTargetEntry const targets[] = {
 	{(char *) "image/png", 0, 3}
 };
 
-static void on_copy (GogGraph *graph)
+static void on_copy (GtkWidget *widget, GChemTableCurve *curve)
 {
-	GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-	g_object_ref (graph);
-	gtk_clipboard_set_with_data (clipboard, targets, 4,
-		(GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data, graph);
+	curve->OnCopy ();
 }
+
+static void on_print (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->OnPrint ();
+}
+
+static void on_close (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->Destroy ();
+}
+
+static void on_help (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->GetApplication ()->OnHelp ();
+}
+
+static void on_curve_help (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->Help ();
+}
+
+static void on_web (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->GetApplication ()->OnWeb ();
+}
+
+static void on_mail (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->GetApplication ()->OnMail ();
+}
+
+static void on_bug (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->GetApplication ()->OnBug ();
+}
+
+static void on_about (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->GetApplication ()->OnAbout ();
+}
+
+static GtkActionEntry entries[] = {
+  { "FileMenu", NULL, N_("_File") },
+	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
+		  N_("Print the current file"), G_CALLBACK (on_print) },
+	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
+		  N_("Close the current file"), G_CALLBACK (on_close) },
+	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
+		  N_("Quit GChemTable"), G_CALLBACK (gtk_main_quit) },
+  { "EditMenu", NULL, N_("_Edit") },
+	  { "Copy", GTK_STOCK_COPY, N_("_Copy"), "<control>C",
+		  N_("Copy the selection"), G_CALLBACK (on_copy) },
+  { "HelpMenu", NULL, N_("_Help") },
+	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
+		  N_("View help for the Periodic Table"), G_CALLBACK (on_help) },
+	  { "CurveHelp", GTK_STOCK_HELP, N_("_Help"), "<control>F1",
+		  N_("View help for the Curve Window"), G_CALLBACK (on_curve_help) },
+	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
+		  N_("Browse the Gnome Chemistry Utils's web site"), G_CALLBACK (on_web) },
+	  { "Mail", NULL, N_("_Ask a question"), NULL,
+		  N_("Ask a question about the Gnome Chemistry Utils"), G_CALLBACK (on_mail) },
+	  { "Bug", NULL, N_("Report _Bugs"), NULL,
+		  N_("Submit a bug report for the Gnome Chemistry Utils"), G_CALLBACK (on_bug) },
+	  { "About", GTK_STOCK_ABOUT, N_("_About"), NULL,
+		  N_("About GChemTable"), G_CALLBACK (on_about) }
+};
+
+static const char *ui_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='FileMenu'>"
+"      <menuitem action='Print'/>"
+"		<separator/>"
+"      <menuitem action='Close'/>"
+"      <menuitem action='Quit'/>"
+"    </menu>"
+"    <menu action='EditMenu'>"
+"      <menuitem action='Copy'/>"
+"    </menu>"
+"    <menu action='HelpMenu'>"
+"      <menuitem action='Help'/>"
+"      <menuitem action='CurveHelp'/>"
+"      <placeholder name='mail'/>"
+"      <placeholder name='web'/>"
+"      <placeholder name='bug'/>"
+"      <menuitem action='About'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static const char *ui_mail_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='HelpMenu'>"
+"      <placeholder name='mail'>"
+"        <menuitem action='Mail'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static const char *ui_web_description =
+"<ui>"
+"  <menubar name='MainMenu'>"
+"    <menu action='HelpMenu'>"
+"      <placeholder name='web'>"
+"        <menuitem action='Web'/>"
+"      </placeholder>"
+"      <placeholder name='bug'>"
+"        <menuitem action='Bug'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	Dialog (App, GLADEDIR"/curve.glade", "curvedlg")
 {
 	m_Name = name;
 	GtkWidget *w = glade_xml_get_widget (xml, "vbox1");
+	GtkUIManager *ui_manager = gtk_ui_manager_new ();
+	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
+	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), this);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+	gtk_window_add_accel_group (GTK_WINDOW (dialog), accel_group);
+	GError *error = NULL;
+	if (!gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+		exit (EXIT_FAILURE);
+	}
+	if (m_App->HasWebBrowser () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_web_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+	if (m_App->HasMailAgent () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_mail_description, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
+	gtk_box_pack_start (GTK_BOX (w), bar, FALSE, FALSE, 0);
 #ifdef GO_GRAPH_WIDGET_OLD_API
 	GtkWidget *pw = go_graph_widget_new ();
 #else
@@ -169,7 +302,6 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	// Create a series for the plot and populate it with some simple data
 	GogSeries *series = gog_plot_new_series (plot);
 	double *yvals = g_new0 (double, MAX_ELT);
-	GError *error;
 	GogObject *obj, *label;
 	GOData *data;
 	int i;
@@ -351,13 +483,76 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 	gog_object_add_by_name (obj, "Label", label);
-	//now add copy callback
+	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (pw));
+	//now add copy and print callbacks
 	w = glade_xml_get_widget (xml, "copy");
-	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy),
-		go_graph_widget_get_graph (GO_GRAPH_WIDGET (pw)));
+	g_signal_connect (w, "clicked", G_CALLBACK (on_copy), this);
+	w = glade_xml_get_widget (xml, "print");
+	g_signal_connect (w, "clicked", G_CALLBACK (on_print), this);
 }
 
 GChemTableCurve::~GChemTableCurve ()
 {
 	curves.erase (m_Name);
+}
+
+static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpointer data)
+{
+	gtk_print_operation_set_n_pages (print, 1);
+}
+
+static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,gpointer data)
+{
+	((GChemTableCurve *) data)->DoPrint (print, context);
+}
+
+void GChemTableCurve::OnPrint ()
+{
+	GtkPrintOperation *print;
+	GtkPrintOperationResult res;
+
+	print = gtk_print_operation_new ();
+	gtk_print_operation_set_use_full_page (print, true);
+
+/*  if (settings != NULL) 
+    gtk_print_operation_set_print_settings (print, settings);*/
+
+	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), NULL);
+	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
+	
+	res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+								   GTK_WINDOW (dialog), NULL);
+
+	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
+/*		if (settings != NULL)
+			g_object_unref (settings);
+		settings = g_object_ref (gtk_print_operation_get_print_settings (print));*/
+	}
+
+	g_object_unref (print);
+}
+
+void GChemTableCurve::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+{
+	cairo_t *cr;
+	gdouble width, height;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	width = gtk_print_context_get_width (context);
+	height = gtk_print_context_get_height (context);
+	GogGraph *Graph = GOG_GRAPH (gog_object_dup ((GogObject *) m_Graph, NULL, NULL));
+	gog_graph_set_size (Graph, width, height);
+	GogRenderer *renderer = gog_renderer_new_for_pixbuf (m_Graph);
+	g_object_set (renderer, "cairo", cr, NULL);
+	gog_renderer_update (renderer, width, height, 1.0);
+	g_object_unref (renderer);
+	g_object_unref (Graph);
+}
+
+void GChemTableCurve::OnCopy ()
+{
+	GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	g_object_ref (m_Graph);
+	gtk_clipboard_set_with_data (clipboard, targets, 4,
+		(GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data, m_Graph);
 }

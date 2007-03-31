@@ -40,6 +40,7 @@ public:
 
 	void OnElement (int Z);
 	GtkWindow *GetWindow () {return GTK_WINDOW (window);}
+	void OnAbout ();
 	void ClearPage (int Z);
 	void SetCurZ (int Z);
 	void SetColorScheme (char const *name);
