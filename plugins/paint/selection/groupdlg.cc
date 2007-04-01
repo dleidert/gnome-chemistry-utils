@@ -39,7 +39,7 @@ static void on_space_toggled (gcpGroupDlg *dlg)
 }
 
 gcpGroupDlg::gcpGroupDlg (gcp::Document *Doc, gcpGroup *group):
-	Dialog (Doc->GetApplication (), DATADIR"/gchempaint-unstable/ui/group.glade", "group", Doc)
+	Dialog (Doc->GetApplication (), GLADEDIR"/group.glade", "group", Doc)
 {
 	if (!xml) {
 		delete this;

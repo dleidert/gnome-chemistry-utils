@@ -28,12 +28,6 @@ selection_LTLIBRARIES = selection.la
 
 selectiondir = $(libdir)/gchemutils-unstable/plugins/paint
 
-selection_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
-	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint/plugins/selection\" \
-	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\"
-
 selection_la_SOURCES = \
 	plugin.cc \
 	selectiontool.cc \
@@ -54,3 +48,8 @@ glade_DATA = \
 gladedir = $(datadir)/gchemutils-unstable/glade/paint/plugins/selection
 
 EXTRA_DIST= $(IMAGES) $(glade_DATA)
+
+selection_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(gladedir)\" \
+	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\"
