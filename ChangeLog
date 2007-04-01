@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2007-04-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/*/*.png: add mssing files necessary to build.
+	* plugins/paint/arrows/gchempaint-arrows.schemas.in: ditto.
+	* plugins/paint/templates/Makefile.am: fixed typo.
+
+2007-04-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: copy remaining plugins for GChemPaint.
 	* plugins/paint/*: ditto.
 

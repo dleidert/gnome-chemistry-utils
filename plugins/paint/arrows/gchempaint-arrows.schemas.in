@@ -1,0 +1,16 @@
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/gchempaint/plugins/arrows/full-arrows-heads</key>
+      <applyto>/apps/gchempaint/plugins/arrows/full-arrows-heads</applyto>
+      <owner>gchempaint</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Use full arrows heads for reversible reactions</short>
+		<long>If set to true, arrows for reversible reaction steps will
+		use full arrows heads by default instead of half heads.</long>
+      </locale>
+    </schema>
+  </schemalist>
+</gconfschemafile>

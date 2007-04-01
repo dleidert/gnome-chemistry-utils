@@ -26,6 +26,6 @@ EXTRA_DIST=$(glade_DATA)
 
 templates_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
-DEFS +=  -DDATADIR=\"$(datadir)\"-DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
+DEFS +=  -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
 	-DGLADEDIR=\"$(gladedir)\" \
 	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\"
