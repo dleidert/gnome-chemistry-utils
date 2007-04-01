@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2007-04-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: copy remaining plugins for GChemPaint.
+	* plugins/paint/*: ditto.
+
+2007-04-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/selection/Makefile.am: fixed details.
 	* plugins/paint/selection/groupdlg.cc: fixed glade dir.
 

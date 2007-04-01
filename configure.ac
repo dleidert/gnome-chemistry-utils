@@ -236,7 +236,13 @@ libs/gcp/Makefile
 libs/gcu/Makefile
 plugins/Makefile
 plugins/paint/Makefile
+plugins/paint/arrows/Makefile
+plugins/paint/atoms/Makefile
+plugins/paint/bonds/Makefile
+plugins/paint/cycles/Makefile
 plugins/paint/selection/Makefile
+plugins/paint/templates/Makefile
+plugins/paint/text/Makefile
 mozilla-plugin/Makefile
 pixmaps/Makefile
 po/Makefile.in
