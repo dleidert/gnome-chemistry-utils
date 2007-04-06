@@ -68,7 +68,7 @@ static void do_add_stoichiometry (Reactant *reactant)
 	reactant->AddStoichiometry ();
 }
 
-bool Reactant::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
+bool Reactant::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	bool result = false;
 	if (m_Stoich == 0 && !Stoichiometry) {
@@ -82,7 +82,7 @@ bool Reactant::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
 		g_signal_connect_swapped (w, "activate", G_CALLBACK (do_add_stoichiometry), this);
 		result = true;
 	}
-	return result | GetParent ()->BuildContextualMenu (UIManager, object);
+	return result | GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 }
 
 xmlNodePtr Reactant::Save (xmlDocPtr xml)

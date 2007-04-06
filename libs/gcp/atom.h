@@ -78,8 +78,8 @@ public:
 
 public :
 	virtual void SetZ (int Z);
-	void AddBond (Bond* pBond);
-	void RemoveBond (Bond* pBond);
+	void AddBond (gcu::Bond* pBond);
+	void RemoveBond (gcu::Bond* pBond);
 	virtual void Update ();
 	virtual void Add (GtkWidget* w);
 	virtual void Update (GtkWidget* w);
@@ -98,7 +98,7 @@ public :
 	virtual bool AcceptCharge (int charge);
 	virtual double GetYAlign ();
 	virtual void Transform2D (Matrix2D& m, double x, double y);
-	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object);
+	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	/*!
 	@param Mol: a pointer to a molecule
 
@@ -107,7 +107,18 @@ public :
 	virtual void AddToMolecule (Molecule* Mol);
 	bool HasImplicitElectronPairs ();
 	bool MayHaveImplicitUnpairedElectrons ();
+	/*!
+	@param Electron: a pointer to an Electron instance.
+
+	Adds the Electron (representing either a single electron or a pair) to the Atom.
+	*/
 	void AddElectron (Electron* electron);
+	/*!
+	@param Electron: a pointer to an Electron instance.
+
+	Removes the Electron (representing either a single electron or a pair) from the Atom.
+	*/
+	void RemoveElectron (Electron* electron);
 	void NotifyPositionOccupation (unsigned char pos, bool occupied);
 	void SetChargePosition (unsigned char Pos, bool def, double angle = 0., double distance = 0.);
 	char GetChargePosition (double *Angle, double *Dist);

@@ -1257,7 +1257,7 @@ void Document::SetDirty (bool isDirty)
 	char *title = g_strdup_printf ((isDirty? "*%s": "%s"), GetTitle ());
 	m_Window->SetTitle (title);
 	g_free (title);
-	Document::SetDirty (isDirty);
+	gcu::Document::SetDirty (isDirty);
 }
 
 void Document::SetLabel(const gchar* label)

@@ -77,6 +77,7 @@ Atom::~Atom()
 	Object* electron = GetFirstChild (i);
 	while (electron){
 		pView->Remove (electron);
+		electron->SetParent (NULL); // avoids a call to RemoveElectron()
 		delete electron;
 		electron = GetNextChild (i);
 	}
@@ -179,27 +180,30 @@ int Atom::GetTotalBondsNumber()
 	return n;
 }
 
-void Atom::AddBond(Bond* pBond)
+void Atom::AddBond (gcu::Bond* pBond)
 {
-	Atom::AddBond(pBond);
-	Update();
+	gcu::Atom::AddBond (pBond);
+	Update ();
 }
 
-void Atom::RemoveBond(Bond* pBond)
+void Atom::RemoveBond (gcu::Bond* pBond)
 {
-	Atom::RemoveBond(pBond);
-	Update();
+	gcu::Atom::RemoveBond (pBond);
+	Update ();
 }
 
 bool Atom::GetBestSide()
 {
-	if (m_Bonds.size() == 0) return Element::BestSide(m_Z);
-	std::map<gcu::Atom*, gcu::Bond*>::iterator i;
+	if (m_Bonds.size () == 0)
+		return Element::BestSide (m_Z);
+	std::map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end();
 	double sum = 0.0;
-	for (i = m_Bonds.begin(); i != m_Bonds.end(); i++)
-		sum -= cos(((Bond*)(*i).second)->GetAngle2DRad(this));
-	if (fabs(sum) > 0.1) return (sum >= 0.0);
-	else return Element::BestSide(m_Z);
+	for (i = m_Bonds.begin(); i != end; i++)
+		sum -= cos(((Bond*) (*i).second)->GetAngle2DRad (this));
+	if (fabs(sum) > 0.1)
+		return (sum >= 0.0);
+	else
+		return Element::BestSide (m_Z);
 }
 
 void Atom::Update ()
@@ -603,9 +607,9 @@ void Atom::Update(GtkWidget* w)
 		m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
 		g_object_unref (G_OBJECT (Layout));
 	}
-	if (m_Changed) {
+	if (m_Changed)
 		BuildItems (pData);
-	} else {
+	else {
 		if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
 			g_object_set(G_OBJECT(g_object_get_data(G_OBJECT(group), "symbol")),
 								"x", x - m_lbearing,
@@ -1143,15 +1147,15 @@ int Atom::GetAvailablePosition(double& x, double& y)
 	return 0;
 }
 
-bool Atom::LoadNode(xmlNodePtr)
+bool Atom::LoadNode (xmlNodePtr)
 {
-	SetZ(GetZ());
+	SetZ (GetZ ());
 	return true;
 }
 
-void Atom::SetSelected(GtkWidget* w, int state)
+void Atom::SetSelected (GtkWidget* w, int state)
 {
-	WidgetData* pData = (WidgetData*)g_object_get_data(G_OBJECT(w), "data");
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
 	gpointer item;
 	gchar *color, *chargecolor;
@@ -1447,6 +1451,18 @@ void Atom::AddElectron (Electron* electron)
 	Update ();
 }
 
+void Atom::RemoveElectron (Electron* electron)
+{
+	// remove the electron from children so that it is not taken into account when
+	// updating.
+	electron->SetParent (NULL);
+	Update ();
+	// Force view update.
+	Document *pDoc = reinterpret_cast<Document*> (GetDocument ());
+	if (pDoc)
+		pDoc->GetView ()->Update (this);
+}
+
 void Atom::NotifyPositionOccupation (unsigned char pos, bool occupied)
 {
 	if (occupied)
@@ -1457,7 +1473,7 @@ void Atom::NotifyPositionOccupation (unsigned char pos, bool occupied)
 	
 xmlNodePtr Atom::Save (xmlDocPtr xml)
 {
-	xmlNodePtr node = Atom::Save (xml), child;
+	xmlNodePtr node = gcu::Atom::Save (xml), child;
 	if (node) {
 	// Save electrons
 		map<string, Object*>::iterator i;
@@ -1520,7 +1536,7 @@ xmlNodePtr Atom::Save (xmlDocPtr xml)
 	
 bool Atom::Load (xmlNodePtr node)
 {
-	if (!Atom::Load (node))
+	if (!gcu::Atom::Load (node))
 		return false;
 	//Load electrons
 	xmlNodePtr child = node->children;
@@ -1667,22 +1683,22 @@ void Atom::Transform2D (Matrix2D& m, double x, double y)
 	}
 }
 
-static void do_display_symbol (GtkToggleAction *action, Atom* Atom)
+static void do_display_symbol (GtkToggleAction *action, Atom *pAtom)
 {
-	Document *Doc = static_cast <Document *> (Atom->GetDocument ());
+	Document *Doc = static_cast <Document *> (pAtom->GetDocument ());
 	Operation *Op = Doc->GetNewOperation (GCP_MODIFY_OPERATION);
-	Object *Obj = Atom->GetGroup ();
+	Object *Obj = pAtom->GetGroup ();
 	Op->AddObject (Obj, 0);
-	Atom->SetShowSymbol (gtk_toggle_action_get_active (action));
-	Atom->Update();
-	Atom->ForceChanged ();
-	Atom->EmitSignal (OnChangedSignal);
+	pAtom->SetShowSymbol (gtk_toggle_action_get_active (action));
+	pAtom->Update ();
+	pAtom->ForceChanged ();
+	pAtom->EmitSignal (OnChangedSignal);
 	Op->AddObject (Obj, 1);
 	Doc->FinishOperation ();
-	Doc->GetView ()->Update (Atom);
+	Doc->GetView ()->Update (pAtom);
 }
 
-bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
+bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	bool result = false;
 	if (GetZ () == 6 && GetBondsNumber() != 0) {
@@ -1698,7 +1714,7 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
 		gtk_ui_manager_insert_action_group (UIManager, group, 0);
 		result = true;
 	}
-	return result | GetParent ()->BuildContextualMenu (UIManager, object);
+	return result | GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 }
 
 }	//	namespace gcp

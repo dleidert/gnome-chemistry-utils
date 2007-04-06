@@ -49,7 +49,7 @@ public:
 	unsigned GetStoichiometry () {return m_Stoich;}
 	void SetStoichiometry (unsigned coef) {m_Stoich = coef;}
 	virtual double GetYAlign ();
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object);
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	virtual bool OnSignal (SignalId Signal, Object *Child);
 	
 	void AddStoichiometry ();

@@ -40,7 +40,7 @@ public:
 	
 	virtual bool Build (list<Object*>& Children) throw (invalid_argument);
 	virtual void Transform2D (Matrix2D& m, double x, double y);
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object);
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	virtual bool OnSignal (SignalId Signal, Object *Child);
 	virtual bool Load (xmlNodePtr);
 	virtual double GetYAlign ();

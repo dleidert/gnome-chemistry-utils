@@ -49,7 +49,7 @@ gcpGroup::~gcpGroup ()
 {
 }
 
-bool gcpGroup::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
+bool gcpGroup::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	GtkActionGroup *group = gtk_action_group_new ("group");
 	GtkAction *action = gtk_action_new ("group_properties", _("Group properties..."), NULL, NULL);
@@ -57,6 +57,7 @@ bool gcpGroup::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
 	gtk_action_group_add_action (group, action);
 	gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menuitem action='group_properties'/></popup></ui>", -1, NULL);
 	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 	return true;
 }
 

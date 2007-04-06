@@ -279,7 +279,7 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 			 	m_UIManager = gtk_ui_manager_new ();
 				result = pActiveTool->OnRightButtonClicked (this, Obj, event->button.x, event->button.y, m_UIManager);
 				if (Obj)
-					result |= Obj->BuildContextualMenu (m_UIManager, Obj);
+					result |= Obj->BuildContextualMenu (m_UIManager, Obj, x / GetZoomFactor (), y / GetZoomFactor ());
 				if (result) {
 					GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, "/popup");
 					gtk_menu_popup (GTK_MENU (w), NULL, NULL, NULL, NULL, 3,  gtk_get_current_event_time ());

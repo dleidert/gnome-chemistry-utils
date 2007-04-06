@@ -863,8 +863,7 @@ void Element::LoadBODR ()
 							if (unit) {
 								DimensionalValue *v = new DimensionalValue ();
 								if (!strcmp (unit, "units:atmass"))
-									// amu stands for "atomic mass units"
-									v->val.unit = _("amu");
+									v->val.unit = "u";
 								else if (!strcmp (unit, "units:ev"))
 									v->val.unit = "eV";
 								else if (!strcmp (unit, "units:ang"))

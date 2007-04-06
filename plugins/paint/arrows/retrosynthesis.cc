@@ -412,7 +412,7 @@ static void do_destroy_retrosynthesis (void *data)
 	pDoc->FinishOperation ();
 }
 
-bool gcpRetrosynthesis::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
+bool gcpRetrosynthesis::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	GtkActionGroup *group = gtk_action_group_new ("retrosynthesis");
 	GtkAction *action = gtk_action_new ("destroy-rs", _("Destroy the retrosynthesis path"), NULL, NULL);
@@ -422,7 +422,7 @@ bool gcpRetrosynthesis::BuildContextualMenu (GtkUIManager *UIManager, Object *ob
 	gtk_ui_manager_add_ui_from_string (UIManager, buf, -1, NULL);
 	GtkWidget *w = gtk_ui_manager_get_widget (UIManager, "/popup/destroy-rs");
 	g_signal_connect_swapped (w, "activate", G_CALLBACK (do_destroy_retrosynthesis), this);
-	GetParent ()->BuildContextualMenu (UIManager, object);
+	GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 	return true;
 }
 

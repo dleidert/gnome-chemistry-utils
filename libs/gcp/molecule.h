@@ -53,7 +53,7 @@ public:
 	virtual void Transform2D (Matrix2D& m, double x, double y);
 	virtual Object* GetAtomAt (double x, double y, double z = 0.);
 	virtual double GetYAlign ();
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object);
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	virtual bool OnSignal (SignalId Signal, Object *Child);
 	void ExportToGhemical ();
 	void SelectAlignmentItem (Object *child);

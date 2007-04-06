@@ -292,7 +292,7 @@ void Bond::IncOrder (int n)
 		!((Atom*) GetAtom (1))->AcceptNewBonds ())
 		m_order = 1;
 	else {
-		Bond::IncOrder (n);
+		gcu::Bond::IncOrder (n);
 		if (m_order == 4)
 			m_order = 1;	//avoid quadruple bonds for now
 	}
@@ -848,10 +848,14 @@ static void on_move_to_back (Bond *pBond)
 	pBond->MoveToBack ();
 }
 
-bool Bond::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
+bool Bond::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
+	bool result = false;
+	Object *pAtom = GetAtomAt (x, y);
+	if (pAtom)
+		result = pAtom->BuildContextualMenu (UIManager, object, x, y);
 	if (m_Crossing.size () == 0)
-		return GetParent ()->BuildContextualMenu (UIManager, object);;
+		return (pAtom)? result: GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 	bool is_before = false, is_after = false;
 	if (m_Crossing.size () > 0) {
 		map<Bond*, BondCrossing>::iterator i, iend = m_Crossing.end ();
@@ -865,7 +869,7 @@ bool Bond::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
 		}
 	}
 	if (!(is_before || is_after))
-		return GetParent ()->BuildContextualMenu (UIManager, object);;
+		return (pAtom)? result: GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 	GtkActionGroup *group = gtk_action_group_new ("bond");
 	GtkAction *action;
 	action = gtk_action_new ("Bond", _("Bond"), NULL, NULL);
@@ -883,7 +887,8 @@ bool Bond::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Bond'><menuitem action='BringFront'/></menu></popup></ui>", -1, NULL);
 	}
 	gtk_ui_manager_insert_action_group (UIManager, group, 0);
-	GetParent ()->BuildContextualMenu (UIManager, object);
+	if (!pAtom)
+		GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 	return true;
 }
 

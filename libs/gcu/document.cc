@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * chemistry/document.cc
+ * libs/gcu/document.cc
  *
  * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *

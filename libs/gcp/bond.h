@@ -86,7 +86,7 @@ public:
 	bool ReplaceAtom (Atom* oldAtom, Atom* newAtom);
 	virtual double GetYAlign ();
 	bool IsCrossing (Bond *pBond);
-	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object);
+	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	void MoveToBack ();
 	void BringToFront ();
 

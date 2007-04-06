@@ -222,7 +222,6 @@ static Object* CreateFragment ()
 	return new Fragment ();
 }
 
-list<Application*> Apps;
 bool	Application::m_bInit = false;
 bool	Application::m_Have_Ghemical = false;
 bool	Application::m_Have_InChI = false;
@@ -239,7 +238,6 @@ static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *e
 Application::Application ():
 	gcu::Application ("GChemPaint", DATADIR, PACKAGE, "gchempaint")
 {
-	Apps.push_back(this);
 	m_CurZ = 6;
 	m_pActiveDoc = NULL;
 	m_pActiveTool = NULL;
@@ -365,7 +363,6 @@ Application::~Application()
 	for (; tool!= endtool; tool++)
 		delete (*tool).second;
 	m_Tools.clear ();
-	Apps.remove (this);
 	if (XmlDoc)
 		xmlFreeDoc (XmlDoc);
 	m_SupportedMimeTypes.clear ();

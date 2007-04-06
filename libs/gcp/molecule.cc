@@ -493,7 +493,7 @@ double Molecule::GetYAlign ()
 	return (miny + maxy) / 2.0;
 }
 
-bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
+bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	bool result = false;
 	GtkActionGroup *group = gtk_action_group_new ("molecule");
@@ -543,7 +543,7 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object)
 		gtk_ui_manager_insert_action_group (UIManager, group, 0);
 	else
 		g_object_unref (group);
-	return result | GetParent ()->BuildContextualMenu (UIManager, object);
+	return result | GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 }
 
 void Molecule::ExportToGhemical ()

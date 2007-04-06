@@ -58,6 +58,10 @@ Electron::Electron (Atom *pAtom, bool IsPair): Object ()
 
 Electron::~Electron ()
 {
+	if (m_pAtom && (GetParent () == m_pAtom))
+		// If not, this destructor is called from the Atom destructor and nothing should
+		// be done in that case.
+		m_pAtom->RemoveElectron (this);
 }
 
 char Electron::GetPosition (double *angle, double *distance)

@@ -140,8 +140,6 @@ private:
 	Object *m_Dummy;
 };
 
-extern list<gcp::Application*> Apps;
-
 }	// namespace gcp
 
 #endif //GCHEMPAINT_APPLICATION_H

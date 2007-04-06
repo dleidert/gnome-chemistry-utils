@@ -1,5 +1,40 @@
 ##Text encoding: utf-8
 
+2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/table/family.glade: fixed family names.
+	* lib/application.cc: remove the unuseful application list, only one
+	application should exist.
+	* lib/application.h: ditto.
+	* lib/atom.cc: update BuildContextualMenu signature. Also add a
+	RemveElectron method and fix remove/add bonds.
+	* lib/atom.h: ditto.
+	* lib/bond.cc: update BuildContextualMenu signature and call
+	gcpAtom::BuildContextualMenu if the click occur near one end of
+	the bond.
+	* lib/bond.h: ditto.
+	* libs/gcp/document.cc: fixed an infinite loop.
+	* lib/electron.cc: force update of atom parent when destoying.
+	* lib/mesomery.cc: update BuildContextualMenu signature.
+	* lib/mesomery.h: ditto.
+	* lib/molecule.cc: ditto.
+	* lib/molecule.h: ditto.
+	* lib/reactant.cc: ditto.
+	* lib/reactant.h: ditto.
+	* lib/reaction.cc: ditto.
+	* lib/reaction.h: ditto.
+	* lib/view.cc: ditto.
+	* libs/gcu/atom.cc: cleaned.
+	* libs/gcu/document.cc: fixed file name.
+	* libs/gcu/element.cc: fixed atomic mass unit.
+	* gcu/object.cc: add x and y parameters to
+	BuildContextualMenu.
+	* gcu/object.h: ditto.
+	* plugins/paint/arrows/retrosynthesis.cc: update BuildContextualMenu signature.
+	* plugins/paint/arrows/retrosynthesis.h: ditto.
+	* plugins/paint/selection/group.cc: ditto.
+	* plugins/paint/selection/group.h: ditto.
+	* plugins/paint/templates/plugin.cc: update copyright.
+
 2007-04-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/*/*.png: add mssing files necessary to build.
 	* plugins/paint/arrows/gchempaint-arrows.schemas.in: ditto.

@@ -45,7 +45,7 @@ public:
 	gcpGroup ();
 	virtual ~gcpGroup ();
 
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object);
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	virtual bool Load (xmlNodePtr);
 	virtual xmlNodePtr Save (xmlDocPtr xml);
 	virtual bool OnSignal (SignalId Signal, Object *Child);
