@@ -863,7 +863,7 @@ void Element::LoadBODR ()
 							if (unit) {
 								DimensionalValue *v = new DimensionalValue ();
 								if (!strcmp (unit, "units:atmass"))
-									v->val.unit = ("u");
+									v->val.unit = "u";
 								else if (!strcmp (unit, "units:ev"))
 									v->val.unit = "eV";
 								else if (!strcmp (unit, "units:ang"))

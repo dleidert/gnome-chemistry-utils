@@ -403,6 +403,8 @@ every derived class for which alignment has a meaning should implement this meth
 /*!
 @param UIManager: the GtkUI%anager to populate.
 @param object: the Object on which occured the mouse click.
+@param x: x coordinate of the mouse click.
+@param y: y coordinate of the mouse click.
 
 This method is called to build a contextual menu for the object. It is called by Object::ShowContextualMenu, so
 it should not be necessary to call it directly. It should be overrided by derived classes when a contextual menu
@@ -410,7 +412,7 @@ is needed. Typically, each class adds a submenu and calls the same method for it
 Default implementation just calls the parent's method.
 @return true if something is added to the UIManager, false otherwise.
 */
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object);
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 
 /*!
 @param Signal: the appropriate SignalId
