@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* fr.po: fixed more issues.
+
+2007-04-06  Julian Sikorski
+	* Updated Polish translation.
+
 2007-03-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: fixed some missing white spaces.
 
