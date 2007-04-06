@@ -35,8 +35,8 @@
 #include <gtk/gtkuimanager.h>
 #include <gtk/gtkwindow.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 static void on_quit (GtkWidget *widget, void *data)
 {

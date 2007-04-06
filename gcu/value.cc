@@ -22,7 +22,7 @@
 
 #include "config.h"
 #include "value.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 using namespace gcu;
 

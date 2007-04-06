@@ -26,12 +26,12 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
-#include <math.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include "view.h"
 #include "document.h"
 #include "globals.h"
+#include <cmath>
 
 guint FoV;
 gdouble Psi, Theta, Phi;

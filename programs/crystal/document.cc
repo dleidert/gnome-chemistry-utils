@@ -25,7 +25,6 @@
 #include "config.h"
 #include "gcrystal.h"
 #include <unistd.h>
-#include <locale.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "application.h"
@@ -40,7 +39,6 @@
 #include "globals.h"
 #include <gcu/filechooser.h>
 #include <glade/glade.h>
-#include <math.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 //#include <libgnomevfs/gnome-vfs-file-info.h>
@@ -63,6 +61,8 @@
 #	include <sstream.h>
 #endif
 #include <glib/gi18n.h>
+#include <clocale>
+#include <cmath>
 
 #define SAVE	1
 #define LOAD	2
@@ -72,21 +72,6 @@
 #define PREC 1e-3
 
 using namespace std;
-
-char *LatticeName[] = {"simple cubic",
-	"body-centered cubic",
-	"face-centered cubic",
-	"hexagonal",
-	"tetragonal",
-	"body-centered tetragonal",
-	"orthorhombic",
-	"base-centered orthorhombic",
-	"body-centered orthorhombic",
-	"face-centered orthorhombic",
-	"rhombohedral",
-	"monoclinic",
-	"base-centered monoclinic",
-	"triclinic"};
 
 gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 {

@@ -30,6 +30,7 @@
 #include <gtk/gtkwidget.h>
 #include <libgnomeprint/gnome-print.h>
 #include <map>
+#include <string>
 
 extern double DefaultPsi, DefaultTheta, DefaultPhi;
 

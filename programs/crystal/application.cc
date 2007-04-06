@@ -193,10 +193,10 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		char *ext = NULL;
 		switch (type) {
 		case GCRYSTAL:
-			ext = ".gcrystal";
+			ext = (char*) ".gcrystal";
 			break;
 		case VRML:
-			ext = ".wrl";
+			ext = (char*) ".wrl";
 			break;
 		default:
 			break;
@@ -229,9 +229,9 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				GtkRecentData data;
 				data.display_name = (char*) Doc->GetTitle ();
 				data.description = NULL;
-				data.mime_type = "application/x-gcrystal";
-				data.app_name = "gcrystal";
-				data.app_exec = "gcrystal %u";
+				data.mime_type = (char*) "application/x-gcrystal";
+				data.app_name = (char*) "gcrystal";
+				data.app_exec = (char*) "gcrystal %u";
 				data.groups = NULL;
 				data.is_private =  FALSE;
 				gtk_recent_manager_add_full (GetRecentManager (), filename2.c_str (), &data);
@@ -269,9 +269,9 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();
 			data.description = NULL;
-			data.mime_type = "application/x-gcrystal";
-			data.app_name = "gcrystal";
-			data.app_exec = "gcrystal %u";
+			data.mime_type = (char*) "application/x-gcrystal";
+			data.app_name = (char*) "gcrystal";
+			data.app_exec = (char*) "gcrystal %u";
 			data.groups = NULL;
 			data.is_private =  FALSE;
 			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);

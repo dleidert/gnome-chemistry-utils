@@ -26,7 +26,7 @@
 #include "atom.h"
 #include "bond.h"
 #include "xml-utils.h"
-#include <math.h>
+#include <cmath>
 
 using namespace gcu;
 

@@ -1,6 +1,41 @@
 ##Text encoding: utf-8
 
 2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/application.cc: make compilation succeed without 
+	warnings for all known gcc-4.x.
+	* gcu/application.h: ditto.
+	* gcu/atom.cc: ditto.
+	* gcu/bond.cc: ditto.
+	* gcu/crystalatom.cc: ditto.
+	* gcu/crystalbond.cc: ditto.
+	* gcu/crystalbond.h: ditto.
+	* gcu/crystaldoc.cc: ditto.
+	* gcu/crystaldoc.h: ditto.
+	* gcu/crystalline.cc: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/dialog.cc: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/formula.cc: ditto.
+	* gcu/glview.cc: ditto.
+	* gcu/glview.h: ditto.
+	* gcu/matrix.cc: ditto.
+	* gcu/matrix2d.cc: ditto.
+	* gcu/value.cc: ditto.
+	* gcu/xml-utils.cc: ditto.
+	* mozilla-plugin/moz-plugin.c: ditto.
+	* programs/3d/application.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/atom.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/line.cc: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-elt.cc: ditto.
+
+2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/element.cc: fixed typo.
 	* gcu/object.cc: add x and y parameters to
 	BuildContextualMenu.

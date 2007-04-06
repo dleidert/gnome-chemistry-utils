@@ -4,7 +4,7 @@
  * Gnome Crystal
  * bond.cc 
  *
- * Copyright (C) 2000-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2004 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,16 +25,18 @@
 #include "config.h"
 #include "gcrystal.h"
 #include "line.h"
-#include <math.h>
 #include <glib.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <cmath>
 
-static char *TypeName[] = {"edges",
-		"diagonals",
-		"medians",
-		"bond",
-		"unique"};
+static char *TypeName[] = {
+	(char*) "edges",
+	(char*) "diagonals",
+	(char*) "medians",
+	(char*) "bond",
+	(char*) "unique"
+};
 
 gcLine::gcLine(): CrystalLine()
 {

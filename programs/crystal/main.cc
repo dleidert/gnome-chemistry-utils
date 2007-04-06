@@ -24,7 +24,6 @@
 
 #include "config.h"
 #include <glade/glade.h>
-#include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <gcu/element.h>
@@ -37,6 +36,7 @@
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n.h>
+#include <cstdio>
 
 using namespace gcu;
 using namespace std;

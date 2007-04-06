@@ -144,7 +144,6 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		buf = g_strdup_printf ("ei/%d", n);
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) buf);
-#warning FIXME: clean this on exit
 		n++;
 	}
 	gtk_widget_show_all (GTK_WIDGET (table));
@@ -315,7 +314,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 				spin = _("High");
 				break;
 			default:
-				spin = "";
+				spin = (char*) "";
 				break;
 			}
 			buf = gcu_dimensional_value_get_string (&(*j)->value);

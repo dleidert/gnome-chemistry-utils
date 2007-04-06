@@ -126,8 +126,8 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 		data.display_name = (char*) pDoc->GetTitle ();
 		data.description = NULL;
 		data.mime_type = (char*) mime_type;
-		data.app_name = "gchem3d-viewer";
-		data.app_exec = "gchem3d-viewer %u";
+		data.app_name = (char*) "gchem3d-viewer";
+		data.app_exec = (char*) "gchem3d-viewer %u";
 		data.groups = NULL;
 		data.is_private =  FALSE;
 		gtk_recent_manager_add_full (GetRecentManager (), filename, &data);

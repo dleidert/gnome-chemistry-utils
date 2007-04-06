@@ -32,7 +32,8 @@
 #include <gtk/gtkspinbutton.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
-#include <math.h>
+#include <cmath>
+#include <cstdlib>
 
 using namespace gcu;
 

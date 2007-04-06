@@ -101,9 +101,9 @@ static void on_prefs (GtkWidget* widget, gcWindow* Win)
 
 static void on_about (GtkWidget *widget, void *data)
 {
-	char * authors[] = {"Jean Bréfort", NULL};
+	char * authors[] = {(char*) "Jean Bréfort", NULL};
 //	char * documentors[] = {NULL};
-	char * artists[] = {"Nestor Diaz", NULL};
+	char * artists[] = {(char*) "Nestor Diaz", NULL};
 	char license[] = "This program is free software; you can redistribute it and/or\n" 
 		"modify it under the terms of the GNU General Public License as\n"
  		"published by the Free Software Foundation; either version 2 of the\n"

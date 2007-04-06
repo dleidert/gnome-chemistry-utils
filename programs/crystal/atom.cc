@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atom.cc 
  *
- * Copyright (C) 2000-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2004 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,10 +30,10 @@
 #else
 #	include <gcu/element.h>
 #endif
-#include <math.h>
 #include <glib.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <cmath>
 
 gcAtom::gcAtom(): CrystalAtom()
 {

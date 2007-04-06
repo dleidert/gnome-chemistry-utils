@@ -26,13 +26,13 @@
 #include "crystaldoc.h"
 #include "crystalview.h"
 #include "xml-utils.h"
-#include <locale.h>
-#include <string.h>
-#include <vector>
-#include <math.h>
 #include <gtk/gtk.h>
 #include <libintl.h>
 #include <glib/gi18n-lib.h>
+#include <cstring>
+#include <vector>
+#include <clocale>
+#include <cmath>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
@@ -40,20 +40,22 @@
 
 using namespace gcu;
 
-gchar *LatticeName[] = {"simple cubic",
-	"body-centered cubic",
-	"face-centered cubic",
-	"hexagonal",
-	"tetragonal",
-	"body-centered tetragonal",
-	"orthorhombic",
-	"base-centered orthorhombic",
-	"body-centered orthorhombic",
-	"face-centered orthorhombic",
-	"rhombohedral",
-	"monoclinic",
-	"base-centered monoclinic",
-	"triclinic"};
+gchar *gcu::LatticeName[] = {
+	(gchar*) "simple cubic",
+	(gchar*) "body-centered cubic",
+	(gchar*) "face-centered cubic",
+	(gchar*) "hexagonal",
+	(gchar*) "tetragonal",
+	(gchar*) "body-centered tetragonal",
+	(gchar*) "orthorhombic",
+	(gchar*) "base-centered orthorhombic",
+	(gchar*) "body-centered orthorhombic",
+	(gchar*) "face-centered orthorhombic",
+	(gchar*) "rhombohedral",
+	(gchar*) "monoclinic",
+	(gchar*) "base-centered monoclinic",
+	(gchar*) "triclinic"
+};
 
 CrystalDoc::CrystalDoc (Application *App): GLDocument (App)
 {

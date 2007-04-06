@@ -59,7 +59,7 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 using namespace gcu;
@@ -498,7 +498,6 @@ int main (int argc, char *argv[])
 		argv ++;
 	}
 
-#warning "the following line should be edited for stable releases"
 	if (argc > 1) {
 		cout << _("For usage see: gchemcalc [-?|--help]") << endl;
 		return -1;
@@ -601,7 +600,7 @@ int main (int argc, char *argv[])
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
 		 window);
-	gcu_element_load_databases ("isotopes", NULL);
+	gcu_element_load_databases ((char*) "isotopes", NULL);
 	if (argc == 1){
 		gtk_entry_set_text (GTK_ENTRY (w), argv[0]);
 		cb_entry_active (GTK_ENTRY (w), window);

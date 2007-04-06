@@ -22,8 +22,8 @@
  * USA
  */
 
-#include <math.h>
 #include "matrix.h"
+#include <cmath>
 
 using namespace gcu;
 

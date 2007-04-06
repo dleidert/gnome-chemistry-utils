@@ -23,7 +23,7 @@
  */
 
 #include "xml-utils.h"
-#include <string.h>
+#include <cstring>
 #include <set>
 #include <string>
 
@@ -230,19 +230,19 @@ bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 		tmp = NULL;
 		break;
 	case GCU_ATOMIC:
-		tmp = "atomic";
+		tmp = (char*) "atomic";
 		break;
 	case GCU_IONIC:
-		tmp = "ionic";
+		tmp = (char*) "ionic";
 		break;
 	case GCU_METALLIC:
-		tmp = "metallic";
+		tmp = (char*) "metallic";
 		break;
 	case GCU_COVALENT:
-		tmp = "covalent";
+		tmp = (char*) "covalent";
 		break;
 	case GCU_VAN_DER_WAALS:
-		tmp = "vdW";
+		tmp = (char*) "vdW";
 		break;
 	default:
 		tmp = NULL;

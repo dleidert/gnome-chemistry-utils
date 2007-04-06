@@ -28,9 +28,9 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
-#include <math.h>
 #include <glib/gi18n-lib.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <cmath>
 
 using namespace gcu;
 

@@ -24,10 +24,10 @@
 
 #include "crystalline.h"
 #include "xml-utils.h"
-#include <math.h>
 #include <glib.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <cmath>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
@@ -35,11 +35,13 @@
 
 using namespace gcu;
 
-static char *TypeName[] = {"edges",
-		"diagonals",
-		"medians",
-		"normal",
-		"unique"};
+static char *TypeName[] = {
+	(char*) "edges",
+	(char*) "diagonals",
+	(char*) "medians",
+	(char*) "normal",
+	(char*) "unique"
+};
 
 CrystalLine::CrystalLine()
 {

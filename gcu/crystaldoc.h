@@ -256,6 +256,8 @@ List of the views of the document.
 	list <CrystalView *> m_Views;
 };
 
+extern gchar *LatticeName[];
+
 } //namespace gcu
 
 #endif //CRYSTAL_DOC_H

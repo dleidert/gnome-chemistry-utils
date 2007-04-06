@@ -27,16 +27,16 @@
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include <glib.h>
-#include <locale.h>
+#include <libintl.h>
+#include <glib/gi18n-lib.h>
+#include <goffice/utils/go-math.h>
+#include <clocale>
+#include <cmath>
+#include <cstring>
 #include <vector>
 #include <map>
 #include <set>
 #include <string>
-#include <libintl.h>
-#include <math.h>
-#include <string.h>
-#include <glib/gi18n-lib.h>
-#include <goffice/utils/go-math.h>
 
 static set<string>units;
 
