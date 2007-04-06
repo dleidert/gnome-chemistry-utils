@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/Makefile.am: fixed compilation after crystalbond.*
+	removal.
+	* gcu/crystaldoc.h: ditto.
+
+2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/application.cc: make compilation succeed without 
 	warnings for all known gcc-4.x.
 	* gcu/application.h: ditto.

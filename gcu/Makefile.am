@@ -31,7 +31,6 @@ libgcu_la_SOURCES = \
 		crystalview.cc \
 		crystaldoc.cc \
 		crystalatom.cc \
-		crystalbond.cc \
 		crystalline.cc \
 		crystalcleavage.cc \
 		chem3ddoc.cc	\
@@ -63,7 +62,6 @@ libgcu_la_headers = \
 		crystalview.h \
 		crystaldoc.h \
 		crystalatom.h \
-		crystalbond.h \
 		crystalline.h \
 		crystalcleavage.h \
 		chem3ddoc.h	\
