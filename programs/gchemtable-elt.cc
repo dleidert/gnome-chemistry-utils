@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-elt.cc 
  *
- * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -245,9 +245,9 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		if (((*radii)->type == GCU_IONIC) && !strcmp ((*radii)->scale, "Shannon")) {
 			j = radii_list.begin ();
 			jend = radii_list.end ();
-			while ((j != jend) && (((*j)->charge < (*radii)->charge) || 
-				(((*j)->charge == (*radii)->charge) && ((*j)->cn < (*radii)->cn) ||
-				(((*j)->cn == (*radii)->cn) && ((*j)->spin < (*radii)->spin)))))
+			while (((j != jend) && ((*j)->charge < (*radii)->charge)) || 
+				(((*j)->charge == (*radii)->charge) && ((*j)->cn < (*radii)->cn)) ||
+				(((*j)->cn == (*radii)->cn) && ((*j)->spin < (*radii)->spin)))
 				j++;
 			radii_list.insert (j, *radii);
 			if ((*radii)->spin > maxspin)
@@ -293,7 +293,8 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		gtk_tree_view_column_set_spacing (column, 5);
 		gtk_tree_view_append_column (tree, column);
 		jend = radii_list.end ();
-		char *ion, *cn, *spin;
+		char *ion, *cn;
+		const char *spin;
 		for (j = radii_list.begin (); j != jend; j++) {
 			if ((*j)->charge > 1)
 				ion = g_strdup_printf ("%s<sup>%d+</sup><sub> </sub>",elt->GetSymbol (),(*j)->charge);

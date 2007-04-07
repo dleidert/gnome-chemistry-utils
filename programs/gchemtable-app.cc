@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-app.cc 
  *
- * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,8 +35,8 @@
 #include <gtk/gtkuimanager.h>
 #include <gtk/gtkwindow.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 
 static void on_quit (GtkWidget *widget, void *data)

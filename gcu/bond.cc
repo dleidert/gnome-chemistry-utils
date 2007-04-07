@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2007 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,7 @@
 //#include "cycle.h"
 //#include "settings.h"
 //#include "document.h"
-#include <math.h>
+#include <cmath>
 
 using namespace gcu;
 
@@ -117,7 +117,7 @@ bool Bond::Load (xmlNodePtr node)
 		return false;
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "begin");
 	if (!tmp) {
-		child = GetNodeByName(node, "begin");
+		child = GetNodeByName(node, (char*) "begin");
 		tmp = (char*) xmlNodeGetContent(child); //necessary to read version 0.1.0 files
 		if (!tmp)
 			return false;
@@ -129,7 +129,7 @@ bool Bond::Load (xmlNodePtr node)
 	m_Begin = (Atom*)(pObject);
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "end");
 	if (!tmp) {
-		child = GetNodeByName (node, "end");
+		child = GetNodeByName (node, (char*) "end");
 		tmp = (char*) xmlNodeGetContent (child); //necessary to read version 0.1.0 files
 		if (!tmp)
 			return false;

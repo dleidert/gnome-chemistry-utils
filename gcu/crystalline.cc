@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalline.cc 
  *
- * Copyright (C) 2002-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,10 +24,10 @@
 
 #include "crystalline.h"
 #include "xml-utils.h"
-#include <math.h>
 #include <glib.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <cmath>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
@@ -35,11 +35,13 @@
 
 using namespace gcu;
 
-static char *TypeName[] = {"edges",
-		"diagonals",
-		"medians",
-		"normal",
-		"unique"};
+static char const *TypeName[] = {
+	"edges",
+	"diagonals",
+	"medians",
+	"normal",
+	"unique"
+};
 
 CrystalLine::CrystalLine()
 {
@@ -292,8 +294,8 @@ xmlNodePtr CrystalLine::Save(xmlDocPtr xml)
 	if (child) xmlAddChild(parent, child);
 	else {xmlFreeNode(parent); return NULL;}
 	
-	if (((m_nType > 2) && ((!WritePosition(xml, parent, "start", m_dx, m_dy, m_dz))) ||
-		(!WritePosition(xml, parent, "end", m_dx2, m_dy2, m_dz2))) || 
+	if (((m_nType > 2) && (((!WritePosition(xml, parent, "start", m_dx, m_dy, m_dz))) ||
+		(!WritePosition(xml, parent, "end", m_dx2, m_dy2, m_dz2)))) || 
 		(!WriteColor(xml, parent, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha)))
 			{xmlFreeNode(parent); return NULL;}
 	

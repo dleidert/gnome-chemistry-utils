@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystaldoc.cc 
  *
- * Copyright (C) 2002-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -39,7 +39,8 @@
 
 using namespace gcu;
 
-gchar *LatticeName[] = {"simple cubic",
+gchar const *LatticeName[] = {
+	"simple cubic",
 	"body-centered cubic",
 	"face-centered cubic",
 	"hexagonal",
@@ -52,7 +53,8 @@ gchar *LatticeName[] = {"simple cubic",
 	"rhombohedral",
 	"monoclinic",
 	"base-centered monoclinic",
-	"triclinic"};
+	"triclinic"
+};
 
 CrystalDoc::CrystalDoc()
 {

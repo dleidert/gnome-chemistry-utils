@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/dialog.cc 
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,7 +26,8 @@
 #include "dialog.h"
 #include "application.h"
 #include <glib/gi18n.h>
-#include <string.h>
+#include <cstring>
+#include <cstdlib>
 
 using namespace gcu;
 

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * element.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,16 +29,16 @@
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include <glib.h>
-#include <locale.h>
 #include <vector>
 #include <map>
 #include <set>
 #include <string>
 #include <libintl.h>
-#include <math.h>
-#include <string.h>
 #include <glib/gi18n-lib.h>
 #include <goffice/utils/go-math.h>
+#include <clocale>
+#include <cmath>
+#include <cstring>
 
 static set<string>units;
 
@@ -487,8 +487,8 @@ void Element::LoadRadii ()
 						radius->cn = -1;
 					buf = (char*) xmlGetProp (child, (xmlChar*)"spin");
 					if ((!buf) ||
-						(!((!strcmp (buf, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
-						(!((!strcmp (buf, "high")) && (radius->spin = GCU_HIGH_SPIN))))
+						((!((!strcmp (buf, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
+						(!((!strcmp (buf, "high")) && (radius->spin = GCU_HIGH_SPIN)))))
 						radius->spin = GCU_N_A_SPIN;
 					if (buf)
 						xmlFree (buf);

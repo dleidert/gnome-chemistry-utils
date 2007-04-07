@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/xml-utils.cc 
  *
- * Copyright (C) 2002-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -230,19 +230,19 @@ bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 		tmp = NULL;
 		break;
 	case GCU_ATOMIC:
-		tmp = "atomic";
+		tmp = (char*) "atomic";
 		break;
 	case GCU_IONIC:
-		tmp = "ionic";
+		tmp = (char*) "ionic";
 		break;
 	case GCU_METALLIC:
-		tmp = "metallic";
+		tmp = (char*) "metallic";
 		break;
 	case GCU_COVALENT:
-		tmp = "covalent";
+		tmp = (char*) "covalent";
 		break;
 	case GCU_VAN_DER_WAALS:
-		tmp = "vdW";
+		tmp = (char*) "vdW";
 		break;
 	default:
 		tmp = NULL;

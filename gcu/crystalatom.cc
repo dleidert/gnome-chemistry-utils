@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalatom.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,8 +27,8 @@
 #include "crystalatom.h"
 #include "element.h"
 #include "xml-utils.h"
-#include <math.h>
 #include <GL/glu.h>
+#include <cmath>
 #include <string>
 
 using namespace gcu;

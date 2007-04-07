@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2007-04-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: version bump (0.6.5) and
+	don't use libgoffice-1 >= 0.3.0.
+	* gcu/application.cc: fixed build issues. [#19523]
+	* gcu/atom.cc: ditto.
+	* gcu/bond.cc: ditto.
+	* gcu/crystalatom.cc: ditto.
+	* gcu/crystaldoc.cc: ditto.
+	* gcu/crystalline.cc: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/dialog.cc: ditto.
+	* gcu/element.cc: ditto.
+	* gcu/formula.cc: ditto.
+	* gcu/gtkchem3dviewer.cc: ditto.
+	* gcu/matrix.cc: ditto.
+	* gcu/matrix2d.cc: ditto.
+	* gcu/xml-utils.cc: ditto.
+	* programs/gchemcalc.cc: ditto.
+	* programs/gchemtable-app.cc: ditto.
+	* programs/gchemtable-elt.cc: ditto.
+
 2007-01-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/formula.cc: don't crash for an empty formula.
 

@@ -1,4 +1,4 @@
-AC_INIT(gnome-chemistry-utils, 0.6.4)
+AC_INIT(gnome-chemistry-utils, 0.6.5)
 AC_CONFIG_SRCDIR(gcu/gtkperiodic.c)
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -77,6 +77,7 @@ gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprintui-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
 libgoffice-1 >= $GNOME_OFFICE_REQUIRED_VERSION \
+libgoffice-1 < 0.3.0 \
 shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION"
 
