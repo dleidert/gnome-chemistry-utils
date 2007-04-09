@@ -1,5 +1,7 @@
-Version 0.6.4
+Version 0.6.5
 	#19523: fixes build issues.
+
+Version 0.6.4
 	fix a crash occuring when submitting an empty
 	formula in the calculator.
 
