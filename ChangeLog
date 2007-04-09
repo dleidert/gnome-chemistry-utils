@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2007-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gchemutils.keys.in: removed obsolete.
+	* glade/crystal/Makefile.am: removed unused files.
+	* glade/crystal/bonds.glade: ditto.
+	* glade/crystal/docprop.glade: ditto.
+	* glade/table/Makefile.am: ditto.
+	* glade/table/acidity.glade: ditto.
+
 2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/Makefile.am: fixed compilation after crystalbond.*
 	removal.
