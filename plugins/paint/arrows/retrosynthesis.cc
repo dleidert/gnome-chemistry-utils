@@ -31,7 +31,7 @@
 #include <gcp/widgetdata.h>
 #include <gcp/view.h>
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
 
 TypeId RetrosynthesisType = NoType;
 
@@ -280,8 +280,8 @@ int gcpRetrosynthesis::Validate (bool split)
 			return 2;
 		pObj = GetFirstChild (i);
 		while (pObj && (pObj->GetType () != RetrosynthesisStepType || 
-			(reinterpret_cast<gcpRetrosynthesisStep *> (pObj))->GetArrow ()) ||
-			pObj == Target)
+			(reinterpret_cast<gcpRetrosynthesisStep *> (pObj))->GetArrow () ||
+			pObj == Target))
 			pObj = GetNextChild (i);
 		if (reinterpret_cast<gcpRetrosynthesisStep *> (pObj)->Validate ()) {
 			gcpRetrosynthesis *rs = new gcpRetrosynthesis (GetParent (), 

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/xml-utils.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,7 +23,7 @@
  */
 
 #include "xml-utils.h"
-#include <string.h>
+#include <cstring>
 #include <set>
 #include <string>
 
@@ -219,7 +219,8 @@ bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
 bool WriteRadius (xmlDocPtr xml, xmlNodePtr node, const GcuAtomicRadius& radius)
 {
 	xmlNodePtr child;
-	gchar buf[256], *tmp;
+	gchar buf[256];
+	gchar const *tmp;
 
 	child = xmlNewDocNode (xml, NULL, (xmlChar*) "radius", NULL);
 	if (child)

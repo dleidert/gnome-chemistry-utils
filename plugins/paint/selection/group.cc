@@ -28,8 +28,8 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <glib/gi18n-lib.h>
-#include <errno.h>
-#include <math.h>
+#include <cerrno>
+#include <cmath>
 
 TypeId GroupType = NoType;
 
@@ -276,7 +276,7 @@ xmlNodePtr gcpGroup::Save (xmlDocPtr xml)
 {
 	xmlNodePtr node = Object::Save (xml);
 	if (m_Align) {
-		char *align_type = NULL;
+		char const *align_type = NULL;
 		switch (m_AlignType) {
 		case GCP_ALIGN_NORMAL:
 			align_type = "normal";

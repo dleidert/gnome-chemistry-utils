@@ -146,7 +146,7 @@ the Object::AddType method.
 	
 	Every object must have an Id, since searches in the document tree uses it.
 */
-	void SetId (gchar* Id);
+	void SetId (gchar const *Id);
 /*!
 	@return the Id of the Object instance.
 */
@@ -176,7 +176,7 @@ the Object::AddType method.
 	Used to get the highest ancestor just before the document
 	in the Object instances ancestors. 
 	
-	@return the last Object of type ReactionType encountered before the document when exploring
+	@return the last Object encountered before the document when exploring
 	the Objects tree or NULL if the object's parent is the document itself.
 */
 	Object* GetGroup ();
@@ -307,7 +307,7 @@ whose value is Id in the children of node.
 
 @return the node corresponding to the first match. This value is to be passed to Object::GetNextNodeByProp to iterate in the list
 */
-	xmlNodePtr GetNodeByProp (xmlNodePtr node, char* Property, char* Id);
+	xmlNodePtr GetNodeByProp (xmlNodePtr node, char const *Property, char const *Id);
 /*!
 @param node: the xmlNodePtr returned by Object::GetNodeByProp or the last call to Object::GetNextNodeByProp.
 @param Property: the name of the property used in the search.
@@ -317,7 +317,7 @@ Helper method used to iterate through a list of xmlNodePtr searching for a speci
 Generally, the iteration is initialized by a call to Object::GetNodeByProp.
 @return the next matching node.
 */
-	xmlNodePtr GetNextNodeByProp (xmlNodePtr node, char* Property, char* Id);
+	xmlNodePtr GetNextNodeByProp (xmlNodePtr node, char const *Property, char const *Id);
 /*!
 @param node: the node where the search is to be done.
 @param Name: the name of the xmlNode searched.
@@ -327,7 +327,7 @@ in the children of node.
 
 @return the node corresponding to the first match. This value is to be passed to Object::GetNextNodeByName to iterate in the list.
 */
-	xmlNodePtr GetNodeByName (xmlNodePtr node, char* Name);
+	xmlNodePtr GetNodeByName (xmlNodePtr node, char const *Name);
 /*!
 @param node: the xmlNodePtr returned by Object::GetNodeByName or the last call to Object::GetNextNodeByName.
 @param Name: the name of the xmlNode searched.
@@ -336,7 +336,7 @@ Helper method used to iterate through a list of xmlNodePtr searching for nodes w
 Generally, the iteration is initialized by a call to Object::GetNodeByName.
 @return the next matching node.
 */
-	xmlNodePtr GetNextNodeByName (xmlNodePtr node, char* Name);
+	xmlNodePtr GetNextNodeByName (xmlNodePtr node, char const *Name);
 /*!
 @param w: the GtkWidget inside which the Object will be displayed.
 
@@ -498,7 +498,7 @@ can be omitted.
 This method is used to register a new type derived from Object.
 @return the Id of the new type.
 */
-	static TypeId AddType (string TypeName, Object*(*CreateFunc)(), TypeId id = OtherType);
+	static TypeId AddType (string TypeName, Object* (*CreateFunc) (), TypeId id = OtherType);
 
 /*!
 @param TypeName: the name of the new type.

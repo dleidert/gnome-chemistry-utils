@@ -190,7 +190,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			type = VRML;
 		else if ((pixbuf_type = GetPixbufTypeName (filename2, mime_type)))
 			type = PIXBUF;
-		char *ext = NULL;
+		char const *ext = NULL;
 		switch (type) {
 		case GCRYSTAL:
 			ext = ".gcrystal";
@@ -229,9 +229,9 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				GtkRecentData data;
 				data.display_name = (char*) Doc->GetTitle ();
 				data.description = NULL;
-				data.mime_type = "application/x-gcrystal";
-				data.app_name = "gcrystal";
-				data.app_exec = "gcrystal %u";
+				data.mime_type = const_cast<char*> ("application/x-gcrystal");
+				data.app_name = const_cast<char*> ("gcrystal");
+				data.app_exec = const_cast<char*> ("gcrystal %u");
 				data.groups = NULL;
 				data.is_private =  FALSE;
 				gtk_recent_manager_add_full (GetRecentManager (), filename2.c_str (), &data);
@@ -269,9 +269,9 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();
 			data.description = NULL;
-			data.mime_type = "application/x-gcrystal";
-			data.app_name = "gcrystal";
-			data.app_exec = "gcrystal %u";
+			data.mime_type = const_cast<char*> ("application/x-gcrystal");
+			data.app_name = const_cast<char*> ("gcrystal");
+			data.app_exec = const_cast<char*> ("gcrystal %u");
 			data.groups = NULL;
 			data.is_private =  FALSE;
 			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);

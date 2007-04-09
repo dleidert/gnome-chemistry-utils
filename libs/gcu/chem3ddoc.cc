@@ -28,28 +28,15 @@
 #include "glview.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
-#include <libgnomevfs/gnome-vfs.h>
-#include <sstream>
-#include <libintl.h>
-#include <locale.h>
 #include <openbabel/obconversion.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#ifdef HAVE_FSTREAM
-#	include <fstream>
-#else
-#	include <fstream.h>
-#endif
-#ifdef HAVE_OSTREAM
-#	include <ostream>
-#else
-#	include <ostream.h>
-#endif
-#ifdef HAVE_SSTREAM
-#	include <sstream>
-#else
-#	include <sstream.h>
-#endif
+#include <libintl.h>
+#include <clocale>
+#include <fstream>
+#include <ostream>
+#include <sstream>
 
 using namespace gcu;
 

@@ -84,7 +84,7 @@ void gpc_print_pango_layout_print (GnomePrintContext *gpc, PangoLayout* pl) {
 	guint16 background_red = 0, background_green = 0, background_blue = 0;
 	PangoLayoutIter *iter = pango_layout_get_iter (pl);
 	gdouble scale[6] = {1., 0., 0., 1., 0., 0.};
-	gdouble hscale, space;
+	gdouble space;
 	gboolean strikethrough, underline, slant;
 	GtkTextAppearance* appearance;
 	int underline_type;
@@ -110,7 +110,7 @@ void gpc_print_pango_layout_print (GnomePrintContext *gpc, PangoLayout* pl) {
 		appearance = NULL;
 		desc = pango_font_describe (item->item->analysis.font);
 		face = gnome_font_face_find_closest_from_weight_slant (
-								pango_font_description_get_family (desc),
+								(unsigned char const*) pango_font_description_get_family (desc),
 								(GnomeFontWeight) pango_font_description_get_weight (desc),
 								(pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL));
 		font =	gnome_font_face_get_font (face,

@@ -36,18 +36,14 @@
 #include <canvas/gcp-canvas-group.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
-#include <math.h>
 #include <unistd.h>
 #include <pango/pango-context.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 #include <libgnomeprint/gnome-print-job.h>
-#include <locale.h>
-#ifdef HAVE_FSTREAM
-#	include <fstream>
-#else
-#	include <fstream.h>
-#endif
+#include <clocale>
+#include <cmath>
+#include <fstream>
 
 /*
 Derivation of a new widget from gnome_canvas with an event for updating canvas size

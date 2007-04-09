@@ -33,7 +33,7 @@
 #include <gcp/widgetdata.h>
 #include <canvas/gcp-canvas-bpath.h>
 #include <canvas/gcp-canvas-group.h>
-#include <math.h>
+#include <cmath>
 
 TypeId RetrosynthesisArrowType = NoType;
 
@@ -200,7 +200,7 @@ void gcpRetrosynthesisArrow::SetSelected (GtkWidget* w, int state)
 {
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
-	gchar* color;
+	gchar const *color;
 	switch (state) {	
 	case gcp::SelStateUnselected:
 		color = gcp::Color;

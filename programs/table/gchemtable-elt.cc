@@ -29,7 +29,7 @@
 #include <glib/gi18n.h>
 #include <list>
 
-#warning "the following lines should be removed for stable releases"
+// FIXME "the following lines should be removed for stable releases"
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
 
@@ -148,7 +148,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		buf = g_strdup_printf ("ei/%d", n);
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) buf);
-#warning FIXME: clean this on exit
+// FIXME: clean this on exit
 		n++;
 	}
 	gtk_widget_show_all (GTK_WIDGET (table));
@@ -253,8 +253,8 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 			j = radii_list.begin ();
 			jend = radii_list.end ();
 			while ((j != jend) && (((*j)->charge < (*radii)->charge) || 
-				(((*j)->charge == (*radii)->charge) && ((*j)->cn < (*radii)->cn) ||
-				(((*j)->cn == (*radii)->cn) && ((*j)->spin < (*radii)->spin)))))
+				(((*j)->charge == (*radii)->charge) && ((*j)->cn < (*radii)->cn)) ||
+				(((*j)->cn == (*radii)->cn) && ((*j)->spin < (*radii)->spin))))
 				j++;
 			radii_list.insert (j, *radii);
 			if ((*radii)->spin > maxspin)
@@ -300,7 +300,8 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		gtk_tree_view_column_set_spacing (column, 5);
 		gtk_tree_view_append_column (tree, column);
 		jend = radii_list.end ();
-		char *ion, *cn, *spin;
+		char *ion, *cn;
+		char const *spin;
 		for (j = radii_list.begin (); j != jend; j++) {
 			if ((*j)->charge > 1)
 				ion = g_strdup_printf ("%s<sup>%d+</sup><sub> </sub>",elt->GetSymbol (),(*j)->charge);
@@ -335,7 +336,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 			g_free (buf);
 		}
 	}
-	Value *prop = elt->GetProperty ("meltingpoint");
+	Value const *prop = elt->GetProperty ("meltingpoint");
 	button = glade_xml_get_widget (xml, "melting-btn");
 	if (prop) {
 		w = glade_xml_get_widget (xml, "melting");

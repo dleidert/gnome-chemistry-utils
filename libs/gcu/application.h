@@ -124,14 +124,14 @@ Displays uri in the default web browser if any.
 
 Opens the bugs web page in the default browser if any.
 */
-	void OnBug (char *uri = PACKAGE_BUGREPORT)
+	void OnBug (char const *uri = PACKAGE_BUGREPORT)
 		{string s (uri); ShowURI (s);}
 
 /*!
 @param uri the uri to the main web page of the program. Default value is
 "http://gchemutils.nongnu.org/".
 */
-	void OnWeb (char *uri = "http://gchemutils.nongnu.org/")
+	void OnWeb (char const *uri = "http://gchemutils.nongnu.org/")
 		{string s (uri); ShowURI (s);}
 
 /*!
@@ -140,7 +140,7 @@ Opens the bugs web page in the default browser if any.
 
 Creates a new empty message using the default mail if any.
 */
-	void OnMail (char *MailAddress = "mailto:gchemutils-main@nongnu.org");
+	void OnMail (char const *MailAddress = "mailto:gchemutils-main@nongnu.org");
 
 /*!
 @return true if the default mail agent is known, false otherwise.

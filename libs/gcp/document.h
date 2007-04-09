@@ -63,8 +63,8 @@ class Document: public gcu::Document
 {
 	//Constructor and destructor
 public:
-	Document(Application *App, bool StandAlone, Window *window = NULL);
-	virtual ~Document();
+	Document (Application *App, bool StandAlone, Window *window = NULL);
+	virtual ~Document ();
 	
 	//Interface
 public:

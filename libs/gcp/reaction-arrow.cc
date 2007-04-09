@@ -33,7 +33,7 @@
 #include "widgetdata.h"
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-line.h>
-#include <math.h>
+#include <cmath>
 
 namespace gcp {
 

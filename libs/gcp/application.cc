@@ -51,14 +51,10 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <glib/gi18n-lib.h>
-#include <locale.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#ifdef HAVE_FSTREAM
-#	include <fstream>
-#else
-#	include <fstream.h>
-#endif
+#include <clocale>
+#include <fstream>
 
 // following code is needed to get file extensions, it as been essentially copied from gnome-vfs
 static map<string, list<string> > globs;
@@ -226,9 +222,9 @@ bool	Application::m_bInit = false;
 bool	Application::m_Have_Ghemical = false;
 bool	Application::m_Have_InChI = false;
 
-#warning "the following lines should be removed for stable releases"
+// FIXME: Remove for stable versions
 #undef PACKAGE
-#define PACKAGE "gchempaint-unstable" 
+#define PACKAGE "gchemutils-unstable" 
 
 static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, Application *app)
 {
@@ -301,7 +297,7 @@ Application::Application ():
 		OnDeleteSignal = Object::CreateNewSignalId ();
 		OnThemeChangedSignal = Object::CreateNewSignalId ();
 
-		Plugin::LoadPlugins();
+		Plugin::LoadPlugins ();
 		m_bInit = true;
 	}
 	RadioActions = NULL;
@@ -357,7 +353,7 @@ Application::Application ():
 	}
 }
 
-Application::~Application()
+Application::~Application ()
 {
 	map<string, Tool*>::iterator tool = m_Tools.begin(), endtool = m_Tools.end();
 	for (; tool!= endtool; tool++)
@@ -369,7 +365,7 @@ Application::~Application()
 	delete m_Dummy;
 }
 
-void Application::ActivateTool(const string& toolname, bool activate)
+void Application::ActivateTool (const string& toolname, bool activate)
 {
 	if (m_Tools[toolname]) {
 		if (activate) {
@@ -390,7 +386,7 @@ void Application::ActivateTool(const string& toolname, bool activate)
 	}
 }
 
-void Application::ClearStatus()
+void Application::ClearStatus ()
 {
 	if (m_pActiveDoc) {
 		Window *Win = m_pActiveDoc->GetWindow ();
@@ -399,7 +395,7 @@ void Application::ClearStatus()
 	}
 }
 
-void Application::SetStatusText(const char* text)
+void Application::SetStatusText (const char* text)
 {
 	if (m_pActiveDoc) {
 		Window *Win = m_pActiveDoc->GetWindow ();
@@ -408,7 +404,7 @@ void Application::SetStatusText(const char* text)
 	}
 }
 
-void Application::OnSaveAs()
+void Application::OnSaveAs ()
 {
 	FileChooser (this, true, m_WriteableMimeTypes, m_pActiveDoc);
 }
@@ -546,8 +542,8 @@ void Application::SaveWithBabel (string const &filename, const gchar *mime_type,
 	data.display_name = (char*) pDoc->GetTitle ();
 	data.description = NULL;
 	data.mime_type = (char*) mime_type;
-	data.app_name = "gchempaint";
-	data.app_exec = "gchempaint %u";
+	data.app_name = const_cast<char*> ("gchempaint");
+	data.app_exec = const_cast<char*> ("gchempaint %u");
 	data.groups = NULL;
 	data.is_private =  FALSE;
 	gtk_recent_manager_add_full (GetRecentManager (), filename.c_str (), &data);
@@ -647,8 +643,8 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 		data.display_name = (char*) pDoc->GetTitle ();
 		data.description = NULL;
 		data.mime_type = (char*) mime_type;
-		data.app_name = "gchempaint";
-		data.app_exec = "gchempaint %u";
+		data.app_name = const_cast<char*> ("gchempaint");
+		data.app_exec = const_cast<char*> ("gchempaint %u");
 		data.groups = NULL;
 		data.is_private =  FALSE;
 		gtk_recent_manager_add_full (GetRecentManager (), filename.c_str (), &data);
@@ -686,9 +682,9 @@ void Application::SaveGcp (string const &filename, Document* pDoc)
 	GtkRecentData data;
 	data.display_name = (char*) pDoc->GetTitle ();
 	data.description = NULL;
-	data.mime_type = "application/x-gchempaint";
-	data.app_name = "gchempaint";
-	data.app_exec = "gchempaint %u";
+	data.mime_type = const_cast<char*> ("application/x-gchempaint");
+	data.app_name = const_cast<char*> ("gchempaint");
+	data.app_exec = const_cast<char*> ("gchempaint %u");
 	data.groups = NULL;
 	data.is_private =  FALSE;
 	gtk_recent_manager_add_full (GetRecentManager (), filename.c_str (), &data);
@@ -757,9 +753,9 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 		GtkRecentData data;
 		data.display_name = (char*) pDoc->GetTitle ();
 		data.description = NULL;
-		data.mime_type = "application/x-gchempaint";
-		data.app_name = "gchempaint";
-		data.app_exec = "gchempaint %u";
+		data.mime_type = const_cast<char*> ("application/x-gchempaint");
+		data.app_name = const_cast<char*> ("gchempaint");
+		data.app_exec = const_cast<char*> ("gchempaint %u");
 		data.groups = NULL;
 		gtk_recent_manager_add_full (GetRecentManager (), filename.c_str (), &data);
 	}

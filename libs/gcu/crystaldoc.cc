@@ -26,21 +26,22 @@
 #include "crystaldoc.h"
 #include "crystalview.h"
 #include "xml-utils.h"
-#include <locale.h>
-#include <string.h>
-#include <vector>
-#include <math.h>
 #include <gtk/gtk.h>
-#include <libintl.h>
 #include <glib/gi18n-lib.h>
+#include <libintl.h>
+#include <clocale>
+#include <cmath>
+#include <cstring>
+#include <vector>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
 #define PREC 1e-3
 
-using namespace gcu;
-
-gchar *LatticeName[] = {"simple cubic",
+namespace gcu {
+	
+gchar const *LatticeName[] = {
+	"simple cubic",
 	"body-centered cubic",
 	"face-centered cubic",
 	"hexagonal",
@@ -53,7 +54,12 @@ gchar *LatticeName[] = {"simple cubic",
 	"rhombohedral",
 	"monoclinic",
 	"base-centered monoclinic",
-	"triclinic"};
+	"triclinic"
+};
+
+}
+
+using namespace gcu;
 
 CrystalDoc::CrystalDoc (Application *App): GLDocument (App)
 {

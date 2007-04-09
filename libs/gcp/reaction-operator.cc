@@ -32,7 +32,7 @@
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gcp-canvas-pango.h>
-#include <math.h>
+#include <cmath>
 
 namespace gcp {
 
@@ -136,7 +136,7 @@ void ReactionOperator::SetSelected (GtkWidget* w, int state)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
-	gchar* color;
+	gchar const *color;
 	switch (state) {	
 	case SelStateUnselected:
 		color = Color;

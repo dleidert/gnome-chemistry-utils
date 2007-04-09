@@ -26,7 +26,8 @@
 #include "dialog.h"
 #include "application.h"
 #include <glib/gi18n.h>
-#include <string.h>
+#include <cstring>
+#include <cstdlib>
 
 using namespace gcu;
 

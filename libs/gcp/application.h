@@ -52,8 +52,8 @@ class Document;
 class Application: public gcu::Application
 {
 public:
-	Application();
-	virtual ~Application();
+	Application ();
+	virtual ~Application ();
 
 	void ActivateTool (const string& toolname, bool activate);
 	void ActivateWindowsActionWidget (const char *path, bool activate);

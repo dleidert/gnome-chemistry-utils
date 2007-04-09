@@ -31,7 +31,7 @@
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-pango.h>
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
 
 gcpChargeTool::gcpChargeTool (gcp::Application *App, string Id): gcp::Tool (App, Id)
 {

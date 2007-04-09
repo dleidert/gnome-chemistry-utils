@@ -33,7 +33,7 @@
 #include <gcp/theme.h>
 #include <gcp/window.h>
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
 
 static void on_flip (GtkWidget *btn, gcp::Application* App)

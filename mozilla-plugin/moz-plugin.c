@@ -164,7 +164,7 @@ static NPError ChemNewStream (NPP instance, NPMIMEType type, NPStream *stream,
 
 static void ChemPrint (NPP instance, NPPrint *platformPrint)
 {
-#warning TODO: implement !!!
+// TODO: implement !!!
 }
 
 static void ChemStreamAsFile (NPP instance, NPStream *stream, const char *fname)

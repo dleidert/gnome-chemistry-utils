@@ -92,7 +92,7 @@ xmlNodePtr FragmentAtom::Save (xmlDocPtr xml)
 {
 	xmlNodePtr node;
 	gchar buf[16];
-	node = xmlNewDocNode (xml, NULL, (xmlChar*)"atom", NULL);
+	node = xmlNewDocNode (xml, NULL, (xmlChar*) "atom", NULL);
 	if (!node)
 		return NULL;
 	SaveId (node);
@@ -108,6 +108,7 @@ xmlNodePtr FragmentAtom::Save (xmlDocPtr xml)
 		if (ChargePos != 0xff) {
 			char *buf;
 			if (ChargePos) {
+				char const *buf;
 				switch (ChargePos) {
 				case CHARGE_NE:
 					buf = "ne";

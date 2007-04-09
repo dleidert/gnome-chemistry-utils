@@ -35,7 +35,7 @@ extern "C" {
 	void gnome_authentication_manager_init ();
 }
 
-#warning "the following lines should be removed for stable releases"
+// FIXME "the following lines should be removed for stable releases"
 #undef PACKAGE
 #define PACKAGE "gchempaint-unstable" 
 

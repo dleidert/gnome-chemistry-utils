@@ -146,7 +146,7 @@ static bool save_state (xmlDocPtr xml, xmlNodePtr node, char const *t, SaveStruc
 	}
 	case PANGO_ATTR_STRETCH: {
 		PangoStretch st = (PangoStretch) ((PangoAttrInt*) s->attr)->value;
-		char *stretch = NULL;
+		char const *stretch = NULL;
 		switch (st) {
 		case PANGO_STRETCH_ULTRA_CONDENSED:
 			stretch = "ultra-condensed";
@@ -195,7 +195,7 @@ static bool save_state (xmlDocPtr xml, xmlNodePtr node, char const *t, SaveStruc
 		break;
 	case PANGO_ATTR_UNDERLINE: {
 		PangoUnderline u = (PangoUnderline) ((PangoAttrInt*) s->attr)->value;
-		char *type = NULL;
+		char const *type = NULL;
 		switch (u) {
 		case PANGO_UNDERLINE_NONE:
 		case PANGO_UNDERLINE_SINGLE:
@@ -720,7 +720,7 @@ void Text::SetSelected (GtkWidget* w, int state)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
-	gchar* color;
+	gchar const *color;
 	switch (state) {	
 	case SelStateUnselected:
 		color = "white";

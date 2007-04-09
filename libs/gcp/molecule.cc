@@ -30,10 +30,10 @@
 #include "tool.h"
 #include "stringdlg.h"
 #include <glib/gi18n-lib.h>
-#include <math.h>
 #include <unistd.h>
-#include <locale.h>
 #include <openbabel/obconversion.h>
+#include <clocale>
+#include <cmath>
 
 namespace gcp {
 
@@ -802,7 +802,7 @@ void Molecule::OpenCalc ()
 	list<Atom*>::iterator ia, enda = m_Atoms.end ();
 	ostringstream ofs;
 	int nH;
-#warning "the following line should be edited for stable releases"
+	// FIXME: the following line should be edited for stable releases
 	ofs << "gchemcalc-unstable ";
 	for (ia = m_Atoms.begin(); ia != enda; ia++) {
 		ofs << (*ia)->GetSymbol();

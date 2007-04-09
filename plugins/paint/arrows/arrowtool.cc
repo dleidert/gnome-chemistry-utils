@@ -37,9 +37,9 @@
 #include <gcp/theme.h>
 #include <glib/gi18n-lib.h>
 #include <gconf/gconf-client.h>
-#include <math.h>
+#include <cmath>
 
-static char* ToolNames[] = {
+static char const *ToolNames[] = {
 	"SimpleArrow",
 	"ReversibleArrow",
 	"ReversibleArrow",

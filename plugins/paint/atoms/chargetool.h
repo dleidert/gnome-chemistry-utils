@@ -39,7 +39,7 @@ public:
 	char const *GetHelpTag () {return "charge";}
 
 private:
-	char* m_glyph;
+	char const *m_glyph;
 	double m_dDist, m_dDistMax, m_dAngle;
 	int m_Charge;
 	unsigned char m_Pos, m_DefaultPos;

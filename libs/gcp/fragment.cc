@@ -40,7 +40,7 @@
 #include <gcu/element.h>
 #include <pango/pango-attributes.h>
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
 #include <list>
 
 namespace gcp {
@@ -328,7 +328,7 @@ void Fragment::SetSelected (GtkWidget* w, int state)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
-	gchar *chargecolor, *color;
+	gchar const *chargecolor, *color;
 	switch (state) {	
 	case SelStateUnselected:
 		color = "white";
@@ -996,7 +996,7 @@ int Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double
 		if ((result & CHARGE_SW) && (((angle >= 0.0) && (angle <= 90.0)) || (fabs(angle - 360.0) < 0.1))) result -= CHARGE_SW;
 		if ((result & CHARGE_S) && (angle >= 45.0) && (angle <= 135.0)) result -= CHARGE_S;
 		if ((result & CHARGE_E) && ((angle <= 225.0) && (angle >= 135.0))) result -= CHARGE_E;
-		if ((result & CHARGE_W) && (angle >= 315.0) || (angle <= 45.0)) result -= CHARGE_W;
+		if ((result & CHARGE_W) && ((angle >= 315.0) || (angle <= 45.0))) result -= CHARGE_W;
 	}
 	if (Pos == 0xff) {
 		if (result) {

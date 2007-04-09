@@ -33,34 +33,39 @@
 
 namespace gcp {
 
-Arrow::Arrow(TypeId Type): Object(Type)
+Arrow::Arrow (TypeId Type): Object (Type)
 {
 }
 
-Arrow::~Arrow()
+Arrow::~Arrow ()
 {
 }
 
-bool Arrow::Save(xmlDocPtr xml, xmlNodePtr node)
+bool Arrow::Save (xmlDocPtr xml, xmlNodePtr node)
 {
 	xmlNodePtr child;
 	gchar buf[16];
-	if (!node) return false;
-	SaveId(node);
-	child = xmlNewDocNode(xml, NULL, (xmlChar*)"start", NULL);
-	if (child) xmlAddChild(node, child);
-	else return false;
-	g_snprintf(buf, sizeof(buf), "%g", m_x);
-	xmlNewProp(child, (xmlChar*)"x", (xmlChar*)buf);
-	g_snprintf(buf, sizeof(buf), "%g", m_y);
-	xmlNewProp(child, (xmlChar*)"y", (xmlChar*)buf);
-	child = xmlNewDocNode(xml, NULL, (xmlChar*)"end", NULL);
-	if (child) xmlAddChild(node, child);
-	else return false;
-	g_snprintf(buf, sizeof(buf), "%g", m_x + m_width);
-	xmlNewProp(child, (xmlChar*)"x", (xmlChar*)buf);
-	g_snprintf(buf, sizeof(buf), "%g", m_y + m_height);
-	xmlNewProp(child, (xmlChar*)"y", (xmlChar*)buf);
+	if (!node)
+		return false;
+	SaveId (node);
+	child = xmlNewDocNode (xml, NULL, (xmlChar*) "start", NULL);
+	if (child)
+		xmlAddChild (node, child);
+	else
+		return false;
+	g_snprintf (buf, sizeof (buf), "%g", m_x);
+	xmlNewProp (child, (xmlChar*) "x", (xmlChar*) buf);
+	g_snprintf (buf, sizeof (buf), "%g", m_y);
+	xmlNewProp (child, (xmlChar*) "y", (xmlChar*) buf);
+	child = xmlNewDocNode (xml, NULL, (xmlChar*) "end", NULL);
+	if (child)
+		xmlAddChild(node, child);
+	else
+		return false;
+	g_snprintf (buf, sizeof (buf), "%g", m_x + m_width);
+	xmlNewProp (child, (xmlChar*) "x", (xmlChar*) buf);
+	g_snprintf (buf, sizeof (buf), "%g", m_y + m_height);
+	xmlNewProp (child, (xmlChar*) "y", (xmlChar*) buf);
 	return true;
 }
 
@@ -75,32 +80,38 @@ bool Arrow::Load (xmlNodePtr node)
 		xmlFree (tmp);
 	}
 	child = GetNodeByName (node, "start");
-	if (!child) return false;
+	if (!child)
+		return false;
 	tmp = (char*) xmlGetProp (child, (xmlChar*) "x");
-	if (!tmp) return false;
+	if (!tmp)
+		return false;
 	m_x = strtod (tmp, &endptr);
 	result = *endptr;
 	xmlFree (tmp);
 	if (result)
 		return false;
 	tmp = (char*) xmlGetProp (child, (xmlChar*) "y");
-	if (!tmp) return false;
+	if (!tmp)
+		return false;
 	m_y = strtod (tmp, &endptr);
 	result = *endptr;
 	xmlFree (tmp);
 	if (result)
 		return false;
 	child = GetNodeByName (node, "end");
-	if (!child) return false;
+	if (!child)
+		return false;
 	tmp = (char*) xmlGetProp (child, (xmlChar*) "x");
-	if (!tmp) return false;
+	if (!tmp)
+		return false;
 	m_width = strtod (tmp, &endptr) - m_x;
 	result = *endptr;
 	xmlFree (tmp);
 	if (result)
 		return false;
 	tmp = (char*) xmlGetProp (child, (xmlChar*) "y");
-	if (!tmp) return false;
+	if (!tmp)
+		return false;
 	m_height = strtod (tmp, &endptr) - m_y;
 	result = *endptr;
 	xmlFree (tmp);
@@ -109,11 +120,11 @@ bool Arrow::Load (xmlNodePtr node)
 	return true;
 }
 
-void Arrow::SetSelected(GtkWidget* w, int state)
+void Arrow::SetSelected (GtkWidget* w, int state)
 {
-	WidgetData* pData = (WidgetData*)g_object_get_data(G_OBJECT(w), "data");
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
-	gchar* color;
+	gchar const *color;
 	switch (state) {	
 	case SelStateUnselected:
 		color = Color;
@@ -132,14 +143,13 @@ void Arrow::SetSelected(GtkWidget* w, int state)
 		break;
 	}
 	GList* il = group->item_list;
-	while (il)
-	{
-		g_object_set(G_OBJECT(il->data), "fill_color", color, NULL);
+	while (il) {
+		g_object_set (G_OBJECT(il->data), "fill_color", color, NULL);
 		il = il->next;
 	}
 }
 
-void Arrow::SetCoords(double xstart, double ystart, double xend, double yend)
+void Arrow::SetCoords (double xstart, double ystart, double xend, double yend)
 {
 	m_x = xstart;
 	m_y = ystart;
@@ -147,7 +157,7 @@ void Arrow::SetCoords(double xstart, double ystart, double xend, double yend)
 	m_height = yend - ystart;
 }
 
-bool Arrow::GetCoords(double* xstart, double* ystart, double* xend, double* yend)
+bool Arrow::GetCoords (double* xstart, double* ystart, double* xend, double* yend)
 {
 	*xstart = m_x;
 	*ystart = m_y;
@@ -156,13 +166,13 @@ bool Arrow::GetCoords(double* xstart, double* ystart, double* xend, double* yend
 	return true;
 }
 
-void Arrow::Move(double x, double y, double)
+void Arrow::Move (double x, double y, double)
 {
 	m_x += x;
 	m_y += y;
 }
 
-void Arrow::Transform2D(Matrix2D& m, double x, double y)
+void Arrow::Transform2D (Matrix2D& m, double x, double y)
 {
 	m_x -= x;
 	m_y -= y;

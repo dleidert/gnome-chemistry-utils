@@ -23,7 +23,7 @@
  */
 
 #include "config.h"
-#warning "the following lines should be removed for stable releases"
+// FIXME: "the following lines should be removed for stable releases"
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
 #include <gcu/application.h>
@@ -62,7 +62,7 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 using namespace gcu;
@@ -501,7 +501,7 @@ int main (int argc, char *argv[])
 		argv ++;
 	}
 
-#warning "the following line should be edited for stable releases"
+// FIXME "the following line should be edited for stable releases"
 	if (argc > 1) {
 		cout << _("For usage see: gchemcalc-unstable [-?|--help]") << endl;
 		return -1;

@@ -278,7 +278,7 @@ the first name is followed by a list of other database terminated by NULL.
 
 Loads the listed databases.
 */
-void gcu_element_load_databases (char* name, ...);
+void gcu_element_load_databases (char const *name, ...);
 
 /*!
 \param value: the GcuValue to represent as a string.

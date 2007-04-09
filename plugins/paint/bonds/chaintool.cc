@@ -23,7 +23,6 @@
  */
 
 #include "config.h"
-#include <math.h>
 #include "chaintool.h"
 #include <gcp/settings.h>
 #include <gcp/document.h>
@@ -32,6 +31,7 @@
 #include <gcp/bond.h>
 #include <gcp/theme.h>
 #include <glib/gi18n-lib.h>
+#include <cmath>
 
 gcpChainTool::gcpChainTool (gcp::Application *App): gcp::Tool (App, "Chain")
 {

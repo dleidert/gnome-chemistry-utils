@@ -100,18 +100,6 @@ GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
 AC_SUBST([GCU_CFLAGS])
 AC_SUBST([GCU_LIBS])
 
-AC_LANG(C++)
-AC_MSG_CHECKING([for vector::at usability])
-AC_TRY_COMPILE(
-	[#include <vector>],
-	[std::vector<int> v; v.at(0) = 0;],
-	[
-	 AC_DEFINE([HAS_VECTOR_AT], [1], [Define to 1 if vector::at can be used.])
-	 AC_MSG_RESULT([yes])
-	],
-	[AC_MSG_RESULT([no])]
-)
-
 ##################################################
 # Check for mozilla plugin
 ##################################################
@@ -190,11 +178,6 @@ GCU_PROG_MAN
 
 AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
 AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
-
-AC_LANG(C++)
-AC_CHECK_HEADER([fstream], [AC_DEFINE([HAVE_FSTREAM], [1], [fstream present])])
-AC_CHECK_HEADER([ostream], [AC_DEFINE([HAVE_OSTREAM], [1], [ostream present])])
-AC_CHECK_HEADER([sstream], [AC_DEFINE([HAVE_SSTREAM], [1], [sstream present])])
 
 ##################################################
 # Path checks

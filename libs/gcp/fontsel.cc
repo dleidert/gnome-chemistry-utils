@@ -32,12 +32,13 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+#include <cstdlib>
 #include <map>
 #include <string>
 
 using namespace std;
 
-typedef struct _GcpFontSel {
+struct _GcpFontSel {
 	GtkBin base;
 	GtkEntry *m_SizeEntry;
 	GtkListStore *FamilyList, *FaceList, *SizeList;

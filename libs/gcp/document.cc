@@ -35,7 +35,6 @@
 #include "tool.h"
 #include "window.h"
 #include <goffice/utils/go-rangefunc.h>
-#include <locale.h>
 #include <unistd.h>
 #include <libgen.h>
 #include <gtk/gtk.h>
@@ -44,6 +43,7 @@
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
+#include <clocale>
 #include <stack>
 
 using namespace OpenBabel;

@@ -352,6 +352,8 @@ a list of pointers to CrystalLine instances derived from std::list.
 */
 typedef list<CrystalLine*> CrystalLineList;
 
+extern char const *LineTypeName[];
+
 }// namespace gcu
 
 #endif // CRYSTAL_BOND_H

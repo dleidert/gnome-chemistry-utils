@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2007 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,10 +24,7 @@
 
 #include "bond.h"
 #include "atom.h"
-//#include "cycle.h"
-//#include "settings.h"
-//#include "document.h"
-#include <math.h>
+#include <cmath>
 
 using namespace gcu;
 

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/matrix.cc 
  *
- * Copyright (C) 2000-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,8 +22,8 @@
  * USA
  */
 
-#include <math.h>
 #include "matrix.h"
+#include <cmath>
 
 using namespace gcu;
 

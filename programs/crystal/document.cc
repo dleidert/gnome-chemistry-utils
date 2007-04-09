@@ -25,7 +25,6 @@
 #include "config.h"
 #include "gcrystal.h"
 #include <unistd.h>
-#include <locale.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "application.h"
@@ -40,28 +39,17 @@
 #include "globals.h"
 #include <gcu/filechooser.h>
 #include <glade/glade.h>
-#include <math.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 //#include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <clocale>
+#include <cmath>
 #include <vector>
 #include <map>
-#ifdef HAVE_FSTREAM
-#	include <fstream>
-#else
-#	include <fstream.h>
-#endif
-#ifdef HAVE_OSTREAM
-#	include <ostream>
-#else
-#	include <ostream.h>
-#endif
-#ifdef HAVE_SSTREAM
-#	include <sstream>
-#else
-#	include <sstream.h>
-#endif
+#include <fstream>
+#include <ostream>
+#include <sstream>
 #include <glib/gi18n.h>
 
 #define SAVE	1
@@ -72,21 +60,6 @@
 #define PREC 1e-3
 
 using namespace std;
-
-char *LatticeName[] = {"simple cubic",
-	"body-centered cubic",
-	"face-centered cubic",
-	"hexagonal",
-	"tetragonal",
-	"body-centered tetragonal",
-	"orthorhombic",
-	"base-centered orthorhombic",
-	"body-centered orthorhombic",
-	"face-centered orthorhombic",
-	"rhombohedral",
-	"monoclinic",
-	"base-centered monoclinic",
-	"triclinic"};
 
 gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 {

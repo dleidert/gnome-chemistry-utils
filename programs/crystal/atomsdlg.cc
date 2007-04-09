@@ -179,7 +179,7 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 		s.y = pAtom->y ();
 		s.z = pAtom->z();
 		s.Radius = pAtom->GetRadius ();
-		if (s.CustomColor = pAtom->HasCustomColor ())
+		if ((s.CustomColor = pAtom->HasCustomColor ()))
 			pAtom->GetColor (&s.Red, &s.Green, &s.Blue, &s.Alpha);
 		g_array_append_vals (m_Atoms, &s, 1);
 		gtk_list_store_append (AtomList, &iter);

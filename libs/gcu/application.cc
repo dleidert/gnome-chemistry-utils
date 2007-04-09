@@ -32,7 +32,8 @@
 #include <gtk/gtkspinbutton.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
-#include <math.h>
+#include <cmath>
+#include <cstdlib>
 
 using namespace gcu;
 
@@ -137,11 +138,11 @@ void Application::SetCurDir (char const* dir)
 	CurDir = g_strdup (dir);
 }
 
-void Application::OnMail (char *MailAddress)
+void Application::OnMail (char const *MailAddress)
 {
 	if (!MailAgent.size ())
 		return;
-	char *argv[3] = {NULL, MailAddress, NULL};
+	char *argv[3] = {NULL, const_cast<char*> (MailAddress), NULL};
 	argv[0] = (char*) MailAgent.c_str();
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, NULL);

@@ -262,7 +262,7 @@ public:
 
 	@return the requested property if known, or NULL.
 	*/
-	Value *const GetProperty (char const *property_name) {return props[property_name];}
+	Value const *GetProperty (char const *property_name) {return props[property_name];}
 	/*!
 	@param property_name: the name of the property as used in the Blue
 	Obelisk Data Repository (without the "bo:" prefix).

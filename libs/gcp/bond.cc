@@ -385,9 +385,9 @@ void Bond::SetSelected (GtkWidget* w, int state)
 {
 	if (!m_order)
 		return;
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT(w), "data");
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
-	gchar* color;
+	gchar const *color;
 	switch (state) {	
 	case SelStateUnselected:
 		color = Color;

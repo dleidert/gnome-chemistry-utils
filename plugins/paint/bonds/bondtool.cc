@@ -23,7 +23,6 @@
  */
 
 #include "config.h"
-#include <math.h>
 #include "bondtool.h"
 #include <gcp/settings.h>
 #include <gcp/document.h>
@@ -33,6 +32,7 @@
 #include <gcp/theme.h>
 #include <canvas/gcp-canvas-group.h>
 #include <glib/gi18n-lib.h>
+#include <cmath>
 
 gcpBondTool::gcpBondTool (gcp::Application *App, string ToolId, unsigned nPoints): gcp::Tool (App, ToolId)
 {
@@ -190,7 +190,7 @@ void gcpBondTool::OnDrag ()
 		Object* pObject = NULL;
 		if (pItem) {
 			pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
-			if (pObject == m_pObject || (pObject->GetType () == FragmentType) && dynamic_cast<gcp::Fragment*> (pObject)->GetAtom () == m_pObject)
+			if (pObject == m_pObject || ((pObject->GetType () == FragmentType) && dynamic_cast<gcp::Fragment*> (pObject)->GetAtom () == m_pObject))
 				return;
 		}
 		double dAngle;

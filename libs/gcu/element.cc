@@ -23,20 +23,20 @@
 #include "config.h"
 #include "element.h"
 #include "xml-utils.h"
+#include <goffice/utils/go-math.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
+#include <glib/gi18n-lib.h>
 #include <glib.h>
-#include <locale.h>
+#include <libintl.h>
+#include <clocale>
+#include <cmath>
+#include <cstring>
 #include <vector>
 #include <map>
 #include <set>
 #include <string>
-#include <libintl.h>
-#include <math.h>
-#include <string.h>
-#include <glib/gi18n-lib.h>
-#include <goffice/utils/go-math.h>
 
 static set<string>units;
 
@@ -489,8 +489,8 @@ void Element::LoadRadii ()
 						radius->cn = -1;
 					buf = (char*) xmlGetProp (child, (xmlChar*)"spin");
 					if ((!buf) ||
-						(!((!strcmp (buf, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
-						(!((!strcmp (buf, "high")) && (radius->spin = GCU_HIGH_SPIN))))
+						((!((!strcmp (buf, "low")) && (radius->spin = GCU_LOW_SPIN))) &&
+						(!((!strcmp (buf, "high")) && (radius->spin = GCU_HIGH_SPIN)))))
 						radius->spin = GCU_N_A_SPIN;
 					if (buf)
 						xmlFree (buf);

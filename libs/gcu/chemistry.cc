@@ -70,7 +70,7 @@ const GcuElectronegativity** gcu_element_get_electronegativities(gint Z)
 	return Element::GetElement(Z)->GetElectronegativities();
 }
 
-void gcu_element_load_databases (char* name, ...)
+void gcu_element_load_databases (char const *name, ...)
 {
 	va_list l;
 	char const *base = name;

@@ -23,13 +23,13 @@
  */
 
 #include "config.h"
-#include <math.h>
 #include "erasertool.h"
 #include <gcp/settings.h>
 #include <gcp/document.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
 #include <gcp/theme.h>
+#include <cmath>
 
 gcpEraserTool::gcpEraserTool (gcp::Application* App): gcp::Tool (App, "Erase")
 {

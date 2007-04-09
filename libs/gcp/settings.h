@@ -32,7 +32,7 @@
 
 namespace gcp {
 
-extern gchar *Color, *DeleteColor, *AddColor, *SelectColor;
+extern const gchar *Color, *DeleteColor, *AddColor, *SelectColor;
 extern unsigned MaxStackSize;
 extern bool MergeAtoms;
 extern int CompressionLevel;

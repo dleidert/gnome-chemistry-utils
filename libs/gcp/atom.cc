@@ -35,10 +35,10 @@
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gcp-canvas-bpath.h>
 #include <canvas/gcp-canvas-pango.h>
-#include <math.h>
 #include <gcu/element.h>
 #include <openbabel/mol.h>
 #include <glib/gi18n-lib.h>
+#include <cmath>
 
 using namespace gcu;
 
@@ -46,7 +46,7 @@ using namespace gcu;
 
 namespace gcp {
 
-Atom::Atom(): gcu::Atom(),
+Atom::Atom (): gcu::Atom (),
 	m_ShowSymbol (false)
 {
 	m_Valence = -1; //unspecified
@@ -67,7 +67,7 @@ Atom::Atom(): gcu::Atom(),
 	m_DrawCircle = false;
 }
 
-Atom::~Atom()
+Atom::~Atom ()
 {
 	Document *pDoc = (Document*) GetDocument ();
 	if (!pDoc)
@@ -75,7 +75,7 @@ Atom::~Atom()
 	View *pView = pDoc->GetView ();
 	map<string, Object*>::iterator i;
 	Object* electron = GetFirstChild (i);
-	while (electron){
+	while (electron) {
 		pView->Remove (electron);
 		electron->SetParent (NULL); // avoids a call to RemoveElectron()
 		delete electron;
@@ -87,11 +87,11 @@ Atom::~Atom()
 		g_object_unref (G_OBJECT (m_ChargeLayout));
 }
 
-Atom::Atom(int Z, double x, double y, double z): gcu::Atom(Z, x, y, z),
+Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z),
 	m_ShowSymbol (false)
 {
 	m_ChargeAuto = false;
-	m_HPos = GetBestSide();
+	m_HPos = GetBestSide ();
 	m_nlp = 0;
 	SetZ(Z);
 	m_ascent = 0;
@@ -107,17 +107,17 @@ Atom::Atom(int Z, double x, double y, double z): gcu::Atom(Z, x, y, z),
 	m_DrawCircle = false;
 }
 
-Atom::Atom(OBAtom* atom): gcu::Atom(),
+Atom::Atom (OBAtom* atom): gcu::Atom (),
 	m_ShowSymbol (false)
 {
-	m_x = atom->GetX();
-	m_y = - atom->GetY();
-	m_z = atom->GetZ();
+	m_x = atom->GetX ();
+	m_y = - atom->GetY ();
+	m_z = atom->GetZ ();
 	m_nlp = 0;
-	SetZ(atom->GetAtomicNum());
-	gchar* Id = g_strdup_printf("a%d", atom->GetIdx());
-	SetId(Id);
-	g_free(Id);
+	SetZ (atom->GetAtomicNum ());
+	gchar* Id = g_strdup_printf ("a%d", atom->GetIdx());
+	SetId (Id);
+	g_free (Id);
 	m_HPos = true;
 	m_ascent = 0;
 	m_CHeight = 0.;
@@ -133,12 +133,12 @@ Atom::Atom(OBAtom* atom): gcu::Atom(),
 	m_Charge = atom->GetFormalCharge ();
 }
 
-void Atom::SetZ(int Z)
+void Atom::SetZ (int Z)
 {
-	gcu::Atom::SetZ(Z);
+	gcu::Atom::SetZ (Z);
 	m_Element = Element::GetElement (m_Z);
 	if ((m_Valence = m_Element->GetDefaultValence ()))
-		m_HPos = GetBestSide();
+		m_HPos = GetBestSide ();
 	else
 		m_nH = 0;
 	int max = m_Element->GetMaxValenceElectrons ();
@@ -171,12 +171,12 @@ void Atom::SetZ(int Z)
 	EmitSignal (OnChangedSignal);
 }
 
-int Atom::GetTotalBondsNumber()
+int Atom::GetTotalBondsNumber ()
 {
-	std::map<gcu::Atom*, gcu::Bond*>::iterator i;
+	std::map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end ();
 	int n = 0;
-	for (i = m_Bonds.begin(); i != m_Bonds.end(); i++)
-		n += (*i).second->GetOrder();
+	for (i = m_Bonds.begin(); i != end; i++)
+		n += (*i).second->GetOrder ();
 	return n;
 }
 
@@ -192,7 +192,7 @@ void Atom::RemoveBond (gcu::Bond* pBond)
 	Update ();
 }
 
-bool Atom::GetBestSide()
+bool Atom::GetBestSide ()
 {
 	if (m_Bonds.size () == 0)
 		return Element::BestSide (m_Z);
@@ -256,7 +256,7 @@ void Atom::Update ()
 				m_ChargeAuto = true;
 			}
 		}
-		m_HPos = GetBestSide();
+		m_HPos = GetBestSide ();
 	} else {
 		m_nH = 0;
 		if (m_ChargeAuto || !m_Charge) {
@@ -305,11 +305,12 @@ void Atom::Update ()
 	}
 }
 	
-bool Atom::IsInCycle(Cycle* pCycle)
+bool Atom::IsInCycle (Cycle* pCycle)
 {
-	map<gcu::Atom*, gcu::Bond*>::iterator i;
-	for (i = m_Bonds.begin(); i != m_Bonds.end(); i++)
-		if (((Bond*)(*i).second)->IsInCycle(pCycle)) return true;
+	map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end ();
+	for (i = m_Bonds.begin (); i != end; i++)
+		if (((Bond*) (*i).second)->IsInCycle (pCycle))
+		return true;
 	return false;
 }
 
@@ -323,7 +324,7 @@ void Atom::Add (GtkWidget* w)
 	View* pView = pData->m_View;
 	Theme *pTheme = pView->GetDoc ()->GetTheme ();
 	if (m_Layout == NULL) {
-		PangoContext* pc = pView->GetPangoContext();
+		PangoContext* pc = pView->GetPangoContext ();
 		m_Layout = pango_layout_new (pc);
 	}
 	if (m_FontName != pView->GetFontName ()) {
@@ -431,35 +432,35 @@ void Atom::Add (GtkWidget* w)
 		g_object_set_data (G_OBJECT (item), "object", this);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	} else {
-		item = gnome_canvas_item_new(
+		item = gnome_canvas_item_new (
 								group,
-								gnome_canvas_rect_ext_get_type(),
+								gnome_canvas_rect_ext_get_type (),
 								"x1", x - 3,
 								"y1", y - 3,
 								"x2", x + 3,
 								"y2", y + 3,
-								"fill_color",  (pData->IsSelected(this))? SelectColor: "white",
+								"fill_color",  (pData->IsSelected (this))? SelectColor: "white",
 								NULL);
-		g_object_set_data(G_OBJECT(group), "rect", item);
-		gnome_canvas_request_redraw((GnomeCanvas*)w, (int)x-3, (int)y-3, (int)x+3, (int)y+3);
-		gnome_canvas_item_lower_to_bottom(GNOME_CANVAS_ITEM(group));
-		gnome_canvas_item_raise(GNOME_CANVAS_ITEM(group), 1);
-		g_signal_connect(G_OBJECT(item), "event", G_CALLBACK(on_event), w);
-		g_object_set_data(G_OBJECT(item), "object", this);
+		g_object_set_data(G_OBJECT (group), "rect", item);
+		gnome_canvas_request_redraw ((GnomeCanvas*) w, (int) x - 3, (int) y - 3, (int) x + 3, (int) y + 3);
+		gnome_canvas_item_lower_to_bottom (GNOME_CANVAS_ITEM (group));
+		gnome_canvas_item_raise (GNOME_CANVAS_ITEM (group), 1);
+		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
+		g_object_set_data (G_OBJECT (item), "object", this);
 		if (m_DrawCircle) {
 			double dx = pTheme->GetStereoBondWidth () / 2.;
-			item = gnome_canvas_item_new(
+			item = gnome_canvas_item_new (
 									group,
-									gnome_canvas_ellipse_ext_get_type(),
+									gnome_canvas_ellipse_ext_get_type (),
 									"x1", x - dx,
 									"y1", y - dx,
 									"x2", x + dx,
 									"y2", y + dx,
-									"fill_color",  (pData->IsSelected(this))? SelectColor: Color,
+									"fill_color",  (pData->IsSelected (this))? SelectColor: Color,
 									NULL);
-			g_object_set_data(G_OBJECT(group), "bullet", item);
-			g_signal_connect(G_OBJECT(item), "event", G_CALLBACK(on_event), w);
-			g_object_set_data(G_OBJECT(item), "object", this);
+			g_object_set_data (G_OBJECT (group), "bullet", item);
+			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
+			g_object_set_data (G_OBJECT (item), "object", this);
 		}
 	}
 	pData->Items[this] = group;
@@ -580,19 +581,20 @@ void Atom::Add (GtkWidget* w)
 	}
 }
 
-void Atom::Update(GtkWidget* w)
+void Atom::Update (GtkWidget* w)
 {
-	if (!w) return;
-	WidgetData* pData = (WidgetData*)g_object_get_data(G_OBJECT(w), "data");
+	if (!w)
+		return;
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	double x, y, xc = 0., yc;
-	GetCoords(&x, &y);
+	GetCoords (&x, &y);
 	x *= pTheme->GetZoomFactor ();
 	y *= pTheme->GetZoomFactor ();
 	GnomeCanvasGroup *group = pData->Items[this];
 	if (m_FontName != pData->m_View->GetFontName ()) {
 		View *pView = pData->m_View;
-		PangoContext* pc = pView->GetPangoContext();
+		PangoContext* pc = pView->GetPangoContext ();
 		PangoLayout *Layout = pango_layout_new (pc);
 		pango_layout_set_font_description (Layout, pView->GetPangoFontDesc ());
 		pango_layout_set_font_description (m_Layout, pView->GetPangoFontDesc ());
@@ -610,19 +612,19 @@ void Atom::Update(GtkWidget* w)
 	if (m_Changed)
 		BuildItems (pData);
 	else {
-		if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
-			g_object_set(G_OBJECT(g_object_get_data(G_OBJECT(group), "symbol")),
+		if ((GetZ() != 6) || (GetBondsNumber () == 0) || m_ShowSymbol) {
+			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "symbol")),
 								"x", x - m_lbearing,
 								"y", y - m_ascent + m_CHeight,
 								NULL);
-			g_object_set(G_OBJECT(g_object_get_data(G_OBJECT(group), "rect")),
+			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "rect")),
 								"x1", x - m_lbearing - pTheme->GetPadding (),
 								"y1", y  - m_ascent + m_CHeight - pTheme->GetPadding (),
 								"x2", x - m_lbearing + m_length + pTheme->GetPadding (),
 								"y2", y  - m_ascent + m_CHeight + m_text_height + pTheme->GetPadding (),
 								NULL);
 		} else {
-			g_object_set(G_OBJECT(g_object_get_data(G_OBJECT(group), "rect")),
+			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "rect")),
 									"x1", x - 3,
 									"y1", y - 3,
 									"x2", x + 3,
@@ -630,7 +632,7 @@ void Atom::Update(GtkWidget* w)
 								NULL);
 			if (m_DrawCircle) {
 				double dx = pTheme->GetStereoBondWidth () / 2.;
-				g_object_set(G_OBJECT(g_object_get_data(G_OBJECT(group), "bullet")),
+				g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "bullet")),
 										"x1", x - dx,
 										"y1", y - dx,
 										"x2", x + dx,
@@ -643,7 +645,7 @@ void Atom::Update(GtkWidget* w)
 	int charge = GetCharge ();
 	if (charge) {
 		if (item) {
-			int align = GetChargePosition(m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
+			int align = GetChargePosition (m_ChargePos, m_ChargeAngle * 180. / M_PI, x, y);
 			if (m_ChargeDist != 0.) {
 				align = 0;
 				x = m_x + m_ChargeDist * cos (m_ChargeAngle);
@@ -657,7 +659,7 @@ void Atom::Update(GtkWidget* w)
 				fig = g_strdup_printf ("%d", abs (charge));
 				PangoRectangle rect;
 				if (!m_ChargeLayout) {
-					PangoContext* pc = pData->m_View->GetPangoContext();
+					PangoContext* pc = pData->m_View->GetPangoContext ();
 					m_ChargeLayout = pango_layout_new (pc);
 					pango_layout_set_font_description (m_ChargeLayout, pData->m_View->GetPangoSmallFontDesc ());
 				}
@@ -668,9 +670,9 @@ void Atom::Update(GtkWidget* w)
 				m_ChargeWidth = 0.;
 			m_ChargeTWidth = m_ChargeWidth + 1. + pTheme->GetChargeSignSize ();
 			if (figure == NULL && fig != NULL) {
-				figure = gnome_canvas_item_new(
+				figure = gnome_canvas_item_new (
 							GNOME_CANVAS_GROUP (item),
-							gnome_canvas_pango_get_type(),
+							gnome_canvas_pango_get_type (),
 							"anchor", GTK_ANCHOR_EAST,
 							NULL);
 				g_object_set_data (G_OBJECT (group), "figure", figure);
@@ -752,7 +754,7 @@ void Atom::Update(GtkWidget* w)
 			if 	(abs (charge) > 1) {
 				fig = g_strdup_printf ("%d", abs (charge));
 				if (!m_ChargeLayout) {
-					PangoContext* pc = pData->m_View->GetPangoContext();
+					PangoContext* pc = pData->m_View->GetPangoContext ();
 					m_ChargeLayout = pango_layout_new (pc);
 					pango_layout_set_font_description (m_ChargeLayout, pData->m_View->GetPangoSmallFontDesc ());
 				}
@@ -789,15 +791,15 @@ void Atom::Update(GtkWidget* w)
 			yc = y - pTheme->GetChargeSignSize () / 2.;
 			chgp = (GnomeCanvasGroup*) gnome_canvas_item_new (
 						group,
-						gnome_canvas_group_ext_get_type(),
+						gnome_canvas_group_ext_get_type (),
 						NULL);
 			g_object_set_data (G_OBJECT (group), "charge", chgp);
 			if (fig) {
-				item = gnome_canvas_item_new(
+				item = gnome_canvas_item_new (
 							chgp,
-							gnome_canvas_pango_get_type(),
+							gnome_canvas_pango_get_type (),
 							"layout", m_ChargeLayout,
-							"fill_color", (pData->IsSelected(this))? SelectColor: Color,
+							"fill_color", (pData->IsSelected (this))? SelectColor: Color,
 							"anchor", GTK_ANCHOR_EAST,
 							"x", x,
 							"y", y,
@@ -812,7 +814,7 @@ void Atom::Update(GtkWidget* w)
 						"y1", yc,
 						"x2", xc + pTheme->GetChargeSignSize (),
 						"y2", yc + pTheme->GetChargeSignSize (),
-						"outline_color", (pData->IsSelected(this))? SelectColor: Color,
+						"outline_color", (pData->IsSelected (this))? SelectColor: Color,
 						"width_units", .5,
 						NULL
 					);
@@ -837,7 +839,7 @@ void Atom::Update(GtkWidget* w)
 						chgp,
 						gnome_canvas_bpath_ext_get_type (),
 						"bpath", cpd,
-						"outline_color", (pData->IsSelected(this))? SelectColor: Color,
+						"outline_color", (pData->IsSelected (this))? SelectColor: Color,
 						"width_units", 1.,
 						NULL
 					);
@@ -865,32 +867,27 @@ void Atom::UpdateAvailablePositions ()
 	list<double>::iterator n;
 	double angle, delta, dir;
 	m_AngleList.clear ();
-	if (((GetZ() != 6 || m_Bonds.size() == 0)) && m_nH)
-	{
-		if (m_HPos)
-		{
+	if (((GetZ() != 6 || m_Bonds.size() == 0)) && m_nH) {
+		if (m_HPos) {
 			m_AvailPos = 0xB6;
 			m_AngleList.push_front(315.0);
 			m_AngleList.push_front(45.0);
-		}
-		else
-		{
+		} else {
 			m_AvailPos = 0x6D;
 			m_AngleList.push_front(225.0);
 			m_AngleList.push_front(135.0);
 		}
-	}
-	else m_AvailPos = 0xff;
+	} else
+		m_AvailPos = 0xff;
 	m_AvailPos &= ~m_OccupiedPos;
 	map<gcu::Atom*, gcu::Bond*>::iterator i = m_Bonds.begin();
-	while (i != m_Bonds.end())
-	{
-		n = m_AngleList.begin();
-		angle = ((Bond*)(*i).second)->GetAngle2D(this);
+	while (i != m_Bonds.end()) {
+		n = m_AngleList.begin ();
+		angle = ((Bond*) (*i).second)->GetAngle2D (this);
 		if (angle < 0)
 			angle += 360.;
-		while ((n != m_AngleList.end()) && (*n < angle)) n++;
-		m_AngleList.insert(n, angle);
+		while ((n != m_AngleList.end ()) && (*n < angle)) n++;
+		m_AngleList.insert (n, angle);
 		i++;
 		if ((m_AvailPos & CHARGE_SW) && (angle >= 180.0 - ATOM_EPSILON) &&
 			(angle <= 270.0 + ATOM_EPSILON))
@@ -932,9 +929,9 @@ void Atom::UpdateAvailablePositions ()
 	m_AvailPosCached = true;
 }
 
-int Atom::GetChargePosition(unsigned char& Pos, double Angle, double& x, double& y)
+int Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y)
 {
-	list<double>::iterator n;
+	list<double>::iterator n, end;
 	double angle;
 	if (m_ChargePos != 0xff)
 		m_OccupiedPos &= ~m_ChargePos;
@@ -968,16 +965,16 @@ int Atom::GetChargePosition(unsigned char& Pos, double Angle, double& x, double&
 			Pos = 0;
 			angle = m_AngleList.front();
 			double max = 0.0;
+			n = m_AngleList.end ();
 			//if we are there, there are at least two bonds
-			for (n = m_AngleList.begin(), n++; n != m_AngleList.end(); n++)
-			{
-				if (*n - angle > max)
-				{
+			for (n = m_AngleList.begin (), n++; n != end; n++) {
+				if (*n - angle > max) {
 					if (*n - angle - max > 0.1) x = (*n + angle) / 2;
-					if (m_nH)
-					{
-						if (m_HPos && ((x > 225.0) || (x < 135.0))) Angle = x;
-						else if (m_HPos && (x > 45.0) && (x < 315.0)) Angle = x;
+					if (m_nH) {
+						if (m_HPos && ((x > 225.0) || (x < 135.0)))
+							Angle = x;
+						else if (m_HPos && (x > 45.0) && (x < 315.0))
+							Angle = x;
 					}
 					else Angle = x;
 					max = *n - angle;
@@ -1066,84 +1063,76 @@ int Atom::GetChargePosition(unsigned char& Pos, double Angle, double& x, double&
 	return 0; // should not occur
 }
 
-int Atom::GetAvailablePosition(double& x, double& y)
+int Atom::GetAvailablePosition (double& x, double& y)
 {
-	list<double>::iterator n;
+	list<double>::iterator n, end;
 	double angle;
 	if (!m_AvailPosCached)
 		UpdateAvailablePositions ();
-	if (m_AvailPos)
-	{
-		if (m_AvailPos & POSITION_N)
-		{
+	if (m_AvailPos) {
+		if (m_AvailPos & POSITION_N) {
 			x = m_x;
 			y = m_y - m_height / 2.0;
 			return POSITION_N;
 		}
-		if (m_AvailPos & POSITION_S)
-		{
+		if (m_AvailPos & POSITION_S) {
 			x = m_x;
 			y = m_y + m_height / 2.0;
 			return POSITION_S;
 		}
-		if (m_AvailPos & POSITION_E)
-		{
+		if (m_AvailPos & POSITION_E) {
 			x = m_x + m_width / 2.0;
 			y = m_y;
 			return POSITION_E;
 		}
-		if (m_AvailPos & POSITION_W)
-		{
+		if (m_AvailPos & POSITION_W) {
 			x = m_x - m_width / 2.0;
 			y = m_y;
 			return POSITION_W;
 		}
-		if (m_AvailPos & POSITION_NE)
-		{
+		if (m_AvailPos & POSITION_NE) {
 			x = m_x + m_width / 2.0;
 			y = m_y - m_height / 2.0;
 			return POSITION_NE;
 		}
-		if (m_AvailPos & POSITION_NW)
-		{
+		if (m_AvailPos & POSITION_NW) {
 			x = m_x - m_width / 2.0;
 			y = m_y - m_height / 2.0;
 			return POSITION_NW;
 		}
-		if (m_AvailPos & POSITION_SE)
-		{
+		if (m_AvailPos & POSITION_SE) {
 			x = m_x + m_width / 2.0;
 			y = m_y + m_height / 2.0;
 			return POSITION_SE;
 		}
-		if (m_AvailPos & POSITION_SW)
-		{
+		if (m_AvailPos & POSITION_SW) {
 			x = m_x - m_width / 2.0;
 			y = m_y + m_height / 2.0;
 			return POSITION_SW;
 		}
 	}
-	angle = m_AngleList.front();
+	angle = m_AngleList.front ();
 	double dir = 0.0, max = 0.0;
+	end = m_AngleList.end ();
 	//if we are there, there are at least two bonds
-	for (n = m_AngleList.begin(), n++; n != m_AngleList.end(); n++)
-	{
-		if (*n - angle > max)
-		{
-			if (*n - angle - max > 0.1) x = (*n + angle) / 2;
-			if (m_nH)
-			{
-				if (m_HPos && ((x > 225.0) || (x < 135.0))) dir = x;
-				else if (m_HPos && (x > 45.0) && (x < 315.0)) dir = x;
-			}
-			else dir = x;
+	for (n = m_AngleList.begin (), n++; n != end; n++) {
+		if (*n - angle > max) {
+			if (*n - angle - max > 0.1)
+				x = (*n + angle) / 2;
+			if (m_nH) {
+				if (m_HPos && ((x > 225.0) || (x < 135.0)))
+					dir = x;
+				else if (m_HPos && (x > 45.0) && (x < 315.0))
+					dir = x;
+			} else
+				dir = x;
 			max = *n - angle;
 		}
 		angle = *n;
 	}
-	max = sqrt(square(m_width) + square(m_height)) / 2.0 + 24;//Could do better, should replace 24 by something more intelligent
-	x = m_x + max * cos(dir / 180.0 * M_PI);
-	y = m_y - max * sin(dir / 180.0 * M_PI);
+	max = sqrt (square (m_width) + square (m_height)) / 2.0 + 24.;//Could do better, should replace 24 by something more intelligent
+	x = m_x + max * cos (dir / 180.0 * M_PI);
+	y = m_y - max * sin (dir / 180.0 * M_PI);
 	return 0;
 }
 
@@ -1158,7 +1147,7 @@ void Atom::SetSelected (GtkWidget* w, int state)
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
 	gpointer item;
-	gchar *color, *chargecolor;
+	gchar const *color, *chargecolor;
 	
 	switch (state) {	
 	case SelStateUnselected:
@@ -1192,10 +1181,10 @@ void Atom::SetSelected (GtkWidget* w, int state)
 	Object::SetSelected (w, state);
 }
 
-bool Atom::AcceptNewBonds(int nb)
+bool Atom::AcceptNewBonds (int nb)
 {
 	if ((m_Valence > 0) || m_ChargeAuto)
-		return Element::GetMaxBonds(m_Z) >= (GetTotalBondsNumber() + GetChildrenNumber () + nb);
+		return Element::GetMaxBonds (m_Z) >= (GetTotalBondsNumber () + GetChildrenNumber () + nb);
 	map<string, Object*>::iterator i;
 	Electron* electron = (Electron*) GetFirstChild (i);
 	unsigned nel = 0;
@@ -1211,9 +1200,9 @@ bool Atom::AcceptNewBonds(int nb)
 			&& (((m_Element->GetValenceElectrons() - m_Charge) > nel) || m_ChargeAuto);
 }
 
-void Atom::AddToMolecule(Molecule* Mol)
+void Atom::AddToMolecule (Molecule* Mol)
 {
-	Mol->AddAtom(this);
+	Mol->AddAtom (this);
 }
 
 void Atom::BuildItems (WidgetData* pData)
@@ -1488,6 +1477,7 @@ xmlNodePtr Atom::Save (xmlDocPtr xml)
 	if (m_Charge && !m_ChargeAutoPos) {
 		char *buf;
 		if (m_ChargePos) {
+			char const *buf;
 			switch (m_ChargePos) {
 			case CHARGE_NE:
 				buf = "ne";

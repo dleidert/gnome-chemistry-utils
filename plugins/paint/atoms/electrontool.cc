@@ -32,7 +32,7 @@
 #include <gcp/settings.h>
 #include <canvas/gcp-canvas-bpath.h>
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
 
 gcpElectronTool::gcpElectronTool (gcp::Application *App, string Id): gcp::Tool (App, Id)

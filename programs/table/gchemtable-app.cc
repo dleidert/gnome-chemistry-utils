@@ -35,8 +35,8 @@
 #include <gtk/gtkuimanager.h>
 #include <gtk/gtkwindow.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 static void on_quit (GtkWidget *widget, void *data)
 {
@@ -213,7 +213,7 @@ static void get_acidity_color (int Z, GdkColor *color, GChemTableApp *App)
 	App->GetAcidityColor (Z, color);
 }
 
-#warning "the following line should be edited for stable releases"
+// FIXME "the following line should be edited for stable releases"
 GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 {
 	GtkVBox* vbox;
@@ -381,7 +381,7 @@ void GChemTableApp::GetStateColor (int Z, GdkColor *color)
 {
 	color->red= color->green = color->blue = 0;
 	Element *elt = Element::GetElement (Z);
-	Value *value = elt->GetProperty ("meltingpoint");
+	Value const *value = elt->GetProperty ("meltingpoint");
 	if (!value)
 		return;
 	double t = value->GetAsDouble ();

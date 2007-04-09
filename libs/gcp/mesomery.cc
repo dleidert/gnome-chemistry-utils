@@ -31,7 +31,7 @@
 #include "mesomery-arrow.h"
 #include "mesomer.h"
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
 #include <set>
 
 namespace gcp {

@@ -29,13 +29,13 @@
 #include <gcp/application.h>
 #include <gcp/theme.h>
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
 #include <list>
 #include <vector>
 
 using namespace std;
 
-static char* ToolNames [] = {
+static char const *ToolNames [] = {
 	"Cycle3",
 	"Cycle4",
 	"Cycle5",

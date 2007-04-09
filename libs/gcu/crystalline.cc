@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalline.cc 
  *
- * Copyright (C) 2002-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,22 +24,28 @@
 
 #include "crystalline.h"
 #include "xml-utils.h"
-#include <math.h>
 #include <glib.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <cmath>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
 #define square(x)	((x)*(x))
 
-using namespace gcu;
+namespace gcu {
+	
+char const *LineTypeName[] = {
+	"edges",
+	"diagonals",
+	"medians",
+	"normal",
+	"unique"
+};
 
-static char *TypeName[] = {"edges",
-		"diagonals",
-		"medians",
-		"normal",
-		"unique"};
+}
+
+using namespace gcu;
 
 CrystalLine::CrystalLine()
 {
@@ -285,15 +291,15 @@ xmlNodePtr CrystalLine::Save(xmlDocPtr xml)
 	parent = xmlNewDocNode(xml, NULL, (xmlChar*)"line", NULL);
 	if (!parent) return NULL;
 
-	xmlSetProp(parent, (xmlChar*)"type", (xmlChar*)TypeName[m_nType]);
+	xmlSetProp (parent, (xmlChar*) "type", (xmlChar*) LineTypeName[m_nType]);
 	
 	g_snprintf(buf, sizeof(buf) - 1, "%g", m_dr);
 	child = xmlNewDocNode(xml, NULL, (xmlChar*)"radius", (xmlChar*)buf);
 	if (child) xmlAddChild(parent, child);
 	else {xmlFreeNode(parent); return NULL;}
 	
-	if (((m_nType > 2) && ((!WritePosition(xml, parent, "start", m_dx, m_dy, m_dz))) ||
-		(!WritePosition(xml, parent, "end", m_dx2, m_dy2, m_dz2))) || 
+	if (((m_nType > 2) && (((!WritePosition(xml, parent, "start", m_dx, m_dy, m_dz))) ||
+		(!WritePosition(xml, parent, "end", m_dx2, m_dy2, m_dz2)))) || 
 		(!WriteColor(xml, parent, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha)))
 			{xmlFreeNode(parent); return NULL;}
 	
@@ -307,7 +313,7 @@ bool CrystalLine::Load (xmlNodePtr node)
 	if (!txt)
 		return false;
 	int i = 0;
-	while (strcmp (txt, TypeName[i]) && (i < 5))
+	while (strcmp (txt, LineTypeName[i]) && (i < 5))
 		i++;
 	xmlFree (txt);
 	if (i < 5)

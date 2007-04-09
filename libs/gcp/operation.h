@@ -45,17 +45,17 @@ typedef enum
 class Operation
 {
 public:
-	Operation(Document *pDoc, unsigned long ID);
-	virtual ~Operation();
+	Operation (Document *pDoc, unsigned long ID);
+	virtual ~Operation ();
 
-	virtual void Undo() = 0;
-	virtual void Redo() = 0;
-	virtual void AddObject(Object* pObject, unsigned type = 0);
-	virtual void AddNode(xmlNodePtr node, unsigned type = 0);
+	virtual void Undo () = 0;
+	virtual void Redo () = 0;
+	virtual void AddObject (Object* pObject, unsigned type = 0);
+	virtual void AddNode (xmlNodePtr node, unsigned type = 0);
 
 protected:
-	void Add(unsigned type = 0);
-	void Delete(unsigned type = 0);
+	void Add (unsigned type = 0);
+	void Delete (unsigned type = 0);
 
 protected:
 	xmlNodePtr* m_Nodes;
@@ -69,31 +69,31 @@ GCU_RO_PROP (unsigned long, ID);
 class AddOperation: public Operation
 {
 public:
-	AddOperation(gcp::Document *pDoc, unsigned long ID);
-	virtual ~AddOperation();
+	AddOperation (gcp::Document *pDoc, unsigned long ID);
+	virtual ~AddOperation ();
 
-	virtual void Undo();
-	virtual void Redo();
+	virtual void Undo ();
+	virtual void Redo ();
 };
 
 class DeleteOperation: public Operation
 {
 public:
-	DeleteOperation(gcp::Document *pDoc, unsigned long ID);
-	virtual ~DeleteOperation();
+	DeleteOperation (gcp::Document *pDoc, unsigned long ID);
+	virtual ~DeleteOperation ();
 
-	virtual void Undo();
-	virtual void Redo();
+	virtual void Undo ();
+	virtual void Redo ();
 };
 
 class ModifyOperation: public Operation
 {
 public:
-	ModifyOperation(gcp::Document *pDoc, unsigned long ID);
-	virtual ~ModifyOperation();
+	ModifyOperation (gcp::Document *pDoc, unsigned long ID);
+	virtual ~ModifyOperation ();
 
-	virtual void Undo();
-	virtual void Redo();
+	virtual void Undo ();
+	virtual void Redo ();
 };
 
 }	// namespace gcp

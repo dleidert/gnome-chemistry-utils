@@ -27,8 +27,8 @@
 #include "theme.h"
 #include "settings.h"
 #include <glib/gi18n-lib.h>
-#include <math.h>
 #include <sys/stat.h>
+#include <cmath>
 
 namespace gcp {
 
@@ -601,13 +601,13 @@ bool Theme::Save (xmlDocPtr xml)
 	buf = NULL;
 	switch (m_FontStyle) {
 	case PANGO_STYLE_NORMAL:
-		buf = "normal";
+		buf = const_cast<char*> ("normal");
 		break;
 	case PANGO_STYLE_OBLIQUE:
-		buf = "oblique";
+		buf = const_cast<char*> ("oblique");
 		break;
 	case PANGO_STYLE_ITALIC:
-		buf = "italic";
+		buf = const_cast<char*> ("italic");
 		break;
 	}
 	if (buf)
@@ -615,25 +615,25 @@ bool Theme::Save (xmlDocPtr xml)
 	buf = NULL;
 	switch (m_FontWeight) {
 	case PANGO_WEIGHT_ULTRALIGHT:
-		buf = "ultra-light";
+		buf = const_cast<char*> ("ultra-light");
 		break;
 	case PANGO_WEIGHT_LIGHT:
-		buf = "light";
+		buf = const_cast<char*> ("light");
 		break;
 	case PANGO_WEIGHT_NORMAL:
-		buf = "normal";
+		buf = const_cast<char*> ("normal");
 		break;
 	case PANGO_WEIGHT_SEMIBOLD:
-		buf = "semi-bold";
+		buf = const_cast<char*> ("semi-bold");
 		break;
 	case PANGO_WEIGHT_BOLD:
-		buf = "bold";
+		buf = const_cast<char*> ("bold");
 		break;
 	case PANGO_WEIGHT_ULTRABOLD:
-		buf = "ultra-bold";
+		buf = const_cast<char*> ("ultra-bold");
 		break;
 	case PANGO_WEIGHT_HEAVY:
-		buf = "heavy";
+		buf = const_cast<char*> ("heavy");
 		break;
 	}
 	if (buf)
@@ -642,31 +642,31 @@ bool Theme::Save (xmlDocPtr xml)
 	buf = NULL;
 	switch (m_FontStretch) {
 	case PANGO_STRETCH_ULTRA_CONDENSED:
-		buf = "ultra-condensed";
+		buf = const_cast<char*> ("ultra-condensed");
 		break;
 	case PANGO_STRETCH_EXTRA_CONDENSED:
-		buf = "extra-condensed";
+		buf = const_cast<char*> ("extra-condensed");
 		break;
 	case PANGO_STRETCH_CONDENSED:
-		buf = "condensed";
+		buf = const_cast<char*> ("condensed");
 		break;
 	case PANGO_STRETCH_SEMI_CONDENSED:
-		buf = "semi-condensed";
+		buf = const_cast<char*> ("semi-condensed");
 		break;
 	case PANGO_STRETCH_NORMAL:
-		buf = "normal";
+		buf = const_cast<char*> ("normal");
 		break;
 	case PANGO_STRETCH_SEMI_EXPANDED:
-		buf = "semi-expanded";
+		buf = const_cast<char*> ("semi-expanded");
 		break;
 	case PANGO_STRETCH_EXPANDED:
-		buf = "expanded";
+		buf = const_cast<char*> ("expanded");
 		break;
 	case PANGO_STRETCH_EXTRA_EXPANDED:
-		buf = "extra-expanded";
+		buf = const_cast<char*> ("extra-expanded");
 		break;
 	case PANGO_STRETCH_ULTRA_EXPANDED:
-		buf = "ultra-expanded";
+		buf = const_cast<char*> ("ultra-expanded");
 		break;
 	}
 	if (buf)
@@ -678,13 +678,13 @@ bool Theme::Save (xmlDocPtr xml)
 	buf = NULL;
 	switch (m_TextFontStyle) {
 	case PANGO_STYLE_NORMAL:
-		buf = "normal";
+		buf = const_cast<char*> ("normal");
 		break;
 	case PANGO_STYLE_OBLIQUE:
-		buf = "oblique";
+		buf = const_cast<char*> ("oblique");
 		break;
 	case PANGO_STYLE_ITALIC:
-		buf = "italic";
+		buf = const_cast<char*> ("italic");
 		break;
 	}
 	if (buf)
@@ -692,25 +692,25 @@ bool Theme::Save (xmlDocPtr xml)
 	buf = NULL;
 	switch (m_TextFontWeight) {
 	case PANGO_WEIGHT_ULTRALIGHT:
-		buf = "ultra-light";
+		buf = const_cast<char*> ("ultra-light");
 		break;
 	case PANGO_WEIGHT_LIGHT:
-		buf = "light";
+		buf = const_cast<char*> ("light");
 		break;
 	case PANGO_WEIGHT_NORMAL:
-		buf = "normal";
+		buf = const_cast<char*> ("normal");
 		break;
 	case PANGO_WEIGHT_SEMIBOLD:
-		buf = "semi-bold";
+		buf = const_cast<char*> ("semi-bold");
 		break;
 	case PANGO_WEIGHT_BOLD:
-		buf = "bold";
+		buf = const_cast<char*> ("bold");
 		break;
 	case PANGO_WEIGHT_ULTRABOLD:
-		buf = "ultra-bold";
+		buf = const_cast<char*> ("ultra-bold");
 		break;
 	case PANGO_WEIGHT_HEAVY:
-		buf = "heavy";
+		buf = const_cast<char*> ("heavy");
 		break;
 	}
 	if (buf)
@@ -719,31 +719,31 @@ bool Theme::Save (xmlDocPtr xml)
 	buf = NULL;
 	switch (m_TextFontStretch) {
 	case PANGO_STRETCH_ULTRA_CONDENSED:
-		buf = "ultra-condensed";
+		buf = const_cast<char*> ("ultra-condensed");
 		break;
 	case PANGO_STRETCH_EXTRA_CONDENSED:
-		buf = "extra-condensed";
+		buf = const_cast<char*> ("extra-condensed");
 		break;
 	case PANGO_STRETCH_CONDENSED:
-		buf = "condensed";
+		buf = const_cast<char*> ("condensed");
 		break;
 	case PANGO_STRETCH_SEMI_CONDENSED:
-		buf = "semi-condensed";
+		buf = const_cast<char*> ("semi-condensed");
 		break;
 	case PANGO_STRETCH_NORMAL:
-		buf = "normal";
+		buf = const_cast<char*> ("normal");
 		break;
 	case PANGO_STRETCH_SEMI_EXPANDED:
-		buf = "semi-expanded";
+		buf = const_cast<char*> ("semi-expanded");
 		break;
 	case PANGO_STRETCH_EXPANDED:
-		buf = "expanded";
+		buf = const_cast<char*> ("expanded");
 		break;
 	case PANGO_STRETCH_EXTRA_EXPANDED:
-		buf = "extra-expanded";
+		buf = const_cast<char*> ("extra-expanded");
 		break;
 	case PANGO_STRETCH_ULTRA_EXPANDED:
-		buf = "ultra-expanded";
+		buf = const_cast<char*> ("ultra-expanded");
 		break;
 	}
 	if (buf)

@@ -50,7 +50,7 @@ static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gcp::Window* Wi
 
 static void on_file_new(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnFileNew();
+	Win->OnFileNew ();
 }
 
 static void on_themed_file_new(GtkWidget* widget, gcp::Window* Win)
@@ -60,7 +60,7 @@ static void on_themed_file_new(GtkWidget* widget, gcp::Window* Win)
 
 static void on_file_open(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnFileOpen();
+	Win->OnFileOpen ();
 }
 
 void on_file_save_as(GtkWidget* widget, gcp::Window* Win)
@@ -70,7 +70,7 @@ void on_file_save_as(GtkWidget* widget, gcp::Window* Win)
 
 static void on_file_save(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnSave();
+	Win->OnSave ();
 }
 
 static void on_file_save_as_image(GtkWidget* widget, gcp::Window* Win)
@@ -80,12 +80,12 @@ static void on_file_save_as_image(GtkWidget* widget, gcp::Window* Win)
 
 static void on_properties(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnProperties();
+	Win->OnProperties ();
 }
 
 void on_print(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnPrint();
+	Win->OnPrint ();
 }
 
 static void on_file_close (GtkWidget* widget, gcp::Window *Win)
@@ -100,37 +100,37 @@ static void on_quit (GtkWidget* widget, gcp::Window *Win)
 
 static void on_cut_selection(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnCutSelection();
+	Win->OnCutSelection ();
 }
 
 static void on_copy_selection(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnCopySelection();
+	Win->OnCopySelection ();
 }
 
 static void on_undo(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnUndo();
+	Win->OnUndo ();
 }
 
 static void on_redo(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnRedo();
+	Win->OnRedo ();
 }
 
 static void on_select_all(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnSelectAll();
+	Win->OnSelectAll ();
 }
 
 static void on_paste_selection(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnPasteSelection();
+	Win->OnPasteSelection ();
 }
 
 static void on_delete_selection(GtkWidget* widget, gcp::Window* Win)
 {
-	Win->OnDeleteSelection();
+	Win->OnDeleteSelection ();
 }
 
 static void on_preferences (GtkWidget* widget, gcp::Window* Win)

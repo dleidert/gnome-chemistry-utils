@@ -30,7 +30,7 @@
 #include "theme.h"
 #include "view.h"
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
 
 namespace gcp {
 

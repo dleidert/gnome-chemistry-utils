@@ -101,9 +101,9 @@ static void on_prefs (GtkWidget* widget, gcWindow* Win)
 
 static void on_about (GtkWidget *widget, void *data)
 {
-	char * authors[] = {"Jean Bréfort", NULL};
+	char const *authors[] = {"Jean Bréfort", NULL};
 //	char * documentors[] = {NULL};
-	char * artists[] = {"Nestor Diaz", NULL};
+	char const *artists[] = {"Nestor Diaz", NULL};
 	char license[] = "This program is free software; you can redistribute it and/or\n" 
 		"modify it under the terms of the GNU General Public License as\n"
  		"published by the Free Software Foundation; either version 2 of the\n"
@@ -117,7 +117,7 @@ static void on_about (GtkWidget *widget, void *data)
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
 /* Note to translators: replace the following string with the appropriate credits for you lang */
-	char *translator_credits = _("translator_credits");
+	char const *translator_credits = _("translator_credits");
 	gtk_show_about_dialog (NULL,
 					"name", _("Gnome Crystal"),
 					"authors", authors,
@@ -126,7 +126,7 @@ static void on_about (GtkWidget *widget, void *data)
 					"copyright", _("Copyright © 1999-2007 by Jean Bréfort"),
 					"license", license,
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
-											(const char *)translator_credits : NULL,
+											translator_credits : NULL,
 					"version", VERSION,
 					"website", "http://www.nongnu.org/gchemutils",
 					NULL);

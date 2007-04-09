@@ -32,7 +32,7 @@
 #include "widgetdata.h"
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gcp-canvas-group.h>
-#include <math.h>
+#include <cmath>
 
 #define POSITION_NE 1
 #define POSITION_NW 2
@@ -225,9 +225,9 @@ void Electron::Update(GtkWidget* w)
 
 void Electron::SetSelected(GtkWidget* w, int state)
 {
-	WidgetData* pData = (WidgetData*)g_object_get_data(G_OBJECT(w), "data");
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
-	gchar *color;
+	gchar const *color;
 	
 	switch (state) {	
 	case SelStateUnselected:
@@ -246,18 +246,19 @@ void Electron::SetSelected(GtkWidget* w, int state)
 		color = "black";
 		break;
 	}
-	g_object_set (G_OBJECT(g_object_get_data(G_OBJECT(group), "0")),
+	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "0")),
 				"fill_color", color, NULL);
 	if (m_IsPair)
-		g_object_set (G_OBJECT(g_object_get_data(G_OBJECT(group), "1")),
+		g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "1")),
 					"fill_color", color, NULL);
 }
 	
 xmlNodePtr Electron::Save (xmlDocPtr xml)
 {
-	xmlNodePtr node = xmlNewDocNode(xml, NULL, (xmlChar*)((m_IsPair)? "electron-pair": "electron"), NULL);
+	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) ((m_IsPair)? "electron-pair": "electron"), NULL);
 	char *buf;
 	if (m_Pos) {
+		char const *buf;
 		switch (m_Pos) {
 		case POSITION_NE:
 			buf = "ne";
@@ -302,7 +303,7 @@ xmlNodePtr Electron::Save (xmlDocPtr xml)
 	
 bool Electron::Load (xmlNodePtr node)
 {
-	char *buf = (char*) xmlGetProp(node, (xmlChar*) "position");
+	char *buf = (char*) xmlGetProp (node, (xmlChar*) "position");
 	m_Pos = 0;
 	if (buf) {
 		if (! strcmp (buf, "ne")) {
@@ -332,15 +333,15 @@ bool Electron::Load (xmlNodePtr node)
 		}
 		xmlFree (buf);
 	} else {
-		buf = (char*) xmlGetProp(node, (xmlChar*) "angle");
+		buf = (char*) xmlGetProp (node, (xmlChar*) "angle");
 		if (!buf)
 			return false;
-		sscanf(buf, "%lg", &m_Angle);
+		sscanf (buf, "%lg", &m_Angle);
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp(node, (xmlChar*) "dist");
+	buf = (char*) xmlGetProp (node, (xmlChar*) "dist");
 	if (buf) {
-		sscanf(buf, "%lg", &m_Dist);
+		sscanf (buf, "%lg", &m_Dist);
 		xmlFree (buf);
 	} else
 		m_Dist = 0.;

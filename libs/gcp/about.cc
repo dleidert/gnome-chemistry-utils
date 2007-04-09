@@ -26,12 +26,12 @@
 #include "about.h"
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
-#include <string.h>
+#include <cstring>
 
 void on_about (GtkWidget* widget, void* data)
 {
-	char * authors[] = {"Jean Bréfort", NULL};
-	char * artists[] = {"Nestor Diaz", NULL};
+	char const *authors[] = {"Jean Bréfort", NULL};
+	char const *artists[] = {"Nestor Diaz", NULL};
 //	char * documentors[] = {NULL};
 	char license[] = "This program is free software; you can redistribute it and/or\n" 
 		"modify it under the terms of the GNU General Public License as\n"
@@ -46,7 +46,7 @@ void on_about (GtkWidget* widget, void* data)
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
 /* Note to translators: replace the following string with the appropriate credits for you lang */
-	char *translator_credits = _("translator_credits");
+	char const *translator_credits = _("translator_credits");
 	GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file ( DATADIR"/"PACKAGE"/pixmaps/gchempaint_logo.png", NULL);
 	gtk_show_about_dialog (NULL,
 					"name", "GChemPaint",
@@ -58,7 +58,7 @@ void on_about (GtkWidget* widget, void* data)
 					"logo", pixbuf,
 					"icon-name", "gchempaint",
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
-											(const char *)translator_credits : NULL,
+											translator_credits : NULL,
 					"version", VERSION,
 					"website", "http://www.nongnu.org/gchempaint",
 					NULL);

@@ -29,8 +29,8 @@
 #include <gcp/settings.h>
 #include <gcp/application.h>
 #include <gcp/theme.h>
-#include <math.h>
-#include <string.h>
+#include <cmath>
+#include <cstring>
 #include <canvas/gcp-canvas-group.h>
 
 gcpElementTool::gcpElementTool (gcp::Application *App): gcp::Tool (App, "Element")
