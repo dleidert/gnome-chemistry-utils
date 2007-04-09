@@ -1,3 +1,8 @@
+Version 0.6.4
+	#19523: fixes build issues.
+	fix a crash occuring when submitting an empty
+	formula in the calculator.
+
 Version 0.6.3
 	fixed a serious gcrystal issue.
 	new and updated translations: de fr.
