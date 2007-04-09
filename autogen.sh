@@ -32,7 +32,7 @@ gnome-doc-prepare --force
 
 ## autoheader, automake, autoconf
 autoheader
-automake --gnu
+automake --gnu --missing
 autoconf
 
 ## Job ended
