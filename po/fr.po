@@ -7,13 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-01 15:44+0200\n"
+"POT-Creation-Date: 2007-04-09 10:05+0200\n"
 "PO-Revision-Date: 2007-04-01 15:46+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ../gchemutils.xml.in.h:1
+msgid "Crystalline structure model"
+msgstr "Modèle de structure cristalline"
 
 #: ../glade/gchemcalc.glade.h:1 ../programs/calc/gchemcalc.desktop.in.h:2
 msgid "Chemical calculator"
@@ -929,55 +933,55 @@ msgstr "protium"
 msgid "tritium"
 msgstr "tritium"
 
-#: ../gcu/application.cc:180
+#: ../gcu/application.cc:181
 #, c-format
 msgid "(screen resolution is %u)"
 msgstr "(la résolution de l'écran est %u)"
 
-#: ../gcu/crystaldoc.cc:401
+#: ../gcu/crystaldoc.cc:403
 msgid "Everything has been cleaved"
 msgstr "Tout a été clivé"
 
-#: ../gcu/dialog.cc:124
+#: ../gcu/dialog.cc:125
 msgid "Type a number"
 msgstr "Entrez un nombre"
 
-#: ../gcu/dialog.cc:133
+#: ../gcu/dialog.cc:134
 #, c-format
 msgid "Type a number greater than or equal %g and lower than to %g"
 msgstr "Entrez un nombre plus grand ou égal à %g et plus petit que %g"
 
-#: ../gcu/dialog.cc:143
+#: ../gcu/dialog.cc:144
 #, c-format
 msgid "Type a number greater than %g and lower than or equal to %g"
 msgstr "Entrez un nombre plus grand que %g et plus petit ou égal à %g"
 
-#: ../gcu/dialog.cc:153
+#: ../gcu/dialog.cc:154
 #, c-format
 msgid "Type a number between %g and %g, the limits are valid."
 msgstr "Entrez un nombre entre %g et %g, les limites sont valides"
 
-#: ../gcu/dialog.cc:163
+#: ../gcu/dialog.cc:164
 #, c-format
 msgid "Type a number greater than %g and lower than %g"
 msgstr "Entrez un nombre plus grand que %g et plus petit que %g"
 
-#: ../gcu/dialog.cc:173
+#: ../gcu/dialog.cc:174
 #, c-format
 msgid "Type a number lower than %g"
 msgstr "Entrez un nombre plus petit que %g"
 
-#: ../gcu/dialog.cc:183
+#: ../gcu/dialog.cc:184
 #, c-format
 msgid "Type a number greater than %g"
 msgstr "Entrez un nombre plus grand que %g"
 
-#: ../gcu/dialog.cc:193
+#: ../gcu/dialog.cc:194
 #, c-format
 msgid "Type a number lower than or equal to %g"
 msgstr "Entrez un nombre plus petit ou égal à %g"
 
-#: ../gcu/dialog.cc:203
+#: ../gcu/dialog.cc:204
 #, c-format
 msgid "Type a number greater than or equal to %g"
 msgstr "Entrez un nombre plus grand ou égal à %g"
@@ -1038,11 +1042,6 @@ msgstr "Impossible de trouver et lire isotopes.xml"
 msgid "Incorrect file format: isotopes.xml"
 msgstr "Format de fichier incorrect : isotopes.xml"
 
-#. amu stands for "atomic mass units"
-#: ../gcu/element.cc:867
-msgid "amu"
-msgstr "uma"
-
 #: ../gcu/filechooser.cc:40
 msgid "Save as"
 msgstr "Enregistrer _sous"
@@ -1059,19 +1058,19 @@ msgstr "_Type de fichier :"
 msgid "Automatic"
 msgstr "Automatique"
 
-#: ../gcu/formula.cc:390 ../gcu/formula.cc:428
+#: ../gcu/formula.cc:391 ../gcu/formula.cc:429
 msgid "Unmatched parenthesis"
 msgstr "Parenthèse non appariée"
 
-#: ../gcu/formula.cc:416
+#: ../gcu/formula.cc:417
 msgid "Could not interpret the symbol list"
 msgstr "Impossible d'interpréter la liste de symboles"
 
-#: ../gcu/formula.cc:422
+#: ../gcu/formula.cc:423
 msgid "Parser failed, please fill a bug report."
 msgstr "L'analyseur a échoué, veuillez remplir un rapport de bogue."
 
-#: ../gcu/formula.cc:430
+#: ../gcu/formula.cc:431
 msgid "Invalid character"
 msgstr "Charactère invalide"
 
@@ -1335,15 +1334,15 @@ msgstr "Version de la Calculatrice GChemCalc :"
 msgid " [formula]"
 msgstr "[formule]"
 
-#: ../programs/calc/gchemcalc.cc:503
+#: ../programs/calc/gchemcalc.cc:502
 msgid "For usage see: gchemcalc [-?|--help]"
 msgstr "Pour l'utilisation, voir : gchemcalc [-?|--help]"
 
-#: ../programs/calc/gchemcalc.cc:557
+#: ../programs/calc/gchemcalc.cc:556
 msgid "Element"
 msgstr "Élément"
 
-#: ../programs/calc/gchemcalc.cc:564
+#: ../programs/calc/gchemcalc.cc:563
 msgid "Mass %"
 msgstr "% Masse"
 
@@ -1506,7 +1505,7 @@ msgstr "l"
 msgid "Planes cleaved"
 msgstr "Plans clivés"
 
-#: ../programs/crystal/document.cc:252
+#: ../programs/crystal/document.cc:237
 #, c-format
 msgid ""
 "Could not save file\n"
@@ -1515,7 +1514,7 @@ msgstr ""
 "Erreur lors de la sauvegarde du fichier\n"
 "%s"
 
-#: ../programs/crystal/document.cc:255
+#: ../programs/crystal/document.cc:240
 #, c-format
 msgid ""
 "Could not load file\n"
@@ -1524,7 +1523,7 @@ msgstr ""
 "Erreur lors du chargement du fichier\n"
 "%s"
 
-#: ../programs/crystal/document.cc:258
+#: ../programs/crystal/document.cc:243
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
@@ -1533,12 +1532,12 @@ msgstr ""
 "%s: fichier xml incorrect.\n"
 "L'arborescence est vide ?"
 
-#: ../programs/crystal/document.cc:261
+#: ../programs/crystal/document.cc:246
 #, c-format
 msgid "%s: invalid file format."
 msgstr "%s: format de fichier incorrect."
 
-#: ../programs/crystal/document.cc:609
+#: ../programs/crystal/document.cc:594
 #, c-format
 msgid "\"%s\" has been modified.  Do you wish to save it?"
 msgstr "``%s'' a été modifié? Voulez-vous le sauvegarder ?"
@@ -1804,43 +1803,43 @@ msgid "Name"
 msgstr "Nom"
 
 #: ../programs/table/gchemtable-elt.cc:109
-#: ../programs/table/gchemtable-elt.cc:153
-#: ../programs/table/gchemtable-elt.cc:189
-#: ../programs/table/gchemtable-elt.cc:212
-#: ../programs/table/gchemtable-elt.cc:226
-#: ../programs/table/gchemtable-elt.cc:240
-#: ../programs/table/gchemtable-elt.cc:262
+#: ../programs/table/gchemtable-elt.cc:152
+#: ../programs/table/gchemtable-elt.cc:188
+#: ../programs/table/gchemtable-elt.cc:211
+#: ../programs/table/gchemtable-elt.cc:225
+#: ../programs/table/gchemtable-elt.cc:239
+#: ../programs/table/gchemtable-elt.cc:261
 msgid "n.a."
 msgstr "n.d."
 
 #: ../programs/table/gchemtable-elt.cc:121
-#: ../programs/table/gchemtable-elt.cc:163
+#: ../programs/table/gchemtable-elt.cc:162
 #, c-format
 msgid "%d:"
 msgstr "%d :"
 
-#: ../programs/table/gchemtable-elt.cc:274
+#: ../programs/table/gchemtable-elt.cc:273
 msgid "Ion"
 msgstr "Ion"
 
 #. C.N. stands for coordination number
-#: ../programs/table/gchemtable-elt.cc:281
+#: ../programs/table/gchemtable-elt.cc:280
 msgid "C.N."
 msgstr "I.C."
 
-#: ../programs/table/gchemtable-elt.cc:286
+#: ../programs/table/gchemtable-elt.cc:285
 msgid "Spin"
 msgstr "Spin"
 
-#: ../programs/table/gchemtable-elt.cc:293
+#: ../programs/table/gchemtable-elt.cc:292
 msgid "Value"
 msgstr "Valeur"
 
-#: ../programs/table/gchemtable-elt.cc:312
+#: ../programs/table/gchemtable-elt.cc:311
 msgid "Low"
 msgstr "Bas"
 
-#: ../programs/table/gchemtable-elt.cc:315
+#: ../programs/table/gchemtable-elt.cc:314
 msgid "High"
 msgstr "Haut"
 
@@ -1910,3 +1909,6 @@ msgstr "Température d'ébullition"
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "Tableau de Mendeleiev des éléments chimiques"
+
+#~ msgid "amu"
+#~ msgstr "uma"

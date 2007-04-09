@@ -1,4 +1,5 @@
 [encoding: UTF-8]
+gchemutils.xml.in
 glade/gchemcalc.glade
 glade/gtkperiodic.glade
 glade/image-size.glade

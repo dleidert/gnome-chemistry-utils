@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: added missing file.
+	* fr.po: translate the new string.
+
 2007-04-09 Costantino
 	* Updated Italian translation.
 
