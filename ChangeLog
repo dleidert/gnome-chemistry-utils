@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* templates/Makefile.am: new subtree.
+	* templates/paint/Makefile.am: copied from GChemPaint.
+	* templates/paint/templates.xml.in: ditto.
+
 2007-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: removed some old tests (gcc < 0.3 not
 	anymore supported).

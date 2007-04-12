@@ -1,0 +1,2052 @@
+<templates>
+	<template>
+		<_name>Benzene</_name>
+		<_category>Aromatic hydrocarbons</_category>
+		<molecule id="m1">
+		<atom id="a1" element="C">
+			<position x="12" y="222"/>
+		</atom>
+		<atom id="a2" element="C">
+			<position x="12" y="82"/>
+		</atom>
+		<atom id="a3" element="C">
+			<position x="133" y="12"/>
+		</atom>
+		<atom id="a4" element="C">
+			<position x="254" y="82"/>
+		</atom>
+		<atom id="a5" element="C">
+			<position x="254" y="222"/>
+		</atom>
+		<atom id="a6" element="C">
+		<position x="133" y="292"/>
+		</atom>
+			<bond id="b1" order="1" begin="a1" end="a2"/>
+			<bond id="b2" order="2" begin="a2" end="a3"/>
+			<bond id="b3" order="1" begin="a3" end="a4"/>
+			<bond id="b4" order="2" begin="a4" end="a5"/>
+			<bond id="b5" order="1" begin="a5" end="a6"/>
+			<bond id="b6" order="2" begin="a6" end="a1"/>
+		</molecule>
+	</template>
+  <template>
+    <_category>Aromatic hydrocarbons</_category>
+    <_name>Naphtalene</_name>
+    <molecule id="m3">
+      <atom id="a1" element="C">
+        <position x="496" y="222"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="496" y="82"/>
+      </atom>
+      <atom id="a21" element="C">
+        <position x="254" y="222"/>
+      </atom>
+      <atom id="a22" element="C">
+        <position x="254" y="82"/>
+      </atom>
+      <atom id="a23" element="C">
+        <position x="133" y="12"/>
+      </atom>
+      <atom id="a24" element="C">
+        <position x="12" y="82"/>
+      </atom>
+      <atom id="a25" element="C">
+        <position x="12" y="222"/>
+      </atom>
+      <atom id="a26" element="C">
+        <position x="133" y="292"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="375" y="12"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="375" y="292"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b23" order="1" begin="a21" end="a22"/>
+      <bond id="b24" order="2" begin="a22" end="a23"/>
+      <bond id="b25" order="1" begin="a23" end="a24"/>
+      <bond id="b26" order="2" begin="a24" end="a25"/>
+      <bond id="b27" order="1" begin="a25" end="a26"/>
+      <bond id="b28" order="2" begin="a26" end="a21"/>
+      <bond id="b3" order="1" begin="a3" end="a22"/>
+      <bond id="b5" order="1" begin="a21" end="a6"/>
+      <bond id="b6" order="2" begin="a6" end="a1"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Aromatic hydrocarbons</_category>
+    <_name>Anthracene</_name>
+    <molecule id="m1">
+      <atom id="a10" element="C">
+        <position x="617,487" y="12"/>
+      </atom>
+      <atom id="a11" element="C">
+        <position x="254,121" y="222"/>
+      </atom>
+      <atom id="a12" element="C">
+        <position x="375,244" y="12"/>
+      </atom>
+      <atom id="a13" element="C">
+        <position x="254,121" y="82"/>
+      </atom>
+      <atom id="a14" element="C">
+        <position x="133" y="12"/>
+      </atom>
+      <atom id="a15" element="C">
+        <position x="12" y="82"/>
+      </atom>
+      <atom id="a16" element="C">
+        <position x="12" y="222"/>
+      </atom>
+      <atom id="a17" element="C">
+        <position x="133" y="292"/>
+      </atom>
+      <atom id="a18" element="C">
+        <position x="375,244" y="292"/>
+      </atom>
+      <atom id="a19" element="C">
+        <position x="496,365" y="222"/>
+      </atom>
+      <atom id="a20" element="C">
+        <position x="496,365" y="82"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="617,487" y="292"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="738,735" y="222"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="738,735" y="82"/>
+      </atom>
+      <bond id="b10" order="2" begin="a9" end="a10"/>
+      <bond id="b11" order="1" begin="a10" end="a20"/>
+      <bond id="b12" order="1" begin="a11" end="a13"/>
+      <bond id="b13" order="2" begin="a20" end="a12"/>
+      <bond id="b14" order="1" begin="a12" end="a13"/>
+      <bond id="b15" order="2" begin="a13" end="a14"/>
+      <bond id="b16" order="1" begin="a14" end="a15"/>
+      <bond id="b17" order="2" begin="a15" end="a16"/>
+      <bond id="b18" order="1" begin="a16" end="a17"/>
+      <bond id="b19" order="2" begin="a17" end="a11"/>
+      <bond id="b20" order="1" begin="a11" end="a18"/>
+      <bond id="b21" order="2" begin="a18" end="a19"/>
+      <bond id="b22" order="1" begin="a19" end="a20"/>
+      <bond id="b7" order="1" begin="a19" end="a7"/>
+      <bond id="b8" order="2" begin="a7" end="a8"/>
+      <bond id="b9" order="1" begin="a8" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Aromatic hydrocarbons</_category>
+    <_name>Phenanthrene</_name>
+    <molecule id="m1">
+      <atom id="a1" element="C">
+        <position x="496" y="432"/>
+      </atom>
+      <atom id="a21" element="C">
+        <position x="254" y="432"/>
+      </atom>
+      <atom id="a22" element="C">
+        <position x="254" y="292"/>
+      </atom>
+      <atom id="a23" element="C">
+        <position x="133" y="222"/>
+      </atom>
+      <atom id="a24" element="C">
+        <position x="12" y="292"/>
+      </atom>
+      <atom id="a25" element="C">
+        <position x="12" y="432"/>
+      </atom>
+      <atom id="a26" element="C">
+        <position x="133" y="502"/>
+      </atom>
+      <atom id="a27" element="C">
+        <position x="496" y="12"/>
+      </atom>
+      <atom id="a28" element="C">
+        <position x="617" y="82"/>
+      </atom>
+      <atom id="a29" element="C">
+        <position x="617" y="222"/>
+      </atom>
+      <atom id="a30" element="C">
+        <position x="496" y="292"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="375" y="222"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="375" y="82"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="375" y="502"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a30"/>
+      <bond id="b23" order="1" begin="a21" end="a22"/>
+      <bond id="b24" order="2" begin="a22" end="a23"/>
+      <bond id="b25" order="1" begin="a23" end="a24"/>
+      <bond id="b26" order="2" begin="a24" end="a25"/>
+      <bond id="b27" order="1" begin="a25" end="a26"/>
+      <bond id="b28" order="2" begin="a26" end="a21"/>
+      <bond id="b29" order="2" begin="a5" end="a27"/>
+      <bond id="b3" order="1" begin="a4" end="a22"/>
+      <bond id="b30" order="1" begin="a27" end="a28"/>
+      <bond id="b31" order="2" begin="a28" end="a29"/>
+      <bond id="b32" order="1" begin="a29" end="a30"/>
+      <bond id="b33" order="2" begin="a30" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a21" end="a6"/>
+      <bond id="b6" order="2" begin="a6" end="a1"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Aromatic hydrocarbons</_category>
+    <_name>Pyrene</_name>
+    <molecule id="m1">
+      <atom id="a1" element="C">
+        <position x="496" y="432"/>
+      </atom>
+      <atom id="a21" element="C">
+        <position x="254" y="432"/>
+      </atom>
+      <atom id="a22" element="C">
+        <position x="254" y="292"/>
+      </atom>
+      <atom id="a23" element="C">
+        <position x="133" y="222"/>
+      </atom>
+      <atom id="a24" element="C">
+        <position x="12" y="292"/>
+      </atom>
+      <atom id="a25" element="C">
+        <position x="12" y="432"/>
+      </atom>
+      <atom id="a26" element="C">
+        <position x="133" y="502"/>
+      </atom>
+      <atom id="a27" element="C">
+        <position x="496" y="12"/>
+      </atom>
+      <atom id="a28" element="C">
+        <position x="617" y="82"/>
+      </atom>
+      <atom id="a29" element="C">
+        <position x="617" y="222"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="133" y="82"/>
+      </atom>
+      <atom id="a30" element="C">
+        <position x="496" y="292"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="375" y="222"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="375" y="82"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="375" y="502"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="254" y="12"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a30"/>
+      <bond id="b2" order="1" begin="a23" end="a3"/>
+      <bond id="b23" order="1" begin="a21" end="a22"/>
+      <bond id="b24" order="2" begin="a22" end="a23"/>
+      <bond id="b25" order="1" begin="a23" end="a24"/>
+      <bond id="b26" order="2" begin="a24" end="a25"/>
+      <bond id="b27" order="1" begin="a25" end="a26"/>
+      <bond id="b28" order="2" begin="a26" end="a21"/>
+      <bond id="b29" order="2" begin="a5" end="a27"/>
+      <bond id="b3" order="1" begin="a4" end="a22"/>
+      <bond id="b30" order="1" begin="a27" end="a28"/>
+      <bond id="b31" order="2" begin="a28" end="a29"/>
+      <bond id="b32" order="1" begin="a29" end="a30"/>
+      <bond id="b33" order="2" begin="a30" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a21" end="a6"/>
+      <bond id="b6" order="2" begin="a6" end="a1"/>
+      <bond id="b7" order="2" begin="a3" end="a7"/>
+      <bond id="b8" order="1" begin="a7" end="a5"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Aromatic hydrocarbons</_category>
+    <_name>Azulene</_name>
+    <molecule id="m1">
+      <atom id="a10" element="C">
+        <position x="72,75" y="43,153"/>
+      </atom>
+      <atom id="a11" element="C">
+        <position x="12" y="169,289"/>
+      </atom>
+      <atom id="a12" element="C">
+        <position x="72,75" y="295,425"/>
+      </atom>
+      <atom id="a13" element="C">
+        <position x="209,24" y="326,578"/>
+      </atom>
+      <atom id="a14" element="C">
+        <position x="451,84" y="282,551"/>
+      </atom>
+      <atom id="a15" element="C">
+        <position x="534,13" y="169,289"/>
+      </atom>
+      <atom id="a16" element="C">
+        <position x="451,84" y="56,027"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="318,69" y="239,289"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="318,69" y="99,289"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="209,24" y="12"/>
+      </atom>
+      <bond id="b10" order="2" begin="a8" end="a9"/>
+      <bond id="b11" order="1" begin="a9" end="a10"/>
+      <bond id="b12" order="2" begin="a10" end="a11"/>
+      <bond id="b13" order="1" begin="a11" end="a12"/>
+      <bond id="b14" order="2" begin="a12" end="a13"/>
+      <bond id="b15" order="1" begin="a13" end="a2"/>
+      <bond id="b16" order="2" begin="a2" end="a14"/>
+      <bond id="b17" order="1" begin="a14" end="a15"/>
+      <bond id="b18" order="2" begin="a15" end="a16"/>
+      <bond id="b19" order="1" begin="a16" end="a8"/>
+      <bond id="b9" order="1" begin="a2" end="a8"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Glycine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="471,73" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="350,49" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="350,49" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="229,24" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="108" y="184"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Alanine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="471,73" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="350,49" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="350,49" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="229,24" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="108" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="229,24" y="394"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Serine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="471,73" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="350,49" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="350,49" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="229,24" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="108" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="229,24" y="394"/>
+      </atom>
+      <atom id="a7" element="O">
+        <position x="107,996" y="464"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Leucine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="496,977" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="375,737" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="375,737" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="254,487" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="133,247" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="254,487" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="133,243" y="464"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="133,243" y="604"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="12" y="394"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a7" end="a7"/>
+      <bond id="b9" order="1" begin="a7" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Valine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="471,73" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="350,49" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="350,49" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="229,24" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="108" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="229,24" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="107,996" y="464"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="350,484" y="464"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a6" end="a8"/>
+      <bond id="b8" order="1" begin="a7" end="a7"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Isoleucine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="471,73" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="350,49" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="350,49" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="229,24" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="108" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="229,24" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="107,996" y="464"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="350,484" y="464"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="107,996" y="604"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a6" end="a8" type="up"/>
+      <bond id="b8" order="1" begin="a7" end="a7"/>
+      <bond id="b9" order="1" begin="a7" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Methionine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="496,977" y="254"/>
+      </atom>
+      <atom id="a10" element="C">
+        <position x="12" y="674"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="375,737" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="375,737" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="254,487" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="133,247" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="254,487" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="133,243" y="464"/>
+      </atom>
+      <atom id="a9" element="S">
+        <position x="133,243" y="604"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a9" end="a10"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b8" order="1" begin="a7" end="a7"/>
+      <bond id="b9" order="1" begin="a7" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Proline</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="479,769" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="358,529" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="358,529" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="237,279" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="116,039" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="208,17" y="390,937"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="68,94" y="405,569"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="12" y="277,675"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a8"/>
+      <bond id="b7" order="1" begin="a8" end="a9"/>
+      <bond id="b9" order="1" begin="a9" end="a5"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Phenylalanine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="618,226" y="254"/>
+      </atom>
+      <atom id="a10" element="C">
+        <position x="12" y="604"/>
+      </atom>
+      <atom id="a11" element="C">
+        <position x="12" y="464"/>
+      </atom>
+      <atom id="a12" element="C">
+        <position x="133,244" y="394"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="496,981" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="496,981" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="375,731" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="254,491" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="375,731" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="254,487" y="464"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="254,487" y="604"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="133,244" y="674"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="2" begin="a10" end="a11"/>
+      <bond id="b11" order="1" begin="a11" end="a12"/>
+      <bond id="b12" order="2" begin="a12" end="a7"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b8" order="2" begin="a8" end="a9"/>
+      <bond id="b9" order="1" begin="a9" end="a10"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Tryptophan</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="664,458" y="254"/>
+      </atom>
+      <atom id="a10" element="N">
+        <position x="80" y="514,957"/>
+      </atom>
+      <atom id="a11" element="C">
+        <position x="171,849" y="409,298"/>
+      </atom>
+      <atom id="a12" element="C">
+        <position x="383,998" y="705,857"/>
+      </atom>
+      <atom id="a13" element="C">
+        <position x="343,068" y="839,739"/>
+      </atom>
+      <atom id="a14" element="C">
+        <position x="206,654" y="871,23"/>
+      </atom>
+      <atom id="a15" element="C">
+        <position x="111,174" y="768,843"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="543,208" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="543,208" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="421,968" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="300,718" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="421,968" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="300,718" y="464"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="288,518" y="603,467"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="152,106" y="634,96"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a10" end="a11"/>
+      <bond id="b11" order="2" begin="a11" end="a7"/>
+      <bond id="b12" order="2" begin="a8" end="a12"/>
+      <bond id="b13" order="1" begin="a12" end="a13"/>
+      <bond id="b14" order="2" begin="a13" end="a14"/>
+      <bond id="b15" order="1" begin="a14" end="a15"/>
+      <bond id="b16" order="2" begin="a15" end="a9"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a8" end="a9"/>
+      <bond id="b9" order="1" begin="a9" end="a10"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Threonine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="471,735" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="350,49" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="350,49" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="229,24" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="108" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="229,24" y="394"/>
+      </atom>
+      <atom id="a7" element="O">
+        <position x="107,996" y="464"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="350,484" y="464"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7" type="up"/>
+      <bond id="b7" order="1" begin="a6" end="a8"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Asparagine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="592,982" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="471,737" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="471,737" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="350,487" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="229,247" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="350,487" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="229,243" y="464"/>
+      </atom>
+      <atom id="a8" element="O">
+        <position x="229,243" y="604"/>
+      </atom>
+      <atom id="a9" element="N">
+        <position x="108" y="394"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="2" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a7" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Glutamine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="602,488" y="258"/>
+      </atom>
+      <atom id="a10" element="N">
+        <position x="117,511" y="678"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="481,249" y="188"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="481,249" y="48"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="359,999" y="258"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="238,759" y="188"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="359,999" y="398"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="238,755" y="468"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="238,755" y="608"/>
+      </atom>
+      <atom id="a9" element="O">
+        <position x="359,998" y="678"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a8" end="a10"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a7" end="a7"/>
+      <bond id="b9" order="2" begin="a8" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Tyrosine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="807,467" y="254"/>
+      </atom>
+      <atom id="a10" element="C">
+        <position x="201,244" y="604"/>
+      </atom>
+      <atom id="a11" element="C">
+        <position x="201,244" y="464"/>
+      </atom>
+      <atom id="a12" element="C">
+        <position x="322,488" y="394"/>
+      </atom>
+      <atom id="a13" element="O">
+        <position x="80" y="674"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="686,227" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="686,227" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="564,977" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="443,735" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="564,977" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="443,731" y="464"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="443,731" y="604"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="322,488" y="674"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="2" begin="a10" end="a11"/>
+      <bond id="b11" order="1" begin="a11" end="a12"/>
+      <bond id="b12" order="2" begin="a12" end="a7"/>
+      <bond id="b13" order="1" begin="a10" end="a13"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b8" order="2" begin="a8" end="a9"/>
+      <bond id="b9" order="1" begin="a9" end="a10"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Cysteine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="471,73" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="350,49" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="350,49" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="229,24" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="108" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="229,24" y="394"/>
+      </atom>
+      <atom id="a7" element="S">
+        <position x="107,996" y="464"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Aspartic acid</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="564,981" y="254"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="443,741" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="443,741" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="322,487" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="201,247" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="322,487" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="201,243" y="464"/>
+      </atom>
+      <atom id="a8" element="O">
+        <position x="201,243" y="604"/>
+      </atom>
+      <atom id="a9" element="O">
+        <position x="80" y="394"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="2" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a7" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Lysine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="523,244" y="257"/>
+      </atom>
+      <atom id="a10" element="N">
+        <position x="38,267" y="817"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="402,005" y="187"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="402,005" y="47"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="280,755" y="257"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="159,515" y="187"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="280,755" y="397"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="159,511" y="467"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="159,511" y="607"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="38,267" y="677"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a9" end="a10"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a7" end="a7"/>
+      <bond id="b9" order="1" begin="a8" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Arginine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="686,219" y="255,25"/>
+      </atom>
+      <atom id="a10" element="C">
+        <position x="201,244" y="815,25"/>
+      </atom>
+      <atom id="a11" element="N">
+        <position x="322,488" y="885,25"/>
+      </atom>
+      <atom id="a12" element="N">
+        <position x="80" y="885,25"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="564,982" y="185,25"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="564,982" y="45,25"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="443,732" y="255,25"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="322,492" y="185,25"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="443,732" y="395,25"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="322,488" y="465,25"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="322,488" y="605,25"/>
+      </atom>
+      <atom id="a9" element="N">
+        <position x="201,244" y="675,25"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a9" end="a10"/>
+      <bond id="b11" order="1" begin="a10" end="a11"/>
+      <bond id="b12" order="2" begin="a10" end="a12"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b9" order="1" begin="a8" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Histidine</_name>
+    <molecule id="m5">
+      <atom id="a1" element="O">
+        <position x="616,459" y="254"/>
+      </atom>
+      <atom id="a10" element="N">
+        <position x="32" y="514,957"/>
+      </atom>
+      <atom id="a11" element="C">
+        <position x="123,849" y="409,298"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="495,208" y="184"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="495,208" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="373,968" y="254"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="252,718" y="184"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="373,968" y="394"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="252,718" y="464"/>
+      </atom>
+      <atom id="a8" element="N">
+        <position x="240,518" y="603,467"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="104,106" y="634,96"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a10" end="a11"/>
+      <bond id="b11" order="2" begin="a11" end="a7"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a8" end="a9"/>
+      <bond id="b9" order="2" begin="a9" end="a10"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Amino acids</_category>
+    <_name>Glutamic acid</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="567,244" y="255"/>
+      </atom>
+      <atom id="a10" element="O">
+        <position x="82,267" y="675"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="446,005" y="185"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="446,005" y="45"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="324,755" y="255"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="203,515" y="185"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="324,755" y="395"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="203,511" y="465"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="203,511" y="605"/>
+      </atom>
+      <atom id="a9" element="O">
+        <position x="324,754" y="675"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a8" end="a10"/>
+      <bond id="b2" order="2" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a4" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="1" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a7" end="a7"/>
+      <bond id="b9" order="2" begin="a8" end="a9"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleic bases</_category>
+    <_name>Thymine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="N">
+        <position x="153,244" y="254"/>
+      </atom>
+      <atom id="a13" element="O">
+        <position x="32" y="464"/>
+      </atom>
+      <atom id="a14" element="O">
+        <position x="274,488" y="44"/>
+      </atom>
+      <atom id="a15" element="C">
+        <position x="516,975" y="184"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="274,488" y="184"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="395,731" y="254"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="395,731" y="394"/>
+      </atom>
+      <atom id="a5" element="N">
+        <position x="274,488" y="464"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="153,244" y="394"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b13" order="2" begin="a6" end="a13"/>
+      <bond id="b14" order="2" begin="a2" end="a14"/>
+      <bond id="b15" order="1" begin="a3" end="a15"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="2" begin="a3" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a5" end="a6"/>
+      <bond id="b6" order="1" begin="a6" end="a1"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleic bases</_category>
+    <_name>Uracil</_name>
+    <molecule id="m3">
+      <atom id="a16" element="N">
+        <position x="153,25" y="254"/>
+      </atom>
+      <atom id="a17" element="O">
+        <position x="32" y="464"/>
+      </atom>
+      <atom id="a18" element="O">
+        <position x="274,49" y="44"/>
+      </atom>
+      <atom id="a20" element="C">
+        <position x="274,49" y="184"/>
+      </atom>
+      <atom id="a21" element="C">
+        <position x="395,73" y="254"/>
+      </atom>
+      <atom id="a22" element="C">
+        <position x="395,73" y="394"/>
+      </atom>
+      <atom id="a23" element="N">
+        <position x="274,49" y="464"/>
+      </atom>
+      <atom id="a24" element="C">
+        <position x="153,25" y="394"/>
+      </atom>
+      <bond id="b16" order="1" begin="a16" end="a20"/>
+      <bond id="b17" order="2" begin="a24" end="a17"/>
+      <bond id="b18" order="2" begin="a20" end="a18"/>
+      <bond id="b20" order="1" begin="a20" end="a21"/>
+      <bond id="b21" order="2" begin="a21" end="a22"/>
+      <bond id="b22" order="1" begin="a22" end="a23"/>
+      <bond id="b23" order="1" begin="a23" end="a24"/>
+      <bond id="b24" order="1" begin="a24" end="a16"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleic bases</_category>
+    <_name>Cytosine</_name>
+    <molecule id="m2">
+      <atom id="a10" element="C">
+        <position x="389,16" y="394"/>
+      </atom>
+      <atom id="a11" element="N">
+        <position x="267,92" y="464"/>
+      </atom>
+      <atom id="a12" element="C">
+        <position x="146,68" y="394"/>
+      </atom>
+      <atom id="a19" element="O">
+        <position x="32" y="474,301"/>
+      </atom>
+      <atom id="a25" element="N">
+        <position x="267,92" y="44"/>
+      </atom>
+      <atom id="a7" element="N">
+        <position x="146,68" y="254"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="267,92" y="184"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="389,16" y="254"/>
+      </atom>
+      <bond id="b10" order="1" begin="a10" end="a11"/>
+      <bond id="b11" order="1" begin="a11" end="a12"/>
+      <bond id="b12" order="1" begin="a12" end="a7"/>
+      <bond id="b19" order="2" begin="a12" end="a19"/>
+      <bond id="b25" order="1" begin="a8" end="a25"/>
+      <bond id="b7" order="2" begin="a7" end="a8"/>
+      <bond id="b8" order="1" begin="a8" end="a9"/>
+      <bond id="b9" order="2" begin="a9" end="a10"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleic bases</_category>
+    <_name>Adenine</_name>
+    <molecule id="m4">
+      <atom id="a26" element="C">
+        <position x="229,75" y="254"/>
+      </atom>
+      <atom id="a27" element="C">
+        <position x="350,994" y="184"/>
+      </atom>
+      <atom id="a28" element="N">
+        <position x="472,24" y="254"/>
+      </atom>
+      <atom id="a29" element="C">
+        <position x="472,24" y="394"/>
+      </atom>
+      <atom id="a30" element="N">
+        <position x="350,994" y="464"/>
+      </atom>
+      <atom id="a31" element="C">
+        <position x="229,75" y="394"/>
+      </atom>
+      <atom id="a32" element="N">
+        <position x="98,193" y="441,88"/>
+      </atom>
+      <atom id="a33" element="C">
+        <position x="12" y="331,56"/>
+      </atom>
+      <atom id="a34" element="N">
+        <position x="90,287" y="215,5"/>
+      </atom>
+      <atom id="a44" element="N">
+        <position x="350,994" y="44"/>
+      </atom>
+      <bond id="b26" order="1" begin="a26" end="a27"/>
+      <bond id="b27" order="2" begin="a27" end="a28"/>
+      <bond id="b28" order="1" begin="a28" end="a29"/>
+      <bond id="b29" order="2" begin="a29" end="a30"/>
+      <bond id="b30" order="1" begin="a30" end="a31"/>
+      <bond id="b31" order="2" begin="a31" end="a26"/>
+      <bond id="b32" order="1" begin="a31" end="a32"/>
+      <bond id="b33" order="1" begin="a32" end="a33"/>
+      <bond id="b34" order="2" begin="a33" end="a34"/>
+      <bond id="b35" order="1" begin="a34" end="a26"/>
+      <bond id="b46" order="1" begin="a27" end="a44"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleic bases</_category>
+    <_name>Guanine</_name>
+    <molecule id="m5">
+      <atom id="a35" element="C">
+        <position x="229,75" y="254"/>
+      </atom>
+      <atom id="a36" element="C">
+        <position x="350,99" y="184"/>
+      </atom>
+      <atom id="a37" element="N">
+        <position x="472,24" y="254"/>
+      </atom>
+      <atom id="a38" element="C">
+        <position x="472,24" y="394"/>
+      </atom>
+      <atom id="a39" element="N">
+        <position x="350,99" y="464"/>
+      </atom>
+      <atom id="a40" element="C">
+        <position x="229,75" y="394"/>
+      </atom>
+      <atom id="a41" element="N">
+        <position x="98,19" y="441,88"/>
+      </atom>
+      <atom id="a42" element="C">
+        <position x="12" y="331,56"/>
+      </atom>
+      <atom id="a43" element="N">
+        <position x="90,29" y="215,5"/>
+      </atom>
+      <atom id="a45" element="O">
+        <position x="350,99" y="44"/>
+      </atom>
+      <atom id="a46" element="N">
+        <position x="593,48" y="464"/>
+      </atom>
+      <bond id="b36" order="1" begin="a35" end="a36"/>
+      <bond id="b37" order="1" begin="a36" end="a37"/>
+      <bond id="b38" order="2" begin="a37" end="a38"/>
+      <bond id="b39" order="1" begin="a38" end="a39"/>
+      <bond id="b40" order="1" begin="a39" end="a40"/>
+      <bond id="b41" order="2" begin="a40" end="a35"/>
+      <bond id="b42" order="1" begin="a40" end="a41"/>
+      <bond id="b43" order="1" begin="a41" end="a42"/>
+      <bond id="b44" order="2" begin="a42" end="a43"/>
+      <bond id="b45" order="1" begin="a43" end="a35"/>
+      <bond id="b47" order="2" begin="a36" end="a45"/>
+      <bond id="b48" order="1" begin="a38" end="a46"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleosides</_category>
+    <_name>Uridine</_name>
+    <molecule id="m1">
+      <atom id="a1" element="O">
+        <position x="441,72" y="403,69"/>
+      </atom>
+      <atom id="a10" element="O">
+        <position x="80" y="443,878"/>
+      </atom>
+      <atom id="a11" element="C">
+        <position x="663,648" y="254"/>
+      </atom>
+      <atom id="a12" element="N">
+        <position x="784,89" y="184"/>
+      </atom>
+      <atom id="a13" element="C">
+        <position x="906,13" y="254"/>
+      </atom>
+      <atom id="a14" element="C">
+        <position x="906,13" y="394"/>
+      </atom>
+      <atom id="a15" element="C">
+        <position x="784,89" y="464"/>
+      </atom>
+      <atom id="a16" element="O">
+        <position x="542,404" y="184"/>
+      </atom>
+      <atom id="a17" element="O">
+        <position x="1020,82" y="173,7"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="556,401" y="483,991"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="515,469" y="617,873"/>
+      </atom>
+      <atom id="a37" element="H">
+        <position x="784,89" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="375,491" y="620,317"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="329,911" y="487,944"/>
+      </atom>
+      <atom id="a6" element="O">
+        <position x="585,469" y="739,117"/>
+      </atom>
+      <atom id="a7" element="O">
+        <position x="305,491" y="741,56"/>
+      </atom>
+      <atom id="a8" element="N">
+        <position x="663,648" y="394"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="215,23" y="407,643"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a9" end="a10"/>
+      <bond id="b11" order="1" begin="a8" end="a11"/>
+      <bond id="b12" order="1" begin="a11" end="a12"/>
+      <bond id="b13" order="1" begin="a12" end="a13"/>
+      <bond id="b14" order="1" begin="a13" end="a14"/>
+      <bond id="b15" order="2" begin="a14" end="a15"/>
+      <bond id="b16" order="1" begin="a15" end="a8"/>
+      <bond id="b17" order="2" begin="a11" end="a16"/>
+      <bond id="b18" order="2" begin="a13" end="a17"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b39" order="1" begin="a12" end="a37"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="1" begin="a5" end="a1"/>
+      <bond id="b6" order="1" begin="a6" end="a3" type="down"/>
+      <bond id="b7" order="1" begin="a7" end="a4" type="down"/>
+      <bond id="b8" order="1" begin="a2" end="a8" type="up"/>
+      <bond id="b9" order="1" begin="a5" end="a9" type="up"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleosides</_category>
+    <_name>Cytidine</_name>
+    <molecule id="m2">
+      <atom id="a31" element="O">
+        <position x="441,72" y="273,99"/>
+      </atom>
+      <atom id="a38" element="O">
+        <position x="80" y="314,178"/>
+      </atom>
+      <atom id="a39" element="C">
+        <position x="663,65" y="124,3"/>
+      </atom>
+      <atom id="a40" element="N">
+        <position x="784,89" y="54,3"/>
+      </atom>
+      <atom id="a41" element="C">
+        <position x="906,13" y="124,3"/>
+      </atom>
+      <atom id="a42" element="C">
+        <position x="906,13" y="264,3"/>
+      </atom>
+      <atom id="a43" element="C">
+        <position x="784,89" y="334,3"/>
+      </atom>
+      <atom id="a44" element="O">
+        <position x="542,4" y="54,3"/>
+      </atom>
+      <atom id="a45" element="N">
+        <position x="1020,82" y="44"/>
+      </atom>
+      <atom id="a46" element="C">
+        <position x="556,4" y="354,291"/>
+      </atom>
+      <atom id="a47" element="C">
+        <position x="515,47" y="488,173"/>
+      </atom>
+      <atom id="a49" element="C">
+        <position x="375,49" y="490,617"/>
+      </atom>
+      <atom id="a50" element="C">
+        <position x="329,91" y="358,244"/>
+      </atom>
+      <atom id="a51" element="O">
+        <position x="585,47" y="609,42"/>
+      </atom>
+      <atom id="a52" element="O">
+        <position x="305,49" y="611,86"/>
+      </atom>
+      <atom id="a53" element="N">
+        <position x="663,65" y="264,3"/>
+      </atom>
+      <atom id="a54" element="C">
+        <position x="215,23" y="277,943"/>
+      </atom>
+      <bond id="b33" order="1" begin="a31" end="a46"/>
+      <bond id="b40" order="1" begin="a54" end="a38"/>
+      <bond id="b41" order="1" begin="a53" end="a39"/>
+      <bond id="b42" order="1" begin="a39" end="a40"/>
+      <bond id="b43" order="2" begin="a40" end="a41"/>
+      <bond id="b44" order="1" begin="a41" end="a42"/>
+      <bond id="b45" order="2" begin="a42" end="a43"/>
+      <bond id="b46" order="1" begin="a43" end="a53"/>
+      <bond id="b47" order="2" begin="a39" end="a44"/>
+      <bond id="b48" order="1" begin="a41" end="a45"/>
+      <bond id="b49" order="1" begin="a46" end="a47"/>
+      <bond id="b50" order="1" begin="a47" end="a49"/>
+      <bond id="b52" order="1" begin="a49" end="a50"/>
+      <bond id="b53" order="1" begin="a50" end="a31"/>
+      <bond id="b54" order="1" begin="a51" end="a47" type="down"/>
+      <bond id="b55" order="1" begin="a52" end="a49" type="down"/>
+      <bond id="b56" order="1" begin="a46" end="a53" type="up"/>
+      <bond id="b57" order="1" begin="a50" end="a54" type="up"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleosides</_category>
+    <_name>Deoxythymidine</_name>
+    <molecule id="m3">
+      <atom id="a18" element="O">
+        <position x="441,72" y="403,69"/>
+      </atom>
+      <atom id="a19" element="O">
+        <position x="80" y="443,88"/>
+      </atom>
+      <atom id="a20" element="C">
+        <position x="663,65" y="254"/>
+      </atom>
+      <atom id="a21" element="N">
+        <position x="784,89" y="184"/>
+      </atom>
+      <atom id="a22" element="C">
+        <position x="906,13" y="254"/>
+      </atom>
+      <atom id="a23" element="C">
+        <position x="906,13" y="394"/>
+      </atom>
+      <atom id="a24" element="C">
+        <position x="784,89" y="464"/>
+      </atom>
+      <atom id="a25" element="O">
+        <position x="542,404" y="184"/>
+      </atom>
+      <atom id="a26" element="O">
+        <position x="1020,82" y="173,7"/>
+      </atom>
+      <atom id="a27" element="C">
+        <position x="556,401" y="483,99"/>
+      </atom>
+      <atom id="a28" element="C">
+        <position x="515,469" y="617,87"/>
+      </atom>
+      <atom id="a29" element="C">
+        <position x="375,491" y="620,32"/>
+      </atom>
+      <atom id="a30" element="C">
+        <position x="329,911" y="487,94"/>
+      </atom>
+      <atom id="a32" element="O">
+        <position x="305,491" y="741,56"/>
+      </atom>
+      <atom id="a33" element="N">
+        <position x="663,65" y="394"/>
+      </atom>
+      <atom id="a34" element="C">
+        <position x="215,23" y="407,64"/>
+      </atom>
+      <atom id="a35" element="C">
+        <position x="1020,81" y="474,3"/>
+      </atom>
+      <atom id="a36" element="H">
+        <position x="784,89" y="44"/>
+      </atom>
+      <bond id="b19" order="1" begin="a18" end="a27"/>
+      <bond id="b20" order="1" begin="a34" end="a19"/>
+      <bond id="b21" order="1" begin="a33" end="a20"/>
+      <bond id="b22" order="1" begin="a20" end="a21"/>
+      <bond id="b23" order="1" begin="a21" end="a22"/>
+      <bond id="b24" order="1" begin="a22" end="a23"/>
+      <bond id="b25" order="2" begin="a23" end="a24"/>
+      <bond id="b26" order="1" begin="a24" end="a33"/>
+      <bond id="b27" order="2" begin="a20" end="a25"/>
+      <bond id="b28" order="2" begin="a22" end="a26"/>
+      <bond id="b29" order="1" begin="a27" end="a28"/>
+      <bond id="b30" order="1" begin="a28" end="a29"/>
+      <bond id="b31" order="1" begin="a29" end="a30"/>
+      <bond id="b32" order="1" begin="a30" end="a18"/>
+      <bond id="b34" order="1" begin="a32" end="a29" type="down"/>
+      <bond id="b35" order="1" begin="a27" end="a33" type="up"/>
+      <bond id="b36" order="1" begin="a30" end="a34" type="up"/>
+      <bond id="b37" order="1" begin="a23" end="a35"/>
+      <bond id="b38" order="1" begin="a21" end="a36"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleosides</_category>
+    <_name>Deoxycytidine</_name>
+    <molecule id="m5">
+      <atom id="a48" element="O">
+        <position x="441,72" y="273,99"/>
+      </atom>
+      <atom id="a55" element="O">
+        <position x="80" y="314,18"/>
+      </atom>
+      <atom id="a56" element="C">
+        <position x="663,65" y="124,3"/>
+      </atom>
+      <atom id="a57" element="N">
+        <position x="784,89" y="54,3"/>
+      </atom>
+      <atom id="a58" element="C">
+        <position x="906,13" y="124,3"/>
+      </atom>
+      <atom id="a59" element="C">
+        <position x="906,13" y="264,3"/>
+      </atom>
+      <atom id="a60" element="C">
+        <position x="784,89" y="334,3"/>
+      </atom>
+      <atom id="a61" element="O">
+        <position x="542,4" y="54,3"/>
+      </atom>
+      <atom id="a62" element="N">
+        <position x="1020,82" y="44"/>
+      </atom>
+      <atom id="a63" element="C">
+        <position x="556,4" y="354,29"/>
+      </atom>
+      <atom id="a64" element="C">
+        <position x="515,47" y="488,17"/>
+      </atom>
+      <atom id="a65" element="C">
+        <position x="375,49" y="490,62"/>
+      </atom>
+      <atom id="a66" element="C">
+        <position x="329,91" y="358,24"/>
+      </atom>
+      <atom id="a68" element="O">
+        <position x="305,49" y="611,86"/>
+      </atom>
+      <atom id="a69" element="N">
+        <position x="663,65" y="264,3"/>
+      </atom>
+      <atom id="a70" element="C">
+        <position x="215,23" y="277,94"/>
+      </atom>
+      <bond id="b51" order="1" begin="a48" end="a63"/>
+      <bond id="b58" order="1" begin="a70" end="a55"/>
+      <bond id="b59" order="1" begin="a69" end="a56"/>
+      <bond id="b60" order="1" begin="a56" end="a57"/>
+      <bond id="b61" order="2" begin="a57" end="a58"/>
+      <bond id="b62" order="1" begin="a58" end="a59"/>
+      <bond id="b63" order="2" begin="a59" end="a60"/>
+      <bond id="b64" order="1" begin="a60" end="a69"/>
+      <bond id="b65" order="2" begin="a56" end="a61"/>
+      <bond id="b66" order="1" begin="a58" end="a62"/>
+      <bond id="b67" order="1" begin="a63" end="a64"/>
+      <bond id="b68" order="1" begin="a64" end="a65"/>
+      <bond id="b69" order="1" begin="a65" end="a66"/>
+      <bond id="b70" order="1" begin="a66" end="a48"/>
+      <bond id="b72" order="1" begin="a68" end="a65" type="down"/>
+      <bond id="b73" order="1" begin="a63" end="a69" type="up"/>
+      <bond id="b74" order="1" begin="a66" end="a70" type="up"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleosides</_category>
+    <_name>Adenosine</_name>
+    <molecule id="m4">
+      <atom id="a67" element="O">
+        <position x="441,72" y="227,26"/>
+      </atom>
+      <atom id="a71" element="O">
+        <position x="80" y="267,45"/>
+      </atom>
+      <atom id="a72" element="N">
+        <position x="671,08" y="227,26"/>
+      </atom>
+      <atom id="a73" element="C">
+        <position x="671,08" y="87,26"/>
+      </atom>
+      <atom id="a74" element="N">
+        <position x="804,23" y="44"/>
+      </atom>
+      <atom id="a75" element="C">
+        <position x="886,52" y="157,26"/>
+      </atom>
+      <atom id="a76" element="C">
+        <position x="804,23" y="270,52"/>
+      </atom>
+      <atom id="a77" element="C">
+        <position x="1025,99" y="169,46"/>
+      </atom>
+      <atom id="a78" element="N">
+        <position x="1085,15" y="296,35"/>
+      </atom>
+      <atom id="a79" element="C">
+        <position x="556,4" y="307,56"/>
+      </atom>
+      <atom id="a80" element="C">
+        <position x="515,47" y="441,44"/>
+      </atom>
+      <atom id="a81" element="C">
+        <position x="1004,85" y="411,03"/>
+      </atom>
+      <atom id="a82" element="C">
+        <position x="375,491" y="443,89"/>
+      </atom>
+      <atom id="a83" element="C">
+        <position x="329,911" y="311,51"/>
+      </atom>
+      <atom id="a84" element="O">
+        <position x="585,47" y="562,69"/>
+      </atom>
+      <atom id="a85" element="O">
+        <position x="305,491" y="565,13"/>
+      </atom>
+      <atom id="a86" element="N">
+        <position x="865,39" y="398,82"/>
+      </atom>
+      <atom id="a87" element="C">
+        <position x="215,23" y="231,21"/>
+      </atom>
+      <atom id="a88" element="N">
+        <position x="1106,29" y="54,78"/>
+      </atom>
+      <bond id="b71" order="1" begin="a67" end="a79"/>
+      <bond id="b75" order="1" begin="a87" end="a71"/>
+      <bond id="b76" order="1" begin="a79" end="a72" type="up"/>
+      <bond id="b77" order="1" begin="a72" end="a73"/>
+      <bond id="b78" order="2" begin="a73" end="a74"/>
+      <bond id="b79" order="1" begin="a74" end="a75"/>
+      <bond id="b80" order="2" begin="a75" end="a76"/>
+      <bond id="b81" order="1" begin="a76" end="a72"/>
+      <bond id="b82" order="1" begin="a75" end="a77"/>
+      <bond id="b83" order="2" begin="a77" end="a78"/>
+      <bond id="b84" order="1" begin="a79" end="a80"/>
+      <bond id="b85" order="1" begin="a80" end="a82"/>
+      <bond id="b86" order="1" begin="a78" end="a81"/>
+      <bond id="b87" order="1" begin="a82" end="a83"/>
+      <bond id="b88" order="1" begin="a83" end="a67"/>
+      <bond id="b89" order="1" begin="a84" end="a80" type="down"/>
+      <bond id="b90" order="1" begin="a85" end="a82" type="down"/>
+      <bond id="b91" order="2" begin="a81" end="a86"/>
+      <bond id="b92" order="1" begin="a83" end="a87" type="up"/>
+      <bond id="b93" order="1" begin="a86" end="a76"/>
+      <bond id="b94" order="1" begin="a77" end="a88"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleosides</_category>
+    <_name>Guanosine</_name>
+    <molecule id="m7">
+      <atom id="a100" element="C">
+        <position x="982,28" y="420,38"/>
+      </atom>
+      <atom id="a101" element="C">
+        <position x="375,49" y="443,89"/>
+      </atom>
+      <atom id="a102" element="C">
+        <position x="329,91" y="311,51"/>
+      </atom>
+      <atom id="a103" element="O">
+        <position x="585,46" y="562,69"/>
+      </atom>
+      <atom id="a104" element="O">
+        <position x="305,49" y="565,14"/>
+      </atom>
+      <atom id="a105" element="C">
+        <position x="844,41" y="396,07"/>
+      </atom>
+      <atom id="a106" element="C">
+        <position x="215,23" y="231,21"/>
+      </atom>
+      <atom id="a107" element="O">
+        <position x="1114,38" y="74,33"/>
+      </atom>
+      <atom id="a108" element="N">
+        <position x="1030,16" y="551,94"/>
+      </atom>
+      <atom id="a109" element="H">
+        <position x="1210,14" y="337,44"/>
+      </atom>
+      <atom id="a89" element="O">
+        <position x="441,71" y="227,26"/>
+      </atom>
+      <atom id="a90" element="O">
+        <position x="80" y="267,45"/>
+      </atom>
+      <atom id="a91" element="N">
+        <position x="671,07" y="227,26"/>
+      </atom>
+      <atom id="a92" element="C">
+        <position x="671,07" y="87,26"/>
+      </atom>
+      <atom id="a93" element="N">
+        <position x="804,23" y="44"/>
+      </atom>
+      <atom id="a94" element="C">
+        <position x="886,52" y="157,26"/>
+      </atom>
+      <atom id="a95" element="C">
+        <position x="804,23" y="270,52"/>
+      </atom>
+      <atom id="a96" element="C">
+        <position x="1024,39" y="181,58"/>
+      </atom>
+      <atom id="a97" element="N">
+        <position x="1072,27" y="313,13"/>
+      </atom>
+      <atom id="a98" element="C">
+        <position x="556,4" y="307,56"/>
+      </atom>
+      <atom id="a99" element="C">
+        <position x="515,46" y="441,45"/>
+      </atom>
+      <bond id="b100" order="1" begin="a93" end="a94"/>
+      <bond id="b101" order="2" begin="a94" end="a95"/>
+      <bond id="b102" order="1" begin="a95" end="a91"/>
+      <bond id="b103" order="1" begin="a94" end="a96"/>
+      <bond id="b104" order="1" begin="a96" end="a97"/>
+      <bond id="b105" order="1" begin="a98" end="a99"/>
+      <bond id="b106" order="1" begin="a99" end="a101"/>
+      <bond id="b107" order="1" begin="a97" end="a100"/>
+      <bond id="b108" order="1" begin="a101" end="a102"/>
+      <bond id="b109" order="1" begin="a102" end="a89"/>
+      <bond id="b110" order="1" begin="a103" end="a99" type="down"/>
+      <bond id="b111" order="1" begin="a104" end="a101" type="down"/>
+      <bond id="b112" order="2" begin="a100" end="a105"/>
+      <bond id="b113" order="1" begin="a102" end="a106" type="up"/>
+      <bond id="b114" order="1" begin="a105" end="a95"/>
+      <bond id="b115" order="2" begin="a96" end="a107"/>
+      <bond id="b116" order="1" begin="a100" end="a108"/>
+      <bond id="b117" order="1" begin="a97" end="a109"/>
+      <bond id="b95" order="1" begin="a89" end="a98"/>
+      <bond id="b96" order="1" begin="a106" end="a90"/>
+      <bond id="b97" order="1" begin="a98" end="a91" type="up"/>
+      <bond id="b98" order="1" begin="a91" end="a92"/>
+      <bond id="b99" order="2" begin="a92" end="a93"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleosides</_category>
+    <_name>Deoxyadenosine</_name>
+    <molecule id="m8">
+      <atom id="a110" element="O">
+        <position x="441,72" y="227,26"/>
+      </atom>
+      <atom id="a111" element="O">
+        <position x="80" y="267,45"/>
+      </atom>
+      <atom id="a112" element="N">
+        <position x="671,075" y="227,26"/>
+      </atom>
+      <atom id="a113" element="C">
+        <position x="671,075" y="87,26"/>
+      </atom>
+      <atom id="a114" element="N">
+        <position x="804,235" y="44"/>
+      </atom>
+      <atom id="a115" element="C">
+        <position x="886,525" y="157,26"/>
+      </atom>
+      <atom id="a116" element="C">
+        <position x="804,235" y="270,52"/>
+      </atom>
+      <atom id="a117" element="C">
+        <position x="1025,98" y="169,46"/>
+      </atom>
+      <atom id="a118" element="N">
+        <position x="1085,15" y="296,35"/>
+      </atom>
+      <atom id="a119" element="C">
+        <position x="556,395" y="307,56"/>
+      </atom>
+      <atom id="a120" element="C">
+        <position x="515,465" y="441,45"/>
+      </atom>
+      <atom id="a121" element="C">
+        <position x="1004,85" y="411,03"/>
+      </atom>
+      <atom id="a122" element="C">
+        <position x="375,491" y="443,89"/>
+      </atom>
+      <atom id="a123" element="C">
+        <position x="329,911" y="311,51"/>
+      </atom>
+      <atom id="a125" element="O">
+        <position x="305,491" y="565,14"/>
+      </atom>
+      <atom id="a126" element="N">
+        <position x="865,385" y="398,82"/>
+      </atom>
+      <atom id="a127" element="C">
+        <position x="215,23" y="231,21"/>
+      </atom>
+      <atom id="a128" element="N">
+        <position x="1106,29" y="54,78"/>
+      </atom>
+      <bond id="b118" order="1" begin="a110" end="a119"/>
+      <bond id="b119" order="1" begin="a127" end="a111"/>
+      <bond id="b120" order="1" begin="a119" end="a112" type="up"/>
+      <bond id="b121" order="1" begin="a112" end="a113"/>
+      <bond id="b122" order="2" begin="a113" end="a114"/>
+      <bond id="b123" order="1" begin="a114" end="a115"/>
+      <bond id="b124" order="2" begin="a115" end="a116"/>
+      <bond id="b125" order="1" begin="a116" end="a112"/>
+      <bond id="b126" order="1" begin="a115" end="a117"/>
+      <bond id="b127" order="2" begin="a117" end="a118"/>
+      <bond id="b128" order="1" begin="a119" end="a120"/>
+      <bond id="b129" order="1" begin="a120" end="a122"/>
+      <bond id="b130" order="1" begin="a118" end="a121"/>
+      <bond id="b131" order="1" begin="a122" end="a123"/>
+      <bond id="b132" order="1" begin="a123" end="a110"/>
+      <bond id="b134" order="1" begin="a125" end="a122" type="down"/>
+      <bond id="b135" order="2" begin="a121" end="a126"/>
+      <bond id="b136" order="1" begin="a123" end="a127" type="up"/>
+      <bond id="b137" order="1" begin="a126" end="a116"/>
+      <bond id="b138" order="1" begin="a117" end="a128"/>
+    </molecule>
+  </template>
+  <template>
+    <_category>Nucleosides</_category>
+    <_name>Deoxyguanosine</_name>
+    <molecule id="m9">
+      <atom id="a124" element="C">
+        <position x="982,28" y="420,38"/>
+      </atom>
+      <atom id="a129" element="C">
+        <position x="375,49" y="443,89"/>
+      </atom>
+      <atom id="a130" element="C">
+        <position x="329,91" y="311,51"/>
+      </atom>
+      <atom id="a132" element="O">
+        <position x="305,49" y="565,14"/>
+      </atom>
+      <atom id="a133" element="C">
+        <position x="844,41" y="396,07"/>
+      </atom>
+      <atom id="a134" element="C">
+        <position x="215,23" y="231,21"/>
+      </atom>
+      <atom id="a135" element="O">
+        <position x="1114,38" y="74,33"/>
+      </atom>
+      <atom id="a136" element="N">
+        <position x="1030,16" y="551,94"/>
+      </atom>
+      <atom id="a137" element="H">
+        <position x="1210,14" y="337,44"/>
+      </atom>
+      <atom id="a138" element="O">
+        <position x="441,71" y="227,26"/>
+      </atom>
+      <atom id="a139" element="O">
+        <position x="80" y="267,45"/>
+      </atom>
+      <atom id="a140" element="N">
+        <position x="671,07" y="227,26"/>
+      </atom>
+      <atom id="a141" element="C">
+        <position x="671,07" y="87,26"/>
+      </atom>
+      <atom id="a142" element="N">
+        <position x="804,23" y="44"/>
+      </atom>
+      <atom id="a143" element="C">
+        <position x="886,52" y="157,26"/>
+      </atom>
+      <atom id="a144" element="C">
+        <position x="804,23" y="270,52"/>
+      </atom>
+      <atom id="a145" element="C">
+        <position x="1024,39" y="181,58"/>
+      </atom>
+      <atom id="a146" element="N">
+        <position x="1072,27" y="313,13"/>
+      </atom>
+      <atom id="a147" element="C">
+        <position x="556,4" y="307,56"/>
+      </atom>
+      <atom id="a148" element="C">
+        <position x="515,46" y="441,45"/>
+      </atom>
+      <bond id="b133" order="1" begin="a142" end="a143"/>
+      <bond id="b139" order="2" begin="a143" end="a144"/>
+      <bond id="b140" order="1" begin="a144" end="a140"/>
+      <bond id="b141" order="1" begin="a143" end="a145"/>
+      <bond id="b142" order="1" begin="a145" end="a146"/>
+      <bond id="b143" order="1" begin="a147" end="a148"/>
+      <bond id="b144" order="1" begin="a148" end="a129"/>
+      <bond id="b145" order="1" begin="a146" end="a124"/>
+      <bond id="b146" order="1" begin="a129" end="a130"/>
+      <bond id="b147" order="1" begin="a130" end="a138"/>
+      <bond id="b149" order="1" begin="a132" end="a129" type="down"/>
+      <bond id="b150" order="2" begin="a124" end="a133"/>
+      <bond id="b151" order="1" begin="a130" end="a134" type="up"/>
+      <bond id="b152" order="1" begin="a133" end="a144"/>
+      <bond id="b153" order="2" begin="a145" end="a135"/>
+      <bond id="b154" order="1" begin="a124" end="a136"/>
+      <bond id="b155" order="1" begin="a146" end="a137"/>
+      <bond id="b156" order="1" begin="a138" end="a147"/>
+      <bond id="b157" order="1" begin="a134" end="a139"/>
+      <bond id="b158" order="1" begin="a147" end="a140" type="up"/>
+      <bond id="b159" order="1" begin="a140" end="a141"/>
+      <bond id="b160" order="2" begin="a141" end="a142"/>
+    </molecule>
+  </template>
+</templates>
