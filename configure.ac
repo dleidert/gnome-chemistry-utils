@@ -100,6 +100,18 @@ GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
 AC_SUBST([GCU_CFLAGS])
 AC_SUBST([GCU_LIBS])
 
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.3`
+AC_ARG_WITH(
+	[goffice-plugins-dir],
+	[AC_HELP_STRING(
+		[--with-goffice-plugins-dir],
+		[path to GOffice plugins directory [default=auto]]
+	)],
+	[GOFFICE_PLUGINS_DIR=$withval]
+)
+
+AC_SUBST(GOFFICE_PLUGINS_DIR)
+
 ##################################################
 # Check for mozilla plugin
 ##################################################
@@ -227,6 +239,7 @@ plugins/paint/selection/Makefile
 plugins/paint/templates/Makefile
 plugins/paint/text/Makefile
 mozilla-plugin/Makefile
+goffice/Makefile
 pixmaps/Makefile
 po/Makefile.in
 samples/Makefile
@@ -236,5 +249,7 @@ programs/calc/Makefile
 programs/crystal/Makefile
 programs/paint/Makefile
 programs/table/Makefile
+templates/Makefile
+templates/paint/Makefile
 tests/Makefile
 ])

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GOffice_gchempaint">
+	<information>
+		<_name>Component : GChemPaint</_name>
+		<_description> 2D Chemical Structures Viewer/Editor</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="gchempaint"/>
+	</loader>
+	<services>
+		<service type="component_engine" id="GOGChemUtilsComponent">
+			<information>
+				<_description>Chemical structures component engine</_description>
+			</information>
+		</service>
+		<service type="component_type" id="GOGChemUtilsComponent">
+			<mime_type name="application/x-gchempaint" priority="native" clipboard="yes"/>
+			<information>
+				<_description>Chemical structures</_description>
+			</information>
+		</service>
+		<service type="component_type" id="GOGChemUtilsComponent">
+			<mime_type name="application/x-gcrystal" priority="native" clipboard="yes"/>
+			<information>
+				<_description>Crystal structures</_description>
+			</information>
+		</service>
+		<service type="component_type" id="GOGChemUtilsComponent">
+			<mime_type name="chemical/x-xyz" priority="print" clipboard="yes"/>
+			<information>
+				<_description>3D chemical structures</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2007-04-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add new directories.
+	* configure.ac: ditto.
+	* goffice/Makefile.am: initial work on the goffice plugin.
+	* goffice/gchemutils-priv.h: ditto.
+	* goffice/gchemutils.cc: ditto.
+	* goffice/gchemutils.h: ditto.
+	* goffice/plugin.xml.in: ditto.
+	* programs/paint/Makefile.am: enhanced build.
+
 2007-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* templates/Makefile.am: new subtree.
 	* templates/paint/Makefile.am: copied from GChemPaint.

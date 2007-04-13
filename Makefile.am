@@ -1,5 +1,5 @@
 SUBDIRS = po database glade pixmaps libs plugins programs mozilla-plugin \
-	samples tests dtds docs
+	goffice templates samples tests dtds docs
 
 EXTRA_DIST=	\
 	gcu-unstable.pc.in	\

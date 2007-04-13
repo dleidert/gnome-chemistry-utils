@@ -9,7 +9,9 @@ noinst_HEADERS = \
 					standaloneapp.h \
 					standalonewin.h
 
-LDADD = @GCU_LIBS@ $(top_srcdir)/libs/gcp/libgchempaint-unstable.la
+gchempaint_unstable_LDADD = \
+	$(top_srcdir)/libs/gcp/libgchempaint-unstable.la \
+	@GCU_LIBS@ 
 
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint\"
