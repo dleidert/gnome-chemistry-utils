@@ -50,7 +50,7 @@ void FragmentAtom::SetZ (int Z)
 	if (setting)
 		return;
 	setting = true;
-	Atom::SetZ (Z);
+	gcu::Atom::SetZ (Z);
 	if (Z != 0)
 		m_Fragment->OnChangeAtom ();
 	setting = false;

@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2007-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: really fix build.
+	* libs/gcp/fragment-atom.cc: call gcu::Atom::SetZ instead of
+	gcp::Atom::SetZ which does not support Z==0.
+
+2007-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: fix build.
 	* libs/gcp/atom.cc: in Atom::Transform2D, don't call itself,
 	but theparent class method.
