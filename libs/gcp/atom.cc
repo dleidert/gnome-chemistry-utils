@@ -1648,7 +1648,7 @@ void Atom::SetCharge (int charge)
 
 void Atom::Transform2D (Matrix2D& m, double x, double y)
 {
-	Atom::Transform2D (m, x, y);
+	gcu::Atom::Transform2D (m, x, y);
 	// Now transform electrons
 	map<string, Object*>::iterator i;
 	Object* electron = GetFirstChild (i);

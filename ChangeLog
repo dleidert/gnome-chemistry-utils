@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: fix build.
+	* libs/gcp/atom.cc: in Atom::Transform2D, don't call itself,
+	but theparent class method.
+
 2007-04-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add new directories.
 	* configure.ac: ditto.

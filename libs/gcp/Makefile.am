@@ -78,7 +78,10 @@ noinst_HEADERS = \
 		zoomdlg.h \
 		theme.h
 		
-libgchempaint_unstable_la_LDFLAGS = -release $(VERSION) -L$(top_srcdir)/libs/canvas -lgcpcanvas-unstable -L$(top_srcdir)/libs/gcu -lgcu-unstable @GCU_LIBS@
+libgchempaint_unstable_la_LDFLAGS = -release $(VERSION) \
+	$(top_srcdir)/libs/gcu/libgchemutils-unstable.la \
+	$(top_srcdir)/libs/canvas/libgcpcanvas-unstable.la \
+	@GCU_LIBS@
 AM_CXXFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
 	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint\" \
