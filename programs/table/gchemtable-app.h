@@ -49,6 +49,7 @@ public:
 	void GetStateColor (int Z, GdkColor *color);
 	void GetFamilyColor (int Z, GdkColor *color);
 	void GetAcidityColor (int Z, GdkColor *color);
+	void GetElectronegColor (int Z, GdkColor *color);
 
 private:
 	Dialog *Pages[118];

@@ -68,6 +68,11 @@ void on_acidity_colors (GtkWidget *widget, GChemTableApp *App)
 	App->SetColorScheme ("acidity");
 }
 
+void on_electroneg_colors (GtkWidget *widget, GChemTableApp *App)
+{
+	App->SetColorScheme ("electroneg");
+}
+
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
 {
 	GnomeVFSResult error = gnome_vfs_url_show(url);
@@ -125,6 +130,9 @@ static GtkActionEntry entries[] = {
 	  {"AcidityColors", NULL, N_("Acidity"), NULL,
 		  N_("Use colors to display the acidity of the elements"),
                   G_CALLBACK (on_acidity_colors) },
+	  {"ElectronegColors", NULL, N_("Electronegativity"), NULL,
+		  N_("Use colors to display the electronegativity of the elements"),
+                  G_CALLBACK (on_electroneg_colors) },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Periodic Table"), G_CALLBACK (on_help) },
@@ -151,6 +159,7 @@ static const char *ui_description =
 "        <menuitem action='StateColors'/>"
 "        <menuitem action='FamilyColors'/>"
 //"        <menuitem action='AcidityColors'/>"
+"        <menuitem action='ElectronegColors'/>"
 "      </menu>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
@@ -211,6 +220,11 @@ static void get_family_color (int Z, GdkColor *color, GChemTableApp *App)
 static void get_acidity_color (int Z, GdkColor *color, GChemTableApp *App)
 {
 	App->GetAcidityColor (Z, color);
+}
+
+static void get_electroneg_color (int Z, GdkColor *color, GChemTableApp *App)
+{
+	App->GetElectronegColor (Z, color);
 }
 
 // FIXME "the following line should be edited for stable releases"
@@ -289,6 +303,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	colorschemes["acidity"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_acidity_color, aciditylegend, this);
 	gtk_widget_show_all (aciditylegend);
 
+	colorschemes["electroneg"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_electroneg_color, NULL, this);
 }
 
 GChemTableApp::~GChemTableApp ()
@@ -514,4 +529,30 @@ void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
 		color->blue = 0xffff;
 		return;
 	}
+}
+
+void GChemTableApp::GetElectronegColor (int Z, GdkColor *color)
+{
+	double max=3.98;
+	double min=0.7;
+	double limit;
+
+	color->red= color->green = color->blue = 0;
+	Element *elt = Element::GetElement (Z);
+	Value const *value = elt->GetProperty ("electronegativityPauling");
+	if (!value)
+		return;
+
+	double en = value->GetAsDouble ();
+
+	limit = 0.5*(max-min);
+
+	if (en < limit) {
+		color->red=0xffff;
+		color->blue=(en-min)*0xffff/(limit-min);
+	} else {
+		color->blue=0xffff;
+		color->red=(en-max)*0xffff/(limit-max);
+	}
+
 }

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-04-19  Jordan Mantha <mantha@ubuntu.com>
+	* programs/table/gchemtable-app.cc: added electronegativity
+	color scheme to gchemtable
+	* programs/table/gchemtable-app.h: ditto
+
 2007-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: really fix build.
 	* libs/gcp/fragment-atom.cc: call gcu::Atom::SetZ instead of
