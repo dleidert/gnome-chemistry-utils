@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-04-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-app.cc: added some white spaces
+	for consistency.
+
 2007-04-19  Jordan Mantha <mantha@ubuntu.com>
 	* programs/table/gchemtable-app.cc: added electronegativity
 	color scheme to gchemtable

@@ -545,14 +545,14 @@ void GChemTableApp::GetElectronegColor (int Z, GdkColor *color)
 
 	double en = value->GetAsDouble ();
 
-	limit = 0.5*(max-min);
+	limit = 0.5 * (max - min);
 
 	if (en < limit) {
-		color->red=0xffff;
-		color->blue=(en-min)*0xffff/(limit-min);
+		color->red = 0xffff;
+		color->blue = (en - min) * 0xffff / (limit - min);
 	} else {
-		color->blue=0xffff;
-		color->red=(en-max)*0xffff/(limit-max);
+		color->blue = 0xffff;
+		color->red= (en - max) * 0xffff / (limit - max);
 	}
 
 }
