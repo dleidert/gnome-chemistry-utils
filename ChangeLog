@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2007-04-21  Jordan Mantha <mantha@ubuntu.com>
+	* programs/table/gchemtable-app.cc: added covalent radius and block
+	color schemes.
+	* programs/table/gchemtable-app.h: ditto
+	* glade/table/block.glade: added legend for block color scheme
+	* glade/table/Makefile.am: ditto
+	
 2007-04-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/table/gchemtable-app.cc: added some white spaces
 	for consistency.

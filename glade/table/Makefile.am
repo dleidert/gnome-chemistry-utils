@@ -7,6 +7,7 @@ glade_DATA = \
 	curve.glade \
 	state-thermometer.glade \
 	acidity.glade \
-	family.glade
+	family.glade \
+	block.glade
 
 EXTRA_DIST = $(glade_DATA)

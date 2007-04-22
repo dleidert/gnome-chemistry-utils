@@ -73,6 +73,16 @@ void on_electroneg_colors (GtkWidget *widget, GChemTableApp *App)
 	App->SetColorScheme ("electroneg");
 }
 
+void on_radius_colors (GtkWidget *widget, GChemTableApp *App)
+{
+	App->SetColorScheme ("radius");
+}
+
+void on_block_colors (GtkWidget *widget, GChemTableApp *App)
+{
+	App->SetColorScheme ("block");
+}
+
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
 {
 	GnomeVFSResult error = gnome_vfs_url_show(url);
@@ -133,6 +143,12 @@ static GtkActionEntry entries[] = {
 	  {"ElectronegColors", NULL, N_("Electronegativity"), NULL,
 		  N_("Use colors to display the electronegativity of the elements"),
                   G_CALLBACK (on_electroneg_colors) },
+	  {"RadiusColors", NULL, N_("Atomic radius"), NULL,
+		  N_("Use colors to display the covalent radii of the elements"),
+                  G_CALLBACK (on_radius_colors) },
+	  {"BlockColors", NULL, N_("Block"), NULL,
+		  N_("Use colors to display the blocks elements belong to"),
+                  G_CALLBACK (on_block_colors) },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Periodic Table"), G_CALLBACK (on_help) },
@@ -160,6 +176,8 @@ static const char *ui_description =
 "        <menuitem action='FamilyColors'/>"
 //"        <menuitem action='AcidityColors'/>"
 "        <menuitem action='ElectronegColors'/>"
+"        <menuitem action='RadiusColors'/>"
+"        <menuitem action='BlockColors'/>"
 "      </menu>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
@@ -225,6 +243,16 @@ static void get_acidity_color (int Z, GdkColor *color, GChemTableApp *App)
 static void get_electroneg_color (int Z, GdkColor *color, GChemTableApp *App)
 {
 	App->GetElectronegColor (Z, color);
+}
+
+static void get_radius_color (int Z, GdkColor *color, GChemTableApp *App)
+{
+	App->GetRadiusColor (Z, color);
+}
+
+static void get_block_color (int Z, GdkColor *color, GChemTableApp *App)
+{
+	App->GetBlockColor (Z, color);
 }
 
 // FIXME "the following line should be edited for stable releases"
@@ -304,6 +332,13 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	gtk_widget_show_all (aciditylegend);
 
 	colorschemes["electroneg"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_electroneg_color, NULL, this);
+
+	colorschemes["radius"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_radius_color, NULL, this);
+
+	GladeXML *blockxml = glade_xml_new (GLADEDIR"/block.glade", "block-legend", NULL);
+	GtkWidget *blocklegend = glade_xml_get_widget (blockxml, "block-legend");
+	colorschemes["block"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_block_color, blocklegend, this);
+	gtk_widget_show_all (blocklegend);
 }
 
 GChemTableApp::~GChemTableApp ()
@@ -555,4 +590,60 @@ void GChemTableApp::GetElectronegColor (int Z, GdkColor *color)
 		color->red= (en - max) * 0xffff / (limit - max);
 	}
 
+}
+
+void GChemTableApp::GetRadiusColor (int Z, GdkColor *color)
+{
+	double max=2.25;
+	double min=0.32;
+	double limit;
+
+	color->red = color->green = color->blue = 0;
+	Element *elt = Element::GetElement (Z);
+	Value const *value = elt->GetProperty ("radiusCovalent");
+	if (!value)
+		return;
+
+	double radius = value->GetAsDouble ();
+
+	limit = 0.5 * (max - min);
+
+	if (radius < limit) {
+		color->red = 0xffff;
+		color->blue = (radius - min) * 0xffff / (limit - min);
+	} else {
+		color->blue = 0xffff;
+		color->red= (radius - max) * 0xffff / (limit - max);
+	}
+
+}
+
+void GChemTableApp::GetBlockColor (int Z, GdkColor *color)
+{
+	color->red= color->green = color->blue = 0;
+        Element *elt = Element::GetElement (Z);
+	std::string &value = elt->GetStringProperty ("periodTableBlock");
+	if (!value.length())
+		return;
+
+	if (value == "s") {
+		color->blue = 0x8eff;
+		return;
+	}
+
+	if (value == "p") {
+		color->red = 0x8eff;
+		return;
+	}
+
+	if (value == "d") {
+		color->green = 0x8eff;
+		return;
+	}
+
+	if (value == "f") {
+		color->blue = 0x8eff;
+		color->red = 0x8eff;
+		return;
+	}
 }

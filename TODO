@@ -22,6 +22,10 @@
 	* open files from other formats (cif, cml) using openbabel.
 	* export encapsulated postscript.
 
+* GChemPaint:
+	* some sort of copy-and-paste support for OpenOffice.org
+	* plugin to prepare png files of molecules ready for publication in wikipedia
+
 * Library:
 
 * Other:
