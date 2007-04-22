@@ -584,10 +584,10 @@ void GChemTableApp::GetElectronegColor (int Z, GdkColor *color)
 
 	if (en < limit) {
 		color->red = 0xffff;
-		color->blue = (en - min) * 0xffff / (limit - min);
+		color->blue = static_cast<guint16> ((en - min) * 0xffff / (limit - min));
 	} else {
 		color->blue = 0xffff;
-		color->red= (en - max) * 0xffff / (limit - max);
+		color->red= static_cast<guint16> ((en - max) * 0xffff / (limit - max));
 	}
 
 }
@@ -610,10 +610,10 @@ void GChemTableApp::GetRadiusColor (int Z, GdkColor *color)
 
 	if (radius < limit) {
 		color->red = 0xffff;
-		color->blue = (radius - min) * 0xffff / (limit - min);
+		color->blue = static_cast<guint16> ((radius - min) * 0xffff / (limit - min));
 	} else {
 		color->blue = 0xffff;
-		color->red= (radius - max) * 0xffff / (limit - max);
+		color->red= static_cast<guint16> ((radius - max) * 0xffff / (limit - max));
 	}
 
 }
