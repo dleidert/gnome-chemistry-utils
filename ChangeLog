@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-04-23  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* programs/crystal/gcrystal.schemas.in: Fixed typos.
+
 2007-04-21  Jordan Mantha <mantha@ubuntu.com>
 	* programs/table/gchemtable-app.cc: use explicit casts for
 	double->guint16
