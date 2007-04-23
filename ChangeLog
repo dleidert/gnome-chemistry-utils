@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-04-23  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* programs/crystal/gcrystal.schemas.in: Fixed typos.
+
 2007-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gchemutils.keys.in: removed obsolete.
 	* glade/crystal/Makefile.am: removed unused files.

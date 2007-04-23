@@ -75,7 +75,7 @@
       <type>float</type>
       <default>1.</default>
       <locale name="C">
-        <short>Backgroud color red value</short>
+        <short>Background color red value</short>
 		<long>Red value for the default background color.
 		Acceptable values are 0. to 1.</long>
       </locale>
@@ -88,7 +88,7 @@
       <type>float</type>
       <default>1.</default>
       <locale name="C">
-        <short>Backgroud color green value</short>
+        <short>Background color green value</short>
 		<long>Green value for the default background color.
 		Acceptable values are 0. to 1.</long>
       </locale>
@@ -101,7 +101,7 @@
       <type>float</type>
       <default>1.</default>
       <locale name="C">
-        <short>Backgroud color blue value</short>
+        <short>Background color blue value</short>
 		<long>Blue value for the default background color.
 		Acceptable values are 0. to 1.</long>
       </locale>
