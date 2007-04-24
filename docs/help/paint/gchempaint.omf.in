@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omf>
+  <resource>
+    <subject category="GNOME|Applications|Education"/>
+    <type>manual</type>
+    <relation seriesid="2f606258-b554-4715-9a75-2c20246779f5"/>
+    <rights type="GNU FDL" license.version="1.1" holder="Jean Bréfort"/>
+  </resource>        
+</omf>
