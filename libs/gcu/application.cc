@@ -39,6 +39,7 @@ using namespace gcu;
 
 Application::Application (string name, string datadir, char const *help_name, char const *icon_name)
 {
+	static bool first_call = true;
 	Name = name;
 	char const *szlang = getenv ("LANG");
 	string lang = (szlang)? szlang: "C";
@@ -75,7 +76,10 @@ Application::Application (string name, string datadir, char const *help_name, ch
 		}
 	}
 	CurDir = g_get_current_dir ();
-	g_set_application_name (name.c_str ());
+	if (first_call) { // needed to create several applications in the same program instance
+		g_set_application_name (name.c_str ());
+		first_call = false;
+	}
 	gtk_window_set_default_icon_name (icon_name? icon_name: (help_name? help_name: Name.c_str ()));
 	GdkScreen *screen = gdk_screen_get_default ();
 	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));

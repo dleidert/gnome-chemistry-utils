@@ -1,0 +1,3 @@
+SUBDIRS = paint
+
+MAINTAINERCLEANFILES = Makefile.in

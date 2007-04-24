@@ -696,7 +696,7 @@ xmlDocPtr Document::BuildXMLTree ()
 		throw (int) 0;
 	
 	xmlDocSetRootElement (xml,  xmlNewDocNode (xml, NULL, (xmlChar*) "chemistry", NULL));
-	ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "");
+	ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "gcp");
 	xmlSetNs (xml->children, ns);
 	if (!g_date_valid (&CreationDate))
 		g_date_set_time_t (&CreationDate, time (NULL));
@@ -1204,6 +1204,8 @@ double Document::GetYAlign ()
 
 void Document::SetTheme (Theme *theme)
 {
+	if (!theme)
+		return; // or use the default theme?
 	if (m_Theme)
 		m_Theme->RemoveClient (this);
 	m_Theme = theme;
@@ -1224,6 +1226,8 @@ void Document::SetTheme (Theme *theme)
 	pango_attr_list_insert (m_PangoAttrList, pango_attr_weight_new (theme->GetFontWeight ()));
 	pango_attr_list_insert (m_PangoAttrList, pango_attr_stretch_new (theme->GetFontStretch ()));
 	pango_attr_list_insert (m_PangoAttrList, pango_attr_variant_new (theme->GetFontVariant ()));
+	if (m_pView)
+		m_pView->UpdateTheme ();
 }
 
 bool Document::OnSignal (SignalId Signal, Object *Child)

@@ -72,7 +72,7 @@ public:
 	void SetCurZ (int Z) {m_CurZ = Z;}
 	int GetCurZ () {return m_CurZ;}
 	void OnSaveAs ();
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
+	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 	void SaveWithBabel (string const &filename, const gchar *mime_type, gcp::Document* pDoc);
 	void OpenWithBabel (string const &filename, const gchar *mime_type, gcp::Document* pDoc);
 	void SaveGcp (string const &filename, gcp::Document* pDoc);

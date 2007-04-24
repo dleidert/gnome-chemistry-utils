@@ -1,10 +1,8 @@
 IMAGES =			\
-	text24.png		\
-	fragment24.png
+	favicon.png
 
 VARIABLES = 			 								\
-	gcp_text_24				$(srcdir)/text24.png		\
-	gcp_fragment_24			$(srcdir)/fragment24.png
+	favicon				$(srcdir)/favicon.png
 
 pixbuf_file = gcp-stock-pixbufs.h
 noinst_DATA = $(pixbuf_file)
@@ -16,28 +14,21 @@ $(pixbuf_file): Makefile $(IMAGES)
 
 BUILT_SOURCES = $(pixbuf_file)
 
-text_LTLIBRARIES = text.la
+wikipedia_LTLIBRARIES = wikipedia.la
 
-textdir = $(libdir)/gchemutils-unstable/plugins/paint
+wikipediadir = $(libdir)/gchemutils-unstable/plugins/paint
 
-text_la_SOURCES = \
+wikipedia_la_SOURCES = \
 	plugin.cc \
-	texttool.cc \
-	fragmenttool.cc
+	wikipediatool.cc
 
 noinst_HEADERS = \
 	plugin.h \
-	texttool.h \
-	fragmenttool.h
+	wikipediatool.h
 
-glade_DATA = \
-	fontsel.glade
+EXTRA_DIST =  $(ui_DATA) $(IMAGES)
 
-gladedir = $(datadir)/gchempaint-unstable/ui
-
-EXTRA_DIST =  $(glade_DATA) $(IMAGES)
-
-text_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
+wikipedia_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
 	-DGLADEDIR=\"$(gladedir)\" \

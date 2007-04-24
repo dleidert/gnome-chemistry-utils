@@ -416,7 +416,7 @@ enum {
 	PIXBUF
 };
 
-bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
+bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *Doc)
 {
 	const gchar* ext;
 	Document *pDoc = static_cast<Document*> (Doc);

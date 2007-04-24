@@ -833,4 +833,11 @@ void Molecule::Add (GtkWidget* w)
 	*/
 }
 
+char const *Molecule::GetInChI ()
+{
+	if (m_Changed)
+		BuildInChI ();
+	return m_InChI.c_str ();
+}
+
 }	//	namespace gcp

@@ -197,11 +197,13 @@ View::View (Document *pDoc, bool Embedded)
 	m_UIManager = gtk_ui_manager_new ();
 	m_Dragging = false;
 	m_pWidget = NULL;
+	m_PangoContext = NULL;
 }
 
 View::~View ()
 {
-	g_object_unref (G_OBJECT (m_PangoContext));
+	if (m_PangoContext)
+		g_object_unref (G_OBJECT (m_PangoContext));
 	if (m_sFontName)
 		g_free (m_sFontName);
 	if (m_sSmallFontName)

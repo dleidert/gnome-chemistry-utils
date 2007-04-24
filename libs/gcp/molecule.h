@@ -66,6 +66,7 @@ public:
 	void ShowWebBase (char const *uri_start, char const *uri_end);
 	void OpenCalc ();
 	void CheckCrossings (Bond *pBond);
+	char const *GetInChI ();
 
 private:
 	list<Cycle*> m_Cycles;

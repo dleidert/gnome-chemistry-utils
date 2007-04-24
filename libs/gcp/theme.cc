@@ -223,8 +223,8 @@ ThemeManager::ThemeManager ()
 	m_Themes["Default"] = m_Themes[_("Default")] = new Theme ("Default");
 	m_Names.push_front (_("Default"));
 	// load global themes
-	string path = DATADIR;
-	path += "/gchempaint/themes";
+	string path = PKGDATADIR;
+	path += "/paint/themes";
 	ParseDir (path, GLOBAL_THEME_TYPE);
 	// load local themes
 	char *szhome = getenv ("HOME");
@@ -245,7 +245,7 @@ ThemeManager::~ThemeManager ()
 	map <string, Theme*>::iterator i, iend = m_Themes.end ();
 	for (i = m_Themes.begin (); i != iend; i++) {
 		theme = (*i).second;
-		if (def && theme == def)
+		if (!theme || (def && theme == def))
 			continue; // this theme has already been deleted
 		if (theme->modified && theme->m_ThemeType == LOCAL_THEME_TYPE) {
 			xmlDocPtr doc = xmlNewDoc((xmlChar*)"1.0");

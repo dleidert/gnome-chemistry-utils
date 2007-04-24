@@ -1,5 +1,44 @@
 ##Text encoding: utf-8
 
+2007-04-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add new directories.
+	* configure.ac: ditto.
+	* docs/help/Makefile.am: add paint subdir.
+	* docs/help/paint/C/figures/*.png: copied from GChemPaint.
+	* docs/help/paint/C/gchempaint-unstable.xml: ditto.
+	* docs/help/paint/C/gchempaint.xml: ditto.
+	* docs/help/paint/C/legal.xml: ditto.
+	* docs/help/paint/Makefile.am: ditto.
+	* docs/help/paint/gchempaint-unstable.omf.in: ditto.
+	* docs/help/paint/gchempaint.omf.in: ditto.
+	* docs/help/paint/omf.make: ditto.
+	* docs/help/paint/xmldocs.make: ditto.
+	* libs/gcp/application.cc: fixed Application::FileProcess
+	signature.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/document.cc: fixed missing xml namespace and
+	ensure that view related theme data are always updated.
+	* libs/gcp/molecule.cc: add a public method to retrieve the
+	InChI.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/preferences.cc: block "changed" signal for font
+	selectors on theme selection.
+	* libs/gcp/preferences.h: ditto.
+	* libs/gcp/theme.cc: fixed crashers. 
+	* libs/gcp/view.cc: fixed a potential crasher.
+	* libs/gcu/application.cc: allow multiple Application instances.
+	* plugins/paint/Makefile.am: add wikipedia subdir.
+	* plugins/paint/text/Makefile.am: add MAINTAINERCLEANFILES.
+	* plugins/paint/wikipedia/Makefile.am: new plugin.
+	* plugins/paint/wikipedia/favicon.png: ditto.
+	* plugins/paint/wikipedia/plugin.cc: ditto.
+	* plugins/paint/wikipedia/plugin.h: ditto.
+	* plugins/paint/wikipedia/wikipediatool.cc: ditto.
+	* plugins/paint/wikipedia/wikipediatool.h: ditto.
+	* themes/Makefile.am: new file.
+	* themes/paint/Makefile.am: ditto.
+	* themes/paint/Wikipedia: first global theme (still experimental).
+
 2007-04-23  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* programs/crystal/gcrystal.schemas.in: Fixed typos.
 

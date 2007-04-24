@@ -291,12 +291,12 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	m_FontSel = GCP_FONT_SEL (g_object_new (GCP_FONT_SEL_TYPE, NULL));
 	w = glade_xml_get_widget (xml, "atom-font-box");
 	gtk_box_pack_start_defaults (GTK_BOX (w), GTK_WIDGET (m_FontSel));
-	g_signal_connect (G_OBJECT (m_FontSel), "changed", G_CALLBACK (on_font_changed), this);
+	m_FontChanged = g_signal_connect (G_OBJECT (m_FontSel), "changed", G_CALLBACK (on_font_changed), this);
 	// add text font selector
 	m_TextFontSel = GCP_FONT_SEL (g_object_new (GCP_FONT_SEL_TYPE, NULL));
 	w = glade_xml_get_widget (xml, "text-box");
 	gtk_box_pack_start_defaults (GTK_BOX (w), GTK_WIDGET (m_TextFontSel));
-	g_signal_connect (G_OBJECT (m_TextFontSel), "changed", G_CALLBACK (on_text_font_changed), this);
+	m_TextFontChanged = g_signal_connect (G_OBJECT (m_TextFontSel), "changed", G_CALLBACK (on_text_font_changed), this);
 	// arrow spin buttons
 	m_ArrowLengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-length-btn"));
 	g_signal_connect (G_OBJECT (m_ArrowLengthBtn), "value-changed", G_CALLBACK (on_arrow_length_changed), this);
@@ -522,6 +522,7 @@ void PrefsDlg::OnSelectTheme (GtkTreeSelection *selection)
 	gtk_widget_set_sensitive (GTK_WIDGET (m_HashWidthBtn), rw);
 	gtk_spin_button_set_value (m_HashDistBtn, m_CurTheme->m_HashDist);
 	gtk_widget_set_sensitive (GTK_WIDGET (m_HashDistBtn), rw);
+	g_signal_handler_block (G_OBJECT (m_TextFontSel), m_TextFontChanged);
 	g_object_set (G_OBJECT (m_TextFontSel),
 					"family", m_CurTheme->m_TextFontFamily,
 					"style", m_CurTheme->m_TextFontStyle,
@@ -530,7 +531,9 @@ void PrefsDlg::OnSelectTheme (GtkTreeSelection *selection)
 					"stretch", m_CurTheme->m_TextFontStretch,
 					"size", m_CurTheme->m_TextFontSize,
 					NULL);
+	g_signal_handler_unblock (G_OBJECT (m_TextFontSel), m_TextFontChanged);
 	gtk_widget_set_sensitive (GTK_WIDGET (m_TextFontSel), rw);
+	g_signal_handler_block (G_OBJECT (m_FontSel), m_FontChanged);
 	g_object_set (G_OBJECT (m_FontSel),
 					"family", m_CurTheme->m_FontFamily,
 					"style", m_CurTheme->m_FontStyle,
@@ -539,6 +542,7 @@ void PrefsDlg::OnSelectTheme (GtkTreeSelection *selection)
 					"stretch", m_CurTheme->m_FontStretch,
 					"size", m_CurTheme->m_FontSize,
 					NULL);
+	g_signal_handler_unblock (G_OBJECT (m_FontSel), m_FontChanged);
 	gtk_widget_set_sensitive (GTK_WIDGET (m_FontSel), rw);
 	gtk_spin_button_set_value (m_ArrowLengthBtn, m_CurTheme->m_ArrowLength);
 	gtk_widget_set_sensitive (GTK_WIDGET (m_ArrowLengthBtn), rw);

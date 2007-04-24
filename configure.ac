@@ -215,6 +215,7 @@ docs/help/Makefile
 docs/help/3d/Makefile
 docs/help/calc/Makefile
 docs/help/crystal/Makefile
+docs/help/paint/Makefile
 docs/help/table/Makefile
 docs/man/gcu_entities.dtd
 docs/man/Makefile
@@ -238,6 +239,7 @@ plugins/paint/cycles/Makefile
 plugins/paint/selection/Makefile
 plugins/paint/templates/Makefile
 plugins/paint/text/Makefile
+plugins/paint/wikipedia/Makefile
 mozilla-plugin/Makefile
 goffice/Makefile
 pixmaps/Makefile
@@ -251,5 +253,7 @@ programs/paint/Makefile
 programs/table/Makefile
 templates/Makefile
 templates/paint/Makefile
+themes/Makefile
+themes/paint/Makefile
 tests/Makefile
 ])

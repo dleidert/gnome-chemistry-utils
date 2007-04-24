@@ -84,7 +84,7 @@ private:
 	GtkSpinButton *m_ChargeSizeBtn;
 	GtkEntry *m_NameEntry;
 	GcpFontSel *m_TextFontSel, *m_FontSel;
-	gulong m_NameActivate, m_NameFocusOut;
+	gulong m_NameActivate, m_NameFocusOut, m_TextFontChanged, m_FontChanged;
 	GtkTreePath *m_Path;
 };
 
