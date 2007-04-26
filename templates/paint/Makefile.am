@@ -1,4 +1,4 @@
-xmldir = $(datadir)//gchemutils-unstable/paint/templates
+xmldir = $(datadir)/gchemutils-unstable/paint/templates
 
 xml_in_files = templates.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gchemutils.xml.in: add GChemPaint format.
+	* libs/gcp/preferences.cc: fix crash when no theme is selected.
+	* templates/paint/Makefile.am: fixed typo.
+
 2007-04-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add new directories.
 	* configure.ac: ditto.

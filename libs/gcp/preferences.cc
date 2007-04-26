@@ -476,7 +476,10 @@ void PrefsDlg::OnSelectTheme (GtkTreeSelection *selection)
 	char *name;
 	char *page;
 	GtkTreeModel *model;
-	gtk_tree_selection_get_selected (selection, &model, &iter);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gtk_notebook_set_current_page (m_Book, 0);
+		return;
+	}
 	if (m_Path)
 		gtk_tree_path_free (m_Path);
 	m_Path = gtk_tree_model_get_path (GTK_TREE_MODEL (themes), &iter);
