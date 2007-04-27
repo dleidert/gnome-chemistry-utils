@@ -33,6 +33,7 @@
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <glib/gi18n-lib.h>
+#include <vector>
 
 class WikipediaApp: public gcu::Application
 {
@@ -144,7 +145,23 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 	GnomeVFSHandle *handle = NULL;
 	if (gnome_vfs_create (&handle, filename2, GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
 		GError *error = NULL;
-		gdk_pixbuf_save_to_callback (alpha, do_save_image, handle, "png", &error, "tEXt::InChI", InChI, NULL);
+		vector<char*> keys, values;
+		char const *author = static_cast<gcp::Document*> (pDoc)->GetAuthor ();
+		// We need to be sure that the author name can be converted to latin-1
+		// otherwise, pixbuf export will fail, but it still must be passed as UTF-8
+		char *latin1_author = g_convert (author, strlen (author), "ISO-8859-1", "UTF-8", NULL, NULL, NULL);
+		if (latin1_author) {
+			keys.push_back (const_cast<char*> ("tEXt::Author"));
+			values.push_back (const_cast<char*> (author));
+			g_free (latin1_author);
+		}
+		keys.push_back (const_cast<char*> ("tEXt::Copyright"));
+		values.push_back (const_cast<char*> ("Public domain"));
+		keys.push_back (const_cast<char*> ("tEXt::InChI"));
+		values.push_back (const_cast<char*> (InChI));
+		keys.push_back (reinterpret_cast<char*> (NULL));
+		values.push_back (reinterpret_cast<char*> (NULL));
+		gdk_pixbuf_save_to_callbackv (alpha, do_save_image, handle, "png", keys.data (), values.data (), &error);
 		if (error) {
 			cerr << _("Unable to save image file: ") << error->message << endl;
 			g_error_free (error);
@@ -175,7 +192,8 @@ bool gcpWikipediaTool::OnClicked ()
 	gcp::Molecule *pMol = dynamic_cast<gcp::Molecule*> (m_pObject->GetMolecule ());
 	if (!pMol)
 		return false;
-	gcp::Document *pDoc = new gcp::Document (NULL, true);
+	gcp::Document *pDoc = new gcp::Document (NULL, true),
+		*OrigDoc = static_cast<gcp::Document*> (pMol->GetDocument ());
 	pDoc->GetView ()->CreateNewWidget ();
 	gcp::Theme *pTheme = gcp::TheThemeManager.GetTheme ("Wikipedia");
 	pDoc->SetTheme (pTheme);
@@ -192,6 +210,7 @@ bool gcpWikipediaTool::OnClicked ()
 
 	pDoc->Load (xml->children);
 	xmlFree (xml);
+	pDoc->SetAuthor (OrigDoc->GetAuthor ());
 
 	list<string> mimes;
 	mimes.push_front ("image/png");

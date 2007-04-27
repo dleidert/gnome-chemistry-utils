@@ -148,7 +148,17 @@ static void on_copy (GtkWidget *widget, GChemTableCurve *curve)
 
 static void on_print (GtkWidget *widget, GChemTableCurve *curve)
 {
-	curve->OnPrint ();
+	curve->OnPrint (false);
+}
+
+static void on_print_preview (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->OnPrint (true);
+}
+
+static void on_page_setup (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->OnPageSetup ();
 }
 
 static void on_close (GtkWidget *widget, GChemTableCurve *curve)
@@ -188,6 +198,10 @@ static void on_about (GtkWidget *widget, GChemTableCurve *curve)
 
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
+	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
+		  N_("Setup the page settings for your current printer"), G_CALLBACK (on_page_setup) },
+	  { "PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Pre_view"), NULL,
+		  N_("Print preview"), G_CALLBACK (on_print_preview) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current file"), G_CALLBACK (on_print) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
@@ -216,6 +230,8 @@ static const char *ui_description =
 "<ui>"
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"
+"      <menuitem action='PageSetup'/>"
+"      <menuitem action='PrintPreview'/>"
 "      <menuitem action='Print'/>"
 "		<separator/>"
 "      <menuitem action='Close'/>"
@@ -484,11 +500,9 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 	gog_object_add_by_name (obj, "Label", label);
 	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (pw));
-	//now add copy and print callbacks
-	w = glade_xml_get_widget (xml, "copy");
-	g_signal_connect (w, "clicked", G_CALLBACK (on_copy), this);
-	w = glade_xml_get_widget (xml, "print");
-	g_signal_connect (w, "clicked", G_CALLBACK (on_print), this);
+	// Initialize print settings
+	m_PageSetup = gtk_page_setup_new ();
+	m_PrintSettings = gtk_print_settings_new ();
 }
 
 GChemTableCurve::~GChemTableCurve ()
@@ -506,27 +520,29 @@ static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint 
 	((GChemTableCurve *) data)->DoPrint (print, context);
 }
 
-void GChemTableCurve::OnPrint ()
+void GChemTableCurve::OnPrint (bool preview)
 {
 	GtkPrintOperation *print;
 	GtkPrintOperationResult res;
 
 	print = gtk_print_operation_new ();
-	gtk_print_operation_set_use_full_page (print, true);
+	gtk_print_operation_set_use_full_page (print, false);
 
-/*  if (settings != NULL) 
-    gtk_print_operation_set_print_settings (print, settings);*/
+    gtk_print_operation_set_print_settings (print, m_PrintSettings);
+    gtk_print_operation_set_default_page_setup (print, m_PageSetup);
 
 	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), NULL);
 	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
 	
-	res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+	res = gtk_print_operation_run (print,
+								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
+								   			GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
 								   GTK_WINDOW (dialog), NULL);
 
 	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-/*		if (settings != NULL)
-			g_object_unref (settings);
-		settings = g_object_ref (gtk_print_operation_get_print_settings (print));*/
+		if (m_PrintSettings != NULL)
+			g_object_unref (m_PrintSettings);
+		m_PrintSettings = GTK_PRINT_SETTINGS (g_object_ref (gtk_print_operation_get_print_settings (print)));
 	}
 
 	g_object_unref (print);
@@ -547,6 +563,17 @@ void GChemTableCurve::DoPrint (GtkPrintOperation *print, GtkPrintContext *contex
 	gog_renderer_update (renderer, width, height, 1.0);
 	g_object_unref (renderer);
 	g_object_unref (Graph);
+}
+
+void GChemTableCurve::OnPageSetup ()
+{
+	GtkPageSetup *setup = gtk_print_run_page_setup_dialog (
+											dialog,
+											m_PageSetup,
+											m_PrintSettings
+										);
+	g_object_unref (m_PageSetup);
+	m_PageSetup = setup;
 }
 
 void GChemTableCurve::OnCopy ()

@@ -29,6 +29,8 @@
 #include <string>
 #include "gchemtable-app.h"
 #include <goffice/graph/gog-graph.h>
+#include <gtk/gtkpagesetup.h>
+#include <gtk/gtkprintsettings.h>
 
 using namespace gcu;
 
@@ -40,7 +42,8 @@ public:
 
 	GChemTableApp *GetApplication () {return dynamic_cast <GChemTableApp *> (m_App);}
 
-	void OnPrint ();
+	void OnPageSetup ();
+	void OnPrint (bool preview);
 	void OnCopy ();
 	void OnClose ();
 
@@ -49,6 +52,8 @@ public:
 private:
 	string m_Name;
 	GogGraph *m_Graph;
+	GtkPrintSettings *m_PrintSettings;
+	GtkPageSetup *m_PageSetup;
 };
 
 #endif	// GCHEMTABLE_CURVE_H

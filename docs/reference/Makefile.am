@@ -6,10 +6,7 @@ DISTCLEANFILES = Doxyfile
 
 MAINTAINERCLEANFILES = Makefile.in
 
-docsdir = $(datadir)/doc/gchemutils/reference
-docs_DATA = html/*.*
-
-html/*.*: html_stamp
+all: html_stamp
 
 if DOXYGEN_AVAILABLE
 

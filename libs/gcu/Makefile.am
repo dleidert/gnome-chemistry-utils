@@ -39,7 +39,7 @@ libgcu_unstable_la_SOURCES = \
 		gldocument.cc	\
 		glview.cc
 
-libgcu_unstable_la_headers = \
+noinst_HEADERS = \
 		atom.h \
 		bond.h \
 		object.h \
@@ -70,6 +70,3 @@ libgcu_unstable_la_headers = \
 		gtkchem3dviewer.h \
 		gldocument.h	\
 		glview.h
-
-gcuincludedir = $(includedir)/gcu-unstable/gcu
-gcuinclude_HEADERS = $(libgcu_unstable_la_headers)

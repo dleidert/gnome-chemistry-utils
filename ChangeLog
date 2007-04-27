@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2007-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Makefile.am: do not install docs.
+	* glade/table/curve.glade: remove buttons (they are replaced
+	by the menus).
+	* libs/gcu/Makefile.am: don't install headers.
+	* plugins/paint/wikipedia/wikipediatool.cc: add Author and
+	Copyright fields to the PNG file.
+	* programs/table/gchemtable-curve.cc: add page setup and
+	print preview.
+	* programs/table/gchemtable-curve.h: ditto.
+
 2007-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gchemutils.xml.in: add GChemPaint format.
 	* libs/gcp/preferences.cc: fix crash when no theme is selected.
