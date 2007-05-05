@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-09 10:05+0200\n"
-"PO-Revision-Date: 2007-04-01 15:46+0200\n"
+"POT-Creation-Date: 2007-05-05 07:47+0200\n"
+"PO-Revision-Date: 2007-05-05 07:56+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1359,15 +1359,15 @@ msgid "Gnome Crystal Crystalline Structures Viewer "
 msgstr "Visionneuse de structures cristallines Gnome Cristal"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:1
-msgid "Backgroud color blue value"
-msgstr "Composante bleue de la couleur du d'arrière-plan"
+msgid "Background color blue value"
+msgstr "Composante bleue de la couleur d'arrière-plan"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:2
-msgid "Backgroud color green value"
-msgstr "Composante verte de la couleur du d'arrière-plan"
+msgid "Background color green value"
+msgstr "Composante verte de la couleur d'arrière-plan"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:3
-msgid "Backgroud color red value"
+msgid "Background color red value"
 msgstr "Composante rouge de la couleur d'arrière-plan"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:4
@@ -1909,6 +1909,3 @@ msgstr "Température d'ébullition"
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "Tableau de Mendeleiev des éléments chimiques"
-
-#~ msgid "amu"
-#~ msgstr "uma"
