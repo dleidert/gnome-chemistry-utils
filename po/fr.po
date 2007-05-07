@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-05 07:47+0200\n"
+"POT-Creation-Date: 2007-05-07 13:50+0200\n"
 "PO-Revision-Date: 2007-05-05 07:56+0200\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -179,8 +179,8 @@ msgid "Euler's angles"
 msgstr "Angles d'Euler"
 
 #: ../glade/crystal/prefs.glade.h:14 ../glade/crystal/view-settings.glade.h:3
-msgid "Field of view (between 1 and 45°):"
-msgstr "Angle du cône de vision (entre 1 et 45°) :"
+msgid "Field of view (between 1° and 45°):"
+msgstr "Angle du cône de vision (entre 1° et 45°) :"
 
 #: ../glade/crystal/prefs.glade.h:15 ../glade/crystal/view-settings.glade.h:4
 msgid "Model orientation in space:"
@@ -1489,18 +1489,6 @@ msgstr "Base de données"
 msgid "The sum of the three angles must be less than 360°"
 msgstr "La somme des trois angles doit être inférieure à 360°"
 
-#: ../programs/crystal/cleavagesdlg.cc:98
-msgid "h"
-msgstr "h"
-
-#: ../programs/crystal/cleavagesdlg.cc:108
-msgid "k"
-msgstr "k"
-
-#: ../programs/crystal/cleavagesdlg.cc:118
-msgid "l"
-msgstr "l"
-
 #: ../programs/crystal/cleavagesdlg.cc:128
 msgid "Planes cleaved"
 msgstr "Plans clivés"
@@ -1541,30 +1529,6 @@ msgstr "%s: format de fichier incorrect."
 #, c-format
 msgid "\"%s\" has been modified.  Do you wish to save it?"
 msgstr "``%s'' a été modifié? Voulez-vous le sauvegarder ?"
-
-#: ../programs/crystal/linesdlg.cc:119
-msgid "x1"
-msgstr "x1"
-
-#: ../programs/crystal/linesdlg.cc:129
-msgid "y1"
-msgstr "y1"
-
-#: ../programs/crystal/linesdlg.cc:139
-msgid "z1"
-msgstr "z1"
-
-#: ../programs/crystal/linesdlg.cc:149
-msgid "x2"
-msgstr "x2"
-
-#: ../programs/crystal/linesdlg.cc:159
-msgid "y2"
-msgstr "y2"
-
-#: ../programs/crystal/linesdlg.cc:169
-msgid "z2"
-msgstr "z2"
 
 #: ../programs/crystal/linesdlg.cc:178
 msgid "Single"
@@ -1909,3 +1873,30 @@ msgstr "Température d'ébullition"
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "Tableau de Mendeleiev des éléments chimiques"
+
+#~ msgid "h"
+#~ msgstr "h"
+
+#~ msgid "k"
+#~ msgstr "k"
+
+#~ msgid "l"
+#~ msgstr "l"
+
+#~ msgid "x1"
+#~ msgstr "x1"
+
+#~ msgid "y1"
+#~ msgstr "y1"
+
+#~ msgid "z1"
+#~ msgstr "z1"
+
+#~ msgid "x2"
+#~ msgstr "x2"
+
+#~ msgid "y2"
+#~ msgstr "y2"
+
+#~ msgid "z2"
+#~ msgstr "z2"

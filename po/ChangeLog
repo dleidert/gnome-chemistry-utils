@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-05-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* fr.po: fixed the last fuzzy.
+
 2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* de.po: Update German translation.
 
