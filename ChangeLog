@@ -1,6 +1,17 @@
 ##Text encoding: utf-8
 
 2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* docs/help/3d/Makefile.am: Added -Wno-portability to AUTOMAKE_OPTIONS
+	to suppress portability warnings from gnome-doc-utils.make.
+	* docs/help/calc/Makefile.am: Ditto.
+	* docs/help/crystal/Makefile.am: Ditto.
+	* docs/help/table/Makefile.am: Ditto.
+	* docs/man/Makefile.am: Removed portability warnings thrown by
+	automake by replacing %-style pattern rules with SUFFIX rules and
+	replacing error/warning/info with echo (& exit) calls.
+	* gchemutils/docs/reference/Makefile.am: Ditto.
+
+2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* glade/crystal/prefs.glade: Improved wording.
 	* glade/crystal/view-settings.glade: Ditto.
 	* glade/crystal/size.glade: Mark the asterisk as untranslatable.

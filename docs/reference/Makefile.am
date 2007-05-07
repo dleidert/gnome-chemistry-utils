@@ -30,7 +30,7 @@ html_stamp: html-upstream.tar.gz
 	touch html_stamp
 
 ## Fail during make dist, because the documentation cannot be created.
-html-upstream.tar.gz: ; $(error "Error: You need doxygen to create the documentation.")
+html-upstream.tar.gz: ; echo "Error: You need doxygen to create the documentation." && exit 1
 
 endif #DOXYGEN_AVAILABLE
 

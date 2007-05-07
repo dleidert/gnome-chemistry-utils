@@ -1,3 +1,5 @@
+AUTOMAKE_OPTIONS = -Wno-portability
+
 MAINTAINERCLEANFILES = Makefile.in
 
 include $(top_srcdir)/gnome-doc-utils.make
