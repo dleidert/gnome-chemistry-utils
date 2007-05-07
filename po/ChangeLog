@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* de.po: Update German translation.
+
 2007-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: added missing file.
 	* fr.po: translate the new string.
