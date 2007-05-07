@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* docs/man/Makefile.am (EXTRA_DIST): Added missing gcu_man_legal.xml.
+
+2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* README: Fixed copyright info.
 	* docs/man/Makefile.am: Added some more XS parameters.
 	(gcu_man_src): Added gcrystal.
