@@ -1,6 +1,26 @@
 ##Text encoding: utf-8
 
 2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* README: Fixed copyright info.
+	* docs/man/Makefile.am: Added some more XS parameters.
+	(gcu_man_src): Added gcrystal.
+	(man1_MANS, man3_MANS): Fixed. We now use man_MANS.
+	(check-local): "Hide" the echo commands.
+	* docs/man/gcu_man_legal.xml: Added. Copyright and legal information.
+	* docs/man/gcu_entities.dtd.in: Added copyright and legal information.
+	* docs/man/gchem3d-viewer.1.xml: Ditto. Fixed to use less generic IDs.
+	* docs/man/gchemcalc.1.xml: Ditto.
+	* docs/man/gchemtable.1.xml: Ditto.
+	* docs/man/libgcu.3.xml: Ditto.
+	* docs/man/gchem3d-viewer.1: Updated.
+	* docs/man/gchemcalc.1: Ditto.
+	* docs/man/gchemtable.1: Ditto.
+	* docs/man/libgcu.3: Ditto.
+	* docs/man/gcrystal.1: Added.
+	* docs/man/gcrystal.1.xml: Added.
+	* programs/Makefile.am: Added maintainer-clean target.
+
+2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* docs/help/3d/Makefile.am: Added -Wno-portability to AUTOMAKE_OPTIONS
 	to suppress portability warnings from gnome-doc-utils.make.
 	* docs/help/calc/Makefile.am: Ditto.

@@ -1,13 +1,13 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0'?>
 <?xml-stylesheet type="text/xsl"
 	href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
 <!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: libgcu.3.xml,v 1.2.2.1 2007-05-07 19:33:06 dleidert Exp $
+	$Id: gcrystal.1.xml,v 1.1.2.1 2007-05-07 19:33:06 dleidert Exp $
 
-  Copyright (C) 2006,2007 Daniel Leidert <daniel.leidert@wgdd.de>.
+  Copyright (C) 2004-2007 Daniel Leidert <daniel.leidert@wgdd.de>.
 
 	This manual page is free software; you can redistribute it and/or modify it
 	under the terms of the GNU General Public License as published by the Free
@@ -24,17 +24,17 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage    "libgcu">
+	<!ENTITY dhpackage    "gcrystal">
 	<!ENTITY dhulapackage "gcu">
 
 	<!ENTITY dhdate       "$Date: 2007-05-07 19:33:06 $">
-	<!ENTITY dhsection    "3">
+	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
 ]>
 
-<refentry id="libgcu_3">
+<refentry id="gcrystal_1">
 	<refentryinfo>
 		<title>&dhulpackage;</title>
 		<productname>&dhulapackage;</productname>
@@ -44,7 +44,7 @@
 			<author>
 				<firstname>Jean</firstname>
 				<surname>Bréfort</surname>
-				<contrib>Program/Library author.</contrib>
+				<contrib>Program author.</contrib>
 				<affiliation>
 					<address>
 						<email>jean.brefort@normalesup.org</email>
@@ -70,36 +70,67 @@
 	</refmeta>
 	<refnamediv>
 		<refname>&dhpackage;</refname>
-		<refpurpose>Gtk widgets and C++ classes related to chemistry</refpurpose>
+		<refpurpose>light model visualizer for crystal structures</refpurpose>
 	</refnamediv>
 	<refsynopsisdiv>
-		<synopsis><emphasis role="bold"><![CDATA[#include gcu/chemistry.h]]></emphasis></synopsis>
+		<cmdsynopsis>
+			<command>&dhpackage;</command>
+			<arg choice="opt" rep="repeat"><option>OPTION(S)</option></arg>
+			<arg choice="opt" rep="norepeat"><replaceable>FILE</replaceable></arg>
+		</cmdsynopsis>
 	</refsynopsisdiv>
-	<refsect1 id="libgcu_3_description">
+	<refsect1 id="gcrystal_1_description">
 		<title>DESCRIPTION</title>
-		<para>The <package>&dhpackage;</package> library provides various Gtk widgets and C++ classes related to chemistry.</para>
+		<para><command>&dhpackage;</command> is a light model visualizer for crystal structures, based on the GNOME Chemistry Utils, that displays models of all sorts of crystal microscopic structures using OpenGL.</para>
 	</refsect1>
-	<refsect1 id="libgcu_3_files">
-		<title>FILES</title>
-		<para></para>
+	<refsect1 id="gcrystal_1_options">
+		<title>OPTIONS</title>
+		<para>The following options are accepted:</para>
 		<variablelist>
 			<varlistentry>
-				<term><filename class="libraryfile">${libdir}/libcgu.a</filename></term>
+				<term><option>--usage</option></term>
 				<listitem>
-					<para>static library</para>
+					<para>Show a summary of possible options and usage.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
-				<term><filename class="libraryfile">${libdir}/libcgu.so</filename></term>
+				<term><option>-?</option></term>
+				<term><option>--help</option></term>
 				<listitem>
-					<para>shared library</para>
+					<para>Show application help options.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--help-all</option></term>
+				<term><option>--help-*</option></term>
+				<listitem>
+					<para>Print all or just a group of help options. These options are not documented here. Instead see <citerefentry>
+						<refentrytitle>gtk-options</refentrytitle>
+						<manvolnum>7</manvolnum>
+					</citerefentry> and <citerefentry>
+						<refentrytitle>gnome-options</refentrytitle>
+						<manvolnum>7</manvolnum>
+					</citerefentry>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-v</option></term>
+				<term><option>--version</option></term>
+				<listitem>
+					<para>Print &dhpackage; version information.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
 	</refsect1>
-	<refsect1 id="libgcu_3_see_also">
+	<refsect1 id="gcrystal_1_see_also">
 		<title>SEE ALSO</title>
-		<para>The complete reference with examples is available online at <ulink url="http://www.nongnu.org/gchemutils/reference/"/> or (depending on your installation) also locally at <filename>${datadir}/doc/gchemutils/reference</filename>.</para>
+		<para><citerefentry>
+			<refentrytitle>gnome-options</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry>, <citerefentry>
+			<refentrytitle>gtk-options</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry></para>
 	</refsect1>
 </refentry>
 

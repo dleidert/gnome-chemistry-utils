@@ -1,13 +1,13 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0'?>
 <?xml-stylesheet type="text/xsl"
 	href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
 <!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchem3d-viewer.1.xml,v 1.2 2006-09-02 08:44:25 jean_brefort Exp $
+	$Id: gchem3d-viewer.1.xml,v 1.2.2.1 2007-05-07 19:33:06 dleidert Exp $
 
-  Copyright (C) 2004-2006 Daniel Leidert <daniel.leidert@wgdd.de>.
+  Copyright (C) 2004-2007 Daniel Leidert <daniel.leidert@wgdd.de>.
 
 	This manual page is free software; you can redistribute it and/or modify it
 	under the terms of the GNU General Public License as published by the Free
@@ -27,14 +27,14 @@
 	<!ENTITY dhpackage    "gchem3d-viewer">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-09-02 08:44:25 $">
+	<!ENTITY dhdate       "$Date: 2007-05-07 19:33:06 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
 ]>
 
-<refentry>
+<refentry id="gchem3d-viewer">
 	<refentryinfo>
 		<title>&dhulpackage;</title>
 		<productname>&dhulapackage;</productname>
@@ -62,6 +62,7 @@
 				</affiliation>
 			</author>
 		</authorgroup>
+		&dhcopyright;
 	</refentryinfo>
 	<refmeta>
 		<refentrytitle>&dhpackage;</refentrytitle>
@@ -78,11 +79,11 @@
 			<arg choice="opt" rep="norepeat"><replaceable>FILE</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
-	<refsect1 id="description">
+	<refsect1 id="gchem3d-viewer_1_description">
 		<title>DESCRIPTION</title>
 		<para><command>&dhpackage;</command> is a small chemical viewer application, which can show several chemical file formats.</para>
 	</refsect1>
-	<refsect1 id="options">
+	<refsect1 id="gchem3d-viewer_1_options">
 		<title>OPTIONS</title>
 		<para>The following options are accepted:</para>
 		<variablelist>
@@ -136,7 +137,7 @@
 			</varlistentry>
 		</variablelist>
 	</refsect1>
-	<refsect1 id="see_also">
+	<refsect1 id="gchem3d-viewer_1_see_also">
 		<title>SEE ALSO</title>
 		<para><citerefentry>
 			<refentrytitle>gnome-options</refentrytitle>
