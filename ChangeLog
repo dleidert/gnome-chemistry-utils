@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* glade/crystal/prefs.glade: Improved wording.
+	* glade/crystal/view-settings.glade: Ditto.
+	* glade/crystal/size.glade: Mark the asterisk as untranslatable.
+	* programs/crystal/cleavagesdlg.cc: Do not translate the indices.
+	* programs/crystal/linesdlg.cc: Ditto.
+
 2007-05-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: change version to 0.7.95 and requires
 	libgoffice-0.4.

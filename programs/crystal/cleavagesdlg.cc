@@ -95,7 +95,7 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 	g_object_set(G_OBJECT(renderer), "editable", true, NULL);
 	g_object_set_data(G_OBJECT (renderer), "column", (gint *)COLUMN_H);
 	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	column = gtk_tree_view_column_new_with_attributes(_("h"), renderer, "text", 0, NULL);
+	column = gtk_tree_view_column_new_with_attributes("h", renderer, "text", 0, NULL);
 	/* set this column to a fixed sizing (of 50 pixels) */
 	gtk_tree_view_column_set_sizing(GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_fixed_width(GTK_TREE_VIEW_COLUMN (column), 50);
@@ -105,7 +105,7 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 	g_object_set(G_OBJECT(renderer), "editable", true, NULL);
 	g_object_set_data(G_OBJECT (renderer), "column", (gint *)COLUMN_K);
 	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	column = gtk_tree_view_column_new_with_attributes(_("k"), renderer, "text", 1, NULL);
+	column = gtk_tree_view_column_new_with_attributes("k", renderer, "text", 1, NULL);
 	/* set this column to a fixed sizing (of 50 pixels) */
 	gtk_tree_view_column_set_sizing(GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_fixed_width(GTK_TREE_VIEW_COLUMN (column), 50);
@@ -115,7 +115,7 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 	g_object_set(G_OBJECT(renderer), "editable", true, NULL);
 	g_object_set_data(G_OBJECT (renderer), "column", (gint *)COLUMN_L);
 	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	column = gtk_tree_view_column_new_with_attributes(_("l"), renderer, "text", 2, NULL);
+	column = gtk_tree_view_column_new_with_attributes("l", renderer, "text", 2, NULL);
 	/* set this column to a fixed sizing (of 50 pixels) */
 	gtk_tree_view_column_set_sizing(GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_fixed_width(GTK_TREE_VIEW_COLUMN (column), 50);
