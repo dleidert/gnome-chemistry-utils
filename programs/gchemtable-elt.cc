@@ -245,9 +245,9 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		if (((*radii)->type == GCU_IONIC) && !strcmp ((*radii)->scale, "Shannon")) {
 			j = radii_list.begin ();
 			jend = radii_list.end ();
-			while (((j != jend) && ((*j)->charge < (*radii)->charge)) || 
-				(((*j)->charge == (*radii)->charge) && ((*j)->cn < (*radii)->cn)) ||
-				(((*j)->cn == (*radii)->cn) && ((*j)->spin < (*radii)->spin)))
+			while ((j != jend) && (((*j)->charge < (*radii)->charge) || 
+				(((*j)->charge == (*radii)->charge) && ((*j)->cn < (*radii)->cn) ||
+				(((*j)->cn == (*radii)->cn) && ((*j)->spin < (*radii)->spin)))))
 				j++;
 			radii_list.insert (j, *radii);
 			if ((*radii)->spin > maxspin)

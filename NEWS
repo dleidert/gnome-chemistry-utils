@@ -23,7 +23,7 @@ Version 0.6.0
 	fixed still more build issues (Daniel and Jean).
 	fixed --version command line option.
 	fixed a documentation typo.
-	chemical-mime-data dependencu is optional.
+	chemical-mime-data dependency is optional.
 
 Version 0.5.91
 	fixed more build issues (Daniel Leidert).
