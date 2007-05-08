@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/man/Makefile.am: ensure man pages are in the tarball.
+
 2007-05-07 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* docs/man/Makefile.am (EXTRA_DIST): Added missing gcu_man_legal.xml.
 

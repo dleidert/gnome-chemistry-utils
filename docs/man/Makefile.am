@@ -2,8 +2,7 @@ EXTRA_DIST = \
 	gcu_entities.dtd.in \
 	gcu_man_legal.xml \
 	$(gcu_man_src) \
-	$(man1_MANS) \
-	$(man3_MANS)
+	$(man_MANS)
 
 DISTCLEAN = gcu_entities.dtd
 
