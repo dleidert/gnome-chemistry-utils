@@ -1,5 +1,7 @@
 Version 0.7.95
 	* uses goffice-0.4.
+	* added a man page for gcrystal (Daniel Leidert).
+	* cleaned build system (Daniel Leidert).
 	* various minor fixes.
 
 Version 0.7.91
