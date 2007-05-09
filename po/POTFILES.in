@@ -46,6 +46,7 @@ programs/crystal/document.cc
 programs/crystal/linesdlg.cc
 programs/crystal/main.cc
 programs/crystal/window.cc
+programs/crystal/x-gcrystal.desktop.in
 programs/table/gchemtable-app.cc
 programs/table/gchemtable-elt.cc
 programs/table/gchemtable-curve.cc
