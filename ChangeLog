@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2007-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu.pc.in: requires libgoffice-0.4. [#19835]
+
+2007-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.7.96) and
 	add --with-kde-mime-dir.
 	* programs/crystal/Makefile.am: add new kde mime support
