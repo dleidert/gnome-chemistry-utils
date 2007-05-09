@@ -2,7 +2,8 @@
 	* add more data using bodr.
 	* add crystal structures.
 	* allow plotting any property againt another one, i.e. ei vs vdw radius.
-	* allow charts customization (using the code in goffice).
+	* allow charts customization (needs a new dalog, goffice one being
+	unusable in this context).
 	* write help.
 
 * Calculator:
@@ -15,7 +16,7 @@
 
 * Mozilla plugin:
 	* implement printing.
-	* support 2d rendering (when gchempaint will be incorporated).
+	* support 2d rendering (using gchempaint).
 	* add a contextual dropdown menu.
 
 * Gnome Crystal:
@@ -23,10 +24,31 @@
 	* export encapsulated postscript.
 
 * GChemPaint:
-	* some sort of copy-and-paste support for OpenOffice.org
-	* plugin to prepare png files of molecules ready for publication in wikipedia
+	* some sort of copy-and-paste support for OpenOffice.org (0.10?).
+	* plugin to prepare png files of molecules ready for publication in wikipedia (almost done).
+	* Use a cairo based canvas (0.10? if gtk+ permits).
+	* New tools:
+		- delocalized bonds (?),
+		- week interactions (e.g. H-bonds) (?),
+		- curved arrows (in mechanisms) (?).
+		- curved reaction arrows and Tollman's loops (?),
+		- cluster bonds (as in boranes) (?),
+		- electron vacancies (?).
+	* Multi-steps reactions (?).
+	* Scriptability (?).
+	* Enhance selection (?).
+	* Add abbreviations in fragments (0.10?).
+	* Enhance fragments (0.10?).
+	* Change cursor according to situation (?).
+	* Allow associating various objects with reaction arrows (0.10).
+
+* Goffice component:
+	* support 3d structures.
+	* move to cairo based version.
 
 * Library:
 
 * Other:
-	* get gchempaint in there after branching for 0.8
+	* Update documentation (always).
+	* More code cleaning (always).
+	* Remove all bugs ;-)
