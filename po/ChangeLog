@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: update files list.
+
 2007-03-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: fixed missing white spaces.
 
