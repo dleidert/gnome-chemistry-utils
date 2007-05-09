@@ -1,4 +1,4 @@
-AC_INIT([gnome-chemistry-utils], [0.7.95], [http://savannah.nongnu.org/bugs/?group=gchemutils])
+AC_INIT([gnome-chemistry-utils], [0.7.96], [http://savannah.nongnu.org/bugs/?group=gchemutils])
 AC_CONFIG_SRCDIR([gcu/gtkperiodic.c])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -58,6 +58,31 @@ AC_ARG_ENABLE([update-databases],
 
 AM_CONDITIONAL([WITH_UPDATE_DESKTOP], [test "x$UPDATE_DESKTOP_DATABASE" != "xno"])
 AM_CONDITIONAL([WITH_UPDATE_MIME], [test "x$UPDATE_MIME_DATABASE" != "xno"])
+
+dnl install desktop files for kde if needed
+AC_ARG_WITH(
+	[kde-mime-dir],
+	AC_HELP_STRING(
+		[--with-kde-mime-dir],
+		[
+		 path to KDE's directory containing MIME .desktop files
+		 (automatically detected via kde-config) @<:@default=auto or ${datadir}/mimelnk@:>@
+		]
+	),
+	[KDEMIMEDIR=$withval],
+	[
+	 AC_PATH_PROG([KDECONFIG], [kde-config], [no])
+	 if test "x$KDECONFIG" != "xno"; then
+	 	KDEMIMEDIR="`$KDECONFIG --install mime`"
+	 else
+	 	KDEMIMEDIR="${datadir}/mimelnk"
+	 fi	
+	]
+)
+AC_MSG_CHECKING([for KDE MIME files (.desktop) installation location])
+AC_MSG_RESULT([$KDEMIMEDIR])
+AM_CONDITIONAL([WITH_KDE_MIME], [test "x$KDEMIMEDIR" != "xno"])
+AC_SUBST(KDEMIMEDIR)
 
 AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
