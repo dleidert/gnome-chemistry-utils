@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2007-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add --with-kde-mime-dir.
+	* gchemutils.keys.in: removed obsolete.
+	* gchemutils.mime: ditto.
+	* programs/crystal/Makefile.am: add kde mime file.
+	* programs/crystal/x-gcrystal.desktop.in: ditto.
+	* programs/paint/Makefile.am: add desktop and schemas files.
+	* programs/paint/gchempaint-unstable.desktop.in: copied from
+	GChemPaint.
+	* programs/paint/gchempaint.desktop.in: ditto.
+	* programs/paint/gchempaint.schemas.in: ditto.
+	* programs/paint/x-gchempaint.desktop.in: add kde mime file.
+
 2007-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Makefile.am: do not install docs.
 	* glade/table/curve.glade: remove buttons (they are replaced

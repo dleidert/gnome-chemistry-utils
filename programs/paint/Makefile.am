@@ -1,3 +1,33 @@
+EXTRA_DIST = \
+	$(desktop_in_files) \
+	$(schemas_in_files)
+
+CLEANFILES = \
+	$(desktop_DATA) \
+	$(schemas_DATA)
+
+MAINTAINERCLEANFILES = \
+	Makefile.in
+
+desktop_in_files = \
+	gchempaint-unstable.desktop.in \
+	x-gchempaint.desktop.in
+schemas_in_files = gchempaint.schemas.in
+
+desktopdir = $(datadir)/applications
+desktop_DATA = gchempaint-unstable.desktop
+
+schemasdir = $(sysconfdir)/gconf/schemas
+schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
+
+if WITH_KDE_MIME
+kde_mime_desktop_DATA = x-gchempaint.desktop
+kde_mime_desktopdir = $(KDEMIMEDIR)/application
+endif #WITH_KDE_MIME
+
+@INTLTOOL_DESKTOP_RULE@
+@INTLTOOL_SCHEMAS_RULE@
+
 bin_PROGRAMS = gchempaint-unstable
 
 gchempaint_unstable_SOURCES = \

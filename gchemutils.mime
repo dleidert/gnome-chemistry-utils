@@ -1,8 +1,0 @@
-chemical/x-xyz
-	ext: xyz
-
-chemical/x-pdb
-	ext: pdb ent
-
-chemical/x-mdl-molfile
-	ext: mdl mol

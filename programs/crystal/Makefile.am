@@ -52,9 +52,16 @@ schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
 desktopdir=$(datadir)/applications
-desktop_in_files = gcrystal-unstable.desktop.in
+desktop_in_files = \
+	gcrystal-unstable.desktop.in \
+	x-gcrystal.desktop.in
 desktop_DATA = gcrystal-unstable.desktop
 @INTLTOOL_DESKTOP_RULE@
+
+if WITH_KDE_MIME
+kde_mime_desktop_DATA = x-gcrystal.desktop
+kde_mime_desktopdir = $(KDEMIMEDIR)/application
+endif #WITH_KDE_MIME
 
 install-data-local:
 	      GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \

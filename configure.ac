@@ -59,6 +59,31 @@ AC_ARG_ENABLE([update-databases],
 AM_CONDITIONAL([WITH_UPDATE_DESKTOP], [test "x$UPDATE_DESKTOP_DATABASE" != "xno"])
 AM_CONDITIONAL([WITH_UPDATE_MIME], [test "x$UPDATE_MIME_DATABASE" != "xno"])
 
+dnl install desktop files for kde if needed
+AC_ARG_WITH(
+	[kde-mime-dir],
+	AC_HELP_STRING(
+		[--with-kde-mime-dir],
+		[
+		 path to KDE's directory containing MIME .desktop files
+		 (automatically detected via kde-config) @<:@default=auto or ${datadir}/mimelnk@:>@
+		]
+	),
+	[KDEMIMEDIR=$withval],
+	[
+	 AC_PATH_PROG([KDECONFIG], [kde-config], [no])
+	 if test "x$KDECONFIG" != "xno"; then
+	 	KDEMIMEDIR="`$KDECONFIG --install mime`"
+	 else
+	 	KDEMIMEDIR="${datadir}/mimelnk"
+	 fi	
+	]
+)
+AC_MSG_CHECKING([for KDE MIME files (.desktop) installation location])
+AC_MSG_RESULT([$KDEMIMEDIR])
+AM_CONDITIONAL([WITH_KDE_MIME], [test "x$KDEMIMEDIR" != "xno"])
+AC_SUBST(KDEMIMEDIR)
+
 AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
@@ -69,7 +94,7 @@ GNOME_VFS_REQUIRED_VERSION=2.4.0
 SHARED_MIME_INFO_REQUIRED_VERSION=0.12
 OPENBABEL_REQUIRED_VERSION=2.1.0
 GTK_REQUIRED_VERSION=2.10.0
-GNOME_OFFICE_REQUIRED_VERSION=0.3.6
+GNOME_OFFICE_REQUIRED_VERSION=0.4.0
 CHEMICAL_MIME_DATA_REQUIRED_VERSION=0.1.94
 BODR_REQUIRED_VERSION=5
 
@@ -78,7 +103,7 @@ gtk+-2.0 >= $GTK_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprintui-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 gnome-vfs-module-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
-libgoffice-0.3 >= $GNOME_OFFICE_REQUIRED_VERSION \
+libgoffice-0.4 >= $GNOME_OFFICE_REQUIRED_VERSION \
 chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
 shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION \

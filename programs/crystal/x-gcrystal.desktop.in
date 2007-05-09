@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+MimeType=application/x-gcrystal
+_Comment=Crystalline structure model
+Type=MimeType
+Icon=gcrystal
+Patterns=*.gcrystal;

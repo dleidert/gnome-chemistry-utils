@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+_Name=GChemPaint Chemical Structures Editor
+_Comment=Edit chemical 2D structures
+Exec=gchempaint %U
+Terminal=false
+Type=Application
+Icon=gchempaint
+Categories=GTK;GNOME;Education;Science;Chemistry;
+MimeType=application/x-gchempaint;

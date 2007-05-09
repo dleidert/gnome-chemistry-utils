@@ -1,0 +1,379 @@
+<gconfschemafile>
+  <schemalist>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/bond-length</key>
+      <applyto>/apps/gchempaint/settings/bond-length</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>140.</default>
+      <locale name="C">
+        <short>Default bond length</short>
+		<long>Default bond length in picometers. Used in the default theme.</long>
+      </locale>
+    </schema>
+     <schema>
+      <key>/schemas/apps/gchempaint/settings/bond-angle</key>
+      <applyto>/apps/gchempaint/settings/bond-angle</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>120.</default>
+      <locale name="C">
+        <short>Default angle between two bonds.</short>
+		<long>Default angle between two consecutive bonds in a chain in degrees. Used in the default theme.</long>
+      </locale>
+    </schema>
+     <schema>
+      <key>/schemas/apps/gchempaint/settings/bond-dist</key>
+      <applyto>/apps/gchempaint/settings/bond-dist</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>5.</default>
+      <locale name="C">
+        <short>Default distance between two lines in a multiple bond.</short>
+		<long>Default distance between two lines in pixels (at 100% zoom) in a multiple bond. Used in the default theme.</long>
+      </locale>
+    </schema>
+     <schema>
+      <key>/schemas/apps/gchempaint/settings/bond-width</key>
+      <applyto>/apps/gchempaint/settings/bond-width</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>1.</default>
+      <locale name="C">
+        <short>Default bond line width.</short>
+		<long>Default bond line width in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+     <schema>
+      <key>/schemas/apps/gchempaint/settings/arrow-length</key>
+      <applyto>/apps/gchempaint/settings/arrow-length</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>200.</default>
+      <locale name="C">
+        <short>Default arrow length</short>
+		<long>Default arrow length in picometers. Used in the default theme.</long>
+      </locale>
+    </schema>
+     <schema>
+      <key>/schemas/apps/gchempaint/settings/arrow-dist</key>
+      <applyto>/apps/gchempaint/settings/arrow-dist</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>5.</default>
+      <locale name="C">
+        <short>Default distance between two lines for double arrows.</short>
+		<long>Default distance between two lines in pixels (at 100% zoom) for double arrows or for retrosynthesis arrows. Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/arrow-width</key>
+      <applyto>/apps/gchempaint/settings/arrow-width</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>1.</default>
+      <locale name="C">
+        <short>Default arrow line width.</short>
+		<long>Default arrow line width in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/arrow-headA</key>
+      <applyto>/apps/gchempaint/settings/arrow-headA</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>6.</default>
+      <locale name="C">
+        <short>Default distance from tip of arrowhead to center.</short>
+		<long>Default distance from tip of arrowhead to center in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/arrow-headB</key>
+      <applyto>/apps/gchempaint/settings/arrow-headB</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>8.</default>
+      <locale name="C">
+        <short>Default distance from tip of arrowhead to trailing point, measured along shaft.</short>
+		<long>Default distance from tip of arrowhead to trailing point, measured along shaft, in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/arrow-headC</key>
+      <applyto>/apps/gchempaint/settings/arrow-headC</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>4.</default>
+      <locale name="C">
+        <short>Default distance of arrowhead trailing points from outside edge of shaft.</short>
+		<long>Default distance of arrowhead trailing points from outside edge of shaft in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/hash-width</key>
+      <applyto>/apps/gchempaint/settings/hash-width</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>1.</default>
+      <locale name="C">
+        <short>Default hash line width.</short>
+		<long>Default line width in pixels for hash bonds (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/hash-dist</key>
+      <applyto>/apps/gchempaint/settings/hash-dist</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>2.</default>
+      <locale name="C">
+        <short>Default hash lines distance.</short>
+		<long>Default distance between two lines in pixels for hash bonds (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/stereo-width</key>
+      <applyto>/apps/gchempaint/settings/stereo-width</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>5.</default>
+      <locale name="C">
+        <short>Default largest width for hash or wedge bonds.</short>
+		<long>Default largest width for hash or wedge bonds (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/scale</key>
+      <applyto>/apps/gchempaint/settings/scale</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>4.</default>
+      <locale name="C">
+        <short>Scale (pm per pixel).</short>
+		<long>Scale used to convert real distance to canvas distance expressed in pm per pixel (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/padding</key>
+      <applyto>/apps/gchempaint/settings/padding</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>2.</default>
+      <locale name="C">
+        <short>Default padding for texts.</short>
+		<long>Padding used around text objects such as atoms, texts and other typographic signs in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/arrow-padding</key>
+      <applyto>/apps/gchempaint/settings/arrow-padding</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>16.</default>
+      <locale name="C">
+        <short>Default padding around arrows.</short>
+		<long>Default padding between arrows and associated objects in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/stoichiometry-padding</key>
+      <applyto>/apps/gchempaint/settings/stoichiometry-padding</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>1.</default>
+      <locale name="C">
+        <short>Default extra padding after a stoichiometric coefficient.</short>
+		<long>Default extra padding between a stoichiometric coefficient and its associated molecule in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/object-padding</key>
+      <applyto>/apps/gchempaint/settings/object-padding</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>16.</default>
+      <locale name="C">
+        <short>Default padding between aligned objects.</short>
+		<long>Default padding in pixels added between consecutive objects during an alignment operation (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+   <schema>
+      <key>/schemas/apps/gchempaint/settings/sign-padding</key>
+      <applyto>/apps/gchempaint/settings/sign-padding</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>8.</default>
+      <locale name="C">
+        <short>Default padding between a '+' sign in a reaction equation and reactants symbols.</short>
+		<long>Default padding between a '+' sign in a reaction equation and reactants symbols in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/charge-sign-size</key>
+      <applyto>/apps/gchempaint/settings/charge-sign-size</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>9.</default>
+      <locale name="C">
+        <short>Default charge sign size.</short>
+		<long>Default size of the charge sign in pixels (at 100% zoom). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/font-family</key>
+      <applyto>/apps/gchempaint/settings/font-family</applyto>
+      <owner>gchempaint</owner>
+      <type>string</type>
+      <default>Bitstream Vera Sans</default>
+      <locale name="C">
+        <short>Chemical formula font family.</short>
+		<long>Font family used for chemical formula such as atoms and fragments. Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/font-style</key>
+      <applyto>/apps/gchempaint/settings/font-style</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Chemical formula font style.</short>
+		<long>Font style used for chemical formula such as atoms and fragments (0 = normal; 1 = oblique; 2 = italic). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/font-weight</key>
+      <applyto>/apps/gchempaint/settings/font-weight</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>4</default>
+      <locale name="C">
+        <short>Chemical formula font weight.</short>
+		<long>Font weight used for chemical formula such as atoms and fragments (2 = ultra-light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/font-variant</key>
+      <applyto>/apps/gchempaint/settings/font-variant</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Chemical formula font variant.</short>
+		<long>Font variant used for chemical formula such as atoms and fragments (0 = normal; 1 = small caps). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/font-stretch</key>
+      <applyto>/apps/gchempaint/settings/font-stretch</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>4</default>
+      <locale name="C">
+        <short>Chemical formula font stretch.</short>
+		<long>Font stretch used for chemical formula such as atoms and fragments (0 = ultra-condensed; 1 = extra-condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; 6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/font-size</key>
+      <applyto>/apps/gchempaint/settings/font-size</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>12.</default>
+      <locale name="C">
+        <short>Chemical formula font size.</short>
+		<long>Font size used for chemical formula such as atoms and fragments. Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/text-font-family</key>
+      <applyto>/apps/gchempaint/settings/text-font-family</applyto>
+      <owner>gchempaint</owner>
+      <type>string</type>
+      <default>Bitstream Vera Serif</default>
+      <locale name="C">
+        <short>Default text font family.</short>
+		<long>Default font family used for texts. Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/text-font-style</key>
+      <applyto>/apps/gchempaint/settings/text-font-style</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Default text font style.</short>
+		<long>Default font style used for texts (0 = normal; 1 = oblique; 2 = italic). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/text-font-weight</key>
+      <applyto>/apps/gchempaint/settings/text-font-weight</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>4</default>
+      <locale name="C">
+        <short>Default text font weight.</short>
+		<long>Default font weight used for texts (2 = ultra-light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/text-font-variant</key>
+      <applyto>/apps/gchempaint/settings/text-font-variant</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Default text font variant.</short>
+		<long>Default font variant used for texts (0 = normal; 1 = small caps). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/text-font-stretch</key>
+      <applyto>/apps/gchempaint/settings/text-font-stretch</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>4</default>
+      <locale name="C">
+        <short>Default text font stretch.</short>
+		<long>Default font stretch used for texts (0 = ultra-condensed; 1 = extra-condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; 6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/text-font-size</key>
+      <applyto>/apps/gchempaint/settings/text-font-size</applyto>
+      <owner>gchempaint</owner>
+      <type>float</type>
+      <default>12.</default>
+      <locale name="C">
+        <short>Default text font size.</short>
+		<long>Font size used for texts. Used in the default theme.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/compression</key>
+      <applyto>/apps/gchempaint/settings/compression</applyto>
+      <owner>gchempaint</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>File compression factor.</short>
+		<long>Compression factor when saving files. Acceptable values are 0 (no compression) to 9.</long>
+      </locale>
+    </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/tearable-mendeleiev</key>
+      <applyto>/apps/gchempaint/settings/tearable-mendeleiev</applyto>
+      <owner>gchempaint</owner>
+      <type>bool</type>
+      <default>FALSE</default>
+      <locale name="C">
+        <short>Whether the periodic table is tearable.</short>
+		<long>If TRUE, the periodic table popup widget will be tearable from the tools dialog box.</long>
+      </locale>
+    </schema>
+</schemalist>
+
+</gconfschemafile>
