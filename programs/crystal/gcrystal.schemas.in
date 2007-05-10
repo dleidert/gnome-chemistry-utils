@@ -10,11 +10,6 @@
         <short>Printing resolution</short>
 		<long>Printing resolution if not automatically detected.</long>
       </locale>
-       <locale name="fr">
-        <short>Résolution de l'impression</short>
-		<long>Résoluton de l'impression dans le cas où celle-ci n'est pas
-		détectée automatiquement.</long>
-      </locale>
     </schema>
 
 	<schema>

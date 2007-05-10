@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/gcrystal.schemas.in: removed localized
+	string.
+
 2007-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu.pc.in: requires libgoffice-0.4. [#19835]
 
