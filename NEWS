@@ -1,3 +1,8 @@
+Version 0.7.96
+	* #19835: gchempaint 0.7.95 still looks for libgoffice-0.3.pc.
+	* #19836: Add KDE MIME stuff for gnome-crystal.
+	* removed a localized string from gcrystal.schemas.in.
+
 Version 0.7.95
 	* uses goffice-0.4.
 	* added a man page for gcrystal (Daniel Leidert).
