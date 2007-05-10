@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* fr.po: cleaned out unused strings.
+
 2007-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: add x-gcrystal.desktop (no new string).
 

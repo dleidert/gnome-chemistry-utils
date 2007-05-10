@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils 0.8.0\n"
-"Report-Msgid-Bugs-To: Daniel Leidert <daniel.leidert@wgdd.de>\n"
-"POT-Creation-Date: 2007-05-07 13:51+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-05-09 09:18+0200\n"
 "PO-Revision-Date: 2007-05-07 13:51+0200\n"
 "Last-Translator: Daniel Leidert <daniel.leidert@wgdd.de>\n"
 "Language-Team: none\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../gchemutils.xml.in.h:1
+#: ../gchemutils.xml.in.h:1 ../programs/crystal/x-gcrystal.desktop.in.h:1
 msgid "Crystalline structure model"
 msgstr "Kristallstrukturmodell"
 

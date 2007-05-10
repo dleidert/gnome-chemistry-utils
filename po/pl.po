@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-06 11:07+0200\n"
+"POT-Creation-Date: 2007-05-09 09:18+0200\n"
 "PO-Revision-Date: 2007-03-29 17:48+0100\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -21,6 +21,11 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ../gchemutils.xml.in.h:1 ../programs/crystal/x-gcrystal.desktop.in.h:1
+#, fuzzy
+msgid "Crystalline structure model"
+msgstr "Przeglądarka struktur krystalicznych Gnome Crystal "
 
 #: ../glade/gchemcalc.glade.h:1 ../programs/calc/gchemcalc.desktop.in.h:2
 msgid "Chemical calculator"
@@ -168,7 +173,8 @@ msgid "Euler's angles"
 msgstr "Kąty Eulera"
 
 #: ../glade/crystal/prefs.glade.h:14 ../glade/crystal/view-settings.glade.h:3
-msgid "Field of view (between 1 and 45°):"
+#, fuzzy
+msgid "Field of view (between 1° and 45°):"
 msgstr "Kąt widzenia (pomiędzy 1 a 45°):"
 
 #: ../glade/crystal/prefs.glade.h:15 ../glade/crystal/view-settings.glade.h:4
@@ -922,55 +928,55 @@ msgstr "prot"
 msgid "tritium"
 msgstr "tryt"
 
-#: ../gcu/application.cc:180
+#: ../gcu/application.cc:181
 #, c-format
 msgid "(screen resolution is %u)"
 msgstr "(rozdzielczość ekranu to %u)"
 
-#: ../gcu/crystaldoc.cc:401
+#: ../gcu/crystaldoc.cc:403
 msgid "Everything has been cleaved"
 msgstr "Wszystko zostało odcięte"
 
-#: ../gcu/dialog.cc:124
+#: ../gcu/dialog.cc:125
 msgid "Type a number"
 msgstr "Wpisz liczbę"
 
-#: ../gcu/dialog.cc:133
+#: ../gcu/dialog.cc:134
 #, c-format
 msgid "Type a number greater than or equal %g and lower than to %g"
 msgstr "Wpisz liczbę większą lub równą %g i mniejszą niż %g"
 
-#: ../gcu/dialog.cc:143
+#: ../gcu/dialog.cc:144
 #, c-format
 msgid "Type a number greater than %g and lower than or equal to %g"
 msgstr "Wpisz liczbę większą %g i mniejszą niż lub równą %g"
 
-#: ../gcu/dialog.cc:153
+#: ../gcu/dialog.cc:154
 #, c-format
 msgid "Type a number between %g and %g, the limits are valid."
 msgstr "Wpisz liczbę pomiędzy%g a %g włącznie."
 
-#: ../gcu/dialog.cc:163
+#: ../gcu/dialog.cc:164
 #, c-format
 msgid "Type a number greater than %g and lower than %g"
 msgstr "Wpisz liczbę większą niż %g i mniejszą niż %g"
 
-#: ../gcu/dialog.cc:173
+#: ../gcu/dialog.cc:174
 #, c-format
 msgid "Type a number lower than %g"
 msgstr "Wpisz liczbę mniejszą niż %g"
 
-#: ../gcu/dialog.cc:183
+#: ../gcu/dialog.cc:184
 #, c-format
 msgid "Type a number greater than %g"
 msgstr "Wpisz liczbę większą niż %g"
 
-#: ../gcu/dialog.cc:193
+#: ../gcu/dialog.cc:194
 #, c-format
 msgid "Type a number lower than or equal to %g"
 msgstr "Wpisz liczbę mniejszą niż lub równą %g"
 
-#: ../gcu/dialog.cc:203
+#: ../gcu/dialog.cc:204
 #, c-format
 msgid "Type a number greater than or equal to %g"
 msgstr "Wpisz liczbę większą niż lub równą %g"
@@ -1047,19 +1053,19 @@ msgstr "_Typ pliku:"
 msgid "Automatic"
 msgstr "Automatyczny"
 
-#: ../gcu/formula.cc:390 ../gcu/formula.cc:428
+#: ../gcu/formula.cc:391 ../gcu/formula.cc:429
 msgid "Unmatched parenthesis"
 msgstr "Niedopasowany nawias"
 
-#: ../gcu/formula.cc:416
+#: ../gcu/formula.cc:417
 msgid "Could not interpret the symbol list"
 msgstr "Nie można zinterpretować listy symboli"
 
-#: ../gcu/formula.cc:422
+#: ../gcu/formula.cc:423
 msgid "Parser failed, please fill a bug report."
 msgstr "Parser zawiódł, proszę zgłosić raport o błędzie."
 
-#: ../gcu/formula.cc:430
+#: ../gcu/formula.cc:431
 msgid "Invalid character"
 msgstr "Nieprawidłowy znak"
 
@@ -1321,15 +1327,15 @@ msgstr "Wersja kalkulatora GChemCalc"
 msgid " [formula]"
 msgstr "[wzór]"
 
-#: ../programs/calc/gchemcalc.cc:503
+#: ../programs/calc/gchemcalc.cc:502
 msgid "For usage see: gchemcalc [-?|--help]"
 msgstr "Dla informacji o użytkowaniu zobacz: gchemcalc [-?|--help]"
 
-#: ../programs/calc/gchemcalc.cc:557
+#: ../programs/calc/gchemcalc.cc:556
 msgid "Element"
 msgstr "Pierwiastek"
 
-#: ../programs/calc/gchemcalc.cc:564
+#: ../programs/calc/gchemcalc.cc:563
 msgid "Mass %"
 msgstr "Masa %"
 
@@ -1346,15 +1352,18 @@ msgid "Gnome Crystal Crystalline Structures Viewer "
 msgstr "Przeglądarka struktur krystalicznych Gnome Crystal "
 
 #: ../programs/crystal/gcrystal.schemas.in.h:1
-msgid "Backgroud color blue value"
+#, fuzzy
+msgid "Background color blue value"
 msgstr "Wartość składowej niebieskiej koloru tła"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:2
-msgid "Backgroud color green value"
+#, fuzzy
+msgid "Background color green value"
 msgstr "Wartość składowej zielonej koloru tła"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:3
-msgid "Backgroud color red value"
+#, fuzzy
+msgid "Background color red value"
 msgstr "Wartość składowej czerwonej koloru tła"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:4
@@ -1468,23 +1477,11 @@ msgstr "Baza danych"
 msgid "The sum of the three angles must be less than 360°"
 msgstr "Suma trzech kątów musi być mniejsza niż 360°"
 
-#: ../programs/crystal/cleavagesdlg.cc:98
-msgid "h"
-msgstr "h"
-
-#: ../programs/crystal/cleavagesdlg.cc:108
-msgid "k"
-msgstr "k"
-
-#: ../programs/crystal/cleavagesdlg.cc:118
-msgid "l"
-msgstr "l"
-
 #: ../programs/crystal/cleavagesdlg.cc:128
 msgid "Planes cleaved"
 msgstr ""
 
-#: ../programs/crystal/document.cc:252
+#: ../programs/crystal/document.cc:237
 #, c-format
 msgid ""
 "Could not save file\n"
@@ -1493,7 +1490,7 @@ msgstr ""
 "Nie można zapisać pliku\n"
 "%s"
 
-#: ../programs/crystal/document.cc:255
+#: ../programs/crystal/document.cc:240
 #, c-format
 msgid ""
 "Could not load file\n"
@@ -1502,7 +1499,7 @@ msgstr ""
 "Nie można wczytać pliku\n"
 "%s"
 
-#: ../programs/crystal/document.cc:258
+#: ../programs/crystal/document.cc:243
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
@@ -1511,39 +1508,15 @@ msgstr ""
 "%s: nieprawidłowy plik xml. \n"
 "Drzewo jest puste?"
 
-#: ../programs/crystal/document.cc:261
+#: ../programs/crystal/document.cc:246
 #, c-format
 msgid "%s: invalid file format."
 msgstr "%s: nieprawidłowy format pliku."
 
-#: ../programs/crystal/document.cc:609
+#: ../programs/crystal/document.cc:594
 #, c-format
 msgid "\"%s\" has been modified.  Do you wish to save it?"
 msgstr "\"%s\" został zmodyfikowany.  Czy chcesz go zapisać?"
-
-#: ../programs/crystal/linesdlg.cc:119
-msgid "x1"
-msgstr "x1"
-
-#: ../programs/crystal/linesdlg.cc:129
-msgid "y1"
-msgstr "y1"
-
-#: ../programs/crystal/linesdlg.cc:139
-msgid "z1"
-msgstr "z1"
-
-#: ../programs/crystal/linesdlg.cc:149
-msgid "x2"
-msgstr "x2"
-
-#: ../programs/crystal/linesdlg.cc:159
-msgid "y2"
-msgstr "y2"
-
-#: ../programs/crystal/linesdlg.cc:169
-msgid "z2"
-msgstr "z2"
 
 #: ../programs/crystal/linesdlg.cc:178
 msgid "Single"
@@ -1778,43 +1751,43 @@ msgid "Name"
 msgstr "Nazwa"
 
 #: ../programs/table/gchemtable-elt.cc:109
-#: ../programs/table/gchemtable-elt.cc:153
-#: ../programs/table/gchemtable-elt.cc:189
-#: ../programs/table/gchemtable-elt.cc:212
-#: ../programs/table/gchemtable-elt.cc:226
-#: ../programs/table/gchemtable-elt.cc:240
-#: ../programs/table/gchemtable-elt.cc:262
+#: ../programs/table/gchemtable-elt.cc:152
+#: ../programs/table/gchemtable-elt.cc:188
+#: ../programs/table/gchemtable-elt.cc:211
+#: ../programs/table/gchemtable-elt.cc:225
+#: ../programs/table/gchemtable-elt.cc:239
+#: ../programs/table/gchemtable-elt.cc:261
 msgid "n.a."
 msgstr "b.d."
 
 #: ../programs/table/gchemtable-elt.cc:121
-#: ../programs/table/gchemtable-elt.cc:163
+#: ../programs/table/gchemtable-elt.cc:162
 #, c-format
 msgid "%d:"
 msgstr "%d:"
 
-#: ../programs/table/gchemtable-elt.cc:274
+#: ../programs/table/gchemtable-elt.cc:273
 msgid "Ion"
 msgstr "Jon"
 
 #. C.N. stands for coordination number
-#: ../programs/table/gchemtable-elt.cc:281
+#: ../programs/table/gchemtable-elt.cc:280
 msgid "C.N."
 msgstr "L.K."
 
-#: ../programs/table/gchemtable-elt.cc:286
+#: ../programs/table/gchemtable-elt.cc:285
 msgid "Spin"
 msgstr "Spin"
 
-#: ../programs/table/gchemtable-elt.cc:293
+#: ../programs/table/gchemtable-elt.cc:292
 msgid "Value"
 msgstr "Wartość"
 
-#: ../programs/table/gchemtable-elt.cc:312
+#: ../programs/table/gchemtable-elt.cc:311
 msgid "Low"
 msgstr "Niski"
 
-#: ../programs/table/gchemtable-elt.cc:315
+#: ../programs/table/gchemtable-elt.cc:314
 msgid "High"
 msgstr "Wysoki"
 
@@ -1884,6 +1857,33 @@ msgstr "Temperatura wrzenia"
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "Układ okresowy pierwaistków Mendelejewa"
+
+#~ msgid "h"
+#~ msgstr "h"
+
+#~ msgid "k"
+#~ msgstr "k"
+
+#~ msgid "l"
+#~ msgstr "l"
+
+#~ msgid "x1"
+#~ msgstr "x1"
+
+#~ msgid "y1"
+#~ msgstr "y1"
+
+#~ msgid "z1"
+#~ msgstr "z1"
+
+#~ msgid "x2"
+#~ msgstr "x2"
+
+#~ msgid "y2"
+#~ msgstr "y2"
+
+#~ msgid "z2"
+#~ msgstr "z2"
 
 #~ msgid "amu"
 #~ msgstr "ajm"
