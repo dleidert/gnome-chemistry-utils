@@ -487,6 +487,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui)
 		"signal::disconnect_proxy", G_CALLBACK (on_disconnect_proxy), this,
 		NULL);
 	gtk_ui_manager_insert_action_group (m_UIManager, action_group, 0);
+	g_object_unref (action_group);
 
 	accel_group = gtk_ui_manager_get_accel_group (m_UIManager);
 	gtk_window_add_accel_group (GTK_WINDOW (m_Window), accel_group);

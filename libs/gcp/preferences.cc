@@ -254,7 +254,7 @@ static bool on_delete_event (GtkWidget* widget, GdkEvent *event, PrefsDlg* dlg)
 }
 
 PrefsDlg::PrefsDlg (Application *pApp):
-	Dialog (pApp, DATADIR"/gchempaint-unstable/ui/preferences.glade", "preferences", pApp),
+	Dialog (pApp, GLADEDIR"/preferences.glade", "preferences", pApp),
 	Object (),
 	m_CurTheme (NULL),
 	m_Path (NULL)

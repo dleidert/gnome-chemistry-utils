@@ -48,7 +48,7 @@ static void help_cb (Tools *box)
 }
 
 Tools::Tools (Application *App):
-	Dialog (App, DATADIR"/gchempaint-unstable/ui/tools.glade", "tools", App),
+	Dialog (App, GLADEDIR"/tools.glade", "tools", App),
 	m_UIManager (NULL)
 {
 	if (!xml) {

@@ -179,7 +179,7 @@ static int set_fontsize (double val) {return (int) (val * PANGO_SCALE);}
 
 ThemeManager::ThemeManager ()
 {
-	bindtextdomain(GETTEXT_PACKAGE, DATADIR"/locale");
+	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
 #ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
@@ -515,9 +515,15 @@ void ThemeManager::AddFileTheme (Theme *theme, char const *label)
 
 void ThemeManager::RemoveFileTheme (Theme *theme)
 {
-	char const *name = theme->GetName ().c_str ();
-	m_Themes.erase (name);
+	char const *name = NULL;
+	map <string, Theme*>::iterator i, iend = m_Themes.end ();
+	for (i = m_Themes.begin (); i != iend; i++)
+		if ((*i).second == theme) {
+			name = (*i).first.c_str ();
+			break;
+		}
 	m_Names.remove (name);
+	m_Themes.erase (name);
 }
 
 void ThemeManager::ChangeThemeName (Theme *theme, char const *name)
@@ -982,8 +988,7 @@ void Theme::RemoveClient (Object *client)
 	set <Object*>::iterator iter = m_Clients.find (client);
 	if (iter != m_Clients.end ())
 		m_Clients.erase (iter);
-	if (m_ThemeType == FILE_THEME_TYPE && m_Clients.size () == 0)
-	{
+	if (m_ThemeType == FILE_THEME_TYPE && m_Clients.size () == 0) {
 		TheThemeManager.RemoveFileTheme (this);
 		delete this;
 	}

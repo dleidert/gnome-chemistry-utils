@@ -31,6 +31,7 @@
 #include "theme.h"
 #include "view.h"
 #include "document.h"
+#include "Hposdlg.h"
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gcp-canvas-bpath.h>
@@ -47,7 +48,8 @@ using namespace gcu;
 namespace gcp {
 
 Atom::Atom (): gcu::Atom (),
-	m_ShowSymbol (false)
+	m_ShowSymbol (false),
+	m_HPosStyle (AUTO_HPOS)
 {
 	m_Valence = -1; //unspecified
 	m_nlp = 0;
@@ -88,7 +90,8 @@ Atom::~Atom ()
 }
 
 Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z),
-	m_ShowSymbol (false)
+	m_ShowSymbol (false),
+	m_HPosStyle (AUTO_HPOS)
 {
 	m_ChargeAuto = false;
 	m_HPos = GetBestSide ();
@@ -108,7 +111,8 @@ Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z),
 }
 
 Atom::Atom (OBAtom* atom): gcu::Atom (),
-	m_ShowSymbol (false)
+	m_ShowSymbol (false),
+	m_HPosStyle (AUTO_HPOS)
 {
 	m_x = atom->GetX ();
 	m_y = - atom->GetY ();
@@ -138,7 +142,7 @@ void Atom::SetZ (int Z)
 	gcu::Atom::SetZ (Z);
 	m_Element = Element::GetElement (m_Z);
 	if ((m_Valence = m_Element->GetDefaultValence ()))
-		m_HPos = GetBestSide ();
+		m_HPos = (m_HPosStyle == AUTO_HPOS)? GetBestSide(): m_HPosStyle;
 	else
 		m_nH = 0;
 	int max = m_Element->GetMaxValenceElectrons ();
@@ -256,7 +260,7 @@ void Atom::Update ()
 				m_ChargeAuto = true;
 			}
 		}
-		m_HPos = GetBestSide ();
+		m_HPos = (m_HPosStyle == AUTO_HPOS)? GetBestSide(): m_HPosStyle;
 	} else {
 		m_nH = 0;
 		if (m_ChargeAuto || !m_Charge) {
@@ -1521,6 +1525,10 @@ xmlNodePtr Atom::Save (xmlDocPtr xml)
 	if (GetZ () == 6 && m_ShowSymbol) {
 		xmlNewProp (node, (xmlChar*) "show-symbol", (xmlChar*) "true");
 	}
+	if (m_HPosStyle != AUTO_HPOS) {
+		xmlNewProp (node, (xmlChar*) "H-positon",
+					(xmlChar*) ((m_HPosStyle == LEFT_HPOS)? "left": "right"));
+	}
 	return node;
 }
 	
@@ -1592,6 +1600,15 @@ bool Atom::Load (xmlNodePtr node)
 	if (buf) {
 		if (!strcmp (buf, "true"))
 			m_ShowSymbol = true;
+		xmlFree (buf);
+	}
+	// Load H atoms position if any
+	buf = (char*) xmlGetProp (node, (xmlChar*) "H-position");
+	if (buf) {
+		if (!strcmp (buf, "left"))
+			m_HPosStyle = LEFT_HPOS;
+		else if (!strcmp (buf, "right"))
+			m_HPosStyle = RIGHT_HPOS;
 		xmlFree (buf);
 	}
 	return true;
@@ -1688,23 +1705,47 @@ static void do_display_symbol (GtkToggleAction *action, Atom *pAtom)
 	Doc->GetView ()->Update (pAtom);
 }
 
+static void do_choose_H_pos (Atom* Atom)
+{
+	new HPosDlg (static_cast<Document*> (Atom->GetDocument ()), Atom);
+}
+
 bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	bool result = false;
+	GtkActionGroup *group = NULL;
+	GtkAction *action;
 	if (GetZ () == 6 && GetBondsNumber() != 0) {
-		GtkActionGroup *group = gtk_action_group_new ("atom");
-		GtkAction *action;
+		group = gtk_action_group_new ("atom");
 		action = gtk_action_new ("Atom", _("Atom"),NULL, NULL);
 		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
 		action = GTK_ACTION (gtk_toggle_action_new ("show-symbol", _("Display symbol"),  _("Whether to display carbon atom symbol or not"), NULL));
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), m_ShowSymbol);
 		g_signal_connect (action, "toggled", G_CALLBACK (do_display_symbol), this);
 		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Atom'><menuitem action='show-symbol'/></menu></popup></ui>", -1, NULL);
-		gtk_ui_manager_insert_action_group (UIManager, group, 0);
 		result = true;
 	}
-	return result | GetParent ()->BuildContextualMenu (UIManager, object, x, y);
+	if (m_nH) {
+		if (!group) {
+			group = gtk_action_group_new ("atom");
+			action = gtk_action_new ("Atom", _("Atom"),NULL, NULL);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+		}
+		action = GTK_ACTION (gtk_action_new ("H-position", _("Hydrogen atoms position"),  NULL, NULL));
+		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_choose_H_pos), this);
+		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
+		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Atom'><menuitem action='H-position'/></menu></popup></ui>", -1, NULL);
+	}
+	if (group) {
+		gtk_ui_manager_insert_action_group (UIManager, group, 0);
+		g_object_unref (group);
+	}
+	return result | Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
 }	//	namespace gcp

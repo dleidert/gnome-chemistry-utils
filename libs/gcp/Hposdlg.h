@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint Wikipedia plugin
- * plugin.h 
+ * GChemPaint library
+ * H-pos.h
  *
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,18 +22,34 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_WIKIPEDIA_PLUGIN_H
-#define GCHEMPAINT_WIKIPEDIA_PLUGIN_H
+#ifndef GCHEMPAINT_H_POS_DLG_H
+#define GCHEMPAINT_H_POS_DLG_H
 
-#include <gcp/plugin.h>
+#include <gcu/dialog.h>
+#include <gtk/gtkcombobox.h>
 
-class gcpWikipediaPlugin: public gcp::Plugin
+using namespace gcu;
+
+namespace gcp {
+
+class Atom;
+class Document;
+class View;
+
+class HPosDlg: public Dialog
 {
 public:
-	gcpWikipediaPlugin ();
-	virtual ~gcpWikipediaPlugin ();
-
-	virtual void Populate (gcp::Application* App);
+	HPosDlg (Document *pDoc, Atom* pAtom);
+	virtual ~HPosDlg ();
+	
+	void OnPosChanged ();
+	
+private:
+	GtkComboBox *box;
+	Atom *m_Atom;
+	View *m_View;
 };
 
-#endif //GCHEMPAINT_WIKIPEDIA_PLUGIN_H
+}	//	namespace gcp
+
+#endif	//	GCHEMPAINT_H_POS_DLG_H

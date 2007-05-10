@@ -47,7 +47,7 @@ void on_about (GtkWidget* widget, void* data)
 		"USA";
 /* Note to translators: replace the following string with the appropriate credits for you lang */
 	char const *translator_credits = _("translator_credits");
-	GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file ( DATADIR"/"PACKAGE"/pixmaps/gchempaint_logo.png", NULL);
+	GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file (PIXMAPSDIR"/gchempaint_logo.png", NULL);
 	gtk_show_about_dialog (NULL,
 					"name", "GChemPaint",
 					"authors", authors,

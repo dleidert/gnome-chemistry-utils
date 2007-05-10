@@ -28,6 +28,7 @@
 #include <map>
 #include <glib.h>
 #include <gcu/atom.h>
+#include <gcu/dialog-owner.h>
 #include <gcu/element.h>
 #include <gcu/macros.h>
 #include <libgnomecanvas/gnome-canvas.h>
@@ -66,9 +67,15 @@ class Molecule;
 #define POSITION_E 64
 #define POSITION_W 128
 
+enum {
+	LEFT_HPOS,
+	RIGHT_HPOS,
+	AUTO_HPOS,
+};
+
 class Electron;
 
-class Atom: public gcu::Atom
+class Atom: public gcu::Atom, public DialogOwner
 {
 public:
 	Atom ();
@@ -161,6 +168,7 @@ private:
 	string m_FontName;
 
 GCU_PROP (bool, ShowSymbol)
+GCU_PROP (unsigned char, HPosStyle) //0=force left, 1=force right, 2=auto.
 };
 
 }	//	namespace gcp

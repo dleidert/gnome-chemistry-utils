@@ -370,12 +370,14 @@ bool Reaction::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 	GtkActionGroup *group = gtk_action_group_new ("reaction");
 	GtkAction *action = gtk_action_new ("destroy", _("Destroy the reaction"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
 	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	g_object_unref (group);
 	char buf[] = "<ui><popup><menuitem action='destroy'/></popup></ui>";
 	gtk_ui_manager_add_ui_from_string (UIManager, buf, -1, NULL);
 	GtkWidget *w = gtk_ui_manager_get_widget (UIManager, "/popup/destroy");
 	g_signal_connect_swapped (w, "activate", G_CALLBACK (do_destroy_reaction), this);
-	GetParent ()->BuildContextualMenu (UIManager, object, x, y);
+	Object::BuildContextualMenu (UIManager, object, x, y);
 	return true;
 }
 

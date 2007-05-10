@@ -1,5 +1,67 @@
 ##Text encoding: utf-8
 
+2007-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: remove pc file.
+	* configure.ac: add reactions plugin.
+	* gcu-unstable.pc.in: cleaned.
+	* glade/paint/Makefile.am: add H-pos.glade. [#19842]
+	* glade/paint/H-pos.glade: ditto.
+	* glade/paint/preferences.glade: fixed bounds for
+	all spin buttons. [#19845]
+	* libs/gcp/Hposdlg.cc: allow changing the position of
+	hydrogen atoms. [#19842]
+	* libs/gcp/Hposdlg.h: ditto.
+	* libs/gcp/Makefile.am: add new Hposdlg.*. [#19842]
+	and add LOCALEDR and GLADEDIR to DEFS.
+	* libs/gcp/about.cc: fixed path to logo.
+	* libs/gcp/atom.cc: fixed memory leaks in BuildContextualMenu,
+	allow changing the position of hydrogen atoms. [#19842]
+	* libs/gcp/atom.h: allow changing the position of
+	hydrogen atoms. [#19842]
+	* libs/gcp/bond.cc: fixed memory leaks in BuildContextualMenu.
+	* libs/gcp/docprop.cc: use GLADEDIR.
+	* libs/gcp/mesomery.cc: fixed memory leaks in BuildContextualMenu.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcp/newfiledlg.cc: use GLADEDIR.
+	* libs/gcp/preferences.cc: ditto.
+	* libs/gcp/reactant.cc: fixed memory leaks in BuildContextualMenu.
+	* libs/gcp/reaction-arrow.h:
+	* libs/gcp/reaction.cc:
+	* libs/gcp/stringdlg.cc: use GLADEDIR.
+	* libs/gcp/theme.cc: use LOCALEDIR.
+	* libs/gcp/theme.cc: fixed crashers and use GLADEDIR.
+	* libs/gcp/tool.h: add some doc.
+	* libs/gcp/tools.cc: use GLADEDIR.
+	* libs/gcp/view.cc: don't keep zombies in gcpWidgetData::Items.
+	Fixes crashes. [#19840]
+	* libs/gcp/widgetdata.cc: fixed gcp xml namespace.
+	* libs/gcp/window.cc: fixed a memory leak.
+	* libs/gcu/object.cc: add support to modify contextual menus
+	from outside the class code.
+	* libs/gcu/object.h: ditto.
+	* pixmaps/Makefile.am: add new pixmaps.
+	* pixmaps/gchempaint128.png: copied from GChemPaint.
+	* pixmaps/gchempaint32.png: ditto.
+	* pixmaps/gchempaint48.png: ditto.
+	* pixmaps/gchempaint72.png: ditto.
+	* pixmaps/gchempaint_logo.png: ditto.
+	* plugins/paint/Makefile.am: add reactions plugin.
+	* plugins/paint/arrows/retrosynthesis.cc: fixed memory leaks
+	in BuildContextualMenu.
+	* plugins/paint/reactions/plugin.cc: new plugin.
+	* plugins/paint/reactions/plugin.h: ditto.
+	* plugins/paint/selection/group.cc: fixed memory leaks
+	in BuildContextualMenu.
+	* plugins/paint/templates/templatetool.cc: use correct bond
+	lengths when pasting the template. [#19838]
+	* plugins/paint/wikipedia/plugin.cc: add a contextual menu
+	item.
+	* plugins/paint/wikipedia/plugin.h: minor cosmetic update.
+	* plugins/paint/wikipedia/wikipediatool.cc: fixed gcp xml
+	namespace.
+	* templates/paint/Makefile.am: add new saccharides templates.
+	* templates/paint/haworth.xml.in: ditto.
+
 2007-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add --with-kde-mime-dir.
 	* gchemutils.keys.in: removed obsolete.

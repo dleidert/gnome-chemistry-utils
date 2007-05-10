@@ -37,7 +37,8 @@ libgchempaint_unstable_la_SOURCES = \
 		view.cc \
 		widgetdata.cc \
 		zoomdlg.cc \
-		theme.cc 
+		theme.cc \
+		Hposdlg.cc
 
 noinst_HEADERS = \
 		application.h \
@@ -76,7 +77,8 @@ noinst_HEADERS = \
 		view.h \
 		widgetdata.h \
 		zoomdlg.h \
-		theme.h
+		theme.h \
+		Hposdlg.h
 		
 libgchempaint_unstable_la_LDFLAGS = -release $(VERSION) \
 	$(top_srcdir)/libs/gcu/libgcu-unstable.la \
@@ -85,5 +87,7 @@ libgchempaint_unstable_la_LDFLAGS = -release $(VERSION) \
 AM_CXXFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
 	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint\" \
-	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\"
+	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\" \
+	-DPIXMAPSDIR=\"$(datadir)/gchemutils-unstable/pixmaps\" \
+	-DLOCALEDIR=\"$(localedir)\"
 

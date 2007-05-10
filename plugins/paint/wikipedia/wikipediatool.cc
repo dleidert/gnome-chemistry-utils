@@ -201,7 +201,7 @@ bool gcpWikipediaTool::OnClicked ()
 	if (!xml)
 		return false; // should not happen, but we need something better 
 	xmlDocSetRootElement (xml, xmlNewDocNode (xml, NULL, (xmlChar*) "chemistry", NULL));
-	xmlNsPtr ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "");
+	xmlNsPtr ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "gcp");
 	xmlSetNs (xml->children, ns);
 	//FIXME: implement exception handling
 	xmlNodePtr child = pMol->Save (xml);

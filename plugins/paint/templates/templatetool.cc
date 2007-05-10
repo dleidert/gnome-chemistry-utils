@@ -63,12 +63,16 @@ gcpTemplateTool::~gcpTemplateTool ()
 
 bool gcpTemplateTool::OnClicked ()
 {
+	gcp::Document* pDoc = m_pView->GetDoc ();
 	gcpNewTemplateToolDlg *dlg = (gcpNewTemplateToolDlg*) m_pApp->GetDialog ("new_template");
 	if (dlg) {
 		m_pObject = m_pObject->GetMolecule ();
 		if (m_pObject) {
 			xmlNodePtr node = m_pObject->Save (xml);
 			if (node) {
+				char *buf = g_strdup_printf ("%g", pDoc->GetTheme ()->GetBondLength ());
+				xmlNewProp (node, (const xmlChar*) "bond-length", (const xmlChar*) buf);
+				g_free (buf);
 				dlg->SetTemplate (node);
 				gdk_window_raise (GTK_WIDGET (dlg->GetWindow ())->window);
 			}
@@ -77,7 +81,6 @@ bool gcpTemplateTool::OnClicked ()
 	}
 	if (!m_Template)
 		return false;
-	gcp::Document* pDoc = m_pView->GetDoc ();
 	pDoc->AddData (m_Template->node);
 	m_pObject = m_pData->SelectedObjects.front ();
 	if (m_Template->bond_length != 0.) { // if not, there is no bond...
@@ -198,7 +201,7 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 				gnome_canvas_update_now (GNOME_CANVAS (m_Template->doc->GetWidget ()));
 				m_Template->data->GetObjectBounds (m_Template->doc, &m_Template->rect);
 				m_Template->doc->Move (-m_Template->rect.x0 / pTheme->GetZoomFactor (), -m_Template->rect.y0 / pTheme->GetZoomFactor ());
-				m_Template->bond_length = m_Template->doc->GetMedianBondLength ();
+				m_Template->bond_length = 140.;
 				page = -1;
 			} else
 				page = gtk_notebook_page_num (m_Book, m_Template->w);
@@ -403,6 +406,15 @@ void gcpNewTemplateToolDlg::SetTemplate (xmlNodePtr node)
 	}
 	pDoc->AddData (node);
 	ArtDRect rect;
+	char *buf = (char*) xmlGetProp (node, (const xmlChar*) "bond-length");
+	double r = 140. / strtod (buf, NULL);
+	xmlFree (buf);
+	if (fabs (r - 1.) > .0001) { 
+		Matrix2D m (r, 0., 0., r);
+		// FIXME: this would not work for reactions
+		pDoc->Transform2D (m, 0., 0.);
+		pDoc->GetView ()->Update (pDoc);
+	}
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 	pDoc->AbortOperation ();

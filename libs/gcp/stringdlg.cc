@@ -51,7 +51,8 @@ static void on_string_clear_data(GtkClipboard *clipboard, StringDlg *dlg)
 {
 }
 
-StringDlg::StringDlg (Document *pDoc, string& data, enum data_type type): Dialog (pDoc->GetApplication(), DATADIR"/gchempaint-unstable/ui/stringdlg.glade", "string")
+StringDlg::StringDlg (Document *pDoc, string& data, enum data_type type):
+	Dialog (pDoc->GetApplication(), GLADEDIR"/stringdlg.glade", "string")
 {
 	Data = data;
 	Type = type;

@@ -2,7 +2,6 @@ SUBDIRS = po database glade pixmaps libs plugins programs mozilla-plugin \
 	goffice templates themes samples tests dtds docs
 
 EXTRA_DIST=	\
-	gcu-unstable.pc.in	\
 	$(mime_in_files)	\
 	intltool-extract.in	\
 	intltool-update.in	\
@@ -14,7 +13,6 @@ CLEANFILES = \
 	gchemutils.xml
 
 DISTCLEANFILES = \
-	gcu-unstable.pc \
 	intltool-extract \
 	intltool-update \
 	intltool-merge
@@ -40,9 +38,6 @@ DISTCHECK_CONFIGURE_FLAGS = \
 	--disable-scrollkeeper \
 	--disable-update-databases \
 	--with-mozilla-libdir=\$${libdir}/mozilla
-
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA= gcu-unstable.pc
 
 mime_in_files = gchemutils.xml.in
 mimedir = $(datadir)/mime/packages

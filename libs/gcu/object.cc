@@ -29,6 +29,24 @@
 
 using namespace gcu;
 
+class TypeDesc
+{
+public:
+	TypeDesc ();
+
+	TypeId Id;
+	Object* (*Create) ();
+	set <TypeId> PossibleChildren;
+	set <TypeId> PossibleParents;
+	set <TypeId> RequiredChildren;
+	set <TypeId> RequiredParents;
+	string CreationLabel;
+	list<BuildMenuCb> MenuCbs;
+};
+
+static map<string, TypeDesc> Types;
+static vector<string> TypeNames;
+
 Object::Object (TypeId Id)
 {
 	m_Type = Id;
@@ -323,7 +341,12 @@ void Object::Transform2D(Matrix2D& m, double x, double y)
 
 bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
-	return (m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false;
+	bool result = false;
+	TypeDesc& typedesc = Types[TypeNames[m_Type]];
+	list<BuildMenuCb>::iterator i, end = typedesc.MenuCbs.end ();
+	for (i = typedesc.MenuCbs.begin (); i != end; i++)
+		result |= (*i) (this, UIManager, object, x, y);
+	return result | ((m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false);
 }
 
 void Object::Add (GtkWidget* w)
@@ -371,28 +394,11 @@ double Object::GetYAlign ()
 
 static TypeId NextType = OtherType;
 
-class TypeDesc
-{
-public:
-	TypeDesc ();
-
-	TypeId Id;
-	Object* (*Create) ();
-	set <TypeId> PossibleChildren;
-	set <TypeId> PossibleParents;
-	set <TypeId> RequiredChildren;
-	set <TypeId> RequiredParents;
-	string CreationLabel;
-};
-
 TypeDesc::TypeDesc ()
 {
 	Id = NoType;
 	Create = NULL;
 }
-
-static map<string, TypeDesc> Types;
-static vector<string> TypeNames;
 
 TypeId Object::AddType (string TypeName, Object* (*Create) (), TypeId id)
 {
@@ -584,4 +590,10 @@ void Object::Lock (bool state)
 		m_Locked++;
 	else if (m_Locked > 0)
 		m_Locked--;
+}
+
+void Object::AddMenuCallback (TypeId Id, BuildMenuCb cb)
+{
+	TypeDesc& typedesc = Types[TypeNames[Id]];
+	typedesc.MenuCbs.push_back (cb);
 }

@@ -75,14 +75,16 @@ bool Reactant::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 		GtkActionGroup *group = gtk_action_group_new ("reactant");
 		GtkAction *action = gtk_action_new ("stoichiometry", _("Add a stoichiometry coefficient"), NULL, NULL);
 		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
 		gtk_ui_manager_insert_action_group (UIManager, group, 0);
+		g_object_unref (group);
 		char buf[] = "<ui><popup><menuitem action='stoichiometry'/></popup></ui>";
 		gtk_ui_manager_add_ui_from_string (UIManager, buf, -1, NULL);
 		GtkWidget *w = gtk_ui_manager_get_widget (UIManager, "/popup/stoichiometry");
 		g_signal_connect_swapped (w, "activate", G_CALLBACK (do_add_stoichiometry), this);
 		result = true;
 	}
-	return result | GetParent ()->BuildContextualMenu (UIManager, object, x, y);
+	return result | Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
 xmlNodePtr Reactant::Save (xmlDocPtr xml)

@@ -500,34 +500,42 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 	GtkAction *action;
 	action = gtk_action_new ("Molecule", _("Molecule"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
+	g_object_unref (action);
 	if (!m_Fragments.size ()) {
 		if (((Document*) GetDocument ())->GetApplication ()->HaveGhemical ()) {
 			action = gtk_action_new ("ghemical", _("Export molecule to Ghemical"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_export_to_ghemical), this);
 			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='ghemical'/></menu></popup></ui>", -1, NULL);
 		}
 		if (((Document*) GetDocument ())->GetApplication ()->HaveInChI ()) {
 			action = gtk_action_new ("inchi", _("Generate InChI"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_build_inchi), this);
 			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='inchi'/></menu></popup></ui>", -1, NULL);
 			action = gtk_action_new ("webbook", _("NIST WebBook page for this molecule"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_show_webbook), this);
 			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='webbook'/></menu></popup></ui>", -1, NULL);
 			action = gtk_action_new ("pubchem", _("PubChem page for this molecule"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_show_pubchem), this);
 			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='pubchem'/></menu></popup></ui>", -1, NULL);
 		}
 		action = gtk_action_new ("smiles", _("Generate Smiles"), NULL, NULL);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_build_smiles), this);
 		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='smiles'/></menu></popup></ui>", -1, NULL);
 		action = gtk_action_new ("calc", _("Open in Calculator"), NULL, NULL);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_open_in_calc), this);
 		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='calc'/></menu></popup></ui>", -1, NULL);
 		result = true;
 	}
@@ -536,14 +544,14 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 		g_signal_connect (action, "activate", G_CALLBACK (do_select_alignment), this);
 		g_object_set_data (G_OBJECT (action), "item", object);
 		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='select-align'/></menu></popup></ui>", -1, NULL);
 		result = true;
 	}
 	if (result)
 		gtk_ui_manager_insert_action_group (UIManager, group, 0);
-	else
-		g_object_unref (group);
-	return result | GetParent ()->BuildContextualMenu (UIManager, object, x, y);
+	g_object_unref (group);
+	return result | Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
 void Molecule::ExportToGhemical ()

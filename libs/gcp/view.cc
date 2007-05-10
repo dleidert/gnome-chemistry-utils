@@ -381,10 +381,13 @@ void View::OnDestroy (GtkWidget* widget)
 
 GnomeCanvasItem* View::GetCanvasItem (GtkWidget* widget, Object* Object)
 {
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (widget), "data");
+	WidgetData* pData = reinterpret_cast<WidgetData*> (g_object_get_data (G_OBJECT (widget), "data"));
 	if ((!pData) || (pData->m_View != this))
 		return NULL;
-	return (GnomeCanvasItem*) pData->Items[Object];
+	GnomeCanvasItem *result = reinterpret_cast<GnomeCanvasItem*> (pData->Items[Object]);
+	if (!result)
+		pData->Items.erase (Object);
+	return result;
 }
 
 void View::Print (GnomePrintContext *pc, gdouble width, gdouble height)

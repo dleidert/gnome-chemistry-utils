@@ -1,0 +1,311 @@
+<?xml version="1.0"?>
+<templates>
+  <template>
+    <_category>Saccharides</_category>
+    <_name>α-D-glucopyranose</_name>
+    <molecule id="m1">
+      <atom id="a1" element="C">
+        <position x="82" y="234,995"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="180,995" y="136"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="320,995" y="136"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="419,99" y="234,995"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="180,995" y="333,99"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="320,995" y="333,99"/>
+      </atom>
+      <atom id="a9" element="O">
+        <position x="82" y="324,995"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a2" end="a10"/>
+      <bond id="b12" order="1" begin="a4" end="a12"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b4" order="1" begin="a1" end="a5" type="up"/>
+      <bond id="b5" order="1" begin="a5" end="a6" type="fore"/>
+      <bond id="b6" order="1" begin="a4" end="a6" type="up"/>
+      <bond id="b7" order="1" begin="a6" end="a7"/>
+      <bond id="b8" order="1" begin="a5" end="a8"/>
+      <bond id="b9" order="1" begin="a1" end="a9"/>
+      <fragment id="f1"><atom id="a10">C</atom>H2OH<position x="180,995" y="46"/></fragment>
+      <fragment id="f2"><atom id="a8">O</atom>H<position x="180,995" y="243,99"/></fragment>
+      <fragment id="f3"><atom id="a7">O</atom>H<position x="320,995" y="423,99"/></fragment>
+      <fragment id="f4"><atom id="a12">O</atom>H<position x="419,99" y="324,995"/></fragment>
+    </molecule>
+  </template>
+  <template>
+    <_category>Saccharides</_category>
+    <_name>β-D-glucopyranose</_name>
+    <molecule id="m1">
+      <atom id="a1" element="C">
+        <position x="82" y="234,995"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="180,995" y="136"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="320,995" y="136"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="419,99" y="234,995"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="180,995" y="333,99"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="320,995" y="333,99"/>
+      </atom>
+      <atom id="a9" element="O">
+        <position x="82" y="324,995"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a2" end="a10"/>
+      <bond id="b11" order="1" begin="a4" end="a11"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b4" order="1" begin="a1" end="a5" type="up"/>
+      <bond id="b5" order="1" begin="a5" end="a6" type="fore"/>
+      <bond id="b6" order="1" begin="a4" end="a6" type="up"/>
+      <bond id="b7" order="1" begin="a6" end="a7"/>
+      <bond id="b8" order="1" begin="a5" end="a8"/>
+      <bond id="b9" order="1" begin="a1" end="a9"/>
+      <fragment id="f1"><atom id="a10">C</atom>H2OH<position x="180,995" y="46"/></fragment>
+      <fragment id="f2"><atom id="a8">O</atom>H<position x="180,995" y="243,99"/></fragment>
+      <fragment id="f3"><atom id="a7">O</atom>H<position x="320,995" y="423,99"/></fragment>
+      <fragment id="f4"><atom id="a11">O</atom>H<position x="419,99" y="144,995"/></fragment>
+    </molecule>
+  </template>
+  <template>
+    <_category>Saccharides</_category>
+    <_name>α-D-galactopyranose</_name>
+    <molecule id="m1">
+      <atom id="a1" element="C">
+        <position x="82" y="234,995"/>
+      </atom>
+      <atom id="a11" element="O">
+        <position x="82" y="144,995"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="180,995" y="136"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="320,995" y="136"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="419,99" y="234,995"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="180,995" y="333,99"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="320,995" y="333,99"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a2" end="a10"/>
+      <bond id="b11" order="1" begin="a1" end="a11"/>
+      <bond id="b12" order="1" begin="a4" end="a12"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b4" order="1" begin="a1" end="a5" type="up"/>
+      <bond id="b5" order="1" begin="a5" end="a6" type="fore"/>
+      <bond id="b6" order="1" begin="a4" end="a6" type="up"/>
+      <bond id="b7" order="1" begin="a6" end="a7"/>
+      <bond id="b8" order="1" begin="a5" end="a8"/>
+      <fragment id="f1"><atom id="a10">C</atom>H2OH<position x="180,995" y="46"/></fragment>
+      <fragment id="f2"><atom id="a8">O</atom>H<position x="180,995" y="243,99"/></fragment>
+      <fragment id="f3"><atom id="a7">O</atom>H<position x="320,995" y="423,99"/></fragment>
+      <fragment id="f4"><atom id="a12">O</atom>H<position x="419,99" y="324,995"/></fragment>
+    </molecule>
+  </template>
+  <template>
+    <_category>Saccharides</_category>
+    <_name>β-D-galactopyranose</_name>
+    <molecule id="m1">
+      <atom id="a1" element="C">
+        <position x="82" y="234,995"/>
+      </atom>
+      <atom id="a12" element="O">
+        <position x="82" y="144,995"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="180,995" y="136"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="320,995" y="136"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="419,99" y="234,995"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="180,995" y="333,99"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="320,995" y="333,99"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a2" end="a10"/>
+      <bond id="b11" order="1" begin="a4" end="a11"/>
+      <bond id="b12" order="1" begin="a1" end="a12"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b4" order="1" begin="a1" end="a5" type="up"/>
+      <bond id="b5" order="1" begin="a5" end="a6" type="fore"/>
+      <bond id="b6" order="1" begin="a4" end="a6" type="up"/>
+      <bond id="b7" order="1" begin="a6" end="a7"/>
+      <bond id="b8" order="1" begin="a5" end="a8"/>
+      <fragment id="f1"><atom id="a10">C</atom>H2OH<position x="180,995" y="46"/></fragment>
+      <fragment id="f2"><atom id="a8">O</atom>H<position x="180,995" y="243,99"/></fragment>
+      <fragment id="f3"><atom id="a7">O</atom>H<position x="320,995" y="423,99"/></fragment>
+      <fragment id="f4"><atom id="a11">O</atom>H<position x="419,99" y="144,995"/></fragment>
+    </molecule>
+  </template>
+  <template>
+    <_category>Saccharides</_category>
+    <_name>α-D-fructofuranose</_name>
+    <molecule id="m4">
+      <atom id="a10" element="O">
+        <position x="332,215" y="44"/>
+      </atom>
+      <atom id="a11" element="O">
+        <position x="401,99" y="153,746"/>
+      </atom>
+      <atom id="a13" element="O">
+        <position x="581,98" y="46,5"/>
+      </atom>
+      <atom id="a2" element="C">
+        <position x="491,98" y="46,5"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="172" y="46,5"/>
+      </atom>
+      <atom id="a5" element="O">
+        <position x="82" y="46,5"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="261,99" y="243,746"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="401,99" y="243,746"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="491,98" y="136,5"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="172" y="136,5"/>
+      </atom>
+      <bond id="b1" order="1" begin="a8" end="a2"/>
+      <bond id="b10" order="1" begin="a10" end="a8"/>
+      <bond id="b11" order="1" begin="a7" end="a11"/>
+      <bond id="b12" order="1" begin="a8" end="a12"/>
+      <bond id="b2" order="1" begin="a6" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a13"/>
+      <bond id="b4" order="1" begin="a9" end="a4"/>
+      <bond id="b5" order="1" begin="a4" end="a5"/>
+      <bond id="b6" order="1" begin="a6" end="a7" type="fore"/>
+      <bond id="b7" order="1" begin="a8" end="a7" type="up"/>
+      <bond id="b8" order="1" begin="a9" end="a6" type="up"/>
+      <bond id="b9" order="1" begin="a9" end="a10"/>
+      <fragment id="f1"><atom id="a12">O</atom>H<position x="491,98" y="226,5"/></fragment>
+      <fragment id="f3"><atom id="a3">O</atom>H<position x="261,99" y="333,746"/></fragment>
+    </molecule>
+  </template>
+  <template>
+    <_category>Saccharides</_category>
+    <_name>β-D-fructofuranose</_name>
+    <molecule id="m1">
+      <atom id="a10" element="O">
+        <position x="332,215" y="44"/>
+      </atom>
+      <atom id="a11" element="O">
+        <position x="401,99" y="153,746"/>
+      </atom>
+      <atom id="a12" element="C">
+        <position x="491,98" y="226,5"/>
+      </atom>
+      <atom id="a13" element="O">
+        <position x="581,98" y="226,5"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="172" y="46,5"/>
+      </atom>
+      <atom id="a5" element="O">
+        <position x="82" y="46,5"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="261,99" y="243,746"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="401,99" y="243,746"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="491,98" y="136,5"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="172" y="136,5"/>
+      </atom>
+      <bond id="b10" order="1" begin="a10" end="a8"/>
+      <bond id="b11" order="1" begin="a7" end="a11"/>
+      <bond id="b12" order="1" begin="a8" end="a12"/>
+      <bond id="b13" order="1" begin="a12" end="a13"/>
+      <bond id="b2" order="1" begin="a6" end="a2"/>
+      <bond id="b3" order="1" begin="a8" end="a3"/>
+      <bond id="b4" order="1" begin="a9" end="a4"/>
+      <bond id="b5" order="1" begin="a4" end="a5"/>
+      <bond id="b6" order="1" begin="a6" end="a7" type="fore"/>
+      <bond id="b7" order="1" begin="a8" end="a7" type="up"/>
+      <bond id="b8" order="1" begin="a9" end="a6" type="up"/>
+      <bond id="b9" order="1" begin="a9" end="a10"/>
+      <fragment id="f1"><atom id="a3">O</atom>H<position x="491,98" y="46,5"/></fragment>
+      <fragment id="f3"><atom id="a2">O</atom>H<position x="261,99" y="333,746"/></fragment>
+    </molecule>
+  </template>
+  <template>
+    <_category>Saccharides</_category>
+    <_name>α-D-ribofuranose</_name>
+    <molecule id="m2">
+      <atom id="a10" element="O">
+        <position x="332,215" y="44"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="172" y="46,5"/>
+      </atom>
+      <atom id="a5" element="O">
+        <position x="82" y="46,5"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="261,99" y="243,746"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="401,99" y="243,746"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="491,98" y="136,5"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="172" y="136,5"/>
+      </atom>
+      <bond id="b1" order="1" begin="a7" end="a1"/>
+      <bond id="b10" order="1" begin="a10" end="a8"/>
+      <bond id="b2" order="1" begin="a6" end="a2"/>
+      <bond id="b3" order="1" begin="a8" end="a3"/>
+      <bond id="b4" order="1" begin="a9" end="a4"/>
+      <bond id="b5" order="1" begin="a4" end="a5"/>
+      <bond id="b6" order="1" begin="a6" end="a7" type="fore"/>
+      <bond id="b7" order="1" begin="a8" end="a7" type="up"/>
+      <bond id="b8" order="1" begin="a9" end="a6" type="up"/>
+      <bond id="b9" order="1" begin="a9" end="a10"/>
+      <fragment id="f1"><atom id="a3">O</atom>H<position x="491,98" y="46,5"/></fragment>
+      <fragment id="f2"><atom id="a1">O</atom>H<position x="401,99" y="333,746"/></fragment>
+      <fragment id="f3"><atom id="a2">O</atom>H<position x="261,99" y="333,746"/></fragment>
+    </molecule>
+  </template>
+</templates>

@@ -745,7 +745,9 @@ bool Mesomery::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 	GtkActionGroup *group = gtk_action_group_new ("mesomery");
 	GtkAction *action = gtk_action_new ("destroy-ms", _("Destroy the mesomery relationship"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
 	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	g_object_unref (group);
 	char buf[] = "<ui><popup><menuitem action='destroy-ms'/></popup></ui>";
 	gtk_ui_manager_add_ui_from_string (UIManager, buf, -1, NULL);
 	GtkWidget *w = gtk_ui_manager_get_widget (UIManager, "/popup/destroy-ms");

@@ -80,7 +80,7 @@ static void on_comments_changed (GtkTextBuffer *buffer, DocPropDlg *dlg)
 }
 
 DocPropDlg::DocPropDlg (Document* pDoc):
-	Dialog (pDoc->GetApplication (), DATADIR"/gchempaint-unstable/ui/docprop.glade", "properties", pDoc),
+	Dialog (pDoc->GetApplication (), GLADEDIR"/docprop.glade", "properties", pDoc),
 	Object ()
 {
 	if (!xml) {

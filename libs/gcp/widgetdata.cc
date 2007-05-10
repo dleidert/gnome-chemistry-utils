@@ -240,7 +240,7 @@ void WidgetData::Copy (GtkClipboard* clipboard)
 	if (SelectedObjects.empty ())
 		return;
 	xmlDocSetRootElement (*pDoc, xmlNewDocNode(*pDoc, NULL, (xmlChar*)"chemistry", NULL));
-	xmlNsPtr ns = xmlNewNs ((*pDoc)->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "");
+	xmlNsPtr ns = xmlNewNs ((*pDoc)->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "gcp");
 	xmlSetNs ((*pDoc)->children, ns);
 //FIXME: implement exception handling
 	std::list<Object*>::iterator i, end= SelectedObjects.end ();

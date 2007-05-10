@@ -850,12 +850,11 @@ static void on_move_to_back (Bond *pBond)
 
 bool Bond::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
-	bool result = false;
 	Object *pAtom = GetAtomAt (x, y);
 	if (pAtom)
-		result = pAtom->BuildContextualMenu (UIManager, object, x, y);
+		return pAtom->BuildContextualMenu (UIManager, object, x, y);
 	if (m_Crossing.size () == 0)
-		return (pAtom)? result: GetParent ()->BuildContextualMenu (UIManager, object, x, y);
+		return Object::BuildContextualMenu (UIManager, object, x, y);
 	bool is_before = false, is_after = false;
 	if (m_Crossing.size () > 0) {
 		map<Bond*, BondCrossing>::iterator i, iend = m_Crossing.end ();
@@ -869,26 +868,29 @@ bool Bond::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 		}
 	}
 	if (!(is_before || is_after))
-		return (pAtom)? result: GetParent ()->BuildContextualMenu (UIManager, object, x, y);
+		return Object::BuildContextualMenu (UIManager, object, x, y);
 	GtkActionGroup *group = gtk_action_group_new ("bond");
 	GtkAction *action;
 	action = gtk_action_new ("Bond", _("Bond"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
 	if (is_before) {
 		action = gtk_action_new ("MoveBack", _("Move to back"), NULL, NULL);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (on_move_to_back), this);
 		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Bond'><menuitem action='MoveBack'/></menu></popup></ui>", -1, NULL);
 	}
 	if (is_after) {
 		action = gtk_action_new ("BringFront", _("Bring to front"), NULL, NULL);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (on_bring_to_front), this);
 		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Bond'><menuitem action='BringFront'/></menu></popup></ui>", -1, NULL);
 	}
 	gtk_ui_manager_insert_action_group (UIManager, group, 0);
-	if (!pAtom)
-		GetParent ()->BuildContextualMenu (UIManager, object, x, y);
+	g_object_unref (group);
+	Object::BuildContextualMenu (UIManager, object, x, y);
 	return true;
 }
 

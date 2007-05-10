@@ -35,7 +35,7 @@ static void on_theme_changed (GtkComboBox *box, NewFileDlg *dlg)
 }
 
 NewFileDlg::NewFileDlg (Application *App):
-	Dialog (App, DATADIR"/gchempaint-unstable/ui/newfiledlg.glade", "newfile", App),
+	Dialog (App, GLADEDIR"/newfiledlg.glade", "newfile", App),
 	Object ()
 {
 	if (!xml) {

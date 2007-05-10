@@ -1,7 +1,7 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint Wikipedia plugin
+ * GChemPaint reactions plugin
  * plugin.h 
  *
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
@@ -22,18 +22,18 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_WIKIPEDIA_PLUGIN_H
-#define GCHEMPAINT_WIKIPEDIA_PLUGIN_H
+#ifndef GCHEMPAINT_REACTIONS_PLUGIN_H
+#define GCHEMPAINT_REACTIONS_PLUGIN_H
 
 #include <gcp/plugin.h>
 
-class gcpWikipediaPlugin: public gcp::Plugin
+class gcpReactionsPlugin: public gcp::Plugin
 {
 public:
-	gcpWikipediaPlugin ();
-	virtual ~gcpWikipediaPlugin ();
+	gcpReactionsPlugin ();
+	virtual ~gcpReactionsPlugin ();
 
 	virtual void Populate (gcp::Application* App);
 };
 
-#endif //GCHEMPAINT_WIKIPEDIA_PLUGIN_H
+#endif //GCHEMPAINT_REACTIONS_PLUGIN_H

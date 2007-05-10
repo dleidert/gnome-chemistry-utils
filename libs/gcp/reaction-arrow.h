@@ -38,10 +38,10 @@ public:
 	ReactionArrow (Reaction* react, unsigned Type = SimpleArrow);
 	virtual ~ReactionArrow ();
 	
-	virtual xmlNodePtr Save (xmlDocPtr xml);
-	virtual bool Load (xmlNodePtr);
-	virtual void Add (GtkWidget* w);
-	virtual void Update (GtkWidget* w);
+	xmlNodePtr Save (xmlDocPtr xml);
+	bool Load (xmlNodePtr);
+	void Add (GtkWidget* w);
+	void Update (GtkWidget* w);
 	void SetStartStep (ReactionStep *Step) {m_Start = Step;}
 	ReactionStep* GetStartStep () {return m_Start;}
 	void SetEndStep (ReactionStep *Step) {m_End = Step;}
