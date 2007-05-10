@@ -1526,7 +1526,7 @@ xmlNodePtr Atom::Save (xmlDocPtr xml)
 		xmlNewProp (node, (xmlChar*) "show-symbol", (xmlChar*) "true");
 	}
 	if (m_HPosStyle != AUTO_HPOS) {
-		xmlNewProp (node, (xmlChar*) "H-positon",
+		xmlNewProp (node, (xmlChar*) "H-position",
 					(xmlChar*) ((m_HPosStyle == LEFT_HPOS)? "left": "right"));
 	}
 	return node;
@@ -1610,6 +1610,7 @@ bool Atom::Load (xmlNodePtr node)
 		else if (!strcmp (buf, "right"))
 			m_HPosStyle = RIGHT_HPOS;
 		xmlFree (buf);
+		Update ();
 	}
 	return true;
 }

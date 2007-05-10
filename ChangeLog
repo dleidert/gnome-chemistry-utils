@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
 2007-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/paint/H-pos.glade: fixed buttons names.
+	* libs/gcp/Hposdlg.cc: force atom update after a change.
+	* libs/gcp/atom.cc: fixed typo in Save and force update
+	when loading.
+	* templates/paint/haworth.xml.in: updated (Julian Sikorski).
+
+2007-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: remove pc file.
 	* configure.ac: add reactions plugin.
 	* gcu-unstable.pc.in: cleaned.

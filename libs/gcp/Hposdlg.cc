@@ -57,9 +57,17 @@ HPosDlg::~HPosDlg ()
 	
 void HPosDlg::OnPosChanged ()
 {
+	Document *Doc = m_View->GetDoc ();
+	Operation *Op = Doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	Object *Obj = m_Atom->GetGroup ();
+	Op->AddObject (Obj, 0);
 	m_Atom->SetHPosStyle (gtk_combo_box_get_active (box));
 	m_Atom->Update ();
+	m_Atom->ForceChanged ();
 	m_View->Update (m_Atom);
+	m_Atom->EmitSignal (OnChangedSignal);
+	Op->AddObject (Obj, 1);
+	Doc->FinishOperation ();
 }
 
 }	//	namespace gcp
