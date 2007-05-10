@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-09 09:18+0200\n"
-"PO-Revision-Date: 2007-03-29 17:48+0100\n"
+"POT-Creation-Date: 2007-05-10 10:39+0100\n"
+"PO-Revision-Date: 2007-05-09 13:23+0100\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,9 +23,8 @@ msgstr ""
 "100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../gchemutils.xml.in.h:1 ../programs/crystal/x-gcrystal.desktop.in.h:1
-#, fuzzy
 msgid "Crystalline structure model"
-msgstr "Przeglądarka struktur krystalicznych Gnome Crystal "
+msgstr "Model struktury krystalicznej"
 
 #: ../glade/gchemcalc.glade.h:1 ../programs/calc/gchemcalc.desktop.in.h:2
 msgid "Chemical calculator"
@@ -173,9 +172,8 @@ msgid "Euler's angles"
 msgstr "Kąty Eulera"
 
 #: ../glade/crystal/prefs.glade.h:14 ../glade/crystal/view-settings.glade.h:3
-#, fuzzy
 msgid "Field of view (between 1° and 45°):"
-msgstr "Kąt widzenia (pomiędzy 1 a 45°):"
+msgstr "Kąt widzenia (pomiędzy 1° a 45°):"
 
 #: ../glade/crystal/prefs.glade.h:15 ../glade/crystal/view-settings.glade.h:4
 msgid "Model orientation in space:"
@@ -410,15 +408,15 @@ msgstr "Van der Waalsa:"
 
 #: ../glade/table/state-thermometer.glade.h:1
 msgid "<span background=\"blue\"> <b>Solid</b> </span>"
-msgstr "<span background=\"blue\"> <b>Stałe</b> </span>"
+msgstr "<span background=\"blue\"> <b>Ciała stałe</b> </span>"
 
 #: ../glade/table/state-thermometer.glade.h:2
 msgid "<span background=\"green\"> <b>Liquid</b> </span>"
-msgstr "<span background=\"green\"> <b>Ciekłe</b> </span>"
+msgstr "<span background=\"green\"> <b>Ciecze</b> </span>"
 
 #: ../glade/table/state-thermometer.glade.h:3
 msgid "<span background=\"red\"> <b>Gas</b> </span>"
-msgstr "<span background=\"red\"> <b>Gazowe</b> </span>"
+msgstr "<span background=\"red\"> <b>Gazy</b> </span>"
 
 #: ../glade/table/state-thermometer.glade.h:4
 msgid "Temperature (K):"
@@ -1088,6 +1086,8 @@ msgid ""
 "Out of range value %d for property \"color-style\" for GtkPeriodic instance %"
 "p\n"
 msgstr ""
+"Wartość %d poza zakresem dla właściwości \"color-style\" dla instancji "
+"GtkPeriodic %p\n"
 
 #: ../programs/3d/application.cc:35 ../programs/3d/application.cc:46
 msgid "GChem3D Viewer"
@@ -1137,7 +1137,7 @@ msgstr "[plik]"
 #: ../programs/3d/main.cc:97 ../programs/crystal/main.cc:145
 #, c-format
 msgid "Invalid or misplaced argument: %s\n"
-msgstr ""
+msgstr "Błędny lub źle umieszczony argument: %s\n"
 
 #: ../programs/3d/window.cc:119
 msgid "GChem3D is a molecular structures viewer for Gnome"
@@ -1152,7 +1152,10 @@ msgstr "Prawa autorskie © 2004-2007 Jean Bréfort\n"
 #: ../programs/3d/window.cc:139 ../programs/calc/gchemcalc.cc:146
 #: ../programs/crystal/window.cc:120 ../programs/table/gchemtable-app.cc:122
 msgid "translator_credits"
-msgstr "zasługi_tłumaczy"
+msgstr ""
+"Julian Sikorski\n"
+"Nikodem Kuznik\n"
+"Michał Sałaban"
 
 #: ../programs/3d/window.cc:161 ../programs/calc/gchemcalc.cc:406
 #: ../programs/crystal/window.cc:247 ../programs/table/gchemtable-app.cc:141
@@ -1352,17 +1355,14 @@ msgid "Gnome Crystal Crystalline Structures Viewer "
 msgstr "Przeglądarka struktur krystalicznych Gnome Crystal "
 
 #: ../programs/crystal/gcrystal.schemas.in.h:1
-#, fuzzy
 msgid "Background color blue value"
 msgstr "Wartość składowej niebieskiej koloru tła"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:2
-#, fuzzy
 msgid "Background color green value"
 msgstr "Wartość składowej zielonej koloru tła"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:3
-#, fuzzy
 msgid "Background color red value"
 msgstr "Wartość składowej czerwonej koloru tła"
 
@@ -1463,11 +1463,11 @@ msgstr " l. k.="
 
 #: ../programs/crystal/atomsdlg.cc:561
 msgid "low spin"
-msgstr ""
+msgstr "spin niski"
 
 #: ../programs/crystal/atomsdlg.cc:561
 msgid "high spin"
-msgstr ""
+msgstr "spin wysoki"
 
 #: ../programs/crystal/atomsdlg.cc:563
 msgid "Database"
@@ -1520,7 +1520,7 @@ msgstr "\"%s\" został zmodyfikowany.  Czy chcesz go zapisać?"
 
 #: ../programs/crystal/linesdlg.cc:178
 msgid "Single"
-msgstr ""
+msgstr "Pojedynczy"
 
 #: ../programs/crystal/main.cc:76
 msgid "Gnome Chemistry Utils version: "
@@ -1702,7 +1702,7 @@ msgstr "Domyślny"
 
 #: ../programs/table/gchemtable-app.cc:149
 msgid "Use default symbolic element colors"
-msgstr ""
+msgstr "Użyj domyślnych kolorów pierwiastków"
 
 #: ../programs/table/gchemtable-app.cc:150
 msgid "Physical states"
@@ -1856,34 +1856,4 @@ msgstr "Temperatura wrzenia"
 
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
-msgstr "Układ okresowy pierwaistków Mendelejewa"
-
-#~ msgid "h"
-#~ msgstr "h"
-
-#~ msgid "k"
-#~ msgstr "k"
-
-#~ msgid "l"
-#~ msgstr "l"
-
-#~ msgid "x1"
-#~ msgstr "x1"
-
-#~ msgid "y1"
-#~ msgstr "y1"
-
-#~ msgid "z1"
-#~ msgstr "z1"
-
-#~ msgid "x2"
-#~ msgstr "x2"
-
-#~ msgid "y2"
-#~ msgstr "y2"
-
-#~ msgid "z2"
-#~ msgstr "z2"
-
-#~ msgid "amu"
-#~ msgstr "ajm"
+msgstr "Układ okresowy pierwiastków Mendelejewa"
