@@ -12,6 +12,7 @@ glade/crystal/cleavages.glade
 glade/crystal/lines.glade
 glade/crystal/size.glade
 glade/paint/docprop.glade
+glade/paint/H-pos.glade
 glade/paint/newfiledlg.glade
 glade/paint/preferences.glade
 glade/paint/tools.glade
