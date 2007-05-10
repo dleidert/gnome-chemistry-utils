@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2007-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/crystal/size.glade: don't translate strings which
+	should not.
+	* glade/table/eltpage.glade: ditto.
+
+2007-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/gcrystal.schemas.in: removed localized
 	string.
 
