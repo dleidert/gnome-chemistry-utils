@@ -63,6 +63,7 @@ void gcApplication::OnFileOpen ()
 {
 	list<string> l;
 	l.push_front ("application/x-gcrystal");
+	l.push_front ("chemical/x-cif");
 	FileChooser (this, false, l);
 }
 
@@ -173,6 +174,7 @@ gcDocument* gcApplication::GetDoc (const char* filename)
 
 enum {
 	GCRYSTAL,
+	CIF,
 	VRML,
 	PIXBUF
 };
@@ -180,13 +182,15 @@ enum {
 bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc)
 {
 	gcDocument *Doc = static_cast<gcDocument*> (pDoc);
+	int type = GCRYSTAL;
 	if (!mime_type)
 		mime_type = "application/x-gcrystal";
 	string filename2 = filename;
 	if (bSave) {
-		int type = GCRYSTAL;
 		char const *pixbuf_type = NULL;
-		if (!strcmp (mime_type, "model/vrml"))
+		if (!strcmp (mime_type, "chemica/x-cif"))
+			type = CIF;
+		else if (!strcmp (mime_type, "model/vrml"))
 			type = VRML;
 		else if ((pixbuf_type = GetPixbufTypeName (filename2, mime_type)))
 			type = PIXBUF;
@@ -194,6 +198,9 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		switch (type) {
 		case GCRYSTAL:
 			ext = ".gcrystal";
+			break;
+		case CIF:
+			ext = ".cif";
 			break;
 		case VRML:
 			ext = ".wrl";
@@ -237,6 +244,8 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				gtk_recent_manager_add_full (GetRecentManager (), filename2.c_str (), &data);
 				Doc->RenameViews ();
 				break;
+			case CIF:
+				break;
 			case VRML:
 				Doc->OnExportVRML (filename2);
 				break;
@@ -245,7 +254,10 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				break;
 			}
 	} else {
-		if (strcmp (mime_type, "application/x-gcrystal"))
+		if (!strcmp (mime_type, "application/x-gcrystal"));
+		else if (!strcmp (mime_type, "chemical/x-cif"))
+			type = CIF;
+		else
 			return true;
 		gcDocument *xDoc = GetDoc (filename);
 		if (xDoc)
@@ -265,11 +277,12 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 					return true;
 			}
 		}
-		if (Doc->Load (filename)) {
+		if ((type == GCRYSTAL)? Doc->Import (filename, mime_type):
+						Doc->Import (filename, mime_type)) {
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();
 			data.description = NULL;
-			data.mime_type = const_cast<char*> ("application/x-gcrystal");
+			data.mime_type = const_cast<char*> (mime_type);
 			data.app_name = const_cast<char*> ("gcrystal");
 			data.app_exec = const_cast<char*> ("gcrystal %u");
 			data.groups = NULL;

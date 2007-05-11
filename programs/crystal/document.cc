@@ -665,3 +665,8 @@ void gcDocument::RenameViews ()
 		window->ActivateActionWidget ("ui/MainToolbar/Save", !m_ReadOnly);
 	}
 }
+
+bool gcDocument::Import (const string &filename, const string& mime_type)
+{
+	return false;
+}

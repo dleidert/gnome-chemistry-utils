@@ -64,6 +64,7 @@ public:
 	void SetTitle(const gchar* title);
 	void Save ();
 	bool Load (const string &filename);
+	bool Import (const string &filename, const string& mime_type);
 	void ParseXMLTree(xmlNode* xml);
 	void OnNewDocument();
 	void OnExportVRML (const string &FileName);

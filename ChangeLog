@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2007-05-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* AUTHORS: update list.
+	* libs/gcp/application.cc:  don't add two extensions
+	when saving as image.
+	* programs/crystal/application.cc: initial work on CIF
+	support.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+
 2007-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/paint/H-pos.glade: fixed buttons names.
 	* libs/gcp/Hposdlg.cc: force atom update after a change.

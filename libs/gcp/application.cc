@@ -447,8 +447,16 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			file_type = SVG;
 		else if (!strcmp (mime_type, "image/x-eps"))
 			file_type = EPS;
-		else if ((pixbuf_type = GetPixbufTypeName (filename2, mime_type)))
+		else if ((pixbuf_type = GetPixbufTypeName (filename2, mime_type))) {
 			file_type = PIXBUF;
+			if (!ext) {
+				filename = filename2.c_str ();
+				i = strlen (filename) - 1;
+				while ((i > 0) && (filename[i] != '.') && (filename[i] != '/')) i--;
+				if (filename[i] == '/') i = 0;
+				ext = (i > 0)? filename + i + 1: NULL;
+			}
+		}
 	}
 	if (file_type < 0 || (!bSave && (file_type > CHEMISTRY))) {
 		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
