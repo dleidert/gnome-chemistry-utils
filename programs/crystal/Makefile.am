@@ -1,6 +1,8 @@
 EXTRA_DIST = $(desktop_in_files) $(schemas_in_files)
 
-CLEANFILES = $(desktop_DATA) $(schemas_DATA)
+CLEANFILES = $(desktop_DATA) \
+	$(schemas_DATA) \
+	$(kde_mime_desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 

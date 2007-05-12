@@ -166,6 +166,7 @@ must provide a GError *error initially set to NULL.
 		g_message ("GConf failed: %s", error->message);	\
 		g_error_free (error);	\
 		error = NULL;	\
-	}
+	} else if (target == NULL && defaultval)	\
+			target = g_strdup (defaultval);
 
 #endif	//	GCU_MACROS_H
