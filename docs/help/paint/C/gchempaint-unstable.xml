@@ -1094,7 +1094,28 @@
 			to the atom with the appropriate tool.</para>
 			<para>Carbon atom are normally not displayed when they have at
 			least one bond. You can change this behaviour for each carbon atom
-			using the contextual menu.</para>
+			using <menuchoice> <guimenu>File</guimenu> <guimenuitem>Display symbol</guimenuitem>
+			</menuchoice> in the contextual menu.</para>
+			<para id="gchempaint-unstable-Hposdlg">When a non metal has implicit hydrogen
+			atoms, <application>&app;</application> tries to infer if they should
+			appear on the left or the right of the atomic symbol. If the automatic
+			behavior is not what you wish, you can force a left or right position
+			using <menuchoice> <guimenu>File</guimenu> <guimenuitem>Hydrogen atoms position</guimenuitem>
+			</menuchoice> in the contextual menu. The following dialog will pop up:</para>
+			<figure id="gchempaint-unstable-H-pos-dialog"> 
+			  <title>Hydrogen atoms position dialog box</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Hydrogen atoms position dialog box.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/Hposdlg.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
+			<para>Choose one of the options (Left, Right or Auto). The choosen option
+			will be instantly applied.</para>
 		</sect2>
 		<sect2 id="gchempaint-unstable-fragment">
 			<title>To Add or Modify a Group of Atoms</title>

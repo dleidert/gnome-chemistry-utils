@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2007-05-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/paint/C/figures/Hposdlg.png: add documentation
+	for the hydrogen position new feature.
+	* docs/help/paint/C/gchempaint-unstable.xml: ditto.
+	* plugins/paint/reactions/Makefile.am: added missing.
+
 2007-05-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/macros.h: ensure GCU_CONF_GET_STRING returns
 	a non NULL value if it is provided a default.
