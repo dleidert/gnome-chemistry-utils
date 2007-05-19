@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-05-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: set version to 0.8.0.
+
 2007-05-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/macros.h: ensure GCU_CONF_GET_STRING returns a
 	non NULL value if it is provided a default.
