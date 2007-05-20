@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-pixmapdir = $(datadir)/@PACKAGE@/pixmaps
+pixmapdir = $(datadir)/gchemutils/pixmaps
 pixmap_DATA = gcrystal_logo.png
 
 icons = gcrystal32.png \

@@ -46,7 +46,10 @@ gcrystal_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 DEPS = $(top_builddir)/gcu/libgcu.la
 INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
 LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils\" -DGLADEDIR=\"$(datadir)/gchemutils/glade/crystal\"
+DEFS += -DDATADIR=\"$(datadir)\" \
+		-DPKGDATADIR=\"$(datadir)/gchemutils\" \
+		-DGLADEDIR=\"$(datadir)/gchemutils/glade/crystal\" \
+		-DPIXMAPSDIR=\"$(datadir)/gchemutils/pixmaps\"
 
 schemasdir = $(sysconfdir)/gconf/schemas
 schemas_in_files = gcrystal.schemas.in

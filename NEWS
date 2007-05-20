@@ -1,3 +1,6 @@
+Version 0.8.1
+	* #19911: two folders in %{_datadir}.
+
 Version 0.8.0
 	* fixed the GCU_CONF_GET_STRING macro.
 	* add the KDE MIME files to CLEANFILES.
