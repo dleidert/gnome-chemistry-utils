@@ -118,6 +118,7 @@ static void on_about (GtkWidget *widget, void *data)
 		"USA";
 /* Note to translators: replace the following string with the appropriate credits for you lang */
 	char const *translator_credits = _("translator_credits");
+	GdkPixbuf *logo = gdk_pixbuf_new_from_file (PIXMAPSDIR"/gcrystal_logo.png", NULL);
 	gtk_show_about_dialog (NULL,
 					"name", _("Gnome Crystal"),
 					"authors", authors,
@@ -125,11 +126,13 @@ static void on_about (GtkWidget *widget, void *data)
 					"comments", _("Gnome Crystal is a lightweight crystal structures viewer for Gnome"),
 					"copyright", _("Copyright © 1999-2007 by Jean Bréfort"),
 					"license", license,
+					"logo", logo,
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
 											translator_credits : NULL,
 					"version", VERSION,
 					"website", "http://www.nongnu.org/gchemutils",
 					NULL);
+	g_object_unref (logo);
 }
 
 static void on_lattice(GtkWidget *widget, gcWindow *Win)

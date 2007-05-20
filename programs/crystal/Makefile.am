@@ -44,7 +44,10 @@ gcrystal_unstable_LDADD = $(top_builddir)/libs/gcu/libgcu-unstable.la @GCU_LIBS@
 DEPS = $(top_builddir)/libs/gcu/libgcu-unstable.la
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/crystal\"
+DEFS += -DDATADIR=\"$(datadir)\" \
+		-DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
+		-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/crystal\" \
+		-DPIXMAPSDIR=\"$(datadir)/gchemutils-unstable/pixmaps\"
 
 schemasdir = $(sysconfdir)/gconf/schemas
 schemas_in_files = gcrystal.schemas.in
