@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* mozilla-plugin/moz-plugin.c: (ChemNew): fixed
+	compilation warning (and potential crasher).
+	* programs/table/gchemtable-main.cc: add missing header.
+
 2007-05-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.8.1).
 	* pixmaps/Makefile.am: fix logo installation. [#19911]
