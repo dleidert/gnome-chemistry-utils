@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/cycles/cycletool.cc: fixed two bugs.
+	[#19932] and [#19933].
+
 2007-05-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/Makefile.am: add -DPIXMAPSDIR.
 	* programs/crystal/window.cc: use logo in about box.

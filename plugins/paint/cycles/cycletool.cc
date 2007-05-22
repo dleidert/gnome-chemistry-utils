@@ -753,10 +753,11 @@ GtkWidget *gcpNCycleTool::GetPropertyPage ()
 {
 	GladeXML *xml = glade_xml_new (GLADEDIR"/cyclen.glade", "cycle", GETTEXT_PACKAGE);
 	m_LengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-length"));
-	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), NULL);
+	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
 	m_MergeBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "merge"));
 	g_signal_connect (m_MergeBtn, "toggled", G_CALLBACK (on_merge_toggled), NULL);
-	m_SizeBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-length"));
+	m_SizeBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "sizebtn"));
+	gtk_spin_button_set_value (m_SizeBtn, m_size);
 	g_signal_connect (m_SizeBtn, "value-changed", G_CALLBACK (on_size_changed), this);
 	return glade_xml_get_widget (xml, "cycle");
 }
