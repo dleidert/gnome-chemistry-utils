@@ -86,6 +86,7 @@ public:
 	int GetNbWidgets () {return m_Widgets.size ();}
 	void ExportImage (string const &filename, const char* type, int resolution = -1);
 	xmlDocPtr BuildSVG ();
+	GdkPixbuf *BuildPixbuf (int resolution);
 	void EnsureSize ();
 	void Zoom (double zoom);
 	void ShowCursor (bool show);

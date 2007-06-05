@@ -35,6 +35,7 @@ namespace gcp {
 
 static xmlDocPtr pXmlDoc = NULL, pXmlDoc1 = NULL;
 xmlChar* ClipboardData = NULL;
+char *ClipboardTextData = NULL;
 guint ClipboardDataType, ClipboardDataType1;
 bool cleared = true;
 
@@ -44,8 +45,9 @@ GtkTargetEntry const export_targets[] = {
 	{(char *) "image/svg+xml",  0, 2},
 	{(char *) "image/png",  0, 3},
 	{(char *) "image/jpeg",  0, 4},
-	{(char *) "UTF8_STRING", 0, 5},
-	{(char *) "STRING", 0, 6}
+	{(char *) "image/bmp",  0, 5},
+	{(char *) "UTF8_STRING", 0, 6},
+	{(char *) "STRING", 0, 7}
 };
 
 void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_data, Application *App)
@@ -60,6 +62,7 @@ void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_da
 			"image/svg+xml",
 			"image/png",
 			"image/jpeg",
+			"image/bmp",
 			"UTF8_STRING",
 			"STRING",
 			NULL
@@ -99,8 +102,11 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	g_return_if_fail (pDoc);
 	if (ClipboardData)
 		xmlFree (ClipboardData);
+	ClipboardData = NULL;
+	g_free (ClipboardTextData);
+	ClipboardTextData = NULL;
 	*DataType = info;
-	gint size;
+	int size;
 	switch (info) {
 	case 0:
 		xmlDocDumpFormatMemory (pDoc, &ClipboardData, &size, info);
@@ -119,10 +125,45 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		delete Doc;
 		break;
 	}
-	case 3:
+	case 3: {
+		Document *Doc = new Document (NULL, true);
+		View *pView = Doc->GetView ();
+		gsize size;
+		pView->CreateNewWidget (); // force canvas creation
+		Doc->ParseXMLTree (pDoc);
+		GdkPixbuf *pixbuf = pView->BuildPixbuf (-1); // copy with zoom == 1
+		gdk_pixbuf_save_to_buffer (pixbuf, &ClipboardTextData, &size, "png", NULL, NULL);
+		gtk_selection_data_set (selection_data, gdk_atom_intern (export_targets[info].target, FALSE), 8, (const guchar*) ClipboardTextData, size);
+		g_object_unref (pixbuf);
+		delete Doc;
 		break;
-	case 4:
+	}
+	case 4: {
+		Document *Doc = new Document (NULL, true);
+		View *pView = Doc->GetView ();
+		gsize size;
+		pView->CreateNewWidget (); // force canvas creation
+		Doc->ParseXMLTree (pDoc);
+		GdkPixbuf *pixbuf = pView->BuildPixbuf (-1); // copy with zoom == 1
+		gdk_pixbuf_save_to_buffer (pixbuf, &ClipboardTextData, &size, "jpg", NULL, NULL);
+		gtk_selection_data_set (selection_data, gdk_atom_intern (export_targets[info].target, FALSE), 8, (const guchar*) ClipboardTextData, size);
+		g_object_unref (pixbuf);
+		delete Doc;
 		break;
+	}
+	case 5: {
+		Document *Doc = new Document (NULL, true);
+		View *pView = Doc->GetView ();
+		gsize size;
+		pView->CreateNewWidget (); // force canvas creation
+		Doc->ParseXMLTree (pDoc);
+		GdkPixbuf *pixbuf = pView->BuildPixbuf (-1); // copy with zoom == 1
+		gdk_pixbuf_save_to_buffer (pixbuf, &ClipboardTextData, &size, "bmp", NULL, NULL);
+		gtk_selection_data_set (selection_data, gdk_atom_intern (export_targets[info].target, FALSE), 8, (const guchar*) ClipboardTextData, size);
+		g_object_unref (pixbuf);
+		delete Doc;
+		break;
+	}
 	default:
 		xmlDocDumpFormatMemory (pDoc, &ClipboardData, &size, info);
 		gtk_selection_data_set_text (selection_data, (const gchar*) ClipboardData, size);
@@ -139,6 +180,8 @@ void on_clear_data (GtkClipboard *clipboard, Application *App)
 		xmlFree (ClipboardData);
 		ClipboardData = NULL;
 	}
+	g_free (ClipboardTextData);
+	ClipboardTextData = NULL;
 	cleared =true;
 	gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, App);
 }
@@ -249,7 +292,7 @@ void WidgetData::Copy (GtkClipboard* clipboard)
 		if ((child = (*i)->Save (pXmlDoc)))
 			xmlAddChild ((*pDoc)->children, child);
 	Application* App = m_View->GetDoc ()->GetApplication ();
-	gtk_clipboard_set_with_data (clipboard, export_targets, 7, (GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data, App);
+	gtk_clipboard_set_with_data (clipboard, export_targets, 8, (GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data, App);
 	gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, App);
 }
 

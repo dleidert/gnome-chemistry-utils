@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2007-06-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/text.h: add gcp::Text::SetText (char const*).
+	* libs/gcp/view.cc: add image/bmp as clipboard target and
+	gcp::View::BuildPixbuf to support copying pixbufs.
+	* libs/gcp/view.h: add gcp::View::BuildPixbuf.
+	* libs/gcp/widgetdata.cc: implement copying pixbufs.
+
 2007-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/cycles/cycletool.cc: fixed two bugs.
 	[#19932] and [#19933].

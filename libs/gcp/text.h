@@ -54,6 +54,7 @@ public:
 	bool OnEvent (GdkEvent *event);
 	void GetSize (double& x, double& y) {x = m_length; y = m_height;}
 	double GetYAlign ();
+	void SetText (char const *text) {m_buf = text;}
 };
 
 }	//	namespace gcp

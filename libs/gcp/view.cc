@@ -524,8 +524,9 @@ GtkTargetEntry const targets[] = {
 	{(char *) "image/svg+xml",  0, 2},
 	{(char *) "image/png",  0, 3},
 	{(char *) "image/jpeg",  0, 4},
-	{(char *) "UTF8_STRING", 0, 1},
-	{(char *) "STRING", 0, 2}
+	{(char *) "image/bmp",  0, 5},
+	{(char *) "UTF8_STRING", 0, 6},
+	{(char *) "STRING", 0, 7}
 };
 
 void View::OnCopySelection (GtkWidget* w, GtkClipboard* clipboard)
@@ -562,25 +563,23 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 		m_pDoc->AddData (xml->children->children);
 		xmlFreeDoc (xml);
 		break;
-	case 5: {
+	case 6: {
 			Text* text = new Text ();
-			PangoLayout *layout = text->GetLayout ();
-			pango_layout_set_text (layout, (const char*) selection_data->data, selection_data->length);
+			text->SetText ((char const*) selection_data->data);
 			text->OnChanged (true);
 			m_pDoc->AddObject (text);
 			m_pData->SetSelected (text);
 		}
 		break;
-	case 6: {
+	case 7: {
 			Text* text = new Text ();
-			PangoLayout *layout = text->GetLayout ();
 			if (!g_utf8_validate ((const char*) selection_data->data, selection_data->length, NULL)) {
 				gsize r, w;
 				gchar* newstr = g_locale_to_utf8 ((const char*) selection_data->data, selection_data->length, &r, &w, NULL);
-				pango_layout_set_text (layout, newstr, w);
+				text->SetText (newstr);
 				g_free (newstr);
 			} else
-				pango_layout_set_text (layout, (const char*) selection_data->data, selection_data->length);
+				text->SetText ((char const*) selection_data->data);
 			text->OnChanged (true);
 			m_pDoc->AddObject (text);
 			m_pData->SetSelected (text);
@@ -967,28 +966,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		xmlSaveFormatFile (filename.c_str (), doc, true);
 		xmlFreeDoc (doc);
 	} else {
-		double zoom;
-		if (resolution > 0) {
-			int screenres = m_pDoc->GetApp ()->GetScreenResolution ();
-			zoom = (double) resolution / screenres;
-			w = (int) rint ((double) w * zoom);
-			h = (int) rint ((double) h * zoom);
-		} else
-			zoom = 1.;
-		gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), zoom);
-		gnome_canvas_update_now (GNOME_CANVAS (m_pWidget));
-		GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, w, h);
-		gdk_pixbuf_fill (pixbuf, 0xffffffff);
-		GnomeCanvasBuf buf;
-		buf.buf = gdk_pixbuf_get_pixels (pixbuf);
-		buf.rect.x0 = (int) floor (rect.x0 * zoom);
-		buf.rect.x1 = (int) ceil (rect.x1 * zoom);
-		buf.rect.y0 = (int) floor (rect.y0 * zoom);
-		buf.rect.y1 = (int) ceil (rect.y1 * zoom);
-		buf.buf_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-		buf.bg_color = 0xffffff;
-		buf.is_buf = 1;
-		(* GNOME_CANVAS_ITEM_GET_CLASS (m_pData->Group)->render) (GNOME_CANVAS_ITEM (m_pData->Group), &buf);
+		GdkPixbuf *pixbuf = BuildPixbuf (resolution);
 		GnomeVFSHandle *handle = NULL;
 		if (gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
 			GError *error = NULL;
@@ -1000,8 +978,6 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 			gnome_vfs_close (handle); // hope there will be no error there
 		}
 		g_object_unref (pixbuf);
-		// restore zoom level
-		gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), m_pData->Zoom);
 	}
 	m_pData->ShowSelection (true);
 }
@@ -1054,6 +1030,39 @@ xmlDocPtr View::BuildSVG ()
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 	return doc;
+}
+
+GdkPixbuf *View::BuildPixbuf (int resolution)
+{
+	ArtDRect rect;
+	m_pData->GetObjectBounds (m_pDoc, &rect);
+	m_pData->ShowSelection (false);
+	int w = (int) (ceil (rect.x1) - floor (rect.x0)), h = (int) (ceil (rect.y1) - floor (rect.y0));
+	double zoom;
+	if (resolution > 0) {
+		int screenres = m_pDoc->GetApp ()->GetScreenResolution ();
+		zoom = (double) resolution / screenres;
+		w = (int) rint ((double) w * zoom);
+		h = (int) rint ((double) h * zoom);
+	} else
+		zoom = 1.;
+	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), zoom);
+	gnome_canvas_update_now (GNOME_CANVAS (m_pWidget));
+	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, w, h);
+	gdk_pixbuf_fill (pixbuf, 0xffffffff);
+	GnomeCanvasBuf buf;
+	buf.buf = gdk_pixbuf_get_pixels (pixbuf);
+	buf.rect.x0 = (int) floor (rect.x0 * zoom);
+	buf.rect.x1 = (int) ceil (rect.x1 * zoom);
+	buf.rect.y0 = (int) floor (rect.y0 * zoom);
+	buf.rect.y1 = (int) ceil (rect.y1 * zoom);
+	buf.buf_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	buf.bg_color = 0xffffff;
+	buf.is_buf = 1;
+	(* GNOME_CANVAS_ITEM_GET_CLASS (m_pData->Group)->render) (GNOME_CANVAS_ITEM (m_pData->Group), &buf);
+	// restore zoom level
+	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), m_pData->Zoom);
+	return pixbuf;
 }
 
 void View::EnsureSize ()
