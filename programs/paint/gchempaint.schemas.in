@@ -374,6 +374,18 @@
 		<long>If TRUE, the periodic table popup widget will be tearable from the tools dialog box.</long>
       </locale>
     </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/copy-as-text</key>
+      <applyto>/apps/gchempaint/settings/copy-as-text</applyto>
+      <owner>gchempaint</owner>
+      <type>bool</type>
+      <default>FALSE</default>
+      <locale name="C">
+        <short>Whether to export simple text when copying.</short>
+		<long>If TRUE, STRING_UTF8 and STRING are added to the
+		clipboard formats.</long>
+      </locale>
+    </schema>
 </schemalist>
 
 </gconfschemafile>

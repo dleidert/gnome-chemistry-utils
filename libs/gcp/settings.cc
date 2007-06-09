@@ -35,5 +35,6 @@ unsigned MaxStackSize = 0;//infinite size authorized for undo:redo stacks
 bool MergeAtoms = true;
 int CompressionLevel = 0;
 bool TearableMendeleiev = false;
+int ClipboardFormats = GCP_CLIPBOARD_NO_TEXT;
 
 }

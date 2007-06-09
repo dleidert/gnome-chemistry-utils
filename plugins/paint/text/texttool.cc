@@ -409,7 +409,7 @@ bool gcpTextTool::CopySelection (GtkClipboard *clipboard)
 		xmlAddChild (pDoc->children, node);
 	else
 		return false;
-	gtk_clipboard_set_with_data (clipboard, gcp::targets, 7,
+	gtk_clipboard_set_with_data (clipboard, gcp::targets, gcp::ClipboardFormats,
 				(GtkClipboardGetFunc) on_get_data,
 				(GtkClipboardClearFunc) gcp::on_clear_data, this);
 	gtk_clipboard_request_contents (clipboard,
@@ -461,7 +461,7 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, in
 	text->GetSelectionBounds (start, end);
 	PangoLayout *layout = gnome_canvas_pango_get_layout (m_Active);
 	switch (*DataType) {
-		case 0: {
+		case gcp::GCP_CLIPBOARD_NATIVE: {
 			xmlDocPtr xml = xmlParseMemory ((const char*) data->data, data->length);
 			xmlNodePtr node = xml->children;
 			if ((strcmp((char*)node->name, "chemistry")) || (node->children->next)) {
@@ -503,13 +503,13 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, in
 			xmlFreeDoc (xml);
 			break;
 		}
-		case 5: {
+		case gcp::GCP_CLIPBOARD_UTF8_STRING: {
 			PangoAttrList *l = pango_attr_list_new ();
 			gcp_pango_layout_replace_text (layout, start, end - start, (char const *) data->data, l);
 			pango_attr_list_unref (l);
 			break;
 		}
-		case 6: {
+		case gcp::GCP_CLIPBOARD_STRING: {
 			PangoAttrList *l = pango_attr_list_new ();
 			if (!g_utf8_validate ((const char*) data->data, data->length, NULL)) {
 				gsize r, w;

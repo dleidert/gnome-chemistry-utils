@@ -292,7 +292,7 @@ void WidgetData::Copy (GtkClipboard* clipboard)
 		if ((child = (*i)->Save (pXmlDoc)))
 			xmlAddChild ((*pDoc)->children, child);
 	Application* App = m_View->GetDoc ()->GetApplication ();
-	gtk_clipboard_set_with_data (clipboard, export_targets, 8, (GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data, App);
+	gtk_clipboard_set_with_data (clipboard, export_targets, ClipboardFormats, (GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data, App);
 	gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, App);
 }
 

@@ -341,6 +341,9 @@ Application::Application ():
 	GError *error = NULL;
 	GCU_GCONF_GET (ROOTDIR"compression", int, CompressionLevel, 0)
 	GCU_GCONF_GET (ROOTDIR"tearable-mendeleiev", bool, TearableMendeleiev, false)
+	bool CopyAsText;
+	GCU_GCONF_GET (ROOTDIR"copy-as-text", bool, CopyAsText, false)
+	ClipboardFormats = CopyAsText? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
 	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchempaint/settings", (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
 	// make themes permanent with this as a dummy client
 	list <string> Names = TheThemeManager.GetThemesNames ();
@@ -998,7 +1001,8 @@ void Application::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntr
 		Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
 		if (ToolsBox)
 			ToolsBox->Update ();
-	}
+	} else 	if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"copy-as-text"))
+		ClipboardFormats = (gconf_value_get_bool (gconf_entry_get_value (entry)))? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
 }
 
 void Application::TestSupportedType (char const *mime_type)

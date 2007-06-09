@@ -558,12 +558,12 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 	xmlDocPtr xml;
 	m_pData->UnselectAll ();
 	switch (*DataType) {
-	case 0:
+	case GCP_CLIPBOARD_NATIVE:
 		xml = xmlParseMemory ((const char*) selection_data->data, selection_data->length);
 		m_pDoc->AddData (xml->children->children);
 		xmlFreeDoc (xml);
 		break;
-	case 6: {
+	case GCP_CLIPBOARD_UTF8_STRING: {
 			Text* text = new Text ();
 			text->SetText ((char const*) selection_data->data);
 			text->OnChanged (true);
@@ -571,7 +571,7 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 			m_pData->SetSelected (text);
 		}
 		break;
-	case 7: {
+	case GCP_CLIPBOARD_STRING: {
 			Text* text = new Text ();
 			if (!g_utf8_validate ((const char*) selection_data->data, selection_data->length, NULL)) {
 				gsize r, w;

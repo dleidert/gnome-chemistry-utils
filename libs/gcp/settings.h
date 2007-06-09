@@ -38,6 +38,23 @@ extern bool MergeAtoms;
 extern int CompressionLevel;
 extern bool TearableMendeleiev;
 
+// Clipboard formats identifiers
+enum {
+	GCP_CLIPBOARD_NATIVE,
+	GCP_CLIPBOARD_SVG,
+	GCP_CLIPBOARD_SVG_XML,
+	GCP_CLIPBOARD_PNG,
+	GCP_CLIPBOARD_JPEG,
+	GCP_CLIPBOARD_BMP,
+	GCP_CLIPBOARD_NO_TEXT,
+	GCP_CLIPBOARD_UTF8_STRING = GCP_CLIPBOARD_NO_TEXT,
+	GCP_CLIPBOARD_STRING,
+	GCP_CLIPBOARD_ALL,
+};
+
+extern int ClipboardFormats; /* number of really used formats when copying
+should be either GCP_CLIPBOARD_NO_TEXT or GCP_CLIPBOARD_ALL */
+
 }	//	namespace gcp
 
 #endif // GCHEMPAINT_SETTINGS_H

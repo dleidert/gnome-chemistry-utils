@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2007-06-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: make copying as text optional.
+	* libs/gcp/settings.cc: ditto.
+	* libs/gcp/settings.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcp/widgetdata.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* programs/paint/gchempaint.schemas.in: ditto.
+
 2007-06-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/text.h: add gcp::Text::SetText (char const*).
 	* libs/gcp/view.cc: add image/bmp as clipboard target and

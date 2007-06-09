@@ -27,6 +27,7 @@
 #include <gcp/fragment.h>
 #include <gcp/document.h>
 #include <gcp/application.h>
+#include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/window.h>
 #include <gdk/gdkkeysyms.h>
@@ -238,7 +239,7 @@ bool gcpFragmentTool::CopySelection (GtkClipboard *clipboard)
 		xmlAddChild (pDoc->children, node);
 	else
 		return false;
-	gtk_clipboard_set_with_data (clipboard, gcp::targets, 7,
+	gtk_clipboard_set_with_data (clipboard, gcp::targets, gcp::ClipboardFormats,
 				(GtkClipboardGetFunc) on_get_data,
 				(GtkClipboardClearFunc) gcp::on_clear_data, this);
 	gtk_clipboard_request_contents (clipboard,
