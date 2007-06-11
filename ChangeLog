@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-06-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* templates/paint/templates.xml.in: fixed isoleucine template.
+
 2007-06-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: make copying as text optional.
 	* libs/gcp/settings.cc: ditto.

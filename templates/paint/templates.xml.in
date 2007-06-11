@@ -529,8 +529,7 @@
       <bond id="b5" order="1" begin="a4" end="a6"/>
       <bond id="b6" order="1" begin="a6" end="a7"/>
       <bond id="b7" order="1" begin="a6" end="a8" type="up"/>
-      <bond id="b8" order="1" begin="a7" end="a7"/>
-      <bond id="b9" order="1" begin="a7" end="a9"/>
+      <bond id="b8" order="1" begin="a7" end="a9"/>
     </molecule>
   </template>
   <template>
