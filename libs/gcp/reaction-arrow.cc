@@ -33,6 +33,7 @@
 #include "widgetdata.h"
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-line.h>
+#include <glib/gi18n-lib.h>
 #include <cmath>
 
 namespace gcp {
@@ -87,15 +88,16 @@ xmlNodePtr ReactionArrow::Save (xmlDocPtr xml)
 	}
 	else
 		parent = node;
+	SaveChildren (xml, node);
 	return parent;
 }
 
 bool ReactionArrow::Load (xmlNodePtr node)
 {
 	char *buf;
-	Object *parent;
-	if (Arrow::Load (node))
-	{
+	Object *parent, *prop;
+	xmlNodePtr child;
+	if (Arrow::Load (node)) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "type");
 		if (buf) {
 			if (!strcmp (buf, "double")) {
@@ -109,6 +111,16 @@ bool ReactionArrow::Load (xmlNodePtr node)
 				m_TypeChanged = true;
 			}
 			xmlFree (buf);
+		}
+		/* load children */
+		child = GetNodeByName (node, "reaction-prop");
+		while (child) {
+			prop = CreateObject ("reaction-prop", this);
+			if (prop) {
+				if (!prop->Load (child))
+					delete prop;
+			}
+			child = GetNextNodeByName (child->next, "reaction-prop");
 		}
 		parent = GetParent ();
 		if (!parent)
@@ -323,6 +335,48 @@ void ReactionArrow::RemoveStep (ReactionStep *Step)
 		m_Start = NULL;
 	else if (Step == m_End)
 		m_End = NULL;
+}
+
+struct CallbackData {
+	ReactionArrow *arrow;
+	Object *child;
+};
+
+static void do_attach_object ()
+{
+}
+
+static void do_free_data (struct CallbackData *data)
+{
+	delete data;
+}
+
+bool ReactionArrow::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+{
+	gcp::Document *Doc = dynamic_cast<gcp::Document*> (GetDocument ());
+	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
+	if (pData->SelectedObjects.size () != 1)
+		return Object::BuildContextualMenu (UIManager, object, x, y);
+	Object *obj = pData->SelectedObjects.front ();
+	TypeId Id = obj->GetType ();
+	if ((Id != MoleculeType && Id != TextType) || obj->GetGroup ())
+		return Object::BuildContextualMenu (UIManager, object, x, y);
+	GtkActionGroup *group = gtk_action_group_new ("reaction-arrow");
+	GtkAction *action = gtk_action_new ("Arrow", _("Arrow"), NULL, NULL);
+	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
+	struct CallbackData *data = new struct CallbackData ();
+	data->arrow = this;
+	data->child = obj;
+	action = gtk_action_new ("attach", _("Attach selection to arrow..."), NULL, NULL);
+	g_object_set_data_full (G_OBJECT (action), "data", data, (GDestroyNotify) do_free_data);
+	g_signal_connect_swapped (action, "activate", G_CALLBACK (do_attach_object), data);
+	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
+	gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Arrow'><menuitem action='attach'/></menu></popup></ui>", -1, NULL);
+	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	g_object_unref (group);
+	return true;
 }
 
 }	//	namespace gcp

@@ -36,6 +36,7 @@
 #include "reactant.h"
 #include "reaction-step.h"
 #include "reaction-arrow.h"
+#include "reaction-prop.h"
 #include "settings.h"
 #include "theme.h"
 #include "tool.h"
@@ -193,6 +194,11 @@ static Object* CreateReactionArrow ()
 	return new ReactionArrow (NULL);
 }
 
+static Object* CreateReactionProp ()
+{
+	return new ReactionProp ();
+}
+
 static Object* CreateMesomery ()
 {
 	return new Mesomery ();
@@ -270,7 +276,8 @@ Application::Application ():
 		Object::SetCreationLabel (ReactionType, _("Create a new reaction"));
 		ReactionStepType = Object::AddType ("reaction-step", CreateReactionStep);
 		Object::AddType ("reactant", CreateReactant, ReactantType);
-		Object::AddType("reaction-arrow", CreateReactionArrow, ReactionArrowType);
+		Object::AddType ("reaction-arrow", CreateReactionArrow, ReactionArrowType);
+		Object::AddType ("reaction-prop", CreateReactionProp, ReactionPropType);
 		MesomerType = Object::AddType ("mesomer", CreateMesomer);
 		Object::AddType ("mesomery", CreateMesomery, MesomeryType);
 		Object::SetCreationLabel (MesomeryType, _("Create a new mesomery relationship"));
@@ -278,13 +285,17 @@ Application::Application ():
 		Object::AddType ("text", CreateText, TextType);
 		Object::AddType ("fragment", CreateFragment, FragmentType);
 		ElectronType = Object::AddType ("electron", NULL);
-		//Add rules
+		// Add rules
 		Object::AddRule ("reaction", RuleMustContain, "reaction-step");
 		Object::AddRule ("reaction-step", RuleMustContain, "reactant");
 		Object::AddRule ("reactant", RuleMustBeIn, "reaction-step");
 		Object::AddRule ("reaction-step", RuleMustBeIn, "reaction");
 		Object::AddRule ("reaction", RuleMustContain, "reaction-arrow");
 		Object::AddRule ("reaction-arrow", RuleMustBeIn, "reaction");
+		Object::AddRule ("reaction-arrow", RuleMayContain, "reaction-prop");
+		Object::AddRule ("reaction-prop", RuleMustBeIn, "reaction-arrow");
+		Object::AddRule ("reaction-prop", RuleMayContain, "molecule");
+		Object::AddRule ("reaction-prop", RuleMayContain, "text");
 		Object::AddRule ("reactant", RuleMayContain, "molecule");
 		Object::AddRule ("mesomer", RuleMustContain, "molecule");
 		Object::AddRule ("mesomer", RuleMustBeIn, "mesomery");

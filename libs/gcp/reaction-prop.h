@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint reactions plugin
- * plugin.h 
+ * GChemPaint library
+ * reaction-prop.h 
  *
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,18 +22,38 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_REACTIONS_PLUGIN_H
-#define GCHEMPAINT_REACTIONS_PLUGIN_H
+#ifndef GCHEMPAINT_REACTION_PROP_H
+#define GCHEMPAINT_REACTION_PROP_H
 
-#include <gcp/plugin.h>
+#include <gcu/object.h>
+#include <gcu/macros.h>
 
-class gcpReactionsPlugin: public gcp::Plugin
+namespace gcp {
+
+using namespace gcu;
+
+extern TypeId ReactionPropType;
+
+/*!\class ReactionProp gcp/reaction-prop.h
+This is a container class for objects attached to a reaction arrow.
+*/
+
+class ReactionProp: public Object
 {
 public:
-	gcpReactionsPlugin ();
-	virtual ~gcpReactionsPlugin ();
+	ReactionProp ();
+	ReactionProp (Object *child, char const *role);
+	~ReactionProp ();
 
-	virtual void Populate (gcp::Application* App);
+	xmlNodePtr Save (xmlDocPtr xml);
+	bool Load (xmlNodePtr);
+
+private:
+GCU_RO_PROP (Object*, Object);
+GCU_RO_PROP (string, Role);
 };
 
-#endif //GCHEMPAINT_REACTIONS_PLUGIN_H
+}	//	namespace gcp
+
+
+#endif	//	GCHEMPAINT_REACTION_PROP_H

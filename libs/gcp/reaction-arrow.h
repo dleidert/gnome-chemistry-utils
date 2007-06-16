@@ -47,6 +47,7 @@ public:
 	void SetEndStep (ReactionStep *Step) {m_End = Step;}
 	ReactionStep* GetEndStep () {return m_End;}
 	void RemoveStep (ReactionStep *Step);
+	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 
 private:
 	unsigned m_Type;

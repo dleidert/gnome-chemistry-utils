@@ -261,7 +261,6 @@ plugins/paint/arrows/Makefile
 plugins/paint/atoms/Makefile
 plugins/paint/bonds/Makefile
 plugins/paint/cycles/Makefile
-plugins/paint/reactions/Makefile
 plugins/paint/selection/Makefile
 plugins/paint/templates/Makefile
 plugins/paint/text/Makefile
