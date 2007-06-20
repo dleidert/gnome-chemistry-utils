@@ -1,8 +1,36 @@
 ##Text encoding: utf-8
 
+2007-06-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* pixmaps/Makefile.am: use new icons.
+	* programs/3d/gchem3d-viewer-unstable.desktop.in: ditto.
+	* programs/3d/gchem3d-viewer.desktop.in: ditto.
+	* programs/calc/gchemcalc-unstable.desktop.in: ditto.
+	* programs/calc/gchemcalc.desktop.in: ditto.
+	* programs/table/Makefile.am: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* programs/table/gchemtable-unstable.desktop.in: ditto.
+	* programs/table/gchemtable.desktop.in: ditto.
+
 2007-06-18  Jordan Mantha  <mantha@ubuntu.com>
         * Added 32,48,72, and 128 pixel icons for gchem3d-viewer,
         gchemtable, and gchemcalc
+
+2007-06-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: removed 
+	* libs/gcp/Makefile.am: new ReactionProp class.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/reaction-arrow.cc: moved code from reactions
+	plugin.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop.cc: new ReactionProp class.
+	* libs/gcp/reaction-prop.h: ditto.
+	* plugins/paint/Makefile.am: removed obsolete reactions
+	plugin.
+	* plugins/paint/reactions/.cvsignore: ditto.
+	* plugins/paint/reactions/Makefile.am: ditto.
+	* plugins/paint/reactions/plugin.cc: ditto.
+	* plugins/paint/reactions/plugin.h: ditto.
 
 2007-06-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* templates/paint/templates.xml.in: fixed isoleucine template.
