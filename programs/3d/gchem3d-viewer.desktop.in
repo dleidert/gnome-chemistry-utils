@@ -3,6 +3,7 @@ Encoding=UTF-8
 _Name=Molecules Viewer
 _Comment=Display chemical 3D structures
 Exec=gchem3d-viewer %u
+Icon=gchem3d-viewer
 Terminal=false
 Type=Application
 Categories=GTK;GNOME;Education;Science;Chemistry;
