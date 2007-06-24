@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2007-06-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/paint/Makefile.am: add new glade file.
+	* glade/paint/arrow-object.glade: initial glade file for
+	reactions arrows attached objects properties.
+	* libs/gcp/Makefile.am: add reaction-prop-dlg.*
+	* libs/gcp/application.cc: correctly create the
+	ReactionProp type.
+	* libs/gcp/reaction-arrow.cc: select, move and update
+	children.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop-dlg.cc: new dialog.
+	* libs/gcp/reaction-prop-dlg.h: ditto.
+	* libs/gcp/reaction-prop.cc: Load and Save implemented,
+	and enhanced role support.
+	* libs/gcp/reaction-prop.h: ditto.
+
 2007-06-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* pixmaps/Makefile.am: use new icons.
 	* programs/3d/gchem3d-viewer-unstable.desktop.in: ditto.

@@ -277,7 +277,7 @@ Application::Application ():
 		ReactionStepType = Object::AddType ("reaction-step", CreateReactionStep);
 		Object::AddType ("reactant", CreateReactant, ReactantType);
 		Object::AddType ("reaction-arrow", CreateReactionArrow, ReactionArrowType);
-		Object::AddType ("reaction-prop", CreateReactionProp, ReactionPropType);
+		ReactionPropType = Object::AddType ("reaction-prop", CreateReactionProp);
 		MesomerType = Object::AddType ("mesomer", CreateMesomer);
 		Object::AddType ("mesomery", CreateMesomery, MesomeryType);
 		Object::SetCreationLabel (MesomeryType, _("Create a new mesomery relationship"));

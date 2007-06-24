@@ -2,7 +2,7 @@
 
 /* 
  * GChemPaint library
- * reaction-prop.h 
+ * reaction-prop-dlg.h
  *
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,55 +22,33 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_REACTION_PROP_H
-#define GCHEMPAINT_REACTION_PROP_H
+#ifndef GCHEMPAINT_REACTION_PROP_DLG_H
+#define GCHEMPAINT_REACTION_PROP_DLG_H
 
+#include <gcu/dialog.h>
 #include <gcu/object.h>
 #include <gcu/macros.h>
 
 namespace gcp {
 
-using namespace gcu;
-
-extern TypeId ReactionPropType;
 class ReactionArrow;
 
-enum {
-	REACTION_PROP_UNKNOWN,
-	REACTION_PROP_CATALYST,
-	REACTION_PROP_REACTANT,
-	REACTION_PROP_PRODUCT,
-	REACTION_PROP_SOLVENT,
-	REACTION_PROP_MAX_MOL,
-	REACTION_PROP_TEMPERATURE = REACTION_PROP_MAX_MOL,
-	REACTION_PROP_PRESSURE,
-	REACTION_PROP_TIME,
-	REACTION_PROP_ENTHALPY,
-	REACTION_PROP_MAX,
-};
+using namespace gcu;
 
-extern char const *ReactionPropRoles[];
+class ReactionProp;
 
-/*!\class ReactionProp gcp/reaction-prop.h
-This is a container class for objects attached to a reaction arrow.
-*/
-
-class ReactionProp: public Object
+class ReactionPropDlg: public Dialog
 {
 public:
-	ReactionProp ();
-	ReactionProp (ReactionArrow *parent, Object *child);
-	~ReactionProp ();
-
-	xmlNodePtr Save (xmlDocPtr xml);
-	bool Load (xmlNodePtr);
+	ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop);
+	virtual ~ReactionPropDlg ();
 
 private:
-GCU_RO_PROP (Object*, Object);
-GCU_PROP (unsigned, Role);
+	ReactionArrow *m_Arrow;
+	ReactionProp *m_Prop;
 };
 
 }	//	namespace gcp
 
-
 #endif	//	GCHEMPAINT_REACTION_PROP_H
+

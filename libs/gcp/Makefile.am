@@ -22,6 +22,7 @@ libgchempaint_unstable_la_SOURCES = \
 		reaction-arrow.cc \
 		reaction-operator.cc \
 		reaction-prop.cc \
+		reaction-prop-dlg.cc \
 		mesomery.cc \
 		mesomer.cc \
 		mesomery-arrow.cc \
@@ -63,6 +64,7 @@ noinst_HEADERS = \
 		reaction-arrow.h \
 		reaction-operator.h \
 		reaction-prop.h \
+		reaction-prop-dlg.h \
 		mesomery.h \
 		mesomer.h \
 		mesomery-arrow.h \

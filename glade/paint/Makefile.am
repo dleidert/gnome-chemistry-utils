@@ -1,5 +1,6 @@
 glade_DATA =	\
 	arrow.png	\
+	arrow-object.glade	\
 	docprop.glade	\
 	H-pos.glade	\
 	newfiledlg.glade	\

@@ -24,21 +24,44 @@
 
 #include "config.h"
 #include "reaction-prop.h"
+#include "reaction-arrow.h"
+#include <glib/gi18n-lib.h>
 
 namespace gcp {
 
-TypeId ReactionPropType;
+TypeId ReactionPropType = NoType;
+
+char const *ReactionPropRoles[] = {
+	N_("Unkown"),
+	N_("Catalyst"),
+	N_("Reactant"),
+	N_("Product"),
+	N_("Solvent"),
+	N_("Temperature"),
+	N_("Pressure"),
+	N_("Time"),
+	N_("Enthalpy"),
+};
+
+static unsigned RoleFromString (char const *role)
+{
+	unsigned res = REACTION_PROP_MAX;
+	while (res > REACTION_PROP_UNKNOWN &&
+		   !strcmp (ReactionPropRoles[--res], role));
+	return res;
+}
 
 ReactionProp::ReactionProp ():
 	Object (ReactionPropType)
 {
 }
 
-ReactionProp::ReactionProp (Object *child, char const *role):
+ReactionProp::ReactionProp (ReactionArrow *parent, Object *child):
 	gcu::Object (ReactionPropType),
 	m_Object (child),
-	m_Role (role)
+	m_Role (REACTION_PROP_UNKNOWN)
 {
+	SetParent (parent);
 	AddChild (child);
 }
 
@@ -48,12 +71,25 @@ ReactionProp::~ReactionProp ()
 
 xmlNodePtr ReactionProp::Save (xmlDocPtr xml)
 {
-	return NULL;
+	xmlNodePtr node;
+	node = Object::Save (xml);
+	if (!node)
+		return NULL;
+	xmlNewProp (node, (xmlChar*) "role",  (xmlChar*) ReactionPropRoles[m_Role]);
+	return node;
 }
 
-bool ReactionProp::Load (xmlNodePtr)
+bool ReactionProp::Load (xmlNodePtr node)
 {
-	return false;
+	bool res = Object::Load (node);
+	if (res) {
+		char *buf = (char*) xmlGetProp (node, (xmlChar*) "role");
+		if (buf) {
+			m_Role = RoleFromString (buf);
+			xmlFree (buf);
+		}
+	}
+	return res;
 }
 
 }	//	namespace gcp

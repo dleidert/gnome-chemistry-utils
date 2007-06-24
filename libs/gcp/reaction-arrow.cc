@@ -26,6 +26,8 @@
 #include "reaction-arrow.h"
 #include "reaction.h"
 #include "reaction-step.h"
+#include "reaction-prop.h"
+#include "reaction-prop-dlg.h"
 #include "document.h"
 #include "settings.h"
 #include "theme.h"
@@ -327,6 +329,8 @@ void ReactionArrow::Update (GtkWidget* w)
 			break;
 	}
 	gnome_canvas_points_free (points);
+	// Now, update children
+	Object::Update (w);
 }
 
 void ReactionArrow::RemoveStep (ReactionStep *Step)
@@ -342,8 +346,11 @@ struct CallbackData {
 	Object *child;
 };
 
-static void do_attach_object ()
+static void do_attach_object (struct CallbackData *data)
 {
+	ReactionProp *prop = new ReactionProp (data->arrow, data->child);
+	data->arrow->AddChild (prop);
+	new ReactionPropDlg (data->arrow, prop);
 }
 
 static void do_free_data (struct CallbackData *data)
@@ -377,6 +384,22 @@ bool ReactionArrow::BuildContextualMenu (GtkUIManager *UIManager, Object *object
 	gtk_ui_manager_insert_action_group (UIManager, group, 0);
 	g_object_unref (group);
 	return true;
+}
+
+void ReactionArrow::Move (double x, double y, double z)
+{
+	// Move the arrow
+	Arrow::Move (x, y, z);
+	// Move its children
+	Object::Move (x, y, z);
+}
+
+void ReactionArrow::SetSelected (GtkWidget* w, int state)
+{
+	// Select the arrow
+	Arrow::SetSelected (w, state);
+	// Select its children
+	Object::SetSelected (w, state);
 }
 
 }	//	namespace gcp
