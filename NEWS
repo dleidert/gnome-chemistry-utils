@@ -1,8 +1,18 @@
 Version 0.9.0
+	3d viewer:
+		* new icons (Jordan Mantha).
+	calc:
+		* new icons (Jordan Mantha).
 	GChemPaint:
 		* incorporated in the Gnome Chemistry Utils.
 		* new Wikipedia experimental export plugin.
-		* copy as bitamps.
+		* copy as bitmaps.
+		* a text or a molecule can be attached to a
+		reaction arrow.
+	periodic table:
+		* graphs can now be printed.
+		* new color schemes (Jordan Mantha).
+		* new icons (Jordan Mantha).
 
 Version 0.7.5
 	periodic table:
