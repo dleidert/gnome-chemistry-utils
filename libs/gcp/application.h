@@ -48,7 +48,8 @@ class Window;
 class NewFileDlg;
 class Tool;
 class Document;
-	
+typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
+
 class Application: public gcu::Application
 {
 public:
@@ -99,6 +100,21 @@ public:
 	list<string> &GetExtensions(string &mime_type);
 	void OnThemeNamesChanged ();
 
+/*!
+@param cb: the BuildMenuCb callback to call when building the menu.
+
+adds a callback for adding entries to the windows menus.
+*/
+	void AddMenuCallback (BuildMenuCb cb);
+
+/*!
+@param manager: the GtkUIManager to populate.
+
+Populates the user interface by calling all callbacks registered
+with AddMenuCallback.
+*/
+	void BuildMenu (GtkUIManager *manager);
+
 	// virtual menus actions:
 	virtual void OnFileNew (char const *Theme = NULL) = 0;
 
@@ -138,6 +154,7 @@ private:
 	GConfClient *m_ConfClient;
 	guint m_NotificationId;
 	Object *m_Dummy;
+	list<BuildMenuCb> m_MenuCbs;
 };
 
 }	// namespace gcp

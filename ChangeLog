@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2007-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: new methods to modify menus from
+	plugins.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/window.cc: ditto.
+
 2007-06-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/paint/Makefile.am: add new glade file.
 	* glade/paint/arrow-object.glade: initial glade file for

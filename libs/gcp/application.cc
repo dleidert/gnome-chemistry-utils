@@ -1041,4 +1041,16 @@ void Application::OnThemeNamesChanged ()
 		dynamic_cast <Document *> (*i)->OnThemeNamesChanged ();
 }
 
+void Application::AddMenuCallback (BuildMenuCb cb)
+{
+	m_MenuCbs.push_back (cb);
+}
+
+void Application::BuildMenu (GtkUIManager *manager)
+{
+	list<BuildMenuCb>::iterator i, end = m_MenuCbs.end ();
+	for (i = m_MenuCbs.begin (); i != end; i++)
+		(*i) (manager);
+}
+
 }	//	namespace gcp

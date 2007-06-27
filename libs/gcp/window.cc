@@ -346,6 +346,7 @@ static GtkActionEntry entries[] = {
 			  N_("Zoom to 25%"), G_CALLBACK (on_zoom_25) },
 		  { "Zoom", NULL, N_("_Zoom to...%"), "<control>M",
 			  N_("Open Zoom Dialog Box"), G_CALLBACK (on_zoom) },
+  { "ToolsMenu", NULL, N_("_Tools") },
   { "WindowsMenu", NULL, N_("_Windows") },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
@@ -407,6 +408,11 @@ static const char *ui_description =
 "        <menuitem action='25%'/>"
 "        <menuitem action='Zoom'/>"
 "      </menu>"
+"    </menu>"
+"    <menu action='ToolsMenu'>"
+"	   <placeholder name='tools1'/>"
+"      <separator name='tools-sep1'/>"
+"      <placeholder name='tools2'/>"
 "    </menu>"
 "    <menu action='WindowsMenu'>"
 "	   <placeholder name='windows1'/>"
@@ -510,6 +516,9 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
+
+	//  now add entries registered by plugins.
+	App->BuildMenu (m_UIManager);
 
 	GtkWidget *menu = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
