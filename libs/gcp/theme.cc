@@ -48,6 +48,7 @@ double DefaultStereoBondWidth = 5.0;
 double DefaultZoomFactor = 0.25;
 double DefaultPadding = 2.0;
 double DefaultArrowPadding = 16.0;
+double DefaultArrowObjectPadding = 16.0;
 double DefaultStoichiometryPadding = 1.;
 double DefaultObjectPadding = 16.0;
 double DefaultSignPadding = 8.0;
@@ -84,6 +85,7 @@ Theme::Theme (char const *name)
 	m_ArrowHeadC = DefaultArrowHeadC;
 	m_ArrowDist = DefaultArrowDist;
 	m_ArrowPadding = DefaultArrowPadding;
+	m_ArrowObjectPadding = DefaultArrowObjectPadding;
 	m_ArrowWidth = DefaultArrowWidth;
 	m_StoichiometryPadding = DefaultStoichiometryPadding;
 	m_ObjectPadding = DefaultObjectPadding;
@@ -202,6 +204,7 @@ ThemeManager::ThemeManager ()
 	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"scale", float, DefaultZoomFactor, 0.25, inv)
 	GCU_GCONF_GET (ROOTDIR"padding", float, DefaultPadding, 2.0)
 	GCU_GCONF_GET (ROOTDIR"arrow-padding", float, DefaultArrowPadding, 16.0)
+	GCU_GCONF_GET (ROOTDIR"arrow-object-padding", float, DefaultArrowObjectPadding, 16.0)
 	GCU_GCONF_GET (ROOTDIR"stoichiometry-padding", float, DefaultStoichiometryPadding, 1.)
 	GCU_GCONF_GET (ROOTDIR"object-padding", float, DefaultObjectPadding, 16.0)
 	GCU_GCONF_GET (ROOTDIR"sign-padding", float, DefaultSignPadding, 8.0)

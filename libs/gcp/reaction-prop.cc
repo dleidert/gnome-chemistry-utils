@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "document.h"
 #include "reaction-prop.h"
 #include "reaction-arrow.h"
 #include <glib/gi18n-lib.h>
@@ -52,12 +53,14 @@ static unsigned RoleFromString (char const *role)
 }
 
 ReactionProp::ReactionProp ():
-	Object (ReactionPropType)
+	Object (ReactionPropType),
+	DialogOwner ()
 {
 }
 
 ReactionProp::ReactionProp (ReactionArrow *parent, Object *child):
-	gcu::Object (ReactionPropType),
+	Object (ReactionPropType),
+	DialogOwner (),
 	m_Object (child),
 	m_Role (REACTION_PROP_UNKNOWN)
 {
@@ -90,6 +93,13 @@ bool ReactionProp::Load (xmlNodePtr node)
 		}
 	}
 	return res;
+}
+
+bool ReactionProp::OnSignal (SignalId Signal, Object *Child)
+{
+	if (Signal == OnChangedSignal && !HasChildren ())
+		delete this;
+	return true;
 }
 
 }	//	namespace gcp

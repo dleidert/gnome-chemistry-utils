@@ -87,7 +87,7 @@ void gpc_print_pango_layout_print (GnomePrintContext *gpc, PangoLayout* pl) {
 	gdouble space;
 	gboolean strikethrough, underline, slant;
 	GtkTextAppearance* appearance;
-	int underline_type;
+	int underline_type = PANGO_UNDERLINE_NONE;
 	PangoAlignment align = pango_layout_get_alignment (pl);
 	double zoom;
 	

@@ -1,6 +1,21 @@
 ##Text encoding: utf-8
 
 2007-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/canvas/gnome-print-pango.c: (gpc_print_pango_layout_print):
+	fix a compilation warning.
+	* libs/gcp/reaction-arrow.cc: can now have one attached
+	object.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-prop-dlg.cc: ditto.
+	* libs/gcp/reaction-prop.cc: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* libs/gcp/theme.cc: add a new padding value for arrow
+	attached objects.
+	* libs/gcp/theme.h:
+	* libs/gcp/view.cc: calls EmitSignal when deleting
+	objects.
+
+2007-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: new methods to modify menus from
 	plugins.
 	* libs/gcp/application.h: ditto.

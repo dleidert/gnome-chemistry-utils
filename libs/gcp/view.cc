@@ -469,6 +469,7 @@ void View::OnDeleteSelection (GtkWidget* w)
 	m_pWidget = w;
 	Application *pApp = m_pDoc->GetApplication ();
 	Tool *pActiveTool = pApp->GetActiveTool ();
+	Object *parent;
 	if (!pActiveTool->DeleteSelection ()) {
 		m_pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 		WidgetData *pData;
@@ -500,8 +501,11 @@ void View::OnDeleteSelection (GtkWidget* w)
 				ModifiedObjects.insert (Group->GetId ());
 			} else
 				Op->AddObject (pObject);
-			m_pData->SelectedObjects.front ()->Lock ();
-			m_pDoc->Remove (m_pData->SelectedObjects.front ());
+			pObject->Lock ();
+			parent = pObject->GetParent ();
+			m_pDoc->Remove (pObject);
+			if (parent)
+				parent->EmitSignal (OnChangedSignal);
 		}
 		m_pData->ClearSelection ();
 		set<string>::iterator k, kend = ModifiedObjects.end();

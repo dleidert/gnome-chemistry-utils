@@ -31,6 +31,7 @@ namespace gcp {
 
 class ReactionStep;
 class Reaction;
+class ReactionProp;
 
 class ReactionArrow: public Arrow
 {
@@ -50,6 +51,8 @@ public:
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	void Move (double x, double y, double z = 0);
 	void SetSelected (GtkWidget* w, int state);
+	void AddProp (Object *object);
+	bool OnSignal (SignalId Signal, Object *Child);
 
 private:
 	unsigned m_Type;

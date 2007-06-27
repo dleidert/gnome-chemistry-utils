@@ -26,6 +26,7 @@
 #define GCHEMPAINT_REACTION_PROP_H
 
 #include <gcu/object.h>
+#include <gcu/dialog-owner.h>
 #include <gcu/macros.h>
 
 namespace gcp {
@@ -55,7 +56,7 @@ extern char const *ReactionPropRoles[];
 This is a container class for objects attached to a reaction arrow.
 */
 
-class ReactionProp: public Object
+class ReactionProp: public Object, public DialogOwner
 {
 public:
 	ReactionProp ();
@@ -64,6 +65,7 @@ public:
 
 	xmlNodePtr Save (xmlDocPtr xml);
 	bool Load (xmlNodePtr);
+	bool OnSignal (SignalId Signal, Object *Child);
 
 private:
 GCU_RO_PROP (Object*, Object);

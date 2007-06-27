@@ -36,7 +36,7 @@ static void on_role_changed (GtkComboBox *box, ReactionProp *prop)
 }
 
 ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
-	Dialog (arrow->GetDocument ()->GetApp (), GLADEDIR"/arrow-object.glade", "reaction-prop"),
+	Dialog (arrow->GetDocument ()->GetApp (), GLADEDIR"/arrow-object.glade", "reaction-prop", prop),
 	m_Arrow (arrow),
 	m_Prop (prop)
 {

@@ -348,9 +348,7 @@ struct CallbackData {
 
 static void do_attach_object (struct CallbackData *data)
 {
-	ReactionProp *prop = new ReactionProp (data->arrow, data->child);
-	data->arrow->AddChild (prop);
-	new ReactionPropDlg (data->arrow, prop);
+	data->arrow->AddProp (data->child);
 }
 
 static void do_free_data (struct CallbackData *data)
@@ -360,9 +358,10 @@ static void do_free_data (struct CallbackData *data)
 
 bool ReactionArrow::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
-	gcp::Document *Doc = dynamic_cast<gcp::Document*> (GetDocument ());
-	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
-	if (pData->SelectedObjects.size () != 1)
+	Document *Doc = dynamic_cast<Document*> (GetDocument ());
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
+	// Don't allow more than one child at the moment
+	if (pData->SelectedObjects.size () != 1 || HasChildren ())
 		return Object::BuildContextualMenu (UIManager, object, x, y);
 	Object *obj = pData->SelectedObjects.front ();
 	TypeId Id = obj->GetType ();
@@ -400,6 +399,87 @@ void ReactionArrow::SetSelected (GtkWidget* w, int state)
 	Arrow::SetSelected (w, state);
 	// Select its children
 	Object::SetSelected (w, state);
+}
+
+void ReactionArrow::AddProp (Object *object)
+{
+	Document *Doc = dynamic_cast<Document*> (GetDocument ());
+	Operation *Op = Doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	Op->AddObject (object, 0);
+	Object *Group = GetGroup ();
+	if (!Group)
+		Group = this;
+	Op->AddObject (Group, 0);
+	ReactionProp *prop = new ReactionProp (this, object);
+	// add the child in the object tree
+	AddChild (prop);
+	// position the child
+	// FIXME: this is experimental code
+	Theme *pTheme = Doc->GetTheme ();
+	double xmin, xspan, ymin, yspan,
+		length = sqrt (m_width * m_width + m_height * m_height),
+		x = m_width / length, y = m_height / length;
+	ArtDRect rect;
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
+	pData->GetObjectBounds (prop, &rect);
+	if (m_width >=0) {
+		if (m_height >=0) {
+			xmin = (rect.x0 * x + rect.y0 * y) / pTheme->GetZoomFactor ();
+			xspan = (rect.x1 * x + rect.y1 * y) / pTheme->GetZoomFactor () - xmin;
+			ymin = (rect.x0 * y - rect.y1 * x) / pTheme->GetZoomFactor ();
+			yspan = (rect.x1 * y - rect.y0 * x) / pTheme->GetZoomFactor () - ymin;
+		} else {
+			xmin = (rect.x0 * x + rect.y1 * y) / pTheme->GetZoomFactor ();
+			xspan = (rect.x1 * x + rect.y0 * y) / pTheme->GetZoomFactor () - xmin;
+			ymin = (rect.x0 * y - rect.y0 * x) / pTheme->GetZoomFactor ();
+			yspan = (rect.x1 * y - rect.y1 * x) / pTheme->GetZoomFactor () - ymin;
+		}
+	} else {
+		if (m_height >=0) {
+			xmin = (rect.x1 * x + rect.y0 * y) / pTheme->GetZoomFactor ();
+			xspan = (rect.x0 * x + rect.y1 * y) / pTheme->GetZoomFactor () - xmin;
+			ymin = (rect.x1 * y - rect.y1 * x) / pTheme->GetZoomFactor ();
+			yspan = (rect.x0 * y - rect.y0 * x) / pTheme->GetZoomFactor () - ymin;
+		} else {
+			xmin = (rect.x1 * x + rect.y1 * y) / pTheme->GetZoomFactor ();
+			xspan = (rect.x0 * x + rect.y0 * y) / pTheme->GetZoomFactor () - xmin;
+			ymin = (rect.x1 * y - rect.y0 * x) / pTheme->GetZoomFactor ();
+			yspan = (rect.x0 * y - rect.y1 * x) / pTheme->GetZoomFactor () - ymin;
+		}
+	}
+	xspan = fabs (xspan);
+	yspan = fabs (yspan);
+	// xmin and ymin will now be the current center of the object
+	xspan += (2* pTheme->GetArrowObjectPadding () + pTheme->GetArrowHeadA ()) / pTheme->GetZoomFactor ();
+	// adjust the arrow length if needed
+	if (xspan > length) {
+		m_width *= xspan / length;
+		m_height *= xspan / length;
+		length = xspan;
+	}
+	// now move the child to the right place
+	length -= pTheme->GetArrowHeadA () / pTheme->GetZoomFactor ();
+	length /= 2.;
+	// FIXME: using GetArrowDist is a non-sense, we should have a new variable.
+	yspan = yspan / 2. + pTheme->GetArrowDist () / pTheme->GetZoomFactor ();
+	// calculate the vector of the needed move
+	xmin = m_x + length * x + y * yspan - (rect.x0 + rect.x1) / 2. / pTheme->GetZoomFactor ();
+	ymin = m_y + length * y - x * yspan - (rect.y0 + rect.y1) / 2. / pTheme->GetZoomFactor ();
+	object->Move (xmin, ymin);
+	Op->AddObject (Group, 1);
+	Doc->FinishOperation ();
+	pData->UnselectAll ();
+	Doc->GetView ()->Update (this);
+	EmitSignal (OnChangedSignal);
+	new ReactionPropDlg (this, prop);
+}
+
+bool ReactionArrow::OnSignal (SignalId Signal, Object *Child)
+{
+	if (Signal == OnChangedSignal) {
+		// FIXME: write this code
+	}
+	return true;
 }
 
 }	//	namespace gcp
