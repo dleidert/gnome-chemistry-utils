@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2007-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* tests/Makefile.am: fixed paths.
+
+2007-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Makefile.am: fixed build issues.
 	* goffice/Makefile.am: ditto.
 	* libs/gcp/Makefile.am: ditto.

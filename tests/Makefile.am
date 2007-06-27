@@ -3,9 +3,9 @@ EXTRA_DIST = nickel.gcrystal methane.xyz
 MAINTAINERCLEANFILES = Makefile.in
 
 INCLUDES = -I$(top_srcdir)/gcu
-DEPS = $(top_builddir)/gcu/libgcu-unstable.la
-LDADD = $(top_builddir)/gcu/libgcu-unstable.la @GCU_LIBS@
-AM_CFLAGS = -I$(top_srcdir) @GCU_CFLAGS@ -Werror-implicit-function-declaration
+DEPS = $(top_builddir)/libs/gcu/libgcu-unstable.la
+LDADD = $(top_builddir)/libs/gcu/libgcu-unstable.la @GCU_LIBS@
+AM_CFLAGS = -I$(top_srcdir)/libs @GCU_CFLAGS@ -Werror-implicit-function-declaration
 DEFS += -DSRCDIR=\"@TESTSSRCDIR@\"
 
 check_PROGRAMS = \
