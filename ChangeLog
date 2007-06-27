@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
 2007-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Makefile.am: fixed build issues.
+	* goffice/Makefile.am: ditto.
+	* libs/gcp/Makefile.am: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+
+2007-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/canvas/gnome-print-pango.c: (gpc_print_pango_layout_print):
 	fix a compilation warning.
 	* libs/gcp/reaction-arrow.cc: can now have one attached

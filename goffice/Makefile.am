@@ -11,8 +11,8 @@ DEFS += -DDATADIR=\"$(datadir)\"
 
 gchemutils_la_SOURCES =	\
 		gchemutils.cc	\
-		gchemutils.h
-#		gchemutils-priv.h	\
+		gchemutils.h	\
+		gchemutils-priv.h
 #		gofficeapp.cc	\
 #		gofficeapp.h	\
 #		gofficewin.cc	\

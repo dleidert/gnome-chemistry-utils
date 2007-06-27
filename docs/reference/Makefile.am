@@ -6,7 +6,9 @@ DISTCLEANFILES = Doxyfile
 
 MAINTAINERCLEANFILES = Makefile.in
 
-all: html_stamp
+all: html/*.*
+
+html/*.*: html_stamp
 
 if DOXYGEN_AVAILABLE
 

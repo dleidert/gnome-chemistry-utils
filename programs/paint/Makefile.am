@@ -40,7 +40,7 @@ noinst_HEADERS = \
 					standalonewin.h
 
 gchempaint_unstable_LDADD = \
-	$(top_srcdir)/libs/gcp/libgchempaint-unstable.la \
+	$(top_builddir)/libs/gcp/libgchempaint-unstable.la \
 	@GCU_LIBS@ 
 
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@

@@ -85,8 +85,8 @@ noinst_HEADERS = \
 		Hposdlg.h
 		
 libgchempaint_unstable_la_LDFLAGS = -release $(VERSION) \
-	$(top_srcdir)/libs/gcu/libgcu-unstable.la \
-	$(top_srcdir)/libs/canvas/libgcpcanvas-unstable.la \
+	$(top_builddir)/libs/gcu/libgcu-unstable.la \
+	$(top_builddir)/libs/canvas/libgcpcanvas-unstable.la \
 	@GCU_LIBS@
 AM_CXXFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \

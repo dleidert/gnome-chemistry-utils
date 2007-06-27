@@ -56,7 +56,7 @@ schemas_DATA 	 = $(schemas_in_files:.schemas.in=.schemas)
 CLEANFILES = $(noinst_DATA) $(schemas_DATA)
 
 EXTRA_DIST = \
-	$(ui_DATA)	\
+	$(glade_DATA)	\
 	$(IMAGES)	\
 	$(schemas_in_files)
 
