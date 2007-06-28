@@ -1,5 +1,7 @@
 Version 0.8.1
 	* #19911: two folders in %{_datadir}.
+	* #18443: Icons for .desktop files
+	* various other fixes (see ChangeLog for details).
 
 Version 0.8.0
 	* fixed the GCU_CONF_GET_STRING macro.
