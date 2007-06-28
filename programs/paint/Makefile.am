@@ -4,7 +4,8 @@ EXTRA_DIST = \
 
 CLEANFILES = \
 	$(desktop_DATA) \
-	$(schemas_DATA)
+	$(schemas_DATA) \
+	x-gchempaint.desktop
 
 MAINTAINERCLEANFILES = \
 	Makefile.in
@@ -23,7 +24,6 @@ schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 if WITH_KDE_MIME
 kde_mime_desktop_DATA = x-gchempaint.desktop
 kde_mime_desktopdir = $(KDEMIMEDIR)/application
-CLEANFILES += kde_mime_desktop_DATA
 endif #WITH_KDE_MIME
 
 @INTLTOOL_DESKTOP_RULE@
