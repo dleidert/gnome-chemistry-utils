@@ -37,7 +37,8 @@ MAINTAINERCLEANFILES = \
 DISTCHECK_CONFIGURE_FLAGS = \
 	--disable-scrollkeeper \
 	--disable-update-databases \
-	--with-mozilla-libdir=\$${libdir}/mozilla
+	--with-mozilla-libdir=\$${libdir}/mozilla \
+	--with-goffice-plugins-dir=\$${libdir}/goffice
 
 mime_in_files = gchemutils.xml.in
 mimedir = $(datadir)/mime/packages

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: more build fixes.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+
 2007-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* tests/Makefile.am: fixed paths.
 

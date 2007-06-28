@@ -64,6 +64,7 @@ desktop_DATA = gcrystal-unstable.desktop
 if WITH_KDE_MIME
 kde_mime_desktop_DATA = x-gcrystal.desktop
 kde_mime_desktopdir = $(KDEMIMEDIR)/application
+CLEANFILES += kde_mime_desktop_DATA
 endif #WITH_KDE_MIME
 
 install-data-local:
