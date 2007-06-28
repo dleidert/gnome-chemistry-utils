@@ -3,7 +3,7 @@ EXTRA_DIST = $(desktop_in_files) $(schemas_in_files)
 CLEANFILES = \
 	$(desktop_DATA) \
 	$(schemas_DATA) \
-	x-gcrystal.desktop
+	$(kde_mime_desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 

@@ -71,7 +71,6 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 		char *argv[2];
 		argv[0] = LIBEXECDIR"/chem-viewer";
 		argv[1] = NULL;
-		int pipe1[2];
 		
 		if (pipe (p) < 0) {
 			perror ("pipe creation");
@@ -84,7 +83,7 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 			close (p[0]);
 			to_pipe = p[1];
 		} else {
-			close(pipe1[1]);
+			close (p[1]);
 			if (p[0] != STDIN_FILENO){
 				if (dup2 (p[0], STDIN_FILENO) != STDIN_FILENO) {
 					perror("dup2 (stdin)");

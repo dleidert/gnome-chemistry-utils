@@ -5,7 +5,7 @@ EXTRA_DIST = \
 CLEANFILES = \
 	$(desktop_DATA) \
 	$(schemas_DATA) \
-	x-gchempaint.desktop
+	$(kde_mime_desktop_DATA)
 
 MAINTAINERCLEANFILES = \
 	Makefile.in
