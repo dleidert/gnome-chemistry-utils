@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2007-06-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/gchem3d-viewer-unstable.omf.in: removed
+	unstable.
+	* docs/help/3d/gchem3d-viewer.omf.in: new file with
+	Applications|Education|Science as category.
+	* docs/help/calc/gchemcalc-unstable.omf.in: removed
+	unstable.
+	* docs/help/calc/gchemcalc.omf.in: new file with
+	Applications|Education|Science as category.
+	* docs/help/crystal/C/gcrystal.xml: changed category
+	Applications|Education|Science.
+	* docs/help/crystal/gcrystal-unstable.omf.in: removed
+	unstable.
+	* docs/help/crystal/gcrystal.omf.in: new file with
+	to Applications|Education|Science as category.
+	* docs/help/table/gchemtable-unstable.omf.in: removed
+	unstable.
+	* docs/help/table/gchemtable.omf.in: new file with
+	Applications|Education|Science as category.
+
 2007-06-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* pixmaps/Makefile.am: use new icons.
 	* programs/3d/gchem3d-viewer.desktop.in: ditto.
