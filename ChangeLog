@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2007-06-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/gchem3d-viewer-unstable.omf.in:
+	use Applications|Education|Science as category.
+	* docs/help/3d/gchem3d-viewer.omf.in: ditto.
+	* docs/help/calc/gchemcalc-unstable.omf.in: ditto.
+	* docs/help/calc/gchemcalc.omf.in: ditto.
+	* docs/help/crystal/gcrystal-unstable.omf.in: ditto.
+	* docs/help/paint/gchempaint-unstable.omf.in: ditto.
+	* docs/help/paint/gchempaint.omf.in: ditto.
+	* docs/help/table/gchemtable-unstable.omf.in: ditto.
+	* docs/help/table/gchemtable.omf.in: ditto.
+
 2007-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* mozilla-plugin/moz-plugin.c: (ChemNew): fixed a bug.
 	* programs/crystal/Makefile.am: even better fix.
