@@ -1,6 +1,7 @@
 ##Text encoding: utf-8
 
 2007-06-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bum (0.9.1).
 	* docs/help/3d/gchem3d-viewer-unstable.omf.in:
 	use Applications|Education|Science as category.
 	* docs/help/3d/gchem3d-viewer.omf.in: ditto.
