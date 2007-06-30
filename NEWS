@@ -1,3 +1,6 @@
+Version 0.8.12
+	* fixed help files installation.
+
 Version 0.8.1
 	* #19911: two folders in %{_datadir}.
 	* #18443: Icons for .desktop files
