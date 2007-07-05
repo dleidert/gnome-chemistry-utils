@@ -1,7 +1,43 @@
 ##Text encoding: utf-8
 
+2007-07-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add the residues plugin.
+	* libs/gcp/Makefile.am: add target.*.
+	* libs/gcp/application.cc: use targets instead of windows,
+	and add support for dynamic windows menus and command line
+	options.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/target.cc: new gcp::Target class (a parent for Window).
+	* libs/gcp/target.h: ditto.
+	* libs/gcp/window.cc: make gcp::Window derive from gcp::Target.
+	* libs/gcp/window.h: ditto.
+	* libs/gcu/Makefile.am: add new files.
+	* libs/gcu/cylinder.cc: imported from Avogadro.
+	* libs/gcu/cylinder.h: ditto.
+	* libs/gcu/macros.h: fixed some issues.
+	* libs/gcu/matrix.cc: add GLMatrix class.
+	* libs/gcu/matrix.h: ditto.
+	* libs/gcu/object.h: updated copyright.
+	* libs/gcu/residue.cc: new class.
+	* libs/gcu/residue.h: ditto.
+	* libs/gcu/sphere.cc: imported from Avogadro.
+	* libs/gcu/sphere.h: ditto.
+	* libs/gcu/vector.cc: support for spheres and cylinders imported
+	from Eigen.
+	* libs/gcu/vector.h: ditto.
+	* plugins/paint/Makefile.am: ad new plugin.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/residues/plugin.cc: ditto.
+	* plugins/paint/residues/plugin.h: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/residues/residues-dlg.h: ditto.
+	* plugins/paint/residues/residues.glade ditto.:
+	* programs/paint/main.cc: supports dynamic command line options.
+	* programs/paint/standaloneapp.cc: use gcp::Target.
+
 2007-06-30  Jean Bréfort  <jean.brefort@normalesup.org>
-	* configure.ac: post release version bum (0.9.1).
+	* configure.ac: post release version bump (0.9.1).
 	* docs/help/3d/gchem3d-viewer-unstable.omf.in:
 	use Applications|Education|Science as category.
 	* docs/help/3d/gchem3d-viewer.omf.in: ditto.

@@ -50,7 +50,7 @@ void gcpStandaloneApp::OnFileNew(char const *Theme)
 
 GtkWindow* gcpStandaloneApp::GetWindow()
 {
-	return m_pActiveWin->GetWindow ();
+	return m_pActiveTarget->GetWindow ();
 }
 
 void gcpStandaloneApp::NoMoreDocsEvent ()

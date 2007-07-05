@@ -41,6 +41,7 @@
 #include "theme.h"
 #include "tool.h"
 #include "tools.h"
+#include "target.h"
 #include "window.h"
 #include "zoomdlg.h"
 #include <gcu/filechooser.h>
@@ -955,15 +956,15 @@ void Application::RegisterToolbar (char const *name, int index)
 		ToolbarNames[index] = name;
 }
 
-void Application::AddWindow (Window *window)
+void Application::AddTarget (Target *target)
 {
-	m_Windows.insert (window);
+	m_Targets.insert (target);
 	NotifyIconification (false);
 }
 
-void Application::DeleteWindow (Window *window)
+void Application::DeleteTarget (Target *target)
 {
-	m_Windows.erase (window);
+	m_Targets.erase (target);
 	ShowTools (false);
 }
 
@@ -974,11 +975,11 @@ void Application::NotifyIconification (bool iconified)
 	}
 }
 
-void Application::NotifyFocus (bool has_focus, Window *window)
+void Application::NotifyFocus (bool has_focus, Target *target)
 {
-	if (window) {
-		m_pActiveWin = window;
-		m_pActiveDoc = window->GetDocument ();
+	if (target) {
+		m_pActiveTarget = target;
+		m_pActiveDoc = target->GetDocument ();
 		m_pActiveTool->Activate ();
 		if (has_focus)
 			ShowTools (true);
@@ -987,16 +988,19 @@ void Application::NotifyFocus (bool has_focus, Window *window)
 
 void Application::CloseAll ()
 {
-	while (!m_Windows.empty ())
-		if (!(*m_Windows.begin ())->Close ())
+	while (!m_Targets.empty ())
+		if (!(*m_Targets.begin ())->Close ())
 			return;
 }
 
 void Application::ActivateWindowsActionWidget (const char *path, bool activate)
 {
-	std::set<Window*>::iterator i, iend = m_Windows.end ();
-	for (i = m_Windows.begin (); i != iend; i++)
-		(*i)->ActivateActionWidget (path, activate);
+	std::set<Target*>::iterator i, iend = m_Targets.end ();
+	for (i = m_Targets.begin (); i != iend; i++) {
+		Window *window = dynamic_cast<Window*> (*i);
+		if (window)
+			window->ActivateActionWidget (path, activate);
+	}
 }
 
 void Application::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry)
@@ -1051,6 +1055,26 @@ void Application::BuildMenu (GtkUIManager *manager)
 	list<BuildMenuCb>::iterator i, end = m_MenuCbs.end ();
 	for (i = m_MenuCbs.begin (); i != end; i++)
 		(*i) (manager);
+}
+
+struct option_data {
+	GOptionEntry const *entries;
+	char const *translation_domain;
+};
+
+void Application::RegisterOptions (GOptionEntry const *entries, char const *translation_domain)
+{
+	struct option_data d;
+	d.entries = entries;
+	d.translation_domain = translation_domain;
+	m_Options.push_back (d);
+}
+
+void Application::AddOptions (GOptionContext *context)
+{
+	list<option_data>::iterator i, end = m_Options.end ();
+	for (i = m_Options.begin (); i != end; i++)
+		g_option_context_add_main_entries (context, (*i).entries, (*i).translation_domain);
 }
 
 }	//	namespace gcp

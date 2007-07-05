@@ -183,29 +183,6 @@ static void on_zoom (GtkWidget* widget, gcp::Window* Win)
 	Win->Zoom (0.);
 }
 
-static bool on_focus_in (GtkWidget *widget, GdkEventFocus *event, gcp::Window* Win)
-{
-	Win->GetDocument ()->GetView ()->ShowCursor (true);
-	gcp::Application *App = Win->GetApplication ();
-	App->NotifyFocus (true, Win);
-	gtk_clipboard_request_contents (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) gcp::on_receive_targets, App);
-	return true;
-}
-
-static bool on_focus_out (GtkWidget *widget, GdkEventFocus *event, gcp::Window* Win)
-{
-	Win->GetDocument ()->GetView ()->ShowCursor (false);
-	Win->GetApplication ()->NotifyFocus (false);
-	return true;
-}
-
-static bool on_state (GtkWidget *widget, GdkEventWindowState *event, gcp::Window* Win)
-{
-	if (event->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
-		Win->GetApplication ()->NotifyIconification (event->new_window_state & GDK_WINDOW_STATE_ICONIFIED);
-	return true;
-}
-
 static void on_help (GtkWidget *widget, gcp::Window* Win)
 {
 	Win->GetApplication ()->OnHelp ();
@@ -463,25 +440,24 @@ static const char *ui_web_description =
 
 namespace gcp {
 
-Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui)
+Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui):
+	Target (App)
 {
 	GtkWidget *vbox;
 	GtkWidget *bar;
+	GtkWindow *window;
 	GtkActionGroup *action_group;
 	GtkAccelGroup *accel_group;
 	GError *error;
 
 	m_App = App;
-	m_Window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
-	g_object_set (G_OBJECT (m_Window), "urgency-hint", false, NULL);
-	g_object_set_data (G_OBJECT (m_Window), "gcp-role", (void*) 1);
-	g_signal_connect (G_OBJECT (m_Window), "destroy", G_CALLBACK (on_destroy), this);
-	g_signal_connect (G_OBJECT (m_Window), "delete-event", G_CALLBACK (on_delete_event), this);
-	g_signal_connect (G_OBJECT (m_Window), "focus_in_event", G_CALLBACK (on_focus_in), this);
-	g_signal_connect (G_OBJECT (m_Window), "focus_out_event", G_CALLBACK (on_focus_out), this);
-	g_signal_connect (G_OBJECT (m_Window), "window-state-event", G_CALLBACK (on_state), this);
+	SetWindow (window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL)));
+	g_object_set (G_OBJECT (window), "urgency-hint", false, NULL);
+	g_object_set_data (G_OBJECT (window), "gcp-role", (void*) 1);
+	g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (on_destroy), this);
+	g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (on_delete_event), this);
 	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (m_Window), vbox);
+	gtk_container_add (GTK_CONTAINER (window), vbox);
 	action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), this);
@@ -494,9 +470,6 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui)
 		NULL);
 	gtk_ui_manager_insert_action_group (m_UIManager, action_group, 0);
 	g_object_unref (action_group);
-
-	accel_group = gtk_ui_manager_get_accel_group (m_UIManager);
-	gtk_window_add_accel_group (GTK_WINDOW (m_Window), accel_group);
 	
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string (m_UIManager, ui_description, -1, &error)) {
@@ -520,6 +493,9 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui)
 	//  now add entries registered by plugins.
 	App->BuildMenu (m_UIManager);
 
+	accel_group = gtk_ui_manager_get_accel_group (m_UIManager);
+	gtk_window_add_accel_group (window, accel_group);
+
 	GtkWidget *menu = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
 	GtkRecentFilter *filter = gtk_recent_filter_new ();
@@ -538,19 +514,19 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui)
 	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
 	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainToolbar");
-	gtk_toolbar_set_tooltips(GTK_TOOLBAR(bar), true);
+	gtk_toolbar_set_tooltips (GTK_TOOLBAR(bar), true);
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
-	m_Doc = new Document (App, true, this);
+	m_Document = new Document (App, true, this);
 	if (Theme)
-		m_Doc->SetTheme (TheThemeManager.GetTheme (Theme));
-	gtk_window_set_title (m_Window, m_Doc->GetTitle ());
-	w = m_Doc->GetView ()->CreateNewWidget ();
-	GtkScrolledWindow* scroll = (GtkScrolledWindow*)gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy(scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		m_Document->SetTheme (TheThemeManager.GetTheme (Theme));
+	gtk_window_set_title (window, m_Document->GetTitle ());
+	w = m_Document->GetView ()->CreateNewWidget ();
+	GtkScrolledWindow* scroll = (GtkScrolledWindow*) gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (scroll, GTK_SHADOW_IN);
-	gtk_scrolled_window_add_with_viewport(scroll, w);
-	gtk_widget_set_size_request(GTK_WIDGET(scroll), 408, 308);
-	gtk_widget_show(GTK_WIDGET(scroll));
+	gtk_scrolled_window_add_with_viewport (scroll, w);
+	gtk_widget_set_size_request (GTK_WIDGET (scroll), 408, 308);
+	gtk_widget_show (GTK_WIDGET (scroll));
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (scroll), true, true, 0);
 	m_Bar = gtk_statusbar_new ();
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");
@@ -558,19 +534,18 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui)
 	m_MessageId = 0;
 	gtk_box_pack_start (GTK_BOX (vbox), m_Bar, false, false, 0);
 		
-	g_signal_connect(GTK_OBJECT(m_Window), "key_press_event", (GCallback)on_key_press, this);
-	g_signal_connect(GTK_OBJECT(m_Window), "key_release_event", (GCallback)on_key_release, this);
+	g_signal_connect(GTK_OBJECT(window), "key_press_event", (GCallback)on_key_press, this);
+	g_signal_connect(GTK_OBJECT(window), "key_release_event", (GCallback)on_key_release, this);
 
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/EditMenu/Copy"), false);
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/EditMenu/Cut"), false);
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/EditMenu/Erase"), false);
-	gtk_widget_show_all (GTK_WIDGET (m_Window));
-	App->SetActiveDocument (m_Doc);
+	gtk_widget_show_all (GTK_WIDGET (window));
+	App->SetActiveDocument (m_Document);
 }
 
 Window::~Window ()
 {
-	m_App->DeleteWindow (this);
 }
 
 void Window::OnFileNew()
@@ -580,20 +555,20 @@ void Window::OnFileNew()
 
 void Window::OnSave()
 {
-	if (m_Doc->GetFileName ())
-		m_Doc->Save();
+	if (m_Document->GetFileName ())
+		m_Document->Save();
 	else
 		m_App->OnSaveAs ();
 }
 
 void Window::OnFileOpen()
 {
-	FileChooser (m_App, false, m_App->GetSupportedMimeTypes (), (!m_Doc->HasChildren () && !m_Doc->GetDirty ())? m_Doc: NULL);
+	FileChooser (m_App, false, m_App->GetSupportedMimeTypes (), (!m_Document->HasChildren () && !m_Document->GetDirty ())? m_Document: NULL);
 }
 
 void Window::OnProperties()
 {
-	m_Doc->OnProperties ();
+	m_Document->OnProperties ();
 }
 
 void Window::OnPrint()
@@ -623,7 +598,7 @@ void Window::OnPrint()
 	gdouble width, height;
 	gnome_print_config_get_double (config, (guchar const*) GNOME_PRINT_KEY_PAPER_WIDTH, &width);
 	gnome_print_config_get_double (config, (guchar const*) GNOME_PRINT_KEY_PAPER_HEIGHT, &height);
-	m_Doc->Print (pc, width, height);
+	m_Document->Print (pc, width, height);
 	gnome_print_showpage (pc);
 	g_object_unref (pc);
 	gnome_print_job_close (gpj);
@@ -644,48 +619,48 @@ void Window::SetActive (gcp::Document* pDoc, GtkWidget* w)
 
 void Window::OnUndo()
 {
-	m_Doc->OnUndo();
+	m_Document->OnUndo();
 }
 
 void Window::OnRedo()
 {
-	m_Doc->OnRedo();
+	m_Document->OnRedo();
 }
 
 void Window::OnSelectAll()
 {
-	if (m_Doc->GetEditable ())
-		m_Doc->GetView ()->OnSelectAll ();
+	if (m_Document->GetEditable ())
+		m_Document->GetView ()->OnSelectAll ();
 }
 
 void Window::OnPasteSelection()
 {
-	if (m_Doc->GetEditable ()) {
+	if (m_Document->GetEditable ()) {
 		GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-		m_Doc->GetView ()->OnPasteSelection (m_Doc->GetWidget (), clipboard);
+		m_Document->GetView ()->OnPasteSelection (m_Document->GetWidget (), clipboard);
 	}
 }
 
 void Window::OnCutSelection()
 {
-	if (m_Doc->GetEditable ()) {
+	if (m_Document->GetEditable ()) {
 		GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-		m_Doc->GetView ()->OnCutSelection (m_Doc->GetWidget (), clipboard);
+		m_Document->GetView ()->OnCutSelection (m_Document->GetWidget (), clipboard);
 	}
 }
 
 void Window::OnCopySelection()
 {
-	if (m_Doc->GetEditable ()) {
+	if (m_Document->GetEditable ()) {
 		GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-		m_Doc->GetView ()->OnCopySelection (m_Doc->GetWidget (), clipboard);
+		m_Document->GetView ()->OnCopySelection (m_Document->GetWidget (), clipboard);
 	}
 }
 
 void Window::OnDeleteSelection()
 {
-	if (m_Doc->GetEditable ())
-		m_Doc->GetView ()->OnDeleteSelection (m_Doc->GetWidget ());
+	if (m_Document->GetEditable ())
+		m_Document->GetView ()->OnDeleteSelection (m_Document->GetWidget ());
 }
 
 void Window::OnPreferences ()
@@ -695,16 +670,16 @@ void Window::OnPreferences ()
 
 void Window::Zoom (double zoom)
 {
-	View *pView = m_Doc->GetView ();
+	View *pView = m_Document->GetView ();
 	// authorized zooms: 20% to 800% all other values will open the zoom dialog.
 	if (zoom >= 0.2 && zoom <= 8.)
 		pView->Zoom (zoom);
 	else {
-		Dialog *pDialog = m_Doc->GetDialog ("Zoom");
+		Dialog *pDialog = m_Document->GetDialog ("Zoom");
 		if (pDialog)
 			gtk_window_present (pDialog->GetWindow ()); 
 		else
-			new ZoomDlg (m_Doc);
+			new ZoomDlg (m_Document);
 	}
 }
 
@@ -725,38 +700,38 @@ void Window::SetStatusText(const char* text)
 
 void Window::Destroy ()
 {
-	gtk_widget_destroy (GTK_WIDGET (m_Window));
+	gtk_widget_destroy (GTK_WIDGET (GetWindow ()));
 }
 
 void Window::SetTitle (char const *title)
 {
-	gtk_window_set_title (m_Window, ((title)? title: GetDefaultTitle ()));
+	gtk_window_set_title (GetWindow (), ((title)? title: GetDefaultTitle ()));
 }
 
 void Window::Show ()
 {
-	gdk_window_raise (GTK_WIDGET (m_Window)->window);
+	gdk_window_raise (GTK_WIDGET (GetWindow ())->window);
 }
 
 bool Window::OnKeyPressed(GtkWidget* widget, GdkEventKey* ev)
 {
-	return (m_Doc->GetEditable ())?
-		m_Doc->GetView ()->OnKeyPress (m_Doc->GetWidget (), ev):
+	return (m_Document->GetEditable ())?
+		m_Document->GetView ()->OnKeyPress (m_Document->GetWidget (), ev):
 		false;
 }
 
 bool Window::OnKeyReleased(GtkWidget* widget, GdkEventKey* ev)
 {
-	return (m_Doc->GetEditable ())?
-		m_Doc->GetView ()->OnKeyRelease (m_Doc->GetWidget (), ev):
+	return (m_Document->GetEditable ())?
+		m_Document->GetView ()->OnKeyRelease (m_Document->GetWidget (), ev):
 		false;
 }
 
 bool Window::Close ()
 {
 	if (VerifySaved ()) {
-		m_Doc->GetView ()->PrepareUnselect ();
-		gtk_widget_destroy (GTK_WIDGET (m_Window));
+		m_Document->GetView ()->PrepareUnselect ();
+		gtk_widget_destroy (GTK_WIDGET (GetWindow ()));
 		return true;
 	}
 	return false;
@@ -777,9 +752,9 @@ void Window::ActivateActionWidget (char const *path, bool activate)
 
 bool Window::VerifySaved ()
 {
-	if (!m_Doc->GetDirty ())
+	if (!m_Document->GetDirty ())
 		return true;
-	gchar* str = g_strdup_printf(_("\"%s\" has been modified.  Do you wish to save it?"), m_Doc->GetTitle ());
+	gchar* str = g_strdup_printf(_("\"%s\" has been modified.  Do you wish to save it?"), m_Document->GetTitle ());
 	GtkWidget* mbox;
 	int res;
 	do {
@@ -789,9 +764,9 @@ bool Window::VerifySaved ()
 		gtk_widget_destroy (mbox);
 		if (res == GTK_RESPONSE_YES)
 			OnSave ();
-	} while ((res == GTK_RESPONSE_YES) && (m_Doc->GetFileName () == NULL));
+	} while ((res == GTK_RESPONSE_YES) && (m_Document->GetFileName () == NULL));
 	if (res == GTK_RESPONSE_NO)
-		m_Doc->SetDirty (false);
+		m_Document->SetDirty (false);
 	g_free(str);
 	return (res != GTK_RESPONSE_CANCEL);
 }

@@ -122,6 +122,25 @@ private:
 	double x[3][3];
 };
 
+class GLMatrix
+{
+public:
+/*!
+Default constructor. Members are not initialized. This constructor is rarely used.
+*/
+	GLMatrix ();
+/*!
+The destructor of Matrix.
+*/
+	virtual ~GLMatrix ();
+
+	double &operator() (int i, int j) {return x[i][j];}
+	double *array () {return (double*) x;}
+
+private:
+	double x[4][4];
+};
+
 }	//namespace gcu
 
 #endif //GCRYSTAL_MATRIX_H

@@ -23,16 +23,17 @@
 
 #ifndef GCP_WINDOW_H
 #define GCP_WINDOW_H
+
+#include "target.h"
 #include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
 #include <gtk/gtkuimanager.h>
 
 class gcp::Application;
 class gcp::Document;
 
 namespace gcp {
-
-class Window
+	
+class Window: public Target
 {
 public:
 	Window (gcp::Application *App, char const *Theme = NULL, char const *extra_ui = NULL);
@@ -58,13 +59,11 @@ public:
 	bool OnKeyPressed (GtkWidget* widget, GdkEventKey* ev);
 	bool OnKeyReleased (GtkWidget* widget, GdkEventKey* ev);
 	bool Close ();
-	GtkWindow *GetWindow () {return m_Window;}
 
 	virtual void OnSave ();
 	virtual char const *GetDefaultTitle ();
 
 	gcp::Application *GetApplication () {return m_App;}
-	gcp::Document *GetDocument () {return m_Doc;}
 
 	void Destroy ();
 	void SetTitle (char const *title);
@@ -73,11 +72,9 @@ public:
 
 protected:
 	gcp::Application *m_App;
-	gcp::Document *m_Doc;
 	GtkUIManager* m_UIManager;
 
 private:
-	GtkWindow* m_Window;
 	GtkWidget* m_Bar;	//GtkStatusBar
 	unsigned m_statusId;
 	unsigned m_MessageId; //currently displayed message in the status bar

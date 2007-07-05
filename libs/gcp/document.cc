@@ -93,8 +93,6 @@ Document::Document (Application *App, bool StandAlone, Window *window):
 	m_pCurOp = NULL;
 	m_bReadOnly = false;
 	SetActive ();
-	if (window && App)
-		App->AddWindow (window);
 }
 
 Document::~Document ()

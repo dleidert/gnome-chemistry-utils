@@ -5,6 +5,7 @@ libgchempaint_unstable_la_SOURCES = \
 		plugin.cc \
 		settings.cc \
 		document.cc \
+		target.cc \
 		window.cc \
 		operation.cc \
 		arrow.cc \
@@ -47,6 +48,7 @@ noinst_HEADERS = \
 		plugin.h \
 		settings.h \
 		document.h \
+		target.h \
 		window.h \
 		operation.h \
 		arrow.h \

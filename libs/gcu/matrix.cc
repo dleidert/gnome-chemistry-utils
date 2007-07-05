@@ -156,3 +156,12 @@ void Matrix::Transform(double &dx, double &dy , double &dz)
 	dx = x1;
 	dy = y1;
 }
+
+// Implementation of GLMatrix
+GLMatrix::GLMatrix ()
+{
+}
+
+GLMatrix::~GLMatrix ()
+{
+}

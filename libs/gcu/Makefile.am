@@ -15,6 +15,7 @@ libgcu_unstable_la_SOURCES = \
 		document.cc \
 		element.cc \
 		isotope.cc \
+		residue.cc \
 		formula.cc \
 		value.cc \
 		matrix.cc \
@@ -37,7 +38,10 @@ libgcu_unstable_la_SOURCES = \
 		chem3ddoc.cc	\
 		gtkchem3dviewer.cc \
 		gldocument.cc	\
-		glview.cc
+		glview.cc	\
+		sphere.cc	\
+		cylinder.cc	\
+		vector.cc
 
 noinst_HEADERS = \
 		atom.h \
@@ -46,6 +50,7 @@ noinst_HEADERS = \
 		document.h \
 		element.h \
 		isotope.h \
+		residue.h \
 		formula.h \
 		value.h \
 		application.h \
@@ -69,4 +74,7 @@ noinst_HEADERS = \
 		chem3ddoc.h	\
 		gtkchem3dviewer.h \
 		gldocument.h	\
-		glview.h
+		glview.h	\
+		sphere.h	\
+		cylinder.h	\
+		vector.h

@@ -44,10 +44,11 @@ typedef struct
 	unsigned char const *data_24;
 } IconDesc;
 
-class Window;
+class Target;
 class NewFileDlg;
 class Tool;
 class Document;
+struct option_data;
 typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
 
 class Application: public gcu::Application
@@ -89,10 +90,10 @@ public:
 	void AddActions (GtkRadioActionEntry const *entries, int nb, char const *ui_description, IconDesc const *icons);
 	void RegisterToolbar (char const *name, int index);
 	void OnToolChanged (GtkAction *current);
-	void AddWindow (Window *window);
-	void DeleteWindow (Window *window);
+	void AddTarget (Target *target);
+	void DeleteTarget (Target *target);
 	void NotifyIconification (bool iconified);
-	void NotifyFocus (bool has_focus, Window *window = NULL);
+	void NotifyFocus (bool has_focus, Target *target = NULL);
 	void CheckFocus ();
 	void CloseAll ();
 	list<string> &GetSupportedMimeTypes () {return m_SupportedMimeTypes;}
@@ -115,6 +116,23 @@ with AddMenuCallback.
 */
 	void BuildMenu (GtkUIManager *manager);
 
+/*!
+@param entries: the entries to register.
+@param trzanslation_domain: the entries to register.
+
+Adds new command line options. Typically called from a plugin. The new
+options are added to the main group.
+*/
+	void RegisterOptions (GOptionEntry const *entries, char const *translation_domain = GETTEXT_PACKAGE);
+
+/*!
+@param cb: a GOptionContext
+
+Adds all registered options to the context. This should be called once
+just after creating the application and before parsing options.
+*/
+	void AddOptions (GOptionContext *context);
+
 	// virtual menus actions:
 	virtual void OnFileNew (char const *Theme = NULL) = 0;
 
@@ -129,7 +147,7 @@ private:
 protected:
 	int m_CurZ;
 	gcp::Document *m_pActiveDoc;
-	Window *m_pActiveWin;
+	Target *m_pActiveTarget;
 	map <string, GtkWidget*> Menus;
 	map <string, GtkWidget*> ToolItems;
 	map <string, GtkWidget*> Toolbars;
@@ -147,7 +165,7 @@ private:
 	int m_entries;
 	map<int, string> ToolbarNames;
 	unsigned m_NumDoc; //used to build the name of the action associated with the menu
-	std::set<Window*> m_Windows;
+	std::set<Target*> m_Targets;
 	int visible_windows;
 	list<string> m_SupportedMimeTypes;
 	list<string> m_WriteableMimeTypes;
@@ -155,6 +173,7 @@ private:
 	guint m_NotificationId;
 	Object *m_Dummy;
 	list<BuildMenuCb> m_MenuCbs;
+	list<option_data> m_Options;
 };
 
 }	// namespace gcp

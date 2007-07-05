@@ -47,6 +47,7 @@ void cb_print_version (const gchar *option_name, const gchar *value, gpointer da
 	exit (0);
 }
 
+gcpStandaloneApp* App;
 
 static GOptionEntry entries[] = 
 {
@@ -58,14 +59,16 @@ int main(int argc, char *argv[])
 {
 	GOptionContext *context;
 	GError *error = NULL;
-	textdomain(GETTEXT_PACKAGE);
+	textdomain (GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
 	gnome_vfs_init ();
 	gnome_authentication_manager_init ();
+	App = new gcpStandaloneApp();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));
 		g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
+		App->AddOptions (context);
 		g_option_context_add_group (context, gtk_get_option_group (TRUE));
 		g_option_context_set_help_enabled (context, TRUE);
 		g_option_context_parse (context, &argc, &argv, &error);
@@ -78,7 +81,6 @@ int main(int argc, char *argv[])
 	argv ++;
 	argc --;
 
-	gcpStandaloneApp* App = new gcpStandaloneApp();
 	GnomeVFSURI *uri, *auri;
 	char *path = g_get_current_dir (), *dir;
 	char const *mime_type;
