@@ -66,3 +66,17 @@ g_printable_export_svg (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr node)
 	if (iface->export_svg)
 		iface->export_svg (gprintable, doc, node);
 }
+
+void
+g_printable_draw_cairo (GPrintable *gprintable, cairo_t *cr)
+{
+	GPrintableIface *iface;
+
+	g_return_if_fail (G_IS_PRINTABLE (gprintable));
+	g_return_if_fail (cr != NULL);
+
+	iface = G_PRINTABLE_GET_IFACE (gprintable);
+
+	if (iface->draw_cairo)
+		iface->draw_cairo (gprintable, cr);
+}

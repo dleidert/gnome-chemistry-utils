@@ -96,6 +96,7 @@ static void   gnome_canvas_line_ext_bounds      (GnomeCanvasItem *item, double *
 static void   gnome_canvas_line_ext_render      (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 static void   gnome_canvas_line_ext_print       (GPrintable *gprintable, GnomePrintContext *pc);
 static void   gnome_canvas_line_ext_export_svg (GPrintable *printable, xmlDocPtr doc, xmlNodePtr node);
+static void   gnome_canvas_line_ext_draw_cairo (GPrintable *gprintable, cairo_t *cr);
 
 static GnomeCanvasItemClass *parent_class;
 
@@ -104,6 +105,7 @@ gnome_canvas_line_print_init (GPrintableIface *iface)
 {
 	iface->print = gnome_canvas_line_ext_print;
 	iface->export_svg = gnome_canvas_line_ext_export_svg;
+	iface->draw_cairo = gnome_canvas_line_ext_draw_cairo;
 }
 
 GType
@@ -1258,4 +1260,84 @@ gnome_canvas_line_ext_export_svg (GPrintable *printable, xmlDocPtr doc, xmlNodeP
 			g_free (buf);
 		}
 	}
+}
+
+void
+gnome_canvas_line_ext_draw_cairo (GPrintable *gprintable, cairo_t *cr)
+{
+
+	gdouble width;
+	gint i;
+	GnomeCanvasLine *line;
+	GnomeCanvasLineExt *lineext;
+	gdouble dashes[2] = {3.0, 2.0};
+	
+	line = GNOME_CANVAS_LINE (gprintable);
+	lineext = GNOME_CANVAS_LINE_EXT (gprintable);
+	
+	if (line->num_points == 0)
+		return;
+
+	cairo_set_source_rgba (cr, ((double)(line->fill_rgba >> 24)) / 255.0,
+							((double)((line->fill_rgba >> 16) & 0xff)) / 255.0,
+							((double)((line->fill_rgba >> 8) & 0xff)) / 255.0,
+							((double) (line->fill_rgba & 0xff)) / 255.0);
+
+	if (line->width_pixels)
+		width = (double) line->width / line->item.canvas->pixels_per_unit;
+	else
+		width = line->width;
+	cairo_set_line_width (cr, width);
+
+	if (line->first_arrow || line->last_arrow)
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+	else switch (line->cap) {
+	case GDK_CAP_ROUND:
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
+		break;
+	case GDK_CAP_PROJECTING:
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_SQUARE);
+		break;
+	default:
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+		break;
+	}
+	
+	cairo_set_line_join (cr, (cairo_line_join_t) line->join);
+	
+	cairo_set_dash (cr, dashes, (line->line_style == GDK_LINE_ON_OFF_DASH)? 2: 0, 0.);
+	
+	cairo_move_to (cr, line->coords[0], line->coords[1]);
+	for (i = 1; i < line->num_points; i++)
+		cairo_line_to (cr, line->coords[2 * i], line->coords[2 * i + 1]);/*FIXME: Change that for spline lines!*/
+		
+	cairo_stroke (cr);
+	cairo_set_line_width (cr, 0.);
+
+	if (line->first_arrow && line->first_coords) {
+		cairo_new_path (cr);
+		cairo_move_to (cr, line->first_coords[0], line->first_coords[1]);
+		cairo_line_to (cr, line->first_coords[2], line->first_coords[3]);
+		cairo_line_to (cr, line->first_coords[4], line->first_coords[5]);
+		cairo_line_to (cr, line->first_coords[6], line->first_coords[7]);
+		cairo_line_to (cr, line->first_coords[8], line->first_coords[9]);
+		if (lineext->first_arrow_head_style == ARROW_HEAD_BOTH)
+			cairo_line_to (cr, line->first_coords[10], line->first_coords[11]);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+	}
+	
+	if (line->last_arrow && line->last_coords) {
+		cairo_new_path (cr);
+		cairo_move_to (cr, line->last_coords[0], line->last_coords[1]);
+		cairo_line_to (cr, line->last_coords[2], line->last_coords[3]);
+		cairo_line_to (cr, line->last_coords[4], line->last_coords[5]);
+		cairo_line_to (cr, line->last_coords[6], line->last_coords[7]);
+		cairo_line_to (cr, line->last_coords[8], line->last_coords[9]);
+		if (lineext->last_arrow_head_style == ARROW_HEAD_BOTH)
+			cairo_line_to (cr, line->last_coords[10], line->last_coords[11]);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+	}
+
 }

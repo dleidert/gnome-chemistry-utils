@@ -114,12 +114,14 @@ static void gcbp_ensure_mask (GnomeCanvasShapeExt * bpath, gint width, gint heig
 static void gcbp_draw_ctx_unref (GCBPDrawCtx * ctx);
 static void gnome_canvas_shape_ext_print       (GPrintable *gprintable, GnomePrintContext *pc);
 static void gnome_canvas_shape_ext_export_svg   (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr node);
+static void gnome_canvas_shape_ext_draw_cairo   (GPrintable *gprintable, cairo_t *cr);
 
 static void
 gnome_canvas_shape_ext_print_init (GPrintableIface *iface)
 {
 	iface->print = gnome_canvas_shape_ext_print;
 	iface->export_svg = gnome_canvas_shape_ext_export_svg;
+	iface->draw_cairo = gnome_canvas_shape_ext_draw_cairo;
 }
 
 GType
@@ -1751,4 +1753,76 @@ gnome_canvas_shape_ext_export_svg (GPrintable *printable, xmlDocPtr doc, xmlNode
 		xmlNewProp (child, (const xmlChar*)"stroke-dashoffset", (const xmlChar*)buf);
 		g_free (buf);
 	}
+}
+
+void gnome_canvas_shape_ext_draw_cairo   (GPrintable *printable, cairo_t *cr)
+{
+	GnomeCanvasShapeExt *shape;
+	GnomeCanvasShapePriv * priv;
+	gdouble width;
+	ArtBpath * bpath;
+	
+	g_return_if_fail (GNOME_IS_CANVAS_SHAPE_EXT (printable));
+	shape = GNOME_CANVAS_SHAPE_EXT (printable);
+	priv = shape->priv;
+	bpath = gnome_canvas_path_def_bpath	(priv->path);
+
+	if (priv->width_pixels)
+		width = (double) priv->width / shape->item.canvas->pixels_per_unit;
+	else
+		width = priv->width;
+	cairo_set_line_width (cr, width);
+
+	switch (priv->cap) {
+	case GDK_CAP_ROUND:
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_ROUND);
+		break;
+	case GDK_CAP_PROJECTING:	
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_SQUARE);
+		break;
+	default:
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+		break;
+	}
+
+	
+	cairo_set_line_join (cr, (cairo_line_join_t) priv->join);
+	
+	cairo_set_dash (cr, priv->dash.dash, priv->dash.n_dash, priv->dash.offset);
+
+	for ( ; bpath->code != ART_END ; bpath++)
+		switch (bpath->code) {
+		case ART_MOVETO :
+			cairo_move_to (cr, bpath->x3, bpath->y3);
+			break;
+		case ART_MOVETO_OPEN :
+			cairo_move_to (cr, bpath->x3, bpath->y3);
+			break;
+		case ART_LINETO :
+			cairo_line_to (cr, bpath->x3, bpath->y3);
+			break;
+		default :
+			break;
+		}
+
+	if (priv->fill_set) {
+		cairo_set_source_rgba (cr, ((double)(priv->fill_rgba >> 24)) / 255.0,
+					((double)((priv->fill_rgba >> 16) & 0xff)) / 255.0,
+					((double)((priv->fill_rgba >> 8) & 0xff)) / 255.0,
+					((double) (priv->fill_rgba & 0xff)) / 255.0);
+		cairo_path_t *path = cairo_copy_path (cr);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+		cairo_append_path (cr, path);
+	}
+
+	if (priv->outline_set) {
+		cairo_set_source_rgba (cr, ((double)(priv->outline_rgba >> 24)) / 255.0,
+					((double)((priv->outline_rgba >> 16) & 0xff)) / 255.0,
+					((double)((priv->outline_rgba >> 8) & 0xff)) / 255.0,
+					((double) (priv->outline_rgba & 0xff)) / 255.0);
+		
+		cairo_stroke (cr);
+	} else
+		cairo_new_path (cr);
 }

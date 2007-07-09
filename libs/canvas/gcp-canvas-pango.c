@@ -104,7 +104,7 @@ static void gnome_canvas_pango_get_bounds(GnomeCanvasItem *text, double *px1, do
 	   double *px2, double *py2);
 static void gnome_canvas_pango_print       (GPrintable *gprintable, GnomePrintContext *pc);
 static void gnome_canvas_pango_export_svg   (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr node);
-
+static void gnome_canvas_pango_draw_cairo (GPrintable *gprintable, cairo_t *cr);
 /* some code imported from gnumeric/src/workbook-edit.c */
 
 static gboolean
@@ -314,6 +314,7 @@ gnome_canvas_pango_print_init (GPrintableIface *iface)
 {
 	iface->print = gnome_canvas_pango_print;
 	iface->export_svg = gnome_canvas_pango_export_svg;
+	iface->draw_cairo = gnome_canvas_pango_draw_cairo;
 }
 
 GType
@@ -1501,6 +1502,16 @@ gnome_canvas_pango_export_svg (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr
 	g_return_if_fail (text);
 	adjust_for_anchors (text, &ax, &ay);
 	pango_layout_to_svg (text->_priv->layout, doc, node, ax, ay);
+}
+
+static void
+gnome_canvas_pango_draw_cairo (GPrintable *gprintable, cairo_t *cr)
+{
+	GnomeCanvasPango *text = GNOME_CANVAS_PANGO (gprintable);
+	double ax, ay;
+	g_return_if_fail (text);
+	adjust_for_anchors (text, &ax, &ay);
+	pango_cairo_show_layout (cr, text->_priv->layout);
 }
 
 int gnome_canvas_pango_get_cur_index (GnomeCanvasPango *text)

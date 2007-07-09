@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.7.6">
-  <!ENTITY manrevision "0.7.6">
-  <!ENTITY date "January 2007">
+  <!ENTITY appversion "0.9.1">
+  <!ENTITY manrevision "0.9.0">
+  <!ENTITY date "June 2007">
   <!ENTITY app "GChemPaint">
 ]>
 <!-- 
@@ -77,7 +77,16 @@
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
 		</revision>
-    		<revision> 
+     	<revision> 
+		  <revnumber>&app; Manual V0.8</revnumber>
+		  <date>June 2007</date> 
+		  <revdescription> 
+			 <para role="author">Jean Bréfort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+   		<revision> 
 		  <revnumber>&app; Manual V0.6</revnumber>
 		  <date>August 2005</date> 
 		  <revdescription> 
@@ -147,7 +156,7 @@
     		<para>Choose 
     		<menuchoice>
     		<guisubmenu>Education</guisubmenu>
-    		<guimenuitem>Chemical Structures Editor (unstable)</guimenuitem>
+    		<guimenuitem>Chemical Structures Editor</guimenuitem>
     		</menuchoice>. </para>
     		</listitem>
     		</varlistentry>
@@ -2067,8 +2076,8 @@
 	<sect1 id="gchempaint-unstable-question">
 		<title>To Ask a Question</title>
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
-		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchempaint-main@nongnu.org">GChemPaint
-		mailing list</ulink>.</para>
+		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchemutils-main@nongnu.org">Gnome
+		Chemistry Utils mailing list</ulink>.</para>
 		<para>Another way to get some help is to connect on the #gchemutils channel
 		at irc.gimp.net and ask your question there (if you are not alone on the channel).</para>
 	</sect1>
@@ -2077,8 +2086,8 @@
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Gnome Chemistry Utils on the web</guimenuitem></menuchoice>,
 		the default web browser should pop up and display the main page for the Gnome Chemsitry Utils.</para>
 		<para>The main page is
-		<ulink type="http" url="http://gchempaint.nongnu.org">http://gchempaint.nongnu.org</ulink> and the project
-		page at savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchempaint">http://savannah.nongnu.org/projects/gchempaint</ulink>.</para>
+		<ulink type="http" url="http://gchemutils.nongnu.org">http://gchemutils.nongnu.org</ulink> and the project
+		page at savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchemutils">http://savannah.nongnu.org/projects/gchemutils</ulink>.</para>
 	</sect1>
 	<sect1 id="gchempaint-unstable-bug">
 		<title>To Report a Bug</title>
@@ -2088,7 +2097,7 @@
 		(hopefully you'll have only one at once to report).</para>
 		<para>You can also type the bug report page address directly in
 		the browser. The bug repository is at
-		<ulink type="http" url="https://savannah.nongnu.org/bugs/?group=gchempaint">https://savannah.nongnu.org/bugs/?group=gchempaint</ulink></para>
+		<ulink type="http" url="https://savannah.nongnu.org/bugs/?group=gchempaint-unstable">https://savannah.nongnu.org/bugs/?group=gchemutils</ulink></para>
 	</sect1>
   </chapter>
 

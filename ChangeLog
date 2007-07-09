@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2007-07-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/paint/C/gchempaint-unstable.xml: updated docs.
+	* docs/help/paint/C/gchempaint.xml: ditto.
+	* libs/canvas/gcp-canvas-group.c: (gnome_canvas_group_print_init),
+	(gnome_canvas_group_ext_draw_cairo): add new cairo backend for
+	use until we have a cairo based canvas.
+	* libs/canvas/gcp-canvas-line.c: (gnome_canvas_line_print_init),
+	(gnome_canvas_line_ext_draw_cairo): ditto.
+	* libs/canvas/gcp-canvas-pango.c: (gnome_canvas_pango_print_init),
+	(gnome_canvas_pango_draw_cairo): ditto.
+	* libs/canvas/gcp-canvas-shape.c:
+	(gnome_canvas_shape_ext_print_init),
+	(gnome_canvas_shape_ext_draw_cairo): ditto.
+	* libs/canvas/gprintable.c: (g_printable_draw_cairo): ditto.
+	* libs/canvas/gprintable.h: ditto.
+
 2007-07-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add the residues plugin.
 	* libs/gcp/Makefile.am: add target.*.
