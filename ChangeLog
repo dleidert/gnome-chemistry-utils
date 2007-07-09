@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-07-09 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* docs/man/gcu_man_legal.xml: Fixed a typo.
+
 2007-06-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.8.2).
 	* docs/help/3d/gchem3d-viewer-unstable.omf.in: removed
