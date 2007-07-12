@@ -63,9 +63,9 @@ bool Tool::OnClicked (View* pView, Object* pObject, double x, double y, unsigned
 	m_pGroup = gnome_canvas_root (GNOME_CANVAS (m_pWidget));
 	m_pBackground = m_pView->GetBackground ();
 	m_dZoomFactor = m_pView->GetZoomFactor ();
-	Object* pAtom;
+/*	Object* pAtom;
 	if (m_pObject && ((pAtom = m_pObject->GetAtomAt (m_x0 / m_dZoomFactor, m_y0 / m_dZoomFactor))))
-			m_pObject = pAtom;
+			m_pObject = pAtom;*/
 	m_bAllowed = true;
 	return OnClicked ();
 }

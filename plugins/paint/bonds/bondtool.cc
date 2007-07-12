@@ -38,6 +38,7 @@ gcpBondTool::gcpBondTool (gcp::Application *App, string ToolId, unsigned nPoints
 {
 	points = (nPoints)? gnome_canvas_points_new (nPoints): NULL;
 	m_pOp = NULL;
+	m_AutoDir = false;
 }
 
 gcpBondTool::~gcpBondTool ()
@@ -94,9 +95,11 @@ bool gcpBondTool::OnClicked ()
 				case 1: {
 					map<Atom*, Bond*>::iterator i;
 					gcp::Bond* bond = (gcp::Bond*) ((Atom*) m_pObject)->GetFirstBond (i);
-					m_dAngle = bond->GetAngle2D ((gcp::Atom*) m_pObject);
-					m_dAngle += (m_nState & GDK_LOCK_MASK)?
+					m_RefAngle = m_dAngle = bond->GetAngle2D ((gcp::Atom*) m_pObject);
+					m_dAngle += (((m_nState & GDK_LOCK_MASK  && (!(m_nState & GDK_MOD5_MASK))) ||
+								  ((!(m_nState & GDK_LOCK_MASK)) && m_nState & GDK_MOD5_MASK)))?
 						pDoc->GetBondAngle (): -pDoc->GetBondAngle ();
+					m_AutoDir = true;
 					break;
 				}
 				case 2: {
@@ -183,17 +186,35 @@ void gcpBondTool::OnDrag ()
 			gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
 			m_pItem = NULL;
 		}
-	
+
 		GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
 		if (pItem == (GnomeCanvasItem*) m_pBackground)
 			pItem = NULL;
 		Object* pObject = NULL;
 		if (pItem) {
 			pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
-			if (pObject == m_pObject || ((pObject->GetType () == FragmentType) && dynamic_cast<gcp::Fragment*> (pObject)->GetAtom () == m_pObject))
-				return;
+			if (pObject == m_pObject || ((pObject->GetType () == FragmentType) && dynamic_cast<gcp::Fragment*> (pObject)->GetAtom () == m_pObject)) {
+				if (!m_AutoDir)
+					return;
+			} else
+				m_AutoDir = false;
+		} else
+			m_AutoDir = false;
+		double dAngle = 0.;
+		if (m_AutoDir) {
+			dAngle = m_dAngle = m_RefAngle +
+						((((m_nState & GDK_LOCK_MASK  && (!(m_nState & GDK_MOD5_MASK))) ||
+						((!(m_nState & GDK_LOCK_MASK)) && m_nState & GDK_MOD5_MASK)))?
+						pDoc->GetBondAngle (): -pDoc->GetBondAngle ());
+			m_x = m_x1 = m_x0 + pDoc->GetBondLength () * m_dZoomFactor * cos (m_dAngle / 180 * M_PI);
+			m_y = m_y1 = m_y0 - pDoc->GetBondLength () * m_dZoomFactor * sin (m_dAngle / 180 * M_PI);
+			pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
+			if (pItem == (GnomeCanvasItem*) m_pBackground)
+				pItem = NULL;
+			pObject = NULL;
+			if (pItem)
+				pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
 		}
-		double dAngle;
 		m_pAtom = NULL;
 		if (gcp::MergeAtoms && pObject) {
 			if (pObject->GetType () == BondType)
@@ -218,7 +239,7 @@ void gcpBondTool::OnDrag ()
 				dAngle = m_dAngle;
 			else if (m_x < 0.)
 				dAngle += 180.;
-		} else {
+		} else if (!m_AutoDir) {
 			m_x -= m_x0;
 			m_y -= m_y0;
 			if (m_x == 0) {

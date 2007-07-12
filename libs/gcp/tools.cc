@@ -169,4 +169,11 @@ void Tools::OnHelp ()
 	m_App->OnHelp (m_Tool->GetHelpTag ());
 }
 
+void Tools::SetElement (int Z)
+{
+	GtkComboPeriodic *w = reinterpret_cast<GtkComboPeriodic*> (glade_xml_get_widget (xml, "mendeleiev"));
+	gtk_combo_periodic_set_element (w, Z);
+	OnElementChanged (Z);
+}
+
 }	//	namespace gcp

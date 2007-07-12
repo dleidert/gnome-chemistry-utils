@@ -30,6 +30,7 @@
 #include <gcp/atom.h>
 #include <gcp/bond.h>
 #include <gcp/theme.h>
+#include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
@@ -345,9 +346,9 @@ GtkWidget *gcpChainTool::GetPropertyPage ()
 	m_NumberBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bonds-number"));
 	gtk_widget_set_sensitive (GTK_WIDGET (m_NumberBtn), false);
 	g_signal_connect (m_NumberBtn, "value-changed", G_CALLBACK (on_number_changed), this);
-	GtkWidget *w = glade_xml_get_widget (xml, "auto-number");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), true);
-	g_signal_connect (w, "toggled", G_CALLBACK (on_number_toggled), this);
+	m_AutoBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "auto-number"));
+	gtk_toggle_button_set_active (m_AutoBtn, true);
+	g_signal_connect (m_AutoBtn, "toggled", G_CALLBACK (on_number_toggled), this);
 	return glade_xml_get_widget (xml, "chain");
 }
 
@@ -410,4 +411,58 @@ bool gcpChainTool::CheckIfAllowed ()
 			return false;
 	}
 	return true;
+}
+
+bool gcpChainTool::OnEvent (GdkEvent* event)
+{
+	if (event->type == GDK_KEY_PRESS) {
+		unsigned n;
+		switch (((GdkEventKey*) event)->keyval) {
+		case GDK_KP_0:
+		case GDK_0:
+			gtk_toggle_button_set_active (m_AutoBtn, true);
+			return true;
+		case GDK_KP_1:
+		case GDK_1:
+			n = 10;
+			break;
+		case GDK_KP_2:
+		case GDK_2:
+			n = 2;
+			break;
+		case GDK_KP_3:
+		case GDK_3:
+			n = 3;
+			break;
+		case GDK_KP_4:
+		case GDK_4:
+			n = 4;
+			break;
+		case GDK_KP_5:
+		case GDK_5:
+			n = 5;
+			break;
+		case GDK_KP_6:
+		case GDK_6:
+			n = 6;
+			break;
+		case GDK_KP_7:
+		case GDK_7:
+			n = 7;
+			break;
+		case GDK_KP_8:
+		case GDK_8:
+			n = 8;
+			break;
+		case GDK_KP_9:
+		case GDK_9:
+			n = 9;
+			break;
+		default:
+			return false;
+		}
+		gtk_toggle_button_set_active (m_AutoBtn, false);
+		gtk_spin_button_set_value (m_NumberBtn, n);
+	}
+	return false;
 }

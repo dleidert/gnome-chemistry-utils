@@ -46,6 +46,7 @@ public:
 	void OnSelectTool (Tool *tool);
 	void RegisterTool (GtkWidget *w);
 	void OnElementChanged (int Z);
+	void SetElement (int Z);
 	void Update (void);
 	void OnHelp ();
 

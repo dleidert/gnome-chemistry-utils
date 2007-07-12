@@ -60,6 +60,8 @@ private:
 	gcp::Operation *m_pOp;
 	GtkSpinButton *m_LengthBtn, *m_AngleBtn;
 	GtkToggleButton *m_MergeBtn;
+	bool m_AutoDir;
+	double m_RefAngle;
 };
 
 class gcpUpBondTool: public gcpBondTool

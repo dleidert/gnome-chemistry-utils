@@ -29,6 +29,7 @@
 #include "document.h"
 #include "application.h"
 #include "tool.h"
+#include "tools.h"
 #include "text.h"
 #include "theme.h"
 #include "window.h"
@@ -44,6 +45,8 @@
 #include <clocale>
 #include <cmath>
 #include <fstream>
+#include <map>
+#include <string>
 
 /*
 Derivation of a new widget from gnome_canvas with an event for updating canvas size
@@ -198,6 +201,7 @@ View::View (Document *pDoc, bool Embedded)
 	m_Dragging = false;
 	m_pWidget = NULL;
 	m_PangoContext = NULL;
+	m_CurObject = NULL;
 }
 
 View::~View ()
@@ -220,6 +224,7 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
 	if ((!m_pDoc->GetEditable ()) || (!pActiveTool))
 		return true;
+	m_CurObject = (item) ? (Object*) g_object_get_data (G_OBJECT (item), "object") : NULL;
 	if (item == (GnomeCanvasItem*) m_ActiveRichText) {
 		GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (((GTypeInstance*) item)->g_class);
 		return klass->event (item, event);
@@ -242,6 +247,7 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 					pBond = (Bond*) (*i).first;
 					if (pBond->GetDist(x / pTheme->GetZoomFactor (), y / pTheme->GetZoomFactor ()) < (pTheme->GetPadding () + pTheme->GetBondWidth () / 2) / pTheme->GetZoomFactor ()) {
 						item = GNOME_CANVAS_ITEM ((*i).second);
+						m_CurObject = pBond;
 						break;
 					}
 				}
@@ -249,14 +255,15 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 			}
 		}
 	}
-	Object* Obj;
+	Object *pAtom;
+	if (m_CurObject && ((pAtom = m_CurObject->GetAtomAt (x / pTheme->GetZoomFactor (), y / pTheme->GetZoomFactor ()))))
+			m_CurObject = pAtom;
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
-		Obj = (item) ? (Object*) g_object_get_data (G_OBJECT (item), "object") : NULL;
 		switch (event->button.button) {
 			case 1: {
 				if (m_Dragging) break;
-				bool result = pActiveTool->OnClicked(this, Obj, x, y, event->button.state);
+				bool result = pActiveTool->OnClicked(this, m_CurObject, x, y, event->button.state);
 				if (item && (item == (GnomeCanvasItem*)m_ActiveRichText)) {
 					GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (((GTypeInstance*) item)->g_class);
 					return klass->event (item, event);
@@ -275,9 +282,9 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 				bool result;
 				g_object_unref (m_UIManager);
 			 	m_UIManager = gtk_ui_manager_new ();
-				result = pActiveTool->OnRightButtonClicked (this, Obj, event->button.x, event->button.y, m_UIManager);
-				if (Obj)
-					result |= Obj->BuildContextualMenu (m_UIManager, Obj, x / GetZoomFactor (), y / GetZoomFactor ());
+				result = pActiveTool->OnRightButtonClicked (this, m_CurObject, event->button.x, event->button.y, m_UIManager);
+				if (m_CurObject)
+					result |= m_CurObject->BuildContextualMenu (m_UIManager, m_CurObject, x / GetZoomFactor (), y / GetZoomFactor ());
 				if (result) {
 					GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, "/popup");
 					gtk_menu_popup (GTK_MENU (w), NULL, NULL, NULL, NULL, 3,  gtk_get_current_event_time ());
@@ -654,6 +661,27 @@ void View::OnCutSelection (GtkWidget* w, GtkClipboard* clipboard)
 	Win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", false);
 }
 
+static void do_set_symbol (GtkAction *action, Object *obj)
+{
+	Document* pDoc = static_cast<Document*> (obj->GetDocument ());
+	Application *App = static_cast<Application*> (pDoc->GetApplication ());
+	Tools *tools = static_cast<Tools*> (App->GetDialog ("tools"));
+	int Z = Element::Z (gtk_action_get_name(action));
+	tools->SetElement (Z);
+	if (obj->GetType () == AtomType) {
+		Atom *atom = static_cast<Atom*> (obj);
+		if (atom->GetZ () == Z)
+			return;
+		Object *group = obj->GetGroup ();
+		Operation *op = pDoc->GetNewOperation (GCP_MODIFY_OPERATION);
+		op->AddObject (group);
+		atom->SetZ (Z);
+		pDoc->GetView ()->Update (obj);
+		op->AddObject (group, 1);
+		pDoc->FinishOperation ();
+	}
+}
+
 bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 {
 	Application *pApp = m_pDoc->GetApplication ();
@@ -681,8 +709,156 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 		if (pActiveTool)
 			pActiveTool->OnKeyPressed (GDK_MOD1_MASK);//FIXME: might be not portable
 		return true;
-	default:
-		break;
+	case GDK_ISO_Level3_Shift:
+		if (pActiveTool)
+			pActiveTool->OnKeyPressed (GDK_MOD5_MASK);//FIXME: might be not portable
+		return true;
+	case GDK_Caps_Lock:
+		if (pActiveTool) {
+			if (event->state & GDK_LOCK_MASK)
+				pActiveTool->OnKeyPressed (GDK_LOCK_MASK);
+			else
+				pActiveTool->OnKeyReleased (GDK_LOCK_MASK);
+		}
+		return true;
+	default: {
+			if ((event->state & ~GDK_SHIFT_MASK) != 0 || event->keyval > 127)
+				break;
+			// Now try to get the atom at the cursor
+			Atom *atom = dynamic_cast<Atom*> (m_CurObject);
+			unsigned min_bonds = (atom)? atom->GetTotalBondsNumber (): 0;
+			int Z = 0;
+			switch (event->keyval) {
+			case GDK_a:
+				Z = 13;
+				break;
+			case GDK_b:
+				Z = 5;
+				break;
+			case GDK_c:
+				Z = 6;
+				break;
+			case GDK_d:
+				Z = 11;
+				break;
+			case GDK_e:
+				Z = 34;
+				break;
+			case GDK_f:
+				Z = 9;
+				break;
+			case GDK_g:
+				Z = 32;
+				break;
+			case GDK_h:
+				Z = 1;
+				break;
+			case GDK_i:
+				Z = 53;
+				break;
+			case GDK_j:
+				Z = 22;
+				break;
+			case GDK_k:
+				Z = 19;
+				break;
+			case GDK_l:
+				Z = 3;
+				break;
+			case GDK_m:
+				Z = 12;
+				break;
+			case GDK_n:
+				Z = 7;
+				break;
+			case GDK_o:
+				Z = 8;
+				break;
+			case GDK_p:
+				Z = 15;
+				break;
+			case GDK_q:
+				Z = 14;
+				break;
+			case GDK_r:
+				Z = 35;
+				break;
+			case GDK_s:
+				Z = 16;
+				break;
+			case GDK_t:
+				Z = 78;
+				break;
+			case GDK_u:
+				Z = 29;
+				break;
+			case GDK_v:
+				Z = 23;
+				break;
+			case GDK_w:
+				Z = 74;
+				break;
+			case GDK_x:
+				Z = 17;
+				break;
+			case GDK_y:
+				Z = 39;
+				break;
+			case GDK_z:
+				Z = 40;
+				break;
+			}
+			if (Z) {
+				Tools *tools = static_cast<Tools*> (pApp->GetDialog ("tools"));
+				tools->SetElement (Z);
+				if (atom && atom->GetZ () != Z && Element::GetElement (Z)->GetMaxBonds () >= min_bonds) {
+					Object *group = atom->GetGroup ();
+					Operation *op = m_pDoc->GetNewOperation (GCP_MODIFY_OPERATION);
+					op->AddObject (group);
+					atom->SetZ (Z);
+					Update (atom);
+					op->AddObject (group, 1);
+					m_pDoc->FinishOperation ();
+				}
+				return true;
+			}
+			// build a contextual menu of all known symbols starting with the pressed key.
+			map<string, Element*> entries;
+			string symbol;
+			unsigned key = gdk_keyval_to_upper (event->keyval);
+			for (int i = 1; i <= 128; i++) {
+				Element *elt = Element::GetElement (i);
+				if (!elt || elt->GetMaxBonds () < min_bonds)
+					continue;
+				symbol = elt->GetSymbol ();
+				if ((unsigned char) symbol[0] == key) {
+					entries[symbol] = elt;
+				}
+			}
+			if (entries.empty ())
+				break;
+			map<string, Element*>::iterator i, end = entries.end ();
+			g_object_unref (m_UIManager);
+			m_UIManager = gtk_ui_manager_new ();
+			GtkActionGroup *group = gtk_action_group_new ("element");;
+			GtkAction *action;
+			string ui;
+			for (i = entries.begin (); i != end; i++) {
+				symbol = (*i).first;
+				symbol.insert (((symbol.length () > 1)? 1: 0), "_");
+				action = GTK_ACTION (gtk_action_new ((*i).second->GetSymbol (), symbol.c_str (), (*i).second->GetName (), NULL));
+				g_signal_connect (action, "activate", G_CALLBACK (do_set_symbol), (atom)? static_cast<Object*> (atom): static_cast<Object*> (m_pDoc));
+				gtk_action_group_add_action (group, action);
+				g_object_unref (action);
+				ui = string ("<ui><popup><menuitem action='") + (*i).second->GetSymbol () + "'/></popup></ui>";
+				gtk_ui_manager_add_ui_from_string (m_UIManager, ui.c_str (), -1, NULL);
+			}
+			gtk_ui_manager_insert_action_group (m_UIManager, group, 0);
+			g_object_unref (group);
+			GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, "/popup");
+			gtk_menu_popup (GTK_MENU (w), NULL, NULL, NULL, NULL, 3,  gtk_get_current_event_time ());
+			break;
+		}
 	}
 	return false;
 }
@@ -706,6 +882,14 @@ bool View::OnKeyRelease (GtkWidget* w, GdkEventKey* event)
 	case GDK_Alt_R:
 		if (pActiveTool)
 			pActiveTool->OnKeyReleased (GDK_MOD1_MASK);//FIXME: might be not portable
+		return true;
+	case 0:
+		// Seems that when releasing the AltGr key, the keyval is 0 !!!
+		if (!(event->state & GDK_MOD5_MASK))
+			break;
+	case GDK_ISO_Level3_Shift:
+		if (pActiveTool)
+			pActiveTool->OnKeyReleased (GDK_MOD5_MASK);//FIXME: might be not portable
 		return true;
 	default:
 		break;

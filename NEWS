@@ -1,4 +1,10 @@
 Version 0.9.1
+	GChemPaint:
+		* use keyboard to change the nature of an atom [sr #105937].
+		* use the AltGr key to change the default orientation of a
+		new bond.
+		* use the keyboard to change the default length of a new 
+		chain to some current values (2 to 10).
 	Other:
 		* use Aplications|Education|Science for help files.
 

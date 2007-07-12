@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2007-07-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/tool.cc: no more need to search for an atom, this
+	is already done by the view.
+	* libs/gcp/tools.cc: add Tools::SetElement.
+	* libs/gcp/tools.h: ditto.
+	* libs/gcp/view.cc: change current element using the keyboard
+	and change the nature of the atom under the cursor if any.
+	[sr #105937]
+	* libs/gcp/view.h:
+	* plugins/paint/bonds/bondtool.cc: use either CapsLock
+	or AltGr to change the default direction of a new bond.
+	* plugins/paint/bonds/bondtool.h:
+	* plugins/paint/bonds/chaintool.cc: add shortcuts to
+	change the chain length.
+	* plugins/paint/bonds/chaintool.h: ditto.
+
 2007-07-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/paint/C/gchempaint-unstable.xml: updated docs.
 	* docs/help/paint/C/gchempaint.xml: ditto.

@@ -44,6 +44,7 @@ public:
 	void OnRelease();
 	GtkWidget *GetPropertyPage ();
 	void Activate ();
+	bool OnEvent (GdkEvent* event);
 
 	void SetAutoNumber (bool state) {gtk_widget_set_sensitive (GTK_WIDGET (m_NumberBtn), state);}
 	void SetChainLength (unsigned length) {m_Length = length;}
@@ -62,7 +63,7 @@ private:
 	vector <gcp::Atom *> m_Atoms;
 	GnomeCanvasPoints *m_Points;
 	GtkSpinButton *m_LengthBtn, *m_AngleBtn, *m_NumberBtn;
-	GtkToggleButton *m_MergeBtn;
+	GtkToggleButton *m_MergeBtn, *m_AutoBtn;
 };
 
 #endif	//	GCHEMPAINT_CHAIN_TOOL_H

@@ -107,9 +107,10 @@ private:
 	bool m_bEmbedded;
 	GtkUIManager *m_UIManager;
 	bool m_Dragging;
+	Object *m_CurObject;
 
 GCU_RO_PROP (double, BaseLineOffset)
-GCU_RO_PROP (GnomeCanvasPango*, ActiveRichText);
+GCU_RO_PROP (GnomeCanvasPango*, ActiveRichText)
 };
 
 bool on_event (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
