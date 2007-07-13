@@ -716,9 +716,9 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 	case GDK_Caps_Lock:
 		if (pActiveTool) {
 			if (event->state & GDK_LOCK_MASK)
-				pActiveTool->OnKeyPressed (GDK_LOCK_MASK);
-			else
 				pActiveTool->OnKeyReleased (GDK_LOCK_MASK);
+			else
+				pActiveTool->OnKeyPressed (GDK_LOCK_MASK);
 		}
 		return true;
 	default: {

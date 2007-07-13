@@ -231,3 +231,9 @@ char const *Application::GetPixbufTypeName (string& filename, char const *mime_t
 	return gdk_pixbuf_format_get_name (format);
 }
 
+void Application::RemoveDocument (Document *Doc)
+{
+	m_Docs.erase (Doc);
+	if (m_Docs.size () == 0 && gtk_main_level ())
+		NoMoreDocsEvent ();
+}

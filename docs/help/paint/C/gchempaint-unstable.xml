@@ -964,9 +964,46 @@
 
 <!-- ============= Document properties================ -->
 	<sect1 id="gchempaint-unstable-mendeleiev">
-		<title>To Change the Current Element</title>
-		<para>You can change the current element with the Periodic Table Combo Button
-		in the tools box:</para>
+	  <title>To Change the Current Element</title>
+	  <para>You can change the current element with the keyboard or with the Periodic Table Combo Button
+	  in the tools box.</para>
+	  <sect2 id="gchempaint-unstable-mendeleiev-kbd">
+		<title>Using the keyboard.</title>
+		<para>When no text is being edited, typing a lowercase character will change
+		the current element. Only 26 elements can be selected this way:
+		</para>
+		<table><title>One character shortcuts for elements.</title>
+		  <tgroup cols="4" align="left" colsep="1" rowsep="1"><tbody>
+		  <row><entry>a: Al</entry><entry>b: B</entry><entry>c: C</entry><entry>d: Na</entry></row>
+		  <row><entry>e: Se</entry><entry>f: F</entry><entry>g: Ge</entry><entry>h:H</entry></row>
+		  <row><entry>i: I</entry><entry>j: Ti</entry><entry>k: K</entry><entry>l: Li</entry></row>
+		  <row><entry>m: Mg</entry><entry>n: N</entry><entry>o: O</entry><entry>p: P</entry></row>
+		  <row><entry>q: Si</entry><entry>r: Br</entry><entry>s: S</entry><entry>t: Pt</entry></row>
+		  <row><entry>u: Cu</entry><entry>v: V</entry><entry>w: W</entry><entry>x: Cl</entry></row>
+		  <row><entry>y: Y</entry><entry>z: Zr</entry><entry></entry><entry></entry></row>
+		  </tbody></tgroup>
+		</table>
+		<para>All elements can be accessed by typing an uppercase character. A popup
+		menu appears which list all the known symbols starting with this character.
+		The second character is used as a shortcut in the menu. As a sample, this is what
+		you get when you type 'P':</para>
+		<figure id="gchempaint-unstable-choose-elt-menu"> 
+		  <title>Element popup menu.</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Element popup menu.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/elt-menu.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>Changing the current element using the keyboard might modify
+		the atom under the mouse cursor if any, see <link linkend="gchempaint-unstable-element">Modifying Atoms</link>.</para>
+	  </sect2>
+	  <sect2 id="gchempaint-unstable-mendeleiev-box">
+		<title>Using the Periodic Table Combo Button.</title>
 		<figure id="gchempaint-unstable-choose-elt"> 
 		  <title>Chosing an element</title>
 		  <screenshot> 
@@ -1001,6 +1038,7 @@
 		<link linkend="gchempaint-unstable-element">Element tool button</link>.
 		Every new atom created with all tools are atoms of the default element.
 		Carbon is the selected element when the application starts.</para>
+	  </sect2>
 	</sect1>
 
 <!-- ============= Templates ================ -->
@@ -1097,6 +1135,11 @@
 			Attached hydrogens are automatically added for non metals.</para>
 			<para>To change the default element,use the <link linkend="gchempaint-unstable-mendeleiev">
 			Periodic Table Button</link>.</para>
+			<para>It is also possible to change the nature of an atom using
+			the keyboard: put the mouse cursor on the atom you want to
+			modify, and then select the new element as described
+			<link linkend="gchempaint-unstable-mendeleiev-kbd">there</link>. Note
+			that this will also change the current element.</para>
 			<para>A <link linkend="gchempaint-unstable-charge">local charge</link> and
 			<link linkend="gchempaint-unstable-electrons">explicit single
 			electrons or electrons pairs</link> can be added

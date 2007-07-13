@@ -641,7 +641,8 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 		}
 		if (!result)
 		{
-			if (bNew) delete pDoc;
+			if (bNew)
+				pDoc->GetWindow ()->Destroy ();
 			throw (int) 2;
 		}
 		pDoc->SetFileName (filename, mime_type);
@@ -766,7 +767,7 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 		g_free(old_time_locale);
 		if (!result) {
 			if (create)
-				delete pDoc;
+				pDoc->GetWindow ()->Destroy ();
 			throw (int) 4;
 		}
 		if (!(info->permissions & (GNOME_VFS_PERM_USER_WRITE | GNOME_VFS_PERM_GROUP_WRITE)))

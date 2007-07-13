@@ -125,6 +125,8 @@ Document::~Document ()
 	pango_attr_list_unref (m_PangoAttrList);
 	if (m_Theme)
 		m_Theme->RemoveClient (this);
+	if (m_App)
+		static_cast<Application*> (m_App)->SetActiveDocument (NULL);
 }
 
 GtkWidget* Document::GetWidget ()

@@ -1,5 +1,23 @@
 ##Text encoding: utf-8
 
+2007-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/paint/C/figures/elt-menu.png: new screenshot.
+	* docs/help/paint/C/gchempaint-unstable.xml: updated docs
+	after fixing sr #105937.
+	* libs/gcp/application.cc: destroy the window, not the doc
+	when a file load fails. [#20468] 
+	* libs/gcp/document.cc: set current doc to NULL when
+	destroying. [#20468]
+	* libs/gcp/view.cc: fixed caps lock state change.
+	* libs/gcu/application.cc: don't call gtk_main_quit before
+	gtk_main.
+	* libs/gcu/application.h: ditto.
+	* plugins/paint/bonds/chaintool.cc: fixed various issues.
+	* plugins/paint/bonds/chaintool.h: ditto.
+	* themes/paint/ACS_Document_1996: new theme (tanks to
+	Takashi Suyama). [sr #105938]
+	* themes/paint/Makefile.am: add new theme.
+
 2007-07-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/tool.cc: no more need to search for an atom, this
 	is already done by the view.
@@ -8,7 +26,7 @@
 	* libs/gcp/view.cc: change current element using the keyboard
 	and change the nature of the atom under the cursor if any.
 	[sr #105937]
-	* libs/gcp/view.h:
+	* libs/gcp/view.h: ditto.
 	* plugins/paint/bonds/bondtool.cc: use either CapsLock
 	or AltGr to change the default direction of a new bond.
 	* plugins/paint/bonds/bondtool.h:

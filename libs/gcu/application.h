@@ -191,7 +191,7 @@ the program. Derived class might overide this method to change this.
 
 private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
-	void RemoveDocument (Document *Doc) {m_Docs.erase (Doc); if (m_Docs.size () == 0) NoMoreDocsEvent ();}
+	void RemoveDocument (Document *Doc);
 
 private:
 	string Name;

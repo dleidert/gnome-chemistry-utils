@@ -5,6 +5,7 @@ Version 0.9.1
 		new bond.
 		* use the keyboard to change the default length of a new 
 		chain to some current values (2 to 10).
+		* add a new theme to support ACS standards (Takashi Suyama).
 	Other:
 		* use Aplications|Education|Science for help files.
 
