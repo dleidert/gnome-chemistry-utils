@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2007-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/C/gchem3d-viewer.xml: fixed documentation
+	version.
+	* docs/help/calc/C/gchemcalc.xml: ditto.
+	* docs/help/crystal/C/gcrystal.xml: ditto.
+	* docs/help/table/C/gchemtable.xml: ditto.
+	* gcu/application.cc: don't call gtk_main_quit before
+	gtk_main.
+	* gcu/application.h: ditto.
+
 2007-07-09 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* docs/man/gcu_man_legal.xml: Fixed a typo.
 
