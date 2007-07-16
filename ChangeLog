@@ -1,5 +1,27 @@
 ##Text encoding: utf-8
 
+2007-07-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/canvas/gcp-canvas-shape.c: (gnome_canvas_shape_ext_bounds):
+	never use a non-existing path.
+	* libs/gcp/view.cc: don't activate menus when there is no window;
+	never change a pseudo-atom atomic number.
+	* plugins/paint/bonds/bondtool.cc: don't modify a locked bond.
+	* plugins/paint/bonds/chaintool.cc: fix keyboard state related
+	issues.
+	* plugins/paint/bonds/chaintool.h: ditto.
+	* plugins/paint/residues/Makefile.am: add new files.
+	* plugins/paint/residues/plugin.cc: add new gcpPseudoAtom class.
+	* plugins/paint/residues/pseudo-atom.cc: ditto.
+	* plugins/paint/residues/pseudo-atom.h: ditto.
+	* plugins/paint/residues/residues-dlg.cc: create an initial residue
+	(methyl) and enhance the GUI..
+	* plugins/paint/residues/residues-dlg.h: ditto.
+	* plugins/paint/residues/residues.glade: ditto.
+	* plugins/paint/selection/erasertool.cc: do not delete a locked
+	object.
+	* plugins/paint/selection/selectiontool.cc:don't activate menus
+	when there is no window.
+
 2007-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/paint/C/figures/elt-menu.png: new screenshot.
 	* docs/help/paint/C/gchempaint-unstable.xml: updated docs

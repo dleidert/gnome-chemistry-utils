@@ -64,6 +64,8 @@ private:
 	GnomeCanvasPoints *m_Points;
 	GtkSpinButton *m_LengthBtn, *m_AngleBtn, *m_NumberBtn;
 	GtkToggleButton *m_MergeBtn, *m_AutoBtn;
+	bool m_AutoDir;
+	double m_RefAngle;
 };
 
 #endif	//	GCHEMPAINT_CHAIN_TOOL_H

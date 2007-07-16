@@ -43,6 +43,8 @@ gcpEraserTool::~gcpEraserTool ()
 bool gcpEraserTool::OnClicked ()
 {
 	if (m_pObject) {
+		if (m_pObject->IsLocked ())
+			return false;
 		TypeId Id = m_pObject->GetType ();
 		if (Id == ReactionOperatorType)
 			return false; //It's an automatic object, don't delete it

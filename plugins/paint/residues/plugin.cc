@@ -25,13 +25,20 @@
 #include "config.h"
 #include "plugin.h"
 #include "residues-dlg.h"
+#include "pseudo-atom.h"
 #include <gcp/application.h>
 #include <glib/gi18n-lib.h>
 
 gcpResiduesPlugin plugin;
 
+static Object* CreatePseudoAtom ()
+{
+	return new gcpPseudoAtom ();
+}
+
 gcpResiduesPlugin::gcpResiduesPlugin (): gcp::Plugin ()
 {
+	PseudoAtomType = Object::AddType ("pseudo-atom", CreatePseudoAtom);
 }
 
 gcpResiduesPlugin::~gcpResiduesPlugin ()

@@ -41,6 +41,7 @@ gcpChainTool::gcpChainTool (gcp::Application *App): gcp::Tool (App, "Chain")
 	m_Atoms.resize (3);
 	m_CurPoints = 3;
 	m_AutoNb = true;
+	m_AutoDir = false;
 }
 
 gcpChainTool::~gcpChainTool()
@@ -65,7 +66,8 @@ bool gcpChainTool::OnClicked()
 		if (m_CurPoints > m_Atoms.size ());
 			m_Atoms.resize (m_CurPoints);
 	}
-	m_Positive = m_nState & GDK_LOCK_MASK;
+	m_Positive = (m_nState & GDK_LOCK_MASK && !(m_nState & GDK_MOD5_MASK)) ||
+				(m_nState & GDK_MOD5_MASK && !(m_nState & GDK_LOCK_MASK));
 	if (m_pObject) {
 		if (m_pObject->GetType () != AtomType)
 			return false;
@@ -80,8 +82,9 @@ bool gcpChainTool::OnClicked()
 		case 1: {
 				map<Atom*, Bond*>::iterator i;
 				gcp::Bond* bond = (gcp::Bond*) ((Atom*) m_pObject)->GetFirstBond (i);
-				m_dAngle = bond->GetAngle2D ((gcp::Atom*) m_pObject);
+				m_RefAngle = m_dAngle = bond->GetAngle2D ((gcp::Atom*) m_pObject);
 				m_dAngle += (m_Positive)? +150: -150;
+				m_AutoDir = true;
 				break;
 			}
 		case 2: {
@@ -109,6 +112,7 @@ bool gcpChainTool::OnClicked()
 		m_Atoms[0] = NULL;
 		x = m_Points->coords[0] = m_x0;
 		y = m_Points->coords[1] = m_y0;
+		m_AutoDir = true;
 	}
 	FindAtoms ();
 	if (!(m_Allowed = CheckIfAllowed ()))
@@ -147,7 +151,7 @@ void gcpChainTool::OnDrag ()
 	Object* pObject = NULL;
 	if (pItem)
 		pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
-	double dAngle;
+	double dAngle = m_dAngle;
 	gcp::Atom *pAtom = NULL;
 	if (pObject) {
 		if (pObject->GetType () == BondType)
@@ -156,6 +160,24 @@ void gcpChainTool::OnDrag ()
 			pAtom = (gcp::Atom*) pObject->GetAtomAt (m_x1 / m_dZoomFactor, m_y1 / m_dZoomFactor);
 		else if (pObject->GetType () == AtomType)
 			pAtom = (gcp::Atom*) pObject;
+	}
+	m_Positive = (m_nState & GDK_LOCK_MASK && !(m_nState & GDK_MOD5_MASK)) ||
+				(m_nState & GDK_MOD5_MASK && !(m_nState & GDK_LOCK_MASK));
+	if (m_pObject && pAtom == m_pObject) {
+		if (m_AutoDir) {
+			m_dAngle = m_RefAngle + ((m_Positive)? +150: -150);
+			pAtom = NULL;
+		} else
+			return;
+	} else if (m_pObject || m_x != m_x0 || m_y != m_y0)
+		m_AutoDir = false;
+	// If m_Length has changed, adjust the points number
+	if (m_Length > 1 && m_CurPoints != m_Length + 1) {
+		m_CurPoints = m_Length + 1;
+		gnome_canvas_points_free (m_Points);
+		m_Points = gnome_canvas_points_new (m_CurPoints);
+		if (m_CurPoints > m_Atoms.size ());
+			m_Atoms.resize (m_CurPoints);
 	}
 	if (pAtom && gcp::MergeAtoms) {
 		// in that case, end the chain there with the current number of bonds
@@ -174,7 +196,7 @@ void gcpChainTool::OnDrag ()
 			m_dAngle = atan2 (-m_y, m_x) / M_PI * 180.;
 			m_BondLength = x2 / (m_CurPoints - 1) / sin (pDoc->GetBondAngle () / 360. * M_PI) / m_dZoomFactor; 
 		}
-	} else {
+	} else if (!m_AutoDir) {
 		m_x-= m_x0;
 		m_y -= m_y0;
 		if (m_x == 0) {
@@ -212,7 +234,6 @@ void gcpChainTool::OnDrag ()
 			}
 		}
 	}
-	m_Positive = m_nState & GDK_LOCK_MASK;
 	m_Points->coords[0] = m_x0;
 	m_Points->coords[1] = m_y0;
 	FindAtoms ();
@@ -240,13 +261,15 @@ void gcpChainTool::OnRelease ()
 	char const *Id;
 	gcp::Molecule *pMol = NULL;
 	gcp::Bond* pBond = NULL;
+	m_pApp->ClearStatus ();
+	m_AutoDir = false;
 	if (m_pItem) {
 		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
 		gtk_object_destroy (GTK_OBJECT(GNOME_CANVAS_ITEM (m_pItem)));
 		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
 		m_pItem = NULL;
-	}
-	m_pApp->ClearStatus ();
+	} else
+		return;
 	if (!m_Allowed)
 		return;
 	for (nb = 0; nb < m_CurPoints; nb++) {
@@ -256,7 +279,7 @@ void gcpChainTool::OnRelease ()
 				pMol->Lock (true);
 			}
 			pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
-			pObject = m_Atoms[0]->GetGroup ();
+			pObject = m_Atoms[nb]->GetGroup ();
 			Id = pObject->GetId ();
 			pOp->AddObject (pObject);
 			ModifiedObjects.insert (Id);
@@ -267,7 +290,8 @@ void gcpChainTool::OnRelease ()
 				0);
 			pDoc->AddAtom (m_Atoms[nb]);
 		}
-		if (nb > 0) {
+		// now add the bond. Atoms might be the same if the bonds are too short.
+		if (nb > 0 && m_Atoms[nb] != m_Atoms[nb - 1]) {
 			pBond = reinterpret_cast<gcp::Bond*> (m_Atoms[nb]->GetBond (m_Atoms[nb - 1]));
 			if (!pBond) {
 				pBond = new gcp::Bond (m_Atoms[nb - 1], m_Atoms[nb], 1);
@@ -463,6 +487,7 @@ bool gcpChainTool::OnEvent (GdkEvent* event)
 		}
 		gtk_toggle_button_set_active (m_AutoBtn, false);
 		gtk_spin_button_set_value (m_NumberBtn, n);
+		OnChangeState ();
 	}
 	return false;
 }

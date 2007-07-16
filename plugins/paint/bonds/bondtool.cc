@@ -63,10 +63,12 @@ bool gcpBondTool::OnClicked ()
 		switch (Id)
 		{
 		case BondType:
-			pBond = (gcp::Bond*) m_pObject;
-			m_pAtom = (gcp::Atom*) pBond->GetAtom (0);
+			pBond = static_cast<gcp::Bond*> (m_pObject);
+			if (pBond->IsLocked ())
+				return false;
+			m_pAtom = static_cast<gcp::Atom*> (pBond->GetAtom (0));
 			m_pAtom->GetCoords (&m_x0, &m_y0, NULL);
-			m_pAtom = (gcp::Atom*) pBond->GetAtom (1);
+			m_pAtom = static_cast<gcp::Atom*> (pBond->GetAtom (1));
 			m_pAtom->GetCoords (&m_x1, &m_y1, NULL);
 			m_x0 *= m_dZoomFactor;
 			m_y0 *= m_dZoomFactor;

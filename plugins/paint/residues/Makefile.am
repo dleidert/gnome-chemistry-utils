@@ -4,11 +4,13 @@ residuesdir = $(libdir)/gchemutils-unstable/plugins/paint
 
 residues_la_SOURCES = \
 	plugin.cc \
-	residues-dlg.cc
+	residues-dlg.cc \
+	pseudo-atom.cc
 
 noinst_HEADERS = \
 	plugin.h \
-	residues-dlg.h
+	residues-dlg.h \
+	pseudo-atom.h
 
 residues_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
@@ -19,8 +21,7 @@ DEFS += -DDATADIR=\"$(datadir)\" \
 glade_DATA = \
 	residues.glade
 
-gladedir = $(datadir)/gchemutils-unstable/glade/paint/plugins/arrows
-
+gladedir = $(datadir)/gchemutils-unstable/glade/paint/plugins/residues
 EXTRA_DIST = \
 	$(glade_DATA)
 

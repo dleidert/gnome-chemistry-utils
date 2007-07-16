@@ -524,9 +524,11 @@ void View::OnDeleteSelection (GtkWidget* w)
 	}
 	m_pDoc->FinishOperation ();
 	Window *Win = m_pDoc->GetWindow ();
-	Win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", false);
-	Win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", false);
-	Win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", false);
+	if (Win) {
+		Win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", false);
+		Win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", false);
+		Win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", false);
+	}
 }
 
 GtkTargetEntry const targets[] = {
@@ -656,9 +658,11 @@ void View::OnCutSelection (GtkWidget* w, GtkClipboard* clipboard)
 		OnDeleteSelection (w);
 	}
 	Window *Win = m_pDoc->GetWindow ();
-	Win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", false);
-	Win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", false);
-	Win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", false);
+	if (Win) {
+		Win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", false);
+		Win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", false);
+		Win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", false);
+	}
 }
 
 static void do_set_symbol (GtkAction *action, Object *obj)
@@ -670,7 +674,7 @@ static void do_set_symbol (GtkAction *action, Object *obj)
 	tools->SetElement (Z);
 	if (obj->GetType () == AtomType) {
 		Atom *atom = static_cast<Atom*> (obj);
-		if (atom->GetZ () == Z)
+		if (atom->GetZ () == Z || atom->GetZ () == 0)
 			return;
 		Object *group = obj->GetGroup ();
 		Operation *op = pDoc->GetNewOperation (GCP_MODIFY_OPERATION);

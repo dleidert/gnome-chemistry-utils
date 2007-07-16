@@ -2,7 +2,7 @@
 
 /*
  * GChemPaint residues plugin
- * residues-dlg.h
+ * pseudo-atom.h
  *
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,39 +22,29 @@
  * USA
  */
 
-#ifndef GCP_RESIDUE_DLG_H
-#define GCP_RESIDUE_DLG_H
+#ifndef GCP_PSEUDO_ATOM_H
+#define GCP_PSEUDO_ATOM_H
 
-#include <gcu/dialog.h>
-#include <gcu/macros.h>
-#include <gcp/target.h>
+#include <gcp/atom.h>
 
-class gcpPseudoAtom;
-using namespace std;
-using namespace gcu;
+extern TypeId PseudoAtomType;
 
-namespace gcp {
-class Application;
-class Document;
-}
-
-class gcpResiduesDlg: public Dialog, public gcp::Target
+class gcpPseudoAtom: public gcp::Atom
 {
 public:
-	gcpResiduesDlg (gcp::Application *App);
-	virtual ~gcpResiduesDlg ();
-	
-	void Add ();
-	void Remove ();
-	bool Close ();
+	gcpPseudoAtom ();
+	gcpPseudoAtom (double x, double y);
+	virtual ~gcpPseudoAtom ();
 
-	bool OnKeyPress (GdkEventKey *event);
-	bool OnKeyRelease (GdkEventKey *event);
-
-private:
-	gcpPseudoAtom *m_Atom;
-
-GCU_PROP (int, Page);
+	void Update ();
+	void Add (GtkWidget* w);
+	void Update (GtkWidget* w);
+	xmlNodePtr Save (xmlDocPtr xml);
+	bool Load (xmlNodePtr);
+	virtual bool LoadNode (xmlNodePtr);
+	void SetSelected (GtkWidget* w, int state);
+	bool AcceptNewBonds (int nb = 1) {return false;}
+	bool AcceptCharge (int charge) {return false;}
 };
 
-#endif	//	GCP_RESIDUE_DLG_H
+#endif	//	GCP_PSEUDO_ATOM_H

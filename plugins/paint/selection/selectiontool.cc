@@ -82,15 +82,19 @@ bool gcpSelectionTool::OnClicked ()
 		if (!m_pData->IsSelected (m_pObject)) {
 			m_pData->UnselectAll ();
 			m_pData->SetSelected (m_pObject);
-			win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", true);
-			win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", true);
-			win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", true);
+			if (win) {
+				win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", true);
+				win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", true);
+				win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", true);
+			}
 		}
 	} else {
 		m_pData->UnselectAll ();
-		win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", false);
-		win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", false);
-		win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", false);
+		if (win) {
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", false);
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", false);
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", false);
+		}
 	}
 	if (m_bRotate) {
 		// Calculate center of selection
@@ -251,9 +255,11 @@ void gcpSelectionTool::AddSelection (gcp::WidgetData* data)
 	if (m_pData->HasSelection()) {
 		GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
 		m_pView->OnCopySelection (m_pData->Canvas, clipboard);
-		win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", true);
-		win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", true);
-		win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", true);
+		if (win) {
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", true);
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", true);
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", true);
+		}
 	}
 	SelectedWidgets.remove (m_pData);
 	SelectedWidgets.push_front (m_pData);

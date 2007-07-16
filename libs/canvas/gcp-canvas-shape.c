@@ -1560,7 +1560,7 @@ gnome_canvas_shape_ext_bounds (GnomeCanvasItem *item, double *x1, double *y1, do
 		art_free (vpath);
 		art_drect_svp (&bbox, svp);
 		art_svp_free (svp);
-	} else if ((shape->priv->fill_set) && (gnome_canvas_path_def_any_closed (shape->priv->path))) {
+	} else if ((shape->priv->fill_set) && priv->path && (gnome_canvas_path_def_any_closed (shape->priv->path))) {
 		GnomeCanvasPathDef *cpath;
 		ArtSvpWriter *swr;
 		ArtVpath *vpath;
