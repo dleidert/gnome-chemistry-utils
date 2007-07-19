@@ -77,6 +77,7 @@ Molecule::Molecule (TypeId Type): Object (Type)
 {
 	m_Alignment = NULL;
 	m_Changed = true;
+	m_IsResidue = false;
 }
 
 Molecule::Molecule (Atom* pAtom): Object (MoleculeType)
@@ -86,6 +87,7 @@ Molecule::Molecule (Atom* pAtom): Object (MoleculeType)
 	delete pChain;
 	m_Alignment = NULL;
 	m_Changed = true;
+	m_IsResidue = false;
 }
 
 Molecule::~Molecule ()
@@ -108,6 +110,8 @@ void Molecule::AddAtom (Atom* pAtom)
 	m_Atoms.remove (pAtom); // avoid duplicates
 	m_Atoms.push_back (pAtom);
 	AddChild (pAtom);
+	if (!pAtom->GetZ ())
+		m_IsResidue = true;
 }
 
 void Molecule::AddFragment (Fragment* pFragment)
@@ -495,12 +499,13 @@ double Molecule::GetYAlign ()
 
 bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
+	if (m_IsResidue)
+		return false;
 	bool result = false;
 	GtkActionGroup *group = gtk_action_group_new ("molecule");
 	GtkAction *action;
 	action = gtk_action_new ("Molecule", _("Molecule"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
-	g_object_unref (action);
 	g_object_unref (action);
 	if (!m_Fragments.size ()) {
 		if (((Document*) GetDocument ())->GetApplication ()->HaveGhemical ()) {

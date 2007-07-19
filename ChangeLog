@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: no contextual menu for residues.
+	* libs/gcp/molecule.h: ditto.
+
 2007-07-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/canvas/gcp-canvas-shape.c: (gnome_canvas_shape_ext_bounds):
 	never use a non-existing path.

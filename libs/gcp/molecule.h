@@ -77,6 +77,7 @@ private:
 	Object *m_Alignment;
 	string m_InChI;
 	bool m_Changed;
+	bool m_IsResidue;
 };
 
 }	//	namespace gcp
