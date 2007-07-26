@@ -1,5 +1,7 @@
-Version 0.8.12
+Version 0.8.2
 	* fixed help files installation.
+	* fixed a crasher (in GChemPaint).
+	* fixed a typo in man pages (Daniel Leidert).
 
 Version 0.8.1
 	* #19911: two folders in %{_datadir}.
