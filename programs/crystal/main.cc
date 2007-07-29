@@ -32,6 +32,7 @@
 #include "document.h"
 #include "view.h"
 #include "globals.h"
+#include <goffice/utils/go-file.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gtk/gtkglinit.h>
@@ -175,7 +176,7 @@ int main(int argc, char *argv[])
 		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
 		if (bres)
 			pDoc = gcApp->OnFileNew ();
-		bres = gcApp->FileProcess (path, "application/x-gcrystal", false, NULL, pDoc);
+		bres = gcApp->FileProcess (path, go_get_mime_type (path), false, NULL, pDoc);
 		g_free (path);
 		gnome_vfs_uri_unref (auri);
 		argv++;

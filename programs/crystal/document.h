@@ -35,6 +35,11 @@
 
 using namespace gcu;
 
+namespace OpenBabel {
+	class OBMol;
+}
+using namespace OpenBabel;
+
 class gcView;
 class gcApplication;
 
@@ -65,6 +70,7 @@ public:
 	void Save ();
 	bool Load (const string &filename);
 	bool Import (const string &filename, const string& mime_type);
+	bool ImportOB (OBMol &mol);
 	void ParseXMLTree(xmlNode* xml);
 	void OnNewDocument();
 	void OnExportVRML (const string &FileName);

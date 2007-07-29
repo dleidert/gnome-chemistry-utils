@@ -47,6 +47,7 @@ CrystalAtom::CrystalAtom(): Atom()
 	m_fRed = m_fBlue = m_fGreen = 0;
 	m_fAlpha = 1;
 	m_nCleave = 0;
+	m_EffectiveRadiusRatio = 1.;
 }
 
 CrystalAtom::~CrystalAtom()
@@ -66,6 +67,7 @@ CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 	m_fAlpha = 1.;
 	if (Z) SetDefaultColor();
 	m_nCleave = 0;
+	m_EffectiveRadiusRatio = 1.;
 }
 
 CrystalAtom::CrystalAtom(CrystalAtom& caAtom): Atom(caAtom)
@@ -77,6 +79,7 @@ CrystalAtom::CrystalAtom(CrystalAtom& caAtom): Atom(caAtom)
 	m_fGreen = caAtom.m_fGreen;
 	m_fBlue = caAtom.m_fBlue;
 	m_fAlpha = caAtom.m_fAlpha;
+	m_EffectiveRadiusRatio = caAtom.m_EffectiveRadiusRatio;
 	m_nCleave = 0;
 }
 
@@ -92,6 +95,7 @@ CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
 	m_fGreen = caAtom.m_fGreen ;
 	m_fBlue = caAtom.m_fBlue ;
 	m_fAlpha = caAtom.m_fAlpha ;
+	m_EffectiveRadiusRatio = caAtom.m_EffectiveRadiusRatio;
 	m_nCleave = 0 ;
 	return *this ;
 }
@@ -106,7 +110,7 @@ void CrystalAtom::Draw()
 	quadObj = gluNewQuadric() ;
     gluQuadricDrawStyle(quadObj, GL_FILL);
 	gluQuadricNormals(quadObj, GL_SMOOTH) ;
-	gluSphere(quadObj, m_Radius.value.value, 20, 10) ;
+	gluSphere(quadObj, m_Radius.value.value * m_EffectiveRadiusRatio, 20, 10) ;
 	gluDeleteQuadric(quadObj) ;
 	glPopMatrix() ;
 }

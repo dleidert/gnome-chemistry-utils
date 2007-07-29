@@ -277,7 +277,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 					return true;
 			}
 		}
-		if ((type == GCRYSTAL)? Doc->Import (filename, mime_type):
+		if ((type == GCRYSTAL)? Doc->Load (filename):
 						Doc->Import (filename, mime_type)) {
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();

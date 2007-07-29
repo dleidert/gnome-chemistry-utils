@@ -25,12 +25,13 @@
 #ifndef CRYSTAL_ATOM_H
 #define CRYSTAL_ATOM_H
 
-#include <list>
+#include "atom.h"
+#include "chemistry.h"
+#include "macros.h"
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include "atom.h"
-#include "chemistry.h"
+#include <list>
 
 using namespace std;
 
@@ -222,13 +223,14 @@ the number of CrystalCleavage instances which remove the atom. If this member is
 not be displayed.
 */
 	int m_nCleave; //0 if not cleaved
+
+GCU_PROP (double, EffectiveRadiusRatio);
 };
 
 /*!
 a list of pointers to CrystalAtom instances derived from std::list.
 */
 typedef list<CrystalAtom*> CrystalAtomList;
-
 }// namespace gcu
 
 #endif // CRYSTAL_ATOM_H

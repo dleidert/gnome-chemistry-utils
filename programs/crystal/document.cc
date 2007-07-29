@@ -41,8 +41,8 @@
 #include <glade/glade.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-//#include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <clocale>
 #include <cmath>
 #include <vector>
@@ -51,6 +51,9 @@
 #include <ostream>
 #include <sstream>
 #include <glib/gi18n.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
+#include <openbabel/math/matrix3x3.h>
 
 #define SAVE	1
 #define LOAD	2
@@ -250,13 +253,13 @@ bool gcDocument::Load (const string &filename)
 	oldtitle = g_strdup (m_title);
 	try {
 		if (SetFileName (filename), !m_filename || !m_title)
-			throw (int) 0;
-		if (!(xml = xmlParseFile (filename.c_str ())))
 			throw (int) 1;
-		if (xml->children == NULL)
+		if (!(xml = xmlParseFile (filename.c_str ())))
 			throw (int) 2;
-		if (strcmp ((char*) xml->children->name, "crystal"))
+		if (xml->children == NULL)
 			throw (int) 3;
+		if (strcmp ((char*) xml->children->name, "crystal"))
+			throw (int) 4;
 		if (oldfilename)
 			g_free(oldfilename);
 		g_free (oldtitle);
@@ -268,9 +271,10 @@ bool gcDocument::Load (const string &filename)
 		switch (num)
 		{
 		case 2:
+		case 3:
 			Error(XML);
 			break;
-		case 3:
+		case 4:
 			Error(FORMAT);
 			break;
 		default:
@@ -668,5 +672,200 @@ void gcDocument::RenameViews ()
 
 bool gcDocument::Import (const string &filename, const string& mime_type)
 {
+	gchar *oldfilename, *oldtitle;
+	if (m_filename)
+		oldfilename = g_strdup (m_filename);
+	else oldfilename = NULL;
+	oldtitle = g_strdup (m_title);
+	char *old_num_locale;
+	bool local;
+	GnomeVFSFileInfo *info = NULL;
+	bool result = false, read_only = false;
+	try {
+		if (!filename.length ())
+			throw (int) 0;
+		info = gnome_vfs_file_info_new ();
+		gnome_vfs_get_file_info (filename.c_str (), info, GNOME_VFS_FILE_INFO_DEFAULT);
+		local = GNOME_VFS_FILE_INFO_LOCAL (info);
+		if (!(info->permissions & (GNOME_VFS_PERM_USER_WRITE | GNOME_VFS_PERM_GROUP_WRITE)))
+			read_only = true;
+		gnome_vfs_file_info_unref (info);
+		if (SetFileName (filename), !m_filename || !m_title)
+			throw (int) 1;
+		if (oldfilename)
+			g_free(oldfilename);
+		g_free (oldtitle);
+		if (local) {
+			ifstream ifs;
+			GnomeVFSURI *uri = gnome_vfs_uri_new (filename.c_str ());
+			ifs.open (gnome_vfs_uri_get_path (uri));
+			gnome_vfs_uri_unref (uri);
+			if (ifs.fail ())
+				throw (int) 1;
+			old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+			setlocale(LC_NUMERIC, "C");
+			OBMol Mol;
+			OBConversion Conv;
+			OBFormat* pInFormat = Conv.FormatFromMIME (mime_type.c_str ());
+			if (pInFormat == NULL)
+				throw 2;
+			Conv.SetInFormat (pInFormat);
+			Conv.Read (&Mol, &ifs);
+			result = ImportOB (Mol);
+			Mol.Clear ();
+			setlocale (LC_NUMERIC, old_num_locale);
+			g_free (old_num_locale);
+			ifs.close ();
+			if (!result)
+				throw (int) 3;
+		} else {
+			char *buf;
+			int size;
+			if (gnome_vfs_read_entire_file (filename.c_str (), &size, &buf) != GNOME_VFS_OK)
+				throw 1;
+			istringstream iss (buf);
+			old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+			setlocale(LC_NUMERIC, "C");
+			OBMol Mol;
+			OBConversion Conv;
+			OBFormat* pInFormat = Conv.FormatFromExt (filename.c_str ());
+			if (pInFormat == NULL)
+				throw 2;
+			Conv.SetInFormat (pInFormat);
+			Conv.Read (&Mol, &iss);
+			result = ImportOB (Mol);
+			Mol.Clear ();
+			setlocale (LC_NUMERIC, old_num_locale);
+			g_free (old_num_locale);
+			g_free (buf);
+			if (!result)
+				throw (int) 3;
+		}
+		return true;
+	}
+	catch (int num) {
+		switch (num)
+		{
+		default:
+			Error(LOAD);
+		}
+		if (num >= 0) {
+			if (oldfilename)  {
+				SetFileName (oldfilename);
+				g_free (oldfilename);
+			} else {
+				g_free (m_filename);
+				m_filename = NULL;
+			}
+			SetTitle (oldtitle);
+			g_free (oldtitle);
+		}
+		return false;
+	}
 	return false;
+}
+
+bool gcDocument::ImportOB (OBMol &mol)
+{
+	OBUnitCell *cell = dynamic_cast<OBUnitCell*> (mol.GetData (OBGenericDataType::UnitCell));
+	if (cell == NULL)
+		return false;
+	m_a = cell->GetA () * 100;
+	m_b = cell->GetB () * 100;
+	m_c = cell->GetC () * 100;
+	m_alpha = cell ->GetAlpha ();
+	m_beta = cell->GetBeta ();
+	m_gamma = cell->GetGamma ();
+	string const group_name = cell->GetSpaceGroup ();
+	int lattice = cell->GetLatticeType ();
+	switch (lattice) {
+	case OBUnitCell::Triclinic:
+		m_lattice = triclinic;
+		break;
+	case OBUnitCell::Monoclinic:
+		switch (group_name[0]) {
+		case 'C':
+			m_lattice = base_centered_monoclinic;
+			break;
+		default:
+			m_lattice = monoclinic;
+			break;
+		}
+		break;
+	case OBUnitCell::Orthorhombic:
+		switch (group_name[0]) {
+		case 'C':
+			m_lattice = base_centered_orthorhombic;
+			break;
+		case 'I':
+			m_lattice = body_centered_orthorhombic;
+			break;
+		case 'F':
+			m_lattice = face_centered_orthorhombic;
+			break;
+		default:
+			m_lattice = orthorhombic;
+			break;
+		}
+		break;
+	case OBUnitCell::Tetragonal:
+		switch (group_name[0]) {
+		case 'I':
+			m_lattice = body_centered_tetragonal;
+			break;
+		default:
+			m_lattice = tetragonal;
+			break;
+		}
+		break;
+	case OBUnitCell::Rhombohedral:
+		m_lattice = rhombohedral;
+		break;
+	case OBUnitCell::Hexagonal:
+		m_lattice = hexagonal;
+		break;
+	case OBUnitCell::Cubic:
+		switch (group_name[0]) {
+		case 'I':
+			m_lattice = body_centered_cubic;
+			break;
+		case 'F':
+			m_lattice = face_centered_cubic;
+			break;
+		default:
+			m_lattice = cubic;
+			break;
+		}
+		break;
+	}
+	matrix3x3 m = cell->GetFractionalMatrix ();
+	vector3 v;
+	// now get the atoms
+	OBAtomIterator it;
+	OBAtom *atom = mol.BeginAtom (it);
+	CrystalAtom *catom;
+	GcuAtomicRadius radius;
+	radius.type = GCU_VAN_DER_WAALS;
+	radius.charge = 0;
+    radius.cn = -1;
+    radius.spin = GCU_N_A_SPIN;
+    radius.scale = NULL;
+	while (atom) {
+		v.x () = atom->GetX();
+		v.y () = atom->GetY();
+		v.z () = atom->GetZ();
+		v *= m;
+		radius.Z = atom->GetAtomicNum ();
+		catom = new CrystalAtom (radius.Z, v.x (), v.y (), v.z ());
+		if (gcu_element_get_radius (&radius)) {
+			catom->SetRadius (radius);
+			catom->SetEffectiveRadiusRatio (.25);
+		}
+		AtomDef.push_back (catom);
+		atom = mol.NextAtom (it);
+	}
+//	int group = cell->GetSpaceGroupNumber (group_name);
+
+	Update ();
+	return true;
 }

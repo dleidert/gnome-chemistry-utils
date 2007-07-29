@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2007-07-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystalatom.cc: add a new member to enable
+	using only part of the radius when rendering.
+	* libs/gcu/crystalatom.h: ditto.
+	* programs/crystal/application.cc: partially import
+	cif files.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/main.cc: ditto.
+
 2007-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: no contextual menu for residues.
 	* libs/gcp/molecule.h: ditto.
