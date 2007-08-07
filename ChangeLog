@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-08-07  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* programs/Makefile.in (MAINTAINERCLEANFILES): Remove Makefile.in with
+	the maintainer-clean target.
+
 2007-07-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystalatom.cc: add a new member to enable
 	using only part of the radius when rendering.
