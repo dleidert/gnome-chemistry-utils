@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.8.3).
+	* gcu/application.cc: never try using nautilus as an
+	help viewer.
+
 2007-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/3d/C/gchem3d-viewer.xml: fixed documentation
 	version.
