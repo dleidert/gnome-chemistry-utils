@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2007-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/theme.cc: don't load backups [#20705].
+	* libs/gcp/view.cc: fix changing the element using the
+	keyboard [#20706].
+	* libs/gcu/application.cc: never try using nautilus as an
+	help viewer.
+
 2007-08-07  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* programs/Makefile.in (MAINTAINERCLEANFILES): Remove Makefile.in with
 	the maintainer-clean target.

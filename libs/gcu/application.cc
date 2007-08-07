@@ -57,8 +57,13 @@ Application::Application (string name, string datadir, char const *help_name, ch
 		GConfEntry* entry = gconf_client_get_entry (cli, "/desktop/gnome/applications/help_viewer/exec", NULL, true, NULL);
 		if (entry) {
 			value = gconf_value_get_string (gconf_entry_get_value (entry));
-			if (value) HelpBrowser = value;
-		}
+			if (value) {
+				HelpBrowser = value;
+				if (HelpBrowser.find ("nautilus") != string::npos)
+					HelpBrowser = "yelp";
+			}
+		} else
+			HelpBrowser = "yelp";
 		entry = gconf_client_get_entry (cli, "/desktop/gnome/applications/browser/exec", NULL, true, NULL);
 		if (entry) {
 			value = gconf_value_get_string (gconf_entry_get_value (entry));

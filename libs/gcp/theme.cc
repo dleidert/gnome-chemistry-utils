@@ -477,6 +477,8 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 	if (dir) {
 		path += "/";
 		while ((name = g_dir_read_name (dir))) {
+			if (name[strlen (name) - 1] == '~')
+				continue; // don't read backups
 			filename = path + name;
 			doc = xmlParseFile (filename.c_str ());
 			node = doc->children;

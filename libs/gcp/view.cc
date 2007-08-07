@@ -726,7 +726,7 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 		}
 		return true;
 	default: {
-			if ((event->state & ~GDK_SHIFT_MASK) != 0 || event->keyval > 127)
+			if ((event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 || event->keyval > 127)
 				break;
 			// Now try to get the atom at the cursor
 			Atom *atom = dynamic_cast<Atom*> (m_CurObject);
