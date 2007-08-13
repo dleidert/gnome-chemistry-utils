@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+gchem3d-viewer
+gchem3d-viewer-unstable
+*.desktop
+.deps
+.libs

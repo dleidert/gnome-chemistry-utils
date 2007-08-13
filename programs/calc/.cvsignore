@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+gchemcalc
+gchemcalc-unstable
+*.desktop
+.deps
+.libs

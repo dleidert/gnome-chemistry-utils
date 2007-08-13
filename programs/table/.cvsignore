@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+gchemtable
+gchemtable-unstable
+*.desktop
+.deps
+.libs
