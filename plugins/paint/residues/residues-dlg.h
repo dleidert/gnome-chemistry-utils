@@ -50,11 +50,21 @@ public:
 
 	bool OnKeyPress (GdkEventKey *event);
 	bool OnKeyRelease (GdkEventKey *event);
+	void OnCurChanged (int num);
+	void OnSave ();
+	void OnDelete ();
+	void OnSymbolActivate ();
+	void OnNameActivate ();
 
 private:
 	gcpPseudoAtom *m_Atom;
+	GtkComboBox *m_CurBox;
+	GtkWidget *m_SaveBtn, *m_DeleteBtn;
+	GtkEntry *m_SymbolEntry, *m_NameEntry;
+	bool m_ValidName, m_ValidSymbols;
 
 GCU_PROP (int, Page);
+GCU_PROP (bool, Generic);
 };
 
 #endif	//	GCP_RESIDUE_DLG_H

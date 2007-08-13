@@ -4,7 +4,8 @@ IMAGES =			\
 	horiz24.png	\
 	vert24.png	\
 	rotate24.png	\
-	merge24.png
+	merge24.png	\
+	brackets24.png
 
 VARIABLES = 			 								\
 	gcp_selection_24		$(srcdir)/selection24.png	\
@@ -12,7 +13,8 @@ VARIABLES = 			 								\
 	gcp_horiz_24			$(srcdir)/horiz24.png	\
 	gcp_vert_24				$(srcdir)/vert24.png	\
 	gcp_rotate_24			$(srcdir)/rotate24.png	\
-	gcp_merge_24			$(srcdir)/merge24.png
+	gcp_merge_24			$(srcdir)/merge24.png	\
+	gcp_brackets_24			$(srcdir)/brackets24.png
 
 pixbuf_file = gcp-stock-pixbufs.h
 noinst_DATA = $(pixbuf_file)
@@ -33,14 +35,16 @@ selection_la_SOURCES = \
 	selectiontool.cc \
 	erasertool.cc \
 	group.cc \
-	groupdlg.cc
+	groupdlg.cc \
+	bracketstool.cc
 
 noinst_HEADERS = \
 	plugin.h \
 	selectiontool.h \
 	erasertool.h \
 	group.h \
-	groupdlg.h
+	groupdlg.h \
+	bracketstool.h
 
 glade_DATA = \
 	group.glade

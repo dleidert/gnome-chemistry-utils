@@ -36,14 +36,14 @@ static bool on_focus_in (GtkWidget *widget, GdkEventFocus *event, Target *target
 	gcp::Application *App = target->GetApplication ();
 	App->NotifyFocus (true, target);
 	gtk_clipboard_request_contents (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) gcp::on_receive_targets, App);
-	return true;
+	return false;
 }
 
 static bool on_focus_out (GtkWidget *widget, GdkEventFocus *event, Target *target)
 {
 	target->GetDocument ()->GetView ()->ShowCursor (false);
 	target->GetApplication ()->NotifyFocus (false);
-	return true;
+	return false;
 }
 
 static bool on_state (GtkWidget *widget, GdkEventWindowState *event, Target *target)

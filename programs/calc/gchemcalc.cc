@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * programs/gchemcalc.cc 
+ * programs/calc/gchemcalc.cc 
  *
  * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *

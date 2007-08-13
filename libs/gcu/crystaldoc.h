@@ -34,6 +34,9 @@
 #include "crystalcleavage.h"
 #include "document.h"
 #include <gcu/gldocument.h>
+#ifdef HAVE_OPENBABEL_2_2
+#	include <openbabel/math/spacegroup.h>
+#endif
 
 namespace gcu
 {
@@ -254,6 +257,13 @@ List of the cleavages defined.
 List of the views of the document.
 */
 	list <CrystalView *> m_Views;
+
+#ifdef HAVE_OPENBABEL_2_2
+/*!
+The space group associated with the lattice.
+*/
+	OpenBabel::SpaceGroup const *m_SpaceGroup;
+#endif
 };
 
 extern gchar const *LatticeName[];

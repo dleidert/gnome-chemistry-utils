@@ -111,6 +111,12 @@ bodr >= $BODR_REQUIRED_VERSION"
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
+PKG_CHECK_MODULES(OB22, openbabel-2.0 >= 2.2.0,
+[ob22="yes"],[ob22="no"])
+if test "x$ob22" = "xyes"; then
+  AC_DEFINE_UNQUOTED([HAVE_OPENBABEL_2_2], 1, [Whether OpenBabel is >= 2.2.0])
+fi
+
 AC_PATH_PROG([GCONFTOOL], [gconftool-2], [no])
 if test "x$GCONFTOOL" = "xno"; then
 	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
@@ -125,7 +131,7 @@ GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
 AC_SUBST([GCU_CFLAGS])
 AC_SUBST([GCU_LIBS])
 
-GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.3`
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.4`
 AC_ARG_WITH(
 	[goffice-plugins-dir],
 	[AC_HELP_STRING(

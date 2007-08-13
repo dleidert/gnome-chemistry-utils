@@ -24,13 +24,16 @@
 
 #include "config.h"
 #include "gchemtable-curve.h"
+#include "gchemtable-data-allocator.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/gtk/go-graph-widget.h>
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
@@ -161,6 +164,11 @@ static void on_page_setup (GtkWidget *widget, GChemTableCurve *curve)
 	curve->OnPageSetup ();
 }
 
+void on_properties (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->OnProperties ();
+}
+
 static void on_close (GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->Destroy ();
@@ -204,6 +212,8 @@ static GtkActionEntry entries[] = {
 		  N_("Print preview"), G_CALLBACK (on_print_preview) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current file"), G_CALLBACK (on_print) },
+	  { "Properties", GTK_STOCK_PROPERTIES, N_("Prope_rties..."), NULL,
+		  N_("Modify the graph properties"), G_CALLBACK (on_properties) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
 		  N_("Close the current file"), G_CALLBACK (on_close) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
@@ -233,6 +243,8 @@ static const char *ui_description =
 "      <menuitem action='PageSetup'/>"
 "      <menuitem action='PrintPreview'/>"
 "      <menuitem action='Print'/>"
+"		<separator/>"
+"      <menuitem action='Properties'/>"
 "		<separator/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
@@ -280,7 +292,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	Dialog (App, GLADEDIR"/curve.glade", "curvedlg")
 {
 	m_Name = name;
-	GtkWidget *w = glade_xml_get_widget (xml, "vbox1");
+	m_GraphBox = glade_xml_get_widget (xml, "vbox1");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
@@ -303,16 +315,12 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		g_error_free (error);
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
-	gtk_box_pack_start (GTK_BOX (w), bar, FALSE, FALSE, 0);
-#ifdef GO_GRAPH_WIDGET_OLD_API
-	GtkWidget *pw = go_graph_widget_new ();
-#else
-	GtkWidget *pw = go_graph_widget_new (NULL);
-#endif
-	gtk_widget_set_size_request (pw, 400, 250);
-	gtk_widget_show (pw);
-	gtk_box_pack_end (GTK_BOX (w), pw, TRUE, TRUE, 0);
-	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (pw));
+	gtk_box_pack_start (GTK_BOX (m_GraphBox), bar, FALSE, FALSE, 0);
+	m_GraphWidget = go_graph_widget_new (NULL);
+	gtk_widget_set_size_request (m_GraphWidget, 400, 250);
+	gtk_widget_show (m_GraphWidget);
+	gtk_box_pack_end (GTK_BOX (m_GraphBox), m_GraphWidget, TRUE, TRUE, 0);
+	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_GraphWidget));
 	GogPlot *plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
 	// Create a series for the plot and populate it with some simple data
@@ -499,7 +507,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 	gog_object_add_by_name (obj, "Label", label);
-	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (pw));
+	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_GraphWidget));
 	// Initialize print settings
 	m_PageSetup = gtk_page_setup_new ();
 	m_PrintSettings = gtk_print_settings_new ();
@@ -583,3 +591,41 @@ void GChemTableCurve::OnCopy ()
 	gtk_clipboard_set_with_data (clipboard, targets, 4,
 		(GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data, m_Graph);
 }
+
+static void
+graph_user_config_free_data (gpointer data,
+					  GClosure *closure)
+{
+	g_object_unref (data);
+	closure->data = NULL;
+}
+
+static void
+on_update_graph (GogGraph *graph, gpointer data)
+{
+	g_return_if_fail (IS_GOG_GRAPH (graph));
+	GctControlGUI *tcg = GCT_CONTROL_GUI (data);
+	GChemTableCurve *curve = gct_control_gui_get_owner (tcg);
+	curve->SetGraph (graph);
+}
+
+void GChemTableCurve::OnProperties ()
+{
+	GctControlGUI *tcg = GCT_CONTROL_GUI (g_object_new (GCT_CONTROL_GUI_TYPE, NULL));
+	gct_control_gui_set_owner (tcg, this);
+	GClosure *closure = g_cclosure_new (G_CALLBACK (on_update_graph), tcg,
+					(GClosureNotify) graph_user_config_free_data);
+	gog_guru (m_Graph, GOG_DATA_ALLOCATOR (tcg),
+		       NULL, GTK_WINDOW (dialog), closure);
+	g_closure_sink (closure);
+}
+
+void GChemTableCurve::SetGraph (GogGraph *graph)
+{
+	gtk_widget_destroy (m_GraphWidget);
+	m_GraphWidget = go_graph_widget_new (graph);
+	gtk_widget_show (m_GraphWidget);
+	gtk_box_pack_end (GTK_BOX (m_GraphBox), m_GraphWidget, TRUE, TRUE, 0);
+	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_GraphWidget));
+}
+

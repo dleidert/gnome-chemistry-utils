@@ -33,6 +33,10 @@
 #include <cmath>
 #include <cstring>
 #include <vector>
+#ifdef HAVE_OPENBABEL_2_2
+#	include <list>
+using namespace OpenBabel;
+#endif
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
@@ -61,7 +65,8 @@ gchar const *LatticeName[] = {
 
 using namespace gcu;
 
-CrystalDoc::CrystalDoc (Application *App): GLDocument (App)
+CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
+	m_SpaceGroup (NULL)
 {
 }
 
@@ -169,6 +174,33 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 			if (i < 14)
 				m_lattice = (gcLattices)i;
 			xmlFree (txt);
+#ifdef HAVE_OPENBABEL_2_2
+		} else if (!strcmp ((gchar*) node->name, "group")) {
+			SpaceGroup *group = new SpaceGroup ();
+			txt = (char*) xmlGetProp (node, (xmlChar*) "Hall");
+			if (txt) {
+				group->SetHallName (txt);
+				xmlFree (txt);
+			} else {
+				txt = (char*) xmlGetProp (node, (xmlChar*) "HM");
+				if (txt) {
+					group->SetHMName (txt);
+					xmlFree (txt);
+				}
+			}
+			xmlNodePtr child = node->children;
+			while (child) {
+				if (!strcmp ((char const*) child->name, "transform")) {
+					txt = (char*) xmlNodeGetContent (child);
+					if (txt) {
+						group->AddTransform (txt);
+						xmlFree (txt);
+					}
+				}
+				child = child->next;
+			}
+			m_SpaceGroup = group;
+#endif
 		} else if (!strcmp ((gchar*) node->name, "cell")) {
 			txt = (char*) xmlGetProp (node, (xmlChar*)"a");
 			if (txt) {
@@ -282,6 +314,26 @@ void CrystalDoc::Update()
 	//Establish list of atoms
 	CrystalAtomList::iterator i, iend = AtomDef.end ();
 	
+#ifdef HAVE_OPENBABEL_2_2
+	if (m_SpaceGroup) {
+		vector3 v;
+		list<vector3> d;
+		for (i = AtomDef.begin(); i != iend; i++) {
+			v.x () = (*i)->x ();
+			v.y () = (*i)->y ();
+			v.z () = (*i)->z ();
+printf("original: %g %g %g\n",v.x(),v.y(),v.z());
+			d = m_SpaceGroup->Transform (v);
+			list<vector3>::iterator vi, viend = d.end();
+			CrystalAtom atom (**i);
+			for (vi=d.begin (); vi!= viend; vi++) {
+printf("transformed: %g %g %g\n",(*vi).x(), (*vi).y(), (*vi).z());
+				atom.SetCoords ((*vi).x(), (*vi).y(), (*vi).z());
+				Duplicate (atom);
+			}
+		}
+	} else
+#endif
 	for (i = AtomDef.begin(); i != iend; i++) {
 		Duplicate(**i);
 		switch (m_lattice) {
@@ -312,7 +364,7 @@ void CrystalDoc::Update()
 	}
 	
 	////////////////////////////////////////////////////////////
-	//Establish list of atoms
+	//Establish list of lines
 	CrystalLineList::iterator j, jend = LineDef.end();
 	for (j = LineDef.begin() ; j != jend ; j++)
 	{
@@ -492,47 +544,41 @@ void CrystalDoc::Update()
 	}
 }
 
-void CrystalDoc::Duplicate(CrystalAtom& Atom)
+void CrystalDoc::Duplicate (CrystalAtom& Atom)
 {
 	CrystalAtom AtomX, AtomY, AtomZ ;
 	AtomX = Atom ;
-	AtomX.Move(- floor(AtomX.x()-m_xmin), - floor(AtomX.y()-m_ymin), - floor(AtomX.z()-m_zmin)) ;
-	while (AtomX.x() <= m_xmax)
-	{
+	AtomX.Move (- floor (AtomX.x ()-m_xmin + 1e-7), - floor (AtomX.y ()-m_ymin + 1e-7), - floor (AtomX.z ()-m_zmin + 1e-7)) ;
+	while (AtomX.x () <= m_xmax + 1e-7) {
 		AtomY = AtomX ;
-		while (AtomY.y() <= m_ymax)
-		{
+		while (AtomY.y () <= m_ymax + 1e-7) {
 			AtomZ = AtomY ;
-			while (AtomZ.z() <= m_zmax)
-			{
-				Atoms.push_back(new CrystalAtom(AtomZ)) ;
-				AtomZ.Move(0,0,1) ;
+			while (AtomZ.z () <= m_zmax + 1e-7) {
+				Atoms.push_back (new CrystalAtom (AtomZ)) ;
+				AtomZ.Move (0,0,1) ;
 			}
-			AtomY.Move(0,1,0) ;
+			AtomY.Move (0,1,0) ;
 		}
-		AtomX.Move(1,0,0) ;
+		AtomX.Move (1,0,0) ;
 	}
 }
 
-void CrystalDoc::Duplicate(CrystalLine& Line)
+void CrystalDoc::Duplicate (CrystalLine& Line)
 {
 	CrystalLine LineX, LineY, LineZ ;
 	LineX = Line ;
-	LineX.Move(- floor(LineX.Xmin()-m_xmin), - floor(LineX.Ymin()-m_ymin), - floor(LineX.Zmin()-m_zmin)) ;
-	while (LineX.Xmax() <= m_xmax)
-	{
+	LineX.Move (- floor (LineX.Xmin ()-m_xmin + 1e-7), - floor (LineX.Ymin ()-m_ymin + 1e-7), - floor (LineX.Zmin ()-m_zmin + 1e-7)) ;
+	while (LineX.Xmax () <= m_xmax + 1e-7) {
 		LineY = LineX ;
-		while (LineY.Ymax() <= m_ymax)
-		{
+		while (LineY.Ymax () <= m_ymax + 1e-7) {
 			LineZ = LineY ;
-			while (LineZ.Zmax() <= m_zmax)
-			{
-				Lines.push_back(new CrystalLine(LineZ)) ;
-				LineZ.Move(0,0,1) ;
+			while (LineZ.Zmax () <= m_zmax + 1e-7) {
+				Lines.push_back (new CrystalLine (LineZ)) ;
+				LineZ.Move (0,0,1) ;
 			}
-			LineY.Move(0,1,0) ;
+			LineY.Move (0,1,0) ;
 		}
-		LineX.Move(1,0,0) ;
+		LineX.Move (1,0,0) ;
 	}
 }
 
@@ -590,7 +636,34 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 		
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"lattice", (xmlChar*)LatticeName[m_lattice]);
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
-	
+#ifdef HAVE_OPENBABEL_2_2
+		if (m_SpaceGroup) {
+			node = xmlNewDocNode (xml, NULL, (xmlChar*) "group", NULL);
+			if (node)
+				xmlAddChild (xml->children, node);
+			else
+				throw (int) 0;
+			string name = m_SpaceGroup->GetHallName ();
+			if (name.length () != 0)
+				xmlNewProp (node, (xmlChar*) "Hall", (xmlChar*) name.c_str ());
+			else {
+				name = m_SpaceGroup->GetHMName ();
+				if (name.length () != 0)
+					xmlNewProp (node, (xmlChar*) "HM", (xmlChar*) name.c_str ());
+			}
+			xmlNodePtr child;
+			transform3dIterator i;
+			transform3d *t = m_SpaceGroup->BeginTransform (i);
+			while (t) {
+				child = xmlNewDocNode (xml, NULL, (xmlChar*) "transform", (xmlChar*) t->DescribeAsString ().c_str ());
+				if (child)
+					xmlAddChild (node, child);
+				else
+					throw (int) 0;
+				t = m_SpaceGroup->NextTransform (i);
+			}
+		}
+#endif
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"cell", NULL);
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		snprintf(buf, sizeof(buf), "%g", m_a);

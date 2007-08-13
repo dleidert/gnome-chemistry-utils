@@ -1,5 +1,41 @@
 ##Text encoding: utf-8
 
+2007-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: check OpenBabel version.
+	* libs/gcp/Makefile.am: add new residue files.
+	* libs/gcp/molecule.cc: changed smiles to SMILES.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/residue.cc: new file.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcp/target.cc: signal handlers should return false.
+	* libs/gcu/crystaldoc.cc: add space group support.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/residue.cc: more work on residues.
+	* libs/gcu/residue.h: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/residues/residues-dlg.h: ditto.
+	* plugins/paint/residues/residues.glade: ditto.
+	* plugins/paint/selection/brackets24.png: new brackets tool
+	(not yet implemented).
+	* plugins/paint/selection/bracketstool.cc: ditto.
+	* plugins/paint/selection/bracketstool.h: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/selection/plugin.cc: ditto.
+	* programs/calc/gchemcalc.cc: fixed copyright.
+	* programs/calc/residue.cc: new gccResidue class.
+	* programs/calc/residue.h: ditto.
+	* programs/crystal/document.cc: add support for space groups.
+	* programs/table/Makefile.am: add new files and code to allow
+	curves customiszation.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto
+	* programs/table/gchemtable-data-allocator.cc: ditto
+	* programs/table/gchemtable-data-allocator.h: ditto
+	* programs/table/gchemtable-data.cc: ditto
+	* programs/table/gchemtable-data.h: ditto
+	* programs/table/gchemtable-graph-editor.cc: ditto
+	* programs/table/gchemtable-graph-editor.h: ditto
+
 2007-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/theme.cc: don't load backups [#20705].
 	* libs/gcp/view.cc: fix changing the element using the

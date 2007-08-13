@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * residue.h 
+ * programs/calc/residue.h 
  *
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,43 +22,23 @@
  * USA
  */
 
-#ifndef GCU_RESIDUE_H
-#define GCU_RESIDUE_H
+#ifndef GCC_RESIDUE_H
+#define GCC_RESIDUE_H
 
-#include "macros.h"
-#include <libxml/parser.h>
-#include <map>
-#include <set>
-#include <string>
+#include <gcu/residue.h>
 
-using namespace std;
-
-namespace gcu {
-
-class Residue
+class gccResidue: public gcu::Residue
 {
 public:
-	Residue ();
-	Residue (char const *name);
-	virtual ~Residue ();
+	gccResidue ();
+	gccResidue (char const *name);
+	virtual ~gccResidue ();
 
 	std::map<int,int> const &GetRawFormula () {return m_Raw;}
-	std::set<std::string> const &GetSymbols () {return m_Symbols;}
-	void SetName (char const *name);
-	void AddSymbol (char const *symbol);
-	void RemoveSymbol (char const *symbol);
 	virtual void Load (xmlNodePtr node);
-	static Residue const *GetResidue (char const *symbol);
-	static Residue const *GetResiduebyName (char const *name);
 
 private:
 	std::map<int,int> m_Raw;
-	std::set<std::string> m_Symbols;
-
-GCU_RO_PROP (char const *, Name)
-GCU_PROP (bool, Generic)
 };
 
-}	//	namespace gcu
-
-#endif	//	GCU_RESIDUE_H
+#endif	//	GCC_RESIDUE_H

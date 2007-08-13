@@ -62,7 +62,7 @@ public:
 	void BuildOBMol2D (OBMol &Mol);
 	void ShowInChI ();
 	void BuildInChI ();
-	void BuildSmiles ();
+	void BuildSMILES ();
 	void ShowWebBase (char const *uri_start, char const *uri_end);
 	void OpenCalc ();
 	void CheckCrossings (Bond *pBond);

@@ -18,7 +18,13 @@ gchemtable_unstable_SOURCES =	\
 	gchemtable-elt.cc	\
 	gchemtable-elt.h	\
 	gchemtable-curve.cc	\
-	gchemtable-curve.h
+	gchemtable-curve.h	\
+	gchemtable-data-allocator.cc	\
+	gchemtable-data-allocator.h		\
+	gchemtable-graph-editor.cc	\
+	gchemtable-graph-editor.h	\
+	gchemtable-data.cc	\
+	gchemtable-data.h
 
 desktopdir=$(datadir)/applications
 desktop_in_files = gchemtable-unstable.desktop.in

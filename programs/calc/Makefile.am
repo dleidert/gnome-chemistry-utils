@@ -11,7 +11,12 @@ DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/gla
 
 bin_PROGRAMS = gchemcalc-unstable
 
-gchemcalc_unstable_SOURCES = gchemcalc.cc
+gchemcalc_unstable_SOURCES = \
+	gchemcalc.cc \
+	residue.cc
+
+noinst_HEADERS = \
+	residue.h
 
 desktopdir=$(datadir)/applications
 desktop_in_files = gchemcalc-unstable.desktop.in

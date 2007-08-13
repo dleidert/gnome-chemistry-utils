@@ -197,6 +197,12 @@ void gcDocument::SetTitle(const gchar* title)
 	m_title = g_strdup(title);
 }
 
+static int cb_xml_to_vfs (GnomeVFSHandle *handle, const char* buf, int nb)
+{
+	GnomeVFSFileSize ndone;
+	return (int) gnome_vfs_write (handle, buf, nb, &ndone);
+}
+
 void gcDocument::Save()
 {
 	if (!m_filename)
@@ -206,8 +212,31 @@ void gcDocument::Save()
 	try {
 		xml = BuildXMLTree();
 
-		if (xmlSaveFile (m_filename, xml) < 0)
-			Error (SAVE);
+			xmlIndentTreeOutput = true;
+			xmlKeepBlanksDefault (0);
+		
+			GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
+			gnome_vfs_get_file_info (m_filename, info, GNOME_VFS_FILE_INFO_DEFAULT);
+
+			if (GNOME_VFS_FILE_INFO_LOCAL (info)) {
+				gnome_vfs_file_info_unref (info);
+				if (xmlSaveFormatFile (m_filename, xml, true) < 0) /*Error(SAVE)*/;
+			} else {
+				gnome_vfs_file_info_unref (info);
+				xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
+				GnomeVFSHandle *handle;
+				GnomeVFSResult result = gnome_vfs_open (&handle, m_filename, GNOME_VFS_OPEN_WRITE);
+				if (result == GNOME_VFS_ERROR_NOT_FOUND)
+					result = gnome_vfs_create (&handle, m_filename, GNOME_VFS_OPEN_WRITE, true, 0666);
+				if (result != GNOME_VFS_OK)
+					throw 1;
+				buf->context = handle;
+				buf->closecallback = (xmlOutputCloseCallback) gnome_vfs_close;
+				buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
+				int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
+				if (n < 0)
+					throw 1;
+			}
 			
 		xmlFreeDoc (xml);
 		SetDirty (false);
@@ -706,7 +735,11 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
+#ifdef HAVE_OPENBABEL_2_2_H
+			OBFormat* pInFormat = Format::FormatFromMIME (mime_type.c_str ());
+#else
 			OBFormat* pInFormat = Conv.FormatFromMIME (mime_type.c_str ());
+#endif
 			if (pInFormat == NULL)
 				throw 2;
 			Conv.SetInFormat (pInFormat);
@@ -777,6 +810,9 @@ bool gcDocument::ImportOB (OBMol &mol)
 	m_beta = cell->GetBeta ();
 	m_gamma = cell->GetGamma ();
 	string const group_name = cell->GetSpaceGroup ();
+	m_SpaceGroup = SpaceGroup::GetSpaceGroup (group_name);
+    if (!m_SpaceGroup)
+		return false;
 	int lattice = cell->GetLatticeType ();
 	switch (lattice) {
 	case OBUnitCell::Triclinic:
@@ -864,7 +900,6 @@ bool gcDocument::ImportOB (OBMol &mol)
 		AtomDef.push_back (catom);
 		atom = mol.NextAtom (it);
 	}
-//	int group = cell->GetSpaceGroupNumber (group_name);
 
 	Update ();
 	return true;

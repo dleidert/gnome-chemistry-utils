@@ -29,6 +29,7 @@
 #include "selectiontool.h"
 #include "erasertool.h"
 #include "group.h"
+#include "bracketstool.h"
 #include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
@@ -55,6 +56,7 @@ static gcp::IconDesc icon_descs[] = {
 	{"gcp_Vert", gcp_vert_24},
 	{"gcp_Rotate", gcp_rotate_24},
 	{"gcp_Merge", gcp_merge_24},
+	{"gcp_Brackets", gcp_brackets_24},
 	{NULL, NULL},
 };
 
@@ -65,6 +67,9 @@ static GtkRadioActionEntry entries[] = {
 	{	"Erase", "gcp_Eraser", N_("Erase"), NULL,
 		N_("Eraser"),
 		0	},
+	{	"Brackets", "gcp_Brackets", N_("Brackets"), NULL,
+		N_("Brackets"),
+		0	},
 };
 
 static const char *ui_description =
@@ -73,6 +78,7 @@ static const char *ui_description =
 "	 <placeholder name='Select1'>"
 "      <toolitem action='Select'/>"
 "      <toolitem action='Erase'/>"
+"      <toolitem action='Brackets'/>"
 "	 </placeholder>"
 "	 <placeholder name='Select2'/>"
 "	 <placeholder name='Select3'/>"
@@ -85,5 +91,6 @@ void gcpSelectionPlugin::Populate (gcp::Application* App)
 	App->RegisterToolbar ("SelectToolbar", 0);
 	new gcpSelectionTool (App);
 	new gcpEraserTool (App);
+	new gcpBracketsTool (App);
 	App->ActivateTool ("Select", true);
 }

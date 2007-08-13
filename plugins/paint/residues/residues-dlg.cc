@@ -27,6 +27,7 @@
 #include "pseudo-atom.h"
 #include <gcp/application.h>
 #include <gcp/document.h>
+#include <gcp/residue.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
@@ -45,6 +46,47 @@ static bool on_key_press (GtkWidget* widget, GdkEventKey* ev, gcpResiduesDlg *dl
 static void on_page (GtkNotebook *book, GtkNotebookPage *page, int num_page, gcpResiduesDlg *dlg)
 {
 	dlg->SetPage (num_page);
+}
+
+static void on_cur_changed (GtkComboBox *box, gcpResiduesDlg *dlg)
+{
+}
+
+static void on_save (gcpResiduesDlg *dlg)
+{
+	dlg->OnSave ();
+}
+
+static void on_delete (gcpResiduesDlg *dlg)
+{
+	dlg->OnDelete ();
+}
+
+static void on_symbol_activate (GtkEntry *entry, gcpResiduesDlg *dlg)
+{
+	dlg->OnSymbolActivate ();
+}
+
+static bool on_symbol_focus_out (GtkEntry *entry, GdkEventFocus *event, gcpResiduesDlg *dlg)
+{
+	on_symbol_activate (entry, dlg);
+	return true;
+}
+
+static void on_name_activate (GtkEntry *entry, gcpResiduesDlg *dlg)
+{
+	dlg->OnNameActivate ();
+}
+
+static bool on_name_focus_out (GtkEntry *entry, GdkEventFocus *event, gcpResiduesDlg *dlg)
+{
+	on_name_activate (entry, dlg);
+	return true;
+}
+
+static void on_generic_toggled (GtkToggleButton *btn, gcpResiduesDlg *dlg)
+{
+	dlg->SetGeneric (gtk_toggle_button_get_active (btn));
 }
 
 gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
@@ -76,6 +118,24 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	g_signal_connect (dialog, "key-press-event", G_CALLBACK (on_key_press), this);
 	g_signal_connect (dialog, "key-release-event", G_CALLBACK (on_key_release), this);
 	g_signal_connect (glade_xml_get_widget (xml, "residue-book"), "switch-page", G_CALLBACK (on_page), this);
+	m_CurBox = GTK_COMBO_BOX (glade_xml_get_widget (xml, "cur-box"));
+	gtk_combo_box_set_active (m_CurBox, 0);
+	g_signal_connect (G_OBJECT (m_CurBox), "changed", G_CALLBACK (on_cur_changed), this);
+	m_SaveBtn = glade_xml_get_widget (xml, "save");
+	g_signal_connect_swapped (G_OBJECT (m_SaveBtn), "clicked", G_CALLBACK (on_save), this);
+	m_DeleteBtn = glade_xml_get_widget (xml, "delete");
+	g_signal_connect_swapped (G_OBJECT (m_DeleteBtn), "clicked", G_CALLBACK (on_delete), this);
+	m_SymbolEntry = GTK_ENTRY (glade_xml_get_widget (xml, "symbol-entry"));
+	g_signal_connect (G_OBJECT (m_SymbolEntry), "activate", G_CALLBACK (on_symbol_activate), this);
+	g_signal_connect_after (G_OBJECT (m_SymbolEntry), "focus_out_event", G_CALLBACK (on_symbol_focus_out), this);
+	m_ValidSymbols = false;
+	m_NameEntry = GTK_ENTRY (glade_xml_get_widget (xml, "name-entry"));
+	g_signal_connect (G_OBJECT (m_NameEntry), "activate", G_CALLBACK (on_name_activate), this);
+	g_signal_connect_after (G_OBJECT (m_NameEntry), "focus_out_event", G_CALLBACK (on_name_focus_out), this);
+	m_ValidName = false;
+	w = glade_xml_get_widget (xml, "generic-btn");
+	g_signal_connect (w, "toggled", G_CALLBACK (on_generic_toggled), this);
+	m_Generic = false;
 }
 
 gcpResiduesDlg::~gcpResiduesDlg ()
@@ -128,4 +188,42 @@ bool gcpResiduesDlg::OnKeyRelease (GdkEventKey *event)
 	if (m_Page)
 		return m_Document->GetView ()->OnKeyRelease (m_Document->GetWidget (), event);
 	return false;
+}
+
+void gcpResiduesDlg::OnCurChanged (int num)
+{
+}
+
+void gcpResiduesDlg::OnSave ()
+{
+	char const *text = gtk_entry_get_text (m_SymbolEntry);
+	char **symbols = g_strsplit (text, ";", 0);
+	char const *name = gtk_entry_get_text (m_NameEntry);
+	gcp::Residue *res = new gcp::Residue (name);
+	char **s = symbols;
+	while (s) {
+		res->AddSymbol (*s);
+		s++;
+	}
+	g_strfreev (symbols);
+}
+
+void gcpResiduesDlg::OnDelete ()
+{
+}
+
+void gcpResiduesDlg::OnSymbolActivate ()
+{
+	char const *text = gtk_entry_get_text (m_SymbolEntry);
+	char **symbols = g_strsplit (text, ";", 0);
+	m_ValidSymbols = *symbols;
+	g_strfreev (symbols);
+	gtk_widget_set_sensitive (m_SaveBtn, m_ValidName && m_ValidSymbols);
+}
+
+void gcpResiduesDlg::OnNameActivate ()
+{
+	char const *text = gtk_entry_get_text (m_NameEntry);
+	m_ValidName = strlen (text) > 0;
+	gtk_widget_set_sensitive (m_SaveBtn, m_ValidName && m_ValidSymbols);
 }

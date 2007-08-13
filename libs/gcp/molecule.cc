@@ -55,7 +55,7 @@ static void do_build_inchi (Molecule* pMol)
 
 static void do_build_smiles (Molecule* pMol)
 {
-	pMol->BuildSmiles ();
+	pMol->BuildSMILES ();
 }
 
 static void do_show_webbook (Molecule* pMol)
@@ -532,7 +532,7 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 			g_object_unref (action);
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='pubchem'/></menu></popup></ui>", -1, NULL);
 		}
-		action = gtk_action_new ("smiles", _("Generate Smiles"), NULL, NULL);
+		action = gtk_action_new ("smiles", _("Generate SMILES"), NULL, NULL);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_build_smiles), this);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
@@ -766,7 +766,7 @@ void Molecule::BuildInChI ()
 	m_Changed = false;
 }
 
-void Molecule::BuildSmiles ()
+void Molecule::BuildSMILES ()
 {
 	OBMol Mol;
 	OBConversion Conv;
