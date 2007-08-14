@@ -283,7 +283,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 #ifdef HAVE_OPENBABEL_2_2_H
 						Doc->Import (filename, mime_type)) {
 #else
-						false {
+						false) {
 #endif
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();
