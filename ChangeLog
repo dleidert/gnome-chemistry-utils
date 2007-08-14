@@ -1,6 +1,12 @@
 ##Text encoding: utf-8
 
 2007-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystaldoc.cc: add ImportOB method.
+	* libs/gcu/crystaldoc.h: ditto.
+	* programs/crystal/document.cc: removed ImportOB method.
+	* programs/crystal/document.h: ditto.
+
+2007-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: remove -DGTK_DISABLE_DEPRECATED to make things
 	compile with newer versions.
 	* libs/gcu/crystaldoc.cc: don't initialize m_SpaceGroup when

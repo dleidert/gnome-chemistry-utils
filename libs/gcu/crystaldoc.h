@@ -155,6 +155,10 @@ by programs able to save crystal structures in XML files conforming to gcrystal.
 compatiblity with files created by older versions of the program.
 */
 	virtual const char* GetProgramId ();
+
+#ifdef HAVE_OPENBABEL_2_2_H
+	bool ImportOB (OBMol &mol);
+#endif
 	
 protected:
 /*!
