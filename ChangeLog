@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2007-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: remove -DGTK_DISABLE_DEPRECATED to make things
+	compile with newer versions.
+	* libs/gcu/crystaldoc.cc: don't initialize m_SpaceGroup when
+	it does not exist.
+
 2007-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: check OpenBabel version.
 	* libs/gcp/Makefile.am: add new residue files.

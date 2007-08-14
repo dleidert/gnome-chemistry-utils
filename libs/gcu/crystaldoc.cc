@@ -65,8 +65,11 @@ gchar const *LatticeName[] = {
 
 using namespace gcu;
 
-CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
+CrystalDoc::CrystalDoc (Application *App): GLDocument (App)
+#ifdef HAVE_OPENBABEL_2_2
+	,
 	m_SpaceGroup (NULL)
+#endif
 {
 }
 
