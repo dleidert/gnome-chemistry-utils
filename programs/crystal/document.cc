@@ -699,6 +699,7 @@ void gcDocument::RenameViews ()
 	}
 }
 
+#ifdef HAVE_OPENBABEL_2_2_H
 bool gcDocument::Import (const string &filename, const string& mime_type)
 {
 	gchar *oldfilename, *oldtitle;
@@ -735,11 +736,7 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
-#ifdef HAVE_OPENBABEL_2_2_H
 			OBFormat* pInFormat = Format::FormatFromMIME (mime_type.c_str ());
-#else
-			OBFormat* pInFormat = Conv.FormatFromMIME (mime_type.c_str ());
-#endif
 			if (pInFormat == NULL)
 				throw 2;
 			Conv.SetInFormat (pInFormat);
@@ -761,7 +758,7 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
-			OBFormat* pInFormat = Conv.FormatFromExt (filename.c_str ());
+			OBFormat* pInFormat = Format::FormatFromMIME (mime_type.c_str ());
 			if (pInFormat == NULL)
 				throw 2;
 			Conv.SetInFormat (pInFormat);
@@ -797,3 +794,4 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 	}
 	return false;
 }
+#endif

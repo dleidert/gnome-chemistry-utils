@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2007-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/document.cc: only compile Import if
+	an appropriate OpenBabel version is available.
+	* programs/crystal/document.h: ditto.
+
+2007-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystaldoc.cc: add ImportOB method.
 	* libs/gcu/crystaldoc.h: ditto.
 	* programs/crystal/document.cc: removed ImportOB method.

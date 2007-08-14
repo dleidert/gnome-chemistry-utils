@@ -69,7 +69,9 @@ public:
 	void SetTitle(const gchar* title);
 	void Save ();
 	bool Load (const string &filename);
+#ifdef HAVE_OPENBABEL_2_2_H
 	bool Import (const string &filename, const string& mime_type);
+#endif
 	void ParseXMLTree(xmlNode* xml);
 	void OnNewDocument();
 	void OnExportVRML (const string &FileName);
