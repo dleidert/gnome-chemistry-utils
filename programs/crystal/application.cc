@@ -63,7 +63,9 @@ void gcApplication::OnFileOpen ()
 {
 	list<string> l;
 	l.push_front ("application/x-gcrystal");
+#ifdef HAVE_OPENBABEL_2_2_H
 	l.push_front ("chemical/x-cif");
+#endif
 	FileChooser (this, false, l);
 }
 
@@ -278,7 +280,11 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			}
 		}
 		if ((type == GCRYSTAL)? Doc->Load (filename):
+#ifdef HAVE_OPENBABEL_2_2_H
 						Doc->Import (filename, mime_type)) {
+#else
+						false {
+#endif
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();
 			data.description = NULL;
