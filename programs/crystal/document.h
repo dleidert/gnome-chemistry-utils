@@ -35,10 +35,12 @@
 
 using namespace gcu;
 
+#ifdef HAVE_OPENBABEL_2_2
 namespace OpenBabel {
 	class OBMol;
 }
 using namespace OpenBabel;
+#endif
 
 class gcView;
 class gcApplication;
@@ -69,7 +71,7 @@ public:
 	void SetTitle(const gchar* title);
 	void Save ();
 	bool Load (const string &filename);
-#ifdef HAVE_OPENBABEL_2_2_H
+#ifdef HAVE_OPENBABEL_2_2
 	bool Import (const string &filename, const string& mime_type);
 #endif
 	void ParseXMLTree(xmlNode* xml);

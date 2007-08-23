@@ -36,6 +36,7 @@
 #include <gcu/gldocument.h>
 #ifdef HAVE_OPENBABEL_2_2
 #	include <openbabel/math/spacegroup.h>
+#	include <openbabel/mol.h>
 #endif
 
 namespace gcu
@@ -156,8 +157,8 @@ compatiblity with files created by older versions of the program.
 */
 	virtual const char* GetProgramId ();
 
-#ifdef HAVE_OPENBABEL_2_2_H
-	bool ImportOB (OBMol &mol);
+#ifdef HAVE_OPENBABEL_2_2
+	bool ImportOB (OpenBabel::OBMol &mol);
 #endif
 	
 protected:

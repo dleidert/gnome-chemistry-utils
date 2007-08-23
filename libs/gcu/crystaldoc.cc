@@ -65,10 +65,11 @@ gchar const *LatticeName[] = {
 
 using namespace gcu;
 
-CrystalDoc::CrystalDoc (Application *App): GLDocument (App)
 #ifdef HAVE_OPENBABEL_2_2
-	,
+CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
 	m_SpaceGroup (NULL)
+#else
+CrystalDoc::CrystalDoc (Application *App): GLDocument (App)
 #endif
 {
 }
@@ -325,12 +326,10 @@ void CrystalDoc::Update()
 			v.x () = (*i)->x ();
 			v.y () = (*i)->y ();
 			v.z () = (*i)->z ();
-printf("original: %g %g %g\n",v.x(),v.y(),v.z());
 			d = m_SpaceGroup->Transform (v);
 			list<vector3>::iterator vi, viend = d.end();
 			CrystalAtom atom (**i);
 			for (vi=d.begin (); vi!= viend; vi++) {
-printf("transformed: %g %g %g\n",(*vi).x(), (*vi).y(), (*vi).z());
 				atom.SetCoords ((*vi).x(), (*vi).y(), (*vi).z());
 				Duplicate (atom);
 			}
@@ -656,9 +655,9 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 			}
 			xmlNodePtr child;
 			transform3dIterator i;
-			transform3d *t = m_SpaceGroup->BeginTransform (i);
+			transform3d const *t = m_SpaceGroup->BeginTransform (i);
 			while (t) {
-				child = xmlNewDocNode (xml, NULL, (xmlChar*) "transform", (xmlChar*) t->DescribeAsString ().c_str ());
+				child = xmlNewDocNode (xml, NULL, (xmlChar*) "transform", (xmlChar const*) t->DescribeAsString ().c_str ());
 				if (child)
 					xmlAddChild (node, child);
 				else
@@ -731,7 +730,7 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 	}
 }
 
-#ifdef HAVE_OPENBABEL_2_2_H
+#ifdef HAVE_OPENBABEL_2_2
 bool CrystalDoc::ImportOB (OBMol &mol)
 {
 	OBUnitCell *cell = dynamic_cast<OBUnitCell*> (mol.GetData (OBGenericDataType::UnitCell));

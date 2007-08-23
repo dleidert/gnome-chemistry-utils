@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2007-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: don't duplicate NULL strings.
+	* libs/gcu/crystaldoc.cc: fix various space groups support
+	issues.
+	* libs/gcu/crystaldoc.h: ditto.
+	* programs/crystal/application.cc: ditto..
+	* programs/crystal/document.cc: ditto..
+	* programs/crystal/document.h: ditto..
+
 2007-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/application.cc: add missing ).
 

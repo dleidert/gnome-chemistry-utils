@@ -925,41 +925,26 @@ void Document::OnProperties ()
 
 void Document::SetTitle (const gchar* title)
 {
-	if (m_title)
-		g_free (m_title);
-	if (*title)
-		m_title = g_strdup(title);
-	else m_title = NULL;
+	g_free (m_title);
+	m_title = (title && *title)? g_strdup (title): NULL;
 }
 
 void Document::SetAuthor (const gchar* author)
 {
-	if (m_author)
-		g_free (m_author);
-	if (*author)
-		m_author = g_strdup (author);
-	else
-		m_author = NULL;
+	g_free (m_author);
+	m_author = (author && *author)? g_strdup (author): NULL;
 }
 
 void Document::SetMail (const gchar* mail)
 {
-	if (m_mail)
-		g_free (m_mail);
-	if (*mail)
-		m_mail = g_strdup (mail);
-	else
-		m_mail = NULL;
+	g_free (m_mail);
+	m_mail = (mail && *mail)? g_strdup (mail): NULL;
 }
 
 void Document::SetComment (const gchar* comment)
 {
-	if (m_comment)
-		g_free (m_comment);
-	if (*comment)
-		m_comment = g_strdup (comment);
-	else
-		m_comment = NULL;
+	g_free (m_comment);
+	m_comment = (comment && *comment)? g_strdup (comment): NULL;
 }
 	
 void Document::AddObject (Object* pObject)

@@ -51,9 +51,11 @@
 #include <ostream>
 #include <sstream>
 #include <glib/gi18n.h>
-#include <openbabel/mol.h>
-#include <openbabel/obconversion.h>
-#include <openbabel/math/matrix3x3.h>
+#ifdef HAVE_OPENBABEL_2_2
+#	include <openbabel/format.h>
+#	include <openbabel/obconversion.h>
+#	include <openbabel/math/matrix3x3.h>
+#endif
 
 #define SAVE	1
 #define LOAD	2
@@ -699,7 +701,7 @@ void gcDocument::RenameViews ()
 	}
 }
 
-#ifdef HAVE_OPENBABEL_2_2_H
+#ifdef HAVE_OPENBABEL_2_2
 bool gcDocument::Import (const string &filename, const string& mime_type)
 {
 	gchar *oldfilename, *oldtitle;
@@ -736,7 +738,7 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
-			OBFormat* pInFormat = Format::FormatFromMIME (mime_type.c_str ());
+			OBFormat* pInFormat = OBFormat::FormatFromMIME (mime_type.c_str ());
 			if (pInFormat == NULL)
 				throw 2;
 			Conv.SetInFormat (pInFormat);
@@ -758,7 +760,7 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
-			OBFormat* pInFormat = Format::FormatFromMIME (mime_type.c_str ());
+			OBFormat* pInFormat = OBFormat::FormatFromMIME (mime_type.c_str ());
 			if (pInFormat == NULL)
 				throw 2;
 			Conv.SetInFormat (pInFormat);
@@ -771,6 +773,7 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 			if (!result)
 				throw (int) 3;
 		}
+		UpdateAllViews ();
 		return true;
 	}
 	catch (int num) {
