@@ -32,6 +32,12 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gdk/gdkkeysyms.h>
+#include <glib/gi18n-lib.h>
+#include <sstream>
+
+xmlDocPtr user_residues = NULL;
+set<xmlDocPtr> docs;
+
 
 static bool on_key_release (GtkWidget* widget, GdkEventKey* ev, gcpResiduesDlg *dlg)
 {
@@ -50,16 +56,17 @@ static void on_page (GtkNotebook *book, GtkNotebookPage *page, int num_page, gcp
 
 static void on_cur_changed (GtkComboBox *box, gcpResiduesDlg *dlg)
 {
+	dlg->OnCurChanged ();
 }
 
 static void on_save (gcpResiduesDlg *dlg)
 {
-	dlg->OnSave ();
+	dlg->Add ();
 }
 
 static void on_delete (gcpResiduesDlg *dlg)
 {
-	dlg->OnDelete ();
+	dlg->Remove ();
 }
 
 static void on_symbol_activate (GtkEntry *entry, gcpResiduesDlg *dlg)
@@ -87,6 +94,54 @@ static bool on_name_focus_out (GtkEntry *entry, GdkEventFocus *event, gcpResidue
 static void on_generic_toggled (GtkToggleButton *btn, gcpResiduesDlg *dlg)
 {
 	dlg->SetGeneric (gtk_toggle_button_get_active (btn));
+}
+
+static void on_page_changed (GtkNotebook *book, gcpResiduesDlg *dlg)
+{
+	dlg->SetPage (gtk_notebook_get_current_page (book));
+}
+
+static int insert_symbol (GtkComboBox *box, char const *str)
+{
+	GtkTreeModel *model = gtk_combo_box_get_model (box);
+	GtkTreeIter iter;
+	int i = 1;
+	if (!gtk_tree_model_get_iter_from_string (model, &iter, "1")) {
+		gtk_combo_box_append_text (box, str);
+		return i;
+	}
+	char* text;
+	gtk_tree_model_get (model, &iter, 0, &text, -1);
+	while (strcmp (text, str) < 0) {
+		if (gtk_tree_model_iter_next (model, &iter))
+			gtk_tree_model_get (model, &iter, 0, &text, -1);
+		else {
+			gtk_combo_box_append_text (box, str);
+			return i;
+		}
+		i++;
+	}
+	gtk_combo_box_insert_text (box, i, str);
+	return i;
+}
+
+static void delete_symbol (GtkComboBox *box, char const *str)
+{
+	GtkTreeModel *model = gtk_combo_box_get_model (box);
+	GtkTreeIter iter;
+	int i = 1;
+	if (!gtk_tree_model_get_iter_from_string (model, &iter, "1"))
+		return;
+	char* text;
+	gtk_tree_model_get (model, &iter, 0, &text, -1);
+	while (strcmp (text, str) < 0) {
+		if (gtk_tree_model_iter_next (model, &iter))
+			gtk_tree_model_get (model, &iter, 0, &text, -1);
+		else
+			return;
+		i++;
+	}
+	gtk_combo_box_remove_text (box, i);
 }
 
 gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
@@ -119,6 +174,12 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	g_signal_connect (dialog, "key-release-event", G_CALLBACK (on_key_release), this);
 	g_signal_connect (glade_xml_get_widget (xml, "residue-book"), "switch-page", G_CALLBACK (on_page), this);
 	m_CurBox = GTK_COMBO_BOX (glade_xml_get_widget (xml, "cur-box"));
+	ResidueIterator i;
+	string const *s = Residue::GetFirstResidueSymbol (i);
+	while (s) {
+		gtk_combo_box_append_text (m_CurBox, s->c_str ());
+		s = Residue::GetNextResidueSymbol (i);
+	}
 	gtk_combo_box_set_active (m_CurBox, 0);
 	g_signal_connect (G_OBJECT (m_CurBox), "changed", G_CALLBACK (on_cur_changed), this);
 	m_SaveBtn = glade_xml_get_widget (xml, "save");
@@ -133,9 +194,12 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	g_signal_connect (G_OBJECT (m_NameEntry), "activate", G_CALLBACK (on_name_activate), this);
 	g_signal_connect_after (G_OBJECT (m_NameEntry), "focus_out_event", G_CALLBACK (on_name_focus_out), this);
 	m_ValidName = false;
-	w = glade_xml_get_widget (xml, "generic-btn");
-	g_signal_connect (w, "toggled", G_CALLBACK (on_generic_toggled), this);
+	m_GenericBtn = glade_xml_get_widget (xml, "generic-btn");
+	g_signal_connect (m_GenericBtn, "toggled", G_CALLBACK (on_generic_toggled), this);
 	m_Generic = false;
+	m_Residue = NULL;
+	m_Page = 0;
+	g_signal_connect (glade_xml_get_widget (xml, "residue-book"), "change-current-page", G_CALLBACK (on_page_changed), this);
 }
 
 gcpResiduesDlg::~gcpResiduesDlg ()
@@ -144,10 +208,100 @@ gcpResiduesDlg::~gcpResiduesDlg ()
 
 void gcpResiduesDlg::Add ()
 {
+	xmlDocPtr xml;
+	xmlNodePtr node, child;
+	if (!user_residues) {
+		user_residues = xmlNewDoc ((xmlChar*) "1.0");
+		docs.insert (user_residues);
+		xmlDocSetRootElement (user_residues,  xmlNewDocNode (user_residues, NULL, (xmlChar*) "residues", NULL));
+		char* filename = g_strconcat (getenv ("HOME"), "/.gchemutils/residues.xml", NULL);
+		user_residues->URL = xmlStrdup ((xmlChar*) filename);
+		g_free (filename);
+	}
+	char const *name = gtk_entry_get_text (m_NameEntry);
+	if (*name == 0) {
+		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Please, provide a name for the residue")));
+		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
+		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+			gtk_widget_destroy (GTK_WIDGET (box));	
+		return;
+	}
+	gcp::Residue const *r = static_cast<gcp::Residue const *> (gcp::Residue::GetResiduebyName (name));
+	if (r && r != m_Residue) {
+		
+	}
+	char const *symbols = gtk_entry_get_text (m_SymbolEntry);
+	std::istringstream s(symbols);
+	std::list<string> sl;
+	char buf[10];
+	while (!s.eof ()) {
+		s.getline(buf, 10, ';');
+		if (strlen (buf) > 8) {
+			// Symbols longer than 8 chars are not currently allowed
+		} else if (!strcmp (buf, _("New"))) {
+			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("\"New\" is not a valid symbol")));
+			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));	
+			return;
+		} else
+			sl.push_back (buf);
+	}
+	if (sl.size () == 0) {
+	}
+	std::list<string>::reverse_iterator i, iend = sl.rend ();
+	for (i = sl.rbegin (); i != iend; i++) {
+		r = static_cast<gcp::Residue const *> (gcp::Residue::GetResidue ((*i).c_str ()));
+		if (r && r != m_Residue) {
+		}
+	}
+	// If we are there, everything is OK.
+	Remove (); // remove the old version if any
+	m_Residue = new gcp::Residue (name);
+	int n = -1;
+	for (i = sl.rbegin (); i != iend; i++) {
+		m_Residue->AddSymbol ((*i).c_str ());
+		n = insert_symbol (m_CurBox, (*i).c_str ());
+	}
+	node = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "residue", NULL);
+	if (m_Generic)
+		xmlNewProp (node, (xmlChar const *) "generic", (xmlChar const *) "true");
+	m_Residue->SetGeneric (m_Generic);
+	child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "symbols", (xmlChar const *) symbols);
+	xmlAddChild (node, child);
+	child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "name", (xmlChar const *) name);
+	xmlAddChild (node, child);
+	xml = m_Document->BuildXMLTree ();
+	child = xml->children->children;
+	while (strcmp ((char const *) child->name, "molecule"))
+		child = child->next;
+	xmlUnlinkNode (child);
+	xmlAddChild (node, child);
+	xmlAddChild (user_residues->children, node);
+	xmlIndentTreeOutput = true;
+	xmlKeepBlanksDefault (0);
+	xmlSaveFormatFile ((char*) user_residues->URL, user_residues, true);
+	xmlFreeDoc (xml);
+	m_Residue->Load (node, false);
+	gtk_combo_box_set_active (m_CurBox, n);
 }
 
 void gcpResiduesDlg::Remove ()
 {
+	if (m_Residue == NULL)
+		return;
+	gcp::Residue *residue = m_Residue;
+	gtk_combo_box_set_active (m_CurBox, 0);
+	xmlUnlinkNode (residue->GetNode ());
+	xmlFreeNode (residue->GetNode ());
+	set<std::string> const &symbols = residue->GetSymbols ();
+	set<std::string>::iterator i, end = symbols.end ();
+	for (i = symbols.begin (); i != end; i++)
+		delete_symbol (m_CurBox, (*i).c_str ());
+	delete residue;
+	xmlIndentTreeOutput = true;
+	xmlKeepBlanksDefault (0);
+	xmlSaveFormatFile ((char*) user_residues->URL, user_residues, true);
 }
 
 bool gcpResiduesDlg::Close ()
@@ -159,6 +313,18 @@ bool gcpResiduesDlg::Close ()
 bool gcpResiduesDlg::OnKeyPress (GdkEventKey *event)
 {
 	if (m_Page) {
+// Next lines are commented out because they just do not work properly: FIXME if possible
+/*		if (event->state & GDK_CONTROL_MASK) {
+			switch (event->keyval) {
+			case GDK_Z:
+				m_Document->OnRedo ();
+				break;
+			case GDK_z:
+				m_Document->OnUndo ();
+				break;
+			}
+			return false;
+		}*/
 		// Only when editing the residue
 		switch (event->keyval) {
 		case GDK_Delete:
@@ -190,26 +356,60 @@ bool gcpResiduesDlg::OnKeyRelease (GdkEventKey *event)
 	return false;
 }
 
-void gcpResiduesDlg::OnCurChanged (int num)
+void gcpResiduesDlg::OnCurChanged ()
 {
-}
-
-void gcpResiduesDlg::OnSave ()
-{
-	char const *text = gtk_entry_get_text (m_SymbolEntry);
-	char **symbols = g_strsplit (text, ";", 0);
-	char const *name = gtk_entry_get_text (m_NameEntry);
-	gcp::Residue *res = new gcp::Residue (name);
-	char **s = symbols;
-	while (s) {
-		res->AddSymbol (*s);
-		s++;
+	char *symbol = gtk_combo_box_get_active_text (m_CurBox);
+	if (!strcmp (symbol, _("New"))) {
+		m_Residue = NULL;
+		gtk_entry_set_text (m_NameEntry, "");
+		gtk_entry_set_text (m_SymbolEntry, "");
+		gtk_widget_set_sensitive (reinterpret_cast<GtkWidget*> (m_NameEntry), true);
+		gtk_widget_set_sensitive (reinterpret_cast<GtkWidget*> (m_SymbolEntry), true);
+		gtk_widget_set_sensitive (m_SaveBtn, false);
+		gtk_widget_set_sensitive (m_DeleteBtn, false);
+		gtk_widget_set_sensitive (m_GenericBtn, true);
+		m_Document->SetEditable (true);
+		return;
 	}
-	g_strfreev (symbols);
-}
-
-void gcpResiduesDlg::OnDelete ()
-{
+	m_Residue = const_cast <gcp::Residue *> (static_cast<gcp::Residue const*> (Residue::GetResidue (symbol)));
+	if (m_Residue->GetReadOnly ()) {
+		gtk_widget_set_sensitive (reinterpret_cast<GtkWidget*> (m_NameEntry), false);
+		gtk_widget_set_sensitive (reinterpret_cast<GtkWidget*> (m_SymbolEntry), false);
+		gtk_widget_set_sensitive (m_SaveBtn, false);
+		gtk_widget_set_sensitive (m_DeleteBtn, false);
+		gtk_widget_set_sensitive (m_GenericBtn, false);
+		m_Document->SetEditable (false);
+	} else {
+		gtk_widget_set_sensitive (reinterpret_cast<GtkWidget*> (m_NameEntry), true);
+		gtk_widget_set_sensitive (reinterpret_cast<GtkWidget*> (m_SymbolEntry), true);
+		gtk_widget_set_sensitive (m_SaveBtn, true);
+		gtk_widget_set_sensitive (m_DeleteBtn, true);
+		gtk_widget_set_sensitive (m_GenericBtn, true);
+		m_Document->SetEditable (true);
+	}
+	gtk_entry_set_text (m_NameEntry, m_Residue->GetName ());
+	set<std::string> const &symbols = m_Residue->GetSymbols ();
+	set<std::string>::iterator i = symbols.begin (), end = symbols.end ();
+	string sy;
+	if (i != symbols.end ())
+		sy = *i;
+	for (i++; i != end; i++)
+		sy += string(";") + *i;
+	gtk_entry_set_text (m_SymbolEntry, sy.c_str ());	
+	m_Document->Clear ();
+	m_Document->LoadObjects (m_Residue->GetMolNode ());
+	double r =  m_Document->GetMedianBondLength () / m_Document->GetTheme ()->GetBondLength ();
+	if (fabs (r - 1.) > .0001) { 
+		Matrix2D m (r, 0., 0., r);
+		m_Document->Transform2D (m, 0., 0.);
+		m_Document->GetView ()->Update (m_Document);
+	}
+	m_Atom = dynamic_cast <gcpPseudoAtom *> (m_Document->GetDescendant ("a1"));
+	map<gcu::Atom*, gcu::Bond*>::iterator j;
+	m_Atom->GetFirstBond (j);
+	static_cast <gcp::Atom *>((*j).first)->Lock ();
+	static_cast <gcp::Bond *>((*j).second)->Lock ();
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m_GenericBtn), m_Residue->GetGeneric ());
 }
 
 void gcpResiduesDlg::OnSymbolActivate ()

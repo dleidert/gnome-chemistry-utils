@@ -36,6 +36,7 @@ using namespace gcu;
 namespace gcp {
 class Application;
 class Document;
+class Residue;
 }
 
 class gcpResiduesDlg: public Dialog, public gcp::Target
@@ -50,18 +51,17 @@ public:
 
 	bool OnKeyPress (GdkEventKey *event);
 	bool OnKeyRelease (GdkEventKey *event);
-	void OnCurChanged (int num);
-	void OnSave ();
-	void OnDelete ();
+	void OnCurChanged ();
 	void OnSymbolActivate ();
 	void OnNameActivate ();
 
 private:
 	gcpPseudoAtom *m_Atom;
 	GtkComboBox *m_CurBox;
-	GtkWidget *m_SaveBtn, *m_DeleteBtn;
+	GtkWidget *m_SaveBtn, *m_DeleteBtn, *m_GenericBtn;
 	GtkEntry *m_SymbolEntry, *m_NameEntry;
 	bool m_ValidName, m_ValidSymbols;
+	gcp::Residue *m_Residue;
 
 GCU_PROP (int, Page);
 GCU_PROP (bool, Generic);

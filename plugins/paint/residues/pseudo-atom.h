@@ -39,9 +39,9 @@ public:
 	void Update ();
 	void Add (GtkWidget* w);
 	void Update (GtkWidget* w);
+	virtual bool Load (xmlNodePtr);
 	xmlNodePtr Save (xmlDocPtr xml);
-	bool Load (xmlNodePtr);
-	virtual bool LoadNode (xmlNodePtr);
+	bool LoadNode (xmlNodePtr);
 	void SetSelected (GtkWidget* w, int state);
 	bool AcceptNewBonds (int nb = 1) {return false;}
 	bool AcceptCharge (int charge) {return false;}

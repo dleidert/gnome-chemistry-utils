@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2007-08-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	database/Makefile.am: add residues database.
+	database/residues.xml.in: new residues database. 
+	libs/gcp/application.cc: fix help file name.
+	libs/gcp/document.cc: implement Document::Clear, fix a
+	memory leak and some potential crashers.
+	libs/gcp/document.h: add Document::Clear.
+	libs/gcp/residue.cc: more work on residues.
+	libs/gcp/residue.h: ditto.
+	libs/gcu/residue.cc: ditto.
+	libs/gcu/residue.h: ditto.
+	plugins/paint/residues/Makefile.am: ditto.
+	plugins/paint/residues/plugin.cc: ditto.
+	plugins/paint/residues/plugin.h: ditto.
+	plugins/paint/residues/pseudo-atom.cc: ditto.
+	plugins/paint/residues/pseudo-atom.h: ditto.
+	plugins/paint/residues/residues-dlg.cc: ditto.
+	plugins/paint/residues/residues-dlg.h: ditto.
+	plugins/paint/residues/residues.glade: ditto.
+
 2007-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: don't duplicate NULL strings.
 	* libs/gcu/crystaldoc.cc: fix various space groups support

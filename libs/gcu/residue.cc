@@ -26,6 +26,8 @@
 #include "residue.h"
 #include <glib.h>
 #include <map>
+#include <iostream>
+#include <sstream>
 #include <string>
 
 namespace gcu {
@@ -45,9 +47,8 @@ ResiduesTable::ResiduesTable ()
 
 ResiduesTable::~ResiduesTable ()
 {
-	map<string, Residue*>::iterator i, end = rtbn.end  ();
-	for (i = rtbn.begin (); i != end; i++)
-		delete (*i).second;
+	while (!rtbn.empty ())
+		delete (*rtbn.begin ()).second;
 }
 
 static ResiduesTable tbl;
@@ -65,6 +66,11 @@ Residue::Residue (char const *name)
 
 Residue::~Residue ()
 {
+	if (m_Name)
+		tbl.rtbn.erase (m_Name);
+	std::set<std::string>::iterator i, end = m_Symbols.end ();
+	for (i = m_Symbols.begin (); i != end ; i++)
+		tbl.rtbs.erase (*i);
 	g_free (const_cast<char*> (m_Name));
 }
 
@@ -92,6 +98,69 @@ void Residue::RemoveSymbol (char const *symbol)
 
 void Residue::Load (xmlNodePtr node)
 {
+	static char *lang = getenv ("LANG");
+	if (m_Name)
+		return;
+	char *generic = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("generic"))); 
+	if (generic) {
+		if (!strcmp (generic, "true"))
+			m_Generic = true;
+		xmlFree (generic);
+	}
+	xmlNodePtr child = node->children;
+	char *name = NULL, *node_lang, *symbols;
+	bool lang_matched = false;
+	while (child) {
+		if (!strcmp (reinterpret_cast <char const *> (child->name), "name")) {
+			node_lang = (char*) xmlNodeGetLang (child);
+			if (node_lang) {
+				if (lang) {
+					if (!strcmp (lang, node_lang) || (!lang_matched && !strncmp (lang, node_lang, 2))) {
+						if (name)
+							xmlFree (name);
+						name = reinterpret_cast <char *> (xmlNodeGetContent (child));
+						lang_matched = true;
+					}
+				}
+				xmlFree (node_lang);
+			} else if (!lang_matched) {
+				if (name)
+					xmlFree (name);
+				name = reinterpret_cast <char *> (xmlNodeGetContent (child));
+			}
+		} else if (!strcmp (reinterpret_cast <char const *> (child->name), "symbols")) {
+			symbols = reinterpret_cast <char *> (xmlNodeGetContent (child));
+			std::istringstream s(symbols);
+			char buf[10];
+			while (!s.eof ()) {
+				s.getline(buf, 10, ',');
+				if (strlen (buf) > 8) {
+					// Symbols longer than 8 chars are not currently allowed
+					delete this;
+					return;
+				} else {
+					if (GetResidue (buf) != NULL) {
+						cerr << "A residue with symbol \"" << buf << "\" already exists" << endl;
+						delete this;
+						return;
+					}
+					AddSymbol (buf);
+				}
+			}
+			xmlFree (symbols);
+		}
+		child = child->next;
+	}
+	if (name) {
+		if (GetResiduebyName (name) != NULL) {
+			cerr << "A residue named \"" << name << "\" already exists" << endl;
+			delete this;
+			return;
+		}
+		SetName (name);
+		xmlFree (name);
+	} else
+		delete this;
 }
 
 Residue const *Residue::GetResidue (char const *symbol)
@@ -104,6 +173,18 @@ Residue const *Residue::GetResiduebyName (char const *name)
 {
 	map<string, Residue*>::iterator i = tbl.rtbn.find (name);
 	return (i != tbl.rtbn.end ())?  (*i).second: NULL;
+}
+
+string const *Residue::GetFirstResidueSymbol (ResidueIterator &i)
+{
+	i = tbl.rtbs.begin ();
+	return (i == tbl.rtbs.end ())? NULL: &(*i).first;
+}
+
+string const *Residue::GetNextResidueSymbol (ResidueIterator &i)
+{
+	i++;
+	return (i == tbl.rtbs.end ())? NULL: &(*i).first;
 }
 
 }	//	namespace gcu

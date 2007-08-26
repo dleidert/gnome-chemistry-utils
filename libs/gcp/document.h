@@ -68,6 +68,7 @@ public:
 	
 	//Interface
 public:
+	void Clear ();
 	GtkWidget* GetWidget ();
 	View* GetView () {return m_pView;}
 	void BuildBondList (list<Bond*>& BondList, Object* obj);

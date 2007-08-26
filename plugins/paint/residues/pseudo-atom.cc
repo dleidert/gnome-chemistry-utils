@@ -28,6 +28,7 @@
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcu/xml-utils.h>
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
 
@@ -101,11 +102,32 @@ void gcpPseudoAtom::Update (GtkWidget* w)
 
 xmlNodePtr gcpPseudoAtom::Save (xmlDocPtr xml)
 {
-	return NULL;
+	xmlNodePtr parent;
+	parent = xmlNewDocNode (xml, NULL, (xmlChar*) "pseudo-atom", NULL);
+	if (!parent)
+		return NULL;
+	SaveId (parent);
+
+	if (!WritePosition (xml, parent, NULL, m_x, m_y, m_z)) {
+		xmlFreeNode (parent);
+		return NULL;
+	}
+
+	return parent;
 }
 
-bool gcpPseudoAtom::Load (xmlNodePtr)
+bool gcpPseudoAtom::Load (xmlNodePtr node)
 {
+	char* tmp;
+	tmp = (char*) xmlGetProp (node, (xmlChar*) "id");
+	if (tmp) {
+		SetId (tmp);
+		xmlFree (tmp);
+		if (strcmp (GetId(), "a1"))
+			return false;
+	}
+	if (!ReadPosition (node, NULL, &m_x, &m_y, &m_z))
+		return false;
 	return true;
 }
 

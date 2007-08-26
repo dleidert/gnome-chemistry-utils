@@ -97,29 +97,7 @@ Document::Document (Application *App, bool StandAlone, Window *window):
 
 Document::~Document ()
 {
-	m_bIsLoading = true;
-	if (m_pCurOp)
-		delete m_pCurOp;
-	m_pCurOp = NULL;
-	if (m_filename)
-		g_free (m_filename);
-	if (m_title)
-		g_free (m_title);
-	if (m_label)
-		g_free (m_label);
-	if (m_author)
-		g_free (m_author);
-	if (m_mail)
-		g_free (m_mail);
-	if (m_comment)
-		g_free (m_comment);
-	map<string, Object *>::iterator it;
-	Object *obj;
-	while (HasChildren ()) {
-		obj = GetFirstChild (it);
-		obj->Lock ();
-		Remove (obj);
-	}
+	Clear ();
 	if (m_pView)
 		delete m_pView;
 	pango_attr_list_unref (m_PangoAttrList);
@@ -127,6 +105,41 @@ Document::~Document ()
 		m_Theme->RemoveClient (this);
 	if (m_App)
 		static_cast<Application*> (m_App)->SetActiveDocument (NULL);
+}
+
+void Document::Clear ()
+{
+	m_bIsLoading = true;
+	if (m_pCurOp)
+		delete m_pCurOp;
+	m_pCurOp = NULL;
+	g_free (m_filename);
+	m_filename = NULL;
+	g_free (m_title);
+	m_title = NULL;
+	g_free (m_label);
+	m_label = NULL;
+	g_free (m_author);
+	m_author = NULL;
+	g_free (m_mail);
+	m_mail = NULL;
+	g_free (m_comment);
+	m_comment = NULL;
+	map<string, Object *>::iterator it;
+	Object *obj;
+	while (HasChildren ()) {
+		obj = GetFirstChild (it);
+		obj->Lock ();
+		Remove (obj);
+	}
+	while (!m_RedoList.empty ()) {
+		delete m_RedoList.front ();
+		m_RedoList.pop_front ();
+	}
+	while (!m_UndoList.empty ()) {
+		delete m_UndoList.front ();
+		m_UndoList.pop_front ();
+	}
 }
 
 GtkWidget* Document::GetWidget ()
@@ -970,11 +983,14 @@ void Document::OnUndo ()
 		Op->Undo ();
 		m_UndoList.pop_front ();
 		m_RedoList.push_front (Op);
-		m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Redo", true);
+		if (m_Window)
+			m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Redo", true);
 	}
-	if (m_UndoList.empty ())
-		m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Undo", false);
-	m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
+	if (m_Window) {
+		if (m_UndoList.empty ())
+			m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Undo", false);
+		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
+	}
 	m_bUndoRedo = false;
 	Update ();
 	EmptyTranslationTable ();
@@ -991,11 +1007,14 @@ void Document::OnRedo ()
 		Op->Redo ();
 		m_RedoList.pop_front ();
 		m_UndoList.push_front (Op);
-		m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Undo", true);
+		if (m_Window)
+	m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Undo", true);
 	}
-	if (m_RedoList.empty ())
-		m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Redo", false);
-	m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
+	if (m_Window) {
+		if (m_RedoList.empty ())
+			m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Redo", false);
+		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
+	}
 	m_bUndoRedo = false;
 	EmptyTranslationTable ();
 	SetDirty (m_LastStackSize != m_UndoList.size () || (m_LastStackSize > 0 && m_OpID != m_UndoList.front ()->GetID ()));

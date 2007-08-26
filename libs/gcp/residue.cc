@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "residue.h"
+#include <iostream>
 
 namespace gcp
 {
@@ -44,6 +45,15 @@ void Residue::Load (xmlNodePtr node, bool ro)
 {
 	m_ReadOnly = ro;
 	m_Node = node;
+	m_MolNode = node->children;
+	while (m_MolNode && strcmp ((char const *) m_MolNode->name, "molecule"))
+		   m_MolNode = m_MolNode->next;
+	if (!m_MolNode) {
+		cerr << "Invalid residue" << endl;
+		delete this;
+		return;
+	}
+	gcu::Residue::Load (node);
 }
 
 }	//	namespace gcp

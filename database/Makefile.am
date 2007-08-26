@@ -10,7 +10,8 @@ xml_in_files = \
 	elements.xml.in \
 	elecprops.xml.in \
 	isotopes.xml.in \
-	radii.xml.in
+	radii.xml.in \
+	residues.xml.in
 
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 

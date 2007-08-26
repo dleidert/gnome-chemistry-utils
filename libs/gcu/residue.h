@@ -35,6 +35,10 @@ using namespace std;
 
 namespace gcu {
 
+class Residue;
+
+typedef std::map<std::string, Residue*>::iterator ResidueIterator;
+
 class Residue
 {
 public:
@@ -50,6 +54,8 @@ public:
 	virtual void Load (xmlNodePtr node);
 	static Residue const *GetResidue (char const *symbol);
 	static Residue const *GetResiduebyName (char const *name);
+	static std::string const *GetFirstResidueSymbol (ResidueIterator &i);
+	static std::string const *GetNextResidueSymbol (ResidueIterator &i);
 
 private:
 	std::map<int,int> m_Raw;

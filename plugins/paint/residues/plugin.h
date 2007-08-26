@@ -26,6 +26,7 @@
 #define GCHEMPAINT_RESIDUES_PLUGIN_H
 
 #include <gcp/plugin.h>
+#include <libxml/tree.h>
 
 class gcp::Application;
 
@@ -37,6 +38,9 @@ public:
 
 	void Populate (gcp::Application* App);
 	void OpenDialog ();
+
+private:
+	void ParseNodes (xmlNodePtr node, bool writeable);
 
 private:
 	gcp::Application *m_App;

@@ -41,8 +41,9 @@ public:
 	virtual void Load (xmlNodePtr node, bool ro);
 
 private:
-	xmlNodePtr m_Node;
 GCU_RO_PROP (bool, ReadOnly);
+GCU_RO_PROP (xmlNodePtr, Node);
+GCU_RO_PROP (xmlNodePtr, MolNode);
 };
 
 }	//	namespace gcp

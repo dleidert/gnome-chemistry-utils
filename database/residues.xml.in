@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<residues>
+  <residue generic="true">
+    <symbols>R</symbols>
+    <_name>Alkyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+    </molecule>
+  </residue>
+  <residue generic="true">
+    <symbols>Ar</symbols>
+    <_name>Aryl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="374" y="478,756"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="444" y="600"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="374" y="721,244"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="234" y="721,244"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a3" end="a2"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b4" order="2" begin="a5" end="a4"/>
+      <bond id="b5" order="1" begin="a5" end="a6"/>
+      <bond id="b6" order="2" begin="a7" end="a6"/>
+      <bond id="b7" order="1" begin="a7" end="a2"/>
+    </molecule>
+  </residue>
+</residues>

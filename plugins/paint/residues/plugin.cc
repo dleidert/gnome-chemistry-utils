@@ -27,9 +27,13 @@
 #include "residues-dlg.h"
 #include "pseudo-atom.h"
 #include <gcp/application.h>
+#include <gcp/residue.h>
 #include <glib/gi18n-lib.h>
+#include <sys/stat.h>
 
 gcpResiduesPlugin plugin;
+extern xmlDocPtr user_residues;
+extern set<xmlDocPtr> docs;
 
 static Object* CreatePseudoAtom ()
 {
@@ -39,10 +43,42 @@ static Object* CreatePseudoAtom ()
 gcpResiduesPlugin::gcpResiduesPlugin (): gcp::Plugin ()
 {
 	PseudoAtomType = Object::AddType ("pseudo-atom", CreatePseudoAtom);
+	xmlDocPtr doc;
+	xmlNodePtr node;
+	char *name;
+	xmlIndentTreeOutput = true;
+	xmlKeepBlanksDefault (0);
+	doc = xmlParseFile (PKGDATADIR"/residues.xml");
+	if (doc) {
+		docs.insert (doc);
+		node = doc->children;
+		if (!strcmp ((char*)node->name, "residues"))
+			ParseNodes (node->children, false);
+	}
+	char* gcupath = g_strconcat (getenv ("HOME"), "/.gchemutils", NULL);
+	GDir* dir = g_dir_open (gcupath, 0, NULL);
+	if (dir)
+		g_dir_close (dir);
+	else
+		mkdir (gcupath, 0x1ed);
+	g_free (gcupath) ;
+	name = g_strconcat (getenv ("HOME"), "/.gchemutils/residues.xml", NULL);
+	if (g_file_test (name, G_FILE_TEST_EXISTS) && (doc = xmlParseFile (name))) {
+		docs.insert (doc);
+		user_residues = doc;
+		node = doc->children;
+		if (!strcmp ((char*)node->name, "residues"))
+			ParseNodes (node->children, true);
+	}
+	g_free (name);
 }
 
 gcpResiduesPlugin::~gcpResiduesPlugin ()
 {
+	set<xmlDocPtr>::iterator i, iend = docs.end ();
+	for (i = docs.begin (); i != iend; i++)
+		xmlFreeDoc (*i);
+	docs.clear ();
 }
 
 void on_edit_residues ()
@@ -97,4 +133,16 @@ void gcpResiduesPlugin::OpenDialog ()
 		gtk_window_present (dlg->GetWindow ());
 	else 
 		new gcpResiduesDlg (m_App);
+}
+
+void gcpResiduesPlugin::ParseNodes (xmlNodePtr node, bool writeable)
+{
+	gcp::Residue* r;
+	while (node) {
+		if (!strcmp ((char*) node->name, "residue")) {
+			r = new gcp::Residue ();
+			r->Load (node, !writeable);
+		}
+		node = node->next;
+	}
 }
