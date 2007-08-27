@@ -742,8 +742,8 @@ bool CrystalDoc::ImportOB (OBMol &mol)
 	m_alpha = cell ->GetAlpha ();
 	m_beta = cell->GetBeta ();
 	m_gamma = cell->GetGamma ();
-	string const group_name = cell->GetSpaceGroup ();
-	m_SpaceGroup = SpaceGroup::GetSpaceGroup (group_name);
+	string const group_name = cell->GetSpaceGroupName ();
+	m_SpaceGroup = cell->GetSpaceGroup ();
     if (!m_SpaceGroup)
 		return false;
 	int lattice = cell->GetLatticeType ();

@@ -77,8 +77,8 @@ gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 
 gcDocument::~gcDocument()
 {
-	if (m_filename != NULL) g_free(m_filename);
-	if (m_title) g_free(m_title);
+	g_free(m_filename);
+	g_free(m_title);
 	Reinit();
 	Dialog *dialog;
 	while (!m_Dialogs.empty())

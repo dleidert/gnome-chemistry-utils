@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-08-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystaldoc.cc: update openbabel related code.
+	* programs/crystal/document.cc: ditto.
+
 2007-08-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	database/Makefile.am: add residues database.
 	database/residues.xml.in: new residues database. 
