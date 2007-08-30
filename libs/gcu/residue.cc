@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "element.h"
 #include "residue.h"
 #include <glib.h>
 #include <map>
@@ -37,7 +38,7 @@ public:
 	ResiduesTable ();
 	~ResiduesTable ();
 
-	map<string, Residue*> rtbs; // indexed by symbols
+	map<string, SymbolResidue> rtbs; // indexed by symbols
 	map<string, Residue*> rtbn; // indexed by name
 };
 
@@ -87,7 +88,8 @@ void Residue::SetName (char const *name)
 void Residue::AddSymbol (char const *symbol)
 {
 	m_Symbols.insert (symbol);
-	tbl.rtbs[symbol] = this;
+	tbl.rtbs[symbol].res = this;
+	tbl.rtbs[symbol].ambiguous = (Element::Z (symbol) > 0);
 }
 
 void Residue::RemoveSymbol (char const *symbol)
@@ -101,11 +103,26 @@ void Residue::Load (xmlNodePtr node)
 	static char *lang = getenv ("LANG");
 	if (m_Name)
 		return;
-	char *generic = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("generic"))); 
-	if (generic) {
-		if (!strcmp (generic, "true"))
+	char *buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("generic"))); 
+	if (buf) {
+		if (!strcmp (buf, "true"))
 			m_Generic = true;
-		xmlFree (generic);
+		xmlFree (buf);
+	}
+	buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("raw"))); 
+	if (buf) {
+		int i = 0, j = 1, n, z = strlen (buf);
+		char *end;
+		while (i < z) {
+			while (buf[j] > '9')
+				j++;
+			n = strtol (buf + j, &end, 10);
+			buf[j] = 0;
+			m_Raw[Element::Z (buf + i)] = n;
+			i = end - buf;
+			j = i + 1;
+		}
+		xmlFree (buf);
 	}
 	xmlNodePtr child = node->children;
 	char *name = NULL, *node_lang, *symbols;
@@ -133,9 +150,10 @@ void Residue::Load (xmlNodePtr node)
 			std::istringstream s(symbols);
 			char buf[10];
 			while (!s.eof ()) {
-				s.getline(buf, 10, ',');
+				s.getline(buf, 10, ';');
 				if (strlen (buf) > 8) {
 					// Symbols longer than 8 chars are not currently allowed
+						cerr << "Symbol \"" << buf << "\" has more than eight characters and is not allowed" << endl;
 					delete this;
 					return;
 				} else {
@@ -163,10 +181,15 @@ void Residue::Load (xmlNodePtr node)
 		delete this;
 }
 
-Residue const *Residue::GetResidue (char const *symbol)
+Residue const *Residue::GetResidue (char const *symbol, bool *ambiguous)
 {
-	map<string, Residue*>::iterator i = tbl.rtbs.find (symbol);
-	return (i != tbl.rtbs.end ())? (*i).second: NULL;
+	map<string, SymbolResidue>::iterator i = tbl.rtbs.find (symbol);
+	if (i != tbl.rtbs.end ()) {
+		if (ambiguous)
+			*ambiguous = (*i).second.ambiguous;
+		return (*i).second.res;
+	} else
+		return NULL;
 }
 
 Residue const *Residue::GetResiduebyName (char const *name)

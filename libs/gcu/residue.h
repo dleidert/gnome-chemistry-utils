@@ -37,7 +37,13 @@ namespace gcu {
 
 class Residue;
 
-typedef std::map<std::string, Residue*>::iterator ResidueIterator;
+
+typedef struct {
+	Residue *res;
+	bool ambiguous;
+} SymbolResidue;
+
+typedef std::map<std::string, SymbolResidue>::iterator ResidueIterator;
 
 class Residue
 {
@@ -52,7 +58,7 @@ public:
 	void AddSymbol (char const *symbol);
 	void RemoveSymbol (char const *symbol);
 	virtual void Load (xmlNodePtr node);
-	static Residue const *GetResidue (char const *symbol);
+	static Residue const *GetResidue (char const *symbol, bool *ambiguous = NULL);
 	static Residue const *GetResiduebyName (char const *name);
 	static std::string const *GetFirstResidueSymbol (ResidueIterator &i);
 	static std::string const *GetNextResidueSymbol (ResidueIterator &i);
@@ -63,6 +69,7 @@ private:
 
 GCU_RO_PROP (char const *, Name)
 GCU_PROP (bool, Generic)
+GCU_RO_PROP (bool, Ambiguous);
 };
 
 }	//	namespace gcu

@@ -29,6 +29,7 @@
 #include <gcu/application.h>
 #include <gcu/element.h>
 #include <gcu/formula.h>
+#include <gcu/residue.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gtk/gtkmain.h>
@@ -62,6 +63,7 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <libgnomevfs/gnome-vfs.h>
+#include <libxml/tree.h>
 #include <cmath>
 #include <iostream>
 
@@ -81,11 +83,42 @@ public:
 	GogPlot *plot;
 	GogSeries *series;
 	GtkListStore *pclist;
+
+private:
+	void ParseNodes (xmlNodePtr node);
 };
 
 GChemCalc::GChemCalc (): Application ("gchemcalc-unstable"),
 formula ("")
 {
+	// Load residues
+	xmlDocPtr doc;
+	char *name;
+	doc = xmlParseFile (PKGDATADIR"/residues.xml");
+	if (doc) {
+		if (!strcmp ((char*) doc->children->name, "residues"))
+			ParseNodes (doc->children->children);
+		xmlFreeDoc (doc);
+	}
+	name = g_strconcat (getenv ("HOME"), "/.gchemutils/residues.xml", NULL);
+	if (g_file_test (name, G_FILE_TEST_EXISTS) && (doc = xmlParseFile (name))) {
+		if (!strcmp ((char*) doc->children->name, "residues"))
+			ParseNodes (doc->children->children);
+		xmlFreeDoc (doc);
+	}
+	g_free (name);
+}
+
+void GChemCalc::ParseNodes (xmlNodePtr node)
+{
+	Residue* r;
+	while (node) {
+		if (!strcmp ((char*) node->name, "residue")) {
+			r = new Residue ();
+			r->Load (node);
+		}
+		node = node->next;
+	}
 }
 
 GChemCalc *App;
