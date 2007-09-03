@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-09-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/Makefile.am: fix use of --disable-schemas-install
+	[#20943].
+
 2007-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.8.3).
 	* gcu/application.cc: never try using nautilus as an

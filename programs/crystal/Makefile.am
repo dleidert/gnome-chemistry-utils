@@ -67,5 +67,17 @@ kde_mime_desktopdir = $(KDEMIMEDIR)/application
 endif #WITH_KDE_MIME
 
 install-data-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
 	      GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
-	      $(GCONFTOOL) --makefile-install-rule gcrystal.schemas
+	     	 $(GCONFTOOL) --makefile-install-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL
+
+uninstall-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL
