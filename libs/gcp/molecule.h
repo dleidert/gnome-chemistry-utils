@@ -67,6 +67,7 @@ public:
 	void OpenCalc ();
 	void CheckCrossings (Bond *pBond);
 	char const *GetInChI ();
+	std::string GetRawFormula ();
 
 private:
 	list<Cycle*> m_Cycles;

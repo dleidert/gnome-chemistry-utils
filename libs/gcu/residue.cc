@@ -55,11 +55,13 @@ ResiduesTable::~ResiduesTable ()
 static ResiduesTable tbl;
 
 Residue::Residue ():
-	m_Name (NULL)
+	m_Name (NULL),
+	m_Generic (false)
 {
 }
 
-Residue::Residue (char const *name)
+Residue::Residue (char const *name):
+	m_Generic (false)
 {
 	m_Name = g_strdup (name);
 	tbl.rtbn[name] = this;

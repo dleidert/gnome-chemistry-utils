@@ -366,6 +366,21 @@ bool Molecule::Load (xmlNodePtr node)
 		AddAtom ((Atom*) pObject);
 		child = GetNextNodeByName (child->next, "atom");
 	}
+	// FIXME, the following looks like a kludge
+	child = GetNodeByName (node, "pseudo-atom");
+	while (child) {
+		pObject = CreateObject ("pseudo-atom", pDoc);
+		if (pDoc)
+			AddChild (pObject);
+		if (!pObject->Load (child)) {
+			delete pObject;
+			return false;
+		}
+		if (pDoc)
+			pDoc->AddAtom ((Atom*) pObject);
+		AddAtom ((Atom*) pObject);
+		child = GetNextNodeByName (child->next, "pseudo-atom");
+	}
 	
 	child = GetNodeByName (node, "fragment");
 	while (child) {
@@ -851,6 +866,36 @@ char const *Molecule::GetInChI ()
 	if (m_Changed)
 		BuildInChI ();
 	return m_InChI.c_str ();
+}
+
+std::string Molecule::GetRawFormula ()
+{
+	ostringstream ofs;
+
+	if (!m_Fragments.size ()) {
+		// we do not support fragmentsat the moment
+		map<string, int> elts;
+		list<Atom*>::iterator ia, enda = m_Atoms.end ();
+		for (ia = m_Atoms.begin(); ia != enda; ia++) {
+			if ((*ia)->GetZ () == 0)
+				continue;
+			elts[(*ia)->GetSymbol ()]++;
+			elts["H"] += (*ia)->GetAttachedHydrogens ();
+		}
+		if (elts["C"] > 0) {
+			ofs << "C" << elts["C"];
+			elts.erase ("C");
+		}
+		if (elts["H"] > 0) {
+			ofs << "H" << elts["H"];
+			elts.erase ("H");
+		}
+		map<string, int>::iterator is, isend = elts.end ();
+		for (is = elts.begin (); is != isend; is++)
+			ofs << (*is).first << (*is).second;
+	}
+
+	return ofs.str ();
 }
 
 }	//	namespace gcp

@@ -574,7 +574,7 @@ void Application::SaveWithBabel (string const &filename, const gchar *mime_type,
 
 void Application::OpenWithBabel (string const &filename, const gchar *mime_type, Document* pDoc)
 {
-	char *old_num_locale;
+	string old_num_locale;
 	bool bNew = (pDoc == NULL || (!pDoc->GetEmpty () && ! pDoc->GetDirty ())), local;
 	GnomeVFSFileInfo *info = NULL;
 	bool result = false, read_only = false;
@@ -598,7 +598,7 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 			gnome_vfs_uri_unref (uri);
 			if (ifs.fail ())
 				throw (int) 1;
-			old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+			old_num_locale = setlocale (LC_NUMERIC, NULL);
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
@@ -612,8 +612,7 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 				if (!result)
 					break;
 			}
-			setlocale (LC_NUMERIC, old_num_locale);
-			g_free (old_num_locale);
+			setlocale (LC_NUMERIC, old_num_locale.c_str ());
 			ifs.close ();
 		} else {
 			char *buf;
@@ -621,7 +620,7 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 			if (gnome_vfs_read_entire_file (filename.c_str (), &size, &buf) != GNOME_VFS_OK)
 				throw 1;
 			istringstream iss (buf);
-			old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+			old_num_locale = setlocale (LC_NUMERIC, NULL);
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
@@ -635,8 +634,7 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 				if (!result)
 					break;
 			}
-			setlocale (LC_NUMERIC, old_num_locale);
-			g_free (old_num_locale);
+			setlocale (LC_NUMERIC, old_num_locale.c_str ());
 			g_free (buf);
 		}
 		if (!result)

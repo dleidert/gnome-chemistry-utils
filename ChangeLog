@@ -1,42 +1,57 @@
 ##Text encoding: utf-8
 
+2007-09-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/residues.xml.in: add new residues.
+	* libs/gcp/application.cc: use a std::string for old_locale.
+	* libs/gcp/document.cc: allow clipbloard disabling for residues
+	dialog box.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/molecule.cc: add Molecule::GetRawFormula and fix
+	residue loading.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/view.cc: don't copy if document does not support clipboard.
+	* libs/gcp/widgetdata.cc: don't attempt to move an empty selection.
+	* libs/gcu/bond.cc: use dynamic_cast to identify atoms.
+	* libs/gcu/residue.cc: initialize m_Generic.
+	* plugins/paint/residues/residues-dlg.cc: fix various issues.
+
 2007-09-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/Makefile.am: fix use of --disable-schemas-install
 	[#20943].
 
 2007-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
-	libs/gcu/residue.cc: add an bool to check if symbol is
+	* libs/gcu/residue.cc: add an bool to check if symbol is
 	ambiguous (if an element has the same symbol).
-	libs/gcu/residue.h: ditto.
-	program/calc/Makefile.am: remove residue.*.
-	program/calc/gchemcalc.cc: load the residues database.
-	program/calc/residue.cc: removed since everything is needed
+	* libs/gcu/residue.h: ditto.
+	* program/calc/Makefile.am: remove residue.*.
+	* program/calc/gchemcalc.cc: load the residues database.
+	* program/calc/residue.cc: removed since everything is needed
 	by gcu::Formula and pertains to libgcu.
-	program/calc/residue.h: ditto.
+	* program/calc/residue.h: ditto.
 
 2007-08-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystaldoc.cc: update openbabel related code.
 	* programs/crystal/document.cc: ditto.
 
 2007-08-26  Jean Bréfort  <jean.brefort@normalesup.org>
-	database/Makefile.am: add residues database.
-	database/residues.xml.in: new residues database. 
-	libs/gcp/application.cc: fix help file name.
-	libs/gcp/document.cc: implement Document::Clear, fix a
+	* database/Makefile.am: add residues database.
+	* database/residues.xml.in: new residues database. 
+	* libs/gcp/application.cc: fix help file name.
+	* libs/gcp/document.cc: implement Document::Clear, fix a
 	memory leak and some potential crashers.
-	libs/gcp/document.h: add Document::Clear.
-	libs/gcp/residue.cc: more work on residues.
-	libs/gcp/residue.h: ditto.
-	libs/gcu/residue.cc: ditto.
-	libs/gcu/residue.h: ditto.
-	plugins/paint/residues/Makefile.am: ditto.
-	plugins/paint/residues/plugin.cc: ditto.
-	plugins/paint/residues/plugin.h: ditto.
-	plugins/paint/residues/pseudo-atom.cc: ditto.
-	plugins/paint/residues/pseudo-atom.h: ditto.
-	plugins/paint/residues/residues-dlg.cc: ditto.
-	plugins/paint/residues/residues-dlg.h: ditto.
-	plugins/paint/residues/residues.glade: ditto.
+	* libs/gcp/document.h: add Document::Clear.
+	* libs/gcp/residue.cc: more work on residues.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcu/residue.cc: ditto.
+	* libs/gcu/residue.h: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/residues/plugin.cc: ditto.
+	* plugins/paint/residues/plugin.h: ditto.
+	* plugins/paint/residues/pseudo-atom.cc: ditto.
+	* plugins/paint/residues/pseudo-atom.h: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/residues/residues-dlg.h: ditto.
+	* plugins/paint/residues/residues.glade: ditto.
 
 2007-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: don't duplicate NULL strings.

@@ -166,6 +166,7 @@ GCU_PROP (PangoVariant, TextFontVariant)
 GCU_PROP (PangoStretch, TextFontStretch)
 GCU_PROP (gint, TextFontSize)
 GCU_RO_PROP (PangoAttrList*, PangoAttrList)
+GCU_PROP (bool, AllowClipboard)
 };
 
 extern list<Document*> Docs;

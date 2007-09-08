@@ -117,7 +117,7 @@ static int insert_symbol (GtkComboBox *box, char const *str)
 			gtk_tree_model_get (model, &iter, 0, &text, -1);
 		else {
 			gtk_combo_box_append_text (box, str);
-			return i;
+			return i + 1;
 		}
 		i++;
 	}
@@ -149,6 +149,7 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	gcp::Target (App)
 {
 	m_Document = new gcp::Document (App, true, NULL);
+	m_Document->SetAllowClipboard (false);
 	GtkWidget *w = m_Document->GetView ()->CreateNewWidget ();
 	GtkScrolledWindow* scroll = (GtkScrolledWindow*) gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -210,6 +211,13 @@ void gcpResiduesDlg::Add ()
 {
 	xmlDocPtr xml;
 	xmlNodePtr node, child;
+	if (m_Document->GetChildrenNumber () != 1) {
+		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Please, provide only one molecule.")));
+		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
+		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+			gtk_widget_destroy (GTK_WIDGET (box));	
+		return;
+	}
 	if (!user_residues) {
 		user_residues = xmlNewDoc ((xmlChar*) "1.0");
 		docs.insert (user_residues);
@@ -238,6 +246,11 @@ void gcpResiduesDlg::Add ()
 		s.getline(buf, 10, ';');
 		if (strlen (buf) > 8) {
 			// Symbols longer than 8 chars are not currently allowed
+		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Symbols with more than eight characters are not allowed.")));
+		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
+		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+			gtk_widget_destroy (GTK_WIDGET (box));	
+		return;
 		} else if (!strcmp (buf, _("New"))) {
 			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("\"New\" is not a valid symbol")));
 			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
@@ -248,16 +261,38 @@ void gcpResiduesDlg::Add ()
 			sl.push_back (buf);
 	}
 	if (sl.size () == 0) {
+		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Please provide at least one symbol")));
+		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
+		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+			gtk_widget_destroy (GTK_WIDGET (box));	
+		return;
 	}
 	std::list<string>::reverse_iterator i, iend = sl.rend ();
 	for (i = sl.rbegin (); i != iend; i++) {
 		r = static_cast<gcp::Residue const *> (gcp::Residue::GetResidue ((*i).c_str ()));
 		if (r && r != m_Residue) {
+			char *mess = g_strdup_printf (_("%s is already used by another residue."), (*i).c_str ());
+			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,mess));
+			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
+			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+				gtk_widget_destroy (GTK_WIDGET (box));
+			g_free (mess);
+			return;
 		}
 	}
+	gcp::Molecule *mol = dynamic_cast<gcp::Molecule*> (m_Atom->GetMolecule ());
+	string raw = mol->GetRawFormula ();
+	if (raw.length () == 0) {
+		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Empty formula, this should never happen.\nPlease file a bug report")));
+		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
+		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
+			gtk_widget_destroy (GTK_WIDGET (box));	
+		return;
+	}
 	// If we are there, everything is OK.
+	char *new_name = g_strdup (name), *new_symbols = g_strdup (symbols);;
 	Remove (); // remove the old version if any
-	m_Residue = new gcp::Residue (name);
+	m_Residue = new gcp::Residue (new_name);
 	int n = -1;
 	for (i = sl.rbegin (); i != iend; i++) {
 		m_Residue->AddSymbol ((*i).c_str ());
@@ -266,10 +301,13 @@ void gcpResiduesDlg::Add ()
 	node = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "residue", NULL);
 	if (m_Generic)
 		xmlNewProp (node, (xmlChar const *) "generic", (xmlChar const *) "true");
+	xmlNewProp (node, (xmlChar const *) "raw", (xmlChar const *) raw.c_str ());
 	m_Residue->SetGeneric (m_Generic);
-	child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "symbols", (xmlChar const *) symbols);
+	child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "symbols", (xmlChar const *) new_symbols);
+	g_free (new_symbols);
 	xmlAddChild (node, child);
-	child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "name", (xmlChar const *) name);
+	child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "name", (xmlChar const *) new_name);
+	g_free (new_name);
 	xmlAddChild (node, child);
 	xml = m_Document->BuildXMLTree ();
 	child = xml->children->children;
@@ -314,7 +352,7 @@ bool gcpResiduesDlg::OnKeyPress (GdkEventKey *event)
 {
 	if (m_Page) {
 // Next lines are commented out because they just do not work properly: FIXME if possible
-/*		if (event->state & GDK_CONTROL_MASK) {
+		if (event->state & GDK_CONTROL_MASK) {
 			switch (event->keyval) {
 			case GDK_Z:
 				m_Document->OnRedo ();
@@ -324,7 +362,7 @@ bool gcpResiduesDlg::OnKeyPress (GdkEventKey *event)
 				break;
 			}
 			return false;
-		}*/
+		}
 		// Only when editing the residue
 		switch (event->keyval) {
 		case GDK_Delete:

@@ -93,6 +93,7 @@ Document::Document (Application *App, bool StandAlone, Window *window):
 	m_pCurOp = NULL;
 	m_bReadOnly = false;
 	SetActive ();
+	m_AllowClipboard = true;
 }
 
 Document::~Document ()

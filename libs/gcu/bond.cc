@@ -121,7 +121,7 @@ bool Bond::Load (xmlNodePtr node)
 	}
 	pObject = GetParent ()->GetDescendant (tmp);
 	xmlFree (tmp);
-	if (!pObject || (pObject->GetType () != AtomType))
+	if (!pObject || (!dynamic_cast <Atom *> (pObject)))
 		return false;
 	m_Begin = (Atom*)(pObject);
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "end");
@@ -133,7 +133,7 @@ bool Bond::Load (xmlNodePtr node)
 	}
 	pObject = GetParent ()->GetDescendant (tmp);
 	xmlFree (tmp);
-	if (!pObject || (pObject->GetType() != AtomType))
+	if (!pObject || (!dynamic_cast <Atom *> (pObject)))
 		return false;
 	m_End = (Atom*)pObject;
 	bool result = LoadNode (node);

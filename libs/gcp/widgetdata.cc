@@ -247,6 +247,8 @@ void WidgetData::MoveItems (Object* obj, double dx, double dy)
 
 void WidgetData::MoveSelection (double dx, double dy)
 {
+	if (!SelectedObjects.size ())
+		return;
 	std::list<Object*>::iterator i, end = SelectedObjects.end ();
 	Document* pDoc = m_View->GetDoc ();
 	Operation* pOp = pDoc-> GetNewOperation (GCP_MODIFY_OPERATION);

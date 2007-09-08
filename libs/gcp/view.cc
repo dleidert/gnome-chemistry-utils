@@ -544,12 +544,14 @@ GtkTargetEntry const targets[] = {
 
 void View::OnCopySelection (GtkWidget* w, GtkClipboard* clipboard)
 {
-	Application*	pApp = m_pDoc->GetApplication ();
-	Tool* pActiveTool = pApp->GetActiveTool ();
-	m_pWidget = w;
-	m_pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (!pActiveTool->CopySelection (clipboard))
-		m_pData->Copy (clipboard);
+	if (m_pDoc->GetAllowClipboard ()) {
+		Application * pApp = m_pDoc->GetApplication ();
+		Tool* pActiveTool = pApp->GetActiveTool ();
+		m_pWidget = w;
+		m_pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+		if (!pActiveTool->CopySelection (clipboard))
+			m_pData->Copy (clipboard);
+	}
 }
 
 void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)

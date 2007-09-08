@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <residues>
-  <residue generic="true">
+  <residue generic="true" raw="C1H3">
     <symbols>R</symbols>
     <_name>Alkyl</_name>
     <molecule id="m1">
@@ -13,7 +13,7 @@
       <bond id="b1" order="1" begin="a1" end="a2"/>
     </molecule>
   </residue>
-  <residue generic="true">
+  <residue generic="true" raw="C6H5">
     <symbols>Ar</symbols>
     <_name>Aryl</_name>
     <molecule id="m1">
@@ -45,6 +45,246 @@
       <bond id="b5" order="1" begin="a5" end="a6"/>
       <bond id="b6" order="2" begin="a7" end="a6"/>
       <bond id="b7" order="1" begin="a7" end="a2"/>
+    </molecule>
+  </residue>
+  <residue generic="true" raw="Cl1">
+    <symbols>X</symbols>
+    <_name>Halogen</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="Cl">
+        <position x="164" y="600"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+    </molecule>
+  </residue>
+  <residue raw="C1H3">
+    <symbols>Me</symbols>
+    <_name>Methyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+    </molecule>
+  </residue>
+  <residue raw="C2H5">
+    <symbols>Et</symbols>
+    <_name>Ethyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+    </molecule>
+  </residue>
+  <residue raw="C3H7">
+    <symbols>Pr;nPr;n-Pr</symbols>
+    <_name>Propyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="374" y="478,756"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+    </molecule>
+  </residue>
+  <residue raw="C3H7">
+    <symbols>iPr;i-Pr</symbols>
+    <_name>Isopropyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="234" y="721,244"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+    </molecule>
+  </residue>
+  <residue raw="C4H9">
+    <symbols>Bu;nBu;n-Bu</symbols>
+    <_name>Butyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="374" y="478,756"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="444" y="357,512"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+    </molecule>
+  </residue>
+  <residue raw="C4H9">
+    <symbols>sBu;s-Bu</symbols>
+    <_name>sec-Butyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="234" y="721,244"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="374" y="478,756"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a3" end="a5"/>
+    </molecule>
+  </residue>
+  <residue raw="C4H9">
+    <symbols>iBu;i-Bu</symbols>
+    <_name>Isobutyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="374" y="478,756"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="164" y="357,512"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b4" order="1" begin="a3" end="a5"/>
+    </molecule>
+  </residue>
+  <residue raw="C4H9">
+    <symbols>tBu;t-Bu</symbols>
+    <name>tert-Butyl</name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="234" y="721,244"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="304" y="600"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="1" begin="a2" end="a4"/>
+      <bond id="b4" order="1" begin="a2" end="a5"/>
+    </molecule>
+  </residue>
+  <residue raw="C6H5">
+    <symbols>Ph</symbols>
+    <_name>Phenyl</_name>
+    <molecule id="m6">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="374" y="478,756"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="444" y="600"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="374" y="721,244"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="234" y="721,244"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a3" end="a2"/>
+      <bond id="b3" order="1" begin="a3" end="a4"/>
+      <bond id="b4" order="2" begin="a5" end="a4"/>
+      <bond id="b5" order="1" begin="a5" end="a6"/>
+      <bond id="b6" order="2" begin="a7" end="a6"/>
+      <bond id="b7" order="1" begin="a7" end="a2"/>
+    </molecule>
+  </residue>
+  <residue raw="C2H3O1">
+    <symbols>Ac</symbols>
+    <_name>Acetyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="164" y="600"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="234" y="478,756"/>
+      </atom>
+      <atom id="a4" element="O">
+        <position x="234" y="721,244"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="2" begin="a4" end="a2"/>
     </molecule>
   </residue>
 </residues>
