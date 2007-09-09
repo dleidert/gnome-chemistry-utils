@@ -147,7 +147,8 @@ static void select_best_font_face (GcpFontSel *fs)
 		pango_font_description_free (desc);
 	}
 	// select the found face
-	gtk_tree_model_get_iter_first (GTK_TREE_MODEL (fs->FaceList), &iter);
+	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (fs->FaceList), &iter))
+		return;
 	do {
 		gtk_tree_model_get (GTK_TREE_MODEL (fs->FaceList), &iter, 0, &buf, -1);
 		if (!strcmp (name, buf)) {

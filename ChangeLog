@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-09-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fontsel.cc: don't crash in case of missing font.
+	* libs/gcp/theme.cc: don't load themes with duplicate name.
+
 2007-09-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/residues.xml.in: add new residues.
 	* libs/gcp/application.cc: use a std::string for old_locale.

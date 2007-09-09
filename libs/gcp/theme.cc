@@ -496,6 +496,8 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 					if (theme->m_ThemeType == DEFAULT_THEME_TYPE || theme->m_ThemeType == GLOBAL_THEME_TYPE)
 						name = _(name);
 					if (m_Themes.find (name) != m_Themes.end ()) {
+						delete theme;
+						continue;
 					}
 					theme->m_ThemeType = type;
 					m_Themes[name] = theme;
