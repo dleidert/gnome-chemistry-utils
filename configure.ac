@@ -139,8 +139,20 @@ AC_TRY_COMPILE(
 )
 
 ##################################################
-# Check for mozilla plugin
+# Check for xulrunner plugin
 ##################################################
+xulclient=
+for pack in xulrunner firefox mozilla; do
+  if test "x$xulclient" = x; then
+    if pkg-config --exists $pack-plugin; then
+      xulclient=$pack-plugin
+    fi
+  fi
+done
+if test "x$xulclient" = x; then
+  # Not important.  Things will fail below.
+  libgoffice=mozilla-plugin
+fi
 MOZILLA_CFLAGS=
 build_mozilla_plugin=no
 
@@ -167,23 +179,11 @@ if test "x$test_mozilla_plugin" != "xno"; then
 	else
 		PKG_CHECK_MODULES(
 			[MOZILLA],
-			[mozilla-plugin],
+			[$xulclient],
 			[build_mozilla_plugin=yes],
-			[
-			 PKG_CHECK_MODULES(
-				[MOZILLA],
-				[firefox-plugin],
-				[build_mozilla_plugin=yes],
-				[
-				 AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])
-				]
-			 )
-			]
+			[AC_MSG_WARN([mozilla-config not found. Mozilla/Netscape plugin will not be built])]
 		)
-		mozlibdir=`pkg-config --variable=libdir mozilla-plugin`
-		if test -z "$mozlibdir"; then
-			mozlibdir=`pkg-config --variable=libdir firefox-plugin`
-		fi
+		mozlibdir=`pkg-config --variable=libdir $xulclient`
 	fi
 	
 	if test "x$MOZILLA_CFLAGS" != "x"; then
@@ -196,7 +196,7 @@ AC_ARG_WITH(
 	[
 	 AC_HELP_STRING(
 		[--with-mozilla-libdir],
-		[path to mozilla/firefox libdir @<:@default=auto@:>@]
+		[path to mozilla/firefox/... libdir @<:@default=auto@:>@]
 	 )
 	],
 	[mozlibdir=$withval]
