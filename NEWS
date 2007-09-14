@@ -1,6 +1,6 @@
 Version 0.8.3
-	* use yelp as the help viewer, not nautilus.
-	* fix a packaging issue related to gconf.
+	* use yelp as the help viewer, not nautilus [20704].
+	* fix use of --disable-schemas-install [#20943].
 
 Version 0.8.2
 	* fixed help files installation.
