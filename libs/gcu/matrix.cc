@@ -26,6 +26,7 @@
 #include <cmath>
 
 using namespace gcu;
+using namespace OpenBabel;
 
 Matrix::Matrix()
 {
@@ -155,6 +156,15 @@ void Matrix::Transform(double &dx, double &dy , double &dz)
 	dz = dx * x[2][0] + dy * x[2][1] + dz * x[2][2];
 	dx = x1;
 	dy = y1;
+}
+
+vector3 Matrix::operator* (vector3 &v)
+{
+	vector3 r;
+	r.z () = v.z () * x[0][0] + v.x () * x[0][1] + v.y () * x[0][2];
+	r.x () = v.z () * x[1][0] + v.x () * x[1][1] + v.y () * x[1][2];
+	r.y () = v.z () * x[2][0] + v.x () * x[2][1] + v.y () * x[2][2];
+	return r;
 }
 
 // Implementation of GLMatrix

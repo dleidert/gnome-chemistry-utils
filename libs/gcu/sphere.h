@@ -26,6 +26,10 @@
 #ifndef GCU_SPHERE_H
 #define GCU_SPHERE_H
 
+namespace OpenBabel {
+	class vector3;
+}
+
 namespace gcu {
 
 /**
@@ -42,7 +46,6 @@ namespace gcu {
 */
 
 class SpherePrivate;
-class Vector3d;
 
 class Sphere
 {
@@ -78,7 +81,7 @@ public:
 
 	/** draws the sphere at specified position and with
 	* specified radius */
-	void draw (Vector3d const &center, double radius) const;
+	void draw (OpenBabel::vector3 const &center, double radius) const;
 };
 
 }

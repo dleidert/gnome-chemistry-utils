@@ -100,21 +100,6 @@ CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
 	return *this ;
 }
 
-void CrystalAtom::Draw()
-{
-	if (m_nCleave) return ;
-	GLUquadricObj *quadObj ;
-	glPushMatrix() ;
-	glTranslated(y(), z(), x()) ;
-	glColor4f(m_fRed, m_fGreen, m_fBlue, m_fAlpha) ;
-	quadObj = gluNewQuadric() ;
-    gluQuadricDrawStyle(quadObj, GL_FILL);
-	gluQuadricNormals(quadObj, GL_SMOOTH) ;
-	gluSphere(quadObj, m_Radius.value.value * m_EffectiveRadiusRatio, 20, 10) ;
-	gluDeleteQuadric(quadObj) ;
-	glPopMatrix() ;
-}
-
 void CrystalAtom::SetColor(float red, float green, float blue, float alpha)
 {
 	m_bCustomColor = true;

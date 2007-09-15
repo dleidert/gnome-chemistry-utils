@@ -159,6 +159,9 @@ void GLView::Init ()
 		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
 		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glShadeModel (GL_SMOOTH);
+		glPolygonMode (GL_FRONT, GL_FILL);
+		glEnable(GL_BLEND);
 		m_bInit = true;
 		gdk_gl_drawable_gl_end (gldrawable);
 		Update ();
@@ -219,7 +222,8 @@ void GLView::Draw ()
 	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
 		glClearColor (m_Red, m_Green, m_Blue, m_Alpha);
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		if (m_nGLList) {
+		m_Doc->Draw (m_Euler);
+/*		if (m_nGLList) {
 			glPushMatrix ();
 			glRotated (m_Psi, 0.0, 1.0, 0.0);
 			glRotated (m_Theta, 0.0, 0.0, 1.0);
@@ -228,7 +232,7 @@ void GLView::Draw ()
 			glCallList (m_nGLList);
 			glDisable (GL_BLEND);
 			glPopMatrix ();
-		}
+		}*/
 		gdk_gl_drawable_gl_end (gldrawable);
 		/* Swap backbuffer to front */
 		gdk_gl_drawable_swap_buffers (gldrawable);
@@ -246,7 +250,7 @@ void GLView::Update()
 			glDeleteLists(m_nGLList,1);
 		m_nGLList = glGenLists(1);
 		glNewList (m_nGLList, GL_COMPILE);
-		m_Doc->Draw ();
+		m_Doc->Draw (m_Euler);
 		glEndList ();
 		gdk_gl_drawable_gl_end (gldrawable);
 	}
@@ -359,12 +363,7 @@ void GLView::Print (GnomePrintContext *pc, gdouble width, gdouble height)
 		glClearColor (m_Red, m_Green, m_Blue, m_Alpha);
 		glClearDepth (1.0);
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glPushMatrix ();
-		glRotated (m_Psi, 0.0, 1.0, 0.0);
-		glRotated (m_Theta, 0.0, 0.0, 1.0);
-		glRotated (m_Phi, 0.0, 1.0, 0.0);
-		m_Doc->Draw ();
-		glPopMatrix ();
+		m_Doc->Draw (m_Euler);
 		glFlush ();
 		gdk_gl_drawable_gl_end (drawable);
 		GdkPixbuf* pixbuf = gdk_pixbuf_get_from_drawable    (NULL,
@@ -456,16 +455,9 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 		glClearColor (m_Red, m_Green, m_Blue, m_Alpha);
 		glClearDepth (1.0);
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		if  (m_nGLList) {
-			glPushMatrix ();
-			glRotated (m_Psi, 0.0, 1.0, 0.0);
-			glRotated (m_Theta, 0.0, 0.0, 1.0);
-			glRotated (m_Phi, 0.0, 1.0, 0.0);
-			glEnable (GL_BLEND);
-			GetDoc ()->Draw();
-			glDisable (GL_BLEND);
-			glPopMatrix ();
-		}
+		glEnable (GL_BLEND);
+		GetDoc ()->Draw(m_Euler);
+		glDisable (GL_BLEND);
 		glFlush ();
 		gdk_gl_drawable_gl_end (drawable);
 		GdkPixbuf* pixbuf = gdk_pixbuf_get_from_drawable (NULL,

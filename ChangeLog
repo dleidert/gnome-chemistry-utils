@@ -1,5 +1,36 @@
 ##Text encoding: utf-8
 
+2007-09-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: rewrote the mozilla plugin related stuff
+	so that it also works with iceweasel.
+	* docs/reference/Doxyfile.in: add new spectrum related files.
+	* libs/gcu/Makefile.am: ditto.
+	* libs/gcu/chem3ddoc.cc: rewrote the Draw method.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/chemistry.h:updated the documentation.
+	* libs/gcu/crystalatom.cc: remove the Draw method.
+	* libs/gcu/crystalatom.h: ditto.
+	* libs/gcu/crystaldoc.cc: rewrote the Draw method.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/crystalline.cc: remove the Draw method.
+	* libs/gcu/crystalline.h: ditto.
+	* libs/gcu/cylinder.cc: use OpenBabel::vector3.
+	* libs/gcu/cylinder.h: ditto.
+	* libs/gcu/gldocument.h: changed the Draw method signature.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/gtkchem3dviewer.cc: added cylinders mode (and wireframe
+	which is not implemented yet).
+	* libs/gcu/gtkchem3dviewer.h: fixed documentation.
+	* libs/gcu/gtkspectrumviewer.cc: new widget (not yet implemented).
+	* libs/gcu/gtkspectrumviewer.h: ditto.
+	* libs/gcu/matrix.cc: define multipying an OpenBabel::vector3.
+	* libs/gcu/matrix.h: ditto.
+	* libs/gcu/sphere.cc: use OpenBabel::vector3.
+	* libs/gcu/sphere.h: ditto.
+	* libs/gcu/vector.cc: removed obsolete class Vector3d.
+	* libs/gcu/vector.h: ditto.
+	* programs/3d/window.cc: add cylinders mode in menu.
+
 2007-09-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fontsel.cc: don't crash in case of missing font.
 	* libs/gcp/theme.cc: don't load themes with duplicate name.

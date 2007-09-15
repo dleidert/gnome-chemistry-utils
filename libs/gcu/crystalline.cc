@@ -113,22 +113,6 @@ CrystalLine& CrystalLine::operator=(CrystalLine& clLine)
 	return *this ;
 }
 
-void CrystalLine::Draw()
-{
-	if (m_nCleave) return ;
-	GLUquadricObj *quadObj ;
-	glPushMatrix() ;
-	glTranslated(m_dy, m_dz, m_dx) ;
-	glRotated(m_darot, m_dxrot, m_dyrot, 0.0f);
-	glColor4f(m_fRed, m_fGreen, m_fBlue, m_fAlpha) ;
-	quadObj = gluNewQuadric() ;
-    gluQuadricDrawStyle(quadObj, GL_FILL);
-	gluQuadricNormals(quadObj, GL_SMOOTH) ;
-	gluCylinder(quadObj,m_dr, m_dr, m_dl, 20, 10);
-	gluDeleteQuadric(quadObj) ;
-	glPopMatrix() ;
-}
-
 void CrystalLine::SetPosition(double x, double y, double z, double x1, double y1, double z1)
 {
 	m_dx = x ;

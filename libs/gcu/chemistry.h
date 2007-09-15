@@ -31,7 +31,8 @@ Available widgets are:
 - GtkPeriodic: a periodic table of the elements.
 - GtkComboPeriodic: a combo box witha dropdown periodic table widget.
 - GtkCrystalViewer: a crystal structure viewer.
-- GtkChem3DViewer: a 3D molecular structure viewer. This widget is also available as a Bonobo control.
+- GtkChem3DViewer: a 3D molecular structure viewer.
+- GtkSpectrumViewer: a spectrum viewer.
 
 The C++ classes are grouped in the gcu namespace. A C interface exists to use some of the
 functionalities offered in these classes; the corresponding documentation is available in the

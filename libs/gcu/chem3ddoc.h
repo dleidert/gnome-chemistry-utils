@@ -45,10 +45,13 @@ namespace gcu {
 typedef enum
 {
 	BALL_AND_STICK,
-	SPACEFILL
+	SPACEFILL,
+	CYLINDERS,
+	WIREFRAME
 } Display3DMode;
 
 class Application;
+class Matrix;
 
 /*!
 \class Chem3dDoc gcu/chem3ddoc.h
@@ -73,9 +76,11 @@ Default destructor
 	virtual ~Chem3dDoc ();
 
 /*!
+@param m the Matrix giving the current model orientation
+
 Displays the molecule using OpenGL.
 */
-	void Draw ();
+	void Draw (Matrix &m);
 
 /*!
 @return true if the molecule have no atom, false otherwise.

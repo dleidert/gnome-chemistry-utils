@@ -25,6 +25,9 @@
 #include "config.h"
 #include "crystaldoc.h"
 #include "crystalview.h"
+#include "cylinder.h"
+#include "matrix.h"
+#include "sphere.h"
 #include "xml-utils.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
@@ -37,6 +40,7 @@
 #	include <list>
 using namespace OpenBabel;
 #endif
+#include <GL/gl.h>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
@@ -583,13 +587,37 @@ void CrystalDoc::Duplicate (CrystalLine& Line)
 		LineX.Move (1,0,0) ;
 	}
 }
-
-void CrystalDoc::Draw()
+	
+void CrystalDoc::Draw (Matrix &m)
 {
-	CrystalAtomList::iterator i;
-	for (i = Atoms.begin(); i != Atoms.end(); i++) (*i)->Draw();
-	CrystalLineList::iterator j;
-	for (j = Lines.begin(); j != Lines.end(); j++) (*j)->Draw();
+	vector3 v, v1;
+	Sphere sp (10);
+	glEnable (GL_RESCALE_NORMAL);
+	CrystalAtomList::iterator i, iend = Atoms.end ();
+	double red, green, blue, alpha;
+	for (i = Atoms.begin (); i != iend; i++) {
+		(*i)->GetCoords (&v.x (), &v.y (), &v.z ());
+		v = m * v;
+		(*i)->GetColor (&red, &green, &blue, &alpha);
+		glColor4d (red, green, blue, alpha) ;
+		sp.draw (v, (*i)->r ());
+	}
+	glEnable (GL_NORMALIZE);
+	CrystalLineList::iterator j, jend = Lines.end ();
+	Cylinder cyl (10);
+	for (j = Lines.begin (); j != jend; j++) {
+		v.x () = (*j)->X1 ();
+		v.y () = (*j)->Y1 ();
+		v.z () = (*j)->Z1 ();
+		v = m * v;
+		v1.x () = (*j)->X2 ();
+		v1.y () = (*j)->Y2 ();
+		v1.z () = (*j)->Z2 ();
+		v1 = m * v1;
+		(*j)->GetColor (&red, &green, &blue, &alpha);
+		glColor4d (red, green, blue, alpha) ;
+		cyl.draw (v, v1, (*j)->GetRadius ());
+	}
 }
 
 CrystalView* CrystalDoc::CreateNewView()

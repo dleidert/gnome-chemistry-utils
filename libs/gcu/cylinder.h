@@ -28,6 +28,10 @@
 
 #include "vector.h"
 
+namespace OpenBabel {
+	class vector3;
+}
+
 namespace gcu {
 
   /**
@@ -40,16 +44,16 @@ namespace gcu {
   class Cylinder
   {
     protected:
-      void initialize();
-      void freeBuffers();
+      void initialize ();
+      void freeBuffers ();
 
     public:
-      Cylinder(int faces=0);
-      ~Cylinder();
+      Cylinder (int faces=0);
+      ~Cylinder ();
       /** initializes the cylinder with given number of faces. If the
        * cylinder was already initialized, any pre-allocated buffers
        * are freed and then re-allocated */
-      void setup( int faces );
+      void setup (int faces);
       /**
        * draws the cylinder at specified position, with specified
        * radius.
@@ -59,8 +63,8 @@ namespace gcu {
        that is, the center of the second disc-shaped face.
        @param radius the radius of the cylinder
        */
-      void draw( const Vector3d &end1, const Vector3d &end2,
-          double radius ) const;
+      void draw (const OpenBabel::vector3 &end1, const OpenBabel::vector3 &end2,
+          double radius) const;
       /**
        * draws the cylinder at specified position, with specified
        * radius. the order and shift arguments allow to render
@@ -86,9 +90,9 @@ namespace gcu {
        avoid looking like single bonds. To achieve that, just pass
        the molecule's fitting plane's unit normal vector here.
        */
-      void drawMulti( const Vector3d &end1, const Vector3d &end2,
+      void drawMulti (const OpenBabel::vector3 &end1, const OpenBabel::vector3 &end2,
           double radius, int order, double shift,
-          const Vector3d &planeNormalVector ) const;
+          const OpenBabel::vector3 &planeNormalVector) const;
 
     private:
       CylinderPrivate * const d;

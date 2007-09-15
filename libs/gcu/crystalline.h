@@ -98,10 +98,6 @@ Copies a line.
 	CrystalLine& operator= (CrystalLine& clLine);
 
 /*!
-Draws the line inside the active OpenGL window.
-*/
-	void Draw ();
-/*!
 @return the x coordinate of the first end of the line.
 */
 	double X1 (void) {return m_dx;}

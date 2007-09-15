@@ -9,72 +9,74 @@ DEFS += -DDATADIR=\"$(datadir)\" \
 lib_LTLIBRARIES= libgcu-unstable.la
 
 libgcu_unstable_la_SOURCES = \
+		application.cc \
 		atom.cc \
 		bond.cc \
-		object.cc \
-		document.cc \
-		element.cc \
-		isotope.cc \
-		residue.cc \
-		formula.cc \
-		value.cc \
-		matrix.cc \
-		matrix2d.cc \
-		xml-utils.cc \
-		application.cc \
-		dialog.cc \
-		dialog-owner.cc \
-		filechooser.cc \
+		chem3ddoc.cc	\
 		chemistry.cc \
-		gtkperiodic.c \
-		gtkcomboperiodic.c \
-		gtkcrystalviewer.cc \
-		crystalview.cc \
-		crystaldoc.cc \
 		crystalatom.cc \
 		crystalbond.cc \
-		crystalline.cc \
 		crystalcleavage.cc \
-		chem3ddoc.cc	\
-		gtkchem3dviewer.cc \
+		crystaldoc.cc \
+		crystalline.cc \
+		crystalview.cc \
+		cylinder.cc	\
+		dialog.cc \
+		dialog-owner.cc \
+		document.cc \
+		element.cc \
+		filechooser.cc \
+		formula.cc \
 		gldocument.cc	\
 		glview.cc	\
+		gtkchem3dviewer.cc \
+		gtkcomboperiodic.c \
+		gtkcrystalviewer.cc \
+		gtkperiodic.c \
+		gtkspectrumviewer.cc \
+		isotope.cc \
+		matrix.cc \
+		matrix2d.cc \
+		object.cc \
+		residue.cc \
 		sphere.cc	\
-		cylinder.cc	\
-		vector.cc
+		value.cc \
+		vector.cc \
+		xml-utils.cc
 
 noinst_HEADERS = \
+		application.h \
 		atom.h \
 		bond.h \
-		object.h \
-		document.h \
-		element.h \
-		isotope.h \
-		residue.h \
-		formula.h \
-		value.h \
-		application.h \
+		chem3ddoc.h	\
+		chemistry.h \
+		crystalatom.h \
+		crystalbond.h \
+		crystalcleavage.h \
+		crystaldoc.h \
+		crystalline.h \
+		crystalview.h \
+		cylinder.h	\
 		dialog.h \
 		dialog-owner.h \
+		document.h \
+		element.h \
 		filechooser.h \
+		formula.h \
+		gldocument.h	\
+		glview.h	\
+		gtkchem3dviewer.h \
+		gtkcomboperiodic.h \
+		gtkcrystalviewer.h \
+		gtkperiodic.h \
+		gtkspectrumviewer.h \
+		isotope.h \
 		macros.h	\
 		matrix.h	\
 		matrix2d.h	\
-		xml-utils.h \
-		chemistry.h \
-		gtkperiodic.h \
-		gtkcomboperiodic.h \
-		gtkcrystalviewer.h \
-		crystalview.h \
-		crystaldoc.h \
-		crystalatom.h \
-		crystalbond.h \
-		crystalline.h \
-		crystalcleavage.h \
-		chem3ddoc.h	\
-		gtkchem3dviewer.h \
-		gldocument.h	\
-		glview.h	\
+		object.h \
+		residue.h \
 		sphere.h	\
-		cylinder.h	\
-		vector.h
+		value.h \
+		vector.h \
+		xml-utils.h

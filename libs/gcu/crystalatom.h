@@ -77,10 +77,6 @@ Creates a new CrystalAtom identical to caAtom.
 	CrystalAtom& operator= (CrystalAtom& caAtom);
 
 /*!
-Draws the atom inside the active OpenGL window.
-*/
-	void Draw ();
-/*!
 @param red: the red component of the color.
 @param green: the green component of the color.
 @param blue: the blue component of the color.

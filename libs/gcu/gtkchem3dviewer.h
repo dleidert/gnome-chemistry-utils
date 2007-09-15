@@ -69,9 +69,8 @@ NULL otherwise.
 #define GTK_CHEM3D_VIEWER_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))
 
 /*! \struct GtkChem3DViewer gcu/gtkchem3dviewer.h
- The GtkChem3DViewer displays 3D models of molecules using an OpenGL window. This widget is also available as a Bonobo Control.
- Test programs are available in the tests directory of the Gnome Chemistry Utils source archive (sources in testgtkchem3dviewer.c
-for the use of the widget and in testbonobocontrol.c for the use of the Bonobo control).
+ The GtkChem3DViewer displays 3D models of molecules using an OpenGL window.
+ A test program is available in the tests directory of the Gnome Chemistry Utils source archive (sources in testgtkchem3dviewer.c).
 <hr>
 <h2>Properties</h2>
 There are two properties:
@@ -105,8 +104,8 @@ Creates a GtkChem3DViewer widget and fills it with the data from uri. If uri is 
 */
 GtkWidget*            gtk_chem3d_viewer_new               (const gchar* uri);
 /*!
-@param viewer: a pointer to GtkChem3DViewer widget.
-@param uri: the URI of the file containing the molecular structure to display. Any file supported by
+@param viewer a pointer to GtkChem3DViewer widget.
+@param uri the URI of the file containing the molecular structure to display. Any file supported by
 @param mime_type: the mime_type of the data. Any type supported by
 <a href="http://openbabel.sourceforge.net">OpenBabel</a> may be used.
 
@@ -114,17 +113,17 @@ Changes the molecule displayed by the one described in the uri. Nothing happens 
 */
 void	gtk_chem3d_viewer_set_uri_with_mime_type	(GtkChem3DViewer * viewer, const gchar * uri, const gchar* mime_type);
 /*!
-@param viewer: a pointer to GtkChem3DViewer widget.
-@param uri: the URI of the file containing the molecular structure to display.
+@param viewer a pointer to GtkChem3DViewer widget.
+@param uri the URI of the file containing the molecular structure to display.
 <a href="http://openbabel.sourceforge.net">OpenBabel</a> may be used.
 
 Changes the molecule displayed by the one described in the uri. Nothing happens if uri is NULL.
 */
 void	gtk_chem3d_viewer_set_uri	(GtkChem3DViewer * viewer, const gchar * uri);
 /*!
-@param viewer: a pointer to GtkChem3DViewer widget.
-@param data: a pointer to the raw data representing a serialized version of molecule to display
-@param mime_type: the mime_type of the data. Any type supported by
+@param viewer a pointer to GtkChem3DViewer widget.
+@param data a pointer to the raw data representing a serialized version of molecule to display
+@param mime_type the mime_type of the data. Any type supported by
 <a href="http://openbabel.sourceforge.net">OpenBabel</a> may be used.
 
 Changes the molecule displayed by the one described in the data. Nothing happens if data or mime-type is NULL.
@@ -132,10 +131,10 @@ Changes the molecule displayed by the one described in the data. Nothing happens
 void	gtk_chem3d_viewer_set_data	(GtkChem3DViewer * viewer, const gchar * data, const gchar* mime_type);
 
 /*!
-@param viewer: a pointer to GtkChem3DViewer widget.
-@param pc: a pointer to the GnomePrintContext.
-@param width: the width of the rectangle.
-@param height: the height of the rectangle.
+@param viewer a pointer to GtkChem3DViewer widget.
+@param pc a pointer to the GnomePrintContext.
+@param width the width of the rectangle.
+@param height the height of the rectangle.
 
 Prints the scene to a GnomePrintContext using a 300 dpi resolution.
 */

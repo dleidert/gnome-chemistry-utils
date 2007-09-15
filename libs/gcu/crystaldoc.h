@@ -43,6 +43,7 @@ namespace gcu
 {
 
 class CrystalView;
+class Matrix;
 
 /*!\enum gcLattices crystalviewer/crystaldoc.h
 This enumeration gives sympolic names to the fourteen Bravais lattices.
@@ -114,10 +115,14 @@ everything and updates all the views.
 @return a pointer to the first CrystalView of the document. The view will be created if it does not already exist.
 */
 	CrystalView* GetView ();
+
 /*!
-Draws the document using OpenGL primitives.
+@param m the Matrix giving the current model orientation
+
+Displays the molecule using OpenGL.
 */
-	void Draw ();
+	void Draw (Matrix &m);
+
 /*!
 Creates a view of the document. This method should be overrided by programs deriving a new view class from
 CrystalView.

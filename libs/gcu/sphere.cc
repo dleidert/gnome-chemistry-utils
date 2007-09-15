@@ -25,8 +25,11 @@
 
 #include "sphere.h"
 #include "vector.h"
+#include <openbabel/math/vector3.h>
 #include <GL/gl.h>
 #include <cmath>
+
+using namespace OpenBabel;
 
 namespace gcu {
 
@@ -78,10 +81,10 @@ void Sphere::freeBuffers ()
 	}
 }
 
-void Sphere::draw (Vector3d const &center, double radius) const
+void Sphere::draw (vector3 const &center, double radius) const
 {
 	glPushMatrix ();
-	glTranslated (center.Getx (), center.Gety (), center.Getz ());
+	glTranslated (center.x (), center.y (), center.z ());
 	glScaled (radius, radius, radius);
 	glCallList (d->displayList);
 	glPopMatrix ();

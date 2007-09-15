@@ -32,6 +32,7 @@ namespace gcu
 {
 
 class GLView;
+class Matrix;
 
 /*!\class GLDocument gcu/gldocument.h
 This class is a base class for documents representing 3d objects.
@@ -52,9 +53,11 @@ Default destructor.
 	virtual ~GLDocument ();
 
 /*!
-Called by GLView::Update to populate its GLList.
+@param m the Matrix giving the current model orientation
+
+Called by GLView::Update to render the model.
 */
-	virtual void Draw () = 0;
+	virtual void Draw (Matrix &m) = 0;
 
 // Properties
 /*!\var m_MaxDist

@@ -25,6 +25,8 @@
 #ifndef GCU_MATRIX_H
 #define GCU_MATRIX_H
 
+#include <openbabel/math/vector3.h>
+
 namespace gcu
 {
 
@@ -117,6 +119,7 @@ Initially, dx, dy and dz are the components of the vector to transform (multiply
 after execution of this method, dx, dy and dz are the components of the transformed vector. So initial values are lost.
 */
 	void Transform (double &dx, double &dy , double &dz);
+	OpenBabel::vector3 operator* (OpenBabel::vector3 &v);
 	
 private:
 	double x[3][3];

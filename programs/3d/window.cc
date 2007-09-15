@@ -186,10 +186,13 @@ static GtkActionEntry entries[] = {
 static GtkRadioActionEntry radios[] = {
 	{ "BallnStick", NULL, N_("Balls and sticks"), NULL,
 		N_("Display a balls and sticks model"),
-		0 },
+		BALL_AND_STICK },
 	{ "SpaceFill", "NULL", N_("Space filling"), NULL,
 		N_("Display a space filling model"),
-		1 },
+		SPACEFILL },
+	{ "Cylinders", "NULL", N_("Cylinders"), NULL,
+		N_("Display a cylinders model"),
+		CYLINDERS },
 };
 
 static const char *ui_description =
@@ -206,6 +209,7 @@ static const char *ui_description =
 "    <menu action='ViewMenu'>"
 "      <menuitem action='BallnStick'/>"
 "      <menuitem action='SpaceFill'/>"
+"      <menuitem action='Cylinders'/>"
 "	   <separator name='view-sep1'/>"
 "      <menuitem action='Background'/>"
 "    </menu>"

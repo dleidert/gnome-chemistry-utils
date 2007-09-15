@@ -25,13 +25,14 @@
 #include "config.h"
 #include "chem3ddoc.h"
 #include "application.h"
+#include "cylinder.h"
 #include "glview.h"
+#include "sphere.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <openbabel/obconversion.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <GL/gl.h>
-#include <GL/glu.h>
 #include <libintl.h>
 #include <clocale>
 #include <fstream>
@@ -54,103 +55,6 @@ Chem3dDoc::Chem3dDoc (Application *App, GLView *View): GLDocument (App)
 
 Chem3dDoc::~Chem3dDoc ()
 {
-}
-
-void Chem3dDoc::Draw ()
-{
-	std::vector < OBNodeBase * >::iterator i;
-	OBAtom* atom = m_Mol.BeginAtom (i);
-	guint Z;
-	gdouble R, w, x, y, z, x0, y0, z0, dist;
-	x0 = y0 = z0 = 0.0;
-	const gdouble* color;
-	while (atom) {
-		Z = atom->GetAtomicNum ();
-		x0 += atom->GetX ();
-		y0 += atom->GetY ();
-		z0 += atom->GetZ ();
-		atom = m_Mol.NextAtom (i);
-	}
-	x0 /= m_Mol.NumAtoms ();
-	y0 /= m_Mol.NumAtoms ();
-	z0 /= m_Mol.NumAtoms ();
-	atom = m_Mol.BeginAtom (i);
-	GLUquadricObj *quadObj ;
-	dist = 0;
-	while (atom) {
-		Z = atom->GetAtomicNum ();
-		if (Z > 0) {
-			R = etab.GetVdwRad (Z);
-			if (m_Display3D == BALL_AND_STICK)
-				R *= 0.2;
-			x = atom->GetX () - x0;
-			y = atom->GetY () - y0;
-			z = atom->GetZ () - z0;
-			color = gcu_element_get_default_color (Z);
-			if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
-				dist = w + R;
-			glPushMatrix () ;
-			glTranslated (x, y, z) ;
-			glColor3d (color[0], color[1], color[2]) ;
-			quadObj = gluNewQuadric () ;
-			gluQuadricDrawStyle (quadObj, GL_FILL);
-			gluQuadricNormals (quadObj, GL_SMOOTH) ;
-			gluSphere (quadObj, R, 20, 10) ;
-			gluDeleteQuadric (quadObj) ;
-			glPopMatrix () ;
-		}
-		atom = m_Mol.NextAtom (i);
-	}
-	m_MaxDist = dist * 1.05;
-	std::vector < OBEdgeBase * >::iterator j;
-	OBBond* bond = m_Mol.BeginBond (j);
-	double x1, y1, z1, arot, xrot, yrot;
-	if (m_Display3D == BALL_AND_STICK)
-		while (bond) {
-			atom = bond->GetBeginAtom ();
-			if (atom->GetAtomicNum () == 0) {
-				bond = m_Mol.NextBond (j);
-				continue;
-			}
-			x = atom->GetX () - x0;
-			y = atom->GetY () - y0;
-			z = atom->GetZ () - z0;
-			atom = bond->GetEndAtom ();
-			if (atom->GetAtomicNum () == 0) {
-				bond = m_Mol.NextBond (j);
-				continue;
-			}
-			x1 = atom->GetX () - x0 - x;
-			y1 = atom->GetY () - y0 - y;
-			z1 = atom->GetZ () - z0 - z;
-			dist = sqrt (x1 * x1 + y1 * y1 + z1 * z1);
-			w = sqrt (x1 * x1 + y1 * y1);
-			if (w > 0) {
-				xrot = - y1 / w ;
-				yrot = x1 / w ;
-				arot = atan2 (w, z1) * 180. / M_PI ;
-			} else {
-				xrot = 0;
-				if (z1 > 0)
-					yrot = arot = 0.0;
-				else
-				{
-					yrot = 1.0;
-					arot = 180.0;
-				}
-			}
-			glPushMatrix ();
-			glTranslated (x, y, z);
-			glRotated (arot, xrot, yrot, 0.0f);
-			glColor3f (0.75, 0.75, 0.75);
-			quadObj = gluNewQuadric ();
-			gluQuadricDrawStyle (quadObj, GL_FILL);
-			gluQuadricNormals (quadObj, GL_SMOOTH);
-			gluCylinder (quadObj, 0.12, 0.12, dist, 20, 10);
-			gluDeleteQuadric (quadObj);
-			glPopMatrix ();
-			bond = m_Mol.NextBond (j);
-		}
 }
 
 void Chem3dDoc::Load (char const *uri, char const *mime_type)
@@ -208,6 +112,26 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 		m_Empty = m_Mol.NumAtoms () == 0;
 	}
 	setlocale (LC_NUMERIC, old_num_locale);
+	// center the molecule around 0,0,0
+	std::vector < OBNodeBase * >::iterator i;
+	OBAtom* atom = m_Mol.BeginAtom (i);
+	gdouble x0, y0, z0;
+	x0 = y0 = z0 = 0.0;
+	while (atom) {
+		x0 += atom->GetX ();
+		y0 += atom->GetY ();
+		z0 += atom->GetZ ();
+		atom = m_Mol.NextAtom (i);
+	}
+	x0 /= m_Mol.NumAtoms ();
+	y0 /= m_Mol.NumAtoms ();
+	z0 /= m_Mol.NumAtoms ();
+	vector3 v(-x0, -y0, -z0);
+	atom = m_Mol.BeginAtom (i);
+	while (atom) {
+		atom->GetVector () += v;
+		atom = m_Mol.NextAtom (i);
+	}
 	m_View->Update ();
 	g_free (old_num_locale);
 }
@@ -369,5 +293,78 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 	}
 	catch (int n) {
 		cerr <<"gnome-vfs error" << n << endl;
+	}
+}
+
+void Chem3dDoc::Draw (Matrix &m)
+{
+	std::vector < OBNodeBase * >::iterator i;
+	OBAtom* atom = m_Mol.BeginAtom (i);
+	unsigned int Z;
+	gdouble R, w, x, y, z, dist;
+	dist = 0.;
+	map<OBAtom*, vector3> atomPos;
+	const gdouble* color;
+	vector3 v;
+	Sphere sp (10);
+	glEnable (GL_RESCALE_NORMAL);
+	while (atom) {
+		atomPos[atom] = v = m * atom->GetVector ();
+		Z = atom->GetAtomicNum ();
+		if (Z > 0) {
+			if (m_Display3D == CYLINDERS) {
+				R = .12;
+			} else {
+				R = etab.GetVdwRad (Z);
+				if (m_Display3D == BALL_AND_STICK)
+					R *= 0.2;
+			}
+			x = v.x ();
+			y = v.y ();
+			z = v.z ();
+			color = gcu_element_get_default_color (Z);
+			if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
+				dist = w + R;
+			glColor3d (color[0], color[1], color[2]) ;
+			sp.draw (v, R);
+		}
+		atom = m_Mol.NextAtom (i);
+	}
+	m_MaxDist = dist * 1.05;
+	if (m_Display3D == BALL_AND_STICK || m_Display3D == CYLINDERS) {
+		Cylinder cyl (10);
+		m_MaxDist = dist * 1.05;
+		std::vector < OBEdgeBase * >::iterator j;
+		OBBond* bond = m_Mol.BeginBond (j);
+		vector3 v0, v1;
+		double R1;
+		unsigned int Z1;
+		glEnable (GL_NORMALIZE);
+		while (bond) {
+			atom = bond->GetBeginAtom ();
+			v = m * atom->GetVector ();
+			Z = atom->GetAtomicNum ();
+			if (Z == 0) {
+				bond = m_Mol.NextBond (j);
+				continue;
+			}
+			atom = bond->GetEndAtom ();
+			R = etab.GetVdwRad (Z);
+			Z1 = atom->GetAtomicNum ();
+			if (Z1 == 0) {
+				bond = m_Mol.NextBond (j);
+				continue;
+			}
+			R1 = etab.GetVdwRad (Z1);
+			v1 = m * atom->GetVector ();
+			v0 = v + (v1 - v) * (R / (R + R1));
+			color = gcu_element_get_default_color (Z);
+			glColor3d (color[0], color[1], color[2]) ;
+			cyl.draw (v, v0, .12);
+			color = gcu_element_get_default_color (Z1);
+			glColor3d (color[0], color[1], color[2]) ;
+			cyl.draw (v0, v1, .12);
+			bond = m_Mol.NextBond (j);
+		}
 	}
 }

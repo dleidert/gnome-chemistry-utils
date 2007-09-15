@@ -1,8 +1,6 @@
-// -*- C++ -*-
-
 /* 
- * Gnome Chemistry Utils
- * vector.h 
+ * Gnome Chemisty Utils
+ * gtkspectrumviewer.cc
  *
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -21,36 +19,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
- 
-#ifndef GCU_VECTOR_H
-#define GCU_VECTOR_H
 
-#include "macros.h"
+#include "config.h"
+#include "gtkspectrumviewer.h"
 
-namespace gcu
+struct _GtkSpectrumViewer
 {
+	GtkWidget base;
 
-class Vector3f
-{
-public:
-	Vector3f ();
-	Vector3f (float x, float y, float z);
-	~Vector3f ();
-
-	void normalize ();
-	Vector3f &operator= (Vector3f const& other);
-	Vector3f operator- (Vector3f const& other) const;
-	Vector3f operator+ (Vector3f const& other) const;
-	Vector3f operator* (float f) const;
-
-private:
-	GCU_PROP (float, x);
-	GCU_PROP (float, y);
-	GCU_PROP (float, z);
 };
 
-Vector3f operator* (float f, Vector3f const& v);
-
-}	//namespace gcu
-
-#endif //GCU_VECTOR_H

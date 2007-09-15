@@ -57,6 +57,8 @@ gtk_display3d_get_type (void)
     static const GEnumValue values[] = {
       { BALL_AND_STICK, "BALL_AND_STICK", "ball&stick" },
       { SPACEFILL, "SPACEFILL", "spacefill" },
+      { CYLINDERS, "CYLINDERS", "cylinders" },
+      { WIREFRAME, "WIREFRAME", "wireframe" },
       { 0, NULL, NULL }
     };
     etype = g_enum_register_static ("Dispay3D", values);
