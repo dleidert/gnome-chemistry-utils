@@ -1,4 +1,6 @@
 Version 0.9.1
+	3d viewer:
+		* Add cylinders mode.
 	GChemPaint:
 		* use keyboard to change the nature of an atom [sr #105937].
 		* use the AltGr key to change the default orientation of a
@@ -6,6 +8,15 @@ Version 0.9.1
 		* use the keyboard to change the default length of a new 
 		chain to some current values (2 to 10).
 		* add a new theme to support ACS standards (Takashi Suyama).
+		* new API to create residues.
+	Gnome Crystal:
+		* Initial support for CIF files (needs OpenBabel-2.2.x (svn trunk)).
+	Periodic table:
+		* graphs can be customized (a very unstable feature).
+	Library:
+		* Display of 3D models rewritten, using code from libavogadro
+		(thanks to B. Jacob).
+		* New gcu::Residue class, for use in both calc and GChemPaint.
 	Other:
 		* use Aplications|Education|Science for help files.
 
