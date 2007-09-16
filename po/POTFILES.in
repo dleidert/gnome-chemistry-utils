@@ -1,22 +1,27 @@
 [encoding: UTF-8]
 gchemutils.xml.in
+database/residues.xml.in
 glade/gchemcalc.glade
 glade/gtkperiodic.glade
 glade/image-size.glade
 glade/image-resolution.glade
+glade/crystal/bonds.glade
 glade/crystal/cell.glade
+glade/crystal/docprop.glade
 glade/crystal/prefs.glade
 glade/crystal/view-settings.glade
 glade/crystal/atoms.glade
 glade/crystal/cleavages.glade
 glade/crystal/lines.glade
 glade/crystal/size.glade
+glade/paint/arrow-object.glade
 glade/paint/docprop.glade
 glade/paint/H-pos.glade
 glade/paint/newfiledlg.glade
 glade/paint/preferences.glade
 glade/paint/tools.glade
 glade/paint/zoom.glade
+glade/table/acidity.glade
 glade/table/eltpage.glade
 glade/table/state-thermometer.glade
 glade/table/curve.glade
@@ -41,6 +46,8 @@ libs/gcp/molecule.cc
 libs/gcp/preferences.cc
 libs/gcp/reactant.cc
 libs/gcp/reaction.cc
+libs/gcp/reaction-arrow.cc
+libs/gcp/reaction-prop.cc
 libs/gcp/stringdlg.cc
 libs/gcp/text.cc
 libs/gcp/theme.cc
@@ -75,6 +82,9 @@ plugins/paint/cycles/cycle.glade
 plugins/paint/cycles/cyclen.glade
 plugins/paint/cycles/cycletool.cc
 plugins/paint/cycles/plugin.cc
+plugins/paint/residues/plugin.cc
+plugins/paint/residues/residues-dlg.cc
+plugins/paint/residues/residues.glade
 plugins/paint/selection/group.cc
 plugins/paint/selection/group.glade
 plugins/paint/selection/plugin.cc
@@ -113,4 +123,5 @@ programs/table/gchemtable-app.cc
 programs/table/gchemtable-elt.cc
 programs/table/gchemtable-curve.cc
 programs/table/gchemtable-unstable.desktop.in
+templates/paint/haworth.xml.in
 templates/paint/templates.xml.in
