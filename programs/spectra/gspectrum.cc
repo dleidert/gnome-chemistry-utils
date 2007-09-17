@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * programs/3d/main.cc 
+ * programs/spectra/gspectrum.cc
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -18,43 +18,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
 
 #include "config.h"
 #include "application.h"
 #include "document.h"
-#include <glib.h>
-#include <glib/gi18n.h>
-#include <gtk/gtk.h>
-#include <gtk/gtkglinit.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
-#include <gcu/chemistry.h>
 #include <goffice/goffice.h>
 #include <goffice/utils/go-file.h>
+#include <gtk/gtkmain.h>
+#include <glib.h>
+#include <glib/gi18n.h>
 
-void cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
-{
-	char *version = g_strconcat (_("GChem3d Viewer version: "), VERSION, NULL);
-	puts (version);
-	g_free (version);
-	exit (0);
-}
-
-static char *bgcolor = NULL;
-static char *display3d = NULL;
-
-static GOptionEntry options[] = 
-{
-	{ "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, N_("Prints GChem3d Viewer version"), NULL },
-	{ "bgcolor", 'b', 0, G_OPTION_ARG_STRING, &bgcolor, N_("Background color: white, black or #rrggbb (default is black)"), NULL },
-	{ "display3d", 'd', 0, G_OPTION_ARG_STRING, &display3d, N_("How molecules are displayed; possible values are BallnStick (the default), SpaceFill, and Cyinders"), NULL },
-	{ NULL }
-};
-
-int main(int argc, char *argv[])
+int main (int argc, char *argv[])
 {
 	GnomeVFSURI *uri, *auri;
 	char *path, *dir;
@@ -63,7 +42,6 @@ int main(int argc, char *argv[])
 
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
-	gtk_gl_init (&argc, &argv);
 	if (!gnome_vfs_init ()) {
 		printf ("Could not initialize GnomeVFS\n");
 		return 1;
@@ -73,7 +51,6 @@ int main(int argc, char *argv[])
 
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file]"));
-		g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
 		g_option_context_add_group (context, gtk_get_option_group (TRUE));
 		g_option_context_set_help_enabled (context, TRUE);
 		g_option_context_parse (context, &argc, &argv, &error);
@@ -84,8 +61,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	gc3dApplication *App = new gc3dApplication ();
-	gc3dDocument *pDoc = App->OnFileNew();
+	gsvApplication *App = new gsvApplication ();
+	gsvDocument *pDoc = App->OnFileNew();
 	path = g_get_current_dir ();
 	dir = g_strconcat (path, "/", NULL);
 	g_free (path);
@@ -111,6 +88,6 @@ int main(int argc, char *argv[])
 	}
 
 	gtk_main();
-	
-	return(0);
+
+	return 0;
 }

@@ -111,8 +111,6 @@ Application::Application (string name, string datadir, char const *help_name, ch
 
 Application::~Application ()
 {
-	if (CurDir)
-		g_free (CurDir);
 	g_object_unref (m_RecentManager);
 }
 
@@ -142,9 +140,12 @@ bool Application::HasHelp ()
 
 void Application::SetCurDir (char const* dir)
 {
-	if (CurDir)
-		g_free (CurDir);
-	CurDir = g_strdup (dir);
+	CurDir = dir;
+}
+
+void Application::SetCurDir (string const &dir)
+{
+	CurDir = dir;
 }
 
 void Application::OnMail (char const *MailAddress)

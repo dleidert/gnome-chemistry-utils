@@ -1,4 +1,4 @@
-AC_INIT([gnome-chemistry-utils], [0.9.1], [http://savannah.nongnu.org/bugs/?group=gchemutils])
+AC_INIT([gnome-chemistry-utils], [0.9.2], [http://savannah.nongnu.org/bugs/?group=gchemutils])
 AC_CONFIG_SRCDIR([libs/gcu/gtkperiodic.c])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -282,6 +282,7 @@ programs/3d/Makefile
 programs/calc/Makefile
 programs/crystal/Makefile
 programs/paint/Makefile
+programs/spectra/Makefile
 programs/table/Makefile
 templates/Makefile
 templates/paint/Makefile

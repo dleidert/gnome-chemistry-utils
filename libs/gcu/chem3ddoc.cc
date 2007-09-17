@@ -325,7 +325,7 @@ void Chem3dDoc::Draw (Matrix &m)
 			color = gcu_element_get_default_color (Z);
 			if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
 				dist = w + R;
-			glColor3d (color[0], color[1], color[2]) ;
+			glColor3d (color[0], color[1], color[2]);
 			sp.draw (v, R);
 		}
 		atom = m_Mol.NextAtom (i);
@@ -359,10 +359,10 @@ void Chem3dDoc::Draw (Matrix &m)
 			v1 = m * atom->GetVector ();
 			v0 = v + (v1 - v) * (R / (R + R1));
 			color = gcu_element_get_default_color (Z);
-			glColor3d (color[0], color[1], color[2]) ;
+			glColor3d (color[0], color[1], color[2]);
 			cyl.draw (v, v0, .12);
 			color = gcu_element_get_default_color (Z1);
-			glColor3d (color[0], color[1], color[2]) ;
+			glColor3d (color[0], color[1], color[2]);
 			cyl.draw (v0, v1, .12);
 			bond = m_Mol.NextBond (j);
 		}

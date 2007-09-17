@@ -105,12 +105,17 @@ if they use the FileChooser.
 /*!
 @return the path to the current directory.
 */
-	char const* GetCurDir () {return CurDir;}
+	char const* GetCurDir () {return CurDir.c_str ();}
 
 /*!
 @param dir the path to the new current directory.
 */
 	void SetCurDir (char const* dir);
+
+/*!
+@param dir the path to the new current directory.
+*/
+	void SetCurDir (std::string const &dir);
 
 /*!
 @param uri the uri to display.
@@ -198,7 +203,7 @@ private:
 	string HelpName;
 	string HelpBrowser;
 	string HelpFilename;
-	char *CurDir;
+	string CurDir;
 	string WebBrowser;
 	string MailAgent;
 

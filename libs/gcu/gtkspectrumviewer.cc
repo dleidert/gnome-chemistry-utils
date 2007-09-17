@@ -22,10 +22,55 @@
 
 #include "config.h"
 #include "gtkspectrumviewer.h"
+#include <goffice/gtk/go-graph-widget.h>
+#include <gsf/gsf-impl-utils.h>
+#include <gtk/gtkbin.h>
 
 struct _GtkSpectrumViewer
 {
-	GtkWidget base;
+	GtkBin base;
 
+	GogGraph *graph;
 };
 
+struct _GtkSpectrumViewerClass
+{
+	GtkBinClass base;
+};
+
+GtkWidget*
+gtk_spectrum_viewer_new  (const gchar* uri)
+{
+	GtkSpectrumViewer *viewer = GTK_SPECTRUM_VIEWER (g_object_new (GTK_TYPE_SPECTRUM_VIEWER, NULL));
+	gtk_spectrum_viewer_set_uri (viewer, uri);
+	return reinterpret_cast<GtkWidget*> (viewer);
+}
+
+void
+gtk_spectrum_viewer_set_uri	(GtkSpectrumViewer * viewer, const gchar * uri)
+{
+	if (!uri)
+		return;
+	g_return_if_fail (GTK_IS_SPECTRUM_VIEWER (viewer));
+}
+
+GogGraph *
+gtk_spectrum_viewer_get_graph (GtkSpectrumViewer * viewer)
+{
+	g_return_val_if_fail (GTK_IS_SPECTRUM_VIEWER (viewer), NULL);
+	return viewer->graph;
+}
+
+void
+gtk_spectrum_viewer_init (GtkSpectrumViewer * viewer)
+{
+}
+
+void
+gtk_spectrum_viewer_class_init (GtkSpectrumViewerClass *klass)
+{
+}
+
+GSF_CLASS (GtkSpectrumViewer, gtk_spectrum_viewer,
+	   gtk_spectrum_viewer_class_init, gtk_spectrum_viewer_init,
+	   GTK_TYPE_WIDGET)

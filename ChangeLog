@@ -1,5 +1,37 @@
 ##Text encoding: utf-8
 
+2007-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.2) and add new
+	program (gspectrum)..
+	* libs/gcu/Makefile.am: add new files for spectra support.
+	* libs/gcu/application.cc: use string instead of char* for cur dir.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/chem3ddoc.cc: removed extra spaces.
+	* libs/gcu/gtkspectrumviewer.cc: started the imlementation.
+	* libs/gcu/spectrumdoc.cc: new document class for spectra.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: new view class for spectra.
+	* libs/gcu/spectrumview.h: ditto.
+	* pixmaps/Makefile.am: add gspectrum icons.
+	* pixmaps/gspectrum128.png: ditto.
+	* pixmaps/gspectrum32.png: ditto.
+	* pixmaps/gspectrum48.png: ditto.
+	* pixmaps/gspectrum72.png: ditto.
+	* programs/3d/main.cc: updated command line help.
+	* programs/Makefile.am: added spectra directory.
+	* programs/spectra/Makefile.am: new gspectrum program.
+	* programs/spectra/application.cc: ditto.
+	* programs/spectra/application.h: ditto.
+	* programs/spectra/document.cc: ditto.
+	* programs/spectra/document.h: ditto.
+	* programs/spectra/gspectrum-unstable.desktop.in: ditto.
+	* programs/spectra/gspectrum.cc: ditto.
+	* programs/spectra/gspectrum.desktop.in: ditto.
+	* programs/spectra/view.cc: ditto.
+	* programs/spectra/view.h: ditto.
+	* programs/spectra/window.cc: ditto.
+	* programs/spectra/window.h: ditto.
+
 2007-09-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: rewrote the mozilla plugin related stuff
 	so that it also works with iceweasel.

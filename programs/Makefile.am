@@ -1,3 +1,3 @@
-SUBDIRS = 3d calc crystal paint table
+SUBDIRS = 3d calc crystal paint spectra table
 
 MAINTAINERCLEANFILES = Makefile.in

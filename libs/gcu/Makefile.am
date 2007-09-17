@@ -39,6 +39,8 @@ libgcu_unstable_la_SOURCES = \
 		matrix2d.cc \
 		object.cc \
 		residue.cc \
+		spectrumdoc.cc \
+		spectrumview.cc \
 		sphere.cc	\
 		value.cc \
 		vector.cc \
@@ -76,6 +78,8 @@ noinst_HEADERS = \
 		matrix2d.h	\
 		object.h \
 		residue.h \
+		spectrumdoc.h \
+		spectrumview.h \
 		sphere.h	\
 		value.h \
 		vector.h \

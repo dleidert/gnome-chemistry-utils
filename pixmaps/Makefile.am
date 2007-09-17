@@ -22,7 +22,11 @@ icons = gcrystal32.png \
 	gchemtable32.png \
 	gchemtable48.png \
 	gchemtable72.png \
-	gchemtable128.png
+	gchemtable128.png \
+	gspectrum32.png \
+	gspectrum48.png \
+	gspectrum72.png \
+	gspectrum128.png
 
 EXTRA_DIST = \
 	$(pixmap_DATA) \
@@ -46,6 +50,8 @@ install-data-hook:
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemcalc.png; \
 		$(INSTALL_DATA) $(srcdir)/gchemtable$$i.png \
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemtable.png; \
+		$(INSTALL_DATA) $(srcdir)/gspectrum$$i.png \
+			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gspectrum.png; \
 	done
 
 uninstall-hook:
@@ -57,4 +63,5 @@ uninstall-hook:
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchem3d-viewer.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemcalc.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemtable.png; \
+		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gspectrum.png; \
 	done
