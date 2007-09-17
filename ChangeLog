@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.8.4).
+
 2007-09-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: rewrote the mozilla plugin related stuff
 	so that it also works with iceweasel.
