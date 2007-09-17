@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2007-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystaldoc.cc: fixed compilation with OpenBabel-2.1.x.
+
+2007-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.9.2) and add new
 	program (gspectrum)..
 	* libs/gcu/Makefile.am: add new files for spectra support.

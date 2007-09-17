@@ -38,13 +38,16 @@
 #include <vector>
 #ifdef HAVE_OPENBABEL_2_2
 #	include <list>
-using namespace OpenBabel;
+#else
+#	include <openbabel/math/vector3.h>
 #endif
 #include <GL/gl.h>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
 #define PREC 1e-3
+
+using namespace OpenBabel;
 
 namespace gcu {
 	
