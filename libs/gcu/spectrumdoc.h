@@ -61,6 +61,14 @@ Loads a spaectrum from the provided uri. Default mime type is NULL,
 
 private:
 	void LoadJcampDx (char const *data);
+	void ReadDataLine (char const *data, std::list<double> &l);
+
+private:
+	double *x, *y;
+	unsigned npoints;
+	double maxx, maxy, minx, miny;
+	double firstx, lastx, deltax, firsty;
+	double xfactor, yfactor;
 
 GCU_PROT_PROP (SpectrumView*, View);
 GCU_RO_PROP (bool, Empty);

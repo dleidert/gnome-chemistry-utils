@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2007-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: load data and display the spectrum.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+	* programs/spectra/application.cc: ditto.
+	* programs/spectra/gspectrum.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+
 2007-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystaldoc.cc: fixed compilation with OpenBabel-2.1.x.
 

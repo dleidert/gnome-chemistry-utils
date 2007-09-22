@@ -28,6 +28,8 @@
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <goffice/goffice.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/go-plugin-loader-module.h>
 #include <goffice/utils/go-file.h>
 #include <gtk/gtkmain.h>
 #include <glib.h>
@@ -48,6 +50,8 @@ int main (int argc, char *argv[])
 	}
 	/* Initialize libgoffice */
 	libgoffice_init ();
+	/* Initialize plugins manager */
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file]"));

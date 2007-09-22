@@ -29,6 +29,7 @@
 #include "window.h"
 #include <gcu/filechooser.h>
 #include <glib/gi18n.h>
+#include <clocale>
 
 using namespace gcu;
 
@@ -69,11 +70,15 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 	gsvDocument *pDoc = dynamic_cast <gsvDocument *> (Doc);
 	if(bSave) {
 	} else {
+		char *old_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+		setlocale (LC_NUMERIC, "C");
 		if (pDoc && !pDoc->GetEmpty ())
 			pDoc = NULL;
 		if (!pDoc)
 			pDoc = OnFileNew ();
 		pDoc->Load (filename, mime_type);
+		setlocale (LC_NUMERIC, old_locale);
+		g_free (old_locale);
 		GtkRecentData data;
 		data.display_name = (char*) pDoc->GetTitle ().c_str ();
 		data.description = NULL;

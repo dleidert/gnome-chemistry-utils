@@ -24,8 +24,11 @@
 #include "application.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
+#include <goffice/data/go-data-simple.h>
+#include <goffice/utils/go-math.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <glib/gi18n-lib.h>
 #include <cstring>
 #include <sstream>
 #include <iostream>
@@ -36,15 +39,29 @@ namespace gcu
 SpectrumDocument::SpectrumDocument (): Document (NULL), m_Empty (true)
 {
 	m_View = new SpectrumView (this);
+	x = y = NULL;
+	npoints = 0;
+	maxx = maxy = minx = miny = go_nan;
+	firstx = lastx = deltax = firsty = go_nan;
 }
 
-SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View): Document (App)
+SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
+	Document (App),
+	m_Empty (true)
 {
 	m_View = (View)? View: new SpectrumView (this);
+	x = y = NULL;
+	npoints = 0;
+	maxx = maxy = minx = miny = go_nan;
+	firstx = lastx = deltax = firsty = go_nan;
 }
 
 SpectrumDocument::~SpectrumDocument ()
 {
+	if (x)
+		delete[] x;
+	if (y)
+		delete[] y;
 }
 
 void SpectrumDocument::Load (char const *uri, char const *mime_type)
@@ -357,12 +374,24 @@ int ReadField (char const *s, char *key, char *buf)
 		if (i == 0)
 			// This is a comment, just skip
 			return JCAMP_INVALID;
-		// Now, get the key value
 		data = eq + 1;
-printf("%s == ",key);
 		while (*data != 0 && *data < '$')
 			data++;
-puts(data);
+		eq = strstr (data, "$$");
+		if (eq && *eq)
+			strncpy (buf, data, MIN (eq - data, VALUE_LENGTH));
+		else 
+			strncpy (buf, data, VALUE_LENGTH);
+		// strip trailing white spaces:
+		i = strlen (buf);
+		while (buf[i] <= ' ')
+			buf[i--] = 0;
+		
+		// Now, get the key value
+		i = JCAMP_TITLE;
+		while (i <= JCAMP_RELAXATION_TIMES && strcmp (key, Keys[i]))
+			i++;
+		return i;
 	}
 	return JCAMP_UNKNOWN;
 }
@@ -372,12 +401,363 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 	char key[KEY_LENGTH];
 	char buf[VALUE_LENGTH];
 	char line[300]; // should be enough
+	int n;
+	deltax = 0.;
 	istringstream s(data);
-	s.getline (line, 300);
-	ReadField (line, key, buf);
 	while (!s.eof ()) {
 		s.getline (line, 300);
-		ReadField (line, key, buf);
+		n = ReadField (line, key, buf);
+		switch (n) {
+		case JCAMP_TITLE:
+			SetTitle (buf);
+			break;
+		case JCAMP_JCAMP_DX:
+		case JCAMP_DATA_TYPE:
+		case JCAMP_DATACLASS:
+		case JCAMP_APPLICATION:
+		case JCAMP_DICTIONARY:
+		case JCAMP_BLOCKS:
+		case JCAMP_BLOCK_ID:
+			break;
+		case JCAMP_END: {
+			GOData *data;
+			GogSeries *series = m_View->GetSeries ();
+			data = go_data_vector_val_new (x, npoints, NULL);
+			gog_series_set_dim (series, 0, data, NULL);
+			data = go_data_vector_val_new (y, npoints, NULL);
+			gog_series_set_dim (series, 1, data, NULL);
+			return;
+		}
+		case JCAMP_XYDATA: {
+			unsigned read = 0;
+			list<double> l;
+			bool compressed = true;
+			if (isnan (maxx)) {
+				maxx = MAX (firstx, lastx);
+				minx = MIN (firstx, lastx);
+			}
+			if (deltax == 0.)
+				deltax = (maxx - minx) / (npoints - 1);
+			// FIXME: we should implement a real parser for this value
+			if (!strcmp (buf, "(X++(Y..Y))")) {
+				while (1) {
+					if (s.eof ())
+						break;	// this should not occur, but a corrupted or bad file is always possible
+					s.getline (line, 300);
+					ReadDataLine (line, l);
+					list<double>::iterator i = l.begin (), end = l.end ();
+					if (!compressed) {
+						if (minx + deltax * read != (*i) * xfactor)
+							g_warning (_("Data check failed!"));
+					}
+					else if (read > 0) {
+						double x0, y0;
+						x0 = (*i) * xfactor;
+						i++;
+						y0 = (*i) * yfactor;
+						if (x0 != x[read - 1] || y0 != y[read - 1])
+							g_warning (_("Data check failed!"));
+						if (read == npoints)
+							break;
+					} else {
+						compressed = strchr (line, ' ') == NULL;
+						x[read] = (*i) * xfactor;
+						i++;
+						y[read++] = (*i) * yfactor;
+						if (y[0] != firsty)
+							g_warning (_("Data check failed!"));
+					}
+					for (i++; i !=	end; i++) {
+						x[read] = minx + deltax * read;
+						y[read++] = (*i) * yfactor;
+					}
+					l.clear ();
+					if (!compressed && read == npoints)
+							break;
+				}
+				while (npoints > read) {
+					// this should never occur, fill missing y values with 0
+					x[read] = minx + deltax * read;
+					y[read] = 0.;
+				}
+				if (minx > maxx) {
+					double x = minx;
+					minx = maxx;
+					maxx = x;
+				}
+			}
+			break;
+		}
+		case JCAMP_XYPAIRS:
+		case JCAMP_PEAK_TABLE:
+		case JCAMP_PEAK_ASSIGNMENTS:
+		case JCAMP_RADATA:
+		case JCAMP_XUNITS:
+		case JCAMP_YUNITS:
+		case JCAMP_XLABEL:
+		case JCAMP_YLABEL:
+			break;
+		case JCAMP_XFACTOR:
+			xfactor = strtod (buf, NULL);
+			break;
+		case JCAMP_YFACTOR:
+			yfactor = strtod (buf, NULL);
+			break;
+		case JCAMP_FIRSTX:
+			firstx = strtod (buf, NULL);
+			break;
+		case JCAMP_LASTX:
+			lastx = strtod (buf, NULL);
+			break;
+		case JCAMP_NPOINTS: {
+			unsigned n = (unsigned) atoi (buf);
+			if (n && n != npoints) {
+				if (x)
+					delete[] x;
+				x = new double[n];
+				if (y)
+					delete[] y;
+				y = new double[n];
+			}
+			npoints = n;
+			break;
+		}
+		case JCAMP_FIRSTY:
+			firsty = strtod (buf, NULL);
+			break;
+		case JCAMP_MAXX:
+			maxx = strtod (buf, NULL);
+			break;
+		case JCAMP_MINX:
+			minx = strtod (buf, NULL);
+			break;
+		case JCAMP_MAXY:
+			maxy = strtod (buf, NULL);
+			break;
+		case JCAMP_MINY:
+			miny = strtod (buf, NULL);
+			break;
+		case JCAMP_RUNITS:
+		case JCAMP_AUNITS:
+		case JCAMP_FIRSTR:
+		case JCAMP_LASTR:
+		case JCAMP_MAXA:
+		case JCAMP_MINA:
+		case JCAMP_RFACTOR:
+		case JCAMP_AFACTOR:
+		case JCAMP_FIRSTA:
+		case JCAMP_ALIAS:
+		case JCAMP_ZPD:
+		case JCAMP_NTUPLES:
+		case JCAMP_VAR_NAME:
+		case JCAMP_SYMBOL:
+		case JCAMP_VAR_TYPE:
+		case JCAMP_VAR_FORM:
+		case JCAMP_VAR_DIM:
+		case JCAMP_UNITS:
+		case JCAMP_FIRST:
+		case JCAMP_LAST:
+		case JCAMP_MIN:
+		case JCAMP_MAX:
+		case JCAMP_FACTOR:
+		case JCAMP_PAGE:
+			break;
+		case JCAMP_DELTAX:
+			deltax = strtod (buf, NULL);
+			break;
+		case JCAMP_CLASS:
+		case JCAMP_ORIGIN:
+		case JCAMP_OWNER:
+		case JCAMP_DATE:
+		case JCAMP_TIME:
+		case JCAMP_SOURCE_REFERENCE:
+		case JCAMP_CROSS_REFERENCE:
+		case JCAMP_SPECTROMETER:
+		case JCAMP_DATASYSTEM:
+		case JCAMP_INSTRUMENT_PARAMETERS:
+		case JCAMP_SAMPLE_DESCRIPTION:
+		case JCAMP_CAS_NAME:
+		case JCAMP_NAMES:
+		case JCAMP_MOLEFORM:
+		case JCAMP_CAS_REGISTRY_NO:
+		case JCAMP_WISWESSER:
+		case JCAMP_BEILSTEIN_LAWSON_NO:
+		case JCAMP_MP:
+		case JCAMP_BP:
+		case JCAMP_REFRACTIVE_INDEX:
+		case JCAMP_DENSITY:
+		case JCAMP_MW:
+		case JCAMP_CONCENTRATIONS:
+		case JCAMP_SAMPLING_PROCEDURE:
+		case JCAMP_STATE:
+		case JCAMP_PATH_LENGTH:
+		case JCAMP_PRESSURE:
+		case JCAMP_TEMPERATURE:
+		case JCAMP_DATA_PROCESSING:
+		case JCAMP_SPECTROMETER_TYPE:
+		case JCAMP_INLET:
+		case JCAMP_IONIZATION_MODE:
+		case JCAMP_INLET_TEMPERATURE:
+		case JCAMP_SOURCE_TEMPERATURE:
+		case JCAMP_IONIZATION_ENERGY:
+		case JCAMP_ACCELERATING_VOLTAGE:
+		case JCAMP_TOTAL_ION_CURRENT:
+		case JCAMP_ACQUISITION_RANGE:
+		case JCAMP_DETECTOR:
+		case JCAMP_SCAN_NUMBER:
+		case JCAMP_RETENTION_TIME:
+		case JCAMP_BASE_PEAK:
+		case JCAMP_BASE_PEAK_INTENSITY:
+		case JCAMP_RIC:
+		case JCAMP_NOMINAL_MASS:
+		case JCAMP_MONOISOTOPIC_MASS:
+		case JCAMP_OBSERVE_FREQUENCY:
+		case JCAMP_OBSERVE_NUCLEUS:
+		case JCAMP_SOLVENT_REFERENCE:
+		case JCAMP_DELAY:
+		case JCAMP_ACQUISITION_MODE:
+		case JCAMP_FIELD:
+		case JCAMP_DECOUPLER:
+		case JCAMP_FILTER_WIDTH:
+		case JCAMP_ACQUISITION_TIME:
+		case JCAMP_ZERO_FILL:
+		case JCAMP_AVERAGES:
+		case JCAMP_DIGITIZER_RES:
+		case JCAMP_SPINNING_RATE:
+		case JCAMP_PHASE_0:
+		case JCAMP_PHASE_1:
+		case JCAMP_MIN_INTENSITY:
+		case JCAMP_MAX_INTENSITY:
+		case JCAMP_OBSERVE_90:
+		case JCAMP_COUPLING_CONSTANTS:
+		case JCAMP_RELAXATION_TIMES:
+		default:
+			break;
+		}
+	}
+}
+
+void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
+{
+	int i = 1, j, max = strlen (data);
+	char buf[32], c = data[0];
+	double val = 0., newval = 0.;
+	bool pos, diff = false;
+	while (i < max) {
+		pos = true;
+		switch (c) {
+		case ' ':
+			c = data[i++];
+			continue;
+		case '+':
+			break;
+		case '-':
+			pos = false;
+			break;
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+			buf[0] = c;
+			diff = false;
+			break;
+		case '@':
+		case 'A':
+		case 'B':
+		case 'C':
+		case 'D':
+		case 'E':
+		case 'F':
+		case 'G':
+		case 'H':
+		case 'I':
+			buf[0] = c - 0x10;
+			diff = false;
+			break;
+		case 'a':
+		case 'b':
+		case 'c':
+		case 'd':
+		case 'e':
+		case 'f':
+		case 'g':
+		case 'h':
+		case 'i':
+			pos = false;
+			diff = false;
+			buf[0] = c - 0x2f;
+			break;
+		case '%':
+			c = 'I';
+		case 'J':
+		case 'K':
+		case 'L':
+		case 'M':
+		case 'N':
+		case 'O':
+		case 'P':
+		case 'Q':
+		case 'R':
+			diff = true;
+			buf[0] = c - 0x19;
+			break;
+		case 'j':
+		case 'k':
+		case 'l':
+		case 'm':
+		case 'n':
+		case 'o':
+		case 'p':
+		case 'q':
+		case 'r':
+			pos = false;
+			diff = true;
+			buf[0] = c - 0x39;
+			break;
+		case 's':
+			c = '[';
+		case 'S':
+		case 'T':
+		case 'U':
+		case 'V':
+		case 'W':
+		case 'X':
+		case 'Y':
+		case 'Z': {
+			int m, n = c - 'R';
+			for (m = 1; m < n; m++) {
+				if (diff)
+					val += newval;
+				l.push_back (val);
+			}
+			c = data[i++];
+			continue;
+		}
+		default:
+			g_warning (_("Invalid character in data block"));
+		}
+		j = 1;
+		while (c = data[i++], (c >= '0' && c <= '9') || c == '.') {
+			if (j == 31) {
+				g_warning (_("Constant too long"));
+				break;
+			}
+			buf[j++] = c;
+		}
+		buf[j] = 0;
+		newval = strtod (buf, NULL);
+		if (!pos) newval = - newval;
+		if (diff)
+			val += newval;
+		else
+			val = newval;
+		l.push_back (val);
 	}
 }
 

@@ -23,6 +23,14 @@
 #include "config.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
+#include <goffice/data/go-data-simple.h>
+#include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-label.h>
+#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-style.h>
+#include <goffice/gtk/go-graph-widget.h>
 
 namespace gcu
 {
@@ -30,6 +38,19 @@ namespace gcu
 SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 {
 	m_Doc = pDoc;
+	m_Widget = go_graph_widget_new (NULL);
+	GogGraph *graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_Widget));
+	/* Add a title */
+	GogLabel *label = (GogLabel *) g_object_new (GOG_LABEL_TYPE, NULL);
+	gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
+	/* Get the chart created by the widget initialization */
+	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
+	/* Create a pie plot and add it to the chart */
+	GogPlot *plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
+	g_object_set (plot, "default-style-has-markers", false, NULL);
+	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
+	/* Create a series for the plot and populate it with some simple data */
+	m_Series = gog_plot_new_series (plot);
 }
 
 SpectrumView::~SpectrumView ()

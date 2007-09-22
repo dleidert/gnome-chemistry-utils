@@ -23,6 +23,9 @@
 #ifndef GCU_SPECTRUM_VIEW_H
 #define GCU_SPECTRUM_VIEW_H
 
+#include <goffice/graph/gog-series.h>
+#include <gtk/gtkwidget.h>
+
 namespace gcu
 {
 
@@ -49,6 +52,8 @@ The destructor of SpectrumView.
 @return the associated document.
 */
 GCU_RO_PROP (SpectrumDocument *, Doc)
+GCU_RO_PROP (GtkWidget *, Widget)
+GCU_RO_PROP (GogSeries *, Series)
 };
 
 }
