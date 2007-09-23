@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-09-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: fixed various data reading issues in
+	(X++(Y..Y)) mode.
+
 2007-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: load data and display the spectrum.
 	* libs/gcu/spectrumdoc.h: ditto.

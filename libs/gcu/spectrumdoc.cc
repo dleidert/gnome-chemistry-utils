@@ -84,6 +84,7 @@ void SpectrumDocument::Load (char const *uri, char const *mime_type)
 	buf[info->size] = 0;
 	if (n == info->size) {
 		LoadJcampDx (buf);
+for(unsigned i=0;i<npoints;i++)printf("x=%g\ty=%g\n",x[i],y[i]);
 		if (m_App) {
 			char *dirname = g_path_get_dirname (uri);
 			m_App->SetCurDir (dirname);
@@ -378,13 +379,15 @@ int ReadField (char const *s, char *key, char *buf)
 		while (*data != 0 && *data < '$')
 			data++;
 		eq = strstr (data, "$$");
-		if (eq && *eq)
+		if (eq && *eq) {
 			strncpy (buf, data, MIN (eq - data, VALUE_LENGTH));
+			buf[MIN (eq - data, VALUE_LENGTH - 1)] = 0;
+		}
 		else 
 			strncpy (buf, data, VALUE_LENGTH);
 		// strip trailing white spaces:
 		i = strlen (buf);
-		while (buf[i] <= ' ')
+		while (buf[i] <= ' ' || buf[i] == '"')
 			buf[i--] = 0;
 		
 		// Now, get the key value
@@ -395,6 +398,8 @@ int ReadField (char const *s, char *key, char *buf)
 	}
 	return JCAMP_UNKNOWN;
 }
+
+#define JCAMP_PREC 1e-5 // fully arbitrary
 
 void SpectrumDocument::LoadJcampDx (char const *data)
 {
@@ -419,71 +424,93 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 		case JCAMP_BLOCKS:
 		case JCAMP_BLOCK_ID:
 			break;
-		case JCAMP_END: {
-			GOData *data;
-			GogSeries *series = m_View->GetSeries ();
-			data = go_data_vector_val_new (x, npoints, NULL);
-			gog_series_set_dim (series, 0, data, NULL);
-			data = go_data_vector_val_new (y, npoints, NULL);
-			gog_series_set_dim (series, 1, data, NULL);
-			return;
-		}
+		case JCAMP_END:
+			goto out;
 		case JCAMP_XYDATA: {
 			unsigned read = 0;
 			list<double> l;
-			bool compressed = true;
-			if (isnan (maxx)) {
-				maxx = MAX (firstx, lastx);
-				minx = MIN (firstx, lastx);
-			}
 			if (deltax == 0.)
-				deltax = (maxx - minx) / (npoints - 1);
+				deltax = (lastx - firstx) / (npoints - 1);
+			else {
+				if (firstx > lastx && deltax > 0)
+					deltax = -deltax;
+				unsigned n = (unsigned) ((lastx - firstx) / deltax + .1) + 1;
+				if (n && n != npoints) {
+					if (x)
+						delete[] x;
+					x = new double[n];
+					if (y)
+						delete[] y;
+					y = new double[n];
+				}
+				npoints = n;
+			}
 			// FIXME: we should implement a real parser for this value
-			if (!strcmp (buf, "(X++(Y..Y))")) {
+			if (!strncmp (buf, "(X++(Y..Y))",strlen ("(X++(Y..Y))"))) {
 				while (1) {
 					if (s.eof ())
 						break;	// this should not occur, but a corrupted or bad file is always possible
 					s.getline (line, 300);
-					ReadDataLine (line, l);
-					list<double>::iterator i = l.begin (), end = l.end ();
-					if (!compressed) {
-						if (minx + deltax * read != (*i) * xfactor)
-							g_warning (_("Data check failed!"));
+					if (strstr (line, "##")) {
+						s.seekg (-strlen (line) -1, _S_cur);
+						if (read > npoints) {
+							g_warning (_("Found too many data!"));
+							// FIXME: throw an exception
+						} else
+							npoints = read;
+						break;
 					}
-					else if (read > 0) {
-						double x0, y0;
-						x0 = (*i) * xfactor;
-						i++;
-						y0 = (*i) * yfactor;
-						if (x0 != x[read - 1] || y0 != y[read - 1])
+					ReadDataLine (line, l);
+					if (l.empty ())
+						continue;
+					list<double>::iterator i = l.begin (), end = l.end ();
+					if (read > 0) {
+						double x0 = firstx + deltax * read, x1 = (*i) * xfactor;
+						if (fabs (x0 - x1) < fmax (fabs (deltax), fabs (x0)) * JCAMP_PREC) {
+							// values are the same, no y reminder, and nothing to do
+						} else if (fabs (x[read - 1] - x1) < fmax (fabs (deltax), fabs (x1)) * JCAMP_PREC) {
+							i++;
+							double y0 = (*i) * yfactor;
+							if (fabs (y0 - y[read - 1]) > fmax (fabs (y0), fabs (y[read - 1])) * JCAMP_PREC)
 							g_warning (_("Data check failed!"));
-						if (read == npoints)
-							break;
+						} else if ((x0 - x1) * deltax < 0.) {
+							unsigned missing = (unsigned) round ((x1 - x0) / deltax), n;
+							for (n = 0; n < missing; n++) {
+								if (read > npoints) // FIXME: Throw an exception
+									;
+								x[read] = firstx + deltax * read;
+								y[read++] = go_nan;
+							}
+						} else {
+							// FIXME: duplicate values, throw an exception
+						}
 					} else {
-						compressed = strchr (line, ' ') == NULL;
 						x[read] = (*i) * xfactor;
+						if (fabs (x[0] - firstx) > fabs (deltax * JCAMP_PREC)) {
+							g_warning (_("Data check failed: FIRSTX!"));
+							firstx = x[0]; // WARNING: hope that deltax is good
+						}
 						i++;
 						y[read++] = (*i) * yfactor;
-						if (y[0] != firsty)
+						if (fabs (firsty - y[0]) > fmax (fabs (firsty), fabs (y[0])) * JCAMP_PREC)
 							g_warning (_("Data check failed!"));
 					}
 					for (i++; i !=	end; i++) {
-						x[read] = minx + deltax * read;
+						if (read > npoints) // FIXME: Throw an exception
+							;
+						x[read] = firstx + deltax * read;
 						y[read++] = (*i) * yfactor;
 					}
 					l.clear ();
-					if (!compressed && read == npoints)
-							break;
 				}
 				while (npoints > read) {
-					// this should never occur, fill missing y values with 0
+					// this should never occur, fill missing y values with nan
 					x[read] = minx + deltax * read;
-					y[read] = 0.;
+					y[read] = go_nan;
 				}
-				if (minx > maxx) {
-					double x = minx;
-					minx = maxx;
-					maxx = x;
+				if (isnan (maxx)) {
+					maxx = MAX (firstx, lastx);
+					minx = MIN (firstx, lastx);
 				}
 			}
 			break;
@@ -635,6 +662,14 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 			break;
 		}
 	}
+
+out:
+	GOData *godata;
+	GogSeries *series = m_View->GetSeries ();
+	godata = go_data_vector_val_new (x, npoints, NULL);
+	gog_series_set_dim (series, 0, godata, NULL);
+	godata = go_data_vector_val_new (y, npoints, NULL);
+	gog_series_set_dim (series, 1, godata, NULL);
 }
 
 void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
@@ -643,17 +678,23 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 	char buf[32], c = data[0];
 	double val = 0., newval = 0.;
 	bool pos, diff = false;
+	char const *eq = strstr (data, "$$");
+	if (eq)
+		max = eq - data + 1;
+	pos = true;
 	while (i < max) {
-		pos = true;
 		switch (c) {
 		case ' ':
 			c = data[i++];
 			continue;
-		case '+':
-			break;
 		case '-':
 			pos = false;
-			break;
+		case '+':
+			c = data[i++];
+			if ((c < '0' || c > '9') && c != '.') // FIXME: throw an exception
+				;
+			continue;
+		case '.':
 		case '0':
 		case '1':
 		case '2':
@@ -691,7 +732,7 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 		case 'i':
 			pos = false;
 			diff = false;
-			buf[0] = c - 0x2f;
+			buf[0] = c - 0x30;
 			break;
 		case '%':
 			c = 'I';
@@ -730,17 +771,36 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 		case 'X':
 		case 'Y':
 		case 'Z': {
-			int m, n = c - 'R';
+			buf[0] = c - 0x22;
+			j = 1;
+			while (c = data[i++], (c >= '0' && c <= '9')) {
+				if (j == 31) {
+					g_warning (_("Constant too long"));
+					break;
+				}
+				buf[j++] = c;
+			}
+			buf[j] = 0;
+			int m, n = atoi (buf);
 			for (m = 1; m < n; m++) {
 				if (diff)
 					val += newval;
 				l.push_back (val);
 			}
-			c = data[i++];
 			continue;
 		}
+		case '?':
+			diff = false;
+			val = go_nan;
+			newval = 0.;
+			l.push_back (go_nan);
+			c = data[i++];
+			continue;
 		default:
-			g_warning (_("Invalid character in data block"));
+			if (c > ' ')
+				g_warning (_("Invalid character in data block"));
+			c = data[i++];
+			continue;
 		}
 		j = 1;
 		while (c = data[i++], (c >= '0' && c <= '9') || c == '.') {
@@ -752,12 +812,14 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 		}
 		buf[j] = 0;
 		newval = strtod (buf, NULL);
-		if (!pos) newval = - newval;
+		if (!pos)
+			newval = - newval;
 		if (diff)
 			val += newval;
 		else
 			val = newval;
 		l.push_back (val);
+		pos = true;
 	}
 }
 
