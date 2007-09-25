@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2007-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: load (XY..XY) data.
+
+2007-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: emit a mor meaningful message when a file
 	type is not supported.
 	* plugins/paint/bonds/bondtool.cc: don't crash if mouse cursor moves

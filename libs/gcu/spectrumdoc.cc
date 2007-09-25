@@ -84,7 +84,6 @@ void SpectrumDocument::Load (char const *uri, char const *mime_type)
 	buf[info->size] = 0;
 	if (n == info->size) {
 		LoadJcampDx (buf);
-for(unsigned i=0;i<npoints;i++)printf("x=%g\ty=%g\n",x[i],y[i]);
 		if (m_App) {
 			char *dirname = g_path_get_dirname (uri);
 			m_App->SetCurDir (dirname);
@@ -506,11 +505,30 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 				while (npoints > read) {
 					// this should never occur, fill missing y values with nan
 					x[read] = minx + deltax * read;
-					y[read] = go_nan;
+					y[read++] = go_nan;
 				}
 				if (isnan (maxx)) {
 					maxx = MAX (firstx, lastx);
 					minx = MIN (firstx, lastx);
+				}
+			} else if (!strncmp (buf, "(XY..XY)",strlen ("(XY..XY)"))) {
+				while (1) {
+					if (s.eof ())
+						break;	// this should not occur, but a corrupted or bad file is always possible
+					s.getline (line, 300);
+					if (strstr (line, "##")) {
+						s.seekg (-strlen (line) -1, _S_cur);
+						if (read > npoints) {
+							g_warning (_("Found too many data!"));
+							// FIXME: throw an exception
+						} else
+							npoints = read;
+						break;
+					}
+					ReadDataLine (line, l);
+					if (sscanf (line, "%lg %lg\n", x + read, y + read) != 2)
+						g_warning (_("Invalid line!"));
+					read++;
 				}
 			}
 			break;
