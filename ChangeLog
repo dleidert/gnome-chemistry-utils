@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2007-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: emit a mor meaningful message when a file
+	type is not supported.
+	* plugins/paint/bonds/bondtool.cc: don't crash if mouse cursor moves
+	through an item without associated object.
+
 2007-09-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: fixed various data reading issues in
 	(X++(Y..Y)) mode.

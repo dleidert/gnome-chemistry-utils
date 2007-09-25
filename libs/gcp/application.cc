@@ -474,9 +474,11 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		}
 	}
 	if (file_type < 0 || (!bSave && (file_type > CHEMISTRY))) {
+		char *mess = g_strdup_printf (_("Sorry, format %s not supported!\nFailed to load %s."), mime_type, filename);
 		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
-													_("Sorry, format not supported!"));
+													mess);
 		gtk_dialog_run (GTK_DIALOG (message));
+		g_free (mess);
 		gtk_widget_destroy (message);
 		return true;
 	}

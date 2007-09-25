@@ -195,7 +195,7 @@ void gcpBondTool::OnDrag ()
 		Object* pObject = NULL;
 		if (pItem) {
 			pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
-			if (pObject == m_pObject || ((pObject->GetType () == FragmentType) && dynamic_cast<gcp::Fragment*> (pObject)->GetAtom () == m_pObject)) {
+			if (pObject && (pObject == m_pObject || ((pObject->GetType () == FragmentType) && dynamic_cast<gcp::Fragment*> (pObject)->GetAtom () == m_pObject))) {
 				if (!m_AutoDir)
 					return;
 			} else
