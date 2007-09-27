@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-09-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: needs gtk+ >= 2.12.0.
+	* database/residues.xml.in: add five new definitions.
+
 2007-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: load (XY..XY) data.
 

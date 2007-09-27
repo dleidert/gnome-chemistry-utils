@@ -287,4 +287,196 @@
       <bond id="b3" order="2" begin="a4" end="a2"/>
     </molecule>
   </residue>
+  <residue raw="C7H7">
+    <symbols>Bn</symbols>
+    <_name>Benzyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="30" y="900"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="170" y="900"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="240" y="778,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="170" y="657,513"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="240" y="536,269"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="380" y="536,269"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="450" y="657,513"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="380" y="778,756"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="2" begin="a4" end="a3"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="2" begin="a6" end="a5"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="2" begin="a8" end="a7"/>
+      <bond id="b8" order="1" begin="a8" end="a3"/>
+    </molecule>
+  </residue>
+  <residue raw="C7H5O1">
+    <symbols>Bz</symbols>
+    <_name>Benzoyl</_name>
+    <molecule id="m7">
+      <pseudo-atom id="a1">
+        <position x="30" y="900"/>
+      </pseudo-atom>
+      <atom id="a2" element="C">
+        <position x="170" y="900"/>
+      </atom>
+      <atom id="a3" element="C">
+        <position x="240" y="778,756"/>
+      </atom>
+      <atom id="a4" element="C">
+        <position x="170" y="657,513"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="240" y="536,269"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="380" y="536,269"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="450" y="657,513"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="380" y="778,756"/>
+      </atom>
+      <atom id="a9" element="O">
+        <position x="240" y="1021,24"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="1" begin="a2" end="a3"/>
+      <bond id="b3" order="2" begin="a4" end="a3"/>
+      <bond id="b4" order="1" begin="a4" end="a5"/>
+      <bond id="b5" order="2" begin="a6" end="a5"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="2" begin="a8" end="a7"/>
+      <bond id="b8" order="1" begin="a8" end="a3"/>
+      <bond id="b9" order="2" begin="a9" end="a2"/>
+    </molecule>
+  </residue>
+  <residue raw="C1H3O2S1">
+    <symbols>Ms</symbols>
+    <_name>Mesyl</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="30" y="900"/>
+      </pseudo-atom>
+      <atom id="a2" element="S">
+        <position x="170" y="900"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="170" y="760"/>
+      </atom>
+      <atom id="a4" element="O">
+        <position x="170" y="1040"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="310" y="900"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a3" end="a2"/>
+      <bond id="b3" order="2" begin="a4" end="a2"/>
+      <bond id="b4" order="1" begin="a2" end="a5"/>
+    </molecule>
+  </residue>
+  <residue raw="C1F3H0O2S1">
+    <symbols>Tf</symbols>
+    <_name>Triflyl</_name>
+    <molecule id="m3">
+      <pseudo-atom id="a1">
+        <position x="30" y="900"/>
+      </pseudo-atom>
+      <atom id="a2" element="S">
+        <position x="170" y="900"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="170" y="760"/>
+      </atom>
+      <atom id="a4" element="O">
+        <position x="170" y="1040"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="310" y="900"/>
+      </atom>
+      <atom id="a6" element="F">
+        <position x="310" y="760"/>
+      </atom>
+      <atom id="a7" element="F">
+        <position x="450" y="900"/>
+      </atom>
+      <atom id="a8" element="F">
+        <position x="310" y="1040"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b2" order="2" begin="a3" end="a2"/>
+      <bond id="b3" order="2" begin="a4" end="a2"/>
+      <bond id="b4" order="1" begin="a2" end="a5"/>
+      <bond id="b5" order="1" begin="a5" end="a6"/>
+      <bond id="b6" order="1" begin="a5" end="a7"/>
+      <bond id="b7" order="1" begin="a5" end="a8"/>
+    </molecule>
+  </residue>
+  <residue raw="C7H7O2S1">
+    <symbols>Ts</symbols>
+    <_name>Tosyl</_name>
+    <molecule id="m3">
+      <pseudo-atom id="a1">
+        <position x="30" y="900"/>
+      </pseudo-atom>
+      <atom id="a10" element="C">
+        <position x="380" y="1021,24"/>
+      </atom>
+      <atom id="a11" element="C">
+        <position x="730" y="900"/>
+      </atom>
+      <atom id="a2" element="S">
+        <position x="170" y="900"/>
+      </atom>
+      <atom id="a3" element="O">
+        <position x="170" y="760"/>
+      </atom>
+      <atom id="a4" element="O">
+        <position x="170" y="1040"/>
+      </atom>
+      <atom id="a5" element="C">
+        <position x="310" y="900"/>
+      </atom>
+      <atom id="a6" element="C">
+        <position x="380" y="778,756"/>
+      </atom>
+      <atom id="a7" element="C">
+        <position x="520" y="778,756"/>
+      </atom>
+      <atom id="a8" element="C">
+        <position x="590" y="900"/>
+      </atom>
+      <atom id="a9" element="C">
+        <position x="520" y="1021,24"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+      <bond id="b10" order="1" begin="a10" end="a5"/>
+      <bond id="b11" order="1" begin="a8" end="a11"/>
+      <bond id="b2" order="2" begin="a3" end="a2"/>
+      <bond id="b3" order="2" begin="a4" end="a2"/>
+      <bond id="b4" order="1" begin="a2" end="a5"/>
+      <bond id="b5" order="2" begin="a6" end="a5"/>
+      <bond id="b6" order="1" begin="a6" end="a7"/>
+      <bond id="b7" order="2" begin="a8" end="a7"/>
+      <bond id="b8" order="1" begin="a8" end="a9"/>
+      <bond id="b9" order="2" begin="a10" end="a9"/>
+    </molecule>
+  </residue>
 </residues>
