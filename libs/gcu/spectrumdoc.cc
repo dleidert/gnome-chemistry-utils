@@ -25,7 +25,7 @@
 #include "spectrumdoc.h"
 #include "spectrumview.h"
 #include <goffice/data/go-data-simple.h>
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n-lib.h>
@@ -96,6 +96,34 @@ void SpectrumDocument::Load (char const *uri, char const *mime_type)
 	
 }
 
+char const *Types[] = {
+	"INFRARED SPECTRUM",
+	"RAMAN SPECTRUM",
+	"INFRARED PEAK TABLE",
+	"INFRARED INTERFEROGRAM",
+	"INFRARED TRANSFORMED SPECTRUM",
+	"UV-VISIBLE SPECTRUM",
+	"NMR SPECTRUM",
+	"MASS SPECTRUM"
+};
+
+char const *Units[] = {
+	"1/CM",
+	"TRANSMITTANCE",
+	"ABSORBANCE",
+};
+
+int get_spectrum_data_from_string (char const *type, char const *names[], int max)
+{
+	int res = 0;
+	while (res < max) {
+		if (!strncmp (type, names[res], strlen (names[res])))
+			return res;
+		res++;
+	}
+	return res;
+}
+
 char const *Keys[] = {
 	"TITLE",
 	"JCAMPDX",
@@ -107,6 +135,7 @@ char const *Keys[] = {
 	"BLOCKID",
 	"END",
 	"XYDATA",
+	"XYPOINTS",
 	"XYPAIRS",
 	"PEAKTABLE",
 	"PEAKASSIGNMENTS",
@@ -233,6 +262,7 @@ enum {
 	JCAMP_BLOCK_ID,
 	JCAMP_END,
 	JCAMP_XYDATA,
+	JCAMP_XYPOINTS,
 	JCAMP_XYPAIRS,
 	JCAMP_PEAK_TABLE,
 	JCAMP_PEAK_ASSIGNMENTS,
@@ -416,7 +446,10 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 			SetTitle (buf);
 			break;
 		case JCAMP_JCAMP_DX:
+			break;
 		case JCAMP_DATA_TYPE:
+			m_SpectrumType = (SpectrumType) get_spectrum_data_from_string (buf, Types, GCU_SPECTRUM_MAX);
+			break;
 		case JCAMP_DATACLASS:
 		case JCAMP_APPLICATION:
 		case JCAMP_DICTIONARY:
@@ -425,7 +458,8 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 			break;
 		case JCAMP_END:
 			goto out;
-		case JCAMP_XYDATA: {
+		case JCAMP_XYDATA:
+		case JCAMP_XYPOINTS: {
 			unsigned read = 0;
 			list<double> l;
 			if (deltax == 0.)
@@ -525,7 +559,6 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 							npoints = read;
 						break;
 					}
-					ReadDataLine (line, l);
 					if (sscanf (line, "%lg %lg\n", x + read, y + read) != 2)
 						g_warning (_("Invalid line!"));
 					read++;
@@ -682,12 +715,14 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 	}
 
 out:
+	m_Empty = npoints == 0;
 	GOData *godata;
 	GogSeries *series = m_View->GetSeries ();
 	godata = go_data_vector_val_new (x, npoints, NULL);
 	gog_series_set_dim (series, 0, godata, NULL);
 	godata = go_data_vector_val_new (y, npoints, NULL);
 	gog_series_set_dim (series, 1, godata, NULL);
+	m_View->SetXAxisBounds (minx, maxx, true); // FIXME only invert if needed
 }
 
 void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)

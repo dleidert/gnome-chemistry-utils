@@ -40,6 +40,7 @@ public:
 	void OnFileOpen ();
 	void OnFilePrint ();
 	void OnFileClose ();
+	void OnCopy ();
 	void SetTitle (string const &title);
 
 private:

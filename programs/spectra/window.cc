@@ -27,6 +27,26 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
+//#include <goffice/goffice.h>
+//#include <goffice/app/go-plugin.h>
+//#include <goffice/app/go-plugin-loader-module.h>
+//#include <goffice/data/go-data-simple.h>
+#include <goffice/gtk/go-graph-widget.h>
+//#include <goffice/gtk/goffice-gtk.h>
+//#include <goffice/graph/gog-graph.h>
+//#include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-object-xml.h>
+//#include <goffice/graph/gog-plot.h>
+//#include <goffice/graph/gog-series.h>
+//#include <goffice/graph/gog-style.h>
+//#include <goffice/graph/gog-styled-object.h>
+#include <goffice/utils/go-locale.h>
+#include <goffice/utils/go-image.h>
+//#include <goffice/utils/go-line.h>
+//#include <goffice/utils/go-marker.h>
+//#include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-output-memory.h>
+//#include <libxml/tree.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gtk/gtkbox.h>
@@ -65,6 +85,11 @@ static void on_quit (GtkWidget *widget, gsvWindow* Win)
 {
 	gsvApplication *App = Win->GetApp ();
 	App->OnQuit ();
+}
+
+static void on_copy (GtkWidget* widget, gsvWindow* Win)
+{
+	Win->OnCopy ();
 }
 
 static void on_help (GtkWidget *widget, gsvWindow* window)
@@ -151,6 +176,9 @@ static GtkActionEntry entries[] = {
 		  N_("Close the current file"), G_CALLBACK (on_file_close) },
  	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GSpectrum"), G_CALLBACK (on_quit) },
+  { "EditMenu", NULL, N_("_Edit") },
+	  { "Copy", GTK_STOCK_COPY, N_("_Copy"), "<control>C",
+		  N_("Copy the selection"), G_CALLBACK (on_copy) },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Spetra Viewer"), G_CALLBACK (on_help) },
@@ -174,6 +202,9 @@ static const char *ui_description =
 "      <menuitem action='Print'/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
+"    </menu>"
+"    <menu action='EditMenu'>"
+"      <menuitem action='Copy'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
@@ -277,6 +308,82 @@ void gsvWindow::OnFileClose ()
 
 void gsvWindow::OnFilePrint ()
 {
+}
+
+static GtkTargetEntry const targets[] = {
+	{(char *) "application/x-goffice-graph",  0, 0},
+	{(char *) "image/svg+xml", 0, 2},
+	{(char *) "image/svg", 0, 1},
+	{(char *) "image/png", 0, 3}
+};
+
+static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
+{
+	guchar *buffer = NULL;
+	char *format = NULL;
+	GsfOutput *output;
+	GsfOutputMemory *omem;
+	gsf_off_t osize;
+	GOImageFormat fmt = GO_IMAGE_FORMAT_UNKNOWN;
+	double w, h;
+	gog_graph_get_size (graph, &w, &h);
+	output = gsf_output_memory_new ();
+	omem   = GSF_OUTPUT_MEMORY (output);
+	switch (info) {
+	case 0: {
+			GsfXMLOut *xout;
+			char *old_num_locale, *old_monetary_locale;
+		
+			old_num_locale = g_strdup (go_setlocale (LC_NUMERIC, NULL));
+			go_setlocale (LC_NUMERIC, "C");
+			old_monetary_locale = g_strdup (go_setlocale (LC_MONETARY, NULL));
+			go_setlocale (LC_MONETARY, "C");
+			go_locale_untranslated_booleans ();
+		
+			xout = gsf_xml_out_new (output);
+			gog_object_write_xml_sax (GOG_OBJECT (graph), xout);
+			g_object_unref (xout);
+		
+			/* go_setlocale restores bools to locale translation */
+			go_setlocale (LC_MONETARY, old_monetary_locale);
+			g_free (old_monetary_locale);
+			go_setlocale (LC_NUMERIC, old_num_locale);
+			g_free (old_num_locale);
+		}
+		break;
+	case 1:
+	case 2:
+		fmt = GO_IMAGE_FORMAT_SVG;
+		break;
+	case 3:
+		fmt = GO_IMAGE_FORMAT_PNG;
+		break;
+	}
+	/* FIXME Add a dpi editor. Default dpi to 150 for now */
+	bool res = (fmt != GO_IMAGE_FORMAT_UNKNOWN)?
+		gog_graph_export_image (graph, fmt, output, 150.0, 150.0):
+		true;
+	if (res) {
+		osize = gsf_output_size (output);
+				
+		buffer = (guchar*) g_malloc (osize);
+		memcpy (buffer, gsf_output_memory_get_bytes (omem), osize);
+		gsf_output_close (output);
+		g_object_unref (output);
+		g_free (format);
+		gtk_selection_data_set (selection_data,
+					selection_data->target, 8,
+					(guchar *) buffer, osize);
+		g_free (buffer);
+	}
+}
+
+void gsvWindow::OnCopy ()
+{
+	GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_set_with_data (clipboard, targets, 4,
+		(GtkClipboardGetFunc) on_get_data, NULL,
+		go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_View->GetWidget ())));
 }
 
 void gsvWindow::SetTitle (string const &title)

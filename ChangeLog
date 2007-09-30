@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2007-09-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: requests gtk+>=2.12.0 and goffice>=0.5.1.
+	* goffice/gchemutils.cc: use the new component API.
+	* libs/gcp/application.cc: fixed an issue when importing from OpenBabel.
+	* libs/gcp/document.cc: use new go-math.h path.
+	* libs/gcu/chem3ddoc.cc: started work on wireframe rendering.
+	* libs/gcu/element.cc: use new go-math.h path.
+	* libs/gcu/gtkperiodic.c: (gtk_periodic_init), use new Gtk+ tooltips.
+	(gtk_periodic_finalize): ditto.
+	* libs/gcu/spectrumdoc.cc: import spectrum type.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: limit x axis bounds to spectrum bounds.
+	* libs/gcu/spectrumview.h: ditto.
+	* programs/spectra/gspectrum-unstable.desktop.in: add mime type.
+	* programs/spectra/gspectrum.desktop.in: ditto.
+	* programs/spectra/window.cc: implement copying as Goffice graph or image.
+	* programs/spectra/window.h: ditto.
+	* programs/table/gchemtable-curve.cc: update goffice use.
+	* programs/table/gchemtable-data.cc: use new go-math.h path.
+
 2007-09-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: needs gtk+ >= 2.12.0.
 	* database/residues.xml.in: add five new definitions.

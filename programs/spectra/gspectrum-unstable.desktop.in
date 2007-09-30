@@ -7,3 +7,4 @@ Icon=gspectrum
 Terminal=false
 Type=Application
 Categories=GTK;GNOME;Education;Science;Chemistry;
+MimeType=chemical/x-jcamp-dx

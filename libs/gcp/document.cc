@@ -34,7 +34,7 @@
 #include "theme.h"
 #include "tool.h"
 #include "window.h"
-#include <goffice/utils/go-rangefunc.h>
+#include <goffice/math/go-rangefunc.h>
 #include <unistd.h>
 #include <libgen.h>
 #include <gtk/gtk.h>

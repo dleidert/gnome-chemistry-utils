@@ -310,23 +310,25 @@ void Chem3dDoc::Draw (Matrix &m)
 	glEnable (GL_RESCALE_NORMAL);
 	while (atom) {
 		atomPos[atom] = v = m * atom->GetVector ();
-		Z = atom->GetAtomicNum ();
-		if (Z > 0) {
-			if (m_Display3D == CYLINDERS) {
-				R = .12;
-			} else {
-				R = etab.GetVdwRad (Z);
-				if (m_Display3D == BALL_AND_STICK)
-					R *= 0.2;
+		if (m_Display3D != WIREFRAME) {
+			Z = atom->GetAtomicNum ();
+			if (Z > 0) {
+				if (m_Display3D == CYLINDERS) {
+					R = .12;
+				} else {
+					R = etab.GetVdwRad (Z);
+					if (m_Display3D == BALL_AND_STICK)
+						R *= 0.2;
+				}
+				x = v.x ();
+				y = v.y ();
+				z = v.z ();
+				color = gcu_element_get_default_color (Z);
+				if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
+					dist = w + R;
+				glColor3d (color[0], color[1], color[2]);
+				sp.draw (v, R);
 			}
-			x = v.x ();
-			y = v.y ();
-			z = v.z ();
-			color = gcu_element_get_default_color (Z);
-			if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
-				dist = w + R;
-			glColor3d (color[0], color[1], color[2]);
-			sp.draw (v, R);
 		}
 		atom = m_Mol.NextAtom (i);
 	}

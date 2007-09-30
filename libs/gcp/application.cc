@@ -579,7 +579,7 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 	string old_num_locale;
 	bool bNew = (pDoc == NULL || (!pDoc->GetEmpty () && ! pDoc->GetDirty ())), local;
 	GnomeVFSFileInfo *info = NULL;
-	bool result = false, read_only = false;
+	bool result = true, read_only = false;
 	try {
 		if (!filename.length ())
 			throw (int) 0;
@@ -608,11 +608,21 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 			if (pInFormat == NULL)
 				throw 1;
 			Conv.SetInFormat (pInFormat);
-			while (!ifs.eof () && Conv.Read (&Mol, &ifs)) {
+#ifdef HAVE_OPENBABEL_2_2
+			OBBase *pObj = Conv.ReadObject (&ifs);
+			while (pObj) {
+				OBMol *pMol = dynamic_cast<OBMol*> (pObj);
+				if (pMol)
+					result = pDoc->ImportOB(*pMol);
+				delete pObj;
+				if  (!result)
+					break;
+				pObj = Conv.ReadObject (NULL);
+			}
+#endif
+			while (result && !ifs.eof () && Conv.Read (&Mol, &ifs)) {
 				result = pDoc->ImportOB(Mol);
 				Mol.Clear ();
-				if (!result)
-					break;
 			}
 			setlocale (LC_NUMERIC, old_num_locale.c_str ());
 			ifs.close ();

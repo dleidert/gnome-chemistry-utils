@@ -57,7 +57,7 @@ go_gchemutils_component_set_data (GOComponent *component)
 }
 	
 static void
-go_gchemutils_component_draw_cairo (GOComponent *component, gpointer data,
+go_gchemutils_component_render (GOComponent *component, cairo_t *cr,
 						  double width, double height)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);		  
@@ -98,7 +98,7 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 
 	klass->get_data = go_gchemutils_component_get_data;
 	klass->set_data = go_gchemutils_component_set_data;
-	klass->draw_cairo = go_gchemutils_component_draw_cairo;
+	klass->render = go_gchemutils_component_render;
 	klass->edit = go_gchemutils_component_edit;
 }
 

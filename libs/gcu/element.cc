@@ -23,7 +23,7 @@
 #include "config.h"
 #include "element.h"
 #include "xml-utils.h"
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>

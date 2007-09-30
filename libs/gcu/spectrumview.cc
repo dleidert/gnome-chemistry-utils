@@ -57,4 +57,13 @@ SpectrumView::~SpectrumView ()
 {
 }
 
+void SpectrumView::SetXAxisBounds (double min, double max, bool inverted)
+{
+	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
+	GSList *axes = gog_chart_get_axes (chart, GOG_AXIS_X);
+	GogAxis *axis = GOG_AXIS (axes->data);
+	gog_axis_set_bounds (axis, min, max);
+	g_object_set (axis, "invert-axis", inverted, NULL);
+}
+
 }	//	namespace gcu

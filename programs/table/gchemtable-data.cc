@@ -22,7 +22,7 @@
 
 #include "config.h"
 #include "gchemtable-data.h"
-#include <goffice/utils/go-math.h>
+#include <goffice/math/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 
 static  GOData *

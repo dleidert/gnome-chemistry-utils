@@ -43,7 +43,6 @@ struct _GtkPeriodic
 	GtkNotebook *book;
 	guint Z;
 	gboolean can_unselect;
-	GtkTooltips* tips;
 	unsigned colorstyle;
 	GArray *colorschemes;
 	unsigned nbschemes;
@@ -186,7 +185,6 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	g_return_if_fail (xml);
 	g_object_set_data(G_OBJECT(periodic), "xml", xml);
 	glade_xml_signal_autoconnect (xml);
-	periodic->tips = gtk_tooltips_new();
 	periodic->vbox = GTK_VBOX(glade_xml_get_widget(xml, "vbox1"));
 	periodic->book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "book"));
 	periodic->colorstyle = GTK_PERIODIC_COLOR_NONE;
@@ -197,7 +195,7 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 		button = (GtkToggleButton*)glade_xml_get_widget(xml, name);
 		if (GTK_IS_TOGGLE_BUTTON(button))
 		{
-			gtk_tooltips_set_tip(periodic->tips, GTK_WIDGET(button), gcu_element_get_name(i), NULL);
+			gtk_widget_set_tooltip_text (GTK_WIDGET(button), gcu_element_get_name(i));
 			periodic->buttons[i] = button;
 			periodic->labels[i] = GTK_LABEL (gtk_bin_get_child (GTK_BIN (button)));
 			g_signal_connect(G_OBJECT(button), "toggled", (GCallback)on_clicked, periodic);
@@ -230,7 +228,6 @@ static void gtk_periodic_finalize (GObject *object)
 	GtkPeriodic *periodic = (GtkPeriodic*) object;
 	GObject *obj = (GObject*) g_object_get_data (object, "xml");
 
-	g_object_ref_sink (G_OBJECT (periodic->tips));
 	g_array_free (periodic->colorschemes, FALSE);
 	if (obj) g_object_unref (obj);
 

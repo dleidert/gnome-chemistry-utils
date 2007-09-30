@@ -37,15 +37,14 @@
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-renderer-cairo.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
+#include <goffice/math/go-math.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-image.h>
 #include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-math.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <glib/gi18n.h>
@@ -564,13 +563,7 @@ void GChemTableCurve::DoPrint (GtkPrintOperation *print, GtkPrintContext *contex
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);
 	height = gtk_print_context_get_height (context);
-	GogGraph *Graph = GOG_GRAPH (gog_object_dup ((GogObject *) m_Graph, NULL, NULL));
-	gog_graph_set_size (Graph, width, height);
-	GogRenderer *renderer = gog_renderer_new_for_pixbuf (m_Graph);
-	g_object_set (renderer, "cairo", cr, NULL);
-	gog_renderer_update (renderer, width, height, 1.0);
-	g_object_unref (renderer);
-	g_object_unref (Graph);
+	gog_graph_render_to_cairo (m_Graph, cr, width, height);
 }
 
 void GChemTableCurve::OnPageSetup ()

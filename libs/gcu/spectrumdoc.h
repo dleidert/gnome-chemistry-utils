@@ -29,6 +29,18 @@
 namespace gcu
 {
 
+typedef enum {
+	GCU_SPECTRUM_INFRARED,
+	GCU_SPECTRUM_RAMAN,
+	GCU_SPECTRUM_INFRARED_PEAK_TABLE,
+	GCU_SPECTRUM_INFRARED_INTERFEROGRAM,
+	GCU_SPECTRUM_INFRARED_TRANSFORMED,
+	GCU_SPECTRUM_UV_VISIBLE,
+	GCU_SPECTRUM_NMR,
+	GCU_SPECTRUM_MASS,
+	GCU_SPECTRUM_MAX
+} SpectrumType;
+
 class Application;
 class SpectrumView;
 
@@ -72,6 +84,7 @@ private:
 
 GCU_PROT_PROP (SpectrumView*, View);
 GCU_RO_PROP (bool, Empty);
+GCU_RO_PROP (SpectrumType, SpectrumType);
 };
 
 }

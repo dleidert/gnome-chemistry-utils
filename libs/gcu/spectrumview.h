@@ -48,6 +48,10 @@ The destructor of SpectrumView.
 */
 	virtual ~SpectrumView ();
 
+/*!
+*/
+	void SetXAxisBounds (double min, double max, bool inverted);
+
 /*!\fn GetDoc()
 @return the associated document.
 */
