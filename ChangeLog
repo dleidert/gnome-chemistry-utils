@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-10-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/spectra/window.cc: implemented printing.
+	* programs/spectra/window.h: ditto.
+
 2007-09-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requests gtk+>=2.12.0 and goffice>=0.5.1.
 	* goffice/gchemutils.cc: use the new component API.

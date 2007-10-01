@@ -27,26 +27,11 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
-//#include <goffice/goffice.h>
-//#include <goffice/app/go-plugin.h>
-//#include <goffice/app/go-plugin-loader-module.h>
-//#include <goffice/data/go-data-simple.h>
 #include <goffice/gtk/go-graph-widget.h>
-//#include <goffice/gtk/goffice-gtk.h>
-//#include <goffice/graph/gog-graph.h>
-//#include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-object-xml.h>
-//#include <goffice/graph/gog-plot.h>
-//#include <goffice/graph/gog-series.h>
-//#include <goffice/graph/gog-style.h>
-//#include <goffice/graph/gog-styled-object.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-image.h>
-//#include <goffice/utils/go-line.h>
-//#include <goffice/utils/go-marker.h>
-//#include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
-//#include <libxml/tree.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gtk/gtkbox.h>
@@ -76,9 +61,19 @@ static void on_file_close (GtkWidget *widget, gsvWindow* Win)
 	Win->OnFileClose ();
 }
 
+static void on_page_setup (GtkWidget *widget, gsvWindow* Win)
+{
+	Win->OnPageSetup ();
+}
+
+static void on_print_preview (GtkWidget *widget, gsvWindow* Win)
+{
+	Win->OnFilePrint (true);
+}
+
 static void on_file_print (GtkWidget *widget, gsvWindow* Win)
 {
-	Win->OnFilePrint ();
+	Win->OnFilePrint (false);
 }
 
 static void on_quit (GtkWidget *widget, gsvWindow* Win)
@@ -170,8 +165,12 @@ static GtkActionEntry entries[] = {
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
 		  N_("Save the current file as an image"), G_CALLBACK (on_file_save_as_image) },
+	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
+		  N_("Setup the page settings for your current printer"), G_CALLBACK (on_page_setup) },
+	  { "PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Pre_view"), NULL,
+		  N_("Print preview"), G_CALLBACK (on_print_preview) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
-		  N_("Print the current scene"), G_CALLBACK (on_file_print) },
+		  N_("Print the current file"), G_CALLBACK (on_file_print) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
 		  N_("Close the current file"), G_CALLBACK (on_file_close) },
  	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
@@ -199,7 +198,10 @@ static const char *ui_description =
 "      <menuitem action='Open'/>"
 "      <menuitem action='SaveAsImage'/>"
 "	   <separator name='file-sep1'/>"
+"      <menuitem action='PageSetup'/>"
+"      <menuitem action='PrintPreview'/>"
 "      <menuitem action='Print'/>"
+"	   <separator name='file-sep2'/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"
@@ -288,6 +290,9 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	m_View->SetWindow (this);
 	gtk_container_add (GTK_CONTAINER (vbox), m_View->GetWidget ());
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
+	// Initialize print settings
+	m_PageSetup = gtk_page_setup_new ();
+	m_PrintSettings = gtk_print_settings_new ();
 }
 
 gsvWindow::~gsvWindow ()
@@ -306,8 +311,64 @@ void gsvWindow::OnFileClose ()
 	delete this;
 }
 
-void gsvWindow::OnFilePrint ()
+void gsvWindow::OnPageSetup ()
 {
+	GtkPageSetup *setup = gtk_print_run_page_setup_dialog (
+											m_Window,
+											m_PageSetup,
+											m_PrintSettings
+										);
+	g_object_unref (m_PageSetup);
+	m_PageSetup = setup;
+}
+
+static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpointer data)
+{
+	gtk_print_operation_set_n_pages (print, 1);
+}
+
+static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,gpointer data)
+{
+	((gsvWindow *) data)->DoPrint (print, context);
+}
+
+void gsvWindow::OnFilePrint (bool preview)
+{
+	GtkPrintOperation *print;
+	GtkPrintOperationResult res;
+
+	print = gtk_print_operation_new ();
+	gtk_print_operation_set_use_full_page (print, false);
+
+    gtk_print_operation_set_print_settings (print, m_PrintSettings);
+    gtk_print_operation_set_default_page_setup (print, m_PageSetup);
+
+	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), NULL);
+	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
+	
+	res = gtk_print_operation_run (print,
+								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
+								   GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+								   m_Window, NULL);
+
+	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
+		if (m_PrintSettings != NULL)
+			g_object_unref (m_PrintSettings);
+		m_PrintSettings = GTK_PRINT_SETTINGS (g_object_ref (gtk_print_operation_get_print_settings (print)));
+	}
+
+	g_object_unref (print);
+}
+
+void gsvWindow::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+{
+	cairo_t *cr;
+	gdouble width, height;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	width = gtk_print_context_get_width (context);
+	height = gtk_print_context_get_height (context);
+	gog_graph_render_to_cairo (go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_View->GetWidget ())), cr, width, height);
 }
 
 static GtkTargetEntry const targets[] = {
