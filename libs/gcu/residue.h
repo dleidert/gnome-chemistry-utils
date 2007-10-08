@@ -63,6 +63,9 @@ public:
 	static std::string const *GetFirstResidueSymbol (ResidueIterator &i);
 	static std::string const *GetNextResidueSymbol (ResidueIterator &i);
 
+public:
+	static unsigned MaxSymbolLength;
+
 private:
 	std::map<int,int> m_Raw;
 	std::set<std::string> m_Symbols;

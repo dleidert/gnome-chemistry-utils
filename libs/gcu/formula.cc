@@ -25,6 +25,7 @@
 #include "config.h"
 #include "formula.h"
 #include "element.h"
+#include "residue.h"
 #include <glib/gi18n.h>
 #include <cctype>
 #include <cmath>
@@ -64,6 +65,7 @@ public:
 	virtual ~FormulaElt ();
 	virtual string Markup ();
 	virtual void BuildRawFormula (map<int, int> &raw) = 0;
+	virtual int GetValence () = 0;
 	int stoich;
 };
 
@@ -72,8 +74,9 @@ class FormulaAtom: public FormulaElt
 public:
 	FormulaAtom (int Z);
 	virtual ~FormulaAtom ();
-	virtual string Markup ();
-	virtual void BuildRawFormula (map<int, int> &raw);
+	string Markup ();
+	void BuildRawFormula (map<int, int> &raw);
+	int GetValence ();
 	int elt;
 };
 
@@ -82,10 +85,22 @@ class FormulaBlock: public FormulaElt
 public:
 	FormulaBlock ();
 	virtual ~FormulaBlock ();
-	virtual string Markup ();
-	virtual void BuildRawFormula (map<int, int> &raw);
+	string Markup ();
+	void BuildRawFormula (map<int, int> &raw);
 	list<FormulaElt *> children;
+	int GetValence ();
 	int parenthesis;
+};
+
+class FormulaResidue: public FormulaElt
+{
+public:
+	FormulaResidue (Residue *res);
+	virtual ~FormulaResidue ();
+	string Markup ();
+	void BuildRawFormula (map<int, int> &raw);
+	int GetValence ();
+	Residue *residue;
 };
 
 }
@@ -121,6 +136,11 @@ string FormulaAtom::Markup ()
 	string s = Element::Symbol (elt);
 	s += FormulaElt::Markup ();
 	return s;
+}
+
+int FormulaAtom::GetValence ()
+{
+	return Element::GetElement (elt)->GetDefaultValence ();
 }
 
 void FormulaAtom::BuildRawFormula (map<int, int> &raw)
@@ -183,12 +203,46 @@ void FormulaBlock::BuildRawFormula (map<int, int> &raw)
 		raw[(*j).first] += stoich * (*j).second;}
 }
 
+int FormulaBlock::GetValence ()
+{
+	return -1; // FIXME !!!
+}
+
+FormulaResidue::FormulaResidue (Residue *res): FormulaElt()
+{
+	residue = res;
+}
+	
+FormulaResidue::~FormulaResidue ()
+{
+}
+
+string FormulaResidue::Markup ()
+{
+	ResidueIterator i;
+	string s = *residue->GetFirstResidueSymbol (i);
+	return s;
+}
+
+void FormulaResidue::BuildRawFormula (map<int, int> &raw)
+{
+	std::map<int,int> const &m = residue->GetRawFormula ();
+	map<int, int>::const_iterator j, jend = m.end();
+	for (j = m.begin (); j != jend; j++){
+		raw[(*j).first] += stoich * (*j).second;}
+}
+
+int FormulaResidue::GetValence ()
+{
+	return 1; // residues with other valences are not currently supported
+}
+
 static bool AnalString (char *sz, list<FormulaElt *> &result)
 {
 	if (*sz == 0)
 		return true;
 	int i = 0;
-	char sy[4];
+	char sy[Residue::MaxSymbolLength + 1];
 	if (*sz) {
 		if (islower (*sz)) {
 			/* we might have some abbreviation around there */

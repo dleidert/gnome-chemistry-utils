@@ -77,6 +77,8 @@ Residue::~Residue ()
 	g_free (const_cast<char*> (m_Name));
 }
 
+unsigned Residue::MaxSymbolLength = 0;
+
 void Residue::SetName (char const *name)
 {
 	if (m_Name) {
@@ -92,6 +94,9 @@ void Residue::AddSymbol (char const *symbol)
 	m_Symbols.insert (symbol);
 	tbl.rtbs[symbol].res = this;
 	tbl.rtbs[symbol].ambiguous = (Element::Z (symbol) > 0);
+	unsigned l = strlen (symbol);
+	if (l > MaxSymbolLength)
+		MaxSymbolLength = l;
 }
 
 void Residue::RemoveSymbol (char const *symbol)

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-10-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/formula.cc: initial work to parse formulas with residues.
+	* libs/gcu/residue.cc: add gcu::Residue::MaxSymbolLength.
+	* libs/gcu/residue.h: ditto.
+
 2007-10-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/spectra/window.cc: implemented printing.
 	* programs/spectra/window.h: ditto.
