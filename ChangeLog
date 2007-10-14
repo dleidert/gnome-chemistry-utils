@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-10-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* Makefile.am (MAINTAINERCLEANFILES): Remove gnome-doc-utils.make
+	too.
+
 2007-10-14 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* programs/3d/gchem3d-viewer.desktop.in: Added Version field to
 	declare spec version compliance.

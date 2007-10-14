@@ -27,6 +27,7 @@ MAINTAINERCLEANFILES = \
 	config.h.in \
 	configure \
 	depcomp \
+	gnome-doc-utils.make \
 	install-sh \
 	intltool-extract.in \
 	intltool-merge.in \
