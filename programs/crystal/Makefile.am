@@ -8,38 +8,38 @@ MAINTAINERCLEANFILES = Makefile.in
 
 bin_PROGRAMS = gcrystal
 
-gcrystal_SOURCES = main.cc\
-				   application.cc\
-				   document.cc\
-				   atom.cc\
-				   line.cc\
-				   celldlg.cc \
-				   atomsdlg.cc \
-				   linesdlg.cc \
-				   cleavagesdlg.cc \
-				   sizedlg.cc \
-				   view.cc\
-				   cleavage.cc\
-				   prefs.cc \
-				   view-settings.cc \
-				   window.cc
-
-noinst_HEADERS = gcrystal.h\
-				 globals.h\
-				 application.h\
-				 document.h\
-				 atom.h\
-				 line.h\
-				 atomsdlg.h \
-				 celldlg.h \
-				 linesdlg.h \
-				 cleavagesdlg.h \
-				 sizedlg.h \
-				 view.h\
-				 cleavage.h\
-				 prefs.h \
-				 view-settings.h \
-				 window.h
+gcrystal_SOURCES = \
+	application.cc \
+	application.h \
+	atom.cc \
+	atom.h \
+	atomsdlg.cc \
+	atomsdlg.h \
+	celldlg.cc \
+	celldlg.h \
+	cleavage.cc \
+	cleavage.h \
+	cleavagesdlg.cc \
+	cleavagesdlg.h \
+	document.cc \
+	document.h \
+	gcrystal.h \
+	globals.h \
+	line.cc \
+	line.h \
+	linesdlg.cc \
+	linesdlg.h \
+	main.cc \
+	prefs.cc \
+	prefs.h \
+	sizedlg.cc \
+	sizedlg.h \
+	view.cc \
+	view.h \
+	view-settings.cc \
+	view-settings.h \
+	window.cc \
+	window.h
 
 gcrystal_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 
@@ -47,11 +47,10 @@ DEPS = $(top_builddir)/gcu/libgcu.la
 INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
 LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-		-DPKGDATADIR=\"$(datadir)/gchemutils\" \
-		-DGLADEDIR=\"$(datadir)/gchemutils/glade/crystal\" \
-		-DPIXMAPSDIR=\"$(datadir)/gchemutils/pixmaps\"
+        -DGLADEDIR=\"$(datadir)/gchemutils/glade/crystal\" \
+        -DPIXMAPSDIR=\"$(datadir)/gchemutils/pixmaps\"
 
-schemasdir = $(sysconfdir)/gconf/schemas
+schemasdir = $(GCONF_SCHEMA_FILE_DIR)
 schemas_in_files = gcrystal.schemas.in
 schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@

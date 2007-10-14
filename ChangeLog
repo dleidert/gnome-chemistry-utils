@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2007-10-14 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* configure.ac: Fix indentation in help output.
+	* gcu.pc.in: Added URL field.
+	* programs/3d/gchem3d-viewer.desktop.in: Fixed to be compliant to
+	latest specification.
+	* programs/calc/gchemcalc.desktop.in: Ditto.
+	* programs/table/gchemtable.desktop.in: Ditto.
+	* programs/crystal/Makefile.am: Improved format.
+	(DEFS): Removed unused PKGDATADIR.
+	(schemasdir): Don't ignore GCONF_SCHEMA_FILE_DIR.
+
 2007-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.8.4).
 
