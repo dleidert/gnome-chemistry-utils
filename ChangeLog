@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
 2007-10-14 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* programs/3d/gchem3d-viewer.desktop.in: Added Version field to
+	declare spec version compliance.
+	* programs/calc/gchemcalc.desktop.in: Ditto.
+	* programs/crystal/gcrystal.desktop.in: Ditto.
+	* programs/table/gchemtable.desktop.in: Ditto.
+
+2007-10-14 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* configure.ac: Fix indentation in help output.
 	* gcu.pc.in: Added URL field.
 	* programs/3d/gchem3d-viewer.desktop.in: Fixed to be compliant to

@@ -1,4 +1,5 @@
 [Desktop Entry]
+Version=1.0
 _Name=Molecules Viewer
 _Comment=Display chemical 3D structures
 Exec=gchem3d-viewer %u

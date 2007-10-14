@@ -1,4 +1,5 @@
 [Desktop Entry]
+Version=1.0
 _Name=Chemical calculator
 _Comment=A simple calculator for chemistry
 Exec=gchemcalc
