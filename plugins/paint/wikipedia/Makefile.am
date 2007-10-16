@@ -1,22 +1,25 @@
-IMAGES =			\
-	favicon.png
+EXTRA_DIST = $(IMAGES)
 
-VARIABLES = 			 								\
-	favicon				$(srcdir)/favicon.png
+BUILT_SOURCES = gcp-stock-pixbufs.h
 
-pixbuf_file = gcp-stock-pixbufs.h
-noinst_DATA = $(pixbuf_file)
-CLEANFILES = $(noinst_DATA)
+CLEANFILES = $(BUILT_SOURCES)
 
-$(pixbuf_file): Makefile $(IMAGES)
-	@echo $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) '>$@'
-	@     $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) >$@
+MAINTAINERCLEANFILES = Makefile.in
 
-BUILT_SOURCES = $(pixbuf_file)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+DEFS += -DDATADIR=\"$(datadir)\" \
+        -DGLADEDIR=\"$(gladedir)\" \
+        -DPLUGINSDIR=\"$(wikipediadir)\"
 
-wikipedia_LTLIBRARIES = wikipedia.la
+IMAGES = favicon.png
+
+VARIABLES = \
+	favicon		$(srcdir)/favicon.png
 
 wikipediadir = $(libdir)/gchemutils-unstable/plugins/paint
+wikipedia_LTLIBRARIES = wikipedia.la
+
+wikipedia_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
 
 wikipedia_la_SOURCES = \
 	plugin.cc \
@@ -26,12 +29,6 @@ noinst_HEADERS = \
 	plugin.h \
 	wikipediatool.h
 
-EXTRA_DIST =  $(ui_DATA) $(IMAGES)
 
-wikipedia_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
-	-DGLADEDIR=\"$(gladedir)\" \
-	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\"
-
-MAINTAINERCLEANFILES = Makefile.in
+$(BUILT_SOURCES): $(IMAGES)
+	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@

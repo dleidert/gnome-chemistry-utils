@@ -1,46 +1,61 @@
 EXTRA_DIST = \
 	gcu_entities.dtd.in \
+	gcu_man_legal.xml \
 	$(gcu_man_src) \
-	$(man1_MANS) \
-	$(man3_MANS)
+	$(man_MANS)
 
 DISTCLEAN = gcu_entities.dtd
 
 MAINTAINERCLEANFILES = Makefile.in
 
 XMLLINT_FLAGS  += --path "$(VPATH)" --noout --valid 
-XSLTPROC_FLAGS += --path "$(VPATH)" --param man.charmap.use.subset "0"
+XSLTPROC_FLAGS += --path "$(VPATH)" \
+                  --param man.charmap.use.subset "0" \
+                  --param make.year.ranges "1" \
+                  --param make.single.year.ranges "1"
 
 VPATH += @builddir@
 
 gcu_man_src = \
-	gchem3d-viewer.1.xml \
-	gchemcalc.1.xml \
-	gchemtable.1.xml \
-	libgcu.3.xml
+	gchem3d-viewer-unstable.1.xml \
+	gchemcalc-unstable.1.xml \
+	gchempaint-unstable.1.xml \
+	gchemtable-unstable.1.xml \
+	gcrystal-unstable.1.xml \
+	gspectrum-unstable.1.xml \
+	libgcu-unstable.3.xml
 
-man1_MANS = $(patsubst %.1.xml,%.1,$(filter %.1.xml,$(gcu_man_src)))
-man3_MANS = $(patsubst %.3.xml,%.3,$(filter %.3.xml,$(gcu_man_src)))
+man_MANS = \
+	gchem3d-viewer-unstable.1 \
+	gchemcalc-unstable.1 \
+	gchempaint-unstable.1 \
+	gchemtable-unstable.1 \
+	gcrystal-unstable.1 \
+	gspectrum-unstable.1 \
+	libgcu-unstable.3
 
+SUFFIXES = .xml
 
-% : %.xml
+.xml:
 if HAVE_XSLTPROC
 	$(XSLTPROC) $(XSLTPROC_FLAGS) $<
 else
-	$(warning "Cannot update the XML sources without `xsltproc'.")
+	echo "***** Cannot update the XML sources without `xsltproc'."
 endif
 
 
 check-local:
-	$(info "Correct any errors before making a distribution.")
+	@echo "***** Correct any errors before making a distribution."
 if HAVE_XMLLINT
 	$(XMLLINT) $(XMLLINT_FLAGS) $(gcu_man_src)
 else
-	$(warning "Cannot check the XML sources without `xmllint'.")
+	@echo "***** Cannot check the XML sources without `xmllint'."
 endif
 if HAVE_MAN
-	LANG=C MANWIDTH=80 $(MAN) $(addprefix $(srcdir)/,$(man1_MANS) $(man3_MANS)) > /dev/null
+	@for man in $(man_MANS) ; do \
+		LANG=C MANWIDTH=80 $(MAN) $(srcdir)/$${man} > /dev/null ; \
+	done
 else
-	$(warning "Cannot check the manpages without `man'.")
+	@echo "***** Cannot check the manpages without `man'."
 endif	
 

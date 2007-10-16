@@ -1,5 +1,5 @@
 [Desktop Entry]
-Encoding=UTF-8
+Version=1.0
 _Name=Periodic table of the elements
 _Comment=A Mendeleiev table of the chemical elements
 Exec=gchemtable

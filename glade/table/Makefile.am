@@ -1,13 +1,10 @@
 MAINTAINERCLEANFILES = Makefile.in
 
 gladedir = $(datadir)/gchemutils-unstable/glade/table
-
-glade_DATA = \
-	eltpage.glade \
-	curve.glade \
-	state-thermometer.glade \
+dist_glade_DATA = \
 	acidity.glade \
+	block.glade \
+	curve.glade \
+	eltpage.glade \
 	family.glade \
-	block.glade
-
-EXTRA_DIST = $(glade_DATA)
+	state-thermometer.glade

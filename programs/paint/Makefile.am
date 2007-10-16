@@ -7,42 +7,52 @@ CLEANFILES = \
 	$(schemas_DATA) \
 	$(kde_mime_desktop_DATA)
 
-MAINTAINERCLEANFILES = \
-	Makefile.in
+MAINTAINERCLEANFILES = Makefile.in
 
-desktop_in_files = \
-	gchempaint-unstable.desktop.in \
-	x-gchempaint.desktop.in
-schemas_in_files = gchempaint.schemas.in
+DEPS = $(top_builddir)/libs/gcu/libgcu-unstable.la
+LDADD = $(top_builddir)/libs/gcp/libgchempaint-unstable.la @GCU_LIBS@
+INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+DEFS += -DDATADIR=\"$(datadir)\" \
+        -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint\"
+
+bin_PROGRAMS = gchempaint-unstable
+
+gchempaint_unstable_SOURCES = \
+		main.cc \
+		standaloneapp.cc \
+		standaloneapp.h \
+		standalonewin.cc \
+		standalonewin.h
+
+desktop_in_files = gchempaint-unstable.desktop.in x-gchempaint.desktop.in
 
 desktopdir = $(datadir)/applications
 desktop_DATA = gchempaint-unstable.desktop
-
-schemasdir = $(sysconfdir)/gconf/schemas
-schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
+@INTLTOOL_DESKTOP_RULE@
 
 if WITH_KDE_MIME
 kde_mime_desktop_DATA = x-gchempaint.desktop
 kde_mime_desktopdir = $(KDEMIMEDIR)/application
 endif #WITH_KDE_MIME
 
-@INTLTOOL_DESKTOP_RULE@
+schemas_in_files = gchempaint.schemas.in
+
+schemasdir = $(sysconfdir)/gconf/schemas
+schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
-bin_PROGRAMS = gchempaint-unstable
+install-data-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+		    $(GCONFTOOL) --makefile-install-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL
 
-gchempaint_unstable_SOURCES = \
-						main.cc \
-						standaloneapp.cc	\
-						standalonewin.cc
-
-noinst_HEADERS = \
-					standaloneapp.h \
-					standalonewin.h
-
-gchempaint_unstable_LDADD = \
-	$(top_builddir)/libs/gcp/libgchempaint-unstable.la \
-	@GCU_LIBS@ 
-
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint\"
+uninstall-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL

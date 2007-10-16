@@ -1,15 +1,13 @@
-glade_DATA =	\
-	arrow.png	\
-	arrow-object.glade	\
-	docprop.glade	\
-	H-pos.glade	\
-	newfiledlg.glade	\
-	preferences.glade	\
-	stringdlg.glade	\
-	tools.glade	\
-	zoom.glade
-	
+MAINTAINERCLEANFILES = Makefile.in
+
 gladedir = $(datadir)/gchemutils-unstable/glade/paint
-
-
-EXTRA_DIST= $(glade_DATA)
+dist_glade_DATA = \
+	arrow.png \
+	arrow-object.glade \
+	docprop.glade \
+	H-pos.glade \
+	newfiledlg.glade \
+	preferences.glade \
+	stringdlg.glade	\
+	tools.glade \
+	zoom.glade

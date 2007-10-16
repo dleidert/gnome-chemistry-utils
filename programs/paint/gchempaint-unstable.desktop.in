@@ -1,5 +1,5 @@
 [Desktop Entry]
-Encoding=UTF-8
+Version=1.0
 _Name=GChemPaint Chemical Structures Editor (unstable)
 _Comment=Edit chemical 2D structures
 Exec=gchempaint-unstable %U

@@ -1,5 +1,3 @@
-MAINTAINERCLEANFILES = Makefile.in
-
 SUBDIRS = \
 	arrows \
 	atoms \
@@ -9,4 +7,6 @@ SUBDIRS = \
 	selection \
 	templates \
 	text \
-	wikipedia 
+	wikipedia
+
+MAINTAINERCLEANFILES = Makefile.in

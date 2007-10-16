@@ -1,5 +1,5 @@
 [Desktop Entry]
-Encoding=UTF-8
+Version=1.0
 _Name=Spectrum viewer (unstable)
 _Comment=A spectrum viewer for the GNOME desktop
 Exec=gspectrum-unstable
@@ -7,4 +7,4 @@ Icon=gspectrum
 Terminal=false
 Type=Application
 Categories=GTK;GNOME;Education;Science;Chemistry;
-MimeType=chemical/x-jcamp-dx
+MimeType=chemical/x-jcamp-dx;

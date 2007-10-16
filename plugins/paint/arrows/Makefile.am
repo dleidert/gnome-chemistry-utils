@@ -1,31 +1,38 @@
-IMAGES =				\
-	arrow1-24.png		\
-	arrow2-24.png		\
-	retrosynth24.png	\
-	mesomery24.png		\
-	curved24.png		\
-	curved1-24.png
+EXTRA_DIST = \
+	$(IMAGES) \
+	$(schemas_in_files)
 
-VARIABLES = 			 								\
-	gcp_arrow1_24			$(srcdir)/arrow1-24.png		\
-	gcp_arrow2_24			$(srcdir)/arrow2-24.png		\
-	gcp_retrosynth_24		$(srcdir)/retrosynth24.png	\
-	gcp_mesomery_24			$(srcdir)/mesomery24.png		\
-	gcp_curved_24			$(srcdir)/curved24.png	\
+BUILT_SOURCES = gcp-stock-pixbufs.h
+
+CLEANFILES = $(BUILT_SOURCES) $(schemas_DATA)
+
+MAINTAINERCLEANFILES = Makefile.in
+
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+DEFS += -DDATADIR=\"$(datadir)\" \
+        -DGLADEDIR=\"$(gladedir)\" \
+	-DPLUGINSDIR=\"$(arrowsdir)\"
+
+IMAGES = \
+	arrow1-24.png \
+	arrow2-24.png \
+	curved1-24.png \
+	curved24.png \
+	mesomery24.png \
+	retrosynth24.png
+
+VARIABLES = \
+	gcp_arrow1_24			$(srcdir)/arrow1-24.png \
+	gcp_arrow2_24			$(srcdir)/arrow2-24.png \
+	gcp_retrosynth_24		$(srcdir)/retrosynth24.png \
+	gcp_mesomery_24			$(srcdir)/mesomery24.png \
+	gcp_curved_24			$(srcdir)/curved24.png \
 	gcp_curved1_24			$(srcdir)/curved1-24.png
 
-pixbuf_file = gcp-stock-pixbufs.h
-noinst_DATA = $(pixbuf_file)
-
-$(pixbuf_file): Makefile $(IMAGES)
-	@echo $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) '>$@'
-	@     $(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) >$@
-
-BUILT_SOURCES = $(pixbuf_file)
-
+arrowsdir = $(libdir)/gchemutils/plugins/paint
 arrows_LTLIBRARIES = arrows.la
 
-arrowsdir = $(libdir)/gchemutils-unstable/plugins/paint
+arrows_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
 
 arrows_la_SOURCES = \
 	plugin.cc \
@@ -43,37 +50,31 @@ noinst_HEADERS = \
 	retrosynthesisarrow.h \
 	retrosynthesisstep.h
 
-glade_DATA = \
-	arrowtool.glade
-
 gladedir = $(datadir)/gchemutils-unstable/glade/paint/plugins/arrows
+dist_glade_DATA = arrowtool.glade
+
+schemas_in_files = gchempaint-arrows.schemas.in
 
 schemasdir = $(GCONF_SCHEMA_FILE_DIR)
-schemas_in_files = gchempaint-arrows.schemas.in
-schemas_DATA 	 = $(schemas_in_files:.schemas.in=.schemas)
+schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
-CLEANFILES = $(noinst_DATA) $(schemas_DATA)
 
-EXTRA_DIST = \
-	$(glade_DATA)	\
-	$(IMAGES)	\
-	$(schemas_in_files)
+$(BUILT_SOURCES): $(IMAGES)
+	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@
 
-arrows_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
-	-DGLADEDIR=\"$(gladedir)\" \
-	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\"
-
+install-data-local:
 if GCONF_SCHEMAS_INSTALL
-# don't do this if we are building in eg. rpm
-install-data-local:
-	if test -z "$(DESTDIR)" ; then \
-		for p in $(schemas_DATA) ; do \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p; \
-		done \
-	fi
-else
-install-data-local:
-endif
+	for p in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+		    $(GCONFTOOL) --makefile-install-rule $$p; \
+	done
+endif #GCONF_SCHEMAS_INSTALL
+
+uninstall-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL

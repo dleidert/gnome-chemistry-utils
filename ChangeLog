@@ -1,5 +1,90 @@
 ##Text encoding: utf-8
 
+2007-10-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* Makefile.am (MAINTAINERCLEANFILES): Remove gnome-doc-utils.make on
+	maintainer-clean.
+	(DISTCHECK_CONFIGURE_FLAGS): Disable schemas installation for
+	distcheck target.
+	* configure.ac: Fix broken output indentation.
+	* gcu.pc.in: Added URL field. Fixed goffice package name.
+	* gcu-unstable.pc.in: Ditto.
+	* docs/man/Makefile.am: Formatting changes. Backported the better
+	version of the 0.8 series. Added new manpages and their sources (all
+	sources have been renamed!). Removed GNU make extensions usage.
+	* docs/man/gcu_entities.dtd.in: Added an prefix to easily switch
+	between stable and development version manpages. Added a central
+	copyright/legalnotice note.
+	* gcu_man_legal.xml: Added.
+	* gchem3d-viewer.1.xml: Updated. Renamed to
+	gchem3d-viewer-unstable.1.xml.
+	* gchemcalc.1.xml: Ditto. Renamed to gchemcalc-unstable.1.xml.
+	* gchemtable.1.xml: Ditto. Renamed to gchemtable-unstable.1.xml.
+	* libgcu.3.xml: Ditto. Renamed to libgcu-unstable.3.xml.
+	* gchem3d-viewer.1: Ditto. Renamed to gchem3d-viewer-unstable.1.
+	* gchemcalc.1: Ditto. Renamed to gchemcalc-unstable.1
+	* gchemtable.1: Ditto. Renamed to gchemtable-unstable.1.
+	* libgcu.3: Ditto. Renamed to libgcu-unstable.3.
+	* gchempaint-unstable.1.xml: Added.
+	* gcrystal-unstable.1.xml: Ditto.
+	* gspectrum-unstable.1.xml: Ditto.
+	* gchempaint-unstable.1: Ditto.
+	* gcrystal-unstable.1: Ditto.
+	* gspectrum-unstable.1: Ditto.
+	* docs/reference/Makefile.am: Backported from 0.8 series. Removed GNU
+	make extensions usage.
+	* plugins/paint/arrows/Makefile.am: Backported cleaner version from
+	0.8 series. Formatting fixes. Fixed install-data-local and added
+	missing uninstall-local targets for schemas installation.
+	* plugins/paint/atoms/Makefile.am: Ditto.
+	* plugins/paint/bonds/Makefile.am: Ditto.
+	* plugins/paint/cycles/Makefile.am: Ditto.
+	* plugins/paint/residues/Makefile.am: Ditto.
+	* plugins/paint/selection/Makefile.am: Ditto.
+	* plugins/paint/templates/Makefile.am: Ditto.
+	* plugins/paint/wikipedia/Makefile.am: Ditto.
+	* plugins/paint/text/Makefile.am: Ditto.
+	(gladedir): Fixed location.
+	* database/Makefile.am: Inner formatting changes. Drop EXTRA_DIST in
+	favour of dist_ suffixes. Used alphabetical ordering.
+	* glade/Makefile.am: Ditto.
+	* glade/crystal/Makefile.am: Ditto.
+	* glade/paint/Makefile.am: Ditto.
+	* glade/table/Makefile.am: Ditto.
+	* pixmaps/Makefile.am: Ditto.
+	* plugins/paint/Makefile.am: Ditto.
+	* programs/3d/Makefile.am: Ditto.
+	* programs/calc/Makefile.am: Ditto.
+	* programs/spectra/Makefile.am: Ditto.
+	* programs/table/Makefile.am: Ditto.
+	* themes/paint/Makefile.am: Ditto.
+	* goffice/Makefile.am: Ditto. Further added MAINTAINERCLEANFILES to
+	remove the created Makefile.in.
+	* programs/crystal/Makefile.am: Ditto.
+	(schemasdir): Don't ignore GCONF_SCHEMA_FILE_DIR.
+	* programs/paint/Makefile.am: Likewise. Added missing
+	install-data-local and uninstall-local targets for the schemas
+	installation.
+	* plugins/Makefile.am: Added MAINTAINERCLEANFILES to remove the
+	created Makefile.in.
+	* templates/Makefile.am: Ditto.
+	* templates/paint/Makefile.am: (xmldir): Fixed installation location.
+	* po/POTFILES.in: Added missing files to make intltool happy.
+	* programs/3d/gchem3d-viewer-unstable.desktop.in: Make it compliant to
+	the latest specification 1.0 of the desktop entry spec. Declare this
+	version compliancy via the Version key.
+	* programs/3d/gchem3d-viewer.desktop.in: Ditto.
+	* programs/calc/gchemcalc-unstable.desktop.in: Ditto.
+	* programs/calc/gchemcalc.desktop.in: Ditto.
+	* programs/crystal/gcrystal-unstable.desktop.in: Ditto.
+	* programs/crystal/gcrystal.desktop.in: Ditto.
+	* programs/paint/gchempaint-unstable.desktop.in: Ditto.
+	* programs/paint/gchempaint.desktop.in: Ditto.
+	* programs/table/gchemtable-unstable.desktop.in: Ditto.
+	* programs/table/gchemtable.desktop.in: Ditto.
+	* programs/spectra/gspectrum-unstable.desktop.in: Ditto.
+	(MimeType): Fixed (must end with semicolon).
+	* programs/spectra/gspectrum.desktop.in: Likewise.
+
 2007-10-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/formula.cc: initial work to parse formulas with residues.
 	* libs/gcu/residue.cc: add gcu::Residue::MaxSymbolLength.

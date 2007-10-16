@@ -31,16 +31,15 @@ GETTEXT_PACKAGE="gchemutils-unstable"
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Package name for internationalization])
 
-AC_ARG_ENABLE([update-databases],
-	[
-	 AC_HELP_STRING(
+AC_ARG_ENABLE(
+	[update-databases],
+	AC_HELP_STRING(
 		[--enable-update-databases],
 		[
 		 enable (or disable) the running of the update-desktop-database and update-mime-database
 		 utilities (mostly useful for package maintainers) @<:@default=yes@:>@
 		]
-	 )
-	],
+	),
 	[
 	 if test "x$enableval" != "xno"; then
 	 	AC_PATH_PROG([UPDATE_DESKTOP_DATABASE], [update-desktop-database], [no])
@@ -134,10 +133,10 @@ AC_SUBST([GCU_LIBS])
 GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.4`
 AC_ARG_WITH(
 	[goffice-plugins-dir],
-	[AC_HELP_STRING(
+	AC_HELP_STRING(
 		[--with-goffice-plugins-dir],
 		[path to GOffice plugins directory [default=auto]]
-	)],
+	),
 	[GOFFICE_PLUGINS_DIR=$withval]
 )
 
@@ -164,12 +163,10 @@ build_mozilla_plugin=no
 test_mozilla_plugin=true
 AC_ARG_ENABLE(
 	[mozilla-plugin],
-	[
-	 AC_HELP_STRING(
+	AC_HELP_STRING(
 		[--enable-mozilla-plugin],
 		[build a Mozilla/Firefox chemistry files viewing plugin @<:@default=auto@:>@]
-	 )
-	],
+	),
 	[test_mozilla_plugin="$enableval"]
 )
 
@@ -198,12 +195,10 @@ fi
 
 AC_ARG_WITH(
 	[mozilla-libdir],
-	[
-	 AC_HELP_STRING(
+	AC_HELP_STRING(
 		[--with-mozilla-libdir],
 		[path to mozilla/firefox/... libdir @<:@default=auto@:>@]
-	 )
-	],
+	),
 	[mozlibdir=$withval]
 )
 

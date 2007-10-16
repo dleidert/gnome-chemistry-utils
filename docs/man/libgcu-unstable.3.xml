@@ -5,9 +5,9 @@
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: libgcu.3.xml,v 1.2 2006-09-02 08:44:25 jean_brefort Exp $
+	$Id: libgcu-unstable.3.xml,v 1.1 2007-10-16 01:11:43 dleidert Exp $
 
-  Copyright (C) 2006 Daniel Leidert <daniel.leidert@wgdd.de>.
+  Copyright (C) 2006,2007 Daniel Leidert <daniel.leidert@wgdd.de>.
 
 	This manual page is free software; you can redistribute it and/or modify it
 	under the terms of the GNU General Public License as published by the Free
@@ -24,17 +24,17 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage    "libgcu">
+	<!ENTITY dhpackage    "libgcu&gcusuffix;">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2006-09-02 08:44:25 $">
+	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:43 $">
 	<!ENTITY dhsection    "3">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
 ]>
 
-<refentry>
+<refentry id="libgcu_3">
 	<refentryinfo>
 		<title>&dhulpackage;</title>
 		<productname>&dhulapackage;</productname>
@@ -62,6 +62,7 @@
 				</affiliation>
 			</author>
 		</authorgroup>
+		&dhcopyright;
 	</refentryinfo>
 	<refmeta>
 		<refentrytitle>&dhpackage;</refentrytitle>
@@ -74,11 +75,11 @@
 	<refsynopsisdiv>
 		<synopsis><emphasis role="bold"><![CDATA[#include gcu/chemistry.h]]></emphasis></synopsis>
 	</refsynopsisdiv>
-	<refsect1 id="description">
+	<refsect1 id="libgcu_3_description">
 		<title>DESCRIPTION</title>
 		<para>The <package>&dhpackage;</package> library provides various Gtk widgets and C++ classes related to chemistry.</para>
 	</refsect1>
-	<refsect1 id="files">
+	<refsect1 id="libgcu_3_files">
 		<title>FILES</title>
 		<para></para>
 		<variablelist>
@@ -96,7 +97,7 @@
 			</varlistentry>
 		</variablelist>
 	</refsect1>
-	<refsect1 id="see_also">
+	<refsect1 id="libgcu_3_see_also">
 		<title>SEE ALSO</title>
 		<para>The complete reference with examples is available online at <ulink url="http://www.nongnu.org/gchemutils/reference/"/> or (depending on your installation) also locally at <filename>${datadir}/doc/gchemutils/reference</filename>.</para>
 	</refsect1>

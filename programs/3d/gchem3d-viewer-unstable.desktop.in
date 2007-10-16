@@ -1,5 +1,5 @@
 [Desktop Entry]
-Encoding=UTF-8
+Version=1.0
 _Name=Molecules Viewer (unstable)
 _Comment=Display chemical 3D structures
 Exec=gchem3d-viewer-unstable %u

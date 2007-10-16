@@ -64,6 +64,7 @@ libs/gcu/glview.cc
 libs/gcu/gtkchem3dviewer.cc
 libs/gcu/gtkcomboperiodic.c
 libs/gcu/gtkperiodic.c
+libs/gcu/spectrumdoc.cc
 plugins/paint/arrows/arrowtool.cc
 plugins/paint/arrows/arrowtool.glade
 plugins/paint/arrows/gchempaint-arrows.schemas.in
@@ -119,6 +120,10 @@ programs/paint/gchempaint.schemas.in
 programs/paint/main.cc
 programs/paint/standaloneapp.cc
 programs/paint/x-gchempaint.desktop.in
+programs/spectra/application.cc
+programs/spectra/gspectrum-unstable.desktop.in
+programs/spectra/gspectrum.cc
+programs/spectra/window.cc
 programs/table/gchemtable-app.cc
 programs/table/gchemtable-elt.cc
 programs/table/gchemtable-curve.cc

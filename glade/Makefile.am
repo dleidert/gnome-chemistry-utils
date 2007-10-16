@@ -3,11 +3,8 @@ SUBDIRS = crystal paint table
 MAINTAINERCLEANFILES = Makefile.in
 
 gladedir = $(datadir)/gchemutils-unstable/glade
-
-glade_DATA = \
+dist_glade_DATA = \
 	gtkperiodic.glade \
 	gchemcalc.glade \
 	image-resolution.glade \
 	image-size.glade
-
-EXTRA_DIST = $(glade_DATA)

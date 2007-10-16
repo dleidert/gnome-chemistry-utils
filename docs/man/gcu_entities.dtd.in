@@ -1,3 +1,7 @@
 
 	<!ENTITY dhulpackage "@PACKAGE@">
 	<!ENTITY dhedition   "@VERSION@">
+	<!-- "-unstable" for development versions, empty for stable versions -->
+	<!ENTITY gcusuffix   "-unstable">
+	
+	<!ENTITY dhcopyright SYSTEM "gcu_man_legal.xml">

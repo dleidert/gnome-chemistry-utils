@@ -1,9 +1,12 @@
+EXTRA_DIST = $(icons)
+
 MAINTAINERCLEANFILES = Makefile.in
 
 pixmapdir = $(datadir)/gchemutils-unstable/pixmaps
-pixmap_DATA = gcrystal_logo.png gchempaint_logo.png
+dist_pixmap_DATA = gcrystal_logo.png gchempaint_logo.png
 
-icons = gcrystal32.png \
+icons = \
+	gcrystal32.png \
 	gcrystal48.png \
 	gcrystal72.png \
 	gcrystal128.png \
@@ -27,10 +30,6 @@ icons = gcrystal32.png \
 	gspectrum48.png \
 	gspectrum72.png \
 	gspectrum128.png
-
-EXTRA_DIST = \
-	$(pixmap_DATA) \
-	$(icons)
 
 install-data-hook:
 	for i in 32 48 72 128; do \
