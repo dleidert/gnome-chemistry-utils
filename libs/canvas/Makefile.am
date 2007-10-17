@@ -1,3 +1,5 @@
+MAINTAINERCLEANFILES = Makefile.in
+
 lib_LTLIBRARIES = libgcpcanvas-unstable.la
 
 noinst_HEADERS = \

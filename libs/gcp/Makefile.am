@@ -1,3 +1,5 @@
+MAINTAINERCLEANFILES = Makefile.in
+
 lib_LTLIBRARIES= libgchempaint-unstable.la
 
 libgchempaint_unstable_la_SOURCES = \

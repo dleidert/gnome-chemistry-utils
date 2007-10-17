@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-10-17 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* libs/Makefile.am: Added MAINTAINERCLEANFILES to remove Makefile.in.
+	* libs/canvas/Makefile.am: Ditto.
+	* libs/gcp/Makefile.am: Ditto.
+
 2007-10-15 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* Makefile.am (MAINTAINERCLEANFILES): Remove gnome-doc-utils.make on
 	maintainer-clean.
