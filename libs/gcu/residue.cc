@@ -71,9 +71,9 @@ Residue::~Residue ()
 {
 	if (m_Name)
 		tbl.rtbn.erase (m_Name);
-	std::set<std::string>::iterator i, end = m_Symbols.end ();
+	std::map<std::string, bool>::iterator i, end = m_Symbols.end ();
 	for (i = m_Symbols.begin (); i != end ; i++)
-		tbl.rtbs.erase (*i);
+		tbl.rtbs.erase ((*i).first);
 	g_free (const_cast<char*> (m_Name));
 }
 
@@ -91,9 +91,10 @@ void Residue::SetName (char const *name)
 
 void Residue::AddSymbol (char const *symbol)
 {
-	m_Symbols.insert (symbol);
+	bool ambiguous = Element::Z (symbol) > 0;
+	m_Symbols[symbol] = ambiguous;
 	tbl.rtbs[symbol].res = this;
-	tbl.rtbs[symbol].ambiguous = (Element::Z (symbol) > 0);
+	tbl.rtbs[symbol].ambiguous = ambiguous;
 	unsigned l = strlen (symbol);
 	if (l > MaxSymbolLength)
 		MaxSymbolLength = l;

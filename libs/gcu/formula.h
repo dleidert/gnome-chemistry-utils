@@ -129,6 +129,8 @@ with the calculated data.
 */
 	void CalculateIsotopicPattern (IsotopicPattern &pattern);
 
+	bool BuildConnectivity ();
+
 private:
 	void Parse (string &formula, list<FormulaElt *>&result) throw (parse_error);
 
@@ -140,6 +142,7 @@ private:
 	int m_WeightPrec;
 	bool m_WeightCached;
 	bool m_Artificial;
+	bool m_ConnectivityCached;
 };
 	
 }

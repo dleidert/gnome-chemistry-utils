@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2007-10-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mesomery.cc: fix an infinite loop condition.
+	* libs/gcp/view.cc: do not change the default element when changing
+	the nature of an atom using the keyboard [sr #106032,item #2].
+	* libs/gcu/formula.cc: support non ambiguous residues.
+	* libs/gcu/formula.h: ditto.
+	* libs/gcu/residue.cc: ditto.
+	* libs/gcu/residue.h: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+
 2007-10-17 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* libs/Makefile.am: Added MAINTAINERCLEANFILES to remove Makefile.in.
 	* libs/canvas/Makefile.am: Ditto.

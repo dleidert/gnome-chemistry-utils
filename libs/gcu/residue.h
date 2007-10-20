@@ -52,8 +52,8 @@ public:
 	Residue (char const *name);
 	virtual ~Residue ();
 
-	std::map<int,int> const &GetRawFormula () {return m_Raw;}
-	std::set<std::string> const &GetSymbols () {return m_Symbols;}
+	std::map<int,int> const &GetRawFormula () const {return m_Raw;}
+	std::map<std::string, bool> const &GetSymbols () const {return m_Symbols;}
 	void SetName (char const *name);
 	void AddSymbol (char const *symbol);
 	void RemoveSymbol (char const *symbol);
@@ -68,11 +68,10 @@ public:
 
 private:
 	std::map<int,int> m_Raw;
-	std::set<std::string> m_Symbols;
+	std::map<std::string, bool> m_Symbols; // boolean is true if the symbol is ambiguous
 
 GCU_RO_PROP (char const *, Name)
 GCU_PROP (bool, Generic)
-GCU_RO_PROP (bool, Ambiguous);
 };
 
 }	//	namespace gcu

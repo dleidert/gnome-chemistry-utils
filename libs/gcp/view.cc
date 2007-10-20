@@ -815,9 +815,10 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 				break;
 			}
 			if (Z) {
-				Tools *tools = static_cast<Tools*> (pApp->GetDialog ("tools"));
-				tools->SetElement (Z);
-				if (atom && atom->GetZ () != Z && Element::GetElement (Z)->GetMaxBonds () >= min_bonds) {
+				if (!atom) {
+					Tools *tools = static_cast<Tools*> (pApp->GetDialog ("tools"));
+					tools->SetElement (Z);
+				} else if (atom->GetZ () != Z && Element::GetElement (Z)->GetMaxBonds () >= min_bonds) {
 					Object *group = atom->GetGroup ();
 					Operation *op = m_pDoc->GetNewOperation (GCP_MODIFY_OPERATION);
 					op->AddObject (group);

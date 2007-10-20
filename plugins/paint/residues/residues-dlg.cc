@@ -332,10 +332,10 @@ void gcpResiduesDlg::Remove ()
 	gtk_combo_box_set_active (m_CurBox, 0);
 	xmlUnlinkNode (residue->GetNode ());
 	xmlFreeNode (residue->GetNode ());
-	set<std::string> const &symbols = residue->GetSymbols ();
-	set<std::string>::iterator i, end = symbols.end ();
+	map<string, bool> const &symbols = residue->GetSymbols ();
+	map<string, bool>::const_iterator i, end = symbols.end ();
 	for (i = symbols.begin (); i != end; i++)
-		delete_symbol (m_CurBox, (*i).c_str ());
+		delete_symbol (m_CurBox, (*i).first.c_str ());
 	delete residue;
 	xmlIndentTreeOutput = true;
 	xmlKeepBlanksDefault (0);
@@ -426,13 +426,13 @@ void gcpResiduesDlg::OnCurChanged ()
 		m_Document->SetEditable (true);
 	}
 	gtk_entry_set_text (m_NameEntry, m_Residue->GetName ());
-	set<std::string> const &symbols = m_Residue->GetSymbols ();
-	set<std::string>::iterator i = symbols.begin (), end = symbols.end ();
+	map<string, bool> const &symbols = m_Residue->GetSymbols ();
+	map<string, bool>::const_iterator i = symbols.begin (), end = symbols.end ();
 	string sy;
 	if (i != symbols.end ())
-		sy = *i;
+		sy = (*i).first;
 	for (i++; i != end; i++)
-		sy += string(";") + *i;
+		sy += string(";") + (*i).first;
 	gtk_entry_set_text (m_SymbolEntry, sy.c_str ());	
 	m_Document->Clear ();
 	m_Document->LoadObjects (m_Residue->GetMolNode ());

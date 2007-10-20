@@ -95,12 +95,14 @@ public:
 class FormulaResidue: public FormulaElt
 {
 public:
-	FormulaResidue (Residue *res);
+	FormulaResidue (Residue const *res, char const *symbol, int Z);
 	virtual ~FormulaResidue ();
 	string Markup ();
 	void BuildRawFormula (map<int, int> &raw);
 	int GetValence ();
-	Residue *residue;
+	Residue const *residue;
+	string Symbol;
+	GCU_RO_PROP (int, Z);
 };
 
 }
@@ -208,9 +210,11 @@ int FormulaBlock::GetValence ()
 	return -1; // FIXME !!!
 }
 
-FormulaResidue::FormulaResidue (Residue *res): FormulaElt()
+FormulaResidue::FormulaResidue (Residue const *res, char const *symbol, int Z): FormulaElt()
 {
 	residue = res;
+	Symbol = symbol;
+	m_Z = Z;
 }
 	
 FormulaResidue::~FormulaResidue ()
@@ -219,9 +223,12 @@ FormulaResidue::~FormulaResidue ()
 
 string FormulaResidue::Markup ()
 {
-	ResidueIterator i;
-	string s = *residue->GetFirstResidueSymbol (i);
-	return s;
+	size_t n = Symbol.find ('-');
+	if (n != string::npos) {
+		string s = string ("<i>") + string (Symbol, 0, n) + "</i>" + string (Symbol, n);
+		return s;
+	} else
+		return Symbol;
 }
 
 void FormulaResidue::BuildRawFormula (map<int, int> &raw)
@@ -237,13 +244,34 @@ int FormulaResidue::GetValence ()
 	return 1; // residues with other valences are not currently supported
 }
 
-static bool AnalString (char *sz, list<FormulaElt *> &result)
+static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 {
 	if (*sz == 0)
 		return true;
 	int i = 0;
 	char sy[Residue::MaxSymbolLength + 1];
+	Residue const *r = NULL;
+	bool amb = ambiguous, local_amb;
 	if (*sz) {
+		// search for any abbreviation starting sz
+		strncpy (sy, sz, Residue::MaxSymbolLength);
+		i = Residue::MaxSymbolLength;
+		while (i > 0) {
+			sy[i] = 0;
+			r = Residue::GetResidue (sy, &local_amb);
+			if (r)
+				break;
+			i--;
+		}
+		if (r) {
+			result.push_back (new FormulaResidue (r, sy, (local_amb? Element::Z (sy): 0)));
+			ambiguous |= local_amb;
+			if (AnalString (sz + i, result, ambiguous))
+				return true;
+			ambiguous = amb; // restore ambiguity state
+			delete result.back ();
+			result.pop_back ();
+		}
 		if (islower (*sz)) {
 			/* we might have some abbreviation around there */
 		}
@@ -262,7 +290,7 @@ static bool AnalString (char *sz, list<FormulaElt *> &result)
 			i = Element::Z (sy);
 			if (i > 0) {
 				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 1, result))
+				if (AnalString (sz + 1, result, ambiguous))
 					return true;
 				delete result.back ();
 				result.pop_back ();
@@ -272,7 +300,7 @@ static bool AnalString (char *sz, list<FormulaElt *> &result)
 			i = Element::Z (sy);
 			if (i > 0) {
 				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 2, result))
+				if (AnalString (sz + 2, result, ambiguous))
 					return true;
 				delete result.back ();
 				result.pop_back ();
@@ -284,7 +312,7 @@ static bool AnalString (char *sz, list<FormulaElt *> &result)
 			i = Element::Z (sy);
 			if (i > 0) {
 				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 3, result))
+				if (AnalString (sz + 3, result, ambiguous))
 					return true;
 			}
 			return false;
@@ -298,7 +326,7 @@ static bool AnalString (char *sz, list<FormulaElt *> &result)
 				i = Element::Z (sy);
 				if (i > 0) {
 					result.push_back (new FormulaAtom (i));
-					if (AnalString (sz + 3, result))
+					if (AnalString (sz + 3, result, ambiguous))
 						return true;
 					delete result.back ();
 					result.pop_back ();
@@ -308,7 +336,7 @@ static bool AnalString (char *sz, list<FormulaElt *> &result)
 			i = Element::Z (sy);
 			if (i > 0) {
 				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 2, result))
+				if (AnalString (sz + 2, result, ambiguous))
 					return true;
 				delete result.back ();
 				result.pop_back ();
@@ -317,7 +345,7 @@ static bool AnalString (char *sz, list<FormulaElt *> &result)
 			i = Element::Z (sy);
 			if (i > 0) {
 				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 1, result))
+				if (AnalString (sz + 1, result, ambiguous))
 					return true;
 			}
 		}
@@ -329,7 +357,7 @@ Formula::Formula (string entry) throw (parse_error)
 {
 	Entry = entry;
 	Parse (Entry, Details);
-	m_WeightCached = false;
+	m_ConnectivityCached = m_WeightCached = false;
 }
 
 Formula::~Formula ()
@@ -409,13 +437,14 @@ void Formula::Clear ()
 	Markup = "";
 	Raw.clear ();
 	RawMarkup = "";
-	m_WeightCached = false;
+	m_ConnectivityCached = m_WeightCached = false;
 }
 
 void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_error)
 {
 	int i = 0, npo, size = formula.size (), j, k = 0; // parsing index, number of open parenthesis, string size
 	char c = 0, *sz, *end;
+	bool ambiguous = false;
 	while (i < size) {
 		if (formula[i] == '(' || formula[i] == '[' || formula[i] == '{') {
 			switch (formula[i]) {
@@ -458,15 +487,15 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 			i = end - formula.c_str ();
 			if (i == j)
 				block->stoich = 1;
-		} else if (isalpha (formula[i])) {
+		} else if (isalpha (formula[i]) || formula[i] == '-') {
 			j = i + 1;
-			while (isalpha (formula[j]))
+			while (isalpha (formula[j]) || formula[j] == '-')
 				j++;
 			k = j - i;
 			sz = new char[k + 1];
 			sz = strndup (formula.c_str () + i, k);
 			sz[k] = 0;
-			if (!AnalString (sz, result)) {
+			if (!AnalString (sz, result, ambiguous)) {
 				delete [] sz;
 				throw parse_error (_("Could not interpret the symbol list"), i, k);
 			}
@@ -483,6 +512,32 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 			throw parse_error (_("Unmatched parenthesis"), i, 1);
 		} else
 			throw parse_error (_("Invalid character"), i, 1);
+	}
+	if (ambiguous) {
+		int replaced = 1, max = 0;
+		// first count ambiguous symbols
+		list<FormulaElt *>::iterator it, end = result.end ();
+		for (it = result.begin (); it != end; it++) {
+			if (dynamic_cast <FormulaResidue *> (*it) != NULL)
+				max++;
+		}
+		if (!BuildConnectivity ()) {
+			// for now just replace all ambiguous residues
+			it = result.begin ();
+			FormulaResidue *res;
+			while (it != result.end ()) {
+				res = dynamic_cast <FormulaResidue *> (*it);
+				if (res && res->GetZ ()) {
+					printf("found ambiguous with Z=%d\n",res->GetZ());
+					FormulaAtom *elt = new FormulaAtom (res->GetZ());
+					elt->stoich =  res->stoich;
+					it = result.erase (it);
+					delete res;
+					it = result.insert (it, elt);
+				} else
+					it++;
+			}
+		}
 	}
 }
 
@@ -538,4 +593,10 @@ void Formula::CalculateIsotopicPattern (IsotopicPattern &pattern)
 		pat0->Unref ();
 		pat->Unref ();
 	}
+}
+
+bool Formula::BuildConnectivity ()
+{
+	// FIXME: write this function
+	return false;
 }

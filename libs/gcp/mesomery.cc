@@ -775,10 +775,12 @@ double Mesomery::GetYAlign ()
 	Object *pObj;
 	pObj = GetFirstChild (i);
 	double y = DBL_MAX, new_y;
-	while (pObj)
+	while (pObj) {
 		if (pObj->GetType () == MesomerType)
 			if ((new_y = pObj->GetYAlign ()) < y)
 				y = new_y;			
+		pObj = GetNextChild (i);
+	}
 	return y;
 }
 
