@@ -386,6 +386,17 @@
 		clipboard formats.</long>
       </locale>
     </schema>
+    <schema>
+      <key>/schemas/apps/gchempaint/settings/default-theme</key>
+      <applyto>/apps/gchempaint/settings/default-theme</applyto>
+      <owner>gchempaint</owner>
+      <type>string</type>
+      <default>GChemPaint</default>
+      <locale name="C">
+        <short>Default theme.</short>
+		<long>Default theme used when creating a new file.</long>
+      </locale>
+    </schema>
 </schemalist>
 
 </gconfschemafile>

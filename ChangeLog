@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2007-10-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/paint/preferences.glade: add a default theme key and use it to
+	set the default theme [sr #106032,item #3].
+	* libs/gcp/preferences.cc: ditto.
+	* libs/gcp/preferences.h: ditto.
+	* libs/gcp/theme.cc: ditto.
+	* libs/gcp/theme.h: ditto.
+	* programs/paint/gchempaint.schemas.in: ditto.
+
 2007-10-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mesomery.cc: fix an infinite loop condition.
 	* libs/gcp/view.cc: do not change the default element when changing

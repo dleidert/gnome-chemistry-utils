@@ -22,10 +22,16 @@
                 <child>
                   <widget class="GtkTable" id="table1">
                     <property name="visible">True</property>
-                    <property name="n_rows">2</property>
-                    <property name="n_columns">2</property>
+                    <property name="n_rows">3</property>
+                    <property name="n_columns">3</property>
                     <property name="column_spacing">24</property>
                     <property name="row_spacing">8</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                     <child>
                       <placeholder/>
                     </child>
@@ -41,7 +47,8 @@
                         <property name="single_line_mode">True</property>
                       </widget>
                       <packing>
-                        <property name="x_options"></property>
+                        <property name="right_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
                     </child>
@@ -53,8 +60,8 @@
                         <property name="climb_rate">1</property>
                       </widget>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
@@ -65,13 +72,29 @@
                         <property name="can_focus">True</property>
                         <property name="label" translatable="yes">Ha_ve a tearable table of the elements</property>
                         <property name="use_underline">True</property>
+                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
+                        <property name="right_attach">2</property>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="default-theme-lbl">
+                        <property name="visible">True</property>
+                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">_Default theme:</property>
+                        <property name="use_underline">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
                       </packing>
                     </child>
                   </widget>
@@ -130,6 +153,7 @@
                             <property name="can_focus">True</property>
                             <property name="label">gtk-new</property>
                             <property name="use_stock">True</property>
+                            <property name="response_id">0</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -154,9 +178,6 @@
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
                           </widget>
-                          <packing>
-                            <property name="tab_expand">False</property>
-                          </packing>
                         </child>
                         <child>
                           <widget class="GtkLabel" id="label1">
@@ -166,7 +187,6 @@
                           </widget>
                           <packing>
                             <property name="type">tab</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -403,7 +423,6 @@
                           </widget>
                           <packing>
                             <property name="position">1</property>
-                            <property name="tab_expand">False</property>
                           </packing>
                         </child>
                         <child>
@@ -415,7 +434,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">1</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -434,7 +452,6 @@
                           </widget>
                           <packing>
                             <property name="position">2</property>
-                            <property name="tab_expand">False</property>
                           </packing>
                         </child>
                         <child>
@@ -446,7 +463,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">2</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -461,7 +477,6 @@
                                 <child>
                                   <widget class="GtkFrame" id="normal-bond-frame">
                                     <property name="visible">True</property>
-                                    <property name="label_xalign">0</property>
                                     <property name="label_yalign">0</property>
                                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                                     <child>
@@ -640,13 +655,11 @@
                                 <child>
                                   <widget class="GtkFrame" id="stereo-bond-frame">
                                     <property name="visible">True</property>
-                                    <property name="label_xalign">0</property>
                                     <property name="label_yalign">0</property>
                                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame1">
                                         <property name="visible">True</property>
-                                        <property name="label_xalign">0</property>
                                         <property name="label_yalign">0</property>
                                         <property name="shadow_type">GTK_SHADOW_NONE</property>
                                         <child>
@@ -798,7 +811,6 @@
                           </widget>
                           <packing>
                             <property name="position">3</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -811,7 +823,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">3</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -826,7 +837,6 @@
                                 <child>
                                   <widget class="GtkFrame" id="frame2">
                                     <property name="visible">True</property>
-                                    <property name="label_xalign">0</property>
                                     <property name="label_yalign">0</property>
                                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                                     <child>
@@ -992,7 +1002,6 @@
                                 <child>
                                   <widget class="GtkFrame" id="arrow-head-frame">
                                     <property name="visible">True</property>
-                                    <property name="label_xalign">0</property>
                                     <property name="label_yalign">0</property>
                                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                                     <child>
@@ -1145,7 +1154,6 @@
                           </widget>
                           <packing>
                             <property name="position">4</property>
-                            <property name="tab_expand">False</property>
                           </packing>
                         </child>
                         <child>
@@ -1157,7 +1165,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">4</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -1171,7 +1178,6 @@
                           </widget>
                           <packing>
                             <property name="position">5</property>
-                            <property name="tab_expand">False</property>
                           </packing>
                         </child>
                         <child>
@@ -1183,7 +1189,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">5</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -1234,7 +1239,6 @@
                           </widget>
                           <packing>
                             <property name="position">6</property>
-                            <property name="tab_expand">False</property>
                           </packing>
                         </child>
                         <child>
@@ -1246,7 +1250,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">6</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -1262,7 +1265,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">7</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -1278,7 +1280,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">8</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -1294,7 +1295,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">9</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -1310,7 +1310,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">10</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -1326,7 +1325,6 @@
                           <packing>
                             <property name="type">tab</property>
                             <property name="position">11</property>
-                            <property name="tab_expand">False</property>
                             <property name="tab_fill">False</property>
                           </packing>
                         </child>
@@ -1347,6 +1345,9 @@
           <packing>
             <property name="position">2</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area1">

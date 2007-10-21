@@ -120,6 +120,8 @@ public:
 	void AddFileTheme (Theme *theme, char const *label);
 	void RemoveFileTheme (Theme *theme);
 	void ChangeThemeName (Theme *theme, char const *name);
+	Theme *GetDefaultTheme () {return m_DefaultTheme;}
+	void SetDefaultTheme (char const *name);
 
 private:
 	void ParseDir (string &path, ThemeType type);
@@ -129,6 +131,7 @@ private:
 	list <string> m_Names;
 	GConfClient *m_ConfClient;
 	guint m_NotificationId;
+	Theme *m_DefaultTheme;
 };
 
 extern ThemeManager TheThemeManager;

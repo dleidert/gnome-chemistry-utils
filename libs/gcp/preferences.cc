@@ -253,6 +253,11 @@ static bool on_delete_event (GtkWidget* widget, GdkEvent *event, PrefsDlg* dlg)
 	return res;
 }
 
+static void on_default_theme_changed (GtkComboBox *box, PrefsDlg* dlg)
+{
+	dlg->SetDefaultTheme (gtk_combo_box_get_active_text (box));
+}
+
 PrefsDlg::PrefsDlg (Application *pApp):
 	Dialog (pApp, GLADEDIR"/preferences.glade", "preferences", pApp),
 	Object (),
@@ -345,9 +350,18 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	string default_name = pApp->GetActiveDocument ()->GetTheme ()->GetName ();
 	if (default_name == "Default")
 			default_name = _("Default");
-	Theme *theme;
+	Theme *theme, *default_theme = TheThemeManager.GetDefaultTheme ();
+	m_DefaultThemeBox = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+	gtk_table_attach (GTK_TABLE (glade_xml_get_widget (xml, "table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 2, 3,
+													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	int n = 0;
 	for (i = theme_names.begin (); i != iend; i++) {
 		theme = TheThemeManager.GetTheme (*i);
+		gtk_combo_box_append_text (m_DefaultThemeBox, (*i).c_str ());
+		if (theme == default_theme)
+			gtk_combo_box_set_active (m_DefaultThemeBox, n);
+		n++;
 		if (theme)
 			theme->AddClient (this);
 		gtk_tree_store_append (themes, &iter, NULL);
@@ -385,6 +399,7 @@ PrefsDlg::PrefsDlg (Application *pApp):
 				  0, _("Text"),
 				  -1);
 	}
+	g_signal_connect (m_DefaultThemeBox,"changed", G_CALLBACK (on_default_theme_changed), this);
 	m_Path = gtk_tree_model_get_path (GTK_TREE_MODEL (themes), &selected);
 	gtk_tree_selection_set_mode (m_ThemesSelection, GTK_SELECTION_BROWSE);
 	g_signal_connect (m_ThemesSelection, "changed", G_CALLBACK (on_select_theme), this);
@@ -1450,6 +1465,19 @@ void PrefsDlg::OnThemeNameChanged (char const *name)
 bool PrefsDlg::CheckError ()
 {
 	return (!*gtk_entry_get_text (m_NameEntry));
+}
+
+void PrefsDlg::SetDefaultTheme (char const *name)
+{
+	TheThemeManager.SetDefaultTheme (name);
+	GConfClient *conf_client = gconf_client_get_default ();
+	GError *error = NULL;
+	gconf_client_set_string (conf_client, ROOTDIR"default-theme", name, &error);
+	if (error) {
+		g_message("GConf failed: %s", error->message);
+		g_error_free (error);
+	}
+	g_object_unref (conf_client);
 }
 
 }	//	namespace gcp

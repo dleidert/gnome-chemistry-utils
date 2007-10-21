@@ -69,6 +69,7 @@ public:
 	void OnChargeSize (double size);
 	void OnThemeNameChanged (char const *name);
 	bool CheckError ();
+	void SetDefaultTheme (char const *name);
 
 private:
 	Theme *m_CurTheme;
@@ -86,6 +87,7 @@ private:
 	GcpFontSel *m_TextFontSel, *m_FontSel;
 	gulong m_NameActivate, m_NameFocusOut, m_TextFontChanged, m_FontChanged;
 	GtkTreePath *m_Path;
+	GtkComboBox *m_DefaultThemeBox;
 };
 
 }	//	namespace gcp

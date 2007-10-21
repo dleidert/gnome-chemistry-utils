@@ -223,8 +223,8 @@ ThemeManager::ThemeManager ()
 	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"text-font-size", float, DefaultTextFontSize, 12., set_fontsize)
 	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchempaint/settings", (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
 	// Build default theme from settings
-	m_Themes["Default"] = m_Themes[_("Default")] = new Theme ("Default");
-	m_Names.push_front (_("Default"));
+	m_Themes["GChemPaint"] = new Theme ("GChemPaint");
+	m_Names.push_front ("GChemPaint");
 	// load global themes
 	string path = PKGDATADIR;
 	path += "/paint/themes";
@@ -235,6 +235,12 @@ ThemeManager::ThemeManager ()
 		path = szhome;
 	path += "/.gchempaint/themes";
 	ParseDir (path, LOCAL_THEME_TYPE);
+	gchar *default_theme  =NULL;
+	GCU_GCONF_GET_STRING (ROOTDIR"default-theme", default_theme, "GChemPaint");
+	m_DefaultTheme = m_Themes[default_theme];
+	g_free (default_theme);
+	if (!m_DefaultTheme)
+		m_DefaultTheme = m_Themes["GChemPaint"];
 }
 
 ThemeManager::~ThemeManager ()
@@ -284,11 +290,15 @@ ThemeManager::~ThemeManager ()
 
 Theme *ThemeManager::GetTheme (char const *name)
 {
+	if (!strcmp (_(name), _("Default")))
+		return m_DefaultTheme;
 	return m_Themes[name];
 }
 
 Theme *ThemeManager::GetTheme (string &name)
 {
+	if (name == "Default" || name == _("Default") )
+		return m_DefaultTheme;
 	return m_Themes[name.c_str ()];
 }
 
@@ -303,113 +313,118 @@ void ThemeManager::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEnt
 		return;	// we might want an error message?
 	if (cnxn_id != m_NotificationId)
 		return;	// we might want an error message?
-	Theme *Theme = m_Themes["Default"];
+	Theme *theme = m_Themes["GChemPaint"];
 	if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"bond-length")) {
 		DefaultBondLength = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_BondLength = DefaultBondLength;
+		theme->m_BondLength = DefaultBondLength;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"bond-angle"))  {
 		DefaultBondAngle = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_BondAngle = DefaultBondAngle;
+		theme->m_BondAngle = DefaultBondAngle;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"bond-dist"))  {
 		DefaultBondDist = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_BondDist = DefaultBondDist;
+		theme->m_BondDist = DefaultBondDist;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"bond-width"))  {
 		DefaultBondWidth = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_BondWidth = DefaultBondWidth;
+		theme->m_BondWidth = DefaultBondWidth;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-length"))  {
 		DefaultArrowLength = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_ArrowLength = DefaultArrowLength;
+		theme->m_ArrowLength = DefaultArrowLength;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-headA"))  {
 		DefaultArrowHeadA = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_ArrowHeadA = DefaultArrowHeadA;
+		theme->m_ArrowHeadA = DefaultArrowHeadA;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-headB"))  {
 		DefaultArrowHeadB = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_ArrowHeadB = DefaultArrowHeadB;
+		theme->m_ArrowHeadB = DefaultArrowHeadB;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-headC"))  {
 		DefaultArrowHeadC = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_ArrowHeadC = DefaultArrowHeadC;
+		theme->m_ArrowHeadC = DefaultArrowHeadC;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-dist"))  {
 		DefaultArrowDist = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_ArrowDist = DefaultArrowDist;
+		theme->m_ArrowDist = DefaultArrowDist;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-width"))  {
 		DefaultArrowWidth = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_ArrowWidth = DefaultArrowWidth;
+		theme->m_ArrowWidth = DefaultArrowWidth;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"hash-width"))  {
 		DefaultHashWidth = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_HashWidth = DefaultHashWidth;
+		theme->m_HashWidth = DefaultHashWidth;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"hash-dist"))  {
 		DefaultHashDist = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_HashDist = DefaultHashDist;
+		theme->m_HashDist = DefaultHashDist;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"stereo-width"))  {
 		DefaultStereoBondWidth = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_StereoBondWidth = DefaultStereoBondWidth;
+		theme->m_StereoBondWidth = DefaultStereoBondWidth;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"scale"))  {
 		double scale = gconf_value_get_float (gconf_entry_get_value (entry));
 		if (scale > 1e-5) {
 			DefaultZoomFactor = 1 / scale;
-			Theme->m_ZoomFactor = DefaultZoomFactor;
+			theme->m_ZoomFactor = DefaultZoomFactor;
 		}
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"padding"))  {
 		DefaultPadding = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_Padding = DefaultPadding;
+		theme->m_Padding = DefaultPadding;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"stoichiometry-padding"))  {
 		DefaultStoichiometryPadding = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_StoichiometryPadding = DefaultStoichiometryPadding;
+		theme->m_StoichiometryPadding = DefaultStoichiometryPadding;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"object-padding"))  {
 		DefaultObjectPadding = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_ObjectPadding = DefaultObjectPadding;
+		theme->m_ObjectPadding = DefaultObjectPadding;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"charge-sign-padding"))  {
 		DefaultSignPadding = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_SignPadding = DefaultSignPadding;
+		theme->m_SignPadding = DefaultSignPadding;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"charge-sign-size"))  {
 		DefaultChargeSignSize = gconf_value_get_float (gconf_entry_get_value (entry));
-		Theme->m_ChargeSignSize = DefaultChargeSignSize;
+		theme->m_ChargeSignSize = DefaultChargeSignSize;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-family"))  {
 		char const *name = gconf_value_get_string (gconf_entry_get_value (entry));
 		if (name) {
 			if (DefaultFontFamily != NULL)
 				g_free (DefaultFontFamily);
 			DefaultFontFamily = g_strdup (name);
-			Theme->m_FontFamily = DefaultFontFamily;
+			theme->m_FontFamily = DefaultFontFamily;
 		}
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-style"))  {
 		DefaultFontStyle = set_fontstyle (gconf_value_get_int (gconf_entry_get_value (entry)));
-		Theme->m_FontStyle = DefaultFontStyle;
+		theme->m_FontStyle = DefaultFontStyle;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-weight"))  {
 		DefaultFontWeight = set_fontweight (gconf_value_get_int (gconf_entry_get_value (entry)));
-		Theme->m_FontWeight = DefaultFontWeight;
+		theme->m_FontWeight = DefaultFontWeight;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-variant"))  {
 		DefaultFontVariant = set_fontvariant (gconf_value_get_int (gconf_entry_get_value (entry)));
-		Theme->m_FontVariant = DefaultFontVariant;
+		theme->m_FontVariant = DefaultFontVariant;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-stretch"))  {
 		DefaultFontStretch = set_fontstretch (gconf_value_get_int (gconf_entry_get_value (entry)));
-		Theme->m_FontStretch = DefaultFontStretch;
+		theme->m_FontStretch = DefaultFontStretch;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-size"))  {
 		DefaultFontSize = set_fontsize (gconf_value_get_float (gconf_entry_get_value (entry)));
-		Theme->m_FontSize = DefaultFontSize;
+		theme->m_FontSize = DefaultFontSize;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-family"))  {
 		char const *name = gconf_value_get_string (gconf_entry_get_value (entry));
 		if (name) {
 			if (DefaultTextFontFamily != NULL)
 				g_free (DefaultTextFontFamily);
 			DefaultTextFontFamily = g_strdup (name);
-			Theme->m_TextFontFamily = DefaultTextFontFamily;
+			theme->m_TextFontFamily = DefaultTextFontFamily;
 		}
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-style"))  {
 		DefaultTextFontStyle = set_fontstyle (gconf_value_get_int (gconf_entry_get_value (entry)));
-		Theme->m_TextFontStyle = DefaultTextFontStyle;
+		theme->m_TextFontStyle = DefaultTextFontStyle;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-weight"))  {
 		DefaultTextFontWeight = set_fontweight (gconf_value_get_int (gconf_entry_get_value (entry)));
-		Theme->m_TextFontWeight = DefaultTextFontWeight;
+		theme->m_TextFontWeight = DefaultTextFontWeight;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-variant"))  {
 		DefaultTextFontVariant = set_fontvariant (gconf_value_get_int (gconf_entry_get_value (entry)));
-		Theme->m_TextFontVariant = DefaultTextFontVariant;
+		theme->m_TextFontVariant = DefaultTextFontVariant;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-stretch"))  {
 		DefaultTextFontStretch = set_fontstretch (gconf_value_get_int (gconf_entry_get_value (entry)));
-		Theme->m_TextFontStretch = DefaultTextFontStretch;
+		theme->m_TextFontStretch = DefaultTextFontStretch;
 	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-size"))  {
 		DefaultTextFontSize = set_fontsize (gconf_value_get_float (gconf_entry_get_value (entry)));
-		Theme->m_TextFontSize = DefaultTextFontSize;
+		theme->m_TextFontSize = DefaultTextFontSize;
+	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"default-theme"))  {
+		char const *name = gconf_value_get_string (gconf_entry_get_value (entry));
+		theme = m_Themes[name];
+		if (theme)
+			m_DefaultTheme = theme;
 	}
 }
 
@@ -513,6 +528,8 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 void ThemeManager::AddFileTheme (Theme *theme, char const *label)
 {
 	string name = theme->GetName ().c_str ();
+	if (name == "Default")
+		name = "GChemPaint";
 	if (m_Themes.find (name) != m_Themes.end ()) {
 		name = string (label) + ":" + name;
 	}
@@ -540,6 +557,14 @@ void ThemeManager::ChangeThemeName (Theme *theme, char const *name)
 	theme->m_Name = name;
 	m_Themes[name] = theme;
 	m_Names.push_back (name);
+}
+ 
+void ThemeManager::SetDefaultTheme (char const *name)
+{
+	Theme *theme = m_Themes[name];
+	if (theme) {
+		m_DefaultTheme = theme;
+	}
 }
 
 bool Theme::Save (xmlDocPtr xml)
