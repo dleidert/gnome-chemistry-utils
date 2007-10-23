@@ -229,7 +229,7 @@ esac
 
 AC_SUBST(TESTSSRCDIR)
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 gcu.pc
 database/Makefile
@@ -259,3 +259,4 @@ programs/crystal/Makefile
 programs/table/Makefile
 tests/Makefile
 ])
+AC_OUTPUT
