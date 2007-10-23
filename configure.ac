@@ -237,7 +237,7 @@ esac
 
 AC_SUBST(TESTSSRCDIR)
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 gcu-unstable.pc
 database/Makefile
@@ -290,3 +290,4 @@ themes/Makefile
 themes/paint/Makefile
 tests/Makefile
 ])
+AC_OUTPUT

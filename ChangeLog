@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
-2007-10-17 Daniel Leidert <daniel.leidert.spam@gmx.net>
+2007-10-23 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* configure.ac: Fixed AC_CONFIG_FILES and AC_OUTPUT usage.
+
+2007-10-22 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* configure.ac (GOFFICE_PLUGINS_DIR): Handle option without a given
 	value.
 
