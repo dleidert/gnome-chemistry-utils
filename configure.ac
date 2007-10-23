@@ -130,14 +130,19 @@ GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
 AC_SUBST([GCU_CFLAGS])
 AC_SUBST([GCU_LIBS])
 
-GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.4`
+dnl --without is not handled
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.5`
 AC_ARG_WITH(
 	[goffice-plugins-dir],
 	AC_HELP_STRING(
 		[--with-goffice-plugins-dir],
 		[path to GOffice plugins directory [default=auto]]
 	),
-	[GOFFICE_PLUGINS_DIR=$withval]
+	[
+	 if test "x$withval" != "xyes" -a "x$withval" != "xno" ; then
+		GOFFICE_PLUGINS_DIR=$withval
+	 fi
+	]
 )
 
 AC_SUBST(GOFFICE_PLUGINS_DIR)

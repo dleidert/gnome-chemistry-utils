@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-10-17 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* configure.ac (GOFFICE_PLUGINS_DIR): Handle option without a given
+	value.
+
 2007-10-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/paint/preferences.glade: add a default theme key and use it to
 	set the default theme [sr #106032,item #3].
