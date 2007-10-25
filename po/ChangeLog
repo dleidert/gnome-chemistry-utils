@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-10-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* po/LINGUAS: add pt_BR.
+	* po/pt_BR.po: new translation by Grégoire Demets.
+
 2007-05-10  Julian Sikorski
 	* Updated Polish translation.
 
