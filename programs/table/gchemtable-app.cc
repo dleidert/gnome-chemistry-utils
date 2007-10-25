@@ -63,11 +63,6 @@ void on_family_colors (GtkWidget *widget, GChemTableApp *App)
 	App->SetColorScheme ("family");
 }
 
-void on_acidity_colors (GtkWidget *widget, GChemTableApp *App)
-{
-	App->SetColorScheme ("acidity");
-}
-
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
 {
 	GnomeVFSResult error = gnome_vfs_url_show(url);
@@ -153,9 +148,6 @@ static GtkActionEntry entries[] = {
 	  {"FamilyColors", NULL, N_("Family"), NULL,
 		  N_("Use colors to display the family grouping of the elements"),
                   G_CALLBACK (on_family_colors) },
-	  {"AcidityColors", NULL, N_("Acidity"), NULL,
-		  N_("Use colors to display the acidity of the elements"),
-                  G_CALLBACK (on_acidity_colors) },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Periodic Table"), G_CALLBACK (on_help) },
@@ -181,7 +173,6 @@ static const char *ui_description =
 "        <menuitem action='DefaultColors'/>"
 "        <menuitem action='StateColors'/>"
 "        <menuitem action='FamilyColors'/>"
-//"        <menuitem action='AcidityColors'/>"
 "      </menu>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
@@ -237,11 +228,6 @@ void on_changed_family (GtkComboBox *box,  GChemTableApp *app)
 static void get_family_color (int Z, GdkColor *color, GChemTableApp *App)
 {
 	App->GetFamilyColor (Z, color);
-}
-
-static void get_acidity_color (int Z, GdkColor *color, GChemTableApp *App)
-{
-	App->GetAcidityColor (Z, color);
 }
 
 GChemTableApp::GChemTableApp (): Application ("gchemtable")
@@ -313,12 +299,6 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 	gtk_combo_box_set_active (GTK_COMBO_BOX(familywidget), 0);
 	family = -1;
 	g_signal_connect (G_OBJECT (familywidget), "changed", G_CALLBACK (on_changed_family), this);
-
-	GladeXML *acidityxml = glade_xml_new (GLADEDIR"/acidity.glade", "acidity-legend", NULL);
-	GtkWidget *aciditylegend = glade_xml_get_widget (acidityxml, "acidity-legend");
-	colorschemes["acidity"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_acidity_color, aciditylegend, this);
-	gtk_widget_show_all (aciditylegend);
-
 }
 
 GChemTableApp::~GChemTableApp ()
@@ -471,41 +451,6 @@ void GChemTableApp::GetFamilyColor (int Z, GdkColor *color)
 			color->red = 0xffff;
 			color->blue = 0xffff;
 		}
-		return;
-	}
-}
-
-void GChemTableApp::GetAcidityColor (int Z, GdkColor *color)
-{
-	color->red= color->green = color->blue = 0;
-	Element *elt = Element::GetElement (Z);
-	int value = elt->GetIntegerProperty ("acidicbehaviour");
-	if (value == GCU_ERROR)
-		return;
-
-/*
-	0 means acidic
-	1 means basic
-	2 means neutral
-	3 means amphoteric
-*/
-
-	switch (value) {
-	case 0:
-		color->red = 0xffff;
-		return;
-
-	case 1:
-		color->blue = 0xffff;
-		return;
-
-	case 2:
-		color->green = 0xffff;
-		return;
-
-	case 3:
-		color->red = 0xffff;
-		color->blue = 0xffff;
 		return;
 	}
 }

@@ -47,7 +47,6 @@ public:
  	void SetFamily (int family_N);
 	void GetStateColor (int Z, GdkColor *color);
 	void GetFamilyColor (int Z, GdkColor *color);
-	void GetAcidityColor (int Z, GdkColor *color);
 
 private:
 	Dialog *Pages[118];
