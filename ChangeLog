@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2007-10-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add seamonkey to mozilla avatars and fix goffice component
+	installation path.
+	* gcu-unstable.pc.in: removed.
+	* gcu.pc.in: removed.
+
 2007-10-23 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* configure.ac: Fixed AC_CONFIG_FILES and AC_OUTPUT usage.
 
