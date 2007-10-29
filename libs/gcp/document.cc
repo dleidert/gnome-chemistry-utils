@@ -267,6 +267,7 @@ bool Document::ImportOB (OBMol& Mol)
 			AddBond (pBond);
 		}
 	}
+	m_Empty = !HasChildren ();
 	if (m_Window)
 		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
 	return true;
@@ -686,6 +687,7 @@ bool Document::Load (xmlNodePtr root)
 	}
 	m_pView->Update (this);
 	Update ();
+	m_Empty = !HasChildren ();
 	m_bIsLoading = false;
 	if (m_Window)
 		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
@@ -996,6 +998,7 @@ void Document::OnUndo ()
 	Update ();
 	EmptyTranslationTable ();
 	SetDirty (m_LastStackSize != m_UndoList.size () || (m_LastStackSize > 0 && m_OpID != m_UndoList.front ()->GetID ()));
+	m_Empty = !HasChildren ();
 }
 
 void Document::OnRedo ()
@@ -1009,7 +1012,7 @@ void Document::OnRedo ()
 		m_RedoList.pop_front ();
 		m_UndoList.push_front (Op);
 		if (m_Window)
-	m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Undo", true);
+			m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Undo", true);
 	}
 	if (m_Window) {
 		if (m_RedoList.empty ())
@@ -1019,6 +1022,7 @@ void Document::OnRedo ()
 	m_bUndoRedo = false;
 	EmptyTranslationTable ();
 	SetDirty (m_LastStackSize != m_UndoList.size () || (m_LastStackSize > 0 && m_OpID != m_UndoList.front ()->GetID ()));
+	m_Empty = !HasChildren ();
 }
 
 void Document::FinishOperation ()
@@ -1032,6 +1036,7 @@ void Document::FinishOperation ()
 	}
 	m_pCurOp = NULL;
 	SetDirty (true);
+	m_Empty = !HasChildren ();
 	if (m_Window) {
 		m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Undo", true);
 		m_Window->ActivateActionWidget ("/MainMenu/EditMenu/Redo", false);

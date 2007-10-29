@@ -54,6 +54,7 @@
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
+#include <openbabel/reaction.h>
 #include <openbabel/obconversion.h>
 #include <clocale>
 #include <fstream>
@@ -577,7 +578,7 @@ void Application::SaveWithBabel (string const &filename, const gchar *mime_type,
 void Application::OpenWithBabel (string const &filename, const gchar *mime_type, Document* pDoc)
 {
 	string old_num_locale;
-	bool bNew = (pDoc == NULL || (!pDoc->GetEmpty () && ! pDoc->GetDirty ())), local;
+	bool bNew = (pDoc == NULL || !pDoc->GetEmpty () || pDoc->GetDirty ())), local;
 	GnomeVFSFileInfo *info = NULL;
 	bool result = true, read_only = false;
 	try {
@@ -604,6 +605,7 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
+puts(mime_type);
 			OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
 			if (pInFormat == NULL)
 				throw 1;
@@ -614,16 +616,19 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 				OBMol *pMol = dynamic_cast<OBMol*> (pObj);
 				if (pMol)
 					result = pDoc->ImportOB(*pMol);
-				delete pObj;
+				else {
+					OBReaction *pReaction = dynamic_cast<OBReaction*> (pObj);
+				}
 				if  (!result)
 					break;
 				pObj = Conv.ReadObject (NULL);
 			}
-#endif
+#else
 			while (result && !ifs.eof () && Conv.Read (&Mol, &ifs)) {
 				result = pDoc->ImportOB(Mol);
 				Mol.Clear ();
 			}
+#endif
 			setlocale (LC_NUMERIC, old_num_locale.c_str ());
 			ifs.close ();
 		} else {

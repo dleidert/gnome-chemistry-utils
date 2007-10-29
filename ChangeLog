@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-10-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* lib/application.cc: fix test for file creation.
+	* lib/document.cc: update m_Empty after each change.
+
 2007-10-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add seamonkey to mozilla avatars and fix goffice component
 	installation path.
