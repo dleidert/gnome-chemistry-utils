@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-10-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.8.5).
+
 2007-10-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add seamonkey to mozilla avatars.
 	* programs/table/gchemtable-app.cc: removed all references to the
