@@ -305,6 +305,14 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	m_View = dynamic_cast<gc3dView *> (m_Doc->GetView ());
 	m_View->SetWindow (this);
 	gtk_container_add (GTK_CONTAINER (vbox), m_View->GetWidget ());
+	switch (Doc->GetDisplay3D ()) {
+	case BALL_AND_STICK:
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_action_group_get_action (action_group, "BallnStick")), true);
+		break;
+	case SPACEFILL:
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_action_group_get_action (action_group, "SpaceFill")), true);
+		break;
+	}
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
 }
 

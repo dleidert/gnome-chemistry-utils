@@ -1,3 +1,7 @@
+Version 0.8.5
+	3d viewer:
+		* Really implement command line options.
+
 Version 0.8.4
 	* enhanced build system (Daniel Leidert).
 	* new pt_BR translation (Gregoire Demets).

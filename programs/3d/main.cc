@@ -54,6 +54,26 @@ static GOptionEntry options[] =
 	{ NULL }
 };
 
+static char const *Display3DModeNames[] = {
+	"ball&stick",
+	"spacefill",
+};
+
+static Display3DMode display3d_mode_from_string (char const *mode)
+{
+	// first ensure the string is in lower case
+	char lcmode[16];
+	int i, max = strlen (mode), res = SPACEFILL;
+	if (max > 15)
+		return BALL_AND_STICK;
+	for (i = 0; i < max; i++)
+		lcmode[i] = tolower (mode[i]);
+	lcmode[i] = 0;
+	while (res >= BALL_AND_STICK && strcmp (lcmode, Display3DModeNames[res]))
+		res--;
+	return (Display3DMode) res;
+}
+
 int main(int argc, char *argv[])
 {
 	GnomeVFSURI *uri, *auri;
@@ -84,7 +104,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	gc3dApplication *App = new gc3dApplication ();
+	gc3dApplication *App = new gc3dApplication (display3d_mode_from_string (display3d), bgcolor);
 	gc3dDocument *pDoc = App->OnFileNew();
 	path = g_get_current_dir ();
 	dir = g_strconcat (path, "/", NULL);
