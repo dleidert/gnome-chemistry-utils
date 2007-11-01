@@ -578,7 +578,7 @@ void Application::SaveWithBabel (string const &filename, const gchar *mime_type,
 void Application::OpenWithBabel (string const &filename, const gchar *mime_type, Document* pDoc)
 {
 	string old_num_locale;
-	bool bNew = (pDoc == NULL || !pDoc->GetEmpty () || pDoc->GetDirty ())), local;
+	bool bNew = (pDoc == NULL || !pDoc->GetEmpty () || pDoc->GetDirty ()), local;
 	GnomeVFSFileInfo *info = NULL;
 	bool result = true, read_only = false;
 	try {
@@ -605,7 +605,6 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 			setlocale(LC_NUMERIC, "C");
 			OBMol Mol;
 			OBConversion Conv;
-puts(mime_type);
 			OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
 			if (pInFormat == NULL)
 				throw 1;

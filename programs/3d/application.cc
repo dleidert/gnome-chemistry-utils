@@ -32,8 +32,35 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n.h>
 
-gc3dApplication::gc3dApplication (): Application (_("GChem3D Viewer"), DATADIR, "gchem3d-viewer-unstable")
+gc3dApplication::gc3dApplication (Display3DMode display3d, char const *bg):
+	Application (_("GChem3D Viewer"), DATADIR, "gchem3d-viewer-unstable"),
+	m_Display3D (display3d)
 {
+	if (bg) {
+		if (!strcmp (bg, "black")) {
+			m_Red = 0.;
+			m_Green = 0.;
+			m_Blue = 0.;
+		} else if (!strcmp (bg, "white")) {
+			m_Red = 0.;
+			m_Green = 0.;
+			m_Blue = 0.;
+		} else {
+			if ((strlen (bg) != 7) || (*bg != '#')) {
+				g_warning ("Unrecognized color: %s\n", bg);
+				return;
+			}
+			int r, g, b;
+			r = strtoul (bg + 1, NULL, 16);
+			b = r & 0xff;
+			m_Blue = (float) b / 255.;
+			r >>= 8;
+			g = r & 0xff;
+			m_Green = (float) g / 255.;
+			r >>=8;
+			m_Red = (float) r / 255;
+		}
+	}
 }
 
 gc3dApplication::~gc3dApplication ()
@@ -44,6 +71,11 @@ gc3dDocument *gc3dApplication::OnFileNew ()
 {
 	gc3dDocument* Doc = new gc3dDocument (this);
 	Doc->SetTitle (_("GChem3D Viewer"));
+	Doc->SetDisplay3D (m_Display3D);
+	GLView *view = Doc->GetView ();
+	view->SetRed (m_Red);
+	view->SetGreen (m_Green);
+	view->SetBlue (m_Blue);
 	new gc3dWindow (this, Doc);
 	return Doc;
 }

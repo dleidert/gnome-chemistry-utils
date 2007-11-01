@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2007-11-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fixed compilation.
+	* libs/gcu/chem3ddoc.cc: implement wireframe mode.
+	* programs/3d/application.cc: implement support for command line options.
+	* programs/3d/application.h: ditto.
+	* programs/3d/main.cc: ditto and add wireframe.
+	* programs/3d/window.cc: ditto.
+
 2007-10-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* lib/application.cc: fix test for file creation.
 	* lib/document.cc: update m_Empty after each change.

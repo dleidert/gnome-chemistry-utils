@@ -307,25 +307,34 @@ void Chem3dDoc::Draw (Matrix &m)
 	const gdouble* color;
 	vector3 v;
 	Sphere sp (10);
-	glEnable (GL_RESCALE_NORMAL);
+	if (m_Display3D == WIREFRAME) {
+		float light_ambient[] = {1.0, 1.0, 1.0, 1.0};
+		glLightfv (GL_LIGHT0, GL_AMBIENT, light_ambient);
+	} else {
+		glEnable (GL_RESCALE_NORMAL);
+		float light_ambient[] = {.0, .0, .0, 1.0};
+		glLightfv (GL_LIGHT0, GL_AMBIENT, light_ambient);
+	}
 	while (atom) {
 		atomPos[atom] = v = m * atom->GetVector ();
-		if (m_Display3D != WIREFRAME) {
-			Z = atom->GetAtomicNum ();
-			if (Z > 0) {
-				if (m_Display3D == CYLINDERS) {
-					R = .12;
-				} else {
-					R = etab.GetVdwRad (Z);
-					if (m_Display3D == BALL_AND_STICK)
-						R *= 0.2;
-				}
-				x = v.x ();
-				y = v.y ();
-				z = v.z ();
-				color = gcu_element_get_default_color (Z);
-				if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
-					dist = w + R;
+		Z = atom->GetAtomicNum ();
+		if (Z > 0) {
+			if (m_Display3D == CYLINDERS) {
+				R = .12;
+			} else if (m_Display3D == WIREFRAME) {
+				R = 0.;
+			} else {
+				R = etab.GetVdwRad (Z);
+				if (m_Display3D == BALL_AND_STICK)
+					R *= 0.2;
+			}
+			x = v.x ();
+			y = v.y ();
+			z = v.z ();
+			color = gcu_element_get_default_color (Z);
+			if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
+				dist = w + R;
+			if (m_Display3D != WIREFRAME) {
 				glColor3d (color[0], color[1], color[2]);
 				sp.draw (v, R);
 			}
@@ -333,7 +342,7 @@ void Chem3dDoc::Draw (Matrix &m)
 		atom = m_Mol.NextAtom (i);
 	}
 	m_MaxDist = dist * 1.05;
-	if (m_Display3D == BALL_AND_STICK || m_Display3D == CYLINDERS) {
+	if (m_Display3D != SPACEFILL) {
 		Cylinder cyl (10);
 		m_MaxDist = dist * 1.05;
 		std::vector < OBEdgeBase * >::iterator j;
@@ -341,7 +350,10 @@ void Chem3dDoc::Draw (Matrix &m)
 		vector3 v0, v1;
 		double R1;
 		unsigned int Z1;
-		glEnable (GL_NORMALIZE);
+		if (m_Display3D == WIREFRAME)
+			sp.draw (v, 0.); // weird, this initializes something needed to see colors but what?
+		else
+			glEnable (GL_NORMALIZE);
 		while (bond) {
 			atom = bond->GetBeginAtom ();
 			v = m * atom->GetVector ();
@@ -362,10 +374,22 @@ void Chem3dDoc::Draw (Matrix &m)
 			v0 = v + (v1 - v) * (R / (R + R1));
 			color = gcu_element_get_default_color (Z);
 			glColor3d (color[0], color[1], color[2]);
-			cyl.draw (v, v0, .12);
+			if (m_Display3D == WIREFRAME) {
+				glBegin (GL_LINES);
+				glVertex3d (v.x (), v.y (), v.z());
+				glVertex3d (v0.x (), v0.y (), v0.z());
+				glEnd ();
+			} else
+				cyl.draw (v, v0, .12);
 			color = gcu_element_get_default_color (Z1);
 			glColor3d (color[0], color[1], color[2]);
-			cyl.draw (v0, v1, .12);
+			if (m_Display3D == WIREFRAME) {
+				glBegin (GL_LINES);
+				glVertex3d (v0.x (), v0.y (), v0.z());
+				glVertex3d (v1.x (), v1.y (), v1.z());
+				glEnd ();
+			} else
+				cyl.draw (v0, v1, .12);
 			bond = m_Mol.NextBond (j);
 		}
 	}

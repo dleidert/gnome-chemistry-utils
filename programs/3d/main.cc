@@ -50,9 +50,32 @@ static GOptionEntry options[] =
 {
 	{ "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, N_("Prints GChem3d Viewer version"), NULL },
 	{ "bgcolor", 'b', 0, G_OPTION_ARG_STRING, &bgcolor, N_("Background color: white, black or #rrggbb (default is black)"), NULL },
-	{ "display3d", 'd', 0, G_OPTION_ARG_STRING, &display3d, N_("How molecules are displayed; possible values are BallnStick (the default), SpaceFill, and Cyinders"), NULL },
+	{ "display3d", 'd', 0, G_OPTION_ARG_STRING, &display3d, N_("How molecules are displayed; possible values are BallnStick (the default), SpaceFill, Cylinders, and Wireframe"), NULL },
 	{ NULL }
 };
+
+static char const *Display3DModeNames[] = {
+	"ball&stick",
+	"spacefill",
+	"cylinders",
+	"wireframe"
+};
+
+static Display3DMode display3d_mode_from_string (char const *mode)
+{
+	// first ensure the string is in lower case
+	char lcmode[16];
+	int i, max = strlen (mode), res = WIREFRAME;
+	if (max > 15)
+		return BALL_AND_STICK;
+	for (i = 0; i < max; i++)
+		lcmode[i] = tolower (mode[i]);
+	lcmode[i] = 0;
+	while (res >= BALL_AND_STICK && strcmp (lcmode, Display3DModeNames[res]))
+		res--;
+	return (Display3DMode) res;
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -84,7 +107,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	gc3dApplication *App = new gc3dApplication ();
+	gc3dApplication *App = new gc3dApplication (display3d_mode_from_string (display3d), bgcolor);
 	gc3dDocument *pDoc = App->OnFileNew();
 	path = g_get_current_dir ();
 	dir = g_strconcat (path, "/", NULL);
