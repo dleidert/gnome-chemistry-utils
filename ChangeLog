@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/crystaldoc.cc: add a namespace to files so that they are
+	correctly identified as gcrystal files.
+	* samples/*.gcrystal: ditto.
+
 2007-11-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fixed compilation.
 	* libs/gcu/chem3ddoc.cc: implement wireframe mode.

@@ -653,6 +653,7 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 	gchar buf[256];
 	xmlDocPtr xml;
 	xmlNodePtr node;
+	xmlNsPtr ns;
 	char *old_num_locale;
 
 	xml = xmlNewDoc((xmlChar*)"1.0");
@@ -661,7 +662,9 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
 	setlocale(LC_NUMERIC, "C");
 	xmlDocSetRootElement (xml,  xmlNewDocNode(xml, NULL, (xmlChar*)"crystal", NULL));
-	
+	ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gcrystal", (xmlChar*) "gcry");
+	xmlSetNs (xml->children, ns);
+
 	try
 	{
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"generator", (xmlChar*)GetProgramId());
