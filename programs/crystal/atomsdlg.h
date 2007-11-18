@@ -76,6 +76,7 @@ private:
 	GcuAtomicRadius m_Radius;
 	gint m_RadiusType, m_Charge;
 	vector<int> m_RadiiIndex;
+	unsigned long m_RadiiSignalID;
 };
 
 #endif //GCRYSTAL_ATOMSDLG_H

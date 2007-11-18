@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2007-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/atomsdlg.cc: inactivate the change signal in
+	the radii menu when populating the menu. [#21576]
+	* programs/crystal/atomsdlg.h: ditto.
+
 2007-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/crystaldoc.cc: add a namespace to files so that they are
 	correctly identified as gcrystal files.

@@ -202,7 +202,7 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 	gtk_combo_box_set_active (RadiusTypeMenu, 0);
 	g_signal_connect (G_OBJECT (RadiusTypeMenu), "changed", G_CALLBACK (on_radius_type_changed), this);
 	RadiusMenu = (GtkComboBox*) glade_xml_get_widget (xml, "radius-menu");
-	g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (on_radius_index_changed), this);
+	m_RadiiSignalID = g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (on_radius_index_changed), this);
 	AtomR = (GtkEntry*) glade_xml_get_widget (xml, "atomr");
 	g_signal_connect (G_OBJECT (Selection), "changed", GTK_SIGNAL_FUNC (on_select), this);
 	m_RadiusType = m_Charge = 0;
@@ -536,6 +536,7 @@ void gcAtomsDlg::PopulateRadiiMenu ()
 {
 	const GcuAtomicRadius **radius = m_Radii;
 	int i = m_RadiiIndex.size () - 2;
+	g_signal_handler_block (RadiusMenu, m_RadiiSignalID);
 	for (int j = 0; j <= i; j++)
 		gtk_combo_box_remove_text (RadiusMenu, 1);
 	m_RadiiIndex.clear ();
@@ -565,5 +566,6 @@ void gcAtomsDlg::PopulateRadiiMenu ()
 			m_RadiiIndex.push_back(i++);
 			radius++;
 		}
-		gtk_combo_box_set_active (RadiusMenu, 0);
+	g_signal_handler_unblock (RadiusMenu, m_RadiiSignalID);
+	gtk_combo_box_set_active (RadiusMenu, 0);
 }
