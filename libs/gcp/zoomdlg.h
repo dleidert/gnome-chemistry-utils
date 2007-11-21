@@ -28,13 +28,11 @@
 #include <gcu/dialog.h>
 #include <gtk/gtkspinbutton.h>
 
-using namespace gcu;
-
 namespace gcp {
 
 class Document;
 
-class ZoomDlg: public Dialog
+class ZoomDlg: public gcu::Dialog
 {
 public:
 	ZoomDlg (gcp::Document* pDoc);

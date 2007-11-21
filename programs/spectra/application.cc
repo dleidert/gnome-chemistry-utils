@@ -32,6 +32,7 @@
 #include <clocale>
 
 using namespace gcu;
+using namespace std;
 
 gsvApplication::gsvApplication (): Application (_("GSpectrum"), DATADIR, "gspectrum-unstable")
 {

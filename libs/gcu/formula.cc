@@ -33,7 +33,10 @@
 #include <cstring>
 #include <sstream>
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 parse_error::parse_error(const string& __arg, int start, int length)
   : exception(), m_msg(__arg)
@@ -55,8 +58,6 @@ parse_error::what(int &start, int &length) const throw()
 	length = m_length;
 	return m_msg.c_str();
 }
-
-namespace gcu {
 	
 class FormulaElt
 {
@@ -104,8 +105,6 @@ public:
 	string Symbol;
 	GCU_RO_PROP (int, Z);
 };
-
-}
 
 FormulaElt::FormulaElt ()
 {
@@ -600,3 +599,5 @@ bool Formula::BuildConnectivity ()
 	// FIXME: write this function
 	return false;
 }
+
+}	//	namespace gcu

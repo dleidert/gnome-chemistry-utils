@@ -29,6 +29,8 @@
 #include "document.h"
 #include "view.h"
 
+using namespace gcu;
+
 namespace gcp {
 
 static void on_pos_changed (HPosDlg *dlg)

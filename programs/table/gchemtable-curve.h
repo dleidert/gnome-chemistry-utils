@@ -52,7 +52,7 @@ public:
 	void SetGraph (GogGraph *graph);
 
 private:
-	string m_Name;
+	std::string m_Name;
 	GogGraph *m_Graph;
 	GtkWidget *m_GraphWidget, *m_GraphBox;
 	GtkPrintSettings *m_PrintSettings;

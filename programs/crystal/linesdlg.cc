@@ -28,6 +28,8 @@
 #include "application.h"
 #include <glib/gi18n.h>
 
+using namespace std;
+
 enum
 {
 	COLUMN_X1,

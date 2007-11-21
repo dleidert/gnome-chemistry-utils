@@ -28,8 +28,6 @@
 #include <list>
 #include "object.h"
 
-using namespace std;
-
 namespace gcu
 {
 

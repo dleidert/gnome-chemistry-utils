@@ -38,6 +38,9 @@
 #include <glib/gi18n-lib.h>
 #include <stdexcept>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 static void on_text_changed (Text *text)

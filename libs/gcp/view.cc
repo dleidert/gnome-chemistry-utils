@@ -146,6 +146,9 @@ void gnome_canvas_gcp_update_bounds (GnomeCanvasGCP *canvas)
 	pView->UpdateSize (x1, y1, x2, y2);
 }
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 bool on_event (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
@@ -170,8 +173,6 @@ void on_receive (GtkClipboard *clipboard, GtkSelectionData *selection_data, View
 {
 	pView->OnReceive (clipboard, selection_data);
 }
-
-using namespace std;
 
 View::View (Document *pDoc, bool Embedded)
 {

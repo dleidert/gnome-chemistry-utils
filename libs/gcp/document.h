@@ -45,14 +45,11 @@ namespace OpenBabel
 	class OBMol;
 }
 
-using namespace OpenBabel;
-using namespace std;
-
 namespace gcp {
 
-extern SignalId OnChangedSignal;
-extern SignalId OnDeleteSignal;
-extern SignalId OnThemeChangedSignal;
+extern gcu::SignalId OnChangedSignal;
+extern gcu::SignalId OnDeleteSignal;
+extern gcu::SignalId OnThemeChangedSignal;
 
 class View;
 class Application;
@@ -71,17 +68,17 @@ public:
 	void Clear ();
 	GtkWidget* GetWidget ();
 	View* GetView () {return m_pView;}
-	void BuildBondList (list<Bond*>& BondList, Object* obj);
-	bool ImportOB (OBMol& Mol);
+	void BuildBondList (std::list<Bond*>& BondList, Object* obj);
+	bool ImportOB (OpenBabel::OBMol& Mol);
 	void ExportOB ();
-	void BuildAtomTable (map<string, unsigned>& AtomTable, Object* obj, unsigned& index);
+	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, Object* obj, unsigned& index);
 	void Save ();
 	virtual bool Load (xmlNodePtr);
 	const gchar* GetTitle ();
 	void SetTitle (const gchar* title);
 	void SetLabel (const gchar* label);
 	const gchar* GetLabel ();
-	void SetFileName (string const &, const gchar *mime_type);
+	void SetFileName (std::string const &, const gchar *mime_type);
 	const gchar* GetFileName () {return m_filename;}
 	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
 	void AddObject (Object* pObject);
@@ -118,13 +115,13 @@ public:
 	void SetEditable (bool editable) {m_bWriteable = editable; m_bUndoRedo = true;}
 	bool GetEditable () {return m_bWriteable;}
 	gcp::Application* GetApplication () {return m_pApp;}
-	void ExportImage (string const &filename, const char* type, int resolution = -1);
+	void ExportImage (std::string const &filename, const char* type, int resolution = -1);
 	void SetReadOnly (bool ro);
 	bool GetReadOnly () {return m_bReadOnly;}
 	virtual double GetYAlign ();
 	Window *GetWindow () {return m_Window;}
 	void SetTheme (Theme *theme);
-	bool OnSignal (SignalId Signal, Object *Child);
+	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 	void SetDirty (bool isDirty = true);
 	void OnThemeNamesChanged ();
 	double GetMedianBondLength ();
@@ -141,12 +138,12 @@ private:
 	gchar *m_title;
 	gchar *m_label;
 	gchar *m_comment, *m_author, *m_mail;
-	set<Object*> m_DirtyObjects;
+	std::set<gcu::Object*> m_DirtyObjects;
 	bool m_bIsLoading, m_bUndoRedo, m_bReadOnly;
-	string m_FileType;
+	std::string m_FileType;
 	bool m_bWriteable;
 	GDate CreationDate, RevisionDate;
-	list<Operation*> m_UndoList, m_RedoList;
+	std::list<Operation*> m_UndoList, m_RedoList;
 	Operation* m_pCurOp;
 	Application* m_pApp;
 	Window *m_Window;
@@ -169,7 +166,7 @@ GCU_RO_PROP (PangoAttrList*, PangoAttrList)
 GCU_PROP (bool, AllowClipboard)
 };
 
-extern list<Document*> Docs;
+extern std::list<Document*> Docs;
 extern bool bCloseAll;
 
 }	//	namespace gcp

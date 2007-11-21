@@ -39,7 +39,11 @@
 #include <ostream>
 #include <sstream>
 
-using namespace gcu;
+using namespace OpenBabel;
+using namespace std;
+
+namespace gcu
+{
 
 Chem3dDoc::Chem3dDoc (): GLDocument (NULL)
 {
@@ -394,3 +398,5 @@ void Chem3dDoc::Draw (Matrix &m)
 		}
 	}
 }
+
+}	//	namespace gcu

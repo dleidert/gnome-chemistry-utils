@@ -38,6 +38,8 @@
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
+using namespace gcu;
+
 namespace gcp {
 
 ReactionArrow::ReactionArrow (Reaction* react, unsigned Type): Arrow (ReactionArrowType)

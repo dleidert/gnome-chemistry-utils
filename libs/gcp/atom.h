@@ -39,10 +39,6 @@ namespace OpenBabel
 	class OBAtom;
 }
 
-using namespace OpenBabel;
-using namespace std;
-using namespace gcu;
-
 namespace gcp {
 
 class Bond;
@@ -75,12 +71,12 @@ enum {
 
 class Electron;
 
-class Atom: public gcu::Atom, public DialogOwner
+class Atom: public gcu::Atom, public gcu::DialogOwner
 {
 public:
 	Atom ();
 	Atom (int Z, double x, double y, double z);
-	Atom (OBAtom* atom);
+	Atom (OpenBabel::OBAtom* atom);
 	virtual ~Atom ();
 
 public :
@@ -104,7 +100,7 @@ public :
 	virtual bool AcceptNewBonds (int nb = 1);
 	virtual bool AcceptCharge (int charge);
 	virtual double GetYAlign ();
-	virtual void Transform2D (Matrix2D& m, double x, double y);
+	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	/*!
 	@param Mol: a pointer to a molecule
@@ -132,13 +128,15 @@ public :
 	void SetCharge (int charge);
 	int GetCharge () {return m_Charge;}
 	void ForceChanged () {m_Changed = true;}
+	cairo_rectangle_t &GetInkRect () {return m_InkRect;}
+	cairo_rectangle_t &GetHInkRect () {return m_HInkRect;}
 
 private:
 	void BuildItems (WidgetData* pData);
 	void UpdateAvailablePositions ();
 
 private:
-	Element *m_Element;
+	gcu::Element *m_Element;
 	int m_nH;
 	int m_Valence; //valence
 	int m_ValenceOrbitals;
@@ -146,7 +144,7 @@ private:
 	int m_nlu; //single electrons number
 	double m_width, m_height; //size of the atomic symbol in the canvas
 	double m_length, m_text_height; // size of the text buffer
-	bool m_HPos; //false = left, true = right
+	int m_HPos; //0 = left, 1 = right, 2 = top, 3 = bottom
 	bool m_ChargeAuto;
 	int m_Changed; //update needs regenerate the buffer
 	int m_ascent;
@@ -160,12 +158,13 @@ private:
 	double m_ChargeAngle;
 	double m_ChargeDist;
 	double m_ChargeWidth, m_ChargeTWidth, m_ChargeXOffset, m_ChargeYOffset;
-	list<double> m_AngleList;
-	map<double, double> m_InterBonds; /* positions betwen bonds. First  value is the
+	std::list<double> m_AngleList;
+	std::map<double, double> m_InterBonds; /* positions betwen bonds. First  value is the
 	angle between the two bonds and second value is the direction */
 	PangoLayout *m_Layout, *m_ChargeLayout;
 	bool m_DrawCircle;
-	string m_FontName;
+	std::string m_FontName;
+	cairo_rectangle_t m_InkRect, m_HInkRect;
 
 GCU_PROP (bool, ShowSymbol)
 GCU_PROP (unsigned char, HPosStyle) //0=force left, 1=force right, 2=auto.

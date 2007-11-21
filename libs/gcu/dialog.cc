@@ -29,7 +29,8 @@
 #include <cstring>
 #include <cstdlib>
 
-using namespace gcu;
+namespace gcu
+{
 
 static void on_OK (GtkWidget *widget, Dialog* pBox)
 {
@@ -214,3 +215,5 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 	}
 	return true;
 }
+
+}	//	namespace gcu

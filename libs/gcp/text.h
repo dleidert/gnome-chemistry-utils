@@ -50,7 +50,7 @@ public:
 	void Update (GtkWidget* w);
 	void SetSelected (GtkWidget* w, int state);
 	bool OnChanged (bool save);
-	void Transform2D (Matrix2D& m, double x, double y);
+	void Transform2D (gcu::Matrix2D& m, double x, double y);
 	bool OnEvent (GdkEvent *event);
 	void GetSize (double& x, double& y) {x = m_length; y = m_height;}
 	double GetYAlign ();

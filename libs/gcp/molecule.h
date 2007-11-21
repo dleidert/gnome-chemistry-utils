@@ -32,17 +32,17 @@
 
 namespace gcp {
 
-class Molecule: public Object
+class Molecule: public gcu::Object
 {
 public:
-	Molecule (TypeId Type = MoleculeType);
+	Molecule (gcu::TypeId Type = gcu::MoleculeType);
 	Molecule (Atom* pAtom);
 	virtual ~Molecule ();
 	void Add (GtkWidget* w);
 	void AddAtom (Atom* pAtom);
 	void AddFragment (Fragment* pFragment);
 	void AddBond (Bond* pBond);
-	void Remove (Object* pObject);
+	void Remove (gcu::Object* pObject);
 	void UpdateCycles (Bond* pBond);
 	bool Merge (Molecule* pMolecule, bool RemoveDuplicates = false);
 	void UpdateCycles ();
@@ -50,16 +50,16 @@ public:
 	virtual xmlNodePtr Save (xmlDocPtr xml);
 	void Clear ();
 	virtual void SetSelected (GtkWidget* w, int state);
-	virtual void Transform2D (Matrix2D& m, double x, double y);
+	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 	virtual Object* GetAtomAt (double x, double y, double z = 0.);
 	virtual double GetYAlign ();
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
-	virtual bool OnSignal (SignalId Signal, Object *Child);
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 	void ExportToGhemical ();
-	void SelectAlignmentItem (Object *child);
-	string GetAlignmentId () {return (m_Alignment)? m_Alignment->GetId (): "";}
-	void BuildOBMol (OBMol &Mol);
-	void BuildOBMol2D (OBMol &Mol);
+	void SelectAlignmentItem (gcu::Object *child);
+	std::string GetAlignmentId () {return (m_Alignment)? m_Alignment->GetId (): "";}
+	void BuildOBMol (OpenBabel::OBMol &Mol);
+	void BuildOBMol2D (OpenBabel::OBMol &Mol);
 	void ShowInChI ();
 	void BuildInChI ();
 	void BuildSMILES ();
@@ -70,13 +70,13 @@ public:
 	std::string GetRawFormula ();
 
 private:
-	list<Cycle*> m_Cycles;
-	list<Chain*> m_Chains;
-	list<Atom*> m_Atoms;
-	list<Fragment*> m_Fragments;
-	list<Bond*> m_Bonds;
-	Object *m_Alignment;
-	string m_InChI;
+	std::list<Cycle*> m_Cycles;
+	std::list<Chain*> m_Chains;
+	std::list<Atom*> m_Atoms;
+	std::list<Fragment*> m_Fragments;
+	std::list<Bond*> m_Bonds;
+	gcu::Object *m_Alignment;
+	std::string m_InChI;
 	bool m_Changed;
 	bool m_IsResidue;
 };

@@ -35,6 +35,9 @@
 #include <glib/gi18n-lib.h>
 #include <vector>
 
+using namespace gcu;
+using namespace std;
+
 class WikipediaApp: public gcu::Application
 {
 public:

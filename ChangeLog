@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2007-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* */*/*.cc: better use of namespaces.
+	* */*/*.h:ditto.
+	* libs/gcp/theme.cc: fixed a crash when adding a file theme for a file
+	without title. 
+	* mozilla-plugin/Makefile.am: initial support of gchempaint files.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* mozilla-plugin/moz-plugin.c: (NP_GetMIMEDescription): ditto.
+
 2007-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/atomsdlg.cc: inactivate the change signal in
 	the radii menu when populating the menu. [#21576]

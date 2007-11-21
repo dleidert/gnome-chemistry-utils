@@ -27,7 +27,7 @@
 
 #include <gcp/atom.h>
 
-extern TypeId PseudoAtomType;
+extern gcu::TypeId PseudoAtomType;
 
 class gcpPseudoAtom: public gcp::Atom
 {

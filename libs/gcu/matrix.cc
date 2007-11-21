@@ -25,8 +25,10 @@
 #include "matrix.h"
 #include <cmath>
 
-using namespace gcu;
 using namespace OpenBabel;
+
+namespace gcu
+{
 
 Matrix::Matrix()
 {
@@ -175,3 +177,5 @@ GLMatrix::GLMatrix ()
 GLMatrix::~GLMatrix ()
 {
 }
+
+}	//	namespace gcu

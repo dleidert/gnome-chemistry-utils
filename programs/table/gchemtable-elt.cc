@@ -33,6 +33,8 @@
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
 
+using namespace std;
+
 extern void on_show_curve (GObject *obj, char const* name);
 static void on_focus_in (GChemTableElt *dlg)
 {

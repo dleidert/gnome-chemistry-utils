@@ -27,7 +27,10 @@
 #include "application.h"
 #include "dialog.h"
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 Document::Document (Application *App): Object (DocumentType),
 m_Dirty (false),
@@ -69,3 +72,5 @@ gchar* Document::GetNewId (gchar* id, bool Cache)
 	g_free (key);
 	return buf;
 }
+
+}	//	namespace gcu

@@ -28,20 +28,18 @@
 #include <gcu/object.h>
 #include <stdexcept>
 
-using namespace gcu;
-
 namespace gcp {
 
-class Reaction: public Object
+class Reaction: public gcu::Object
 {
 public:
 	Reaction ();
 	virtual ~Reaction ();
 	
-	virtual bool Build (list<Object*>& Children) throw (invalid_argument);
-	virtual void Transform2D (Matrix2D& m, double x, double y);
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
-	virtual bool OnSignal (SignalId Signal, Object *Child);
+	virtual bool Build (std::list<gcu::Object*>& Children) throw (std::invalid_argument);
+	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 	virtual bool Load (xmlNodePtr);
 	virtual double GetYAlign ();
 };

@@ -32,7 +32,7 @@ class gcp::Operation;
 class gcpBondTool: public gcp::Tool
 {
 public:
-	gcpBondTool (gcp::Application *App, string ToolId = "Bond", unsigned nPoints = 2);
+	gcpBondTool (gcp::Application *App, std::string ToolId = "Bond", unsigned nPoints = 2);
 	virtual ~gcpBondTool ();
 	
 	bool OnClicked ();

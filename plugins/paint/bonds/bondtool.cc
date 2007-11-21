@@ -34,6 +34,9 @@
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
+using namespace gcu;
+using namespace std;
+
 gcpBondTool::gcpBondTool (gcp::Application *App, string ToolId, unsigned nPoints): gcp::Tool (App, ToolId)
 {
 	points = (nPoints)? gnome_canvas_points_new (nPoints): NULL;

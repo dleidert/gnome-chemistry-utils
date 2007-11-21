@@ -34,6 +34,8 @@
 #include <canvas/gcp-canvas-line.h>
 #include <canvas/gcp-canvas-group.h>
 
+using namespace gcu;
+
 namespace gcp {
 
 MesomeryArrow::MesomeryArrow (Mesomery* mesomery): Arrow (MesomeryArrowType)

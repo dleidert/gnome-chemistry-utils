@@ -43,6 +43,9 @@
 #include <cmath>
 #include <list>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 static void on_fragment_changed (Fragment *fragment)

@@ -31,6 +31,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 
+using namespace gcu;
+
 xmlDocPtr xml;
 
 class gcpNewTemplateToolDlg: public Dialog

@@ -34,6 +34,9 @@
 #include "widgetdata.h"
 #include <libgnomecanvas/gnome-canvas.h>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 TypeId ReactionStepType = NoType;

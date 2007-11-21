@@ -27,8 +27,6 @@
 
 #include <set>
 
-using namespace std;
-
 namespace gcp {
 
 class Application;
@@ -46,7 +44,7 @@ protected:
 	virtual void AddRules ();
 };
 
-extern set<Plugin*> Plugins;
+extern std::set<Plugin*> Plugins;
 
 }	//	namespace gcp
 

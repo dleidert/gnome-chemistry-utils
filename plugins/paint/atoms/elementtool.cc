@@ -33,6 +33,9 @@
 #include <cstring>
 #include <canvas/gcp-canvas-group.h>
 
+using namespace gcu;
+using namespace std;
+
 gcpElementTool::gcpElementTool (gcp::Application *App): gcp::Tool (App, "Element")
 {
 }

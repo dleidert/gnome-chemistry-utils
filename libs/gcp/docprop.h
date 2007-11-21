@@ -29,14 +29,12 @@
 #include <gcu/object.h>
 #include <gcu/macros.h>
 
-using namespace gcu;
-
 namespace gcp {
 
 class Document;
 class Theme;
 
-class DocPropDlg: public Dialog, Object
+class DocPropDlg: public gcu::Dialog,gcu::Object
 {
 public:
 	DocPropDlg (Document* pDoc);

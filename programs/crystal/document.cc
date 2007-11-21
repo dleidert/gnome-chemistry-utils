@@ -55,6 +55,7 @@
 #	include <openbabel/format.h>
 #	include <openbabel/obconversion.h>
 #	include <openbabel/math/matrix3x3.h>
+using namespace OpenBabel;
 #endif
 
 #define SAVE	1

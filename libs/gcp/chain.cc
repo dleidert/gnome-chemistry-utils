@@ -27,6 +27,9 @@
 #include "molecule.h"
 #include "document.h"
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 Chain::Chain (Bond* pBond, Atom* pAtom, TypeId Type): Object (Type)

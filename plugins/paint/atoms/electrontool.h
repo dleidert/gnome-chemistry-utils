@@ -30,7 +30,7 @@
 class gcpElectronTool: public gcp::Tool
 {
 public:
-	gcpElectronTool (gcp::Application *App, string Id);
+	gcpElectronTool (gcp::Application *App, std::string Id);
 	virtual ~gcpElectronTool ();
 
 	virtual bool OnClicked ();

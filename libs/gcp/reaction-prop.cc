@@ -28,6 +28,8 @@
 #include "reaction-arrow.h"
 #include <glib/gi18n-lib.h>
 
+using namespace gcu;
+
 namespace gcp {
 
 TypeId ReactionPropType = NoType;

@@ -28,35 +28,33 @@
 #include <gcu/object.h>
 #include <set>
 
-using namespace gcu;
-
 namespace gcp {
 
 class Reaction;
 class ReactionArrow;
 
-extern TypeId ReactionStepType;
+extern gcu::TypeId ReactionStepType;
 
-class ReactionStep: public Object
+class ReactionStep: public gcu::Object
 {
 public:
 	ReactionStep ();
 	virtual ~ReactionStep ();
 
-	ReactionStep (Reaction *reaction, map<double, Object*>& Children, map<Object*, ArtDRect> Objects);
+	ReactionStep (Reaction *reaction, std::map<double, gcu::Object*>& Children, std::map<gcu::Object*, ArtDRect> Objects);
 
 	void Add (GtkWidget* w);
 	virtual xmlNodePtr Save (xmlDocPtr xml);
 	virtual bool Load (xmlNodePtr);
 	virtual double GetYAlign ();
-	virtual bool OnSignal (SignalId Signal, Object *Child);
+	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 
 	void AddArrow (ReactionArrow *arrow) {m_Arrows.insert (arrow);}
 	void RemoveArrow (ReactionArrow *arrow);
 
 private:
 	bool m_bLoading;
-	set<ReactionArrow *> m_Arrows;
+	std::set<ReactionArrow *> m_Arrows;
 };
 
 }	//	namespace gcp

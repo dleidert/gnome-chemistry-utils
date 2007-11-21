@@ -45,7 +45,7 @@ public:
 	void OnFileClose ();
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 	void OnCopy ();
-	void SetTitle (string const &title);
+	void SetTitle (std::string const &title);
 
 private:
 	GtkWindow* m_Window;

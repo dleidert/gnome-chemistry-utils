@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * isotope.h 
  *
- * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,8 +27,6 @@
 
 #include <gcu/chemistry.h>
 #include <vector>
-
-using namespace std;
 
 namespace gcu
 {
@@ -158,7 +156,7 @@ freed with g_free when not anymore nedded.
 private:
 	int m_min, m_max, m_mono;
 	int ref_count;
-	vector<double> m_values;
+	std::vector<double> m_values;
 	double m_mono_mass;
 	static double epsilon;
 };

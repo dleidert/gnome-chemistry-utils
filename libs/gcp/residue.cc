@@ -26,6 +26,8 @@
 #include "residue.h"
 #include <iostream>
 
+using namespace std;
+
 namespace gcp
 {
 

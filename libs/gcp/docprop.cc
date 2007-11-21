@@ -30,6 +30,9 @@
 #include "window.h"
 #include <glib/gi18n-lib.h>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 static void on_theme_changed (GtkComboBox *box, DocPropDlg *dlg)

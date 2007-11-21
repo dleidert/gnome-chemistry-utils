@@ -34,6 +34,9 @@
 #include <cmath>
 #include <set>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 Mesomery::Mesomery (): Object (MesomeryType)

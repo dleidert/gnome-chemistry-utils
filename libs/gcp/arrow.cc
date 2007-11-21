@@ -31,6 +31,8 @@
 #include "arrow.h"
 #include "document.h"
 
+using namespace gcu;
+
 namespace gcp {
 
 Arrow::Arrow (TypeId Type): Object (Type)

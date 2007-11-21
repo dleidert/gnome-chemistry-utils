@@ -52,7 +52,7 @@ private:
 	unsigned m_statusId;
 	unsigned m_MessageId; //currently displayed message in the status bar
 	unsigned m_NumDoc; //used to build the name of the action associated with the menu
-	map <string, GtkRadioToolButton*> Groups;
+	std::map <std::string, GtkRadioToolButton*> Groups;
 };
 
 #endif //GCHEMPAINT_STANDALONEAPP_H

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/gldocument.cc 
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,8 @@
 #include "config.h"
 #include <gcu/gldocument.h>
 
-using namespace gcu;
+namespace gcu
+{
 
 GLDocument::GLDocument (Application *App): Document (App)
 {
@@ -34,3 +35,5 @@ GLDocument::GLDocument (Application *App): Document (App)
 GLDocument::~GLDocument ()
 {
 }
+
+}	//	namespace gcu

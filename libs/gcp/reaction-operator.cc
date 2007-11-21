@@ -34,6 +34,8 @@
 #include <canvas/gcp-canvas-pango.h>
 #include <cmath>
 
+using namespace gcu;
+
 namespace gcp {
 
 ReactionOperator::ReactionOperator (): Object (ReactionOperatorType)

@@ -32,6 +32,8 @@
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
 
+using namespace gcu;
+
 TypeId PseudoAtomType = NoType;
 
 gcpPseudoAtom::gcpPseudoAtom (): gcp::Atom ()

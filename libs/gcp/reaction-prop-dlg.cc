@@ -28,6 +28,8 @@
 #include "reaction-prop.h"
 #include <gcu/document.h>
 
+using namespace gcu;
+
 namespace gcp {
 
 static void on_role_changed (GtkComboBox *box, ReactionProp *prop)

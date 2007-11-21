@@ -28,7 +28,10 @@
 #include "xml-utils.h"
 #include <cmath>
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 Atom::Atom (): Object (AtomType)
 {
@@ -218,3 +221,5 @@ Bond* Atom::GetBond (Atom* pAtom)
 		m_Bonds.erase (pAtom);
 	return pBond;
 }
+
+}	//	namespace gcu

@@ -29,8 +29,6 @@
 #include <list>
 #include <libgnomecanvas/gnome-canvas-path-def.h>
 	
-using namespace gcu;
-
 namespace gcp {
 
 typedef enum
@@ -75,7 +73,7 @@ public:
 	virtual bool LoadNode (xmlNodePtr);
 	virtual void Update (GtkWidget* w);
 	virtual void Move (double x, double y, double z = 0);
-	virtual void Transform2D (Matrix2D& m, double x, double y);
+	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 	double GetDist (double x, double y);
 	void SetDirty ();
 	void Revert ();
@@ -98,9 +96,9 @@ protected:
 	BondType m_type;
 	double m_coords[16];//coordinates of the lines used to represent the bond in the canvas
 	bool m_CoordsCalc; //true if m_coords have been calculated, false else
-	list<Cycle*> m_Cycles;
-	map<Bond*, BondCrossing> m_Crossing;
-	int m_level; // to know which bond shouldbe considered front
+	std::list<Cycle*> m_Cycles;
+	std::map<Bond*, BondCrossing> m_Crossing;
+	int m_level; // to know which bond should be considered front
 };
 
 }	//	namespace gcp

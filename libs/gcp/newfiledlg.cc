@@ -27,6 +27,9 @@
 #include "application.h"
 #include "theme.h"
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 static void on_theme_changed (GtkComboBox *box, NewFileDlg *dlg)

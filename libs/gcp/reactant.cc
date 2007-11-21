@@ -33,6 +33,9 @@
 #include "view.h"
 #include <glib/gi18n-lib.h>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 extern xmlDocPtr pXmlDoc;

@@ -28,15 +28,13 @@
 #include <gcu/dialog.h>
 #include <gtk/gtkcombobox.h>
 
-using namespace gcu;
-
 namespace gcp {
 
 class Atom;
 class Document;
 class View;
 
-class HPosDlg: public Dialog
+class HPosDlg: public gcu::Dialog
 {
 public:
 	HPosDlg (Document *pDoc, Atom* pAtom);

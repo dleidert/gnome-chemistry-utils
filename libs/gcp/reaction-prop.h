@@ -31,9 +31,7 @@
 
 namespace gcp {
 
-using namespace gcu;
-
-extern TypeId ReactionPropType;
+extern gcu::TypeId ReactionPropType;
 class ReactionArrow;
 
 enum {
@@ -56,19 +54,19 @@ extern char const *ReactionPropRoles[];
 This is a container class for objects attached to a reaction arrow.
 */
 
-class ReactionProp: public Object, public DialogOwner
+class ReactionProp: public gcu::Object, public gcu::DialogOwner
 {
 public:
 	ReactionProp ();
-	ReactionProp (ReactionArrow *parent, Object *child);
+	ReactionProp (ReactionArrow *parent, gcu::Object *child);
 	~ReactionProp ();
 
 	xmlNodePtr Save (xmlDocPtr xml);
 	bool Load (xmlNodePtr);
-	bool OnSignal (SignalId Signal, Object *Child);
+	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 
 private:
-GCU_RO_PROP (Object*, Object);
+GCU_RO_PROP (gcu::Object*, Object);
 GCU_PROP (unsigned, Role);
 };
 

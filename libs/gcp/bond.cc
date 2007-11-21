@@ -39,6 +39,9 @@
 #include <glib/gi18n-lib.h>
 #include <math.h>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 Bond::Bond (): gcu::Bond ()

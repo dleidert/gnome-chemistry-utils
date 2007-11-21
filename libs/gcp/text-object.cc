@@ -28,6 +28,8 @@
 #include "window.h"
 #include <gcu/xml-utils.h>
 
+using namespace gcu;
+
 namespace gcp {
 
 extern xmlDocPtr pXmlDoc;

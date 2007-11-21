@@ -26,7 +26,10 @@
 #include "dialog-owner.h"
 #include "dialog.h"
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 DialogOwner::DialogOwner ()
 {
@@ -59,3 +62,5 @@ bool DialogOwner::AddDialog (string name, Dialog *dialog)
 	Dialogs[name] = dialog;
 	return true;
 }
+
+}	//	namespace gcu

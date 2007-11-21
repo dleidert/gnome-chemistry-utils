@@ -29,8 +29,6 @@
 #include <gcu/macros.h>
 #include <gcu/object.h>
 
-using namespace gcu; 
-
 namespace gcp {
 
 class Document;
@@ -50,7 +48,7 @@ public:
 
 	virtual void Undo () = 0;
 	virtual void Redo () = 0;
-	virtual void AddObject (Object* pObject, unsigned type = 0);
+	virtual void AddObject (gcu::Object* pObject, unsigned type = 0);
 	virtual void AddNode (xmlNodePtr node, unsigned type = 0);
 
 protected:

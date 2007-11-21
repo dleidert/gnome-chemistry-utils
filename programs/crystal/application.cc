@@ -38,6 +38,9 @@
 #include "window.h"
 #include <glib/gi18n.h>
 
+using namespace gcu;
+using namespace std;
+
 static unsigned short nNewDocs = 1;
 
 gcApplication::gcApplication(): Application ("gcrystal-unstable")

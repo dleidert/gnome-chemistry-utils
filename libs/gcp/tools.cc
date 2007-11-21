@@ -30,6 +30,9 @@
 #include <gcu/gtkcomboperiodic.h>
 #include <goffice/gtk/go-combo-box.h>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 static void element_changed_cb (Tools *box, unsigned newZ)

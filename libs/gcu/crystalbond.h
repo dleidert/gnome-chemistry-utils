@@ -29,8 +29,6 @@
 #include <list>
 #include "bond.h"
 
-using namespace std;
-
 namespace gcu
 {
 
@@ -85,7 +83,7 @@ private :
 	int m_nCleave; //0 if not cleaved
 };
 
-typedef list<CrystalBond*> CrystalBondList;
+typedef std::list<CrystalBond*> CrystalBondList;
 
 }// namespace gcu
 

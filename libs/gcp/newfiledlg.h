@@ -29,14 +29,12 @@
 #include <gcu/macros.h>
 #include <gcu/object.h>
 
-using namespace gcu;
-
 namespace gcp {
 
 class Application;
 class Theme;
 
-class NewFileDlg: public Dialog, Object
+class NewFileDlg: public gcu::Dialog, gcu::Object
 {
 public:
 	NewFileDlg (Application *App);

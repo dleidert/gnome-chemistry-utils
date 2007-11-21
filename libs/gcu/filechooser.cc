@@ -30,7 +30,10 @@
 #include <goffice/utils/go-file.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, Document *pDoc, char const *title, GtkWidget *extra_widget)
 {
@@ -145,3 +148,5 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 	}
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
+
+}	//	namespace gcu

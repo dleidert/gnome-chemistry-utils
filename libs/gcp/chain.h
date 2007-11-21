@@ -29,8 +29,6 @@
 #include "bond.h"
 #include <map>
 
-using namespace gcu;
-
 namespace gcp {
 
 class Molecule;
@@ -40,12 +38,12 @@ typedef struct
 	Bond *fwd, *rev;
 } ChainElt;
 
-class Chain: public Object
+class Chain: public gcu::Object
 {
 public:
-	Chain (Bond* pBond, Atom* pAtom = NULL, TypeId Type = ChainType);
-	Chain (Molecule* Molecule, Bond* pBond, TypeId Type = ChainType);
-	Chain (Molecule* Molecule, Atom* pAtom, TypeId Type = ChainType);
+	Chain (Bond* pBond, Atom* pAtom = NULL, gcu::TypeId Type = gcu::ChainType);
+	Chain (Molecule* Molecule, Bond* pBond, gcu::TypeId Type = gcu::ChainType);
+	Chain (Molecule* Molecule, Atom* pAtom, gcu::TypeId Type = gcu::ChainType);
 	virtual ~Chain();
 	
 	void FindCycles (Atom* pAtom);
@@ -64,7 +62,7 @@ public:
 	Atom* GetNextAtom (Atom* pAtom);
 
 protected:
-	map<Atom*, ChainElt> m_Bonds;
+	std::map<Atom*, ChainElt> m_Bonds;
 	Molecule* m_Molecule;
 	guint m_nMolIndex;
 };

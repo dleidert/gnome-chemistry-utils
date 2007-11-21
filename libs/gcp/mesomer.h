@@ -28,18 +28,15 @@
 #include <gcu/object.h>
 #include <map>
 
-using namespace std;
-using namespace gcu;
-
 namespace gcp {
 
-extern TypeId MesomerType;
+extern gcu::TypeId MesomerType;
 
 class Mesomery;
 class MesomeryArrow;
 class Molecule;
 
-class Mesomer: public Object
+class Mesomer: public gcu::Object
 {
 public:
 	Mesomer ();
@@ -47,17 +44,17 @@ public:
 	
 	Mesomer (Mesomery *mesomery, Molecule *molecule) throw (std::invalid_argument);
 	virtual bool Load (xmlNodePtr);
-	virtual bool OnSignal (SignalId Signal, Object *Child);
+	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 	virtual double GetYAlign ();
 	void AddArrow (MesomeryArrow *arrow, Mesomer *mesomer) throw (std::invalid_argument);
 	void RemoveArrow (MesomeryArrow *arrow, Mesomer *mesomer);
 	bool Validate () {return m_Arrows.size () > 0;}
-	map<Mesomer *, MesomeryArrow *> *GetArrows () {return &m_Arrows;}
+	std::map<Mesomer *, MesomeryArrow *> *GetArrows () {return &m_Arrows;}
 	Molecule *GetMolecule () {return m_Molecule;}
 
 private:
 	Molecule *m_Molecule;
-	map<Mesomer *, MesomeryArrow *> m_Arrows;
+	std::map<Mesomer *, MesomeryArrow *> m_Arrows;
 };
 
 }	//	namespace gcp

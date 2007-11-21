@@ -27,8 +27,6 @@
 
 #include <gcu/object.h>
 
-using namespace gcu;
-
 namespace gcp {
 
 enum
@@ -38,10 +36,10 @@ enum
 	FullReversibleArrow,
 };
 
-class Arrow: public Object
+class Arrow: public gcu::Object
 {
 public:
-	Arrow(TypeId Type);
+	Arrow(gcu::TypeId Type);
 	virtual ~Arrow();
 	
 	virtual bool Load (xmlNodePtr);
@@ -49,7 +47,7 @@ public:
 	void SetCoords (double xstart, double ystart, double xend, double yend);
 	bool GetCoords (double* xstart, double* ystart, double* xend, double* yend);
 	virtual void Move (double x, double y, double z = 0);
-	virtual void Transform2D (Matrix2D& m, double x, double y);
+	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 	virtual double GetYAlign ();
 
 protected:

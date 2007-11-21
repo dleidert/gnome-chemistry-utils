@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/glview.h 
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,8 +33,6 @@
 #include <string>
 
 extern double DefaultPsi, DefaultTheta, DefaultPhi;
-
-using namespace std;
 
 namespace gcu {
 
@@ -124,13 +122,13 @@ Prints the current view to a printing context inside a rectangle with predefined
 Export the view contents as an image. The size of the new image is defined by the width
 and height parameters.
 */
-	void SaveAsImage (string const &filename, char const *type, map<string, string>& options, unsigned width, unsigned height);
+	void SaveAsImage (std::string const &filename, char const *type, std::map<std::string, std::string>& options, unsigned width, unsigned height);
 
 private:
 /*!
 @param x the x component of the rotation.
 @param y the y component of the rotation.
-
+std::
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
 	void Rotate (gdouble x, gdouble y);

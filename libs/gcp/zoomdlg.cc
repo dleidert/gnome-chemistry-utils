@@ -28,6 +28,8 @@
 #include "document.h"
 #include "application.h"
 
+using namespace gcu;
+
 namespace gcp {
 	
 static void on_focus_in (ZoomDlg *dlg)

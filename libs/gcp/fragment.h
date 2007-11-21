@@ -52,7 +52,7 @@ public:
 	void AnalContent (unsigned start, unsigned &end);
 	Object* GetAtomAt (double x, double y, double z = 0.);
 	void Move (double x, double y, double z = 0);
-	void Transform2D (Matrix2D& m, double x, double y);
+	void Transform2D (gcu::Matrix2D& m, double x, double y);
 	void OnChangeAtom ();
 	Atom* GetAtom () {return (Atom*) m_Atom;}
 	int GetElementAtPos (unsigned start, unsigned &end);

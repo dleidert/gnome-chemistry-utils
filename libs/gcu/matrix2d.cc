@@ -25,7 +25,8 @@
 #include "matrix2d.h"
 #include <cmath>
 
-using namespace gcu;
+namespace gcu
+{
 
 Matrix2D::Matrix2D()
 {
@@ -78,3 +79,5 @@ void Matrix2D::Transform(double &dx, double &dy)
 	dy = dx * x[1][0] + dy * x[1][1];
 	dx = x1;
 }
+
+}	//	namespace gcu

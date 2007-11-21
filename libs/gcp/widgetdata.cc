@@ -31,6 +31,8 @@
 #include "operation.h"
 #include "theme.h"
 
+using namespace gcu;
+
 namespace gcp {
 
 static xmlDocPtr pXmlDoc = NULL, pXmlDoc1 = NULL;

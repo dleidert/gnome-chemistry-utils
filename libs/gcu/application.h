@@ -34,8 +34,6 @@
 #include <gtk/gtkrecentmanager.h>
 #include <gcu/macros.h>
 
-using namespace std;
-
 namespace gcu {
 
 class Document;
@@ -60,7 +58,7 @@ the help_name or name parameters will be used.
 The datadir variable is used to build the full path to the help file:
 "file://"+datadir+"/gnome/help/"+name+"/"+LANG+"/"+name".xml".
 */
-	Application (string name, string datadir = DATADIR, char const *help_name = NULL, char const *icon_name = NULL);
+	Application (std::string name, std::string datadir = DATADIR, char const *help_name = NULL, char const *icon_name = NULL);
 	virtual ~Application ();
 
 /*!
@@ -71,7 +69,7 @@ be added to the help uri.
 For an application named "myapp" and a tag "mytag", the uri will be:
 helpfilename\#myapp-mytag.
 */
-	void OnHelp (string s = "");
+	void OnHelp (std::string s = "");
 /*!
 @return true if both a help browser and a help file are available, false otherwise.
 */
@@ -79,7 +77,7 @@ helpfilename\#myapp-mytag.
 /*!
 @return the name of the application. Mostly useful to set the icon name of a new window.
 */
-	string &GetName () {return Name;}
+	std::string &GetName () {return Name;}
 
 /*!
 @return a GtkWindow if any. Should be overloaded by children classes.
@@ -122,7 +120,7 @@ if they use the FileChooser.
 
 Displays uri in the default web browser if any.
 */
-	void ShowURI (string& uri);
+	void ShowURI (std::string& uri);
 
 /*!
 @param uri the uri to the package bugs database. Default value is PACKAGE_BUGREPORT.
@@ -130,14 +128,14 @@ Displays uri in the default web browser if any.
 Opens the bugs web page in the default browser if any.
 */
 	void OnBug (char const *uri = PACKAGE_BUGREPORT)
-		{string s (uri); ShowURI (s);}
+		{std::string s (uri); ShowURI (s);}
 
 /*!
 @param uri the uri to the main web page of the program. Default value is
 "http://gchemutils.nongnu.org/".
 */
 	void OnWeb (char const *uri = "http://gchemutils.nongnu.org/")
-		{string s (uri); ShowURI (s);}
+		{std::string s (uri); ShowURI (s);}
 
 /*!
 @param MailAddress the mail adress to which a message will be sent. Defaults to the
@@ -172,7 +170,7 @@ widget is intended to be added to a GtkFileChooserDialog.
 /*!
 @return a std::map of the supported pixbuf formats. Keys are the mime type names.
 */
-	map<string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}
+	std::map<std::string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}
 
 /*!
 @param filename the file name.
@@ -183,7 +181,7 @@ A default extension is appended to filename if none is detected.
 @return the GdkPixbuf name associated to mime_type or NULL if the file type
 is not supported by GdkPixbuf.
 */
-	char const *GetPixbufTypeName (string& filename, char const *mime_type);
+	char const *GetPixbufTypeName (std::string& filename, char const *mime_type);
 
 protected:
 
@@ -199,19 +197,19 @@ private:
 	void RemoveDocument (Document *Doc);
 
 private:
-	string Name;
-	string HelpName;
-	string HelpBrowser;
-	string HelpFilename;
-	string CurDir;
-	string WebBrowser;
-	string MailAgent;
+	std::string Name;
+	std::string HelpName;
+	std::string HelpBrowser;
+	std::string HelpFilename;
+	std::string CurDir;
+	std::string WebBrowser;
+	std::string MailAgent;
 
 protected:
 /*!
 std::map of the supported pixbuf formats. Keys are the mime type names.
 */
-	map<string, GdkPixbufFormat*> m_SupportedPixbufFormats;	
+	std::map<std::string, GdkPixbufFormat*> m_SupportedPixbufFormats;	
 
 /*!\var m_Docs
 The currently opened documents.
@@ -219,7 +217,7 @@ The currently opened documents.
 /*!\fn GetDocs()
 @return the set of currently opened documents.
 */
-GCU_PROT_PROP (set <Document*>, Docs)
+GCU_PROT_PROP (std::set <Document*>, Docs)
 /*!\fn GetScreenResolution()
 @return the current screen resolution.
 */

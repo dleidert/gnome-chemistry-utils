@@ -28,21 +28,18 @@
 #include <gcu/dialog.h>
 #include <string>
 
-using namespace std;
-using namespace gcu;
-
 namespace gcp {
 
 class Document;
 
-class StringDlg: public Dialog
+class StringDlg: public gcu::Dialog
 {
 public:
 	enum data_type {
 		SMILES,
 		INCHI
 	};
-	StringDlg (Document *pDoc, string& data, enum data_type type);
+	StringDlg (Document *pDoc, std::string& data, enum data_type type);
 	virtual ~StringDlg ();
 	
 	virtual bool Apply ();
@@ -51,7 +48,7 @@ public:
 	
 private:
 	enum data_type Type;
-	string Data;
+	std::string Data;
 	GtkTextView *View;
 	GtkTextBuffer *Buffer;
 };

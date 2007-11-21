@@ -43,6 +43,8 @@
 #define POSITION_E 64
 #define POSITION_W 128
 
+using namespace gcu;
+
 namespace gcp {
 
 TypeId ElectronType;

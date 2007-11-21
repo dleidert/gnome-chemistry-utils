@@ -34,6 +34,9 @@
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
+using namespace gcu;
+using namespace std;
+
 gcpChainTool::gcpChainTool (gcp::Application *App): gcp::Tool (App, "Chain")
 {
 	m_Length = 0; // < 2 is auto.

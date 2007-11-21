@@ -59,6 +59,10 @@
 #include <clocale>
 #include <fstream>
 
+using namespace OpenBabel;
+using namespace std;
+using namespace gcu;
+
 // following code is needed to get file extensions, it as been essentially copied from gnome-vfs
 static map<string, list<string> > globs;
 
@@ -609,25 +613,29 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 			if (pInFormat == NULL)
 				throw 1;
 			Conv.SetInFormat (pInFormat);
-#ifdef HAVE_OPENBABEL_2_2
-			OBBase *pObj = Conv.ReadObject (&ifs);
-			while (pObj) {
-				OBMol *pMol = dynamic_cast<OBMol*> (pObj);
-				if (pMol)
-					result = pDoc->ImportOB(*pMol);
-				else {
-					OBReaction *pReaction = dynamic_cast<OBReaction*> (pObj);
+			Conv.SetInStream (&ifs);
+			pInFormat->ReadChemObject (&Conv); //makes an appropriate object on heap
+			OBBase* pOb = Conv.GetChemObject (); //get a pointer to that object
+			if (!pOb) {
+				// either an empty file or the format does not support this mechanism
+				while (result && !ifs.eof () && Conv.Read (&Mol, &ifs)) {
+					result = pDoc->ImportOB(Mol);
+					Mol.Clear ();
 				}
-				if  (!result)
-					break;
-				pObj = Conv.ReadObject (NULL);
+			} else while (pOb) {
+				OBMol* pmol = dynamic_cast<OBMol*> (pOb);
+				if (pmol)
+					result = pDoc->ImportOB (*pmol);
+				else {
+					OBReaction* preact = dynamic_cast<OBReaction*> (pOb);
+ 					if (preact)
+						;
+				}
+
+ 				delete pOb;
+				pInFormat->ReadChemObject (&Conv);
+				pOb = Conv.GetChemObject ();
 			}
-#else
-			while (result && !ifs.eof () && Conv.Read (&Mol, &ifs)) {
-				result = pDoc->ImportOB(Mol);
-				Mol.Clear ();
-			}
-#endif
 			setlocale (LC_NUMERIC, old_num_locale.c_str ());
 			ifs.close ();
 		} else {

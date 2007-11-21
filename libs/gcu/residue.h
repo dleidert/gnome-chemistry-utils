@@ -31,8 +31,6 @@
 #include <set>
 #include <string>
 
-using namespace std;
-
 namespace gcu {
 
 class Residue;

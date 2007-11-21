@@ -59,8 +59,8 @@ private:
 	double m_cx, m_cy;
 	double m_dAngle, m_dAngleInit;
 	gcp::Operation *m_pOp;
-	TypeId m_Type;
-	list<int> m_uiIds;
+	gcu::TypeId m_Type;
+	std::list<int> m_uiIds;
 	GtkUIManager *m_UIManager;
 	GtkWidget *m_MergeBtn;
 };

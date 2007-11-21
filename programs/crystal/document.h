@@ -33,19 +33,16 @@
 #include "line.h"
 #include "cleavage.h"
 
-using namespace gcu;
-
 #ifdef HAVE_OPENBABEL_2_2
 namespace OpenBabel {
 	class OBMol;
 }
-using namespace OpenBabel;
 #endif
 
 class gcView;
 class gcApplication;
 
-class gcDocument: public CrystalDoc
+class gcDocument: public gcu::CrystalDoc
 {
 	//Constructor and destructor
 public:
@@ -66,17 +63,17 @@ public:
 	void GetCell(gcLattices *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma);
 	void SetCell(gcLattices lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma);
 	const gchar* GetFileName() {return m_filename;}
-	void SetFileName(const string &filename);
+	void SetFileName(const std::string &filename);
 	gchar* GetTitle() {return m_title;}
 	void SetTitle(const gchar* title);
 	void Save ();
-	bool Load (const string &filename);
+	bool Load (const std::string &filename);
 #ifdef HAVE_OPENBABEL_2_2
-	bool Import (const string &filename, const string& mime_type);
+	bool Import (const std::string &filename, const std::string& mime_type);
 #endif
 	void ParseXMLTree(xmlNode* xml);
 	void OnNewDocument();
-	void OnExportVRML (const string &FileName);
+	void OnExportVRML (const std::string &FileName);
 	gcView* GetNewView();
 	void AddView(gcView* pView);
 	bool RemoveView(gcView* pView);
@@ -90,10 +87,10 @@ public:
 	virtual CrystalCleavage* CreateNewCleavage();
 	virtual const char* GetProgramId();
 	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
-	void SaveAsImage (const string &filename, char const *type, map<string, string>& options);
+	void SaveAsImage (const std::string &filename, char const *type, std::map<std::string, std::string>& options);
 	gcView *GetActiveView () {return m_pActiveView;}
 	virtual bool LoadNewView (xmlNodePtr node);
-	list <CrystalView *> *GetViews () {return &m_Views;}
+	std::list <CrystalView *> *GetViews () {return &m_Views;}
 	void RenameViews ();
 
 private:
@@ -104,7 +101,7 @@ private:
 	gchar *m_filename, *m_title;
 	bool m_bClosing;
 	GtkWidget* m_widget;
-	std::list <Dialog *> m_Dialogs;
+	std::list <gcu::Dialog *> m_Dialogs;
 	gcView *m_pActiveView;
 
 GCU_RO_PROP (bool, ReadOnly);

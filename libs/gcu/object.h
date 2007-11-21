@@ -38,8 +38,6 @@
 
 #define square(x) ((x)*(x))
 
-using namespace std;
-
 namespace gcu
 {
 
@@ -222,14 +220,14 @@ To search the Object in lower shells of the tree, use the Object::GetDescendant 
 Use this function to retrieve the first child of the object and initialize the iterator.
 @return the first child of the object or NULL.
 */
-	Object* GetFirstChild (map<string, Object*>::iterator& i);
+	Object* GetFirstChild (std::map<std::string, Object*>::iterator& i);
 /*!
 @param i: a C++ std::map iterator initialized by Object::GetFirstChild.
 
 Use this method to iterate through the list of the Object children.
 @return the next child of the object or NULL.
 */
-	Object* GetNextChild (map<string, Object*>::iterator& i);
+	Object* GetNextChild (std::map<std::string, Object*>::iterator& i);
 /*!
 @param Id: the Id of the descendant searched.
 
@@ -403,7 +401,7 @@ passed as parameters. Default implementation returns NULL.
 This method is called to build a parent object from its children. The object must already exist.
 @return true in case of success and false if failed.
 */
-	virtual bool Build (list<Object*>& Children) throw (invalid_argument);
+	virtual bool Build (std::list<Object*>& Children) throw (std::invalid_argument);
 
 /*!
 Used to retreive the y coordinate for alignment. The default implementation returns 0.0 and
@@ -470,7 +468,7 @@ Use this function to retrieve the first object linked to the object and initiali
 Links can be used when the relation between the objects is not a parent to child one.
 @return the first object linked to the object or NULL.
 */
-	Object* GetFirstLink (set<Object*>::iterator& i);
+	Object* GetFirstLink (std::set<Object*>::iterator& i);
 
 /*!
 @param i: a C++ std::set<Object*> iterator initialized by Object::GetFirstLink.
@@ -478,7 +476,7 @@ Links can be used when the relation between the objects is not a parent to child
 Use this method to iterate through the list of Object instances linked to the object.
 @return the next object linked to the object or NULL.
 */
-	Object* GetNextLink (set<Object*>::iterator& i);
+	Object* GetNextLink (std::set<Object*>::iterator& i);
 
 /*!
 @param object: the object to unlink.
@@ -500,7 +498,7 @@ directly, but should call Object::OnUnlink instead.
 
 Fills types with all valid ancestor types for the object as defined by rules created with AddRule
 */
-	void GetPossibleAncestorTypes (set<TypeId>& types);
+	void GetPossibleAncestorTypes (std::set<TypeId>& types);
 
 /*!
 @param TypeName: the name of the new type.
@@ -511,7 +509,7 @@ can be omitted.
 This method is used to register a new type derived from Object.
 @return the Id of the new type.
 */
-	static TypeId AddType (string TypeName, Object* (*CreateFunc) (), TypeId id = OtherType);
+	static TypeId AddType (std::string TypeName, Object* (*CreateFunc) (), TypeId id = OtherType);
 
 /*!
 @param TypeName: the name of the new type.
@@ -523,21 +521,21 @@ It will also be given a default Id.
 
 @return a pointer to the newly created Object or NULL if the Object could not be created.
 */
-	static Object* CreateObject (const string& TypeName, Object* parent = NULL);
+	static Object* CreateObject (const std::string& TypeName, Object* parent = NULL);
 
 /*!
 @param Name: the name of the Object derived class
 
 @return the TypeId corresponding to Name
 */
-	static TypeId GetTypeId (const string& Name);
+	static TypeId GetTypeId (const std::string& Name);
 
 /*!
 @param Id: the TypeId of the Object derived class
 
 @return the name of the type.
 */
-	static string GetTypeName (TypeId Id);
+	static std::string GetTypeName (TypeId Id);
 
 /*!
 @param Id: the TypeId of the Object derived class
@@ -563,7 +561,7 @@ Adds a rule.
 
 Adds a rule.
 */
-	static void AddRule (const string& type1, RuleId rule, const string& type2);
+	static void AddRule (const std::string& type1, RuleId rule, const std::string& type2);
 
 /*!
 @param type: the TypeId of a class
@@ -571,7 +569,7 @@ Adds a rule.
 
 @return the set of rules correponding to the RuleId value for this class.
 */
-	static  const set<TypeId>& GetRules (TypeId type, RuleId rule);
+	static  const std::set<TypeId>& GetRules (TypeId type, RuleId rule);
 
 /*!
 @param type: the name of a class
@@ -579,7 +577,7 @@ Adds a rule.
 
 @return the set of rules correponding to the RuleId value for this class.
 */
-	static const set<TypeId>& GetRules (const string& type, RuleId rule);
+	static const std::set<TypeId>& GetRules (const std::string& type, RuleId rule);
 
 /*!
 @param Id: the TypeId of a class
@@ -588,21 +586,21 @@ Adds a rule.
 Used to give a label for contextual menus used when the creation of an instance of
 the class seems possible.
 */
-	static void SetCreationLabel (TypeId Id, string Label);
+	static void SetCreationLabel (TypeId Id, std::string Label);
 
 /*!
 @param Id: the TypeId of a class
 
 @return the string defined by SetCreationLabel.
 */
-	static const string& GetCreationLabel (TypeId Id);
+	static const std::string& GetCreationLabel (TypeId Id);
 
 /*!
 @param TypeName: the name of a class
 
 @return the string defined by SetCreationLabel.
 */
-	static const string& GetCreationLabel (const string& TypeName);
+	static const std::string& GetCreationLabel (const std::string& TypeName);
 
 /*!
 @return a new SignalId.
@@ -616,8 +614,8 @@ private:
 	gchar* m_Id;
 	TypeId m_Type;
 	Object *m_Parent;
-	map<string, Object*> m_Children; //string is Id of object, so each object must have an Id
-	set<Object*> m_Links; //objects linked to this but outside of the hierarchy
+	std::map<std::string, Object*> m_Children; //string is Id of object, so each object must have an Id
+	std::set<Object*> m_Links; //objects linked to this but outside of the hierarchy
 
 private:
 /*!

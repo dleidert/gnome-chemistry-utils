@@ -27,7 +27,10 @@
 #include <iostream>
 #include <vector>
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 class TypeDesc
 {
@@ -597,3 +600,5 @@ void Object::AddMenuCallback (TypeId Id, BuildMenuCb cb)
 	TypeDesc& typedesc = Types[TypeNames[Id]];
 	typedesc.MenuCbs.push_back (cb);
 }
+
+}	//	namespace gcu

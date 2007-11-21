@@ -27,6 +27,9 @@
 #include "document.h"
 #include "application.h"
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 Tool* pActiveTool = NULL;

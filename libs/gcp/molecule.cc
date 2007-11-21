@@ -35,6 +35,10 @@
 #include <clocale>
 #include <cmath>
 
+using namespace gcu;
+using namespace OpenBabel;
+using namespace std;
+
 namespace gcp {
 
 static void do_export_to_ghemical (Molecule* pMol)

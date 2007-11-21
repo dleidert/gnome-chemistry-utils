@@ -25,6 +25,8 @@
 #include "config.h"
 #include "curvedarrowtool.h"
 
+using namespace std;
+
 gcpCurvedArrowTool::gcpCurvedArrowTool (gcp::Application *App, string Id): gcp::Tool (App, Id)
 {
 }

@@ -28,8 +28,6 @@
 #include <gtk/gtk.h>
 #include <string>
 
-using namespace std;
-
 namespace gcu {
 
 /** CheckType
@@ -159,7 +157,7 @@ private:
 	void (*m_extra_destroy) (gpointer);
 	gpointer m_data;
 	char m_buf[64];
-	string m_windowname;
+	std::string m_windowname;
 	DialogOwner *m_Owner;
 };
 

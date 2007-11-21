@@ -27,11 +27,9 @@
 
 #include <gcu/object.h>
 
-using namespace gcu;
-
 namespace gcp {
 
-class ReactionOperator: public Object
+class ReactionOperator: public gcu::Object
 {
 public:
 	ReactionOperator ();

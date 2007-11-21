@@ -33,8 +33,6 @@
 #include <libxml/xmlmemory.h>
 #include <list>
 
-using namespace std;
-
 namespace gcu
 {
 
@@ -226,7 +224,7 @@ GCU_PROP (double, EffectiveRadiusRatio);
 /*!
 a list of pointers to CrystalAtom instances derived from std::list.
 */
-typedef list<CrystalAtom*> CrystalAtomList;
+typedef std::list<CrystalAtom*> CrystalAtomList;
 }// namespace gcu
 
 #endif // CRYSTAL_ATOM_H

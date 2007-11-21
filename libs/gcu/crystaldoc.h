@@ -266,7 +266,7 @@ List of the cleavages defined.
 /*!
 List of the views of the document.
 */
-	list <CrystalView *> m_Views;
+	std::list <CrystalView *> m_Views;
 
 #ifdef HAVE_OPENBABEL_2_2
 /*!

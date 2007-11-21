@@ -58,7 +58,7 @@ private:
 	GtkWidget *window;
 	GtkPeriodic *periodic;
 	int m_CurZ;
-	map <string, unsigned> colorschemes;
+	std::map <std::string, unsigned> colorschemes;
 	double temperature;
  	int family;
 };

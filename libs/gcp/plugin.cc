@@ -28,6 +28,8 @@
 #include <dlfcn.h>
 #include <glib.h>
 
+using namespace std;
+
 namespace gcp {
 
 set<Plugin*> Plugins;

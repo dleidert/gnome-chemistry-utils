@@ -31,8 +31,6 @@
 #include <gcu/macros.h>
 #include <string>
 
-using namespace std;
-
 namespace gcu
 {
 
@@ -67,7 +65,7 @@ When pasting, objects added to the document might have the same Id as objects al
 maintains a table to update links using Ids as identifiers. GetTranslatedId returns
 the translated id corresponding to the parameter id.
 */
-	string& GetTranslatedId (const char* id) {return m_TranslationTable[id];}
+	std::string& GetTranslatedId (const char* id) {return m_TranslationTable[id];}
 
 /*!
 @param Id: the entry to remove
@@ -87,7 +85,7 @@ to avoid errors on the next paste event.
 /*!
 @param title the new document title.
 */
-	void SetTitle (string& title) {m_Title = title;}
+	void SetTitle (std::string& title) {m_Title = title;}
 /*!
 @param title the new document title.
 */
@@ -95,7 +93,7 @@ to avoid errors on the next paste event.
 /*!
 @return the current document title.
 */
-	string &GetTitle () {return m_Title;}
+	std::string &GetTitle () {return m_Title;}
 
 private:
 
@@ -111,13 +109,13 @@ GetNewId returns the translated id
 	gchar* GetNewId (gchar* id, bool Cache = true);
 
 private:
-	map <string, string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
+	std::map <std::string, std::string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
 
 protected:
 /*!
 The document title.
 */
-	string m_Title;
+	std::string m_Title;
 
 /*!\var m_App
 The Application instance owning the document.

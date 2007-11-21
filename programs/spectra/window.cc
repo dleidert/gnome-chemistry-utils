@@ -39,6 +39,8 @@
 #include <gtk/gtkwindow.h>
 #include <glib/gi18n.h>
 
+using namespace std;
+
 //Callbacks
 static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gsvWindow* Win)
 {

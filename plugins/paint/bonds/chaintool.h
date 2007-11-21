@@ -60,7 +60,7 @@ private:
 	unsigned m_Length, m_CurPoints;
 	bool m_Positive, m_AutoNb, m_Allowed;
 	double m_dAngle, m_dMeanLength, m_BondLength;
-	vector <gcp::Atom *> m_Atoms;
+	std::vector <gcp::Atom *> m_Atoms;
 	GnomeCanvasPoints *m_Points;
 	GtkSpinButton *m_LengthBtn, *m_AngleBtn, *m_NumberBtn;
 	GtkToggleButton *m_MergeBtn, *m_AutoBtn;

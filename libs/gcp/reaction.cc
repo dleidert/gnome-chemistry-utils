@@ -32,6 +32,9 @@
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 Reaction::Reaction (): Object (ReactionType)

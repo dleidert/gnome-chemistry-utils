@@ -27,7 +27,7 @@
 
 #include <gcp/arrow.h>
 
-extern TypeId RetrosynthesisArrowType;
+extern gcu::TypeId RetrosynthesisArrowType;
 
 class gcpRetrosynthesisStep;
 class gcpRetrosynthesis;

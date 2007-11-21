@@ -28,8 +28,6 @@
 #include <string>
 #include <map>
 
-using namespace std;
-
 namespace gcu {
 
 class Dialog;
@@ -52,14 +50,14 @@ public:
 
 @return the Dialog instance associated with name or NULL if there is none.
 */
-	Dialog *GetDialog (string name);
+	Dialog *GetDialog (std::string name);
 
 private:
-	bool AddDialog (string name, Dialog *dialog) ;
-	void RemoveDialog (string name)  {Dialogs.erase (name);}
+	bool AddDialog (std::string name, Dialog *dialog) ;
+	void RemoveDialog (std::string name)  {Dialogs.erase (name);}
 
 private:
-	map <string, Dialog*> Dialogs;
+	std::map <std::string, Dialog*> Dialogs;
 };
 
 }	// namespace gcu

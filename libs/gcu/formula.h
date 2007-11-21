@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * formula.h 
  *
- * Copyright (C) 2005-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,8 +31,6 @@
 #include <stdexcept>
 #include "isotope.h"
 
-using namespace std;
-
 namespace gcu
 {
 /*!\class parse_error gcu/formula.h
@@ -40,14 +38,14 @@ Exception class derived from std::exception used for errors encountered
 when parsing a formula.
 */
 
-class parse_error: public exception
+class parse_error: public std::exception
 {
 public:
 /*! Takes a character string describing the error and two integers
 * indicating where the error occured.
 */
     explicit 
-    parse_error (const string&  __arg, int start, int length);
+    parse_error (const std::string&  __arg, int start, int length);
 
     virtual 
     ~parse_error () throw ();
@@ -69,7 +67,7 @@ class when an exception occurs while parsing a substring.
 	void add_offset (int offset) {m_start += offset;}
 
 private:
-	string m_msg;
+	std::string m_msg;
 	int m_start, m_length;
 
 };
@@ -89,7 +87,7 @@ public:
 The constructor will emit a parse_error exception.
 if it cannot parse the given formula.
 */
-	Formula (string entry) throw (parse_error);
+	Formula (std::string entry) throw (parse_error);
 	virtual ~Formula ();
 
 /*!
@@ -99,7 +97,7 @@ if it cannot parse the given formula.
 /*!
 @return the raw formula as a map of atoms numbers indexed by atomic number Z.
 */
-	map<int,int> &GetRawFormula ();
+	std::map<int,int> &GetRawFormula ();
 /*!
 @return the raw formula as a pango markup.
 */
@@ -110,7 +108,7 @@ Calls Formula::Clear before parsing the new formula.
 The method will emit a parse_error exception
 if it cannot parse the given formula.
 */
-	void SetFormula (string entry) throw (parse_error);
+	void SetFormula (std::string entry) throw (parse_error);
 /*!
 Clears all data.
 */
@@ -132,12 +130,12 @@ with the calculated data.
 	bool BuildConnectivity ();
 
 private:
-	void Parse (string &formula, list<FormulaElt *>&result) throw (parse_error);
+	void Parse (std::string &formula, std::list<FormulaElt *>&result) throw (parse_error);
 
 private:
-	string Entry, Markup, RawMarkup;
-	map<int,int> Raw;
-	list<FormulaElt *> Details;
+	std::string Entry, Markup, RawMarkup;
+	std::map<int,int> Raw;
+	std::list<FormulaElt *> Details;
 	double m_Weight;
 	int m_WeightPrec;
 	bool m_WeightCached;

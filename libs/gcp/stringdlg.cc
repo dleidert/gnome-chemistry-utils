@@ -31,6 +31,8 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n-lib.h>
 
+using namespace std;
+
 namespace gcp {
 
 static GtkTargetEntry const stargets[] = {

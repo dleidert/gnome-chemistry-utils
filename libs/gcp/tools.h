@@ -28,19 +28,16 @@
 #include <gcu/dialog.h>
 #include <map>
 
-using namespace std;
-using namespace gcu;
-
 namespace gcp {
 
-class Tools: public Dialog
+class Tools: public gcu::Dialog
 {
 public:
 	Tools (Application *App);
 	virtual ~Tools ();
 
 	void Show (bool visible);
-	void AddToolbar (string &name);
+	void AddToolbar (std::string &name);
 	void SetUIManager (GtkUIManager *manager);
 	void SetPage (Tool *tool, int i);
 	void OnSelectTool (Tool *tool);
@@ -53,7 +50,7 @@ public:
 private:
 	GtkUIManager *m_UIManager;
 	GtkBox *m_ButtonsBox;
-	map<Tool*, int> m_Pages;
+	std::map<Tool*, int> m_Pages;
 	GtkNotebook *m_Book;
 	Tool *m_Tool;
 };

@@ -48,8 +48,10 @@
 #define PREC 1e-3
 
 using namespace OpenBabel;
+using namespace std;
 
-namespace gcu {
+namespace gcu
+{
 	
 gchar const *LatticeName[] = {
 	"simple cubic",
@@ -67,10 +69,6 @@ gchar const *LatticeName[] = {
 	"base-centered monoclinic",
 	"triclinic"
 };
-
-}
-
-using namespace gcu;
 
 #ifdef HAVE_OPENBABEL_2_2
 CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
@@ -872,3 +870,5 @@ bool CrystalDoc::ImportOB (OBMol &mol)
 	return true;
 }
 #endif
+
+}	//	namespace gcu

@@ -26,7 +26,8 @@
 #include "atom.h"
 #include <cmath>
 
-using namespace gcu;
+namespace gcu
+{
 
 Bond::Bond(): Object(BondType)
 {
@@ -165,3 +166,5 @@ void Bond::Move(double x, double y, double z)
 void Bond::Transform2D(Matrix2D& m, double x, double y)
 {
 }
+
+}	//	namespace gcu

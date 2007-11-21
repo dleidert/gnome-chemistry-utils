@@ -30,7 +30,7 @@
 class gcpChargeTool: public gcp::Tool
 {
 public:
-	gcpChargeTool(gcp::Application *App, string Id);
+	gcpChargeTool(gcp::Application *App, std::string Id);
 	virtual ~gcpChargeTool();
 
 	virtual bool OnClicked();

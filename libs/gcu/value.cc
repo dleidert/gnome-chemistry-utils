@@ -24,7 +24,10 @@
 #include "value.h"
 #include <cstdlib>
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 Value::Value ()
 {
@@ -161,3 +164,5 @@ char const *LocalizedStringValue::GetLocalizedString (char const *lang) const
 		s = const_cast<LocalizedStringValue*> (this)->vals[lang];
 	return (s.length () > 0)? s.c_str (): GetAsString ();
 }
+
+}	//	namespace gcu

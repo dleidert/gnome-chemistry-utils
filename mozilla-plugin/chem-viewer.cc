@@ -24,6 +24,8 @@
 #include <gcu/gtkchem3dviewer.h>
 #include <gcu/gtkcrystalviewer.h>
 #include <gcu/chem3ddoc.h>
+#include <gcp/document.h>
+#include <gcp/view.h>
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkplug.h>
@@ -55,6 +57,7 @@ private:
 	string Filename, MimeType;
 	GtkWidget *Plug, *Viewer;
 	GdkWindow *Parent;
+	gcp::Document *Doc;
 	map<string, string> Params;
 };
 
@@ -64,6 +67,7 @@ ChemComp::ChemComp (void* instance, string& mime_type)
 	MimeType = mime_type;
 	Xid = 0;
 	Plug = NULL;
+	Doc = NULL;
 }
 
 ChemComp::~ChemComp ()
@@ -95,7 +99,10 @@ void ChemComp::SetWindow (XID xid)
 			GDK_WINDOW_XID (Plug->window));
 		if (MimeType == "application/x-gcrystal")
 			Viewer = gtk_crystal_viewer_new (NULL);
-		else
+		else if (MimeType == "application/x-gchempaint") {
+			Doc = new gcp::Document (NULL, true, NULL);
+			Viewer = Doc->GetView ()->CreateNewWidget ();
+		} else
 			Viewer = gtk_chem3d_viewer_new (NULL);
 		gtk_container_add (GTK_CONTAINER (Plug), Viewer);
 		gtk_widget_show_all (Plug);
@@ -114,6 +121,13 @@ void ChemComp::SetFilename (string& filename)
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "crystal"))
 			return;
 		gtk_crystal_viewer_set_data (GTK_CRYSTAL_VIEWER (Viewer), xml->children);
+		xmlFree (xml);
+	} else 	if (MimeType == "application/x-gchempaint") {
+		xmlDocPtr xml = xmlParseFile (filename.c_str ());
+		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "chemistry"))
+			return;
+		Doc->Load (xml->children);
+		xmlFree (xml);
 	} else {
 		gtk_chem3d_viewer_set_uri_with_mime_type (GTK_CHEM3D_VIEWER (Viewer),
 				filename.c_str (), MimeType.c_str ());

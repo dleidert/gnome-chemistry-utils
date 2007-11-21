@@ -31,6 +31,8 @@
 #include <sstream>
 #include <string>
 
+using namespace std;
+
 namespace gcu {
 
 class ResiduesTable {

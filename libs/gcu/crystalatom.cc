@@ -31,7 +31,8 @@
 #include <cmath>
 #include <string>
 
-using namespace gcu;
+namespace gcu
+{
 
 CrystalAtom::CrystalAtom(): Atom()
 {
@@ -213,3 +214,5 @@ void CrystalAtom::SetRadius(const GcuAtomicRadius& r)
 	m_Radius.cn = r.cn;	//coordination number: -1: unspecified
 	m_Radius.spin = r.spin;
 }
+
+}	//	namespace gcu

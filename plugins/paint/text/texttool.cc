@@ -34,6 +34,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <unistd.h>
 
+using namespace gcu;
+
 static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, gcpTextTool* tool)
 {
 	tool->OnGetData (clipboard, selection_data, info);

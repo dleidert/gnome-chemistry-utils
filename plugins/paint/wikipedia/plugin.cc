@@ -31,6 +31,8 @@
 #include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
+using namespace gcu;
+
 gcpWikipediaPlugin plugin;
 
 gcpWikipediaPlugin::gcpWikipediaPlugin (): gcp::Plugin ()

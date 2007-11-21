@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * value.h 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,8 +26,6 @@
 #include "chemistry.h"
 #include <string>
 #include <map>
-
-using namespace std;
 
 namespace gcu
 {
@@ -90,7 +88,7 @@ Default destructor
 
 private:
 	GcuValue val;
-	string str;
+	std::string str;
 };
 /*!\class DimensionalValue gcu/value.h
 Used for data with a dimension e.g. a time interval expressed in days.
@@ -125,7 +123,7 @@ Default destructor
 
 private:
 	GcuDimensionalValue val;
-	 string str;
+	std::string str;
 };
 
 /*!\class StringValue gcu/value.h
@@ -151,7 +149,7 @@ Default destructor
 	char const *GetAsString () const;
 
 private:
-	string val;
+	std::string val;
 };
 
 /*!\class LocalizedStringValue gcu/value.h
@@ -184,7 +182,7 @@ string.
 	char const *GetLocalizedString (char const *lang) const;
 
 private:
-	map <string, string> vals;
+	std::map <std::string, std::string> vals;
 };
 
 }	// namespace gcu

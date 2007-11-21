@@ -26,7 +26,8 @@
 #include "crystalcleavage.h"
 #include <glib.h>
 
-using namespace gcu;
+namespace gcu
+{
 
 CrystalCleavage::CrystalCleavage()
 {
@@ -121,3 +122,5 @@ bool CrystalCleavage::Load (xmlNodePtr node)
 		return false;
 	return true;
 }
+
+}	//	namespace gcu

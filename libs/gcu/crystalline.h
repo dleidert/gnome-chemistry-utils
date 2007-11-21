@@ -28,8 +28,6 @@
 #include <libxml/parser.h>
 #include <list>
 
-using namespace std;
-
 namespace gcu
 {
 
@@ -346,7 +344,7 @@ private:
 /*!
 a list of pointers to CrystalLine instances derived from std::list.
 */
-typedef list<CrystalLine*> CrystalLineList;
+typedef std::list<CrystalLine*> CrystalLineList;
 
 extern char const *LineTypeName[];
 

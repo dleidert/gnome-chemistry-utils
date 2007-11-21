@@ -30,6 +30,9 @@
 #include <sys/stat.h>
 #include <cmath>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 double DefaultBondLength = 140.;
@@ -531,7 +534,7 @@ void ThemeManager::AddFileTheme (Theme *theme, char const *label)
 	if (name == "Default")
 		name = "GChemPaint";
 	if (m_Themes.find (name) != m_Themes.end ()) {
-		name = string (label) + ":" + name;
+		name = string ((label)? label: _("Unknown")) + ":" + name;
 	}
 	m_Themes[name] = theme;
 	m_Names.push_back (name);

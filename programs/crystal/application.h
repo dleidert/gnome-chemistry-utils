@@ -31,9 +31,7 @@
 #include "view.h"
 #include <gcu/application.h>
 
-using namespace gcu;
-
-class gcApplication: public Application
+class gcApplication: public gcu::Application
 {
 public:
 	gcApplication();
@@ -50,15 +48,15 @@ public:
 	bool IsEmpty() {return m_Views.empty();}
 	gcDocument* GetDoc (const char* filename);
 	void SetOpening() {m_bFileOpening = true;}
-	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
+	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 	void SetActiveDocument (gcDocument *doc) {m_pActiveDoc = doc;}
 	void AddDocument (gcDocument *pDoc) {m_Docs.push_front (pDoc);}
 	void RemoveDocument (gcDocument *pDoc);
 	bool OnQuit ();
 	
 private:
-	list<gcView*>m_Views;
-	list<gcDocument*> m_Docs;
+	std::list<gcView*>m_Views;
+	std::list<gcDocument*> m_Docs;
 	gcDocument* m_pActiveDoc;
 	GtkUIManager* m_UIManager;
 	unsigned m_statusId;

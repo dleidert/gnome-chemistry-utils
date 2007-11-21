@@ -34,8 +34,6 @@
 #include <map>
 #include <list>
 
-using namespace gcu;
-
 namespace gcp {
 
 typedef struct
@@ -57,31 +55,31 @@ public:
 	Application ();
 	virtual ~Application ();
 
-	void ActivateTool (const string& toolname, bool activate);
+	void ActivateTool (const std::string& toolname, bool activate);
 	void ActivateWindowsActionWidget (const char *path, bool activate);
 	virtual void ClearStatus ();
 	virtual void SetStatusText (const char* text);
 	virtual GtkWindow* GetWindow () = 0;
-	void SetMenu (const string& menuname, GtkWidget* menu) {Menus[menuname] = menu;}
-	GtkWidget* GetMenu (const string& name) {return Menus[name];}
+	void SetMenu (const std::string& menuname, GtkWidget* menu) {Menus[menuname] = menu;}
+	GtkWidget* GetMenu (const std::string& name) {return Menus[name];}
 	Tool* GetActiveTool () {return m_pActiveTool;}
 	gcp::Document* GetActiveDocument () {return m_pActiveDoc;}
 	void SetActiveDocument (gcp::Document* pDoc) {m_pActiveDoc = pDoc;}
-	Tool* GetTool (const string& name) {return m_Tools[name];}
-	void SetTool (const string& toolname, Tool* tool) {m_Tools[toolname] = tool;}
-	GtkWidget* GetToolItem(const string& name) {return ToolItems[name];}
-	void SetToolItem (const string& name, GtkWidget* w) {ToolItems[name] = w;}
+	Tool* GetTool (const std::string& name) {return m_Tools[name];}
+	void SetTool (const std::string& toolname, Tool* tool) {m_Tools[toolname] = tool;}
+	GtkWidget* GetToolItem(const std::string& name) {return ToolItems[name];}
+	void SetToolItem (const std::string& name, GtkWidget* w) {ToolItems[name] = w;}
 	void SetCurZ (int Z) {m_CurZ = Z;}
 	int GetCurZ () {return m_CurZ;}
 	void OnSaveAs ();
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
-	void SaveWithBabel (string const &filename, const gchar *mime_type, gcp::Document* pDoc);
-	void OpenWithBabel (string const &filename, const gchar *mime_type, gcp::Document* pDoc);
-	void SaveGcp (string const &filename, gcp::Document* pDoc);
-	void OpenGcp (string const &filename, gcp::Document* pDoc);
+	void SaveWithBabel (std::string const &filename, const gchar *mime_type, gcp::Document* pDoc);
+	void OpenWithBabel (std::string const &filename, const gchar *mime_type, gcp::Document* pDoc);
+	void SaveGcp (std::string const &filename, gcp::Document* pDoc);
+	void OpenGcp (std::string const &filename, gcp::Document* pDoc);
 	xmlDocPtr GetXmlDoc () {return XmlDoc;}
-	void SetCallback (const string& name, GCallback cb) {Callbacks[name] = cb;}
-	GCallback GetCallback (const string& name) {return Callbacks[name];}
+	void SetCallback (const std::string& name, GCallback cb) {Callbacks[name] = cb;}
+	GCallback GetCallback (const std::string& name) {return Callbacks[name];}
 	void OnSaveAsImage ();
 	bool HaveGhemical () {return m_Have_Ghemical;}
 	bool HaveInChI () {return m_Have_InChI;}
@@ -96,9 +94,9 @@ public:
 	void NotifyFocus (bool has_focus, Target *target = NULL);
 	void CheckFocus ();
 	void CloseAll ();
-	list<string> &GetSupportedMimeTypes () {return m_SupportedMimeTypes;}
+	std::list<std::string> &GetSupportedMimeTypes () {return m_SupportedMimeTypes;}
 	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
-	list<string> &GetExtensions(string &mime_type);
+	std::list<std::string> &GetExtensions(std::string &mime_type);
 	void OnThemeNamesChanged ();
 
 /*!
@@ -148,11 +146,11 @@ protected:
 	int m_CurZ;
 	gcp::Document *m_pActiveDoc;
 	Target *m_pActiveTarget;
-	map <string, GtkWidget*> Menus;
-	map <string, GtkWidget*> ToolItems;
-	map <string, GtkWidget*> Toolbars;
-	map <string, Tool*> m_Tools;
-	map <string, GCallback> Callbacks;
+	std::map <std::string, GtkWidget*> Menus;
+	std::map <std::string, GtkWidget*> ToolItems;
+	std::map <std::string, GtkWidget*> Toolbars;
+	std::map <std::string, Tool*> m_Tools;
+	std::map <std::string, GCallback> Callbacks;
 	Tool* m_pActiveTool;
 	static bool m_bInit, m_Have_Ghemical, m_Have_InChI;
 	xmlDocPtr XmlDoc;
@@ -160,20 +158,20 @@ protected:
 
 private:
 	GtkIconFactory *IconFactory;
-	list<char const*> UiDescs;
+	std::list<char const*> UiDescs;
 	GtkRadioActionEntry* RadioActions;
 	int m_entries;
-	map<int, string> ToolbarNames;
+	std::map<int, std::string> ToolbarNames;
 	unsigned m_NumDoc; //used to build the name of the action associated with the menu
 	std::set<Target*> m_Targets;
 	int visible_windows;
-	list<string> m_SupportedMimeTypes;
-	list<string> m_WriteableMimeTypes;
+	std::list<std::string> m_SupportedMimeTypes;
+	std::list<std::string> m_WriteableMimeTypes;
 	GConfClient *m_ConfClient;
 	guint m_NotificationId;
-	Object *m_Dummy;
-	list<BuildMenuCb> m_MenuCbs;
-	list<option_data> m_Options;
+	gcu::Object *m_Dummy;
+	std::list<BuildMenuCb> m_MenuCbs;
+	std::list<option_data> m_Options;
 };
 
 }	// namespace gcp

@@ -26,6 +26,8 @@
 #include "operation.h"
 #include "document.h"
 
+using namespace gcu;
+
 namespace gcp {
 
 xmlDocPtr pXmlDoc = xmlNewDoc ((const xmlChar*) "1.0"); // Needed to create xmlNodes

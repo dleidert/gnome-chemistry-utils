@@ -31,6 +31,9 @@
 #include <cerrno>
 #include <cmath>
 
+using namespace gcu;
+using namespace std;
+
 TypeId GroupType = NoType;
 
 static void on_group_properties (gcpGroup* group)

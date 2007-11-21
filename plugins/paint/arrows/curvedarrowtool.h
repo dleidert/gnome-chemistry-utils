@@ -30,7 +30,7 @@
 class gcpCurvedArrowTool: public gcp::Tool
 {
 public:
-	gcpCurvedArrowTool (gcp::Application *App, string Id);
+	gcpCurvedArrowTool (gcp::Application *App, std::string Id);
 	virtual ~gcpCurvedArrowTool ();
 
 	virtual bool OnClicked ();

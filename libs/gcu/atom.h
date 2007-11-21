@@ -29,8 +29,6 @@
 #include <glib.h>
 #include "object.h"
 
-using namespace std;
-
 namespace gcu
 {
 	
@@ -156,14 +154,14 @@ Removes a Bond.
 Use this function to retrieve the first Bond of this Atom and initialize the iterator.
 @return the first Bond of this Atom or NULL if the Atom has is not bonded.
 */
-	Bond* GetFirstBond (map<Atom*, Bond*>::iterator& i);
+	Bond* GetFirstBond (std::map<Atom*, Bond*>::iterator& i);
 /*!
 @param i: a C++ std::map iterator initialized by Atom::GetFirstBond.
 
 Use this method to iterate through the list of Bond instances of this Atom.
 @return the next Bond of this Atom or NULL.
 */
-	Bond* GetNextBond (map<Atom*, Bond*>::iterator& i);
+	Bond* GetNextBond (std::map<Atom*, Bond*>::iterator& i);
 /*!
 @param pAtom: a pointer to an Atom instance.
 @return a pointer to the Bond shared by pAtom and this Atom if it exists or NULL.
@@ -240,7 +238,7 @@ The charge of the Atom.
 /*!
 The Bond instances of the Atom. The index of the map is a pointer to the other end of the Bond.
 */
-	map<Atom*, Bond*> m_Bonds;
+	std::map<Atom*, Bond*> m_Bonds;
 };
 
 } //namespace gcu

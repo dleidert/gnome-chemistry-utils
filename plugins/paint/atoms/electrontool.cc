@@ -35,6 +35,9 @@
 #include <cmath>
 #include <stdexcept>
 
+using namespace gcu;
+using namespace std;
+
 gcpElectronTool::gcpElectronTool (gcp::Application *App, string Id): gcp::Tool (App, Id)
 {
 	if (Id == string ("ElectronPair"))

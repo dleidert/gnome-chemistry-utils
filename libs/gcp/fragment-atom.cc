@@ -28,6 +28,8 @@
 #include "molecule.h"
 #include <gcu/element.h>
 
+using namespace gcu;
+
 namespace gcp {
 
 FragmentAtom::FragmentAtom (): Atom ()

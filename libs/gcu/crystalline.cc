@@ -33,7 +33,8 @@
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
 #define square(x)	((x)*(x))
 
-namespace gcu {
+namespace gcu
+{
 	
 char const *LineTypeName[] = {
 	"edges",
@@ -42,10 +43,6 @@ char const *LineTypeName[] = {
 	"normal",
 	"unique"
 };
-
-}
-
-using namespace gcu;
 
 CrystalLine::CrystalLine()
 {
@@ -322,3 +319,5 @@ bool CrystalLine::Load (xmlNodePtr node)
 		return false;
 	return true;
 }
+
+}	//	namespace gcu

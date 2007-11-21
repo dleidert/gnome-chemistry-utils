@@ -25,6 +25,8 @@
 #include "config.h"
 #include "molecule.h"
 
+using namespace gcu;
+
 namespace gcp {
 
 Cycle::Cycle (Molecule* Molecule): Chain (Molecule, (Atom*) NULL, CycleType)

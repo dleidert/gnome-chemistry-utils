@@ -33,6 +33,9 @@
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
+using namespace gcu;
+using namespace std;
+
 gcpChargeTool::gcpChargeTool (gcp::Application *App, string Id): gcp::Tool (App, Id)
 {
 	if (Id == string ("ChargePlus"))

@@ -27,19 +27,17 @@
 
 #include <gcu/object.h>
 
-using namespace gcu;
-
 namespace gcp {
 
 class ReactionStep;
 
-class Reactant: public Object
+class Reactant: public gcu::Object
 {
 public:
 	Reactant ();
 	virtual ~Reactant ();
 
-	Reactant (ReactionStep* step, Object* object) throw (std::invalid_argument);
+	Reactant (ReactionStep* step, gcu::Object* object) throw (std::invalid_argument);
 	
 	virtual xmlNodePtr Save (xmlDocPtr xml);
 	virtual bool Load (xmlNodePtr);
@@ -49,17 +47,17 @@ public:
 	unsigned GetStoichiometry () {return m_Stoich;}
 	void SetStoichiometry (unsigned coef) {m_Stoich = coef;}
 	virtual double GetYAlign ();
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
-	virtual bool OnSignal (SignalId Signal, Object *Child);
+	virtual bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 	
 	void AddStoichiometry ();
-	Object *GetChild () {return Child;}
-	Object *GetStoichChild () {return Stoichiometry;}
+	gcu::Object *GetChild () {return Child;}
+	gcu::Object *GetStoichChild () {return Stoichiometry;}
 
 private:
 	unsigned m_Stoich;	//always positive
-	Object *Stoichiometry;
-	Object *Child;
+	gcu::Object *Stoichiometry;
+	gcu::Object *Child;
 };
 
 }	//	namespace gcp

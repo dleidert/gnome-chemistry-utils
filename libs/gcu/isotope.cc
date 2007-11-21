@@ -2,8 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * isotope.cc 
- * Jean Bréfort <jean.brefort@normalesup.org>
+ * isotope.cc
+ *
+ * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,7 +25,10 @@
 #include "config.h"
 #include "isotope.h"
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 Isotope::Isotope ()
 {
@@ -198,3 +202,5 @@ void IsotopicPattern::SetMonoMass (double mass)
 	if (m_mono_mass == 0.)
 		m_mono_mass = mass;
 }
+
+}	//	namespace gcu

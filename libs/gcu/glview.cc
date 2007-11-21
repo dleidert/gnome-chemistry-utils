@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/glview.cc 
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,7 +37,11 @@ static GdkGLConfig *glconfig = NULL;
 double DefaultPsi = 70.;
 double DefaultTheta = 10.;
 double DefaultPhi = -90.;
-using namespace gcu;
+
+using namespace std;
+
+namespace gcu
+{
 
 // Callbacks
 static bool on_init(GtkWidget *widget, GLView* View) 
@@ -489,3 +493,5 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 	gdk_gl_pixmap_destroy (gl_pixmap);
 	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
 }
+
+}	//	namespace gcu

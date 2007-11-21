@@ -32,6 +32,9 @@
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 
+using namespace gcu;
+using namespace std;
+
 namespace gcp {
 
 static int get_fontstyle (PangoStyle val)

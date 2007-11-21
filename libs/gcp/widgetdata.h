@@ -30,8 +30,6 @@
 #include <list>
 #include <gcu/object.h>
 
-using namespace gcu;
-
 namespace gcp {
 
 class Application;
@@ -59,12 +57,12 @@ public:
 	GnomeCanvasGroup *Group;
 	GnomeCanvasItem* Background;
 	double Zoom;
-	std::map<Object*, GnomeCanvasGroup*>Items;
-	std::list<Object*>SelectedObjects;
+	std::map<gcu::Object*, GnomeCanvasGroup*>Items;
+	std::list<gcu::Object*>SelectedObjects;
 	
-	bool IsSelected (Object* obj);
-	void SetSelected (Object* obj);
-	void Unselect (Object* obj);
+	bool IsSelected (gcu::Object* obj);
+	void SetSelected (gcu::Object* obj);
+	void Unselect (gcu::Object* obj);
 	void UnselectAll ();
 	void MoveSelectedItems (double dx, double dy);
 	void MoveSelection (double dx, double dy);
@@ -76,11 +74,11 @@ public:
 	void SelectAll ();
 	static xmlDocPtr GetXmlDoc (GtkClipboard* clipboard);
 	void ShowSelection (bool state);
-	void GetObjectBounds (Object* obj, ArtDRect *rect);
+	void GetObjectBounds (gcu::Object* obj, ArtDRect *rect);
 
 private:
-	void MoveItems (Object *obj, double dx, double dy);
-	void GetObjectBounds (Object* obj, ArtDRect &rect);
+	void MoveItems (gcu::Object *obj, double dx, double dy);
+	void GetObjectBounds (gcu::Object* obj, ArtDRect &rect);
 };
 
 }	// namespace gcp

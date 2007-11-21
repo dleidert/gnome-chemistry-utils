@@ -29,8 +29,6 @@
 #include <gcu/gldocument.h>
 #include <openbabel/mol.h>
 
-using namespace OpenBabel;
-
 namespace gcu {
 
 /*! \enum Display3DMode
@@ -113,10 +111,10 @@ Loads a molecule from the provided data using OpenBabel.
 
 Exports the embedded molecule as a vrml scene.
 */
-	void OnExportVRML (string const &filename);
+	void OnExportVRML (std::string const &filename);
 
 private:
-	OBMol m_Mol;
+	OpenBabel::OBMol m_Mol;
 
 /*!\fn SetDisplay3D(Display3DMode mode)
 @param mode: the new mode.

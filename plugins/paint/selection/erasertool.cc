@@ -31,6 +31,8 @@
 #include <gcp/theme.h>
 #include <cmath>
 
+using namespace gcu;
+
 gcpEraserTool::gcpEraserTool (gcp::Application* App): gcp::Tool (App, "Erase")
 {
 	m_bChanged = false;

@@ -33,11 +33,9 @@ namespace gcp {
 
 class ReactionArrow;
 
-using namespace gcu;
-
 class ReactionProp;
 
-class ReactionPropDlg: public Dialog
+class ReactionPropDlg: public gcu::Dialog
 {
 public:
 	ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop);

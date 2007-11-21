@@ -48,11 +48,11 @@ public:
 	void SetEndStep (ReactionStep *Step) {m_End = Step;}
 	ReactionStep* GetEndStep () {return m_End;}
 	void RemoveStep (ReactionStep *Step);
-	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
 	void Move (double x, double y, double z = 0);
 	void SetSelected (GtkWidget* w, int state);
-	void AddProp (Object *object);
-	bool OnSignal (SignalId Signal, Object *Child);
+	void AddProp (gcu::Object *object);
+	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 
 private:
 	unsigned m_Type;

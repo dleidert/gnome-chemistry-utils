@@ -51,6 +51,7 @@
 #include <map>
 
 using namespace gcu;
+using namespace std;
 
 // FIXME "the following lines should be removed for stable releases"
 #undef PACKAGE

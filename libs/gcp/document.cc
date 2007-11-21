@@ -48,6 +48,7 @@
 
 using namespace OpenBabel;
 using namespace std;
+using namespace gcu;
 
 namespace gcp {
 

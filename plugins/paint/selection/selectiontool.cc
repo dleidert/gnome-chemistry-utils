@@ -36,6 +36,9 @@
 #include <cmath>
 #include <stdexcept>
 
+using namespace gcu;
+using namespace std;
+
 static void on_flip (GtkWidget *btn, gcp::Application* App)
 {
 	gcpSelectionTool *tool = (gcpSelectionTool*) App->GetTool ("Select");

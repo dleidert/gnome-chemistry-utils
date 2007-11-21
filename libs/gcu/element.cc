@@ -38,6 +38,8 @@
 #include <set>
 #include <string>
 
+using namespace std;
+
 static set<string>units;
 
 static void ReadValue (char const *source, GcuValue &value)

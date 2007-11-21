@@ -438,6 +438,8 @@ static const char *ui_web_description =
 "  </menubar>"
 "</ui>";
 
+using namespace gcu;
+
 namespace gcp {
 
 Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui):

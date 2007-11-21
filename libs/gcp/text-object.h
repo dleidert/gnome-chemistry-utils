@@ -31,16 +31,13 @@
 #include <string>
 #include <canvas/gcp-canvas-pango.h>
 
-using namespace gcu;
-using namespace std;
-
 namespace gcp {
 
-class TextObject: public Object
+class TextObject: public gcu::Object
 {
 public:
-	TextObject (TypeId Type);
-	TextObject (double x, double y, TypeId Type);
+	TextObject (gcu::TypeId Type);
+	TextObject (double x, double y, gcu::TypeId Type);
 	virtual ~TextObject ();
 	
 	void GetSize (double& x, double& y) {x = m_length; y = m_height;}
@@ -53,13 +50,13 @@ public:
 	void Move (double x, double y, double z = 0);
 	bool IsLocked () {return m_bLoading;}
 	void GetSelectionBounds (unsigned &start, unsigned &end) {start = m_StartSel; end = m_EndSel;}
-	string GetBuffer () {return m_buf;}
+	std::string GetBuffer () {return m_buf;}
 
 protected:
 	double m_x, m_y, m_length, m_height;
 	int m_ascent;
 	int m_InsertOffset;
-	string m_buf;
+	std::string m_buf;
 	bool m_bLoading;
 	unsigned m_StartSel, m_EndSel;
 	bool m_RealSave;

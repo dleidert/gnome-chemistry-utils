@@ -35,7 +35,10 @@
 #include <cmath>
 #include <cstdlib>
 
-using namespace gcu;
+using namespace std;
+
+namespace gcu
+{
 
 Application::Application (string name, string datadir, char const *help_name, char const *icon_name)
 {
@@ -243,3 +246,5 @@ void Application::RemoveDocument (Document *Doc)
 	if (m_Docs.size () == 0 && gtk_main_level ())
 		NoMoreDocsEvent ();
 }
+
+}	//	namespace gcu

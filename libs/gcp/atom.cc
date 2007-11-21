@@ -42,6 +42,8 @@
 #include <cmath>
 
 using namespace gcu;
+using namespace OpenBabel;
+using namespace std;
 
 #define ATOM_EPSILON 0.1
 
@@ -67,6 +69,7 @@ Atom::Atom (): gcu::Atom (),
 	m_ChargeAutoPos = true;
 	m_Layout = m_ChargeLayout = NULL;
 	m_DrawCircle = false;
+	m_InkRect.width = m_HInkRect.width = 0.;
 }
 
 Atom::~Atom ()
@@ -108,6 +111,7 @@ Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z),
 	m_ChargeAutoPos = true;
 	m_Layout = m_ChargeLayout = NULL;
 	m_DrawCircle = false;
+	m_InkRect.width = m_HInkRect.width = 0.;
 }
 
 Atom::Atom (OBAtom* atom): gcu::Atom (),
@@ -135,6 +139,7 @@ Atom::Atom (OBAtom* atom): gcu::Atom (),
 	m_Layout = m_ChargeLayout = NULL;
 	m_DrawCircle = false;
 	m_Charge = atom->GetFormalCharge ();
+	m_InkRect.width = m_HInkRect.width = 0.;
 }
 
 void Atom::SetZ (int Z)

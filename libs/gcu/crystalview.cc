@@ -32,7 +32,8 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <cmath>
 
-using namespace gcu;
+namespace gcu
+{
 
 CrystalView::CrystalView(CrystalDoc* pDoc): GLView (pDoc)
 {
@@ -115,3 +116,5 @@ xmlNodePtr CrystalView::Save(xmlDocPtr xml)
 	
 	return parent;
 }
+
+}	//	namespace gcu

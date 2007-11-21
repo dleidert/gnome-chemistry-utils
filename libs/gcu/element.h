@@ -35,8 +35,6 @@
 
 #define GCU_ERROR (1 << (sizeof(int) - 1))
 
-using namespace std;
-
 /*!\namespace gcu
 The namespace used for all C++ classes provided by the Gnome Chemistry Utils.
 */
@@ -238,11 +236,11 @@ public:
 	returned string is formated as a pango markup, with electron numbers
 	for each sublevel as superscript.
 	*/
-	string const& GetElectronicConfiguration () {return ElecConfig;}
+	std::string const& GetElectronicConfiguration () {return ElecConfig;}
 	/*!
 	@return the map of known names for the element indexed by language.
 	*/
-	map<string, string> const& GetNames () {return names;}
+	std::map<std::string, std::string> const& GetNames () {return names;}
 	/*!
 	@param rank: the rank of the ionization.
 
@@ -269,7 +267,7 @@ public:
 
 	@return the requested string property if known as a reference or an empty string.
 	*/
-	string &GetStringProperty (char const *property_name) {return sprops[property_name];}
+	std::string &GetStringProperty (char const *property_name) {return sprops[property_name];}
 	/*!
 	@param property_name: the name of the property as used in the Blue
 	Obelisk Data Repository (without the "bo:" prefix).
@@ -287,18 +285,18 @@ private:
 	unsigned char m_MaxBonds;
 	bool m_BestSide;
 	double m_DefaultColor[3];
-	string name;
-	vector<GcuAtomicRadius*> m_radii;
-	vector<GcuElectronegativity*> m_en;
-	vector<Isotope*> m_isotopes;
-	vector<IsotopicPattern*> m_patterns;
-	vector<GcuDimensionalValue> m_ei;
-	vector<GcuDimensionalValue> m_ae;
-	map<string, string> names;
-	map<string, Value*> props;
-	map<string, string> sprops;
-	map<string, int> iprops;
-	string ElecConfig;
+	std::string name;
+	std::vector<GcuAtomicRadius*> m_radii;
+	std::vector<GcuElectronegativity*> m_en;
+	std::vector<Isotope*> m_isotopes;
+	std::vector<IsotopicPattern*> m_patterns;
+	std::vector<GcuDimensionalValue> m_ei;
+	std::vector<GcuDimensionalValue> m_ae;
+	std::map<std::string, std::string> names;
+	std::map<std::string, Value*> props;
+	std::map<std::string, std::string> sprops;
+	std::map<std::string, int> iprops;
+	std::string ElecConfig;
 };
 
 } // namespace gcu

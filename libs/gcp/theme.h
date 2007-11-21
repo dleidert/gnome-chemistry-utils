@@ -36,9 +36,6 @@
 #include <string>
 #include <set>
 
-using namespace std;
-using namespace gcu;
-
 namespace gcp {
 
 typedef enum {
@@ -57,17 +54,17 @@ public:
 	Theme (char const *name);
 	~Theme ();
 
-	string &GetName () {return m_Name;}
+	std::string &GetName () {return m_Name;}
 	bool Save (xmlDocPtr);
 	bool Load (xmlNodePtr);
 	bool operator== (const Theme &theme);
-	void AddClient (Object *client) {m_Clients.insert (client);}
-	void RemoveClient (Object *client);
+	void AddClient (gcu::Object *client) {m_Clients.insert (client);}
+	void RemoveClient (gcu::Object *client);
 	void NotifyChanged ();
 
 private:
-	string m_Name;
-	set <Object*> m_Clients;
+	std::string m_Name;
+	std::set <gcu::Object*> m_Clients;
 	bool modified;
 
 GCU_RO_PROP (double, BondLength)
@@ -113,8 +110,8 @@ public:
 	~ThemeManager ();
 
 	Theme *GetTheme (char const *name);
-	Theme *GetTheme (string &name);
-	list <string> const &GetThemesNames ();
+	Theme *GetTheme (std::string &name);
+	std::list <std::string> const &GetThemesNames ();
 	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
 	Theme *CreateNewTheme (Theme *theme = NULL);
 	void AddFileTheme (Theme *theme, char const *label);
@@ -124,11 +121,11 @@ public:
 	void SetDefaultTheme (char const *name);
 
 private:
-	void ParseDir (string &path, ThemeType type);
+	void ParseDir (std::string &path, ThemeType type);
 
 private:
-	map <string, Theme*> m_Themes;
-	list <string> m_Names;
+	std::map <std::string, Theme*> m_Themes;
+	std::list <std::string> m_Names;
 	GConfClient *m_ConfClient;
 	guint m_NotificationId;
 	Theme *m_DefaultTheme;

@@ -41,7 +41,7 @@ public:
 	
 	virtual xmlNodePtr Save (xmlDocPtr xml);
 	virtual bool Load (xmlNodePtr);
-	virtual bool Build (list<Object*>& Children) throw (invalid_argument);
+	virtual bool Build (std::list<Object*>& Children) throw (std::invalid_argument);
 	virtual double GetYAlign ();
 	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	virtual bool OnSignal (SignalId Signal, Object *Child);

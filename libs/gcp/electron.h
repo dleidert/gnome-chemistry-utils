@@ -27,15 +27,13 @@
 
 #include <gcu/object.h>
 
-using namespace gcu;
-
 namespace gcp {
 
 class Atom;
 
-extern TypeId ElectronType;
+extern gcu::TypeId ElectronType;
 
-class Electron: public Object
+class Electron: public gcu::Object
 {
 public:
 	Electron (Atom *pAtom, bool IsPair);
@@ -49,8 +47,8 @@ public:
 	virtual void SetSelected(GtkWidget* w, int state);
 	virtual xmlNodePtr Save (xmlDocPtr xml);
 	virtual bool Load (xmlNodePtr);
-	virtual bool OnSignal (SignalId Signal, Object *Child);
-	virtual void Transform2D (Matrix2D& m, double x, double y);
+	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 
 private:
 	Atom* m_pAtom;

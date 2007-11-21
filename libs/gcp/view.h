@@ -54,16 +54,16 @@ public:
 	GtkWidget* GetWidget () {return m_pWidget;}
 	Document* GetDoc () {return m_pDoc;}
 	bool OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
-	void AddObject (Object* pObject);
-	void Update (Object* pObject);
+	void AddObject (gcu::Object* pObject);
+	void Update (gcu::Object* pObject);
 	GtkWidget* CreateNewWidget ();
 	void OnDestroy (GtkWidget* widget);
-	GnomeCanvasItem* GetCanvasItem (GtkWidget* widget, Object* Object);
+	GnomeCanvasItem* GetCanvasItem (GtkWidget* widget, gcu::Object* Object);
 	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
 	GnomeCanvasItem* GetBackground ();
 	double GetZoomFactor ();
 	void UpdateFont ();
-	void Remove (Object* pObject);
+	void Remove (gcu::Object* pObject);
 	PangoContext* GetPangoContext () {return m_PangoContext;}
 	double GetFontHeight () {return m_dFontHeight;}
 	gchar* GetFontName () {return m_sFontName;}
@@ -84,7 +84,7 @@ public:
 	void OnSelectAll ();
 	bool IsEmbedded () {return m_bEmbedded;}
 	int GetNbWidgets () {return m_Widgets.size ();}
-	void ExportImage (string const &filename, const char* type, int resolution = -1);
+	void ExportImage (std::string const &filename, const char* type, int resolution = -1);
 	xmlDocPtr BuildSVG ();
 	GdkPixbuf *BuildPixbuf (int resolution);
 	void EnsureSize ();
@@ -107,7 +107,7 @@ private:
 	bool m_bEmbedded;
 	GtkUIManager *m_UIManager;
 	bool m_Dragging;
-	Object *m_CurObject;
+	gcu::Object *m_CurObject;
 
 GCU_RO_PROP (double, BaseLineOffset)
 GCU_RO_PROP (GnomeCanvasPango*, ActiveRichText)

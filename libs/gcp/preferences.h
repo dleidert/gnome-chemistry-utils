@@ -29,15 +29,12 @@
 #include <gcu/dialog.h>
 #include <gcu/object.h>
 #include <gcu/macros.h>
-	
-using namespace gcu;
-
 namespace gcp {
 
 class Application;
 class Theme;
 
-class PrefsDlg: public Dialog, Object
+class PrefsDlg: public gcu::Dialog, gcu::Object
 {
 public:
 	PrefsDlg (Application *pApp);

@@ -28,6 +28,8 @@
 #include <gcp/theme.h>
 #include <gcp/widgetdata.h>
 
+using namespace std;
+
 static void on_align_toggled (gcpGroupDlg *dlg)
 {
 	dlg->OnAlignToggled ();
