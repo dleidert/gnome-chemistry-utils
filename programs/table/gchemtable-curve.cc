@@ -609,8 +609,9 @@ void GChemTableCurve::OnProperties ()
 	gct_control_gui_set_owner (tcg, this);
 	GClosure *closure = g_cclosure_new (G_CALLBACK (on_update_graph), tcg,
 					(GClosureNotify) graph_user_config_free_data);
-	gog_guru (m_Graph, GOG_DATA_ALLOCATOR (tcg),
-		       NULL, GTK_WINDOW (dialog), closure);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), 
+								  GTK_WINDOW (gog_guru (m_Graph, GOG_DATA_ALLOCATOR (tcg),
+		      											NULL, closure)));
 	g_closure_sink (closure);
 }
 

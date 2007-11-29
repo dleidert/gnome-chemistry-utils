@@ -63,11 +63,11 @@ go_gchemutils_component_render (GOComponent *component, cairo_t *cr,
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);		  
 }
 
-static gboolean
+static GtkWindow*
 go_gchemutils_component_edit (GOComponent *component)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
-	return false;
+	return NULL;
 }
 
 static void

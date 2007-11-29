@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2007-11-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: requests goffice-0.5.4.
+	* goffice/gchemutils.cc: updated after recent changes in goffice api.
+	* programs/table/gchemtable-curve.cc: ditto.
+
+2007-11-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: ensure goffice has gnome support.
 
 2007-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
