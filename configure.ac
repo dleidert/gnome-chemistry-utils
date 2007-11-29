@@ -110,6 +110,17 @@ bodr >= $BODR_REQUIRED_VERSION"
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
+dnl check if goffice has gnome support
+saved_cflags=$CFLAGS
+CFLAGS=$GCU_CFLAGS
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#include <goffice/goffice-features.h>
+#ifndef GOFFICE_WITH_GNOME
+#error no gnome support present
+#endif
+]])], [], [AC_MSG_ERROR([you need a libgoffice version with gnome support])])
+CFLAGS=$saved_cflags
+
 PKG_CHECK_MODULES(OB22, openbabel-2.0 >= 2.2.0,
 [ob22="yes"],[ob22="no"])
 if test "x$ob22" = "xyes"; then
