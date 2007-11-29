@@ -112,6 +112,17 @@ bodr >= $BODR_REQUIRED_VERSION"
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
+dnl check if goffice has gnome support
+saved_cflags=$CFLAGS
+CFLAGS=$GCU_CFLAGS
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#include <goffice/goffice-features.h>
+#ifndef GOFFICE_WITH_GNOME
+#error no gnome support present
+#endif
+]])], [], [AC_MSG_ERROR([you need a libgoffice version with gnome support])])
+CFLAGS=$saved_cflags
+
 AC_PATH_PROG([GCONFTOOL], [gconftool-2], [no])
 if test "x$GCONFTOOL" = "xno"; then
 	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
