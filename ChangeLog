@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2007-12-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/canvas/gcp-canvas-shape.c:
+	(gnome_canvas_shape_ext_export_svg),
+	(gnome_canvas_shape_ext_draw_cairo): implemtn the curveto case. [#21715]
+	* libs/canvas/pango-layout-to-svg.c: (pango_layout_to_svg): fix
+	vertical text alignment after subscript/superscript. [#21715]
+
 2007-11-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requests goffice-0.5.4.
 	* goffice/gchemutils.cc: updated after recent changes in goffice api.

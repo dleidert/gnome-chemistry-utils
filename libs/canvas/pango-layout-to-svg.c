@@ -29,6 +29,8 @@ void pango_layout_to_svg (PangoLayout* layout, xmlDocPtr doc, xmlNodePtr node, d
 	xmlNodePtr child, run;
 	char *buf;
 	int i, k;
+	int rise = 0;
+	gboolean force_rise = FALSE;
 	GSList *extra_attrs_list;
 	PangoFontDescription *desc;
 	PangoGlyphItem *item;
@@ -91,6 +93,7 @@ void pango_layout_to_svg (PangoLayout* layout, xmlDocPtr doc, xmlNodePtr node, d
 				break;
 			default: break;
 			}
+			force_rise = rise != 0;
 			extra_attrs_list = item->item->analysis.extra_attrs;
 			while (extra_attrs_list)
 			{
@@ -103,8 +106,9 @@ void pango_layout_to_svg (PangoLayout* layout, xmlDocPtr doc, xmlNodePtr node, d
 					g_warning("style");
 					break;
 				case PANGO_ATTR_RISE:
-					k = ((PangoAttrInt *) attr)->value / PANGO_SCALE;
-					buf = g_strdup_printf ("%d", - k);
+					rise += ((PangoAttrInt *) attr)->value / PANGO_SCALE;
+					force_rise = FALSE;
+					buf = g_strdup_printf ("%d", - rise);
 					xmlNewProp (run, (xmlChar*) "dy", (xmlChar*) buf);
 					g_free (buf);
 					break;
@@ -142,6 +146,12 @@ void pango_layout_to_svg (PangoLayout* layout, xmlDocPtr doc, xmlNodePtr node, d
 					break;
 				}
 				extra_attrs_list = extra_attrs_list->next;
+			}
+			if (force_rise) {
+				buf = g_strdup_printf ("%d", rise);
+				xmlNewProp (run, (xmlChar*) "dy", (xmlChar*) buf);
+				g_free (buf);
+				rise = 0;
 			}
 		} while (pango_layout_iter_next_run (iter));
 		text = g_utf8_next_char (text);

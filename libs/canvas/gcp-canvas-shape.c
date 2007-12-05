@@ -1668,6 +1668,9 @@ gnome_canvas_shape_ext_export_svg (GPrintable *printable, xmlDocPtr doc, xmlNode
 	string = g_string_new ("");
 	for ( ; bpath->code != ART_END ; bpath++)
 		switch (bpath->code) {
+		case ART_CURVETO :
+			g_string_append_printf (string, "C%g %g %g %g %g %g", bpath->x1, bpath->y1, bpath->x2, bpath->y2, bpath->x3, bpath->y3);
+			break;
 		case ART_MOVETO :
 			g_string_append_printf (string, "M%g %g", bpath->x3, bpath->y3);
 			break;
@@ -1792,6 +1795,9 @@ void gnome_canvas_shape_ext_draw_cairo   (GPrintable *printable, cairo_t *cr)
 
 	for ( ; bpath->code != ART_END ; bpath++)
 		switch (bpath->code) {
+		case ART_CURVETO :
+			cairo_curve_to (cr, bpath->x1, bpath->y1, bpath->x2, bpath->y2, bpath->x3, bpath->y3);
+			break;
 		case ART_MOVETO :
 			cairo_move_to (cr, bpath->x3, bpath->y3);
 			break;
