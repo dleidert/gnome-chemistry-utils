@@ -134,6 +134,16 @@ private:
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
 	void Rotate (gdouble x, gdouble y);
+/*!
+@param width the width of the generated image.
+@param height the height of the generated image.
+
+This method is called by the framework when off-screen renderig fails. This
+will be mich slower than the stahdard method, but mandatory if the video
+card driver does not support off-screen rendering of OpenGL.
+@return the pixbuf containing the generated image
+*/
+	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height);
 
 protected:
 /*!

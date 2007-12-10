@@ -32,6 +32,7 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
+#include <cstring>
 
 static GdkGLConfig *glconfig = NULL;
 double DefaultPsi = 70.;
@@ -321,64 +322,18 @@ void GLView::Print (GnomePrintContext *pc, gdouble width, gdouble height)
 		Width = (int) (Width * height / Height);
 		Height = (int) height;
 	}
-	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
-		GdkGLConfigMode (GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
 	double matrix [6] = {Width, 0, 0, Height,
 						(width - Width) / 2, (height - Height )/ 2};
 	int w= (int) (Width * 300. / 72.), h = (int) (Height * 300. / 72.);
-	GdkPixmap *pixmap = gdk_pixmap_new (
-			(GdkDrawable*) (m_pWidget->window),
-			w, h, -1);
-	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability (pixmap,
-							       glconfig,
-							       NULL );
-	GdkGLDrawable * drawable = gdk_pixmap_get_gl_drawable (pixmap);
-	GdkGLContext * context = gdk_gl_context_new (drawable,
-						     NULL,
-						     FALSE,
-						     GDK_GL_RGBA_TYPE);
-	if (gdk_gl_drawable_gl_begin (drawable, context)) {
-	    glEnable (GL_LIGHTING);
-		glEnable (GL_LIGHT0);
-		glEnable (GL_DEPTH_TEST);
-		glEnable (GL_CULL_FACE);
-		glEnable (GL_COLOR_MATERIAL);
-		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
-		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
-		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
-		glViewport (0, 0, w, h);
-	    glMatrixMode (GL_PROJECTION);
-	    glLoadIdentity ();
-		if (m_Angle > 0.)
-			glFrustum (- m_Width, m_Width, - m_Height, m_Height, m_Near , m_Far);
-		else
-			glOrtho (- m_Width, m_Width, - m_Height, m_Height, m_Near, m_Far);
-	    glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glTranslatef(0, 0, - m_Radius);
-		glClearColor (m_Red, m_Green, m_Blue, m_Alpha);
-		glClearDepth (1.0);
-		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glPushMatrix ();
-		glRotated (m_Psi, 0.0, 1.0, 0.0);
-		glRotated (m_Theta, 0.0, 0.0, 1.0);
-		glRotated (m_Phi, 0.0, 1.0, 0.0);
-		m_Doc->Draw ();
-		glPopMatrix ();
-		glFlush ();
-		gdk_gl_drawable_gl_end (drawable);
-		GdkPixbuf* pixbuf = gdk_pixbuf_get_from_drawable    (NULL,
-			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
+	GdkPixbuf *pixbuf = BuildPixbuf (w, h);
+
+	if (pixbuf) {
 		gnome_print_gsave (pc);
 		gnome_print_concat (pc, matrix);
 		gnome_print_rgbimage (pc, (const guchar*) gdk_pixbuf_get_pixels (pixbuf), w, h, gdk_pixbuf_get_rowstride (pixbuf));
 		gnome_print_grestore (pc);
 		g_object_unref (pixbuf);
 	}
-
-	gdk_gl_context_destroy (context);
-	gdk_gl_pixmap_destroy (gl_pixmap);
-	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
 }
 
 static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
@@ -402,23 +357,58 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 	if (width == 0 || height == 0)
 		return;
 
+	GdkPixbuf *pixbuf = BuildPixbuf (width, height);
+
+	if (pixbuf) {
+		char const **keys = g_new0 (char const*, options.size () + 1);
+		char const **values = g_new0 (char const*, options.size ());
+		GError *error = NULL;
+		map<string, string>::iterator i, iend = options.end ();
+		int j = 0;
+		for (i = options.begin (); i != iend; i++) {
+			keys[j] = (*i).first.c_str ();
+			values[j++] = (*i).second.c_str ();
+		}
+		GnomeVFSHandle *handle = NULL;
+		if (gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
+			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, handle, type, (char**) keys, (char**) values, &error);
+			if (error) {
+				fprintf (stderr, _("Unable to save image file: %s\n"), error->message);
+				g_error_free (error);
+			}
+			gnome_vfs_close (handle); // hope there will be no error there
+		}
+		g_free (keys);
+		g_free (values);
+		g_object_unref (pixbuf);
+	}
+}
+
+GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
+{
 	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
-		GdkGLConfigMode (GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH));
-	GdkPixmap *pixmap = gdk_pixmap_new (
-			(GdkDrawable*) (m_pWidget->window),
-			width, height, -1);
+		GdkGLConfigMode (GDK_GL_MODE_RGBA | GDK_GL_MODE_DEPTH));
+	GdkPixmap *pixmap = gdk_pixmap_new (NULL, width, height, 24);
 	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability (pixmap,
 							       glconfig,
 							       NULL );
 	GdkGLDrawable * drawable = gdk_pixmap_get_gl_drawable (pixmap);
 	GdkGLContext * context = gdk_gl_context_new (drawable,
 						     NULL,
-						     FALSE,
+						     TRUE,
 						     GDK_GL_RGBA_TYPE);
 	double aspect = (GLfloat) width / height;
 	double x = m_Doc->GetMaxDist (), w, h;
 	if (x == 0)
 		x = 1;
+	if (aspect > 1.0) {
+		h = x * (1 - tan (m_Angle / 360 * M_PI));
+		w = h * aspect;
+	} else {
+		w = x * (1 - tan (m_Angle / 360 * M_PI));
+		h = w / aspect;
+	}
+	GdkPixbuf *pixbuf = NULL;
 	if (gdk_gl_drawable_gl_begin (drawable, context)) {
 	    glEnable (GL_LIGHTING);
 		glEnable (GL_LIGHT0);
@@ -431,13 +421,6 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 		glViewport (0, 0, width, height);
 	    glMatrixMode (GL_PROJECTION);
 	    glLoadIdentity ();
-		if (aspect > 1.0) {
-			h = x * (1 - tan (m_Angle / 360 * M_PI));
-			w = h * aspect;
-		} else {
-			w = x * (1 - tan (m_Angle / 360 * M_PI));
-			h = w / aspect;
-		}
 		GLfloat radius, near, far;
 		if (m_Angle > 0.) {
 			radius = (float) (x / sin (m_Angle / 360 * M_PI)) ;
@@ -468,32 +451,94 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 		}
 		glFlush ();
 		gdk_gl_drawable_gl_end (drawable);
-		GdkPixbuf* pixbuf = gdk_pixbuf_get_from_drawable (NULL,
+		pixbuf = gdk_pixbuf_get_from_drawable (NULL,
 			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
-		char const **keys = g_new0 (char const*, options.size () + 1);
-		char const **values = g_new0 (char const*, options.size ());
-		GError *error = NULL;
-		map<string, string>::iterator i, iend = options.end ();
-		int j = 0;
-		for (i = options.begin (); i != iend; i++) {
-			keys[j] = (*i).first.c_str ();
-			values[j++] = (*i).second.c_str ();
-		}
-		GnomeVFSHandle *handle = NULL;
-		if (gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
-			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, handle, type, (char**) keys, (char**) values, &error);
-			if (error) {
-				fprintf (stderr, _("Unable to save image file: %s\n"), error->message);
-				g_error_free (error);
+	} else if (m_bInit) {
+		unsigned hstep, vstep;
+		double dxStep, dyStep;
+		unsigned char *tmp, *dest, *src, *dst;
+		unsigned LineWidth, s = sizeof(int);
+		if (m_pWidget->allocation.width & (s - 1))
+			LineWidth = ((~(s - 1)) & (m_pWidget->allocation.width * 3)) + s;
+		else
+			LineWidth = m_pWidget->allocation.width * 3;
+		unsigned size = LineWidth * m_pWidget->allocation.height;
+		int i, j;
+		hstep = m_pWidget->allocation.width;
+		vstep = m_pWidget->allocation.height;
+		tmp = new unsigned char[size];
+		if (!tmp)
+			goto osmesa;
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, false, 8, (int) width, (int) height);
+		dest = gdk_pixbuf_get_pixels (pixbuf);
+		int n, m, imax, jmax, rowstride =  gdk_pixbuf_get_rowstride (pixbuf);
+		imax = width / hstep;
+		jmax = height / vstep;
+		dxStep = ((double) hstep) / width * 2; 
+		dyStep = ((double) vstep) / height * 2;
+		for (j = 0; j <= jmax; j++)
+		{
+			for (i = 0; i <= imax; i++)
+			{
+				GdkGLContext *glcontext = gtk_widget_get_gl_context(m_pWidget);
+				GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable(m_pWidget);
+				if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+					glMatrixMode (GL_PROJECTION);
+					glLoadIdentity ();
+					if (m_Angle > 0.)
+						glFrustum (w * ( -1 + i * dxStep), w * ( -1 + (i + 1)* dxStep),
+								h * ( 1 - (j + 1)* dyStep), h * ( 1 - j* dyStep), m_Near , m_Far);
+					else
+						glOrtho (w * ( -1 + i * dxStep), w * ( -1 + (i + 1)* dxStep),
+								h * ( 1 - (j + 1)* dyStep), h * ( 1 - j* dyStep), m_Near , m_Far);
+					glMatrixMode (GL_MODELVIEW);
+					glLoadIdentity ();
+					glTranslatef (0, 0, - m_Radius);
+					glClearColor (m_Red, m_Green, m_Blue, m_Alpha);
+					glClearDepth (1.0);
+					glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+					if  (m_nGLList) {
+						glPushMatrix ();
+						glRotated (m_Psi, 0.0, 1.0, 0.0);
+						glRotated (m_Theta, 0.0, 0.0, 1.0);
+						glRotated (m_Phi, 0.0, 1.0, 0.0);
+						glEnable (GL_BLEND);
+						GetDoc ()->Draw();
+						glDisable (GL_BLEND);
+						glPopMatrix ();
+					}
+					glFlush ();
+					gdk_gl_drawable_gl_end (gldrawable);
+					glPixelStorei (GL_PACK_ALIGNMENT, s);
+					glReadBuffer (GL_BACK_LEFT);
+					glReadPixels (0, 0, m_pWidget->allocation.width, m_pWidget->allocation.height, GL_RGB,
+										GL_UNSIGNED_BYTE, tmp);
+					// copy the data to the pixbuf.
+					// linesize
+					m = (i < imax)? hstep * 3: (width - imax * hstep) * 3;
+					src = tmp + (vstep - 1) * LineWidth;
+					dst = dest + j * vstep * rowstride + i * hstep * 3;
+					for (n = 0; n < (int) ((j < jmax)? vstep: height - jmax * vstep); n++) {
+						memcpy (dst, src, m);
+						src -= LineWidth;
+						dst += rowstride;
+					}
+				} else {
+					g_object_unref (pixbuf);
+					pixbuf = NULL;
+					goto osmesa;
+				}
 			}
-			gnome_vfs_close (handle); // hope there will be no error there
 		}
-		g_free (keys);
-		g_free (values);
-		g_object_unref (pixbuf);
+		delete [] tmp;
+	} else {
+osmesa:
+		g_warning ("Off-screen rendering not supported in this context");
+		// TODO: implement rendering using an exterbal program and osmesa
 	}
-
 	gdk_gl_context_destroy (context);
 	gdk_gl_pixmap_destroy (gl_pixmap);
 	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
+	Update ();
+	return pixbuf;
 }
