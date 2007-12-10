@@ -133,7 +133,7 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 	vector3 v(-x0, -y0, -z0);
 	atom = m_Mol.BeginAtom (i);
 	while (atom) {
-		atom->GetVector () += v;
+		atom->SetVector (atom->GetVector () + v);
 		atom = m_Mol.NextAtom (i);
 	}
 	m_View->Update ();

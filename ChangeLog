@@ -1,9 +1,16 @@
 ##Text encoding: utf-8
 
+2007-12-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/chem3ddoc.cc: fix atoms position.
+	* libs/gcu/glview.cc: fix print and image export when off-screen
+	rendering does not work. [#21946]
+	* libs/gcu/glview.h: ditto.
+	* programs/3d/main.cc: don't crash if no display type is given.
+
 2007-12-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/canvas/gcp-canvas-shape.c:
 	(gnome_canvas_shape_ext_export_svg),
-	(gnome_canvas_shape_ext_draw_cairo): implemtn the curveto case. [#21715]
+	(gnome_canvas_shape_ext_draw_cairo): implement the curveto case. [#21715]
 	* libs/canvas/pango-layout-to-svg.c: (pango_layout_to_svg): fix
 	vertical text alignment after subscript/superscript. [#21715]
 

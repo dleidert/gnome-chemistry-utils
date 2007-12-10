@@ -117,7 +117,7 @@ Prints the current view to a printing context inside a rectangle with predefined
 @param type the type as supported by GdkPixbuf (e.g. "png" or "jpeg").
 @param options the pairs of keys/values to pass GdkPixbuf.
 @param width the width of the generated image.
-@param height the height of the enerated image.
+@param height the height of the generated image.
 
 Export the view contents as an image. The size of the new image is defined by the width
 and height parameters.
@@ -132,16 +132,22 @@ std::
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
 	void Rotate (gdouble x, gdouble y);
+/*!
+@param width the width of the generated image.
+@param height the height of the generated image.
+
+This method is called by the framework when off-screen renderig fails. This
+will be mich slower than the stahdard method, but mandatory if the video
+card driver does not support off-screen rendering of OpenGL.
+@return the pixbuf containing the generated image
+*/
+	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height);
 
 protected:
 /*!
 The associated widget.
 */
 	GtkWidget *m_pWidget;
-/*!
-The current GLList.
-*/
-	unsigned m_nGLList;
 
 private:
 	bool m_bInit;

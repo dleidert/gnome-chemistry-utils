@@ -63,6 +63,8 @@ static char const *Display3DModeNames[] = {
 
 static Display3DMode display3d_mode_from_string (char const *mode)
 {
+	if (mode == NULL)
+		return BALL_AND_STICK;
 	// first ensure the string is in lower case
 	char lcmode[16];
 	int i, max = strlen (mode), res = WIREFRAME;
