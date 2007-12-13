@@ -26,6 +26,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <cstring>
 
 using namespace gcu;
 

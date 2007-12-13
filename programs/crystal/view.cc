@@ -32,6 +32,7 @@
 #include "document.h"
 #include "globals.h"
 #include <cmath>
+#include <cstring>
 
 guint FoV;
 gdouble Psi, Theta, Phi;

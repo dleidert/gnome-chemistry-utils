@@ -27,6 +27,7 @@
 #include "bond.h"
 #include "xml-utils.h"
 #include <cmath>
+#include <cstring>
 
 using namespace gcu;
 

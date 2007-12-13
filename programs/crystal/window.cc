@@ -30,6 +30,7 @@
 #include "view-settings.h"
 #include <gcu/crystalview.h>
 #include <glib/gi18n.h>
+#include <cstring>
 
 //Callbacks
 static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gcWindow* Win)

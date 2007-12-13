@@ -31,6 +31,7 @@
 #include <list>
 #include <string>
 #include <glib/gi18n.h>
+#include <cstring>
 
 using namespace std;
 using namespace gcu;

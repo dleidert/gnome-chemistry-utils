@@ -50,6 +50,7 @@
 #else
 #	include <sstream.h>
 #endif
+#include <cstring>
 
 using namespace gcu;
 

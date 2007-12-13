@@ -59,8 +59,9 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <cmath>
 #include <iostream>
+#include <cmath>
+#include <cstring>
 
 using namespace gcu;
 

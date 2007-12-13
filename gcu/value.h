@@ -50,12 +50,12 @@ Default destructor
 /*!
 @return the value representation as a string.
 */
-	virtual char const *GetAsString ();
+	virtual char const *GetAsString () const;
 
 /*!
 @return the value representation as a double or 0. if not a numeric value.
 */
-	virtual double GetAsDouble ();
+	virtual double GetAsDouble () const;
 };
 
 /*!\class SimpleValue gcu/value.h
@@ -78,15 +78,15 @@ Default destructor
 /*!
 @return the literal representation of the embedded adimensional data
 */
-	char const *GetAsString ();
+	char const *GetAsString () const;
 /*!
 @return the embedded value.
 */
-	double GetAsDouble ();
+	double GetAsDouble () const;
 /*!
 @return the embedded GcuValue structure.
 */
-	GcuValue const GetValue () {return val;}
+	GcuValue const GetValue () const {return val;}
 
 private:
 	GcuValue val;
@@ -113,11 +113,11 @@ Default destructor
 /*!
 @return the literal representation of the embedded dimensional data
 */
-	char const *GetAsString ();
+	char const *GetAsString () const;
 /*!
 @return the embedded value. Note that the unit is lost.
 */
-	double GetAsDouble ();
+	double GetAsDouble () const;
 /*!
 @return the embedded GcuDimensionalValue structure.
 */
@@ -148,7 +148,7 @@ Default destructor
 /*!
 @return the embedded string.
 */
-	char const *GetAsString ();
+	char const *GetAsString () const;
 
 private:
 	string val;
@@ -175,13 +175,13 @@ Default destructor
 @return the string translated to the current locale if known, otherwise, the untranslated
 string.
 */
-	char const *GetAsString ();
+	char const *GetAsString () const;
 /*!
 @param lang a locale name.
 @return the string translated to the requested locale if known, otherwise, the untranslated
 string.
 */
-	char const *GetLocalizedString (char const *lang);
+	char const *GetLocalizedString (char const *lang) const;
 
 private:
 	map <string, string> vals;

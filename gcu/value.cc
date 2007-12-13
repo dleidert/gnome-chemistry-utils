@@ -23,6 +23,7 @@
 #include "config.h"
 #include "value.h"
 #include <cstdlib>
+#include <cstring>
 
 using namespace gcu;
 
@@ -34,12 +35,12 @@ Value::~Value ()
 {
 }
 
-char const *Value::GetAsString ()
+char const *Value::GetAsString () const
 {
 	return "";
 }
 
-double Value::GetAsDouble ()
+double Value::GetAsDouble () const
 {
 	return 0.;
 }
@@ -52,17 +53,17 @@ SimpleValue::~SimpleValue ()
 {
 }
 
-char const *SimpleValue::GetAsString ()
+char const *SimpleValue::GetAsString () const
 {
 	if (str.length () == 0) {
 		char *buf = gcu_value_get_string (&val);
-		str = buf;
+		const_cast <SimpleValue*> (this)->str = buf;
 		g_free (buf);
 	}
 	return str.c_str ();
 }
 
-double SimpleValue::GetAsDouble ()
+double SimpleValue::GetAsDouble () const
 {
 	return val.value;
 }
@@ -75,17 +76,17 @@ DimensionalValue::~DimensionalValue ()
 {
 }
 
-char const *DimensionalValue::GetAsString ()
+char const *DimensionalValue::GetAsString () const
 {
 	if (str.length () == 0) {
 		char *buf = gcu_dimensional_value_get_string (&val);
-		str = buf;
+		const_cast <DimensionalValue*> (this)->str = buf; // this does not change the value.
 		g_free (buf);
 	}
 	return str.c_str ();
 }
 
-double DimensionalValue::GetAsDouble ()
+double DimensionalValue::GetAsDouble () const
 {
 	return val.value;
 }
@@ -98,7 +99,7 @@ StringValue::~StringValue ()
 {
 }
 
-char const *StringValue::GetAsString ()
+char const *StringValue::GetAsString () const
 {
 	return val.c_str ();
 }
@@ -112,52 +113,52 @@ LocalizedStringValue::~LocalizedStringValue ()
 	vals.clear ();
 }
 
-char const *LocalizedStringValue::GetAsString ()
+char const *LocalizedStringValue::GetAsString () const
 {
 	char *lang = getenv ("LANG");
-	string s;
+	map <string, string>::const_iterator i, end = vals.end ();
 	if (lang) {
-		s = vals[lang];
-		if (s.length () == 0) {
+		i = vals.find (lang);
+		if (i == end || (*i).second.length () == 0) {
 			lang = g_strdup (lang);
 			char *dot = strchr (lang, '.');
 			if (dot) {
 				*dot = 0;
-				s = vals[lang];
-				if (s.length () > 0) {
+				i = vals.find (lang);
+				if (i == end || (*i).second.length () > 0) {
 					g_free (lang);
-					return s.c_str ();
+					return (*i).second.c_str ();
 				}
 			}
 			if (strlen (lang) > 2) {
 				lang[2] = 0;
-				s = vals[lang];
-				if (s.length () > 0) {
+				i = vals.find (lang);
+				if (i == end || (*i).second.length () > 0) {
 					g_free (lang);
-					return s.c_str ();
+					return (*i).second.c_str ();
 				}
 			}
 			g_free (lang);
 		} else
-			return s.c_str ();
+			return (*i).second.c_str ();
 	}
 	// if we are there, try "C" or "en" locales
-	s = vals["C"];
-	if (s.length () > 0)
-		return s.c_str ();
-	s = vals["en"];
-	if (s.length () > 0)
-		return s.c_str ();
+	i = vals.find ("C");
+	if (i != end && (*i).second.length () > 0)
+		return (*i).second.c_str ();
+	i = vals.find ("en");
+	if (i != end && (*i).second.length () > 0)
+		return (*i).second.c_str ();
 	// if not found, return first occurence or a void string
 	if (vals.size () > 0)
 		return (*vals.begin ()).second.c_str ();
 	return "";
 }
 
-char const *LocalizedStringValue::GetLocalizedString (char const *lang)
+char const *LocalizedStringValue::GetLocalizedString (char const *lang) const
 {
 	string s;
 	if (lang)
-		s = vals[lang];
+		s = const_cast <LocalizedStringValue*> (this)->vals[lang];
 	return (s.length () > 0)? s.c_str (): GetAsString ();
 }

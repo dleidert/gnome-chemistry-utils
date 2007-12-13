@@ -1,5 +1,35 @@
 ##Text encoding: utf-8
 
+2007-12-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Doxyfile.in: removed obsolete tags.
+	* gcu/application.cc: add miising headers. [#21764]
+	* gcu/atom.cc: ditto.
+	* gcu/chem3ddoc.cc: ditto.
+	* gcu/chemistry.cc: ditto.
+	* gcu/crystalline.cc: ditto.
+	* gcu/crystalview.cc: ditto.
+	* gcu/document.cc: ditto.
+	* gcu/element.h: ditto.
+	* gcu/gtkchem3dviewer.cc: ditto.
+	* gcu/object.cc: ditto.
+	* gcu/value.cc: ditto. and fixed some const issues.
+	* gcu/value.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: add miising headers.
+	* programs/3d/application.cc: ditto.
+	* programs/3d/main.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/atom.cc: ditto.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/line.cc: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-elt.cc: ditto.
+
 2007-12-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/glview.cc: fix print and image export when off-screen
 	rendering does not work. [#21946]

@@ -63,6 +63,7 @@
 #include <glib/gi18n.h>
 #include <clocale>
 #include <cmath>
+#include <cstring>
 
 #define SAVE	1
 #define LOAD	2

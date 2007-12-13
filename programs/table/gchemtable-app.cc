@@ -355,7 +355,7 @@ void GChemTableApp::GetStateColor (int Z, GdkColor *color)
 {
 	color->red= color->green = color->blue = 0;
 	Element *elt = Element::GetElement (Z);
-	Value *value = elt->GetProperty ("meltingpoint");
+	Value const *value = elt->GetProperty ("meltingpoint");
 	if (!value)
 		return;
 	double t = value->GetAsDouble ();

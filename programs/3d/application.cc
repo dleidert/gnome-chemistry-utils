@@ -31,6 +31,7 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n.h>
+#include <cstring>
 
 gc3dApplication::gc3dApplication (Display3DMode display3d, char const *bg):
 	Application (_("GChem3D Viewer"), DATADIR, "gchem3d-viewer"),

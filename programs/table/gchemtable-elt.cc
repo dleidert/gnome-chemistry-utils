@@ -28,6 +28,7 @@
 #include <gcu/element.h>
 #include <glib/gi18n.h>
 #include <list>
+#include <cstring>
 
 extern void on_show_curve (GObject *obj, char const* name);
 static void on_focus_in (GChemTableElt *dlg)
@@ -330,7 +331,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 			g_free (buf);
 		}
 	}
-	Value *prop = elt->GetProperty ("meltingpoint");
+	Value const *prop = elt->GetProperty ("meltingpoint");
 	button = glade_xml_get_widget (xml, "melting-btn");
 	if (prop) {
 		w = glade_xml_get_widget (xml, "melting");

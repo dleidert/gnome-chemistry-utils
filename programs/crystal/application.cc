@@ -37,6 +37,7 @@
 #include "prefs.h"
 #include "window.h"
 #include <glib/gi18n.h>
+#include <cstring>
 
 static unsigned short nNewDocs = 1;
 

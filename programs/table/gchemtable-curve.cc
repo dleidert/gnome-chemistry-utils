@@ -48,6 +48,7 @@
 #include <gsf/gsf-output-memory.h>
 #include <glib/gi18n.h>
 #include <map>
+#include <cstring>
 
 using namespace gcu;
 
@@ -299,7 +300,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gtk_window_set_title (dialog, _("Metallic radii"));
 	} else if (!strcmp (name, "mp")) {
 		Element *elt;
-		Value *prop;
+		Value const *prop;
 		for (i = 1; i <= MAX_ELT; i++) {
 			elt = Element::GetElement (i);
 			prop = elt->GetProperty ("meltingpoint");
@@ -314,7 +315,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gtk_window_set_title (dialog, _("Melting point"));
 	} else if (!strcmp (name, "bp")) {
 		Element *elt;
-		Value *prop;
+		Value const *prop;
 		for (i = 1; i <= MAX_ELT; i++) {
 			elt = Element::GetElement (i);
 			prop = elt->GetProperty ("boilingpoint");
