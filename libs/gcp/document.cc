@@ -45,6 +45,7 @@
 #include <openbabel/obconversion.h>
 #include <clocale>
 #include <stack>
+#include <cstring>
 
 using namespace OpenBabel;
 using namespace std;

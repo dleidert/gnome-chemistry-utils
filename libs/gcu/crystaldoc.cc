@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include <cstring>
 #include "crystaldoc.h"
 #include "crystalview.h"
 #include "cylinder.h"
@@ -34,7 +35,6 @@
 #include <libintl.h>
 #include <clocale>
 #include <cmath>
-#include <cstring>
 #include <vector>
 #ifdef HAVE_OPENBABEL_2_2
 #	include <list>
@@ -42,6 +42,7 @@
 #	include <openbabel/math/vector3.h>
 #endif
 #include <GL/gl.h>
+#include <cstring>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)

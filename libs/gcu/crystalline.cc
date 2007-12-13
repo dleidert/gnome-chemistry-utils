@@ -28,6 +28,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <cmath>
+#include <cstring>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)

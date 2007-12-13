@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-12-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all files: fix various compilation issues, fixes build with
+	gcc snapshot. [#21764]
+
 2007-12-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chem3ddoc.cc: fix atoms position.
 	* libs/gcu/glview.cc: fix print and image export when off-screen

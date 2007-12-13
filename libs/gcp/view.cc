@@ -47,6 +47,7 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include <cstring>
 
 /*
 Derivation of a new widget from gnome_canvas with an event for updating canvas size

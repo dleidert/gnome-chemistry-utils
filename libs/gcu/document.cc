@@ -26,6 +26,7 @@
 #include "document.h"
 #include "application.h"
 #include "dialog.h"
+#include <cstring>
 
 using namespace std;
 

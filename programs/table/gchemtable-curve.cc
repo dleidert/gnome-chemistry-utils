@@ -49,6 +49,7 @@
 #include <gsf/gsf-output-memory.h>
 #include <glib/gi18n.h>
 #include <map>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

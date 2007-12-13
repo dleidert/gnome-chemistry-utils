@@ -34,6 +34,7 @@
 #include <openbabel/obconversion.h>
 #include <clocale>
 #include <cmath>
+#include <cstring>
 
 using namespace gcu;
 using namespace OpenBabel;

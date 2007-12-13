@@ -34,6 +34,8 @@
 #include <gcu/chemistry.h>
 #include <goffice/goffice.h>
 #include <goffice/utils/go-file.h>
+#include <cstring>
+#include <cstdio>
 
 void cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
 {

@@ -28,10 +28,10 @@
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkuimanager.h>
 
-class gcp::Application;
-class gcp::Document;
-
 namespace gcp {
+
+class Application;
+class Document;
 	
 class Window: public Target
 {

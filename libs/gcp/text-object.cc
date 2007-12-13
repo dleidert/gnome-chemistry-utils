@@ -27,6 +27,7 @@
 #include "document.h"
 #include "window.h"
 #include <gcu/xml-utils.h>
+#include <cstring>
 
 using namespace gcu;
 

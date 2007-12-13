@@ -37,6 +37,7 @@
 #include <canvas/gprintable.h>
 #include <glib/gi18n-lib.h>
 #include <stdexcept>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

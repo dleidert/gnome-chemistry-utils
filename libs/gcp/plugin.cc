@@ -27,6 +27,7 @@
 #include "application.h"
 #include <dlfcn.h>
 #include <glib.h>
+#include <cstring>
 
 using namespace std;
 

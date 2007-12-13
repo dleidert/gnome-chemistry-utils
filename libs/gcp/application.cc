@@ -58,6 +58,7 @@
 #include <openbabel/obconversion.h>
 #include <clocale>
 #include <fstream>
+#include <cstring>
 
 using namespace OpenBabel;
 using namespace std;

@@ -33,6 +33,7 @@
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gcp-canvas-group.h>
 #include <cmath>
+#include <cstring>
 
 #define POSITION_NE 1
 #define POSITION_NW 2

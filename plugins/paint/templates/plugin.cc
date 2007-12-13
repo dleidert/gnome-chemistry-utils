@@ -30,6 +30,7 @@
 #include "category.h"
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
+#include <cstring>
 
 gcpTemplatesPlugin plugin;
 extern set<xmlDocPtr> docs;

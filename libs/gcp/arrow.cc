@@ -30,6 +30,7 @@
 #include <canvas/gprintable.h>
 #include "arrow.h"
 #include "document.h"
+#include <cstring>
 
 using namespace gcu;
 

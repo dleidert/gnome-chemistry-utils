@@ -10,7 +10,7 @@ libexec_PROGRAMS =
 plugindir =
 endif
 
-DEFS += -DLIBEXECDIR=\"$(libexecdir)\"
+DEFS += -DLIBEXECDIR=\"$(libexecdir)\" -DDATADIR=\"$(datadir)\"
 
 libmozgcu_la_SOURCES = moz-plugin.c
 libmozgcu_la_CPPFLAGS = $(MOZILLA_CFLAGS)

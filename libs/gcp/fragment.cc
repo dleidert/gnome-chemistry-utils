@@ -40,8 +40,9 @@
 #include <gcu/element.h>
 #include <pango/pango-attributes.h>
 #include <glib/gi18n-lib.h>
-#include <cmath>
 #include <list>
+#include <cmath>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

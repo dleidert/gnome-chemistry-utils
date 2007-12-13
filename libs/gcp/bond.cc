@@ -37,7 +37,8 @@
 #include <canvas/gcp-canvas-bpath.h>
 #include <canvas/gcp-canvas-polygon.h>
 #include <glib/gi18n-lib.h>
-#include <math.h>
+#include <cmath>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

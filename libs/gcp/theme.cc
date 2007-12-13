@@ -29,6 +29,7 @@
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

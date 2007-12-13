@@ -27,6 +27,7 @@
 #include "fragment.h"
 #include "molecule.h"
 #include <gcu/element.h>
+#include <cstring>
 
 using namespace gcu;
 

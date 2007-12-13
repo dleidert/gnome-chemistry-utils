@@ -30,8 +30,10 @@
 #include <gtk/gtktogglebutton.h>
 #include <vector>
 
-class gcp::Atom;
-class gcp::Operation;
+namespace gcp {
+	class Atom;
+	class Operation;
+}
 
 class gcpChainTool: public gcp::Tool
 {

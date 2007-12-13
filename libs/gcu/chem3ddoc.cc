@@ -38,6 +38,7 @@
 #include <fstream>
 #include <ostream>
 #include <sstream>
+#include <cstring>
 
 using namespace OpenBabel;
 using namespace std;

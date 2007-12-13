@@ -28,7 +28,10 @@
 #include <gcp/tool.h>
 
 class gcpTemplate;
-class gcp::Document;
+
+namespace gcp {
+	class Document;
+}
 
 class gcpTemplateTool: public gcp::Tool
 {

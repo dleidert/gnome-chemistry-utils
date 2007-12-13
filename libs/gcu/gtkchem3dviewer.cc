@@ -26,6 +26,7 @@
 #include "glview.h"
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
+#include <cstring>
 
 using namespace std;
 using namespace OpenBabel;

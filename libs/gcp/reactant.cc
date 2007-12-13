@@ -32,6 +32,7 @@
 #include "tool.h"
 #include "view.h"
 #include <glib/gi18n-lib.h>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

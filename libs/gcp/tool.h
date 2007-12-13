@@ -32,9 +32,9 @@
 #include "operation.h"
 #include <gcu/dialog.h>
 
-class gcp::Application;
-
 namespace gcp {
+
+class Application;
 
 class Tool
 {

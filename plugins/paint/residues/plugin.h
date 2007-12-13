@@ -28,7 +28,9 @@
 #include <gcp/plugin.h>
 #include <libxml/tree.h>
 
-class gcp::Application;
+namespace gcp {
+	class Application;
+}
 
 class gcpResiduesPlugin: public gcp::Plugin
 {

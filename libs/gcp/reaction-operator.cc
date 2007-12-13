@@ -33,6 +33,7 @@
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gcp-canvas-pango.h>
 #include <cmath>
+#include <cstring>
 
 using namespace gcu;
 

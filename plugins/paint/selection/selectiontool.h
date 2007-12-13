@@ -27,8 +27,10 @@
 
 #include <gcp/tool.h>
 
-class gcp::WidgetData;
-class gcp::Application;
+namespace gcp {
+	class WidgetData;
+	class Application;
+}
 
 class gcpSelectionTool: public gcp::Tool
 {

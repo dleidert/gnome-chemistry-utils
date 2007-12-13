@@ -25,6 +25,7 @@
 #include "config.h"
 #include "chemistry.h"
 #include "element.h"
+#include <cstring>
 
 extern "C"
 {

@@ -24,6 +24,7 @@
 #include <gcu/gtkchem3dviewer.h>
 #include <gcu/gtkcrystalviewer.h>
 #include <gcu/chem3ddoc.h>
+#include <gcp/application.h>
 #include <gcp/document.h>
 #include <gcp/view.h>
 #include <gdk/gdkx.h>
@@ -35,11 +36,31 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <string>
+#include <cstring>
 
 using namespace std;
 using namespace gcu;
 
 static bool loaded_radii = false;
+
+class MozPaintApp: public gcp::Application
+{
+public:
+	MozPaintApp ();
+	virtual ~MozPaintApp ();
+
+	void OnFileNew (char const *Theme = NULL) {}
+	GtkWindow* GetWindow() {return NULL;}
+};
+
+MozPaintApp::MozPaintApp (): gcp::Application ()
+{
+}
+
+MozPaintApp::~MozPaintApp ()
+{
+}
 
 class ChemComp
 {
@@ -59,6 +80,7 @@ private:
 	GdkWindow *Parent;
 	gcp::Document *Doc;
 	map<string, string> Params;
+	MozPaintApp *gcpApp;
 };
 
 ChemComp::ChemComp (void* instance, string& mime_type)
@@ -68,6 +90,7 @@ ChemComp::ChemComp (void* instance, string& mime_type)
 	Xid = 0;
 	Plug = NULL;
 	Doc = NULL;
+	gcpApp = NULL;
 }
 
 ChemComp::~ChemComp ()
@@ -100,7 +123,9 @@ void ChemComp::SetWindow (XID xid)
 		if (MimeType == "application/x-gcrystal")
 			Viewer = gtk_crystal_viewer_new (NULL);
 		else if (MimeType == "application/x-gchempaint") {
-			Doc = new gcp::Document (NULL, true, NULL);
+			if (!gcpApp)
+				gcpApp = new MozPaintApp ();
+			Doc = new gcp::Document (gcpApp, true, NULL);
 			Viewer = Doc->GetView ()->CreateNewWidget ();
 		} else
 			Viewer = gtk_chem3d_viewer_new (NULL);

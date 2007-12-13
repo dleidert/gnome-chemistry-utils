@@ -31,6 +31,7 @@
 #include <glib/gi18n-lib.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <cmath>
+#include <cstring>
 
 namespace gcu
 {

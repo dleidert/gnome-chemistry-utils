@@ -30,6 +30,7 @@
 #include <gcp/residue.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
+#include <cstring>
 
 gcpResiduesPlugin plugin;
 extern xmlDocPtr user_residues;

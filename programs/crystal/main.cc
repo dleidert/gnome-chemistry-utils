@@ -38,6 +38,7 @@
 #include <gtk/gtkglinit.h>
 #include <glib/gi18n.h>
 #include <cstdio>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

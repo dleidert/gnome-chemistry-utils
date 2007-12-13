@@ -28,6 +28,7 @@
 #include <gcu/element.h>
 #include <glib/gi18n.h>
 #include <list>
+#include <cstring>
 
 // FIXME "the following lines should be removed for stable releases"
 #undef PACKAGE

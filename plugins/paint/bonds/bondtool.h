@@ -26,8 +26,11 @@
 #define GCHEMPAINT_BOND_TOOL_H
 
 #include <gcp/tool.h>
-class gcp::Atom;
-class gcp::Operation;
+
+namespace gcp {
+	class Atom;
+	class Operation;
+}
 
 class gcpBondTool: public gcp::Tool
 {

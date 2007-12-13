@@ -27,6 +27,7 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <goffice/component/go-component-factory.h>
 #include <openbabel/mol.h>
+#include <libintl.h>
 
 //gcuGOfficeApplication *app;
 

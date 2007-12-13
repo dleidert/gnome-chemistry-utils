@@ -23,6 +23,7 @@
 #include "config.h"
 #include "value.h"
 #include <cstdlib>
+#include <cstring>
 
 using namespace std;
 
@@ -118,39 +119,39 @@ LocalizedStringValue::~LocalizedStringValue ()
 char const *LocalizedStringValue::GetAsString () const
 {
 	char *lang = getenv ("LANG");
-	string s;
+	map <string, string>::const_iterator i, end = vals.end ();
 	if (lang) {
-		s = const_cast<LocalizedStringValue*> (this)->vals[lang];
-		if (s.length () == 0) {
+		i = vals.find (lang);
+		if (i == end || (*i).second.length () == 0) {
 			lang = g_strdup (lang);
 			char *dot = strchr (lang, '.');
 			if (dot) {
 				*dot = 0;
-				s = const_cast<LocalizedStringValue*> (this)->vals[lang];
-				if (s.length () > 0) {
+				i = vals.find (lang);
+				if (i == end || (*i).second.length () > 0) {
 					g_free (lang);
-					return s.c_str ();
+					return (*i).second.c_str ();
 				}
 			}
 			if (strlen (lang) > 2) {
 				lang[2] = 0;
-				s = const_cast<LocalizedStringValue*> (this)->vals[lang];
-				if (s.length () > 0) {
+				i = vals.find (lang);
+				if (i == end || (*i).second.length () > 0) {
 					g_free (lang);
-					return s.c_str ();
+					return (*i).second.c_str ();
 				}
 			}
 			g_free (lang);
 		} else
-			return s.c_str ();
+			return (*i).second.c_str ();
 	}
 	// if we are there, try "C" or "en" locales
-	s = const_cast<LocalizedStringValue*> (this)->vals["C"];
-	if (s.length () > 0)
-		return s.c_str ();
-	s = const_cast<LocalizedStringValue*> (this)->vals["en"];
-	if (s.length () > 0)
-		return s.c_str ();
+	i = vals.find ("C");
+	if (i != end && (*i).second.length () > 0)
+		return (*i).second.c_str ();
+	i = vals.find ("en");
+	if (i != end && (*i).second.length () > 0)
+		return (*i).second.c_str ();
 	// if not found, return first occurence or a void string
 	if (vals.size () > 0)
 		return (*vals.begin ()).second.c_str ();

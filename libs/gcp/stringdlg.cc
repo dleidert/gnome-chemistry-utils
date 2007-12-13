@@ -30,6 +30,7 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n-lib.h>
+#include <cstring>
 
 using namespace std;
 

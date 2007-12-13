@@ -37,6 +37,7 @@
 #include <canvas/gcp-canvas-line.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
+#include <cstring>
 
 using namespace gcu;
 

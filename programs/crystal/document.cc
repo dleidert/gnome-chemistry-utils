@@ -57,6 +57,7 @@
 #	include <openbabel/math/matrix3x3.h>
 using namespace OpenBabel;
 #endif
+#include <cstring>
 
 #define SAVE	1
 #define LOAD	2

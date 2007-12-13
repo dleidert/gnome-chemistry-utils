@@ -34,6 +34,7 @@
 #include <sys/stat.h>
 #include <cmath>
 #include <cstdlib>
+#include <cstring>
 
 using namespace std;
 

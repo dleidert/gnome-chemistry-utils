@@ -27,7 +27,9 @@
 
 #include <gcp/tool.h>
 
-class gcp::Application;
+namespace gcp {
+	class Application;
+}
 	
 class gcpEraserTool: public gcp::Tool
 {

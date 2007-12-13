@@ -31,8 +31,9 @@
 #include "mesomery-arrow.h"
 #include "mesomer.h"
 #include <glib/gi18n-lib.h>
-#include <cmath>
 #include <set>
+#include <cmath>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

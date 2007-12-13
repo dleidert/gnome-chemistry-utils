@@ -30,6 +30,7 @@
 #include "application.h"
 #include "operation.h"
 #include "theme.h"
+#include <cstring>
 
 using namespace gcu;
 
