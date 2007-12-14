@@ -113,6 +113,14 @@ char const *Units[] = {
 	"1/CM",
 	"TRANSMITTANCE",
 	"ABSORBANCE",
+	"PPM",
+};
+
+char const *UnitNames[] = {
+	N_("Wavenumber (1/cm)"),
+	N_("Transmittance"),
+	N_("Absorbance"),
+	N_("Chemical shift (ppm)"),
 };
 
 int get_spectrum_data_from_string (char const *type, char const *names[], int max)
@@ -572,8 +580,15 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 		case JCAMP_PEAK_TABLE:
 		case JCAMP_PEAK_ASSIGNMENTS:
 		case JCAMP_RADATA:
+			break;
 		case JCAMP_XUNITS:
+			m_XUnit = (SpectrumUnitType) get_spectrum_data_from_string (buf, Units, GCU_SPECTRUM_UNIT_MAX);
+			break;
 		case JCAMP_YUNITS:
+			m_YUnit = (SpectrumUnitType) get_spectrum_data_from_string (buf, Units, GCU_SPECTRUM_UNIT_MAX);
+			if (m_YUnit == GCU_SPECTRUM_UNIT_TRANSMITTANCE)
+				m_View->SetAxisBounds (GOG_AXIS_Y, 0., 1., false);
+			break;
 		case JCAMP_XLABEL:
 		case JCAMP_YLABEL:
 			break;
@@ -724,7 +739,22 @@ out:
 	gog_series_set_dim (series, 0, godata, NULL);
 	godata = go_data_vector_val_new (y, npoints, NULL);
 	gog_series_set_dim (series, 1, godata, NULL);
-	m_View->SetXAxisBounds (minx, maxx, true); // FIXME only invert if needed
+	/* invert X-axis if needed */
+	bool invert_axis = false;
+	switch (m_XUnit) {
+	case GCU_SPECTRUM_UNIT_CM_1:
+	case GCU_SPECTRUM_UNIT_PPM:
+		invert_axis = true;
+		break;
+	default:
+		break;
+	}
+	m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
+	/* Add axes labels */
+	if (m_XUnit < GCU_SPECTRUM_UNIT_MAX)
+		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[m_XUnit]));
+	if (m_YUnit < GCU_SPECTRUM_UNIT_MAX)
+		m_View->SetAxisLabel (GOG_AXIS_Y, _(UnitNames[m_YUnit]));
 }
 
 void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)

@@ -50,7 +50,11 @@ The destructor of SpectrumView.
 
 /*!
 */
-	void SetXAxisBounds (double min, double max, bool inverted);
+	void SetAxisBounds (GogAxisType target, double min, double max, bool inverted);
+
+/*!
+*/
+	void SetAxisLabel (GogAxisType target, char const *unit);
 
 /*!\fn GetDoc()
 @return the associated document.

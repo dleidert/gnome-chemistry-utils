@@ -41,6 +41,14 @@ typedef enum {
 	GCU_SPECTRUM_MAX
 } SpectrumType;
 
+typedef enum {
+	GCU_SPECTRUM_UNIT_CM_1,
+	GCU_SPECTRUM_UNIT_TRANSMITTANCE,
+	GCU_SPECTRUM_UNIT_ABSORBANCE,
+	GCU_SPECTRUM_UNIT_PPM,
+	GCU_SPECTRUM_UNIT_MAX
+} SpectrumUnitType;
+
 class Application;
 class SpectrumView;
 
@@ -82,9 +90,11 @@ private:
 	double firstx, lastx, deltax, firsty;
 	double xfactor, yfactor;
 
-GCU_PROT_PROP (SpectrumView*, View);
-GCU_RO_PROP (bool, Empty);
-GCU_RO_PROP (SpectrumType, SpectrumType);
+GCU_PROT_PROP (SpectrumView*, View)
+GCU_RO_PROP (bool, Empty)
+GCU_RO_PROP (SpectrumType, SpectrumType)
+GCU_RO_PROP (SpectrumUnitType, XUnit)
+GCU_RO_PROP (SpectrumUnitType, YUnit)
 };
 
 }

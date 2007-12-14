@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2007-12-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: add axes labels and limit transmittance
+	from 0. to 1..
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+
 2007-12-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* all files: fix various compilation issues, fixes build with
 	gcc snapshot. [#21764]
