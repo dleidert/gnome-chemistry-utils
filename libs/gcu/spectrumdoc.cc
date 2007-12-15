@@ -114,6 +114,8 @@ char const *Units[] = {
 	"TRANSMITTANCE",
 	"ABSORBANCE",
 	"PPM",
+	"NANOMETERS",
+	"MICROMETERS",
 };
 
 char const *UnitNames[] = {
@@ -121,6 +123,8 @@ char const *UnitNames[] = {
 	N_("Transmittance"),
 	N_("Absorbance"),
 	N_("Chemical shift (ppm)"),
+	N_("Wavelength (nm)"),
+	N_("Wavelength (µm)"),
 };
 
 int get_spectrum_data_from_string (char const *type, char const *names[], int max)
@@ -438,7 +442,7 @@ int ReadField (char const *s, char *key, char *buf)
 	return JCAMP_UNKNOWN;
 }
 
-#define JCAMP_PREC 1e-5 // fully arbitrary
+#define JCAMP_PREC 1e-3 // fully arbitrary
 
 void SpectrumDocument::LoadJcampDx (char const *data)
 {
@@ -490,6 +494,8 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 			}
 			// FIXME: we should implement a real parser for this value
 			if (!strncmp (buf, "(X++(Y..Y))",strlen ("(X++(Y..Y))"))) {
+				int previous = 0;
+				double previousx = firstx;
 				while (1) {
 					if (s.eof ())
 						break;	// this should not occur, but a corrupted or bad file is always possible
@@ -508,19 +514,23 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 						continue;
 					list<double>::iterator i = l.begin (), end = l.end ();
 					if (read > 0) {
-						double x0 = firstx + deltax * read, x1 = (*i) * xfactor;
-						if (fabs (x0 - x1) < fmax (fabs (deltax), fabs (x0)) * JCAMP_PREC) {
+						double x1 = (*i) * xfactor;
+						int n = read - previous - (int)round((x1-previousx)/deltax);
+						previous = read;
+						previousx = x1;
+						if (n == 0) {
 							// values are the same, no y reminder, and nothing to do
-						} else if (fabs (x[read - 1] - x1) < fmax (fabs (deltax), fabs (x1)) * JCAMP_PREC) {
+						} else if (n == 1) {
 							i++;
+							previous--;
 							double y0 = (*i) * yfactor;
 							if (fabs (y0 - y[read - 1]) > fmax (fabs (y0), fabs (y[read - 1])) * JCAMP_PREC)
-							g_warning (_("Data check failed!"));
-						} else if ((x0 - x1) * deltax < 0.) {
-							unsigned missing = (unsigned) round ((x1 - x0) / deltax), n;
+								g_warning (_("Data check failed!"));
+						} else if (previousx - x1 < 0.) {
+							unsigned missing = (unsigned) round ((x1 - previousx) / deltax), n;
 							for (n = 0; n < missing; n++) {
 								if (read > npoints) // FIXME: Throw an exception
-									;
+									break;
 								x[read] = firstx + deltax * read;
 								y[read++] = go_nan;
 							}
@@ -530,17 +540,20 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 					} else {
 						x[read] = (*i) * xfactor;
 						if (fabs (x[0] - firstx) > fabs (deltax * JCAMP_PREC)) {
+							xfactor = firstx / (*i);
+							deltax = (lastx - firstx) / (npoints - 1);
 							g_warning (_("Data check failed: FIRSTX!"));
-							firstx = x[0]; // WARNING: hope that deltax is good
 						}
 						i++;
 						y[read++] = (*i) * yfactor;
 						if (fabs (firsty - y[0]) > fmax (fabs (firsty), fabs (y[0])) * JCAMP_PREC)
-							g_warning (_("Data check failed!"));
+							g_warning (_("Data check failed: FIRSTY!"));
 					}
 					for (i++; i !=	end; i++) {
-						if (read > npoints) // FIXME: Throw an exception
-							;
+						if (read >= npoints) { // FIXME: Throw an exception
+							g_warning (_("Found too many data"));
+							break;
+						}
 						x[read] = firstx + deltax * read;
 						y[read++] = (*i) * yfactor;
 					}

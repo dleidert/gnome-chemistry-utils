@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2007-12-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: nhance loading of X++(Y..Y) data.
+	* libs/gcu/spectrumdoc.h: add new units.
+
 2007-12-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: add axes labels and limit transmittance
 	from 0. to 1..
