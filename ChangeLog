@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2007-12-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add new directories
+	* libs/gcp/application.cc: initial work on new loaders.
+	* libs/gcu/Makefile.am: add new files.
+	* libs/gcu/cmd-context.cc: new goffice command context.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/loader.cc: new loader class.
+	* libs/gcu/loader.h: ditto.
+	* plugins/Makefile.am: add loaders directory.
+	* programs/paint/main.cc: initialize loaders.
+	* plugins/loaders/Makefile.am: new directory.
+	* plugins/loaders/cdxml/Makefile.am: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: new cdxml loader (don't work yet).
+
 2007-12-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: nhance loading of X++(Y..Y) data.
 	* libs/gcu/spectrumdoc.h: add new units.

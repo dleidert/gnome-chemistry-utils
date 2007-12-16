@@ -1,3 +1,3 @@
-SUBDIRS = loaders paint
+SUBDIRS = cdxml
 
 MAINTAINERCLEANFILES = Makefile.in

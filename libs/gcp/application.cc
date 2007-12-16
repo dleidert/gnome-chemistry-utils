@@ -45,8 +45,9 @@
 #include "window.h"
 #include "zoomdlg.h"
 #include <gcu/filechooser.h>
+#include <gcu/loader.h>
 #include <goffice/utils/go-file.h>
-#include <sys/stat.h>
+#include <goffice/goffice.h>
 #include <gconf/gconf-client.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
@@ -59,6 +60,7 @@
 #include <clocale>
 #include <fstream>
 #include <cstring>
+#include <sys/stat.h>
 
 using namespace OpenBabel;
 using namespace std;
@@ -253,6 +255,9 @@ Application::Application ():
 	m_NumWindow = 1;
 
 	if (!m_bInit) {
+		libgoffice_init ();
+		/* Initialize plugins manager */
+		gcu::Loader::Init ();
 		// Check for programs
 		char *result = NULL, *errors = NULL;
 		// check for ghemical
@@ -330,6 +335,15 @@ Application::Application ():
 	load_globs ();
 	m_SupportedMimeTypes.push_back ("application/x-gchempaint");
 	m_WriteableMimeTypes.push_back ("application/x-gchempaint");
+	// browse available loaders
+	map<string, LoaderStruct>::iterator it;
+	bool found = Loader::GetFirstLoader (it);
+	while (found) {
+		if ((*it).second.supports2D) {
+			// TODO: use this loader
+		}
+		found = Loader::GetNextLoader (it);
+	}
 	// test if OpenBabel supports some extra types
 	TestSupportedType ("chemical/x-cml");
 	TestSupportedType ("chemical/x-mdl-molfile");

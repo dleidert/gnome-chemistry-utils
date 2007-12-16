@@ -121,6 +121,10 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 ]])], [], [AC_MSG_ERROR([you need a libgoffice version with gnome support])])
 CFLAGS=$saved_cflags
 
+dnl check for OSMesa
+dnl AC_CHECK_HEADER([GL/osmesa.h], [], [AC_MSG_ERROR([GL/mesa.h could not be found, please install])])
+dnl AC_CHECK_LIB([OSMesa], [OSMesaMakeCurrent], [], [AC_MSG_ERROR([libOSMesa could not be found, please install])])
+
 PKG_CHECK_MODULES(OB22, openbabel-2.0 >= 2.2.0,
 [ob22="yes"],[ob22="no"])
 if test "x$ob22" = "xyes"; then
@@ -272,6 +276,8 @@ libs/canvas/Makefile
 libs/gcp/Makefile
 libs/gcu/Makefile
 plugins/Makefile
+plugins/loaders/Makefile
+plugins/loaders/cdxml/Makefile
 plugins/paint/Makefile
 plugins/paint/arrows/Makefile
 plugins/paint/atoms/Makefile

@@ -5,7 +5,8 @@ AM_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
-	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\"
+	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\" \
+	-DGCU_PLUGINS_DIR=\"$(libdir)/gchemutils/@VERSION@\"
 lib_LTLIBRARIES= libgcu-unstable.la
 
 libgcu_unstable_la_SOURCES = \
@@ -14,6 +15,7 @@ libgcu_unstable_la_SOURCES = \
 		bond.cc \
 		chem3ddoc.cc	\
 		chemistry.cc \
+		cmd-context.cc \
 		crystalatom.cc \
 		crystalbond.cc \
 		crystalcleavage.cc \
@@ -35,6 +37,7 @@ libgcu_unstable_la_SOURCES = \
 		gtkperiodic.c \
 		gtkspectrumviewer.cc \
 		isotope.cc \
+		loader.cc \
 		matrix.cc \
 		matrix2d.cc \
 		object.cc \
@@ -52,6 +55,7 @@ noinst_HEADERS = \
 		bond.h \
 		chem3ddoc.h	\
 		chemistry.h \
+		cmd-context.h \
 		crystalatom.h \
 		crystalbond.h \
 		crystalcleavage.h \
@@ -73,6 +77,7 @@ noinst_HEADERS = \
 		gtkperiodic.h \
 		gtkspectrumviewer.h \
 		isotope.h \
+		loader.h \
 		macros.h	\
 		matrix.h	\
 		matrix2d.h	\
