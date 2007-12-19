@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-12-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/object.cc: fix loading grouped arrows in gchempaint.
+
 2007-12-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: removed obsolete tags.
 	* gcu/application.cc: add miising headers. [#21764]
