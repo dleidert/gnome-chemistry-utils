@@ -60,6 +60,8 @@ void gcpPseudoAtom::Update ()
 void gcpPseudoAtom::Add (GtkWidget* w)
 {
 	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
+	if (pData->Items[this] != NULL)
+		return;
 	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type(), NULL));
 	double x, y, r;

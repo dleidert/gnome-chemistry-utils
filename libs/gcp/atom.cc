@@ -331,6 +331,8 @@ void Atom::Add (GtkWidget* w)
 	if (m_Changed > 0)
 		m_Changed--;
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] != NULL)
+		return;
 	View* pView = pData->m_View;
 	Theme *pTheme = pView->GetDoc ()->GetTheme ();
 	if (m_Layout == NULL) {

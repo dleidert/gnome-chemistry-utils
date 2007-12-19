@@ -1026,8 +1026,8 @@ gnome_canvas_line_ext_point (GnomeCanvasItem *item, double x, double y,
 
 	/* If there are arrowheads, check the distance to them */
 
-	if (line->first_arrow) {
-		dist = gnome_canvas_polygon_to_point (line->first_coords, NUM_ARROW_POINTS, x, y);
+	if (line->first_arrow && line->first_coords) {
+		dist = gnome_canvas_polygon_to_point (line->first_coords, ((lineext->first_arrow_head_style == ARROW_HEAD_BOTH)? NUM_ARROW_POINTS: NUM_HALF_ARROW_POINTS), x, y);
 		if (dist < GNOME_CANVAS_EPSILON) {
 			best = 0.0;
 			goto done;
@@ -1035,8 +1035,8 @@ gnome_canvas_line_ext_point (GnomeCanvasItem *item, double x, double y,
 			best = dist;
 	}
 
-	if (line->last_arrow) {
-		dist = gnome_canvas_polygon_to_point (line->last_coords, NUM_ARROW_POINTS, x, y);
+	if (line->last_arrow && line->last_coords) {
+		dist = gnome_canvas_polygon_to_point (line->last_coords, ((lineext->last_arrow_head_style == ARROW_HEAD_BOTH)? NUM_ARROW_POINTS: NUM_HALF_ARROW_POINTS), x, y);
 		if (dist < GNOME_CANVAS_EPSILON) {
 			best = 0.0;
 			goto done;

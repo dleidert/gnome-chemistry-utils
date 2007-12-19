@@ -270,9 +270,10 @@ bool Object::Load (xmlNodePtr node)
 	}
 	child = node->children;
 	while (child) {
-		pObject = CreateObject ((const char*) child->name, this);
+		node = (strcmp ((const char*) child->name, "object"))? child: child->children;
+		pObject = CreateObject ((const char*) node->name, this);
 		if (pObject) {
-			if (!pObject->Load (child))
+			if (!pObject->Load (node))
 				delete pObject;
 		} else {
 			m_Locked--;

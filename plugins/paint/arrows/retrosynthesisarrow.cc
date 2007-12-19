@@ -116,6 +116,8 @@ bool gcpRetrosynthesisArrow::Load (xmlNodePtr node)
 void gcpRetrosynthesisArrow::Add (GtkWidget* w)
 {
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] != NULL)
+		return;
 	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	double x0, y0, x1, y1, dx, dy, dAngle;
 	x0 = m_x * pTheme->GetZoomFactor ();

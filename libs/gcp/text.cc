@@ -603,6 +603,8 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level)
 void Text::Add (GtkWidget* w)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] != NULL)
+		return;
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	if (m_ascent <= 0) {
 		PangoContext* pc = pData->m_View->GetPangoContext ();

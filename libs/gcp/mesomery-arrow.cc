@@ -118,6 +118,8 @@ bool MesomeryArrow::Load (xmlNodePtr node)
 void MesomeryArrow::Add (GtkWidget* w)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] != NULL)
+		return;
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
 	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP(gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));

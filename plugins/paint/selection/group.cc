@@ -266,6 +266,7 @@ bool gcpGroup::Load (xmlNodePtr node)
 					m_Spaced = true;
 				xmlFree (buf);
 			}
+			((gcp::Document*) GetDocument ())->GetView ()->AddObject (this);
 			gcp::WidgetData  *pData= (gcp::WidgetData*) g_object_get_data (G_OBJECT (((gcp::Document*) GetDocument ())->GetWidget ()), "data");
 			gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
 			Align ();
@@ -342,4 +343,15 @@ double gcpGroup::GetYAlign ()
 	ArtDRect rect;
 	pData->GetObjectBounds (this, &rect);
 	return (rect.y1 - rect.y0) / 2.;
+}
+
+void gcpGroup::Add (GtkWidget* w)
+{
+	map<string, Object*>::iterator i;
+	Object* p = GetFirstChild (i);
+	while (p)
+	{
+		p->Add (w);
+		p = GetNextChild (i);
+	}
 }

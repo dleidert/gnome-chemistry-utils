@@ -429,6 +429,8 @@ void Bond::Add (GtkWidget* w)
 	if (!w)
 		return;
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] != NULL)
+		return;
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	gcu::Atom *pAtom0, *pAtom1;
 	if (!(pAtom0 = GetAtom (0)))

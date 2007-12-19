@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2007-12-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: use goffice-0.6 >= 0.6.1.
+	* libs/canvas/gcp-canvas-line.c: do not crash when arrow heads have
+	not been updated.
+	* libs/gcp/atom.cc: do not add an object twice.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/electron.cc: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/mesomery-arrow.cc: ditto.
+	* libs/gcp/reaction-arrow.cc: ditto, and initialize m_TypeChanged and fix
+	update for full headed reversible reaction arrows.
+	* libs/gcp/reaction-operator.cc: do not add an object twice.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcu/object.cc: fix loading grouped arrows in gchempaint.
+	* plugins/paint/arrows/retrosynthesisarrow.cc: ditto.
+	* plugins/paint/residues/pseudo-atom.cc: ditto.
+	* plugins/paint/selection/group.cc: fix loading of groups with new Add
+	method.
+	* plugins/paint/selection/group.h: ditto.
+
 2007-12-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add new directories
 	* libs/gcp/application.cc: initial work on new loaders.

@@ -184,6 +184,8 @@ bool Fragment::OnChanged (bool save)
 void Fragment::Add (GtkWidget* w)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] != NULL)
+		return;
 	View* pView = pData->m_View;
 	Theme *pTheme = pView->GetDoc ()->GetTheme ();
 	if (m_ascent <= 0) {
@@ -745,6 +747,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	unsigned start_tag, end_tag, next;
 	char c;
 	ChargeFindStruct s;
+	s.index = s.end = 0;
 	if (start > 0) {
 		// search if a charge is at preceeding character
 		s.result = false;

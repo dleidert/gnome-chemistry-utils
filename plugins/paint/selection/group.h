@@ -45,18 +45,19 @@ public:
 	gcpGroup ();
 	virtual ~gcpGroup ();
 
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
-	virtual bool Load (xmlNodePtr);
-	virtual xmlNodePtr Save (xmlDocPtr xml);
-	virtual bool OnSignal (SignalId Signal, Object *Child);
+	void Add (GtkWidget* w);
+	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+	bool Load (xmlNodePtr);
+	xmlNodePtr Save (xmlDocPtr xml);
+	bool OnSignal (SignalId Signal, Object *Child);
 	void SetAligned (gcpAlignType type);
 	void UnAlign ();
 	bool GetAlignType (gcpAlignType& align);
 	void SetPadding (double padding);
 	void UnSpace ();
 	bool GetPadding (double& padding);
-	virtual void Transform2D (Matrix2D& m, double x, double y);
-	virtual double GetYAlign ();
+	void Transform2D (Matrix2D& m, double x, double y);
+	double GetYAlign ();
 
 private:
 	void Align ();

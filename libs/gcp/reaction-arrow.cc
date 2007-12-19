@@ -50,6 +50,7 @@ ReactionArrow::ReactionArrow (Reaction* react, unsigned Type): Arrow (ReactionAr
 	m_Start = m_End = NULL;
 	if (react)
 		react->AddChild (this);
+	m_TypeChanged = false;
 }
 
 
@@ -154,6 +155,8 @@ bool ReactionArrow::Load (xmlNodePtr node)
 void ReactionArrow::Add (GtkWidget* w)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] != NULL)
+		return;
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
 	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP(gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));
@@ -305,6 +308,7 @@ void ReactionArrow::Update (GtkWidget* w)
 								NULL);
 			break;
 		case ReversibleArrow:
+		case FullReversibleArrow:
 			double dAngle = atan (- m_height / m_width);
 			if (m_width < 0) dAngle += M_PI;
 			points->coords[0] = m_x * pTheme->GetZoomFactor () - pTheme->GetArrowDist () / 2 * sin (dAngle);
