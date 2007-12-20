@@ -2,8 +2,18 @@ Version 0.9.2
 	3d viewer:
 		* Add wireframe mode.
 		* Really implement command line options.
+	calc:
+		* support abbreviations (at least those that are
+		not ambiguous).
+	GChemPaint:
+		* SVG export does not work for radicals. [#21715]
+	Gnome Crystal:
+		* Fix print and image export [#21946] (also concernes 3d viewer).
+		* Don't crash when changing an element in the atoms dialog [#21576].
 	GSpectrum:
 		* New program.
+	Other:
+		* Fix compilation with gcc-4.3 snapshot [#21764].
 
 Version 0.9.1
 	3d viewer:
