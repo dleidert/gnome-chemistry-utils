@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GCULoader_cdxml">
+	<information>
+		<_name>Loader : cdxml</_name>
+		<_description>Chemdraw XML files loader.</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="cdxml"/>
+	</loader>
+	<services>
+		<service type="chemical_loader" id="GCULoader_cdxml">
+			<mime_type name="chemical/x-cdxml" capabilities="r" scope="2"/>
+			<information>
+				<_description>Chemdraw XML files loader</_description>
+			</information>
+		</service>
+	</services>
+</plugin>
