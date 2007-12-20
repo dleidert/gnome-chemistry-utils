@@ -5,7 +5,7 @@
 
 2007-12-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: removed obsolete tags.
-	* gcu/application.cc: add miising headers. [#21764]
+	* gcu/application.cc: add missing headers. [#21764]
 	* gcu/atom.cc: ditto.
 	* gcu/chem3ddoc.cc: ditto.
 	* gcu/chemistry.cc: ditto.
@@ -17,7 +17,7 @@
 	* gcu/object.cc: ditto.
 	* gcu/value.cc: ditto. and fixed some const issues.
 	* gcu/value.h: ditto.
-	* mozilla-plugin/chem-viewer.cc: add miising headers.
+	* mozilla-plugin/chem-viewer.cc: add missing headers.
 	* programs/3d/application.cc: ditto.
 	* programs/3d/main.cc: ditto.
 	* programs/calc/gchemcalc.cc: ditto.

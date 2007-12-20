@@ -1,6 +1,12 @@
 Version 0.8.5
 	3d viewer:
 		* Really implement command line options.
+	Gnome Crystal:
+		* Fix print and image export [#21946] (also concernes 3d viewer).
+		* Don't crash when changing an element in the atoms dialog [#21576].
+	Other:
+		* Fix compilation with gcc-4.3 snapshot [#21764].
+		* various other fixes, see ChangeLog for details.
 
 Version 0.8.4
 	* enhanced build system (Daniel Leidert).
