@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2007-12-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.3).
+	* plugins/loaders/Makefile.am: add new cds directory.
+	* plugins/loaders/cdx/Makefile.am: new plugin.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdx/plugin.xml.in: ditto.
+
 2007-12-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: use goffice-0.6 >= 0.6.1.
 	* libs/canvas/gcp-canvas-line.c: do not crash when arrow heads have
