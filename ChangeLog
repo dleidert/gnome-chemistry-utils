@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2007-12-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.8.6).
+
 2007-12-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/object.cc: fix loading grouped arrows in gchempaint.
 
