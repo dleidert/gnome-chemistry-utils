@@ -1,13 +1,13 @@
 EXTRA_DIST = $(xml_in_files)
 
-DISTCLEANFILES = $(xml_DATA)
+CLEANFILES = $(xml_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\"
 
-gcu_loader_cdxmldir = $(libdir)/gchemutils/@VERSION@/cdxml
+gcu_loader_cdxmldir = $(libdir)/gchemutils/$(VERSION)/cdxml
 gcu_loader_cdxml_LTLIBRARIES = cdxml.la 
 
 cdxml_la_LDFLAGS = -module -avoid-version -no-undefined

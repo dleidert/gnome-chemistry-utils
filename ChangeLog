@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2007-12-21 Daniel Leidert <daniel.leidert@wgdd.de>
+	* plugins/loaders/cdx/Makefile.am: xml_DATA is created my make, so
+	remove it in the clean target, not in distclean.
+	(gcu_loader_cdxmldir): Use the $(VERSION) variable.
+	* plugins/loaders/cdxml/Makefile.am: Likewise.
+
 2007-12-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.9.3).
 	* plugins/loaders/Makefile.am: add new cds directory.
