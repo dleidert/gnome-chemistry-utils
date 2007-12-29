@@ -167,9 +167,10 @@ the Object::AddType method.
 	Each Object instance maintains a list of its children. If object has already a parent, it will be removed from its
 	parent children list. The new parent Object must have a Document ancestor to ensure that Ids are unique.
 */
-	void AddChild (Object* object);
+	virtual void AddChild (Object* object);
 /*!
-	Used to get the Molecule in the Object instances ancestors. 
+	Used to get the Molecule in the Object instances ancestors.  Overloaded methods should call the
+	base class Object::AddChild.
 	
 	@return the first Object of type MoleculeType encountered when exploring
 	the Objects tree or NULL if none is found.
@@ -499,6 +500,29 @@ directly, but should call Object::OnUnlink instead.
 Fills types with all valid ancestor types for the object as defined by rules created with AddRule
 */
 	void GetPossibleAncestorTypes (std::set<TypeId>& types);
+
+/*!
+@param property: the property id as defined in objprops.h
+@param value: the property value as a string
+
+Used when loading to set properties to various objects. If the method retruns false,
+the property should be set again later. This might happen if an atom does not exists when one 
+of its bonds is loaded.
+@return true if the property could be set, or if the property is not relevant, false otherwise.
+*/
+	virtual bool SetProperty (unsigned property, char const *value);
+
+/*!
+@param property: the property id as defined in objprops.h
+
+Used when saving to get properties from various objects.
+*/
+	virtual std::string GetProperty (unsigned property) const;
+
+/*!
+This method should be called when an object has been fully loaded. The default method doesn't do anything.
+*/
+	virtual void OnLoaded ();
 
 /*!
 @param TypeName: the name of the new type.

@@ -4,3 +4,6 @@ Makefile.in
 Makefile
 *.la
 *.lo
+*.schemas
+gcp-stock-pixbufs.h
+

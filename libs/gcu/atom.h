@@ -214,6 +214,8 @@ Used to move and/or transform an atom.
 */
 	virtual void Transform2D (Matrix2D& m, double x, double y);
 
+	bool SetProperty (unsigned property, char const *value);
+
 protected:
 /*!
 The atomic number of the Atom.

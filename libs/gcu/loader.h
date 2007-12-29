@@ -28,6 +28,9 @@
 #include <list>
 #include <map>
 #include <string>
+#include <goffice/app/io-context.h>
+#include <gsf/gsf-input.h>
+#include <gsf/gsf-output.h>
 
 namespace gcu {
 
@@ -54,10 +57,11 @@ public:
 	static bool GetFirstLoader (std::map<std::string, LoaderStruct>::iterator &it);
 	static bool GetNextLoader (std::map<std::string, LoaderStruct>::iterator &it);
 	static Loader *GetLoader (char const *mime_type);
+	static Loader *GetSaver (char const *mime_type);
 
 	// virtual methods
-	virtual bool Read (Document *doc, std::string &uri, char const *mime_type);
-	virtual bool Write (Document *doc, std::string &uri, char const *mime_type);
+	virtual bool Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
+	virtual bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io);
 
 protected:
 	void AddMimeType (const char *mime_type);

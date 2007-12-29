@@ -18,3 +18,4 @@ update_*
 *.gcrystal
 *.cif
 *.cdxml
+autom4te.cache

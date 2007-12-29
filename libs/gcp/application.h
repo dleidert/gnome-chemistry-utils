@@ -98,6 +98,7 @@ public:
 	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
 	std::list<std::string> &GetExtensions(std::string &mime_type);
 	void OnThemeNamesChanged ();
+	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
 
 /*!
 @param cb: the BuildMenuCb callback to call when building the menu.

@@ -25,6 +25,8 @@
 #include "element.h"
 #include "atom.h"
 #include "bond.h"
+#include "document.h"
+#include "objprops.h"
 #include "xml-utils.h"
 #include <cmath>
 #include <cstring>
@@ -221,6 +223,35 @@ Bond* Atom::GetBond (Atom* pAtom)
 	if (!pBond)
 		m_Bonds.erase (pAtom);
 	return pBond;
+}
+
+bool Atom::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_POS2D: {
+		double x, y;
+		sscanf (value, "%lg %lg", &x, &y);
+		Document *doc = GetDocument ();
+		if (doc) {
+			x *= doc->GetScale ();
+			y *= doc->GetScale ();
+		}
+		SetCoords (x, y);
+		break;
+	}
+	case GCU_PROP_ID: {
+		char *Id = g_strdup_printf ("a%s", value);
+		SetId (Id);
+		break;
+	}
+	case GCU_PROP_ATOM_SYMBOL:
+		SetZ (Element::Z (value));
+		break;
+	case GCU_PROP_ATOM_Z:
+		SetZ (atoi(value));
+		break;
+	}
+	return  true;
 }
 
 }	//	namespace gcu

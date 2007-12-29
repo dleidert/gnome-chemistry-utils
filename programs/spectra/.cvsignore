@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+gspectrum
+gspectrum-unstable
+*.desktop
+.deps
+.libs

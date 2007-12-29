@@ -178,6 +178,16 @@ static void load_globs ()
 namespace gcp {
 
 // Objects creation static methods
+static Object* CreateAtom ()
+{
+	return new Atom ();
+}
+
+static Object* CreateBond ()
+{
+	return new Bond ();
+}
+
 static Object* CreateMolecule ()
 {
 	return new Molecule ();
@@ -283,6 +293,8 @@ Application::Application ():
 		}
 
 		// Initialize types
+		Object::AddType ("atom", CreateAtom, AtomType);
+		Object::AddType ("bond", CreateBond, gcu::BondType);
 		Object::AddType ("molecule", CreateMolecule, MoleculeType);
 		Object::AddType ("reaction", CreateReaction, ReactionType);
 		Object::SetCreationLabel (ReactionType, _("Create a new reaction"));
@@ -340,7 +352,10 @@ Application::Application ():
 	bool found = Loader::GetFirstLoader (it);
 	while (found) {
 		if ((*it).second.supports2D) {
-			// TODO: use this loader
+			if ((*it).second.read)
+				AddMimeType (m_SupportedMimeTypes, (*it).first);
+			if ((*it).second.write)
+				AddMimeType (m_WriteableMimeTypes, (*it).first);
 		}
 		found = Loader::GetNextLoader (it);
 	}
@@ -349,8 +364,6 @@ Application::Application ():
 	TestSupportedType ("chemical/x-mdl-molfile");
 	TestSupportedType ("chemical/x-pdb");
 	TestSupportedType ("chemical/x-xyz");
-	TestSupportedType ("chemical/x-cdx");
-	TestSupportedType ("chemical/x-cdxml");
 	TestSupportedType ("chemical/x-ncbi-asn1");
 	TestSupportedType ("chemical/x-ncbi-asn1-binary");
 	TestSupportedType ("chemical/x-ncbi-asn1-xml");
@@ -545,7 +558,8 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				m_pActiveDoc->ExportImage (filename2, pixbuf_type, GetImageResolution ());
 				break;
 			default:
-				if (!strcmp (mime_type, "application/x-gchempaint"))
+				if (Save (filename2, mime_type, pDoc));
+				else if (!strcmp (mime_type, "application/x-gchempaint"))
 					SaveGcp (filename2, pDoc);
 				else
 					SaveWithBabel (filename2, mime_type, pDoc);
@@ -571,10 +585,26 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				filename2 = filename;
 			}
 		}
-		if (!strcmp (mime_type, "application/x-gchempaint"))
-			OpenGcp (filename2, pDoc);
-		else
-			OpenWithBabel (filename2, mime_type, pDoc);
+		bool create;
+		if (!pDoc || !pDoc->GetEmpty () || pDoc->GetDirty ()) {
+			create = true;
+			OnFileNew ();
+			pDoc = m_pActiveDoc;
+		}
+		pDoc->SetFileName(filename2, mime_type);
+		if (Load (filename2, mime_type, pDoc)) {
+			pDoc->GetView ()->AddObject (pDoc);
+			pDoc->GetView ()->Update (pDoc);
+		} else {
+			if (create) {
+				pDoc->GetWindow ()->Destroy ();;
+				pDoc =NULL;
+			}
+			if (!strcmp (mime_type, "application/x-gchempaint"))
+				OpenGcp (filename2, pDoc);
+			else
+				OpenWithBabel (filename2, mime_type, pDoc);
+		}
 	}
 	return false;
 }
@@ -1058,13 +1088,25 @@ void Application::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntr
 		ClipboardFormats = (gconf_value_get_bool (gconf_entry_get_value (entry)))? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
 }
 
+void Application::AddMimeType (list<string> &l, string const& mime_type)
+{
+	list<string>::iterator i, iend = l.end ();
+	for (i = l.begin (); i != iend; i++)
+		if (*i == mime_type)
+			break;
+	if (i == iend)
+		l.push_back (mime_type);
+	else
+		g_warning ("Duplicate mime type: %s", mime_type.c_str ());
+}
+
 void Application::TestSupportedType (char const *mime_type)
 {
 	OBFormat *f = OBConversion::FormatFromMIME (mime_type);
 	if (f != NULL) {
-		m_SupportedMimeTypes.push_back (mime_type);
+		AddMimeType (m_SupportedMimeTypes, mime_type);
 		if (!(f->Flags () & NOTWRITABLE))
-			m_WriteableMimeTypes.push_back (mime_type);
+			AddMimeType (m_WriteableMimeTypes, mime_type);
 	}
 }
 

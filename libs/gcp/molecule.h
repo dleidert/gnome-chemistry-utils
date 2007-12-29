@@ -38,7 +38,7 @@ public:
 	Molecule (gcu::TypeId Type = gcu::MoleculeType);
 	Molecule (Atom* pAtom);
 	virtual ~Molecule ();
-	void Add (GtkWidget* w);
+	void AddChild (Object* object);
 	void AddAtom (Atom* pAtom);
 	void AddFragment (Fragment* pFragment);
 	void AddBond (Bond* pBond);
@@ -68,6 +68,7 @@ public:
 	void CheckCrossings (Bond *pBond);
 	char const *GetInChI ();
 	std::string GetRawFormula ();
+	void OnLoaded ();
 
 private:
 	std::list<Cycle*> m_Cycles;

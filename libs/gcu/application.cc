@@ -24,6 +24,11 @@
 
 #include "config.h"
 #include "application.h"
+#include "cmd-context.h"
+#include "loader.h"
+#include <goffice/app/io-context.h>
+#include <gsf-gnome/gsf-input-gnomevfs.h>
+#include <gsf-gnome/gsf-output-gnomevfs.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
@@ -35,6 +40,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <clocale>
 
 using namespace std;
 
@@ -246,6 +252,44 @@ void Application::RemoveDocument (Document *Doc)
 	m_Docs.erase (Doc);
 	if (m_Docs.size () == 0 && gtk_main_level ())
 		NoMoreDocsEvent ();
+}
+
+bool Application::Load (std::string const &uri, const gchar *mime_type, Document* Doc)
+{
+	Loader *l = Loader::GetLoader (mime_type);
+	if (!l)
+		return false;
+	string old_num_locale = setlocale (LC_NUMERIC, NULL);
+	setlocale(LC_NUMERIC, "C");
+	GError *error = NULL;
+	GsfInput *input = gsf_input_gnomevfs_new (uri.c_str (), &error);
+	if (error) {
+		g_error_free (error);
+	}
+	IOContext *io = gnumeric_io_context_new (gcu_get_cmd_context ());
+	bool ret = l->Read (Doc, input, mime_type, io);
+	g_object_unref (io);
+	setlocale (LC_NUMERIC, old_num_locale.c_str ());
+	return ret;
+}
+
+bool Application::Save (std::string const &uri, const gchar *mime_type, Document* Doc)
+{
+	Loader *l = Loader::GetSaver (mime_type);
+	if (!l)
+		return false;
+	string old_num_locale = setlocale (LC_NUMERIC, NULL);
+	setlocale(LC_NUMERIC, "C");
+	GError *error = NULL;
+	GsfOutput *output = gsf_output_gnomevfs_new (uri.c_str (), &error);
+	if (error) {
+		g_error_free (error);
+	}
+	IOContext*io  = gnumeric_io_context_new (gcu_get_cmd_context ());
+	bool ret = l->Write (Doc, output, mime_type, io);
+	g_object_unref (io);
+	setlocale (LC_NUMERIC, old_num_locale.c_str ());
+	return ret;
 }
 
 }	//	namespace gcu

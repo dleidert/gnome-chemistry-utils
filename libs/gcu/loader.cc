@@ -161,10 +161,31 @@ bool Loader::GetNextLoader (std::map<std::string, LoaderStruct>::iterator &it)
 Loader *Loader::GetLoader (char const *mime_type)
 {
 	map<string, LoaderStruct>::iterator it = loaders.find (mime_type);
-	if (it != loaders.end ()) {
+	if (it != loaders.end () && (*it).second.read) {
 		if ((*it).second.loader == NULL) {
 			ErrorInfo *error = NULL;
 			plugin_service_load (services[mime_type], &error);
+			if (error) {
+				g_warning (error_info_peek_message (error));
+				g_free (error);
+			}
+		}
+		return (*it).second.loader;
+	} else
+		return NULL;
+}
+
+Loader *Loader::GetSaver (char const *mime_type)
+{
+	map<string, LoaderStruct>::iterator it = loaders.find (mime_type);
+	if (it != loaders.end () && (*it).second.write) {
+		if ((*it).second.loader == NULL) {
+			ErrorInfo *error = NULL;
+			plugin_service_load (services[mime_type], &error);
+			if (error) {
+				g_warning (error_info_peek_message (error));
+				g_free (error);
+			}
 		}
 		return (*it).second.loader;
 	} else
@@ -187,12 +208,12 @@ void Loader::RemoveMimeType (const char *mime_type)
 		(*it).second.loader = NULL;
 }
 
-bool Loader::Read (Document *doc, string &uri, char const *mime_type)
+bool Loader::Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
 {
 	return false;
 }
 
-bool Loader::Write (Document *doc, string &uri, char const *mime_type)
+bool Loader::Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io)
 {
 	return false;
 }

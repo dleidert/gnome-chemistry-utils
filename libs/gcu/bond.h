@@ -131,6 +131,8 @@ Does nothing. Just a slight optimization to avoid execution of Object::Transform
 */
 	virtual void Transform2D (Matrix2D& m, double x, double y);
 
+	bool SetProperty (unsigned property, char const *value);
+
 protected:
 /*!
 The order of the bond.

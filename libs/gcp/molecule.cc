@@ -110,11 +110,34 @@ Molecule::~Molecule ()
 	}
 }
 
+void Molecule::AddChild (Object* object)
+{
+	switch (object->GetType ()) {
+	case AtomType: {
+		Atom *atom = reinterpret_cast<Atom *> (object);
+		AddAtom (atom);
+		break;
+	}
+	case gcu::BondType: {
+		Bond *bond = reinterpret_cast<Bond *> (object);
+		m_Bonds.remove (bond);
+		AddBond (bond);
+		break;
+	}
+	case FragmentType: {
+		Fragment *fragment = reinterpret_cast<Fragment *> (object);
+		m_Fragments.remove (fragment);
+		AddFragment (fragment);
+		break;
+	}
+	}
+}
+
 void Molecule::AddAtom (Atom* pAtom)
 {
 	m_Atoms.remove (pAtom); // avoid duplicates
 	m_Atoms.push_back (pAtom);
-	AddChild (pAtom);
+	Object::AddChild (pAtom);
 	if (!pAtom->GetZ ())
 		m_IsResidue = true;
 }
@@ -122,7 +145,7 @@ void Molecule::AddAtom (Atom* pAtom)
 void Molecule::AddFragment (Fragment* pFragment)
 {
 	m_Fragments.push_back (pFragment);
-	AddChild (pFragment);
+	Object::AddChild (pFragment);
 } 
 
 void Molecule::AddBond (Bond* pBond)
@@ -130,7 +153,7 @@ void Molecule::AddBond (Bond* pBond)
 	if (pBond->GetAtom (0) && pBond->GetAtom (1))
 		CheckCrossings (pBond);
 	m_Bonds.push_back (pBond);
-	AddChild (pBond);
+	Object::AddChild (pBond);
 	EmitSignal (OnChangedSignal);
 }
 
@@ -452,6 +475,14 @@ void Molecule::UpdateCycles ()
 			(*i)->SetParent(NULL);
 		Chain* pChain = new Chain (this, *(m_Atoms.begin ())); //will find the cycles
 		delete pChain;
+		end = m_Atoms.end ();
+		list<Atom*> orphans;
+		for (i = m_Atoms.begin (); i != end; i++)
+			if ((*i)->GetParent () == NULL)
+				orphans.push_back (*i);;
+		end = orphans.end ();
+		for (i = orphans.begin (); i != end; i++)
+			(*i)->SetParent (this);
 	}
 	Lock (false);
 }
@@ -858,14 +889,6 @@ void Molecule::CheckCrossings (Bond *pBond)
 		}
 }
 
-void Molecule::Add (GtkWidget* w)
-{
-	/* Now that Object::Add adds children, we need to override this method
-	because a molecule children (atoms, bonds, and fragments) are added to
-	the widget by the document. FIXME! FIXME! FIXME! CHANGE THIS OLD WEIRD CODE!
-	*/
-}
-
 char const *Molecule::GetInChI ()
 {
 	if (m_Changed)
@@ -901,6 +924,11 @@ std::string Molecule::GetRawFormula ()
 	}
 
 	return ofs.str ();
+}
+
+void Molecule::OnLoaded ()
+{
+	UpdateCycles ();
 }
 
 }	//	namespace gcp

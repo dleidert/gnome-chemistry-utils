@@ -434,7 +434,7 @@ void Bond::Add (GtkWidget* w)
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	gcu::Atom *pAtom0, *pAtom1;
 	if (!(pAtom0 = GetAtom (0)))
-		return; 
+		return;
 	if (!(pAtom1 = GetAtom (1)))
 		return;
 	unsigned char order = GetOrder ();
@@ -442,7 +442,6 @@ void Bond::Add (GtkWidget* w)
 		return;
 	GnomeCanvasGroup* group;
 	GnomeCanvasItem* item = NULL;
-	pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));
 	g_signal_connect (G_OBJECT (group), "event", G_CALLBACK (on_event), w);
 	g_object_set_data (G_OBJECT (group), "object", this);
@@ -741,6 +740,10 @@ void Bond::Update(GtkWidget* w)
 	GnomeCanvasPathDef* path;
 	void * obj;
 	GnomeCanvasGroup *group = pData->Items[this];
+	if (!group) {
+		Add (w);
+		return;
+	}
 	obj = g_object_get_data(G_OBJECT(group), "back");
 	if (result) {
 		path = BuildCrossingPathDef (pData);

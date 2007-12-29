@@ -125,6 +125,7 @@ public:
 	void SetDirty (bool isDirty = true);
 	void OnThemeNamesChanged ();
 	double GetMedianBondLength ();
+	bool SetProperty (unsigned property, char const *value);
 
 private:
 	void RemoveAtom (Atom* pAtom);

@@ -40,6 +40,7 @@
 #include <openbabel/mol.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 
 using namespace gcu;
@@ -147,12 +148,12 @@ void Atom::SetZ (int Z)
 {
 	gcu::Atom::SetZ (Z);
 	m_Element = Element::GetElement (m_Z);
-	if ((m_Valence = m_Element->GetDefaultValence ()))
+	if ((m_Valence = (m_Element)? m_Element->GetDefaultValence (): 0))
 		m_HPos = (m_HPosStyle == AUTO_HPOS)? GetBestSide(): m_HPosStyle;
 	else
 		m_nH = 0;
-	int max = m_Element->GetMaxValenceElectrons ();
-	int diff = m_Element->GetTotalValenceElectrons () - m_Element->GetValenceElectrons ();
+	int max = (m_Element)? m_Element->GetMaxValenceElectrons (): 0;
+	int diff = (m_Element)? m_Element->GetTotalValenceElectrons () - m_Element->GetValenceElectrons (): 0;
 	switch (max) {
 	case 2:
 		m_ValenceOrbitals = 1;
@@ -270,7 +271,7 @@ void Atom::Update ()
 	} else {
 		m_nH = 0;
 		if (m_ChargeAuto || !m_Charge) {
-			m_Charge = m_Element->GetValenceElectrons () - 2 * nexplp - nexplu - nbonds;
+			m_Charge = (m_Element)? m_Element->GetValenceElectrons () - 2 * nexplp - nexplu - nbonds: 0;
 			if (m_Charge > 0)
 				m_Charge = 0;
 			m_ChargeAuto = true;
@@ -326,7 +327,7 @@ bool Atom::IsInCycle (Cycle* pCycle)
 
 void Atom::Add (GtkWidget* w)
 {
-	if (!w)
+	if (!w || !GetZ ())
 		return;
 	if (m_Changed > 0)
 		m_Changed--;
@@ -595,7 +596,7 @@ void Atom::Add (GtkWidget* w)
 
 void Atom::Update (GtkWidget* w)
 {
-	if (!w)
+	if (!w || !GetZ ())
 		return;
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();

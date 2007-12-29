@@ -34,6 +34,7 @@
 #include "theme.h"
 #include "tool.h"
 #include "window.h"
+#include <gcu/objprops.h>
 #include <goffice/math/go-rangefunc.h>
 #include <unistd.h>
 #include <libgen.h>
@@ -1323,5 +1324,39 @@ double Document::GetMedianBondLength ()
 		go_range_median_inter_nonconst (lengths.data (), nb, &result);
 	return result;
 }
+
+bool Document::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_DOC_TITLE:
+		SetTitle (value);
+		if (m_Window)
+			m_Window->SetTitle (GetTitle ());
+		break;
+	case GCU_PROP_DOC_COMMENT:
+		g_free (m_comment);
+		m_comment = g_strdup (value);
+		break;
+	case GCU_PROP_DOC_CREATOR:
+		g_free (m_author);
+		m_author = g_strdup (value);
+		break;
+	case GCU_PROP_DOC_CREATION_TIME:
+		g_date_set_parse (&CreationDate, value);
+		break;
+	case GCU_PROP_DOC_MODIFICATION_TIME:
+		g_date_set_parse (&RevisionDate, value);
+		break;
+	case GCU_PROP_THEME_BOND_LENGTH: {
+		char *end;
+		double length = strtod (value, &end);
+		if (*end != 0)
+			return false;
+		m_Scale = m_Theme->GetBondLength () / length; 
+	}
+	}
+	return true;
+}
+
 
 }	//	namespace gcp

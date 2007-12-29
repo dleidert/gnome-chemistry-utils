@@ -603,4 +603,19 @@ void Object::AddMenuCallback (TypeId Id, BuildMenuCb cb)
 	typedesc.MenuCbs.push_back (cb);
 }
 
+bool Object::SetProperty (unsigned property, char const *value)
+{
+	return true;
+}
+
+
+string Object::GetProperty (unsigned property) const
+{
+	return "";
+}
+
+void Object::OnLoaded ()
+{
+}
+
 }	//	namespace gcu

@@ -39,8 +39,8 @@ public:
 	CDXLoader ();
 	virtual ~CDXLoader ();
 
-	bool Read (Document *doc, string &uri, char const *mime_type);
-	bool Write (Document *doc, string &uri, char const *mime_type);
+	bool Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
+	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io);
 };
 
 CDXLoader::CDXLoader ()
@@ -53,12 +53,12 @@ CDXLoader::~CDXLoader ()
 	RemoveMimeType ("chemical/x-cdx");
 }
 
-bool CDXLoader::Read  (Document *doc, string &uri, char const *mime_type)
+bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
 {
 	return true;
 }
 
-bool CDXLoader::Write  (Document *doc, string &uri, char const *mime_type)
+bool CDXLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io)
 {
 	return true;
 }

@@ -182,6 +182,8 @@ A default extension is appended to filename if none is detected.
 is not supported by GdkPixbuf.
 */
 	char const *GetPixbufTypeName (std::string& filename, char const *mime_type);
+	bool Load (std::string const &uri, const gchar *mime_type, Document* Doc);
+	bool Save (std::string const &uri, const gchar *mime_type, Document* Doc);
 
 protected:
 

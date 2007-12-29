@@ -24,6 +24,7 @@
 
 #include "bond.h"
 #include "atom.h"
+#include "objprops.h"
 #include <cmath>
 
 namespace gcu
@@ -165,6 +166,51 @@ void Bond::Move(double x, double y, double z)
 
 void Bond::Transform2D(Matrix2D& m, double x, double y)
 {
+}
+
+bool Bond::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_ID: {
+		char *Id = g_strdup_printf ("b%s", value);
+		SetId (Id);
+		break;
+	}
+	case GCU_PROP_BOND_BEGIN: {
+		char *tmp = g_strdup_printf ("a%s", value);
+		Object *pObject = GetParent ()->GetDescendant (tmp);
+		g_free (tmp);
+		if (!pObject || (!dynamic_cast <Atom *> (pObject)))
+			return false;
+		m_Begin = (Atom*) pObject;
+		if (m_End) {
+			m_Begin->AddBond (this);
+			m_End->AddBond (this);
+		}
+		break;
+	}
+	case GCU_PROP_BOND_END: {
+		char *tmp = g_strdup_printf ("a%s", value);
+		Object *pObject = GetParent ()->GetDescendant (tmp);
+		g_free (tmp);
+		if (!pObject || (!dynamic_cast <Atom *> (pObject)))
+			return false;
+		m_End = (Atom*) pObject;
+		if (m_Begin) {
+			m_Begin->AddBond (this);
+			m_End->AddBond (this);
+		}
+		break;
+	}
+	case GCU_PROP_BOND_ORDER:
+		m_order = atoi (value);
+		if (m_Begin && m_End) {
+			m_Begin->AddBond (this);
+			m_End->AddBond (this);
+		}
+		break;
+	}
+	return  true;
 }
 
 }	//	namespace gcu

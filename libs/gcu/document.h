@@ -144,6 +144,14 @@ Tells if the document is empty or not.
 @return true if the document does not contain anything, false otherwise.
 */
 GCU_PROT_PROP (bool, Empty);
+/*!\var m_Scale
+The scale factor to be used in IO operations. all coordinates should be multiplied by this factor
+when loading and divided when saving. Default value is 1.
+*/
+/*!\fn GetScale()
+@return the current scale factor.
+*/
+GCU_PROT_PROP (double, Scale);
 };
 
 

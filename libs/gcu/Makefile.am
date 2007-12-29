@@ -82,6 +82,7 @@ noinst_HEADERS = \
 		matrix.h	\
 		matrix2d.h	\
 		object.h \
+		objprops.h \
 		residue.h \
 		spectrumdoc.h \
 		spectrumview.h \

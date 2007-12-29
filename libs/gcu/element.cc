@@ -194,7 +194,7 @@ EltTable::~EltTable()
 
 Element* EltTable::operator[](int Z)
 {
-	return Elements[Z];
+	return ((unsigned) Z < Elements.size ())? Elements[Z]: NULL;
 }
 
 Element* EltTable::operator[](string Symbol)
@@ -204,9 +204,14 @@ Element* EltTable::operator[](string Symbol)
 
 void EltTable::AddElement(Element* Elt)
 {
-	if ((unsigned) Elt->GetZ() >= Elements.size()) Elements.resize(Elements.size() + 10);
-	Elements[Elt->GetZ()] = Elt;
-	EltsMap[Elt->GetSymbol()] = Elt;
+	if ((unsigned) Elt->GetZ () >= Elements.size ())  {
+		unsigned old_size = Elements.size ();
+		Elements.resize (old_size + 10);
+		for (unsigned i = old_size; i < old_size + 10; i++)
+			Elements[i] = NULL;
+	}
+	Elements[Elt->GetZ ()] = Elt;
+	EltsMap[Elt->GetSymbol ()] = Elt;
 }
 
 Element::Element(int Z, const char* Symbol)
