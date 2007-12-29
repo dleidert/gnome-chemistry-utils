@@ -88,9 +88,12 @@ xmlNodePtr Bond::Save(xmlDocPtr xml)
 	buf[1] = 0;
 	xmlNewProp(parent, (xmlChar*)"order", (xmlChar*)buf);
 
-	xmlNewProp(parent, (xmlChar*)"begin", (xmlChar*)m_Begin->GetId());
+	if (m_Begin)
+		xmlNewProp (parent, (xmlChar*) "begin", (xmlChar*) m_Begin->GetId ());
 
-	xmlNewProp(parent, (xmlChar*)"end", (xmlChar*)m_End->GetId());
+
+	if (m_End)
+		xmlNewProp (parent, (xmlChar*) "end", (xmlChar*) m_End->GetId ());
 
 	if (!SaveNode(xml, parent)) {xmlFreeNode(parent); return NULL;}
 	return parent;

@@ -1,6 +1,14 @@
 ##Text encoding: utf-8
 
 2007-12-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fix saving with a new name of read only files.
+	* libs/gcu/application.cc: unref the GSF stream.
+	* libs/gcu/bond.cc: don't crash when saving invalid bonds.
+	* libs/gcu/objtypes.h: new file with enumeration of accepted properties.
+	* plugins/loaders/cdx/cdx.cc: started implementing reading.
+	* plugins/loaders/cdxml/cdxml.cc: started work on bond types.
+
+2007-12-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* all files: implemented new loadin api and make it work minimally
 	with cdxml files.
 

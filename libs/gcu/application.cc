@@ -268,6 +268,7 @@ bool Application::Load (std::string const &uri, const gchar *mime_type, Document
 	}
 	IOContext *io = gnumeric_io_context_new (gcu_get_cmd_context ());
 	bool ret = l->Read (Doc, input, mime_type, io);
+	g_object_unref (input);
 	g_object_unref (io);
 	setlocale (LC_NUMERIC, old_num_locale.c_str ());
 	return ret;
@@ -287,6 +288,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 	}
 	IOContext*io  = gnumeric_io_context_new (gcu_get_cmd_context ());
 	bool ret = l->Write (Doc, output, mime_type, io);
+	g_object_unref (output);
 	g_object_unref (io);
 	setlocale (LC_NUMERIC, old_num_locale.c_str ());
 	return ret;

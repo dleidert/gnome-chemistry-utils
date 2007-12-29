@@ -35,6 +35,7 @@
 #include "tool.h"
 #include "window.h"
 #include <gcu/objprops.h>
+#include <gcu/loader.h>
 #include <goffice/math/go-rangefunc.h>
 #include <unistd.h>
 #include <libgen.h>
@@ -526,6 +527,8 @@ static int cb_xml_to_vfs (GnomeVFSHandle *handle, const char* buf, int nb)
 
 void Document::Save ()
 {
+	if (m_bReadOnly)
+		SetReadOnly (false);
 	if (!m_filename || !m_bWriteable || m_bReadOnly)
 		return;
 	xmlDocPtr xml = NULL;
@@ -1190,7 +1193,7 @@ void Document::ExportImage (string const &filename, const char* type, int resolu
 void Document::SetReadOnly (bool ro)
 {
 	m_bReadOnly = ro;
-	if (!ro && (m_FileType != "application/x-gchempaint")) {
+	if (!ro && (m_FileType != "application/x-gchempaint") && !Loader::GetSaver (m_FileType.c_str ())) {
 		OBFormat *f = OBConversion::FormatFromMIME (m_FileType.c_str ());
 		m_bReadOnly = (f == NULL)? true: f->Flags () & NOTWRITABLE;
 	}

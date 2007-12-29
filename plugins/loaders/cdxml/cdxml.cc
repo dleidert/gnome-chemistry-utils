@@ -66,6 +66,7 @@ CDXMLLoader::CDXMLLoader ()
 	AtomProps["id"] = GCU_PROP_ID;
 	BondProps["id"] = GCU_PROP_ID;
 	BondProps["B"] = GCU_PROP_BOND_BEGIN;
+	BondProps["DISPLAY"] = GCU_PROP_BOND_TYPE;
 	BondProps["E"] = GCU_PROP_BOND_END;
 	BondProps["Order"] = GCU_PROP_BOND_ORDER;
 	BondProps["id"] = GCU_PROP_ID;
@@ -124,6 +125,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->cur.push (obj);
 }
 
+static map<string, int>BondTypes;
 static void
 cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -132,13 +134,33 @@ cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 	obj->SetProperty (GCU_PROP_BOND_ORDER, "1");
 	map<string, unsigned>::iterator it;
 	while (*attrs) {
-		if ((it = BondProps.find ((char const *) *attrs++)) != BondProps.end () &&
-			(!obj->SetProperty ((*it).second, (char const *) *attrs))) {
-			CDXMLProps p;
-			p.obj = obj;
-			p.property = (*it).second;
-			p.value = (char const *) *attrs;
-			state->failed.push_back (p);
+		if ((it = BondProps.find ((char const *) *attrs++)) != BondProps.end ()) {
+			if ((*it).second == GCU_PROP_BOND_TYPE) {
+				if (BondTypes.empty ()) {
+					BondTypes["Solid"] = 0;
+					BondTypes["Dash"] = 1;
+					BondTypes["Hash"] = 2;
+					BondTypes["3WedgedHashBegin"] = 3;
+					BondTypes["WedgedHashEnd"] = 4;
+					BondTypes["Bold"] = 5;
+					BondTypes["WedgeBegin"] = 6;
+					BondTypes["WedgeEnd"] = 7;
+					BondTypes["Wavy"] = 8;
+					BondTypes["HollowWedgeBegin"] = 9;
+					BondTypes["HollowWedgeEnd"] = 10;
+					BondTypes["WavyWedgeBegin"] = 11;
+					BondTypes["WavyWedgeEnd"] = 12;
+					BondTypes["Dot"] = 13;
+					BondTypes["DashDot"] = 14;
+				}
+
+			} else if (!obj->SetProperty ((*it).second, (char const *) *attrs)) {
+				CDXMLProps p;
+				p.obj = obj;
+				p.property = (*it).second;
+				p.value = (char const *) *attrs;
+				state->failed.push_back (p);
+			}
 		}
 		attrs++;
 	}
@@ -235,7 +257,6 @@ bool CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOC
 				parent->OnLoaded ();
 		}
 		gsf_xml_in_doc_free (xml);
-		g_object_unref (G_OBJECT (in));
 	}
 	return success;
 }
