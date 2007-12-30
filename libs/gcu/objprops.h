@@ -45,6 +45,8 @@ enum {
 	GCU_PROP_BOND_END,
 	GCU_PROP_BOND_ORDER,
 	GCU_PROP_BOND_TYPE, //normal, hash, wedge,...
+	// Text properties
+	GCU_PROP_TEXT_TEXT,
 };
 
 #endif	//	GCU_OBJ_PROPS_H

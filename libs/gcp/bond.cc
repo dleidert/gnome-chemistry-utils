@@ -292,6 +292,8 @@ bool Bond::LoadNode (xmlNodePtr node)
 
 void Bond::IncOrder (int n)
 {
+	if (!m_Begin || !m_End)
+		return;
 	if (!((Atom*) GetAtom(0))->AcceptNewBonds () ||
 		!((Atom*) GetAtom (1))->AcceptNewBonds ())
 		m_order = 1;
@@ -308,6 +310,8 @@ void Bond::IncOrder (int n)
 double Bond::GetDist (double x, double y)
 {
 	double x1, y1, x2, y2, l, d1, d2;
+	if (!m_Begin || !m_End)
+		return G_MAXDOUBLE;
 	Theme *Theme = dynamic_cast <Document *> (GetDocument ())->GetTheme ();
 	double BondDist = Theme->GetBondDist () / Theme->GetZoomFactor ();
 	m_Begin->GetCoords (&x1, &y1);
@@ -391,6 +395,8 @@ void Bond::SetSelected (GtkWidget* w, int state)
 		return;
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
+	if (!group)
+		return; // this should not occur, but it might crash if it does occur after loading a bad file.
 	gchar const *color;
 	switch (state) {	
 	case SelStateUnselected:

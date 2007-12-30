@@ -211,7 +211,10 @@ void gcpSelectionTool::OnRelease ()
 		std::map<Object*, GnomeCanvasGroup*>::iterator j, jend = m_pData->Items.end ();
 		for (j = m_pData->Items.begin (); j != jend; j++) {
 			if (!m_pData->IsSelected ((*j).first)) {
-				gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM ((*j).second), &x0, &y0,&x1, &y1);
+				GnomeCanvasItem *item = GNOME_CANVAS_ITEM ((*j).second);
+				if (!item)
+					continue;
+				gnome_canvas_item_get_bounds (item, &x0, &y0,&x1, &y1);
 				if ((x0 < m_x1) && (y0 < m_y1) && (x1 > m_x0) && (y1 > m_y0)) {
 					m_pObject = (*j).first->GetGroup ();	//GetMolecule();
 					if (m_pObject) {

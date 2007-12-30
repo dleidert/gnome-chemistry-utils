@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2007-12-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: fix a few possible crashers.
+	* libs/gcp/text.cc: implemented the SetProperty method.
+	* libs/gcp/text.h: ditto.
+	* libs/gcu/objprops.h: add text property.
+	* plugins/loaders/cdx/cdx.cc: load simple text and fix bond import.
+	* plugins/paint/selection/selectiontool.cc: fix a crasher.
+
 2007-12-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: fix saving with a new name of read only files.
 	* libs/gcu/application.cc: unref the GSF stream.

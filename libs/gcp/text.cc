@@ -35,6 +35,7 @@
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gprintable.h>
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <stdexcept>
 #include <cstring>
@@ -767,6 +768,27 @@ void Text::Transform2D (Matrix2D& m, double x, double y)
 double Text::GetYAlign ()
 {
 	return m_y - ((Document*) GetDocument ())->GetView ()->GetBaseLineOffset ();
+}
+
+bool Text::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_POS2D: {
+		double x, y;
+		sscanf (value, "%lg %lg", &x, &y);
+		gcu::Document *doc = GetDocument ();
+		if (doc) {
+			x *= doc->GetScale ();
+			y *= doc->GetScale ();
+		}
+		SetCoords (x, y);
+		break;
+	}
+	case GCU_PROP_TEXT_TEXT:
+		m_buf = value;
+		break;
+	}
+	return true;
 }
 
 }	//	namespace gcp

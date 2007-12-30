@@ -62,7 +62,9 @@ private:
 	bool ReadMolecule (GsfInput *in, Object *parent);
 	bool ReadAtom (GsfInput *in, Object *parent);
 	bool ReadBond (GsfInput *in, Object *parent);
+	bool ReadText (GsfInput *in, Object *parent);
 	guint16 ReadSize (GsfInput *in);
+	bool ReadDate (GsfInput *in);
 
 private:
 	char *buf;
@@ -110,6 +112,49 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				break;
 			}
 			switch (code) {
+			case kCDXProp_CreationUserName:
+				gsf_input_read (in, size, (guint8*) buf);
+				doc->SetProperty (GCU_PROP_DOC_CREATOR, buf);
+				break;
+			case kCDXProp_CreationDate: {
+				if (size != 14 || !ReadDate (in)) {
+					result = false;
+					break;
+				}
+				doc->SetProperty (GCU_PROP_DOC_CREATION_TIME, buf);
+				break;
+			}
+			case kCDXProp_ModificationDate:{ 
+				if (size != 14 || !ReadDate (in)) {
+					result = false;
+					break;
+				}
+				gsf_input_read (in, size, (guint8*) buf);
+				doc->SetProperty (GCU_PROP_DOC_MODIFICATION_TIME, buf);
+				break;
+			}
+			case kCDXProp_Name:
+				gsf_input_read (in, size, (guint8*) buf);
+				doc->SetProperty (GCU_PROP_DOC_TITLE, buf);
+				break;
+			case kCDXProp_Comment:
+				gsf_input_read (in, size, (guint8*) buf);
+				doc->SetProperty (GCU_PROP_DOC_COMMENT, buf);
+				break;
+			case kCDXProp_BondLength: {
+				if (size != 4) {
+					result = false;
+					break;
+				}
+				guint32 length;
+				if (!READINT32 (in, buf, length)) {
+					result = false;
+					break;
+				}
+				snprintf (buf, bufsize, "%u", length);
+				doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, buf);
+				break;
+			}
 			default:
 				if (size)
 					result = (gsf_input_read (in, size, (guint8*) buf));
@@ -167,6 +212,10 @@ bool CDXLoader::ReadPage (GsfInput *in, Object *parent)
 			switch (code) {
 			case kCDXObj_Fragment:
 				if (!ReadMolecule (in, parent))
+					return false;
+				break;
+			case kCDXObj_Text:
+				if (!ReadText (in, parent))
 					return false;
 				break;
 			default:
@@ -249,13 +298,13 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 			case kCDXProp_2DPosition: {
 				if (size != 8)
 					return false;
-				float x, y;
-				if (!READINT32 (in, buf, x))
-					return false;
+				gint32 x, y;
 				if (!READINT32 (in, buf, y))
 					return false;
-				snprintf (buf, bufsize, "%g %g", x, y);
-				if (!Atom->SetProperty (GCU_PROP_POS2D, buf))
+				if (!READINT32 (in, buf, x))
+					return false;
+				snprintf (buf, bufsize, "%d %d", x, y);
+				Atom->SetProperty (GCU_PROP_POS2D, buf);
 				break;
 			}
 			case kCDXProp_Node_Element:
@@ -303,7 +352,7 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 					return false;
 				if (!READINT32 (in, buf, Id))
 					return false;
-				snprintf (buf, bufsize, "a%d", Id);
+				snprintf (buf, bufsize, "%u", Id);
 				Bond->SetProperty (GCU_PROP_BOND_BEGIN, buf);
 				break;
 			}
@@ -312,7 +361,7 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 					return false;
 				if (!READINT32 (in, buf, Id))
 					return false;
-				snprintf (buf, bufsize, "a%d", Id);
+				snprintf (buf, bufsize, "%u", Id);
 				Bond->SetProperty (GCU_PROP_BOND_END, buf);
 				break;
 			}
@@ -335,19 +384,96 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 	return true;
 }
 
+bool CDXLoader::ReadText (GsfInput *in, Object *parent)
+{
+	guint16 code;
+	Object *Text= Object::CreateObject ("text", parent);
+	guint32 Id;
+	if (!READINT32 (in, buf, Id))
+		return false;
+	snprintf (buf, bufsize, "t%d", Id);
+	Text->SetId (buf);
+	if (!READINT16 (in, buf, code))
+		return false;
+	while (code) {
+		if (code & kCDXTag_Object) {
+			if (!ReadGenericObject (in))
+				return false;
+		} else {
+			guint16 size;
+			if ((size = ReadSize (in)) == 0xffff)
+				return false;
+			switch (code) {
+			case kCDXProp_2DPosition: {
+				if (size != 8)
+					return false;
+				gint32 x, y;
+				if (!READINT32 (in, buf, y))
+					return false;
+				if (!READINT32 (in, buf, x))
+					return false;
+				snprintf (buf, bufsize, "%d %d", x, y);
+				Text->SetProperty (GCU_PROP_POS2D, buf);
+				break;
+			}
+			case kCDXProp_Text: {
+				guint16 nb;
+				if (!READINT16 (in, buf, nb))
+					return false;
+				size -=2;
+				for (int i =0; i < nb; i++) {
+					if (size < 10)
+						return false;
+					guint16 n[5];
+					for (int j = 0; j < 5; j++)
+						if (!READINT16 (in, buf, n[j]))
+							return false;
+					size -= 10;
+				}
+				if (size < 1)
+					return false;
+				if (!gsf_input_read (in, size, (guint8*) buf))
+					return false;
+				buf[size] = 0;
+				Text->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+				break;
+			}
+			default:
+				if (size && !gsf_input_read (in, size, (guint8*) buf))
+					return false;
+			}
+		}
+		if (!READINT16 (in, buf, code))
+			return false;
+	}
+	return true;
+}
+
 guint16 CDXLoader::ReadSize  (GsfInput *in)
 {
 	guint16 size;
 	if (!READINT16 (in, buf, size))
 		return 0xffff;
-	if (size > bufsize) {
+	if ((unsigned) size + 1 > bufsize) {
 		do
 			bufsize <<= 1;
-		while (size > bufsize);
+		while ((unsigned) size + 1 > bufsize);
 		delete [] buf;
 		buf = new char [bufsize];	
 	}
 	return size;
+}
+
+bool CDXLoader::ReadDate  (GsfInput *in)
+{
+	guint16 n[7];
+	for (int i = 0; i < 7; i++)
+		if (!READINT16 (in, buf, n[i]))
+			return false;
+	GDate *date = g_date_new_dmy (n[2], (GDateMonth) n[1], n[0]);
+	g_date_strftime (buf, bufsize, "%m/%d/%Y", date);
+	g_date_free (date);
+	return true;
 }
 
 static CDXLoader loader;
