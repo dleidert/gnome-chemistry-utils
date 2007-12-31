@@ -36,6 +36,7 @@
 #include <canvas/gcp-canvas-line.h>
 #include <canvas/gcp-canvas-bpath.h>
 #include <canvas/gcp-canvas-polygon.h>
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
@@ -937,6 +938,46 @@ void Bond::BringToFront ()
 		}
 	}
 	pView->Update (this);
+}
+
+struct BondTypeStruct {
+	BondType type;
+	bool invert;
+};
+static map<string, struct BondTypeStruct> BondTypesValues;
+bool Bond::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_BOND_TYPE: {
+		if (BondTypesValues.size () == 0) {
+			struct BondTypeStruct s;
+			s.invert = false;
+			s.type = NormalBondType;
+			BondTypesValues["normal"] = s;
+			s.type = ForeBondType;
+			BondTypesValues["bold"] = s;
+			s.type = UpBondType;
+			BondTypesValues["wedge"] = s;
+			s.type = DownBondType;
+			BondTypesValues["hash"] = s;
+			s.invert = true;
+			s.type = UpBondType;
+			BondTypesValues["wedge-invert"] = s;
+			s.type = DownBondType;
+			BondTypesValues["hash-invert"] = s;
+		}
+		map<string, struct BondTypeStruct>::iterator it;
+		if ((it = BondTypesValues.find (value)) != BondTypesValues.end ()) {
+			m_type = (*it).second.type;
+			if ((*it).second.invert)
+				Revert ();
+		}
+		break;
+	}
+	default:
+		gcu::Bond::SetProperty (property, value);
+	}
+	return  true;
 }
 
 }	//	namespace gcp

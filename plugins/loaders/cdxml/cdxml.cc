@@ -84,10 +84,17 @@ typedef struct {
 } CDXMLProps;
 
 typedef struct {
+	unsigned index;
+	string encoding;
+	string name;
+} CDXMLFont;
+
+typedef struct {
 	Document *doc;
 	IOContext *context;
 	stack<Object*> cur;
 	list<CDXMLProps> failed;
+	map<unsigned,CDXMLFont> fonts;
 } CDXMLReadState;
 
 static void
@@ -140,7 +147,7 @@ cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 					BondTypes["Solid"] = 0;
 					BondTypes["Dash"] = 1;
 					BondTypes["Hash"] = 2;
-					BondTypes["3WedgedHashBegin"] = 3;
+					BondTypes["WedgedHashBegin"] = 3;
 					BondTypes["WedgedHashEnd"] = 4;
 					BondTypes["Bold"] = 5;
 					BondTypes["WedgeBegin"] = 6;
@@ -153,7 +160,30 @@ cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 					BondTypes["Dot"] = 13;
 					BondTypes["DashDot"] = 14;
 				}
-
+				switch (BondTypes[(char const *) *attrs]) {
+				case 1:
+				case 2:
+				case 3:
+					obj->SetProperty (GCU_PROP_BOND_TYPE, "hash");
+					break;
+				case 4:
+					obj->SetProperty (GCU_PROP_BOND_TYPE, "hash-invert");
+					break;
+				case 5:
+					obj->SetProperty (GCU_PROP_BOND_TYPE, "large");
+					break;
+				case 6:
+					obj->SetProperty (GCU_PROP_BOND_TYPE, "wedge");
+					break;
+				case 7:
+					obj->SetProperty (GCU_PROP_BOND_TYPE, "wedge-invert");
+					break;
+				case 8:
+					obj->SetProperty (GCU_PROP_BOND_TYPE, "squiggle");
+					break;
+				default:
+					obj->SetProperty (GCU_PROP_BOND_TYPE, "normal");
+				}
 			} else if (!obj->SetProperty ((*it).second, (char const *) *attrs)) {
 				CDXMLProps p;
 				p.obj = obj;
@@ -175,6 +205,24 @@ cdxml_simple_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->cur.pop ();
 }
 
+static void
+cdxml_font_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	CDXMLFont font;
+	font.index = 0;
+	while (*attrs) {
+		if (!strcmp ((char const *) *attrs, "id"))
+			font.index = atoi ((char const *) *(attrs + 1));
+		else if (!strcmp ((char const *) *attrs, "charset"))
+			font.encoding = (char const *) *(attrs + 1);
+		else if (!strcmp ((char const *) *attrs, "name"))
+			font.name = (char const *) *(attrs + 1);
+		attrs += 2;
+	}
+	state->fonts[font.index] = font;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Reading code
 static GsfXMLInNode const cdxml_dtd[] = {
@@ -182,7 +230,7 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 	GSF_XML_IN_NODE (CDXML, COLORTABLE, -1, "colortable", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (COLORTABLE, COLOR, -1, "color", GSF_XML_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (CDXML, FONTTABLE, -1, "fonttable", GSF_XML_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (FONTTABLE, FONT, -1, "font", GSF_XML_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (FONTTABLE, FONT, -1, "font", GSF_XML_CONTENT, cdxml_font_start, NULL),
 	GSF_XML_IN_NODE (CDXML, PAGE, -1, "page", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, T, -1, "t", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, &cdxml_fragment_start, &cdxml_simple_end),

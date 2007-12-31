@@ -29,6 +29,8 @@
 
 #include <goffice/app/module-plugin-defs.h>
 #include <openbabel/chemdrawcdx.h>
+#include <map>
+#include <string>
 #include <libintl.h>
 #include <cstdio>
 
@@ -46,6 +48,15 @@ using namespace gcu;
 	bool res = gsf_input_read (input, 4, (guint8*) buf), \
 	(guint32) i = buf[0] + buf[1] << 8 + buf[2] << 16 + buf[3] << 24, res
 #endif
+
+typedef struct {
+	guint16 index;
+	guint16 encoding;
+	string name;
+} CDXFont;
+
+static map<guint16, string> Charsets;
+static map<string, guint16> CharsetIDs;
 
 class CDXLoader: public gcu::Loader
 {
@@ -69,6 +80,7 @@ private:
 private:
 	char *buf;
 	size_t bufsize;
+	map<unsigned, CDXFont> fonts;
 };
 
 CDXLoader::CDXLoader ()
@@ -155,6 +167,25 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, buf);
 				break;
 			}
+			case kCDXProp_FontTable: {
+				// skip origin platform and read fonts number
+				guint16 nb;
+				if (gsf_input_seek (in, 2, G_SEEK_CUR) || !READINT16 (in, buf, nb))
+					return false;
+				CDXFont font;
+				for (int i = 0; i < nb; i++) {
+					if (!READINT16 (in, buf, font.index) ||
+						!READINT16 (in, buf, font.encoding) ||
+						!READINT16 (in, buf, size))
+						return false;
+					gsf_input_read (in, size, (guint8*) buf);
+					buf[size] = 0;
+					font.name = buf;
+					fonts[font.index] = font;
+				}
+			}
+			break;
+			case kCDXProp_ColorTable:
 			default:
 				if (size)
 					result = (gsf_input_read (in, size, (guint8*) buf));
@@ -168,11 +199,20 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 		}
 	}
 	delete [] buf;
+	fonts.clear ();
 	return result;
 }
 
 bool CDXLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io)
 {
+	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
+	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
+	// write the document contents
+	// there is a need for a two paths procedure
+	// in the first path, we collect fonts and colors
+	// everything else is saved during the second path
+	// write end of document and end of file
+	gsf_output_write (out, 4, (guint8 const *) "\x00\x00\x00\x00");
 	return true;
 }
 
@@ -348,30 +388,52 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 				return false;
 			switch (code) {
 			case kCDXProp_Bond_Begin: {
-				if (size != 4)
-					return false;
-				if (!READINT32 (in, buf, Id))
+				if (size != 4 || !READINT32 (in, buf, Id))
 					return false;
 				snprintf (buf, bufsize, "%u", Id);
 				Bond->SetProperty (GCU_PROP_BOND_BEGIN, buf);
 				break;
 			}
 			case kCDXProp_Bond_End: {
-				if (size != 4)
-					return false;
-				if (!READINT32 (in, buf, Id))
+				if (size != 4 || !READINT32 (in, buf, Id))
 					return false;
 				snprintf (buf, bufsize, "%u", Id);
 				Bond->SetProperty (GCU_PROP_BOND_END, buf);
 				break;
 			}
 			case kCDXProp_Bond_Order:
-				if (size != 2)
-					return false;
-				if (!READINT16 (in, buf, size))
+				if (size != 2 || !READINT16 (in, buf, size))
 					return false;
 				snprintf (buf, bufsize, "%u", size);
 				Bond->SetProperty (GCU_PROP_BOND_ORDER, buf);
+				break;
+			case kCDXProp_Bond_Display:
+				if (size != 2 || !READINT16 (in, buf, size))
+					return false;
+				switch (size) {
+				case 1:
+				case 2:
+				case 3:
+					Bond->SetProperty (GCU_PROP_BOND_TYPE, "hash");
+					break;
+				case 4:
+					Bond->SetProperty (GCU_PROP_BOND_TYPE, "hash-invert");
+					break;
+				case 5:
+					Bond->SetProperty (GCU_PROP_BOND_TYPE, "large");
+					break;
+				case 6:
+					Bond->SetProperty (GCU_PROP_BOND_TYPE, "wedge");
+					break;
+				case 7:
+					Bond->SetProperty (GCU_PROP_BOND_TYPE, "wedge-invert");
+					break;
+				case 8:
+					Bond->SetProperty (GCU_PROP_BOND_TYPE, "squiggle");
+					break;
+				default:
+					Bond->SetProperty (GCU_PROP_BOND_TYPE, "normal");
+				}
 				break;
 			default:
 				if (size && !gsf_input_read (in, size, (guint8*) buf))
@@ -493,6 +555,155 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 #ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
+	// initialize charsets names
+	Charsets[kCDXCharSetUnknown] = "Unknown";
+	Charsets[kCDXCharSetEBCDICOEM] = "EBCDICOEM";
+	Charsets[kCDXCharSetMSDOSUS] = "MSDOSUS";
+	Charsets[kCDXCharSetEBCDIC500V1] = "EBCDIC500V1";
+	Charsets[kCDXCharSetArabicASMO708] = "ASMO-708";
+	Charsets[kCDXCharSetArabicASMO449P] = "ArabicASMO449P";
+	Charsets[kCDXCharSetArabicTransparent] = "ArabicTransparent";
+	Charsets[kCDXCharSetArabicTransparentASMO] = "DOS-720";
+	Charsets[kCDXCharSetGreek437G] = "Greek437G";
+	Charsets[kCDXCharSetBalticOEM] = "cp775";
+	Charsets[kCDXCharSetMSDOSLatin1] = "windows-850";
+	Charsets[kCDXCharSetMSDOSLatin2] = "ibm852";
+	Charsets[kCDXCharSetIBMCyrillic] = "cp855";
+	Charsets[kCDXCharSetIBMTurkish] = "cp857";
+	Charsets[kCDXCharSetMSDOSPortuguese] = "cp860";
+	Charsets[kCDXCharSetMSDOSIcelandic] = "cp861";
+	Charsets[kCDXCharSetHebrewOEM] = "DOS-862";
+	Charsets[kCDXCharSetMSDOSCanadianFrench] = "cp863";
+	Charsets[kCDXCharSetArabicOEM] = "cp864";
+	Charsets[kCDXCharSetMSDOSNordic] = "cp865";
+	Charsets[kCDXCharSetMSDOSRussian] = "cp866";
+	Charsets[kCDXCharSetIBMModernGreek] = "cp869";
+	Charsets[kCDXCharSetThai] = "windows-874";
+	Charsets[kCDXCharSetEBCDIC] = "EBCDIC";
+	Charsets[kCDXCharSetJapanese] = "shift_jis";
+	Charsets[kCDXCharSetChineseSimplified] = "gb2312";
+	Charsets[kCDXCharSetKorean] = "ks_c_5601-1987";
+	Charsets[kCDXCharSetChineseTraditional] = "big5";
+	Charsets[kCDXCharSetUnicodeISO10646] = "iso-10646";
+	Charsets[kCDXCharSetWin31EasternEuropean] = "windows-1250";
+	Charsets[kCDXCharSetWin31Cyrillic] = "windows-1251";
+	Charsets[kCDXCharSetWin31Latin1] = "iso-8859-1";
+	Charsets[kCDXCharSetWin31Greek] = "iso-8859-7";
+	Charsets[kCDXCharSetWin31Turkish] = "iso-8859-9";
+	Charsets[kCDXCharSetHebrew] = "windows-1255";
+	Charsets[kCDXCharSetArabic] = "windows-1256";
+	Charsets[kCDXCharSetBaltic] = "windows-1257";
+	Charsets[kCDXCharSetVietnamese] = "windows-1258";
+	Charsets[kCDXCharSetKoreanJohab] = "windows-1361";
+	Charsets[kCDXCharSetMacRoman] = "x-mac-roman";
+	Charsets[kCDXCharSetMacJapanese] = "x-mac-japanese";
+	Charsets[kCDXCharSetMacTradChinese] = "x-mac-tradchinese";
+	Charsets[kCDXCharSetMacKorean] = "x-mac-korean";
+	Charsets[kCDXCharSetMacArabic] = "x-mac-arabic";
+	Charsets[kCDXCharSetMacHebrew] = "x-mac-hebrew";
+	Charsets[kCDXCharSetMacGreek] = "x-mac-greek";
+	Charsets[kCDXCharSetMacCyrillic] = "x-mac-cyrillic";
+	Charsets[kCDXCharSetMacReserved] = "x-mac-reserved";
+	Charsets[kCDXCharSetMacDevanagari] = "x-mac-devanagari";
+	Charsets[kCDXCharSetMacGurmukhi] = "x-mac-gurmukhi";
+	Charsets[kCDXCharSetMacGujarati] = "x-mac-gujarati";
+	Charsets[kCDXCharSetMacOriya] = "x-mac-oriya";
+	Charsets[kCDXCharSetMacBengali] = "x-mac-nengali";
+	Charsets[kCDXCharSetMacTamil] = "x-mac-tamil";
+	Charsets[kCDXCharSetMacTelugu] = "x-mac-telugu";
+	Charsets[kCDXCharSetMacKannada] = "x-mac-kannada";
+	Charsets[kCDXCharSetMacMalayalam] = "x-mac-Malayalam";
+	Charsets[kCDXCharSetMacSinhalese] = "x-mac-sinhalese";
+	Charsets[kCDXCharSetMacBurmese] = "x-mac-burmese";
+	Charsets[kCDXCharSetMacKhmer] = "x-mac-khmer";
+	Charsets[kCDXCharSetMacThai] = "x-mac-thai";
+	Charsets[kCDXCharSetMacLao] = "x-mac-lao";
+	Charsets[kCDXCharSetMacGeorgian] = "x-mac-georgian";
+	Charsets[kCDXCharSetMacArmenian] = "x-mac-armenian";
+	Charsets[kCDXCharSetMacSimpChinese] = "x-mac-simpChinese";
+	Charsets[kCDXCharSetMacTibetan] = "x-mac-tibetan";
+	Charsets[kCDXCharSetMacMongolian] = "x-mac-mongolian";
+	Charsets[kCDXCharSetMacEthiopic] = "x-mac-ethiopic";
+	Charsets[kCDXCharSetMacCentralEuroRoman] = "x-mac-ce";
+	Charsets[kCDXCharSetMacVietnamese] = "x-mac-vietnamese";
+	Charsets[kCDXCharSetMacExtArabic] = "x-mac-extArabic";
+	Charsets[kCDXCharSetMacUninterpreted] = "x-mac-uninterpreted";
+	Charsets[kCDXCharSetMacIcelandic] = "x-mac-icelandic";
+	Charsets[kCDXCharSetMacTurkish] = "x-mac-turkish";
+	CharsetIDs["Unknown"] = kCDXCharSetUnknown;
+	CharsetIDs["EBCDICOEM"] = kCDXCharSetEBCDICOEM;
+	CharsetIDs["MSDOSUS"] = kCDXCharSetMSDOSUS;
+	CharsetIDs["EBCDIC500V1"] = kCDXCharSetEBCDIC500V1;
+	CharsetIDs["ASMO-708"] = kCDXCharSetArabicASMO708;
+	CharsetIDs["ArabicASMO449P"] = kCDXCharSetArabicASMO449P;
+	CharsetIDs["ArabicTransparent"] = kCDXCharSetArabicTransparent;
+	CharsetIDs["DOS-720"] = kCDXCharSetArabicTransparentASMO;
+	CharsetIDs["Greek437G"] = kCDXCharSetGreek437G;
+	CharsetIDs["cp775"] = kCDXCharSetBalticOEM;
+	CharsetIDs["windows-850"] = kCDXCharSetMSDOSLatin1;
+	CharsetIDs["ibm852"] = kCDXCharSetMSDOSLatin2;
+	CharsetIDs["cp855"] = kCDXCharSetIBMCyrillic;
+	CharsetIDs["cp857"] = kCDXCharSetIBMTurkish;
+	CharsetIDs["cp860"] = kCDXCharSetMSDOSPortuguese;
+	CharsetIDs["cp861"] = kCDXCharSetMSDOSIcelandic;
+	CharsetIDs["DOS-862"] = kCDXCharSetHebrewOEM;
+	CharsetIDs["cp863"] = kCDXCharSetMSDOSCanadianFrench;
+	CharsetIDs["cp864"] = kCDXCharSetArabicOEM;
+	CharsetIDs["cp865"] = kCDXCharSetMSDOSNordic;
+	CharsetIDs["cp866"] = kCDXCharSetMSDOSRussian;
+	CharsetIDs["cp869"] = kCDXCharSetIBMModernGreek;
+	CharsetIDs["windows-874"] = kCDXCharSetThai;
+	CharsetIDs["EBCDIC"] = kCDXCharSetEBCDIC;
+	CharsetIDs["shift_jis"] = kCDXCharSetJapanese;
+	CharsetIDs["gb2312"] = kCDXCharSetChineseSimplified;
+	CharsetIDs["ks_c_5601-1987"] = kCDXCharSetKorean;
+	CharsetIDs["big5"] = kCDXCharSetChineseTraditional;
+	CharsetIDs["iso-10646"] = kCDXCharSetUnicodeISO10646;
+	CharsetIDs["windows-1250"] = kCDXCharSetWin31EasternEuropean;
+	CharsetIDs["windows-1251"] = kCDXCharSetWin31Cyrillic;
+	CharsetIDs["iso-8859-1"] = kCDXCharSetWin31Latin1;
+	CharsetIDs["iso-8859-7"] = kCDXCharSetWin31Greek;
+	CharsetIDs["iso-8859-9"] = kCDXCharSetWin31Turkish;
+	CharsetIDs["windows-1255"] = kCDXCharSetHebrew;
+	CharsetIDs["windows-1256"] = kCDXCharSetArabic;
+	CharsetIDs["windows-1257"] = kCDXCharSetBaltic;
+	CharsetIDs["windows-1258"] = kCDXCharSetVietnamese;
+	CharsetIDs["windows-1361"] = kCDXCharSetKoreanJohab;
+	CharsetIDs["x-mac-roman"] = kCDXCharSetMacRoman;
+	CharsetIDs["x-mac-japanese"] = kCDXCharSetMacJapanese;
+	CharsetIDs["x-mac-tradchinese"] = kCDXCharSetMacTradChinese;
+	CharsetIDs["x-mac-korean"] = kCDXCharSetMacKorean;
+	CharsetIDs["x-mac-arabic"] = kCDXCharSetMacArabic;
+	CharsetIDs["x-mac-hebrew"] = kCDXCharSetMacHebrew;
+	CharsetIDs["x-mac-greek"] = kCDXCharSetMacGreek;
+	CharsetIDs["x-mac-cyrillic"] = kCDXCharSetMacCyrillic;
+	CharsetIDs["x-mac-reserved"] = kCDXCharSetMacReserved;
+	CharsetIDs["x-mac-devanagari"] = kCDXCharSetMacDevanagari;
+	CharsetIDs["x-mac-gurmukhi"] = kCDXCharSetMacGurmukhi;
+	CharsetIDs["x-mac-gujarati"] = kCDXCharSetMacGujarati;
+	CharsetIDs["x-mac-oriya"] = kCDXCharSetMacOriya;
+	CharsetIDs["x-mac-nengali"] = kCDXCharSetMacBengali;
+	CharsetIDs["x-mac-tamil"] = kCDXCharSetMacTamil;
+	CharsetIDs["x-mac-telugu"] = kCDXCharSetMacTelugu;
+	CharsetIDs["x-mac-kannada"] = kCDXCharSetMacKannada;
+	CharsetIDs["x-mac-Malayalam"] = kCDXCharSetMacMalayalam;
+	CharsetIDs["x-mac-sinhalese"] = kCDXCharSetMacSinhalese;
+	CharsetIDs["x-mac-burmese"] = kCDXCharSetMacBurmese;
+	CharsetIDs["x-mac-khmer"] = kCDXCharSetMacKhmer;
+	CharsetIDs["x-mac-thai"] = kCDXCharSetMacThai;
+	CharsetIDs["x-mac-lao"] = kCDXCharSetMacLao;
+	CharsetIDs["x-mac-georgian"] = kCDXCharSetMacGeorgian;
+	CharsetIDs["x-mac-armenian"] = kCDXCharSetMacArmenian;
+	CharsetIDs["x-mac-simpChinese"] = kCDXCharSetMacSimpChinese;
+	CharsetIDs["x-mac-tibetan"] = kCDXCharSetMacTibetan;
+	CharsetIDs["x-mac-mongolian"] = kCDXCharSetMacMongolian;
+	CharsetIDs["x-mac-ethiopic"] = kCDXCharSetMacEthiopic;
+	CharsetIDs["x-mac-ce"] = kCDXCharSetMacCentralEuroRoman;
+	CharsetIDs["x-mac-vietnamese"] = kCDXCharSetMacVietnamese;
+	CharsetIDs["x-mac-extArabic"] = kCDXCharSetMacExtArabic;
+	CharsetIDs["x-mac-uninterpreted"] = kCDXCharSetMacUninterpreted;
+	CharsetIDs["x-mac-icelandic"] = kCDXCharSetMacIcelandic;
+	CharsetIDs["x-mac-turkish"] = kCDXCharSetMacTurkish;
 }
 
 G_MODULE_EXPORT void

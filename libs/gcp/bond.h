@@ -87,6 +87,7 @@ public:
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	void MoveToBack ();
 	void BringToFront ();
+	bool SetProperty (unsigned property, char const *value);
 
 private:
 	GnomeCanvasPathDef* BuildPathDef (WidgetData* pData);

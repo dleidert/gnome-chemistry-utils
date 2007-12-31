@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2007-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: imlementent SetProperty for bond type.
+	* libs/gcp/bond.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: load font table and bond type, save header.
+	* plugins/loaders/cdx/plugin.xml.in: add write flag.
+	* plugins/loaders/cdxml/cdxml.cc: load font table and bond type.
+	* plugins/loaders/cdxml/plugin.xml.in: add write flag.
+
 2007-12-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: fix a few possible crashers.
 	* libs/gcp/text.cc: implemented the SetProperty method.
