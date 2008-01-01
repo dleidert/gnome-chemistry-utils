@@ -25,6 +25,7 @@
 #ifndef GCU_OBJECT_H
 #define GCU_OBJECT_H
 
+#include "macros.h"
 #include "matrix2d.h"
 #include <glib.h>
 #include <libxml/parser.h>
@@ -523,6 +524,12 @@ Used when saving to get properties from various objects.
 This method should be called when an object has been fully loaded. The default method doesn't do anything.
 */
 	virtual void OnLoaded ();
+	
+/*!
+@param dirty should be true if the object needs some update, false otherwise. For a document,
+it  means that the document has been changed.
+*/
+	void SetDirty (bool dirty = true);
 
 /*!
 @param TypeName: the name of the new type.
@@ -646,6 +653,12 @@ private:
 Set to true while loading to avoid signal propagation.
 */
 	int m_Locked;
+
+/*!\fn GetDirty()
+@return true if the document has changed since it was opened or last saved,
+false otherwise.
+*/
+GCU_RO_PROP (bool, Dirty);
 };
 
 }

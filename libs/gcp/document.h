@@ -88,7 +88,6 @@ public:
 	void ParseXMLTree (xmlDocPtr xml);
 	void LoadObjects (xmlNodePtr node);
 	xmlDocPtr BuildXMLTree ();
-	void NotifyDirty (Bond* pBond) {m_DirtyObjects.insert (pBond);}
 	void Update ();
 	void Remove (Object*);
 	void Remove (const char* Id);
@@ -139,7 +138,6 @@ private:
 	gchar *m_title;
 	gchar *m_label;
 	gchar *m_comment, *m_author, *m_mail;
-	std::set<gcu::Object*> m_DirtyObjects;
 	bool m_bIsLoading, m_bUndoRedo, m_bReadOnly;
 	std::string m_FileType;
 	bool m_bWriteable;

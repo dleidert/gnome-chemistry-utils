@@ -28,7 +28,7 @@
 #include <gcu/bond.h>
 #include <list>
 #include <libgnomecanvas/gnome-canvas-path-def.h>
-	
+
 namespace gcp {
 
 typedef enum
@@ -46,7 +46,6 @@ typedef struct {
 } BondCrossing;
 
 class Atom;
-class Cycle;
 class WidgetData;
 
 class Bond: public gcu::Bond
@@ -60,14 +59,9 @@ public:
 	BondType GetType() {return m_type;}
 	void SetType (BondType type);
 	double GetAngle2D (Atom* pAtom);
-	double GetAngle2DRad (Atom* pAtom);
-	void AddCycle (Cycle* pCycle);
-	void RemoveCycle (Cycle* pCycle);
+	void AddCycle (gcu::Cycle* pCycle);
+	void RemoveCycle (gcu::Cycle* pCycle);
 	void RemoveAllCycles ();
-	unsigned IsCyclic () {return m_Cycles.size ();}
-	Cycle* GetFirstCycle (std::list<Cycle*>::iterator& i, Cycle * pCycle);
-	Cycle* GetNextCycle (std::list<Cycle*>::iterator& i, Cycle * pCycle);
-	bool IsInCycle (Cycle* pCycle);
 	bool GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, double* y2);
 	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr);
 	virtual bool LoadNode (xmlNodePtr);
@@ -77,7 +71,6 @@ public:
 	double GetDist (double x, double y);
 	void SetDirty ();
 	void Revert ();
-	double Get2DLength ();
 	void IncOrder (int n = 1);
 	virtual void SetSelected (GtkWidget* w, int state);
 	void Add (GtkWidget* w);
@@ -97,7 +90,6 @@ protected:
 	BondType m_type;
 	double m_coords[16];//coordinates of the lines used to represent the bond in the canvas
 	bool m_CoordsCalc; //true if m_coords have been calculated, false else
-	std::list<Cycle*> m_Cycles;
 	std::map<Bond*, BondCrossing> m_Crossing;
 	int m_level; // to know which bond should be considered front
 };

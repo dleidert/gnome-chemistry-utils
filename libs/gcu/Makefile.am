@@ -13,6 +13,7 @@ libgcu_unstable_la_SOURCES = \
 		application.cc \
 		atom.cc \
 		bond.cc \
+		chain.cc \
 		chem3ddoc.cc	\
 		chemistry.cc \
 		cmd-context.cc \
@@ -22,6 +23,7 @@ libgcu_unstable_la_SOURCES = \
 		crystaldoc.cc \
 		crystalline.cc \
 		crystalview.cc \
+		cycle.cc \
 		cylinder.cc	\
 		dialog.cc \
 		dialog-owner.cc \
@@ -40,6 +42,7 @@ libgcu_unstable_la_SOURCES = \
 		loader.cc \
 		matrix.cc \
 		matrix2d.cc \
+		molecule.cc \
 		object.cc \
 		residue.cc \
 		spectrumdoc.cc \
@@ -53,6 +56,7 @@ noinst_HEADERS = \
 		application.h \
 		atom.h \
 		bond.h \
+		chain.h \
 		chem3ddoc.h	\
 		chemistry.h \
 		cmd-context.h \
@@ -62,6 +66,7 @@ noinst_HEADERS = \
 		crystaldoc.h \
 		crystalline.h \
 		crystalview.h \
+		cycle.h \
 		cylinder.h	\
 		dialog.h \
 		dialog-owner.h \
@@ -81,6 +86,7 @@ noinst_HEADERS = \
 		macros.h	\
 		matrix.h	\
 		matrix2d.h	\
+		molecule.h \
 		object.h \
 		objprops.h \
 		residue.h \

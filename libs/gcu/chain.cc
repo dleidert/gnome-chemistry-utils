@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint library
- * chain.cc
+ * Gnome Chemistry Utils
+ * libs/gcu/chain.cc
  *
  * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -23,14 +23,16 @@
  */
 
 #include "config.h"
+#include "atom.h"
+#include "bond.h"
 #include "chain.h"
+#include "cycle.h"
 #include "molecule.h"
 #include "document.h"
 
-using namespace gcu;
 using namespace std;
 
-namespace gcp {
+namespace gcu {
 
 Chain::Chain (Bond* pBond, Atom* pAtom, TypeId Type): Object (Type)
 {
@@ -74,9 +76,6 @@ Chain::Chain (Molecule* Molecule, Bond* pBond, TypeId Type): Object (Type)
 			pBond0 = (Bond*) pAtom->GetNextBond (i);
 		}
 	}
-	Document* pDoc = (Document*) m_Molecule->GetDocument ();
-	if (pDoc)
-		pDoc->Update ();
 }
 
 Chain::~Chain ()
@@ -128,12 +127,11 @@ void Chain::FindCycles (Atom* pAtom)
 		m_Bonds[pAtom].fwd = pBond;
 		pAtom0 = (Atom*) pBond->GetAtom (pAtom);
 		if (pBond->GetMolecule () != m_Molecule) {
-			m_Molecule->AddBond (pBond);
+			m_Molecule->AddChild (pBond);
 		}
 		if ((pAtom0)->GetMolecule () != m_Molecule) {
 			if (pAtom0->GetMolecule () != m_Molecule)
-				pAtom0->AddToMolecule (m_Molecule);
-			m_Bonds[pAtom0].rev = pBond;
+				m_Molecule->AddChild (pAtom0);
 			FindCycles (pAtom0);
 		} else {
 			if (m_Bonds[pAtom0].fwd != NULL) {

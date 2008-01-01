@@ -1,5 +1,38 @@
 ##Text encoding: utf-8
 
+2008-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: moved the chemical part of molecules from gcp
+	to gcu.
+	* libs/gcp/atom.cc: ditto.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/chain.cc: ditto.
+	* libs/gcp/chain.h: ditto.
+	* libs/gcp/cycle.cc: ditto.
+	* libs/gcp/cycle.h: ditto.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcu/Makefile.am: ditto.
+	* libs/gcu/atom.cc: ditto.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/chain.cc: ditto.
+	* libs/gcu/chain.h: ditto.
+	* libs/gcu/cycle.cc: ditto.
+	* libs/gcu/cycle.h: ditto.
+	* libs/gcu/document.cc: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: started export.
+	* plugins/paint/cycles/cycletool.cc: use gcu::Chain and gcu::Cycle.
+	* plugins/paint/cycles/cycletool.h: ditto.
+
 2007-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: imlementent SetProperty for bond type.
 	* libs/gcp/bond.h: ditto.

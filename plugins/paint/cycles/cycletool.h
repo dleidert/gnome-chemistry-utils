@@ -27,7 +27,7 @@
 
 #include <gcp/tool.h>
 
-namespace gcp {
+namespace gcu {
 	class Atom;
 	class Chain;
 }
@@ -63,7 +63,7 @@ private:
 	double m_dDefAngle;	//default angle when appropriate
 	double m_dLength;	//Lenght of newly created bonds
 	gcp::Atom *m_pAtom, *m_Start, *m_End;
-	gcp::Chain *m_Chain;
+	gcu::Chain *m_Chain;
 	bool m_Direct;
 };
 

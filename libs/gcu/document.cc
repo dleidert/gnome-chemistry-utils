@@ -34,7 +34,6 @@ namespace gcu
 {
 
 Document::Document (Application *App): Object (DocumentType),
-m_Dirty (false),
 m_Empty (true)
 {
 	m_App = App;

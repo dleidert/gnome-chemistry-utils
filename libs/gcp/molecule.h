@@ -25,27 +25,27 @@
 #ifndef GCHEMPAINT_MOLECULE_H
 #define GCHEMPAINT_MOLECULE_H
 
-#include "cycle.h"
 #include "fragment.h"
 #include <list>
+#include <gcu/molecule.h>
 #include <openbabel/mol.h>
 
 namespace gcp {
 
-class Molecule: public gcu::Object
+class Bond;
+
+class Molecule: public gcu::Molecule
 {
 public:
 	Molecule (gcu::TypeId Type = gcu::MoleculeType);
 	Molecule (Atom* pAtom);
 	virtual ~Molecule ();
-	void AddChild (Object* object);
-	void AddAtom (Atom* pAtom);
+	void AddChild (gcu::Object* object);
+	void AddAtom (gcu::Atom* pAtom);
 	void AddFragment (Fragment* pFragment);
-	void AddBond (Bond* pBond);
+	void AddBond (gcu::Bond* pBond);
 	void Remove (gcu::Object* pObject);
-	void UpdateCycles (Bond* pBond);
 	bool Merge (Molecule* pMolecule, bool RemoveDuplicates = false);
-	void UpdateCycles ();
 	virtual bool Load (xmlNodePtr);
 	virtual xmlNodePtr Save (xmlDocPtr xml);
 	void Clear ();
@@ -71,11 +71,7 @@ public:
 	void OnLoaded ();
 
 private:
-	std::list<Cycle*> m_Cycles;
-	std::list<Chain*> m_Chains;
-	std::list<Atom*> m_Atoms;
 	std::list<Fragment*> m_Fragments;
-	std::list<Bond*> m_Bonds;
 	gcu::Object *m_Alignment;
 	std::string m_InChI;
 	bool m_Changed;

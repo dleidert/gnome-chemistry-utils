@@ -216,4 +216,70 @@ bool Bond::SetProperty (unsigned property, char const *value)
 	return  true;
 }
 
+void Bond::AddCycle (Cycle* pCycle)
+{
+	m_Cycles.push_back (pCycle);
+}
+
+void Bond::RemoveCycle (Cycle* pCycle)
+{
+	m_Cycles.remove (pCycle);
+}
+
+void Bond::RemoveAllCycles ()
+{
+	m_Cycles.clear ();
+}
+
+Cycle* Bond::GetFirstCycle (std::list<Cycle*>::iterator& i, Cycle * pCycle)
+{
+	i = m_Cycles.begin ();
+	return GetNextCycle (i, pCycle);
+}
+
+Cycle* Bond::GetNextCycle (std::list<Cycle*>::iterator& i, Cycle * pCycle)
+{
+	if (*i == pCycle)
+		i++;
+	if (i == m_Cycles.end ())
+		return NULL;
+	pCycle = *i;
+	i++;
+	return pCycle;
+}
+
+bool Bond::IsInCycle (Cycle* pCycle)
+{
+	std::list<Cycle*>::iterator i, end = m_Cycles.end ();
+	for (i = m_Cycles.begin (); i != end; i++)
+		if ((*i) == pCycle)
+			return true;
+	return false;
+}
+
+double Bond::Get2DLength ()
+{
+	double x1, y1, x2, y2;
+	m_Begin->GetCoords (&x1, &y1);
+	m_End->GetCoords (&x2, &y2);
+	return sqrt (square (x1 - x2) + square (y1 - y2));
+}
+
+double Bond::GetAngle2DRad (Atom* pAtom)
+{
+	double x1, y1, x2, y2;
+	m_Begin->GetCoords (&x1, &y1);
+	m_End->GetCoords (&x2, &y2);
+	x2 -= x1;
+	y2 -= y1;
+	double length = square (x2) + square (y2);
+	if (length == 0.0)
+		return HUGE_VAL;
+	if (pAtom == m_Begin)
+		return atan2 (-y2, x2);
+	else if (pAtom == m_End)
+		return atan2 (y2, -x2);
+	return HUGE_VAL;
+}
+
 }	//	namespace gcu

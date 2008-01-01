@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint library
- * cycle.cc 
+ * Gnome Chemistry Utils
+ * libs/gcu/cycle.cc 
  *
  * Copyright (C) 2001-2004 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -23,11 +23,12 @@
  */
 
 #include "config.h"
+#include "cycle.h"
+#include "atom.h"
+#include "bond.h"
 #include "molecule.h"
 
-using namespace gcu;
-
-namespace gcp {
+namespace gcu {
 
 Cycle::Cycle (Molecule* Molecule): Chain (Molecule, (Atom*) NULL, CycleType)
 {
@@ -133,7 +134,7 @@ void Cycle::Erase (Atom* pAtom1, Atom* pAtom2)
 	m_Bonds[pAtom1].fwd->RemoveCycle (this);
 	m_Bonds[pAtom1].fwd = NULL;
 	if (m_Bonds[pAtom1].rev->GetOrder () == 2)
-		m_Bonds[pAtom1].rev->SetDirty ();
+		m_Bonds[pAtom1].rev->SetDirty (true);
 	while (pAtom != pAtom2) {
 		m_Bonds[pAtom].fwd->RemoveCycle (this);
 		pAtom = (Atom*)m_Bonds[pAtom].fwd->GetAtom (pAtom0 = pAtom);
@@ -141,14 +142,14 @@ void Cycle::Erase (Atom* pAtom1, Atom* pAtom2)
 	}
 	m_Bonds[pAtom2].rev = NULL;
 	if (m_Bonds[pAtom2].fwd->GetOrder () == 2)
-		m_Bonds[pAtom2].fwd->SetDirty ();
+		m_Bonds[pAtom2].fwd->SetDirty (true);
 }
 
 void Cycle::Insert (Atom* pAtom1, Atom* pAtom2, Chain& Chain)
 {
 //This function is not safe
 	if (m_Bonds[pAtom1].rev->GetOrder () == 2)
-		m_Bonds[pAtom1].rev->SetDirty ();
+		m_Bonds[pAtom1].rev->SetDirty (true);
 	m_Bonds[pAtom1].fwd = ((Cycle&) Chain).m_Bonds[pAtom1].fwd;
 	m_Bonds[pAtom1].fwd->AddCycle (this);
 	Atom *pAtom = (Atom*) m_Bonds[pAtom1].fwd->GetAtom (pAtom1);
@@ -158,7 +159,7 @@ void Cycle::Insert (Atom* pAtom1, Atom* pAtom2, Chain& Chain)
 		pAtom = (Atom*) m_Bonds[pAtom].fwd->GetAtom (pAtom);
 	}
 	m_Bonds[pAtom2].rev = ((Cycle&) Chain).m_Bonds[pAtom2].rev;
-	if (m_Bonds[pAtom2].fwd->GetOrder () == 2) m_Bonds[pAtom2].fwd->SetDirty ();
+	if (m_Bonds[pAtom2].fwd->GetOrder () == 2) m_Bonds[pAtom2].fwd->SetDirty (true);
 }
 
 bool Cycle::IsBetterForBonds (Cycle* pCycle)
@@ -215,4 +216,4 @@ int Cycle::GetFusedBonds ()
 	return n;
 }
 
-}	//	namespace gcp
+}	//	namespace gcu

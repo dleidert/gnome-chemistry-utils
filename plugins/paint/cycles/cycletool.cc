@@ -28,6 +28,8 @@
 #include <gcp/document.h>
 #include <gcp/application.h>
 #include <gcp/theme.h>
+#include <gcu/chain.h>
+#include <gcu/cycle.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <list>
@@ -95,8 +97,8 @@ bool gcpCycleTool::OnClicked ()
 			y2 *= m_dZoomFactor;
 			m_dLength = sqrt (square (x2 - x1) + square (y2 - y1));
 			if (pBond->IsCyclic () == 1) {
-				gcp::Cycle *pCycle = NULL;
-				list<gcp::Cycle*>::iterator i;
+				Cycle *pCycle = NULL;
+				list<Cycle*>::iterator i;
 				pCycle = pBond->GetFirstCycle (i, pCycle);
 				a0 = atan2 (y1 - y2, x2 - x1);
 				pCycle->GetAngles2D (pBond, &a1, &a2);
@@ -180,7 +182,7 @@ bool gcpCycleTool::OnClicked ()
 			if (m_Chain)
 				delete m_Chain;
 			if (m_nState & GDK_SHIFT_MASK)
-				m_Chain = new gcp::Chain (pBond, m_Start);
+				m_Chain = new Chain (pBond, m_Start);
 			break;
 		case AtomType:
 			pAtom = (gcp::Atom*) m_pObject;
@@ -387,7 +389,7 @@ void gcpCycleTool::OnDrag ()
 						m_xn[i] = points->coords[i] = y1 * m_dZoomFactor;
 						i++;
 					}
-					while ((m_pAtom != m_End) && (m_pAtom = m_Chain->GetNextAtom (m_pAtom)));
+					while ((m_pAtom != m_End) && (m_pAtom = reinterpret_cast <gcp::Atom *> (m_Chain->GetNextAtom (m_pAtom))));
 					while (i < m_size * 2) {
 						a0 += 2 * t;
 						m_xn[i] = points->coords[i] = dx + d * cos (a0);
@@ -605,7 +607,7 @@ void gcpCycleTool::OnChangeState ()
 					m_Start = (gcp::Atom*) ((gcp::Bond*) m_pObject)->GetAtom (1);
 					m_End = (gcp::Atom*) ((gcp::Bond*) m_pObject)->GetAtom (0);
 				}
-				m_Chain = new gcp::Chain ((gcp::Bond*) m_pObject, m_Start);
+				m_Chain = new Chain ((gcp::Bond*) m_pObject, m_Start);
 			}
 		} else {
 			double x1, y1, x2, y2;

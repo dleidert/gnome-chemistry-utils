@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint library
- * chain.h 
+ * Gnome Chemistry Utils
+ * libs/gcu/chain.h 
  *
  * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,15 +22,16 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_CHAIN_H
-#define GCHEMPAINT_CHAIN_H
+#ifndef GCU_CHAIN_H
+#define GCU_CHAIN_H
 
-#include "atom.h"
-#include "bond.h"
+#include "object.h"
 #include <map>
 
-namespace gcp {
+namespace gcu {
 
+class Atom;
+class Bond;
 class Molecule;
 
 typedef struct
@@ -38,12 +39,12 @@ typedef struct
 	Bond *fwd, *rev;
 } ChainElt;
 
-class Chain: public gcu::Object
+class Chain: public Object
 {
 public:
-	Chain (Bond* pBond, Atom* pAtom = NULL, gcu::TypeId Type = gcu::ChainType);
-	Chain (Molecule* Molecule, Bond* pBond, gcu::TypeId Type = gcu::ChainType);
-	Chain (Molecule* Molecule, Atom* pAtom, gcu::TypeId Type = gcu::ChainType);
+	Chain (Bond* pBond, Atom* pAtom = NULL, TypeId Type = ChainType);
+	Chain (Molecule* Molecule, Bond* pBond, TypeId Type = ChainType);
+	Chain (Molecule* Molecule, Atom* pAtom, TypeId Type = ChainType);
 	virtual ~Chain();
 	
 	void FindCycles (Atom* pAtom);
@@ -67,6 +68,6 @@ protected:
 	guint m_nMolIndex;
 };
 
-}	//	namespace gcp
+}	//	namespace gcu
 
 #endif // GCHEMPAINT_CHAIN_H

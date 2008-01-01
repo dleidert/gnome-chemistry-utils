@@ -33,6 +33,8 @@ namespace gcu
 {
 	
 class Bond;
+class Cycle;
+
 /*!\class Atom gcu/atom.h
 This class is used to represent atoms.
 
@@ -215,6 +217,7 @@ Used to move and/or transform an atom.
 	virtual void Transform2D (Matrix2D& m, double x, double y);
 
 	bool SetProperty (unsigned property, char const *value);
+	bool IsInCycle (Cycle* pCycle);
 
 protected:
 /*!

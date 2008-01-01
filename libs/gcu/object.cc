@@ -51,7 +51,8 @@ public:
 static map<string, TypeDesc> Types;
 static vector<string> TypeNames;
 
-Object::Object (TypeId Id)
+Object::Object (TypeId Id):
+	m_Dirty (false)
 {
 	m_Type = Id;
 	m_Id = NULL;
@@ -143,6 +144,8 @@ Object* Object::GetParentOfType (TypeId Id)
 
 void Object::AddChild (Object* object)
 {
+	if (this == object->m_Parent)
+		return;
 	Document* pDoc = GetDocument ();
 	if (!pDoc)
 		cerr << "Cannot add an object outside a document" << endl;
@@ -616,6 +619,16 @@ string Object::GetProperty (unsigned property) const
 
 void Object::OnLoaded ()
 {
+}
+
+void Object::SetDirty (bool dirty)
+{
+	m_Dirty = dirty;
+	if (dirty) {
+		Document *doc = GetDocument ();
+		if (doc)
+			doc->NotifyDirty (this);
+	}
 }
 
 }	//	namespace gcu

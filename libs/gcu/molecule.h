@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint library
- * cycle.h 
+ * Gnome Chemistry Utils
+ * libs/gcu/molecule.h 
  *
  * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,26 +22,39 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_CYCLE_H
-#define GCHEMPAINT_CYCLE_H
-#include "chain.h"
+#ifndef GCU_MOLECULE_H
+#define GCU_MOLECULE_H
 
-namespace gcp {
+#include "object.h"
 
-class Cycle: public Chain
+namespace gcu {
+
+class Atom;
+class Bond;
+class Chain;
+class Cycle;
+
+class Molecule: public Object
 {
 public:
-	Cycle (Molecule* Molecule);
-	virtual ~Cycle ();
-	
-	void Simplify ();	//Reduce size of fused cycles
-	virtual void Erase (Atom* pAtom1, Atom* pAtom2);
-	virtual void Insert (Atom* pAtom1, Atom* pAtom2, Chain& Chain);
-	bool IsBetterForBonds (Cycle* pCycle);
-	void GetAngles2D (Bond *pBond, double* a1, double* a2);
-	int GetFusedBonds ();
+	Molecule (TypeId Type = MoleculeType);
+	Molecule (Atom* pAtom);
+	virtual ~Molecule ();
+
+	void AddChild (Object* object);
+	virtual void AddAtom (Atom* pAtom);
+	virtual void AddBond (Bond* pBond);
+	virtual void Remove (gcu::Object* pObject);
+	void UpdateCycles (Bond* pBond);
+	void UpdateCycles ();
+
+protected:
+	std::list<Cycle*> m_Cycles;
+	std::list<Chain*> m_Chains;
+	std::list<Atom*> m_Atoms;
+	std::list<Bond*> m_Bonds;
 };
 
-}	//	namespace gcp
+}	//	namespace gcu
 
-#endif // GCHEMPAINT_CYCLE_H
+#endif	//	GCU_MOLECULE_H

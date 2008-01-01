@@ -30,6 +30,7 @@
 #include <gcu/dialog-owner.h>
 #include <gcu/macros.h>
 #include <string>
+#include <set>
 
 namespace gcu
 {
@@ -42,8 +43,8 @@ This class is the base document class.
 */
 class Document: public Object, public DialogOwner
 {
-friend class gcu::Object;
-friend class gcu::Dialog;
+friend class Object;
+friend class Dialog;
 public:
 /*!
 @param App: the Appllcation which owns the new document.
@@ -95,6 +96,8 @@ to avoid errors on the next paste event.
 */
 	std::string &GetTitle () {return m_Title;}
 
+	void NotifyDirty (Object* pObject) {m_DirtyObjects.insert (pObject);}
+
 private:
 
 /*!
@@ -117,6 +120,8 @@ The document title.
 */
 	std::string m_Title;
 
+	std::set<Object*> m_DirtyObjects;
+
 /*!\var m_App
 The Application instance owning the document.
 */
@@ -125,18 +130,6 @@ The Application instance owning the document.
 an orphan document.
 */
 GCU_PROT_PROP (Application *, App)
-/*!\fn SetDirty(bool dirty)
-@param dirty should be true if the document has changed, false otherwise.
-*/
-/*!\fn GetDirty()
-@return true if the document has changed since it was opened or last saved,
-false otherwise.
-*/
-/*!\fn GetRefDirty()
-*@return the current state of the document as a reference:
-true if the document has changed since it was opened or last saved, false otherwise.
-*/
-GCU_PROP (bool, Dirty);
 /*!\var m_Empty
 Tells if the document is empty or not.
 */

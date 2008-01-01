@@ -315,15 +315,6 @@ void Atom::Update ()
 		}
 	}
 }
-	
-bool Atom::IsInCycle (Cycle* pCycle)
-{
-	map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end ();
-	for (i = m_Bonds.begin (); i != end; i++)
-		if (((Bond*) (*i).second)->IsInCycle (pCycle))
-		return true;
-	return false;
-}
 
 void Atom::Add (GtkWidget* w)
 {

@@ -42,7 +42,6 @@ namespace OpenBabel
 namespace gcp {
 
 class Bond;
-class Cycle;
 class Molecule;
 
 #define CHARGE_NE 1
@@ -89,7 +88,6 @@ public :
 	int GetTotalBondsNumber (); //take bond order into account
 	int GetAttachedHydrogens () {return m_nH;}
 	bool GetBestSide ();
-	bool IsInCycle (Cycle* pCycle);
 	virtual int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
 	virtual int GetAvailablePosition (double& x, double& y);
 	virtual bool GetPosition (double angle, double& x, double& y);

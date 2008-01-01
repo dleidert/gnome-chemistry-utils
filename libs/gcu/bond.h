@@ -32,6 +32,7 @@ namespace gcu
 {
 
 class Atom;
+class Cycle;
 
 /*!\class Bond gcu/bond.h
 This class is used to represent bonds.
@@ -132,6 +133,15 @@ Does nothing. Just a slight optimization to avoid execution of Object::Transform
 	virtual void Transform2D (Matrix2D& m, double x, double y);
 
 	bool SetProperty (unsigned property, char const *value);
+	virtual void AddCycle (Cycle* pCycle);
+	virtual void RemoveCycle (Cycle* pCycle);
+	virtual void RemoveAllCycles ();
+	unsigned IsCyclic () {return m_Cycles.size ();}
+	Cycle* GetFirstCycle (std::list<Cycle*>::iterator& i, Cycle * pCycle);
+	Cycle* GetNextCycle (std::list<Cycle*>::iterator& i, Cycle * pCycle);
+	bool IsInCycle (Cycle* pCycle);
+	double Get2DLength ();
+	double GetAngle2DRad (Atom* pAtom);
 
 protected:
 /*!
@@ -146,6 +156,8 @@ A pointer to the first Atom instance of the Bond.
 A pointer to the last Atom instance of the Bond.
 */
 	Atom *m_End;// only 2 centered bonds, other bonds should be covered by derived classes
+
+	std::list<Cycle*> m_Cycles;
 };
 
 } // namespace gcu

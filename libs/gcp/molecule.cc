@@ -29,6 +29,7 @@
 #include "application.h"
 #include "tool.h"
 #include "stringdlg.h"
+#include <gcu/chain.h>
 #include <glib/gi18n-lib.h>
 #include <unistd.h>
 #include <openbabel/obconversion.h>
@@ -78,18 +79,15 @@ static void do_open_in_calc (Molecule* pMol)
 	pMol->OpenCalc ();
 }
 
-Molecule::Molecule (TypeId Type): Object (Type)
+Molecule::Molecule (TypeId Type): gcu::Molecule (Type)
 {
 	m_Alignment = NULL;
 	m_Changed = true;
 	m_IsResidue = false;
 }
 
-Molecule::Molecule (Atom* pAtom): Object (MoleculeType)
+Molecule::Molecule (Atom* pAtom): gcu::Molecule  (pAtom)
 {
-	AddAtom (pAtom);
-	Chain* pChain = new Chain (this, pAtom); //will find the cycles
-	delete pChain;
 	m_Alignment = NULL;
 	m_Changed = true;
 	m_IsResidue = false;
@@ -97,47 +95,26 @@ Molecule::Molecule (Atom* pAtom): Object (MoleculeType)
 
 Molecule::~Molecule ()
 {
-	std::list<Bond*>::iterator n, end = m_Bonds.end ();
-	for (n = m_Bonds.begin (); n != end; n++)
-		(*n)->RemoveAllCycles ();
-	while (!m_Cycles.empty ()) {
-		delete m_Cycles.front ();
-		m_Cycles.pop_front ();
-	}
-	while (!m_Chains.empty ()) {
-		delete m_Chains.front ();
-		m_Chains.pop_front ();
-	}
 }
 
 void Molecule::AddChild (Object* object)
 {
 	switch (object->GetType ()) {
-	case AtomType: {
-		Atom *atom = reinterpret_cast<Atom *> (object);
-		AddAtom (atom);
-		break;
-	}
-	case gcu::BondType: {
-		Bond *bond = reinterpret_cast<Bond *> (object);
-		m_Bonds.remove (bond);
-		AddBond (bond);
-		break;
-	}
 	case FragmentType: {
 		Fragment *fragment = reinterpret_cast<Fragment *> (object);
 		m_Fragments.remove (fragment);
 		AddFragment (fragment);
 		break;
 	}
+	default:
+		gcu::Molecule::AddChild (object);
+		break;
 	}
 }
 
-void Molecule::AddAtom (Atom* pAtom)
+void Molecule::AddAtom (gcu::Atom* pAtom)
 {
-	m_Atoms.remove (pAtom); // avoid duplicates
-	m_Atoms.push_back (pAtom);
-	Object::AddChild (pAtom);
+	gcu::Molecule::AddAtom (pAtom);
 	if (!pAtom->GetZ ())
 		m_IsResidue = true;
 }
@@ -148,12 +125,11 @@ void Molecule::AddFragment (Fragment* pFragment)
 	Object::AddChild (pFragment);
 } 
 
-void Molecule::AddBond (Bond* pBond)
+void Molecule::AddBond (gcu::Bond* pBond)
 {
 	if (pBond->GetAtom (0) && pBond->GetAtom (1))
-		CheckCrossings (pBond);
-	m_Bonds.push_back (pBond);
-	Object::AddChild (pBond);
+		CheckCrossings (reinterpret_cast <Bond *> (pBond));
+	gcu::Molecule::AddBond (pBond);
 	EmitSignal (OnChangedSignal);
 }
 
@@ -162,23 +138,14 @@ void Molecule::Remove (Object* pObject)
 	if (pObject == m_Alignment)
 		m_Alignment = NULL;
 	switch (pObject->GetType ()) {
-	case AtomType:
-		m_Atoms.remove ((Atom*) pObject);
-		break;
-	case gcu::BondType:
-		m_Bonds.remove ((Bond*) pObject);
-		break;
 	case FragmentType:
 		m_Fragments.remove ((Fragment*) pObject);
 		break;
+	default:
+		gcu::Molecule::Remove (pObject);
+		break;
 	}
 	pObject->SetParent (GetParent ());
-}
-
-void Molecule::UpdateCycles (Bond* pBond)	//FIXME: function not totally implemented
-{
-	Chain* pChain = new Chain (this, pBond); //will find the cycles
-	delete pChain;
 }
 
 typedef struct {
@@ -195,7 +162,7 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 	Chain* pChain;
 	Cycle* pCycle;
 	if (RemoveDuplicates) {
-		std::list<Atom*>::iterator i = m_Atoms.begin (), end = m_Atoms.end ();
+		std::list<gcu::Atom*>::iterator i = m_Atoms.begin (), end = m_Atoms.end ();
 		double x, y, x0, y0, x1, y1;
 		MergedAtom *ma;
 		Bond *b0, *b1;
@@ -235,7 +202,7 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 						}
 					}
 				}
-				AtomMap[*i] = ma;
+				AtomMap[reinterpret_cast <Atom *> (*i)] =  ma;
 			}
 		}
 		// Now check if merging is possible for each shared atom.
@@ -334,7 +301,7 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 		if (!DoMerge) return false;
 	}
 	while (!pMolecule->m_Atoms.empty ()) {
-		pAtom = pMolecule->m_Atoms.front ();
+		pAtom =  reinterpret_cast <Atom *> (pMolecule->m_Atoms.front ());
 		AddAtom (pAtom);
 		pMolecule->m_Atoms.pop_front ();
 	}
@@ -344,7 +311,7 @@ bool Molecule::Merge (Molecule* pMolecule, bool RemoveDuplicates)
 		pMolecule->m_Fragments.pop_front ();
 	}
 	while (!pMolecule->m_Bonds.empty ()) {
-		pBond = pMolecule->m_Bonds.front ();
+		pBond =  reinterpret_cast <Bond *> (pMolecule->m_Bonds.front ());
 		AddBond (pBond);
 		pMolecule->m_Bonds.pop_front ();
 	}
@@ -439,8 +406,8 @@ bool Molecule::Load (xmlNodePtr node)
 		CheckCrossings ((Bond*) pObject);
 	}
 	if (!m_Atoms.empty ()) {
-		Atom* pAtom = m_Atoms.front ();
-		std::list<Atom*>::iterator i = m_Atoms.begin ();
+		Atom* pAtom =  reinterpret_cast <Atom *> (m_Atoms.front ());
+		list<gcu::Atom*>::iterator i = m_Atoms.begin ();
 		i++;
 		for (; i != m_Atoms.end (); i++)
 			(*i)->SetParent (NULL);
@@ -456,35 +423,6 @@ bool Molecule::Load (xmlNodePtr node)
 	}
 	m_Changed = true;
 	return true;
-}
-
-void Molecule::UpdateCycles ()
-{
-	Lock (true);
-	std::list<Bond*>::iterator n, end = m_Bonds.end ();
-	for (n = m_Bonds.begin (); n != end; n++)
-		(*n)->RemoveAllCycles ();
-	while (!m_Cycles.empty()) {
-		delete m_Cycles.front ();
-		m_Cycles.pop_front ();
-	}
-	if (!m_Atoms.empty()) {
-		std::list<Atom*>::iterator i = m_Atoms.begin (), end = m_Atoms.end ();
-		i++;
-		for (; i != end; i++)
-			(*i)->SetParent(NULL);
-		Chain* pChain = new Chain (this, *(m_Atoms.begin ())); //will find the cycles
-		delete pChain;
-		end = m_Atoms.end ();
-		list<Atom*> orphans;
-		for (i = m_Atoms.begin (); i != end; i++)
-			if ((*i)->GetParent () == NULL)
-				orphans.push_back (*i);;
-		end = orphans.end ();
-		for (i = orphans.begin (); i != end; i++)
-			(*i)->SetParent (this);
-	}
-	Lock (false);
 }
 
 void Molecule::Clear ()
@@ -507,16 +445,16 @@ void Molecule::SetSelected (GtkWidget* w, int state)
 void Molecule::Transform2D (Matrix2D& m, double x, double y)
 {
 	Object::Transform2D (m, x, y);
-	std::list<Atom*>::iterator i = m_Atoms.begin ();
+	std::list<gcu::Atom*>::iterator i = m_Atoms.begin ();
 	for (; i != m_Atoms.end (); i++)
-	if (((*i)->GetZ () != 6) && (*i)->GetAttachedHydrogens () &&
-		(*i)->GetBondsNumber ()) (*i)->Update ();
+	if (((*i)->GetZ () != 6) &&  reinterpret_cast <Atom *> (*i)->GetAttachedHydrogens () &&
+		(*i)->GetBondsNumber ())  reinterpret_cast <Atom *> (*i)->Update ();
 }
 
 Object* Molecule::GetAtomAt (double x, double y, double z)
 {
 	// Make use of Bond::GetAtomAt
-	std::list<Bond*>::iterator n, end = m_Bonds.end ();
+	std::list<gcu::Bond*>::iterator n, end = m_Bonds.end ();
 	Object* pObj = NULL;
 	for (n = m_Bonds.begin(); n != end; n++)
 		if ((pObj = (*n)->GetAtomAt (x, y)))
@@ -529,9 +467,9 @@ double Molecule::GetYAlign ()
 	if (m_Alignment)
 		return m_Alignment->GetYAlign ();
 	double y, maxy = - DBL_MAX, miny = DBL_MAX;
-	std::list<Atom*>::iterator i = m_Atoms.begin (), end = m_Atoms.end ();
+	std::list<gcu::Atom*>::iterator i = m_Atoms.begin (), end = m_Atoms.end ();
 	for (; i != end; i++) {
-		y = (*i)->GetYAlign ();
+		y =  reinterpret_cast <Atom *> (*i)->GetYAlign ();
 		if (y < miny)
 			miny = y;
 		if (y > maxy)
@@ -657,8 +595,8 @@ void Molecule::BuildOBMol (OBMol &Mol)
 	double xav = 0., yav = 0., zf;
 	unsigned n = m_Atoms.size ();
 	map<string, unsigned> AtomTable;
-	list<Atom*>::iterator ia, enda = m_Atoms.end ();
-	list<Bond*> BondList;
+	list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
+	list<gcu::Bond*> BondList;
 	double x, y, z;
 	for (ia = m_Atoms.begin (); ia != enda; ia++) {
 		(*ia)->GetCoords(&x, &y, &z);
@@ -675,7 +613,7 @@ void Molecule::BuildOBMol (OBMol &Mol)
 	Mol.BeginModify ();
 	Mol.ReserveAtoms (n);
 	for (ia = m_Atoms.begin (); ia != enda; ia++) {
-		pgAtom = *ia;
+		pgAtom =  reinterpret_cast <Atom *> (*ia);
 		AtomTable [pgAtom->GetId ()] = index;
 		obAtom.SetIdx (index++);
 		obAtom.SetAtomicNum (pgAtom->GetZ());
@@ -700,7 +638,7 @@ void Molecule::BuildOBMol (OBMol &Mol)
 		Mol.AddAtom (obAtom);
 		obAtom.Clear ();
 	}
-	list<Bond*>::iterator j, endb = m_Bonds.end ();
+	list<gcu::Bond*>::iterator j, endb = m_Bonds.end ();
 	int start, end, order;
 	for (j = m_Bonds.begin (); j != endb; j++)
 	{
@@ -717,8 +655,8 @@ void Molecule::BuildOBMol2D (OBMol &Mol)
 	double xav = 0., yav = 0.;
 	unsigned n = m_Atoms.size ();
 	map<string, unsigned> AtomTable;
-	list<Atom*>::iterator ia, enda = m_Atoms.end ();
-	list<Bond*> BondList;
+	list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
+	list<gcu::Bond*> BondList;
 	double x, y, z;
 	for (ia = m_Atoms.begin (); ia != enda; ia++) {
 		(*ia)->GetCoords (&x, &y, &z);
@@ -735,7 +673,7 @@ void Molecule::BuildOBMol2D (OBMol &Mol)
 	Mol.ReserveAtoms (n);
 	Mol.SetDimension (2);
 	for (ia = m_Atoms.begin (); ia != enda; ia++) {
-		pgAtom = *ia;
+		pgAtom =  reinterpret_cast <Atom *> (*ia);
 		AtomTable [pgAtom->GetId ()] = index;
 		obAtom.SetIdx (index++);
 		obAtom.SetAtomicNum (pgAtom->GetZ());
@@ -745,7 +683,7 @@ void Molecule::BuildOBMol2D (OBMol &Mol)
 		Mol.AddAtom (obAtom);
 		obAtom.Clear ();
 	}
-	list<Bond*>::iterator j, endb = m_Bonds.end ();
+	list<gcu::Bond*>::iterator j, endb = m_Bonds.end ();
 	int start, end, order, flag;
 	for (j = m_Bonds.begin (); j != endb; j++)
 	{
@@ -863,14 +801,14 @@ bool Molecule::OnSignal (SignalId Signal, Object *Child)
 
 void Molecule::OpenCalc ()
 {
-	list<Atom*>::iterator ia, enda = m_Atoms.end ();
+	list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
 	ostringstream ofs;
 	int nH;
 	// FIXME: the following line should be edited for stable releases
 	ofs << "gchemcalc-unstable ";
 	for (ia = m_Atoms.begin(); ia != enda; ia++) {
 		ofs << (*ia)->GetSymbol();
-		nH = (*ia)->GetAttachedHydrogens ();
+		nH = reinterpret_cast <Atom *> (*ia)->GetAttachedHydrogens ();
 		if (nH > 0) {
 			ofs << "H" << nH;
 		}
@@ -881,9 +819,9 @@ void Molecule::OpenCalc ()
 void Molecule::CheckCrossings (Bond *pBond)
 {
 	View *pView = reinterpret_cast<Document*> (GetDocument ())->GetView ();
-	list<Bond*>::iterator i, iend = m_Bonds.end ();
+	list<gcu::Bond*>::iterator i, iend = m_Bonds.end ();
 	for (i = m_Bonds.begin (); i != iend; i++)
-		if (((*i) != pBond) && (*i)->IsCrossing (pBond)) {
+		if (((*i) != pBond) && reinterpret_cast <Bond *> (*i)->IsCrossing (pBond)) {
 			pView->Update (pBond);
 			pView->Update (*i);
 		}
@@ -901,14 +839,14 @@ std::string Molecule::GetRawFormula ()
 	ostringstream ofs;
 
 	if (!m_Fragments.size ()) {
-		// we do not support fragmentsat the moment
+		// we do not support fragments at the moment
 		map<string, int> elts;
-		list<Atom*>::iterator ia, enda = m_Atoms.end ();
+		list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
 		for (ia = m_Atoms.begin(); ia != enda; ia++) {
 			if ((*ia)->GetZ () == 0)
 				continue;
 			elts[(*ia)->GetSymbol ()]++;
-			elts["H"] += (*ia)->GetAttachedHydrogens ();
+			elts["H"] += reinterpret_cast <Atom *> (*ia)->GetAttachedHydrogens ();
 		}
 		if (elts["C"] > 0) {
 			ofs << "C" << elts["C"];

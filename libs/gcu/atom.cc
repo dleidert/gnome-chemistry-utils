@@ -253,5 +253,14 @@ bool Atom::SetProperty (unsigned property, char const *value)
 	}
 	return  true;
 }
+	
+bool Atom::IsInCycle (Cycle* pCycle)
+{
+	map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end ();
+	for (i = m_Bonds.begin (); i != end; i++)
+		if (((Bond*) (*i).second)->IsInCycle (pCycle))
+		return true;
+	return false;
+}
 
 }	//	namespace gcu

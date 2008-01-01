@@ -94,7 +94,7 @@ typedef struct {
 	IOContext *context;
 	stack<Object*> cur;
 	list<CDXMLProps> failed;
-	map<unsigned,CDXMLFont> fonts;
+	map<unsigned, CDXMLFont> fonts;
 } CDXMLReadState;
 
 static void
@@ -314,7 +314,17 @@ bool CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOC
 
 bool CDXMLLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io)
 {
-	return true;
+	map<string, CDXMLFont> fonts;
+
+	if (NULL != out) {
+		GsfXMLOut *xml = gsf_xml_out_new (out);
+		gsf_xml_out_set_doc_type (xml, "<!DOCTYPE CDXML SYSTEM \"http://www.cambridgesoft.com/xml/cdxml.dtd\">");
+		gsf_xml_out_start_element (xml, "CDXML");
+		gsf_xml_out_end_element (xml);
+		g_object_unref (xml);
+		return true;
+	}
+	return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
