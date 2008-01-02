@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: load colors table.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+
 2008-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: moved the chemical part of molecules from gcp
 	to gcu.

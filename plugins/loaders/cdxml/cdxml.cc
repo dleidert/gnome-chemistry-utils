@@ -4,7 +4,7 @@
  * CDXML files loader plugin
  * cdxml.cc 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -36,6 +36,7 @@
 #include <map>
 #include <stack>
 #include <string>
+#include <vector>
 
 using namespace std;
 using namespace gcu;
@@ -95,6 +96,7 @@ typedef struct {
 	stack<Object*> cur;
 	list<CDXMLProps> failed;
 	map<unsigned, CDXMLFont> fonts;
+	vector<string> colors;
 } CDXMLReadState;
 
 static void
@@ -223,12 +225,29 @@ cdxml_font_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->fonts[font.index] = font;
 }
 
+static void
+cdxml_color (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	string red, green, blue;
+	while (*attrs) {
+		if (!strcmp ((char const *) *attrs, "r"))
+			red = (char const *) attrs[1];
+		else if (!strcmp ((char const *) *attrs, "g"))
+			green = (char const *) attrs[1];
+		else if (!strcmp ((char const *) *attrs, "b"))
+			blue = (char const *) attrs[1];
+		attrs += 2;
+	}
+	state->colors.push_back (red + " " + green + " " + blue);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Reading code
 static GsfXMLInNode const cdxml_dtd[] = {
 GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 	GSF_XML_IN_NODE (CDXML, COLORTABLE, -1, "colortable", GSF_XML_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (COLORTABLE, COLOR, -1, "color", GSF_XML_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (COLORTABLE, COLOR, -1, "color", GSF_XML_CONTENT, &cdxml_color, NULL),
 	GSF_XML_IN_NODE (CDXML, FONTTABLE, -1, "fonttable", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (FONTTABLE, FONT, -1, "font", GSF_XML_CONTENT, cdxml_font_start, NULL),
 	GSF_XML_IN_NODE (CDXML, PAGE, -1, "page", GSF_XML_CONTENT, NULL, NULL),
@@ -274,6 +293,8 @@ bool CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOC
 	state.doc = doc;
 	state.context = io;
 	bool  success = false;
+	state.colors.push_back ("1 1 1"); // white
+	state.colors.push_back ("0 0 0"); // black
 
 	if (NULL != in) {
 		GsfXMLInDoc *xml = gsf_xml_in_doc_new (cdxml_dtd, NULL);

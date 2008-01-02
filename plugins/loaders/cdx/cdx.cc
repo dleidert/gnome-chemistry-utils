@@ -4,7 +4,7 @@
  * CDXML files loader plugin
  * cdx.cc 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,8 +31,9 @@
 #include <openbabel/chemdrawcdx.h>
 #include <map>
 #include <string>
-#include <libintl.h>
+#include <vector>
 #include <cstdio>
+#include <libintl.h>
 
 using namespace std;
 using namespace gcu;
@@ -81,6 +82,7 @@ private:
 	char *buf;
 	size_t bufsize;
 	map<unsigned, CDXFont> fonts;
+	vector <string> colors;
 };
 
 CDXLoader::CDXLoader ()
@@ -185,7 +187,22 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				}
 			}
 			break;
-			case kCDXProp_ColorTable:
+			case kCDXProp_ColorTable: {
+				colors.push_back ("1 1 1"); // white
+				colors.push_back ("0 0 0"); // black
+				unsigned nb = (size - 2) / 6;
+				if (!READINT16 (in, buf, size) || size != nb)
+					return false;
+				guint16 red, blue, green;
+				for (unsigned i = 0; i < nb; i++) {
+				if (!READINT16 (in, buf, red) || !READINT16 (in, buf, green) || !READINT16 (in, buf, blue))
+					return false;
+					snprintf (buf, bufsize, "%g %g %g", (double) red / 0xffff, (double) green / 0xffff, (double) blue / 0xffff);
+					colors.push_back (buf);
+puts(buf);
+				}
+				break;
+			}
 			default:
 				if (size)
 					result = (gsf_input_read (in, size, (guint8*) buf));
