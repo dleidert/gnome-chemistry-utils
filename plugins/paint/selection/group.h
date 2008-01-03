@@ -58,6 +58,7 @@ public:
 	bool GetPadding (double& padding);
 	void Transform2D (Matrix2D& m, double x, double y);
 	double GetYAlign ();
+	void OnLoaded ();
 
 private:
 	void Align ();

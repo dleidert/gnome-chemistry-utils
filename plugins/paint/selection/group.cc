@@ -355,3 +355,11 @@ void gcpGroup::Add (GtkWidget* w)
 		p = GetNextChild (i);
 	}
 }
+
+void gcpGroup::OnLoaded ()
+{
+	if (GetChildrenNumber () < 2)
+		delete this;
+	else
+		Align ();
+}

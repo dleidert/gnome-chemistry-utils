@@ -109,13 +109,14 @@ cdxml_doc (GsfXMLIn *xin, xmlChar const **attrs)
 			state->doc->SetProperty ((*it).second, (char const *) *attrs);}
 		attrs++;
 	}
+	state->cur.push (state->doc);
 }
 
 static void
 cdxml_fragment_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("molecule", state->doc);
+	Object *obj = Object::CreateObject ("molecule", state->cur.top ());
 	state->cur.push (obj);
 }
 
@@ -203,6 +204,7 @@ static void
 cdxml_simple_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	state->cur.top ()->Lock (false);
 	state->cur.top ()->OnLoaded ();
 	state->cur.pop ();
 }
@@ -242,6 +244,15 @@ cdxml_color (GsfXMLIn *xin, xmlChar const **attrs)
 	state->colors.push_back (red + " " + green + " " + blue);
 }
 
+static void
+cdxml_group_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	Object *obj = Object::CreateObject ("group", state->cur.top ());
+	obj->Lock ();
+	state->cur.push (obj);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Reading code
 static GsfXMLInNode const cdxml_dtd[] = {
@@ -256,7 +267,11 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 			GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
 			GSF_XML_IN_NODE (FRAGMENT, BOND, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
 			GSF_XML_IN_NODE (FRAGMENT, T1, -1, "t", GSF_XML_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (PAGE, GROUP, -1, "group", GSF_XML_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PAGE, GROUP, -1, "group", GSF_XML_CONTENT, cdxml_group_start, cdxml_simple_end),
+			GSF_XML_IN_NODE (GROUP, FRAGMENT1, -1, "fragment", GSF_XML_CONTENT, cdxml_fragment_start, cdxml_simple_end),
+				GSF_XML_IN_NODE (FRAGMENT1, NODE1, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
+				GSF_XML_IN_NODE (FRAGMENT1, BOND1, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
+				GSF_XML_IN_NODE (FRAGMENT1, T11, -1, "t", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, GRAPHIC, -1, "graphic", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, ALTGROUP, -1, "altgroup", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, CURVE, -1, "curve", GSF_XML_CONTENT, NULL, NULL),

@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-01-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: load groups.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/paint/selection/group.cc: implement gcpGroup::OnLoaded
+	* plugins/paint/selection/group.h: ditto.
+
 2008-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: load colors table.
 	* plugins/loaders/cdxml/cdxml.cc: ditto.

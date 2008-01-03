@@ -248,7 +248,7 @@ bool Atom::SetProperty (unsigned property, char const *value)
 		SetZ (Element::Z (value));
 		break;
 	case GCU_PROP_ATOM_Z:
-		SetZ (atoi(value));
+		SetZ (atoi (value));
 		break;
 	}
 	return  true;

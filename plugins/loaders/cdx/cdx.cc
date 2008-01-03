@@ -75,6 +75,7 @@ private:
 	bool ReadAtom (GsfInput *in, Object *parent);
 	bool ReadBond (GsfInput *in, Object *parent);
 	bool ReadText (GsfInput *in, Object *parent);
+	bool ReadGroup (GsfInput *in, Object *parent);
 	guint16 ReadSize (GsfInput *in);
 	bool ReadDate (GsfInput *in);
 
@@ -199,7 +200,6 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 					return false;
 					snprintf (buf, bufsize, "%g %g %g", (double) red / 0xffff, (double) green / 0xffff, (double) blue / 0xffff);
 					colors.push_back (buf);
-puts(buf);
 				}
 				break;
 			}
@@ -525,6 +525,45 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 		if (!READINT16 (in, buf, code))
 			return false;
 	}
+	return true;
+}
+
+bool CDXLoader::ReadGroup (GsfInput *in, Object *parent)
+{
+	guint16 code;
+	Object *Group= Object::CreateObject ("group", parent);
+	Group->Lock ();
+	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
+		return false;
+	if (!READINT16 (in, buf, code))
+		return false;
+	while (code) {
+		if (code & kCDXTag_Object) {
+			switch (code) {
+			case kCDXObj_Fragment:
+				if (!ReadMolecule (in, Group))
+					return false;
+				break;
+			case kCDXObj_Text:
+				if (!ReadText (in, Group))
+					return false;
+				break;
+			default:
+				if (!ReadGenericObject (in))
+					return false;
+			}
+		} else {
+			guint16 size;
+			if ((size = ReadSize (in)) == 0xffff)
+				return false;
+			if (size && !gsf_input_read (in, size, (guint8*) buf))
+				return false;
+		}
+		if (!READINT16 (in, buf, code))
+			return false;
+	}
+	Group->Lock (false);
+	Group->OnLoaded ();
 	return true;
 }
 
