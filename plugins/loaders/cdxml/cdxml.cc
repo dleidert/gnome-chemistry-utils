@@ -187,6 +187,19 @@ cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 				default:
 					obj->SetProperty (GCU_PROP_BOND_TYPE, "normal");
 				}
+			} else if ((*it).second == GCU_PROP_BOND_ORDER) {
+				unsigned order = atoi ((char const *) *attrs);
+				switch (order) {
+				case 2:
+					obj->SetProperty (GCU_PROP_BOND_ORDER, "2");
+					break;
+				case 4:
+					obj->SetProperty (GCU_PROP_BOND_ORDER, "3");
+					break;
+				default:
+					obj->SetProperty (GCU_PROP_BOND_ORDER, "1");
+					break;
+				}
 			} else if (!obj->SetProperty ((*it).second, (char const *) *attrs)) {
 				CDXMLProps p;
 				p.obj = obj;

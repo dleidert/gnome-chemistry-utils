@@ -421,8 +421,17 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 			case kCDXProp_Bond_Order:
 				if (size != 2 || !READINT16 (in, buf, size))
 					return false;
-				snprintf (buf, bufsize, "%u", size);
-				Bond->SetProperty (GCU_PROP_BOND_ORDER, buf);
+				switch (size) {
+				case 2:
+					Bond->SetProperty (GCU_PROP_BOND_ORDER, "2");
+					break;
+				case 4:
+					Bond->SetProperty (GCU_PROP_BOND_ORDER, "3");
+					break;
+				default:
+					Bond->SetProperty (GCU_PROP_BOND_ORDER, "1");
+					break;
+				}
 				break;
 			case kCDXProp_Bond_Display:
 				if (size != 2 || !READINT16 (in, buf, size))
