@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2008-01-08 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* configure.ac: Call AC_LIBTOOL_WIN32_DLL. Added some stuff to
+	determine, if we try to compile on a Windows system [#21875].
+	* gcu/Makefile.am (LDFLAGS): Set -no-undefined on Windows
+	systems [#21875]. Thanks to the submitter of the report.
+	* gcu/formula.cc: Fix a compilation error on Cygwin [#21875].
+	* programs/calc/gchemcalc.cc: Ditto.
+	* programs/crystal/Makefile.am: Reordered.
+	* programs/table/Makefile.am: Ditto.
+
 2007-12-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.8.6).
 

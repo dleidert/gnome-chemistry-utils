@@ -178,7 +178,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		} else {
 			if (prec < 0) {
 				// round the value to replace not significant figures by 0s.
-				double offs = pow10 (prec);
+				double offs = pow (10.0, (double) prec);
 				weight = rint (weight * offs) / offs;
 			}
 			format = artificial? g_strdup ("(%.0f)"): g_strdup ("%.0f");

@@ -6,6 +6,13 @@ CLEANFILES = $(desktop_DATA) \
 
 MAINTAINERCLEANFILES = Makefile.in
 
+DEPS = $(top_builddir)/gcu/libgcu.la
+INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
+LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
+DEFS += -DDATADIR=\"$(datadir)\" \
+        -DGLADEDIR=\"$(datadir)/gchemutils/glade/crystal\" \
+        -DPIXMAPSDIR=\"$(datadir)/gchemutils/pixmaps\"
+
 bin_PROGRAMS = gcrystal
 
 gcrystal_SOURCES = \
@@ -40,15 +47,6 @@ gcrystal_SOURCES = \
 	view-settings.h \
 	window.cc \
 	window.h
-
-gcrystal_LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
-
-DEPS = $(top_builddir)/gcu/libgcu.la
-INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
-DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(datadir)/gchemutils/glade/crystal\" \
-        -DPIXMAPSDIR=\"$(datadir)/gchemutils/pixmaps\"
 
 schemasdir = $(GCONF_SCHEMA_FILE_DIR)
 schemas_in_files = gcrystal.schemas.in

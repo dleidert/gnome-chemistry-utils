@@ -1,12 +1,17 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-AM_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
+INCLUDES = -I$(top_srcdir) $(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DPKGDATADIR=\"$(datadir)/gchemutils\" \
 	-DGLADEDIR=\"$(datadir)/gchemutils/glade\"
 lib_LTLIBRARIES= libgcu.la
+
+libgcu_la_LIBADD = $(GCU_LIBS)
+libgcu_la_LDFLAGS = -version-info $(GCU_VERSION_INFO)
+if OS_WIN32
+libgcu_la_LDFLAGS += -no-undefined
+endif
 
 libgcu_la_SOURCES = \
 		atom.cc \

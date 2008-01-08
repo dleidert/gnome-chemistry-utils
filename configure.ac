@@ -18,6 +18,7 @@ AC_DISABLE_STATIC
 AC_ISC_POSIX
 AC_PROG_CXX
 AC_HEADER_STDC
+AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 IT_PROG_INTLTOOL([0.35.0])
 GNOME_DOC_INIT
@@ -211,6 +212,26 @@ AC_ARG_WITH(
 AM_CONDITIONAL([WITH_MOZILLA], [test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST([MOZILLA_CFLAGS])
 AC_SUBST([mozlibdir])
+
+##################################################
+# Windows systems
+##################################################
+
+case "$host_os" in
+	windows* | cygwin* | mingw*)
+		AC_DEFINE([OS_WIN32], [1], [Define to 1 if you have a Cygwin/Windows OS.])
+		AC_MSG_NOTICE([platform is... Windows/Cygwin/Mingw])
+	;;
+esac
+
+case "$host" in
+	*-*-mingw* | *cygwin* | *windows*)
+		native_win32=yes
+	;;		
+esac
+
+AM_CONDITIONAL([OS_WIN32], [test "x$native_win32" = "xyes"])
+
 
 ##################################################
 # Check for manpage target applications

@@ -4,12 +4,12 @@ CLEANFILES = $(desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-bin_PROGRAMS = gchemtable
-
 DEPS = $(top_builddir)/gcu/libgcu.la
 INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
 LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" -DGLADEDIR=\"$(datadir)/gchemutils/glade/table\"
+
+bin_PROGRAMS = gchemtable
 
 gchemtable_SOURCES =	\
 	gchemtable-main.cc	\
