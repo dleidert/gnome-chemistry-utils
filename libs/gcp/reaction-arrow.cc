@@ -33,6 +33,7 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gcu/objprops.h>
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-line.h>
 #include <glib/gi18n-lib.h>
@@ -485,6 +486,18 @@ bool ReactionArrow::OnSignal (SignalId Signal, Object *Child)
 {
 	if (Signal == OnChangedSignal) {
 		// FIXME: write this code
+	}
+	return true;
+}
+
+bool ReactionArrow::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_REACTION_ARROW_TYPE:
+		m_Type = (strcmp (value, "double"))? ReversibleArrow: SimpleArrow;
+		break;
+	default:
+		return Arrow::SetProperty (property, value);
 	}
 	return true;
 }

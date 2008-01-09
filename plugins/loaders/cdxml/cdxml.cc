@@ -41,7 +41,7 @@
 using namespace std;
 using namespace gcu;
 
-static map<string, unsigned> DocProps, AtomProps, BondProps;
+static map<string, unsigned> KnownProps;
 
 class CDXMLLoader: public gcu::Loader
 {
@@ -56,21 +56,20 @@ public:
 CDXMLLoader::CDXMLLoader ()
 {
 	AddMimeType ("chemical/x-cdxml");
-	DocProps["BondLength"] = GCU_PROP_THEME_BOND_LENGTH;
-	DocProps["Comment"] = GCU_PROP_DOC_COMMENT;
-	DocProps["CreationDate"] = GCU_PROP_DOC_CREATION_TIME;
-	DocProps["CreationUserName"] = GCU_PROP_DOC_CREATOR;
-	DocProps["ModificationDate"] = GCU_PROP_DOC_MODIFICATION_TIME;
-	DocProps["Name"] = GCU_PROP_DOC_TITLE;
-	AtomProps["p"] = GCU_PROP_POS2D;
-	AtomProps["Element"] = GCU_PROP_ATOM_Z;
-	AtomProps["id"] = GCU_PROP_ID;
-	BondProps["id"] = GCU_PROP_ID;
-	BondProps["B"] = GCU_PROP_BOND_BEGIN;
-	BondProps["DISPLAY"] = GCU_PROP_BOND_TYPE;
-	BondProps["E"] = GCU_PROP_BOND_END;
-	BondProps["Order"] = GCU_PROP_BOND_ORDER;
-	BondProps["id"] = GCU_PROP_ID;
+	KnownProps["BondLength"] = GCU_PROP_THEME_BOND_LENGTH;
+	KnownProps["Comment"] = GCU_PROP_DOC_COMMENT;
+	KnownProps["CreationDate"] = GCU_PROP_DOC_CREATION_TIME;
+	KnownProps["CreationUserName"] = GCU_PROP_DOC_CREATOR;
+	KnownProps["ModificationDate"] = GCU_PROP_DOC_MODIFICATION_TIME;
+	KnownProps["Name"] = GCU_PROP_DOC_TITLE;
+	KnownProps["p"] = GCU_PROP_POS2D;
+	KnownProps["Element"] = GCU_PROP_ATOM_Z;
+	KnownProps["Charge"] = GCU_PROP_ATOM_CHARGE;
+	KnownProps["id"] = GCU_PROP_ID;
+	KnownProps["B"] = GCU_PROP_BOND_BEGIN;
+	KnownProps["DISPLAY"] = GCU_PROP_BOND_TYPE;
+	KnownProps["E"] = GCU_PROP_BOND_END;
+	KnownProps["Order"] = GCU_PROP_BOND_ORDER;
 }
 
 CDXMLLoader::~CDXMLLoader ()
@@ -105,7 +104,7 @@ cdxml_doc (GsfXMLIn *xin, xmlChar const **attrs)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	map<string, unsigned>::iterator it;
 	while (*attrs) {
-		if ((it = DocProps.find ((char const *) *attrs++)) != DocProps.end ()) {
+		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
 			state->doc->SetProperty ((*it).second, (char const *) *attrs);}
 		attrs++;
 	}
@@ -128,7 +127,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 	obj->SetProperty (GCU_PROP_ATOM_Z, "6");
 	map<string, unsigned>::iterator it;
 	while (*attrs) {
-		if ((it = AtomProps.find ((char const *) *attrs++)) != AtomProps.end ()) {
+		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
 			obj->SetProperty ((*it).second, (char const *) *attrs);}
 		attrs++;
 	}
@@ -144,7 +143,7 @@ cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 	obj->SetProperty (GCU_PROP_BOND_ORDER, "1");
 	map<string, unsigned>::iterator it;
 	while (*attrs) {
-		if ((it = BondProps.find ((char const *) *attrs++)) != BondProps.end ()) {
+		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
 			if ((*it).second == GCU_PROP_BOND_TYPE) {
 				if (BondTypes.empty ()) {
 					BondTypes["Solid"] = 0;
@@ -266,6 +265,70 @@ cdxml_group_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->cur.push (obj);
 }
 
+static void
+cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	guint32 Id;
+	guint16 type = 0xffff, arrow_type = 0xffff;
+	double x0, y0, x1, y1;
+	while (*attrs) {
+		if (!strcmp ((char const *) *attrs, "id"))
+			Id = atoi ((char const *) attrs[1]);
+		else if (!strcmp ((char const *) *attrs, "BoundingBox"))
+			sscanf ((char const *) attrs[1], "%lg %lg %lg %lg", &x1, &y1, &x0, &y0);
+		else if (!strcmp ((char const *) *attrs, "GraphicType")) {
+			if (!strcmp ((char const *) attrs[1], "Line"))
+				type = 1;
+		} else if (!strcmp ((char const *) *attrs, "ArrowType")) {
+			if (!strcmp ((char const *) attrs[1], "FullHead") || !strcmp ((char const *) attrs[1], "HalfHead"))
+				arrow_type = 2;
+			else if (!strcmp ((char const *) attrs[1], "Resonance"))
+				arrow_type = 4;
+			else if (!strcmp ((char const *) attrs[1], "Equilibrium"))
+				arrow_type = 8;
+			else if (!strcmp ((char const *) attrs[1], "Hollow"))
+				arrow_type = 16;
+			else if (!strcmp ((char const *) attrs[1], "RetroSynthetic"))
+				arrow_type = 32;
+		}
+		attrs+=2;
+	}
+	if (type == 1) {
+		char *buf = NULL;
+		Object *obj = NULL;
+		switch (arrow_type) {
+		case 1:
+		case 2:
+			obj = Object::CreateObject ("reaction-arrow", state->cur.top ());
+			buf = g_strdup_printf ("ra%d", Id);
+			break;
+		case 4:
+			obj = Object::CreateObject ("mesomery-arrow", state->cur.top ());
+			buf = g_strdup_printf ("ma%d", Id);
+			break;
+		case 8:
+			obj = Object::CreateObject ("reaction-arrow", state->cur.top ());
+			buf = g_strdup_printf ("ra%d", Id);
+			obj->SetProperty (GCU_PROP_REACTION_ARROW_TYPE, "double");
+			break;
+		case 32:
+			obj = Object::CreateObject ("retrosynthesis-arrow", state->cur.top ());
+			buf = g_strdup_printf ("rsa%d", Id);
+			break;
+		default:
+			break;
+		}
+		if (obj) {
+			obj->SetId (buf);
+			g_free (buf);
+			buf = g_strdup_printf ("%g %g %g %g", x0, y0, x1, y1);
+			obj->SetProperty (GCU_PROP_ARROW_COORDS, buf);
+			g_free (buf);
+		}
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Reading code
 static GsfXMLInNode const cdxml_dtd[] = {
@@ -285,7 +348,7 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 				GSF_XML_IN_NODE (FRAGMENT1, NODE1, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
 				GSF_XML_IN_NODE (FRAGMENT1, BOND1, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
 				GSF_XML_IN_NODE (FRAGMENT1, T11, -1, "t", GSF_XML_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (PAGE, GRAPHIC, -1, "graphic", GSF_XML_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PAGE, GRAPHIC, -1, "graphic", GSF_XML_CONTENT, cdxml_graphic_start, NULL),
 		GSF_XML_IN_NODE (PAGE, ALTGROUP, -1, "altgroup", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, CURVE, -1, "curve", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, STEP, -1, "step", GSF_XML_CONTENT, NULL, NULL),

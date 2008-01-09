@@ -26,6 +26,7 @@
 #include "widgetdata.h"
 #include "view.h"
 #include "settings.h"
+#include <gcu/objprops.h>
 #include <canvas/gcp-canvas-line.h>
 #include <canvas/gprintable.h>
 #include "arrow.h"
@@ -188,6 +189,26 @@ void Arrow::Transform2D (Matrix2D& m, double x, double y)
 double Arrow::GetYAlign ()
 {
 	return m_y + m_height / 2.;
+}
+
+bool Arrow::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_ARROW_COORDS: {
+		double x0, y0, x1, y1;
+		sscanf (value, "%lg %lg %lg %lg", &x0, &y0, &x1, &y1);
+		gcu::Document *doc = GetDocument ();
+		if (doc) {
+			x0 *= doc->GetScale ();
+			y0 *= doc->GetScale ();
+			x1 *= doc->GetScale ();
+			y1 *= doc->GetScale ();
+		}
+		SetCoords (x0, y0, x1, y1);
+		break;
+	}
+	}
+	return true;
 }
 
 }	//	namespace gcp

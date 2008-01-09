@@ -40,6 +40,7 @@ enum {
 	// Atom properties
 	GCU_PROP_ATOM_SYMBOL,
 	GCU_PROP_ATOM_Z,
+	GCU_PROP_ATOM_CHARGE,
 	// Bond properties
 	GCU_PROP_BOND_BEGIN,
 	GCU_PROP_BOND_END,
@@ -47,6 +48,11 @@ enum {
 	GCU_PROP_BOND_TYPE, //normal, hash, wedge,...
 	// Text properties
 	GCU_PROP_TEXT_TEXT,
+	// Arrows properties
+	GCU_PROP_ARROW_COORDS,
+	GCU_PROP_ARROW_START_ID,
+	GCU_PROP_ARROW_END_ID,
+	GCU_PROP_REACTION_ARROW_TYPE,
 };
 
 #endif	//	GCU_OBJ_PROPS_H

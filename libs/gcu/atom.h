@@ -117,7 +117,7 @@ The default behavior is just to change the atomic number and nothing else.
 
 Changes the formal charge of this Atom.
 */
-	void SetCharge (char Charge) {m_Charge = Charge;}
+	virtual void SetCharge (char Charge) {m_Charge = Charge;}
 /*!
 @return the formal charge of this Atom.
 */

@@ -76,6 +76,7 @@ private:
 	bool ReadBond (GsfInput *in, Object *parent);
 	bool ReadText (GsfInput *in, Object *parent);
 	bool ReadGroup (GsfInput *in, Object *parent);
+	bool ReadGraphic (GsfInput *in, Object *parent);
 	guint16 ReadSize (GsfInput *in);
 	bool ReadDate (GsfInput *in);
 
@@ -267,12 +268,20 @@ bool CDXLoader::ReadPage (GsfInput *in, Object *parent)
 	while (code) {
 		if (code & kCDXTag_Object) {
 			switch (code) {
+			case kCDXObj_Group:
+				if (!ReadGroup (in, parent))
+					return false;
+				break;
 			case kCDXObj_Fragment:
 				if (!ReadMolecule (in, parent))
 					return false;
 				break;
 			case kCDXObj_Text:
 				if (!ReadText (in, parent))
+					return false;
+				break;
+			case kCDXObj_Graphic:
+				if (!ReadGraphic (in, parent))
 					return false;
 				break;
 			default:
@@ -353,24 +362,25 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 				return false;
 			switch (code) {
 			case kCDXProp_2DPosition: {
-				if (size != 8)
-					return false;
 				gint32 x, y;
-				if (!READINT32 (in, buf, y))
-					return false;
-				if (!READINT32 (in, buf, x))
+				if (size != 8 || !READINT32 (in, buf, y) || !READINT32 (in, buf, x))
 					return false;
 				snprintf (buf, bufsize, "%d %d", x, y);
 				Atom->SetProperty (GCU_PROP_POS2D, buf);
 				break;
 			}
 			case kCDXProp_Node_Element:
-				if (size != 2)
-					return false;
-				if (!READINT16 (in, buf, size))
+				if (size != 2 || !READINT16 (in, buf, size))
 					return false;
 				snprintf (buf, bufsize, "%u", size);
 				Atom->SetProperty (GCU_PROP_ATOM_Z, buf);
+				break;
+			case kCDXProp_Atom_Charge:
+				gint8 charge;
+				if (size!= 1 || !gsf_input_read (in, 1, (guint8*) &charge))
+					return false;
+				snprintf (buf, bufsize, "%d", charge);
+				Atom->SetProperty (GCU_PROP_ATOM_CHARGE, buf);
 				break;
 			default:
 				if (size && !gsf_input_read (in, size, (guint8*) buf))
@@ -573,6 +583,77 @@ bool CDXLoader::ReadGroup (GsfInput *in, Object *parent)
 	}
 	Group->Lock (false);
 	Group->OnLoaded ();
+	return true;
+}
+
+bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
+{
+	guint16 code;
+	guint32 Id;
+	guint16 type = 0xffff, arrow_type = 0xffff;
+	gint32 x0, y0, x1, y1;
+	if (!READINT32 (in, buf, Id) || !READINT16 (in, buf, code))
+		return false;
+	while (code) {
+		if (code & kCDXTag_Object) {
+			if (!ReadGenericObject (in))
+				return false;
+		} else {
+			guint16 size;
+			if ((size = ReadSize (in)) == 0xffff)
+				return false;
+			switch (code) {
+			case kCDXProp_BoundingBox:
+				if (size != 16 || !READINT32 (in, buf, y1) || !READINT32 (in, buf, x1)
+					|| !READINT32 (in, buf, y0) || !READINT32 (in, buf, x0))
+					return false;
+				break;
+			case kCDXProp_Graphic_Type:
+				if (size != 2 || !READINT16 (in, buf, type))
+					return false;
+				break;
+			case kCDXProp_Arrow_Type:
+				if (size != 2 || !READINT16 (in, buf, arrow_type))
+					return false;
+				break;
+			default:
+				if (size && !gsf_input_read (in, size, (guint8*) buf))
+					return false;
+			}
+		}
+		if (!READINT16 (in, buf, code))
+			return false;
+	}
+	if (type == 1) {
+		Object *obj = NULL;
+		switch (arrow_type) {
+		case 1:
+		case 2:
+			obj = Object::CreateObject ("reaction-arrow", parent);
+			snprintf (buf, bufsize, "ra%d", Id);
+			break;
+		case 4:
+			obj = Object::CreateObject ("mesomery-arrow", parent);
+			snprintf (buf, bufsize, "ma%d", Id);
+			break;
+		case 8:
+			obj = Object::CreateObject ("reaction-arrow", parent);
+			snprintf (buf, bufsize, "ra%d", Id);
+			obj->SetProperty (GCU_PROP_REACTION_ARROW_TYPE, "double");
+			break;
+		case 32:
+			obj = Object::CreateObject ("retrosynthesis-arrow", parent);
+			snprintf (buf, bufsize, "rsa%d", Id);
+			break;
+		default:
+			break;
+		}
+		if (obj) {
+			obj->SetId (buf);
+			snprintf (buf, bufsize, "%d %d %d %d", x0, y0, x1, y1);
+			obj->SetProperty (GCU_PROP_ARROW_COORDS, buf);
+		}
+	}
 	return true;
 }
 

@@ -42,13 +42,14 @@ public:
 	Arrow(gcu::TypeId Type);
 	virtual ~Arrow();
 	
-	virtual bool Load (xmlNodePtr);
-	virtual void SetSelected (GtkWidget* w, int state);
+	bool Load (xmlNodePtr);
+	void SetSelected (GtkWidget* w, int state);
 	void SetCoords (double xstart, double ystart, double xend, double yend);
 	bool GetCoords (double* xstart, double* ystart, double* xend, double* yend);
-	virtual void Move (double x, double y, double z = 0);
-	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
-	virtual double GetYAlign ();
+	void Move (double x, double y, double z = 0);
+	void Transform2D (gcu::Matrix2D& m, double x, double y);
+	double GetYAlign ();
+	bool SetProperty (unsigned property, char const *value);
 
 protected:
 	bool Save (xmlDocPtr xml, xmlNodePtr node);

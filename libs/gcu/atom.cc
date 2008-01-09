@@ -250,6 +250,9 @@ bool Atom::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_ATOM_Z:
 		SetZ (atoi (value));
 		break;
+	case GCU_PROP_ATOM_CHARGE:
+		SetCharge (atoi (value));
+		break;
 	}
 	return  true;
 }

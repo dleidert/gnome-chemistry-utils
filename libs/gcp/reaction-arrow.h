@@ -53,6 +53,7 @@ public:
 	void SetSelected (GtkWidget* w, int state);
 	void AddProp (gcu::Object *object);
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+	bool SetProperty (unsigned property, char const *value);
 
 private:
 	unsigned m_Type;

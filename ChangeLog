@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2008-01-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: implement SetProperty.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/mesomery-arrow.cc: set an explicit id prefix.
+	* libs/gcp/reaction-arrow.cc: implement SetProperty.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcu/atom.cc: add charge property.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/objprops.h: ditto.
+	* plugins/loaders/cdx/cdx.cc:import atom charge and arrows.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+
 2008-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: fixed triple bonds import.
 	* plugins/loaders/cdxml/cdxml.cc: ditto.

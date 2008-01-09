@@ -40,6 +40,7 @@ namespace gcp {
 
 MesomeryArrow::MesomeryArrow (Mesomery* mesomery): Arrow (MesomeryArrowType)
 {
+	SetId ("ma1");
 	if (mesomery)
 		mesomery->AddChild( this);
 	m_Start = m_End = NULL;
