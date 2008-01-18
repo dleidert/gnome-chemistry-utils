@@ -597,29 +597,31 @@ void CrystalDoc::Draw (Matrix &m)
 	glEnable (GL_RESCALE_NORMAL);
 	CrystalAtomList::iterator i, iend = Atoms.end ();
 	double red, green, blue, alpha;
-	for (i = Atoms.begin (); i != iend; i++) {
-		(*i)->GetCoords (&v.x (), &v.y (), &v.z ());
-		v = m * v;
-		(*i)->GetColor (&red, &green, &blue, &alpha);
-		glColor4d (red, green, blue, alpha) ;
-		sp.draw (v, (*i)->r ());
-	}
+	for (i = Atoms.begin (); i != iend; i++)
+		if (!(*i)->IsCleaved ()) {
+			(*i)->GetCoords (&v.z (), &v.x (), &v.y ());
+			v = m * v;
+			(*i)->GetColor (&red, &green, &blue, &alpha);
+			glColor4d (red, green, blue, alpha) ;
+			sp.draw (v, (*i)->r ());
+		}
 	glEnable (GL_NORMALIZE);
 	CrystalLineList::iterator j, jend = Lines.end ();
 	Cylinder cyl (10);
-	for (j = Lines.begin (); j != jend; j++) {
-		v.x () = (*j)->X1 ();
-		v.y () = (*j)->Y1 ();
-		v.z () = (*j)->Z1 ();
-		v = m * v;
-		v1.x () = (*j)->X2 ();
-		v1.y () = (*j)->Y2 ();
-		v1.z () = (*j)->Z2 ();
-		v1 = m * v1;
-		(*j)->GetColor (&red, &green, &blue, &alpha);
-		glColor4d (red, green, blue, alpha) ;
-		cyl.draw (v, v1, (*j)->GetRadius ());
-	}
+	for (j = Lines.begin (); j != jend; j++)
+		if (!(*j)->IsCleaved ()) {
+			v.z () = (*j)->X1 ();
+			v.x () = (*j)->Y1 ();
+			v.y () = (*j)->Z1 ();
+			v = m * v;
+			v1.z () = (*j)->X2 ();
+			v1.x () = (*j)->Y2 ();
+			v1.y () = (*j)->Z2 ();
+			v1 = m * v1;
+			(*j)->GetColor (&red, &green, &blue, &alpha);
+			glColor4d (red, green, blue, alpha) ;
+			cyl.draw (v, v1, (*j)->GetRadius ());
+		}
 }
 
 CrystalView* CrystalDoc::CreateNewView()

@@ -310,7 +310,7 @@ void Chem3dDoc::Draw (Matrix &m)
 	dist = 0.;
 	map<OBAtom*, vector3> atomPos;
 	const gdouble* color;
-	vector3 v;
+	vector3 v, normal (0., 0., 1.);
 	Sphere sp (10);
 	if (m_Display3D == WIREFRAME) {
 		float light_ambient[] = {1.0, 1.0, 1.0, 1.0};
@@ -384,7 +384,9 @@ void Chem3dDoc::Draw (Matrix &m)
 				glVertex3d (v.x (), v.y (), v.z());
 				glVertex3d (v0.x (), v0.y (), v0.z());
 				glEnd ();
-			} else
+			} else if (m_Display3D == BALL_AND_STICK && bond->GetBondOrder () > 1)
+				cyl.drawMulti (v, v0, ((bond->GetBondOrder () > 2)? .07: 0.10), bond->GetBondOrder (), 0.15, normal);
+			else
 				cyl.draw (v, v0, .12);
 			color = gcu_element_get_default_color (Z1);
 			glColor3d (color[0], color[1], color[2]);
@@ -393,7 +395,9 @@ void Chem3dDoc::Draw (Matrix &m)
 				glVertex3d (v0.x (), v0.y (), v0.z());
 				glVertex3d (v1.x (), v1.y (), v1.z());
 				glEnd ();
-			} else
+			} else if (m_Display3D == BALL_AND_STICK && bond->GetBondOrder () > 1)
+				cyl.drawMulti (v0, v1, ((bond->GetBondOrder () > 2)? .07: 0.10), bond->GetBondOrder (), 0.15, normal);
+			else
 				cyl.draw (v0, v1, .12);
 			bond = m_Mol.NextBond (j);
 		}

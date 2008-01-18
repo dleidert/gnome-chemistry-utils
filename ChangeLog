@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/chem3ddoc.cc: show multiple bonds as multiple cylinders
+	in ball and stick mode.
+	* libs/gcu/crystaldoc.cc: really hide hidden objects.
+
 2008-01-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.cc: implement SetProperty.
 	* libs/gcp/arrow.h: ditto.
