@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-01-19 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* configure.ac: Do not run pkg-config if XULRUNNER_CLIENT is empty.
+
+2008-01-19 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* Makefile.am: Set required automake version to 1.7. Cleaning a bit.
 	(DISTCHECK_CONFIGURE_FLAGS): Added --disable-schemas-install to make
 	distcheck pass.

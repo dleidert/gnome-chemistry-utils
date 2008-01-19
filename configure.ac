@@ -206,11 +206,12 @@ if test "x$enable_mozilla_plugin" != "xno"; then
 	if test "x$MOZILLA_CONFIG" != "xno"; then
 		MOZILLA_CFLAGS=`mozilla-config --cflags`
 		default_mozilla_libdir=`mozilla-config --libs | sed 's/-L//'`
-	else
+	elif test -n "$XULRUNNER_CLIENT"; then
 		PKG_CHECK_MODULES(
 			[MOZILLA],
 			[$XULRUNNER_CLIENT],
-			[build_mozilla_plugin=yes]
+			[build_mozilla_plugin=yes],
+			[build_mozilla_plugin=no]
 		)
 		default_mozilla_libdir=`pkg-config --variable=libdir $XULRUNNER_CLIENT`
 	fi
