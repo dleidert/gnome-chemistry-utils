@@ -1,5 +1,30 @@
 ##Text encoding: utf-8
 
+2008-01-19 Daniel Leidert <daniel.leidert.spam@gmx.net>
+	* Makefile.am: Set required automake version to 1.7. Cleaning a bit.
+	(DISTCHECK_CONFIGURE_FLAGS): Added --disable-schemas-install to make
+	distcheck pass.
+	* configure.ac: Cleaning and reordering stuff a bit. Add GCU_*
+	directly to CFLAGS, CXXFLAGS and LIBS, so there is no need to use them
+	in every Makefile.am. Fixed some macro usages and formatting and added
+	two variables MOZILLA_CONFIG and XULRUNNER_CLIENT to override the
+	automatic detection.
+	* gcu/Makefile.am: Drop INCLUDES (deprecated) in favour of
+	AM_CPPFLAGS. Drop Windows specific LDFLAGS changes, as this is handled
+	by configure. Removed GCU_* variables, handled by configure too.
+	* mozilla-plugin/Makefile.am: Ditto.
+	* programs/3d/Makefile.am: Ditto.
+	* programs/calc/Makefile.am: Ditto.
+	* programs/crystal/Makefile.am: Ditto.
+	* programs/table/Makefile.am: Ditto.
+	* tests/Makefile.am: Ditto.
+	* database/Makefile.am: Just minor cosmetic changes.
+	* glade/Makefile.am: Ditto.
+	* glade/crystal/Makefile.am: Ditto.
+	* glade/table/Makefile.am: Ditto.
+	* pixmaps/Makefile.am: Ditto.
+	* samples/Makefile.am: Ditto.
+
 2008-01-08 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* configure.ac: Call AC_LIBTOOL_WIN32_DLL. Added some stuff to
 	determine, if we try to compile on a Windows system [#21875].

@@ -6,14 +6,15 @@ CLEANFILES = $(desktop_DATA) \
 
 MAINTAINERCLEANFILES = Makefile.in
 
-DEPS = $(top_builddir)/gcu/libgcu.la
-INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
+AM_CPPFLAGS = -I$(top_srcdir)
+
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DGLADEDIR=\"$(datadir)/gchemutils/glade/crystal\" \
         -DPIXMAPSDIR=\"$(datadir)/gchemutils/pixmaps\"
 
 bin_PROGRAMS = gcrystal
+
+gcrystal_LDADD = $(top_builddir)/gcu/libgcu.la
 
 gcrystal_SOURCES = \
 	application.cc \
@@ -48,20 +49,20 @@ gcrystal_SOURCES = \
 	window.cc \
 	window.h
 
-schemasdir = $(GCONF_SCHEMA_FILE_DIR)
-schemas_in_files = gcrystal.schemas.in
-schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
-@INTLTOOL_SCHEMAS_RULE@
-
-desktopdir=$(datadir)/applications
 desktop_in_files = gcrystal.desktop.in x-gcrystal.desktop.in
+desktopdir=$(datadir)/applications
 desktop_DATA = gcrystal.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 if WITH_KDE_MIME
 kde_mime_desktop_DATA = x-gcrystal.desktop
-kde_mime_desktopdir = $(KDEMIMEDIR)/application
+kde_mime_desktopdir = $(with_kde_mime_dir)/application
 endif #WITH_KDE_MIME
+
+schemas_in_files = gcrystal.schemas.in
+schemasdir = $(GCONF_SCHEMA_FILE_DIR)
+schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
+@INTLTOOL_SCHEMAS_RULE@
 
 install-data-local:
 if GCONF_SCHEMAS_INSTALL

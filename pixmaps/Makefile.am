@@ -1,3 +1,7 @@
+EXTRA_DIST = \
+	$(pixmap_DATA) \
+	$(icons)
+
 MAINTAINERCLEANFILES = Makefile.in
 
 pixmapdir = $(datadir)/gchemutils/pixmaps
@@ -19,10 +23,6 @@ icons = gcrystal32.png \
 	gchemtable48.png \
 	gchemtable72.png \
 	gchemtable128.png
-
-EXTRA_DIST = \
-	$(pixmap_DATA) \
-	$(icons)
 
 install-data-hook:
 	for i in 32 48 72 128; do \

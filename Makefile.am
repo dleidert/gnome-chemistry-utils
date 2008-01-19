@@ -1,3 +1,5 @@
+AUTOMAKE_OPTIONS = 1.7
+
 SUBDIRS = po database glade pixmaps gcu programs mozilla-plugin \
 	samples tests dtds docs
 
@@ -39,16 +41,17 @@ MAINTAINERCLEANFILES = \
 
 DISTCHECK_CONFIGURE_FLAGS = \
 	--disable-scrollkeeper \
+	--disable-schemas-install \
 	--disable-update-databases \
 	--with-mozilla-libdir=\$${libdir}/mozilla
-
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA= gcu.pc
 
 mime_in_files = gchemutils.xml.in
 mimedir = $(datadir)/mime/packages
 mime_DATA = $(mime_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = gcu.pc
 
 install-data-hook:
 if WITH_UPDATE_MIME

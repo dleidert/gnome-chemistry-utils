@@ -4,9 +4,10 @@ CLEANFILES = $(desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-DEPS = $(top_builddir)/gcu/libgcu.la
-INCLUDES = -I$(top_srcdir) @GCU_CFLAGS@
-LDADD = $(top_builddir)/gcu/libgcu.la @GCU_LIBS@
+AM_CPPFLAGS = -I$(top_srcdir)
+
+LDADD = $(top_builddir)/gcu/libgcu.la
+
 DEFS += -DDATADIR=\"$(datadir)\"
 
 bin_PROGRAMS = gchem3d-viewer
@@ -24,7 +25,7 @@ noinst_HEADERS = \
 	view.h	\
 	window.h
 
-desktopdir=$(datadir)/applications
 desktop_in_files = gchem3d-viewer.desktop.in
+desktopdir=$(datadir)/applications
 desktop_DATA = gchem3d-viewer.desktop
 @INTLTOOL_DESKTOP_RULE@
