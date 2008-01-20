@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-01-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/filechooser.cc: fix print and image export when off-screen
+	rendering does not work, previous fix was not enough. [#21946]
+	* gcu/glview.cc: ditto.
+
 2008-01-19 Daniel Leidert <daniel.leidert.spam@gmx.net>
 	* configure.ac: Do not run pkg-config if XULRUNNER_CLIENT is empty.
 

@@ -92,7 +92,7 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 	char const* dir = App->GetCurDir ();
 	if (dir)
 		gtk_file_chooser_set_current_folder_uri (chooser, dir);
-	while (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+	while (gtk_widget_show_all (GTK_WIDGET (dialog)), gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		// find the mime_type
 		char const *mime_type = NULL;
 		if (mime_types.size () == 1)
@@ -125,6 +125,7 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 				if (!found)
 					mime_type = mime_types.front ().c_str ();
 			}
+			gtk_widget_hide (GTK_WIDGET (dialog));
 			if (!App->FileProcess (filename, mime_type, Save, GTK_WINDOW (dialog), m_pDoc)) {
 				g_free (filename);
 				break;
@@ -133,6 +134,7 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 		} else {
 			GSList* files = gtk_file_chooser_get_uris (chooser);
 			GSList* iter = files;
+			gtk_widget_hide (GTK_WIDGET (dialog));
 			while (iter) {
 				filename = (char*) iter->data;
 				App->FileProcess(filename, (mime_type)? mime_type: go_get_mime_type (filename), Save, GTK_WINDOW (dialog), m_pDoc);
