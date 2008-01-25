@@ -1,3 +1,9 @@
+Version 0.8.6
+	* More fixes about printing and image export of 3D scenes. Concerns
+	bot Gnome Crystal and the 3D molecules viewer.
+	* Enhanced build system and applied patches from various sources
+	to make maintainers life easier (Daniel Leidert).
+
 Version 0.8.5
 	3d viewer:
 		* Really implement command line options.
