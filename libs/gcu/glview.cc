@@ -403,7 +403,13 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
 		h = w / aspect;
 	}
 	GdkPixbuf *pixbuf = NULL;
-	if (gdk_gl_drawable_gl_begin (drawable, context)) {
+	gdk_error_trap_push ();
+	bool result = gdk_gl_drawable_gl_begin (drawable, context);
+	gdk_flush ();
+	if (gdk_error_trap_pop ())
+		result = false;
+	
+	if (result) {
 	    glEnable (GL_LIGHTING);
 		glEnable (GL_LIGHT0);
 		glEnable (GL_DEPTH_TEST);
@@ -445,6 +451,9 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
 		double dxStep, dyStep;
 		unsigned char *tmp, *dest, *src, *dst;
 		unsigned LineWidth, s = sizeof(int);
+		gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget))); 
+		while (gtk_events_pending ())
+			gtk_main_iteration ();
 		if (m_pWidget->allocation.width & (s - 1))
 			LineWidth = ((~(s - 1)) & (m_pWidget->allocation.width * 3)) + s;
 		else

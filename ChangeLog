@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-01-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/filechooser.cc: fix print and image export when off-screen
+	rendering does not work, previous fix was not enough. [#21946]
+	* gcu/glview.cc: ditto.
+
 2008-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chem3ddoc.cc: show multiple bonds as multiple cylinders
 	in ball and stick mode.
@@ -140,7 +145,7 @@
 	* plugins/loaders/cdxml/cdxml.cc: new cdxml loader (don't work yet).
 
 2007-12-15  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gcu/spectrumdoc.cc: nhance loading of X++(Y..Y) data.
+	* libs/gcu/spectrumdoc.cc: enhance loading of X++(Y..Y) data.
 	* libs/gcu/spectrumdoc.h: add new units.
 
 2007-12-14  Jean Bréfort  <jean.brefort@normalesup.org>
