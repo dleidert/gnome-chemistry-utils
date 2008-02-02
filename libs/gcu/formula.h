@@ -30,6 +30,7 @@
 #include <list>
 #include <stdexcept>
 #include "isotope.h"
+#include "value.h"
 
 namespace gcu
 {
@@ -114,12 +115,11 @@ Clears all data.
 */
 	void Clear ();
 /*!
-@param prec: will be filled with the precision (number of significative decimal figures).
 @param artificial: will be true if the formula contains an artificial element (with
 no natural isotope).
 @returns the molecular weight corresponding to the formula.
 */
-	double GetMolecularWeight (int &prec, bool &artificial);
+	DimensionalValue GetMolecularWeight (bool &artificial);
 /*!
 @param pattern: the IsotopicPattern to be filled
 This method evaluates the isotopic pattern and fills the pattern parameter
@@ -136,8 +136,7 @@ private:
 	std::string Entry, Markup, RawMarkup;
 	std::map<int,int> Raw;
 	std::list<FormulaElt *> Details;
-	double m_Weight;
-	int m_WeightPrec;
+	DimensionalValue m_Weight;
 	bool m_WeightCached;
 	bool m_Artificial;
 	bool m_ConnectivityCached;

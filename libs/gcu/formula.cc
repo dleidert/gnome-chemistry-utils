@@ -492,7 +492,7 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 				j++;
 			k = j - i;
 			sz = new char[k + 1];
-			sz = strndup (formula.c_str () + i, k);
+			strncpy (sz, formula.c_str () + i, k);
 			sz[k] = 0;
 			if (!AnalString (sz, result, ambiguous)) {
 				delete [] sz;
@@ -540,30 +540,23 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 	}
 }
 
-double Formula::GetMolecularWeight (int &prec, bool &artificial)
+DimensionalValue Formula::GetMolecularWeight (bool &artificial)
 {
 	if (Raw.size () == 0) {
-		prec = 0;
-		return 0.;
+		return m_Weight;
 	}
 	if (!m_WeightCached) {
-		double atom_weight, delta = 0.;
-		int atom_prec;
-		m_Weight = 0;
-		m_WeightPrec = 16; // something much greater that possible for any element.
+		DimensionalValue atom_weight;
 		m_Artificial = false; // most formula don't have artificial elements
-		map<int,int>::iterator i, end = Raw.end ();
-		for (i = Raw.begin (); i != end; i++) {
-			atom_weight = Element::GetElement ((*i).first)->GetWeight (atom_prec);
-			if (atom_prec == 0)
+		map<int,int>::iterator i, end = Raw.end (), begin = Raw.begin ();
+		for (i = begin; i != end; i++) {
+			atom_weight = *Element::GetElement ((*i).first)->GetWeight ();
+			if (atom_weight.GetValue ().prec == 0)
 				m_Artificial = true;
-			delta += pow10 (-atom_prec) * (*i).second;
-			m_Weight += atom_weight * (*i).second;
+			m_Weight = (i == begin)? atom_weight * (*i).second: m_Weight + atom_weight * (*i).second;
 		}
-		m_WeightPrec = (int) ceil (-log10 (delta) - 1e-5);
 	}
 	m_WeightCached = true;
-	prec = m_WeightPrec;
 	artificial = m_Artificial;
 	return m_Weight;
 }

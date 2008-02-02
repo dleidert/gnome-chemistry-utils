@@ -590,6 +590,8 @@ void Atom::Update (GtkWidget* w)
 	if (!w || !GetZ ())
 		return;
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] == NULL)
+		return;
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	double x, y, xc = 0., yc;
 	GetCoords (&x, &y);

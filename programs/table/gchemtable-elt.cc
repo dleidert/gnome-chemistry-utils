@@ -57,14 +57,8 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 	w = glade_xml_get_widget (xml, "z");
 	gtk_label_set_text (GTK_LABEL (w), buf);
 	g_free (buf);
-	int prec;
-	double weight = elt->GetWeight (prec);
-	char *format = (prec > 0)? g_strdup_printf ("%%0.%df",prec): g_strdup ("(%.0f)");
-	buf = g_strdup_printf (format, weight);
 	w = glade_xml_get_widget (xml, "weight");
-	gtk_label_set_text (GTK_LABEL (w), buf);
-	g_free (format);
-	g_free (buf);
+	gtk_label_set_markup (GTK_LABEL (w), elt->GetWeight ()->GetAsString ());
 	w = glade_xml_get_widget (xml, "elec-conf-lbl");
 	/* The <sup> </sup> markup at the end of the chain is there to ensure that
 	things will be correcly aligned, add the same to the translated string */

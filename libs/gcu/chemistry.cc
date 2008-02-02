@@ -92,8 +92,13 @@ gchar* gcu_value_get_string (GcuValue const *value)
 {
 	gchar *format, *str;
 	if (value->delta > 0) {
-		format = g_strdup_printf ("%%.%df(%%d)", value->prec);
-		str = g_strdup_printf (format, value->value, value->delta);
+		int delta = value->delta, prec = value->prec;
+		while (delta >= 100) {
+			delta /= 10;
+			prec--;
+		}
+		format = g_strdup_printf ("%%.%df(%%d)", prec);
+		str = g_strdup_printf (format, value->value, delta);
 	} else {
 		format = g_strdup_printf ("%%.%df", value->prec);
 		str = g_strdup_printf (format, value->value);
@@ -106,8 +111,14 @@ gchar* gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 {
 	gchar *format, *str;
 	if (value->delta > 0) {
-		format = g_strdup_printf ("%%.%df(%%d) %%s", value->prec);
-		str = g_strdup_printf (format, value->value, value->delta, value->unit);
+		int delta = value->delta, prec = value->prec;
+		while (delta >= 100) {
+			delta /= 10;
+			prec--;
+		}
+		// FIXME: what to do if we have a negative precision?
+		format = (prec > 0)? g_strdup_printf ("%%.%df(%%d) %%s", prec): g_strdup ("%.0f %s");
+		str = g_strdup_printf (format, value->value, delta, value->unit);
 	} else {
 		format = g_strdup_printf ("%%.%df %%s", value->prec);
 		str = g_strdup_printf (format, value->value, value->unit);

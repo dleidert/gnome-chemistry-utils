@@ -26,6 +26,7 @@
 #define GCU_ISOTOPE_H
 
 #include <gcu/chemistry.h>
+#include <gcu/value.h>
 #include <vector>
 
 namespace gcu
@@ -135,7 +136,7 @@ isotopes of each element.
 @return the mass of the fragment made with most abundant
 isotopes of each element.
 */
-	double GetMonoMass () {return m_mono_mass;}
+	SimpleValue const &GetMonoMass () {return m_mono_mass;}
 /*!
 @param mass: the mass of the most abundant isotope.
 
@@ -143,7 +144,7 @@ This method is used when building an Isotopic Pattern from raw data.
 To enter the data for each isotope, use IsotopicPattern::SetValue. It
 has no effect if the current monoisotopic mass is not nul.
 */
-	void SetMonoMass (double mass);
+	void SetMonoMass (SimpleValue mass);
 /*!
 @param values: where to store the pointer to the abundances of the various
 mass fragments as a percentage of the most abundant one. The pointer should be
@@ -157,7 +158,7 @@ private:
 	int m_min, m_max, m_mono;
 	int ref_count;
 	std::vector<double> m_values;
-	double m_mono_mass;
+	SimpleValue m_mono_mass;
 	static double epsilon;
 };
 

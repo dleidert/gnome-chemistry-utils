@@ -219,11 +219,9 @@ public:
 	*/
 	unsigned GetMaxValenceElectrons () {return m_maxve;}
 	/*!
-	@param prec: receive the number of significant digits.
-
-	@return the atomic mass of the element.
+	@return the atomic molar mass of the element.
 	*/
-	double GetWeight (int& prec) {prec = m_WeightPrec; return m_Weight;}
+	DimensionalValue const *GetWeight ();
 	/*!
 	@param natoms: atoms count.
 
@@ -279,8 +277,7 @@ public:
 private:
 	unsigned char m_Z, m_nve, m_tve, m_maxve;
 	char m_Symbol[4];
-	double m_Weight;
-	int m_WeightPrec;
+	DimensionalValue const *m_AtomicWeight;
 	char m_DefaultValence;
 	unsigned char m_MaxBonds;
 	bool m_BestSide;

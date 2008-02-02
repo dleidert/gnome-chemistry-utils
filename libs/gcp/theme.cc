@@ -249,7 +249,6 @@ ThemeManager::ThemeManager ()
 
 ThemeManager::~ThemeManager ()
 {
-	g_type_init ();
 	gconf_client_notify_remove (m_ConfClient, m_NotificationId);
 	gconf_client_remove_dir (m_ConfClient, "/apps/gchempaint/settings", NULL);
 	g_object_unref (m_ConfClient);

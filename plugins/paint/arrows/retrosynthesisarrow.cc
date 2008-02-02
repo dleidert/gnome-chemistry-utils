@@ -165,6 +165,8 @@ void gcpRetrosynthesisArrow::Add (GtkWidget* w)
 void gcpRetrosynthesisArrow::Update (GtkWidget* w)
 {
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] == NULL)
+		return;
 	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	GnomeCanvasGroup* group = pData->Items[this];
 	double x0, y0, x1, y1, dx, dy, dAngle;

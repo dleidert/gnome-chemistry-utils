@@ -22,6 +22,7 @@
 
 #include "config.h"
 #include "value.h"
+#include <glib/gi18n-lib.h>
 #include <cstdlib>
 #include <cstring>
 
@@ -50,6 +51,13 @@ double Value::GetAsDouble () const
 
 SimpleValue::SimpleValue (): Value ()
 {
+	val.value = 0.;
+	val.prec = val.delta = 0;
+}
+
+SimpleValue::SimpleValue (GcuValue value):
+	Value (), val (value)
+{
 }
 
 SimpleValue::~SimpleValue ()
@@ -71,8 +79,44 @@ double SimpleValue::GetAsDouble () const
 	return val.value;
 }
 
+SimpleValue SimpleValue::operator+ (SimpleValue const &value) const
+{
+	SimpleValue result;
+	result.val.value = val.value + value.val.value;
+	if (val.prec > value.val.prec) {
+		result.val.prec = value.val.prec;
+		int n = 1;
+		while (result.val.prec < val.prec) {
+			n *= 10;
+			result.val.prec++;
+		}
+		result.val.delta = val.delta + n * value.val.delta;
+	} else {
+		result.val.prec = val.prec;
+		int n = 1;
+		while (result.val.prec < value.val.prec) {
+			n *= 10;
+			result.val.prec++;
+		}
+		result.val.delta = value.val.delta + n * val.delta;
+	}
+	return result;
+}
+
+SimpleValue SimpleValue::operator* (int n) const
+{
+	SimpleValue result;
+	result.val.prec = val.prec;
+	result.val.value = val.value * n;
+	result.val.delta = val.delta * n;
+	return result;
+}
+
 DimensionalValue::DimensionalValue (): Value ()
 {
+	val.value = 0.;
+	val.prec = val.delta = 0;
+	val.unit = NULL;
 }
 
 DimensionalValue::~DimensionalValue ()
@@ -92,6 +136,44 @@ char const *DimensionalValue::GetAsString () const
 double DimensionalValue::GetAsDouble () const
 {
 	return val.value;
+}
+
+DimensionalValue DimensionalValue::operator+ (DimensionalValue const &value) const throw (std::invalid_argument)
+{
+	DimensionalValue result;
+	// only make the addition if units are the same, otherwise throw an exception
+	if (strcmp (val.unit, value.val.unit))
+		throw new invalid_argument (_("Attempt to add two values with different units."));
+	result.val.unit = val.unit;
+	result.val.value = val.value + value.val.value;
+	if (val.prec > value.val.prec) {
+		result.val.prec = value.val.prec;
+		int n = 1;
+		while (result.val.prec < val.prec) {
+			n *= 10;
+			result.val.prec++;
+		}
+		result.val.delta = val.delta + n * value.val.delta;
+	} else {
+		result.val.prec = val.prec;
+		int n = 1;
+		while (result.val.prec < value.val.prec) {
+			n *= 10;
+			result.val.prec++;
+		}
+		result.val.delta = value.val.delta + n * val.delta;
+	}
+	return result;
+}
+
+DimensionalValue DimensionalValue::operator* (int n) const
+{
+	DimensionalValue result;
+	result.val.unit = val.unit;
+	result.val.prec = val.prec;
+	result.val.value = val.value * n;
+	result.val.delta = val.delta * n;
+	return result;
 }
 
 StringValue::StringValue ()

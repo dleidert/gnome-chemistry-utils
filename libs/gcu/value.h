@@ -26,6 +26,8 @@
 #include "chemistry.h"
 #include <string>
 #include <map>
+#include <string>
+#include <stdexcept>
 
 namespace gcu
 {
@@ -68,6 +70,7 @@ public:
 Default constructor
 */
 	SimpleValue ();
+	SimpleValue (GcuValue value);
 /*!
 Default destructor
 */
@@ -85,6 +88,8 @@ Default destructor
 @return the embedded GcuValue structure.
 */
 	GcuValue const GetValue () {return val;}
+	SimpleValue operator+ (SimpleValue const &value) const;
+	SimpleValue operator* (int n) const;
 
 private:
 	GcuValue val;
@@ -116,6 +121,9 @@ Default destructor
 @return the embedded value. Note that the unit is lost.
 */
 	double GetAsDouble () const;
+
+	DimensionalValue operator+ (DimensionalValue const &value) const throw (std::invalid_argument);
+	DimensionalValue operator* (int n) const;
 /*!
 @return the embedded GcuDimensionalValue structure.
 */

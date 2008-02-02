@@ -685,6 +685,8 @@ void Bond::Update(GtkWidget* w)
 	if (!w || !m_order)
 		return;
 	WidgetData* pData = (WidgetData*) g_object_get_data(G_OBJECT(w), "data");
+	if (pData->Items[this] == NULL)
+		return;
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	bool result = false;
 	if (m_Crossing.size () > 0) {

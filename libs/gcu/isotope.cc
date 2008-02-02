@@ -58,7 +58,6 @@ Isotope::~Isotope ()
 IsotopicPattern::IsotopicPattern ()
 {
 	m_min = m_max = m_mono = 0;
-	m_mono_mass = 0.;
 	ref_count = 1;
 }
 
@@ -72,7 +71,6 @@ IsotopicPattern::IsotopicPattern (int min, int max)
 		m_min = max;
 	}
 	m_mono = 0;
-	m_mono_mass = 0.;
 	m_values.resize (max - min + 1);
 	ref_count = 1;
 }
@@ -125,7 +123,7 @@ IsotopicPattern *IsotopicPattern::Square ()
 {
 	IsotopicPattern *pat = new IsotopicPattern (2 * m_min, 2 * m_max);
 	pat->m_mono = 2 * m_mono;
-	pat->m_mono_mass = 2. * m_mono_mass;
+	pat->m_mono_mass = m_mono_mass * 2;
 	int i, j, k, imax = pat->m_max - pat->m_min + 1, jmax = m_values.size () - 1;
 	for (i = 0; i < imax; i++) {
 		pat->m_values[i] = 0.;
@@ -194,12 +192,12 @@ void IsotopicPattern::Copy (IsotopicPattern& pattern)
 void IsotopicPattern::Clear ()
 {
 	m_min = m_max = m_mono = 0;
-	m_mono_mass = 0.;
+	m_mono_mass = SimpleValue ();
 }
 
-void IsotopicPattern::SetMonoMass (double mass)
+void IsotopicPattern::SetMonoMass (SimpleValue mass)
 {
-	if (m_mono_mass == 0.)
+	if (m_mono_mass.GetAsDouble () == 0.)
 		m_mono_mass = mass;
 }
 

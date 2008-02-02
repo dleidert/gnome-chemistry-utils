@@ -95,7 +95,7 @@ EltTable::EltTable()
 	char* DefaultName;
 	char *lang = getenv ("LANG");
 	setlocale (LC_ALL, lang);
-	char *old_num_locale, *buf, *num, *dot;
+	char *old_num_locale, *buf, *num;
 	unsigned char Z;
 	map <string, string> Langs;
 	Langs["de"] = _("German");
@@ -126,10 +126,6 @@ EltTable::EltTable()
 			num = (char*) xmlGetProp (node, (xmlChar*) "max_bonds");
 			Elt->m_MaxBonds = atoi (num);
 			xmlFree (num);
-			num = (char*) xmlGetProp (node, (xmlChar*) "weight");
-			Elt->m_Weight = strtod (num, &buf);
-			dot = strchr (num, '.');
-			Elt->m_WeightPrec = (dot)? buf - dot - 1: 0;
 			child = node->children;
 			DefaultName = NULL;
 			while (child)
@@ -214,7 +210,8 @@ void EltTable::AddElement(Element* Elt)
 	EltsMap[Elt->GetSymbol ()] = Elt;
 }
 
-Element::Element(int Z, const char* Symbol)
+Element::Element(int Z, const char* Symbol):
+	m_AtomicWeight (NULL)
 {
 	m_Z = Z;
 	strncpy(m_Symbol, Symbol, 3);
@@ -416,12 +413,6 @@ const GcuAtomicRadius** Element::GetRadii()
 const GcuElectronegativity** Element::GetElectronegativities()
 {
 	return (const GcuElectronegativity**) &m_en.front();
-}
-
-double Element::GetWeight (int Z, int &prec)
-{
-	Element* Elt = Table[Z];
-	return (Elt)? Elt->GetWeight(prec): 0.;
 }
 
 void Element::LoadRadii ()
@@ -759,7 +750,7 @@ void Element::LoadIsotopes ()
 				i = Elt->m_isotopes.begin ();
 				while ((*i)->A != niso)
 					i++;
-				pattern->SetMonoMass ((*i)->mass.value);
+				pattern->SetMonoMass (SimpleValue ((*i)->mass));
 				Elt->m_patterns.push_back (pattern);
 			}
 		}
@@ -870,7 +861,7 @@ void Element::LoadBODR ()
 							if (unit) {
 								DimensionalValue *v = new DimensionalValue ();
 								if (!strcmp (unit, "units:atmass"))
-									v->val.unit = "u";
+									v->val.unit = "g.mol<sup>−1</sup>";
 								else if (!strcmp (unit, "units:ev"))
 									v->val.unit = "eV";
 								else if (!strcmp (unit, "units:ang"))
@@ -929,11 +920,13 @@ void Element::LoadBODR ()
 					}
 					if (props.size () > 0) {
 						map <string, Value*>:: iterator i, iend = props.end ();
-						for (i = props.begin (); i != iend; i++)
-							elt->props[(*i).first] = (*i).second;
+						for (i = props.begin (); i != iend; i++) {puts((*i).first.c_str());
+							elt->props[(*i).first] = (*i).second;}
 						props.clear ();
 					}
 					child = child->next;
+				}
+				if (elt) {
 				}
 			}
 			node = node->next;
@@ -948,4 +941,11 @@ int Element::GetIntegerProperty (char const *property_name)
 {
 	map<string, int>::iterator i = iprops.find (property_name);
 	return (i == iprops.end ())? GCU_ERROR: (*i).second;
+}
+
+DimensionalValue const *Element::GetWeight ()
+{
+	if (m_AtomicWeight == NULL)
+		m_AtomicWeight = dynamic_cast<DimensionalValue const*> (props["mass"]);
+	return m_AtomicWeight;
 }

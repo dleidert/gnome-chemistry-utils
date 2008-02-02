@@ -187,6 +187,8 @@ void Electron::Add (GtkWidget* w)
 void Electron::Update(GtkWidget* w)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	if (pData->Items[this] == NULL)
+		return;
 	Theme* pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	GnomeCanvasGroup *group = pData->Items[this];
 	double x, y, angle = m_Angle / 180. * M_PI;

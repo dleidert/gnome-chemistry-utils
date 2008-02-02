@@ -1,5 +1,27 @@
 ##Text encoding: utf-8
 
+2008-02-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/gchemcalc.glade: increase width to accomodate more
+	precise masses.
+	* libs/gcp/atom.cc: don't crash in Update if the atiem does not exist.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/electron.cc: ditto.
+	* libs/gcp/theme.cc: don't init g_type in destructor.
+	* libs/gcu/chemistry.cc: get better strings from values.
+	* libs/gcu/element.cc: use gcu::Value instead of double for masses, and
+	import atomic molar masses from BODR.
+	* libs/gcu/element.h: ditto.
+	* libs/gcu/formula.cc: ditto.
+	* libs/gcu/formula.h: ditto.
+	* libs/gcu/isotope.cc: ditto.
+	* libs/gcu/isotope.h: ditto.
+	* libs/gcu/value.cc: add some arithmetic.
+	* libs/gcu/value.h: ditto.
+	* plugins/paint/arrows/retrosynthesisarrow.cc: don't crash in Update
+	if the atiem does not exist.
+	* programs/calc/gchemcalc.cc: load BODR.
+	* programs/table/gchemtable-elt.cc: display more precise masses.
+
 2008-01-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/filechooser.cc: fix print and image export when off-screen
 	rendering does not work, previous fix was not enough. [#21946]

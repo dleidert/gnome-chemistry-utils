@@ -30,6 +30,7 @@
 #include <gcu/element.h>
 #include <gcu/formula.h>
 #include <gcu/residue.h>
+#include <gcu/value.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gtk/gtkmain.h>
@@ -206,23 +207,13 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		format = g_strconcat (_("Raw formula:"), " \t", App->formula.GetRawMarkup (), NULL);
 		gtk_label_set_markup (App->raw, format);
 		g_free (format);
-		int prec;
 		bool artificial;
-		double weight = App->formula.GetMolecularWeight (prec, artificial);
-		if (prec > 0) {
-			format = g_strdup_printf ("%%0.%df",prec);
-		} else {
-			if (prec < 0) {
-				// round the value to replace not significant figures by 0s.
-				double offs = pow10 (prec);
-				weight = rint (weight * offs) / offs;
-			}
-			format = artificial? g_strdup ("(%.0f)"): g_strdup ("%.0f");
-		}
-		char *weightstr = g_strdup_printf (format, weight);
-		gtk_label_set_text (App->weight, weightstr);
+		DimensionalValue weight = App->formula.GetMolecularWeight (artificial);
+		char *weightstr = (artificial)?
+			g_strdup_printf ("(%.0f g.mol<sup>-1</sup>)",weight.GetAsDouble ()):
+			g_strdup (weight.GetAsString ());			
+		gtk_label_set_markup (App->weight, weightstr);
 		g_free (weightstr);
-		g_free (format);
 		// Composition
 		gtk_list_store_clear (App->pclist);
 		map<int,int> &raw = App->formula.GetRawFormula ();
@@ -248,7 +239,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		Element *elt;
 		if (nC > 0) {
 			elt = Element::GetElement (6);
-			pcent = nC * elt->GetWeight (prec) / weight * 100.;
+			pcent = nC * elt->GetWeight ()->GetAsDouble () / weight.GetAsDouble () * 100.;
 			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
 			gtk_list_store_append (App->pclist, &iter);
 			gtk_list_store_set (App->pclist, &iter,
@@ -259,7 +250,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		}
 		if (nH > 0) {
 			elt = Element::GetElement (1);
-			pcent = nH * elt->GetWeight (prec) / weight * 100.;
+			pcent = nH * elt->GetWeight ()->GetAsDouble () / weight.GetAsDouble () * 100.;
 			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
 			gtk_list_store_append (App->pclist, &iter);
 			gtk_list_store_set (App->pclist, &iter,
@@ -272,7 +263,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		for (k = elts.begin (); k != kend; k++) {
 			nC = (*k).second;
 			elt = Element::GetElement ((*k).first.c_str ());
-			pcent = nC * elt->GetWeight (prec) / weight * 100.;
+			pcent = nC * elt->GetWeight ()->GetAsDouble () / weight.GetAsDouble () * 100.;
 			weightstr = g_strdup_printf ((artificial)? "(%.0f)": "%.2f", pcent);
 			gtk_list_store_append (App->pclist, &iter);
 			gtk_list_store_set (App->pclist, &iter,
@@ -292,9 +283,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 			gtk_widget_hide (App->pattern_page);
 			return;
 		} else {
-			weightstr = g_strdup_printf ("%g", pattern.GetMonoMass ());
-			gtk_label_set_text (App->monomass, weightstr);
-			g_free (weightstr);
+			gtk_label_set_text (App->monomass, pattern.GetMonoMass ().GetAsString ());
 			gtk_widget_show (App->pattern_page);
 			nb = pattern.GetValues (&values);
 			// correct mean mass (for high molecular weights)
@@ -304,7 +293,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 				t += pcent;
 				m += i * pcent;
 			}
-			mass = (int) rint (weight - m / t);
+			mass = (int) rint (weight.GetAsDouble () - m / t);
 			// do not display values < 0.1
 			min = 0;
 			while (values[min] < 0.1)
@@ -639,6 +628,7 @@ int main (int argc, char *argv[])
 		 G_CALLBACK (cb_entry_active),
 		 window);
 	gcu_element_load_databases ("isotopes", NULL);
+	Element::LoadBODR ();
 	if (argc == 1){
 		gtk_entry_set_text (GTK_ENTRY (w), argv[0]);
 		cb_entry_active (GTK_ENTRY (w), window);
