@@ -289,6 +289,7 @@ void ReactionArrow::Update (GtkWidget* w)
 	}
 	if (m_TypeChanged) {
 		gtk_object_destroy (GTK_OBJECT (group));
+		pData->Items[this] = NULL;
 		Add (w);
 		m_TypeChanged = false;
 		return;
