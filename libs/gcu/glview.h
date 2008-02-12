@@ -27,6 +27,7 @@
 
 #include "macros.h"
 #include "matrix.h"
+#include <gconf/gconf-client.h>
 #include <gtk/gtkwidget.h>
 #include <libgnomeprint/gnome-print.h>
 #include <map>
@@ -154,6 +155,9 @@ private:
 	Matrix m_Euler;
 	double m_Height, m_Width, m_Near, m_Far;
 	double m_Lastx, m_Lasty;
+	static GConfClient *m_ConfClient;
+	static guint m_NotificationId;
+	static int nbViews;
 
 // Properties
 /*!\fn SetAngle(double angle)

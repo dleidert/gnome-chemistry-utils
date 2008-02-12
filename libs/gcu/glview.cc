@@ -26,9 +26,9 @@
 #include <gcu/application.h>
 #include <gcu/gldocument.h>
 #include <gcu/glview.h>
+#include <gcu/macros.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/osmesa.h>
 #include <gtk/gtkgl.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <glib/gi18n-lib.h>
@@ -36,15 +36,22 @@
 #include <cmath>
 #include <cstring>
 
+#define ROOTDIR "/apps/gchemutils/gl/"
+
 static GdkGLConfig *glconfig = NULL;
 double DefaultPsi = 70.;
 double DefaultTheta = 10.;
 double DefaultPhi = -90.;
+bool OffScreenRendering = false;
 
 using namespace std;
 
 namespace gcu
 {
+	
+GConfClient *GLView::m_ConfClient = NULL;
+guint GLView::m_NotificationId = 0;
+int GLView::nbViews = 0;
 
 // Callbacks
 static bool on_init(GtkWidget *widget, GLView* View) 
@@ -79,6 +86,12 @@ static bool on_pressed(GtkWidget *widget, GdkEventButton *event, GLView* View)
 	return View->OnPressed (event);
 }
 
+static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"off-screen-rendering"))
+		OffScreenRendering = gconf_value_get_bool (gconf_entry_get_value (entry));
+}
+
 // GLView implementation
 
 GLView::GLView (GLDocument* pDoc)
@@ -88,6 +101,7 @@ GLView::GLView (GLDocument* pDoc)
 	m_Red = m_Green = m_Blue = 0.;
 	m_Alpha = 1.;
 	m_Angle = 10.;
+	nbViews++;
 	SetRotation (DefaultPsi, DefaultTheta, DefaultPhi);
 /* Create new OpenGL widget. */
 	if (glconfig == NULL)
@@ -110,6 +124,11 @@ GLView::GLView (GLDocument* pDoc)
 			g_print("*** Cannot find the double-buffered visual.\n");
 			  exit(1);
 		}
+		GError *error = NULL;
+		m_ConfClient = gconf_client_get_default ();
+		gconf_client_add_dir (m_ConfClient, "/apps/gchemutils/gl", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+		GCU_GCONF_GET (ROOTDIR"off-screen-rendering", bool, OffScreenRendering, false)
+		gconf_client_notify_add (m_ConfClient, "/apps/gchemutils/gl", (GConfClientNotifyFunc) on_config_changed, NULL, NULL, NULL);
 	}
 	/* create new OpenGL widget */
 	m_pWidget = GTK_WIDGET(gtk_drawing_area_new());
@@ -149,6 +168,14 @@ GLView::GLView (GLDocument* pDoc)
 
 GLView::~GLView ()
 {
+	nbViews--;
+	if (!nbViews) {
+		gconf_client_notify_remove (m_ConfClient, m_NotificationId);
+		gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/gl", NULL);
+		g_object_unref (m_ConfClient);
+		m_ConfClient = NULL;
+		m_NotificationId = 0;
+	}
 }
 
 void GLView::Init ()
@@ -404,7 +431,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
 	}
 	GdkPixbuf *pixbuf = NULL;
 	gdk_error_trap_push ();
-	bool result = gdk_gl_drawable_gl_begin (drawable, context);
+	bool result = OffScreenRendering && gdk_gl_drawable_gl_begin (drawable, context);
 	gdk_flush ();
 	if (gdk_error_trap_pop ())
 		result = false;
@@ -447,6 +474,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
 		pixbuf = gdk_pixbuf_get_from_drawable (NULL,
 			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
 	} else if (m_bInit) {
+puts("on screen");
 		unsigned hstep, vstep;
 		double dxStep, dyStep;
 		unsigned char *tmp, *dest, *src, *dst;
@@ -522,7 +550,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
 	} else {
 osmesa:
 		g_warning ("Off-screen rendering not supported in this context");
-		// TODO: implement rendering using an exterbal program and osmesa
+		// TODO: implement rendering using an external program and osmesa
 	}
 	gdk_gl_context_destroy (context);
 	gdk_gl_pixmap_destroy (gl_pixmap);
