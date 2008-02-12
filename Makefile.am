@@ -7,10 +7,12 @@ EXTRA_DIST= \
 	intltool-update.in \
 	intltool-merge.in \
 	gnome-doc-utils.make \
+	$(schemas_in_files) \
 	COPYING-DOCS
 
 CLEANFILES = \
-	gchemutils.xml
+	gchemutils.xml \
+	$(schemas_DATA)
 
 DISTCLEANFILES = \
 	intltool-extract \
@@ -63,3 +65,25 @@ endif #WITH_UPDATE_MIME
 if WITH_UPDATE_DESKTOP
 	$(UPDATE_DESKTOP_DATABASE) $(datadir)/applications
 endif #WITH_UPDATE_DESKTOP
+
+schemas_in_files = gchemutils.schemas.in
+
+schemasdir = $(sysconfdir)/gconf/schemas
+schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
+@INTLTOOL_SCHEMAS_RULE@
+
+install-data-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+		    $(GCONFTOOL) --makefile-install-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL
+
+uninstall-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL

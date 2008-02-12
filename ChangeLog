@@ -1,3 +1,11 @@
+2008-02-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: add new schemas.
+	* gchemutils.schemas.in: ditto.
+	* libs/gcu/glview.cc: add a key to avoid even trying to use the
+	off-screen rendering code, and clean everything on exit.
+	* libs/gcu/glview.h: ditto.
+
 ##Text encoding: utf-8
 
 2008-02-03  Jean Bréfort  <jean.brefort@normalesup.org>
