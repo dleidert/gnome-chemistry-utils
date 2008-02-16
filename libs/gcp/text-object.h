@@ -63,6 +63,7 @@ protected:
 
 GCU_PROT_PROP (PangoLayout*, Layout);
 GCU_PROT_PROP (PangoAttrList*, AttrList);
+GCU_PROT_PROP (GtkAnchorType, Anchor);
 };
 
 }	// namespace gcp

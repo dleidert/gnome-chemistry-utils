@@ -26,6 +26,7 @@
 #define GCHEMTABLE_CURVE_H
 
 #include <gcu/dialog.h>
+#include <gcu/printable.h>
 #include <string>
 #include "gchemtable-app.h"
 #include <goffice/graph/gog-graph.h>
@@ -34,7 +35,7 @@
 
 using namespace gcu;
 
-class GChemTableCurve: public Dialog
+class GChemTableCurve: public Dialog, public Printable
 {
 public:
 	GChemTableCurve (GChemTableApp *App, char const *name);
@@ -55,8 +56,6 @@ private:
 	std::string m_Name;
 	GogGraph *m_Graph;
 	GtkWidget *m_GraphWidget, *m_GraphBox;
-	GtkPrintSettings *m_PrintSettings;
-	GtkPageSetup *m_PageSetup;
 };
 
 #endif	// GCHEMTABLE_CURVE_H

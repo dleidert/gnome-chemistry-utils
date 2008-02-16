@@ -1,5 +1,24 @@
 ##Text encoding: utf-8
 
+2008-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: can now use future version (up to 0.8) of goffice.
+	* glade/Makefile.am: add new dialog.
+	* glade/print-setup.glade: new dialog imported from gnumeric, and adapted.
+	* libs/gcp/text-object.h: add alignment related members, not used atm.
+	* libs/gcp/text.h: ditto.
+	* libs/gcu/Makefile.am: new files.
+	* libs/gcu/glview.cc: fix an issue in glView::BuildPixbuf.
+	* libs/gcu/glview.h: glView::BuildPixbuf is now public.
+	* libs/gcu/objprops.h: add text alignment.
+	* libs/gcu/print-setup-dlg.cc: new dialog.
+	* libs/gcu/print-setup-dlg.h: ditto.
+	* libs/gcu/printable.cc: new base class aimed at GtkPrint support.
+	* libs/gcu/printable.h: ditto.
+	* programs/3d/window.cc: derives from gcu::Printable.
+	* programs/3d/window.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+
 2008-02-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add new schemas.
 	* gchemutils.schemas.in: ditto.

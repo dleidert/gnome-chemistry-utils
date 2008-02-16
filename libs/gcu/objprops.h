@@ -48,6 +48,7 @@ enum {
 	GCU_PROP_BOND_TYPE, //normal, hash, wedge,...
 	// Text properties
 	GCU_PROP_TEXT_TEXT,
+	GCU_PROP_TEXT_ALIGNMENT,
 	// Arrows properties
 	GCU_PROP_ARROW_COORDS,
 	GCU_PROP_ARROW_START_ID,

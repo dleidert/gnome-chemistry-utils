@@ -1,10 +1,8 @@
-// -*- C++ -*-
-
 /* 
  * Gnome Chemistry Utils
- * programs/3d/window.h 
+ * print-setup-dlg.h
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,35 +20,31 @@
  * USA
  */
 
-#ifndef GC3D_WINDOW_H
-#define GC3D_WINDOW_H
+#ifndef GCU_PRINT_SETUP_DLG_H
+#define GCU_PRINT_SETUP_DLG_H
 
-#include <gcu/printable.h>
-#include <gtk/gtkwindow.h>
+#include "dialog.h"
+#include "printable.h"
+#include <gtk/gtkpagesetup.h>
+#include <gtk/gtkprintsettings.h>
 
-class gc3dApplication;
-class gc3dDocument;
-class gc3dView;
+namespace gcu {
 
-class gc3dWindow: public gcu::Printable
+class Application;
+
+class PrintSetupDlg: public Dialog
 {
 public:
-	gc3dWindow (gc3dApplication *App, gc3dDocument *Doc);
-	virtual ~gc3dWindow ();
+	PrintSetupDlg (Application* App, Printable *printable);
+	virtual ~PrintSetupDlg ();
 
-	void OnFileOpen ();
-	void OnPageSetup ();
-	void OnFilePrint (bool preview);
-	void OnFileClose ();
-	void SetTitle (char const *title);
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+	void DoPrint ();
+	void DoPrintPreview ();
 
 private:
-	GtkWindow* m_Window;
-
-GCU_RO_PROP (gc3dApplication *, App);
-GCU_RO_PROP (gc3dView *, View);
-GCU_RO_PROP (gc3dDocument *, Doc);
+	Printable *m_Printable;
 };
+	
+}	//	namespace gcu
 
-#endif	// GC3D_WINDOW_H
+#endif	//	GCU_PRINT_SETUP_DLG_H

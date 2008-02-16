@@ -2,8 +2,9 @@ Version 0.9.3
 	3d viewer:
 		* show multiple bonds as multiple cylinders
 		in ball and stick mode.
+		* prints using GtkPrint.
 	calc:
-		* display molar and monoisotopi masses with more digits.
+		* display molar and monoisotopic masses with more digits.
 	gchempaint:
 		* Fix loading of double reaction arrows. [#22223]
 

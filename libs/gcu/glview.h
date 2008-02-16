@@ -124,6 +124,15 @@ Export the view contents as an image. The size of the new image is defined by th
 and height parameters.
 */
 	void SaveAsImage (std::string const &filename, char const *type, std::map<std::string, std::string>& options, unsigned width, unsigned height);
+/*!
+@param width the width of the generated image.
+@param height the height of the generated image.
+
+Generates a pixbuf from the current view.
+
+@return the pixbuf containing the generated image
+*/
+	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height);
 
 private:
 /*!
@@ -133,16 +142,6 @@ std::
 Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 */
 	void Rotate (gdouble x, gdouble y);
-/*!
-@param width the width of the generated image.
-@param height the height of the generated image.
-
-This method is called by the framework when off-screen renderig fails. This
-will be mich slower than the stahdard method, but mandatory if the video
-card driver does not support off-screen rendering of OpenGL.
-@return the pixbuf containing the generated image
-*/
-	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height);
 
 protected:
 /*!

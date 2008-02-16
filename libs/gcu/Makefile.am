@@ -44,6 +44,8 @@ libgcu_unstable_la_SOURCES = \
 		matrix2d.cc \
 		molecule.cc \
 		object.cc \
+		printable.cc \
+		print-setup-dlg.cc \
 		residue.cc \
 		spectrumdoc.cc \
 		spectrumview.cc \
@@ -89,6 +91,8 @@ noinst_HEADERS = \
 		molecule.h \
 		object.h \
 		objprops.h \
+		printable.h \
+		print-setup-dlg.h \
 		residue.h \
 		spectrumdoc.h \
 		spectrumview.h \

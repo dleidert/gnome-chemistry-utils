@@ -25,6 +25,7 @@
 #ifndef GCHEMPAINT_TEXT_H
 #define GCHEMPAINT_TEXT_H
 
+#include <gcu/macros.h>
 #include <gcu/object.h>
 #include <libxml/tree.h>
 #include <gtk/gtk.h>
@@ -56,6 +57,8 @@ public:
 	double GetYAlign ();
 	void SetText (char const *text) {m_buf = text;}
 	bool SetProperty (unsigned property, char const *value);
+	
+GCU_RO_PROP (PangoAlignment, Align);
 };
 
 }	//	namespace gcp

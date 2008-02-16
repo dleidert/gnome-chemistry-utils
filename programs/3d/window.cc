@@ -27,7 +27,9 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
+#include <gcu/print-setup-dlg.h>
 #include <goffice/gtk/go-action-combo-color.h>
+#include <goffice/utils/go-image.h>
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
@@ -57,9 +59,19 @@ static void on_file_close (GtkWidget *widget, gc3dWindow* Win)
 	Win->OnFileClose ();
 }
 
+static void on_page_setup (GtkWidget *widget, gc3dWindow* Win)
+{
+	Win->OnPageSetup ();
+}
+
+static void on_print_preview (GtkWidget *widget, gc3dWindow* Win)
+{
+	Win->OnFilePrint (true);
+}
+
 static void on_file_print (GtkWidget *widget, gc3dWindow* Win)
 {
-	Win->OnFilePrint ();
+	Win->OnFilePrint (false);
 }
 
 static void on_quit (GtkWidget *widget, gc3dWindow* Win)
@@ -163,6 +175,10 @@ static GtkActionEntry entries[] = {
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
 		  N_("Save the current file as an image"), G_CALLBACK (on_file_save_as_image) },
+	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
+		  N_("Setup the page settings for your current printer"), G_CALLBACK (on_page_setup) },
+	  { "PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Pre_view"), NULL,
+		  N_("Print preview"), G_CALLBACK (on_print_preview) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current scene"), G_CALLBACK (on_file_print) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
@@ -205,7 +221,10 @@ static const char *ui_description =
 "      <menuitem action='Open'/>"
 "      <menuitem action='SaveAsImage'/>"
 "	   <separator name='file-sep1'/>"
+"      <menuitem action='PageSetup'/>"
+"      <menuitem action='PrintPreview'/>"
 "      <menuitem action='Print'/>"
+"	   <separator name='file-sep2'/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"
@@ -346,9 +365,48 @@ void gc3dWindow::OnFileClose ()
 	delete this;
 }
 
-void gc3dWindow::OnFilePrint ()
+void gc3dWindow::OnPageSetup ()
 {
-	GnomePrintConfig* config = gnome_print_config_default ();
+	new PrintSetupDlg (m_App, this);
+}
+
+static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpointer data)
+{
+	gtk_print_operation_set_n_pages (print, 1);
+}
+
+static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,gpointer data)
+{
+	((gc3dWindow *) data)->DoPrint (print, context);
+}
+
+void gc3dWindow::OnFilePrint (bool preview)
+{
+	GtkPrintOperation *print;
+	GtkPrintOperationResult res;
+
+	print = gtk_print_operation_new ();
+	gtk_print_operation_set_use_full_page (print, false);
+
+    gtk_print_operation_set_print_settings (print, GetPrintSettings ());
+    gtk_print_operation_set_default_page_setup (print, GetPageSetup ());
+
+	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), NULL);
+	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
+	
+	res = gtk_print_operation_run (print,
+								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
+								   			GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+								   m_Window, NULL);
+
+/*	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
+		if (m_PrintSettings != NULL)
+			g_object_unref (m_PrintSettings);
+		m_PrintSettings = GTK_PRINT_SETTINGS (g_object_ref (gtk_print_operation_get_print_settings (print)));
+	}*/
+
+	g_object_unref (print);
+/*	GnomePrintConfig* config = gnome_print_config_default ();
 	GnomePrintContext *pc;
 	GnomePrintJob *gpj = gnome_print_job_new (config);
 	int do_preview = 0, copies = 1, collate = 0;
@@ -384,10 +442,38 @@ void gc3dWindow::OnFilePrint ()
 		gnome_print_job_print (gpj);
 	}
 	g_object_unref (gpj);
-	gnome_print_config_unref (config);
+	gnome_print_config_unref (config);*/
 }
 
 void gc3dWindow::SetTitle (char const *title)
 {
 	gtk_window_set_title (m_Window, title);
+}
+
+void gc3dWindow::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+{
+	cairo_t *cr;
+	gdouble width, height;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	width = gtk_print_context_get_width (context);
+	height = gtk_print_context_get_height (context);
+	GdkPixbuf *pixbuf = m_View->BuildPixbuf (width, height);
+	GOImage *img = go_image_new_from_pixbuf (pixbuf);
+	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
+	int w, h;
+	cairo_matrix_t cr_matrix;
+
+	w = gdk_pixbuf_get_width  (pixbuf);
+	h = gdk_pixbuf_get_height (pixbuf);
+	cairo_matrix_init_scale (&cr_matrix,
+				 w / width,
+				 h / height);
+	cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
+	cairo_rectangle (cr, 0., 0., width, height);
+	cairo_set_source (cr, cr_pattern);
+	cairo_fill (cr);
+	cairo_pattern_destroy (cr_pattern);
+	g_object_unref (img);
+	g_object_unref (pixbuf);
 }

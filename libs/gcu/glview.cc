@@ -413,11 +413,15 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
 	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability (pixmap,
 							       glconfig,
 							       NULL );
-	GdkGLDrawable * drawable = gdk_pixmap_get_gl_drawable (pixmap);
-	GdkGLContext * context = gdk_gl_context_new (drawable,
+	GdkGLDrawable *drawable = NULL;
+	GdkGLContext *context = NULL;
+	if (gl_pixmap != NULL) {
+		drawable = gdk_pixmap_get_gl_drawable (pixmap);
+		context = gdk_gl_context_new (drawable,
 						     NULL,
 						     TRUE,
 						     GDK_GL_RGBA_TYPE);
+	}
 	double aspect = (GLfloat) width / height;
 	double x = m_Doc->GetMaxDist (), w, h;
 	if (x == 0)
@@ -431,7 +435,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
 	}
 	GdkPixbuf *pixbuf = NULL;
 	gdk_error_trap_push ();
-	bool result = OffScreenRendering && gdk_gl_drawable_gl_begin (drawable, context);
+	bool result = OffScreenRendering && gl_pixmap && gdk_gl_drawable_gl_begin (drawable, context);
 	gdk_flush ();
 	if (gdk_error_trap_pop ())
 		result = false;
@@ -474,7 +478,6 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
 		pixbuf = gdk_pixbuf_get_from_drawable (NULL,
 			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
 	} else if (m_bInit) {
-puts("on screen");
 		unsigned hstep, vstep;
 		double dxStep, dyStep;
 		unsigned char *tmp, *dest, *src, *dst;
@@ -552,8 +555,10 @@ osmesa:
 		g_warning ("Off-screen rendering not supported in this context");
 		// TODO: implement rendering using an external program and osmesa
 	}
-	gdk_gl_context_destroy (context);
-	gdk_gl_pixmap_destroy (gl_pixmap);
+	if (context)
+		gdk_gl_context_destroy (context);
+	if (gl_pixmap)
+		gdk_gl_pixmap_destroy (gl_pixmap);
 	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
 	Update ();
 	return pixbuf;

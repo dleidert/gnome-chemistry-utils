@@ -86,6 +86,24 @@ AC_SUBST(KDEMIMEDIR)
 AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
+libgoffice=
+dnl Only 0.6.x, or later will work
+for ver in 8 7 6 ; do
+  if test "x$libgoffice" = x; then
+    AC_MSG_CHECKING([libgoffice-0.$ver])
+    if pkg-config --exists libgoffice-0.$ver; then
+      libgoffice=libgoffice-0.$ver
+      AC_MSG_RESULT([found])
+    else
+      AC_MSG_RESULT([not found])
+    fi
+  fi
+done
+if test "x$libgoffice" = x; then
+  # Not important.  Things will fail below.
+  libgoffice=libgoffice-0.6
+fi
+
 LIBGLADE_REQUIRED_VERSION=2.4.0
 GTKGLEXT_REQUIRED_VERSION=1.0.0
 GNOME_PRINT_REQUIRED_VERSION=2.4.0
@@ -102,7 +120,7 @@ gtk+-2.0 >= $GTK_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
 libgnomeprintui-2.2 >= $GNOME_PRINT_REQUIRED_VERSION \
 gnome-vfs-module-2.0 >= $GNOME_VFS_REQUIRED_VERSION \
-libgoffice-0.6 >= $GNOME_OFFICE_REQUIRED_VERSION \
+$libgoffice >= $GNOME_OFFICE_REQUIRED_VERSION \
 chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
 shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION \
