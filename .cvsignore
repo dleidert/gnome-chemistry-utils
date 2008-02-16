@@ -8,6 +8,7 @@ aclocal.m4
 config.*
 eigen
 gchemutils.xml
+gchemutils.schemas
 *.pc
 intltool-*
 libtool
