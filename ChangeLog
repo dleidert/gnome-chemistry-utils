@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-02-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/prefs.cc: fixed gconf keys paths.
+
 2008-01-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.8.7).
 
