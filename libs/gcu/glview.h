@@ -27,7 +27,11 @@
 
 #include "macros.h"
 #include "matrix.h"
+#ifdef HAVE_GO_CONF_SYNC
+#include <goffice/app/go-conf.h>
+#else
 #include <gconf/gconf-client.h>
+#endif
 #include <gtk/gtkwidget.h>
 #include <libgnomeprint/gnome-print.h>
 #include <map>
@@ -154,7 +158,11 @@ private:
 	Matrix m_Euler;
 	double m_Height, m_Width, m_Near, m_Far;
 	double m_Lastx, m_Lasty;
+#ifdef HAVE_GO_CONF_SYNC
+	static GOConfNode *m_ConfNode;
+#else
 	static GConfClient *m_ConfClient;
+#endif
 	static guint m_NotificationId;
 	static int nbViews;
 

@@ -29,6 +29,9 @@
 #include <map>
 #include <set>
 #include <string>
+#ifdef HAVE_GO_CONF_SYNC
+#include <goffice/app/go-conf.h>
+#endif
 #include <gtk/gtkmain.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkrecentmanager.h>
@@ -38,6 +41,8 @@ namespace gcu {
 
 class Document;
 class Dialog;
+
+#define GCU_CONF_DIR "gchemutils"
 
 /*!\class Application gcu/application.h
 This class is a base class for applications. It provides some basic services.
@@ -184,6 +189,9 @@ is not supported by GdkPixbuf.
 	char const *GetPixbufTypeName (std::string& filename, char const *mime_type);
 	bool Load (std::string const &uri, const gchar *mime_type, Document* Doc);
 	bool Save (std::string const &uri, const gchar *mime_type, Document* Doc);
+#ifdef HAVE_GO_CONF_SYNC
+	static GOConfNode *GetConfDir ();
+#endif
 
 protected:
 
@@ -206,6 +214,9 @@ private:
 	std::string CurDir;
 	std::string WebBrowser;
 	std::string MailAgent;
+#ifdef HAVE_GO_CONF_SYNC
+	static GOConfNode *m_ConfDir;
+#endif
 
 protected:
 /*!

@@ -25,6 +25,10 @@
 #ifndef GCU_MACROS_H
 #define GCU_MACROS_H
 
+#ifdef HAVE_GO_CONF_SYNC
+#include <goffice/app/go-conf.h>
+#endif
+
 /*!\file */ 
 /*!\def GCU_PROP()
 Defines a private member with appropriate get/set methods.
@@ -98,8 +102,15 @@ copies it to \a target. If an error occurs or if the value is 0,
 Calling class must have a GConfClient member called m_ConfClient, and the code
 must provide a GError *error initially set to NULL.
 */
+#ifdef HAVE_GO_CONF_SYNC
+#define go_conf_get_float go_conf_get_double
 #define GCU_GCONF_GET(key,type,target,defaultval) \
-	target = gconf_client_get_##type (m_ConfClient, key, &error); \
+	target = go_conf_get_##type (m_ConfNode, key); \
+	if (target == (type) 0)	\
+		target = defaultval;
+#else
+#define GCU_GCONF_GET(key,type,target,defaultval) \
+	target = gconf_client_get_##type (m_ConfClient, ROOTDIR key, &error); \
 	if (error) {	\
 		target = defaultval;	\
 		g_message ("GConf failed: %s", error->message);	\
@@ -108,33 +119,47 @@ must provide a GError *error initially set to NULL.
 	}	\
 	if (target == (type) 0)	\
 		target = defaultval;
-
+#endif
 /*!\def GCU_GCONF_GET_NO_CHECK()
 This macro gets the numerical value of type \a type associated to \a key, and
 copies it to \a target. If an error occurs, \a defaultval is used instead.\n
 Calling class must have a GConfClient member called m_ConfClient, and the code
 must provide a GError *error initially set to NULL.
 */
+#ifdef HAVE_GO_CONF_SYNC
 #define GCU_GCONF_GET_NO_CHECK(key,type,target,defaultval) \
-	target = gconf_client_get_##type (m_ConfClient, key, &error); \
+	target = go_conf_get_##type (m_ConfNode, key);
+#else
+#define GCU_GCONF_GET_NO_CHECK(key,type,target,defaultval) \
+	target = gconf_client_get_##type (m_ConfClient, ROOTDIR key, &error); \
 	if (error) {	\
 		target = defaultval;	\
 		g_message ("GConf failed: %s", error->message);	\
 		g_error_free (error);	\
 		error = NULL;	\
 	}
+#endif
 
 /*!\def GCU_GCONF_GET_N_TRANSFORM()
 This macro gets the numerical value of type \a type associated to \a key. If an error
 occurs or if the value is 0, \a defaultval is used instead.\n
-The resuting value is then passed to \a func and the result is copied
-to \a target. \n
+The resuting value (which might be the default value) is then passed
+to \a func and the result is copied to \a target. \n
 Calling class must have a GConfClient member called m_ConfClient, and the code
 must provide a GError *error initially set to NULL.
 */
+#ifdef HAVE_GO_CONF_SYNC
 #define GCU_GCONF_GET_N_TRANSFORM(key,type,target,defaultval,func) \
 	{	\
-		type val = gconf_client_get_##type (m_ConfClient, key, &error); \
+		type val = go_conf_get_##type (m_ConfNode, key); \
+		if (val == (type) 0)	\
+			val = defaultval; \
+		target = func (val);	\
+	}
+#else
+#define GCU_GCONF_GET_N_TRANSFORM(key,type,target,defaultval,func) \
+	{	\
+		type val = gconf_client_get_##type (m_ConfClient, ROOTDIR key, &error); \
 		if (error) {	\
 			val = defaultval;	\
 			g_message ("GConf failed: %s", error->message);	\
@@ -145,6 +170,7 @@ must provide a GError *error initially set to NULL.
 			val = defaultval; \
 		target = func (val);	\
 	}
+#endif
 
 /*!\def GCU_GCONF_GET_STRING()
 This macro gets the string value associated to \a key, and
@@ -154,12 +180,22 @@ and set to NULL before calling gconf_client_get_string.\n
 Calling class must have a GConfClient member called m_ConfClient, and the code
 must provide a GError *error initially set to NULL.
 */
+#ifdef HAVE_GO_CONF_SYNC
 #define GCU_GCONF_GET_STRING(key,target,defaultval) \
 	if (target) {	\
 		g_free (target);	\
 		target = NULL;	\
 	}	\
-	target = gconf_client_get_string (m_ConfClient, key, &error); \
+	target = go_conf_get_string (m_ConfNode, key); \
+	if (target == NULL && defaultval)	\
+		target = g_strdup (defaultval);
+#else
+#define GCU_GCONF_GET_STRING(key,target,defaultval) \
+	if (target) {	\
+		g_free (target);	\
+		target = NULL;	\
+	}	\
+	target = gconf_client_get_string (m_ConfClient, ROOTDIR key, &error); \
 	if (error) {	\
 		if (defaultval)	\
 			target = g_strdup (defaultval);	\
@@ -168,5 +204,22 @@ must provide a GError *error initially set to NULL.
 		error = NULL;	\
 	} else if (target == NULL && defaultval)	\
 			target = g_strdup (defaultval);
+#endif
+
+#ifdef HAVE_GO_CONF_SYNC
+#define GCU_UPDATE_KEY(key,type,target,action) \
+	if (!strcmp (name, ROOTDIR key)) { \
+		target = go_conf_get_##type (node, ((node)? key: ROOTDIR key)); \
+		action \
+		return; \
+	}
+#else
+#define GCU_UPDATE_KEY(key,type,target,action) \
+	if (!strcmp (gconf_entry_get_key (entry), ROOTDIR key)) { \
+		target = gconf_value_get##type (gconf_entry_get_value (entry)); \
+		action \
+		return; \
+	}
+#endif
 
 #endif	//	GCU_MACROS_H

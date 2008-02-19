@@ -25,8 +25,6 @@
 
 #include "dialog.h"
 #include "printable.h"
-#include <gtk/gtkpagesetup.h>
-#include <gtk/gtkprintsettings.h>
 
 namespace gcu {
 
@@ -38,11 +36,18 @@ public:
 	PrintSetupDlg (Application* App, Printable *printable);
 	virtual ~PrintSetupDlg ();
 
-	void DoPrint ();
-	void DoPrintPreview ();
+	void DoPrint (bool preview);
+	void OnPrinterSetup ();
+	void UpdatePageSetup (GtkPageSetup *page_setup);
+	void OnOrientation (GtkPageOrientation orientation);
 
 private:
 	Printable *m_Printable;
+	GtkLabel *m_PageSizeLbl, *m_PageTypeLbl;
+	GtkToggleButton *m_PortraitBtn, *m_RPortraitBtn, *m_LandscapeBtn, *m_RLandscapeBtn;
+	guint m_PortraitId, m_RPortraitId, m_LandscapeId, m_RLandscapeId;
+	GtkSpinButton *m_MarginTopBtn, *m_MarginBottomBtn, *m_MarginRightBtn, *m_MarginLeftBtn, *m_HeaderHeightBtn, *m_FooterHeightBtn;
+	guint *m_MarginTopId, *m_MarginBottomId, *m_MarginRightId, *m_MarginLeftId, *m_HeaderHeightId, *m_FooterHeightId;
 };
 	
 }	//	namespace gcu

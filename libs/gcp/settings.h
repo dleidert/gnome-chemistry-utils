@@ -28,7 +28,8 @@
 #include <glib.h>
 #include <pango/pango.h>
 
-#define ROOTDIR "/apps/gchempaint/settings/"
+#define ROOTDIR "/apps/gchemutils/paint/settings/"
+#define GCP_CONF_DIR_SETTINGS "paint/settings"
 
 namespace gcp {
 

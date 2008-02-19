@@ -1,9 +1,9 @@
 <gconfschemafile>
   <schemalist>
     <schema>
-      <key>/schemas/apps/gchempaint/plugins/arrows/full-arrows-heads</key>
-      <applyto>/apps/gchempaint/plugins/arrows/full-arrows-heads</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/plugins/arrows/full-arrows-heads</key>
+      <applyto>/apps/gchemutils/paint/plugins/arrows/full-arrows-heads</applyto>
+      <owner>gchemutils</owner>
       <type>bool</type>
       <default>false</default>
       <locale name="C">

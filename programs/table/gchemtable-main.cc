@@ -37,8 +37,6 @@ int main (int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 	gnome_vfs_init ();
-	/* Initialize libgoffice */
-	libgoffice_init ();
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 

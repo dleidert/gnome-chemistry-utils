@@ -28,7 +28,11 @@
 #include <gcu/application.h>
 #include <gcu/dialog.h>
 #include <gcu/object.h>
+#ifdef HAVE_GO_CONF_SYNC
+#include <goffice/app/go-conf.h>
+#else
 #include <gconf/gconf-client.h>
+#endif
 #include <set>
 #include <string>
 #include <map>
@@ -95,7 +99,11 @@ public:
 	void CheckFocus ();
 	void CloseAll ();
 	std::list<std::string> &GetSupportedMimeTypes () {return m_SupportedMimeTypes;}
+#ifdef HAVE_GO_CONF_SYNC
+	void OnConfigChanged (GOConfNode *node, gchar const *name);
+#else
 	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
+#endif
 	std::list<std::string> &GetExtensions(std::string &mime_type);
 	void OnThemeNamesChanged ();
 	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
@@ -168,7 +176,11 @@ private:
 	int visible_windows;
 	std::list<std::string> m_SupportedMimeTypes;
 	std::list<std::string> m_WriteableMimeTypes;
+#ifdef HAVE_GO_CONF_SYNC
+	GOConfNode *m_ConfNode;
+#else
 	GConfClient *m_ConfClient;
+#endif
 	guint m_NotificationId;
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;

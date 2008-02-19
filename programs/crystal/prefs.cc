@@ -122,14 +122,25 @@ bool gcPrefsDlg::Apply()
 	Red = color.red / 65535.;
 	Green = color.green / 65535.;
 	Blue = color.blue / 65535.;
-	gconf_client_set_int (conf_client, "/apps/gcrystal/printing/resolution", PrintResolution, NULL);
-	gconf_client_set_int (conf_client, "/apps/gcrystal/views/fov", FoV, NULL);
-	gconf_client_set_float (conf_client, "/apps/gcrystal/views/psi", Psi, NULL);
-	gconf_client_set_float (conf_client, "/apps/gcrystal/views/theta", Theta, NULL);
-	gconf_client_set_float (conf_client, "/apps/gcrystal/views/phi", Phi, NULL);
-	gconf_client_set_float (conf_client, "/apps/gcrystal/views/red", Red, NULL);
-	gconf_client_set_float (conf_client, "/apps/gcrystal/views/green", Green, NULL);
-	gconf_client_set_float (conf_client, "/apps/gcrystal/views/blue", Blue, NULL);
+#ifdef HAVE_GO_CONF_SYNC
+	go_conf_set_int (node, "printing/resolution", PrintResolution);
+	go_conf_set_int (node, "views/fov", FoV);
+	go_conf_set_double (node, "views/psi", Psi);
+	go_conf_set_double (node, "views/theta", Theta);
+	go_conf_set_double (node, "views/phi", Phi);
+	go_conf_set_double (node, "views/red", Red);
+	go_conf_set_double (node, "views/green", Green);
+	go_conf_set_double (node, "views/blue", Blue);
+#else
+	gconf_client_set_int (conf_client, "/apps/gchemutils/crystal/printing/resolution", PrintResolution, NULL);
+	gconf_client_set_int (conf_client, "/apps/gchemutils/crystal/views/fov", FoV, NULL);
+	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/psi", Psi, NULL);
+	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/theta", Theta, NULL);
+	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/phi", Phi, NULL);
+	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/red", Red, NULL);
+	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/green", Green, NULL);
+	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/blue", Blue, NULL);
+#endif
 	return true;
 }
 

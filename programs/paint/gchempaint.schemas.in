@@ -1,9 +1,9 @@
 <gconfschemafile>
   <schemalist>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/bond-length</key>
-      <applyto>/apps/gchempaint/settings/bond-length</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/bond-length</key>
+      <applyto>/apps/gchemutils/paint/settings/bond-length</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>140.</default>
       <locale name="C">
@@ -12,9 +12,9 @@
       </locale>
     </schema>
      <schema>
-      <key>/schemas/apps/gchempaint/settings/bond-angle</key>
-      <applyto>/apps/gchempaint/settings/bond-angle</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/bond-angle</key>
+      <applyto>/apps/gchemutils/paint/settings/bond-angle</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>120.</default>
       <locale name="C">
@@ -23,9 +23,9 @@
       </locale>
     </schema>
      <schema>
-      <key>/schemas/apps/gchempaint/settings/bond-dist</key>
-      <applyto>/apps/gchempaint/settings/bond-dist</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/bond-dist</key>
+      <applyto>/apps/gchemutils/paint/settings/bond-dist</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>5.</default>
       <locale name="C">
@@ -34,9 +34,9 @@
       </locale>
     </schema>
      <schema>
-      <key>/schemas/apps/gchempaint/settings/bond-width</key>
-      <applyto>/apps/gchempaint/settings/bond-width</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/bond-width</key>
+      <applyto>/apps/gchemutils/paint/settings/bond-width</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>1.</default>
       <locale name="C">
@@ -45,9 +45,9 @@
       </locale>
     </schema>
      <schema>
-      <key>/schemas/apps/gchempaint/settings/arrow-length</key>
-      <applyto>/apps/gchempaint/settings/arrow-length</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/arrow-length</key>
+      <applyto>/apps/gchemutils/paint/settings/arrow-length</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>200.</default>
       <locale name="C">
@@ -56,9 +56,9 @@
       </locale>
     </schema>
      <schema>
-      <key>/schemas/apps/gchempaint/settings/arrow-dist</key>
-      <applyto>/apps/gchempaint/settings/arrow-dist</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/arrow-dist</key>
+      <applyto>/apps/gchemutils/paint/settings/arrow-dist</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>5.</default>
       <locale name="C">
@@ -67,9 +67,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/arrow-width</key>
-      <applyto>/apps/gchempaint/settings/arrow-width</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/arrow-width</key>
+      <applyto>/apps/gchemutils/paint/settings/arrow-width</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>1.</default>
       <locale name="C">
@@ -78,9 +78,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/arrow-headA</key>
-      <applyto>/apps/gchempaint/settings/arrow-headA</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/arrow-headA</key>
+      <applyto>/apps/gchemutils/paint/settings/arrow-headA</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>6.</default>
       <locale name="C">
@@ -89,9 +89,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/arrow-headB</key>
-      <applyto>/apps/gchempaint/settings/arrow-headB</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/arrow-headB</key>
+      <applyto>/apps/gchemutils/paint/settings/arrow-headB</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>8.</default>
       <locale name="C">
@@ -100,9 +100,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/arrow-headC</key>
-      <applyto>/apps/gchempaint/settings/arrow-headC</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/arrow-headC</key>
+      <applyto>/apps/gchemutils/paint/settings/arrow-headC</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>4.</default>
       <locale name="C">
@@ -111,9 +111,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/hash-width</key>
-      <applyto>/apps/gchempaint/settings/hash-width</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/hash-width</key>
+      <applyto>/apps/gchemutils/paint/settings/hash-width</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>1.</default>
       <locale name="C">
@@ -122,9 +122,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/hash-dist</key>
-      <applyto>/apps/gchempaint/settings/hash-dist</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/hash-dist</key>
+      <applyto>/apps/gchemutils/paint/settings/hash-dist</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>2.</default>
       <locale name="C">
@@ -133,9 +133,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/stereo-width</key>
-      <applyto>/apps/gchempaint/settings/stereo-width</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/stereo-width</key>
+      <applyto>/apps/gchemutils/paint/settings/stereo-width</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>5.</default>
       <locale name="C">
@@ -144,9 +144,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/scale</key>
-      <applyto>/apps/gchempaint/settings/scale</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/scale</key>
+      <applyto>/apps/gchemutils/paint/settings/scale</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>4.</default>
       <locale name="C">
@@ -155,9 +155,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/padding</key>
-      <applyto>/apps/gchempaint/settings/padding</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/padding</key>
+      <applyto>/apps/gchemutils/paint/settings/padding</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>2.</default>
       <locale name="C">
@@ -166,9 +166,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/arrow-padding</key>
-      <applyto>/apps/gchempaint/settings/arrow-padding</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/arrow-padding</key>
+      <applyto>/apps/gchemutils/paint/settings/arrow-padding</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>16.</default>
       <locale name="C">
@@ -177,9 +177,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/stoichiometry-padding</key>
-      <applyto>/apps/gchempaint/settings/stoichiometry-padding</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/stoichiometry-padding</key>
+      <applyto>/apps/gchemutils/paint/settings/stoichiometry-padding</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>1.</default>
       <locale name="C">
@@ -188,9 +188,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/object-padding</key>
-      <applyto>/apps/gchempaint/settings/object-padding</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/object-padding</key>
+      <applyto>/apps/gchemutils/paint/settings/object-padding</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>16.</default>
       <locale name="C">
@@ -199,9 +199,9 @@
       </locale>
     </schema>
    <schema>
-      <key>/schemas/apps/gchempaint/settings/sign-padding</key>
-      <applyto>/apps/gchempaint/settings/sign-padding</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/sign-padding</key>
+      <applyto>/apps/gchemutils/paint/settings/sign-padding</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>8.</default>
       <locale name="C">
@@ -210,9 +210,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/charge-sign-size</key>
-      <applyto>/apps/gchempaint/settings/charge-sign-size</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/charge-sign-size</key>
+      <applyto>/apps/gchemutils/paint/settings/charge-sign-size</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>9.</default>
       <locale name="C">
@@ -221,9 +221,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/font-family</key>
-      <applyto>/apps/gchempaint/settings/font-family</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/font-family</key>
+      <applyto>/apps/gchemutils/paint/settings/font-family</applyto>
+      <owner>gchemutils</owner>
       <type>string</type>
       <default>Bitstream Vera Sans</default>
       <locale name="C">
@@ -232,9 +232,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/font-style</key>
-      <applyto>/apps/gchempaint/settings/font-style</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/font-style</key>
+      <applyto>/apps/gchemutils/paint/settings/font-style</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>0</default>
       <locale name="C">
@@ -243,9 +243,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/font-weight</key>
-      <applyto>/apps/gchempaint/settings/font-weight</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/font-weight</key>
+      <applyto>/apps/gchemutils/paint/settings/font-weight</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>4</default>
       <locale name="C">
@@ -254,9 +254,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/font-variant</key>
-      <applyto>/apps/gchempaint/settings/font-variant</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/font-variant</key>
+      <applyto>/apps/gchemutils/paint/settings/font-variant</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>0</default>
       <locale name="C">
@@ -265,9 +265,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/font-stretch</key>
-      <applyto>/apps/gchempaint/settings/font-stretch</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/font-stretch</key>
+      <applyto>/apps/gchemutils/paint/settings/font-stretch</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>4</default>
       <locale name="C">
@@ -276,9 +276,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/font-size</key>
-      <applyto>/apps/gchempaint/settings/font-size</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/font-size</key>
+      <applyto>/apps/gchemutils/paint/settings/font-size</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>12.</default>
       <locale name="C">
@@ -287,9 +287,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/text-font-family</key>
-      <applyto>/apps/gchempaint/settings/text-font-family</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/text-font-family</key>
+      <applyto>/apps/gchemutils/paint/settings/text-font-family</applyto>
+      <owner>gchemutils</owner>
       <type>string</type>
       <default>Bitstream Vera Serif</default>
       <locale name="C">
@@ -298,9 +298,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/text-font-style</key>
-      <applyto>/apps/gchempaint/settings/text-font-style</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/text-font-style</key>
+      <applyto>/apps/gchemutils/paint/settings/text-font-style</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>0</default>
       <locale name="C">
@@ -309,9 +309,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/text-font-weight</key>
-      <applyto>/apps/gchempaint/settings/text-font-weight</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/text-font-weight</key>
+      <applyto>/apps/gchemutils/paint/settings/text-font-weight</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>4</default>
       <locale name="C">
@@ -320,9 +320,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/text-font-variant</key>
-      <applyto>/apps/gchempaint/settings/text-font-variant</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/text-font-variant</key>
+      <applyto>/apps/gchemutils/paint/settings/text-font-variant</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>0</default>
       <locale name="C">
@@ -331,9 +331,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/text-font-stretch</key>
-      <applyto>/apps/gchempaint/settings/text-font-stretch</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/text-font-stretch</key>
+      <applyto>/apps/gchemutils/paint/settings/text-font-stretch</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>4</default>
       <locale name="C">
@@ -342,9 +342,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/text-font-size</key>
-      <applyto>/apps/gchempaint/settings/text-font-size</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/text-font-size</key>
+      <applyto>/apps/gchemutils/paint/settings/text-font-size</applyto>
+      <owner>gchemutils</owner>
       <type>float</type>
       <default>12.</default>
       <locale name="C">
@@ -353,9 +353,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/compression</key>
-      <applyto>/apps/gchempaint/settings/compression</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/compression</key>
+      <applyto>/apps/gchemutils/paint/settings/compression</applyto>
+      <owner>gchemutils</owner>
       <type>int</type>
       <default>0</default>
       <locale name="C">
@@ -364,9 +364,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/tearable-mendeleiev</key>
-      <applyto>/apps/gchempaint/settings/tearable-mendeleiev</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/tearable-mendeleiev</key>
+      <applyto>/apps/gchemutils/paint/settings/tearable-mendeleiev</applyto>
+      <owner>gchemutils</owner>
       <type>bool</type>
       <default>FALSE</default>
       <locale name="C">
@@ -375,9 +375,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/copy-as-text</key>
-      <applyto>/apps/gchempaint/settings/copy-as-text</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/copy-as-text</key>
+      <applyto>/apps/gchemutils/paint/settings/copy-as-text</applyto>
+      <owner>gchemutils</owner>
       <type>bool</type>
       <default>FALSE</default>
       <locale name="C">
@@ -387,9 +387,9 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/gchempaint/settings/default-theme</key>
-      <applyto>/apps/gchempaint/settings/default-theme</applyto>
-      <owner>gchempaint</owner>
+      <key>/schemas/apps/gchemutils/paint/settings/default-theme</key>
+      <applyto>/apps/gchemutils/paint/settings/default-theme</applyto>
+      <owner>gchemutils</owner>
       <type>string</type>
       <default>GChemPaint</default>
       <locale name="C">

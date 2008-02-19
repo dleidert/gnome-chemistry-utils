@@ -1,5 +1,42 @@
 ##Text encoding: utf-8
 
+2008-02-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: check if goffice has go_conf_*.
+	* gchemutils.schemas.in: minor enhancements.
+	* glade/print-setup.glade: ditto.
+	* libs/gcp/application.cc: use go_conf* if available.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/molecule.cc: started work on Molecule::operator==.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/preferences.cc: use go_conf* if available.
+	* libs/gcp/settings.h: ditto.
+	* libs/gcp/theme.cc: ditto.
+	* libs/gcp/theme.h: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/dialog.cc: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/macros.h: ditto.
+	* libs/gcu/print-setup-dlg.cc: support paper and orientation changes.
+	* libs/gcu/print-setup-dlg.h: ditto.
+	* libs/gcu/printable.cc: use go_conf* if available.
+	* libs/gcu/printable.h: ditto.
+	* plugins/paint/arrows/arrowtool.cc: ditto.
+	* plugins/paint/arrows/gchempaint-arrows.schemas.in: fixed paths.
+	* programs/3d/main.cc: use go_conf* if available.
+	* programs/3d/window.cc: ditto.
+	* programs/3d/window.h: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/globals.h: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/prefs.cc: ditto.
+	* programs/paint/gchempaint.schemas.in: fixed paths.
+	* programs/spectra/gspectrum.cc: use go_conf* if available.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+
 2008-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: can now use future version (up to 0.8) of goffice.
 	* glade/Makefile.am: add new dialog.

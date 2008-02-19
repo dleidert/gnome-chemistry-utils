@@ -530,8 +530,6 @@ int main (int argc, char *argv[])
 		return -1;
 	}
 	
-	/* Initialize libgoffice */
-	libgoffice_init ();
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 

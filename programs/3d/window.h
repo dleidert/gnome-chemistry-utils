@@ -40,10 +40,10 @@ public:
 
 	void OnFileOpen ();
 	void OnPageSetup ();
-	void OnFilePrint (bool preview);
 	void OnFileClose ();
 	void SetTitle (char const *title);
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+	GtkWindow *GetWindow () {return m_Window;}
 
 private:
 	GtkWindow* m_Window;

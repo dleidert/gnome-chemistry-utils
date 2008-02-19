@@ -95,8 +95,6 @@ int main(int argc, char *argv[])
 		printf ("Could not initialize GnomeVFS\n");
 		return 1;
 	}
-	/* Initialize libgoffice */
-	libgoffice_init ();
 
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file]"));

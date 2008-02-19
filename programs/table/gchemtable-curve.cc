@@ -153,12 +153,12 @@ static void on_copy (GtkWidget *widget, GChemTableCurve *curve)
 
 static void on_print (GtkWidget *widget, GChemTableCurve *curve)
 {
-	curve->OnPrint (false);
+	curve->Print (false);
 }
 
 static void on_print_preview (GtkWidget *widget, GChemTableCurve *curve)
 {
-	curve->OnPrint (true);
+	curve->Print (true);
 }
 
 static void on_page_setup (GtkWidget *widget, GChemTableCurve *curve)
@@ -516,44 +516,6 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 GChemTableCurve::~GChemTableCurve ()
 {
 	curves.erase (m_Name);
-}
-
-static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpointer data)
-{
-	gtk_print_operation_set_n_pages (print, 1);
-}
-
-static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,gpointer data)
-{
-	((GChemTableCurve *) data)->DoPrint (print, context);
-}
-
-void GChemTableCurve::OnPrint (bool preview)
-{
-	GtkPrintOperation *print;
-	GtkPrintOperationResult res;
-
-	print = gtk_print_operation_new ();
-	gtk_print_operation_set_use_full_page (print, false);
-
-    gtk_print_operation_set_print_settings (print, GetPrintSettings ());
-    gtk_print_operation_set_default_page_setup (print, GetPageSetup ());
-
-	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), NULL);
-	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
-	
-	res = gtk_print_operation_run (print,
-								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
-								   			GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-								   GTK_WINDOW (dialog), NULL);
-
-/*	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-		if (m_PrintSettings != NULL)
-			g_object_unref (m_PrintSettings);
-		m_PrintSettings = GTK_PRINT_SETTINGS (g_object_ref (gtk_print_operation_get_print_settings (print)));
-	}*/
-
-	g_object_unref (print);
 }
 
 void GChemTableCurve::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)

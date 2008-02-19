@@ -29,7 +29,11 @@
 #include <gcu/object.h>
 #include <glib/gtypes.h>
 #include <pango/pango.h>
+#ifdef HAVE_GO_CONF_SYNC
+#include <goffice/app/go-conf.h>
+#else
 #include <gconf/gconf-client.h>
+#endif
 #include <libxml/tree.h>
 #include <list>
 #include <map>
@@ -112,13 +116,18 @@ public:
 	Theme *GetTheme (char const *name);
 	Theme *GetTheme (std::string &name);
 	std::list <std::string> const &GetThemesNames ();
+#ifdef HAVE_GO_CONF_SYNC
+	void OnConfigChanged (GOConfNode *node, gchar const *name);
+#else
 	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
+#endif
 	Theme *CreateNewTheme (Theme *theme = NULL);
 	void AddFileTheme (Theme *theme, char const *label);
 	void RemoveFileTheme (Theme *theme);
 	void ChangeThemeName (Theme *theme, char const *name);
 	Theme *GetDefaultTheme () {return m_DefaultTheme;}
 	void SetDefaultTheme (char const *name);
+	void Shutdown ();
 
 private:
 	void ParseDir (std::string &path, ThemeType type);
@@ -126,7 +135,11 @@ private:
 private:
 	std::map <std::string, Theme*> m_Themes;
 	std::list <std::string> m_Names;
+#ifdef HAVE_GO_CONF_SYNC
+	GOConfNode *m_ConfNode;
+#else
 	GConfClient *m_ConfClient;
+#endif
 	guint m_NotificationId;
 	Theme *m_DefaultTheme;
 };

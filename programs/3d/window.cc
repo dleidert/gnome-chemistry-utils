@@ -66,12 +66,12 @@ static void on_page_setup (GtkWidget *widget, gc3dWindow* Win)
 
 static void on_print_preview (GtkWidget *widget, gc3dWindow* Win)
 {
-	Win->OnFilePrint (true);
+	Win->Print (true);
 }
 
 static void on_file_print (GtkWidget *widget, gc3dWindow* Win)
 {
-	Win->OnFilePrint (false);
+	Win->Print (false);
 }
 
 static void on_quit (GtkWidget *widget, gc3dWindow* Win)
@@ -368,81 +368,6 @@ void gc3dWindow::OnFileClose ()
 void gc3dWindow::OnPageSetup ()
 {
 	new PrintSetupDlg (m_App, this);
-}
-
-static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpointer data)
-{
-	gtk_print_operation_set_n_pages (print, 1);
-}
-
-static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,gpointer data)
-{
-	((gc3dWindow *) data)->DoPrint (print, context);
-}
-
-void gc3dWindow::OnFilePrint (bool preview)
-{
-	GtkPrintOperation *print;
-	GtkPrintOperationResult res;
-
-	print = gtk_print_operation_new ();
-	gtk_print_operation_set_use_full_page (print, false);
-
-    gtk_print_operation_set_print_settings (print, GetPrintSettings ());
-    gtk_print_operation_set_default_page_setup (print, GetPageSetup ());
-
-	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), NULL);
-	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
-	
-	res = gtk_print_operation_run (print,
-								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
-								   			GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-								   m_Window, NULL);
-
-/*	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-		if (m_PrintSettings != NULL)
-			g_object_unref (m_PrintSettings);
-		m_PrintSettings = GTK_PRINT_SETTINGS (g_object_ref (gtk_print_operation_get_print_settings (print)));
-	}*/
-
-	g_object_unref (print);
-/*	GnomePrintConfig* config = gnome_print_config_default ();
-	GnomePrintContext *pc;
-	GnomePrintJob *gpj = gnome_print_job_new (config);
-	int do_preview = 0, copies = 1, collate = 0;
-	GnomePrintDialog *gpd;
-	gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new (gpj, (const guchar*) "Print test", GNOME_PRINT_DIALOG_COPIES));
-	gnome_print_dialog_set_copies (gpd, copies, collate);
-	switch (gtk_dialog_run (GTK_DIALOG (gpd)))
-	{
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		do_preview = 1;
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (gpd));
-		g_object_unref (gpj);
-		gnome_print_config_unref (config);
-		return;
-	}
-	gtk_widget_destroy (GTK_WIDGET (gpd));
-	pc = gnome_print_job_get_context (gpj);
-	gnome_print_beginpage (pc, (const guchar*)"");
-	gdouble width, height;
-	gnome_print_config_get_double (config, (const guchar*) GNOME_PRINT_KEY_PAPER_WIDTH, &width);
-	gnome_print_config_get_double (config, (const guchar*) GNOME_PRINT_KEY_PAPER_HEIGHT, &height);
-	m_View->Print (pc, width, height);
-	gnome_print_showpage (pc);
-	g_object_unref (pc);
-	gnome_print_job_close (gpj);
-	if (do_preview)
-	{
-		GtkWidget *preview = gnome_print_job_preview_new (gpj, (const guchar*) _("Preview"));
-		gtk_widget_show (preview);
-	} else {
-		gnome_print_job_print (gpj);
-	}
-	g_object_unref (gpj);
-	gnome_print_config_unref (config);*/
 }
 
 void gc3dWindow::SetTitle (char const *title)

@@ -249,12 +249,19 @@ bool	Application::m_Have_InChI = false;
 
 // FIXME: Remove for stable versions
 #undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
+#define PACKAGE "gchemutils-unstable"
 
+#ifdef HAVE_GO_CONF_SYNC
+static void on_config_changed (GOConfNode *node, gchar const *key, Application *app)
+{
+	app->OnConfigChanged (node, key);
+}
+#else
 static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, Application *app)
 {
 	app->OnConfigChanged (client, cnxn_id, entry);
 }
+#endif
 
 Application::Application ():
 	gcu::Application ("GChemPaint", DATADIR, "gchempaint-unstable", "gchempaint")
@@ -265,7 +272,6 @@ Application::Application ():
 	m_NumWindow = 1;
 
 	if (!m_bInit) {
-		libgoffice_init ();
 		/* Initialize plugins manager */
 		gcu::Loader::Init ();
 		// Check for programs
@@ -381,15 +387,23 @@ Application::Application ():
 		}
 	}
 	
-	m_ConfClient = gconf_client_get_default ();
-	gconf_client_add_dir (m_ConfClient, "/apps/gchempaint/settings", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	GError *error = NULL;
-	GCU_GCONF_GET (ROOTDIR"compression", int, CompressionLevel, 0)
-	GCU_GCONF_GET (ROOTDIR"tearable-mendeleiev", bool, TearableMendeleiev, false)
+#ifdef HAVE_GO_CONF_SYNC
+		m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
+#else
+		GError *error = NULL;
+		m_ConfClient = gconf_client_get_default ();
+		gconf_client_add_dir (m_ConfClient, "/apps/gchemutils/paint/settings", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+#endif
+	GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
+	GCU_GCONF_GET ("tearable-mendeleiev", bool, TearableMendeleiev, false)
 	bool CopyAsText;
-	GCU_GCONF_GET (ROOTDIR"copy-as-text", bool, CopyAsText, false)
+	GCU_GCONF_GET ("copy-as-text", bool, CopyAsText, false)
 	ClipboardFormats = CopyAsText? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
-	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchempaint/settings", (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
+#ifdef HAVE_GO_CONF_SYNC
+	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, this);
+#else
+	m_NotificationId = gconf_client_notify_add (m_ConfClient, NULL, (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
+#endif
 	// make themes permanent with this as a dummy client
 	list <string> Names = TheThemeManager.GetThemesNames ();
 	list <string>::iterator j, jend = Names.end ();
@@ -411,6 +425,17 @@ Application::~Application ()
 		xmlFreeDoc (XmlDoc);
 	m_SupportedMimeTypes.clear ();
 	delete m_Dummy;
+#ifdef HAVE_GO_CONF_SYNC
+	go_conf_remove_monitor (m_NotificationId);
+	go_conf_free_node (m_ConfNode);
+	m_ConfNode = NULL;
+#else
+	gconf_client_notify_remove (m_ConfClient, m_NotificationId);
+	gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/gl", NULL);
+	g_object_unref (m_ConfClient);
+	m_ConfClient = NULL;
+#endif
+	TheThemeManager.Shutdown ();
 }
 
 void Application::ActivateTool (const string& toolname, bool activate)
@@ -1071,21 +1096,26 @@ void Application::ActivateWindowsActionWidget (const char *path, bool activate)
 	}
 }
 
+#ifdef HAVE_GO_CONF_SYNC
+void Application::OnConfigChanged (GOConfNode *node, gchar const *name)
+{
+#else
 void Application::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry)
 {
 	if (client != m_ConfClient)
 		return;	// we might want an error message?
 	if (cnxn_id != m_NotificationId)
 		return;	// we might want an error message?
-	if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"compression")) {
-		CompressionLevel = gconf_value_get_int (gconf_entry_get_value (entry));
-	} else 	if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"tearable-mendeleiev")) {
-		TearableMendeleiev = gconf_value_get_bool (gconf_entry_get_value (entry));
-		Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
-		if (ToolsBox)
-			ToolsBox->Update ();
-	} else 	if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"copy-as-text"))
-		ClipboardFormats = (gconf_value_get_bool (gconf_entry_get_value (entry)))? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
+#endif
+	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
+	GCU_UPDATE_KEY ("tearable-mendeleiev", bool, TearableMendeleiev,
+					{
+						Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
+						if (ToolsBox)
+							ToolsBox->Update ();
+					})
+	bool CopyAsText;
+	GCU_UPDATE_KEY ("copy-as-text", bool, CopyAsText, ClipboardFormats = CopyAsText?GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;)
 }
 
 void Application::AddMimeType (list<string> &l, string const& mime_type)

@@ -48,51 +48,38 @@ extern GtkWidget *vbox1;
 gcDocument* pDoc;
 gcView* pView;
 GtkWidget *mainwindow, *vbox1 ;
-GConfClient *conf_client;
+#ifdef HAVE_GO_CONF_SYNC
+	GOConfNode *node;
+#else
+	GConfClient *conf_client;
+#endif
 guint NotificationId;
 
-/* Following code is removed because libgnomeui is going to be deprecated
-* Just I don't know what will replace GnomeClient *
-static void session_die(GnomeClient *client, gpointer data)
-{
-   gtk_main_quit();
-}
+// defines used for GCU_GCONF_GET
+#define ROOTDIR	"/apps/gchemutils/crystal/"
+#ifdef HAVE_GO_CONF_SYNC
+#	define m_ConfNode node
+#else
+#	define m_ConfClient conf_client
+#endif
 
-static gint session_save(GnomeClient *client, gint phase, GnomeSaveStyle save_style, gint is_shutdown, GnomeInteractStyle interact_style, gint is_fast, gpointer client_data)
+#ifdef HAVE_GO_CONF_SYNC
+static void on_config_changed (GOConfNode *node, gchar const *name, gpointer user_data)
 {
-	gchar **argv;
-	gint argc;
-	if (IsEmbedded())
-	{
-		argv = (gchar**) g_malloc0(sizeof(gchar*) * 3);
-		argc = 2;
-		argv[0] = (gchar*) client_data;
-		argv[1] = "--bonobo-server";
-		gnome_client_set_clone_command(client, argc, argv);
-		gnome_client_set_restart_command(client, argc, argv);
-	}
-}*/
-
+#else
 static void on_config_changed (GConfClient *client,  guint cnxn_id, GConfEntry *entry, gpointer user_data)
 {
 	g_return_if_fail (client == conf_client);
 	g_return_if_fail (cnxn_id == NotificationId);
-	if (!strcmp (entry->key,"/apps/gcrystal/printing/resolution"))
-		PrintResolution = gconf_value_get_int (entry->value);
-	else if (!strcmp (entry->key,"/apps/gcrystal/views/fov"))
-		FoV = gconf_value_get_int (entry->value);
-	else if (!strcmp (entry->key,"/apps/gcrystal/views/psi"))
-		Psi = gconf_value_get_float (entry->value);
-	else if (!strcmp (entry->key,"/apps/gcrystal/views/theta"))
-		Theta = gconf_value_get_float (entry->value);
-	else if (!strcmp (entry->key,"/apps/gcrystal/views/phi"))
-		Phi = gconf_value_get_float (entry->value);
-	else if (!strcmp (entry->key,"/apps/gcrystal/views/red"))
-		Red = gconf_value_get_float (entry->value);
-	else if (!strcmp (entry->key,"/apps/gcrystal/views/green"))
-		Green = gconf_value_get_float (entry->value);
-	else if (!strcmp (entry->key,"/apps/gcrystal/views/blue"))
-		Blue = gconf_value_get_float (entry->value);
+#endif
+	GCU_UPDATE_KEY ("printing/resolution", int, PrintResolution, {})
+	GCU_UPDATE_KEY ("view/fov", int, FoV, {})
+	GCU_UPDATE_KEY ("view/psi", float, Psi, {})
+	GCU_UPDATE_KEY ("view/theta", float, Theta, {})
+	GCU_UPDATE_KEY ("view/phi", float, Phi, {})
+	GCU_UPDATE_KEY ("view/red", float, Red, {})
+	GCU_UPDATE_KEY ("view/green", float, Green, {})
+	GCU_UPDATE_KEY ("view/blue", float, Blue, {})
 }
 
 static void cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
@@ -108,10 +95,6 @@ static GOptionEntry entries[] =
   { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints Gnome Crystal version", NULL },
    { NULL }
 };
-
-// defines used for GCU_GCONF_GET
-#define ROOTDIR	"/apps/gchemutils/crystal/"
-#define m_ConfClient conf_client
 
 int main(int argc, char *argv[])
 {
@@ -142,19 +125,27 @@ int main(int argc, char *argv[])
 	}
 	
 //Configuration loading
+#ifdef HAVE_GO_CONF_SYNC
+	node = go_conf_get_node (Application::GetConfDir (), "crystal");
+#else
 	conf_client = gconf_client_get_default ();
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/general", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/printing", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/views", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	GCU_GCONF_GET (ROOTDIR"printing/resolution", int, PrintResolution, 300)
-	GCU_GCONF_GET (ROOTDIR"views/fov", int, FoV, 10)
-	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/psi", float, Psi, 70.)
-	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/theta", float,Theta, 10.)
-	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/phi", float, Phi, -90.)
-	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/red", float, Red, 1.)
-	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/green", float, Green, 1.)
-	GCU_GCONF_GET_NO_CHECK (ROOTDIR"views/blue", float, Blue, 1.)
+#endif
+	GCU_GCONF_GET ("printing/resolution", int, PrintResolution, 300)
+	GCU_GCONF_GET ("views/fov", int, FoV, 10)
+	GCU_GCONF_GET_NO_CHECK ("views/psi", float, Psi, 70.)
+	GCU_GCONF_GET_NO_CHECK ("views/theta", float,Theta, 10.)
+	GCU_GCONF_GET_NO_CHECK ("views/phi", float, Phi, -90.)
+	GCU_GCONF_GET_NO_CHECK ("views/red", float, Red, 1.)
+	GCU_GCONF_GET_NO_CHECK ("views/green", float, Green, 1.)
+	GCU_GCONF_GET_NO_CHECK ("views/blue", float, Blue, 1.)
+#ifdef HAVE_GO_CONF_SYNC
+	NotificationId = go_conf_add_monitor (node, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
+#else
 	NotificationId = gconf_client_notify_add (conf_client, "/apps/gchemutils/crystal", on_config_changed, NULL, NULL, NULL);
+#endif
 	gcApplication* gcApp = new gcApplication ();
 	gcDocument *pDoc = gcApp->OnFileNew();
 	gcApp->SetOpening();
@@ -186,11 +177,16 @@ int main(int argc, char *argv[])
 	g_free (dir);
 	gtk_main ();
 
+#ifdef HAVE_GO_CONF_SYNC
+	go_conf_remove_monitor (NotificationId);
+	go_conf_free_node (node);
+#else
 	gconf_client_notify_remove (conf_client, NotificationId);
 	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/general", NULL);
 	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/printing", NULL);
 	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/views", NULL);
 	g_object_unref (G_OBJECT(conf_client));
+#endif
 
 	gnome_vfs_shutdown ();
 

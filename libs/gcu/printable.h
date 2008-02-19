@@ -40,9 +40,15 @@ public:
 
 	virtual void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) = 0;
 	virtual bool SupportsHeaders () {return false;}
+	virtual GtkWindow *GetWindow () = 0;
+	virtual int GetPagesNumber () {return 1;}
+
+	void Print (bool preview);
+	void SetPageSetup (GtkPageSetup *PageSetup);
 
 GCU_RO_PROP (GtkPrintSettings *, PrintSettings)
 GCU_RO_PROP (GtkPageSetup *, PageSetup)
+GCU_PROP (GtkUnit, Unit);
 };
 
 }	//	namespace gcu

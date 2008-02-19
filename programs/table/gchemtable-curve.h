@@ -44,13 +44,13 @@ public:
 	GChemTableApp *GetApplication () {return dynamic_cast <GChemTableApp *> (m_App);}
 
 	void OnPageSetup ();
-	void OnPrint (bool preview);
 	void OnCopy ();
 	void OnClose ();
 	void OnProperties ();
 
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 	void SetGraph (GogGraph *graph);
+	GtkWindow *GetWindow () {return GTK_WINDOW (dialog);}
 
 private:
 	std::string m_Name;

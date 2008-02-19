@@ -26,6 +26,7 @@
 #include "document.h"
 #include "theme.h"
 #include "settings.h"
+#include <gcu/application.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>
@@ -123,10 +124,17 @@ Theme::~Theme ()
 
 ThemeManager TheThemeManager;
 
+#ifdef HAVE_GO_CONF_SYNC
+static void on_config_changed (GOConfNode *node, gchar const *key, ThemeManager *manager)
+{
+	manager->OnConfigChanged (node, key);
+}
+#else
 static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, ThemeManager *manager)
 {
 	manager->OnConfigChanged (client, cnxn_id, entry);
 }
+#endif
 
 // transform functions for gconf key values
 
@@ -189,44 +197,52 @@ ThemeManager::ThemeManager ()
 #ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
+#ifdef HAVE_GO_CONF_SYNC
+	m_ConfNode = go_conf_get_node (gcu::Application::GetConfDir (), GCP_CONF_DIR_SETTINGS);
+#else
 	GError *error = NULL;
 	m_ConfClient = gconf_client_get_default ();
-	gconf_client_add_dir (m_ConfClient, "/apps/gchempaint/settings", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	GCU_GCONF_GET (ROOTDIR"bond-length", float, DefaultBondLength, 140.)
-	GCU_GCONF_GET (ROOTDIR"bond-angle", float, DefaultBondAngle, 120.)
-	GCU_GCONF_GET (ROOTDIR"bond-dist", float, DefaultBondDist, 5.)
-	GCU_GCONF_GET (ROOTDIR"bond-width", float, DefaultBondWidth, 1.0)
-	GCU_GCONF_GET (ROOTDIR"arrow-length", float, DefaultArrowLength, 200)
-	GCU_GCONF_GET (ROOTDIR"arrow-headA", float, DefaultArrowHeadA, 6.0)
-	GCU_GCONF_GET (ROOTDIR"arrow-headB", float, DefaultArrowHeadB, 8.0)
-	GCU_GCONF_GET (ROOTDIR"arrow-headC", float, DefaultArrowHeadC, 4.0)
-	GCU_GCONF_GET (ROOTDIR"arrow-dist", float, DefaultArrowDist, 5.0)
-	GCU_GCONF_GET (ROOTDIR"arrow-width", float, DefaultArrowWidth, 1.0)
-	GCU_GCONF_GET (ROOTDIR"hash-width", float, DefaultHashWidth, 1.0)
-	GCU_GCONF_GET (ROOTDIR"hash-dist", float, DefaultHashDist, 2.0)
-	GCU_GCONF_GET (ROOTDIR"stereo-width", float, DefaultStereoBondWidth, 5.0)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"scale", float, DefaultZoomFactor, 0.25, inv)
-	GCU_GCONF_GET (ROOTDIR"padding", float, DefaultPadding, 2.0)
-	GCU_GCONF_GET (ROOTDIR"arrow-padding", float, DefaultArrowPadding, 16.0)
-	GCU_GCONF_GET (ROOTDIR"arrow-object-padding", float, DefaultArrowObjectPadding, 16.0)
-	GCU_GCONF_GET (ROOTDIR"stoichiometry-padding", float, DefaultStoichiometryPadding, 1.)
-	GCU_GCONF_GET (ROOTDIR"object-padding", float, DefaultObjectPadding, 16.0)
-	GCU_GCONF_GET (ROOTDIR"sign-padding", float, DefaultSignPadding, 8.0)
-	GCU_GCONF_GET (ROOTDIR"charge-sign-size", float, DefaultChargeSignSize, 9.)
-	GCU_GCONF_GET_STRING (ROOTDIR"font-family", DefaultFontFamily, "Bitstream Vera Sans")
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"font-style", int, DefaultFontStyle, 0, set_fontstyle)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"font-weight", int, DefaultFontWeight, 4, set_fontweight)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"font-variant", int, DefaultFontVariant, 0, set_fontvariant)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"font-stretch", int, DefaultFontStretch, 4, set_fontstretch)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"font-size", float, DefaultFontSize, 12., set_fontsize)
-	GCU_GCONF_GET_STRING (ROOTDIR"text-font-family", DefaultTextFontFamily, "Bitstream Vera Serif")
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"text-font-style", int, DefaultTextFontStyle, 0, set_fontstyle)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"text-font-weight", int, DefaultTextFontWeight, 4, set_fontweight)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"text-font-variant", int, DefaultTextFontVariant, 0, set_fontvariant)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"text-font-stretch", int, DefaultTextFontStretch, 4, set_fontstretch)
-	GCU_GCONF_GET_N_TRANSFORM (ROOTDIR"text-font-size", float, DefaultTextFontSize, 12., set_fontsize)
-	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchempaint/settings", (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
+	gconf_client_add_dir (m_ConfClient, "/apps/gchemutilspaint/settings", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+#endif
+	GCU_GCONF_GET ("bond-length", float, DefaultBondLength, 140.)
+	GCU_GCONF_GET ("bond-angle", float, DefaultBondAngle, 120.)
+	GCU_GCONF_GET ("bond-dist", float, DefaultBondDist, 5.)
+	GCU_GCONF_GET ("bond-width", float, DefaultBondWidth, 1.0)
+	GCU_GCONF_GET ("arrow-length", float, DefaultArrowLength, 200)
+	GCU_GCONF_GET ("arrow-headA", float, DefaultArrowHeadA, 6.0)
+	GCU_GCONF_GET ("arrow-headB", float, DefaultArrowHeadB, 8.0)
+	GCU_GCONF_GET ("arrow-headC", float, DefaultArrowHeadC, 4.0)
+	GCU_GCONF_GET ("arrow-dist", float, DefaultArrowDist, 5.0)
+	GCU_GCONF_GET ("arrow-width", float, DefaultArrowWidth, 1.0)
+	GCU_GCONF_GET ("hash-width", float, DefaultHashWidth, 1.0)
+	GCU_GCONF_GET ("hash-dist", float, DefaultHashDist, 2.0)
+	GCU_GCONF_GET ("stereo-width", float, DefaultStereoBondWidth, 5.0)
+	GCU_GCONF_GET_N_TRANSFORM ("scale", float, DefaultZoomFactor, 4., inv)
+	GCU_GCONF_GET ("padding", float, DefaultPadding, 2.0)
+	GCU_GCONF_GET ("arrow-padding", float, DefaultArrowPadding, 16.0)
+	GCU_GCONF_GET ("arrow-object-padding", float, DefaultArrowObjectPadding, 16.0)
+	GCU_GCONF_GET ("stoichiometry-padding", float, DefaultStoichiometryPadding, 1.)
+	GCU_GCONF_GET ("object-padding", float, DefaultObjectPadding, 16.0)
+	GCU_GCONF_GET ("sign-padding", float, DefaultSignPadding, 8.0)
+	GCU_GCONF_GET ("charge-sign-size", float, DefaultChargeSignSize, 9.)
+	GCU_GCONF_GET_STRING ("font-family", DefaultFontFamily, "Bitstream Vera Sans")
+	GCU_GCONF_GET_N_TRANSFORM ("font-style", int, DefaultFontStyle, 0, set_fontstyle)
+	GCU_GCONF_GET_N_TRANSFORM ("font-weight", int, DefaultFontWeight, 4, set_fontweight)
+	GCU_GCONF_GET_N_TRANSFORM ("font-variant", int, DefaultFontVariant, 0, set_fontvariant)
+	GCU_GCONF_GET_N_TRANSFORM ("font-stretch", int, DefaultFontStretch, 4, set_fontstretch)
+	GCU_GCONF_GET_N_TRANSFORM ("font-size", float, DefaultFontSize, 12., set_fontsize)
+	GCU_GCONF_GET_STRING ("text-font-family", DefaultTextFontFamily, "Bitstream Vera Serif")
+	GCU_GCONF_GET_N_TRANSFORM ("text-font-style", int, DefaultTextFontStyle, 0, set_fontstyle)
+	GCU_GCONF_GET_N_TRANSFORM ("text-font-weight", int, DefaultTextFontWeight, 4, set_fontweight)
+	GCU_GCONF_GET_N_TRANSFORM ("text-font-variant", int, DefaultTextFontVariant, 0, set_fontvariant)
+	GCU_GCONF_GET_N_TRANSFORM ("text-font-stretch", int, DefaultTextFontStretch, 4, set_fontstretch)
+	GCU_GCONF_GET_N_TRANSFORM ("text-font-size", float, DefaultTextFontSize, 12., set_fontsize)
 	// Build default theme from settings
+#ifdef HAVE_GO_CONF_SYNC
+	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, this);
+#else
+	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchemutils/paint/settings", (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
+#endif
 	m_Themes["GChemPaint"] = new Theme ("GChemPaint");
 	m_Names.push_front ("GChemPaint");
 	// load global themes
@@ -240,7 +256,7 @@ ThemeManager::ThemeManager ()
 	path += "/.gchempaint/themes";
 	ParseDir (path, LOCAL_THEME_TYPE);
 	gchar *default_theme  =NULL;
-	GCU_GCONF_GET_STRING (ROOTDIR"default-theme", default_theme, "GChemPaint");
+	GCU_GCONF_GET_STRING ("default-theme", default_theme, "GChemPaint");
 	m_DefaultTheme = m_Themes[default_theme];
 	g_free (default_theme);
 	if (!m_DefaultTheme)
@@ -249,9 +265,6 @@ ThemeManager::ThemeManager ()
 
 ThemeManager::~ThemeManager ()
 {
-	gconf_client_notify_remove (m_ConfClient, m_NotificationId);
-	gconf_client_remove_dir (m_ConfClient, "/apps/gchempaint/settings", NULL);
-	g_object_unref (m_ConfClient);
 	// save themes if needed, then delete
 	Theme *theme, *def = NULL;
 	map <string, Theme*>::iterator i, iend = m_Themes.end ();
@@ -291,6 +304,20 @@ ThemeManager::~ThemeManager ()
 	g_free (DefaultTextFontFamily);
 }
 
+void ThemeManager::Shutdown ()
+{
+#ifdef HAVE_GO_CONF_SYNC
+	go_conf_remove_monitor (m_NotificationId);
+	go_conf_free_node (m_ConfNode);
+	m_ConfNode = NULL;
+#else
+	gconf_client_notify_remove (m_ConfClient, m_NotificationId);
+	gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/gl", NULL);
+	g_object_unref (m_ConfClient);
+	m_ConfClient = NULL;
+#endif
+}
+
 Theme *ThemeManager::GetTheme (char const *name)
 {
 	if (!strcmp (_(name), _("Default")))
@@ -310,125 +337,98 @@ list <string> const &ThemeManager::GetThemesNames ()
 	return m_Names;
 }
 
+#ifdef HAVE_GO_CONF_SYNC
+void ThemeManager::OnConfigChanged (GOConfNode *node, gchar const *name)
+{
+#else
 void ThemeManager::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry)
 {
 	if (client != m_ConfClient)
 		return;	// we might want an error message?
 	if (cnxn_id != m_NotificationId)
 		return;	// we might want an error message?
+	char const *key = gconf_entry_get_key (entry), *name;
+#endif
 	Theme *theme = m_Themes["GChemPaint"];
-	if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"bond-length")) {
-		DefaultBondLength = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_BondLength = DefaultBondLength;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"bond-angle"))  {
-		DefaultBondAngle = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_BondAngle = DefaultBondAngle;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"bond-dist"))  {
-		DefaultBondDist = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_BondDist = DefaultBondDist;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"bond-width"))  {
-		DefaultBondWidth = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_BondWidth = DefaultBondWidth;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-length"))  {
-		DefaultArrowLength = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_ArrowLength = DefaultArrowLength;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-headA"))  {
-		DefaultArrowHeadA = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_ArrowHeadA = DefaultArrowHeadA;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-headB"))  {
-		DefaultArrowHeadB = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_ArrowHeadB = DefaultArrowHeadB;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-headC"))  {
-		DefaultArrowHeadC = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_ArrowHeadC = DefaultArrowHeadC;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-dist"))  {
-		DefaultArrowDist = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_ArrowDist = DefaultArrowDist;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"arrow-width"))  {
-		DefaultArrowWidth = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_ArrowWidth = DefaultArrowWidth;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"hash-width"))  {
-		DefaultHashWidth = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_HashWidth = DefaultHashWidth;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"hash-dist"))  {
-		DefaultHashDist = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_HashDist = DefaultHashDist;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"stereo-width"))  {
-		DefaultStereoBondWidth = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_StereoBondWidth = DefaultStereoBondWidth;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"scale"))  {
-		double scale = gconf_value_get_float (gconf_entry_get_value (entry));
-		if (scale > 1e-5) {
-			DefaultZoomFactor = 1 / scale;
+	GCU_UPDATE_KEY ("bond-length", float, DefaultBondLength, theme->m_BondLength = DefaultBondLength;)
+	GCU_UPDATE_KEY ("bond-angle", float, DefaultBondAngle, theme->m_BondAngle = DefaultBondAngle;)
+	GCU_UPDATE_KEY ("bond-dist", float, DefaultBondDist, theme->m_BondDist = DefaultBondDist;)
+	GCU_UPDATE_KEY ("bond-width", float, DefaultBondWidth, theme->m_BondWidth = DefaultBondWidth;)
+	GCU_UPDATE_KEY ("arrow-length", float, DefaultArrowLength, theme->m_ArrowLength = DefaultArrowLength;)
+	GCU_UPDATE_KEY ("arrow-headA", float, DefaultArrowHeadA, theme->m_ArrowHeadA = DefaultArrowHeadA;)
+	GCU_UPDATE_KEY ("arrow-headB", float, DefaultArrowHeadB, theme->m_ArrowHeadB = DefaultArrowHeadB;)
+	GCU_UPDATE_KEY ("arrow-headA", float, DefaultArrowHeadC, theme->m_ArrowHeadC = DefaultArrowHeadC;)
+	GCU_UPDATE_KEY ("arrow-dist", float, DefaultArrowDist, theme->m_ArrowDist = DefaultArrowDist;)
+	GCU_UPDATE_KEY ("arrow-width", float, DefaultArrowWidth, theme->m_ArrowWidth = DefaultArrowWidth;)
+	GCU_UPDATE_KEY ("hash-width", float, DefaultHashWidth, theme->m_HashWidth = DefaultHashWidth;)
+	GCU_UPDATE_KEY ("hash-dist", float, DefaultHashDist, theme->m_HashDist = DefaultHashDist;)
+	GCU_UPDATE_KEY ("stereo-width", float, DefaultStereoBondWidth, theme->m_StereoBondWidth = DefaultStereoBondWidth;)
+	double x;
+	GCU_UPDATE_KEY ("scale", float, x,
+		if (x > 1e-5) {
+			DefaultZoomFactor = 1 / x;
 			theme->m_ZoomFactor = DefaultZoomFactor;
 		}
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"padding"))  {
-		DefaultPadding = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_Padding = DefaultPadding;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"stoichiometry-padding"))  {
-		DefaultStoichiometryPadding = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_StoichiometryPadding = DefaultStoichiometryPadding;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"object-padding"))  {
-		DefaultObjectPadding = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_ObjectPadding = DefaultObjectPadding;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"charge-sign-padding"))  {
-		DefaultSignPadding = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_SignPadding = DefaultSignPadding;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"charge-sign-size"))  {
-		DefaultChargeSignSize = gconf_value_get_float (gconf_entry_get_value (entry));
-		theme->m_ChargeSignSize = DefaultChargeSignSize;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-family"))  {
-		char const *name = gconf_value_get_string (gconf_entry_get_value (entry));
+	)
+	GCU_UPDATE_KEY ("padding", float, DefaultPadding, theme->m_Padding = DefaultPadding;)
+	GCU_UPDATE_KEY ("stoichiometry-padding", float, DefaultStoichiometryPadding, theme->m_StoichiometryPadding = DefaultStoichiometryPadding;)
+	GCU_UPDATE_KEY ("object-padding", float, DefaultObjectPadding, theme->m_ObjectPadding = DefaultObjectPadding;)
+	GCU_UPDATE_KEY ("charge-sign-padding", float, DefaultSignPadding, theme->m_SignPadding = DefaultSignPadding;)
+	GCU_UPDATE_KEY ("charge-sign-size", float, DefaultChargeSignSize, theme->m_ChargeSignSize = DefaultChargeSignSize;)
+	GCU_UPDATE_KEY ("font-family", string, name,
 		if (name) {
 			if (DefaultFontFamily != NULL)
 				g_free (DefaultFontFamily);
 			DefaultFontFamily = g_strdup (name);
 			theme->m_FontFamily = DefaultFontFamily;
-		}
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-style"))  {
-		DefaultFontStyle = set_fontstyle (gconf_value_get_int (gconf_entry_get_value (entry)));
+		})
+	int n;
+	GCU_UPDATE_KEY ("font-style", int, n, {
+		DefaultFontStyle = set_fontstyle (n);
 		theme->m_FontStyle = DefaultFontStyle;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-weight"))  {
-		DefaultFontWeight = set_fontweight (gconf_value_get_int (gconf_entry_get_value (entry)));
+	})
+	GCU_UPDATE_KEY ("font-weight", int, n, {
+		DefaultFontWeight = set_fontweight (n);
 		theme->m_FontWeight = DefaultFontWeight;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-variant"))  {
-		DefaultFontVariant = set_fontvariant (gconf_value_get_int (gconf_entry_get_value (entry)));
+	})
+	GCU_UPDATE_KEY ("font-variant", int, n, {
+		DefaultFontVariant = set_fontvariant (n);
 		theme->m_FontVariant = DefaultFontVariant;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-stretch"))  {
-		DefaultFontStretch = set_fontstretch (gconf_value_get_int (gconf_entry_get_value (entry)));
+	})
+	GCU_UPDATE_KEY ("font-stretch", int, n, {
+		DefaultFontStretch = set_fontstretch (n);
 		theme->m_FontStretch = DefaultFontStretch;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"font-size"))  {
-		DefaultFontSize = set_fontsize (gconf_value_get_float (gconf_entry_get_value (entry)));
-		theme->m_FontSize = DefaultFontSize;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-family"))  {
-		char const *name = gconf_value_get_string (gconf_entry_get_value (entry));
+	})
+	GCU_UPDATE_KEY ("font-size", float, DefaultFontSize, theme->m_FontSize = DefaultFontSize;)
+	GCU_UPDATE_KEY ("text-font-family", string, name,
 		if (name) {
 			if (DefaultTextFontFamily != NULL)
 				g_free (DefaultTextFontFamily);
 			DefaultTextFontFamily = g_strdup (name);
 			theme->m_TextFontFamily = DefaultTextFontFamily;
-		}
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-style"))  {
-		DefaultTextFontStyle = set_fontstyle (gconf_value_get_int (gconf_entry_get_value (entry)));
+		})
+	GCU_UPDATE_KEY ("text-font-style", int, n, {
+		DefaultTextFontStyle = set_fontstyle (n);
 		theme->m_TextFontStyle = DefaultTextFontStyle;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-weight"))  {
-		DefaultTextFontWeight = set_fontweight (gconf_value_get_int (gconf_entry_get_value (entry)));
+	})
+	GCU_UPDATE_KEY ("text-font-weight", int, n, {
+		DefaultTextFontWeight = set_fontweight (n);
 		theme->m_TextFontWeight = DefaultTextFontWeight;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-variant"))  {
-		DefaultTextFontVariant = set_fontvariant (gconf_value_get_int (gconf_entry_get_value (entry)));
+	})
+	GCU_UPDATE_KEY ("text-font-variant", int, n, {
+		DefaultTextFontVariant = set_fontvariant (n);
 		theme->m_TextFontVariant = DefaultTextFontVariant;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-stretch"))  {
-		DefaultTextFontStretch = set_fontstretch (gconf_value_get_int (gconf_entry_get_value (entry)));
+	})
+	GCU_UPDATE_KEY ("text-font-stretch", int, n, {
+		DefaultTextFontStretch = set_fontstretch (n);
 		theme->m_TextFontStretch = DefaultTextFontStretch;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"text-font-size"))  {
-		DefaultTextFontSize = set_fontsize (gconf_value_get_float (gconf_entry_get_value (entry)));
-		theme->m_TextFontSize = DefaultTextFontSize;
-	} else if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"default-theme"))  {
-		char const *name = gconf_value_get_string (gconf_entry_get_value (entry));
+	})
+	GCU_UPDATE_KEY ("text-font-size", float, DefaultTextFontSize, theme->m_TextFontSize = DefaultTextFontSize;)
+	GCU_UPDATE_KEY ("default-theme", string, name, {
 		theme = m_Themes[name];
 		if (theme)
 			m_DefaultTheme = theme;
-	}
+	})
 }
 
 Theme *ThemeManager::CreateNewTheme (Theme *theme)

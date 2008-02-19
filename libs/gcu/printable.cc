@@ -22,6 +22,8 @@
 
 #include "config.h"
 #include "printable.h"
+#include "application.h"
+#include "macros.h"
 
 namespace gcu {
 
@@ -30,9 +32,24 @@ class PrintSettings
 public:
 	PrintSettings ();
 	virtual ~PrintSettings ();
+	void Init ();
+#ifdef HAVE_GO_CONF_SYNC
+	void OnConfigChanged (GOConfNode *node, gchar const *name);
+#else
+	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
+#endif
 	GtkPrintSettings *settings;
 	GtkPageSetup *setup;
+	GtkUnit unit;
+	guint m_NotificationId;
+#ifdef HAVE_GO_CONF_SYNC
+	GOConfNode *m_ConfNode;
+#else
+	GConfClient *m_ConfClient;
+#endif
 };
+
+static PrintSettings DefaultSettings;
 
 PrintSettings::PrintSettings ()
 {
@@ -40,30 +57,147 @@ PrintSettings::PrintSettings ()
 	setup = NULL;
 }
 
-PrintSettings::~PrintSettings ()
+#ifdef HAVE_GO_CONF_SYNC
+static void on_config_changed (GOConfNode *node, gchar const *key, gpointer data)
 {
-	g_object_unref (setup);
-	g_object_unref (settings);
+	DefaultSettings.OnConfigChanged (node, key);
+}
+#else
+static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	DefaultSettings.OnConfigChanged (client, cnxn_id, entry);
+}
+#endif
+
+void PrintSettings::Init ()
+{
+	DefaultSettings.settings = gtk_print_settings_new ();
+	DefaultSettings.setup = gtk_page_setup_new ();
+#ifdef HAVE_GO_CONF_SYNC
+	m_ConfNode = go_conf_get_node (Application::GetConfDir (), "printsetup");
+#else
+	GError *error = NULL;
+	m_ConfClient = gconf_client_get_default ();
+	gconf_client_add_dir (m_ConfClient, "/apps/gchemutils/printsetup", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+#endif
+	char *name = NULL;
+	GtkPaperSize *size = NULL;
+	GCU_GCONF_GET_STRING ("paper", name, NULL)
+	size = gtk_paper_size_new ((name && strlen (name))? name: NULL);
+	gtk_page_setup_set_paper_size (setup, size);
+	gtk_paper_size_free (size);
+	// TODO: import other default values from conf keys
+#ifdef HAVE_GO_CONF_SYNC
+	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
+	go_conf_free_node (m_ConfNode);
+#else
+	m_NotificationId = gconf_client_notify_add (m_ConfClient, NULL, (GConfClientNotifyFunc) on_config_changed, NULL, NULL, NULL);
+#endif
 }
 
-static PrintSettings DefaultSettings;
+#define ROOTDIR "/apps/gchemutils/printsetup/"
+
+PrintSettings::~PrintSettings ()
+{
+	if (setup)
+		g_object_unref (setup);
+	if (settings)
+		g_object_unref (settings);
+#ifdef HAVE_GO_CONF_SYNC
+	if (m_NotificationId)
+		go_conf_remove_monitor (m_NotificationId);
+#else
+	if (m_NotificationId) {
+		gconf_client_notify_remove (m_ConfClient,m_NotificationId);
+		gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/printsetup", NULL);
+		g_object_unref (m_ConfClient);
+	}
+#endif
+}
+
+#ifdef HAVE_GO_CONF_SYNC
+void PrintSettings::OnConfigChanged (GOConfNode *node, gchar const *name)
+{
+#else
+void PrintSettings::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry)
+{
+	if (client != m_ConfClient)
+		return;	// we might want an error message?
+	if (cnxn_id != m_NotificationId)
+		return;	// we might want an error message?
+#endif
+/*	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
+	GCU_UPDATE_KEY ("tearable-mendeleiev", bool, TearableMendeleiev,
+					{
+						Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
+						if (ToolsBox)
+							ToolsBox->Update ();
+					})
+	bool CopyAsText;
+	GCU_UPDATE_KEY ("copy-as-text", bool, CopyAsText, ClipboardFormats = CopyAsText?GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;)*/
+}
 
 Printable::Printable ():
 	DialogOwner ()
 {
-	if (DefaultSettings.settings == NULL) {
-		DefaultSettings.settings = gtk_print_settings_new ();
-		DefaultSettings.setup = gtk_page_setup_new ();
-		// TODO: import default values from conf keys
-	}
+	if (DefaultSettings.settings == NULL)
+		DefaultSettings.Init ();
 	m_PrintSettings = gtk_print_settings_copy (DefaultSettings.settings);
 	m_PageSetup = gtk_page_setup_copy (DefaultSettings.setup);
+	m_Unit = DefaultSettings.unit;
 }
 
 Printable::~Printable ()
 {
 	g_object_unref (m_PageSetup);
 	g_object_unref (m_PrintSettings);
+}
+
+static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpointer data)
+{
+	gtk_print_operation_set_n_pages (print, ((Printable *) data)->GetPagesNumber ());
+}
+
+static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,gpointer data)
+{
+	((Printable *) data)->DoPrint (print, context);
+}
+
+void Printable::Print (bool preview)
+{
+	GtkPrintOperation *print;
+	GtkPrintOperationResult res;
+
+	print = gtk_print_operation_new ();
+	gtk_print_operation_set_use_full_page (print, false);
+
+    gtk_print_operation_set_print_settings (print, GetPrintSettings ());
+    gtk_print_operation_set_default_page_setup (print, GetPageSetup ());
+
+	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), this);
+	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
+	
+	res = gtk_print_operation_run (print,
+								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
+								   			GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+								   GetWindow (), NULL);
+
+	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
+		if (m_PrintSettings != NULL)
+			g_object_unref (m_PrintSettings);
+		m_PrintSettings = GTK_PRINT_SETTINGS (g_object_ref (gtk_print_operation_get_print_settings (print)));
+	}
+
+	g_object_unref (print);
+}
+
+void Printable::SetPageSetup (GtkPageSetup *PageSetup)
+{
+	if (PageSetup != NULL) {
+		if (m_PageSetup != NULL)
+			g_object_unref (m_PageSetup);
+		m_PageSetup = PageSetup;
+	}
 }
 
 }	//	namespace gcu

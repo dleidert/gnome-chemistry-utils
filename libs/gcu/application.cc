@@ -26,6 +26,7 @@
 #include "application.h"
 #include "cmd-context.h"
 #include "loader.h"
+#include <goffice/goffice.h>
 #include <goffice/app/io-context.h>
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #include <gsf-gnome/gsf-output-gnomevfs.h>
@@ -41,14 +42,27 @@
 #include <cstdlib>
 #include <cstring>
 #include <clocale>
+#include <set>
 
 using namespace std;
 
 namespace gcu
 {
 
+GOConfNode *Application::m_ConfDir = NULL;
+static set<Application *> Apps;
+
 Application::Application (string name, string datadir, char const *help_name, char const *icon_name)
 {
+#ifdef HAVE_GO_CONF_SYNC
+	if (m_ConfDir == NULL) {
+		libgoffice_init ("gchemutils");
+		m_ConfDir = go_conf_get_node (NULL, GCU_CONF_DIR);
+	}
+#else
+	libgoffice_init ();
+#endif
+	Apps.insert (this);
 	static bool first_call = true;
 	Name = name;
 	char const *szlang = getenv ("LANG");
@@ -122,6 +136,14 @@ Application::Application (string name, string datadir, char const *help_name, ch
 Application::~Application ()
 {
 	g_object_unref (m_RecentManager);
+	Apps.erase (this);
+	if (Apps.empty ()) {
+#ifdef HAVE_GO_CONF_SYNC
+		go_conf_free_node (m_ConfDir);
+		m_ConfDir = NULL;
+#endif
+		libgoffice_shutdown ();
+	}
 }
 
 void Application::OnHelp (string tag)
@@ -293,5 +315,16 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 	setlocale (LC_NUMERIC, old_num_locale.c_str ());
 	return ret;
 }
+
+#ifdef HAVE_GO_CONF_SYNC
+GOConfNode *Application::GetConfDir ()
+{
+	if (m_ConfDir == NULL) {
+		libgoffice_init ("gchemutils");
+		m_ConfDir = go_conf_get_node (NULL, GCU_CONF_DIR);
+	}
+	return m_ConfDir;
+}
+#endif
 
 }	//	namespace gcu

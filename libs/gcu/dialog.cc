@@ -68,27 +68,30 @@ Dialog::Dialog (Application* App, const char* filename, const char* windowname, 
 		return;
 	}
 	m_Owner = owner;
-	xml =  glade_xml_new (filename, windowname, NULL);
-	m_extra_destroy = extra_destroy;
-	m_windowname = windowname;
-	m_data = data;
-	if (xml)  glade_xml_signal_autoconnect (xml);
-	dialog = GTK_WINDOW (glade_xml_get_widget(xml, windowname));
-	gtk_window_set_icon_name (dialog, App->GetName ().c_str ());
-	g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (on_destroy), this);
-	GtkWidget* button = glade_xml_get_widget (xml, "OK");
-	if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_OK), this);
-	button = glade_xml_get_widget (xml, "apply");
-	if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_apply), this);
-	button = glade_xml_get_widget (xml, "cancel");
-	if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_cancel), this);
-	button = glade_xml_get_widget(xml, "help");
-	if (button) {
-		if (App->HasHelp ())
-			g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_help), this);
-		else
-			gtk_widget_hide (button);
-	}
+	if (filename) {
+		xml =  glade_xml_new (filename, windowname, NULL);
+		m_extra_destroy = extra_destroy;
+		m_windowname = windowname;
+		m_data = data;
+		if (xml)  glade_xml_signal_autoconnect (xml);
+		dialog = GTK_WINDOW (glade_xml_get_widget(xml, windowname));
+		gtk_window_set_icon_name (dialog, App->GetName ().c_str ());
+		g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (on_destroy), this);
+		GtkWidget* button = glade_xml_get_widget (xml, "OK");
+		if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_OK), this);
+		button = glade_xml_get_widget (xml, "apply");
+		if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_apply), this);
+		button = glade_xml_get_widget (xml, "cancel");
+		if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_cancel), this);
+		button = glade_xml_get_widget(xml, "help");
+		if (button) {
+			if (App->HasHelp ())
+				g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_help), this);
+			else
+				gtk_widget_hide (button);
+		}
+	} else
+		xml = NULL;
 }
 
 Dialog::~Dialog()

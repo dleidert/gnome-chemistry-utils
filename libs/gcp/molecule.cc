@@ -36,6 +36,8 @@
 #include <clocale>
 #include <cmath>
 #include <cstring>
+#include <map>
+#include <set>
 
 using namespace gcu;
 using namespace OpenBabel;
@@ -867,6 +869,22 @@ std::string Molecule::GetRawFormula ()
 void Molecule::OnLoaded ()
 {
 	UpdateCycles ();
+}
+
+bool Molecule::operator== (Molecule const& molecule)
+{
+	// first examine each atom of each molecule and sort by Z.
+	map<int, set<gcu::Atom*> > atoms1, atoms2;
+	list<gcu::Atom*>::const_iterator ia, enda = m_Atoms.end ();
+	for (ia = m_Atoms.begin ();  ia != enda; ia++)
+		atoms1[(*ia)->GetZ ()].insert (*ia);
+	enda = molecule.m_Atoms.end ();
+	for (ia = molecule.m_Atoms.begin ();  ia != enda; ia++)
+		atoms2[(*ia)->GetZ ()].insert (*ia);
+	if (atoms1.size () != atoms2.size ())
+		return false;
+	// TODO: write this code
+	return true;
 }
 
 }	//	namespace gcp

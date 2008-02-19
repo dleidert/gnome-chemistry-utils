@@ -90,12 +90,8 @@ libgoffice=
 dnl Only 0.6.x, or later will work
 for ver in 8 7 6 ; do
   if test "x$libgoffice" = x; then
-    AC_MSG_CHECKING([libgoffice-0.$ver])
     if pkg-config --exists libgoffice-0.$ver; then
       libgoffice=libgoffice-0.$ver
-      AC_MSG_RESULT([found])
-    else
-      AC_MSG_RESULT([not found])
     fi
   fi
 done
@@ -177,6 +173,15 @@ AC_ARG_WITH(
 	 fi
 	]
 )
+
+dnl test some functions
+saved_cflags=$CFLAGS
+saved_libs=$LIBS
+CFLAGS=$GCU_CFLAGS
+LIBS=$GCU_LIBS
+AC_CHECK_FUNCS(go_conf_sync)
+CFLAGS=$saved_cflags
+LIBS=$saved_libs
 
 AC_SUBST(GOFFICE_PLUGINS_DIR)
 
