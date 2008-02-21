@@ -28,6 +28,7 @@
 
 #include "config.h"
 #include "print-setup-dlg.h"
+#include <glib/gi18n-lib.h>
 
 namespace gcu {
 
@@ -59,6 +60,63 @@ static void on_orientation_changed (GtkToggleButton *btn, PrintSetupDlg *dlg)
 		dlg->OnOrientation ((GtkPageOrientation) GPOINTER_TO_INT (g_object_get_data (G_OBJECT (btn), "orientation")));
 }
 
+static gint unit_sort_func (GtkTreeModel *model,
+		GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
+{
+	char *str_a;
+	char *str_b;
+	gint result;
+
+	gtk_tree_model_get (model, a, 0, &str_a, -1);
+	gtk_tree_model_get (model, b, 0, &str_b, -1);
+	
+	result = g_utf8_collate (str_a, str_b);
+
+	g_free (str_a);
+	g_free (str_b);
+	return result;
+}
+
+static bool select_unit (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, PrintSetupDlg *dlg)
+{
+	return dlg->SelectUnit(iter);
+}
+
+static void on_unit_changed (PrintSetupDlg *dlg)
+{
+	dlg->OnUnitChanged ();
+}
+
+static void on_top_margin_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
+{
+	dlg->OnTopMarginChanged (gtk_spin_button_get_value (btn));
+}
+
+static void on_bottom_margin_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
+{
+	dlg->OnBottomMarginChanged (gtk_spin_button_get_value (btn));
+}
+
+static void on_right_margin_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
+{
+	dlg->OnRightMarginChanged (gtk_spin_button_get_value (btn));
+}
+
+static void on_left_margin_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
+{
+	dlg->OnLeftMarginChanged (gtk_spin_button_get_value (btn));
+}
+
+static void on_header_height_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
+{
+	dlg->OnHeaderHeightChanged (gtk_spin_button_get_value (btn));
+}
+
+static void on_footer_height_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
+{
+	dlg->OnFooterHeightChanged (gtk_spin_button_get_value (btn));
+}
+
 PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 	Dialog (App, GLADEDIR"/print-setup.glade", "print-setup", printable),
 	m_Printable (printable)
@@ -85,14 +143,43 @@ PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 		m_RLandscapeBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "r-landscape-btn"));
 		g_object_set_data ((GObject*) m_RLandscapeBtn ,"orientation", GINT_TO_POINTER (GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE));
 		m_RLandscapeId = g_signal_connect ((GObject*) m_RLandscapeBtn, "clicked", G_CALLBACK (on_orientation_changed), this);
-		UpdatePageSetup (NULL);
-		m_MarginTopBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "margin-top-btn"));
-		m_MarginBottomBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "margin-bottom-btn"));
-		m_MarginRightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "margin-right-btn"));
-		m_MarginLeftBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "margin-left-btn"));
+		m_UnitList = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+		GtkTreeIter iter;
+		for (int i = 1; i < 4; i++) {
+			gtk_list_store_append (m_UnitList, &iter);
+			gtk_list_store_set (m_UnitList, &iter,
+								0, _(gtk_unit_to_string ((GtkUnit) i)),
+								1, i,
+								-1);
+		}
+		gtk_tree_sortable_set_default_sort_func
+			(GTK_TREE_SORTABLE (m_UnitList),
+			 unit_sort_func, NULL, NULL);
+		gtk_tree_sortable_set_sort_column_id
+			(GTK_TREE_SORTABLE (m_UnitList),
+			 GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
+			 GTK_SORT_ASCENDING);
+		m_UnitBox = GTK_COMBO_BOX (gtk_combo_box_new_with_model (GTK_TREE_MODEL (m_UnitList)));
+		m_UnitId = g_signal_connect_swapped (m_UnitBox, "changed", G_CALLBACK (on_unit_changed), this);
+		GtkCellRenderer *text_renderer = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(m_UnitBox), text_renderer, TRUE);
+		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT(m_UnitBox), text_renderer, "text", 0);  
+		gtk_table_attach (GTK_TABLE (glade_xml_get_widget (xml, "paper-selector-tbl")),
+						 GTK_WIDGET (m_UnitBox), 3, 4, 8, 9, GTK_FILL, (GtkAttachOptions) 0, 0, 0);
+		m_MarginTopBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "top-margin-btn"));
+		m_MarginTopId = g_signal_connect ((GObject*) m_MarginTopBtn, "value-changed", G_CALLBACK (on_top_margin_changed), this);
+		m_MarginBottomBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bottom-margin-btn"));
+		m_MarginBottomId = g_signal_connect ((GObject*) m_MarginBottomBtn, "value-changed", G_CALLBACK (on_bottom_margin_changed), this);
+		m_MarginRightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "right-margin-btn"));
+		m_MarginRightId = g_signal_connect ((GObject*) m_MarginRightBtn, "value-changed", G_CALLBACK (on_right_margin_changed), this);
+		m_MarginLeftBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "left-margin-btn"));
+		m_MarginLeftId = g_signal_connect ((GObject*) m_MarginLeftBtn, "value-changed", G_CALLBACK (on_left_margin_changed), this);
 		m_HeaderHeightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "header-height-btn"));
 		m_FooterHeightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "header-height-btn"));
+		UpdatePageSetup (NULL);
 		if (printable->SupportsHeaders ()) {
+			m_HeaderHeightId = g_signal_connect ((GObject*) m_HeaderHeightBtn, "value-changed", G_CALLBACK (on_header_height_changed), this);
+			m_FooterHeightId = g_signal_connect ((GObject*) m_FooterHeightBtn, "value-changed", G_CALLBACK (on_footer_height_changed), this);
 		} else {
 			// hide everything related to headers and footers
 			// first delete the notebook page
@@ -130,16 +217,44 @@ void PrintSetupDlg::OnPrinterSetup ()
 }
 
 #define TOGGLE_BUTTON(name) \
-		g_signal_handler_block (G_OBJECT (m_##name##Btn), m_##name##Id); \
-		gtk_toggle_button_set_active (m_##name##Btn, true); \
-		g_signal_handler_unblock (G_OBJECT (m_##name##Btn), m_##name##Id); \
-		break;
+	g_signal_handler_block (G_OBJECT (m_##name##Btn), m_##name##Id); \
+	gtk_toggle_button_set_active (m_##name##Btn, true); \
+	g_signal_handler_unblock (G_OBJECT (m_##name##Btn), m_##name##Id); \
+	break;
+
+#define SET_SPIN_BUTTON_VALUE(name,x) \
+	g_signal_handler_block (G_OBJECT (m_##name##Btn), m_##name##Id); \
+	gtk_spin_button_set_value (m_##name##Btn, x); \
+	g_signal_handler_unblock (G_OBJECT (m_##name##Btn), m_##name##Id); \
+	switch (m_Printable->GetUnit ()) { \
+	case GTK_UNIT_MM: \
+		gtk_spin_button_set_digits (m_##name##Btn, 1); \
+		gtk_spin_button_set_increments (m_##name##Btn, 1., 0.); \
+		break; \
+	case GTK_UNIT_INCH: \
+		gtk_spin_button_set_digits (m_##name##Btn, 3); \
+		gtk_spin_button_set_increments (m_##name##Btn, 0.125, 0.); \
+		break; \
+	case GTK_UNIT_POINTS: \
+		gtk_spin_button_set_digits (m_##name##Btn, 1); \
+		gtk_spin_button_set_increments (m_##name##Btn, 1., 0.); \
+		break; \
+	case GTK_UNIT_PIXEL: \
+		break; \
+	}
 
 void PrintSetupDlg::UpdatePageSetup (GtkPageSetup *page_setup)
 {
 	if (page_setup)
 		m_Printable->SetPageSetup (page_setup);
-	gtk_label_set_text (m_PageTypeLbl, gtk_paper_size_get_display_name (gtk_page_setup_get_paper_size (m_Printable->GetPageSetup ())));
+	GtkPaperSize *size = gtk_page_setup_get_paper_size (m_Printable->GetPageSetup ());
+	gtk_label_set_text (m_PageTypeLbl, gtk_paper_size_get_display_name (size));
+	char const *unit = _(gtk_unit_to_string (m_Printable->GetUnit ()));
+	char *buf = g_strdup_printf (((m_Printable->GetUnit () == GTK_UNIT_INCH)? _("%.1f %s wide by %.1f %s tall"): _("%.0f %s wide by %.0f %s tall")),
+								 gtk_paper_size_get_width (size, m_Printable->GetUnit ()), unit,
+								 gtk_paper_size_get_height (size, m_Printable->GetUnit ()), unit);
+	gtk_label_set_text (m_PageSizeLbl, buf);
+	g_free (buf);
 	switch (gtk_page_setup_get_orientation (m_Printable->GetPageSetup ())) {
 	case GTK_PAGE_ORIENTATION_PORTRAIT:
 		TOGGLE_BUTTON (Portrait)
@@ -150,7 +265,13 @@ void PrintSetupDlg::UpdatePageSetup (GtkPageSetup *page_setup)
 	case GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE:
 		TOGGLE_BUTTON (RLandscape)
 	}
-	
+	g_signal_handler_block (G_OBJECT (m_UnitBox), m_UnitId);
+	gtk_tree_model_foreach (GTK_TREE_MODEL (m_UnitList), (GtkTreeModelForeachFunc) select_unit, this);	
+	g_signal_handler_unblock (G_OBJECT (m_UnitBox), m_UnitId);
+	SET_SPIN_BUTTON_VALUE (MarginTop, gtk_page_setup_get_top_margin (m_Printable->GetPageSetup (), m_Printable->GetUnit ()));
+	SET_SPIN_BUTTON_VALUE (MarginBottom, gtk_page_setup_get_bottom_margin (m_Printable->GetPageSetup (), m_Printable->GetUnit ()));
+	SET_SPIN_BUTTON_VALUE (MarginRight, gtk_page_setup_get_right_margin (m_Printable->GetPageSetup (), m_Printable->GetUnit ()));
+	SET_SPIN_BUTTON_VALUE (MarginLeft, gtk_page_setup_get_left_margin (m_Printable->GetPageSetup (), m_Printable->GetUnit ()));
 }
 
 void PrintSetupDlg::OnOrientation (GtkPageOrientation orientation)
@@ -168,6 +289,56 @@ void PrintSetupDlg::OnOrientation (GtkPageOrientation orientation)
 		TOGGLE_BUTTON (RLandscape)
 		}
 	}
+}
+
+bool PrintSetupDlg::SelectUnit (GtkTreeIter *iter)
+{
+	GtkUnit unit;
+	gtk_tree_model_get (GTK_TREE_MODEL (m_UnitList), iter, 1, &unit, -1);
+	if (unit == m_Printable->GetUnit ()) {
+		gtk_combo_box_set_active_iter (m_UnitBox, iter);
+		return true;
+	}
+	return false;
+}
+
+void PrintSetupDlg::OnUnitChanged ()
+{
+	GtkTreeIter iter;
+	if (gtk_combo_box_get_active_iter (m_UnitBox, &iter)) {
+		GtkUnit unit;
+		gtk_tree_model_get (GTK_TREE_MODEL (m_UnitList), &iter, 1, &unit, -1);
+		m_Printable->SetUnit (unit);
+		UpdatePageSetup (NULL); // use the new unit for display
+	}
+}
+
+void PrintSetupDlg::OnTopMarginChanged (double x)
+{
+	gtk_page_setup_set_top_margin (m_Printable->GetPageSetup (), x, m_Printable->GetUnit ());
+}
+
+void PrintSetupDlg::OnBottomMarginChanged (double x)
+{
+	gtk_page_setup_set_bottom_margin (m_Printable->GetPageSetup (), x, m_Printable->GetUnit ());
+}
+
+void PrintSetupDlg::OnRightMarginChanged (double x)
+{
+	gtk_page_setup_set_right_margin (m_Printable->GetPageSetup (), x, m_Printable->GetUnit ());
+}
+
+void PrintSetupDlg::OnLeftMarginChanged (double x)
+{
+	gtk_page_setup_set_left_margin (m_Printable->GetPageSetup (), x, m_Printable->GetUnit ());
+}
+
+void PrintSetupDlg::OnHeaderHeightChanged (double x)
+{
+}
+
+void PrintSetupDlg::OnFooterHeightChanged (double x)
+{
 }
 
 }	//	namespace gcu

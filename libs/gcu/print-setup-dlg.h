@@ -40,14 +40,25 @@ public:
 	void OnPrinterSetup ();
 	void UpdatePageSetup (GtkPageSetup *page_setup);
 	void OnOrientation (GtkPageOrientation orientation);
+	bool SelectUnit (GtkTreeIter *iter);
+	void OnUnitChanged ();
+	void OnTopMarginChanged (double x);
+	void OnBottomMarginChanged (double x);
+	void OnRightMarginChanged (double x);
+	void OnLeftMarginChanged (double x);
+	void OnHeaderHeightChanged (double x);
+	void OnFooterHeightChanged (double x);
 
 private:
 	Printable *m_Printable;
 	GtkLabel *m_PageSizeLbl, *m_PageTypeLbl;
 	GtkToggleButton *m_PortraitBtn, *m_RPortraitBtn, *m_LandscapeBtn, *m_RLandscapeBtn;
-	guint m_PortraitId, m_RPortraitId, m_LandscapeId, m_RLandscapeId;
+	gulong m_PortraitId, m_RPortraitId, m_LandscapeId, m_RLandscapeId;
 	GtkSpinButton *m_MarginTopBtn, *m_MarginBottomBtn, *m_MarginRightBtn, *m_MarginLeftBtn, *m_HeaderHeightBtn, *m_FooterHeightBtn;
-	guint *m_MarginTopId, *m_MarginBottomId, *m_MarginRightId, *m_MarginLeftId, *m_HeaderHeightId, *m_FooterHeightId;
+	gulong m_MarginTopId, m_MarginBottomId, m_MarginRightId, m_MarginLeftId, m_HeaderHeightId, m_FooterHeightId;
+	GtkListStore *m_UnitList;
+	GtkComboBox *m_UnitBox;
+	guint m_UnitId;
 };
 	
 }	//	namespace gcu

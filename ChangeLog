@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/print-setup.glade: added buttons to save/reload defaults.
+	* libs/gcu/print-setup-dlg.cc: manage margins.
+	* libs/gcu/print-setup-dlg.h: ditto.
+	* libs/gcu/printable.cc: ditto.
+	* libs/gcu/printable.h: ditto.
+
 2008-02-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: check if goffice has go_conf_*.
 	* gchemutils.schemas.in: minor enhancements.

@@ -24,8 +24,31 @@
 #include "printable.h"
 #include "application.h"
 #include "macros.h"
+#include <glib/gi18n-lib.h>
 
 namespace gcu {
+
+
+static char const *UnitNames[] = {
+	N_("pixels"),
+	N_("points"),
+	N_("inches"),
+	N_("mm")
+};
+
+GtkUnit gtk_unit_from_string (char const *name)
+{
+	int i = G_N_ELEMENTS (UnitNames);
+	while (i > 0)
+		if (!strcmp (name, UnitNames[--i]))
+			return (GtkUnit) i;
+	return GTK_UNIT_MM; // our default
+}
+
+char const *gtk_unit_to_string (GtkUnit unit)
+{
+	return UnitNames[unit];
+}
 
 class PrintSettings
 {
@@ -69,10 +92,12 @@ static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *e
 }
 #endif
 
+#define ROOTDIR "/apps/gchemutils/printsetup/"
+
 void PrintSettings::Init ()
 {
-	DefaultSettings.settings = gtk_print_settings_new ();
-	DefaultSettings.setup = gtk_page_setup_new ();
+	settings = gtk_print_settings_new ();
+	setup = gtk_page_setup_new ();
 #ifdef HAVE_GO_CONF_SYNC
 	m_ConfNode = go_conf_get_node (Application::GetConfDir (), "printsetup");
 #else
@@ -86,6 +111,17 @@ void PrintSettings::Init ()
 	size = gtk_paper_size_new ((name && strlen (name))? name: NULL);
 	gtk_page_setup_set_paper_size (setup, size);
 	gtk_paper_size_free (size);
+	GCU_GCONF_GET_STRING ("preferred-unit", name, "mm")
+	unit = gtk_unit_from_string (name);
+	double x;
+	GCU_GCONF_GET_NO_CHECK ("margin-top", float, x, 72);
+	gtk_page_setup_set_top_margin (setup, x, GTK_UNIT_POINTS);
+	GCU_GCONF_GET_NO_CHECK ("margin-bottom", float, x, 72);
+	gtk_page_setup_set_bottom_margin (setup, x, GTK_UNIT_POINTS);
+	GCU_GCONF_GET_NO_CHECK ("margin-right", float, x, 72);
+	gtk_page_setup_set_right_margin (setup, x, GTK_UNIT_POINTS);
+	GCU_GCONF_GET_NO_CHECK ("margin-left", float, x, 72);
+	gtk_page_setup_set_left_margin (setup, x, GTK_UNIT_POINTS);
 	// TODO: import other default values from conf keys
 #ifdef HAVE_GO_CONF_SYNC
 	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
@@ -94,8 +130,6 @@ void PrintSettings::Init ()
 	m_NotificationId = gconf_client_notify_add (m_ConfClient, NULL, (GConfClientNotifyFunc) on_config_changed, NULL, NULL, NULL);
 #endif
 }
-
-#define ROOTDIR "/apps/gchemutils/printsetup/"
 
 PrintSettings::~PrintSettings ()
 {

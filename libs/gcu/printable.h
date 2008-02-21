@@ -48,8 +48,13 @@ public:
 
 GCU_RO_PROP (GtkPrintSettings *, PrintSettings)
 GCU_RO_PROP (GtkPageSetup *, PageSetup)
-GCU_PROP (GtkUnit, Unit);
+GCU_PROP (GtkUnit, Unit)
+GCU_PROP (double, HeaderHeight)
+GCU_PROP (double, FooterHeight)
 };
+
+GtkUnit gtk_unit_from_string (char const *name);
+char const *gtk_unit_to_string (GtkUnit unit);
 
 }	//	namespace gcu
 
