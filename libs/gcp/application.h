@@ -142,6 +142,7 @@ just after creating the application and before parsing options.
 
 	// virtual menus actions:
 	virtual void OnFileNew (char const *Theme = NULL) = 0;
+	gcu::Document *CreateNewDocument ();
 
 protected:
 	void InitTools();

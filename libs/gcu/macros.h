@@ -26,7 +26,9 @@
 #define GCU_MACROS_H
 
 #ifdef HAVE_GO_CONF_SYNC
-#include <goffice/app/go-conf.h>
+#	include <goffice/app/go-conf.h>
+#else
+#	include <gconf/gconf-client.h>
 #endif
 
 /*!\file */ 
@@ -216,7 +218,7 @@ must provide a GError *error initially set to NULL.
 #else
 #define GCU_UPDATE_KEY(key,type,target,action) \
 	if (!strcmp (gconf_entry_get_key (entry), ROOTDIR key)) { \
-		target = gconf_value_get##type (gconf_entry_get_value (entry)); \
+		target = gconf_value_get_##type (gconf_entry_get_value (entry)); \
 		action \
 		return; \
 	}

@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2008-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/print-setup.glade: minor update.
+	* libs/gcp/application.cc: add a CreateNewDocument. virtual method.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/document.cc: knows new properties.
+	* libs/gcu/application.cc: add a CreateNewDocument. virtual method.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/document.h: add a virtual Save method.
+	* libs/gcu/glview.cc: fixed some GConf issues.
+	* libs/gcu/macros.h: ditto.
+	* libs/gcu/objprops.h: add new douments properties.
+	* libs/gcu/print-setup-dlg.cc: add horizontal and vertical centering.
+	* libs/gcu/print-setup-dlg.h: ditto.
+	* libs/gcu/printable.h: ditto.
+	* programs/3d/window.cc: use natural size when printing and support
+	centered printing.
+
 2008-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/print-setup.glade: added buttons to save/reload defaults.
 	* libs/gcu/print-setup-dlg.cc: manage margins.

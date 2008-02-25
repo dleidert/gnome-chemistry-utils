@@ -1187,4 +1187,9 @@ void Application::AddOptions (GOptionContext *context)
 		g_option_context_add_main_entries (context, (*i).entries, (*i).translation_domain);
 }
 
+gcu::Document *Application::CreateNewDocument ()
+{
+	return new Document (this, true, NULL);
+}
+
 }	//	namespace gcp

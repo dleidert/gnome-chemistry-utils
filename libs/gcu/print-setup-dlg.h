@@ -48,6 +48,8 @@ public:
 	void OnLeftMarginChanged (double x);
 	void OnHeaderHeightChanged (double x);
 	void OnFooterHeightChanged (double x);
+	void OnHorizCenter ();
+	void OnVertCenter ();
 
 private:
 	Printable *m_Printable;
@@ -58,7 +60,8 @@ private:
 	gulong m_MarginTopId, m_MarginBottomId, m_MarginRightId, m_MarginLeftId, m_HeaderHeightId, m_FooterHeightId;
 	GtkListStore *m_UnitList;
 	GtkComboBox *m_UnitBox;
-	guint m_UnitId;
+	GtkToggleButton *m_HBtn, *m_VBtn;
+	guint m_UnitId, m_HId, m_VId;
 };
 	
 }	//	namespace gcu

@@ -383,19 +383,26 @@ void gc3dWindow::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);
 	height = gtk_print_context_get_height (context);
-	GdkPixbuf *pixbuf = m_View->BuildPixbuf (width, height);
+	GtkWidget *widget = m_View->GetWidget ();
+	// Assume we do not resize
+	int w, h;
+	w = widget->allocation.width;
+	h = widget->allocation.height;
+	double scale = 300. / 72.;
+	GdkPixbuf *pixbuf = m_View->BuildPixbuf (w * scale, h * scale);
 	GOImage *img = go_image_new_from_pixbuf (pixbuf);
 	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
-	int w, h;
 	cairo_matrix_t cr_matrix;
-
-	w = gdk_pixbuf_get_width  (pixbuf);
-	h = gdk_pixbuf_get_height (pixbuf);
-	cairo_matrix_init_scale (&cr_matrix,
-				 w / width,
-				 h / height);
+	double x = 0., y = 0.;
+	if (GetHorizCentered ())
+		x = (width - w) / 2.;
+	if (GetVertCentered ())
+		y = (height - h) / 2.;
+//	w = gdk_pixbuf_get_width  (pixbuf);
+//	h = gdk_pixbuf_get_height (pixbuf);
+	cairo_matrix_init_scale (&cr_matrix, scale, scale);
 	cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
-	cairo_rectangle (cr, 0., 0., width, height);
+	cairo_rectangle (cr, x, y, w, h);
 	cairo_set_source (cr, cr_pattern);
 	cairo_fill (cr);
 	cairo_pattern_destroy (cr_pattern);

@@ -189,6 +189,7 @@ is not supported by GdkPixbuf.
 	char const *GetPixbufTypeName (std::string& filename, char const *mime_type);
 	bool Load (std::string const &uri, const gchar *mime_type, Document* Doc);
 	bool Save (std::string const &uri, const gchar *mime_type, Document* Doc);
+	virtual Document *CreateNewDocument () {return NULL;}
 #ifdef HAVE_GO_CONF_SYNC
 	static GOConfNode *GetConfDir ();
 #endif

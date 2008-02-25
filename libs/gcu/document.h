@@ -97,6 +97,7 @@ to avoid errors on the next paste event.
 	std::string &GetTitle () {return m_Title;}
 
 	void NotifyDirty (Object* pObject) {m_DirtyObjects.insert (pObject);}
+	virtual void Save () {;}
 
 private:
 

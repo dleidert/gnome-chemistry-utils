@@ -49,7 +49,10 @@ using namespace std;
 namespace gcu
 {
 
+#ifdef HAVE_GO_CONF_SYNC
 GOConfNode *Application::m_ConfDir = NULL;
+#endif
+
 static set<Application *> Apps;
 
 Application::Application (string name, string datadir, char const *help_name, char const *icon_name)

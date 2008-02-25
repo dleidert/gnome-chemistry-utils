@@ -543,6 +543,7 @@ void Document::Save ()
 		if (m_FileType != "application/x-gchempaint")
 			ExportOB ();
 		else {
+puts("0");
 			xml = BuildXMLTree ();
 			xmlSetDocCompressMode (xml, CompressionLevel);
 			
@@ -553,6 +554,7 @@ void Document::Save ()
 			gnome_vfs_get_file_info (m_filename, info, GNOME_VFS_FILE_INFO_DEFAULT);
 
 			if (GNOME_VFS_FILE_INFO_LOCAL (info)) {
+puts(m_filename);
 				gnome_vfs_file_info_unref (info);
 				if (xmlSaveFormatFile (m_filename, xml, true) < 0) /*Error(SAVE)*/;
 			} else {
@@ -568,6 +570,7 @@ void Document::Save ()
 				buf->closecallback = (xmlOutputCloseCallback) gnome_vfs_close;
 				buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
 				int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
+puts(m_filename);
 				if (n < 0)
 					throw 1;
 				SetReadOnly (false);
@@ -578,6 +581,7 @@ void Document::Save ()
 		m_OpID = m_UndoList.front ()->GetID ();
 	}
 	catch (int num) {
+puts("erreur");
 		if (xml)
 			xmlFreeDoc (xml);
 		xml = NULL;
@@ -1331,6 +1335,12 @@ double Document::GetMedianBondLength ()
 bool Document::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
+	case GCU_PROP_DOC_FILENAME:
+		SetFileName (value, m_FileType.c_str ());
+		break;
+	case GCU_PROP_DOC_MIMETYPE:
+		m_FileType = value;
+		break;
 	case GCU_PROP_DOC_TITLE:
 		SetTitle (value);
 		if (m_Window)

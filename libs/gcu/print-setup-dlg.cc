@@ -117,6 +117,16 @@ static void on_footer_height_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
 	dlg->OnFooterHeightChanged (gtk_spin_button_get_value (btn));
 }
 
+static void on_hcenter_changed (PrintSetupDlg *dlg)
+{
+	dlg->OnHorizCenter ();
+}
+
+static void on_vcenter_changed (PrintSetupDlg *dlg)
+{
+	dlg->OnVertCenter ();
+}
+
 PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 	Dialog (App, GLADEDIR"/print-setup.glade", "print-setup", printable),
 	m_Printable (printable)
@@ -177,6 +187,12 @@ PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 		m_HeaderHeightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "header-height-btn"));
 		m_FooterHeightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "header-height-btn"));
 		UpdatePageSetup (NULL);
+		m_HBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "hcenter-btn"));
+		gtk_toggle_button_set_active (m_HBtn, m_Printable->GetHorizCentered ());
+		m_HId = g_signal_connect ((GObject*) m_HBtn, "toggled", G_CALLBACK (on_hcenter_changed), this);
+		m_VBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "vcenter-btn"));
+		gtk_toggle_button_set_active (m_VBtn, m_Printable->GetVertCentered ());
+		m_VId = g_signal_connect ((GObject*) m_VBtn, "toggled", G_CALLBACK (on_vcenter_changed), this);
 		if (printable->SupportsHeaders ()) {
 			m_HeaderHeightId = g_signal_connect ((GObject*) m_HeaderHeightBtn, "value-changed", G_CALLBACK (on_header_height_changed), this);
 			m_FooterHeightId = g_signal_connect ((GObject*) m_FooterHeightBtn, "value-changed", G_CALLBACK (on_footer_height_changed), this);
@@ -339,6 +355,16 @@ void PrintSetupDlg::OnHeaderHeightChanged (double x)
 
 void PrintSetupDlg::OnFooterHeightChanged (double x)
 {
+}
+
+void PrintSetupDlg::OnHorizCenter ()
+{
+	m_Printable->SetHorizCentered (gtk_toggle_button_get_active (m_HBtn));
+}
+
+void PrintSetupDlg::OnVertCenter ()
+{
+	m_Printable->SetVertCentered (gtk_toggle_button_get_active (m_HBtn));
 }
 
 }	//	namespace gcu

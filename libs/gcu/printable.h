@@ -51,6 +51,8 @@ GCU_RO_PROP (GtkPageSetup *, PageSetup)
 GCU_PROP (GtkUnit, Unit)
 GCU_PROP (double, HeaderHeight)
 GCU_PROP (double, FooterHeight)
+GCU_PROP (bool, HorizCentered)
+GCU_PROP (bool, VertCentered)
 };
 
 GtkUnit gtk_unit_from_string (char const *name);
