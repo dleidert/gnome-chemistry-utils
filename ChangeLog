@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/glview.cc: fixed another gconf issue.
+	* libs/gcu/print-setup-dlg.cc: fixed a signal argument order.
+	* libs/gcu/printable.cc: initialize centered relatd variables.
+	* programs/calc/gchemcalc.cc: initialize goffice plugins after goffice.
+	* programs/table/gchemtable-main.cc: ditto.
+
 2008-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/print-setup.glade: minor update.
 	* libs/gcp/application.cc: add a CreateNewDocument. virtual method.

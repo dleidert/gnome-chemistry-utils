@@ -529,11 +529,11 @@ int main (int argc, char *argv[])
 		cout << _("For usage see: gchemcalc-unstable [-?|--help]") << endl;
 		return -1;
 	}
+
+	App = new GChemCalc ();
 	
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
-
-	App = new GChemCalc ();
 
 	GladeXML *xml =  glade_xml_new (GLADEDIR"/gchemcalc.glade", "gchemcalc", NULL);
 	GtkWidget *window = glade_xml_get_widget (xml, "gchemcalc");

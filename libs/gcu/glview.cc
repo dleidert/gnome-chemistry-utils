@@ -50,6 +50,8 @@ namespace gcu
 {
 #ifdef HAVE_GO_CONF_SYNC
 GOConfNode *GLView::m_ConfNode = NULL;
+#else
+GConfClient *GLView::m_ConfClient = NULL;
 #endif
 guint GLView::m_NotificationId = 0;
 int GLView::nbViews = 0;

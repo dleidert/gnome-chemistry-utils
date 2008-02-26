@@ -179,6 +179,7 @@ Printable::Printable ():
 	m_PrintSettings = gtk_print_settings_copy (DefaultSettings.settings);
 	m_PageSetup = gtk_page_setup_copy (DefaultSettings.setup);
 	m_Unit = DefaultSettings.unit;
+	m_HorizCentered = m_VertCentered = false;
 }
 
 Printable::~Printable ()
