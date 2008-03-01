@@ -402,7 +402,7 @@ Application::Application ():
 #ifdef HAVE_GO_CONF_SYNC
 	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, this);
 #else
-	m_NotificationId = gconf_client_notify_add (m_ConfClient, NULL, (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
+	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchemutils/paint/settings", (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
 #endif
 	// make themes permanent with this as a dummy client
 	list <string> Names = TheThemeManager.GetThemesNames ();

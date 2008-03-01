@@ -401,6 +401,7 @@ void gc3dWindow::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
 //	w = gdk_pixbuf_get_width  (pixbuf);
 //	h = gdk_pixbuf_get_height (pixbuf);
 	cairo_matrix_init_scale (&cr_matrix, scale, scale);
+	cairo_matrix_translate (&cr_matrix, -x, -y);
 	cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
 	cairo_rectangle (cr, x, y, w, h);
 	cairo_set_source (cr, cr_pattern);

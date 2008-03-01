@@ -193,6 +193,14 @@ PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 		m_VBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "vcenter-btn"));
 		gtk_toggle_button_set_active (m_VBtn, m_Printable->GetVertCentered ());
 		m_VId = g_signal_connect_swapped ((GObject*) m_VBtn, "toggled", G_CALLBACK (on_vcenter_changed), this);
+		m_ScalingNoneBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-no-btn"));
+		m_ScalingFixedBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-fixed-btn"));
+		m_ScalingAutoBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-fit-btn"));
+		m_HFitBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "sclae-fit-h-btn"));
+		m_VFitBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-fit-v-btn"));
+		m_HPagesBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "scale-h-btn"));
+		m_vPagesBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "scale-v-btn"));
+		m_ScaleBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "scale-percent-btn"));
 		if (printable->SupportsHeaders ()) {
 			m_HeaderHeightId = g_signal_connect ((GObject*) m_HeaderHeightBtn, "value-changed", G_CALLBACK (on_header_height_changed), this);
 			m_FooterHeightId = g_signal_connect ((GObject*) m_FooterHeightBtn, "value-changed", G_CALLBACK (on_footer_height_changed), this);

@@ -32,6 +32,12 @@
 
 namespace gcu {
 
+typedef enum {
+	GCU_PRINT_SCALE_NONE,
+	GCU_PRINT_SCALE_FIXED,
+	GCU_PRINT_SCALE_AUTO,
+} PrintScaleType;
+
 class Printable: public DialogOwner
 {
 public:
@@ -40,11 +46,15 @@ public:
 
 	virtual void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) = 0;
 	virtual bool SupportsHeaders () {return false;}
+	virtual bool SuuportMultiplePages () {return false;}
 	virtual GtkWindow *GetWindow () = 0;
 	virtual int GetPagesNumber () {return 1;}
 
 	void Print (bool preview);
 	void SetPageSetup (GtkPageSetup *PageSetup);
+
+private:
+	double m_RealScale;
 
 GCU_RO_PROP (GtkPrintSettings *, PrintSettings)
 GCU_RO_PROP (GtkPageSetup *, PageSetup)
@@ -53,6 +63,10 @@ GCU_PROP (double, HeaderHeight)
 GCU_PROP (double, FooterHeight)
 GCU_PROP (bool, HorizCentered)
 GCU_PROP (bool, VertCentered)
+GCU_PROP (PrintScaleType, ScaleType)
+GCU_PROP (double, Scale)
+GCU_PROP (int, HPages)
+GCU_PROP (int, VPages)
 };
 
 GtkUnit gtk_unit_from_string (char const *name);

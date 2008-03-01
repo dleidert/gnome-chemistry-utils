@@ -61,7 +61,9 @@ private:
 	GtkListStore *m_UnitList;
 	GtkComboBox *m_UnitBox;
 	GtkToggleButton *m_HBtn, *m_VBtn;
-	guint m_UnitId, m_HId, m_VId;
+	gulong m_UnitId, m_HId, m_VId;
+	GtkToggleButton *m_ScalingNoneBtn, *m_ScalingFixedBtn, *m_ScalingAutoBtn, *m_HFitBtn, *m_VFitBtn;
+	GtkSpinButton *m_HPagesBtn, *m_vPagesBtn, *m_ScaleBtn;
 };
 	
 }	//	namespace gcu

@@ -27,6 +27,9 @@
 #include "theme.h"
 #include "settings.h"
 #include <gcu/application.h>
+#ifdef HAVE_GO_CONF_SYNC
+#	include <goffice/goffice.h>
+#endif
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>
@@ -198,6 +201,7 @@ ThemeManager::ThemeManager ()
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
 #ifdef HAVE_GO_CONF_SYNC
+	libgoffice_init ("gchemutils");
 	m_ConfNode = go_conf_get_node (gcu::Application::GetConfDir (), GCP_CONF_DIR_SETTINGS);
 #else
 	GError *error = NULL;

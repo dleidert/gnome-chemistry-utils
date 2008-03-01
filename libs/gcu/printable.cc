@@ -127,7 +127,7 @@ void PrintSettings::Init ()
 	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
 	go_conf_free_node (m_ConfNode);
 #else
-	m_NotificationId = gconf_client_notify_add (m_ConfClient, NULL, (GConfClientNotifyFunc) on_config_changed, NULL, NULL, NULL);
+	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchemutils/printsetup", (GConfClientNotifyFunc) on_config_changed, NULL, NULL, NULL);
 #endif
 }
 
@@ -180,6 +180,8 @@ Printable::Printable ():
 	m_PageSetup = gtk_page_setup_copy (DefaultSettings.setup);
 	m_Unit = DefaultSettings.unit;
 	m_HorizCentered = m_VertCentered = false;
+	m_ScaleType = GCU_PRINT_SCALE_NONE;
+	m_RealScale = 1.;
 }
 
 Printable::~Printable ()

@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2008-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/print-setup.glade: fixed a duplicated widget name.
+	* libs/gcp/application.cc: fixed gconf key path.
+	* libs/gcp/document.cc: removed printf debug stuff.
+	* libs/gcp/theme.cc: initialize goffice.
+	* libs/gcu/print-setup-dlg.cc: start work on scaled printing.
+	* libs/gcu/print-setup-dlg.h: ditto.
+	* libs/gcu/printable.cc: ditto.
+	* libs/gcu/printable.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: some work on fragments and nicknames.
+	* plugins/paint/arrows/arrowtool.cc: use go_conf when available.
+	* plugins/paint/arrows/plugin.cc: ditto.
+	* programs/3d/window.cc: fixed printing origin.
+
 2008-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/glview.cc: fixed another gconf issue.
 	* libs/gcu/print-setup-dlg.cc: fixed a signal argument order.

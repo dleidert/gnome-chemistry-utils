@@ -35,6 +35,11 @@
 #include <gcp/reaction-arrow.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
+#ifdef HAVE_GO_CONF_SYNC
+#	include <goffice/app/go-conf.h>
+#else
+#	include <gconf/gconf-client.h>
+#endif
 #include <glib/gi18n-lib.h>
 #include <cmath>
 

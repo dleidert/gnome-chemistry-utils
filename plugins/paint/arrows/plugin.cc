@@ -31,8 +31,12 @@
 #include "retrosynthesisstep.h"
 #include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
-#include <gconf/gconf-client.h>
-	
+#ifdef HAVE_GO_CONF_SYNC
+#	include <goffice/app/go-conf.h>
+#else
+#	include <gconf/gconf-client.h>
+#endif
+
 gcpArrowsPlugin plugin;
 
 static Object* CreateRetrosynthesis ()
@@ -107,6 +111,11 @@ static const char *ui_description =
 
 void gcpArrowsPlugin::Populate (gcp::Application* App)
 {
+#ifdef HAVE_GO_CONF_SYNC
+	GOConfNode *node = go_conf_get_node (gcu::Application::GetConfDir (), "paint/plugins/arrows");
+	bool FullHeads = go_conf_get_bool (node, "full-arrows-heads");
+	go_conf_free_node (node);
+#else
 	GError *error = NULL;
 	GConfClient *conf_client = gconf_client_get_default ();
 	gconf_client_add_dir (conf_client, "/apps/gchempaint/plugins/arrows", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -118,6 +127,7 @@ void gcpArrowsPlugin::Populate (gcp::Application* App)
 	}
 	gconf_client_remove_dir (conf_client, "/apps/gchempaint/plugins/arrows", NULL);
 	g_object_unref (conf_client);
+#endif
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
 	App->RegisterToolbar ("ArrowsToolbar", 4);
 	new gcpArrowTool (App);
