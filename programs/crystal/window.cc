@@ -29,6 +29,7 @@
 #include "prefs.h"
 #include "view-settings.h"
 #include <gcu/crystalview.h>
+#include <gcu/print-setup-dlg.h>
 #include <glib/gi18n.h>
 #include <cstring>
 
@@ -67,9 +68,19 @@ static void on_file_close (GtkWidget *widget, gcWindow* Win)
 	Win->GetApplication ()->OnFileClose ();
 }
 
+static void on_page_setup (GtkWidget *widget, gcWindow* Win)
+{
+	new PrintSetupDlg (Win->GetApplication (), Win->GetView ());
+}
+
+static void on_print_preview (GtkWidget *widget, gcWindow* Win)
+{
+	Win->GetView ()->Print (true);
+}
+
 static void on_file_print (GtkWidget *widget, gcWindow* Win)
 {
-	Win->GetApplication ()->OnFilePrint ();
+	Win->GetView ()->Print (false);
 }
 
 static void on_file_save_as_image(GtkWidget* widget, gcWindow* Win)
@@ -259,6 +270,10 @@ static GtkActionEntry entries[] = {
 		  N_("Save the current file with a different name"), G_CALLBACK (on_file_save_as) },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
 		  N_("Save the current file as an image"), G_CALLBACK (on_file_save_as_image) },
+	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
+		  N_("Setup the page settings for your current printer"), G_CALLBACK (on_page_setup) },
+	  { "PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Pre_view"), NULL,
+		  N_("Print preview"), G_CALLBACK (on_print_preview) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current file"), G_CALLBACK (on_file_print) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
@@ -309,7 +324,9 @@ static const char *ui_description =
 "      <menuitem action='Save'/>"
 "      <menuitem action='SaveAs'/>"
 "      <menuitem action='SaveAsImage'/>"
-"      <separator name='file-sep1'/>"
+"	   <separator name='file-sep1'/>"
+"      <menuitem action='PageSetup'/>"
+"      <menuitem action='PrintPreview'/>"
 "      <menuitem action='Print'/>"
 "      <separator name='file-sep2'/>"
 "      <menuitem action='Close'/>"
@@ -437,12 +454,12 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
 	gtk_toolbar_set_tooltips(GTK_TOOLBAR(bar), true);
 	m_View = dynamic_cast<gcView *> (m_Doc->GetView ());
-	if (m_View->GetWindow () != NULL) {
+	if (m_View->GetGCWindow () != NULL) {
 		m_View = dynamic_cast<gcView *> (m_Doc->CreateNewView ());
-		m_View->SetWindow (this);
+		m_View->SetGCWindow (this);
 		m_Doc->AddView (m_View);
 	} else
-		m_View->SetWindow (this);
+		m_View->SetGCWindow (this);
 	gtk_box_pack_start (GTK_BOX (vbox), m_View->GetWidget (), true, true, 0);
 	m_Bar = gtk_statusbar_new ();
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");

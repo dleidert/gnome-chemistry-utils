@@ -98,48 +98,6 @@ bool gcApplication::OnFileClose ()
 	return true;
 }
 
-void gcApplication::OnFilePrint ()
-{
-	GnomePrintConfig* config = gnome_print_config_default ();
-	GnomePrintContext *pc;
-	GnomePrintJob *gpj = gnome_print_job_new (config);
-	int do_preview = 0, copies = 1, collate = 0;
-	GnomePrintDialog *gpd;
-	gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new (gpj, (const guchar*) "Print test", GNOME_PRINT_DIALOG_COPIES));
-	gtk_window_set_icon_name (GTK_WINDOW (gpd), "gcrystal");
-	gnome_print_dialog_set_copies (gpd, copies, collate);
-	switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
-	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		do_preview = 0;
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		do_preview = 1;
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (gpd));
-		return;
-	}
-	gtk_widget_destroy (GTK_WIDGET (gpd));
-	pc = gnome_print_job_get_context (gpj);
-	gnome_print_beginpage (pc, (const guchar*) "");
-	gdouble width, height;
-	gnome_print_config_get_double (config, (const guchar*) GNOME_PRINT_KEY_PAPER_WIDTH, &width);
-	gnome_print_config_get_double (config, (const guchar*) GNOME_PRINT_KEY_PAPER_HEIGHT, &height);
-	m_pActiveDoc->GetActiveView ()->Print (pc, width, height);
-	gnome_print_showpage (pc);
-	g_object_unref (pc);
-	gnome_print_job_close (gpj);
-	if (do_preview) {
-		GtkWidget *preview = gnome_print_job_preview_new (gpj, (const guchar*)_("Preview"));
-		gtk_window_set_icon_name (GTK_WINDOW (preview), "gcrystal");
-		gtk_widget_show (preview);
-	} else {
-		gnome_print_job_print (gpj);
-	}
-	g_object_unref (gpj);
-	gnome_print_config_unref (config);
-}
-
 void gcApplication::OnSaveAsImage ()
 {
 	if (!m_pActiveDoc)
@@ -304,7 +262,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			int n = 1, max = Views->size ();
 			char const *title = Doc->GetTitle ();
 			for (i = Views->begin (); i != iend; i++) {
-				gcWindow *window = dynamic_cast <gcView*> (*i)->GetWindow ();
+				gcWindow *window = dynamic_cast <gcView*> (*i)->GetGCWindow ();
 				GtkWindow *w = window->GetWindow ();
 				gtk_window_present (w);
 				if (max > 1) {

@@ -25,14 +25,13 @@
 #ifndef GC3D_WINDOW_H
 #define GC3D_WINDOW_H
 
-#include <gcu/printable.h>
 #include <gtk/gtkwindow.h>
 
 class gc3dApplication;
 class gc3dDocument;
 class gc3dView;
 
-class gc3dWindow: public gcu::Printable
+class gc3dWindow
 {
 public:
 	gc3dWindow (gc3dApplication *App, gc3dDocument *Doc);

@@ -269,7 +269,7 @@ static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
 	gtk_chem3d_viewer_update(viewer);
 }
 
-void gtk_chem3d_viewer_print (GtkChem3DViewer * viewer, GnomePrintContext *pc, gdouble width, gdouble height)
+GdkPixbuf *gtk_chem3d_viewer_new_pixbuf (GtkChem3DViewer * viewer, guint width, guint height)
 {
-	viewer->Doc->GetView ()->Print (pc, width, height);
+	return viewer->Doc->GetView ()->BuildPixbuf (width, height);
 }

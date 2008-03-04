@@ -27,6 +27,7 @@
 
 #include "macros.h"
 #include "matrix.h"
+#include "printable.h"
 #ifdef HAVE_GO_CONF_SYNC
 #include <goffice/app/go-conf.h>
 #else
@@ -48,7 +49,7 @@ class GLDocument;
 View class based on OpenGL for rendering. Used to display 3d chemical structures
 such as molecules or crystals cells.
 */
-class GLView
+class GLView: public Printable
 {
 public:
 //!Constructor.
@@ -110,14 +111,6 @@ Sets the orientation of the model, using the Euler's angles.
 */
 	void SetRotation (double psi, double theta, double phi);
 /*!
-@param pc the GnomePrintContext used for printing.
-@param width the width of the printed view.
-@param height th height of the printed view.
-
-Prints the current view to a printing context inside a rectangle with predefined size.
-*/
-	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
-/*!
 @param filename the name of the file.
 @param type the type as supported by GdkPixbuf (e.g. "png" or "jpeg").
 @param options the pairs of keys/values to pass GdkPixbuf.
@@ -137,6 +130,8 @@ Generates a pixbuf from the current view.
 @return the pixbuf containing the generated image
 */
 	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height);
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+	GtkWindow *GetWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget));}
 
 private:
 /*!

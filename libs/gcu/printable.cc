@@ -111,8 +111,11 @@ void PrintSettings::Init ()
 	size = gtk_paper_size_new ((name && strlen (name))? name: NULL);
 	gtk_page_setup_set_paper_size (setup, size);
 	gtk_paper_size_free (size);
+	g_free (name);
+	name = NULL;
 	GCU_GCONF_GET_STRING ("preferred-unit", name, "mm")
 	unit = gtk_unit_from_string (name);
+	g_free (name);
 	double x;
 	GCU_GCONF_GET_NO_CHECK ("margin-top", float, x, 72);
 	gtk_page_setup_set_top_margin (setup, x, GTK_UNIT_POINTS);
@@ -160,15 +163,38 @@ void PrintSettings::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEn
 	if (cnxn_id != m_NotificationId)
 		return;	// we might want an error message?
 #endif
-/*	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
-	GCU_UPDATE_KEY ("tearable-mendeleiev", bool, TearableMendeleiev,
+	char *val = NULL;
+	GCU_UPDATE_KEY ("paper", string, val,
 					{
-						Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
-						if (ToolsBox)
-							ToolsBox->Update ();
+						GtkPaperSize *size = NULL;
+						size = gtk_paper_size_new ((val && strlen (val))? val: NULL);
+						gtk_page_setup_set_paper_size (setup, size);
+						gtk_paper_size_free (size);
+						g_free (val);
+						name = NULL;
 					})
-	bool CopyAsText;
-	GCU_UPDATE_KEY ("copy-as-text", bool, CopyAsText, ClipboardFormats = CopyAsText?GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;)*/
+	GCU_UPDATE_KEY ("preferred-unit", string, val,
+					{
+						unit = gtk_unit_from_string (val);
+						g_free (val);
+					})
+	double x;
+	GCU_UPDATE_KEY ("margin-top", float, x,
+					{
+						gtk_page_setup_set_top_margin (setup, x, GTK_UNIT_POINTS);
+					})
+	GCU_UPDATE_KEY ("margin-bottom", float, x,
+					{
+						gtk_page_setup_set_bottom_margin (setup, x, GTK_UNIT_POINTS);
+					})
+	GCU_UPDATE_KEY ("margin-right", float, x,
+					{
+						gtk_page_setup_set_right_margin (setup, x, GTK_UNIT_POINTS);
+					})
+	GCU_UPDATE_KEY ("margin-left", float, x,
+					{
+						gtk_page_setup_set_left_margin (setup, x, GTK_UNIT_POINTS);
+					})
 }
 
 Printable::Printable ():
@@ -181,7 +207,9 @@ Printable::Printable ():
 	m_Unit = DefaultSettings.unit;
 	m_HorizCentered = m_VertCentered = false;
 	m_ScaleType = GCU_PRINT_SCALE_NONE;
-	m_RealScale = 1.;
+	m_Scale = 1.;
+	m_HorizFit = m_VertFit = true;
+	m_HPages = m_VPages = 1;
 }
 
 Printable::~Printable ()

@@ -39,7 +39,7 @@ class gcWindow;
 
 using namespace gcu;
 
-class gcView: public CrystalView, public DialogOwner
+class gcView: public CrystalView
 {
 public:
 	gcView (gcDocument *pDoc);
@@ -52,8 +52,8 @@ public:
 	gdouble& GetPos () {return m_Radius;}
 	void GetRotation (double *psi, double *theta, double *phi);
 	bool LoadOld (xmlNodePtr node);
-	gcWindow *GetWindow () {return m_Window;}
-	void SetWindow (gcWindow *window) {m_Window = window;}
+	gcWindow *GetGCWindow () {return m_Window;}
+	void SetGCWindow (gcWindow *window) {m_Window = window;}
 	
 private:
 

@@ -43,7 +43,6 @@ public:
 	void OnFileSave();
 	void OnFileSaveAs();
 	bool OnFileClose();
-	void OnFilePrint();
 	void OnSaveAsImage ();
 	bool IsEmpty() {return m_Views.empty();}
 	gcDocument* GetDoc (const char* filename);

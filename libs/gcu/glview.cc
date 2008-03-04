@@ -27,12 +27,13 @@
 #include <gcu/gldocument.h>
 #include <gcu/glview.h>
 #include <gcu/macros.h>
+#include <goffice/goffice-features.h>
+#include <goffice/utils/go-image.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <glib/gi18n-lib.h>
-#include <cairo-svg.h>
 #include <cmath>
 #include <cstring>
 
@@ -106,7 +107,7 @@ static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *e
 // GLView implementation
 #define GCU_CONF_DIR_GL "gl"
 
-GLView::GLView (GLDocument* pDoc)
+GLView::GLView (GLDocument* pDoc): Printable ()
 {
 	m_bInit = false;
 	m_Doc = pDoc;
@@ -357,32 +358,6 @@ void GLView::Rotate (gdouble x, gdouble y)
 	m_Phi /= M_PI / 180.;
 }
 
-void GLView::Print (GnomePrintContext *pc, gdouble width, gdouble height)
-{
-	int Width = m_pWidget->allocation.width;
-	int Height = m_pWidget->allocation.height;
-	if (Width > width) {
-		Height = (int) (Height * width / Width);
-		Width = (int) width;
-	}
-	if (Height > height) {
-		Width = (int) (Width * height / Height);
-		Height = (int) height;
-	}
-	double matrix [6] = {Width, 0, 0, Height,
-						(width - Width) / 2, (height - Height )/ 2};
-	int w= (int) (Width * 300. / 72.), h = (int) (Height * 300. / 72.);
-	GdkPixbuf * pixbuf = BuildPixbuf (w, h);
-
-	if (pixbuf) {
-		gnome_print_gsave (pc);
-		gnome_print_concat (pc, matrix);
-		gnome_print_rgbimage (pc, (const guchar*) gdk_pixbuf_get_pixels (pixbuf), w, h, gdk_pixbuf_get_rowstride (pixbuf));
-		gnome_print_grestore (pc);
-		g_object_unref (pixbuf);
-	}
-}
-
 static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
 {
 	GnomeVFSHandle *handle = (GnomeVFSHandle*) data;
@@ -588,6 +563,53 @@ osmesa:
 	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
 	Update ();
 	return pixbuf;
+}
+
+void GLView::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+{
+	cairo_t *cr;
+	gdouble width, height;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	width = gtk_print_context_get_width (context);
+	height = gtk_print_context_get_height (context);
+	// Assume we do not resize
+	int w, h; // size in points
+	w = m_pWidget->allocation.width;
+	h = m_pWidget->allocation.height;
+	switch (GetScaleType ()) {
+	case GCU_PRINT_SCALE_NONE:
+		break;
+	case GCU_PRINT_SCALE_FIXED:
+		w *= GetScale ();
+		h *= GetScale ();
+		break;
+	case GCU_PRINT_SCALE_AUTO:
+		if (GetHorizFit ())
+			w = width;
+		if (GetVertFit ())
+			h = height;
+		break;
+	}
+	double scale = 300. / 72.;
+	GdkPixbuf *pixbuf = BuildPixbuf (w * scale, h * scale);
+	GOImage *img = go_image_new_from_pixbuf (pixbuf);
+	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
+	cairo_matrix_t cr_matrix;
+	double x = 0., y = 0.;
+	if (GetHorizCentered ())
+		x = (width - w) / 2.;
+	if (GetVertCentered ())
+		y = (height - h) / 2.;
+	cairo_matrix_init_scale (&cr_matrix, scale, scale);
+	cairo_matrix_translate (&cr_matrix, -x, -y);
+	cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
+	cairo_rectangle (cr, x, y, w, h);
+	cairo_set_source (cr, cr_pattern);
+	cairo_fill (cr);
+	cairo_pattern_destroy (cr_pattern);
+	g_object_unref (img);
+	g_object_unref (pixbuf);
 }
 
 }	//	namespace gcu

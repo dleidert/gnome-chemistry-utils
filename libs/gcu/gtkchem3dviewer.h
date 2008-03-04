@@ -24,10 +24,7 @@
 #ifndef GTK_CHEM3D_VIEWER_H
 #define GTK_CHEM3D_VIEWER_H
 
-//#include <gtkgl/gtkglarea.h>
 #include <gtk/gtkbin.h>
-#include <libxml/tree.h>
-#include <libgnomeprint/gnome-print.h>
 
 G_BEGIN_DECLS
 
@@ -131,14 +128,14 @@ Changes the molecule displayed by the one described in the data. Nothing happens
 void	gtk_chem3d_viewer_set_data	(GtkChem3DViewer * viewer, const gchar * data, const gchar* mime_type);
 
 /*!
-@param viewer a pointer to GtkChem3DViewer widget.
-@param pc a pointer to the GnomePrintContext.
-@param width the width of the rectangle.
-@param height the height of the rectangle.
+@param viewer a pointer to a GtkChem3DViewer widget.
+@param width the width of the new pixbuf.
+@param height the height of the new pixbuf.
 
-Prints the scene to a GnomePrintContext using a 300 dpi resolution.
+Renders the scene to a newly allocated pixbuf.
+\return the new GdkPixbuf*.
 */
-void gtk_chem3d_viewer_print(GtkChem3DViewer * viewer, GnomePrintContext *pc, gdouble width, gdouble height);
+GdkPixbuf *gtk_chem3d_viewer_new_pixbuf (GtkChem3DViewer * viewer, guint width, guint height);
 
 G_END_DECLS
 

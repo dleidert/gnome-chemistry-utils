@@ -50,6 +50,13 @@ public:
 	void OnFooterHeightChanged (double x);
 	void OnHorizCenter ();
 	void OnVertCenter ();
+	void UpdateScale ();
+	void OnScaleType (PrintScaleType type);
+	void OnScale (double scale);
+	void OnHFit (bool fit);
+	void OnVFit (bool fit);
+	void OnHPages (int pages);
+	void OnVPages (int pages);
 
 private:
 	Printable *m_Printable;
@@ -63,7 +70,9 @@ private:
 	GtkToggleButton *m_HBtn, *m_VBtn;
 	gulong m_UnitId, m_HId, m_VId;
 	GtkToggleButton *m_ScalingNoneBtn, *m_ScalingFixedBtn, *m_ScalingAutoBtn, *m_HFitBtn, *m_VFitBtn;
-	GtkSpinButton *m_HPagesBtn, *m_vPagesBtn, *m_ScaleBtn;
+	gulong m_ScalingNoneId, m_ScalingFixedId, m_ScalingAutoId, m_HFitId, m_VFitId;
+	GtkSpinButton *m_HPagesBtn, *m_VPagesBtn, *m_ScaleBtn;
+	GtkLabel *m_ScaleLbl, *m_FitHLbl, *m_FitVLbl;
 };
 	
 }	//	namespace gcu

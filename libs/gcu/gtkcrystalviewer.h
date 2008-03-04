@@ -91,6 +91,16 @@ Replaces the content of viewer by the Crystal structure described in node.
 */
 void	gtk_crystal_viewer_set_data	(GtkCrystalViewer * viewer, xmlNodePtr node);
 
+/*!
+@param viewer a pointer to a GtkCrystalViewer widget.
+@param width the width of the new pixbuf.
+@param height the height of the new pixbuf.
+
+Renders the scene to a newly allocated pixbuf.
+\return the new GdkPixbuf*.
+*/
+GdkPixbuf *gtk_crystal_viewer_new_pixbuf (GtkCrystalViewer * viewer, guint width, guint height);
+
 G_END_DECLS
 
 #endif //GTK_CRYSTAL_VIEWER_H

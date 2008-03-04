@@ -606,9 +606,9 @@ bool gcDocument::RemoveView (gcView* pView)
 void gcDocument::RemoveAllViews ()
 {
 	while (m_Views.size () > 1)
-		dynamic_cast<gcView*> (m_Views.front ())->GetWindow ()->Destroy ();
+		dynamic_cast<gcView*> (m_Views.front ())->GetGCWindow ()->Destroy ();
 	// The last one is deleted separately since this will be destroyed !
-	dynamic_cast<gcView*> (m_Views.front ())->GetWindow ()->Destroy ();
+	dynamic_cast<gcView*> (m_Views.front ())->GetGCWindow ()->Destroy ();
 }
 
 bool gcDocument::VerifySaved()
@@ -688,7 +688,7 @@ void gcDocument::RenameViews ()
 	list <CrystalView *>::iterator i, iend = m_Views.end ();
 	int n = 1, max = m_Views.size ();
 	for (i = m_Views.begin (); i != iend; i++) {
-		gcWindow *window = dynamic_cast <gcView*> (*i)->GetWindow ();
+		gcWindow *window = dynamic_cast <gcView*> (*i)->GetGCWindow ();
 		GtkWindow *w = window->GetWindow ();
 		if (!w)
 			continue;

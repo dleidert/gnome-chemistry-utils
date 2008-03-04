@@ -1,5 +1,28 @@
 ##Text encoding: utf-8
 
+2008-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/print-setup.glade: group radio buttons.
+	* libs/gcu/glview.cc: make GLView derive from Printable and remove
+	GnomePrint dependencies..
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/gtkchem3dviewer.cc: replace gtk_chem3d_viewer_print by
+	gtk_chem3d_viewer_new_pixbuf.
+	* libs/gcu/gtkchem3dviewer.h: ditto.
+	* libs/gcu/gtkcrystalviewer.cc: add gtk_crystal_viewer_new_pixbuf.
+	* libs/gcu/gtkcrystalviewer.h: ditto.
+	* libs/gcu/print-setup-dlg.cc: manages scled printing.
+	* libs/gcu/print-setup-dlg.h: ditto.
+	* libs/gcu/printable.cc: ditto.
+	* libs/gcu/printable.h:ditto.
+	* programs/3d/window.cc: moved GtkPrint support to GLView.
+	* programs/3d/window.h: ditto.
+	* programs/crystal/application.cc: prints using GtkPrint.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/window.cc: ditto.
+
 2008-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/print-setup.glade: fixed a duplicated widget name.
 	* libs/gcp/application.cc: fixed gconf key path.

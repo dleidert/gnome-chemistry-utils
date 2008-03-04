@@ -122,4 +122,9 @@ void gtk_crystal_viewer_set_data (GtkCrystalViewer * viewer, xmlNodePtr node)
 	viewer->pView->Update ();
 }
 
+GdkPixbuf *gtk_crystal_viewer_new_pixbuf (GtkCrystalViewer * viewer, guint width, guint height)
+{
+	return viewer->pDoc->GetView ()->BuildPixbuf (width, height);
+}
+
 } //extern "C"

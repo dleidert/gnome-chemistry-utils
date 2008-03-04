@@ -51,8 +51,7 @@ gcView::gcView (gcDocument *pDoc): CrystalView (pDoc)
 }
 
 gcView::gcView (gcView *pView):
-	CrystalView (dynamic_cast <CrystalDoc *> (pView->GetDoc ())),
-	DialogOwner ()
+	CrystalView (dynamic_cast <CrystalDoc *> (pView->GetDoc ()))
 {
 	SetAngle (pView->GetAngle ());
 	SetRotation (pView->GetPsi (), pView->GetTheta (), pView->GetPhi ());

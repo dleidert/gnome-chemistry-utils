@@ -46,15 +46,12 @@ public:
 
 	virtual void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) = 0;
 	virtual bool SupportsHeaders () {return false;}
-	virtual bool SuuportMultiplePages () {return false;}
+	virtual bool SupportMultiplePages () {return false;}
 	virtual GtkWindow *GetWindow () = 0;
 	virtual int GetPagesNumber () {return 1;}
 
 	void Print (bool preview);
 	void SetPageSetup (GtkPageSetup *PageSetup);
-
-private:
-	double m_RealScale;
 
 GCU_RO_PROP (GtkPrintSettings *, PrintSettings)
 GCU_RO_PROP (GtkPageSetup *, PageSetup)
@@ -65,6 +62,8 @@ GCU_PROP (bool, HorizCentered)
 GCU_PROP (bool, VertCentered)
 GCU_PROP (PrintScaleType, ScaleType)
 GCU_PROP (double, Scale)
+GCU_PROP (bool, HorizFit)
+GCU_PROP (bool, VertFit)
 GCU_PROP (int, HPages)
 GCU_PROP (int, VPages)
 };
