@@ -224,4 +224,20 @@ must provide a GError *error initially set to NULL.
 	}
 #endif
 
+#ifdef HAVE_GO_CONF_SYNC
+#define GCU_UPDATE_STRING_KEY(key,target,action) \
+	if (!strcmp (name, ROOTDIR key)) { \
+		target = go_conf_get_string (node, ((node)? key: ROOTDIR key)); \
+		action \
+		return; \
+	}
+#else
+#define GCU_UPDATE_STRING_KEY(key,target,action) \
+	if (!strcmp (gconf_entry_get_key (entry), ROOTDIR key)) { \
+		target = g_strdup (gconf_value_get_string (gconf_entry_get_value (entry))); \
+		action \
+		return; \
+	}
+#endif
+
 #endif	//	GCU_MACROS_H

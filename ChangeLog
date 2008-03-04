@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/macros.h: add GCU_UPDATE_STRING_KEY.
+	* libs/gcu/printable.cc: use the new macro for strings.
+
+2008-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/print-setup.glade: group radio buttons.
 	* libs/gcu/glview.cc: make GLView derive from Printable and remove
 	GnomePrint dependencies..

@@ -164,16 +164,16 @@ void PrintSettings::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEn
 		return;	// we might want an error message?
 #endif
 	char *val = NULL;
-	GCU_UPDATE_KEY ("paper", string, val,
+	GCU_UPDATE_STRING_KEY ("paper", val,
 					{
 						GtkPaperSize *size = NULL;
 						size = gtk_paper_size_new ((val && strlen (val))? val: NULL);
 						gtk_page_setup_set_paper_size (setup, size);
 						gtk_paper_size_free (size);
 						g_free (val);
-						name = NULL;
+						val = NULL;
 					})
-	GCU_UPDATE_KEY ("preferred-unit", string, val,
+	GCU_UPDATE_STRING_KEY ("preferred-unit", val,
 					{
 						unit = gtk_unit_from_string (val);
 						g_free (val);
