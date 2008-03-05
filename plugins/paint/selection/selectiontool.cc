@@ -331,12 +331,12 @@ void gcpSelectionTool::Merge ()
 	if (pMol0->Merge (pMol1, true)) {
 		m_pOp->AddObject (pMol0, 1);
 		m_pData->SetSelected (pMol0);
-		AddSelection (m_pData);
 		m_pView->Update (pMol0);
 		pDoc->FinishOperation ();
 	} else {
 		pDoc->AbortOperation ();
 	}
+	AddSelection (m_pData);
 }
 
 static void on_create_group (gcpSelectionTool* tool)
