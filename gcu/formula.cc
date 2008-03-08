@@ -410,7 +410,7 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 				j++;
 			k = j - i;
 			sz = new char[k + 1];
-			sz = strndup (formula.c_str () + i, k);
+			sz = strncpy (formula.c_str () + i, k);
 			sz[k] = 0;
 			if (!AnalString (sz, result)) {
 				delete [] sz;
