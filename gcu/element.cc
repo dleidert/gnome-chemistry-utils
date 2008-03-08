@@ -915,15 +915,17 @@ void Element::LoadBODR ()
 							int val = strtol (buf, NULL, 10);
 							xmlFree (buf);
 							buf = (char*) xmlGetProp (child, (xmlChar const*) "dictRef");
-							if (!strcmp (buf, "bo:discoveryDate"))
+							if (elt && !strcmp (buf, "bo:discoveryDate"))
 								elt->iprops["discoveryDate"] = val;
 							xmlFree (buf);
 						}
 					}
 					if (props.size () > 0) {
-						map <string, Value*>:: iterator i, iend = props.end ();
-						for (i = props.begin (); i != iend; i++)
-							elt->props[(*i).first] = (*i).second;
+						if (elt) {
+							map <string, Value*>:: iterator i, iend = props.end ();
+							for (i = props.begin (); i != iend; i++)
+								elt->props[(*i).first] = (*i).second;
+						}
 						props.clear ();
 					}
 					child = child->next;
