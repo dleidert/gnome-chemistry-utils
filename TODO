@@ -10,9 +10,8 @@
 	* accept abbreviations as Ph and others (what about Ac, Pr,...?).
 
 * 3d viewer:
-	* display multiple bonds.
-	* add more display options.
 	* export encapsulated postscript.
+	* allow selection of atoms and or bonds, and display or lengths and angles.
 
 * Mozilla plugin:
 	* implement printing.
@@ -20,11 +19,13 @@
 	* add a contextual dropdown menu.
 
 * Gnome Crystal:
-	* open files from other formats (cif, cml) using openbabel.
+	* finish cif file import.
+	* open cml files using openbabel.
+	* export to  cif and cml formats.
 	* export encapsulated postscript.
 
 * GChemPaint:
-	* some sort of copy-and-paste support for OpenOffice.org (0.10?).
+	* enhance copy-and-paste support for OpenOffice.org.
 	* plugin to prepare png files of molecules ready for publication in wikipedia (almost done).
 	* Use a cairo based canvas (0.10? if gtk+ permits).
 	* New tools:
