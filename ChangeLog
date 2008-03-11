@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/calc/gchemcalc.cc: prints the isotopic pattern.
+
+2008-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: remove GnomePrint dependency.
 	* glade/gchemcalc.glade: add buttons for printing.
 	* libs/canvas/Makefile.am: remove GnomePrint dependency.

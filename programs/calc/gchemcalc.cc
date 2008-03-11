@@ -29,6 +29,8 @@
 #include <gcu/application.h>
 #include <gcu/element.h>
 #include <gcu/formula.h>
+#include <gcu/printable.h>
+#include <gcu/print-setup-dlg.h>
 #include <gcu/residue.h>
 #include <gcu/value.h>
 #include <glib/gi18n.h>
@@ -73,18 +75,24 @@ using namespace gcu;
 
 using namespace std;
 
-class GChemCalc: public Application
+class GChemCalc: public Application, public Printable
 {
 public:
 	GChemCalc ();
 	Formula formula;
 	GtkLabel *markup, *raw, *weight, *mono, *monomass;
+	GtkWidget *graph_widget;
 	GtkWidget *pattern_page;
+	GtkWindow *window;
+	GogGraph *graph;
 	GogChart *chart;
 	GogLabel *label;
 	GogPlot *plot;
 	GogSeries *series;
 	GtkListStore *pclist;
+
+	GtkWindow *GetGtkWindow () {return window;}
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 
 private:
 	void ParseNodes (xmlNodePtr node);
@@ -121,6 +129,43 @@ void GChemCalc::ParseNodes (xmlNodePtr node)
 		}
 		node = node->next;
 	}
+}
+
+void GChemCalc::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+{
+	cairo_t *cr;
+	gdouble width, height;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	width = gtk_print_context_get_width (context);
+	height = gtk_print_context_get_height (context);
+
+	int w, h; // size in points
+	w = graph_widget->allocation.width;
+	h = graph_widget->allocation.height;
+	switch (GetScaleType ()) {
+	case GCU_PRINT_SCALE_NONE:
+		break;
+	case GCU_PRINT_SCALE_FIXED:
+		w *= Printable::GetScale ();
+		h *= Printable::GetScale ();
+		break;
+	case GCU_PRINT_SCALE_AUTO:
+		if (GetHorizFit ())
+			w = width;
+		if (GetVertFit ())
+			h = height;
+		break;
+	}
+	double x = 0., y = 0.;
+	if (GetHorizCentered ())
+		x = (width - w) / 2.;
+	if (GetVertCentered ())
+		y = (height - h) / 2.;
+	cairo_save (cr);
+	cairo_translate (cr, x, y);
+	gog_graph_render_to_cairo (graph, cr, w, h);
+	cairo_restore (cr);
 }
 
 GChemCalc *App;
@@ -347,7 +392,9 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 	}
 }
 
-static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
+static GogGraph *graph = NULL;
+
+static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, gpointer data)
 {
 	guchar *buffer = NULL;
 	char *format = NULL;
@@ -408,9 +455,10 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	}
 }
 
-void on_clear_data(GtkClipboard *clipboard, GogGraph *graph)
+void on_clear_data(GtkClipboard *clipboard, gpointer data)
 {
 	g_object_unref (graph);
+	graph = NULL;
 }
 
 static GtkTargetEntry const targets[] = {
@@ -423,9 +471,22 @@ static GtkTargetEntry const targets[] = {
 static void on_copy (GOGraphWidget *widget)
 {
 	GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	if (graph)
+		g_object_unref (graph);
+	graph = (GogGraph*) gog_object_dup (GOG_OBJECT (go_graph_widget_get_graph (widget)), NULL, NULL);
 	gtk_clipboard_set_with_data (clipboard, targets, 4,
 		(GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data,
-		gog_object_dup (GOG_OBJECT (go_graph_widget_get_graph (widget)), NULL, NULL));
+		NULL);
+}
+
+static void on_print ()
+{
+	App->Print (false);
+}
+
+static void on_page_setup ()
+{
+	new PrintSetupDlg (App, App);
 }
 
 static GtkActionEntry entries[] = {
@@ -536,8 +597,8 @@ int main (int argc, char *argv[])
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
 	GladeXML *xml =  glade_xml_new (GLADEDIR"/gchemcalc.glade", "gchemcalc", NULL);
-	GtkWidget *window = glade_xml_get_widget (xml, "gchemcalc");
-	g_signal_connect (GTK_OBJECT (window), "destroy",
+	App->window = GTK_WINDOW (glade_xml_get_widget (xml, "gchemcalc"));
+	g_signal_connect (GTK_OBJECT (App->window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
 	
@@ -548,7 +609,7 @@ int main (int argc, char *argv[])
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), NULL);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
+	gtk_window_add_accel_group (GTK_WINDOW (App->window), accel_group);
 	if (!gtk_ui_manager_add_ui_from_string (ui_manager, ui_description, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
@@ -598,13 +659,14 @@ int main (int argc, char *argv[])
 	App->monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
 	App->pattern_page = glade_xml_get_widget (xml, "pattern");
 #ifdef GO_GRAPH_WIDGET_OLD_API
-	GtkWidget *pw = go_graph_widget_new ();
+	App->graph_widget = go_graph_widget_new ();
 #else
-	GtkWidget *pw = go_graph_widget_new (NULL);
+	App->graph_widget = go_graph_widget_new (NULL);
 #endif
-	gtk_widget_show (pw);
-	gtk_box_pack_end (GTK_BOX (App->pattern_page), pw, TRUE, TRUE, 0);
-	App->chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (pw));
+	gtk_widget_show (App->graph_widget);
+	gtk_box_pack_end (GTK_BOX (App->pattern_page), App->graph_widget, TRUE, TRUE, 0);
+	App->graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (App->graph_widget));
+	App->chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (App->graph_widget));
 	App->plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	gog_object_add_by_name (GOG_OBJECT (App->chart), "Plot", GOG_OBJECT (App->plot));
 	// Create a series for the plot and populate it with some simple data
@@ -624,18 +686,24 @@ int main (int argc, char *argv[])
 	GtkWidget *w = glade_xml_get_widget (xml, "entry");
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
-		 window);
+		 App->window);
 	gcu_element_load_databases ("isotopes", NULL);
 	Element::LoadBODR ();
 	if (argc == 1){
 		gtk_entry_set_text (GTK_ENTRY (w), argv[0]);
-		cb_entry_active (GTK_ENTRY (w), window);
+		cb_entry_active (GTK_ENTRY (w), App->window);
 	}
 
 	w = glade_xml_get_widget (xml, "copy");
-	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), pw);
+	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), App->graph_widget);
+	w = glade_xml_get_widget (xml, "print");
+	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_print), NULL);
+	w = glade_xml_get_widget (xml, "page-setup");
+	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_page_setup), NULL);
 
 	gtk_main ();
+	if (graph)
+		g_object_unref (graph);
 	delete App;
 	return 0;
 }
