@@ -41,7 +41,6 @@
 #include <pango/pango-context.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
-#include <libgnomeprint/gnome-print-job.h>
 #include <clocale>
 #include <cmath>
 #include <fstream>
@@ -399,7 +398,7 @@ GnomeCanvasItem* View::GetCanvasItem (GtkWidget* widget, Object* Object)
 	return result;
 }
 
-void View::Print (GnomePrintContext *pc, gdouble width, gdouble height)
+/*void View::Print (GnomePrintContext *pc, gdouble width, gdouble height)
 {
 	g_return_if_fail (G_IS_PRINTABLE (m_pData->Group));
 	gnome_print_gsave (pc);
@@ -422,7 +421,7 @@ void View::Print (GnomePrintContext *pc, gdouble width, gdouble height)
 	m_pData->ShowSelection (true);
 	if (pObj)
 		pObj->SetSelected (m_pWidget, SelStateUpdating);
-}
+}*/
 
 void View::Update (Object* pObject)
 {
@@ -982,7 +981,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 	m_pData->ShowSelection (false);
 	int w = (int) (ceil (rect.x1) - floor (rect.x0)), h = (int) (ceil (rect.y1) - floor (rect.y0));
 	if (!strcmp (type, "eps")) {
-		GnomePrintConfig* config = gnome_print_config_default();
+/*		GnomePrintConfig* config = gnome_print_config_default();
 		GnomePrintContext *pc;
 		GnomePrintJob *gpj = gnome_print_job_new (config);
 		pc = gnome_print_job_get_context (gpj);
@@ -1001,14 +1000,14 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		GnomePrintUnit const *inches = gnome_print_unit_get_by_abbreviation ((const guchar *) "in");
 		gnome_print_config_get_length (config, (const guchar*) "Settings.Output.Media.PhysicalSize.Height", &hp, &unit);
 		gnome_print_convert_distance (&hp, unit, inches);
-		hp *= 72;
+		hp *= 72;*/
 /*		gnome_print_config_get_length (config, (const guchar*) "Settings.Document.Page.Margins.Left", &ml, &unit);
 		gnome_print_convert_distance (&ml, unit, inches);
 		ml *= 72;
 		gnome_print_config_get_length (config, (const guchar*) "Settings.Document.Page.Margins.Top", &mt, &unit);
 		gnome_print_convert_distance (&mt, unit, inches);
 		mt *= 72;	*/
-		ml = mt = 30.; // see View::Print !
+/*		ml = mt = 30.; // see View::Print !
 		gnome_print_config_set_boolean (config, (const guchar*) "Settings.Output.Job.PrintToFile", true);
 		gnome_print_config_set (config, (const guchar*) GNOME_PRINT_KEY_OUTPUT_FILENAME, (const guchar*) tmpname);
 		gnome_print_job_print (gpj);
@@ -1024,8 +1023,8 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		while (!fin->eof ()) {
 			fin->getline (buf, 256);
 			if (strlen (buf) >= 255)
-				exit (-1); /* This is violent but should not occur */
-			if (!strncmp (buf, "%%", 2)) {
+				exit (-1); *//* This is violent but should not occur */
+/*			if (!strncmp (buf, "%%", 2)) {
 				if (!strncmp (buf + 2, "Orientation", strlen ("Orientation")))
 					continue;
 				else if (!strncmp (buf + 2, "Pages", strlen ("Pages")))
@@ -1070,8 +1069,8 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 						cbuf.bg_color = 0xffffff;
 						cbuf.is_buf = 1;
 						(* GNOME_CANVAS_ITEM_GET_CLASS (m_pData->Group)->render) (GNOME_CANVAS_ITEM (m_pData->Group), &cbuf);
-						/* use 8 bits depth, no more than 250 bytes per line*/
-						lines = (w + 249) / 250 * h;
+	*/					/* use 8 bits depth, no more than 250 bytes per line*/
+	/*					lines = (w + 249) / 250 * h;
 						fout << "%%BeginPreview: " << w << " " << h << " " << 8 << " " << lines << endl;
 						fout << hex;
 						for (j = 0; j < h; j++) {
@@ -1092,7 +1091,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 							if (bytes)
 								fout << endl;
 							cbuf.buf += cbuf.buf_rowstride;
-						}
+						}*/
 						/* use 1 bit depth, no more than 128 bytes per line (max width 1024) */
 /*						lines = (w + 1023) / 1024 * h;
 						fout << "%%BeginPreview: " << w << " " << h << " " << 1 << " " << lines << endl;
@@ -1125,7 +1124,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 								fout << endl;
 							cbuf.buf += cbuf.buf_rowstride;
 						}*/
-						fout << dec;
+/*						fout << dec;
 						fout << "%%EndPreview" << endl;
 						g_object_unref (pixbuf);
 					}
@@ -1155,7 +1154,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		GnomeVFSHandle *handle = NULL;
 		GnomeVFSFileSize n;
 		if (gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK)
-			gnome_vfs_write (handle, fout.str ().c_str (), (GnomeVFSFileSize) fout.str ().size (), &n);
+			gnome_vfs_write (handle, fout.str ().c_str (), (GnomeVFSFileSize) fout.str ().size (), &n);*/
 	} else if (!strcmp (type, "svg")) {
 		xmlDocPtr doc = BuildSVG ();
 		xmlIndentTreeOutput = true;
@@ -1311,6 +1310,20 @@ void View::UpdateTheme ()
 	pango_font_description_set_size (m_PangoSmallFontDesc, pTheme->GetFontSize () * 2 / 3);
 	m_sSmallFontName = pango_font_description_to_string (m_PangoSmallFontDesc);
 	Update (m_pDoc);
+}
+
+void View::Render (cairo_t *cr)
+{
+	m_pData->ShowSelection(false);
+	Object* pObj = NULL;
+	if (m_ActiveRichText) {
+		pObj = (Object*) g_object_get_data (G_OBJECT (m_ActiveRichText), "object");
+		if (pObj) pObj->SetSelected (m_pWidget, SelStateUnselected);
+	}
+	g_printable_draw_cairo (G_PRINTABLE (m_pData->Group), cr);
+	m_pData->ShowSelection (true);
+	if (pObj)
+		pObj->SetSelected (m_pWidget, SelStateUpdating);
 }
 
 }	//	namespace gcp

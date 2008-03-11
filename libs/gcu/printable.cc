@@ -141,8 +141,7 @@ PrintSettings::~PrintSettings ()
 	if (settings)
 		g_object_unref (settings);
 #ifdef HAVE_GO_CONF_SYNC
-	if (m_NotificationId)
-		go_conf_remove_monitor (m_NotificationId);
+	// don't remove notification, since goffice has already been shut down
 #else
 	if (m_NotificationId) {
 		gconf_client_notify_remove (m_ConfClient,m_NotificationId);
@@ -245,7 +244,7 @@ void Printable::Print (bool preview)
 	res = gtk_print_operation_run (print,
 								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
 								   			GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-								   GetWindow (), NULL);
+								   GetGtkWindow (), NULL);
 
 	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
 		if (m_PrintSettings != NULL)

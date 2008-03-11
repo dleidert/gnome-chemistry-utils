@@ -112,14 +112,12 @@ static void gcbp_destroy_gdk (GnomeCanvasShapeExt * bpath);
 static void set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, int reconfigure);
 static void gcbp_ensure_mask (GnomeCanvasShapeExt * bpath, gint width, gint height);
 static void gcbp_draw_ctx_unref (GCBPDrawCtx * ctx);
-static void gnome_canvas_shape_ext_print       (GPrintable *gprintable, GnomePrintContext *pc);
 static void gnome_canvas_shape_ext_export_svg   (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr node);
 static void gnome_canvas_shape_ext_draw_cairo   (GPrintable *gprintable, cairo_t *cr);
 
 static void
 gnome_canvas_shape_ext_print_init (GPrintableIface *iface)
 {
-	iface->print = gnome_canvas_shape_ext_print;
 	iface->export_svg = gnome_canvas_shape_ext_export_svg;
 	iface->draw_cairo = gnome_canvas_shape_ext_draw_cairo;
 }
@@ -1589,59 +1587,6 @@ gnome_canvas_shape_ext_bounds (GnomeCanvasItem *item, double *x1, double *y1, do
 	*y1 = bbox.y0;
 	*x2 = bbox.x1;
 	*y2 = bbox.y1;
-}
-
-void gnome_canvas_shape_ext_print (GPrintable *printable, GnomePrintContext *pc)
-{
-	GnomeCanvasShapeExt *shape;
-	GnomeCanvasShapePriv * priv;
-	GnomeCanvasPathDef * path;
-	gdouble width;
-	ArtBpath * bpath;
-	
-	g_return_if_fail (GNOME_IS_CANVAS_SHAPE_EXT (printable));
-	shape = GNOME_CANVAS_SHAPE_EXT (printable);
-	priv = shape->priv;
-	path = priv->path;
-	bpath = gnome_canvas_path_def_bpath	(path);
-
-	if (priv->width_pixels)
-		width = (double) priv->width / shape->item.canvas->pixels_per_unit;
-	else
-		width = priv->width;
-	gnome_print_setlinewidth (pc, width);
-
-	switch (priv->cap)
-	{
-		case GDK_CAP_ROUND: gnome_print_setlinecap (pc, ART_PATH_STROKE_CAP_ROUND); break;
-		case GDK_CAP_PROJECTING: gnome_print_setlinecap (pc, ART_PATH_STROKE_CAP_SQUARE); break;
-		default: gnome_print_setlinecap (pc, ART_PATH_STROKE_CAP_BUTT); break;
-	}
-
-	gnome_print_setlinejoin (pc, (gint) priv->join);
-
-	gnome_print_setdash(pc, priv->dash.n_dash, priv->dash.dash, priv->dash.offset);
-
-	if (priv->fill_set)
-	{
-		gnome_print_setrgbcolor (pc, ((double)(priv->fill_rgba >> 24)) / 255.0,
-										((double)((priv->fill_rgba >> 16) & 0xff)) / 255.0,
-										((double)((priv->fill_rgba >> 8) & 0xff)) / 255.0);
-		gnome_print_setopacity(pc, ((double) (priv->fill_rgba & 0xff)) / 255.0);
-		gnome_print_bpath (pc, bpath, FALSE);
-		gnome_print_fill (pc);
-	}
-
-	if (priv->outline_set)
-	{
-		gnome_print_setrgbcolor (pc, ((double)(priv->outline_rgba >> 24)) / 255.0,
-										((double)((priv->outline_rgba >> 16) & 0xff)) / 255.0,
-										((double)((priv->outline_rgba >> 8) & 0xff)) / 255.0);
-		gnome_print_setopacity(pc, ((double) (priv->outline_rgba & 0xff)) / 255.0);
-		
-		gnome_print_bpath (pc, bpath, FALSE);
-		gnome_print_stroke (pc);
-	}
 }
 
 static void

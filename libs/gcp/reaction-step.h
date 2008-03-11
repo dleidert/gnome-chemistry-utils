@@ -26,6 +26,7 @@
 #define GCHEMPAINT_REACTION_STEP_H
 
 #include <gcu/object.h>
+#include <libart_lgpl/art_rect.h>
 #include <set>
 
 namespace gcp {

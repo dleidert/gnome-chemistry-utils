@@ -25,10 +25,6 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include "application.h"
@@ -262,7 +258,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			int n = 1, max = Views->size ();
 			char const *title = Doc->GetTitle ();
 			for (i = Views->begin (); i != iend; i++) {
-				gcWindow *window = dynamic_cast <gcView*> (*i)->GetGCWindow ();
+				gcWindow *window = dynamic_cast <gcView*> (*i)->GetWindow ();
 				GtkWindow *w = window->GetWindow ();
 				gtk_window_present (w);
 				if (max > 1) {

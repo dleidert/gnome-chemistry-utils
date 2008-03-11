@@ -94,7 +94,6 @@ static double gnome_canvas_line_ext_point       (GnomeCanvasItem *item, double x
 					     int cx, int cy, GnomeCanvasItem **actual_item);
 static void   gnome_canvas_line_ext_bounds      (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2);
 static void   gnome_canvas_line_ext_render      (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
-static void   gnome_canvas_line_ext_print       (GPrintable *gprintable, GnomePrintContext *pc);
 static void   gnome_canvas_line_ext_export_svg (GPrintable *printable, xmlDocPtr doc, xmlNodePtr node);
 static void   gnome_canvas_line_ext_draw_cairo (GPrintable *gprintable, cairo_t *cr);
 
@@ -103,7 +102,6 @@ static GnomeCanvasItemClass *parent_class;
 static void
 gnome_canvas_line_print_init (GPrintableIface *iface)
 {
-	iface->print = gnome_canvas_line_ext_print;
 	iface->export_svg = gnome_canvas_line_ext_export_svg;
 	iface->draw_cairo = gnome_canvas_line_ext_draw_cairo;
 }
@@ -1065,80 +1063,6 @@ gnome_canvas_line_ext_bounds (GnomeCanvasItem *item, double *x1, double *y1, dou
 	}
 
 	get_bounds (line, x1, y1, x2, y2);
-}
-
-static void
-gnome_canvas_line_ext_print (GPrintable *gprintable, GnomePrintContext *pc)
-{
-	gdouble width;
-	gint i;
-	GnomeCanvasLine *line;
-	GnomeCanvasLineExt *lineext;
-	gdouble dashes[2] = {3.0, 2.0};
-	
-	line = GNOME_CANVAS_LINE (gprintable);
-	lineext = GNOME_CANVAS_LINE_EXT (gprintable);
-	
-	if (line->num_points == 0)
-		return;
-
-	gnome_print_setrgbcolor (pc, ((double)(line->fill_rgba >> 24)) / 255.0,
-								    ((double)((line->fill_rgba >> 16) & 0xff)) / 255.0,
-								    ((double)((line->fill_rgba >> 8) & 0xff)) / 255.0);
-	gnome_print_setopacity(pc, ((double) (line->fill_rgba & 0xff)) / 255.0);
-
-	if (line->width_pixels)
-		width = (double) line->width / line->item.canvas->pixels_per_unit;
-	else
-		width = line->width;
-	gnome_print_setlinewidth (pc, width);
-
-	if (line->first_arrow || line->last_arrow) gnome_print_setlinecap (pc, ART_PATH_STROKE_CAP_BUTT);
-	else switch (line->cap)
-	{
-		case GDK_CAP_ROUND: gnome_print_setlinecap (pc, ART_PATH_STROKE_CAP_ROUND); break;
-		case GDK_CAP_PROJECTING: gnome_print_setlinecap (pc, ART_PATH_STROKE_CAP_SQUARE); break;
-		default: gnome_print_setlinecap (pc, ART_PATH_STROKE_CAP_BUTT); break;
-	}
-	
-	gnome_print_setlinejoin (pc, (gint) line->join);
-	
-	gnome_print_setdash(pc, (line->line_style == GDK_LINE_ON_OFF_DASH)? 2: 0, dashes, 0);
-	
-	gnome_print_moveto (pc, line->coords[0], line->coords[1]);
-	for (i = 1; i < line->num_points; i++)
-		gnome_print_lineto (pc, line->coords[2 * i], line->coords[2 * i + 1]);/*FIXME: Change that for spline lines!*/
-		
-	gnome_print_stroke (pc);
-	gnome_print_setlinewidth (pc, 0.0);
-
-	if (line->first_arrow && line->first_coords)
-	{
-		gnome_print_newpath (pc);
-		gnome_print_moveto(pc, line->first_coords[0], line->first_coords[1]);
-		gnome_print_lineto(pc, line->first_coords[2], line->first_coords[3]);
-		gnome_print_lineto(pc, line->first_coords[4], line->first_coords[5]);
-		gnome_print_lineto(pc, line->first_coords[6], line->first_coords[7]);
-		gnome_print_lineto(pc, line->first_coords[8], line->first_coords[9]);
-		if (lineext->first_arrow_head_style == ARROW_HEAD_BOTH)
-			gnome_print_lineto(pc, line->first_coords[10], line->first_coords[11]);
-		gnome_print_closepath (pc);
-		gnome_print_fill (pc);
-	}
-	
-	if (line->last_arrow && line->last_coords)
-	{
-		gnome_print_newpath (pc);
-		gnome_print_moveto(pc, line->last_coords[0], line->last_coords[1]);
-		gnome_print_lineto(pc, line->last_coords[2], line->last_coords[3]);
-		gnome_print_lineto(pc, line->last_coords[4], line->last_coords[5]);
-		gnome_print_lineto(pc, line->last_coords[6], line->last_coords[7]);
-		gnome_print_lineto(pc, line->last_coords[8], line->last_coords[9]);
-		if (lineext->last_arrow_head_style == ARROW_HEAD_BOTH)
-			gnome_print_lineto(pc, line->last_coords[10], line->last_coords[11]);
-		gnome_print_closepath (pc);
-		gnome_print_fill (pc);
-	}
 }
 
 static void

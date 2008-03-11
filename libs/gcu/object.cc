@@ -367,10 +367,6 @@ void Object::Add (GtkWidget* w)
 	}
 }
 
-void Object::Print (GnomePrintContext *pc)
-{
-}
-
 void Object::Update (GtkWidget* w)
 {
 	map<string, Object*>::iterator i, end = m_Children.end ();

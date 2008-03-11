@@ -23,7 +23,6 @@
 #define _INC_G_PRINTABLE_H
 
 #include <glib-object.h>
-#include <libgnomeprint/gnome-print.h>
 #include <libxml/tree.h>
 #include <cairo/cairo.h>
 
@@ -36,7 +35,6 @@ struct _GPrintableIface {
   GTypeInterface interface;
 
   /* virtual functions */
-  void (*print)       (GPrintable *, GnomePrintContext*);
   void (*export_svg)  (GPrintable *, xmlDocPtr, xmlNodePtr);
   void (*draw_cairo)  (GPrintable *, cairo_t*);
 };
@@ -48,7 +46,6 @@ struct _GPrintableIface {
 
 GType    g_printable_get_type              (void);
 
-void     g_printable_print             (GPrintable *gprintable, GnomePrintContext *pc);
 void     g_printable_export_svg        (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr node);
 void     g_printable_draw_cairo        (GPrintable *gprintable, cairo_t *cr);
 

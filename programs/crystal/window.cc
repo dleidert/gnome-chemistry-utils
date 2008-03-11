@@ -454,12 +454,12 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
 	gtk_toolbar_set_tooltips(GTK_TOOLBAR(bar), true);
 	m_View = dynamic_cast<gcView *> (m_Doc->GetView ());
-	if (m_View->GetGCWindow () != NULL) {
+	if (m_View->GetWindow () != NULL) {
 		m_View = dynamic_cast<gcView *> (m_Doc->CreateNewView ());
-		m_View->SetGCWindow (this);
+		m_View->SetWindow (this);
 		m_Doc->AddView (m_View);
 	} else
-		m_View->SetGCWindow (this);
+		m_View->SetWindow (this);
 	gtk_box_pack_start (GTK_BOX (vbox), m_View->GetWidget (), true, true, 0);
 	m_Bar = gtk_statusbar_new ();
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");

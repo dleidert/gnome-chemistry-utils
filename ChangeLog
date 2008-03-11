@@ -1,5 +1,48 @@
 ##Text encoding: utf-8
 
+2008-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: remove GnomePrint dependency.
+	* glade/gchemcalc.glade: add buttons for printing.
+	* libs/canvas/Makefile.am: remove GnomePrint dependency.
+	* libs/canvas/gcp-canvas-group.c: ditto.
+	* libs/canvas/gcp-canvas-line.c:  ditto.
+	* libs/canvas/gcp-canvas-pango.c:  ditto.
+	* libs/canvas/gcp-canvas-shape.c: ditto.
+	* libs/canvas/gnome-print-pango.c: removed obsolete.
+	* libs/canvas/gnome-print-pango.h: ditto.
+	* libs/canvas/gprintable.c: remove GnomePrint dependency.
+	* libs/canvas/gprintable.h: ditto.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/reaction-step.h: add missing header.
+	* libs/gcp/view.cc: remove GnomePrint dependency.
+	* libs/gcp/view.h: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcp/window.h: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/element.cc: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+	* libs/gcu/print-setup-dlg.cc: ditto.
+	* libs/gcu/printable.cc: ditto.
+	* libs/gcu/printable.h: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+	* programs/3d/window.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/spectra/gspectrum.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+	* programs/spectra/window.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+
 2008-03-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/selection/selectiontool.cc: always update the state
 	of the 	merge button after using it. [#22485]

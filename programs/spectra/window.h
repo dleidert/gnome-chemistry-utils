@@ -41,16 +41,12 @@ public:
 
 	void OnFileOpen ();
 	void OnPageSetup ();
-	void OnFilePrint (bool preview);
 	void OnFileClose ();
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 	void OnCopy ();
 	void SetTitle (std::string const &title);
 
 private:
 	GtkWindow* m_Window;
-	GtkPrintSettings *m_PrintSettings;
-	GtkPageSetup *m_PageSetup;
 
 GCU_RO_PROP (gsvApplication *, App);
 GCU_RO_PROP (gsvView *, View);

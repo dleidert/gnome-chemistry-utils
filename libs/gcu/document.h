@@ -41,7 +41,7 @@ class Dialog;
 /*!\class Document gcu/document.h
 This class is the base document class.
 */
-class Document: public Object, public DialogOwner
+class Document: public Object, virtual public DialogOwner
 {
 friend class Object;
 friend class Dialog;

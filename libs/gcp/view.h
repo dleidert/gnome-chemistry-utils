@@ -27,7 +27,6 @@
 
 #include <map>
 #include <list>
-#include <libgnomeprint/gnome-print.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <canvas/gcp-canvas-pango.h>
 #include <gcu/macros.h>
@@ -59,7 +58,6 @@ public:
 	GtkWidget* CreateNewWidget ();
 	void OnDestroy (GtkWidget* widget);
 	GnomeCanvasItem* GetCanvasItem (GtkWidget* widget, gcu::Object* Object);
-	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
 	GnomeCanvasItem* GetBackground ();
 	double GetZoomFactor ();
 	void UpdateFont ();
@@ -91,6 +89,7 @@ public:
 	void Zoom (double zoom);
 	void ShowCursor (bool show);
 	void UpdateTheme ();
+	void Render (cairo_t *cr);
 
 	//Implementation
 private:

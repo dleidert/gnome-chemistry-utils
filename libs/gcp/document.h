@@ -31,9 +31,9 @@
 #include <string>
 #include <libxml/tree.h>
 #include <gtk/gtk.h>
-#include <libgnomeprint/gnome-print.h>
 #include <gcu/document.h>
 #include <gcu/macros.h>
+#include <gcu/printable.h>
 #include "atom.h"
 #include "fragment.h"
 #include "bond.h"
@@ -56,7 +56,7 @@ class Application;
 class Window;
 class Theme;
 
-class Document: public gcu::Document
+	class Document: public gcu::Document, public gcu::Printable
 {
 	//Constructor and destructor
 public:
@@ -80,7 +80,7 @@ public:
 	const gchar* GetLabel ();
 	void SetFileName (std::string const &, const gchar *mime_type);
 	const gchar* GetFileName () {return m_filename;}
-	void Print (GnomePrintContext *pc, gdouble width, gdouble height);
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 	void AddObject (Object* pObject);
 	void AddAtom (Atom* pAtom);
 	void AddFragment (Fragment* pFragment);
@@ -119,6 +119,7 @@ public:
 	bool GetReadOnly () {return m_bReadOnly;}
 	virtual double GetYAlign ();
 	Window *GetWindow () {return m_Window;}
+	GtkWindow *GetGtkWindow ();
 	void SetTheme (Theme *theme);
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 	void SetDirty (bool isDirty = true);

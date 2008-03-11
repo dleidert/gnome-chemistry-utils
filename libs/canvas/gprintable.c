@@ -39,20 +39,6 @@ g_printable_get_type (void)
 }
 
 void
-g_printable_print (GPrintable *gprintable, GnomePrintContext *pc)
-{
-	GPrintableIface *iface;
-
-	g_return_if_fail (G_IS_PRINTABLE (gprintable));
-	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (pc));
-
-	iface = G_PRINTABLE_GET_IFACE (gprintable);
-
-	if (iface->print)
-		iface->print (gprintable, pc);
-}
-
-void
 g_printable_export_svg (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr node)
 {
 	GPrintableIface *iface;

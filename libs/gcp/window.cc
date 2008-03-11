@@ -31,10 +31,7 @@
 #include "view.h"
 #include "zoomdlg.h"
 #include <gcu/filechooser.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
+#include <gcu/print-setup-dlg.h>
 #include <glib/gi18n-lib.h>
 
 static void on_destroy (GtkWidget* widget, gcp::Window* Win)
@@ -83,9 +80,19 @@ static void on_properties(GtkWidget* widget, gcp::Window* Win)
 	Win->OnProperties ();
 }
 
-void on_print(GtkWidget* widget, gcp::Window* Win)
+static void on_page_setup (GtkWidget *widget, gcp::Window* Win)
 {
-	Win->OnPrint ();
+	Win->OnPageSetup ();
+}
+
+static void on_print_preview (GtkWidget *widget, gcp::Window* Win)
+{
+	Win->GetDocument ()->Print (true);
+}
+
+static void on_file_print (GtkWidget *widget, gcp::Window* Win)
+{
+	Win->GetDocument ()->Print (false);
 }
 
 static void on_file_close (GtkWidget* widget, gcp::Window *Win)
@@ -278,8 +285,12 @@ static GtkActionEntry entries[] = {
 		  N_("Save the current file with a different name"), G_CALLBACK (on_file_save_as) },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
 		  N_("Save the current file as an image"), G_CALLBACK (on_file_save_as_image) },
+	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
+		  N_("Setup the page settings for your current printer"), G_CALLBACK (on_page_setup) },
+	  { "PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Pre_view"), NULL,
+		  N_("Print preview"), G_CALLBACK (on_print_preview) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
-		  N_("Print the current file"), G_CALLBACK (on_print) },
+		  N_("Print the current file"), G_CALLBACK (on_file_print) },
 	  { "Properties", GTK_STOCK_PROPERTIES, N_("Prope_rties..."), NULL,
 		  N_("Modify the file's properties"), G_CALLBACK (on_properties) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
@@ -353,6 +364,8 @@ static const char *ui_description =
 "      <menuitem action='SaveAs'/>"
 "      <menuitem action='SaveAsImage'/>"
 "      <separator name='file-sep1'/>"
+"      <menuitem action='PageSetup'/>"
+"      <menuitem action='PrintPreview'/>"
 "      <menuitem action='Print'/>"
 "      <separator name='file-sep2'/>"
 "      <menuitem action='Properties'/>"
@@ -573,48 +586,6 @@ void Window::OnProperties()
 	m_Document->OnProperties ();
 }
 
-void Window::OnPrint()
-{
-	GnomePrintConfig* config = gnome_print_config_default ();
-	GnomePrintContext *pc;// = gnome_print_context_new (config);
-	GnomePrintJob *gpj = gnome_print_job_new (config);
-	int do_preview = 0, copies = 1, collate = 0;
-	GnomePrintDialog *gpd;
-	gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new(gpj, (const guchar*)_("Print"), GNOME_PRINT_DIALOG_COPIES));
-	gtk_window_set_icon_name (GTK_WINDOW (gpd), "gchempaint");
-	gnome_print_dialog_set_copies (gpd, copies, collate);
-	switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
-	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		do_preview = 0;
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		do_preview = 1;
-		break;
-	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (gpd));
-		return;
-	}
-	gtk_widget_destroy (GTK_WIDGET (gpd));
-	pc = gnome_print_job_get_context (gpj);
-	gnome_print_beginpage (pc, (const guchar*)"");
-	gdouble width, height;
-	gnome_print_config_get_double (config, (guchar const*) GNOME_PRINT_KEY_PAPER_WIDTH, &width);
-	gnome_print_config_get_double (config, (guchar const*) GNOME_PRINT_KEY_PAPER_HEIGHT, &height);
-	m_Document->Print (pc, width, height);
-	gnome_print_showpage (pc);
-	g_object_unref (pc);
-	gnome_print_job_close (gpj);
-	if (do_preview) {
-		GtkWidget *preview = gnome_print_job_preview_new (gpj, (const guchar*)_("Preview"));
-		gtk_window_set_icon_name (GTK_WINDOW (preview), "gchempaint");
-		gtk_widget_show (preview);
-	} else {
-		gnome_print_job_print (gpj);
-	}
-	g_object_unref (gpj);
-	gnome_print_config_unref (config);
-}
-
 void Window::SetActive (gcp::Document* pDoc, GtkWidget* w)
 {
 }
@@ -771,6 +742,11 @@ bool Window::VerifySaved ()
 		m_Document->SetDirty (false);
 	g_free(str);
 	return (res != GTK_RESPONSE_CANCEL);
+}
+
+void Window::OnPageSetup ()
+{
+	new PrintSetupDlg (m_App, m_Document);
 }
 
 } // namespace gcp

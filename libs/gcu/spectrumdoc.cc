@@ -38,17 +38,22 @@ using namespace std;
 namespace gcu
 {
 
-SpectrumDocument::SpectrumDocument (): Document (NULL), m_Empty (true)
+SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (true)
 {
 	m_View = new SpectrumView (this);
 	x = y = NULL;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
+	gtk_page_setup_set_orientation (GetPageSetup (), GTK_PAGE_ORIENTATION_LANDSCAPE);
+	SetScaleType (GCU_PRINT_SCALE_AUTO);
+	SetHorizFit (true);
+	SetVertFit (true);
 }
 
 SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 	Document (App),
+	Printable (),
 	m_Empty (true)
 {
 	m_View = (View)? View: new SpectrumView (this);
@@ -56,6 +61,10 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
+	gtk_page_setup_set_orientation (GetPageSetup (), GTK_PAGE_ORIENTATION_LANDSCAPE);
+	SetScaleType (GCU_PRINT_SCALE_AUTO);
+	SetHorizFit (true);
+	SetVertFit (true);
 }
 
 SpectrumDocument::~SpectrumDocument ()
@@ -919,6 +928,49 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 		l.push_back (val);
 		pos = true;
 	}
+}
+
+void SpectrumDocument::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+{
+	cairo_t *cr;
+	gdouble width, height;
+	GtkWidget *widget = m_View->GetWidget ();
+
+	cr = gtk_print_context_get_cairo_context (context);
+	width = gtk_print_context_get_width (context);
+	height = gtk_print_context_get_height (context);
+	int w, h; // size in points
+	w = widget->allocation.width;
+	h = widget->allocation.height;
+	switch (GetScaleType ()) {
+	case GCU_PRINT_SCALE_NONE:
+		break;
+	case GCU_PRINT_SCALE_FIXED:
+		w *= Printable::GetScale ();
+		h *= Printable::GetScale ();
+		break;
+	case GCU_PRINT_SCALE_AUTO:
+		if (GetHorizFit ())
+			w = width;
+		if (GetVertFit ())
+			h = height;
+		break;
+	}
+	double x = 0., y = 0.;
+	if (GetHorizCentered ())
+		x = (width - w) / 2.;
+	if (GetVertCentered ())
+		y = (height - h) / 2.;
+	cairo_save (cr);
+	cairo_translate (cr, x, y);
+	m_View->Render (cr, w, h);
+	cairo_restore (cr);
+}
+
+GtkWindow *SpectrumDocument::GetGtkWindow ()
+{
+	GtkWidget *w = m_View->GetWidget ();
+	return (GtkWindow*) ((w)? gtk_widget_get_toplevel (m_View->GetWidget ()): NULL);
 }
 
 }	//	nampespace gcu

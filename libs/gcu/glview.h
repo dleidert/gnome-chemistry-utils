@@ -34,7 +34,6 @@
 #include <gconf/gconf-client.h>
 #endif
 #include <gtk/gtkwidget.h>
-#include <libgnomeprint/gnome-print.h>
 #include <map>
 #include <string>
 
@@ -131,7 +130,7 @@ Generates a pixbuf from the current view.
 */
 	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height);
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
-	GtkWindow *GetWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget));}
+	GtkWindow *GetGtkWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget));}
 
 private:
 /*!

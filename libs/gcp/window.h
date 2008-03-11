@@ -42,7 +42,6 @@ public:
 	void OnFileNew ();
 	void OnFileOpen ();
 	void OnProperties ();
-	void OnPrint ();
 	void SetActive (gcp::Document* pDoc, GtkWidget* w);
 	void OnUndo ();
 	void OnRedo ();
@@ -69,6 +68,7 @@ public:
 	void SetTitle (char const *title);
 	void ActivateActionWidget (char const *path, bool activate); 
 	bool VerifySaved ();
+	void OnPageSetup ();
 
 protected:
 	gcp::Application *m_App;

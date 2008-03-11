@@ -30,9 +30,6 @@
 #include <gcu/print-setup-dlg.h>
 #include <goffice/gtk/go-action-combo-color.h>
 #include <goffice/utils/go-image.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>

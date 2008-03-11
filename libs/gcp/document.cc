@@ -401,9 +401,59 @@ void Document::ExportOB ()
 	}
 }
 
-void Document::Print (GnomePrintContext *pc, gdouble width, gdouble height)
+void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
 {
-	m_pView->Print (pc, width, height);
+	cairo_t *cr;
+	double width, height, x, y, w, h;
+
+	// TODO: support multiple pages
+	cr = gtk_print_context_get_cairo_context (context);
+	width = gtk_print_context_get_width (context);
+	height = gtk_print_context_get_height (context);
+	// adjust position and size
+	GtkWidget* widget = m_pView->GetWidget ();
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (widget), "data");
+	ArtDRect rect;
+	pData->GetObjectBounds (this, &rect);
+	double scale = 1.;
+	x = rect.x0;
+	y = rect.y0;
+	w = rect.x1 - rect.x0;
+	h = rect.y1 - rect.y0;
+	cairo_save (cr);
+	cairo_rectangle (cr, 0, 0, width, height);
+	cairo_clip (cr);
+	switch (GetScaleType ()) {
+	case GCU_PRINT_SCALE_NONE:
+		break;
+	case GCU_PRINT_SCALE_FIXED:
+		scale *= Printable::GetScale ();
+		x *= scale;
+		y *= scale;
+		w *= scale;
+		h *= scale;
+		break;
+	case GCU_PRINT_SCALE_AUTO:
+		if (GetHorizFit () && GetVertFit ())
+			scale *= min (width / w, height / h);
+		else if (GetHorizFit ())
+			scale *= width / w;
+		else if (GetVertFit ())
+			scale *= height / h;
+		x *= scale;
+		y *= scale;
+		w *= scale;
+		h *= scale;
+		break;
+	}
+	if (GetHorizCentered ())
+		x -= (width - w) / 2;
+	if (GetVertCentered ())
+		y -= (height - h) / 2;
+	cairo_translate (cr, -x, -y);
+	cairo_scale (cr, scale, scale);
+	m_pView->Render (cr);
+	cairo_restore (cr);
 }
 
 void Document::AddAtom (Atom* pAtom)
@@ -1361,10 +1411,15 @@ bool Document::SetProperty (unsigned property, char const *value)
 		double length = strtod (value, &end);
 		if (*end != 0)
 			return false;
-		m_Scale = m_Theme->GetBondLength () / length; 
+		gcu::Document::m_Scale = m_Theme->GetBondLength () / length; 
 	}
 	}
 	return true;
+}
+
+GtkWindow *Document::GetGtkWindow ()
+{
+	return (m_Window)? m_Window->GetWindow (): NULL;
 }
 
 

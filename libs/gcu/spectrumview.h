@@ -56,6 +56,10 @@ The destructor of SpectrumView.
 */
 	void SetAxisLabel (GogAxisType target, char const *unit);
 
+/*!
+*/
+	void Render (cairo_t *cr, double width, double height);
+
 /*!\fn GetDoc()
 @return the associated document.
 */

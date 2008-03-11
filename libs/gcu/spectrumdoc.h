@@ -25,6 +25,7 @@
 
 #include "document.h"
 #include "macros.h"
+#include "printable.h"
 
 namespace gcu
 {
@@ -54,7 +55,7 @@ typedef enum {
 class Application;
 class SpectrumView;
 
-class SpectrumDocument: public Document
+class SpectrumDocument: public Document, public Printable
 {
 public:
 /*!
@@ -84,6 +85,8 @@ Loads a spaectrum from the provided uri. Default mime type is NULL,
 private:
 	void LoadJcampDx (char const *data);
 	void ReadDataLine (char const *data, std::list<double> &l);
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+	GtkWindow *GetGtkWindow ();
 
 private:
 	double *x, *y;

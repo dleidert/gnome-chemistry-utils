@@ -526,19 +526,38 @@ void GChemTableCurve::DoPrint (GtkPrintOperation *print, GtkPrintContext *contex
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);
 	height = gtk_print_context_get_height (context);
-	gog_graph_render_to_cairo (m_Graph, cr, width, height);
+
+	int w, h; // size in points
+	w = m_GraphWidget->allocation.width;
+	h = m_GraphWidget->allocation.height;
+	switch (GetScaleType ()) {
+	case GCU_PRINT_SCALE_NONE:
+		break;
+	case GCU_PRINT_SCALE_FIXED:
+		w *= Printable::GetScale ();
+		h *= Printable::GetScale ();
+		break;
+	case GCU_PRINT_SCALE_AUTO:
+		if (GetHorizFit ())
+			w = width;
+		if (GetVertFit ())
+			h = height;
+		break;
+	}
+	double x = 0., y = 0.;
+	if (GetHorizCentered ())
+		x = (width - w) / 2.;
+	if (GetVertCentered ())
+		y = (height - h) / 2.;
+	cairo_save (cr);
+	cairo_translate (cr, x, y);
+	gog_graph_render_to_cairo (m_Graph, cr, w, h);
+	cairo_restore (cr);
 }
 
 void GChemTableCurve::OnPageSetup ()
 {
 	new PrintSetupDlg (m_App, this);
-/*	GtkPageSetup *setup = gtk_print_run_page_setup_dialog (
-											dialog,
-											m_PageSetup,
-											m_PrintSettings
-										);
-	g_object_unref (m_PageSetup);
-	m_PageSetup = setup;*/
 }
 
 void GChemTableCurve::OnCopy ()

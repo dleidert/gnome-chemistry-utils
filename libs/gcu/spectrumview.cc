@@ -78,4 +78,9 @@ void SpectrumView::SetAxisLabel (GogAxisType target, char const *unit)
 	
 }
 
+void SpectrumView::Render (cairo_t *cr, double width, double height)
+{
+	gog_graph_render_to_cairo (go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_Widget)), cr, width, height);
+}
+
 }	//	namespace gcu

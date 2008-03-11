@@ -573,7 +573,6 @@ void GLView::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);
 	height = gtk_print_context_get_height (context);
-	// Assume we do not resize
 	int w, h; // size in points
 	w = m_pWidget->allocation.width;
 	h = m_pWidget->allocation.height;

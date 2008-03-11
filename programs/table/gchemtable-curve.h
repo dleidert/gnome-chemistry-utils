@@ -50,7 +50,7 @@ public:
 
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 	void SetGraph (GogGraph *graph);
-	GtkWindow *GetWindow () {return GTK_WINDOW (dialog);}
+	GtkWindow *GetGtkWindow () {return GTK_WINDOW (dialog);}
 
 private:
 	std::string m_Name;

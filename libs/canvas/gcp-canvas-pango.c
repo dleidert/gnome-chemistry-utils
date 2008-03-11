@@ -20,7 +20,6 @@
 
 #include "config.h"
 #include "gcp-canvas-pango.h"
-#include "gnome-print-pango.h"
 #include "gprintable.h"
 #include <glib/gi18n-lib.h>
 #include <cairo/cairo.h>
@@ -102,7 +101,6 @@ static gint gnome_canvas_pango_event(GnomeCanvasItem *item,
 					 GdkEvent *event);
 static void gnome_canvas_pango_get_bounds(GnomeCanvasItem *text, double *px1, double *py1,
 	   double *px2, double *py2);
-static void gnome_canvas_pango_print       (GPrintable *gprintable, GnomePrintContext *pc);
 static void gnome_canvas_pango_export_svg   (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr node);
 static void gnome_canvas_pango_draw_cairo (GPrintable *gprintable, cairo_t *cr);
 /* some code imported from gnumeric/src/workbook-edit.c */
@@ -312,7 +310,6 @@ blink_cb (gpointer data)
 static void
 gnome_canvas_pango_print_init (GPrintableIface *iface)
 {
-	iface->print = gnome_canvas_pango_print;
 	iface->export_svg = gnome_canvas_pango_export_svg;
 	iface->draw_cairo = gnome_canvas_pango_draw_cairo;
 }
@@ -1475,23 +1472,6 @@ gnome_canvas_pango_apply_attrs_to_selection (GnomeCanvasPango *text,
 	}
 }
 
-static void
-gnome_canvas_pango_print (GPrintable *gprintable, GnomePrintContext *pc)
-{
-	GnomeCanvasPango *text = GNOME_CANVAS_PANGO (gprintable);
-	double ax, ay;
-	g_return_if_fail (text);
-	adjust_for_anchors (text, &ax, &ay);
-	gnome_print_gsave (pc);
-	gnome_print_translate (pc, ax, ay);
-#ifdef GP_HAS_PANGO
-	pango_layout_print (pc, text->_priv->layout);
-#else	
-	gpc_print_pango_layout_print (pc, text->_priv->layout);
-#endif
-	gnome_print_grestore (pc);
-}
-
 extern void pango_layout_to_svg (PangoLayout* layout, xmlDocPtr doc, xmlNodePtr node, double x, double y);
 
 static void
@@ -1511,6 +1491,7 @@ gnome_canvas_pango_draw_cairo (GPrintable *gprintable, cairo_t *cr)
 	double ax, ay;
 	g_return_if_fail (text);
 	adjust_for_anchors (text, &ax, &ay);
+	cairo_move_to (cr, ax, ay);
 	pango_cairo_show_layout (cr, text->_priv->layout);
 }
 

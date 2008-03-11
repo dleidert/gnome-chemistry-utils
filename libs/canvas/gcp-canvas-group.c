@@ -41,14 +41,12 @@
 
 static void gnome_canvas_group_ext_class_init   (GnomeCanvasGroupExtClass *class);
 static void gnome_canvas_group_ext_init         (GnomeCanvasGroupExt     *group_ext);
-static void gnome_canvas_group_ext_print       (GPrintable *gprintable, GnomePrintContext *pc);
 static void gnome_canvas_group_ext_export_svg  (GPrintable *gprintable, xmlDocPtr doc, xmlNodePtr node);
 static void gnome_canvas_group_ext_draw_cairo  (GPrintable *gprintable, cairo_t *ct);
 
 static void
 gnome_canvas_group_print_init (GPrintableIface *iface)
 {
-	iface->print = gnome_canvas_group_ext_print;
 	iface->export_svg = gnome_canvas_group_ext_export_svg;
 	iface->draw_cairo = gnome_canvas_group_ext_draw_cairo;
 }
@@ -94,29 +92,6 @@ gnome_canvas_group_ext_class_init (GnomeCanvasGroupExtClass *class)
 static void
 gnome_canvas_group_ext_init (GnomeCanvasGroupExt *group_ext)
 {
-}
-
-void gnome_canvas_group_ext_print (GPrintable *printable, GnomePrintContext *pc)
-{
-	GList *list;
-	double affine[6];
-	GnomeCanvasItem *item;
-	g_return_if_fail (GNOME_IS_CANVAS_GROUP_EXT (printable));
-	for (list = GNOME_CANVAS_GROUP (printable) ->item_list; list; list = list->next) {
-		item = GNOME_CANVAS_ITEM (list->data);
-		if (!(item->object.flags & GNOME_CANVAS_ITEM_VISIBLE))
-			continue;
-		if (GNOME_IS_CANVAS_GROUP_EXT(item))
-			gnome_canvas_group_ext_print (G_PRINTABLE (item), pc);
-		else if (G_IS_PRINTABLE (item))
-		{
-			gnome_canvas_item_i2w_affine (item, affine);
-			gnome_print_gsave(pc);
-			gnome_print_concat(pc, affine);
-			g_printable_print (G_PRINTABLE (item), pc); 
-			gnome_print_grestore(pc);
-		}
-	}
 }
 
 static void

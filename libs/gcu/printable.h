@@ -38,7 +38,7 @@ typedef enum {
 	GCU_PRINT_SCALE_AUTO,
 } PrintScaleType;
 
-class Printable: public DialogOwner
+class Printable: virtual public DialogOwner
 {
 public:
 	Printable ();
@@ -47,7 +47,7 @@ public:
 	virtual void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) = 0;
 	virtual bool SupportsHeaders () {return false;}
 	virtual bool SupportMultiplePages () {return false;}
-	virtual GtkWindow *GetWindow () = 0;
+	virtual GtkWindow *GetGtkWindow () = 0;
 	virtual int GetPagesNumber () {return 1;}
 
 	void Print (bool preview);

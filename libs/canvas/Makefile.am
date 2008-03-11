@@ -12,8 +12,7 @@ noinst_HEADERS = \
 	gcp-canvas-bpath.h \
 	gcp-canvas-rect-ellipse.h \
 	gcp-canvas-polygon.h \
-	gcp-canvas-i18n.h \
-	gnome-print-pango.h
+	gcp-canvas-i18n.h
 
 libgcpcanvas_unstable_la_SOURCES =	\
 	gprintable.c \
@@ -24,8 +23,7 @@ libgcpcanvas_unstable_la_SOURCES =	\
 	gcp-canvas-shape.c \
 	gcp-canvas-bpath.c \
 	gcp-canvas-rect-ellipse.c \
-	gcp-canvas-polygon.c \
-	gnome-print-pango.c
+	gcp-canvas-polygon.c
 
 libgcpcanvas_unstable_la_LDFLAGS = -release $(VERSION) @GCU_LIBS@
 AM_CPPFLAGS = @GCU_CFLAGS@

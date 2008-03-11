@@ -35,7 +35,6 @@
 #include <string>
 #include <stdexcept>
 #include <gtk/gtk.h>
-#include <libgnomeprint/gnome-print.h>
 
 #define square(x) ((x)*(x))
 
@@ -356,12 +355,6 @@ Used to add a representation of the Object in the widget. This method might be o
 unless the application uses another mechanism.
 */
 	virtual void Add (GtkWidget* w);
-/*!
-@param pc: the GnomePrintContext to which the document is printed.
-
-This method might be used to print a document from an application using the Gnome Chemistry Utils.
-*/
-	virtual void Print (GnomePrintContext *pc);
 /*!
 @param w: the GtkWidget inside which the Object is displayed.
 

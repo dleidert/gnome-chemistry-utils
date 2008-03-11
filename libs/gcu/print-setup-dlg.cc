@@ -423,7 +423,7 @@ void PrintSetupDlg::OnHorizCenter ()
 
 void PrintSetupDlg::OnVertCenter ()
 {
-	m_Printable->SetVertCentered (gtk_toggle_button_get_active (m_HBtn));
+	m_Printable->SetVertCentered (gtk_toggle_button_get_active (m_VBtn));
 }
 
 void PrintSetupDlg::UpdateScale ()

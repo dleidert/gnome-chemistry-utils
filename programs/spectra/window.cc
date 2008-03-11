@@ -27,6 +27,7 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
+#include <gcu/print-setup-dlg.h>
 #include <goffice/gtk/go-graph-widget.h>
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/utils/go-locale.h>
@@ -70,12 +71,12 @@ static void on_page_setup (GtkWidget *widget, gsvWindow* Win)
 
 static void on_print_preview (GtkWidget *widget, gsvWindow* Win)
 {
-	Win->OnFilePrint (true);
+	Win->GetDoc ()->Print (true);
 }
 
 static void on_file_print (GtkWidget *widget, gsvWindow* Win)
 {
-	Win->OnFilePrint (false);
+	Win->GetDoc ()->Print (false);
 }
 
 static void on_quit (GtkWidget *widget, gsvWindow* Win)
@@ -293,8 +294,6 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	gtk_container_add (GTK_CONTAINER (vbox), m_View->GetWidget ());
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
 	// Initialize print settings
-	m_PageSetup = gtk_page_setup_new ();
-	m_PrintSettings = gtk_print_settings_new ();
 }
 
 gsvWindow::~gsvWindow ()
@@ -315,62 +314,7 @@ void gsvWindow::OnFileClose ()
 
 void gsvWindow::OnPageSetup ()
 {
-	GtkPageSetup *setup = gtk_print_run_page_setup_dialog (
-											m_Window,
-											m_PageSetup,
-											m_PrintSettings
-										);
-	g_object_unref (m_PageSetup);
-	m_PageSetup = setup;
-}
-
-static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpointer data)
-{
-	gtk_print_operation_set_n_pages (print, 1);
-}
-
-static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,gpointer data)
-{
-	((gsvWindow *) data)->DoPrint (print, context);
-}
-
-void gsvWindow::OnFilePrint (bool preview)
-{
-	GtkPrintOperation *print;
-	GtkPrintOperationResult res;
-
-	print = gtk_print_operation_new ();
-	gtk_print_operation_set_use_full_page (print, false);
-
-    gtk_print_operation_set_print_settings (print, m_PrintSettings);
-    gtk_print_operation_set_default_page_setup (print, m_PageSetup);
-
-	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), NULL);
-	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);
-	
-	res = gtk_print_operation_run (print,
-								   (preview)? GTK_PRINT_OPERATION_ACTION_PREVIEW:
-								   GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-								   m_Window, NULL);
-
-	if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
-		if (m_PrintSettings != NULL)
-			g_object_unref (m_PrintSettings);
-		m_PrintSettings = GTK_PRINT_SETTINGS (g_object_ref (gtk_print_operation_get_print_settings (print)));
-	}
-
-	g_object_unref (print);
-}
-
-void gsvWindow::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
-{
-	cairo_t *cr;
-	gdouble width, height;
-
-	cr = gtk_print_context_get_cairo_context (context);
-	width = gtk_print_context_get_width (context);
-	height = gtk_print_context_get_height (context);
-	gog_graph_render_to_cairo (go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_View->GetWidget ())), cr, width, height);
+	new gcu::PrintSetupDlg (m_App, m_Doc);
 }
 
 static GtkTargetEntry const targets[] = {

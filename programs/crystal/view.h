@@ -26,7 +26,6 @@
 #define GCRYSTAL_VIEW_H
 
 #include <libxml/parser.h>
-#include <libgnomeprint/gnome-print.h>
 #include <list>
 #include <gcu/crystalview.h>
 #include <gcu/matrix.h>
@@ -52,8 +51,8 @@ public:
 	gdouble& GetPos () {return m_Radius;}
 	void GetRotation (double *psi, double *theta, double *phi);
 	bool LoadOld (xmlNodePtr node);
-	gcWindow *GetGCWindow () {return m_Window;}
-	void SetGCWindow (gcWindow *window) {m_Window = window;}
+	gcWindow *GetWindow () {return m_Window;}
+	void SetWindow (gcWindow *window) {m_Window = window;}
 	
 private:
 

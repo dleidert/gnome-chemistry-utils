@@ -48,8 +48,6 @@ int main (int argc, char *argv[])
 		printf ("Could not initialize GnomeVFS\n");
 		return 1;
 	}
-	/* Initialize plugins manager */
-	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file]"));
@@ -63,7 +61,10 @@ int main (int argc, char *argv[])
 		}
 	}
 
+	// create a new Application. This initialize Goffice
 	gsvApplication *App = new gsvApplication ();
+	// Initialize plugins manager
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 	gsvDocument *pDoc = App->OnFileNew();
 	path = g_get_current_dir ();
 	dir = g_strconcat (path, "/", NULL);
