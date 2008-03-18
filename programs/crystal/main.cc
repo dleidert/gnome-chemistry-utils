@@ -107,7 +107,6 @@ int main(int argc, char *argv[])
 	gtk_gl_init (&argc, &argv);
 	gnome_vfs_init ();
 	Element::LoadRadii ();
-//	gnome_authentication_manager_init ();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));
 		g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);

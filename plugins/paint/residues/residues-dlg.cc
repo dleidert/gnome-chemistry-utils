@@ -4,7 +4,7 @@
  * GChemPaint residues plugin
  * residues-dlg.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +27,7 @@
 #include "pseudo-atom.h"
 #include <gcp/application.h>
 #include <gcp/document.h>
+#include <gcp/molecule.h>
 #include <gcp/residue.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>

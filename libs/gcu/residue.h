@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * residue.h 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -52,6 +52,7 @@ public:
 
 	std::map<int,int> const &GetRawFormula () const {return m_Raw;}
 	std::map<std::string, bool> const &GetSymbols () const {return m_Symbols;}
+	std::map<std::string, std::string> const &GetNames () const {return m_Names;}
 	void SetName (char const *name);
 	void AddSymbol (char const *symbol);
 	void RemoveSymbol (char const *symbol);
@@ -67,6 +68,7 @@ public:
 private:
 	std::map<int,int> m_Raw;
 	std::map<std::string, bool> m_Symbols; // boolean is true if the symbol is ambiguous
+	std::map<std::string, std::string> m_Names; // boolean is true if the symbol is ambiguous
 
 GCU_RO_PROP (char const *, Name)
 GCU_PROP (bool, Generic)

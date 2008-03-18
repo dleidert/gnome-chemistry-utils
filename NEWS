@@ -3,10 +3,26 @@ Version 0.9.3
 		* show multiple bonds as multiple cylinders
 		in ball and stick mode.
 		* prints using GtkPrint.
+		* Loads files using GIO.
 	calc:
 		* display molar and monoisotopic masses with more digits.
-	gchempaint:
+		* prints isotopic pattern chart.
+	CGhemPaint:
 		* Fix loading of double reaction arrows. [#22223]
+		* prints using GtkPrint and Cairo.
+		* enhanced loaders for cdx and cdxml files.
+		* initial support for nicknames and generic symbols in
+		molecules. [#21728]
+		* Do not crash after failing to merge two molecules. [#22485]
+	Gnome Crystal:
+		* prints using GtkPrint.
+	GSpectrum:
+		* prints using GtkPrint.
+	periodic table:
+		* prints charts using GtkPrint.
+	libgcu:
+		* new classes: gcu::Printable, gcu::PrintSetupDlg for
+		GtkPrint support.
 
 Version 0.9.2
 	3d viewer:

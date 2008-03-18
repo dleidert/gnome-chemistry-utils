@@ -4,7 +4,7 @@
  * GChemPaint library
  * document.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,8 +28,11 @@
 #include "document.h"
 #include "settings.h"
 #include "docprop.h"
+#include "fragment.h"
 #include "reaction.h"
 #include "mesomery.h"
+#include "molecule.h"
+#include "residue.h"
 #include "text.h"
 #include "theme.h"
 #include "tool.h"
@@ -583,6 +586,7 @@ void Document::Save ()
 		return;
 	xmlDocPtr xml = NULL;
 	char *old_num_locale, *old_time_locale;
+	m_SavedResidues.clear ();
 	
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
@@ -595,9 +599,11 @@ void Document::Save ()
 		else {
 			xml = BuildXMLTree ();
 			xmlSetDocCompressMode (xml, CompressionLevel);
-			
-			xmlIndentTreeOutput = true;
-			xmlKeepBlanksDefault (0);
+
+			if (!CompressionLevel) {
+				xmlIndentTreeOutput = true;
+				xmlKeepBlanksDefault (0);
+			}
 		
 			GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
 			gnome_vfs_get_file_info (m_filename, info, GNOME_VFS_FILE_INFO_DEFAULT);
@@ -637,6 +643,7 @@ void Document::Save ()
 	g_free (old_num_locale);
 	setlocale (LC_TIME, old_time_locale);
 	g_free (old_time_locale);
+	m_SavedResidues.clear ();
 }
 
 bool Document::Load (xmlNodePtr root)
@@ -1422,5 +1429,40 @@ GtkWindow *Document::GetGtkWindow ()
 	return (m_Window)? m_Window->GetWindow (): NULL;
 }
 
+void Document::SaveResidue (Residue const *r, xmlNodePtr node)
+{
+	if (m_SavedResidues.find (r) == m_SavedResidues.end ()) {
+		m_SavedResidues.insert (r);
+		xmlNewProp (node, (xmlChar const *) "raw", (xmlChar const *) const_cast <Molecule*> (r->GetMolecule ())->GetRawFormula ().c_str ());
+		xmlNewProp (node, (xmlChar const *) "generic", (xmlChar const *) (r->GetGeneric ()? "true": "false"));
+		map<string, bool> const &symbols = r->GetSymbols ();
+		map<string, bool>::const_iterator i = symbols.begin (), iend = symbols.end ();
+		string s = (*i).first;
+		for (i++; i != iend; i++) {
+			s += ";";
+			s += (*i).first;
+		}
+		xmlNodePtr child = xmlNewDocNode (node->doc, NULL, (xmlChar const *) "symbols", (xmlChar const *) s.c_str ());
+		xmlAddChild (node, child);
+		map<string, string> const &names = r->GetNames ();
+		map<string, string>::const_iterator j, jend = names.end ();
+		j = names.find ("C");
+		if (j != jend) {
+			child = xmlNewDocNode (node->doc, NULL, (xmlChar const *) "name", (xmlChar const *) (*j).second.c_str ());
+			xmlAddChild (node, child);
+		}
+		for (j = names.begin (); j != jend; j++) {
+			if ((*j).first == "C")
+				continue;
+			child = xmlNewDocNode (node->doc, NULL, (xmlChar const *) "name", (xmlChar const *) (*j).second.c_str ());
+			xmlNodeSetLang (child, (xmlChar const *) (*j).first.c_str ());
+			xmlAddChild (node, child);
+		}
+		child = const_cast <Molecule*> (r->GetMolecule ())->Save (node->doc);
+		if (child) {
+			xmlAddChild (node, child);
+		}
+	}
+}
 
 }	//	namespace gcp

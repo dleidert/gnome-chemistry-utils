@@ -4,7 +4,7 @@
  * GChemPaint bonds plugin
  * bondtool.cc
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,6 +29,7 @@
 #include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
+#include <gcp/fragment.h>
 #include <gcp/theme.h>
 #include <canvas/gcp-canvas-group.h>
 #include <glib/gi18n-lib.h>

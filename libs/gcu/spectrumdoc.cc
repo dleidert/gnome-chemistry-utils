@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * spectrumdoc.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -42,6 +42,7 @@ SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (t
 {
 	m_View = new SpectrumView (this);
 	x = y = NULL;
+	z = NULL;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -58,6 +59,7 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 {
 	m_View = (View)? View: new SpectrumView (this);
 	x = y = NULL;
+	z = NULL;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -73,6 +75,8 @@ SpectrumDocument::~SpectrumDocument ()
 		delete[] x;
 	if (y)
 		delete[] y;
+	if (z)
+		delete[] z;
 }
 
 void SpectrumDocument::Load (char const *uri, char const *mime_type)

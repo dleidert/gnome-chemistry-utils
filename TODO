@@ -1,55 +1,58 @@
 * Periodic table:
-	* add more data using bodr.
-	* add crystal structures.
-	* allow plotting any property againt another one, i.e. ei vs vdw radius.
+	* add more data using bodr (?).
+	* add crystal structures (0.10?).
+	* allow plotting any property againt another one, i.e. ei vs vdw radius (0.10).
 	* allow charts customization (needs a new dalog, goffice one being
-	unusable in this context).
-	* write help.
+	unusable in this context) (0.10).
+	* write help (0.10).
 
 * Calculator:
-	* accept abbreviations as Ph and others (what about Ac, Pr,...?).
+	* accept ambiguous abbreviations as Ac and Pr (0.10).
+	* a lot of code cleaning (0.12).
 
 * 3d viewer:
-	* export encapsulated postscript.
-	* allow selection of atoms and or bonds, and display or lengths and angles.
+	* export encapsulated postscript (0.10).
+	* allow selection of atoms and or bonds, and display or lengths and angles (0.12).
 
 * Mozilla plugin:
-	* implement printing.
-	* support 2d rendering (using gchempaint).
-	* add a contextual dropdown menu.
+	* implement printing (?).
+	* support 2d rendering (using gchempaint) (0.10).
+	* add a contextual dropdown menu (?).
 
 * Gnome Crystal:
-	* finish cif file import.
-	* open cml files using openbabel.
-	* export to  cif and cml formats.
-	* export encapsulated postscript.
+	* finish cif file import (0.10).
+	* open cml files using openbabel (0.12).
+	* export to  cif and cml formats (needs space group sniffing) (?).
+	* export encapsulated postscript (0.10).
 
 * GChemPaint:
-	* enhance copy-and-paste support for OpenOffice.org.
+	* enhance copy-and-paste support for OpenOffice.org (?).
 	* plugin to prepare png files of molecules ready for publication in wikipedia (almost done).
-	* Use a cairo based canvas (0.10? if gtk+ permits).
+	* Use a cairo based canvas (0.12).
 	* New tools:
 		- delocalized bonds (?),
 		- week interactions (e.g. H-bonds) (?),
-		- curved arrows (in mechanisms) (?).
+		- curved arrows (in mechanisms) (0.12).
 		- curved reaction arrows and Tollman's loops (?),
 		- cluster bonds (as in boranes) (?),
 		- electron vacancies (?).
-	* Multi-steps reactions (?).
+	* Multi-steps reactions (0.10?).
 	* Scriptability (?).
-	* Enhance selection (?).
-	* Add abbreviations in fragments (0.10?).
-	* Enhance fragments (0.10?).
+	* Enhance selection (0.10?).
+	* Add abbreviations in fragments (0.10).
+	* Enhance fragments (0.10).
 	* Change cursor according to situation (?).
 	* Allow associating various objects with reaction arrows (0.10).
 
 * Goffice component:
-	* support 3d structures.
-	* move to cairo based version.
+	* support 3d structures (?).
+	* move to cairo based version (0.10).
 
 * Library:
+	* provide clipboard support at the Application level (?).
 
 * Other:
+	* Make file operation asynchroneous (especially for remote file systems).
 	* Update documentation (always).
 	* More code cleaning (always).
 	* Remove all bugs ;-)

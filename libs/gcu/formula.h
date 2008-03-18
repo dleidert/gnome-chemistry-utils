@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * formula.h 
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -34,6 +34,14 @@
 
 namespace gcu
 {
+
+typedef enum {
+	GCU_FORMULA_PARSE_GUESS,
+	GCU_FORMULA_PARSE_ATOM,
+	GCU_FORMULA_PARSE_RESIDUE,
+	GCU_FORMULA_PARSE_ASK,
+} FormulaParseMode;
+
 /*!\class parse_error gcu/formula.h
 Exception class derived from std::exception used for errors encountered
 when parsing a formula.

@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,7 +24,7 @@
 
 #include "config.h"
 #include "fragment.h"
-#include "fragment-atom.h"
+#include "fragment-residue.h"
 #include "widgetdata.h"
 #include "document.h"
 #include "application.h"
@@ -112,14 +112,46 @@ bool Fragment::OnChanged (bool save)
 		pango_layout_iter_free (iter);
 	}
 	/*main atom management*/
-	if (!m_Atom->GetZ ()) {
-		int Z = GetElementAtPos (m_StartSel, CurPos);
-		if (!Z && m_StartSel > m_BeginAtom)
-			Z = GetElementAtPos (m_StartSel = m_BeginAtom, CurPos);
-		if (Z) {
-			m_Atom->SetZ (Z);
+	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
+	Residue *r = NULL;
+	char sy[Residue::MaxSymbolLength + 1];
+	if (!m_Atom->GetZ () || (residue != NULL && residue->GetResidue () == NULL)) {
+		strncpy (sy, m_buf.c_str () + m_StartSel, Residue::MaxSymbolLength);
+		int i = Residue::MaxSymbolLength;
+		while (i > 0) {
+			sy[i] = 0;
+			r = (Residue *) Residue::GetResidue (sy, NULL);
+			if (r)
+				break;
+			i--;
+		}
+		if (r) {
+			CurPos = m_StartSel + i;
 			m_BeginAtom = m_StartSel;
 			m_EndAtom = CurPos;
+			if (residue)
+				residue->SetResidue (r);
+			else {
+				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+				Atom *pOldAtom = m_Atom;
+				m_Atom = new FragmentResidue (this, sy);
+				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				if (pBond) {
+					pBond->ReplaceAtom (pOldAtom, m_Atom);
+					m_Atom->AddBond (pBond);
+				}
+				delete pOldAtom;
+			}
+		} else {
+			int Z = GetElementAtPos (m_StartSel, CurPos);
+			if (!Z && m_StartSel > m_BeginAtom)
+				Z = GetElementAtPos (m_StartSel = m_BeginAtom, CurPos);
+			if (Z) {
+				m_Atom->SetZ (Z);
+				m_BeginAtom = m_StartSel;
+				m_EndAtom = CurPos;
+			}
 		}
 	} else if (m_EndSel <= m_BeginAtom) {
 		int delta = CurPos - m_EndSel;
@@ -127,17 +159,44 @@ bool Fragment::OnChanged (bool save)
 		m_EndAtom += delta;
 	} else if ((m_EndAtom <= m_EndSel && m_EndAtom >= m_StartSel) ||
 		(m_BeginAtom <= m_EndSel && m_BeginAtom >= m_StartSel) ||
-		(m_BeginAtom + 3 >= CurPos)) {
+		(m_BeginAtom + Residue::MaxSymbolLength >= CurPos)) {
 		if (m_BeginAtom > m_StartSel)
 			m_BeginAtom = m_StartSel;
 		if (m_EndAtom > CurPos)
 			m_EndAtom = CurPos;
-		else if (m_EndAtom < m_BeginAtom + 3)
-			m_EndAtom = m_BeginAtom + 3;
-		int Z = GetElementAtPos (m_BeginAtom, m_EndAtom);
-		m_Atom->SetZ (Z);
-		if (!Z)
-			m_EndAtom = CurPos;
+		else if (m_EndAtom < m_BeginAtom + Residue::MaxSymbolLength)
+			m_EndAtom = m_BeginAtom + Residue::MaxSymbolLength;
+		strncpy (sy, m_buf.c_str () + m_BeginAtom, Residue::MaxSymbolLength);
+		int i = Residue::MaxSymbolLength;
+		while (i > 0) {
+			sy[i] = 0;
+			r = (Residue *) Residue::GetResidue (sy, NULL);
+			if (r)
+				break;
+			i--;
+		}
+		if (r) {
+			m_EndAtom = m_BeginAtom + i;
+			if (residue)
+				residue->SetResidue (r);
+			else {
+				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+				Atom *pOldAtom = m_Atom;
+				m_Atom = new FragmentResidue (this, sy);
+				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				if (pBond) {
+					pBond->ReplaceAtom (pOldAtom, m_Atom);
+					m_Atom->AddBond (pBond);
+				}
+				delete pOldAtom;
+			}
+		} else {
+			int Z = GetElementAtPos (m_BeginAtom, m_EndAtom);
+			m_Atom->SetZ (Z);
+			if (!Z)
+				m_EndAtom = CurPos;
+		}
 	}
 	PangoRectangle rect;
 	pango_layout_index_to_pos (m_Layout, m_BeginAtom, &rect);
@@ -667,6 +726,23 @@ bool Fragment::Load (xmlNodePtr node)
 			m_buf += m_Atom->GetSymbol();
 			m_Atom->SetCoords (m_x, m_y);
 			m_EndAtom = m_buf.length ();
+		} else if (!strcmp ((const char*) child->name, "residue")) {
+			// replace the atom by a residue
+			map<gcu::Atom*, gcu::Bond*>::iterator i;
+			Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+			Atom *pOldAtom = m_Atom;
+			m_Atom = new FragmentResidue (this, NULL);
+			if (pBond) {
+				pBond->ReplaceAtom (pOldAtom, m_Atom);
+				m_Atom->AddBond (pBond);
+			}
+			delete pOldAtom;
+			if (!m_Atom->Load (child))
+				return false;
+			m_BeginAtom = m_buf.length ();
+			m_buf += m_Atom->GetSymbol ();
+			m_Atom->SetCoords (m_x, m_y);
+			m_EndAtom = m_buf.length ();
 		} else if (!strcmp ((const char*) child->name, "charge")) {
 			int start = m_buf.length (), end;
 			tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
@@ -1075,7 +1151,7 @@ bool Fragment::Validate ()
 	if ((m_buf.length () == 0)
 		&& m_Atom->GetBondsNumber () == 0)
 		return true;
-	if (m_Atom->GetZ() == 0) {
+	if (m_Atom->GetZ() == 0 || (dynamic_cast <FragmentResidue*> (m_Atom) && !((FragmentResidue*) m_Atom)->GetResidue ())) {
 		Document *pDoc = dynamic_cast<Document*> (GetDocument ());
 		GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
 		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");

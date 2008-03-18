@@ -16,6 +16,7 @@ libgchempaint_unstable_la_SOURCES = \
 		bond.cc \
 		residue.cc \
 		fragment-atom.cc \
+		fragment-residue.cc \
 		fragment.cc \
 		molecule.cc \
 		reaction.cc \
@@ -58,6 +59,7 @@ noinst_HEADERS = \
 		bond.h \
 		residue.h \
 		fragment-atom.h \
+		fragment-residue.cc \
 		fragment.h \
 		molecule.h \
 		reaction.h \

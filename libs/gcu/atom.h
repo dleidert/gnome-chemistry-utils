@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.h 
  *
- * Copyright (C) 2002-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -125,7 +125,7 @@ Changes the formal charge of this Atom.
 /*!
 @return the atomic symbol of this Atom or NULL if the element is unknown.
 */
-	const gchar* GetSymbol ();
+	virtual const gchar* GetSymbol ();
 /*!
 @param pBond: a pointer to the new Bond to this Atom.
 

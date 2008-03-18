@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * texttool.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,10 +24,11 @@
 
 #include "config.h"
 #include "texttool.h"
-#include <gcp/text.h>
-#include <gcp/document.h>
 #include <gcp/application.h>
+#include <gcp/document.h>
+#include <gcp/fragment.h>
 #include <gcp/settings.h>
+#include <gcp/text.h>
 #include <gcp/theme.h>
 #include <gcp/window.h>
 #include <goffice/gtk/go-color-selector.h>

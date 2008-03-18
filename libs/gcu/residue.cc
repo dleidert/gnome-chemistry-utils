@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * residue.cc 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -156,6 +156,7 @@ void Residue::Load (xmlNodePtr node)
 					xmlFree (name);
 				name = reinterpret_cast <char *> (xmlNodeGetContent (child));
 			}
+			m_Names[(node_lang)? node_lang: "C"] = reinterpret_cast <char const *> (xmlNodeGetContent (child));
 		} else if (!strcmp (reinterpret_cast <char const *> (child->name), "symbols")) {
 			symbols = reinterpret_cast <char *> (xmlNodeGetContent (child));
 			std::istringstream s(symbols);

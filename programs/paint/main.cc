@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
 
 	gtk_init (&argc, &argv);
 	gnome_vfs_init ();
-	gnome_authentication_manager_init ();
 	App = new gcpStandaloneApp();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));

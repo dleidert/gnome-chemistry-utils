@@ -4,7 +4,7 @@
  * GChemPaint library
  * atom.cc
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -147,6 +147,8 @@ Atom::Atom (OBAtom* atom): gcu::Atom (),
 void Atom::SetZ (int Z)
 {
 	gcu::Atom::SetZ (Z);
+	if (Z < 1)
+		return;
 	m_Element = Element::GetElement (m_Z);
 	if ((m_Valence = (m_Element)? m_Element->GetDefaultValence (): 0))
 		m_HPos = (m_HPosStyle == AUTO_HPOS)? GetBestSide(): m_HPosStyle;
@@ -278,7 +280,7 @@ void Atom::Update ()
 		}
 	}
 	Document *pDoc = (Document *) GetDocument ();
-	if (pDoc)
+	if (pDoc && pDoc->GetView ())
 		m_Changed = pDoc->GetView ()->GetNbWidgets ();
 	m_AvailPosCached = false;
 	if (nbonds && GetZ () == 6) {

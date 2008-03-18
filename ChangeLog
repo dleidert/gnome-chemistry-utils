@@ -1,5 +1,50 @@
 ##Text encoding: utf-8
 
+2008-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: test for gio presence.
+	* libs/gcp/Makefile.am: add two new source files.
+	* libs/gcp/application.cc: add headers missing after document.h cleaning.
+	* libs/gcp/atom.cc: dont try to set an atomoc number less that 1.
+	* libs/gcp/document.cc: save used residues with document.
+	* libs/gcp/document.h: ditto and replaced unneeded headers by class
+	forward declarations.
+	* libs/gcp/fragment-atom.h: made some cleaning and add a way to retrieve
+	the parent fragment.
+	* libs/gcp/fragment-residue.cc: initial support for nick names and
+	generic symbols.
+	* libs/gcp/fragment-residue.h: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/mesomery.cc: add headers missing after document.h cleaning.
+	* libs/gcp/molecule.cc: remocve known cycles before a new search and always
+	allow to copy to calc.
+	* libs/gcp/reaction.cc: add headers missing after document.h cleaning.
+	* libs/gcp/residue.cc: add a document instance to each residue to
+	store the equivalent molecule.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcp/stringdlg.cc: add headers missing after document.h cleaning.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcu/atom.h: make Atom::GetSymbol virtual.
+	* libs/gcu/chem3ddoc.cc: use gio for loading.
+	* libs/gcu/formula.h: add an enum for ambiguous symbols management mode. 
+	* libs/gcu/macros.h: add new properties macros more suitable for pointers.
+	* libs/gcu/molecule.cc: avoid duplicate bonds.
+	* libs/gcu/residue.cc: load all names not only the local one.
+	* libs/gcu/residue.h: ditto.
+	* libs/gcu/spectrumdoc.cc: add a complex array for nmr ntuples loading.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* plugins/paint/atoms/elementtool.cc: add headers missing after
+	document.h cleaning.
+	* plugins/paint/bonds/bondtool.cc: ditto.
+	* plugins/paint/bonds/chaintool.cc: ditto.
+	* plugins/paint/cycles/cycletool.cc: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/selection/erasertool.cc: ditto.
+	* plugins/paint/templates/templatetool.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* programs/crystal/main.cc: remove commented out instruction.
+	* programs/paint/main.cc: do not call libgnomeui.
+
 2008-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/calc/gchemcalc.cc: prints the isotopic pattern.
 

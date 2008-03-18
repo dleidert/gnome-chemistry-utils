@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * molecule.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -86,6 +86,7 @@ void Molecule::AddAtom (Atom* pAtom)
 
 void Molecule::AddBond (Bond* pBond)
 {
+	m_Bonds.remove (pBond); // avoid duplicates
 	m_Bonds.push_back (pBond);
 	Object::AddChild (pBond);
 }

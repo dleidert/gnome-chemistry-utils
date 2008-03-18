@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * macros.h 
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -59,6 +59,14 @@ public:	\
 private:	\
 	type m_##member;
 
+#define GCU_POINTER_PROP(type,member) \
+public:	\
+	void Set##member (type *val) {m_##member = val;}	\
+	type *Get##member (void) {return m_##member;}	\
+	type const *Get##member (void) const {return m_##member;}	\
+private:	\
+	type *m_##member;
+
 /*!\def GCU_RO_PROP()
 Defines a private member with appropriate get method. RO stands for Read Only. The member
 can't be modified from outside the class it belongs too or a friend class.
@@ -78,6 +86,12 @@ public:	\
 private:	\
 	type m_##member;
 
+#define GCU_RO_POINTER_PROP(type,member) \
+public:	\
+	type const *Get##member (void) const {return m_##member;}	\
+private:	\
+	type *m_##member;
+
 /*!\def GCU_PROT_PROP()
 Defines a protected member with appropriate get method. The member can be modified
 the class it belongs too or a friend class or a derived class.
@@ -96,6 +110,13 @@ public:	\
 	type Get##member (void) {return m_##member;}	\
 protected:	\
 	type m_##member;
+
+#define GCU_PROT_POINTER_PROP(type,member) \
+public:	\
+	type *Get##member (void) {return m_##member;}	\
+	type const *Get##member (void) const {return m_##member;}	\
+protected:	\
+	type *m_##member;
 
 /*!\def GCU_GCONF_GET()
 This macro gets the numerical value of type \a type associated to \a key, and

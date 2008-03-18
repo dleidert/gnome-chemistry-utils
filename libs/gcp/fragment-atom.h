@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment-atom.h 
  *
- * Copyright (C) 2003-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,6 +26,7 @@
 #define GCHEMPAINT_FRAGMENT_ATOM_H
 
 #include "atom.h"
+#include <gcu/macros.h>
 
 namespace gcp {
 
@@ -38,28 +39,27 @@ public:
 	FragmentAtom (Fragment *fragment, int Z);
 	virtual ~FragmentAtom ();
 
-	virtual void SetZ (int Z);
-	virtual bool AcceptNewBonds (int nb);
-	virtual void Add (GtkWidget* w);
-	virtual void Update ();
-	virtual void Update (GtkWidget* w);
-	virtual void SetSelected (GtkWidget* w, int state);
-	virtual xmlNodePtr Save (xmlDocPtr xml);
-	virtual bool Load (xmlNodePtr node);
-	virtual int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
-	virtual int GetAvailablePosition (double& x, double& y);
-	virtual bool GetPosition (double angle, double& x, double& y);
-	virtual bool AcceptCharge (int charge);
+	void SetZ (int Z);
+	bool AcceptNewBonds (int nb);
+	void Add (GtkWidget* w);
+	void Update ();
+	void Update (GtkWidget* w);
+	void SetSelected (GtkWidget* w, int state);
+	xmlNodePtr Save (xmlDocPtr xml);
+	bool Load (xmlNodePtr node);
+	int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
+	int GetAvailablePosition (double& x, double& y);
+	bool GetPosition (double angle, double& x, double& y);
+	bool AcceptCharge (int charge);
 
 /*!
 @param Mol: a pointer to a molecule
 
 Adds the fragment containing the atom to the molecule calling gcpMolecule::AddFragment()
 */
-	virtual void AddToMolecule (Molecule* Mol);
+	void AddToMolecule (Molecule* Mol);
 
-private:
-	Fragment *m_Fragment;
+GCU_RO_PROP (Fragment*, Fragment)
 };
 
 }	//	namespace gcp

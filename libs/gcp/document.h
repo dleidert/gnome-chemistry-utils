@@ -4,7 +4,7 @@
  * GChemPaint library
  * document.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,20 +25,16 @@
 #ifndef GCHEMPAINT_DOCUMENT_H
 #define GCHEMPAINT_DOCUMENT_H
 
+#include "operation.h"
+#include <gcu/document.h>
+#include <gcu/macros.h>
+#include <gcu/printable.h>
 #include <list>
 #include <map>
 #include <set>
 #include <string>
 #include <libxml/tree.h>
 #include <gtk/gtk.h>
-#include <gcu/document.h>
-#include <gcu/macros.h>
-#include <gcu/printable.h>
-#include "atom.h"
-#include "fragment.h"
-#include "bond.h"
-#include "molecule.h"
-#include "operation.h"
 
 namespace OpenBabel
 {
@@ -55,6 +51,11 @@ class View;
 class Application;
 class Window;
 class Theme;
+class Residue;
+class Atom;
+class Bond;
+class Fragment;
+class Molecule;
 
 	class Document: public gcu::Document, public gcu::Printable
 {
@@ -126,6 +127,8 @@ public:
 	void OnThemeNamesChanged ();
 	double GetMedianBondLength ();
 	bool SetProperty (unsigned property, char const *value);
+	void SaveResidue (Residue const *r, xmlNodePtr node);
+	void SetLoading (bool loading) {m_bIsLoading = loading;}
 
 private:
 	void RemoveAtom (Atom* pAtom);
@@ -149,6 +152,7 @@ private:
 	Window *m_Window;
 	unsigned long m_OpID; // last operation ID
 	unsigned m_LastStackSize; // undo list size when last saved
+	std::set<Residue const *> m_SavedResidues;
 
 /* Theme is not really a read only property, but we provide a special Set
 method */

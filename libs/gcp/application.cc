@@ -4,7 +4,7 @@
  * GChemPaint library
  * application.cc 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,11 +26,13 @@
 #include "application.h"
 #include "document.h"
 #include "electron.h"
+#include "fragment.h"
 #include "text.h"
 #include "plugin.h"
 #include "mesomer.h"
 #include "mesomery.h"
 #include "mesomery-arrow.h"
+#include "molecule.h"
 #include "newfiledlg.h"
 #include "reaction.h"
 #include "reactant.h"

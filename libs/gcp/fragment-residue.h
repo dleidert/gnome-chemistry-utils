@@ -2,9 +2,9 @@
 
 /* 
  * GChemPaint library
- * residue.h 
+ * fragment-residue.h 
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,37 +22,34 @@
  * USA
  */
 
-#ifndef GCP_RESIDUE_H
-#define GCP_RESIDUE_H
+#ifndef GCHEMPAINT_FRAGMENT_RESIDUE_H
+#define GCHEMPAINT_FRAGMENT_RESIDUE_H
 
-#include <gcu/macros.h>
-#include <gcu/residue.h>
+#include "fragment-atom.h"
+#include "residue.h"
+#include <string>
 
-namespace gcp
-{
+namespace gcp {
 
-class Document;
-class Molecule;
-
-class Residue: public gcu::Residue
+class FragmentResidue: public FragmentAtom
 {
 public:
-	Residue ();
-	Residue (char const *name);
-	virtual ~Residue ();
+	FragmentResidue ();
+	FragmentResidue (Fragment *fragment, char const *symbol);
+	virtual ~FragmentResidue ();
 
-	virtual void Load (xmlNodePtr node, bool ro);
+	xmlNodePtr Save (xmlDocPtr xml);
+	bool Load (xmlNodePtr node);
+	void SetResidue (Residue const *res);
+/*!
+		  @return the symbol of this Residue. Overrides gcu::Atom::GetSymbol.
+*/
+	const gchar* GetSymbol ();
 
-private:
-	Document *m_Doc;
-
-GCU_RO_PROP (bool, ReadOnly);
-GCU_RO_PROP (xmlNodePtr, Node);
-GCU_RO_PROP (xmlNodePtr, MolNode);
-GCU_RO_POINTER_PROP (Molecule, Molecule);
+GCU_RO_PROP (Residue const *, Residue)
+GCU_RO_PROP (std::string, Abbrev)
 };
 
 }	//	namespace gcp
 
-#endif	//	GCP_RESIDUE_H
-
+#endif	//	GCHEMPAINT_FRAGMENT_RESIDUE_H

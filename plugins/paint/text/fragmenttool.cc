@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * fragmenttool.cc 
  *
- * Copyright (C) 2003-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,9 +24,10 @@
 
 #include "config.h"
 #include "fragmenttool.h"
-#include <gcp/fragment.h>
-#include <gcp/document.h>
 #include <gcp/application.h>
+#include <gcp/document.h>
+#include <gcp/fragment.h>
+#include <gcp/molecule.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/window.h>

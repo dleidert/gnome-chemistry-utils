@@ -4,7 +4,7 @@
  * GChemPaint library
  * residue.h 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +24,8 @@
 
 #include "config.h"
 #include "residue.h"
+#include "document.h"
+#include "molecule.h"
 #include <iostream>
 #include <cstring>
 
@@ -34,14 +36,19 @@ namespace gcp
 
 Residue::Residue (): gcu::Residue ()
 {
+	m_Molecule = NULL;
+	m_Doc = new Document (NULL, true, NULL);
 }
 
 Residue::Residue (char const *name): gcu::Residue (name)
 {
+	m_Molecule = NULL;
+	m_Doc = new Document (NULL, true, NULL);
 }
 
 Residue::~Residue ()
 {
+	delete m_Doc;
 }
 
 void Residue::Load (xmlNodePtr node, bool ro)
@@ -56,6 +63,15 @@ void Residue::Load (xmlNodePtr node, bool ro)
 		delete this;
 		return;
 	}
+	if (m_Molecule)
+		delete m_Molecule;
+	m_Molecule = new Molecule ();
+	m_Doc->AddChild (m_Molecule);
+	m_Doc->SetLoading (true);
+	m_Molecule->Load (m_MolNode);
+	m_Doc->SetLoading (false);
+	map<string, gcu::Object*>::iterator i;
+	m_Molecule = dynamic_cast <Molecule*> (m_Doc->GetFirstChild (i));
 	gcu::Residue::Load (node);
 }
 

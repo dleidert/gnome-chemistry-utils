@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/chem3ddoc.cc
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -32,6 +32,7 @@
 #include <gcu/element.h>
 #include <openbabel/obconversion.h>
 #include <libgnomevfs/gnome-vfs.h>
+#include <gio/gio.h>
 #include <GL/gl.h>
 #include <libintl.h>
 #include <clocale>
@@ -64,30 +65,46 @@ Chem3dDoc::~Chem3dDoc ()
 
 void Chem3dDoc::Load (char const *uri, char const *mime_type)
 {
-	GnomeVFSHandle *handle;
-	GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
-	GnomeVFSResult result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result != GNOME_VFS_OK) {
-		gnome_vfs_file_info_unref (info);
+	GVfs *vfs = g_vfs_get_default ();
+	GFile *file = g_vfs_get_file_for_uri (vfs, uri);
+	GError *error = NULL;
+	GFileInfo *info = g_file_query_info (file,
+										 ((mime_type)? G_FILE_ATTRIBUTE_STANDARD_SIZE:
+										 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_STANDARD_SIZE),
+										 G_FILE_QUERY_INFO_NONE,
+										 NULL, &error);
+	if (error) {
+		g_message ("GIO querry failed: %s", error->message);
+		g_error_free (error);
+		g_object_unref (file);
+		error = NULL;
 		return;
 	}
-	if (mime_type)
-		gnome_vfs_get_file_info_from_handle (handle, info, (GnomeVFSFileInfoOptions) 0);
-	else {
-		gnome_vfs_get_file_info_from_handle (handle, info,
-			(GnomeVFSFileInfoOptions)(GNOME_VFS_FILE_INFO_GET_MIME_TYPE |
-								GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE));
-		if (!strncmp (info->mime_type, "text", 4))
-			gnome_vfs_get_file_info_from_handle (handle, info,
-				(GnomeVFSFileInfoOptions)GNOME_VFS_FILE_INFO_GET_MIME_TYPE);
+	if (!mime_type)
+		mime_type = g_file_info_get_content_type(info);
+	gsize size = g_file_info_get_size (info);
+	g_object_unref (info);
+	GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
+	if (error) {
+		g_message ("GIO could not create the stream: %s", error->message);
+		g_error_free (error);
+		g_object_unref (file);
+		error = NULL;
+		return;
 	}
-	gchar *buf = new gchar[info->size + 1];
-	GnomeVFSFileSize n;
-	gnome_vfs_read (handle, buf, info->size, &n);
-	buf[info->size] = 0;
-	if (n == info->size) {
-		if (!mime_type)
-			mime_type = info->mime_type;
+	gchar *buf = new gchar[size + 1];
+	gsize n = g_input_stream_read (input, buf, size, NULL, &error);
+	if (error) {
+		g_message ("GIO could not read the file: %s", error->message);
+		g_error_free (error);
+		delete [] buf;
+		g_object_unref (input);
+		g_object_unref (file);
+		error = NULL;
+		return;
+	}
+	buf[size] = 0;
+	if (n == size) {
 		LoadData (buf, mime_type);
 		if (m_App) {
 			char *dirname = g_path_get_dirname (uri);
@@ -97,10 +114,9 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	}
 	if (!strlen (m_Mol.GetTitle()))
 		m_Mol.SetTitle (g_path_get_basename (uri));
-	gnome_vfs_file_info_unref (info);
 	delete [] buf;
-	g_free (handle);
-	
+	g_object_unref (input);
+	g_object_unref (file);
 }
 
 void Chem3dDoc::LoadData (char const *data, char const *mime_type)

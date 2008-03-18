@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +27,7 @@
 #include "reaction-arrow.h"
 #include "reaction-step.h"
 #include "document.h"
+#include "molecule.h"
 #include "theme.h"
 #include "view.h"
 #include <glib/gi18n-lib.h>

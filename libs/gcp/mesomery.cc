@@ -4,7 +4,7 @@
  * GChemPaint library
  * mesomery.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,12 +24,13 @@
 
 #include "config.h"
 #include "document.h"
-#include "theme.h"
-#include "widgetdata.h"
-#include "view.h"
+#include "mesomer.h"
 #include "mesomery.h"
 #include "mesomery-arrow.h"
-#include "mesomer.h"
+#include "molecule.h"
+#include "theme.h"
+#include "view.h"
+#include "widgetdata.h"
 #include <glib/gi18n-lib.h>
 #include <set>
 #include <cmath>
