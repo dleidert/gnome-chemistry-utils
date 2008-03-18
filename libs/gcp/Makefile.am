@@ -59,7 +59,7 @@ noinst_HEADERS = \
 		bond.h \
 		residue.h \
 		fragment-atom.h \
-		fragment-residue.cc \
+		fragment-residue.h \
 		fragment.h \
 		molecule.h \
 		reaction.h \
