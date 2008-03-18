@@ -1,10 +1,12 @@
 [encoding: UTF-8]
+gchemutils.schemas.in
 gchemutils.xml.in
 database/residues.xml.in
 glade/gchemcalc.glade
 glade/gtkperiodic.glade
 glade/image-size.glade
 glade/image-resolution.glade
+glade/print-setup.glade
 glade/crystal/bonds.glade
 glade/crystal/cell.glade
 glade/crystal/docprop.glade
@@ -64,7 +66,14 @@ libs/gcu/glview.cc
 libs/gcu/gtkchem3dviewer.cc
 libs/gcu/gtkcomboperiodic.c
 libs/gcu/gtkperiodic.c
+libs/gcu/loader.cc
+libs/gcu/print-setup-dlg.cc
+libs/gcu/printable.cc
 libs/gcu/spectrumdoc.cc
+libs/gcu/value.cc
+plugins/loaders/cdx/plugin.xml.in
+plugins/loaders/cdxml/cdxml.cc
+plugins/loaders/cdxml/plugin.xml.in
 plugins/paint/arrows/arrowtool.cc
 plugins/paint/arrows/arrowtool.glade
 plugins/paint/arrows/gchempaint-arrows.schemas.in
