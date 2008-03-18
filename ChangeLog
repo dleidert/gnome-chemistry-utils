@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gcu/formula.cc: really fixes #22023.
+
 2008-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gcu/formula.cc: don't use strndup but strncpy [#22023].
 
