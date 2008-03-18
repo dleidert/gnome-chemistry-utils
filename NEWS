@@ -1,4 +1,8 @@
 Version 0.8.7
+	* Don't use strndup but strncpy [#22023].
+	* Do not set properties for an unknow element
+	when loading bodr data [#22513].
+	* Fixed gconf keys paths for Gnome Crystal.
 
 Version 0.8.6
 	* More fixes about printing and image export of 3D scenes. Concerns
