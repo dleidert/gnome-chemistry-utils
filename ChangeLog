@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.4).
+
 2008-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: test for gio presence.
 	* libs/gcp/Makefile.am: add two new source files.
