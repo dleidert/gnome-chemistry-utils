@@ -26,7 +26,7 @@
 #include "document.h"
 #include "macros.h"
 #include "printable.h"
-#include <complex>
+#include <goffice/math/go-complex.h>
 
 namespace gcu
 {
@@ -91,7 +91,7 @@ private:
 
 private:
 	double *x, *y;
-	std::complex<double> *z;
+	go_complex *z;
 	unsigned npoints;
 	double maxx, maxy, minx, miny;
 	double firstx, lastx, deltax, firsty;

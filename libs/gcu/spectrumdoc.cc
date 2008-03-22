@@ -119,6 +119,9 @@ char const *Types[] = {
 	"INFRARED TRANSFORMED SPECTRUM",
 	"UV-VISIBLE SPECTRUM",
 	"NMR SPECTRUM",
+	"NMR FID",
+	"NMR PEAK TABLE",
+	"NMR PEAK ASSIGNMENTS",
 	"MASS SPECTRUM"
 };
 
@@ -129,6 +132,8 @@ char const *Units[] = {
 	"PPM",
 	"NANOMETERS",
 	"MICROMETERS",
+	"SECONDS",
+	"HZ"
 };
 
 char const *UnitNames[] = {
@@ -138,6 +143,8 @@ char const *UnitNames[] = {
 	N_("Chemical shift (ppm)"),
 	N_("Wavelength (nm)"),
 	N_("Wavelength (µm)"),
+	N_("Time (s)"),
+	N_("Frequency (Hz)")
 };
 
 int get_spectrum_data_from_string (char const *type, char const *names[], int max)
