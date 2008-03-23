@@ -511,6 +511,10 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 	while ((i > 0) && (filename[i] != '.') && (filename[i] != '/')) i--;
 	if (filename[i] == '/') i = 0;
 	ext = (i > 0)? filename + i + 1: NULL;
+	if (!mime_type) // probably a non existing file
+		mime_type = gnome_vfs_get_file_mime_type_fast (filename, NULL);
+	if (!mime_type) // to be really sure we don't crash
+		mime_type = "application/x-gchempaint";
 	list<string>::iterator it, itend = m_SupportedMimeTypes.end ();
 	for (it =  m_SupportedMimeTypes.begin (); it != itend; it++)
 		if (*it == mime_type) {
@@ -673,7 +677,7 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 		if (local) {
 			ifstream ifs;
 			GnomeVFSURI *uri = gnome_vfs_uri_new (filename.c_str ());
-			ifs.open (gnome_vfs_uri_get_path (uri));
+			ifs.open (g_uri_unescape_string (gnome_vfs_uri_get_path (uri),NULL));
 			gnome_vfs_uri_unref (uri);
 			if (ifs.fail ())
 				throw (int) 1;
@@ -774,22 +778,21 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 		switch (num)
 		{
 		case 0:
-			mess = g_strdup_printf(_("No filename"));
+			mess = _("No filename");
 			break;
 		case 1:
-			mess = g_strdup_printf(_("Could not open file\n%s"), filename.c_str ());
+			mess = _("Could not open file\n%s");
 			break;
 		case 2:
-			mess = g_strdup_printf(_("%s: parse error."), filename.c_str ());
+			mess = _("%s: parse error.");
 			break;
 		default:
 			throw (num); //this should not occur
 		}
-		message = gtk_message_dialog_new(NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
+		message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess, g_uri_unescape_string (filename.c_str (), NULL));
 		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
 		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 		gtk_widget_show(message);
-		g_free(mess);
 	}
 }
 
@@ -887,28 +890,27 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 		switch (num)
 		{
 		case 0:
-			mess = g_strdup_printf(_("No filename"));
+			mess = _("No filename");
 			break;
 		case 1:
-			mess = g_strdup_printf(_("Could not load file\n%s"), filename.c_str ());
+			mess = _("Could not load file\n%s");
 			break;
 		case 2:
-			mess = g_strdup_printf(_("%s: invalid xml file.\nTree is empty?"), filename.c_str ());
+			mess = _("%s: invalid xml file.\nTree is empty?");
 			break;
 		case 3:
-			mess = g_strdup_printf(_("%s: invalid file format."), filename.c_str ());
+			mess = _("%s: invalid file format.");
 			break;
 		case 4:
-			mess = g_strdup_printf(_("%s: parse error."), filename.c_str ());
+			mess = _("%s: parse error.");
 			break;
 		default:
 			throw (num); //this should not occur
 		}
-		message = gtk_message_dialog_new(NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
+		message = gtk_message_dialog_new(NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess, g_uri_unescape_string (filename.c_str (), NULL));
 		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
 		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 		gtk_widget_show(message);
-		g_free(mess);
 	}
 }
 

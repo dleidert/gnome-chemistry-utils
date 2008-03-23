@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/elements.xml.in: accept up to 8 bonds for osmium.
+	* libs/gcp/application.cc: correctly detects the mime type, even if the
+	file doesn't exist. [#22686]; accept file names with spaces for files
+	opened using OpenBabel. [#22695]
+	* programs/paint/main.cc: no more need to force detection of mime
+	type from there.
+
 2008-03-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: use go_-complex instead of complex.
 	* libs/gcu/spectrumdoc.h: ditto.

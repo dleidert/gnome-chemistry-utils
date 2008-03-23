@@ -376,7 +376,7 @@
 	<color red="0.15" green="0.49" blue="0.67"/>
 </element>
 
-<element Z="76" symbol="Os" max_bonds="6" weight="190.2">
+<element Z="76" symbol="Os" max_bonds="8" weight="190.2">
 	<_name>Osmium</_name>
 	<color red="0.15" green="0.40" blue="0.59"/>
 </element>

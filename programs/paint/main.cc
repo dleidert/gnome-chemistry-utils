@@ -99,8 +99,6 @@ int main(int argc, char *argv[])
 		auri = gnome_vfs_uri_resolve_relative (uri, *argv);
 		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
 		mime_type = go_get_mime_type (path);
-		if (!mime_type)
-			mime_type = gnome_vfs_get_file_mime_type_fast (path, NULL);
 		App->FileProcess(path, mime_type, false, NULL);
 		g_free (path);
 		gnome_vfs_uri_unref (auri);
