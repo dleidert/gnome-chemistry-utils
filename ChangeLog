@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/elements.xml.in: accept up to 8 bonds for osmium.
+
 2008-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.8.8).
 
