@@ -25,6 +25,8 @@
 #include "spectrumdoc.h"
 #include "spectrumview.h"
 #include <goffice/data/go-data-simple.h>
+#include <goffice/graph/gog-series-lines.h>
+#include <goffice/graph/gog-style.h>
 #include <goffice/math/go-math.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -133,7 +135,9 @@ char const *Units[] = {
 	"NANOMETERS",
 	"MICROMETERS",
 	"SECONDS",
-	"HZ"
+	"HZ",
+	"M/Z",
+	"RELATIVE ABUNDANCE"
 };
 
 char const *UnitNames[] = {
@@ -144,7 +148,9 @@ char const *UnitNames[] = {
 	N_("Wavelength (nm)"),
 	N_("Wavelength (µm)"),
 	N_("Time (s)"),
-	N_("Frequency (Hz)")
+	N_("Frequency (Hz)"),
+	N_("Mass/charge ratio"),
+	N_("Relative abundance")
 };
 
 int get_spectrum_data_from_string (char const *type, char const *names[], int max)
@@ -492,6 +498,15 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 			break;
 		case JCAMP_END:
 			goto out;
+		case JCAMP_PEAK_TABLE: {
+			// in that case, add drop lines ans remove the normal line
+			GogSeries *series = m_View->GetSeries ();
+			gog_object_add_by_name (GOG_OBJECT (series), "Vertical drop lines", GOG_OBJECT (g_object_new (GOG_SERIES_LINES_TYPE, NULL)));
+			GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+			style->line.dash_type = GO_LINE_NONE;
+			style->line.auto_dash = false;
+		}
+		case JCAMP_XYPAIRS:
 		case JCAMP_XYDATA:
 		case JCAMP_XYPOINTS: {
 			unsigned read = 0;
@@ -589,6 +604,7 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 					minx = MIN (firstx, lastx);
 				}
 			} else if (!strncmp (buf, "(XY..XY)",strlen ("(XY..XY)"))) {
+				char *cur;
 				while (1) {
 					if (s.eof ())
 						break;	// this should not occur, but a corrupted or bad file is always possible
@@ -602,26 +618,39 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 							npoints = read;
 						break;
 					}
-					if (sscanf (line, "%lg %lg\n", x + read, y + read) != 2)
-						g_warning (_("Invalid line!"));
-					read++;
+					cur = line;
+					while (*cur) {
+						while (*cur && (*cur < '0' || *cur > '9'))
+							cur++;
+						if (*cur == 0)
+							break;
+						x[read] = strtod (cur, &cur);
+						while (*cur && (*cur < '0' || *cur > '9'))
+							cur++;
+						y[read] = strtod (cur, &cur);
+						read++;
+					}
 				}
 			}
 			break;
 		}
-		case JCAMP_XYPAIRS:
-		case JCAMP_PEAK_TABLE:
 		case JCAMP_PEAK_ASSIGNMENTS:
 		case JCAMP_RADATA:
 			break;
-		case JCAMP_XUNITS:
-			m_XUnit = (SpectrumUnitType) get_spectrum_data_from_string (buf, Units, GCU_SPECTRUM_UNIT_MAX);
+		case JCAMP_XUNITS: {
+			char *unit = g_ascii_strup (buf, -1);
+			m_XUnit = (SpectrumUnitType) get_spectrum_data_from_string (unit, Units, GCU_SPECTRUM_UNIT_MAX);
+			g_free (unit);
 			break;
-		case JCAMP_YUNITS:
-			m_YUnit = (SpectrumUnitType) get_spectrum_data_from_string (buf, Units, GCU_SPECTRUM_UNIT_MAX);
+		}
+		case JCAMP_YUNITS: {
+			char *unit = g_ascii_strup (buf, -1);
+			m_YUnit = (SpectrumUnitType) get_spectrum_data_from_string (unit, Units, GCU_SPECTRUM_UNIT_MAX);
 			if (m_YUnit == GCU_SPECTRUM_UNIT_TRANSMITTANCE)
 				m_View->SetAxisBounds (GOG_AXIS_Y, 0., 1., false);
+			g_free (unit);
 			break;
+		}
 		case JCAMP_XLABEL:
 		case JCAMP_YLABEL:
 			break;
@@ -765,6 +794,27 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 	}
 
 out:
+	// doon't do anything for unsupported spectra
+	switch (m_SpectrumType) {
+	case GCU_SPECTRUM_INFRARED:
+	case GCU_SPECTRUM_RAMAN:
+//	case GCU_SPECTRUM_INFRARED_PEAK_TABLE:
+//	case GCU_SPECTRUM_INFRARED_INTERFEROGRAM:
+//	case GCU_SPECTRUM_INFRARED_TRANSFORMED:
+	case GCU_SPECTRUM_UV_VISIBLE:
+	case GCU_SPECTRUM_NMR:
+		if (x == NULL)
+			return;
+		else
+			break;
+//	case GCU_SPECTRUM_NMR_FID:
+//	case GCU_SPECTRUM_NMR_PEAK_TABLE:
+//	case GCU_SPECTRUM_NMR_PEAK_ASSIGNMENTS:
+	case GCU_SPECTRUM_MASS:
+		break;
+	default:
+		return;
+	}
 	m_Empty = npoints == 0;
 	GOData *godata;
 	GogSeries *series = m_View->GetSeries ();

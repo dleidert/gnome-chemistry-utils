@@ -123,6 +123,15 @@ Theme::~Theme ()
 		g_free (m_FontFamily);
 	if (m_TextFontFamily)
 		g_free (m_TextFontFamily);
+	// set all remaining document client theme to NULL
+	// this is just a work around, but a ThemeClient class should be implemented
+	Document *doc;
+	std::set <gcu::Object*>::iterator i, end = m_Clients.end ();
+	for (i = m_Clients.begin (); i != end; i++) {
+		doc = dynamic_cast <Document *> (*i);
+		if (doc)
+			doc->SetTheme (NULL);
+	}
 }
 
 ThemeManager TheThemeManager;
@@ -206,7 +215,7 @@ ThemeManager::ThemeManager ()
 #else
 	GError *error = NULL;
 	m_ConfClient = gconf_client_get_default ();
-	gconf_client_add_dir (m_ConfClient, "/apps/gchemutilspaint/settings", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	gconf_client_add_dir (m_ConfClient, "/apps/gchemutils/paint/settings", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 #endif
 	GCU_GCONF_GET ("bond-length", float, DefaultBondLength, 140.)
 	GCU_GCONF_GET ("bond-angle", float, DefaultBondAngle, 120.)
@@ -316,7 +325,7 @@ void ThemeManager::Shutdown ()
 	m_ConfNode = NULL;
 #else
 	gconf_client_notify_remove (m_ConfClient, m_NotificationId);
-	gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/gl", NULL);
+	gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/paint/settings", NULL);
 	g_object_unref (m_ConfClient);
 	m_ConfClient = NULL;
 #endif
@@ -351,7 +360,7 @@ void ThemeManager::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEnt
 		return;	// we might want an error message?
 	if (cnxn_id != m_NotificationId)
 		return;	// we might want an error message?
-	char const *key = gconf_entry_get_key (entry), *name;
+	char const *name;
 #endif
 	Theme *theme = m_Themes["GChemPaint"];
 	GCU_UPDATE_KEY ("bond-length", float, DefaultBondLength, theme->m_BondLength = DefaultBondLength;)

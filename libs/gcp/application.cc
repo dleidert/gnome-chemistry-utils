@@ -390,11 +390,10 @@ Application::Application ():
 	}
 	
 #ifdef HAVE_GO_CONF_SYNC
-		m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
+	m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
 #else
-		GError *error = NULL;
-		m_ConfClient = gconf_client_get_default ();
-		gconf_client_add_dir (m_ConfClient, "/apps/gchemutils/paint/settings", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	GError *error = NULL;
+	m_ConfClient = gconf_client_get_default ();
 #endif
 	GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
 	GCU_GCONF_GET ("tearable-mendeleiev", bool, TearableMendeleiev, false)
@@ -412,7 +411,7 @@ Application::Application ():
 	Theme *pTheme;
 	m_Dummy = new Object (0);
 	for (j = Names.begin (); j != jend; j++) {
-		pTheme = TheThemeManager.GetTheme ("Default");
+		pTheme = TheThemeManager.GetTheme (*j);
 		pTheme->AddClient (m_Dummy);
 	}
 }
@@ -426,6 +425,14 @@ Application::~Application ()
 	if (XmlDoc)
 		xmlFreeDoc (XmlDoc);
 	m_SupportedMimeTypes.clear ();
+	// remove themes permanency with this as a dummy client
+	list <string> Names = TheThemeManager.GetThemesNames ();
+	list <string>::iterator j, jend = Names.end ();
+	Theme *pTheme;
+	for (j = Names.begin (); j != jend; j++) {
+		pTheme = TheThemeManager.GetTheme (*j);
+		pTheme->RemoveClient (m_Dummy);
+	}
 	delete m_Dummy;
 #ifdef HAVE_GO_CONF_SYNC
 	go_conf_remove_monitor (m_NotificationId);
@@ -433,7 +440,6 @@ Application::~Application ()
 	m_ConfNode = NULL;
 #else
 	gconf_client_notify_remove (m_ConfClient, m_NotificationId);
-	gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/gl", NULL);
 	g_object_unref (m_ConfClient);
 	m_ConfClient = NULL;
 #endif
@@ -626,6 +632,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		if (Load (filename2, mime_type, pDoc)) {
 			pDoc->GetView ()->AddObject (pDoc);
 			pDoc->GetView ()->Update (pDoc);
+			pDoc->GetView ()->EnsureSize ();
 		} else {
 			if (create) {
 				pDoc->GetWindow ()->Destroy ();;

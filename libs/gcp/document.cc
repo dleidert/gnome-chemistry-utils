@@ -967,7 +967,7 @@ void Document::Remove (Object* pObject)
 				while (object) {
 					m_pView->Remove (object);
 					delete object;
-					object = pObject->GetNextChild (i);
+					object = pObject->GetFirstChild (i);
 				}
 				delete pObject;
 			}
@@ -1277,8 +1277,10 @@ double Document::GetYAlign ()
 
 void Document::SetTheme (Theme *theme)
 {
-	if (!theme)
-		return; // or use the default theme?
+	if (!theme) {
+		m_Theme = NULL;
+		return;
+	}
 	if (m_Theme)
 		m_Theme->RemoveClient (this);
 	m_Theme = theme;

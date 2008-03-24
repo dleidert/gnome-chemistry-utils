@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2008-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: ensure loaded objects from cdx(ml) are
+	visible, and unconned from theme in destructor.
+	* libs/gcp/document.cc: enable setting a NULL theme (to exit
+	properly).
+	* libs/gcp/theme.cc: disconnect all clients before destroying a theme.
+	* libs/gcu/spectrumdoc.cc: supports peak tables in general and
+	mass spectra in particular.
+	* libs/gcu/spectrumdoc.h: ditto.
+
 2008-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elements.xml.in: accept up to 8 bonds for osmium.
 	* libs/gcp/application.cc: correctly detects the mime type, even if the
