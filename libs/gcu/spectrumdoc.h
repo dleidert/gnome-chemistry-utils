@@ -27,6 +27,8 @@
 #include "macros.h"
 #include "printable.h"
 #include <goffice/math/go-complex.h>
+#include <string>
+#include <vector>
 
 namespace gcu
 {
@@ -51,17 +53,43 @@ typedef enum {
 	GCU_SPECTRUM_UNIT_TRANSMITTANCE,
 	GCU_SPECTRUM_UNIT_ABSORBANCE,
 	GCU_SPECTRUM_UNIT_PPM,
-	GCU_SPECTRUM_NANOMETERS,
-	GCU_SPECTRUM_MICROMETERS,
-	GCU_SPECTRUM_SECONDS,
-	GCU_SPECTRUM_HZ,
-	GCU_SPECTRUM_M_Z,
-	GCU_SPECTRUM_REL_ABUNDANCE,
+	GCU_SPECTRUM_UNIT_NANOMETERS,
+	GCU_SPECTRUM_UNIT_MICROMETERS,
+	GCU_SPECTRUM_UNIT_SECONDS,
+	GCU_SPECTRUM_UNIT_HZ,
+	GCU_SPECTRUM_UNIT_M_Z,
+	GCU_SPECTRUM_UNIT_REL_ABUNDANCE,
 	GCU_SPECTRUM_UNIT_MAX
 } SpectrumUnitType;
 
+typedef enum {
+	GCU_SPECTRUM_TYPE_INDEPENDENT,
+	GCU_SPECTRUM_TYPE_DEPENDENT,
+	GCU_SPECTRUM_TYPE_PAGE,
+	GCU_SPECTRUM_TYPE_MAX
+} SpectrumVarType;
+
+typedef enum {
+	GCU_SPECTRUM_FORMAT_ASDF,
+	GCU_SPECTRUM_FORMAT_AFFN,
+	GCU_SPECTRUM_FORMAT_PAC,
+	GCU_SPECTRUM_FORMAT_SQZ,
+	GCU_SPECTRUM_FORMAT_DIF,
+	GCU_SPECTRUM_FORMAT_MAX
+} SpectrumFormatType;
+
 class Application;
 class SpectrumView;
+
+typedef struct  {
+	std::string Name;
+	char Symbol;
+	SpectrumVarType Type;
+	SpectrumUnitType Unit;
+	SpectrumFormatType Format;
+	unsigned NbValues;
+	double First, Last, Min, Max, Factor;
+} JdxVar;
 
 class SpectrumDocument: public Document, public Printable
 {
@@ -103,6 +131,7 @@ private:
 	double maxx, maxy, minx, miny;
 	double firstx, lastx, deltax, firsty;
 	double xfactor, yfactor;
+	std::vector <JdxVar> variables;
 
 GCU_PROT_PROP (SpectrumView*, View)
 GCU_RO_PROP (bool, Empty)

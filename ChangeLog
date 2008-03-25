@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-03-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: load VAR_NAME field and associated.
+	* libs/gcu/spectrumdoc.h: ditto.
+
 2008-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: ensure loaded objects from cdx(ml) are
 	visible, and unconned from theme in destructor.

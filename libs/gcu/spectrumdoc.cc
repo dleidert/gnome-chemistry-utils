@@ -153,14 +153,32 @@ char const *UnitNames[] = {
 	N_("Relative abundance")
 };
 
+char const *VarTypes[] = {
+	"INDEPENDENT",
+	"DEPENDENT",
+	"PAGE"
+};
+
+char const *Formats[] = {
+	"ASDF",
+	"AFFN",
+	"PAC",
+	"SQZ",
+	"DIF"
+};
+
 int get_spectrum_data_from_string (char const *type, char const *names[], int max)
 {
 	int res = 0;
+	char *up = g_ascii_strup (type, -1);
 	while (res < max) {
-		if (!strncmp (type, names[res], strlen (names[res])))
+		if (!strncmp (up, names[res], strlen (names[res]))) {
+			g_free (up);
 			return res;
+		}
 		res++;
 	}
+	g_free (up);
 	return res;
 }
 
@@ -478,6 +496,13 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 	int n;
 	deltax = 0.;
 	istringstream s(data);
+	JdxVar var;
+	var.NbValues = 0;
+	var.Symbol = 0;
+	var.Type = GCU_SPECTRUM_TYPE_MAX;
+	var.Unit = GCU_SPECTRUM_UNIT_MAX;
+	var.Format = GCU_SPECTRUM_FORMAT_MAX;
+	var.First = var.Last = var.Min = var.Max = var.Factor = 0.;
 	while (!s.eof ()) {
 		s.getline (line, 300);
 		n = ReadField (line, key, buf);
@@ -637,20 +662,14 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 		case JCAMP_PEAK_ASSIGNMENTS:
 		case JCAMP_RADATA:
 			break;
-		case JCAMP_XUNITS: {
-			char *unit = g_ascii_strup (buf, -1);
-			m_XUnit = (SpectrumUnitType) get_spectrum_data_from_string (unit, Units, GCU_SPECTRUM_UNIT_MAX);
-			g_free (unit);
+		case JCAMP_XUNITS:
+			m_XUnit = (SpectrumUnitType) get_spectrum_data_from_string (buf, Units, GCU_SPECTRUM_UNIT_MAX);
 			break;
-		}
-		case JCAMP_YUNITS: {
-			char *unit = g_ascii_strup (buf, -1);
-			m_YUnit = (SpectrumUnitType) get_spectrum_data_from_string (unit, Units, GCU_SPECTRUM_UNIT_MAX);
+		case JCAMP_YUNITS:
+			m_YUnit = (SpectrumUnitType) get_spectrum_data_from_string (buf, Units, GCU_SPECTRUM_UNIT_MAX);
 			if (m_YUnit == GCU_SPECTRUM_UNIT_TRANSMITTANCE)
 				m_View->SetAxisBounds (GOG_AXIS_Y, 0., 1., false);
-			g_free (unit);
 			break;
-		}
 		case JCAMP_XLABEL:
 		case JCAMP_YLABEL:
 			break;
@@ -706,17 +725,243 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 		case JCAMP_ALIAS:
 		case JCAMP_ZPD:
 		case JCAMP_NTUPLES:
-		case JCAMP_VAR_NAME:
-		case JCAMP_SYMBOL:
-		case JCAMP_VAR_TYPE:
-		case JCAMP_VAR_FORM:
-		case JCAMP_VAR_DIM:
-		case JCAMP_UNITS:
-		case JCAMP_FIRST:
-		case JCAMP_LAST:
-		case JCAMP_MIN:
-		case JCAMP_MAX:
-		case JCAMP_FACTOR:
+			break;
+		case JCAMP_VAR_NAME: {
+			size_t i = 0;
+			char *cur = buf, *end;
+			while (*cur) {
+				while (*cur && *cur == ' ')
+					cur++;
+				if (!*cur)
+					break;
+				end = strchr (cur, ',');
+				if (end)
+					*end = 0;
+				if (i < variables.size ())
+					variables[i].Name = cur;
+				else {
+					var.Name = cur;
+					variables.push_back (var);
+					var.Name.clear ();
+				}
+				cur = (end)? end + 1: cur + strlen (cur);
+				i++;
+			}
+			break;
+		}
+		case JCAMP_SYMBOL: {
+			size_t i = 0;
+			char *cur = buf, *end;
+			while (*cur) {
+				while (*cur && *cur == ' ')
+					cur++;
+				if (!*cur)
+					break;
+				end = strchr (cur, ',');
+				if (end)
+					*end = 0;
+				if (i < variables.size ())
+					variables[i].Symbol = *cur;
+				else {
+					var.Symbol = *cur;
+					variables.push_back (var);
+					var.Symbol = 0;
+				}
+				cur = (end)? end + 1: cur + strlen (cur);
+				i++;
+			}
+			break;
+		}
+		case JCAMP_VAR_TYPE: {
+			size_t i = 0;
+			char *cur = buf, *end;
+			SpectrumVarType Type;
+			while (*cur) {
+				while (*cur && *cur == ' ')
+					cur++;
+				if (!*cur)
+					break;
+				end = strchr (cur, ',');
+				if (end)
+					*end = 0;
+				Type = (SpectrumVarType) get_spectrum_data_from_string (cur, VarTypes, GCU_SPECTRUM_TYPE_MAX);
+				if (i < variables.size ())
+					variables[i].Type = Type;
+				else {
+					var.Type = Type;
+					variables.push_back (var);
+					var.Type = GCU_SPECTRUM_TYPE_MAX;
+				}
+				cur = (end)? end + 1: cur + strlen (cur);
+				i++;
+			}
+			break;
+			break;
+		}
+		case JCAMP_VAR_FORM: {
+			size_t i = 0;
+			char *cur = buf, *end;
+			SpectrumFormatType Format;
+			while (*cur) {
+				while (*cur && *cur == ' ')
+					cur++;
+				if (!*cur)
+					break;
+				end = strchr (cur, ',');
+				if (end)
+					*end = 0;
+				Format = (SpectrumFormatType) get_spectrum_data_from_string (cur, Formats, GCU_SPECTRUM_FORMAT_MAX);
+				if (i < variables.size ())
+					variables[i].Format = Format;
+				else {
+					var.Format = Format;
+					variables.push_back (var);
+					var.Format = GCU_SPECTRUM_FORMAT_MAX;
+				}
+				cur = (end)? end + 1: cur + strlen (cur);
+				i++;
+			}
+			break;
+		}
+		case JCAMP_VAR_DIM: {
+			size_t i = 0;
+			char *cur = buf;
+			unsigned dim;
+			while (*cur) {
+				dim = strtoul (cur, &cur, 10);
+				if (*cur)
+					cur++;
+				if (i < variables.size ())
+					variables[i].NbValues = dim;
+				else {
+					var.NbValues = dim;
+					variables.push_back (var);
+					var.NbValues = 0;
+				}
+				i++;
+			}
+			break;
+		}
+		case JCAMP_UNITS: {
+			size_t i = 0;
+			char *cur = buf, *end;
+			SpectrumUnitType Unit;
+			while (*cur) {
+				while (*cur && *cur == ' ')
+					cur++;
+				if (!*cur)
+					break;
+				end = strchr (cur, ',');
+				if (end)
+					*end = 0;
+				Unit = (SpectrumUnitType) get_spectrum_data_from_string (cur, Units, GCU_SPECTRUM_UNIT_MAX);
+				if (i < variables.size ())
+					variables[i].Unit = Unit;
+				else {
+					var.Unit = Unit;
+					variables.push_back (var);
+					var.Unit = GCU_SPECTRUM_UNIT_MAX;
+				}
+				cur = (end)? end + 1: cur + strlen (cur);
+				i++;
+			}
+			break;
+		}
+		case JCAMP_FIRST: {
+			size_t i = 0;
+			char *cur = buf;
+			double x;
+			while (*cur) {
+				x = strtod (cur, &cur);
+				if (*cur)
+					cur++;
+				if (i < variables.size ())
+					variables[i].First = x;
+				else {
+					var.First = x;
+					variables.push_back (var);
+					var.First = 0.;
+				}
+				i++;
+			}
+			break;
+		}
+		case JCAMP_LAST: {
+			size_t i = 0;
+			char *cur = buf;
+			double x;
+			while (*cur) {
+				x = strtod (cur, &cur);
+				if (*cur)
+					cur++;
+				if (i < variables.size ())
+					variables[i].Last = x;
+				else {
+					var.Last = x;
+					variables.push_back (var);
+					var.Last = 0.;
+				}
+				i++;
+			}
+			break;
+		}
+		case JCAMP_MIN: {
+			size_t i = 0;
+			char *cur = buf;
+			double x;
+			while (*cur) {
+				x = strtod (cur, &cur);
+				if (*cur)
+					cur++;
+				if (i < variables.size ())
+					variables[i].Min = x;
+				else {
+					var.Min = x;
+					variables.push_back (var);
+					var.Min = 0.;
+				}
+				i++;
+			}
+			break;
+		}
+		case JCAMP_MAX: {
+			size_t i = 0;
+			char *cur = buf;
+			double x;
+			while (*cur) {
+				x = strtod (cur, &cur);
+				if (*cur)
+					cur++;
+				if (i < variables.size ())
+					variables[i].Max = x;
+				else {
+					var.Max = x;
+					variables.push_back (var);
+					var.Max = 0.;
+				}
+				i++;
+			}
+			break;
+		}
+		case JCAMP_FACTOR: {
+			size_t i = 0;
+			char *cur = buf;
+			double x;
+			while (*cur) {
+				x = strtod (cur, &cur);
+				if (*cur)
+					cur++;
+				if (i < variables.size ())
+					variables[i].Factor = x;
+				else {
+					var.Factor = x;
+					variables.push_back (var);
+					var.Factor = 0.;
+				}
+				i++;
+			}
+			break;
+		}
 		case JCAMP_PAGE:
 			break;
 		case JCAMP_DELTAX:
