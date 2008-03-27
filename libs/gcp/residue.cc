@@ -75,4 +75,9 @@ void Residue::Load (xmlNodePtr node, bool ro)
 	gcu::Residue::Load (node);
 }
 
+bool Residue::operator== (gcu::Molecule const &mol) const
+{
+	return *m_Molecule == mol;
+}
+
 }	//	namespace gcp

@@ -47,6 +47,7 @@ public:
 	virtual void Remove (gcu::Object* pObject);
 	void UpdateCycles (Bond* pBond);
 	void UpdateCycles ();
+	bool operator== (Molecule const& molecule) const;
 
 protected:
 	std::list<Cycle*> m_Cycles;

@@ -42,6 +42,7 @@ public:
 	virtual ~Residue ();
 
 	virtual void Load (xmlNodePtr node, bool ro);
+	virtual bool operator== (gcu::Molecule const &mol) const;
 
 private:
 	Document *m_Doc;

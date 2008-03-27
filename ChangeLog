@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2008-03-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: moved operator== to base class.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/residue.cc: add a virtual operator== (Molecule).
+	* libs/gcp/residue.h: ditto.
+	* libs/gcu/molecule.cc: moved operator== from gcp::Molecule, and enhance
+	it a bit.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/residue.h: add a virtual operator== (Molecule).
+	* plugins/loaders/cdx/cdx.cc: test the molecule associated with a nickname.
+
 2008-03-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: load VAR_NAME field and associated.
 	* libs/gcu/spectrumdoc.h: ditto.
@@ -23,7 +34,7 @@
 	type from there.
 
 2008-03-22  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gcu/spectrumdoc.cc: use go_-complex instead of complex.
+	* libs/gcu/spectrumdoc.cc: use go-complex instead of complex.
 	* libs/gcu/spectrumdoc.h: ditto.
 
 2008-03-19  Jean Bréfort  <jean.brefort@normalesup.org>

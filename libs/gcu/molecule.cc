@@ -140,4 +140,34 @@ void Molecule::UpdateCycles ()
 	Lock (false);
 }
 
+bool Molecule::operator== (Molecule const& molecule) const
+{
+	// first examine each atom of each molecule and sort by Z.
+	map<int, set<Atom*> > atoms1, atoms2;
+	list<Atom*>::const_iterator ia, enda = m_Atoms.end ();
+	for (ia = m_Atoms.begin ();  ia != enda; ia++)
+		atoms1[(*ia)->GetZ ()].insert (*ia);
+	enda = molecule.m_Atoms.end ();
+	for (ia = molecule.m_Atoms.begin ();  ia != enda; ia++)
+		atoms2[(*ia)->GetZ ()].insert (*ia);
+	if (atoms1.size () != atoms2.size ())
+		return false;
+	map<int, set<Atom*> >::iterator ib, endb = atoms1.end (), ic, endc = atoms2.end ();
+	unsigned n = m_Atoms.size (), m;
+	int z = 200;
+	for (ib = atoms1.begin (); ib != endb; ib++) {
+		if ((ic = atoms2.find ((*ib).first)) == endc)
+			return false;
+		if ((m = (*ib).second.size ()) != (*ib).second.size ())
+			return false;
+		if (m < n)
+			n = m;
+		else if (m == n && (*ib).first < z)
+			z = (*ib).first;
+
+	}
+	// TODO: write this code
+	return true;
+}
+
 }	//namespace gcu

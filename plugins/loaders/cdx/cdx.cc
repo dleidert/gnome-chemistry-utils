@@ -26,7 +26,9 @@
 #include <gcu/application.h>
 #include <gcu/document.h>
 #include <gcu/loader.h>
+#include <gcu/molecule.h>
 #include <gcu/objprops.h>
+#include <gcu/residue.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <openbabel/chemdrawcdx.h>
@@ -79,7 +81,6 @@ private:
 	bool ReadGroup (GsfInput *in, Object *parent);
 	bool ReadGraphic (GsfInput *in, Object *parent);
 	bool ReadFragmentText (GsfInput *in, Object *parent);
-	bool ReadResidue (GsfInput *in, Object *parent);
 	guint16 ReadSize (GsfInput *in);
 	bool ReadDate (GsfInput *in);
 
@@ -350,6 +351,7 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 	Document *Doc = NULL;
 	Atom->SetProperty (GCU_PROP_ATOM_Z, "6");
 	guint32 Id;
+	int type = 0;
 	int Z = 6;
 	if (!READINT32 (in, buf, Id))
 		return false;
@@ -367,17 +369,37 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 					delete Doc;
 					return false;
 				}
-/*				static int i = 0;
-				char *filename = g_strdup_printf("file:///home/jean/devel/samples/%d.gchempaint", i++);
-				Doc->SetProperty (GCU_PROP_DOC_FILENAME, filename);
-				g_free (filename);
-				Doc->Save ();*/
 				break;
 			}
 			case kCDXObj_Text:
 				if (Z == 6) {
 					if (!ReadFragmentText (in, Atom))
 						goto bad_exit;
+				switch (type) {
+				case 4: {
+					bool amb;
+					Residue const *res = Residue::GetResidue (buf, &amb);
+					if (res != NULL) {
+						map< string, Object * >::iterator i;
+						Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
+						if (mol == NULL){
+							delete Doc;
+							return false;
+						}
+						if (*res == *mol) {
+							// Residue has been identified to the known one
+							// FIXME: change the atom to a residue
+						} else {
+							// FIXME: should the document care with the residues?
+						}
+					} else {
+						// FIXME: Unkown residue: add it to the database? or just to the document?
+					}
+					break;
+				}
+				case 5:
+					break;
+				}
 					break;
 				}
 			default:
@@ -412,17 +434,14 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 				Atom->SetProperty (GCU_PROP_ATOM_CHARGE, buf);
 				break;
 			case kCDXProp_Node_Type:
-				if (size != 2 || !READINT16 (in, buf, size))
+				if (size != 2 || !READINT16 (in, buf, type))
 					goto bad_exit;
-				switch (size) {
-				case 4:	// nickname
-				case 5:	// fragment
-					// We use the same representation as a fragment
-					// First: convert the atom to a fragment
-					break;
-				case 12:	// attachement point
+				if (type == 12) {
 					// convert the atom to a pseudo atom.
-					break;
+					delete Atom;
+					Atom = Object::CreateObject ("pseudo-atom", parent);
+					snprintf (buf, bufsize, "a%d", Id);
+					Atom->SetId (buf);
 				}
 				break;
 			default:
@@ -787,32 +806,6 @@ bool CDXLoader::ReadFragmentText (GsfInput *in, Object *parent)
 				if (size && !gsf_input_read (in, size, (guint8*) buf))
 					return false;
 			}
-		}
-		if (!READINT16 (in, buf, code))
-			return false;
-	}
-	return true;
-}
-
-bool CDXLoader::ReadResidue (GsfInput *in, Object *parent)
-{
-	guint16 code;
-	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
-		return false;
-	if (!READINT16 (in, buf, code))
-		return false;
-	while (code) {
-		if (code & kCDXTag_Object) {
-printf("residue child = %x\n",code);
-			if (!ReadGenericObject (in))
-				return false;
-		} else {
-printf("residue property = %x\n",code);
-			guint16 size;
-			if ((size = ReadSize (in)) == 0xffff)
-				return false;
-			if (size && !gsf_input_read (in, size, (guint8*) buf))
-				return false;
 		}
 		if (!READINT16 (in, buf, code))
 			return false;

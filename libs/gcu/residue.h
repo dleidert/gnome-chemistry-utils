@@ -34,7 +34,7 @@
 namespace gcu {
 
 class Residue;
-
+class Molecule;
 
 typedef struct {
 	Residue *res;
@@ -61,6 +61,7 @@ public:
 	static Residue const *GetResiduebyName (char const *name);
 	static std::string const *GetFirstResidueSymbol (ResidueIterator &i);
 	static std::string const *GetNextResidueSymbol (ResidueIterator &i);
+	virtual bool operator== (Molecule const &mol) const {return false;}
 
 public:
 	static unsigned MaxSymbolLength;

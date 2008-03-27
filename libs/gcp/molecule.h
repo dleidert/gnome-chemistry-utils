@@ -69,7 +69,6 @@ public:
 	char const *GetInChI ();
 	std::string GetRawFormula ();
 	void OnLoaded ();
-	bool operator== (Molecule const& molecule);
 
 private:
 	std::list<Fragment*> m_Fragments;
