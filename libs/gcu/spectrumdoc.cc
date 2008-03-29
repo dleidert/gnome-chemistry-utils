@@ -44,7 +44,7 @@ SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (t
 {
 	m_View = new SpectrumView (this);
 	x = y = NULL;
-	z = NULL;
+	X = Y = R = I = -1;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -61,7 +61,7 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 {
 	m_View = (View)? View: new SpectrumView (this);
 	x = y = NULL;
-	z = NULL;
+	X = Y = R = I = -1;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -73,12 +73,13 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 
 SpectrumDocument::~SpectrumDocument ()
 {
-	if (x)
+	if (x && X < 0)
 		delete[] x;
-	if (y)
+	if (y && Y < 0)
 		delete[] y;
-	if (z)
-		delete[] z;
+	for (unsigned i = 0; i < variables.size (); i++)
+		if (variables[i].Values)
+			delete [] variables[i].Values;
 }
 
 void SpectrumDocument::Load (char const *uri, char const *mime_type)
@@ -111,6 +112,65 @@ void SpectrumDocument::Load (char const *uri, char const *mime_type)
 	delete [] buf;
 	g_free (handle);
 	
+}
+
+struct data_type_struct {
+	int n; // number of variables
+	bool comma_sep; // whether the separator is a comma
+	bool one_per_line; // whether each line has only one data set
+	bool explicit_indep; // whether the independent variable is explicit
+	char *variables; // each letter is a variable symbol, must be freed
+};
+
+static void parse_data_type (char const *type, struct data_type_struct &s)
+{
+	// initialize s
+	s.variables = NULL; // if still NULL when returning, an error occurred
+	s.n = 0;
+	s.one_per_line = false;
+	s.comma_sep = false;
+	s.explicit_indep = true;
+	string variables;
+	if (*type != '(')
+		return;
+	type++;
+	if (*type < 'A' || *type > 'Z')
+		return;
+	variables += *type; //first variable symbol
+	type++;
+	switch (*type) {
+	case ',':
+		s.comma_sep = true;
+		type++;
+		break;
+	case '+':
+		if (type[1] != '+')
+			return;
+		s.explicit_indep = false;
+		type += 2;
+		while (*type == '(' || *type == ')')
+			type++;
+		break;
+	default:
+		break;
+	}
+	// at this point *type should be the second variable symbol
+	if (*type < 'A' || *type > 'Z')
+		return;
+	variables += *type; //second variable symbol
+	type++;
+	// add additional variables if any
+	while (*type == ',' || (*type >= 'A' && *type <= 'Z')) {
+		if (*type != ',')
+			variables += *type;
+		type++;
+	}
+	while (*type == ' ')
+		type++;
+	s.one_per_line = !(*type == '.');
+	s.n = variables.length (); 
+	if (s.n > 0)
+		s.variables = g_strdup (variables.c_str ());
 }
 
 char const *Types[] = {
@@ -236,6 +296,7 @@ char const *Keys[] = {
 	"MAX",
 	"FACTOR",
 	"PAGE",
+	"DATATABLE",
 	"DELTAX",
 	"CLASS",
 	"ORIGIN",
@@ -363,6 +424,7 @@ enum {
 	JCAMP_MAX,
 	JCAMP_FACTOR,
 	JCAMP_PAGE,
+	JCAMP_DATA_TABLE,
 	JCAMP_DELTAX,
 	JCAMP_CLASS,
 	JCAMP_ORIGIN,
@@ -503,6 +565,7 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 	var.Unit = GCU_SPECTRUM_UNIT_MAX;
 	var.Format = GCU_SPECTRUM_FORMAT_MAX;
 	var.First = var.Last = var.Min = var.Max = var.Factor = 0.;
+	var.Values = NULL;
 	while (!s.eof ()) {
 		s.getline (line, 300);
 		n = ReadField (line, key, buf);
@@ -553,82 +616,9 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 				npoints = n;
 			}
 			// FIXME: we should implement a real parser for this value
-			if (!strncmp (buf, "(X++(Y..Y))",strlen ("(X++(Y..Y))"))) {
-				int previous = 0;
-				double previousx = firstx;
-				while (1) {
-					if (s.eof ())
-						break;	// this should not occur, but a corrupted or bad file is always possible
-					s.getline (line, 300);
-					if (strstr (line, "##")) {
-						s.seekg (-strlen (line) -1, _S_cur);
-						if (read > npoints) {
-							g_warning (_("Found too many data!"));
-							// FIXME: throw an exception
-						} else
-							npoints = read;
-						break;
-					}
-					ReadDataLine (line, l);
-					if (l.empty ())
-						continue;
-					list<double>::iterator i = l.begin (), end = l.end ();
-					if (read > 0) {
-						double x1 = (*i) * xfactor;
-						int n = read - previous - (int)round((x1-previousx)/deltax);
-						previous = read;
-						previousx = x1;
-						if (n == 0) {
-							// values are the same, no y reminder, and nothing to do
-						} else if (n == 1) {
-							i++;
-							previous--;
-							double y0 = (*i) * yfactor;
-							if (fabs (y0 - y[read - 1]) > fmax (fabs (y0), fabs (y[read - 1])) * JCAMP_PREC)
-								g_warning (_("Data check failed!"));
-						} else if (previousx - x1 < 0.) {
-							unsigned missing = (unsigned) round ((x1 - previousx) / deltax), n;
-							for (n = 0; n < missing; n++) {
-								if (read > npoints) // FIXME: Throw an exception
-									break;
-								x[read] = firstx + deltax * read;
-								y[read++] = go_nan;
-							}
-						} else {
-							// FIXME: duplicate values, throw an exception
-						}
-					} else {
-						x[read] = (*i) * xfactor;
-						if (fabs (x[0] - firstx) > fabs (deltax * JCAMP_PREC)) {
-							xfactor = firstx / (*i);
-							deltax = (lastx - firstx) / (npoints - 1);
-							g_warning (_("Data check failed: FIRSTX!"));
-						}
-						i++;
-						y[read++] = (*i) * yfactor;
-						if (fabs (firsty - y[0]) > fmax (fabs (firsty), fabs (y[0])) * JCAMP_PREC)
-							g_warning (_("Data check failed: FIRSTY!"));
-					}
-					for (i++; i !=	end; i++) {
-						if (read >= npoints) { // FIXME: Throw an exception
-							g_warning (_("Found too many data"));
-							break;
-						}
-						x[read] = firstx + deltax * read;
-						y[read++] = (*i) * yfactor;
-					}
-					l.clear ();
-				}
-				while (npoints > read) {
-					// this should never occur, fill missing y values with nan
-					x[read] = minx + deltax * read;
-					y[read++] = go_nan;
-				}
-				if (isnan (maxx)) {
-					maxx = MAX (firstx, lastx);
-					minx = MIN (firstx, lastx);
-				}
-			} else if (!strncmp (buf, "(XY..XY)",strlen ("(XY..XY)"))) {
+			if (!strncmp (buf, "(X++(Y..Y))",strlen ("(X++(Y..Y))")))
+				ReadDataTable (s, x, y);
+			else if (!strncmp (buf, "(XY..XY)",strlen ("(XY..XY)"))) {
 				char *cur;
 				while (1) {
 					if (s.eof ())
@@ -766,6 +756,22 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 					var.Symbol = *cur;
 					variables.push_back (var);
 					var.Symbol = 0;
+				}
+				switch (*cur) {
+				case 'I':
+					I = i;
+					break;
+				case 'R':
+					R = i;
+					break;
+				case 'X':
+					X = i;
+					break;
+				case 'Y':
+					Y = i;
+					break;
+				default:
+					break;
 				}
 				cur = (end)? end + 1: cur + strlen (cur);
 				i++;
@@ -962,8 +968,99 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 			}
 			break;
 		}
-		case JCAMP_PAGE:
+		case JCAMP_PAGE: {
+			unsigned num = atoi (strchr (buf, '=') + 1);
+			if (num == 1) {
+				unsigned max = 0;
+				for (unsigned i = 0; i < variables.size (); i++) {
+					JdxVar &v = variables[i];
+					if (v.Name == "PAGE NUMBER")
+						continue;
+					if (v.NbValues > max)
+						max = v.NbValues;
+					switch (v.Type) {
+					case GCU_SPECTRUM_TYPE_INDEPENDENT:
+						if (v.Symbol == 'X') {
+							firstx = v.First;
+							lastx = v.Last;
+							minx = v.Min;
+							maxx = v.Max;
+							xfactor = v.Factor;
+							deltax = (lastx - firstx) / (v.NbValues - 1);
+						}
+						break;
+					case GCU_SPECTRUM_TYPE_DEPENDENT:
+						break;
+					default:
+						break;
+					}
+				}
+				npoints = max;
+			}
 			break;
+		}
+		case JCAMP_DATA_TABLE: {
+			// first split fields, we might have two, but the second is optional
+			char *vlist = buf, *desc;
+			while (*vlist && *vlist == ' ')
+				vlist++;
+			if (!*vlist)
+				break;
+			desc = strchr (vlist, ',');
+			if (desc)
+				*desc = 0;
+			desc++;
+			while (*desc && *desc == ' ')
+				desc++;
+			struct data_type_struct dts;
+			parse_data_type (vlist, dts);
+			if (!strncmp (desc, "XYDATA", 6)) {
+				if (dts.n == 2 && !dts.one_per_line && !dts.explicit_indep) {
+					int first = -1, second = -1;
+					switch (*dts.variables) {
+					case 'I':
+						first = I;
+						break;
+					case 'R':
+						first = R;
+						break;
+					case 'X':
+						first = X;
+						break;
+					case 'Y':
+						first = Y;
+						break;
+					}
+					switch (dts.variables[1]) {
+					case 'I':
+						second = I;
+						break;
+					case 'R':
+						second = R;
+						break;
+					case 'X':
+						second = X;
+						break;
+					case 'Y':
+						second = Y;
+						break;
+					}
+					if (first >=0 && second >=0 && first != second) {
+						if (variables[first].Values)
+							delete [] variables[first].Values;
+						variables[first].Values = new double[variables[first].NbValues];
+						if (variables[second].Values)
+							delete [] variables[second].Values;
+						variables[second].Values = new double[variables[second].NbValues];
+						yfactor = variables[second].Factor;
+						firsty = variables[second].First;
+						ReadDataTable (s, variables[first].Values, variables[second].Values);						
+					}
+				}
+			} //what should be done for PROFILE, PEAKS and COUTOUR?
+			g_free (dts.variables);
+			break;
+		}
 		case JCAMP_DELTAX:
 			deltax = strtod (buf, NULL);
 			break;
@@ -1039,16 +1136,18 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 	}
 
 out:
+	bool hide_y_axis = false;
 	// doon't do anything for unsupported spectra
 	switch (m_SpectrumType) {
+	case GCU_SPECTRUM_NMR:
+		hide_y_axis = true;
 	case GCU_SPECTRUM_INFRARED:
 	case GCU_SPECTRUM_RAMAN:
 //	case GCU_SPECTRUM_INFRARED_PEAK_TABLE:
 //	case GCU_SPECTRUM_INFRARED_INTERFEROGRAM:
 //	case GCU_SPECTRUM_INFRARED_TRANSFORMED:
 	case GCU_SPECTRUM_UV_VISIBLE:
-	case GCU_SPECTRUM_NMR:
-		if (x == NULL)
+		if (x == NULL && X > 0 && variables[X].Values == NULL)
 			return;
 		else
 			break;
@@ -1063,9 +1162,21 @@ out:
 	m_Empty = npoints == 0;
 	GOData *godata;
 	GogSeries *series = m_View->GetSeries ();
-	godata = go_data_vector_val_new (x, npoints, NULL);
+	if (X >= 0 && variables[X].Values != NULL) {
+		godata = go_data_vector_val_new (variables[X].Values, npoints, NULL);
+		m_XUnit = variables[X].Unit;
+	}
+	else
+		godata = go_data_vector_val_new (x, npoints, NULL);
 	gog_series_set_dim (series, 0, godata, NULL);
-	godata = go_data_vector_val_new (y, npoints, NULL);
+	if (Y >= 0 && variables[Y].Values != NULL) {
+		godata = go_data_vector_val_new (variables[Y].Values, npoints, NULL);
+		m_YUnit = variables[Y].Unit;
+	} else if (R >= 0 && variables[R].Values != NULL) {
+		godata = go_data_vector_val_new (variables[R].Values, npoints, NULL);
+		m_YUnit = variables[R].Unit;
+	} else
+		godata = go_data_vector_val_new (y, npoints, NULL);
 	gog_series_set_dim (series, 1, godata, NULL);
 	/* invert X-axis if needed */
 	bool invert_axis = false;
@@ -1074,10 +1185,16 @@ out:
 	case GCU_SPECTRUM_UNIT_PPM:
 		invert_axis = true;
 		break;
+	case GCU_SPECTRUM_UNIT_HZ:
+		if (m_SpectrumType == GCU_SPECTRUM_NMR)
+			invert_axis = true;
+		break;
 	default:
 		break;
 	}
 	m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
+	if (hide_y_axis)
+		m_View->ShowAxis (GOG_AXIS_Y, false);
 	/* Add axes labels */
 	if (m_XUnit < GCU_SPECTRUM_UNIT_MAX)
 		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[m_XUnit]));
@@ -1277,6 +1394,87 @@ GtkWindow *SpectrumDocument::GetGtkWindow ()
 {
 	GtkWidget *w = m_View->GetWidget ();
 	return (GtkWindow*) ((w)? gtk_widget_get_toplevel (m_View->GetWidget ()): NULL);
+}
+
+void SpectrumDocument::ReadDataTable (istream &s, double *x, double *y)
+{
+	char line[300]; // should be enough
+	unsigned read = 0;
+	list<double> l;
+	int previous = 0;
+	double previousx = firstx;
+	while (1) {
+		if (s.eof ())
+			break;	// this should not occur, but a corrupted or bad file is always possible
+		s.getline (line, 300);
+		if (strstr (line, "##")) {
+			s.seekg (-strlen (line) -1, _S_cur);
+			if (read > npoints) {
+				g_warning (_("Found too many data!"));
+				// FIXME: throw an exception
+			} else
+				npoints = read;
+			break;
+		}
+		ReadDataLine (line, l);
+		if (l.empty ())
+			continue;
+		list<double>::iterator i = l.begin (), end = l.end ();
+		if (read > 0) {
+			double x1 = (*i) * xfactor;
+			int n = read - previous - (int)round((x1-previousx)/deltax);
+			previous = read;
+			previousx = x1;
+			if (n == 0) {
+				// values are the same, no y reminder, and nothing to do
+			} else if (n == 1) {
+				i++;
+				previous--;
+				double y0 = (*i) * yfactor;
+				if (fabs (y0 - y[read - 1]) > fmax (fabs (y0), fabs (y[read - 1])) * JCAMP_PREC)
+					g_warning (_("Data check failed!"));
+			} else if (previousx - x1 < 0.) {
+				unsigned missing = (unsigned) round ((x1 - previousx) / deltax), n;
+				for (n = 0; n < missing; n++) {
+					if (read > npoints) // FIXME: Throw an exception
+						break;
+					x[read] = firstx + deltax * read;
+					y[read++] = go_nan;
+				}
+			} else {
+				// FIXME: duplicate values, throw an exception
+			}
+		} else {
+			x[read] = (*i) * xfactor;
+			if (fabs (x[0] - firstx) > fabs (deltax * JCAMP_PREC)) {
+				xfactor = firstx / (*i);
+				deltax = (lastx - firstx) / (npoints - 1);
+				g_warning (_("Data check failed: FIRSTX!"));
+			}
+			i++;
+			y[read++] = (*i) * yfactor;
+			if (fabs (firsty - y[0]) > fmax (fabs (firsty), fabs (y[0])) * JCAMP_PREC)
+				g_warning (_("Data check failed: FIRSTY!"));
+		}
+		for (i++; i !=	end; i++) {
+			if (read >= npoints) { // FIXME: Throw an exception
+				g_warning (_("Found too many data"));
+				break;
+			}
+			x[read] = firstx + deltax * read;
+			y[read++] = (*i) * yfactor;
+		}
+		l.clear ();
+	}
+	while (npoints > read) {
+		// this should never occur, fill missing y values with nan
+		x[read] = minx + deltax * read;
+		y[read++] = go_nan;
+	}
+	if (isnan (maxx)) {
+		maxx = MAX (firstx, lastx);
+		minx = MIN (firstx, lastx);
+	}
 }
 
 }	//	nampespace gcu

@@ -78,6 +78,17 @@ void SpectrumView::SetAxisLabel (GogAxisType target, char const *unit)
 	
 }
 
+void SpectrumView::ShowAxis (GogAxisType target, bool show)
+{
+	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
+	GSList *axes = gog_chart_get_axes (chart, target);
+	GogObject *axis = GOG_OBJECT (axes->data);
+	g_object_set (G_OBJECT (axis), "major-tick-labeled", false, NULL);
+	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (axis));
+	style->line.dash_type = GO_LINE_NONE;
+	style->line.auto_dash = false;
+}
+
 void SpectrumView::Render (cairo_t *cr, double width, double height)
 {
 	gog_graph_render_to_cairo (go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_Widget)), cr, width, height);

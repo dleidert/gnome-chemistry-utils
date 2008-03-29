@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-03-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: load nmr spectra using jcamp-dx 5.x NTUPPLES.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: add ShowAxis method.
+	* libs/gcu/spectrumview.h: ditto.
+
 2008-03-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: moved operator== to base class.
 	* libs/gcp/molecule.h: ditto.
@@ -44,7 +50,7 @@
 	* configure.ac: test for gio presence.
 	* libs/gcp/Makefile.am: add two new source files.
 	* libs/gcp/application.cc: add headers missing after document.h cleaning.
-	* libs/gcp/atom.cc: dont try to set an atomoc number less that 1.
+	* libs/gcp/atom.cc: dont try to set an atomic number less that 1.
 	* libs/gcp/document.cc: save used residues with document.
 	* libs/gcp/document.h: ditto and replaced unneeded headers by class
 	forward declarations.

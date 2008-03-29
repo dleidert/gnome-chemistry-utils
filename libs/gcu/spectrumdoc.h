@@ -26,7 +26,6 @@
 #include "document.h"
 #include "macros.h"
 #include "printable.h"
-#include <goffice/math/go-complex.h>
 #include <string>
 #include <vector>
 
@@ -89,6 +88,7 @@ typedef struct  {
 	SpectrumFormatType Format;
 	unsigned NbValues;
 	double First, Last, Min, Max, Factor;
+	double *Values;
 } JdxVar;
 
 class SpectrumDocument: public Document, public Printable
@@ -123,15 +123,16 @@ private:
 	void ReadDataLine (char const *data, std::list<double> &l);
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 	GtkWindow *GetGtkWindow ();
+	void ReadDataTable (std::istream &s, double *x, double *y);
 
 private:
 	double *x, *y;
-	go_complex *z;
 	unsigned npoints;
 	double maxx, maxy, minx, miny;
 	double firstx, lastx, deltax, firsty;
 	double xfactor, yfactor;
 	std::vector <JdxVar> variables;
+	int X, Y, R, I;
 
 GCU_PROT_PROP (SpectrumView*, View)
 GCU_RO_PROP (bool, Empty)
