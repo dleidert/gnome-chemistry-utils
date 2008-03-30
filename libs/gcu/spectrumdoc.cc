@@ -1158,7 +1158,7 @@ out:
 			w = gtk_combo_box_new_text ();
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
-			SpectrumUnitType unit = (X)? variables[X].Unit: m_XUnit;
+			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
 			g_signal_connect (w, "changed", G_CALLBACK (on_unit_changed), this);
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
@@ -1557,9 +1557,9 @@ void SpectrumDocument::OnUnitChanged (int i)
 				v.Format = GCU_SPECTRUM_FORMAT_MAX;
 				v.NbValues = npoints;
 				v.First = firstx * f;
-				v.Last = lastx; 
-				v.Min = minx;
-				v.Max = maxx;
+				v.Last = lastx * f; 
+				v.Min = minx * f;
+				v.Max = maxx * f;
 				v.Factor = 1.;
 				v.Values = new double[npoints];
 				for (j = 0; j < npoints; j++)

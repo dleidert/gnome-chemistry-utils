@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: fixed a crash and always get a correct range
+	when changing units.
+
+2008-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: allow choosing x units in nmr between
 	Hz and ppm.
 	* libs/gcu/spectrumdoc.h: ditto.
