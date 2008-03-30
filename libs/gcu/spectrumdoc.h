@@ -118,12 +118,17 @@ Loads a spaectrum from the provided uri. Default mime type is NULL,
 */
 	void Load (char const *uri, char const *mime_type = NULL);
 
+/*!
+*/
+	void OnUnitChanged (int i);
+
 private:
 	void LoadJcampDx (char const *data);
 	void ReadDataLine (char const *data, std::list<double> &l);
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
 	GtkWindow *GetGtkWindow ();
 	void ReadDataTable (std::istream &s, double *x, double *y);
+	double GetConversionFactor (SpectrumUnitType oldu, SpectrumUnitType newu);
 
 private:
 	double *x, *y;
@@ -133,6 +138,7 @@ private:
 	double xfactor, yfactor;
 	std::vector <JdxVar> variables;
 	int X, Y, R, I;
+	double freq;
 
 GCU_PROT_PROP (SpectrumView*, View)
 GCU_RO_PROP (bool, Empty)

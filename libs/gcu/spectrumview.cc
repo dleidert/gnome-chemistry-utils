@@ -46,6 +46,11 @@ static void on_max_changed (SpectrumView *view)
 {
 	view->OnMinChanged ();
 }
+
+static void on_xrange_changed (SpectrumView *view)
+{
+	view->OnXRangeChanged ();
+}
 	
 SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 {
@@ -75,6 +80,10 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	xmaxbtn = GTK_SPIN_BUTTON (gtk_spin_button_new_with_range (0., 1., 0.1));
 	maxsgn = g_signal_connect_swapped (xmaxbtn, "value-changed", G_CALLBACK (on_max_changed), this);
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (xmaxbtn), false, false, 0);
+	xrange = GTK_RANGE (gtk_hscrollbar_new (NULL));
+	gtk_widget_set_sensitive (GTK_WIDGET (xrange), false);
+	xrangesgn = g_signal_connect_swapped (xrange, "value-changed", G_CALLBACK (on_xrange_changed), this);
+	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (xrange), true, true, 0);
 	gtk_box_pack_start (GTK_BOX (m_OptionBox), box, false, false, 0);
 }
 
@@ -89,18 +98,31 @@ void SpectrumView::SetAxisBounds (GogAxisType target, double min, double max, bo
 	GogAxis *axis = GOG_AXIS (axes->data);
 	gog_axis_set_bounds (axis, min, max);
 	g_object_set (axis, "invert-axis", inverted, NULL);
-	double l = log (fabs (max - min));
-	int n = (l < 3)? rint (3 - l): 0;
-	l = pow (10, -n);
-	gtk_spin_button_set_range (xminbtn, min, max); 
-	gtk_spin_button_set_range (xmaxbtn, min, max); 
-	gtk_spin_button_set_increments (xminbtn, l, 10 * l); 
-	gtk_spin_button_set_increments (xmaxbtn, l, 10 * l);
-	gtk_spin_button_set_value (xminbtn, min);
-	gtk_spin_button_set_value (xmaxbtn, max);
-	gtk_spin_button_set_digits (xminbtn, n);
-	gtk_spin_button_set_digits (xmaxbtn, n);
-	printf("l=%g n=%d\n",l,n);
+	if (target == GOG_AXIS_X) {
+		double l = log (fabs (max - min));
+		int n = (l < 3)? rint (3 - l): 0;
+		xstep = pow (10, -n);
+		g_signal_handler_block (xminbtn, minsgn); 
+		g_signal_handler_block (xmaxbtn, maxsgn); 
+		gtk_spin_button_set_range (xminbtn, min, max); 
+		gtk_spin_button_set_range (xmaxbtn, min, max); 
+		gtk_spin_button_set_increments (xminbtn, xstep, 100 * xstep); 
+		gtk_spin_button_set_increments (xmaxbtn, xstep, 100 * xstep);
+		gtk_range_set_increments (xrange, xstep, 100 * xstep);
+		gtk_range_set_inverted (xrange, !inverted);
+		g_signal_handler_block (xrange, xrangesgn);
+		gtk_range_set_value (xrange, 0.);
+		gtk_widget_set_sensitive (GTK_WIDGET (xrange), false);
+		g_signal_handler_unblock (xrange, xrangesgn);
+		gtk_spin_button_set_value (xminbtn, min);
+		gtk_spin_button_set_value (xmaxbtn, max);
+		gtk_spin_button_set_digits (xminbtn, n);
+		gtk_spin_button_set_digits (xmaxbtn, n);
+		g_signal_handler_unblock (xminbtn, minsgn); 
+		g_signal_handler_unblock (xmaxbtn, maxsgn); 
+		xmin = min;
+		xmax = max;
+	}
 }
 
 void SpectrumView::SetAxisLabel (GogAxisType target, char const *unit)
@@ -109,7 +131,13 @@ void SpectrumView::SetAxisLabel (GogAxisType target, char const *unit)
 	GSList *axes = gog_chart_get_axes (chart, target);
 	GogObject *axis = GOG_OBJECT (axes->data);
 	GOData *data = go_data_scalar_str_new (unit, false);
-	GogObject *label = GOG_OBJECT (g_object_new (GOG_LABEL_TYPE, NULL));
+	GogObject *label = gog_object_get_child_by_name (axis, "Label");
+	if (label) {
+		// remove the old label if any
+		gog_object_clear_parent (label);
+		g_object_unref (label);
+	}
+	label = GOG_OBJECT (g_object_new (GOG_LABEL_TYPE, NULL));
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 	gog_object_add_by_name (axis, "Label", label);
 	
@@ -147,6 +175,16 @@ void SpectrumView::OnMinChanged ()
 	GSList *axes = gog_chart_get_axes (chart, GOG_AXIS_X);
 	GogAxis *axis = GOG_AXIS (axes->data);
 	gog_axis_set_bounds (axis, min, max);
+	g_signal_handler_block (xrange, xrangesgn);
+	if (max - min < xmax - xmin) {
+		gtk_range_set_range (xrange, 0., xmax - xmin - max + min);
+		gtk_range_set_value (xrange, min - xmin);
+		gtk_widget_set_sensitive (GTK_WIDGET (xrange), true);
+	} else {
+		gtk_range_set_value (xrange, 0.);
+		gtk_widget_set_sensitive (GTK_WIDGET (xrange), false);
+	}
+	g_signal_handler_unblock (xrange, xrangesgn);
 }
 
 void SpectrumView::OnMaxChanged ()
@@ -165,6 +203,33 @@ void SpectrumView::OnMaxChanged ()
 	GSList *axes = gog_chart_get_axes (chart, GOG_AXIS_X);
 	GogAxis *axis = GOG_AXIS (axes->data);
 	gog_axis_set_bounds (axis, min, max);
+	g_signal_handler_block (xrange, xrangesgn);
+	if (max - min < xmax - xmin) {
+		gtk_range_set_range (xrange, 0., xmax - xmin - max + min);
+		gtk_range_set_value (xrange, min - xmin);
+		gtk_widget_set_sensitive (GTK_WIDGET (xrange), true);
+	} else {
+		gtk_range_set_value (xrange, 0.);
+		gtk_widget_set_sensitive (GTK_WIDGET (xrange), false);
+	}
+	g_signal_handler_unblock (xrange, xrangesgn);
+}
+
+void SpectrumView::OnXRangeChanged ()
+{
+	double max = gtk_spin_button_get_value (xmaxbtn) - gtk_spin_button_get_value (xminbtn);
+	double min = xmin + gtk_range_get_value (xrange);
+	max += min;
+	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
+	GSList *axes = gog_chart_get_axes (chart, GOG_AXIS_X);
+	GogAxis *axis = GOG_AXIS (axes->data);
+	gog_axis_set_bounds (axis, min, max);
+	g_signal_handler_block (xminbtn, minsgn); 
+	gtk_spin_button_set_value (xminbtn, min);
+	g_signal_handler_unblock (xminbtn, minsgn); 
+	g_signal_handler_block (xmaxbtn, maxsgn);
+	gtk_spin_button_set_value (xmaxbtn, max);
+	g_signal_handler_unblock (xmaxbtn, maxsgn); 
 }
 
 }	//	namespace gcu

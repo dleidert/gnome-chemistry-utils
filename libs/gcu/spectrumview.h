@@ -72,9 +72,16 @@ The destructor of SpectrumView.
 */
 	void OnMaxChanged ();
 
+/*!
+*/
+	void OnXRangeChanged ();
+
 private:
 	GtkSpinButton *xminbtn, *xmaxbtn;
-	gulong minsgn, maxsgn;
+	GtkRange *xrange;
+	gulong minsgn, maxsgn, xrangesgn;
+	double xmin, xmax, xstep;
+
 /*!\fn GetDoc()
 @return the associated document.
 */

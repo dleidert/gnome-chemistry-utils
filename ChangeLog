@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
 2008-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: allow choosing x units in nmr between
+	Hz and ppm.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+
+2008-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: add widgets to limit visible range.
 	* libs/gcu/spectrumview.cc: ditto.
 	* libs/gcu/spectrumview.h: ditto.

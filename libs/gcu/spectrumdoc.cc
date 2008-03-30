@@ -48,6 +48,7 @@ SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (t
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
+	freq = go_nan;
 	gtk_page_setup_set_orientation (GetPageSetup (), GTK_PAGE_ORIENTATION_LANDSCAPE);
 	SetScaleType (GCU_PRINT_SCALE_AUTO);
 	SetHorizFit (true);
@@ -65,6 +66,7 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
+	freq = go_nan;
 	gtk_page_setup_set_orientation (GetPageSetup (), GTK_PAGE_ORIENTATION_LANDSCAPE);
 	SetScaleType (GCU_PRINT_SCALE_AUTO);
 	SetHorizFit (true);
@@ -496,7 +498,7 @@ enum {
 
 #define KEY_LENGTH 80
 #define VALUE_LENGTH 128
-int ReadField (char const *s, char *key, char *buf)
+static int ReadField (char const *s, char *key, char *buf)
 {
 	char const *data = s, *eq;
 	int i = 0;
@@ -546,6 +548,11 @@ int ReadField (char const *s, char *key, char *buf)
 		return i;
 	}
 	return JCAMP_UNKNOWN;
+}
+
+static void on_unit_changed (GtkComboBox *box, SpectrumDocument *doc)
+{
+	doc->OnUnitChanged (gtk_combo_box_get_active (box));
 }
 
 #define JCAMP_PREC 1e-3 // fully arbitrary
@@ -1110,7 +1117,10 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 		case JCAMP_RIC:
 		case JCAMP_NOMINAL_MASS:
 		case JCAMP_MONOISOTOPIC_MASS:
+			break;
 		case JCAMP_OBSERVE_FREQUENCY:
+			freq = strtod (buf, NULL);
+			break;
 		case JCAMP_OBSERVE_NUCLEUS:
 		case JCAMP_SOLVENT_REFERENCE:
 		case JCAMP_DELAY:
@@ -1140,6 +1150,21 @@ out:
 	// doon't do anything for unsupported spectra
 	switch (m_SpectrumType) {
 	case GCU_SPECTRUM_NMR:
+		if (go_finite (freq)) {
+			// add some widgets to the option box
+			GtkWidget *box = gtk_hbox_new (false, 5);
+			GtkWidget *w = gtk_label_new (_("X unit:"));
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			w = gtk_combo_box_new_text ();
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
+			SpectrumUnitType unit = (X)? variables[X].Unit: m_XUnit;
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
+			g_signal_connect (w, "changed", G_CALLBACK (on_unit_changed), this);
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			gtk_widget_show_all (box);
+			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+		}
 	case GCU_SPECTRUM_NMR_FID:
 		hide_y_axis = true;
 	case GCU_SPECTRUM_INFRARED:
@@ -1204,15 +1229,15 @@ out:
 
 void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 {
-	int i = 1, j, max = strlen (data);
+	int i = 1, j;
 	char buf[32], c = data[0];
 	double val = 0., newval = 0.;
 	bool pos, diff = false;
-	char const *eq = strstr (data, "$$");
+	char *eq = strstr (data, "$$");
 	if (eq)
-		max = eq - data + 1;
+		*eq = 0;
 	pos = true;
-	while (i < max) {
+	while (c) {
 		switch (c) {
 		case ' ':
 			c = data[i++];
@@ -1475,6 +1500,96 @@ void SpectrumDocument::ReadDataTable (istream &s, double *x, double *y)
 		maxx = MAX (firstx, lastx);
 		minx = MIN (firstx, lastx);
 	}
+}
+
+void SpectrumDocument::OnUnitChanged (int i)
+{
+	SpectrumUnitType unit = GCU_SPECTRUM_UNIT_MAX;
+	bool invert_axis = false;
+	switch (m_SpectrumType) {
+	case GCU_SPECTRUM_NMR:
+		unit = (i == 0)? GCU_SPECTRUM_UNIT_PPM: GCU_SPECTRUM_UNIT_HZ;
+		invert_axis = true;
+		break;
+	default:
+		break;
+	}
+	if (unit == GCU_SPECTRUM_UNIT_MAX)
+		return;
+	GOData *godata;
+	GogSeries *series = m_View->GetSeries ();
+	if (X < 0 && m_XUnit == unit) {
+		godata = go_data_vector_val_new (x, npoints, NULL);
+		gog_series_set_dim (series, 0, godata, NULL);
+		m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
+		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[m_XUnit]));
+	} else {
+		unsigned i, j;
+		double f;
+		for (i = 0; i < variables.size (); i++)
+			if (variables[i].Symbol == 'X' && variables[i].Unit == unit)
+				break;
+		if (i == variables.size ()) {
+			// Add new data vector
+			JdxVar v;
+			if (X >=0) {
+				f = GetConversionFactor (variables[X].Unit, unit);
+				v.Name = _(UnitNames[variables[X].Unit]);
+				v.Symbol = variables[X].Symbol;
+				v.Type = variables[X].Type;
+				v.Unit = unit;
+				v.Format = variables[X].Format;
+				v.NbValues = variables[X].NbValues;
+				v.First = variables[X].First * f;
+				v.Last = variables[X].Last * f; 
+				v.Min = variables[X].Min * f;
+				v.Max = variables[X].Max * f;
+				v.Factor = 1.;
+				v.Values = new double[variables[X].NbValues];
+				for (j = 0; j < variables[X].NbValues; j++)
+					v.Values[j] = variables[X].Values[j] * f;
+			} else {
+				f = GetConversionFactor (m_XUnit, unit);
+				v.Name = _(UnitNames[unit]);
+				v.Symbol = 'X';
+				v.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
+				v.Unit = unit;
+				v.Format = GCU_SPECTRUM_FORMAT_MAX;
+				v.NbValues = npoints;
+				v.First = firstx * f;
+				v.Last = lastx; 
+				v.Min = minx;
+				v.Max = maxx;
+				v.Factor = 1.;
+				v.Values = new double[npoints];
+				for (j = 0; j < npoints; j++)
+					v.Values[j] = x[j] * f;
+			}
+			variables.push_back (v);
+		}
+		godata = go_data_vector_val_new (variables[i].Values, variables[i].NbValues, NULL);
+		gog_series_set_dim (series, 0, godata, NULL);
+		m_View->SetAxisBounds (GOG_AXIS_X, variables[i].Min, variables[i].Max, invert_axis);
+		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[variables[i].Unit]));
+	}
+}
+
+double SpectrumDocument::GetConversionFactor (SpectrumUnitType oldu, SpectrumUnitType newu)
+{
+	double res = go_nan;
+	switch (oldu) {
+	case GCU_SPECTRUM_UNIT_PPM:
+		if (go_finite (freq) && newu == GCU_SPECTRUM_UNIT_HZ)
+			res = freq;
+		break;
+	case GCU_SPECTRUM_UNIT_HZ:
+		if (go_finite (freq) && newu == GCU_SPECTRUM_UNIT_PPM)
+			res = 1. / freq;
+		break;
+	default:
+		break;
+	}
+	return res;
 }
 
 }	//	nampespace gcu
