@@ -1140,6 +1140,7 @@ out:
 	// doon't do anything for unsupported spectra
 	switch (m_SpectrumType) {
 	case GCU_SPECTRUM_NMR:
+	case GCU_SPECTRUM_NMR_FID:
 		hide_y_axis = true;
 	case GCU_SPECTRUM_INFRARED:
 	case GCU_SPECTRUM_RAMAN:
@@ -1151,7 +1152,6 @@ out:
 			return;
 		else
 			break;
-//	case GCU_SPECTRUM_NMR_FID:
 //	case GCU_SPECTRUM_NMR_PEAK_TABLE:
 //	case GCU_SPECTRUM_NMR_PEAK_ASSIGNMENTS:
 	case GCU_SPECTRUM_MASS:

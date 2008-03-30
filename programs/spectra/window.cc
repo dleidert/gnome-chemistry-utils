@@ -291,6 +291,7 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
 	m_View = dynamic_cast<gsvView *> (m_Doc->GetView ());
 	m_View->SetWindow (this);
+	gtk_box_pack_start (GTK_BOX (vbox), m_View->GetOptionBox (), FALSE, FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (vbox), m_View->GetWidget ());
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
 	// Initialize print settings

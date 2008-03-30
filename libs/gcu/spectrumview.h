@@ -64,11 +64,23 @@ The destructor of SpectrumView.
 */
 	void Render (cairo_t *cr, double width, double height);
 
+/*!
+*/
+	void OnMinChanged ();
+
+/*!
+*/
+	void OnMaxChanged ();
+
+private:
+	GtkSpinButton *xminbtn, *xmaxbtn;
+	gulong minsgn, maxsgn;
 /*!\fn GetDoc()
 @return the associated document.
 */
 GCU_RO_PROP (SpectrumDocument *, Doc)
 GCU_RO_PROP (GtkWidget *, Widget)
+GCU_RO_PROP (GtkWidget *, OptionBox)
 GCU_RO_PROP (GogSeries *, Series)
 };
 

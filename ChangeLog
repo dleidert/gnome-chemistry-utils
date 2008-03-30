@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: add widgets to limit visible range.
+	* libs/gcu/spectrumview.cc: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+	* programs/spectra/window.cc: ditto.
+
 2008-03-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: load nmr spectra using jcamp-dx 5.x NTUPPLES.
 	* libs/gcu/spectrumdoc.h: ditto.
