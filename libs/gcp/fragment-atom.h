@@ -58,6 +58,7 @@ public:
 Adds the fragment containing the atom to the molecule calling gcpMolecule::AddFragment()
 */
 	void AddToMolecule (Molecule* Mol);
+	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
 
 GCU_RO_PROP (Fragment*, Fragment)
 };

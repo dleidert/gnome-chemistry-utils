@@ -253,4 +253,9 @@ void FragmentAtom::Update ()
 {
 }
 
+bool FragmentAtom::Match (gcu::Atom *atom, AtomMatchState &state)
+{
+	return false; // not supported at the moment
+}
+
 }	//	namespace gcp

@@ -38,6 +38,7 @@
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gcp-canvas-bpath.h>
 #include <gcu/element.h>
+#include <gcu/objprops.h>
 #include <pango/pango-attributes.h>
 #include <glib/gi18n-lib.h>
 #include <list>
@@ -1221,6 +1222,103 @@ int Fragment::GetAvailablePosition (double& x, double& y)
 bool Fragment::GetPosition (double angle, double& x, double& y)
 {
 	return false;
+}
+
+bool Fragment::SetProperty (unsigned property, char const *value)
+{
+	m_bLoading = true;
+	switch (property) {
+	case GCU_PROP_POS2D: {
+		sscanf (value, "%lg %lg", &m_x, &m_y);
+		gcu::Document *doc = GetDocument ();
+		if (doc) {
+			m_x *= doc->GetScale ();
+			m_y *= doc->GetScale ();
+		}
+		m_Atom->SetCoords (m_x, m_y);
+		break;
+	}
+	case GCU_PROP_TEXT_TEXT: {
+		m_buf = value;
+		if (m_EndAtom > m_BeginAtom) {
+			Residue *r = NULL;
+			char sy[Residue::MaxSymbolLength + 1];
+			strncpy (sy, m_buf.c_str () + m_BeginAtom, Residue::MaxSymbolLength);
+			int i = Residue::MaxSymbolLength;
+			while (i > 0) {
+				sy[i] = 0;
+				r = (Residue *) Residue::GetResidue (sy, NULL);
+				if (r)
+					break;
+				i--;
+			}
+			if (r) {
+				m_EndAtom = m_BeginAtom + i;
+				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+				Atom *pOldAtom = m_Atom;
+				pOldAtom->SetParent (NULL);
+				m_Atom = new FragmentResidue (this, sy);
+				AddChild (m_Atom);
+				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				m_Atom->SetCoords (m_x, m_y);
+				if (pBond) {
+					pBond->ReplaceAtom (pOldAtom, m_Atom);
+					m_Atom->AddBond (pBond);
+				}
+				delete pOldAtom;
+			} else {
+				int Z = GetElementAtPos (m_BeginAtom, m_EndAtom);
+				if (Z)
+					m_Atom->SetZ (Z);
+			}
+		}
+		break;
+	}
+	case GCU_PROP_FRAGMENT_ATOM_START:
+		m_BeginAtom = atoi (value);
+		m_EndAtom = m_BeginAtom + Residue::MaxSymbolLength;
+		if (m_buf.length ()) {
+			Residue *r = NULL;
+			char sy[Residue::MaxSymbolLength + 1];
+			strncpy (sy, m_buf.c_str () + m_BeginAtom, Residue::MaxSymbolLength);
+			int i = Residue::MaxSymbolLength;
+			while (i > 0) {
+				sy[i] = 0;
+				r = (Residue *) Residue::GetResidue (sy, NULL);
+				if (r)
+					break;
+				i--;
+			}
+			if (r) {
+				m_EndAtom = m_BeginAtom + i;
+				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+				Atom *pOldAtom = m_Atom;
+				pOldAtom->SetParent (NULL);
+				m_Atom = new FragmentResidue (this, sy);
+				AddChild (m_Atom);
+				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				m_Atom->SetCoords (m_x, m_y);
+				if (pBond) {
+					pBond->ReplaceAtom (pOldAtom, m_Atom);
+					m_Atom->AddBond (pBond);
+				}
+				delete pOldAtom;
+			} else {
+				int Z = GetElementAtPos (m_BeginAtom, m_EndAtom);
+				if (Z)
+					m_Atom->SetZ (Z);
+			}
+		}
+		break;
+	case GCU_PROP_FRAGMENT_ATOM_ID:
+		m_Atom->SetId (value);
+	default:
+		break;
+	}
+	m_bLoading = false;
+	return true;
 }
 
 }	//	namespace gcp

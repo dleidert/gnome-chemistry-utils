@@ -162,12 +162,21 @@ bool Molecule::operator== (Molecule const& molecule) const
 			return false;
 		if (m < n)
 			n = m;
-		else if (m == n && (*ib).first < z)
+		if (m == n && (*ib).first < z)
 			z = (*ib).first;
-
 	}
-	// TODO: write this code
-	return true;
+	AtomMatchState state;
+	state.atoms.reserve (GetAtomsNumber ());
+	if (z == 200) {
+		return false; // should do something more meaningful the molecule contains no normal atoms, only groups, probably
+	}
+	Atom *atom = *atoms1[z].begin (); // take the firts atom, and try to match it with the other molecule atoms of same Z.
+	set<Atom*> &starters = atoms2[z];
+	set<Atom*>::iterator j, jend = starters.end ();
+	for (j = starters.begin (); j != jend; j++)
+		if (atom->Match (*j, state))
+			return true;
+	return false;
 }
 
 }	//namespace gcu

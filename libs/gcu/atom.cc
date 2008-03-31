@@ -30,6 +30,7 @@
 #include "xml-utils.h"
 #include <cmath>
 #include <cstring>
+#include <sstream>
 
 using namespace std;
 
@@ -256,13 +257,69 @@ bool Atom::SetProperty (unsigned property, char const *value)
 	}
 	return  true;
 }
-	
+
+string Atom::GetProperty (unsigned property) const
+{
+	ostringstream res;
+	switch (property) {
+	case GCU_PROP_POS2D: {
+		Document *doc = const_cast <Atom*> (this)->GetDocument ();
+		if (doc)
+			res << m_x / doc->GetScale () << " " << m_y / doc->GetScale ();
+		else
+			res << m_x << " " << m_y;
+	}
+	default:
+		break;
+	}
+	return res.str ();
+}
+
 bool Atom::IsInCycle (Cycle* pCycle)
 {
 	map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end ();
 	for (i = m_Bonds.begin (); i != end; i++)
 		if (((Bond*) (*i).second)->IsInCycle (pCycle))
 		return true;
+	return false;
+}
+
+bool Atom::Match (Atom *atom, AtomMatchState &state)
+{
+	if (m_Z != atom->m_Z)
+		return false;
+	if (m_Bonds.size () != atom->m_Bonds.size ())
+		return false;
+	unsigned n = state.mol1.size ();
+	// add the atoms to state
+	state.mol1[this] = n;
+	state.mol2[atom] = n;
+	state.atoms[n] = AtomPair (this, atom);
+	// compare bonded atoms
+	map<gcu::Atom*, gcu::Bond*>::iterator i, iend = m_Bonds.end ();
+	map<gcu::Atom*, gcu::Bond*>::iterator j, jend = atom->m_Bonds.end ();
+	for (i = m_Bonds.begin (); i != iend; i++) {
+		if (state.mol1.find ((*i).first) != state.mol1.end ())
+			continue; /* may be not enough: we might search which atom is
+		  				associated with this one and see if it is effectively
+			  			bonded to *atom */
+		for (j = atom->m_Bonds.begin (); j != jend; j++) {
+			if (state.mol2.find ((*j).first) != state.mol2.end ())
+				continue;
+			if ((*i).first->Match ((*j).first, state)) 
+				break;
+		}
+		if (j == jend)
+			break; // no matching atom has been fond;
+	}
+	if (i == iend)
+		return true;
+	// if we are there, something wrong happened, clean and return
+	unsigned max = state.mol1.size ();
+	for (unsigned i = n; i < max; i++) {
+		state.mol1.erase (state.atoms[n].atom1);
+		state.mol2.erase (state.atoms[n].atom2);
+	}
 	return false;
 }
 

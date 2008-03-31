@@ -128,6 +128,7 @@ public :
 	void ForceChanged () {m_Changed = true;}
 	cairo_rectangle_t &GetInkRect () {return m_InkRect;}
 	cairo_rectangle_t &GetHInkRect () {return m_HInkRect;}
+	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
 
 private:
 	void BuildItems (WidgetData* pData);

@@ -48,6 +48,7 @@ public:
 	void UpdateCycles (Bond* pBond);
 	void UpdateCycles ();
 	bool operator== (Molecule const& molecule) const;
+	virtual unsigned GetAtomsNumber () const {return m_Atoms.size ();}
 
 protected:
 	std::list<Cycle*> m_Cycles;

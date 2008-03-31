@@ -25,15 +25,17 @@
 #ifndef GCU_ATOM_H
 #define GCU_ATOM_H
 
-#include <map>
-#include <glib.h>
 #include "object.h"
+#include <glib.h>
+#include <map>
+#include <vector>
 
 namespace gcu
 {
 	
 class Bond;
 class Cycle;
+class AtomMatchState;
 
 /*!\class Atom gcu/atom.h
 This class is used to represent atoms.
@@ -216,8 +218,21 @@ Used to move and/or transform an atom.
 */
 	virtual void Transform2D (Matrix2D& m, double x, double y);
 
+/*!
+*/
 	bool SetProperty (unsigned property, char const *value);
+
+/*!
+*/
+	std::string GetProperty (unsigned property) const;
+
+/*!
+*/
 	bool IsInCycle (Cycle* pCycle);
+
+/*!
+*/
+	virtual bool Match (Atom *atom, AtomMatchState &state);
 
 protected:
 /*!
@@ -244,6 +259,19 @@ The charge of the Atom.
 The Bond instances of the Atom. The index of the map is a pointer to the other end of the Bond.
 */
 	std::map<Atom*, Bond*> m_Bonds;
+};
+
+class AtomPair {
+	public:
+	AtomPair (Atom *at1, Atom *at2) {atom1 = at1; atom2 = at2;}
+	Atom *atom1, *atom2;
+};
+
+class AtomMatchState
+{
+public:
+	std::map <Atom*, int>  mol1, mol2;
+	std::vector <AtomPair> atoms;
 };
 
 } //namespace gcu

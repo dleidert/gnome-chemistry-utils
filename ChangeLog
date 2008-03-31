@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2008-03-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: implement a rough molecule comparison method.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/fragment-atom.cc: ditto.
+	* libs/gcp/fragment-atom.h: ditto.
+	* libs/gcp/fragment.cc: implement Fragmen::SetProperty.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/molecule.cc: implement a rough molecule comparison method.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcu/atom.cc: ditto.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/objprops.h: add fragments related properties.
+	* plugins/loaders/cdx/cdx.cc: import nicks (only standard ones atm).
+
 2008-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: fixed a crash and always get a correct range
 	when changing units.

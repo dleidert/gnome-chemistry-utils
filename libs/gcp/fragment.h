@@ -62,6 +62,10 @@ public:
 	bool Validate ();
 	double GetYAlign ();
 
+/*!
+*/
+	bool SetProperty (unsigned property, char const *value);
+
 private:
 	bool SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end);
 

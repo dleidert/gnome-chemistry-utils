@@ -44,17 +44,18 @@ public:
 	void AddAtom (gcu::Atom* pAtom);
 	void AddFragment (Fragment* pFragment);
 	void AddBond (gcu::Bond* pBond);
+	void Add (GtkWidget* w);
 	void Remove (gcu::Object* pObject);
 	bool Merge (Molecule* pMolecule, bool RemoveDuplicates = false);
-	virtual bool Load (xmlNodePtr);
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	bool Load (xmlNodePtr);
+	xmlNodePtr Save (xmlDocPtr xml);
 	void Clear ();
-	virtual void SetSelected (GtkWidget* w, int state);
-	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
-	virtual Object* GetAtomAt (double x, double y, double z = 0.);
-	virtual double GetYAlign ();
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
-	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+	void SetSelected (GtkWidget* w, int state);
+	void Transform2D (gcu::Matrix2D& m, double x, double y);
+	Object* GetAtomAt (double x, double y, double z = 0.);
+	double GetYAlign ();
+	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 	void ExportToGhemical ();
 	void SelectAlignmentItem (gcu::Object *child);
 	std::string GetAlignmentId () {return (m_Alignment)? m_Alignment->GetId (): "";}
@@ -69,6 +70,7 @@ public:
 	char const *GetInChI ();
 	std::string GetRawFormula ();
 	void OnLoaded ();
+	unsigned GetAtomsNumber () const;
 
 private:
 	std::list<Fragment*> m_Fragments;

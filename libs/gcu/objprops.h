@@ -51,6 +51,8 @@ enum {
 	// Text properties
 	GCU_PROP_TEXT_TEXT,
 	GCU_PROP_TEXT_ALIGNMENT,
+	GCU_PROP_FRAGMENT_ATOM_START, // index of the start of the symbol of the bonded atom if any
+	GCU_PROP_FRAGMENT_ATOM_ID,
 	// Arrows properties
 	GCU_PROP_ARROW_COORDS,
 	GCU_PROP_ARROW_START_ID,

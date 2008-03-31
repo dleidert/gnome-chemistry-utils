@@ -1753,4 +1753,11 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 	return result | Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
+bool Atom::Match (gcu::Atom *atom, AtomMatchState &state)
+{
+	if (m_nH != static_cast <Atom*> (atom)->m_nH)
+		return false;
+	return gcu::Atom::Match (atom, state);
+}
+
 }	//	namespace gcp

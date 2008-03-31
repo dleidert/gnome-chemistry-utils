@@ -382,13 +382,20 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 					if (res != NULL) {
 						map< string, Object * >::iterator i;
 						Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
-						if (mol == NULL){
+						if (mol == NULL) {
 							delete Doc;
 							return false;
 						}
 						if (*res == *mol) {
 							// Residue has been identified to the known one
-							// FIXME: change the atom to a residue
+							string pos = Atom->GetProperty (GCU_PROP_POS2D);
+							delete Atom;
+							Atom = Object::CreateObject ("fragment", parent);
+							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+							snprintf (buf, bufsize, "a%d", Id);
+							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
+							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 						} else {
 							// FIXME: should the document care with the residues?
 						}
@@ -438,10 +445,12 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 					goto bad_exit;
 				if (type == 12) {
 					// convert the atom to a pseudo atom.
+					string pos = Atom->GetProperty (GCU_PROP_POS2D);
 					delete Atom;
 					Atom = Object::CreateObject ("pseudo-atom", parent);
 					snprintf (buf, bufsize, "a%d", Id);
 					Atom->SetId (buf);
+					Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 				}
 				break;
 			default:

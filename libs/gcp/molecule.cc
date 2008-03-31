@@ -99,6 +99,19 @@ Molecule::~Molecule ()
 {
 }
 
+void Molecule::Add (GtkWidget* w)
+{
+	std::list<gcu::Atom*>::iterator i, iend = m_Atoms.end ();
+	for (i = m_Atoms.begin (); i != iend; i++)
+		(*i)->Add (w);
+	std::list<Fragment*>::iterator j, jend = m_Fragments.end ();
+	for (j = m_Fragments.begin (); j != jend; j++)
+		(*j)->Add (w);
+	std::list<gcu::Bond*>::iterator k, kend = m_Bonds.end ();
+	for (k = m_Bonds.begin (); k != kend; k++)
+		(*k)->Add (w);
+}
+
 void Molecule::AddChild (Object* object)
 {
 	switch (object->GetType ()) {
@@ -869,6 +882,11 @@ std::string Molecule::GetRawFormula ()
 void Molecule::OnLoaded ()
 {
 	UpdateCycles ();
+}
+
+unsigned Molecule::GetAtomsNumber () const
+{
+	return m_Atoms.size () + m_Fragments.size ();
 }
 
 }	//	namespace gcp
