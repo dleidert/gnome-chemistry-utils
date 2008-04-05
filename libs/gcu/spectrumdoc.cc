@@ -25,9 +25,14 @@
 #include "spectrumdoc.h"
 #include "spectrumview.h"
 #include <goffice/data/go-data-simple.h>
+#include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/math/go-math.h>
+#include <goffice/math/go-rangefunc.h>
+#include <goffice/math/go-regression.h>
+#include <goffice/utils/go-color.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glib/gi18n-lib.h>
@@ -44,7 +49,7 @@ SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (t
 {
 	m_View = new SpectrumView (this);
 	x = y = NULL;
-	X = Y = R = I = -1;
+	X = Y = R = I = integral = -1;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -53,6 +58,7 @@ SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (t
 	SetScaleType (GCU_PRINT_SCALE_AUTO);
 	SetHorizFit (true);
 	SetVertFit (true);
+	m_IntegralVisible = false;
 }
 
 SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
@@ -62,7 +68,7 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 {
 	m_View = (View)? View: new SpectrumView (this);
 	x = y = NULL;
-	X = Y = R = I = -1;
+	X = Y = R = I = integral = -1;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -71,6 +77,7 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 	SetScaleType (GCU_PRINT_SCALE_AUTO);
 	SetHorizFit (true);
 	SetVertFit (true);
+	m_IntegralVisible = false;
 }
 
 SpectrumDocument::~SpectrumDocument ()
@@ -555,6 +562,12 @@ static void on_unit_changed (GtkComboBox *box, SpectrumDocument *doc)
 	doc->OnUnitChanged (gtk_combo_box_get_active (box));
 }
 
+static void on_show_integral (GtkButton *btn, SpectrumDocument *doc)
+{
+	gtk_button_set_label (btn, (doc->GetIntegralVisible ()?
+								_("Show integral"): _("Hide integral")));
+	doc->OnShowIntegral ();
+}
 #define JCAMP_PREC 1e-3 // fully arbitrary
 
 void SpectrumDocument::LoadJcampDx (char const *data)
@@ -1162,6 +1175,9 @@ out:
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
 			g_signal_connect (w, "changed", G_CALLBACK (on_unit_changed), this);
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			w = gtk_button_new_with_label (_("Show integral"));
+			g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 			gtk_widget_show_all (box);
 			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
 		}
@@ -1590,6 +1606,111 @@ double SpectrumDocument::GetConversionFactor (SpectrumUnitType oldu, SpectrumUni
 		break;
 	}
 	return res;
+}
+
+void SpectrumDocument::OnShowIntegral ()
+{
+	m_IntegralVisible = !m_IntegralVisible;
+	GogStyle *style;
+	if (m_IntegralVisible) {
+		if (integral < 0) {
+			integral = variables.size ();
+			JdxVar v;
+			double *xo, *xn[5], *yb, cur, acc;
+			v.Name = _("Integral");
+			v.Symbol = 'i';
+			v.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
+			v.Unit = GCU_SPECTRUM_UNIT_MAX;
+			v.Format = GCU_SPECTRUM_FORMAT_MAX;
+			v.Factor = 1.;
+			v.NbValues = (X >= 0)? variables[X].NbValues: npoints;
+			xn[0] = new double[v.NbValues];
+			xn[1] = new double[v.NbValues];
+			xn[2] = new double[v.NbValues];
+			xn[3] = new double[v.NbValues];
+			xn[4] = new double[v.NbValues];
+			yb = new double[v.NbValues];
+			v.First = 0.;
+			v.Values = new double[v.NbValues];
+			unsigned i;
+			double *z;
+			if (R >= 0)
+				z = variables[R].Values;
+			else if (Y >= 0)
+				z = variables[R].Values;
+			else
+				z = y;
+			xo = (X >= 0 && variables[X].Values != NULL)? variables[X].Values: x;
+			double max, delta;
+			unsigned used = 0;
+			go_range_max (z, v.NbValues, &max);
+			max *= 0.001;
+			v.Values[0] = 0.;
+			for (i = 1; i < v.NbValues; i++) {
+				delta = 0.5 * (z[i - 1] + z[i]);
+				v.Values[i] = v.Values[i - 1] + delta;
+				if (delta < max) {
+					cur = xn[0][used] = xo[i];
+					acc = xn[1][used] = cur * cur;
+					xn[2][used] = (acc *= cur);
+					xn[3][used] = (acc *= cur);
+					xn[4][used] = acc * cur;
+					yb[used] = (used > 0)? yb[used - 1] + delta: delta;
+					used++;
+				}
+			}
+			go_regression_stat_t reg;
+			double res[6];
+			go_linear_regression (xn, 3, yb, used, true, res, &reg);
+			for (i = 0; i < v.NbValues; i++) {
+				cur = xo[i];
+				acc = cur * cur;
+				v.Values[i] -= res[0] + res[1] * cur + res[2] * acc;
+				v.Values[i] -= res[3] * (cur *= acc);
+				v.Values[i] -= res[4] * (cur *= acc);
+				v.Values[i] -= res[5] * cur * acc;
+			}
+			g_free (reg.se);
+			g_free (reg.t);
+			g_free (reg.xbar);
+			v.Last = v.Max = v.Values[v.NbValues - 1]; 
+			v.Min = 0.;
+			v.Series = m_View->NewSeries (true);
+			GOData *godata;
+			godata = go_data_vector_val_new (xo, npoints, NULL);
+			gog_series_set_dim (v.Series, 0, godata, NULL);
+			godata = go_data_vector_val_new (v.Values, v.NbValues, NULL);
+			gog_series_set_dim (v.Series, 1, godata, NULL);
+			GogStyledObject *axis = GOG_STYLED_OBJECT (g_object_new (GOG_AXIS_TYPE, "major-tick-labeled", false, NULL));
+			GogPlot	*plot = gog_series_get_plot (v.Series);
+			GogObject *chart = GOG_OBJECT (gog_object_get_parent (GOG_OBJECT (plot)));
+			gog_object_add_by_name (chart, "Y-Axis", GOG_OBJECT (axis));
+			gog_plot_set_axis (plot, GOG_AXIS (axis));
+			style = gog_styled_object_get_style (axis);
+			style->line.auto_dash = false;
+			style->line.dash_type = GO_LINE_NONE;
+			style = gog_styled_object_get_style (GOG_STYLED_OBJECT (v.Series));
+			style->line.auto_dash = false;
+			style->line.auto_color = false;
+			style->line.color = RGBA_RED;
+			variables.push_back (v);
+			delete [] xn[0];
+			delete [] xn[1];
+			delete [] xn[2];
+			delete [] xn[3];
+			delete [] xn[4];
+			delete [] yb;
+		} else
+			style = gog_styled_object_get_style (GOG_STYLED_OBJECT (variables[integral].Series));
+		// show the series
+		style->line.dash_type = GO_LINE_SOLID;
+		gog_object_request_update (GOG_OBJECT (variables[integral].Series));
+	} else {
+		// hide the series
+		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (variables[integral].Series));
+		style->line.dash_type = GO_LINE_NONE;
+		gog_object_request_update (GOG_OBJECT (variables[integral].Series));
+	}
 }
 
 }	//	nampespace gcu

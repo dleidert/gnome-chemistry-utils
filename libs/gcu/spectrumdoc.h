@@ -26,6 +26,7 @@
 #include "document.h"
 #include "macros.h"
 #include "printable.h"
+#include <goffice/graph/gog-series.h>
 #include <string>
 #include <vector>
 
@@ -89,6 +90,7 @@ typedef struct  {
 	unsigned NbValues;
 	double First, Last, Min, Max, Factor;
 	double *Values;
+	GogSeries *Series;
 } JdxVar;
 
 class SpectrumDocument: public Document, public Printable
@@ -122,6 +124,10 @@ Loads a spaectrum from the provided uri. Default mime type is NULL,
 */
 	void OnUnitChanged (int i);
 
+/*!
+*/
+	void OnShowIntegral ();
+
 private:
 	void LoadJcampDx (char const *data);
 	void ReadDataLine (char const *data, std::list<double> &l);
@@ -137,7 +143,7 @@ private:
 	double firstx, lastx, deltax, firsty;
 	double xfactor, yfactor;
 	std::vector <JdxVar> variables;
-	int X, Y, R, I;
+	int X, Y, R, I, integral;
 	double freq;
 
 GCU_PROT_PROP (SpectrumView*, View)
@@ -145,6 +151,7 @@ GCU_RO_PROP (bool, Empty)
 GCU_RO_PROP (SpectrumType, SpectrumType)
 GCU_RO_PROP (SpectrumUnitType, XUnit)
 GCU_RO_PROP (SpectrumUnitType, YUnit)
+GCU_RO_PROP (bool, IntegralVisible)
 };
 
 }

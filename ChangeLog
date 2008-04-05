@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-04-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: add integration support for nmr spectra.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+
 2008-03-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: implement a rough molecule comparison method.
 	* libs/gcp/atom.h: ditto.

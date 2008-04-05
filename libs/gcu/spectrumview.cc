@@ -62,7 +62,7 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
 	/* Get the chart created by the widget initialization */
 	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
-	/* Create a pie plot and add it to the chart */
+	/* Create a scatter plot and add it to the chart */
 	GogPlot *plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	g_object_set (plot, "default-style-has-markers", false, NULL);
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
@@ -230,6 +230,24 @@ void SpectrumView::OnXRangeChanged ()
 	g_signal_handler_block (xmaxbtn, maxsgn);
 	gtk_spin_button_set_value (xmaxbtn, max);
 	g_signal_handler_unblock (xmaxbtn, maxsgn); 
+}
+
+GogSeries *SpectrumView::NewSeries (bool new_plot)
+{
+	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
+	GogPlot *plot = NULL;
+	if (new_plot) {
+		/* Create a scatter plot and add it to the chart */
+		plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
+		g_object_set (plot, "default-style-has-markers", false, NULL);
+		gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
+	} else {
+		// find the first plot in the chart
+		GSList *l = gog_object_get_children (GOG_OBJECT (chart), gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
+		plot = (GogPlot*) l->data;
+		g_slist_free (l);
+	}
+	return gog_plot_new_series (plot);
 }
 
 }	//	namespace gcu

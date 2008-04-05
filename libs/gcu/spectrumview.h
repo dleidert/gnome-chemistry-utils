@@ -76,6 +76,10 @@ The destructor of SpectrumView.
 */
 	void OnXRangeChanged ();
 
+/*!
+*/
+	GogSeries *NewSeries (bool new_plot);
+
 private:
 	GtkSpinButton *xminbtn, *xmaxbtn;
 	GtkRange *xrange;
