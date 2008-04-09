@@ -1019,7 +1019,7 @@ int Fragment::GetElementAtPos (unsigned start, unsigned &end)
 	int Z;
 	char text[4];
 	memset (text, 0, 4);
-	strncpy (text, pango_layout_get_text (m_Layout) + start, 3);
+	strncpy (text, ((m_Layout)?pango_layout_get_text ( m_Layout): m_buf.c_str ()) + start, 3);
 	for (unsigned i = strlen (text); i > 0; i--) {
 		text[i] = 0;
 		if ((Z = Element::Z (text))) {
@@ -1314,6 +1314,9 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 		break;
 	case GCU_PROP_FRAGMENT_ATOM_ID:
 		m_Atom->SetId (value);
+		if (!m_Atom->GetParent ())
+			AddChild (m_Atom);
+		break;
 	default:
 		break;
 	}

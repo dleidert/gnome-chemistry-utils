@@ -33,6 +33,7 @@ class Atom;
 class Bond;
 class Chain;
 class Cycle;
+class Formula;
 
 class Molecule: public Object
 {
@@ -49,6 +50,7 @@ public:
 	void UpdateCycles ();
 	bool operator== (Molecule const& molecule) const;
 	virtual unsigned GetAtomsNumber () const {return m_Atoms.size ();}
+	bool Match (Formula &formula);
 
 protected:
 	std::list<Cycle*> m_Cycles;

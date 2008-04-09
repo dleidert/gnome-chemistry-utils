@@ -633,6 +633,8 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			pDoc->GetView ()->AddObject (pDoc);
 			pDoc->GetView ()->Update (pDoc);
 			pDoc->GetView ()->EnsureSize ();
+			if (pDoc->GetWindow ())
+				pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", pDoc->HasChildren ());
 		} else {
 			if (create) {
 				pDoc->GetWindow ()->Destroy ();;

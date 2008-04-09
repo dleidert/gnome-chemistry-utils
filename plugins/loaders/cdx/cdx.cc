@@ -25,6 +25,7 @@
 #include "config.h"
 #include <gcu/application.h>
 #include <gcu/document.h>
+#include <gcu/formula.h>
 #include <gcu/loader.h>
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
@@ -103,6 +104,8 @@ CDXLoader::~CDXLoader ()
 
 bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
 {
+	if (doc == NULL || in == NULL)
+		return false;
 	bool result = true;
 	guint16 code;
 	bufsize = 64;
@@ -308,23 +311,23 @@ bool CDXLoader::ReadPage (GsfInput *in, Object *parent)
 bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 {
 	guint16 code;
-	Object *Molecule = Object::CreateObject ("molecule", parent);
+	Object *mol = Object::CreateObject ("molecule", parent);
 	guint32 Id;
 	if (!READINT32 (in, buf, Id))
 		return false;
 	snprintf (buf, bufsize, "m%d", Id);
-	Molecule->SetId (buf);
+	mol->SetId (buf);
 	if (!READINT16 (in, buf, code))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
 			switch (code) {
 			case kCDXObj_Node:
-				if (!ReadAtom (in, Molecule))
+				if (!ReadAtom (in, mol))
 					return false;
 				break;
 			case kCDXObj_Bond:
-				if (!ReadBond (in, Molecule))
+				if (!ReadBond (in, mol))
 					return false;
 				break;
 			default:
@@ -341,6 +344,7 @@ bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 		if (!READINT16 (in, buf, code))
 			return false;
 	}
+		static_cast <Molecule*> (mol)->UpdateCycles ();
 	return true;
 }
 
@@ -376,19 +380,49 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 					if (!ReadFragmentText (in, Atom))
 						goto bad_exit;
 				switch (type) {
+				case 0:
+					// Parse the formula.
+					try {
+						Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
+						if (Doc) {
+							map< string, Object * >::iterator i;
+							Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
+							if (Doc->GetChildrenNumber () != 1 || mol == NULL)
+								goto bad_exit;
+							printf("molecule with %d children\n",mol->GetChildrenNumber());
+							// compare the formula as interpreted with the document contents
+							// TODO: write this code
+						}
+						string pos = Atom->GetProperty (GCU_PROP_POS2D);
+							Molecule *mol = dynamic_cast <Molecule *> (parent);
+							if (mol)
+								mol->Remove (Atom);
+						delete Atom;
+						Atom = Object::CreateObject ("fragment", parent);
+						Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+						snprintf (buf, bufsize, "a%d", Id);
+						Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+						Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
+						Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+					}
+					catch (parse_error &error) {
+						return false;
+					}
+					break;
 				case 4: {
 					bool amb;
 					Residue const *res = Residue::GetResidue (buf, &amb);
 					if (res != NULL) {
 						map< string, Object * >::iterator i;
 						Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
-						if (mol == NULL) {
-							delete Doc;
-							return false;
-						}
+						if (mol == NULL)
+							goto bad_exit;
 						if (*res == *mol) {
 							// Residue has been identified to the known one
 							string pos = Atom->GetProperty (GCU_PROP_POS2D);
+							Molecule *mol = dynamic_cast <Molecule *> (parent);
+							if (mol)
+								mol->Remove (Atom);
 							delete Atom;
 							Atom = Object::CreateObject ("fragment", parent);
 							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
@@ -405,6 +439,37 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 					break;
 				}
 				case 5:
+					// First, parse the formula.
+					{
+						map< string, Object * >::iterator i;
+						Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
+						if (mol == NULL)
+							goto bad_exit;
+						try {
+							// First, parse the formula.
+							Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
+							// Now see if it matches with the molecule
+							if (!mol->Match (form))
+								goto bad_exit;
+						}
+						catch (parse_error &error) {
+							int start, length;
+							puts (error.what (start, length));
+						}
+						string pos = Atom->GetProperty (GCU_PROP_POS2D);
+						mol = dynamic_cast <Molecule *> (parent);
+						if (mol)
+							mol->Remove (Atom);
+						delete Atom;
+						Atom = Object::CreateObject ("fragment", parent);
+						Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+						snprintf (buf, bufsize, "a%d", Id);
+						Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+						Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
+						Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+					}
+					break;
+				default:
 					break;
 				}
 					break;
@@ -446,6 +511,9 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 				if (type == 12) {
 					// convert the atom to a pseudo atom.
 					string pos = Atom->GetProperty (GCU_PROP_POS2D);
+					Molecule *mol = dynamic_cast <Molecule *> (parent);
+					if (mol)
+						mol->Remove (Atom);
 					delete Atom;
 					Atom = Object::CreateObject ("pseudo-atom", parent);
 					snprintf (buf, bufsize, "a%d", Id);

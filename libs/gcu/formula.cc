@@ -59,53 +59,6 @@ parse_error::what(int &start, int &length) const throw()
 	return m_msg.c_str();
 }
 	
-class FormulaElt
-{
-public:
-	FormulaElt ();
-	virtual ~FormulaElt ();
-	virtual string Markup ();
-	virtual void BuildRawFormula (map<int, int> &raw) = 0;
-	virtual int GetValence () = 0;
-	int stoich;
-};
-
-class FormulaAtom: public FormulaElt
-{
-public:
-	FormulaAtom (int Z);
-	virtual ~FormulaAtom ();
-	string Markup ();
-	void BuildRawFormula (map<int, int> &raw);
-	int GetValence ();
-	int elt;
-};
-
-class FormulaBlock: public FormulaElt
-{
-public:
-	FormulaBlock ();
-	virtual ~FormulaBlock ();
-	string Markup ();
-	void BuildRawFormula (map<int, int> &raw);
-	list<FormulaElt *> children;
-	int GetValence ();
-	int parenthesis;
-};
-
-class FormulaResidue: public FormulaElt
-{
-public:
-	FormulaResidue (Residue const *res, char const *symbol, int Z);
-	virtual ~FormulaResidue ();
-	string Markup ();
-	void BuildRawFormula (map<int, int> &raw);
-	int GetValence ();
-	Residue const *residue;
-	string Symbol;
-	GCU_RO_PROP (int, Z);
-};
-
 FormulaElt::FormulaElt ()
 {
 	stoich = 1;
@@ -247,14 +200,16 @@ static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 {
 	if (*sz == 0)
 		return true;
-	int i = 0;
+	unsigned i = 0;
 	char sy[Residue::MaxSymbolLength + 1];
 	Residue const *r = NULL;
 	bool amb = ambiguous, local_amb;
 	if (*sz) {
 		// search for any abbreviation starting sz
 		strncpy (sy, sz, Residue::MaxSymbolLength);
-		i = Residue::MaxSymbolLength;
+		i = strlen (sz);
+		if (i > Residue::MaxSymbolLength)
+			i = Residue::MaxSymbolLength;
 		while (i > 0) {
 			sy[i] = 0;
 			r = Residue::GetResidue (sy, &local_amb);
@@ -352,9 +307,10 @@ static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 	return false;
 }
 
-Formula::Formula (string entry) throw (parse_error)
+Formula::Formula (string entry, FormulaParseMode mode) throw (parse_error)
 {
 	Entry = entry;
+	m_ParseMode = mode;
 	Parse (Entry, Details);
 	m_ConnectivityCached = m_WeightCached = false;
 }

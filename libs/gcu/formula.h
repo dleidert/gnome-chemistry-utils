@@ -30,6 +30,7 @@
 #include <list>
 #include <stdexcept>
 #include "isotope.h"
+#include "macros.h"
 #include "value.h"
 
 namespace gcu
@@ -81,7 +82,55 @@ private:
 
 };
 
-class FormulaElt;
+class FormulaElt
+{
+public:
+	FormulaElt ();
+	virtual ~FormulaElt ();
+	virtual std::string Markup ();
+	virtual void BuildRawFormula (std::map<int, int> &raw) = 0;
+	virtual int GetValence () = 0;
+	int stoich;
+};
+
+class FormulaAtom: public FormulaElt
+{
+public:
+	FormulaAtom (int Z);
+	virtual ~FormulaAtom ();
+	std::string Markup ();
+	void BuildRawFormula (std::map<int, int> &raw);
+	int GetValence ();
+	int elt;
+};
+
+class FormulaBlock: public FormulaElt
+{
+public:
+	FormulaBlock ();
+	virtual ~FormulaBlock ();
+	std::string Markup ();
+	void BuildRawFormula (std::map<int, int> &raw);
+	std::list<FormulaElt *> children;
+	int GetValence ();
+	int parenthesis;
+};
+
+class Residue;
+
+class FormulaResidue: public FormulaElt
+{
+public:
+	FormulaResidue (Residue const *res, char const *symbol, int Z);
+	virtual ~FormulaResidue ();
+	std::string Markup ();
+	void BuildRawFormula (std::map<int, int> &raw);
+	int GetValence ();
+	Residue const *residue;
+	std::string Symbol;
+GCU_RO_PROP (int, Z);
+};
+
 
 /*!\class Formula gcu/formula.h
 This class interprets a chemical formula provided as a string and make
@@ -96,7 +145,7 @@ public:
 The constructor will emit a parse_error exception.
 if it cannot parse the given formula.
 */
-	Formula (std::string entry) throw (parse_error);
+	Formula (std::string entry, FormulaParseMode mode = GCU_FORMULA_PARSE_GUESS) throw (parse_error);
 	virtual ~Formula ();
 
 /*!
@@ -136,6 +185,7 @@ with the calculated data.
 	void CalculateIsotopicPattern (IsotopicPattern &pattern);
 
 	bool BuildConnectivity ();
+	std::list<FormulaElt *> const &GetElements () {return Details;}
 
 private:
 	void Parse (std::string &formula, std::list<FormulaElt *>&result) throw (parse_error);
@@ -148,6 +198,7 @@ private:
 	bool m_WeightCached;
 	bool m_Artificial;
 	bool m_ConnectivityCached;
+GCU_PROP (FormulaParseMode, ParseMode);
 };
 	
 }

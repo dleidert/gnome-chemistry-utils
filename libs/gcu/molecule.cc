@@ -28,6 +28,7 @@
 #include "bond.h"
 #include "chain.h"
 #include "cycle.h"
+#include "formula.h"
 
 using namespace std;
 
@@ -132,7 +133,7 @@ void Molecule::UpdateCycles ()
 		list<Atom*> orphans;
 		for (i = m_Atoms.begin (); i != end; i++)
 			if ((*i)->GetParent () == NULL)
-				orphans.push_back (*i);;
+				orphans.push_back (*i);
 		end = orphans.end ();
 		for (i = orphans.begin (); i != end; i++)
 			(*i)->SetParent (this);
@@ -178,5 +179,28 @@ bool Molecule::operator== (Molecule const& molecule) const
 			return true;
 	return false;
 }
+
+bool Molecule::Match (Formula &formula)
+{
+	list<FormulaElt *> const &elts = formula.GetElements ();
+	FormulaAtom *atom;
+	FormulaResidue *residue;
+	list<FormulaElt *>::const_iterator i, iend = elts.end ();
+	for (i = elts.begin (); i != iend; i++) {
+		if ((atom = dynamic_cast <FormulaAtom *> (*i))) {
+		} else if ((residue = dynamic_cast <FormulaResidue *> (*i))) {
+		} else {
+		}
+	}
+	// Search for a pseudo-atom (Z==-1)
+	list<Atom*>::iterator a, aend = m_Atoms.end ();
+	for (a = m_Atoms.begin (); a != aend; a++)
+		if ((*a)->GetZ () == 0)
+			break;
+	if (a != aend) {
+	} else
+		return false; // we don't match entire molecules at the moment FIXME!
+	return true;
+}	
 
 }	//namespace gcu

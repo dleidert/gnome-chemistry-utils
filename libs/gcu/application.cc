@@ -290,6 +290,7 @@ bool Application::Load (std::string const &uri, const gchar *mime_type, Document
 	GsfInput *input = gsf_input_gnomevfs_new (uri.c_str (), &error);
 	if (error) {
 		g_error_free (error);
+		return false;
 	}
 	IOContext *io = gnumeric_io_context_new (gcu_get_cmd_context ());
 	bool ret = l->Read (Doc, input, mime_type, io);

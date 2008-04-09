@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2008-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: activates image export after loading.
+	* libs/gcp/fragment.cc: add atom in the objects tree after setting
+	its ID if necessary.
+	* libs/gcu/application.cc: in Application::Load should return false
+	on error.
+	* libs/gcu/formula.cc: make some classes public.
+	* libs/gcu/formula.h: ditto.
+	* libs/gcu/molecule.cc: add a Match method to check if a semi-
+	developped formula is compatible with the know structure (not
+	yet fully implemented.
+	* libs/gcu/molecule.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: more work on residue import and ensure
+	cycles are updated after loading.
+	* plugins/loaders/cdxml/cdxml.cc: ensure cycles are updated after
+	loading.
+
 2008-04-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: add integration support for nmr spectra.
 	* libs/gcu/spectrumdoc.h: ditto.

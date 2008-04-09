@@ -25,6 +25,7 @@
 #include "config.h"
 #include <gcu/document.h>
 #include <gcu/loader.h>
+#include <gcu/molecule.h>
 #include <gcu/objprops.h>
 
 #include <goffice/app/module-plugin-defs.h>
@@ -117,6 +118,16 @@ cdxml_fragment_start (GsfXMLIn *xin, xmlChar const **attrs)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	Object *obj = Object::CreateObject ("molecule", state->cur.top ());
 	state->cur.push (obj);
+}
+
+static void
+cdxml_fragment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	static_cast <Molecule*> (state->cur.top ())->UpdateCycles ();
+	state->cur.top ()->Lock (false);
+	state->cur.top ()->OnLoaded ();
+	state->cur.pop ();
 }
 
 static void
@@ -339,7 +350,7 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 		GSF_XML_IN_NODE (FONTTABLE, FONT, -1, "font", GSF_XML_CONTENT, cdxml_font_start, NULL),
 	GSF_XML_IN_NODE (CDXML, PAGE, -1, "page", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (PAGE, T, -1, "t", GSF_XML_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (PAGE, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, &cdxml_fragment_start, &cdxml_simple_end),
+		GSF_XML_IN_NODE (PAGE, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, &cdxml_fragment_start, &cdxml_fragment_end),
 			GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
 			GSF_XML_IN_NODE (FRAGMENT, BOND, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
 			GSF_XML_IN_NODE (FRAGMENT, T1, -1, "t", GSF_XML_CONTENT, NULL, NULL),
