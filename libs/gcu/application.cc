@@ -28,8 +28,8 @@
 #include "loader.h"
 #include <goffice/goffice.h>
 #include <goffice/app/io-context.h>
-#include <gsf-gnome/gsf-input-gnomevfs.h>
-#include <gsf-gnome/gsf-output-gnomevfs.h>
+#include <gsf/gsf-input-gio.h>
+#include <gsf/gsf-output-gio.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
@@ -287,7 +287,7 @@ bool Application::Load (std::string const &uri, const gchar *mime_type, Document
 	string old_num_locale = setlocale (LC_NUMERIC, NULL);
 	setlocale(LC_NUMERIC, "C");
 	GError *error = NULL;
-	GsfInput *input = gsf_input_gnomevfs_new (uri.c_str (), &error);
+	GsfInput *input = gsf_input_gio_new_for_uri (uri.c_str (), &error);
 	if (error) {
 		g_error_free (error);
 		return false;
@@ -308,7 +308,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 	string old_num_locale = setlocale (LC_NUMERIC, NULL);
 	setlocale(LC_NUMERIC, "C");
 	GError *error = NULL;
-	GsfOutput *output = gsf_output_gnomevfs_new (uri.c_str (), &error);
+	GsfOutput *output = gsf_output_gio_new_for_uri (uri.c_str (), &error);
 	if (error) {
 		g_error_free (error);
 	}

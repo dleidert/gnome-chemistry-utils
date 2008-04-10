@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: needs libgsf >= 1.14.9 for gio support.
+	* libs/gcu/application.cc: use libgsf gio support instead of
+	gnomevfs.
+
 2008-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: activates image export after loading.
 	* libs/gcp/fragment.cc: add atom in the objects tree after setting
