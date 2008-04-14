@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * matrix.h 
  *
- * Copyright (C) 2000-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -95,13 +95,13 @@ Constructs a matrix from its components.
 
 The matricial multiplication operator.
 */
-	Matrix& operator* (Matrix& cMat);
+	Matrix& operator* (Matrix const &cMat) const;
 /*!
 @param cMat: the Matrix instance to copy.
 
 Copies a Matrix instance into another one.
 */
-	Matrix& operator= (Matrix& cMat);
+	Matrix& operator= (Matrix const &cMat);
 /*!
 @param Psi: precession angle.
 @param Theta: nutaton angle.
@@ -118,8 +118,8 @@ Get the Euler's angles associated to a "euler" Matrix as defined in MatrixType.
 Initially, dx, dy and dz are the components of the vector to transform (multiply) by the matrix and
 after execution of this method, dx, dy and dz are the components of the transformed vector. So initial values are lost.
 */
-	void Transform (double &dx, double &dy , double &dz);
-	OpenBabel::vector3 operator* (OpenBabel::vector3 &v);
+	void Transform (double &dx, double &dy , double &dz) const;
+	OpenBabel::vector3 operator* (OpenBabel::vector3 const &v) const;
 	
 private:
 	double x[3][3];

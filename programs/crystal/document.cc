@@ -207,7 +207,7 @@ static int cb_xml_to_vfs (GnomeVFSHandle *handle, const char* buf, int nb)
 	return (int) gnome_vfs_write (handle, buf, nb, &ndone);
 }
 
-void gcDocument::Save()
+void gcDocument::Save() const
 {
 	if (!m_filename)
 		return;
@@ -243,8 +243,8 @@ void gcDocument::Save()
 			}
 			
 		xmlFreeDoc (xml);
-		SetDirty (false);
-		m_ReadOnly = false;	// if saving succeded, the file is not read only...
+		const_cast <gcDocument *> (this)->SetDirty (false);
+		const_cast <gcDocument *> (this)->m_ReadOnly = false;	// if saving succeded, the file is not read only...
 	}
 	catch (int num) {
 		xmlFreeDoc (xml);
@@ -252,7 +252,7 @@ void gcDocument::Save()
 	}
 }
 
-void gcDocument::Error (int num)
+void gcDocument::Error (int num) const
 {
 	gchar *mess = NULL;
 	GtkWidget* message;
@@ -446,7 +446,7 @@ void gcDocument::OnNewDocument()
 typedef struct {int n; std::list<CrystalAtom*> l;} sAtom;
 typedef struct {int n; std::list<CrystalLine*> l;} sLine;
 
-void gcDocument::OnExportVRML (const string &FileName)
+void gcDocument::OnExportVRML (const string &FileName) const
 {
 	char *old_num_locale, tmp[128];
 	double x0, x1, x2, x3, x4, x5;
@@ -466,7 +466,7 @@ void gcDocument::OnExportVRML (const string &FileName)
 		file << "#VRML V2.0 utf8" << endl;
 		
 		//Create prototypes for atoms
-		CrystalAtomList::iterator i;
+		CrystalAtomList::const_iterator i;
 		for (i = Atoms.begin(); i != Atoms.end(); i++)
 		{
 			(*i)->GetColor(&x0, &x1, &x2, &x3);
@@ -483,7 +483,7 @@ void gcDocument::OnExportVRML (const string &FileName)
 		}
 	
 		//Create prototypes for bonds
-		CrystalLineList::iterator j;
+		CrystalLineList::const_iterator j;
 		n = 0;
 		for (j = Lines.begin(); j != Lines.end(); j++)
 		{
@@ -663,7 +663,7 @@ CrystalCleavage* gcDocument::CreateNewCleavage()
 	return (CrystalCleavage*) new gcCleavage();
 }
 
-const char* gcDocument::GetProgramId()
+const char* gcDocument::GetProgramId () const
 {
 	return "Gnome Crystal "VERSION;
 }

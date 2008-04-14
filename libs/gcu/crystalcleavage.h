@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystalcleavage.h 
  *
- * Copyright (C) 2002-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -87,7 +87,7 @@ The destructor of CrystalAtom.
 	Used to save the cleavage to the xmlDoc. Each serializable Object should implement this virtual method.
 	@return the xmlNode containing the serialized cleavage.
 */
-	xmlNodePtr Save (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
 /*!
 @param node: a pointer to the xmlNode containing the serialized cleavage.
 

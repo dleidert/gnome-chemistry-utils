@@ -53,8 +53,8 @@ public:
 	GtkWidget* GetWidget () {return m_pWidget;}
 	Document* GetDoc () {return m_pDoc;}
 	bool OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
-	void AddObject (gcu::Object* pObject);
-	void Update (gcu::Object* pObject);
+	void AddObject (gcu::Object const *pObject);
+	void Update (gcu::Object const *pObject);
 	GtkWidget* CreateNewWidget ();
 	void OnDestroy (GtkWidget* widget);
 	GnomeCanvasItem* GetCanvasItem (GtkWidget* widget, gcu::Object* Object);

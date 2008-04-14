@@ -241,7 +241,7 @@ bool Fragment::OnChanged (bool save)
 	return true;
 }
 
-void Fragment::Add (GtkWidget* w)
+void Fragment::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -250,38 +250,38 @@ void Fragment::Add (GtkWidget* w)
 	Theme *pTheme = pView->GetDoc ()->GetTheme ();
 	if (m_ascent <= 0) {
 		PangoContext* pc = pView->GetPangoContext ();
-		m_Layout = pango_layout_new (pc);
+		const_cast <Fragment *> (this)->m_Layout = pango_layout_new (pc);
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_layout_set_attributes (m_Layout, l);
 		pango_layout_set_font_description (m_Layout, pView->GetPangoFontDesc ());
 		pango_layout_set_text (m_Layout, "l", 1);
 		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
-		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		const_cast <Fragment *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
 		pango_layout_set_text (m_Layout, "C", 1);
 		PangoRectangle rect;
 		pango_layout_get_extents (m_Layout, &rect, NULL);
-		m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
+		const_cast <Fragment *> (this)->m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
 		pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
 		if (m_AttrList) {
 			pango_layout_set_attributes (m_Layout, m_AttrList);
 			pango_attr_list_unref (m_AttrList);
-			m_AttrList = NULL;
+			const_cast <Fragment *> (this)->m_AttrList = NULL;
 		}
 		if (m_buf.length () > 0) {
-			m_buf.clear ();
+			const_cast <Fragment *> (this)->m_buf.clear ();
 			pango_layout_index_to_pos (m_Layout, m_BeginAtom, &rect);
-			m_lbearing = rect.x / PANGO_SCALE;
+			const_cast <Fragment *> (this)->m_lbearing = rect.x / PANGO_SCALE;
 			pango_layout_index_to_pos (m_Layout, m_EndAtom, &rect);
-			m_lbearing += rect.x / PANGO_SCALE;
-			m_lbearing /=  2;
+			const_cast <Fragment *> (this)->m_lbearing += rect.x / PANGO_SCALE;
+			const_cast <Fragment *> (this)->m_lbearing /=  2;
 			iter = pango_layout_get_iter (m_Layout);
-			m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+			const_cast <Fragment *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 			pango_layout_iter_free (iter);
 		}
 		pango_layout_get_extents (m_Layout, NULL, &rect);
-		m_length = rect.width / PANGO_SCALE;
-		m_height = rect.height / PANGO_SCALE;
+		const_cast <Fragment *> (this)->m_length = rect.width / PANGO_SCALE;
+		const_cast <Fragment *> (this)->m_height = rect.height / PANGO_SCALE;
 	}
 	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL)), *chgp;
 	GnomeCanvasItem* item = gnome_canvas_item_new(
@@ -296,7 +296,7 @@ void Fragment::Add (GtkWidget* w)
 						NULL);
 	g_object_set_data (G_OBJECT (group), "rect", item);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	item = gnome_canvas_item_new (
 						group,
 						gnome_canvas_pango_get_type (),
@@ -306,16 +306,16 @@ void Fragment::Add (GtkWidget* w)
 						"editing", false,
 						NULL);
 	g_object_set_data (G_OBJECT (group), "fragment", item);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	g_signal_connect_swapped (G_OBJECT (item), "changed", G_CALLBACK (on_fragment_changed), this);
-	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_fragment_sel_changed), this);
+	g_signal_connect_swapped (G_OBJECT (item), "changed", G_CALLBACK (on_fragment_changed), (void *) this);
+	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_fragment_sel_changed), (void *) this);
 	/* add charge */
 	int charge = m_Atom->GetCharge ();
 	if (charge) {
 		double x, y, Angle, Dist;
 		unsigned char Pos = m_Atom->Atom::GetChargePosition (&Angle, &Dist);
-		int align = GetChargePosition(m_Atom, Pos, 0., x, y);
+		int align = const_cast <Fragment *> (this)->GetChargePosition (m_Atom, Pos, 0., x, y);
 		if (Dist != 0.) {
 			x = m_x + Dist * cos (Angle);
 			y = m_y - Dist * sin (Angle);
@@ -423,7 +423,7 @@ void Fragment::SetSelected (GtkWidget* w, int state)
 		g_object_set (item, "outline_color", chargecolor, NULL);
 }
 
-void Fragment::Update (GtkWidget* w)
+void Fragment::Update (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
@@ -446,7 +446,7 @@ void Fragment::Update (GtkWidget* w)
 		double x, y, Angle, Dist;
 		unsigned char Pos = m_Atom->Atom::GetChargePosition (&Angle, &Dist);
 		if (item) {
-			int align = GetChargePosition (m_Atom, Pos, Angle, x, y);
+			int align = const_cast <Fragment *> (this)->GetChargePosition (m_Atom, Pos, Angle, x, y);
 			if (Dist != 0.) {
 				x = m_x + Dist * cos (Angle);
 				y = m_y - Dist * sin (Angle);
@@ -505,7 +505,7 @@ void Fragment::Update (GtkWidget* w)
 			gnome_canvas_path_def_unref (cpd);
 		} else {
 			GnomeCanvasGroup *chgp;
-			int align = GetChargePosition (m_Atom, Pos, Angle, x, y);
+			int align = const_cast <Fragment *> (this)->GetChargePosition (m_Atom, Pos, Angle, x, y);
 			x *= pTheme->GetZoomFactor ();
 			if (Dist != 0.) {
 				x = m_x + Dist * cos (Angle);
@@ -585,10 +585,10 @@ void Fragment::Update (GtkWidget* w)
 	}
 }
 
-xmlNodePtr Fragment::Save (xmlDocPtr xml)
+xmlNodePtr Fragment::Save (xmlDocPtr xml) const
 {
-	m_buf = pango_layout_get_text (m_Layout);
-	if (m_RealSave && !Validate ())
+	const_cast <Fragment *> (this)->m_buf = pango_layout_get_text (m_Layout);
+	if (m_RealSave && !const_cast <Fragment *> (this)->Validate ())
 		return NULL;
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "fragment", NULL);
 	if (m_buf.length ()) {
@@ -634,7 +634,7 @@ bool filter_func (PangoAttribute *attribute, struct FilterStruct *s)
 	return FALSE;
 }
 
-bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end)
+bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end) const
 {
 	xmlNodePtr child;
 	struct FilterStruct s;
@@ -642,7 +642,7 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 	s.end = end;
 	int charge;
 	if (m_AttrList == NULL)
-		m_AttrList = pango_layout_get_attributes (m_Layout);
+		const_cast <Fragment *> (this)->m_AttrList = pango_layout_get_attributes (m_Layout);
 	pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) filter_func, &s);
 	list<PangoAttribute*>::iterator i, iend = s.pal.end ();
 	string str;
@@ -691,7 +691,7 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 	return true;
 }
 
-xmlNodePtr Fragment::SaveSelection (xmlDocPtr xml)
+xmlNodePtr Fragment::SaveSelection (xmlDocPtr xml) const
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "fragment", NULL);
 	if (!node)

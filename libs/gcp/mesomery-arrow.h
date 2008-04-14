@@ -38,10 +38,10 @@ public:
 	MesomeryArrow (Mesomery* mesomery);
 	virtual ~MesomeryArrow ();
 	
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 	virtual bool Load (xmlNodePtr);
-	virtual void Add (GtkWidget* w);
-	virtual void Update (GtkWidget* w);
+	virtual void Add (GtkWidget* w) const;
+	virtual void Update (GtkWidget* w) const;
 	void SetStartMesomer (Mesomer *Mesomer) {m_Start = Mesomer;}
 	Mesomer* GetStartMesomer () {return m_Start;}
 	void SetEndMesomer (Mesomer *Mesomer) {m_End = Mesomer;}

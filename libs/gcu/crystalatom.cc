@@ -178,7 +178,7 @@ void CrystalAtom::NetToCartesian(double a, double b, double c, double alpha, dou
 		(dx * cos(beta) + dy * cos(alpha) + dz));
 }
 
-bool CrystalAtom::SaveNode (xmlDocPtr xml, xmlNodePtr node)
+bool CrystalAtom::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
 {
 	if (!WriteRadius (xml, node, m_Radius))
 		return false;

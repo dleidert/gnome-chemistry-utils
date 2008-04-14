@@ -394,9 +394,9 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 							// TODO: write this code
 						}
 						string pos = Atom->GetProperty (GCU_PROP_POS2D);
-							Molecule *mol = dynamic_cast <Molecule *> (parent);
-							if (mol)
-								mol->Remove (Atom);
+						Molecule *mol = dynamic_cast <Molecule *> (parent);
+						if (mol)
+							mol->Remove (Atom);
 						delete Atom;
 						Atom = Object::CreateObject ("fragment", parent);
 						Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
@@ -404,6 +404,8 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 						Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
 						Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
 						Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+						// now build a molecule from the formula
+						Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form);
 					}
 					catch (parse_error &error) {
 						return false;
@@ -448,6 +450,8 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 						try {
 							// First, parse the formula.
 							Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
+							// now build a molecule from the formula
+							Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form);
 							// Now see if it matches with the molecule
 							if (!mol->Match (form))
 								goto bad_exit;

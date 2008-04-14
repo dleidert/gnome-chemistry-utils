@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all files: made some methods const.
+	* libs/gcu/molecule.cc: add a static MoleculeFromFormula method.
+	* libs/gcu/molecule.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: call Molecule::MoleculeFromFormula
+	when appropriate.
+
 2008-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: needs libgsf >= 1.14.9 for gio support.
 	* libs/gcu/application.cc: use libgsf gio support instead of

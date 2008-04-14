@@ -38,7 +38,7 @@ public:
 	FragmentResidue (Fragment *fragment, char const *symbol);
 	virtual ~FragmentResidue ();
 
-	xmlNodePtr Save (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr node);
 	void SetResidue (Residue const *res);
 /*!

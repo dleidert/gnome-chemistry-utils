@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * object.h 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -150,7 +150,7 @@ The standard destructor of Object instances. Automatically called when the objec
 @return the type of the object. If the type is at least equal to OtherType, it is a dynamically created type returned by
 the Object::AddType method.
 */
-	TypeId GetType () {return m_Type;}
+	TypeId GetType () const {return m_Type;}
 /*!
 	@param Id: the id of the Object instance.
 	
@@ -160,7 +160,7 @@ the Object::AddType method.
 /*!
 	@return the Id of the Object instance.
 */
-	const gchar* GetId () {return m_Id;}
+	gchar const *GetId () const {return m_Id;}
 /*!
 	@param object*: the Object instance to add as a child.
 	
@@ -175,14 +175,14 @@ the Object::AddType method.
 	@return the first Object of type MoleculeType encountered when exploring
 	the Objects tree or NULL if none is found.
 */
-	Object* GetMolecule ();
+	Object* GetMolecule () const;
 /*!
 	Used to get the Reaction in the Object instances ancestors. 
 	
 	@return the first Object of type ReactionType encountered when exploring
 	the Objects tree or NULL if none is found.
 */
-	Object* GetReaction ();
+	Object* GetReaction () const;
 /*!
 	Used to get the highest ancestor just before the document
 	in the Object instances ancestors. 
@@ -190,14 +190,14 @@ the Object::AddType method.
 	@return the last Object encountered before the document when exploring
 	the Objects tree or NULL if the object's parent is the document itself.
 */
-	Object* GetGroup ();
+	Object* GetGroup () const;
 /*!
 	Used to get the Document in the Object instances ancestors. 
 	
 	@return the first Object of type DocumentType encountered when exploring
 	the Objects tree (only one should be found) or NULL if none is found.
 */
-	Document* GetDocument ();
+	Document* GetDocument () const;
 /*!
 @param Id: the type of the ancestor searched.
 
@@ -207,39 +207,41 @@ the Object::AddType method.
 	@return the first Object of type Id encountered when exploring
 	the Objects tree (only one should be found) or NULL if none is found.
 */
-	Object* GetParentOfType (TypeId Id);
+	Object* GetParentOfType (TypeId Id) const;
 /*!
 @param Id: the Id of the child searched.
 
 To search the Object in lower shells of the tree, use the Object::GetDescendant method.
 @return the Object instance of type Id if found in the children list or NULL if not found.
 */
-	Object* GetChild (const gchar* Id);
+	Object* GetChild (const gchar* Id) const;
 /*!
 @param i: a C++ std::map iterator.
 
 Use this function to retrieve the first child of the object and initialize the iterator.
 @return the first child of the object or NULL.
 */
-	Object* GetFirstChild (std::map<std::string, Object*>::iterator& i);
+	Object *GetFirstChild (std::map<std::string, Object*>::iterator& i);
+	Object const *GetFirstChild (std::map<std::string, Object*>::const_iterator& i) const;
 /*!
 @param i: a C++ std::map iterator initialized by Object::GetFirstChild.
 
 Use this method to iterate through the list of the Object children.
 @return the next child of the object or NULL.
 */
-	Object* GetNextChild (std::map<std::string, Object*>::iterator& i);
+	Object *GetNextChild (std::map<std::string, Object*>::iterator& i);
+	Object const *GetNextChild (std::map<std::string, Object*>::const_iterator& i) const;
 /*!
 @param Id: the Id of the descendant searched.
 
 This method searches the Object in its children and if not found calls the GetDescendant method for its children. 
 @return the Object instance of type Id if found in the decendants or NULL if not found.
 */
-	Object* GetDescendant (const gchar* Id);
+	Object* GetDescendant (const gchar* Id) const;
 /*!
 @return the parent of the Object.
 */
-	Object* GetParent () {return m_Parent;}
+	Object* GetParent () const {return m_Parent;};
 /*!
 @param Parent: the new parent of the Object or NULL.
 	
@@ -255,7 +257,7 @@ This method searches the Object in its children and if not found calls the GetDe
 	corresponding type used as first parameter to the Object::AddType method. The
 	default method just saves the id and children.
 */
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 /*!
 @param node: a pointer to the xmlNode containing the serialized object.
 
@@ -301,13 +303,13 @@ This method calls Object::Save fo each child of the Object instance and add the 
 It might be called from the Save method of objects having serializable children.
 @return true on succes, false otherwise.
 */
-	bool SaveChildren (xmlDocPtr xml, xmlNodePtr node);
+	bool SaveChildren (xmlDocPtr xml, xmlNodePtr node) const;
 /*!
 @param node: the node representing the Object.
 
 This helper method saves the Id of the node as a property of the xmlNode.
 */
-	void SaveId (xmlNodePtr node);
+	void SaveId (xmlNodePtr node) const;
 /*!
 @param node: the node where the search is to be done.
 @param Property: the name of the property used in the search.
@@ -354,14 +356,14 @@ Generally, the iteration is initialized by a call to Object::GetNodeByName.
 Used to add a representation of the Object in the widget. This method might be overrided for displayable Object classes
 unless the application uses another mechanism.
 */
-	virtual void Add (GtkWidget* w);
+	virtual void Add (GtkWidget* w) const;
 /*!
 @param w: the GtkWidget inside which the Object is displayed.
 
 Used to update the representation of the Object in the widget. This method might be overrided for displayable Object classes
 unless the application uses another mechanism.
 */
-	virtual void Update (GtkWidget* w);
+	virtual void Update (GtkWidget* w) const;
 /*!
 @param w: the GtkWidget inside which the Object is displayed.
 @param state: the selection state of the Object.
@@ -373,12 +375,12 @@ default value.
 /*!
 @return true if the Object has at least a child an false if it has none.
 */
-	bool HasChildren () {return m_Children.size () != 0;}
+	bool HasChildren () const {return m_Children.size () != 0;}
 
 /*!
 @return the children number of the Object.
 */
-	unsigned GetChildrenNumber () {return m_Children.size ();}
+	unsigned GetChildrenNumber () const {return m_Children.size ();}
 
 /*!
 @param x: the x coordinate
@@ -493,7 +495,7 @@ directly, but should call Object::OnUnlink instead.
 
 Fills types with all valid ancestor types for the object as defined by rules created with AddRule
 */
-	void GetPossibleAncestorTypes (std::set<TypeId>& types);
+	void GetPossibleAncestorTypes (std::set<TypeId>& types) const;
 
 /*!
 @param property: the property id as defined in objprops.h
@@ -632,7 +634,7 @@ the class seems possible.
 	static SignalId CreateNewSignalId ();
 
 private:
-	Object* RealGetDescendant (const gchar* Id);
+	Object* RealGetDescendant (const gchar* Id) const;
 
 private:
 	gchar* m_Id;

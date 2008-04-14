@@ -94,7 +94,7 @@ Multiplies all three coordinates of this Atom by ZoomFactor.
 Retrieves the coordinates of this Atom.
 @return true if successful and false if an error occurs (if x or y is NULL).
 */
-	virtual bool GetCoords (double *x, double *y, double *z = NULL);
+	virtual bool GetCoords (double *x, double *y, double *z = NULL) const;
 /*!
 @param x: the new x coordinate of the Atom.
 @param y: the new y coordinate of the Atom.
@@ -106,7 +106,7 @@ Changes the position of this Atom.
 /*!
 @return the atomic number of the atom.
 */
-	int GetZ () {return m_Z;}
+	int GetZ () const {return m_Z;}
 /*!
 @param Z: the new atomic number of the Atom.
 
@@ -127,7 +127,7 @@ Changes the formal charge of this Atom.
 /*!
 @return the atomic symbol of this Atom or NULL if the element is unknown.
 */
-	virtual const gchar* GetSymbol ();
+	virtual const gchar* GetSymbol () const;
 /*!
 @param pBond: a pointer to the new Bond to this Atom.
 
@@ -143,15 +143,15 @@ Removes a Bond.
 /*!
 @return the x coordinate of this Atom.
 */
-	double x () {return m_x;}
+	double x () const {return m_x;}
 /*!
 @return the y coordinate of this Atom.
 */
-	double y () {return m_y;}
+	double y () const {return m_y;}
 /*!
 @return the z coordinate of this Atom.
 */
-	double z () {return m_z;}
+	double z () const {return m_z;}
 /*!
 @param i: a C++ std::map iterator.
 
@@ -170,16 +170,16 @@ Use this method to iterate through the list of Bond instances of this Atom.
 @param pAtom: a pointer to an Atom instance.
 @return a pointer to the Bond shared by pAtom and this Atom if it exists or NULL.
 */
-	Bond* GetBond (Atom* pAtom);
+	Bond* GetBond (Atom* pAtom) const;
 /*!
 @return the number of Bond instances shared by this Atom. It does not take multiplicity of bonds into account.
 */
-	int GetBondsNumber () {return m_Bonds.size();}
+	int GetBondsNumber () const {return m_Bonds.size();}
 /*!
 @param xml: the xmlDoc used to save the document.
 @return a pointer to the xmlNode representing this Atom or NULL if an error occured.
 */
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 /*!
 @param node: a pointer to the xmlNode containing the serialized Atom.
 
@@ -200,7 +200,7 @@ It might be overrided for derived class when it is not convenient to override th
 This virtual method is called at the end of the Atom::Save method. The default behavior is to do nothing.
 It might be overrided for derived class when it is not convenient to override the Atom::Save method.
 */
-	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr node);
+	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr node) const;
 /*!
 @param x: the x component of the transation vector.
 @param y: the y component of the transation vector.

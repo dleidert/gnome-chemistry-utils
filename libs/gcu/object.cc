@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * object.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -100,46 +100,46 @@ void Object::SetId (gchar const *Id)
 	}
 }
 
-Object* Object::GetMolecule ()
+Object* Object::GetMolecule () const
 {
-	Object* object = this;
+	Object const *object = this;
 	while (object && (object->m_Type != MoleculeType))
 		object = object->m_Parent;
-	return object;
+	return const_cast <Object *> (object);
 }
 
-Object* Object::GetReaction ()
+Object* Object::GetReaction () const
 {
-	Object* object = this;
+	Object const *object = this;
 	while (object && (object->m_Type != ReactionType))
 		object = object->m_Parent;
-	return object;
+	return const_cast <Object *> (object);
 }
 
-Object* Object::GetGroup ()
+Object* Object::GetGroup () const
 {
 	if (!m_Parent || m_Parent->GetType () == DocumentType)
 		return NULL;
-	Object* object = m_Parent;
+	Object const *object = this;
 	while (object->m_Parent->GetType () != DocumentType)
 		object = object->m_Parent;
-	return object;
+	return const_cast <Object *> (object);
 }
 
-Document* Object::GetDocument ()
+Document* Object::GetDocument () const
 {
-	Object* object = this;
+	Object const *object = this;
 	while (object && (object->m_Type != DocumentType))
 		object = object->m_Parent;
-	return (Document*) object;
+	return const_cast <Document *> (reinterpret_cast <Document const *> (object));
 }
 
-Object* Object::GetParentOfType (TypeId Id)
+Object* Object::GetParentOfType (TypeId Id) const
 {
-	Object* object = this;
+	Object const *object = this;
 	while (object && (object->m_Type != Id))
 		object = object->m_Parent;
-	return object;
+	return const_cast <Object *> (object);
 }
 
 void Object::AddChild (Object* object)
@@ -186,17 +186,16 @@ void Object::SetParent (Object* Parent)
 	}
 }
 
-Object* Object::GetChild (const gchar* Id)
+Object* Object::GetChild (const gchar* Id) const
 {
 	if (Id == NULL)
 		return NULL;
-	Object* object = m_Children[Id];
-	if (!object)
-		m_Children.erase(Id);
-	return object;
+	map<string, Object*>::const_iterator i;
+	i = m_Children.find (Id);
+	return (i != m_Children.end ())? (*i).second: NULL;
 }
 
-Object* Object::GetDescendant (const gchar* Id)
+Object* Object::GetDescendant (const gchar* Id) const
 {
 	if (Id == NULL)
 		return NULL;
@@ -209,20 +208,30 @@ Object* Object::GetDescendant (const gchar* Id)
 	return RealGetDescendant (Id);
 }
 
-Object* Object::RealGetDescendant (const gchar* Id)
+Object* Object::RealGetDescendant (const gchar* Id) const
 {
-	Object* object = m_Children[Id];
-	if (!object) {
-		m_Children.erase (Id);
-		map<string, Object*>::iterator i, end = m_Children.end ();
+	map<string, Object*>::const_iterator i;
+	Object *object = NULL;
+	i = m_Children.find (Id);
+	if (i == m_Children.end ()) {
+		map<string, Object*>::const_iterator i, end = m_Children.end ();
 		for (i = m_Children.begin (); i != end; i++)
 			if ((*i).second->HasChildren () && (object = (*i).second->RealGetDescendant (Id)))
 				break;
-	}
+	} else
+		object = (*i).second;
 	return object;
 }
 
-Object* Object::GetFirstChild (map<string, Object*>::iterator& i)
+Object *Object::GetFirstChild (map<string, Object*>::iterator& i)
+{
+	i = m_Children.begin ();
+	if (i == m_Children.end ())
+		return NULL;
+	return (*i).second;
+}
+
+Object const *Object::GetFirstChild (map<string, Object*>::const_iterator& i) const
 {
 	i = m_Children.begin ();
 	if (i == m_Children.end ())
@@ -230,7 +239,15 @@ Object* Object::GetFirstChild (map<string, Object*>::iterator& i)
 	return (*i).second;
 }
 	
-Object* Object::GetNextChild (map<string, Object*>::iterator& i)
+Object *Object::GetNextChild (map<string, Object*>::iterator& i)
+{
+	i++;
+	if (i == m_Children.end ())
+		return NULL;
+	return (*i).second;
+}
+	
+Object const *Object::GetNextChild (map<string, Object*>::const_iterator& i) const
 {
 	i++;
 	if (i == m_Children.end ())
@@ -238,7 +255,7 @@ Object* Object::GetNextChild (map<string, Object*>::iterator& i)
 	return (*i).second;
 }
 
-xmlNodePtr Object::Save (xmlDocPtr xml)
+xmlNodePtr Object::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node;
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) GetTypeName (m_Type).c_str (), NULL);
@@ -253,7 +270,7 @@ xmlNodePtr Object::Save (xmlDocPtr xml)
 	return node;
 }
 
-void Object::SaveId (xmlNodePtr node)
+void Object::SaveId (xmlNodePtr node) const
 {
 	if (m_Id && *m_Id)
 		xmlNewProp (node, (xmlChar*) "id", (xmlChar*) m_Id);
@@ -288,9 +305,9 @@ bool Object::Load (xmlNodePtr node)
 	return true;
 }
 
-bool Object::SaveChildren (xmlDocPtr xml, xmlNodePtr node)
+bool Object::SaveChildren (xmlDocPtr xml, xmlNodePtr node) const
 {
-	map<string, Object*>::iterator i, end = m_Children.end ();
+	map<string, Object*>::const_iterator i, end = m_Children.end ();
 	xmlNodePtr child;
 	for (i = m_Children.begin (); i != end; i++) {
 		if ((child = (*i).second->Save (xml)))
@@ -357,19 +374,19 @@ bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object, doubl
 	return result | ((m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false);
 }
 
-void Object::Add (GtkWidget* w)
+void Object::Add (GtkWidget* w) const
 {
-	map<string, Object*>::iterator i;
-	Object* p = GetFirstChild (i);
+	map<string, Object*>::const_iterator i;
+	Object const *p = GetFirstChild (i);
 	while (p) {
 		p->Add (w);
 		p = GetNextChild (i);
 	}
 }
 
-void Object::Update (GtkWidget* w)
+void Object::Update (GtkWidget* w) const
 {
-	map<string, Object*>::iterator i, end = m_Children.end ();
+	map<string, Object*>::const_iterator i, end = m_Children.end ();
 	for (i = m_Children.begin (); i != end; i++)
 		(*i).second->Update (w);
 }
@@ -519,7 +536,7 @@ static void AddAncestorTypes (TypeId type, set<TypeId>& types)
 	}
 }
 
-void Object::GetPossibleAncestorTypes (set<TypeId>& types)
+void Object::GetPossibleAncestorTypes (set<TypeId>& types) const
 {
 	AddAncestorTypes (m_Type, types);
 }

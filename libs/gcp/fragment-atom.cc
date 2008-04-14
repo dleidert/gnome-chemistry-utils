@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment-atom.cc 
  *
- * Copyright (C) 2003-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -70,14 +70,14 @@ bool FragmentAtom::AcceptNewBonds (int nb)
 /*!
 Overrided to avoid Atom::Add execution. Don't do anything.
 */
-void FragmentAtom::Add (GtkWidget* w)
+void FragmentAtom::Add (GtkWidget* w) const
 {
 }
 
 /*!
 Overrided to avoid Atom::Update execution. Just call fragment Update method.
 */
-void FragmentAtom::Update (GtkWidget* w)
+void FragmentAtom::Update (GtkWidget* w) const
 {
 	m_Fragment->Update (w);
 }
@@ -91,7 +91,7 @@ void FragmentAtom::SetSelected (GtkWidget* w, int state)
 	m_Fragment->SetSelected (w, state);
 }
 
-xmlNodePtr FragmentAtom::Save (xmlDocPtr xml)
+xmlNodePtr FragmentAtom::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node;
 	gchar buf[16];

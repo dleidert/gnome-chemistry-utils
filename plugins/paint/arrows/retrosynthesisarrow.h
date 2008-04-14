@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * retrosynthesisarrow.h 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -38,10 +38,10 @@ public:
 	gcpRetrosynthesisArrow (gcpRetrosynthesis *rs);
 	virtual ~gcpRetrosynthesisArrow ();
 	
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 	virtual bool Load (xmlNodePtr);
-	virtual void Add (GtkWidget* w);
-	virtual void Update (GtkWidget* w);
+	virtual void Add (GtkWidget* w) const;
+	virtual void Update (GtkWidget* w) const;
 	virtual void SetSelected (GtkWidget* w, int state);
 	void SetStartStep (gcpRetrosynthesisStep *Step) {m_Start = Step;}
 	gcpRetrosynthesisStep* GetStartStep () {return m_Start;}

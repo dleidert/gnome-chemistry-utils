@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-operator.h 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,12 +35,12 @@ public:
 	ReactionOperator ();
 	virtual ~ReactionOperator ();
 	
-	virtual void Add (GtkWidget* w);
-	virtual void Update (GtkWidget* w);
+	virtual void Add (GtkWidget* w) const;
+	virtual void Update (GtkWidget* w) const;
 	virtual void Move (double x, double y, double z = 0);
 	virtual void SetSelected (GtkWidget* w, int state);
 	void SetCoords (double x, double y);
-	bool GetCoords (double* x, double* y);
+	bool GetCoords (double* x, double* y) const;
 	virtual double GetYAlign ();
 	
 private:

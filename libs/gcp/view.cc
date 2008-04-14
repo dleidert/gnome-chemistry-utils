@@ -241,7 +241,7 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 	if (event->type == GDK_BUTTON_PRESS) {
 		if (item == m_pData->Background) {
 			item = NULL;
-			std::map<Object*, GnomeCanvasGroup*>::iterator i = m_pData->Items.begin (),
+			std::map<Object const*, GnomeCanvasGroup*>::iterator i = m_pData->Items.begin (),
 						end = m_pData->Items.end ();
 			Bond* pBond;
 			while (i != end) {
@@ -318,7 +318,7 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 	return false;
 }
 
-void View::AddObject (Object* pObject)
+void View::AddObject (Object const *pObject)
 {
 	std::list<GtkWidget*>::iterator i, end = m_Widgets.end ();
 	for (i = m_Widgets.begin (); i != end; i++)
@@ -363,7 +363,7 @@ GtkWidget* View::CreateNewWidget ()
 		m_Widgets.push_back (m_pWidget);
 		if (pWidget) {
 			WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
-			std::map<Object*, GnomeCanvasGroup*>::iterator i, iend = pData->Items.end ();
+			std::map<Object const*, GnomeCanvasGroup*>::iterator i, iend = pData->Items.end ();
 			for (i = pData->Items.begin (); i != iend; i++)
 				if ((*i).first->GetType () != gcu::BondType)
 				 (*i).first->Add (m_pWidget);
@@ -424,7 +424,7 @@ GnomeCanvasItem* View::GetCanvasItem (GtkWidget* widget, Object* Object)
 		pObj->SetSelected (m_pWidget, SelStateUpdating);
 }*/
 
-void View::Update (Object* pObject)
+void View::Update (Object const *pObject)
 {
 	std::list<GtkWidget*>::iterator i;
 	for (i = m_Widgets.begin (); i != m_Widgets.end (); i++)

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/glview.cc 
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -374,7 +374,7 @@ static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gp
 	return true;
 }
 
-void GLView::SaveAsImage (string const &filename, char const *type, map<string, string>& options, unsigned width, unsigned height)
+void GLView::SaveAsImage (string const &filename, char const *type, map<string, string>& options, unsigned width, unsigned height) const
 {
 	if (width == 0 || height == 0)
 		return;
@@ -406,7 +406,7 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 	}
 }
 
-GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height)
+GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 {
 	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
 		GdkGLConfigMode (GDK_GL_MODE_RGBA | GDK_GL_MODE_DEPTH));
@@ -561,11 +561,11 @@ osmesa:
 	if (gl_pixmap)
 		gdk_gl_pixmap_destroy (gl_pixmap);
 	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
-	Update ();
+	const_cast <GLView *> (this)->Update ();
 	return pixbuf;
 }
 
-void GLView::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+void GLView::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const
 {
 	cairo_t *cr;
 	gdouble width, height;

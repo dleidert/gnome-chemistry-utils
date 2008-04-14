@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -50,7 +50,7 @@ Bond::~Bond()
 {
 }
 
-Atom* Bond::GetAtom(int which)
+Atom* Bond::GetAtom(int which) const
 {
 	switch (which)
 	{
@@ -60,12 +60,12 @@ Atom* Bond::GetAtom(int which)
 	}
 }
 
-Atom* Bond::GetAtom(Atom* pAtom, int which)
+Atom* Bond::GetAtom(Atom* pAtom, int which) const
 {
 	return (pAtom == m_Begin)? m_End: (pAtom == m_End)? m_Begin: NULL;
 }
 
-unsigned char Bond::GetOrder()
+unsigned char Bond::GetOrder() const
 {
 	return m_order;
 }
@@ -75,7 +75,7 @@ void Bond::SetOrder(unsigned char Order)
 	m_order = Order;
 }
 
-xmlNodePtr Bond::Save(xmlDocPtr xml)
+xmlNodePtr Bond::Save(xmlDocPtr xml) const
 {
 	xmlNodePtr parent;
 	gchar buf[16];
@@ -152,7 +152,7 @@ bool Bond::LoadNode(xmlNodePtr)
 	return true;
 }
 
-bool Bond::SaveNode(xmlDocPtr, xmlNodePtr)
+bool Bond::SaveNode(xmlDocPtr, xmlNodePtr) const
 {
 	return true;
 }

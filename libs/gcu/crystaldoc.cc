@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystaldoc.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -590,12 +590,12 @@ void CrystalDoc::Duplicate (CrystalLine& Line)
 	}
 }
 	
-void CrystalDoc::Draw (Matrix &m)
+void CrystalDoc::Draw (Matrix const &m) const
 {
 	vector3 v, v1;
 	Sphere sp (10);
 	glEnable (GL_RESCALE_NORMAL);
-	CrystalAtomList::iterator i, iend = Atoms.end ();
+	CrystalAtomList::const_iterator i, iend = Atoms.end ();
 	double red, green, blue, alpha;
 	for (i = Atoms.begin (); i != iend; i++)
 		if (!(*i)->IsCleaved ()) {
@@ -606,7 +606,7 @@ void CrystalDoc::Draw (Matrix &m)
 			sp.draw (v, (*i)->r ());
 		}
 	glEnable (GL_NORMALIZE);
-	CrystalLineList::iterator j, jend = Lines.end ();
+	CrystalLineList::const_iterator j, jend = Lines.end ();
 	Cylinder cyl (10);
 	for (j = Lines.begin (); j != jend; j++)
 		if (!(*j)->IsCleaved ()) {
@@ -644,12 +644,12 @@ CrystalCleavage* CrystalDoc::CreateNewCleavage()
 	return new CrystalCleavage();
 }
 
-const char* CrystalDoc::GetProgramId()
+const char* CrystalDoc::GetProgramId() const
 {
 	return NULL;
 }
 
-xmlDocPtr CrystalDoc::BuildXMLTree()
+xmlDocPtr CrystalDoc::BuildXMLTree () const
 {
 	gchar buf[256];
 	xmlDocPtr xml;
@@ -723,28 +723,28 @@ xmlDocPtr CrystalDoc::BuildXMLTree()
 		if (m_bFixedSize)
 			xmlNewProp (node, (xmlChar *) "fixed", (xmlChar *) "true");
 		
-		CrystalAtomList::iterator i;
+		CrystalAtomList::const_iterator i;
 		for (i = AtomDef.begin(); i != AtomDef.end(); i++)
 		{
 			node = (*i)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
 	
-		CrystalLineList::iterator j;
+		CrystalLineList::const_iterator j;
 		for (j = LineDef.begin(); j != LineDef.end(); j++)
 		{
 			node = (*j)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
 	
-		CrystalCleavageList::iterator k;
+		CrystalCleavageList::const_iterator k;
 		for (k = Cleavages.begin(); k != Cleavages.end(); k++)
 		{
 			node = (*k)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
 		
-		list<CrystalView*>::iterator view;
+		list<CrystalView*>::const_iterator view;
 		for (view = m_Views.begin(); view != m_Views.end(); view++)
 		{
 			node = (*view)->Save(xml);

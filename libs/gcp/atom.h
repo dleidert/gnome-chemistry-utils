@@ -83,15 +83,15 @@ public :
 	void AddBond (gcu::Bond* pBond);
 	void RemoveBond (gcu::Bond* pBond);
 	virtual void Update ();
-	virtual void Add (GtkWidget* w);
-	virtual void Update (GtkWidget* w);
-	int GetTotalBondsNumber (); //take bond order into account
-	int GetAttachedHydrogens () {return m_nH;}
+	virtual void Add (GtkWidget* w) const;
+	virtual void Update (GtkWidget* w) const;
+	int GetTotalBondsNumber () const; //take bond order into account
+	int GetAttachedHydrogens () const {return m_nH;}
 	bool GetBestSide ();
 	virtual int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
 	virtual int GetAvailablePosition (double& x, double& y);
 	virtual bool GetPosition (double angle, double& x, double& y);
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 	virtual bool Load (xmlNodePtr);
 	virtual bool LoadNode (xmlNodePtr);
 	virtual void SetSelected (GtkWidget* w, int state);
@@ -122,9 +122,9 @@ public :
 	void RemoveElectron (Electron* electron);
 	void NotifyPositionOccupation (unsigned char pos, bool occupied);
 	void SetChargePosition (unsigned char Pos, bool def, double angle = 0., double distance = 0.);
-	char GetChargePosition (double *Angle, double *Dist);
+	char GetChargePosition (double *Angle, double *Dist) const;
 	void SetCharge (int charge);
-	int GetCharge () {return m_Charge;}
+	int GetCharge () const {return m_Charge;}
 	void ForceChanged () {m_Changed = true;}
 	cairo_rectangle_t &GetInkRect () {return m_InkRect;}
 	cairo_rectangle_t &GetHInkRect () {return m_HInkRect;}

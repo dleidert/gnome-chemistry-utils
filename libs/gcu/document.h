@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/document.h 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -97,7 +97,7 @@ to avoid errors on the next paste event.
 	std::string &GetTitle () {return m_Title;}
 
 	void NotifyDirty (Object* pObject) {m_DirtyObjects.insert (pObject);}
-	virtual void Save () {;}
+	virtual void Save () const {;}
 
 private:
 

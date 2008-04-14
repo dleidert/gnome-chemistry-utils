@@ -66,14 +66,14 @@ public:
 	void SetFileName(const std::string &filename);
 	gchar* GetTitle() {return m_title;}
 	void SetTitle(const gchar* title);
-	void Save ();
+	void Save () const;
 	bool Load (const std::string &filename);
 #ifdef HAVE_OPENBABEL_2_2
 	bool Import (const std::string &filename, const std::string& mime_type);
 #endif
 	void ParseXMLTree(xmlNode* xml);
 	void OnNewDocument();
-	void OnExportVRML (const std::string &FileName);
+	void OnExportVRML (const std::string &FileName) const;
 	gcView* GetNewView();
 	void AddView(gcView* pView);
 	bool RemoveView(gcView* pView);
@@ -85,7 +85,7 @@ public:
 	virtual CrystalAtom* CreateNewAtom();
 	virtual CrystalLine* CreateNewLine();
 	virtual CrystalCleavage* CreateNewCleavage();
-	virtual const char* GetProgramId();
+	virtual const char* GetProgramId() const;
 	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
 	void SaveAsImage (const std::string &filename, char const *type, std::map<std::string, std::string>& options);
 	gcView *GetActiveView () {return m_pActiveView;}
@@ -94,7 +94,7 @@ public:
 	void RenameViews ();
 
 private:
-	void Error(int num);
+	void Error(int num) const;
 	
 	//Implementation
 private:

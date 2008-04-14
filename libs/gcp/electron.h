@@ -4,7 +4,7 @@
  * GChemPaint library
  * electron.h
  *
- * Copyright (C) 2004-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -42,10 +42,10 @@ public:
 	bool IsPair () {return m_IsPair;}
 	char GetPosition (double *angle, double *distance);
 	void SetPosition (unsigned char Pos, double angle = 0., double distance = 0.);
-	virtual void Add(GtkWidget* w);
-	virtual void Update(GtkWidget* w);
+	virtual void Add(GtkWidget* w) const;
+	virtual void Update(GtkWidget* w) const;
 	virtual void SetSelected(GtkWidget* w, int state);
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 	virtual bool Load (xmlNodePtr);
 	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);

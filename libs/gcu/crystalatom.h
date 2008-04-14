@@ -178,7 +178,7 @@ than for the whole crystal. If bFixed is true, all atoms are taken into account.
 
 Saves the color and the radius of the atom.
 */
-	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr node);
+	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr node) const;
 /*!
 @param node: a pointer to the xmlNode containing the serialized Atom.
 

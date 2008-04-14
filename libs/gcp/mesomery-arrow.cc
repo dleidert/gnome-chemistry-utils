@@ -4,7 +4,7 @@
  * GChemPaint library
  * mesomery-arrow.cc 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -56,7 +56,7 @@ MesomeryArrow::~MesomeryArrow ()
 	}
 }
 
-xmlNodePtr MesomeryArrow::Save (xmlDocPtr xml)
+xmlNodePtr MesomeryArrow::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent, node;
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) "mesomery-arrow", NULL);
@@ -116,7 +116,7 @@ bool MesomeryArrow::Load (xmlNodePtr node)
 	return false;
 }
 
-void MesomeryArrow::Add (GtkWidget* w)
+void MesomeryArrow::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -143,14 +143,14 @@ void MesomeryArrow::Add (GtkWidget* w)
 								"first_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
 								"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
 								NULL);
-	g_object_set_data (G_OBJECT(item), "object", this);
+	g_object_set_data (G_OBJECT(item), "object", (void *) this);
 	g_object_set_data (G_OBJECT(group), "arrow", item);
 	g_signal_connect(G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	pData->Items[this] = group;
 	gnome_canvas_points_free (points);
 }
 
-void MesomeryArrow::Update (GtkWidget* w)
+void MesomeryArrow::Update (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();

@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystalcleavage.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -59,7 +59,7 @@ bool CrystalCleavage::operator==(CrystalCleavage& ccClivage)
 	return ((m_nh == ccClivage.m_nh) && (m_nk == ccClivage.m_nk) && (m_nl == ccClivage.m_nl));
 }
 
-xmlNodePtr CrystalCleavage::Save(xmlDocPtr xml)
+xmlNodePtr CrystalCleavage::Save(xmlDocPtr xml) const
 {
 	xmlNodePtr node;
 	gchar buf[256];

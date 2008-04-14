@@ -4,7 +4,7 @@
  * GChemPaint library
  * arrow.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -45,7 +45,7 @@ Arrow::~Arrow ()
 {
 }
 
-bool Arrow::Save (xmlDocPtr xml, xmlNodePtr node)
+bool Arrow::Save (xmlDocPtr xml, xmlNodePtr node) const
 {
 	xmlNodePtr child;
 	gchar buf[16];

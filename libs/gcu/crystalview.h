@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalview.h 
  *
- * Copyright (C) 2002-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -116,7 +116,7 @@ Loads the parameters of the view from an xmlNode.
 @param xml: the xmlDoc used to save the document.
 @return a pointer to the xmlNode containig the view parameters or NULL if an error occured.
 */
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 
 private:
 /*!

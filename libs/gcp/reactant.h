@@ -4,7 +4,7 @@
  * GChemPaint library
  * reactant.h 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -39,12 +39,10 @@ public:
 
 	Reactant (ReactionStep* step, gcu::Object* object) throw (std::invalid_argument);
 	
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 	virtual bool Load (xmlNodePtr);
-	unsigned GetStoich () {return m_Stoich;}
-	void SetStoich (unsigned Stoich) {m_Stoich = Stoich;}
 
-	unsigned GetStoichiometry () {return m_Stoich;}
+	unsigned GetStoichiometry () const {return m_Stoich;}
 	void SetStoichiometry (unsigned coef) {m_Stoich = coef;}
 	virtual double GetYAlign ();
 	virtual bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);

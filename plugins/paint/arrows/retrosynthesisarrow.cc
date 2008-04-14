@@ -55,7 +55,7 @@ gcpRetrosynthesisArrow::~gcpRetrosynthesisArrow ()
 	}
 }
 
-xmlNodePtr gcpRetrosynthesisArrow::Save (xmlDocPtr xml)
+xmlNodePtr gcpRetrosynthesisArrow::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent, node;
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) "retrosynthesis-arrow", NULL);
@@ -113,7 +113,7 @@ bool gcpRetrosynthesisArrow::Load (xmlNodePtr node)
 	return false;
 }
 
-void gcpRetrosynthesisArrow::Add (GtkWidget* w)
+void gcpRetrosynthesisArrow::Add (GtkWidget* w) const
 {
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -156,13 +156,13 @@ void gcpRetrosynthesisArrow::Add (GtkWidget* w)
 							"cap-style", GDK_CAP_BUTT,
 							"join-style", GDK_JOIN_MITER,
 							NULL);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	g_object_set_data( G_OBJECT (group), "arrow", item);
 	g_signal_connect(G_OBJECT (item), "event", G_CALLBACK (gcp::on_event), w);
 	pData->Items[this] = group;
 }
 
-void gcpRetrosynthesisArrow::Update (GtkWidget* w)
+void gcpRetrosynthesisArrow::Update (GtkWidget* w) const
 {
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] == NULL)

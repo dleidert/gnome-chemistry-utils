@@ -4,7 +4,7 @@
  * GChemPaint residues plugin
  * pseudo-atom.h
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,10 +37,10 @@ public:
 	virtual ~gcpPseudoAtom ();
 
 	void Update ();
-	void Add (GtkWidget* w);
-	void Update (GtkWidget* w);
+	void Add (GtkWidget* w) const;
+	void Update (GtkWidget* w) const;
 	virtual bool Load (xmlNodePtr);
-	xmlNodePtr Save (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool LoadNode (xmlNodePtr);
 	void SetSelected (GtkWidget* w, int state);
 	bool AcceptNewBonds (int nb = 1) {return false;}

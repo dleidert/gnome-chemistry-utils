@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-step.h 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -44,8 +44,8 @@ public:
 
 	ReactionStep (Reaction *reaction, std::map<double, gcu::Object*>& Children, std::map<gcu::Object*, ArtDRect> Objects);
 
-	void Add (GtkWidget* w);
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	void Add (GtkWidget* w) const;
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 	virtual bool Load (xmlNodePtr);
 	virtual double GetYAlign ();
 	virtual bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);

@@ -4,7 +4,7 @@
  * GChemPaint library
  * bond.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -196,7 +196,7 @@ Object* Bond::GetAtomAt(double x, double y, double z)
 	return NULL;
 }
 
-bool Bond::SaveNode (xmlDocPtr xml, xmlNodePtr node)
+bool Bond::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
 {
 	switch(m_type) {
 	case UpBondType:
@@ -380,7 +380,7 @@ void Bond::SetSelected (GtkWidget* w, int state)
 	}
 }
 
-void Bond::Add (GtkWidget* w)
+void Bond::Add (GtkWidget* w) const
 {
 	if (!w)
 		return;
@@ -400,17 +400,17 @@ void Bond::Add (GtkWidget* w)
 	GnomeCanvasItem* item = NULL;
 	group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));
 	g_signal_connect (G_OBJECT (group), "event", G_CALLBACK (on_event), w);
-	g_object_set_data (G_OBJECT (group), "object", this);
+	g_object_set_data (G_OBJECT (group), "object", (void *) this);
 	bool result = false;
 	if (m_Crossing.size () > 0) {
-		map<Bond*, BondCrossing>::iterator i, iend = m_Crossing.end ();
+		map<Bond*, BondCrossing>::const_iterator i, iend = m_Crossing.end ();
 		for (i = m_Crossing.begin (); i != iend; i++)
 			if ((result |= (*i).second.is_before))
 				break;
 	}
 	GnomeCanvasPathDef *path = NULL;
 	if (result) {
-		path = BuildCrossingPathDef (pData);
+		path = const_cast <Bond *> (this)->BuildCrossingPathDef (pData);
 		if (path) {
 			GnomeCanvasItem *item = (m_type == NormalBondType || m_type == UndeterminedBondType)?
 				gnome_canvas_item_new (
@@ -428,7 +428,7 @@ void Bond::Add (GtkWidget* w)
 					"width_units", 0.,
 					NULL);
 			g_object_set_data (G_OBJECT (group), "back", item);
-			g_object_set_data (G_OBJECT (item), "object", this);
+			g_object_set_data (G_OBJECT (item), "object", (void *) this);
 			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 			/* now bring to front, FIXME: not secure ! */
 			gnome_canvas_item_lower_to_bottom (item);
@@ -442,7 +442,7 @@ void Bond::Add (GtkWidget* w)
 			gnome_canvas_path_def_unref (path);
 		}
 	}
-	path = BuildPathDef (pData);
+	path = const_cast <Bond *> (this)->BuildPathDef (pData);
 	switch (GetType ())
 	{
 		case NormalBondType:
@@ -469,7 +469,7 @@ void Bond::Add (GtkWidget* w)
 	}
 	gnome_canvas_path_def_unref (path);
 	g_object_set_data (G_OBJECT (group), "path", item);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	pData->Items[this] = group;
 	if (pAtom0->GetParent ()->GetType () == FragmentType)
@@ -680,7 +680,7 @@ GnomeCanvasPathDef *Bond::BuildCrossingPathDef (WidgetData* pData)
 	return path;
 }
 
-void Bond::Update(GtkWidget* w)
+void Bond::Update(GtkWidget* w) const
 {
 	if (!w || !m_order)
 		return;
@@ -690,7 +690,7 @@ void Bond::Update(GtkWidget* w)
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	bool result = false;
 	if (m_Crossing.size () > 0) {
-		map<Bond*, BondCrossing>::iterator i, iend = m_Crossing.end ();
+		map<Bond*, BondCrossing>::const_iterator i, iend = m_Crossing.end ();
 		for (i = m_Crossing.begin (); i != iend; i++)
 			if ((result |= (*i).second.is_before))
 				break;
@@ -704,7 +704,7 @@ void Bond::Update(GtkWidget* w)
 	}
 	obj = g_object_get_data(G_OBJECT(group), "back");
 	if (result) {
-		path = BuildCrossingPathDef (pData);
+		path = const_cast <Bond *> (this)->BuildCrossingPathDef (pData);
 		if (path) {
 			if (obj)
 				g_object_set (obj, "bpath", path, NULL);
@@ -725,7 +725,7 @@ void Bond::Update(GtkWidget* w)
 						"width_units", 0.,
 						NULL);
 				g_object_set_data (G_OBJECT (group), "back", item);
-				g_object_set_data (G_OBJECT (item), "object", this);
+				g_object_set_data (G_OBJECT (item), "object", (void *) this);
 				g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 				/* now bring to front, FIXME: not secure ! */
 				gnome_canvas_item_lower_to_bottom (item);
@@ -742,7 +742,7 @@ void Bond::Update(GtkWidget* w)
 	} else if (obj) {
 		g_object_set_data (G_OBJECT(group), "back", NULL);
 	}
-	path = BuildPathDef (pData);
+	path = const_cast <Bond *> (this)->BuildPathDef (pData);
 	obj = g_object_get_data(G_OBJECT(group), "path");
 	g_object_set (obj, "bpath", path, NULL);
 	if (m_type == NormalBondType || m_type == UndeterminedBondType)

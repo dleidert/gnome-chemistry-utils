@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-operator.cc 
  *
- * Copyright (C) 2004-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -47,7 +47,7 @@ ReactionOperator::~ReactionOperator ()
 {
 }
 
-void ReactionOperator::Add (GtkWidget* w)
+void ReactionOperator::Add (GtkWidget* w) const
 {
 	if (!w)
 		return;
@@ -67,9 +67,9 @@ void ReactionOperator::Add (GtkWidget* w)
 	group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));
 	pData->Items[this] = group;
 	g_signal_connect (G_OBJECT (group), "event", G_CALLBACK (on_event), w);
-	g_object_set_data (G_OBJECT (group), "object", this);
+	g_object_set_data (G_OBJECT (group), "object", (void *) this);
 	const gchar* symbol = "+";
-	m_Layout = pango_layout_new (pc);
+	const_cast <ReactionOperator *> (this)->m_Layout = pango_layout_new (pc);
 	pango_layout_set_text (m_Layout, symbol, strlen (symbol));
 	PangoRectangle rect;
 	pango_layout_get_extents (m_Layout, &rect, NULL);
@@ -86,7 +86,7 @@ void ReactionOperator::Add (GtkWidget* w)
 						NULL);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	g_object_set_data (G_OBJECT (group), "background",item);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	item = gnome_canvas_item_new (
 						group,
 						gnome_canvas_pango_get_type (),
@@ -98,10 +98,10 @@ void ReactionOperator::Add (GtkWidget* w)
 						NULL);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	g_object_set_data (G_OBJECT (group), "text",item);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 }
 
-void ReactionOperator::Update (GtkWidget* w)
+void ReactionOperator::Update (GtkWidget* w) const
 {
 	if (!w)
 		return;
@@ -174,7 +174,7 @@ void ReactionOperator::SetCoords (double x, double y)
 	m_y = y;
 }
 
-bool ReactionOperator::GetCoords (double* x, double* y)
+bool ReactionOperator::GetCoords (double* x, double* y) const
 {
 	*x = m_x;
 	*y = m_y;

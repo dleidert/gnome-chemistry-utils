@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/glview.h 
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -119,7 +119,7 @@ Sets the orientation of the model, using the Euler's angles.
 Export the view contents as an image. The size of the new image is defined by the width
 and height parameters.
 */
-	void SaveAsImage (std::string const &filename, char const *type, std::map<std::string, std::string>& options, unsigned width, unsigned height);
+	void SaveAsImage (std::string const &filename, char const *type, std::map<std::string, std::string>& options, unsigned width, unsigned height) const;
 /*!
 @param width the width of the generated image.
 @param height the height of the generated image.
@@ -128,8 +128,8 @@ Generates a pixbuf from the current view.
 
 @return the pixbuf containing the generated image
 */
-	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height);
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
 	GtkWindow *GetGtkWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget));}
 
 private:
@@ -251,7 +251,7 @@ GCU_PROP (float, Alpha)
 /*!\fn GetDoc()
 @return the associated document.
 */
-GCU_RO_PROP (GLDocument *, Doc)
+GCU_PROT_POINTER_PROP (GLDocument, Doc)
 /*!\var m_Radius
 The distance between the center of the model and the point of view.
 */

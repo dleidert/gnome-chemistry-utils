@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/molecule.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -51,6 +51,7 @@ public:
 	bool operator== (Molecule const& molecule) const;
 	virtual unsigned GetAtomsNumber () const {return m_Atoms.size ();}
 	bool Match (Formula &formula);
+	static Molecule *MoleculeFromFormula (Document *Doc, Formula const &formula, bool add_pseudo = true);
 
 protected:
 	std::list<Cycle*> m_Cycles;

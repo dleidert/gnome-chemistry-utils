@@ -4,7 +4,7 @@
  * GChemPaint library
  * molecule.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -44,11 +44,11 @@ public:
 	void AddAtom (gcu::Atom* pAtom);
 	void AddFragment (Fragment* pFragment);
 	void AddBond (gcu::Bond* pBond);
-	void Add (GtkWidget* w);
+	void Add (GtkWidget* w) const;
 	void Remove (gcu::Object* pObject);
 	bool Merge (Molecule* pMolecule, bool RemoveDuplicates = false);
 	bool Load (xmlNodePtr);
-	xmlNodePtr Save (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
 	void Clear ();
 	void SetSelected (GtkWidget* w, int state);
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
@@ -68,7 +68,7 @@ public:
 	void OpenCalc ();
 	void CheckCrossings (Bond *pBond);
 	char const *GetInChI ();
-	std::string GetRawFormula ();
+	std::string GetRawFormula () const;
 	void OnLoaded ();
 	unsigned GetAtomsNumber () const;
 

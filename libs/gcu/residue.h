@@ -73,6 +73,7 @@ private:
 
 GCU_RO_PROP (char const *, Name)
 GCU_PROP (bool, Generic)
+GCU_PROT_POINTER_PROP (Molecule, Molecule);
 };
 
 }	//	namespace gcu

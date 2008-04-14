@@ -59,12 +59,14 @@ static ResiduesTable tbl;
 
 Residue::Residue ():
 	m_Name (NULL),
-	m_Generic (false)
+	m_Generic (false),
+	m_Molecule (NULL)
 {
 }
 
 Residue::Residue (char const *name):
-	m_Generic (false)
+	m_Generic (false),
+	m_Molecule (NULL)
 {
 	m_Name = g_strdup (name);
 	tbl.rtbn[name] = this;

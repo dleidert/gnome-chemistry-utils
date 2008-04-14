@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * retrosynthesis.cc
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -64,7 +64,7 @@ gcpRetrosynthesis::~gcpRetrosynthesis ()
 	}
 }
 
-xmlNodePtr gcpRetrosynthesis::Save (xmlDocPtr xml)
+xmlNodePtr gcpRetrosynthesis::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = Object::Save (xml);
 	xmlNewProp (node, (xmlChar const*) "target", (xmlChar const*) Target->GetId ());

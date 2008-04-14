@@ -99,15 +99,15 @@ Molecule::~Molecule ()
 {
 }
 
-void Molecule::Add (GtkWidget* w)
+void Molecule::Add (GtkWidget* w) const
 {
-	std::list<gcu::Atom*>::iterator i, iend = m_Atoms.end ();
+	std::list<gcu::Atom*>::const_iterator i, iend = m_Atoms.end ();
 	for (i = m_Atoms.begin (); i != iend; i++)
 		(*i)->Add (w);
-	std::list<Fragment*>::iterator j, jend = m_Fragments.end ();
+	std::list<Fragment*>::const_iterator j, jend = m_Fragments.end ();
 	for (j = m_Fragments.begin (); j != jend; j++)
 		(*j)->Add (w);
-	std::list<gcu::Bond*>::iterator k, kend = m_Bonds.end ();
+	std::list<gcu::Bond*>::const_iterator k, kend = m_Bonds.end ();
 	for (k = m_Bonds.begin (); k != kend; k++)
 		(*k)->Add (w);
 }
@@ -595,7 +595,7 @@ void Molecule::SelectAlignmentItem (Object *child)
 	EmitSignal (OnChangedSignal);
 }
 
-xmlNodePtr Molecule::Save (xmlDocPtr xml)
+xmlNodePtr Molecule::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = Object::Save (xml);
 	if (!node)
@@ -849,14 +849,14 @@ char const *Molecule::GetInChI ()
 	return m_InChI.c_str ();
 }
 
-std::string Molecule::GetRawFormula ()
+std::string Molecule::GetRawFormula () const
 {
 	ostringstream ofs;
 
 	if (!m_Fragments.size ()) {
 		// we do not support fragments at the moment
 		map<string, int> elts;
-		list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
+		list<gcu::Atom*>::const_iterator ia, enda = m_Atoms.end ();
 		for (ia = m_Atoms.begin(); ia != enda; ia++) {
 			if ((*ia)->GetZ () == 0)
 				continue;

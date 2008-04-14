@@ -36,13 +36,11 @@ namespace gcp
 
 Residue::Residue (): gcu::Residue ()
 {
-	m_Molecule = NULL;
 	m_Doc = new Document (NULL, true, NULL);
 }
 
 Residue::Residue (char const *name): gcu::Residue (name)
 {
-	m_Molecule = NULL;
 	m_Doc = new Document (NULL, true, NULL);
 }
 

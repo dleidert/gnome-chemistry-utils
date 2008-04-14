@@ -41,11 +41,11 @@ public:
 
 	void SetZ (int Z);
 	bool AcceptNewBonds (int nb);
-	void Add (GtkWidget* w);
+	void Add (GtkWidget* w) const;
 	void Update ();
-	void Update (GtkWidget* w);
+	void Update (GtkWidget* w) const;
 	void SetSelected (GtkWidget* w, int state);
-	xmlNodePtr Save (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr node);
 	int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
 	int GetAvailablePosition (double& x, double& y);
@@ -60,7 +60,7 @@ Adds the fragment containing the atom to the molecule calling gcpMolecule::AddFr
 	void AddToMolecule (Molecule* Mol);
 	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
 
-GCU_RO_PROP (Fragment*, Fragment)
+GCU_RO_POINTER_PROP (Fragment, Fragment)
 };
 
 }	//	namespace gcp

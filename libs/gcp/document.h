@@ -69,26 +69,26 @@ public:
 	void Clear ();
 	GtkWidget* GetWidget ();
 	View* GetView () {return m_pView;}
-	void BuildBondList (std::list<Bond*>& BondList, Object* obj);
+	void BuildBondList (std::list<Bond*>& BondList, gcu::Object const *obj) const;
 	bool ImportOB (OpenBabel::OBMol& Mol);
-	void ExportOB ();
-	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, Object* obj, unsigned& index);
-	void Save ();
+	void ExportOB () const;
+	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, gcu::Object const *obj, unsigned& index) const;
+	void Save () const;
 	virtual bool Load (xmlNodePtr);
-	const gchar* GetTitle ();
+	const gchar* GetTitle () const;
 	void SetTitle (const gchar* title);
 	void SetLabel (const gchar* label);
-	const gchar* GetLabel ();
+	const gchar* GetLabel () const;
 	void SetFileName (std::string const &, const gchar *mime_type);
 	const gchar* GetFileName () {return m_filename;}
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
 	void AddObject (Object* pObject);
 	void AddAtom (Atom* pAtom);
 	void AddFragment (Fragment* pFragment);
 	void AddBond (Bond* pBond);
 	void ParseXMLTree (xmlDocPtr xml);
 	void LoadObjects (xmlNodePtr node);
-	xmlDocPtr BuildXMLTree ();
+	xmlDocPtr BuildXMLTree () const;
 	void Update ();
 	void Remove (Object*);
 	void Remove (const char* Id);

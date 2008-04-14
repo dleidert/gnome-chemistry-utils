@@ -44,7 +44,7 @@ public:
 	Printable ();
 	virtual ~Printable ();
 
-	virtual void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) = 0;
+	virtual void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const = 0;
 	virtual bool SupportsHeaders () {return false;}
 	virtual bool SupportMultiplePages () {return false;}
 	virtual GtkWindow *GetGtkWindow () = 0;

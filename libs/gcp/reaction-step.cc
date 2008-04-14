@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-step.cc 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -128,14 +128,14 @@ ReactionStep::~ReactionStep ()
 	}
 }
 	
-xmlNodePtr ReactionStep::Save (xmlDocPtr xml)
+xmlNodePtr ReactionStep::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node;
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) "reaction-step", NULL);
 	if (!node) return NULL;
 	SaveId (node);
-	map<string, Object*>::iterator i;
-	Object *obj = GetFirstChild (i);
+	map<string, Object*>::const_iterator i;
+	Object const *obj = GetFirstChild (i);
 	xmlNodePtr child;
 	while (obj) {
 		if ((*i).second->GetType () != ReactionOperatorType) {
@@ -278,7 +278,7 @@ void ReactionStep::RemoveArrow (ReactionArrow *arrow) {
 	}
 }
 
-void ReactionStep::Add (GtkWidget* w)
+void ReactionStep::Add (GtkWidget* w) const
 {
 	/* Now that Object::Add adds children, we need to override this method
 	because a molecule children (atoms, bonds, and fragments) are added to

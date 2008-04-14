@@ -41,6 +41,7 @@ typedef enum {
 	GCU_FORMULA_PARSE_ATOM,
 	GCU_FORMULA_PARSE_RESIDUE,
 	GCU_FORMULA_PARSE_ASK,
+	GCU_FORMULA_PARSE_NO_CASE=8
 } FormulaParseMode;
 
 /*!\class parse_error gcu/formula.h
@@ -185,7 +186,7 @@ with the calculated data.
 	void CalculateIsotopicPattern (IsotopicPattern &pattern);
 
 	bool BuildConnectivity ();
-	std::list<FormulaElt *> const &GetElements () {return Details;}
+	std::list<FormulaElt *> const &GetElements () const {return Details;}
 
 private:
 	void Parse (std::string &formula, std::list<FormulaElt *>&result) throw (parse_error);

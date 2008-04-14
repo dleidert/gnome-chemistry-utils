@@ -28,7 +28,9 @@
 #include "bond.h"
 #include "chain.h"
 #include "cycle.h"
+#include "document.h"
 #include "formula.h"
+#include <stack>
 
 using namespace std;
 
@@ -198,9 +200,58 @@ bool Molecule::Match (Formula &formula)
 		if ((*a)->GetZ () == 0)
 			break;
 	if (a != aend) {
+		// try to build a molecule from the formula
+		Document *doc = new Document ();
+		//create the mlecule
+		Molecule *mol = new Molecule ();
+		doc->AddChild (mol);
+		// create a pseudo atom with Z=0
+		Atom *at = new Atom (0, 0., 0.);
+		stack <Atom*> atoms;
+		atoms.push (at);
+		mol->AddAtom (at);
+		// next we suppose that the formula element are in order
+		for (i = elts.begin (); i != iend; i++) {
+			if ((atom = dynamic_cast <FormulaAtom *> (*i))) {
+				
+			} else if ((residue = dynamic_cast <FormulaResidue *> (*i))) {
+			} else {
+			}
+		}
+		
+		delete doc;
 	} else
 		return false; // we don't match entire molecules at the moment FIXME!
 	return true;
-}	
+}
+
+Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, bool add_pseudo)
+{
+	Molecule *mol = reinterpret_cast <Molecule*> (Object::CreateObject ("molecule", Doc));
+	if (!mol)
+		return NULL;
+	stack <Atom*> atoms;
+	Atom *atom = add_pseudo? reinterpret_cast <Atom*> (Object::CreateObject ("pseudo-atom", mol)): NULL, new_atom;
+	list<FormulaElt *> const &elts = formula.GetElements ();
+	list<FormulaElt *>::const_reverse_iterator i, iend = elts.rend ();
+	FormulaAtom *fatom;
+	FormulaResidue *fresidue;
+	int valence;
+	unsigned PendingHs;
+	stack<Atom*> PendingAtoms;
+	for (i = elts.rbegin (); i != iend; i++) {
+		if ((fatom = dynamic_cast <FormulaAtom *> (*i))) {
+			valence = fatom->GetValence ();
+		} else if ((fresidue = dynamic_cast <FormulaResidue *> (*i))) {
+			// get the residue molecule and duplicate it
+		} else {
+			// FIXME: need to support blocks as well
+			mol->SetParent (NULL); // ensure children wil be destroyed
+			delete mol;
+			return NULL;
+		}
+	}
+	return mol;
+}
 
 }	//namespace gcu

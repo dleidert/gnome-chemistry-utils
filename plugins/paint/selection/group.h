@@ -2,7 +2,7 @@
  * GChemPaint selection plugin
  * group.h
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -48,7 +48,7 @@ public:
 	void Add (GtkWidget* w);
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	bool Load (xmlNodePtr);
-	xmlNodePtr Save (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool OnSignal (SignalId Signal, Object *Child);
 	void SetAligned (gcpAlignType type);
 	void UnAlign ();

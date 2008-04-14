@@ -45,7 +45,7 @@ public:
 	void LoadSelected (xmlNodePtr node);
 	virtual bool OnChanged (bool save) = 0;
 	void OnSelChanged (struct GnomeCanvasPangoSelBounds *bounds);
-	bool SaveNode (xmlDocPtr xml, xmlNodePtr);
+	bool SaveNode (xmlDocPtr xml, xmlNodePtr) const;
 	bool Load (xmlNodePtr);
 	void Move (double x, double y, double z = 0);
 	bool IsLocked () {return m_bLoading;}

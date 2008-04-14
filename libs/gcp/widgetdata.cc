@@ -189,9 +189,9 @@ void on_clear_data (GtkClipboard *clipboard, Application *App)
 	gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, App);
 }
 
-bool WidgetData::IsSelected (Object *obj)
+bool WidgetData::IsSelected (Object const *obj) const
 {
-	std::list<Object*>::iterator i, end = SelectedObjects.end ();
+	std::list<Object*>::const_iterator i, end = SelectedObjects.end ();
 	Object* pGroup = obj->GetGroup ();
 	for (i = SelectedObjects.begin (); i != end; i++)
 		if ((*i == obj) || (*i == pGroup))
@@ -199,7 +199,7 @@ bool WidgetData::IsSelected (Object *obj)
 	return false;
 }
 
-void WidgetData::Unselect (Object* obj)
+void WidgetData::Unselect (Object *obj)
 {
 	SelectedObjects.remove (obj);
 	obj->SetSelected (Canvas, SelStateUnselected);
@@ -217,7 +217,7 @@ void WidgetData::UnselectAll ()
 	}
 }
 
-void WidgetData::SetSelected (Object* obj)
+void WidgetData::SetSelected (Object *obj)
 {
 	if (!IsSelected (obj)) {
 		SelectedObjects.push_front (obj);
@@ -301,12 +301,14 @@ void WidgetData::Copy (GtkClipboard* clipboard)
 	gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, App);
 }
 
-void WidgetData::GetObjectBounds (Object* obj, ArtDRect &rect)
+void WidgetData::GetObjectBounds (Object const *obj, ArtDRect &rect) const
 {
-	Object* pObject;
-	GnomeCanvasGroup* group;
+	Object const *pObject;
+	GnomeCanvasGroup const *group;
+	std::map<gcu::Object const *, GnomeCanvasGroup*>::const_iterator g;
 	double x1, y1, x2,  y2;
-	if ((group = Items[obj])) {
+	if ((g = Items.find (obj)) != Items.end ()) {
+		group = (*g).second;
 		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (group), &x1, &y1, &x2, &y2);
 		if (rect.x0 < -9.) {
 			rect.x0 = x1;
@@ -319,9 +321,8 @@ void WidgetData::GetObjectBounds (Object* obj, ArtDRect &rect)
 			if (rect.x1 < x2) rect.x1 = x2;
 			if (rect.y1 < y2) rect.y1 = y2;
 		}
-	} else
-		Items.erase (obj);
-	std::map<std::string, Object*>::iterator i;
+	}
+	std::map<std::string, Object*>::const_iterator i;
 	pObject = obj->GetFirstChild (i);
 	while (pObject) {
 		GetObjectBounds (pObject, rect);
@@ -329,15 +330,15 @@ void WidgetData::GetObjectBounds (Object* obj, ArtDRect &rect)
 	}
 }
 
-void WidgetData::GetSelectionBounds (ArtDRect &rect)
+void WidgetData::GetSelectionBounds (ArtDRect &rect) const
 {
-	std::list<Object*>::iterator i, end = SelectedObjects.end ();
+	std::list<Object*>::const_iterator i, end = SelectedObjects.end ();
 	rect.x0 = -10.;
 	for (i = SelectedObjects.begin (); i != end; i++)
 		GetObjectBounds (*i, rect);
 }
 
-void WidgetData::GetObjectBounds (Object* obj, ArtDRect *rect)
+void WidgetData::GetObjectBounds (Object const *obj, ArtDRect *rect) const
 {
 	rect->x0 = -10.;
 	GetObjectBounds (obj, *rect);
@@ -345,7 +346,7 @@ void WidgetData::GetObjectBounds (Object* obj, ArtDRect *rect)
 
 void WidgetData::SelectAll ()
 {
-	std::map<Object*, GnomeCanvasGroup*>::iterator i, end = Items.end ();
+	std::map<Object const*, GnomeCanvasGroup*>::iterator i, end = Items.end ();
 	Object *pObject;
 	for (i = Items.begin (); i != end; i++) {
 		pObject = (*i).first->GetGroup ();
@@ -354,7 +355,7 @@ void WidgetData::SelectAll ()
 				SetSelected (pObject);
 		}
 		else if (!IsSelected ((*i).first))
-			SetSelected ((*i).first);
+			SetSelected (const_cast <Object *> ((*i).first));
 	}
 }
 

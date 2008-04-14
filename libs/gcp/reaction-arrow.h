@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-arrow.h 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -39,10 +39,10 @@ public:
 	ReactionArrow (Reaction* react, unsigned Type = SimpleArrow);
 	virtual ~ReactionArrow ();
 	
-	xmlNodePtr Save (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr);
-	void Add (GtkWidget* w);
-	void Update (GtkWidget* w);
+	void Add (GtkWidget* w) const;
+	void Update (GtkWidget* w) const;
 	void SetStartStep (ReactionStep *Step) {m_Start = Step;}
 	ReactionStep* GetStartStep () {return m_Start;}
 	void SetEndStep (ReactionStep *Step) {m_End = Step;}

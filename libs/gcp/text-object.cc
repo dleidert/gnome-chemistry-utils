@@ -96,7 +96,7 @@ void TextObject::LoadSelected (xmlNodePtr node)
 	OnChanged (false);
 }
 
-bool TextObject::SaveNode (xmlDocPtr xml, xmlNodePtr node)
+bool TextObject::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
 {
 	SaveId (node);
 	return WritePosition (xml, node, NULL, m_x, m_y);

@@ -92,7 +92,7 @@ public:
 	GtkListStore *pclist;
 
 	GtkWindow *GetGtkWindow () {return window;}
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
 
 private:
 	void ParseNodes (xmlNodePtr node);
@@ -131,7 +131,7 @@ void GChemCalc::ParseNodes (xmlNodePtr node)
 	}
 }
 
-void GChemCalc::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+void GChemCalc::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const
 {
 	cairo_t *cr;
 	gdouble width, height;

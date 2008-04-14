@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.h 
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -48,7 +48,7 @@ public:
 	void OnClose ();
 	void OnProperties ();
 
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context);
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
 	void SetGraph (GogGraph *graph);
 	GtkWindow *GetGtkWindow () {return GTK_WINDOW (dialog);}
 

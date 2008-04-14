@@ -50,7 +50,6 @@ private:
 GCU_RO_PROP (bool, ReadOnly);
 GCU_RO_PROP (xmlNodePtr, Node);
 GCU_RO_PROP (xmlNodePtr, MolNode);
-GCU_RO_POINTER_PROP (Molecule, Molecule);
 };
 
 }	//	namespace gcp

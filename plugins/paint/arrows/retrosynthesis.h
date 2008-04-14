@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * retrosynthesis.h 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -39,7 +39,7 @@ public:
 	gcpRetrosynthesis ();
 	virtual ~gcpRetrosynthesis ();
 	
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 	virtual bool Load (xmlNodePtr);
 	virtual bool Build (std::list<Object*>& Children) throw (std::invalid_argument);
 	virtual double GetYAlign ();

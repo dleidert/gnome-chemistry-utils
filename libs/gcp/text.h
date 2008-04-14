@@ -4,7 +4,7 @@
  * GChemPaint library
  * text.h 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -42,13 +42,13 @@ public:
 	
 	void GetCoords (double *x, double *y);
 	void SetCoords (double x, double y);
-	xmlNodePtr Save (xmlDocPtr xml);
-	xmlNodePtr SaveSelection (xmlDocPtr xml);
+	xmlNodePtr Save (xmlDocPtr xml) const;
+	xmlNodePtr SaveSelection (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr);
 	bool LoadSelection (xmlNodePtr node, unsigned pos);
 	bool LoadNode (xmlNodePtr, unsigned &pos, int level = 0);
-	void Add (GtkWidget* w);
-	void Update (GtkWidget* w);
+	void Add (GtkWidget* w) const;
+	void Update (GtkWidget* w) const;
 	void SetSelected (GtkWidget* w, int state);
 	bool OnChanged (bool save);
 	void Transform2D (gcu::Matrix2D& m, double x, double y);

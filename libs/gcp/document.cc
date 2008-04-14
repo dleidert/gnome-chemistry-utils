@@ -156,7 +156,7 @@ GtkWidget* Document::GetWidget ()
 }
 
 
-const gchar* Document::GetTitle ()
+const gchar* Document::GetTitle () const
 {
 	if (m_title)
 		return m_title;
@@ -164,7 +164,7 @@ const gchar* Document::GetTitle ()
 		return GetLabel ();
 }
 
-const gchar* Document::GetLabel ()
+const gchar* Document::GetLabel () const
 {
 	return m_label;
 }
@@ -199,10 +199,10 @@ void Document::SetFileName (string const &Name, const gchar* mime_type)
 		m_label = g_strdup (m_filename + i);
 }
 
-void Document::BuildBondList (list<Bond*>& BondList, Object* obj)
+void Document::BuildBondList (list<Bond*>& BondList, Object const *obj) const
 {
-	Object* pObject;
-	map<string, Object*>::iterator i;
+	Object const *pObject;
+	map<string, Object*>::const_iterator i;
 	for (pObject = obj->GetFirstChild (i); pObject; pObject = obj->GetNextChild (i))
 		if (pObject->GetType () == gcu::BondType)
 			BondList.push_back ((Bond*)(*i).second);
@@ -280,10 +280,10 @@ bool Document::ImportOB (OBMol& Mol)
 	return true;
 }
 
-void Document::BuildAtomTable (map<string, unsigned>& AtomTable, Object* obj, unsigned& index)
+void Document::BuildAtomTable (map<string, unsigned>& AtomTable, Object const *obj, unsigned& index) const
 {
-	Object* pObject;
-	map<string, Object*>::iterator i;
+	Object const *pObject;
+	map<string, Object*>::const_iterator i;
 	for (pObject = obj->GetFirstChild (i); pObject; pObject = obj->GetNextChild (i))
 		if (pObject->GetType() == AtomType)
 			AtomTable[(*i).second->GetId ()] = index++;
@@ -291,7 +291,7 @@ void Document::BuildAtomTable (map<string, unsigned>& AtomTable, Object* obj, un
 			BuildAtomTable (AtomTable, pObject, index);
 }
 
-void Document::ExportOB ()
+void Document::ExportOB () const
 {
 	OBMol Mol;
 	map<string, unsigned>::iterator i;
@@ -302,10 +302,10 @@ void Document::ExportOB ()
 	unsigned index = 1;
 	double x, y, z;
 	gchar *old_num_locale;
-	map< string, Object * >::iterator m;
-	stack<map< string, Object * >::iterator> iters;
-	set<Object *> Mols;
-	Object *Cur = this, *Ob;
+	map< string, Object * >::const_iterator m;
+	stack<map< string, Object * >::const_iterator> iters;
+	set<Object const *> Mols;
+	Object const *Cur = this, *Ob;
 	try {
 		ostringstream ofs;
 		GnomeVFSHandle *handle = NULL;
@@ -340,7 +340,7 @@ void Document::ExportOB ()
 					Ob = Cur->GetNextChild (m);
 				}
 			}
-			set<Object *>::iterator mi, mend = Mols.end ();
+			set<Object const *>::iterator mi, mend = Mols.end ();
 			unsigned nb = 1;
 			Conv.SetOneObjectOnly (false);
 			for (mi = Mols.begin (); mi != mend; mi++)
@@ -397,14 +397,14 @@ void Document::ExportOB ()
 		if ((res = gnome_vfs_write (handle, ofs.str ().c_str (), (GnomeVFSFileSize) ofs.str ().size (), &n)) != GNOME_VFS_OK)
 			throw (int) res;
 		gnome_vfs_close (handle);
-		SetReadOnly (false);
+		const_cast <Document *> (this)->SetReadOnly (false);
 	}
 	catch (int n) {
 		fprintf (stderr, "gnome-vfs error #%d\n",n);
 	}
 }
 
-void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const
 {
 	cairo_t *cr;
 	double width, height, x, y, w, h;
@@ -578,15 +578,15 @@ static int cb_xml_to_vfs (GnomeVFSHandle *handle, const char* buf, int nb)
 	return (int) gnome_vfs_write (handle, buf, nb, &ndone);
 }
 
-void Document::Save ()
+void Document::Save () const
 {
 	if (m_bReadOnly)
-		SetReadOnly (false);
+		const_cast <Document *> (this)->SetReadOnly (false);
 	if (!m_filename || !m_bWriteable || m_bReadOnly)
 		return;
 	xmlDocPtr xml = NULL;
 	char *old_num_locale, *old_time_locale;
-	m_SavedResidues.clear ();
+	const_cast <Document *> (this)->m_SavedResidues.clear ();
 	
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
@@ -626,12 +626,12 @@ void Document::Save ()
 				int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
 				if (n < 0)
 					throw 1;
-				SetReadOnly (false);
+				const_cast <Document *> (this)->SetReadOnly (false);
 			}
 		}
-		SetDirty (false);
-		m_LastStackSize = m_UndoList.size ();
-		m_OpID = m_UndoList.front ()->GetID ();
+		const_cast <Document *> (this)->SetDirty (false);
+		const_cast <Document *> (this)->m_LastStackSize = m_UndoList.size ();
+		const_cast <Document *> (this)->m_OpID = m_UndoList.front ()->GetID ();
 	}
 	catch (int num) {
 		if (xml)
@@ -643,7 +643,7 @@ void Document::Save ()
 	g_free (old_num_locale);
 	setlocale (LC_TIME, old_time_locale);
 	g_free (old_time_locale);
-	m_SavedResidues.clear ();
+	const_cast <Document *> (this)->m_SavedResidues.clear ();
 }
 
 bool Document::Load (xmlNodePtr root)
@@ -763,7 +763,7 @@ void Document::ParseXMLTree (xmlDocPtr xml)
 	Load (xml->children);
 }
 
-xmlDocPtr Document::BuildXMLTree ()
+xmlDocPtr Document::BuildXMLTree () const
 {
 	xmlDocPtr xml;
 	xmlNodePtr node;
@@ -778,8 +778,8 @@ xmlDocPtr Document::BuildXMLTree ()
 	ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "gcp");
 	xmlSetNs (xml->children, ns);
 	if (!g_date_valid (&CreationDate))
-		g_date_set_time_t (&CreationDate, time (NULL));
-	g_date_set_time_t (&RevisionDate, time (NULL));
+		g_date_set_time_t (&const_cast <Document *> (this)->CreationDate, time (NULL));
+	g_date_set_time_t (&const_cast <Document *> (this)->RevisionDate, time (NULL));
 	gchar buf[64];
 	g_date_strftime (buf, sizeof (buf), "%m/%d/%Y", &CreationDate);
 	xmlNewProp (xml->children, (xmlChar*) "creation", (xmlChar*) buf);
@@ -1435,7 +1435,7 @@ void Document::SaveResidue (Residue const *r, xmlNodePtr node)
 {
 	if (m_SavedResidues.find (r) == m_SavedResidues.end ()) {
 		m_SavedResidues.insert (r);
-		xmlNewProp (node, (xmlChar const *) "raw", (xmlChar const *) const_cast <Molecule*> (r->GetMolecule ())->GetRawFormula ().c_str ());
+		xmlNewProp (node, (xmlChar const *) "raw", (xmlChar const *) reinterpret_cast <Molecule const*> (r->GetMolecule ())->GetRawFormula ().c_str ());
 		xmlNewProp (node, (xmlChar const *) "generic", (xmlChar const *) (r->GetGeneric ()? "true": "false"));
 		map<string, bool> const &symbols = r->GetSymbols ();
 		map<string, bool>::const_iterator i = symbols.begin (), iend = symbols.end ();
@@ -1460,7 +1460,7 @@ void Document::SaveResidue (Residue const *r, xmlNodePtr node)
 			xmlNodeSetLang (child, (xmlChar const *) (*j).first.c_str ());
 			xmlAddChild (node, child);
 		}
-		child = const_cast <Molecule*> (r->GetMolecule ())->Save (node->doc);
+		child = reinterpret_cast <Molecule const*> (r->GetMolecule ())->Save (node->doc);
 		if (child) {
 			xmlAddChild (node, child);
 		}

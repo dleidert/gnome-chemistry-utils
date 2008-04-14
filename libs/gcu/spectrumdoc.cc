@@ -29,6 +29,7 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series-lines.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/math/go-fft.h>
 #include <goffice/math/go-math.h>
 #include <goffice/math/go-rangefunc.h>
 #include <goffice/math/go-regression.h>
@@ -49,7 +50,7 @@ SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (t
 {
 	m_View = new SpectrumView (this);
 	x = y = NULL;
-	X = Y = R = I = integral = -1;
+	X = Y = R = I = integral = Rt = It = Rp = -1;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -68,7 +69,7 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 {
 	m_View = (View)? View: new SpectrumView (this);
 	x = y = NULL;
-	X = Y = R = I = integral = -1;
+	X = Y = R = I = integral = Rt = It = Rp = -1;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -517,6 +518,10 @@ static int ReadField (char const *s, char *key, char *buf)
 		// This is a comment, just skip
 		return JCAMP_INVALID;
 	}
+	if (!strncmp (data, "##$", 3)) {
+		// This is a vendor specific tag, just skip for now
+		return JCAMP_INVALID;
+	}
 	if (!strncmp (data, "##", 2)) {
 		// found a field
 		data += 2;
@@ -567,6 +572,11 @@ static void on_show_integral (GtkButton *btn, SpectrumDocument *doc)
 	gtk_button_set_label (btn, (doc->GetIntegralVisible ()?
 								_("Show integral"): _("Hide integral")));
 	doc->OnShowIntegral ();
+}
+
+static void on_transform_fid (GtkButton *btn, SpectrumDocument *doc)
+{
+	doc->OnTransformFID (btn);
 }
 #define JCAMP_PREC 1e-3 // fully arbitrary
 
@@ -1162,11 +1172,13 @@ out:
 	bool hide_y_axis = false;
 	// doon't do anything for unsupported spectra
 	switch (m_SpectrumType) {
-	case GCU_SPECTRUM_NMR:
+	case GCU_SPECTRUM_NMR: {
+		if (x == NULL && X > 0 && variables[X].Values == NULL)
+			return;
+		// add some widgets to the option box
+		GtkWidget *box = gtk_hbox_new (false, 5), *w;
 		if (go_finite (freq)) {
-			// add some widgets to the option box
-			GtkWidget *box = gtk_hbox_new (false, 5);
-			GtkWidget *w = gtk_label_new (_("X unit:"));
+			w = gtk_label_new (_("X unit:"));
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 			w = gtk_combo_box_new_text ();
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
@@ -1175,14 +1187,29 @@ out:
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
 			g_signal_connect (w, "changed", G_CALLBACK (on_unit_changed), this);
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			w = gtk_button_new_with_label (_("Show integral"));
-			g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
+		}
+		w = gtk_button_new_with_label (_("Show integral"));
+		g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
+		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+		gtk_widget_show_all (box);
+		gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+		hide_y_axis = true;
+		break;
+	}
+	case GCU_SPECTRUM_NMR_FID: {
+		if (x == NULL && X > 0 && variables[X].Values == NULL)
+			return;
+		if (R >= 0 && I >= 0) {
+			GtkWidget *box = gtk_hbox_new (false, 5);
+			GtkWidget *w = gtk_button_new_with_label (_("Transform to spectrum"));
+			g_signal_connect (w, "clicked", G_CALLBACK (on_transform_fid), this);
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 			gtk_widget_show_all (box);
 			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
 		}
-	case GCU_SPECTRUM_NMR_FID:
 		hide_y_axis = true;
+		break;
+	}
 	case GCU_SPECTRUM_INFRARED:
 	case GCU_SPECTRUM_RAMAN:
 //	case GCU_SPECTRUM_INFRARED_PEAK_TABLE:
@@ -1394,7 +1421,7 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 	}
 }
 
-void SpectrumDocument::DoPrint (GtkPrintOperation *print, GtkPrintContext *context)
+void SpectrumDocument::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const
 {
 	cairo_t *cr;
 	gdouble width, height;
@@ -1711,6 +1738,122 @@ void SpectrumDocument::OnShowIntegral ()
 		style->line.dash_type = GO_LINE_NONE;
 		gog_object_request_update (GOG_OBJECT (variables[integral].Series));
 	}
+}
+
+void SpectrumDocument::OnTransformFID (GtkButton *btn)
+{
+	double *re = variables[R].Values, *im = variables[I].Values;
+	unsigned n = 2;
+	while (n < npoints)
+		n <<= 1;
+	n <<= 1; // doubles the points number to get more transformed values
+	go_complex *fid = new go_complex[n], *sp;
+	unsigned i, j;
+	for (i = 0; i < npoints; i++) {
+		// assuming we have as many real, imaginary and time values
+		fid[i].re = re[i];
+		fid[i].im = im[i];
+	}
+	for (; i < n; i++) {
+		// fill with zeros
+		fid[i].re =  fid[i].im = 0.;
+	}
+	//we make no apodization at the moment
+	go_fourier_fft (fid, n, 1, &sp, false);
+	delete [] fid;
+	// only the first half values are useful
+	n /= 2;
+	// copy the unphased data to Rt and It (t for transformed)
+	JdxVar vr, vi, rp, xf;
+	vr.Name = _("Real transformed data");
+	vr.Symbol = 't';
+	vr.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
+	vr.Unit = GCU_SPECTRUM_UNIT_MAX;
+	vr.Format = GCU_SPECTRUM_FORMAT_MAX;
+	vr.Factor = 1.;
+	vr.NbValues = n;
+	vr.Values = new double[n];
+	for (i = 0; i < n; i++)
+		vr.Values[i] = sp[i].re;
+	vr.First = vr.Values[0];
+	vr.Last = vr.Values[n - 1];
+	go_range_min (vr.Values, n, &vr.Min);
+	go_range_max (vr.Values, n, &vr.Max);
+	vr.Series = NULL;
+	Rt = variables.size ();
+	variables.push_back (vr);
+	vi.Name = _("Imaginary transformed data");
+	vi.Symbol = 'u';
+	vi.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
+	vi.Unit = GCU_SPECTRUM_UNIT_MAX;
+	vi.Format = GCU_SPECTRUM_FORMAT_MAX;
+	vi.Factor = 1.;
+	vi.NbValues = n;
+	vi.Values = new double[n];
+	for (i = 0; i < n; i++)
+		vi.Values[i] = sp[i].im;
+	vi.First = vi.Values[0];
+	vi.Last = vi.Values[n - 1];
+	go_range_min (vi.Values, n, &vi.Min);
+	go_range_max (vi.Values, n, &vi.Max);
+	vi.Series = NULL;
+	It = variables.size ();
+	variables.push_back (vi);
+	// Now we need to adjust the phase (see http://www.ebyte.it/stan/Poster_EDISPA.html)
+	double phi = 0., tau = 0., q[36][31], *z;
+	double step = M_PI * 2. * tau / n, phase;
+	z = new double[n];
+	for (i = 0; i < n; i++)
+		z[i] = go_complex_mod (sp + i);
+	g_free (sp);
+	// set the phase real values
+	// free what needs to be freed
+	delete [] z;
+	// set the corrected values
+	rp.Values = new double[n];
+	//store phi and tau as first and last, respectively
+	rp.First = phi;
+	rp.Last = tau;
+	phase = phi - M_PI * 2. * tau;
+	for (i = 0; i < n; i++) {
+		phase += step;
+		rp.Values[i] = vr.Values[i] * cos (phase) + vi.Values[i] * sin (phase);
+	}
+	Rp = variables.size ();
+	variables.push_back (rp);
+	// add Hz and ppm variables (0 for last point, user will have to choose a reference peak)
+	// first Hz
+	// if we are there, we have R and I values, we should have also X, but let's check
+	double *xo, freq;
+	if (X >= 0 && variables[X].Values != NULL) {
+		xo = variables[X].Values;
+		freq = (variables[X].NbValues - 1) / (variables[X].Last - variables[X].First);
+	} else {
+		xo = x;
+		freq = (npoints - 1) / (lastx - firstx);
+	}
+	// first Hz
+	xf.Name = _(UnitNames[GCU_SPECTRUM_UNIT_HZ]);
+	xf.Symbol = 'X';
+	xf.Type = GCU_SPECTRUM_TYPE_INDEPENDENT;
+	xf.Unit = GCU_SPECTRUM_UNIT_HZ;
+	xf.Format = GCU_SPECTRUM_FORMAT_MAX;
+	xf.NbValues = n;
+	xf.Values = new double[n];
+	for (i = 0; i < n; i++)
+		xf.Values[i] = freq * (i + 1.) / n;
+	xf.First = xf.Min = xf.Values[0];
+	xf.Last = xf.Max = xf.Values[n - 1];
+	xf.Factor = 1.;
+	//now display the spectrum
+	variables[R].Series = NULL;
+	rp.Series = m_View->GetSeries ();
+	GOData *godata = go_data_vector_val_new (rp.Values, n, NULL);
+	gog_series_set_dim (rp.Series, 1, godata, NULL);
+	godata = go_data_vector_val_new (xf.Values, n, NULL);
+	gog_series_set_dim (rp.Series, 0, godata, NULL);
+	m_View->SetAxisBounds (GOG_AXIS_X, xf.Min, xf.Max, true);
+	m_View->SetAxisLabel (GOG_AXIS_X, xf.Name.c_str ());
 }
 
 }	//	nampespace gcu

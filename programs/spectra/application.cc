@@ -28,14 +28,17 @@
 #include "view.h"
 #include "window.h"
 #include <gcu/filechooser.h>
+#include <goffice/utils/go-image.h>
 #include <glib/gi18n.h>
 #include <clocale>
+#include <map>
 
 using namespace gcu;
 using namespace std;
 
 gsvApplication::gsvApplication (): Application (_("GSpectrum"), DATADIR, "gspectrum-unstable")
 {
+	SetImageWidth (600);
 }
 
 gsvApplication::~gsvApplication ()
@@ -70,6 +73,7 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 {
 	gsvDocument *pDoc = dynamic_cast <gsvDocument *> (Doc);
 	if(bSave) {
+		dynamic_cast <gsvView *> (pDoc->GetView ())->SaveAsImage (filename, mime_type, GetImageWidth (), GetImageHeight ());
 	} else {
 		char *old_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 		setlocale (LC_NUMERIC, "C");
@@ -98,10 +102,16 @@ void gsvApplication::OnSaveAsImage (gsvDocument *Doc)
 	if (!Doc)
 		return;
 	list<string> l;
+	unsigned n = 0;
+	char const *mime;
 	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
 		l.push_front ((*i).first.c_str ());
-	l.push_front ("image/x-eps");
+	if (go_image_get_format_from_name ("eps") != GO_IMAGE_FORMAT_UNKNOWN) {
+		mime = go_image_format_to_mime ("eps");
+		if (mime)
+			l.push_front (mime);
+	}
 	l.push_front ("application/postscript");
 	l.push_front ("application/pdf");
 	l.push_front ("image/svg+xml");

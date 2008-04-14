@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-arrow.cc 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -65,7 +65,7 @@ ReactionArrow::~ReactionArrow ()
 		m_End->RemoveArrow (this);
 }
 
-xmlNodePtr ReactionArrow::Save (xmlDocPtr xml)
+xmlNodePtr ReactionArrow::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent, node;
 	node = xmlNewDocNode (xml, NULL, (xmlChar*) "reaction-arrow", NULL);
@@ -153,7 +153,7 @@ bool ReactionArrow::Load (xmlNodePtr node)
 	return false;
 }
 
-void ReactionArrow::Add (GtkWidget* w)
+void ReactionArrow::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -180,7 +180,7 @@ void ReactionArrow::Add (GtkWidget* w)
 										"arrow_shape_c", pTheme->GetArrowHeadC (),
 										"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
 										NULL);
-			g_object_set_data (G_OBJECT (item), "object", this);
+			g_object_set_data (G_OBJECT (item), "object", (void *) this);
 			g_object_set_data (G_OBJECT (group), "arrow", item);
 			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 			break;
@@ -204,7 +204,7 @@ void ReactionArrow::Add (GtkWidget* w)
 								"arrow_shape_c", pTheme->GetArrowHeadC (),
 								"last_arrowhead_style", (unsigned char) ARROW_HEAD_LEFT,
 								NULL);
-			g_object_set_data (G_OBJECT (item), "object", this);
+			g_object_set_data (G_OBJECT (item), "object", (void *) this);
 			g_object_set_data (G_OBJECT (group), "direct", item);
 			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 			points->coords[2] = m_x * pTheme->GetZoomFactor () + pTheme->GetArrowDist () / 2 * sin (dAngle);
@@ -223,7 +223,7 @@ void ReactionArrow::Add (GtkWidget* w)
 								"arrow_shape_c", pTheme->GetArrowHeadC (),
 								"last_arrowhead_style", (unsigned char) ARROW_HEAD_LEFT,
 								NULL);
-			g_object_set_data (G_OBJECT (item), "object", this);
+			g_object_set_data (G_OBJECT (item), "object", (void *) this);
 			g_object_set_data (G_OBJECT (group), "reverse", item);
 			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 			break;
@@ -248,7 +248,7 @@ void ReactionArrow::Add (GtkWidget* w)
 								"arrow_shape_c", pTheme->GetArrowHeadC (),
 								"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
 								NULL);
-			g_object_set_data (G_OBJECT (item), "object", this);
+			g_object_set_data (G_OBJECT (item), "object", (void *) this);
 			g_object_set_data (G_OBJECT (group), "direct", item);
 			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 			points->coords[2] = m_x * pTheme->GetZoomFactor () + pTheme->GetArrowDist () / 2 * sin (dAngle);
@@ -267,7 +267,7 @@ void ReactionArrow::Add (GtkWidget* w)
 								"arrow_shape_c", pTheme->GetArrowHeadC (),
 								"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
 								NULL);
-			g_object_set_data (G_OBJECT (item), "object", this);
+			g_object_set_data (G_OBJECT (item), "object", (void *) this);
 			g_object_set_data (G_OBJECT (group), "reverse", item);
 			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 			break;
@@ -277,21 +277,21 @@ void ReactionArrow::Add (GtkWidget* w)
 	gnome_canvas_points_free (points);
 }
 
-void ReactionArrow::Update (GtkWidget* w)
+void ReactionArrow::Update (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	GnomeCanvasGroup* group = pData->Items[this];
 	if (!group) {
 		Add (w);
-		m_TypeChanged = false;
+		const_cast <ReactionArrow *> (this)->m_TypeChanged = false;
 		return;
 	}
 	if (m_TypeChanged) {
 		gtk_object_destroy (GTK_OBJECT (group));
 		pData->Items[this] = NULL;
 		Add (w);
-		m_TypeChanged = false;
+		const_cast <ReactionArrow *> (this)->m_TypeChanged = false;
 		return;
 	}
 	GnomeCanvasPoints *points = gnome_canvas_points_new (2);

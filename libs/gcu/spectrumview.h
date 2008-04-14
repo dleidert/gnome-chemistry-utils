@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * spectrumview.h
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -79,6 +79,17 @@ The destructor of SpectrumView.
 /*!
 */
 	GogSeries *NewSeries (bool new_plot);
+			
+/*!
+@param filename the name of the file.
+@param mime_type the requested mime type.
+@param width the width of the generated image.
+@param height the height of the generated image.
+
+Export the view contents as an image. The size of the new image is defined by the width
+and height parameters.
+*/
+	void SaveAsImage (std::string const &filename, char const *mime_type, unsigned width, unsigned height) const;
 
 private:
 	GtkSpinButton *xminbtn, *xmaxbtn;

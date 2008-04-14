@@ -208,7 +208,7 @@ void gcpSelectionTool::OnRelease ()
 		else
 			m_y1 = m_y;
 		double x0, y0, x1, y1;
-		std::map<Object*, GnomeCanvasGroup*>::iterator j, jend = m_pData->Items.end ();
+		std::map<Object const *, GnomeCanvasGroup*>::iterator j, jend = m_pData->Items.end ();
 		for (j = m_pData->Items.begin (); j != jend; j++) {
 			if (!m_pData->IsSelected ((*j).first)) {
 				GnomeCanvasItem *item = GNOME_CANVAS_ITEM ((*j).second);
@@ -222,7 +222,7 @@ void gcpSelectionTool::OnRelease ()
 							m_pData->SetSelected (m_pObject);
 					}
 					else
-						m_pData->SetSelected ((*j).first);
+						m_pData->SetSelected (const_cast <Object *> ((*j).first));
 				}
 			}
 		}

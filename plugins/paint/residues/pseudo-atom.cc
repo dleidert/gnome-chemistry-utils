@@ -4,7 +4,7 @@
  * GChemPaint residues plugin
  * pseudo-atom.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -57,7 +57,7 @@ void gcpPseudoAtom::Update ()
 {
 }
 
-void gcpPseudoAtom::Add (GtkWidget* w)
+void gcpPseudoAtom::Add (GtkWidget* w) const
 {
 	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
 	if (pData->Items[this] != NULL)
@@ -80,11 +80,11 @@ void gcpPseudoAtom::Add (GtkWidget* w)
 						NULL);
 	g_object_set_data (G_OBJECT (group), "ellipse", item);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (gcp::on_event), w);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) (this));
 	pData->Items[this] = group;
 }
 
-void gcpPseudoAtom::Update (GtkWidget* w)
+void gcpPseudoAtom::Update (GtkWidget* w) const
 {
 	if (!w)
 		return;
@@ -104,7 +104,7 @@ void gcpPseudoAtom::Update (GtkWidget* w)
 							NULL);
 }
 
-xmlNodePtr gcpPseudoAtom::Save (xmlDocPtr xml)
+xmlNodePtr gcpPseudoAtom::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent;
 	parent = xmlNewDocNode (xml, NULL, (xmlChar*) "pseudo-atom", NULL);

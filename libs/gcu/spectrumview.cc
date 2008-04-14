@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * spectrumview.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,14 +25,21 @@
 #include "spectrumview.h"
 #include <goffice/data/go-data-simple.h>
 #include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/gtk/go-graph-widget.h>
+#include <goffice/utils/go-image.h>
+#include <gsf/gsf-output-gio.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
+#include <map>
+#include <string>
+
+using namespace std;
 
 namespace gcu
 {
@@ -101,7 +108,7 @@ void SpectrumView::SetAxisBounds (GogAxisType target, double min, double max, bo
 	if (target == GOG_AXIS_X) {
 		double l = log (fabs (max - min));
 		int n = (l < 3)? rint (3 - l): 0;
-		xstep = pow (10, -n);
+		xstep = pow (10., -n);
 		g_signal_handler_block (xminbtn, minsgn); 
 		g_signal_handler_block (xmaxbtn, maxsgn); 
 		gtk_spin_button_set_range (xminbtn, min, max); 
@@ -248,6 +255,24 @@ GogSeries *SpectrumView::NewSeries (bool new_plot)
 		g_slist_free (l);
 	}
 	return gog_plot_new_series (plot);
+}
+
+void SpectrumView::SaveAsImage (string const &filename, char const *mime_type, unsigned width, unsigned height) const
+{
+	char *fname = go_mime_to_image_format (mime_type);
+	GOImageFormat format = go_image_get_format_from_name ((fname)? fname: filename.c_str ());
+	if (format == GO_IMAGE_FORMAT_UNKNOWN)
+		return;
+	GError *error = NULL;
+	GsfOutput *output = gsf_output_gio_new_for_uri (filename.c_str (), &error);
+	if (error) {
+		g_error_free (error);
+		return;
+	}
+	GogGraph *graph = gog_graph_dup (go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_Widget)));
+	gog_graph_set_size (graph, width, height);
+	gog_graph_export_image (graph, format, output, -1., -1.);
+	g_object_unref (graph);
 }
 
 }	//	namespace gcu

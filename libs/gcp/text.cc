@@ -4,7 +4,7 @@
  * GChemPaint library
  * text.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -320,7 +320,7 @@ bool filter_func (PangoAttribute *attribute, SaveStruct **cur_state)
 	return false;
 }
 
-xmlNodePtr Text::Save (xmlDocPtr xml)
+xmlNodePtr Text::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "text", NULL);
 	if (!node)
@@ -361,7 +361,7 @@ bool selection_filter_func (PangoAttribute *attribute, struct SelState *state)
 	return false;
 }
 
-xmlNodePtr Text::SaveSelection (xmlDocPtr xml)
+xmlNodePtr Text::SaveSelection (xmlDocPtr xml) const
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "text", NULL);
 	if (!node)
@@ -601,7 +601,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level)
 	return true;
 }
 
-void Text::Add (GtkWidget* w)
+void Text::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -609,7 +609,7 @@ void Text::Add (GtkWidget* w)
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	if (m_ascent <= 0) {
 		PangoContext* pc = pData->m_View->GetPangoContext ();
-		m_Layout = pango_layout_new (pc);
+		const_cast <Text *> (this)->m_Layout = pango_layout_new (pc);
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_layout_set_attributes (m_Layout, l);
 		PangoFontDescription *desc = pango_font_description_new ();
@@ -622,19 +622,19 @@ void Text::Add (GtkWidget* w)
 		pango_font_description_free (desc);
 		pango_layout_set_text (m_Layout, "l", -1);
 		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
-		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		const_cast <Text *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
 		pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
-		m_buf.clear ();
+		const_cast <Text *> (this)->m_buf.clear ();
 		if (m_AttrList) {
 			pango_layout_set_attributes (m_Layout, m_AttrList);
 			pango_attr_list_unref (m_AttrList);
-			m_AttrList = NULL;
+			const_cast <Text *> (this)->m_AttrList = NULL;
 		}
 		PangoRectangle rect;
 		pango_layout_get_extents (m_Layout, NULL, &rect);
-		m_length = rect.width / PANGO_SCALE;
-		m_height = rect.height / PANGO_SCALE;
+		const_cast <Text *> (this)->m_length = rect.width / PANGO_SCALE;
+		const_cast <Text *> (this)->m_height = rect.height / PANGO_SCALE;
 	}
 	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type(), NULL));
 	GnomeCanvasItem* item = gnome_canvas_item_new (
@@ -649,7 +649,7 @@ void Text::Add (GtkWidget* w)
 						NULL);
 	g_object_set_data (G_OBJECT (group), "rect", item);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	item = gnome_canvas_item_new (
 						group,
 						gnome_canvas_pango_get_type (),
@@ -659,10 +659,10 @@ void Text::Add (GtkWidget* w)
 						"editing", false,
 						NULL);
 	g_object_set_data (G_OBJECT (group), "text", item);
-	g_object_set_data (G_OBJECT (item), "object", this);
+	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	g_signal_connect_swapped (G_OBJECT(item), "changed", G_CALLBACK (on_text_changed), this);
-	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_text_sel_changed), this);
+	g_signal_connect_swapped (G_OBJECT(item), "changed", G_CALLBACK (on_text_changed), (void *) this);
+	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_text_sel_changed), (void *) this);
 	pData->Items[this] = group;
 }
 
@@ -704,7 +704,7 @@ bool Text::OnChanged (bool save)
 	return true;
 }
 
-void Text::Update (GtkWidget* w)
+void Text::Update (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();

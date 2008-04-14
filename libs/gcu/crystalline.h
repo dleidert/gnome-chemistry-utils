@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * crystalline.h 
  *
- * Copyright (C) 2002-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -265,7 +265,7 @@ VRML format.
 Saves the line.
 @return the xmlnode containing the description of the line.
 */
-	virtual xmlNodePtr Save (xmlDocPtr xml);
+	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 /*!
 @param node: a pointer to the xmlNode containing the serialized line.
 

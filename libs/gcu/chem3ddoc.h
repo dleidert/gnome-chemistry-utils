@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/chem3ddoc.h
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -78,7 +78,7 @@ Default destructor
 
 Displays the molecule using OpenGL.
 */
-	void Draw (Matrix &m);
+	void Draw (Matrix const &m) const;
 
 /*!
 @return true if the molecule have no atom, false otherwise.

@@ -317,10 +317,10 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 	}
 }
 
-void Chem3dDoc::Draw (Matrix &m)
+void Chem3dDoc::Draw (Matrix const &m) const
 {
 	std::vector < OBNodeBase * >::iterator i;
-	OBAtom* atom = m_Mol.BeginAtom (i);
+	OBAtom* atom = (const_cast <OBMol *> (&m_Mol))->BeginAtom (i);
 	unsigned int Z;
 	gdouble R, w, x, y, z, dist;
 	dist = 0.;
@@ -360,14 +360,13 @@ void Chem3dDoc::Draw (Matrix &m)
 				sp.draw (v, R);
 			}
 		}
-		atom = m_Mol.NextAtom (i);
+		atom = (const_cast <OBMol *> (&m_Mol))->NextAtom (i);
 	}
-	m_MaxDist = dist * 1.05;
+	const_cast <Chem3dDoc *> (this)->m_MaxDist = dist * 1.05;
 	if (m_Display3D != SPACEFILL) {
 		Cylinder cyl (10);
-		m_MaxDist = dist * 1.05;
 		std::vector < OBEdgeBase * >::iterator j;
-		OBBond* bond = m_Mol.BeginBond (j);
+		OBBond* bond = (const_cast <OBMol *> (&m_Mol))->BeginBond (j);
 		vector3 v0, v1;
 		double R1;
 		unsigned int Z1;
@@ -380,14 +379,14 @@ void Chem3dDoc::Draw (Matrix &m)
 			v = m * atom->GetVector ();
 			Z = atom->GetAtomicNum ();
 			if (Z == 0) {
-				bond = m_Mol.NextBond (j);
+				bond = (const_cast <OBMol *> (&m_Mol))->NextBond (j);
 				continue;
 			}
 			atom = bond->GetEndAtom ();
 			R = etab.GetVdwRad (Z);
 			Z1 = atom->GetAtomicNum ();
 			if (Z1 == 0) {
-				bond = m_Mol.NextBond (j);
+				bond = (const_cast <OBMol *> (&m_Mol))->NextBond (j);
 				continue;
 			}
 			R1 = etab.GetVdwRad (Z1);
@@ -415,7 +414,7 @@ void Chem3dDoc::Draw (Matrix &m)
 				cyl.drawMulti (v0, v1, ((bond->GetBondOrder () > 2)? .07: 0.10), bond->GetBondOrder (), 0.15, normal);
 			else
 				cyl.draw (v0, v1, .12);
-			bond = m_Mol.NextBond (j);
+			bond = (const_cast <OBMol *> (&m_Mol))->NextBond (j);
 		}
 	}
 }

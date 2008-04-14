@@ -4,7 +4,7 @@
  * GChemPaint library
  * bond.h 
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -56,16 +56,16 @@ public:
 	virtual ~Bond ();
 
 	virtual Object* GetAtomAt (double x, double y, double z = 0.);
-	BondType GetType() {return m_type;}
+	BondType GetType() const {return m_type;}
 	void SetType (BondType type);
 	double GetAngle2D (Atom* pAtom);
 	void AddCycle (gcu::Cycle* pCycle);
 	void RemoveCycle (gcu::Cycle* pCycle);
 	void RemoveAllCycles ();
 	bool GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, double* y2);
-	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr);
+	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr) const;
 	virtual bool LoadNode (xmlNodePtr);
-	virtual void Update (GtkWidget* w);
+	virtual void Update (GtkWidget* w) const;
 	virtual void Move (double x, double y, double z = 0);
 	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 	double GetDist (double x, double y);
@@ -73,7 +73,7 @@ public:
 	void Revert ();
 	void IncOrder (int n = 1);
 	virtual void SetSelected (GtkWidget* w, int state);
-	void Add (GtkWidget* w);
+	void Add (GtkWidget* w) const;
 	bool ReplaceAtom (Atom* oldAtom, Atom* newAtom);
 	virtual double GetYAlign ();
 	bool IsCrossing (Bond *pBond);

@@ -4,7 +4,7 @@
  * GChemPaint library
  * reactant.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -91,7 +91,7 @@ bool Reactant::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 	return result | Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
-xmlNodePtr Reactant::Save (xmlDocPtr xml)
+xmlNodePtr Reactant::Save (xmlDocPtr xml) const
 {
 	if (!Child)
 		return NULL;

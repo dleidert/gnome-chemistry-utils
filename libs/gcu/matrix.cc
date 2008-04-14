@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/matrix.cc 
  *
- * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -91,7 +91,7 @@ Matrix::Matrix(double x11, double x12, double x13, double x21, double x22, doubl
 	x[2][2] = x33;
 }
 
-Matrix& Matrix::operator*(Matrix& cMat)
+Matrix& Matrix::operator* (Matrix const &cMat) const
 {
 	static Matrix cMat0;
 	Matrix m(
@@ -108,7 +108,7 @@ Matrix& Matrix::operator*(Matrix& cMat)
 	return cMat0 = m;
 }
 
-Matrix& Matrix::operator=(Matrix& cMat)
+Matrix& Matrix::operator= (Matrix const &cMat)
 {
 	x[0][0] = cMat.x[0][0];
 	x[0][1] = cMat.x[0][1];
@@ -151,7 +151,7 @@ void Matrix::Euler(double& Psi, double& Theta, double& Phi)
 	}
 }
 
-void Matrix::Transform(double &dx, double &dy , double &dz)
+void Matrix::Transform (double &dx, double &dy , double &dz) const
 {
 	double x1 = dx * x[0][0] + dy * x[0][1] + dz * x[0][2];
 	double y1 = dx * x[1][0] + dy * x[1][1] + dz * x[1][2];
@@ -160,7 +160,7 @@ void Matrix::Transform(double &dx, double &dy , double &dz)
 	dy = y1;
 }
 
-vector3 Matrix::operator* (vector3 &v)
+vector3 Matrix::operator* (vector3 const &v) const
 {
 	vector3 r;
 	r.z () = v.z () * x[0][0] + v.x () * x[0][1] + v.y () * x[0][2];

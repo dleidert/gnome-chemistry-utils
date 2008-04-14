@@ -2,7 +2,7 @@
  * GChemPaint selection plugin
  * group.cc
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -276,7 +276,7 @@ bool gcpGroup::Load (xmlNodePtr node)
 	return true;
 }
 
-xmlNodePtr gcpGroup::Save (xmlDocPtr xml)
+xmlNodePtr gcpGroup::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = Object::Save (xml);
 	if (m_Align) {

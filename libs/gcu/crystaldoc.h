@@ -121,7 +121,7 @@ everything and updates all the views.
 
 Displays the molecule using OpenGL.
 */
-	void Draw (Matrix &m);
+	void Draw (Matrix const &m) const;
 
 /*!
 Creates a view of the document. This method should be overrided by programs deriving a new view class from
@@ -154,13 +154,13 @@ CrystalCleavage
 Builds the xmlDoc corresponding to the crystal structure.
 @return a pointer to the XML document.
 */
-	xmlDocPtr BuildXMLTree ();
+	xmlDocPtr BuildXMLTree () const;
 /*!
 @return the identity of the program as saved in files in the generator tag. This method should be overrided
 by programs able to save crystal structures in XML files conforming to gcrystal.dtd. It is used mainly to ensure
 compatiblity with files created by older versions of the program.
 */
-	virtual const char* GetProgramId ();
+	virtual const char* GetProgramId () const;
 
 #ifdef HAVE_OPENBABEL_2_2
 	bool ImportOB (OpenBabel::OBMol &mol);

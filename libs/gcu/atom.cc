@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.cc
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -96,7 +96,7 @@ void Atom::zoom (double ZoomFactor)
 	m_z *= ZoomFactor;
 }
 
-bool Atom::GetCoords (double *x, double *y, double *z)
+bool Atom::GetCoords (double *x, double *y, double *z) const
 {
 	if (!x || !y)
 		return false;
@@ -107,7 +107,7 @@ bool Atom::GetCoords (double *x, double *y, double *z)
 	return true;
 }
 
-const gchar* Atom::GetSymbol ()
+const gchar* Atom::GetSymbol () const
 {
 	Element* Elt = Element::GetElement(m_Z);
 	return (Elt)? Element::Symbol(m_Z): NULL;
@@ -155,7 +155,7 @@ void Atom::Transform2D (Matrix2D& m, double x, double y)
 	m_y += y;
 }
 
-xmlNodePtr Atom::Save (xmlDocPtr xml)
+xmlNodePtr Atom::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent;
 	gchar buf[16];
@@ -213,17 +213,16 @@ bool Atom::LoadNode (xmlNodePtr node)
 	return true;
 }
 
-bool Atom::SaveNode (xmlDocPtr xml, xmlNodePtr node)
+bool Atom::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
 {
 	return true;
 }
 
-Bond* Atom::GetBond (Atom* pAtom)
+Bond* Atom::GetBond (Atom* pAtom) const
 {
-	Bond* pBond = m_Bonds[pAtom];
-	if (!pBond)
-		m_Bonds.erase (pAtom);
-	return pBond;
+	std::map<Atom*, Bond*>::const_iterator i;
+	i = m_Bonds.find (pAtom);
+	return (i != m_Bonds.end ())? (*i).second: NULL;
 }
 
 bool Atom::SetProperty (unsigned property, char const *value)

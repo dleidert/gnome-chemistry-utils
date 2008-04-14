@@ -57,28 +57,28 @@ public:
 	GnomeCanvasGroup *Group;
 	GnomeCanvasItem* Background;
 	double Zoom;
-	std::map<gcu::Object*, GnomeCanvasGroup*>Items;
+	std::map<gcu::Object const*, GnomeCanvasGroup*>Items;
 	std::list<gcu::Object*>SelectedObjects;
 	
-	bool IsSelected (gcu::Object* obj);
-	void SetSelected (gcu::Object* obj);
-	void Unselect (gcu::Object* obj);
+	bool IsSelected (gcu::Object const *obj) const;
+	void SetSelected (gcu::Object *obj);
+	void Unselect (gcu::Object *obj);
 	void UnselectAll ();
 	void MoveSelectedItems (double dx, double dy);
 	void MoveSelection (double dx, double dy);
 	void RotateSelection (double dx, double dy, double angle);
 	void ClearSelection () {SelectedObjects.clear();}
 	void Copy (GtkClipboard* clipboard);
-	void GetSelectionBounds (ArtDRect &rect);
+	void GetSelectionBounds (ArtDRect &rect) const;
 	bool HasSelection () {return !(SelectedObjects.empty());}
 	void SelectAll ();
 	static xmlDocPtr GetXmlDoc (GtkClipboard* clipboard);
 	void ShowSelection (bool state);
-	void GetObjectBounds (gcu::Object* obj, ArtDRect *rect);
+	void GetObjectBounds (gcu::Object const *obj, ArtDRect *rect) const;
 
 private:
 	void MoveItems (gcu::Object *obj, double dx, double dy);
-	void GetObjectBounds (gcu::Object* obj, ArtDRect &rect);
+	void GetObjectBounds (gcu::Object const* obj, ArtDRect &rect) const;
 };
 
 }	// namespace gcp

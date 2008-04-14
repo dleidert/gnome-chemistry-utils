@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.h 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -42,10 +42,10 @@ public:
 	virtual ~Fragment ();
 
 	void SetSelected (GtkWidget *w, int state);
-	void Add (GtkWidget *w);
-	void Update (GtkWidget *w);
-	xmlNodePtr Save (xmlDocPtr xml);
-	xmlNodePtr SaveSelection (xmlDocPtr xml);
+	void Add (GtkWidget *w) const;
+	void Update (GtkWidget *w) const;
+	xmlNodePtr Save (xmlDocPtr xml) const;
+	xmlNodePtr SaveSelection (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr);
 	bool OnChanged (bool save);
 	void AnalContent ();
@@ -67,7 +67,7 @@ public:
 	bool SetProperty (unsigned property, char const *value);
 
 private:
-	bool SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end);
+	bool SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end) const;
 
 private:
 	FragmentAtom *m_Atom;

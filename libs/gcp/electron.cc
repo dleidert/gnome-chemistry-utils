@@ -114,7 +114,7 @@ void Electron::SetPosition (unsigned char Pos, double angle, double distance)
 	m_Pos = Pos;
 }
 
-void Electron::Add (GtkWidget* w)
+void Electron::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -151,7 +151,7 @@ void Electron::Add (GtkWidget* w)
 						"y2", y + deltay + 2.,
 						NULL);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-		g_object_set_data (G_OBJECT (item), "object", this);
+		g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		g_object_set_data (G_OBJECT (group), "0", item);
 		item = gnome_canvas_item_new (
 						group,
@@ -163,7 +163,7 @@ void Electron::Add (GtkWidget* w)
 						"y1", y - deltay - 2.,
 						"y2", y - deltay + 2.,
 						NULL);
-		g_object_set_data (G_OBJECT (item), "object", this);
+		g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		g_object_set_data (G_OBJECT (group), "1", item);
 	} else {
 		item = gnome_canvas_item_new (
@@ -176,15 +176,15 @@ void Electron::Add (GtkWidget* w)
 						"y1", y - 2.,
 						"y2", y + 2.,
 						NULL);
-		g_object_set_data (G_OBJECT (item), "object", this);
+		g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		g_object_set_data (G_OBJECT (group), "0", item);
 	}
-	g_object_set_data (G_OBJECT (group), "object", this);
+	g_object_set_data (G_OBJECT (group), "object", (void *) this);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	pData->Items[this] = group;
 }
 
-void Electron::Update(GtkWidget* w)
+void Electron::Update (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] == NULL)
@@ -260,7 +260,7 @@ void Electron::SetSelected(GtkWidget* w, int state)
 					"fill_color", color, NULL);
 }
 	
-xmlNodePtr Electron::Save (xmlDocPtr xml)
+xmlNodePtr Electron::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) ((m_IsPair)? "electron-pair": "electron"), NULL);
 	char *buf;

@@ -184,9 +184,9 @@ void Atom::SetZ (int Z)
 	EmitSignal (OnChangedSignal);
 }
 
-int Atom::GetTotalBondsNumber ()
+int Atom::GetTotalBondsNumber () const
 {
-	std::map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end ();
+	std::map<gcu::Atom*, gcu::Bond*>::const_iterator i, end = m_Bonds.end ();
 	int n = 0;
 	for (i = m_Bonds.begin(); i != end; i++)
 		n += (*i).second->GetOrder ();
@@ -318,12 +318,12 @@ void Atom::Update ()
 	}
 }
 
-void Atom::Add (GtkWidget* w)
+void Atom::Add (GtkWidget* w) const
 {
 	if (!w || !GetZ ())
 		return;
 	if (m_Changed > 0)
-		m_Changed--;
+		const_cast <Atom *> (this)->m_Changed--;
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
 		return;
@@ -331,25 +331,25 @@ void Atom::Add (GtkWidget* w)
 	Theme *pTheme = pView->GetDoc ()->GetTheme ();
 	if (m_Layout == NULL) {
 		PangoContext* pc = pView->GetPangoContext ();
-		m_Layout = pango_layout_new (pc);
+		const_cast <Atom *> (this)->m_Layout = pango_layout_new (pc);
 	}
 	if (m_FontName != pView->GetFontName ()) {
 		pango_layout_set_font_description (m_Layout, pView->GetPangoFontDesc ());
 		pango_layout_set_text (m_Layout, "l", 1);
 		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
-		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		const_cast <Atom *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
-		m_FontName = pView->GetFontName ();
-		m_CHeight = 0.;
+		const_cast <Atom *> (this)->m_FontName = pView->GetFontName ();
+		const_cast <Atom *> (this)->m_CHeight = 0.;
 	}
 	PangoRectangle rect;
 	if (m_CHeight == 0.) {
 		pango_layout_set_text (m_Layout, "C", 1);
 		pango_layout_get_extents (m_Layout, &rect, NULL);
-		m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
+		const_cast <Atom *> (this)->m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
 	}
 	double x, y, xc = 0., yc;
-	m_width =  m_height = 2.0 * pTheme->GetPadding ();
+	const_cast <Atom *> (this)->m_width = const_cast <Atom *> (this)->m_height = 2.0 * pTheme->GetPadding ();
 	GetCoords (&x, &y);
 	x *= pTheme->GetZoomFactor ();
 	y *= pTheme->GetZoomFactor ();
@@ -357,14 +357,14 @@ void Atom::Add (GtkWidget* w)
 	GnomeCanvasGroup *group, *chgp;
 	group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));
 	g_signal_connect (G_OBJECT (group), "event", G_CALLBACK (on_event), w);
-	g_object_set_data (G_OBJECT (group), "object", this);
+	g_object_set_data (G_OBJECT (group), "object", (void *) this);
 	if ((GetZ () != 6) || (GetBondsNumber () == 0)) {
 		int sw, sp;
 		const gchar* symbol = GetSymbol (), *text;
 		sw = strlen (symbol);
 		pango_layout_set_text (m_Layout, symbol, sw);
 		pango_layout_get_extents (m_Layout, &rect, NULL);
-		m_width += rect.width / PANGO_SCALE;
+		const_cast <Atom *> (this)->m_width += rect.width / PANGO_SCALE;
 		int n = GetAttachedHydrogens ();
 		if (n > 0) {
 			if (n > 1) {
@@ -407,12 +407,12 @@ void Atom::Add (GtkWidget* w)
 			pango_layout_set_text (m_Layout, text, -1);
 		}
 		pango_layout_get_extents (m_Layout, NULL, &rect);
-		m_length = double (rect.width / PANGO_SCALE);
-		m_text_height = m_height = rect.height / PANGO_SCALE;
+		const_cast <Atom *> (this)->m_length = double (rect.width / PANGO_SCALE);
+		const_cast <Atom *> (this)->m_text_height = const_cast <Atom *> (this)->m_height = rect.height / PANGO_SCALE;
 		pango_layout_index_to_pos (m_Layout, sp, &rect);
 		int st = rect.x / PANGO_SCALE;
 		pango_layout_index_to_pos (m_Layout, sp + sw, &rect);
-		m_lbearing = (st + rect.x / PANGO_SCALE) / 2.;
+		const_cast <Atom *> (this)->m_lbearing = (st + rect.x / PANGO_SCALE) / 2.;
 
 		item = gnome_canvas_item_new (
 							group,
@@ -425,7 +425,7 @@ void Atom::Add (GtkWidget* w)
 							NULL);
 		g_object_set_data (G_OBJECT (group), "rect", item);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-		g_object_set_data (G_OBJECT (item), "object", this);
+		g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		
 		item = gnome_canvas_item_new (
 							group,
@@ -435,7 +435,7 @@ void Atom::Add (GtkWidget* w)
 							"layout", m_Layout,
 						NULL);
 		g_object_set_data (G_OBJECT (group), "symbol", item);
-		g_object_set_data (G_OBJECT (item), "object", this);
+		g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	} else {
 		item = gnome_canvas_item_new (
@@ -452,7 +452,7 @@ void Atom::Add (GtkWidget* w)
 		gnome_canvas_item_lower_to_bottom (GNOME_CANVAS_ITEM (group));
 		gnome_canvas_item_raise (GNOME_CANVAS_ITEM (group), 1);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-		g_object_set_data (G_OBJECT (item), "object", this);
+		g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		if (m_DrawCircle) {
 			double dx = pTheme->GetStereoBondWidth () / 2.;
 			item = gnome_canvas_item_new (
@@ -466,16 +466,16 @@ void Atom::Add (GtkWidget* w)
 									NULL);
 			g_object_set_data (G_OBJECT (group), "bullet", item);
 			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-			g_object_set_data (G_OBJECT (item), "object", this);
+			g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		}
 	}
 	pData->Items[this] = group;
-	m_width /= pTheme->GetZoomFactor ();
-	m_height /= pTheme->GetZoomFactor ();
+	const_cast <Atom *> (this)->m_width /= pTheme->GetZoomFactor ();
+	const_cast <Atom *> (this)->m_height /= pTheme->GetZoomFactor ();
 	/* add charge */
 	int charge = GetCharge ();
 	if (charge) {
-		int align = GetChargePosition (m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
+		int align = const_cast <Atom *> (this)->GetChargePosition (const_cast <Atom *> (this)->m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
 		if (m_ChargeDist != 0.) {
 			align = 0;
 			x = m_x + m_ChargeDist * cos (m_ChargeAngle);
@@ -489,16 +489,16 @@ void Atom::Add (GtkWidget* w)
 			PangoRectangle rect;
 			if (!m_ChargeLayout) {
 				PangoContext* pc = pData->m_View->GetPangoContext();
-				m_ChargeLayout = pango_layout_new (pc);
+				const_cast <Atom *> (this)->m_ChargeLayout = pango_layout_new (pc);
 				pango_layout_set_font_description (m_ChargeLayout, pData->m_View->GetPangoSmallFontDesc ());
 			}
 			pango_layout_set_text (m_ChargeLayout, fig, -1);
 			pango_layout_get_extents (m_ChargeLayout, NULL, &rect);
-			m_ChargeWidth = rect.width / PANGO_SCALE;
-			m_ChargeTWidth = m_ChargeWidth + 1. + pTheme->GetChargeSignSize ();
+			const_cast <Atom *> (this)->m_ChargeWidth = rect.width / PANGO_SCALE;
+			const_cast <Atom *> (this)->m_ChargeTWidth = m_ChargeWidth + 1. + pTheme->GetChargeSignSize ();
 		} else {
-			m_ChargeWidth = 0.;
-			m_ChargeTWidth = pTheme->GetChargeSignSize ();
+			const_cast <Atom *> (this)->m_ChargeWidth = 0.;
+			const_cast <Atom *> (this)->m_ChargeTWidth = pTheme->GetChargeSignSize ();
 		}
 		switch (align) {
 		case -2:
@@ -579,15 +579,15 @@ void Atom::Add (GtkWidget* w)
 		gnome_canvas_path_def_unref (cpd);
 		g_object_set_data (G_OBJECT (group), "sign", item);
 	}
-	map<string, Object*>::iterator i;
-	Object* electron = GetFirstChild (i);
+	map<string, Object*>::const_iterator i;
+	Object const *electron = GetFirstChild (i);
 	while (electron){
 		electron->Add (w);
 		electron = GetNextChild (i);
 	}
 }
 
-void Atom::Update (GtkWidget* w)
+void Atom::Update (GtkWidget* w) const
 {
 	if (!w || !GetZ ())
 		return;
@@ -608,17 +608,17 @@ void Atom::Update (GtkWidget* w)
 		pango_layout_set_font_description (m_Layout, pView->GetPangoFontDesc ());
 		pango_layout_set_text (Layout, "l", 1);
 		PangoLayoutIter* iter = pango_layout_get_iter (Layout);
-		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		const_cast <Atom *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
-		m_FontName = pView->GetFontName ();
+		const_cast <Atom *> (this)->m_FontName = pView->GetFontName ();
 		pango_layout_set_text (Layout, "C", 1);
 		PangoRectangle rect;
 		pango_layout_get_extents (Layout, &rect, NULL);
-		m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
+		const_cast <Atom *> (this)->m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
 		g_object_unref (G_OBJECT (Layout));
 	}
 	if (m_Changed)
-		BuildItems (pData);
+		const_cast <Atom *> (this)->BuildItems (pData);
 	else {
 		if ((GetZ() != 6) || (GetBondsNumber () == 0) || m_ShowSymbol) {
 			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "symbol")),
@@ -653,7 +653,7 @@ void Atom::Update (GtkWidget* w)
 	int charge = GetCharge ();
 	if (charge) {
 		if (item) {
-			int align = GetChargePosition (m_ChargePos, m_ChargeAngle * 180. / M_PI, x, y);
+			int align = const_cast <Atom *> (this)->GetChargePosition (const_cast <Atom *> (this)->m_ChargePos, m_ChargeAngle * 180. / M_PI, x, y);
 			if (m_ChargeDist != 0.) {
 				align = 0;
 				x = m_x + m_ChargeDist * cos (m_ChargeAngle);
@@ -668,15 +668,15 @@ void Atom::Update (GtkWidget* w)
 				PangoRectangle rect;
 				if (!m_ChargeLayout) {
 					PangoContext* pc = pData->m_View->GetPangoContext ();
-					m_ChargeLayout = pango_layout_new (pc);
+					const_cast <Atom *> (this)->m_ChargeLayout = pango_layout_new (pc);
 					pango_layout_set_font_description (m_ChargeLayout, pData->m_View->GetPangoSmallFontDesc ());
 				}
 				pango_layout_set_text (m_ChargeLayout, fig, -1);
 				pango_layout_get_extents (m_ChargeLayout, NULL, &rect);
-				m_ChargeWidth = rect.width / PANGO_SCALE;
+				const_cast <Atom *> (this)->m_ChargeWidth = rect.width / PANGO_SCALE;
 			} else
-				m_ChargeWidth = 0.;
-			m_ChargeTWidth = m_ChargeWidth + 1. + pTheme->GetChargeSignSize ();
+				const_cast <Atom *> (this)->m_ChargeWidth = 0.;
+			const_cast <Atom *> (this)->m_ChargeTWidth = m_ChargeWidth + 1. + pTheme->GetChargeSignSize ();
 			if (figure == NULL && fig != NULL) {
 				figure = gnome_canvas_item_new (
 							GNOME_CANVAS_GROUP (item),
@@ -749,7 +749,7 @@ void Atom::Update (GtkWidget* w)
 			gnome_canvas_path_def_unref (cpd);
 		} else {
 			GnomeCanvasGroup *chgp;
-			int align = GetChargePosition(m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
+			int align = const_cast <Atom *> (this)->GetChargePosition(const_cast <Atom *> (this)->m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
 			if (m_ChargeDist != 0.) {
 				align = 0;
 				x = (m_x + m_ChargeDist * cos (m_ChargeAngle));
@@ -763,17 +763,17 @@ void Atom::Update (GtkWidget* w)
 				fig = g_strdup_printf ("%d", abs (charge));
 				if (!m_ChargeLayout) {
 					PangoContext* pc = pData->m_View->GetPangoContext ();
-					m_ChargeLayout = pango_layout_new (pc);
+					const_cast <Atom *> (this)->m_ChargeLayout = pango_layout_new (pc);
 					pango_layout_set_font_description (m_ChargeLayout, pData->m_View->GetPangoSmallFontDesc ());
 				}
 				pango_layout_set_text (m_ChargeLayout, fig, -1);
 				PangoRectangle rect;
 				pango_layout_get_extents (m_ChargeLayout, NULL, &rect);
-				m_ChargeWidth = rect.width / PANGO_SCALE;
-				m_ChargeTWidth = m_ChargeWidth + pTheme->GetPadding () + pTheme->GetChargeSignSize ();
+				const_cast <Atom *> (this)->m_ChargeWidth = rect.width / PANGO_SCALE;
+				const_cast <Atom *> (this)->m_ChargeTWidth = m_ChargeWidth + pTheme->GetPadding () + pTheme->GetChargeSignSize ();
 			} else {
-				m_ChargeWidth = 0.;
-				m_ChargeTWidth = pTheme->GetChargeSignSize ();
+				const_cast <Atom *> (this)->m_ChargeWidth = 0.;
+				const_cast <Atom *> (this)->m_ChargeTWidth = pTheme->GetChargeSignSize ();
 			}
 			switch (align) {
 			case -2:
@@ -862,8 +862,8 @@ void Atom::Update (GtkWidget* w)
 			g_object_set_data ((GObject*)group, "circle", NULL);
 			g_object_set_data ((GObject*)group, "sign", NULL);
 	}
-	map<string, Object*>::iterator i;
-	Object* electron = GetFirstChild (i);
+	map<string, Object*>::const_iterator i;
+	Object const *electron = GetFirstChild (i);
 	while (electron){
 		electron->Update (w);
 		electron = GetNextChild (i);
@@ -1468,12 +1468,12 @@ void Atom::NotifyPositionOccupation (unsigned char pos, bool occupied)
 		m_OccupiedPos &= ~pos;
 }
 	
-xmlNodePtr Atom::Save (xmlDocPtr xml)
+xmlNodePtr Atom::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = gcu::Atom::Save (xml), child;
 	if (node) {
 	// Save electrons
-		map<string, Object*>::iterator i;
+		map<string, Object*>::const_iterator i;
 		Electron* electron = (Electron*) GetFirstChild (i);
 		while (electron){ 
 			child = electron->Save (xml);
@@ -1652,7 +1652,7 @@ void Atom::SetChargePosition (unsigned char Pos, bool def, double angle, double 
 	m_AvailPosCached = false;
 }
 
-char Atom::GetChargePosition (double *Angle, double *Dist)
+char Atom::GetChargePosition (double *Angle, double *Dist) const
 {
 	if (Angle)
 		*Angle = m_ChargeAngle;
