@@ -142,6 +142,7 @@ Does nothing. Just a slight optimization to avoid execution of Object::Transform
 	bool IsInCycle (Cycle* pCycle);
 	double Get2DLength ();
 	double GetAngle2DRad (Atom* pAtom);
+	bool ReplaceAtom (Atom* oldAtom, Atom* newAtom);
 
 protected:
 /*!

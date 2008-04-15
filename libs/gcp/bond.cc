@@ -497,24 +497,6 @@ void Bond::Add (GtkWidget* w) const
 	}
 }
 
-bool Bond::ReplaceAtom (Atom* oldAtom, Atom* newAtom)
-{
-	if (oldAtom == m_Begin) {
-		if (m_End)
-			m_End->RemoveBond (this);
-		m_Begin = newAtom;
-		if (m_Begin && m_End)
-			m_End->AddBond (this);
-	} else if (oldAtom == m_End) {
-		if (m_Begin)
-			m_Begin->RemoveBond (this);
-		m_End = newAtom;
-		if (m_Begin && m_End)
-			m_Begin->AddBond (this);
-	}
-	return true;
-}
-
 GnomeCanvasPathDef* Bond::BuildPathDef (WidgetData* pData)
 {
 	double x1, y1, x2, y2, x, y, dx, dy, dx1, dy1;

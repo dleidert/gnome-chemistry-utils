@@ -30,6 +30,7 @@
 #include "cycle.h"
 #include "document.h"
 #include "formula.h"
+#include "residue.h"
 #include <stack>
 
 using namespace std;
@@ -182,74 +183,102 @@ bool Molecule::operator== (Molecule const& molecule) const
 	return false;
 }
 
-bool Molecule::Match (Formula &formula)
-{
-	list<FormulaElt *> const &elts = formula.GetElements ();
-	FormulaAtom *atom;
-	FormulaResidue *residue;
-	list<FormulaElt *>::const_iterator i, iend = elts.end ();
-	for (i = elts.begin (); i != iend; i++) {
-		if ((atom = dynamic_cast <FormulaAtom *> (*i))) {
-		} else if ((residue = dynamic_cast <FormulaResidue *> (*i))) {
-		} else {
-		}
-	}
-	// Search for a pseudo-atom (Z==-1)
-	list<Atom*>::iterator a, aend = m_Atoms.end ();
-	for (a = m_Atoms.begin (); a != aend; a++)
-		if ((*a)->GetZ () == 0)
-			break;
-	if (a != aend) {
-		// try to build a molecule from the formula
-		Document *doc = new Document ();
-		//create the mlecule
-		Molecule *mol = new Molecule ();
-		doc->AddChild (mol);
-		// create a pseudo atom with Z=0
-		Atom *at = new Atom (0, 0., 0.);
-		stack <Atom*> atoms;
-		atoms.push (at);
-		mol->AddAtom (at);
-		// next we suppose that the formula element are in order
-		for (i = elts.begin (); i != iend; i++) {
-			if ((atom = dynamic_cast <FormulaAtom *> (*i))) {
-				
-			} else if ((residue = dynamic_cast <FormulaResidue *> (*i))) {
-			} else {
-			}
-		}
-		
-		delete doc;
-	} else
-		return false; // we don't match entire molecules at the moment FIXME!
-	return true;
-}
-
 Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, bool add_pseudo)
 {
 	Molecule *mol = reinterpret_cast <Molecule*> (Object::CreateObject ("molecule", Doc));
 	if (!mol)
 		return NULL;
 	stack <Atom*> atoms;
-	Atom *atom = add_pseudo? reinterpret_cast <Atom*> (Object::CreateObject ("pseudo-atom", mol)): NULL, new_atom;
+	Atom *atom = NULL;
 	list<FormulaElt *> const &elts = formula.GetElements ();
 	list<FormulaElt *>::const_reverse_iterator i, iend = elts.rend ();
 	FormulaAtom *fatom;
 	FormulaResidue *fresidue;
 	int valence;
-	unsigned PendingHs;
+	unsigned PendingHs = 0;
 	stack<Atom*> PendingAtoms;
+	Bond *bond;
 	for (i = elts.rbegin (); i != iend; i++) {
 		if ((fatom = dynamic_cast <FormulaAtom *> (*i))) {
 			valence = fatom->GetValence ();
+			if (valence == 1) {
+			} else {
+				int n = valence - PendingHs - PendingAtoms.size ();
+				if (n == 1) {
+					while (!PendingAtoms.empty ()) {
+						// FIXME: we do not support multiple bonds !!!
+						bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
+						bond->SetOrder (1);
+						atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
+						atom->SetZ (fatom->elt);
+						bond->ReplaceAtom (NULL, atom);
+						bond->ReplaceAtom (NULL, PendingAtoms.top ());
+						PendingAtoms.top ()->AddBond (bond);
+						PendingAtoms.pop ();
+					}
+					PendingAtoms.push (atom);
+				} else
+					puts("Oops");
+			}
 		} else if ((fresidue = dynamic_cast <FormulaResidue *> (*i))) {
 			// get the residue molecule and duplicate it
+			map<Atom*, Atom*> Corr;
+			Molecule const *orig = fresidue->residue->GetMolecule ();
+			Atom *pseudo = NULL;
+			std::list<Atom*>::const_iterator ai, aiend = orig->m_Atoms.end ();
+			for (ai = orig->m_Atoms.begin ();  ai != aiend; ai++) {
+				if ((*ai)->GetZ () == 0)
+					pseudo = atom = reinterpret_cast <Atom*> (CreateObject ("pseudo-atom", mol));
+				else {
+					atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
+					*atom = *(*ai);
+				}
+				atom->SetId ("a1");
+				Corr[*ai] = atom;
+				atom->SetId ("a1");
+			}
+			std::list<Bond*>::const_iterator bi, biend = orig->m_Bonds.end ();
+			for (bi = orig->m_Bonds.begin ();  bi != biend; bi++) {
+				// stereochemistry is lost for now
+				bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
+				bond->SetId ("b1");
+				bond->SetOrder ((*bi)->GetOrder ());
+				bond->ReplaceAtom (NULL, Corr[(*bi)->GetAtom (0)]);
+				bond->ReplaceAtom (NULL, Corr[(*bi)->GetAtom (1)]);
+				Corr[(*bi)->GetAtom (1)]->AddBond (bond);
+			}
+			// remove the pseudo-atom
+			// FIXME: we drop the orientation of the bond and the positionof the pseudo-atom
+			// which will make 2D autogeneration problematic
+			map<Atom*, Bond*>::iterator ci;
+			bond = pseudo->GetFirstBond (ci);
+			PendingAtoms.push (bond->GetAtom (pseudo));
+			mol->Remove (bond);
+			delete bond;
+			mol->Remove (pseudo);
+			delete pseudo;
 		} else {
 			// FIXME: need to support blocks as well
 			mol->SetParent (NULL); // ensure children wil be destroyed
 			delete mol;
 			return NULL;
 		}
+	}
+	if (add_pseudo) {
+		if (PendingHs + PendingAtoms.size () != 1) {
+			mol->SetParent (NULL); // ensure children wil be destroyed
+			delete mol;
+			return NULL;
+		}
+		atom = reinterpret_cast <Atom*> (Object::CreateObject ("pseudo-atom", mol));
+		bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
+		bond->SetOrder (1);
+		bond->ReplaceAtom (NULL, atom);
+		atom = PendingAtoms.top ();
+		bond->ReplaceAtom (NULL, atom);
+		atom->AddBond (bond);
+		bond->ReplaceAtom (NULL, PendingAtoms.top ());
+		PendingAtoms.pop ();
 	}
 	return mol;
 }

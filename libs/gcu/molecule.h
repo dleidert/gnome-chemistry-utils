@@ -50,7 +50,6 @@ public:
 	void UpdateCycles ();
 	bool operator== (Molecule const& molecule) const;
 	virtual unsigned GetAtomsNumber () const {return m_Atoms.size ();}
-	bool Match (Formula &formula);
 	static Molecule *MoleculeFromFormula (Document *Doc, Formula const &formula, bool add_pseudo = true);
 
 protected:

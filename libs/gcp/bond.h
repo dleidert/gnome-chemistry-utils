@@ -74,7 +74,6 @@ public:
 	void IncOrder (int n = 1);
 	virtual void SetSelected (GtkWidget* w, int state);
 	void Add (GtkWidget* w) const;
-	bool ReplaceAtom (Atom* oldAtom, Atom* newAtom);
 	virtual double GetYAlign ();
 	bool IsCrossing (Bond *pBond);
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);

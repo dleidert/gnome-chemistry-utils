@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2008-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: moved ReplaceAtom to gcu.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/molecule.cc: make MoleculeFromFormula work in some simple
+	cases, and removed useless Match method.
+	* libs/gcu/molecule.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: really compares the string attached to
+	an atom group and the corresponding molecule.
+
 2008-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* all files: made some methods const.
 	* libs/gcu/molecule.cc: add a static MoleculeFromFormula method.

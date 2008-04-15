@@ -453,8 +453,10 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 							// now build a molecule from the formula
 							Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form);
 							// Now see if it matches with the molecule
-							if (!mol->Match (form))
-								goto bad_exit;
+							if (!mol2 || !(*mol == *mol2)) {
+								// try adding a new residue
+								
+							}
 						}
 						catch (parse_error &error) {
 							int start, length;
