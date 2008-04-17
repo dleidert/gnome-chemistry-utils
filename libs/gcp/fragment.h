@@ -66,6 +66,14 @@ public:
 */
 	bool SetProperty (unsigned property, char const *value);
 
+/*!
+*/
+	bool Analyze ();
+
+/*!
+*/
+	void Update ();
+
 private:
 	bool SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end) const;
 
@@ -74,6 +82,7 @@ private:
 	unsigned m_BeginAtom, m_EndAtom;
 	int m_lbearing;
 	double m_CHeight;
+	bool m_Inversable;
 };
 
 }	//	namespace gcp

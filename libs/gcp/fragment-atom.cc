@@ -251,6 +251,7 @@ bool FragmentAtom::AcceptCharge (int charge)
 
 void FragmentAtom::Update ()
 {
+	m_Fragment->Update ();
 }
 
 bool FragmentAtom::Match (gcu::Atom *atom, AtomMatchState &state)

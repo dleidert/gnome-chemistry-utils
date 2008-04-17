@@ -60,7 +60,9 @@ static void on_fragment_sel_changed (Fragment *fragment, struct GnomeCanvasPango
 	fragment->OnSelChanged (bounds);
 }
 
-Fragment::Fragment (): TextObject (FragmentType)
+Fragment::Fragment ():
+	TextObject (FragmentType),
+	m_Inversable (false)
 {
 	m_Atom = new FragmentAtom (this, 0);
 	m_BeginAtom = m_EndAtom = 0;
@@ -70,7 +72,9 @@ Fragment::Fragment (): TextObject (FragmentType)
 	SetId ("f1");
 }
 
-Fragment::Fragment (double x, double y): TextObject (x, y, FragmentType)
+Fragment::Fragment (double x, double y):
+	TextObject (x, y, FragmentType),
+	m_Inversable (false)
 {
 	m_Atom = new FragmentAtom (this, 0);
 	m_Atom->SetCoords (x, y);
@@ -1253,7 +1257,7 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 				i--;
 			}
 			if (r) {
-				m_EndAtom = m_BeginAtom + i;
+				m_EndAtom = m_BeginAtom +  + strlen (sy);
 				map<gcu::Atom*, gcu::Bond*>::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
@@ -1272,6 +1276,7 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 				if (Z)
 					m_Atom->SetZ (Z);
 			}
+			Analyze ();
 		}
 		break;
 	}
@@ -1291,7 +1296,7 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 				i--;
 			}
 			if (r) {
-				m_EndAtom = m_BeginAtom + i;
+				m_EndAtom = m_BeginAtom + strlen (sy);
 				map<gcu::Atom*, gcu::Bond*>::iterator i;
 				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
 				Atom *pOldAtom = m_Atom;
@@ -1310,6 +1315,7 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 				if (Z)
 					m_Atom->SetZ (Z);
 			}
+			Analyze ();
 		}
 		break;
 	case GCU_PROP_FRAGMENT_ATOM_ID:
@@ -1322,6 +1328,35 @@ bool Fragment::SetProperty (unsigned property, char const *value)
 	}
 	m_bLoading = false;
 	return true;
+}
+
+bool Fragment::Analyze () {
+	// search if main atom is at start or at end
+	if ((m_BeginAtom == 0 || m_EndAtom == m_buf.size ()) && ((m_EndAtom - m_BeginAtom) < m_buf.length ()) ){
+		m_Inversable = true;
+	}
+//	int valence = m_Atom->GetValence ();
+	if (m_AttrList != NULL)
+		pango_attr_list_unref (m_AttrList);
+	m_AttrList = pango_attr_list_new ();
+	AnalContent ();
+	return true;
+}
+
+void Fragment::Update () {
+	if (m_Atom->GetBondsNumber () > 0 && m_Inversable) {
+		map<gcu::Atom*, gcu::Bond*>::iterator i;
+		Bond *bond = reinterpret_cast <Bond *> (m_Atom->GetFirstBond (i));
+		double angle = bond->GetAngle2D (m_Atom);
+		if (m_BeginAtom == 0 && (angle < 89. && angle > -89.)) {
+			// FIXME: do something more intelligent since we might have more than two symbols
+			m_buf = m_buf.substr (m_EndAtom);
+			m_BeginAtom = m_buf.length ();
+			m_buf += m_Atom->GetSymbol ();
+			m_EndAtom = m_buf.length ();
+		} else if (angle > 91. || angle < -91.) {
+		}
+	}
 }
 
 }	//	namespace gcp

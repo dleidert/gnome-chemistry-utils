@@ -37,9 +37,9 @@
 #include <canvas/gcp-canvas-bpath.h>
 #include <canvas/gcp-canvas-pango.h>
 #include <gcu/element.h>
+#include <goffice/math/go-math.h>
 #include <openbabel/mol.h>
 #include <glib/gi18n-lib.h>
-#include <cmath>
 #include <cstdlib>
 #include <cstring>
 
@@ -304,12 +304,14 @@ void Atom::Update ()
 			double angle = static_cast<Bond*> ((*i).second)->GetAngle2D (this);
 			i++;
 			angle -= static_cast<Bond*> ((*i).second)->GetAngle2D (this);
-			while (angle < 0)
-				angle += 360.;
-			while (angle > 360.)
-				angle -= 360;
-			if (fabs (angle - 180.) < 1)
-				DrawCircle = true;
+			if (go_finite (angle)) {
+				while (angle < 0)
+					angle += 360.;
+				while (angle > 360.)
+					angle -= 360;
+				if (fabs (angle - 180.) < 1)
+					DrawCircle = true;
+			}
 		}
 		if (DrawCircle != m_DrawCircle) {
 			m_DrawCircle = DrawCircle;

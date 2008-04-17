@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include <gcu/application.h>
+#include <gcu/atom.h>
 #include <gcu/document.h>
 #include <gcu/formula.h>
 #include <gcu/loader.h>
@@ -389,7 +390,6 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 							Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
 							if (Doc->GetChildrenNumber () != 1 || mol == NULL)
 								goto bad_exit;
-							printf("molecule with %d children\n",mol->GetChildrenNumber());
 							// compare the formula as interpreted with the document contents
 							// TODO: write this code
 						}
@@ -445,17 +445,28 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 					{
 						map< string, Object * >::iterator i;
 						Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
+						// Do the molecule have a pseudo-atom?
+						bool have_pseudo = false;
+						Object *obj = mol->GetFirstChild (i);
+						gcu::Atom *a;
+						while (obj) {
+							a = dynamic_cast <gcu::Atom *> (obj);
+							if (a && ! a->GetZ ()) {
+								have_pseudo = true;
+								break;
+							}
+							obj = mol->GetNextChild (i);
+						}
 						if (mol == NULL)
 							goto bad_exit;
 						try {
 							// First, parse the formula.
 							Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
 							// now build a molecule from the formula
-							Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form);
+							Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form, have_pseudo);
 							// Now see if it matches with the molecule
 							if (!mol2 || !(*mol == *mol2)) {
 								// try adding a new residue
-								
 							}
 						}
 						catch (parse_error &error) {

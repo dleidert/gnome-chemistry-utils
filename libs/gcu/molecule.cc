@@ -218,7 +218,7 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 					}
 					PendingAtoms.push (atom);
 				} else
-					puts("Oops");
+					;
 			}
 		} else if ((fresidue = dynamic_cast <FormulaResidue *> (*i))) {
 			// get the residue molecule and duplicate it
@@ -253,6 +253,7 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 			map<Atom*, Bond*>::iterator ci;
 			bond = pseudo->GetFirstBond (ci);
 			PendingAtoms.push (bond->GetAtom (pseudo));
+			PendingAtoms.top ()->RemoveBond (bond);
 			mol->Remove (bond);
 			delete bond;
 			mol->Remove (pseudo);
@@ -277,7 +278,6 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 		atom = PendingAtoms.top ();
 		bond->ReplaceAtom (NULL, atom);
 		atom->AddBond (bond);
-		bond->ReplaceAtom (NULL, PendingAtoms.top ());
 		PendingAtoms.pop ();
 	}
 	return mol;

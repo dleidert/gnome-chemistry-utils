@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-04-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: don't try to use a non finite angle.
+	* libs/gcp/fragment-atom.cc: call Fragment:Update when needed.
+	* libs/gcp/fragment.cc: new Ananlyze and Update methods needed for
+	cdx(ml) import.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcu/molecule.cc: fix a crasher in MoleculeFromFormula.
+	* plugins/loaders/cdx/cdx.cc: enhanced atoms groups import.
+
 2008-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: moved ReplaceAtom to gcu.
 	* libs/gcp/bond.h: ditto.
