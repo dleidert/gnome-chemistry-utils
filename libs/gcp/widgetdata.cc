@@ -43,14 +43,15 @@ guint ClipboardDataType, ClipboardDataType1;
 bool cleared = true;
 
 GtkTargetEntry const export_targets[] = {
-	{(char *) GCHEMPAINT_ATOM_NAME,  0, 0},
-	{(char *) "image/svg",  0, 1},
-	{(char *) "image/svg+xml",  0, 2},
-	{(char *) "image/png",  0, 3},
-	{(char *) "image/jpeg",  0, 4},
-	{(char *) "image/bmp",  0, 5},
-	{(char *) "UTF8_STRING", 0, 6},
-	{(char *) "STRING", 0, 7}
+	{(char *) GCHEMPAINT_ATOM_NAME,  0, GCP_CLIPBOARD_NATIVE},
+	{(char *) "image/svg",  0, GCP_CLIPBOARD_SVG},
+	{(char *) "image/svg+xml",  0, GCP_CLIPBOARD_SVG_XML},
+	{(char *) "image/x-eps",  0, GCP_CLIPBOARD_EPS},
+	{(char *) "image/png",  0, GCP_CLIPBOARD_PNG},
+	{(char *) "image/jpeg",  0, GCP_CLIPBOARD_JPEG},
+	{(char *) "image/bmp",  0, GCP_CLIPBOARD_BMP},
+	{(char *) "UTF8_STRING", 0, GCP_CLIPBOARD_UTF8_STRING},
+	{(char *) "STRING", 0, GCP_CLIPBOARD_STRING}
 };
 
 void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_data, Application *App)
@@ -63,6 +64,7 @@ void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_da
 			GCHEMPAINT_ATOM_NAME,
 			"image/svg",
 			"image/svg+xml",
+			"image/x-eps",
 			"image/png",
 			"image/jpeg",
 			"image/bmp",
@@ -82,7 +84,7 @@ void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		}
 
 		gchar* name;
-		*DataType = 7;
+		*DataType = GCP_CLIPBOARD_ALL;
 		for ( j = 0; j < atom_count ; j++) {
 			name = gdk_atom_name (targets [j]);
 			for (i = 0; i < *DataType; i++)
@@ -95,7 +97,7 @@ void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	}
 	if (clipboard == sel_clipboard && App != NULL)
 		App->ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste",
-			ClipboardDataType == 0 || ClipboardDataType == 5 || ClipboardDataType == 6);
+			ClipboardDataType == GCP_CLIPBOARD_NATIVE || ClipboardDataType == GCP_CLIPBOARD_UTF8_STRING || ClipboardDataType == GCP_CLIPBOARD_STRING);
 }
 
 static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, Application *App)
@@ -111,12 +113,12 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	*DataType = info;
 	int size;
 	switch (info) {
-	case 0:
+	case GCP_CLIPBOARD_NATIVE:
 		xmlDocDumpFormatMemory (pDoc, &ClipboardData, &size, info);
 		gtk_selection_data_set(selection_data, gdk_atom_intern (GCHEMPAINT_ATOM_NAME, FALSE), 8, (const guchar*) ClipboardData, size);
 		break;
-	case 1:
-	case 2: {
+	case GCP_CLIPBOARD_SVG:
+	case GCP_CLIPBOARD_SVG_XML: {
 		Document *Doc = new Document (NULL, true);
 		View *pView = Doc->GetView ();
 		pView->CreateNewWidget (); // force canvas creation
@@ -128,7 +130,11 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		delete Doc;
 		break;
 	}
-	case 3: {
+	case GCP_CLIPBOARD_EPS: {
+puts("requesting eps!");
+		break;
+	}
+	case GCP_CLIPBOARD_PNG: {
 		Document *Doc = new Document (NULL, true);
 		View *pView = Doc->GetView ();
 		gsize size;
@@ -141,7 +147,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		delete Doc;
 		break;
 	}
-	case 4: {
+	case GCP_CLIPBOARD_JPEG: {
 		Document *Doc = new Document (NULL, true);
 		View *pView = Doc->GetView ();
 		gsize size;
@@ -154,7 +160,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		delete Doc;
 		break;
 	}
-	case 5: {
+	case GCP_CLIPBOARD_BMP: {
 		Document *Doc = new Document (NULL, true);
 		View *pView = Doc->GetView ();
 		gsize size;

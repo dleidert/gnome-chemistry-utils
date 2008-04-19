@@ -29,6 +29,7 @@
 #include "window.h"
 #include <gcu/filechooser.h>
 #include <goffice/utils/go-image.h>
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <clocale>
 #include <map>
@@ -73,7 +74,22 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 {
 	gsvDocument *pDoc = dynamic_cast <gsvDocument *> (Doc);
 	if(bSave) {
-		dynamic_cast <gsvView *> (pDoc->GetView ())->SaveAsImage (filename, mime_type, GetImageWidth (), GetImageHeight ());
+		GFile *file = g_file_new_for_uri (filename);
+		bool err = g_file_query_exists (file, NULL);
+		gint result = GTK_RESPONSE_YES;
+		if (err) {
+			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename);
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+			gtk_window_set_icon_name (GTK_WINDOW (Box), "gspectrum");
+			result = gtk_dialog_run (Box);
+			gtk_widget_destroy (GTK_WIDGET (Box));
+			g_free (message);
+		}
+		if (result == GTK_RESPONSE_YES) {
+			g_file_delete (file, NULL, NULL);
+			dynamic_cast <gsvView *> (pDoc->GetView ())->SaveAsImage (filename, mime_type, GetImageWidth (), GetImageHeight ());
+		}
+		g_object_unref (file);
 	} else {
 		char *old_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 		setlocale (LC_NUMERIC, "C");

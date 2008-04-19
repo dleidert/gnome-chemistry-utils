@@ -534,14 +534,15 @@ void View::OnDeleteSelection (GtkWidget* w)
 }
 
 GtkTargetEntry const targets[] = {
-	{(char *) GCHEMPAINT_ATOM_NAME,  0, 0},
-	{(char *) "image/svg",  0, 1},
-	{(char *) "image/svg+xml",  0, 2},
-	{(char *) "image/png",  0, 3},
-	{(char *) "image/jpeg",  0, 4},
-	{(char *) "image/bmp",  0, 5},
-	{(char *) "UTF8_STRING", 0, 6},
-	{(char *) "STRING", 0, 7}
+	{(char *) GCHEMPAINT_ATOM_NAME,  0, GCP_CLIPBOARD_NATIVE},
+	{(char *) "image/svg",  0, GCP_CLIPBOARD_SVG},
+	{(char *) "image/svg+xml",  0, GCP_CLIPBOARD_SVG_XML},
+	{(char *) "image/x-eps",  0, GCP_CLIPBOARD_EPS},
+	{(char *) "image/png",  0, GCP_CLIPBOARD_PNG},
+	{(char *) "image/jpeg",  0, GCP_CLIPBOARD_JPEG},
+	{(char *) "image/bmp",  0, GCP_CLIPBOARD_BMP},
+	{(char *) "UTF8_STRING", 0, GCP_CLIPBOARD_UTF8_STRING},
+	{(char *) "STRING", 0, GCP_CLIPBOARD_STRING}
 };
 
 void View::OnCopySelection (GtkWidget* w, GtkClipboard* clipboard)

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-04-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* acinclude.m4: add dolt m4 code.
+	* configure.ac: use dolt when possible, and request cairo 1.6 or later.
+	* libs/gcp/settings.h: add eps format to clipboard.
+	* libs/gcp/view.cc: cleaned copy code.
+	* libs/gcp/widgetdata.cc: ditto.
+	* programs/spectra/application.cc: export eps images.
+
 2008-04-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: don't try to use a non finite angle.
 	* libs/gcp/fragment-atom.cc: call Fragment:Update when needed.
