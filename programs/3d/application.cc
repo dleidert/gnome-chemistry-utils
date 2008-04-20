@@ -28,8 +28,12 @@
 #include "view.h"
 #include "window.h"
 #include <gcu/filechooser.h>
+#include <goffice/utils/go-image.h>
+#include <gsf/gsf-output-gio.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <cairo-pdf.h>
+#include <cairo-ps.h>
 #include <glib/gi18n.h>
 #include <cstring>
 
@@ -102,24 +106,50 @@ void gc3dApplication::OnQuit ()
 	}
 }
 
+static cairo_status_t cairo_write_func (void *closure, const unsigned char *data, unsigned int length)
+{
+	gboolean result;
+	GsfOutput *output = GSF_OUTPUT (closure);
+
+	result = gsf_output_write (output, length, data);
+
+	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
+}
+
 bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
 {
 	gc3dDocument *pDoc = dynamic_cast <gc3dDocument *> (Doc);
 	if(bSave) {
-		bool supported = false, vrml = false;
+		bool supported = false, vrml = false, use_cairo = false;
 		string filename2 = filename;
 		char const *pixbuf_type = NULL;
+		GOImageFormat format = GO_IMAGE_FORMAT_UNKNOWN;
 		int i;
+		cairo_t *cr = NULL;
+			
 		if (mime_type) {
-			if (!strcmp (mime_type, "model/vrml")) {
+			char *fnm = go_mime_to_image_format (mime_type);
+			if (fnm) {
+				format = go_image_get_format_from_name (fnm);
+				switch (format) {
+				case GO_IMAGE_FORMAT_EPS:
+				case GO_IMAGE_FORMAT_PDF:
+				case GO_IMAGE_FORMAT_PS: {
+					supported = true;
+					use_cairo = true;
+					break;
+				}
+				default:
+					pixbuf_type = GetPixbufTypeName (filename2, mime_type);
+					supported = (pixbuf_type);
+					break;
+				}
+			} else if (!strcmp (mime_type, "model/vrml")) {
 				supported = true;
 				vrml = true;
 				i = strlen (filename) - 4;
 				if ((i <= 0) || (strcmp (filename + i, ".wrl")))
 					filename2 += ".wrl";
-			} else {
-				pixbuf_type = GetPixbufTypeName (filename2, mime_type);
-				supported = (pixbuf_type);
 			}
 		}
 		if (!supported) {
@@ -148,6 +178,38 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 		if (result == GTK_RESPONSE_YES) {
 			if (vrml)
 				pDoc->OnExportVRML (filename2);
+			else if (use_cairo) {
+				GError *error = NULL;
+				GsfOutput *output = gsf_output_gio_new_for_uri (filename, &error);
+				if (error) {
+					gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
+					GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
+					g_free (mess);
+					gtk_dialog_run (GTK_DIALOG (message));
+					gtk_widget_destroy (message);
+					g_error_free (error);
+					return true;
+				}
+				cairo_surface_t *surface = NULL;
+				switch (format) {
+					case GO_IMAGE_FORMAT_EPS:
+						surface = cairo_ps_surface_create_for_stream (cairo_write_func, output, GetImageWidth (), GetImageHeight ());
+						cairo_ps_surface_set_eps (surface, TRUE);
+						break;
+					case GO_IMAGE_FORMAT_PDF:
+						surface = cairo_pdf_surface_create_for_stream (cairo_write_func, output, GetImageWidth (), GetImageHeight ());
+						break;
+					case GO_IMAGE_FORMAT_PS:
+						surface = cairo_ps_surface_create_for_stream (cairo_write_func, output, GetImageWidth (), GetImageHeight ());
+						break;
+					default:
+						break;
+				}
+				cr = cairo_create (surface);
+				cairo_surface_destroy (surface);
+				pDoc->GetView ()->RenderToCairo (cr, GetImageWidth (), GetImageHeight ());
+				cairo_destroy (cr);
+			}
 			else
 				pDoc->GetView ()->SaveAsImage (filename2, pixbuf_type, options, GetImageWidth (), GetImageHeight ());
 		}
@@ -178,6 +240,9 @@ void gc3dApplication::OnSaveAsImage (gc3dDocument *Doc)
 	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
 		l.push_front ((*i).first.c_str ());
+	l.push_front ("image/x-eps");
+	l.push_front ("application/postscript");
+	l.push_front ("application/pdf");
 	l.push_front ("model/vrml");
 	FileChooser (this, true, l, Doc, _("Save as image"), GetImageSizeWidget ());
 }

@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-04-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/glview.cc: added GLView::RenderToCairo.
+	* libs/gcu/glview.h: ditto.
+	* programs/3d/application.cc: add pdf, ps and eps to image export.
+	* programs/crystal/application.cc: ditto.
+
 2008-04-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* acinclude.m4: add dolt m4 code.
 	* configure.ac: use dolt when possible, and request cairo 1.6 or later.

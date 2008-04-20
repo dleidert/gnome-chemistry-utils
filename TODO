@@ -2,7 +2,7 @@
 	* add more data using bodr (?).
 	* add crystal structures (0.10?).
 	* allow plotting any property againt another one, i.e. ei vs vdw radius (0.10).
-	* allow charts customization (needs a new dalog, goffice one being
+	* allow charts customization (needs a new dialog, goffice one being
 	unusable in this context) (0.10).
 	* write help (0.10).
 
@@ -11,7 +11,6 @@
 	* a lot of code cleaning (0.12).
 
 * 3d viewer:
-	* export encapsulated postscript (0.10).
 	* allow selection of atoms and or bonds, and display or lengths and angles (0.12).
 
 * Mozilla plugin:
@@ -21,9 +20,8 @@
 
 * Gnome Crystal:
 	* finish cif file import (0.10).
-	* open cml files using openbabel (0.12).
-	* export to  cif and cml formats (needs space group sniffing) (?).
-	* export encapsulated postscript (0.10).
+	* open cml files (0.12).
+	* export to cif and cml formats (needs space group sniffing) (?).
 
 * GChemPaint:
 	* enhance copy-and-paste support for OpenOffice.org (?).

@@ -131,6 +131,7 @@ Generates a pixbuf from the current view.
 	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
 	GtkWindow *GetGtkWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget));}
+	void RenderToCairo (cairo_t *cr, unsigned width, unsigned height) const;
 
 private:
 /*!
