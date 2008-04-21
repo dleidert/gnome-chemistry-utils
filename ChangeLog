@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-04-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/view.cc: fixed an update issue which blocked showing
+	2D structures in the mozilla plugin.
+	* libs/gcp/widgetdata.cc: enhanced GetObjectBounds.
+	* libs/gcu/gtkspectrumviewer.cc: really implemented.
+	* mozilla-plugin/chem-viewer.cc: finished 2D structures support, and
+	added jcamp-dx support.
+	* mozilla-plugin/moz-plugin.c: add jcamp-dx support:
+
 2008-04-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/glview.cc: added GLView::RenderToCairo.
 	* libs/gcu/glview.h: ditto.

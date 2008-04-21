@@ -22,6 +22,8 @@
 
 #include "config.h"
 #include "gtkspectrumviewer.h"
+#include "spectrumdoc.h"
+#include "spectrumview.h"
 #include <goffice/gtk/go-graph-widget.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkbin.h>
@@ -30,6 +32,7 @@ struct _GtkSpectrumViewer
 {
 	GtkBin base;
 
+	gcu::SpectrumDocument *doc;
 	GogGraph *graph;
 };
 
@@ -38,10 +41,24 @@ struct _GtkSpectrumViewerClass
 	GtkBinClass base;
 };
 
+static void
+on_size (GtkSpectrumViewer* w, GtkAllocation *allocation, gpointer user_data)
+{
+	if (GTK_BIN (w)->child && GTK_WIDGET_VISIBLE (GTK_BIN (w)->child))
+		gtk_widget_size_allocate (GTK_BIN (w)->child, allocation);
+}
+
 GtkWidget*
 gtk_spectrum_viewer_new  (const gchar* uri)
 {
 	GtkSpectrumViewer *viewer = GTK_SPECTRUM_VIEWER (g_object_new (GTK_TYPE_SPECTRUM_VIEWER, NULL));
+	viewer->doc = new gcu::SpectrumDocument ();
+	gcu::SpectrumView *View = viewer->doc->GetView();
+	GtkWidget* w = View->GetWidget ();
+	viewer->graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
+	gtk_container_add (GTK_CONTAINER (viewer), w);
+	g_signal_connect (G_OBJECT (viewer), "size_allocate", G_CALLBACK (on_size), NULL);
+	gtk_widget_show (w);
 	gtk_spectrum_viewer_set_uri (viewer, uri);
 	return reinterpret_cast<GtkWidget*> (viewer);
 }
@@ -51,6 +68,11 @@ gtk_spectrum_viewer_set_uri	(GtkSpectrumViewer * viewer, const gchar * uri)
 {
 	if (!uri)
 		return;
+	char *old_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	viewer->doc->Load (uri, "chemical/x-jcamp-dx");
+	setlocale (LC_NUMERIC, old_locale);
+	g_free (old_locale);
 	g_return_if_fail (GTK_IS_SPECTRUM_VIEWER (viewer));
 }
 
@@ -73,4 +95,4 @@ gtk_spectrum_viewer_class_init (GtkSpectrumViewerClass *klass)
 
 GSF_CLASS (GtkSpectrumViewer, gtk_spectrum_viewer,
 	   gtk_spectrum_viewer_class_init, gtk_spectrum_viewer_init,
-	   GTK_TYPE_WIDGET)
+	   GTK_TYPE_BIN)

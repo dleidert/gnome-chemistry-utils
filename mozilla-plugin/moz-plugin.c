@@ -198,6 +198,7 @@ char *NP_GetMIMEDescription (void)
 	return ("chemical/x-xyz:xyz:XYZ Coordinate Format;"
 			"chemical/x-mdl-molfile:mol:MDL Molfile;"
 			"chemical/x-pdb:pdb,ent:Protein DataBank;"
+			"chemical/x-jcamp-dx:dx,jdx:JCAMP Spectroscopic Data Exchange Format;"
 			"application/x-gcrystal:gcrystal:Crystalline structure model;"
 			"application/x-gchempaint:gchempaint:2D chemical structures");
 }

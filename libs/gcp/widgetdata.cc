@@ -30,6 +30,7 @@
 #include "application.h"
 #include "operation.h"
 #include "theme.h"
+#include <goffice/math/go-math.h>
 #include <cstring>
 
 using namespace gcu;
@@ -316,7 +317,7 @@ void WidgetData::GetObjectBounds (Object const *obj, ArtDRect &rect) const
 	if ((g = Items.find (obj)) != Items.end ()) {
 		group = (*g).second;
 		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (group), &x1, &y1, &x2, &y2);
-		if (rect.x0 < -9.) {
+		if (!go_finite (rect.x0)) {
 			rect.x0 = x1;
 			rect.y0 = y1;
 			rect.x1 = x2;
@@ -339,15 +340,19 @@ void WidgetData::GetObjectBounds (Object const *obj, ArtDRect &rect) const
 void WidgetData::GetSelectionBounds (ArtDRect &rect) const
 {
 	std::list<Object*>::const_iterator i, end = SelectedObjects.end ();
-	rect.x0 = -10.;
+	rect.x0 = go_nan;
 	for (i = SelectedObjects.begin (); i != end; i++)
 		GetObjectBounds (*i, rect);
+	if (!go_finite (rect.x0))
+		rect.x0 = rect.y0 = rect.x1 = rect.y1 = 0.;
 }
 
 void WidgetData::GetObjectBounds (Object const *obj, ArtDRect *rect) const
 {
-	rect->x0 = -10.;
+	rect->x0 = go_nan;
 	GetObjectBounds (obj, *rect);
+	if (!go_finite (rect->x0))
+		rect->x0 = rect->y0 = rect->x1 = rect->y1 = 0.;
 }
 
 void WidgetData::SelectAll ()

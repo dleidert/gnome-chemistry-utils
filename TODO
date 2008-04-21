@@ -1,6 +1,6 @@
 * Periodic table:
 	* add more data using bodr (?).
-	* add crystal structures (0.10?).
+	* add crystal structures (? needs reliable crystal structures in bodr).
 	* allow plotting any property againt another one, i.e. ei vs vdw radius (0.10).
 	* allow charts customization (needs a new dialog, goffice one being
 	unusable in this context) (0.10).
@@ -15,8 +15,8 @@
 
 * Mozilla plugin:
 	* implement printing (?).
-	* support 2d rendering (using gchempaint) (0.10).
 	* add a contextual dropdown menu (?).
+	* support for options when displaying a spectrum (?).
 
 * Gnome Crystal:
 	* finish cif file import (0.10).

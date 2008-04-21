@@ -23,10 +23,16 @@
 #include <gcu/element.h>
 #include <gcu/gtkchem3dviewer.h>
 #include <gcu/gtkcrystalviewer.h>
+#include <gcu/gtkspectrumviewer.h>
 #include <gcu/chem3ddoc.h>
 #include <gcp/application.h>
 #include <gcp/document.h>
+#include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
+#include <goffice/goffice.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/go-plugin-loader-module.h>
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkplug.h>
@@ -127,7 +133,9 @@ void ChemComp::SetWindow (XID xid)
 				gcpApp = new MozPaintApp ();
 			Doc = new gcp::Document (gcpApp, true, NULL);
 			Viewer = Doc->GetView ()->CreateNewWidget ();
-		} else
+		} else 	if (MimeType == "chemical/x-jcamp-dx")
+			Viewer = gtk_spectrum_viewer_new (NULL);
+		else
 			Viewer = gtk_chem3d_viewer_new (NULL);
 		gtk_container_add (GTK_CONTAINER (Plug), Viewer);
 		gtk_widget_show_all (Plug);
@@ -152,7 +160,17 @@ void ChemComp::SetFilename (string& filename)
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "chemistry"))
 			return;
 		Doc->Load (xml->children);
+		ArtDRect r;
+		gcp::WidgetData *pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (Viewer), "data");
+		pData->GetObjectBounds (Doc, &r);
+		gcp::Theme *pTheme = Doc->GetTheme ();
+		if (r.x0 || r.y0)
+			Doc->Move (- r.x0 / pTheme->GetZoomFactor (), - r.y0 / pTheme->GetZoomFactor ());
+		Doc->GetView ()->Update (Doc);
+		pData->GetObjectBounds (Doc, &r);
 		xmlFree (xml);
+	} else 	if (MimeType == "chemical/x-jcamp-dx") {
+		gtk_spectrum_viewer_set_uri (GTK_SPECTRUM_VIEWER (Viewer), filename.c_str ());
 	} else {
 		gtk_chem3d_viewer_set_uri_with_mime_type (GTK_CHEM3D_VIEWER (Viewer),
 				filename.c_str (), MimeType.c_str ());
@@ -272,6 +290,12 @@ int main (int argc, char *argv[])
 		cerr << "Could not initialize GnomeVFS\n" << endl;
 		return 1;
 	}
+#ifdef HAVE_GO_CONF_SYNC
+	libgoffice_init ("chem-viewer");
+#else
+	libgoffice_init ();
+#endif
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 	in_channel = g_io_channel_unix_new (fileno (stdin));
 	g_io_add_watch (in_channel, G_IO_IN, io_func, &error);
 	gtk_main ();

@@ -35,6 +35,7 @@
 #include "window.h"
 #include <canvas/gprintable.h>
 #include <canvas/gcp-canvas-group.h>
+#include <canvas/gcp-canvas-rect-ellipse.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <unistd.h>
@@ -138,8 +139,10 @@ void gnome_canvas_gcp_init (GnomeCanvasGCP *canvas)
 
 void gnome_canvas_gcp_update_bounds (GnomeCanvasGCP *canvas)
 {
-	while (gtk_events_pending ())
-		gtk_main_iteration ();
+	GnomeCanvas* w = GNOME_CANVAS (canvas);
+	while (w->idle_id)
+		gtk_main_iteration();
+	gnome_canvas_update_now (w);
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (canvas), "data");
 	double x1, y1, x2, y2;
 	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Group), &x1, &y1, &x2, &y2);
@@ -343,7 +346,7 @@ GtkWidget* View::CreateNewWidget ()
 		m_pData->Zoom = 1.0;
 		m_pData->Background = gnome_canvas_item_new (
 									gnome_canvas_root (GNOME_CANVAS (m_pWidget)),
-									gnome_canvas_rect_get_type (),
+									gnome_canvas_rect_ext_get_type (),
 									"x1", 0.0,
 									"y1", 0.0,
 									"x2", (double) m_width,
@@ -398,31 +401,6 @@ GnomeCanvasItem* View::GetCanvasItem (GtkWidget* widget, Object* Object)
 		pData->Items.erase (Object);
 	return result;
 }
-
-/*void View::Print (GnomePrintContext *pc, gdouble width, gdouble height)
-{
-	g_return_if_fail (G_IS_PRINTABLE (m_pData->Group));
-	gnome_print_gsave (pc);
-	double matrix [6] = {.75, 0., 0., -.75, 0., height};
-	if (!m_bEmbedded) {
-		//FIXME: add a print setup dialog and use real margins values
-		matrix[4] += 30;
-		matrix[5] -= 30;
-	}
-	m_pData->ShowSelection(false);
-	Object* pObj = NULL;
-	if (m_ActiveRichText) {
-		pObj = (Object*) g_object_get_data (G_OBJECT (m_ActiveRichText), "object");
-		if (pObj) pObj->SetSelected (m_pWidget, SelStateUnselected);
-	}
-	gnome_print_concat (pc, matrix);
-	GPrintable* printable = G_PRINTABLE (m_pData->Group);
-	(* G_PRINTABLE_GET_IFACE (printable)->print) (G_PRINTABLE (printable), pc); 
-	gnome_print_grestore (pc);
-	m_pData->ShowSelection (true);
-	if (pObj)
-		pObj->SetSelected (m_pWidget, SelStateUpdating);
-}*/
 
 void View::Update (Object const *pObject)
 {
