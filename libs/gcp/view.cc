@@ -36,9 +36,11 @@
 #include <canvas/gprintable.h>
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
+#include <gsf/gsf-output-gio.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
-#include <unistd.h>
+#include <cairo-pdf.h>
+#include <cairo-ps.h>
 #include <pango/pango-context.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
@@ -49,6 +51,7 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <unistd.h>
 
 /*
 Derivation of a new widget from gnome_canvas with an event for updating canvas size
@@ -954,187 +957,49 @@ static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gp
 	return true;
 }
 
+static cairo_status_t cairo_write_func (void *closure, const unsigned char *data, unsigned int length)
+{
+	gboolean result;
+	GsfOutput *output = GSF_OUTPUT (closure);
+
+	result = gsf_output_write (output, length, data);
+
+	return result ? CAIRO_STATUS_SUCCESS : CAIRO_STATUS_WRITE_ERROR;
+}
+
 void View::ExportImage (string const &filename, const char* type, int resolution)
 {
 	ArtDRect rect;
 	m_pData->GetObjectBounds (m_pDoc, &rect);
 	m_pData->ShowSelection (false);
 	int w = (int) (ceil (rect.x1) - floor (rect.x0)), h = (int) (ceil (rect.y1) - floor (rect.y0));
-	if (!strcmp (type, "eps")) {
-/*		GnomePrintConfig* config = gnome_print_config_default();
-		GnomePrintContext *pc;
-		GnomePrintJob *gpj = gnome_print_job_new (config);
-		pc = gnome_print_job_get_context (gpj);
-		gnome_print_beginpage(pc, (const guchar*)"");
-		gdouble width, height;
-		gnome_print_config_get_page_size(config, &width, &height);
-		Print(pc, width, height);
-		gnome_print_showpage(pc);
-		g_object_unref(pc);
-		gnome_print_job_close(gpj);
-		char *tmpname = g_strdup ("/tmp/2epsXXXXXX");
-		int f = g_mkstemp (tmpname);
-		close (f);
-		double hp, mt, ml;
-		GnomePrintUnit const *unit;
-		GnomePrintUnit const *inches = gnome_print_unit_get_by_abbreviation ((const guchar *) "in");
-		gnome_print_config_get_length (config, (const guchar*) "Settings.Output.Media.PhysicalSize.Height", &hp, &unit);
-		gnome_print_convert_distance (&hp, unit, inches);
-		hp *= 72;*/
-/*		gnome_print_config_get_length (config, (const guchar*) "Settings.Document.Page.Margins.Left", &ml, &unit);
-		gnome_print_convert_distance (&ml, unit, inches);
-		ml *= 72;
-		gnome_print_config_get_length (config, (const guchar*) "Settings.Document.Page.Margins.Top", &mt, &unit);
-		gnome_print_convert_distance (&mt, unit, inches);
-		mt *= 72;	*/
-/*		ml = mt = 30.; // see View::Print !
-		gnome_print_config_set_boolean (config, (const guchar*) "Settings.Output.Job.PrintToFile", true);
-		gnome_print_config_set (config, (const guchar*) GNOME_PRINT_KEY_OUTPUT_FILENAME, (const guchar*) tmpname);
-		gnome_print_job_print (gpj);
-		g_object_unref (gpj);
-		gnome_print_config_unref(config);
-		char buf[256];
-		ifstream *fin = new ifstream (tmpname);
-		ostringstream fout (filename.c_str ());
-		fout << "%!PS-Adobe-3.0 EPSF-3.0" << endl;
-		fout << "%%BoundingBox: " << (int) (rect.x0 * .75 + ml) << " " << (int) (hp - mt - rect.y1 * .75)  <<  " "  << (int) (rect.x1 * .75 + ml) << " " << (int) (hp - mt - rect.y0 * .75) << endl;
-		fout << "%%HiResBoundingBox: " << rect.x0 * .75 + ml << " " << hp - mt - rect.y1 * .75 <<  " "  << rect.x1 * .75 + ml << " " << hp - mt - rect.y0 * .75 << endl;
-		fin->getline (buf, 256);
-		while (!fin->eof ()) {
-			fin->getline (buf, 256);
-			if (strlen (buf) >= 255)
-				exit (-1); *//* This is violent but should not occur */
-/*			if (!strncmp (buf, "%%", 2)) {
-				if (!strncmp (buf + 2, "Orientation", strlen ("Orientation")))
-					continue;
-				else if (!strncmp (buf + 2, "Pages", strlen ("Pages")))
-					continue;
-				else if (!strncmp (buf + 2, "BoundingBox", strlen ("BoundingBox")))
-					continue;
-				else if (!strncmp (buf + 2, "BeginDefaults", strlen ("BeginDefaults")))
-					continue;
-				else if (!strncmp (buf + 2, "EndDefaults", strlen ("EndDefaults")))
-					continue;
-				else if (!strncmp (buf + 2, "BeginSetup", strlen ("BeginSetup")))
-					continue;
-				else if (!strncmp (buf + 2, "EndSetup", strlen ("EndSetup")))
-					continue;
-				else if (!strncmp (buf + 2, "PageMedia", strlen ("PageMedia")))
-					continue;
-				else if (!strncmp (buf + 2, "EndProlog", strlen ("EndProlog")))
-					continue;
-				else if (!strncmp (buf + 2, "BeginResource", strlen ("BeginResource")))
-					continue;
-				else if (!strncmp (buf + 2, "EndResource", strlen ("EndResource")))
-					continue;
-				else if (!strncmp (buf + 2, "Page: ", strlen ("Page: ")))
-					continue;
-				else if (!strncmp (buf + 2, "%%", 2))
-					continue;
-				else if (!strncmp (buf + 2, "PageResources", strlen ("PageResources")))
-					continue;
-				else if (!strncmp (buf + 2, "EndComments", strlen ("EndComments"))) {
-					 fout << buf << endl;
-					if (!filename.compare (filename.length () - 5, 5, ".epsi")) {
-						gnome_canvas_update_now (GNOME_CANVAS (m_pWidget));
-						GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, w, h);
-						GnomeCanvasBuf cbuf;
-						int i, j, mask, lines, bytes;
-						cbuf.buf = gdk_pixbuf_get_pixels (pixbuf);
-						cbuf.rect.x0 = (int) floor (rect.x0);
-						cbuf.rect.x1 = (int) ceil (rect.x1);
-						cbuf.rect.y0 = (int) floor (rect.y0);
-						cbuf.rect.y1 = (int) ceil (rect.y1);
-						cbuf.buf_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-						cbuf.bg_color = 0xffffff;
-						cbuf.is_buf = 1;
-						(* GNOME_CANVAS_ITEM_GET_CLASS (m_pData->Group)->render) (GNOME_CANVAS_ITEM (m_pData->Group), &cbuf);
-	*/					/* use 8 bits depth, no more than 250 bytes per line*/
-	/*					lines = (w + 249) / 250 * h;
-						fout << "%%BeginPreview: " << w << " " << h << " " << 8 << " " << lines << endl;
-						fout << hex;
-						for (j = 0; j < h; j++) {
-							bytes = 0;
-							for (i = 0; i < 3 * w; i+= 3) {
-								if (bytes == 0)
-									fout << "%";
-								mask = 0xff - (cbuf.buf[i] + cbuf.buf[i + 1] + cbuf.buf[i + 2]) / 3;
-								fout << (mask & 0xf);
-								mask = mask >> 4;
-								fout << mask;
-								bytes++;
-								if (bytes == 250) {
-									fout << endl;
-									bytes = 0;
-								}
-							}
-							if (bytes)
-								fout << endl;
-							cbuf.buf += cbuf.buf_rowstride;
-						}*/
-						/* use 1 bit depth, no more than 128 bytes per line (max width 1024) */
-/*						lines = (w + 1023) / 1024 * h;
-						fout << "%%BeginPreview: " << w << " " << h << " " << 1 << " " << lines << endl;
-						fout << hex;
-						for (j = 0; j < h; j++) {
-							mask = 1; b = 0;
-							bytes = 0;
-							for (i = 0; i < 3 * w; i+= 3) {
-								if (bytes == 0)
-									fout << "%";
-								if ((cbuf.buf[i] + cbuf.buf[i + 1] + cbuf.buf[i + 2]) / 3 < 0x80)
-									b |= mask;
-								mask <<= 1;
-								if (mask == 16) {
-									fout << (int) b;
-									mask = 1;
-									b = 0;
-									bytes++;
-									if (bytes == 128) {
-										fout << endl;
-										bytes = 0;
-									}
-								}
-							}
-							if (mask != 1) {
-								fout << (int) b;
-								bytes++;
-							}
-							if (bytes)
-								fout << endl;
-							cbuf.buf += cbuf.buf_rowstride;
-						}*/
-/*						fout << dec;
-						fout << "%%EndPreview" << endl;
-						g_object_unref (pixbuf);
-					}
-				} else if (!strncmp (buf + 2, "BeginProlog", strlen ("BeginProlog"))) {
-					 fout << buf << endl;
-					 fout << "save" << endl;
-					 fout << "countdictstack" << endl;
-					 fout << "mark" << endl;
-					 fout << "newpath" << endl;
-					 fout << "/showpage {} def" << endl;
-					 fout << "/setpagedevice {pop} def" << endl;
-					 fout << "%%EndProlog" << endl;
-					 fout << "%%Page 1 1" << endl;
-				} else if (!strncmp (buf + 2, "Trailer", strlen ("Trailer"))) {
-					 fout << buf << endl;
-					 fout << "cleartomark" << endl;
-					 fout << "countdictstack" << endl;
-					 fout << "exch sub { end } repeat" << endl;
-					 fout << "restore" << endl;
-				} else 
-					 fout << buf << endl;
-			} else
-			 fout << buf << endl;
+	if (!strcmp (type, "eps") || !strcmp (type, "ps") || !strcmp (type, "pdf")) {
+		GError *error = NULL;
+		GsfOutput *output = gsf_output_gio_new_for_uri (filename.c_str (), &error);
+		if (error) {
+			gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
+			GtkWidget* message = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget)), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
+			g_free (mess);
+			gtk_dialog_run (GTK_DIALOG (message));
+			gtk_widget_destroy (message);
+			g_error_free (error);
 		}
-		fin->close ();
-		delete fin;
-		GnomeVFSHandle *handle = NULL;
-		GnomeVFSFileSize n;
-		if (gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK)
-			gnome_vfs_write (handle, fout.str ().c_str (), (GnomeVFSFileSize) fout.str ().size (), &n);*/
+		ArtDRect rect;
+		m_pData->GetObjectBounds (m_pDoc, &rect);
+		m_pData->ShowSelection (false);
+		cairo_surface_t *surface = NULL;
+		if (!strcmp (type, "pdf"))
+			surface = cairo_pdf_surface_create_for_stream (cairo_write_func, output, w, h);
+		else {
+			surface = cairo_ps_surface_create_for_stream (cairo_write_func, output, w, h);
+			if (!strcmp (type, "eps"))
+				cairo_ps_surface_set_eps (surface, TRUE);
+		}
+		cairo_t *cr = cairo_create (surface);
+		cairo_translate (cr, -rect.x0, -rect.y0);
+		cairo_surface_destroy (surface);
+		Render (cr);
+		cairo_destroy (cr);
 	} else if (!strcmp (type, "svg")) {
 		xmlDocPtr doc = BuildSVG ();
 		xmlIndentTreeOutput = true;

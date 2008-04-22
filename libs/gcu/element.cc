@@ -126,6 +126,12 @@ EltTable::EltTable()
 			num = (char*) xmlGetProp (node, (xmlChar*) "max_bonds");
 			Elt->m_MaxBonds = atoi (num);
 			xmlFree (num);
+			num = (char*) xmlGetProp (node, (xmlChar*) "valence");
+			if (num) {
+				Elt->m_DefaultValence = atoi (num);
+				xmlFree (num);
+			} else
+				Elt->m_DefaultValence = -1;
 			child = node->children;
 			DefaultName = NULL;
 			while (child)
@@ -218,7 +224,7 @@ Element::Element(int Z, const char* Symbol):
 	m_Symbol[3] = 0;
 	m_MaxBonds = 0;
 	m_BestSide = true;
-	switch (m_Z)
+/*	switch (m_Z)
 	{
 		case 6:
 		case 14:
@@ -257,7 +263,7 @@ Element::Element(int Z, const char* Symbol):
 			break;
 		default:
 			m_DefaultValence = -1;
-	}
+	}*/
 	m_DefaultColor[0] = m_DefaultColor[1] = m_DefaultColor[2] = 0.0;
 	if (m_Z <= 2) {
 		m_nve = m_tve = m_Z;

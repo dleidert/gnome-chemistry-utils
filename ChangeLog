@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-04-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/elements.xml.in: add a default valence (might be somewhat
+	arbitrary in some cases), removed not anymore used atomic weights.
+	* database/residues.xml.in: add the M generic symbol.
+	* libs/gcp/application.cc: add ps and pdf to image export.
+	* libs/gcp/view.cc: reimplemented eps export and add ps and pdf.
+	* libs/gcu/element.cc: load default valence from elements.xml.
+
 2008-04-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: fixed an update issue which blocked showing
 	2D structures in the mozilla plugin.

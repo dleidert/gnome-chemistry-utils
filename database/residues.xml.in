@@ -60,6 +60,19 @@
       <bond id="b1" order="1" begin="a1" end="a2"/>
     </molecule>
   </residue>
+  <residue generic="true" raw="Na1">
+    <symbols>M</symbols>
+    <_name>Metal</_name>
+    <molecule id="m1">
+      <pseudo-atom id="a1">
+        <position x="24" y="600"/>
+      </pseudo-atom>
+      <atom id="a2" element="Na">
+        <position x="164" y="600"/>
+      </atom>
+      <bond id="b1" order="1" begin="a1" end="a2"/>
+    </molecule>
+  </residue>
   <residue raw="C1H3">
     <symbols>Me</symbols>
     <_name>Methyl</_name>

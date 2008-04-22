@@ -494,6 +494,8 @@ enum {
 	CHEMISTRY,
 	SVG,
 	EPS,
+	PDF,
+	PS,
 	PIXBUF
 };
 
@@ -532,6 +534,10 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			file_type = SVG;
 		else if (!strcmp (mime_type, "image/x-eps"))
 			file_type = EPS;
+		else if (!strcmp (mime_type, "application/pdf"))
+			file_type = PDF;
+		else if (!strcmp (mime_type, "application/ps"))
+			file_type = PS;
 		else if ((pixbuf_type = GetPixbufTypeName (filename2, mime_type))) {
 			file_type = PIXBUF;
 			if (!ext) {
@@ -590,6 +596,12 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				break;
 			case EPS:
 				m_pActiveDoc->ExportImage (filename2, "eps");
+				break;
+			case PDF:
+				m_pActiveDoc->ExportImage (filename2, "pdf");
+				break;
+			case PS:
+				m_pActiveDoc->ExportImage (filename2, "ps");
 				break;
 			case PIXBUF:
 				m_pActiveDoc->ExportImage (filename2, pixbuf_type, GetImageResolution ());
@@ -939,6 +951,8 @@ void Application::OnSaveAsImage ()
 	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
 		l.push_front ((*i).first.c_str ());
+	l.push_front ("application/ps");
+	l.push_front ("application/pdf");
 	l.push_front ("image/x-eps");
 	l.push_front ("image/svg+xml");
 	FileChooser (this, true, l, m_pActiveDoc, _("Save as image"), GetImageResolutionWidget ());

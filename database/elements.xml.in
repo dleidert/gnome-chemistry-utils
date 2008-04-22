@@ -1,582 +1,582 @@
 <?xml version="1.0"?>
 <gpdata>
 
-<element Z="1" symbol="H" max_bonds="1" weight="1.00794">
+<element Z="1" symbol="H" max_bonds="1" valence ="1">
 	<_name>Hydrogen</_name>
 	<color red="1.00" green="1.00" blue="1.00"/>
 </element>
 
-<element Z="2" symbol="He" max_bonds="0" weight="4.00260">
+<element Z="2" symbol="He" max_bonds="0" valence ="0">
 	<_name>Helium</_name>
 	<color red="0.85" green="1.00" blue="1.00"/>
 </element>
 
-<element Z="3" symbol="Li" max_bonds="1" weight="6.941">
+<element Z="3" symbol="Li" max_bonds="1" valence ="1">
 	<_name>Lithium</_name>
 	<color red="0.80" green="0.50" blue="1.00"/>
 </element>
 
-<element Z="4" symbol="Be" max_bonds="2" weight="9.01218">
+<element Z="4" symbol="Be" max_bonds="2" valence ="2">
 	<_name>Beryllium</_name>
 	<color red="0.76" green="1.00" blue="0.00"/>
 </element>
 
-<element Z="5" symbol="B" max_bonds="4" weight="10.81">
+<element Z="5" symbol="B" max_bonds="4" valence ="3">
 	<_name>Boron</_name>
 	<color red="1.00" green="0.71" blue="0.71"/>
 </element>
 
-<element Z="6" symbol="C" max_bonds="4" weight="12.011">
+<element Z="6" symbol="C" max_bonds="4" valence ="4">
 	<_name>Carbon</_name>
 	<color red="0.56" green="0.56" blue="0.56"/>
 </element>
 
-<element Z="7" symbol="N" max_bonds="4" weight="14.0067">
+<element Z="7" symbol="N" max_bonds="4" valence ="3">
 	<_name>Nitrogen</_name>
 	<color red="0.18" green="0.31" blue="0.97"/>
 </element>
 
-<element Z="8" symbol="O" max_bonds="3" weight="15.9994">
+<element Z="8" symbol="O" max_bonds="3" valence ="2">
 	<_name>Oxygen</_name>
 	<color red="1.00" green="0.05" blue="0.05"/>
 </element>
 
-<element Z="9" symbol="F" max_bonds="1" weight="18.998403">
+<element Z="9" symbol="F" max_bonds="1" valence ="1">
 	<_name>Fluorine</_name>
 	<color red="0.56" green="0.87" blue="0.31"/>
 </element>
 
-<element Z="10" symbol="Ne" max_bonds="0" weight="20.179">
+<element Z="10" symbol="Ne" max_bonds="0" valence ="0">
 	<_name>Neon</_name>
 	<color red="0.70" green="0.89" blue="0.96"/>
 </element>
 
-<element Z="11" symbol="Na" max_bonds="1" weight="22.98977">
+<element Z="11" symbol="Na" max_bonds="1" valence ="1">
 	<_name>Sodium</_name>
 	<color red="0.67" green="0.36" blue="0.95"/>
 </element>
 
-<element Z="12" symbol="Mg" max_bonds="4" weight="24.305">
+<element Z="12" symbol="Mg" max_bonds="4" valence ="2">
 	<_name>Magnesium</_name>
 	<color red="0.54" green="1.00" blue="0.00"/>
 </element>
 
-<element Z="13" symbol="Al" max_bonds="6" weight="26.98154">
+<element Z="13" symbol="Al" max_bonds="6" valence ="3">
 	<_name>Aluminum</_name>
 	<color red="0.75" green="0.65" blue="0.65"/>
 </element>
 
-<element Z="14" symbol="Si" max_bonds="6" weight="28.0855">
+<element Z="14" symbol="Si" max_bonds="6" valence ="4">
 	<_name>Silicon</_name>
 	<color red="0.94" green="0.78" blue="0.62"/>
 </element>
 
-<element Z="15" symbol="P" max_bonds="6" weight="30.97376">
+<element Z="15" symbol="P" max_bonds="6" valence ="3">
 	<_name>Phosphorus</_name>
 	<color red="1.00" green="0.50" blue="0.00"/>
 </element>
 
-<element Z="16" symbol="S" max_bonds="6" weight="32.06">
+<element Z="16" symbol="S" max_bonds="6" valence ="2">
 	<_name>Sulfur</_name>
 	<color red="1.00" green="1.00" blue="0.19"/>
 </element>
 
-<element Z="17" symbol="Cl" max_bonds="7" weight="35.453">
+<element Z="17" symbol="Cl" max_bonds="7" valence ="1">
 	<_name>Chlorine</_name>
 	<color red="0.12" green="0.94" blue="0.12"/>
 </element>
 
-<element Z="18" symbol="Ar" max_bonds="0" weight="39.948">
+<element Z="18" symbol="Ar" max_bonds="0" valence ="0">
 	<_name>Argon</_name>
 	<color red="0.50" green="0.82" blue="0.89"/>
 </element>
 
-<element Z="19" symbol="K" max_bonds="1" weight="39.0983">
+<element Z="19" symbol="K" max_bonds="1" valence ="1">
 	<_name>Potassium</_name>
 	<color red="0.56" green="0.25" blue="0.83"/>
 </element>
 
-<element Z="20" symbol="Ca" max_bonds="2" weight="40.08">
+<element Z="20" symbol="Ca" max_bonds="2" valence ="2">
 	<_name>Calcium</_name>
 	<color red="0.24" green="1.00" blue="0.00"/>
 </element>
 
-<element Z="21" symbol="Sc" max_bonds="6" weight="44.9559">
+<element Z="21" symbol="Sc" max_bonds="6" valence ="3">
 	<_name>Scandium</_name>
 	<color red="0.90" green="0.90" blue="0.90"/>
 </element>
 
-<element Z="22" symbol="Ti" max_bonds="6" weight="47.88">
+<element Z="22" symbol="Ti" max_bonds="6" valence ="4">
 	<_name>Titanium</_name>
 	<color red="0.75" green="0.76" blue="0.78"/>
 </element>
 
-<element Z="23" symbol="V" max_bonds="6" weight="50.9415">
+<element Z="23" symbol="V" max_bonds="6" valence ="5">
 	<_name>Vanadium</_name>
 	<color red="0.65" green="0.65" blue="0.67"/>
 </element>
 
-<element Z="24" symbol="Cr" max_bonds="6" weight="51.996">
+<element Z="24" symbol="Cr" max_bonds="6" valence ="2">
 	<_name>Chromium</_name>
 	<color red="0.54" green="0.60" blue="0.78"/>
 </element>
 
-<element Z="25" symbol="Mn" max_bonds="7" weight="54.9380">
+<element Z="25" symbol="Mn" max_bonds="7" valence ="2">
 	<_name>Manganese</_name>
 	<color red="0.61" green="0.48" blue="0.78"/>
 </element>
 
-<element Z="26" symbol="Fe" max_bonds="6" weight="55.847">
+<element Z="26" symbol="Fe" max_bonds="6" valence ="2">
 	<_name>Iron</_name>
 	<color red="0.87" green="0.40" blue="0.20"/>
 </element>
 
-<element Z="27" symbol="Co" max_bonds="6" weight="58.9332">
+<element Z="27" symbol="Co" max_bonds="6" valence ="2">
 	<_name>Cobalt</_name>
 	<color red="0.94" green="0.56" blue="0.62"/>
 </element>
 
-<element Z="28" symbol="Ni" max_bonds="6" weight="58.69">
+<element Z="28" symbol="Ni" max_bonds="6" valence ="2">
 	<_name>Nickel</_name>
 	<color red="0.31" green="0.81" blue="0.31"/>
 </element>
 
-<element Z="29" symbol="Cu" max_bonds="6" weight="63.546">
+<element Z="29" symbol="Cu" max_bonds="6" valence ="2">
 	<_name>Copper</_name>
 	<color red="0.78" green="0.50" blue="0.20"/>
 </element>
 
-<element Z="30" symbol="Zn" max_bonds="6" weight="65.38">
+<element Z="30" symbol="Zn" max_bonds="6" valence ="2">
 	<_name>Zinc</_name>
 	<color red="0.49" green="0.50" blue="0.69"/>
 </element>
 
-<element Z="31" symbol="Ga" max_bonds="6" weight="69.72">
+<element Z="31" symbol="Ga" max_bonds="6" valence ="3">
 	<_name>Gallium</_name>
 	<color red="0.76" green="0.56" blue="0.56"/>
 </element>
 
-<element Z="32" symbol="Ge" max_bonds="6" weight="72.59">
+<element Z="32" symbol="Ge" max_bonds="6" valence ="4">
 	<_name>Germanium</_name>
 	<color red="0.40" green="0.56" blue="0.56"/>
 </element>
 
-<element Z="33" symbol="As" max_bonds="6" weight="74.9216">
+<element Z="33" symbol="As" max_bonds="6" valence ="3">
 	<_name>Arsenic</_name>
 	<color red="0.74" green="0.50" blue="0.89"/>
 </element>
 
-<element Z="34" symbol="Se" max_bonds="6" weight="78.96">
+<element Z="34" symbol="Se" max_bonds="6" valence ="2">
 	<_name>Selenium</_name>
 	<color red="1.00" green="0.63" blue="0.00"/>
 </element>
 
-<element Z="35" symbol="Br" max_bonds="6" weight="79.904">
+<element Z="35" symbol="Br" max_bonds="6" valence ="1">
 	<_name>Bromine</_name>
 	<color red="0.65" green="0.16" blue="0.16"/>
 </element>
 
-<element Z="36" symbol="Kr" max_bonds="2" weight="83.80">
+<element Z="36" symbol="Kr" max_bonds="2" valence ="0">
 	<_name>Krypton</_name>
 	<color red="0.36" green="0.72" blue="0.82"/>
 </element>
 
-<element Z="37" symbol="Rb" max_bonds="1" weight="85.4678">
+<element Z="37" symbol="Rb" max_bonds="1" valence ="1">
 	<_name>Rubidium</_name>
 	<color red="0.44" green="0.18" blue="0.69"/>
 </element>
 
-<element Z="38" symbol="Sr" max_bonds="2" weight="87.62">
+<element Z="38" symbol="Sr" max_bonds="2" valence ="2">
 	<_name>Strontium</_name>
 	<color red="0.00" green="1.00" blue="0.00"/>
 </element>
 
-<element Z="39" symbol="Y" max_bonds="6" weight="88.9059">
+<element Z="39" symbol="Y" max_bonds="6" valence ="3">
 	<_name>Yttrium</_name>
 	<color red="0.58" green="1.00" blue="1.00"/>
 </element>
 
-<element Z="40" symbol="Zr" max_bonds="6" weight="91.22">
+<element Z="40" symbol="Zr" max_bonds="6" valence ="4">
 	<_name>Zirconium</_name>
 	<color red="0.58" green="0.88" blue="0.88"/>
 </element>
 
-<element Z="41" symbol="Nb" max_bonds="6" weight="92.9064">
+<element Z="41" symbol="Nb" max_bonds="6" valence ="5">
 	<_name>Niobium</_name>
 	<color red="0.45" green="0.76" blue="0.79"/>
 </element>
 
-<element Z="42" symbol="Mo" max_bonds="6" weight="95.94">
+<element Z="42" symbol="Mo" max_bonds="6" valence ="6">
 	<_name>Molybdenum</_name>
 	<color red="0.33" green="0.71" blue="0.71"/>
 </element>
 
-<element Z="43" symbol="Tc" max_bonds="7" weight="98">
+<element Z="43" symbol="Tc" max_bonds="7" valence ="2">
 	<_name>Technetium</_name>
 	<color red="0.23" green="0.62" blue="0.62"/>
 </element>
 
-<element Z="44" symbol="Ru" max_bonds="8" weight="101.07">
+<element Z="44" symbol="Ru" max_bonds="8" valence ="2">
 	<_name>Ruthenium</_name>
 	<color red="0.14" green="0.56" blue="0.56"/>
 </element>
 
-<element Z="45" symbol="Rh" max_bonds="6" weight="102.9055">
+<element Z="45" symbol="Rh" max_bonds="6" valence ="2">
 	<_name>Rhodium</_name>
 	<color red="0.04" green="0.49" blue="0.55"/>
 </element>
 
-<element Z="46" symbol="Pd" max_bonds="6" weight="106.42">
+<element Z="46" symbol="Pd" max_bonds="6" valence ="2">
 	<_name>Palladium</_name>
 	<color red="0.00" green="0.41" blue="0.52"/>
 </element>
 
-<element Z="47" symbol="Ag" max_bonds="6" weight="107.8682">
+<element Z="47" symbol="Ag" max_bonds="6" valence ="1">
 	<_name>Silver</_name>
 	<color red="0.75" green="0.75" blue="0.75"/>
 </element>
 
-<element Z="48" symbol="Cd" max_bonds="6" weight="112.41">
+<element Z="48" symbol="Cd" max_bonds="6" valence ="2">
 	<_name>Cadmium</_name>
 	<color red="1.00" green="0.85" blue="0.56"/>
 </element>
 
-<element Z="49" symbol="In" max_bonds="6" weight="114.82">
+<element Z="49" symbol="In" max_bonds="6" valence ="3">
 	<_name>Indium</_name>
 	<color red="0.65" green="0.46" blue="0.45"/>
 </element>
 
-<element Z="50" symbol="Sn" max_bonds="6" weight="118.69">
+<element Z="50" symbol="Sn" max_bonds="6" valence ="2">
 	<_name>Tin</_name>
 	<color red="0.40" green="0.50" blue="0.50"/>
 </element>
 
-<element Z="51" symbol="Sb" max_bonds="6" weight="121.75">
+<element Z="51" symbol="Sb" max_bonds="6" valence ="3">
 	<_name>Antimony</_name>
 	<color red="0.62" green="0.39" blue="0.71"/>
 </element>
 
-<element Z="52" symbol="Te" max_bonds="6" weight="127.60">
+<element Z="52" symbol="Te" max_bonds="6" valence ="2">
 	<_name>Tellurium</_name>
 	<color red="0.83" green="0.48" blue="0.00"/>
 </element>
 
-<element Z="53" symbol="I" max_bonds="7" weight="126.9045">
+<element Z="53" symbol="I" max_bonds="7" valence ="1">
 	<_name>Iodine</_name>
 	<color red="0.58" green="0.00" blue="0.58"/>
 </element>
 
-<element Z="54" symbol="Xe" max_bonds="8" weight="131.29">
+<element Z="54" symbol="Xe" max_bonds="8" valence ="0">
 	<_name>Xenon</_name>
 	<color red="0.26" green="0.62" blue="0.69"/>
 </element>
 
-<element Z="55" symbol="Cs" max_bonds="1" weight="132.9054">
+<element Z="55" symbol="Cs" max_bonds="1" valence ="1">
 	<_name>Caesium</_name>
 	<color red="0.34" green="0.09" blue="0.56"/>
 </element>
 
-<element Z="56" symbol="Ba" max_bonds="2" weight="137.33">
+<element Z="56" symbol="Ba" max_bonds="2" valence ="2">
 	<_name>Barium</_name>
 	<color red="0.00" green="0.79" blue="0.00"/>
 </element>
 
-<element Z="57" symbol="La" max_bonds="6" weight="138.9055">
+<element Z="57" symbol="La" max_bonds="6" valence ="3">
 	<_name>Lanthanum</_name>
 	<color red="0.44" green="0.83" blue="1.00"/>
 </element>
 
-<element Z="58" symbol="Ce" max_bonds="6" weight="140.12">
+<element Z="58" symbol="Ce" max_bonds="6" valence ="3">
 	<_name>Cerium</_name>
 	<color red="1.00" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="59" symbol="Pr" max_bonds="6" weight="140.9077">
+<element Z="59" symbol="Pr" max_bonds="6" valence ="3">
 	<_name>Praseodymium</_name>
 	<color red="0.85" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="60" symbol="Nd" max_bonds="6" weight="144.24">
+<element Z="60" symbol="Nd" max_bonds="6" valence ="3">
 	<_name>Neodymium</_name>
 	<color red="0.78" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="61" symbol="Pm" max_bonds="6" weight="145">
+<element Z="61" symbol="Pm" max_bonds="6" valence ="3">
 	<_name>Promethium</_name>
 	<color red="0.64" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="62" symbol="Sm" max_bonds="6" weight="150.36">
+<element Z="62" symbol="Sm" max_bonds="6" valence ="3">
 	<_name>Samarium</_name>
 	<color red="0.56" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="63" symbol="Eu" max_bonds="6" weight="151.96">
+<element Z="63" symbol="Eu" max_bonds="6" valence ="2">
 	<_name>Europium</_name>
 	<color red="0.38" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="64" symbol="Gd" max_bonds="6" weight="157.25">
+<element Z="64" symbol="Gd" max_bonds="6" valence ="3">
 	<_name>Gadolinium</_name>
 	<color red="0.27" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="65" symbol="Tb" max_bonds="6" weight="158.9254">
+<element Z="65" symbol="Tb" max_bonds="6" valence ="3">
 	<_name>Terbium</_name>
 	<color red="0.19" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="66" symbol="Dy" max_bonds="6" weight="162.50">
+<element Z="66" symbol="Dy" max_bonds="6" valence ="3">
 	<_name>Dysprosium</_name>
 	<color red="0.12" green="1.00" blue="0.78"/>
 </element>
 
-<element Z="67" symbol="Ho" max_bonds="6" weight="164.9304">
+<element Z="67" symbol="Ho" max_bonds="6" valence ="3">
 	<_name>Holmium</_name>
 	<color red="0.00" green="1.00" blue="0.61"/>
 </element>
 
-<element Z="68" symbol="Er" max_bonds="6" weight="167.26">
+<element Z="68" symbol="Er" max_bonds="6" valence ="3">
 	<_name>Erbium</_name>
 	<color red="0.00" green="0.90" blue="0.46"/>
 </element>
 
-<element Z="69" symbol="Tm" max_bonds="6" weight="168.9342">
+<element Z="69" symbol="Tm" max_bonds="6" valence ="3">
 	<_name>Thulium</_name>
 	<color red="0.00" green="0.83" blue="0.32"/>
 </element>
 
-<element Z="70" symbol="Yb" max_bonds="6" weight="173.04">
+<element Z="70" symbol="Yb" max_bonds="6" valence ="2">
 	<_name>Ytterbium</_name>
 	<color red="0.00" green="0.75" blue="0.22"/>
 </element>
 
-<element Z="71" symbol="Lu" max_bonds="6" weight="174.967">
+<element Z="71" symbol="Lu" max_bonds="6" valence ="3">
 	<_name>Lutetium</_name>
 	<color red="0.00" green="0.67" blue="0.14"/>
 </element>
 
-<element Z="72" symbol="Hf" max_bonds="6" weight="178.49">
+<element Z="72" symbol="Hf" max_bonds="6" valence ="4">
 	<_name>Hafnium</_name>
 	<color red="0.30" green="0.76" blue="1.00"/>
 </element>
 
-<element Z="73" symbol="Ta" max_bonds="6" weight="180.9479">
+<element Z="73" symbol="Ta" max_bonds="6" valence ="5">
 	<_name>Tantalum</_name>
 	<color red="0.30" green="0.65" blue="1.00"/>
 </element>
 
-<element Z="74" symbol="W" max_bonds="6" weight="183.85">
+<element Z="74" symbol="W" max_bonds="6" valence ="2">
 	<_name>Tungsten</_name>
 	<color red="0.13" green="0.58" blue="0.84"/>
 </element>
 
-<element Z="75" symbol="Re" max_bonds="6" weight="186.207">
+<element Z="75" symbol="Re" max_bonds="6" valence ="2">
 	<_name>Rhenium</_name>
 	<color red="0.15" green="0.49" blue="0.67"/>
 </element>
 
-<element Z="76" symbol="Os" max_bonds="8" weight="190.2">
+<element Z="76" symbol="Os" max_bonds="8" valence ="2">
 	<_name>Osmium</_name>
 	<color red="0.15" green="0.40" blue="0.59"/>
 </element>
 
-<element Z="77" symbol="Ir" max_bonds="6" weight="192.22">
+<element Z="77" symbol="Ir" max_bonds="6" valence ="2">
 	<_name>Iridium</_name>
 	<color red="0.09" green="0.33" blue="0.53"/>
 </element>
 
-<element Z="78" symbol="Pt" max_bonds="6" weight="195.08">
+<element Z="78" symbol="Pt" max_bonds="6" valence ="2">
 	<_name>Platinum</_name>
 	<color red="0.81" green="0.81" blue="0.87"/>
 </element>
 
-<element Z="79" symbol="Au" max_bonds="6" weight="196.9665">
+<element Z="79" symbol="Au" max_bonds="6" valence ="1">
 	<_name>Gold</_name>
 	<color red="1.00" green="0.81" blue="0.13"/>
 </element>
 
-<element Z="80" symbol="Hg" max_bonds="2" weight="200.59">
+<element Z="80" symbol="Hg" max_bonds="2" valence ="2">
 	<_name>Mercury</_name>
 	<color red="0.72" green="0.72" blue="0.81"/>
 </element>
 
-<element Z="81" symbol="Tl" max_bonds="3" weight="204.383">
+<element Z="81" symbol="Tl" max_bonds="3" valence ="1">
 	<_name>Thallium</_name>
 	<color red="0.65" green="0.33" blue="0.30"/>
 </element>
 
-<element Z="82" symbol="Pb" max_bonds="4" weight="207.2">
+<element Z="82" symbol="Pb" max_bonds="4" valence ="2">
 	<_name>Lead</_name>
 	<color red="0.34" green="0.35" blue="0.38"/>
 </element>
 
-<element Z="83" symbol="Bi" max_bonds="3" weight="208.9804">
+<element Z="83" symbol="Bi" max_bonds="3" valence ="3">
 	<_name>Bismuth</_name>
 	<color red="0.62" green="0.31" blue="0.71"/>
 </element>
 
-<element Z="84" symbol="Po" max_bonds="2" weight="209">
+<element Z="84" symbol="Po" max_bonds="2" valence ="2">
 	<_name>Polonium</_name>
 	<color red="0.67" green="0.36" blue="0.00"/>
 </element>
 
-<element Z="85" symbol="At" max_bonds="1" weight="210">
+<element Z="85" symbol="At" max_bonds="1" valence ="1">
 	<_name>Astatine</_name>
 	<color red="0.46" green="0.31" blue="0.27"/>
 </element>
 
-<element Z="86" symbol="Rn" max_bonds="0" weight="222">
+<element Z="86" symbol="Rn" max_bonds="0" valence ="0">
 	<_name>Radon</_name>
 	<color red="0.26" green="0.51" blue="0.59"/>
 </element>
 
-<element Z="87" symbol="Fr" max_bonds="1" weight="223">
+<element Z="87" symbol="Fr" max_bonds="1" valence ="1">
 	<_name>Francium</_name>
 	<color red="0.26" green="0.00" blue="0.40"/>
 </element>
 
-<element Z="88" symbol="Ra" max_bonds="2" weight="226.0254">
+<element Z="88" symbol="Ra" max_bonds="2" valence ="2">
 	<_name>Radium</_name>
 	<color red="0.00" green="0.49" blue="0.00"/>
 </element>
 
-<element Z="89" symbol="Ac" max_bonds="6" weight="227.0278">
+<element Z="89" symbol="Ac" max_bonds="6" valence ="3">
 	<_name>Actinium</_name>
 	<color red="0.44" green="0.67" blue="0.98"/>
 </element>
 
-<element Z="90" symbol="Th" max_bonds="6" weight="232.0381">
+<element Z="90" symbol="Th" max_bonds="6" valence ="4">
 	<_name>Thorium</_name>
 	<color red="0.00" green="0.73" blue="1.00"/>
 </element>
 
-<element Z="91" symbol="Pa" max_bonds="6" weight="231.0359">
+<element Z="91" symbol="Pa" max_bonds="6" valence ="3">
 	<_name>Protactinium</_name>
 	<color red="0.00" green="0.63" blue="1.00"/>
 </element>
 
-<element Z="92" symbol="U" max_bonds="6" weight="238.0289">
+<element Z="92" symbol="U" max_bonds="6" valence ="4">
 	<_name>Uranium</_name>
 	<color red="0.00" green="0.56" blue="1.00"/>
 </element>
 
-<element Z="93" symbol="Np" max_bonds="6" weight="237.0482">
+<element Z="93" symbol="Np" max_bonds="6">
 	<_name>Neptunium</_name>
 	<color red="0.00" green="0.50" blue="1.00"/>
 </element>
 
-<element Z="94" symbol="Pu" max_bonds="6" weight="244">
+<element Z="94" symbol="Pu" max_bonds="6">
 	<_name>Plutonium</_name>
 	<color red="0.00" green="0.42" blue="1.00"/>
 </element>
 
-<element Z="95" symbol="Am" max_bonds="6" weight="243">
+<element Z="95" symbol="Am" max_bonds="6">
 	<_name>Americium</_name>
 	<color red="0.33" green="0.36" blue="0.95"/>
 </element>
 
-<element Z="96" symbol="Cm" max_bonds="6" weight="247">
+<element Z="96" symbol="Cm" max_bonds="6">
 	<_name>Curium</_name>
 	<en scale="Pauling" value="1.3"/>
 </element>
 
-<element Z="97" symbol="Bk" max_bonds="6" weight="247">
+<element Z="97" symbol="Bk" max_bonds="6">
 	<_name>Berkelium</_name>
 	<color red="0.54" green="0.31" blue="0.89"/>
 </element>
 
-<element Z="98" symbol="Cf" max_bonds="6" weight="251">
+<element Z="98" symbol="Cf" max_bonds="6">
 	<_name>Californium</_name>
 	<color red="0.63" green="0.21" blue="0.83"/>
 </element>
 
-<element Z="99" symbol="Es" max_bonds="6" weight="252">
+<element Z="99" symbol="Es" max_bonds="6">
 	<_name>Einsteinium</_name>
 	<color red="0.70" green="0.12" blue="0.83"/>
 </element>
 
-<element Z="100" symbol="Fm" max_bonds="6" weight="257">
+<element Z="100" symbol="Fm" max_bonds="6">
 	<_name>Fermium</_name>
 	<color red="0.70" green="0.12" blue="0.73"/>
 </element>
 
-<element Z="101" symbol="Md" max_bonds="6" weight="258">
+<element Z="101" symbol="Md" max_bonds="6">
 	<_name>Mendelevium</_name>
 	<color red="0.70" green="0.05" blue="0.65"/>
 </element>
 
-<element Z="102" symbol="No" max_bonds="6" weight="259">
+<element Z="102" symbol="No" max_bonds="6">
 	<_name>Nobelium</_name>
 	<color red="0.74" green="0.05" blue="0.53"/>
 </element>
 
-<element Z="103" symbol="Lr" max_bonds="6" weight="260">
+<element Z="103" symbol="Lr" max_bonds="6">
 	<_name>Lawrencium</_name>
 	<color red="0.78" green="0.00" blue="0.40"/>
 </element>
 
-<element Z="104" symbol="Rf" max_bonds="6" weight="261">
+<element Z="104" symbol="Rf" max_bonds="6">
 	<_name>Rutherfordium</_name>
 	<color red="0.80" green="0.00" blue="0.35"/>
 </element>
 
-<element Z="105" symbol="Db" max_bonds="6" weight="262">
+<element Z="105" symbol="Db" max_bonds="6">
 	<_name>Dubnium</_name>
 	<color red="0.82" green="0.00" blue="0.31"/>
 </element>
 
-<element Z="106" symbol="Sg" max_bonds="6" weight="266">
+<element Z="106" symbol="Sg" max_bonds="6">
 	<_name>Seaborgium</_name>
 	<color red="0.85" green="0.00" blue="0.27"/>
 </element>
 
-<element Z="107" symbol="Bh" max_bonds="6" weight="264">
+<element Z="107" symbol="Bh" max_bonds="6">
 	<_name>Bohrium</_name>
 	<color red="0.88" green="0.00" blue="0.22"/>
 </element>
 
-<element Z="108" symbol="Hs" max_bonds="6" weight="269">
+<element Z="108" symbol="Hs" max_bonds="6">
 	<_name>Hassium</_name>
 	<color red="0.90" green="0.00" blue="0.18"/>
 </element>
 
-<element Z="109" symbol="Mt" max_bonds="6" weight="268">
+<element Z="109" symbol="Mt" max_bonds="6">
 	<_name>Meitnerium</_name>
 	<color red="0.92" green="0.00" blue="0.15"/>
 </element>
 
-<element Z="110" symbol="Ds" max_bonds="6" weight="271">
+<element Z="110" symbol="Ds" max_bonds="6">
 	<_name>Darmstadtium</_name>
 	<color red="0.93" green="0.00" blue="0.14"/>
 </element>
 
-<element Z="111" symbol="Rg" max_bonds="6" weight="272">
+<element Z="111" symbol="Rg" max_bonds="6">
 	<_name>Roentgenium</_name>
 	<color red="0.94" green="0.00" blue="0.13"/>
 </element>
 
-<element Z="112" symbol="Uub" max_bonds="6" weight="285">
+<element Z="112" symbol="Uub" max_bonds="6">
 	<_name>Ununbium</_name>
 	<color red="0.95" green="0.00" blue="0.12"/>
 </element>
 
-<element Z="113" symbol="Uut" max_bonds="6" weight="284">
+<element Z="113" symbol="Uut" max_bonds="6">
 	<_name>Ununtrium</_name>
 	<color red="0.96" green="0.00" blue="0.10"/>
 </element>
 
-<element Z="114" symbol="Uuq" max_bonds="6" weight="289">
+<element Z="114" symbol="Uuq" max_bonds="6">
 	<_name>Ununquadium</_name>
 	<color red="0.97" green="0.00" blue="0.10"/>
 </element>
 
-<element Z="115" symbol="Uup" max_bonds="6" weight="288">
+<element Z="115" symbol="Uup" max_bonds="6">
 	<_name>Ununpentium</_name>
 	<color red="0.98" green="0.00" blue="0.10"/>
 </element>
 
-<element Z="116" symbol="Uuh" max_bonds="6" weight="292">
+<element Z="116" symbol="Uuh" max_bonds="6">
 	<_name>Ununhexium</_name>
 	<color red="0.99" green="0.00" blue="0.10"/>
 </element>
