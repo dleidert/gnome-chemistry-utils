@@ -469,21 +469,20 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 			throw parse_error (_("Invalid character"), i, 1);
 	}
 	if (ambiguous) {
-		int replaced = 1, max = 0;
-		// first count ambiguous symbols
-		list<FormulaElt *>::iterator it, end = result.end ();
-		for (it = result.begin (); it != end; it++) {
-			if (dynamic_cast <FormulaResidue *> (*it) != NULL)
-				max++;
+		switch (m_ParseMode & 7) {
+		case GCU_FORMULA_PARSE_GUESS: {
+			if (!BuildConnectivity ()) {
+			// FIXME: really guess
+			}
+			break;
 		}
-		if (!BuildConnectivity ()) {
-			// for now just replace all ambiguous residues
-			it = result.begin ();
+		case GCU_FORMULA_PARSE_ATOM: {
+			// replace all ambiguous residues
+			list<FormulaElt *>::iterator it = result.begin (), end = result.end ();
 			FormulaResidue *res;
 			while (it != result.end ()) {
 				res = dynamic_cast <FormulaResidue *> (*it);
 				if (res && res->GetZ ()) {
-					printf("found ambiguous with Z=%d\n",res->GetZ());
 					FormulaAtom *elt = new FormulaAtom (res->GetZ());
 					elt->stoich =  res->stoich;
 					it = result.erase (it);
@@ -492,6 +491,15 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 				} else
 					it++;
 			}
+			break;
+		}
+		case GCU_FORMULA_PARSE_RESIDUE:
+			// don't do anything
+			break;
+		case GCU_FORMULA_PARSE_ASK: {
+			// FIXME: really ask
+			break;
+		}
 		}
 	}
 }

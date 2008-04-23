@@ -27,7 +27,9 @@
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
 #include <gcu/application.h>
+#include <gcu/document.h>
 #include <gcu/element.h>
+#include <gcu/filechooser.h>
 #include <gcu/formula.h>
 #include <gcu/printable.h>
 #include <gcu/print-setup-dlg.h>
@@ -65,6 +67,7 @@
 #include <goffice/utils/go-marker.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
+#include <gsf/gsf-output-gio.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libxml/tree.h>
 #include <iostream>
@@ -93,13 +96,17 @@ public:
 
 	GtkWindow *GetGtkWindow () {return window;}
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
+	void OnSaveAsImage ();
+	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
 
 private:
 	void ParseNodes (xmlNodePtr node);
+GCU_PROP (GtkUIManager *, UIManager)
 };
 
-GChemCalc::GChemCalc (): Application ("gchemcalc-unstable"),
-formula ("")
+GChemCalc::GChemCalc ():
+	Application ("gchemcalc-unstable"),
+	formula ("")
 {
 	// Load residues
 	xmlDocPtr doc;
@@ -166,6 +173,61 @@ void GChemCalc::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) con
 	cairo_translate (cr, x, y);
 	gog_graph_render_to_cairo (graph, cr, w, h);
 	cairo_restore (cr);
+}
+
+void GChemCalc::OnSaveAsImage ()
+{
+	list<string> l;
+	char const *mime;
+	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
+	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
+		l.push_front ((*i).first.c_str ());
+	if (go_image_get_format_from_name ("eps") != GO_IMAGE_FORMAT_UNKNOWN) {
+		mime = go_image_format_to_mime ("eps");
+		if (mime)
+			l.push_front (mime);
+	}
+	l.push_front ("application/postscript");
+	l.push_front ("application/pdf");
+	l.push_front ("image/svg+xml");
+	FileChooser (this, true, l, NULL, _("Save as image"), GetImageSizeWidget ());
+}
+
+bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc)
+{
+	if(bSave) {
+		GFile *file = g_file_new_for_uri (filename);
+		bool err = g_file_query_exists (file, NULL);
+		gint result = GTK_RESPONSE_YES;
+		if (err) {
+			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename);
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+			gtk_window_set_icon_name (GTK_WINDOW (Box), "gspectrum");
+			result = gtk_dialog_run (Box);
+			gtk_widget_destroy (GTK_WIDGET (Box));
+			g_free (message);
+		}
+		if (result == GTK_RESPONSE_YES) {
+			g_file_delete (file, NULL, NULL);
+			char *fname = go_mime_to_image_format (mime_type);
+			GOImageFormat format = go_image_get_format_from_name ((fname)? fname: filename);
+			if (format == GO_IMAGE_FORMAT_UNKNOWN)
+				return true;
+			GError *error = NULL;
+			GsfOutput *output = gsf_output_gio_new_for_uri (filename, &error);
+			if (error) {
+				g_error_free (error);
+				return true;
+			}
+			GogGraph *gr = gog_graph_dup (graph);
+			gog_graph_set_size (gr, GetImageWidth (), GetImageHeight ());
+			gog_graph_export_image (gr, format, output, -1., -1.);
+			g_object_unref (gr);
+			
+		}
+		g_object_unref (file);
+	}
+	return false;
 }
 
 GChemCalc *App;
@@ -468,12 +530,12 @@ static GtkTargetEntry const targets[] = {
 	{(char *) "image/png", 0, 3}
 };
 
-static void on_copy (GOGraphWidget *widget)
+static void on_copy ()
 {
 	GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	if (graph)
 		g_object_unref (graph);
-	graph = (GogGraph*) gog_object_dup (GOG_OBJECT (go_graph_widget_get_graph (widget)), NULL, NULL);
+	graph = (GogGraph*) gog_object_dup (GOG_OBJECT (go_graph_widget_get_graph (GO_GRAPH_WIDGET (App->graph_widget))), NULL, NULL);
 	gtk_clipboard_set_with_data (clipboard, targets, 4,
 		(GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data,
 		NULL);
@@ -484,15 +546,51 @@ static void on_print ()
 	App->Print (false);
 }
 
+static void on_print_preview ()
+{
+	App->Print (true);
+}
+
 static void on_page_setup ()
 {
 	new PrintSetupDlg (App, App);
 }
 
+static void on_save_as_image ()
+{
+	App->OnSaveAsImage ();
+}
+
+static void on_mode (GtkRadioAction *action, GtkRadioAction *current)
+{
+	App->formula.SetParseMode (static_cast <FormulaParseMode> (gtk_radio_action_get_current_value (action)));
+}
+
+static void on_page (GtkNotebook *book, GtkNotebookPage *p, int page)
+{
+	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/FileMenu/SaveAsImage"), page);
+	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/FileMenu/PageSetup"), page);
+	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/FileMenu/PrintPreview"), page);
+	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/FileMenu/Print"), page);
+	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/EditMenu/Copy"), page);
+}
+
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
+	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
+		  N_("Save the current file as an image"), G_CALLBACK (on_save_as_image) },
+	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
+		  N_("Setup the page settings for your current printer"), G_CALLBACK (on_page_setup) },
+	  { "PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Pre_view"), NULL,
+		  N_("Print preview"), G_CALLBACK (on_print_preview) },
+	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
+		  N_("Print the current file"), G_CALLBACK (on_print) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemCalc"), G_CALLBACK (on_quit) },
+  { "EditMenu", NULL, N_("_Edit") },
+	  { "Copy", GTK_STOCK_COPY, N_("_Copy"), "<control>C",
+		  N_("Copy the selection"), G_CALLBACK (on_copy) },
+  { "ModeMenu", NULL, N_("_Mode") },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Chemical Calculator"), G_CALLBACK (on_help) },
@@ -506,11 +604,41 @@ static GtkActionEntry entries[] = {
 		  N_("About GChemCalc"), G_CALLBACK (on_about) }
 };
 
+static GtkRadioActionEntry radios[] = {
+	{ "Guess", NULL, N_("_Guess"), NULL,
+		N_("Try to guess what is correct when interpreting ambiguous symbols"),
+		GCU_FORMULA_PARSE_GUESS },
+	{ "Atom", NULL, N_("_Atom"), NULL,
+		N_("Interpreting ambiguous symbols as atoms"),
+		GCU_FORMULA_PARSE_ATOM },
+	{ "Residue", NULL, N_("_Nickname"), NULL,
+		N_("Interpret ambiguous symbols as atoms groups nicknames"),
+		GCU_FORMULA_PARSE_RESIDUE },
+	{ "Ask", NULL, N_("As_k"), NULL,
+		N_("Ask user for the correct interpretation of ambiguous symbols"),
+		GCU_FORMULA_PARSE_ASK },
+};
+
 static const char *ui_description =
 "<ui>"
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"
+"      <menuitem action='SaveAsImage'/>"
+"	   <separator name='file-sep1'/>"
+"      <menuitem action='PageSetup'/>"
+"      <menuitem action='PrintPreview'/>"
+"      <menuitem action='Print'/>"
+"	   <separator name='file-sep2'/>"
 "      <menuitem action='Quit'/>"
+"    </menu>"
+"    <menu action='EditMenu'>"
+"      <menuitem action='Copy'/>"
+"    </menu>"
+"    <menu action='ModeMenu'>"
+"      <menuitem action='Guess'/>"
+"      <menuitem action='Atom'/>"
+"      <menuitem action='Residue'/>"
+"      <menuitem action='Ask'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
@@ -604,9 +732,11 @@ int main (int argc, char *argv[])
 	
 	GtkWidget *vbox = glade_xml_get_widget (xml, "vbox1");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
+	App->SetUIManager (ui_manager);
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), NULL);
+	gtk_action_group_add_radio_actions (action_group, radios, G_N_ELEMENTS (radios), 0, G_CALLBACK (on_mode), NULL);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	gtk_window_add_accel_group (GTK_WINDOW (App->window), accel_group);
@@ -694,12 +824,9 @@ int main (int argc, char *argv[])
 		cb_entry_active (GTK_ENTRY (w), App->window);
 	}
 
-	w = glade_xml_get_widget (xml, "copy");
-	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), App->graph_widget);
-	w = glade_xml_get_widget (xml, "print");
-	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_print), NULL);
-	w = glade_xml_get_widget (xml, "page-setup");
-	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_page_setup), NULL);
+	w = glade_xml_get_widget (xml, "notebook1");
+	g_signal_connect (w, "switch-page", G_CALLBACK (on_page), NULL);
+	on_page (NULL, NULL, 0); // force menus deactivation
 
 	gtk_main ();
 	if (graph)

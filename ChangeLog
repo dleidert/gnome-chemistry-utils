@@ -1,3 +1,13 @@
+2008-04-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* glade/gchemcalc.glade:
+	* libs/gcu/formula.cc:
+	* libs/gcu/molecule.cc:
+	* plugins/loaders/cdx/cdx.cc:
+	* programs/calc/gchemcalc.cc:
+
 ##Text encoding: utf-8
 
 2008-04-22  Jean Bréfort  <jean.brefort@normalesup.org>
