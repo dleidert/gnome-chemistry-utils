@@ -32,6 +32,7 @@
 #include <goffice/app/go-plugin-loader-module.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
+#include <cstring>
 
 using namespace std;
 

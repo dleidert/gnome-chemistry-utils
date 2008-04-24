@@ -1,3 +1,15 @@
+2008-04-23  Jordan Mantha  <mantha@ubuntu.com>
+	* libs/gcp/fragment-residue.cc: add cstring include for g++ 4.3
+	* libs/gcp/reaction-prop.cc: ditto
+	* libs/gcu/loader.cc: ditto
+	* libs/gcu/printable.cc: ditto
+	* plugins/loaders/cdx/cdx.cc: ditto
+	* plugins/loaders/cdxml/cdxml.cc: ditto
+	* plugins/paint/arrows/retrosynthesis.cc: ditto
+	* plugins/paint/residues/pseudo-atom.cc: ditto
+	* plugins/paint/selection/group.cc: ditto
+	* plugins/paint/text/texttool.cc: ditto
+
 2008-04-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	reviewed by: <delete if not using a buddy>

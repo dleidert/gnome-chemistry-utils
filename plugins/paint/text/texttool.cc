@@ -34,6 +34,7 @@
 #include <goffice/gtk/go-color-selector.h>
 #include <gdk/gdkkeysyms.h>
 #include <unistd.h>
+#include <cstring>
 
 using namespace gcu;
 

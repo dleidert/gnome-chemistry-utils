@@ -30,6 +30,7 @@
 #include <glib/gi18n-lib.h>
 #include <cerrno>
 #include <cmath>
+#include <cstring>
 
 using namespace gcu;
 using namespace std;

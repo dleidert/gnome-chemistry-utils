@@ -27,6 +27,7 @@
 #include "reaction-prop.h"
 #include "reaction-arrow.h"
 #include <glib/gi18n-lib.h>
+#include <cstring>
 
 using namespace gcu;
 

@@ -31,6 +31,7 @@
 #include <gcu/xml-utils.h>
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
+#include <cstring>
 
 using namespace gcu;
 

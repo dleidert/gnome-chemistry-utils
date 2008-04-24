@@ -26,6 +26,7 @@
 #include "fragment-residue.h"
 #include "document.h"
 #include "fragment.h"
+#include <cstring>
 
 using namespace gcu;
 

@@ -25,6 +25,7 @@
 #include "application.h"
 #include "macros.h"
 #include <glib/gi18n-lib.h>
+#include <cstring>
 
 namespace gcu {
 

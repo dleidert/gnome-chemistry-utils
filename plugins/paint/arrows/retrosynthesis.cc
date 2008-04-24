@@ -32,6 +32,7 @@
 #include <gcp/view.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
+#include <cstring>
 
 TypeId RetrosynthesisType = NoType;
 

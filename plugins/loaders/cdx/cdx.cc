@@ -39,6 +39,7 @@
 #include <vector>
 #include <cstdio>
 #include <libintl.h>
+#include <cstring>
 
 using namespace std;
 using namespace gcu;
