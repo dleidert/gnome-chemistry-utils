@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-lib_LTLIBRARIES = libgcpcanvas-unstable.la
+lib_LTLIBRARIES = libgcpcanvas-@GCU_API_VER@.la
 
 noinst_HEADERS = \
 	gprintable.h \
@@ -14,7 +14,7 @@ noinst_HEADERS = \
 	gcp-canvas-polygon.h \
 	gcp-canvas-i18n.h
 
-libgcpcanvas_unstable_la_SOURCES =	\
+libgcpcanvas_@GCU_API_VER@_la_SOURCES =	\
 	gprintable.c \
 	pango-layout-to-svg.c \
 	gcp-canvas-group.c \
@@ -25,5 +25,5 @@ libgcpcanvas_unstable_la_SOURCES =	\
 	gcp-canvas-rect-ellipse.c \
 	gcp-canvas-polygon.c
 
-libgcpcanvas_unstable_la_LDFLAGS = -release $(VERSION) @GCU_LIBS@
+libgcpcanvas_@GCU_API_VER@_la_LDFLAGS = - -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 AM_CPPFLAGS = @GCU_CFLAGS@

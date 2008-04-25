@@ -1,8 +1,8 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-lib_LTLIBRARIES= libgchempaint-unstable.la
+lib_LTLIBRARIES= libgchempaint-@GCU_API_VER@.la
 
-libgchempaint_unstable_la_SOURCES = \
+libgchempaint_@GCU_API_VER@_la_SOURCES = \
 		application.cc \
 		plugin.cc \
 		settings.cc \
@@ -88,14 +88,14 @@ noinst_HEADERS = \
 		theme.h \
 		Hposdlg.h
 		
-libgchempaint_unstable_la_LDFLAGS = -release $(VERSION) \
-	$(top_builddir)/libs/gcu/libgcu-unstable.la \
-	$(top_builddir)/libs/canvas/libgcpcanvas-unstable.la \
+libgchempaint_@GCU_API_VER@_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ \
+	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+	$(top_builddir)/libs/canvas/libgcpcanvas-@GCU_API_VER@.la \
 	@GCU_LIBS@
 AM_CXXFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
-	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint\" \
-	-DPLUGINSDIR=\"$(libdir)/gchemutils-unstable/plugins/paint\" \
-	-DPIXMAPSDIR=\"$(datadir)/gchemutils-unstable/pixmaps\" \
+DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
+	-DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/paint\" \
+	-DPLUGINSDIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins/paint\" \
+	-DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\" \
 	-DLOCALEDIR=\"$(localedir)\"
 

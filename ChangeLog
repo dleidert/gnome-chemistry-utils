@@ -1,3 +1,8 @@
+##Text encoding: utf-8
+
+2008-04-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all: changed build system to make branching easier.
+
 2008-04-23  Jordan Mantha  <mantha@ubuntu.com>
 	* libs/gcp/fragment-residue.cc: add cstring include for g++ 4.3
 	* libs/gcp/reaction-prop.cc: ditto
@@ -10,17 +15,11 @@
 	* plugins/paint/selection/group.cc: ditto
 	* plugins/paint/text/texttool.cc: ditto
 
-2008-04-23  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* glade/gchemcalc.glade:
-	* libs/gcu/formula.cc:
-	* libs/gcu/molecule.cc:
-	* plugins/loaders/cdx/cdx.cc:
-	* programs/calc/gchemcalc.cc:
-
-##Text encoding: utf-8
+2008-04-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/gchemcalc.glade: replaced buttons by menu items.
+	* libs/gcu/formula.cc: start working on the various modes.
+	* programs/calc/gchemcalc.cc: update user interface and add print
+	preview and image export for the isotopic pattern chart.
 
 2008-04-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elements.xml.in: add a default valence (might be somewhat

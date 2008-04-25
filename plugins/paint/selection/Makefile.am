@@ -29,7 +29,7 @@ VARIABLES = \
 	gcp_selection_24	$(srcdir)/selection24.png \
 	gcp_vert_24		$(srcdir)/vert24.png
 
-selectiondir = $(libdir)/gchemutils-unstable/plugins/paint
+selectiondir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 selection_LTLIBRARIES = selection.la
 
 selection_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
@@ -50,7 +50,7 @@ noinst_HEADERS = \
 	groupdlg.h \
 	selectiontool.h
 
-gladedir = $(datadir)/gchemutils-unstable/glade/paint/plugins/selection
+gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/selection
 dist_glade_DATA = group.glade
 
 

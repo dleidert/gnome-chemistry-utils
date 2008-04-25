@@ -3,22 +3,22 @@ EXTRA_DIST = \
 	$(schemas_in_files)
 
 CLEANFILES = \
-	$(desktop_DATA) \
+	$(desktop_DATA) gcrystal.desktop \
 	$(schemas_DATA) \
 	$(kde_mime_desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-DEPS = $(top_builddir)/libs/gcu/libgcu-unstable.la
-LDADD = $(top_builddir)/libs/gcu/libgcu-unstable.la @GCU_LIBS@
+DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+LDADD = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la @GCU_LIBS@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/crystal\" \
-        -DPIXMAPSDIR=\"$(datadir)/gchemutils-unstable/pixmaps\"
+        -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/crystal\" \
+        -DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\"
 
-bin_PROGRAMS = gcrystal-unstable
+bin_PROGRAMS = gcrystal-@GCU_API_VER@
 
-gcrystal_unstable_SOURCES = \
+gcrystal_@GCU_API_VER@_SOURCES = \
 		application.cc \
 		application.h \
 		atom.cc \
@@ -51,10 +51,13 @@ gcrystal_unstable_SOURCES = \
 		window.cc \
 		window.h
 
-desktop_in_files = gcrystal-unstable.desktop.in x-gcrystal.desktop.in
+desktop_in_files = gcrystal.desktop.in x-gcrystal.desktop.in
+
+gcrystal-@GCU_API_VER@.desktop: gcrystal.desktop
+	cp $< $@
 
 desktopdir=$(datadir)/applications
-desktop_DATA = gcrystal-unstable.desktop
+desktop_DATA = gcrystal-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 if WITH_KDE_MIME
@@ -83,3 +86,27 @@ if GCONF_SCHEMAS_INSTALL
 		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
 	done
 endif #GCONF_SCHEMAS_INSTALL
+
+install-exec-hook:
+if GCU_IS_STABLE
+	if [ -x $(bindir)/gcrystal ]; then \
+		rm $(bindir)/gcrystal; \
+	fi
+	ln -sf $(bindir)/gcrystal-@GCU_API_VER@ $(bindir)/gcrystal
+else
+	if [ -x $(bindir)/gcrystal-unstable ]; then \
+		rm $(bindir)/gcrystal-unstable; \
+	fi
+	ln -sf $(bindir)/gcrystal-@GCU_API_VER@ $(bindir)/gcrystal-unstable
+endif
+
+uninstall-hook:
+if GCU_IS_STABLE
+	if [ -x $(bindir)/gcrystal ]; then \
+		rm $(bindir)/gcrystal; \
+	fi
+else
+	if [ -x $(bindir)/gcrystal-unstable ]; then \
+		rm $(bindir)/gcrystal-unstable; \
+	fi
+endif

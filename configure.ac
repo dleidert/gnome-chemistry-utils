@@ -24,11 +24,19 @@ IT_PROG_INTLTOOL([0.35.0])
 GNOME_DOC_INIT
 
 GCU_VERSION_INFO=`echo $GCU_VERSION | awk -F . '{ print $1+$2":"$3":"$2 }'`
-
 AC_SUBST([GCU_VERSION_INFO])
 
+GCU_MAJOR_VERSION=`echo $GCU_VERSION | awk -F . '{ print $1}'`
+GCU_MINOR_VERSION=`echo $GCU_VERSION | awk -F . '{ print $2}'`
+let GCU_API_MINOR_VERSION=($GCU_MINOR_VERSION+1)/2*2
+
+AM_CONDITIONAL([GCU_IS_STABLE], [test "$GCU_API_MINOR_VERSION" = "$GCU_MINOR_VERSION"])
+
+GCU_API_VER="$GCU_MAJOR_VERSION.$GCU_API_MINOR_VERSION"
+AC_SUBST([GCU_API_VER])
+
 AM_GLIB_GNU_GETTEXT
-GETTEXT_PACKAGE="gchemutils-unstable"
+GETTEXT_PACKAGE="gchemutils-$GCU_API_VER"
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Package name for internationalization])
 
@@ -168,7 +176,7 @@ AC_SUBST([GCU_CFLAGS])
 AC_SUBST([GCU_LIBS])
 
 dnl --without is not handled
-GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir libgoffice-0.5`
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=PluginDir $libgoffice`
 AC_ARG_WITH(
 	[goffice-plugins-dir],
 	AC_HELP_STRING(

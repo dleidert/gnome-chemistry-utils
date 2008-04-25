@@ -6,6 +6,6 @@ MAINTAINERCLEANFILES = Makefile.in
 
 xml_in_files = templates.xml.in haworth.xml.in
 
-xmldir = $(datadir)/gchemutils-unstable/paint/templates
+xmldir = $(datadir)/gchemutils/@GCU_API_VER@/paint/templates
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@

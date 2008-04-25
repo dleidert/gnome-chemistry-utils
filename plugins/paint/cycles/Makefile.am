@@ -29,7 +29,7 @@ VARIABLES = \
 	gcp_c8_24	$(srcdir)/c8-24.png \
 	gcp_cn_24	$(srcdir)/cn-24.png
 
-cyclesdir = $(libdir)/gchemutils-unstable/plugins/paint
+cyclesdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 cycles_LTLIBRARIES = cycles.la
 
 cycles_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
@@ -42,7 +42,7 @@ noinst_HEADERS = \
 	plugin.h \
 	cycletool.h
 
-gladedir = $(datadir)/gchemutils-unstable/glade/paint/plugins/cycles
+gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/cycles
 dist_glade_DATA = \
 	cycle.glade \
 	cyclen.glade

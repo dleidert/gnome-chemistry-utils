@@ -2,11 +2,11 @@ MAINTAINERCLEANFILES = Makefile.in
 
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
+        -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
         -DGLADEDIR=\"$(gladedir)\" \
         -DPLUGINSDIR=\"$(residuesdir)\"
 
-residuesdir = $(libdir)/gchemutils-unstable/plugins/paint
+residuesdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 residues_LTLIBRARIES = residues.la
 
 residues_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
@@ -21,5 +21,5 @@ noinst_HEADERS = \
 	residues-dlg.h \
 	pseudo-atom.h
 
-gladedir = $(datadir)/gchemutils-unstable/glade/paint/plugins/residues
+gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/residues
 dist_glade_DATA = residues.glade

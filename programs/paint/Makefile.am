@@ -3,31 +3,34 @@ EXTRA_DIST = \
 	$(schemas_in_files)
 
 CLEANFILES = \
-	$(desktop_DATA) \
+	$(desktop_DATA) gchempaint.desktop \
 	$(schemas_DATA) \
 	$(kde_mime_desktop_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-DEPS = $(top_builddir)/libs/gcu/libgcu-unstable.la
-LDADD = $(top_builddir)/libs/gcp/libgchempaint-unstable.la @GCU_LIBS@
+DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+LDADD = $(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la @GCU_LIBS@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade/paint\"
+        -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/paint\"
 
-bin_PROGRAMS = gchempaint-unstable
+bin_PROGRAMS = gchempaint-@GCU_API_VER@
 
-gchempaint_unstable_SOURCES = \
+gchempaint_@GCU_API_VER@_SOURCES = \
 		main.cc \
 		standaloneapp.cc \
 		standaloneapp.h \
 		standalonewin.cc \
 		standalonewin.h
 
-desktop_in_files = gchempaint-unstable.desktop.in x-gchempaint.desktop.in
+desktop_in_files = gchempaint.desktop.in x-gchempaint.desktop.in
+
+gchempaint-@GCU_API_VER@.desktop: gchempaint.desktop
+	cp $< $@
 
 desktopdir = $(datadir)/applications
-desktop_DATA = gchempaint-unstable.desktop
+desktop_DATA = gchempaint-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 if WITH_KDE_MIME
@@ -56,3 +59,27 @@ if GCONF_SCHEMAS_INSTALL
 		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
 	done
 endif #GCONF_SCHEMAS_INSTALL
+
+install-exec-hook:
+if GCU_IS_STABLE
+	if [ -x $(bindir)/gchempaint ]; then \
+		rm $(bindir)/gchempaint; \
+	fi
+	ln -sf $(bindir)/gchempaint-@GCU_API_VER@ $(bindir)/gchempaint
+else
+	if [ -x $(bindir)/gchempaint-unstable ]; then \
+		rm $(bindir)/gchempaint-unstable; \
+	fi
+	ln -sf $(bindir)/gchempaint-@GCU_API_VER@ $(bindir)/gchempaint-unstable
+endif
+
+uninstall-hook:
+if GCU_IS_STABLE
+	if [ -x $(bindir)/gchempaint ]; then \
+		rm $(bindir)/gchempaint; \
+	fi
+else
+	if [ -x $(bindir)/gchempaint-unstable ]; then \
+		rm $(bindir)/gchempaint-unstable; \
+	fi
+endif

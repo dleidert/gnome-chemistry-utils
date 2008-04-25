@@ -19,7 +19,7 @@ VARIABLES = \
 	gcp_fragment_24		$(srcdir)/fragment24.png \
 	gcp_text_24		$(srcdir)/text24.png
 
-textdir = $(libdir)/gchemutils-unstable/plugins/paint
+textdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 text_LTLIBRARIES = text.la
 
 text_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
@@ -37,7 +37,7 @@ noinst_HEADERS = \
 uidir = $(pkgdatadir)/ui
 dist_ui_DATA = fontsel.glade
 
-gladedir = $(datadir)/gchemutils-unstable/glade/paint/plugins/text
+gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/text
 glade_DATA = fontsel.glade
 
 

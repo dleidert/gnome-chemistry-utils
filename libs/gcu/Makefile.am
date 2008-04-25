@@ -4,12 +4,12 @@ INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 AM_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-DPKGDATADIR=\"$(datadir)/gchemutils-unstable\" \
-	-DGLADEDIR=\"$(datadir)/gchemutils-unstable/glade\" \
-	-DGCU_PLUGINS_DIR=\"$(libdir)/gchemutils/@VERSION@\"
-lib_LTLIBRARIES= libgcu-unstable.la
+	-DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
+	-DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade\" \
+	-DGCU_PLUGINS_DIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins\"
+lib_LTLIBRARIES= libgcu-@GCU_API_VER@.la
 
-libgcu_unstable_la_SOURCES = \
+libgcu_@GCU_API_VER@_la_SOURCES = \
 		application.cc \
 		atom.cc \
 		bond.cc \

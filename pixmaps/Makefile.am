@@ -2,7 +2,7 @@ EXTRA_DIST = $(icons)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-pixmapdir = $(datadir)/gchemutils-unstable/pixmaps
+pixmapdir = $(datadir)/gchemutils/@GCU_API_VER@/pixmaps
 dist_pixmap_DATA = gcrystal_logo.png gchempaint_logo.png
 
 icons = \
@@ -14,10 +14,10 @@ icons = \
 	gchempaint48.png \
 	gchempaint72.png \
 	gchempaint128.png \
-	gchem3d-viewer32.png \
-	gchem3d-viewer48.png \
-	gchem3d-viewer72.png \
-	gchem3d-viewer128.png \
+	gchem3d32.png \
+	gchem3d48.png \
+	gchem3d72.png \
+	gchem3d128.png \
 	gchemcalc32.png \
 	gchemcalc48.png \
 	gchemcalc72.png \
@@ -43,8 +43,8 @@ install-data-hook:
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gchempaint.png; \
 		$(INSTALL_DATA) $(srcdir)/gchempaint$$i.png \
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchempaint.png; \
-		$(INSTALL_DATA) $(srcdir)/gchem3d-viewer$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchem3d-viewer.png; \
+		$(INSTALL_DATA) $(srcdir)/gchem3d$$i.png \
+			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchem3d.png; \
 		$(INSTALL_DATA) $(srcdir)/gchemcalc$$i.png \
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemcalc.png; \
 		$(INSTALL_DATA) $(srcdir)/gchemtable$$i.png \
@@ -59,7 +59,7 @@ uninstall-hook:
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gcrystal.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gchempaint.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchempaint.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchem3d-viewer.png; \
+		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchem3d.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemcalc.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemtable.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gspectrum.png; \

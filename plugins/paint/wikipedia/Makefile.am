@@ -16,7 +16,7 @@ IMAGES = favicon.png
 VARIABLES = \
 	favicon		$(srcdir)/favicon.png
 
-wikipediadir = $(libdir)/gchemutils-unstable/plugins/paint
+wikipediadir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 wikipedia_LTLIBRARIES = wikipedia.la
 
 wikipedia_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
