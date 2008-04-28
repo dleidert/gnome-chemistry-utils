@@ -194,29 +194,57 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 	list<FormulaElt *>::const_reverse_iterator i, iend = elts.rend ();
 	FormulaAtom *fatom;
 	FormulaResidue *fresidue;
-	int valence;
+	int valence, in;
 	unsigned PendingHs = 0;
 	stack<Atom*> PendingAtoms;
 	Bond *bond;
+	bool done = false;
 	for (i = elts.rbegin (); i != iend; i++) {
+		if (done) {
+			g_warning ("Can't interpret formula");
+			// destroy the molecule
+			mol->SetParent (NULL);
+			delete mol;
+			return NULL;			
+		}
 		if ((fatom = dynamic_cast <FormulaAtom *> (*i))) {
 			valence = fatom->GetValence ();
 			if (valence == 1) {
+				if (fatom->elt == 1)
+					PendingHs += fatom->stoich;
+				else for (in = 0; in < fatom->stoich; in++) {
+					atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
+					atom->SetZ (fatom->elt);
+					PendingAtoms.push (atom);
+				}
 			} else {
 				int n = valence - PendingHs - PendingAtoms.size ();
 				if (n == 1) {
+					atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
+					atom->SetZ (fatom->elt);
 					while (!PendingAtoms.empty ()) {
 						// FIXME: we do not support multiple bonds !!!
 						bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
 						bond->SetOrder (1);
-						atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
-						atom->SetZ (fatom->elt);
 						bond->ReplaceAtom (NULL, atom);
 						bond->ReplaceAtom (NULL, PendingAtoms.top ());
 						PendingAtoms.top ()->AddBond (bond);
 						PendingAtoms.pop ();
 					}
 					PendingAtoms.push (atom);
+				} else if (n == 0) {
+					atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
+					atom->SetZ (fatom->elt);
+					while (!PendingAtoms.empty ()) {
+						// FIXME: we do not support multiple bonds !!!
+						bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
+						bond->SetOrder (1);
+						bond->ReplaceAtom (NULL, atom);
+						bond->ReplaceAtom (NULL, PendingAtoms.top ());
+						PendingAtoms.top ()->AddBond (bond);
+						PendingAtoms.pop ();
+					}
+					done = true;
 				} else
 					;
 			}
@@ -251,6 +279,7 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 			// FIXME: we drop the orientation of the bond and the positionof the pseudo-atom
 			// which will make 2D autogeneration problematic
 			map<Atom*, Bond*>::iterator ci;
+
 			bond = pseudo->GetFirstBond (ci);
 			PendingAtoms.push (bond->GetAtom (pseudo));
 			PendingAtoms.top ()->RemoveBond (bond);
@@ -279,6 +308,15 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 		bond->ReplaceAtom (NULL, atom);
 		atom->AddBond (bond);
 		PendingAtoms.pop ();
+	} else if (PendingHs + PendingAtoms.size () == 2) {
+		bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
+		bond->ReplaceAtom (NULL, PendingAtoms.top ());
+		PendingAtoms.pop ();
+		bond->ReplaceAtom (NULL, PendingAtoms.top ());
+	} else if (PendingHs + PendingAtoms.size () != 0) {
+		mol->SetParent (NULL); // ensure children wil be destroyed
+		delete mol;
+		return NULL;
 	}
 	return mol;
 }

@@ -290,6 +290,10 @@ bool Object::Load (xmlNodePtr node)
 	}
 	child = node->children;
 	while (child) {
+		if (!strcmp ((const char*) child->name, "text")) {
+			child = child->next;
+			continue;
+		}
 		node = (strcmp ((const char*) child->name, "object"))? child: child->children;
 		pObject = CreateObject ((const char*) node->name, this);
 		if (pObject) {

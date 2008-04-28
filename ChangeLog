@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-04-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/formula.cc: more work on ambiguous symbols.
+	* libs/gcu/formula.h: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/residue.cc: ditto.
+	* libs/gcu/residue.h: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+
 2008-04-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* all: changed build system to make branching easier.
 

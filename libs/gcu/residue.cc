@@ -23,7 +23,10 @@
  */
 
 #include "config.h"
+#include "document.h"
 #include "element.h"
+#include "molecule.h"
+#include "object.h"
 #include "residue.h"
 #include <glib.h>
 #include <map>
@@ -180,6 +183,13 @@ void Residue::Load (xmlNodePtr node)
 				}
 			}
 			xmlFree (symbols);
+		} else if (!strcmp (reinterpret_cast <char const *> (child->name), "molecule")) {
+			m_Document = dynamic_cast <Document *> (Object::CreateObject ("document"));
+			if (m_Document) {
+				m_Molecule = dynamic_cast <Molecule *> (Object::CreateObject ("molecule", m_Document));
+				if (m_Molecule)
+					m_Molecule->Load (child);
+			}
 		}
 		child = child->next;
 	}

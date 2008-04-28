@@ -92,6 +92,7 @@ public:
 	virtual void BuildRawFormula (std::map<int, int> &raw) = 0;
 	virtual int GetValence () = 0;
 	int stoich;
+	unsigned start, end;
 };
 
 class FormulaAtom: public FormulaElt
@@ -190,6 +191,7 @@ with the calculated data.
 
 private:
 	void Parse (std::string &formula, std::list<FormulaElt *>&result) throw (parse_error);
+	bool AnalString (char *sz, std::list<FormulaElt *> &result, bool &ambiguous, int offset);
 
 private:
 	std::string Entry, Markup, RawMarkup;

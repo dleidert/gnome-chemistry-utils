@@ -35,6 +35,7 @@ namespace gcu {
 
 class Residue;
 class Molecule;
+class Document;
 
 typedef struct {
 	Residue *res;
@@ -74,6 +75,7 @@ private:
 GCU_RO_PROP (char const *, Name)
 GCU_PROP (bool, Generic)
 GCU_PROT_POINTER_PROP (Molecule, Molecule);
+GCU_PROT_POINTER_PROP (Document, Document);
 };
 
 }	//	namespace gcu

@@ -27,10 +27,13 @@
 #undef PACKAGE
 #define PACKAGE "gchemutils-unstable" 
 #include <gcu/application.h>
+#include <gcu/atom.h>
+#include <gcu/bond.h>
 #include <gcu/document.h>
 #include <gcu/element.h>
 #include <gcu/filechooser.h>
 #include <gcu/formula.h>
+#include <gcu/molecule.h>
 #include <gcu/printable.h>
 #include <gcu/print-setup-dlg.h>
 #include <gcu/residue.h>
@@ -104,10 +107,36 @@ private:
 GCU_PROP (GtkUIManager *, UIManager)
 };
 
+// need a way to create atoms, bonds, and molecules for ambiguous symbols evaluation
+static Object* CreateAtom ()
+{
+	return new Atom ();
+}
+
+static Object* CreateBond ()
+{
+	return new Bond ();
+}
+
+static Object* CreateMolecule ()
+{
+	return new Molecule ();
+}
+
+static Object* CreateDocument ()
+{
+	return new Document ();
+}
+
 GChemCalc::GChemCalc ():
 	Application ("gchemcalc-unstable"),
 	formula ("")
 {
+	Object::AddType ("atom", CreateAtom, AtomType);
+	Object::AddType ("pseudo-atom", CreateAtom);
+	Object::AddType ("bond", CreateBond, BondType);
+	Object::AddType ("molecule", CreateMolecule, MoleculeType);
+	Object::AddType ("document", CreateDocument, DocumentType);
 	// Load residues
 	xmlDocPtr doc;
 	char *name;

@@ -26,6 +26,8 @@
 #include "formula.h"
 #include "element.h"
 #include "residue.h"
+#include "document.h"
+#include "molecule.h"
 #include <glib/gi18n.h>
 #include <cctype>
 #include <cmath>
@@ -196,7 +198,7 @@ int FormulaResidue::GetValence ()
 	return 1; // residues with other valences are not currently supported
 }
 
-static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
+bool Formula::AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous, int offset)
 {
 	if (*sz == 0)
 		return true;
@@ -218,9 +220,12 @@ static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 			i--;
 		}
 		if (r) {
-			result.push_back (new FormulaResidue (r, sy, (local_amb? Element::Z (sy): 0)));
+			FormulaResidue *fr = new FormulaResidue (r, sy, (local_amb? Element::Z (sy): 0));
+			fr->start = offset;
+			fr->end = offset + i - 1;
+			result.push_back (fr);
 			ambiguous |= local_amb;
-			if (AnalString (sz + i, result, ambiguous))
+			if (AnalString (sz + i, result, ambiguous, offset + i))
 				return true;
 			ambiguous = amb; // restore ambiguity state
 			delete result.back ();
@@ -229,11 +234,15 @@ static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 		if (islower (*sz)) {
 			/* we might have some abbreviation around there */
 		}
-		*sz = toupper (*sz);
+		if (!(m_ParseMode & GCU_FORMULA_PARSE_NO_CASE))
+			*sz = toupper (*sz);
 		if (strlen (sz) == 1) {
 			i = Element::Z (sz);
 			if (i > 0) {
-				result.push_back (new FormulaAtom (i));
+				FormulaAtom *fa = new FormulaAtom (i);
+				fa->start = offset;
+				fa->end = offset + 1;
+				result.push_back (fa);
 				return true;
 			} else
 				return false;
@@ -243,30 +252,41 @@ static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 			sy [1] = 0;
 			i = Element::Z (sy);
 			if (i > 0) {
-				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 1, result, ambiguous))
+				FormulaAtom *fa = new FormulaAtom (i);
+				fa->start = offset;
+				fa->end = offset + 1;
+				result.push_back (fa);
+				if (AnalString (sz + 1, result, ambiguous, offset + 1))
 					return true;
 				delete result.back ();
 				result.pop_back ();
 			}
-			sy[1] = tolower (sz[1]);
+			if (!(m_ParseMode & GCU_FORMULA_PARSE_NO_CASE))
+				sy[1] = tolower (sz[1]);
 			sy[2] = 0;
 			i = Element::Z (sy);
 			if (i > 0) {
-				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 2, result, ambiguous))
+				FormulaAtom *fa = new FormulaAtom (i);
+				fa->start = offset;
+				fa->end = offset + 2;
+				result.push_back (fa);
+				if (AnalString (sz + 2, result, ambiguous, offset + 2))
 					return true;
 				delete result.back ();
 				result.pop_back ();
 			}
 			if (*sz != 'U')
 				return false;
-			sy[2] = tolower (sz[2]);
+			if (!(m_ParseMode & GCU_FORMULA_PARSE_NO_CASE))
+				sy[2] = tolower (sz[2]);
 			sy[3] = 0;
 			i = Element::Z (sy);
 			if (i > 0) {
-				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 3, result, ambiguous))
+				FormulaAtom *fa = new FormulaAtom (i);
+				fa->start = offset;
+				fa->end = offset + 3;
+				result.push_back (fa);
+				if (AnalString (sz + 3, result, ambiguous, offset + 3))
 					return true;
 			}
 			return false;
@@ -275,12 +295,16 @@ static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 			sy[1] = sz[1];	
 			if (*sz == 'U') {
 				// No 2 chars symbols begining with U exist, so try 3 chars symbols
-				sy[2] = tolower (sz[2]);
+				if (!(m_ParseMode & GCU_FORMULA_PARSE_NO_CASE))
+					sy[2] = tolower (sz[2]);
 				sy[3] = 0;
 				i = Element::Z (sy);
 				if (i > 0) {
-					result.push_back (new FormulaAtom (i));
-					if (AnalString (sz + 3, result, ambiguous))
+					FormulaAtom *fa = new FormulaAtom (i);
+					fa->start = offset;
+					fa->end = offset + 3;
+					result.push_back (fa);
+					if (AnalString (sz + 3, result, ambiguous, offset + 3))
 						return true;
 					delete result.back ();
 					result.pop_back ();
@@ -289,8 +313,11 @@ static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 			sy[2] = 0;
 			i = Element::Z (sy);
 			if (i > 0) {
-				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 2, result, ambiguous))
+				FormulaAtom *fa = new FormulaAtom (i);
+				fa->start = offset;
+				fa->end = offset + 2;
+				result.push_back (fa);
+				if (AnalString (sz + 2, result, ambiguous, offset + 2))
 					return true;
 				delete result.back ();
 				result.pop_back ();
@@ -298,8 +325,11 @@ static bool AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous)
 			sy[1] = 0;	
 			i = Element::Z (sy);
 			if (i > 0) {
-				result.push_back (new FormulaAtom (i));
-				if (AnalString (sz + 1, result, ambiguous))
+				FormulaAtom *fa = new FormulaAtom (i);
+				fa->start = offset;
+				fa->end = offset + 1;
+				result.push_back (fa);
+				if (AnalString (sz + 1, result, ambiguous, offset + 1))
 					return true;
 			}
 		}
@@ -430,6 +460,8 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 			string str (formula, i + 1, j - i - 2);
 			FormulaBlock *block = new FormulaBlock ();
 			block->parenthesis = k;
+			block->start = i;
+			block->end = j;
 			result.push_back (block);
 			try {
 				Parse (str, block->children);
@@ -450,7 +482,7 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 			sz = new char[k + 1];
 			strncpy (sz, formula.c_str () + i, k);
 			sz[k] = 0;
-			if (!AnalString (sz, result, ambiguous)) {
+			if (!AnalString (sz, result, ambiguous, i)) {
 				delete [] sz;
 				throw parse_error (_("Could not interpret the symbol list"), i, k);
 			}
@@ -553,8 +585,11 @@ void Formula::CalculateIsotopicPattern (IsotopicPattern &pattern)
 
 bool Formula::BuildConnectivity ()
 {
-	// FIXME: write this function
-	return false;
+	Document *Doc = new Document (NULL);
+	Molecule *mol = Molecule::MoleculeFromFormula (Doc, *this, false);
+	bool result = mol;
+	delete Doc;
+	return result;
 }
 
 }	//	namespace gcu
