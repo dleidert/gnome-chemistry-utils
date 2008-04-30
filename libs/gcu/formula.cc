@@ -563,11 +563,16 @@ void Formula::CalculateIsotopicPattern (IsotopicPattern &pattern)
 	i = Raw.begin ();
 	if (i == end) // empty formula
 		return;
-	IsotopicPattern *pat, *pat0;
-	pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second);
+	IsotopicPattern *pat = NULL, *pat0;
+	while (!pat && (i != end)) {
+		pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second);
+		i++;
+	}
+	if (!pat)
+		return;
 	pattern.Copy (*pat);
 	pat->Unref ();
-	for (i++; i != end; i++) {
+	for (; i != end; i++) {
 		pat = Element::GetElement ((*i).first)->GetIsotopicPattern ((*i).second);
 		if (!pat) {
 			// no stable isotope known for the element
