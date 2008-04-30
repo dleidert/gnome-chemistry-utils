@@ -503,9 +503,9 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 	if (ambiguous) {
 		switch (m_ParseMode & 7) {
 		case GCU_FORMULA_PARSE_GUESS: {
-			if (!BuildConnectivity ()) {
-			// FIXME: really guess
-			}
+			// if it fails, nothing is replaced 
+			if (!TryReplace (result, result.begin ()))
+				g_warning ("ambiguous formula");
 			break;
 		}
 		case GCU_FORMULA_PARSE_ATOM: {
@@ -590,6 +590,40 @@ bool Formula::BuildConnectivity ()
 	bool result = mol;
 	delete Doc;
 	return result;
+}
+
+bool Formula::TryReplace (list<FormulaElt *> &result, list<FormulaElt *>::iterator it)
+{
+	if (BuildConnectivity ())
+		return true;
+	FormulaResidue *res;
+	while (it != result.end ()) {
+		res = dynamic_cast <FormulaResidue *> (*it);
+		if (res && res->GetZ ())
+			break;
+		it++;
+	}
+	if (it == result.end ())
+		return false;
+	list<FormulaElt *>::iterator next = it;
+	next++;
+	if (TryReplace (result, next))
+		return true;
+	FormulaAtom *elt = new FormulaAtom (res->GetZ());
+	elt->stoich =  res->stoich;
+	it = result.erase (it);
+	result.insert (it, elt);
+	next = it;
+	next++;
+	bool ret = TryReplace (result, next);
+	if (!ret) {
+		it--;
+		delete (*it);
+		it = result.erase (it);
+		result.insert (it, res);
+	} else
+		delete res;
+	return ret;
 }
 
 }	//	namespace gcu

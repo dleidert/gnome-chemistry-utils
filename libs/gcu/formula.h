@@ -186,13 +186,14 @@ with the calculated data.
 */
 	void CalculateIsotopicPattern (IsotopicPattern &pattern);
 
-	bool BuildConnectivity ();
 	std::list<FormulaElt *> const &GetElements () const {return Details;}
 
 private:
+	bool BuildConnectivity ();
 	void Parse (std::string &formula, std::list<FormulaElt *>&result) throw (parse_error);
 	bool AnalString (char *sz, std::list<FormulaElt *> &result, bool &ambiguous, int offset);
-
+	bool TryReplace (std::list<FormulaElt *> &result, std::list<FormulaElt *>::iterator it);
+		
 private:
 	std::string Entry, Markup, RawMarkup;
 	std::map<int,int> Raw;

@@ -254,39 +254,41 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 			Molecule const *orig = fresidue->residue->GetMolecule ();
 			Atom *pseudo = NULL;
 			std::list<Atom*>::const_iterator ai, aiend = orig->m_Atoms.end ();
-			for (ai = orig->m_Atoms.begin ();  ai != aiend; ai++) {
-				if ((*ai)->GetZ () == 0)
-					pseudo = atom = reinterpret_cast <Atom*> (CreateObject ("pseudo-atom", mol));
-				else {
-					atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
-					*atom = *(*ai);
+			for (in = 0; in < fresidue->stoich; in++) {
+				for (ai = orig->m_Atoms.begin ();  ai != aiend; ai++) {
+					if ((*ai)->GetZ () == 0)
+						pseudo = atom = reinterpret_cast <Atom*> (CreateObject ("pseudo-atom", mol));
+					else {
+						atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
+						*atom = *(*ai);
+					}
+					atom->SetId ("a1");
+					Corr[*ai] = atom;
+					atom->SetId ("a1");
 				}
-				atom->SetId ("a1");
-				Corr[*ai] = atom;
-				atom->SetId ("a1");
-			}
-			std::list<Bond*>::const_iterator bi, biend = orig->m_Bonds.end ();
-			for (bi = orig->m_Bonds.begin ();  bi != biend; bi++) {
-				// stereochemistry is lost for now
-				bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
-				bond->SetId ("b1");
-				bond->SetOrder ((*bi)->GetOrder ());
-				bond->ReplaceAtom (NULL, Corr[(*bi)->GetAtom (0)]);
-				bond->ReplaceAtom (NULL, Corr[(*bi)->GetAtom (1)]);
-				Corr[(*bi)->GetAtom (1)]->AddBond (bond);
-			}
-			// remove the pseudo-atom
-			// FIXME: we drop the orientation of the bond and the positionof the pseudo-atom
-			// which will make 2D autogeneration problematic
-			map<Atom*, Bond*>::iterator ci;
+				std::list<Bond*>::const_iterator bi, biend = orig->m_Bonds.end ();
+				for (bi = orig->m_Bonds.begin ();  bi != biend; bi++) {
+					// stereochemistry is lost for now
+					bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
+					bond->SetId ("b1");
+					bond->SetOrder ((*bi)->GetOrder ());
+					bond->ReplaceAtom (NULL, Corr[(*bi)->GetAtom (0)]);
+					bond->ReplaceAtom (NULL, Corr[(*bi)->GetAtom (1)]);
+					Corr[(*bi)->GetAtom (1)]->AddBond (bond);
+				}
+				// remove the pseudo-atom
+				// FIXME: we drop the orientation of the bond and the positionof the pseudo-atom
+				// which will make 2D autogeneration problematic
+				map<Atom*, Bond*>::iterator ci;
 
-			bond = pseudo->GetFirstBond (ci);
-			PendingAtoms.push (bond->GetAtom (pseudo));
-			PendingAtoms.top ()->RemoveBond (bond);
-			mol->Remove (bond);
-			delete bond;
-			mol->Remove (pseudo);
-			delete pseudo;
+				bond = pseudo->GetFirstBond (ci);
+				PendingAtoms.push (bond->GetAtom (pseudo));
+				PendingAtoms.top ()->RemoveBond (bond);
+				mol->Remove (bond);
+				delete bond;
+				mol->Remove (pseudo);
+				delete pseudo;
+			}
 		} else {
 			// FIXME: need to support blocks as well
 			mol->SetParent (NULL); // ensure children wil be destroyed

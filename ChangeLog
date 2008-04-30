@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/formula.cc: more work on ambiguous symbols.
+	* libs/gcu/formula.h: ditto.
+	* libs/gcu/molecule.cc: ditto.
+
 2008-04-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/formula.cc: more work on ambiguous symbols.
 	* libs/gcu/formula.h: ditto.
