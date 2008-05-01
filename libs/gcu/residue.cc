@@ -183,7 +183,7 @@ void Residue::Load (xmlNodePtr node)
 				}
 			}
 			xmlFree (symbols);
-		} else if (!strcmp (reinterpret_cast <char const *> (child->name), "molecule")) {
+		} else if (!strcmp (reinterpret_cast <char const *> (child->name), "molecule") && m_Molecule == NULL) {
 			m_Document = dynamic_cast <Document *> (Object::CreateObject ("document"));
 			if (m_Document) {
 				m_Molecule = dynamic_cast <Molecule *> (Object::CreateObject ("molecule", m_Document));

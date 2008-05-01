@@ -126,9 +126,21 @@ public :
 	void SetCharge (int charge);
 	int GetCharge () const {return m_Charge;}
 	void ForceChanged () {m_Changed = true;}
-	cairo_rectangle_t &GetInkRect () {return m_InkRect;}
-	cairo_rectangle_t &GetHInkRect () {return m_HInkRect;}
 	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
+
+/*!
+@param width: where to store the width.
+@param height: where to store the height.
+@param angle: where to store the limit angle.
+@param up: whether considering the op halfor the bottom half
+
+Used to retrieve the size of the ink rectangle of the atom symbol (if displayed).
+@angle is absolute value of the angle between an horizontal line and the line joining
+the center and the top left or the bottom left vertex.
+The returned width valueis actually half the full width. Height is the height.
+This method is used to avoid bonds lines extyending over their atoms symbols.
+*/
+	void GetSymbolGeometry (double &width, double &height, double &angle, bool up);
 
 private:
 	void BuildItems (WidgetData* pData);
@@ -163,7 +175,7 @@ private:
 	PangoLayout *m_Layout, *m_ChargeLayout;
 	bool m_DrawCircle;
 	std::string m_FontName;
-	cairo_rectangle_t m_InkRect, m_HInkRect;
+	double m_SWidth, m_SHeightH, m_SHeightL, m_SAngleH, m_SAngleL;
 
 GCU_PROP (bool, ShowSymbol)
 GCU_PROP (unsigned char, HPosStyle) //0=force left, 1=force right, 2=auto.

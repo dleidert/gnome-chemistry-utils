@@ -71,7 +71,7 @@ Atom::Atom (): gcu::Atom (),
 	m_ChargeAutoPos = true;
 	m_Layout = m_ChargeLayout = NULL;
 	m_DrawCircle = false;
-	m_InkRect.width = m_HInkRect.width = 0.;
+	m_SWidth = 0.;
 }
 
 Atom::~Atom ()
@@ -113,7 +113,7 @@ Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z),
 	m_ChargeAutoPos = true;
 	m_Layout = m_ChargeLayout = NULL;
 	m_DrawCircle = false;
-	m_InkRect.width = m_HInkRect.width = 0.;
+	m_SWidth = 0.;
 }
 
 Atom::Atom (OBAtom* atom): gcu::Atom (),
@@ -141,7 +141,7 @@ Atom::Atom (OBAtom* atom): gcu::Atom (),
 	m_Layout = m_ChargeLayout = NULL;
 	m_DrawCircle = false;
 	m_Charge = atom->GetFormalCharge ();
-	m_InkRect.width = m_HInkRect.width = 0.;
+	m_SWidth = 0.;
 }
 
 void Atom::SetZ (int Z)
@@ -367,6 +367,11 @@ void Atom::Add (GtkWidget* w) const
 		pango_layout_set_text (m_Layout, symbol, sw);
 		pango_layout_get_extents (m_Layout, &rect, NULL);
 		const_cast <Atom *> (this)->m_width += rect.width / PANGO_SCALE;
+		const_cast <Atom *> (this)->m_SWidth = (double) rect.width / PANGO_SCALE / 2.;
+		const_cast <Atom *> (this)->m_SHeightH = m_ascent - (double) rect.y / PANGO_SCALE - m_CHeight;
+		const_cast <Atom *> (this)->m_SHeightL = (double) rect.height / PANGO_SCALE - m_SHeightH;
+		const_cast <Atom *> (this)->m_SAngleH = atan2 (m_SHeightH, m_SWidth);
+		const_cast <Atom *> (this)->m_SAngleL = atan2 (m_SHeightL, m_SWidth);
 		int n = GetAttachedHydrogens ();
 		if (n > 0) {
 			if (n > 1) {
@@ -423,7 +428,7 @@ void Atom::Add (GtkWidget* w) const
 							"y1", y  - m_ascent + m_CHeight - pTheme->GetPadding (),
 							"x2", x - m_lbearing + m_length + pTheme->GetPadding (),
 							"y2", y  - m_ascent + m_CHeight + m_height + pTheme->GetPadding (),
-							"fill_color", (pData->IsSelected (this))? SelectColor: "white",
+							"fill_color", (pData->IsSelected (this))? SelectColor: NULL,
 							NULL);
 		g_object_set_data (G_OBJECT (group), "rect", item);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
@@ -447,7 +452,7 @@ void Atom::Add (GtkWidget* w) const
 								"y1", y - 3,
 								"x2", x + 3,
 								"y2", y + 3,
-								"fill_color",  (pData->IsSelected (this))? SelectColor: "white",
+								"fill_color",  (pData->IsSelected (this))? SelectColor: NULL,
 								NULL);
 		g_object_set_data(G_OBJECT (group), "rect", item);
 		gnome_canvas_request_redraw ((GnomeCanvas*) w, (int) x - 3, (int) y - 3, (int) x + 3, (int) y + 3);
@@ -1161,7 +1166,7 @@ void Atom::SetSelected (GtkWidget* w, int state)
 	
 	switch (state) {	
 	case SelStateUnselected:
-		color = "white";
+		color = NULL;
 		chargecolor = "black";
 		break;
 	case SelStateSelected:
@@ -1174,7 +1179,7 @@ void Atom::SetSelected (GtkWidget* w, int state)
 		chargecolor = color = DeleteColor;
 		break;
 	default:
-		color = "white";
+		color = NULL;
 		chargecolor = "black";
 		break;
 	}
@@ -1761,5 +1766,21 @@ bool Atom::Match (gcu::Atom *atom, AtomMatchState &state)
 		return false;
 	return gcu::Atom::Match (atom, state);
 }
+
+void Atom::GetSymbolGeometry (double &width, double &height, double &angle, bool up)
+{
+	if ((GetZ() != 6) || (GetBondsNumber () == 0) || m_ShowSymbol) {
+		width = m_SWidth;
+		if (up) {
+			height = m_SHeightH ;
+			angle = m_SAngleH;
+		} else {
+			height = m_SHeightL ;
+			angle = m_SAngleL;
+		}
+	} else
+		width = height  = angle = 0.;
+}
+
 
 }	//	namespace gcp

@@ -103,6 +103,43 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		double BondDist = Theme->GetBondDist () / Theme->GetZoomFactor ();
 		dx *= (BondDist / l);
 		dy *= (BondDist / l);
+		// now, exclude symbols rectangles from the drawing
+		double ax, ay, anga, angb = atan2 (fabs (dy), fabs (dx));
+		reinterpret_cast <Atom *> (m_Begin)->GetSymbolGeometry (ax, ay, anga, dy < 0);
+		bool horizontal;
+		if (ax > 0) {
+			horizontal = anga >= angb;
+			if (horizontal) {
+				ax = (ax + 2.) / Theme->GetZoomFactor ();
+				if (dx > 0)
+					ax = - ax;
+				*x1 -= ax;
+				*y1 -= ax * dy / dx;
+			} else {
+				ay = (ay + 2.) / Theme->GetZoomFactor ();
+				if (dy > 0)
+					ay = - ay;
+				*y1 -= ay;
+				*x1 -= ay * dx / dy;
+			}
+		}
+		reinterpret_cast <Atom *> (m_End)->GetSymbolGeometry (ax, ay, anga, dy > 0);
+		if (ax > 0) {
+			horizontal = anga >= angb;
+			if (horizontal) {
+				ax = (ax + 2.) / Theme->GetZoomFactor ();
+				if (dx > 0)
+					ax = - ax;
+				*x2 += ax;
+				*y2 += ax * dy / dx;
+			} else {
+				ay = (ay + 2.) / Theme->GetZoomFactor ();
+				if (dy > 0)
+					ay = - ay;
+				*y2 += ay;
+				*x2 += ay * dx / dy;
+			}
+		}
 		if (m_order & 1) {
 			m_coords[0] = *x1;
 			m_coords[1] = *y1;

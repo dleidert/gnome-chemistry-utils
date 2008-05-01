@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-05-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: no more white rectangle behind atoms.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/fragment-residue.cc: fixed signature of GetSymbol.
+	* libs/gcp/fragment-residue.h: ditto.
+	* libs/gcu/residue.cc: do not reload a molecule.
+
 2008-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/formula.cc: do not crash when first element in the raw
 	formula is artificial.

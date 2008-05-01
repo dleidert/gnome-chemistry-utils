@@ -44,7 +44,7 @@ public:
 /*!
 		  @return the symbol of this Residue. Overrides gcu::Atom::GetSymbol.
 */
-	const gchar* GetSymbol ();
+	const gchar* GetSymbol () const;
 
 GCU_RO_PROP (Residue const *, Residue)
 GCU_RO_PROP (std::string, Abbrev)
