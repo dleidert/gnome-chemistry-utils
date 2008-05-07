@@ -2,28 +2,21 @@
 <gpdata>
 
 <element Z="1">
-	<radius type="covalent" value="37"/>
-	<radius type="vdW" value="120"/>
 	<radius type="ionic" charge="+1" cn="1" scale="Shannon" value="-38"/>
 	<radius type="ionic" charge="+1" cn="2" scale="Shannon" value="-18"/>
 </element>
 
 <element Z="2">
-	<radius type="covalent" value="32"/>
-	<radius type="vdW" value="180"/>
 </element>
 
 <element Z="3">
-	<radius type="covalent" value="134"/>
 	<radius type="metallic" value="152"/>
-	<radius type="vdW" value="180"/>
 	<radius type="ionic" charge="+1" cn="4" scale="Shannon" value="59"/>
 	<radius type="ionic" charge="+1" cn="6" scale="Shannon" value="76"/>
 	<radius type="ionic" charge="+1" cn="8" scale="Shannon" value="92"/>
 </element>
 
 <element Z="4">
-	<radius type="covalent" value="125"/>
 	<radius type="metallic" value="112"/>
 	<radius type="ionic" charge="+2" cn="3" scale="Shannon" value="16"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="27"/>
@@ -31,23 +24,18 @@
 </element>
 
 <element Z="5">
-	<radius type="covalent" value="90"/>
 	<radius type="ionic" charge="+3" cn="3" scale="Shannon" value="1"/>
 	<radius type="ionic" charge="+3" cn="4" scale="Shannon" value="11"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="27"/>
 </element>
 
 <element Z="6">
-	<radius type="covalent" value="77"/>
-	<radius type="vdW" value="170"/>
 	<radius type="ionic" charge="+4" cn="3" scale="Shannon" value="-8"/>
 	<radius type="ionic" charge="+4" cn="4" scale="Shannon" value="15"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="16"/>
 </element>
 
 <element Z="7">
-	<radius type="covalent" value="75"/>
-	<radius type="vdW" value="155"/>
 	<radius type="ionic" charge="-3" cn="4" scale="Shannon" value="146"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="16"/>
 	<radius type="ionic" charge="+5" cn="3" scale="Shannon" value="-10.4"/>
@@ -55,8 +43,6 @@
 </element>
 
 <element Z="8">
-	<radius type="covalent" value="73"/>
-	<radius type="vdW" value="150"/>
 	<radius type="ionic" charge="-2" cn="2" scale="Shannon" value="135"/>
 	<radius type="ionic" charge="-2" cn="3" scale="Shannon" value="136"/>
 	<radius type="ionic" charge="-2" cn="4" scale="Shannon" value="138"/>
@@ -65,8 +51,6 @@
 </element>
 
 <element Z="9">
-	<radius type="covalent" value="71"/>
-	<radius type="vdW" value="150"/>
 	<radius type="ionic" charge="-1" cn="2" scale="Shannon" value="128.5"/>
 	<radius type="ionic" charge="-1" cn="3" scale="Shannon" value="130"/>
 	<radius type="ionic" charge="-1" cn="4" scale="Shannon" value="131"/>
@@ -75,14 +59,10 @@
 </element>
 
 <element Z="10">
-	<radius type="covalent" value="69"/>
-	<radius type="vdW" value="160"/>
 </element>
 
 <element Z="11">
-	<radius type="covalent" value="154"/>
 	<radius type="metallic" value="186"/>
-	<radius type="vdW" value="230"/>
 	<radius type="ionic" charge="+1" cn="4" scale="Shannon" value="99"/>
 	<radius type="ionic" charge="+1" cn="5" scale="Shannon" value="100"/>
 	<radius type="ionic" charge="+1" cn="6" scale="Shannon" value="102"/>
@@ -93,9 +73,7 @@
 </element>
 
 <element Z="12">
-	<radius type="covalent" value="145"/>
 	<radius type="metallic" value="160"/>
-	<radius type="vdW" value="170"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="57"/>
 	<radius type="ionic" charge="+2" cn="5" scale="Shannon" value="66"/>
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="72"/>
@@ -103,7 +81,6 @@
 </element>
 
 <element Z="13">
-	<radius type="covalent" value="130"/>
 	<radius type="metallic" value="143"/>
 	<radius type="ionic" charge="+3" cn="4" scale="Shannon" value="39"/>
 	<radius type="ionic" charge="+3" cn="5" scale="Shannon" value="48"/>
@@ -111,15 +88,11 @@
 </element>
 
 <element Z="14">
-	<radius type="covalent" value="118"/>
-	<radius type="vdW" value="210"/>
 	<radius type="ionic" charge="+4" cn="4" scale="Shannon" value="26"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="40"/>
 </element>
 
 <element Z="15">
-	<radius type="covalent" value="110"/>
-	<radius type="vdW" value="185"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="44"/>
 	<radius type="ionic" charge="+5" cn="4" scale="Shannon" value="17"/>
 	<radius type="ionic" charge="+5" cn="5" scale="Shannon" value="29"/>
@@ -127,8 +100,6 @@
 </element>
 
 <element Z="16">
-	<radius type="covalent" value="102"/>
-	<radius type="vdW" value="180"/>
 	<radius type="ionic" charge="-2" cn="6" scale="Shannon" value="184"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="37"/>
 	<radius type="ionic" charge="+6" cn="4" scale="Shannon" value="12"/>
@@ -136,22 +107,16 @@
 </element>
 
 <element Z="17">
-	<radius type="covalent" value="99"/>
-	<radius type="vdW" value="170"/>
 	<radius type="ionic" charge="-1" cn="6" scale="Shannon" value="181"/>
 	<radius type="ionic" charge="+5" cn="3" scale="Shannon" value="12"/>
 	<radius type="ionic" charge="+7" cn="4" scale="Shannon" value="8"/>
 </element>
 
 <element Z="18">
-	<radius type="covalent" value="97"/>
-	<radius type="vdW" value="190"/>
 </element>
 
 <element Z="19">
-	<radius type="covalent" value="196"/>
 	<radius type="metallic" value="227"/>
-	<radius type="vdW" value="280"/>
 	<radius type="ionic" charge="+1" cn="4" scale="Shannon" value="137"/>
 	<radius type="ionic" charge="+1" cn="6" scale="Shannon" value="138"/>
 	<radius type="ionic" charge="+1" cn="7" scale="Shannon" value="146"/>
@@ -214,7 +179,6 @@
 </element>
 
 <element Z="25">
-	<radius type="covalent" value="139"/>
 	<radius type="metallic" value="127"/>
 	<radius type="ionic" charge="+2" cn="4" spin="high" scale="Shannon" value="66"/>
 	<radius type="ionic" charge="+2" cn="5" spin="high" scale="Shannon" value="75"/>
@@ -234,7 +198,6 @@
 </element>
 
 <element Z="26">
-	<radius type="covalent" value="125"/>
 	<radius type="metallic" value="126"/>
 	<radius type="ionic" charge="+2" cn="4" spin="high" scale="Shannon" value="63"/>
 	<radius type="ionic" charge="+2" cn="4" spin="high" scale="Shannon" value="64"/>
@@ -251,7 +214,6 @@
 </element>
 
 <element Z="27">
-	<radius type="covalent" value="126"/>
 	<radius type="metallic" value="125"/>
 	<radius type="ionic" charge="+2" cn="4" spin="high" scale="Shannon" value="58"/>
 	<radius type="ionic" charge="+2" cn="5" scale="Shannon" value="67"/>
@@ -265,9 +227,7 @@
 </element>
 
 <element Z="28">
-	<radius type="covalent" value="121"/>
 	<radius type="metallic" value="124"/>
-	<radius type="vdW" value="160"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="55"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="49"/>
 	<radius type="ionic" charge="+2" cn="5" scale="Shannon" value="63"/>
@@ -279,7 +239,6 @@
 
 <element Z="29">
 	<radius type="metallic" value="128"/>
-	<radius type="vdW" value="140"/>
 	<radius type="ionic" charge="+1" cn="2" scale="Shannon" value="46"/>
 	<radius type="ionic" charge="+1" cn="4" scale="Shannon" value="60"/>
 	<radius type="ionic" charge="+1" cn="6" scale="Shannon" value="77"/>
@@ -291,9 +250,7 @@
 </element>
 
 <element Z="30">
-	<radius type="covalent" value="120"/>
 	<radius type="metallic" value="134"/>
-	<radius type="vdW" value="140"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="60"/>
 	<radius type="ionic" charge="+2" cn="5" scale="Shannon" value="68"/>
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="74"/>
@@ -301,31 +258,25 @@
 </element>
 
 <element Z="31">
-	<radius type="covalent" value="120"/>
 	<radius type="metallic" value="135"/>
-	<radius type="vdW" value="190"/>
 	<radius type="ionic" charge="+3" cn="4" scale="Shannon" value="47"/>
 	<radius type="ionic" charge="+3" cn="5" scale="Shannon" value="55"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="62"/>
 </element>
 
 <element Z="32">
-	<radius type="covalent" value="122"/>
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="73"/>
 	<radius type="ionic" charge="+4" cn="4" scale="Shannon" value="39"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="53"/>
 </element>
 
 <element Z="33">
-	<radius type="covalent" value="122"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="58"/>
 	<radius type="ionic" charge="+5" cn="4" scale="Shannon" value="33.5"/>
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="46"/>
 </element>
 
 <element Z="34">
-	<radius type="covalent" value="117"/>
-	<radius type="vdW" value="190"/>
 	<radius type="ionic" charge="-2" cn="6" scale="Shannon" value="198"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="50"/>
 	<radius type="ionic" charge="+6" cn="4" scale="Shannon" value="28"/>
@@ -333,8 +284,6 @@
 </element>
 
 <element Z="35">
-	<radius type="covalent" value="114"/>
-	<radius type="vdW" value="180"/>
 	<radius type="ionic" charge="-1" cn="6" scale="Shannon" value="196"/>
 	<radius type="ionic" charge="+3" cn="4" scale="Shannon" value="59"/>
 	<radius type="ionic" charge="+5" cn="3" scale="Shannon" value="31"/>
@@ -343,8 +292,6 @@
 </element>
 
 <element Z="36">
-	<radius type="covalent" value="110"/>
-	<radius type="vdW" value="200"/>
 </element>
 
 <element Z="37">
@@ -436,7 +383,6 @@
 
 <element Z="46">
 	<radius type="metallic" value="137"/>
-	<radius type="vdW" value="160"/>
 	<radius type="ionic" charge="+1" cn="2" scale="Shannon" value="59"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="64"/>
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="86"/>
@@ -446,7 +392,6 @@
 
 <element Z="47">
 	<radius type="metallic" value="144"/>
-	<radius type="vdW" value="170"/>
 	<radius type="ionic" charge="+1" cn="2" scale="Shannon" value="67"/>
 	<radius type="ionic" charge="+1" cn="4" scale="Shannon" value="100"/>
 	<radius type="ionic" charge="+1" cn="4" scale="Shannon" value="102"/>
@@ -462,7 +407,6 @@
 
 <element Z="48">
 	<radius type="metallic" value="151"/>
-	<radius type="vdW" value="160"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="78"/>
 	<radius type="ionic" charge="+2" cn="5" scale="Shannon" value="87"/>
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="95"/>
@@ -473,15 +417,12 @@
 
 <element Z="49">
 	<radius type="metallic" value="167"/>
-	<radius type="vdW" value="190"/>
 	<radius type="ionic" charge="+3" cn="4" scale="Shannon" value="62"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="80"/>
 	<radius type="ionic" charge="+3" cn="8" scale="Shannon" value="92"/>
 </element>
 
 <element Z="50">
-	<radius type="covalent" value="140"/>
-	<radius type="vdW" value="220"/>
 	<radius type="ionic" charge="+4" cn="4" scale="Shannon" value="55"/>
 	<radius type="ionic" charge="+4" cn="5" scale="Shannon" value="62"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="69"/>
@@ -490,7 +431,6 @@
 </element>
 
 <element Z="51">
-	<radius type="covalent" value="143"/>
 	<radius type="ionic" charge="+3" cn="4" scale="Shannon" value="74"/>
 	<radius type="ionic" charge="+3" cn="5" scale="Shannon" value="80"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="76"/>
@@ -498,8 +438,6 @@
 </element>
 
 <element Z="52">
-	<radius type="covalent" value="135"/>
-	<radius type="vdW" value="210"/>
 	<radius type="ionic" charge="-2" cn="6" scale="Shannon" value="221"/>
 	<radius type="ionic" charge="+4" cn="3" scale="Shannon" value="52"/>
 	<radius type="ionic" charge="+4" cn="4" scale="Shannon" value="66"/>
@@ -509,8 +447,6 @@
 </element>
 
 <element Z="53">
-	<radius type="covalent" value="133"/>
-	<radius type="vdW" value="195"/>
 	<radius type="ionic" charge="-1" cn="6" scale="Shannon" value="220"/>
 	<radius type="ionic" charge="+5" cn="3" scale="Shannon" value="44"/>
 	<radius type="ionic" charge="+5" cn="6" scale="Shannon" value="95"/>
@@ -519,8 +455,6 @@
 </element>
 
 <element Z="54">
-	<radius type="covalent" value="130"/>
-	<radius type="vdW" value="220"/>
 	<radius type="ionic" charge="+8" cn="4" scale="Shannon" value="40"/>
 	<radius type="ionic" charge="+8" cn="6" scale="Shannon" value="48"/>
 </element>
@@ -747,7 +681,6 @@
 
 <element Z="78">
 	<radius type="metallic" value="138.5"/>
-	<radius type="vdW" value="170"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="60"/>
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="80"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="62.5"/>
@@ -756,7 +689,6 @@
 
 <element Z="79">
 	<radius type="metallic" value="144"/>
-	<radius type="vdW" value="170"/>
 	<radius type="ionic" charge="+1" cn="6" scale="Shannon" value="137"/>
 	<radius type="ionic" charge="+3" cn="4" scale="Shannon" value="68"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="85"/>
@@ -765,7 +697,6 @@
 
 <element Z="80">
 	<radius type="metallic" value="151"/>
-	<radius type="vdW" value="150"/>
 	<radius type="ionic" charge="+1" cn="3" scale="Shannon" value="97"/>
 	<radius type="ionic" charge="+1" cn="6" scale="Shannon" value="119"/>
 	<radius type="ionic" charge="+2" cn="2" scale="Shannon" value="69"/>
@@ -776,7 +707,6 @@
 
 <element Z="81">
 	<radius type="metallic" value="170"/>
-	<radius type="vdW" value="200"/>
 	<radius type="ionic" charge="+1" cn="6" scale="Shannon" value="150"/>
 	<radius type="ionic" charge="+1" cn="8" scale="Shannon" value="159"/>
 	<radius type="ionic" charge="+1" cn="12" scale="Shannon" value="170"/>
@@ -787,7 +717,6 @@
 
 <element Z="82">
 	<radius type="metallic" value="175"/>
-	<radius type="vdW" value="200"/>
 	<radius type="ionic" charge="+2" cn="4" scale="Shannon" value="98"/>
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="119"/>
 	<radius type="ionic" charge="+2" cn="7" scale="Shannon" value="123"/>
@@ -820,7 +749,6 @@
 </element>
 
 <element Z="86">
-	<radius type="covalent" value="145"/>
 </element>
 
 <element Z="87">
@@ -858,7 +786,6 @@
 
 <element Z="92">
 	<radius type="metallic" value="156"/>
-	<radius type="vdW" value="190"/>
 	<radius type="ionic" charge="+3" cn="6" scale="Shannon" value="102.5"/>
 	<radius type="ionic" charge="+4" cn="6" scale="Shannon" value="89"/>
 	<radius type="ionic" charge="+4" cn="7" scale="Shannon" value="95"/>
@@ -930,8 +857,62 @@
 	<radius type="metallic" value="186"/>
 </element>
 
+<element Z="100">
+</element>
+
+<element Z="101">
+</element>
+
 <element Z="102">
 	<radius type="ionic" charge="+2" cn="6" scale="Shannon" value="110"/>
+</element>
+
+<element Z="103">
+</element>
+
+<element Z="104">
+</element>
+
+<element Z="105">
+</element>
+
+<element Z="106">
+</element>
+
+<element Z="107">
+</element>
+
+<element Z="108">
+</element>
+
+<element Z="109">
+</element>
+
+<element Z="110">
+</element>
+
+<element Z="111">
+</element>
+
+<element Z="112">
+</element>
+
+<element Z="113">
+</element>
+
+<element Z="114">
+</element>
+
+<element Z="115">
+</element>
+
+<element Z="116">
+</element>
+
+<element Z="117">
+</element>
+
+<element Z="118">
 </element>
 
 </gpdata>

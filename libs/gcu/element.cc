@@ -429,6 +429,7 @@ void Element::LoadRadii ()
 	static bool loaded = false;
 	if (loaded)
 		return;
+	LoadBODR ();
 	if (!(xml = xmlParseFile (PKGDATADIR"/radii.xml")))
 	{
 		g_error (_("Can't find and read radii.xml"));
@@ -450,6 +451,10 @@ void Element::LoadRadii ()
 			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: radii.xml"));
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];
+			if (!Elt) {
+				node = node->next;
+				continue;
+			}
 			child = node->children;
 			while (child)
 			{
@@ -462,15 +467,14 @@ void Element::LoadRadii ()
 					radius->Z = Z;	//FIXME: is it really useful there?
 					buf = (char*) xmlGetProp (child, (xmlChar*) "type");
 					if (!buf ||
-						((!((!strcmp (buf, "covalent")) && (radius->type = GCU_COVALENT))) &&
-						(!((!strcmp (buf, "vdW")) && (radius->type = GCU_VAN_DER_WAALS))) &&
-						(!((!strcmp (buf, "ionic")) && (radius->type = GCU_IONIC))) &&
+						((!((!strcmp (buf, "ionic")) && (radius->type = GCU_IONIC))) &&
 						(!((!strcmp (buf, "metallic")) && (radius->type = GCU_METALLIC))) &&
 						(!((!strcmp (buf, "atomic")) && ((radius->type = GCU_ATOMIC) || true))))) {
 						//invalid radius
 						delete radius;
 						if (buf)
 							xmlFree (buf);
+						child = child->next;
 						continue;
 					}
 					buf = (char*) xmlGetProp (child, (xmlChar*) "scale");
@@ -828,12 +832,21 @@ GcuDimensionalValue const *Element::GetElectronAffinity (unsigned rank)
 
 void Element::LoadBODR ()
 {
+	static bool loaded = false;
+	if (loaded)
+		return;
+	loaded = true;
 	char *old_num_locale;
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlDocPtr xml = xmlParseFile (BODR_PKGDATADIR"/elements.xml");
 	if (!xml)
 		return;
+	set<string>::iterator it = units.find ("pm");
+	if (it == units.end ()) {
+		units.insert ("pm");
+		it = units.find ("pm");
+	}
 	xmlNodePtr node = xml->children, child;
 	char *buf = NULL, *unit;
 	Element *elt;
@@ -935,6 +948,57 @@ void Element::LoadBODR ()
 					child = child->next;
 				}
 				if (elt) {
+					DimensionalValue const *v = dynamic_cast <DimensionalValue const *> (elt->GetProperty ("radiusVDW"));
+					double r;
+					if (v) {
+						r = v->GetAsDouble ();
+						GcuDimensionalValue const val = v->GetValue ();
+						int prec = val.prec;
+						if (!strcmp (val.unit, "Å")) {
+							r *= 100.;
+							prec = (prec > 2)? prec - 2: 0;
+						} else if (!strcmp (val.unit, "pm"))
+							r = -1.; // FIXME: allow other units if needed
+						if (r > 0.) {
+							GcuAtomicRadius* radius = new GcuAtomicRadius;
+							radius->value.value = r;
+							radius->value.prec = prec;
+							radius->value.delta = val.delta;
+							radius->value.unit = "pm";
+							radius->Z = elt->GetZ ();
+							radius->type = GCU_VAN_DER_WAALS;
+							radius->charge = 0;
+							radius->scale = NULL;
+							radius->cn = -1;
+							radius->spin = GCU_N_A_SPIN;
+							elt->m_radii.push_back (radius);
+						}
+					}
+					v = dynamic_cast <DimensionalValue const *> (elt->GetProperty ("radiusCovalent"));
+					if (v) {
+						r = v->GetAsDouble ();
+						GcuDimensionalValue const val = v->GetValue ();
+						int prec = val.prec;
+						if (!strcmp (val.unit, "Å")) {
+							r *= 100.;
+							prec = (prec > 2)? prec - 2: 0;
+						} else if (!strcmp (val.unit, "pm"))
+							r = -1.; // FIXME: allow other units if needed
+						if (r > 0.) {
+							GcuAtomicRadius* radius = new GcuAtomicRadius;
+							radius->value.value = r;
+							radius->value.prec = prec;
+							radius->value.delta = val.delta;
+							radius->value.unit = "pm";
+							radius->Z = elt->GetZ ();
+							radius->type = GCU_COVALENT;
+							radius->charge = 0;
+							radius->scale = NULL;
+							radius->cn = -1;
+							radius->spin = GCU_N_A_SPIN;
+							elt->m_radii.push_back (radius);
+						}
+					}
 				}
 			}
 			node = node->next;
@@ -945,10 +1009,23 @@ void Element::LoadBODR ()
 	g_free (old_num_locale);
 }
 
+Value const *Element::GetProperty (char const *property_name)
+{
+	map<string, Value*>::iterator i = props.find (property_name);
+	return (i == props.end ())? NULL: (*i).second;
+}
+
 int Element::GetIntegerProperty (char const *property_name)
 {
 	map<string, int>::iterator i = iprops.find (property_name);
 	return (i == iprops.end ())? GCU_ERROR: (*i).second;
+}
+
+string &Element::GetStringProperty (char const *property_name)
+{
+	static string empty_string;
+	map<string, string>::iterator i = sprops.find (property_name);
+	return (i == sprops.end ())? empty_string: (*i).second;
 }
 
 DimensionalValue const *Element::GetWeight ()

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-05-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/radii.xml.in: add data for all elements, even if no
+	radius is known, and remove van der Waals and covalent radii.
+	* libs/gcu/element.cc: use van der Waals and covalent radii from BODR.
+	* libs/gcu/element.h: enhace GetProperty like methods..
+	* libs/gcu/value.h: add a missing const keyword.
+
 2008-05-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: no more white rectangle behind atoms.
 	* libs/gcp/atom.h: ditto.

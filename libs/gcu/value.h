@@ -127,7 +127,7 @@ Default destructor
 /*!
 @return the embedded GcuDimensionalValue structure.
 */
-	GcuDimensionalValue const GetValue () {return val;}
+	GcuDimensionalValue const GetValue () const {return val;}
 
 private:
 	GcuDimensionalValue val;

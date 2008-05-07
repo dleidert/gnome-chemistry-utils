@@ -258,14 +258,14 @@ public:
 
 	@return the requested property if known, or NULL.
 	*/
-	Value const *GetProperty (char const *property_name) {return props[property_name];}
+	Value const *GetProperty (char const *property_name);
 	/*!
 	@param property_name: the name of the property as used in the Blue
 	Obelisk Data Repository (without the "bo:" prefix).
 
 	@return the requested string property if known as a reference or an empty string.
 	*/
-	std::string &GetStringProperty (char const *property_name) {return sprops[property_name];}
+	std::string &GetStringProperty (char const *property_name);
 	/*!
 	@param property_name: the name of the property as used in the Blue
 	Obelisk Data Repository (without the "bo:" prefix).
