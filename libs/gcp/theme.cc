@@ -210,7 +210,7 @@ ThemeManager::ThemeManager ()
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 #endif
 #ifdef HAVE_GO_CONF_SYNC
-	libgoffice_init ("gchemutils");
+	libgoffice_init ();
 	m_ConfNode = go_conf_get_node (gcu::Application::GetConfDir (), GCP_CONF_DIR_SETTINGS);
 #else
 	GError *error = NULL;

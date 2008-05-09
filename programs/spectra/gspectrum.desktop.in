@@ -2,7 +2,7 @@
 Version=1.0
 _Name=Spectrum viewer (unstable)
 _Comment=A spectrum viewer for the GNOME desktop
-Exec=gspectrum
+Exec=gspectrum-@GCU_API_VER@
 Icon=gspectrum
 Terminal=false
 Type=Application

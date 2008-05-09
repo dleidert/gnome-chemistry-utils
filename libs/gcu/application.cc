@@ -59,7 +59,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 {
 #ifdef HAVE_GO_CONF_SYNC
 	if (m_ConfDir == NULL) {
-		libgoffice_init ("gchemutils");
+		libgoffice_init ();
 		m_ConfDir = go_conf_get_node (NULL, GCU_CONF_DIR);
 	}
 #else
@@ -324,7 +324,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 GOConfNode *Application::GetConfDir ()
 {
 	if (m_ConfDir == NULL) {
-		libgoffice_init ("gchemutils");
+		libgoffice_init ();
 		m_ConfDir = go_conf_get_node (NULL, GCU_CONF_DIR);
 	}
 	return m_ConfDir;

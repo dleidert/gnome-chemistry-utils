@@ -290,11 +290,7 @@ int main (int argc, char *argv[])
 		cerr << "Could not initialize GnomeVFS\n" << endl;
 		return 1;
 	}
-#ifdef HAVE_GO_CONF_SYNC
-	libgoffice_init ("chem-viewer");
-#else
 	libgoffice_init ();
-#endif
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 	in_channel = g_io_channel_unix_new (fileno (stdin));
 	g_io_add_watch (in_channel, G_IO_IN, io_func, &error);

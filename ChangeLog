@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2008-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/theme.cc: fixed libgoffice initialization.
+	* libs/gcu/application.cc: ditto.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* programs/calc/gchemcalc.desktop.in: add version to executable.
+	* programs/crystal/gcrystal.desktop.in: ditto.
+	* programs/paint/gchempaint.desktop.in: ditto.
+	* programs/spectra/gspectrum.desktop.in: ditto.
+	* programs/table/gchemtable.desktop.in: ditto.
+
 2008-05-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/radii.xml.in: add data for all elements, even if no
 	radius is known, and remove van der Waals and covalent radii.

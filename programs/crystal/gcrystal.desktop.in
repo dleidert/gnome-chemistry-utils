@@ -2,7 +2,7 @@
 Version=1.0
 _Name=Gnome Crystal Crystalline Structures Viewer 
 _Comment=Edit and display crystalline structures
-Exec=gcrystal %U
+Exec=gcrystal-@GCU_API_VER@ %U
 Icon=gcrystal
 Terminal=false
 Type=Application

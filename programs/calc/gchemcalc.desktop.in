@@ -2,7 +2,7 @@
 Version=1.0
 _Name=Chemical calculator
 _Comment=A simple calculator for chemistry
-Exec=gchemcalc
+Exec=gchemcalc-@GCU_API_VER@
 Icon=gchemcalc
 Terminal=false
 Type=Application

@@ -2,7 +2,7 @@
 Version=1.0
 _Name=GChemPaint Chemical Structures Editor
 _Comment=Edit chemical 2D structures
-Exec=gchempaint %U
+Exec=gchempaint-@GCU_API_VER@ %U
 Terminal=false
 Type=Application
 Icon=gchempaint
