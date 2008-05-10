@@ -2,7 +2,7 @@ EXTRA_DIST = $(desktop_in_files)
 
 CLEANFILES = $(desktop_DATA) gchem3d.desktop
 
-MAINTAINERCLEANFILES = Makefile.in
+MAINTAINERCLEANFILES = Makefile.in gchem3d.desktop.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LDADD = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la @GCU_LIBS@

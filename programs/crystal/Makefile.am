@@ -7,7 +7,7 @@ CLEANFILES = \
 	$(schemas_DATA) \
 	$(kde_mime_desktop_DATA)
 
-MAINTAINERCLEANFILES = Makefile.in
+MAINTAINERCLEANFILES = Makefile.in gcrystal.desktop.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LDADD = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la @GCU_LIBS@

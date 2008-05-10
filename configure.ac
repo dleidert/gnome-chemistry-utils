@@ -335,11 +335,17 @@ po/Makefile.in
 samples/Makefile
 programs/Makefile
 programs/3d/Makefile
+programs/3d/gchem3d.desktop.in
 programs/calc/Makefile
+programs/calc/gchemcalc.desktop.in
 programs/crystal/Makefile
+programs/crystal/gcystal.desktop.in
 programs/paint/Makefile
+programs/paint/gchempaint.desktop.in
 programs/spectra/Makefile
+programs/spectra/gspectrum.desktop.in
 programs/table/Makefile
+programs/table/gchemtable.desktop.in
 templates/Makefile
 templates/paint/Makefile
 themes/Makefile

@@ -127,7 +127,7 @@ static void on_about (GtkWidget *widget, void *data)
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GChem3D is a molecular structures viewer for Gnome");
 	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2004-2007 Jean Bréfort\n");
+	const gchar * copyright = _("Copyright © 2004-2008 Jean Bréfort\n");
 	const gchar * license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
