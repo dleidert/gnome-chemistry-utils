@@ -339,7 +339,7 @@ programs/3d/gchem3d.desktop.in
 programs/calc/Makefile
 programs/calc/gchemcalc.desktop.in
 programs/crystal/Makefile
-programs/crystal/gcystal.desktop.in
+programs/crystal/gcrystal.desktop.in
 programs/paint/Makefile
 programs/paint/gchempaint.desktop.in
 programs/spectra/Makefile
