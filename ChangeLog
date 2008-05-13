@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-05-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystaldoc.cc: use VdW radii with an effective ratio
+	of 40% when loading a cif file.
+
 2008-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: we need to generate the correct desktop files
 	using the API version in the executable name.

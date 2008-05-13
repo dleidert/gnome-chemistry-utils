@@ -603,7 +603,7 @@ void CrystalDoc::Draw (Matrix const &m) const
 			v = m * v;
 			(*i)->GetColor (&red, &green, &blue, &alpha);
 			glColor4d (red, green, blue, alpha) ;
-			sp.draw (v, (*i)->r ());
+			sp.draw (v, (*i)->r () * (*i)->GetEffectiveRadiusRatio ());
 		}
 	glEnable (GL_NORMALIZE);
 	CrystalLineList::const_iterator j, jend = Lines.end ();
@@ -863,12 +863,12 @@ bool CrystalDoc::ImportOB (OBMol &mol)
 		catom = new CrystalAtom (radius.Z, v.x (), v.y (), v.z ());
 		if (gcu_element_get_radius (&radius)) {
 			catom->SetRadius (radius);
-			catom->SetEffectiveRadiusRatio (.25);
+			catom->SetEffectiveRadiusRatio (.4);
 		}
 		AtomDef.push_back (catom);
 		atom = mol.NextAtom (it);
 	}
-
+	LineDef.push_back (new CrystalLine (edges, 0., 0., 0., 0., 0., 0., 10., .25 , .25, .25 , 1.));
 	Update ();
 	return true;
 }
