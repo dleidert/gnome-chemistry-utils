@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-05-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: enhanced goffice detection.
+	* glade/crystal/atoms.glade: add new radii related controls
+	* libs/gcu/element.cc: fix a crash.
+	* programs/crystal/atomsdlg.cc: enhance radii managing.
+	* programs/crystal/atomsdlg.h: ditto.
+
 2008-05-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystaldoc.cc: use VdW radii with an effective ratio
 	of 40% when loading a cif file.

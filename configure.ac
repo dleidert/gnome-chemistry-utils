@@ -97,10 +97,10 @@ AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
 libgoffice=
 dnl Only 0.6.x, or later will work
-for ver in 8 7 6 ; do
+for ver in 0.8 0.6 ; do
   if test "x$libgoffice" = x; then
-    if pkg-config --exists libgoffice-0.$ver; then
-      libgoffice=libgoffice-0.$ver
+    if pkg-config --exists libgoffice-$ver; then
+      libgoffice=libgoffice-$ver
     fi
   fi
 done

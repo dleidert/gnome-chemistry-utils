@@ -367,24 +367,24 @@ unsigned Element::GetMaxBonds(gint Z)
 	return (Elt)? Elt->GetMaxBonds(): 0;
 }
 
-bool Element::GetRadius(GcuAtomicRadius* radius)
+bool Element::GetRadius (GcuAtomicRadius* radius)
 {
 	Element* Elt = Table[radius->Z];
 	if (!Elt || !Elt->m_radii.size ())
 		return false;
-	for (int i = 0; Elt->m_radii[i]; i++)
-	{
-		if (radius->type != Elt->m_radii[i]->type) continue;
-		if (radius->charge != Elt->m_radii[i]->charge) continue;
-		if ((radius->cn >= 0) &&(radius->cn != Elt->m_radii[i]->cn)) continue;
-		if ((radius->spin != GCU_N_A_SPIN) &&(radius->spin != Elt->m_radii[i]->spin)) continue;
-		if (!radius->scale)
-		{
+	for (int i = 0; Elt->m_radii[i]; i++) {
+		if (radius->type != Elt->m_radii[i]->type)
+			continue;
+		if (radius->charge != Elt->m_radii[i]->charge)
+			continue;
+		if ((radius->cn >= 0) &&(radius->cn != Elt->m_radii[i]->cn))
+			continue;
+		if ((radius->spin != GCU_N_A_SPIN) &&(radius->spin != Elt->m_radii[i]->spin))
+			continue;
+		if (!radius->scale) {
 			*radius = *Elt->m_radii[i];
 			return true;
-		}
-		else if (!strcmp(radius->scale, Elt->m_radii[i]->scale))
-		{
+		} else if (Elt->m_radii[i]->scale && !strcmp(radius->scale, Elt->m_radii[i]->scale)) {
 			radius->value = Elt->m_radii[i]->value;
 			return true;
 		}

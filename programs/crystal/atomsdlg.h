@@ -70,8 +70,8 @@ private:
 	gint m_AtomSelected;
 	GtkTreeIter m_Iter;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
-	GtkComboBox *RadiusTypeMenu, *RadiusMenu;
-	GtkSpinButton *ChargeBtn;
+	GtkComboBox *RadiusTypeMenu, *RadiusMenu, *ApplyBtn;
+	GtkSpinButton *ChargeBtn, *ScaleBtn;
 	const GcuAtomicRadius **m_Radii;
 	GcuAtomicRadius m_Radius;
 	gint m_RadiusType, m_Charge;

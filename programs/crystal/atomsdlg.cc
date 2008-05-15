@@ -47,6 +47,7 @@ struct AtomStruct {
 	unsigned short Elt;
 	double x, y, z;
 	GcuAtomicRadius Radius;
+	double EffectiveRadiusRatio;
 	bool CustomColor;
 	double Blue, Red, Green, Alpha;
 };
@@ -179,6 +180,7 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 		s.y = pAtom->y ();
 		s.z = pAtom->z();
 		s.Radius = pAtom->GetRadius ();
+		s.EffectiveRadiusRatio = pAtom->GetEffectiveRadiusRatio ();
 		if ((s.CustomColor = pAtom->HasCustomColor ()))
 			pAtom->GetColor (&s.Red, &s.Green, &s.Blue, &s.Alpha);
 		g_array_append_vals (m_Atoms, &s, 1);
@@ -205,6 +207,9 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 	m_RadiiSignalID = g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (on_radius_index_changed), this);
 	AtomR = (GtkEntry*) glade_xml_get_widget (xml, "atomr");
 	g_signal_connect (G_OBJECT (Selection), "changed", GTK_SIGNAL_FUNC (on_select), this);
+	ScaleBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "scale-btn");
+	ApplyBtn = (GtkComboBox *) glade_xml_get_widget (xml, "apply-to-box");
+	gtk_combo_box_set_active (ApplyBtn, 1);
 	m_RadiusType = m_Charge = 0;
 	m_Radii = NULL;
 	m_Radius.type = GCU_RADIUS_UNKNOWN;
@@ -237,6 +242,36 @@ bool gcAtomsDlg::Apply ()
 		if ((!GetNumber (AtomR, &(m_Radius.value.value), Min, 0)) || (m_Radius.value.value == 0.0)) {
 		} else
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Radius = m_Radius;
+		g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn) / 100.;
+		// now change the radii of other atoms if requested
+		switch (gtk_combo_box_get_active (ApplyBtn)) {
+		case 0: // element
+			for (unsigned i = 0; i  < m_Atoms->len; i++) {
+				if (i == (unsigned) m_AtomSelected)
+					continue;
+				struct AtomStruct *s = &g_array_index (m_Atoms, struct AtomStruct, i);
+				if (s->Elt != g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Elt)
+					continue;
+				s->Radius = m_Radius;
+				s->EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn) / 100.;
+			}
+			break;
+		case 2: { // all atoms if possible
+			GcuAtomicRadius Radius = m_Radius;
+			for (unsigned i = 0; i  < m_Atoms->len; i++) {
+				if (i == (unsigned) m_AtomSelected)
+					continue;
+				struct AtomStruct *s = &g_array_index (m_Atoms, struct AtomStruct, i);
+				Radius.Z = s->Elt;
+				if (Element::GetRadius (&Radius))
+					s->Radius = m_Radius;
+				s->EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn) / 100.;
+			}
+			break;
+		}
+		default: // just the selected atom: nothing to do
+			break;
+		}
 	}
 	CrystalAtomList* Atoms = m_pDoc->GetAtomList ();
 	//First, delete old atoms
@@ -255,6 +290,7 @@ bool gcAtomsDlg::Apply ()
 		if (s->CustomColor)
 			pAtom->SetColor ((float) s->Red, (float) s->Green, (float) s->Blue, (float) s->Alpha);
 		Atoms->push_back (pAtom);
+		pAtom->SetEffectiveRadiusRatio (s->EffectiveRadiusRatio);
 	}
 	m_pDoc->Update ();
 	m_pDoc->SetDirty (true);
@@ -276,6 +312,7 @@ void gcAtomsDlg::AtomAdd ()
 	s.CustomColor = gtk_toggle_button_get_active (CustomColor);
 	GetNumber (AtomR, &m_Radius.value.value);
 	s.Radius = m_Radius;
+	s.EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn);
 	g_array_append_vals (m_Atoms, &s, 1);
 	gtk_list_store_append (AtomList, &iter);
 	gtk_list_store_set (AtomList, &iter,
@@ -333,6 +370,36 @@ void gcAtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 		if ((!GetNumber (AtomR, &(m_Radius.value.value), Min, 0)) || (m_Radius.value.value == 0.0)) {
 		} else
 			g_array_index(m_Atoms, struct AtomStruct, m_AtomSelected).Radius = m_Radius;
+		g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn) / 100.;
+		// now change the radii of other atoms if requested
+		switch (gtk_combo_box_get_active (ApplyBtn)) {
+		case 0: // element
+			for (unsigned i = 0; i  < m_Atoms->len; i++) {
+				if (i == (unsigned) m_AtomSelected)
+					continue;
+				struct AtomStruct *s = &g_array_index (m_Atoms, struct AtomStruct, i);
+				if (s->Elt != g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Elt)
+					continue;
+				s->Radius = m_Radius;
+				s->EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn) / 100.;
+			}
+			break;
+		case 2: { // all atoms if possible
+			GcuAtomicRadius Radius = m_Radius;
+			for (unsigned i = 0; i  < m_Atoms->len; i++) {
+				if (i == (unsigned) m_AtomSelected)
+					continue;
+				struct AtomStruct *s = &g_array_index (m_Atoms, struct AtomStruct, i);
+				Radius.Z = s->Elt;
+				if (Element::GetRadius (&Radius))
+					s->Radius = m_Radius;
+				s->EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn) / 100.;
+			}
+			break;
+		}
+		default: // just the selected atom: nothing to do
+			break;
+		}
 	}
 	GtkTreeModel* model = GTK_TREE_MODEL (AtomList);
 	GtkTreePath *path;
@@ -353,6 +420,7 @@ void gcAtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 		} else {
 			gtk_toggle_button_set_active (CustomColor, false);
 		}
+		gtk_spin_button_set_value (ScaleBtn, g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).EffectiveRadiusRatio * 100.);
 		GcuAtomicRadius  r= g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Radius;
 		gtk_spin_button_set_value (ChargeBtn, r.charge);
 		gtk_combo_box_set_active (RadiusTypeMenu, (r.type == GCU_RADIUS_UNKNOWN)? 0: r.type - 1);		
