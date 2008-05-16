@@ -274,13 +274,18 @@ public:
 	*/
 	int GetIntegerProperty (char const *property_name);
 
+	/*!
+	@return true if the element is a metal, false otherwise.
+	*/
+	bool IsMetallic ();
+
 private:
 	unsigned char m_Z, m_nve, m_tve, m_maxve;
 	char m_Symbol[4];
 	DimensionalValue const *m_AtomicWeight;
 	char m_DefaultValence;
 	unsigned char m_MaxBonds;
-	bool m_BestSide;
+	bool m_BestSide, m_Metallic, m_MetallicCached;
 	double m_DefaultColor[3];
 	std::string name;
 	std::vector<GcuAtomicRadius*> m_radii;

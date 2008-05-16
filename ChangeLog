@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-05-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: don't add hydrogens to metals.
+	* libs/gcu/element.cc: add Element::IsMetallic.
+	* libs/gcu/element.h: ditto.
+
 2008-05-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: enhanced goffice detection.
 	* glade/crystal/atoms.glade: add new radii related controls

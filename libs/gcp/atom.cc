@@ -241,7 +241,7 @@ void Atom::Update ()
 		electron = (Electron*) GetNextChild (i);
 	}
 	int nbonds = GetTotalBondsNumber ();
-	if (m_Valence > 0) {
+	if (m_Valence > 0 && !m_Element->IsMetallic ()) {
 		m_nlp = (m_Element->GetValenceElectrons () - m_Valence) / 2;
 		if ((m_Charge > 0) && (m_nlp > 0)) m_nlp -= (m_Charge + 1) / 2;
 		else if (m_Charge < 0)

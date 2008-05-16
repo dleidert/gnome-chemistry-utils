@@ -79,10 +79,6 @@ private:
 	map <string, Element*> EltsMap;
 };
 
-} // namespace gcu
-
-using namespace gcu;
-
 EltTable Table;
 
 EltTable::EltTable()
@@ -217,53 +213,26 @@ void EltTable::AddElement(Element* Elt)
 }
 
 Element::Element(int Z, const char* Symbol):
-	m_AtomicWeight (NULL)
+	m_AtomicWeight (NULL),
+	m_MetallicCached (false)
 {
 	m_Z = Z;
 	strncpy(m_Symbol, Symbol, 3);
 	m_Symbol[3] = 0;
 	m_MaxBonds = 0;
 	m_BestSide = true;
-/*	switch (m_Z)
+	switch (m_Z)
 	{
-		case 6:
-		case 14:
-		case 32:
-			m_DefaultValence = 4;
-			break;
-		case 5:
-		case 7:
-		case 13:
-		case 15:
-		case 33:
-		case 51:
-			m_DefaultValence = 3;
-			break;
 		case 8:
 		case 16:
 		case 34:
 		case 52:
-			m_BestSide = false;
-		case 4:
-			m_DefaultValence = 2;
-			break;
 		case 9:
 		case 17:
 		case 35:
 		case 53:
 			m_BestSide = false;
-			m_DefaultValence = 1;
-			break;
-		case 2:
-		case 10:
-		case 28:
-		case 36:
-		case 54:
-			m_DefaultValence = 0;
-			break;
-		default:
-			m_DefaultValence = -1;
-	}*/
+	}
 	m_DefaultColor[0] = m_DefaultColor[1] = m_DefaultColor[2] = 0.0;
 	if (m_Z <= 2) {
 		m_nve = m_tve = m_Z;
@@ -1034,3 +1003,22 @@ DimensionalValue const *Element::GetWeight ()
 		m_AtomicWeight = dynamic_cast<DimensionalValue const*> (props["mass"]);
 	return m_AtomicWeight;
 }
+
+bool Element::IsMetallic ()
+{
+	if (!m_MetallicCached) {
+		LoadRadii ();
+		GcuAtomicRadius r;
+		r.Z = m_Z;
+		r.type = GCU_METALLIC;
+		r.charge = 0;
+		r.spin = GCU_N_A_SPIN;
+		r.cn = -1;
+		r.scale = NULL;
+		m_Metallic = GetRadius (&r) || (m_Z > 99 && m_Z < 118);
+		m_MetallicCached = true;
+	}
+	return m_Metallic;
+}
+
+} // namespace gcu
