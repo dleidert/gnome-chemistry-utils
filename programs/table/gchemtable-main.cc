@@ -38,10 +38,14 @@ int main (int argc, char *argv[])
 	gtk_init (&argc, &argv);
 	gnome_vfs_init ();
 
-	new GChemTableApp ();
+	GChemTableApp *app = new GChemTableApp ();
 	/* Initialize plugins manager */
-	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
+	GSList *l = NULL;
+	l = g_slist_append (l, (void *) "GOffice_plot_xy");
+	go_plugins_init (NULL, NULL, l, NULL, FALSE, GO_PLUGIN_LOADER_MODULE_TYPE);
+	g_slist_free (l);
 
 	gtk_main();
+	delete app;
 	return 0;
 }

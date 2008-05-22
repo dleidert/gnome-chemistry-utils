@@ -24,6 +24,8 @@
 
 #include "config.h"
 #include "gchemtable-app.h"
+#include "gchemtable-curve.h"
+#include "gchemtable-data.h"
 #include "gchemtable-elt.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
@@ -43,7 +45,12 @@ static void on_quit (GtkWidget *widget, void *data)
 	gtk_main_quit();
 }
 
-void on_no_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_new_chart (GtkWidget *widget, GChemTableApp *App)
+{
+	App->OnNewChart ();
+}
+
+static void on_no_colors (GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("none");
 }
@@ -53,12 +60,12 @@ void on_default_colors (GtkWidget *widget, GChemTableApp *App)
 	App->SetColorScheme ("default");
 }
 
-void on_state_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_state_colors (GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("state");
 }
 
-void on_family_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_family_colors (GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("family");
 }
@@ -73,12 +80,12 @@ void on_electroneg_colors (GtkWidget *widget, GChemTableApp *App)
 	App->SetColorScheme ("electroneg");
 }
 
-void on_radius_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_radius_colors (GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("radius");
 }
 
-void on_block_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_block_colors (GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("block");
 }
@@ -116,13 +123,15 @@ static void on_about (GtkWidget *widget, GChemTableApp *app)
 	app->OnAbout ();
 }
 
-void on_changed (GtkPeriodic* periodic, guint Z, GChemTableApp *app)
+static void on_changed (GtkPeriodic* periodic, guint Z, GChemTableApp *app)
 {
 	app->OnElement (Z);
 }
 
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File") },
+	  { "NewChart", NULL, N_("New _Chart"), "<control>N",
+		  N_("Create a new chart"), G_CALLBACK (on_new_chart) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemTable"), G_CALLBACK (on_quit) },
   { "ViewMenu", NULL, N_("_View") },
@@ -166,6 +175,9 @@ static const char *ui_description =
 "<ui>"
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"
+"	   <separator name='file-sep1'/>"
+"      <menuitem action='NewChart'/>"
+"	   <separator name='file-sep2'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
@@ -220,12 +232,12 @@ static void get_state_color (int Z, GdkColor *color, GChemTableApp *App)
 	App->GetStateColor (Z, color);
 }
 
-void on_changed_temp (GtkRange *range, GChemTableApp *app)
+static void on_changed_temp (GtkRange *range, GChemTableApp *app)
 {
 	app->SetTemperature (gtk_range_get_value (range));
 }
 
-void on_changed_family (GtkComboBox *box,  GChemTableApp *app)
+static void on_changed_family (GtkComboBox *box,  GChemTableApp *app)
 {
 	app->SetFamily (gtk_combo_box_get_active (box));
 }
@@ -339,10 +351,13 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
 	GtkWidget *blocklegend = glade_xml_get_widget (blockxml, "block-legend");
 	colorschemes["block"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_block_color, blocklegend, this);
 	gtk_widget_show_all (blocklegend);
+	gct_data_init ();
+
 }
 
 GChemTableApp::~GChemTableApp ()
 {
+	gct_data_clear ();
 }
 
 void GChemTableApp::OnAbout ()
@@ -646,4 +661,9 @@ void GChemTableApp::GetBlockColor (int Z, GdkColor *color)
 		color->red = 0x8eff;
 		return;
 	}
+}
+
+void GChemTableApp::OnNewChart ()
+{
+	new GChemTableCurve (this, NULL);
 }

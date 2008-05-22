@@ -23,9 +23,10 @@
 #include "config.h"
 #include "gchemtable-data-allocator.h"
 #include "gchemtable-curve.h"
+#include "gchemtable-data.h"
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-series.h>
+#include <goffice/graph/gog-plot-impl.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkentry.h>
 #include <gsf/gsf-impl-utils.h>
@@ -118,7 +119,32 @@ gct_data_allocator_editor (GogDataAllocator *dalloc,
 	editor->data_type	= data_type;
 					
 	if (IS_GOG_SERIES (dataset)) {
+		GogPlot *plot = gog_series_get_plot (GOG_SERIES (dataset));
+		if (plot->desc.series.dim[dim_i].priority == GOG_SERIES_ERRORS) {
+			// FIXME: we might know the errors
+			editor->box = gtk_label_new (_("Not supported"));
+			g_object_set_data_full (G_OBJECT (editor->box),
+				"editor", editor, (GDestroyNotify) graph_dim_editor_free);
+			return editor->box;
+		}
 		editor->box = gtk_combo_box_new_text ();
+		GOData *data = gog_dataset_get_dim (dataset, dim_i), *cur;
+		int i = 1, sel = 0;
+		GtkComboBox *box = GTK_COMBO_BOX (editor->box);
+		gtk_combo_box_append_text (box, _("None"));
+		if (data_type == GOG_DATA_VECTOR) {
+			void *closure = NULL;
+			char const *entry = gct_data_vector_get_first (&cur, &closure);
+			while (entry)  {
+				gtk_combo_box_append_text (box, entry);
+				if (cur == data)
+					sel = i;
+				i++;
+				g_object_unref (cur);
+				entry = gct_data_vector_get_next (&cur, &closure);
+			};
+		}
+		gtk_combo_box_set_active (box, sel);
 	} else {
 		editor->box = gtk_entry_new ();
 		g_signal_connect (G_OBJECT (editor->box),

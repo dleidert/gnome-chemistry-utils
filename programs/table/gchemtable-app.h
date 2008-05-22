@@ -52,6 +52,7 @@ public:
 	void GetElectronegColor (int Z, GdkColor *color);
 	void GetRadiusColor (int Z, GdkColor *color);
 	void GetBlockColor (int Z, GdkColor *color);
+	void OnNewChart ();
 
 private:
 	Dialog *Pages[118];

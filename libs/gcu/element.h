@@ -92,13 +92,6 @@ public:
 	*/
 	static Element* GetElement (const gchar* symbol);
 	/*!
-	@param Z: the atomic number of a chemical element.
-	@param prec: receive the number of significant digits.
-
-	@return the atomic mass of the element.
-	*/
-	double  GetWeight (int Z, int &prec);
-	/*!
 	@param radius: a pointer to a GcuAtomicRadius structure.
 	
 	Before calling this function, most fields in the GcuAtomicRadius structure must be filled:

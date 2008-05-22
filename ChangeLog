@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2008-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/element.h: removed obsolete prototype.
+	* programs/table/gchemtable-app.cc: add a "New chart" menu item.
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: use vector type data list.
+	* programs/table/gchemtable-data.cc: build vector type data list.
+	* programs/table/gchemtable-data.h: ditto.
+	* programs/table/gchemtable-main.cc: only allow scatter plots (does not
+	really work because of a goffice bug).
+
 2008-05-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: don't add hydrogens to metals.
 	* libs/gcu/element.cc: add Element::IsMetallic.

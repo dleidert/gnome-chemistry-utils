@@ -2,8 +2,7 @@
 	* add more data using bodr (?).
 	* add crystal structures (? needs reliable crystal structures in bodr).
 	* allow plotting any property againt another one, i.e. ei vs vdw radius (0.10).
-	* allow charts customization (needs a new dialog, goffice one being
-	unusable in this context) (0.10).
+	* allow charts customization (0.10).
 	* write help (0.10).
 
 * Calculator:

@@ -34,6 +34,8 @@ typedef struct _GctDataScalar GctDataScalar;
 #define IS_GCT_DATA_SCALAR(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GCT_DATA_SCALAR_TYPE))
 
 GType gct_data_scalar_get_type ();
+void gct_data_scalar_new (char const *name, void (*loader) (double *value));
+GOData *gct_data_scalar_get_from_name (char const *name);
 
 typedef struct _GctDataVector GctDataVector;
 
@@ -42,6 +44,10 @@ typedef struct _GctDataVector GctDataVector;
 #define IS_GCT_DATA_VECTOR(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GCT_DATA_VECTOR_TYPE))
 
 GType gct_data_vector_get_type ();
+void gct_data_vector_new (char const *name, void (*loader) (double **values, int *length));
+GOData *gct_data_vector_get_from_name (char const *name);
+char const *gct_data_vector_get_first (GOData **data, gpointer *closure);
+char const *gct_data_vector_get_next (GOData **data, gpointer *closure);
 
 typedef struct _GctDataMatrix GctDataMatrix;
 
@@ -50,6 +56,11 @@ typedef struct _GctDataMatrix GctDataMatrix;
 #define IS_GCT_DATA_MATRIX(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GCT_DATA_MATRIX_TYPE))
 
 GType gct_data_matrix_get_type ();
+void gct_data_matrix_new (char const *name, void (*loader) (double **values, int *cols, int *rows));
+GOData *gct_data_matrix_get_from_name (char const *name);
+
+void gct_data_init (void);
+void gct_data_clear (void);
 
 G_END_DECLS
 

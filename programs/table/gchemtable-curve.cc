@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "gchemtable-curve.h"
+#include "gchemtable-data.h"
 #include "gchemtable-data-allocator.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
@@ -294,7 +295,6 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	Dialog (App, GLADEDIR"/curve.glade", "curvedlg"),
 	Printable ()
 {
-	m_Name = name;
 	m_GraphBox = glade_xml_get_widget (xml, "vbox1");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
@@ -323,9 +323,15 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	gtk_widget_set_size_request (m_GraphWidget, 400, 250);
 	gtk_widget_show (m_GraphWidget);
 	gtk_box_pack_end (GTK_BOX (m_GraphBox), m_GraphWidget, TRUE, TRUE, 0);
+	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_GraphWidget));
 	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_GraphWidget));
+	if (!name) {
+		OnProperties ();
+		return;
+	}
 	GogPlot *plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
+	m_Name = name;
 	// Create a series for the plot and populate it with some simple data
 	GogSeries *series = gog_plot_new_series (plot);
 	double *yvals = g_new0 (double, MAX_ELT);
@@ -504,13 +510,13 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MAX, data, &error);
 	data = go_data_vector_val_new (yvals, MAX_ELT, g_free);
 	gog_series_set_dim (series, 1, data, &error);
+	gog_series_set_dim (series, 0, gct_data_vector_get_from_name (_("Atomic number")), &error);
 	obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 			gog_object_find_role_by_name (GOG_OBJECT (chart), "X-Axis"));
 	data = go_data_scalar_str_new ("Z", FALSE);
 	label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 	gog_object_add_by_name (obj, "Label", label);
-	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_GraphWidget));
 }
 
 GChemTableCurve::~GChemTableCurve ()
@@ -591,9 +597,9 @@ void GChemTableCurve::OnProperties ()
 	gct_control_gui_set_owner (tcg, this);
 	GClosure *closure = g_cclosure_new (G_CALLBACK (on_update_graph), tcg,
 					(GClosureNotify) graph_user_config_free_data);
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), 
-								  GTK_WINDOW (gog_guru (m_Graph, GOG_DATA_ALLOCATOR (tcg),
-		      											NULL, closure)));
+	GtkWidget *guru = gog_guru (m_Graph, GOG_DATA_ALLOCATOR (tcg), NULL, closure);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (guru));
+	gtk_widget_show (guru);
 	g_closure_sink (closure);
 }
 
