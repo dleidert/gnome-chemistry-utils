@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-05-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-data-allocator.cc: data can now be changed.
+	* programs/table/gchemtable-main.cc: allow linear regressions.
+
 2008-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/element.h: removed obsolete prototype.
 	* programs/table/gchemtable-app.cc: add a "New chart" menu item.

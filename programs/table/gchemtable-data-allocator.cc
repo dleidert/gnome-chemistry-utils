@@ -105,6 +105,14 @@ graph_dim_editor_free (GraphDimEditor *editor)
 	g_free (editor);
 }
 
+static void on_vector_data_changed (GtkComboBox *box, GraphDimEditor *editor)
+{
+	char *name = gtk_combo_box_get_active_text (box);
+	GOData *data = gct_data_vector_get_from_name (name);
+	gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
+	g_free (name);
+}
+
 static gpointer
 gct_data_allocator_editor (GogDataAllocator *dalloc,
 			    GogDataset *dataset, int dim_i, GogDataType data_type)
@@ -145,6 +153,8 @@ gct_data_allocator_editor (GogDataAllocator *dalloc,
 			};
 		}
 		gtk_combo_box_set_active (box, sel);
+		g_signal_connect (G_OBJECT (editor->box), "changed",
+						  G_CALLBACK (on_vector_data_changed), editor);
 	} else {
 		editor->box = gtk_entry_new ();
 		g_signal_connect (G_OBJECT (editor->box),
@@ -167,9 +177,9 @@ gct_data_allocator_editor (GogDataAllocator *dalloc,
 		g_free (txt);*/
 	}
 
-	g_signal_connect (G_OBJECT (editor->box),
+/*	g_signal_connect (G_OBJECT (editor->box),
 		"changed",
-		G_CALLBACK (on_graph_dim_editor_changed), editor);
+		G_CALLBACK (on_graph_dim_editor_changed), editor);*/
 /*	g_signal_connect (G_OBJECT (editor->entry),
 		"activate",
 		G_CALLBACK (on_graph_dim_editor_update), editor);
