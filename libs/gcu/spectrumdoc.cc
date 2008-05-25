@@ -1614,6 +1614,13 @@ void SpectrumDocument::OnUnitChanged (int i)
 		gog_series_set_dim (series, 0, godata, NULL);
 		m_View->SetAxisBounds (GOG_AXIS_X, variables[i].Min, variables[i].Max, invert_axis);
 		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[variables[i].Unit]));
+		if (integral > 0) {
+			g_object_ref (godata);
+		}
+	}
+	if (integral > 0) {
+		g_object_ref (godata);
+		gog_series_set_dim (variables[integral].Series, 0, godata, NULL);
 	}
 }
 
@@ -1671,7 +1678,7 @@ void SpectrumDocument::OnShowIntegral ()
 			double max, delta;
 			unsigned used = 0;
 			go_range_max (z, v.NbValues, &max);
-			max *= 0.001;
+			max *= 0.005;
 			v.Values[0] = 0.;
 			for (i = 1; i < v.NbValues; i++) {
 				delta = 0.5 * (z[i - 1] + z[i]);
@@ -1688,13 +1695,13 @@ void SpectrumDocument::OnShowIntegral ()
 			}
 			go_regression_stat_t reg;
 			double res[6];
-			go_linear_regression (xn, 3, yb, used, true, res, &reg);
+			go_linear_regression (xn, 5, yb, used, true, res, &reg);
 			for (i = 0; i < v.NbValues; i++) {
 				cur = xo[i];
 				acc = cur * cur;
 				v.Values[i] -= res[0] + res[1] * cur + res[2] * acc;
-				v.Values[i] -= res[3] * (cur *= acc);
-				v.Values[i] -= res[4] * (cur *= acc);
+				v.Values[i] -= res[3] * (acc *= cur);
+				v.Values[i] -= res[4] * (acc *= cur);
 				v.Values[i] -= res[5] * cur * acc;
 			}
 			g_free (reg.se);

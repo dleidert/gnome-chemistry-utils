@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: fixed integration.
+
 2008-05-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/table/gchemtable-data-allocator.cc: data can now be changed.
 	* programs/table/gchemtable-main.cc: allow linear regressions.
