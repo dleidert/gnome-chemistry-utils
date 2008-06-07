@@ -106,7 +106,7 @@ void SpectrumView::SetAxisBounds (GogAxisType target, double min, double max, bo
 	gog_axis_set_bounds (axis, min, max);
 	g_object_set (axis, "invert-axis", inverted, NULL);
 	if (target == GOG_AXIS_X) {
-		double l = log (fabs (max - min));
+		double l = log10 (fabs (max - min));
 		int n = (l < 3)? rint (3 - l): 0;
 		xstep = pow (10., -n);
 		g_signal_handler_block (xminbtn, minsgn); 
