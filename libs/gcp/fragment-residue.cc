@@ -83,7 +83,7 @@ bool FragmentResidue::Load (xmlNodePtr node)
 	if (!buf || !strlen (buf))
 		return false;
 	child = child->next;
-	if (strcmp ((const char*) child->name, "molecule")) {
+	if (child && strcmp ((const char*) child->name, "molecule")) {
 		xmlFree ((xmlChar*) buf);
 		return false;
 	}

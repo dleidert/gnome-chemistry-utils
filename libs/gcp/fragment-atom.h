@@ -60,6 +60,8 @@ Adds the fragment containing the atom to the molecule calling gcpMolecule::AddFr
 	void AddToMolecule (Molecule* Mol);
 	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
 
+	void DoBuildSymbolGeometry (View *pView);
+
 GCU_RO_POINTER_PROP (Fragment, Fragment)
 };
 

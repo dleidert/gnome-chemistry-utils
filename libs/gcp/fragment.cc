@@ -295,8 +295,6 @@ void Fragment::Add (GtkWidget* w) const
 						"y1", m_y * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_ascent + m_CHeight,
 						"x2", m_x * pTheme->GetZoomFactor () + m_length + pTheme->GetPadding () - m_lbearing,
 						"y2", m_y * pTheme->GetZoomFactor () + m_height + pTheme->GetPadding () - m_ascent + m_CHeight,
-						"fill_color", "white",
-						"outline_color", "white",
 						NULL);
 	g_object_set_data (G_OBJECT (group), "rect", item);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
@@ -392,6 +390,7 @@ void Fragment::Add (GtkWidget* w) const
 		g_object_set_data (G_OBJECT (group), "sign", item);
 	}
 	pData->Items[this] = group;
+	const_cast <FragmentAtom *> (m_Atom)->DoBuildSymbolGeometry (pData->m_View);
 }
 
 void Fragment::SetSelected (GtkWidget* w, int state)
@@ -401,7 +400,7 @@ void Fragment::SetSelected (GtkWidget* w, int state)
 	gchar const *chargecolor, *color;
 	switch (state) {	
 	case SelStateUnselected:
-		color = "white";
+		color = NULL;
 		chargecolor = "black";
 		break;
 	case SelStateSelected:
@@ -414,7 +413,7 @@ void Fragment::SetSelected (GtkWidget* w, int state)
 		chargecolor = color = DeleteColor;
 		break;
 	default:
-		color = "white";
+		color = NULL;
 		chargecolor = "black";
 		break;
 	}
@@ -587,6 +586,7 @@ void Fragment::Update (GtkWidget* w) const
 			g_object_set_data ((GObject*) group, "charge", NULL);
 		}
 	}
+	const_cast <FragmentAtom *> (m_Atom)->DoBuildSymbolGeometry (pData->m_View);
 }
 
 xmlNodePtr Fragment::Save (xmlDocPtr xml) const

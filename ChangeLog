@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2008-06-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: do not draw a white rectangle under the atom anymore.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/fragment-atom.cc: ditto.
+	* libs/gcp/fragment-atom.h: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/fragment-residue.cc: fix a crasher.
+	* libs/gcu/application.cc: add missing spaces.
+	* libs/gcu/element.cc: abort when the database can't be loaded.
+
 2008-06-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumview.cc: fixed number of decimals in X-axis limits.
 

@@ -285,7 +285,7 @@ bool Application::Load (std::string const &uri, const gchar *mime_type, Document
 	if (!l)
 		return false;
 	string old_num_locale = setlocale (LC_NUMERIC, NULL);
-	setlocale(LC_NUMERIC, "C");
+	setlocale (LC_NUMERIC, "C");
 	GError *error = NULL;
 	GsfInput *input = gsf_input_gio_new_for_uri (uri.c_str (), &error);
 	if (error) {
@@ -306,7 +306,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 	if (!l)
 		return false;
 	string old_num_locale = setlocale (LC_NUMERIC, NULL);
-	setlocale(LC_NUMERIC, "C");
+	setlocale (LC_NUMERIC, "C");
 	GError *error = NULL;
 	GsfOutput *output = gsf_output_gio_new_for_uri (uri.c_str (), &error);
 	if (error) {

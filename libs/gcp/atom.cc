@@ -367,11 +367,12 @@ void Atom::Add (GtkWidget* w) const
 		pango_layout_set_text (m_Layout, symbol, sw);
 		pango_layout_get_extents (m_Layout, &rect, NULL);
 		const_cast <Atom *> (this)->m_width += rect.width / PANGO_SCALE;
-		const_cast <Atom *> (this)->m_SWidth = (double) rect.width / PANGO_SCALE / 2.;
+		const_cast <Atom *> (this)->BuildSymbolGeometry ((double) rect.width / PANGO_SCALE, (double) rect.height / PANGO_SCALE, m_ascent - (double) rect.y / PANGO_SCALE - m_CHeight);
+/*			m_SWidth = (double) rect.width / PANGO_SCALE / 2.;
 		const_cast <Atom *> (this)->m_SHeightH = m_ascent - (double) rect.y / PANGO_SCALE - m_CHeight;
 		const_cast <Atom *> (this)->m_SHeightL = (double) rect.height / PANGO_SCALE - m_SHeightH;
 		const_cast <Atom *> (this)->m_SAngleH = atan2 (m_SHeightH, m_SWidth);
-		const_cast <Atom *> (this)->m_SAngleL = atan2 (m_SHeightL, m_SWidth);
+		const_cast <Atom *> (this)->m_SAngleL = atan2 (m_SHeightL, m_SWidth);*/
 		int n = GetAttachedHydrogens ();
 		if (n > 0) {
 			if (n > 1) {
@@ -1767,7 +1768,7 @@ bool Atom::Match (gcu::Atom *atom, AtomMatchState &state)
 	return gcu::Atom::Match (atom, state);
 }
 
-void Atom::GetSymbolGeometry (double &width, double &height, double &angle, bool up)
+void Atom::GetSymbolGeometry (double &width, double &height, double &angle, bool up) const
 {
 	if ((GetZ() != 6) || (GetBondsNumber () == 0) || m_ShowSymbol) {
 		width = m_SWidth;
@@ -1780,6 +1781,15 @@ void Atom::GetSymbolGeometry (double &width, double &height, double &angle, bool
 		}
 	} else
 		width = height  = angle = 0.;
+}
+
+void Atom::BuildSymbolGeometry (double width, double height, double ascent)
+{
+	m_SWidth = width / 2.;
+	m_SHeightH = ascent;
+	m_SHeightL = height - m_SHeightH;
+	m_SAngleH = atan2 (m_SHeightH, m_SWidth);
+	m_SAngleL = atan2 (m_SHeightL, m_SWidth);
 }
 
 

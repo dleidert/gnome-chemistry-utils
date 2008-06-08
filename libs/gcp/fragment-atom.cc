@@ -26,6 +26,7 @@
 #include "fragment-atom.h"
 #include "fragment.h"
 #include "molecule.h"
+#include "view.h"
 #include <gcu/element.h>
 #include <cstring>
 
@@ -43,6 +44,7 @@ FragmentAtom::FragmentAtom (Fragment *fragment, int Z): Atom ()
 	m_Fragment = fragment;
 	SetZ (Z);
 	SetId ("a1");
+	BuildSymbolGeometry (0,0,0);
 }
 
 FragmentAtom::~FragmentAtom () {}
@@ -57,6 +59,7 @@ void FragmentAtom::SetZ (int Z)
 	if (Z != 0)
 		m_Fragment->OnChangeAtom ();
 	setting = false;
+	BuildSymbolGeometry (0,0,0);
 }
 
 /*!
@@ -257,6 +260,26 @@ void FragmentAtom::Update ()
 bool FragmentAtom::Match (gcu::Atom *atom, AtomMatchState &state)
 {
 	return false; // not supported at the moment
+}
+
+void FragmentAtom::DoBuildSymbolGeometry (View *pView)
+{
+	// Building atom geometry if necessary
+	double ascent, x;
+	GetSymbolGeometry (ascent, x, x, false);
+	if (ascent == 0.) {
+		PangoContext* pc = pView->GetPangoContext ();
+		PangoLayout *layout = pango_layout_new (pc);
+		pango_layout_set_font_description (layout, pView->GetPangoFontDesc ());
+		pango_layout_set_text (layout, GetSymbol (), -1);
+		PangoLayoutIter* iter = pango_layout_get_iter (layout);
+		ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		pango_layout_iter_free (iter);
+		PangoRectangle rect;
+		pango_layout_get_extents (layout, &rect, NULL);
+		BuildSymbolGeometry ((double) rect.width / PANGO_SCALE, (double) rect.height / PANGO_SCALE, ascent - (double) rect.y / PANGO_SCALE - m_CHeight);
+		g_object_unref (G_OBJECT (layout));
+	}
 }
 
 }	//	namespace gcp

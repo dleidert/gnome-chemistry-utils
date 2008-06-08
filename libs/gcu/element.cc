@@ -99,21 +99,24 @@ EltTable::EltTable()
 	Langs["it"] = _("Italian");
 	Langs["pl"] = _("Polish");
 	Langs["ru"] = _("Russian");
-	if (!(xml = xmlParseFile (PKGDATADIR"/elements.xml")))
-	{
+	if (!(xml = xmlParseFile (PKGDATADIR"/elements.xml"))) {
 		g_error (_("Can't find and read elements.xml"));
 	}
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: elements.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) {
+		g_error (_("Incorrect file format: elements.xml"));
+	}
 	node = node->children;
 	Element* Elt;
 	while (node)
 	{
 		if (strcmp ((const char*) node->name, "text"))
 		{
-			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: elements.xml"));
+			if (strcmp ((const char*) node->name, "element")) {
+				g_error (_("Incorrect file format: elements.xml"));
+			}
 			buf = (char*) xmlGetProp (node, (xmlChar*) "symbol");
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = new Element (Z = atoi (num), buf);
@@ -399,14 +402,15 @@ void Element::LoadRadii ()
 	if (loaded)
 		return;
 	LoadBODR ();
-	if (!(xml = xmlParseFile (PKGDATADIR"/radii.xml")))
-	{
+	if (!(xml = xmlParseFile (PKGDATADIR"/radii.xml"))) {
 		g_error (_("Can't find and read radii.xml"));
 	}
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: radii.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) {
+		g_error (_("Incorrect file format: radii.xml"));
+	}
 	node = node->children;
 	Element* Elt;
 	set<string>::iterator it = units.find ("pm");
@@ -417,7 +421,9 @@ void Element::LoadRadii ()
 	while (node) {
 		if (strcmp ((const char*) node->name, "text"))
 		{
-			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: radii.xml"));
+			if (strcmp ((const char*) node->name, "element")) {
+				g_error (_("Incorrect file format: radii.xml"));
+			}
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];
 			if (!Elt) {
@@ -479,8 +485,9 @@ void Element::LoadRadii ()
 						xmlFree (buf);
 					} else
 						delete radius;
-				} else
+				} else {
 					g_error ("Invalid radius node");
+				}
 				child = child->next;
 			}
 			Elt->m_radii.push_back (NULL);
@@ -502,19 +509,22 @@ void Element::LoadElectronicProps ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (PKGDATADIR"/elecprops.xml")))
-	{
+	if (!(xml = xmlParseFile (PKGDATADIR"/elecprops.xml"))) {
 		g_error (_("Can't find and read elecprops.xml"));
 	}
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: elecprops.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) {
+		g_error (_("Incorrect file format: elecprops.xml"));
+	}
 	node = node->children;
 	Element* Elt;
 	while (node) {
 		if (strcmp ((const char*) node->name, "text")) {
-			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: elecprops.xml"));
+			if (strcmp ((const char*) node->name, "element")) {
+				g_error (_("Incorrect file format: elecprops.xml"));
+			}
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];
 			child = node->children;
@@ -638,8 +648,9 @@ void Element::LoadElectronicProps ()
 						xmlFree (buf);
 					} else
 						Elt->m_ae[rank].unit = "kJ.mol<sup>-1</sup>";
-				} else
+				} else {
 					g_error ("Invalid property node");
+				}
 				child = child->next;
 			}
 			Elt->m_en.push_back (NULL);
@@ -660,21 +671,24 @@ void Element::LoadIsotopes ()
 	static bool loaded = false;
 	if (loaded)
 		return;
-	if (!(xml = xmlParseFile (PKGDATADIR"/isotopes.xml")))
-	{
+	if (!(xml = xmlParseFile (PKGDATADIR"/isotopes.xml"))) {
 		g_error (_("Can't find and read isotopes.xml"));
 	}
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
-	if (strcmp ((const char*) node->name, "gpdata")) g_error (_("Incorrect file format: isotopes.xml"));
+	if (strcmp ((const char*) node->name, "gpdata")) {
+		g_error (_("Incorrect file format: isotopes.xml"));
+	}
 	node = node->children;
 	Element *Elt;
 	Isotope *Is;
 	int minA, maxA, niso;
 	while (node) {
 		if (strcmp ((const char*) node->name, "text")) {
-			if (strcmp ((const char*) node->name, "element")) g_error (_("Incorrect file format: isotopes.xml"));
+			if (strcmp ((const char*) node->name, "element")) {
+				g_error (_("Incorrect file format: isotopes.xml"));
+			}
 			minA = maxA = niso = 0;
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];

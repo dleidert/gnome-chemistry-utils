@@ -137,10 +137,13 @@ public :
 Used to retrieve the size of the ink rectangle of the atom symbol (if displayed).
 @angle is absolute value of the angle between an horizontal line and the line joining
 the center and the top left or the bottom left vertex.
-The returned width valueis actually half the full width. Height is the height.
+The returned width value is actually half the full width. Height is the height.
 This method is used to avoid bonds lines extyending over their atoms symbols.
 */
-	void GetSymbolGeometry (double &width, double &height, double &angle, bool up);
+	void GetSymbolGeometry (double &width, double &height, double &angle, bool up) const;
+
+protected:
+	virtual void BuildSymbolGeometry (double width, double height, double ascent);
 
 private:
 	void BuildItems (WidgetData* pData);
@@ -160,7 +163,6 @@ private:
 	int m_Changed; //update needs regenerate the buffer
 	int m_ascent;
 	double m_lbearing;
-	double m_CHeight;
 	unsigned char m_AvailPos; //available standard positions for charge and electrons representations
 	unsigned char m_OccupiedPos;
 	bool m_AvailPosCached;
@@ -176,6 +178,9 @@ private:
 	bool m_DrawCircle;
 	std::string m_FontName;
 	double m_SWidth, m_SHeightH, m_SHeightL, m_SAngleH, m_SAngleL;
+
+protected:
+	double m_CHeight;
 
 GCU_PROP (bool, ShowSymbol)
 GCU_PROP (unsigned char, HPosStyle) //0=force left, 1=force right, 2=auto.
