@@ -141,6 +141,7 @@ Application::~Application ()
 	g_object_unref (m_RecentManager);
 	Apps.erase (this);
 	if (Apps.empty ()) {
+		ClearDialogs (); // needed to cleanly stop goffice
 #ifdef HAVE_GO_CONF_SYNC
 		go_conf_free_node (m_ConfDir);
 		m_ConfDir = NULL;

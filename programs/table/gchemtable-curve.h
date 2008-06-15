@@ -55,7 +55,7 @@ public:
 private:
 	std::string m_Name;
 	GogGraph *m_Graph;
-	GtkWidget *m_GraphWidget, *m_GraphBox;
+	GtkWidget *m_GraphWidget, *m_GraphBox, *m_Guru;
 };
 
 #endif	// GCHEMTABLE_CURVE_H

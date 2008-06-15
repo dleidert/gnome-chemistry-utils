@@ -293,7 +293,8 @@ static const char *ui_web_description =
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	Dialog (App, GLADEDIR"/curve.glade", "curvedlg"),
-	Printable ()
+	Printable (),
+	m_Guru (NULL)
 {
 	m_GraphBox = glade_xml_get_widget (xml, "vbox1");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
@@ -521,6 +522,8 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 
 GChemTableCurve::~GChemTableCurve ()
 {
+	if (m_Guru)
+		gtk_widget_destroy (m_Guru);
 	curves.erase (m_Name);
 }
 
@@ -597,9 +600,9 @@ void GChemTableCurve::OnProperties ()
 	gct_control_gui_set_owner (tcg, this);
 	GClosure *closure = g_cclosure_new (G_CALLBACK (on_update_graph), tcg,
 					(GClosureNotify) graph_user_config_free_data);
-	GtkWidget *guru = gog_guru (m_Graph, GOG_DATA_ALLOCATOR (tcg), NULL, closure);
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (guru));
-	gtk_widget_show (guru);
+	m_Guru = gog_guru (m_Graph, GOG_DATA_ALLOCATOR (tcg), NULL, closure);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (m_Guru));
+	gtk_widget_show (m_Guru);
 	g_closure_sink (closure);
 }
 

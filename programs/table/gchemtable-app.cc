@@ -40,8 +40,9 @@
 #include <cstdlib>
 #include <cstring>
 
-static void on_quit (GtkWidget *widget, void *data)
+static void on_quit (GtkWidget *widget, GChemTableApp *App)
 {
+	delete App;
 	gtk_main_quit();
 }
 
@@ -267,16 +268,21 @@ static void get_block_color (int Z, GdkColor *color, GChemTableApp *App)
 	App->GetBlockColor (Z, color);
 }
 
-// FIXME "the following line should be edited for stable releases"
-GChemTableApp::GChemTableApp (): Application ("gchemtable-unstable")
+static void on_destroy (GChemTableApp *App)
+{
+	delete App;
+	gtk_main_quit ();
+}
+
+GChemTableApp::GChemTableApp (): Application ("gchemtable")
 {
 	GtkVBox* vbox;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW(window), _("Periodic table of the elements"));
-	g_signal_connect (G_OBJECT (window), "destroy",
-		 G_CALLBACK (gtk_main_quit),
-		 NULL);
+	g_signal_connect_swapped (G_OBJECT (window), "delete-event",
+		 G_CALLBACK (on_destroy),
+		 this);
 
 	g_object_set (G_OBJECT(window), "allow-shrink", FALSE, NULL);
 	

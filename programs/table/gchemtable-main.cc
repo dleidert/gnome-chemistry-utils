@@ -47,6 +47,5 @@ int main (int argc, char *argv[])
 	g_slist_free (l);
 
 	gtk_main();
-	delete app;
 	return 0;
 }

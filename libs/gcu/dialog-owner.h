@@ -52,6 +52,11 @@ public:
 */
 	Dialog *GetDialog (std::string name);
 
+/*!
+	Destroys all dialogs associated with this instance.
+*/
+	void ClearDialogs ();
+
 private:
 	bool AddDialog (std::string name, Dialog *dialog) ;
 	void RemoveDialog (std::string name)  {Dialogs.erase (name);}

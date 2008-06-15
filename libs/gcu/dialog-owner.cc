@@ -37,14 +37,7 @@ DialogOwner::DialogOwner ()
 
 DialogOwner::~DialogOwner ()
 {
-	map <string, Dialog *>::iterator i;
-	while (!Dialogs.empty ()) {
-		i = Dialogs.begin ();
-		if ((*i).second)
-			(*i).second->Destroy ();
-		else
-			Dialogs.erase (i);
-	}
+	ClearDialogs ();
 }
 
 Dialog *DialogOwner::GetDialog (string name)
@@ -61,6 +54,18 @@ bool DialogOwner::AddDialog (string name, Dialog *dialog)
 	}
 	Dialogs[name] = dialog;
 	return true;
+}
+
+void DialogOwner::ClearDialogs ()
+{
+	map <string, Dialog *>::iterator i;
+	while (!Dialogs.empty ()) {
+		i = Dialogs.begin ();
+		if ((*i).second)
+			(*i).second->Destroy ();
+		else
+			Dialogs.erase (i);
+	}
 }
 
 }	//	namespace gcu

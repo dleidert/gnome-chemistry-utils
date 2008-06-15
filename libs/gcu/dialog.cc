@@ -63,6 +63,8 @@ Dialog::Dialog (Application* App, const char* filename, const char* windowname, 
 {
 	m_App = App;
 	m_Owner = NULL;
+	if (!owner)
+		owner = App;
 	if (owner && !owner->AddDialog (windowname, this)) {
 		xml = NULL;
 		return;
