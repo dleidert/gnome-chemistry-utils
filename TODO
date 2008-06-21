@@ -1,12 +1,10 @@
 * Periodic table:
 	* add more data using bodr (?).
 	* add crystal structures (? needs reliable crystal structures in bodr).
-	* allow plotting any property againt another one, i.e. ei vs vdw radius (0.10).
-	* allow charts customization (0.10).
 	* write help (0.10).
 
 * Calculator:
-	* accept ambiguous abbreviations as Ac and Pr (0.10).
+	* enhance ambiguous abbreviations support (0.12?).
 	* a lot of code cleaning (0.12).
 
 * 3d viewer:
@@ -18,7 +16,6 @@
 	* support for options when displaying a spectrum (?).
 
 * Gnome Crystal:
-	* finish cif file import (0.10).
 	* open cml files (0.12).
 	* export to cif and cml formats (needs space group sniffing) (?).
 

@@ -75,7 +75,7 @@ gnome_canvas_group_ext_get_type (void)
 			NULL, NULL
 		};
 
-		group_ext_type = g_type_register_static (GNOME_TYPE_CANVAS_GROUP_EXT, "GnomeCanvasGroupExt",
+		group_ext_type = g_type_register_static (GNOME_TYPE_CANVAS_GROUP, "GnomeCanvasGroupExt",
 						    &object_info, 0);
 
 		g_type_add_interface_static (group_ext_type, G_TYPE_PRINTABLE, &print_info);

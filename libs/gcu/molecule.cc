@@ -282,8 +282,11 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 				map<Atom*, Bond*>::iterator ci;
 
 				bond = pseudo->GetFirstBond (ci);
-				PendingAtoms.push (bond->GetAtom (pseudo));
-				PendingAtoms.top ()->RemoveBond (bond);
+				atom = bond->GetAtom (pseudo);
+				if (atom) {
+					PendingAtoms.push (atom);
+					atom->RemoveBond (bond);
+				}
 				mol->Remove (bond);
 				delete bond;
 				mol->Remove (pseudo);
@@ -306,7 +309,12 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 		bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
 		bond->SetOrder (1);
 		bond->ReplaceAtom (NULL, atom);
-		atom = PendingAtoms.top ();
+		if (PendingAtoms.size () > 0)
+			atom = PendingAtoms.top ();
+		else {
+			atom = reinterpret_cast <Atom*> (Object::CreateObject ("atom", mol));
+			atom->SetZ (1);
+		}
 		bond->ReplaceAtom (NULL, atom);
 		atom->AddBond (bond);
 		PendingAtoms.pop ();

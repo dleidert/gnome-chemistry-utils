@@ -3,9 +3,12 @@ Version 0.9.4
 		* export more image formats (ps, pdf, eps).
 	Gnome Crystal:
 		* export more image formats (ps, pdf, eps).
+		* enhanced cif files import.
 	CGhemPaint:
 		* export more image formats (ps, pdf) and enhanced eps support.
 		* no more white rectangle under atoms symbols.
+	GChemTable:
+		* customizable charts.
 	Mozilla plugin:
 		* added support for GChemPaint and JCAMP-DX files.
 

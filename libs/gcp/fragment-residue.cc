@@ -82,13 +82,10 @@ bool FragmentResidue::Load (xmlNodePtr node)
 		buf = (char*) xmlNodeGetContent (child);
 	if (!buf || !strlen (buf))
 		return false;
-	child = child->next;
-	if (child && strcmp ((const char*) child->name, "molecule")) {
-		xmlFree ((xmlChar*) buf);
-		return false;
-	}
 	Residue *residue = (Residue*) Residue::GetResidue (buf, NULL);
 	if (residue) {
+		if (child->next) {
+		}
 		// TODO: compare molecules
 		m_Abbrev = buf;
 		m_Residue = residue;

@@ -1,5 +1,27 @@
 ##Text encoding: utf-8
 
+2008-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/canvas/gcp-canvas-group.c: fixed parent class.
+	* libs/gcp/atom.cc: fix canvas item bounds.
+	* libs/gcp/fragment-residue.cc: fixed a load time crasher.
+	* libs/gcp/fragment.cc: fix canvas item bounds.
+	* libs/gcu/molecule.cc: enhance cdx file loading.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+
+2008-06-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/table/curve.glade: set a default title.
+	* libs/gcu/application.cc: clear all dialogs before exiting to avoid
+	a bad goffice shutdown.
+	* libs/gcu/dialog-owner.cc: add ClearDialogs method.
+	* libs/gcu/dialog-owner.h: ditto.
+	* libs/gcu/dialog.cc: always correctly set the owner.
+	* programs/table/gchemtable-app.cc: fix shutdown.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* programs/table/gchemtable-data-allocator.cc: use a GtkEntry for scalar
+	data.
+	* programs/table/gchemtable-main.cc: fix shutdown.
+
 2008-06-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: do not draw a white rectangle under the atom anymore.
 	* libs/gcp/atom.h: ditto.

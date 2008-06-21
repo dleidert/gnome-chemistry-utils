@@ -434,6 +434,7 @@ void Atom::Add (GtkWidget* w) const
 		g_object_set_data (G_OBJECT (group), "rect", item);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 		g_object_set_data (G_OBJECT (item), "object", (void *) this);
+		gnome_canvas_item_hide (item);
 		
 		item = gnome_canvas_item_new (
 							group,
@@ -1164,11 +1165,13 @@ void Atom::SetSelected (GtkWidget* w, int state)
 	GnomeCanvasGroup* group = pData->Items[this];
 	gpointer item;
 	gchar const *color, *chargecolor;
+	bool visible = true;
 	
 	switch (state) {	
 	case SelStateUnselected:
 		color = NULL;
 		chargecolor = "black";
+			visible = false;
 		break;
 	case SelStateSelected:
 		chargecolor = color = SelectColor;
@@ -1184,8 +1187,13 @@ void Atom::SetSelected (GtkWidget* w, int state)
 		chargecolor = "black";
 		break;
 	}
-	g_object_set (G_OBJECT(g_object_get_data(G_OBJECT(group), "rect")),
+	item = g_object_get_data (G_OBJECT (group), "rect");
+	g_object_set (G_OBJECT (item),
 				"fill_color", color, NULL);
+	if (visible)
+		gnome_canvas_item_show (GNOME_CANVAS_ITEM (item));
+	else
+		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (item));
 	if ((item = g_object_get_data (G_OBJECT (group), "bullet")))
 		g_object_set (item, "fill_color", chargecolor, NULL);
 	if ((item = g_object_get_data (G_OBJECT (group), "figure")))
