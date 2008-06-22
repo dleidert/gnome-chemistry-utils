@@ -370,7 +370,8 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 		if (code & kCDXTag_Object) {
 			switch (code) {
 			case kCDXObj_Fragment: {
-				Doc = parent->GetDocument ()->GetApp ()->CreateNewDocument ();
+				if (!Doc)
+					Doc = parent->GetDocument ()->GetApp ()->CreateNewDocument ();
 				Doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, "943718");
 				if (!ReadMolecule (in, Doc)) {
 					delete Doc;
@@ -392,7 +393,6 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 							Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
 							if (Doc->GetChildrenNumber () != 1 || mol == NULL)
 								goto bad_exit;
-							printf("molecule with %d children\n",mol->GetChildrenNumber());
 							// compare the formula as interpreted with the document contents
 							// TODO: write this code
 						}
@@ -405,7 +405,7 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 						} else {
 							// check if the formula contains only one atom
 							std::list<FormulaElt *> const &items = form.GetElements ();
-							if (items.size () == 1)
+							if (items.size () == 1 && dynamic_cast <FormulaAtom const *> (items.front ()))
 								replace = false;
 						}
 						if (replace) {

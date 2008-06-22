@@ -727,20 +727,22 @@ bool Window::VerifySaved ()
 {
 	if (!m_Document->GetDirty ())
 		return true;
+	int res;
 	gchar* str = g_strdup_printf(_("\"%s\" has been modified.  Do you wish to save it?"), m_Document->GetTitle ());
 	GtkWidget* mbox;
-	int res;
 	do {
 		mbox = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, str);
+		g_free (str);
 		gtk_dialog_add_button (GTK_DIALOG (mbox),  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		res = gtk_dialog_run (GTK_DIALOG (mbox));
 		gtk_widget_destroy (mbox);
 		if (res == GTK_RESPONSE_YES)
 			OnSave ();
+		while (gtk_events_pending ()) // no idea why this is needed
+			gtk_main_iteration ();
 	} while ((res == GTK_RESPONSE_YES) && (m_Document->GetFileName () == NULL));
 	if (res == GTK_RESPONSE_NO)
 		m_Document->SetDirty (false);
-	g_free(str);
 	return (res != GTK_RESPONSE_CANCEL);
 }
 

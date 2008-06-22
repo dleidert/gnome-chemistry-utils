@@ -51,6 +51,7 @@ public:
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
 	void SetGraph (GogGraph *graph);
 	GtkWindow *GetGtkWindow () {return GTK_WINDOW (dialog);}
+	void ClearGuru () {m_Guru = NULL;}
 
 private:
 	std::string m_Name;

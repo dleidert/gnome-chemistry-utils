@@ -271,11 +271,16 @@ void FragmentAtom::DoBuildSymbolGeometry (View *pView)
 		PangoContext* pc = pView->GetPangoContext ();
 		PangoLayout *layout = pango_layout_new (pc);
 		pango_layout_set_font_description (layout, pView->GetPangoFontDesc ());
+		PangoRectangle rect;
+		if (m_CHeight == 0.) {
+			pango_layout_set_text (layout, "C", 1);
+			pango_layout_get_extents (layout, &rect, NULL);
+			m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
+		}
 		pango_layout_set_text (layout, GetSymbol (), -1);
 		PangoLayoutIter* iter = pango_layout_get_iter (layout);
 		ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
-		PangoRectangle rect;
 		pango_layout_get_extents (layout, &rect, NULL);
 		BuildSymbolGeometry ((double) rect.width / PANGO_SCALE, (double) rect.height / PANGO_SCALE, ascent - (double) rect.y / PANGO_SCALE - m_CHeight);
 		g_object_unref (G_OBJECT (layout));

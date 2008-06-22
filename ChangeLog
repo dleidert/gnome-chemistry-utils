@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-06-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment-atom.cc: fixed bounds evaluation.
+	* libs/gcp/window.cc: correctly exit when requested.
+	* plugins/loaders/cdx/cdx.cc: fix various new issues.
+	* programs/table/gchemtable-curve.cc: clear the guru when done.
+	* programs/table/gchemtable-curve.h: ditto.
+
 2008-06-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/canvas/gcp-canvas-group.c: fixed parent class.
 	* libs/gcp/atom.cc: fix canvas item bounds.
@@ -251,7 +258,7 @@
 	* libs/gcp/atom.h: ditto.
 	* libs/gcp/fragment-atom.cc: ditto.
 	* libs/gcp/fragment-atom.h: ditto.
-	* libs/gcp/fragment.cc: implement Fragmen::SetProperty.
+	* libs/gcp/fragment.cc: implement Fragment::SetProperty.
 	* libs/gcp/fragment.h: ditto.
 	* libs/gcp/molecule.cc: implement a rough molecule comparison method.
 	* libs/gcp/molecule.h: ditto.

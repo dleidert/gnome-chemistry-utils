@@ -581,6 +581,8 @@ static void
 graph_user_config_free_data (gpointer data,
 					  GClosure *closure)
 {
+	GChemTableCurve *curve = gct_control_gui_get_owner (GCT_CONTROL_GUI (data));
+	curve->ClearGuru ();
 	g_object_unref (data);
 	closure->data = NULL;
 }

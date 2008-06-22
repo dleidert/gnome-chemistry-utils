@@ -1,16 +1,30 @@
 Version 0.9.4
 	3d viewer:
 		* export more image formats (ps, pdf, eps).
+	calc:
+		* initial support for ambiguous symbols .as Ac and Pr
 	Gnome Crystal:
 		* export more image formats (ps, pdf, eps).
 		* enhanced cif files import.
+		* enhanced radii support.
 	CGhemPaint:
 		* export more image formats (ps, pdf) and enhanced eps support.
 		* no more white rectangle under atoms symbols.
+		* correctly detects the mime type, even if the file doesn't
+		exist. [#22686]
+		* accept file names with spaces for files opened using
+		OpenBabel. [#22695]
+		* enhanced cdx files import.
 	GChemTable:
 		* customizable charts.
 	Mozilla plugin:
 		* added support for GChemPaint and JCAMP-DX files.
+	GSpectrum:
+		* add support for mass spectrum.
+		* load nmr spectra using jcamp-dx 5.x NTUPPLES.
+		* made possible to change the x coordinates and to display only
+		part of the spectrum.
+		* initial support for NMR fids.
 
 Version 0.9.3
 	3d viewer:
