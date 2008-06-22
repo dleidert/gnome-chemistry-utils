@@ -14,7 +14,8 @@ CLEANFILES = \
 DISTCLEANFILES = \
 	intltool-extract \
 	intltool-update \
-	intltool-merge
+	intltool-merge \
+	doltcompile
 
 MAINTAINERCLEANFILES = \
 	aclocal.m4 \
