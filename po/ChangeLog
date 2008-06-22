@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-06-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: added missing files.
+	* POTFILES.skip: new file.
+
 2008-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: added missing files.
 
