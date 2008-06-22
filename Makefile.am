@@ -3,9 +3,6 @@ SUBDIRS = po database glade pixmaps libs plugins programs mozilla-plugin \
 
 EXTRA_DIST= \
 	$(mime_in_files) \
-	intltool-extract.in \
-	intltool-update.in \
-	intltool-merge.in \
 	gnome-doc-utils.make \
 	$(schemas_in_files) \
 	COPYING-DOCS
@@ -29,9 +26,6 @@ MAINTAINERCLEANFILES = \
 	depcomp \
 	gnome-doc-utils.make \
 	install-sh \
-	intltool-extract.in \
-	intltool-merge.in \
-	intltool-update.in \
 	ltmain.sh \
 	missing \
 	mkinstalldirs \

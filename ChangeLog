@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-06-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: use intltoo >= 0.40.0.
+	* configure.ac: ditto.
+
+2008-06-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment-atom.cc: fixed bounds evaluation.
 	* libs/gcp/window.cc: correctly exit when requested.
 	* plugins/loaders/cdx/cdx.cc: fix various new issues.
