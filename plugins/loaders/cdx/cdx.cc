@@ -33,6 +33,7 @@
 #include <gcu/residue.h>
 
 #include <goffice/app/module-plugin-defs.h>
+#include <glib/gi18n-lib.h>
 #include <openbabel/chemdrawcdx.h>
 #include <map>
 #include <string>
@@ -65,6 +66,40 @@ typedef struct {
 
 static map<guint16, string> Charsets;
 static map<string, guint16> CharsetIDs;
+
+static gint32 ReadInt (GsfInput *input, int size)
+{
+	gint32 res = 0;
+	switch (size) {
+	case 1:
+		gsf_input_read (input, 1, (guint8*) &res);
+		break;
+	case 2:
+		READINT16 (input, res);
+		break;
+	case 4:
+		READINT32 (input, res);
+		break;
+	}
+	return res;
+}
+
+static guint32 ReadUInt (GsfInput *input, int size)
+{
+	guint32 res = 0;
+	switch (size) {
+	case 1:
+		gsf_input_read (input, 1, (guint8*) &res);
+		break;
+	case 2:
+		READINT16 (input, res);
+		break;
+	case 4:
+		READINT32 (input, res);
+		break;
+	}
+	return res;
+}
 
 class CDXLoader: public gcu::Loader
 {
@@ -383,130 +418,151 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 				if (Z == 6) {
 					if (!ReadFragmentText (in, Atom))
 						goto bad_exit;
-				switch (type) {
-				case 0:
-					// Parse the formula.
-					try {
-						Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
-						if (Doc) {
-							map< string, Object * >::iterator i;
-							Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
-							if (Doc->GetChildrenNumber () != 1 || mol == NULL)
-								goto bad_exit;
-							// compare the formula as interpreted with the document contents
-							// TODO: write this code
-						}
-						// now build a molecule from the formula
-						Molecule *mol2 = NULL;
-						if (Doc)
-							mol2 = Molecule::MoleculeFromFormula (Doc, form);
-						bool replace = true;
-						if (mol2) {
-						} else {
-							// check if the formula contains only one atom
-							std::list<FormulaElt *> const &items = form.GetElements ();
-							if (items.size () == 1 && dynamic_cast <FormulaAtom const *> (items.front ()))
-								replace = false;
-						}
-						if (replace) {
-							string pos = Atom->GetProperty (GCU_PROP_POS2D);
-							Molecule *mol = dynamic_cast <Molecule *> (parent);
-							if (mol)
-								mol->Remove (Atom);
-							delete Atom;
-							Atom = Object::CreateObject ("fragment", parent);
-							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
-							snprintf (buf, bufsize, "a%d", Id);
-							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
-							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
-							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
-						}
-						if (!Doc)
-							Doc = parent->GetDocument ()->GetApp ()->CreateNewDocument ();
-					}
-					catch (parse_error &error) {
-						return false;
-					}
-					break;
-				case 4: {
-					bool amb;
-					Residue const *res = Residue::GetResidue (buf, &amb);
-					if (res != NULL) {
-						map< string, Object * >::iterator i;
-						Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
-						if (mol == NULL)
-							goto bad_exit;
-						if (*res == *mol) {
-							// Residue has been identified to the known one
-							string pos = Atom->GetProperty (GCU_PROP_POS2D);
-							Molecule *mol = dynamic_cast <Molecule *> (parent);
-							if (mol)
-								mol->Remove (Atom);
-							delete Atom;
-							Atom = Object::CreateObject ("fragment", parent);
-							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
-							snprintf (buf, bufsize, "a%d", Id);
-							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
-							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
-							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
-						} else {
-							// FIXME: should the document care with the residues?
-						}
-					} else {
-						// FIXME: Unkown residue: add it to the database? or just to the document?
-					}
-					break;
-				}
-				case 5:
-					// First, parse the formula.
-					{
-						map< string, Object * >::iterator i;
-						Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
-						// Do the molecule have a pseudo-atom?
-						bool have_pseudo = false;
-						Object *obj = mol->GetFirstChild (i);
-						gcu::Atom *a;
-						while (obj) {
-							a = dynamic_cast <gcu::Atom *> (obj);
-							if (a && ! a->GetZ ()) {
-								have_pseudo = true;
-								break;
-							}
-							obj = mol->GetNextChild (i);
-						}
-						if (mol == NULL)
-							goto bad_exit;
+					switch (type) {
+					case 0:
+						// Parse the formula.
 						try {
-							// First, parse the formula.
 							Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
-							// now build a molecule from the formula
-							Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form, have_pseudo);
-							// Now see if it matches with the molecule
-							if (!mol2 || !(*mol == *mol2)) {
-								// try adding a new residue
-								printf("failed for %s\n",buf);
+							if (Doc) {
+								map< string, Object * >::iterator i;
+								Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
+								if (Doc->GetChildrenNumber () != 1 || mol == NULL)
+									goto bad_exit;
+								// compare the formula as interpreted with the document contents
+								// TODO: write this code
 							}
+							// now build a molecule from the formula
+							Molecule *mol2 = NULL;
+							if (Doc)
+								mol2 = Molecule::MoleculeFromFormula (Doc, form);
+							bool replace = true;
+							if (mol2) {
+							} else {
+								// check if the formula contains only one atom
+								std::list<FormulaElt *> const &items = form.GetElements ();
+								if (items.size () == 1 && dynamic_cast <FormulaAtom const *> (items.front ()))
+									replace = false;
+							}
+							if (replace) {
+								string pos = Atom->GetProperty (GCU_PROP_POS2D);
+								Molecule *mol = dynamic_cast <Molecule *> (parent);
+								if (mol)
+									mol->Remove (Atom);
+								delete Atom;
+								Atom = Object::CreateObject ("fragment", parent);
+								Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+								snprintf (buf, bufsize, "a%d", Id);
+								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
+								Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+							}
+							if (!Doc)
+								Doc = parent->GetDocument ()->GetApp ()->CreateNewDocument ();
 						}
 						catch (parse_error &error) {
-							int start, length;
-							puts (error.what (start, length));
+							return false;
 						}
-						string pos = Atom->GetProperty (GCU_PROP_POS2D);
-						mol = dynamic_cast <Molecule *> (parent);
-						if (mol)
-							mol->Remove (Atom);
-						delete Atom;
-						Atom = Object::CreateObject ("fragment", parent);
-						Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
-						snprintf (buf, bufsize, "a%d", Id);
-						Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
-						Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
-						Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+						break;
+					case 4: {
+						bool amb;
+						Residue const *res = Residue::GetResidue (buf, &amb);
+						if (res != NULL) {
+							map< string, Object * >::iterator i;
+							Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
+							if (mol == NULL)
+								goto bad_exit;
+							if (*res == *mol) {
+								// Residue has been identified to the known one
+								string pos = Atom->GetProperty (GCU_PROP_POS2D);
+								Molecule *mol = dynamic_cast <Molecule *> (parent);
+								if (mol)
+									mol->Remove (Atom);
+								delete Atom;
+								Atom = Object::CreateObject ("fragment", parent);
+								Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+								snprintf (buf, bufsize, "a%d", Id);
+								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
+								Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+							} else {
+								// FIXME: should the document care with the residues?
+							}
+						} else {
+							// FIXME: Unkown residue: add it to the database? or just to the document?
+						}
+						break;
 					}
-					break;
-				default:
-					break;
-				}
+					case 5:
+						// First, parse the formula.
+						{
+							map< string, Object * >::iterator i;
+							Molecule *mol = dynamic_cast <Molecule *> (Doc->GetFirstChild (i));
+							// Do the molecule have a pseudo-atom?
+							bool have_pseudo = false;
+							Object *obj = mol->GetFirstChild (i);
+							gcu::Atom *a;
+							while (obj) {
+								a = dynamic_cast <gcu::Atom *> (obj);
+								if (a && ! a->GetZ ()) {
+									have_pseudo = true;
+									break;
+								}
+								obj = mol->GetNextChild (i);
+							}
+							if (mol == NULL)
+								goto bad_exit;
+							try {
+								// First, parse the formula.
+								Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
+								// now build a molecule from the formula
+								Molecule *mol2 = Molecule::MoleculeFromFormula (Doc, form, have_pseudo);
+								// Now see if it matches with the molecule
+								if (!mol2 || !(*mol == *mol2)) {
+									// try adding a new residue
+									printf("failed for %s\n",buf);
+								}
+							}
+							catch (parse_error &error) {
+								int start, length;
+								puts (error.what (start, length));
+							}
+							string pos = Atom->GetProperty (GCU_PROP_POS2D);
+							mol = dynamic_cast <Molecule *> (parent);
+							if (mol)
+								mol->Remove (Atom);
+							delete Atom;
+							Atom = Object::CreateObject ("fragment", parent);
+							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+							snprintf (buf, bufsize, "a%d", Id);
+							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
+							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+						}
+						break;
+					case 7: {
+						bool amb;
+						Residue const *res = Residue::GetResidue (buf, &amb);
+						if (res != NULL && res->GetGeneric ()) {
+							string pos = Atom->GetProperty (GCU_PROP_POS2D);
+							Molecule *mol = dynamic_cast <Molecule *> (parent);
+							if (mol)
+								mol->Remove (Atom);
+							delete Atom;
+							Atom = Object::CreateObject ("fragment", parent);
+							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+							snprintf (buf, bufsize, "a%d", Id);
+							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
+							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+						} else {
+							// TODO: import it in the document
+						}
+						break;
+					}
+					default:
+						g_warning (_("Unsupported feature, please report!"));
+						break;
+					}
 					break;
 				}
 			default:
@@ -789,12 +845,10 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 					return false;
 				break;
 			case kCDXProp_Graphic_Type:
-				if (size != 2 || !READINT16 (in,type))
-					return false;
+				type = ReadInt (in, size);
 				break;
 			case kCDXProp_Arrow_Type:
-				if (size != 2 || !READINT16 (in,arrow_type))
-					return false;
+				arrow_type = ReadInt (in, size);
 				break;
 			default:
 				if (size && !gsf_input_read (in, size, (guint8*) buf))
