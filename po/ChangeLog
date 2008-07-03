@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-07-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: added plugins/loaders/cdx/cdx.cc
+
 2008-06-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: added missing files.
 	* POTFILES.skip: new file.

@@ -72,6 +72,7 @@ libs/gcu/printable.cc
 libs/gcu/spectrumdoc.cc
 libs/gcu/spectrumview.cc
 libs/gcu/value.cc
+plugins/loaders/cdx/cdx.cc
 plugins/loaders/cdx/plugin.xml.in
 plugins/loaders/cdxml/cdxml.cc
 plugins/loaders/cdxml/plugin.xml.in
