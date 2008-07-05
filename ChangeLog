@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-07-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: Use gcu::Formula to invert the formula when needed.
+	* libs/gcu/formula.cc: elements can now export text instead of markup.
+	* libs/gcu/formula.h: ditto.
+
 2008-07-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: fixed generic group loading.
 

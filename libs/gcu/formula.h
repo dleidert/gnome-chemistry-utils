@@ -89,6 +89,7 @@ public:
 	FormulaElt ();
 	virtual ~FormulaElt ();
 	virtual std::string Markup ();
+	virtual std::string Text ();
 	virtual void BuildRawFormula (std::map<int, int> &raw) = 0;
 	virtual int GetValence () = 0;
 	int stoich;
@@ -101,6 +102,7 @@ public:
 	FormulaAtom (int Z);
 	virtual ~FormulaAtom ();
 	std::string Markup ();
+	std::string Text ();
 	void BuildRawFormula (std::map<int, int> &raw);
 	int GetValence ();
 	int elt;
@@ -112,6 +114,7 @@ public:
 	FormulaBlock ();
 	virtual ~FormulaBlock ();
 	std::string Markup ();
+	std::string Text ();
 	void BuildRawFormula (std::map<int, int> &raw);
 	std::list<FormulaElt *> children;
 	int GetValence ();
@@ -126,6 +129,7 @@ public:
 	FormulaResidue (Residue const *res, char const *symbol, int Z);
 	virtual ~FormulaResidue ();
 	std::string Markup ();
+	std::string Text ();
 	void BuildRawFormula (std::map<int, int> &raw);
 	int GetValence ();
 	Residue const *residue;

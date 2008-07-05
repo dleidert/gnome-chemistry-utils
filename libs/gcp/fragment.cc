@@ -38,6 +38,7 @@
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gcp-canvas-bpath.h>
 #include <gcu/element.h>
+#include <gcu/formula.h>
 #include <gcu/objprops.h>
 #include <pango/pango-attributes.h>
 #include <glib/gi18n-lib.h>
@@ -1357,11 +1358,17 @@ void Fragment::Update () {
 		Bond *bond = reinterpret_cast <Bond *> (m_Atom->GetFirstBond (i));
 		double angle = bond->GetAngle2D (m_Atom);
 		if (m_BeginAtom == 0 && (angle < 89. && angle > -89.)) {
-			// FIXME: do something more intelligent since we might have more than two symbols
-			m_buf = m_buf.substr (m_EndAtom);
-			m_BeginAtom = m_buf.length ();
-			m_buf += m_Atom->GetSymbol ();
+			// build the formula, then write elements in reverse order might be unsecure in some cases (if linked atom has a stoichiometric coefficient)
+			Formula *formula = new Formula (m_buf, GCU_FORMULA_PARSE_RESIDUE);
+			std::list<FormulaElt *> const &elts = formula->GetElements ();
+			m_buf.clear ();
+			std::list<FormulaElt *>::const_reverse_iterator i, end = elts.rend ();
+			for (i = elts.rbegin (); i!= end; i++) {
+				m_buf += (*i)->Text ();
+			}
+			delete formula;
 			m_EndAtom = m_buf.length ();
+			m_BeginAtom = m_EndAtom - strlen (m_Atom->GetSymbol ());
 		} else if (angle > 91. || angle < -91.) {
 		}
 	}

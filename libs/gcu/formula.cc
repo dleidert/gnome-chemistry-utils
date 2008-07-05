@@ -78,6 +78,14 @@ string FormulaElt::Markup ()
 	return oss.str ();
 }
 
+string FormulaElt::Text ()
+{
+	ostringstream oss;
+	if (stoich > 1)
+		oss << stoich;
+	return oss.str ();
+}
+
 FormulaAtom::FormulaAtom (int Z): FormulaElt()
 {
 	elt = Z;
@@ -91,6 +99,13 @@ string FormulaAtom::Markup ()
 {
 	string s = Element::Symbol (elt);
 	s += FormulaElt::Markup ();
+	return s;
+}
+
+string FormulaAtom::Text ()
+{
+	string s = Element::Symbol (elt);
+	s += FormulaElt::Text ();
 	return s;
 }
 
@@ -148,6 +163,39 @@ string FormulaBlock::Markup ()
 	return oss.str ();
 }
 
+string FormulaBlock::Text ()
+{
+	ostringstream oss;
+	switch (parenthesis) {
+		case 0:
+			oss << "(";
+			break;
+		case 1:
+			oss << "[";
+			break;
+		case 2:
+			oss << "{";
+			break;
+	}
+	list<FormulaElt *>::iterator i, end = children.end();
+	for (i = children.begin (); i != end; i++) {
+		oss << (*i)->Text ();
+	}
+	switch (parenthesis) {
+		case 0:
+			oss << ")";
+			break;
+		case 1:
+			oss << "]";
+			break;
+		case 2:
+			oss << "}";
+			break;
+	}
+	oss << FormulaElt::Text ();
+	return oss.str ();
+}
+
 void FormulaBlock::BuildRawFormula (map<int, int> &raw)
 {
 	map<int, int> local;
@@ -178,11 +226,16 @@ FormulaResidue::~FormulaResidue ()
 string FormulaResidue::Markup ()
 {
 	size_t n = Symbol.find ('-');
-	if (n != string::npos) {
-		string s = string ("<i>") + string (Symbol, 0, n) + "</i>" + string (Symbol, n);
-		return s;
-	} else
-		return Symbol;
+	string s = (n != string::npos)? string ("<i>") + string (Symbol, 0, n) + "</i>" + string (Symbol, n): Symbol;
+	s += FormulaElt::Text ();
+	return s;
+}
+
+string FormulaResidue::Text ()
+{
+	string s = Symbol;
+	s += FormulaElt::Text ();
+	return s;
 }
 
 void FormulaResidue::BuildRawFormula (map<int, int> &raw)
