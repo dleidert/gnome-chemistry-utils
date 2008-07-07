@@ -37,6 +37,7 @@ namespace gcp {
 FragmentAtom::FragmentAtom (): Atom ()
 {
 	SetId ("a1");
+	SetShowSymbol (true);
 }
 
 FragmentAtom::FragmentAtom (Fragment *fragment, int Z): Atom ()
@@ -44,6 +45,7 @@ FragmentAtom::FragmentAtom (Fragment *fragment, int Z): Atom ()
 	m_Fragment = fragment;
 	SetZ (Z);
 	SetId ("a1");
+	SetShowSymbol (true);
 	BuildSymbolGeometry (0,0,0);
 }
 

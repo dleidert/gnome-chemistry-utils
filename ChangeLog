@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-07-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fixed a couple of file opening issues.
+	* libs/gcp/fragment-atom.cc: set ShowSymbol to true so that carbon atoms
+	are correctly taken into account.
+
 2008-07-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: Use gcu::Formula to invert the formula when needed.
 	* libs/gcu/formula.cc: elements can now export text instead of markup.

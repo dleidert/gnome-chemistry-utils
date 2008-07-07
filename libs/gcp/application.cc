@@ -634,7 +634,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				filename2 = filename;
 			}
 		}
-		bool create;
+		bool create = false;
 		if (!pDoc || !pDoc->GetEmpty () || pDoc->GetDirty ()) {
 			create = true;
 			OnFileNew ();
@@ -650,7 +650,9 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		} else {
 			if (create) {
 				pDoc->GetWindow ()->Destroy ();;
-				pDoc =NULL;
+				pDoc = NULL;
+				while (gdk_events_pending ())
+					gtk_main_iteration ();
 			}
 			if (!strcmp (mime_type, "application/x-gchempaint"))
 				OpenGcp (filename2, pDoc);
