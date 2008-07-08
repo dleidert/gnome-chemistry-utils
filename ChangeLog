@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-07-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/view.cc: reimplement atom change using keyboard which was
+	broken since the removal of the background rectangle.
+
 2008-07-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fixed a couple of file opening issues.
 	* libs/gcp/fragment-atom.cc: set ShowSymbol to true so that carbon atoms

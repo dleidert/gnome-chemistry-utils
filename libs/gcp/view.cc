@@ -244,7 +244,7 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 	x = event->button.x;
 	y = event->button.y;
 	gnome_canvas_item_w2i (GNOME_CANVAS_ITEM (m_pData->Group), &x, &y);
-	if (event->type == GDK_BUTTON_PRESS) {
+//	if (event->type == GDK_BUTTON_PRESS) {
 		if (item == m_pData->Background) {
 			item = NULL;
 			std::map<Object const*, GnomeCanvasGroup*>::iterator i = m_pData->Items.begin (),
@@ -257,12 +257,36 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 						item = GNOME_CANVAS_ITEM ((*i).second);
 						m_CurObject = pBond;
 						break;
+					} else {
+						// may be one of the atoms might work
+						gcu::Atom *pAtom = pBond->GetAtom (0);
+						double xa, ya;
+						pAtom->GetCoords (&xa, &ya, NULL);
+						xa *= pTheme->GetZoomFactor ();
+						ya *= pTheme->GetZoomFactor ();
+						xa =- x;
+						ya -= y;
+						if (sqrt (xa * xa + ya * ya) < 3.5) {
+							//3.5 is arbitrary
+							m_CurObject = pAtom;
+							break;
+						}
+						pAtom = pBond->GetAtom (1);
+						pAtom->GetCoords (&xa, &ya, NULL);
+						xa *= pTheme->GetZoomFactor ();
+						ya *= pTheme->GetZoomFactor ();
+						xa =- x;
+						ya -= y;
+						if (sqrt (xa * xa + ya * ya) < 3.5) {
+							m_CurObject = pAtom;
+							break;
+						}
 					}
 				}
 				i++;
 			}
 		}
-	}
+//	}
 	Object *pAtom;
 	if (m_CurObject && ((pAtom = m_CurObject->GetAtomAt (x / pTheme->GetZoomFactor (), y / pTheme->GetZoomFactor ()))))
 			m_CurObject = pAtom;
@@ -666,6 +690,13 @@ static void do_set_symbol (GtkAction *action, Object *obj)
 		Operation *op = pDoc->GetNewOperation (GCP_MODIFY_OPERATION);
 		op->AddObject (group);
 		atom->SetZ (Z);
+		// set all bonds as dirty
+		map<gcu::Atom*, gcu::Bond*>::iterator i;
+		Bond *bond = reinterpret_cast <Bond *> (atom->GetFirstBond (i));
+		while (bond) {
+			bond->SetDirty ();
+			bond = reinterpret_cast <Bond *> (atom->GetNextBond (i));
+		}
 		pDoc->GetView ()->Update (obj);
 		op->AddObject (group, 1);
 		pDoc->FinishOperation ();
@@ -808,6 +839,13 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 					op->AddObject (group);
 					atom->SetZ (Z);
 					Update (atom);
+					// set all bonds as dirty
+					map<gcu::Atom*, gcu::Bond*>::iterator i;
+					Bond *bond = reinterpret_cast <Bond *> (atom->GetFirstBond (i));
+					while (bond) {
+						bond->SetDirty ();
+						bond = reinterpret_cast <Bond *> (atom->GetNextBond (i));
+					}
 					op->AddObject (group, 1);
 					m_pDoc->FinishOperation ();
 				}
