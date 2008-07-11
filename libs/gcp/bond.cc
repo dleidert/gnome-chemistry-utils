@@ -140,11 +140,12 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 				*x2 += ay * dx / dy;
 			}
 		}
+		// always set the first line coords, even if changed later
+		m_coords[0] = *x1;
+		m_coords[1] = *y1;
+		m_coords[2] = *x2;
+		m_coords[3] = *y2;
 		if (m_order & 1) {
-			m_coords[0] = *x1;
-			m_coords[1] = *y1;
-			m_coords[2] = *x2;
-			m_coords[3] = *y2;
 			if (m_order == 3) {
 				m_coords[4] = *x1 - dy;
 				m_coords[5] = *y1 + dx;
@@ -156,10 +157,6 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 				m_coords[11] = *y2 - dx;
 			}
 		} else if ((m_order == 2) && IsCyclic ()) {
-			m_coords[0] = *x1;
-			m_coords[1] = *y1;
-			m_coords[2] = *x2;
-			m_coords[3] = *y2;
 			Cycle* pCycle;
 			if (IsCyclic() > 1) {
 				//Search prefered cycle
@@ -180,17 +177,48 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 				tanb = fabs (tan ((a2 - a0) / 2));
 				m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 				m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
-			} else {
-				m_coords[0] = *x1 - dy / 2;
-				m_coords[1] = *y1 + dx / 2;
-				m_coords[2] = *x2 - dy / 2;
-				m_coords[3] = *y2 + dx / 2;
-				m_coords[4] = *x1 + dy / 2;
-				m_coords[5] = *y1 - dx / 2;
-				m_coords[6] = *x2 + dy / 2;
-				m_coords[7] = *y2 - dx / 2;
-			}
+			} else goto general;
 		} else {
+general:
+			// search how many bonds have each atom
+			int n1 = m_Begin->GetBondsNumber () - 1, n2 = m_End->GetBondsNumber () - 1;
+			if (n1 == 1) {
+				// put the second line on the bond side if any
+				map <gcu::Atom*, gcu::Bond*>::iterator it;
+				Bond *bond = reinterpret_cast <Bond*> (m_Begin->GetFirstBond (it));
+				if (bond == this)
+					bond = reinterpret_cast <Bond*> (m_Begin->GetNextBond (it));
+				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin));
+				if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
+					double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
+					double tanb = fabs (tan ((M_PI - a0 + a1) / 2)), cosa = cos (a0), sina = sin (a0);
+					m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
+					m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
+					if (n2 == 0) {
+						m_coords[6] = *x2 - dy * sign;
+						m_coords[7] = *y2 + dx * sign;
+						goto done;
+					}
+				}
+			} else if (n1 > 1 && n2 > 0) {
+			} else if (n2 == 1) {
+					// put the second line on the bond side if any
+					map <gcu::Atom*, gcu::Bond*>::iterator it;
+					Bond *bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
+					if (bond == this)
+						bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
+					double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End));
+					if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
+					double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
+					double tanb, cosa = cos (a0), sina = sin (a0);
+					m_coords[4] = *x1 - dy * sign;
+					m_coords[5] = *y1 + dx * sign;
+					tanb = fabs (tan ((a1 - a0) / 2));
+					m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
+					m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
+					goto done;
+				}
+			}
 			m_coords[0] = *x1 - dy / 2;
 			m_coords[1] = *y1 + dx / 2;
 			m_coords[2] = *x2 - dy / 2;
@@ -212,6 +240,7 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		}
 		m_CoordsCalc = true;
 	}
+done:
 	Num--;
 	Num *= 4;
 	*x1 = m_coords[Num++];

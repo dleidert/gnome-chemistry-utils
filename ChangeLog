@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-07-11  Jean Brefort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.h: some API documentation work.
+	* libs/gcp/bond.cc: enhanced some double bonds display.
+	* libs/gcu/element.h: some API documentation work.
+	* libs/gcu/formula.h: ditto.
+	* libs/gcu/sphere.h: ditto.
+	* libs/gcu/vector.h: ditto.
+
 2008-07-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: reimplement atom change using keyboard which was
 	broken since the removal of the background rectangle.

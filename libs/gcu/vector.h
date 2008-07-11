@@ -30,6 +30,9 @@
 namespace gcu
 {
 
+/*! class Vector3f gcu/vector.h
+*/
+
 class Vector3f
 {
 public:

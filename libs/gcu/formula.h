@@ -36,6 +36,18 @@
 namespace gcu
 {
 
+/*!\enum FormulaParseMode gcu/formula.h
+The way formula should be interpreted when they contain symbols that might
+represent both an atom or a group of atoms such as Ac and Pr. Possible values
+are:
+- GCU_FORMULA_PARSE_GUESS: try to determine the most probable interpretation of
+the symbol,
+- GCU_FORMULA_PARSE_ATOM: always inerpret as atoms,
+- GCU_FORMULA_PARSE_RESIDUE: always interpret as groups,
+- GCU_FORMULA_PARSE_ASK: ask the user for each encountered instance,
+- GCU_FORMULA_PARSE_NO_CASE: this one is unrelated and can ba combined with any
+of the previous values, just make the parsing stricktly case sensitive.
+*/
 typedef enum {
 	GCU_FORMULA_PARSE_GUESS,
 	GCU_FORMULA_PARSE_ATOM,
@@ -83,6 +95,9 @@ private:
 
 };
 
+/*! class FormulaElt gcu/formula.h
+*/
+
 class FormulaElt
 {
 public:
@@ -96,6 +111,9 @@ public:
 	unsigned start, end;
 };
 
+/*! class FormulaAtom gcu/formula.h
+*/
+
 class FormulaAtom: public FormulaElt
 {
 public:
@@ -107,6 +125,9 @@ public:
 	int GetValence ();
 	int elt;
 };
+
+/*! class FormulaBlock gcu/formula.h
+*/
 
 class FormulaBlock: public FormulaElt
 {
@@ -122,6 +143,9 @@ public:
 };
 
 class Residue;
+
+/*! class FormulaResidue gcu/formula.h
+*/
 
 class FormulaResidue: public FormulaElt
 {
@@ -148,6 +172,7 @@ class Formula
 public:
 /*!
 @param entry: the formula to parse as a string.
+@param mode: the way ambiguous symbols shoud be interpreted.
 The constructor will emit a parse_error exception.
 if it cannot parse the given formula.
 */
@@ -190,6 +215,9 @@ with the calculated data.
 */
 	void CalculateIsotopicPattern (IsotopicPattern &pattern);
 
+/*!
+Returns the parsed formula as a list of elements.
+*/
 	std::list<FormulaElt *> const &GetElements () const {return Details;}
 
 private:

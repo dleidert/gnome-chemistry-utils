@@ -38,6 +38,12 @@
 #include <map>
 #include <list>
 
+/*!\namespace gcp
+\brief GChemPaint specific C++ classes
+
+The namespace used for the C++ classes used by GChemPaint.
+*/
+
 namespace gcp {
 
 typedef struct
@@ -52,6 +58,12 @@ class Tool;
 class Document;
 struct option_data;
 typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
+
+/*!\class Application gcp/application.h
+This class is used to represent a GChemPaint application.
+ It is a virtual class since at least one method is pure virtual (gcp::Application::GetWindow)
+
+*/
 
 class Application: public gcu::Application
 {

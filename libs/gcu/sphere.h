@@ -32,9 +32,7 @@ namespace OpenBabel {
 
 namespace gcu {
 
-/**
-* @class Sphere
-* @internal
+/** \class Sphere gcu/sphere.h
 * This class represents and draws a sphere. The level of detail can be controlled.
 * At level 0, the sphere is a octahedron. At levels >=1, the sphere is a
 * "geosphere", that is, one starts with an icosahedron, which is the regular
@@ -42,7 +40,7 @@ namespace gcu {
 * smaller triangles. This is a classical tesselation, known to give a very good
 * quality/complexity ratio.
 *
-* @author Benoit Jacob <jacob@math.jussieu.fr>
+* \author Benoit Jacob <jacob@math.jussieu.fr>
 */
 
 class SpherePrivate;

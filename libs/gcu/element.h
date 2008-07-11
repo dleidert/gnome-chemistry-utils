@@ -36,7 +36,9 @@
 #define GCU_ERROR (1 << (sizeof(int) - 1))
 
 /*!\namespace gcu
-The namespace used for all C++ classes provided by the Gnome Chemistry Utils.
+\brief The Gnome Chemistry Utils C++ classes
+
+The namespace used for all C++ classes provided by the Gnome Chemistry Utils base library.
 */
 namespace gcu
 {
