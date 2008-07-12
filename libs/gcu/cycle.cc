@@ -30,7 +30,7 @@
 
 namespace gcu {
 
-Cycle::Cycle (Molecule* Molecule): Chain (Molecule, (Atom*) NULL, CycleType)
+Cycle::Cycle (Molecule* molecule): Chain (molecule, (Atom*) NULL, CycleType)
 {
 }
 

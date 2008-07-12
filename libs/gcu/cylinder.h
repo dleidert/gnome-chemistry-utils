@@ -35,7 +35,7 @@ namespace OpenBabel {
 namespace gcu {
 
   /**
-   * @class Cylinder
+   * \class Cylinder gcu/cylinder.h
    * @internal
    * @brief This class represents and draws a cylinder
    * @author Benoit Jacob <jacob@math.jussieu.fr>

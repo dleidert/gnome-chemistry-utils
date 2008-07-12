@@ -137,7 +137,7 @@ with AddMenuCallback.
 
 /*!
 @param entries: the entries to register.
-@param trzanslation_domain: the entries to register.
+@param translation_domain: the entries to register.
 
 Adds new command line options. Typically called from a plugin. The new
 options are added to the main group.
@@ -145,7 +145,7 @@ options are added to the main group.
 	void RegisterOptions (GOptionEntry const *entries, char const *translation_domain = GETTEXT_PACKAGE);
 
 /*!
-@param cb: a GOptionContext
+@param context: a GOptionContext
 
 Adds all registered options to the context. This should be called once
 just after creating the application and before parsing options.

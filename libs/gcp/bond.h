@@ -31,6 +31,14 @@
 
 namespace gcp {
 
+/*!\enum BondType gcp/bond.h
+The bond types recognized in GChemPaint. Possible values are:
+ - NormalBondType: normal bonds,
+ - UpBondType: wedge bond,
+ - DownBondType: hash bond,
+ - ForeBondType: large bond,
+ - UndeterminedBondType: squiggled bond.
+*/
 typedef enum
 {
 	NormalBondType,
@@ -40,13 +48,28 @@ typedef enum
 	UndeterminedBondType
 } BondType;
 
+/*!\struct BondCrossing gcp/bond.h
+This structure is used for crossing bonds, so that the bond behind the other is
+partially hidden.
+*/
 typedef struct {
+/*!
+The position of the crossing alog the bond: 0 if at start, 1 at end.
+*/
 	double a;
+/*!
+Whether the bond is above the other or not.
+*/
 	bool is_before;
 } BondCrossing;
 
 class Atom;
 class WidgetData;
+
+/*!\class Bond gcp/bond.h
+This class is used to represent bonds.
+
+*/
 
 class Bond: public gcu::Bond
 {

@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2008-07-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.h: some API documentation work.
+	* libs/gcp/bond.cc: enhanced more double bonds display.
+	* libs/gcp/bond.h: some API documentation work.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/chain.cc: ditto.
+	* libs/gcu/chain.h: ditto.
+	* libs/gcu/cycle.cc: ditto.
+	* libs/gcu/cycle.h: ditto.
+	* libs/gcu/cylinder.h: ditto.
+	* libs/gcu/object.h: ditto.
+
 2008-07-11  Jean Brefort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.h: some API documentation work.
 	* libs/gcp/bond.cc: enhanced some double bonds display.

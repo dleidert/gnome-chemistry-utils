@@ -47,9 +47,9 @@ Chain::Chain (Bond* pBond, Atom* pAtom, TypeId Type): Object (Type)
 	m_Bonds[pAtom0].rev = pBond;
 }
 
-Chain::Chain (Molecule* Molecule, Atom* pAtom, TypeId Type): Object (Type)
+Chain::Chain (Molecule* molecule, Atom* pAtom, TypeId Type): Object (Type)
 {
-	m_Molecule = Molecule;
+	m_Molecule = molecule;
 	if (pAtom) {
 		FindCycles (pAtom);
 	}
@@ -59,9 +59,9 @@ Chain::Chain (Molecule* Molecule, Atom* pAtom, TypeId Type): Object (Type)
 * Add a bond in an existing molecule and update cycles
 * Implementation might have to be changed
 */
-Chain::Chain (Molecule* Molecule, Bond* pBond, TypeId Type): Object (Type)
+Chain::Chain (Molecule* molecule, Bond* pBond, TypeId Type): Object (Type)
 {
-	m_Molecule = Molecule;
+	m_Molecule = molecule;
 	if (pBond) {
 		Atom *pAtom0, *pAtom;
 		pAtom0 = (Atom*) pBond->GetAtom (0);
@@ -181,37 +181,37 @@ void Chain::Erase (Atom* pAtom1, Atom* pAtom2)
 	m_Bonds[pAtom2].rev = NULL;
 }
 
-void Chain::Insert (Atom* pAtom1, Atom* pAtom2, Chain& Chain)
+void Chain::Insert (Atom* pAtom1, Atom* pAtom2, Chain& chain)
 {
 //This function is not safe
-	m_Bonds[pAtom1].fwd = Chain.m_Bonds[pAtom1].fwd;
+	m_Bonds[pAtom1].fwd = chain.m_Bonds[pAtom1].fwd;
 	Atom *pAtom = (Atom*) m_Bonds[pAtom1].fwd->GetAtom (pAtom1);
 	while (pAtom != pAtom2) {
-		m_Bonds[pAtom] = Chain.m_Bonds[pAtom];
+		m_Bonds[pAtom] = chain.m_Bonds[pAtom];
 		pAtom = (Atom*) m_Bonds[pAtom].fwd->GetAtom (pAtom);
 	}
-	m_Bonds[pAtom2].rev = Chain.m_Bonds[pAtom2].rev;
+	m_Bonds[pAtom2].rev = chain.m_Bonds[pAtom2].rev;
 }
 
-void Chain::Extract (Atom* pAtom1, Atom* pAtom2, Chain& Chain)
+void Chain::Extract (Atom* pAtom1, Atom* pAtom2, Chain& chain)
 {
-	Chain.m_Bonds.clear ();
+	chain.m_Bonds.clear ();
 	if (m_Bonds[pAtom1].fwd == NULL) {
 		if (m_Bonds[pAtom1].rev == NULL)
 			m_Bonds.erase (pAtom1);	//pAtom1 is not in the chain
 		return;
 	}
-	Chain.m_Bonds[pAtom1].fwd = m_Bonds[pAtom1].fwd;
-	Chain.m_Bonds[pAtom1].rev = NULL;
-	Atom *pAtom = (Atom*) Chain.m_Bonds[pAtom1].fwd->GetAtom (pAtom1);
+	chain.m_Bonds[pAtom1].fwd = m_Bonds[pAtom1].fwd;
+	chain.m_Bonds[pAtom1].rev = NULL;
+	Atom *pAtom = (Atom*) chain.m_Bonds[pAtom1].fwd->GetAtom (pAtom1);
 	while (pAtom != pAtom2) {
-		Chain.m_Bonds[pAtom] = m_Bonds[pAtom];
+		chain.m_Bonds[pAtom] = m_Bonds[pAtom];
 		if (m_Bonds[pAtom].fwd == NULL)
 			return; //Chain never reach pAtom2
 		pAtom = (Atom*)m_Bonds[pAtom].fwd->GetAtom (pAtom);
 	}
-	Chain.m_Bonds[pAtom2].rev = m_Bonds[pAtom2].rev;
-	Chain.m_Bonds[pAtom2].fwd = NULL;
+	chain.m_Bonds[pAtom2].rev = m_Bonds[pAtom2].rev;
+	chain.m_Bonds[pAtom2].fwd = NULL;
 }
 
 unsigned Chain::GetUnsaturations ()

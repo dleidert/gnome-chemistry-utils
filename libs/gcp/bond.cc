@@ -199,16 +199,47 @@ general:
 						m_coords[7] = *y2 + dx * sign;
 						goto done;
 					}
+					// FIXME: missing code
 				}
 			} else if (n1 > 1 && n2 > 0) {
-			} else if (n2 == 1) {
-					// put the second line on the bond side if any
+				if (n2 == 1) {
 					map <gcu::Atom*, gcu::Bond*>::iterator it;
 					Bond *bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
 					if (bond == this)
 						bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
-					double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End));
+					double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End)), a2, a;
 					if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
+						double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
+						double tanb = 0., cosa = cos (a0), sina = sin (a0);
+						a2 = M_PI + a0;
+						if (a2 > 2 * M_PI) a2 -= 2 * M_PI;
+						bond = reinterpret_cast <Bond*> (m_Begin->GetFirstBond (it));
+						while (bond) {
+							if (bond != this) {
+								a = tan ((bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin)) - a2) / 2);
+								if (sign * a < sign * tanb)
+									tanb = a;
+								
+							}
+							bond = reinterpret_cast <Bond*> (m_Begin->GetNextBond (it));
+						}
+						m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
+						m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
+						tanb = fabs (tan ((a1 - a0) / 2));
+						m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
+						m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
+						goto done;
+					}
+				} else {
+					// FIXME: missing code
+				}
+			} else if (n2 == 1) {
+				map <gcu::Atom*, gcu::Bond*>::iterator it;
+				Bond *bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
+				if (bond == this)
+					bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
+				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End));
+				if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
 					double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 					double tanb, cosa = cos (a0), sina = sin (a0);
 					m_coords[4] = *x1 - dy * sign;

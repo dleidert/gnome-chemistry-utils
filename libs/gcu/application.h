@@ -187,10 +187,41 @@ A default extension is appended to filename if none is detected.
 is not supported by GdkPixbuf.
 */
 	char const *GetPixbufTypeName (std::string& filename, char const *mime_type);
+
+/*!
+@param uri the uri of the document to load.
+@param mime_type the mime type of the document.
+@param Doc the document instance which will contain the loaded data.
+
+This method loads a document using the appropriate gcu::Loader class
+instance.
+@return true if no error occurred.
+*/
 	bool Load (std::string const &uri, const gchar *mime_type, Document* Doc);
+
+/*!
+@param uri the uri to which the document should be saved.
+@param mime_type the mime type of the document.
+@param Doc the document instance which contains the data to be saved.
+
+This method saves the document using the appropriate gcu::Loader class
+instance.
+@return true if no error occurred.
+*/
 	bool Save (std::string const &uri, const gchar *mime_type, Document* Doc);
+
+/*!
+Virtual method used to create documents. Default behavior does nothing and returns NULL.
+@return the newly created document or NULL.
+*/
 	virtual Document *CreateNewDocument () {return NULL;}
+
 #ifdef HAVE_GO_CONF_SYNC
+
+/*!
+Method used to retrieve the base configuration node.
+@return the base configuration node.
+*/
 	static GOConfNode *GetConfDir ();
 #endif
 

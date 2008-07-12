@@ -498,20 +498,21 @@ Fills types with all valid ancestor types for the object as defined by rules cre
 	void GetPossibleAncestorTypes (std::set<TypeId>& types) const;
 
 /*!
-@param property: the property id as defined in objprops.h
-@param value: the property value as a string
+@param property the property id as defined in objprops.h
+@param value the property value as a string
 
-Used when loading to set properties to various objects. If the method retruns false,
+Used when loading to set properties to various objects. If the method returns false,
 the property should be set again later. This might happen if an atom does not exists when one 
-of its bonds is loaded.
+of its bonds is loaded. All classes supporting the mechanism must overload this method.
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */
 	virtual bool SetProperty (unsigned property, char const *value);
 
 /*!
-@param property: the property id as defined in objprops.h
+@param property the property id as defined in objprops.h
 
-Used when saving to get properties from various objects.
+Used when saving to get properties from various objects. All classes
+supporting the mechanism must overload this method.
 */
 	virtual std::string GetProperty (unsigned property) const;
 

@@ -28,17 +28,65 @@
 
 namespace gcu {
 
+/*! \class Cycle gcu/cycle.h
+
+Represents a cycle.
+*/
 class Cycle: public Chain
 {
 public:
-	Cycle (Molecule* Molecule);
+/*!
+@param molecule a molecule.
+
+Constructs an initially empty cycle for the molecule.
+*/
+	Cycle (Molecule* molecule);
+/*!
+The destructor.
+*/
 	virtual ~Cycle ();
 	
+/*!
+Finds the smallest cycles collection in a polycyclic system.
+*/
 	void Simplify ();	//Reduce size of fused cycles
+/*!
+@param pAtom1 an atom in the source chain.
+@param pAtom2 an atom in the source chain.
+
+Erases a sub-chain. The result is not a cycle. This should be followed by
+the insertion of a new chain to close the cycle again.
+*/
 	virtual void Erase (Atom* pAtom1, Atom* pAtom2);
+/*!
+@param pAtom1 an atom in the source chain.
+@param pAtom2 an atom in the source chain.
+@param chain the source chain.
+
+Inserts a chain. Bothe atoms must already be in the target cycle and the
+insertion should close the cycle.
+*/
 	virtual void Insert (Atom* pAtom1, Atom* pAtom2, Chain& Chain);
+/*!
+@param pCycle another cycle sharing a bond.
+
+Compares two cycles in competition to know which is the best to contain the
+second line of a shared double bond.
+
+@return true if the this instance is to be preferred, false otherwise.
+*/
 	bool IsBetterForBonds (Cycle* pCycle);
+/*!
+@param pBond a bond of the cycle.
+@param a1 where to put the result for the first angle.
+@param a2 where to put the result for the first angle.
+
+Evaluates the angles between the bond and its two adjacent bonds in the cycle.
+*/
 	void GetAngles2D (Bond *pBond, double* a1, double* a2);
+/*!
+@return the number of bonds shared with other cycles.
+*/
 	int GetFusedBonds ();
 };
 
