@@ -33,6 +33,9 @@
 #include "isotope.h"
 #include "value.h"
 
+/*!\def GCU_ERROR
+Defines a standard error value.
+*/
 #define GCU_ERROR (1 << (sizeof(int) - 1))
 
 /*!\namespace gcu

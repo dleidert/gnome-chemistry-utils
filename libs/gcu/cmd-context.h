@@ -28,8 +28,21 @@
 
 G_BEGIN_DECLS
 
+/*!\file
+Declaration of the GcuCmdContext structure, a GObject implementing the
+GOCmdContext interface from goffice. This is mandatory to be able to edit
+charts.
+*/
+
+/*!
+@return the GType associated to GcuCmdContext.
+*/
 #define GCU_CMD_CONTEXT_TYPE		(gcu_cmd_context_get_type ())
 GType		gcu_cmd_context_get_type   (void);
+
+/*!
+@return a static global GcuCmdContext instance.
+*/
 GOCmdContext *gcu_get_cmd_context (void);
 
 G_END_DECLS

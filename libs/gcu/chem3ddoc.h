@@ -35,10 +35,11 @@ namespace gcu {
  3D display mode.
  Possible values are:
 	 - BALL_AND_STICK: use ball and stick representation; atoms are represented by spheres with a radius equal to 20% of
-	 their van der Waals radius and bonds are displayed as cylinders.
+	 their van der Waals radius and bonds are displayed as cylinders Multiple bonds are displayed as multiple cylinders.
 	 - SPACEFILL: use space filling representation; atoms are represented by spheres with a radius equal
 	 their van der Waals radius; bonds are not displayed.
-	 .
+	 - CYLINDERS: only bonds are represented as cylinders, atoms just end the cylinders.
+	 - WIREFRAME: bonds are represented as narrow lines, atoms just end the lines.
 */
 typedef enum
 {

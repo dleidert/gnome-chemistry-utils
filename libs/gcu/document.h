@@ -96,7 +96,17 @@ to avoid errors on the next paste event.
 */
 	std::string &GetTitle () {return m_Title;}
 
+/*!
+@param pObject an object needing some update.
+
+The gcu::Document class just stores dirty objects, but don't do anything with them. Derived classes
+need to implement that, if meaningful.
+*/
 	void NotifyDirty (Object* pObject) {m_DirtyObjects.insert (pObject);}
+/*!
+Saves the document. Need to be overloaded by derived class if meaningful. Default
+implementation doesn't do anything.
+*/
 	virtual void Save () const {;}
 
 private:
@@ -121,6 +131,9 @@ The document title.
 */
 	std::string m_Title;
 
+/*!
+		 The set of dirty objects, see gcu::Document::NotifyDirty.
+*/
 	std::set<Object*> m_DirtyObjects;
 
 /*!\var m_App

@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2008-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Doxyfile.in: fixed include paths.
+	* libs/gcp/atom.cc: more work on double bonds display.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcu/bond.h: more API documentation work.
+	* libs/gcu/chain.h: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/crystalline.h: ditto.
+	* libs/gcu/crystalview.h: ditto.
+	* libs/gcu/cycle.cc: ditto.
+	* libs/gcu/cycle.h: ditto.
+	* libs/gcu/dialog-owner.h: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/element.h: ditto.
+	* libs/gcu/formula.h: ditto.
+
 2008-07-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.h: some API documentation work.
 	* libs/gcp/bond.cc: enhanced more double bonds display.
@@ -14,7 +31,7 @@
 	* libs/gcu/cylinder.h: ditto.
 	* libs/gcu/object.h: ditto.
 
-2008-07-11  Jean Brefort  <jean.brefort@normalesup.org>
+2008-07-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.h: some API documentation work.
 	* libs/gcp/bond.cc: enhanced some double bonds display.
 	* libs/gcu/element.h: some API documentation work.

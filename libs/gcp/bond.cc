@@ -171,10 +171,12 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 			pCycle->GetAngles2D (this, &a1, &a2);
 			if (sin(a0 - a1) * sin (a0 - a2) > 0) {
 				double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
-				double tanb = fabs (tan ((M_PI - a0 + a1) / 2)), cosa = cos (a0), sina = sin (a0);
+				double tanb = 0., cosa = cos (a0), sina = sin (a0);
+				if (m_Begin->GetZ () == 6 && !reinterpret_cast <Atom*> (m_Begin)->GetShowSymbol ())
+					tanb = fabs (tan ((M_PI - a0 + a1) / 2));
 				m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
 				m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
-				tanb = fabs (tan ((a2 - a0) / 2));
+				tanb = (m_End->GetZ () == 6 && !reinterpret_cast <Atom*> (m_End)->GetShowSymbol ())? fabs (tan ((a2 - a0) / 2)): 0.;
 				m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 				m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
 			} else goto general;
@@ -188,18 +190,29 @@ general:
 				Bond *bond = reinterpret_cast <Bond*> (m_Begin->GetFirstBond (it));
 				if (bond == this)
 					bond = reinterpret_cast <Bond*> (m_Begin->GetNextBond (it));
-				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin));
+				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin)), a2, a;
 				if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
 					double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 					double tanb = fabs (tan ((M_PI - a0 + a1) / 2)), cosa = cos (a0), sina = sin (a0);
 					m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
 					m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
-					if (n2 == 0) {
-						m_coords[6] = *x2 - dy * sign;
-						m_coords[7] = *y2 + dx * sign;
-						goto done;
+					tanb = 0.;
+					a2 = M_PI + a0;
+					if (a2 > 2 * M_PI)
+						a2 -= 2 * M_PI;
+					bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
+					while (bond) {
+						if (bond != this) {
+							a = tan ((bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End)) - a0) / 2);
+							if (sign * a < sign * tanb)
+								tanb = a;
+							
+						}
+						bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
 					}
-					// FIXME: missing code
+					m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
+					m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
+					goto done;
 				}
 			} else if (n1 > 1 && n2 > 0) {
 				if (n2 == 1) {
@@ -212,7 +225,8 @@ general:
 						double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 						double tanb = 0., cosa = cos (a0), sina = sin (a0);
 						a2 = M_PI + a0;
-						if (a2 > 2 * M_PI) a2 -= 2 * M_PI;
+						if (a2 > 2 * M_PI)
+							a2 -= 2 * M_PI;
 						bond = reinterpret_cast <Bond*> (m_Begin->GetFirstBond (it));
 						while (bond) {
 							if (bond != this) {
@@ -233,7 +247,7 @@ general:
 				} else {
 					// FIXME: missing code
 				}
-			} else if (n2 == 1) {
+			} else if (n2 == 1) { // n1 is 0
 				map <gcu::Atom*, gcu::Bond*>::iterator it;
 				Bond *bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
 				if (bond == this)

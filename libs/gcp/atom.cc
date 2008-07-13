@@ -283,27 +283,28 @@ void Atom::Update ()
 	if (pDoc && pDoc->GetView ())
 		m_Changed = pDoc->GetView ()->GetNbWidgets ();
 	m_AvailPosCached = false;
+	map<gcu::Atom*, gcu::Bond*>::iterator j = m_Bonds.begin(), jend = m_Bonds.end ();
 	if (nbonds && GetZ () == 6) {
 		// update large bonds ends
 		Bond *bond;
 		BondType type;
 		bool DrawCircle;
-		map<gcu::Atom*, gcu::Bond*>::iterator i = m_Bonds.begin(), iend = m_Bonds.end ();
 		int nb = 0;
-		while (i != iend)
+		j = m_Bonds.begin();
+		while (j != jend)
 		{
-			bond = dynamic_cast<Bond*> ((Bond*)(*i).second);
+			bond = dynamic_cast<Bond*> ((Bond*)(*j).second);
 			type = bond->GetType ();
 			if (type == ForeBondType || (type == UpBondType && bond->GetAtom (1) == this))
 				nb++;
-			i++;
+			j++;
 		}
 		DrawCircle = nb > 1;
 		if (!DrawCircle && GetBondsNumber () == 2) {
-			i = m_Bonds.begin();
-			double angle = static_cast<Bond*> ((*i).second)->GetAngle2D (this);
-			i++;
-			angle -= static_cast<Bond*> ((*i).second)->GetAngle2D (this);
+			j = m_Bonds.begin();
+			double angle = static_cast<Bond*> ((*j).second)->GetAngle2D (this);
+			j++;
+			angle -= static_cast<Bond*> ((*j).second)->GetAngle2D (this);
 			if (go_finite (angle)) {
 				while (angle < 0)
 					angle += 360.;
@@ -318,6 +319,10 @@ void Atom::Update ()
 			m_Changed = true;
 		}
 	}
+	// Update all double bonds
+	for (j = m_Bonds.begin(); j != jend; j++)
+		if (((*j).second)->GetOrder () == 2)
+			static_cast<Bond*> ((*j).second)->SetDirty ();
 }
 
 void Atom::Add (GtkWidget* w) const

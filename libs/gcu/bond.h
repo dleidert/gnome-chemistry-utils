@@ -192,7 +192,7 @@ as second argument.
 	double Get2DLength ();
 
 /*!
-@param atom one of the atoms of the bond.
+@param pAtom one of the atoms of the bond.
 
 @return the direction of the bond starting from the atom.
 */

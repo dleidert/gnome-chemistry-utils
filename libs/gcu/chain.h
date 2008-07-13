@@ -93,7 +93,7 @@ The destructor.
 	virtual ~Chain();
 	
 /*!
-@param pAtom.
+@param pAtom an atom.
 
 Searches all cycles in a molecule starting from Atom pAtom. Found cycles are
 added to the molecule cycles list.
@@ -127,7 +127,7 @@ Inserts a chain. One of the atoms must already be in the target chain.
 /*!
 @param pAtom1 an atom in the chain.
 @param pAtom2 an atom in the chain.
-@param chain the target chain
+@param chain the target chain.
 
 Extracts a sub-chain to the chain variable which should be empty before the call.
 */

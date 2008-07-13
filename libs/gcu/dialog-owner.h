@@ -42,7 +42,13 @@ class DialogOwner
 {
 friend class Dialog;
 public:
+/*!
+The constructor.
+*/
 	DialogOwner ();
+/*!
+The destructor.
+*/
 	virtual ~DialogOwner ();
 
 /*!

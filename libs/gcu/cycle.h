@@ -66,7 +66,7 @@ the insertion of a new chain to close the cycle again.
 Inserts a chain. Bothe atoms must already be in the target cycle and the
 insertion should close the cycle.
 */
-	virtual void Insert (Atom* pAtom1, Atom* pAtom2, Chain& Chain);
+	virtual void Insert (Atom* pAtom1, Atom* pAtom2, Chain& chain);
 /*!
 @param pCycle another cycle sharing a bond.
 

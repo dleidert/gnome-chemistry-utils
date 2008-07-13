@@ -346,6 +346,9 @@ a list of pointers to CrystalLine instances derived from std::list.
 */
 typedef std::list<CrystalLine*> CrystalLineList;
 
+/*!
+an array of the line types names used for serialization.
+*/
 extern char const *LineTypeName[];
 
 }// namespace gcu

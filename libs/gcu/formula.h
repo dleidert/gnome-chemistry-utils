@@ -96,49 +96,131 @@ private:
 };
 
 /*! class FormulaElt gcu/formula.h
+Bas class for elements found in a formula.
 */
 
 class FormulaElt
 {
 public:
+/*!
+The constructor.
+*/
 	FormulaElt ();
+/*!
+The destructor.
+*/
 	virtual ~FormulaElt ();
+/*!
+@return the string representation of the element as a markup.
+*/
 	virtual std::string Markup ();
+/*!
+@return the string representation of the element as raw text.
+*/
 	virtual std::string Text ();
+/*!
+@param raw where to put the result
+
+Adds the number of atoms of each element to the map taking the stoichiometry
+coefficient into account.
+*/
 	virtual void BuildRawFormula (std::map<int, int> &raw) = 0;
+/*!
+@return the (most probable) valence of the element.
+*/
 	virtual int GetValence () = 0;
+/*!
+The stoichiometry coefficient associated with he element.
+*/
 	int stoich;
-	unsigned start, end;
+/*!
+The start index in bytes of the element in the formula input string.
+*/
+	unsigned start;
+/*!
+The end index in bytes of the element in the formula input string.
+*/
+	unsigned end;
 };
 
 /*! class FormulaAtom gcu/formula.h
+Represents an atom in a formula.
 */
 
 class FormulaAtom: public FormulaElt
 {
 public:
+/*!
+@param Z
+*/
 	FormulaAtom (int Z);
+/*!
+The destructor.
+*/
 	virtual ~FormulaAtom ();
+/*!
+@return the string representation of the element as a markup.
+*/
 	std::string Markup ();
+/*!
+@return the string representation of the element as raw text.
+*/
 	std::string Text ();
+/*!
+@param raw where to put the result
+
+Adds the stoichiometry coefficient to the entry correponding to the element.
+*/
 	void BuildRawFormula (std::map<int, int> &raw);
+/*!
+@return the (most probable) valence of the element.
+*/
 	int GetValence ();
+/*!
+*/
 	int elt;
 };
 
 /*! class FormulaBlock gcu/formula.h
+Represents a sub formula delimited by a pair of matching brackets.
 */
 
 class FormulaBlock: public FormulaElt
 {
 public:
+/*!
+*/
 	FormulaBlock ();
+/*!
+The destructor.
+*/
 	virtual ~FormulaBlock ();
+/*!
+@return the string representation of the element as a markup.
+*/
 	std::string Markup ();
+/*!
+@return the string representation of the element as raw text.
+*/
 	std::string Text ();
+/*!
+@param raw where to put the result
+
+Adds the number of atoms of each element to the map taking the stoichiometry
+coefficient into account.
+*/
 	void BuildRawFormula (std::map<int, int> &raw);
-	std::list<FormulaElt *> children;
+/*!
+@return the (most probable) valence of the element.
+*/
 	int GetValence ();
+/*!
+The list of the formula elements delimited by the pair of brackets.
+*/
+	std::list<FormulaElt *> children;
+/*!
+0 for "()", 1 for "[]" or 2 for "{}".
+*/
 	int parenthesis;
 };
 
@@ -150,14 +232,46 @@ class Residue;
 class FormulaResidue: public FormulaElt
 {
 public:
+/*!
+@param res a gcu::Residue.
+@param symbol the atoms group symbol
+@param Z the atomic number of the element with the same symbol or 0.
+*/
 	FormulaResidue (Residue const *res, char const *symbol, int Z);
+/*!
+The destructor.
+*/
 	virtual ~FormulaResidue ();
+/*!
+@return the string representation of the element as a markup.
+*/
 	std::string Markup ();
+/*!
+@return the string representation of the element as raw text.
+*/
 	std::string Text ();
+/*!
+@param raw where to put the result
+
+Adds the number of atoms of each element to the map taking the stoichiometry
+coefficient into account.
+*/
 	void BuildRawFormula (std::map<int, int> &raw);
+/*!
+@return the (most probable) valence of the element.
+*/
 	int GetValence ();
+/*!
+The gcu::Residue correponding to the found symbol.
+*/
 	Residue const *residue;
+/*!
+The symbol of the atoms group.
+*/
 	std::string Symbol;
+/*!\fn GetZ()
+@return the atomic number of the element with the same symbol or 0.
+*/
 GCU_RO_PROP (int, Z);
 };
 
@@ -177,6 +291,10 @@ The constructor will emit a parse_error exception.
 if it cannot parse the given formula.
 */
 	Formula (std::string entry, FormulaParseMode mode = GCU_FORMULA_PARSE_GUESS) throw (parse_error);
+
+/*!
+The destructor.
+*/
 	virtual ~Formula ();
 
 /*!
@@ -234,6 +352,18 @@ private:
 	bool m_WeightCached;
 	bool m_Artificial;
 	bool m_ConnectivityCached;
+
+/*!\fn SetParseMode(FormulaParseMode ParseMode)
+@param ParseMode the new FormulaParseMode.
+
+Sets the way ambiguous symbols are interpreted.
+*/
+/*!\fn GetParseMode()
+@return the current parse mode.
+*/
+/*!\fn GetRefParseMode()
+@return the current parse mode as a reference.
+*/
 GCU_PROP (FormulaParseMode, ParseMode);
 };
 	

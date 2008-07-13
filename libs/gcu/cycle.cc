@@ -145,20 +145,20 @@ void Cycle::Erase (Atom* pAtom1, Atom* pAtom2)
 		m_Bonds[pAtom2].fwd->SetDirty (true);
 }
 
-void Cycle::Insert (Atom* pAtom1, Atom* pAtom2, Chain& Chain)
+void Cycle::Insert (Atom* pAtom1, Atom* pAtom2, Chain& chain)
 {
 //This function is not safe
 	if (m_Bonds[pAtom1].rev->GetOrder () == 2)
 		m_Bonds[pAtom1].rev->SetDirty (true);
-	m_Bonds[pAtom1].fwd = ((Cycle&) Chain).m_Bonds[pAtom1].fwd;
+	m_Bonds[pAtom1].fwd = ((Cycle&) chain).m_Bonds[pAtom1].fwd;
 	m_Bonds[pAtom1].fwd->AddCycle (this);
 	Atom *pAtom = (Atom*) m_Bonds[pAtom1].fwd->GetAtom (pAtom1);
 	while (pAtom != pAtom2) {
-		m_Bonds[pAtom] = ((Cycle&) Chain).m_Bonds[pAtom];
+		m_Bonds[pAtom] = ((Cycle&) chain).m_Bonds[pAtom];
 		m_Bonds[pAtom].fwd->AddCycle (this);
 		pAtom = (Atom*) m_Bonds[pAtom].fwd->GetAtom (pAtom);
 	}
-	m_Bonds[pAtom2].rev = ((Cycle&) Chain).m_Bonds[pAtom2].rev;
+	m_Bonds[pAtom2].rev = ((Cycle&) chain).m_Bonds[pAtom2].rev;
 	if (m_Bonds[pAtom2].fwd->GetOrder () == 2) m_Bonds[pAtom2].fwd->SetDirty (true);
 }
 
