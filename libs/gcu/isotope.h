@@ -43,6 +43,9 @@ The constructor initialize the member of the GcuIsotope structure with
 nul values.
 */
 	Isotope ();
+/*!
+The denstructor.
+*/
 	~Isotope ();
 };
 

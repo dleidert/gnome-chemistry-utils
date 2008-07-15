@@ -89,6 +89,8 @@ plugin_service_chemical_loader_read_xml (GOPluginService * service, xmlNode * tr
 						l.supports3D = true;
 					if (strchr (prop, 'c') != NULL || strchr (prop, 'C'))
 						l.supportsCrystals = true;
+					if (strchr (prop, 's') != NULL || strchr (prop, 'C'))
+						l.supportsSpectra = true;
 					xmlFree (prop);
 				}
 				loaders[name] = l;

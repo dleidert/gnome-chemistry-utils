@@ -33,6 +33,7 @@
 #include "isotope.h"
 #include "value.h"
 
+/*!\file */ 
 /*!\def GCU_ERROR
 Defines a standard error value.
 */

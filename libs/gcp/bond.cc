@@ -242,11 +242,55 @@ general:
 						tanb = fabs (tan ((a1 - a0) / 2));
 						m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 						m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
-						goto done;
 					}
 				} else {
-					// FIXME: missing code
+					// use the side with more room.
+					double tana = 0., tanb = 0., tanc = 0., tand = 0.;
+					double a, a0 = GetAngle2DRad (reinterpret_cast <Atom*> (m_End)), a1 = GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin));
+					double cosa = cos (a0), sina = sin (a0);
+					map <gcu::Atom*, gcu::Bond*>::iterator it;
+					Bond *bond;
+					if (m_Begin->GetZ () == 6) {
+						bond = reinterpret_cast <Bond*> (m_Begin->GetFirstBond (it));
+						while (bond) {
+							if (bond != this) {
+								a = tan ((bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin)) - a0) / 2);
+								if (a > tana)
+									tana = a;
+								if (a < tanb)
+									tanb = a;
+								
+							}
+							bond = reinterpret_cast <Bond*> (m_Begin->GetNextBond (it));
+						}
+					}
+					if (m_End->GetZ () == 6) {
+						bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
+						while (bond) {
+							if (bond != this) {
+								a = tan ((bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End)) - a1) / 2);
+								if (a > tanc)
+									tanc = a;
+								if (a < tand)
+									tand = a;
+								
+							}
+							bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
+						}
+					}
+					if (tana - tand > tanc - tanb) {
+						m_coords[4] = *x1 + BondDist * cosa * tanb + dy;
+						m_coords[5] = *y1 - dx - BondDist * sina * tanb;
+						m_coords[6] = *x2 + BondDist * cosa * tanc + dy;
+						m_coords[7] = *y2 - dx - BondDist * sina * tanc;
+					} else {
+						m_coords[4] = *x1 - BondDist * cosa * tana - dy;
+						m_coords[5] = *y1 + dx + BondDist * sina * tana;
+						m_coords[6] = *x2 - BondDist * cosa * tand - dy;
+						m_coords[7] = *y2 + dx + BondDist * sina * tand;
+					}
 				}
+				goto done;
 			} else if (n2 == 1) { // n1 is 0
 				map <gcu::Atom*, gcu::Bond*>::iterator it;
 				Bond *bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));

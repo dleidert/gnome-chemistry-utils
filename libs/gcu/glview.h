@@ -129,8 +129,24 @@ Generates a pixbuf from the current view.
 @return the pixbuf containing the generated image
 */
 	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
+/*!
+@param print a GtkPrintOperation.
+@param context a GtkPrintContext.
+
+Prints the current view at 300 dpi.
+*/
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
+/*!
+@return the top level GtkWindow containing the view.
+*/
 	GtkWindow *GetGtkWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget));}
+/*!
+@param cr a cairo_t.
+@param width the width used for rendering. 
+@param height the height used for rendering. 
+
+Outputs a bitmap to cairo. Used internally for printing and various image formats exports.
+*/
 	void RenderToCairo (cairo_t *cr, unsigned width, unsigned height) const;
 
 private:

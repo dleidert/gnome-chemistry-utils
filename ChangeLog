@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: completed (hopefully) the work on double bonds display.
+	* libs/gcu/element.h:  more API documentation work.
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/isotope.h: ditto.
+	* libs/gcu/loader.cc: ditto.
+	* libs/gcu/loader.h: ditto.
+	* libs/gcu/macros.h: ditto.
+
 2008-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: fixed include paths.
 	* libs/gcp/atom.cc: more work on double bonds display.
