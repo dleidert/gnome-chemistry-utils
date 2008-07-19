@@ -1,7 +1,7 @@
 /**********************************************************************
   Cylinder - Class for drawing cylinders in OpenGL
 
-  Copyright (C) 2007 Jean Brefort <jean.brefort@normalesup.org>
+  Copyright (C) 2007-2008 Jean Brefort <jean.brefort@normalesup.org>
   Copyright (C) 2006,2007 Benoit Jacob <jacob@math.jussieu.fr>
 
   This file is part of the Avogadro molecular editor project.
@@ -28,6 +28,7 @@
 
 #include "vector.h"
 
+/*!\file*/
 namespace OpenBabel {
 	class vector3;
 }

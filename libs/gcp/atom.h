@@ -4,7 +4,7 @@
  * GChemPaint library
  * atom.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -39,19 +39,11 @@ namespace OpenBabel
 	class OBAtom;
 }
 
+/*!\file*/
 namespace gcp {
 
 class Bond;
 class Molecule;
-
-#define CHARGE_NE 1
-#define CHARGE_NW 2
-#define CHARGE_N 4
-#define CHARGE_SE 8
-#define CHARGE_SW 16
-#define CHARGE_S 32
-#define CHARGE_E 64
-#define CHARGE_W 128
 
 #define POSITION_NE 1
 #define POSITION_NW 2
@@ -65,6 +57,8 @@ class Molecule;
 enum {
 	LEFT_HPOS,
 	RIGHT_HPOS,
+	TOP_HPOS,
+	BOTTOM_HPOS,
 	AUTO_HPOS,
 };
 
@@ -158,7 +152,7 @@ private:
 	int m_nlu; //single electrons number
 	double m_width, m_height; //size of the atomic symbol in the canvas
 	double m_length, m_text_height; // size of the text buffer
-	int m_HPos; //0 = left, 1 = right, 2 = top, 3 = bottom
+	int m_HPos; //0 = left, 1 = right, 2 = top, 3 = bottom, 4 = auto
 	bool m_ChargeAuto;
 	int m_Changed; //update needs regenerate the buffer
 	int m_ascent;
@@ -174,7 +168,7 @@ private:
 	std::list<double> m_AngleList;
 	std::map<double, double> m_InterBonds; /* positions betwen bonds. First  value is the
 	angle between the two bonds and second value is the direction */
-	PangoLayout *m_Layout, *m_ChargeLayout;
+	PangoLayout *m_Layout, *m_ChargeLayout, *m_HLayout;
 	bool m_DrawCircle;
 	std::string m_FontName;
 	double m_SWidth, m_SHeightH, m_SHeightL, m_SAngleH, m_SAngleL;

@@ -35,6 +35,7 @@
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <canvas/gprintable.h>
+#include <gcu/formula.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <stdexcept>
@@ -55,11 +56,17 @@ static void on_text_sel_changed (Text *text, struct GnomeCanvasPangoSelBounds *b
 	text->OnSelChanged (bounds);
 }
 
-Text::Text (): TextObject (TextType)
+Text::Text (): TextObject (TextType),
+	m_Align (PANGO_ALIGN_LEFT),
+	m_Justified (false),
+	m_Anchor (GTK_ANCHOR_W)
 {
 }
 
-Text::Text (double x, double y): TextObject (x, y, TextType)
+Text::Text (double x, double y): TextObject (x, y, TextType),
+	m_Align (PANGO_ALIGN_LEFT),
+	m_Justified (false),
+	m_Anchor (GTK_ANCHOR_W)
 {
 }
 
@@ -329,6 +336,10 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		xmlFreeNode (node);
 		return NULL;
 	}
+	if (m_Justified)
+		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) "justify");
+	else if (m_Align != PANGO_ALIGN_LEFT)
+		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) ((m_Align == PANGO_ALIGN_RIGHT)? "right": "center"));
 	unsigned i = 0;
 	SaveStruct *head = NULL, *cur;
 	const char *text = pango_layout_get_text (m_Layout);
@@ -394,6 +405,18 @@ bool Text::Load (xmlNodePtr node)
 {
 	if (!TextObject::Load (node))
 		return false;
+	xmlChar *buf = xmlGetProp (node, (xmlChar const *) "justification");
+	if (buf) {
+		if (!strcmp ((char const *) buf, "justify"))
+			m_Justified = true;
+		else if (!strcmp ((char const *) buf, "right"))
+			m_Justified = PANGO_ALIGN_RIGHT;
+		else if (!strcmp ((char const *) buf, "center"))
+			m_Justified = PANGO_ALIGN_CENTER;
+		else
+			m_Justified = PANGO_ALIGN_LEFT;
+		xmlFree (buf);
+	}
 	xmlNodePtr child;
 	m_bLoading = true;
 	child = node->children;
@@ -457,7 +480,7 @@ static bool on_insert (PangoAttribute *attr, struct limits *l)
 	return false;
 }
 
-bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level)
+bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 {
 	char* buf;
 	PangoAttribute *Attr = NULL, *Attr0 = NULL;
@@ -534,7 +557,8 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level)
 			return false;
 		PangoFontDescription* pfd =pango_font_description_from_string (TagName);
 		Attr = pango_attr_family_new (pango_font_description_get_family (pfd));
-		Attr0 = pango_attr_size_new (pango_font_description_get_size (pfd));
+		cur_size = pango_font_description_get_size (pfd);
+		Attr0 = pango_attr_size_new (cur_size);
 		pango_font_description_free (pfd);
 		xmlFree (TagName);
 	} else if (!strcmp ((const char*) node->name, "small-caps"))
@@ -584,7 +608,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level)
 		return true;
 	xmlNodePtr child = node->children;
 	while (child) {
-		if (!LoadNode (child, pos, 1))
+		if (!LoadNode (child, pos, 1, cur_size))
 			return false;
 		child = child->next;
 	}
@@ -631,18 +655,33 @@ void Text::Add (GtkWidget* w) const
 			pango_attr_list_unref (m_AttrList);
 			const_cast <Text *> (this)->m_AttrList = NULL;
 		}
+		if (m_Justified)
+			pango_layout_set_justify (m_Layout, true);
+		else
+			pango_layout_set_alignment (m_Layout, m_Align);
 		PangoRectangle rect;
 		pango_layout_get_extents (m_Layout, NULL, &rect);
 		const_cast <Text *> (this)->m_length = rect.width / PANGO_SCALE;
 		const_cast <Text *> (this)->m_height = rect.height / PANGO_SCALE;
 	}
+	double x = m_x * pTheme->GetZoomFactor ();
+	switch (m_Anchor) {
+	case GTK_ANCHOR_E:
+		x -= m_length;
+		break;
+	case GTK_ANCHOR_CENTER:
+		x -= m_length / 2;
+		break;
+	default:
+		break;
+	}
 	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type(), NULL));
 	GnomeCanvasItem* item = gnome_canvas_item_new (
 						group,
 						gnome_canvas_rect_ext_get_type (),
-						"x1", m_x * pTheme->GetZoomFactor () - pTheme->GetPadding (),
+						"x1", x - pTheme->GetPadding (),
 						"y1", m_y * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_ascent,
-						"x2", m_x * pTheme->GetZoomFactor () + m_length + pTheme->GetPadding (),
+						"x2", x + m_length + pTheme->GetPadding (),
 						"y2", m_y * pTheme->GetZoomFactor () + m_height + pTheme->GetPadding () - m_ascent,
 						"fill_color", "white",
 						"outline_color", "white",
@@ -654,7 +693,7 @@ void Text::Add (GtkWidget* w) const
 						group,
 						gnome_canvas_pango_get_type (),
 						"layout", m_Layout,
-						"x", m_x * pTheme->GetZoomFactor (),
+						"x", x,
 						"y", m_y * pTheme->GetZoomFactor () - m_ascent,
 						"editing", false,
 						NULL);
@@ -709,16 +748,31 @@ void Text::Update (GtkWidget* w) const
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	GnomeCanvasGroup* group = pData->Items[this];
+	if (m_Justified)
+		pango_layout_set_justify (m_Layout, true);
+	else
+		pango_layout_set_alignment (m_Layout, m_Align);
+	double x = m_x * pTheme->GetZoomFactor ();
+	switch (m_Anchor) {
+	case GTK_ANCHOR_E:
+		x -= m_length;
+		break;
+	case GTK_ANCHOR_CENTER:
+		x -= m_length / 2;
+		break;
+	default:
+		break;
+	}
 	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "text")),
-						"x", m_x * pTheme->GetZoomFactor (),
+						"x", x,
 						"y", m_y * pTheme->GetZoomFactor () - m_ascent,
 						"width", m_length,
 						"height", m_height,
 						NULL);
 	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "rect")),
-						"x1", m_x * pTheme->GetZoomFactor () - pTheme->GetPadding (),
+						"x1", x - pTheme->GetPadding (),
 						"y1", m_y * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_ascent,
-						"x2", m_x * pTheme->GetZoomFactor () + m_length + pTheme->GetPadding (),
+						"x2", x + m_length + pTheme->GetPadding (),
 						"y2", m_y * pTheme->GetZoomFactor () + m_height + pTheme->GetPadding () - m_ascent,
 						NULL);
 }
@@ -784,8 +838,44 @@ bool Text::SetProperty (unsigned property, char const *value)
 		SetCoords (x, y);
 		break;
 	}
+	case GCU_PROP_TEXT_MARKUP: {
+		xmlDocPtr xml = xmlParseMemory (value, strlen (value));
+		xmlNodePtr node = xml->children->children;
+		unsigned pos = 0;
+		if (m_AttrList)
+			pango_attr_list_unref (m_AttrList);
+		m_buf.clear ();
+		m_AttrList = pango_attr_list_new ();
+		m_bLoading = true;
+		while (node) {
+			if (!LoadNode (node, pos, 1))
+				return false;
+			node = node->next;
+		}
+		m_bLoading = false;
+		// FIXME: implement
+		break;
+	}
 	case GCU_PROP_TEXT_TEXT:
 		m_buf = value;
+		break;
+	case GCU_PROP_TEXT_ALIGNMENT:
+		if (!strcmp (value, "right"))
+				m_Anchor = GTK_ANCHOR_E;
+		else if (!strcmp (value, "left"))
+				m_Anchor = GTK_ANCHOR_W;
+		else if (!strcmp (value, "center"))
+				m_Anchor = GTK_ANCHOR_CENTER;
+		break;
+	case GCU_PROP_TEXT_JUSTIFICATION:
+		if (!strcmp (value, "right"))
+				m_Align = PANGO_ALIGN_RIGHT;
+		else if (!strcmp (value, "left"))
+				m_Align = PANGO_ALIGN_LEFT;
+		else if (!strcmp (value, "center"))
+				m_Align = PANGO_ALIGN_CENTER;
+		else if (!strcmp (value, "justify"))
+				m_Justified = true;
 		break;
 	}
 	return true;

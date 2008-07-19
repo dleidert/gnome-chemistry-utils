@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/chain.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,7 @@
 #include "object.h"
 #include <map>
 
+/*!\file*/
 namespace gcu {
 
 class Atom;

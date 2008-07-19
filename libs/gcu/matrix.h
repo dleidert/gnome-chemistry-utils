@@ -27,6 +27,7 @@
 
 #include <openbabel/math/vector3.h>
 
+/*!\file*/
 namespace gcu
 {
 
@@ -125,6 +126,9 @@ private:
 	double x[3][3];
 };
 
+/*!\class GLMatrix gcu/matrix.h
+A 4x4 matrix class used by gcu::Cylinder.
+*/
 class GLMatrix
 {
 public:
@@ -133,11 +137,19 @@ Default constructor. Members are not initialized. This constructor is rarely use
 */
 	GLMatrix ();
 /*!
-The destructor of Matrix.
+The destructor of GLMatrix.
 */
 	virtual ~GLMatrix ();
 
+/*!
+@param i the row
+@param j the column
+@return returns the value for row \a i and column \a j.
+*/
 	double &operator() (int i, int j) {return x[i][j];}
+/*!
+@return a pointer to the array of values.
+*/
 	double *array () {return (double*) x;}
 
 private:

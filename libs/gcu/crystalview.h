@@ -32,6 +32,7 @@
 #include <map>
 #include <gtk/gtkwidget.h>
 
+/*!\file*/
 namespace gcu
 {
 class CrystalDoc;

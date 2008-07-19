@@ -30,6 +30,7 @@
 #include <map>
 #include <vector>
 
+/*!\file*/
 namespace gcu
 {
 	

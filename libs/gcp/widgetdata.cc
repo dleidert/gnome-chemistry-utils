@@ -317,16 +317,18 @@ void WidgetData::GetObjectBounds (Object const *obj, ArtDRect &rect) const
 	if ((g = Items.find (obj)) != Items.end ()) {
 		group = (*g).second;
 		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (group), &x1, &y1, &x2, &y2);
-		if (!go_finite (rect.x0)) {
-			rect.x0 = x1;
-			rect.y0 = y1;
-			rect.x1 = x2;
-			rect.y1 = y2;
-		} else {
-			if (rect.x0 > x1) rect.x0 = x1;
-			if (rect.y0 > y1) rect.y0 = y1;
-			if (rect.x1 < x2) rect.x1 = x2;
-			if (rect.y1 < y2) rect.y1 = y2;
+		if (x2 > 0.) {
+			if (!go_finite (rect.x0)) {
+				rect.x0 = x1;
+				rect.y0 = y1;
+				rect.x1 = x2;
+				rect.y1 = y2;
+			} else {
+				if (rect.x0 > x1) rect.x0 = x1;
+				if (rect.y0 > y1) rect.y0 = y1;
+				if (rect.x1 < x2) rect.x1 = x2;
+				if (rect.y1 < y2) rect.y1 = y2;
+			}
 		}
 	}
 	std::map<std::string, Object*>::const_iterator i;

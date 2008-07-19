@@ -84,9 +84,78 @@ gnome_canvas_group_ext_get_type (void)
 	return group_ext_type;
 }
 
+/* Bounds handler for canvas groups */
 static void
-gnome_canvas_group_ext_class_init (GnomeCanvasGroupExtClass *class)
+gnome_canvas_group_ext_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
 {
+	GnomeCanvasGroup *group;
+	GnomeCanvasItem *child;
+	GList *list;
+	double tx1, ty1, tx2, ty2;
+	double minx, miny, maxx, maxy;
+	int set;
+
+	group = GNOME_CANVAS_GROUP (item);
+
+	/* Get the bounds of the first visible item */
+
+	child = NULL; /* Unnecessary but eliminates a warning. */
+
+	set = FALSE;
+
+	for (list = group->item_list; list; list = list->next) {
+		child = list->data;
+
+		if (child->object.flags & GNOME_CANVAS_ITEM_VISIBLE) {
+			set = TRUE;
+			gnome_canvas_item_get_bounds (child, &minx, &miny, &maxx, &maxy);
+			break;
+		}
+	}
+
+
+	if (!set) {
+		*x1 = *y1 = G_MAXDOUBLE;
+		*x2 = *y2 = -G_MAXDOUBLE;
+		return;
+	}
+
+	/* Now we can grow the bounds using the rest of the items */
+
+	list = list->next;
+
+	for (; list; list = list->next) {
+		child = list->data;
+
+		if (!(child->object.flags & GNOME_CANVAS_ITEM_VISIBLE))
+			continue;
+
+		gnome_canvas_item_get_bounds (child, &tx1, &ty1, &tx2, &ty2);
+
+		if (tx1 < minx)
+			minx = tx1;
+
+		if (ty1 < miny)
+			miny = ty1;
+
+		if (tx2 > maxx)
+			maxx = tx2;
+
+		if (ty2 > maxy)
+			maxy = ty2;
+	}
+
+	*x1 = minx;
+	*y1 = miny;
+	*x2 = maxx;
+	*y2 = maxy;
+}
+
+static void
+gnome_canvas_group_ext_class_init (GnomeCanvasGroupExtClass *klass)
+{
+	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) klass;
+	item_class->bounds = gnome_canvas_group_ext_bounds;
 }
 
 static void

@@ -1,5 +1,56 @@
 ##Text encoding: utf-8
 
+2008-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/canvas/gcp-canvas-group.c: (gnome_canvas_group_ext_bounds),
+	(gnome_canvas_group_ext_class_init): enhance bounds evaluation.
+	* libs/gcp/atom.cc: start work on H atom position enhancement.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/bond.cc: finished rewrite of double bnd redering.
+	* libs/gcp/fragment-atom.cc: minor updates.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/text.cc: support markup property.
+	* libs/gcp/text.h: ditto.
+	* libs/gcp/view.cc: ensure that the size is valid.
+	* libs/gcp/widgetdata.cc: enhance bounds evaluation.
+	* libs/gcu/application.h: more API documentation work.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/chain.h: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/crystalatom.h: ditto.
+	* libs/gcu/crystalcleavage.h: ditto.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/crystalline.h: ditto.
+	* libs/gcu/crystalview.h: ditto.
+	* libs/gcu/cycle.h: ditto.
+	* libs/gcu/cylinder.h: ditto.
+	* libs/gcu/dialog-owner.h: ditto.
+	* libs/gcu/dialog.h: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/element.h: ditto.
+	* libs/gcu/filechooser.h: ditto.
+	* libs/gcu/formula.h: ditto.
+	* libs/gcu/gldocument.h: ditto.
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/isotope.h: ditto.
+	* libs/gcu/loader.h: ditto.
+	* libs/gcu/matrix.h: ditto.
+	* libs/gcu/matrix2d.h: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/object.h: ditto.
+	* libs/gcu/objprops.h: ditto.
+	* libs/gcu/print-setup-dlg.h: ditto.
+	* libs/gcu/printable.h: ditto.
+	* libs/gcu/residue.h: ditto.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+	* libs/gcu/sphere.h: ditto.
+	* libs/gcu/value.h: ditto.
+	* libs/gcu/vector.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: import text decorations.
+	* plugins/paint/atoms/chargetool.cc: minor update.
+
 2008-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: completed (hopefully) the work on double bonds display.
 	* libs/gcu/element.h:  more API documentation work.

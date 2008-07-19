@@ -69,7 +69,7 @@ Atom::Atom (): gcu::Atom (),
 	m_ChargeAngle = 0.;
 	m_ChargeDist = 0.;
 	m_ChargeAutoPos = true;
-	m_Layout = m_ChargeLayout = NULL;
+	m_Layout = m_ChargeLayout = m_HLayout = NULL;
 	m_DrawCircle = false;
 	m_SWidth = 0.;
 }
@@ -111,7 +111,7 @@ Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z),
 	m_ChargeAngle = 0.;
 	m_ChargeDist = 0.;
 	m_ChargeAutoPos = true;
-	m_Layout = m_ChargeLayout = NULL;
+	m_Layout = m_ChargeLayout = m_HLayout = NULL;
 	m_DrawCircle = false;
 	m_SWidth = 0.;
 }
@@ -138,7 +138,7 @@ Atom::Atom (OBAtom* atom): gcu::Atom (),
 	m_ChargeAngle = 0.;
 	m_ChargeDist = 0.;
 	m_ChargeAutoPos = true;
-	m_Layout = m_ChargeLayout = NULL;
+	m_Layout = m_ChargeLayout = m_HLayout = NULL;
 	m_DrawCircle = false;
 	m_Charge = atom->GetFormalCharge ();
 	m_SWidth = 0.;
@@ -911,30 +911,30 @@ void Atom::UpdateAvailablePositions ()
 		while ((n != m_AngleList.end ()) && (*n < angle)) n++;
 		m_AngleList.insert (n, angle);
 		i++;
-		if ((m_AvailPos & CHARGE_SW) && (angle >= 180.0 - ATOM_EPSILON) &&
+		if ((m_AvailPos & POSITION_SW) && (angle >= 180.0 - ATOM_EPSILON) &&
 			(angle <= 270.0 + ATOM_EPSILON))
-			m_AvailPos -= CHARGE_SW;
-		if ((m_AvailPos & CHARGE_SE) && (((angle >= 270.0 - ATOM_EPSILON) &&
+			m_AvailPos -= POSITION_SW;
+		if ((m_AvailPos & POSITION_SE) && (((angle >= 270.0 - ATOM_EPSILON) &&
 			(angle <= 360.0 + ATOM_EPSILON)) || (fabs(angle) < ATOM_EPSILON)))
-			m_AvailPos -= CHARGE_SE;
-		if ((m_AvailPos & CHARGE_S) && (angle >= 225.0 - ATOM_EPSILON) &&
+			m_AvailPos -= POSITION_SE;
+		if ((m_AvailPos & POSITION_S) && (angle >= 225.0 - ATOM_EPSILON) &&
 			(angle <= 315.0 + ATOM_EPSILON))
-			m_AvailPos -= CHARGE_S;
-		if ((m_AvailPos & CHARGE_NW) && (angle >= 90.0 - ATOM_EPSILON) &&
+			m_AvailPos -= POSITION_S;
+		if ((m_AvailPos & POSITION_NW) && (angle >= 90.0 - ATOM_EPSILON) &&
 			(angle <= 180.0 + ATOM_EPSILON))
-			m_AvailPos -= CHARGE_NW;
-		if ((m_AvailPos & CHARGE_NE) && (((angle >= 0.0 - ATOM_EPSILON) &&
+			m_AvailPos -= POSITION_NW;
+		if ((m_AvailPos & POSITION_NE) && (((angle >= 0.0 - ATOM_EPSILON) &&
 			(angle <= 90.0 + ATOM_EPSILON)) || (fabs(angle - 360.0) < ATOM_EPSILON)))
-			m_AvailPos -= CHARGE_NE;
-		if ((m_AvailPos & CHARGE_N) && (angle >= 45.0 - ATOM_EPSILON) &&
+			m_AvailPos -= POSITION_NE;
+		if ((m_AvailPos & POSITION_N) && (angle >= 45.0 - ATOM_EPSILON) &&
 			(angle <= 135.0 + ATOM_EPSILON))
-			m_AvailPos -= CHARGE_N;
-		if ((m_AvailPos & CHARGE_W) && ((angle <= 225.0 + ATOM_EPSILON) &&
+			m_AvailPos -= POSITION_N;
+		if ((m_AvailPos & POSITION_W) && ((angle <= 225.0 + ATOM_EPSILON) &&
 			(angle >= 135.0 - ATOM_EPSILON)))
-			m_AvailPos -= CHARGE_W;
-		if ((m_AvailPos & CHARGE_E) && ((angle >= 315.0 - ATOM_EPSILON) ||
+			m_AvailPos -= POSITION_W;
+		if ((m_AvailPos & POSITION_E) && ((angle >= 315.0 - ATOM_EPSILON) ||
 			(angle <= 45.0 + ATOM_EPSILON)))
-			m_AvailPos -= CHARGE_E;
+			m_AvailPos -= POSITION_E;
 	}
 	m_AngleList.push_back ((angle = m_AngleList.front ()) + 360.0);
 	m_InterBonds.clear ();
@@ -967,22 +967,22 @@ int Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double
 			Angle = m_ChargeAngle * 180 / M_PI;
 	} else if (Pos == 0xff) {
 		if (m_AvailPos) {
-			if (m_AvailPos & CHARGE_NE)
-				Pos = CHARGE_NE;
-			else if (m_AvailPos & CHARGE_NW)
-				Pos = CHARGE_NW;
-			else if (m_AvailPos & CHARGE_N)
-				Pos = CHARGE_N;
-			else if (m_AvailPos & CHARGE_SE)
-				Pos = CHARGE_SE;
-			else if (m_AvailPos & CHARGE_SW)
-				Pos = CHARGE_SW;
-			else if (m_AvailPos & CHARGE_S)
-				Pos = CHARGE_S;
-			else if (m_AvailPos & CHARGE_E)
-				Pos = CHARGE_E;
-			else if (m_AvailPos & CHARGE_W)
-				Pos = CHARGE_W;
+			if (m_AvailPos & POSITION_NE)
+				Pos = POSITION_NE;
+			else if (m_AvailPos & POSITION_NW)
+				Pos = POSITION_NW;
+			else if (m_AvailPos & POSITION_N)
+				Pos = POSITION_N;
+			else if (m_AvailPos & POSITION_SE)
+				Pos = POSITION_SE;
+			else if (m_AvailPos & POSITION_SW)
+				Pos = POSITION_SW;
+			else if (m_AvailPos & POSITION_S)
+				Pos = POSITION_S;
+			else if (m_AvailPos & POSITION_E)
+				Pos = POSITION_E;
+			else if (m_AvailPos & POSITION_W)
+				Pos = POSITION_W;
 		} else {
 			Pos = 0;
 			angle = m_AngleList.front();
@@ -1018,35 +1018,35 @@ int Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double
 			return 0;
 	}
 	switch (Pos) {
-	case CHARGE_NE:
+	case POSITION_NE:
 		x = m_x + m_width / 2.0;
 		y = m_y - m_height / 2.0;
 		return 1;
-	case CHARGE_NW:
+	case POSITION_NW:
 		x = m_x - m_width / 2.0;
 		y = m_y - m_height / 2.0;
 		return -1;
-	case CHARGE_N:
+	case POSITION_N:
 		x = m_x;
 		y = m_y - m_height / 2.0;
 		return 2;
-	case CHARGE_SE:
+	case POSITION_SE:
 		x = m_x + m_width / 2.0;
 		y = m_y + m_height / 2.0;
 		return 1;
-	case CHARGE_SW:
+	case POSITION_SW:
 		x = m_x - m_width / 2.0;
 		y = m_y + m_height / 2.0;
 		return -1;
-	case CHARGE_S:
+	case POSITION_S:
 		x = m_x;
 		y = m_y + m_height / 2.0;
 		return -2;
-	case CHARGE_E:
+	case POSITION_E:
 		x = m_x /*+ 12.*/ + m_width / 2.0;
 		y = m_y;
 		return 1;
-	case CHARGE_W:
+	case POSITION_W:
 		x = m_x /*- 12.*/ - m_width / 2.0;
 		y = m_y;
 		return -1;
@@ -1278,7 +1278,7 @@ void Atom::BuildItems (WidgetData* pData)
 				attr->end_index = np + nw;
 				pango_attr_list_insert (pal, attr);
 			} else {
-				if (m_HPos) {
+				if (m_HPos == 1) {
 					text = g_strconcat (symbol, "H", NULL);
 					sp = 0;
 				} else {
@@ -1508,28 +1508,28 @@ xmlNodePtr Atom::Save (xmlDocPtr xml) const
 		if (m_ChargePos) {
 			char const *buf;
 			switch (m_ChargePos) {
-			case CHARGE_NE:
+			case POSITION_NE:
 				buf = "ne";
 				break;
-			case CHARGE_NW:
+			case POSITION_NW:
 				buf = "nw";
 				break;
-			case CHARGE_N:
+			case POSITION_N:
 				buf = "n";
 				break;
-			case CHARGE_SE:
+			case POSITION_SE:
 				buf = "se";
 				break;
-			case CHARGE_SW:
+			case POSITION_SW:
 				buf = "sw";
 				break;
-			case CHARGE_S:
+			case POSITION_S:
 				buf = "s";
 				break;
-			case CHARGE_E:
+			case POSITION_E:
 				buf = "e";
 				break;
-			case CHARGE_W:
+			case POSITION_W:
 				buf = "w";
 				break;
 			default:
@@ -1578,28 +1578,28 @@ bool Atom::Load (xmlNodePtr node)
 	m_ChargePos = 0xff;
 	if (buf) {
 		if (! strcmp (buf, "ne")) {
-			m_ChargePos = CHARGE_NE;
+			m_ChargePos = POSITION_NE;
 			m_ChargeAngle = M_PI / 4.;
 		} else if (! strcmp (buf, "nw")) {
-			m_ChargePos = CHARGE_NW;
+			m_ChargePos = POSITION_NW;
 			m_ChargeAngle = 3. * M_PI / 4.;
 		} else if (! strcmp (buf, "n")) {
-			m_ChargePos = CHARGE_N;
+			m_ChargePos = POSITION_N;
 			m_ChargeAngle = M_PI / 2.;
 		} else if (! strcmp (buf, "se")) {
-			m_ChargePos = CHARGE_SE;
+			m_ChargePos = POSITION_SE;
 			m_ChargeAngle = 7. * M_PI / 4;
 		} else if (! strcmp (buf, "sw")) {
-			m_ChargePos = CHARGE_SW;
+			m_ChargePos = POSITION_SW;
 			m_ChargeAngle = 5. * M_PI / 4;
 		} else if (! strcmp (buf, "s")) {
-			m_ChargePos = CHARGE_S;
+			m_ChargePos = POSITION_S;
 			m_ChargeAngle = 3 * M_PI / 2.;
 		} else if (! strcmp (buf, "e")) {
-			m_ChargePos = CHARGE_E;
+			m_ChargePos = POSITION_E;
 			m_ChargeAngle = 0.;
 		} else if (! strcmp (buf, "w")) {
-			m_ChargePos = CHARGE_W;
+			m_ChargePos = POSITION_W;
 			m_ChargeAngle = M_PI;
 		}
 		m_ChargeAutoPos = false;

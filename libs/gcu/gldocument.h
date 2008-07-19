@@ -28,6 +28,7 @@
 #include "document.h"
 #include "macros.h"
 
+/*!\file*/
 namespace gcu
 {
 

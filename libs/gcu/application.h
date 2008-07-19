@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/application.h
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,6 +37,7 @@
 #include <gtk/gtkrecentmanager.h>
 #include <gcu/macros.h>
 
+/*!\file*/
 namespace gcu {
 
 class Document;
@@ -269,6 +270,7 @@ GCU_PROT_PROP (std::set <Document*>, Docs)
 GCU_RO_PROP (unsigned, ScreenResolution)
 /*!\fn SetImageResolution(unsigned ImageResolution)
 @param ImageResolution the new image resolution.
+
 Sets the image resolution used when exporting a pixmap.
 Applications can use either the image resolution or the width and height to select
 an exported image size, but not both.
@@ -282,6 +284,7 @@ an exported image size, but not both.
 GCU_PROP (unsigned, ImageResolution)
 /*!\fn SetImageWidth(unsigned Width)
 @param Width the new image width.
+
 Sets the image width used when exporting a pixmap.
 Applications can use either the image resolution or the width and height to select
 an exported image size, but not both.
@@ -295,6 +298,7 @@ an exported image size, but not both.
 GCU_PROP (unsigned, ImageWidth)
 /*!\fn SetImageHeight(unsigned Height)
 @param Height the new image height.
+
 Sets the image height used when exporting a pixmap.
 Applications can use either the image resolution or the width and height to select
 an exported image size, but not both.

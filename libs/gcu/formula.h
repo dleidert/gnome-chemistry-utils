@@ -33,6 +33,7 @@
 #include "macros.h"
 #include "value.h"
 
+/*!\file*/
 namespace gcu
 {
 
@@ -42,7 +43,7 @@ represent both an atom or a group of atoms such as Ac and Pr. Possible values
 are:
 - GCU_FORMULA_PARSE_GUESS: try to determine the most probable interpretation of
 the symbol,
-- GCU_FORMULA_PARSE_ATOM: always inerpret as atoms,
+- GCU_FORMULA_PARSE_ATOM: always interpret as atoms,
 - GCU_FORMULA_PARSE_RESIDUE: always interpret as groups,
 - GCU_FORMULA_PARSE_ASK: ask the user for each encountered instance,
 - GCU_FORMULA_PARSE_NO_CASE: this one is unrelated and can ba combined with any

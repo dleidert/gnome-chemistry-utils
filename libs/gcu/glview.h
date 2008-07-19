@@ -39,6 +39,7 @@
 
 extern double DefaultPsi, DefaultTheta, DefaultPhi;
 
+/*!\file*/
 namespace gcu {
 
 class GLDocument;

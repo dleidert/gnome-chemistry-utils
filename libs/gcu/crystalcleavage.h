@@ -28,6 +28,7 @@
 #include <libxml/parser.h>
 #include <list>
 
+/*!\file*/
 namespace gcu
 {
 

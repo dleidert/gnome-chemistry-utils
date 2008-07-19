@@ -1,7 +1,7 @@
 /**********************************************************************
   Sphere - Class for drawing spheres in OpenGL
 
-  Copyright (C) 2007 Jean Brefort <jean.brefort@normalesup.org>
+  Copyright (C) 2007-2008 Jean Brefort <jean.brefort@normalesup.org>
   Copyright (C) 2006,2007 Benoit Jacob <jacob@math.jussieu.fr>
 
   This file is part of the Avogadro molecular editor project.
@@ -30,6 +30,7 @@ namespace OpenBabel {
 	class vector3;
 }
 
+/*!\file*/
 namespace gcu {
 
 /** \class Sphere gcu/sphere.h

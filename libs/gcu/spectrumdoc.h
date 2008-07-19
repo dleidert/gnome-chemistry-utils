@@ -30,69 +30,242 @@
 #include <string>
 #include <vector>
 
+/*!\file*/
 namespace gcu
 {
 
+/*!\enum SpectrumType gcu/spectrumdoc.h
+Represents the list of spectrum types supported (or which should be supported)
+by the gcu::SpectrumDocument class.
+*/
 typedef enum {
+/*!
+Infrared spectrum.
+*/
 	GCU_SPECTRUM_INFRARED,
+/*!
+Raman spectrum.
+*/
 	GCU_SPECTRUM_RAMAN,
+/*!
+Infrared peaks table.
+*/
 	GCU_SPECTRUM_INFRARED_PEAK_TABLE,
+/*!
+Infrared iterferogram.
+*/
 	GCU_SPECTRUM_INFRARED_INTERFEROGRAM,
+/*!
+Transformed infrared spectrum.
+*/
 	GCU_SPECTRUM_INFRARED_TRANSFORMED,
+/*!
+UV-visible spectrum.
+*/
 	GCU_SPECTRUM_UV_VISIBLE,
+/*!
+NMR spectrum.
+*/
 	GCU_SPECTRUM_NMR,
+/*!
+NMR FID.
+*/
 	GCU_SPECTRUM_NMR_FID,
+/*!
+NMR peaks table.
+*/
 	GCU_SPECTRUM_NMR_PEAK_TABLE,
+/*!
+NMR peaks assignments.
+*/
 	GCU_SPECTRUM_NMR_PEAK_ASSIGNMENTS,
+/*!
+Mass spectrum.
+*/
 	GCU_SPECTRUM_MASS,
+/*!
+Last known value. This value does not represent a valid type, but is
+equal to the number of supported types.
+*/
 	GCU_SPECTRUM_MAX
 } SpectrumType;
 
+
+/*!\enum SpectrumUnitType gcu/spectrumdoc.h
+Represents the list of units supported by the gcu::SpectrumDocument class.
+*/
 typedef enum {
+/*!
+Wave number per cm.
+*/
 	GCU_SPECTRUM_UNIT_CM_1,
+/*!
+Transmittance
+*/
 	GCU_SPECTRUM_UNIT_TRANSMITTANCE,
+/*!
+Absorbance
+*/
 	GCU_SPECTRUM_UNIT_ABSORBANCE,
+/*!
+Part per million.
+*/
 	GCU_SPECTRUM_UNIT_PPM,
+/*!
+Nanometers
+*/
 	GCU_SPECTRUM_UNIT_NANOMETERS,
+/*!
+Micrometers
+*/
 	GCU_SPECTRUM_UNIT_MICROMETERS,
+/*!
+Seconds
+*/
 	GCU_SPECTRUM_UNIT_SECONDS,
+/*!
+Hz.
+*/
 	GCU_SPECTRUM_UNIT_HZ,
+/*!
+M/Z (for mass spectra).
+*/
 	GCU_SPECTRUM_UNIT_M_Z,
+/*!
+Relative abundance.
+*/
 	GCU_SPECTRUM_UNIT_REL_ABUNDANCE,
+/*!
+Last known value. This value does not represent a valid type, but is
+equal to the number of supported units.
+*/
 	GCU_SPECTRUM_UNIT_MAX
 } SpectrumUnitType;
 
+/*!\enum SpectrumVarType gcu/spectrumdoc.h
+Represents the list of varialble types supported by the
+gcu::SpectrumDocument class.
+*/
 typedef enum {
+/*!
+Independent variable.
+*/
 	GCU_SPECTRUM_TYPE_INDEPENDENT,
+/*!
+Dependent variable.
+*/
 	GCU_SPECTRUM_TYPE_DEPENDENT,
+/*!
+Page number.
+*/
 	GCU_SPECTRUM_TYPE_PAGE,
+/*!
+Last known value. This value does not represent a valid type, but is
+equal to the number of supported types.
+*/
 	GCU_SPECTRUM_TYPE_MAX
 } SpectrumVarType;
 
+/*!\enum SpectrumFormatType gcu/spectrumdoc.h
+Represents the list of data formats from the JCAMP-DX specification supported
+by the gcu::SpectrumDocument class. See the JCAMP-DX specification for
+more information.
+*/
 typedef enum {
+/*!
+ASCII squeezed difference form.
+*/
 	GCU_SPECTRUM_FORMAT_ASDF,
+/*!
+ASCII free format numeric.
+*/
 	GCU_SPECTRUM_FORMAT_AFFN,
+/*!
+Packed form.
+*/
 	GCU_SPECTRUM_FORMAT_PAC,
+/*!
+Squeezed form.
+*/
 	GCU_SPECTRUM_FORMAT_SQZ,
+/*!
+Difference form.
+*/
 	GCU_SPECTRUM_FORMAT_DIF,
+/*!
+Last known value. This value does not represent a valid type, but is
+equal to the number of supported formats.
+*/
 	GCU_SPECTRUM_FORMAT_MAX
 } SpectrumFormatType;
 
 class Application;
 class SpectrumView;
 
+/*!\struct JdxVar gcu/spectrumdoc.h
+Used to store a series of data.
+*/
 typedef struct  {
+/*!
+The name of the series.
+*/
 	std::string Name;
+/*!
+The symbol associated to the series.
+*/
 	char Symbol;
+/*!
+The SpectrumVarType of the data.
+*/
 	SpectrumVarType Type;
+/*!
+The unit stored as a SpectrumUnitType value.
+*/
 	SpectrumUnitType Unit;
+/*!
+The format of the data when loaded from a JCAMP-DX file.
+*/
 	SpectrumFormatType Format;
+/*!
+The values number.
+*/
 	unsigned NbValues;
-	double First, Last, Min, Max, Factor;
+/*!
+First vaue in the series.
+*/
+	double First;
+/*!
+Last value in the series 
+*/
+	double Last;
+/*!
+Smallest value in  the series. 
+*/
+	double Min;
+/*!
+Largest value in the series. 
+*/
+	double Max;
+/*!
+Constant value by which each value in the series must be multiplied after
+loading from a JCAMP-DX file in order to get the real value.
+*/
+	double Factor;
+/*!
+The array of values.
+*/
 	double *Values;
+/*!
+The GogSeries used in the chart. See the GOffice documentation for more
+information.
+*/
 	GogSeries *Series;
 } JdxVar;
 
+/*!\class SpectrumDocument gcu/spectrumdoc.h
+The document class used for spectra. This API is still quite unstable and
+might change in the future.
+*/
 class SpectrumDocument: public Document, public Printable
 {
 public:
@@ -101,8 +274,8 @@ Default constructor
 */
 	SpectrumDocument ();
 /*!
-@param App the application.
-@param View: an optional already existing SpectrumView instance.
+@param app the application.
+@param view an optional already existing SpectrumView instance.
 */
 	SpectrumDocument (Application *app, SpectrumView *view = NULL);
 
@@ -121,14 +294,24 @@ Loads a spaectrum from the provided uri. Default mime type is NULL,
 	void Load (char const *uri, char const *mime_type = NULL);
 
 /*!
+@param i the rank of the unit to set.
+
+Called to change the displayed X axis unit. The values acceptable for the
+parameter are spectrum type dependent. This is used by the framework after
+a user made an appropriate request from the graphical interface.
 */
 	void OnUnitChanged (int i);
 
 /*!
+Used to show or hide the integral curve for an NMR spectrum.
 */
 	void OnShowIntegral ();
 
 /*!
+@param btn the clicked GtkButton.
+
+Called to transform an FID to the NMR spectrum. The label in the GtkButton
+might be changed.
 */
 	void OnTransformFID (GtkButton *btn);
 
@@ -150,11 +333,35 @@ private:
 	int X, Y, R, I, integral, Rt, It, Rp;
 	double freq;
 
+/*!\var m_View
+The SpectrumView instance associated with the document.
+*/
+/*!\fn GetView()
+@return the SpectrumView instance associated with the document.
+*/
 GCU_PROT_PROP (SpectrumView*, View)
+/*!\fn GetEmpty()
+@return true if the document does not have any data, false otherwise.
+*/
 GCU_RO_PROP (bool, Empty)
+/*!\fn GetSpectrumType()
+@return the gcu::SpectrumType of the document, or GCU_SPECTRUM_TYPE_MAX.
+*/
 GCU_RO_PROP (SpectrumType, SpectrumType)
+/*!\fn GetXUnit()
+@return the unit of the x-axis as gcu::SpectumUnitType, or
+GCU_SPECTRUM_UNIT_MAX.
+*/
 GCU_RO_PROP (SpectrumUnitType, XUnit)
+/*!\fn GetYUnit()
+@return the unit of the y-axis as gcu::SpectumUnitType, or
+GCU_SPECTRUM_UNIT_MAX.
+*/
 GCU_RO_PROP (SpectrumUnitType, YUnit)
+/*!\fn GetIntegralVisible()
+@return true if the integral of an NMR spectrum is visible, false in all
+other cases.
+*/
 GCU_RO_PROP (bool, IntegralVisible)
 };
 

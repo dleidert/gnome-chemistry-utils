@@ -101,28 +101,28 @@ bool gcpChargeTool::OnClicked ()
 			m_dDist = sqrt (m_x * m_x + m_y * m_y);
 		} else {
 			switch (m_Pos) {
-			case CHARGE_NE:
+			case POSITION_NE:
 				m_dAngle = M_PI / 4;
 				break;
-			case CHARGE_NW:
+			case POSITION_NW:
 				m_dAngle = 3 * M_PI / 4;
 				break;
-			case CHARGE_N:
+			case POSITION_N:
 				m_dAngle = M_PI / 2;
 				break;
-			case CHARGE_SE:
+			case POSITION_SE:
 				m_dAngle = 7 * M_PI / 4;
 				break;
-			case CHARGE_SW:
+			case POSITION_SW:
 				m_dAngle = 5 * M_PI / 4;
 				break;
-			case CHARGE_S:
+			case POSITION_S:
 				m_dAngle = 3 * M_PI / 2;
 				break;
-			case CHARGE_E:
+			case POSITION_E:
 				m_dAngle = 0.;
 				break;
-			case CHARGE_W:
+			case POSITION_W:
 				m_dAngle = M_PI;
 				break;
 			}

@@ -26,13 +26,23 @@
 #include "dialog.h"
 #include "printable.h"
 
+/*!\file*/
 namespace gcu {
 
 class Application;
 
+/*!\class PrintSetupDlg gcu/print-setup-dlg.h
+The print setup dialog.
+*/
 class PrintSetupDlg: public Dialog
 {
 public:
+/*!
+@param App the application.
+@param printable the printable object.
+
+Builds and shows a print setup dialog for the gcu::Printable instance.
+*/
 	PrintSetupDlg (Application* App, Printable *printable);
 	virtual ~PrintSetupDlg ();
 

@@ -46,7 +46,7 @@ public:
 	xmlNodePtr SaveSelection (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr);
 	bool LoadSelection (xmlNodePtr node, unsigned pos);
-	bool LoadNode (xmlNodePtr, unsigned &pos, int level = 0);
+	bool LoadNode (xmlNodePtr, unsigned &pos, int level = 0, int cur_size = 0);
 	void Add (GtkWidget* w) const;
 	void Update (GtkWidget* w) const;
 	void SetSelected (GtkWidget* w, int state);
@@ -58,7 +58,9 @@ public:
 	void SetText (char const *text) {m_buf = text;}
 	bool SetProperty (unsigned property, char const *value);
 	
-GCU_RO_PROP (PangoAlignment, Align);
+GCU_PROP (PangoAlignment, Align)
+GCU_PROP (bool, Justified)
+GCU_PROP (GtkAnchorType, Anchor)
 };
 
 }	//	namespace gcp

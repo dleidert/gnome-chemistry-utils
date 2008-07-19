@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * matrix2d.h 
  *
- * Copyright (C) 2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +24,7 @@
  
 #ifndef GCU_MATRIX2D_H
 #define GCU_MATRIX2D_H
+/*!\file*/
 
 namespace gcu
 {

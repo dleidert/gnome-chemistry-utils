@@ -149,6 +149,10 @@ void gnome_canvas_gcp_update_bounds (GnomeCanvasGCP *canvas)
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (canvas), "data");
 	double x1, y1, x2, y2;
 	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Group), &x1, &y1, &x2, &y2);
+	if (x1 > x2)
+		x1 = x2 = 0.;
+	if (y1 > y2)
+		y1 = y2 = 0.;
 	gcp::View *pView = (gcp::View*) g_object_get_data (G_OBJECT (canvas), "view");
 	pView->UpdateSize (x1, y1, x2, y2);
 }
@@ -1024,7 +1028,6 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		}
 		ArtDRect rect;
 		m_pData->GetObjectBounds (m_pDoc, &rect);
-		m_pData->ShowSelection (false);
 		cairo_surface_t *surface = NULL;
 		if (!strcmp (type, "pdf"))
 			surface = cairo_pdf_surface_create_for_stream (cairo_write_func, output, w, h);

@@ -29,6 +29,7 @@
 #include <gcu/gldocument.h>
 #include <openbabel/mol.h>
 
+/*!\file*/
 namespace gcu {
 
 /*! \enum Display3DMode

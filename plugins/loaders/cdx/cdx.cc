@@ -41,6 +41,7 @@
 #include <cstdio>
 #include <libintl.h>
 #include <cstring>
+#include <sstream>
 
 using namespace std;
 using namespace gcu;
@@ -84,7 +85,7 @@ static gint32 ReadInt (GsfInput *input, int size)
 	return res;
 }
 
-static guint32 ReadUInt (GsfInput *input, int size)
+/*static guint32 ReadUInt (GsfInput *input, int size)
 {
 	guint32 res = 0;
 	switch (size) {
@@ -99,7 +100,7 @@ static guint32 ReadUInt (GsfInput *input, int size)
 		break;
 	}
 	return res;
-}
+}*/
 
 class CDXLoader: public gcu::Loader
 {
@@ -128,9 +129,12 @@ private:
 	size_t bufsize;
 	map<unsigned, CDXFont> fonts;
 	vector <string> colors;
+	guint8 m_TextAlign, m_TextJustify;
 };
 
-CDXLoader::CDXLoader ()
+CDXLoader::CDXLoader ():
+	m_TextAlign (0),
+	m_TextJustify (0)
 {
 	AddMimeType ("chemical/x-cdx");
 }
@@ -235,8 +239,8 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 			}
 			break;
 			case kCDXProp_ColorTable: {
-				colors.push_back ("1 1 1"); // white
-				colors.push_back ("0 0 0"); // black
+				colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white
+				colors.push_back ("red=\"0\" green=\"0\" blue=\"0\""); // black
 				unsigned nb = (size - 2) / 6;
 				if (!READINT16 (in,size) || size != nb)
 					return false;
@@ -244,9 +248,14 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				for (unsigned i = 0; i < nb; i++) {
 				if (!READINT16 (in,red) || !READINT16 (in,green) || !READINT16 (in,blue))
 					return false;
-					snprintf (buf, bufsize, "%g %g %g", (double) red / 0xffff, (double) green / 0xffff, (double) blue / 0xffff);
+					snprintf (buf, bufsize, "red=\"%g\" green=\"%g\" blue=\"%g\"", (double) red / 0xffff, (double) green / 0xffff, (double) blue / 0xffff);
 					colors.push_back (buf);
 				}
+				break;
+			}
+			case kCDXProp_CaptionJustification: {
+				if (!gsf_input_read (in, 1, &m_TextAlign))
+					return false;
 				break;
 			}
 			default:
@@ -718,11 +727,20 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 	return true;
 }
 
+typedef struct {
+	guint16 index;
+	guint16 font;
+	guint16 face;
+	guint16 size;
+	guint16 color;
+} attribs;
+
 bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 {
 	guint16 code;
 	Object *Text= Object::CreateObject ("text", parent);
 	guint32 Id;
+	guint8 TextAlign = 0xfe, TextJustify = 0xfe;
 	if (!READINT32 (in,Id))
 		return false;
 	snprintf (buf, bufsize, "t%d", Id);
@@ -752,26 +770,172 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 			}
 			case kCDXProp_Text: {
 				guint16 nb;
+				bool interpret = false;
+				attribs attrs, attrs0;
+				attrs0.index = 0; // makes gcc happy
+				attrs0.face = 0; // ditto
 				if (!READINT16 (in,nb))
 					return false;
+				list <attribs> attributes;
 				size -=2;
+				guint16 *n = &attrs.index;
 				for (int i =0; i < nb; i++) {
 					if (size < 10)
 						return false;
-					guint16 n[5];
 					for (int j = 0; j < 5; j++)
 						if (!READINT16 (in,n[j]))
 							return false;
+					attributes.push_back (attrs);
 					size -= 10;
 				}
 				if (size < 1)
 					return false;
-				if (!gsf_input_read (in, size, (guint8*) buf))
-					return false;
-				buf[size] = 0;
-				Text->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+				if (attributes.empty ()) {
+					if (!gsf_input_read (in, size, (guint8*) buf))
+						return false;
+					buf[size] = 0;
+					Text->SetProperty (GCU_PROP_TEXT_TEXT, buf);
+				} else {
+					ostringstream str;
+					str << "<text>";
+					while (!attributes.empty ()) {
+						attrs = attributes.front ();
+						attributes.pop_front ();
+						if (attrs.index > 0) {
+							attrs0.index = attrs.index - attrs0.index;
+							if (!gsf_input_read (in, attrs0.index, (guint8*) buf))
+								return false;
+							buf[attrs0.index] = 0;
+							// supposing the text is ASCII !!
+							if (interpret) {
+								// for now put all numbers as subscripts
+								// FIXME: fix this kludgy code
+								int cur = 0;
+								while (cur < attrs0.index) {
+									while (cur < attrs0.index && (buf[cur] < '0' || buf[cur] > '9')){printf("cur=%d c=%c\n",cur,buf[cur]);
+										str << buf[cur++];}
+									if (cur < attrs0.index) {
+										if (attrs0.face & 4)
+											str << "</u>";
+										if (attrs0.face & 2)
+											str << "</i>";
+										if (attrs0.face & 1)
+											str << "</b>";
+										str << "</fore></font><font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
+										str << "<fore " << colors[attrs.color] << ">";
+										str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
+										while (buf[cur] >= '0' && buf[cur] <= '9'){printf("cur=%d c=%c\n",cur,buf[cur]);
+											str << buf[cur++];}
+										str << "</sub></fore></font><font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+										str << "<fore " << colors[attrs.color] << ">";
+										if (attrs0.face & 1)
+											str << "<b>";
+										if (attrs0.face & 4)
+											str << "<u>";
+										if (attrs0.face & 2)
+											str << "<i>";
+											}
+								}
+							} else
+								str << buf;
+							size -= attrs0.index;
+							if ((attrs0.face & 0x60) == 0x60)
+								interpret = false;
+							else if (attrs0.face & 0x40)
+								str << "</sup>";
+							else if (attrs0.face & 0x20)
+								str << "</sub>";
+							if (attrs0.face & 4)
+								str << "</u>";
+							if (attrs0.face & 2)
+								str << "</i>";
+							if (attrs0.face & 1)
+								str << "</b>";
+							str << "</fore>";
+							str << "</font>";
+						}
+						if ((attrs.face & 0x60) != 0 && (attrs.face & 0x60) != 0x60)
+							attrs.size = attrs.size * 2 / 3;
+						str << "<font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+						str << "<fore " << colors[attrs.color] << ">";
+						if (attrs.face & 1)
+							str << "<b>";
+						if (attrs.face & 2)
+							str << "<i>";
+						if (attrs.face & 4)
+							str << "<u>";
+						// skip 0x08 == outline since it is not supported
+						// skip 0x10 == shadow since it is not supported
+						if ((attrs.face & 0x60) == 0x60)
+							interpret = true;
+						else if (attrs.face & 0x20)
+							str << "<sub height=\"" << (double) attrs.size / 40. << "\">";
+						else if (attrs.face & 0x40)
+							str << "<sup height=\"" << (double) attrs.size / 20. << "\">";
+						attrs0 = attrs;
+					}
+					if (!gsf_input_read (in, size, (guint8*) buf))
+						return false;
+					buf[size] = 0;
+					// supposing the text is ASCII!!
+					if (interpret) {
+						// for now put all numbers as subscripts
+						// FIXME: fix this kludgy code
+						int cur = 0;
+						while (cur < size) {
+							while (cur < size && (buf[cur] < '0' || buf[cur] > '9'))
+								str << buf[cur++];
+							if (cur < size) {
+								if (attrs0.face & 4)
+									str << "</u>";
+								if (attrs0.face & 2)
+									str << "</i>";
+								if (attrs0.face & 1)
+									str << "</b>";
+								str << "</fore></font><font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
+								str << "<fore " << colors[attrs.color] << ">";
+								str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
+								while (buf[cur] >= '0' && buf[cur] <= '9')
+									str << buf[cur++];
+								str << "</sub></fore></font><font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+								str << "<fore " << colors[attrs.color] << ">";
+								if (attrs0.face & 1)
+									str << "<b>";
+								if (attrs0.face & 4)
+									str << "<u>";
+								if (attrs0.face & 2)
+									str << "<i>";
+							}
+						}
+					} else
+						str << buf;
+					if ((attrs0.face & 0x60) == 0x60)
+						interpret= false;
+					else if (attrs0.face & 0x40)
+						str << "</sup>";
+					else if (attrs0.face & 0x20)
+						str << "</sub>";
+					if (attrs0.face & 4)
+						str << "</u>";
+					if (attrs0.face & 2)
+						str << "</i>";
+					if (attrs0.face & 1)
+						str << "</b>";
+					str << "</fore>";
+					str << "</font>";
+					str << "</text>";
+					Text->SetProperty (GCU_PROP_TEXT_MARKUP, str.str().c_str());
+				}
 				break;
 			}
+			case kCDXProp_Justification:
+				if (!gsf_input_read (in, 1, &TextJustify))
+					return false;
+				break;
+			case kCDXProp_CaptionJustification:
+				if (!gsf_input_read (in, 1, &TextAlign))
+					return false;
+				break;
 			default:
 				if (size && !gsf_input_read (in, size, (guint8*) buf))
 					return false;
@@ -779,6 +943,41 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 		}
 		if (!READINT16 (in,code))
 			return false;
+	}
+	if (TextAlign == 0xfe)
+		TextAlign = m_TextAlign;
+	switch (TextAlign) {
+	case 0xff: 
+		Text->SetProperty (GCU_PROP_TEXT_ALIGNMENT, "right");
+		break;
+	case 0: 
+		Text->SetProperty (GCU_PROP_TEXT_ALIGNMENT, "left");
+		break;
+	case 1: 
+		Text->SetProperty (GCU_PROP_TEXT_ALIGNMENT, "center");
+		break;
+	default:
+	// Other cases are not currently supported
+		break;
+	}
+	if (TextJustify == 0xfe)
+		TextJustify = m_TextJustify;
+	switch (TextJustify) {
+	case 0xff: 
+		Text->SetProperty (GCU_PROP_TEXT_JUSTIFICATION, "right");
+		break;
+	case 0: 
+		Text->SetProperty (GCU_PROP_TEXT_JUSTIFICATION, "left");
+		break;
+	case 1: 
+		Text->SetProperty (GCU_PROP_TEXT_JUSTIFICATION, "center");
+		break;
+	case 2: 
+		Text->SetProperty (GCU_PROP_TEXT_JUSTIFICATION, "justify");
+		break;
+	default:
+	// Other cases are not currently supported
+		break;
 	}
 	return true;
 }

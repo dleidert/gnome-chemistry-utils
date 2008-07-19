@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * vector.h 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,31 +27,108 @@
 
 #include "macros.h"
 
+/*!\file*/
 namespace gcu
 {
 
-/*! class Vector3f gcu/vector.h
+/*!\class Vector3f gcu/vector.h
+Utility 3d vectors class used by the gcu::Sphere class.
 */
 
 class Vector3f
 {
 public:
+/*!
+Constructs a vector with all three coordinates equal to 0.
+*/
 	Vector3f ();
+/*!
+@param x the x coordinate.
+@param y the y coordinate.
+@param z the z coordinate.
+
+Constructs a vector given its three coordinates.
+*/
 	Vector3f (float x, float y, float z);
+/*!
+The destructor.
+*/
 	~Vector3f ();
 
+/*!
+*/
 	void normalize ();
+/*!
+@param other a Vector3f to copy.
+
+The assignment operator.
+@return a new vector identical to \a other and \a this.
+*/
 	Vector3f &operator= (Vector3f const& other);
+/*!
+@param other a Vector3f to substract.
+
+@return
+*/
 	Vector3f operator- (Vector3f const& other) const;
+/*!
+@param other a Vector3f to add.
+
+@return the some of the two vectors.
+*/
 	Vector3f operator+ (Vector3f const& other) const;
+/*!
+@param f a real parameter.
+
+@return the vector multiplied by \a f.
+*/
 	Vector3f operator* (float f) const;
 
 private:
+/*!\fn Setx (float x)
+@param x the new value for the first coordinate.
+
+Sets the first coordinate of the vector.
+*/
+/*!\fn Getx()
+@return the first coordinate of the vector.
+*/
+/*!\fn GetRefx()
+@return the first coordinate of the vector as a reference.
+*/
 	GCU_PROP (float, x);
+/*!\fn Sety (float y)
+@param y the new value for the second coordinate.
+
+Sets the second coordinate of the vector.
+*/
+/*!\fn Gety()
+@return the second coordinate of the vector.
+*/
+/*!\fn GetRefy()
+@return the second coordinate of the vector as a reference.
+*/
 	GCU_PROP (float, y);
+/*!\fn Setz (float z)
+@param z the new value for the third coordinate.
+
+Sets the third coordinate of the vector.
+*/
+/*!\fn Getz()
+@return the third coordinate of the vector.
+*/
+/*!\fn GetRefz()
+@return the third coordinate of the vector as a reference.
+*/
 	GCU_PROP (float, z);
 };
 
+/*!
+@param f a multiplication factor
+@param v the vector to multiply
+
+@return the product of f and v. 
+*/
 Vector3f operator* (float f, Vector3f const& v);
 
 }	//namespace gcu

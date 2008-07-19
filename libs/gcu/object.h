@@ -38,6 +38,7 @@
 
 #define square(x) ((x)*(x))
 
+/*!\file*/
 namespace gcu
 {
 

@@ -118,28 +118,28 @@ xmlNodePtr FragmentAtom::Save (xmlDocPtr xml) const
 			if (ChargePos) {
 				char const *buf;
 				switch (ChargePos) {
-				case CHARGE_NE:
+				case POSITION_NE:
 					buf = "ne";
 					break;
-				case CHARGE_NW:
+				case POSITION_NW:
 					buf = "nw";
 					break;
-				case CHARGE_N:
+				case POSITION_N:
 					buf = "n";
 					break;
-				case CHARGE_SE:
+				case POSITION_SE:
 					buf = "se";
 					break;
-				case CHARGE_SW:
+				case POSITION_SW:
 					buf = "sw";
 					break;
-				case CHARGE_S:
+				case POSITION_S:
 					buf= "s";
 					break;
-				case CHARGE_E:
+				case POSITION_E:
 					buf = "e";
 					break;
-				case CHARGE_W:
+				case POSITION_W:
 					buf = "w";
 					break;
 				default:
@@ -184,28 +184,28 @@ bool FragmentAtom::Load (xmlNodePtr node)
 		char *buf = (char*) xmlGetProp (node, (xmlChar*) "charge-position");
 		if (buf) {
 			if (! strcmp (buf, "ne")) {
-				ChargePos = CHARGE_NE;
+				ChargePos = POSITION_NE;
 				Angle = M_PI / 4.;
 			} else if (! strcmp (buf, "nw")) {
-				ChargePos = CHARGE_NW;
+				ChargePos = POSITION_NW;
 				Angle = 3. * M_PI / 4.;
 			} else if (! strcmp (buf, "n")) {
-				ChargePos = CHARGE_N;
+				ChargePos = POSITION_N;
 				Angle = M_PI / 2.;
 			} else if (! strcmp (buf, "se")) {
-				ChargePos = CHARGE_SE;
+				ChargePos = POSITION_SE;
 				Angle = 7. * M_PI / 4;
 			} else if (! strcmp (buf, "sw")) {
-				ChargePos = CHARGE_SW;
+				ChargePos = POSITION_SW;
 				Angle = 5. * M_PI / 4;
 			} else if (! strcmp (buf, "s")) {
-				ChargePos = CHARGE_S;
+				ChargePos = POSITION_S;
 				Angle = 3 * M_PI / 2.;
 			} else if (! strcmp (buf, "e")) {
-				ChargePos = CHARGE_E;
+				ChargePos = POSITION_E;
 				Angle = 0.;
 			} else if (! strcmp (buf, "w")) {
-				ChargePos = CHARGE_W;
+				ChargePos = POSITION_W;
 				Angle = M_PI;
 			}
 			xmlFree (buf);

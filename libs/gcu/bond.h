@@ -28,6 +28,7 @@
 #include <list>
 #include "object.h"
 
+/*!\file*/
 namespace gcu
 {
 

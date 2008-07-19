@@ -32,6 +32,7 @@
 #include <string>
 #include <set>
 
+/*!\file*/
 namespace gcu
 {
 

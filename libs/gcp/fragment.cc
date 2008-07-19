@@ -1086,33 +1086,33 @@ int Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double
 		map<gcu::Atom*, gcu::Bond*>::iterator i;
 		Bond* pBond = (Bond*)m_Atom->GetFirstBond(i);
 		double angle = pBond->GetAngle2D(m_Atom) + 180.0;
-		if ((result & CHARGE_NE) && (angle >= 180.0) && (angle <= 270.0)) result -= CHARGE_NE;
-		if ((result & CHARGE_NW) && (((angle >= 270.0) && (angle <= 360.0)) || (fabs(angle) < 0.1))) result -= CHARGE_NW;
-		if ((result & CHARGE_N) && (angle >= 225.0) && (angle <= 315.0)) result -= CHARGE_N;
-		if ((result & CHARGE_SE) && (angle >= 90.0) && (angle <= 180.0)) result -= CHARGE_SE;
-		if ((result & CHARGE_SW) && (((angle >= 0.0) && (angle <= 90.0)) || (fabs(angle - 360.0) < 0.1))) result -= CHARGE_SW;
-		if ((result & CHARGE_S) && (angle >= 45.0) && (angle <= 135.0)) result -= CHARGE_S;
-		if ((result & CHARGE_E) && ((angle <= 225.0) && (angle >= 135.0))) result -= CHARGE_E;
-		if ((result & CHARGE_W) && ((angle >= 315.0) || (angle <= 45.0))) result -= CHARGE_W;
+		if ((result & POSITION_NE) && (angle >= 180.0) && (angle <= 270.0)) result -= POSITION_NE;
+		if ((result & POSITION_NW) && (((angle >= 270.0) && (angle <= 360.0)) || (fabs(angle) < 0.1))) result -= POSITION_NW;
+		if ((result & POSITION_N) && (angle >= 225.0) && (angle <= 315.0)) result -= POSITION_N;
+		if ((result & POSITION_SE) && (angle >= 90.0) && (angle <= 180.0)) result -= POSITION_SE;
+		if ((result & POSITION_SW) && (((angle >= 0.0) && (angle <= 90.0)) || (fabs(angle - 360.0) < 0.1))) result -= POSITION_SW;
+		if ((result & POSITION_S) && (angle >= 45.0) && (angle <= 135.0)) result -= POSITION_S;
+		if ((result & POSITION_E) && ((angle <= 225.0) && (angle >= 135.0))) result -= POSITION_E;
+		if ((result & POSITION_W) && ((angle >= 315.0) || (angle <= 45.0))) result -= POSITION_W;
 	}
 	if (Pos == 0xff) {
 		if (result) {
-			if (result & CHARGE_NE)
-				Pos = CHARGE_NE;
-			else if (result & CHARGE_NW)
-				Pos = CHARGE_NW;
-			else if (result & CHARGE_N)
-				Pos = CHARGE_N;
-			else if (result & CHARGE_SE)
-				Pos = CHARGE_SE;
-			else if (result & CHARGE_SW)
-				Pos = CHARGE_SW;
-			else if (result & CHARGE_S)
-				Pos = CHARGE_S;
-			else if (result & CHARGE_E)
-				Pos = CHARGE_E;
-			else if (result & CHARGE_W)
-				Pos = CHARGE_W;
+			if (result & POSITION_NE)
+				Pos = POSITION_NE;
+			else if (result & POSITION_NW)
+				Pos = POSITION_NW;
+			else if (result & POSITION_N)
+				Pos = POSITION_N;
+			else if (result & POSITION_SE)
+				Pos = POSITION_SE;
+			else if (result & POSITION_SW)
+				Pos = POSITION_SW;
+			else if (result & POSITION_S)
+				Pos = POSITION_S;
+			else if (result & POSITION_E)
+				Pos = POSITION_E;
+			else if (result & POSITION_W)
+				Pos = POSITION_W;
 		} else
 			return 0;
 	} else if (Pos) {
@@ -1122,35 +1122,35 @@ int Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double
 		return 0;
 
 	switch (Pos) {
-	case CHARGE_NE:
+	case POSITION_NE:
 		x = m_x + width / 2.0;
 		y = m_y - height / 2.0;
 		return 1;
-	case  CHARGE_NW:
+	case  POSITION_NW:
 		x = m_x - width / 2.0;
 		y = m_y - height / 2.0;
 		return -1;
-	case  CHARGE_N:
+	case  POSITION_N:
 		x = m_x;
 		y = m_y - height / 2.0;
 		return 2;
-	case CHARGE_SE:
+	case POSITION_SE:
 		x = m_x + width / 2.0;
 		y = m_y + height / 2.0;
 		return 1;
-	case CHARGE_SW:
+	case POSITION_SW:
 		x = m_x - width / 2.0;
 		y = m_y + height / 2.0;
 		return -1;
-	case CHARGE_S:
+	case POSITION_S:
 		x = m_x;
 		y = m_y + height / 2.0;
 		return -2;
-	case CHARGE_E:
+	case POSITION_E:
 		x = m_x + width / 2.0;
 		y = m_y;
 		return 1;
-	case CHARGE_W:
+	case POSITION_W:
 		x = m_x - width / 2.0;
 		y = m_y;
 		return -1;
