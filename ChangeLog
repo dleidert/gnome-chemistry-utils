@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/3d/window.cc: fix recent files list.
+	* programs/crystal/window.cc: ditto.
+
 2008-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elements.xml.in: accept up to 8 bonds for osmium.
 
