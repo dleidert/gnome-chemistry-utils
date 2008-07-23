@@ -249,10 +249,6 @@ bool	Application::m_bInit = false;
 bool	Application::m_Have_Ghemical = false;
 bool	Application::m_Have_InChI = false;
 
-// FIXME: Remove for stable versions
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable"
-
 #ifdef HAVE_GO_CONF_SYNC
 static void on_config_changed (GOConfNode *node, gchar const *key, Application *app)
 {

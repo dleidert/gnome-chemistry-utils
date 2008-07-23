@@ -513,6 +513,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui):
 
 	GtkWidget *menu = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
+	gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (w), GTK_RECENT_SORT_MRU);
 	GtkRecentFilter *filter = gtk_recent_filter_new ();
 	gtk_recent_filter_add_mime_type (filter, "application/x-gchempaint");
 	gtk_recent_filter_add_mime_type (filter, "chemical/x-chemdraw");

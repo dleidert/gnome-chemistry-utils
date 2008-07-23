@@ -117,7 +117,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
 	m_ImageResolution = m_ScreenResolution;
 	m_ImageHeight = m_ImageWidth = 300;
-	m_RecentManager = gtk_recent_manager_new ();
+	m_RecentManager = gtk_recent_manager_get_default ();
 
 	// check supported pixbuf formats
 	GSList *formats = gdk_pixbuf_get_formats ();
@@ -138,7 +138,6 @@ Application::Application (string name, string datadir, char const *help_name, ch
 
 Application::~Application ()
 {
-	g_object_unref (m_RecentManager);
 	Apps.erase (this);
 	if (Apps.empty ()) {
 		ClearDialogs (); // needed to cleanly stop goffice

@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: cleaned out all unstable stuff.
+	* libs/gcp/text.cc: serialize anchor.
+	* libs/gcp/window.cc: fix recent files list.
+	* libs/gcu/application.cc: use default GtkRecentManager.
+	* programs/3d/window.cc: fix recent files list.
+	* programs/crystal/window.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+
 2008-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/canvas/gcp-canvas-group.c: (gnome_canvas_group_ext_bounds),
 	(gnome_canvas_group_ext_class_init): enhance bounds evaluation.

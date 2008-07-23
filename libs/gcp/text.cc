@@ -336,6 +336,16 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		xmlFreeNode (node);
 		return NULL;
 	}
+	switch (m_Anchor) {
+	case GTK_ANCHOR_E:
+		xmlNewProp (node, (xmlChar const *) "anchor", (xmlChar const *) "right");
+		break;
+	case GTK_ANCHOR_CENTER:
+		xmlNewProp (node, (xmlChar const *) "anchor", (xmlChar const *) "center");
+		break;
+	default:
+		break;
+	}
 	if (m_Justified)
 		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) "justify");
 	else if (m_Align != PANGO_ALIGN_LEFT)
@@ -415,6 +425,16 @@ bool Text::Load (xmlNodePtr node)
 			m_Justified = PANGO_ALIGN_CENTER;
 		else
 			m_Justified = PANGO_ALIGN_LEFT;
+		xmlFree (buf);
+	}
+	buf = xmlGetProp (node, (xmlChar const *) "anchor");
+	if (buf) {
+		if (!strcmp ((char const *) buf, "right"))
+			m_Anchor = GTK_ANCHOR_E;
+		else if (!strcmp ((char const *) buf, "center"))
+			m_Anchor = GTK_ANCHOR_CENTER;
+		else
+			m_Anchor = GTK_ANCHOR_W;
 		xmlFree (buf);
 	}
 	xmlNodePtr child;
