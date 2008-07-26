@@ -47,7 +47,7 @@ HPosDlg::HPosDlg (Document *pDoc, Atom *pAtom):
 		return;
 	}
 	box = (GtkComboBox*) glade_xml_get_widget (xml, "H-pos");
-	gtk_combo_box_set_active (box, m_Atom->GetHPosStyle ());
+	gtk_combo_box_set_active (box, (int) m_Atom->GetHPosStyle ());
 	g_signal_connect_swapped (G_OBJECT (box), "changed", G_CALLBACK (on_pos_changed), this);
 	m_View = pDoc->GetView ();
 	gtk_widget_show_all (GTK_WIDGET (dialog));
@@ -63,7 +63,7 @@ void HPosDlg::OnPosChanged ()
 	Operation *Op = Doc->GetNewOperation (GCP_MODIFY_OPERATION);
 	Object *Obj = m_Atom->GetGroup ();
 	Op->AddObject (Obj, 0);
-	m_Atom->SetHPosStyle (gtk_combo_box_get_active (box));
+	m_Atom->SetHPosStyle ((HPos) gtk_combo_box_get_active (box));
 	m_Atom->Update ();
 	m_Atom->ForceChanged ();
 	m_View->Update (m_Atom);

@@ -184,7 +184,7 @@ typedef struct
 /*!
 \param Z: the atomic number of the element.
 
-Retreives the default color used for the element.
+Retrieves the default color used for the element.
 \return an array of three double values for the red, green and blue components of the color.
 */
 const gdouble* gcu_element_get_default_color (gint Z);

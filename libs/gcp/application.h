@@ -38,6 +38,7 @@
 #include <map>
 #include <list>
 
+/*!\file*/
 /*!\namespace gcp
 \brief GChemPaint specific C++ classes
 
@@ -59,18 +60,33 @@ class Document;
 struct option_data;
 typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
 
-/*!\class Application gcp/application.h
-This class is used to represent a GChemPaint application.
- It is a virtual class since at least one method is pure virtual (gcp::Application::GetWindow)
-
+/*!\class Application gcu/application.h
+The GChemPaint application class. This class has at least one pure virtual
+method (gcp::Application::GetWindow).
 */
-
 class Application: public gcu::Application
 {
 public:
+/*!
+The default constructor.
+*/
 	Application ();
+/*!
+The destructor.
+*/
 	virtual ~Application ();
 
+/*!
+@param toolname the name of the tool.
+@param activate whether to activate or deactivate.
+
+Activates or deactivates a tool in the GChempaint tool box.
+
+To activate the selection tool:
+\code
+		 ActivateTool ("Select", true);
+\encode
+*/
 	void ActivateTool (const std::string& toolname, bool activate);
 	void ActivateWindowsActionWidget (const char *path, bool activate);
 	virtual void ClearStatus ();

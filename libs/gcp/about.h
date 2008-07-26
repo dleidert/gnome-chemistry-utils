@@ -4,7 +4,7 @@
  * GChemPaint library
  * about.h 
  *
- * Copyright (C) 2004-2007 by Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 by Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +27,11 @@
 
 #include <gtk/gtk.h>
 
+/*!\file*/
+/*!
+Displays the GChemPaint "About" box. This function might be deprecated
+in future versions.
+*/
 void on_about (GtkWidget* widget, void* data);
 
 #endif //GCHEMPAINT_ABOUT_H

@@ -98,7 +98,7 @@ Gives the atom the default color.
 @param blue: a pointer to the blue component.
 @param alpha: a pointer to the alpha component.
 
-Used to retreive the color used in the representation of the atom. Mainly useful for user defined
+Used to retrieve the color used in the representation of the atom. Mainly useful for user defined
 colors.
 */
 	void GetColor (double *red, double *green, double *blue, double *alpha);

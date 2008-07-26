@@ -128,7 +128,7 @@ Atom::Atom (OBAtom* atom): gcu::Atom (),
 	gchar* Id = g_strdup_printf ("a%d", atom->GetIdx());
 	SetId (Id);
 	g_free (Id);
-	m_HPos = true;
+	m_HPos = GetBestSide ();
 	m_ascent = 0;
 	m_CHeight = 0.;
 	m_Changed = 0;
@@ -205,18 +205,21 @@ void Atom::RemoveBond (gcu::Bond* pBond)
 	Update ();
 }
 
-bool Atom::GetBestSide ()
+HPos Atom::GetBestSide ()
 {
 	if (m_Bonds.size () == 0)
-		return Element::BestSide (m_Z);
+		return (Element::BestSide (m_Z))? RIGHT_HPOS: LEFT_HPOS;
 	std::map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end();
-	double sum = 0.0;
-	for (i = m_Bonds.begin(); i != end; i++)
-		sum -= cos(((Bond*) (*i).second)->GetAngle2DRad (this));
-	if (fabs(sum) > 0.1)
-		return (sum >= 0.0);
+	double sumc = 0.0, sums = 0.0, a;
+	for (i = m_Bonds.begin(); i != end; i++) {
+		a = ((Bond*) (*i).second)->GetAngle2DRad (this);
+		sumc += cos (a);
+		sums += sin (a);
+	}
+	if (fabs (sums) > fabs (sumc))
+		return (fabs (sums) > .1)? ((sums >= 0.)? BOTTOM_HPOS: TOP_HPOS): ((Element::BestSide (m_Z))? RIGHT_HPOS: LEFT_HPOS);
 	else
-		return Element::BestSide (m_Z);
+		return (fabs (sumc) > .1)? ((sumc >= 0.)? LEFT_HPOS: RIGHT_HPOS): ((Element::BestSide (m_Z))? RIGHT_HPOS: LEFT_HPOS);
 }
 
 void Atom::Update ()
@@ -339,6 +342,7 @@ void Atom::Add (GtkWidget* w) const
 	if (m_Layout == NULL) {
 		PangoContext* pc = pView->GetPangoContext ();
 		const_cast <Atom *> (this)->m_Layout = pango_layout_new (pc);
+		const_cast <Atom *> (this)->m_HLayout = pango_layout_new (pc);
 	}
 	if (m_FontName != pView->GetFontName ()) {
 		pango_layout_set_font_description (m_Layout, pView->GetPangoFontDesc ());
@@ -366,74 +370,96 @@ void Atom::Add (GtkWidget* w) const
 	g_signal_connect (G_OBJECT (group), "event", G_CALLBACK (on_event), w);
 	g_object_set_data (G_OBJECT (group), "object", (void *) this);
 	if ((GetZ () != 6) || (GetBondsNumber () == 0)) {
-		int sw, sp;
+		int sw;
 		const gchar* symbol = GetSymbol (), *text;
 		sw = strlen (symbol);
 		pango_layout_set_text (m_Layout, symbol, sw);
 		pango_layout_get_extents (m_Layout, &rect, NULL);
 		const_cast <Atom *> (this)->m_width += rect.width / PANGO_SCALE;
 		const_cast <Atom *> (this)->BuildSymbolGeometry ((double) rect.width / PANGO_SCALE, (double) rect.height / PANGO_SCALE, m_ascent - (double) rect.y / PANGO_SCALE - m_CHeight);
-/*			m_SWidth = (double) rect.width / PANGO_SCALE / 2.;
-		const_cast <Atom *> (this)->m_SHeightH = m_ascent - (double) rect.y / PANGO_SCALE - m_CHeight;
-		const_cast <Atom *> (this)->m_SHeightL = (double) rect.height / PANGO_SCALE - m_SHeightH;
-		const_cast <Atom *> (this)->m_SAngleH = atan2 (m_SHeightH, m_SWidth);
-		const_cast <Atom *> (this)->m_SAngleL = atan2 (m_SHeightL, m_SWidth);*/
-		int n = GetAttachedHydrogens ();
-		if (n > 0) {
-			if (n > 1) {
-				gchar const *nb =  g_strdup_printf ("%d", n);
-				int np, nw = strlen (nb);
-				if (m_HPos) {
-					text = g_strconcat (symbol, "H", nb, NULL);
-					np = sw + 1;
-					sp = 0;
-				} else {
-					text = g_strconcat ("H", nb, symbol, NULL);
-					np = 1;
-					sp = np + nw;
-				}
-				pango_layout_set_text (m_Layout, text, -1);
-				PangoAttrList *pal = pango_attr_list_new ();
-				PangoAttribute *attr = pango_attr_font_desc_new (pView->GetPangoSmallFontDesc());
-				attr->start_index = np;
-				attr->end_index = np + nw;
-				pango_attr_list_insert (pal, attr);
-				attr = pango_attr_rise_new (-2 * PANGO_SCALE);
-				attr->start_index = np;
-				attr->end_index = np + nw;
-				pango_attr_list_insert (pal, attr);
-				pango_layout_set_attributes (m_Layout, pal);
-				pango_attr_list_unref (pal);
-			} else {
-				if (m_HPos) {
-					text = g_strconcat (symbol, "H", NULL);
-					sp = 0;
-				} else {
-					text = g_strconcat ("H", symbol, NULL);
-					sp = 1;
-				}
-				pango_layout_set_text (m_Layout, text, -1);
-			}
-		} else {
-			text = g_strdup (symbol);
-			sp = 0;
-			pango_layout_set_text (m_Layout, text, -1);
-		}
+		const_cast <Atom *> (this)->m_lbearing = m_width / 2.;
+		const_cast <Atom *> (this)->m_xROffs = const_cast <Atom *> (this)->m_yROffs = 0.;
 		pango_layout_get_extents (m_Layout, NULL, &rect);
 		const_cast <Atom *> (this)->m_length = double (rect.width / PANGO_SCALE);
 		const_cast <Atom *> (this)->m_text_height = const_cast <Atom *> (this)->m_height = rect.height / PANGO_SCALE;
-		pango_layout_index_to_pos (m_Layout, sp, &rect);
-		int st = rect.x / PANGO_SCALE;
-		pango_layout_index_to_pos (m_Layout, sp + sw, &rect);
-		const_cast <Atom *> (this)->m_lbearing = (st + rect.x / PANGO_SCALE) / 2.;
-
+		int n = GetAttachedHydrogens ();
+		if (n > 0) {
+			pango_layout_set_text (m_HLayout, "H", -1);
+			PangoRectangle HRect;
+			HRect.width = 0.;
+			pango_layout_get_extents (m_HLayout, &HRect, NULL);
+			switch (m_HPos) {
+			case LEFT_HPOS:
+				//the x offset needs to be calculated after adding possible stoichimoetry.
+				const_cast <Atom *> (this)->m_yHOffs = 0.;
+				break;
+			case RIGHT_HPOS:
+				const_cast <Atom *> (this)->m_xHOffs = rect.width / PANGO_SCALE + 1.;
+				const_cast <Atom *> (this)->m_yHOffs = 0.;
+				break;
+			case TOP_HPOS:
+				const_cast <Atom *> (this)->m_xHOffs = m_lbearing - pTheme->GetPadding () - HRect.width / PANGO_SCALE / 2.;
+				break;
+			case BOTTOM_HPOS:
+				const_cast <Atom *> (this)->m_xHOffs = m_lbearing - pTheme->GetPadding () - HRect.width / PANGO_SCALE / 2.;
+				const_cast <Atom *> (this)->m_yHOffs = m_CHeight * 2. + pTheme->GetPadding ();
+				break;
+			default:
+				g_critical ("This should not happen, please file a bug report");
+				break;
+			}
+			if (n > 1) {
+				gchar const *nb =  g_strdup_printf ("%d", n);
+				int nw = strlen (nb) + 1;
+				PangoAttrList *pal = pango_attr_list_new ();
+				text = g_strconcat ("H", nb, NULL);
+				pango_layout_set_text (m_HLayout, text, -1);
+				nw = strlen (text);
+				PangoAttribute *attr = pango_attr_font_desc_new (pView->GetPangoSmallFontDesc());
+				attr->start_index = 1;
+				attr->end_index = nw;
+				pango_attr_list_insert (pal, attr);
+				attr = pango_attr_rise_new (-2 * PANGO_SCALE);
+				attr->start_index = 1;
+				attr->end_index = nw;
+				pango_attr_list_insert (pal, attr);
+				pango_layout_set_attributes (m_HLayout, pal);
+				pango_attr_list_unref (pal);
+			}
+			pango_layout_get_extents (m_HLayout, &HRect, NULL);
+			// evaluate underlying rectangle size and position
+			if (HRect.width > 0) {
+				switch (m_HPos) {
+				case LEFT_HPOS:
+					const_cast <Atom *> (this)->m_xHOffs = -HRect.width / PANGO_SCALE - 1.;
+					const_cast <Atom *> (this)->m_xROffs = m_xHOffs;
+					const_cast <Atom *> (this)->m_length += HRect.width / PANGO_SCALE + 1.;
+					break;
+				case RIGHT_HPOS:
+					const_cast <Atom *> (this)->m_length += HRect.width / PANGO_SCALE + 1.;
+					break;
+				case TOP_HPOS:
+					const_cast <Atom *> (this)->m_yHOffs = -HRect.height / PANGO_SCALE - pTheme->GetPadding ();
+					const_cast <Atom *> (this)->m_yROffs = -HRect.height / PANGO_SCALE - pTheme->GetPadding ();
+					const_cast <Atom *> (this)->m_text_height += HRect.height / PANGO_SCALE + pTheme->GetPadding ();
+					const_cast <Atom *> (this)->m_length = MAX (m_length, HRect.width / PANGO_SCALE);
+					break;
+				case BOTTOM_HPOS:
+					const_cast <Atom *> (this)->m_text_height += HRect.height / PANGO_SCALE + pTheme->GetPadding ();
+					const_cast <Atom *> (this)->m_length = MAX (m_length, HRect.width / PANGO_SCALE);
+					break;
+				default:
+					break;
+				}
+			}
+		}
 		item = gnome_canvas_item_new (
 							group,
 							gnome_canvas_rect_ext_get_type (),
-							"x1", x - m_lbearing - pTheme->GetPadding (),
-							"y1", y  - m_ascent + m_CHeight - pTheme->GetPadding (),
-							"x2", x - m_lbearing + m_length + pTheme->GetPadding (),
-							"y2", y  - m_ascent + m_CHeight + m_height + pTheme->GetPadding (),
+							"x1", x - m_lbearing + m_xROffs,
+							"y1", y  - m_ascent + m_CHeight - pTheme->GetPadding () + m_yROffs,
+							"x2", x - m_lbearing + m_length + 2 * pTheme->GetPadding () + m_xROffs,
+							"y2", y  - m_ascent + m_CHeight + m_text_height + pTheme->GetPadding () + m_yROffs,
 							"fill_color", (pData->IsSelected (this))? SelectColor: NULL,
 							NULL);
 		g_object_set_data (G_OBJECT (group), "rect", item);
@@ -449,6 +475,16 @@ void Atom::Add (GtkWidget* w) const
 							"layout", m_Layout,
 						NULL);
 		g_object_set_data (G_OBJECT (group), "symbol", item);
+		g_object_set_data (G_OBJECT (item), "object", (void *) this);
+		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
+		item = gnome_canvas_item_new (
+							group,
+							gnome_canvas_pango_get_type (),
+							"x", x - m_lbearing + m_xHOffs,
+							"y", y - m_ascent + m_CHeight + m_yHOffs,
+							"layout", m_HLayout,
+						NULL);
+		g_object_set_data (G_OBJECT (group), "hydrogens", item);
 		g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	} else {
@@ -639,11 +675,16 @@ void Atom::Update (GtkWidget* w) const
 								"x", x - m_lbearing,
 								"y", y - m_ascent + m_CHeight,
 								NULL);
+			if (GetAttachedHydrogens ())
+				g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "hydrogens")),
+									"x", x - m_lbearing + m_xHOffs,
+									"y", y - m_ascent + m_CHeight + m_yHOffs,
+									NULL);
 			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "rect")),
-								"x1", x - m_lbearing - pTheme->GetPadding (),
-								"y1", y  - m_ascent + m_CHeight - pTheme->GetPadding (),
-								"x2", x - m_lbearing + m_length + pTheme->GetPadding (),
-								"y2", y  - m_ascent + m_CHeight + m_text_height + pTheme->GetPadding (),
+								"x1", x - m_lbearing + m_xROffs,
+								"y1", y  - m_ascent + m_CHeight - pTheme->GetPadding () + m_yROffs,
+								"x2", x - m_lbearing + m_length + 2 * pTheme->GetPadding () + m_xROffs,
+								"y2", y  - m_ascent + m_CHeight + m_text_height + pTheme->GetPadding () + m_yROffs,
 								NULL);
 		} else {
 			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "rect")),
@@ -890,14 +931,31 @@ void Atom::UpdateAvailablePositions ()
 	double angle, delta, dir;
 	m_AngleList.clear ();
 	if (((GetZ() != 6 || m_Bonds.size() == 0)) && m_nH) {
-		if (m_HPos) {
-			m_AvailPos = 0xB6;
-			m_AngleList.push_front(315.0);
-			m_AngleList.push_front(45.0);
-		} else {
+		switch (m_HPos) {
+		case LEFT_HPOS:
 			m_AvailPos = 0x6D;
 			m_AngleList.push_front(225.0);
 			m_AngleList.push_front(135.0);
+			break;
+		case RIGHT_HPOS:
+			m_AvailPos = 0xB6;
+			m_AngleList.push_front(315.0);
+			m_AngleList.push_front(45.0);
+			break;
+		case TOP_HPOS:
+			m_AvailPos = 0xF8;
+			m_AngleList.push_front(135.0);
+			m_AngleList.push_front(45.0);
+			break;
+			break;
+		case BOTTOM_HPOS:
+			m_AvailPos = 0xC7;
+			m_AngleList.push_front(315.0);
+			m_AngleList.push_front(225.0);
+			break;
+			break;
+		default:
+			break;
 		}
 	} else
 		m_AvailPos = 0xff;
@@ -1245,69 +1303,95 @@ void Atom::BuildItems (WidgetData* pData)
 	GetCoords (&x, &y);
 	x *= pTheme->GetZoomFactor ();
 	y *= pTheme->GetZoomFactor ();
+	m_xROffs = m_yROffs = 0.;
 	if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
-		int sw, sp;
+		int sw;
 		const gchar* symbol = GetSymbol (), *text;
-		PangoRectangle rect;
+		PangoRectangle rect, HRect;
 		sw = strlen (symbol);
 		pango_layout_set_text (m_Layout, symbol, sw);
 		pango_layout_get_extents (m_Layout, &rect, NULL);
 		m_width += rect.width / PANGO_SCALE;
-		int n = GetAttachedHydrogens ();
-		PangoAttrList *pal = pango_attr_list_new ();
-		if (n > 0) {
-			if (n > 1) {
-				gchar const *nb =  g_strdup_printf ("%d", n);
-				int np, nw = strlen (nb);
-				if (m_HPos) {
-					text = g_strconcat (symbol, "H", nb, NULL);
-					np = sw + 1;
-					sp = 0;
-				} else {
-					text = g_strconcat ("H", nb, symbol, NULL);
-					np = 1;
-					sp = np + nw;
-				}
-				pango_layout_set_text (m_Layout, text, -1);
-				PangoAttribute *attr = pango_attr_font_desc_new (pView->GetPangoSmallFontDesc());
-				attr->start_index = np;
-				attr->end_index = np + nw;
-				pango_attr_list_insert (pal, attr);
-				attr = pango_attr_rise_new (-2 * PANGO_SCALE);
-				attr->start_index = np;
-				attr->end_index = np + nw;
-				pango_attr_list_insert (pal, attr);
-			} else {
-				if (m_HPos == 1) {
-					text = g_strconcat (symbol, "H", NULL);
-					sp = 0;
-				} else {
-					text = g_strconcat ("H", symbol, NULL);
-					sp = 1;
-				}
-				pango_layout_set_text (m_Layout, text, -1);
-			}
-			pango_layout_set_attributes (m_Layout, pal);
-			pango_attr_list_unref (pal);
-		} else {
-			text = g_strdup (symbol);
-			sp = 0;
-			pango_layout_set_text (m_Layout, text, -1);
-		}
 		pango_layout_get_extents (m_Layout, NULL, &rect);
 		m_length = double (rect.width / PANGO_SCALE);
 		m_text_height = m_height = rect.height / PANGO_SCALE;
-		pango_layout_index_to_pos (m_Layout, sp, &rect);
-		int st = rect.x / PANGO_SCALE;
-		pango_layout_index_to_pos (m_Layout, sp + sw, &rect);
-		m_lbearing = (st + rect.x / PANGO_SCALE) / 2.;
-
+		m_lbearing = m_width / 2.;
+		HRect.width = 0;
+		int n = GetAttachedHydrogens ();
+		if (n > 0) {
+			pango_layout_set_text (m_HLayout, "H", -1);
+			pango_layout_get_extents (m_HLayout, &HRect, NULL);
+			switch (m_HPos) {
+			case LEFT_HPOS:
+				//the x offset needs to be calculated after adding possible stoichimoetry.
+				m_xHOffs = m_yHOffs = 0.;
+				break;
+			case RIGHT_HPOS:
+				m_xHOffs = rect.width / PANGO_SCALE + 1.;
+				m_yHOffs = 0.;
+				break;
+			case TOP_HPOS:
+				m_xHOffs = m_lbearing - pTheme->GetPadding () - HRect.width / PANGO_SCALE / 2.;
+				break;
+			case BOTTOM_HPOS:
+				m_xHOffs = m_lbearing - pTheme->GetPadding () - HRect.width / PANGO_SCALE / 2.;
+				m_yHOffs = m_CHeight * 2. + pTheme->GetPadding ();
+				break;
+			default:
+				g_critical ("This should not happen, please file a bug report");
+				break;
+			}
+			if (n > 1) {
+				gchar const *nb =  g_strdup_printf ("%d", n);
+				int nw = strlen (nb);
+				PangoAttrList *pal = pango_attr_list_new ();
+				text = g_strconcat ("H", nb, NULL);
+				pango_layout_set_text (m_HLayout, text, -1);
+				nw = strlen (text);
+				PangoAttribute *attr = pango_attr_font_desc_new (pView->GetPangoSmallFontDesc());
+				attr->start_index = 1;
+				attr->end_index = strlen (text);
+				pango_attr_list_insert (pal, attr);
+				attr = pango_attr_rise_new (-2 * PANGO_SCALE);
+				attr->start_index = 1;
+				attr->end_index = nw;
+				pango_attr_list_insert (pal, attr);
+				pango_layout_set_attributes (m_HLayout, pal);
+				pango_attr_list_unref (pal);
+			}
+			pango_layout_get_extents (m_HLayout, &HRect, NULL);
+			// evaluate underlying rectangle size and position
+			if (HRect.width > 0) {
+				switch (m_HPos) {
+				case LEFT_HPOS:
+					m_xHOffs = -HRect.width / PANGO_SCALE - 1.;
+					m_xROffs = m_xHOffs;
+					m_length += HRect.width / PANGO_SCALE + 1.;
+					break;
+				case RIGHT_HPOS:
+					m_length += HRect.width / PANGO_SCALE + 1.;
+					break;
+				case TOP_HPOS:
+					m_yHOffs = -HRect.height / PANGO_SCALE - pTheme->GetPadding ();
+					m_yROffs = -HRect.height / PANGO_SCALE - pTheme->GetPadding ();
+					m_text_height += HRect.height / PANGO_SCALE + pTheme->GetPadding ();
+					m_length = MAX (m_length, HRect.width / PANGO_SCALE);
+					break;
+				case BOTTOM_HPOS:
+					m_text_height += HRect.height / PANGO_SCALE + pTheme->GetPadding ();
+					m_length = MAX (m_length, HRect.width / PANGO_SCALE);
+					break;
+				default:
+					break;
+				}
+			}
+		}
 		item = g_object_get_data (G_OBJECT (group), "rect");
 		g_object_set (item,
-							"x1", x - m_lbearing - pTheme->GetPadding (),
-							"y1", y  - m_ascent + m_CHeight - pTheme->GetPadding (),
-							"x2", x - m_lbearing + m_length + pTheme->GetPadding (),
-							"y2", y  - m_ascent + m_CHeight + m_height + pTheme->GetPadding (),
+							"x1", x - m_lbearing + m_xROffs,
+							"y1", y  - m_ascent + m_CHeight - pTheme->GetPadding () + m_yROffs,
+							"x2", x - m_lbearing + m_length + 2 * pTheme->GetPadding () + m_xROffs,
+							"y2", y  - m_ascent + m_CHeight + m_text_height + pTheme->GetPadding () + m_yROffs,
 							NULL);
 		
 		item = g_object_get_data (G_OBJECT (group), "symbol");
@@ -1329,6 +1413,29 @@ void Atom::BuildItems (WidgetData* pData)
 			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), pData->Canvas);
 			gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (group));
 		}
+		item = g_object_get_data (G_OBJECT (group), "hydrogens");
+		if (item) {
+			if (n == 0) {
+				gtk_object_destroy (GTK_OBJECT (item));
+				g_object_set_data ((GObject*)group, "hydrogens", NULL);
+			} else
+				g_object_set (item,
+								"x", x - m_lbearing + m_xHOffs,
+								"y", y - m_ascent + m_CHeight + m_yHOffs,
+								NULL);
+		} else if (n > 0) {
+			item = gnome_canvas_item_new (
+							group,
+							gnome_canvas_pango_get_type(),
+							"layout", m_HLayout,
+							"x", x - m_lbearing + m_xHOffs,
+							"y", y - m_ascent + m_CHeight + m_yHOffs,
+							NULL);
+			g_object_set_data (G_OBJECT (group), "hydrogens", item);
+			g_object_set_data (G_OBJECT (item), "object", this);
+			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), pData->Canvas);
+			gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (group));
+		}
 		item = g_object_get_data (G_OBJECT (group), "bullet");
 		if (item) {
 			gtk_object_destroy (GTK_OBJECT (item));
@@ -1346,6 +1453,11 @@ void Atom::BuildItems (WidgetData* pData)
 		if (item) {
 			gtk_object_destroy (GTK_OBJECT (item));
 			g_object_set_data (G_OBJECT (group), "symbol", NULL);
+		}
+		item = g_object_get_data (G_OBJECT (group), "hydrogens");
+		if (item) {
+			gtk_object_destroy (GTK_OBJECT (item));
+			g_object_set_data ((GObject*)group, "hydrogens", NULL);
 		}
 		item = g_object_get_data (G_OBJECT (group), "bullet");
 		if (m_DrawCircle) {
@@ -1432,8 +1544,10 @@ bool Atom::GetPosition(double angle, double& x, double& y)
 	else if (angle < 0.)
 		angle += 360;
 	if (((GetZ() == 6) && (m_Bonds.size() != 0)) ||
-		 !m_nH || ((!m_HPos && (angle < 135. || angle > 225.)) ||
-			(m_HPos && (angle > 45. && angle < 315.)))) {
+		 !m_nH || ((m_HPos == LEFT_HPOS && (angle < 135. || angle > 225.)) ||
+			(m_HPos == RIGHT_HPOS && (angle > 45. && angle < 315.)) ||
+			(m_HPos == TOP_HPOS && (angle > 45. || angle > 135.)) ||
+			(m_HPos == BOTTOM_HPOS && (angle < 225. || angle > 315.)))) {
 		double t = tan (angle / 180. * M_PI);
 		double limit = atan (m_height / m_width) * 180. / M_PI;
 		if (angle < limit) {

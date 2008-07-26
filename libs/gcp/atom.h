@@ -45,35 +45,108 @@ namespace gcp {
 class Bond;
 class Molecule;
 
+/*!
+Top left position for charges and electrons around an atom.
+*/
 #define POSITION_NE 1
+/*!
+Top right position for charges and electrons around an atom.
+*/
 #define POSITION_NW 2
+/*!
+Top center position for charges and electrons around an atom.
+*/
 #define POSITION_N 4
+/*!
+Bottom left position for charges and electrons around an atom.
+*/
 #define POSITION_SE 8
+/*!
+Bottom right position for charges and electrons around an atom.
+*/
 #define POSITION_SW 16
+/*!
+Bottom center position for charges and electrons around an atom.
+*/
 #define POSITION_S 32
+/*!
+Left position for charges and electrons around an atom.
+*/
 #define POSITION_E 64
+/*!
+Right position for charges and electrons around an atom.
+*/
 #define POSITION_W 128
 
-enum {
+/*!\enum HPos
+Represents the various possiblepositions for implicit hydrogen atoms bonded
+to non metals.
+*/
+typedef enum {
+/*!
+Hydrogen atoms at left.
+*/
 	LEFT_HPOS,
+/*!
+Hydrogen atoms at right.
+*/
 	RIGHT_HPOS,
+/*!
+Hydrogen atoms at top.
+*/
 	TOP_HPOS,
+/*!
+Hydrogen atoms at bottom.
+*/
 	BOTTOM_HPOS,
+/*!
+Automatic position.
+*/
 	AUTO_HPOS,
-};
+} HPos;
 
 class Electron;
 
+/*!\class Atom
+Represents atoms in GChemPaint.
+*/
 class Atom: public gcu::Atom, public gcu::DialogOwner
 {
 public:
+/*!
+Default construtor.
+*/
 	Atom ();
+/*!
+@param Z the atomic number.
+@param x the x coordinate.
+@param y the y coordinate.
+@param z the z coordinate.
+
+
+*/
 	Atom (int Z, double x, double y, double z);
+/*!
+@param
+
+
+*/
 	Atom (OpenBabel::OBAtom* atom);
+/*!
+The destructor.
+*/
 	virtual ~Atom ();
 
 public :
+/*!
+@param Z the new atomic number.
+
+
+*/
 	virtual void SetZ (int Z);
+/*!
+
+*/
 	void AddBond (gcu::Bond* pBond);
 	void RemoveBond (gcu::Bond* pBond);
 	virtual void Update ();
@@ -81,7 +154,7 @@ public :
 	virtual void Update (GtkWidget* w) const;
 	int GetTotalBondsNumber () const; //take bond order into account
 	int GetAttachedHydrogens () const {return m_nH;}
-	bool GetBestSide ();
+	HPos GetBestSide ();
 	virtual int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
 	virtual int GetAvailablePosition (double& x, double& y);
 	virtual bool GetPosition (double angle, double& x, double& y);
@@ -103,13 +176,13 @@ public :
 	bool HasImplicitElectronPairs ();
 	bool MayHaveImplicitUnpairedElectrons ();
 	/*!
-	@param Electron: a pointer to an Electron instance.
+	@param electron: a pointer to an Electron instance.
 
 	Adds the Electron (representing either a single electron or a pair) to the Atom.
 	*/
 	void AddElectron (Electron* electron);
 	/*!
-	@param Electron: a pointer to an Electron instance.
+	@param electron: a pointer to an Electron instance.
 
 	Removes the Electron (representing either a single electron or a pair) from the Atom.
 	*/
@@ -123,13 +196,13 @@ public :
 	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
 
 /*!
-@param width: where to store the width.
-@param height: where to store the height.
-@param angle: where to store the limit angle.
-@param up: whether considering the op halfor the bottom half
+@param width where to store the width.
+@param height where to store the height.
+@param angle where to store the limit angle.
+@param up whether considering the top half or the bottom half
 
 Used to retrieve the size of the ink rectangle of the atom symbol (if displayed).
-@angle is absolute value of the angle between an horizontal line and the line joining
+\a angle is absolute value of the angle between an horizontal line and the line joining
 the center and the top left or the bottom left vertex.
 The returned width value is actually half the full width. Height is the height.
 This method is used to avoid bonds lines extyending over their atoms symbols.
@@ -152,7 +225,7 @@ private:
 	int m_nlu; //single electrons number
 	double m_width, m_height; //size of the atomic symbol in the canvas
 	double m_length, m_text_height; // size of the text buffer
-	int m_HPos; //0 = left, 1 = right, 2 = top, 3 = bottom, 4 = auto
+	HPos m_HPos; //0 = left, 1 = right, 2 = top, 3 = bottom, 4 = auto
 	bool m_ChargeAuto;
 	int m_Changed; //update needs regenerate the buffer
 	int m_ascent;
@@ -169,15 +242,18 @@ private:
 	std::map<double, double> m_InterBonds; /* positions betwen bonds. First  value is the
 	angle between the two bonds and second value is the direction */
 	PangoLayout *m_Layout, *m_ChargeLayout, *m_HLayout;
+	double m_xHOffs, m_yHOffs;
 	bool m_DrawCircle;
 	std::string m_FontName;
 	double m_SWidth, m_SHeightH, m_SHeightL, m_SAngleH, m_SAngleL;
+	// special offset for underlying rectangle; will be removed in next version
+	double m_xROffs, m_yROffs;
 
 protected:
 	double m_CHeight;
 
 GCU_PROP (bool, ShowSymbol)
-GCU_PROP (unsigned char, HPosStyle) //0=force left, 1=force right, 2=auto.
+GCU_PROP (HPos, HPosStyle) //0=force left, 1=force right, 2=force top, 3=force bottom, 4=auto.
 };
 
 }	//	namespace gcp

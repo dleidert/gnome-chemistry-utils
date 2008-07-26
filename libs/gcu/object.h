@@ -139,7 +139,7 @@ class Object
 {
 public:
 /*!
-Used to create an object of type Id. Shold only be called from the constructor of a derived class.
+Used to create an object of type Id. Should only be called from the constructor of a derived class.
 */
 	Object (TypeId Id = OtherType);
 /*!
@@ -286,7 +286,7 @@ The base Object class has no coordinates and the default method only loads its i
 */
 	virtual void Move (double x, double y, double z = 0.);
 /*!
-@param m: the 2D Matrix of the transformation.
+@param m: the Matrix2D of the transformation.
 @param x: the x component of the center of the transformation.
 @param y: the y component of the center of the transformation.
 
@@ -402,7 +402,7 @@ This method is called to build a parent object from its children. The object mus
 	virtual bool Build (std::list<Object*>& Children) throw (std::invalid_argument);
 
 /*!
-Used to retreive the y coordinate for alignment. The default implementation returns 0.0 and
+Used to retrieve the y coordinate for alignment. The default implementation returns 0.0 and
 every derived class for which alignment has a meaning should implement this method.
 @return y coordinate used for objects alignment.
 */

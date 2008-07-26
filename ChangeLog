@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2008-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/paint/H-pos.glade: allow hydrogens above and below atoms.
+	* libs/gcp/Hposdlg.cc: ditto.
+	* libs/gcp/about.h: documentation update.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/atom.cc: allow hydrogens above and below atoms.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/widgetdata.h: documentation update.
+	* libs/gcu/application.h: minor documentation update.
+	* libs/gcu/chemistry.h: ditto.
+	* libs/gcu/crystalatom.h: ditto.
+	* libs/gcu/element.h: ditto.
+	* libs/gcu/object.h: ditto.
+
 2008-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: cleaned out all unstable stuff.
 	* libs/gcp/text.cc: serialize anchor.

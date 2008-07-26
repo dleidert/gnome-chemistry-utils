@@ -185,7 +185,7 @@ public:
 	*/
 	bool GetBestSide () {return m_BestSide;}
 	/*!
-	Retreives the default color used for the element.
+	Retrieves the default color used for the element.
 	@return an array of three double values for the red, green and blue components of the color.
 	*/
 	double* GetDefaultColor () {return m_DefaultColor;}

@@ -4,7 +4,7 @@
  * GChemPaint library
  * widgetdata.h
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,6 +30,7 @@
 #include <list>
 #include <gcu/object.h>
 
+/*!\file*/
 namespace gcp {
 
 class Application;
@@ -41,11 +42,26 @@ extern bool cleared;
 void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_data, Application *App);
 void on_clear_data (GtkClipboard *clipboard, Application *App);
 
+/*!\enum
+Enumeration of the selection states used in GChemPaint in the gcu::Object::SetSelected method.
+*/
 enum
 {
+/*!
+Unselected object.
+*/
 	SelStateUnselected = 0,
+/*!
+Unselected object.
+*/
 	SelStateSelected,
+/*!
+Edited or new object.
+*/
 	SelStateUpdating,
+/*!
+The object is marked for deletion.
+*/
 	SelStateErasing
 };
 
