@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="chemical_loader" id="GCULoader_cdxml">
-			<mime_type name="chemical/x-cdxml" capabilities="rw" scope="2"/>
+			<mime_type name="chemical/x-cdxml" capabilities="r" scope="2"/>
 			<information>
 				<_description>Chemdraw XML files loader</_description>
 			</information>

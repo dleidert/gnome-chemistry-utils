@@ -36,12 +36,12 @@ if GCU_IS_STABLE
 	if [ -x $(bindir)/gchem3d ]; then \
 		rm $(bindir)/gchem3d; \
 	fi
-	ln -sf $(bindir)/gchem3d-@GCU_API_VER@ $(bindir)/gchem3d
+	$(LN_S) $(bindir)/gchem3d-@GCU_API_VER@ $(bindir)/gchem3d
 else
 	if [ -x $(bindir)/gchem3d-unstable ]; then \
 		rm $(bindir)/gchem3d-unstable; \
 	fi
-	ln -sf $(bindir)/gchem3d-@GCU_API_VER@ $(bindir)/gchem3d-unstable
+	$(LN_S) $(bindir)/gchem3d-@GCU_API_VER@ $(bindir)/gchem3d-unstable
 endif
 
 uninstall-hook:

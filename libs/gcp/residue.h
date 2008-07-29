@@ -39,6 +39,7 @@ class Residue: public gcu::Residue
 public:
 	Residue ();
 	Residue (char const *name);
+	Residue (char const *name, char const *symbol, Molecule *mol, Document *doc);
 	virtual ~Residue ();
 
 	virtual void Load (xmlNodePtr node, bool ro);

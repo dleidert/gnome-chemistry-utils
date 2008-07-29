@@ -81,7 +81,7 @@ This method must be called from derived classes overloaded Load methods.
 
 Used to set the selection state of the arrow inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
-gcp::SelStateUpdating, or gcp::SelStateErasing
+gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
 	void SetSelected (GtkWidget* w, int state);
 /*!

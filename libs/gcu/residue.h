@@ -72,10 +72,11 @@ Creates a residue.
 	Residue ();
 /*!
 @param name the name of the residue.
+@param global whether the residue has global scope or just document scope.
 
 Creates a residue and sets its name.
 */
-	Residue (char const *name);
+	Residue (char const *name, Document *doc = NULL);
 /*!
 The destructor.
 */
@@ -209,6 +210,11 @@ Returns the gcu::Document* used to store the molecule associated with
 the atoms group.
 */
 GCU_PROT_POINTER_PROP (Document, Document);
+/*!\fn GetGlobal()
+@return the Document for which the Residue is valid. If NULL,
+the Residue is of global scope.
+*/
+GCU_RO_PROP (Document *, Owner)
 };
 
 }	//	namespace gcu

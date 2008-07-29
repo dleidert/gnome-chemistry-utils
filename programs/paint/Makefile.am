@@ -65,12 +65,12 @@ if GCU_IS_STABLE
 	if [ -x $(bindir)/gchempaint ]; then \
 		rm $(bindir)/gchempaint; \
 	fi
-	ln -sf $(bindir)/gchempaint-@GCU_API_VER@ $(bindir)/gchempaint
+	$(LN_S) $(bindir)/gchempaint-@GCU_API_VER@ $(bindir)/gchempaint
 else
 	if [ -x $(bindir)/gchempaint-unstable ]; then \
 		rm $(bindir)/gchempaint-unstable; \
 	fi
-	ln -sf $(bindir)/gchempaint-@GCU_API_VER@ $(bindir)/gchempaint-unstable
+	$(LN_S) $(bindir)/gchempaint-@GCU_API_VER@ $(bindir)/gchempaint-unstable
 endif
 
 uninstall-hook:

@@ -30,12 +30,12 @@ if GCU_IS_STABLE
 	if [ -x $(bindir)/gchemcalc ]; then \
 		rm $(bindir)/gchemcalc; \
 	fi
-	ln -sf $(bindir)/gchemcalc-@GCU_API_VER@ $(bindir)/gchemcalc
+	$(LN_S) $(bindir)/gchemcalc-@GCU_API_VER@ $(bindir)/gchemcalc
 else
 	if [ -x $(bindir)/gchemcalc-unstable ]; then \
 		rm $(bindir)/gchemcalc-unstable; \
 	fi
-	ln -sf $(bindir)/gchemcalc-@GCU_API_VER@ $(bindir)/gchemcalc-unstable
+	$(LN_S) $(bindir)/gchemcalc-@GCU_API_VER@ $(bindir)/gchemcalc-unstable
 endif
 
 uninstall-hook:

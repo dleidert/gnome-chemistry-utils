@@ -41,12 +41,12 @@ if GCU_IS_STABLE
 	if [ -x $(bindir)/gchemtable ]; then \
 		rm $(bindir)/gchemtable; \
 	fi
-	ln -sf $(bindir)/gchemtable-@GCU_API_VER@ $(bindir)/gchemtable
+	$(LN_S) $(bindir)/gchemtable-@GCU_API_VER@ $(bindir)/gchemtable
 else
 	if [ -x $(bindir)/gchemtable-unstable ]; then \
 		rm $(bindir)/gchemtable-unstable; \
 	fi
-	ln -sf $(bindir)/gchemtable-@GCU_API_VER@ $(bindir)/gchemtable-unstable
+	$(LN_S) $(bindir)/gchemtable-@GCU_API_VER@ $(bindir)/gchemtable-unstable
 endif
 
 uninstall-hook:

@@ -45,10 +45,8 @@ class Dialog;
 
 #define GCU_CONF_DIR "gchemutils"
 
-/*!\class Application gcp/application.h
-This class is used to represent a GChemPaint application.
- It is a virtual class since at least one method is pure virtual (gcp::Application::GetWindow)
-
+/*!\class Application gcu/application.h
+This class is a base class for applications. It provides some basic services.
 */
 class Application: public DialogOwner
 {

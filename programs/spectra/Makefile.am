@@ -37,13 +37,13 @@ if GCU_IS_STABLE
 	if [ -x $(bindir)/gspectrum ]; then \
 		rm $(bindir)/gspectrum; \
 	fi
-	ln -sf $(bindir)/gspectrum-@GCU_API_VER@ $(bindir)/gspectrum
+	$(LN_S) $(bindir)/gspectrum-@GCU_API_VER@ $(bindir)/gspectrum
 else
 	if [ -x $(bindir)/gspectrum-unstable ]; then \
 		rm $(bindir)/gspectrum-unstable; \
 	fi
-	ln -sf $(bindir)/gspectrum-@GCU_API_VER@ $(bindir)/gspectrum-unstable
-endif
+	$(LN_S) $(bindir)/gspectrum-@GCU_API_VER@ $(bindir)/gspectrum-unstable
+endf
 
 uninstall-hook:
 if GCU_IS_STABLE

@@ -207,7 +207,8 @@ void Atom::RemoveBond (gcu::Bond* pBond)
 
 HPos Atom::GetBestSide ()
 {
-	if (m_Bonds.size () == 0)
+	size_t nb_bonds = m_Bonds.size ();
+	if (nb_bonds == 0)
 		return (Element::BestSide (m_Z))? RIGHT_HPOS: LEFT_HPOS;
 	std::map<gcu::Atom*, gcu::Bond*>::iterator i, end = m_Bonds.end();
 	double sumc = 0.0, sums = 0.0, a;
@@ -216,7 +217,7 @@ HPos Atom::GetBestSide ()
 		sumc += cos (a);
 		sums += sin (a);
 	}
-	if (fabs (sums) > fabs (sumc))
+	if (fabs (sums) > fabs (sumc) && nb_bonds > 1)
 		return (fabs (sums) > .1)? ((sums >= 0.)? BOTTOM_HPOS: TOP_HPOS): ((Element::BestSide (m_Z))? RIGHT_HPOS: LEFT_HPOS);
 	else
 		return (fabs (sumc) > .1)? ((sumc >= 0.)? LEFT_HPOS: RIGHT_HPOS): ((Element::BestSide (m_Z))? RIGHT_HPOS: LEFT_HPOS);
@@ -1101,11 +1102,11 @@ int Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double
 		y = m_y + m_height / 2.0;
 		return -2;
 	case POSITION_E:
-		x = m_x /*+ 12.*/ + m_width / 2.0;
+		x = m_x + m_width / 2.0;
 		y = m_y;
 		return 1;
 	case POSITION_W:
-		x = m_x /*- 12.*/ - m_width / 2.0;
+		x = m_x - m_width / 2.0;
 		y = m_y;
 		return -1;
 	default: {
@@ -1500,7 +1501,7 @@ bool Atom::HasImplicitElectronPairs ()
 	Electron* electron = (Electron*) GetFirstChild (i);
 	if (m_Valence > 0) {
 		int nexplp = 0; //nexplp is the number of explicit lone pairs
-		while (electron){ 
+		while (electron) { 
 			if (electron->IsPair ())
 				nexplp++;
 			electron = (Electron*) GetNextChild (i);
@@ -1525,7 +1526,7 @@ bool Atom::MayHaveImplicitUnpairedElectrons ()
 	map<string, Object*>::iterator i;
 	Electron* electron = (Electron*) GetFirstChild (i);
 	unsigned nel = 0;
-	while (electron){ 
+	while (electron) { 
 		if (electron->IsPair ())
 			nel += 2;
 		else

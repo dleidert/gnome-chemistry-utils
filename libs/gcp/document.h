@@ -29,6 +29,7 @@
 #include <gcu/document.h>
 #include <gcu/macros.h>
 #include <gcu/printable.h>
+#include <gcu/residue.h>
 #include <list>
 #include <map>
 #include <set>
@@ -127,8 +128,28 @@ public:
 	void OnThemeNamesChanged ();
 	double GetMedianBondLength ();
 	bool SetProperty (unsigned property, char const *value);
-	void SaveResidue (Residue const *r, xmlNodePtr node);
 	void SetLoading (bool loading) {m_bIsLoading = loading;}
+	void SaveResidue (Residue const *r, xmlNodePtr node);
+/*!
+@param symbol the symbol for which a Residue* is searched.
+@param ambiguous where to store the boolean telling if the symbol is ambiguous
+or NULL.
+
+Documents might own not global residues with the samesymbol or name
+but a different meaning from the standard residue.
+@return the Residue* found or NULL.
+*/
+	gcu::Residue const *GetResidue (char const *symbol, bool *ambiguous = NULL);
+/*!
+@param name the name of the new residue.
+@param symbol the symbol of the new residue.
+@param molecule a molecule with a pseudo atom which describes the structure
+of the residue.
+
+
+@return the new Residue on success or NULL.
+*/
+	gcu::Residue *CreateResidue (char const *name, char const *symbol, gcu::Molecule *molecule);
 
 private:
 	void RemoveAtom (Atom* pAtom);
@@ -153,6 +174,7 @@ private:
 	unsigned long m_OpID; // last operation ID
 	unsigned m_LastStackSize; // undo list size when last saved
 	std::set<Residue const *> m_SavedResidues;
+	std::map<std::string, gcu::SymbolResidue> m_Residues;
 
 /* Theme is not really a read only property, but we provide a special Set
 method */

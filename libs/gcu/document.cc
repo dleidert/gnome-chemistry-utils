@@ -25,6 +25,7 @@
 #include "config.h"
 #include "document.h"
 #include "application.h"
+#include "residue.h"
 #include "dialog.h"
 #include <cstring>
 
@@ -71,6 +72,16 @@ gchar* Document::GetNewId (gchar* id, bool Cache)
 	g_free (Id);
 	g_free (key);
 	return buf;
+}
+
+Residue *Document::CreateResidue (char const *name, char const *symbol, Molecule *molecule)
+{
+	return NULL;
+}
+
+Residue const *Document::GetResidue (char const *symbol, bool *ambiguous)
+{
+	return Residue::GetResidue (symbol, ambiguous);
 }
 
 }	//	namespace gcu

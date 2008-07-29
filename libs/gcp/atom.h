@@ -127,9 +127,10 @@ Default construtor.
 */
 	Atom (int Z, double x, double y, double z);
 /*!
-@param
+@param atom an OpenBabel Atom instance.
 
-
+Builds an atom importing as many properties from an existing OpenBabel
+Atom instance.
 */
 	Atom (OpenBabel::OBAtom* atom);
 /*!
@@ -141,58 +142,208 @@ public :
 /*!
 @param Z the new atomic number.
 
-
+Changes the atomic number of the atom.
 */
 	virtual void SetZ (int Z);
 /*!
+@param pBond a bond.
 
+Adds a bond to the atom.
 */
 	void AddBond (gcu::Bond* pBond);
+/*!
+@param pBond a bond.
+
+Removes a bond from the atom.
+*/
 	void RemoveBond (gcu::Bond* pBond);
+/*!
+Updates the atom after changing its bonds, charge or explicit electrons.
+*/
 	virtual void Update ();
+/*!
+@param w a GtkWidget.
+
+Adds the representation of the atom to the canvas widget.
+*/
 	virtual void Add (GtkWidget* w) const;
+/*!
+@param w a GtkWidget.
+
+Updates the representation of the atom in the canvas widget.
+*/
 	virtual void Update (GtkWidget* w) const;
+/*!
+@return the bonds number for this atom taking bond order into account
+*/
 	int GetTotalBondsNumber () const; //take bond order into account
+/*!
+@return the number of implicit hydrogens lnked to the atom.
+*/
 	int GetAttachedHydrogens () const {return m_nH;}
+/*!
+@return the position of the attached hydrogen atoms symbol when automatically
+arranged.
+*/
 	HPos GetBestSide ();
+/*!
+@param Pos
+@param Angle
+@param x
+@param y
+
+@return
+*/
 	virtual int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
+/*!
+@param
+@param
+
+@return
+*/
 	virtual int GetAvailablePosition (double& x, double& y);
+/*!
+@param
+@param
+@param
+
+@return
+*/
 	virtual bool GetPosition (double angle, double& x, double& y);
+/*!
+@param xml: the xmlDoc used to save the document.
+
+Used to save the Atom to the xmlDoc.
+@return the xmlNode containing the serialized atom.
+*/
 	virtual xmlNodePtr Save (xmlDocPtr xml) const;
+/*!
+@param node: a pointer to the xmlNode containing the serialized object.
+
+Used to load an atom in memory. The Atom must already exist.
+@return true on succes, false otherwise.
+*/
 	virtual bool Load (xmlNodePtr);
+/*!
+@param node a pointer to the xmlNode containing the serialized Atom.
+
+Used in this class to correctly set the atomic number.
+*/
 	virtual bool LoadNode (xmlNodePtr);
+/*!
+@param w: the GtkWidget inside which the atom is displayed.
+@param state: the selection state of the atom.
+
+Used to set the selection state of the atom inside the widget.
+The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
+gcp::SelStateUpdating, or gcp::SelStateErasing.
+*/
 	virtual void SetSelected (GtkWidget* w, int state);
+/*!
+@param nb the number of bonds to add, taking orders into account.
+@return true if the operation is allowed, false if the new bonds would exceed
+the maximum valence for the element.
+*/
 	virtual bool AcceptNewBonds (int nb = 1);
+/*!
+@param the charge that might be set.
+
+@return true if the charge is acceptable.
+*/
 	virtual bool AcceptCharge (int charge);
+/*!
+Used to retrieve the y coordinate for alignment. The default implementation returns 0.0 and
+every derived class for which alignment has a meaning should implement this method.
+@return y coordinate used for objects alignment.
+*/
 	virtual double GetYAlign ();
+/*!
+@param m: the Matrix2D of the transformation.
+@param x: the x component of the center of the transformation.
+@param y: the y component of the center of the transformation.
+
+Used to move and/or transform an object.
+*/
 	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
+/*!
+@param UIManager: the GtkUI%anager to populate.
+@param object: the atom on which occured the mouse click.
+@param x: x coordinate of the mouse click.
+@param y: y coordinate of the mouse click.
+
+This method is called to build a contextual menu for the atom.
+*/
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
-	/*!
-	@param Mol: a pointer to a molecule
+/*!
+@param Mol: a pointer to a molecule
 
-	Adds the atom to the molecule calling gcpMolecule::AddAtom()
-	*/
+Adds the atom to the molecule calling gcpMolecule::AddAtom()
+*/
 	virtual void AddToMolecule (Molecule* Mol);
+/*!
+@return true if the atom has implicit electron pairs, false otherwise.
+*/
 	bool HasImplicitElectronPairs ();
+/*!
+@return true if the atom has implcit electrons that might be unpaired.
+*/
 	bool MayHaveImplicitUnpairedElectrons ();
-	/*!
-	@param electron: a pointer to an Electron instance.
+/*!
+@param electron: a pointer to an Electron instance.
 
-	Adds the Electron (representing either a single electron or a pair) to the Atom.
-	*/
+Adds the Electron (representing either a single electron or a pair) to the Atom.
+*/
 	void AddElectron (Electron* electron);
-	/*!
-	@param electron: a pointer to an Electron instance.
+/*!
+@param electron: a pointer to an Electron instance.
 
-	Removes the Electron (representing either a single electron or a pair) from the Atom.
-	*/
+Removes the Electron (representing either a single electron or a pair) from the Atom.
+*/
 	void RemoveElectron (Electron* electron);
+/*!
+@param
+@param
+
+*/
 	void NotifyPositionOccupation (unsigned char pos, bool occupied);
+/*!
+@param
+@param
+@param
+@param
+
+*/
 	void SetChargePosition (unsigned char Pos, bool def, double angle = 0., double distance = 0.);
+/*!
+@param
+@param
+
+*/
 	char GetChargePosition (double *Angle, double *Dist) const;
+/*!
+@param charge the charge to set.
+
+Sets the formal local charge of an atom.
+*/
 	void SetCharge (int charge);
+/*!
+@return the current formal local charge.
+*/
 	int GetCharge () const {return m_Charge;}
+/*!
+Forces an update.
+*/
 	void ForceChanged () {m_Changed = true;}
+/*!
+@param atom the atom to which the this instance is to be compared.
+@param state the AtomMatchState representing the current comparison state.
+
+Try to match atoms from two molecules which are compared. This function calls
+itself recursively until all atoms from the two molecules have been matched or
+until an difference is found. Overriden methods should call this base function
+and return its result.
+@return true if the atoms match, false otherwise.
+*/
 	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
 
 /*!
@@ -210,7 +361,14 @@ This method is used to avoid bonds lines extyending over their atoms symbols.
 	void GetSymbolGeometry (double &width, double &height, double &angle, bool up) const;
 
 protected:
-	virtual void BuildSymbolGeometry (double width, double height, double ascent);
+/*!
+@param width the witdh of the atomic symbol.
+@param height the height of the atomic symbol.
+@param ascent the ascent of the atomic symbol.
+
+Evaluates where lines representing bonds should end to not overload the symbol.
+*/
+	void BuildSymbolGeometry (double width, double height, double ascent);
 
 private:
 	void BuildItems (WidgetData* pData);
@@ -250,8 +408,14 @@ private:
 	double m_xROffs, m_yROffs;
 
 protected:
+/*!
+Half the height of the "C" character.
+*/
 	double m_CHeight;
 
+/*!
+
+*/
 GCU_PROP (bool, ShowSymbol)
 GCU_PROP (HPos, HPosStyle) //0=force left, 1=force right, 2=force top, 3=force bottom, 4=auto.
 };

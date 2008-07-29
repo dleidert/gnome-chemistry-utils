@@ -1467,4 +1467,30 @@ void Document::SaveResidue (Residue const *r, xmlNodePtr node)
 	}
 }
 
+gcu::Residue const *Document::GetResidue (char const *symbol, bool *ambiguous)
+{
+	map<string, SymbolResidue>::iterator i = m_Residues.find (symbol);
+	if (i != m_Residues.end ()) {
+		if (ambiguous)
+			*ambiguous = (*i).second.ambiguous;
+		return (*i).second.res;
+	} else
+		return gcu::Document::GetResidue (symbol, ambiguous);
+}
+
+gcu::Residue *Document::CreateResidue (char const *name, char const *symbol, gcu::Molecule *molecule)
+{
+	Residue *res = NULL;
+	Residue const *r;
+	bool ambiguous;
+	// does a globalresidue exists for that symbol?
+	r = static_cast <Residue const*> (Residue::GetResidue (symbol, &ambiguous));
+	if (!r)
+		res = new Residue (name, symbol, dynamic_cast <Molecule *> (molecule), NULL);
+	else {
+		// TODO: add residues specific to the document
+	}
+	return res;
+}
+
 }	//	namespace gcp

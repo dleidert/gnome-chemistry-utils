@@ -92,12 +92,12 @@ if GCU_IS_STABLE
 	if [ -x $(bindir)/gcrystal ]; then \
 		rm $(bindir)/gcrystal; \
 	fi
-	ln -sf $(bindir)/gcrystal-@GCU_API_VER@ $(bindir)/gcrystal
+	$(LN_S) $(bindir)/gcrystal-@GCU_API_VER@ $(bindir)/gcrystal
 else
 	if [ -x $(bindir)/gcrystal-unstable ]; then \
 		rm $(bindir)/gcrystal-unstable; \
 	fi
-	ln -sf $(bindir)/gcrystal-@GCU_API_VER@ $(bindir)/gcrystal-unstable
+	$(LN_S) $(bindir)/gcrystal-@GCU_API_VER@ $(bindir)/gcrystal-unstable
 endif
 
 uninstall-hook:

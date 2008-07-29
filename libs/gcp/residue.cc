@@ -29,6 +29,8 @@
 #include <iostream>
 #include <cstring>
 
+xmlDocPtr user_residues = NULL;
+
 using namespace std;
 
 namespace gcp
@@ -42,6 +44,14 @@ Residue::Residue (): gcu::Residue ()
 Residue::Residue (char const *name): gcu::Residue (name)
 {
 	m_Doc = new Document (NULL, true, NULL);
+}
+
+Residue::Residue (char const *name, char const *symbol, Molecule *mol, Document *doc): gcu::Residue (name, doc)
+{
+	m_Doc = new Document (NULL, true, NULL);
+	mol->SetParent (m_Doc);
+	m_Molecule = mol;
+	AddSymbol (symbol);
 }
 
 Residue::~Residue ()

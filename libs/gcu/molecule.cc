@@ -251,7 +251,8 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 		} else if ((fresidue = dynamic_cast <FormulaResidue *> (*i))) {
 			// get the residue molecule and duplicate it
 			map<Atom*, Atom*> Corr;
-			Molecule const *orig = fresidue->residue->GetMolecule ();
+			Residue const *residue = Doc->GetResidue (fresidue->Symbol.c_str ());
+			Molecule const *orig = residue->GetMolecule ();
 			Atom *pseudo = NULL;
 			std::list<Atom*>::const_iterator ai, aiend = orig->m_Atoms.end ();
 			for (in = 0; in < fresidue->stoich; in++) {

@@ -4,7 +4,7 @@
  * GChemPaint library
  * application.h 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -60,9 +60,11 @@ class Document;
 struct option_data;
 typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
 
-/*!\class Application gcu/application.h
-The GChemPaint application class. This class has at least one pure virtual
-method (gcp::Application::GetWindow).
+/*!\class Application gcp/application.h
+\brief GChemPaint application base class.
+
+This class is used to represent a GChemPaint application.
+It is a virtual class since at least one method is pure virtual (gcp::Application::GetWindow)
 */
 class Application: public gcu::Application
 {
@@ -88,52 +90,179 @@ To activate the selection tool:
 \encode
 */
 	void ActivateTool (const std::string& toolname, bool activate);
+/*!
+@param path the path to activate.
+@param activate whether to activate or deactivate.
+
+Activates or deactivates the menu item corresponding to \a path according
+to the value of \a activate. 
+
+To deactivate the "Paste" menu item, use:
+\code
+		 ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste", false);
+\encode
+*/
 	void ActivateWindowsActionWidget (const char *path, bool activate);
+/*!
+Clears the message in the status bar.
+*/
 	virtual void ClearStatus ();
+/*!
+@param text a text to display
+
+Displays \a text in the status bar.
+*/
 	virtual void SetStatusText (const char* text);
+/*!
+
+*/
 	virtual GtkWindow* GetWindow () = 0;
-	void SetMenu (const std::string& menuname, GtkWidget* menu) {Menus[menuname] = menu;}
-	GtkWidget* GetMenu (const std::string& name) {return Menus[name];}
+/*!
+
+*/
 	Tool* GetActiveTool () {return m_pActiveTool;}
+/*!
+
+*/
 	gcp::Document* GetActiveDocument () {return m_pActiveDoc;}
+/*!
+
+*/
 	void SetActiveDocument (gcp::Document* pDoc) {m_pActiveDoc = pDoc;}
+/*!
+
+*/
 	Tool* GetTool (const std::string& name) {return m_Tools[name];}
+/*!
+
+*/
 	void SetTool (const std::string& toolname, Tool* tool) {m_Tools[toolname] = tool;}
+/*!
+
+*/
 	GtkWidget* GetToolItem(const std::string& name) {return ToolItems[name];}
+/*!
+
+*/
 	void SetToolItem (const std::string& name, GtkWidget* w) {ToolItems[name] = w;}
+/*!
+
+*/
 	void SetCurZ (int Z) {m_CurZ = Z;}
+/*!
+
+*/
 	int GetCurZ () {return m_CurZ;}
+/*!
+
+*/
 	void OnSaveAs ();
+/*!
+
+*/
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
+/*!
+
+*/
 	void SaveWithBabel (std::string const &filename, const gchar *mime_type, gcp::Document* pDoc);
+/*!
+
+*/
 	void OpenWithBabel (std::string const &filename, const gchar *mime_type, gcp::Document* pDoc);
+/*!
+
+*/
 	void SaveGcp (std::string const &filename, gcp::Document* pDoc);
+/*!
+
+*/
 	void OpenGcp (std::string const &filename, gcp::Document* pDoc);
+/*!
+
+*/
 	xmlDocPtr GetXmlDoc () {return XmlDoc;}
-	void SetCallback (const std::string& name, GCallback cb) {Callbacks[name] = cb;}
-	GCallback GetCallback (const std::string& name) {return Callbacks[name];}
+/*!
+
+*/
 	void OnSaveAsImage ();
+/*!
+
+*/
 	bool HaveGhemical () {return m_Have_Ghemical;}
+/*!
+
+*/
 	bool HaveInChI () {return m_Have_InChI;}
+/*!
+
+*/
 	int GetDocsNumber () {return m_Docs.size ();}
+/*!
+
+*/
 	void Zoom (double zoom);
+/*!
+
+*/
 	void AddActions (GtkRadioActionEntry const *entries, int nb, char const *ui_description, IconDesc const *icons);
+/*!
+
+*/
 	void RegisterToolbar (char const *name, int index);
+/*!
+
+*/
 	void OnToolChanged (GtkAction *current);
+/*!
+
+*/
 	void AddTarget (Target *target);
+/*!
+
+*/
 	void DeleteTarget (Target *target);
+/*!
+
+*/
 	void NotifyIconification (bool iconified);
+/*!
+
+*/
 	void NotifyFocus (bool has_focus, Target *target = NULL);
+/*!
+
+*/
 	void CheckFocus ();
+/*!
+
+*/
 	void CloseAll ();
+/*!
+
+*/
 	std::list<std::string> &GetSupportedMimeTypes () {return m_SupportedMimeTypes;}
 #ifdef HAVE_GO_CONF_SYNC
+/*!
+
+*/
 	void OnConfigChanged (GOConfNode *node, gchar const *name);
 #else
+/*!
+
+*/
 	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
 #endif
+/*!
+
+*/
 	std::list<std::string> &GetExtensions(std::string &mime_type);
+/*!
+
+*/
 	void OnThemeNamesChanged ();
+/*!
+
+*/
 	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
 
 /*!
@@ -169,32 +298,56 @@ just after creating the application and before parsing options.
 	void AddOptions (GOptionContext *context);
 
 	// virtual menus actions:
+/*!
+
+*/
 	virtual void OnFileNew (char const *Theme = NULL) = 0;
+/*!
+
+*/
 	gcu::Document *CreateNewDocument ();
 
 protected:
+/*!
+
+*/
 	void InitTools();
+/*!
+
+*/
 	void BuildTools ();
+/*!
+
+*/
 	void ShowTools (bool visible);
 
 private:
 	void TestSupportedType (char const *mime_type);
 
 protected:
-	int m_CurZ;
+/*!
+
+*/
 	gcp::Document *m_pActiveDoc;
+/*!
+
+*/
 	Target *m_pActiveTarget;
-	std::map <std::string, GtkWidget*> Menus;
-	std::map <std::string, GtkWidget*> ToolItems;
-	std::map <std::string, GtkWidget*> Toolbars;
-	std::map <std::string, Tool*> m_Tools;
-	std::map <std::string, GCallback> Callbacks;
-	Tool* m_pActiveTool;
-	static bool m_bInit, m_Have_Ghemical, m_Have_InChI;
-	xmlDocPtr XmlDoc;
+/*!
+
+*/
 	unsigned m_NumWindow; //used for new files (Untitled%d)
 
 private:
+	int m_CurZ;
+	std::map <std::string, GtkWidget*> ToolItems;
+	std::map <std::string, GtkWidget*> Toolbars;
+	std::map <std::string, Tool*> m_Tools;
+	Tool* m_pActiveTool;
+	static bool m_bInit;
+	static bool m_Have_Ghemical;
+	static bool m_Have_InChI;
+	xmlDocPtr XmlDoc;
 	GtkIconFactory *IconFactory;
 	std::list<char const*> UiDescs;
 	GtkRadioActionEntry* RadioActions;

@@ -1,5 +1,32 @@
 ##Text encoding: utf-8
 
+2008-07-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: a better definition of stable versions.
+	* libs/gcp/application.h: documentation update.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/atom.cc: prefer horizontal positions for H atoms.
+	* libs/gcp/atom.h: documentation update.
+	* libs/gcp/document.cc: some work on document specific residues.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/residue.cc: ditto.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcu/application.h: fixed documentation.
+	* libs/gcu/document.cc: some work on document specific residues.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/residue.cc: ditto.
+	* libs/gcu/residue.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: imoort unknown residues.
+	* plugins/loaders/cdx/plugin.xml.in: remove write support.
+	* plugins/loaders/cdxml/plugin.xml.in: ditto.
+	* programs/3d/Makefile.am: use LN_S.
+	* programs/calc/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/spectra/gspectrum.desktop.in.in: removed "unstable".
+	* programs/table/Makefile.am: use LN_S.
+
 2008-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/paint/H-pos.glade: allow hydrogens above and below atoms.
 	* libs/gcp/Hposdlg.cc: ditto.

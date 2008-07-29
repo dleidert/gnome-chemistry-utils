@@ -63,25 +63,30 @@ static ResiduesTable tbl;
 Residue::Residue ():
 	m_Name (NULL),
 	m_Generic (false),
-	m_Molecule (NULL)
+	m_Molecule (NULL),
+	m_Owner (NULL)
 {
 }
 
-Residue::Residue (char const *name):
+Residue::Residue (char const *name, Document *doc):
 	m_Generic (false),
-	m_Molecule (NULL)
+	m_Molecule (NULL),
+	m_Owner (doc)
 {
 	m_Name = g_strdup (name);
-	tbl.rtbn[name] = this;
+	if (!m_Owner)
+		tbl.rtbn[name] = this;
 }
 
 Residue::~Residue ()
 {
-	if (m_Name)
-		tbl.rtbn.erase (m_Name);
-	std::map<std::string, bool>::iterator i, end = m_Symbols.end ();
-	for (i = m_Symbols.begin (); i != end ; i++)
-		tbl.rtbs.erase ((*i).first);
+	if (!m_Owner) {
+		if (m_Name)
+			tbl.rtbn.erase (m_Name);
+		std::map<std::string, bool>::iterator i, end = m_Symbols.end ();
+		for (i = m_Symbols.begin (); i != end ; i++)
+			tbl.rtbs.erase ((*i).first);
+	}
 	g_free (const_cast<char*> (m_Name));
 }
 
@@ -89,20 +94,22 @@ unsigned Residue::MaxSymbolLength = 0;
 
 void Residue::SetName (char const *name)
 {
-	if (m_Name) {
+	if (!m_Owner && m_Name)
 		tbl.rtbn.erase (m_Name);
-		g_free (const_cast<char*> (m_Name));
-	}
+	g_free (const_cast<char*> (m_Name));
 	m_Name = g_strdup (name);
-	tbl.rtbn[name] = this;
+	if (!m_Owner)
+		tbl.rtbn[name] = this;
 }
 
 void Residue::AddSymbol (char const *symbol)
 {
 	bool ambiguous = Element::Z (symbol) > 0;
 	m_Symbols[symbol] = ambiguous;
-	tbl.rtbs[symbol].res = this;
-	tbl.rtbs[symbol].ambiguous = ambiguous;
+	if (!m_Owner) {
+		tbl.rtbs[symbol].res = this;
+		tbl.rtbs[symbol].ambiguous = ambiguous;
+	}
 	unsigned l = strlen (symbol);
 	if (l > MaxSymbolLength)
 		MaxSymbolLength = l;
@@ -111,7 +118,8 @@ void Residue::AddSymbol (char const *symbol)
 void Residue::RemoveSymbol (char const *symbol)
 {
 	m_Symbols.erase (symbol);
-	tbl.rtbs.erase (symbol);
+	if (!m_Owner)
+		tbl.rtbs.erase (symbol);
 }
 
 void Residue::Load (xmlNodePtr node)

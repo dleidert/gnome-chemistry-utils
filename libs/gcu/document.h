@@ -38,6 +38,8 @@ namespace gcu
 
 class Application;
 class Dialog;
+class Molecule;
+class Residue;
 
 /*!\class Document gcu/document.h
 This class is the base document class.
@@ -109,6 +111,27 @@ Saves the document. Need to be overloaded by derived class if meaningful. Defaul
 implementation doesn't do anything.
 */
 	virtual void Save () const {;}
+/*!
+@param name the name of the new residue.
+@param symbol the symbol of the new residue.
+@param molecule a molecule with a pseudo atom which describes the structure
+of the residue.
+
+This methodshould be overloaded by derived classes necessitating it. Default
+implementation just returns NULL.
+@return the new Residue on success or NULL.
+*/
+	virtual Residue *CreateResidue (char const *name, char const *symbol, Molecule *molecule);
+/*!
+@param symbol the symbol for which a Residue* is searched.
+@param ambiguous where to store the boolean telling if the symbol is ambiguous
+or NULL.
+
+Documents might own not global residues with the samesymbol or name
+but a different meaning from the standard residue.
+@return the Residue* found or NULL.
+*/
+	virtual Residue const *GetResidue (char const *symbol, bool *ambiguous = NULL);
 
 private:
 
