@@ -72,7 +72,7 @@ Creates a residue.
 	Residue ();
 /*!
 @param name the name of the residue.
-@param global whether the residue has global scope or just document scope.
+@param doc the document owning the residue when it does not have global scope.
 
 Creates a residue and sets its name.
 */
@@ -200,17 +200,17 @@ value, for example, R will expand to a methyl, and Ar to a phenyl group.
 boolean variable.
 */
 GCU_PROP (bool, Generic)
-/*!\fn GetMolecule()
-Returns the gcu::Molecule* describing the structure of the atoms group.
-
-*/
-GCU_PROT_POINTER_PROP (Molecule, Molecule);
 /*!\fn GetDocument()
 Returns the gcu::Document* used to store the molecule associated with
 the atoms group.
 */
 GCU_PROT_POINTER_PROP (Document, Document);
-/*!\fn GetGlobal()
+/*!\fn GetMolecule()
+Returns the gcu::Molecule* describing the structure of the atoms group.
+
+*/
+GCU_PROT_POINTER_PROP (Molecule, Molecule);
+/*!\fn GetOwner()
 @return the Document for which the Residue is valid. If NULL,
 the Residue is of global scope.
 */

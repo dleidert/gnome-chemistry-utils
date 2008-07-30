@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-_Name=Gnome Crystal Crystalline Structures Viewer 
+_Name=Gnome Crystal Crystalline Structures Viewer @STABILITY_POSTFIX@
 _Comment=Edit and display crystalline structures
 Exec=gcrystal-@GCU_API_VER@ %U
 Icon=gcrystal

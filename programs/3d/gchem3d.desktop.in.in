@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-_Name=Molecules Viewer
+_Name=Molecules Viewer @STABILITY_POSTFIX@
 _Comment=Display chemical 3D structures
 Exec=gchem3d-@GCU_API_VER@ %u
 Icon=gchem3d

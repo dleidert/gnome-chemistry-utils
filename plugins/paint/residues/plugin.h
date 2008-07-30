@@ -30,6 +30,7 @@
 
 namespace gcp {
 	class Application;
+	class Residue;
 }
 
 class gcpResiduesPlugin: public gcp::Plugin
@@ -40,6 +41,7 @@ public:
 
 	void Populate (gcp::Application* App);
 	void OpenDialog ();
+	void OnNewResidue (gcp::Residue *res);
 
 private:
 	void ParseNodes (xmlNodePtr node, bool writeable);

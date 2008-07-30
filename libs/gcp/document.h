@@ -37,6 +37,7 @@
 #include <libxml/tree.h>
 #include <gtk/gtk.h>
 
+/*!\file*/
 namespace OpenBabel
 {
 	class OBMol;
@@ -44,8 +45,14 @@ namespace OpenBabel
 
 namespace gcp {
 
+/*!
+*/
 extern gcu::SignalId OnChangedSignal;
+/*!
+*/
 extern gcu::SignalId OnDeleteSignal;
+/*!
+*/
 extern gcu::SignalId OnThemeChangedSignal;
 
 class View;
@@ -58,7 +65,10 @@ class Bond;
 class Fragment;
 class Molecule;
 
-	class Document: public gcu::Document, public gcu::Printable
+/*!\class Document gcp/document.h
+The document class for GChemPaint.
+*/
+class Document: public gcu::Document, public gcu::Printable
 {
 	//Constructor and destructor
 public:

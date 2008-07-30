@@ -54,6 +54,7 @@ public:
 	void OnCurChanged ();
 	void OnSymbolActivate ();
 	void OnNameActivate ();
+	void OnNewResidue (gcp::Residue *res);
 
 private:
 	gcpPseudoAtom *m_Atom;

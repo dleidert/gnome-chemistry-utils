@@ -36,27 +36,33 @@ using namespace std;
 namespace gcp
 {
 
+void (*Residue::m_AddCb) (Residue *res) = NULL;
+
 Residue::Residue (): gcu::Residue ()
 {
-	m_Doc = new Document (NULL, true, NULL);
+	m_Document = new Document (NULL, true, NULL);
+	m_Node = m_MolNode = NULL;
 }
 
 Residue::Residue (char const *name): gcu::Residue (name)
 {
-	m_Doc = new Document (NULL, true, NULL);
+	m_Document = new Document (NULL, true, NULL);
+	m_Node = m_MolNode = NULL;
 }
 
 Residue::Residue (char const *name, char const *symbol, Molecule *mol, Document *doc): gcu::Residue (name, doc)
 {
-	m_Doc = new Document (NULL, true, NULL);
-	mol->SetParent (m_Doc);
+	m_Document = new Document (NULL, true, NULL);
+	mol->SetParent (m_Document);
 	m_Molecule = mol;
 	AddSymbol (symbol);
+	m_Node = m_MolNode = NULL;
+	if (m_AddCb)
+		m_AddCb (this);
 }
 
 Residue::~Residue ()
 {
-	delete m_Doc;
 }
 
 void Residue::Load (xmlNodePtr node, bool ro)
@@ -71,15 +77,15 @@ void Residue::Load (xmlNodePtr node, bool ro)
 		delete this;
 		return;
 	}
-	if (m_Molecule)
+	if (m_Molecule) {
+		m_Molecule->SetParent (NULL); // force destruction of children
 		delete m_Molecule;
+	}
 	m_Molecule = new Molecule ();
-	m_Doc->AddChild (m_Molecule);
-	m_Doc->SetLoading (true);
+	m_Document->AddChild (m_Molecule);
+	static_cast <Document *> (m_Document)->SetLoading (true);
 	m_Molecule->Load (m_MolNode);
-	m_Doc->SetLoading (false);
-	map<string, gcu::Object*>::iterator i;
-	m_Molecule = dynamic_cast <Molecule*> (m_Doc->GetFirstChild (i));
+	static_cast <Document *> (m_Document)->SetLoading (false);
 	gcu::Residue::Load (node);
 }
 

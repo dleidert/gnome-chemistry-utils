@@ -31,6 +31,7 @@
 namespace gcp
 {
 
+class Application;
 class Document;
 class Molecule;
 
@@ -42,11 +43,13 @@ public:
 	Residue (char const *name, char const *symbol, Molecule *mol, Document *doc);
 	virtual ~Residue ();
 
-	virtual void Load (xmlNodePtr node, bool ro);
-	virtual bool operator== (gcu::Molecule const &mol) const;
+	void Load (xmlNodePtr node, bool ro);
+	bool operator== (gcu::Molecule const &mol) const;
+
+	static void SetPostAddCallback (void (*cb) (Residue *res)) {m_AddCb = cb;}
 
 private:
-	Document *m_Doc;
+	static void (*m_AddCb) (Residue *res);
 
 GCU_RO_PROP (bool, ReadOnly);
 GCU_RO_PROP (xmlNodePtr, Node);

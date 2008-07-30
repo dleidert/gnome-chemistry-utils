@@ -437,7 +437,7 @@ void gcpResiduesDlg::OnCurChanged ()
 	gtk_entry_set_text (m_SymbolEntry, sy.c_str ());	
 	m_Document->Clear ();
 	m_Document->LoadObjects (m_Residue->GetMolNode ());
-	double r =  m_Document->GetMedianBondLength () / m_Document->GetTheme ()->GetBondLength ();
+	double r =  m_Document->GetTheme ()->GetBondLength () / m_Document->GetMedianBondLength ();
 	if (fabs (r - 1.) > .0001) { 
 		Matrix2D m (r, 0., 0., r);
 		m_Document->Transform2D (m, 0., 0.);
@@ -465,4 +465,12 @@ void gcpResiduesDlg::OnNameActivate ()
 	char const *text = gtk_entry_get_text (m_NameEntry);
 	m_ValidName = strlen (text) > 0;
 	gtk_widget_set_sensitive (m_SaveBtn, m_ValidName && m_ValidSymbols);
+}
+
+void gcpResiduesDlg::OnNewResidue (gcp::Residue *res)
+{
+	map<string, bool> const &symbols = res->GetSymbols ();
+	map<string, bool>::const_iterator i = symbols.begin (), end = symbols.end ();
+	for (i = symbols.begin (); i != end; i++)
+		gtk_combo_box_append_text (m_CurBox, (*i).first.c_str ());
 }

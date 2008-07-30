@@ -28,16 +28,32 @@
 #include <gcu/dialog.h>
 #include <gtk/gtkspinbutton.h>
 
+/*!\file*/
 namespace gcp {
 
 class Document;
 
+/*!\class ZoomDlg gcp/zoomdlg.h
+The zoom level dialog.
+*/
 class ZoomDlg: public gcu::Dialog
 {
 public:
+/*!
+@param pDoc the document to zoom.
+
+Constructs a dialog to change the zoom level for \a pDoc.
+*/
 	ZoomDlg (gcp::Document* pDoc);
+/*!
+The destructor.
+*/
 	virtual ~ZoomDlg ();
 	
+/*!
+Called by the framework when the dialog gets the focus and update the zoom level
+which might have changed.
+*/
 	void OnFocusIn ();
 	
 private:

@@ -44,6 +44,7 @@ Molecule::Molecule (TypeId Type): Object (Type)
 
 Molecule::Molecule (Atom* pAtom): Object (MoleculeType)
 {
+	SetParent (pAtom->GetDocument ());
 	AddAtom (pAtom);
 	Chain* pChain = new Chain (this, pAtom); //will find the cycles
 	delete pChain;

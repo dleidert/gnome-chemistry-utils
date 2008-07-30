@@ -1,5 +1,32 @@
 ##Text encoding: utf-8
 
+2008-07-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: define a suffix to add to applications menu entries for
+	unstable versions.
+	* libs/gcp/application.h: minor documentation update.
+	* libs/gcp/document.h: fixed residues import.
+	* libs/gcp/residue.cc: ditto.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcp/target.h: API documentation.
+	* libs/gcp/window.cc: removed a duplicate member.
+	* libs/gcp/window.h: API documentation.
+	* libs/gcp/zoomdlg.h: ditto.
+	* libs/gcu/molecule.cc: fixed a bug in the constructor.
+	* libs/gcu/residue.cc: fixed residues import.
+	* libs/gcu/residue.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/paint/residues/plugin.cc: ditto.
+	* plugins/paint/residues/plugin.h: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/residues/residues-dlg.h: ditto.
+	* programs/3d/gchem3d.desktop.in.in: adds the API version number to the
+	applications menu entry when unstable.
+	* programs/calc/gchemcalc.desktop.in.in:
+	* programs/crystal/gcrystal.desktop.in.in:
+	* programs/paint/gchempaint.desktop.in.in:
+	* programs/spectra/gspectrum.desktop.in.in:
+	* programs/table/gchemtable.desktop.in.in:
+
 2008-07-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: a better definition of stable versions.
 	* libs/gcp/application.h: documentation update.

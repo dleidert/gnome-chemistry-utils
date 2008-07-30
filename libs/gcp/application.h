@@ -101,6 +101,8 @@ To deactivate the "Paste" menu item, use:
 \code
 		 ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste", false);
 \encode
+			 
+Calls gcp::Window::ActivateActionWidget.
 */
 	void ActivateWindowsActionWidget (const char *path, bool activate);
 /*!

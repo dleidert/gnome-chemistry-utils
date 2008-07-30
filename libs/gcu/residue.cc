@@ -63,6 +63,7 @@ static ResiduesTable tbl;
 Residue::Residue ():
 	m_Name (NULL),
 	m_Generic (false),
+	m_Document (NULL),
 	m_Molecule (NULL),
 	m_Owner (NULL)
 {
@@ -70,6 +71,7 @@ Residue::Residue ():
 
 Residue::Residue (char const *name, Document *doc):
 	m_Generic (false),
+	m_Document (NULL),
 	m_Molecule (NULL),
 	m_Owner (doc)
 {
@@ -88,6 +90,8 @@ Residue::~Residue ()
 			tbl.rtbs.erase ((*i).first);
 	}
 	g_free (const_cast<char*> (m_Name));
+	if (m_Document)
+		delete m_Document;
 }
 
 unsigned Residue::MaxSymbolLength = 0;

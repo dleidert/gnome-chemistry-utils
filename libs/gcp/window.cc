@@ -465,7 +465,6 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui):
 	GtkAccelGroup *accel_group;
 	GError *error;
 
-	m_App = App;
 	SetWindow (window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL)));
 	g_object_set (G_OBJECT (window), "urgency-hint", false, NULL);
 	g_object_set_data (G_OBJECT (window), "gcp-role", (void*) 1);
@@ -566,7 +565,7 @@ Window::~Window ()
 
 void Window::OnFileNew()
 {
-	m_App->OnFileNew ();
+	m_Application->OnFileNew ();
 }
 
 void Window::OnSave()
@@ -574,12 +573,12 @@ void Window::OnSave()
 	if (m_Document->GetFileName ())
 		m_Document->Save();
 	else
-		m_App->OnSaveAs ();
+		m_Application->OnSaveAs ();
 }
 
 void Window::OnFileOpen()
 {
-	FileChooser (m_App, false, m_App->GetSupportedMimeTypes (), (!m_Document->HasChildren () && !m_Document->GetDirty ())? m_Document: NULL);
+	FileChooser (m_Application, false, m_Application->GetSupportedMimeTypes (), (!m_Document->HasChildren () && !m_Document->GetDirty ())? m_Document: NULL);
 }
 
 void Window::OnProperties()
@@ -749,7 +748,7 @@ bool Window::VerifySaved ()
 
 void Window::OnPageSetup ()
 {
-	new PrintSetupDlg (m_App, m_Document);
+	new PrintSetupDlg (m_Application, m_Document);
 }
 
 } // namespace gcp

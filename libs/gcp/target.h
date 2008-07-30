@@ -28,23 +28,63 @@
 #include <gcu/macros.h>
 #include <gtk/gtkwindow.h>
 
+/*!\file*/
 namespace gcp {
 
 class Application;
 class Document;
 
+/*!\class Target
+The base class for windows able to edit GChemPaint files. When one of these
+windows is active, the tools box is displayed on the same desktop.
+gcp::Window is a derived class. Another one is gcpResidueDialog implemented
+in the residue plugin (but not documented like everything implemented
+in plugins).
+*/
 class Target
 {
 public:
+/*!
+@param App the application owning the target.
+
+Creates a target for the application.
+*/
 	Target (Application *App);
+/*!
+The destructor.
+*/
 	virtual ~Target ();
 
+/*!
+@param window a GtkWindow.
+
+Sets \a window as the GtkWindow for this target.
+*/
 	void SetWindow (GtkWindow *window);
 
+/*!
+virtual method called when the application ends to ensure everything is
+correctly closed. This is a pure virtual class, so it must be overloaded.
+*/
 	virtual bool Close () = 0;
 
+/*!\fn GetWindow()
+@return the GtkWindow correspondig to this target.
+*/
 GCU_RO_PROP (GtkWindow*, Window);
+/*!\var m_Application
+The gcp::Application owning this target.
+*/
+/*!\fn GetApplication()
+@return the gcp::Application owning this target.
+*/
 GCU_PROT_PROP (Application*, Application)
+/*!\var m_Document
+The gcp::Document displayed in this target window.
+*/
+/*!\fn GetApplication()
+@return the gcp::Document displayed in this target window.
+*/
 GCU_PROT_PROP (Document*, Document)
 };
 
