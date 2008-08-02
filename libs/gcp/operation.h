@@ -4,7 +4,7 @@
  * GChemPaint library
  * operation.h 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,7 +22,7 @@
  * USA
  */
 
-
+/*!\file*/
 #ifndef GCHEMPAINT_OPERATION_H
 #define GCHEMPAINT_OPERATION_H
 
@@ -40,6 +40,9 @@ typedef enum
 	GCP_MODIFY_OPERATION,
 } OperationType;
 
+/*!\class Operation gcp/operation.h
+Base operation class for the Undo/Redo framework.
+*/
 class Operation
 {
 public:

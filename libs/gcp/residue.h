@@ -45,6 +45,7 @@ public:
 
 	void Load (xmlNodePtr node, bool ro);
 	bool operator== (gcu::Molecule const &mol) const;
+	void Register ();
 
 	static void SetPostAddCallback (void (*cb) (Residue *res)) {m_AddCb = cb;}
 

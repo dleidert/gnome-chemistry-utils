@@ -4,7 +4,7 @@
  * GChemPaint library
  * view.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -68,9 +68,32 @@ public:
 	gchar* GetSmallFontName () {return m_sSmallFontName;}
 	PangoFontDescription* GetPangoFontDesc () {return m_PangoFontDesc;}
 	PangoFontDescription* GetPangoSmallFontDesc () {return m_PangoSmallFontDesc;}
+/*!
+@param w the active document widget.
+
+Removes all objects in the widget.
+*/
 	void OnDeleteSelection (GtkWidget* w);
+/*!
+@param w the active document widget.
+@param clipboard a GtkClipboard.
+
+Called by the framework to copy the selection.
+*/
 	void OnCopySelection (GtkWidget* w, GtkClipboard* clipboard);
+/*!
+@param w the active document widget.
+@param clipboard a GtkClipboard.
+
+Called by the framework to paste clipboard contents.
+*/
 	void OnPasteSelection (GtkWidget* w, GtkClipboard* clipboard);
+/*!
+@param w the active document widget.
+@param clipboard a GtkClipboard.
+
+Called by the framework to copy and delete the selection.
+*/
 	void OnCutSelection (GtkWidget* w, GtkClipboard* clipboard);
 	bool OnKeyPress (GtkWidget* w, GdkEventKey* event);
 	bool OnKeyRelease (GtkWidget* w, GdkEventKey* event);

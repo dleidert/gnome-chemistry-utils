@@ -557,7 +557,6 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 											this helps with things begining with an oxygen or a sulfur, but might be 
 											not enough n other cases */
 											double x, y;
-											a->SetId ("a1");
 											a2->GetCoords (&x, &y);
 											a->SetCoords (x, y);
 											a->RemoveBond (b);

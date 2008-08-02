@@ -121,6 +121,8 @@ bool Fragment::OnChanged (bool save)
 	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
 	Residue *r = NULL;
 	char sy[Residue::MaxSymbolLength + 1];
+	if (!m_Atom->GetSymbol ())
+		m_StartSel = m_BeginAtom;
 	if (!m_Atom->GetZ () || (residue != NULL && residue->GetResidue () == NULL)) {
 		strncpy (sy, m_buf.c_str () + m_StartSel, Residue::MaxSymbolLength);
 		int i = Residue::MaxSymbolLength;
@@ -751,6 +753,7 @@ bool Fragment::Load (xmlNodePtr node)
 				m_Atom->AddBond (pBond);
 			}
 			delete pOldAtom;
+			AddChild (m_Atom);
 			if (!m_Atom->Load (child))
 				return false;
 			m_BeginAtom = m_buf.length ();

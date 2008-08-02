@@ -85,6 +85,8 @@ bool gcpBondTool::OnClicked ()
 			m_pOp->AddObject (m_pObjectGroup, 0);
 			UpdateBond ();
 			return true;
+		case FragmentType:
+			m_pObject = static_cast <gcp::Fragment *> (m_pObject)->GetAtom ();
 		case AtomType:
 			if (!((gcp::Atom*) m_pObject)->AcceptNewBonds ())
 				return false;

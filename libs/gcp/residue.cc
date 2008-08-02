@@ -53,11 +53,13 @@ Residue::Residue (char const *name): gcu::Residue (name)
 Residue::Residue (char const *name, char const *symbol, Molecule *mol, Document *doc): gcu::Residue (name, doc)
 {
 	m_Document = new Document (NULL, true, NULL);
-	mol->SetParent (m_Document);
+	if (mol)
+		mol->SetParent (m_Document);
 	m_Molecule = mol;
-	AddSymbol (symbol);
+	if (symbol)
+		AddSymbol (symbol);
 	m_Node = m_MolNode = NULL;
-	if (m_AddCb)
+	if (m_AddCb && !doc && mol)
 		m_AddCb (this);
 }
 
@@ -92,6 +94,13 @@ void Residue::Load (xmlNodePtr node, bool ro)
 bool Residue::operator== (gcu::Molecule const &mol) const
 {
 	return *m_Molecule == mol;
+}
+
+void Residue::Register ()
+{
+	m_MolNode = m_Node = NULL; // forces a new node
+	if (m_AddCb)
+		m_AddCb (this);
 }
 
 }	//	namespace gcp

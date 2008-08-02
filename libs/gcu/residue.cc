@@ -75,9 +75,12 @@ Residue::Residue (char const *name, Document *doc):
 	m_Molecule (NULL),
 	m_Owner (doc)
 {
-	m_Name = g_strdup (name);
-	if (!m_Owner)
-		tbl.rtbn[name] = this;
+	if (name) {
+		m_Name = g_strdup (name);
+		if (!m_Owner)
+			tbl.rtbn[name] = this;
+	} else
+		m_Name = NULL;
 }
 
 Residue::~Residue ()
@@ -185,7 +188,7 @@ void Residue::Load (xmlNodePtr node)
 						cerr << "Symbol \"" << buf << "\" has more than eight characters and is not allowed" << endl;
 					delete this;
 					return;
-				} else {
+				} else if (!m_Owner) {
 					if (GetResidue (buf) != NULL) {
 						cerr << "A residue with symbol \"" << buf << "\" already exists" << endl;
 						delete this;
@@ -205,16 +208,18 @@ void Residue::Load (xmlNodePtr node)
 		}
 		child = child->next;
 	}
-	if (name) {
-		if (GetResiduebyName (name) != NULL) {
-			cerr << "A residue named \"" << name << "\" already exists" << endl;
+	if (!m_Owner) {
+		if (name) {
+			if (GetResiduebyName (name) != NULL) {
+				cerr << "A residue named \"" << name << "\" already exists" << endl;
+				delete this;
+				return;
+			}
+			SetName (name);
+			xmlFree (name);
+		} else
 			delete this;
-			return;
-		}
-		SetName (name);
-		xmlFree (name);
-	} else
-		delete this;
+	}
 }
 
 Residue const *Residue::GetResidue (char const *symbol, bool *ambiguous)

@@ -395,7 +395,8 @@ bool Molecule::Load (xmlNodePtr node)
 	child = GetNodeByName (node, "fragment");
 	while (child) {
 		pObject = new Fragment ();
-		AddChild (pObject);
+		if (pDoc)
+			AddChild (pObject);
 		if (!pObject->Load (child))  {
 			delete pObject;
 			return false;

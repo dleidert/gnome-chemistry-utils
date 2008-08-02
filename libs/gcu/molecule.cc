@@ -153,8 +153,9 @@ bool Molecule::operator== (Molecule const& molecule) const
 	for (ia = m_Atoms.begin ();  ia != enda; ia++)
 		atoms1[(*ia)->GetZ ()].insert (*ia);
 	enda = molecule.m_Atoms.end ();
-	for (ia = molecule.m_Atoms.begin ();  ia != enda; ia++)
+	for (ia = molecule.m_Atoms.begin ();  ia != enda; ia++){
 		atoms2[(*ia)->GetZ ()].insert (*ia);
+	}
 	if (atoms1.size () != atoms2.size ())
 		return false;
 	map<int, set<Atom*> >::iterator ib, endb = atoms1.end (), ic, endc = atoms2.end ();

@@ -1483,7 +1483,36 @@ gcu::Residue *Document::CreateResidue (char const *name, char const *symbol, gcu
 	Residue *res = NULL;
 	Residue const *r;
 	bool ambiguous;
-	// does a globalresidue exists for that symbol?
+	map< string, Object * >::iterator i;
+	Object *obj = molecule->GetFirstChild (i);
+	gcu::Atom *a = NULL;
+	while (obj) {
+		a = dynamic_cast <gcu::Atom *> (obj);
+		if (a && ! a->GetZ ())
+			break;
+		a = NULL;
+		obj = molecule->GetNextChild (i);
+	}
+	if (!a || a->GetBondsNumber () != 1)
+		return NULL;
+	if (strcmp (a->GetId (), "a1")) {
+		Object *o = molecule->GetChild ("a1");
+		if (o) {
+			o->SetId ("at1");
+			a->SetId ("a1");
+			o->SetId ("a1");
+		} else
+			a->SetId ("a1");
+	}
+	double x, y;
+	a->GetCoords (&x, &y);
+	molecule->Move (-x, -y);
+	map <gcu::Atom*, gcu::Bond*>::iterator j;
+	gcu::Bond *b = a->GetFirstBond (j);
+	double angle = b->GetAngle2DRad (a);
+	Matrix2D m (-angle, false);
+	molecule->Transform2D (m, 0., 0.);
+	// does a global residue exists for that symbol?
 	r = static_cast <Residue const*> (Residue::GetResidue (symbol, &ambiguous));
 	if (!r)
 		res = new Residue (name, symbol, dynamic_cast <Molecule *> (molecule), NULL);

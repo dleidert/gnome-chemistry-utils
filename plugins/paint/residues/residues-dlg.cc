@@ -442,7 +442,9 @@ void gcpResiduesDlg::OnCurChanged ()
 		Matrix2D m (r, 0., 0., r);
 		m_Document->Transform2D (m, 0., 0.);
 		m_Document->GetView ()->Update (m_Document);
+		m_Document->GetView ()->EnsureSize ();
 	}
+	m_Document->GetView ()->EnsureSize ();
 	m_Atom = dynamic_cast <gcpPseudoAtom *> (m_Document->GetDescendant ("a1"));
 	map<gcu::Atom*, gcu::Bond*>::iterator j;
 	m_Atom->GetFirstBond (j);

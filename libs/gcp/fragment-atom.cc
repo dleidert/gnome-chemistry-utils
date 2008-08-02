@@ -268,6 +268,9 @@ void FragmentAtom::DoBuildSymbolGeometry (View *pView)
 {
 	// Building atom geometry if necessary
 	double ascent, x;
+	char const *symbol = GetSymbol ();
+	if (!symbol)
+		return;
 	GetSymbolGeometry (ascent, x, x, false);
 	if (ascent == 0.) {
 		PangoContext* pc = pView->GetPangoContext ();
@@ -279,7 +282,7 @@ void FragmentAtom::DoBuildSymbolGeometry (View *pView)
 			pango_layout_get_extents (layout, &rect, NULL);
 			m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
 		}
-		pango_layout_set_text (layout, GetSymbol (), -1);
+		pango_layout_set_text (layout, symbol, -1);
 		PangoLayoutIter* iter = pango_layout_get_iter (layout);
 		ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);

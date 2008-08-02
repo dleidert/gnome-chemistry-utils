@@ -85,13 +85,23 @@ bool FragmentResidue::Load (xmlNodePtr node)
 	Residue *residue = (Residue*) Residue::GetResidue (buf, NULL);
 	if (residue) {
 		if (child->next) {
+			Residue *res0 = new Residue (NULL, NULL, NULL, static_cast <Document *> (GetDocument ()));
+			res0->Load (node, false);
+			if (*residue == *(res0->GetMolecule ()))
+				delete res0; // OK, same molecule
+			else {
+				// TODO: append residue to the document
+			}
 		}
-		// TODO: compare molecules
-		m_Abbrev = buf;
-		m_Residue = residue;
-	} else {
+	} else if (child->next) {
+		residue = new Residue ();
+		residue->Load (node, false);
+		residue->Register ();
 		// TODO: append residue to the local residues ( or to the document?)
-	}
+	} else
+		return false;
+	m_Abbrev = buf;
+	m_Residue = residue;
 	xmlFree ((xmlChar*) buf);
 	return true;
 }
