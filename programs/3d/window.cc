@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/3d/window.cc 
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,48 +30,47 @@
 #include <gcu/print-setup-dlg.h>
 #include <goffice/gtk/go-action-combo-color.h>
 #include <goffice/utils/go-image.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
 //Callbacks
-static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gc3dWindow* Win)
+static bool on_delete_event (GtkWidget *widget, GdkEvent *event, gc3dWindow *Win)
 {
 	delete Win;
 	return false;
 }
 
-static void on_file_open (GtkWidget *widget, gc3dWindow* Win)
+static void on_file_open (GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->OnFileOpen ();
 }
 
-static void on_file_save_as_image(GtkWidget* widget, gc3dWindow* Win)
+static void on_file_save_as_image(GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->GetApp ()->OnSaveAsImage (Win->GetDoc ());
 }
 
-static void on_file_close (GtkWidget *widget, gc3dWindow* Win)
+static void on_file_close (GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->OnFileClose ();
 }
 
-static void on_page_setup (GtkWidget *widget, gc3dWindow* Win)
+static void on_page_setup (GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->OnPageSetup ();
 }
 
-static void on_print_preview (GtkWidget *widget, gc3dWindow* Win)
+static void on_print_preview (GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->GetView ()->Print (true);
 }
 
-static void on_file_print (GtkWidget *widget, gc3dWindow* Win)
+static void on_file_print (GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->GetView ()->Print (false);
 }
 
-static void on_quit (GtkWidget *widget, gc3dWindow* Win)
+static void on_quit (GtkWidget *widget, gc3dWindow *Win)
 {
 	gc3dApplication *App = Win->GetApp ();
 	App->OnQuit ();
@@ -94,32 +93,29 @@ static void on_display (GtkRadioAction *action, GtkRadioAction *current, gc3dWin
 	window->GetView ()->Update ();
 }
 
-static void on_help (GtkWidget *widget, gc3dWindow* window)
+static void on_help (GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnHelp ();
 }
 
-static void on_web (GtkWidget *widget, gc3dWindow* window)
+static void on_web (GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnWeb ();
 }
 
-static void on_mail (GtkWidget *widget, gc3dWindow* window)
+static void on_mail (GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnMail ();
 }
 
-static void on_bug (GtkWidget *widget, gc3dWindow* window)
+static void on_bug (GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnBug ();
 }
 
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
 {
-	GnomeVFSResult error = gnome_vfs_url_show(url);
-	if (error != GNOME_VFS_OK) {
-		g_print("GnomeVFSResult while trying to launch URL in about dialog: error %u\n", error);
-	}
+	reinterpret_cast <gc3dWindow *> (data)->GetApp ()->OnWeb (url);
 }
 
 static void on_about (GtkWidget *widget, void *data)

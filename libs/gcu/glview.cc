@@ -32,7 +32,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
+#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
@@ -360,16 +360,11 @@ void GLView::Rotate (gdouble x, gdouble y)
 
 static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
 {
-	GnomeVFSHandle *handle = (GnomeVFSHandle*) data;
-	GnomeVFSFileSize written = 0;
-	GnomeVFSResult res;
+	GOutputStream *output = (GOutputStream *) data;
 	while (count) {
-		res = gnome_vfs_write (handle, buf, count, &written);
-		if (res != GNOME_VFS_OK) {
-			g_set_error (error, g_quark_from_static_string ("gchemutils"), res, gnome_vfs_result_to_string (res));
+		count -= g_output_stream_write (output, buf, count, NULL, error);
+		if (*error)
 			return false;
-		}
-		count -= written;
 	}
 	return true;
 }
@@ -391,15 +386,16 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 			keys[j] = (*i).first.c_str ();
 			values[j++] = (*i).second.c_str ();
 		}
-		GnomeVFSHandle *handle = NULL;
-		if (gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
-			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, handle, type, (char**) keys, (char**) values, &error);
-			if (error) {
-				fprintf (stderr, _("Unable to save image file: %s\n"), error->message);
-				g_error_free (error);
-			}
-			gnome_vfs_close (handle); // hope there will be no error there
+		GFile *file = g_vfs_get_file_for_uri (g_vfs_get_default (), filename.c_str ());
+		GFileOutputStream *output = g_file_create (file, G_FILE_CREATE_NONE, NULL, &error);
+		if (!error)
+			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, output, type, (char**) keys, (char**) values, &error);
+		if (error) {
+			fprintf (stderr, _("Unable to save image file: %s\n"), error->message);
+			g_error_free (error);
 		}
+
+		g_object_unref (file);
 		g_free (keys);
 		g_free (values);
 		g_object_unref (pixbuf);

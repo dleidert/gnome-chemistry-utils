@@ -34,8 +34,7 @@
 #include <goffice/math/go-rangefunc.h>
 #include <goffice/math/go-regression.h>
 #include <goffice/utils/go-color.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
+#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 #include <sstream>
@@ -98,29 +97,50 @@ void SpectrumDocument::Load (char const *uri, char const *mime_type)
 	if (!mime_type || strcmp (mime_type, "chemical/x-jcamp-dx")) {
 		return;
 	}
-	GnomeVFSHandle *handle;
-	GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
-	GnomeVFSResult result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result != GNOME_VFS_OK) {
-		gnome_vfs_file_info_unref (info);
+	GVfs *vfs = g_vfs_get_default ();
+	GFile *file = g_vfs_get_file_for_uri (vfs, uri);
+	GError *error = NULL;
+	GFileInfo *info = g_file_query_info (file,
+										 G_FILE_ATTRIBUTE_STANDARD_SIZE,
+										 G_FILE_QUERY_INFO_NONE,
+										 NULL, &error);
+	if (error) {
+		g_message ("GIO querry failed: %s", error->message);
+		g_error_free (error);
+		g_object_unref (file);
 		return;
 	}
-	gnome_vfs_get_file_info_from_handle (handle, info, (GnomeVFSFileInfoOptions) 0);
-	gchar *buf = new gchar[info->size + 1];
-	GnomeVFSFileSize n;
-	gnome_vfs_read (handle, buf, info->size, &n);
-	buf[info->size] = 0;
-	if (n == info->size) {
-		LoadJcampDx (buf);
-		if (m_App) {
-			char *dirname = g_path_get_dirname (uri);
-			m_App->SetCurDir (dirname);
-			g_free (dirname);
+	gsize size = g_file_info_get_size (info);
+	g_object_unref (info);
+	GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
+	if (error) {
+		g_message ("GIO could not create the stream: %s", error->message);
+		g_error_free (error);
+		g_object_unref (file);
+		return;
+	}
+	gchar *buf = new gchar[size + 1];
+	gsize n = size;
+	while (n) {
+		n -= g_input_stream_read (input, buf, size, NULL, &error);
+		if (error) {
+			g_message ("GIO could not read the file: %s", error->message);
+			g_error_free (error);
+			delete [] buf;
+			g_object_unref (input);
+			g_object_unref (file);
+			return;
 		}
 	}
-	gnome_vfs_file_info_unref (info);
+	buf[size] = 0;
+	LoadJcampDx (buf);
+	if (m_App) {
+		char *dirname = g_path_get_dirname (uri);
+		m_App->SetCurDir (dirname);
+		g_free (dirname);
+	}
 	delete [] buf;
-	g_free (handle);
+	g_object_unref (file);
 	
 }
 

@@ -26,9 +26,9 @@
 #include "filechooser.h"
 #include <gcu/application.h>
 #include <gcu/document.h>
-#include <glib/gi18n.h>
+#include <gio/gio.h>
+#include <glib/gi18n-lib.h>
 #include <goffice/utils/go-file.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
 
 using namespace std;
 
@@ -114,7 +114,7 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 			if (!mime_type) {
 				mime_type = go_get_mime_type (filename);
 				if (!mime_type)
-					mime_type = gnome_vfs_get_file_mime_type_fast (filename, NULL);
+					mime_type = g_content_type_guess (filename, NULL, 0, NULL);
 				// ensure the found mime type is in the list
 				bool found = false;
 				if (mime_type) {

@@ -71,7 +71,6 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-gio.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <libxml/tree.h>
 #include <iostream>
 #include <cmath>
@@ -288,10 +287,7 @@ static void on_bug (GtkWidget *widget, gpointer data)
 
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
 {
-	GnomeVFSResult error = gnome_vfs_url_show(url);
-	if (error != GNOME_VFS_OK) {
-		g_print("GnomeVFSResult while trying to launch URL in about dialog: error %u\n", error);
-	}
+	App->OnWeb (url);
 }
 
 static void on_about (GtkWidget *widget, void *data)
@@ -725,7 +721,6 @@ int main (int argc, char *argv[])
 	GError *error = NULL;
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
-	gnome_vfs_init ();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [formula]"));
 		g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);

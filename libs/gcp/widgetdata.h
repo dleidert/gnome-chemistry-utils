@@ -124,8 +124,8 @@ Unselects everything.
 */
 	void UnselectAll ();
 /*!
-@param x the x coordinate of the translation vector.
-@param y the y coordinate of the translation vector.
+@param dx the x coordinate of the translation vector.
+@param dy the y coordinate of the translation vector.
 
 Moves the items representing the selection, but don't move the objects
 themselves and don't modify the document. This is used by the selection tool
@@ -133,8 +133,8 @@ but might be deprecated in the future.
 */
 	void MoveSelectedItems (double dx, double dy);
 /*!
-@param x the x coordinate of the translation vector.
-@param y the y coordinate of the translation vector.
+@param dx the x coordinate of the translation vector.
+@param dy the y coordinate of the translation vector.
 
 Moves the selection. This method creates an Operation instance for the
 Undo/Redo framework.
@@ -147,7 +147,7 @@ Undo/Redo framework.
 
 Rotates the selection. This method does not create an Operation instance.
 */
-	void RotateSelection (double dx, double dy, double angle);
+	void RotateSelection (double x, double y, double angle);
 /*!
 Empties the list of selected objects. Called after objects have been deleted.
 */

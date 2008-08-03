@@ -36,7 +36,6 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkuimanager.h>
 #include <gtk/gtkwindow.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <cstdlib>
 #include <cstring>
 
@@ -93,10 +92,7 @@ static void on_block_colors (GtkWidget *widget, GChemTableApp *App)
 
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
 {
-	GnomeVFSResult error = gnome_vfs_url_show(url);
-	if (error != GNOME_VFS_OK) {
-		g_print("GnomeVFSResult while trying to launch URL in about dialog: error %u\n", error);
-	}
+	reinterpret_cast <Application *> (data)->OnWeb (url);
 }
 
 static void on_help (GtkWidget *widget, GChemTableApp *app)
@@ -371,7 +367,7 @@ void GChemTableApp::OnAbout ()
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GChemTable is a chemical periodic table of the elements application");
 	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2005-2007 Jean Bréfort");
+	const gchar * copyright = _("Copyright © 2005-2008 Jean Bréfort");
 	const gchar * license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
@@ -386,7 +382,7 @@ void GChemTableApp::OnAbout ()
 		"Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307\n"
 		"USA";
 	
-	gtk_about_dialog_set_url_hook(on_about_activate_url, NULL, NULL);
+	gtk_about_dialog_set_url_hook (on_about_activate_url, this, NULL);
 
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
 	const gchar * translator_credits = _("translator_credits");

@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2008-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: try to replace gnomevfs by gio/gvfs as much as possible.
+	* libs/gcp/Hposdlg.h: API documentation work.
+	* libs/gcp/widgetdata.h: ditto.
+	* libs/gcu/application.cc: try to replace gnomevfs by gio/gvfs as much
+	as possible.
+	* libs/gcu/chem3ddoc.cc: ditto.
+	* libs/gcu/crystalview.cc: ditto.
+	* libs/gcu/filechooser.cc: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* programs/3d/application.cc: ditto.
+	* programs/3d/main.cc: ditto.
+	* programs/3d/window.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/spectra/Makefile.am: fixed typo.
+	* programs/table/gchemtable-app.cc: try to replace gnomevfs by gio/gvfs
+	as much as possible.
+	* programs/table/gchemtable-main.cc: ditto.
+
 2008-08-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: imports new resodues from gchempaint and chemdraw
 	(.cdx) files.

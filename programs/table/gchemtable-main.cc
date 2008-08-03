@@ -24,7 +24,6 @@
 
 #include "config.h"
 #include "gchemtable-app.h"
-#include <libgnomevfs/gnome-vfs-init.h>
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>
@@ -36,7 +35,6 @@ int main (int argc, char *argv[])
 {
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
-	gnome_vfs_init ();
 
 	GChemTableApp *app = new GChemTableApp ();
 	/* Initialize plugins manager */
@@ -47,5 +45,6 @@ int main (int argc, char *argv[])
 	g_slist_free (l);
 
 	gtk_main();
+	delete app;
 	return 0;
 }

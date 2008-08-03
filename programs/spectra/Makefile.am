@@ -43,7 +43,7 @@ else
 		rm $(bindir)/gspectrum-unstable; \
 	fi
 	$(LN_S) $(bindir)/gspectrum-@GCU_API_VER@ $(bindir)/gspectrum-unstable
-endf
+endif
 
 uninstall-hook:
 if GCU_IS_STABLE

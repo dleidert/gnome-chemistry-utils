@@ -29,7 +29,6 @@
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
 #include <glib/gi18n-lib.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <cmath>
 #include <cstring>
 

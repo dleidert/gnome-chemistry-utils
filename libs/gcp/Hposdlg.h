@@ -4,7 +4,7 @@
  * GChemPaint library
  * H-pos.h
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,20 +28,38 @@
 #include <gcu/dialog.h>
 #include <gtk/gtkcombobox.h>
 
+/*!\file*/
 namespace gcp {
 
 class Atom;
 class Document;
 class View;
 
+/*!\class HPosDlg gcp/Hposdlg.h
+The dialog used to set the position of the symbols of hydrogen atoms attached
+to heteroatoms or explicit carbon atoms.
+*/
 class HPosDlg: public gcu::Dialog
 {
 public:
+/*!
+@param pDoc the document containing the atom.
+@param pAtom the atom with attached hydrogens
+
+Creates and open a dialog used to set the position of the symbols of hydrogen
+atoms attached to the specified atom.
+*/
 	HPosDlg (Document *pDoc, Atom* pAtom);
+/*!
+The destructor.
+*/
 	virtual ~HPosDlg ();
-	
+
+/*!
+Called by the framework when the selected position has changed.
+*/
 	void OnPosChanged ();
-	
+
 private:
 	GtkComboBox *box;
 	Atom *m_Atom;

@@ -30,8 +30,6 @@
 #include <goffice/app/io-context.h>
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
 #include <gtk/gtklabel.h>
@@ -72,9 +70,9 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	string lang = (szlang)? szlang: "C";
 	HelpName = help_name? help_name: Name;
 	HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("/") + lang + string ("/") + HelpName + ".xml";
-	GnomeVFSURI *uri = gnome_vfs_uri_new (HelpFilename.c_str ());
-	bool exists = gnome_vfs_uri_exists (uri);
-	gnome_vfs_uri_unref (uri);
+	GFile *file = g_file_new_for_uri (HelpFilename.c_str ());
+	bool exists = g_file_query_exists (file, NULL);
+	g_object_unref (file);
 	if (!exists) {
 		HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("/C/") + HelpName + ".xml";
 	}
@@ -167,10 +165,10 @@ bool Application::HasHelp ()
 {
 	if (!HelpBrowser.length () || !HelpFilename.length ())
 		return false;
-	GnomeVFSURI *uri = gnome_vfs_uri_new (HelpFilename.c_str ());
-	bool err = gnome_vfs_uri_exists (uri);
-	gnome_vfs_uri_unref (uri);
-	return err;	
+	GFile *file = g_file_new_for_uri (HelpFilename.c_str ());
+	bool exists = g_file_query_exists (file, NULL);
+	g_object_unref (file);
+	return exists;	
 }
 
 void Application::SetCurDir (char const* dir)

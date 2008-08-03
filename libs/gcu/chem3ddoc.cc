@@ -31,7 +31,6 @@
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <openbabel/obconversion.h>
-#include <libgnomevfs/gnome-vfs.h>
 #include <gio/gio.h>
 #include <GL/gl.h>
 #include <libintl.h>
@@ -171,150 +170,152 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 	int n = 0, Z;
 	const gdouble* color;
 	char const *symbol;
-	try {
-		ostringstream file;
-		GnomeVFSHandle *handle = NULL;
-		GnomeVFSFileSize fs;
-		GnomeVFSResult res;
-		map<string, sAtom> AtomsMap;
-		map<string, sBond> BondsMap;
-		if ((res = gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
-			throw (int) res;
-		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-		setlocale (LC_NUMERIC, "C");
+	ostringstream file;
+	map<string, sAtom> AtomsMap;
+	map<string, sBond> BondsMap;
+	GError *error = NULL;
+	GFile *stream = g_file_new_for_uri (filename.c_str ());
+	GFileOutputStream *output = g_file_create (stream, G_FILE_CREATE_NONE, NULL, &error);
+	if (error) {
+		cerr << "gio error: " << error->message << endl;
+		g_error_free (error);
+		g_object_unref (stream);
+		return;
+	}
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
 
-		file << "#VRML V2.0 utf8" << endl;
-		
-		x0 = y0 = z0 = 0.0;
-		std::vector < OBNodeBase * >::iterator i;
-		OBAtom* atom = m_Mol.BeginAtom (i);
-		while (atom) {
-			Z = atom->GetAtomicNum ();
-			x0 += atom->GetX ();
-			y0 += atom->GetY ();
-			z0 += atom->GetZ ();
-			atom = m_Mol.NextAtom (i);
+	file << "#VRML V2.0 utf8" << endl;
+	
+	x0 = y0 = z0 = 0.0;
+	std::vector < OBNodeBase * >::iterator i;
+	OBAtom* atom = m_Mol.BeginAtom (i);
+	while (atom) {
+		Z = atom->GetAtomicNum ();
+		x0 += atom->GetX ();
+		y0 += atom->GetY ();
+		z0 += atom->GetZ ();
+		atom = m_Mol.NextAtom (i);
+	}
+	x0 /= m_Mol.NumAtoms ();
+	y0 /= m_Mol.NumAtoms ();
+	z0 /= m_Mol.NumAtoms ();
+
+	//Create prototypes for atoms
+	for (atom = m_Mol.BeginAtom (i); atom; atom = m_Mol.NextAtom (i)) {
+		Z = atom->GetAtomicNum ();
+		if (!Z)
+			continue;
+		symbol = Element::Symbol (Z);
+		if (AtomsMap[symbol].l.empty()) {
+			AtomsMap[symbol].n = n;
+			R = etab.GetVdwRad (Z);
+			if (m_Display3D == BALL_AND_STICK)
+				R *= 0.2;
+			color = gcu_element_get_default_color (Z);
+			file << "PROTO Atom" << n++ << " [] {Shape {" << endl << "\tgeometry Sphere {radius " << R << "}" << endl;
+			file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << color[0] << " " << color[1] << " " << color[2] << endl;
+			file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
 		}
-		x0 /= m_Mol.NumAtoms ();
-		y0 /= m_Mol.NumAtoms ();
-		z0 /= m_Mol.NumAtoms ();
+		AtomsMap[symbol].l.push_back(atom);
+	}
 
-		//Create prototypes for atoms
-		for (atom = m_Mol.BeginAtom (i); atom; atom = m_Mol.NextAtom (i)) {
-			Z = atom->GetAtomicNum ();
-			if (!Z)
+	//Create prototypes for bonds
+	double conv = M_PI / 180;
+	Matrix m (m_View->GetPsi () * conv, m_View->GetTheta () * conv, m_View->GetPhi () * conv, euler);
+	if (m_Display3D == BALL_AND_STICK) {
+		std::vector < OBEdgeBase * >::iterator b;
+		OBBond* bond = m_Mol.BeginBond (b);
+		double x1, y1, z1;
+		struct VrmlBond vb;
+		n = 0;
+		while (bond) {
+			atom = bond->GetBeginAtom ();
+			if (atom->GetAtomicNum () == 0) {
+				bond = m_Mol.NextBond (b);
 				continue;
-			symbol = Element::Symbol (Z);
-			if (AtomsMap[symbol].l.empty()) {
-				AtomsMap[symbol].n = n;
-				R = etab.GetVdwRad (Z);
-				if (m_Display3D == BALL_AND_STICK)
-					R *= 0.2;
-				color = gcu_element_get_default_color (Z);
-				file << "PROTO Atom" << n++ << " [] {Shape {" << endl << "\tgeometry Sphere {radius " << R << "}" << endl;
-				file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << color[0] << " " << color[1] << " " << color[2] << endl;
+			}
+			vb.x = atom->GetX () - x0;
+			vb.y = atom->GetY () - y0;
+			vb.z = atom->GetZ () - z0;
+			atom = bond->GetEndAtom ();
+			if (atom->GetAtomicNum () == 0) {
+				bond = m_Mol.NextBond (b);
+				continue;
+			}
+			x1 = atom->GetX () - x0 - vb.x;
+			y1 = atom->GetY () - y0 - vb.y;
+			z1 = atom->GetZ () - z0 - vb.z;
+			vb.x += x1 / 2;
+			vb.y += y1 / 2;
+			vb.z += z1 / 2;
+			m.Transform(vb.x, vb.y, vb.z);
+			m.Transform(x1, y1, z1);
+			dist = sqrt (x1 * x1 + y1 * y1 + z1 * z1);
+			w = sqrt (x1 * x1 + z1 * z1);
+			if (w > 0) {
+				vb.xrot = z1 / w;
+				vb.zrot = -x1 / w;
+				vb.arot = atan2 (w, y1);
+			} else {
+				vb.zrot = 0.;
+				vb.xrot = 0.;
+				vb.arot = 0.0;
+			}
+			char *buf = g_strdup_printf ("%g", dist);
+			if (BondsMap[buf].l.empty()) {
+				BondsMap[buf].n = n;
+				file << "PROTO Bond" << n++ << " [] {Shape {" << endl << "\tgeometry Cylinder {radius " << 0.12 << "\theight " << dist << "}" << endl;
+				file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << .75 << " " << .75 << " " << .75 << endl;
 				file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
 			}
-			AtomsMap[symbol].l.push_back(atom);
+			BondsMap[buf].l.push_back (vb);
+			bond = m_Mol.NextBond (b);
 		}
-
-		//Create prototypes for bonds
-		double conv = M_PI / 180;
-		Matrix m (m_View->GetPsi () * conv, m_View->GetTheta () * conv, m_View->GetPhi () * conv, euler);
-		if (m_Display3D == BALL_AND_STICK) {
-			std::vector < OBEdgeBase * >::iterator b;
-			OBBond* bond = m_Mol.BeginBond (b);
-			double x1, y1, z1;
-			struct VrmlBond vb;
-			n = 0;
-			while (bond) {
-				atom = bond->GetBeginAtom ();
-				if (atom->GetAtomicNum () == 0) {
-					bond = m_Mol.NextBond (b);
-					continue;
-				}
-				vb.x = atom->GetX () - x0;
-				vb.y = atom->GetY () - y0;
-				vb.z = atom->GetZ () - z0;
-				atom = bond->GetEndAtom ();
-				if (atom->GetAtomicNum () == 0) {
-					bond = m_Mol.NextBond (b);
-					continue;
-				}
-				x1 = atom->GetX () - x0 - vb.x;
-				y1 = atom->GetY () - y0 - vb.y;
-				z1 = atom->GetZ () - z0 - vb.z;
-				vb.x += x1 / 2;
-				vb.y += y1 / 2;
-				vb.z += z1 / 2;
-				m.Transform(vb.x, vb.y, vb.z);
-				m.Transform(x1, y1, z1);
-				dist = sqrt (x1 * x1 + y1 * y1 + z1 * z1);
-				w = sqrt (x1 * x1 + z1 * z1);
-				if (w > 0) {
-					vb.xrot = z1 / w;
-					vb.zrot = -x1 / w;
-					vb.arot = atan2 (w, y1);
-				} else {
-					vb.zrot = 0.;
-					vb.xrot = 0.;
-					vb.arot = 0.0;
-				}
-				char *buf = g_strdup_printf ("%g", dist);
-				if (BondsMap[buf].l.empty()) {
-					BondsMap[buf].n = n;
-					file << "PROTO Bond" << n++ << " [] {Shape {" << endl << "\tgeometry Cylinder {radius " << 0.12 << "\theight " << dist << "}" << endl;
-					file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << .75 << " " << .75 << " " << .75 << endl;
-					file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
-				}
-				BondsMap[buf].l.push_back (vb);
-				bond = m_Mol.NextBond (b);
-			}
-		}
-
-		//world begin
-		file << "Background{skyColor " << m_View->GetRed () << " " << m_View->GetBlue () << " " << m_View->GetGreen () << "}" << endl;
-		file << "Viewpoint {fieldOfView " << m_View->GetAngle () / 90*1.570796326794897 << "\tposition 0 0 " << m_View->GetRadius () << "}" << endl;
-		file << "Transform {" << endl << "\tchildren [" << endl;
-	
-		map<std::string, sAtom>::iterator k, kend = AtomsMap.end ();
-		list<OBAtom*>::iterator j, jend;
-		for (k = AtomsMap.begin (); k != kend; k++) {
-			jend = (*k).second.l.end ();
-			for (j = (*k).second.l.begin (); j != jend; j++) {
-				x = (*j)->GetX ();
-				y = (*j)->GetY ();
-				z = (*j)->GetZ ();
-				m.Transform(x, y, z);
-				file << "\t\tTransform {translation " << x << " " << y << " " << z <<  " children [Atom" << (*k).second.n << " {}]}" << endl;
-			}
-			(*k).second.l.clear();
-		}
-		AtomsMap.clear();
-
-		map<std::string, sBond>::iterator l, lend = BondsMap.end ();
-		list<struct VrmlBond>::iterator mc, mend;
-		for (l = BondsMap.begin (); l != lend; l++) {
-			mend = (*l).second.l.end ();
-			for (mc = (*l).second.l.begin (); mc != mend; mc++) {
-				file << "\t\tTransform {" << endl << "\t\t\trotation " << (*mc).xrot << " " << 0. << " " << (*mc).zrot << " " << (*mc).arot << endl;
-				file << "\t\t\ttranslation " << (*mc).x << " " << (*mc).y  << " " << (*mc).z <<  endl\
-						<< "\t\t\tchildren [Bond" << (*l).second.n << " {}]}" << endl;
-			}
-		}
-
-		//end of the world
-		file << "\t]" << endl << "}" << endl;
-
-		setlocale(LC_NUMERIC, old_num_locale);
-		g_free(old_num_locale);
-		if ((res = gnome_vfs_write (handle, file.str ().c_str (), (GnomeVFSFileSize) file.str ().size (), &fs)) != GNOME_VFS_OK)
-			throw (int) res;
-		gnome_vfs_close (handle);
 	}
-	catch (int n) {
-		cerr <<"gnome-vfs error" << n << endl;
+
+	//world begin
+	file << "Background{skyColor " << m_View->GetRed () << " " << m_View->GetBlue () << " " << m_View->GetGreen () << "}" << endl;
+	file << "Viewpoint {fieldOfView " << m_View->GetAngle () / 90*1.570796326794897 << "\tposition 0 0 " << m_View->GetRadius () << "}" << endl;
+	file << "Transform {" << endl << "\tchildren [" << endl;
+
+	map<std::string, sAtom>::iterator k, kend = AtomsMap.end ();
+	list<OBAtom*>::iterator j, jend;
+	for (k = AtomsMap.begin (); k != kend; k++) {
+		jend = (*k).second.l.end ();
+		for (j = (*k).second.l.begin (); j != jend; j++) {
+			x = (*j)->GetX ();
+			y = (*j)->GetY ();
+			z = (*j)->GetZ ();
+			m.Transform(x, y, z);
+			file << "\t\tTransform {translation " << x << " " << y << " " << z <<  " children [Atom" << (*k).second.n << " {}]}" << endl;
+		}
+		(*k).second.l.clear();
 	}
+	AtomsMap.clear();
+
+	map<std::string, sBond>::iterator l, lend = BondsMap.end ();
+	list<struct VrmlBond>::iterator mc, mend;
+	for (l = BondsMap.begin (); l != lend; l++) {
+		mend = (*l).second.l.end ();
+		for (mc = (*l).second.l.begin (); mc != mend; mc++) {
+			file << "\t\tTransform {" << endl << "\t\t\trotation " << (*mc).xrot << " " << 0. << " " << (*mc).zrot << " " << (*mc).arot << endl;
+			file << "\t\t\ttranslation " << (*mc).x << " " << (*mc).y  << " " << (*mc).z <<  endl\
+					<< "\t\t\tchildren [Bond" << (*l).second.n << " {}]}" << endl;
+		}
+	}
+
+	//end of the world
+	file << "\t]" << endl << "}" << endl;
+
+	setlocale(LC_NUMERIC, old_num_locale);
+	g_free(old_num_locale);
+	g_output_stream_write (reinterpret_cast <GOutputStream *> (output), file.str ().c_str (), file.str ().size (), NULL, &error);
+	if (error) {
+		cerr << "gio error: " << error->message << endl;
+		g_error_free (error);
+	}
+	g_object_unref (stream);
 }
 
 void Chem3dDoc::Draw (Matrix const &m) const

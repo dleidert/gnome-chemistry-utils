@@ -29,11 +29,13 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkglinit.h>
-#include <libgnomevfs/gnome-vfs-init.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <gcu/chemistry.h>
 #include <goffice/goffice.h>
 #include <goffice/utils/go-file.h>
+#ifdef GOFFICE_IS_0_6
+#	include <libgnomevfs/gnome-vfs-init.h>
+#	include <libgnomevfs/gnome-vfs-utils.h>
+#endif
 #include <cstring>
 #include <cstdio>
 
@@ -83,18 +85,19 @@ static Display3DMode display3d_mode_from_string (char const *mode)
 
 int main(int argc, char *argv[])
 {
-	GnomeVFSURI *uri, *auri;
-	char *path, *dir;
+	char *path, *dir, *uri;
 	GError *error = NULL;
 	GOptionContext *context;
 
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 	gtk_gl_init (&argc, &argv);
+#ifdef GOFFICE_IS_0_6
 	if (!gnome_vfs_init ()) {
 		printf ("Could not initialize GnomeVFS\n");
 		return 1;
 	}
+#endif
 
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file]"));
@@ -114,7 +117,6 @@ int main(int argc, char *argv[])
 	path = g_get_current_dir ();
 	dir = g_strconcat (path, "/", NULL);
 	g_free (path);
-	uri = gnome_vfs_uri_new (dir);
 	bool bres = false;
 	argv++;
 	while (*argv) {
@@ -122,16 +124,19 @@ int main(int argc, char *argv[])
 			printf (_("Invalid or misplaced argument: %s\n"), *argv);
 			delete App;
 			g_free (dir);
-			gnome_vfs_uri_unref (uri);
 			exit (-1);
 		}
-		auri = gnome_vfs_uri_resolve_relative (uri, *argv);
-		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
 		if (bres)
 			pDoc = App->OnFileNew ();
-		bres = App->FileProcess (path, go_get_mime_type (path), false, NULL, pDoc);
+		if (strstr (*argv, "://"))
+			uri = g_strdup (*argv);
+		else {
+			path = g_path_is_absolute (*argv)? g_strdup (*argv): g_build_filename (g_get_current_dir (), *argv, NULL);
+			uri = g_filename_to_uri (path, NULL, NULL);
+			g_free (path);
+		}
+		bres = App->FileProcess (uri, go_get_mime_type (uri), false, NULL, pDoc);
 		g_free (path);
-		gnome_vfs_uri_unref (auri);
 		argv++;
 	}
 
