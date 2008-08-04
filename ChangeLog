@@ -1,5 +1,33 @@
 ##Text encoding: utf-8
 
+2008-08-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: use gio/gvfs instead of gnomevfs.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/stringdlg.cc: ditto.
+	* libs/gcp/stringdlg.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/filechooser.cc: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* plugins/paint/wikipedia/wikipediatool.cc: ditto.
+	* programs/3d/main.cc: ditto.
+	* programs/3d/window.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/paint/main.cc: ditto.
+	* programs/spectra/gspectrum.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+
 2008-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: try to replace gnomevfs by gio/gvfs as much as possible.
 	* libs/gcp/Hposdlg.h: API documentation work.

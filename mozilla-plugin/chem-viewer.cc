@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * chem-viewer.c 
  *
- * Copyright (C) 2005-2006
+ * Copyright (C) 2005-2008
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
  * published by the Free Software Foundation; either version 2 of the
@@ -36,7 +36,9 @@
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkplug.h>
-#include <libgnomevfs/gnome-vfs.h>
+#ifdef GOFFICE_IS_0_6
+#	include <libgnomevfs/gnome-vfs.h>
+#endif
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -286,10 +288,12 @@ int main (int argc, char *argv[])
 	GError *error = NULL;
 
 	gtk_init (&argc, &argv);
+#ifdef GOFFICE_IS_0_6
 	if (!gnome_vfs_init ()) {
 		cerr << "Could not initialize GnomeVFS\n" << endl;
 		return 1;
 	}
+#endif
 	libgoffice_init ();
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 	in_channel = g_io_channel_unix_new (fileno (stdin));

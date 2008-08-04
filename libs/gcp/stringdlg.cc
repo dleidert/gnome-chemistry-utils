@@ -28,8 +28,7 @@
 #include "application.h"
 #include "widgetdata.h"
 #include "window.h"
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
+#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <sstream>
 #include <cstring>
@@ -96,7 +95,6 @@ bool StringDlg::Apply ()
 	char const *filename, *ext = (Type == SMILES)? ".smi": ".inchi";
 	char *filename2;
 	bool err;
-	GnomeVFSURI *uri;
 	while (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_ACCEPT) {
 		filename = gtk_file_chooser_get_uri (chooser);
 		if (!filename || !strlen (filename) || filename[strlen (filename) - 1] == '/') {
@@ -112,9 +110,8 @@ bool StringDlg::Apply ()
 			filename2 = g_strconcat (filename, ext, NULL);
 		else
 			filename2 = g_strdup (filename);
-		uri = gnome_vfs_uri_new (filename2);
-		err = gnome_vfs_uri_exists (uri);
-		gnome_vfs_uri_unref (uri);
+		GFile *file = g_file_new_for_uri (filename2);
+		err = g_file_query_exists (file, NULL);
 		gint result = GTK_RESPONSE_YES;
 		if (err) {
 			gchar * message = g_strdup_printf(_("File %s\nexists, overwrite?"), filename2);
@@ -127,34 +124,63 @@ bool StringDlg::Apply ()
 		if (result == GTK_RESPONSE_YES)
 		{
 			// destroy the old file
-			if (err)
-				gnome_vfs_unlink (filename2);
+			GError *error = NULL;
+			if (err) {
+				g_file_delete (file, NULL, &error);
+				if (error) {
+					gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), filename2, error->message);
+					g_error_free (error);
+					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+					gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
+					result = gtk_dialog_run (Box);
+					gtk_widget_destroy (GTK_WIDGET (Box));
+					g_free (message);
+					g_object_unref (file);
+					continue;
+				}
+			}
 			ostringstream ofs;
-			GnomeVFSHandle *handle = NULL;
-			GnomeVFSFileSize n;
-			GnomeVFSResult res;
-			if ((res = gnome_vfs_create(&handle, filename2, GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK) {
-				gchar * message = g_strdup_printf(_("Could not open file %s."), filename2);
+			GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
+			if (error) {
+				gchar * message = g_strdup_printf (_("Could not open file %s, error was:\n%s"), filename2, error->message);
 				GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message));
 				gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
 				gtk_dialog_run (Box);
 				gtk_widget_destroy (GTK_WIDGET (Box));
 				g_free (message);
+				g_error_free (error);
+				g_object_unref (file);
 				continue;
 			}
 			ofs << Data;
 			ofs << endl;
-			if ((res = gnome_vfs_write (handle, ofs.str ().c_str (), (GnomeVFSFileSize) ofs.str ().size (), &n)) != GNOME_VFS_OK) {
-				gchar * message = g_strdup_printf(_("Could not write to file %s."), filename2);
+			gsize nb = ofs.str ().size (), n = 0;
+			while (n < nb) {
+				n += g_output_stream_write (output, ofs.str ().c_str () + n, nb - n, NULL, &error);
+				if (error) {
+					gchar * message = g_strdup_printf (_("Could not write to file %s, error was:\n%s."), filename2, error->message);
+					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message));
+					gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
+					gtk_dialog_run (Box);
+					gtk_widget_destroy (GTK_WIDGET (Box));
+					g_free (message);
+					g_error_free (error);
+					g_object_unref (file);
+					continue;
+				}
+			}
+			g_output_stream_close (output, NULL, &error);
+			g_object_unref (file);
+			if (error) {
+				gchar * message = g_strdup_printf (_("Could not close file %s, error was:\n%s"), filename2, error->message);
 				GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message));
 				gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
 				gtk_dialog_run (Box);
 				gtk_widget_destroy (GTK_WIDGET (Box));
 				g_free (message);
+				g_error_free (error);
 				continue;
 			}
-			gnome_vfs_close (handle);
-			g_free (filename2);
 			break;
 		}
 		g_free (filename2);

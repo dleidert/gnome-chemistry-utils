@@ -394,7 +394,6 @@ void GLView::SaveAsImage (string const &filename, char const *type, map<string, 
 			fprintf (stderr, _("Unable to save image file: %s\n"), error->message);
 			g_error_free (error);
 		}
-
 		g_object_unref (file);
 		g_free (keys);
 		g_free (values);

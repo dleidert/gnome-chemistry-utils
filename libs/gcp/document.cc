@@ -43,8 +43,7 @@
 #include <unistd.h>
 #include <libgen.h>
 #include <gtk/gtk.h>
-#include <libgnomevfs/gnome-vfs-file-info.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
+#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
@@ -308,14 +307,15 @@ void Document::ExportOB () const
 	Object const *Cur = this, *Ob;
 	try {
 		ostringstream ofs;
-		GnomeVFSHandle *handle = NULL;
-		GnomeVFSFileSize n;
-		GnomeVFSResult res;
-		res = gnome_vfs_open (&handle, m_filename, GNOME_VFS_OPEN_WRITE);
-		if (res == GNOME_VFS_ERROR_NOT_FOUND)
-			res = gnome_vfs_create (&handle, m_filename, GNOME_VFS_OPEN_WRITE, true, 0666);
-		if (res != GNOME_VFS_OK)
-			throw (int) res;
+		GFile *file = g_file_new_for_uri (m_filename);
+		GError *error = NULL;
+		GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
+		if (error) {
+			g_message ("GIO error: %s", error->message);
+			g_error_free (error);
+			g_object_unref (file);
+			throw (int) 1;
+		}
 		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 		setlocale (LC_NUMERIC, "C");
 		OBConversion Conv;
@@ -394,13 +394,21 @@ void Document::ExportOB () const
 		}
 		setlocale (LC_NUMERIC, old_num_locale);
 		g_free (old_num_locale);
-		if ((res = gnome_vfs_write (handle, ofs.str ().c_str (), (GnomeVFSFileSize) ofs.str ().size (), &n)) != GNOME_VFS_OK)
-			throw (int) res;
-		gnome_vfs_close (handle);
+		gsize nb = ofs.str ().size (), n = 0;
+		while (n < nb) {
+			n += g_output_stream_write (output, ofs.str ().c_str () + n, nb - n, NULL, &error);
+			if (error) {
+				g_message ("GIO error: %s", error->message);
+				g_error_free (error);
+				g_object_unref (file);
+				throw (int) 1;
+			}
+		}
+		g_object_unref (file);
 		const_cast <Document *> (this)->SetReadOnly (false);
 	}
 	catch (int n) {
-		fprintf (stderr, "gnome-vfs error #%d\n",n);
+		// TODO: implement a meaningful error reporting system
 	}
 }
 
@@ -572,10 +580,15 @@ void Document::AddBond (Bond* pBond)
 	}
 }
 
-static int cb_xml_to_vfs (GnomeVFSHandle *handle, const char* buf, int nb)
+static int cb_xml_to_vfs (GOutputStream *output, const char* buf, int nb)
 {
-	GnomeVFSFileSize ndone;
-	return (int) gnome_vfs_write (handle, buf, nb, &ndone);
+	GError *error = NULL;
+	int n = g_output_stream_write (output, buf, nb, NULL, &error);
+	if (error) {
+		g_message ("GIO error: %s", error->message);
+		g_error_free (error);
+	}
+	return n;
 }
 
 void Document::Save () const
@@ -605,29 +618,25 @@ void Document::Save () const
 				xmlKeepBlanksDefault (0);
 			}
 		
-			GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
-			gnome_vfs_get_file_info (m_filename, info, GNOME_VFS_FILE_INFO_DEFAULT);
-
-			if (GNOME_VFS_FILE_INFO_LOCAL (info)) {
-				gnome_vfs_file_info_unref (info);
-				if (xmlSaveFormatFile (m_filename, xml, true) < 0) /*Error(SAVE)*/;
-			} else {
-				gnome_vfs_file_info_unref (info);
-				xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
-				GnomeVFSHandle *handle;
-				GnomeVFSResult result = gnome_vfs_open (&handle, m_filename, GNOME_VFS_OPEN_WRITE);
-				if (result == GNOME_VFS_ERROR_NOT_FOUND)
-					result = gnome_vfs_create (&handle, m_filename, GNOME_VFS_OPEN_WRITE, true, 0666);
-				if (result != GNOME_VFS_OK)
-					throw 1;
-				buf->context = handle;
-				buf->closecallback = (xmlOutputCloseCallback) gnome_vfs_close;
-				buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
-				int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
-				if (n < 0)
-					throw 1;
-				const_cast <Document *> (this)->SetReadOnly (false);
+			xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
+			GFile *file = g_file_new_for_uri (m_filename);
+			GError *error = NULL;
+			GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
+			if (error) {
+				g_message ("GIO error: %s", error->message);
+				g_error_free (error);
+				g_object_unref (file);
+				throw (int) 1;
 			}
+			buf->context = output;
+			buf->closecallback = NULL;
+			buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
+			int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
+			g_output_stream_close (output, NULL, NULL);
+			g_object_unref (file);
+			if (n < 0)
+				throw 1;
+			const_cast <Document *> (this)->SetReadOnly (false);
 		}
 		const_cast <Document *> (this)->SetDirty (false);
 		const_cast <Document *> (this)->m_LastStackSize = m_UndoList.size ();

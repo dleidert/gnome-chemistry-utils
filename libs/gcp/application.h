@@ -116,19 +116,22 @@ Displays \a text in the status bar.
 */
 	virtual void SetStatusText (const char* text);
 /*!
-
+This pure virtual method must be overloaded by derived classes.
+@return the current active top level window if any, or NULL.
 */
 	virtual GtkWindow* GetWindow () = 0;
 /*!
-
+@return the active tool.
 */
 	Tool* GetActiveTool () {return m_pActiveTool;}
 /*!
-
+@return the active document.
 */
 	gcp::Document* GetActiveDocument () {return m_pActiveDoc;}
 /*!
+@param pDoc the document becoming active.
 
+Sets the new active document.
 */
 	void SetActiveDocument (gcp::Document* pDoc) {m_pActiveDoc = pDoc;}
 /*!

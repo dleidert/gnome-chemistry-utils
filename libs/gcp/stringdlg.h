@@ -4,7 +4,7 @@
  * GChemPaint library
  * stringdlg.h
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,10 +28,14 @@
 #include <gcu/dialog.h>
 #include <string>
 
+/*!\file*/
 namespace gcp {
 
 class Document;
 
+/*!\class StringDlg gcp/stringdlg.h
+Represents the dialog used to display the InChI or canonical SMILES of a molecule.
+*/
 class StringDlg: public gcu::Dialog
 {
 public:

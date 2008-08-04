@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/3d/main.cc 
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -34,8 +34,8 @@
 #include <goffice/utils/go-file.h>
 #ifdef GOFFICE_IS_0_6
 #	include <libgnomevfs/gnome-vfs-init.h>
-#	include <libgnomevfs/gnome-vfs-utils.h>
 #endif
+#include <gio/gio.h>
 #include <cstring>
 #include <cstdio>
 
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
 			g_free (path);
 		}
 		bres = App->FileProcess (uri, go_get_mime_type (uri), false, NULL, pDoc);
-		g_free (path);
+		g_free (uri);
 		argv++;
 	}
 

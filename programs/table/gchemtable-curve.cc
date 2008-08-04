@@ -192,6 +192,11 @@ static void on_web (GtkWidget *widget, GChemTableCurve *curve)
 	curve->GetApplication ()->OnWeb ();
 }
 
+static void on_live_assistance (GtkWidget *widget, GChemTableCurve *curve)
+{
+	curve->GetApplication ()->OnLiveAssistance ();
+}
+
 static void on_mail (GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->GetApplication ()->OnMail ();
@@ -231,6 +236,8 @@ static GtkActionEntry entries[] = {
 		  N_("View help for the Curve Window"), G_CALLBACK (on_curve_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
 		  N_("Browse the Gnome Chemistry Utils's web site"), G_CALLBACK (on_web) },
+	  { "LiveAssistance", NULL, N_("Live assistance"), NULL,
+		  N_("Open the Gnome Chemistry Utils IRC channel"), G_CALLBACK (on_live_assistance) },
 	  { "Mail", NULL, N_("_Ask a question"), NULL,
 		  N_("Ask a question about the Gnome Chemistry Utils"), G_CALLBACK (on_mail) },
 	  { "Bug", NULL, N_("Report _Bugs"), NULL,
@@ -258,35 +265,11 @@ static const char *ui_description =
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
 "      <menuitem action='CurveHelp'/>"
-"      <placeholder name='mail'/>"
-"      <placeholder name='web'/>"
-"      <placeholder name='bug'/>"
+"      <menuitem action='Mail'/>"
+"      <menuitem action='Web'/>"
+"      <menuitem action='LiveAssistance'/>"
+"      <menuitem action='Bug'/>"
 "      <menuitem action='About'/>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-static const char *ui_mail_description =
-"<ui>"
-"  <menubar name='MainMenu'>"
-"    <menu action='HelpMenu'>"
-"      <placeholder name='mail'>"
-"        <menuitem action='Mail'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-static const char *ui_web_description =
-"<ui>"
-"  <menubar name='MainMenu'>"
-"    <menu action='HelpMenu'>"
-"      <placeholder name='web'>"
-"        <menuitem action='Web'/>"
-"      </placeholder>"
-"      <placeholder name='bug'>"
-"        <menuitem action='Bug'/>"
-"      </placeholder>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
@@ -309,14 +292,6 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
-	}
-	if (m_App->HasWebBrowser () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_web_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-	if (m_App->HasMailAgent () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_mail_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (m_GraphBox), bar, FALSE, FALSE, 0);

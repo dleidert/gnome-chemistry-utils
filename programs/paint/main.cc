@@ -4,7 +4,7 @@
  * GChemPaint
  * main.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,10 +27,11 @@
 #include <gcu/loader.h>
 #include <goffice/utils/go-file.h>
 #include <gtk/gtk.h>
-#include <libgnomevfs/gnome-vfs-init.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
+#ifdef GOFFICE_IS_0_6
+#	include <libgnomevfs/gnome-vfs-init.h>
+#endif
 #include <glib/gi18n-lib.h>
+#include <cstring>
 
 extern "C" {
 	void gnome_authentication_manager_init ();
@@ -63,7 +64,9 @@ int main(int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
+#ifdef GOFFICE_IS_0_6
 	gnome_vfs_init ();
+#endif
 	App = new gcpStandaloneApp();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));
@@ -81,31 +84,24 @@ int main(int argc, char *argv[])
 	argv ++;
 	argc --;
 
-	GnomeVFSURI *uri, *auri;
-	char *path = g_get_current_dir (), *dir;
-	char const *mime_type;
-	dir = g_strconcat (path, "/", NULL);
-	g_free (path);
-	uri = gnome_vfs_uri_new (dir);
-	while (*argv)
-	{
+	char *path, *uri;
+	while (*argv) {
 		if (**argv == '-') {
 			printf (_("Invalid or misplaced argument: %s\n"), *argv);
 			delete App;
-			g_free (dir);
-			gnome_vfs_uri_unref (uri);
 			exit (-1);
 		}
-		auri = gnome_vfs_uri_resolve_relative (uri, *argv);
-		path = gnome_vfs_uri_to_string (auri, GNOME_VFS_URI_HIDE_NONE);
-		mime_type = go_get_mime_type (path);
-		App->FileProcess(path, mime_type, false, NULL);
-		g_free (path);
-		gnome_vfs_uri_unref (auri);
+		if (strstr (*argv, "://"))
+			uri = g_strdup (*argv);
+		else {
+			path = g_path_is_absolute (*argv)? g_strdup (*argv): g_build_filename (g_get_current_dir (), *argv, NULL);
+			uri = g_filename_to_uri (path, NULL, NULL);
+			g_free (path);
+		}
+		App->FileProcess (uri, go_get_mime_type (uri), false, NULL, NULL);
+		g_free (uri);
 		argv++;
 	}
-	gnome_vfs_uri_unref (uri);
-	g_free (dir);
 	
 	if (App->GetDocsNumber () == 0)
 		App->OnFileNew();

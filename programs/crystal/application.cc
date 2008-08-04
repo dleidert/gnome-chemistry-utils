@@ -4,7 +4,7 @@
  * Gnome Crystal
  * application.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,11 +31,10 @@
 #include <goffice/utils/go-image.h>
 #include <gsf/gsf-output-gio.h>
 #include <glade/glade.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <gtk/gtk.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <cstring>
 
@@ -208,9 +207,8 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			if ((i <= 0) || (strcmp (filename +i, ext)))
 				filename2 += ext;
 		}
-		GnomeVFSURI *uri = gnome_vfs_uri_new (filename2.c_str ());
-		bool err = gnome_vfs_uri_exists (uri);
-		gnome_vfs_uri_unref (uri);
+		GFile *file = g_file_new_for_uri (filename2.c_str ());
+		bool err = g_file_query_exists (file, NULL);
 		gint result = GTK_RESPONSE_YES;
 		if (err) {
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2.c_str ());
@@ -219,9 +217,26 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
 			g_free (message);
-			if (result == GTK_RESPONSE_YES)
-				gnome_vfs_unlink (filename2.c_str ());
+			if (result == GTK_RESPONSE_YES) {
+				// destroy the old file if needed
+				if (err) {
+					GError *error = NULL;
+					g_file_delete (file, NULL, &error);
+					if (error) {
+						gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), filename2.c_str (), error->message);
+						g_error_free (error);
+						GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+						gtk_window_set_icon_name (GTK_WINDOW (Box), "gcrystal");
+						result = gtk_dialog_run (Box);
+						gtk_widget_destroy (GTK_WIDGET (Box));
+						g_free (message);
+						g_object_unref (file);
+						return false;
+					}
+				}
+			}
 		}
+		g_object_unref (file);
 		map <string, string> options; // not used at the moment
 		if (result == GTK_RESPONSE_YES)
 			switch (type) {

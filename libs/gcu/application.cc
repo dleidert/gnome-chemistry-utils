@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/application.cc 
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,10 +28,13 @@
 #include "loader.h"
 #include <goffice/goffice.h>
 #include <goffice/app/io-context.h>
+#include <goffice/utils/go-file.h>
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
 #include <glade/glade.h>
+#ifndef HAVE_GO_CONF_SYNC
 #include <gconf/gconf-client.h>
+#endif
 #include <gtk/gtklabel.h>
 #include <gtk/gtkspinbutton.h>
 #include <glib/gi18n-lib.h>
@@ -76,35 +79,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	if (!exists) {
 		HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("/C/") + HelpName + ".xml";
 	}
-	GConfClient* cli = gconf_client_get_default ();
-	if (cli) {
-		const char *value;
-		GConfEntry* entry = gconf_client_get_entry (cli, "/desktop/gnome/applications/help_viewer/exec", NULL, true, NULL);
-		if (entry) {
-			value = gconf_value_get_string (gconf_entry_get_value (entry));
-			if (value) {
-				HelpBrowser = value;
-				if (HelpBrowser.find ("nautilus") != string::npos)
-					HelpBrowser = "yelp";
-			}
-		} else
-			HelpBrowser = "yelp";
-		entry = gconf_client_get_entry (cli, "/desktop/gnome/applications/browser/exec", NULL, true, NULL);
-		if (entry) {
-			value = gconf_value_get_string (gconf_entry_get_value (entry));
-			if (value) WebBrowser = value;
-		}
-		entry = gconf_client_get_entry (cli, "/desktop/gnome/url-handlers/mailto/command", NULL, true, NULL);
-		if (entry) {
-			value = gconf_value_get_string (gconf_entry_get_value (entry));
-			if (value) {
-				MailAgent = value;
-				int i = MailAgent.find (" %s");
-				if (i > 0)
-					MailAgent.erase (i, MailAgent.size ());
-			}
-		}
-	}
+	HelpBrowser = "yelp"; // there is no more key for that
 	CurDir = g_get_current_dir ();
 	if (first_call) { // needed to create several applications in the same program instance
 		g_set_application_name (name.c_str ());
@@ -183,23 +158,17 @@ void Application::SetCurDir (string const &dir)
 
 void Application::OnMail (char const *MailAddress)
 {
-	if (!MailAgent.size ())
-		return;
-	char *argv[3] = {NULL, const_cast<char*> (MailAddress), NULL};
-	argv[0] = (char*) MailAgent.c_str();
-	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, NULL);
+	go_url_show (MailAddress);
 }
 
 void Application::ShowURI (string& uri)
 {
-	if (!WebBrowser.size ())
-		return;
-	char *argv[3] = {NULL, NULL, NULL};
-	argv[0] = (char*) WebBrowser.c_str();
-	argv[1] = (char*) uri.c_str ();
-	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, NULL);
+	go_url_show (uri.c_str ());
+}
+
+void Application::OnLiveAssistance ()
+{
+	go_url_show ("irc://irc.gimp.net/gchemutils");
 }
 
 static void on_res_changed (GtkSpinButton *btn, Application *app)

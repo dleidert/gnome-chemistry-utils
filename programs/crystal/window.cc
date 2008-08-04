@@ -4,7 +4,7 @@
  * Gnome Crystal
  * window.cc 
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -111,7 +111,12 @@ static void on_prefs (GtkWidget* widget, gcWindow* Win)
 	new gcPrefsDlg (Win->GetApp ());
 }
 
-static void on_about (GtkWidget *widget, void *data)
+static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+{
+	reinterpret_cast <gcWindow *> (data)->GetApp ()->OnWeb (url);
+}
+
+static void on_about (GtkWidget *widget, gcWindow* Win)
 {
 	char const *authors[] = {"Jean Bréfort", NULL};
 //	char * documentors[] = {NULL};
@@ -128,6 +133,8 @@ static void on_about (GtkWidget *widget, void *data)
 		"along with this program; if not, write to the Free Software\n"
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
+
+	gtk_about_dialog_set_url_hook (on_about_activate_url, Win, NULL);
 /* Note to translators: replace the following string with the appropriate credits for you lang */
 	char const *translator_credits = _("translator_credits");
 	GdkPixbuf *logo = gdk_pixbuf_new_from_file (PIXMAPSDIR"/gcrystal_logo.png", NULL);
@@ -196,6 +203,11 @@ static void on_web (GtkWidget *widget, gcWindow* Win)
 static void on_mail (GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApp ()->OnMail ();
+}
+
+static void on_live_assistance (GtkWidget *widget, gcWindow *Win)
+{
+	Win->GetApplication ()->OnLiveAssistance ();
 }
 
 static void on_bug (GtkWidget *widget, gcWindow* Win)
@@ -307,6 +319,8 @@ static GtkActionEntry entries[] = {
 		  N_("View help for Gnome Crystal"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
 		  N_("Browse the Gnome Chemistry Utils's web site"), G_CALLBACK (on_web) },
+	  { "LiveAssistance", NULL, N_("Live assistance"), NULL,
+		  N_("Open the Gnome Chemistry Utils IRC channel"), G_CALLBACK (on_live_assistance) },
 	  { "Mail", NULL, N_("_Ask a question"), NULL,
 		  N_("Ask a question about the Gnome Chemistry Utils"), G_CALLBACK (on_mail) },
 	  { "Bug", NULL, N_("Report _Bugs"), NULL,
@@ -351,9 +365,10 @@ static const char *ui_description =
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
-"      <placeholder name='mail'/>"
-"      <placeholder name='web'/>"
-"      <placeholder name='bug'/>"
+"      <menuitem action='Mail'/>"
+"      <menuitem action='Web'/>"
+"      <menuitem action='LiveAssistance'/>"
+"      <menuitem action='Bug'/>"
 "      <menuitem action='About'/>"
 "    </menu>"
 "  </menubar>"
@@ -363,31 +378,6 @@ static const char *ui_description =
 "    <toolitem action='Save'/>"
 "    <toolitem action='Print'/>"
 "  </toolbar>"
-"</ui>";
-
-static const char *ui_mail_description =
-"<ui>"
-"  <menubar name='MainMenu'>"
-"    <menu action='HelpMenu'>"
-"      <placeholder name='mail'>"
-"        <menuitem action='Mail'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-static const char *ui_web_description =
-"<ui>"
-"  <menubar name='MainMenu'>"
-"    <menu action='HelpMenu'>"
-"      <placeholder name='web'>"
-"        <menuitem action='Web'/>"
-"      </placeholder>"
-"      <placeholder name='bug'>"
-"        <menuitem action='Bug'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
 "</ui>";
 
 gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
@@ -427,14 +417,6 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
-	}
-	if (App->HasWebBrowser () && !gtk_ui_manager_add_ui_from_string (m_UIManager, ui_web_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-	if (App->HasMailAgent () && !gtk_ui_manager_add_ui_from_string (m_UIManager, ui_mail_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
 	}
 
 	GtkWidget *menu = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/FileMenu/Open");

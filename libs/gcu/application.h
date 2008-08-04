@@ -155,14 +155,9 @@ Creates a new empty message using the default mail if any.
 	void OnMail (char const *MailAddress = "mailto:gchemutils-main@nongnu.org");
 
 /*!
-@return true if the default mail agent is known, false otherwise.
+Attempts to open the #gchemutils channel at irc.gimp.net.
 */
-	bool HasMailAgent () {return MailAgent.length () > 0;}
-
-/*!
-@return true if the default web browser is known, false otherwise.
-*/
-	bool HasWebBrowser () {return WebBrowser.length () > 0;}
+	void OnLiveAssistance ();
 
 /*!
 @return a GtkWidget for managing pixmap resolution when saving as image. This widget is
@@ -248,8 +243,6 @@ private:
 	std::string HelpBrowser;
 	std::string HelpFilename;
 	std::string CurDir;
-	std::string WebBrowser;
-	std::string MailAgent;
 #ifdef HAVE_GO_CONF_SYNC
 	static GOConfNode *m_ConfDir;
 #endif

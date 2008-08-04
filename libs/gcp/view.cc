@@ -4,7 +4,7 @@
  * GChemPaint library
  * view.cc
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,8 +37,6 @@
 #include <canvas/gcp-canvas-group.h>
 #include <canvas/gcp-canvas-rect-ellipse.h>
 #include <gsf/gsf-output-gio.h>
-#include <libgnomevfs/gnome-vfs-file-info.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
 #include <pango/pango-context.h>
@@ -985,16 +983,11 @@ void View::OnSelectAll ()
 
 static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
 {
-	GnomeVFSHandle *handle = (GnomeVFSHandle*) data;
-	GnomeVFSFileSize written = 0;
-	GnomeVFSResult res;
+	GOutputStream *output = (GOutputStream *) data;
 	while (count) {
-		res = gnome_vfs_write (handle, buf, count, &written);
-		if (res != GNOME_VFS_OK) {
-			g_set_error (error, g_quark_from_static_string ("gchempaint"), res, gnome_vfs_result_to_string (res));
+		count -= g_output_stream_write (output, buf, count, NULL, error);
+		if (*error)
 			return false;
-		}
-		count -= written;
 	}
 	return true;
 }
@@ -1049,16 +1042,16 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		xmlFreeDoc (doc);
 	} else {
 		GdkPixbuf *pixbuf = BuildPixbuf (resolution);
-		GnomeVFSHandle *handle = NULL;
-		if (gnome_vfs_create (&handle, filename.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
-			GError *error = NULL;
-			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, handle, type, NULL, NULL, &error);
-			if (error) {
-				cerr << _("Unable to save image file: ") << error->message << endl;
-				g_error_free (error);
-			}
-			gnome_vfs_close (handle); // hope there will be no error there
+		GFile *file = g_vfs_get_file_for_uri (g_vfs_get_default (), filename.c_str ());
+		GError *error = NULL;
+		GFileOutputStream *output = g_file_create (file, G_FILE_CREATE_NONE, NULL, &error);
+		if (!error)
+			gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, output, type, NULL, NULL, &error);
+		if (error) {
+			fprintf (stderr, _("Unable to save image file: %s\n"), error->message);
+			g_error_free (error);
 		}
+		g_object_unref (file);
 		g_object_unref (pixbuf);
 	}
 	m_pData->ShowSelection (true);

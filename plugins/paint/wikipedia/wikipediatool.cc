@@ -4,7 +4,7 @@
  * GChemPaint Wikipedia plugin
  * wikipediatool.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,8 +30,7 @@
 #include <gcp/theme.h>
 #include <gcu/application.h>
 #include <gcu/filechooser.h>
-#include <libgnomevfs/gnome-vfs-file-info.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
+#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <vector>
 
@@ -63,16 +62,11 @@ WikipediaApp::~WikipediaApp ()
 // FIXME: make this a public function in libgcu
 static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gpointer data)
 {
-	GnomeVFSHandle *handle = (GnomeVFSHandle*) data;
-	GnomeVFSFileSize written = 0;
-	GnomeVFSResult res;
+	GOutputStream *output = (GOutputStream *) data;
 	while (count) {
-		res = gnome_vfs_write (handle, buf, count, &written);
-		if (res != GNOME_VFS_OK) {
-			g_set_error (error, g_quark_from_static_string ("gchempaint"), res, gnome_vfs_result_to_string (res));
+		count -= g_output_stream_write (output, buf, count, NULL, error);
+		if (*error)
 			return false;
-		}
-		count -= written;
 	}
 	return true;
 }
@@ -90,21 +84,35 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 	char *filename2 = (strcmp (filename + strlen (filename) - 4, ".png"))?
 						g_strconcat (filename, ".png", NULL):
 						g_strdup (filename);
-	GnomeVFSURI *uri = gnome_vfs_uri_new (filename2);
-	bool err = gnome_vfs_uri_exists (uri);
-	gnome_vfs_uri_unref (uri);
+	GFile *file = g_vfs_get_file_for_uri (g_vfs_get_default (), filename2);
+	GError *error = NULL;
+	bool err = g_file_query_exists (file, NULL);
 	gint result = GTK_RESPONSE_YES;
 	if (err) {
 		gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2);
 		GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+		gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
 		result = gtk_dialog_run (Box);
 		gtk_widget_destroy (GTK_WIDGET (Box));
 		g_free (message);
 	}
-	if (result == GTK_RESPONSE_YES)
-		// destroy the old file
-		gnome_vfs_unlink (filename2);
-	else
+	if (result == GTK_RESPONSE_YES) {
+		if (err) {
+			// destroy the old file
+			g_file_delete (file, NULL, &error);
+			if (error) {
+				gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), filename2, error->message);
+				g_error_free (error);
+				GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+				gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
+				result = gtk_dialog_run (Box);
+				gtk_widget_destroy (GTK_WIDGET (Box));
+				g_free (message);
+				g_object_unref (file);
+				return true;
+			}
+		}
+	} else
 		return true;
 	ArtDRect rect;
 	GnomeCanvas *canvas = GNOME_CANVAS (Doc->GetWidget ());
@@ -145,9 +153,8 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 	map<string, Object*>::iterator i;
 	gcp::Molecule *Mol = dynamic_cast<gcp::Molecule*> (pDoc->GetFirstChild (i));
 	char const *InChI = Mol->GetInChI ();
-	GnomeVFSHandle *handle = NULL;
-	if (gnome_vfs_create (&handle, filename2, GNOME_VFS_OPEN_WRITE, true, 0644) == GNOME_VFS_OK) {
-		GError *error = NULL;
+	GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
+	if (!error) {
 		vector<char*> keys, values;
 		char const *author = static_cast<gcp::Document*> (pDoc)->GetAuthor ();
 		// We need to be sure that the author name can be converted to latin-1
@@ -164,13 +171,14 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 		values.push_back (const_cast<char*> (InChI));
 		keys.push_back (reinterpret_cast<char*> (NULL));
 		values.push_back (reinterpret_cast<char*> (NULL));
-		gdk_pixbuf_save_to_callbackv (alpha, do_save_image, handle, "png", keys.data (), values.data (), &error);
-		if (error) {
-			cerr << _("Unable to save image file: ") << error->message << endl;
-			g_error_free (error);
-		}
-		gnome_vfs_close (handle); // hope there will be no error there
+		gdk_pixbuf_save_to_callbackv (alpha, do_save_image, output, "png", keys.data (), values.data (), &error);
+		g_output_stream_close (output, NULL, NULL); // hope there will be no error there
 	}
+	if (error) {
+		cerr << _("Unable to save image file: ") << error->message << endl;
+		g_error_free (error);
+	}
+	g_object_unref (file);
 	g_object_unref (alpha);
 
 	g_free (filename2);

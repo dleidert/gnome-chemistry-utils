@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-data-allocator.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -175,7 +175,7 @@ static GObjectClass *parent_klass;
 static void
 gct_control_gui_finalize (GObject *object)
 {
-	GctControlGUI *control = GCT_CONTROL_GUI (object);
+//	GctControlGUI *control = GCT_CONTROL_GUI (object);
 	(parent_klass->finalize) (object);
 }
 

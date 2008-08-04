@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/spectra/window.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,8 +33,6 @@
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-image.h>
 #include <gsf/gsf-output-memory.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkcontainer.h>
 #include <gtk/gtkwindow.h>
@@ -100,6 +98,11 @@ static void on_web (GtkWidget *widget, gsvWindow* window)
 	window->GetApp ()->OnWeb ();
 }
 
+static void on_live_assistance (GtkWidget *widget, gsvWindow *Win)
+{
+	Win->GetApp ()->OnLiveAssistance ();
+}
+
 static void on_mail (GtkWidget *widget, gsvWindow* window)
 {
 	window->GetApp ()->OnMail ();
@@ -112,13 +115,10 @@ static void on_bug (GtkWidget *widget, gsvWindow* window)
 
 static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
 {
-	GnomeVFSResult error = gnome_vfs_url_show(url);
-	if (error != GNOME_VFS_OK) {
-		g_print("GnomeVFSResult while trying to launch URL in about dialog: error %u\n", error);
-	}
+	reinterpret_cast <gsvWindow *> (data)->GetApp ()->OnWeb (url);
 }
 
-static void on_about (GtkWidget *widget, void *data)
+static void on_about (GtkWidget *widget, gsvWindow *Win)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GSpectrum is a spectrum viewer for Gnome");
@@ -138,7 +138,7 @@ static void on_about (GtkWidget *widget, void *data)
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
 	
-	gtk_about_dialog_set_url_hook(on_about_activate_url, NULL, NULL);
+	gtk_about_dialog_set_url_hook (on_about_activate_url, Win, NULL);
 
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
 	const gchar * translator_credits = _("translator_credits");
@@ -186,6 +186,8 @@ static GtkActionEntry entries[] = {
 		  N_("View help for the Spetra Viewer"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
 		  N_("Browse the Gnome Chemistry Utils's web site"), G_CALLBACK (on_web) },
+	  { "LiveAssistance", NULL, N_("Live assistance"), NULL,
+		  N_("Open the Gnome Chemistry Utils IRC channel"), G_CALLBACK (on_live_assistance) },
 	  { "Mail", NULL, N_("_Ask a question"), NULL,
 		  N_("Ask a question about the Gnome Chemistry Utils"), G_CALLBACK (on_mail) },
 	  { "Bug", NULL, N_("Report _Bugs"), NULL,
@@ -213,35 +215,11 @@ static const char *ui_description =
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
-"      <placeholder name='mail'/>"
-"      <placeholder name='web'/>"
-"      <placeholder name='bug'/>"
+"      <menuitem action='Mail'/>"
+"      <menuitem action='Web'/>"
+"      <menuitem action='LiveAssistance'/>"
+"      <menuitem action='Bug'/>"
 "      <menuitem action='About'/>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-static const char *ui_mail_description =
-"<ui>"
-"  <menubar name='MainMenu'>"
-"    <menu action='HelpMenu'>"
-"      <placeholder name='mail'>"
-"        <menuitem action='Mail'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-static const char *ui_web_description =
-"<ui>"
-"  <menubar name='MainMenu'>"
-"    <menu action='HelpMenu'>"
-"      <placeholder name='web'>"
-"        <menuitem action='Web'/>"
-"      </placeholder>"
-"      <placeholder name='bug'>"
-"        <menuitem action='Bug'/>"
-"      </placeholder>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
@@ -268,14 +246,6 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
-	}
-	if (App->HasWebBrowser () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_web_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-	if (App->HasMailAgent () && !gtk_ui_manager_add_ui_from_string (ui_manager, ui_mail_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
 	}
 	GtkWidget *menu = gtk_ui_manager_get_widget (ui_manager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());

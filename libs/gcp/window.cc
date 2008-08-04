@@ -2,7 +2,7 @@
  * GChemPaint library
  * window.cc
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -205,6 +205,11 @@ static void on_mail (GtkWidget *widget, gcp::Window* Win)
 	Win->GetApplication ()->OnMail ("mailto:gchempaint-main@nongnu.org");
 }
 
+static void on_live_assistance (GtkWidget *widget, gcp::Window *Win)
+{
+	Win->GetApplication ()->OnLiveAssistance ();
+}
+
 static void on_bug (GtkWidget *widget, gcp::Window* Win)
 {
 	Win->GetApplication ()->OnBug ();
@@ -341,6 +346,8 @@ static GtkActionEntry entries[] = {
 		  N_("View help for GChemPaint"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("GChemPaint on the _web"), NULL,
 		  N_("Browse GChemPaint's web site"), G_CALLBACK (on_web) },
+	  { "LiveAssistance", NULL, N_("Live assistance"), NULL,
+		  N_("Open the Gnome Chemistry Utils IRC channel"), G_CALLBACK (on_live_assistance) },
 	  { "Mail", NULL, N_("_Ask a question"), NULL,
 		  N_("Ask a question about GChemPaint"), G_CALLBACK (on_mail) },
 	  { "Bug", NULL, N_("Report _Bugs"), NULL,
@@ -411,9 +418,10 @@ static const char *ui_description =
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"
-"      <placeholder name='web'/>"
-"      <placeholder name='mail'/>"
-"      <placeholder name='bug'/>"
+"      <menuitem action='Mail'/>"
+"      <menuitem action='Web'/>"
+"      <menuitem action='LiveAssistance'/>"
+"      <menuitem action='Bug'/>"
 "      <menuitem action='About'/>"
 "    </menu>"
 "  </menubar>"
@@ -424,31 +432,6 @@ static const char *ui_description =
 "    <toolitem action='Print'/>"
 "	 <placeholder name='tools1'/>"
 "  </toolbar>"
-"</ui>";
-
-static const char *ui_mail_description =
-"<ui>"
-"  <menubar name='MainMenu'>"
-"    <menu action='HelpMenu'>"
-"      <placeholder name='mail'>"
-"        <menuitem action='Mail'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-static const char *ui_web_description =
-"<ui>"
-"  <menubar name='MainMenu'>"
-"    <menu action='HelpMenu'>"
-"      <placeholder name='web'>"
-"        <menuitem action='Web'/>"
-"      </placeholder>"
-"      <placeholder name='bug'>"
-"        <menuitem action='Bug'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
 "</ui>";
 
 using namespace gcu;
@@ -490,14 +473,6 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui):
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 		exit (EXIT_FAILURE);
-	}
-	if (App->HasWebBrowser () && !gtk_ui_manager_add_ui_from_string (m_UIManager, ui_web_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-	if (App->HasMailAgent () && !gtk_ui_manager_add_ui_from_string (m_UIManager, ui_mail_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
 	}
 	if (extra_ui && !gtk_ui_manager_add_ui_from_string (m_UIManager, extra_ui, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);

@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.cc 
  *
- * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -41,8 +41,6 @@
 #include <glade/glade.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <clocale>
 #include <cmath>
 #include <vector>
@@ -50,6 +48,7 @@
 #include <fstream>
 #include <ostream>
 #include <sstream>
+#include <gio/gio.h>
 #include <glib/gi18n.h>
 #ifdef HAVE_OPENBABEL_2_2
 #	include <openbabel/format.h>
@@ -168,10 +167,20 @@ void gcDocument::SetCell(gcLattices lattice, gdouble a, gdouble b, gdouble c, gd
 
 void gcDocument::SetFileName (const string &filename)
 {
-	GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
-	gnome_vfs_get_file_info (filename.c_str (), info, GNOME_VFS_FILE_INFO_DEFAULT);
-	m_ReadOnly = !(info->permissions & (GNOME_VFS_PERM_USER_WRITE | GNOME_VFS_PERM_GROUP_WRITE));
-	gnome_vfs_file_info_unref (info);
+	GFile *file = g_file_new_for_uri (filename.c_str ());
+	GError *error = NULL;
+	GFileInfo *info = g_file_query_info (file,
+							  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
+							  G_FILE_QUERY_INFO_NONE, NULL, &error);
+	if (error) {
+		g_warning ("GIO error: %s", error->message);
+		g_error_free (error);
+		m_ReadOnly = true;
+	} else
+		m_ReadOnly = !g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE);
+	if (info)
+		g_object_unref (info);
+	g_object_unref (file);
 	if (m_filename)
 		g_free (m_filename);
 	m_filename = g_strdup (filename.c_str ());
@@ -201,10 +210,15 @@ void gcDocument::SetTitle(const gchar* title)
 	m_title = g_strdup(title);
 }
 
-static int cb_xml_to_vfs (GnomeVFSHandle *handle, const char* buf, int nb)
+static int cb_xml_to_vfs (GOutputStream *output, const char* buf, int nb)
 {
-	GnomeVFSFileSize ndone;
-	return (int) gnome_vfs_write (handle, buf, nb, &ndone);
+	GError *error = NULL;
+	int n = g_output_stream_write (output, buf, nb, NULL, &error);
+	if (error) {
+		g_message ("GIO error: %s", error->message);
+		g_error_free (error);
+	}
+	return n;
 }
 
 void gcDocument::Save() const
@@ -216,32 +230,28 @@ void gcDocument::Save() const
 	try {
 		xml = BuildXMLTree();
 
-			xmlIndentTreeOutput = true;
-			xmlKeepBlanksDefault (0);
-		
-			GnomeVFSFileInfo *info = gnome_vfs_file_info_new ();
-			gnome_vfs_get_file_info (m_filename, info, GNOME_VFS_FILE_INFO_DEFAULT);
+		xmlIndentTreeOutput = true;
+		xmlKeepBlanksDefault (0);
+	
+		xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
+		GFile *file = g_file_new_for_uri (m_filename);
+		GError *error = NULL;
+		GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
+		if (error) {
+			g_message ("GIO error: %s", error->message);
+			g_error_free (error);
+			g_object_unref (file);
+			throw (int) 1;
+		}
+		buf->context = output;
+		buf->closecallback = NULL;
+		buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
+		int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
+		g_output_stream_close (output, NULL, NULL);
+		g_object_unref (file);
+		if (n < 0)
+			throw 1;
 
-			if (GNOME_VFS_FILE_INFO_LOCAL (info)) {
-				gnome_vfs_file_info_unref (info);
-				if (xmlSaveFormatFile (m_filename, xml, true) < 0) /*Error(SAVE)*/;
-			} else {
-				gnome_vfs_file_info_unref (info);
-				xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
-				GnomeVFSHandle *handle;
-				GnomeVFSResult result = gnome_vfs_open (&handle, m_filename, GNOME_VFS_OPEN_WRITE);
-				if (result == GNOME_VFS_ERROR_NOT_FOUND)
-					result = gnome_vfs_create (&handle, m_filename, GNOME_VFS_OPEN_WRITE, true, 0666);
-				if (result != GNOME_VFS_OK)
-					throw 1;
-				buf->context = handle;
-				buf->closecallback = (xmlOutputCloseCallback) gnome_vfs_close;
-				buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
-				int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
-				if (n < 0)
-					throw 1;
-			}
-			
 		xmlFreeDoc (xml);
 		const_cast <gcDocument *> (this)->SetDirty (false);
 		const_cast <gcDocument *> (this)->m_ReadOnly = false;	// if saving succeded, the file is not read only...
@@ -453,13 +463,17 @@ void gcDocument::OnExportVRML (const string &FileName) const
 	int n = 0;
 	try {
 		ostringstream file;
-		GnomeVFSHandle *handle = NULL;
-		GnomeVFSFileSize fs;
-		GnomeVFSResult res;
+		GError *error = NULL;
+		GFile *stream = g_file_new_for_uri (FileName.c_str ());
+		GOutputStream *output = G_OUTPUT_STREAM (g_file_create (stream, G_FILE_CREATE_NONE, NULL, &error));
+		if (error) {
+			cerr << "gio error: " << error->message << endl;
+			g_error_free (error);
+			g_object_unref (file);
+			throw (int) 1;
+		}
 		std::map<std::string, sAtom>AtomsMap;
 		std::map<std::string, sLine>LinesMap;
-		if ((res = gnome_vfs_create (&handle, FileName.c_str (), GNOME_VFS_OPEN_WRITE, true, 0644)) != GNOME_VFS_OK)
-			throw (int) res;
 		old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
 		setlocale(LC_NUMERIC, "C");
 
@@ -563,12 +577,18 @@ void gcDocument::OnExportVRML (const string &FileName) const
 
 		setlocale(LC_NUMERIC, old_num_locale);
 		g_free(old_num_locale);
-		if ((res = gnome_vfs_write (handle, file.str ().c_str (), (GnomeVFSFileSize) file.str ().size (), &fs)) != GNOME_VFS_OK)
-			throw (int) res;
-		gnome_vfs_close (handle);
+		g_output_stream_write (output, file.str ().c_str (), file.str ().size (), NULL, &error);
+		if (error) {
+			cerr << "gio error: " << error->message << endl;
+			g_error_free (error);
+			g_object_unref (stream);
+			throw (int) 1;
+		}
+		g_output_stream_close (output, NULL, NULL);
+		g_object_unref (stream);
 	}
 	catch (int n) {
-		fprintf (stderr, "gnome-vfs error #%d\n",n);
+		// TODO: implement a meaningful error handler.
 	}
 }
 
@@ -712,69 +732,66 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 	else oldfilename = NULL;
 	oldtitle = g_strdup (m_title);
 	char *old_num_locale;
-	bool local;
-	GnomeVFSFileInfo *info = NULL;
 	bool result = false, read_only = false;
+	GFile *file;
+	GFileInfo *info = NULL;
+	GError *error = NULL;
 	try {
 		if (!filename.length ())
 			throw (int) 0;
-		info = gnome_vfs_file_info_new ();
-		gnome_vfs_get_file_info (filename.c_str (), info, GNOME_VFS_FILE_INFO_DEFAULT);
-		local = GNOME_VFS_FILE_INFO_LOCAL (info);
-		if (!(info->permissions & (GNOME_VFS_PERM_USER_WRITE | GNOME_VFS_PERM_GROUP_WRITE)))
-			read_only = true;
-		gnome_vfs_file_info_unref (info);
-		if (SetFileName (filename), !m_filename || !m_title)
+		file = g_file_new_for_uri (filename.c_str ());
+		info = g_file_query_info (file,
+								  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE","G_FILE_ATTRIBUTE_STANDARD_SIZE,
+								  G_FILE_QUERY_INFO_NONE, NULL, &error);
+		if (error) {
+			g_warning ("GIO error: %s", error->message);
+			g_error_free (error);
+			if (info)
+				g_object_unref (info);
+			g_object_unref (file);
 			throw (int) 1;
-		if (oldfilename)
-			g_free(oldfilename);
-		g_free (oldtitle);
-		if (local) {
-			ifstream ifs;
-			GnomeVFSURI *uri = gnome_vfs_uri_new (filename.c_str ());
-			ifs.open (gnome_vfs_uri_get_path (uri));
-			gnome_vfs_uri_unref (uri);
-			if (ifs.fail ())
-				throw (int) 1;
-			old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-			setlocale(LC_NUMERIC, "C");
-			OBMol Mol;
-			OBConversion Conv;
-			OBFormat* pInFormat = OBFormat::FormatFromMIME (mime_type.c_str ());
-			if (pInFormat == NULL)
-				throw 2;
-			Conv.SetInFormat (pInFormat);
-			Conv.Read (&Mol, &ifs);
-			result = ImportOB (Mol);
-			Mol.Clear ();
-			setlocale (LC_NUMERIC, old_num_locale);
-			g_free (old_num_locale);
-			ifs.close ();
-			if (!result)
-				throw (int) 3;
-		} else {
-			char *buf;
-			int size;
-			if (gnome_vfs_read_entire_file (filename.c_str (), &size, &buf) != GNOME_VFS_OK)
-				throw 1;
-			istringstream iss (buf);
-			old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-			setlocale(LC_NUMERIC, "C");
-			OBMol Mol;
-			OBConversion Conv;
-			OBFormat* pInFormat = OBFormat::FormatFromMIME (mime_type.c_str ());
-			if (pInFormat == NULL)
-				throw 2;
-			Conv.SetInFormat (pInFormat);
-			Conv.Read (&Mol, &iss);
-			result = ImportOB (Mol);
-			Mol.Clear ();
-			setlocale (LC_NUMERIC, old_num_locale);
-			g_free (old_num_locale);
-			g_free (buf);
-			if (!result)
-				throw (int) 3;
 		}
+		gsize size = g_file_info_get_size (info);
+		read_only = !g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE);
+		g_object_unref (info);
+		if (SetFileName (filename), !m_filename || !m_title)
+			throw (int) 2;
+		g_free (oldfilename);
+		g_free (oldtitle);
+		char *buf = new char[size + 1];
+		GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
+		gsize n = 0;
+		while (n < size) {
+			n += g_input_stream_read (input, buf, size, NULL, &error);
+			if (error) {
+				g_message ("GIO could not read the file: %s", error->message);
+				g_error_free (error);
+				delete [] buf;
+				g_object_unref (input);
+				g_object_unref (file);
+				throw (int) 3;
+			}
+		}
+		g_object_unref (input);
+		g_object_unref (file);
+		buf[size] = 0;
+		istringstream iss (buf);
+		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+		setlocale(LC_NUMERIC, "C");
+		OBMol Mol;
+		OBConversion Conv;
+		OBFormat* pInFormat = OBFormat::FormatFromMIME (mime_type.c_str ());
+		if (pInFormat == NULL)
+			throw (int) 4;
+		Conv.SetInFormat (pInFormat);
+		Conv.Read (&Mol, &iss);
+		result = ImportOB (Mol);
+		Mol.Clear ();
+		setlocale (LC_NUMERIC, old_num_locale);
+		g_free (old_num_locale);
+		g_free (buf);
+		if (!result)
+			throw (int) 5;
 		UpdateAllViews ();
 		return true;
 	}

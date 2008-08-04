@@ -50,11 +50,10 @@
 #include <gcu/loader.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/goffice.h>
-#include <gconf/gconf-client.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-mime-info.h>
+#ifndef HAVE_GO_CONF_SYNC
+#	include <gconf/gconf-client.h>
+#endif
+#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/reaction.h>
@@ -515,8 +514,6 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 	while ((i > 0) && (filename[i] != '.') && (filename[i] != '/')) i--;
 	if (filename[i] == '/') i = 0;
 	ext = (i > 0)? filename + i + 1: NULL;
-	if (!mime_type) // probably a non existing file
-		mime_type = gnome_vfs_get_file_mime_type_fast (filename, NULL);
 	if (!mime_type) // to be really sure we don't crash
 		mime_type = "application/x-gchempaint";
 	list<string>::iterator it, itend = m_SupportedMimeTypes.end ();
@@ -556,7 +553,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 	}
 	list<string> &exts = globs[mime_type];
 	bool err;
-	GnomeVFSURI *uri;
+	GFile *file;
 	if (bSave) {
 		char const *default_ext = (exts.size ())? exts.front ().c_str (): NULL;
 		if (ext) {
@@ -571,9 +568,8 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		}
 		if (default_ext && !ext)
 				filename2 += string(".") + default_ext;
-		uri = gnome_vfs_uri_new (filename2.c_str ());
-		err = gnome_vfs_uri_exists (uri);
-		gnome_vfs_uri_unref (uri);
+		file = g_file_new_for_uri (filename2.c_str ());
+		err = g_file_query_exists (file, NULL);
 		gint result = GTK_RESPONSE_YES;
 		if (err) {
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2.c_str ());
@@ -584,8 +580,22 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			g_free (message);
 		}
 		if (result == GTK_RESPONSE_YES) {
-			// destroy the old file
-			gnome_vfs_unlink (filename2.c_str ());
+			// destroy the old file if needed
+			if (err) {
+				GError *error = NULL;
+				g_file_delete (file, NULL, &error);
+				if (error) {
+					gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), filename2.c_str (), error->message);
+					g_error_free (error);
+					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+					gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
+					result = gtk_dialog_run (Box);
+					gtk_widget_destroy (GTK_WIDGET (Box));
+					g_free (message);
+					g_object_unref (file);
+					return false;
+				}
+			}
 			switch (file_type) {
 			case SVG:
 				m_pActiveDoc->ExportImage (filename2, "svg");
@@ -610,18 +620,19 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 					SaveWithBabel (filename2, mime_type, pDoc);
 			}
 		}
+		g_object_unref (file);
 	} else  { //loading
-		uri = gnome_vfs_uri_new (filename);
-		err = !gnome_vfs_uri_exists (uri);
-		gnome_vfs_uri_unref (uri);
+		file = g_file_new_for_uri (filename);
+		err = g_file_query_exists (file, NULL);
+		g_object_unref (file);
 		if (err) {
 			if (!ext) {
 				list<string>::iterator cur, end = exts.end ();
 				for (cur = exts.begin (); cur != end; cur++) {
 					filename2 = string (filename) + "." + *cur;
-					uri = gnome_vfs_uri_new (filename2.c_str ());
-					err = !gnome_vfs_uri_exists (uri);
-					gnome_vfs_uri_unref (uri);
+					file = g_file_new_for_uri (filename2.c_str ());
+					err = !g_file_query_exists (file, NULL);
+					g_object_unref (file);
 					if (!err)
 						break;
 				}
@@ -677,85 +688,70 @@ void Application::SaveWithBabel (string const &filename, const gchar *mime_type,
 void Application::OpenWithBabel (string const &filename, const gchar *mime_type, Document* pDoc)
 {
 	string old_num_locale;
-	bool bNew = (pDoc == NULL || !pDoc->GetEmpty () || pDoc->GetDirty ()), local;
-	GnomeVFSFileInfo *info = NULL;
+	bool bNew = (pDoc == NULL || !pDoc->GetEmpty () || pDoc->GetDirty ());
+	GFile *file;
+	GFileInfo *info = NULL;
+	GError *error = NULL;
 	bool result = true, read_only = false;
+	gsize size = 0;
 	try {
 		if (!filename.length ())
 			throw (int) 0;
-		info = gnome_vfs_file_info_new ();
-		gnome_vfs_get_file_info (filename.c_str (), info, GNOME_VFS_FILE_INFO_DEFAULT);
-		local = GNOME_VFS_FILE_INFO_LOCAL (info);
-		if (!(info->permissions & (GNOME_VFS_PERM_USER_WRITE | GNOME_VFS_PERM_GROUP_WRITE)))
-			read_only = true;
-		gnome_vfs_file_info_unref (info);
+		file = g_file_new_for_uri (filename.c_str ());
+		info = g_file_query_info (file,
+								  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE","G_FILE_ATTRIBUTE_STANDARD_SIZE,
+								  G_FILE_QUERY_INFO_NONE, NULL, &error);
+		if (error) {
+			g_warning ("GIO error: %s", error->message);
+			g_error_free (error);
+			if (info)
+				g_object_unref (info);
+			g_object_unref (file);
+			return;
+		}
+		size = g_file_info_get_size (info);
+		read_only = !g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE);
+		g_object_unref (info);
 		if (bNew) {
 			OnFileNew ();
 			pDoc = m_pActiveDoc;
 		}
-		if (local) {
-			ifstream ifs;
-			GnomeVFSURI *uri = gnome_vfs_uri_new (filename.c_str ());
-			ifs.open (g_uri_unescape_string (gnome_vfs_uri_get_path (uri),NULL));
-			gnome_vfs_uri_unref (uri);
-			if (ifs.fail ())
-				throw (int) 1;
-			old_num_locale = setlocale (LC_NUMERIC, NULL);
-			setlocale(LC_NUMERIC, "C");
-			OBMol Mol;
-			OBConversion Conv;
-			OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
-			if (pInFormat == NULL)
-				throw 1;
-			Conv.SetInFormat (pInFormat);
-			Conv.SetInStream (&ifs);
-			pInFormat->ReadChemObject (&Conv); //makes an appropriate object on heap
-			OBBase* pOb = Conv.GetChemObject (); //get a pointer to that object
-			if (!pOb) {
-				// either an empty file or the format does not support this mechanism
-				while (result && !ifs.eof () && Conv.Read (&Mol, &ifs)) {
-					result = pDoc->ImportOB(Mol);
-					Mol.Clear ();
-				}
-			} else while (pOb) {
-				OBMol* pmol = dynamic_cast<OBMol*> (pOb);
-				if (pmol)
-					result = pDoc->ImportOB (*pmol);
-				else {
-					OBReaction* preact = dynamic_cast<OBReaction*> (pOb);
- 					if (preact)
-						;
-				}
-
- 				delete pOb;
-				pInFormat->ReadChemObject (&Conv);
-				pOb = Conv.GetChemObject ();
+		char *buf = new char[size + 1];
+		GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
+		gsize n = 0;
+		while (n < size) {
+			n += g_input_stream_read (input, buf, size, NULL, &error);
+			if (error) {
+				g_message ("GIO could not read the file: %s", error->message);
+				g_error_free (error);
+				delete [] buf;
+				g_object_unref (input);
+				g_object_unref (file);
+				return;
 			}
-			setlocale (LC_NUMERIC, old_num_locale.c_str ());
-			ifs.close ();
-		} else {
-			char *buf;
-			int size;
-			if (gnome_vfs_read_entire_file (filename.c_str (), &size, &buf) != GNOME_VFS_OK)
-				throw 1;
-			istringstream iss (buf);
-			old_num_locale = setlocale (LC_NUMERIC, NULL);
-			setlocale(LC_NUMERIC, "C");
-			OBMol Mol;
-			OBConversion Conv;
-			OBFormat* pInFormat = Conv.FormatFromExt (filename.c_str ());
-			if (pInFormat == NULL)
-				throw 1;
-			Conv.SetInFormat (pInFormat);
-			while (!iss.eof () && Conv.Read (&Mol, &iss)) {
-				result = pDoc->ImportOB(Mol);
-				Mol.Clear ();
-				if (!result)
-					break;
-			}
-			setlocale (LC_NUMERIC, old_num_locale.c_str ());
-			g_free (buf);
 		}
+		g_object_unref (input);
+		g_object_unref (file);
+		buf[size] = 0;
+		istringstream iss (buf);
+		old_num_locale = setlocale (LC_NUMERIC, NULL);
+		setlocale(LC_NUMERIC, "C");
+		OBMol Mol;
+		OBConversion Conv;
+		OBFormat* pInFormat = Conv.FormatFromExt (filename.c_str ());
+		if (pInFormat == NULL) {
+			delete [] buf;
+			throw 1;
+		}
+		Conv.SetInFormat (pInFormat);
+		while (!iss.eof () && Conv.Read (&Mol, &iss)) {
+			result = pDoc->ImportOB(Mol);
+			Mol.Clear ();
+			if (!result)
+				break;
+		}
+		setlocale (LC_NUMERIC, old_num_locale.c_str ());
+		delete [] buf;
 		if (!result)
 		{
 			if (bNew)
@@ -830,17 +826,23 @@ void Application::SaveGcp (string const &filename, Document* pDoc)
 	gtk_recent_manager_add_full (GetRecentManager (), filename.c_str (), &data);
 }
 
-static int	cb_vfs_to_xml (GnomeVFSHandle *handle, char* buf, int nb)
+static int	cb_vfs_to_xml (GInputStream *input, char* buf, int nb)
 {
-	GnomeVFSFileSize ndone;
-	return  (gnome_vfs_read (handle, buf, nb, &ndone) == GNOME_VFS_OK)? (int) ndone: -1;
+	GError *error = NULL;
+	int n = g_input_stream_read (input, buf, nb, NULL, &error);
+	if (error) {
+		g_message ("GIO error: %s", error->message);
+		g_error_free (error);
+	}
+	return n;
 }
 
 void Application::OpenGcp (string const &filename, Document* pDoc)
 {
 	xmlDocPtr xml = NULL;
 	char *old_num_locale, *old_time_locale;
-	GnomeVFSFileInfo *info = NULL;
+	GError *error = NULL;
+	GFileInfo *info = NULL;
 	bool create = false;
 	try
 	{
@@ -849,23 +851,33 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 
 		// try opening with write access to see if it is readonly
 		// use xmlReadIO for non local files.
-		info = gnome_vfs_file_info_new ();
-		gnome_vfs_get_file_info (filename.c_str (), info, GNOME_VFS_FILE_INFO_DEFAULT);
-
-		if (GNOME_VFS_FILE_INFO_LOCAL (info)) {
-			if (!(xml = xmlParseFile(filename.c_str ())))
-				throw (int) 1;
-		} else {
-			GnomeVFSHandle *handle;
-			GnomeVFSResult result = gnome_vfs_open (&handle, filename.c_str (), GNOME_VFS_OPEN_READ);
-			if (result != GNOME_VFS_OK)
-				throw 1;
-			if (!(xml = xmlReadIO ((xmlInputReadCallback) cb_vfs_to_xml, 
-					 (xmlInputCloseCallback) gnome_vfs_close, handle, filename.c_str (), NULL, 0)))
-				throw 1;
+		GFile *file = g_file_new_for_uri (filename.c_str ());
+		info = g_file_query_info (file,
+								  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
+								  G_FILE_QUERY_INFO_NONE, NULL, &error);
+		if (error) {
+			g_object_unref (file);
+			g_message ("GIO error: %s\n", error->message);
+			g_error_free (error);
+			throw 1;
 		}
-		if (xml->children == NULL) throw (int) 2;
-		if (strcmp((char*)xml->children->name, "chemistry")) throw (int) 3;	//FIXME: that could change when a dtd is available
+		GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
+		if (error) {
+			g_object_unref (file);
+			g_message ("GIO error: %s\n", error->message);
+			g_error_free (error);
+			throw 1;
+		}
+		if (!(xml = xmlReadIO ((xmlInputReadCallback) cb_vfs_to_xml, 
+				 (xmlInputCloseCallback) g_input_stream_close, input, filename.c_str (), NULL, 0))) {
+			g_object_unref (file);
+			throw 1;
+		}
+		g_object_unref (file);
+		if (xml->children == NULL)
+			throw (int) 2;
+		if (strcmp((char*)xml->children->name, "chemistry"))
+			throw (int) 3;	//FIXME: that could change when a dtd is available
 		old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
 		setlocale(LC_NUMERIC, "C");
 		old_time_locale = g_strdup(setlocale(LC_TIME, NULL));
@@ -886,9 +898,8 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 				pDoc->GetWindow ()->Destroy ();
 			throw (int) 4;
 		}
-		if (!(info->permissions & (GNOME_VFS_PERM_USER_WRITE | GNOME_VFS_PERM_GROUP_WRITE)))
-			pDoc->SetReadOnly (true);
-		gnome_vfs_file_info_unref (info);
+		pDoc->SetReadOnly (!g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+		g_object_unref (info);
 		xmlFreeDoc(xml);
 		GtkRecentData data;
 		data.display_name = (char*) pDoc->GetTitle ();
@@ -901,9 +912,10 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 	}
 	catch (int num)
 	{
+		if (num > 1)
+			xmlFreeDoc(xml);
 		if (info)
-			gnome_vfs_file_info_unref (info);
-		if (num > 1) xmlFreeDoc(xml);
+			g_object_unref (info);
 		gchar *mess = NULL;
 		GtkWidget* message;
 		switch (num)
