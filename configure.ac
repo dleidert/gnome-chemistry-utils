@@ -146,9 +146,9 @@ shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
 openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION \
 bodr >= $BODR_REQUIRED_VERSION"
 
-if text "$libgoffice" = "libgoffice-0.6"; then
-	AC_DEFINE_UNQUOTED([GOFFICE_IS_O_6], [1], [Whether goffice is 0.6.x or later])
-	REQUIREMENTS= $REQUIREMENTS " gnome-vfs-module-2.0 >= 2.4.0"
+if test "$libgoffice" = "libgoffice-0.6"; then
+	AC_DEFINE_UNQUOTED([GOFFICE_IS_0_6], [1], [Whether goffice is 0.6.x or later])
+	REQUIREMENTS="$REQUIREMENTS gnome-vfs-module-2.0 >= 2.4.0"
 fi
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
