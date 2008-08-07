@@ -52,6 +52,7 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		sphere.cc	\
 		value.cc \
 		vector.cc \
+		window.cc \
 		xml-utils.cc
 
 noinst_HEADERS = \
@@ -99,4 +100,5 @@ noinst_HEADERS = \
 		sphere.h	\
 		value.h \
 		vector.h \
+		window.h \
 		xml-utils.h

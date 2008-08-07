@@ -5,7 +5,7 @@
 		<_description> 2D Chemical Structures Viewer/Editor</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
-		<attribute name="module_file" value="gchempaint"/>
+		<attribute name="module_file" value="gchemutils"/>
 	</loader>
 	<services>
 		<service type="component_engine" id="GOGChemUtilsComponent">
@@ -19,7 +19,7 @@
 				<_description>Chemical structures</_description>
 			</information>
 		</service>
-		<service type="component_type" id="GOGChemUtilsComponent">
+<!--		<service type="component_type" id="GOGChemUtilsComponent">
 			<mime_type name="application/x-gcrystal" priority="native" clipboard="yes"/>
 			<information>
 				<_description>Crystal structures</_description>
@@ -30,6 +30,6 @@
 			<information>
 				<_description>3D chemical structures</_description>
 			</information>
-		</service>
+		</service> -->
 	</services>
 </plugin>

@@ -19,11 +19,13 @@ gchemutils_la_LIBADD = \
 gchemutils_la_SOURCES =	\
 		gchemutils.cc	\
 		gchemutils.h	\
-		gchemutils-priv.h
-#		gofficeapp.cc	\
-#		gofficeapp.h	\
-#		gofficewin.cc	\
-#		gofficewin.h
+		gchemutils-priv.h	\
+		gogcpapp.cc	\
+		gogcpapp.h	\
+		gogcpwin.cc	\
+		gogcpwin.h	\
+		gogcuapp.cc	\
+		gogcuapp.h
 
 xml_in_files = plugin.xml.in
 

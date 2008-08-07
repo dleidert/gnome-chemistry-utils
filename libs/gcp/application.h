@@ -339,7 +339,7 @@ protected:
 */
 	Target *m_pActiveTarget;
 /*!
-
+Used to add a number to new files default names.
 */
 	unsigned m_NumWindow; //used for new files (Untitled%d)
 

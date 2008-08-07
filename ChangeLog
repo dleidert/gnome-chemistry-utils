@@ -1,5 +1,29 @@
 ##Text encoding: utf-8
 
+2008-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/Makefile.am: start reimplementation of the gchempaint
+	goffice plugin.
+	* goffice/gchemutils-priv.h: ditto.
+	* goffice/gchemutils.cc: ditto.
+	* goffice/gogcpapp.cc: ditto.
+	* goffice/gogcpapp.h: ditto.
+	* goffice/gogcpwin.cc: ditto.
+	* goffice/gogcpwin.h: ditto.
+	* goffice/gogcuapp.cc: ditto.
+	* goffice/gogcuapp.h: ditto.
+	* goffice/plugin.xml.in: ditto.
+	* libs/gcp/application.h: more API documentation work.
+	* libs/gcp/target.cc: derives from gcu::Window.
+	* libs/gcp/target.h: ditto.
+	* libs/gcp/text-object.h: API documentation work.
+	* libs/gcp/text.h: ditto.
+	* libs/gcp/tools.h: ditto.
+	* libs/gcu/Makefile.am: add window.*.
+	* libs/gcu/application.h: fixed API documentation.
+	* libs/gcu/window.cc: new window base class.
+	* libs/gcu/window.h: ditto.
+	* plugins/paint/residues/residues-dlg.h: add a Show() method. 
+
 2008-08-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: use gio/gvfs instead of gnomevfs.
 	* libs/gcp/application.h: ditto.

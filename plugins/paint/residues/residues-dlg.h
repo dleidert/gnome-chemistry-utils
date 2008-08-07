@@ -55,6 +55,7 @@ public:
 	void OnSymbolActivate ();
 	void OnNameActivate ();
 	void OnNewResidue (gcp::Residue *res);
+	void Show () {}
 
 private:
 	gcpPseudoAtom *m_Atom;

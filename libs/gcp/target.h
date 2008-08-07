@@ -26,6 +26,7 @@
 #define GCP_TARGET_H
 
 #include <gcu/macros.h>
+#include <gcu/window.h>
 #include <gtk/gtkwindow.h>
 
 /*!\file*/
@@ -41,7 +42,7 @@ gcp::Window is a derived class. Another one is gcpResidueDialog implemented
 in the residue plugin (but not documented like everything implemented
 in plugins).
 */
-class Target
+class Target: public gcu::Window
 {
 public:
 /*!
@@ -67,11 +68,6 @@ virtual method called when the application ends to ensure everything is
 correctly closed. This is a pure virtual class, so it must be overloaded.
 */
 	virtual bool Close () = 0;
-
-/*!\fn GetWindow()
-@return the GtkWindow correspondig to this target.
-*/
-GCU_RO_PROP (GtkWindow*, Window);
 /*!\var m_Application
 The gcp::Application owning this target.
 */

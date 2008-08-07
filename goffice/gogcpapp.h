@@ -1,6 +1,6 @@
 /* 
- * GChemUtils GOffice component
- * gchempaint.h 
+ * Gnome Chemistry Utils GOffice component
+ * gogcpapp.h
  *
  * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -20,22 +20,33 @@
  * USA
  */
 
-#ifndef GOFFICE_GCHEMUTILS_PRIV_H
-#define GOFFICE_GCHEMUTILS_PRIV_H
+#ifndef GCP_GOFFICE_APP_H
+#define GCP_GOFFICE_APP_H
 
-#include "gchemutils.h"
+#include <gcp/application.h>
 #include <gogcuapp.h>
-#include <gcu/document.h>
-#include <gcu/window.h>
+#include <map>
+#include <string>
 
-struct _GOGChemUtilsComponent
+class GOGcpApplication: public gcp::Application, public GOGcuApplication
 {
-	GOComponent parent;
+public:
+	GOGcpApplication ();
+	virtual ~GOGcpApplication ();
 
-	GOGcuApplication *application;
-	gcu::Document *document;
-	gcu::Window *window; // TODO use a gcu::Window.
+	virtual GtkWindow* GetWindow();
+	virtual void ToggleMenu (const std::string& menuname, bool active);
+
+	gcu::Document *ImportDocument (const std::string& mime_type, const char* data, int length);
+	GtkWindow *EditDocument (GOGChemUtilsComponent *gogcu);
+
+	void OnFileNew (char const *Theme = NULL);
+	void OnFileClose ();
+
+	void NoMoreDocsEvent () {;}
+
+private:
+	std::map<gcp::Document *, gpointer> m_Windows;
 };
 
-
-#endif	// GOFFICE_GCHEMPAINT_PRIV_H
+#endif	// GCP_GOFFICE_APP_H

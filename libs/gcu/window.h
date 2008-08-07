@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/window.h
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,5 +24,33 @@
 
 #ifndef GCU_WINDOW_H
 #define GCU_WINDOW_H
+
+#include "macros.h"
+#include <gtk/gtk.h>
+
+/*!\file*/
+namespace gcu {
+
+/*!\class Window gcu/window.h
+Base class for windows. Just a placeholder for now.
+*/
+class Window
+{
+public:
+	Window ();
+	virtual ~Window ();
+
+	virtual void Show () = 0;
+
+/*!\var m_Window
+The GtkWindow instance corresponding to the Window.
+*/
+/*!\fn GetWindow()
+@return the GtkWindow correspondig to this Window instance.
+*/
+GCU_PROT_PROP (GtkWindow*, Window);
+};
+
+}
 
 #endif	//	GCU_WINDOW_H

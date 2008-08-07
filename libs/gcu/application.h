@@ -155,7 +155,7 @@ Creates a new empty message using the default mail if any.
 	void OnMail (char const *MailAddress = "mailto:gchemutils-main@nongnu.org");
 
 /*!
-Attempts to open the #gchemutils channel at irc.gimp.net.
+Attempts to open the \#gchemutils channel at irc.gimp.net.
 */
 	void OnLiveAssistance ();
 

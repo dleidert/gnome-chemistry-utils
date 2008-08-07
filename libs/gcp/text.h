@@ -31,8 +31,13 @@
 #include <gtk/gtk.h>
 #include "text-object.h"
 
+/*!\file*/
 namespace gcp {
 
+/*!\class Text
+The text objects in GChemPaint, excluding atomic symbols. Using this class to
+represent chemical objects looses the chemical significance.
+*/
 class Text: public TextObject
 {
 public:
@@ -57,7 +62,7 @@ public:
 	double GetYAlign ();
 	void SetText (char const *text) {m_buf = text;}
 	bool SetProperty (unsigned property, char const *value);
-	
+
 GCU_PROP (PangoAlignment, Align)
 GCU_PROP (bool, Justified)
 GCU_PROP (GtkAnchorType, Anchor)

@@ -54,6 +54,7 @@ static bool on_state (GtkWidget *widget, GdkEventWindowState *event, Target *tar
 }
 
 Target::Target (Application *App):
+	gcu::Window (),
 	m_Application (App)
 {
 	if (m_Application)

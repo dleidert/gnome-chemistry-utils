@@ -1,8 +1,6 @@
-// -*- C++ -*-
-
 /* 
- * Gnome Chemistry Utils
- * gcu/window.cc 
+ * Gnome Chemistry Utils GOffice component
+ * gogcuapp.h
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -18,21 +16,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
 
-#include "config.h"
-#include "window.h"
+#ifndef GO_GCU_APP_H
+#define GO_GCU_APP_H
+
+#include "gchemutils.h"
+#include <string>
 
 namespace gcu {
+	class Document;
+}
 
-Window::Window ()
+class GOGcuApplication
 {
-}
+public:
+	GOGcuApplication ();
+	virtual ~GOGcuApplication ();
 
-Window::~Window ()
-{
-}
+	virtual gcu::Document *ImportDocument (const std::string& mime_type, const char* data, int length) = 0;
+	virtual GtkWindow *EditDocument (GOGChemUtilsComponent *gogcu) = 0;
+};
 
-}
+#endif	// GO_GCU_APP_H
