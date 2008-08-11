@@ -1372,6 +1372,10 @@ void Fragment::Update () {
 			delete formula;
 			m_EndAtom = m_buf.length ();
 			m_BeginAtom = m_EndAtom - strlen (m_Atom->GetSymbol ());
+			if (m_AttrList != NULL)
+				pango_attr_list_unref (m_AttrList);
+			m_AttrList = pango_attr_list_new ();
+			AnalContent ();
 		} else if (angle > 91. || angle < -91.) {
 		}
 	}

@@ -35,4 +35,12 @@ Window::~Window ()
 {
 }
 
+void Window::Destroy ()
+{
+}
+
+void Window::Show ()
+{
+}
+
 }

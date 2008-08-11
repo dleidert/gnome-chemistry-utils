@@ -40,6 +40,8 @@
 #include <vector>
 #include <cstring>
 
+#include <iostream>
+
 using namespace std;
 using namespace gcu;
 
@@ -101,6 +103,15 @@ typedef struct {
 } CDXMLReadState;
 
 static void
+cdxml_simple_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	state->cur.top ()->Lock (false);
+	state->cur.top ()->OnLoaded ();
+	state->cur.pop ();
+}
+
+static void
 cdxml_doc (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
@@ -129,21 +140,6 @@ cdxml_fragment_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->cur.top ()->Lock (false);
 	state->cur.top ()->OnLoaded ();
 	state->cur.pop ();
-}
-
-static void
-cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("atom", state->cur.top ());
-	obj->SetProperty (GCU_PROP_ATOM_Z, "6");
-	map<string, unsigned>::iterator it;
-	while (*attrs) {
-		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
-			obj->SetProperty ((*it).second, (char const *) *attrs);}
-		attrs++;
-	}
-	state->cur.push (obj);
 }
 
 static map<string, int>BondTypes;
@@ -225,9 +221,98 @@ cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-cdxml_simple_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	Object *obj = Object::CreateObject ("text", state->cur.top ());
+	state->cur.push (obj);
+}
+
+static void
+cdxml_string_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	// TODO: parse attributes
+}
+
+static void
+cdxml_string_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	//TODO: add xin->content->str
+}
+
+static void
+fragment_done (GsfXMLIn *xin, CDXMLReadState *state)
+{
+	Object *atom = state->cur.top (), *child;
+	state->cur.pop ();
+	map <string, Object *>::iterator i;
+	//TODO: retreive text and molecule and compare
+	while ((child = atom->GetFirstChild (i))) {
+		child->SetParent (NULL);
+		delete child;
+	}
+}
+
+static void
+cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static GsfXMLInNode const atom_dtd[] = {
+	GSF_XML_IN_NODE (ATOM, ATOM, -1, "n", GSF_XML_CONTENT, NULL, NULL),
+			GSF_XML_IN_NODE (ATOM, T, -1, "t", GSF_XML_CONTENT, cdxml_text_start, cdxml_simple_end),
+				GSF_XML_IN_NODE (T, S, -1, "s", GSF_XML_CONTENT, cdxml_string_start, cdxml_string_end),
+			GSF_XML_IN_NODE (ATOM, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, cdxml_fragment_start, cdxml_fragment_end),
+				GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
+				GSF_XML_IN_NODE (FRAGMENT, BOND, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),
+				GSF_XML_IN_NODE (FRAGMENT, T1, -1, "t", GSF_XML_CONTENT, NULL, NULL),
+					GSF_XML_IN_NODE (T1, S1, -1, "s", GSF_XML_CONTENT, cdxml_string_start, cdxml_string_end),
+	GSF_XML_IN_NODE_END
+	};
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	Object *obj = Object::CreateObject ("atom", state->cur.top ());
+	obj->SetProperty (GCU_PROP_ATOM_Z, "6");
+	map<string, unsigned>::iterator it;
+	bool fragment = false;
+	while (*attrs) {
+		if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
+			attrs++;
+			obj->SetProperty ((*it).second, (char const *) *attrs);
+		} else if (!strcmp ((char const *) *attrs++, "NodeType")) {
+			if (!strcmp ((char const *) *attrs, "Fragment"))
+				fragment = true;
+			else if (!strcmp ((char const *) *attrs, "ExternalConnectionPoint")) {
+				// convert the atom to a pseudo atom.
+				string pos = obj->GetProperty (GCU_PROP_POS2D);
+				string id = obj->GetProperty (GCU_PROP_ID);
+				Molecule *mol = dynamic_cast <Molecule *> (state->cur.top ());
+				if (mol)
+					mol->Remove (obj);
+				delete obj;
+				obj = Object::CreateObject ("pseudo-atom", state->cur.top ());
+				if (id.length ())
+					obj->SetProperty (GCU_PROP_ID, id.c_str ());
+				obj->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+			}
+			attrs++;
+		}
+		attrs++;
+	}
+	state->cur.push (obj);
+	if (fragment) {
+		static GsfXMLInDoc *doc = NULL;
+		if (NULL == doc)
+			doc = gsf_xml_in_doc_new (atom_dtd, NULL);
+		state->cur.push (obj); // push it twice in that case
+		gsf_xml_in_push_state (xin, doc, state, (GsfXMLInExtDtor) fragment_done, attrs);
+	}
+}
+
+static void
+cdxml_node_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	static_cast <Molecule*> (state->cur.top ())->UpdateCycles ();
 	state->cur.top ()->Lock (false);
 	state->cur.top ()->OnLoaded ();
 	state->cur.pop ();
@@ -350,7 +435,8 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 	GSF_XML_IN_NODE (CDXML, FONTTABLE, -1, "fonttable", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (FONTTABLE, FONT, -1, "font", GSF_XML_CONTENT, cdxml_font_start, NULL),
 	GSF_XML_IN_NODE (CDXML, PAGE, -1, "page", GSF_XML_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (PAGE, T, -1, "t", GSF_XML_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PAGE, T, -1, "t", GSF_XML_NO_CONTENT, cdxml_text_start, cdxml_simple_end),
+			GSF_XML_IN_NODE (T, S, -1, "s", GSF_XML_CONTENT, cdxml_string_start, cdxml_string_end),
 		GSF_XML_IN_NODE (PAGE, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, &cdxml_fragment_start, &cdxml_fragment_end),
 			GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
 			GSF_XML_IN_NODE (FRAGMENT, BOND, -1, "b", GSF_XML_CONTENT, cdxml_bond_start, cdxml_simple_end),

@@ -22,6 +22,7 @@
 
 #include "config.h"
 #include "object.h"
+#include "objprops.h"
 #include "document.h"
 #include <string>
 #include <iostream>
@@ -631,6 +632,12 @@ bool Object::SetProperty (unsigned property, char const *value)
 
 string Object::GetProperty (unsigned property) const
 {
+	switch (property) {
+	case GCU_PROP_ID:
+		return (m_Id)? m_Id: "xxx";
+	default:
+		break;
+	}
 	return "";
 }
 

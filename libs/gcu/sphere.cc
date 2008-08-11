@@ -23,6 +23,7 @@
   02110-1301, USA.
  **********************************************************************/
 
+#include "config.h"
 #include "sphere.h"
 #include "vector.h"
 #include <openbabel/math/vector3.h>

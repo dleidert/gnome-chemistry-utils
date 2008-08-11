@@ -25,6 +25,7 @@
 #include "gogcpapp.h"
 #include "gogcpwin.h"
 #include <gcp/document.h>
+#include <gcp/theme.h>
 #include <gcp/view.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
@@ -95,6 +96,82 @@ GtkWindow * GOGcpApplication::EditDocument (GOGChemUtilsComponent *gogcu)
 			delete win;
 		return NULL;
 	}
+}
+
+bool GOGcpApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), gpointer *user_data)
+{
+	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
+	bool result = false;
+	xmlDocPtr xml = NULL;
+	char *old_num_locale, *old_time_locale;
+
+	if (!doc || !doc->HasChildren ()) {
+		*data = NULL;
+		*length = 0;
+		* clearfunc = NULL;
+		return true;
+	}
+	
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale(LC_NUMERIC, "C");
+	old_time_locale = g_strdup (setlocale (LC_TIME, NULL));
+	setlocale (LC_TIME, "C");
+
+	try {
+		xml = doc->BuildXMLTree ();
+		xmlChar *mem;
+		int size;
+		xmlDocDumpMemory (xml, &mem, &size);
+		xmlFreeDoc (xml);
+		*data = mem;
+		*length = size;
+		*clearfunc = xmlFree;
+		result = true;
+	}
+	catch (int) {
+		if (xml)
+			xmlFreeDoc (xml);
+		xml = NULL;
+//		Error (SAVE);
+		result = false;
+	}
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+	setlocale (LC_TIME, old_time_locale);
+	g_free (old_time_locale);
+
+	return result;
+}
+
+void GOGcpApplication::Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height)
+{
+	double zoom = MAX (width / gogcu->parent.width, height / gogcu->parent.height) / 96.;
+	cairo_scale (cr, zoom, zoom);
+	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
+	doc->GetView ()->Render (cr);
+}
+
+void GOGcpApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)
+{
+	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
+	gcp::Theme *pTheme = doc->GetTheme ();
+	GtkWidget *w = doc->GetWidget ();
+	gnome_canvas_update_now (GNOME_CANVAS (w));
+	ArtDRect rect;
+	gcp::WidgetData *pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	pData->GetObjectBounds (doc, &rect);
+	double y = doc->GetYAlign ();
+	y += doc->GetView ()->GetBaseLineOffset ();
+	y *= pTheme->GetZoomFactor ();
+	if (rect.x0 || rect.y0)
+		doc->Move (- rect.x0 / pTheme->GetZoomFactor (), - rect.y0 / pTheme->GetZoomFactor ());
+	doc->GetView ()->Update (doc);
+	if (y < rect.y0)
+		y = rect.y1;
+	// assuming 96 dpi, setting dimensions as inches.
+	gogcu->parent.ascent = (y - rect.y0) / 96;
+	gogcu->parent.descent = (rect.y1 - y) / 96;
+	gogcu->parent.width = (rect.x1 - rect.x0) / 96;
 }
 
 void GOGcpApplication::OnFileNew (char const *Theme)

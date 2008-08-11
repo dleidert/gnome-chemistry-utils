@@ -54,14 +54,20 @@ go_gchemutils_component_get_data (GOComponent *component, gpointer *data, int *l
 									void (**clearfunc) (gpointer), gpointer *user_data)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
-	bool result = false;
-	return result;
+	return gogcu->application->GetData (gogcu, data, length, clearfunc, user_data);
 }
 
 static void
 go_gchemutils_component_set_data (GOComponent *component)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
+	if (!gogcu->application) {
+		gogcu->application = Apps[component->mime_type];
+		if (!gogcu->application)
+			return;
+	}
+	gogcu->document = gogcu->application->ImportDocument (component->mime_type, component->data, component->length);
+	gogcu->application->UpdateBounds (gogcu);
 }
 	
 static void
@@ -69,6 +75,7 @@ go_gchemutils_component_render (GOComponent *component, cairo_t *cr,
 						  double width, double height)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
+	gogcu->application->Render (gogcu, cr, width, height);
 }
 
 static GtkWindow*
@@ -96,6 +103,8 @@ static void
 go_gchemutils_component_finalize (GObject *obj)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (obj);
+	if (gogcu->window)
+		gogcu->window->Destroy ();
 	G_OBJECT_CLASS (gogcu_parent_klass)->finalize (obj);
 }
 

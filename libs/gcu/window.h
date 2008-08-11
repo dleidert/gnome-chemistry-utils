@@ -37,10 +37,25 @@ Base class for windows. Just a placeholder for now.
 class Window
 {
 public:
+/*!
+The default constructor.
+*/
 	Window ();
+/*!
+The destructor.
+*/
 	virtual ~Window ();
 
-	virtual void Show () = 0;
+/*!
+Destroys the window. This method should be overloaded in derived classes since
+default imlementation does not do anything.
+*/
+	virtual void Destroy ();
+/*!
+Raises the window and makes it active. This method should be overloaded in
+derived classes since default imlementation does not do anything.
+*/
+	virtual void Show ();
 
 /*!\var m_Window
 The GtkWindow instance corresponding to the Window.

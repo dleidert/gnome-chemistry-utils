@@ -32,6 +32,7 @@
 #include "operation.h"
 #include <gcu/dialog.h>
 
+/*!\file*/
 namespace gcp {
 
 class Application;

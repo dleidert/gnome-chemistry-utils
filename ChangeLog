@@ -1,3 +1,33 @@
+2008-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
+
+	* goffice/gchemutils.cc: make things work with libgoffice >= 0.6.
+	* goffice/gogcpapp.cc: ditto.
+	* goffice/gogcpapp.h: ditto.
+	* goffice/gogcuapp.h: ditto.
+	* libs/gcp/application.h: API documentation work.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/fragment.cc: fixed style on import from .cdx.
+	* libs/gcp/fragment.h: API documentation work.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/widgetdata.h: ditto.
+	* libs/gcu/atom.cc: include config.h
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/document.h: fixed API documentation.
+	* libs/gcu/gtkcrystalviewer.cc: include config.h
+	* libs/gcu/object.cc: implement GetProperty for GCU_PROP_ID.
+	* libs/gcu/object.h: fixed API documentation.
+	* libs/gcu/sphere.cc: include config.h
+	* libs/gcu/vector.cc: include config.h
+	* libs/gcu/window.cc: add Show and Destroy methods.
+	* libs/gcu/window.h: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: some work on atoms groups.
+	* plugins/paint/residues/residues-dlg.cc: fixed for using the new
+	gcu::Window class.
+	* plugins/paint/residues/residues-dlg.h: ditto.
+	* plugins/paint/selection/plugin.cc: removed uused UI.
+
 ##Text encoding: utf-8
 
 2008-08-07  Jean Bréfort  <jean.brefort@normalesup.org>

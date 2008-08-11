@@ -42,10 +42,10 @@ extern bool cleared;
 void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_data, Application *App);
 void on_clear_data (GtkClipboard *clipboard, Application *App);
 
-/*!\enum
+/*!\enum SelectionState
 Enumeration of the selection states used in GChemPaint in the gcu::Object::SetSelected method.
 */
-enum
+enum SelectionState
 {
 /*!
 Unselected object.

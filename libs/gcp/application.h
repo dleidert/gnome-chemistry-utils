@@ -47,9 +47,19 @@ The namespace used for the C++ classes used by GChemPaint.
 
 namespace gcp {
 
+/*!\struct IconDesc
+Structure to use as icon descriptors for tools.
+See gcp::Application::AddActions() for information about its use.
+*/
 typedef struct
 {
+/*!
+The name of the icon.
+*/
 	char const *name;
+/*!
+The icon as in line bytes.
+*/
 	unsigned char const *data_24;
 } IconDesc;
 
@@ -87,9 +97,10 @@ Activates or deactivates a tool in the GChempaint tool box.
 To activate the selection tool:
 \code
 		 ActivateTool ("Select", true);
-\encode
+\endcode
 */
 	void ActivateTool (const std::string& toolname, bool activate);
+
 /*!
 @param path the path to activate.
 @param activate whether to activate or deactivate.
@@ -100,7 +111,7 @@ to the value of \a activate.
 To deactivate the "Paste" menu item, use:
 \code
 		 ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste", false);
-\encode
+\endcode
 			 
 Calls gcp::Window::ActivateActionWidget.
 */
@@ -135,140 +146,242 @@ Sets the new active document.
 */
 	void SetActiveDocument (gcp::Document* pDoc) {m_pActiveDoc = pDoc;}
 /*!
-
+@param name the name of a tool
+@return the Tool corresponding to \a name.
 */
 	Tool* GetTool (const std::string& name) {return m_Tools[name];}
 /*!
+@param toolname the name of a new tool.
+@param tool the new Tool.
 
+Adds a new tool to the tools box. This method is called from the Tool
+constructor.
 */
 	void SetTool (const std::string& toolname, Tool* tool) {m_Tools[toolname] = tool;}
 /*!
-
+@param name the name of a tool
+@return the GtkWidget corresponding to the Tool named \a name.
 */
 	GtkWidget* GetToolItem(const std::string& name) {return ToolItems[name];}
 /*!
+@param name the name of a new tool.
+@param w a GtkWidget.
 
+Associates \a w to the Tool named \a name. SetTool() will return this widget
+when its argument is \a name.
 */
 	void SetToolItem (const std::string& name, GtkWidget* w) {ToolItems[name] = w;}
 /*!
+@param Z the new current atomic number.
 
+Sets the new current atomic number. This number is used for new atoms.
 */
 	void SetCurZ (int Z) {m_CurZ = Z;}
 /*!
-
+@return the current atomic number.
 */
 	int GetCurZ () {return m_CurZ;}
 /*!
-
+Open the file save as dialog to save the current document with a new name.
 */
 	void OnSaveAs ();
 /*!
+@param filename the URI of the file to save or open.
+@param mime_type the mime type.
+@param bSave true when saving and false when opening.
+@param window a parent GtkWindow which is used for messabe boxes if any.
+@param pDoc a document (might be NULL when loading.
 
+Callback called when the user clicks on the Save or Open button in the file
+chooser to process the file.
+@return false on success, true otherwise.
 */
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 /*!
+@param filename the URI of the file to save.
+@param mime_type the mime type.
+@param pDoc the document to save.
 
+Saves the active document using the Openbabel library.
 */
 	void SaveWithBabel (std::string const &filename, const gchar *mime_type, gcp::Document* pDoc);
 /*!
+@param filename the URI of the file to load.
+@param mime_type the mime type.
+@param pDoc a document or NULL.
 
+Loads a document using the Openbabel library.
 */
 	void OpenWithBabel (std::string const &filename, const gchar *mime_type, gcp::Document* pDoc);
 /*!
+@param filename the URI of the file to save.
+@param pDoc the document to save.
 
+Saves the active document in the native GChemPaint format.
 */
 	void SaveGcp (std::string const &filename, gcp::Document* pDoc);
 /*!
+@param filename the URI of the file to load.
+@param pDoc a document or NULL.
 
+Loads a GChemPaint document.
 */
 	void OpenGcp (std::string const &filename, gcp::Document* pDoc);
 /*!
-
+@return a xmlDocPtr used for some undo/redo related operations. The text
+tools use it.
 */
 	xmlDocPtr GetXmlDoc () {return XmlDoc;}
 /*!
-
+Saves the active view as an image.
 */
 	void OnSaveAsImage ();
 /*!
-
+@return true if ghemical is usable.
 */
 	bool HaveGhemical () {return m_Have_Ghemical;}
 /*!
-
+@return true if InChIs can be evaluated for molecules.
 */
 	bool HaveInChI () {return m_Have_InChI;}
 /*!
-
+@return the number of opened documents.
 */
 	int GetDocsNumber () {return m_Docs.size ();}
 /*!
+@param zoom the new zoom level.
 
+Sets the zoom level for the active document window.
 */
 	void Zoom (double zoom);
 /*!
+@param entries an array of GtkRadioActionEntry structures.
+@param nb the number of entries.
+@param ui_description an xml like text describing the user interface.
+@param icons an array of IconDesc structures for the icons used by the buttons.
 
+Adds new buttons in the tools box. The code used in the selection plugin is:
+\code
+static gcp::IconDesc icon_descs[] = {
+	{"gcp_Selection", gcp_selection_24},
+	{"gcp_Eraser", gcp_eraser_24},
+	{NULL, NULL}
+};
+
+static GtkRadioActionEntry entries[] = {
+	{	"Select", "gcp_Selection", N_("Select"), NULL,
+		N_("Select one or more objects"),
+		0	},
+	{	"Erase", "gcp_Eraser", N_("Erase"), NULL,
+		N_("Eraser"),
+		0	}
+};
+
+static const char *ui_description =
+"<ui>"
+"  <toolbar name='SelectToolbar'>"
+"	 <placeholder name='Select1'>"
+"      <toolitem action='Select'/>"
+"      <toolitem action='Erase'/>"
+"	 </placeholder>"
+"	 <placeholder name='Select2'/>"
+"	 <placeholder name='Select3'/>"
+"  </toolbar>"
+"</ui>";
+
+void gcpSelectionPlugin::Populate (gcp::Application* App)
+{
+	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
+	App->RegisterToolbar ("SelectToolbar", 0);
+	new gcpSelectionTool (App);
+	new gcpEraserTool (App);
+	App->ActivateTool ("Select", true);
+}
+\endcode
 */
 	void AddActions (GtkRadioActionEntry const *entries, int nb, char const *ui_description, IconDesc const *icons);
 /*!
+@param name the name of the toolbar.
+@param index the rank of the toolbar in the toolbox.
 
+Adds a new toolbar to the tools box. See the documentation of
+gcp::Application::AddActions() for a case use.
 */
 	void RegisterToolbar (char const *name, int index);
 /*!
+@param current the GtkAction for the activated tool.
 
+Call by the framework when the active tool changed.
 */
 	void OnToolChanged (GtkAction *current);
 /*!
+@param target the Target to add.
 
+Adds a Target to the list of known Targets and displays the tools box next to
+the Target.
 */
 	void AddTarget (Target *target);
 /*!
+@param target the Target to delete.
 
+Deletes a Target from the list of known Targets. The tools box will be hidden
+if no Target remains active.
 */
 	void DeleteTarget (Target *target);
 /*!
+@param iconified whether the currently active Target is iconified or not.
 
+If \a iconified is true, the tools box will be hidden if no Target remains
+active, otherwise it will be displayed next to the active Target.
 */
 	void NotifyIconification (bool iconified);
 /*!
+@param has_focus whether the Target has focus or not.
+@param target the Target for which the event occured.
 
+Shows the tools box next to \a target if \a has_focus is true and if \a target
+is not NULL.
 */
 	void NotifyFocus (bool has_focus, Target *target = NULL);
 /*!
-
-*/
-	void CheckFocus ();
-/*!
-
+Closes all open documents and ends the application.
 */
 	void CloseAll ();
 /*!
-
+@return a list of supported mime types.
 */
 	std::list<std::string> &GetSupportedMimeTypes () {return m_SupportedMimeTypes;}
 #ifdef HAVE_GO_CONF_SYNC
 /*!
+@param node the GONode which changed.
+@param name the name of the key.
 
+Called by the framework when the configuration entry has changed to update a
+running application preferences if the system allows such callbacks.
 */
 	void OnConfigChanged (GOConfNode *node, gchar const *name);
 #else
 /*!
+@param client a GConfClient.
+@param cnxn_id the id returned by gconf_client_notify_add.
+@param entry the entry which changed.
 
+Called by the framework when the configuration entry has changed to update a
+running application preferences.
 */
-	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
+	void OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry);
 #endif
 /*!
-
+@param mime_type a mime type.
+@return the list of file name extensions corresponding to the mime type.
 */
 	std::list<std::string> &GetExtensions(std::string &mime_type);
-/*!
 
+/*!
+Called by the framework after a change of a theme name. Ensure evrything is
+correctly updated.
 */
 	void OnThemeNamesChanged ();
-/*!
-
-*/
-	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
 
 /*!
 @param cb: the BuildMenuCb callback to call when building the menu.
@@ -302,40 +415,51 @@ just after creating the application and before parsing options.
 */
 	void AddOptions (GOptionContext *context);
 
-	// virtual menus actions:
 /*!
-
-*/
-	virtual void OnFileNew (char const *Theme = NULL) = 0;
-/*!
-
+Creates a new document using the default theme.
+@return the newly created document.
 */
 	gcu::Document *CreateNewDocument ();
 
+	// virtual menus actions:
+/*!
+@param Theme a gcp::Theme or NULL.
+
+Creates a new document using the ginev theme or the default theme if
+\a Theme is NULL. This method must be overloaded by derived classes since
+it is pure virtual.
+*/
+	virtual void OnFileNew (char const *Theme = NULL) = 0;
+
 protected:
 /*!
-
+Initialize the tools box so that the selection tool is active. This method is
+called only once aafter startup by the framework.
 */
 	void InitTools();
 /*!
-
+Builds the tools box. This method is
+called only once after startup by the framework.
 */
 	void BuildTools ();
 /*!
+@param visible whether the tools box should be visible or not
 
+Shows or hides the tools box.
 */
 	void ShowTools (bool visible);
 
 private:
 	void TestSupportedType (char const *mime_type);
+	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
 
 protected:
 /*!
-
+The active document.
 */
 	gcp::Document *m_pActiveDoc;
 /*!
-
+The active target.
 */
 	Target *m_pActiveTarget;
 /*!

@@ -50,7 +50,7 @@ friend class Object;
 friend class Dialog;
 public:
 /*!
-@param App: the Appllcation which owns the new document.
+@param App the Appllcation which owns the new document.
 
 The default constructor. Creates an empty document.
 */
@@ -63,7 +63,7 @@ The destructor of Document.
 public:
 
 /*!
-@param id: the original id to tranlate
+@param id the original id to tranlate
 
 When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
 maintains a table to update links using Ids as identifiers. GetTranslatedId returns
@@ -72,7 +72,7 @@ the translated id corresponding to the parameter id.
 	std::string& GetTranslatedId (const char* id) {return m_TranslationTable[id];}
 
 /*!
-@param Id: the entry to remove
+@param Id the entry to remove
 
 When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
 maintains a table to update links using Ids as identifiers. The EraseTranslationTable method removes thenentry correspondig to id.

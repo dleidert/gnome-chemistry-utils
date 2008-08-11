@@ -187,52 +187,66 @@ arranged.
 */
 	HPos GetBestSide ();
 /*!
-@param Pos
-@param Angle
-@param x
-@param y
+@param Pos the approximate position of the charge.
+@param Angle the angle from horizontal left.
+@param x the x position of the charge symbol.
+@param y the y position of the charge symbol.
 
-@return
+On input \a Pos can be one of POSITION_E, POSITION_N,... or 0xff, in which case,
+it will be given a default value. \a x and \a y are set to the position where the charge
+sign should be displayed usding the alignment code returned by this method.
+@return a number to set how the charge symbol should be aligned relative to its
+position. Possible values are:
+- −2: center top.
+- −1: right.
+-  0: center.
+-  1: left.
+-  2: center bottom.
 */
 	virtual int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
 /*!
-@param
-@param
+@param x the x position.
+@param y the y position.
 
-@return
+This method finds an available position for drawing a charge sign or electrons and returns
+it as a symbolic value (see POSITION_E, POSITION_N,...). The \a x and \a y are updated so
+that they give the absolute position.
+@return an available position.
 */
 	virtual int GetAvailablePosition (double& x, double& y);
 /*!
-@param
-@param
-@param
+@param angle the angle at which a charge sign or an eletcron should be displayed.
+@param x the x position.
+@param y the y position.
 
-@return
+Updates \a x and \a y so that they become the absolute position corresponding to the angle
+when the position is available.
+@return true on success, false otherwise.
 */
 	virtual bool GetPosition (double angle, double& x, double& y);
 /*!
-@param xml: the xmlDoc used to save the document.
+@param xml the xmlDoc used to save the document.
 
 Used to save the Atom to the xmlDoc.
 @return the xmlNode containing the serialized atom.
 */
 	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 /*!
-@param node: a pointer to the xmlNode containing the serialized object.
+@param node a pointer to the xmlNode containing the serialized object.
 
 Used to load an atom in memory. The Atom must already exist.
 @return true on succes, false otherwise.
 */
-	virtual bool Load (xmlNodePtr);
+	virtual bool Load (xmlNodePtr node);
 /*!
 @param node a pointer to the xmlNode containing the serialized Atom.
 
 Used in this class to correctly set the atomic number.
 */
-	virtual bool LoadNode (xmlNodePtr);
+	virtual bool LoadNode (xmlNodePtr node);
 /*!
-@param w: the GtkWidget inside which the atom is displayed.
-@param state: the selection state of the atom.
+@param w the GtkWidget inside which the atom is displayed.
+@param state the selection state of the atom.
 
 Used to set the selection state of the atom inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
@@ -246,7 +260,7 @@ the maximum valence for the element.
 */
 	virtual bool AcceptNewBonds (int nb = 1);
 /*!
-@param the charge that might be set.
+@param charge the charge that might be set.
 
 @return true if the charge is acceptable.
 */
@@ -258,18 +272,18 @@ every derived class for which alignment has a meaning should implement this meth
 */
 	virtual double GetYAlign ();
 /*!
-@param m: the Matrix2D of the transformation.
-@param x: the x component of the center of the transformation.
-@param y: the y component of the center of the transformation.
+@param m the Matrix2D of the transformation.
+@param x the x component of the center of the transformation.
+@param y the y component of the center of the transformation.
 
 Used to move and/or transform an object.
 */
 	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 /*!
 @param UIManager: the GtkUI%anager to populate.
-@param object: the atom on which occured the mouse click.
-@param x: x coordinate of the mouse click.
-@param y: y coordinate of the mouse click.
+@param object the atom on which occured the mouse click.
+@param x x coordinate of the mouse click.
+@param y y coordinate of the mouse click.
 
 This method is called to build a contextual menu for the atom.
 */
@@ -289,35 +303,38 @@ Adds the atom to the molecule calling gcpMolecule::AddAtom()
 */
 	bool MayHaveImplicitUnpairedElectrons ();
 /*!
-@param electron: a pointer to an Electron instance.
+@param electron a pointer to an Electron instance.
 
 Adds the Electron (representing either a single electron or a pair) to the Atom.
 */
 	void AddElectron (Electron* electron);
 /*!
-@param electron: a pointer to an Electron instance.
+@param electron a pointer to an Electron instance.
 
 Removes the Electron (representing either a single electron or a pair) from the Atom.
 */
 	void RemoveElectron (Electron* electron);
 /*!
-@param
-@param
+@param pos one of POSITION_E, POSITION_N,...
+@param occupied true if occupied, false otherwise.
 
+Notifies if a position is occupied or not.
 */
 	void NotifyPositionOccupation (unsigned char pos, bool occupied);
 /*!
-@param
-@param
-@param
-@param
+@param Pos one of POSITION_E, POSITION_N,...
+@param def true if the position is automatic.
+@param angle the angle from the east direction in the trigonometric convention.
+@param distance the distance from the center of the atom, or 0. if automatic.
 
+Sets the relative position of a charge sign.
 */
 	void SetChargePosition (unsigned char Pos, bool def, double angle = 0., double distance = 0.);
 /*!
-@param
-@param
+@param Angle where tostore the angle from east direction in the trigonometric convention.
+@param Dist where to store the distance from the center of the atom.
 
+@return the charge position as one of POSITION_E, POSITION_N,...
 */
 	char GetChargePosition (double *Angle, double *Dist) const;
 /*!
@@ -413,10 +430,30 @@ Half the height of the "C" character.
 */
 	double m_CHeight;
 
-/*!
+/*!\fn SetShowSymbol(bool ShowSymbol)
+@param ShowSymbol whether the symbol of a carbon atom is to be displayed or not.
 
+Sets the visibility of a carbon atom symbol in a chain.
+*/
+/*!\fn GetShowSymbol()
+@return whether the symbol of a carbon atom is displayed or not.
+*/
+/*!\fn GetRefShowSymbol()
+@return whether the symbol of a carbon atom is displayed or not as a reference.
 */
 GCU_PROP (bool, ShowSymbol)
+
+/*!\fn SetHPosStyle(HPos val)
+@param val the new position.
+
+Sets the position of attached hydrogen atoms symbol.
+*/
+/*!\fn GetHPosStyle()
+@return the position of attached hydrogen atoms symbol.
+*/
+/*!\fn GetRefHPosStyle()
+@return the position of attached hydrogen atoms symbol as a reference.
+*/
 GCU_PROP (HPos, HPosStyle) //0=force left, 1=force right, 2=force top, 3=force bottom, 4=auto.
 };
 

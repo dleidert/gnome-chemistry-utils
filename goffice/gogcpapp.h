@@ -39,6 +39,9 @@ public:
 
 	gcu::Document *ImportDocument (const std::string& mime_type, const char* data, int length);
 	GtkWindow *EditDocument (GOGChemUtilsComponent *gogcu);
+	bool GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), gpointer *user_data);
+	void Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height);
+	void UpdateBounds (GOGChemUtilsComponent *gogcu);
 
 	void OnFileNew (char const *Theme = NULL);
 	void OnFileClose ();

@@ -22,6 +22,7 @@
  * USA
  */
 
+#include "config.h"
 #include "element.h"
 #include "atom.h"
 #include "bond.h"
@@ -269,7 +270,7 @@ string Atom::GetProperty (unsigned property) const
 			res << m_x << " " << m_y;
 	}
 	default:
-		break;
+			return Object::GetProperty (property);
 	}
 	return res.str ();
 }

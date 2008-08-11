@@ -22,6 +22,7 @@
  * USA
  */
 
+#include "config.h"
 #include "bond.h"
 #include "atom.h"
 #include "objprops.h"

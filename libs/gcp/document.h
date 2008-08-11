@@ -46,12 +46,18 @@ namespace OpenBabel
 namespace gcp {
 
 /*!
+Signal emitted when an object has been modified. See
+gcu::Object::EmitSignal for more information.
 */
 extern gcu::SignalId OnChangedSignal;
 /*!
+Signal emitted when an object has been deleted. See
+gcu::Object::EmitSignal for more information.
 */
 extern gcu::SignalId OnDeleteSignal;
 /*!
+Signal emitted when the theme has changed. This signal is
+called by the theme for all its documents.
 */
 extern gcu::SignalId OnThemeChangedSignal;
 
@@ -72,16 +78,43 @@ class Document: public gcu::Document, public gcu::Printable
 {
 	//Constructor and destructor
 public:
+/*!
+@param App the application.
+@param StandAlone whether the document is opened in its own window or
+embedded in something else.
+@param window the document window if it has already been created or NULL.
+
+Constructs a new empty document using default theme.
+*/
 	Document (Application *App, bool StandAlone, Window *window = NULL);
+/*!
+The destructor.
+*/
 	virtual ~Document ();
-	
+
 	//Interface
 public:
+/*!
+Empties a document and reinitialize it.
+*/
 	void Clear ();
+/*!
+@return the canvas widget where the document is displayed.
+*/
 	GtkWidget* GetWidget ();
+/*!
+@return the gcp::View associated with the document.
+*/
 	View* GetView () {return m_pView;}
+/*!
+@param
+
+*/
 	void BuildBondList (std::list<Bond*>& BondList, gcu::Object const *obj) const;
 	bool ImportOB (OpenBabel::OBMol& Mol);
+/*!
+
+*/
 	void ExportOB () const;
 	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, gcu::Object const *obj, unsigned& index) const;
 	void Save () const;
@@ -188,17 +221,136 @@ private:
 
 /* Theme is not really a read only property, but we provide a special Set
 method */
+/*!\fn GetTheme()
+@return the theme used by the document.
+*/
 GCU_RO_PROP (Theme*, Theme)
+/*!\fn SetBondLength(double val)
+@param val the new default bond length.
+
+Sets the new default bond length for the document.
+*/
+/*!\fn GetBondLength()
+@return the current default bond length.
+*/
+/*!\fn GetRefBondLength()
+@return the current default bond length as a reference.
+*/
 GCU_PROP (double, BondLength)
+/*!\fn SetBondAngle(double val)
+@param val the new default bond angle between two consecutive bonds
+in a chain.
+
+Sets the new default bond angle between two consecutive bonds in a chain
+for the document.
+*/
+/*!\fn GetBondAngle()
+@return the current default angle between two consecutive bonds in a chain.
+*/
+/*!\fn GetRefBondAngle()
+@return the current default angle between two consecutive bonds in a chain
+as a reference.
+*/
 GCU_PROP (double, BondAngle)
+/*!\fn SetArrowLength(double val)
+@param val the new default arrow length.
+
+Sets the new default arrow length for the document.
+*/
+/*!\fn GetArrowLength()
+@return the current default arrow length.
+*/
+/*!\fn GetRefArrowLength()
+@return the current default arrow length as a reference.
+*/
 GCU_PROP (double, ArrowLength)
+/*!\fn SetTextFontFamily(gchar* val)
+@param val the new text font family.
+
+Sets the new current text font family for the document.
+*/
+/*!\fn GetTextFontFamily()
+@return the current text font family.
+*/
+/*!\fn GetRefTextFontFamily()
+@return the current text font family as a reference.
+*/
 GCU_PROP (gchar*, TextFontFamily)
+/*!\fn SetTextFontStyle(PangoStyle val)
+@param val the new text font style.
+
+Sets the new current text font style for the document.
+*/
+/*!\fn GetTextFontStyle()
+@return the current text font style.
+*/
+/*!\fn GetRefTextFontStyle()
+@return the current text font style as a reference.
+*/
 GCU_PROP (PangoStyle, TextFontStyle)
+/*!\fn SetTextFontWeight(PangoWeight val)
+@param val the new text font weight.
+
+Sets the new current text font weight for the document.
+*/
+/*!\fn GetTextFontWeight()
+@return the current text font weight.
+*/
+/*!\fn GetRefTextFontWeight()
+@return the current text font weight as a reference.
+*/
 GCU_PROP (PangoWeight, TextFontWeight)
+/*!\fn SetTextFontVariant(PangoVariant val)
+@param val the new text font variant.
+
+Sets the new current text font variant for the document.
+*/
+/*!\fn GetTextFontVariant()
+@return the current text font variant.
+*/
+/*!\fn GetRefTextFontVariant()
+@return the current text font variant as a reference.
+*/
 GCU_PROP (PangoVariant, TextFontVariant)
+/*!\fn SetTextFontStretch(PangoStretch val)
+@param val the new text font stretch.
+
+Sets the new current text font stretch for the document.
+*/
+/*!\fn GetTextFontStretch()
+@return the current text font stretch.
+*/
+/*!\fn GetRefTextFontStretch()
+@return the current text font stretch as a reference.
+*/
 GCU_PROP (PangoStretch, TextFontStretch)
+/*!\fn SetTextFontSize(gint val)
+@param val the new text font size.
+
+Sets the new current text font size for the document.
+*/
+/*!\fn GetTextFontSize()
+@return the current text font size.
+*/
+/*!\fn GetRefTextFontSize()
+@return the current text font size as a reference.
+*/
 GCU_PROP (gint, TextFontSize)
+/*!\fn GetPangoAttrList()
+@return a PangoAttrList with all the attributes used for atomic symbols display.
+*/
 GCU_RO_PROP (PangoAttrList*, PangoAttrList)
+/*!\fn SetAllowClipboard(bool val)
+@param val whether the document may use the clipboard or no.
+
+Sets the rights for the document clipbard access.
+*/
+/*!\fn GetAllowClipboard()
+@return whether the document may use the clipboard or not.
+*/
+/*!\fn GetRefAllowClipboard()
+@return whether the document may use the clipboard or not as a reference.
+*/
 GCU_PROP (bool, AllowClipboard)
 };
 

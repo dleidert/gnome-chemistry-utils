@@ -20,6 +20,7 @@
  * USA
  */
 
+#include "config.h"
 #include "gtkcrystalviewer.h"
 #include "crystalview.h"
 #include "crystaldoc.h"

@@ -345,7 +345,7 @@ void gcpResiduesDlg::Remove ()
 
 bool gcpResiduesDlg::Close ()
 {
-	Destroy ();
+	Dialog::Destroy ();
 	return true;
 }
 

@@ -28,11 +28,14 @@
 #include "text-object.h"
 #include "libgnomecanvas/gnome-canvas.h"
 
+/*!\file*/
 namespace gcp {
 
 class FragmentAtom;
 class Atom;
 
+/*!\class Fragment gcp/fragment.h
+*/
 class Fragment: public TextObject
 {
 friend class FragmentTool;

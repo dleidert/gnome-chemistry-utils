@@ -30,10 +30,10 @@
 /*!\file*/
 namespace gcp {
 
-/*!\enum
+/*!\enum ArrowTypes
 Enumeration of the known reaction arrow types.
 */
-enum
+enum ArrowTypes
 {
 /*!
 Simple reaction arrow.
