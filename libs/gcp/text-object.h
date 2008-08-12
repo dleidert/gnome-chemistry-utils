@@ -132,6 +132,13 @@ The values set as bounds are in bytes.
 @return the raw text contained in the object.
 */
 	std::string GetBuffer () {return m_buf;}
+/*!
+@param property the property id as defined in gcu/objprops.h
+
+Used when saving to get properties from a text object. Only on eproperty is
+supported: GCU_PROP_TEXT_TEXT
+*/
+	virtual std::string GetProperty (unsigned property) const;
 
 protected:
 /*!

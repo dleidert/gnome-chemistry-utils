@@ -29,22 +29,62 @@
 #include <gcu/object.h>
 #include <gcu/macros.h>
 
+/*!\file*/
 namespace gcp {
 
 class Document;
 class Theme;
 
-class DocPropDlg: public gcu::Dialog,gcu::Object
+/*!\class DocPropDlg gcu/docprop.h
+The document property dialog.
+*/
+class DocPropDlg: public gcu::Dialog, gcu::Object
 {
 public:
+/*!
+@param pDoc the document.
+
+Constructs a property dialog for \a pDoc.
+*/
 	DocPropDlg (Document* pDoc);
+/*!
+The destructor.
+*/
 	virtual ~DocPropDlg ();
 	
+/*!
+Called by the framework to update themes names.
+*/
 	void OnThemeNamesChanged ();
+/*!
+@param theme the new document theme.
+
+Called by the framework when the theme changed.
+*/
 	void OnThemeChanged (Theme *theme);
+/*!
+@param title the new document title.
+
+Called by the framework when the document title changed.
+*/
 	void OnTitleChanged (char const *title);
+/*!
+@param title the new author name.
+
+Called by the framework when the author name changed.
+*/
 	void OnNameChanged (char const *title);
+/*!
+@param title the new author mail.
+
+Called by the framework when the author mail changed.
+*/
 	void OnMailChanged (char const *title);
+/*!
+@param title the new document comments.
+
+Called by the framework when the document comments changed.
+*/
 	void OnCommentsChanged (char const *title);
 	
 private:
@@ -57,6 +97,17 @@ private:
 	unsigned m_Lines;
 	gulong m_ChangedSignal;
 
+/*!\fn SetTheme(Theme *theme)
+@param the new document theme.
+
+Sets the theme used in the document.
+*/
+/*!\fn GetTheme()
+@return the theme used in the document.
+*/
+/*!\fn GetRefTheme()
+@return the theme used in the document as reference.
+*/
 GCU_PROP (Theme*, m_Theme)
 };
 

@@ -629,7 +629,6 @@ bool Object::SetProperty (unsigned property, char const *value)
 	return true;
 }
 
-
 string Object::GetProperty (unsigned property) const
 {
 	switch (property) {

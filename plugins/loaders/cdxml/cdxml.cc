@@ -74,6 +74,9 @@ CDXMLLoader::CDXMLLoader ()
 	KnownProps["DISPLAY"] = GCU_PROP_BOND_TYPE;
 	KnownProps["E"] = GCU_PROP_BOND_END;
 	KnownProps["Order"] = GCU_PROP_BOND_ORDER;
+	KnownProps["LabelJustification"] =GCU_PROP_TEXT_JUSTIFICATION;
+	KnownProps["Justification"] =GCU_PROP_TEXT_JUSTIFICATION;
+	KnownProps["LabelAlignment"] = GCU_PROP_TEXT_ALIGNMENT;
 }
 
 CDXMLLoader::~CDXMLLoader ()
@@ -100,6 +103,11 @@ typedef struct {
 	list<CDXMLProps> failed;
 	map<unsigned, CDXMLFont> fonts;
 	vector<string> colors;
+	string markup;
+	unsigned attributes;
+	unsigned font;
+	unsigned color;
+	string size;
 } CDXMLReadState;
 
 static void
@@ -226,12 +234,69 @@ cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	Object *obj = Object::CreateObject ("text", state->cur.top ());
 	state->cur.push (obj);
+	char *lowered;
+	map<string, unsigned>::iterator it;
+	while (*attrs)
+		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
+			lowered = g_ascii_strdown ((char const *) *attrs++, -1);
+			obj->SetProperty ((*it).second, lowered);
+			g_free (lowered);
+		}
+	state->markup = "<text>";
+}
+
+static void
+cdxml_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	state->markup += "</text>";
+	state->cur.top ()->SetProperty (GCU_PROP_TEXT_MARKUP, state->markup.c_str ());
+	state->markup.clear ();
+	state->cur.pop ();
 }
 
 static void
 cdxml_string_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	state->attributes = 0;
+	while (*attrs) {
+		if (!strcmp ((char const *) *attrs, "font")) {
+			attrs++;
+			state->font = atoi ((char const *) *attrs);
+			state->markup += "<font name=\"";
+			state->markup += state->fonts[state->font].name;
+			state->markup += " ";
+		} else if (!strcmp ((char const *) *attrs, "face"))  {
+			attrs++;
+			state->attributes |= atoi ((char const *) *attrs);
+		} else if (!strcmp ((char const *) *attrs, "size"))  {
+			attrs++;
+			state->size = (char const *) *attrs;
+		} else if (!strcmp ((char const *) *attrs, "color"))  {
+			attrs++;
+			state->attributes |= 0x100;
+			state->color = atoi ((char const *) *attrs);
+		} else
+			attrs ++;
+		attrs++;
+	}
+	state->markup += string (" ") + state->size + "\">";
+	if (state->attributes & 0x100)
+		state->markup += string ("<fore ") + state->colors[state->color] + ">";
+	if (state->attributes & 1)
+		state->markup += "<b>";
+	if (state->attributes & 2)
+		state->markup += "<i>";
+	if (state->attributes & 4)
+		state->markup += "<u>";
+	if ((state->attributes & 0x60) != 0x60) {
+		if (state->attributes & 0x20)
+			state->markup += "<sub>";
+		else if (state->attributes & 0x40)
+			state->markup += "<sup>";
+	}
+		
 	// TODO: parse attributes
 }
 
@@ -239,7 +304,71 @@ static void
 cdxml_string_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
+	bool opened = true;
 	//TODO: add xin->content->str
+	if ((state->attributes & 0x60) == 0x60) {
+		// for now put all numbers as subscripts
+		// FIXME: fix this kludgy code
+		int cur = 0, size = strlen (xin->content->str);
+		char *new_size = g_strdup_printf ("%g", strtod (state->size.c_str (), NULL) / 1.5);
+		char *height = g_strdup_printf ("%g", strtod (state->size.c_str (), NULL) / 3.);
+		while (cur < size) {
+			while (cur < size && (xin->content->str[cur] < '0' || xin->content->str[cur] > '9'))
+				state->markup += xin->content->str[cur++];
+			if (cur < size) {
+				if (state->attributes & 4)
+					state->markup += "</u>";
+				if (state->attributes & 2)
+					state->markup += "</i>";
+				if (state->attributes & 1)
+					state->markup += "</b>";
+				if (state->attributes & 0x100)
+					state->markup += "</fore>";
+				state->markup += string ("</font><font name=\"") + state->fonts[state->font].name + " " + new_size + "\">";
+				if (state->attributes & 0x100)
+					state->markup += string ("<fore ") + state->colors[state->color] + ">";
+				state->markup += string ("<sub height=\"") + height + "\">";
+				while (xin->content->str[cur] >= '0' && xin->content->str[cur] <= '9')
+					state->markup += xin->content->str[cur++];
+				state->markup += "</sub>";
+				if (state->attributes & 0x100)
+					state->markup += "</fore>";
+				state->markup += string ("</font>");
+				if (cur < size) {
+					state->markup += string ("<font name=\"") + state->fonts[state->font].name + " " + state->size + "\">";
+					if (state->attributes & 0x100)
+						state->markup += string ("<fore ") + state->colors[state->color] + ">";
+					if (state->attributes & 1)
+						state->markup += "<b>";
+					if (state->attributes & 2)
+						state->markup += "<i>";
+					if (state->attributes & 4)
+						state->markup += "<u>";
+				} else
+					opened = false;
+			}
+		}
+		g_free (new_size);
+		g_free (height);
+	} else {
+		state->markup += xin->content->str;
+		if (state->attributes & 0x20)
+			state->markup += "</sub>";
+		else if (state->attributes & 0x40)
+			state->markup += "</sup>";
+	}
+	if (opened) {
+		if (state->attributes & 4)
+			state->markup += "</u>";
+		if (state->attributes & 2)
+			state->markup += "</i>";
+		if (state->attributes & 1)
+			state->markup += "</b>";
+		if (state->attributes & 0x100)
+			state->markup += "</fore>";
+		state->markup += "</font>";
+	}
+	state->attributes = 0;
 }
 
 static void
@@ -248,10 +377,20 @@ fragment_done (GsfXMLIn *xin, CDXMLReadState *state)
 	Object *atom = state->cur.top (), *child;
 	state->cur.pop ();
 	map <string, Object *>::iterator i;
+	Molecule *mol = NULL;
+	string buf;
 	//TODO: retreive text and molecule and compare
 	while ((child = atom->GetFirstChild (i))) {
 		child->SetParent (NULL);
-		delete child;
+		if (child->GetType () == MoleculeType)
+			mol = dynamic_cast <Molecule *> (child);
+		else {
+			buf = child->GetProperty (GCU_PROP_TEXT_TEXT);
+			delete child;
+		}
+	}
+	if (mol) {
+		delete mol;
 	}
 }
 
@@ -260,7 +399,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static GsfXMLInNode const atom_dtd[] = {
 	GSF_XML_IN_NODE (ATOM, ATOM, -1, "n", GSF_XML_CONTENT, NULL, NULL),
-			GSF_XML_IN_NODE (ATOM, T, -1, "t", GSF_XML_CONTENT, cdxml_text_start, cdxml_simple_end),
+			GSF_XML_IN_NODE (ATOM, T, -1, "t", GSF_XML_CONTENT, cdxml_text_start, cdxml_text_end),
 				GSF_XML_IN_NODE (T, S, -1, "s", GSF_XML_CONTENT, cdxml_string_start, cdxml_string_end),
 			GSF_XML_IN_NODE (ATOM, FRAGMENT, -1, "fragment", GSF_XML_CONTENT, cdxml_fragment_start, cdxml_fragment_end),
 				GSF_XML_IN_NODE (FRAGMENT, NODE, -1, "n", GSF_XML_CONTENT, cdxml_node_start, cdxml_simple_end),
@@ -309,16 +448,6 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-cdxml_node_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	static_cast <Molecule*> (state->cur.top ())->UpdateCycles ();
-	state->cur.top ()->Lock (false);
-	state->cur.top ()->OnLoaded ();
-	state->cur.pop ();
-}
-
-static void
 cdxml_font_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
@@ -350,7 +479,7 @@ cdxml_color (GsfXMLIn *xin, xmlChar const **attrs)
 			blue = (char const *) attrs[1];
 		attrs += 2;
 	}
-	state->colors.push_back (red + " " + green + " " + blue);
+	state->colors.push_back (string ("red=\"") + red + "\" green=\"" + green + "\" blue=\"" + blue + "\"");
 }
 
 static void
@@ -482,8 +611,10 @@ bool CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOC
 	state.doc = doc;
 	state.context = io;
 	bool  success = false;
-	state.colors.push_back ("1 1 1"); // white
-	state.colors.push_back ("0 0 0"); // black
+	state.colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white
+	state.colors.push_back ("red=\"0\" green=\"0\" blue=\"0\""); // black
+	state.font = 0;
+	state.color = 0;
 
 	if (NULL != in) {
 		GsfXMLInDoc *xml = gsf_xml_in_doc_new (cdxml_dtd, NULL);

@@ -68,14 +68,26 @@ class WidgetData;
 
 /*!\class Bond gcp/bond.h
 This class is used to represent bonds.
-
 */
 
 class Bond: public gcu::Bond
 {
 public:
+/*!
+The default constructor.
+*/
 	Bond ();
+/*!
+@param first the first bonded atom.
+@param last the last bonded atom.
+@param order the bond order
+
+Constructs a bond given its two terminal atoms and its order.
+*/
 	Bond (Atom* first, Atom* last, unsigned char order);
+/*!
+The destructor.
+*/
 	virtual ~Bond ();
 
 	virtual Object* GetAtomAt (double x, double y, double z = 0.);
@@ -95,6 +107,14 @@ public:
 	void SetDirty ();
 	void Revert ();
 	void IncOrder (int n = 1);
+/*!
+@param w the GtkWidget inside which the bond is displayed.
+@param state the selection state of the bond.
+
+Used to set the selection state of the bond inside the widget.
+The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
+gcp::SelStateUpdating, or gcp::SelStateErasing.
+*/
 	virtual void SetSelected (GtkWidget* w, int state);
 	void Add (GtkWidget* w) const;
 	virtual double GetYAlign ();

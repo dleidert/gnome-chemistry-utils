@@ -331,7 +331,7 @@ Sets the relative position of a charge sign.
 */
 	void SetChargePosition (unsigned char Pos, bool def, double angle = 0., double distance = 0.);
 /*!
-@param Angle where tostore the angle from east direction in the trigonometric convention.
+@param Angle where to store the angle from east direction in the trigonometric convention.
 @param Dist where to store the distance from the center of the atom.
 
 @return the charge position as one of POSITION_E, POSITION_N,...

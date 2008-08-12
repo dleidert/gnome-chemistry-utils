@@ -894,11 +894,11 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 										str << "<fore " << colors[attrs.color] << ">";
 										if (attrs0.face & 1)
 											str << "<b>";
-										if (attrs0.face & 4)
-											str << "<u>";
 										if (attrs0.face & 2)
 											str << "<i>";
-											}
+										if (attrs0.face & 4)
+											str << "<u>";
+									}
 								}
 							} else
 								str << buf;
@@ -941,6 +941,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 					if (!gsf_input_read (in, size, (guint8*) buf))
 						return false;
 					buf[size] = 0;
+					bool opened = true;
 					// supposing the text is ASCII!!
 					if (interpret) {
 						// for now put all numbers as subscripts
@@ -961,32 +962,38 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 								str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
 								while (buf[cur] >= '0' && buf[cur] <= '9')
 									str << buf[cur++];
-								str << "</sub></fore></font><font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
-								str << "<fore " << colors[attrs.color] << ">";
-								if (attrs0.face & 1)
-									str << "<b>";
-								if (attrs0.face & 4)
-									str << "<u>";
-								if (attrs0.face & 2)
-									str << "<i>";
+								str << "</sub></fore></font>";
+								if (cur < size) {
+									str << "<font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+									str << "<fore " << colors[attrs.color] << ">";
+									if (attrs0.face & 1)
+										str << "<b>";
+									if (attrs0.face & 4)
+										str << "<u>";
+									if (attrs0.face & 2)
+										str << "<i>";
+								} else
+									opened = false;
 							}
 						}
 					} else
 						str << buf;
-					if ((attrs0.face & 0x60) == 0x60)
-						interpret= false;
-					else if (attrs0.face & 0x40)
-						str << "</sup>";
-					else if (attrs0.face & 0x20)
-						str << "</sub>";
-					if (attrs0.face & 4)
-						str << "</u>";
-					if (attrs0.face & 2)
-						str << "</i>";
-					if (attrs0.face & 1)
-						str << "</b>";
-					str << "</fore>";
-					str << "</font>";
+					if (opened) {
+						if ((attrs0.face & 0x60) != 0x60) {
+							if (attrs0.face & 0x40)
+								str << "</sup>";
+							else if (attrs0.face & 0x20)
+								str << "</sub>";
+						}
+						if (attrs0.face & 4)
+							str << "</u>";
+						if (attrs0.face & 2)
+							str << "</i>";
+						if (attrs0.face & 1)
+							str << "</b>";
+						str << "</fore>";
+						str << "</font>";
+						}
 					str << "</text>";
 					Text->SetProperty (GCU_PROP_TEXT_MARKUP, str.str().c_str());
 				}

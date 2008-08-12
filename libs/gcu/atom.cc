@@ -268,6 +268,7 @@ string Atom::GetProperty (unsigned property) const
 			res << m_x / doc->GetScale () << " " << m_y / doc->GetScale ();
 		else
 			res << m_x << " " << m_y;
+		break;
 	}
 	default:
 			return Object::GetProperty (property);

@@ -26,10 +26,12 @@
 #include "text-object.h"
 #include "document.h"
 #include "window.h"
+#include <gcu/objprops.h>
 #include <gcu/xml-utils.h>
 #include <cstring>
 
 using namespace gcu;
+using namespace std;
 
 namespace gcp {
 
@@ -152,6 +154,16 @@ void TextObject::OnSelChanged (struct GnomeCanvasPangoSelBounds *bounds)
 	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Erase", activate);
 	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Copy", activate);
 	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Cut", activate);
+}
+
+string TextObject::GetProperty (unsigned property) const
+{
+	switch (property) {
+	case GCU_PROP_TEXT_TEXT:
+		return m_buf;
+	default:
+		return Object::GetProperty (property);
+	}
 }
 
 }	//	namespace gcp

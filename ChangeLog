@@ -1,5 +1,18 @@
-2008-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
+##Text encoding: utf-8
 
+2008-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.h: fixed doc typo.
+	* libs/gcp/bond.h:  API documentation work.
+	* libs/gcp/docprop.h: ditto.
+	* libs/gcp/electron.h: ditto.
+	* libs/gcp/text-object.cc: implement GetProperty for raw text.
+	* libs/gcp/text-object.h: ditto.
+	* libs/gcu/atom.cc: fixed Atom::GetProperty.
+	* libs/gcu/object.cc: removed an empty line.
+	* plugins/loaders/cdx/cdx.cc: fixed a chemical text import issue.
+	* plugins/loaders/cdxml/cdxml.cc: import texts.
+
+2008-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: make things work with libgoffice >= 0.6.
 	* goffice/gogcpapp.cc: ditto.
 	* goffice/gogcpapp.h: ditto.
@@ -27,8 +40,6 @@
 	gcu::Window class.
 	* plugins/paint/residues/residues-dlg.h: ditto.
 	* plugins/paint/selection/plugin.cc: removed uused UI.
-
-##Text encoding: utf-8
 
 2008-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/Makefile.am: start reimplementation of the gchempaint
