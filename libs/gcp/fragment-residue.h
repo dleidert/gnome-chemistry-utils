@@ -29,6 +29,7 @@
 #include "residue.h"
 #include <string>
 
+/*!\file*/
 namespace gcp {
 
 class FragmentResidue: public FragmentAtom

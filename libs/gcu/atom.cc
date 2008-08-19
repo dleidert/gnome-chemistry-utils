@@ -241,7 +241,7 @@ bool Atom::SetProperty (unsigned property, char const *value)
 		break;
 	}
 	case GCU_PROP_ID: {
-		char *Id = g_strdup_printf ("a%s", value);
+		char *Id = (*value == 'a')? g_strdup (value): g_strdup_printf ("a%s", value);
 		SetId (Id);
 		break;
 	}

@@ -53,7 +53,7 @@ SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (t
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
-	freq = go_nan;
+	freq = offset = go_nan;
 	gtk_page_setup_set_orientation (GetPageSetup (), GTK_PAGE_ORIENTATION_LANDSCAPE);
 	SetScaleType (GCU_PRINT_SCALE_AUTO);
 	SetHorizFit (true);
@@ -394,6 +394,8 @@ char const *Keys[] = {
 	"OBSERVE90",
 	"COUPLINGCONSTANTS",
 	"RELAXATIONTIMES",
+/* Brücker specific data */
+	"$OFFSET",
 	NULL
 };
 
@@ -522,6 +524,8 @@ enum {
 	JCAMP_OBSERVE_90,
 	JCAMP_COUPLING_CONSTANTS,
 	JCAMP_RELAXATION_TIMES,
+	BRUCKER_OFFSET,
+	JCAMP_MAX_VALID
 };
 
 #define KEY_LENGTH 80
@@ -538,15 +542,19 @@ static int ReadField (char const *s, char *key, char *buf)
 		// This is a comment, just skip
 		return JCAMP_INVALID;
 	}
-	if (!strncmp (data, "##$", 3)) {
+/*	if (!strncmp (data, "##$", 3)) {
 		// This is a vendor specific tag, just skip for now
 		return JCAMP_INVALID;
-	}
+	}*/
 	if (!strncmp (data, "##", 2)) {
 		// found a field
 		data += 2;
 		eq = strchr (data, '=');
 		i = 0;
+		if (*data == '$' && strncmp (data, "$$", 2)) {
+			key[i++] = '$';
+			data++;
+		}
 		while (data < eq) {
 			if (*data >= 'A' && *data <= 'Z')
 				key[i++] = *data;
@@ -575,7 +583,7 @@ static int ReadField (char const *s, char *key, char *buf)
 		
 		// Now, get the key value
 		i = JCAMP_TITLE;
-		while (i <= JCAMP_RELAXATION_TIMES && strcmp (key, Keys[i]))
+		while (i < JCAMP_MAX_VALID && strcmp (key, Keys[i]))
 			i++;
 		return i;
 	}
@@ -594,10 +602,13 @@ static void on_show_integral (GtkButton *btn, SpectrumDocument *doc)
 	doc->OnShowIntegral ();
 }
 
+/*
 static void on_transform_fid (GtkButton *btn, SpectrumDocument *doc)
 {
 	doc->OnTransformFID (btn);
 }
+*/
+
 #define JCAMP_PREC 1e-3 // fully arbitrary
 
 void SpectrumDocument::LoadJcampDx (char const *data)
@@ -1183,6 +1194,10 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 		case JCAMP_OBSERVE_90:
 		case JCAMP_COUPLING_CONSTANTS:
 		case JCAMP_RELAXATION_TIMES:
+			break;
+		case BRUCKER_OFFSET:
+			offset = strtod (buf, NULL);
+			break;
 		default:
 			break;
 		}
@@ -1190,6 +1205,7 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 
 out:
 	bool hide_y_axis = false;
+	SpectrumUnitType unit = GCU_SPECTRUM_UNIT_MAX;
 	// doon't do anything for unsupported spectra
 	switch (m_SpectrumType) {
 	case GCU_SPECTRUM_NMR: {
@@ -1219,7 +1235,8 @@ out:
 	case GCU_SPECTRUM_NMR_FID: {
 		if (x == NULL && X > 0 && variables[X].Values == NULL)
 			return;
-		if (R >= 0 && I >= 0) {
+// Deactivate Fourier transfor for now
+/*		if (R >= 0 && I >= 0) {
 			GtkWidget *box = gtk_hbox_new (false, 5);
 			GtkWidget *w = gtk_button_new_with_label (_("Transform to spectrum"));
 			g_signal_connect (w, "clicked", G_CALLBACK (on_transform_fid), this);
@@ -1227,19 +1244,39 @@ out:
 			gtk_widget_show_all (box);
 			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
 		}
-		hide_y_axis = true;
+		hide_y_axis = true;*/
 		break;
 	}
 	case GCU_SPECTRUM_INFRARED:
 	case GCU_SPECTRUM_RAMAN:
+		unit = GCU_SPECTRUM_UNIT_MICROMETERS;
 //	case GCU_SPECTRUM_INFRARED_PEAK_TABLE:
 //	case GCU_SPECTRUM_INFRARED_INTERFEROGRAM:
 //	case GCU_SPECTRUM_INFRARED_TRANSFORMED:
 	case GCU_SPECTRUM_UV_VISIBLE:
 		if (x == NULL && X > 0 && variables[X].Values == NULL)
 			return;
-		else
-			break;
+		else {
+			if (unit == GCU_SPECTRUM_UNIT_MAX)
+				unit = GCU_SPECTRUM_UNIT_NANOMETERS;
+			// add some widgets to the option box
+			GtkWidget *box = gtk_hbox_new (false, 5), *w;
+			w = gtk_label_new (_("X unit:"));
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			w = gtk_combo_box_new_text ();
+			if  (unit == GCU_SPECTRUM_UNIT_NANOMETERS)
+				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (nm)"));
+			else
+				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (µm)"));
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave number (1/cm)"));
+			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_CM_1)? 1: 0));
+			g_signal_connect (w, "changed", G_CALLBACK (on_unit_changed), this);
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			gtk_widget_show_all (box);
+			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+		}
+		break;
 //	case GCU_SPECTRUM_NMR_PEAK_TABLE:
 //	case GCU_SPECTRUM_NMR_PEAK_ASSIGNMENTS:
 	case GCU_SPECTRUM_MASS:
@@ -1574,6 +1611,11 @@ void SpectrumDocument::OnUnitChanged (int i)
 		unit = (i == 0)? GCU_SPECTRUM_UNIT_PPM: GCU_SPECTRUM_UNIT_HZ;
 		invert_axis = true;
 		break;
+	case GCU_SPECTRUM_INFRARED:
+	case GCU_SPECTRUM_RAMAN:
+		break;
+	case GCU_SPECTRUM_UV_VISIBLE:
+		break;
 	default:
 		break;
 	}
@@ -1603,14 +1645,26 @@ void SpectrumDocument::OnUnitChanged (int i)
 				v.Unit = unit;
 				v.Format = variables[X].Format;
 				v.NbValues = variables[X].NbValues;
-				v.First = variables[X].First * f;
-				v.Last = variables[X].Last * f; 
-				v.Min = variables[X].Min * f;
-				v.Max = variables[X].Max * f;
-				v.Factor = 1.;
-				v.Values = new double[variables[X].NbValues];
-				for (j = 0; j < variables[X].NbValues; j++)
-					v.Values[j] = variables[X].Values[j] * f;
+				if (unit == GCU_SPECTRUM_UNIT_PPM && go_finite (offset)) {
+					double shift = maxx * f - offset;
+					v.First = variables[X].First * f - shift;
+					v.Last = variables[X].Last * f - shift; 
+					v.Min = variables[X].Min * f - shift;
+					v.Max = offset;
+					v.Factor = 1.;
+					v.Values = new double[variables[X].NbValues];
+					for (j = 0; j < variables[X].NbValues; j++)
+						v.Values[j] = variables[X].Values[j] * f - shift;
+				} else {
+					v.First = variables[X].First * f;
+					v.Last = variables[X].Last * f; 
+					v.Min = variables[X].Min * f;
+					v.Max = variables[X].Max * f;
+					v.Factor = 1.;
+					v.Values = new double[variables[X].NbValues];
+					for (j = 0; j < variables[X].NbValues; j++)
+						v.Values[j] = variables[X].Values[j] * f;
+				}
 			} else {
 				f = GetConversionFactor (m_XUnit, unit);
 				v.Name = _(UnitNames[unit]);
@@ -1619,14 +1673,26 @@ void SpectrumDocument::OnUnitChanged (int i)
 				v.Unit = unit;
 				v.Format = GCU_SPECTRUM_FORMAT_MAX;
 				v.NbValues = npoints;
-				v.First = firstx * f;
-				v.Last = lastx * f; 
-				v.Min = minx * f;
-				v.Max = maxx * f;
-				v.Factor = 1.;
-				v.Values = new double[npoints];
-				for (j = 0; j < npoints; j++)
-					v.Values[j] = x[j] * f;
+				if (unit == GCU_SPECTRUM_UNIT_PPM && go_finite (offset)) {
+					double shift = maxx * f - offset;
+					v.First = firstx * f - shift;
+					v.Last = lastx * f - shift; 
+					v.Min = minx * f - shift;
+					v.Max = offset;
+					v.Factor = 1.;
+					v.Values = new double[npoints];
+					for (j = 0; j < npoints; j++)
+						v.Values[j] = x[j] * f - shift;
+				} else {
+					v.First = firstx * f;
+					v.Last = lastx * f; 
+					v.Min = minx * f;
+					v.Max = maxx * f;
+					v.Factor = 1.;
+					v.Values = new double[npoints];
+					for (j = 0; j < npoints; j++)
+						v.Values[j] = x[j] * f;
+				}
 			}
 			variables.push_back (v);
 		}

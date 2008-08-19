@@ -332,6 +332,7 @@ private:
 	std::vector <JdxVar> variables;
 	int X, Y, R, I, integral, Rt, It, Rp;
 	double freq;
+	double offset;
 
 /*!\var m_View
 The SpectrumView instance associated with the document.

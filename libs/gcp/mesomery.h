@@ -31,6 +31,7 @@ namespace gcp {
 
 class Mesomer;
 
+/*!\file*/
 class Mesomery: public gcu::Object
 {
 public:

@@ -108,6 +108,7 @@ Empties a document and reinitialize it.
 	View* GetView () {return m_pView;}
 /*!
 @param
+@param
 
 */
 	void BuildBondList (std::list<Bond*>& BondList, gcu::Object const *obj) const;
@@ -116,6 +117,10 @@ Empties a document and reinitialize it.
 
 */
 	void ExportOB () const;
+/*!
+@param
+
+*/
 	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, gcu::Object const *obj, unsigned& index) const;
 	void Save () const;
 	virtual bool Load (xmlNodePtr);

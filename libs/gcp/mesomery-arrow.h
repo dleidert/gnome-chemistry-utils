@@ -32,6 +32,7 @@ namespace gcp {
 class Mesomery;
 class Mesomer;
 
+/*!\file*/
 class MesomeryArrow: public Arrow
 {
 public:

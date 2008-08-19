@@ -99,13 +99,28 @@ The destructor.
 	void RemoveAllCycles ();
 	bool GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, double* y2);
 	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr) const;
-	virtual bool LoadNode (xmlNodePtr);
+/*!
+@param node a pointer to the xmlNode containing the serialized Bond.
+
+Loads properties specific to GChemPaint bonds.
+*/
+	virtual bool LoadNode (xmlNodePtr node);
 	virtual void Update (GtkWidget* w) const;
 	virtual void Move (double x, double y, double z = 0);
 	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 	double GetDist (double x, double y);
+/*!
+*/
 	void SetDirty ();
+/*!
+*/
 	void Revert ();
+/*!
+@param n the bond order increment. If not given, the default is 1.
+
+Tries to increment the bond order by n units. If something goes wrong, the
+bond order is set to 1.
+*/
 	void IncOrder (int n = 1);
 /*!
 @param w the GtkWidget inside which the bond is displayed.
@@ -115,10 +130,18 @@ Used to set the selection state of the bond inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
-	virtual void SetSelected (GtkWidget* w, int state);
+	void SetSelected (GtkWidget* w, int state);
 	void Add (GtkWidget* w) const;
-	virtual double GetYAlign ();
+	double GetYAlign ();
 	bool IsCrossing (Bond *pBond);
+/*!
+@param UIManager: the GtkUIManager to populate.
+@param object the atom on which occured the mouse click.
+@param x x coordinate of the mouse click.
+@param y y coordinate of the mouse click.
+
+This method is called to build a contextual menu for the atom.
+*/
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	void MoveToBack ();
 	void BringToFront ();
@@ -127,8 +150,6 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 private:
 	GnomeCanvasPathDef* BuildPathDef (WidgetData* pData);
 	GnomeCanvasPathDef* BuildCrossingPathDef (WidgetData* pData);
-
-protected:
 	BondType m_type;
 	double m_coords[16];//coordinates of the lines used to represent the bond in the canvas
 	bool m_CoordsCalc; //true if m_coords have been calculated, false else

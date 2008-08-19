@@ -4,7 +4,7 @@
  * GChemPaint library
  * docprop.h 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,7 +35,7 @@ namespace gcp {
 class Document;
 class Theme;
 
-/*!\class DocPropDlg gcu/docprop.h
+/*!\class DocPropDlg gcp/docprop.h
 The document property dialog.
 */
 class DocPropDlg: public gcu::Dialog, gcu::Object
@@ -96,19 +96,6 @@ private:
 	GtkComboBox *m_Box;
 	unsigned m_Lines;
 	gulong m_ChangedSignal;
-
-/*!\fn SetTheme(Theme *theme)
-@param the new document theme.
-
-Sets the theme used in the document.
-*/
-/*!\fn GetTheme()
-@return the theme used in the document.
-*/
-/*!\fn GetRefTheme()
-@return the theme used in the document as reference.
-*/
-GCU_PROP (Theme*, m_Theme)
 };
 
 }	//	namespace gcp

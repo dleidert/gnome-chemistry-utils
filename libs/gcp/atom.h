@@ -215,7 +215,7 @@ that they give the absolute position.
 */
 	virtual int GetAvailablePosition (double& x, double& y);
 /*!
-@param angle the angle at which a charge sign or an eletcron should be displayed.
+@param angle the angle at which a charge sign or an electron should be displayed.
 @param x the x position.
 @param y the y position.
 
@@ -232,7 +232,7 @@ Used to save the Atom to the xmlDoc.
 */
 	virtual xmlNodePtr Save (xmlDocPtr xml) const;
 /*!
-@param node a pointer to the xmlNode containing the serialized object.
+@param node a pointer to the xmlNode containing the serialized atom.
 
 Used to load an atom in memory. The Atom must already exist.
 @return true on succes, false otherwise.
@@ -280,7 +280,7 @@ Used to move and/or transform an object.
 */
 	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 /*!
-@param UIManager: the GtkUI%anager to populate.
+@param UIManager: the GtkUIManager to populate.
 @param object the atom on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.

@@ -30,6 +30,7 @@
 #include <gcu/molecule.h>
 #include <openbabel/mol.h>
 
+/*!\file*/
 namespace gcp {
 
 class Bond;

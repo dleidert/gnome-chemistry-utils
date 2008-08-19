@@ -234,6 +234,7 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 						PendingAtoms.pop ();
 					}
 					PendingAtoms.push (atom);
+					PendingHs = 0;
 				} else if (n == 0) {
 					atom = reinterpret_cast <Atom*> (CreateObject ("atom", mol));
 					atom->SetZ (fatom->elt);

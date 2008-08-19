@@ -28,6 +28,7 @@
 #include <gcu/object.h>
 #include <map>
 
+/*!\file*/
 namespace gcp {
 
 extern gcu::TypeId MesomerType;

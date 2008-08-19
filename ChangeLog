@@ -1,8 +1,30 @@
 ##Text encoding: utf-8
 
+2008-08-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.h: API documentation work.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/docprop.h: ditto.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/electron.h: ditto.
+	* libs/gcp/fontsel.h: ditto.
+	* libs/gcp/fragment-atom.h: ditto.
+	* libs/gcp/fragment-residue.h: ditto.
+	* libs/gcp/mesomer.h: ditto.
+	* libs/gcp/mesomery-arrow.h: ditto.
+	* libs/gcp/mesomery.h: ditto.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/operation.h: ditto.
+	* libs/gcu/atom.cc: fixed Id setting.
+	* libs/gcu/molecule.cc: fixed a bug in Molecule::MoleculeFromFormula.
+	* libs/gcu/object.h: ifxed typo in API documentation.
+	* libs/gcu/spectrumdoc.cc: inhibit FID transform, but fixed ppm origin
+	using a Brücker specific field.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: import atoms groups.
+
 2008-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.h: fixed doc typo.
-	* libs/gcp/bond.h:  API documentation work.
+	* libs/gcp/bond.h: API documentation work.
 	* libs/gcp/docprop.h: ditto.
 	* libs/gcp/electron.h: ditto.
 	* libs/gcp/text-object.cc: implement GetProperty for raw text.

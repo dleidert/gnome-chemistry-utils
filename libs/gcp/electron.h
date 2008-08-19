@@ -37,7 +37,7 @@ The dynamic TypeId for electrons.
 */
 extern gcu::TypeId ElectronType;
 
-/*!\class Electron gcu/electron.h
+/*!\class Electron gcp/electron.h
 Represents either single elecgtrons or electrons pairs.
 */
 class Electron: public gcu::Object

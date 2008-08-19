@@ -23,7 +23,11 @@
  */
 
 #include "config.h"
+#include <gcu/atom.h>
+#include <gcu/bond.h>
 #include <gcu/document.h>
+#include <gcu/element.h>
+#include <gcu/formula.h>
 #include <gcu/loader.h>
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
@@ -377,7 +381,7 @@ fragment_done (GsfXMLIn *xin, CDXMLReadState *state)
 	Object *atom = state->cur.top (), *child;
 	state->cur.pop ();
 	map <string, Object *>::iterator i;
-	Molecule *mol = NULL;
+	Molecule *mol = NULL, *mol1 = NULL;
 	string buf;
 	//TODO: retreive text and molecule and compare
 	while ((child = atom->GetFirstChild (i))) {
@@ -390,7 +394,108 @@ fragment_done (GsfXMLIn *xin, CDXMLReadState *state)
 		}
 	}
 	if (mol) {
-		delete mol;
+		if (buf.length () > 0) {
+			try {
+				Formula form (buf, GCU_FORMULA_PARSE_RESIDUE);
+				mol1 = Molecule::MoleculeFromFormula (state->doc, form);
+				bool have_pseudo = false;
+				Object *obj = mol->GetFirstChild (i);
+				gcu::Atom *a = NULL;
+				while (obj) {
+					a = dynamic_cast <gcu::Atom *> (obj);
+					if (a && ! a->GetZ ()) {
+						have_pseudo = true;
+						break;
+					}
+					obj = mol->GetNextChild (i);
+				}
+				if (!mol1 || !(*mol == *mol1)) {
+					if (have_pseudo) {
+						// try adding a new residue
+						// first examine the first atom
+						map <gcu::Atom*, gcu::Bond*>::iterator i;
+						gcu::Bond *b = a->GetFirstBond (i);
+						int residue_offset = 0;
+						if (!b)
+							goto fragment_error;
+						gcu::Atom *a2 = b->GetAtom (a);
+						if (!a2)
+							goto fragment_error;
+						list<FormulaElt *> const &elts = form.GetElements ();
+						list<FormulaElt *>::const_iterator j = elts.begin ();
+						FormulaAtom *fatom = dynamic_cast <FormulaAtom *> (*j);
+						int valence;
+						if (!fatom || fatom->elt != a2->GetZ ())
+							goto fragment_add;
+						valence = Element::GetElement (fatom->elt)->GetDefaultValence ();
+						switch (valence) {
+						case 2: {
+							/* remove the first atom and replace it by a pseudo-atom, then add the residue
+							this helps with things begining with an oxygen or a sulfur, but might be 
+							not enough n other cases */
+							double x, y;
+							a2->GetCoords (&x, &y);
+							a->SetCoords (x, y);
+							a->RemoveBond (b);
+							a2->RemoveBond (b);
+							mol->Remove (b);
+							delete b;
+							if (a2->GetBondsNumber () > 1)
+								goto fragment_error;
+							b = a2->GetFirstBond (i);
+							if (b->GetOrder () != 1)
+								goto fragment_error;
+							b->ReplaceAtom (a2, a);
+							a->AddBond (b);
+							mol->Remove (a2);
+							delete a2;
+							// now remove the atom from the new residue symbol
+							residue_offset += fatom->end;
+							break;
+						}
+						case 3:
+							// we do not support that at the moment
+							goto fragment_error;
+							break;
+						default:
+							// we do not support that at the moment
+							goto fragment_error;
+						}
+fragment_add:
+						// Try create a new document, using the symbol as name
+						// reparent the molecule to avoid a crash
+						state->doc->AddChild (mol);
+						state->doc->CreateResidue (buf.c_str () + residue_offset, buf.c_str () + residue_offset, mol);
+						mol = NULL;
+						goto fragment_success;
+					}
+fragment_error:
+					g_warning (_("failed for %s\n"),buf.c_str ());
+				}
+			}
+			catch (parse_error &error) {
+				int start, length;
+				puts (error.what (start, length));
+			}
+fragment_success:
+			string pos = atom->GetProperty (GCU_PROP_POS2D);
+			string id = atom->GetId ();
+			mol = reinterpret_cast <Molecule *> (state->cur.top ());
+			mol->Remove (atom);
+			delete atom;
+			atom = Object::CreateObject ("fragment", mol);
+			atom->SetProperty (GCU_PROP_TEXT_TEXT, buf.c_str ());
+			atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, id.c_str ());
+			atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
+			atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+			if (mol1) {
+				mol1->SetParent (NULL);
+				delete mol1;
+			}
+			mol = NULL;
+		}
+		if (mol)
+			delete mol;
 	}
 }
 
@@ -418,7 +523,10 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 			attrs++;
 			obj->SetProperty ((*it).second, (char const *) *attrs);
 		} else if (!strcmp ((char const *) *attrs++, "NodeType")) {
-			if (!strcmp ((char const *) *attrs, "Fragment"))
+			if (!strcmp ((char const *) *attrs, "Fragment") ||
+				!strcmp ((char const *) *attrs, "Nickname") ||
+				!strcmp ((char const *) *attrs, "Unspecified") ||
+				!strcmp ((char const *) *attrs, "GenericNickname"))
 				fragment = true;
 			else if (!strcmp ((char const *) *attrs, "ExternalConnectionPoint")) {
 				// convert the atom to a pseudo atom.

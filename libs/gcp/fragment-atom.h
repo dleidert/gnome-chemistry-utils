@@ -28,28 +28,131 @@
 #include "atom.h"
 #include <gcu/macros.h>
 
+/*!\file*/
 namespace gcp {
 
 class Fragment;
 
+/*!\class FragmentAtom gcp/fragment-atom.h
+Represents an atom inside a atoms group (see gcp::Fragment class).
+*/
 class FragmentAtom: public Atom
 {
 public:
+/*!
+The default constructor.
+*/
 	FragmentAtom ();
+/*!
+@param fragment the parent Fragment.
+@param Z the atomic number.
+
+Constructs a FragmentAtom inside \a fragment with atomic number Z. This does
+not add the symbol to the string.
+*/
 	FragmentAtom (Fragment *fragment, int Z);
+/*!
+The destructor.
+*/
 	virtual ~FragmentAtom ();
 
+/*!
+@param Z the new atomic number.
+
+Changes the atomic number of the atom.
+*/
 	void SetZ (int Z);
+/*!
+@param nb the number of bonds to add, taking orders into account.
+
+This atom class does not currently support more than one single bond and
+no multiple bond at all.
+@return true if the operation is allowed, false otherwise.
+*/
 	bool AcceptNewBonds (int nb);
+/*!
+@param w a GtkWidget.
+
+Overrided to avoid Atom::Add execution. Don't do anything.
+*/
 	void Add (GtkWidget* w) const;
+/*!
+Overrided to avoid Atom::Update execution. Just call Fragment::Update() method.
+*/
 	void Update ();
+/*!
+@param w a GtkWidget.
+
+Overrided to avoid Atom::Update execution. Just call Fragment::Update(w).
+*/
 	void Update (GtkWidget* w) const;
+/*!
+@param w the GtkWidget inside which the atom is displayed.
+@param state the selection state of the atom.
+
+Overrided to avoid Atom::Update execution. Just call Fragment::SetSelected
+method.
+*/
 	void SetSelected (GtkWidget* w, int state);
+/*!
+@param xml the xmlDoc used to save the document.
+
+Used to save the atome specific data to the xmlDoc.
+@return the xmlNode containing the serialized atom.
+*/
 	xmlNodePtr Save (xmlDocPtr xml) const;
+/*!
+param node a pointer to the xmlNode containing the serialized atom.
+
+Used to load the atom specific properties in memory. The FragmentAtom must
+already exist.
+@return true on succes, false otherwise.
+*/
 	bool Load (xmlNodePtr node);
+/*!
+@param Pos the approximate position of the charge.
+@param Angle the angle from horizontal left.
+@param x the x position of the charge symbol.
+@param y the y position of the charge symbol.
+
+On input \a Pos can be one of POSITION_E, POSITION_N,... or 0xff, in which case,
+it will be given a default value. \a x and \a y are set to the position where the charge
+sign should be displayed usding the alignment code returned by this method.
+@return a number to set how the charge symbol should be aligned relative to its
+position. Possible values are:
+- −2: center top.
+- −1: right.
+-  0: center.
+-  1: left.
+-  2: center bottom.
+*/
 	int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
+/*!
+@param x the x position.
+@param y the y position.
+
+This method finds an available position for drawing a charge sign and returns
+it as a symbolic value (see POSITION_E, POSITION_N,...). The \a x and \a y are updated so
+that they give the absolute position.
+@return an available position.
+*/
 	int GetAvailablePosition (double& x, double& y);
+/*!
+@param angle the angle at which a charge sign should be displayed.
+@param x the x position.
+@param y the y position.
+
+Updates \a x and \a y so that they become the absolute position corresponding to the angle
+when the position is available.
+@return true on success, false otherwise.
+*/
 	bool GetPosition (double angle, double& x, double& y);
+/*!
+@param charge the charge that might be set.
+
+Currently, these atoms only accept -1, 0, and +1 as charges.
+@return true if the charge is acceptable.
+*/
 	bool AcceptCharge (int charge);
 
 /*!
@@ -58,8 +161,22 @@ public:
 Adds the fragment containing the atom to the molecule calling gcpMolecule::AddFragment()
 */
 	void AddToMolecule (Molecule* Mol);
-	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
+/*!
+@param atom the atom to which the this instance is to be compared.
+@param state the AtomMatchState representing the current comparison state.
 
+Try to match atoms from two molecules which are compared. This function calls
+itself recursively until all atoms from the two molecules have been matched or
+until an difference is found. Overriden methods should call this base function
+and return its result. FragmentAtom instances can't be matched currently.
+@return always false.
+*/
+	bool Match (gcu::Atom *atom, gcu::AtomMatchState &state);
+/*!
+@param pView the document view.
+
+Builds the symbol geometry if necessary.
+*/
 	void DoBuildSymbolGeometry (View *pView);
 
 GCU_RO_POINTER_PROP (Fragment, Fragment)

@@ -409,7 +409,7 @@ every derived class for which alignment has a meaning should implement this meth
 	virtual double GetYAlign ();
 
 /*!
-@param UIManager the GtkUI%anager to populate.
+@param UIManager the GtkUIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
