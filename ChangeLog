@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-08-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment-residue.h: API documentation work.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcu/spectrumdoc.cc: allow invertion of X axis and Y variable
+	selection (switch between absorbance and transmittance ).
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+
 2008-08-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.h: API documentation work.
 	* libs/gcp/bond.h: ditto.

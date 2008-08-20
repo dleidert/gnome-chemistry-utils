@@ -275,4 +275,12 @@ void SpectrumView::SaveAsImage (string const &filename, char const *mime_type, u
 	g_object_unref (graph);
 }
 
+void SpectrumView::InvertAxis (GogAxisType target, bool inverted)
+{
+	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
+	GSList *axes = gog_chart_get_axes (chart, target);
+	GogAxis *axis = GOG_AXIS (axes->data);
+	g_object_set (axis, "invert-axis", inverted, NULL);
+}
+
 }	//	namespace gcu

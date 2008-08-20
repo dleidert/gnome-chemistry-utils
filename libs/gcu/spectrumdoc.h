@@ -300,7 +300,24 @@ Called to change the displayed X axis unit. The values acceptable for the
 parameter are spectrum type dependent. This is used by the framework after
 a user made an appropriate request from the graphical interface.
 */
-	void OnUnitChanged (int i);
+	void OnXUnitChanged (int i);
+
+/*!
+@param i the rank of the unit to set.
+
+Called to change the displayed Y axis unit. The values acceptable for the
+parameter are spectrum type dependent. This is used by the framework after
+a user made an appropriate request from the graphical interface.
+*/
+	void OnYUnitChanged (int i);
+
+/*!
+@param inverted whether to invert the X axis scale.
+
+Called to change the X axis scale order. This is used by the framework after
+a user made an appropriate request from the graphical interface.
+*/
+	void OnXAxisInvert (bool inverted);
 
 /*!
 Used to show or hide the integral curve for an NMR spectrum.
@@ -322,6 +339,7 @@ private:
 	GtkWindow *GetGtkWindow ();
 	void ReadDataTable (std::istream &s, double *x, double *y);
 	double GetConversionFactor (SpectrumUnitType oldu, SpectrumUnitType newu);
+	double (*GetConversionFunction (SpectrumUnitType oldu, SpectrumUnitType newu, double &factor, double &offset)) (double, double, double);
 
 private:
 	double *x, *y;
@@ -333,6 +351,8 @@ private:
 	int X, Y, R, I, integral, Rt, It, Rp;
 	double freq;
 	double offset;
+	GtkWidget *m_XAxisInvertBtn;
+	guint m_XAxisInvertSgn;
 
 /*!\var m_View
 The SpectrumView instance associated with the document.

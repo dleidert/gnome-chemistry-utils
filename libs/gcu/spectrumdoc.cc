@@ -45,7 +45,11 @@ using namespace std;
 namespace gcu
 {
 
-SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (true)
+SpectrumDocument::SpectrumDocument ():
+	Document (NULL),
+	Printable (),
+	m_XAxisInvertBtn (NULL),
+	m_Empty (true)
 {
 	m_View = new SpectrumView (this);
 	x = y = NULL;
@@ -64,6 +68,7 @@ SpectrumDocument::SpectrumDocument (): Document (NULL), Printable (), m_Empty (t
 SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 	Document (App),
 	Printable (),
+	m_XAxisInvertBtn (NULL),
 	m_Empty (true)
 {
 	m_View = (View)? View: new SpectrumView (this);
@@ -590,9 +595,19 @@ static int ReadField (char const *s, char *key, char *buf)
 	return JCAMP_UNKNOWN;
 }
 
-static void on_unit_changed (GtkComboBox *box, SpectrumDocument *doc)
+static void on_xunit_changed (GtkComboBox *box, SpectrumDocument *doc)
 {
-	doc->OnUnitChanged (gtk_combo_box_get_active (box));
+	doc->OnXUnitChanged (gtk_combo_box_get_active (box));
+}
+
+static void on_yunit_changed (GtkComboBox *box, SpectrumDocument *doc)
+{
+	doc->OnYUnitChanged (gtk_combo_box_get_active (box));
+}
+
+static void on_xaxis_invert (GtkToggleButton *btn, SpectrumDocument *doc)
+{
+	doc->OnXAxisInvert (gtk_toggle_button_get_active (btn));
 }
 
 static void on_show_integral (GtkButton *btn, SpectrumDocument *doc)
@@ -1221,7 +1236,7 @@ out:
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
 			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
-			g_signal_connect (w, "changed", G_CALLBACK (on_unit_changed), this);
+			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 		}
 		w = gtk_button_new_with_label (_("Show integral"));
@@ -1271,7 +1286,21 @@ out:
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave number (1/cm)"));
 			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_CM_1)? 1: 0));
-			g_signal_connect (w, "changed", G_CALLBACK (on_unit_changed), this);
+			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			m_XAxisInvertBtn = gtk_check_button_new_with_label (_("Invert X Axis"));
+			m_XAxisInvertSgn = g_signal_connect (m_XAxisInvertBtn, "toggled", G_CALLBACK (on_xaxis_invert), this);
+			gtk_box_pack_start (GTK_BOX (box), m_XAxisInvertBtn, false, false, 0);
+			w = gtk_vseparator_new ();
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 12);
+			w = gtk_label_new (_("Y unit:"));
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			w = gtk_combo_box_new_text ();
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Absorbance"));
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Transmittance (%)"));
+			unit = (Y >= 0)? variables[Y].Unit: m_YUnit;
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_ABSORBANCE)? 0: 1));
+			g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 			gtk_widget_show_all (box);
 			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
@@ -1316,6 +1345,11 @@ out:
 		break;
 	default:
 		break;
+	}
+	if (m_XAxisInvertBtn) {
+		g_signal_handler_block (m_XAxisInvertBtn, m_XAxisInvertSgn);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m_XAxisInvertBtn), invert_axis);
+		g_signal_handler_unblock (m_XAxisInvertBtn, m_XAxisInvertSgn);
 	}
 	m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
 	if (hide_y_axis)
@@ -1602,7 +1636,7 @@ void SpectrumDocument::ReadDataTable (istream &s, double *x, double *y)
 	}
 }
 
-void SpectrumDocument::OnUnitChanged (int i)
+void SpectrumDocument::OnXUnitChanged (int i)
 {
 	SpectrumUnitType unit = GCU_SPECTRUM_UNIT_MAX;
 	bool invert_axis = false;
@@ -1710,6 +1744,100 @@ void SpectrumDocument::OnUnitChanged (int i)
 	}
 }
 
+/*static double mult (double val, double f, double offset)
+{
+	return val * f + offset;
+}*/
+
+static double logm (double val, double f, double offset)
+{
+	return -log10 (val * f + offset);
+}
+
+static double expm (double val, double f, double offset)
+{
+	return exp10 (-val) * f + offset;
+}
+
+void SpectrumDocument::OnYUnitChanged (int i)
+{
+	SpectrumUnitType unit = GCU_SPECTRUM_UNIT_MAX;
+	bool invert_axis = false;
+	switch (m_SpectrumType) {
+	case GCU_SPECTRUM_INFRARED:
+	case GCU_SPECTRUM_RAMAN:
+	case GCU_SPECTRUM_UV_VISIBLE:
+		unit = (i == 0)? GCU_SPECTRUM_UNIT_ABSORBANCE: GCU_SPECTRUM_UNIT_TRANSMITTANCE;
+		break;
+	default:
+		break;
+	}
+	if (unit == GCU_SPECTRUM_UNIT_MAX)
+		return;
+	GOData *godata;
+	GogSeries *series = m_View->GetSeries ();
+	if (Y < 0 && m_YUnit == unit) {
+		godata = go_data_vector_val_new (y, npoints, NULL);
+		gog_series_set_dim (series, 1, godata, NULL);
+		m_View->SetAxisBounds (GOG_AXIS_Y, miny, maxy, invert_axis);
+		m_View->SetAxisLabel (GOG_AXIS_Y, _(UnitNames[m_YUnit]));
+	} else {
+		unsigned i, j;
+		double (*conv) (double, double, double);
+		double f, o;
+		for (i = 0; i < variables.size (); i++)
+			if (variables[i].Symbol == 'Y' && variables[i].Unit == unit)
+				break;
+		if (i == variables.size ()) {
+			// Add new data vector
+			JdxVar v;
+			if (Y >=0) {
+				conv = GetConversionFunction (variables[Y].Unit, unit, f, o);
+				v.Name = _(UnitNames[variables[Y].Unit]);
+				v.Symbol = variables[Y].Symbol;
+				v.Type = variables[Y].Type;
+				v.Unit = unit;
+				v.Format = variables[Y].Format;
+				v.NbValues = variables[Y].NbValues;
+				v.First = conv (variables[Y].First, f, o);
+				v.Last = conv (variables[Y].Last, f, o);
+				v.Min = conv (variables[Y].Min, f, o);
+				v.Max = conv (variables[Y].Max, f, o);
+				v.Factor = 1.;
+				v.Values = new double[variables[Y].NbValues];
+				for (j = 0; j < variables[Y].NbValues; j++)
+					v.Values[j] = conv (variables[Y].Values[j], f, o);
+			} else {
+				conv = GetConversionFunction (m_YUnit, unit, f, o);
+				v.Name = _(UnitNames[unit]);
+				v.Symbol = 'Y';
+				v.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
+				v.Unit = unit;
+				v.Format = GCU_SPECTRUM_FORMAT_MAX;
+				v.NbValues = npoints;
+				v.First = conv (firsty, f, o);
+				v.Last = 0.; // not important
+				v.Min = conv (miny, f, o);
+				v.Max = conv (maxy, f, o);
+				v.Factor = 1.;
+				v.Values = new double[npoints];
+				for (j = 0; j < npoints; j++)
+					v.Values[j] = conv (y[j], f, o);
+			}
+			if (v.Min > v.Max) {
+				f = v.Min;
+				v.Min = v.Max;
+				v.Max = f;
+			}
+			variables.push_back (v);
+		}
+		godata = go_data_vector_val_new (variables[i].Values, variables[i].NbValues, NULL);
+		gog_series_set_dim (series, 1, godata, NULL);
+		m_View->SetAxisBounds (GOG_AXIS_Y, variables[i].Min, variables[i].Max, invert_axis);
+		m_View->SetAxisLabel (GOG_AXIS_Y, _(UnitNames[variables[i].Unit]));
+	}
+}
+
 double SpectrumDocument::GetConversionFactor (SpectrumUnitType oldu, SpectrumUnitType newu)
 {
 	double res = go_nan;
@@ -1726,6 +1854,29 @@ double SpectrumDocument::GetConversionFactor (SpectrumUnitType oldu, SpectrumUni
 		break;
 	}
 	return res;
+}
+
+double (*SpectrumDocument::GetConversionFunction (SpectrumUnitType oldu, SpectrumUnitType newu, double &factor, double &offset)) (double, double, double)
+{
+	switch (oldu) {
+	case GCU_SPECTRUM_UNIT_ABSORBANCE:
+		if (newu == GCU_SPECTRUM_UNIT_TRANSMITTANCE) {
+			factor = 100.;
+			offset = 0.;
+			return expm;
+		}
+		break;
+	case GCU_SPECTRUM_UNIT_TRANSMITTANCE:
+		if (newu == GCU_SPECTRUM_UNIT_ABSORBANCE) {
+			factor = 0.01;
+			offset = 0.;
+			return logm;
+		}
+		break;
+	default:
+		break;
+	}
+	return NULL;
 }
 
 void SpectrumDocument::OnShowIntegral ()
@@ -1947,6 +2098,11 @@ void SpectrumDocument::OnTransformFID (GtkButton *btn)
 	gog_series_set_dim (rp.Series, 0, godata, NULL);
 	m_View->SetAxisBounds (GOG_AXIS_X, xf.Min, xf.Max, true);
 	m_View->SetAxisLabel (GOG_AXIS_X, xf.Name.c_str ());
+}
+
+void SpectrumDocument::OnXAxisInvert (bool inverted)
+{
+	m_View->InvertAxis (GOG_AXIS_X, inverted);
 }
 
 }	//	nampespace gcu

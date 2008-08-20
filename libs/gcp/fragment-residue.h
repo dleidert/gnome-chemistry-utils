@@ -43,7 +43,7 @@ public:
 	bool Load (xmlNodePtr node);
 	void SetResidue (Residue const *res);
 /*!
-		  @return the symbol of this Residue. Overrides gcu::Atom::GetSymbol.
+@return the symbol of this Residue.
 */
 	const gchar* GetSymbol () const;
 

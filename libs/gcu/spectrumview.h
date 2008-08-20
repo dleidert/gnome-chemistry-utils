@@ -76,9 +76,17 @@ Sets the text for the label of the first axis of the selected type.
 @param target an axis type.
 @param show whether to show the axis or not
 
-Used to show or hide all axes of either GOG_AXIS_X or GOG_AXIS_Y types.
+Used to show or hide the first axis of either GOG_AXIS_X or GOG_AXIS_Y types.
 */
 	void ShowAxis (GogAxisType target, bool show);
+
+/*!
+@param target an axis type.
+@param inverted whether to invert the axis scale or not
+
+Used to invert the first axis of either GOG_AXIS_X or GOG_AXIS_Y types.
+*/
+	void InvertAxis (GogAxisType target, bool inverted);
 
 /*!
 @param cr the cairo_t* to which render.

@@ -4,7 +4,7 @@
  * GChemPaint library
  * tool.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,10 +37,22 @@ namespace gcp {
 
 class Application;
 
+/*!\class Tool
+Base clas for GChemPaint tools.	
+*/
 class Tool
 {
 public:
+/*!
+@param App the GChemPaint application.
+@param Id the name of the tool.
+
+Constructs a new tool.
+*/
 	Tool (gcp::Application *App, std::string Id);
+/*!
+The destructor.
+*/
 	virtual ~Tool ();
 	
 /*!
@@ -61,14 +73,51 @@ events.
 */
 	bool OnClicked (View* pView, gcu::Object* pObject, double x, double y, unsigned int state);
 
+/*!
+@param x the horizontal position of the mouse when the event occured.
+@param y the vertical position of the mouse when the event occured.
+@param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.
+
+This method is called by the framework when the tool is active, the first mouse button
+is pressed and the mouse is moved.
+*/
 	void OnDrag (double x, double y, unsigned int state);
+/*!
+@param x the horizontal position of the mouse when the event occured.
+@param y the vertical position of the mouse when the event occured.
+@param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.
+
+This method is called by the framework when the tool is active and the first mouse button
+is released.
+*/
 	void OnRelease (double x, double y, unsigned int state);
+/*!
+@param pView the view where the event occured.
+@param pObject the object on which the event occured.
+@param x the horizontal position of the mouse when the event occured.
+@param y the vertical position of the mouse when the event occured.
+@param UIManager the GtkUIManager in use.
+
+This method is called by the framework when the tool is active and the right mouse button
+is pressed. It is used to add tool specific menu items to the contextual menu.
+It calls OnRightButtonClicked(GtkUIManager*).
+
+@return true if at least one menu item was added, false otherwise.
+*/
 	bool OnRightButtonClicked (View* pView, gcu::Object* pObject, double x, double y, GtkUIManager *UIManager);
 	bool Activate (bool bState);
 	std::string& GetName () {return name;}
 	virtual bool OnClicked ();
 	virtual void OnDrag ();
 	virtual void OnRelease ();
+/*!
+@param UIManager the GtkUIManager in use.
+
+Adds menu items to the contextual menu.
+Default implementation do not add any menu item and returns false. Derived classes
+for which menu items exist must override this method.
+@return true if at least one menu item was added, false otherwise.
+*/
 	virtual bool OnRightButtonClicked (GtkUIManager *UIManager);
 	virtual void Activate ();
 	virtual bool Deactivate ();
