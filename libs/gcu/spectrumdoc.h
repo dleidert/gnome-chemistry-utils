@@ -338,7 +338,6 @@ private:
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
 	GtkWindow *GetGtkWindow ();
 	void ReadDataTable (std::istream &s, double *x, double *y);
-	double GetConversionFactor (SpectrumUnitType oldu, SpectrumUnitType newu);
 	double (*GetConversionFunction (SpectrumUnitType oldu, SpectrumUnitType newu, double &factor, double &offset)) (double, double, double);
 
 private:

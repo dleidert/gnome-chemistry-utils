@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-08-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/tool.h: API documentation work.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/spectrumdoc.cc: more work on X variables switch and fix an
+	nmr integration issue.
+	* libs/gcu/spectrumdoc.h: ditto.
+
 2008-08-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment-residue.h: API documentation work.
 	* libs/gcp/tool.h: ditto.

@@ -1297,7 +1297,7 @@ out:
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 			w = gtk_combo_box_new_text ();
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Absorbance"));
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Transmittance (%)"));
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Transmittance"));
 			unit = (Y >= 0)? variables[Y].Unit: m_YUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_ABSORBANCE)? 0: 1));
 			g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);
@@ -1647,8 +1647,18 @@ void SpectrumDocument::OnXUnitChanged (int i)
 		break;
 	case GCU_SPECTRUM_INFRARED:
 	case GCU_SPECTRUM_RAMAN:
+		if (i == 1) {
+			unit = GCU_SPECTRUM_UNIT_CM_1;
+			invert_axis = true;
+		} else
+			unit = GCU_SPECTRUM_UNIT_MICROMETERS;
 		break;
 	case GCU_SPECTRUM_UV_VISIBLE:
+		if (i == 1) {
+			unit = GCU_SPECTRUM_UNIT_CM_1;
+			invert_axis = true;
+		} else
+			unit = GCU_SPECTRUM_UNIT_NANOMETERS;
 		break;
 	default:
 		break;
@@ -1657,14 +1667,16 @@ void SpectrumDocument::OnXUnitChanged (int i)
 		return;
 	GOData *godata;
 	GogSeries *series = m_View->GetSeries ();
-	if (X < 0 && m_XUnit == unit) {
+	if (m_XUnit == unit) {
+		X = -1;
 		godata = go_data_vector_val_new (x, npoints, NULL);
 		gog_series_set_dim (series, 0, godata, NULL);
 		m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
 		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[m_XUnit]));
 	} else {
 		unsigned i, j;
-		double f;
+		double (*conv) (double, double, double);
+		double f, o;
 		for (i = 0; i < variables.size (); i++)
 			if (variables[i].Symbol == 'X' && variables[i].Unit == unit)
 				break;
@@ -1672,68 +1684,59 @@ void SpectrumDocument::OnXUnitChanged (int i)
 			// Add new data vector
 			JdxVar v;
 			if (X >=0) {
-				f = GetConversionFactor (variables[X].Unit, unit);
+				conv = GetConversionFunction (variables[X].Unit, unit, f, o);
+				if (!conv)
+					return;
 				v.Name = _(UnitNames[variables[X].Unit]);
 				v.Symbol = variables[X].Symbol;
 				v.Type = variables[X].Type;
 				v.Unit = unit;
 				v.Format = variables[X].Format;
 				v.NbValues = variables[X].NbValues;
-				if (unit == GCU_SPECTRUM_UNIT_PPM && go_finite (offset)) {
-					double shift = maxx * f - offset;
-					v.First = variables[X].First * f - shift;
-					v.Last = variables[X].Last * f - shift; 
-					v.Min = variables[X].Min * f - shift;
-					v.Max = offset;
+					v.First = conv (variables[X].First, f, o);
+					v.Last = conv (variables[X].Last, f, o); 
+					v.Min = conv (variables[X].Min, f, o);
+					v.Max = conv (variables[X].Max, f, o);
 					v.Factor = 1.;
 					v.Values = new double[variables[X].NbValues];
 					for (j = 0; j < variables[X].NbValues; j++)
-						v.Values[j] = variables[X].Values[j] * f - shift;
-				} else {
-					v.First = variables[X].First * f;
-					v.Last = variables[X].Last * f; 
-					v.Min = variables[X].Min * f;
-					v.Max = variables[X].Max * f;
-					v.Factor = 1.;
-					v.Values = new double[variables[X].NbValues];
-					for (j = 0; j < variables[X].NbValues; j++)
-						v.Values[j] = variables[X].Values[j] * f;
-				}
+						v.Values[j] = conv (variables[X].Values[j], f, o);
 			} else {
-				f = GetConversionFactor (m_XUnit, unit);
+				conv = GetConversionFunction (m_XUnit, unit, f, o);
+				if (!conv)
+					return;
 				v.Name = _(UnitNames[unit]);
 				v.Symbol = 'X';
 				v.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
 				v.Unit = unit;
 				v.Format = GCU_SPECTRUM_FORMAT_MAX;
 				v.NbValues = npoints;
-				if (unit == GCU_SPECTRUM_UNIT_PPM && go_finite (offset)) {
-					double shift = maxx * f - offset;
-					v.First = firstx * f - shift;
-					v.Last = lastx * f - shift; 
-					v.Min = minx * f - shift;
-					v.Max = offset;
+					v.First = conv (firstx, f, o);
+					v.Last = conv (lastx, f, o); 
+					v.Min = conv (minx, f, o);
+					v.Max = conv (maxx, f, o);
 					v.Factor = 1.;
 					v.Values = new double[npoints];
 					for (j = 0; j < npoints; j++)
-						v.Values[j] = x[j] * f - shift;
-				} else {
-					v.First = firstx * f;
-					v.Last = lastx * f; 
-					v.Min = minx * f;
-					v.Max = maxx * f;
-					v.Factor = 1.;
-					v.Values = new double[npoints];
-					for (j = 0; j < npoints; j++)
-						v.Values[j] = x[j] * f;
-				}
+						v.Values[j] = conv (x[j], f, o);
+			}
+			if (v.Min > v.Max) {
+				f = v.Min;
+				v.Min = v.Max;
+				v.Max = f;
 			}
 			variables.push_back (v);
 		}
+		X = i;
 		godata = go_data_vector_val_new (variables[i].Values, variables[i].NbValues, NULL);
 		gog_series_set_dim (series, 0, godata, NULL);
 		m_View->SetAxisBounds (GOG_AXIS_X, variables[i].Min, variables[i].Max, invert_axis);
 		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[variables[i].Unit]));
+		if (m_XAxisInvertBtn) {
+			g_signal_handler_block (m_XAxisInvertBtn, m_XAxisInvertSgn);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m_XAxisInvertBtn), invert_axis);
+			g_signal_handler_unblock (m_XAxisInvertBtn, m_XAxisInvertSgn);
+		}
 		if (integral > 0) {
 			g_object_ref (godata);
 		}
@@ -1742,21 +1745,6 @@ void SpectrumDocument::OnXUnitChanged (int i)
 		g_object_ref (godata);
 		gog_series_set_dim (variables[integral].Series, 0, godata, NULL);
 	}
-}
-
-/*static double mult (double val, double f, double offset)
-{
-	return val * f + offset;
-}*/
-
-static double logm (double val, double f, double offset)
-{
-	return -log10 (val * f + offset);
-}
-
-static double expm (double val, double f, double offset)
-{
-	return exp10 (-val) * f + offset;
 }
 
 void SpectrumDocument::OnYUnitChanged (int i)
@@ -1776,7 +1764,8 @@ void SpectrumDocument::OnYUnitChanged (int i)
 		return;
 	GOData *godata;
 	GogSeries *series = m_View->GetSeries ();
-	if (Y < 0 && m_YUnit == unit) {
+	if (m_YUnit == unit) {
+		Y = -1;
 		godata = go_data_vector_val_new (y, npoints, NULL);
 		gog_series_set_dim (series, 1, godata, NULL);
 		m_View->SetAxisBounds (GOG_AXIS_Y, miny, maxy, invert_axis);
@@ -1793,6 +1782,8 @@ void SpectrumDocument::OnYUnitChanged (int i)
 			JdxVar v;
 			if (Y >=0) {
 				conv = GetConversionFunction (variables[Y].Unit, unit, f, o);
+				if (!conv)
+					return;
 				v.Name = _(UnitNames[variables[Y].Unit]);
 				v.Symbol = variables[Y].Symbol;
 				v.Type = variables[Y].Type;
@@ -1809,6 +1800,8 @@ void SpectrumDocument::OnYUnitChanged (int i)
 					v.Values[j] = conv (variables[Y].Values[j], f, o);
 			} else {
 				conv = GetConversionFunction (m_YUnit, unit, f, o);
+				if (!conv)
+					return;
 				v.Name = _(UnitNames[unit]);
 				v.Symbol = 'Y';
 				v.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
@@ -1831,6 +1824,7 @@ void SpectrumDocument::OnYUnitChanged (int i)
 			}
 			variables.push_back (v);
 		}
+		Y = i;
 		godata = go_data_vector_val_new (variables[i].Values, variables[i].NbValues, NULL);
 		gog_series_set_dim (series, 1, godata, NULL);
 		m_View->SetAxisBounds (GOG_AXIS_Y, variables[i].Min, variables[i].Max, invert_axis);
@@ -1838,40 +1832,81 @@ void SpectrumDocument::OnYUnitChanged (int i)
 	}
 }
 
-double SpectrumDocument::GetConversionFactor (SpectrumUnitType oldu, SpectrumUnitType newu)
+static double mult (double val, double f, double offset)
 {
-	double res = go_nan;
-	switch (oldu) {
-	case GCU_SPECTRUM_UNIT_PPM:
-		if (go_finite (freq) && newu == GCU_SPECTRUM_UNIT_HZ)
-			res = freq;
-		break;
-	case GCU_SPECTRUM_UNIT_HZ:
-		if (go_finite (freq) && newu == GCU_SPECTRUM_UNIT_PPM)
-			res = 1. / freq;
-		break;
-	default:
-		break;
-	}
-	return res;
+	return val * f + offset;
 }
 
-double (*SpectrumDocument::GetConversionFunction (SpectrumUnitType oldu, SpectrumUnitType newu, double &factor, double &offset)) (double, double, double)
+static double inv (double val, double f, double offset)
+{
+	return f / val + offset;
+}
+
+static double logm (double val, double f, double offset)
+{
+	return -log10 (val * f + offset);
+}
+
+static double expm (double val, double f, double offset)
+{
+	return exp10 (-val) * f + offset;
+}
+
+double (*SpectrumDocument::GetConversionFunction (SpectrumUnitType oldu, SpectrumUnitType newu, double &factor, double &shift)) (double, double, double)
 {
 	switch (oldu) {
-	case GCU_SPECTRUM_UNIT_ABSORBANCE:
-		if (newu == GCU_SPECTRUM_UNIT_TRANSMITTANCE) {
-			factor = 100.;
-			offset = 0.;
-			return expm;
+	case GCU_SPECTRUM_UNIT_CM_1:
+		if (newu == GCU_SPECTRUM_UNIT_NANOMETERS) {
+			factor = 1.e7;
+			shift = 0;
+			return inv;
+		}
+		if (newu == GCU_SPECTRUM_UNIT_MICROMETERS) {
+			factor = 1.e4;
+			shift = 0;
+			return inv;
 		}
 		break;
 	case GCU_SPECTRUM_UNIT_TRANSMITTANCE:
 		if (newu == GCU_SPECTRUM_UNIT_ABSORBANCE) {
-			factor = 0.01;
-			offset = 0.;
+			factor = 1.;
+			shift = 0.;
 			return logm;
 		}
+		break;
+	case GCU_SPECTRUM_UNIT_ABSORBANCE:
+		if (newu == GCU_SPECTRUM_UNIT_TRANSMITTANCE) {
+			factor = 1.;
+			shift = 0.;
+			return expm;
+		}
+		break;
+	case GCU_SPECTRUM_UNIT_PPM:
+		if (go_finite (freq) && newu == GCU_SPECTRUM_UNIT_HZ) {
+			factor = freq;
+			shift = 0;
+			return mult;
+		}
+		break;
+	case GCU_SPECTRUM_UNIT_NANOMETERS:
+		if (newu == GCU_SPECTRUM_UNIT_CM_1) {
+			factor = 1.e7;
+			shift = 0;
+			return inv;
+		}
+		break;
+	case GCU_SPECTRUM_UNIT_MICROMETERS:
+		if (newu == GCU_SPECTRUM_UNIT_CM_1) {
+			factor = 1.e4;
+			shift = 0;
+			return inv;
+		}
+		break;
+	case GCU_SPECTRUM_UNIT_HZ:
+		if (go_finite (freq) && newu == GCU_SPECTRUM_UNIT_PPM)
+			factor = 1. / freq;
+			shift = (go_finite (offset))? offset - maxx * factor: 0.;
+			return mult;
 		break;
 	default:
 		break;
@@ -1992,7 +2027,7 @@ void SpectrumDocument::OnTransformFID (GtkButton *btn)
 		n <<= 1;
 	n <<= 1; // doubles the points number to get more transformed values
 	go_complex *fid = new go_complex[n], *sp;
-	unsigned i, j;
+	unsigned i;
 	for (i = 0; i < npoints; i++) {
 		// assuming we have as many real, imaginary and time values
 		fid[i].re = re[i];
@@ -2008,7 +2043,7 @@ void SpectrumDocument::OnTransformFID (GtkButton *btn)
 	// only the first half values are useful
 	n /= 2;
 	// copy the unphased data to Rt and It (t for transformed)
-	JdxVar vr, vi, rp, xf;
+	JdxVar vr, vi, rp;
 	vr.Name = _("Real transformed data");
 	vr.Symbol = 't';
 	vr.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
@@ -2044,7 +2079,7 @@ void SpectrumDocument::OnTransformFID (GtkButton *btn)
 	It = variables.size ();
 	variables.push_back (vi);
 	// Now we need to adjust the phase (see http://www.ebyte.it/stan/Poster_EDISPA.html)
-	double phi = 0., tau = 0., q[36][31], *z;
+	double phi = 0., tau = 0., *z;
 	double step = M_PI * 2. * tau / n, phase;
 	z = new double[n];
 	for (i = 0; i < n; i++)
@@ -2076,28 +2111,13 @@ void SpectrumDocument::OnTransformFID (GtkButton *btn)
 		xo = x;
 		freq = (npoints - 1) / (lastx - firstx);
 	}
-	// first Hz
-	xf.Name = _(UnitNames[GCU_SPECTRUM_UNIT_HZ]);
-	xf.Symbol = 'X';
-	xf.Type = GCU_SPECTRUM_TYPE_INDEPENDENT;
-	xf.Unit = GCU_SPECTRUM_UNIT_HZ;
-	xf.Format = GCU_SPECTRUM_FORMAT_MAX;
-	xf.NbValues = n;
-	xf.Values = new double[n];
-	for (i = 0; i < n; i++)
-		xf.Values[i] = freq * (i + 1.) / n;
-	xf.First = xf.Min = xf.Values[0];
-	xf.Last = xf.Max = xf.Values[n - 1];
-	xf.Factor = 1.;
 	//now display the spectrum
 	variables[R].Series = NULL;
 	rp.Series = m_View->GetSeries ();
 	GOData *godata = go_data_vector_val_new (rp.Values, n, NULL);
 	gog_series_set_dim (rp.Series, 1, godata, NULL);
-	godata = go_data_vector_val_new (xf.Values, n, NULL);
+	godata = (X < 0)? go_data_vector_val_new (x, npoints, NULL): go_data_vector_val_new (variables[X].Values, variables[X].NbValues, NULL);
 	gog_series_set_dim (rp.Series, 0, godata, NULL);
-	m_View->SetAxisBounds (GOG_AXIS_X, xf.Min, xf.Max, true);
-	m_View->SetAxisLabel (GOG_AXIS_X, xf.Name.c_str ());
 }
 
 void SpectrumDocument::OnXAxisInvert (bool inverted)

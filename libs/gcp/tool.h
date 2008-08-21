@@ -105,10 +105,20 @@ It calls OnRightButtonClicked(GtkUIManager*).
 @return true if at least one menu item was added, false otherwise.
 */
 	bool OnRightButtonClicked (View* pView, gcu::Object* pObject, double x, double y, GtkUIManager *UIManager);
+/*!
+*/
 	bool Activate (bool bState);
+/*!
+*/
 	std::string& GetName () {return name;}
+/*!
+*/
 	virtual bool OnClicked ();
+/*!
+*/
 	virtual void OnDrag ();
+/*!
+*/
 	virtual void OnRelease ();
 /*!
 @param UIManager the GtkUIManager in use.
@@ -119,23 +129,59 @@ for which menu items exist must override this method.
 @return true if at least one menu item was added, false otherwise.
 */
 	virtual bool OnRightButtonClicked (GtkUIManager *UIManager);
+/*!
+*/
 	virtual void Activate ();
+/*!
+*/
 	virtual bool Deactivate ();
+/*!
+*/
 	virtual void OnChangeState ();
+/*!
+*/
 	void OnKeyPressed (unsigned int code) {m_nState |= code; OnChangeState ();}
+/*!
+*/
 	void OnKeyReleased (unsigned int code) {if (m_nState & code) m_nState -= code; OnChangeState ();}
+/*!
+*/
 	virtual bool OnEvent (GdkEvent* event);
+/*!
+*/
 	virtual bool NotifyViewChange ();
+/*!
+*/
 	virtual bool DeleteSelection ();
+/*!
+*/
 	virtual bool CopySelection (GtkClipboard *clipboard);
+/*!
+*/
 	virtual bool CutSelection (GtkClipboard *clipboard);
+/*!
+*/
 	virtual bool PasteSelection (GtkClipboard *clipboard);
+/*!
+*/
 	virtual void AddSelection (WidgetData* data);
+/*!
+*/
 	virtual bool OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type);
+/*!
+*/
 	virtual bool OnUndo ();
+/*!
+*/
 	virtual bool OnRedo ();
+/*!
+*/
 	virtual void PushNode (xmlNodePtr node);
+/*!
+*/
 	virtual GtkWidget *GetPropertyPage ();
+/*!
+*/
 	virtual char const *GetHelpTag () {return "";}
 	
 protected:
