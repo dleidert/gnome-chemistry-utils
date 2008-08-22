@@ -313,6 +313,7 @@ docs/help/3d/Makefile
 docs/help/calc/Makefile
 docs/help/crystal/Makefile
 docs/help/paint/Makefile
+docs/help/spectra/Makefile
 docs/help/table/Makefile
 docs/man/gcu_entities.dtd
 docs/man/Makefile

@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: generate the missing Makefile.
+
+2008-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/spectra/C/gspectrum.xml: add missing docs.
 	* docs/help/spectra/C/legal.xml: ditto.
 	* docs/help/spectra/Makefile.am: ditto.
