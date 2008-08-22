@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2008-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* autogen.sh: use versioned help files.
+	* docs/help/3d/Makefile.am: ditto.
+	* docs/help/3d/gchem3d-viewer-unstable.omf.in: ditto.
+	* docs/help/3d/gchem3d-viewer.omf.in: ditto.
+	* docs/help/Makefile.am: ditto.
+	* docs/help/calc/Makefile.am: ditto.
+	* docs/help/calc/gchemcalc-unstable.omf.in: ditto.
+	* docs/help/crystal/Makefile.am: ditto.
+	* docs/help/crystal/gcrystal-unstable.omf.in: ditto.
+	* docs/help/table/Makefile.am: ditto.
+	* docs/help/table/gchemtable-unstable.omf.in: ditto.
+
 2008-08-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/tool.h: API documentation work.
 	* libs/gcp/view.h: ditto.

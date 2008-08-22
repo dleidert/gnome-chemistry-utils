@@ -34,6 +34,8 @@ database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in
 goffice/plugin.xml.in
+goffice/gogcpapp.cc
+goffice/gogcpwin.cc
 libs/canvas/gcp-canvas-pango.c
 libs/gcp/about.cc
 libs/gcp/application.cc
