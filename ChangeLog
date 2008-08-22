@@ -1,6 +1,12 @@
 ##Text encoding: utf-8
 
 2008-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/spectra/C/gspectrum.xml: add missing docs.
+	* docs/help/spectra/C/legal.xml: ditto.
+	* docs/help/spectra/Makefile.am: ditto.
+	* docs/help/spectra/gspectrum.omf.in: ditto.
+
+2008-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* autogen.sh: use versioned help files.
 	* docs/help/3d/Makefile.am: ditto.
 	* docs/help/3d/gchem3d-viewer-unstable.omf.in: ditto.
