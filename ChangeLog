@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* tests/testgtkchem3dviewer.c: fix compilation without gnome-vfs.
+
+2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/man/Makefile.am: removed the unstable keyword.
 	* docs/man/gcu_entities.dtd.in: ditto.
 
