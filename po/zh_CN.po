@@ -1,15 +1,16 @@
-# Copyright (C) 2005
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Valek Filippov <frob@df.ru>, 2005.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-chemistry-utils\n"
+"Project-Id-Version: GChemPaint-0.5.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-08-23 13:53+0200\n"
-"PO-Revision-Date: 2005-11-20 23:58+0300\n"
-"Last-Translator: Valek Filippov <frob@df.ru>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"PO-Revision-Date: 2006-01-03 16:47+0800\n"
+"Last-Translator: Ben Luo <benluo@linux.org.cn>\n"
+"Language-Team: simplified Chinese <zh@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,9 +32,8 @@ msgid "Default Top Outside Margin"
 msgstr ""
 
 #: ../gchemutils.schemas.in.h:5
-#, fuzzy
 msgid "Footer height"
-msgstr "Молекулярный вес:"
+msgstr ""
 
 #: ../gchemutils.schemas.in.h:6
 msgid "Off screen rendering"
@@ -102,7 +102,7 @@ msgstr ""
 #: ../gchemutils.xml.in.h:1 ../programs/paint/x-gchempaint.desktop.in.h:1
 #, fuzzy
 msgid "2D Chemical structure"
-msgstr "Редактирование химических структур"
+msgstr "编辑 2D 化学结构"
 
 #: ../gchemutils.xml.in.h:2 ../programs/crystal/x-gcrystal.desktop.in.h:1
 msgid "Crystalline structure model"
@@ -127,7 +127,7 @@ msgstr ""
 #: ../database/residues.xml.in.h:5
 #, fuzzy
 msgid "Benzyl"
-msgstr "Бензол"
+msgstr "苯"
 
 #: ../database/residues.xml.in.h:6
 msgid "Butyl"
@@ -138,9 +138,8 @@ msgid "Ethyl"
 msgstr ""
 
 #: ../database/residues.xml.in.h:8
-#, fuzzy
 msgid "Halogen"
-msgstr "Водород"
+msgstr ""
 
 #: ../database/residues.xml.in.h:9
 msgid "Isobutyl"
@@ -165,12 +164,12 @@ msgstr ""
 #: ../database/residues.xml.in.h:14
 #, fuzzy
 msgid "Phenyl"
-msgstr "Фенилаланин"
+msgstr "苯丙氨酸"
 
 #: ../database/residues.xml.in.h:15
 #, fuzzy
 msgid "Propyl"
-msgstr "Пролин"
+msgstr "脯氨酸"
 
 #: ../database/residues.xml.in.h:16
 msgid "Tosyl"
@@ -186,41 +185,40 @@ msgstr ""
 
 #: ../glade/gchemcalc.glade.h:1
 msgid "Chemical calculator"
-msgstr "Химический калькулятор"
+msgstr ""
 
 #: ../glade/gchemcalc.glade.h:2
 msgid "Composition"
-msgstr "Соединение"
+msgstr ""
 
 #: ../glade/gchemcalc.glade.h:3 ../programs/calc/gchemcalc.cc:341
 msgid "Formula:"
-msgstr "Формула:"
+msgstr ""
 
 #: ../glade/gchemcalc.glade.h:4
 msgid "Isotopic Pattern"
-msgstr "Изотопный шаблон"
+msgstr ""
 
 #: ../glade/gchemcalc.glade.h:5
 msgid "Molecular weight:"
-msgstr "Молекулярный вес:"
+msgstr ""
 
 #: ../glade/gchemcalc.glade.h:6
-#, fuzzy
 msgid "Monoisotopic mass:"
-msgstr "Моноизотопная масса:"
+msgstr ""
 
 #: ../glade/gchemcalc.glade.h:7 ../programs/calc/gchemcalc.cc:344
-#, fuzzy
 msgid "Raw formula:"
-msgstr "Формула:"
+msgstr ""
 
 #: ../glade/gtkperiodic.glade.h:1
+#, fuzzy
 msgid "Actinides"
-msgstr "Актиноиды"
+msgstr "氨基酸"
 
 #: ../glade/gtkperiodic.glade.h:2
 msgid "Lanthanides"
-msgstr "Лантаноиды"
+msgstr ""
 
 #: ../glade/image-size.glade.h:1
 msgid "Height:"
@@ -246,7 +244,7 @@ msgstr ""
 #: ../glade/print-setup.glade.h:4
 #, fuzzy
 msgid "<b>O_rientation:</b>"
-msgstr "Ориентация: %g"
+msgstr "方位： %g"
 
 #: ../glade/print-setup.glade.h:5
 msgid "<b>Paper:</b>"
@@ -295,7 +293,7 @@ msgstr ""
 #: ../glade/print-setup.glade.h:16
 #, fuzzy
 msgid "Page"
-msgstr "Вст_авить"
+msgstr "粘贴(_P)"
 
 #: ../glade/print-setup.glade.h:17
 msgid "Page Setup"
@@ -304,11 +302,12 @@ msgstr ""
 #: ../glade/print-setup.glade.h:18
 #, fuzzy
 msgid "Portrait"
-msgstr "Печать"
+msgstr "打印"
 
 #: ../glade/print-setup.glade.h:19
+#, fuzzy
 msgid "Reload defaults"
-msgstr ""
+msgstr "设置缺省"
 
 #: ../glade/print-setup.glade.h:20
 msgid "Reverse landscape"
@@ -325,17 +324,17 @@ msgstr ""
 #: ../glade/print-setup.glade.h:23
 #, fuzzy
 msgid "Save as defaults"
-msgstr "Сохранить все открытые файлы"
+msgstr "设置缺省"
 
 #: ../glade/print-setup.glade.h:24
 #, fuzzy
 msgid "Scale"
-msgstr "Со_хранить"
+msgstr "保存(_S)"
 
 #: ../glade/print-setup.glade.h:25
 #, fuzzy
 msgid "Scale to fit _horizontally on"
-msgstr "Отразить выделение горизонтально"
+msgstr "对选择做水平翻转"
 
 #: ../glade/print-setup.glade.h:26
 msgid "Scale to fit _vertically on"
@@ -350,9 +349,8 @@ msgid "Unit:"
 msgstr ""
 
 #: ../glade/print-setup.glade.h:29
-#, fuzzy
 msgid "_Automatic scaling:"
-msgstr "Молекулярный вес:"
+msgstr ""
 
 #: ../glade/print-setup.glade.h:30
 msgid "_Fixed scaling:"
@@ -369,7 +367,7 @@ msgstr ""
 #: ../glade/print-setup.glade.h:33
 #, fuzzy
 msgid "_Horizontally"
-msgstr "Горизонтальное отражение"
+msgstr "水平翻转"
 
 #: ../glade/print-setup.glade.h:34
 msgid "_No scaling"
@@ -378,7 +376,7 @@ msgstr ""
 #: ../glade/print-setup.glade.h:35
 #, fuzzy
 msgid "_Vertically"
-msgstr "Вертикальное отражение"
+msgstr "垂直翻转"
 
 #: ../glade/print-setup.glade.h:36
 msgid "page(s)"
@@ -387,7 +385,7 @@ msgstr ""
 #: ../glade/crystal/bonds.glade.h:1 ../libs/gcp/preferences.cc:407
 #: ../libs/gcp/preferences.cc:481 ../libs/gcp/preferences.cc:531
 msgid "Bonds"
-msgstr "Связи"
+msgstr "键"
 
 #: ../glade/crystal/cell.glade.h:1
 msgid "Cell"
@@ -446,39 +444,39 @@ msgstr ""
 #: ../glade/crystal/docprop.glade.h:1 ../glade/crystal/size.glade.h:1
 #: ../plugins/paint/templates/new-template.glade.h:1
 msgid "*"
-msgstr "*"
+msgstr ""
 
 #: ../glade/crystal/docprop.glade.h:2
 msgid "Author"
-msgstr "Автор"
+msgstr "作者"
 
 #: ../glade/crystal/docprop.glade.h:3
 msgid "Comments"
-msgstr "Комментарий"
+msgstr "注释"
 
 #: ../glade/crystal/docprop.glade.h:4 ../glade/paint/docprop.glade.h:5
 msgid "Creation date:"
-msgstr "Дата создания:"
+msgstr "创建日期："
 
 #: ../glade/crystal/docprop.glade.h:5 ../glade/paint/docprop.glade.h:6
 msgid "Document properties"
-msgstr "Свойства документа"
+msgstr "文档属性"
 
 #: ../glade/crystal/docprop.glade.h:6
 msgid "E-mail:"
-msgstr "Адрес эл.почты:"
+msgstr ""
 
 #: ../glade/crystal/docprop.glade.h:7
 msgid "Name:"
-msgstr "Название:"
+msgstr "姓名："
 
 #: ../glade/crystal/docprop.glade.h:8 ../glade/paint/docprop.glade.h:8
 msgid "Revision date:"
-msgstr "Дата обновления:"
+msgstr "修订日期："
 
 #: ../glade/crystal/docprop.glade.h:9
 msgid "Title:"
-msgstr "Заголовок:"
+msgstr "标题："
 
 #: ../glade/crystal/prefs.glade.h:1
 msgid ""
@@ -502,7 +500,7 @@ msgstr ""
 #: ../glade/crystal/prefs.glade.h:11 ../glade/crystal/view-settings.glade.h:1
 #, fuzzy
 msgid "Background color:"
-msgstr "Цвет фона"
+msgstr "背景色"
 
 #: ../glade/crystal/prefs.glade.h:12
 msgid "Default views settings"
@@ -527,7 +525,7 @@ msgstr ""
 #: ../glade/crystal/prefs.glade.h:17
 #, fuzzy
 msgid "Printing"
-msgstr "Печать"
+msgstr "打印"
 
 #: ../glade/crystal/prefs.glade.h:18 ../glade/crystal/view-settings.glade.h:5
 msgid "θ (°):"
@@ -548,7 +546,7 @@ msgstr ""
 #: ../glade/crystal/atoms.glade.h:2 ../libs/gcp/preferences.cc:395
 #: ../libs/gcp/preferences.cc:469 ../libs/gcp/preferences.cc:519
 msgid "Atoms"
-msgstr "Атомы"
+msgstr "原子"
 
 #: ../glade/crystal/atoms.glade.h:3
 msgid "Charge: "
@@ -557,7 +555,7 @@ msgstr ""
 #: ../glade/crystal/atoms.glade.h:4
 #, fuzzy
 msgid "Custom"
-msgstr "_Вырезать"
+msgstr "剪切(_t)"
 
 #: ../glade/crystal/atoms.glade.h:5
 msgid "Custom color:"
@@ -567,17 +565,16 @@ msgstr ""
 #: ../glade/crystal/lines.glade.h:2
 #, fuzzy
 msgid "Dele_te all"
-msgstr "Выбрать всё"
+msgstr "全选(_A)"
 
 #: ../glade/crystal/atoms.glade.h:7 ../libs/gcu/gtkcomboperiodic.c:96
 #: ../programs/table/gchemtable-app.cc:261
 msgid "Periodic table of the elements"
-msgstr "Периодическая таблица элементов"
+msgstr "元素周期表"
 
 #: ../glade/crystal/atoms.glade.h:8
-#, fuzzy
 msgid "Radius"
-msgstr "Радий"
+msgstr ""
 
 #: ../glade/crystal/atoms.glade.h:9
 msgid "Scale factor:"
@@ -616,7 +613,7 @@ msgstr ""
 #: ../glade/crystal/lines.glade.h:8
 #, fuzzy
 msgid "_Delete"
-msgstr "Выбрать"
+msgstr "选择"
 
 #: ../glade/crystal/cleavages.glade.h:1
 msgid "Cleavages"
@@ -641,7 +638,7 @@ msgstr ""
 #: ../glade/crystal/lines.glade.h:4
 #, fuzzy
 msgid "Lines"
-msgstr "Лизин"
+msgstr "赖氨酸"
 
 #: ../glade/crystal/lines.glade.h:5
 msgid "Medians"
@@ -650,7 +647,7 @@ msgstr ""
 #: ../glade/crystal/lines.glade.h:6
 #, fuzzy
 msgid "Other lines"
-msgstr "Подчёркивание"
+msgstr "下划线"
 
 #: ../glade/crystal/lines.glade.h:9
 msgid "color:"
@@ -663,21 +660,19 @@ msgstr ""
 #: ../glade/crystal/size.glade.h:2
 #, fuzzy
 msgid "Crystal size"
-msgstr "Размер цикла:"
+msgstr "环大小："
 
 #: ../glade/crystal/size.glade.h:3
 msgid "Give minimum and maximum coordinates in cell units"
 msgstr ""
 
 #: ../glade/crystal/size.glade.h:4
-#, fuzzy
 msgid "Maximum"
-msgstr "Магний"
+msgstr ""
 
 #: ../glade/crystal/size.glade.h:5
-#, fuzzy
 msgid "Minimum"
-msgstr "Экаиридий"
+msgstr ""
 
 #: ../glade/crystal/size.glade.h:6 ../programs/crystal/atomsdlg.cc:144
 msgid "x"
@@ -712,7 +707,7 @@ msgstr ""
 #: ../glade/paint/docprop.glade.h:1
 #, fuzzy
 msgid "<b>Author:</b>"
-msgstr "Автор"
+msgstr "作者"
 
 #: ../glade/paint/docprop.glade.h:2
 msgid "<b>History</b>"
@@ -725,28 +720,27 @@ msgstr ""
 #: ../glade/paint/docprop.glade.h:4
 #, fuzzy
 msgid "<b>_Comments:</b>"
-msgstr "Комментарий"
+msgstr "注释"
 
 #: ../glade/paint/docprop.glade.h:7
-#, fuzzy
 msgid "E-_mail:"
-msgstr "Адрес эл.почты:"
+msgstr ""
 
 #: ../glade/paint/docprop.glade.h:9 ../glade/paint/newfiledlg.glade.h:2
 #, fuzzy
 msgid "Theme:"
-msgstr "Тимин"
+msgstr "胸腺嘧啶"
 
 #: ../glade/paint/docprop.glade.h:10
 #: ../plugins/paint/residues/residues.glade.h:6
 #, fuzzy
 msgid "_Name:"
-msgstr "Название"
+msgstr "姓名(_N)"
 
 #: ../glade/paint/docprop.glade.h:11
 #, fuzzy
 msgid "_Title:"
-msgstr "Заголовок:"
+msgstr "标题："
 
 #: ../glade/paint/H-pos.glade.h:1 ../libs/gcp/atom.cc:1879
 msgid "Hydrogen atoms position"
@@ -842,7 +836,7 @@ msgstr ""
 #: ../glade/paint/preferences.glade.h:17
 #, fuzzy
 msgid "Dist_ance:"
-msgstr "Дистанция:"
+msgstr "距离"
 
 #: ../glade/paint/preferences.glade.h:18
 msgid "Distance between hashes in pixels."
@@ -882,7 +876,7 @@ msgstr ""
 #: ../glade/paint/preferences.glade.h:25
 #, fuzzy
 msgid "GChemPaint Preferences"
-msgstr "Версия GChemPaint: "
+msgstr "GChemPaint 控件"
 
 #: ../glade/paint/preferences.glade.h:26
 msgid "General _padding:"
@@ -895,7 +889,7 @@ msgstr ""
 #: ../glade/paint/preferences.glade.h:28
 #, fuzzy
 msgid "Ha_ve a tearable table of the elements"
-msgstr "Периодическая таблица элементов"
+msgstr "元素周期表"
 
 #: ../glade/paint/preferences.glade.h:29
 msgid "Len_gth:"
@@ -904,7 +898,7 @@ msgstr ""
 #: ../glade/paint/preferences.glade.h:30
 #, fuzzy
 msgid "N_ame:"
-msgstr "Название:"
+msgstr "姓名："
 
 #: ../glade/paint/preferences.glade.h:31
 msgid "Padding added at each end of an arrow (in pixels)."
@@ -959,7 +953,7 @@ msgstr ""
 #: ../glade/paint/preferences.glade.h:42
 #, fuzzy
 msgid "_Distance:"
-msgstr "Дистанция:"
+msgstr "距离"
 
 #: ../glade/paint/preferences.glade.h:43
 msgid "_Object padding:"
@@ -972,7 +966,7 @@ msgstr ""
 #: ../glade/paint/preferences.glade.h:45
 #, fuzzy
 msgid "_Scale:"
-msgstr "Со_хранить"
+msgstr "保存(_S)"
 
 #: ../glade/paint/preferences.glade.h:46
 msgid "_Width:"
@@ -984,12 +978,12 @@ msgstr ""
 
 #: ../glade/paint/zoom.glade.h:1
 msgid "Zoom"
-msgstr "Масштаб"
+msgstr ""
 
 #: ../glade/paint/zoom.glade.h:3
 #, no-c-format
 msgid "Zoom factor (%):"
-msgstr "Масштаб (%):"
+msgstr ""
 
 #: ../glade/table/acidity.glade.h:1
 msgid "<span background=\"blue\"><b>Basic</b></span>"
@@ -1016,28 +1010,26 @@ msgid "Atomic number:"
 msgstr ""
 
 #: ../glade/table/eltpage.glade.h:3
-#, fuzzy
 msgid "Atomic weight:"
-msgstr "Молекулярный вес:"
+msgstr ""
 
 #: ../glade/table/eltpage.glade.h:4
 msgid "Boiling point:"
 msgstr ""
 
 #: ../glade/table/eltpage.glade.h:5
-#, fuzzy
 msgid "Covalent:"
-msgstr "Кобальт"
+msgstr ""
 
 #: ../glade/table/eltpage.glade.h:6
 #, fuzzy
 msgid "Electronic affinities:"
-msgstr "Пара электронов"
+msgstr "电子对工具"
 
 #: ../glade/table/eltpage.glade.h:7
 #, fuzzy
 msgid "Electronic properties"
-msgstr "Свойства группы..."
+msgstr "组属性..."
 
 #: ../glade/table/eltpage.glade.h:8
 msgid "Ionic radii (Shannon and Prewitt):"
@@ -1053,7 +1045,7 @@ msgstr ""
 
 #: ../glade/table/eltpage.glade.h:11
 msgid "Main"
-msgstr "Главное"
+msgstr "主要"
 
 #: ../glade/table/eltpage.glade.h:12
 msgid "Melting point:"
@@ -1062,17 +1054,16 @@ msgstr ""
 #: ../glade/table/eltpage.glade.h:13
 #, fuzzy
 msgid "Metallic:"
-msgstr "Наклонный"
+msgstr "斜体"
 
 #: ../glade/table/eltpage.glade.h:14
-#, fuzzy
 msgid "Pauling electronegativity:"
-msgstr "Электроотрицательность Паули"
+msgstr ""
 
 #: ../glade/table/eltpage.glade.h:15
 #, fuzzy
 msgid "Radii"
-msgstr "Радий"
+msgstr "就绪"
 
 #: ../glade/table/eltpage.glade.h:16 ../programs/table/gchemtable-elt.cc:130
 msgid "Show curve"
@@ -1103,9 +1094,8 @@ msgid "Temperature (K):"
 msgstr ""
 
 #: ../glade/table/curve.glade.h:1
-#, fuzzy
 msgid "GChemTable Graph"
-msgstr "Выйти из GChemTable"
+msgstr ""
 
 #: ../glade/table/family.glade.h:1
 msgid ""
@@ -1151,103 +1141,108 @@ msgstr ""
 
 #: ../database/elements.xml.in.h:1
 msgid "Actinium"
-msgstr "Актиний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:2
 msgid "Aluminum"
-msgstr "Алюминий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:3
 msgid "Americium"
-msgstr "Америций"
+msgstr ""
 
 #: ../database/elements.xml.in.h:4
 msgid "Antimony"
-msgstr "Сурьма"
+msgstr ""
 
 #: ../database/elements.xml.in.h:5
+#, fuzzy
 msgid "Argon"
-msgstr "Аргон"
+msgstr "精氨酸"
 
 #: ../database/elements.xml.in.h:6
 msgid "Arsenic"
-msgstr "Мышьяк"
+msgstr ""
 
 #: ../database/elements.xml.in.h:7
+#, fuzzy
 msgid "Astatine"
-msgstr "Астат"
+msgstr "天冬酰胺"
 
 #: ../database/elements.xml.in.h:8
 msgid "Barium"
-msgstr "Барий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:9
 msgid "Berkelium"
-msgstr "Берклий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:10
 msgid "Beryllium"
-msgstr "Бериллий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:11
 msgid "Bismuth"
-msgstr "Висмут"
+msgstr ""
 
 #: ../database/elements.xml.in.h:12
 msgid "Bohrium"
-msgstr "Экарений"
+msgstr ""
 
 #: ../database/elements.xml.in.h:13
+#, fuzzy
 msgid "Boron"
-msgstr "Бор"
+msgstr "键"
 
 #: ../database/elements.xml.in.h:14
+#, fuzzy
 msgid "Bromine"
-msgstr "Бром"
+msgstr "脯氨酸"
 
 #: ../database/elements.xml.in.h:15
 msgid "Cadmium"
-msgstr "Кадмий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:16
 msgid "Caesium"
-msgstr "Цезий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:17
 msgid "Calcium"
-msgstr "Кальций"
+msgstr ""
 
 #: ../database/elements.xml.in.h:18
 msgid "Californium"
-msgstr "Калифорний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:19
 msgid "Carbon"
-msgstr "Углерод"
+msgstr ""
 
 #: ../database/elements.xml.in.h:20
 msgid "Cerium"
-msgstr "Церий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:21
+#, fuzzy
 msgid "Chlorine"
-msgstr "Хлор"
+msgstr "胞嘧啶"
 
 #: ../database/elements.xml.in.h:22
 msgid "Chromium"
-msgstr "Хром"
+msgstr ""
 
 #: ../database/elements.xml.in.h:23
 msgid "Cobalt"
-msgstr "Кобальт"
+msgstr ""
 
 #: ../database/elements.xml.in.h:24
 msgid "Copper"
-msgstr "Медь"
+msgstr ""
 
 #: ../database/elements.xml.in.h:25
 msgid "Curium"
-msgstr "Кюрий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:26
 msgid "Darmstadtium"
@@ -1255,223 +1250,229 @@ msgstr ""
 
 #: ../database/elements.xml.in.h:27
 msgid "Dubnium"
-msgstr "Дубний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:28
 msgid "Dysprosium"
-msgstr "Диспрозий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:29
 msgid "Einsteinium"
-msgstr "Эйнштейний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:30
 msgid "Erbium"
-msgstr "Эрбий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:31
 msgid "Europium"
-msgstr "Европий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:32
 msgid "Fermium"
-msgstr "Фермий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:33
 msgid "Fluorine"
-msgstr "Фтор"
+msgstr ""
 
 #: ../database/elements.xml.in.h:34
 msgid "Francium"
-msgstr "Франций"
+msgstr ""
 
 #: ../database/elements.xml.in.h:35
 msgid "Gadolinium"
-msgstr "Гадолиний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:36
 msgid "Gallium"
-msgstr "Галлий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:37
 msgid "Germanium"
-msgstr "Германий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:38
+#, fuzzy
 msgid "Gold"
-msgstr "Золото"
+msgstr "粗体"
 
 #: ../database/elements.xml.in.h:39
 msgid "Hafnium"
-msgstr "Гафний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:40
 msgid "Hassium"
-msgstr "Экаосмий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:41
 msgid "Helium"
-msgstr "Гелий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:42
 msgid "Holmium"
-msgstr "Гольмий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:43
 msgid "Hydrogen"
-msgstr "Водород"
+msgstr ""
 
 #: ../database/elements.xml.in.h:44
 msgid "Indium"
-msgstr "Индий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:45
+#, fuzzy
 msgid "Iodine"
-msgstr "Йод"
+msgstr "异亮氨酸"
 
 #: ../database/elements.xml.in.h:46
 msgid "Iridium"
-msgstr "Иридий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:47
 msgid "Iron"
-msgstr "Железо"
+msgstr ""
 
 #: ../database/elements.xml.in.h:48
+#, fuzzy
 msgid "Krypton"
-msgstr "Криптон"
+msgstr "色氨酸"
 
 #: ../database/elements.xml.in.h:49
 msgid "Lanthanum"
-msgstr "Лантан"
+msgstr ""
 
 #: ../database/elements.xml.in.h:50
 msgid "Lawrencium"
-msgstr "Лоуренсий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:51
+#, fuzzy
 msgid "Lead"
-msgstr "Свинец"
+msgstr "就绪"
 
 #: ../database/elements.xml.in.h:52
 msgid "Lithium"
-msgstr "Литий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:53
 msgid "Lutetium"
-msgstr "Лютеций"
+msgstr ""
 
 #: ../database/elements.xml.in.h:54
 msgid "Magnesium"
-msgstr "Магний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:55
 msgid "Manganese"
-msgstr "Марганец"
+msgstr ""
 
 #: ../database/elements.xml.in.h:56
 msgid "Meitnerium"
-msgstr "Экаиридий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:57
 msgid "Mendelevium"
-msgstr "Менделевий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:58
 msgid "Mercury"
-msgstr "Ртуть"
+msgstr ""
 
 #: ../database/elements.xml.in.h:59
 msgid "Molybdenum"
-msgstr "Молибден"
+msgstr ""
 
 #: ../database/elements.xml.in.h:60
 msgid "Neodymium"
-msgstr "Неодим"
+msgstr ""
 
 #: ../database/elements.xml.in.h:61
 msgid "Neon"
-msgstr "Неон"
+msgstr ""
 
 #: ../database/elements.xml.in.h:62
 msgid "Neptunium"
-msgstr "Нептуний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:63
 msgid "Nickel"
-msgstr "Никель"
+msgstr ""
 
 #: ../database/elements.xml.in.h:64
 msgid "Niobium"
-msgstr "Ниобий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:65
 msgid "Nitrogen"
-msgstr "Азот"
+msgstr ""
 
 #: ../database/elements.xml.in.h:66
 msgid "Nobelium"
-msgstr "Нобелий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:67
 msgid "Osmium"
-msgstr "Осмий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:68
+#, fuzzy
 msgid "Oxygen"
-msgstr "Кислород"
+msgstr "打开"
 
 #: ../database/elements.xml.in.h:69
 msgid "Palladium"
-msgstr "Палладий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:70
 msgid "Phosphorus"
-msgstr "Фосфор"
+msgstr ""
 
 #: ../database/elements.xml.in.h:71
 msgid "Platinum"
-msgstr "Платина"
+msgstr ""
 
 #: ../database/elements.xml.in.h:72
 msgid "Plutonium"
-msgstr "Плутоний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:73
 msgid "Polonium"
-msgstr "Полоний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:74
 msgid "Potassium"
-msgstr "Калий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:75
 msgid "Praseodymium"
-msgstr "Празеодим"
+msgstr ""
 
 #: ../database/elements.xml.in.h:76
 msgid "Promethium"
-msgstr "Прометий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:77
 msgid "Protactinium"
-msgstr "Протактиний"
+msgstr ""
 
 #: ../database/elements.xml.in.h:78
 msgid "Radium"
-msgstr "Радий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:79
+#, fuzzy
 msgid "Radon"
-msgstr "Радон"
+msgstr "再次做(_R)"
 
 #: ../database/elements.xml.in.h:80
 msgid "Rhenium"
-msgstr "Рений"
+msgstr ""
 
 #: ../database/elements.xml.in.h:81
 msgid "Rhodium"
-msgstr "Родий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:82
 msgid "Roentgenium"
@@ -1479,91 +1480,93 @@ msgstr ""
 
 #: ../database/elements.xml.in.h:83
 msgid "Rubidium"
-msgstr "Рубидий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:84
 msgid "Ruthenium"
-msgstr "Рутений"
+msgstr ""
 
 #: ../database/elements.xml.in.h:85
 msgid "Rutherfordium"
-msgstr "Курчатовий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:86
 msgid "Samarium"
-msgstr "Самарий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:87
 msgid "Scandium"
-msgstr "Скандий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:88
 msgid "Seaborgium"
-msgstr "Экавольфрам"
+msgstr ""
 
 #: ../database/elements.xml.in.h:89
 msgid "Selenium"
-msgstr "Селен"
+msgstr ""
 
 #: ../database/elements.xml.in.h:90
+#, fuzzy
 msgid "Silicon"
-msgstr "Кремний"
+msgstr "选择"
 
 #: ../database/elements.xml.in.h:91
 msgid "Silver"
-msgstr "Серебро"
+msgstr ""
 
 #: ../database/elements.xml.in.h:92
 msgid "Sodium"
-msgstr "Натрий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:93
 msgid "Strontium"
-msgstr "Стронций"
+msgstr ""
 
 #: ../database/elements.xml.in.h:94
 msgid "Sulfur"
-msgstr "Сера"
+msgstr ""
 
 #: ../database/elements.xml.in.h:95
 msgid "Tantalum"
-msgstr "Тантал"
+msgstr ""
 
 #: ../database/elements.xml.in.h:96
 msgid "Technetium"
-msgstr "Технеций"
+msgstr ""
 
 #: ../database/elements.xml.in.h:97
 msgid "Tellurium"
-msgstr "Теллур"
+msgstr ""
 
 #: ../database/elements.xml.in.h:98
 msgid "Terbium"
-msgstr "Тербий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:99
 msgid "Thallium"
-msgstr "Таллий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:100
 msgid "Thorium"
-msgstr "Торий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:101
 msgid "Thulium"
-msgstr "Тулий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:102
+#, fuzzy
 msgid "Tin"
-msgstr "Олово"
+msgstr "胸腺嘧啶"
 
 #: ../database/elements.xml.in.h:103
 msgid "Titanium"
-msgstr "Титан"
+msgstr ""
 
 #: ../database/elements.xml.in.h:104
 msgid "Tungsten"
-msgstr "Вольфрам"
+msgstr ""
 
 #: ../database/elements.xml.in.h:105
 msgid "Ununbium"
@@ -1586,54 +1589,55 @@ msgid "Ununtrium"
 msgstr ""
 
 #: ../database/elements.xml.in.h:110
+#, fuzzy
 msgid "Uranium"
-msgstr "Уран"
+msgstr "尿嘧啶"
 
 #: ../database/elements.xml.in.h:111
 msgid "Vanadium"
-msgstr "Ванадий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:112
 msgid "Xenon"
-msgstr "Ксенон"
+msgstr ""
 
 #: ../database/elements.xml.in.h:113
 msgid "Ytterbium"
-msgstr "Иттербий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:114
 msgid "Yttrium"
-msgstr "Иттрий"
+msgstr ""
 
 #: ../database/elements.xml.in.h:115
 msgid "Zinc"
-msgstr "Цинк"
+msgstr ""
 
 #: ../database/elements.xml.in.h:116
 msgid "Zirconium"
-msgstr "Цирконий"
+msgstr ""
 
 #: ../database/isotopes.xml.in.h:1
 msgid "deuterium"
-msgstr "дейтерий"
+msgstr ""
 
 #: ../database/isotopes.xml.in.h:2
 msgid "protium"
-msgstr "протий"
+msgstr ""
 
 #: ../database/isotopes.xml.in.h:3
 msgid "tritium"
-msgstr "тритий"
+msgstr ""
 
 #: ../goffice/plugin.xml.in.h:1
 #, fuzzy
 msgid "2D Chemical Structures Viewer/Editor"
-msgstr "Редактор химических формул GChemPaint"
+msgstr "GChemPaint 是一个在 Gnome 下的 2D 化学结构式编辑器 (不稳定)"
 
 #: ../goffice/plugin.xml.in.h:2
 #, fuzzy
 msgid "Chemical structures"
-msgstr "Редактирование химических структур"
+msgstr "编辑 2D 化学结构"
 
 #: ../goffice/plugin.xml.in.h:3
 msgid "Chemical structures component engine"
@@ -1642,16 +1646,17 @@ msgstr ""
 #: ../goffice/plugin.xml.in.h:4
 #, fuzzy
 msgid "Component : GChemPaint"
-msgstr "О программе GChemPaint"
+msgstr "关于 GchemPaint"
 
 #: ../goffice/gogcpapp.cc:182 ../programs/paint/standaloneapp.cc:46
 #, c-format
 msgid "Untitled %d"
-msgstr "Безымянное %d"
+msgstr "无标题 %d"
 
 #: ../goffice/gogcpwin.cc:88
+#, fuzzy
 msgid "Embedded GChemPaint Object"
-msgstr ""
+msgstr "GChemPaint 对象工厂"
 
 #: ../libs/canvas/gcp-canvas-pango.c:367
 msgid "Layout"
@@ -1666,18 +1671,16 @@ msgid "X"
 msgstr ""
 
 #: ../libs/canvas/gcp-canvas-pango.c:376
-#, fuzzy
 msgid "X position"
-msgstr "Соединение"
+msgstr ""
 
 #: ../libs/canvas/gcp-canvas-pango.c:383
 msgid "Y"
 msgstr ""
 
 #: ../libs/canvas/gcp-canvas-pango.c:384
-#, fuzzy
 msgid "Y position"
-msgstr "Соединение"
+msgstr ""
 
 #: ../libs/canvas/gcp-canvas-pango.c:391
 msgid "Width"
@@ -1698,16 +1701,15 @@ msgstr ""
 #: ../libs/canvas/gcp-canvas-pango.c:407
 #, fuzzy
 msgid "Anchor"
-msgstr "Автор"
+msgstr "作者"
 
 #: ../libs/canvas/gcp-canvas-pango.c:408
 msgid "Anchor point for text"
 msgstr ""
 
 #: ../libs/canvas/gcp-canvas-pango.c:416
-#, fuzzy
 msgid "Color"
-msgstr "Хлор"
+msgstr ""
 
 #: ../libs/canvas/gcp-canvas-pango.c:417
 msgid "Text color, as string"
@@ -1716,7 +1718,7 @@ msgstr ""
 #: ../libs/canvas/gcp-canvas-pango.c:424
 #, fuzzy
 msgid "Editing"
-msgstr "_Правка"
+msgstr "编辑(_E)"
 
 #: ../libs/canvas/gcp-canvas-pango.c:425
 msgid "Is this rich text item currently edited?"
@@ -1727,11 +1729,11 @@ msgstr ""
 #: ../programs/calc/gchemcalc.cc:321 ../programs/crystal/window.cc:139
 #: ../programs/spectra/window.cc:144 ../programs/table/gchemtable-app.cc:363
 msgid "translator_credits"
-msgstr "Перевод на русский: Валек Филиппов"
+msgstr "Ben Luo"
 
 #: ../libs/gcp/about.cc:55
 msgid "GChemPaint is a 2D chemical structures editor for Gnome"
-msgstr "GChemPaint - редактор химических структур для GNOME"
+msgstr "GChemPaint 是一个在 Gnome 下的 2D 化学结构式编辑器"
 
 #: ../libs/gcp/about.cc:56
 #, fuzzy
@@ -1740,11 +1742,11 @@ msgstr "(C) 2001-2005 Jean Bréfort"
 
 #: ../libs/gcp/application.cc:303
 msgid "Create a new reaction"
-msgstr "Создать новую реакцию"
+msgstr "创建一个新反应"
 
 #: ../libs/gcp/application.cc:310
 msgid "Create a new mesomery relationship"
-msgstr "Создать новое мезомерное отношение"
+msgstr "创建一个新"
 
 #: ../libs/gcp/application.cc:504 ../libs/gcp/stringdlg.cc:102
 #: ../plugins/paint/wikipedia/wikipediatool.cc:79
@@ -1752,15 +1754,15 @@ msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
-"Введите название файла,\n"
-"а не каталога"
+"请输入文件名，\n"
+"不是目录"
 
 #: ../libs/gcp/application.cc:546
 #, fuzzy, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
 "Failed to load %s."
-msgstr "Извините, формат не поддерживается!"
+msgstr "对不起，格式不支持！"
 
 #: ../libs/gcp/application.cc:575 ../libs/gcp/stringdlg.cc:117
 #: ../plugins/paint/wikipedia/wikipediatool.cc:92
@@ -1772,8 +1774,8 @@ msgid ""
 "File %s\n"
 "exists, overwrite?"
 msgstr ""
-"Файл %s\n"
-"существует, переписать?"
+"文件 %s\n"
+"已存在，覆盖吗？"
 
 #: ../libs/gcp/application.cc:588 ../libs/gcp/stringdlg.cc:131
 #: ../plugins/paint/wikipedia/wikipediatool.cc:104
@@ -1786,7 +1788,7 @@ msgstr ""
 
 #: ../libs/gcp/application.cc:796 ../libs/gcp/application.cc:924
 msgid "No filename"
-msgstr "Нет названия файла"
+msgstr "没有文件名"
 
 #: ../libs/gcp/application.cc:799
 #, c-format
@@ -1794,13 +1796,13 @@ msgid ""
 "Could not open file\n"
 "%s"
 msgstr ""
-"Не удалось открыть файл\n"
+"不能打开文件\n"
 "%s"
 
 #: ../libs/gcp/application.cc:802 ../libs/gcp/application.cc:936
 #, c-format
 msgid "%s: parse error."
-msgstr "%s: ошибка синтаксического анализа."
+msgstr "%s: 解析错误。"
 
 #: ../libs/gcp/application.cc:927 ../programs/crystal/document.cc:274
 #, c-format
@@ -1808,7 +1810,7 @@ msgid ""
 "Could not load file\n"
 "%s"
 msgstr ""
-"Не удалось загрузить файл\n"
+"不能载入文件\n"
 "%s"
 
 #: ../libs/gcp/application.cc:930 ../programs/crystal/document.cc:277
@@ -1817,24 +1819,24 @@ msgid ""
 "%s: invalid xml file.\n"
 "Tree is empty?"
 msgstr ""
-"%s: испорченный файл xml.\n"
-"Пустое дерево?"
+"%s: 不可用的 xml 文件。\n"
+"xml 树是空的？"
 
 #: ../libs/gcp/application.cc:933 ../programs/crystal/document.cc:280
 #, c-format
 msgid "%s: invalid file format."
-msgstr "%s: недопустимый формат файла."
+msgstr "%s: 不可用的文件格式。"
 
 #: ../libs/gcp/application.cc:968 ../programs/3d/application.cc:248
 #: ../programs/calc/gchemcalc.cc:221 ../programs/crystal/application.cc:112
 #: ../programs/spectra/application.cc:134
 msgid "Save as image"
-msgstr "Сохранить как изображение"
+msgstr "另存图像为"
 
 #: ../libs/gcp/atom.cc:1861 ../libs/gcp/atom.cc:1875
 #: ../plugins/paint/atoms/plugin.cc:55 ../programs/crystal/atomsdlg.cc:134
 msgid "Atom"
-msgstr "Атом"
+msgstr "原子"
 
 #: ../libs/gcp/atom.cc:1864
 msgid "Display symbol"
@@ -1846,7 +1848,7 @@ msgstr ""
 
 #: ../libs/gcp/bond.cc:980 ../plugins/paint/bonds/plugin.cc:56
 msgid "Bond"
-msgstr "Связь"
+msgstr "键"
 
 #: ../libs/gcp/bond.cc:984
 msgid "Move to back"
@@ -1858,7 +1860,7 @@ msgstr ""
 
 #: ../libs/gcp/docprop.cc:118 ../libs/gcp/docprop.cc:125
 msgid "%A, %B %d, %Y"
-msgstr "%A, %d %B, %Y"
+msgstr ""
 
 #: ../libs/gcp/fontsel.cc:287 ../programs/table/gchemtable-app.cc:148
 msgid "Family"
@@ -1887,7 +1889,7 @@ msgstr ""
 #: ../libs/gcp/fontsel.cc:301
 #, fuzzy
 msgid "Variant"
-msgstr "Печать"
+msgstr "打印"
 
 #: ../libs/gcp/fontsel.cc:302
 msgid "The font variant"
@@ -1896,7 +1898,7 @@ msgstr ""
 #: ../libs/gcp/fontsel.cc:306
 #, fuzzy
 msgid "Stretch"
-msgstr "Французский"
+msgstr "删除线"
 
 #: ../libs/gcp/fontsel.cc:307
 msgid "The font stretch (condensed, normal or expanded)"
@@ -1905,7 +1907,7 @@ msgstr ""
 #: ../libs/gcp/fontsel.cc:311
 #, fuzzy
 msgid "Size"
-msgstr "Серебро"
+msgstr "丝氨酸"
 
 #: ../libs/gcp/fontsel.cc:312
 msgid "The font size (in pango units)"
@@ -1913,53 +1915,53 @@ msgstr ""
 
 #: ../libs/gcp/fragment.cc:685 ../libs/gcp/fragment.cc:1209
 msgid "Invalid charge."
-msgstr "Недопустимый заряд."
+msgstr "不存在的电荷。"
 
 #: ../libs/gcp/fragment.cc:1182
 msgid "Invalid symbol."
-msgstr "Недопустимый символ."
+msgstr "不存在的符号。"
 
 #: ../libs/gcp/mesomer.cc:76
 #, fuzzy
 msgid "Only one arrow can link two given mesomers."
-msgstr "Только одна стрелка может связывать два заданных шага."
+msgstr "一个箭头只能连接两个步骤。"
 
 #: ../libs/gcp/mesomery.cc:153 ../libs/gcp/mesomery.cc:531
 #: ../plugins/paint/arrows/retrosynthesis.cc:162
 msgid "Something wrong happened, please file a bug report."
-msgstr "Случилось что-то страшное, пожалуйста, отправьте сообщение об ошибке."
+msgstr "有错误发生，请写错误报告。"
 
 #: ../libs/gcp/mesomery.cc:191 ../plugins/paint/arrows/retrosynthesis.cc:199
 msgid "No space left between molecule and arrow!"
-msgstr "Не осталось места между молекулой и стрелкой!"
+msgstr "在分子和箭头之间没有空间了！"
 
 #: ../libs/gcp/mesomery.cc:209 ../plugins/paint/arrows/retrosynthesis.cc:217
 msgid "Isolated arrows are not allowed!"
-msgstr "Изолированные стрелки недопустимы!"
+msgstr "不能有孤立的箭头！"
 
 #: ../libs/gcp/mesomery.cc:223 ../plugins/paint/arrows/retrosynthesis.cc:232
 msgid ""
 "Isolated molecule!\n"
 " Please add missing arrows."
 msgstr ""
-"Изолированная молекула!\n"
-"Добавьте пропущенные стрелки."
+"孤立的分子\n"
+"请添加缺少的箭头。"
 
 #: ../libs/gcp/mesomery.cc:228
 msgid "Please add missing arrows."
-msgstr "Добавьте пропущенные стрелки."
+msgstr "请添加缺少的箭头。"
 
 #: ../libs/gcp/mesomery.cc:751
 msgid "Destroy the mesomery relationship"
-msgstr "Разрушить мезомерное отношение"
+msgstr ""
 
 #: ../libs/gcp/molecule.cc:515
 msgid "Molecule"
-msgstr "Молекула"
+msgstr ""
 
 #: ../libs/gcp/molecule.cc:520
 msgid "Export molecule to Ghemical"
-msgstr "Экспортировать молекулу в Ghemical"
+msgstr "向 Ghemical 导出分子"
 
 #: ../libs/gcp/molecule.cc:527
 msgid "Generate InChI"
@@ -1967,42 +1969,40 @@ msgstr ""
 
 #: ../libs/gcp/molecule.cc:532
 msgid "NIST WebBook page for this molecule"
-msgstr "Открыть страницу NIST WebBook для этой молекулы"
+msgstr ""
 
 #: ../libs/gcp/molecule.cc:537
-#, fuzzy
 msgid "PubChem page for this molecule"
-msgstr "Открыть страницу NIST WebBook для этой молекулы"
+msgstr ""
 
 #: ../libs/gcp/molecule.cc:543
 msgid "Generate SMILES"
 msgstr ""
 
 #: ../libs/gcp/molecule.cc:549
-#, fuzzy
 msgid "Open in Calculator"
-msgstr "Химический калькулятор"
+msgstr ""
 
 #: ../libs/gcp/molecule.cc:555
 msgid "Select alignment item"
-msgstr ""
+msgstr "选择对齐的项目"
 
 #: ../libs/gcp/preferences.cc:349 ../libs/gcp/preferences.cc:368
 #: ../libs/gcp/preferences.cc:497 ../libs/gcp/theme.cc:336
 #: ../libs/gcp/theme.cc:343 ../programs/table/gchemtable-app.cc:143
+#, fuzzy
 msgid "Default"
-msgstr ""
+msgstr "设置缺省"
 
 #: ../libs/gcp/preferences.cc:389 ../libs/gcp/preferences.cc:458
 #: ../libs/gcp/preferences.cc:525
-#, fuzzy
 msgid "General"
-msgstr "Немецкий"
+msgstr ""
 
 #: ../libs/gcp/preferences.cc:399 ../libs/gcp/preferences.cc:473
 #: ../libs/gcp/preferences.cc:527
 msgid "Font"
-msgstr "Шрифт"
+msgstr "字体"
 
 #: ../libs/gcp/preferences.cc:403 ../libs/gcp/preferences.cc:477
 #: ../libs/gcp/preferences.cc:529
@@ -2012,12 +2012,12 @@ msgstr ""
 #: ../libs/gcp/preferences.cc:411 ../libs/gcp/preferences.cc:485
 #: ../libs/gcp/preferences.cc:533
 msgid "Arrows"
-msgstr "Стрелки"
+msgstr "箭头"
 
 #: ../libs/gcp/preferences.cc:415 ../libs/gcp/preferences.cc:489
 #: ../libs/gcp/preferences.cc:535 ../plugins/paint/text/plugin.cc:52
 msgid "Text"
-msgstr "Текст"
+msgstr "文本"
 
 #: ../libs/gcp/reactant.cc:80
 msgid "Add a stoichiometry coefficient"
@@ -2029,17 +2029,17 @@ msgid ""
 "Error could not build a reaction\n"
 "from the selected objects."
 msgstr ""
-"Ошибка: невозможно создать реакцию\n"
-"из выбранных объектов."
+"错误 不能从选定的对象\n"
+"建立反应式。"
 
 #: ../libs/gcp/reaction.cc:376
 msgid "Destroy the reaction"
-msgstr "Разрушить реакцию"
+msgstr "销毁反应式"
 
 #: ../libs/gcp/reaction-arrow.cc:380
 #, fuzzy
 msgid "Arrow"
-msgstr "Стрелки"
+msgstr "箭头"
 
 #: ../libs/gcp/reaction-arrow.cc:386
 msgid "Attach selection to arrow..."
@@ -2064,12 +2064,12 @@ msgstr ""
 #: ../libs/gcp/reaction-prop.cc:43
 #, fuzzy
 msgid "Solvent"
-msgstr "Кобальт"
+msgstr "选择"
 
 #: ../libs/gcp/reaction-prop.cc:44
 #, fuzzy
 msgid "Temperature"
-msgstr "Шаблоны"
+msgstr "模板"
 
 #: ../libs/gcp/reaction-prop.cc:45
 msgid "Pressure"
@@ -2078,7 +2078,7 @@ msgstr ""
 #: ../libs/gcp/reaction-prop.cc:46
 #, fuzzy
 msgid "Time"
-msgstr "Заголовок:"
+msgstr "标题："
 
 #: ../libs/gcp/reaction-prop.cc:47
 msgid "Enthalpy"
@@ -2086,7 +2086,7 @@ msgstr ""
 
 #: ../libs/gcp/stringdlg.cc:79 ../libs/gcu/filechooser.cc:43
 msgid "Save as"
-msgstr "Сохранить как..."
+msgstr "另存为"
 
 #: ../libs/gcp/stringdlg.cc:145
 #, fuzzy, c-format
@@ -2094,7 +2094,7 @@ msgid ""
 "Could not open file %s, error was:\n"
 "%s"
 msgstr ""
-"Не удалось открыть файл\n"
+"不能打开文件\n"
 "%s"
 
 #: ../libs/gcp/stringdlg.cc:161
@@ -2110,13 +2110,13 @@ msgid ""
 "Could not close file %s, error was:\n"
 "%s"
 msgstr ""
-"Не удалось открыть файл\n"
+"不能打开文件\n"
 "%s"
 
 #: ../libs/gcp/text.cc:298 ../libs/gcp/text.cc:304
 #, fuzzy
 msgid "This should not have occured, please file a bug record."
-msgstr "Случилось что-то страшное, пожалуйста, отправьте сообщение об ошибке."
+msgstr "有错误发生，请写错误报告。"
 
 #: ../libs/gcp/theme.cc:449
 msgid "NewTheme1"
@@ -2139,7 +2139,7 @@ msgid ""
 "Could not create stream!\n"
 "%s"
 msgstr ""
-"Не удалось открыть файл\n"
+"不能打开文件\n"
 "%s"
 
 #: ../libs/gcp/view.cc:1051 ../libs/gcu/glview.cc:394
@@ -2152,15 +2152,15 @@ msgstr ""
 #: ../programs/spectra/window.cc:166 ../programs/table/gchemtable-app.cc:134
 #: ../programs/table/gchemtable-curve.cc:212
 msgid "_File"
-msgstr "_Файл"
+msgstr "文件(_F)"
 
 #: ../libs/gcp/window.cc:281 ../programs/crystal/window.cc:275
 msgid "_New File"
-msgstr "_Создать файл"
+msgstr "新文件(_N)"
 
 #: ../libs/gcp/window.cc:282 ../programs/crystal/window.cc:276
 msgid "Create a new file"
-msgstr "Создать новый файл"
+msgstr "创建一个新文件"
 
 #: ../libs/gcp/window.cc:283
 msgid "Ne_w File with Theme..."
@@ -2169,45 +2169,45 @@ msgstr ""
 #: ../libs/gcp/window.cc:284
 #, fuzzy
 msgid "Create a new file using a theme"
-msgstr "Создать новый файл"
+msgstr "创建一个新文件"
 
 #: ../libs/gcp/window.cc:285 ../programs/3d/window.cc:172
 #: ../programs/crystal/window.cc:277 ../programs/spectra/window.cc:167
 msgid "_Open..."
-msgstr "_Открыть..."
+msgstr "打开...(_O)"
 
 #: ../libs/gcp/window.cc:286 ../programs/3d/window.cc:173
 #: ../programs/crystal/window.cc:278 ../programs/spectra/window.cc:168
 msgid "Open a file"
-msgstr "Открыть файл"
+msgstr "打开一个文件"
 
 #: ../libs/gcp/window.cc:287 ../programs/crystal/window.cc:279
 msgid "_Save"
-msgstr "Со_хранить"
+msgstr "保存(_S)"
 
 #: ../libs/gcp/window.cc:288 ../programs/crystal/window.cc:280
 msgid "Save the current file"
-msgstr "Сохранить текущий файл"
+msgstr "保存当前文件"
 
 #: ../libs/gcp/window.cc:289 ../programs/crystal/window.cc:281
 msgid "Save _As..."
-msgstr "Сохранить _как..."
+msgstr "另存为...(_S)"
 
 #: ../libs/gcp/window.cc:290 ../programs/crystal/window.cc:282
 msgid "Save the current file with a different name"
-msgstr "Сохранить текущий файл используя другое название"
+msgstr "用不同的名字保存当前文件"
 
 #: ../libs/gcp/window.cc:291 ../programs/3d/window.cc:174
 #: ../programs/calc/gchemcalc.cc:610 ../programs/crystal/window.cc:283
 #: ../programs/spectra/window.cc:169
 msgid "Save As _Image..."
-msgstr "Сохранить как изображение..."
+msgstr "另存图像为...(_S)"
 
 #: ../libs/gcp/window.cc:292 ../programs/3d/window.cc:175
 #: ../programs/calc/gchemcalc.cc:611 ../programs/crystal/window.cc:284
 #: ../programs/spectra/window.cc:170
 msgid "Save the current file as an image"
-msgstr "Сохранить текущий файл как изображение"
+msgstr "保存当前文件为图像"
 
 #: ../libs/gcp/window.cc:293 ../programs/3d/window.cc:176
 #: ../programs/calc/gchemcalc.cc:612 ../programs/crystal/window.cc:285
@@ -2226,222 +2226,221 @@ msgstr ""
 #: ../programs/spectra/window.cc:173 ../programs/table/gchemtable-curve.cc:215
 #, fuzzy
 msgid "Print Pre_view"
-msgstr "Просмотр"
+msgstr "预览"
 
 #: ../libs/gcp/window.cc:296 ../programs/3d/window.cc:179
 #: ../programs/calc/gchemcalc.cc:615 ../programs/crystal/window.cc:288
 #: ../programs/spectra/window.cc:174 ../programs/table/gchemtable-curve.cc:216
 #, fuzzy
 msgid "Print preview"
-msgstr "Просмотр"
+msgstr "预览"
 
 #: ../libs/gcp/window.cc:297 ../programs/3d/window.cc:180
 #: ../programs/calc/gchemcalc.cc:616 ../programs/crystal/window.cc:289
 #: ../programs/spectra/window.cc:175 ../programs/table/gchemtable-curve.cc:217
 msgid "_Print..."
-msgstr "Пе_чать..."
+msgstr "打印...(_P)"
 
 #: ../libs/gcp/window.cc:298 ../programs/calc/gchemcalc.cc:617
 #: ../programs/crystal/window.cc:290 ../programs/spectra/window.cc:176
 #: ../programs/table/gchemtable-curve.cc:218
 msgid "Print the current file"
-msgstr "Напечатать текущий файл"
+msgstr "打印当前文件"
 
 #: ../libs/gcp/window.cc:299 ../programs/table/gchemtable-curve.cc:219
 msgid "Prope_rties..."
-msgstr "Свойства..."
+msgstr "属性...(_r)"
 
 #: ../libs/gcp/window.cc:300
 msgid "Modify the file's properties"
-msgstr "Изменить свойства файла"
+msgstr "改变文件的属性"
 
 #: ../libs/gcp/window.cc:301 ../programs/3d/window.cc:182
 #: ../programs/crystal/window.cc:291 ../programs/spectra/window.cc:177
 #: ../programs/table/gchemtable-curve.cc:221
 msgid "_Close"
-msgstr "_Закрыть"
+msgstr "关闭(_C)"
 
 #: ../libs/gcp/window.cc:302 ../programs/3d/window.cc:183
 #: ../programs/crystal/window.cc:292 ../programs/spectra/window.cc:178
 #: ../programs/table/gchemtable-curve.cc:222
 msgid "Close the current file"
-msgstr "Закрыть текущий файл"
+msgstr "关闭当前文件"
 
 #: ../libs/gcp/window.cc:303 ../programs/3d/window.cc:184
 #: ../programs/calc/gchemcalc.cc:618 ../programs/crystal/window.cc:293
 #: ../programs/spectra/window.cc:179 ../programs/table/gchemtable-app.cc:137
 #: ../programs/table/gchemtable-curve.cc:223
 msgid "_Quit"
-msgstr "В_ыход"
+msgstr "退出(_Q)"
 
 #: ../libs/gcp/window.cc:304
 msgid "Quit GChemPaint"
-msgstr "Выйти из GChemPaint"
+msgstr "退出 GchemPaint"
 
 #: ../libs/gcp/window.cc:305 ../programs/calc/gchemcalc.cc:620
 #: ../programs/crystal/window.cc:295 ../programs/spectra/window.cc:181
 #: ../programs/table/gchemtable-curve.cc:225
 msgid "_Edit"
-msgstr "_Правка"
+msgstr "编辑(_E)"
 
 #: ../libs/gcp/window.cc:306
 msgid "_Undo"
-msgstr "Откат"
+msgstr "取消(_U)"
 
 #: ../libs/gcp/window.cc:307
 msgid "Undo the last action"
-msgstr "Отменить последнее действие"
+msgstr "取消最后一次动作"
 
 #: ../libs/gcp/window.cc:308
 msgid "_Redo"
-msgstr "Возврат"
+msgstr "再次做(_R)"
 
 #: ../libs/gcp/window.cc:309
 msgid "Redo the undone action"
-msgstr "Повторить отменённое действие"
+msgstr "再次做没有做完的动作"
 
 #: ../libs/gcp/window.cc:310
 msgid "Cu_t"
-msgstr "_Вырезать"
+msgstr "剪切(_t)"
 
 #: ../libs/gcp/window.cc:311
 msgid "Cut the selection"
-msgstr "Вырезать выделение"
+msgstr "剪切已选择的"
 
 #: ../libs/gcp/window.cc:312 ../programs/calc/gchemcalc.cc:621
 #: ../programs/spectra/window.cc:182 ../programs/table/gchemtable-curve.cc:226
 msgid "_Copy"
-msgstr "_Копировать"
+msgstr "复制(_C)"
 
 #: ../libs/gcp/window.cc:313 ../programs/calc/gchemcalc.cc:622
 #: ../programs/spectra/window.cc:183 ../programs/table/gchemtable-curve.cc:227
 msgid "Copy the selection"
-msgstr "Скопировать выделение"
+msgstr "复制已选择的"
 
 #: ../libs/gcp/window.cc:314
 msgid "_Paste"
-msgstr "Вст_авить"
+msgstr "粘贴(_P)"
 
 #: ../libs/gcp/window.cc:315
 msgid "Paste the clipboard"
-msgstr "Вставить в буфер обмена"
+msgstr "从剪贴板粘贴"
 
 #: ../libs/gcp/window.cc:316
 msgid "C_lear"
-msgstr "О_чистить"
+msgstr "清除(_l)"
 
 #: ../libs/gcp/window.cc:317
 msgid "Clear the selection"
-msgstr "Очистить выделение"
+msgstr "清除已选择的"
 
 #: ../libs/gcp/window.cc:318
 msgid "Select _All"
-msgstr "Выбрать всё"
+msgstr "全选(_A)"
 
 #: ../libs/gcp/window.cc:319
 msgid "Select everything"
-msgstr "Выбрать всё"
+msgstr "全选"
 
 #: ../libs/gcp/window.cc:320
 #, fuzzy
 msgid "Pr_eferences..."
-msgstr "Свойства..."
+msgstr "属性...(_r)"
 
 #: ../libs/gcp/window.cc:321 ../programs/crystal/window.cc:297
 #, fuzzy
 msgid "Configure the application"
-msgstr "Вырезать выделение"
+msgstr "剪切已选择的"
 
 #: ../libs/gcp/window.cc:322 ../programs/3d/window.cc:186
 #: ../programs/crystal/window.cc:309 ../programs/table/gchemtable-app.cc:139
-#, fuzzy
 msgid "_View"
-msgstr "_Файл"
+msgstr "视图(_V)"
 
 #: ../libs/gcp/window.cc:323
 msgid "_Zoom"
-msgstr "Масштаб..."
+msgstr ""
 
 #: ../libs/gcp/window.cc:324
 msgid "_400%"
-msgstr "_400%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:325
 msgid "Zoom to 400%"
-msgstr "Масштаб 400%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:326
 msgid "_300%"
-msgstr "_300%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:327
 msgid "Zoom to 300%"
-msgstr "Масштаб 300%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:328
 msgid "_200%"
-msgstr "_200%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:329
 msgid "Zoom to 200%"
-msgstr "Масштаб 200%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:330
 msgid "150%"
-msgstr "150%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:331
 msgid "Zoom to 150%"
-msgstr "Масштаб 150%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:332
 msgid "_100%"
-msgstr "_100%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:333
 msgid "Zoom to 100%"
-msgstr "Масштаб 100%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:334
 msgid "_75%"
-msgstr "_75%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:335
 msgid "Zoom to 75%"
-msgstr "Масштаб 75%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:336
 msgid "_50%"
-msgstr "_50%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:337
 msgid "Zoom to 50%"
-msgstr "Масштаб 50%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:338
 msgid "25%"
-msgstr "25%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:339
 msgid "Zoom to 25%"
-msgstr "Масштаб 25%"
+msgstr ""
 
 #: ../libs/gcp/window.cc:340
 msgid "_Zoom to...%"
-msgstr "Масштаб по выбору..."
+msgstr ""
 
 #: ../libs/gcp/window.cc:341
 msgid "Open Zoom Dialog Box"
-msgstr "Открыть диалог выбора масштаба"
+msgstr ""
 
 #: ../libs/gcp/window.cc:342
 #, fuzzy
 msgid "_Tools"
-msgstr "_Панели"
+msgstr "工具条(_T)"
 
 #: ../libs/gcp/window.cc:343 ../programs/crystal/window.cc:312
 msgid "_Windows"
-msgstr "Окна"
+msgstr "窗口(_W)"
 
 #: ../libs/gcp/window.cc:344 ../programs/3d/window.cc:187
 #: ../programs/calc/gchemcalc.cc:624 ../programs/crystal/window.cc:317
@@ -2449,26 +2448,26 @@ msgstr "Окна"
 #: ../programs/table/gchemtable-curve.cc:228
 #: ../programs/table/gchemtable-curve.cc:231
 msgid "_Help"
-msgstr "_Справка"
+msgstr "帮助(_H)"
 
 #: ../libs/gcp/window.cc:345 ../programs/3d/window.cc:188
 #: ../programs/calc/gchemcalc.cc:625 ../programs/crystal/window.cc:318
 #: ../programs/spectra/window.cc:185 ../programs/table/gchemtable-app.cc:164
 #: ../programs/table/gchemtable-curve.cc:229
 msgid "_Contents"
-msgstr "Содержимое"
+msgstr "注释(_C)"
 
 #: ../libs/gcp/window.cc:346
 msgid "View help for GChemPaint"
-msgstr "Просмотр справки для GChemPaint"
+msgstr "查看 GchemPaint 的帮助文件"
 
 #: ../libs/gcp/window.cc:347
 msgid "GChemPaint on the _web"
-msgstr "GChemPaint в Интернет"
+msgstr "网上 GChemPaint(_w)"
 
 #: ../libs/gcp/window.cc:348
 msgid "Browse GChemPaint's web site"
-msgstr "Просмотреть сайт GChemPaint"
+msgstr "浏览 GChemPaint 网站"
 
 #: ../libs/gcp/window.cc:349 ../programs/3d/window.cc:192
 #: ../programs/calc/gchemcalc.cc:629 ../programs/crystal/window.cc:322
@@ -2489,46 +2488,45 @@ msgstr ""
 #: ../programs/spectra/window.cc:191 ../programs/table/gchemtable-app.cc:170
 #: ../programs/table/gchemtable-curve.cc:237
 msgid "_Ask a question"
-msgstr "Задать вопрос"
+msgstr "提问(_A)"
 
 #: ../libs/gcp/window.cc:352
 msgid "Ask a question about GChemPaint"
-msgstr "Задать вопрос о GChemPaint"
+msgstr "提有关 GchemPaint 的问题"
 
 #: ../libs/gcp/window.cc:353 ../programs/3d/window.cc:196
 #: ../programs/calc/gchemcalc.cc:633 ../programs/crystal/window.cc:326
 #: ../programs/spectra/window.cc:193 ../programs/table/gchemtable-app.cc:172
 #: ../programs/table/gchemtable-curve.cc:239
 msgid "Report _Bugs"
-msgstr "Сообщить об ошибке"
+msgstr "报告错误(_B)"
 
 #: ../libs/gcp/window.cc:354
 msgid "Submit a bug report for GChemPaint"
-msgstr "Отправить сообщение об ошибке в GChemPaint"
+msgstr "向 GchemPaint 提错误报告"
 
 #: ../libs/gcp/window.cc:355 ../programs/3d/window.cc:198
 #: ../programs/calc/gchemcalc.cc:635 ../programs/crystal/window.cc:328
 #: ../programs/spectra/window.cc:195 ../programs/table/gchemtable-app.cc:174
 #: ../programs/table/gchemtable-curve.cc:241
 msgid "_About"
-msgstr "О программе"
+msgstr "关于(_A)"
 
 #: ../libs/gcp/window.cc:356
 msgid "About GChemPaint"
-msgstr "О программе GChemPaint"
+msgstr "关于 GchemPaint"
 
 #: ../libs/gcp/window.cc:499
 msgid "Open _recent"
 msgstr ""
 
 #: ../libs/gcp/window.cc:523 ../programs/crystal/window.cc:449
-#, fuzzy
 msgid "Ready"
-msgstr "Свинец"
+msgstr "就绪"
 
 #: ../libs/gcp/window.cc:691
 msgid "GChemPaint"
-msgstr "GChemPaint"
+msgstr ""
 
 #: ../libs/gcp/window.cc:706 ../programs/crystal/document.cc:639
 #, c-format
@@ -2546,63 +2544,65 @@ msgstr ""
 
 #: ../libs/gcu/dialog.cc:131
 msgid "Type a number"
-msgstr ""
+msgstr "输入一个数字"
 
 #: ../libs/gcu/dialog.cc:140
-#, c-format
+#, fuzzy, c-format
 msgid "Type a number greater than or equal %g and lower than to %g"
-msgstr ""
+msgstr "输入一个大于 %g 的数字"
 
 #: ../libs/gcu/dialog.cc:150
-#, c-format
+#, fuzzy, c-format
 msgid "Type a number greater than %g and lower than or equal to %g"
-msgstr ""
+msgstr "输入一个大于 %g 的数字"
 
 #: ../libs/gcu/dialog.cc:160
-#, c-format
+#, fuzzy, c-format
 msgid "Type a number between %g and %g, the limits are valid."
-msgstr ""
+msgstr "输入一个在 %g 和 %g 之间的数字"
 
 #: ../libs/gcu/dialog.cc:170
-#, c-format
+#, fuzzy, c-format
 msgid "Type a number greater than %g and lower than %g"
-msgstr ""
+msgstr "输入一个大于 %g 的数字"
 
 #: ../libs/gcu/dialog.cc:180
-#, c-format
+#, fuzzy, c-format
 msgid "Type a number lower than %g"
-msgstr ""
+msgstr "输入一个大于 %g 的数字"
 
 #: ../libs/gcu/dialog.cc:190
 #, c-format
 msgid "Type a number greater than %g"
-msgstr ""
+msgstr "输入一个大于 %g 的数字"
 
 #: ../libs/gcu/dialog.cc:200
-#, c-format
+#, fuzzy, c-format
 msgid "Type a number lower than or equal to %g"
-msgstr ""
+msgstr "输入一个大于 %g 的数字"
 
 #: ../libs/gcu/dialog.cc:210
-#, c-format
+#, fuzzy, c-format
 msgid "Type a number greater than or equal to %g"
-msgstr ""
+msgstr "输入一个大于 %g 的数字"
 
 #: ../libs/gcu/element.cc:97
 msgid "German"
-msgstr "Немецкий"
+msgstr ""
 
 #: ../libs/gcu/element.cc:98
 msgid "French"
-msgstr "Французский"
+msgstr ""
 
 #: ../libs/gcu/element.cc:99
+#, fuzzy
 msgid "Italian"
-msgstr "Итальянский"
+msgstr "斜体"
 
 #: ../libs/gcu/element.cc:100
+#, fuzzy
 msgid "Polish"
-msgstr "Польский"
+msgstr "脯氨酸"
 
 #: ../libs/gcu/element.cc:101
 msgid "Russian"
@@ -2610,47 +2610,43 @@ msgstr ""
 
 #: ../libs/gcu/element.cc:103
 msgid "Can't find and read elements.xml"
-msgstr "Не удалось найти и прочитать elements.xml "
+msgstr ""
 
 #: ../libs/gcu/element.cc:109 ../libs/gcu/element.cc:118
-#, fuzzy
 msgid "Incorrect file format: elements.xml"
-msgstr "Неправильный формат файла: elements.xml"
+msgstr ""
 
 #: ../libs/gcu/element.cc:154
 msgid "English"
-msgstr "Английский"
+msgstr ""
 
 #: ../libs/gcu/element.cc:406
 msgid "Can't find and read radii.xml"
-msgstr "Не удалось найти и прочитать radii.xml"
+msgstr ""
 
 #: ../libs/gcu/element.cc:412 ../libs/gcu/element.cc:425
-#, fuzzy
 msgid "Incorrect file format: radii.xml"
-msgstr "Неправильный формат файла: radii.xml"
+msgstr ""
 
 #: ../libs/gcu/element.cc:513
 msgid "Can't find and read elecprops.xml"
-msgstr "Не удалось найти и прочитать elecprops.xml"
+msgstr ""
 
 #: ../libs/gcu/element.cc:519 ../libs/gcu/element.cc:526
-#, fuzzy
 msgid "Incorrect file format: elecprops.xml"
-msgstr "Неправильный формат файла: elecprops.xml"
+msgstr ""
 
 #: ../libs/gcu/element.cc:675
 msgid "Can't find and read isotopes.xml"
-msgstr "Не удалось найти и прочитать isotopes.xml"
+msgstr ""
 
 #: ../libs/gcu/element.cc:681 ../libs/gcu/element.cc:690
-#, fuzzy
 msgid "Incorrect file format: isotopes.xml"
-msgstr "Неправильный формат файла: isotopes.xml"
+msgstr ""
 
 #: ../libs/gcu/filechooser.cc:43
 msgid "Open"
-msgstr "Открыть"
+msgstr "打开"
 
 #: ../libs/gcu/filechooser.cc:62
 msgid "File _type:"
@@ -2659,7 +2655,7 @@ msgstr ""
 #: ../libs/gcu/filechooser.cc:64
 #, fuzzy
 msgid "Automatic"
-msgstr "Атом"
+msgstr "原子"
 
 #: ../libs/gcu/formula.cc:512 ../libs/gcu/formula.cc:552
 msgid "Unmatched parenthesis"
@@ -2672,17 +2668,17 @@ msgstr ""
 #: ../libs/gcu/formula.cc:546
 #, fuzzy
 msgid "Parser failed, please fill a bug report."
-msgstr "Случилось что-то страшное, пожалуйста, отправьте сообщение об ошибке."
+msgstr "有错误发生，请写错误报告。"
 
 #: ../libs/gcu/formula.cc:554
 #, fuzzy
 msgid "Invalid character"
-msgstr "Недопустимый заряд."
+msgstr "不存在的电荷。"
 
 #: ../libs/gcu/gtkchem3dviewer.cc:157
 #, fuzzy
 msgid "Background Color"
-msgstr "Цвет фона"
+msgstr "背景色"
 
 #: ../libs/gcu/gtkchem3dviewer.cc:158
 msgid "Color used to paint the background"
@@ -2716,12 +2712,11 @@ msgstr ""
 #: ../libs/gcu/printable.cc:35
 #, fuzzy
 msgid "points"
-msgstr "Шрифт"
+msgstr "字体"
 
 #: ../libs/gcu/printable.cc:36
-#, fuzzy
 msgid "inches"
-msgstr "Цинк"
+msgstr ""
 
 #: ../libs/gcu/printable.cc:37
 msgid "mm"
@@ -2738,7 +2733,7 @@ msgstr ""
 #: ../libs/gcu/spectrumdoc.cc:241 ../libs/gcu/spectrumdoc.cc:1320
 #, fuzzy
 msgid "Absorbance"
-msgstr "Аспарагин"
+msgstr "天冬酰胺"
 
 #: ../libs/gcu/spectrumdoc.cc:242 ../libs/gcu/spectrumdoc.cc:1256
 msgid "Chemical shift (ppm)"
@@ -2807,7 +2802,7 @@ msgstr ""
 #: ../libs/gcu/spectrumdoc.cc:1488 ../libs/gcu/spectrumdoc.cc:1518
 #, fuzzy
 msgid "Constant too long"
-msgstr "Вращение"
+msgstr "旋转工具"
 
 #: ../libs/gcu/spectrumdoc.cc:1511
 msgid "Invalid character in data block"
@@ -2843,14 +2838,12 @@ msgid "Imaginary transformed data"
 msgstr ""
 
 #: ../libs/gcu/spectrumview.cc:80
-#, fuzzy
 msgid "Minimum X value:"
-msgstr "Экаиридий"
+msgstr ""
 
 #: ../libs/gcu/spectrumview.cc:85
-#, fuzzy
 msgid "Maximum X value:"
-msgstr "Магний"
+msgstr ""
 
 #: ../libs/gcu/value.cc:146
 msgid "Attempt to add two values with different units."
@@ -2909,23 +2902,25 @@ msgstr ""
 #: ../plugins/paint/selection/selectiontool.cc:156
 #, c-format
 msgid "Orientation: %g"
-msgstr "Ориентация: %g"
+msgstr "方位： %g"
 
 #: ../plugins/paint/arrows/arrowtool.glade.h:1
 msgid "Arrow len_gth:"
 msgstr ""
 
 #: ../plugins/paint/arrows/arrowtool.glade.h:2
+#, fuzzy
 msgid "H_alf heads"
-msgstr ""
+msgstr "半箭头(_f)"
 
 #: ../plugins/paint/arrows/arrowtool.glade.h:3
+#, fuzzy
 msgid "Set _default"
-msgstr ""
+msgstr "设置缺省"
 
 #: ../plugins/paint/arrows/arrowtool.glade.h:4
 msgid "_Full heads"
-msgstr ""
+msgstr "全箭头(_F)"
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:1
 msgid ""
@@ -2936,53 +2931,53 @@ msgstr ""
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:2
 #, fuzzy
 msgid "Use full arrows heads for reversible reactions"
-msgstr "Добавить пару стрелок для обратимой реакции"
+msgstr "为可逆反应加一对箭头"
 
 #: ../plugins/paint/arrows/plugin.cc:60
 msgid "Create a new retrosynthesis pathway"
-msgstr "Создать новый ретросинтетический путь"
+msgstr ""
 
 #: ../plugins/paint/arrows/plugin.cc:80
 msgid "Simple arrow"
-msgstr "Простая стрелка"
+msgstr "单箭头"
 
 #: ../plugins/paint/arrows/plugin.cc:81
 msgid "Add an arrow for an irreversible reaction"
-msgstr "Добавить стрелку для необратимой реакции"
+msgstr "为不可逆反应加一个箭头"
 
 #: ../plugins/paint/arrows/plugin.cc:83
 msgid "Double arrow"
-msgstr "Двойная стрелка"
+msgstr "双箭头"
 
 #: ../plugins/paint/arrows/plugin.cc:84
 msgid "Add a pair of arrows for a reversible reaction"
-msgstr "Добавить пару стрелок для обратимой реакции"
+msgstr "为可逆反应加一对箭头"
 
 #: ../plugins/paint/arrows/plugin.cc:86
 msgid "Retrosynthesis arrow"
-msgstr ""
+msgstr "逆合成箭头"
 
 #: ../plugins/paint/arrows/plugin.cc:87
 msgid "Add an arrow for a retrosynthesis step"
-msgstr "Добавить стрелку для ретросинтетического шага"
+msgstr "为逆合成添加一个箭头"
 
 #: ../plugins/paint/arrows/plugin.cc:89
 msgid "Mesomery arrow"
-msgstr "Мезомерная стрелка"
+msgstr "内消旋箭头"
 
 #: ../plugins/paint/arrows/plugin.cc:90
 msgid "Add a double headed arrow to represent mesomery"
-msgstr "Добавить двунаправленную стрелку для мезомеров"
+msgstr "添加双箭头代表消旋体"
 
 #: ../plugins/paint/arrows/plugin.cc:92
 #, fuzzy
 msgid "Electron pair move arrow"
-msgstr "Пара электронов"
+msgstr "电子对工具"
 
 #: ../plugins/paint/arrows/plugin.cc:93
 #, fuzzy
 msgid "Add a curved arrow to represent an electron pair move"
-msgstr "Добавить двунаправленную стрелку для мезомеров"
+msgstr "添加双箭头代表消旋体"
 
 #: ../plugins/paint/arrows/plugin.cc:95
 msgid "Single electron move arrow"
@@ -2991,64 +2986,65 @@ msgstr ""
 #: ../plugins/paint/arrows/plugin.cc:96
 #, fuzzy
 msgid "Add a curved arrow to represent an single electron move"
-msgstr "Добавить двунаправленную стрелку для мезомеров"
+msgstr "添加双箭头代表消旋体"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:239
 msgid "No target molecule!"
-msgstr "Нет целевой молекулы!"
+msgstr "没有目标分子"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:241
 msgid "Multiple target molecules or missing arrows."
-msgstr "Множественные целевые молекулы или пропущенные стрелки."
+msgstr "多个目标分子或者缺少箭头。"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:243
 msgid "Sorry, cyclic retrosynthesis paths are not supported."
-msgstr ""
+msgstr "对不起，不支持连续反合成路径。"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:419
 msgid "Destroy the retrosynthesis path"
-msgstr ""
+msgstr "销毁反合成路径"
 
 #: ../plugins/paint/arrows/retrosynthesisstep.cc:76
 msgid "Only one arrow can link two given steps."
-msgstr "Только одна стрелка может связывать два заданных шага."
+msgstr "一个箭头只能连接两个步骤。"
 
 #: ../plugins/paint/atoms/plugin.cc:56
 msgid "Add or modify an atom"
-msgstr "Добавить или изменить атом"
+msgstr "增加或修改一个原子"
 
 #: ../plugins/paint/atoms/plugin.cc:58
 msgid "Positive Charge"
-msgstr "Положительный заряд"
+msgstr "正电荷"
 
 #: ../plugins/paint/atoms/plugin.cc:59
 msgid "Increment the charge of an atom"
-msgstr "Увеличить заряд атома"
+msgstr "增加一个原子的电荷"
 
 #: ../plugins/paint/atoms/plugin.cc:61
 msgid "Negative Charge"
-msgstr "Отрицательный заряд"
+msgstr "负电荷"
 
 #: ../plugins/paint/atoms/plugin.cc:62
 msgid "Decrement the charge of an atom"
-msgstr "Уменьшить заряд атома"
+msgstr "减少一个原子的电荷"
 
 #: ../plugins/paint/atoms/plugin.cc:64
 #, fuzzy
 msgid "Electron Pair"
-msgstr "Пара электронов"
+msgstr "电子对工具"
 
 #: ../plugins/paint/atoms/plugin.cc:65
 msgid "Add an electron pair to an atom"
-msgstr "Добавить пару электронов к атому"
+msgstr "为原子增加一对电子"
 
 #: ../plugins/paint/atoms/plugin.cc:67
+#, fuzzy
 msgid "Unpaired Electron"
-msgstr ""
+msgstr "不成对电子工具"
 
 #: ../plugins/paint/atoms/plugin.cc:68
 msgid "Add an unpaired electron to an atom"
-msgstr "Добавить не парный электрон к атому"
+msgstr "为原子增加一个不成对电子"
 
 #: ../plugins/paint/bonds/bond.glade.h:1
 #: ../plugins/paint/bonds/chain.glade.h:2
@@ -3104,8 +3100,7 @@ msgstr ""
 
 #: ../plugins/paint/bonds/bondtool.cc:354
 msgid "Invalid document tree, please file a bug report"
-msgstr ""
-"Недопустимое дерево документа, пожалуйста, отправьте сообщение об ошибке."
+msgstr "文档树不存在，请写错误报告"
 
 #: ../plugins/paint/bonds/chain.glade.h:1
 msgid "<b>Auto</b>"
@@ -3128,29 +3123,29 @@ msgstr ""
 #: ../plugins/paint/bonds/chaintool.cc:247
 #, fuzzy, c-format
 msgid "Bonds: %d, Orientation: %g"
-msgstr "Ориентация: %g"
+msgstr "方位： %g"
 
 #: ../plugins/paint/bonds/plugin.cc:57
 msgid "Add a bond or change the multiplicity of an existing one"
-msgstr "Добавить связь или изменить насыщенность связи"
+msgstr "在现有的基础上添加一个键或电荷"
 
 #: ../plugins/paint/bonds/plugin.cc:59
 #, fuzzy
 msgid "Chain"
-msgstr "GChemPaint"
+msgstr "主要"
 
 #: ../plugins/paint/bonds/plugin.cc:60
 #, fuzzy
 msgid "Add a chain"
-msgstr "Добавить цикл"
+msgstr "增加一个环"
 
 #: ../plugins/paint/bonds/plugin.cc:62
 msgid "Wedge bond tool"
-msgstr ""
+msgstr "楔形键工具"
 
 #: ../plugins/paint/bonds/plugin.cc:63
 msgid "Add a wedge bond"
-msgstr ""
+msgstr "添加一个楔形键"
 
 #: ../plugins/paint/bonds/plugin.cc:65
 msgid "Hash bond tool"
@@ -3169,17 +3164,19 @@ msgid "Add a squiggle bond"
 msgstr ""
 
 #: ../plugins/paint/bonds/plugin.cc:71
+#, fuzzy
 msgid "Fore bond tool"
-msgstr ""
+msgstr "楔形键工具"
 
 #: ../plugins/paint/bonds/plugin.cc:72
+#, fuzzy
 msgid "Add a fore bond"
-msgstr ""
+msgstr "添加一个楔形键"
 
 #: ../plugins/paint/bonds/plugin.cc:74
 #, fuzzy
 msgid "Delocalized bond tool"
-msgstr "Выделение"
+msgstr "楔形键工具"
 
 #: ../plugins/paint/bonds/plugin.cc:75
 msgid "Add a delocalized bonds system"
@@ -3188,65 +3185,70 @@ msgstr ""
 #: ../plugins/paint/cycles/cyclen.glade.h:4
 #, fuzzy
 msgid "Cycle _Size"
-msgstr "Размер цикла:"
+msgstr "环大小："
 
 #: ../plugins/paint/cycles/plugin.cc:54
+#, fuzzy
 msgid "Three atoms cycle"
-msgstr ""
+msgstr "三元环工具"
 
 #: ../plugins/paint/cycles/plugin.cc:55
 msgid "Add a three membered cycle"
-msgstr "Добавить трехчленный цикл"
+msgstr "增加一个三元环"
 
 #: ../plugins/paint/cycles/plugin.cc:57
+#, fuzzy
 msgid "Four atoms cycle"
-msgstr ""
+msgstr "四元环工具"
 
 #: ../plugins/paint/cycles/plugin.cc:58
 msgid "Add a four membered cycle"
-msgstr "Добавить четырёхчленный цикл"
+msgstr "增加一个四元环"
 
 #: ../plugins/paint/cycles/plugin.cc:60
+#, fuzzy
 msgid "Five atoms cycle"
-msgstr ""
+msgstr "四元环工具"
 
 #: ../plugins/paint/cycles/plugin.cc:61
 msgid "Add a five membered cycle"
-msgstr "Добавить пятичленный цикл"
+msgstr "增加一个五元环"
 
 #: ../plugins/paint/cycles/plugin.cc:63
 #, fuzzy
 msgid "Six atoms cycle"
-msgstr "Добавить цикл"
+msgstr "四元环工具"
 
 #: ../plugins/paint/cycles/plugin.cc:64
 msgid "Add a six membered cycle"
-msgstr "Добавить шестичленный цикл"
+msgstr "增加一个六元环"
 
 #: ../plugins/paint/cycles/plugin.cc:66
+#, fuzzy
 msgid "Seven atoms cycle"
-msgstr ""
+msgstr "三元环工具"
 
 #: ../plugins/paint/cycles/plugin.cc:67
 msgid "Add a seven membered cycle"
-msgstr "Добавить семичленный цикл"
+msgstr "增加一个七元环"
 
 #: ../plugins/paint/cycles/plugin.cc:69
+#, fuzzy
 msgid "Eight atoms cycle"
-msgstr ""
+msgstr "三元环工具"
 
 #: ../plugins/paint/cycles/plugin.cc:70
 msgid "Add an eight membered cycle"
-msgstr "Добавить восьмичленный цикл"
+msgstr "增加一个八元环"
 
 #: ../plugins/paint/cycles/plugin.cc:72
 #, fuzzy
 msgid "Variable sized cycle"
-msgstr "Инструмент цикла переменного размера"
+msgstr "不同大小的环工具"
 
 #: ../plugins/paint/cycles/plugin.cc:73
 msgid "Add a cycle"
-msgstr "Добавить цикл"
+msgstr "增加一个环"
 
 #: ../plugins/paint/residues/plugin.cc:104
 msgid "_Edit residues..."
@@ -3255,17 +3257,17 @@ msgstr ""
 #: ../plugins/paint/residues/plugin.cc:105
 #, fuzzy
 msgid "Create new abbreviations"
-msgstr "Создать новую реакцию"
+msgstr "创建一个新反应"
 
 #: ../plugins/paint/residues/residues-dlg.cc:216
 #, fuzzy
 msgid "Please, provide only one molecule."
-msgstr "Укажите объект."
+msgstr "请提供一个对象。"
 
 #: ../plugins/paint/residues/residues-dlg.cc:232
 #, fuzzy
 msgid "Please, provide a name for the residue"
-msgstr "Укажите объект."
+msgstr "请提供一个对象。"
 
 #. Symbols longer than 8 chars are not currently allowed
 #: ../plugins/paint/residues/residues-dlg.cc:250
@@ -3281,12 +3283,12 @@ msgstr ""
 #: ../plugins/paint/residues/residues-dlg.cc:256
 #, fuzzy
 msgid "\"New\" is not a valid symbol"
-msgstr "Недопустимый символ."
+msgstr "不存在的符号。"
 
 #: ../plugins/paint/residues/residues-dlg.cc:265
 #, fuzzy
 msgid "Please provide at least one symbol"
-msgstr "Укажите объект."
+msgstr "请提供一个对象。"
 
 #: ../plugins/paint/residues/residues-dlg.cc:275
 #, c-format
@@ -3298,12 +3300,11 @@ msgstr ""
 msgid ""
 "Empty formula, this should never happen.\n"
 "Please file a bug report"
-msgstr "Случилось что-то страшное, пожалуйста, отправьте сообщение об ошибке."
+msgstr "有错误发生，请写错误报告。"
 
 #: ../plugins/paint/residues/residues.glade.h:1
-#, fuzzy
 msgid "Formula"
-msgstr "Формула:"
+msgstr ""
 
 #: ../plugins/paint/residues/residues.glade.h:2
 msgid "Identity"
@@ -3312,7 +3313,7 @@ msgstr ""
 #: ../plugins/paint/residues/residues.glade.h:4
 #, fuzzy
 msgid "Residues"
-msgstr "Нуклеозиды"
+msgstr "核苷"
 
 #: ../plugins/paint/residues/residues.glade.h:5
 msgid "_Generic"
@@ -3332,19 +3333,19 @@ msgstr ""
 
 #: ../plugins/paint/selection/group.cc:59
 msgid "Group properties..."
-msgstr "Свойства группы..."
+msgstr "组属性..."
 
 #: ../plugins/paint/selection/group.glade.h:1
 msgid "A_lign"
-msgstr "Выравнивание"
+msgstr "对齐"
 
 #: ../plugins/paint/selection/group.glade.h:2
 msgid "Distance:"
-msgstr "Дистанция:"
+msgstr "距离"
 
 #: ../plugins/paint/selection/group.glade.h:3
 msgid "Group and/or align selected objects"
-msgstr "Группирование и/или выравнивание выбранных объектов"
+msgstr "组合或对齐选择的对象"
 
 #: ../plugins/paint/selection/group.glade.h:4
 msgid ""
@@ -3356,17 +3357,17 @@ msgid ""
 "Center\n"
 "Right"
 msgstr ""
-"Нормальное\n"
-"По верху\n"
-"По середине высоты\n"
-"По низу\n"
-"По левому краю\n"
-"По центру\n"
-"По правому краю"
+"普通\n"
+"向上\n"
+"垂直中间\n"
+"向下\n"
+"向左\n"
+"中间\n"
+"向右"
 
 #: ../plugins/paint/selection/group.glade.h:11
 msgid "_Group"
-msgstr "Группа"
+msgstr "组合(_G)"
 
 #: ../plugins/paint/selection/group.glade.h:12
 msgid "_Space evenly"
@@ -3374,80 +3375,80 @@ msgstr ""
 
 #: ../plugins/paint/selection/plugin.cc:64
 msgid "Select"
-msgstr "Выбрать"
+msgstr "选择"
 
 #: ../plugins/paint/selection/plugin.cc:65
 msgid "Select one or more objects"
-msgstr "Выбор одного или нескольких объектов"
+msgstr "选择一个或多个对象"
 
 #: ../plugins/paint/selection/plugin.cc:67 ../plugins/paint/text/plugin.cc:55
 msgid "Erase"
-msgstr "Очистить"
+msgstr "删除"
 
 #: ../plugins/paint/selection/plugin.cc:68
 msgid "Eraser"
-msgstr "Ластик"
+msgstr "橡皮"
 
 #: ../plugins/paint/selection/selectiontool.cc:368
 msgid "Creation failed!"
-msgstr ""
+msgstr "创建失败！"
 
 #: ../plugins/paint/selection/selectiontool.cc:392
 msgid "Group and/or align objects"
-msgstr "Группирование и/или выравнивание объектов"
+msgstr "给对象分组或对齐"
 
 #: ../plugins/paint/selection/selectiontool.cc:430
 msgid "Horizontal flip"
-msgstr "Горизонтальное отражение"
+msgstr "水平翻转"
 
 #: ../plugins/paint/selection/selectiontool.cc:431
 msgid "Flip the selection horizontally"
-msgstr "Отразить выделение горизонтально"
+msgstr "对选择做水平翻转"
 
 #: ../plugins/paint/selection/selectiontool.cc:432
 msgid "Vertical flip"
-msgstr "Вертикальное отражение"
+msgstr "垂直翻转"
 
 #: ../plugins/paint/selection/selectiontool.cc:433
 msgid "Flip the selection vertically"
-msgstr "Отразить выделение вертикально"
+msgstr "对选择做垂直翻转"
 
 #: ../plugins/paint/selection/selectiontool.cc:434
 msgid "Merge"
-msgstr "Объединить"
+msgstr "合并"
 
 #: ../plugins/paint/selection/selectiontool.cc:435
 msgid "Merge two molecules"
-msgstr "Объединить две молекулы"
+msgstr "合并两个分子"
 
 #: ../plugins/paint/selection/selectiontool.cc:439
 #, fuzzy
 msgid "_Rotate"
-msgstr "Повернуть"
+msgstr "旋转"
 
 #: ../plugins/paint/selection/selectiontool.cc:440
 msgid "Rotate the selection"
-msgstr "Поворот выделения"
+msgstr "旋转所选部分"
 
 #: ../plugins/paint/templates/new-template.glade.h:2
 msgid "New template"
-msgstr "Новый шаблон"
+msgstr "新模板"
 
 #: ../plugins/paint/templates/new-template.glade.h:3
 msgid "_Category:"
-msgstr "Категория:"
+msgstr "目录(_C)"
 
 #: ../plugins/paint/templates/new-template.glade.h:4
 msgid "_Name"
-msgstr "Название"
+msgstr "姓名(_N)"
 
 #: ../plugins/paint/templates/plugin.cc:106
 msgid "Templates"
-msgstr "Шаблоны"
+msgstr "模板"
 
 #: ../plugins/paint/templates/plugin.cc:107
 msgid "Use or manage templates"
-msgstr "Использование и управление шаблонами"
+msgstr "使用或管理模板"
 
 #: ../plugins/paint/templates/plugin.cc:231
 #: ../plugins/paint/templates/plugin.cc:233
@@ -3457,29 +3458,29 @@ msgstr ""
 #: ../plugins/paint/templates/templates.glade.h:1
 #, fuzzy
 msgid "No selected template"
-msgstr "Новый шаблон"
+msgstr "新模板"
 
 #: ../plugins/paint/templates/templates.glade.h:2
 #, fuzzy
 msgid "_Templates"
-msgstr "Шаблоны"
+msgstr "模板"
 
 #: ../plugins/paint/templates/templates.glade.h:3
 #, fuzzy
 msgid "category"
-msgstr "Категория:"
+msgstr "目录(_C)"
 
 #: ../plugins/paint/templates/templatetool.cc:331
 msgid "Please provide an object."
-msgstr "Укажите объект."
+msgstr "请提供一个对象。"
 
 #: ../plugins/paint/templates/templatetool.cc:333
 msgid "Please give a name."
-msgstr "Задайте название."
+msgstr "请给一个名字。"
 
 #: ../plugins/paint/templates/templatetool.cc:335
 msgid "Please choose a category."
-msgstr "Выберите категорию."
+msgstr "请选择一个目录。"
 
 #: ../plugins/paint/text/fontsel.glade.h:1
 msgid ""
@@ -3496,40 +3497,39 @@ msgstr ""
 #: ../plugins/paint/text/fontsel.glade.h:6
 #, fuzzy
 msgid "Stri_kethrough"
-msgstr "Зачёркнутый"
+msgstr "删除线"
 
 #: ../plugins/paint/text/fontsel.glade.h:7
 #, fuzzy
 msgid "_Color:"
-msgstr "_Закрыть"
+msgstr "关闭(_C)"
 
 #: ../plugins/paint/text/fontsel.glade.h:8
 #, fuzzy
 msgid "_Family:"
-msgstr "_Файл"
+msgstr "文件(_F)"
 
 #: ../plugins/paint/text/fontsel.glade.h:9
-#, fuzzy
 msgid "_Position:"
-msgstr "Соединение"
+msgstr ""
 
 #: ../plugins/paint/text/fontsel.glade.h:10
 #, fuzzy
 msgid "_Style:"
-msgstr "Заголовок:"
+msgstr "标题："
 
 #: ../plugins/paint/text/fontsel.glade.h:11
 #, fuzzy
 msgid "_Underline:"
-msgstr "Подчёркивание"
+msgstr "下划线"
 
 #: ../plugins/paint/text/plugin.cc:53
 msgid "Add or modify a text"
-msgstr "Добавить или изменить текст"
+msgstr "增加或修改一个文本"
 
 #: ../plugins/paint/text/plugin.cc:56
 msgid "Add or modify a group of atoms"
-msgstr "Добавить или изменить группу атомов"
+msgstr "增加或修改一组原子"
 
 #: ../plugins/paint/wikipedia/plugin.cc:52
 msgid "Wikipedia export"
@@ -3553,12 +3553,12 @@ msgstr ""
 
 #: ../programs/3d/application.cc:155
 msgid "Sorry, format not supported!"
-msgstr "Извините, формат не поддерживается!"
+msgstr "对不起，格式不支持！"
 
 #: ../programs/3d/main.cc:44
 #, fuzzy
 msgid "GChem3d Viewer version: "
-msgstr "Версия GChemPaint: "
+msgstr "GChemPaint 控件"
 
 #: ../programs/3d/main.cc:55
 msgid "Prints GChem3d Viewer version"
@@ -3577,34 +3577,34 @@ msgstr ""
 #: ../programs/3d/main.cc:103 ../programs/spectra/gspectrum.cc:54
 #, fuzzy
 msgid " [file]"
-msgstr "[файл...]"
+msgstr "[文件...]"
 
 #: ../programs/3d/main.cc:124 ../programs/crystal/main.cc:159
 #: ../programs/paint/main.cc:90 ../programs/spectra/gspectrum.cc:74
 #, c-format
 msgid "Invalid or misplaced argument: %s\n"
-msgstr ""
+msgstr "参数不存在或位置有误：%s\n"
 
 #: ../programs/3d/window.cc:129
 #, fuzzy
 msgid "GChem3D is a molecular structures viewer for Gnome"
-msgstr "GChemPaint - редактор химических структур для GNOME"
+msgstr "GChemPaint 是一个在 Gnome 下的 2D 化学结构式编辑器"
 
 #. const gchar * documentors[] = {NULL};
 #: ../programs/3d/window.cc:131
 #, fuzzy
 msgid "Copyright © 2004-2008 Jean Bréfort\n"
-msgstr "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2001-2005 Jean Bréfort"
 
 #: ../programs/3d/window.cc:181
 #, fuzzy
 msgid "Print the current scene"
-msgstr "Напечатать текущий файл"
+msgstr "打印当前文件"
 
 #: ../programs/3d/window.cc:185
 #, fuzzy
 msgid "Quit GChem3D"
-msgstr "Выйти из GChemCalc"
+msgstr "退出 GchemPaint"
 
 #: ../programs/3d/window.cc:189
 msgid "View help for the Molecules Viewer"
@@ -3616,7 +3616,7 @@ msgstr ""
 #: ../programs/table/gchemtable-curve.cc:233
 #, fuzzy
 msgid "Gnome Chemistry Utils on the _web"
-msgstr "GChemPaint в Интернет"
+msgstr "网上 GChemPaint(_w)"
 
 #: ../programs/3d/window.cc:191 ../programs/calc/gchemcalc.cc:628
 #: ../programs/crystal/window.cc:321 ../programs/spectra/window.cc:188
@@ -3624,7 +3624,7 @@ msgstr "GChemPaint в Интернет"
 #: ../programs/table/gchemtable-curve.cc:234
 #, fuzzy
 msgid "Browse the Gnome Chemistry Utils's web site"
-msgstr "Просмотреть сайт GChemPaint"
+msgstr "浏览 GChemPaint 网站"
 
 #: ../programs/3d/window.cc:195 ../programs/calc/gchemcalc.cc:632
 #: ../programs/crystal/window.cc:325 ../programs/spectra/window.cc:192
@@ -3632,7 +3632,7 @@ msgstr "Просмотреть сайт GChemPaint"
 #: ../programs/table/gchemtable-curve.cc:238
 #, fuzzy
 msgid "Ask a question about the Gnome Chemistry Utils"
-msgstr "Задать вопрос о GChemPaint"
+msgstr "提有关 GchemPaint 的问题"
 
 #: ../programs/3d/window.cc:197 ../programs/calc/gchemcalc.cc:634
 #: ../programs/crystal/window.cc:327 ../programs/spectra/window.cc:194
@@ -3640,12 +3640,12 @@ msgstr "Задать вопрос о GChemPaint"
 #: ../programs/table/gchemtable-curve.cc:240
 #, fuzzy
 msgid "Submit a bug report for the Gnome Chemistry Utils"
-msgstr "Отправить сообщение об ошибке в GChemPaint"
+msgstr "向 GchemPaint 提错误报告"
 
 #: ../programs/3d/window.cc:199
 #, fuzzy
 msgid "About GChem3D"
-msgstr "О программе GChemCalc"
+msgstr "关于 GchemPaint"
 
 #: ../programs/3d/window.cc:203
 msgid "Balls and sticks"
@@ -3666,7 +3666,7 @@ msgstr ""
 #: ../programs/3d/window.cc:209
 #, fuzzy
 msgid "Cylinders"
-msgstr "Циклы"
+msgstr "环"
 
 #: ../programs/3d/window.cc:210
 msgid "Display a cylinders model"
@@ -3682,12 +3682,12 @@ msgstr ""
 
 #: ../programs/3d/window.cc:271
 msgid "Background color"
-msgstr "Цвет фона"
+msgstr "背景色"
 
 #: ../programs/3d/window.cc:272
 #, fuzzy
 msgid "Choose a new background color"
-msgstr "Цвет фона"
+msgstr "背景色"
 
 #: ../programs/3d/window.cc:295 ../programs/crystal/window.cc:429
 #: ../programs/spectra/window.cc:257
@@ -3697,7 +3697,7 @@ msgstr ""
 #: ../programs/3d/gchem3d.desktop.in.in.h:1
 #, fuzzy
 msgid "Display chemical 3D structures"
-msgstr "Редактирование химических структур"
+msgstr "编辑 2D 化学结构"
 
 #: ../programs/3d/gchem3d.desktop.in.in.h:2
 msgid "Molecules Viewer @STABILITY_POSTFIX@"
@@ -3705,17 +3705,18 @@ msgstr ""
 
 #: ../programs/calc/gchemcalc.cc:301
 msgid "GChemCalc is a simple calculator for chemists"
-msgstr "GChemCalc - простой калькулятор для химиков"
+msgstr ""
 
 #. const gchar * documentors[] = {NULL};
 #: ../programs/calc/gchemcalc.cc:303
 #, fuzzy
 msgid "Copyright © 2005-2007 Jean Bréfort\n"
-msgstr "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2001-2005 Jean Bréfort"
 
 #: ../programs/calc/gchemcalc.cc:619
+#, fuzzy
 msgid "Quit GChemCalc"
-msgstr "Выйти из GChemCalc"
+msgstr "退出 GchemPaint"
 
 #: ../programs/calc/gchemcalc.cc:623
 msgid "_Mode"
@@ -3724,11 +3725,12 @@ msgstr ""
 #: ../programs/calc/gchemcalc.cc:626
 #, fuzzy
 msgid "View help for the Chemical Calculator"
-msgstr "Просмотр справки для GChemPaint"
+msgstr "查看 GchemPaint 的帮助文件"
 
 #: ../programs/calc/gchemcalc.cc:636
+#, fuzzy
 msgid "About GChemCalc"
-msgstr "О программе GChemCalc"
+msgstr "关于 GchemPaint"
 
 #: ../programs/calc/gchemcalc.cc:640
 msgid "_Guess"
@@ -3741,7 +3743,7 @@ msgstr ""
 #: ../programs/calc/gchemcalc.cc:643
 #, fuzzy
 msgid "_Atom"
-msgstr "Атом"
+msgstr "原子"
 
 #: ../programs/calc/gchemcalc.cc:644
 msgid "Interpreting ambiguous symbols as atoms"
@@ -3750,7 +3752,7 @@ msgstr ""
 #: ../programs/calc/gchemcalc.cc:646
 #, fuzzy
 msgid "_Nickname"
-msgstr "Название"
+msgstr "姓名(_N)"
 
 #: ../programs/calc/gchemcalc.cc:647
 msgid "Interpret ambiguous symbols as atoms groups nicknames"
@@ -3767,39 +3769,37 @@ msgstr ""
 #: ../programs/calc/gchemcalc.cc:688
 #, fuzzy
 msgid "GChemCalc Calculator version: "
-msgstr "Версия GChemPaint: "
+msgstr "GChemPaint 控件"
 
 #: ../programs/calc/gchemcalc.cc:714
-#, fuzzy
 msgid " [formula]"
-msgstr "Формула:"
+msgstr ""
 
 #: ../programs/calc/gchemcalc.cc:731
 msgid "For usage see: gchemcalc-unstable [-?|--help]"
 msgstr ""
 
-#
 #: ../programs/calc/gchemcalc.cc:777
+#, fuzzy
 msgid "Element"
-msgstr "Элемент"
+msgstr "元素工具"
 
 #: ../programs/calc/gchemcalc.cc:784
 msgid "Mass %"
-msgstr "Масса %"
+msgstr ""
 
 #: ../programs/calc/gchemcalc.desktop.in.in.h:1
 msgid "A simple calculator for chemistry"
-msgstr "Простой химический калькулятор"
+msgstr ""
 
 #: ../programs/calc/gchemcalc.desktop.in.in.h:2
-#, fuzzy
 msgid "Chemical calculator @STABILITY_POSTFIX@"
-msgstr "Химический калькулятор"
+msgstr ""
 
 #: ../programs/crystal/gcrystal.desktop.in.in.h:1
 #, fuzzy
 msgid "Edit and display crystalline structures"
-msgstr "Редактирование химических структур"
+msgstr "编辑 2D 化学结构"
 
 #: ../programs/crystal/gcrystal.desktop.in.in.h:2
 msgid "Gnome Crystal Crystalline Structures Viewer @STABILITY_POSTFIX@"
@@ -3808,17 +3808,17 @@ msgstr ""
 #: ../programs/crystal/gcrystal.schemas.in.h:1
 #, fuzzy
 msgid "Background color blue value"
-msgstr "Цвет фона"
+msgstr "背景色"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:2
 #, fuzzy
 msgid "Background color green value"
-msgstr "Цвет фона"
+msgstr "背景色"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:3
 #, fuzzy
 msgid "Background color red value"
-msgstr "Цвет фона"
+msgstr "背景色"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:4
 msgid ""
@@ -3884,7 +3884,7 @@ msgstr ""
 #: ../programs/crystal/application.cc:58
 #, fuzzy, c-format
 msgid "Untitled%d"
-msgstr "Безымянное %d"
+msgstr "无标题 %d"
 
 #: ../programs/crystal/application.cc:318
 #, c-format
@@ -3936,7 +3936,7 @@ msgid ""
 "Could not save file\n"
 "%s"
 msgstr ""
-"Не удалось открыть файл\n"
+"不能打开文件\n"
 "%s"
 
 #: ../programs/crystal/linesdlg.cc:121
@@ -3966,41 +3966,39 @@ msgstr ""
 #: ../programs/crystal/linesdlg.cc:180
 #, fuzzy
 msgid "Single"
-msgstr "Серебро"
+msgstr "丝氨酸"
 
 #: ../programs/crystal/main.cc:88
 #, fuzzy
 msgid "Gnome Chemistry Utils version: "
-msgstr "Версия GChemPaint: "
+msgstr "GChemPaint 控件"
 
 #: ../programs/crystal/main.cc:114 ../programs/paint/main.cc:72
 msgid " [file...]"
-msgstr "[файл...]"
+msgstr "[文件...]"
 
 #: ../programs/crystal/window.cc:142 ../programs/crystal/window.cc:394
-#, fuzzy
 msgid "Gnome Crystal"
-msgstr "Выйти из GChemCalc"
+msgstr ""
 
 #: ../programs/crystal/window.cc:145
 #, fuzzy
 msgid "Gnome Crystal is a lightweight crystal structures viewer for Gnome"
-msgstr "GChemPaint - редактор химических структур для GNOME"
+msgstr "GChemPaint 是一个在 Gnome 下的 2D 化学结构式编辑器"
 
 #: ../programs/crystal/window.cc:146
 #, fuzzy
 msgid "Copyright © 1999-2007 by Jean Bréfort"
-msgstr "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2001-2005 Jean Bréfort"
 
 #: ../programs/crystal/window.cc:294
-#, fuzzy
 msgid "Quit Gnome Crystal"
-msgstr "Выйти из GChemCalc"
+msgstr ""
 
 #: ../programs/crystal/window.cc:296
 #, fuzzy
 msgid "Prefere_nces..."
-msgstr "Свойства..."
+msgstr "属性...(_r)"
 
 #: ../programs/crystal/window.cc:298
 msgid "_Crystal"
@@ -4017,12 +4015,12 @@ msgstr ""
 #: ../programs/crystal/window.cc:301
 #, fuzzy
 msgid "_Atoms..."
-msgstr "Атомы"
+msgstr "原子"
 
 #: ../programs/crystal/window.cc:302
 #, fuzzy
 msgid "Add or edit atoms"
-msgstr "Добавить или изменить атом"
+msgstr "增加或修改一个原子"
 
 #: ../programs/crystal/window.cc:303
 msgid "_Bonds and lines..."
@@ -4035,7 +4033,7 @@ msgstr ""
 #: ../programs/crystal/window.cc:305
 #, fuzzy
 msgid "_Size..."
-msgstr "_Открыть..."
+msgstr "打开...(_O)"
 
 #: ../programs/crystal/window.cc:306
 msgid "Define size"
@@ -4060,41 +4058,40 @@ msgstr ""
 #: ../programs/crystal/window.cc:313
 #, fuzzy
 msgid "Create new _window"
-msgstr "Создать новый файл"
+msgstr "创建一个新文件"
 
 #: ../programs/crystal/window.cc:314
 #, fuzzy
 msgid "Create a new window"
-msgstr "Создать новый файл"
+msgstr "创建一个新文件"
 
 #: ../programs/crystal/window.cc:315
 #, fuzzy
 msgid "_Close this window"
-msgstr "Показать окно инструментов"
+msgstr "显示工具窗口"
 
 #: ../programs/crystal/window.cc:316
 #, fuzzy
 msgid "Close the current window"
-msgstr "Закрыть текущий файл"
+msgstr "关闭当前文件"
 
 #: ../programs/crystal/window.cc:319
 #, fuzzy
 msgid "View help for Gnome Crystal"
-msgstr "Выйти из GChemCalc"
+msgstr "查看 GchemPaint 的帮助文件"
 
 #: ../programs/crystal/window.cc:329
-#, fuzzy
 msgid "About Gnome Crystal"
-msgstr "О программе GChemCalc"
+msgstr ""
 
 #: ../programs/paint/gchempaint.desktop.in.in.h:1
 msgid "Edit chemical 2D structures"
-msgstr "Редактирование химических структур"
+msgstr "编辑 2D 化学结构"
 
 #: ../programs/paint/gchempaint.desktop.in.in.h:2
 #, fuzzy
 msgid "GChemPaint Chemical Structures Editor @STABILITY_POSTFIX@"
-msgstr "Редактор химических формул GChemPaint"
+msgstr "GChemPaint 是一个在 Gnome 下的 2D 化学结构式编辑器 (不稳定)"
 
 #: ../programs/paint/gchempaint.schemas.in.h:1
 msgid "Chemical formula font family."
@@ -4109,9 +4106,8 @@ msgid "Chemical formula font stretch."
 msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:4
-#, fuzzy
 msgid "Chemical formula font style."
-msgstr "Химический калькулятор"
+msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:5
 msgid "Chemical formula font variant."
@@ -4313,7 +4309,7 @@ msgstr ""
 #: ../programs/paint/gchempaint.schemas.in.h:53
 #, fuzzy
 msgid "Default padding around arrows."
-msgstr "Добавьте пропущенные стрелки."
+msgstr "请添加缺少的箭头。"
 
 #: ../programs/paint/gchempaint.schemas.in.h:55
 #, no-c-format
@@ -4467,15 +4463,16 @@ msgstr ""
 #: ../programs/paint/gchempaint.schemas.in.h:88
 #, fuzzy
 msgid "Whether the periodic table is tearable."
-msgstr "Показать периодическую таблицу элементов"
+msgstr "显示元素周期表"
 
 #: ../programs/paint/gchempaint.schemas.in.h:89
 msgid "Whether to export simple text when copying."
 msgstr ""
 
 #: ../programs/paint/main.cc:46
+#, fuzzy
 msgid "GChemPaint version: "
-msgstr "Версия GChemPaint: "
+msgstr "GChemPaint 控件"
 
 #: ../programs/spectra/application.cc:40 ../programs/spectra/application.cc:52
 msgid "GSpectrum"
@@ -4497,22 +4494,20 @@ msgstr ""
 #: ../programs/spectra/window.cc:126
 #, fuzzy
 msgid "Copyright © 2007 Jean Bréfort\n"
-msgstr "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2001-2005 Jean Bréfort"
 
 #: ../programs/spectra/window.cc:180
-#, fuzzy
 msgid "Quit GSpectrum"
-msgstr "Выйти из GChemCalc"
+msgstr ""
 
 #: ../programs/spectra/window.cc:186
 #, fuzzy
 msgid "View help for the Spetra Viewer"
-msgstr "Просмотр справки для GChemPaint"
+msgstr "查看 GchemPaint 的帮助文件"
 
 #: ../programs/spectra/window.cc:196
-#, fuzzy
 msgid "About GSpectrum"
-msgstr "О программе GChemCalc"
+msgstr ""
 
 #: ../programs/table/gchemtable-app.cc:135
 msgid "New _Chart"
@@ -4521,12 +4516,13 @@ msgstr ""
 #: ../programs/table/gchemtable-app.cc:136
 #, fuzzy
 msgid "Create a new chart"
-msgstr "Создать новую реакцию"
+msgstr "创建一个新反应"
 
 #: ../programs/table/gchemtable-app.cc:138
 #: ../programs/table/gchemtable-curve.cc:224
+#, fuzzy
 msgid "Quit GChemTable"
-msgstr "Выйти из GChemTable"
+msgstr "退出 GchemPaint"
 
 #: ../programs/table/gchemtable-app.cc:140
 msgid "Color scheme"
@@ -4563,12 +4559,12 @@ msgstr ""
 #: ../programs/table/gchemtable-app.cc:152
 #, fuzzy
 msgid "Use colors to display the acidity of the elements"
-msgstr "Периодическая таблица элементов"
+msgstr "元素周期表"
 
 #: ../programs/table/gchemtable-app.cc:154
 #, fuzzy
 msgid "Electronegativity"
-msgstr "Электроотрицательность Паули"
+msgstr "电子对工具"
 
 #: ../programs/table/gchemtable-app.cc:155
 msgid "Use colors to display the electronegativity of the elements"
@@ -4581,7 +4577,7 @@ msgstr ""
 #: ../programs/table/gchemtable-app.cc:158
 #, fuzzy
 msgid "Use colors to display the covalent radii of the elements"
-msgstr "Периодическая таблица элементов"
+msgstr "元素周期表"
 
 #: ../programs/table/gchemtable-app.cc:160
 msgid "Block"
@@ -4595,36 +4591,39 @@ msgstr ""
 #: ../programs/table/gchemtable-curve.cc:230
 #, fuzzy
 msgid "View help for the Periodic Table"
-msgstr "Просмотр справки для GChemPaint"
+msgstr "查看 GchemPaint 的帮助文件"
 
 #: ../programs/table/gchemtable-app.cc:175
 #: ../programs/table/gchemtable-curve.cc:242
+#, fuzzy
 msgid "About GChemTable"
-msgstr "О программе GChemTable"
+msgstr "关于 GchemPaint"
 
 #: ../programs/table/gchemtable-app.cc:343
+#, fuzzy
 msgid "GChemTable is a chemical periodic table of the elements application"
-msgstr "GChemTable - периодическая таблица химических элементов"
+msgstr "显示元素周期表"
 
 #. const gchar * documentors[] = {NULL};
 #: ../programs/table/gchemtable-app.cc:345
 #, fuzzy
 msgid "Copyright © 2005-2008 Jean Bréfort"
-msgstr "(C) 2005 by Jean Bréfort"
+msgstr "(C) 2001-2005 Jean Bréfort"
 
 #. The <sup> </sup> markup at the end of the chain is there to ensure that
 #. things will be correcly aligned, add the same to the translated string
 #: ../programs/table/gchemtable-elt.cc:61
 msgid "Electronic configuration:<sup> </sup>"
-msgstr "Электронная конфигурация: <sup> </sup>"
+msgstr ""
 
 #: ../programs/table/gchemtable-elt.cc:73
 msgid "Lang"
-msgstr "Язык"
+msgstr ""
 
 #: ../programs/table/gchemtable-elt.cc:80
+#, fuzzy
 msgid "Name"
-msgstr "Название"
+msgstr "姓名(_N)"
 
 #: ../programs/table/gchemtable-elt.cc:106
 #: ../programs/table/gchemtable-elt.cc:150
@@ -4634,7 +4633,7 @@ msgstr "Название"
 #: ../programs/table/gchemtable-elt.cc:237
 #: ../programs/table/gchemtable-elt.cc:259
 msgid "n.a."
-msgstr "н.д."
+msgstr ""
 
 #: ../programs/table/gchemtable-elt.cc:118
 #: ../programs/table/gchemtable-elt.cc:160
@@ -4643,9 +4642,8 @@ msgid "%d:"
 msgstr ""
 
 #: ../programs/table/gchemtable-elt.cc:271
-#, fuzzy
 msgid "Ion"
-msgstr "Железо"
+msgstr ""
 
 #. C.N. stands for coordination number
 #: ../programs/table/gchemtable-elt.cc:278
@@ -4653,12 +4651,14 @@ msgid "C.N."
 msgstr ""
 
 #: ../programs/table/gchemtable-elt.cc:283
+#, fuzzy
 msgid "Spin"
-msgstr ""
+msgstr "丝氨酸"
 
 #: ../programs/table/gchemtable-elt.cc:290
+#, fuzzy
 msgid "Value"
-msgstr ""
+msgstr "缬氨酸"
 
 #: ../programs/table/gchemtable-elt.cc:310
 msgid "Low"
@@ -4671,26 +4671,28 @@ msgstr ""
 #: ../programs/table/gchemtable-curve.cc:220
 #, fuzzy
 msgid "Modify the graph properties"
-msgstr "Изменить свойства файла"
+msgstr "改变文件的属性"
 
 #: ../programs/table/gchemtable-curve.cc:232
 #, fuzzy
 msgid "View help for the Curve Window"
-msgstr "Просмотр справки для GChemPaint"
+msgstr "查看 GchemPaint 的帮助文件"
 
 #: ../programs/table/gchemtable-curve.cc:324
 #: ../programs/table/gchemtable-curve.cc:328
 #: ../programs/table/gchemtable-data.cc:524
 msgid "Pauling electronegativity"
-msgstr "Электроотрицательность Паули"
+msgstr ""
 
 #: ../programs/table/gchemtable-curve.cc:340
+#, fuzzy
 msgid "Electron affinity (kJ/mol)"
-msgstr ""
+msgstr "电子对工具"
 
 #: ../programs/table/gchemtable-curve.cc:344
+#, fuzzy
 msgid "Electron affinity"
-msgstr ""
+msgstr "电子对工具"
 
 #: ../programs/table/gchemtable-curve.cc:358
 msgid "1st. "
@@ -4736,7 +4738,7 @@ msgstr ""
 #: ../programs/table/gchemtable-curve.cc:455
 #, fuzzy
 msgid "Melting point"
-msgstr "Метионин"
+msgstr "蛋氨酸"
 
 #: ../programs/table/gchemtable-curve.cc:466
 #: ../programs/table/gchemtable-curve.cc:470
@@ -4751,7 +4753,7 @@ msgstr ""
 #: ../programs/table/gchemtable-data-allocator.cc:69
 #, fuzzy
 msgid "Invalide data"
-msgstr "Недопустимый заряд."
+msgstr "不存在的电荷。"
 
 #. FIXME: we might know the errors
 #: ../programs/table/gchemtable-data-allocator.cc:113
@@ -4759,14 +4761,13 @@ msgid "Not supported"
 msgstr ""
 
 #: ../programs/table/gchemtable-data-allocator.cc:122
-#, fuzzy
 msgid "None"
-msgstr "Неон"
+msgstr ""
 
 #: ../programs/table/gchemtable-data.cc:523
 #, fuzzy
 msgid "Atomic mass"
-msgstr "Атомы"
+msgstr "原子"
 
 #: ../programs/table/gchemtable-data.cc:525
 msgid "First ionization energy"
@@ -4783,12 +4784,11 @@ msgstr ""
 #: ../programs/table/gchemtable-data.cc:528
 #, fuzzy
 msgid "Electronic affinity"
-msgstr "Пара электронов"
+msgstr "电子对工具"
 
 #: ../programs/table/gchemtable-data.cc:529
-#, fuzzy
 msgid "Covalent radius"
-msgstr "Кобальт"
+msgstr ""
 
 #: ../programs/table/gchemtable-data.cc:530
 msgid "Van der Waals radius"
@@ -4807,23 +4807,23 @@ msgid "Ebullition temperature"
 msgstr ""
 
 #: ../programs/table/gchemtable.desktop.in.in.h:1
+#, fuzzy
 msgid "A Mendeleiev table of the chemical elements"
-msgstr "Периодическая таблица химических элементов Д.И.Менделеева"
+msgstr "元素周期表"
 
 #: ../programs/table/gchemtable.desktop.in.in.h:2
 #, fuzzy
 msgid "Periodic table of the elements @STABILITY_POSTFIX@"
-msgstr "Периодическая таблица элементов"
+msgstr "元素周期表"
 
 #: ../templates/paint/haworth.xml.in.h:1
-#, fuzzy
 msgid "Saccharides"
-msgstr "Лантаноиды"
+msgstr ""
 
 #: ../templates/paint/haworth.xml.in.h:2
 #, fuzzy
 msgid "α-D-deoxyribofuranose"
-msgstr "Дезоксигуанозин"
+msgstr "脱氧鸟苷"
 
 #: ../templates/paint/haworth.xml.in.h:3
 msgid "α-D-fructofuranose"
@@ -4844,7 +4844,7 @@ msgstr ""
 #: ../templates/paint/haworth.xml.in.h:7
 #, fuzzy
 msgid "β-D-deoxyribofuranose"
-msgstr "Дезоксигуанозин"
+msgstr "脱氧鸟苷"
 
 #: ../templates/paint/haworth.xml.in.h:8
 msgid "β-D-fructofuranose"
@@ -4863,290 +4863,328 @@ msgid "β-D-ribofuranose"
 msgstr ""
 
 #: ../templates/paint/templates.xml.in.h:1
+#, fuzzy
 msgid "Adenine"
-msgstr "Аденин"
+msgstr "下划线"
 
 #: ../templates/paint/templates.xml.in.h:2
 msgid "Adenosine"
-msgstr "Аденозин"
+msgstr ""
 
 #: ../templates/paint/templates.xml.in.h:3
 msgid "Alanine"
-msgstr "Аланин"
+msgstr ""
 
 #: ../templates/paint/templates.xml.in.h:4
 msgid "Amino acids"
-msgstr "Аминокислоты"
+msgstr "氨基酸"
 
 #: ../templates/paint/templates.xml.in.h:5
 msgid "Anthracene"
-msgstr "Антрацен"
+msgstr "蒽"
 
 #: ../templates/paint/templates.xml.in.h:6
 msgid "Arginine"
-msgstr "Аргинин"
+msgstr "精氨酸"
 
 #: ../templates/paint/templates.xml.in.h:7
 msgid "Aromatic hydrocarbons"
-msgstr "Ароматические углеводороды"
+msgstr "芳烃"
 
 #: ../templates/paint/templates.xml.in.h:8
 msgid "Asparagine"
-msgstr "Аспарагин"
+msgstr "天冬酰胺"
 
 #: ../templates/paint/templates.xml.in.h:9
 msgid "Aspartic acid"
-msgstr "Аспартановая кислота"
+msgstr "天冬胺酸"
 
 #: ../templates/paint/templates.xml.in.h:10
 msgid "Azulene"
-msgstr "Азулен"
+msgstr "甘菊环"
 
 #: ../templates/paint/templates.xml.in.h:11
 msgid "Benzene"
-msgstr "Бензол"
+msgstr "苯"
 
 #: ../templates/paint/templates.xml.in.h:12
 msgid "Cysteine"
-msgstr "Цистеин"
+msgstr "半胱氨酸"
 
 #: ../templates/paint/templates.xml.in.h:13
 msgid "Cytidine"
-msgstr "Цитидин"
+msgstr "胞苷"
 
 #: ../templates/paint/templates.xml.in.h:14
+#, fuzzy
 msgid "Cytosine"
-msgstr "Цитозин"
+msgstr "胞嘧啶"
 
 #: ../templates/paint/templates.xml.in.h:15
 msgid "Deoxyadenosine"
-msgstr "Дезоксиаденозин"
+msgstr "脱氧腺苷"
 
 #: ../templates/paint/templates.xml.in.h:16
 msgid "Deoxycytidine"
-msgstr "Дезоксицитидин"
+msgstr "脱氧胞苷"
 
 #: ../templates/paint/templates.xml.in.h:17
 msgid "Deoxyguanosine"
-msgstr "Дезоксигуанозин"
+msgstr "脱氧鸟苷"
 
 #: ../templates/paint/templates.xml.in.h:18
 msgid "Deoxythymidine"
-msgstr "Дезокситимидин"
+msgstr "脱氧胸苷"
 
 #: ../templates/paint/templates.xml.in.h:19
 msgid "Glutamic acid"
-msgstr "Глутаминовая кислота"
+msgstr "谷氨酸"
 
 #: ../templates/paint/templates.xml.in.h:20
 msgid "Glutamine"
-msgstr "Глутамин"
+msgstr "谷氨酰胺"
 
 #: ../templates/paint/templates.xml.in.h:21
 msgid "Glycine"
-msgstr "Глицин"
+msgstr "甘氨酸"
 
 #: ../templates/paint/templates.xml.in.h:22
 msgid "Guanine"
-msgstr "Гуанин"
+msgstr "鸟嘌呤"
 
 #: ../templates/paint/templates.xml.in.h:23
 msgid "Guanosine"
-msgstr "Гуанозин"
+msgstr "鸟苷"
 
 #: ../templates/paint/templates.xml.in.h:24
 msgid "Histidine"
-msgstr "Гистидин"
+msgstr "组氨酸"
 
 #: ../templates/paint/templates.xml.in.h:25
 msgid "Isoleucine"
-msgstr "Изолейцин"
+msgstr "异亮氨酸"
 
 #: ../templates/paint/templates.xml.in.h:26
 msgid "Leucine"
-msgstr "Лейцин"
+msgstr "亮氨酸"
 
 #: ../templates/paint/templates.xml.in.h:27
 msgid "Lysine"
-msgstr "Лизин"
+msgstr "赖氨酸"
 
 #: ../templates/paint/templates.xml.in.h:28
 msgid "Methionine"
-msgstr "Метионин"
+msgstr "蛋氨酸"
 
 #: ../templates/paint/templates.xml.in.h:29
 msgid "Naphtalene"
-msgstr "Нафталин"
+msgstr "萘"
 
 #: ../templates/paint/templates.xml.in.h:30
 msgid "Nucleic bases"
-msgstr "Нуклеиновые основания"
+msgstr ""
 
 #: ../templates/paint/templates.xml.in.h:31
 msgid "Nucleosides"
-msgstr "Нуклеозиды"
+msgstr "核苷"
 
 #: ../templates/paint/templates.xml.in.h:32
 msgid "Phenanthrene"
-msgstr "Фенантрен"
+msgstr "菲"
 
 #: ../templates/paint/templates.xml.in.h:33
 msgid "Phenylalanine"
-msgstr "Фенилаланин"
+msgstr "苯丙氨酸"
 
 #: ../templates/paint/templates.xml.in.h:34
 msgid "Proline"
-msgstr "Пролин"
+msgstr "脯氨酸"
 
 #: ../templates/paint/templates.xml.in.h:35
 msgid "Pyrene"
-msgstr "Пирен"
+msgstr "芘"
 
 #: ../templates/paint/templates.xml.in.h:36
 msgid "Serine"
-msgstr "Серин"
+msgstr "丝氨酸"
 
 #: ../templates/paint/templates.xml.in.h:37
 msgid "Threonine"
-msgstr "Треонин"
+msgstr "苏氨酸"
 
 #: ../templates/paint/templates.xml.in.h:38
 msgid "Thymine"
-msgstr "Тимин"
+msgstr "胸腺嘧啶"
 
 #: ../templates/paint/templates.xml.in.h:39
 msgid "Tryptophan"
-msgstr "Триптофан"
+msgstr "色氨酸"
 
 #: ../templates/paint/templates.xml.in.h:40
 msgid "Tyrosine"
-msgstr "Тирозин"
+msgstr "酪氨酸"
 
 #: ../templates/paint/templates.xml.in.h:41
 msgid "Uracil"
-msgstr "Урацил"
+msgstr "尿嘧啶"
 
 #: ../templates/paint/templates.xml.in.h:42
 msgid "Uridine"
-msgstr "Уридин"
+msgstr "尿苷"
 
 #: ../templates/paint/templates.xml.in.h:43
 msgid "Valine"
-msgstr "Валин"
+msgstr "缬氨酸"
 
-#, fuzzy
-#~ msgid "Ionic"
-#~ msgstr "Железо"
+#~ msgid "GChemPaint component"
+#~ msgstr "GChemPaint 组件"
 
-#, fuzzy
-#~ msgid "Molecules Viewer (unstable)"
-#~ msgstr "Молекулярный вес:"
+#~ msgid "GChemPaint component to draw 2D chemical formulas"
+#~ msgstr "画 2D 化学式的 GchemPaint 组件"
 
-#, fuzzy
-#~ msgid "Periodic table of the elements (unstable)"
-#~ msgstr "Периодическая таблица элементов"
+#~ msgid "GChemPaint control"
+#~ msgstr "GChemPaint 控件"
+
+#~ msgid "GChemPaint control to display 2D chemical formulas"
+#~ msgstr "显示 2D 化学式的 GChemPaint"
+
+#~ msgid "GChemPaint document"
+#~ msgstr "GChemPaint 文档"
+
+#~ msgid "GChemPaint embeddable factory"
+#~ msgstr "GChemPaint 嵌入式工厂"
 
 #~ msgid "GChemPaint help contents"
-#~ msgstr "Содержание справки GChemPaint"
+#~ msgstr "GChemPaint 帮助内容"
+
+#~ msgid "Paste the clipborad"
+#~ msgstr "从剪贴板粘贴"
 
 #~ msgid "_Save All"
-#~ msgstr "Сохранить все"
+#~ msgstr "全部保存(_S)"
+
+#~ msgid "Save all open files"
+#~ msgstr "保存所有打开的文件"
 
 #~ msgid "_Close All"
-#~ msgstr "Закрыть все"
+#~ msgstr "全部关闭(_C)"
 
 #~ msgid "Close all open files"
-#~ msgstr "Закрыть все открытые файлы"
+#~ msgstr "关闭所有打开的文件"
 
 #~ msgid "_Periodic table"
-#~ msgstr "Периодическая таблица"
+#~ msgstr "周期表(_P)"
+
+#~ msgid "Reversible reaction arrows heads"
+#~ msgstr "可逆反应箭头"
 
 #~ msgid "Tools Options"
-#~ msgstr "Параметры инструментов"
+#~ msgstr "工具选项"
 
 #~ msgid "GChemPaint Templates"
-#~ msgstr "Шаблоны GChemPaint"
+#~ msgstr "GChemPaint 模板"
 
 #~ msgid "Arrows toolbar"
-#~ msgstr "Панель стрелок"
+#~ msgstr "箭头工具条"
+
+#~ msgid "Double arrow tool"
+#~ msgstr "双箭头工具"
+
+#~ msgid "Mesomery arrow tool"
+#~ msgstr "内消旋箭头工具"
+
+#~ msgid "Retrosynthesis arrow tool"
+#~ msgstr "逆合成箭头工具"
+
+#~ msgid "Simple arrow tool"
+#~ msgstr "单箭头工具"
 
 #~ msgid "Atoms toolbar"
-#~ msgstr "Панель атомов"
+#~ msgstr "原子工具条"
+
+#~ msgid "Negative Charge tool"
+#~ msgstr "负电荷工具"
+
+#~ msgid "Positive Charge tool"
+#~ msgstr "正电荷工具"
+
+#~ msgid "Bond tool"
+#~ msgstr "键工具"
 
 #~ msgid "Bonds toolbar"
-#~ msgstr "Панель связей"
+#~ msgstr "键工具条"
+
+#~ msgid "Wedge bond"
+#~ msgstr "楔形键"
 
 #~ msgid "Cycles toolbar"
-#~ msgstr "Панель циклов"
+#~ msgstr "环工具"
 
 #~ msgid "Eraser tool"
-#~ msgstr "Ластик"
+#~ msgstr "橡皮工具"
 
 #~ msgid "Horizontal flip tool"
-#~ msgstr "Горизонтальное отражение"
+#~ msgstr "水平翻转工具"
 
 #~ msgid "Merge molecules tool"
-#~ msgstr "Объединение молекул"
+#~ msgstr "合并分子工具"
 
-#~ msgid "Selection"
-#~ msgstr "Выделение"
+#~ msgid "Selection tool"
+#~ msgstr "选择工具"
 
 #~ msgid "Selection toolbar"
-#~ msgstr "Панель выделения"
+#~ msgstr "选择工具条"
 
 #~ msgid "Vertical flip tool"
-#~ msgstr "Вертикальное отражение"
+#~ msgstr "垂直翻转工具"
 
 #~ msgid "Change current template"
-#~ msgstr "Изменить текущий шаблон"
+#~ msgstr "改变当前模板"
 
 #~ msgid "Templates selector"
-#~ msgstr "Переключатель шаблонов"
+#~ msgstr "模板选择器"
 
 #~ msgid "Templates tool"
-#~ msgstr "Шаблоны"
+#~ msgstr "模板工具"
 
 #~ msgid "Templates toolbar"
-#~ msgstr "Панель шаблонов"
-
-#~ msgid "Bold"
-#~ msgstr "Полужирный"
+#~ msgstr "模板工具条"
 
 #~ msgid "Fragment"
-#~ msgstr "Фрагмент"
+#~ msgstr "片断"
 
 #~ msgid "Fragment tool"
-#~ msgstr "Фрагмент"
+#~ msgstr "片断工具"
 
 #~ msgid "Subscript"
-#~ msgstr "Нижний индекс"
+#~ msgstr "下标"
 
 #~ msgid "Superscript"
-#~ msgstr "Верхний индекс"
+#~ msgstr "上标"
 
 #~ msgid "Text tool"
-#~ msgstr "Текст"
+#~ msgstr "文本工具"
 
 #~ msgid "Text toolbar"
-#~ msgstr "Панель текста"
+#~ msgstr "文本工具条"
 
 #~ msgid "About GChemPaint..."
-#~ msgstr "О программе GChemPaint..."
+#~ msgstr "关于 GchemPaint"
 
 #~ msgid "Displays copyright and contributors of GChemPaint"
-#~ msgstr "Показывает сведения об авторских правах и разработчиках GChemPaint"
+#~ msgstr "显示 GChemPaint 版权信息和参与人"
 
 #~ msgid "Edit file propeties"
-#~ msgstr "Правка свойств файла"
+#~ msgstr "编辑文件属性"
 
 #~ msgid "GChemPaint T_ools"
-#~ msgstr "Инструменты GChemPaint"
+#~ msgstr "GChemPaint 工具(_o)"
 
 #~ msgid "Print file to the printer"
-#~ msgstr "Распечатать файл на принтер"
+#~ msgstr "打印文件"
 
 #~ msgid "Proper_ties"
-#~ msgstr "Свойства"
+#~ msgstr "属性(_t)"
 
 #~ msgid "_Print"
-#~ msgstr "Печать"
+#~ msgstr "打印(_P)"

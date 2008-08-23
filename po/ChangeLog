@@ -1,10 +1,18 @@
-2008-08-22  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* POTFILES.in:
-
 ##Text encoding: utf-8
+
+2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* LINGUAS: merged with gchempaint po files.
+	* de.po: ditto.
+	* es.po: ditto.
+	* fr.po: ditto.
+	* it.po: ditto.
+	* pl.po: ditto.
+	* pt_BR.po: ditto.
+	* ru.po: ditto.
+	* zh_CN.po: ditto.
+
+2008-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: added missing files.
 
 2008-07-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: added plugins/loaders/cdx/cdx.cc
