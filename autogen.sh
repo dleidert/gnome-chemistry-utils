@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ## check for doxygen present. Things don't work if it is not there
 if [ -z `doxygen --version` ]; then

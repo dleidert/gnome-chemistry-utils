@@ -33,25 +33,13 @@ desktop_DATA = gspectrum-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 install-exec-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gspectrum ]; then \
-		rm $(bindir)/gspectrum; \
-	fi
-	$(LN_S) $(bindir)/gspectrum-@GCU_API_VER@ $(bindir)/gspectrum
-else
-	if [ -x $(bindir)/gspectrum-unstable ]; then \
-		rm $(bindir)/gspectrum-unstable; \
-	fi
-	$(LN_S) $(bindir)/gspectrum-@GCU_API_VER@ $(bindir)/gspectrum-unstable
-endif
+	cd $(DESTDIR)$(bindir) && \
+	if [ -x gspectrum@STABILITY@; then \
+		rm -f gspectrum@STABILITY@; \
+	fi && \
+	$(LN_S) gspectrum-@GCU_API_VER@ gspectrum@STABILITY@
 
 uninstall-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gspectrum ]; then \
-		rm $(bindir)/gspectrum; \
+	if [ -x $(DESTDIR)/$(bindir)/gspectrum@STABILITY@; then \
+		rm -f $(DESTDIR)/$(bindir)/gspectrum@STABILITY@; \
 	fi
-else
-	if [ -x $(bindir)/gspectrum-unstable ]; then \
-		rm $(bindir)/gspectrum-unstable; \
-	fi
-endif

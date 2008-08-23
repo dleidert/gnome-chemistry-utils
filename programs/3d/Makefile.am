@@ -32,25 +32,13 @@ desktop_DATA = gchem3d-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 install-exec-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gchem3d ]; then \
-		rm $(bindir)/gchem3d; \
-	fi
-	$(LN_S) $(bindir)/gchem3d-@GCU_API_VER@ $(bindir)/gchem3d
-else
-	if [ -x $(bindir)/gchem3d-unstable ]; then \
-		rm $(bindir)/gchem3d-unstable; \
-	fi
-	$(LN_S) $(bindir)/gchem3d-@GCU_API_VER@ $(bindir)/gchem3d-unstable
-endif
+	cd $(DESTDIR)$(bindir) && \
+	if [ -x gchem3d@STABILITY@; then \
+		rm -f gchem3d@STABILITY@; \
+	fi && \
+	$(LN_S) gchem3d-@GCU_API_VER@ gchem3d@STABILITY@
 
 uninstall-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gchem3d ]; then \
-		rm $(bindir)/gchem3d; \
+	if [ -x $(DESTDIR)/$(bindir)/gchem3d@STABILITY@; then \
+		rm -f $(DESTDIR)/$(bindir)/gchem3d@STABILITY@; \
 	fi
-else
-	if [ -x $(bindir)/gchem3d-unstable ]; then \
-		rm $(bindir)/gchem3d-unstable; \
-	fi
-endif

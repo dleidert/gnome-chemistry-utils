@@ -26,25 +26,13 @@ desktop_DATA = gchemcalc-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 install-exec-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gchemcalc ]; then \
-		rm $(bindir)/gchemcalc; \
-	fi
-	$(LN_S) $(bindir)/gchemcalc-@GCU_API_VER@ $(bindir)/gchemcalc
-else
-	if [ -x $(bindir)/gchemcalc-unstable ]; then \
-		rm $(bindir)/gchemcalc-unstable; \
-	fi
-	$(LN_S) $(bindir)/gchemcalc-@GCU_API_VER@ $(bindir)/gchemcalc-unstable
-endif
+	cd $(DESTDIR)$(bindir) && \
+	if [ -x gchemcalc@STABILITY@; then \
+		rm -f gchemcalc@STABILITY@; \
+	fi && \
+	$(LN_S) gchemcalc-@GCU_API_VER@ gchemcalc@STABILITY@
 
 uninstall-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gchemcalc ]; then \
-		rm $(bindir)/gchemcalc; \
+	if [ -x $(DESTDIR)/$(bindir)/gchemcalc@STABILITY@; then \
+		rm -f $(DESTDIR)/$(bindir)/gchemcalc@STABILITY@; \
 	fi
-else
-	if [ -x $(bindir)/gchemcalc-unstable ]; then \
-		rm $(bindir)/gchemcalc-unstable; \
-	fi
-endif

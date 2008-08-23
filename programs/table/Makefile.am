@@ -37,25 +37,12 @@ desktop_DATA = gchemtable-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
 
 install-exec-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gchemtable ]; then \
-		rm $(bindir)/gchemtable; \
-	fi
-	$(LN_S) $(bindir)/gchemtable-@GCU_API_VER@ $(bindir)/gchemtable
-else
-	if [ -x $(bindir)/gchemtable-unstable ]; then \
-		rm $(bindir)/gchemtable-unstable; \
-	fi
-	$(LN_S) $(bindir)/gchemtable-@GCU_API_VER@ $(bindir)/gchemtable-unstable
-endif
-
+	cd $(DESTDIR)$(bindir) && \
+	if [ -x gchemtable@STABILITY@; then \
+		rm -f gchemtable@STABILITY@; \
+	fi && \
+	$(LN_S) gchemtable-@GCU_API_VER@ gchemtable
 uninstall-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gchemtable ]; then \
-		rm $(bindir)/gchemtable; \
+	if [ -x $(DESTDIR)/$(bindir)/gchemtable@STABILITY@; then \
+		rm -f $(DESTDIR)/$(bindir)/gchemtable@STABILITY@; \
 	fi
-else
-	if [ -x $(bindir)/gchemtable-unstable ]; then \
-		rm $(bindir)/gchemtable-unstable; \
-	fi
-endif

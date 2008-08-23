@@ -88,25 +88,13 @@ if GCONF_SCHEMAS_INSTALL
 endif #GCONF_SCHEMAS_INSTALL
 
 install-exec-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gcrystal ]; then \
-		rm $(bindir)/gcrystal; \
-	fi
-	$(LN_S) $(bindir)/gcrystal-@GCU_API_VER@ $(bindir)/gcrystal
-else
-	if [ -x $(bindir)/gcrystal-unstable ]; then \
-		rm $(bindir)/gcrystal-unstable; \
-	fi
-	$(LN_S) $(bindir)/gcrystal-@GCU_API_VER@ $(bindir)/gcrystal-unstable
-endif
+	cd $(DESTDIR)$(bindir) && \
+	if [ -x gcrystal@STABILITY@; then \
+		rm -f gcrystal@STABILITY@; \
+	fi && \
+	$(LN_S) gcrystal-@GCU_API_VER@ gcrystal@STABILITY@
 
 uninstall-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gcrystal ]; then \
-		rm $(bindir)/gcrystal; \
+	if [ -x $(DESTDIR)/$(bindir)/gcrystal@STABILITY@; then \
+		rm -f $(DESTDIR)/$(bindir)/gcrystal@STABILITY@; \
 	fi
-else
-	if [ -x $(bindir)/gcrystal-unstable ]; then \
-		rm $(bindir)/gcrystal-unstable; \
-	fi
-endif

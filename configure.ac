@@ -39,9 +39,11 @@ AC_DEFINE_UNQUOTED([API_VERSION], ["$GCU_API_VER"], [API version])
 if test "$GCU_API_MINOR_VERSION" = "$GCU_MINOR_VERSION" -o $GCU_MICRO_VERSION -ge 90; then
 	gcu_is_stable="yes"
 	STABILITY_POSTFIX=""
+	STABILITYX=""
 else
 	gcu_is_stable="no"
 	STABILITY_POSTFIX="($GCU_API_VER unstable)"
+	STABILITY="-unstable"
 fi
 AC_SUBST(STABILITY_POSTFIX)
 AM_CONDITIONAL([GCU_IS_STABLE], [test "x$gcu_is_stable" = "xyes"])

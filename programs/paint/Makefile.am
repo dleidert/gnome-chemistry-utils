@@ -59,27 +59,14 @@ if GCONF_SCHEMAS_INSTALL
 		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
 	done
 endif #GCONF_SCHEMAS_INSTALL
-
 install-exec-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gchempaint ]; then \
-		rm $(bindir)/gchempaint; \
-	fi
-	$(LN_S) $(bindir)/gchempaint-@GCU_API_VER@ $(bindir)/gchempaint
-else
-	if [ -x $(bindir)/gchempaint-unstable ]; then \
-		rm $(bindir)/gchempaint-unstable; \
-	fi
-	$(LN_S) $(bindir)/gchempaint-@GCU_API_VER@ $(bindir)/gchempaint-unstable
-endif
+	cd $(DESTDIR)$(bindir) && \
+	if [ -x gchempaint@STABILITY@; then \
+		rm -f gchempaint@STABILITY@; \
+	fi && \
+	$(LN_S) gchempaint-@GCU_API_VER@ gchempaint@STABILITY@
 
 uninstall-hook:
-if GCU_IS_STABLE
-	if [ -x $(bindir)/gchempaint ]; then \
-		rm $(bindir)/gchempaint; \
+	if [ -x $(DESTDIR)/$(bindir)/gchempaint@STABILITY@; then \
+		rm -f $(DESTDIR)/$(bindir)/gchempaint@STABILITY@; \
 	fi
-else
-	if [ -x $(bindir)/gchempaint-unstable ]; then \
-		rm $(bindir)/gchempaint-unstable; \
-	fi
-endif
