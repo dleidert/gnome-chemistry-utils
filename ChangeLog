@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/man/Makefile.am: removed the unstable keyword.
+	* docs/man/gcu_entities.dtd.in: ditto.
+
+2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: use versioned help files.
 	* libs/gcp/application.cc: ditto.
 	* libs/gcu/application.cc: ditto.

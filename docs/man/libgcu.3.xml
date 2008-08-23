@@ -24,7 +24,7 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage    "libgcu&gcusuffix;">
+	<!ENTITY dhpackage    "libgcu;">
 	<!ENTITY dhulapackage "gcu">
 
 	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:43 $">

@@ -5,9 +5,9 @@
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gspectrum-unstable.1.xml,v 1.1 2007-10-16 01:11:43 dleidert Exp $
+	$Id: gchem3d-viewer-unstable.1.xml,v 1.1 2007-10-16 01:11:41 dleidert Exp $
 
-  Copyright (C) 2007 Daniel Leidert <daniel.leidert@wgdd.de>.
+  Copyright (C) 2004-2007 Daniel Leidert <daniel.leidert@wgdd.de>.
 
 	This manual page is free software; you can redistribute it and/or modify it
 	under the terms of the GNU General Public License as published by the Free
@@ -24,17 +24,17 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage    "gspectrum&gcusuffix;">
+	<!ENTITY dhpackage    "gchem3d">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:43 $">
+	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:41 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
 ]>
 
-<refentry id="gspectrum_1">
+<refentry id="gchem3d-viewer">
 	<refentryinfo>
 		<title>&dhulpackage;</title>
 		<productname>&dhulapackage;</productname>
@@ -70,22 +70,44 @@
 	</refmeta>
 	<refnamediv>
 		<refname>&dhpackage;</refname>
-		<refpurpose>...</refpurpose>
+		<refpurpose>a small chemical viewer application</refpurpose>
 	</refnamediv>
 	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>&dhpackage;</command>
 			<arg choice="opt" rep="repeat"><option>OPTION(S)</option></arg>
+			<arg choice="opt" rep="norepeat"><replaceable>FILE</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
-	<refsect1 id="gspectrum_1_description">
+	<refsect1 id="gchem3d-viewer_1_description">
 		<title>DESCRIPTION</title>
-		<para><command>&dhpackage;</command> ....</para>
+		<para><command>&dhpackage;</command> is a small chemical viewer application, which can show several chemical file formats.</para>
 	</refsect1>
-	<refsect1 id="gspectrum_1_options">
+	<refsect1 id="gchem3d-viewer_1_options">
 		<title>OPTIONS</title>
 		<para>The following options are accepted:</para>
 		<variablelist>
+			<varlistentry>
+				<term><option>-b <replaceable class="parameter">COLOR</replaceable></option></term>
+				<term><option>--bgcolor=<replaceable class="parameter">COLOR</replaceable></option></term>
+				<listitem>
+					<para>Use the given color as background color. <replaceable class="parameter">COLOR</replaceable> can be one of <simplelist type="inline">
+						<member>"<replaceable class="parameter">black</replaceable>" (default)</member>
+						<member>"<replaceable class="parameter">white</replaceable>"</member>
+						<member>"<replaceable class="parameter">#rrggbb</replaceable>" (don't forget to escape the <quote>#</quote> character in the shell)</member>
+					</simplelist>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-d <replaceable class="parameter">MODEL</replaceable></option></term>
+				<term><option>--display3d=<replaceable class="parameter">MODEL</replaceable></option></term>
+				<listitem>
+					<para>Choose how molecules are displayed. <replaceable class="parameter">MODEL</replaceable> can be one of <simplelist type="inline">
+						<member>"<replaceable class="parameter">BallnStick</replaceable>" (default)</member>
+						<member>"<replaceable class="parameter">SpaceFill</replaceable>"</member>
+					</simplelist>.</para>
+				</listitem>
+			</varlistentry>
 			<varlistentry>
 				<term><option>-?</option></term>
 				<term><option>--help</option></term>
@@ -115,7 +137,7 @@
 			</varlistentry>
 		</variablelist>
 	</refsect1>
-	<refsect1 id="gspectrum_1_see_also">
+	<refsect1 id="gchem3d-viewer_1_see_also">
 		<title>SEE ALSO</title>
 		<para><citerefentry>
 			<refentrytitle>gnome-options</refentrytitle>

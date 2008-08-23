@@ -1,11 +1,11 @@
-<?xml version='1.0'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <?xml-stylesheet type="text/xsl"
 	href="http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"?>
 <!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchem3d-viewer-unstable.1.xml,v 1.1 2007-10-16 01:11:41 dleidert Exp $
+	$Id: gchempaint-unstable.1.xml,v 1.1 2007-10-16 01:11:42 dleidert Exp $
 
   Copyright (C) 2004-2007 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -24,17 +24,17 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage    "gchem3d-viewer&gcusuffix;">
+	<!ENTITY dhpackage    "gchempaint">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:41 $">
+	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:42 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
 ]>
 
-<refentry id="gchem3d-viewer">
+<refentry id="gchempaint_1">
 	<refentryinfo>
 		<title>&dhulpackage;</title>
 		<productname>&dhulapackage;</productname>
@@ -70,42 +70,28 @@
 	</refmeta>
 	<refnamediv>
 		<refname>&dhpackage;</refname>
-		<refpurpose>a small chemical viewer application</refpurpose>
+		<refpurpose>2D chemical structures editor for the GNOME2 desktop</refpurpose>
 	</refnamediv>
 	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>&dhpackage;</command>
-			<arg choice="opt" rep="repeat"><option>OPTION(S)</option></arg>
-			<arg choice="opt" rep="norepeat"><replaceable>FILE</replaceable></arg>
+			<arg choice="opt" rep="repeat"><option>OPTIONS</option></arg>
+			<arg choice="opt" rep="repeat"><replaceable>FILE</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
-	<refsect1 id="gchem3d-viewer_1_description">
+	<refsect1 id="gchempaint_1_description">
 		<title>DESCRIPTION</title>
-		<para><command>&dhpackage;</command> is a small chemical viewer application, which can show several chemical file formats.</para>
+		<para><command>&dhpackage;</command> is a 2D chemical structures editor for the GNOME2 desktop. It is a multi document application. You can read different file types with <command>&dhpackage;</command>. E.g. chemical/x-cml, chemical/x-mdl-molfile, chemical/x-mdl-sdfile or chemical/x-pdb. But be aware, that you will maybe loose 3D-data from these file-formats.</para>
 	</refsect1>
-	<refsect1 id="gchem3d-viewer_1_options">
+	<refsect1 id="gchempaint_1_options">
 		<title>OPTIONS</title>
-		<para>The following options are accepted:</para>
+		<para>Currently the following options are supported:</para>
 		<variablelist>
 			<varlistentry>
-				<term><option>-b <replaceable class="parameter">COLOR</replaceable></option></term>
-				<term><option>--bgcolor=<replaceable class="parameter">COLOR</replaceable></option></term>
+				<term><option>-e</option></term>
+				<term><option>--edit-residue</option></term>
 				<listitem>
-					<para>Use the given color as background color. <replaceable class="parameter">COLOR</replaceable> can be one of <simplelist type="inline">
-						<member>"<replaceable class="parameter">black</replaceable>" (default)</member>
-						<member>"<replaceable class="parameter">white</replaceable>"</member>
-						<member>"<replaceable class="parameter">#rrggbb</replaceable>" (don't forget to escape the <quote>#</quote> character in the shell)</member>
-					</simplelist>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><option>-d <replaceable class="parameter">MODEL</replaceable></option></term>
-				<term><option>--display3d=<replaceable class="parameter">MODEL</replaceable></option></term>
-				<listitem>
-					<para>Choose how molecules are displayed. <replaceable class="parameter">MODEL</replaceable> can be one of <simplelist type="inline">
-						<member>"<replaceable class="parameter">BallnStick</replaceable>" (default)</member>
-						<member>"<replaceable class="parameter">SpaceFill</replaceable>"</member>
-					</simplelist>.</para>
+					<para>Open residues dialog.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry>
@@ -137,7 +123,7 @@
 			</varlistentry>
 		</variablelist>
 	</refsect1>
-	<refsect1 id="gchem3d-viewer_1_see_also">
+	<refsect1 id="gchempaint_1_see_also">
 		<title>SEE ALSO</title>
 		<para><citerefentry>
 			<refentrytitle>gnome-options</refentrytitle>
@@ -148,3 +134,4 @@
 		</citerefentry></para>
 	</refsect1>
 </refentry>
+

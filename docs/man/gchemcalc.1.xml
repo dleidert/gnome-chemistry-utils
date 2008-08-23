@@ -5,7 +5,7 @@
 	"/usr/share/xml/docbook/schema/dtd/4.4/docbookx.dtd" [
 
 <!--
-	$Id: gchemtable-unstable.1.xml,v 1.1 2007-10-16 01:11:42 dleidert Exp $
+	$Id: gchemcalc-unstable.1.xml,v 1.1 2007-10-16 01:11:41 dleidert Exp $
 
   Copyright (C) 2006,2007 Daniel Leidert <daniel.leidert@wgdd.de>.
 
@@ -24,17 +24,17 @@
 	51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 -->
 
-	<!ENTITY dhpackage    "gchemtable&gcusuffix;">
+	<!ENTITY dhpackage    "gchemcalc">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:42 $">
+	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:41 $">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
 	%_gcu_entities;
 ]>
 
-<refentry id="gchemtable_1">
+<refentry id="gchemcalc_1">
 	<refentryinfo>
 		<title>&dhulpackage;</title>
 		<productname>&dhulapackage;</productname>
@@ -70,15 +70,60 @@
 	</refmeta>
 	<refnamediv>
 		<refname>&dhpackage;</refname>
-		<refpurpose>periodic table of the elements</refpurpose>
+		<refpurpose>simple calculator for chemists</refpurpose>
 	</refnamediv>
-	<refsect1 id="gchemtable_1_description">
+	<refsynopsisdiv>
+		<cmdsynopsis>
+			<command>&dhpackage;</command>
+			<arg choice="opt" rep="repeat"><option>OPTION(S)</option></arg>
+			<arg choice="opt" rep="norepeat"><replaceable>FORMULA</replaceable></arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+	<refsect1 id="gchemcalc_1_description">
 		<title>DESCRIPTION</title>
-		<para><command>&dhpackage;</command> is a periodic table of the elements application.</para>
+		<para><command>&dhpackage;</command> is a simple calculator for chemists.</para>
 	</refsect1>
-	<refsect1 id="gchemtable_1_options">
+	<refsect1 id="gchemcalc_1_options">
 		<title>OPTIONS</title>
-		<para>No options are available.</para>
+		<para>The following options are accepted:</para>
+		<variablelist>
+			<varlistentry>
+				<term><option>-?</option></term>
+				<term><option>--help</option></term>
+				<listitem>
+					<para>Show application help options.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>--help-all</option></term>
+				<term><option>--help-*</option></term>
+				<listitem>
+					<para>Print all or just a group of help options. These options are not documented here. Instead see <citerefentry>
+						<refentrytitle>gtk-options</refentrytitle>
+						<manvolnum>7</manvolnum>
+					</citerefentry> and <citerefentry>
+						<refentrytitle>gnome-options</refentrytitle>
+						<manvolnum>7</manvolnum>
+					</citerefentry>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-v</option></term>
+				<term><option>--version</option></term>
+				<listitem>
+					<para>Print &dhpackage; version information.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsect1>
+	<refsect1 id="gchemcalc_1_see_also">
+		<title>SEE ALSO</title>
+		<para><citerefentry>
+			<refentrytitle>gnome-options</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry>, <citerefentry>
+			<refentrytitle>gtk-options</refentrytitle>
+			<manvolnum>7</manvolnum>
+		</citerefentry></para>
 	</refsect1>
 </refentry>
-

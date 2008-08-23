@@ -17,22 +17,22 @@ XSLTPROC_FLAGS += --path "$(VPATH)" \
 VPATH += @builddir@
 
 gcu_man_src = \
-	gchem3d-viewer-unstable.1.xml \
-	gchemcalc-unstable.1.xml \
-	gchempaint-unstable.1.xml \
-	gchemtable-unstable.1.xml \
-	gcrystal-unstable.1.xml \
-	gspectrum-unstable.1.xml \
-	libgcu-unstable.3.xml
+	gchem3d.1.xml \
+	gchemcalc.1.xml \
+	gchempaint.1.xml \
+	gchemtable.1.xml \
+	gcrystal.1.xml \
+	gspectrum.1.xml \
+	libgcu.3.xml
 
 man_MANS = \
-	gchem3d-viewer-unstable.1 \
-	gchemcalc-unstable.1 \
-	gchempaint-unstable.1 \
-	gchemtable-unstable.1 \
-	gcrystal-unstable.1 \
-	gspectrum-unstable.1 \
-	libgcu-unstable.3
+	gchem3d.1 \
+	gchemcalc.1 \
+	gchempaint.1 \
+	gchemtable.1 \
+	gcrystal.1 \
+	gspectrum.1 \
+	libgcu.3
 
 SUFFIXES = .xml
 
