@@ -1226,6 +1226,27 @@ out:
 	case GCU_SPECTRUM_NMR: {
 		if (x == NULL && X > 0 && variables[X].Values == NULL)
 			return;
+		// fix origin
+		if (go_finite (offset)) {
+			unsigned i;
+			if (x) {
+				double d = offset * freq - maxx;
+				maxx += d;
+				minx += d;
+				firstx += d;
+				lastx += d;
+				for (i = 0; i < npoints; i++)
+					x[i] += d;
+			} else {
+				double d = offset * freq - variables[X].Max;
+				maxx = variables[X].Max += d;
+				minx = variables[X].Min += d;
+				variables[X].First += d;
+				variables[X].Last += d;
+				for (i = 0; i < npoints; i++)
+					variables[X].Values[i] += d;
+			}
+		}
 		// add some widgets to the option box
 		GtkWidget *box = gtk_hbox_new (false, 5), *w;
 		if (go_finite (freq)) {
@@ -1667,7 +1688,7 @@ void SpectrumDocument::OnXUnitChanged (int i)
 		return;
 	GOData *godata;
 	GogSeries *series = m_View->GetSeries ();
-	if (m_XUnit == unit) {
+	if (x && m_XUnit == unit) {
 		X = -1;
 		godata = go_data_vector_val_new (x, npoints, NULL);
 		gog_series_set_dim (series, 0, godata, NULL);
@@ -1905,7 +1926,7 @@ double (*SpectrumDocument::GetConversionFunction (SpectrumUnitType oldu, Spectru
 	case GCU_SPECTRUM_UNIT_HZ:
 		if (go_finite (freq) && newu == GCU_SPECTRUM_UNIT_PPM)
 			factor = 1. / freq;
-			shift = (go_finite (offset))? offset - maxx * factor: 0.;
+			shift = 0.;
 			return mult;
 		break;
 	default:

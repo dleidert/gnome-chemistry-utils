@@ -37,7 +37,7 @@
 using namespace gcu;
 using namespace std;
 
-gsvApplication::gsvApplication (): Application (_("GSpectrum"), DATADIR, "gspectrum-unstable")
+gsvApplication::gsvApplication (): Application (_("GSpectrum"), DATADIR, "gspectrum")
 {
 	SetImageWidth (600);
 }

@@ -72,12 +72,12 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	char const *szlang = getenv ("LANG");
 	string lang = (szlang)? szlang: "C";
 	HelpName = help_name? help_name: Name;
-	HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("/") + lang + string ("/") + HelpName + ".xml";
+	HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("-"API_VERSION"/") + lang + string ("/") + HelpName + "-"API_VERSION".xml";
 	GFile *file = g_file_new_for_uri (HelpFilename.c_str ());
 	bool exists = g_file_query_exists (file, NULL);
 	g_object_unref (file);
 	if (!exists) {
-		HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("/C/") + HelpName + ".xml";
+		HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("-"API_VERSION"/C/") + HelpName + "-"API_VERSION".xml";
 	}
 	HelpBrowser = "yelp"; // there is no more key for that
 	CurDir = g_get_current_dir ();

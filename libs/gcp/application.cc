@@ -261,7 +261,7 @@ static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *e
 #endif
 
 Application::Application ():
-	gcu::Application ("GChemPaint", DATADIR, "gchempaint-unstable", "gchempaint")
+	gcu::Application ("GChemPaint", DATADIR, "gchempaint", "gchempaint")
 {
 	m_CurZ = 6;
 	m_pActiveDoc = NULL;

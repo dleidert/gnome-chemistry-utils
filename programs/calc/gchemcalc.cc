@@ -23,9 +23,6 @@
  */
 
 #include "config.h"
-// FIXME: "the following lines should be removed for stable releases"
-#undef PACKAGE
-#define PACKAGE "gchemutils-unstable" 
 #include <gcu/application.h>
 #include <gcu/atom.h>
 #include <gcu/bond.h>
@@ -131,7 +128,7 @@ static Object* CreateDocument ()
 }
 
 GChemCalc::GChemCalc ():
-	Application ("gchemcalc-unstable"),
+	Application ("gchemcalc"),
 	formula ("")
 {
 	Object::AddType ("atom", CreateAtom, AtomType);

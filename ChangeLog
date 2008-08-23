@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: use versioned help files.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: fixed a variable change bug.
+	* programs/3d/application.cc: use versioned help files.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/spectra/application.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-elt.cc: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+
 2008-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: generate the missing Makefile.
 
