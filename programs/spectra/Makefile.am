@@ -34,12 +34,12 @@ desktop_DATA = gspectrum-@GCU_API_VER@.desktop
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
-	if [ -x gspectrum@STABILITY@; then \
+	if [ -x gspectrum@STABILITY@ ]; then \
 		rm -f gspectrum@STABILITY@; \
 	fi && \
 	$(LN_S) gspectrum-@GCU_API_VER@ gspectrum@STABILITY@
 
 uninstall-hook:
-	if [ -x $(DESTDIR)/$(bindir)/gspectrum@STABILITY@; then \
+	if [ -x $(DESTDIR)/$(bindir)/gspectrum@STABILITY@ ]; then \
 		rm -f $(DESTDIR)/$(bindir)/gspectrum@STABILITY@; \
 	fi

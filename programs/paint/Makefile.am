@@ -61,12 +61,12 @@ if GCONF_SCHEMAS_INSTALL
 endif #GCONF_SCHEMAS_INSTALL
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
-	if [ -x gchempaint@STABILITY@; then \
+	if [ -x gchempaint@STABILITY@ ]; then \
 		rm -f gchempaint@STABILITY@; \
 	fi && \
 	$(LN_S) gchempaint-@GCU_API_VER@ gchempaint@STABILITY@
 
 uninstall-hook:
-	if [ -x $(DESTDIR)/$(bindir)/gchempaint@STABILITY@; then \
+	if [ -x $(DESTDIR)/$(bindir)/gchempaint@STABILITY@ ]; then \
 		rm -f $(DESTDIR)/$(bindir)/gchempaint@STABILITY@; \
 	fi

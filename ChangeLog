@@ -1,6 +1,15 @@
 ##Text encoding: utf-8
 
 2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: export missing constant.
+	* programs/3d/Makefile.am: restore missing '['.
+	* programs/calc/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/table/Makefile.am: ditto.
+
+2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.9.90).
 
 2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>

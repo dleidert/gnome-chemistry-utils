@@ -89,12 +89,12 @@ endif #GCONF_SCHEMAS_INSTALL
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
-	if [ -x gcrystal@STABILITY@; then \
+	if [ -x gcrystal@STABILITY@ ]; then \
 		rm -f gcrystal@STABILITY@; \
 	fi && \
 	$(LN_S) gcrystal-@GCU_API_VER@ gcrystal@STABILITY@
 
 uninstall-hook:
-	if [ -x $(DESTDIR)/$(bindir)/gcrystal@STABILITY@; then \
+	if [ -x $(DESTDIR)/$(bindir)/gcrystal@STABILITY@ ]; then \
 		rm -f $(DESTDIR)/$(bindir)/gcrystal@STABILITY@; \
 	fi

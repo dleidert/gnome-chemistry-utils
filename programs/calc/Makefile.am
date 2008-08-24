@@ -27,12 +27,12 @@ desktop_DATA = gchemcalc-@GCU_API_VER@.desktop
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
-	if [ -x gchemcalc@STABILITY@; then \
+	if [ -x gchemcalc@STABILITY@ ]; then \
 		rm -f gchemcalc@STABILITY@; \
 	fi && \
 	$(LN_S) gchemcalc-@GCU_API_VER@ gchemcalc@STABILITY@
 
 uninstall-hook:
-	if [ -x $(DESTDIR)/$(bindir)/gchemcalc@STABILITY@; then \
+	if [ -x $(DESTDIR)/$(bindir)/gchemcalc@STABILITY@ ]; then \
 		rm -f $(DESTDIR)/$(bindir)/gchemcalc@STABILITY@; \
 	fi

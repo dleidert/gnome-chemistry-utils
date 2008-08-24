@@ -33,12 +33,12 @@ desktop_DATA = gchem3d-@GCU_API_VER@.desktop
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
-	if [ -x gchem3d@STABILITY@; then \
+	if [ -x gchem3d@STABILITY@ ]; then \
 		rm -f gchem3d@STABILITY@; \
 	fi && \
 	$(LN_S) gchem3d-@GCU_API_VER@ gchem3d@STABILITY@
 
 uninstall-hook:
-	if [ -x $(DESTDIR)/$(bindir)/gchem3d@STABILITY@; then \
+	if [ -x $(DESTDIR)/$(bindir)/gchem3d@STABILITY@ ]; then \
 		rm -f $(DESTDIR)/$(bindir)/gchem3d@STABILITY@; \
 	fi

@@ -38,11 +38,11 @@ desktop_DATA = gchemtable-@GCU_API_VER@.desktop
 
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
-	if [ -x gchemtable@STABILITY@; then \
+	if [ -x gchemtable@STABILITY@ ]; then \
 		rm -f gchemtable@STABILITY@; \
 	fi && \
 	$(LN_S) gchemtable-@GCU_API_VER@ gchemtable
 uninstall-hook:
-	if [ -x $(DESTDIR)/$(bindir)/gchemtable@STABILITY@; then \
+	if [ -x $(DESTDIR)/$(bindir)/gchemtable@STABILITY@ ]; then \
 		rm -f $(DESTDIR)/$(bindir)/gchemtable@STABILITY@; \
 	fi
