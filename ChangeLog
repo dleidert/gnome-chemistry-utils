@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/Makefile.am: always create the correct link.
+
+2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: export missing constant.
 	* programs/3d/Makefile.am: restore missing '['.
 	* programs/calc/Makefile.am: ditto.

@@ -41,7 +41,7 @@ install-exec-hook:
 	if [ -x gchemtable@STABILITY@ ]; then \
 		rm -f gchemtable@STABILITY@; \
 	fi && \
-	$(LN_S) gchemtable-@GCU_API_VER@ gchemtable
+	$(LN_S) gchemtable-@GCU_API_VER@ gchemtable@STABILITY@
 uninstall-hook:
 	if [ -x $(DESTDIR)/$(bindir)/gchemtable@STABILITY@ ]; then \
 		rm -f $(DESTDIR)/$(bindir)/gchemtable@STABILITY@; \
