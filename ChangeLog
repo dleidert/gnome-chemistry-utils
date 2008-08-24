@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.90).
+
 2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* autogen.sh: request /bin/bash.
 	* configure.ac: fix various build issues.
