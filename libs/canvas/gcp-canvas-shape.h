@@ -44,11 +44,11 @@ typedef struct _GnomeCanvasShapeExtClass GnomeCanvasShapeExtClass;
 
 G_BEGIN_DECLS
 #define GNOME_TYPE_CANVAS_SHAPE_EXT            (gnome_canvas_shape_ext_get_type ())
-#define GNOME_CANVAS_SHAPE_EXT(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_CANVAS_SHAPE_EXT, GnomeCanvasShapeExt))
-#define GNOME_CANVAS_SHAPE_EXT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_SHAPE_EXT, GnomeCanvasShapeExtClass))
-#define GNOME_IS_CANVAS_SHAPE_EXT(obj)         (GTK_CHECK_TYPE ((obj), GNOME_TYPE_CANVAS_SHAPE_EXT))
-#define GNOME_IS_CANVAS_SHAPE_EXT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_SHAPE_EXT))
-#define GNOME_CANVAS_SHAPE_EXT_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GNOME_TYPE_CANVAS_SHAPE_EXT, GnomeCanvasShapeExtClass))
+#define GNOME_CANVAS_SHAPE_EXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_SHAPE_EXT, GnomeCanvasShapeExt))
+#define GNOME_CANVAS_SHAPE_EXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_SHAPE_EXT, GnomeCanvasShapeExtClass))
+#define GNOME_IS_CANVAS_SHAPE_EXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_SHAPE_EXT))
+#define GNOME_IS_CANVAS_SHAPE_EXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_SHAPE_EXT))
+#define GNOME_CANVAS_SHAPE_EXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_SHAPE_EXT, GnomeCanvasShapeExtClass))
 
 
 struct _GnomeCanvasShapeExt {

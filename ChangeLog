@@ -1,6 +1,21 @@
 ##Text encoding: utf-8
 
 2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/canvas/gcp-canvas-bpath.h: replaced deprecated GTK_CHECK* macros.
+	* libs/canvas/gcp-canvas-group.h: ditto.
+	* libs/canvas/gcp-canvas-line.h: ditto.
+	* libs/canvas/gcp-canvas-pango.h: ditto.
+	* libs/canvas/gcp-canvas-polygon.h: ditto.
+	* libs/canvas/gcp-canvas-rect-ellipse.h: ditto.
+	* libs/canvas/gcp-canvas-shape.h: ditto.
+	* libs/canvas/gcp-canvas-text.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcu/gtkchem3dviewer.h: ditto.
+	* libs/gcu/gtkcrystalviewer.h: ditto.
+	* libs/gcu/gtkperiodic.h: ditto.
+	* libs/gcu/gtkspectrumviewer.h: ditto.
+
+2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/table/Makefile.am: always create the correct link.
 
 2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>

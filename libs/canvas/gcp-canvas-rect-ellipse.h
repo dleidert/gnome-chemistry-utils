@@ -69,11 +69,11 @@ G_BEGIN_DECLS
 
 
 #define GNOME_TYPE_CANVAS_RE_EXT            (gnome_canvas_re_ext_get_type ())
-#define GNOME_CANVAS_RE_EXT(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_CANVAS_RE_EXT, GnomeCanvasREExt))
-#define GNOME_CANVAS_RE_EXT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_RE_EXT, GnomeCanvasREExtClass))
-#define GNOME_IS_CANVAS_RE_EXT(obj)         (GTK_CHECK_TYPE ((obj), GNOME_TYPE_CANVAS_RE_EXT))
-#define GNOME_IS_CANVAS_RE_EXT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_RE_EXT))
-#define GNOME_CANVAS_RE_EXT_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GNOME_TYPE_CANVAS_RE_EXT, GnomeCanvasREExtClass))
+#define GNOME_CANVAS_RE_EXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_RE_EXT, GnomeCanvasREExt))
+#define GNOME_CANVAS_RE_EXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_RE_EXT, GnomeCanvasREExtClass))
+#define GNOME_IS_CANVAS_RE_EXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_RE_EXT))
+#define GNOME_IS_CANVAS_RE_EXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_RE_EXT))
+#define GNOME_CANVAS_RE_EXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_RE_EXT, GnomeCanvasREExtClass))
 
 
 typedef struct _GnomeCanvasREExt      GnomeCanvasREExt;
@@ -102,11 +102,11 @@ GType gnome_canvas_re_ext_get_type (void) G_GNUC_CONST;
 
 
 #define GNOME_TYPE_CANVAS_RECT_EXT            (gnome_canvas_rect_ext_get_type ())
-#define GNOME_CANVAS_RECT_EXT(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_CANVAS_RECT_EXT, GnomeCanvasRectExt))
-#define GNOME_CANVAS_RECT_EXT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_RECT_EXT, GnomeCanvasRectExtClass))
-#define GNOME_IS_CANVAS_RECT_EXT(obj)         (GTK_CHECK_TYPE ((obj), GNOME_TYPE_CANVAS_RECT_EXT))
-#define GNOME_IS_CANVAS_RECT_EXT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_RECT_EXT))
-#define GNOME_CANVAS_RECT_EXT_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GNOME_TYPE_CANVAS_RECT_EXT, GnomeCanvasRectExtClass))
+#define GNOME_CANVAS_RECT_EXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_RECT_EXT, GnomeCanvasRectExt))
+#define GNOME_CANVAS_RECT_EXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_RECT_EXT, GnomeCanvasRectExtClass))
+#define GNOME_IS_CANVAS_RECT_EXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_RECT_EXT))
+#define GNOME_IS_CANVAS_RECT_EXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_RECT_EXT))
+#define GNOME_CANVAS_RECT_EXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_RECT_EXT, GnomeCanvasRectExtClass))
 
 
 typedef struct _GnomeCanvasRectExt GnomeCanvasRectExt;
@@ -131,11 +131,11 @@ GType gnome_canvas_rect_ext_get_type (void) G_GNUC_CONST;
 
 
 #define GNOME_TYPE_CANVAS_ELLIPSE_EXT            (gnome_canvas_ellipse_ext_get_type ())
-#define GNOME_CANVAS_ELLIPSE_EXT(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_CANVAS_ELLIPSE_EXT, GnomeCanvasEllipseExt))
-#define GNOME_CANVAS_ELLIPSE_EXT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_ELLIPSE_EXT, GnomeCanvasEllipseClassExt))
-#define GNOME_IS_CANVAS_ELLIPSE_EXT(obj)         (GTK_CHECK_TYPE ((obj), GNOME_TYPE_CANVAS_ELLIPSE_EXT))
-#define GNOME_IS_CANVAS_ELLIPSE_EXT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_ELLIPSE_EXT))
-#define GNOME_CANVAS_ELLIPSE_EXT_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GNOME_TYPE_CANVAS_ELLIPSE_EXT, GnomeCanvasEllipseClassExt))
+#define GNOME_CANVAS_ELLIPSE_EXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_ELLIPSE_EXT, GnomeCanvasEllipseExt))
+#define GNOME_CANVAS_ELLIPSE_EXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_ELLIPSE_EXT, GnomeCanvasEllipseClassExt))
+#define GNOME_IS_CANVAS_ELLIPSE_EXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_ELLIPSE_EXT))
+#define GNOME_IS_CANVAS_ELLIPSE_EXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_ELLIPSE_EXT))
+#define GNOME_CANVAS_ELLIPSE_EXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_ELLIPSE_EXT, GnomeCanvasEllipseClassExt))
 
 
 typedef struct _GnomeCanvasEllipseExt GnomeCanvasEllipseExt;

@@ -39,25 +39,25 @@ Casts \a obj to a GtkSpectrumViewer * pointer.
 \return a pointer to the GtkSpectrumViewer * or NULL if \a obj does not point to 
 a GtkSpectrumViewer widget.
 */
-#define GTK_SPECTRUM_VIEWER(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_SPECTRUM_VIEWER, GtkSpectrumViewer))
+#define GTK_SPECTRUM_VIEWER(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_SPECTRUM_VIEWER, GtkSpectrumViewer))
 /*!
 Casts \a klass to a GtkSpectrumViewerClass * pointer.
 \return a pointer to the GtkSpectrumViewerClass * or NULL if \a obj not point to a GtkSpectrumViewerClass
 */
-#define GTK_SPECTRUM_VIEWER_CLASS(klass)	  (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_SPECTRUM_VIEWER, GtkSpectrumViewerClass
+#define GTK_SPECTRUM_VIEWER_CLASS(klass)	  (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_SPECTRUM_VIEWER, GtkSpectrumViewerClass
 /*!
 \return TRUE if \a obj points to a GtkSpectrumViewer widget, FALSE otherwise.
 */
-#define GTK_IS_SPECTRUM_VIEWER(obj)	  (GTK_CHECK_TYPE ((obj), GTK_TYPE_SPECTRUM_VIEWER))
+#define GTK_IS_SPECTRUM_VIEWER(obj)	  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_SPECTRUM_VIEWER))
 /*!
 \return TRUE if \a klass points to a GtkSpectrumViewerClass, FALSE otherwise.
 */
-#define GTK_IS_SPECTRUM_VIEWER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_SPECTRUM_VIEWER))
+#define GTK_IS_SPECTRUM_VIEWER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_SPECTRUM_VIEWER))
 /*!
 \return the GtkSpectrumViewerClass * associated to \a obj if obj points to a GtkSpectrumViewer widget,
 NULL otherwise.
 */
-#define GTK_SPECTRUM_VIEWER_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_SPECTRUM_VIEWER, GtkSpectrumViewerClass))
+#define GTK_SPECTRUM_VIEWER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_SPECTRUM_VIEWER, GtkSpectrumViewerClass))
 
 /*! \struct GtkSpectrumViewer gcu/gtkspectrumviewer.h
  The GtkSpectrumViewer displays using the goffice library. Only spectra in the JCAMP-DX format are supported in this

@@ -39,25 +39,25 @@ Casts \a obj to a GtkCrystalViewer * pointer.
 \return a pointer to the GtkCrystalViewer * or NULL if \a obj does not point to 
 a GtkCrystalViewer widget.
 */
-#define GTK_CRYSTAL_VIEWER(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewer))
+#define GTK_CRYSTAL_VIEWER(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewer))
 /*!
 Casts \a klass to a GtkCrystalViewerClass * pointer.
 \return a pointer to the GtkCrystalViewerClass * or NULL if \a obj not point to a GtkCrystalViewerClass.
 */
-#define GTK_CRYSTAL_VIEWER_CLASS(klass)	  (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewerClass))
+#define GTK_CRYSTAL_VIEWER_CLASS(klass)	  (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewerClass))
 /*!
 \return TRUE if \a obj points to a GtkCrystalViewer widget, FALSE otherwise.
 */
-#define GTK_IS_CRYSTAL_VIEWER(obj)	  (GTK_CHECK_TYPE ((obj), GTK_TYPE_CRYSTAL_VIEWER))
+#define GTK_IS_CRYSTAL_VIEWER(obj)	  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_CRYSTAL_VIEWER))
 /*!
 \return TRUE if \a klass points to a GtkCrystalViewerClass, FALSE otherwise.
 */
-#define GTK_IS_CRYSTAL_VIEWER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CRYSTAL_VIEWER))
+#define GTK_IS_CRYSTAL_VIEWER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CRYSTAL_VIEWER))
 /*!
 \return the GtkCrystalViewerClass * associated to \a obj if obj points to a GtkCrystalViewer widget,
 NULL otherwise.
 */
-#define GTK_CRYSTAL_VIEWER_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewerClass))
+#define GTK_CRYSTAL_VIEWER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_CRYSTAL_VIEWER, GtkCrystalViewerClass))
 
 /*! The GtkCrystalViewer widget.*/
 typedef struct _GtkCrystalViewer       GtkCrystalViewer;

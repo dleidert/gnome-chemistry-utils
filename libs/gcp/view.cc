@@ -59,11 +59,11 @@ typedef struct _GnomeCanvasGCP           GnomeCanvasGCP;
 typedef struct _GnomeCanvasGCPClass      GnomeCanvasGCPClass;
 
 #define GNOME_TYPE_CANVAS_GCP            (gnome_canvas_gcp_get_type ())
-#define GNOME_CANVAS_GCP(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCP))
-#define GNOME_CANVAS_CLASS_GCP(klass)    (GTK_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCPClass))
-#define GNOME_IS_CANVAS_GCP(obj)         (GTK_CHECK_TYPE ((obj), GNOME_TYPE_CANVAS_GCP))
-#define GNOME_IS_CANVAS_GCP_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_GCP))
-#define GNOME_CANVAS_GCP_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCPClass))
+#define GNOME_CANVAS_GCP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCP))
+#define GNOME_CANVAS_CLASS_GCP(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCPClass))
+#define GNOME_IS_CANVAS_GCP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_GCP))
+#define GNOME_IS_CANVAS_GCP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_GCP))
+#define GNOME_CANVAS_GCP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCPClass))
 
 enum {
   UPDATE_BOUNDS,

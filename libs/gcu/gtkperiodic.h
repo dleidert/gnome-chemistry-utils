@@ -56,25 +56,25 @@ Casts \a obj to a GtkPeriodic * pointer.
 \return a pointer to the GtkPeriodic * or NULL if \a obj does not point to 
 a GtkPeriodic widget.
 */
-#define GTK_PERIODIC(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_PERIODIC, GtkPeriodic))
+#define GTK_PERIODIC(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_PERIODIC, GtkPeriodic))
 /*!
 Casts \a klass to a GtkPeriodicClass * pointer.
 \return a pointer to the GtkPeriodicClass * or NULL if \a obj not point to a GtkPeriodicClass.
 */
-#define GTK_PERIODIC_CLASS(klass)	  (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_PERIODIC, GtkPeriodicClass))
+#define GTK_PERIODIC_CLASS(klass)	  (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_PERIODIC, GtkPeriodicClass))
 /*!
 \return TRUE if \a obj points to a GtkPeriodic widget, FALSE otherwise.
 */
-#define GTK_IS_PERIODIC(obj)	  (GTK_CHECK_TYPE ((obj), GTK_TYPE_PERIODIC))
+#define GTK_IS_PERIODIC(obj)	  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_PERIODIC))
 /*!
 \return TRUE if \a klass points to a GtkPeriodicClass, FALSE otherwise.
 */
-#define GTK_IS_PERIODIC_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_PERIODIC))
+#define GTK_IS_PERIODIC_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_PERIODIC))
 /*!
 \return the GtkPeriodicClass * associated to \a obj if obj points to a GtkPeriodic widget,
 NULL otherwise.
 */
-#define GTK_PERIODIC_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_PERIODIC, GtkPeriodicClass))
+#define GTK_PERIODIC_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_PERIODIC, GtkPeriodicClass))
 
 /*! The GtkPeriodic widget.*/
 typedef struct _GtkPeriodic       GtkPeriodic;

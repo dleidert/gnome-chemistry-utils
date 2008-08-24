@@ -44,11 +44,11 @@ typedef struct _GnomeCanvasGroupExtClass GnomeCanvasGroupExtClass;
 
 G_BEGIN_DECLS
 #define GNOME_TYPE_CANVAS_GROUP_EXT            (gnome_canvas_group_get_type ())
-#define GNOME_CANVAS_GROUP_EXT(obj)            (GTK_CHECK_CAST ((obj), GNOME_TYPE_CANVAS_GROUP_EXT, GnomeCanvasGroupExt))
-#define GNOME_CANVAS_GROUP_EXT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_GROUP_EXT, GnomeCanvasGroupExtClass))
-#define GNOME_IS_CANVAS_GROUP_EXT(obj)         (GTK_CHECK_TYPE ((obj), GNOME_TYPE_CANVAS_GROUP_EXT))
-#define GNOME_IS_CANVAS_GROUP_EXT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_GROUP_EXT))
-#define GNOME_CANVAS_GROUP_EXT_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GNOME_TYPE_CANVAS_GROUP_EXT, GnomeCanvasGroupExtClass))
+#define GNOME_CANVAS_GROUP_EXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_GROUP_EXT, GnomeCanvasGroupExt))
+#define GNOME_CANVAS_GROUP_EXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_GROUP_EXT, GnomeCanvasGroupExtClass))
+#define GNOME_IS_CANVAS_GROUP_EXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_GROUP_EXT))
+#define GNOME_IS_CANVAS_GROUP_EXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_GROUP_EXT))
+#define GNOME_CANVAS_GROUP_EXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_GROUP_EXT, GnomeCanvasGroupExtClass))
 
 
 struct _GnomeCanvasGroupExt {

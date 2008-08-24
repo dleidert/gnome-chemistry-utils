@@ -45,25 +45,25 @@ Casts \a obj to a GtkChem3DViewer * pointer.
 \return a pointer to the GtkChem3DViewer * or NULL if \a obj does not point to 
 a GtkChem3DViewer widget.
 */
-#define GTK_CHEM3D_VIEWER(obj)		  (GTK_CHECK_CAST ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewer))
+#define GTK_CHEM3D_VIEWER(obj)		  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewer))
 /*!
 Casts \a klass to a GtkChem3DViewerClass * pointer.
 \return a pointer to the GtkChem3DViewerClass * or NULL if \a obj not point to a GtkChem3DViewerClass.
 */
-#define GTK_CHEM3D_VIEWER_CLASS(klass)	  (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))
+#define GTK_CHEM3D_VIEWER_CLASS(klass)	  (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))
 /*!
 \return TRUE if \a obj points to a GtkChem3DViewer widget, FALSE otherwise.
 */
-#define GTK_IS_CHEM3D_VIEWER(obj)	  (GTK_CHECK_TYPE ((obj), GTK_TYPE_CHEM3D_VIEWER))
+#define GTK_IS_CHEM3D_VIEWER(obj)	  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_CHEM3D_VIEWER))
 /*!
 \return TRUE if \a klass points to a GtkChem3DViewerClass, FALSE otherwise.
 */
-#define GTK_IS_CHEM3D_VIEWER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CHEM3D_VIEWER))
+#define GTK_IS_CHEM3D_VIEWER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CHEM3D_VIEWER))
 /*!
 \return the GtkChem3DViewerClass * associated to \a obj if obj points to a GtkChem3DViewer widget,
 NULL otherwise.
 */
-#define GTK_CHEM3D_VIEWER_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))
+#define GTK_CHEM3D_VIEWER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_CHEM3D_VIEWER, GtkChem3DViewerClass))
 
 /*! \struct GtkChem3DViewer gcu/gtkchem3dviewer.h
  The GtkChem3DViewer displays 3D models of molecules using an OpenGL window.
