@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-23 13:53+0200\n"
+"POT-Creation-Date: 2008-08-24 22:25+0200\n"
 "PO-Revision-Date: 2005-11-20 23:58+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -210,9 +210,8 @@ msgid "Monoisotopic mass:"
 msgstr "Моноизотопная масса:"
 
 #: ../glade/gchemcalc.glade.h:7 ../programs/calc/gchemcalc.cc:344
-#, fuzzy
 msgid "Raw formula:"
-msgstr "Формула:"
+msgstr ""
 
 #: ../glade/gtkperiodic.glade.h:1
 msgid "Actinides"
@@ -500,9 +499,8 @@ msgid ""
 msgstr ""
 
 #: ../glade/crystal/prefs.glade.h:11 ../glade/crystal/view-settings.glade.h:1
-#, fuzzy
 msgid "Background color:"
-msgstr "Цвет фона"
+msgstr ""
 
 #: ../glade/crystal/prefs.glade.h:12
 msgid "Default views settings"
@@ -525,9 +523,8 @@ msgid "Printer resolution:"
 msgstr ""
 
 #: ../glade/crystal/prefs.glade.h:17
-#, fuzzy
 msgid "Printing"
-msgstr "Печать"
+msgstr ""
 
 #: ../glade/crystal/prefs.glade.h:18 ../glade/crystal/view-settings.glade.h:5
 msgid "θ (°):"
@@ -565,9 +562,8 @@ msgstr ""
 
 #: ../glade/crystal/atoms.glade.h:6 ../glade/crystal/cleavages.glade.h:2
 #: ../glade/crystal/lines.glade.h:2
-#, fuzzy
 msgid "Dele_te all"
-msgstr "Выбрать всё"
+msgstr ""
 
 #: ../glade/crystal/atoms.glade.h:7 ../libs/gcu/gtkcomboperiodic.c:96
 #: ../programs/table/gchemtable-app.cc:261
@@ -614,9 +610,8 @@ msgstr ""
 
 #: ../glade/crystal/atoms.glade.h:21 ../glade/crystal/cleavages.glade.h:6
 #: ../glade/crystal/lines.glade.h:8
-#, fuzzy
 msgid "_Delete"
-msgstr "Выбрать"
+msgstr ""
 
 #: ../glade/crystal/cleavages.glade.h:1
 msgid "Cleavages"
@@ -639,18 +634,16 @@ msgid "Diagonals"
 msgstr ""
 
 #: ../glade/crystal/lines.glade.h:4
-#, fuzzy
 msgid "Lines"
-msgstr "Лизин"
+msgstr ""
 
 #: ../glade/crystal/lines.glade.h:5
 msgid "Medians"
 msgstr ""
 
 #: ../glade/crystal/lines.glade.h:6
-#, fuzzy
 msgid "Other lines"
-msgstr "Подчёркивание"
+msgstr ""
 
 #: ../glade/crystal/lines.glade.h:9
 msgid "color:"
@@ -661,9 +654,8 @@ msgid "radius (pm):"
 msgstr ""
 
 #: ../glade/crystal/size.glade.h:2
-#, fuzzy
 msgid "Crystal size"
-msgstr "Размер цикла:"
+msgstr ""
 
 #: ../glade/crystal/size.glade.h:3
 msgid "Give minimum and maximum coordinates in cell units"
@@ -794,8 +786,9 @@ msgid "A:"
 msgstr ""
 
 #: ../glade/paint/preferences.glade.h:6
+#, fuzzy
 msgid "Angl_e:"
-msgstr ""
+msgstr "Серебро"
 
 #: ../glade/paint/preferences.glade.h:7
 msgid "Arrow line width (in pixels)."
@@ -1030,14 +1023,12 @@ msgid "Covalent:"
 msgstr "Кобальт"
 
 #: ../glade/table/eltpage.glade.h:6
-#, fuzzy
 msgid "Electronic affinities:"
-msgstr "Пара электронов"
+msgstr ""
 
 #: ../glade/table/eltpage.glade.h:7
-#, fuzzy
 msgid "Electronic properties"
-msgstr "Свойства группы..."
+msgstr ""
 
 #: ../glade/table/eltpage.glade.h:8
 msgid "Ionic radii (Shannon and Prewitt):"
@@ -1060,9 +1051,8 @@ msgid "Melting point:"
 msgstr ""
 
 #: ../glade/table/eltpage.glade.h:13
-#, fuzzy
 msgid "Metallic:"
-msgstr "Наклонный"
+msgstr ""
 
 #: ../glade/table/eltpage.glade.h:14
 #, fuzzy
@@ -1626,9 +1616,8 @@ msgid "tritium"
 msgstr "тритий"
 
 #: ../goffice/plugin.xml.in.h:1
-#, fuzzy
 msgid "2D Chemical Structures Viewer/Editor"
-msgstr "Редактор химических формул GChemPaint"
+msgstr ""
 
 #: ../goffice/plugin.xml.in.h:2
 #, fuzzy
@@ -1736,7 +1725,7 @@ msgstr "GChemPaint - редактор химических структур дл
 #: ../libs/gcp/about.cc:56
 #, fuzzy
 msgid "Copyright © 2001-2007 by Jean Bréfort"
-msgstr "(C) 2001-2005 Jean Bréfort"
+msgstr "(C) 2005 by Jean Bréfort"
 
 #: ../libs/gcp/application.cc:303
 msgid "Create a new reaction"
@@ -2348,9 +2337,8 @@ msgid "Pr_eferences..."
 msgstr "Свойства..."
 
 #: ../libs/gcp/window.cc:321 ../programs/crystal/window.cc:297
-#, fuzzy
 msgid "Configure the application"
-msgstr "Вырезать выделение"
+msgstr ""
 
 #: ../libs/gcp/window.cc:322 ../programs/3d/window.cc:186
 #: ../programs/crystal/window.cc:309 ../programs/table/gchemtable-app.cc:139
@@ -2522,9 +2510,8 @@ msgid "Open _recent"
 msgstr ""
 
 #: ../libs/gcp/window.cc:523 ../programs/crystal/window.cc:449
-#, fuzzy
 msgid "Ready"
-msgstr "Свинец"
+msgstr "Готово"
 
 #: ../libs/gcp/window.cc:691
 msgid "GChemPaint"
@@ -2657,9 +2644,8 @@ msgid "File _type:"
 msgstr ""
 
 #: ../libs/gcu/filechooser.cc:64
-#, fuzzy
 msgid "Automatic"
-msgstr "Атом"
+msgstr ""
 
 #: ../libs/gcu/formula.cc:512 ../libs/gcu/formula.cc:552
 msgid "Unmatched parenthesis"
@@ -2670,14 +2656,12 @@ msgid "Could not interpret the symbol list"
 msgstr ""
 
 #: ../libs/gcu/formula.cc:546
-#, fuzzy
 msgid "Parser failed, please fill a bug report."
-msgstr "Случилось что-то страшное, пожалуйста, отправьте сообщение об ошибке."
+msgstr ""
 
 #: ../libs/gcu/formula.cc:554
-#, fuzzy
 msgid "Invalid character"
-msgstr "Недопустимый заряд."
+msgstr ""
 
 #: ../libs/gcu/gtkchem3dviewer.cc:157
 #, fuzzy
@@ -3556,9 +3540,8 @@ msgid "Sorry, format not supported!"
 msgstr "Извините, формат не поддерживается!"
 
 #: ../programs/3d/main.cc:44
-#, fuzzy
 msgid "GChem3d Viewer version: "
-msgstr "Версия GChemPaint: "
+msgstr ""
 
 #: ../programs/3d/main.cc:55
 msgid "Prints GChem3d Viewer version"
@@ -3586,9 +3569,8 @@ msgid "Invalid or misplaced argument: %s\n"
 msgstr ""
 
 #: ../programs/3d/window.cc:129
-#, fuzzy
 msgid "GChem3D is a molecular structures viewer for Gnome"
-msgstr "GChemPaint - редактор химических структур для GNOME"
+msgstr ""
 
 #. const gchar * documentors[] = {NULL};
 #: ../programs/3d/window.cc:131
@@ -3614,33 +3596,29 @@ msgstr ""
 #: ../programs/crystal/window.cc:320 ../programs/spectra/window.cc:187
 #: ../programs/table/gchemtable-app.cc:166
 #: ../programs/table/gchemtable-curve.cc:233
-#, fuzzy
 msgid "Gnome Chemistry Utils on the _web"
-msgstr "GChemPaint в Интернет"
+msgstr ""
 
 #: ../programs/3d/window.cc:191 ../programs/calc/gchemcalc.cc:628
 #: ../programs/crystal/window.cc:321 ../programs/spectra/window.cc:188
 #: ../programs/table/gchemtable-app.cc:167
 #: ../programs/table/gchemtable-curve.cc:234
-#, fuzzy
 msgid "Browse the Gnome Chemistry Utils's web site"
-msgstr "Просмотреть сайт GChemPaint"
+msgstr ""
 
 #: ../programs/3d/window.cc:195 ../programs/calc/gchemcalc.cc:632
 #: ../programs/crystal/window.cc:325 ../programs/spectra/window.cc:192
 #: ../programs/table/gchemtable-app.cc:171
 #: ../programs/table/gchemtable-curve.cc:238
-#, fuzzy
 msgid "Ask a question about the Gnome Chemistry Utils"
-msgstr "Задать вопрос о GChemPaint"
+msgstr ""
 
 #: ../programs/3d/window.cc:197 ../programs/calc/gchemcalc.cc:634
 #: ../programs/crystal/window.cc:327 ../programs/spectra/window.cc:194
 #: ../programs/table/gchemtable-app.cc:173
 #: ../programs/table/gchemtable-curve.cc:240
-#, fuzzy
 msgid "Submit a bug report for the Gnome Chemistry Utils"
-msgstr "Отправить сообщение об ошибке в GChemPaint"
+msgstr ""
 
 #: ../programs/3d/window.cc:199
 #, fuzzy
@@ -3685,9 +3663,8 @@ msgid "Background color"
 msgstr "Цвет фона"
 
 #: ../programs/3d/window.cc:272
-#, fuzzy
 msgid "Choose a new background color"
-msgstr "Цвет фона"
+msgstr ""
 
 #: ../programs/3d/window.cc:295 ../programs/crystal/window.cc:429
 #: ../programs/spectra/window.cc:257
@@ -3695,13 +3672,13 @@ msgid "Open recent"
 msgstr ""
 
 #: ../programs/3d/gchem3d.desktop.in.in.h:1
-#, fuzzy
 msgid "Display chemical 3D structures"
-msgstr "Редактирование химических структур"
+msgstr ""
 
 #: ../programs/3d/gchem3d.desktop.in.in.h:2
+#, fuzzy
 msgid "Molecules Viewer @STABILITY_POSTFIX@"
-msgstr ""
+msgstr "Молекулярный вес:"
 
 #: ../programs/calc/gchemcalc.cc:301
 msgid "GChemCalc is a simple calculator for chemists"
@@ -3724,7 +3701,7 @@ msgstr ""
 #: ../programs/calc/gchemcalc.cc:626
 #, fuzzy
 msgid "View help for the Chemical Calculator"
-msgstr "Просмотр справки для GChemPaint"
+msgstr "Химический калькулятор"
 
 #: ../programs/calc/gchemcalc.cc:636
 msgid "About GChemCalc"
@@ -3767,7 +3744,7 @@ msgstr ""
 #: ../programs/calc/gchemcalc.cc:688
 #, fuzzy
 msgid "GChemCalc Calculator version: "
-msgstr "Версия GChemPaint: "
+msgstr "Химический калькулятор"
 
 #: ../programs/calc/gchemcalc.cc:714
 #, fuzzy
@@ -3778,7 +3755,6 @@ msgstr "Формула:"
 msgid "For usage see: gchemcalc-unstable [-?|--help]"
 msgstr ""
 
-#
 #: ../programs/calc/gchemcalc.cc:777
 msgid "Element"
 msgstr "Элемент"
@@ -3797,28 +3773,24 @@ msgid "Chemical calculator @STABILITY_POSTFIX@"
 msgstr "Химический калькулятор"
 
 #: ../programs/crystal/gcrystal.desktop.in.in.h:1
-#, fuzzy
 msgid "Edit and display crystalline structures"
-msgstr "Редактирование химических структур"
+msgstr ""
 
 #: ../programs/crystal/gcrystal.desktop.in.in.h:2
 msgid "Gnome Crystal Crystalline Structures Viewer @STABILITY_POSTFIX@"
 msgstr ""
 
 #: ../programs/crystal/gcrystal.schemas.in.h:1
-#, fuzzy
 msgid "Background color blue value"
-msgstr "Цвет фона"
+msgstr ""
 
 #: ../programs/crystal/gcrystal.schemas.in.h:2
-#, fuzzy
 msgid "Background color green value"
-msgstr "Цвет фона"
+msgstr ""
 
 #: ../programs/crystal/gcrystal.schemas.in.h:3
-#, fuzzy
 msgid "Background color red value"
-msgstr "Цвет фона"
+msgstr ""
 
 #: ../programs/crystal/gcrystal.schemas.in.h:4
 msgid ""
@@ -3882,9 +3854,9 @@ msgid ""
 msgstr ""
 
 #: ../programs/crystal/application.cc:58
-#, fuzzy, c-format
+#, c-format
 msgid "Untitled%d"
-msgstr "Безымянное %d"
+msgstr ""
 
 #: ../programs/crystal/application.cc:318
 #, c-format
@@ -3931,13 +3903,11 @@ msgid "Planes cleaved"
 msgstr ""
 
 #: ../programs/crystal/document.cc:271
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not save file\n"
 "%s"
 msgstr ""
-"Не удалось открыть файл\n"
-"%s"
 
 #: ../programs/crystal/linesdlg.cc:121
 msgid "x1"
@@ -3969,23 +3939,20 @@ msgid "Single"
 msgstr "Серебро"
 
 #: ../programs/crystal/main.cc:88
-#, fuzzy
 msgid "Gnome Chemistry Utils version: "
-msgstr "Версия GChemPaint: "
+msgstr ""
 
 #: ../programs/crystal/main.cc:114 ../programs/paint/main.cc:72
 msgid " [file...]"
 msgstr "[файл...]"
 
 #: ../programs/crystal/window.cc:142 ../programs/crystal/window.cc:394
-#, fuzzy
 msgid "Gnome Crystal"
-msgstr "Выйти из GChemCalc"
+msgstr ""
 
 #: ../programs/crystal/window.cc:145
-#, fuzzy
 msgid "Gnome Crystal is a lightweight crystal structures viewer for Gnome"
-msgstr "GChemPaint - редактор химических структур для GNOME"
+msgstr ""
 
 #: ../programs/crystal/window.cc:146
 #, fuzzy
@@ -3998,9 +3965,8 @@ msgid "Quit Gnome Crystal"
 msgstr "Выйти из GChemCalc"
 
 #: ../programs/crystal/window.cc:296
-#, fuzzy
 msgid "Prefere_nces..."
-msgstr "Свойства..."
+msgstr ""
 
 #: ../programs/crystal/window.cc:298
 msgid "_Crystal"
@@ -4015,14 +3981,12 @@ msgid "Define the lattice"
 msgstr ""
 
 #: ../programs/crystal/window.cc:301
-#, fuzzy
 msgid "_Atoms..."
-msgstr "Атомы"
+msgstr ""
 
 #: ../programs/crystal/window.cc:302
-#, fuzzy
 msgid "Add or edit atoms"
-msgstr "Добавить или изменить атом"
+msgstr ""
 
 #: ../programs/crystal/window.cc:303
 msgid "_Bonds and lines..."
@@ -4033,9 +3997,8 @@ msgid "Add or edit bonds and lines"
 msgstr ""
 
 #: ../programs/crystal/window.cc:305
-#, fuzzy
 msgid "_Size..."
-msgstr "_Открыть..."
+msgstr ""
 
 #: ../programs/crystal/window.cc:306
 msgid "Define size"
@@ -4068,9 +4031,8 @@ msgid "Create a new window"
 msgstr "Создать новый файл"
 
 #: ../programs/crystal/window.cc:315
-#, fuzzy
 msgid "_Close this window"
-msgstr "Показать окно инструментов"
+msgstr ""
 
 #: ../programs/crystal/window.cc:316
 #, fuzzy
@@ -4078,9 +4040,8 @@ msgid "Close the current window"
 msgstr "Закрыть текущий файл"
 
 #: ../programs/crystal/window.cc:319
-#, fuzzy
 msgid "View help for Gnome Crystal"
-msgstr "Выйти из GChemCalc"
+msgstr ""
 
 #: ../programs/crystal/window.cc:329
 #, fuzzy
@@ -4094,7 +4055,7 @@ msgstr "Редактирование химических структур"
 #: ../programs/paint/gchempaint.desktop.in.in.h:2
 #, fuzzy
 msgid "GChemPaint Chemical Structures Editor @STABILITY_POSTFIX@"
-msgstr "Редактор химических формул GChemPaint"
+msgstr "GChemPaint - редактор химических структур для GNOME"
 
 #: ../programs/paint/gchempaint.schemas.in.h:1
 msgid "Chemical formula font family."
@@ -4109,9 +4070,8 @@ msgid "Chemical formula font stretch."
 msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:4
-#, fuzzy
 msgid "Chemical formula font style."
-msgstr "Химический калькулятор"
+msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:5
 msgid "Chemical formula font variant."
@@ -4571,8 +4531,9 @@ msgid "Electronegativity"
 msgstr "Электроотрицательность Паули"
 
 #: ../programs/table/gchemtable-app.cc:155
+#, fuzzy
 msgid "Use colors to display the electronegativity of the elements"
-msgstr ""
+msgstr "Периодическая таблица элементов"
 
 #: ../programs/table/gchemtable-app.cc:157
 msgid "Atomic radius"
@@ -4588,14 +4549,14 @@ msgid "Block"
 msgstr ""
 
 #: ../programs/table/gchemtable-app.cc:161
+#, fuzzy
 msgid "Use colors to display the blocks elements belong to"
-msgstr ""
+msgstr "Периодическая таблица элементов"
 
 #: ../programs/table/gchemtable-app.cc:165
 #: ../programs/table/gchemtable-curve.cc:230
-#, fuzzy
 msgid "View help for the Periodic Table"
-msgstr "Просмотр справки для GChemPaint"
+msgstr ""
 
 #: ../programs/table/gchemtable-app.cc:175
 #: ../programs/table/gchemtable-curve.cc:242
@@ -4734,9 +4695,8 @@ msgstr ""
 
 #: ../programs/table/gchemtable-curve.cc:451
 #: ../programs/table/gchemtable-curve.cc:455
-#, fuzzy
 msgid "Melting point"
-msgstr "Метионин"
+msgstr ""
 
 #: ../programs/table/gchemtable-curve.cc:466
 #: ../programs/table/gchemtable-curve.cc:470
@@ -5038,13 +4998,8 @@ msgstr "Валин"
 #~ msgid "Ionic"
 #~ msgstr "Железо"
 
-#, fuzzy
-#~ msgid "Molecules Viewer (unstable)"
-#~ msgstr "Молекулярный вес:"
-
-#, fuzzy
-#~ msgid "Periodic table of the elements (unstable)"
-#~ msgstr "Периодическая таблица элементов"
+#~ msgid "(C) 2001-2005 by Jean Bréfort"
+#~ msgstr "(C) 2001-2005 Jean Bréfort"
 
 #~ msgid "GChemPaint help contents"
 #~ msgstr "Содержание справки GChemPaint"
@@ -5118,6 +5073,9 @@ msgstr "Валин"
 #~ msgid "Fragment tool"
 #~ msgstr "Фрагмент"
 
+#~ msgid "Italic"
+#~ msgstr "Наклонный"
+
 #~ msgid "Subscript"
 #~ msgstr "Нижний индекс"
 
@@ -5147,6 +5105,9 @@ msgstr "Валин"
 
 #~ msgid "Proper_ties"
 #~ msgstr "Свойства"
+
+#~ msgid "Show tools window"
+#~ msgstr "Показать окно инструментов"
 
 #~ msgid "_Print"
 #~ msgstr "Печать"

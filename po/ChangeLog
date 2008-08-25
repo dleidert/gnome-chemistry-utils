@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* de.po: merged missing strings from stable branch.
+	* it.po: ditto.
+	* pl.po: ditto.
+	* pt_BR.po: ditto.
+	* ru.po: ditto.
+
 2008-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* LINGUAS: merged with gchempaint po files.
 	* de.po: ditto.
