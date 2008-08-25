@@ -1,3 +1,16 @@
+Version 0.9.6
+	CGhemPaint:
+		* enhanced cdx and cdxml files import. [#21112]
+		* enhanced atoms and bonds drawing (no more a white rectangles
+		under the atom symbol to hide bonds).
+	GSpectrum:
+		* the varables can now be changed in some instances, as variance
+		to transmittance or vice versa.
+	Other:
+		* removed as much gnome-vfs code as possible and replaced it
+		by gio/gvfs calls.
+		* enhanced build system.
+
 Version 0.9.4
 	3d viewer:
 		* export more image formats (ps, pdf, eps).

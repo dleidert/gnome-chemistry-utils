@@ -246,20 +246,20 @@
 	* libs/gcp/fragment.cc: ditto.
 	* libs/gcp/molecule.cc: ditto.
 	* libs/gcp/operation.h: API documentation work.
-	* libs/gcp/residue.cc: imports new resodues from gchempaint and chemdraw
+	* libs/gcp/residue.cc: imports new residues from gchempaint and chemdraw
 	(.cdx) files.
 	* libs/gcp/residue.h: ditto.
 	* libs/gcp/view.h: API documentation work.
 	* libs/gcp/widgetdata.h: ditto.
 	* libs/gcp/window.h: ditto.
 	* libs/gcp/zoomdlg.h: ditto.
-	* libs/gcu/molecule.cc: imports new resodues from gchempaint and chemdraw
+	* libs/gcu/molecule.cc: imports new residues from gchempaint and chemdraw
 	(.cdx) files.
 	* libs/gcu/residue.cc: ditto.
 	* plugins/loaders/cdx/cdx.cc: ditto.
 	* plugins/paint/bonds/bondtool.cc: allow adding a bond starting from a
 	fragment.
-	* plugins/paint/residues/residues-dlg.cc: imports new resodues from
+	* plugins/paint/residues/residues-dlg.cc: imports new residues from
 	gchempaint and chemdraw (.cdx) files.
 
 2008-07-30  Jean Bréfort  <jean.brefort@normalesup.org>
