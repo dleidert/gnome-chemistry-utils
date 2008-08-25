@@ -726,9 +726,8 @@ int main (int argc, char *argv[])
 		argv ++;
 	}
 
-// FIXME "the following line should be edited for stable releases"
 	if (argc > 1) {
-		cout << _("For usage see: gchemcalc-unstable [-?|--help]") << endl;
+		cout << _("For usage see: gchemcalc [-?|--help]") << endl;
 		return -1;
 	}
 

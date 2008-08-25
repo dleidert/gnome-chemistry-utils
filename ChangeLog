@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/wikipedia/wikipediatool.cc: removed "unstable" word.
+	* programs/calc/gchemcalc.cc: ditto.
+
 2008-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/canvas/gcp-canvas-bpath.h: replaced deprecated GTK_CHECK* macros.
 	* libs/canvas/gcp-canvas-group.h: ditto.

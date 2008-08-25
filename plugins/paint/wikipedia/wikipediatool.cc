@@ -50,7 +50,7 @@ private:
 	gcu::Application *m_pApp;
 };
 
-WikipediaApp::WikipediaApp (gcu::Application *App): gcu::Application ("gchempaint-unstable")
+WikipediaApp::WikipediaApp (gcu::Application *App): gcu::Application ("gchempaint")
 {
 	m_pApp = App;
 }
