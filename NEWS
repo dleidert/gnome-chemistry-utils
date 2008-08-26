@@ -4,7 +4,7 @@ Version 0.9.6
 		* enhanced atoms and bonds drawing (no more a white rectangles
 		under the atom symbol to hide bonds).
 	GSpectrum:
-		* the varables can now be changed in some instances, as variance
+		* the variables can now be changed in some instances, as absorbance
 		to transmittance or vice versa.
 	Other:
 		* removed as much gnome-vfs code as possible and replaced it
