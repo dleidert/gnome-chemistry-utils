@@ -84,7 +84,7 @@ gtk_crystal_viewer_get_type (void)
 void gtk_crystal_viewer_class_init (GtkCrystalViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	parent_class = (GtkBinClass*) gtk_type_class (gtk_bin_get_type ());
+	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
 	
 	gobject_class->finalize = gtk_crystal_viewer_finalize;
 }

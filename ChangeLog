@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-08-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: remve G_DISABLE* to make things work with gtk+-2.14.
+	* libs/gcp/bond.h: API documentation work.
+	* libs/gcu/gtkchem3dviewer.cc: replaced deprecated gtk* calls.
+	* libs/gcu/gtkcrystalviewer.cc: ditto.
+	* libs/gcu/gtkperiodic.c: ditto.
+
 2008-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/wikipedia/wikipediatool.cc: removed "unstable" word.
 	* programs/calc/gchemcalc.cc: ditto.

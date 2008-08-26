@@ -188,7 +188,7 @@ dnl retrieve BODR data directory
 bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
 AC_DEFINE_UNQUOTED([BODR_PKGDATADIR], ["$bodr_pkgdatadir"], [Path to Blue Obelisk Data Repository])
 
-GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
+#GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
 AC_SUBST([GCU_CFLAGS])
 AC_SUBST([GCU_LIBS])
 

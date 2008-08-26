@@ -135,7 +135,7 @@ static void gtk_chem3d_viewer_finalize (GObject *obj)
 void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	parent_class = (GtkBinClass*)gtk_type_class(gtk_bin_get_type());
+	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
 	
 	gobject_class->set_property = gtk_chem3d_viewer_set_property;
 	gobject_class->get_property = gtk_chem3d_viewer_get_property;
@@ -168,7 +168,7 @@ void gtk_chem3d_viewer_init (GtkChem3DViewer *viewer)
 	gtk_widget_show (GTK_WIDGET (viewer->widget));
 	gtk_container_add (GTK_CONTAINER (viewer), viewer->widget);
 	gtk_widget_show_all (GTK_WIDGET (viewer));
-	g_signal_connect (G_OBJECT (viewer), "size_allocate", GTK_SIGNAL_FUNC (on_size), NULL);
+	g_signal_connect (G_OBJECT (viewer), "size_allocate", G_CALLBACK (on_size), NULL);
 }
 
 void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, const gchar *uri)

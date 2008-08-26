@@ -90,29 +90,107 @@ The destructor.
 */
 	virtual ~Bond ();
 
-	virtual Object* GetAtomAt (double x, double y, double z = 0.);
+/*!
+param x the x coordinate
+@param y the y coordinate
+@param z the z coordinate
+
+@return a pointer to a bonded atom at or near position defined by the
+coordinates passed as parameters.
+*/
+	Object* GetAtomAt (double x, double y, double z = 0.);
+/*!
+@return the type of the bond.
+*/
 	BondType GetType() const {return m_type;}
+/*!
+@param type the new bond type.
+
+Sets the bond type.
+*/
 	void SetType (BondType type);
+/*!
+@param pAtom one of the bonded atoms
+
+@return the angle (0 to 306°) that the bond makes from the horizontal when
+starting from \a pAtom.
+*/
 	double GetAngle2D (Atom* pAtom);
+/*!
+@param pCycle a cycle containing the bond.
+
+Notifies the bond it is in the cycle.
+*/
 	void AddCycle (gcu::Cycle* pCycle);
+/*!
+@param pCycle a cycle.
+
+Notifies the bond that it is not anymore in the cycle.
+*/
 	void RemoveCycle (gcu::Cycle* pCycle);
+/*!
+Clears the list of the cycles containing the bond.
+*/
 	void RemoveAllCycles ();
+/*!
+@param Num the index of the line representing a, possibly, multiple bond.
+@param x1 where to store the first x coordinate.
+@param y1 where to store the first y coordinate.
+@param x2 where to store the second x coordinate.
+@param y1 where to store the second y coordinate.
+
+Retrievers the coordinates of one of the lines representing the bond. Num must
+be lower than the bond order to succeed.
+@return true on success, false otherwise.
+*/
 	bool GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, double* y2);
+/*!
+@param xml the xmlDoc used to save the document.
+@param node a pointer to the xmlNode to which this Bond is serialized.
+
+Saves the GChemPaint Bond class specific properties, such as the bond type
+(see gcp::BondType for more information).
+*/
 	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr) const;
 /*!
 @param node a pointer to the xmlNode containing the serialized Bond.
 
 Loads properties specific to GChemPaint bonds.
 */
-	virtual bool LoadNode (xmlNodePtr node);
-	virtual void Update (GtkWidget* w) const;
-	virtual void Move (double x, double y, double z = 0);
-	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
+	bool LoadNode (xmlNodePtr node);
+/*!
+@param w the GtkWidget inside which the bond is displayed.
+
+Used to update the representation of the bond in the widget.
+*/
+	void Update (GtkWidget* w) const;
+/*!
+@param x the x component of the transation vector.
+@param y the y component of the transation vector.
+@param z the z component of the transation vector.
+
+Used to move a bond. Just tells the bond it has been moved and that it's
+coordinates need to be reevaluated from the new atomic positions. 
+*/
+	void Move (double x, double y, double z = 0);
+/*!
+@param m the Matrix2D of the transformation.
+@param x the x component of the center of the transformation.
+@param y the y component of the center of the transformation.
+
+Used to move and/or transform a bond. Just tells the bond it has been moved
+and /or rotated and that it's coordinates need to be reevaluated from the new
+atomic positions.
+*/
+	void Transform2D (gcu::Matrix2D& m, double x, double y);
+/*!
+*/
 	double GetDist (double x, double y);
 /*!
 */
 	void SetDirty ();
 /*!
+Exchanges the start and end atoms.
 */
 	void Revert ();
 /*!
@@ -131,8 +209,14 @@ The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
 	void SetSelected (GtkWidget* w, int state);
+/*!
+*/
 	void Add (GtkWidget* w) const;
+/*!
+*/
 	double GetYAlign ();
+/*!
+*/
 	bool IsCrossing (Bond *pBond);
 /*!
 @param UIManager: the GtkUIManager to populate.
@@ -143,8 +227,14 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 This method is called to build a contextual menu for the atom.
 */
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+/*!
+*/
 	void MoveToBack ();
+/*!
+*/
 	void BringToFront ();
+/*!
+*/
 	bool SetProperty (unsigned property, char const *value);
 
 private:

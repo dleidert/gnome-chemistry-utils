@@ -135,15 +135,15 @@ gtk_periodic_get_type (void)
 	return periodic_type;
 }
 
-void gtk_periodic_class_init (GtkPeriodicClass *class)
+void gtk_periodic_class_init (GtkPeriodicClass *klass)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (class);
-	GtkWidgetClass * widget_class = GTK_WIDGET_CLASS (class);
-	parent_class = gtk_type_class(gtk_bin_get_type());
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass * widget_class = GTK_WIDGET_CLASS (klass);
+	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
 	
 	gobject_class->set_property = gtk_periodic_set_property;
 	gobject_class->get_property = gtk_periodic_get_property;
-	class->element_changed_event = NULL;
+	klass->element_changed_event = NULL;
 	gtk_periodic_signals[ELEMENT_CHANGED] =
 	g_signal_new ("element_changed",
 				  G_TYPE_FROM_CLASS(gobject_class),
