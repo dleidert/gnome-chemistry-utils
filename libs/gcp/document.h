@@ -107,27 +107,33 @@ Empties a document and reinitialize it.
 */
 	View* GetView () {return m_pView;}
 /*!
-@param
-@param
+@param Mol an OpenBabel molecule to import.
 
+Imports a molecule using OpenBabel.
 */
-	void BuildBondList (std::list<Bond*>& BondList, gcu::Object const *obj) const;
 	bool ImportOB (OpenBabel::OBMol& Mol);
 /*!
-
+Exports the current file using OpenBabel. Only molecules will be exported.
 */
 	void ExportOB () const;
 /*!
+Saves the current file.
+*/
+	void Save () const;
+/*!
 @param
 
 */
-	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, gcu::Object const *obj, unsigned& index) const;
-	void Save () const;
 	virtual bool Load (xmlNodePtr);
 	const gchar* GetTitle () const;
 	void SetTitle (const gchar* title);
 	void SetLabel (const gchar* label);
 	const gchar* GetLabel () const;
+/*!
+@param
+@param
+
+*/
 	void SetFileName (std::string const &, const gchar *mime_type);
 	const gchar* GetFileName () {return m_filename;}
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
@@ -200,6 +206,8 @@ of the residue.
 	gcu::Residue *CreateResidue (char const *name, char const *symbol, gcu::Molecule *molecule);
 
 private:
+	void BuildBondList (std::list<Bond*>& BondList, gcu::Object const *obj) const;
+	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, gcu::Object const *obj, unsigned& index) const;
 	void RemoveAtom (Atom* pAtom);
 	void RemoveBond (Bond* pBond);
 	void RemoveFragment (Fragment* pFragment);

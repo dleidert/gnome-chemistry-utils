@@ -1,3 +1,11 @@
+2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* autogen.sh:
+	* libs/gcp/bond.h:
+	* libs/gcp/document.h:
+
 ##Text encoding: utf-8
 
 2008-08-26  Jean Bréfort  <jean.brefort@normalesup.org>

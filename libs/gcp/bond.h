@@ -184,9 +184,18 @@ atomic positions.
 */
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
 /*!
+@param x the x coordinate.
+@param y the x coordinate.
+
+Evaluates the distance from the point with coordinates \a x and \a y to the bond.
+The line segment joining the two atoms is used whatever the type and the order
+of the bond.
+@return the calculated distance in pm.
 */
 	double GetDist (double x, double y);
 /*!
+Tells that the bond has changed, and that the items representing it should be
+updated accordingly.
 */
 	void SetDirty ();
 /*!
@@ -210,12 +219,22 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
 	void SetSelected (GtkWidget* w, int state);
 /*!
+@param w the GtkWidget inside which the bond will be displayed.
+
+Used to add a representation of the bond in the widget.
 */
 	void Add (GtkWidget* w) const;
 /*!
+Used to retrieve the y coordinate for alignment.
+@return y coordinate of the bond center.
 */
 	double GetYAlign ();
 /*!
+@param pBond a bond which might cross.
+
+The lines representing two bonds might cross. This method detects this
+condition.
+@return true if bonds cross, false otherwise.
 */
 	bool IsCrossing (Bond *pBond);
 /*!
@@ -228,12 +247,20 @@ This method is called to build a contextual menu for the atom.
 */
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 /*!
+Move the bond to the lowest position. It has an effect only for crossing bonds.
 */
 	void MoveToBack ();
 /*!
+Brings the bond to front. It has an effect only for crossing bonds.
 */
 	void BringToFront ();
 /*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set properties for the bond. this method supports
+GCU_PROP_BOND_TYPE and calls gcu::Bond::SetProperty() for other properties.
+@return true if the property could be set, or if the property is not relevant, false otherwise.
 */
 	bool SetProperty (unsigned property, char const *value);
 
