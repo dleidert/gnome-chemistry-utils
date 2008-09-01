@@ -17,7 +17,7 @@ if DOXYGEN_AVAILABLE
 html_stamp:
 	$(DOXYGEN) -u Doxyfile
 	$(DOXYGEN) Doxyfile
-	touch html_stamp
+	touch $@
 
 html-upstream.tar.gz: html/*.*
 	tar -czf $@ html/*.*
@@ -36,7 +36,7 @@ html-upstream.tar.gz: ; echo "Error: You need doxygen to create the documentatio
 endif #DOXYGEN_AVAILABLE
 
 clean-local:
-	rm -rf html
+	rm -rf html/*.*
 
 ## Make distcheck happy for maintainers as well
 dist-hook:

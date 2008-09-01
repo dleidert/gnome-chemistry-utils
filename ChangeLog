@@ -9,6 +9,10 @@
 ##Text encoding: utf-8
 
 2008-09-01 Daniel Leidert <daniel.leidert@wgdd.de>
+	* docs/reference/Makefile.am: Fixed clean target. The directory is
+	  under version control, so removing it completely is not a good idea.
+
+2008-09-01 Daniel Leidert <daniel.leidert@wgdd.de>
 	* configure.ac: Fixed some quotation. Fixed fallback value for xulclient
 	  to not be empty. Use AC_CONFIG_LINKS to create the versioned files in
 	  docs/help (also cleans these files/links with distclean).
