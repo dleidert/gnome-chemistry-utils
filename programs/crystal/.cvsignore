@@ -1,8 +1,0 @@
-Makefile
-Makefile.in
-gcrystal
-gcrystal-unstable
-*.desktop
-*.schemas
-.deps
-.libs

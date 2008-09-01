@@ -1,7 +1,0 @@
-.deps
-.libs
-Makefile
-Makefile.in
-gchemutils.la
-*.lo
-plugin.xml

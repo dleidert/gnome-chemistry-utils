@@ -1,8 +1,0 @@
-Makefile
-Makefile.in
-gchempaint
-gchempaint-unstable
-*.desktop
-*.schemas
-.deps
-.libs
