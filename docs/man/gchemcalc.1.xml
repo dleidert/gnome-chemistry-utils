@@ -27,7 +27,7 @@
 	<!ENTITY dhpackage    "gchemcalc&dhaddon;">
 	<!ENTITY dhulapackage "gcu">
 
-	<!ENTITY dhdate       "$Date: 2007-10-16 01:11:41 $">
+	<!ENTITY dhdate       "$Date$">
 	<!ENTITY dhsection    "1">
 
 	<!ENTITY % _gcu_entities SYSTEM "gcu_entities.dtd">
