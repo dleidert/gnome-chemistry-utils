@@ -36,7 +36,7 @@ automake --gnu -af
 autoconf
 
 ## generate versioned help files
-./gendocs
+##./gendocs
 
 ## Job ended
 echo "run ./configure with the appropriate options, then make and enjoy"

@@ -8,6 +8,12 @@
 
 ##Text encoding: utf-8
 
+2008-09-01 Daniel Leidert <daniel.leidert@wgdd.de>
+	* configure.ac: Fixed some quotation. Fixed fallback value for xulclient
+	  to not be empty. Use AC_CONFIG_LINKS to create the versioned files in
+	  docs/help (also cleans these files/links with distclean).
+	* autogen.sh: Removed gendocs vall. Done via configure (see above).
+
 2008-08-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: remve G_DISABLE* to make things work with gtk+-2.14.
 	* libs/gcp/bond.h: API documentation work.

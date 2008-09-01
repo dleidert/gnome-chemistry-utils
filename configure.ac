@@ -45,8 +45,8 @@ else
 	STABILITY_POSTFIX="($GCU_API_VER unstable)"
 	STABILITY="-unstable"
 fi
-AC_SUBST(STABILITY)
-AC_SUBST(STABILITY_POSTFIX)
+AC_SUBST([STABILITY])
+AC_SUBST([STABILITY_POSTFIX])
 AM_CONDITIONAL([GCU_IS_STABLE], [test "x$gcu_is_stable" = "xyes"])
 
 AM_GLIB_GNU_GETTEXT
@@ -104,7 +104,7 @@ AC_ARG_WITH(
 AC_MSG_CHECKING([for KDE MIME files (.desktop) installation location])
 AC_MSG_RESULT([$KDEMIMEDIR])
 AM_CONDITIONAL([WITH_KDE_MIME], [test "x$KDEMIMEDIR" != "xno"])
-AC_SUBST(KDEMIMEDIR)
+AC_SUBST([KDEMIMEDIR])
 
 AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
@@ -216,7 +216,7 @@ AC_CHECK_FUNCS(go_conf_sync)
 CFLAGS=$saved_cflags
 LIBS=$saved_libs
 
-AC_SUBST(GOFFICE_PLUGINS_DIR)
+AC_SUBST([GOFFICE_PLUGINS_DIR])
 
 ##################################################
 # Check for xulrunner plugin
@@ -231,7 +231,7 @@ for pack in xulrunner seamonkey firefox mozilla; do
 done
 if test "x$xulclient" = x; then
   # Not important.  Things will fail below.
-  libgoffice=mozilla-plugin
+  xulclient=mozilla-plugin
 fi
 MOZILLA_CFLAGS=
 build_mozilla_plugin=no
@@ -306,7 +306,22 @@ case $srcdir in
 	;;
 esac
 
-AC_SUBST(TESTSSRCDIR)
+AC_SUBST([TESTSSRCDIR])
+
+AC_CONFIG_LINKS([
+docs/help/3d/gchem3d-${GCU_API_VER}.omf.in:docs/help/3d/gchem3d.omf.in
+docs/help/calc/gchemcalc-${GCU_API_VER}.omf.in:docs/help/calc/gchemcalc.omf.in
+docs/help/crystal/gcrystal-${GCU_API_VER}.omf.in:docs/help/crystal/gcrystal.omf.in
+docs/help/paint/gchempaint-${GCU_API_VER}.omf.in:docs/help/paint/gchempaint.omf.in
+docs/help/spectra/gspectrum-${GCU_API_VER}.omf.in:docs/help/spectra/gspectrum.omf.in
+docs/help/table/gchemtable-${GCU_API_VER}.omf.in:docs/help/table/gchemtable.omf.in
+docs/help/3d/C/gchem3d-${GCU_API_VER}.xml:docs/help/3d/C/gchem3d.xml
+docs/help/calc/C/gchemcalc-${GCU_API_VER}.xml:docs/help/calc/C/gchemcalc.xml
+docs/help/crystal/C/gcrystal-${GCU_API_VER}.xml:docs/help/crystal/C/gcrystal.xml
+docs/help/paint/C/gchempaint-${GCU_API_VER}.xml:docs/help/paint/C/gchempaint.xml
+docs/help/spectra/C/gspectrum-${GCU_API_VER}.xml:docs/help/spectra/C/gspectrum.xml
+docs/help/table/C/gchemtable-${GCU_API_VER}.xml:docs/help/table/C/gchemtable.xml
+])
 
 AC_CONFIG_FILES([
 Makefile
