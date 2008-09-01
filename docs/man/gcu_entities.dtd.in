@@ -1,5 +1,6 @@
 
 	<!ENTITY dhulpackage "@PACKAGE@">
-	<!ENTITY dhedition   "@VERSION@">
+	<!ENTITY dhedition   "@GCU_API_VER@">
+	<!ENTITY dhaddon     "@STABILITY@">
 	
 	<!ENTITY dhcopyright SYSTEM "gcu_man_legal.xml">

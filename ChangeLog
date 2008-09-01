@@ -9,6 +9,29 @@
 ##Text encoding: utf-8
 
 2008-09-01 Daniel Leidert <daniel.leidert@wgdd.de>
+	* docs/man/Makefile.am (gcu_man_src): Removed libgcu.3.xml.
+	  (man_MANS): Removed libgcu.3. The filenames now automatically
+	  consider stable/unstable releases. The target to create the manual
+	  pages has been adusted accordingly.
+	* docs/man/gcu_entities.dtd.in: Define a suffix if built for an
+	  unstable release. Use the API version as version number.
+	* docs/man/gchem3d.1.xml: Fixed IDs. Add suffix if necessary.
+	* docs/man/gchemcalc.1.xml: Likewise.
+	* docs/man/gchempaint.1.xml: Likewise.
+	* docs/man/gchemtable.1.xml: Likewise.
+	* docs/man/gcrystal.1.xml: Likewise.
+	* docs/man/gspectrum.1.xml: Likewise.
+	* docs/man/gchem3d-viewer-unstable.1: Renamed to docs/man/gchem3d.1
+	  and updated.
+	* docs/man/gchemcalc-unstable.1: Likewise.
+	* docs/man/gchempaint-unstable.1: Likewise.
+	* docs/man/gchemtable-unstable.1: Likewise.
+	* docs/man/gcrystal-unstable.1: Likewise.
+	* docs/man/gspectrum-unstable.1: Likewise.
+	* docs/man/libgcu-unstable.3: Removed completely.
+	* docs/man/libgcu.3.xml: Ditto.
+
+2008-09-01 Daniel Leidert <daniel.leidert@wgdd.de>
 	* docs/reference/Makefile.am: Fixed clean target. The directory is
 	  under version control, so removing it completely is not a good idea.
 

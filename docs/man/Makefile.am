@@ -22,21 +22,19 @@ gcu_man_src = \
 	gchempaint.1.xml \
 	gchemtable.1.xml \
 	gcrystal.1.xml \
-	gspectrum.1.xml \
-	libgcu.3.xml
+	gspectrum.1.xml
 
 man_MANS = \
-	gchem3d.1 \
-	gchemcalc.1 \
-	gchempaint.1 \
-	gchemtable.1 \
-	gcrystal.1 \
-	gspectrum.1 \
-	libgcu.3
+	gchem3d@STABILITY@.1 \
+	gchemcalc@STABILITY@.1 \
+	gchempaint@STABILITY@.1 \
+	gchemtable@STABILITY@.1 \
+	gcrystal@STABILITY@.1 \
+	gspectrum@STABILITY@.1
 
 SUFFIXES = .xml
 
-.xml:
+%@STABILITY@.1 : %.1.xml
 if HAVE_XSLTPROC
 	$(XSLTPROC) $(XSLTPROC_FLAGS) $<
 else
