@@ -4,7 +4,7 @@ Version 0.9.90
 	Gnome Crystal:
 		* Add support for document properties.
 	GChemTable:
-		* Add Brazilian to knwon languages.
+		* Add Brazilian to known languages.
 	Other:
 		* Fixed some build issues (Daniel Leidert).
 
