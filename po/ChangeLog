@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.skip: fixed file list.
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: added new programs/crystal/docprop.cc.
 	* fr.po: updated french translation.
 

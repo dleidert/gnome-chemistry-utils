@@ -1,6 +1,6 @@
-programs/3d/gchem3d.desktop.in
-programs/calc/gchemcalc.desktop.in
-programs/crystal/gcrystal.desktop.in
-programs/paint/gchempaint.desktop.in
-programs/spectra/gspectrum.desktop.in
-programs/table/gchemtable.desktop.in
+programs/3d/gchem3d.desktop.in.in
+programs/calc/gchemcalc.desktop.in.in
+programs/crystal/gcrystal.desktop.in.in
+programs/paint/gchempaint.desktop.in.in
+programs/spectra/gspectrum.desktop.in.in
+programs/table/gchemtable.desktop.in.in
