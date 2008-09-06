@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* autogen.sh: reverted Daniels changes about docs links for now.
+	* configure.ac: ditto.
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/residue.cc: no need to care about the delete button for
 	read-only residues.
 	* plugins/paint/residues/residues-dlg.cc: ditto.

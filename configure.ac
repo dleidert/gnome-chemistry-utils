@@ -308,21 +308,6 @@ esac
 
 AC_SUBST([TESTSSRCDIR])
 
-AC_CONFIG_LINKS([
-docs/help/3d/gchem3d-${GCU_API_VER}.omf.in:docs/help/3d/gchem3d.omf.in
-docs/help/calc/gchemcalc-${GCU_API_VER}.omf.in:docs/help/calc/gchemcalc.omf.in
-docs/help/crystal/gcrystal-${GCU_API_VER}.omf.in:docs/help/crystal/gcrystal.omf.in
-docs/help/paint/gchempaint-${GCU_API_VER}.omf.in:docs/help/paint/gchempaint.omf.in
-docs/help/spectra/gspectrum-${GCU_API_VER}.omf.in:docs/help/spectra/gspectrum.omf.in
-docs/help/table/gchemtable-${GCU_API_VER}.omf.in:docs/help/table/gchemtable.omf.in
-docs/help/3d/C/gchem3d-${GCU_API_VER}.xml:docs/help/3d/C/gchem3d.xml
-docs/help/calc/C/gchemcalc-${GCU_API_VER}.xml:docs/help/calc/C/gchemcalc.xml
-docs/help/crystal/C/gcrystal-${GCU_API_VER}.xml:docs/help/crystal/C/gcrystal.xml
-docs/help/paint/C/gchempaint-${GCU_API_VER}.xml:docs/help/paint/C/gchempaint.xml
-docs/help/spectra/C/gspectrum-${GCU_API_VER}.xml:docs/help/spectra/C/gspectrum.xml
-docs/help/table/C/gchemtable-${GCU_API_VER}.xml:docs/help/table/C/gchemtable.xml
-])
-
 AC_CONFIG_FILES([
 Makefile
 database/Makefile
