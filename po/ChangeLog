@@ -2,7 +2,7 @@
 
 2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: added new programs/crystal/docprop.cc.
-	* fr.po: updated french trnaslation.
+	* fr.po: updated french translation.
 
 2008-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* de.po: merged missing strings from stable branch.
