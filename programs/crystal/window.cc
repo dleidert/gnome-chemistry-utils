@@ -25,6 +25,7 @@
 #include "config.h"
 #include "window.h"
 #include "application.h"
+#include "docprop.h"
 #include "document.h"
 #include "prefs.h"
 #include "view-settings.h"
@@ -61,6 +62,11 @@ static void on_file_save (GtkWidget *widget, gcWindow* Win)
 static void on_file_save_as (GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnFileSaveAs ();
+}
+
+static void on_properties(GtkWidget* widget, gcWindow* Win)
+{
+	new gcDocPropDlg (Win->GetDoc ());
 }
 
 static void on_file_close (GtkWidget *widget, gcWindow* Win)
@@ -143,7 +149,7 @@ static void on_about (GtkWidget *widget, gcWindow* Win)
 					"authors", authors,
 					"artists", artists,
 					"comments", _("Gnome Crystal is a lightweight crystal structures viewer for Gnome"),
-					"copyright", _("Copyright © 1999-2007 by Jean Bréfort"),
+					"copyright", _("Copyright © 1999-2008 by Jean Bréfort"),
 					"license", license,
 					"logo", logo,
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
@@ -288,6 +294,8 @@ static GtkActionEntry entries[] = {
 		  N_("Print preview"), G_CALLBACK (on_print_preview) },
 	  { "Print", GTK_STOCK_PRINT, N_("_Print..."), "<control>P",
 		  N_("Print the current file"), G_CALLBACK (on_file_print) },
+	  { "Properties", GTK_STOCK_PROPERTIES, N_("Prope_rties..."), NULL,
+		  N_("Modify the file's properties"), G_CALLBACK (on_properties) },
 	  { "Close", GTK_STOCK_CLOSE, N_("_Close"), "<control>W",
 		  N_("Close the current file"), G_CALLBACK (on_file_close) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
@@ -343,6 +351,8 @@ static const char *ui_description =
 "      <menuitem action='PrintPreview'/>"
 "      <menuitem action='Print'/>"
 "      <separator name='file-sep2'/>"
+"      <menuitem action='Properties'/>"
+"      <separator name='file-sep3'/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"

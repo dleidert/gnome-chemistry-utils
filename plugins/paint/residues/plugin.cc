@@ -160,44 +160,46 @@ void gcpResiduesPlugin::OnNewResidue (gcp::Residue *res)
 {
 	Dialog *dlg = m_App->GetDialog ("residues");
 	// build the xml node if none exists and save it
-	xmlNodePtr node = res->GetMolNode ();
-	if (!node) {
-		if (!user_residues) {
-			user_residues = xmlNewDoc ((xmlChar*) "1.0");
-			docs.insert (user_residues);
-			xmlDocSetRootElement (user_residues,  xmlNewDocNode (user_residues, NULL, (xmlChar*) "residues", NULL));
-			char* filename = g_strconcat (getenv ("HOME"), "/.gchemutils/residues.xml", NULL);
-			user_residues->URL = xmlStrdup ((xmlChar*) filename);
-			g_free (filename);
+	if (res) {
+		xmlNodePtr node = res->GetMolNode ();
+		if (!node) {
+			if (!user_residues) {
+				user_residues = xmlNewDoc ((xmlChar*) "1.0");
+				docs.insert (user_residues);
+				xmlDocSetRootElement (user_residues,  xmlNewDocNode (user_residues, NULL, (xmlChar*) "residues", NULL));
+				char* filename = g_strconcat (getenv ("HOME"), "/.gchemutils/residues.xml", NULL);
+				user_residues->URL = xmlStrdup ((xmlChar*) filename);
+				g_free (filename);
+			}
+			node = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "residue", NULL);
+			if (res->GetGeneric ())
+				xmlNewProp (node, (xmlChar const *) "generic", (xmlChar const *) "true");
+			string raw = static_cast <gcp::Molecule *> (res->GetMolecule ())->GetRawFormula ();
+			xmlNewProp (node, (xmlChar const *) "raw", (xmlChar const *) raw.c_str ());
+			map<string, bool> const &symbols = res->GetSymbols ();
+			map<string, bool>::const_iterator i = symbols.begin (), end = symbols.end ();
+			string sy;
+			if (i != symbols.end ())
+				sy = (*i).first;
+			for (i++; i != end; i++)
+				sy += string(";") + (*i).first;
+			xmlNodePtr child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "symbols", (xmlChar const *) sy.c_str ());
+			xmlAddChild (node, child);
+			child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "name", (xmlChar const *) res->GetName ());
+			xmlAddChild (node, child);
+			xmlDocPtr xml = static_cast <gcp::Document *> (res->GetDocument ())->BuildXMLTree ();
+			child = xml->children->children;
+			while (strcmp ((char const *) child->name, "molecule"))
+				child = child->next;
+			xmlUnlinkNode (child);
+			xmlAddChild (node, child);
+			xmlAddChild (user_residues->children, node);
+			xmlIndentTreeOutput = true;
+			xmlKeepBlanksDefault (0);
+			xmlSaveFormatFile ((char*) user_residues->URL, user_residues, true);
+			xmlFreeDoc (xml);
+			res->Load (node, false);
 		}
-		node = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "residue", NULL);
-		if (res->GetGeneric ())
-			xmlNewProp (node, (xmlChar const *) "generic", (xmlChar const *) "true");
-		string raw = static_cast <gcp::Molecule *> (res->GetMolecule ())->GetRawFormula ();
-		xmlNewProp (node, (xmlChar const *) "raw", (xmlChar const *) raw.c_str ());
-		map<string, bool> const &symbols = res->GetSymbols ();
-		map<string, bool>::const_iterator i = symbols.begin (), end = symbols.end ();
-		string sy;
-		if (i != symbols.end ())
-			sy = (*i).first;
-		for (i++; i != end; i++)
-			sy += string(";") + (*i).first;
-		xmlNodePtr child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "symbols", (xmlChar const *) sy.c_str ());
-		xmlAddChild (node, child);
-		child = xmlNewDocNode (user_residues, NULL, (xmlChar const *) "name", (xmlChar const *) res->GetName ());
-		xmlAddChild (node, child);
-		xmlDocPtr xml = static_cast <gcp::Document *> (res->GetDocument ())->BuildXMLTree ();
-		child = xml->children->children;
-		while (strcmp ((char const *) child->name, "molecule"))
-			child = child->next;
-		xmlUnlinkNode (child);
-		xmlAddChild (node, child);
-		xmlAddChild (user_residues->children, node);
-		xmlIndentTreeOutput = true;
-		xmlKeepBlanksDefault (0);
-		xmlSaveFormatFile ((char*) user_residues->URL, user_residues, true);
-		xmlFreeDoc (xml);
-		res->Load (node, false);
 	}
 	if (dlg)
 		static_cast <gcpResiduesDlg *> (dlg)->OnNewResidue (res);

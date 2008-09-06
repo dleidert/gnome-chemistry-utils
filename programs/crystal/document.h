@@ -92,6 +92,12 @@ public:
 	virtual bool LoadNewView (xmlNodePtr node);
 	std::list <CrystalView *> *GetViews () {return &m_Views;}
 	void RenameViews ();
+	void SetAuthor (char const *author);
+	void SetMail (char const *mail);
+	void SetComment (char const *comment);
+	void SetLabel (char const *label);
+	GDate *GetCreationDate () {return &m_CreationDate;}
+	GDate *GetRevisionDate () {return &m_RevisionDate;}
 
 private:
 	void Error(int num) const;
@@ -103,8 +109,13 @@ private:
 	GtkWidget* m_widget;
 	std::list <gcu::Dialog *> m_Dialogs;
 	gcView *m_pActiveView;
+	GDate m_CreationDate, m_RevisionDate;
 
-GCU_RO_PROP (bool, ReadOnly);
+GCU_RO_PROP (bool, ReadOnly)
+GCU_RO_PROP (char *, Label)
+GCU_RO_PROP (char *, Author)
+GCU_RO_PROP (char *, Mail)
+GCU_RO_PROP (char *, Comment)
 };
 
 #endif //GCRYSTAL_DOCUMENT_H

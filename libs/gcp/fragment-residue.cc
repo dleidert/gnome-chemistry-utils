@@ -41,16 +41,23 @@ FragmentResidue::FragmentResidue (Fragment *fragment, char const *symbol): Fragm
 {
 	if (symbol) {
 		m_Abbrev = symbol;
-		m_Residue = dynamic_cast <Residue const*> (Residue::GetResidue (symbol, NULL));
+		m_Residue = dynamic_cast <Residue const *> (Residue::GetResidue (symbol, NULL));
+		const_cast <Residue *> (m_Residue)->Ref ();
 	}
 }
 
-FragmentResidue::~FragmentResidue () {}
-
+FragmentResidue::~FragmentResidue ()
+{
+	if (m_Residue)
+		const_cast <Residue *> (m_Residue)->Unref ();
+}
 
 void FragmentResidue::SetResidue (Residue const *res)
 {
+	if (m_Residue)
+		const_cast <Residue *> (m_Residue)->Unref ();
 	m_Residue = res;
+	const_cast <Residue *> (m_Residue)->Ref ();
 }
 
 const gchar* FragmentResidue::GetSymbol () const
@@ -102,6 +109,7 @@ bool FragmentResidue::Load (xmlNodePtr node)
 		return false;
 	m_Abbrev = buf;
 	m_Residue = residue;
+	const_cast <Residue *> (m_Residue)->Ref ();
 	xmlFree ((xmlChar*) buf);
 	return true;
 }

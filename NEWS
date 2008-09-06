@@ -1,3 +1,13 @@
+Version 0.9.90
+	CGhemPaint:
+		* Fixed issues about residues management.
+	Gnome Crystal:
+		* Add support for document properties.
+	GChemTable:
+		* Add Brazilian to knwon languages.
+	Other:
+		* Fixed some build issues (Daniel Leidert).
+
 Version 0.9.6
 	CGhemPaint:
 		* enhanced cdx and cdxml files import. [#21112]

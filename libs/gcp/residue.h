@@ -46,6 +46,8 @@ public:
 	void Load (xmlNodePtr node, bool ro);
 	bool operator== (gcu::Molecule const &mol) const;
 	void Register ();
+	void Ref ();
+	void Unref ();
 
 	static void SetPostAddCallback (void (*cb) (Residue *res)) {m_AddCb = cb;}
 
@@ -55,6 +57,7 @@ private:
 GCU_RO_PROP (bool, ReadOnly);
 GCU_RO_PROP (xmlNodePtr, Node);
 GCU_RO_PROP (xmlNodePtr, MolNode);
+GCU_RO_PROP (unsigned , Refs);
 };
 
 }	//	namespace gcp

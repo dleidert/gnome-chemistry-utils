@@ -422,7 +422,7 @@ void gcpResiduesDlg::OnCurChanged ()
 		gtk_widget_set_sensitive (reinterpret_cast<GtkWidget*> (m_NameEntry), true);
 		gtk_widget_set_sensitive (reinterpret_cast<GtkWidget*> (m_SymbolEntry), true);
 		gtk_widget_set_sensitive (m_SaveBtn, true);
-		gtk_widget_set_sensitive (m_DeleteBtn, true);
+		gtk_widget_set_sensitive (m_DeleteBtn, m_Residue->GetRefs () == 0);
 		gtk_widget_set_sensitive (m_GenericBtn, true);
 		m_Document->SetEditable (true);
 	}
@@ -471,8 +471,11 @@ void gcpResiduesDlg::OnNameActivate ()
 
 void gcpResiduesDlg::OnNewResidue (gcp::Residue *res)
 {
-	map<string, bool> const &symbols = res->GetSymbols ();
-	map<string, bool>::const_iterator i = symbols.begin (), end = symbols.end ();
-	for (i = symbols.begin (); i != end; i++)
-		gtk_combo_box_append_text (m_CurBox, (*i).first.c_str ());
+	if (res) {
+		map<string, bool> const &symbols = res->GetSymbols ();
+		map<string, bool>::const_iterator i = symbols.begin (), end = symbols.end ();
+		for (i = symbols.begin (); i != end; i++)
+			gtk_combo_box_append_text (m_CurBox, (*i).first.c_str ());
+	} else if (m_Residue)
+		gtk_widget_set_sensitive (m_DeleteBtn, m_Residue->GetRefs () == 0);
 }

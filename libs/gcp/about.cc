@@ -53,7 +53,7 @@ void on_about (GtkWidget* widget, void* data)
 					"authors", authors,
 					"artists", artists,
 					"comments", _("GChemPaint is a 2D chemical structures editor for Gnome"),
-					"copyright", _("Copyright © 2001-2007 by Jean Bréfort"),
+					"copyright", _("Copyright © 2001-2008 by Jean Bréfort"),
 					"license", license,
 					"logo", pixbuf,
 					"icon-name", "gchempaint",

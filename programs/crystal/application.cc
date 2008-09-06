@@ -56,7 +56,7 @@ gcDocument *gcApplication::OnFileNew ()
 	gcDocument* pDoc = new gcDocument (this);
 	gchar buf[32];
 	g_snprintf (buf, sizeof (buf), _("Untitled%d"), nNewDocs++);
-	pDoc->SetTitle (buf);
+	pDoc->SetLabel (buf);
 	m_Docs.push_back (pDoc);
 	new gcWindow (this, pDoc);
 	return pDoc;
@@ -341,7 +341,8 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			list <CrystalView *> *Views = Doc->GetViews ();
 			list <CrystalView *>::iterator i, iend = Views->end ();
 			int n = 1, max = Views->size ();
-			char const *title = Doc->GetTitle ();
+			Doc->RenameViews ();
+			char const *title = Doc->GetLabel ();
 			for (i = Views->begin (); i != iend; i++) {
 				gcWindow *window = dynamic_cast <gcView*> (*i)->GetWindow ();
 				GtkWindow *w = window->GetWindow ();

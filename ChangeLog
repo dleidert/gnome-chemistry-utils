@@ -1,12 +1,29 @@
-2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* autogen.sh:
-	* libs/gcp/bond.h:
-	* libs/gcp/document.h:
-
 ##Text encoding: utf-8
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: requires goffice-0.6.5 or later.
+	* docs/help/paint/C/fidures/*.png: new or updated screenshots.
+	* glade/crystal/docprop.glade: updated the user interface to be
+	more HIG compliant
+	* libs/gcp/about.cc: updated copyright.
+	* libs/gcp/document.h: API documentation work.
+	* libs/gcp/fragment-residue.cc: fix an issue with residues management.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/residue.cc: ditto.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcu/element.cc: add brazilian to known languages.
+	* plugins/paint/residues/plugin.cc: fix an issue with residues management.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/residues/residues.glade: ditto.
+	* programs/calc/gchemcalc.cc: updated copyright.
+	* programs/crystal/Makefile.am: add docprop.*.
+	* programs/crystal/application.cc: add document properties support.
+	* programs/crystal/docprop.cc: ditto.
+	* programs/crystal/docprop.h: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/window.cc: updated copyright.
+	* programs/spectra/window.cc: updated copyright.
 
 2008-09-01 Daniel Leidert <daniel.leidert@wgdd.de>
 	* docs/man/Makefile.am (gcu_man_src): Removed libgcu.3.xml.
@@ -40,6 +57,13 @@
 	  to not be empty. Use AC_CONFIG_LINKS to create the versioned files in
 	  docs/help (also cleans these files/links with distclean).
 	* autogen.sh: Removed gendocs vall. Done via configure (see above).
+
+2008-08-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* autogen.sh: use gendocs.
+	* gendocs: new script to update help files names.
+	* libs/gcp/bond.h: API documentation work.
+	* libs/gcp/document.h: ditto.
+	* docs/help/paint/C/figures: updated screenshots.
 
 2008-08-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: remve G_DISABLE* to make things work with gtk+-2.14.

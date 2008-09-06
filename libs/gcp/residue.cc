@@ -42,12 +42,14 @@ Residue::Residue (): gcu::Residue ()
 {
 	m_Document = new Document (NULL, true, NULL);
 	m_Node = m_MolNode = NULL;
+	m_Refs = 0;
 }
 
 Residue::Residue (char const *name): gcu::Residue (name)
 {
 	m_Document = new Document (NULL, true, NULL);
 	m_Node = m_MolNode = NULL;
+	m_Refs = 0;
 }
 
 Residue::Residue (char const *name, char const *symbol, Molecule *mol, Document *doc): gcu::Residue (name, doc)
@@ -61,6 +63,7 @@ Residue::Residue (char const *name, char const *symbol, Molecule *mol, Document 
 	m_Node = m_MolNode = NULL;
 	if (m_AddCb && !doc && mol)
 		m_AddCb (this);
+	m_Refs = 0;
 }
 
 Residue::~Residue ()
@@ -101,6 +104,21 @@ void Residue::Register ()
 	m_MolNode = m_Node = NULL; // forces a new node
 	if (m_AddCb)
 		m_AddCb (this);
+}
+
+void Residue::Ref ()
+{
+	m_Refs++;
+	if (m_AddCb)
+		m_AddCb (NULL);
+}
+
+void Residue::Unref ()
+{
+	if (m_Refs)
+		m_Refs--;
+	if (m_AddCb)
+		m_AddCb (NULL);
 }
 
 }	//	namespace gcp

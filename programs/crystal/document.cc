@@ -74,6 +74,9 @@ gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 	m_title = NULL;
 	m_bClosing = false;
 	m_ReadOnly = false;
+	m_Author = m_Mail = m_Label = m_Comment = NULL;
+	g_date_set_time_t (&m_CreationDate, time (NULL));
+	g_date_clear (&m_RevisionDate, 1);
 }
 
 gcDocument::~gcDocument()
@@ -199,15 +202,18 @@ void gcDocument::SetFileName (const string &filename)
 	int j = filename.length () - 1;
 	while ((i < j) && (m_filename[j] != '.'))
 		j--;
-	gchar* title = (strcmp (m_filename + j, ".gcrystal"))? g_strdup (m_filename + i):g_strndup (m_filename + i, j - i);
-	SetTitle (title);
-	g_free (title);
+	if (!m_title) {
+		g_free (m_Label);
+		m_Label = (strcmp (m_filename + j, ".gcrystal"))? g_strdup (m_filename + i): g_strndup (m_filename + i, j - i);
+	}
 }
 
 void gcDocument::SetTitle(const gchar* title)
 {
-	if (m_title) g_free(m_title);
+	g_free(m_title);
 	m_title = g_strdup(title);
+	g_free(m_Label);
+	m_Label = g_strdup(title);	
 }
 
 static int cb_xml_to_vfs (GOutputStream *output, const char* buf, int nb)
@@ -230,6 +236,42 @@ void gcDocument::Save() const
 	try {
 		xml = BuildXMLTree();
 
+		if (!g_date_valid (&m_CreationDate))
+			g_date_set_time_t (&const_cast <gcDocument *> (this)->m_CreationDate, time (NULL));
+		g_date_set_time_t (&const_cast <gcDocument *> (this)->m_RevisionDate, time (NULL));
+		gchar tmp[64];
+		g_date_strftime (tmp, sizeof (tmp), "%m/%d/%Y", &m_CreationDate);
+		xmlNewProp (xml->children, (xmlChar*) "creation", (xmlChar*) tmp);
+		g_date_strftime (tmp, sizeof (tmp), "%m/%d/%Y", &m_RevisionDate);
+		xmlNewProp (xml->children, (xmlChar*) "revision", (xmlChar*) tmp);
+		xmlNodePtr node;
+
+		if (m_title && *m_title) {
+			node = xmlNewDocNode (xml, NULL, (xmlChar*) "title", (xmlChar*) m_title);
+			if (node)
+				xmlAddChild (xml->children, node);
+			else
+				throw (int) 0;
+		}
+		if ((m_Author && *m_Author) || (m_Mail && *m_Mail)) {
+			node = xmlNewDocNode (xml, NULL, (xmlChar*) "author", NULL);
+			if (node) {
+				if (m_Author && *m_Author)
+					xmlNewProp (node, (xmlChar*) "name", (xmlChar*) m_Author);
+				if (m_Mail && *m_Mail)
+					xmlNewProp (node, (xmlChar*) "e-mail", (xmlChar*) m_Mail);
+				xmlAddChild (xml->children, node);
+			}
+			else
+				throw (int) 0;
+		}
+		if (m_Comment && *m_Comment) {
+			node = xmlNewDocNode (xml, NULL, (xmlChar*) "comment", (xmlChar*) m_Comment);
+			if (node)
+				xmlAddChild (xml->children, node);
+			else
+				throw (int) 0;
+		}
 		xmlIndentTreeOutput = true;
 		xmlKeepBlanksDefault (0);
 	
@@ -295,7 +337,7 @@ bool gcDocument::Load (const string &filename)
 	else oldfilename = NULL;
 	oldtitle = g_strdup (m_title);
 	try {
-		if (SetFileName (filename), !m_filename || !m_title)
+		if (SetFileName (filename), !m_filename || !m_Label)
 			throw (int) 1;
 		if (!(xml = xmlParseFile (filename.c_str ())))
 			throw (int) 2;
@@ -352,6 +394,65 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 	//look for generator node
 	unsigned version = 0xffffff , major, minor, micro;
 	node = xml->children;
+	if (m_Author) {
+		g_free (m_Author);
+		m_Author = NULL;
+	}
+	if (m_Mail) {
+		g_free (m_Mail);
+		m_Mail = NULL;
+	}
+	if (m_Comment) {
+		g_free (m_Comment);
+		m_Comment = NULL;
+	}
+	g_date_clear (&m_CreationDate, 1);
+	g_date_clear (&m_RevisionDate, 1);
+	txt = (char*) xmlGetProp (xml, (xmlChar*) "creation");
+	if (txt) {
+		g_date_set_parse (&m_CreationDate, txt);
+		if (!g_date_valid (&m_CreationDate))
+			g_date_clear (&m_CreationDate, 1);
+		xmlFree (txt);
+	}
+	txt = (char*) xmlGetProp (xml, (xmlChar*) "revision");
+	if (txt) {
+		g_date_set_parse (&m_RevisionDate, txt);
+		if (!g_date_valid(&m_RevisionDate))
+			g_date_clear(&m_RevisionDate, 1);
+		xmlFree (txt);
+	}
+
+	node = GetNodeByName (xml, "title");
+	if (node) {
+		txt = (char*) xmlNodeGetContent (node);
+		if (txt) {
+			g_free (m_title);
+			m_title = g_strdup (txt);
+			xmlFree (txt);
+		}
+	}
+	node = GetNodeByName (xml, "author");
+	if (node) {
+		txt = (char*) xmlGetProp (node, (xmlChar*) "name");
+		if (txt) {
+			m_Author = g_strdup (txt);
+			xmlFree (txt);
+		}
+		txt = (char*) xmlGetProp (node, (xmlChar*) "e-mail");
+		if (txt) {
+			m_Mail = g_strdup (txt);
+			xmlFree (txt);
+		}
+	}
+	node = GetNodeByName (xml, "comment");
+	if (node) {
+		txt = (char*) xmlNodeGetContent (node);
+		if (txt) {
+			m_Comment = g_strdup (txt);
+			xmlFree (txt);
+		}
+	}
 	while (node)
 	{
 		if (!strcmp ((const char*)(node->name), "generator")) break;
@@ -713,11 +814,11 @@ void gcDocument::RenameViews ()
 		if (!w)
 			continue;
 		if (max > 1) {
-			char *t = g_strdup_printf ("%s (%i)", m_title, n++);
+			char *t = g_strdup_printf ("%s (%i)", m_Label, n++);
 			gtk_window_set_title (w, t);
 			g_free (t);
 		} else
-			gtk_window_set_title (w, m_title);
+			gtk_window_set_title (w, m_Label);
 		window->ActivateActionWidget ("ui/MainMenu/FileMenu/Save", !m_ReadOnly);
 		window->ActivateActionWidget ("ui/MainToolbar/Save", !m_ReadOnly);
 	}
@@ -817,3 +918,27 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 	return false;
 }
 #endif
+
+void gcDocument::SetAuthor (char const *author)
+{
+	g_free (m_Author);
+	m_Author = g_strdup (author);
+}
+
+void gcDocument::SetMail (char const *mail)
+{
+	g_free (m_Mail);
+	m_Mail = g_strdup (mail);
+}
+
+void gcDocument::SetComment (char const *comment)
+{
+	g_free (m_Comment);
+	m_Comment = g_strdup (m_Comment);
+}
+
+void gcDocument::SetLabel (char const *label)
+{
+	g_free (m_Label);
+	m_Label = g_strdup (label);
+}
