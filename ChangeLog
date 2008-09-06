@@ -1,6 +1,14 @@
 ##Text encoding: utf-8
 
 2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/residue.cc: no need to care about the delete button for
+	read-only residues.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* programs/calc/gchemcalc.cc: fixed typo.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requires goffice-0.6.5 or later.
 	* docs/help/paint/C/fidures/*.png: new or updated screenshots.
 	* glade/crystal/docprop.glade: updated the user interface to be

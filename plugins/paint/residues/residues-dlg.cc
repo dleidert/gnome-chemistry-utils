@@ -476,6 +476,6 @@ void gcpResiduesDlg::OnNewResidue (gcp::Residue *res)
 		map<string, bool>::const_iterator i = symbols.begin (), end = symbols.end ();
 		for (i = symbols.begin (); i != end; i++)
 			gtk_combo_box_append_text (m_CurBox, (*i).first.c_str ());
-	} else if (m_Residue)
+	} else if (m_Residue && !m_Residue->GetReadOnly ())
 		gtk_widget_set_sensitive (m_DeleteBtn, m_Residue->GetRefs () == 0);
 }

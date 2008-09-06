@@ -109,7 +109,7 @@ void Residue::Register ()
 void Residue::Ref ()
 {
 	m_Refs++;
-	if (m_AddCb)
+	if (m_AddCb && !m_ReadOnly)
 		m_AddCb (NULL);
 }
 
@@ -117,7 +117,7 @@ void Residue::Unref ()
 {
 	if (m_Refs)
 		m_Refs--;
-	if (m_AddCb)
+	if (m_AddCb && !m_ReadOnly)
 		m_AddCb (NULL);
 }
 
