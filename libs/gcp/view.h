@@ -41,7 +41,7 @@ class WidgetData;
 #define GCHEMPAINT_ATOM_NAME "application/x-gchempaint"
 extern GtkTargetEntry const targets[];
 
-/*!\class
+/*!\class View gcp/view.h
 The GChempaint document view.
 */
 class View

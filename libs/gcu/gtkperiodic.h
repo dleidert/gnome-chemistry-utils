@@ -125,7 +125,9 @@ The callback used for color schemes. It takes three arguments:
 */
 typedef void (*GtkPeriodicColorFunc) (int, GdkColor*, gpointer);
 
+/*!\return the GType associated to GtkPeriodic */
 GType               gtk_periodic_get_type          (void) G_GNUC_CONST;
+/*!\return a new GtkPeriodic */
 GtkWidget*            gtk_periodic_new               (void);
 
 /**

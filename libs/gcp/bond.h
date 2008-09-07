@@ -91,7 +91,7 @@ The destructor.
 	virtual ~Bond ();
 
 /*!
-param x the x coordinate
+@param x the x coordinate
 @param y the y coordinate
 @param z the z coordinate
 
@@ -137,7 +137,7 @@ Clears the list of the cycles containing the bond.
 @param x1 where to store the first x coordinate.
 @param y1 where to store the first y coordinate.
 @param x2 where to store the second x coordinate.
-@param y1 where to store the second y coordinate.
+@param y2 where to store the second y coordinate.
 
 Retrievers the coordinates of one of the lines representing the bond. Num must
 be lower than the bond order to succeed.
@@ -151,7 +151,7 @@ be lower than the bond order to succeed.
 Saves the GChemPaint Bond class specific properties, such as the bond type
 (see gcp::BondType for more information).
 */
-	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr) const;
+	virtual bool SaveNode (xmlDocPtr xml, xmlNodePtr node) const;
 /*!
 @param node a pointer to the xmlNode containing the serialized Bond.
 

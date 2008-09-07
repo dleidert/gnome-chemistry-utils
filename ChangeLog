@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2008-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.h: API documentation work.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/fontsel.h: ditto.
+	* libs/gcp/fragment-residue.h: ditto.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/chemistry.h: ditto.
+	* libs/gcu/gtkperiodic.h: ditto.
+
 2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.9.91).
 

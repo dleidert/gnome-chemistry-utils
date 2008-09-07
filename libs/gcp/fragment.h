@@ -35,34 +35,111 @@ class FragmentAtom;
 class Atom;
 
 /*!\class Fragment gcp/fragment.h
+\brief Atoms groups.
+
+Represents atoms groups displayed as a string. Currntly, the string is not
+fully parsed, so that some non sense strings might be accepted. Anyway, this
+will not always be the case in the future.
 */
 class Fragment: public TextObject
 {
-friend class FragmentTool;
 public:
+/*!
+The default constructor.
+*/
 	Fragment ();
+/*!
+@param x the x position of the new fragment.
+@param y the y position of the new fragment.
+
+Constructs a new fragment and position it. x and y are the position of the
+main atom or residue in the fragment.
+*/
 	Fragment (double x, double y);
+/*!
+The destructor.
+*/
 	virtual ~Fragment ();
 
+/*!
+
+*/
 	void SetSelected (GtkWidget *w, int state);
+/*!
+
+*/
 	void Add (GtkWidget *w) const;
+/*!
+
+*/
 	void Update (GtkWidget *w) const;
+/*!
+
+*/
 	xmlNodePtr Save (xmlDocPtr xml) const;
+/*!
+
+*/
 	xmlNodePtr SaveSelection (xmlDocPtr xml) const;
+/*!
+
+*/
 	bool Load (xmlNodePtr);
+/*!
+
+*/
 	bool OnChanged (bool save);
+/*!
+
+*/
 	void AnalContent ();
+/*!
+
+*/
 	void AnalContent (unsigned start, unsigned &end);
+/*!
+
+*/
 	Object* GetAtomAt (double x, double y, double z = 0.);
+/*!
+
+*/
 	void Move (double x, double y, double z = 0);
+/*!
+
+*/
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
+/*!
+
+*/
 	void OnChangeAtom ();
+/*!
+
+*/
 	Atom* GetAtom () {return (Atom*) m_Atom;}
+/*!
+
+*/
 	int GetElementAtPos (unsigned start, unsigned &end);
+/*!
+
+*/
 	int GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double Angle, double &x, double &y);
+/*!
+
+*/
 	int GetAvailablePosition (double &x, double &y);
+/*!
+
+*/
 	bool GetPosition (double angle, double &x, double &y);
+/*!
+
+*/
 	bool Validate ();
+/*!
+
+*/
 	double GetYAlign ();
 
 /*!

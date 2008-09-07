@@ -138,7 +138,7 @@ The document title.
 */
 	void SetTitle (const gchar* title);
 /*!
-@param the new window title.
+@param label the new window title.
 
 Sets the label to use as window title.
 */
@@ -284,8 +284,6 @@ Aborts and deletyes the current operation.
 */
 	void AbortOperation ();
 /*!
-@param operation the operaton to remove.
-
 Removes an operation from the udo stack and deletes it.
 */
 	void PopOperation ();
@@ -378,7 +376,7 @@ existing bonds or size of existing text.
 */
 	void SetTheme (Theme *theme);
 /*!
-param Signal a SignalId
+@param Signal a SignalId
 @param Child the child which emitted the signal or NULL
 
 Called when a signal has been emitted by a child. Only OnThemeChangedSignal
