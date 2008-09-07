@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/Makefile.am: fix fontsel.glade installation.
+
+2008-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.h: API documentation work.
 	* libs/gcp/document.h: ditto.
 	* libs/gcp/fontsel.h: ditto.
