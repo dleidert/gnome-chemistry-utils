@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-09-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: fixed compilation on ppc and other
+	big-endian machines.
+
 2008-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/Makefile.am: fix fontsel.glade installation.
 

@@ -54,13 +54,14 @@ using namespace gcu;
 #define READINT16(input,i) gsf_input_read (input, 2, (guint8*) &i)
 #define READINT32(input,i) gsf_input_read (input, 4, (guint8*) &i)
 #else
-char *buffer[4];
+char buffer[4];
+bool readint_res;
 #define READINT16(input,i) \
-	bool res = gsf_input_read (input, 2, (guint8*) buffer), \
-	(guint16) i = buffer[0] + buffer[1] << 8, res
-#define READINT32(input,buf,i) \
-	bool res = gsf_input_read (input, 4, (guint8*) buffer), \
-	(guint32) i = buffer[0] + buffer[1] << 8 + buffer[2] << 16 + buffer[3] << 24, res
+	readint_res = gsf_input_read (input, 2, (guint8*) buffer), \
+	i = buffer[0] + (buffer[1] << 8), readint_res
+#define READINT32(input,i) \
+	readint_res = gsf_input_read (input, 4, (guint8*) buffer), \
+	i = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24), readint_res
 #endif
 
 typedef struct {
@@ -160,7 +161,7 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 	if (!gsf_input_read (in, kCDX_HeaderLength, (guint8*) buf) || strncmp (buf, kCDX_HeaderString, kCDX_HeaderStringLen)) {
 		result = false;
 		code = 0;
-	} else if (!READINT16 (in, code)) {
+	} else if (!(READINT16 (in, code))) {
 		result = false;
 		code = 0;
 	}
@@ -216,7 +217,7 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 					break;
 				}
 				guint32 length;
-				if (!READINT32 (in,length)) {
+				if (!(READINT32 (in,length))) {
 					result = false;
 					break;
 				}
@@ -227,13 +228,13 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 			case kCDXProp_FontTable: {
 				// skip origin platform and read fonts number
 				guint16 nb;
-				if (gsf_input_seek (in, 2, G_SEEK_CUR) || !READINT16 (in,nb))
+				if (gsf_input_seek (in, 2, G_SEEK_CUR) || !(READINT16 (in,nb)))
 					return false;
 				CDXFont font;
 				for (int i = 0; i < nb; i++) {
-					if (!READINT16 (in,font.index) ||
-						!READINT16 (in,font.encoding) ||
-						!READINT16 (in,size))
+					if (!(READINT16 (in,font.index)) ||
+						!(READINT16 (in,font.encoding)) ||
+						!(READINT16 (in,size)))
 						return false;
 					gsf_input_read (in, size, (guint8*) buf);
 					buf[size] = 0;
@@ -246,11 +247,11 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white
 				colors.push_back ("red=\"0\" green=\"0\" blue=\"0\""); // black
 				unsigned nb = (size - 2) / 6;
-				if (!READINT16 (in,size) || size != nb)
+				if (!(READINT16 (in,size)) || size != nb)
 					return false;
 				guint16 red, blue, green;
 				for (unsigned i = 0; i < nb; i++) {
-				if (!READINT16 (in,red) || !READINT16 (in,green) || !READINT16 (in,blue))
+				if (!(READINT16 (in,red)) || !(READINT16 (in,green)) || !(READINT16 (in,blue)))
 					return false;
 					snprintf (buf, bufsize, "red=\"%g\" green=\"%g\" blue=\"%g\"", (double) red / 0xffff, (double) green / 0xffff, (double) blue / 0xffff);
 					colors.push_back (buf);
@@ -269,7 +270,7 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 		}
 		if (!result)
 			break;
-		if (!READINT16 (in,code)) {
+		if (!(READINT16 (in,code))) {
 			result = false;
 			break;
 		}
@@ -297,7 +298,7 @@ bool CDXLoader::ReadGenericObject  (GsfInput *in)
 	guint16 code;
 	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
 		return false;
-	if (!READINT16 (in,code))
+	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -310,7 +311,7 @@ bool CDXLoader::ReadGenericObject  (GsfInput *in)
 			if (size && !gsf_input_read (in, size, (guint8*) buf))
 				return false;
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			return false;
 	}
 	return true;
@@ -321,7 +322,7 @@ bool CDXLoader::ReadPage (GsfInput *in, Object *parent)
 	guint16 code;
 	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
 		return false;
-	if (!READINT16 (in,code))
+	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -353,7 +354,7 @@ bool CDXLoader::ReadPage (GsfInput *in, Object *parent)
 			if (size && !gsf_input_read (in, size, (guint8*) buf))
 				return false;
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			return false;
 	}
 	return true;
@@ -364,11 +365,11 @@ bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 	guint16 code;
 	Object *mol = Object::CreateObject ("molecule", parent);
 	guint32 Id;
-	if (!READINT32 (in,Id))
+	if (!(READINT32 (in,Id)))
 		return false;
 	snprintf (buf, bufsize, "m%d", Id);
 	mol->SetId (buf);
-	if (!READINT16 (in,code))
+	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -392,7 +393,7 @@ bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 			if (size && !gsf_input_read (in, size, (guint8*) buf))
 				return false;
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			return false;
 	}
 		static_cast <Molecule*> (mol)->UpdateCycles ();
@@ -408,11 +409,11 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 	guint32 Id;
 	int type = 0;
 	int Z = 6;
-	if (!READINT32 (in,Id))
+	if (!(READINT32 (in,Id)))
 		return false;
 	snprintf (buf, bufsize, "a%d", Id);
 	Atom->SetId (buf);
-	if (!READINT16 (in,code))
+	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -649,14 +650,14 @@ fragment_success:
 			switch (code) {
 			case kCDXProp_2DPosition: {
 				gint32 x, y;
-				if (size != 8 || !READINT32 (in,y) || !READINT32 (in,x))
+				if (size != 8 || !(READINT32 (in,y)) || !(READINT32 (in,x)))
 					goto bad_exit;
 				snprintf (buf, bufsize, "%d %d", x, y);
 				Atom->SetProperty (GCU_PROP_POS2D, buf);
 				break;
 			}
 			case kCDXProp_Node_Element:
-				if (size != 2 || !READINT16 (in,size))
+				if (size != 2 || !(READINT16 (in,size)))
 					goto bad_exit;
 				Z = size;
 				snprintf (buf, bufsize, "%u", size);
@@ -670,7 +671,7 @@ fragment_success:
 				Atom->SetProperty (GCU_PROP_ATOM_CHARGE, buf);
 				break;
 			case kCDXProp_Node_Type:
-				if (size != 2 || !READINT16 (in,type))
+				if (size != 2 || !(READINT16 (in,type)))
 					goto bad_exit;
 				if (type == 12) {
 					// convert the atom to a pseudo atom.
@@ -690,7 +691,7 @@ fragment_success:
 					goto bad_exit;
 			}
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			goto bad_exit;
 	}
 	if (Doc)
@@ -707,12 +708,12 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 	guint16 code;
 	Object *Bond = Object::CreateObject ("bond", parent);
 	guint32 Id;
-	if (!READINT32 (in,Id))
+	if (!(READINT32 (in,Id)))
 		return false;
 	snprintf (buf, bufsize, "b%d", Id);
 	Bond->SetId (buf);
 	Bond->SetProperty (GCU_PROP_BOND_ORDER, "1");
-	if (!READINT16 (in,code))
+	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -724,21 +725,21 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 				return false;
 			switch (code) {
 			case kCDXProp_Bond_Begin: {
-				if (size != 4 || !READINT32 (in,Id))
+				if (size != 4 || !(READINT32 (in,Id)))
 					return false;
 				snprintf (buf, bufsize, "%u", Id);
 				Bond->SetProperty (GCU_PROP_BOND_BEGIN, buf);
 				break;
 			}
 			case kCDXProp_Bond_End: {
-				if (size != 4 || !READINT32 (in,Id))
+				if (size != 4 || !(READINT32 (in,Id)))
 					return false;
 				snprintf (buf, bufsize, "%u", Id);
 				Bond->SetProperty (GCU_PROP_BOND_END, buf);
 				break;
 			}
 			case kCDXProp_Bond_Order:
-				if (size != 2 || !READINT16 (in,size))
+				if (size != 2 || !(READINT16 (in,size)))
 					return false;
 				switch (size) {
 				case 2:
@@ -753,7 +754,7 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 				}
 				break;
 			case kCDXProp_Bond_Display:
-				if (size != 2 || !READINT16 (in,size))
+				if (size != 2 || !(READINT16 (in,size)))
 					return false;
 				switch (size) {
 				case 1:
@@ -785,7 +786,7 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 					return false;
 			}
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			return false;
 	}
 	return true;
@@ -805,11 +806,11 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 	Object *Text= Object::CreateObject ("text", parent);
 	guint32 Id;
 	guint8 TextAlign = 0xfe, TextJustify = 0xfe;
-	if (!READINT32 (in,Id))
+	if (!(READINT32 (in,Id)))
 		return false;
 	snprintf (buf, bufsize, "t%d", Id);
 	Text->SetId (buf);
-	if (!READINT16 (in,code))
+	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -824,9 +825,9 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				if (size != 8)
 					return false;
 				gint32 x, y;
-				if (!READINT32 (in,y))
+				if (!(READINT32 (in,y)))
 					return false;
-				if (!READINT32 (in,x))
+				if (!(READINT32 (in,x)))
 					return false;
 				snprintf (buf, bufsize, "%d %d", x, y);
 				Text->SetProperty (GCU_PROP_POS2D, buf);
@@ -838,7 +839,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 				attribs attrs, attrs0;
 				attrs0.index = 0; // makes gcc happy
 				attrs0.face = 0; // ditto
-				if (!READINT16 (in,nb))
+				if (!(READINT16 (in,nb)))
 					return false;
 				list <attribs> attributes;
 				size -=2;
@@ -847,7 +848,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 					if (size < 10)
 						return false;
 					for (int j = 0; j < 5; j++)
-						if (!READINT16 (in,n[j]))
+						if (!(READINT16 (in,n[j])))
 							return false;
 					attributes.push_back (attrs);
 					size -= 10;
@@ -1012,7 +1013,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 					return false;
 			}
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			return false;
 	}
 	if (TextAlign == 0xfe)
@@ -1060,7 +1061,7 @@ bool CDXLoader::ReadGroup (GsfInput *in, Object *parent)
 	Group->Lock ();
 	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
 		return false;
-	if (!READINT16 (in,code))
+	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -1084,7 +1085,7 @@ bool CDXLoader::ReadGroup (GsfInput *in, Object *parent)
 			if (size && !gsf_input_read (in, size, (guint8*) buf))
 				return false;
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			return false;
 	}
 	Group->Lock (false);
@@ -1098,7 +1099,7 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 	guint32 Id;
 	guint16 type = 0xffff, arrow_type = 0xffff;
 	gint32 x0, y0, x1, y1;
-	if (!READINT32 (in,Id) || !READINT16 (in,code))
+	if (!(READINT32 (in,Id)) || !(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -1110,8 +1111,8 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 				return false;
 			switch (code) {
 			case kCDXProp_BoundingBox:
-				if (size != 16 || !READINT32 (in,y1) || !READINT32 (in,x1)
-					|| !READINT32 (in,y0) || !READINT32 (in,x0))
+				if (size != 16 || !(READINT32 (in,y1)) || !(READINT32 (in,x1))
+					|| !(READINT32 (in,y0)) || !(READINT32 (in,x0)))
 					return false;
 				break;
 			case kCDXProp_Graphic_Type:
@@ -1125,7 +1126,7 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 					return false;
 			}
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			return false;
 	}
 	if (type == 1) {
@@ -1164,7 +1165,7 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 guint16 CDXLoader::ReadSize  (GsfInput *in)
 {
 	guint16 size;
-	if (!READINT16 (in,size))
+	if (!(READINT16 (in,size)))
 		return 0xffff;
 	if ((unsigned) size + 1 > bufsize) {
 		do
@@ -1180,7 +1181,7 @@ bool CDXLoader::ReadDate  (GsfInput *in)
 {
 	guint16 n[7];
 	for (int i = 0; i < 7; i++)
-		if (!READINT16 (in,n[i]))
+		if (!(READINT16 (in,n[i])))
 			return false;
 	GDate *date = g_date_new_dmy (n[2], (GDateMonth) n[1], n[0]);
 	g_date_strftime (buf, bufsize, "%m/%d/%Y", date);
@@ -1193,7 +1194,7 @@ bool CDXLoader::ReadFragmentText (GsfInput *in, Object *parent)
 	guint16 code;
 	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
 		return false;
-	if (!READINT16 (in,code))
+	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
 		if (code & kCDXTag_Object) {
@@ -1218,7 +1219,7 @@ bool CDXLoader::ReadFragmentText (GsfInput *in, Object *parent)
 			}*/
 			case kCDXProp_Text: {
 				guint16 nb;
-				if (!READINT16 (in,nb))
+				if (!(READINT16 (in,nb)))
 					return false;
 				size -=2;
 				for (int i =0; i < nb; i++) {
@@ -1226,7 +1227,7 @@ bool CDXLoader::ReadFragmentText (GsfInput *in, Object *parent)
 						return false;
 					guint16 n[5];
 					for (int j = 0; j < 5; j++)
-						if (!READINT16 (in,n[j]))
+						if (!(READINT16 (in,n[j])))
 							return false;
 					size -= 10;
 				}
@@ -1242,7 +1243,7 @@ bool CDXLoader::ReadFragmentText (GsfInput *in, Object *parent)
 					return false;
 			}
 		}
-		if (!READINT16 (in,code))
+		if (!(READINT16 (in,code)))
 			return false;
 	}
 	return true;
