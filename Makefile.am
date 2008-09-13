@@ -5,6 +5,9 @@ EXTRA_DIST= \
 	$(mime_in_files) \
 	gnome-doc-utils.make \
 	$(schemas_in_files) \
+	intltool-extract.in \
+	intltool-update.in \
+	intltool-merge.in \
 	COPYING-DOCS
 
 CLEANFILES = \

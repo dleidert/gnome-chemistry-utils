@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add back intltool-*.in to EXTRA_DIST (needed
+	by intltool 0.37.1).
+
+2008-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: downgrade the intltool requirement to 0.37.1.
 	* docs/help/paint/*: update gchempaint help for 0.10.
 
