@@ -1,3 +1,8 @@
+Version 0.9.91
+	* Fixed compilation on ppc and other big endian machines.
+	* Downgraded intltool requirement to 0.37.1.
+	* Updated GChemPaint help.
+
 Version 0.9.90
 	CGhemPaint:
 		* Fixed issues about residues management.
