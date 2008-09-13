@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/Makefile.am: don't forget the glade file in the
+	tarball.
+
+2008-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add back intltool-*.in to EXTRA_DIST (needed
 	by intltool 0.37.1).
 

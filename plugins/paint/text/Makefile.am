@@ -1,4 +1,4 @@
-EXTRA_DIST = $(IMAGES)
+EXTRA_DIST = $(IMAGES) $(glade_DATA)
 
 BUILT_SOURCES = gcp-stock-pixbufs.h
 
