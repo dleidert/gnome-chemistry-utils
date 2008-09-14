@@ -62,23 +62,39 @@ The destructor.
 	virtual ~Fragment ();
 
 /*!
+@param w the GtkWidget inside which the fragment is displayed.
+@param state the selection state of the fragment.
 
+Used to set the selection state of the fragment inside the widget.
+The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
+gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
 	void SetSelected (GtkWidget *w, int state);
 /*!
+@param w a GtkWidget.
 
+Adds the representation of the fragment to the canvas widget.
 */
 	void Add (GtkWidget *w) const;
 /*!
+@param w a GtkWidget.
 
+Updates the representation of the fragment in the canvas widget.
 */
 	void Update (GtkWidget *w) const;
 /*!
+@param xml the xmlDoc used to save the document.
 
+Used to save the fragment to the xmlDoc.
+@return the xmlNode containing the serialized fragment.
 */
 	xmlNodePtr Save (xmlDocPtr xml) const;
 /*!
+@param xml the xmlDoc used for clipboard operations.
 
+Saves the currently selected text inside the fragment. This method is used by
+the framework when editing the fragment.
+@return the xmlNode containing the serialized selection.
 */
 	xmlNodePtr SaveSelection (xmlDocPtr xml) const;
 /*!

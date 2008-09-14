@@ -48,6 +48,13 @@ public:
 	void GetCoords (double *x, double *y);
 	void SetCoords (double x, double y);
 	xmlNodePtr Save (xmlDocPtr xml) const;
+/*!
+@param xml the xmlDoc used for clipboard operations.
+
+Saves the currently selected text. This method is used by
+the framework when editing the textual object.
+@return the xmlNode containing the serialized selection.
+*/
 	xmlNodePtr SaveSelection (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr);
 	bool LoadSelection (xmlNodePtr node, unsigned pos);

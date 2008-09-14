@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-09-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.92).
+	* libs/gcp/fragment.h: API documentation work.
+	* libs/gcp/text.h: ditto.
+	* programs/3d/application.cc: fixed color background from
+	command line.
+	* docs/help/3d/*: gchem3d help work.
+
 2008-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/Makefile.am: don't forget the glade file in the
 	tarball.

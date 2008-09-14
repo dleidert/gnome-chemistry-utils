@@ -9,6 +9,7 @@
 
 * 3d viewer:
 	* allow selection of atoms and or bonds, and display or lengths and angles (0.12).
+	* add a preferences dialog.
 
 * Mozilla plugin:
 	* implement printing (?).
@@ -26,21 +27,23 @@
 	* New tools:
 		- delocalized bonds (?),
 		- week interactions (e.g. H-bonds) (?),
-		- curved arrows (in mechanisms) (0.12).
+		- curved arrows (in mechanisms) (0.12?).
 		- curved reaction arrows and Tollman's loops (?),
 		- cluster bonds (as in boranes) (?),
 		- electron vacancies (?).
-	* Multi-steps reactions (0.10?).
+	* Multi-steps reactions (0.12?).
 	* Scriptability (?).
-	* Enhance selection (0.10?).
-	* Add abbreviations in fragments (0.10).
-	* Enhance fragments (0.10).
+	* Enhance selection (0.12?).
+	* Enhance fragments (0.12+).
 	* Change cursor according to situation (?).
-	* Allow associating various objects with reaction arrows (0.10).
+	* Allow associating several objects with reaction arrows (0.12?).
 
 * Goffice component:
 	* support 3d structures (?).
-	* move to cairo based version (0.10).
+
+* Spectrum viewer:
+	* support FFT for FIDs.
+	* support inclusion of zoomed partials.
 
 * Library:
 	* provide clipboard support at the Application level (?).
