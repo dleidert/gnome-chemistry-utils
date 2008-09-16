@@ -670,7 +670,7 @@ static const char *ui_description =
 "      <menuitem action='Guess'/>"
 "      <menuitem action='Atom'/>"
 "      <menuitem action='Residue'/>"
-"      <menuitem action='Ask'/>"
+//"      <menuitem action='Ask'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"

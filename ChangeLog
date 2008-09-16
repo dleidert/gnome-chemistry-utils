@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-09-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/calc/gchemcalc.cc: inhibiut the Ask option which is not
+	implemented yet.
+	* programs/crystal/gcrystal.schemas.in: removed a localized string.
+
 2008-09-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.9.92).
 	* libs/gcp/fragment.h: API documentation work.
