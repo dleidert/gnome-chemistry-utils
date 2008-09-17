@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/dialog.cc: do not set the application as default owner.
+
 2008-09-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/calc/gchemcalc.cc: inhibiut the Ask option which is not
 	implemented yet.

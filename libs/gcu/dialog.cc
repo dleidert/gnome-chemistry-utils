@@ -62,11 +62,11 @@ static bool on_destroy (GtkWidget *widget, Dialog* pBox)
 Dialog::Dialog (Application* App, const char* filename, const char* windowname, DialogOwner *owner, void (*extra_destroy)(gpointer), gpointer data)
 {
 	m_App = App;
-	m_Owner = NULL;
-	if (!owner)
-		owner = App;
+	m_Owner = owner;
 	if (owner && !owner->AddDialog (windowname, this)) {
 		xml = NULL;
+		dialog = NULL;
+		m_extra_destroy = NULL;
 		return;
 	}
 	m_Owner = owner;
@@ -92,8 +92,12 @@ Dialog::Dialog (Application* App, const char* filename, const char* windowname, 
 			else
 				gtk_widget_hide (button);
 		}
-	} else
+	} else {
 		xml = NULL;
+		dialog = NULL;
+		m_extra_destroy = NULL;
+		m_windowname = "";
+	}
 }
 
 Dialog::~Dialog()
