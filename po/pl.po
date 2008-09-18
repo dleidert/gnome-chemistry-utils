@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-14 16:25+0200\n"
-"PO-Revision-Date: 2008-09-15 16:38+0200\n"
+"PO-Revision-Date: 2008-09-18 11:30+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -280,7 +280,7 @@ msgstr "Zmień rodzaj papieru"
 
 #: ../glade/print-setup.glade.h:9
 msgid "Configure"
-msgstr ""
+msgstr "Konfiguruj"
 
 #: ../glade/print-setup.glade.h:10
 msgid "Fi_rst page number:"
@@ -2842,11 +2842,11 @@ msgstr "Całka"
 
 #: ../libs/gcu/spectrumdoc.cc:2068
 msgid "Real transformed data"
-msgstr ""
+msgstr "Rzeczywiste dane transformowane"
 
 #: ../libs/gcu/spectrumdoc.cc:2085
 msgid "Imaginary transformed data"
-msgstr ""
+msgstr "Urojone dane transformowane"
 
 #: ../libs/gcu/spectrumview.cc:80
 msgid "Minimum X value:"
@@ -3243,7 +3243,7 @@ msgstr "Dodaj pierścień"
 
 #: ../plugins/paint/residues/plugin.cc:104
 msgid "_Edit residues..."
-msgstr ""
+msgstr "_Edytuj reszty..."
 
 #: ../plugins/paint/residues/plugin.cc:105
 msgid "Create new abbreviations"
@@ -3254,9 +3254,8 @@ msgid "Please, provide only one molecule."
 msgstr "Proszę podać tylko jedną cząsteczkę."
 
 #: ../plugins/paint/residues/residues-dlg.cc:232
-#, fuzzy
 msgid "Please, provide a name for the residue"
-msgstr "Proszę wprowadzić obiekt."
+msgstr "Proszę nadać nazwę reszcie"
 
 #. Symbols longer than 8 chars are not currently allowed
 #: ../plugins/paint/residues/residues-dlg.cc:250
@@ -3267,12 +3266,11 @@ msgstr "Symbole zawierające więcej niż osiem znaków nie są dozwolone."
 #: ../plugins/paint/residues/residues-dlg.cc:401
 #: ../plugins/paint/residues/residues.glade.h:3
 msgid "New"
-msgstr ""
+msgstr "Nowa"
 
 #: ../plugins/paint/residues/residues-dlg.cc:256
-#, fuzzy
 msgid "\"New\" is not a valid symbol"
-msgstr "Nieprawidłowy symbol."
+msgstr "\"New\" nie jest poprawnym symbolem"
 
 #: ../plugins/paint/residues/residues-dlg.cc:265
 msgid "Please provide at least one symbol"
@@ -3281,7 +3279,7 @@ msgstr "Proszę podać co najmniej jeden symbol"
 #: ../plugins/paint/residues/residues-dlg.cc:275
 #, c-format
 msgid "%s is already used by another residue."
-msgstr ""
+msgstr "%s jest już używane przez inną resztę."
 
 #: ../plugins/paint/residues/residues-dlg.cc:287
 msgid ""
@@ -3301,15 +3299,15 @@ msgstr "Tożsamość"
 
 #: ../plugins/paint/residues/residues.glade.h:4
 msgid "Residues"
-msgstr ""
+msgstr "Reszty"
 
 #: ../plugins/paint/residues/residues.glade.h:5
 msgid "_Generic"
-msgstr ""
+msgstr "_Ogólna"
 
 #: ../plugins/paint/residues/residues.glade.h:7
 msgid "_Symbol(s):"
-msgstr ""
+msgstr "_Symbol(e):"
 
 #: ../plugins/paint/residues/residues.glade.h:8
 msgid "gtk-delete"
@@ -3718,13 +3716,12 @@ msgid "Interpreting ambiguous symbols as atoms"
 msgstr "Interpretuj niejednoznaczne symbole jako atomy"
 
 #: ../programs/calc/gchemcalc.cc:646
-#, fuzzy
 msgid "_Nickname"
-msgstr "_Nazwa"
+msgstr "_Określenie"
 
 #: ../programs/calc/gchemcalc.cc:647
 msgid "Interpret ambiguous symbols as atoms groups nicknames"
-msgstr ""
+msgstr "Interpretuj niejednoznaczne symbole jako określenia grup"
 
 #: ../programs/calc/gchemcalc.cc:649
 msgid "As_k"
