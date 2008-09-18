@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-09-18  Julian Sikorski  <belegdol@gmail.com>
+	* plugins/paint/residues/residues.glade: worked around "Name" translation problem.
+
 2008-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/dialog.cc: do not set the application as default owner.
 
