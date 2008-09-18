@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-14 16:25+0200\n"
-"PO-Revision-Date: 2008-09-18 11:30+0200\n"
+"PO-Revision-Date: 2008-09-18 11:37+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@lists.kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -919,7 +919,7 @@ msgstr "_Długość:"
 
 #: ../glade/paint/preferences.glade.h:30
 msgid "N_ame:"
-msgstr "Imię i _nazwisko:"
+msgstr "_Nazwa:"
 
 #: ../glade/paint/preferences.glade.h:31
 msgid "Padding added at each end of an arrow (in pixels)."
