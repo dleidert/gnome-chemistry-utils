@@ -127,7 +127,7 @@
 		</releaseinfo>
 	 <legalnotice> 
 		<title>Feedback</title>
-		<para>To report a bug or make a suggestion regarding the &app; application or
+		<para>To report a bug or make a suggestion regarding the <application>&app;</application> application or
 		this manual, go to the
 		<ulink url="http://savannah.nongnu.org/projects/gchempaint" type="html"><application>&app;</application> home page</ulink>. 
       </para>
@@ -441,6 +441,52 @@
 		</variablelist>
 		<para>Dates are created automatically and saved with the file. The other fields are optionnal
 		and are saved only if they are not empty.</para>
+	</sect1>
+<!-- ============= To Print a File============================== -->
+	<sect1 id="gchempaint-print">
+		<title>To Print the Document</title>
+		  <para>To print a document, choose 
+		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
+			 </menuchoice>.</para>
+		 <para><menuchoice> <guimenu>File</guimenu> <guimenuitem>Preview</guimenuitem>
+			 </menuchoice> opens a window with a preview of the printed output.</para>
+		<para>To tune the printed output, choose<menuchoice>
+		<guimenu>File</guimenu> <guimenuitem>Page setup...</guimenuitem>
+		 </menuchoice> as explained below.</para>
+		<sect2 id="gchempaint-print-setup">
+		  <title>The page setup dialog.</title>
+		  <para>the first tab of the dialog concerns the paper and margins setup.
+		  Headers and footers are not supported in the version of <application>&app;</application></para>
+		  <figure id="gchempaint-page-setup"> 
+			<title>The Page Setup tab.</title>
+			<screenshot> 
+			  <mediaobject>
+				<imageobject>
+				  <objectinfo> <abstract><para>Screenshot of page setup dialog.</para></abstract>
+				  </objectinfo> 
+				  <imagedata fileref="figures/page-setup.png"/>
+				</imageobject>
+			  </mediaobject>
+			</screenshot>
+		  </figure>
+		  <para>The second tab allows you tio choose the scale of the output. With  no scaling or
+		  scaling at 100%, the output will have the same size in points as the size in pixels on
+		  the screen. If you choose automatic scaling, you can make the output fill the available
+		  space either horizontally, vertically, or both (none of the options is equivalent to no scaling).</para>
+		  <para>Printing to more than one page is not supported in this version of <application>&app;</application></para>
+		  <figure id="gchempaint-print-scale"> 
+			<title>The Print Scale tab.</title>
+			<screenshot> 
+			  <mediaobject>
+				 <imageobject>
+					<objectinfo> <abstract><para>Screenshot of the printing scale page.</para></abstract>
+					</objectinfo> 
+					<imagedata fileref="figures/print-scale.png"/>
+				 </imageobject>
+			  </mediaobject>
+			</screenshot>
+		  </figure>
+	  </sect2>
 	</sect1>
 <!-- ============= To Save a File as an Image============================== -->
 	 <sect1 id="gchempaint-export-image"> 
@@ -842,7 +888,7 @@
 		  <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Undo</guimenuitem>
 			 </menuchoice>. To redo an change, choose 
 		  <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Redo</guimenuitem>
-			 </menuchoice>. The number of previous changes that you can undo is unlimited in &app;</para>
+			 </menuchoice>. The number of previous changes that you can undo is unlimited in <application>&app;</application></para>
 		<para>If you are editing a text or a fragment, you can undo/redo each change done since
 		the begin of your edition operation. If you end the edition of such an object, you can only undo
 		or redo the whole edition operation.</para>
@@ -1138,9 +1184,9 @@
 <!-- ============= Residues ================ -->
 	<sect1 id="gchempaint-residues">
 		<title>To Manage Residues</title>
-		<para>In &app;, Residues are atoms groups with a symbol, such as Ph for phenyl. &app;
+		<para>In <application>&app;</application>, Residues are atoms groups with a symbol, such as Ph for phenyl. <application>&app;</application>
 		comes with a list of predefined group symbols, but you can define new residues in needed. When
-		importing a file with unknown symbols, either a &app; file, or a ChemDraw® file,
+		importing a file with unknown symbols, either a <application>&app;</application> file, or a ChemDraw® file,
 		new symobls are added to the user define symbols list.</para>
         <para>To define a new symbol, choose <menuchoice>
 		<guimenuitem>Tools/Edit residues...</guimenuitem></menuchoice>, the following dialog
@@ -1189,7 +1235,7 @@
 			  </screenshot>
 		  </figure>
 		<para>The bullet represents the attachment point of th residue. It is linked to the first atom
-		by a single bond. Multiple bonds are not allowed in this version of &app;.</para>
+		by a single bond. Multiple bonds are not allowed in this version of <application>&app;</application>.</para>
 		<para>When you want to create a new residue, you might first select an existing one
 		with a similar structure. When you select "New" in the list, the structure is conserved.
 		When the dialog box is created, the default structure is a methyl. For generic residues
@@ -1908,7 +1954,7 @@
 	<sect1 id="gchempaint-reaction-prop">
 		<title>To Attach an Object to a Reaction Arrow</title>
 		<para>Objects such as text and molecules can be attached to reaction arrows to give more
-		information about the reaction. In the current version of &app;, only one object can
+		information about the reaction. In the current version of <application>&app;</application>, only one object can
 		be attached to a given reaction arrow. Attaching the object to the arrow ensures
 		that the object will be correctly aligned, and the arrow length is lrge enough.</para>
 		<para>To attach an object to a reaction arrow, fiorst select the object.</para>
@@ -2039,7 +2085,7 @@
 				</mediaobject>
 			</screenshot>
 		</informalfigure>
-		<para>Now, edit the stoichiometry coefficient. In the current version, &app; does not
+		<para>Now, edit the stoichiometry coefficient. In the current version, <application>&app;</application> does not
 		check what you type, but future versions might analyze and reject incorrect texts.</para>
 		<informalfigure id="gchempaint-reaction5"> 
 		  <screenshot> 
@@ -2178,7 +2224,7 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
-		<para>If &app; is unable to build a retrosynthesis path from the selected objects,
+		<para>If <application>&app;</application> is unable to build a retrosynthesis path from the selected objects,
 		an error message is displayed.</para>
 		<para>There are some limitations to what is supported currently :</para>
 		<itemizedlist> 

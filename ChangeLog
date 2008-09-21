@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-09-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/stringdlg.cc: use "SMILES" instead of "Smiles".
+	* docs/help/*: applications documentation work.
+
 2008-09-18  Julian Sikorski  <belegdol@gmail.com>
 	* plugins/paint/residues/residues.glade: worked around "Name" translation problem.
 

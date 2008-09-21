@@ -91,7 +91,7 @@
 		</releaseinfo>
 	 <legalnotice> 
 		<title>Feedback</title>
-		<para>To report a bug or make a suggestion regarding the &app; application or
+		<para>To report a bug or make a suggestion regarding the <application>&app;</application> application or
 		this manual, go to the
 		<ulink url="http://savannah.nongnu.org/projects/gchemutils" type="html"><application>&app;</application> home page</ulink>. 
       </para>
@@ -235,9 +235,17 @@
 		when printing.</para>
 		<para>You might want to <link linkend="gchem3d-background">
 		change the background color</link> before printing.</para>
+		 <para><menuchoice> <guimenu>File</guimenu> <guimenuitem>Preview</guimenuitem>
+			 </menuchoice> opens a window with a preview of the printed output.</para>
+		<para>To tune the printed output, choose<menuchoice>
+		<guimenu>File</guimenu> <guimenuitem>Page setup...</guimenuitem>
+		 </menuchoice> as explained below.</para>
 		<sect2 id="gchem3d-print-setup">
+		  <title>The page setup dialog.</title>
+		  <para>the first tab of the dialog concerns the paper and margins setup.
+		  Headers and footers are not supported in the version of <application>&app;</application></para>
 		  <figure id="gchem3d-page-setup"> 
-			<title>The Page Setup dialog.</title>
+			<title>The Page Setup tab.</title>
 			<screenshot> 
 			  <mediaobject>
 				<imageobject>
@@ -248,8 +256,13 @@
 			  </mediaobject>
 			</screenshot>
 		  </figure>
+		  <para>The second tab allows you tio choose the scale of the output. With  no scaling or
+		  scaling at 100%, the output will have the same size in points as the size in pixels on
+		  the screen. If you choose automatic scaling, you can make the output fill the available
+		  space either horizontally, vertically, or both (none of the options is equivalent to no scaling).</para>
+		  <para>Printing to more than one page is not supported in this version of <application>&app;</application></para>
 		  <figure id="gchem3d-print-scale"> 
-			<title>The Print Scale page.</title>
+			<title>The Print Scale tab.</title>
 			<screenshot> 
 			  <mediaobject>
 				 <imageobject>
@@ -323,7 +336,7 @@
 			 </menuchoice>.</para>
 		<para>The model can also be selected from the command line:
 		<command>gchem3d --display3d=cylinders</command> or <command>gchem3d -d cylinders</command>
-		will open &app; with the cylinders model active. The other models are entered as
+		will open <application>&app;</application> with the cylinders model active. The other models are entered as
 		ball&amp;stick, spacefill, and wireframe.</para>
 		<para>You can also change the orientation. Just click somewhere in
 		the view and drag the mouse until you get the wanted orientation.</para>
@@ -336,7 +349,7 @@
 			 choose a custom color.</para>
 		<para>The background color can also be selected from the command line:</para>
 		<command>gchem3d --bgcolor=white</command> or <command>gchem3d -b white</command>
-		will open &app; with a white background in windows. Recognized strings are black (the default),
+		will open <application>&app;</application> with a white background in windows. Recognized strings are black (the default),
 		white, and #rrggbb where r, g, and b are hexadecimal digits.
 	</sect1>
 	<sect1 id="gchem3d-question">
