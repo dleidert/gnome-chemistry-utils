@@ -60,15 +60,9 @@ void Plugin::LoadPlugins ()
 	}
 	g_dir_close (dir);
 	set<Plugin*>::iterator i = Plugins.begin (), end = Plugins.end ();
-	while (i != end)
-		(*i++)->AddRules ();
 }
 
 void Plugin::Populate (Application* App)
-{
-}
-
-void Plugin::AddRules ()
 {
 }
 

@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2008-09-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: use theme colors for tools icons.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/atom.h: API documentation work.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/mesomer.h: ditto.
+	* libs/gcp/mesomery-arrow.h: ditto.
+	* libs/gcp/mesomery.h: ditto.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/newfiledlg.h: ditto.
+	* libs/gcp/plugin.cc: ditto.
+	* libs/gcp/plugin.h: ditto.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/text.h: ditto.
+	* plugins/paint/*/*.png: use transparency instead of grey level
+
 2008-09-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/stringdlg.cc: use "SMILES" instead of "Smiles".
 	* docs/help/*: applications documentation work.

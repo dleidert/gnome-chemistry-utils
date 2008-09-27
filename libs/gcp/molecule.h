@@ -35,6 +35,8 @@ namespace gcp {
 
 class Bond;
 
+/*!\class Molecule gcp/molecule.h
+GChemPaint molecule class.*/
 class Molecule: public gcu::Molecule
 {
 public:

@@ -62,12 +62,31 @@ the framework when editing the textual object.
 	void Add (GtkWidget* w) const;
 	void Update (GtkWidget* w) const;
 	void SetSelected (GtkWidget* w, int state);
+/*!
+@param save whether the text should be saved for undo/redo operations.
+
+Called after any change in the text.
+*/
 	bool OnChanged (bool save);
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
 	bool OnEvent (GdkEvent *event);
 	void GetSize (double& x, double& y) {x = m_length; y = m_height;}
+/*!
+@return the y coordinate at half height of a carbon atom symbol if any was
+present at default size so that all texts and chemicalk symbols will have the
+same base line when aligned.
+*/
 	double GetYAlign ();
 	void SetText (char const *text) {m_buf = text;}
+/*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set properties for the fragment. This method supports
+GCU_PROP_POS2D, GCU_PROP_TEXT_MARKUP, GCU_PROP_TEXT_TEXT, GCU_PROP_TEXT_ALIGNMENT
+and GCU_PROP_TEXT_JUSTIFICATION.
+@return true if the property could be set, or if the property is not relevant, false otherwise.
+*/
 	bool SetProperty (unsigned property, char const *value);
 
 GCU_PROP (PangoAlignment, Align)

@@ -266,9 +266,7 @@ the maximum valence for the element.
 */
 	virtual bool AcceptCharge (int charge);
 /*!
-Used to retrieve the y coordinate for alignment. The default implementation returns 0.0 and
-every derived class for which alignment has a meaning should implement this method.
-@return y coordinate used for objects alignment.
+@return the y coordinate at half height of the atom symbol if it was carbon.
 */
 	virtual double GetYAlign ();
 /*!

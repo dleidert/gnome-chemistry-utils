@@ -1,3 +1,6 @@
+Version 0.9.92
+	* Ad theme support for tools icons. [#24382]
+
 Version 0.9.91
 	* Fixed compilation on ppc and other big endian machines.
 	* Downgraded intltool requirement to 0.37.1.

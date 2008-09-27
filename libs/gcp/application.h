@@ -496,6 +496,7 @@ private:
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	std::list<option_data> m_Options;
+	GtkStyle *m_Style;
 };
 
 }	// namespace gcp

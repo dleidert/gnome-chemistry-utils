@@ -4,7 +4,7 @@
  * GChemPaint libray
  * newfiledlg.h 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,18 +29,35 @@
 #include <gcu/macros.h>
 #include <gcu/object.h>
 
+/*!file*/
 namespace gcp {
 
 class Application;
 class Theme;
 
+/*!\class NewFileDlg gcp/newfiledlg.h
+The dialog class for creating new files with a given theme.*/
 class NewFileDlg: public gcu::Dialog, gcu::Object
 {
 public:
+/*!
+@param App the application which will own the new file.
+*/
 	NewFileDlg (Application *App);
+/*!
+The destructor.
+*/
 	virtual ~NewFileDlg ();
 
+/*!
+Called by the framework when the user validates its choice, and creates
+the new file.
+*/
 	bool Apply ();
+/*!
+Called by the framework when the theme names have changed, which might
+happen if the user edits the preference when this dialog is opened.
+*/
 	void OnThemeNamesChanged ();
 
 private:
@@ -48,6 +65,18 @@ private:
 	unsigned m_Lines;
 	gulong m_ChangedSignal;
 
+/*!\fn SetTheme(Theme* theme)
+@param theme the newly selected theme.
+
+Sets the selected theme when the selection in the list has changed. This
+method should not be called from elsewhere.
+*/
+/*!\fn GetTheme()
+@return the currently selected theme.
+*/
+/*!\fn GetRefTheme()
+@return the currently selected theme as a reference.
+*/
 GCU_PROP (Theme*, Theme)
 };
 

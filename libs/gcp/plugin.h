@@ -27,23 +27,49 @@
 
 #include <set>
 
+/*!\file*/
+
 namespace gcp {
 
 class Application;
 
+/*!\class Plugin gcp/plugin.h
+\brief Class for GChemPaint plugins.
+
+Every plugin should implement a new Plugin class derived from this one and
+create a unique static instance of the new class. The base class constructor
+will register the plugin.
+Such plugins are loaded on program startup.
+*/
 class Plugin
 {
 public:
+/*!
+The default constructor. Adds the new plugin to gcp::Plugins.
+*/
 	Plugin ();
+/*!
+The destructor.
+*/
 	virtual ~Plugin ();
 
+/*!
+Loads plugins from the GChemPaint plugin directory stored in the PLUGINSDIR
+variable.
+*/
 	static void LoadPlugins ();
-	virtual void Populate (Application* App);
+/*!
+@param App the GChemPaint application.
 
-protected:
-	virtual void AddRules ();
+Called by the framework so that the plugin can add new UI elements to the
+application.
+*/
+	virtual void Populate (Application* App);
 };
 
+/*!\var Plugins
+The set of registered plugins.
+*/
 extern std::set<Plugin*> Plugins;
 
 }	//	namespace gcp

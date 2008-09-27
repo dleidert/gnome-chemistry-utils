@@ -258,7 +258,7 @@ Brings the bond to front. It has an effect only for crossing bonds.
 @param property the property id as defined in objprops.h
 @param value the property value as a string
 
-Used when loading to set properties for the bond. this method supports
+Used when loading to set properties for the bond. This method supports
 GCU_PROP_BOND_TYPE and calls gcu::Bond::SetProperty() for other properties.
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */

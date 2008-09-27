@@ -33,26 +33,77 @@ class ReactionStep;
 class Reaction;
 class ReactionProp;
 
+/*!\class ReactionArrow gcp/reaction-arrow.h
+Arrow class for double headed arrows used in mesomery relationships.*/
 class ReactionArrow: public Arrow
 {
 public:
+/*!
+*/
 	ReactionArrow (Reaction* react, unsigned Type = SimpleArrow);
+/*!
+The destructor.
+*/
 	virtual ~ReactionArrow ();
-	
+
+/*!
+@param xml the xmlDoc used to save the document.
+
+Used to save the arrow to the xmlDoc.
+@return the xmlNode containing the serialized arrow.
+*/
 	xmlNodePtr Save (xmlDocPtr xml) const;
-	bool Load (xmlNodePtr);
+/*!
+@param node: a pointer to the xmlNode containing the serialized arrow.
+
+Used to load an arrow in memory.
+@return true on succes, false otherwise.
+*/
+	bool Load (xmlNodePtr node);
+/*!
+@param w the GtkWidget inside which the arrow will be displayed.
+
+Used to add a representation of the arrow in the widget.
+*/
 	void Add (GtkWidget* w) const;
+/*!
+@param w the GtkWidget inside which the arrow is displayed.
+
+Used to update the representation of the arrow in the widget.
+*/
 	void Update (GtkWidget* w) const;
+/*!
+*/
 	void SetStartStep (ReactionStep *Step) {m_Start = Step;}
+/*!
+*/
 	ReactionStep* GetStartStep () {return m_Start;}
+/*!
+*/
 	void SetEndStep (ReactionStep *Step) {m_End = Step;}
+/*!
+*/
 	ReactionStep* GetEndStep () {return m_End;}
+/*!
+*/
 	void RemoveStep (ReactionStep *Step);
+/*!
+*/
 	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+/*!
+*/
 	void Move (double x, double y, double z = 0);
+/*!
+*/
 	void SetSelected (GtkWidget* w, int state);
+/*!
+*/
 	void AddProp (gcu::Object *object);
+/*!
+*/
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+/*!
+*/
 	bool SetProperty (unsigned property, char const *value);
 
 private:
