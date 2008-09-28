@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/*: updated Gnome Crystal help.
+	* libs/gcp/reactant.h: API documentation work.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-operator.h: ditto.
+	* libs/gcp/reaction-prop-dlg.h: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* libs/gcp/reaction-step.h: ditto.
+	* libs/gcp/reaction.h: ditto.
+
 2008-09-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: use theme colors for tools icons.
 	* libs/gcp/application.h: ditto.
@@ -15,7 +25,7 @@
 	* libs/gcp/plugin.h: ditto.
 	* libs/gcp/reaction-arrow.h: ditto.
 	* libs/gcp/text.h: ditto.
-	* plugins/paint/*/*.png: use transparency instead of grey level
+	* plugins/paint/*/*.png: use transparency instead of grey level. [#24382]
 
 2008-09-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/stringdlg.cc: use "SMILES" instead of "Smiles".

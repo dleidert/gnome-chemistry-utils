@@ -2364,7 +2364,7 @@
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
 		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchempaint-main@nongnu.org">GChemPaint
 		mailing list</ulink>.</para>
-		<para>Another way to get some help is to connect on the #gchemutils channel
+		<para>Another way to get some help is to connect on the <ulink url="irc://irc.gimp.net/gchemutils">#gchemutils channel</ulink>
 		at irc.gimp.net and ask your question there (if you are not alone on the channel).</para>
 	</sect1>
 	<sect1 id="gchempaint-web">

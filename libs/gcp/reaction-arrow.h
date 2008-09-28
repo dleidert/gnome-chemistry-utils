@@ -34,7 +34,7 @@ class Reaction;
 class ReactionProp;
 
 /*!\class ReactionArrow gcp/reaction-arrow.h
-Arrow class for double headed arrows used in mesomery relationships.*/
+Arrow class for arrows used in chemical reactions.*/
 class ReactionArrow: public Arrow
 {
 public:
@@ -73,36 +73,85 @@ Used to update the representation of the arrow in the widget.
 */
 	void Update (GtkWidget* w) const;
 /*!
+@param Step the reaction step before the reaction
+
+Sets the initial reaction step.
 */
 	void SetStartStep (ReactionStep *Step) {m_Start = Step;}
 /*!
+@return the initial reaction step.
 */
 	ReactionStep* GetStartStep () {return m_Start;}
 /*!
+@param Step the reaction step after the reaction
+
+Sets the final reaction step.
 */
 	void SetEndStep (ReactionStep *Step) {m_End = Step;}
 /*!
+@return the final reaction step.
 */
 	ReactionStep* GetEndStep () {return m_End;}
 /*!
+@param Step the reaction step to remove from the reaction
+
+Removes the reaction step, which might be either the initial or final step.
+If it not one of these, nothing is done.
 */
 	void RemoveStep (ReactionStep *Step);
 /*!
+@param UIManager the GtkUIManager to populate.
+@param object the Object on which occured the mouse click.
+@param x x coordinate of the mouse click.
+@param y y coordinate of the mouse click.
+
+This method is called to build a contextual menu for the arrow.
+@return true if something is added to the UIManager, false otherwise.
 */
 	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
 /*!
+@param x the x component of the transation vector.
+@param y the y component of the transation vector.
+@param z the z component of the transation vector.
+
+Used to move a reaction arrow. It will also move the objects attached to the
+arrow if any.
 */
 	void Move (double x, double y, double z = 0);
 /*!
+@param w: the GtkWidget inside which the arrow is displayed.
+@param state: the selection state of the arrow.
+
+Used to set the selection state of the arrow inside the widget.
+The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
+gcp::SelStateUpdating, or gcp::SelStateErasing. Children will be selected too.
 */
 	void SetSelected (GtkWidget* w, int state);
 /*!
+@param object the object to attach to the arrow
+
+Attach an object to the arrow and pops up the reaction property dialog box.
 */
 	void AddProp (gcu::Object *object);
 /*!
+@param Signal the appropriate SignalId
+@param Child the child which emitted the signal or NULL
+
+This function is called by the framework when a signal has been emitted for
+the arrow, such as when an attached object size changed.
+It should not be called by a program; call Object::EmitSignal instead.
+
+@return true if the signal should be propagated to the parent, false otherwise.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 /*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set common properties to arrows. Only one property is
+currently supported: gcu::GCU_PROP_REACTION_ARROW_TYPE.
+@return true if the property could be set, or if the property is not relevant,
+false otherwise.
 */
 	bool SetProperty (unsigned property, char const *value);
 
