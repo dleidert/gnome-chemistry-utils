@@ -257,19 +257,19 @@
 		a praseodymium atom or a propyl group. Three options are available in the
 		<menuchoice> <guimenu>Mode</guimenu></menuchoice> menu:</para>
 		<variablelist>
-    	  <varlistentry>
-			<listitem><para><guimenuitem>Guess</guimenuitem>: <application>&app;</application> try to guess if the symbol
+    	  <varlistentry> <term>Guess</term> 
+			<listitem><para><application>&app;</application> try to guess if the symbol
 			represents an atom or a group, PrCl is analyzed as propyl chloride, while PrCl<subscript>3</subscript>
 			is praseodymium chloride; however, this method might fail in some cases such as
 			PrPr<subscript>3</subscript> which will not be recognized as trypropylpraseodymium, at least
 			with this version of <application>&app;</application>.</para></listitem>
 		  </varlistentry>
-		  <varlistentry>
-			<listitem><para><guimenuitem>Atom</guimenuitem>: ambiguous symbols are interpreted
+		  <varlistentry> <term>Atom</term>
+			<listitem><para>Ambiguous symbols are interpreted
 			as atoms.</para></listitem>
 		  </varlistentry>
-		  <varlistentry>
-			<listitem><para><guimenuitem>Nickname</guimenuitem>: ambiguous symbols are interpreted
+		  <varlistentry> <term>Nickname</term>
+			<listitem><para>Ambiguous symbols are interpreted
 			as groups.</para></listitem>
 		  </varlistentry>
 		</variablelist>

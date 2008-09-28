@@ -1,7 +1,10 @@
 ##Text encoding: utf-8
 
 2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
-	* docs/help/crystal/3d/C/gchem3d.xml: fixed typo which made it fail
+	* docs/help/calc/C/gchemcalc.xml: added missing tags.
+
+2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/C/gchem3d.xml: fixed typo which made it fail
 	validation.
 
 2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
