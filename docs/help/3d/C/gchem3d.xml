@@ -347,10 +347,10 @@
 		  <menuchoice> <guimenu>View</guimenu> <guimenuitem>Background color</guimenuitem>
 			 </menuchoice> and select the appropriate color in the palette, or
 			 choose a custom color.</para>
-		<para>The background color can also be selected from the command line:</para>
+		<para>The background color can also be selected from the command line:
 		<command>gchem3d --bgcolor=white</command> or <command>gchem3d -b white</command>
 		will open <application>&app;</application> with a white background in windows. Recognized strings are black (the default),
-		white, and #rrggbb where r, g, and b are hexadecimal digits.
+		white, and #rrggbb where r, g, and b are hexadecimal digits.</para>
 	</sect1>
 	<sect1 id="gchem3d-question">
 		<title>To Ask a Question</title>
