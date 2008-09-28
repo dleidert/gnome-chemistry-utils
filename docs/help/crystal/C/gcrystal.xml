@@ -242,7 +242,7 @@
  <chapter id="gcrystal-usage">
     <title>General operations</title>
 <!-- ============= To Create a New File ======================== -->
-	 <sect1 id="gnome-crystal-create-new-file"> 
+	 <sect1 id="gcrystal-create-new-file"> 
 		<title>To Create a New File</title>
 		<para>To create a new file, choose 
 		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>
@@ -291,7 +291,7 @@
 			by the X server. As the printer resolution is much larger than the screen resolution and the buffer used has the same size as the view, the
 			scene is splitted in as many parts as necessary to build the whole image sent to the printer. The resolution used for printing can be
 			changed in the Settings Dialog choose <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Preferences</guimenuitem>
-			 </menuchoice>. The Preferences dialog box opens (see <xref linkend="gnome-crystal-prefs"/>). Printing can be a lengthy operation
+			 </menuchoice>. The Preferences dialog box opens (see <xref linkend="gcrystal-prefs"/>). Printing can be a lengthy operation
 			even with a 300 dpi resolution; higher resolutions might be unpracticable.</para>
 	 <para><menuchoice> <guimenu>File</guimenu> <guimenuitem>Preview</guimenuitem>
 		 </menuchoice> opens a window with a preview of the printed output.</para>
@@ -469,10 +469,10 @@
 		A scaling factor can be applied to the radius so that the diplayed atom might appear
 		smaller. Acceptable scaling factors are from 1% to 100%.
 	   </para>
+	   <para>
 		Changes to the radius can apply to only the currently selected atom, all atoms of the current element
 		or all atoms, at least when an appropriate radius can be found according to the selected
 		item in the list.
-	   <para>
 	   </para>
 	  </listitem>
 	 </varlistentry>

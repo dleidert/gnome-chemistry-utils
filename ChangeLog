@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/C/gcrystal.xml: fixed validation.
+
+2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/calc/C/gchemcalc.xml: added missing tags.
 
 2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
