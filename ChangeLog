@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2008-10-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: removed unuseful SetSelected method.
+	* libs/gcp/molecule.h: API documentation work.
+	* libs/gcp/preferences.cc: made most pethos private and replace them
+	by a private friend class.
+	* libs/gcp/preferences.h: ditto.
+	* libs/gcp/reaction-prop.h: API documentation work.
+	* libs/gcp/settings.h: ditto.
+	* libs/gcp/stringdlg.h: ditto.
+	* libs/gcp/text.h: ditto.
+	* libs/gcp/tool.cc: ditto.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/object.h: ditto.
+
 2008-09-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.9.93).
 

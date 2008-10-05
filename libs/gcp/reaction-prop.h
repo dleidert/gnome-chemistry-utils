@@ -64,7 +64,7 @@ Values allowed for molecules are lower than this one
 */
 	REACTION_PROP_MAX_MOL,
 /*!
-Teperature
+Temperature
 */
 	REACTION_PROP_TEMPERATURE = REACTION_PROP_MAX_MOL,
 /*!

@@ -88,9 +88,9 @@ Multiplies all three coordinates of this Atom by ZoomFactor.
 */
 	void zoom (double ZoomFactor);
 /*!
-@param x a pointer to the double value which will receive the x coordiante of the Atom.
-@param y a pointer to the double value which will receive the y coordiante of the Atom.
-@param z a pointer to the double value which will receive the z coordiante of the Atom or NULL for 2D representations.
+@param x a pointer to the double value which will receive the x coordinate of the Atom.
+@param y a pointer to the double value which will receive the y coordinate of the Atom.
+@param z a pointer to the double value which will receive the z coordinate of the Atom or NULL for 2D representations.
 
 Retrieves the coordinates of this Atom.
 @return true if successful and false if an error occurs (if x or y is NULL).

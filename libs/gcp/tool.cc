@@ -42,7 +42,6 @@ Tool::Tool(Application *App, string Id)
 	m_pObject = NULL;
 	m_pItem = NULL;
 	m_bChanged = m_bPressed = false;
-	m_OptionDialog = NULL;
 	m_pData = NULL;
 }
 

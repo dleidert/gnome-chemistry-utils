@@ -452,16 +452,6 @@ void Molecule::Clear ()
 	m_Fragments.clear ();
 }
 
-void Molecule::SetSelected (GtkWidget* w, int state)
-{
-	map<string, Object*>::iterator i;
-	Object *child = GetFirstChild (i);
-	while (child) {
-		child->SetSelected (w, state);
-		child = GetNextChild (i);
-	}
-}
-
 void Molecule::Transform2D (Matrix2D& m, double x, double y)
 {
 	Object::Transform2D (m, x, y);

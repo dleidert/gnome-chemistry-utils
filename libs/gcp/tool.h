@@ -63,7 +63,7 @@ The destructor.
 @param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.
 
 This method is called by the framework when the tool is active and a click occurs. It initialize
-some members and the calls the virtual OnClicked() method.
+some members and then calls the virtual OnClicked() method.
 It might be called to simulate a click in some instances (e.g. from a contextual menu handler).
 
 @return true if the mouse drag and button release evens are significative for this tool
@@ -106,20 +106,17 @@ It calls OnRightButtonClicked(GtkUIManager*).
 */
 	bool OnRightButtonClicked (View* pView, gcu::Object* pObject, double x, double y, GtkUIManager *UIManager);
 /*!
+@param bState whether to activate or deactivate the tool.
+
+When \a bState is true, the tool is activated, otherwise it is deactivated.
+Activate() or Deactivate() is called for this instance.
+@return true on success, and false otherwise. Activation always succeeds. 
 */
 	bool Activate (bool bState);
 /*!
+@return the tool name.
 */
 	std::string& GetName () {return name;}
-/*!
-*/
-	virtual bool OnClicked ();
-/*!
-*/
-	virtual void OnDrag ();
-/*!
-*/
-	virtual void OnRelease ();
 /*!
 @param UIManager the GtkUIManager in use.
 
@@ -130,21 +127,39 @@ for which menu items exist must override this method.
 */
 	virtual bool OnRightButtonClicked (GtkUIManager *UIManager);
 /*!
+Virtual method called when the tool is activated.
+This method should be overriden for all tools which need some initialization
+when activated. Default does nothing.
 */
 	virtual void Activate ();
 /*!
+Virtual method called when the tool is deactivated.
+This method should be overriden for all tools which need some cleaning
+when deactivated. Default does nothing.
+return true on success, false otherwise.
 */
 	virtual bool Deactivate ();
 /*!
-*/
-	virtual void OnChangeState ();
-/*!
+@param code the state of the mofifier keys as given inthe state field or
+some GdkEvent derived structures.
+
+Called by the framework when a modifier key has been pressed, updates
+m_nState, and calls Tool::OnChangeState ().
 */
 	void OnKeyPressed (unsigned int code) {m_nState |= code; OnChangeState ();}
 /*!
+@param code the state of the mofifier keys as given inthe state field or
+some GdkEvent derived structures.
+
+Called by the framework when a modifier key has been released, updates
+m_nState, and calls Tool::OnChangeState ().
 */
 	void OnKeyReleased (unsigned int code) {if (m_nState & code) m_nState -= code; OnChangeState ();}
 /*!
+Called by the framework for the active tool when an event occurs. Default
+just returns \a false.
+
+@return true to stop any further propagation of the event, false otherwise.
 */
 	virtual bool OnEvent (GdkEvent* event);
 /*!
@@ -183,14 +198,44 @@ for which menu items exist must override this method.
 /*!
 */
 	virtual char const *GetHelpTag () {return "";}
-	
+
+protected:
+/*!
+Called from OnClicked(View*,gcu::Object*,double,doubl,unsigned int) when a
+click occured. This method must be overriden in
+derived classes, and return true if the drag and release events are meaningful
+for the tool in the current context. Default implementation does nothing and
+returns false.
+
+@return true if drag and release events are needed, false otherwise.
+*/
+	virtual bool OnClicked ();
+/*!
+Called from OnDrag(double,double,unsigned int) when a drag event occured
+occured. This method must be overriden in
+derived classes if drag events are meaningful for the tool.
+Default implementation does nothing.
+*/
+	virtual void OnDrag ();
+/*!
+Called from OnRelease(double,double,unsigned int) when a button release
+event occured. This method must be overriden in
+derived classes if button release events are meaningful for the tool.
+Default implementation does nothing.
+*/
+	virtual void OnRelease ();
+/*!
+Called when a modifier key has been pressed or released, and fires a drag
+event so that the tool can update things if necessary.
+*/
+	virtual void OnChangeState ();
+
 protected:
 	gdouble m_x0, m_y0, m_x1, m_y1, m_x, m_y;
 	gcu::Object *m_pObject;
 	gcu::Object *m_pObjectGroup;
 	View *m_pView;
 	WidgetData *m_pData;
-	gcu::Dialog *m_OptionDialog;
 	GtkWidget *m_pWidget;
 	GnomeCanvasGroup *m_pGroup;
 	GnomeCanvasItem *m_pItem;

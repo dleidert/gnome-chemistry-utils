@@ -39,17 +39,51 @@ Represents the dialog used to display the InChI or canonical SMILES of a molecul
 class StringDlg: public gcu::Dialog
 {
 public:
+/*!\enum data_type
+The string types supported by StringDlg. 
+*/
 	enum data_type {
+/*!
+SMILES representation of a molecule.
+*/
 		SMILES,
+/*!
+InChI of a molecule.
+*/
 		INCHI
 	};
+/*!
+@param pDoc the document owning the dialog.
+@param data the string to display.
+@param type the type of the data.
+
+Builds a dialog showing the string and display it. \a type is used to select
+an appropriate title for the dialog box.
+*/
 	StringDlg (Document *pDoc, std::string& data, enum data_type type);
+/*!
+The destructor.
+*/
 	virtual ~StringDlg ();
 	
-	virtual bool Apply ();
+/*!
+Called by the framework to save the string to a file upon user request.
+*/
+	bool Apply ();
+/*!
+Called by the framework when the user clicks the "Copy" button.
+*/
 	void Copy ();
+/*!
+@param clipboard the clipboard requesting the data.
+@param selection_data the GtkSelectionData to which the string should be copied.
+@param info the type of data requested. Unused since only ASCII strings are
+supported.
+
+Called by the framework to get the actual data for the clipboard.
+*/
 	void OnGetData (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info);
-	
+
 private:
 	enum data_type Type;
 	std::string Data;
