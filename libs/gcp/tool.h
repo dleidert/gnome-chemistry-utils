@@ -136,7 +136,7 @@ when activated. Default does nothing.
 Virtual method called when the tool is deactivated.
 This method should be overriden for all tools which need some cleaning
 when deactivated. Default does nothing.
-return true on success, false otherwise.
+@return true on success, false otherwise.
 */
 	virtual bool Deactivate ();
 /*!
@@ -163,39 +163,75 @@ just returns \a false.
 */
 	virtual bool OnEvent (GdkEvent* event);
 /*!
+Virtual method called by the framework whenthe active view, and hence the active
+document has changed, so that the tool can finish its current operation in the
+previously active document and update its options box according to
+the new active document settings.
+@return true to accept the document change, false if something went wrong and the
+active document should not change, as in the case of the fragment tool when
+the symbols entered can't be interpreted.
 */
 	virtual bool NotifyViewChange ();
 /*!
+Called by the framework to delete the selection. Tools for which it is meaningful
+must have an overriden version of this method.
 */
 	virtual bool DeleteSelection ();
 /*!
+Called by the framework to delete the selection. Tools for which it is meaningful
+must have an overriden version of this method.
 */
 	virtual bool CopySelection (GtkClipboard *clipboard);
 /*!
+Called by the framework to copy the selection. Tools for which it is meaningful
+must have an oveeriden version of this method.
 */
 	virtual bool CutSelection (GtkClipboard *clipboard);
 /*!
+Called by the framework to cut the selection. Tools for which it is meaningful
+must have an overriden version of this method.
 */
 	virtual bool PasteSelection (GtkClipboard *clipboard);
 /*!
+Called by the framework to paste data. Tools for which it is meaningful
+must have an overriden version of this method.
 */
 	virtual void AddSelection (WidgetData* data);
 /*!
+Called by the framework when clipboard data are available. Tools for which this
+is meaningful must have an overriden version of this method.
 */
 	virtual bool OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type);
 /*!
+Called by the framework when the user requests to undo the last change. Tools
+such as text editing tools for which this
+is meaningful must have an overriden version of this method.
 */
 	virtual bool OnUndo ();
 /*!
+Called by the framework when the user requests to redo the last undone change.
+Tools such as text editing tools for which this
+is meaningful must have an overriden version of this method.
 */
 	virtual bool OnRedo ();
 /*!
+@param node an xml node to push on the tools private undo stack.
+
+Used to store a node after a change while editing a text object by text tools.
 */
 	virtual void PushNode (xmlNodePtr node);
 /*!
+Gets the property page for the tool. Called the first time the tool becomes
+active.
+@return the new tool property page.
 */
 	virtual GtkWidget *GetPropertyPage ();
 /*!
+Gets the tag used to display the appropriate help topic when the user presses
+the help button in the tools box. The framework will prefix the result with
+the application name. The text tool in GChemPaint returns "text" which becomes
+"gchempaint-text".
+@return the help tag for the tool.
 */
 	virtual char const *GetHelpTag () {return "";}
 
@@ -231,19 +267,84 @@ event so that the tool can update things if necessary.
 	virtual void OnChangeState ();
 
 protected:
-	gdouble m_x0, m_y0, m_x1, m_y1, m_x, m_y;
+/*!
+x coordinate for the last mouse click (unless the tool modified it).
+*/
+	double m_x0;
+/*!
+y coordinate for the last mouse click (unless the tool modified it).
+*/
+	double m_y0;
+/*!
+x coordinate for the last mouse click (unless the tool modified it). It might
+be used by tools necessitating to pairs of coordinates.
+*/
+	double m_x1;
+/*!
+y coordinate for the last mouse click (unless the tool modified it). It might
+be used by tools necessitating to pairs of coordinates.
+*/
+	double m_y1;
+/*!
+The current x position of the mouse cursor.
+*/
+	double m_x;
+/*!
+The current y position of the mouse cursor.
+*/
+	double m_y;
+/*!
+The object on which the last click occured or NULL.
+*/
 	gcu::Object *m_pObject;
+/*!
+The group to which m_pObject belongs if any.
+*/
 	gcu::Object *m_pObjectGroup;
+/*!
+The active gcp::View.
+*/
 	View *m_pView;
+/*!
+The widget data for the current active canvas.
+*/
 	WidgetData *m_pData;
+/*!
+The active canvas widget.
+*/
 	GtkWidget *m_pWidget;
+/*!
+The root group in the active canvas.
+*/
 	GnomeCanvasGroup *m_pGroup;
+/*!
+The item on which the last click occured if any.
+*/
 	GnomeCanvasItem *m_pItem;
+/*!
+The canvas background.
+*/
 	GnomeCanvasItem *m_pBackground;
+/*!
+The zoom factor when the click occured.
+*/
 	double m_dZoomFactor;
-	bool m_bChanged, m_bPressed;
+/*!
+Flag that might be used by tools to store whether they changed something
+since the last click (and before releasing the button).
+*/
+	bool m_bChanged;
+/*!
+The state of modifier keys as a GdkModifierType values combination.
+*/
 	unsigned int m_nState;
+/*!
+The application owning the tool.
+*/
 	gcp::Application *m_pApp;
+/*!
+A set of modified objects tools might use to track what they did modify.
+*/
 	std::set<std::string> ModifiedObjects;
 /*!
 if true, the intended operation is allowed. Default value is true, each tool must set
@@ -254,6 +355,7 @@ this flag to false if necessary.
 private:
 	double lastx, lasty;
 	std::string name;
+	bool m_bPressed;
 };
 
 }	// namespace gcp

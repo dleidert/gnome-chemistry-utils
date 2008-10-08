@@ -128,11 +128,17 @@ gcp::SelStateUpdating, or gcp::SelStateErasing. Children will be selected too.
 */
 	void SetSelected (GtkWidget* w, int state);
 /*!
-@param object the object to attach to the arrow
+@param object the object to attach to the arrow.
 
 Attach an object to the arrow and pops up the reaction property dialog box.
 */
 	void AddProp (gcu::Object *object);
+/*!
+@param prop the attached property to position.
+
+Position an object at the right place near the arrow.
+*/
+	void PositionChild (ReactionProp *prop);
 /*!
 @param Signal the appropriate SignalId
 @param Child the child which emitted the signal or NULL

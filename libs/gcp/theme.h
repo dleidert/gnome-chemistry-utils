@@ -40,15 +40,37 @@
 #include <string>
 #include <set>
 
+/*!\file*/
+
 namespace gcp {
 
+/*!\enum ThemeType gcp/theme.h
+Enumerates the various storage classes for themes.
+*/
 typedef enum {
+/*!
+The default theme.
+*/
 	DEFAULT_THEME_TYPE,
+/*!
+A user defined theme which might be modified on the fly.
+*/
 	LOCAL_THEME_TYPE,
+/*!
+A global theme which can't be edited.
+*/
 	GLOBAL_THEME_TYPE,
+/*!
+A theme loaded from a data file. Such themes can be modified.
+*/
 	FILE_THEME_TYPE
 } ThemeType;
 
+/*!\class Theme gcp/theme.h
+\brief themes class.
+
+Represent an edition settings in GChemPaint.
+*/
 class Theme
 {
 friend class ThemeManager;
@@ -107,6 +129,12 @@ GCU_RO_PROP (gint, TextFontSize)
 GCU_RO_PROP (ThemeType, ThemeType);
 };
 
+/*!\class ThemeManager gcp/theme.h
+\brief themes engine class.
+
+Represent the themes set. Only one global object of this class exists
+in GChemPaint.
+*/
 class ThemeManager
 {
 public:
@@ -144,6 +172,9 @@ private:
 	Theme *m_DefaultTheme;
 };
 
+/*!
+The themes manager unique instance.
+*/
 extern ThemeManager TheThemeManager;
 
 }	//	namespace gcp

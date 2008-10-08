@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-10-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: update position and length when the
+	attached object changes.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/settings.h: API documentation work.
+	* libs/gcp/theme.h: ditto.
+	* libs/gcp/tool.h: ditto.
+
 2008-10-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: removed unuseful SetSelected method.
 	* libs/gcp/molecule.h: API documentation work.
