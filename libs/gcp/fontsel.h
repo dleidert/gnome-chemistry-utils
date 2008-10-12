@@ -52,6 +52,8 @@ GType gcp_font_sel_get_type (void);
 /*! \struct GcpFontSel gcp/fontsel.h
 The GcpFontSel Widget is a font chooser widget used in GChemPaint.
 
+\image html gcpfontsel.png
+
 <hr>
 <h2>Signals</h2>
 

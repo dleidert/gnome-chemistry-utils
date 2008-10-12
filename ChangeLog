@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-10-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Doxyfile.in: add an image path.
+	* libs/gcp/fontsel.h: add a screenshot to the documentation.
+	* libs/gcp/theme.h: API documentation work (done for 0.10).
+
 2008-10-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reaction-arrow.cc: update position and length when the
 	attached object changes.

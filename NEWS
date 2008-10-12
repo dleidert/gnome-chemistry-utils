@@ -1,3 +1,7 @@
+Version 0.9.93
+	* Completed API documentation for libgcu and libgchempaint.
+	* Enlarge arrows when an attached object grows.
+
 Version 0.9.92
 	* Add theme support for tools icons. [#24382]
 	* Updated GChem3d, GChemCalc, and Gnome Crystal help files.
