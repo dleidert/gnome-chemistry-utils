@@ -40,7 +40,7 @@ namespace gcu
 
 Atom::Atom (): Object (AtomType)
 {
-	m_Z = 0;
+	m_Z = -1;
 	m_x = m_y = m_z = 0.0;
 	m_Charge = 0;
 }

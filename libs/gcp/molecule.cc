@@ -505,6 +505,7 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 	action = gtk_action_new ("Molecule", _("Molecule"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
 	g_object_unref (action);
+	bool result = false;
 	if (!m_Fragments.size ()) {
 		if (((Document*) GetDocument ())->GetApplication ()->HaveGhemical ()) {
 			action = gtk_action_new ("ghemical", _("Export molecule to Ghemical"), NULL, NULL);
@@ -535,12 +536,13 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='smiles'/></menu></popup></ui>", -1, NULL);
+		action = gtk_action_new ("calc", _("Open in Calculator"), NULL, NULL);
+		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_open_in_calc), this);
+		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
+		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='calc'/></menu></popup></ui>", -1, NULL);
+		result = true;
 	}
-	action = gtk_action_new ("calc", _("Open in Calculator"), NULL, NULL);
-	g_signal_connect_swapped (action, "activate", G_CALLBACK (do_open_in_calc), this);
-	gtk_action_group_add_action (group, action);
-	g_object_unref (action);
-	gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='calc'/></menu></popup></ui>", -1, NULL);
 	if (m_Bonds.size ()) {
 		action = gtk_action_new ("select-align", _("Select alignment item"), NULL, NULL);
 		g_signal_connect (action, "activate", G_CALLBACK (do_select_alignment), this);
@@ -548,10 +550,11 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='select-align'/></menu></popup></ui>", -1, NULL);
+		result = true;
 	}
 	gtk_ui_manager_insert_action_group (UIManager, group, 0);
 	g_object_unref (group);
-	return Object::BuildContextualMenu (UIManager, object, x, y);
+	return result | Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
 void Molecule::ExportToGhemical ()
@@ -810,8 +813,7 @@ void Molecule::OpenCalc ()
 	list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
 	ostringstream ofs;
 	int nH;
-	// FIXME: the following line should be edited for stable releases
-	ofs << "gchemcalc-unstable ";
+	ofs << "gchemcalc-"API_VERSION" ";
 	for (ia = m_Atoms.begin(); ia != enda; ia++) {
 		ofs << (*ia)->GetSymbol();
 		nH = reinterpret_cast <Atom *> (*ia)->GetAttachedHydrogens ();

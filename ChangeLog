@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2008-10-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment-atom.cc: ensure symbol geometry is always
+	evaluated.
+	* libs/gcp/molecule.cc: fix contextual menu issues.
+	* libs/gcp/view.cc: enable selection of an atom even without a
+	visible item.
+	* libs/gcu/atom.cc: initalize Z a to -1. to avoid confusion with
+	pseudo-atoms.
+	* plugins/paint/bonds/bondtool.cc: enable merging with atoms even
+	without a visible item.
+	* plugins/paint/cycles/cycletool.cc: ditto.
+
 2008-10-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: add an image path.
 	* libs/gcp/fontsel.h: add a screenshot to the documentation.

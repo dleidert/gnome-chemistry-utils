@@ -1,6 +1,10 @@
 Version 0.9.93
-	* Completed API documentation for libgcu and libgchempaint.
-	* Enlarge arrows when an attached object grows.
+	GChemPaint
+		* Enlarge arrows when an attached object grows.
+		* Fixed molecule contextual menu issues.
+		* Fixed selection issues with atoms lacking a visible canvas item.
+	Other:
+		* Completed API documentation for libgcu and libgchempaint.
 
 Version 0.9.92
 	* Add theme support for tools icons. [#24382]

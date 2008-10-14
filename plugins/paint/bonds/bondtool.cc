@@ -323,6 +323,59 @@ void gcpBondTool::OnRelease ()
 	if (pItem)
 		pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
 	m_pAtom = NULL;
+	if (pObject == NULL) {
+		std::map<Object const*, GnomeCanvasGroup*>::iterator i = m_pData->Items.begin (),
+					end = m_pData->Items.end ();
+		gcp::Bond* pBond;
+		while (i != end) {
+			if ((*i).first->GetType () == gcu::BondType) {
+				pBond = (gcp::Bond*) (*i).first;
+				if (pBond->GetDist(m_x1 / pDoc->GetTheme ()->GetZoomFactor (), m_y1 / pDoc->GetTheme ()->GetZoomFactor ()) < (pDoc->GetTheme ()->GetPadding () + pDoc->GetTheme ()->GetBondWidth () / 2) / pDoc->GetTheme ()->GetZoomFactor ()) {
+					pItem = GNOME_CANVAS_ITEM ((*i).second);
+					m_pObject = pBond;
+					break;
+				} else {
+					// may be one of the atoms might work
+					gcu::Atom *pAtom = pBond->GetAtom (0);
+					double xa, ya;
+					pAtom->GetCoords (&xa, &ya, NULL);
+					xa *= pDoc->GetTheme ()->GetZoomFactor ();
+					ya *= pDoc->GetTheme ()->GetZoomFactor ();
+					xa =- m_x1;
+					ya -= m_y1;
+					if (sqrt (xa * xa + ya * ya) < 3.5) {
+						//3.5 is arbitrary
+						m_pObject = pAtom;
+						break;
+					}
+					pAtom = pBond->GetAtom (1);
+					pAtom->GetCoords (&xa, &ya, NULL);
+					xa *= pDoc->GetTheme ()->GetZoomFactor ();
+					ya *= pDoc->GetTheme ()->GetZoomFactor ();
+					xa =- m_x1;
+					ya -= m_y1;
+					if (sqrt (xa * xa + ya * ya) < 3.5) {
+						pObject = pAtom;
+						break;
+					}
+				}
+			} else if ((*i).first->GetType () == gcu::AtomType) {
+				double xa, ya;
+				gcu::Atom *pAtom = (gcu::Atom*) (*i).first;
+				pAtom->GetCoords (&xa, &ya, NULL);
+				xa *= pDoc->GetTheme ()->GetZoomFactor ();
+				ya *= pDoc->GetTheme ()->GetZoomFactor ();
+				xa -= m_x1;
+				ya -= m_y1;
+				if (sqrt (xa * xa + ya * ya) < 3.5) {
+					//3.5 is arbitrary
+					pObject = pAtom;
+					break;
+				}
+			}
+			i++;
+		}
+	}
 	if (gcp::MergeAtoms && pObject) {
 		if (pObject->GetType () == BondType)
 			m_pAtom = (gcp::Atom*) pObject->GetAtomAt (m_x1 / m_dZoomFactor, m_y1 / m_dZoomFactor);
