@@ -57,7 +57,7 @@ SpectrumDocument::SpectrumDocument ():
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
-	freq = offset = go_nan;
+	freq = offset = refpoint = go_nan;
 	gtk_page_setup_set_orientation (GetPageSetup (), GTK_PAGE_ORIENTATION_LANDSCAPE);
 	SetScaleType (GCU_PRINT_SCALE_AUTO);
 	SetHorizFit (true);
@@ -77,7 +77,7 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
-	freq = go_nan;
+	freq = offset = refpoint = go_nan;
 	gtk_page_setup_set_orientation (GetPageSetup (), GTK_PAGE_ORIENTATION_LANDSCAPE);
 	SetScaleType (GCU_PRINT_SCALE_AUTO);
 	SetHorizFit (true);
@@ -401,6 +401,7 @@ char const *Keys[] = {
 	"RELAXATIONTIMES",
 /* Brücker specific data */
 	"$OFFSET",
+	"$REFERENCEPOINT",
 	NULL
 };
 
@@ -530,6 +531,7 @@ enum {
 	JCAMP_COUPLING_CONSTANTS,
 	JCAMP_RELAXATION_TIMES,
 	BRUCKER_OFFSET,
+	VARIAN_OFFSET,
 	JCAMP_MAX_VALID
 };
 
@@ -1213,6 +1215,9 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 		case BRUCKER_OFFSET:
 			offset = strtod (buf, NULL);
 			break;
+		case VARIAN_OFFSET:
+			refpoint = strtod (buf, NULL);
+			break;
 		default:
 			break;
 		}
@@ -1239,6 +1244,24 @@ out:
 					x[i] += d;
 			} else {
 				double d = offset * freq - variables[X].Max;
+				maxx = variables[X].Max += d;
+				minx = variables[X].Min += d;
+				variables[X].First += d;
+				variables[X].Last += d;
+				for (i = 0; i < npoints; i++)
+					variables[X].Values[i] += d;
+			}
+		} else if (go_finite (refpoint)) {
+			unsigned i;
+			double d = -refpoint;
+			if (x) {
+				maxx += d;
+				minx += d;
+				firstx += d;
+				lastx += d;
+				for (i = 0; i < npoints; i++)
+					x[i] += d;
+			} else {
 				maxx = variables[X].Max += d;
 				minx = variables[X].Min += d;
 				variables[X].First += d;

@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-10-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcpapp.cc: fix embedded object height.
+	* libs/gcu/spectrumdoc.cc: fix the origin for varian nmr dx files.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* docs/help/spectra/C/figures/*: new screenshots.
+
 2008-10-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment-atom.cc: ensure symbol geometry is always
 	evaluated.
@@ -28,7 +34,7 @@
 2008-10-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: removed unuseful SetSelected method.
 	* libs/gcp/molecule.h: API documentation work.
-	* libs/gcp/preferences.cc: made most pethos private and replace them
+	* libs/gcp/preferences.cc: made most methods private and replace them
 	by a private friend class.
 	* libs/gcp/preferences.h: ditto.
 	* libs/gcp/reaction-prop.h: API documentation work.
