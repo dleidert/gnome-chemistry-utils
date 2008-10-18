@@ -291,7 +291,7 @@
 		  <title>The page setup dialog.</title>
 		  <para>the first tab of the dialog concerns the paper and margins setup.
 		  Headers and footers are not supported in the version of <application>&app;</application></para>
-		  <figure id="gchemcalct-page-setup"> 
+		  <figure id="gchemcalc-page-setup"> 
 			<title>The Page Setup tab.</title>
 			<screenshot> 
 			  <mediaobject>
@@ -322,6 +322,26 @@
 		  </figure>
 	  </sect2>
 	</sect1>
+<!-- ============= To Save as an Image============================== -->
+	<sect1 id="gchemcalc-save-as-image">
+		<title>Export the Isotopic Pattern as an Image.</title>
+		<para>To export the displayed isotopic pattern to an image, use 
+		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save As Image</guimenuitem>
+			 </menuchoice>.</para>
+		<para>Available formats are SVG, EPS, PS, PDF, and the formats with write support in
+		GdkPixbuf.</para>
+		<para>To choose a format, you can use an appropriate extension
+		in the file name, or explicitly select a format in the combo box.
+		With the first method, if <application>&app;</application> does
+		not recognize an extension, the exported file will be a SVG
+		file. <application>&app;</application> will add an extension
+		to the file name if needed.</para>
+		<para>You might change the default width and height of the exported image
+		using the appropriate entries.</para>
+		<para>Postscript and PDF files can also be produced using the
+		<link linkend="gchemcalc-print"><menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
+			 </menuchoice> command</link>.</para>
+	</sect1>
 	<sect1 id="gchemcalc-graph">
 		<title>Copying the Isotopic Pattern Graph.</title>
 		<para>To copy the isotopic pattern graph, choose
@@ -330,7 +350,7 @@
 		Abiword and as svg or png data to other applications which support such formats.</para>
 	</sect1>
 </chapter>
- <chapter id="gchempaint-support">
+ <chapter id="gchemcalc-support">
     <title>Support.</title>
 	<sect1 id="gchemcalc-question">
 		<title>To Ask a Question</title>

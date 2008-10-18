@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/calc/C/gchemcalc.xml: added more documentation.
+	* docs/help/calc/C/figures/uv-vis-tools.png: new screenshot.
+	* docs/help/spectra/C/gspectrum.xml: wrote documentation for 0.10.
+
 2008-10-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcpapp.cc: fix embedded object height.
 	* libs/gcu/spectrumdoc.cc: fix the origin for varian nmr dx files.

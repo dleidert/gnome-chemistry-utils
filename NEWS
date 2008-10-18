@@ -1,8 +1,15 @@
 Version 0.9.93
+	GChemCalc
+		* Updated the documentation.
 	GChemPaint
 		* Enlarge arrows when an attached object grows.
 		* Fixed molecule contextual menu issues.
 		* Fixed selection issues with atoms lacking a visible canvas item.
+	GSpectrum:
+		* Use reference point for varian nmr dx files.
+		* New documentation.
+	GOffice component:
+		* Set the object height.
 	Other:
 		* Completed API documentation for libgcu and libgchempaint.
 
