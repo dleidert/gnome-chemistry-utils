@@ -1,4 +1,7 @@
 ##Text encoding: utf-8
+	
+2008-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.99).
 
 2008-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/table/gchemtable-curve.cc: sets the application as owner for
