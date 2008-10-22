@@ -1,15 +1,16 @@
-2008-10-22  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* programs/table/gchemtable-curve.cc:
-	* programs/table/gchemtable-data.cc:
-
 ##Text encoding: utf-8
+
+2008-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-curve.cc: sets the application as owner for
+	the dialog (fixes a memory leak), and add help support to the graph guru.
+	* programs/table/gchemtable-data.cc: fix minimum and maximum for a series
+	when the first element is not a number.
+	* docs/help/table/C/gchemtable.xml: partially update documentation.
+	* docs/help/table/C/figures/*.png: new updated screenshots.
 
 2008-10-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/table/C/gchemtable.xml: partially update documentation.
-	* docs/help/table/C/figures/*.png: new  or updated screenshots.
+	* docs/help/table/C/figures/*.png: new or updated screenshots.
 	
 2008-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.9.94).
@@ -31,7 +32,7 @@
 	* libs/gcp/molecule.cc: fix contextual menu issues.
 	* libs/gcp/view.cc: enable selection of an atom even without a
 	visible item.
-	* libs/gcu/atom.cc: initalize Z a to -1. to avoid confusion with
+	* libs/gcu/atom.cc: initalize Z to -1. to avoid confusion with
 	pseudo-atoms.
 	* plugins/paint/bonds/bondtool.cc: enable merging with atoms even
 	without a visible item.
