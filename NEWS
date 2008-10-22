@@ -1,3 +1,10 @@
+Version 0.9.98
+	GChemTable
+		* Fixed display of data series with invalid values.
+		* Fixed various help related issues.
+		* Fixed a memory leak.
+		* Updated the documentation.
+
 Version 0.9.93
 	GChemCalc
 		* Updated the documentation.
