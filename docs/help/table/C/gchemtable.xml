@@ -235,11 +235,12 @@
 			</listitem>
 		  </varlistentry>
 		  <varlistentry> <term>Electronegativity</term> 
+			<listitem>
 			<para>The data used are the Pauling electronegativity as given in the
 			<ulink type="http" url="http://www.blueobelisk.org">Blue Obelisk</ulink> Data Repository.
 			Colors go from red (lowest electronegativity) to blue (highest electronegativity).
 			If no data is available in the database, the button will have a black background.</para>
-			 <listitem>
+
 				<figure id="gchemtable-electronegativity"> 
 				  <title>Electronegativity color scheme</title>
 				  <screenshot> 
@@ -275,9 +276,9 @@
 			 </listitem>
 		  </varlistentry>
 		  <varlistentry> <term>Block</term>
+			 <listitem>
 		     <para>Elements buttons are colored according to the block (s, p, d, or f)
 		     to which the element belongs</para>
-			 <listitem>
 				<figure id="gchemtable-block"> 
 				  <title>Block color scheme</title>
 				  <screenshot> 
@@ -373,7 +374,7 @@
 		of the element atomic number by clicking on the button.</para>
 	</sect1>
 </chapter>
-<chapter id="charts">
+<chapter id="gchemtable-curvedlg">
 	<title>Charts</title>
 	<sect1 id="gchemtable-pre-defined-chart">
 		<title>Pre-defined Charts</title>
@@ -397,9 +398,143 @@
 	</sect1>
 	<sect1 id="gchemtable-customize-curve">
 		<title>Customize Charts</title>
+		<para>To customize a chart, choose <menuchoice> <guimenu>File</guimenu>
+		<guimenuitem>Properies</guimenuitem></menuchoice> in the chart window menu.
+		The following dialog pops up:
+		</para>
+		<figure id="gchemtable-chart-guru"> 
+		  <title>Chart properties dialog.</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the chart properties dialog.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/graph-guru.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>The main elements in this dialog are:</para>
+		<variablelist> 
+		  <varlistentry> <term>The graph hierarchy tree.</term> 
+			 <listitem> 
+				<para>The graph hierarchy tree (top left) displays the current
+				graph components and their hierarchy. The hierarchy can be modified
+				using the buttons just below it.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>The graph preview.</term> 
+			 <listitem> 
+				<para>The graph preview (top right) shows the result of the modifications
+				and displays a scaled version of the graph you will get when you
+				validate the changes.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>The Add button.</term> 
+			 <listitem> 
+				<para>The <guibutton>Add</guibutton> button allows inserting new
+				components into the hierarchy. The list of available components
+				depends on the nature of the selected object.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>The arrow buttons.</term> 
+			 <listitem> 
+				<para>The arrow buttons can be used to modify the order of analog
+				children of the same parent. These buttons are sensitive when this
+				makes sense for the currently selected object. If you have, say, two
+				charts in the graph, you can change the order in the hierarchy,
+				and this will affect the order in which they are displayed.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>The Delete button.</term> 
+			 <listitem> 
+				<para>Clicking the <guibutton>Delete</guibutton> button destroys
+				the selected graph component and all its children. The button is
+				not sensitive when the component can't be removed.</para>
+				<warning><para>These deletions
+				can't be undone, so be prudent.</para></warning>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>The component properties notebook.</term> 
+			 <listitem> 
+				<para>The component properties notebook (bottom) shows all the
+				properties you can set for the current component.
+				</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist>
+		<warning><para>The window title can't be changed, so if you customize a pre-defined
+		chart, the title may not reflect anymore what is displayed in the window.</para>
+		<para><application>&app;</application> do not check the validity of the charts.
+		You may add titles and labels not corresponding to the data actually used. The
+		resulting charts will be nonsense.</para>
+		<para>Some features appearing in the dialog, such as error bars are not currently
+		supported by <application>&app;</application>.</para></warning>
 	</sect1>
 	<sect1 id="gchemtable-user-curve">
 		<title>User Defined Charts</title>
+		<para>A user can create a new empty plot, and then customize it as explained
+		in <link linkend="gchemtable-customize-curve">previous section</link>.</para>
+		<para>To create a new empty plot, choose <menuchoice> <guimenu>File</guimenu>
+		<guimenuitem>New Chart</guimenuitem></menuchoice>. This will open two new windows:
+		one containing the new chart, and the the chart properties dialog.</para>
+		<figure id="gchemtable-new-chart"> 
+		  <title>New empty chart window</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the new chart.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/new-chart.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<figure id="gchemtable-new-chart-guru"> 
+		  <title>New empty chart properties dialog</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the new chart properties dialog.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/new-chart-guru.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>The graph contains just one empty chart. In most cases, the first thing to 
+		do is to add a new plot using the <guibutton>Add</guibutton> button as seen in next
+		screenshot:</para>
+		<figure id="gchemtable-add-plot"> 
+		  <title>Adding a plot</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Adding a plot to the chart.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/add-plot.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>This adds not only a plot, but also a backplane and the two needed axes,
+		and a data series to the plot.</para>
+		<para>You can then select the data to use for the new series. Only predefined
+		data vectors can be used. If nothing is selected as X values, an inetegers series
+		starting from 0 will be used, that is the atomic number minus one.</para>
+		<figure id="gchemtable-choose-data"> 
+		  <title>Data selection</title>
+		  <screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Selecting data for the series.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/choose-data.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>Further customization is explained in <link linkend="gchemtable-customize-curve">previous section</link>.</para>
 	</sect1>
 	<sect1 id="gchemtable-copy-curve">
 		<title>To Copy a Chart</title>

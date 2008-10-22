@@ -1,3 +1,10 @@
+2008-10-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* programs/table/gchemtable-curve.cc:
+	* programs/table/gchemtable-data.cc:
+
 ##Text encoding: utf-8
 
 2008-10-19  Jean Bréfort  <jean.brefort@normalesup.org>

@@ -271,7 +271,7 @@ static const char *ui_description =
 "</ui>";
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
-	Dialog (App, GLADEDIR"/curve.glade", "curvedlg"),
+	Dialog (App, GLADEDIR"/curve.glade", "curvedlg", App),
 	Printable (),
 	m_Guru (NULL)
 {
@@ -567,6 +567,12 @@ on_update_graph (GogGraph *graph, gpointer data)
 	curve->SetGraph (graph);
 }
 
+static void
+on_guru_help (Application *app)
+{
+	app->OnHelp ("customize-curve");
+}
+
 void GChemTableCurve::OnProperties ()
 {
 	GctControlGUI *tcg = GCT_CONTROL_GUI (g_object_new (GCT_CONTROL_GUI_TYPE, NULL));
@@ -575,6 +581,7 @@ void GChemTableCurve::OnProperties ()
 					(GClosureNotify) graph_user_config_free_data);
 	m_Guru = gog_guru (m_Graph, GOG_DATA_ALLOCATOR (tcg), NULL, closure);
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (m_Guru));
+	g_signal_connect_swapped (G_OBJECT (gog_guru_get_help_button (m_Guru)), "clicked", G_CALLBACK (on_guru_help), m_App);
 	gtk_widget_show (m_Guru);
 	g_closure_sink (closure);
 }

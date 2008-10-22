@@ -167,13 +167,17 @@ gct_data_vector_load_values (GODataVector *dat)
 	vec->loaded = true;
 	dat->values = vec->data;
 	if (dat->len > 0) {
-		dat->minimum = dat->maximum = vec->data[0];
-		for (int i = 1; i < dat->len; i++) {
-			if (vec->data[i] < dat->minimum)
-				dat->minimum = vec->data[i];
-			if (vec->data[i] > dat->maximum)
-				dat->maximum = vec->data[i];
-		}
+		int i = 0;
+		while (!go_finite (vec->data[i++]) && i < dat->len);
+		if (i < dat->len)
+			dat->minimum = dat->maximum = vec->data[i];
+		for (; i < dat->len; i++)
+			if (go_finite (vec->data[i])) {
+				if (vec->data[i] < dat->minimum)
+					dat->minimum = vec->data[i];
+				if (vec->data[i] > dat->maximum)
+					dat->maximum = vec->data[i];
+			}
 	}
 	dat->base.flags |= GO_DATA_CACHE_IS_VALID;
 }
