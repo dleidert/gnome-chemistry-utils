@@ -1019,19 +1019,21 @@ Object* Fragment::GetAtomAt (double x, double y, double z)
 	if (!Z)
 		return NULL;
 	m_bLoading = true;
-	m_Atom->SetZ (Z);
-	m_bLoading = false;
-	m_BeginAtom =index;
-	m_EndAtom = trailing;
-	m_x -= m_lbearing / pTheme->GetZoomFactor () ;
-	PangoRectangle rect;
-	pango_layout_index_to_pos (m_Layout, index, &rect);
-	m_lbearing = rect.x / PANGO_SCALE;
-	pango_layout_index_to_pos (m_Layout, trailing, &rect);
-	m_lbearing += rect.x / PANGO_SCALE;
-	m_lbearing /=  2;
-	m_x += m_lbearing / pTheme->GetZoomFactor ();
-	m_Atom->SetCoords(m_x, m_y);
+	if (m_Atom) {
+		m_Atom->SetZ (Z);
+		m_bLoading = false;
+		m_BeginAtom =index;
+		m_EndAtom = trailing;
+		m_x -= m_lbearing / pTheme->GetZoomFactor () ;
+		PangoRectangle rect;
+		pango_layout_index_to_pos (m_Layout, index, &rect);
+		m_lbearing = rect.x / PANGO_SCALE;
+		pango_layout_index_to_pos (m_Layout, trailing, &rect);
+		m_lbearing += rect.x / PANGO_SCALE;
+		m_lbearing /=  2;
+		m_x += m_lbearing / pTheme->GetZoomFactor ();
+		m_Atom->SetCoords(m_x, m_y);
+	}
 	
 	return m_Atom;
 }

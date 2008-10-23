@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 	
+2008-10-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: check if Fragment::m_Atom is not NULL before
+	using it.
+
 2008-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.9.99).
 
