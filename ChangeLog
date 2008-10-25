@@ -1,4 +1,7 @@
 ##Text encoding: utf-8
+
+2008-10-24  Jordan Mantha  <laserjock@ubuntu.com>
+        * docs/help/table/C/gchemtable.xml: miscellaneous typo and style fixes.
 	
 2008-10-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: check if Fragment::m_Atom is not NULL before
