@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-10-25  Jordan Mantha  <laserjock@ubuntu.com>
+        * docs/help/spectra/C/gspectrum.xml: miscellaneous typo and style fixes.
+          Also changed mixed DOS/Unix line endings to Unix.
+
 2008-10-24  Jordan Mantha  <laserjock@ubuntu.com>
         * docs/help/table/C/gchemtable.xml: miscellaneous typo and style fixes.
 	

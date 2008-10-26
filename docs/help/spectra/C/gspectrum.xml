@@ -174,7 +174,7 @@
 		<para>To Open a recently opened file, choose the appropriate entry
 		in <menuchoice> <guimenu>File</guimenu> <guimenuitem>Open recent</guimenuitem>
 		</menuchoice></para>
-		<para><application>&app;</application> can open files on a distant server.</para>
+		<para><application>&app;</application> can open files on a remote server.</para>
 		<para>You can open multiple files in <application>&app;</application>.
 		  Each file is opened in it's own top-level window.</para>
 	</sect1>
@@ -183,8 +183,8 @@
 		<para>You can run <application>&app;</application> from a command line
 		  and open a single file or multiple files. To open multiple files from a command
 		  line, type the following command, then press <keycap>Return</keycap>:</para>
-		<para><command>gspectrum <replaceable>file1 file2 file2 ...</replaceable></command> where
-		file1 and others, might be relative, absolute paths or uris.</para>
+		<command>gspectrum <replaceable>file1 file2 file2 ...</replaceable></command> <para>where
+		file1 and others, might be relative, absolute paths or URIs.</para>
 		<para>When the application starts, a <application>&app;</application> window is created
 		for each file that you specified.</para>
 	</sect1>
@@ -211,12 +211,12 @@
 					</mediaobject>
 				</screenshot>
 			</figure>
-			<para>Using the two spin buttons, you can set the values of the minimum
-			and maximum displayed abscissa. These limiting vales are constrained to
-			be in the actualdata interval.</para>
+			<para>You can set the values of the minimum
+			and maximum displayed abscissa. These limiting values are constrained to
+			be within the actual data interval.</para>
 			<para>When only a part of the spectrum is displayed, the slider can
 			be used to scroll through the spectrum. The spectrum moves in the same
-			direction than the slider.</para>
+			direction as the slider.</para>
 			<para>When the spectrum is a UV-Visible spectrum, additional controls are
 			available:</para>
 			<figure id="gspectrum-uv-toolbar"> 
@@ -265,23 +265,22 @@
 	</sect1>
 <!-- ============= To Save as an Image============================== -->
 	<sect1 id="gspectrum-save-as-image">
-		<title>Export the Spectrum as an Image.</title>
-		<para>To export the displayed spectrum to an image, use 
-		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save As Image</guimenuitem>
-			 </menuchoice>.</para>
-		<para>Available formats are SVG, EPS, PS, PDF, and the formats with write support in
-		GdkPixbuf.</para>
-		<para>To choose a format, you can use an appropriate extension
-		in the file name, or explicitly select a format in the combo box.
-		With the first method, if <application>&app;</application> does
-		not recognize an extension, the exported file will be a SVG
-		file. <application>&app;</application> will add an extension
-		to the file name if needed.</para>
-		<para>You might change the default width and height of the exported image
-		using the appropriate entries.</para>
-		<para>Postscript and PDF files can also be produced using the
-		<link linkend="gspectrum-print"><menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
-			 </menuchoice> command</link>.</para>
+                <title>Export the Spectrum as an Image</title>
+                <para>To export the displayed spectrum to an image, use
+                  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save As Image</guimenuitem>
+                         </menuchoice>.</para>
+                <para>Available formats are SVG, EPS, PS, PDF, and formats that support writing in GdkPixbuf.</para>
+                <para>To choose a format, you can use an appropriate file name extension,
+                or explicitly select a format in the combo box.
+                With the first method, if <application>&app;</application> does
+                not recognize an extension, the exported file will be a SVG
+                file. <application>&app;</application> will add an extension
+                to the file name if needed.</para>
+                <para>You might change the default width and height of the exported image
+                using the appropriate entries.</para>
+                <para>Postscript and PDF files can also be produced using the
+                <link linkend="gchemtable-print-curve"><menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
+                         </menuchoice> command</link>.</para>
 	</sect1>
 <!-- ============= To Print a File============================== -->
 	<sect1 id="gspectrum-print">
@@ -296,7 +295,7 @@
 		 </menuchoice> as explained below.</para>
 		<sect2 id="gspectrum-print-setup">
 		  <title>The page setup dialog.</title>
-		  <para>the first tab of the dialog concerns the paper and margins setup.
+		  <para>The first tab of the dialog concerns the paper and margins setup.
 		  Headers and footers are not supported in the version of <application>&app;</application></para>
 		  <figure id="gspectrum-page-setup"> 
 			<title>The Page Setup tab.</title>
@@ -310,10 +309,10 @@
 			  </mediaobject>
 			</screenshot>
 		  </figure>
-		  <para>The second tab allows you tio choose the scale of the output. With  no scaling or
+		  <para>The second tab allows you to choose the scale of the output. With no scaling or
 		  scaling at 100%, the output will have the same size in points as the size in pixels on
 		  the screen. If you choose automatic scaling, you can make the output fill the available
-		  space either horizontally, vertically, or both (none of the options is equivalent to no scaling).</para>
+		  space either horizontally, vertically, or both (unchecking both options is equivalent to no scaling).</para>
 		  <para>Printing to more than one page is not supported in this version of <application>&app;</application></para>
 		  <figure id="gspectrum-print-scale"> 
 			<title>The Print Scale tab.</title>
@@ -332,32 +331,31 @@
 </chapter>
  <chapter id="gspectrum-support">
     <title>Support.</title>
-	<sect1 id="gspectrum-question">
-		<title>To Ask a Question</title>
-		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
-		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchemutils-main@nongnu.org">Gnome Chemistry Utils
-		mailing list</ulink>.</para>
-		<para>Another way to get some help is to connect on the <ulink url="irc://irc.gimp.net/gchemutils">#gchemutils channel</ulink>
-		at irc.gimp.net and ask your question there (if you are not alone on the channel).</para>
-	</sect1>
-	<sect1 id="gspectrum-web">
-		<title>To Find the Gnome Chemistry Utils on the Web.</title>
-		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Gnome Chemistry Utils on the web</guimenuitem></menuchoice>,
-		the default web browser should pop up and display the main page for the Gnome Chemsitry Utils.</para>
-		<para>The main page is
-		<ulink type="http" url="http://gchemutils.nongnu.org">http://gchemutils.nongnu.org</ulink> and the project
-		page at savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchemutils">http://savannah.nongnu.org/projects/gchemutils</ulink>.</para>
-	</sect1>
-	<sect1 id="gspectrum-bug">
-		<title>To Report a Bug</title>
-		<para>To report a bug, you must use the bug page for the Gnome Chemistry
-		Utils at Savannah. You can access it by choosing
-		<menuchoice> <guimenu>Help</guimenu> <guimenuitem>Report Bugs</guimenuitem></menuchoice>
-		(hopefully you'll have only one at once to report).</para>
-		<para>You can also type the bug report page address directly in
-		the browser. The bug repository is at
-		<ulink type="http" url="https://savannah.nongnu.org/bugs/?group=gchemutils">https://savannah.nongnu.org/bugs/?group=gchemutils</ulink></para>
-	</sect1>
+        <sect1 id="gspectrum-question">
+                <title>To Ask a Question</title>
+                <para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
+                your mail client should pop up with a new message to the <ulink type="mail" url="mailto:gchemutils-main@nongnu.org">Gnome Chemistry Utils
+                mailing list</ulink>.</para>
+                <para>Another way to get some help is to connect on the <ulink url="irc://irc.gimp.net/gchemutils">#gchemutils</ulink> IRC channel
+                on the irc.gimp.net network and ask your question there (if you are not alone on the channel).</para>
+        </sect1>
+        <sect1 id="gspectrum-web">
+                <title>To Find the Gnome Chemistry Utils on the Web.</title>
+                <para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Gnome Chemistry Utils on the web</guimenuitem></menuchoice>,
+                the default web browser should pop up and display the main page for the Gnome Chemsitry Utils.</para>
+                <para>The main page is
+                <ulink type="http" url="http://gchemutils.nongnu.org">http://gchemutils.nongnu.org</ulink> and the project
+                page at Savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchemutils">http://savannah.nongnu.org/projects/gchemutils</ulink>.</para>
+        </sect1>
+        <sect1 id="gspectrum-bug">
+                <title>To Report a Bug</title>
+                <para>To report a bug, you must use the bug page for the Gnome Chemistry
+                Utils at Savannah. You can access it by choosing
+                <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Report Bugs</guimenuitem></menuchoice>
+                (hopefully you'll have only one at a time to report).</para>
+                <para>You can also use a web browser to go to the bug report page address directly. The bug repository is at
+                <ulink type="http" url="https://savannah.nongnu.org/bugs/?group=gchemutils">https://savannah.nongnu.org/bugs/?group=gchemutils</ulink></para>
+        </sect1>
 </chapter>
 
 <!-- ============= Application License ============================= -->
