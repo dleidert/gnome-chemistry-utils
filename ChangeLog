@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-10-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-app.cc: implement save as image for curves.
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+
 2008-10-25  Jordan Mantha  <laserjock@ubuntu.com>
         * docs/help/spectra/C/gspectrum.xml: miscellaneous typo and style fixes.
           Also changed mixed DOS/Unix line endings to Unix.

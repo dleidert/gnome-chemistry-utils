@@ -52,6 +52,7 @@ public:
 	void SetGraph (GogGraph *graph);
 	GtkWindow *GetGtkWindow () {return GTK_WINDOW (dialog);}
 	void ClearGuru () {m_Guru = NULL;}
+	void SaveAsImage (std::string const &filename, char const *mime_type, unsigned width, unsigned height) const;
 
 private:
 	std::string m_Name;

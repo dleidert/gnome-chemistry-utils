@@ -29,6 +29,7 @@
 #include "gchemtable-elt.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
+#include <gcu/filechooser.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkaboutdialog.h>
@@ -36,8 +37,13 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkuimanager.h>
 #include <gtk/gtkwindow.h>
+#include <gio/gio.h>
 #include <cstdlib>
 #include <cstring>
+#include <list>
+#include <string>
+
+using namespace std;
 
 static void on_quit (GtkWidget *widget, GChemTableApp *App)
 {
@@ -643,4 +649,49 @@ void GChemTableApp::GetBlockColor (int Z, GdkColor *color)
 void GChemTableApp::OnNewChart ()
 {
 	new GChemTableCurve (this, NULL);
+}
+
+void GChemTableApp::OnSaveAsImage (GChemTableCurve *curve)
+{
+	if (!curve)
+		return;
+	list<string> l;
+	unsigned n = 0;
+	char const *mime;
+	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
+	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
+		l.push_front ((*i).first.c_str ());
+	if (go_image_get_format_from_name ("eps") != GO_IMAGE_FORMAT_UNKNOWN) {
+		mime = go_image_format_to_mime ("eps");
+		if (mime)
+			l.push_front (mime);
+	}
+	l.push_front ("application/postscript");
+	l.push_front ("application/pdf");
+	l.push_front ("image/svg+xml");
+	FileChooser (this, true, l, reinterpret_cast <Document *> (curve), _("Save as image"), GetImageSizeWidget ());
+}
+
+bool GChemTableApp::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
+{
+	GChemTableCurve *curve = reinterpret_cast <GChemTableCurve *> (Doc);
+	if(bSave) {
+		GFile *file = g_file_new_for_uri (filename);
+		bool err = g_file_query_exists (file, NULL);
+		gint result = GTK_RESPONSE_YES;
+		if (err) {
+			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename);
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
+			gtk_window_set_icon_name (GTK_WINDOW (Box), "gspectrum");
+			result = gtk_dialog_run (Box);
+			gtk_widget_destroy (GTK_WIDGET (Box));
+			g_free (message);
+		}
+		if (result == GTK_RESPONSE_YES) {
+			g_file_delete (file, NULL, NULL);
+			curve->SaveAsImage (filename, mime_type, GetImageWidth (), GetImageHeight ());
+		}
+		g_object_unref (file);
+	}
+	return false;
 }
