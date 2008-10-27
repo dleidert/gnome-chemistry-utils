@@ -1,4 +1,4 @@
-AC_INIT([gnome-chemistry-utils], [0.9.90], [http://savannah.nongnu.org/bugs/?group=gchemutils])
+AC_INIT([gnome-chemistry-utils], [0.9.99], [http://savannah.nongnu.org/bugs/?group=gchemutils])
 AC_CONFIG_SRCDIR([libs/gcu/gtkperiodic.c])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -21,7 +21,7 @@ AC_HEADER_STDC
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
 DOLT
-IT_PROG_INTLTOOL([0.40.0])
+IT_PROG_INTLTOOL([0.37.1])
 GNOME_DOC_INIT
 
 GCU_VERSION_INFO=`echo $GCU_VERSION | awk -F . '{ print $1+$2":"$3":"$2 }'`
@@ -132,7 +132,7 @@ OPENBABEL_REQUIRED_VERSION=2.1.0
 GTK_REQUIRED_VERSION=2.12.0
 GIO_REQUIRED_VERSION=2.16.1
 GSF_VERSION_REQUIRED=1.14.9
-GNOME_OFFICE_REQUIRED_VERSION=0.6.3
+GNOME_OFFICE_REQUIRED_VERSION=0.6.5
 CHEMICAL_MIME_DATA_REQUIRED_VERSION=0.1.94
 BODR_REQUIRED_VERSION=5
 
@@ -307,21 +307,6 @@ case $srcdir in
 esac
 
 AC_SUBST([TESTSSRCDIR])
-
-AC_CONFIG_LINKS([
-docs/help/3d/gchem3d-${GCU_API_VER}.omf.in:docs/help/3d/gchem3d.omf.in
-docs/help/calc/gchemcalc-${GCU_API_VER}.omf.in:docs/help/calc/gchemcalc.omf.in
-docs/help/crystal/gcrystal-${GCU_API_VER}.omf.in:docs/help/crystal/gcrystal.omf.in
-docs/help/paint/gchempaint-${GCU_API_VER}.omf.in:docs/help/paint/gchempaint.omf.in
-docs/help/spectra/gspectrum-${GCU_API_VER}.omf.in:docs/help/spectra/gspectrum.omf.in
-docs/help/table/gchemtable-${GCU_API_VER}.omf.in:docs/help/table/gchemtable.omf.in
-docs/help/3d/C/gchem3d-${GCU_API_VER}.xml:docs/help/3d/C/gchem3d.xml
-docs/help/calc/C/gchemcalc-${GCU_API_VER}.xml:docs/help/calc/C/gchemcalc.xml
-docs/help/crystal/C/gcrystal-${GCU_API_VER}.xml:docs/help/crystal/C/gcrystal.xml
-docs/help/paint/C/gchempaint-${GCU_API_VER}.xml:docs/help/paint/C/gchempaint.xml
-docs/help/spectra/C/gspectrum-${GCU_API_VER}.xml:docs/help/spectra/C/gspectrum.xml
-docs/help/table/C/gchemtable-${GCU_API_VER}.xml:docs/help/table/C/gchemtable.xml
-])
 
 AC_CONFIG_FILES([
 Makefile
