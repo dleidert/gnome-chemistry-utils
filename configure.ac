@@ -283,15 +283,13 @@ AC_SUBST([MOZILLA_CFLAGS])
 AC_SUBST([mozlibdir])
 
 ##################################################
-# Check for manpage target applications
+# Check for some special applications
 ##################################################
 
-GCU_PROG_XMLLINT
-GCU_PROG_XSLTPROC
 GCU_PROG_MAN
 
-AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
-AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
+AC_ARG_VAR([GDK_PIXBUF_CSOURCE], [The gdk-pixbuf-csource executable.])
+AC_PATH_PROG([GDK_PIXBUF_CSOURCE], [gdk-pixbuf-csource], [gdk-pixbuf-csource])
 
 ##################################################
 # Path checks
@@ -319,8 +317,8 @@ docs/help/crystal/Makefile
 docs/help/paint/Makefile
 docs/help/spectra/Makefile
 docs/help/table/Makefile
-docs/man/gcu_entities.dtd
 docs/man/Makefile
+docs/man/gchem3d.1
 docs/reference/Makefile
 docs/reference/Doxyfile
 dtds/Makefile

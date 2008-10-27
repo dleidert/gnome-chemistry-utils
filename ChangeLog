@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-10-27  Daniel Leidert <daniel.leidert@wgdd.de>
+	* acinclude: Removed GCU_PROG_XMLLINT and GCU_PROG_XSLTPROC macros.
+	* configure.ac: Removed GCU_PROG_XMLLINT and GCU_PROG_XSLTPROC macros.
+	Added missing quotation.
+	(AC_CONFIG_FILES): Prepare for changes in docs/man/.
+	* Makefile.am (MAINTAINERCLEANFILES): Added missing intltool* scripts.
+
+***** rev 905 *****
+
 2008-10-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/table/gchemtable-app.cc: implement save as image for curves.
 	* programs/table/gchemtable-app.h: ditto.
