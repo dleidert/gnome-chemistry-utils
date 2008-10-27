@@ -32,6 +32,8 @@
 
 using namespace gcu;
 
+class GChemTableCurve;
+
 class GChemTableApp: public Application
 {
 public:
@@ -53,6 +55,9 @@ public:
 	void GetRadiusColor (int Z, GdkColor *color);
 	void GetBlockColor (int Z, GdkColor *color);
 	void OnNewChart ();
+	void OnSaveAsImage (GChemTableCurve *curve);
+	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc);
+	
 
 private:
 	Dialog *Pages[118];

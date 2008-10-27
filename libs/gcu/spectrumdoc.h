@@ -349,7 +349,7 @@ private:
 	std::vector <JdxVar> variables;
 	int X, Y, R, I, integral, Rt, It, Rp;
 	double freq;
-	double offset;
+	double offset, refpoint;
 	GtkWidget *m_XAxisInvertBtn;
 	guint m_XAxisInvertSgn;
 

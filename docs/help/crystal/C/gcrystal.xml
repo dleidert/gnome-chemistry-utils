@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.7.0">
-  <!ENTITY manrevision "0.7.0">
-  <!ENTITY date "Febrary 2006">
+  <!ENTITY appversion "0.10.0">
+  <!ENTITY manrevision "0.10.0">
+  <!ENTITY date "September 2008">
   <!ENTITY app "Gnome Crystal">
 ]>
 <!-- 
@@ -77,6 +77,15 @@
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
 		</revision>
+  		<revision> 
+		  <revnumber>&app; Manual V0.8.0</revnumber>
+		  <date>September 2006</date> 
+		  <revdescription> 
+			 <para role="author">Jean Bréfort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
     		<revision> 
 		  <revnumber>&app; Manual V0.6.0</revnumber>
 		  <date>November 2003</date> 
@@ -100,7 +109,7 @@
 		</releaseinfo>
 	 <legalnotice> 
 		<title>Feedback</title>
-		<para>To report a bug or make a suggestion regarding the &app; application or
+		<para>To report a bug or make a suggestion regarding the <application>&app;</application> application or
 		this manual, go to the
 		<ulink url="http://savannah.nongnu.org/projects/gchempaint" type="html"><application>&app;</application> home page</ulink>. 
       </para>
@@ -114,24 +123,23 @@
 <!-- ============= Document Body ============================= -->
 
 <!-- ============= Introduction ============================= -->
- <preface id="gcrystal-unstable-intro">
+ <preface id="gcrystal-intro">
     <title>Introduction</title>
 
 	<para>The <application>&app;</application> application is a simple
-	crystalline structures visualizer.</para>
+	crystalline structures visualizer. It uses its own file format, and is also able to
+	open CIF files (but not save them) when used with <productname>OpenBabel</productname> version <productnumber>2.2.x</productnumber></para>
 	<para><application>&app;</application> files can also be displayed in a html page if you use a
 	<ulink type="help" url="http://www.mozilla.org">mozilla</ulink>
 	based navigator.</para>
 	<warning><para>This document is by no way a crystallography manual and used notions are not
 	systematically described here in.</para></warning>
-	<warning><para>This document refers to a development release of &app;. This means that its use is
-	unsure. It might crash at any moment and loose or alter your data.</para></warning>
  </preface>
  
 <!-- ============= Getting started ============================= -->
- <chapter id="gcrystal-unstable-getting-started">
+ <chapter id="gcrystal-getting-started">
     <title>Getting started</title>
-	<sect1 id="gcrystal-unstable-to-start">
+	<sect1 id="gcrystal-to-start">
 		<title>To Start &app;</title>
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
@@ -141,22 +149,22 @@
     		<para>Choose 
     		<menuchoice>
     		<guisubmenu>Education</guisubmenu>
-    		<guimenuitem>Gnome Crystal Crystalline Structures Viewer (unstable)</guimenuitem>
+    		<guimenuitem>Gnome Crystal Crystalline Structures Viewer</guimenuitem>
     		</menuchoice>. </para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
     		<term>Command line</term>
     		<listitem>
-    		<para>Type <command>gcrystal-unstable</command>, then press <keycap>Return</keycap>.</para>
+    		<para>Type <command>gcrystal</command>, then press <keycap>Return</keycap>.</para>
     		</listitem>
     		</varlistentry>
     		</variablelist>
 	</sect1>
-	<sect1 id="gcrystal-unstable-when-you-start">
+	<sect1 id="gcrystal-when-you-start">
 		<title>When You Start &app;</title>
 		<para>When you start <application>&app;</application>, the following window is displayed:</para>
- 			<figure id="gcrystal-unstable-main-window"> 
+ 			<figure id="gcrystal-main-window"> 
 			  <title>&app; document window</title>
 			  <screenshot> 
 					<mediaobject>
@@ -199,7 +207,7 @@
 		  </varlistentry>
 		</variablelist>
 	</sect1>
-	<sect1 id="gcrystal-unstable-open-file">
+	<sect1 id="gcrystal-open-file">
 		<title>To Open a File</title>
 		<para>To open a file, choose 
 		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Open</guimenuitem>
@@ -210,18 +218,19 @@
 		<para>To Open a recently opened file, choose the appropriate entry
 		in <menuchoice> <guimenu>File</guimenu> <guimenuitem>Open recent</guimenuitem>
 		</menuchoice></para>
-		<para><application>&app;</application> can open files on a distant server using the Gnome Virtual
-		File System. If the file is read-only, the <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>
-			 </menuchoice> menu item and the corresponding tool button are disabled.</para>
+		<para><application>&app;</application> can open files on a distant server.
+			If the file is read-only, the <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>
+			</menuchoice> menu item and the corresponding tool button are disabled.</para>
+		<para>When opened with <application>&app;</application>, CIF files are always read-only.</para>
 		<para>You can open multiple files in <application>&app;</application>.
 		  Each file is opened in it's own top-level window.</para>
 	</sect1>
-	<sect1 id="gcrystal-unstable-run-from-cmd-line">
+	<sect1 id="gcrystal-run-from-cmd-line">
 		<title>To Open Multiple Files from a Command Line</title>
 		<para>You can run <application>&app;</application> from a command line
 		  and open a single file or multiple files. To open multiple files from a command
 		  line, type the following command, then press <keycap>Return</keycap>:</para>
-		<para><command>gcrystal-unstable <replaceable>file1 file2 file2 ...</replaceable></command> where
+		<para><command>gcrystal <replaceable>file1 file2 file2 ...</replaceable></command> where
 		file1 and others, might be relative, absolute paths or uris.</para>
 		<para>When the application starts, a <application>&app;</application> window is created
 		for each file that you specified.</para>
@@ -230,10 +239,10 @@
 
 <!-- ============ Usage ============================================ -->
 
- <chapter id="gcrystal-unstable-usage">
+ <chapter id="gcrystal-usage">
     <title>General operations</title>
 <!-- ============= To Create a New File ======================== -->
-	 <sect1 id="gnome-crystal-unstable-create-new-file"> 
+	 <sect1 id="gcrystal-create-new-file"> 
 		<title>To Create a New File</title>
 		<para>To create a new file, choose 
 		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>New</guimenuitem>
@@ -241,7 +250,7 @@
 		  <application>&app;</application> window.</para>
 	 </sect1>
 <!-- ============= To Save a File ============================== -->
-	 <sect1 id="gnome-crystal-unstable-save-file"> 
+	 <sect1 id="gcrystal-save-file"> 
 		<title>To Save a File</title>
 		<para>You can save files in the following ways:</para>
 		<itemizedlist> 
@@ -261,12 +270,12 @@
 	  <para><application>&app;</application> file names use the .gcrystal extension. You do not have to type
 	  the extension, it will be added automatically.</para>
   </sect1>
-	 <sect1 id="gnome-crystal-unstable-export"> 
+	 <sect1 id="gcrystal-export"> 
 		<title>To Export the Current View to a Graphic Format</title>
 		<para>To export the current file to an image, use 
 		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save As Image</guimenuitem>
 			 </menuchoice>.</para>
-		<para>Available formats are VRML, EPS, and the formats with write support in
+		<para>Available formats are VRML, PDF, Postscript, Encapsulated Postscript, and the formats with write support in
 		GdkPixbuf.</para>
 		<para>To choose a format, you can use an appropriate extension
 		in the file name, or explicitly select a format in the combo box.
@@ -275,22 +284,61 @@
 		file. <application>&app;</application> will add an extension
 		to the file name if needed.</para>
 	</sect1>
-	 <sect1 id="gnome-crystal-unstable-print"> 
+	 <sect1 id="gcrystal-print"> 
 		<title>To Print the Current View</title>
 			<para>To print the contents of the current view, use <menuchoice> <guimenu>File</guimenu> <guimenuitem>Print</guimenuitem> </menuchoice>.</para>
 			<para><application>&app;</application> uses OpenGL to print the image. The color depth will be for this reason the one used
 			by the X server. As the printer resolution is much larger than the screen resolution and the buffer used has the same size as the view, the
 			scene is splitted in as many parts as necessary to build the whole image sent to the printer. The resolution used for printing can be
 			changed in the Settings Dialog choose <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Preferences</guimenuitem>
-			 </menuchoice>. The Preferences dialog box opens (see <xref linkend="gnome-crystal-unstable-prefs"/>). Printing can be a lengthy operation
+			 </menuchoice>. The Preferences dialog box opens (see <xref linkend="gcrystal-prefs"/>). Printing can be a lengthy operation
 			even with a 300 dpi resolution; higher resolutions might be unpracticable.</para>
+	 <para><menuchoice> <guimenu>File</guimenu> <guimenuitem>Preview</guimenuitem>
+		 </menuchoice> opens a window with a preview of the printed output.</para>
+	<para>To tune the printed output, choose<menuchoice>
+	<guimenu>File</guimenu> <guimenuitem>Page setup...</guimenuitem>
+	 </menuchoice> as explained below.</para>
+	<sect2 id="gcrystal-print-setup">
+	  <title>The page setup dialog.</title>
+	  <para>the first tab of the dialog concerns the paper and margins setup.
+	  Headers and footers are not supported in the version of <application>&app;</application></para>
+	  <figure id="gcrystal-page-setup"> 
+		<title>The Page Setup tab.</title>
+		<screenshot> 
+		  <mediaobject>
+			<imageobject>
+			  <objectinfo> <abstract><para>Screenshot of page setup dialog.</para></abstract>
+			  </objectinfo> 
+			  <imagedata fileref="figures/page-setup.png"/>
+			</imageobject>
+		  </mediaobject>
+		</screenshot>
+	  </figure>
+	  <para>The second tab allows you tio choose the scale of the output. With  no scaling or
+	  scaling at 100%, the output will have the same size in points as the size in pixels on
+	  the screen. If you choose automatic scaling, you can make the output fill the available
+	  space either horizontally, vertically, or both (none of the options is equivalent to no scaling).</para>
+	  <para>Printing to more than one page is not supported in this version of <application>&app;</application></para>
+	  <figure id="gcrystal-print-scale"> 
+		<title>The Print Scale tab.</title>
+		<screenshot> 
+		  <mediaobject>
+			 <imageobject>
+				<objectinfo> <abstract><para>Screenshot of the printing scale page.</para></abstract>
+				</objectinfo> 
+				<imagedata fileref="figures/print-scale.png"/>
+			 </imageobject>
+		  </mediaobject>
+		</screenshot>
+	  </figure>
+    </sect2>
 	</sect1>
-	<sect1 id="gnome-crystal-unstable-prefs">
+	<sect1 id="gcrystal-prefs">
   <title>To Change &app; Settings</title>
     
-  <sect2 id="gnome-crystal-unstable-printing">
+  <sect2 id="gcrystal-printing">
     <title>Printing resolution</title>
-		<figure id="gnome-crystal-unstable-print-res"> 
+		<figure id="gcrystal-prefs-print-res"> 
  		  <title>Printer Resolution Page</title>
 		  <screenshot> 
 				<mediaobject>
@@ -311,9 +359,9 @@
 	even with a 300 dpi resolution; higher resolutions might be unpracticable.</para>
   </sect2>
   
-  <sect2 id="gnome-crystal-unstable-views">
+  <sect2 id="gcrystal-prefs-views">
     <title>Views default parameters </title>
-		<figure id="gnome-crystal-unstable-default-view-page"> 
+		<figure id="gcrystal-default-view-page"> 
 		  <title>View Defaults Page</title>
 		  <screenshot> 
 				<mediaobject>
@@ -327,18 +375,18 @@
 		</figure>
 	  <para>Parameters available in this page are those that will concern every new view when it
 	  is created. To change the same parameters for already opened views, you should use the View menu
-	  (see <xref linkend="gcrystal-unstable-view_settings"/>)</para>
+	  (see <xref linkend="gcrystal-view_settings"/>)</para>
 	  <para>Available parameters are background color, field of view, and model orientation
 	  defined by Euler's angles.</para>
   </sect2>
   </sect1>
  </chapter>
 
-  <chapter id="gcrystal-unstable-definition">
+  <chapter id="gcrystal-definition">
     <title>Defining the crystal.</title>
 
-    <sect1 id="gcrystal-unstable-cell"><title>Lattice</title>
-	  <figure id="gcrystal-unstable-cell-dialog"> 
+    <sect1 id="gcrystal-cell"><title>Lattice</title>
+	  <figure id="gcrystal-cell-dialog"> 
 	    <title>Lattice Dialog</title>
 	    <screenshot> 
 		  <mediaobject>
@@ -359,8 +407,8 @@
 	<para>Lengths must be given in picometers and angles are expressed in degrees.</para>
 </sect1>
 
-<sect1 id="gcrystal-unstable-atoms"><title>Atoms</title>
-	  <figure id="gcrystal-unstable-atoms-dialog"> 
+<sect1 id="gcrystal-atoms"><title>Atoms</title>
+	  <figure id="gcrystal-atoms-dialog"> 
 	    <title>Atoms Dialog</title>
 	    <screenshot> 
 		  <mediaobject>
@@ -417,6 +465,15 @@
 		radius type, a list of corresponding radii from the database is available. If none of these radii is
 		convenient, choose the <guilabel>Custom</guilabel> option and give a value in the entry.
 	   </para>
+	   <para>
+		A scaling factor can be applied to the radius so that the diplayed atom might appear
+		smaller. Acceptable scaling factors are from 1% to 100%.
+	   </para>
+	   <para>
+		Changes to the radius can apply to only the currently selected atom, all atoms of the current element
+		or all atoms, at least when an appropriate radius can be found according to the selected
+		item in the list.
+	   </para>
 	  </listitem>
 	 </varlistentry>
 	 <varlistentry>
@@ -429,8 +486,8 @@
 	  </listitem>
 	 </varlistentry>
 	</variablelist>
-	<para>The number of visible atoms depends on the model size (see <xref linkend="gcrystal-unstable-size"/>) and on cleavages
-	(see <xref linkend="gcrystal-unstable-cleavages"/>).</para>
+	<para>The number of visible atoms depends on the model size (see <xref linkend="gcrystal-size"/>) and on cleavages
+	(see <xref linkend="gcrystal-cleavages"/>).</para>
 	<para>
 		Buttons at bottom right are used to manage the atoms list:
 	</para>
@@ -454,8 +511,8 @@
 	</itemizedlist>
 </sect1>
 
-<sect1 id="gcrystal-unstable-lines"><title>Lines and Bonds</title>
-	  <figure id="gcrystal-unstable-lines-dialog"> 
+<sect1 id="gcrystal-lines"><title>Lines and Bonds</title>
+	  <figure id="gcrystal-lines-dialog"> 
 	    <title>Lines and Bonds Dialog</title>
 	    <screenshot> 
 		  <mediaobject>
@@ -525,8 +582,8 @@
 	bonds with the same radius, are added and will
 	be repeated in every visible cell.
 	</para>
-	<para>Bonds and lines effectively visible depend on model size (see <xref linkend="gcrystal-unstable-size"/>) and cleavages
-	(see <xref linkend="gcrystal-unstable-cleavages"/>). If one end of the cylinder lies outside of the visible part of the model,
+	<para>Bonds and lines effectively visible depend on model size (see <xref linkend="gcrystal-size"/>) and cleavages
+	(see <xref linkend="gcrystal-cleavages"/>). If one end of the cylinder lies outside of the visible part of the model,
 	the cylinder will be hidden.</para>
 	<para>
 		Buttons at bottom right are used to manage the bonds and lines list:
@@ -551,9 +608,9 @@
 	</itemizedlist>
 </sect1>
 
-<sect1 id="gcrystal-unstable-size">
+<sect1 id="gcrystal-size">
   <title>Size</title>
-	  <figure id="gcrystal-unstable-size-dialog"> 
+	  <figure id="gcrystal-size-dialog"> 
 	    <title>Size Dialog</title>
 	    <screenshot> 
 		  <mediaobject>
@@ -568,13 +625,13 @@
     <para>Model size is expressed as relative cell coordinates.
 	The necessary values are maximums and minimums of the three coordinates</para>
 	<para>It is also possible to cut the model using cleavages (see 
-	<xref linkend="gcrystal-unstable-cleavages"/>)	if one wishes to limit the visible part by planes others than those corresponding
+	<xref linkend="gcrystal-cleavages"/>)	if one wishes to limit the visible part by planes others than those corresponding
 	to a constant value of a coordinate.</para>
 </sect1>
 
-<sect1 id="gcrystal-unstable-cleavages">
+<sect1 id="gcrystal-cleavages">
   <title>Cleavages</title>
-	  <figure id="gcrystal-unstable-cleavages-dialog"> 
+	  <figure id="gcrystal-cleavages-dialog"> 
 	    <title>Cleavages Dialog</title>
 	    <screenshot> 
 		  <mediaobject>
@@ -595,10 +652,10 @@
 	for hx + ky + lz that is present in the model. To remove planes from the other side of the model,
 	signs of h, k and l must be reversed.</para>
 	<para>There is no need to define cleavages of (100), (010) or (001) planes because the same
-	effect may be obtained more easily by changing the size of the model (see below <xref linkend="gcrystal-unstable-size"/>).</para>
+	effect may be obtained more easily by changing the size of the model (see below <xref linkend="gcrystal-size"/>).</para>
 	<para>
 	 When a cleavage is defined, the model is zoomed so that it fills the view as explained elsewhere
-	 (see <xref linkend="gcrystal-unstable-view_settings"/>). The <guibutton>Fixed model size</guibutton> button allows
+	 (see <xref linkend="gcrystal-view_settings"/>). The <guibutton>Fixed model size</guibutton> button allows
 	 to keep remaining atoms at the same place in the view which may be useful to chain
 	 pictures in a presentation.
 	</para>
@@ -627,9 +684,9 @@
 
 <!-- ============= Views =========================================== -->
 
-  <chapter id="gcrystal-unstable-views">
+  <chapter id="gcrystal-views">
     <title>Views operations.</title>
-  <sect1 id="gcrystal-unstable-new-view">
+  <sect1 id="gcrystal-new-view">
     <title>To Create a New View</title>
   	<para>To create a new view of the active document,  choose <menuchoice> <guimenu>Windows</guimenu> <guimenuitem>Create New Window</guimenuitem>
 			 </menuchoice>.</para>
@@ -640,7 +697,7 @@
 	  <para>The new view becomes the active view.
     </para>
   </sect1>
-  <sect1 id="gcrystal-unstable-close-view">
+  <sect1 id="gcrystal-close-view">
     <title>To Close The Current View</title>
    	<para>To close the current view,  choose <menuchoice> <guimenu>Windows</guimenu> <guimenuitem>Close This Window</guimenuitem>
 			 </menuchoice>.</para>
@@ -650,11 +707,11 @@
 	 If other views exist, the view is closed without asking anything and the document is marked as dirty.
     </para>
   </sect1>
-	<sect1 id="gcrystal-unstable-view_settings">
+	<sect1 id="gcrystal-view_settings">
   <title>To Tune a View</title>
   	<para>To tune a view,  choose <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Settings</guimenuitem>
 			 </menuchoice>. The View Settings Dialog Box opens.</para>
-	<figure id="gnome-crystal-view-settings-dialog"> 
+	<figure id="gcrystal-view-settings-dialog"> 
 	  <title>View Settings Page</title>
 	  <screenshot> 
 			<mediaobject>
@@ -693,8 +750,8 @@
 	 <para>
 	  The distance between the viewpoint and the model is calculated to be the shortest so that the whole model remains
 	  visible whatever its orientation is. The only solution to see the model from a longer distance consist,
-	  in the present version, in defining a greater model size (see <xref linkend="gcrystal-unstable-size"/>) and defining cleavages
-	  to remove extra atoms (see <xref linkend="gcrystal-unstable-cleavages"/>) while selecting the option of constant model size.
+	  in the present version, in defining a greater model size (see <xref linkend="gcrystal-size"/>) and defining cleavages
+	  to remove extra atoms (see <xref linkend="gcrystal-cleavages"/>) while selecting the option of constant model size.
 	 </para>
     </listitem>
    </varlistentry>
@@ -740,17 +797,17 @@
 
 <!-- ============= Support ========================================= -->
 
- <chapter id="gcrystal-unstable-support">
+ <chapter id="gcrystal-support">
     <title>Support.</title>
-	<sect1 id="gcrystal-unstable-question">
+	<sect1 id="gcrystal-question">
 		<title>To Ask a Question</title>
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
 		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchemutils-main@nongnu.org">Gnome Chemistry Utils
 		mailing list</ulink>.</para>
-		<para>Another way to get some help is to connect on the #gchemutils channel
+		<para>Another way to get some help is to connect on the <ulink url="irc://irc.gimp.net/gchemutils">#gchemutils channel</ulink>
 		at irc.gimp.net and ask your question there (if you are not alone on the channel).</para>
 	</sect1>
-	<sect1 id="gcrystal-unstable-web">
+	<sect1 id="gcrystal-web">
 		<title>To Find the Gnome Chemistry Utils on the Web.</title>
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Gnome Chemistry Utils on the web</guimenuitem></menuchoice>,
 		the default web browser should pop up and display the main page for the Gnome Chemsitry Utils.</para>
@@ -758,7 +815,7 @@
 		<ulink type="http" url="http://gchemutils.nongnu.org">http://gchemutils.nongnu.org</ulink> and the project
 		page at savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchemutils">http://savannah.nongnu.org/projects/gchemutils</ulink>.</para>
 	</sect1>
-	<sect1 id="gcrystal-unstable-bug">
+	<sect1 id="gcrystal-bug">
 		<title>To Report a Bug</title>
 		<para>To report a bug, you must use the bug page for the Gnome Chemistry
 		Utils at Savannah. You can access it by choosing

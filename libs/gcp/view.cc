@@ -266,7 +266,7 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 						pAtom->GetCoords (&xa, &ya, NULL);
 						xa *= pTheme->GetZoomFactor ();
 						ya *= pTheme->GetZoomFactor ();
-						xa =- x;
+						xa -= x;
 						ya -= y;
 						if (sqrt (xa * xa + ya * ya) < 3.5) {
 							//3.5 is arbitrary
@@ -277,12 +277,25 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 						pAtom->GetCoords (&xa, &ya, NULL);
 						xa *= pTheme->GetZoomFactor ();
 						ya *= pTheme->GetZoomFactor ();
-						xa =- x;
+						xa -= x;
 						ya -= y;
 						if (sqrt (xa * xa + ya * ya) < 3.5) {
 							m_CurObject = pAtom;
 							break;
 						}
+					}
+				} else if ((*i).first->GetType () == gcu::AtomType) {
+					double xa, ya;
+					gcu::Atom *pAtom = (gcu::Atom*) (*i).first;
+					pAtom->GetCoords (&xa, &ya, NULL);
+					xa *= pTheme->GetZoomFactor ();
+					ya *= pTheme->GetZoomFactor ();
+					xa -= x;
+					ya -= y;
+					if (sqrt (xa * xa + ya * ya) < 3.5) {
+						//3.5 is arbitrary
+						m_CurObject = pAtom;
+						break;
 					}
 				}
 				i++;
@@ -1199,6 +1212,8 @@ void View::Render (cairo_t *cr)
 		pObj = (Object*) g_object_get_data (G_OBJECT (m_ActiveRichText), "object");
 		if (pObj) pObj->SetSelected (m_pWidget, SelStateUnselected);
 	}
+	GnomeCanvas *canvas = GNOME_CANVAS (m_pWidget);
+	gnome_canvas_update_now (canvas);
 	g_printable_draw_cairo (G_PRINTABLE (m_pData->Group), cr);
 	m_pData->ShowSelection (true);
 	if (pObj)

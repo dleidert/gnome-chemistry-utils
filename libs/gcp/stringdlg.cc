@@ -60,7 +60,7 @@ StringDlg::StringDlg (Document *pDoc, string& data, enum data_type type):
 {
 	Data = data;
 	Type = type;
-	gtk_window_set_title (dialog, (Type == SMILES)? "Smiles": "InChI");
+	gtk_window_set_title (dialog, (Type == SMILES)? "SMILES": "InChI");
 	View = GTK_TEXT_VIEW (glade_xml_get_widget (xml, "text"));
 	Buffer = gtk_text_view_get_buffer (View);
 	gtk_text_buffer_set_text (Buffer, data.c_str () , -1);

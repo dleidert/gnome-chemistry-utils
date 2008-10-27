@@ -66,7 +66,7 @@ on_graph_dim_editor_changed (GtkEntry *box,
 	GOData *data = go_data_scalar_str_new (g_strdup (gtk_entry_get_text (box)), TRUE);
 
 	if (!data) {
-		g_message (_("Invalide data"));
+		g_message (_("Invalid data"));
 	} else
 		gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
 }

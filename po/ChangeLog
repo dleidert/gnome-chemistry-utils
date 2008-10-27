@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2008-09-18  Julian Sikorski  <belegdol@gmail.com>
+	* pl.po: updated polish translation.
+
+2008-09-15  Julian Sikorski  <belegdol@gmail.com>
+	* pl.po: updated polish translation.
+
+2008-09-14  Julian Sikorski  <belegdol@gmail.com>
+	* pl.po: updated polish translation.
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.skip: fixed file list.
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: added new programs/crystal/docprop.cc.
+	* fr.po: updated french translation.
+
 2008-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* de.po: merged missing strings from stable branch.
 	* it.po: ditto.

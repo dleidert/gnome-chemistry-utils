@@ -41,30 +41,30 @@ gc3dApplication::gc3dApplication (Display3DMode display3d, char const *bg):
 	Application (_("GChem3D Viewer"), DATADIR, "gchem3d"),
 	m_Display3D (display3d)
 {
-	if (bg) {
-		if (!strcmp (bg, "black")) {
-			m_Red = 0.;
-			m_Green = 0.;
-			m_Blue = 0.;
-		} else if (!strcmp (bg, "white")) {
-			m_Red = 0.;
-			m_Green = 0.;
-			m_Blue = 0.;
-		} else {
-			if ((strlen (bg) != 7) || (*bg != '#')) {
-				g_warning ("Unrecognized color: %s\n", bg);
-				return;
-			}
-			int r, g, b;
-			r = strtoul (bg + 1, NULL, 16);
-			b = r & 0xff;
-			m_Blue = (float) b / 255.;
-			r >>= 8;
-			g = r & 0xff;
-			m_Green = (float) g / 255.;
-			r >>=8;
-			m_Red = (float) r / 255;
+	if (!bg)
+		bg = "black";
+	if (!strcmp (bg, "black")) {
+		m_Red = 0.;
+		m_Green = 0.;
+		m_Blue = 0.;
+	} else if (!strcmp (bg, "white")) {
+		m_Red = 1.;
+		m_Green = 1.;
+		m_Blue = 1.;
+	} else {
+		if ((strlen (bg) != 7) || (*bg != '#')) {
+			g_warning ("Unrecognized color: %s\n", bg);
+			return;
 		}
+		int r, g, b;
+		r = strtoul (bg + 1, NULL, 16);
+		b = r & 0xff;
+		m_Blue = (float) b / 255.;
+		r >>= 8;
+		g = r & 0xff;
+		m_Green = (float) g / 255.;
+		r >>=8;
+		m_Red = (float) r / 255;
 	}
 }
 

@@ -32,22 +32,60 @@
 /*!\file*/
 namespace gcp {
 
+/*!\class FragmentResidue gcp/fragment-residue.h
+Represents a residue inside a atoms group (see gcp::Fragment class).
+*/
 class FragmentResidue: public FragmentAtom
 {
 public:
+/*!
+The default constructor.
+*/
 	FragmentResidue ();
+/*!
+@param fragment the fragment containing the residue symbol.
+@param symbol the residue symbol.
+
+Constructs a FragmentResidue as a child of \a fragment.
+*/
 	FragmentResidue (Fragment *fragment, char const *symbol);
+/*!
+The destructor.
+*/
 	virtual ~FragmentResidue ();
 
+/*!
+@param xml 	the xmlDoc used to save the document.
+
+Builds an XML node representing this instance.
+@return the new XML node or NULL on error.
+*/
 	xmlNodePtr Save (xmlDocPtr xml) const;
+/*!
+@param node an XML node.
+
+Loads the symbol and associated resdue from \a node.
+@return true on success, false otherwise.
+*/
 	bool Load (xmlNodePtr node);
+/*!
+@param res the residue correspondig to the symbol.
+
+Sets the associated residue.
+*/
 	void SetResidue (Residue const *res);
 /*!
 @return the symbol of this Residue.
 */
 	const gchar* GetSymbol () const;
 
+/*!\fn GetResidue()
+@return the associated residue.
+*/
 GCU_RO_PROP (Residue const *, Residue)
+/*!\fn GetAbbrev()
+@return the used symbol for the residue.
+*/
 GCU_RO_PROP (std::string, Abbrev)
 };
 

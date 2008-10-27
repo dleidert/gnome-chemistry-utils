@@ -2,8 +2,8 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.7.5">
-  <!ENTITY manrevision "0.1">
+  <!ENTITY appversion "0.10.0">
+  <!ENTITY manrevision "0.2">
   <!ENTITY date "Febrary 2006">
   <!ENTITY app "GChemCalc">
 ]>
@@ -77,13 +77,22 @@
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
 		</revision>
+   		<revision> 
+		  <revnumber>&app; Manual V0.1</revnumber>
+		  <date>February 2006</date> 
+		  <revdescription> 
+			 <para role="author">Jean Bréfort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
 	 </revhistory>
 	 <releaseinfo> This manual describes version &appversion; of &app;.
 		</releaseinfo>
 	 <legalnotice> 
 		<title>Feedback</title>
-		<para>To report a bug or make a suggestion regarding the &app; application or
-		this manual, go to the
+		<para>To report a bug or make a suggestion regarding the <application>&app;</application> application or
+		this manual, go to the<application>&app;</application>
 		<ulink url="http://savannah.nongnu.org/projects/gchemutils" type="html"><application>&app;</application> home page</ulink>. 
       </para>
 <!-- Translators may also add here feedback address for translations -->
@@ -96,7 +105,7 @@
 <!-- ============= Document Body ============================= -->
 
 <!-- ============= Introduction ============================= -->
- <preface id="gchemcalc-unstable-intro">
+ <preface id="gchemcalc-intro">
     <title>Introduction</title>
 	<para>The <application>&app;</application> application is a simple
 	calculator for chemistry. It parses chemical formula to calculate
@@ -105,9 +114,9 @@
  </preface>
  
 <!-- ============= Getting started ============================= -->
- <chapter id="gchemcalc-unstable-getting-started">
+ <chapter id="gchemcalc-getting-started">
     <title>Getting started</title>
-	<sect1 id="gchemcalc-unstable-to-start">
+	<sect1 id="gchemcalc-to-start">
 		<title>To Start &app;</title>
 		<para>You can start <application>&app;</application> in the following ways:</para>
 		<variablelist>
@@ -117,23 +126,23 @@
     		<para>Choose 
     		<menuchoice>
     		<guisubmenu>Education</guisubmenu>
-    		<guimenuitem>Chemical calculator (unstable)</guimenuitem>
+    		<guimenuitem>Chemical calculator</guimenuitem>
     		</menuchoice>. </para>
     		</listitem>
     		</varlistentry>
     		<varlistentry>
     		<term>Command line</term>
     		<listitem>
-    		<para>Type <command>gchemcalc-unstable</command> [formula], then press <keycap>Return</keycap>.
+    		<para>Type <command>gchemcalc</command> [formula], then press <keycap>Return</keycap>.
 			[Formula] stands for an optional chemical formula.</para>
     		</listitem>
     		</varlistentry>
     		</variablelist>
 	</sect1>
-	<sect1 id="gchemcalc-unstable-when-you-start">
+	<sect1 id="gchemcalc-when-you-start">
 		<title>When You Start &app;</title>
 		<para>When you start <application>&app;</application>, the following window is displayed:</para>
- 			<figure id="gchemcalc-unstable-main-window"> 
+ 			<figure id="gchemcalc-main-window"> 
 			  <title>&app; window</title>
 			  <screenshot> 
 					<mediaobject>
@@ -179,14 +188,14 @@
 	</sect1>
 </chapter>
 
-<chapter id="gchemcalc-unstable-usage">
+<chapter id="gchemcalc-usage">
     <title>Usage</title>
-	<sect1 id="gchemcalc-unstable-formula">
+	<sect1 id="gchemcalc-formula">
 		<title>Entering a formula</title>
-		<para>Formulas can be entered from the <link linkend="gchemcalc-unstable-to-start">command line</link>,
+		<para>Formulas can be entered from the <link linkend="gchemcalc-to-start">command line</link>,
 		from <application>GChemPaint</application>, or directly in the <guilabel>formula entry</guilabel>.</para>
 		<para>When using the formula entry, just type a valid formula as in the following example:</para>
-		<figure id="gchemcalc-unstable-formula-window"> 
+		<figure id="gchemcalc-formula-window"> 
 		  <title>Entering a formula</title>
 		  <screenshot> 
 				<mediaobject>
@@ -199,7 +208,7 @@
 			</screenshot>
 		</figure>
 		<para>After validating, if the formula has been succesfully parsed, you get:</para>
-		<figure id="gchemcalc-unstable-composition-window"> 
+		<figure id="gchemcalc-composition-window"> 
 		  <title>Results</title>
 		  <screenshot> 
 				<mediaobject>
@@ -212,7 +221,7 @@
 			</screenshot>
 		</figure>
 		<para>The isotopic pattern is displayed on the second page of the notebook:</para>
-		<figure id="gchemcalc-unstable-pattern-window"> 
+		<figure id="gchemcalc-pattern-window"> 
 		  <title>Isotopic pattern</title>
 		  <screenshot> 
 				<mediaobject>
@@ -227,11 +236,11 @@
 		<para>If an error occurs while parsing the formula, a message box will pop up and the cursor
 		will be moved in the entry to the error position.</para>
 	</sect1>
-	<sect1 id="gchemcalc-unstable-supported">
-		<title>Limitations</title>
+	<sect1 id="gchemcalc-supported">
+		<title>Features</title>
 		<para><application>&app;</application> supports parenthesis and brackets to any level
 		provided each one is matched as in the following example:</para>
-		<figure id="gchemcalc-unstable-braces-window"> 
+		<figure id="gchemcalc-braces-window"> 
 		  <title>Using parenthesis and brackets</title>
 		  <screenshot> 
 				<mediaobject>
@@ -243,24 +252,115 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
-		<para>Abbreviations such as "Ph" for a phenyl substituant are not supported
-		in this version of <application>&app;</application>.</para>
+		<para>Abbreviations such as "Ph" for a phenyl substituant are supported.</para>
+		<para>This is also true for abbreviations such as Pr which might represent either
+		a praseodymium atom or a propyl group. Three options are available in the
+		<menuchoice> <guimenu>Mode</guimenu></menuchoice> menu:</para>
+		<variablelist>
+    	  <varlistentry> <term>Guess</term> 
+			<listitem><para><application>&app;</application> try to guess if the symbol
+			represents an atom or a group, PrCl is analyzed as propyl chloride, while PrCl<subscript>3</subscript>
+			is praseodymium chloride; however, this method might fail in some cases such as
+			PrPr<subscript>3</subscript> which will not be recognized as trypropylpraseodymium, at least
+			with this version of <application>&app;</application>.</para></listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Atom</term>
+			<listitem><para>Ambiguous symbols are interpreted
+			as atoms.</para></listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Nickname</term>
+			<listitem><para>Ambiguous symbols are interpreted
+			as groups.</para></listitem>
+		  </varlistentry>
+		</variablelist>
+		<para>Custom nicknames can be defined using <ulink type="help" url="ghelp:gchempaint-0.10#gchempaint-residues">
+		the <application>GChemPaint</application> application</ulink>.</para>
 	</sect1>
-	<sect1 id="gchemcalc-unstable-graph">
-		<title>Copying the isotopic pattern graph.</title>
-		<para>To copy the isotopic pattern graph, press the <guilabel>Copy</guilabel> button
+<!-- ============= To Print a File============================== -->
+	<sect1 id="gchemcalc-print">
+		<title>To Print the Isotopic Pattern Graph</title>
+		  <para>To print a isotopic pattern graph, choose 
+		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
+			 </menuchoice>.</para>
+		 <para><menuchoice> <guimenu>File</guimenu> <guimenuitem>Preview</guimenuitem>
+			 </menuchoice> opens a window with a preview of the printed output.</para>
+		<para>To tune the printed output, choose<menuchoice>
+		<guimenu>File</guimenu> <guimenuitem>Page setup...</guimenuitem>
+		 </menuchoice> as explained below.</para>
+		<sect2 id="gchemcalc-print-setup">
+		  <title>The page setup dialog.</title>
+		  <para>the first tab of the dialog concerns the paper and margins setup.
+		  Headers and footers are not supported in the version of <application>&app;</application></para>
+		  <figure id="gchemcalc-page-setup"> 
+			<title>The Page Setup tab.</title>
+			<screenshot> 
+			  <mediaobject>
+				<imageobject>
+				  <objectinfo> <abstract><para>Screenshot of page setup dialog.</para></abstract>
+				  </objectinfo> 
+				  <imagedata fileref="figures/page-setup.png"/>
+				</imageobject>
+			  </mediaobject>
+			</screenshot>
+		  </figure>
+		  <para>The second tab allows you tio choose the scale of the output. With  no scaling or
+		  scaling at 100%, the output will have the same size in points as the size in pixels on
+		  the screen. If you choose automatic scaling, you can make the output fill the available
+		  space either horizontally, vertically, or both (none of the options is equivalent to no scaling).</para>
+		  <para>Printing to more than one page is not supported in this version of <application>&app;</application></para>
+		  <figure id="gchemcalc-print-scale"> 
+			<title>The Print Scale tab.</title>
+			<screenshot> 
+			  <mediaobject>
+				 <imageobject>
+					<objectinfo> <abstract><para>Screenshot of the printing scale page.</para></abstract>
+					</objectinfo> 
+					<imagedata fileref="figures/print-scale.png"/>
+				 </imageobject>
+			  </mediaobject>
+			</screenshot>
+		  </figure>
+	  </sect2>
+	</sect1>
+<!-- ============= To Save as an Image============================== -->
+	<sect1 id="gchemcalc-save-as-image">
+		<title>Export the Isotopic Pattern as an Image.</title>
+		<para>To export the displayed isotopic pattern to an image, use 
+		  <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save As Image</guimenuitem>
+			 </menuchoice>.</para>
+		<para>Available formats are SVG, EPS, PS, PDF, and the formats with write support in
+		GdkPixbuf.</para>
+		<para>To choose a format, you can use an appropriate extension
+		in the file name, or explicitly select a format in the combo box.
+		With the first method, if <application>&app;</application> does
+		not recognize an extension, the exported file will be a SVG
+		file. <application>&app;</application> will add an extension
+		to the file name if needed.</para>
+		<para>You might change the default width and height of the exported image
+		using the appropriate entries.</para>
+		<para>Postscript and PDF files can also be produced using the
+		<link linkend="gchemcalc-print"><menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
+			 </menuchoice> command</link>.</para>
+	</sect1>
+	<sect1 id="gchemcalc-graph">
+		<title>Copying the Isotopic Pattern Graph.</title>
+		<para>To copy the isotopic pattern graph, choose
+		<menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Copy</guimenuitem></menuchoice>
 		and paste in the target application. Graphs will be copied as native graphs to
 		Abiword and as svg or png data to other applications which support such formats.</para>
 	</sect1>
-	<sect1 id="gchemcalc-unstable-question">
+</chapter>
+ <chapter id="gchemcalc-support">
+    <title>Support.</title>
+	<sect1 id="gchemcalc-question">
 		<title>To Ask a Question</title>
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Ask a question</guimenuitem></menuchoice>,
 		your mail agent should pop up with a new message to the <ulink type="mail" url="mailto:gchemutils-main@nongnu.org">Gnome Chemistry Utils
 		mailing list</ulink>.</para>
-		<para>Another way to get some help is to connect on the #gchemutils channel
+		<para>Another way to get some help is to connect on the <ulink url="irc://irc.gimp.net/gchemutils">#gchemutils channel</ulink>
 		at irc.gimp.net and ask your question there (if you are not alone on the channel).</para>
 	</sect1>
-	<sect1 id="gchemcalc-unstable-web">
+	<sect1 id="gchemcalc-web">
 		<title>To Find the Gnome Chemistry Utils on the Web.</title>
 		<para>If you choose <menuchoice> <guimenu>Help</guimenu> <guimenuitem>Gnome Chemistry Utils on the web</guimenuitem></menuchoice>,
 		the default web browser should pop up and display the main page for the Gnome Chemsitry Utils.</para>
@@ -268,7 +368,7 @@
 		<ulink type="http" url="http://gchemutils.nongnu.org">http://gchemutils.nongnu.org</ulink> and the project
 		page at savannah <ulink type="http" url="http://savannah.nongnu.org/projects/gchemutils">http://savannah.nongnu.org/projects/gchemutils</ulink>.</para>
 	</sect1>
-	<sect1 id="gchemcalc-unstable-bug">
+	<sect1 id="gchemcalc-bug">
 		<title>To Report a Bug</title>
 		<para>To report a bug, you must use the bug page for the Gnome Chemistry
 		Utils at Savannah. You can access it by choosing

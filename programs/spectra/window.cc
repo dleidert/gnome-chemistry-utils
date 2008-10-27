@@ -123,7 +123,7 @@ static void on_about (GtkWidget *widget, gsvWindow *Win)
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GSpectrum is a spectrum viewer for Gnome");
 	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2007 Jean Bréfort\n");
+	const gchar * copyright = _("Copyright © 2007-2008 Jean Bréfort\n");
 	const gchar * license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
@@ -183,7 +183,7 @@ static GtkActionEntry entries[] = {
 		  N_("Copy the selection"), G_CALLBACK (on_copy) },
   { "HelpMenu", NULL, N_("_Help") },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
-		  N_("View help for the Spetra Viewer"), G_CALLBACK (on_help) },
+		  N_("View help for the Spectra Viewer"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
 		  N_("Browse the Gnome Chemistry Utils's web site"), G_CALLBACK (on_web) },
 	  { "LiveAssistance", NULL, N_("Live assistance"), NULL,

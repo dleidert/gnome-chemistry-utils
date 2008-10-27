@@ -41,6 +41,7 @@
 #include <cstring>
 
 using namespace gcu;
+using namespace std;
 
 namespace gcp {
 
@@ -413,6 +414,7 @@ void ReactionArrow::SetSelected (GtkWidget* w, int state)
 void ReactionArrow::AddProp (Object *object)
 {
 	Document *Doc = dynamic_cast<Document*> (GetDocument ());
+	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
 	Operation *Op = Doc->GetNewOperation (GCP_MODIFY_OPERATION);
 	Op->AddObject (object, 0);
 	Object *Group = GetGroup ();
@@ -423,7 +425,18 @@ void ReactionArrow::AddProp (Object *object)
 	// add the child in the object tree
 	AddChild (prop);
 	// position the child
+	PositionChild (prop);
+	Op->AddObject (Group, 1);
+	Doc->FinishOperation ();
+	pData->UnselectAll ();
+	EmitSignal (OnChangedSignal);
+	new ReactionPropDlg (this, prop);
+}
+
+void ReactionArrow::PositionChild (ReactionProp *prop)
+{
 	// FIXME: this is experimental code
+	Document *Doc = dynamic_cast<Document*> (GetDocument ());
 	Theme *pTheme = Doc->GetTheme ();
 	double xmin, xspan, ymin, yspan,
 		length = sqrt (m_width * m_width + m_height * m_height),
@@ -474,19 +487,18 @@ void ReactionArrow::AddProp (Object *object)
 	// calculate the vector of the needed move
 	xmin = m_x + length * x + y * yspan - (rect.x0 + rect.x1) / 2. / pTheme->GetZoomFactor ();
 	ymin = m_y + length * y - x * yspan - (rect.y0 + rect.y1) / 2. / pTheme->GetZoomFactor ();
-	object->Move (xmin, ymin);
-	Op->AddObject (Group, 1);
-	Doc->FinishOperation ();
-	pData->UnselectAll ();
+	prop->Move (xmin, ymin);
 	Doc->GetView ()->Update (this);
-	EmitSignal (OnChangedSignal);
-	new ReactionPropDlg (this, prop);
 }
 
 bool ReactionArrow::OnSignal (SignalId Signal, Object *Child)
 {
 	if (Signal == OnChangedSignal) {
-		// FIXME: write this code
+		// for now we can have only one child property.
+		map<string, Object*>::iterator i;
+		ReactionProp *prop = dynamic_cast <ReactionProp *> (GetFirstChild (i));
+		if (prop != NULL)
+			PositionChild (prop);
 	}
 	return true;
 }

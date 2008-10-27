@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-prop-dlg.h
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,16 +29,32 @@
 #include <gcu/object.h>
 #include <gcu/macros.h>
 
+/*!\file*/
 namespace gcp {
 
 class ReactionArrow;
 
 class ReactionProp;
 
+/*!\class  ReactionPropDlg gcp/reaction-prop-dlg.h
+\brief reaction properties dialog box class.
+
+The class for the dialog used to set the properties of objects attached to
+reaction arrows.
+*/
 class ReactionPropDlg: public gcu::Dialog
 {
 public:
+/*!
+@param arrow the reaction arrow to which the object is attached.
+@param prop the associated reaction property.
+
+Builds and shows the reaction properties dialog box for \a arrow and \a prop.
+*/
 	ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop);
+/*!
+The destructor.
+*/
 	virtual ~ReactionPropDlg ();
 
 private:

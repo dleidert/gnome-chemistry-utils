@@ -41,7 +41,7 @@ class WidgetData;
 #define GCHEMPAINT_ATOM_NAME "application/x-gchempaint"
 extern GtkTargetEntry const targets[];
 
-/*!\class
+/*!\class View gcp/view.h
 The GChempaint document view.
 */
 class View
@@ -81,49 +81,77 @@ Called by the framework when an event occured in the canvas.
 */
 	bool OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
 /*!
+@param pObject the object to add.
 
+Adds the object to the canvas.
 */
 	void AddObject (gcu::Object const *pObject);
 /*!
+@param pObject the object to update.
+
+Updates the object in the canvas.
 */
 	void Update (gcu::Object const *pObject);
 /*!
+Creates a new canvas widget for the view.
+
+@return the new widget.
 */
 	GtkWidget* CreateNewWidget ();
 /*!
+@param widget the destroyed widget.
+
+Called by the framework when a widget is destroyed.
 */
 	void OnDestroy (GtkWidget* widget);
 /*!
+@param widget the canvas in which an item is searched.
+@param object the object represented by the item.
+
+Searches the item representing \a object in the canvas widget.
+@return the found item if any, or NULL.
 */
-	GnomeCanvasItem* GetCanvasItem (GtkWidget* widget, gcu::Object* Object);
+	GnomeCanvasItem* GetCanvasItem (GtkWidget* widget, gcu::Object* object);
 /*!
+@return the canvas background.
 */
 	GnomeCanvasItem* GetBackground ();
 /*!
+@return the current zoom factor.
 */
 	double GetZoomFactor ();
 /*!
+Updates fonts descriptions after a theme change.
 */
 	void UpdateFont ();
 /*!
+@param pObject the object to remove.
+
+Removes the object from the view and destroys the items representing it.
 */
 	void Remove (gcu::Object* pObject);
 /*!
+@return the pango context associated to the view.
 */
 	PangoContext* GetPangoContext () {return m_PangoContext;}
 /*!
+@return the height of the font used to display atomic symbols.
 */
 	double GetFontHeight () {return m_dFontHeight;}
 /*!
+@return the name of the font used to display atomic symbols.
 */
 	gchar* GetFontName () {return m_sFontName;}
 /*!
+@return the name of the font used to display stoichiometry indices and charges.
 */
 	gchar* GetSmallFontName () {return m_sSmallFontName;}
 /*!
+@return the description of the font used to display atomic symbols.
 */
 	PangoFontDescription* GetPangoFontDesc () {return m_PangoFontDesc;}
 /*!
+@return the description of the font used to display stoichiometry indices and charges.
 */
 	PangoFontDescription* GetPangoSmallFontDesc () {return m_PangoSmallFontDesc;}
 /*!
@@ -154,47 +182,82 @@ Called by the framework to copy and delete the selection.
 */
 	void OnCutSelection (GtkWidget* w, GtkClipboard* clipboard);
 /*!
+@param w the widget which received the event.
+@param event the current event.
 
+Called by the framework when a key has been pressed on the keyboard.
+@return true if the key was significant, false otherwise.
 */
 	bool OnKeyPress (GtkWidget* w, GdkEventKey* event);
 /*!
+@param w the widget which received the event.
+@param event the current event.
 
+Called by the framework when a key has been released on the keyboard.
+@return true if the key was significant, false otherwise.
 */
 	bool OnKeyRelease (GtkWidget* w, GdkEventKey* event);
 /*!
+@param w the widget which received the event.
+@param width the ne widget width.
+@param height the new widget height.
 
+Called by the framework when the widget size changed.
+@return true (always).
 */
 	bool OnSize (GtkWidget *w, int width, int height);
 /*!
+@param x1 the left coordinate of the bounding rectangle of the used canvas area.
+@param y1 the top coordinate of the bounding rectangle of the used canvas area.
+@param x2 the right coordinate of the bounding rectangle of the used canvas area.
+@param y2 the bottom coordinate of the bounding rectangle of the used canvas area.
 
+Ensures the canvas is large enough to display everything and, if x1 or y1 is
+negative moves all the items so that they are visible.
 */
 	void UpdateSize (double x1, double y1, double x2, double y2);
 /*!
+@param item a text item or NULL.
 
+Sets the currently edited text item. \a item should be NULL to tell the view
+that no text edition is currently taking place.
 */
 	void SetGnomeCanvasPangoActive (GnomeCanvasPango* item);
 /*!
+Called by the framework when the active window changes to stop current edition
+and inhibit timer events.
 
+@return true if the change is possible, false to abort it.
 */
 	bool PrepareUnselect ();
 /*!
+@param clipboard the clipboard used.
+@param selection_data the data to paste.
 
+Called by the framework to effectively paste data in the document.
 */
 	void OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data);
 /*!
-
+Called by the framework to select everything in the document.
 */
 	void OnSelectAll ();
 /*!
-
+@return true if the view is embedded in another document view.
 */
 	bool IsEmbedded () {return m_bEmbedded;}
 /*!
-
+@return the number of existing canvases for this view.
 */
 	int GetNbWidgets () {return m_Widgets.size ();}
 /*!
+@param filename the file name to use for the export.
+@param type a string representing the image type as used by the GdkPixbuf
+library. Other types supported are "svg", "ps", "pdf", and "eps".
+@param resolution the image resolution to use for bitmaps.
 
+Exports the current document to an image. The \a resolution parameter is
+significative only for bitmap images; if it is not given, of if negative, 1
+will be used which will result as a one to one pixel export.
 */
 	void ExportImage (std::string const &filename, const char* type, int resolution = -1);
 /*!

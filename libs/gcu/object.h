@@ -415,7 +415,7 @@ every derived class for which alignment has a meaning should implement this meth
 @param y y coordinate of the mouse click.
 
 This method is called to build a contextual menu for the object. It is called by Object::ShowContextualMenu, so
-it should not be necessary to call it directly. It should be overrided by derived classes when a contextual menu
+it should not be necessary to call it directly. It should be overriden by derived classes when a contextual menu
 is needed. Typically, each class adds a submenu and calls the same method for its parent.
 Default implementation calls registered BuildMenuCb callbacks and the parent's method.
 Derived classes should call Object::BuildContextualMenu before returning.

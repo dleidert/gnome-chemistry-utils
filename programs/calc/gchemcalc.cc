@@ -300,7 +300,7 @@ static void on_about (GtkWidget *widget, void *data)
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GChemCalc is a simple calculator for chemists");
 	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2005-2007 Jean Bréfort\n");
+	const gchar * copyright = _("Copyright © 2005-2008 Jean Bréfort");
 	const gchar * license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"
@@ -670,7 +670,7 @@ static const char *ui_description =
 "      <menuitem action='Guess'/>"
 "      <menuitem action='Atom'/>"
 "      <menuitem action='Residue'/>"
-"      <menuitem action='Ask'/>"
+//"      <menuitem action='Ask'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Help'/>"

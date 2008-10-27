@@ -172,6 +172,7 @@ void GOGcpApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)
 	gogcu->parent.ascent = (y - rect.y0) / 96;
 	gogcu->parent.descent = (rect.y1 - y) / 96;
 	gogcu->parent.width = (rect.x1 - rect.x0) / 96;
+	gogcu->parent.height = gogcu->parent.ascent + gogcu->parent.descent;
 }
 
 void GOGcpApplication::OnFileNew (char const *Theme)

@@ -29,18 +29,33 @@
 #include <gcu/dialog.h>
 #include <gcu/object.h>
 #include <gcu/macros.h>
+
+/*!file*/
 namespace gcp {
 
 class Application;
 class Theme;
 
+/*!\class PrefsDlg gcp/preferences.h
+\brief GChemPaint preferences dialog class
+*/
+
 class PrefsDlg: public gcu::Dialog, gcu::Object
 {
+friend class PrefsDlgPrivate;
 public:
+/*!
+@param pApp the application.
+
+Constructs the preferences dialog and displays it.
+*/
 	PrefsDlg (Application *pApp);
+/*!
+The destructor.
+*/
 	virtual ~PrefsDlg ();
 
-	void OnNewTheme ();
+private:
 	void OnSelectTheme (GtkTreeSelection *selection);
 	void OnBondLength (double length);
 	void OnBondAngle (double angle);

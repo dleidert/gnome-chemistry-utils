@@ -98,6 +98,7 @@ EltTable::EltTable()
 	Langs["fr"] = _("French");
 	Langs["it"] = _("Italian");
 	Langs["pl"] = _("Polish");
+	Langs["pt_BR"] = _("Brazilian");
 	Langs["ru"] = _("Russian");
 	if (!(xml = xmlParseFile (PKGDATADIR"/elements.xml"))) {
 		g_error (_("Can't find and read elements.xml"));

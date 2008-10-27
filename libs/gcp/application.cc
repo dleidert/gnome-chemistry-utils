@@ -335,6 +335,14 @@ Application::Application ():
 		OnDeleteSignal = Object::CreateNewSignalId ();
 		OnThemeChangedSignal = Object::CreateNewSignalId ();
 
+		/* get the theme style for labels so that tools buttons colors might
+		be adapted to the current theme */
+		GtkWidget *w=gtk_label_new("");
+		GtkSettings *st = gtk_settings_get_default();
+		m_Style = gtk_rc_get_style(w);
+		gtk_widget_destroy (w);
+
+		// load plugins
 		Plugin::LoadPlugins ();
 		m_bInit = true;
 	}
@@ -1064,17 +1072,46 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 		GtkIconSet *set;
 		GtkIconSource *src;
 		while (icons->name) {
+			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline (-1, icons->data_24, false, NULL);
 			set = gtk_icon_set_new ();
 			src = gtk_icon_source_new ();
+			gtk_icon_source_set_size_wildcarded (src, true);
+			gtk_icon_source_set_state_wildcarded (src, false);
+			gtk_icon_source_set_direction_wildcarded (src, true);
+
+			for (int c = 0; c < 5; c++) {
+				GdkPixbuf *icon = gdk_pixbuf_copy (pixbuf);
+				// set the pixbuf color to the corresponding style for the style
+				unsigned char red, blue, green;
+				red = m_Style->fg[c].red >> 8;
+				green = m_Style->fg[c].red >> 8;
+				blue = m_Style->fg[c].red >> 8;
+				unsigned char *line, *cur;
+				line = gdk_pixbuf_get_pixels (icon);
+				int i, j, rows, cols, rowstride;
+				cols = gdk_pixbuf_get_width (icon);
+				rows = gdk_pixbuf_get_height (icon);
+				rowstride = gdk_pixbuf_get_rowstride (icon);
+				for (i = 0; i < rows; i++) {
+					cur = line;
+					line += rowstride;
+					for (j = 0; j < cols; j++) {
+						cur[0] = cur[0] ^ red;
+						cur[1] = cur[1] ^ green;
+						cur[2] = cur[2] ^ blue;
+						cur += 4;
+					}
+				}
+				gtk_icon_source_set_pixbuf (src, icon);
+				gtk_icon_source_set_state (src, static_cast <GtkStateType> (c));
+				gtk_icon_set_add_source (set, src);	/* copies the src */
+				g_object_unref (icon);
+			}
 		
-			gtk_icon_source_set_size_wildcarded (src, TRUE);
-			gtk_icon_source_set_pixbuf (src,
-				gdk_pixbuf_new_from_inline (-1, icons->data_24, FALSE, NULL));
-			gtk_icon_set_add_source (set, src);	/* copies the src */
-		
+			gtk_icon_source_free (src);
 			gtk_icon_factory_add (IconFactory, icons->name, set);	/* keeps reference to set */
 			gtk_icon_set_unref (set);
-			gtk_icon_source_free (src);
+			g_object_unref (pixbuf);
 			icons++;
 		}
 	}

@@ -1,12 +1,224 @@
-2008-08-27  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* autogen.sh:
-	* libs/gcp/bond.h:
-	* libs/gcp/document.h:
-
 ##Text encoding: utf-8
+
+2008-10-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-app.cc: implement save as image for curves.
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+
+2008-10-25  Jordan Mantha  <laserjock@ubuntu.com>
+        * docs/help/spectra/C/gspectrum.xml: miscellaneous typo and style fixes.
+          Also changed mixed DOS/Unix line endings to Unix.
+
+2008-10-24  Jordan Mantha  <laserjock@ubuntu.com>
+        * docs/help/table/C/gchemtable.xml: miscellaneous typo and style fixes.
+	
+2008-10-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: check if Fragment::m_Atom is not NULL before
+	using it.
+
+2008-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.99).
+
+2008-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-curve.cc: sets the application as owner for
+	the dialog (fixes a memory leak), and add help support to the graph guru.
+	* programs/table/gchemtable-data.cc: fix minimum and maximum for a series
+	when the first element is not a number.
+	* docs/help/table/C/gchemtable.xml: partially update documentation.
+	* docs/help/table/C/figures/*.png: new updated screenshots.
+
+2008-10-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/table/C/gchemtable.xml: partially update documentation.
+	* docs/help/table/C/figures/*.png: new or updated screenshots.
+	
+2008-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.94).
+
+2008-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/calc/C/gchemcalc.xml: added more documentation.
+	* docs/help/calc/C/figures/uv-vis-tools.png: new screenshot.
+	* docs/help/spectra/C/gspectrum.xml: wrote documentation for 0.10.
+
+2008-10-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcpapp.cc: fix embedded object height.
+	* libs/gcu/spectrumdoc.cc: fix the origin for varian nmr dx files.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* docs/help/spectra/C/figures/*: new screenshots.
+
+2008-10-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment-atom.cc: ensure symbol geometry is always
+	evaluated.
+	* libs/gcp/molecule.cc: fix contextual menu issues.
+	* libs/gcp/view.cc: enable selection of an atom even without a
+	visible item.
+	* libs/gcu/atom.cc: initalize Z to -1. to avoid confusion with
+	pseudo-atoms.
+	* plugins/paint/bonds/bondtool.cc: enable merging with atoms even
+	without a visible item.
+	* plugins/paint/cycles/cycletool.cc: ditto.
+
+2008-10-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Doxyfile.in: add an image path.
+	* libs/gcp/fontsel.h: add a screenshot to the documentation.
+	* libs/gcp/theme.h: API documentation work (done for 0.10).
+
+2008-10-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reaction-arrow.cc: update position and length when the
+	attached object changes.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/settings.h: API documentation work.
+	* libs/gcp/theme.h: ditto.
+	* libs/gcp/tool.h: ditto.
+
+2008-10-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: removed unuseful SetSelected method.
+	* libs/gcp/molecule.h: API documentation work.
+	* libs/gcp/preferences.cc: made most methods private and replace them
+	by a private friend class.
+	* libs/gcp/preferences.h: ditto.
+	* libs/gcp/reaction-prop.h: API documentation work.
+	* libs/gcp/settings.h: ditto.
+	* libs/gcp/stringdlg.h: ditto.
+	* libs/gcp/text.h: ditto.
+	* libs/gcp/tool.cc: ditto.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/object.h: ditto.
+
+2008-09-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.93).
+
+2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/C/gcrystal.xml: fixed validation.
+
+2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/calc/C/gchemcalc.xml: added missing tags.
+
+2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/3d/C/gchem3d.xml: fixed typo which made it fail
+	validation.
+
+2008-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/*: updated Gnome Crystal help.
+	* libs/gcp/reactant.h: API documentation work.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-operator.h: ditto.
+	* libs/gcp/reaction-prop-dlg.h: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* libs/gcp/reaction-step.h: ditto.
+	* libs/gcp/reaction.h: ditto.
+
+2008-09-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: use theme colors for tools icons.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/atom.h: API documentation work.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/mesomer.h: ditto.
+	* libs/gcp/mesomery-arrow.h: ditto.
+	* libs/gcp/mesomery.h: ditto.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/newfiledlg.h: ditto.
+	* libs/gcp/plugin.cc: ditto.
+	* libs/gcp/plugin.h: ditto.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/text.h: ditto.
+	* plugins/paint/*/*.png: use transparency instead of grey level. [#24382]
+
+2008-09-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/stringdlg.cc: use "SMILES" instead of "Smiles".
+	* docs/help/*: applications documentation work.
+
+2008-09-18  Julian Sikorski  <belegdol@gmail.com>
+	* plugins/paint/residues/residues.glade: worked around "Name" translation problem.
+
+2008-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/dialog.cc: do not set the application as default owner.
+
+2008-09-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/calc/gchemcalc.cc: inhibit the Ask option which is not
+	implemented yet.
+	* programs/crystal/gcrystal.schemas.in: removed a localized string.
+
+2008-09-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.92).
+	* libs/gcp/fragment.h: API documentation work.
+	* libs/gcp/text.h: ditto.
+	* programs/3d/application.cc: fixed color background from
+	command line.
+	* docs/help/3d/*: gchem3d help work.
+
+2008-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/Makefile.am: don't forget the glade file in the
+	tarball.
+
+2008-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add back intltool-*.in to EXTRA_DIST (needed
+	by intltool 0.37.1).
+
+2008-09-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: downgrade the intltool requirement to 0.37.1.
+	* docs/help/paint/*: update gchempaint help for 0.10.
+
+2008-09-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: fixed compilation on ppc and other
+	big-endian machines.
+
+2008-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/Makefile.am: fix fontsel.glade installation.
+
+2008-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.h: API documentation work.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/fontsel.h: ditto.
+	* libs/gcp/fragment-residue.h: ditto.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/chemistry.h: ditto.
+	* libs/gcu/gtkperiodic.h: ditto.
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.9.91).
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* autogen.sh: reverted Daniels changes about docs links for now.
+	* configure.ac: ditto.
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/residue.cc: no need to care about the delete button for
+	read-only residues.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* programs/calc/gchemcalc.cc: fixed typo.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+
+2008-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: requires goffice-0.6.5 or later.
+	* docs/help/paint/C/fidures/*.png: new or updated screenshots.
+	* glade/crystal/docprop.glade: updated the user interface to be
+	more HIG compliant
+	* libs/gcp/about.cc: updated copyright.
+	* libs/gcp/document.h: API documentation work.
+	* libs/gcp/fragment-residue.cc: fix an issue with residues management.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/residue.cc: ditto.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcu/element.cc: add brazilian to known languages.
+	* plugins/paint/residues/plugin.cc: fix an issue with residues management.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/residues/residues.glade: ditto.
+	* programs/calc/gchemcalc.cc: updated copyright.
+	* programs/crystal/Makefile.am: add docprop.*.
+	* programs/crystal/application.cc: add document properties support.
+	* programs/crystal/docprop.cc: ditto.
+	* programs/crystal/docprop.h: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/window.cc: updated copyright.
+	* programs/spectra/window.cc: updated copyright.
 
 2008-09-01 Daniel Leidert <daniel.leidert@wgdd.de>
 	* docs/man/Makefile.am (gcu_man_src): Removed libgcu.3.xml.
@@ -40,6 +252,13 @@
 	  to not be empty. Use AC_CONFIG_LINKS to create the versioned files in
 	  docs/help (also cleans these files/links with distclean).
 	* autogen.sh: Removed gendocs vall. Done via configure (see above).
+
+2008-08-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* autogen.sh: use gendocs.
+	* gendocs: new script to update help files names.
+	* libs/gcp/bond.h: API documentation work.
+	* libs/gcp/document.h: ditto.
+	* docs/help/paint/C/figures: updated screenshots.
 
 2008-08-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: remve G_DISABLE* to make things work with gtk+-2.14.

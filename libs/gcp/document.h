@@ -121,68 +121,309 @@ Saves the current file.
 */
 	void Save () const;
 /*!
-@param
+@param node the XML root node for the document.
 
+Loads the document from the XML tree representing it.
+@return true on success, false otherwise.
 */
-	virtual bool Load (xmlNodePtr);
+	virtual bool Load (xmlNodePtr node);
+/*!
+@return the document title.
+*/
 	const gchar* GetTitle () const;
+/*!
+@param title the new title.
+
+The document title.
+*/
 	void SetTitle (const gchar* title);
+/*!
+@param label the new window title.
+
+Sets the label to use as window title.
+*/
 	void SetLabel (const gchar* label);
+/*!
+@return the window title.
+*/
 	const gchar* GetLabel () const;
 /*!
-@param
-@param
+@param filename the new file name (URI).
+@param mime_type the new mime type.
+
+Sets the new file name and its associated mime type.
+*/
+	void SetFileName (std::string const &filename, const gchar *mime_type);
+/*!
+@return the current file name, actually the URI.
+*/
+	const gchar* GetFileName () {return m_filename;}
+/*!
+@param print a GtkPrintOperation.
+@param	context a GtkPrintContext.
+
+Prints the document.
+*/
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
+/*!
+@param pObject a new object.
+
+Adds a new object to the document.
+*/
+	void AddObject (Object* pObject);
+/*!
+@param pAtom a new atom.
+
+Adds a new atom to the document.
+*/
+	void AddAtom (Atom* pAtom);
+/*!
+@param pFragment a new atoms group.
+
+Adds a new fragment to the document.
+*/
+	void AddFragment (Fragment* pFragment);
+/*!
+@param pBond a new bond.
+
+Adds a new bond to the document and checks the connectivity of the new covalent
+structure.
+*/
+	void AddBond (Bond* pBond);
+/*!
+@param xml the XML document representing the GChemPaint document being loaded.
+
+Parses the XML tree and creates all objects it represents.
+*/
+	void ParseXMLTree (xmlDocPtr xml);
+/*!
+@param node the XML node representing objects to add to the document.
 
 */
-	void SetFileName (std::string const &, const gchar *mime_type);
-	const gchar* GetFileName () {return m_filename;}
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
-	void AddObject (Object* pObject);
-	void AddAtom (Atom* pAtom);
-	void AddFragment (Fragment* pFragment);
-	void AddBond (Bond* pBond);
-	void ParseXMLTree (xmlDocPtr xml);
 	void LoadObjects (xmlNodePtr node);
+/*!
+Builds the XML tree representing the document. The returned value must
+be freed using xmlFree.
+@return the new XML document.
+*/
 	xmlDocPtr BuildXMLTree () const;
+/*!
+Updates the view for all objects which have been marked as dirty.
+*/
 	void Update ();
-	void Remove (Object*);
+/*!
+@param object the object to remove.
+
+Removes a child object from the document, and deletes it.
+*/
+	void Remove (Object* object);
+/*!
+@param Id the Id of the object to be removed.
+
+Removes a child object from the document, and deletes it.
+*/
 	void Remove (const char* Id);
+/*!
+Called by the framework when the user fires the File/Properties command.
+*/
 	void OnProperties ();
+/*!
+Called by the framework when the user fires the Edit/Undo command.
+*/
 	void OnUndo ();
+/*!
+Called by the framework when the user fires the Edit/Redo command.
+*/
 	void OnRedo ();
+/*!
+@return the date at which the document was first created.
+*/
 	const GDate* GetCreationDate () {return &CreationDate;}
+/*!
+@return the last date at which the document was modified.
+*/
 	const GDate* GetRevisionDate () {return &RevisionDate;}
+/*!
+@return the author's name.
+*/
 	const gchar* GetAuthor () {return m_author;}
+/*!
+@return the author's e-mail address.
+*/
 	const gchar* GetMail () {return m_mail;}
+/*!
+@return the comment associated with the document.
+*/
 	const gchar* GetComment () {return m_comment;}
+/*!
+@param author the new author name.
+
+Setes the document author name.
+*/
 	void SetAuthor (const gchar* author);
+/*!
+@param mail the new e-mail address.
+
+Sets the document author e-mail address.
+*/
 	void SetMail (const gchar* mail);
+/*!
+@param comment the new comment.
+
+Sets the comment associated with the document  any.
+*/
 	void SetComment (const gchar* comment);
+/*!
+Ends the current operation and pushes it on top of the undo stack. This method
+must be called after all changes have been done in  the document and the changes
+described in the operation.
+*/
 	void FinishOperation ();
+/*!
+Aborts and deletyes the current operation.
+*/
 	void AbortOperation ();
+/*!
+Removes an operation from the udo stack and deletes it.
+*/
 	void PopOperation ();
+/*!
+@param operation the operation to add.
+@param undo whether to put he operation on the undo or the redo stack.
+
+Adds the current operation to the appropriate task.
+*/
 	void PushOperation (Operation* operation, bool undo = true);
+/*!
+Called by the framework when the document becomes the active one. Updates the
+menus according to the document state.
+*/
 	void SetActive ();
+/*!
+@param type the type of the new undo/redo operation.
+
+@return the new operation.
+*/
 	Operation* GetNewOperation (OperationType type);
+/*!
+@return the current undo/redo operation.
+*/
 	Operation* GetCurrentOperation () {return m_pCurOp;}
+/*!
+@param node the XML node representing objects to add to the document.
+
+Adds previously serialized objects  to the document.
+*/
 	void AddData (xmlNodePtr node);
+/*!
+@return true if the undo stack is not empty.
+*/
 	bool CanUndo () {return m_UndoList.size() > 0;}
+/*!
+@param editable whether the document might be edited or not
+
+This method is used to lock a document and inhibit any change in it.
+*/
 	void SetEditable (bool editable) {m_bWriteable = editable; m_bUndoRedo = true;}
+/*!
+@return true if the document can be edited.
+*/
 	bool GetEditable () {return m_bWriteable;}
+/*!
+@return the application owning the document.
+*/
 	gcp::Application* GetApplication () {return m_pApp;}
+/*!
+@param filename the image filename.
+@param type a string representing the image type like "png", "svg", or "eps".
+@param resolution the resolution to use in the image for bitmaps or −1.
+
+Exports the current document as an image. The image is limited to the real bounds
+of the document. For bitmaps, the size is evaluated using the perceived screen resolution.
+If the default resolution (−1) is used, the resoution will be the screen resolution.
+*/
 	void ExportImage (std::string const &filename, const char* type, int resolution = -1);
+/*!
+@param ro whether the file is read-only or not.
+
+If ro is true, the File/Save menu item and corresponding button will be disabled.
+*/
 	void SetReadOnly (bool ro);
+/*!
+@return true if the file is read-only or false if it is writeable.
+*/
 	bool GetReadOnly () {return m_bReadOnly;}
+/*!
+Used to retrieve the y coordinate for alignment. If the documetn contains just one
+objecst as a molecule or a reaction, it will reurn it's alignment value, otherwise
+0 is returned.
+@return y coordinate used for alignment.
+*/
 	virtual double GetYAlign ();
+/*!
+@return the gcp::Window displaying the document if any.
+*/
 	Window *GetWindow () {return m_Window;}
+/*!
+@return GtkWindow displaying the document if any.
+*/
 	GtkWindow *GetGtkWindow ();
+/*!
+@param theme the new theme for the document.
+
+Sets the theme to be used by the document. This will not change lengths of
+existing bonds or size of existing text.
+*/
 	void SetTheme (Theme *theme);
+/*!
+@param Signal a SignalId
+@param Child the child which emitted the signal or NULL
+
+Called when a signal has been emitted by a child. Only OnThemeChangedSignal
+is relevant for documents.
+@return false since documents have no parent.
+*/
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+/*!
+Mark the document as dirty. On any attempt to close a dirty document, a
+dialog box is opened to ask the user if he wants to save the modified document
+or drop the changes.
+*/
 	void SetDirty (bool isDirty = true);
+/*!
+Called by the framework when the theme names have changed, i.e. a new theme has
+ben added, or a theme has been removed or renamed.
+*/
 	void OnThemeNamesChanged ();
+/*!
+@return the median value of bond lengths. This is used when importing data
+from a document with a different theme or from an other program to scale the
+data so that the bond lengths fit the themed bond length.
+*/
 	double GetMedianBondLength ();
+/*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set properties. Supported oroperties for documents are:
+GCU_PROP_DOC_FILENAME, GCU_PROP_DOC_MIMETYPE, GCU_PROP_DOC_TITLE,
+GCU_PROP_DOC_COMMENT, GCU_PROP_DOC_CREATOR, GCU_PROP_DOC_CREATION_TIME,
+GCU_PROP_DOC_MODIFICATION_TIME, and GCU_PROP_THEME_BOND_LENGTH.
+*/
 	bool SetProperty (unsigned property, char const *value);
+/*!
+@param loading whether the document is loading data or not.
+
+Used to inhibit undo/redo operation creation when loading.
+*/
 	void SetLoading (bool loading) {m_bIsLoading = loading;}
+/*!
+@param r the residue to be saved.
+@param node the XML node to which add the saved residue if needed.
+
+GChemPaint saves the meaning of a residue the first time it is encountered, and
+maintains a list of saved residues to avoid duplicates.
+*/
 	void SaveResidue (Residue const *r, xmlNodePtr node);
 /*!
 @param symbol the symbol for which a Residue* is searched.
@@ -366,9 +607,6 @@ Sets the rights for the document clipbard access.
 */
 GCU_PROP (bool, AllowClipboard)
 };
-
-extern std::list<Document*> Docs;
-extern bool bCloseAll;
 
 }	//	namespace gcp
 

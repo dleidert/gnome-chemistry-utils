@@ -1,3 +1,45 @@
+Version 0.9.98
+	GChemTable
+		* Fixed display of data series with invalid values.
+		* Fixed various help related issues.
+		* Fixed a memory leak.
+		* Updated the documentation.
+
+Version 0.9.93
+	GChemCalc
+		* Updated the documentation.
+	GChemPaint
+		* Enlarge arrows when an attached object grows.
+		* Fixed molecule contextual menu issues.
+		* Fixed selection issues with atoms lacking a visible canvas item.
+	GSpectrum:
+		* Use reference point for varian nmr dx files.
+		* New documentation.
+	GOffice component:
+		* Set the object height.
+	Other:
+		* Completed API documentation for libgcu and libgchempaint.
+
+Version 0.9.92
+	* Add theme support for tools icons. [#24382]
+	* Updated GChem3d, GChemCalc, and Gnome Crystal help files.
+	* More API documentation for libgchempaint.
+
+Version 0.9.91
+	* Fixed compilation on ppc and other big endian machines.
+	* Downgraded intltool requirement to 0.37.1.
+	* Updated GChemPaint help.
+
+Version 0.9.90
+	CGhemPaint:
+		* Fixed issues about residues management.
+	Gnome Crystal:
+		* Add support for document properties.
+	GChemTable:
+		* Add Brazilian to known languages.
+	Other:
+		* Fixed some build issues (Daniel Leidert).
+
 Version 0.9.6
 	CGhemPaint:
 		* enhanced cdx and cdxml files import. [#21112]

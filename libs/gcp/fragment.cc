@@ -156,7 +156,19 @@ bool Fragment::OnChanged (bool save)
 			if (!Z && m_StartSel > m_BeginAtom)
 				Z = GetElementAtPos (m_StartSel = m_BeginAtom, CurPos);
 			if (Z) {
-				m_Atom->SetZ (Z);
+				if (residue) {
+					map<gcu::Atom*, gcu::Bond*>::iterator i;
+					Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+					Atom *pOldAtom = m_Atom;
+					m_Atom = new FragmentAtom (this, Z);
+					m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+					if (pBond) {
+						pBond->ReplaceAtom (pOldAtom, m_Atom);
+						m_Atom->AddBond (pBond);
+					}
+					delete pOldAtom;
+				} else
+					m_Atom->SetZ (Z);
 				m_BeginAtom = m_StartSel;
 				m_EndAtom = CurPos;
 			}
@@ -201,7 +213,19 @@ bool Fragment::OnChanged (bool save)
 			}
 		} else {
 			int Z = GetElementAtPos (m_BeginAtom, m_EndAtom);
-			m_Atom->SetZ (Z);
+			if (residue) {
+				map<gcu::Atom*, gcu::Bond*>::iterator i;
+				Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+				Atom *pOldAtom = m_Atom;
+				m_Atom = new FragmentAtom (this, Z);
+				m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+				if (pBond) {
+					pBond->ReplaceAtom (pOldAtom, m_Atom);
+					m_Atom->AddBond (pBond);
+				}
+				delete pOldAtom;
+			} else
+				m_Atom->SetZ (Z);
 			if (!Z)
 				m_EndAtom = CurPos;
 		}
@@ -995,19 +1019,21 @@ Object* Fragment::GetAtomAt (double x, double y, double z)
 	if (!Z)
 		return NULL;
 	m_bLoading = true;
-	m_Atom->SetZ (Z);
-	m_bLoading = false;
-	m_BeginAtom =index;
-	m_EndAtom = trailing;
-	m_x -= m_lbearing / pTheme->GetZoomFactor () ;
-	PangoRectangle rect;
-	pango_layout_index_to_pos (m_Layout, index, &rect);
-	m_lbearing = rect.x / PANGO_SCALE;
-	pango_layout_index_to_pos (m_Layout, trailing, &rect);
-	m_lbearing += rect.x / PANGO_SCALE;
-	m_lbearing /=  2;
-	m_x += m_lbearing / pTheme->GetZoomFactor ();
-	m_Atom->SetCoords(m_x, m_y);
+	if (m_Atom) {
+		m_Atom->SetZ (Z);
+		m_bLoading = false;
+		m_BeginAtom =index;
+		m_EndAtom = trailing;
+		m_x -= m_lbearing / pTheme->GetZoomFactor () ;
+		PangoRectangle rect;
+		pango_layout_index_to_pos (m_Layout, index, &rect);
+		m_lbearing = rect.x / PANGO_SCALE;
+		pango_layout_index_to_pos (m_Layout, trailing, &rect);
+		m_lbearing += rect.x / PANGO_SCALE;
+		m_lbearing /=  2;
+		m_x += m_lbearing / pTheme->GetZoomFactor ();
+		m_Atom->SetCoords(m_x, m_y);
+	}
 	
 	return m_Atom;
 }

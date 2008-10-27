@@ -38,6 +38,38 @@ using namespace std;
 
 namespace gcp {
 
+// PrefsDlgPrivate hides private PrefsDlg API
+class PrefsDlgPrivate {
+public:
+	static void OnNewTheme (PrefsDlg *dlg);
+	static void OnSelectTheme (PrefsDlg *dlg, GtkTreeSelection *selection) {dlg->OnSelectTheme (selection);}
+	static void OnBondLength (PrefsDlg *dlg, double length) {dlg->OnBondLength (length);}
+	static void OnBondAngle (PrefsDlg *dlg, double angle) {dlg->OnBondAngle (angle);}
+	static void OnBondWidth (PrefsDlg *dlg, double width) {dlg->OnBondWidth (width);}
+	static void OnBondDist (PrefsDlg *dlg, double dist) {dlg->OnBondDist (dist);}
+	static void OnStereoBondWidth (PrefsDlg *dlg, double width) {dlg->OnStereoBondWidth (width);}
+	static void OnHashWidth (PrefsDlg *dlg, double width) {dlg->OnHashWidth (width);}
+	static void OnHashDist (PrefsDlg *dlg, double dist) {dlg->OnHashDist (dist);}
+	static void OnFont (PrefsDlg *dlg, GcpFontSel *fs) {dlg->OnFont (fs);}
+	static void OnTextFont (PrefsDlg *dlg, GcpFontSel *fs) {dlg->OnTextFont (fs);}
+	static void OnArrowLength (PrefsDlg *dlg, double length) {dlg->OnArrowLength (length);}
+	static void OnArrowWidth (PrefsDlg *dlg, double width) {dlg->OnArrowWidth (width);}
+	static void OnArrowDist (PrefsDlg *dlg, double dist) {dlg->OnArrowDist (dist);}
+	static void OnArrowPadding (PrefsDlg *dlg, double padding) {dlg->OnArrowPadding (padding);}
+	static void OnArrowHeadA (PrefsDlg *dlg, double headA) {dlg->OnArrowHeadA (headA);}
+	static void OnArrowHeadB (PrefsDlg *dlg, double headB) {dlg->OnArrowHeadB (headB);}
+	static void OnArrowHeadC (PrefsDlg *dlg, double headC) {dlg->OnArrowHeadC (headC);}
+	static void OnScale (PrefsDlg *dlg, double scale) {dlg->OnScale (scale);}
+	static void OnPadding (PrefsDlg *dlg, double padding) {dlg->OnPadding (padding);}
+	static void OnObjectPadding (PrefsDlg *dlg, double padding) {dlg->OnObjectPadding (padding);}
+	static void OnStoichPadding (PrefsDlg *dlg, double padding) {dlg->OnStoichPadding (padding);}
+	static void OnSignPadding (PrefsDlg *dlg, double padding) {dlg->OnSignPadding (padding);}
+	static void OnChargeSize (PrefsDlg *dlg, double size) {dlg->OnChargeSize (size);}
+	static void OnThemeNameChanged (PrefsDlg *dlg, char const *name) {dlg->OnThemeNameChanged (name);}
+	static bool CheckError (PrefsDlg *dlg) {return dlg->CheckError ();}
+	static void SetDefaultTheme (PrefsDlg *dlg, char const *name) {dlg->SetDefaultTheme (name);}
+};
+
 static int get_fontstyle (PangoStyle val)
 {
 	switch (val) {
@@ -129,138 +161,138 @@ static void on_tearable_mendeleiev_changed (GtkToggleButton *btn, Application *A
 
 static void on_new_theme (PrefsDlg *dlg)
 {
-	dlg->OnNewTheme ();
+	PrefsDlgPrivate::OnNewTheme (dlg);
 }
 
 static void on_select_theme (GtkTreeSelection *selection, PrefsDlg *dlg)
 {
-	dlg->OnSelectTheme (selection);
+	PrefsDlgPrivate::OnSelectTheme (dlg, selection);
 }
 
 static void on_bond_length_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnBondLength (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnBondLength (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_bond_angle_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnBondAngle (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnBondAngle (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_bond_width_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnBondWidth (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnBondWidth (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_bond_dist_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnBondDist (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnBondDist (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_stereo_bond_width_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnStereoBondWidth (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnStereoBondWidth (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_hash_width_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnHashWidth (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnHashWidth (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_hash_dist_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnHashDist (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnHashDist (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_text_font_changed (GcpFontSel *fc, PrefsDlg *dlg)
 {
-	dlg->OnTextFont (fc);
+	PrefsDlgPrivate::OnTextFont (dlg, fc);
 }
 
 static void on_font_changed (GcpFontSel *fc, PrefsDlg *dlg)
 {
-	dlg->OnFont (fc);
+	PrefsDlgPrivate::OnFont (dlg, fc);
 }
 
 static void on_arrow_length_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnArrowLength (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnArrowLength (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_arrow_width_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnArrowWidth (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnArrowWidth (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_arrow_dist_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnArrowDist (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnArrowDist (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_arrow_padding_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnArrowPadding (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnArrowPadding (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_arrow_headA_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnArrowHeadA (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnArrowHeadA (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_arrow_headB_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnArrowHeadB (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnArrowHeadB (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_arrow_headC_changed (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnArrowHeadC (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnArrowHeadC (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_scale (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnScale (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnScale (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_padding (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnPadding (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnPadding (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_object_padding (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnObjectPadding (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnObjectPadding (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_stoich_padding(GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnStoichPadding (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnStoichPadding (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_sign_padding (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnSignPadding (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnSignPadding (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_charge_size (GtkSpinButton *btn, PrefsDlg *dlg)
 {
-	dlg->OnChargeSize (gtk_spin_button_get_value (btn));
+	PrefsDlgPrivate::OnChargeSize (dlg, gtk_spin_button_get_value (btn));
 }
 
 static void on_name_changed (GtkEntry *entry, PrefsDlg *dlg)
 {
-	dlg->OnThemeNameChanged (gtk_entry_get_text (entry));
+	PrefsDlgPrivate::OnThemeNameChanged (dlg, gtk_entry_get_text (entry));
 }
 
 static bool on_name_focused_out (GtkEntry *entry, GdkEventFocus *event, PrefsDlg *dlg)
 {
-	dlg->OnThemeNameChanged (gtk_entry_get_text (entry));
+	PrefsDlgPrivate::OnThemeNameChanged (dlg, gtk_entry_get_text (entry));
 	return false;
 }
 
 static bool on_delete_event (GtkWidget* widget, GdkEvent *event, PrefsDlg* dlg)
 {
-	bool res = dlg->CheckError ();
+	bool res = PrefsDlgPrivate::CheckError (dlg);
 	if (res) {
 		GtkWidget* box = gtk_message_dialog_new (GTK_WINDOW (widget), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Invalid name");
 		g_signal_connect (G_OBJECT (box), "response", G_CALLBACK (gtk_widget_destroy), NULL);
@@ -271,7 +303,7 @@ static bool on_delete_event (GtkWidget* widget, GdkEvent *event, PrefsDlg* dlg)
 
 static void on_default_theme_changed (GtkComboBox *box, PrefsDlg* dlg)
 {
-	dlg->SetDefaultTheme (gtk_combo_box_get_active_text (box));
+	PrefsDlgPrivate::SetDefaultTheme (dlg, gtk_combo_box_get_active_text (box));
 }
 
 PrefsDlg::PrefsDlg (Application *pApp):
@@ -444,51 +476,51 @@ PrefsDlg::~PrefsDlg ()
 		gtk_tree_path_free (m_Path);
 }
 
-void PrefsDlg::OnNewTheme ()
+void PrefsDlgPrivate::OnNewTheme (PrefsDlg *dlg)
 {
-	Theme *pTheme = TheThemeManager.CreateNewTheme (m_CurTheme);
+	Theme *pTheme = TheThemeManager.CreateNewTheme (dlg->m_CurTheme);
 	string &name = pTheme->GetName ();
 	GtkTreeIter iter, child, grand_child;
-	gtk_tree_store_append (themes, &iter, NULL);
-	gtk_tree_store_set (themes, &iter,
+	gtk_tree_store_append (dlg->themes, &iter, NULL);
+	gtk_tree_store_set (dlg->themes, &iter,
 			  0, name.c_str (),
 			  -1);
-	gtk_tree_store_append (themes, &child, &iter);
-	gtk_tree_store_set (themes, &child,
+	gtk_tree_store_append (dlg->themes, &child, &iter);
+	gtk_tree_store_set (dlg->themes, &child,
 			  0, _("General"),
 			  -1);
-	GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (themes), &child);
+	GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (dlg->themes), &child);
 	if (path) {
-		gtk_tree_view_expand_to_path (m_ThemesView, path);
-		gtk_tree_selection_select_path (m_ThemesSelection, path);
-		gtk_tree_view_scroll_to_cell (m_ThemesView, path, 0, FALSE, 0., 0.);
+		gtk_tree_view_expand_to_path (dlg->m_ThemesView, path);
+		gtk_tree_selection_select_path (dlg->m_ThemesSelection, path);
+		gtk_tree_view_scroll_to_cell (dlg->m_ThemesView, path, 0, FALSE, 0., 0.);
 		gtk_tree_path_free (path);
 	}
-	gtk_tree_store_append (themes, &child, &iter);
-	gtk_tree_store_set (themes, &child,
+	gtk_tree_store_append (dlg->themes, &child, &iter);
+	gtk_tree_store_set (dlg->themes, &child,
 			  0, _("Atoms"),
 			  -1);
-	gtk_tree_store_append (themes, &grand_child, &child);
-	gtk_tree_store_set (themes, &grand_child,
+	gtk_tree_store_append (dlg->themes, &grand_child, &child);
+	gtk_tree_store_set (dlg->themes, &grand_child,
 			  0, _("Font"),
 			  -1);
-	gtk_tree_store_append (themes, &grand_child, &child);
-	gtk_tree_store_set (themes, &grand_child,
+	gtk_tree_store_append (dlg->themes, &grand_child, &child);
+	gtk_tree_store_set (dlg->themes, &grand_child,
 			  0, _("Other"),
 			  -1);
-	gtk_tree_store_append (themes, &child, &iter);
-	gtk_tree_store_set (themes, &child,
+	gtk_tree_store_append (dlg->themes, &child, &iter);
+	gtk_tree_store_set (dlg->themes, &child,
 			  0, _("Bonds"),
 			  -1);
-	gtk_tree_store_append (themes, &child, &iter);
-	gtk_tree_store_set (themes, &child,
+	gtk_tree_store_append (dlg->themes, &child, &iter);
+	gtk_tree_store_set (dlg->themes, &child,
 			  0, _("Arrows"),
 			  -1);
-	gtk_tree_store_append (themes, &child, &iter);
-	gtk_tree_store_set (themes, &child,
+	gtk_tree_store_append (dlg->themes, &child, &iter);
+	gtk_tree_store_set (dlg->themes, &child,
 			  0, _("Text"),
 			  -1);
-	dynamic_cast <Application*> (m_App)->OnThemeNamesChanged ();
+	dynamic_cast <Application*> (dlg->m_App)->OnThemeNamesChanged ();
 }
 
 void PrefsDlg::OnSelectTheme (GtkTreeSelection *selection)
