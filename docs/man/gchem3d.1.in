@@ -1,0 +1,72 @@
+.\" $Id$
+.\" The following macro turns the program name in uppercase letters.
+.de uppercase
+.  tr aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+.  di uppercase
+.    nop \\*[\\$1]
+.    br
+.  di
+.  asciify uppercase
+.  chop uppercase
+.  tr aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz
+.  ds \\$2 \\*[uppercase]\"
+..
+.\" Define the program name in its original and uppercase forms.
+.ds name gchem3d@STABILITY@
+.uppercase name NAME
+.de prog
+.  B gchem3d@STABILITY@
+..
+.\" Begin manual page.
+.TH "\*[NAME]" "1" "@GCU_API_VER@" "gnome-chemistry-utils @VERSION@" "User commands"
+
+.SH "NAME"
+\*[name] \- a small chemical viewer application
+
+.SH "SYNOPSIS"
+.prog
+.B [options]
+.BI [ file ]
+
+.SH "DESCRIPTION"
+.PP
+.prog
+is a small chemical viewer application, which can show several chemical file
+formats.
+
+.SH "OPTIONS"
+.PP
+The following options are accepted:
+
+.TP
+\fB\-b \fICOLOR\fR, \fB\-\-bgcolor=\fICOLOR\fR
+Use the given color as background color. \fICOLOR\fR can be one
+of "\fIblack\fR" (default), "\fIwhite\fR" and "\fI#rrggbb\fR".
+Dont forget to escape the "#" character in the shell).
+
+.TP
+\fB\-d \fIMODEL\fR, \fB\-\-display3d=\fIMODEL\fR
+Choose how molecules are displayed. \fIMODEL\fR can be one
+of "\fIBallnStick\fR" (default) and "\fISpaceFill\fR".
+
+.TP
+.BR \-h ", " \-\-help ", " \-\-help-all
+Show application help options. Also refer to
+.BR gnome-options "(7) and"
+.BR gtk-options (7).
+
+.TP
+.BR \-v ", " \-\-version
+Print version information.
+
+.SH "AUTHORS"
+.TP
+\fBJean Br\('efort\fR <\&jean.brefort@normalesup.org\&>"
+Program author.
+.TP
+\fBDaniel Leidert\fR <\&daniel.leidert@wgdd.de\&>"
+Manpage author.
+
+.SH "SEE ALSO"
+.BR gnome-options (7),
+.BR gtk-options (7)

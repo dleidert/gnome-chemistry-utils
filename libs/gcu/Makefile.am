@@ -1,12 +1,13 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 AM_LDFLAGS = -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
-	-DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade\" \
-	-DGCU_PLUGINS_DIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins\"
+	-DPKGDATADIR=\"$(pkgdatadir)\" \
+	-DGLADEDIR=\"$(pkgdatadir)/glade\" \
+	-DGCU_PLUGINS_DIR=\"$(pkglibdir)/plugins\"
+
 lib_LTLIBRARIES= libgcu-@GCU_API_VER@.la
 
 libgcu_@GCU_API_VER@_la_SOURCES = \

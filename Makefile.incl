@@ -1,0 +1,41 @@
+$(desktop_DATA): $(desktop_in_files:.desktop.in=.desktop)
+	@echo test
+	@list='$<'; for p in $$list; do \
+		if test -f "$$p" ; then \
+			f=`echo "$$p" | sed 's/.desktop$$//;$(transform);s/$$/.desktop/'`; \
+			if ! test -e "$$f" ; then \
+				$(LN_S) "$$p" "$$f" ; \
+				echo "$(LN_S) '$$p' '$$f'" ; \
+			fi ; \
+		fi ; \
+	done
+
+$(schemas_DATA): $(schemas_in_files:.schemas.in=.schemas)
+	@list='$<'; for p in $$list; do \
+		if test -f "$$p" ; then \
+			f=`echo "$$p" | sed 's/.schemas$$//;$(transform);s/$$/.schemas/'`; \
+			if ! test -e "$$f" ; then \
+				$(LN_S) "$$p" "$$f" ; \
+				echo "$(LN_S) '$$p' '$$f'" ; \
+			fi ; \
+		fi ; \
+	done
+
+$(mime_DATA): $(mime_in_files:.xml.in=.xml)
+	@list='$<'; for p in $$list; do \
+		if test -f "$$p" ; then \
+			f=`echo "$$p" | sed 's/.xml$$//;$(transform);s/$$/.xml/'`; \
+			if ! test -e "$$f" ; then \
+				$(LN_S) "$$p" "$$f" ; \
+				echo "$(LN_S) '$$p' '$$f'" ; \
+			fi ; \
+		fi ; \
+	done
+
+
+$(DOC_MODULE).omf.in: $(DOC_PROGRAM).omf.in
+	cp $< $@
+
+C/$(DOC_MODULE).xml: C/$(DOC_PROGRAM).xml
+	cp $< $@
+

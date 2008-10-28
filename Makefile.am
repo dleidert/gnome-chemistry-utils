@@ -11,7 +11,9 @@ EXTRA_DIST= \
 	COPYING-DOCS
 
 CLEANFILES = \
+	gchemutils.schemas \
 	gchemutils.xml \
+	$(mime_DATA) \
 	$(schemas_DATA)
 
 DISTCLEANFILES = \
@@ -30,6 +32,9 @@ MAINTAINERCLEANFILES = \
 	depcomp \
 	gnome-doc-utils.make \
 	install-sh \
+	intltool-extract.in \
+	intltool-merge.in \
+	intltool-update.in
 	ltmain.sh \
 	missing \
 	mkinstalldirs \
@@ -43,10 +48,20 @@ DISTCHECK_CONFIGURE_FLAGS = \
 	--with-goffice-plugins-dir=\$${libdir}/goffice
 
 mime_in_files = gchemutils.xml.in
-
 mimedir = $(datadir)/mime/packages
-mime_DATA = $(mime_in_files:.xml.in=.xml)
+mime_DATA = $(shell echo "$(mime_in_files)" | sed 's/.xml.in$$//;$(transform);s/$$/.xml/')
+
 @INTLTOOL_XML_RULE@
+
+schemas_in_files = gchemutils.schemas.in
+schemasdir = $(GCONF_SCHEMA_FILE_DIR)
+schemas_DATA = $(shell echo "$(schemas_in_files)" | sed 's/.schemas.in$$//;$(transform);s/$$/.schemas/')
+
+@INTLTOOL_SCHEMAS_RULE@
+
+if TRANSFORM_EXISTS
+include $(top_srcdir)/Makefile.incl
+endif
 
 install-data-hook:
 if WITH_UPDATE_MIME
@@ -63,12 +78,6 @@ endif #WITH_UPDATE_MIME
 if WITH_UPDATE_DESKTOP
 	$(UPDATE_DESKTOP_DATABASE) $(datadir)/applications
 endif #WITH_UPDATE_DESKTOP
-
-schemas_in_files = gchemutils.schemas.in
-
-schemasdir = $(sysconfdir)/gconf/schemas
-schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
-@INTLTOOL_SCHEMAS_RULE@
 
 install-data-local:
 if GCONF_SCHEMAS_INSTALL

@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint
+gladedir = $(pkgdatadir)/glade/paint
 dist_glade_DATA = \
 	arrow.png \
 	arrow-object.glade \

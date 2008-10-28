@@ -1,0 +1,44 @@
+.\" $Id$
+.\" The following macro turns the program name in uppercase letters.
+.de uppercase
+.  tr aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+.  di uppercase
+.    nop \\*[\\$1]
+.    br
+.  di
+.  asciify uppercase
+.  chop uppercase
+.  tr aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz
+.  ds \\$2 \\*[uppercase]\"
+..
+.\" Define the program name in its original and uppercase forms.
+.ds name gchemtable@STABILITY@
+.uppercase name NAME
+.de prog
+.  B gchemtable@STABILITY@
+..
+.\" Begin manual page.
+.TH "\*[NAME]" "1" "@GCU_API_VER@" "gnome-chemistry-utils @VERSION@" "User commands"
+
+.SH "NAME"
+\*[name] \- periodic table of the elements
+
+.SH "SYNOPSIS"
+.prog
+
+.SH "DESCRIPTION"
+.PP
+.prog
+is a periodic table of the elements application.
+
+.SH "OPTIONS"
+.PP
+No options are available.
+
+.SH "AUTHORS"
+.TP
+.BR "Jean Br\('efort" " <\&jean.brefort@normalesup.org\&>"
+Program author.
+.TP
+.BR "Daniel Leidert" " <\&daniel.leidert@wgdd.de\&>"
+Manpage author.

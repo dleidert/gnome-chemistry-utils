@@ -1,6 +1,6 @@
 AC_INIT([gnome-chemistry-utils], [0.9.99], [http://savannah.nongnu.org/bugs/?group=gchemutils])
 AC_CONFIG_SRCDIR([libs/gcu/gtkperiodic.c])
-AM_INIT_AUTOMAKE([dist-bzip2])
+AM_INIT_AUTOMAKE([dist-bzip2 -Wall -Wno-portability])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 
@@ -36,21 +36,25 @@ GCU_API_VER="$GCU_MAJOR_VERSION.$GCU_API_MINOR_VERSION"
 AC_SUBST([GCU_API_VER])
 AC_DEFINE_UNQUOTED([API_VERSION], ["$GCU_API_VER"], [API version])
 
-if test "$GCU_API_MINOR_VERSION" = "$GCU_MINOR_VERSION" -o $GCU_MICRO_VERSION -ge 90; then
-	gcu_is_stable="yes"
-	STABILITY_POSTFIX=""
-	STABILITY=""
-else
-	gcu_is_stable="no"
+#if test "$GCU_API_MINOR_VERSION" = "$GCU_MINOR_VERSION" -o $GCU_MICRO_VERSION -ge 90; then
+#	gcu_is_stable="yes"
+#	STABILITY_POSTFIX=""
+#	STABILITY=""
+#else
+#	gcu_is_stable="no"
 	STABILITY_POSTFIX="($GCU_API_VER unstable)"
 	STABILITY="-unstable"
-fi
+	program_transform_name="s,\$\$,$STABILITY,;$program_transform_name"
+	AC_MSG_WARN([Development versions automatically get a suffix `-unstable'.])
+	AC_MSG_WARN([Use --program-* to change this.])
+	PACKAGE=gchemutils$STABILITY
+#fi
 AC_SUBST([STABILITY])
 AC_SUBST([STABILITY_POSTFIX])
-AM_CONDITIONAL([GCU_IS_STABLE], [test "x$gcu_is_stable" = "xyes"])
+AC_SUBST([PACKAGE])
 
 AM_GLIB_GNU_GETTEXT
-GETTEXT_PACKAGE="gchemutils-$GCU_API_VER"
+GETTEXT_PACKAGE="$PACKAGE"
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Package name for internationalization])
 
@@ -221,6 +225,7 @@ AC_SUBST([GOFFICE_PLUGINS_DIR])
 ##################################################
 # Check for xulrunner plugin
 ##################################################
+
 xulclient=
 for pack in xulrunner seamonkey firefox mozilla; do
   if test "x$xulclient" = x; then
@@ -292,19 +297,14 @@ AC_ARG_VAR([GDK_PIXBUF_CSOURCE], [The gdk-pixbuf-csource executable.])
 AC_PATH_PROG([GDK_PIXBUF_CSOURCE], [gdk-pixbuf-csource], [gdk-pixbuf-csource])
 
 ##################################################
-# Path checks
+# Transformation rules?
 ##################################################
 
-case $srcdir in
-	/*)
-		TESTSSRCDIR="$srcdir/tests"
-	;;
-	*)
-		TESTSSRCDIR=`pwd`"/$srcdir/tests"
-	;;
-esac
+AM_CONDITIONAL([TRANSFORM_EXISTS], [test "$program_transform_name" != "s,x,x," -a -n $program_transform_name])
 
-AC_SUBST([TESTSSRCDIR])
+##################################################
+# Final output
+##################################################
 
 AC_CONFIG_FILES([
 Makefile
@@ -319,6 +319,11 @@ docs/help/spectra/Makefile
 docs/help/table/Makefile
 docs/man/Makefile
 docs/man/gchem3d.1
+docs/man/gchemcalc.1
+docs/man/gchempaint.1
+docs/man/gchemtable.1
+docs/man/gcrystal.1
+docs/man/gspectrum.1
 docs/reference/Makefile
 docs/reference/Doxyfile
 dtds/Makefile

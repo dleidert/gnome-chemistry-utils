@@ -2,17 +2,17 @@ EXTRA_DIST = $(desktop_in_files)
 
 CLEANFILES = $(desktop_DATA) gchemtable.desktop
 
-MAINTAINERCLEANFILES = Makefile.in gchemtable.desktop.in
+MAINTAINERCLEANFILES = Makefile.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LDADD = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la @GCU_LIBS@
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/table\"
+        -DGLADEDIR=\"$(pkgdatadir)/glade/table\"
 
-bin_PROGRAMS = gchemtable-@GCU_API_VER@
+bin_PROGRAMS = gchemtable
 
-gchemtable_@GCU_API_VER@_SOURCES = \
+gchemtable_SOURCES = \
 		gchemtable-main.cc \
 		gchemtable-app.cc \
 		gchemtable-app.h \
@@ -28,21 +28,11 @@ gchemtable_@GCU_API_VER@_SOURCES = \
 		gchemtable-data.h
 
 desktop_in_files = gchemtable.desktop.in
+desktopdir = $(datadir)/applications
+desktop_DATA = $(shell echo "$(desktop_in_files)" | sed 's/.desktop.in$$//;$(transform);s/$$/.desktop/')
 
-gchemtable-@GCU_API_VER@.desktop: gchemtable.desktop
-	cp $< $@
-
-desktopdir=$(datadir)/applications
-desktop_DATA = gchemtable-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
 
-install-exec-hook:
-	cd $(DESTDIR)$(bindir) && \
-	if [ -x gchemtable@STABILITY@ ]; then \
-		rm -f gchemtable@STABILITY@; \
-	fi && \
-	$(LN_S) gchemtable-@GCU_API_VER@ gchemtable@STABILITY@
-uninstall-hook:
-	if [ -x $(DESTDIR)/$(bindir)/gchemtable@STABILITY@ ]; then \
-		rm -f $(DESTDIR)/$(bindir)/gchemtable@STABILITY@; \
-	fi
+if TRANSFORM_EXISTS
+include $(top_srcdir)/Makefile.incl
+endif

@@ -2,7 +2,8 @@ EXTRA_DIST = $(icons)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-pixmapdir = $(datadir)/gchemutils/@GCU_API_VER@/pixmaps
+pixmapdir = $(pkgdatadir)/pixmaps
+
 dist_pixmap_DATA = gcrystal_logo.png gchempaint_logo.png
 
 icons = \
@@ -33,34 +34,25 @@ icons = \
 
 install-data-hook:
 	for i in 32 48 72 128; do \
-		$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes; \
-		$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps; \
+		$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/"$$i"x"$$i"/mimetypes; \
+		$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/"$$i"x"$$i"/apps; \
+		list='gchem3d gchemcalc gchempaint gchemtable gcrystal gspectrum'; for p in $$list; do \
+			f=`echo "$$p" | sed '$(transform)'`; \
+			$(INSTALL_DATA) $(srcdir)/$$p$$i.png \
+			    $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/$$f.png; \
+		done ; \
 		$(INSTALL_DATA) $(srcdir)/gcrystal$$i.png \
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gcrystal.png; \
-		$(INSTALL_DATA) $(srcdir)/gcrystal$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gcrystal.png; \
 		$(INSTALL_DATA) $(srcdir)/gchempaint$$i.png \
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gchempaint.png; \
-		$(INSTALL_DATA) $(srcdir)/gchempaint$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchempaint.png; \
-		$(INSTALL_DATA) $(srcdir)/gchem3d$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchem3d.png; \
-		$(INSTALL_DATA) $(srcdir)/gchemcalc$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemcalc.png; \
-		$(INSTALL_DATA) $(srcdir)/gchemtable$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemtable.png; \
-		$(INSTALL_DATA) $(srcdir)/gspectrum$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gspectrum.png; \
 	done
 
 uninstall-hook:
 	for i in 32 48 72 128; do \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gcrystal.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gcrystal.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gchempaint.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchempaint.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchem3d.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemcalc.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemtable.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gspectrum.png; \
+		list='gchem3d gchemcalc gchempaint gchemtable gcrystal gspectrum'; for p in $$list; do \
+			f=`echo "$$p" | sed '$(transform)'`; \
+			rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/$$f.png; \
+		done ; \
+		rm -f $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gcrystal.png; \
+		rm -f $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gchempaint.png; \
 	done

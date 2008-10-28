@@ -29,7 +29,7 @@ VARIABLES = \
 	gcp_upbond_24			$(srcdir)/upbond24.png \
 	gcp_xbond_24			$(srcdir)/xbond24.png
 
-bondsdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
+bondsdir = $(pkglibdir)/plugins/paint
 bonds_LTLIBRARIES = bonds.la
 
 bonds_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
@@ -46,7 +46,7 @@ noinst_HEADERS = \
 	chaintool.h \
 	delocalizedtool.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/bonds
+gladedir = $(pkgdatadir)/glade/paint/plugins/bonds
 dist_glade_DATA = \
 	bond.glade \
 	chain.glade

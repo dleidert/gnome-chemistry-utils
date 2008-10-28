@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/table
+gladedir = $(pkgdatadir)/glade/table
 dist_glade_DATA = \
 	acidity.glade \
 	block.glade \

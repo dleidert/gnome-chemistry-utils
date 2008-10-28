@@ -8,7 +8,6 @@ MAINTAINERCLEANFILES = Makefile.in
 
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(gladedir)\" \
         -DPLUGINSDIR=\"$(wikipediadir)\"
 
 IMAGES = favicon.png
@@ -16,7 +15,7 @@ IMAGES = favicon.png
 VARIABLES = \
 	favicon		$(srcdir)/favicon.png
 
-wikipediadir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
+wikipediadir = $(pkglibdir)/plugins/paint
 wikipedia_LTLIBRARIES = wikipedia.la
 
 wikipedia_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version

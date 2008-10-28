@@ -19,7 +19,7 @@ VARIABLES = \
 	gcp_fragment_24		$(srcdir)/fragment24.png \
 	gcp_text_24		$(srcdir)/text24.png
 
-textdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
+textdir = $(pkglibdir)/plugins/paint
 text_LTLIBRARIES = text.la
 
 text_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
@@ -34,8 +34,9 @@ noinst_HEADERS = \
 	fragmenttool.h \
 	texttool.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/text
+gladedir = $(pkgdatadir)/glade/paint/plugins/text
 glade_DATA = fontsel.glade
+
 
 $(BUILT_SOURCES): $(IMAGES)
 	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@

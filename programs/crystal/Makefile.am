@@ -1,24 +1,25 @@
 EXTRA_DIST = \
 	$(desktop_in_files) \
+	$(kde_mime_in_files) \
 	$(schemas_in_files)
 
 CLEANFILES = \
 	$(desktop_DATA) gcrystal.desktop \
-	$(schemas_DATA) \
+	$(schemas_DATA) gcrystal.schemas \
 	$(kde_mime_desktop_DATA)
 
-MAINTAINERCLEANFILES = Makefile.in gcrystal.desktop.in
+MAINTAINERCLEANFILES = Makefile.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LDADD = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la @GCU_LIBS@
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/crystal\" \
-        -DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\"
+        -DGLADEDIR=\"$(pkgdatadir)/glade/crystal\" \
+        -DPIXMAPSDIR=\"$(pkgdatadir)/pixmaps\"
 
-bin_PROGRAMS = gcrystal-@GCU_API_VER@
+bin_PROGRAMS = gcrystal
 
-gcrystal_@GCU_API_VER@_SOURCES = \
+gcrystal_SOURCES = \
 		application.cc \
 		application.h \
 		atom.cc \
@@ -53,14 +54,13 @@ gcrystal_@GCU_API_VER@_SOURCES = \
 		window.cc \
 		window.h
 
-desktop_in_files = gcrystal.desktop.in x-gcrystal.desktop.in
+desktop_in_files = gcrystal.desktop.in
+desktopdir = $(datadir)/applications
+desktop_DATA = $(shell echo "$(desktop_in_files)" | sed 's/.desktop.in$$//;$(transform);s/$$/.desktop/')
 
-gcrystal-@GCU_API_VER@.desktop: gcrystal.desktop
-	cp $< $@
-
-desktopdir=$(datadir)/applications
-desktop_DATA = gcrystal-@GCU_API_VER@.desktop
 @INTLTOOL_DESKTOP_RULE@
+
+kde_mime_in_files = x-gcrystal.desktop.in
 
 if WITH_KDE_MIME
 kde_mime_desktop_DATA = x-gcrystal.desktop
@@ -68,10 +68,14 @@ kde_mime_desktopdir = $(KDEMIMEDIR)/application
 endif #WITH_KDE_MIME
 
 schemas_in_files = gcrystal.schemas.in
-
 schemasdir = $(GCONF_SCHEMA_FILE_DIR)
-schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
+schemas_DATA = $(shell echo "$(schemas_in_files)" | sed 's/.schemas.in$$//;$(transform);s/$$/.schemas/')
+
 @INTLTOOL_SCHEMAS_RULE@
+
+if TRANSFORM_EXISTS
+include $(top_srcdir)/Makefile.incl
+endif
 
 install-data-local:
 if GCONF_SCHEMAS_INSTALL
@@ -88,15 +92,3 @@ if GCONF_SCHEMAS_INSTALL
 		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
 	done
 endif #GCONF_SCHEMAS_INSTALL
-
-install-exec-hook:
-	cd $(DESTDIR)$(bindir) && \
-	if [ -x gcrystal@STABILITY@ ]; then \
-		rm -f gcrystal@STABILITY@; \
-	fi && \
-	$(LN_S) gcrystal-@GCU_API_VER@ gcrystal@STABILITY@
-
-uninstall-hook:
-	if [ -x $(DESTDIR)/$(bindir)/gcrystal@STABILITY@ ]; then \
-		rm -f $(DESTDIR)/$(bindir)/gcrystal@STABILITY@; \
-	fi

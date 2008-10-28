@@ -29,7 +29,7 @@ VARIABLES = \
 	gcp_curved_24			$(srcdir)/curved24.png \
 	gcp_curved1_24			$(srcdir)/curved1-24.png
 
-arrowsdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
+arrowsdir = $(pkglibdir)/plugins/paint
 arrows_LTLIBRARIES = arrows.la
 
 arrows_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
@@ -50,14 +50,18 @@ noinst_HEADERS = \
 	retrosynthesisarrow.h \
 	retrosynthesisstep.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/arrows
+gladedir = $(pkgdatadir)/glade/paint/plugins/arrows
 dist_glade_DATA = arrowtool.glade
 
 schemas_in_files = gchempaint-arrows.schemas.in
-
 schemasdir = $(GCONF_SCHEMA_FILE_DIR)
-schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
+schemas_DATA = $(shell echo "$(schemas_in_files)" | sed 's/.schemas.in$$//;$(transform);s/$$/.schemas/')
+
 @INTLTOOL_SCHEMAS_RULE@
+
+if TRANSFORM_EXISTS
+include $(top_srcdir)/Makefile.incl
+endif
 
 
 $(BUILT_SOURCES): $(IMAGES)

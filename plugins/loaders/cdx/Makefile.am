@@ -4,10 +4,10 @@ CLEANFILES = $(xml_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\"
 
-gcu_loader_cdxdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/cdx
+gcu_loader_cdxdir = $(pkglibdir)/plugins/cdx
 gcu_loader_cdx_LTLIBRARIES = cdx.la 
 
 cdx_la_LDFLAGS = -module -avoid-version -no-undefined

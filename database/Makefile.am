@@ -11,6 +11,6 @@ xml_in_files = \
 	radii.xml.in \
 	residues.xml.in
 
-xmldir = $(datadir)/gchemutils/@GCU_API_VER@
+xmldir = $(pkgdatadir)
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@

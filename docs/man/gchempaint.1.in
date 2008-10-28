@@ -1,0 +1,67 @@
+.\" $Id$
+.\" The following macro turns the program name in uppercase letters.
+.de uppercase
+.  tr aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ
+.  di uppercase
+.    nop \\*[\\$1]
+.    br
+.  di
+.  asciify uppercase
+.  chop uppercase
+.  tr aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz
+.  ds \\$2 \\*[uppercase]\"
+..
+.\" Define the program name in its original and uppercase forms.
+.ds name gchempaint@STABILITY@
+.uppercase name NAME
+.de prog
+.  B gchempaint@STABILITY@
+..
+.\" Begin manual page.
+.TH "\*[NAME]" "1" "@GCU_API_VER@" "gnome-chemistry-utils @VERSION@" "User commands"
+
+.SH "NAME"
+\*[name] \- 2D chemical structures editor for the GNOME2 desktop
+
+.SH "SYNOPSIS"
+.prog
+.B [options]
+.BI [ file(s) ]
+
+.SH "DESCRIPTION"
+.PP
+.prog
+is a 2D chemical structures editor for the GNOME2 desktop. It is a multi document
+application. You can read different file types with it, e.g. chemical/x-cml,
+chemical/x-mdl-molfile, chemical/x-mdl-sdfile or chemical/x-pdb. But be aware that
+you will maybe loose 3D-data from these file-formats.
+
+.SH "OPTIONS"
+.PP
+The following options are accepted:
+
+.TP
+.BR \-e ", " \-\-edit-residue
+Open residues dialog.
+
+.TP
+.BR \-h ", " \-\-help ", " \-\-help-all
+Show application help options. Also refer to
+.BR gnome-options "(7) and"
+.BR gtk-options (7).
+
+.TP
+.BR \-v ", " \-\-version
+Print version information.
+
+.SH "AUTHORS"
+.TP
+.BR "Jean Br\('efort" " <\&jean.brefort@normalesup.org\&>"
+Program author.
+.TP
+.BR "Daniel Leidert" " <\&daniel.leidert@wgdd.de\&>"
+Manpage author.
+
+.SH "SEE ALSO"
+.BR gnome-options (7),
+.BR gtk-options (7)

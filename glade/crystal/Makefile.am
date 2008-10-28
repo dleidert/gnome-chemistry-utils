@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/crystal
+gladedir = $(pkgdatadir)/glade/crystal
 dist_glade_DATA = \
 	atoms.glade \
 	bonds.glade \

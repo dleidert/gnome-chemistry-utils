@@ -2,7 +2,7 @@ SUBDIRS = crystal paint table
 
 MAINTAINERCLEANFILES = Makefile.in
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade
+gladedir = $(pkgdatadir)/glade
 dist_glade_DATA = \
 	gtkperiodic.glade \
 	gchemcalc.glade \

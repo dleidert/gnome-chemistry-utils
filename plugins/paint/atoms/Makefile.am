@@ -24,7 +24,7 @@ VARIABLES = \
 	gcp_element_24			$(srcdir)/element24.png \
 	gcp_unpairedelec_24		$(srcdir)/unpairedelectron24.png
 
-atomsdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
+atomsdir = $(pkglibdir)/plugins/paint
 atoms_LTLIBRARIES = atoms.la
 
 atoms_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version

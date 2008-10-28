@@ -4,7 +4,7 @@ DISTCLEANFILES = $(xml_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\"
 
 goffice_gchemutilsdir = $(GOFFICE_PLUGINS_DIR)/gchemutils
