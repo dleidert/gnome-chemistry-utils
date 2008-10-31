@@ -96,7 +96,7 @@
 <!-- ============= Document Body ============================= -->
 
 <!-- ============= Introduction ============================= -->
- <preface id="gchemtable-unstable-intro">
+ <preface id="gspectrum-intro">
     <title>Introduction</title>
 	<para>The <application>&app;</application> application is a spectrum viewer. It can
 	load a variety of files in the JCAMP-DX format.</para>
@@ -279,7 +279,7 @@
                 <para>You might change the default width and height of the exported image
                 using the appropriate entries.</para>
                 <para>Postscript and PDF files can also be produced using the
-                <link linkend="gchemtable-print-curve"><menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
+                <link linkend="gspectrum-print"><menuchoice> <guimenu>File</guimenu> <guimenuitem>Print...</guimenuitem>
                          </menuchoice> command</link>.</para>
 	</sect1>
 <!-- ============= To Print a File============================== -->
