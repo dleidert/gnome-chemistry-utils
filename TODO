@@ -50,9 +50,6 @@
 * GCU Library:
 	* provide clipboard support at the Application level (?).
 
-* GCU Library:
-	* provide clipboard support at the Application level (?).
-
 * Other:
 	* Make file operation asynchroneous (especially for remote file systems).
 	* Update documentation (always).
