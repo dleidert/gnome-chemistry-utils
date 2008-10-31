@@ -327,7 +327,22 @@ GCU_RO_PROP (double, BaseLineOffset)
 GCU_RO_PROP (GnomeCanvasPango*, ActiveRichText)
 };
 
+/*!
+@param item the item for which the event occured.
+@param event the current GdkEvent.
+@param widget the canvas owning the item.
+
+A callback for events occuring in the canvas. Calls View::OnEvent() for the
+view owning \a widget.
+*/
 bool on_event (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
+/*!
+@param clipboard a GtkClipboard.
+@param selection_data the data to paste.
+@param pView the view of the active document.
+
+A callback to use for receiving data from a clipboard. Calls View::OnReceive().
+*/
 void on_receive (GtkClipboard *clipboard, GtkSelectionData *selection_data, View * pView);
 
 }	//	namespace gcp

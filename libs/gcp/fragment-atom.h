@@ -90,7 +90,7 @@ Overrided to avoid Atom::Update execution. Just call Fragment::Update(w).
 @param w the GtkWidget inside which the atom is displayed.
 @param state the selection state of the atom.
 
-Overrided to avoid Atom::Update execution. Just call Fragment::SetSelected
+Overrided to avoid Atom::SetSelected execution. Just call Fragment::SetSelected
 method.
 */
 	void SetSelected (GtkWidget* w, int state);

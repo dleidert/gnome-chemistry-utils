@@ -124,7 +124,7 @@ Updates the representation of the text in the canvas widget.
 @param w the GtkWidget inside which the text is displayed.
 @param state the selection state of the text.
 
-Used to set the selection state of text atom inside the widget.
+Used to set the selection state of text inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */

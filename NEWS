@@ -1,3 +1,11 @@
+Version 0.10.0
+	GChemTable:
+		* Implement save as image for curves (thanks to Jordan Matha who
+		noticed that this feature was missing.
+	Other:
+		* Fixed a few API documentation issues.
+		* Fixed miscellaneous typo and style issues in help files (Jordan).
+
 Version 0.9.98
 	GChemTable
 		* Fixed display of data series with invalid values.
