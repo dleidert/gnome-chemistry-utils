@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2008-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cml/Makefile.am: new cml loader.
+	* plugins/loaders/cml/cml.cc: ditto.
+	* plugins/loaders/cml/plugin.xml.in: ditto.
+
+2008-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post branching version bump (0.11.0).
 	* others: start implementing the new canvas and make things compile
 	without libgnomecanvas.

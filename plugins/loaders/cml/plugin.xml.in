@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GCULoader_cml">
+	<information>
+		<_name>Loader : cml</_name>
+		<_description>CML files loader.</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="cml"/>
+	</loader>
+	<services>
+		<service type="chemical_loader" id="GCULoader_cml">
+			<mime_type name="chemical/x-cml" capabilities="rw" scope="2"/>
+			<information>
+				<_description>CML files loader</_description>
+			</information>
+		</service>
+	</services>
+</plugin>
