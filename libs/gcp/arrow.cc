@@ -23,21 +23,22 @@
  */
 
 #include "config.h"
-#include "widgetdata.h"
-#include "view.h"
-#include "settings.h"
-#include <gcu/objprops.h>
-#include <canvas/gcp-canvas-line.h>
-#include <canvas/gprintable.h>
 #include "arrow.h"
 #include "document.h"
+#include "settings.h"
+#include "view.h"
+#include "widgetdata.h"
+#include <gcu/objprops.h>
+#include <canvas/line-item.h>
 #include <cstring>
 
 using namespace gcu;
 
 namespace gcp {
 
-Arrow::Arrow (TypeId Type): Object (Type)
+Arrow::Arrow (TypeId Type):
+	Object (Type),
+	gccv::ItemClient ()
 {
 }
 
@@ -124,11 +125,12 @@ bool Arrow::Load (xmlNodePtr node)
 	return true;
 }
 
-void Arrow::SetSelected (GtkWidget* w, int state)
+void Arrow::SetSelected (int state)
 {
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	GnomeCanvasGroup* group = pData->Items[this];
-	gchar const *color;
+	gccv::LineItem *line = dynamic_cast <gccv::LineItem *> (m_Item);
+	if (!line)
+		return;
+	GOColor color;
 	switch (state) {	
 	case SelStateUnselected:
 		color = Color;
@@ -146,11 +148,7 @@ void Arrow::SetSelected (GtkWidget* w, int state)
 		color = Color;
 		break;
 	}
-	GList* il = group->item_list;
-	while (il) {
-		g_object_set (G_OBJECT(il->data), "fill_color", color, NULL);
-		il = il->next;
-	}
+	line->SetLineColor (color);
 }
 
 void Arrow::SetCoords (double xstart, double ystart, double xend, double yend)

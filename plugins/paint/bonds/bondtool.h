@@ -29,7 +29,12 @@
 
 namespace gcp {
 	class Atom;
+	class Bond;
 	class Operation;
+}
+
+namespace gccv {
+	class Point;
 }
 
 class gcpBondTool: public gcp::Tool
@@ -56,7 +61,7 @@ protected:
 protected:
 	double m_dAngle;
 	gcp::Atom* m_pAtom;
-	GnomeCanvasPoints *points;
+//	GnomeCanvasPoints *points;
 	unsigned char BondOrder;
 
 private:

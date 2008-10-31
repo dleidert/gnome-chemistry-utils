@@ -48,8 +48,8 @@ public:
 	char const *GetHelpTag () {return "arrow";}
 	void SetLength (double length);
 
-protected:
-	GnomeCanvasPoints *points;
+/*protected:
+	GnomeCanvasPoints *points;*/
 
 private:
 	double m_dAngle;

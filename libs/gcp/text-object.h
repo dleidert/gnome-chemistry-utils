@@ -27,9 +27,9 @@
 
 #include <gcu/object.h>
 #include <gcu/macros.h>
+#include <canvas/structs.h>
 #include <pango/pango-layout.h>
 #include <string>
-#include <canvas/gcp-canvas-pango.h>
 
 /*!\file*/
 namespace gcp {
@@ -92,7 +92,7 @@ must be overloaded in derived classes.
 Called during edition when the selection has changed, that is after any change.
 The signature of this method will change with the deprecation of GnomeCanvas.
 */
-	void OnSelChanged (struct GnomeCanvasPangoSelBounds *bounds);
+	void OnSelChanged (gccv::TextSelBounds *bounds);
 /*!
 @param xml the xml document.
 @param node the node representing the text.

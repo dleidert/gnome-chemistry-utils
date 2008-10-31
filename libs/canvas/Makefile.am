@@ -1,29 +1,31 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-lib_LTLIBRARIES = libgcpcanvas-@GCU_API_VER@.la
+lib_LTLIBRARIES = libgccv-@GCU_API_VER@.la
 
 noinst_HEADERS = \
-	gprintable.h \
-	gnome-canvas-shape-private.h \
-	gcp-canvas-group.h \
-	gcp-canvas-line.h \
-	gcp-canvas-pango.h \
-	gcp-canvas-shape.h \
-	gcp-canvas-bpath.h \
-	gcp-canvas-rect-ellipse.h \
-	gcp-canvas-polygon.h \
-	gcp-canvas-i18n.h
+	canvas.h	\
+	client.h	\
+	fill-item.h	\
+	group.h		\
+	item.h		\
+	item-client.h	\
+	line.h	\
+	line-item.h	\
+	rectangle.h	\
+	structs.h \
+	text.h
 
-libgcpcanvas_@GCU_API_VER@_la_SOURCES =	\
-	gprintable.c \
-	pango-layout-to-svg.c \
-	gcp-canvas-group.c \
-	gcp-canvas-line.c \
-	gcp-canvas-pango.c \
-	gcp-canvas-shape.c \
-	gcp-canvas-bpath.c \
-	gcp-canvas-rect-ellipse.c \
-	gcp-canvas-polygon.c
+libgccv_@GCU_API_VER@_la_SOURCES =	\
+	canvas.cc	\
+	client.cc	\
+	fill-item.cc	\
+	group.cc	\
+	item.cc		\
+	item-client.cc	\
+	line.cc	\
+	line-item.cc	\
+	rectangle.cc	\
+	text.cc
 
-libgcpcanvas_@GCU_API_VER@_la_LDFLAGS = - -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
-AM_CPPFLAGS = @GCU_CFLAGS@
+libgccv_@GCU_API_VER@_la_LDFLAGS = - -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@

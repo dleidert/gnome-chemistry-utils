@@ -23,12 +23,14 @@
  */
 
 #include "config.h"
-#include "molecule.h"
-#include "document.h"
-#include "view.h"
 #include "application.h"
-#include "tool.h"
+#include "atom.h"
+#include "bond.h"
+#include "document.h"
+#include "molecule.h"
 #include "stringdlg.h"
+#include "tool.h"
+#include "view.h"
 #include <gcu/chain.h>
 #include <glib/gi18n-lib.h>
 #include <unistd.h>
@@ -99,7 +101,7 @@ Molecule::~Molecule ()
 {
 }
 
-void Molecule::Add (GtkWidget* w) const
+/*void Molecule::Add (GtkWidget* w) const
 {
 	std::list<gcu::Atom*>::const_iterator i, iend = m_Atoms.end ();
 	for (i = m_Atoms.begin (); i != iend; i++)
@@ -110,7 +112,7 @@ void Molecule::Add (GtkWidget* w) const
 	std::list<gcu::Bond*>::const_iterator k, kend = m_Bonds.end ();
 	for (k = m_Bonds.begin (); k != kend; k++)
 		(*k)->Add (w);
-}
+}*/
 
 void Molecule::AddChild (Object* object)
 {

@@ -23,10 +23,12 @@
  */
 
 #include "config.h"
-#include "zoomdlg.h"
-#include "view.h"
-#include "document.h"
 #include "application.h"
+#include "document.h"
+#include "view.h"
+#include "widgetdata.h"
+#include "zoomdlg.h"
+#include <libxml/tree.h>
 
 using namespace gcu;
 

@@ -26,7 +26,7 @@
 #define GCHEMPAINT_REACTION_STEP_H
 
 #include <gcu/object.h>
-#include <libart_lgpl/art_rect.h>
+#include <canvas/structs.h>
 #include <set>
 
 /*!\file*/
@@ -65,7 +65,7 @@ The destructor.
 Buils a new reaction step from the children and adds as many eaction operators
 as necessary. All children will be horizontally aligned.
 */
-	ReactionStep (Reaction *reaction, std::map<double, gcu::Object*>& Children, std::map<gcu::Object*, ArtDRect> Objects);
+	ReactionStep (Reaction *reaction, std::map<double, gcu::Object*>& Children, std::map<gcu::Object*, gccv::Rect> Objects);
 
 /*!
 @param w the GtkWidget inside which the step will be displayed.

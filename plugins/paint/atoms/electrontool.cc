@@ -25,12 +25,14 @@
 #include "config.h"
 #include "electrontool.h"
 #include <gcp/application.h>
+#include <gcp/atom.h>
 #include <gcp/document.h>
 #include <gcp/electron.h>
 #include <gcp/molecule.h>
 #include <gcp/operation.h>
 #include <gcp/settings.h>
-#include <canvas/gcp-canvas-bpath.h>
+#include <gcp/view.h>
+#include <canvas/item.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <stdexcept>
@@ -72,7 +74,7 @@ bool gcpElectronTool::OnClicked ()
 	m_Pos = pAtom->GetAvailablePosition (x, y);
 	m_x = x - m_x0;
 	m_y = y - m_y0;
-	ArtDRect rect;
+/*	ArtDRect rect;
 	m_pData->GetObjectBounds (m_pObject, &rect);
 	m_x0 *= m_dZoomFactor;
 	m_y0 *= m_dZoomFactor;
@@ -126,13 +128,13 @@ bool gcpElectronTool::OnClicked ()
 	char tmp[32];
 	snprintf (tmp, sizeof (tmp) - 1, _("Orientation: %g"), m_dAngle * 180. / M_PI);
 	m_pApp->SetStatusText (tmp);
-	m_bChanged = true;
+	m_bChanged = true;*/
 	return true;
 }
 
 void gcpElectronTool::OnDrag ()
 {
-	if (!m_pItem)
+	if (!m_Item)
 		return;
 	int old_pos = m_Pos;
 	m_x -= m_x0;
@@ -183,12 +185,12 @@ void gcpElectronTool::OnDrag ()
 	if ((Angle == m_dAngle) && !(m_nState & GDK_SHIFT_MASK)) {
 		if (m_dDist < m_dDistMax) {
 			if (!m_bChanged) {
-				gnome_canvas_item_show (m_pItem);
+				m_Item->SetVisible (true);
 				m_bChanged = true;
 			}
 		} else {
 			if (m_bChanged) {
-				gnome_canvas_item_hide (m_pItem);
+				m_Item->SetVisible (false);
 				m_bChanged = false;
 			}
 		}
@@ -196,16 +198,16 @@ void gcpElectronTool::OnDrag ()
 		double x, y, x1, y1, x2, y2;
 		gcp::Atom *pAtom = (gcp::Atom*) m_pObject;
 		if (!(m_nState & GDK_SHIFT_MASK) && (m_dDist >= m_dDistMax) && m_bChanged) {
-			gnome_canvas_item_hide (m_pItem);
+			m_Item->SetVisible (false);
 			m_bChanged = false;
 		} else if (pAtom->GetPosition (Angle * 180. / M_PI, x, y)) {
 			m_dAngle = Angle;
-			if (m_pItem)
+			if (m_Item)
 			{
-				gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
+/*				gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
 				gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
 				gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
-				m_pItem = NULL;
+				m_pItem = NULL;*/
 			}
 			if (m_nState & GDK_SHIFT_MASK) {
 				x = m_x0 + m_dDist * cos (m_dAngle);
@@ -217,7 +219,7 @@ void gcpElectronTool::OnDrag ()
 				y -= 2. * sin (m_dAngle);
 			}
 			if (m_bIsPair) {
-				double deltax = 3. * sin (m_dAngle);
+/*				double deltax = 3. * sin (m_dAngle);
 				double deltay = 3. * cos (m_dAngle);
 				m_pItem =  gnome_canvas_item_new (
 								m_pGroup,
@@ -242,9 +244,9 @@ void gcpElectronTool::OnDrag ()
 								"x2", x - deltax + 2.,
 								"y1", y - deltay - 2.,
 								"y2", y - deltay + 2.,
-								NULL);
+								NULL);*/
 			} else {
-				m_pItem = gnome_canvas_item_new (
+/*				m_pItem = gnome_canvas_item_new (
 								m_pGroup,
 								gnome_canvas_ellipse_get_type (),
 								"width_units", 0.0,
@@ -253,7 +255,7 @@ void gcpElectronTool::OnDrag ()
 								"x2", x + 2.,
 								"y1", y - 2.,
 								"y2", y + 2.,
-								NULL);
+								NULL);*/
 			}
 			m_bChanged = true;
 		} else

@@ -31,22 +31,22 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-line.h>
-#include <canvas/gcp-canvas-bpath.h>
-#include <canvas/gcp-canvas-polygon.h>
+#include <canvas/canvas.h>
+#include <canvas/group.h>
+#include <canvas/line.h>
 #include <gcu/cycle.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
 
+using namespace gccv;
 using namespace gcu;
 using namespace std;
 
 namespace gcp {
 
-Bond::Bond (): gcu::Bond ()
+Bond::Bond (): gcu::Bond (), ItemClient ()
 {
 	m_CoordsCalc = false;
 	m_type = NormalBondType;
@@ -54,7 +54,7 @@ Bond::Bond (): gcu::Bond ()
 }
 
 Bond::Bond (Atom* first, Atom* last, unsigned char order):
-		gcu::Bond (first, last, order)
+		gcu::Bond (first, last, order), ItemClient ()
 {
 	m_CoordsCalc = false;
 	m_type = NormalBondType;
@@ -480,6 +480,11 @@ void Bond::RemoveAllCycles ()
 
 void Bond::Move (double x, double y, double z)
 {
+	if (m_Item) {
+		Document *doc = static_cast <Document*> (GetDocument ());
+		Theme *theme = doc->GetTheme ();
+		m_Item->Move (x * theme->GetZoomFactor (), y * theme->GetZoomFactor ());
+	}
 	m_CoordsCalc = false;
 }
 
@@ -496,15 +501,11 @@ void Bond::Revert ()
 	m_End = pAtom;
 }
 
-void Bond::SetSelected (GtkWidget* w, int state)
+void Bond::SetSelected (int state)
 {
 	if (!m_order)
 		return;
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	GnomeCanvasGroup* group = pData->Items[this];
-	if (!group)
-		return; // this should not occur, but it might crash if it does occur after loading a bad file.
-	gchar const *color;
+	GOColor color;
 	switch (state) {	
 	case SelStateUnselected:
 		color = Color;
@@ -522,22 +523,73 @@ void Bond::SetSelected (GtkWidget* w, int state)
 		color = Color;
 		break;
 	}
-	void *obj = g_object_get_data (G_OBJECT (group), "path");
 	switch (GetType ())
 	{
-		case NormalBondType:
-		case UndeterminedBondType:
-			g_object_set (obj, "outline_color", color, NULL);
-			break;
-		case ForeBondType:
-		case UpBondType:
-		case DownBondType:
-			g_object_set (obj, "fill_color", color, NULL);
-			break;
+	case NormalBondType: {
+		gccv::Group *group = static_cast <gccv::Group *> (m_Item);
+		std::list<Item *>::iterator it;
+		gccv::Line *line = dynamic_cast <gccv::Line *> (group->GetFirstChild (it));
+		while (line) {
+			line->SetLineColor (color);
+			line = dynamic_cast <gccv::Line *> (group->GetNextChild (it));
+		}
+		break;
+	}
+	case UndeterminedBondType:
+		break;
+	case ForeBondType:
+	case UpBondType:
+	case DownBondType:
+		break;
 	}
 }
 
-void Bond::Add (GtkWidget* w) const
+void Bond::AddItem ()
+{
+	if (m_Item)
+		return;
+	double x1, y1, x2, y2/*, x, y, dx, dy, dx1, dy1*/;
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc->GetTheme ();
+	switch(GetType ()) {
+	case NormalBondType: {
+		gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), this);
+		m_Item = group;
+		int i = 1;
+		gccv::Line *line;
+		while (GetLine2DCoords (i++, &x1, &y1, &x2, &y2)) {
+			line = new gccv::Line (group,
+							x1 * theme->GetZoomFactor (),
+							y1 * theme->GetZoomFactor (),
+							x2 * theme->GetZoomFactor (),
+							y2 * theme->GetZoomFactor (),
+							this);
+			line->SetLineWidth (theme->GetBondWidth ());
+			line->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		}
+		break;
+	}
+	case UndeterminedBondType:
+		break;
+	case ForeBondType:
+		break;
+	case UpBondType:
+		break;
+	case DownBondType:
+		break;
+	}
+}
+
+void Bond::UpdateItem ()
+{
+	if (!m_Item) {
+		AddItem ();
+		return;
+	}
+}
+
+/*void Bond::Add (GtkWidget* w) const
 {
 	if (!w)
 		return;
@@ -586,9 +638,9 @@ void Bond::Add (GtkWidget* w) const
 					NULL);
 			g_object_set_data (G_OBJECT (group), "back", item);
 			g_object_set_data (G_OBJECT (item), "object", (void *) this);
-			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
+			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);*/
 			/* now bring to front, FIXME: not secure ! */
-			gnome_canvas_item_lower_to_bottom (item);
+/*			gnome_canvas_item_lower_to_bottom (item);
 			gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (group));
 			gcu::Atom *pAtom = GetAtom (0);
 			if (pAtom->GetZ () != 6 || static_cast <gcp::Atom*> (pAtom)->GetShowSymbol ())
@@ -652,9 +704,9 @@ void Bond::Add (GtkWidget* w) const
 		gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (pData->Items[electron]));
 		electron = pAtom1->GetNextChild (i);
 	}
-}
+}*/
 
-GnomeCanvasPathDef* Bond::BuildPathDef (WidgetData* pData)
+/*GnomeCanvasPathDef* Bond::BuildPathDef (WidgetData* pData)
 {
 	double x1, y1, x2, y2, x, y, dx, dy, dx1, dy1;
 	int i, n;
@@ -817,9 +869,9 @@ GnomeCanvasPathDef *Bond::BuildCrossingPathDef (WidgetData* pData)
 		break;
 	}
 	return path;
-}
+}*/
 
-void Bond::Update(GtkWidget* w) const
+/*void Bond::Update(GtkWidget* w) const
 {
 	if (!w || !m_order)
 		return;
@@ -865,9 +917,9 @@ void Bond::Update(GtkWidget* w) const
 						NULL);
 				g_object_set_data (G_OBJECT (group), "back", item);
 				g_object_set_data (G_OBJECT (item), "object", (void *) this);
-				g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
+				g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);*/
 				/* now bring to front, FIXME: not secure ! */
-				gnome_canvas_item_lower_to_bottom (item);
+/*				gnome_canvas_item_lower_to_bottom (item);
 				gnome_canvas_item_raise_to_top (GNOME_CANVAS_ITEM (group));
 				gcu::Atom *pAtom = GetAtom (0);
 				if (pAtom->GetZ () != 6 || static_cast <gcp::Atom*> (pAtom)->GetShowSymbol ())
@@ -887,7 +939,7 @@ void Bond::Update(GtkWidget* w) const
 	if (m_type == NormalBondType || m_type == UndeterminedBondType)
 		g_object_set (obj, "width_units", pTheme->GetBondWidth (), NULL);
 	gnome_canvas_path_def_unref (path);
-}
+}*/
 	
 double Bond::GetYAlign ()
 {

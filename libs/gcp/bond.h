@@ -27,7 +27,7 @@
 
 #include <gcu/bond.h>
 #include <list>
-#include <libgnomecanvas/gnome-canvas-path-def.h>
+#include <canvas/item-client.h>
 
 namespace gcp {
 
@@ -70,7 +70,7 @@ class WidgetData;
 This class is used to represent bonds.
 */
 
-class Bond: public gcu::Bond
+class Bond: public gcu::Bond, public gccv::ItemClient
 {
 public:
 /*!
@@ -159,12 +159,6 @@ Loads properties specific to GChemPaint bonds.
 */
 	bool LoadNode (xmlNodePtr node);
 /*!
-@param w the GtkWidget inside which the bond is displayed.
-
-Used to update the representation of the bond in the widget.
-*/
-	void Update (GtkWidget* w) const;
-/*!
 @param x the x component of the transation vector.
 @param y the y component of the transation vector.
 @param z the z component of the transation vector.
@@ -210,6 +204,14 @@ bond order is set to 1.
 */
 	void IncOrder (int n = 1);
 /*!
+Used to add a representation of the bond in the view.
+*/
+	void AddItem ();
+/*!
+Used to update the representation of the bond in the view.
+*/
+	void UpdateItem ();
+/*!
 @param w the GtkWidget inside which the bond is displayed.
 @param state the selection state of the bond.
 
@@ -217,13 +219,7 @@ Used to set the selection state of the bond inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
-	void SetSelected (GtkWidget* w, int state);
-/*!
-@param w the GtkWidget inside which the bond will be displayed.
-
-Used to add a representation of the bond in the widget.
-*/
-	void Add (GtkWidget* w) const;
+	void SetSelected (int state);
 /*!
 Used to retrieve the y coordinate for alignment.
 @return y coordinate of the bond center.
@@ -265,8 +261,8 @@ GCU_PROP_BOND_TYPE and calls gcu::Bond::SetProperty() for other properties.
 	bool SetProperty (unsigned property, char const *value);
 
 private:
-	GnomeCanvasPathDef* BuildPathDef (WidgetData* pData);
-	GnomeCanvasPathDef* BuildCrossingPathDef (WidgetData* pData);
+//	GnomeCanvasPathDef* BuildPathDef (WidgetData* pData);
+//	GnomeCanvasPathDef* BuildCrossingPathDef (WidgetData* pData);
 	BondType m_type;
 	double m_coords[16];//coordinates of the lines used to represent the bond in the canvas
 	bool m_CoordsCalc; //true if m_coords have been calculated, false else

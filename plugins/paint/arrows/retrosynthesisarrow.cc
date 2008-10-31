@@ -31,8 +31,6 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
-#include <canvas/gcp-canvas-bpath.h>
-#include <canvas/gcp-canvas-group.h>
 #include <cmath>
 
 TypeId RetrosynthesisArrowType = NoType;
@@ -113,9 +111,9 @@ bool gcpRetrosynthesisArrow::Load (xmlNodePtr node)
 	return false;
 }
 
-void gcpRetrosynthesisArrow::Add (GtkWidget* w) const
+void gcpRetrosynthesisArrow::AddItem ()
 {
-	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+/*	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
 		return;
 	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
@@ -159,12 +157,12 @@ void gcpRetrosynthesisArrow::Add (GtkWidget* w) const
 	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	g_object_set_data( G_OBJECT (group), "arrow", item);
 	g_signal_connect(G_OBJECT (item), "event", G_CALLBACK (gcp::on_event), w);
-	pData->Items[this] = group;
+	pData->Items[this] = group;*/
 }
 
-void gcpRetrosynthesisArrow::Update (GtkWidget* w) const
+void gcpRetrosynthesisArrow::UpdateItem ()
 {
-	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+/*	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] == NULL)
 		return;
 	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
@@ -197,14 +195,12 @@ void gcpRetrosynthesisArrow::Update (GtkWidget* w) const
 	gnome_canvas_path_def_lineto (path, x1 + dx - dy, y1 + dy + dx);
 	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "arrow")),
 						"bpath", path,
-						NULL);
+						NULL);*/
 }
 
-void gcpRetrosynthesisArrow::SetSelected (GtkWidget* w, int state)
+void gcpRetrosynthesisArrow::SetSelected (int state)
 {
-	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	GnomeCanvasGroup* group = pData->Items[this];
-	gchar const *color;
+	GOColor color;
 	switch (state) {	
 	case gcp::SelStateUnselected:
 		color = gcp::Color;
@@ -222,7 +218,7 @@ void gcpRetrosynthesisArrow::SetSelected (GtkWidget* w, int state)
 		color = gcp::Color;
 		break;
 	}
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "arrow")),
+/*	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "arrow")),
 						"outline_color", color,
-						NULL);
+						NULL);*/
 }

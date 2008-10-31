@@ -23,14 +23,15 @@
  */
 
 #include "config.h"
-#include "reactant.h"
-#include "reaction-step.h"
 #include "application.h"
 #include "document.h"
+#include "reactant.h"
+#include "reaction-step.h"
 #include "text.h"
 #include "theme.h"
 #include "tool.h"
 #include "view.h"
+#include "widgetdata.h"
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
@@ -171,14 +172,14 @@ void Reactant::AddStoichiometry ()
 	View *pView = pDoc->GetView ();
 	Theme *pTheme= pDoc->GetTheme ();
 	WidgetData *pData = (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
-	ArtDRect rect;
+	gccv::Rect rect;
 	pData->GetObjectBounds (this, &rect);
 	double x = rect.x0 / pTheme->GetZoomFactor ();
 	Text *text = new Text (x, GetYAlign () + pView->GetBaseLineOffset ());
 	Stoichiometry = text;
 	AddChild (text);
 	pDoc->AddObject (text);
-	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
+//	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
 	pData->GetObjectBounds (text, &rect);
 	Child->Move (rect.x1 / pTheme->GetZoomFactor () + pTheme->GetStoichiometryPadding () - x, 0.);
 	Tool *tool = pApp->GetTool ("Text");
@@ -193,7 +194,7 @@ bool Reactant::OnSignal (SignalId Signal, Object *Obj)
 		Document *pDoc = (Document*) GetDocument ();
 		Theme *pTheme= pDoc->GetTheme ();
 		WidgetData *pData = (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
-		ArtDRect rect;
+		gccv::Rect rect;
 		unsigned n = GetChildrenNumber ();
 		map<string, Object*>::iterator i;
 		Object *pObj;
@@ -212,7 +213,7 @@ bool Reactant::OnSignal (SignalId Signal, Object *Obj)
 			}
 		} else if ((n == 2) && Stoichiometry) {
 			// Just need to space the two children
-			gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
+//			gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
 			pData->GetObjectBounds (Stoichiometry, &rect);
 			double x = rect.x1 / pTheme->GetZoomFactor () + pTheme->GetStoichiometryPadding ();
 			pData->GetObjectBounds (Child, &rect);

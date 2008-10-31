@@ -29,7 +29,11 @@
 #include <gcu/macros.h>
 #include <goffice/gtk/go-color-selector.h>
 #include <list>
+#include <map>
 
+namespace gccv {
+	class Text;
+}
 using namespace std;
 
 class gcpTextTool: public gcp::Tool
@@ -74,7 +78,7 @@ private:
 	void SelectBestFontFace ();
 
 protected:
-	GnomeCanvasPango* m_Active;
+	gccv::Text* m_Active;
 	list<xmlNodePtr> m_UndoList, m_RedoList;
 	xmlNodePtr m_CurNode, m_InitNode;
 

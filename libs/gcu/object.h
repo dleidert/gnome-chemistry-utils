@@ -352,28 +352,6 @@ Generally, the iteration is initialized by a call to Object::GetNodeByName.
 */
 	xmlNodePtr GetNextNodeByName (xmlNodePtr node, char const *Name);
 /*!
-@param w the GtkWidget inside which the Object will be displayed.
-
-Used to add a representation of the Object in the widget. This method might be overrided for displayable Object classes
-unless the application uses another mechanism.
-*/
-	virtual void Add (GtkWidget* w) const;
-/*!
-@param w the GtkWidget inside which the Object is displayed.
-
-Used to update the representation of the Object in the widget. This method might be overrided for displayable Object classes
-unless the application uses another mechanism.
-*/
-	virtual void Update (GtkWidget* w) const;
-/*!
-@param w the GtkWidget inside which the Object is displayed.
-@param state the selection state of the Object.
-
-Used to set the selection state of the Object inside the widget. The values of state are application dependant and have no
-default value.
-*/
-	virtual void SetSelected (GtkWidget* w, int state);
-/*!
 @return true if the Object has at least a child an false if it has none.
 */
 	bool HasChildren () const {return m_Children.size () != 0;}

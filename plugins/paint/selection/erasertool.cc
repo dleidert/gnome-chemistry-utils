@@ -24,12 +24,13 @@
 
 #include "config.h"
 #include "erasertool.h"
-#include <gcp/settings.h>
-#include <gcp/document.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
+#include <gcp/document.h>
 #include <gcp/fragment.h>
+#include <gcp/settings.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
 #include <cmath>
 
 using namespace gcu;
@@ -51,8 +52,8 @@ bool gcpEraserTool::OnClicked ()
 		TypeId Id = m_pObject->GetType ();
 		if (Id == ReactionOperatorType)
 			return false; //It's an automatic object, don't delete it
-		m_pObject->SetSelected (m_pWidget, gcp::SelStateErasing);
-		m_pItem = m_pView->GetCanvasItem (m_pWidget, m_pObject);
+//		m_pObject->SetSelected (gcp::SelStateErasing);
+/*		m_pItem = m_pView->GetCanvasItem (m_pWidget, m_pObject);
 		if (Id == AtomType) {
 			Object* parent = m_pObject->GetParent ();
 			if (parent->GetType () == FragmentType)
@@ -65,7 +66,7 @@ bool gcpEraserTool::OnClicked ()
 			}
 		}
 		m_bChanged = true;
-		return true;
+		return true;*/
 	}
 	return false;
 }
@@ -74,7 +75,7 @@ void gcpEraserTool::OnDrag ()
 {
 	if (!m_pObject)
 		return;
-	TypeId Id = m_pObject->GetType ();
+/*	TypeId Id = m_pObject->GetType ();
 	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
 	gcp::Theme *Theme = m_pView->GetDoc ()->GetTheme ();
 	Object* pObject = NULL;
@@ -135,14 +136,14 @@ void gcpEraserTool::OnDrag ()
 			m_pObject->SetSelected (m_pWidget, gcp::SelStateUnselected);
 			m_bChanged = false;
 		}
-	}
+	}*/
 }
 
 void gcpEraserTool::OnRelease ()
 {
 	char *id = NULL;
 	if ((!m_pObject) || (!m_bChanged)) {
-		m_pItem = NULL;
+		m_Item = NULL;
 		return;
 	}
 	gcp::Document* pDoc = m_pView->GetDoc ();
@@ -165,11 +166,11 @@ void gcpEraserTool::OnRelease ()
 // A molecule might disappear, so get its parent
 	if (Parent->GetType () == MoleculeType)
 		Parent = Parent->GetParent ();
-	m_pItem = NULL;
+/*	m_pItem = NULL;
 	if (m_pData->Items[m_pObject] == NULL) {
 		m_pData->Items.erase (m_pObject);
 		return;
-	}
+	}*/
 	pDoc->Remove (m_pObject);
 	Parent->EmitSignal (gcp::OnChangedSignal);
 	if (id) {

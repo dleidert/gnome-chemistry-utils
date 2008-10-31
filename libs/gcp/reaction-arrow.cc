@@ -34,8 +34,6 @@
 #include "view.h"
 #include "widgetdata.h"
 #include <gcu/objprops.h>
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-line.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
@@ -154,7 +152,7 @@ bool ReactionArrow::Load (xmlNodePtr node)
 	return false;
 }
 
-void ReactionArrow::Add (GtkWidget* w) const
+/*void ReactionArrow::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -341,6 +339,14 @@ void ReactionArrow::Update (GtkWidget* w) const
 	gnome_canvas_points_free (points);
 	// Now, update children
 	Object::Update (w);
+}*/
+
+void ReactionArrow::AddItem ()
+{
+}
+
+void ReactionArrow::UpdateItem ()
+{
 }
 
 void ReactionArrow::RemoveStep (ReactionStep *Step)
@@ -403,12 +409,12 @@ void ReactionArrow::Move (double x, double y, double z)
 	Object::Move (x, y, z);
 }
 
-void ReactionArrow::SetSelected (GtkWidget* w, int state)
+void ReactionArrow::SetSelected (int state)
 {
 	// Select the arrow
-	Arrow::SetSelected (w, state);
+	Arrow::SetSelected (state);
 	// Select its children
-	Object::SetSelected (w, state);
+//	Object::SetSelected (state);
 }
 
 void ReactionArrow::AddProp (Object *object)
@@ -441,7 +447,7 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 	double xmin, xspan, ymin, yspan,
 		length = sqrt (m_width * m_width + m_height * m_height),
 		x = m_width / length, y = m_height / length;
-	ArtDRect rect;
+	gccv::Rect rect;
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
 	pData->GetObjectBounds (prop, &rect);
 	if (m_width >=0) {

@@ -25,6 +25,7 @@
 #ifndef GCHEMPAINT_TEXT_H
 #define GCHEMPAINT_TEXT_H
 
+#include <canvas/item-client.h>
 #include <gcu/macros.h>
 #include <gcu/object.h>
 #include <libxml/tree.h>
@@ -38,7 +39,7 @@ namespace gcp {
 The text objects in GChemPaint, excluding atomic symbols. Using this class to
 represent chemical objects looses the chemical significance.
 */
-class Text: public TextObject
+class Text: public TextObject, public gccv::ItemClient
 {
 public:
 /*!
@@ -109,26 +110,21 @@ Loads a portion of a text with a unique set of attributes. \a pos and
 */
 	bool LoadNode (xmlNodePtr node, unsigned &pos, int level = 0, int cur_size = 0);
 /*!
-@param w a GtkWidget.
-
-Adds the representation of the text to the canvas widget.
+Used to add a representation of the text in the view.
 */
-	void Add (GtkWidget* w) const;
+	void AddItem ();
 /*!
-@param w a GtkWidget.
-
-Updates the representation of the text in the canvas widget.
+Used to update the representation of the text in the view.
 */
-	void Update (GtkWidget* w) const;
+	void UpdateItem ();
 /*!
-@param w the GtkWidget inside which the text is displayed.
 @param state the selection state of the text.
 
-Used to set the selection state of text inside the widget.
+Used to set the selection state of text inside.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
-	void SetSelected (GtkWidget* w, int state);
+	void SetSelected (int state);
 /*!
 @param save whether the text should be saved for undo/redo operations.
 

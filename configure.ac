@@ -1,4 +1,4 @@
-AC_INIT([gnome-chemistry-utils], [0.10.0], [http://savannah.nongnu.org/bugs/?group=gchemutils])
+AC_INIT([gnome-chemistry-utils], [0.11.0], [http://savannah.nongnu.org/bugs/?group=gchemutils])
 AC_CONFIG_SRCDIR([libs/gcu/gtkperiodic.c])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
@@ -126,7 +126,6 @@ fi
 LIBGLADE_REQUIRED_VERSION=2.4.0
 CAIRO_REQUIRED_VERSION=1.6.0
 GTKGLEXT_REQUIRED_VERSION=1.0.0
-GNOME_CANVAS_REQUIRED_VERSION=2.4.0
 SHARED_MIME_INFO_REQUIRED_VERSION=0.12
 OPENBABEL_REQUIRED_VERSION=2.1.0
 GTK_REQUIRED_VERSION=2.12.0
@@ -142,7 +141,6 @@ libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
 gio-2.0 >= $GIO_REQUIRED_VERSION \
 gtk+-2.0 >= $GTK_REQUIRED_VERSION \
 gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
-libgnomecanvas-2.0 >= $GNOME_CANVAS_REQUIRED_VERSION \
 libgsf-1 >= 1.14.9 \
 $libgoffice >= $GNOME_OFFICE_REQUIRED_VERSION \
 chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
@@ -336,6 +334,7 @@ plugins/Makefile
 plugins/loaders/Makefile
 plugins/loaders/cdx/Makefile
 plugins/loaders/cdxml/Makefile
+plugins/loaders/cml/Makefile
 plugins/paint/Makefile
 plugins/paint/arrows/Makefile
 plugins/paint/atoms/Makefile

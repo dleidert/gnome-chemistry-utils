@@ -26,6 +26,7 @@
 #include <gcp/application.h>
 #include <gcp/document.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
 #include <gcp/widgetdata.h>
 
 using namespace std;

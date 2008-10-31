@@ -25,17 +25,28 @@
 #ifndef GCHEMPAINT_TOOL_H
 #define GCHEMPAINT_TOOL_H
 
+#include <gtk/gtk.h>
+#include <libxml/tree.h>
 #include <vector>
+#include <set>
 #include <string>
-#include "widgetdata.h"
-#include "view.h"
-#include "operation.h"
-#include <gcu/dialog.h>
+
+namespace gcu {
+	class Dialog;
+	class Object;
+}
+
+namespace gccv {
+	class Item;
+}
 
 /*!\file*/
 namespace gcp {
 
 class Application;
+class View;
+class WidgetData;
+class Operation;
 
 /*!\class Tool
 Base clas for GChemPaint tools.	
@@ -314,17 +325,9 @@ The active canvas widget.
 */
 	GtkWidget *m_pWidget;
 /*!
-The root group in the active canvas.
-*/
-	GnomeCanvasGroup *m_pGroup;
-/*!
 The item on which the last click occured if any.
 */
-	GnomeCanvasItem *m_pItem;
-/*!
-The canvas background.
-*/
-	GnomeCanvasItem *m_pBackground;
+	gccv::Item *m_Item;
 /*!
 The zoom factor when the click occured.
 */

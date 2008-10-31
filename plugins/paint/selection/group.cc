@@ -27,6 +27,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <canvas/structs.h>
 #include <glib/gi18n-lib.h>
 #include <cerrno>
 #include <cmath>
@@ -110,7 +111,7 @@ void gcpGroup::Align ()
 {
 	if (!m_Align)
 		return;
-	map<Object*, double> Children;
+/*	map<Object*, double> Children;
 	map<string, Object*>::iterator i;
 	Object* obj = GetFirstChild (i);
 	ArtDRect rect;
@@ -179,14 +180,14 @@ void gcpGroup::Align ()
 		View->Update (obj);
 		obj = GetNextChild (i);
 	}
-	Space ();
+	Space ();*/
 }
 
 void gcpGroup::Space ()
 {
 	if (!m_Align || !m_Spaced)
 		return;
-	map<string, Object*>::iterator i;
+/*	map<string, Object*>::iterator i;
 	map<Object*, ArtDRect> rects;
 	map<double, Object*> Children;
 	map<double, Object*>::iterator im, endm;
@@ -223,7 +224,7 @@ void gcpGroup::Space ()
 			x += (rect.y1 - rect.y0) /pTheme->GetZoomFactor ();
 		}
 		View->Update (obj);
-	}
+	}*/
 }
 
 bool gcpGroup::Load (xmlNodePtr node)
@@ -268,8 +269,8 @@ bool gcpGroup::Load (xmlNodePtr node)
 				xmlFree (buf);
 			}
 			((gcp::Document*) GetDocument ())->GetView ()->AddObject (this);
-			gcp::WidgetData  *pData= (gcp::WidgetData*) g_object_get_data (G_OBJECT (((gcp::Document*) GetDocument ())->GetWidget ()), "data");
-			gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
+/*			gcp::WidgetData  *pData= (gcp::WidgetData*) g_object_get_data (G_OBJECT (((gcp::Document*) GetDocument ())->GetWidget ()), "data");
+			gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));*/
 			Align ();
 		}
 	}
@@ -323,10 +324,10 @@ bool gcpGroup::OnSignal (SignalId Signal, Object *Child)
 		if (GetChildrenNumber () < 2)
 			delete this;
 		else {
-			GnomeCanvas* w = GNOME_CANVAS (((gcp::Document*) GetDocument ())->GetWidget ());
+/*			GnomeCanvas* w = GNOME_CANVAS (((gcp::Document*) GetDocument ())->GetWidget ());
 			while (w->idle_id)
 				gtk_main_iteration();
-			gnome_canvas_update_now (w);
+			gnome_canvas_update_now (w);*/
 			Align ();
 		}
 	}
@@ -341,7 +342,7 @@ double gcpGroup::GetYAlign ()
 {
 	gcp::Document *pDoc = reinterpret_cast<gcp::Document*> (GetDocument ());
 	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
-	ArtDRect rect;
+	gccv::Rect rect;
 	pData->GetObjectBounds (this, &rect);
 	return (rect.y1 - rect.y0) / 2.;
 }
@@ -352,7 +353,7 @@ void gcpGroup::Add (GtkWidget* w)
 	Object* p = GetFirstChild (i);
 	while (p)
 	{
-		p->Add (w);
+//		p->Add (w);
 		p = GetNextChild (i);
 	}
 }

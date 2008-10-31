@@ -26,6 +26,7 @@
 #define GCHEMPAINT_ARROW_H
 
 #include <gcu/object.h>
+#include <canvas/item-client.h>
 
 /*!\file*/
 namespace gcp {
@@ -51,7 +52,7 @@ Double reaction arrow for reversible reactions with full heads.
 
 /*!\class Arrow gcp/arrow.h
 */
-class Arrow: public gcu::Object
+class Arrow: public gcu::Object, public gccv::ItemClient
 {
 public:
 /*!
@@ -76,14 +77,13 @@ This method must be called from derived classes overloaded Load methods.
 */
 	bool Load (xmlNodePtr node);
 /*!
-@param w: the GtkWidget inside which the Object is displayed.
 @param state: the selection state of the arrow.
 
-Used to set the selection state of the arrow inside the widget.
+Used to set the selection state of the arrow.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
-	void SetSelected (GtkWidget* w, int state);
+	void SetSelected (int state);
 /*!
 @param xstart the x coordinate of the start point.
 @param ystart the y coordinate of the start point.

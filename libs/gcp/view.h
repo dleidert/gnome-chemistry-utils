@@ -25,16 +25,24 @@
 #ifndef GCHEMPAINT_VIEW_H
 #define GCHEMPAINT_VIEW_H
 
-#include <map>
-#include <list>
-#include <libgnomecanvas/libgnomecanvas.h>
-#include <canvas/gcp-canvas-pango.h>
 #include <gcu/macros.h>
-#include "atom.h"
-#include "bond.h"
+#include <canvas/client.h>
+#include <list>
+#include <map>
+
+namespace gccv {
+	class Canvas;
+	class Text;
+}
+
+namespace gcu {
+	class Object;
+};
 
 namespace gcp {
 
+class Atom;
+class Bond;
 class Document;
 class WidgetData;
 
@@ -44,7 +52,7 @@ extern GtkTargetEntry const targets[];
 /*!\class View gcp/view.h
 The GChempaint document view.
 */
-class View
+class View: public gccv::Client
 {
 public:
 	//Constructor and destructor
@@ -79,19 +87,19 @@ public:
 Called by the framework when an event occured in the canvas.
 @return false if the event should be processed further, true otherwise.
 */
-	bool OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
+//	bool OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
 /*!
 @param pObject the object to add.
 
 Adds the object to the canvas.
 */
-	void AddObject (gcu::Object const *pObject);
+	void AddObject (gcu::Object *pObject);
 /*!
 @param pObject the object to update.
 
 Updates the object in the canvas.
 */
-	void Update (gcu::Object const *pObject);
+	void Update (gcu::Object *pObject);
 /*!
 Creates a new canvas widget for the view.
 
@@ -104,18 +112,6 @@ Creates a new canvas widget for the view.
 Called by the framework when a widget is destroyed.
 */
 	void OnDestroy (GtkWidget* widget);
-/*!
-@param widget the canvas in which an item is searched.
-@param object the object represented by the item.
-
-Searches the item representing \a object in the canvas widget.
-@return the found item if any, or NULL.
-*/
-	GnomeCanvasItem* GetCanvasItem (GtkWidget* widget, gcu::Object* object);
-/*!
-@return the canvas background.
-*/
-	GnomeCanvasItem* GetBackground ();
 /*!
 @return the current zoom factor.
 */
@@ -130,10 +126,6 @@ Updates fonts descriptions after a theme change.
 Removes the object from the view and destroys the items representing it.
 */
 	void Remove (gcu::Object* pObject);
-/*!
-@return the pango context associated to the view.
-*/
-	PangoContext* GetPangoContext () {return m_PangoContext;}
 /*!
 @return the height of the font used to display atomic symbols.
 */
@@ -222,7 +214,7 @@ negative moves all the items so that they are visible.
 Sets the currently edited text item. \a item should be NULL to tell the view
 that no text edition is currently taking place.
 */
-	void SetGnomeCanvasPangoActive (GnomeCanvasPango* item);
+	void SetTextActive (gccv::Text* item);
 /*!
 Called by the framework when the active window changes to stop current edition
 and inhibit timer events.
@@ -300,13 +292,19 @@ Renders the document using cairo.
 */
 	void Render (cairo_t *cr);
 
+	// Signals
+	bool OnButtonPressed (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state);
+	bool OnButtonReleased (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state);
+	bool OnDrag (gccv::ItemClient *client, double x, double y, unsigned state);
+	bool OnMotion (gccv::ItemClient *client, double x, double y, unsigned state);
+
+	WidgetData *GetData () {return m_pData;}
 	//Implementation
 private:
 	WidgetData* m_pData;
 	Document* m_pDoc;
 	GtkWidget* m_pWidget;
 	std::list<GtkWidget*> m_Widgets;
-	PangoContext* m_PangoContext;
 	PangoFontDescription* m_PangoFontDesc, *m_PangoSmallFontDesc;
 	double m_dFontHeight;
 	gchar* m_sFontName, *m_sSmallFontName;
@@ -316,6 +314,7 @@ private:
 	GtkUIManager *m_UIManager;
 	bool m_Dragging;
 	gcu::Object *m_CurObject;
+	
 
 /*!\fn GetBaseLineOffset()
 @return the vertical offset for algnment of an atomic symbol. This value is half the height of the "C" character.
@@ -324,18 +323,13 @@ GCU_RO_PROP (double, BaseLineOffset)
 /*!\fn GetActiveRichText()
 @return the currently edited text item if any, or NULL.
 */
-GCU_RO_PROP (GnomeCanvasPango*, ActiveRichText)
+GCU_RO_PROP (gccv::Text *, ActiveRichText)
+/*!\fn GetCHeight()
+@return the half height of a carbon atom symbol in the current theme.
+*/
+GCU_RO_PROP (double, CHeight)
 };
 
-/*!
-@param item the item for which the event occured.
-@param event the current GdkEvent.
-@param widget the canvas owning the item.
-
-A callback for events occuring in the canvas. Calls View::OnEvent() for the
-view owning \a widget.
-*/
-bool on_event (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
 /*!
 @param clipboard a GtkClipboard.
 @param selection_data the data to paste.

@@ -32,6 +32,10 @@ namespace gcu {
 	class Chain;
 }
 
+namespace gcp {
+	class Atom;
+}
+
 class gcpCycleTool: public gcp::Tool
 {
 public:
@@ -54,7 +58,7 @@ protected:
 protected:
 	double *m_xn;
 	unsigned char m_size;
-	GnomeCanvasPoints *points;
+//	GnomeCanvasPoints *points;
 	GtkSpinButton *m_LengthBtn;
 	GtkToggleButton *m_MergeBtn;
 

@@ -379,30 +379,6 @@ bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object, doubl
 	return result | ((m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false);
 }
 
-void Object::Add (GtkWidget* w) const
-{
-	map<string, Object*>::const_iterator i;
-	Object const *p = GetFirstChild (i);
-	while (p) {
-		p->Add (w);
-		p = GetNextChild (i);
-	}
-}
-
-void Object::Update (GtkWidget* w) const
-{
-	map<string, Object*>::const_iterator i, end = m_Children.end ();
-	for (i = m_Children.begin (); i != end; i++)
-		(*i).second->Update (w);
-}
-
-void Object::SetSelected (GtkWidget* w, int state)
-{
-	map<string, Object*>::iterator i, end = m_Children.end ();
-	for (i = m_Children.begin (); i != end; i++)
-		(*i).second->SetSelected (w, state);
-}
-
 Object* Object::GetAtomAt (double x, double y, double z)
 {
 	return NULL;

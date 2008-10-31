@@ -26,6 +26,8 @@
 #define GCHEMPAINT_SELECTION_TOOL_H
 
 #include <gcp/tool.h>
+#include <list>
+#include <gcu/object.h>
 
 namespace gcp {
 	class WidgetData;

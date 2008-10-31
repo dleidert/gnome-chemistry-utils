@@ -30,8 +30,6 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
-#include <canvas/gcp-canvas-rect-ellipse.h>
-#include <canvas/gcp-canvas-group.h>
 #include <cmath>
 #include <cstring>
 
@@ -50,7 +48,9 @@ namespace gcp {
 
 TypeId ElectronType;
 
-Electron::Electron (Atom *pAtom, bool IsPair): Object ()
+Electron::Electron (Atom *pAtom, bool IsPair):
+	Object (ElectronType),
+	gccv::ItemClient ()
 {
 	m_IsPair = IsPair;
 	m_pAtom = pAtom;
@@ -114,7 +114,7 @@ void Electron::SetPosition (unsigned char Pos, double angle, double distance)
 	m_Pos = Pos;
 }
 
-void Electron::Add (GtkWidget* w) const
+/*void Electron::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -122,7 +122,7 @@ void Electron::Add (GtkWidget* w) const
 	Theme* pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP(gnome_canvas_item_new(pData->Group, gnome_canvas_group_ext_get_type(), NULL));
 	GnomeCanvasItem* item;
-	const char *color = (m_pAtom)? ((pData->IsSelected(m_pAtom))? SelectColor: Color): "white";
+	GOColor color = (m_pAtom)? ((pData->IsSelected(m_pAtom))? SelectColor: Color): RGBA_WHITE;
 	double x, y, angle = m_Angle / 180. * M_PI;
 	if (m_Dist != 0.){
 		m_pAtom->GetCoords (&x, &y);
@@ -228,17 +228,17 @@ void Electron::Update (GtkWidget* w) const
 						"y2", y + 2.,
 						NULL);
 	}
-}
+}*/
 
-void Electron::SetSelected(GtkWidget* w, int state)
+void Electron::SetSelected(int state)
 {
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+/*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
-	gchar const *color;
+	GOColor color;
 	
 	switch (state) {	
 	case SelStateUnselected:
-		color = "black";
+		color = RGBA_BLACK;
 		break;
 	case SelStateSelected:
 		color = SelectColor;
@@ -250,14 +250,14 @@ void Electron::SetSelected(GtkWidget* w, int state)
 		color = DeleteColor;
 		break;
 	default:
-		color = "black";
+		color = RGBA_BLACK;
 		break;
 	}
 	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "0")),
 				"fill_color", color, NULL);
 	if (m_IsPair)
 		g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "1")),
-					"fill_color", color, NULL);
+					"fill_color", color, NULL);*/
 }
 	
 xmlNodePtr Electron::Save (xmlDocPtr xml) const
@@ -381,6 +381,14 @@ void Electron::Transform2D (Matrix2D& m, double x, double y)
 	if (a < 0)
 		a += 360;
 	SetPosition (0, a, m_Dist);
+}
+
+void Electron::AddItem ()
+{
+}
+
+void Electron::UpdateItem ()
+{
 }
 
 }	//	namespace gcp

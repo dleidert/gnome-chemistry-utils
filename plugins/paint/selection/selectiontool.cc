@@ -26,16 +26,20 @@
 #include "selectiontool.h"
 #include "group.h"
 #include "groupdlg.h"
+#include <gcp/application.h>
+#include <gcp/document.h>
 #include <gcp/molecule.h>
 #include <gcp/settings.h>
-#include <gcp/document.h>
-#include <gcp/application.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
 #include <gcp/window.h>
+#include <canvas/rectangle.h>
+#include <canvas/structs.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <stdexcept>
 
+using namespace gccv;
 using namespace gcu;
 using namespace std;
 
@@ -101,7 +105,7 @@ bool gcpSelectionTool::OnClicked ()
 	}
 	if (m_bRotate) {
 		// Calculate center of selection
-		ArtDRect rect;
+		gccv::Rect rect;
 		m_pData->GetSelectionBounds (rect);
 		m_cx = (rect.x0 + rect.x1) / 2.;
 		m_cy = (rect.y0 + rect.y1) / 2.;
@@ -158,13 +162,18 @@ void gcpSelectionTool::OnDrag ()
 		} else
 			m_pData->MoveSelectedItems (dx, dy);
 	} else {
-		if (m_pItem) {
-			gnome_canvas_item_get_bounds (m_pItem, &x1, &y1, &x2, &y2);
+		if (m_Item) {
+			reinterpret_cast <Rectangle *> (m_Item)->SetPosition (m_x0, m_y0, m_x - m_x0, m_y - m_y0);
+/*			gnome_canvas_item_get_bounds (m_pItem, &x1, &y1, &x2, &y2);
 			g_object_set (G_OBJECT (m_pItem), "x2", m_x, "y2", m_y, NULL);
-			gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
+			gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);*/
 		} else {
+			m_Item = new Rectangle (m_pView->GetCanvas (), m_x0, m_y0, m_x - m_x0, m_y - m_y0);
 			gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
-			m_pItem = gnome_canvas_item_new (
+			static_cast <LineItem *> (m_Item)->SetLineColor (gcp::SelectColor);
+			static_cast <LineItem *> (m_Item)->SetLineWidth (pTheme->GetBondWidth ());
+			static_cast <FillItem *> (m_Item)->SetFillColor (0);
+/*			m_pItem = gnome_canvas_item_new (
 									m_pData->Group,
 									gnome_canvas_rect_get_type (),
 									"x1", m_x0,
@@ -173,7 +182,7 @@ void gcpSelectionTool::OnDrag ()
 									"y2", m_y,
 									"outline_color", gcp::SelectColor,
 									"width_units", pTheme->GetBondWidth (),
-									NULL);
+									NULL);*/
 		}
 	}
 }
@@ -208,7 +217,7 @@ void gcpSelectionTool::OnRelease ()
 		else
 			m_y1 = m_y;
 		double x0, y0, x1, y1;
-		std::map<Object const *, GnomeCanvasGroup*>::iterator j, jend = m_pData->Items.end ();
+/*		std::map<Object const *, GnomeCanvasGroup*>::iterator j, jend = m_pData->Items.end ();
 		for (j = m_pData->Items.begin (); j != jend; j++) {
 			if (!m_pData->IsSelected ((*j).first)) {
 				GnomeCanvasItem *item = GNOME_CANVAS_ITEM ((*j).second);
@@ -225,7 +234,7 @@ void gcpSelectionTool::OnRelease ()
 						m_pData->SetSelected (const_cast <Object *> ((*j).first));
 				}
 			}
-		}
+		}*/
 	}
 	AddSelection (m_pData);
 }
@@ -289,7 +298,7 @@ void gcpSelectionTool::OnFlip (bool horizontal)
 	}
 	if (!m_pData->SelectedObjects.size ())
 		return;
-	ArtDRect rect;
+	gccv::Rect rect;
 	m_pData->GetSelectionBounds (rect);
 	m_cx = (rect.x0 + rect.x1) / 2.;
 	m_cy = (rect.y0 + rect.y1) / 2.;

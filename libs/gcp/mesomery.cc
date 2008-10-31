@@ -117,7 +117,7 @@ bool Mesomery::Load (xmlNodePtr node)
 typedef struct
 {
 	double x, y;
-	ArtDRect r;
+	gccv::Rect r;
 	Mesomer *mes;
 } ObjectData;
 
@@ -283,7 +283,7 @@ typedef struct MC
 typedef struct
 {
 	double x, y, dx, dy;
-	ArtDRect r;
+	gccv::Rect r;
 	Mesomer *m;
 	MesomeryChain *chain;
 } MesomerData;
@@ -502,10 +502,10 @@ void Mesomery::Align ()
 	Theme *pTheme = pDoc->GetTheme ();
 	WidgetData  *pData = reinterpret_cast <WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
 	/* Update the canvas if necessary */
-	GnomeCanvas* w = GNOME_CANVAS (((Document*) GetDocument ())->GetWidget ());
+/*	GnomeCanvas* w = GNOME_CANVAS (((Document*) GetDocument ())->GetWidget ());
 	while (w->idle_id)
 		gtk_main_iteration();
-	gnome_canvas_update_now (w);
+	gnome_canvas_update_now (w);*/
 	map<string, Object*>::iterator i;
 	Object *pObj = GetFirstChild (i);
 	Mesomer *pStart = NULL, *mes0, *mes;

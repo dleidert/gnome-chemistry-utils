@@ -37,12 +37,12 @@ public:
 	virtual ~gcpPseudoAtom ();
 
 	void Update ();
-	void Add (GtkWidget* w) const;
-	void Update (GtkWidget* w) const;
+	void AddItem ();
+	void UpdateItem ();
 	virtual bool Load (xmlNodePtr);
 	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool LoadNode (xmlNodePtr);
-	void SetSelected (GtkWidget* w, int state);
+	void SetSelected (int state);
 	bool AcceptNewBonds (int nb = 1) {return false;}
 	bool AcceptCharge (int charge) {return false;}
 };

@@ -27,6 +27,7 @@
 #include "application.h"
 #include "document.h"
 #include "view.h"
+#include "widgetdata.h"
 
 namespace gcp {
 

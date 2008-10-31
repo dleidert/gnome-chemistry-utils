@@ -24,24 +24,25 @@
 
 #include "config.h"
 #include "application.h"
-#include "view.h"
-#include "document.h"
-#include "settings.h"
+#include "atom.h"
+#include "bond.h"
 #include "docprop.h"
+#include "document.h"
 #include "fragment.h"
-#include "reaction.h"
 #include "mesomery.h"
 #include "molecule.h"
+#include "reaction.h"
 #include "residue.h"
+#include "settings.h"
 #include "text.h"
 #include "theme.h"
 #include "tool.h"
+#include "view.h"
+#include "widgetdata.h"
 #include "window.h"
-#include <gcu/objprops.h>
 #include <gcu/loader.h>
+#include <gcu/objprops.h>
 #include <goffice/math/go-rangefunc.h>
-#include <unistd.h>
-#include <libgen.h>
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
@@ -50,6 +51,8 @@
 #include <clocale>
 #include <stack>
 #include <cstring>
+#include <libgen.h>
+#include <unistd.h>
 
 using namespace OpenBabel;
 using namespace std;
@@ -424,7 +427,7 @@ void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) cons
 	// adjust position and size
 	GtkWidget* widget = m_pView->GetWidget ();
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (widget), "data");
-	ArtDRect rect;
+	gccv::Rect rect;
 	pData->GetObjectBounds (this, &rect);
 	double scale = 1.;
 	x = rect.x0;
@@ -542,9 +545,10 @@ void Document::AddBond (Bond* pBond)
 	}
 	AddChild (pBond);
 	Atom *pAtom0 = (Atom*) pBond->GetAtom (0), *pAtom1 = (Atom*) pBond->GetAtom (1);
-	m_pView->Update (pAtom0);
-	m_pView->Update (pAtom1);
-	m_pView->AddObject (pBond);
+	pAtom0->UpdateItem ();
+	pAtom1->UpdateItem ();
+	if (m_pView->GetCanvas ())
+		pBond->AddItem ();
 	if (m_bIsLoading)
 		return;
 	//search molecules
@@ -1278,7 +1282,7 @@ double Document::GetYAlign ()
 		return Child->GetYAlign ();
 	} else {
 		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (GetWidget ()), "data");
-		ArtDRect rect;
+		gccv::Rect rect;
 		pData->GetObjectBounds (this, &rect);
 		return (rect.y1 - rect.y0) / 2.;
 	}

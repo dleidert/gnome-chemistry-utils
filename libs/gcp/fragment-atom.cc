@@ -23,10 +23,12 @@
  */
 
 #include "config.h"
+#include "bond.h"
 #include "fragment-atom.h"
 #include "fragment.h"
 #include "molecule.h"
 #include "view.h"
+#include <canvas/text.h>
 #include <gcu/element.h>
 #include <cstring>
 #include <map>
@@ -77,25 +79,25 @@ bool FragmentAtom::AcceptNewBonds (int nb)
 /*!
 Overrided to avoid Atom::Add execution. Don't do anything.
 */
-void FragmentAtom::Add (GtkWidget* w) const
+void FragmentAtom::AddItem ()
 {
 }
 
 /*!
 Overrided to avoid Atom::Update execution. Just call fragment Update method.
 */
-void FragmentAtom::Update (GtkWidget* w) const
+void FragmentAtom::UpdateItem ()
 {
-	m_Fragment->Update (w);
+	m_Fragment->UpdateItem ();
 }
 
 
 /*!
 Overrided to avoid Atom::SetSelected execution. Just call fragment SetSelected method.
 */
-void FragmentAtom::SetSelected (GtkWidget* w, int state)
+void FragmentAtom::SetSelected (int state)
 {
-	m_Fragment->SetSelected (w, state);
+	m_Fragment->SetSelected (state);
 }
 
 xmlNodePtr FragmentAtom::Save (xmlDocPtr xml) const
@@ -273,7 +275,7 @@ void FragmentAtom::DoBuildSymbolGeometry (View *pView)
 	char const *symbol = GetSymbol ();
 	if (!symbol)
 		return;
-	PangoContext* pc = pView->GetPangoContext ();
+	PangoContext* pc = gccv::Text::GetContext ();
 	PangoLayout *layout = pango_layout_new (pc);
 	pango_layout_set_font_description (layout, pView->GetPangoFontDesc ());
 	PangoRectangle rect;

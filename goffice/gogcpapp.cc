@@ -27,6 +27,7 @@
 #include <gcp/document.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
@@ -156,8 +157,8 @@ void GOGcpApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)
 	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
 	gcp::Theme *pTheme = doc->GetTheme ();
 	GtkWidget *w = doc->GetWidget ();
-	gnome_canvas_update_now (GNOME_CANVAS (w));
-	ArtDRect rect;
+//	gnome_canvas_update_now (GNOME_CANVAS (w));
+	gccv::Rect rect;
 	gcp::WidgetData *pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	pData->GetObjectBounds (doc, &rect);
 	double y = doc->GetYAlign ();

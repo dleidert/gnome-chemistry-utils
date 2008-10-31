@@ -24,13 +24,14 @@
 
 #include "config.h"
 #include "chaintool.h"
-#include <gcp/settings.h>
-#include <gcp/document.h>
 #include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
+#include <gcp/document.h>
 #include <gcp/molecule.h>
+#include <gcp/settings.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -41,7 +42,7 @@ using namespace std;
 gcpChainTool::gcpChainTool (gcp::Application *App): gcp::Tool (App, "Chain")
 {
 	m_Length = 0; // < 2 is auto.
-	m_Points = gnome_canvas_points_new (3);
+//	m_Points = gnome_canvas_points_new (3);
 	m_Atoms.resize (3);
 	m_CurPoints = 3;
 	m_AutoNb = true;
@@ -50,7 +51,7 @@ gcpChainTool::gcpChainTool (gcp::Application *App): gcp::Tool (App, "Chain")
 
 gcpChainTool::~gcpChainTool()
 {
-	gnome_canvas_points_free (m_Points);
+//	gnome_canvas_points_free (m_Points);
 }
 	
 bool gcpChainTool::OnClicked()
@@ -65,8 +66,8 @@ bool gcpChainTool::OnClicked()
 	m_BondLength = pDoc->GetBondLength ();
 	if (nb != m_CurPoints) {
 		m_CurPoints = nb;
-		gnome_canvas_points_free (m_Points);
-		m_Points = gnome_canvas_points_new (m_CurPoints);
+/*		gnome_canvas_points_free (m_Points);
+		m_Points = gnome_canvas_points_new (m_CurPoints);*/
 		if (m_CurPoints > m_Atoms.size ());
 			m_Atoms.resize (m_CurPoints);
 	}
@@ -80,8 +81,8 @@ bool gcpChainTool::OnClicked()
 		m_Atoms[0]->GetCoords(&m_x0, &m_y0, NULL);
 		x = m_x0 *= m_dZoomFactor;
 		y = m_y0 *= m_dZoomFactor;
-		m_Points->coords[0] = m_x0;
-		m_Points->coords[1] = m_y0;
+/*		m_Points->coords[0] = m_x0;
+		m_Points->coords[1] = m_y0;*/
 		switch (nb) {
 		case 1: {
 				map<Atom*, Bond*>::iterator i;
@@ -114,8 +115,8 @@ bool gcpChainTool::OnClicked()
 		}
 	} else {
 		m_Atoms[0] = NULL;
-		x = m_Points->coords[0] = m_x0;
-		y = m_Points->coords[1] = m_y0;
+/*		x = m_Points->coords[0] = m_x0;
+		y = m_Points->coords[1] = m_y0;*/
 		m_AutoDir = true;
 	}
 	FindAtoms ();
@@ -124,13 +125,13 @@ bool gcpChainTool::OnClicked()
 	char tmp[32];
 	snprintf(tmp, sizeof(tmp) - 1, _("Bonds: %d, Orientation: %g"), m_CurPoints - 1, m_dAngle);
 	m_pApp->SetStatusText(tmp);
-	m_pItem = gnome_canvas_item_new (
+/*	m_pItem = gnome_canvas_item_new (
 								m_pGroup,
 								gnome_canvas_line_get_type (),
 								"points", m_Points,
 								"fill_color", gcp::AddColor,
 								"width_units", pTheme->GetBondWidth (),
-								NULL);
+								NULL);*/
 	m_dMeanLength = pDoc->GetBondLength () * sin (pDoc->GetBondAngle () / 360. * M_PI) * m_dZoomFactor;
 	m_Allowed = true; // FIXME: if MergeAtoms is true, ensure that atoms accept necessary bonds
 	return true;
@@ -138,18 +139,18 @@ bool gcpChainTool::OnClicked()
 
 void gcpChainTool::OnDrag ()
 {
-	double x1, y1, x2, y2;
-	unsigned nb;
+//	double x1, y1, x2, y2;
+//	unsigned nb;
 	gcp::Document* pDoc = m_pView->GetDoc ();
-	gcp::Theme *pTheme = pDoc->GetTheme ();
+/*	gcp::Theme *pTheme = pDoc->GetTheme ();
 	if (m_pItem) {
 		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
 		gtk_object_destroy (GTK_OBJECT(GNOME_CANVAS_ITEM (m_pItem)));
 		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
 		m_pItem = NULL;
-	}
+	}*/
 	m_BondLength = pDoc->GetBondLength ();
-	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
+/*	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
 	if (pItem == (GnomeCanvasItem*) m_pBackground)
 		pItem = NULL;
 	Object* pObject = NULL;
@@ -252,7 +253,7 @@ void gcpChainTool::OnDrag ()
 								"points", m_Points,
 								"fill_color", gcp::AddColor,
 								"width_units", pTheme->GetBondWidth (),
-								NULL);
+								NULL);*/
 }
 
 void gcpChainTool::OnRelease ()
@@ -267,12 +268,12 @@ void gcpChainTool::OnRelease ()
 	gcp::Bond* pBond = NULL;
 	m_pApp->ClearStatus ();
 	m_AutoDir = false;
-	if (m_pItem) {
+/*	if (m_pItem) {
 		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
 		gtk_object_destroy (GTK_OBJECT(GNOME_CANVAS_ITEM (m_pItem)));
 		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
 		m_pItem = NULL;
-	} else
+	} else*/
 		return;
 	if (!m_Allowed)
 		return;
@@ -287,12 +288,12 @@ void gcpChainTool::OnRelease ()
 			Id = pObject->GetId ();
 			pOp->AddObject (pObject);
 			ModifiedObjects.insert (Id);
-		} else {
+		} else {/*
 			m_Atoms[nb] = new gcp::Atom (m_pApp->GetCurZ(),
 				m_Points->coords[2 * nb] / m_dZoomFactor,
 				m_Points->coords[2 * nb + 1] / m_dZoomFactor,
 				0);
-			pDoc->AddAtom (m_Atoms[nb]);
+			pDoc->AddAtom (m_Atoms[nb]);*/
 		}
 		// now add the bond. Atoms might be the same if the bonds are too short.
 		if (nb > 0 && m_Atoms[nb] != m_Atoms[nb - 1]) {
@@ -390,7 +391,7 @@ void gcpChainTool::Activate ()
 
 void gcpChainTool::FindAtoms ()
 {
-	double x1 = m_Points->coords[0], y1 = m_Points->coords[1], a;
+/*	double x1 = m_Points->coords[0], y1 = m_Points->coords[1], a;
 	unsigned nb;
 	for (nb = 1; nb < m_CurPoints; nb++) {
 		a = (m_dAngle +
@@ -423,7 +424,7 @@ void gcpChainTool::FindAtoms ()
 		}
 		m_Points->coords[nb * 2] = x1;
 		m_Points->coords[nb * 2 + 1] = y1;
-	}
+	}*/
 }
 
 bool gcpChainTool::CheckIfAllowed ()

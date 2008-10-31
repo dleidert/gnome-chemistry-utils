@@ -32,9 +32,7 @@
 #include "theme.h"
 #include "tool.h"
 #include "window.h"
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-rect-ellipse.h>
-#include <canvas/gprintable.h>
+#include <canvas/text.h>
 #include <gcu/formula.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
@@ -51,19 +49,23 @@ static void on_text_changed (Text *text)
 	text->OnChanged (true);
 }
 
-static void on_text_sel_changed (Text *text, struct GnomeCanvasPangoSelBounds *bounds)
+static void on_text_sel_changed (Text *text, gccv::TextSelBounds *bounds)
 {
 	text->OnSelChanged (bounds);
 }
 
-Text::Text (): TextObject (TextType),
+Text::Text ():
+	TextObject (TextType),
+	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
 	m_Anchor (GTK_ANCHOR_W)
 {
 }
 
-Text::Text (double x, double y): TextObject (x, y, TextType),
+Text::Text (double x, double y):
+	TextObject (x, y, TextType),
+	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
 	m_Anchor (GTK_ANCHOR_W)
@@ -474,13 +476,13 @@ bool Text::LoadSelection (xmlNodePtr node, unsigned pos)
 	}
 	pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
 	pango_layout_set_attributes (m_Layout, m_AttrList);
-	GtkWidget* pWidget = dynamic_cast<Document*> (GetDocument ())->GetWidget ();
+/*	GtkWidget* pWidget = dynamic_cast<Document*> (GetDocument ())->GetWidget ();
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 	GnomeCanvasGroup *group = pData->Items[this];
 	if (group) {
 		GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "text"));
 		gnome_canvas_pango_set_selection_bounds (PangoItem, pos, pos);
-	}	
+	}	*/
 	m_bLoading = false;
 	OnChanged (true);
 	return true;
@@ -645,7 +647,15 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 	return true;
 }
 
-void Text::Add (GtkWidget* w) const
+void Text::AddItem ()
+{
+}
+
+void Text::UpdateItem ()
+{
+}
+
+/*void Text::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -723,7 +733,7 @@ void Text::Add (GtkWidget* w) const
 	g_signal_connect_swapped (G_OBJECT(item), "changed", G_CALLBACK (on_text_changed), (void *) this);
 	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_text_sel_changed), (void *) this);
 	pData->Items[this] = group;
-}
+}*/
 
 bool Text::OnChanged (bool save)
 {
@@ -732,12 +742,12 @@ bool Text::OnChanged (bool save)
 		return false;
 	View* pView = pDoc->GetView ();
 	GtkWidget* pWidget = pView->GetWidget ();
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
+/*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 	GnomeCanvasGroup *group = pData->Items[this];
 	if (!group) {
 		pData->Items.erase (this);
 		return false;
-	}
+	}*/
 	if (strlen (pango_layout_get_text (m_Layout))) {
 		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
@@ -749,9 +759,9 @@ bool Text::OnChanged (bool save)
 	m_height = rect.height / PANGO_SCALE;
 	pView->Update (this);
 	EmitSignal (OnChangedSignal);
-	GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "text"));
+/*	GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "text"));
 	unsigned CurPos = gnome_canvas_pango_get_cur_index (PangoItem);
-	m_StartSel = m_EndSel = CurPos;
+	m_StartSel = m_EndSel = CurPos;*/
 	if (save) {
 		Tool* TextTool = dynamic_cast<Application*> (pDoc->GetApplication ())->GetTool ("Text");
 		if (!TextTool)
@@ -763,7 +773,7 @@ bool Text::OnChanged (bool save)
 	return true;
 }
 
-void Text::Update (GtkWidget* w) const
+/*void Text::Update (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
@@ -795,16 +805,14 @@ void Text::Update (GtkWidget* w) const
 						"x2", x + m_length + pTheme->GetPadding (),
 						"y2", m_y * pTheme->GetZoomFactor () + m_height + pTheme->GetPadding () - m_ascent,
 						NULL);
-}
+}*/
 
-void Text::SetSelected (GtkWidget* w, int state)
+void Text::SetSelected (int state)
 {
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	GnomeCanvasGroup* group = pData->Items[this];
-	gchar const *color;
+	GOColor color;
 	switch (state) {	
 	case SelStateUnselected:
-		color = "white";
+		color = RGBA_WHITE;
 		break;
 	case SelStateSelected:
 		color = SelectColor;
@@ -816,10 +824,10 @@ void Text::SetSelected (GtkWidget* w, int state)
 		color = DeleteColor;
 		break;
 	default:
-		color = "white";
+		color = RGBA_WHITE;
 		break;
 	}
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "rect")), "outline_color", color, NULL);
+	dynamic_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
 }
 
 bool Text::OnEvent (GdkEvent *event)

@@ -25,10 +25,10 @@
 #ifndef GCHEMPAINT_WIDGET_DATA_H
 #define GCHEMPAINT_WIDGET_DATA_H
 
-#include <libgnomecanvas/gnome-canvas.h>
-#include <map>
-#include <list>
 #include <gcu/object.h>
+#include <canvas/structs.h>
+#include <list>
+#include <map>
 
 /*!\file*/
 namespace gcp {
@@ -82,21 +82,13 @@ The canvas widget to which this instance is associated.
 */
 	GtkWidget *Canvas;
 /*!
-The root group containing all other items, except the background.
-*/
-	GnomeCanvasGroup *Group;
-/*!
-The white rectangle used as background (to be deprecated).
-*/
-	GnomeCanvasItem* Background;
-/*!
 The current zoom factor.
 */
 	double Zoom;
 /*!
 Maps the document objects to the canvas items which represent them.
 */
-	std::map<gcu::Object const*, GnomeCanvasGroup*>Items;
+//	std::map<gcu::Object const*, GnomeCanvasGroup*>Items;
 /*!
 The list of selected objects.
 */
@@ -163,7 +155,7 @@ Copies the current selection to the clipboard.
 
 Gets the selection bounds in canvas coordinates.
 */
-	void GetSelectionBounds (ArtDRect &rect) const;
+	void GetSelectionBounds (gccv::Rect &rect) const;
 /*!
 @return true if at least one object is selected, false otherwise.
 */
@@ -190,11 +182,11 @@ normally. This is used when printing or exporting an image.
 
 Gets the object bounds in canvas coordinates.
 */
-	void GetObjectBounds (gcu::Object const *obj, ArtDRect *rect) const;
+	void GetObjectBounds (gcu::Object const *obj, gccv::Rect *rect) const;
 
 private:
 	void MoveItems (gcu::Object *obj, double dx, double dy);
-	void GetObjectBounds (gcu::Object const* obj, ArtDRect &rect) const;
+	void GetObjectBounds (gcu::Object const* obj, gccv::Rect &rect) const;
 };
 
 }	// namespace gcp

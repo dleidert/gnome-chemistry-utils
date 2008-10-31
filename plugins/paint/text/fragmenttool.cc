@@ -25,12 +25,18 @@
 #include "config.h"
 #include "fragmenttool.h"
 #include <gcp/application.h>
+#include <gcp/atom.h>
+#include <gcp/bond.h>
 #include <gcp/document.h>
 #include <gcp/fragment.h>
 #include <gcp/molecule.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gcp/window.h>
+#include <canvas/structs.h>
+#include <canvas/text.h>
 #include <gdk/gdkkeysyms.h>
 
 extern xmlDocPtr pXmlDoc;
@@ -55,7 +61,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 bool gcpFragmentTool::OnClicked ()
 {
 	if (m_Active && ((m_pObject == NULL) || (m_pObject->GetType() != FragmentType) ||
-			(m_Active != g_object_get_data (G_OBJECT (m_pData->Items[m_pObject]), "fragment")))) {
+			(static_cast <gccv::Item *> (m_Active) != dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ()))) {
 		if (!Unselect ())
 			return false;
 	}
@@ -68,7 +74,7 @@ bool gcpFragmentTool::OnClicked ()
 		pDoc->EmptyTranslationTable ();
 		m_pObject = fragment;
 	}
-	struct GnomeCanvasPangoSelBounds bounds;
+	gccv::TextSelBounds bounds;
 	bool need_update = false;
 	gcp::Fragment *pFragment = NULL;
 	if (m_pObject) {
@@ -112,9 +118,9 @@ bool gcpFragmentTool::OnClicked ()
 						buf = g_strdup ("H");
 					bounds.start = bounds.cur = ((pAtom->GetBestSide ())? strlen (pAtom->GetSymbol ()): 0);
 					pFragment->OnSelChanged (&bounds);
-					gcp_pango_layout_replace_text (pFragment->GetLayout (),
+/*					gcp_pango_layout_replace_text (pFragment->GetLayout (),
 						bounds.cur,
-						0, buf, pDoc->GetPangoAttrList ());
+						0, buf, pDoc->GetPangoAttrList ());*/
 					bounds.cur +=  strlen (buf);
 					need_update = true;
 					g_free (buf);
@@ -138,14 +144,14 @@ bool gcpFragmentTool::OnClicked ()
 			default:
 				return false;
 		}
-		m_pObject->SetSelected (m_pWidget, gcp::SelStateUpdating);
-		m_Active = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (m_pData->Items[m_pObject]), "fragment"));
+//		m_pObject->SetSelected (gcp::SelStateUpdating);
+//		m_Active = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (m_pData->Items[m_pObject]), "fragment"));
 		if (need_update) {
-			gnome_canvas_pango_set_selection_bounds (m_Active,  bounds.cur,  bounds.cur);
+//			gnome_canvas_pango_set_selection_bounds (m_Active,  bounds.cur,  bounds.cur);
 			pFragment->AnalContent ((unsigned) bounds.start, (unsigned&) bounds.cur);
 			pFragment->OnChanged (false);
 		}
-		m_pView->SetGnomeCanvasPangoActive (m_Active);
+		m_pView->SetTextActive (m_Active);
 		g_object_set (G_OBJECT (m_Active), "editing", true, NULL);
 		m_CurNode = ((gcp::Fragment*) m_pObject)->SaveSelected ();
 		m_InitNode = ((gcp::Fragment*) m_pObject)->SaveSelected ();
@@ -210,9 +216,9 @@ bool gcpFragmentTool::OnEvent (GdkEvent* event)
 				((GdkEventKey*) event)->string = newstr;
 				((GdkEventKey*) event)->length = w;
 			}
-			gnome_canvas_item_grab_focus ((GnomeCanvasItem*) m_Active);
+/*			gnome_canvas_item_grab_focus ((GnomeCanvasItem*) m_Active);
 			GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (m_Active));
-			klass->event ((GnomeCanvasItem*) m_Active, event);
+			klass->event ((GnomeCanvasItem*) m_Active, event);*/
 			return true;
 		}
 	}

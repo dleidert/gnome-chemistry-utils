@@ -61,17 +61,13 @@ Used to load an arrow in memory.
 */
 	bool Load (xmlNodePtr node);
 /*!
-@param w the GtkWidget inside which the arrow will be displayed.
-
-Used to add a representation of the arrow in the widget.
+Used to add a representation of the arrow in the view.
 */
-	void Add (GtkWidget* w) const;
+	void AddItem ();
 /*!
-@param w the GtkWidget inside which the arrow is displayed.
-
-Used to update the representation of the arrow in the widget.
+Used to update the representation of the arrow in the view.
 */
-	void Update (GtkWidget* w) const;
+	void UpdateItem ();
 /*!
 @param Step the reaction step before the reaction
 
@@ -119,14 +115,13 @@ arrow if any.
 */
 	void Move (double x, double y, double z = 0);
 /*!
-@param w: the GtkWidget inside which the arrow is displayed.
 @param state: the selection state of the arrow.
 
 Used to set the selection state of the arrow inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing. Children will be selected too.
 */
-	void SetSelected (GtkWidget* w, int state);
+	void SetSelected (int state);
 /*!
 @param object the object to attach to the arrow.
 

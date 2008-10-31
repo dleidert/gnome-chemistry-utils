@@ -27,10 +27,10 @@
 
 namespace gcp {
 	
-gchar const *Color = "black";
-gchar const *DeleteColor = "red";
-gchar const *AddColor = "green";
-gchar const *SelectColor = "cyan";
+GOColor Color = RGBA_BLACK;
+GOColor DeleteColor = RGBA_RED;
+GOColor AddColor = RGBA_GREEN;
+GOColor SelectColor = RGBA_CYAN;
 unsigned MaxStackSize = 0;//infinite size authorized for undo:redo stacks
 bool MergeAtoms = true;
 int CompressionLevel = 0;

@@ -24,11 +24,14 @@
 
 #include "config.h"
 #include "cycletool.h"
-#include <gcp/settings.h>
-#include <gcp/document.h>
 #include <gcp/application.h>
+#include <gcp/atom.h>
+#include <gcp/bond.h>
+#include <gcp/document.h>
 #include <gcp/molecule.h>
+#include <gcp/settings.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
 #include <gcu/chain.h>
 #include <gcu/cycle.h>
 #include <glib/gi18n-lib.h>
@@ -62,7 +65,7 @@ gcpCycleTool::~gcpCycleTool ()
 {
 	if (m_size) {
 		delete [] m_xn;
-		gnome_canvas_points_free (points);
+//		gnome_canvas_points_free (points);
 	}
 	if (m_Chain)
 		delete m_Chain;
@@ -72,7 +75,7 @@ bool gcpCycleTool::OnClicked ()
 {
 	if (!m_size)
 		return false;
-	double x1, y1, x2, y2;
+/*	double x1, y1, x2, y2;
 	double a0, a1, a2, b1, b2, m1, m2;
 	gcp::Atom* pAtom, *pAtom1;
 	gcp::Bond* pBond, *pBond1;
@@ -276,7 +279,7 @@ bool gcpCycleTool::OnClicked ()
 								"points", points,
 								"outline_color", (m_bAllowed)? gcp::AddColor: gcp::DeleteColor,
 								"width_units", pTheme->GetBondWidth (),
-								NULL);
+								NULL);*/
 	return true;
 }
 
@@ -284,7 +287,7 @@ void gcpCycleTool::OnDrag ()
 {
 	if (!m_size)
 		return;
-	int i;
+/*	int i;
 	double x1, y1, x2, y2;
 	bool bDone = false;
 	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
@@ -494,7 +497,7 @@ void gcpCycleTool::OnDrag ()
 								"points", points,
 								"outline_color",  (m_bAllowed)? gcp::AddColor: gcp::DeleteColor,
 								"width_units", pTheme->GetBondWidth (),
-								NULL);
+								NULL);*/
 }
 
 void gcpCycleTool::OnRelease ()
@@ -505,7 +508,7 @@ void gcpCycleTool::OnRelease ()
 		delete m_Chain;
 		m_Chain = NULL;
 	}
-	if (m_pItem) {
+/*	if (m_pItem) {
 		gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
 		m_pItem = NULL;
 	}
@@ -646,7 +649,7 @@ void gcpCycleTool::OnRelease ()
 		pMol->Lock (false);
 		pMol->EmitSignal (gcp::OnChangedSignal);
 	}
-	ModifiedObjects.clear ();
+	ModifiedObjects.clear ();*/
 }
 
 void gcpCycleTool::OnChangeState ()
@@ -665,10 +668,10 @@ void gcpCycleTool::OnChangeState ()
 			}
 		} else {
 			double x1, y1, x2, y2;
-			if (m_pItem) {
+/*			if (m_pItem) {
 				gtk_object_destroy(GTK_OBJECT(GNOME_CANVAS_ITEM(m_pItem)));
 				m_pItem = NULL;
-			}
+			}*/
 			if (m_Direct) {
 				m_Start = (gcp::Atom*) ((gcp::Bond*) m_pObject)->GetAtom (0);
 				m_End = (gcp::Atom*) ((gcp::Bond*) m_pObject)->GetAtom (1);
@@ -678,7 +681,7 @@ void gcpCycleTool::OnChangeState ()
 			}
 			m_Start->GetCoords (&x1, &y1);
 			m_End->GetCoords (&x2, &y2);
-			points->coords[0] = m_xn[0] = x1 * m_dZoomFactor;
+/*			points->coords[0] = m_xn[0] = x1 * m_dZoomFactor;
 			points->coords[1] = m_xn[1] = y1 * m_dZoomFactor;
 			points->coords[2] = m_xn[2] = x1 = x2 * m_dZoomFactor;
 			points->coords[3] = m_xn[3] = y1 = y2 * m_dZoomFactor;
@@ -688,7 +691,7 @@ void gcpCycleTool::OnChangeState ()
 				m_xn[i + 1] = y1 -= (pDoc->GetBondLength () * m_dZoomFactor) * sin (m_dAngle - m_dDev * (i / 2 - 1));
 				points->coords[i] = x1;
 				points->coords[i + 1] = y1;
-			}
+			}*/
 			 if (m_Chain) {
 				 delete m_Chain;
 				m_Chain = NULL;
@@ -703,13 +706,13 @@ void gcpCycleTool::Init ()
 {
 	m_xn = new double[m_size * 2];
 	m_dDev = 2 * M_PI / m_size;
-	points = gnome_canvas_points_new (m_size);
+//	points = gnome_canvas_points_new (m_size);
 }
 
 bool gcpCycleTool::CheckIfAllowed ()
 {
 //Search atoms at the positions of the vertices and check if adding bonds to them is allowed
-	gcp::Atom* pAtom[m_size];
+/*	gcp::Atom* pAtom[m_size];
 	GnomeCanvasItem* pItem;
 	Object* pObject;
 	int i, n;
@@ -746,7 +749,7 @@ bool gcpCycleTool::CheckIfAllowed ()
 			n++;
 		if (n && (!pAtom[i]->AcceptNewBonds (n)))
 			return false;
-	}
+	}*/
 	return true;
 }
 
@@ -795,7 +798,7 @@ void gcpNCycleTool::SetSize (unsigned char size)
 {
 	if (m_size) {
 		delete [] m_xn;
-		gnome_canvas_points_free (points);
+//		gnome_canvas_points_free (points);
 	}
 	if ((m_size = size))
 		Init();

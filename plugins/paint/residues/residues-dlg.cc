@@ -26,6 +26,7 @@
 #include "residues-dlg.h"
 #include "pseudo-atom.h"
 #include <gcp/application.h>
+#include <gcp/bond.h>
 #include <gcp/document.h>
 #include <gcp/molecule.h>
 #include <gcp/residue.h>

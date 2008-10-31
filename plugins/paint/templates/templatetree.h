@@ -26,6 +26,7 @@
 #define GCHEMPAINT_TEMPLATETREE_H
 
 #include <gcp/tool.h>
+#include <canvas/structs.h>
 #include <map>
 #include <string>
 #include <set>
@@ -33,6 +34,11 @@
 #include <gtk/gtk.h>
 
 using namespace std;
+
+namespace gcp {
+	class Document;
+	class WidgetData;
+}
 
 class gcpTemplate
 {
@@ -47,7 +53,7 @@ public:
 	bool writeable;
 	xmlNodePtr node;
 	gcp::Document *doc;
-	ArtDRect rect;
+	gccv::Rect rect;
 	GtkWidget *w;
 	double bond_length;
 	gcp::WidgetData *data;

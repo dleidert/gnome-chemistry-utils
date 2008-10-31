@@ -140,7 +140,7 @@ void TextObject::Move (double x, double y, double z)
 	m_y += y;
 }
 
-void TextObject::OnSelChanged (struct GnomeCanvasPangoSelBounds *bounds)
+void TextObject::OnSelChanged (gccv::TextSelBounds *bounds)
 {
 	if (bounds->start <= bounds->cur) {
 		m_StartSel = bounds->start;

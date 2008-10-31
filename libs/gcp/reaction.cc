@@ -30,6 +30,7 @@
 #include "molecule.h"
 #include "theme.h"
 #include "view.h"
+#include "widgetdata.h"
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
@@ -69,7 +70,7 @@ Reaction::~Reaction ()
 
 bool Reaction::Build (list<Object*>& Children) throw (invalid_argument)
 {
-	Document *pDoc = (Document*) GetDocument ();
+/*	Document *pDoc = (Document*) GetDocument ();
 	Theme *pTheme = pDoc->GetTheme ();
 	WidgetData  *pData= (WidgetData*)g_object_get_data(G_OBJECT(pDoc->GetWidget ()), "data");
 	map<Object*, ArtDRect> Objects;
@@ -205,7 +206,7 @@ bool Reaction::Build (list<Object*>& Children) throw (invalid_argument)
 			step->Move (xpos - x0 / pTheme->GetZoomFactor (), ypos - y0 / pTheme->GetZoomFactor ());
 		}
 	} else
-		throw  invalid_argument (_("Error could not build a reaction\nfrom the selected objects."));
+		throw  invalid_argument (_("Error could not build a reaction\nfrom the selected objects."));*/
 	return true;
 }
 
@@ -222,10 +223,10 @@ bool Reaction::OnSignal (SignalId Signal, Object *Obj)
 		View *pView = pDoc->GetView ();
 		Theme *pTheme = pDoc->GetTheme ();
 		WidgetData  *pData= (WidgetData*)g_object_get_data(G_OBJECT(pDoc->GetWidget ()), "data");
-		map<Object*, ArtDRect> Objects;
+		map<Object*, gccv::Rect> Objects;
 		map<double, Object*> Children;
 		list<Object*> Operators;
-		ArtDRect rect;
+		gccv::Rect rect;
 		map<string, Object*>::iterator i;
 		Object *pObj = GetFirstChild (i);
 		ReactionArrow *arrow;

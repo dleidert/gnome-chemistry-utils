@@ -24,12 +24,13 @@
 
 #include "config.h"
 #include "chargetool.h"
-#include <gcp/settings.h>
-#include <gcp/document.h>
 #include <gcp/application.h>
+#include <gcp/atom.h>
+#include <gcp/document.h>
+#include <gcp/settings.h>
 #include <gcp/theme.h>
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-pango.h>
+#include <gcp/view.h>
+#include <canvas/text.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
@@ -60,7 +61,7 @@ bool gcpChargeTool::OnClicked ()
 		return false;
 	m_bDragged = false;
 	GObject *obj;
-	ArtDRect rect;
+/*	ArtDRect rect;
 	pAtom->GetCoords (&m_x0, &m_y0);
 	m_x0 *= m_dZoomFactor;
 	m_y0 *= m_dZoomFactor;
@@ -131,7 +132,7 @@ bool gcpChargeTool::OnClicked ()
 		PangoLayout* pl = NULL;
 		if (abs (m_Charge) > 1) {
 			markup = g_strdup_printf ("%d", abs (m_Charge));
-			PangoContext* pc = m_pView->GetPangoContext ();
+			PangoContext* pc = gccv::Text::GetContext ();
 			PangoRectangle rect;
 			pl = pango_layout_new (pc);
 			pango_layout_set_text (pl, markup, -1);
@@ -232,16 +233,16 @@ bool gcpChargeTool::OnClicked ()
 	char buf[32];
 	snprintf (buf, sizeof (buf) - 1, _("Orientation: %g"), m_dAngle * 180. / M_PI);
 	m_pApp->SetStatusText (buf);
-	m_bChanged = true;
+	m_bChanged = true;*/
 	return true;
 }
 
 void gcpChargeTool::OnDrag ()
 {
-	if (m_Charge && !m_pItem)
+	if (m_Charge && !m_Item)
 		return;
 	m_bDragged = true;
-	GObject *obj = G_OBJECT ((m_pObject->GetParent ()->GetType () == FragmentType)?
+/*	GObject *obj = G_OBJECT ((m_pObject->GetParent ()->GetType () == FragmentType)?
 		m_pData->Items[m_pObject->GetParent ()]: m_pData->Items[m_pObject]);
 	GnomeCanvasItem *item = (GnomeCanvasItem*) g_object_get_data (obj, "charge");
 	int align, old_pos = m_Pos;
@@ -381,12 +382,12 @@ void gcpChargeTool::OnDrag ()
 	}
 	char tmp[32];
 	snprintf(tmp, sizeof(tmp) - 1, _("Orientation: %g"), m_dAngle * 180. / M_PI);
-	m_pApp->SetStatusText(tmp);
+	m_pApp->SetStatusText(tmp);*/
 }
 
 void gcpChargeTool::OnRelease ()
 {
-	if (m_bChanged) {
+/*	if (m_bChanged) {
 		gcp::Atom* pAtom = (gcp::Atom*) m_pObject;
 		gcp::Document* pDoc = m_pView->GetDoc ();
 		gcp::Operation* pOp = pDoc-> GetNewOperation(gcp::GCP_MODIFY_OPERATION);
@@ -414,5 +415,5 @@ void gcpChargeTool::OnRelease ()
 		pAtom->EmitSignal (gcp::OnChangedSignal);
 		pOp->AddObject (m_pObject, 1);
 		pDoc->FinishOperation ();
-	}
+	}*/
 }

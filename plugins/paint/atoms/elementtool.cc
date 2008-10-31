@@ -24,15 +24,18 @@
 
 #include "config.h"
 #include "elementtool.h"
-#include <gcu/element.h>
+#include <gcp/application.h>
+#include <gcp/atom.h>
+#include <gcp/bond.h>
 #include <gcp/document.h>
 #include <gcp/molecule.h>
 #include <gcp/settings.h>
-#include <gcp/application.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
+#include <gcu/element.h>
 #include <cmath>
 #include <cstring>
-#include <canvas/gcp-canvas-group.h>
+#include <canvas/text.h>
 
 using namespace gcu;
 using namespace std;
@@ -58,36 +61,14 @@ bool gcpElementTool::OnClicked ()
 		m_y0 *= m_dZoomFactor;
 	}
 	m_bChanged = true;
+	gccv::Text *text = new gccv::Text (m_pView->GetCanvas (), m_x0, m_y0);
+	m_Item = text;
 	const gchar* symbol = gcu::Element::Symbol (CurZ);
-	PangoLayout *pl = pango_layout_new (m_pView->GetPangoContext ());
-	pango_layout_set_font_description (pl, m_pView->GetPangoFontDesc ());
-	pango_layout_set_text (pl, symbol, strlen (symbol));
-	gint width = pango_layout_get_width (pl);
-	double padding = m_pView->GetDoc ()->GetTheme ()->GetPadding ();
-	m_x1 = m_x0 - (double) width / 2 - padding;
-	m_y1 = m_y0 - m_pView->GetFontHeight() / 2 - padding;
-	m_x2 = m_x0 + (double) width / 2 + padding;
-	m_y2 = m_y0 + m_pView->GetFontHeight () / 2 + padding;
-	m_pItem = gnome_canvas_item_new (m_pGroup, gnome_canvas_group_ext_get_type (), NULL);
-	gnome_canvas_item_new (
-					(GnomeCanvasGroup*) m_pItem,
-					gnome_canvas_rect_get_type (),
-					"x1", m_x1,
-					"y1", m_y1,
-					"x2", m_x2,
-					"y2", m_y2,
-					"fill_color", "white",
-					NULL);
-	gnome_canvas_item_new (
-					(GnomeCanvasGroup*) m_pItem,
-					gnome_canvas_pango_get_type (),
-					"layout", pl,
-					"x", rint (m_x0),
-					"y", rint (m_y0),
-					"anchor", GTK_ANCHOR_CENTER,
-					"fill_color", gcp::AddColor,
-					NULL);
-	g_object_unref (pl);
+	text->SetText (symbol);
+	text->SetFontDescription (m_pView->GetPangoFontDesc ());
+	text->SetPadding (m_pView->GetDoc ()->GetTheme ()->GetPadding ());
+	text->SetFillColor (gcp::AddColor);
+	text->SetAnchor (GTK_ANCHOR_CENTER);
 	return true;
 }
 
@@ -95,11 +76,11 @@ void gcpElementTool::OnDrag ()
 {
 		if ((m_x > m_x1) && (m_x2 > m_x) && (m_y > m_y1) && (m_y2 > m_y)) {
 			if (!m_bChanged) {
-				gnome_canvas_item_show (m_pItem);
+				m_Item->SetVisible (true);
 				m_bChanged = true;
 			}
 		} else if (m_bChanged) {
-			gnome_canvas_item_hide (m_pItem);
+			m_Item->SetVisible (false);
 			m_bChanged = false;
 		}
 }

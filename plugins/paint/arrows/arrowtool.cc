@@ -26,15 +26,13 @@
 #include "arrowtool.h"
 #include "retrosynthesisarrow.h"
 #include <gcp/settings.h>
-#include <canvas/gcp-canvas-line.h>
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-bpath.h>
 #include <gcp/document.h>
 #include <gcp/application.h>
 #include <gcp/mesomery-arrow.h>
 #include <gcp/reaction-arrow.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
 #ifdef HAVE_GO_CONF_SYNC
 #	include <goffice/app/go-conf.h>
 #else
@@ -66,13 +64,13 @@ static void on_default (GtkToggleButton *button)
 
 gcpArrowTool::gcpArrowTool (gcp::Application* App, unsigned ArrowType): gcp::Tool (App, ToolNames[ArrowType])
 {
-	points = gnome_canvas_points_new (2);
+//	points = gnome_canvas_points_new (2);
 	m_ArrowType = ArrowType;
 }
 
 gcpArrowTool::~gcpArrowTool ()
 {
-	gnome_canvas_points_free (points);
+//	gnome_canvas_points_free (points);
 }	
 
 bool gcpArrowTool::OnClicked ()
@@ -85,7 +83,7 @@ bool gcpArrowTool::OnClicked ()
 	m_x1 = m_x0 + pDoc->GetArrowLength () * pTheme->GetZoomFactor ();
 	switch (m_ArrowType) {
 	case gcp::SimpleArrow:
-		points->coords[0] = m_x0;
+/*		points->coords[0] = m_x0;
 		points->coords[1] = m_y0;
 		points->coords[2] = m_x1;
 		points->coords[3] = m_y0;
@@ -100,10 +98,10 @@ bool gcpArrowTool::OnClicked ()
 									"arrow_shape_b", pTheme->GetArrowHeadB (),
 									"arrow_shape_c", pTheme->GetArrowHeadC (),
 									"last_arrowhead_style", (unsigned char)ARROW_HEAD_BOTH,
-									NULL);
+									NULL);*/
 		break;
 	case gcp::ReversibleArrow:
-		points->coords[0] = m_x0;
+/*		points->coords[0] = m_x0;
 		points->coords[1] = points->coords[3] = m_y0 - pTheme->GetArrowDist () / 2;
 		points->coords[2] = m_x1;
 		m_pItem = gnome_canvas_item_new (m_pGroup, gnome_canvas_group_ext_get_type (), NULL);
@@ -133,10 +131,10 @@ bool gcpArrowTool::OnClicked ()
 							"arrow_shape_b", pTheme->GetArrowHeadB (),
 							"arrow_shape_c", pTheme->GetArrowHeadC (),
 							"last_arrowhead_style", (unsigned char)ARROW_HEAD_LEFT,
-							NULL);
+							NULL);*/
 		break;
 	case gcp::FullReversibleArrow:
-		points->coords[0] = m_x0;
+/*		points->coords[0] = m_x0;
 		points->coords[1] = points->coords[3] = m_y0 - pTheme->GetArrowDist () / 2;
 		points->coords[2] = m_x1;
 		m_pItem = gnome_canvas_item_new (m_pGroup, gnome_canvas_group_ext_get_type (), NULL);
@@ -166,10 +164,10 @@ bool gcpArrowTool::OnClicked ()
 							"arrow_shape_b", pTheme->GetArrowHeadB (),
 							"arrow_shape_c", pTheme->GetArrowHeadC (),
 							"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-							NULL);
+							NULL);*/
 		break;
 	case gcpDoubleHeadedArrow:
-		points->coords[0] = m_x0;
+/*		points->coords[0] = m_x0;
 		points->coords[1] = m_y0;
 		points->coords[2] = m_x1;
 		points->coords[3] = m_y0;
@@ -186,10 +184,10 @@ bool gcpArrowTool::OnClicked ()
 									"arrow_shape_c", pTheme->GetArrowHeadC (),
 									"first_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
 									"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-									NULL);
+									NULL);*/
 		break;
 	case gcpDoubleQueuedArrow: {
-		GnomeCanvasPathDef* path = gnome_canvas_path_def_new ();
+/*		GnomeCanvasPathDef* path = gnome_canvas_path_def_new ();
 		gnome_canvas_path_def_moveto (path, m_x0, m_y0 - pTheme->GetArrowDist () / 2.);
 		gnome_canvas_path_def_lineto (path, m_x1 - pTheme->GetArrowDist () / 2., m_y0 - pTheme->GetArrowDist () / 2.);
 		gnome_canvas_path_def_moveto (path, m_x0, m_y0 + pTheme->GetArrowDist () / 2.);
@@ -205,7 +203,7 @@ bool gcpArrowTool::OnClicked ()
 								"width_units", pTheme->GetArrowWidth (),
 								"cap-style", GDK_CAP_BUTT,
 								"join-style", GDK_JOIN_MITER,
-								NULL);
+								NULL);*/
 		break;
 	}
 	}
@@ -217,12 +215,12 @@ void gcpArrowTool::OnDrag ()
 	double x1, y1, x2, y2;
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Theme *pTheme = pDoc->GetTheme ();
-	if (m_pItem) {
+/*	if (m_pItem) {
 		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
 		gtk_object_destroy(GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
 		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
 		m_pItem = NULL;
-	}
+	}*/
 	double dAngle;
 	m_x -= m_x0;
 	m_y -= m_y0;
@@ -246,7 +244,7 @@ void gcpArrowTool::OnDrag ()
 	m_pApp->SetStatusText (tmp);
 	m_x1 = m_x0 + d * cos (m_dAngle);
 	m_y1 = m_y0 - d * sin (m_dAngle);
-	switch (m_ArrowType) {
+/*	switch (m_ArrowType) {
 	case gcp::SimpleArrow:
 		points->coords[2] = m_x1;
 		points->coords[3] = m_y1;
@@ -376,19 +374,19 @@ void gcpArrowTool::OnDrag ()
 								NULL);
 		break;
 	}
-	}
+	}*/
 }
 
 void gcpArrowTool::OnRelease ()
 {
 	double x1, y1, x2, y2;
-	if (m_pItem) {
+/*	if (m_pItem) {
 		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
 		gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
 		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
 		m_pItem = NULL;
 	}
-	else return;
+	else */return;
 	m_pApp->ClearStatus ();
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	gcp::Arrow* a;
@@ -431,7 +429,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 	GladeXML *xml = glade_xml_new (GLADEDIR"/arrowtool.glade", (show_all? "arrow-box": "length-box"), GETTEXT_PACKAGE);
 	if (show_all) {
 		GtkTable *table = GTK_TABLE (glade_xml_get_widget (xml, "heads-table"));
-		GnomeCanvas *canvas = GNOME_CANVAS (gnome_canvas_new_aa ());
+/*		GnomeCanvas *canvas = GNOME_CANVAS (gnome_canvas_new_aa ());
 		gcp::Theme *Theme = gcp::TheThemeManager.GetTheme ("Default");
 		double width = (Theme->GetArrowLength () * Theme->GetZoomFactor () + 2 * Theme->GetArrowPadding ()),
 			height = Theme->GetArrowDist () + Theme->GetArrowWidth () + 2 * (Theme->GetArrowHeadB () + Theme->GetPadding ());
@@ -512,7 +510,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (b), m_ArrowType == gcp::FullReversibleArrow);
 		g_signal_connect (G_OBJECT (b), "toggled", G_CALLBACK (on_full_toggled), this);
 		GtkWidget *w = glade_xml_get_widget (xml, "default");
-		g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_default), b);
+		g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_default), b);*/
 	}
 	m_LengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);

@@ -32,6 +32,7 @@
 namespace gcp {
 
 class Fragment;
+class View;
 
 /*!\class FragmentAtom gcp/fragment-atom.h
 Represents an atom inside a atoms group (see gcp::Fragment class).
@@ -71,29 +72,24 @@ no multiple bond at all.
 */
 	bool AcceptNewBonds (int nb);
 /*!
-@param w a GtkWidget.
-
-Overrided to avoid Atom::Add execution. Don't do anything.
-*/
-	void Add (GtkWidget* w) const;
-/*!
 Overrided to avoid Atom::Update execution. Just call Fragment::Update() method.
 */
 	void Update ();
 /*!
-@param w a GtkWidget.
-
-Overrided to avoid Atom::Update execution. Just call Fragment::Update(w).
+Overrided to avoid Atom::AddItem execution. Don't do anything.
 */
-	void Update (GtkWidget* w) const;
+	void AddItem ();
 /*!
-@param w the GtkWidget inside which the atom is displayed.
+Overrided to avoid Atom::UpdateItem execution. Just call Fragment::UpdateItem().
+*/
+	void UpdateItem ();
+/*!
 @param state the selection state of the atom.
 
 Overrided to avoid Atom::SetSelected execution. Just call Fragment::SetSelected
 method.
 */
-	void SetSelected (GtkWidget* w, int state);
+	void SetSelected (int state);
 /*!
 @param xml the xmlDoc used to save the document.
 

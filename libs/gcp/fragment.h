@@ -26,7 +26,7 @@
 #define GCHEMPAINT_FRAGMENT_H
 
 #include "text-object.h"
-#include "libgnomecanvas/gnome-canvas.h"
+#include <canvas/item-client.h>
 
 /*!\file*/
 namespace gcp {
@@ -41,7 +41,7 @@ Represents atoms groups displayed as a string. Currntly, the string is not
 fully parsed, so that some non sense strings might be accepted. Anyway, this
 will not always be the case in the future.
 */
-class Fragment: public TextObject
+class Fragment: public TextObject, public gccv::ItemClient
 {
 public:
 /*!
@@ -62,26 +62,21 @@ The destructor.
 	virtual ~Fragment ();
 
 /*!
-@param w the GtkWidget inside which the fragment is displayed.
+Used to add a representation of the fragment in the view.
+*/
+	void AddItem ();
+/*!
+Used to update the representation of the fragment in the view.
+*/
+	void UpdateItem ();
+/*!
 @param state the selection state of the fragment.
 
 Used to set the selection state of the fragment inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
-	void SetSelected (GtkWidget *w, int state);
-/*!
-@param w a GtkWidget.
-
-Adds the representation of the fragment to the canvas widget.
-*/
-	void Add (GtkWidget *w) const;
-/*!
-@param w a GtkWidget.
-
-Updates the representation of the fragment in the canvas widget.
-*/
-	void Update (GtkWidget *w) const;
+	void SetSelected (int state);
 /*!
 @param xml the xmlDoc used to save the document.
 

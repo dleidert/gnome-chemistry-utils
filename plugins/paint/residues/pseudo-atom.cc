@@ -29,8 +29,6 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcu/xml-utils.h>
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-rect-ellipse.h>
 #include <cstring>
 
 using namespace gcu;
@@ -58,9 +56,9 @@ void gcpPseudoAtom::Update ()
 {
 }
 
-void gcpPseudoAtom::Add (GtkWidget* w) const
+void gcpPseudoAtom::AddItem ()
 {
-	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
+/*	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
 	if (pData->Items[this] != NULL)
 		return;
 	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
@@ -77,17 +75,17 @@ void gcpPseudoAtom::Add (GtkWidget* w) const
 						"y1", y  - r,
 						"x2", x + r,
 						"y2", y  + r,
-						"fill_color", (pData->IsSelected (this))? gcp::SelectColor: "black",
+						"fill_color", (pData->IsSelected (this))? gcp::SelectColor: RGBA_BLACK,
 						NULL);
 	g_object_set_data (G_OBJECT (group), "ellipse", item);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (gcp::on_event), w);
 	g_object_set_data (G_OBJECT (item), "object", (void *) (this));
-	pData->Items[this] = group;
+	pData->Items[this] = group;*/
 }
 
-void gcpPseudoAtom::Update (GtkWidget* w) const
+void gcpPseudoAtom::UpdateItem ()
 {
-	if (!w)
+/*	if (!w)
 		return;
 	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
 	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
@@ -102,7 +100,7 @@ void gcpPseudoAtom::Update (GtkWidget* w) const
 							"y1", y  - r,
 							"x2", x + r,
 							"y2", y  + r,
-							NULL);
+							NULL);*/
 }
 
 xmlNodePtr gcpPseudoAtom::Save (xmlDocPtr xml) const
@@ -141,10 +139,10 @@ bool gcpPseudoAtom::LoadNode (xmlNodePtr)
 	return true;
 }
 
-void gcpPseudoAtom::SetSelected (GtkWidget* w, int state)
+void gcpPseudoAtom::SetSelected (int state)
 {
-	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
+/*	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
 	GnomeCanvasGroup* group = pData->Items[this];
 	g_object_set (G_OBJECT(g_object_get_data(G_OBJECT(group), "ellipse")),
-				"fill_color", ((state == gcp::SelStateSelected)? gcp::SelectColor: "black"), NULL);
+				"fill_color", ((state == gcp::SelStateSelected)? gcp::SelectColor: RGBA_BLACK), NULL);*/
 }

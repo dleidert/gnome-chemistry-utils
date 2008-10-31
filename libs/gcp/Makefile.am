@@ -90,7 +90,7 @@ noinst_HEADERS = \
 		
 libgchempaint_@GCU_API_VER@_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ \
 	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
-	$(top_builddir)/libs/canvas/libgcpcanvas-@GCU_API_VER@.la \
+	$(top_builddir)/libs/canvas/libgccv-@GCU_API_VER@.la \
 	@GCU_LIBS@
 AM_CXXFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \

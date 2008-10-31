@@ -24,30 +24,33 @@
 
 #include "config.h"
 #include "bondtool.h"
-#include <gcp/settings.h>
-#include <gcp/document.h>
 #include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
+#include <gcp/document.h>
 #include <gcp/fragment.h>
+#include <gcp/settings.h>
 #include <gcp/theme.h>
-#include <canvas/gcp-canvas-group.h>
+#include <gcp/view.h>
+#include <canvas/canvas.h>
+#include <canvas/line.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
 using namespace gcu;
+using namespace gccv;
 using namespace std;
 
 gcpBondTool::gcpBondTool (gcp::Application *App, string ToolId, unsigned nPoints): gcp::Tool (App, ToolId)
 {
-	points = (nPoints)? gnome_canvas_points_new (nPoints): NULL;
+//	points = (nPoints)? gnome_canvas_points_new (nPoints): NULL;
 	m_pOp = NULL;
 	m_AutoDir = false;
 }
 
 gcpBondTool::~gcpBondTool ()
 {
-	if (points) gnome_canvas_points_free (points);
+//	if (points) gnome_canvas_points_free (points);
 }
 
 bool gcpBondTool::OnClicked ()
@@ -56,7 +59,6 @@ bool gcpBondTool::OnClicked ()
 		return false;
 	int i;
 	m_pAtom = NULL;
-	m_pItem = NULL;
 	m_bChanged = false;
 	m_dAngle = 0.;
 	gcp::Bond* pBond;
@@ -78,8 +80,8 @@ bool gcpBondTool::OnClicked ()
 			m_y0 *= m_dZoomFactor;
 			m_x1 *= m_dZoomFactor;
 			m_y1 *= m_dZoomFactor;
-			points->coords[0] = m_x0;
-			points->coords[1] = m_y0;
+/*			points->coords[0] = m_x0;
+			points->coords[1] = m_y0;*/
 			m_bChanged = true;
 			m_pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 			m_pOp->AddObject (m_pObjectGroup, 0);
@@ -93,8 +95,8 @@ bool gcpBondTool::OnClicked ()
 			((gcp::Atom*) m_pObject)->GetCoords (&m_x0, &m_y0, NULL);
 			m_x0 *= m_dZoomFactor;
 			m_y0 *=  m_dZoomFactor;
-			points->coords[0] = m_x0;
-			points->coords[1] = m_y0;
+/*			points->coords[0] = m_x0;
+			points->coords[1] = m_y0;*/
 			/* search  preferred orientation for new bond */
 			i = ((gcp::Atom*) m_pObject)->GetBondsNumber ();
 			switch (i) {
@@ -133,15 +135,10 @@ bool gcpBondTool::OnClicked ()
 			return false;
 		}
 	}
-	else if (points)
-	{
-		points->coords[0] = m_x0;
-		points->coords[1] = m_y0;
-	}
 	double a = m_dAngle * M_PI / 180.;
 	m_x1 =  m_x0 + pDoc->GetBondLength () * m_dZoomFactor * cos (a);
 	m_y1 =  m_y0 - pDoc->GetBondLength () * m_dZoomFactor * sin (a);
-	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x1, m_y1);
+/*	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x1, m_y1);
 	if (pItem == (GnomeCanvasItem*) m_pBackground)
 		pItem = NULL;
 	Object* pObject = NULL;
@@ -155,7 +152,7 @@ bool gcpBondTool::OnClicked ()
 		} else if (pObject->GetType() == AtomType) {
 			m_pAtom = (gcp::Atom*)pObject;
 		}
-	}
+	}*/
 	if (m_pAtom) {
 		m_pAtom->GetCoords(&m_x1, &m_y1, NULL);
 		m_x1 *= m_dZoomFactor;
@@ -174,32 +171,31 @@ bool gcpBondTool::OnClicked ()
 
 void gcpBondTool::OnDrag ()
 {
-	double x1, y1, x2, y2;
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	gcp::Theme *Theme = pDoc->GetTheme ();
 	if ((m_pObject) && (m_pObject->GetType () == BondType)) {
 		if (((gcp::Bond*) m_pObject)->GetDist (m_x / m_dZoomFactor, m_y / m_dZoomFactor) < (Theme->GetPadding () + Theme->GetBondWidth () / 2) * m_dZoomFactor) {
 			if (!m_bChanged) {
-				gnome_canvas_item_show (m_pItem);
+				m_Item->SetVisible (true);
 				m_bChanged = true;
 			}
 		} else if (m_bChanged) {
-			gnome_canvas_item_hide (m_pItem);
+			m_Item->SetVisible (false);
 			m_bChanged = false;
 		}
 	} else {
-		if (m_pItem) {
+/*		if (m_pItem) {
 			gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
 			gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
 			gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
 			m_pItem = NULL;
-		}
+		}*/
 
-		GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
+/*		GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
 		if (pItem == (GnomeCanvasItem*) m_pBackground)
-			pItem = NULL;
+			pItem = NULL;*/
 		Object* pObject = NULL;
-		if (pItem) {
+/*		if (pItem) {
 			pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
 			if (pObject && (pObject == m_pObject || ((pObject->GetType () == FragmentType) && dynamic_cast<gcp::Fragment*> (pObject)->GetAtom () == m_pObject))) {
 				if (!m_AutoDir)
@@ -207,7 +203,7 @@ void gcpBondTool::OnDrag ()
 			} else
 				m_AutoDir = false;
 		} else
-			m_AutoDir = false;
+			m_AutoDir = false;*/
 		double dAngle = 0.;
 		if (m_AutoDir) {
 			dAngle = m_dAngle = m_RefAngle +
@@ -216,12 +212,12 @@ void gcpBondTool::OnDrag ()
 						pDoc->GetBondAngle (): -pDoc->GetBondAngle ());
 			m_x = m_x1 = m_x0 + pDoc->GetBondLength () * m_dZoomFactor * cos (m_dAngle / 180 * M_PI);
 			m_y = m_y1 = m_y0 - pDoc->GetBondLength () * m_dZoomFactor * sin (m_dAngle / 180 * M_PI);
-			pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
+/*			pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
 			if (pItem == (GnomeCanvasItem*) m_pBackground)
 				pItem = NULL;
 			pObject = NULL;
 			if (pItem)
-				pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
+				pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");*/
 		}
 		m_pAtom = NULL;
 		if (gcp::MergeAtoms && pObject) {
@@ -265,7 +261,7 @@ void gcpBondTool::OnDrag ()
 			}
 			m_dAngle = dAngle;
 			if (m_nState & GDK_SHIFT_MASK) {
-				x1 = sqrt (square (m_x) + square (m_y));
+				double x1 = sqrt (square (m_x) + square (m_y));
 				m_x1 = m_x0 + x1 * cos (m_dAngle / 180 * M_PI);
 				m_y1 = m_y0 - x1 * sin (m_dAngle / 180 * M_PI);
 			} else {
@@ -286,11 +282,9 @@ void gcpBondTool::OnRelease ()
 {
 	double x1, y1, x2, y2;
 	gcp::Document* pDoc = m_pView->GetDoc ();
-	if (m_pItem) {
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-		gtk_object_destroy (GTK_OBJECT(GNOME_CANVAS_ITEM (m_pItem)));
-		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
-		m_pItem = NULL;
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
 	} else {
 		if (m_pOp)
 			pDoc->AbortOperation ();
@@ -316,11 +310,11 @@ void gcpBondTool::OnRelease ()
 		m_pOp = NULL;
 	}
 	m_pApp->ClearStatus ();
-	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x1, m_y1);
+/*	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x1, m_y1);
 	if (pItem == (GnomeCanvasItem*) m_pBackground)
-		pItem = NULL;
+		pItem = NULL;*/
 	Object* pObject = NULL;
-	if (pItem)
+/*	if (pItem)
 		pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
 	m_pAtom = NULL;
 	if (pObject == NULL) {
@@ -383,7 +377,7 @@ void gcpBondTool::OnRelease ()
 			m_pAtom = (gcp::Atom*) pObject->GetAtomAt (m_x1 / m_dZoomFactor, m_y1 / m_dZoomFactor);
 		else if (pObject->GetType() == AtomType)
 			m_pAtom = (gcp::Atom*) pObject;
-	}
+	}*/
 	gcp::Atom* pAtom;
 	gcp::Bond* pBond;
 	if (!m_pObject) {
@@ -460,19 +454,14 @@ void gcpBondTool::OnRelease ()
 
 void gcpBondTool::Draw ()
 {
-	double x1, y1, x2, y2;
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
-	points->coords[2] = m_x1;
-	points->coords[3] = m_y1;
-	m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_line_get_type (),
-								"points", points,
-								"fill_color", gcp::AddColor,
-								"width_units", pTheme->GetBondWidth (),
-								NULL);
-	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
+	if (m_Item) {
+		static_cast <Line *> (m_Item)->SetPosition (m_x0, m_y0, m_x1, m_y1);
+	} else {
+		m_Item = new gccv::Line (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1);
+		static_cast <LineItem *> (m_Item)->SetLineColor (gcp::AddColor);
+		static_cast <LineItem *> (m_Item)->SetLineWidth (pTheme->GetBondWidth ());
+	}
 }
 
 void gcpBondTool::UpdateBond()
@@ -483,7 +472,7 @@ void gcpBondTool::UpdateBond()
 	BondOrder = ((gcp::Bond*) m_pObject)->GetOrder ();
 	if (((gcp::Bond*) m_pObject)->GetType () == gcp::NormalBondType)
 		((gcp::Bond*) m_pObject)->IncOrder ();
-	m_pItem = gnome_canvas_item_new (m_pGroup, gnome_canvas_group_ext_get_type (), NULL);
+/*	m_pItem = gnome_canvas_item_new (m_pGroup, gnome_canvas_group_ext_get_type (), NULL);
 	while (((gcp::Bond*) m_pObject)->GetLine2DCoords (i++, &x1, &y1, &x2, &y2)) {
 		points->coords[0] = x1 * m_dZoomFactor;
 		points->coords[1] = y1 * m_dZoomFactor;
@@ -498,7 +487,7 @@ void gcpBondTool::UpdateBond()
 						NULL);
 	}
 	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
+	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);*/
 }
 
 void gcpBondTool::FinalizeBond ()
@@ -579,7 +568,7 @@ gcpUpBondTool::~gcpUpBondTool ()
 
 void gcpUpBondTool::Draw ()
 {
-	double dx, dy, x1, y1, x2, y2;
+/*	double dx, dy, x1, y1, x2, y2;
 	gcp::Theme *Theme = m_pView->GetDoc ()->GetTheme ();
 	x1 = sqrt (square (m_x1 - m_x0) + square (m_y1 - m_y0));
 	if (x1 == 0)
@@ -597,7 +586,7 @@ void gcpUpBondTool::Draw ()
 								"fill_color", gcp::AddColor,
 								NULL);
 	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
+	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);*/
 }
 
 void gcpUpBondTool::UpdateBond ()
@@ -609,8 +598,8 @@ void gcpUpBondTool::UpdateBond ()
 		m_y = m_y0;
 		m_y0 = m_y1;
 		m_y1 = m_y;
-		points->coords[0] = m_x0;
-		points->coords[1] = m_y0;
+/*		points->coords[0] = m_x0;
+		points->coords[1] = m_y0;*/
 	}
 	Draw ();
 }
@@ -645,7 +634,7 @@ gcpDownBondTool::~gcpDownBondTool ()
 
 void gcpDownBondTool::Draw()
 {
-	double dx, dy, dx1, dy1, length;
+/*	double dx, dy, dx1, dy1, length;
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 	m_pItem = gnome_canvas_item_new (m_pGroup, gnome_canvas_group_ext_get_type (), NULL);
 	length = sqrt (square (m_x1 - m_x0) + square (m_y1 - m_y0));
@@ -697,7 +686,7 @@ void gcpDownBondTool::Draw()
 						NULL);
 	}
 	gnome_canvas_item_get_bounds (m_pItem, &dx, &dy, &dx1, &dy1);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) dx, (int) dy, (int) dx1, (int) dy1);
+	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) dx, (int) dy, (int) dx1, (int) dy1);*/
 }
 
 void gcpDownBondTool::UpdateBond ()
@@ -743,7 +732,7 @@ gcpForeBondTool::~gcpForeBondTool ()
 
 void gcpForeBondTool::Draw ()
 {
-	double dx, dy, x1, y1, x2, y2;
+/*	double dx, dy, x1, y1, x2, y2;
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 	x1 = sqrt (square (m_x1 - m_x0) + square (m_y1 - m_y0));
 	if (x1 == 0)
@@ -765,7 +754,7 @@ void gcpForeBondTool::Draw ()
 								"fill_color", gcp::AddColor,
 								NULL);
 	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
+	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);*/
 }
 
 void gcpForeBondTool::UpdateBond ()
@@ -800,7 +789,7 @@ gcpSquiggleBondTool::~gcpSquiggleBondTool ()
 
 void gcpSquiggleBondTool::Draw ()
 {
-	GnomeCanvasPathDef *path_def;
+/*	GnomeCanvasPathDef *path_def;
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 	path_def = gnome_canvas_path_def_new ();
 	gnome_canvas_path_def_moveto (path_def, m_x0, m_y0);
@@ -831,7 +820,7 @@ void gcpSquiggleBondTool::Draw ()
 								"width_units", pTheme->GetBondWidth (),
 								"bpath", path_def,
 								NULL);
-	gnome_canvas_path_def_unref (path_def);
+	gnome_canvas_path_def_unref (path_def);*/
 }
 
 void gcpSquiggleBondTool::UpdateBond ()

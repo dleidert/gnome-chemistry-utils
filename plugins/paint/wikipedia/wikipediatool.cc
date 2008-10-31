@@ -28,8 +28,10 @@
 #include <gcp/document.h>
 #include <gcp/molecule.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
 #include <gcu/application.h>
 #include <gcu/filechooser.h>
+#include <canvas/structs.h>
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <vector>
@@ -114,7 +116,7 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 		}
 	} else
 		return true;
-	ArtDRect rect;
+/*	ArtDRect rect;
 	GnomeCanvas *canvas = GNOME_CANVAS (Doc->GetWidget ());
 	gcp::WidgetData *pData = static_cast <gcp::WidgetData*> (g_object_get_data (G_OBJECT (canvas), "data"));
 	pData->GetObjectBounds (Doc, &rect);
@@ -177,9 +179,9 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 	if (error) {
 		cerr << _("Unable to save image file: ") << error->message << endl;
 		g_error_free (error);
-	}
+	}*/
 	g_object_unref (file);
-	g_object_unref (alpha);
+//	g_object_unref (alpha);
 
 	g_free (filename2);
 	return false;

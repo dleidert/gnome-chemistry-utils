@@ -23,12 +23,12 @@
  */
 
 #include "config.h"
-#include "plugin.h"
-#include <gcp/application.h>
 #include "bondtool.h"
 #include "chaintool.h"
 #include "delocalizedtool.h"
 #include "gcp-stock-pixbufs.h"
+#include "plugin.h"
+#include <gcp/application.h>
 #include <glib/gi18n-lib.h>
 
 gcpBondsPlugin plugin;

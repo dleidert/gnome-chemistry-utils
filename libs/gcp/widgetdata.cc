@@ -31,6 +31,8 @@
 #include "operation.h"
 #include "theme.h"
 #include <goffice/math/go-math.h>
+#include <canvas/item-client.h>
+#include <canvas/item.h>
 #include <cstring>
 
 using namespace gcu;
@@ -209,7 +211,7 @@ bool WidgetData::IsSelected (Object const *obj) const
 void WidgetData::Unselect (Object *obj)
 {
 	SelectedObjects.remove (obj);
-	obj->SetSelected (Canvas, SelStateUnselected);
+//	obj->SetSelected (Canvas, SelStateUnselected);
 	m_View->Update (obj);
 }
 
@@ -219,7 +221,7 @@ void WidgetData::UnselectAll ()
 	while (!SelectedObjects.empty ()) {
 		obj = SelectedObjects.front ();
 		SelectedObjects.pop_front ();
-		obj->SetSelected (Canvas, SelStateUnselected);
+//		obj->SetSelected (Canvas, SelStateUnselected);
 		m_View->Update (obj);	//FIXME: is it really useful
 	}
 }
@@ -228,7 +230,7 @@ void WidgetData::SetSelected (Object *obj)
 {
 	if (!IsSelected (obj)) {
 		SelectedObjects.push_front (obj);
-		obj->SetSelected (Canvas, SelStateSelected);
+//		obj->SetSelected (Canvas, SelStateSelected);
 	}
 }
 
@@ -242,11 +244,10 @@ void WidgetData::MoveSelectedItems (double dx, double dy)
 void WidgetData::MoveItems (Object* obj, double dx, double dy)
 {
 	Object* pObject;
-	GnomeCanvasGroup* group;
-	if ((group = Items[obj]))
-		gnome_canvas_item_move ((GnomeCanvasItem*) group, dx, dy);
-	else
-		Items.erase (obj);
+	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (obj);
+	gccv::Item *item = (client)? client->GetItem (): NULL;
+	if (item)
+		item->Move (dx, dy);
 	std::map<std::string, Object*>::iterator i;
 	pObject = obj->GetFirstChild (i);
 	while (pObject) {
@@ -308,9 +309,9 @@ void WidgetData::Copy (GtkClipboard* clipboard)
 	gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, App);
 }
 
-void WidgetData::GetObjectBounds (Object const *obj, ArtDRect &rect) const
+void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect &rect) const
 {
-	Object const *pObject;
+/*	Object const *pObject;
 	GnomeCanvasGroup const *group;
 	std::map<gcu::Object const *, GnomeCanvasGroup*>::const_iterator g;
 	double x1, y1, x2,  y2;
@@ -336,10 +337,10 @@ void WidgetData::GetObjectBounds (Object const *obj, ArtDRect &rect) const
 	while (pObject) {
 		GetObjectBounds (pObject, rect);
 		pObject = obj->GetNextChild (i);
-	}
+	}*/
 }
 
-void WidgetData::GetSelectionBounds (ArtDRect &rect) const
+void WidgetData::GetSelectionBounds (gccv::Rect &rect) const
 {
 	std::list<Object*>::const_iterator i, end = SelectedObjects.end ();
 	rect.x0 = go_nan;
@@ -349,7 +350,7 @@ void WidgetData::GetSelectionBounds (ArtDRect &rect) const
 		rect.x0 = rect.y0 = rect.x1 = rect.y1 = 0.;
 }
 
-void WidgetData::GetObjectBounds (Object const *obj, ArtDRect *rect) const
+void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect *rect) const
 {
 	rect->x0 = go_nan;
 	GetObjectBounds (obj, *rect);
@@ -359,7 +360,7 @@ void WidgetData::GetObjectBounds (Object const *obj, ArtDRect *rect) const
 
 void WidgetData::SelectAll ()
 {
-	std::map<Object const*, GnomeCanvasGroup*>::iterator i, end = Items.end ();
+/*	std::map<Object const*, GnomeCanvasGroup*>::iterator i, end = Items.end ();
 	Object *pObject;
 	for (i = Items.begin (); i != end; i++) {
 		pObject = (*i).first->GetGroup ();
@@ -369,7 +370,7 @@ void WidgetData::SelectAll ()
 		}
 		else if (!IsSelected ((*i).first))
 			SetSelected (const_cast <Object *> ((*i).first));
-	}
+	}*/
 }
 
 xmlDocPtr WidgetData::GetXmlDoc (GtkClipboard* clipboard)
@@ -379,9 +380,9 @@ xmlDocPtr WidgetData::GetXmlDoc (GtkClipboard* clipboard)
 
 void WidgetData::ShowSelection (bool state)
 {
-	std::list<Object*>::iterator i, end = SelectedObjects.end ();
+/*	std::list<Object*>::iterator i, end = SelectedObjects.end ();
 	for (i = SelectedObjects.begin (); i != end; i++)
-		(*i)->SetSelected (Canvas, (state)? SelStateSelected: SelStateUnselected);
+		(*i)->SetSelected (Canvas, (state)? SelStateSelected: SelStateUnselected);*/
 }
 
 }	//	namespace gcp

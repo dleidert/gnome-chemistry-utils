@@ -23,15 +23,13 @@
  */
 
 #include "config.h"
+#include "document.h"
 #include "reaction-operator.h"
 #include "settings.h"
-#include "document.h"
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-rect-ellipse.h>
-#include <canvas/gcp-canvas-pango.h>
+#include <canvas/text.h>
 #include <cmath>
 #include <cstring>
 
@@ -39,7 +37,9 @@ using namespace gcu;
 
 namespace gcp {
 
-ReactionOperator::ReactionOperator (): Object (ReactionOperatorType)
+ReactionOperator::ReactionOperator ():
+	Object (ReactionOperatorType),
+	gccv::ItemClient ()
 {
 }
 
@@ -47,7 +47,15 @@ ReactionOperator::~ReactionOperator ()
 {
 }
 
-void ReactionOperator::Add (GtkWidget* w) const
+void ReactionOperator::AddItem ()
+{
+}
+
+void ReactionOperator::UpdateItem ()
+{
+}
+
+/*void ReactionOperator::Add (GtkWidget* w) const
 {
 	if (!w)
 		return;
@@ -63,7 +71,7 @@ void ReactionOperator::Add (GtkWidget* w) const
 	GnomeCanvasItem* item;
 	GnomeCanvasGroup* group;
 	gint width, height;
-	PangoContext* pc = pData->m_View->GetPangoContext ();
+	PangoContext* pc = gccv::Text::GetContext ();
 	group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));
 	pData->Items[this] = group;
 	g_signal_connect (G_OBJECT (group), "event", G_CALLBACK (on_event), w);
@@ -115,7 +123,7 @@ void ReactionOperator::Update (GtkWidget* w) const
 	GnomeCanvasItem* item;
 	GnomeCanvasGroup* group = pData->Items[this];
 	gint width, height;
-	PangoContext* pc = pData->m_View->GetPangoContext ();
+	PangoContext* pc = gccv::Text::GetContext ();
 	const gchar* symbol = "+";
 	PangoLayout *pl = pango_layout_new (pc);
 	pango_layout_set_text (pl, symbol, strlen (symbol));
@@ -135,13 +143,11 @@ void ReactionOperator::Update (GtkWidget* w) const
 						"x", rint (x),
 						"y", rint (y),
 						NULL);
-}
+}*/
 
-void ReactionOperator::SetSelected (GtkWidget* w, int state)
+void ReactionOperator::SetSelected (int state)
 {
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	GnomeCanvasGroup* group = pData->Items[this];
-	gchar const *color;
+	GOColor color;
 	switch (state) {	
 	case SelStateUnselected:
 		color = Color;
@@ -159,7 +165,7 @@ void ReactionOperator::SetSelected (GtkWidget* w, int state)
 		color = Color;
 		break;
 	}
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "text")), "fill_color", color, NULL);
+//	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "text")), "fill_color", color, NULL);
 }
 
 void ReactionOperator::Move (double x, double y, double z)

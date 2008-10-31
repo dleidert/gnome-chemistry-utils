@@ -26,6 +26,7 @@
 #define GCHEMPAINT_ELECTRON_H
 
 #include <gcu/object.h>
+#include <canvas/item-client.h>
 
 /*!\file*/
 namespace gcp {
@@ -40,7 +41,7 @@ extern gcu::TypeId ElectronType;
 /*!\class Electron gcp/electron.h
 Represents either single elecgtrons or electrons pairs.
 */
-class Electron: public gcu::Object
+class Electron: public gcu::Object, public gccv::ItemClient
 {
 public:
 /*!
@@ -76,26 +77,21 @@ Sets the position of an electronn relative to its parent atom.
 */
 	void SetPosition (unsigned char Pos, double angle = 0., double distance = 0.);
 /*!
-@param w the GtkWidget inside which the Electron will be displayed.
-
-Used to add a representation of the Electron in the widget.
+Used to add a representation of the Electron in the view.
 */
-	void Add(GtkWidget* w) const;
+	void AddItem ();
 /*!
-@param w the GtkWidget inside which the Electron is displayed.
-
-Used to update the representation of the Electron in the widget.
+Used to update the representation of the Electron in the view.
 */
-	void Update(GtkWidget* w) const;
+	void UpdateItem ();
 /*!
-@param w the GtkWidget inside which the Electron is displayed.
 @param state the selection state of the Electron.
 
 Used to set the selection state of the Electron inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
-	void SetSelected(GtkWidget* w, int state);
+	void SetSelected (int state);
 /*!
 @param xml the xmlDoc used to save the document.
 

@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2008-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post branching version bump (0.11.0).
+	* others: start implementing the new canvas and make things compile
+	without libgnomecanvas.
+
+2008-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: changed version to 0.10.0 for release.
 	* libs/gcp/fragment-atom.h: fixed API documentation.
 	* libs/gcp/text.h: ditto.

@@ -65,17 +65,13 @@ Used to load an arrow in memory.
 */
 	bool Load (xmlNodePtr node);
 /*!
-@param w the GtkWidget inside which the arrow will be displayed.
-
-Used to add a representation of the arrow in the widget.
+Used to add a representation of the arrow in the view.
 */
-	void Add (GtkWidget* w) const;
+	void AddItem ();
 /*!
-@param w the GtkWidget inside which the arrow is displayed.
-
-Used to update the representation of the arrow in the widget.
+Used to update the representation of the arrow in the view.
 */
-	void Update (GtkWidget* w) const;
+	void UpdateItem ();
 /*!
 @param mesomer a mesomer
 

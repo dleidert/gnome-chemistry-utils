@@ -24,6 +24,8 @@
 
 #include "config.h"
 #include "application.h"
+#include "atom.h"
+#include "bond.h"
 #include "document.h"
 #include "electron.h"
 #include "fragment.h"
@@ -44,6 +46,7 @@
 #include "tool.h"
 #include "tools.h"
 #include "target.h"
+#include "view.h"
 #include "window.h"
 #include "zoomdlg.h"
 #include <gcu/filechooser.h>
@@ -371,7 +374,6 @@ Application::Application ():
 		found = Loader::GetNextLoader (it);
 	}
 	// test if OpenBabel supports some extra types
-	TestSupportedType ("chemical/x-cml");
 	TestSupportedType ("chemical/x-mdl-molfile");
 	TestSupportedType ("chemical/x-pdb");
 	TestSupportedType ("chemical/x-xyz");

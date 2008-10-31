@@ -24,8 +24,11 @@
 
 #include "config.h"
 #include "tool.h"
-#include "document.h"
 #include "application.h"
+#include "document.h"
+#include "view.h"
+#include "widgetdata.h"
+#include <canvas/item.h>
 
 using namespace gcu;
 using namespace std;
@@ -34,18 +37,18 @@ namespace gcp {
 
 Tool* pActiveTool = NULL;
 
-Tool::Tool(Application *App, string Id)
+Tool::Tool (Application *App, string Id)
 {
 	name = Id;
 	m_pApp = App;
 	App->SetTool (Id, this);
 	m_pObject = NULL;
-	m_pItem = NULL;
+	m_Item = NULL;
 	m_bChanged = m_bPressed = false;
 	m_pData = NULL;
 }
 
-Tool::~Tool()
+Tool::~Tool ()
 {
 	m_pApp->SetTool (name, NULL);
 }
@@ -62,50 +65,42 @@ bool Tool::OnClicked (View* pView, Object* pObject, double x, double y, unsigned
 	m_pView = pView;
 	m_pWidget = m_pView->GetWidget ();
 	m_pData = (WidgetData*) g_object_get_data (G_OBJECT(m_pWidget), "data");
-	m_pGroup = gnome_canvas_root (GNOME_CANVAS (m_pWidget));
-	m_pBackground = m_pView->GetBackground ();
 	m_dZoomFactor = m_pView->GetZoomFactor ();
-/*	Object* pAtom;
-	if (m_pObject && ((pAtom = m_pObject->GetAtomAt (m_x0 / m_dZoomFactor, m_y0 / m_dZoomFactor))))
-			m_pObject = pAtom;*/
 	m_bAllowed = true;
 	return OnClicked ();
 }
 
-void Tool::OnDrag(double x, double y, unsigned int state)
+void Tool::OnDrag (double x, double y, unsigned int state)
 {
 	m_x = lastx = x;
 	m_y = lasty = y;
 	m_nState = state;
-	OnDrag();
+	OnDrag ();
 }
 
-void Tool::OnRelease(double x, double y, unsigned int state)
+void Tool::OnRelease (double x, double y, unsigned int state)
 {
 	m_x = lastx = x;
 	m_y = lasty = y;
 	m_nState = state;
 	m_bPressed = false;
-	OnRelease();
-	if (m_pItem)
-	{
-		gtk_object_destroy(GTK_OBJECT(GNOME_CANVAS_ITEM(m_pItem)));
-		m_pItem = NULL;
+	OnRelease ();
+	m_pView->GetDoc ()->FinishOperation ();
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
 	}
-	m_pView->GetDoc()->FinishOperation();
 	m_pObject = NULL;
 	m_bChanged = false;
-	g_signal_emit_by_name(m_pWidget, "update_bounds");
+	g_signal_emit_by_name (m_pWidget, "update_bounds");
 }
 
 bool Tool::OnRightButtonClicked (View* pView, Object* pObject, double x, double y, GtkUIManager *UIManager)
 {
 	m_pObject = pObject;
 	m_pView = pView;
-	m_pWidget = m_pView->GetWidget();
-	m_pData = (WidgetData*)g_object_get_data(G_OBJECT(m_pWidget), "data");
-	m_pGroup = gnome_canvas_root(GNOME_CANVAS(m_pWidget));
-	m_pBackground = m_pView->GetBackground();
+	m_pWidget = m_pView->GetWidget ();
+	m_pData = (WidgetData*) g_object_get_data (G_OBJECT (m_pWidget), "data");
 	m_dZoomFactor = m_pView->GetZoomFactor();
 	m_x = x;
 	m_y = y;
@@ -114,24 +109,16 @@ bool Tool::OnRightButtonClicked (View* pView, Object* pObject, double x, double 
 	return res;
 }
 
-bool Tool::Activate(bool bState)
+bool Tool::Activate (bool bState)
 {
-	if (bState)
-	{
-		m_pGroup = NULL;
-		m_pBackground = NULL;
+	if (bState) {
 		m_pObject = NULL;
 		m_pWidget = NULL;
 		m_pView = NULL;
-		Activate();
+		Activate ();
 		return true;
-	}
-	else
-	{
-		if (Deactivate())
-		{
-			m_pGroup = NULL;
-			m_pBackground = NULL;
+	} else {
+		if (Deactivate ()) {
 			m_pObject = NULL;
 			m_pWidget = NULL;
 			m_pView = NULL;
@@ -141,93 +128,92 @@ bool Tool::Activate(bool bState)
 	}
 }
 
-bool Tool::OnClicked()
+bool Tool::OnClicked ()
 {
 	return false;
 }
 
-void Tool::OnDrag()
+void Tool::OnDrag ()
 {
 }
 
-void Tool::OnRelease()
+void Tool::OnRelease ()
 {
 }
 
-bool Tool::OnRightButtonClicked(GtkUIManager *UIManager)
+bool Tool::OnRightButtonClicked (GtkUIManager *UIManager)
 {
 	return false;
 }
 
-void Tool::OnChangeState()
+void Tool::OnChangeState ()
 {
-	if (m_bPressed)
-	{
+	if (m_bPressed) {
 		m_x = lastx;
 		m_y = lasty;
-		OnDrag();
+		OnDrag ();
 	}
 }
 
-void Tool::Activate()
+void Tool::Activate ()
 {
 }
 
-bool Tool::Deactivate()
-{
-	return true;
-}
-
-bool Tool::OnEvent(GdkEvent* event)
-{
-	return false;
-}
-
-bool Tool::NotifyViewChange()
+bool Tool::Deactivate ()
 {
 	return true;
 }
 
-bool Tool::DeleteSelection()
+bool Tool::OnEvent (GdkEvent* event)
 {
 	return false;
 }
 
-bool Tool::CopySelection(GtkClipboard *clipboard)
+bool Tool::NotifyViewChange ()
+{
+	return true;
+}
+
+bool Tool::DeleteSelection ()
 {
 	return false;
 }
 
-bool Tool::CutSelection(GtkClipboard *clipboard)
+bool Tool::CopySelection (GtkClipboard *clipboard)
 {
 	return false;
 }
 
-bool Tool::PasteSelection(GtkClipboard *clipboard)
+bool Tool::CutSelection (GtkClipboard *clipboard)
 {
 	return false;
 }
 
-bool Tool::OnReceive(GtkClipboard *clipboard, GtkSelectionData *data, int type)
+bool Tool::PasteSelection (GtkClipboard *clipboard)
 {
 	return false;
 }
 
-bool Tool::OnUndo()
+bool Tool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type)
 {
 	return false;
 }
 
-bool Tool::OnRedo()
+bool Tool::OnUndo ()
 {
 	return false;
 }
 
-void Tool::PushNode(xmlNodePtr node)
+bool Tool::OnRedo ()
+{
+	return false;
+}
+
+void Tool::PushNode (xmlNodePtr node)
 {
 }
 
-void Tool::AddSelection(WidgetData* data)
+void Tool::AddSelection (WidgetData* data)
 {
 }
 

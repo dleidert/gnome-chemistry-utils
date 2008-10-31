@@ -127,7 +127,7 @@ bool gcpRetrosynthesis::Load (xmlNodePtr node)
 typedef struct
 {
 	double x, y;
-	ArtDRect r;
+	gccv::Rect r;
 	gcpRetrosynthesisStep *step;
 } ObjectData;
 
@@ -299,7 +299,7 @@ int gcpRetrosynthesis::Validate (bool split)
 typedef struct
 {
 	double x, y;
-	ArtDRect r;
+	gccv::Rect r;
 } StepData;
 
 static void AlignStep (map<Object*, StepData> &data, gcpRetrosynthesisStep *step, gcp::View *pView, gcp::WidgetData  *pData)
@@ -376,10 +376,10 @@ void gcpRetrosynthesis::Align ()
 	gcp::View *pView = pDoc->GetView ();
 	gcp::WidgetData  *pData = reinterpret_cast<gcp::WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
 	/* Update the canvas if necessary */
-	GnomeCanvas* w = GNOME_CANVAS (((gcp::Document*) GetDocument ())->GetWidget ());
+/*	GnomeCanvas* w = GNOME_CANVAS (((gcp::Document*) GetDocument ())->GetWidget ());
 	while (w->idle_id)
 		gtk_main_iteration();
-	gnome_canvas_update_now (w);
+	gnome_canvas_update_now (w);*/
 	map<string, Object*>::iterator i;
 	Object *pObj = GetFirstChild (i);
 	map<Object*, StepData> positions;

@@ -27,12 +27,11 @@
 
 #include <map>
 #include <glib.h>
+#include <canvas/item-client.h>
 #include <gcu/atom.h>
 #include <gcu/dialog-owner.h>
 #include <gcu/element.h>
 #include <gcu/macros.h>
-#include <libgnomecanvas/gnome-canvas.h>
-#include "widgetdata.h"
 
 namespace OpenBabel
 {
@@ -110,7 +109,7 @@ class Electron;
 /*!\class Atom
 Represents atoms in GChemPaint.
 */
-class Atom: public gcu::Atom, public gcu::DialogOwner
+class Atom: public gcu::Atom, public gcu::DialogOwner, public gccv::ItemClient
 {
 public:
 /*!
@@ -161,18 +160,6 @@ Removes a bond from the atom.
 Updates the atom after changing its bonds, charge or explicit electrons.
 */
 	virtual void Update ();
-/*!
-@param w a GtkWidget.
-
-Adds the representation of the atom to the canvas widget.
-*/
-	virtual void Add (GtkWidget* w) const;
-/*!
-@param w a GtkWidget.
-
-Updates the representation of the atom in the canvas widget.
-*/
-	virtual void Update (GtkWidget* w) const;
 /*!
 @return the bonds number for this atom taking bond order into account
 */
@@ -245,14 +232,21 @@ Used in this class to correctly set the atomic number.
 */
 	virtual bool LoadNode (xmlNodePtr node);
 /*!
-@param w the GtkWidget inside which the atom is displayed.
+Used to add a representation of the atom in the view.
+*/
+	void AddItem ();
+/*!
+Used to update the representation of the atom in the view.
+*/
+	void UpdateItem ();
+/*!
 @param state the selection state of the atom.
 
 Used to set the selection state of the atom inside the widget.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
-	virtual void SetSelected (GtkWidget* w, int state);
+	void SetSelected (int state);
 /*!
 @param nb the number of bonds to add, taking orders into account.
 @return true if the operation is allowed, false if the new bonds would exceed
@@ -386,7 +380,6 @@ Evaluates where lines representing bonds should end to not overload the symbol.
 	void BuildSymbolGeometry (double width, double height, double ascent);
 
 private:
-	void BuildItems (WidgetData* pData);
 	void UpdateAvailablePositions ();
 
 private:

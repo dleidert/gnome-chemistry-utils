@@ -30,6 +30,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <canvas/structs.h>
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>
@@ -162,7 +163,7 @@ void ChemComp::SetFilename (string& filename)
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "chemistry"))
 			return;
 		Doc->Load (xml->children);
-		ArtDRect r;
+		gccv::Rect r;
 		gcp::WidgetData *pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (Viewer), "data");
 		pData->GetObjectBounds (Doc, &r);
 		gcp::Theme *pTheme = Doc->GetTheme ();

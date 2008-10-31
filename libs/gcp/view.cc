@@ -23,19 +23,20 @@
  */
 
 #include "config.h"
-#include "widgetdata.h"
-#include "view.h"
-#include "settings.h"
-#include "document.h"
 #include "application.h"
-#include "tool.h"
-#include "tools.h"
+#include "atom.h"
+#include "bond.h"
+#include "document.h"
+#include "settings.h"
 #include "text.h"
 #include "theme.h"
+#include "tool.h"
+#include "tools.h"
+#include "view.h"
+#include "widgetdata.h"
 #include "window.h"
-#include <canvas/gprintable.h>
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-rect-ellipse.h>
+#include <canvas/canvas.h>
+#include <canvas/text.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
@@ -51,94 +52,7 @@
 #include <iostream>
 #include <unistd.h>
 
-/*
-Derivation of a new widget from gnome_canvas with an event for updating canvas size
-*/
-
-typedef struct _GnomeCanvasGCP           GnomeCanvasGCP;
-typedef struct _GnomeCanvasGCPClass      GnomeCanvasGCPClass;
-
-#define GNOME_TYPE_CANVAS_GCP            (gnome_canvas_gcp_get_type ())
-#define GNOME_CANVAS_GCP(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCP))
-#define GNOME_CANVAS_CLASS_GCP(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCPClass))
-#define GNOME_IS_CANVAS_GCP(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_GCP))
-#define GNOME_IS_CANVAS_GCP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_GCP))
-#define GNOME_CANVAS_GCP_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_GCP, GnomeCanvasGCPClass))
-
-enum {
-  UPDATE_BOUNDS,
-  LAST_SIGNAL
-};
-
-struct _GnomeCanvasGCP {
-	GnomeCanvas canvas;
-};
-
-struct _GnomeCanvasGCPClass {
-	GnomeCanvasClass parent_class;
-
-	void (* update_bounds) (GnomeCanvasGCP *canvas);
-};
-
-GType gnome_canvas_gcp_get_type (void) G_GNUC_CONST;
-static void gnome_canvas_gcp_class_init (GnomeCanvasGCPClass *Class);
-static void gnome_canvas_gcp_init (GnomeCanvasGCP *canvas);
-static void gnome_canvas_gcp_update_bounds (GnomeCanvasGCP *canvas);
-static GtkWidget *gnome_canvas_gcp_new (void);
-
-static guint gnome_canvas_gcp_signals[LAST_SIGNAL] = { 0 };
-
-GType
-gnome_canvas_gcp_get_type (void)
-{
-	static GType canvas_gcp_type;
-
-	if (!canvas_gcp_type) {
-		static const GTypeInfo object_info = {
-			sizeof (GnomeCanvasGCPClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_gcp_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasGCP),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_gcp_init,
-			NULL			/* value_table */
-		};
-
-		canvas_gcp_type = g_type_register_static (GNOME_TYPE_CANVAS, "GnomeCanvasGCP",
-						      &object_info, (GTypeFlags) 0);
-	}
-
-	return canvas_gcp_type;
-}
-
-GtkWidget *gnome_canvas_gcp_new (void)
-{
-	return GTK_WIDGET (g_object_new (GNOME_TYPE_CANVAS_GCP, "aa", TRUE, NULL));
-}
-
-void gnome_canvas_gcp_class_init (GnomeCanvasGCPClass *Class)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (Class);
-	gnome_canvas_gcp_signals[UPDATE_BOUNDS] =
-	g_signal_new ("update_bounds",
-				  G_TYPE_FROM_CLASS (gobject_class),
-				  G_SIGNAL_RUN_LAST,
-				  G_STRUCT_OFFSET (GnomeCanvasGCPClass, update_bounds),
-				  NULL, NULL,
-				  g_cclosure_marshal_VOID__VOID,
-				  G_TYPE_NONE, 0
-				  );
-	Class->update_bounds = gnome_canvas_gcp_update_bounds;
-}
-
-void gnome_canvas_gcp_init (GnomeCanvasGCP *canvas)
-{
-}
-
-void gnome_canvas_gcp_update_bounds (GnomeCanvasGCP *canvas)
+/*void gnome_canvas_gcp_update_bounds (GnomeCanvas *canvas)
 {
 	GnomeCanvas* w = GNOME_CANVAS (canvas);
 	while (w->idle_id)
@@ -153,18 +67,18 @@ void gnome_canvas_gcp_update_bounds (GnomeCanvasGCP *canvas)
 		y1 = y2 = 0.;
 	gcp::View *pView = (gcp::View*) g_object_get_data (G_OBJECT (canvas), "view");
 	pView->UpdateSize (x1, y1, x2, y2);
-}
+}*/
 
 using namespace gcu;
 using namespace std;
 
 namespace gcp {
 
-bool on_event (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
+/* bool on_event (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 {
 	View* pView = (View*) g_object_get_data(G_OBJECT(widget), "view");
 	return pView->OnEvent(item, event, widget);
-}
+} */
 
 static bool on_destroy (GtkWidget *widget, View * pView)
 {
@@ -183,7 +97,8 @@ void on_receive (GtkClipboard *clipboard, GtkSelectionData *selection_data, View
 	pView->OnReceive (clipboard, selection_data);
 }
 
-View::View (Document *pDoc, bool Embedded)
+View::View (Document *pDoc, bool Embedded):
+	Client ()
 {
 	m_pDoc = pDoc;
 	Theme *pTheme = pDoc->GetTheme ();
@@ -210,14 +125,18 @@ View::View (Document *pDoc, bool Embedded)
 	m_UIManager = gtk_ui_manager_new ();
 	m_Dragging = false;
 	m_pWidget = NULL;
-	m_PangoContext = NULL;
 	m_CurObject = NULL;
+	PangoLayout *layout = pango_layout_new (gccv::Text::GetContext ());
+	pango_layout_set_text (layout, "C", 1);
+	pango_layout_set_font_description (layout, m_PangoFontDesc);
+	PangoRectangle rect;
+	pango_layout_get_extents (layout, &rect, NULL);
+	m_CHeight =  double (rect.height) / PANGO_SCALE / 2.0;
+	g_object_unref (layout);
 }
 
 View::~View ()
 {
-	if (m_PangoContext)
-		g_object_unref (G_OBJECT (m_PangoContext));
 	if (m_sFontName)
 		g_free (m_sFontName);
 	if (m_sSmallFontName)
@@ -225,9 +144,10 @@ View::~View ()
 	pango_font_description_free (m_PangoFontDesc);
 	pango_font_description_free (m_PangoSmallFontDesc);
 	g_object_unref (m_UIManager);
+	// we don't need to delete the canvas, since destroying the widget does the job.
 }
 
-bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
+/*bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 {
 	Application *App = m_pDoc->GetApplication ();
 	Theme *pTheme = m_pDoc->GetTheme ();
@@ -361,21 +281,33 @@ bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
 		break;
 	}
 	return false;
-}
+}*/
 
-void View::AddObject (Object const *pObject)
+void View::AddObject (Object *pObject)
 {
-	std::list<GtkWidget*>::iterator i, end = m_Widgets.end ();
-	for (i = m_Widgets.begin (); i != end; i++)
-		pObject->Add (*i);
+	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
+	if (client)
+		client->AddItem ();
+	// now, add the children
+	map<string, Object*>::iterator i;
+	Object *child = pObject->GetFirstChild (i);
+	while (child) {
+		AddObject (child);
+		child = pObject->GetNextChild (i);
+	}
 }
 
 GtkWidget* View::CreateNewWidget ()
 {
-	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
+	if (m_Canvas)
+		return m_Canvas->GetWidget ();
+/*	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 	m_pWidget = gnome_canvas_gcp_new();
-	gtk_widget_pop_colormap ();
-	GtkWidget* pWidget = (m_Widgets.size() > 0) ? m_Widgets.front () : NULL;
+	gtk_widget_pop_colormap ();*/
+	m_Canvas = new gccv::Canvas (this);
+	m_pWidget = m_Canvas->GetWidget ();
+	m_Canvas->SetGap (2.);
+//	GtkWidget* pWidget = (m_Widgets.size() > 0) ? m_Widgets.front () : NULL;
 	if (m_pWidget) {
 		g_object_set_data (G_OBJECT (m_pWidget), "view", this);
 		g_object_set_data (G_OBJECT (m_pWidget), "doc", m_pDoc);
@@ -383,10 +315,10 @@ GtkWidget* View::CreateNewWidget ()
 		m_pData->Canvas = m_pWidget;
 		g_object_set_data (G_OBJECT (m_pWidget), "data", m_pData);
 		m_pData->m_View = this;
-		gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), 1);
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (m_pWidget), 0, 0, m_width, m_height);
+//		gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), 1);
+//		gnome_canvas_set_scroll_region (GNOME_CANVAS (m_pWidget), 0, 0, m_width, m_height);
 		m_pData->Zoom = 1.0;
-		m_pData->Background = gnome_canvas_item_new (
+/*		m_pData->Background = gnome_canvas_item_new (
 									gnome_canvas_root (GNOME_CANVAS (m_pWidget)),
 									gnome_canvas_rect_ext_get_type (),
 									"x1", 0.0,
@@ -400,13 +332,13 @@ GtkWidget* View::CreateNewWidget ()
 									gnome_canvas_group_ext_get_type (),
 									NULL));
 		if (m_pDoc->GetEditable ())
-			g_signal_connect (G_OBJECT (m_pData->Background), "event", G_CALLBACK (on_event), m_pWidget);
+			g_signal_connect (G_OBJECT (m_pData->Background), "event", G_CALLBACK (on_event), m_pWidget);*/
 		g_signal_connect (G_OBJECT (m_pWidget), "destroy", G_CALLBACK (on_destroy), this);
 		g_signal_connect (G_OBJECT (m_pWidget), "size_allocate", G_CALLBACK (on_size), this);
-		g_signal_connect (G_OBJECT (m_pWidget), "realize", G_CALLBACK (gnome_canvas_gcp_update_bounds), this);
+//		g_signal_connect (G_OBJECT (m_pWidget), "realize", G_CALLBACK (gnome_canvas_gcp_update_bounds), this);
 		gtk_widget_show (m_pWidget);
-		m_Widgets.push_back (m_pWidget);
-		if (pWidget) {
+//		m_Widgets.push_back (m_pWidget);
+/*		if (pWidget) {
 			WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 			std::map<Object const*, GnomeCanvasGroup*>::iterator i, iend = pData->Items.end ();
 			for (i = pData->Items.begin (); i != iend; i++)
@@ -415,9 +347,7 @@ GtkWidget* View::CreateNewWidget ()
 			for (i = pData->Items.begin (); i != iend; i++)
 				if ((*i).first->GetType () == gcu::BondType)
 				 (*i).first->Add (m_pWidget);
-		} else {
-			m_PangoContext = gtk_widget_create_pango_context (m_pWidget);
-			g_object_ref (G_OBJECT (m_PangoContext));
+		} else*/ {
 			UpdateFont ();
 		}
 	}
@@ -433,7 +363,7 @@ void View::OnDestroy (GtkWidget* widget)
 		delete m_pDoc;
 }
 
-GnomeCanvasItem* View::GetCanvasItem (GtkWidget* widget, Object* Object)
+/*GnomeCanvasItem* View::GetCanvasItem (GtkWidget* widget, Object* Object)
 {
 	WidgetData* pData = reinterpret_cast<WidgetData*> (g_object_get_data (G_OBJECT (widget), "data"));
 	if ((!pData) || (pData->m_View != this))
@@ -442,18 +372,20 @@ GnomeCanvasItem* View::GetCanvasItem (GtkWidget* widget, Object* Object)
 	if (!result)
 		pData->Items.erase (Object);
 	return result;
-}
+}*/
 
-void View::Update (Object const *pObject)
+void View::Update (Object *pObject)
 {
-	std::list<GtkWidget*>::iterator i;
-	for (i = m_Widgets.begin (); i != m_Widgets.end (); i++)
-		pObject->Update(*i);
-}
-
-GnomeCanvasItem* View::GetBackground ()
-{
-	return m_pData->Background;
+	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
+	if (client)
+		client->UpdateItem ();
+	// now, add the children
+	map<string, Object*>::iterator i;
+	Object *child = pObject->GetFirstChild (i);
+	while (child) {
+		Update (child);
+		child = pObject->GetNextChild (i);
+	}
 }
 
 double View::GetZoomFactor ()
@@ -463,17 +395,16 @@ double View::GetZoomFactor ()
 
 void View::UpdateFont ()
 {
-	pango_context_set_font_description (m_PangoContext, m_PangoFontDesc);
-	PangoLayout* pl = pango_layout_new (m_PangoContext);
+	PangoLayout* pl = pango_layout_new (gccv::Text::GetContext ());
+	pango_layout_set_font_description (pl, m_PangoFontDesc);
 	PangoRectangle rect;
 	pango_layout_set_text (pl, "lj", 2);
 	pango_layout_get_extents (pl, &rect, NULL);
 	m_dFontHeight = rect.height / PANGO_SCALE;
-	g_object_unref (G_OBJECT (pl));
-	pl = pango_layout_new (m_PangoContext);
 	pango_layout_set_text (pl, "C", 1);
 	pango_layout_get_extents (pl, &rect, NULL);
-	m_BaseLineOffset =  (double (rect.height / PANGO_SCALE) / 2.0) / m_pDoc->GetTheme ()->GetZoomFactor ();
+	m_CHeight = (double) rect.height / PANGO_SCALE / 2.0;
+	m_BaseLineOffset =  m_CHeight / m_pDoc->GetTheme ()->GetZoomFactor ();
 	g_object_unref (G_OBJECT (pl));
 }
 	
@@ -487,9 +418,9 @@ void View::Remove (Object* pObject)
 			pData->SelectedObjects.remove (pObj);
 		else
 			pData->SelectedObjects.remove (pObject);
-		if (pData->Items[pObject])
+/*		if (pData->Items[pObject])
 			gtk_object_destroy (GTK_OBJECT (pData->Items[pObject]));
-		pData->Items.erase (pObject);
+		pData->Items.erase (pObject);*/
 	}
 }
 
@@ -624,7 +555,7 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 		}
 		break;
 	}
-	ArtDRect rect;
+	gccv::Rect rect;
 	double dx, dy;
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
@@ -658,7 +589,7 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 	for (i = m_pData->SelectedObjects.begin(); i != end; i++) 
 		pOp->AddObject (*i);
 	m_pDoc->FinishOperation ();
-	gnome_canvas_gcp_update_bounds (GNOME_CANVAS_GCP(m_pData->Canvas));
+//	gnome_canvas_gcp_update_bounds (GNOME_CANVAS (m_pData->Canvas));
 }
 
 void View::OnPasteSelection (GtkWidget* w, GtkClipboard* clipboard)
@@ -944,9 +875,9 @@ bool View::OnKeyRelease (GtkWidget* w, GdkEventKey* event)
 bool View::OnSize (GtkWidget *w, int width, int height)
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (w), 0, 0, (double) width / pData->Zoom, (double) height / pData->Zoom);
-	if (pData->Background)
-		g_object_set (G_OBJECT (pData->Background), "x2", (double) width / pData->Zoom, "y2", (double) height / pData->Zoom, NULL);
+	m_Canvas->SetScrollRegion (0, 0, (double) width / pData->Zoom, (double) height / pData->Zoom);
+/*	if (pData->Background)
+		g_object_set (G_OBJECT (pData->Background), "x2", (double) width / pData->Zoom, "y2", (double) height / pData->Zoom, NULL);*/
 	return true;
 }
 
@@ -970,7 +901,7 @@ void View::UpdateSize (double x1, double y1, double x2, double y2)
 	}
 }
 
-void View::SetGnomeCanvasPangoActive (GnomeCanvasPango* item)
+void View::SetTextActive (gccv::Text* item)
 {
 	m_ActiveRichText = item;
 	m_Dragging = false;
@@ -1017,7 +948,7 @@ static cairo_status_t cairo_write_func (void *closure, const unsigned char *data
 
 void View::ExportImage (string const &filename, const char* type, int resolution)
 {
-	ArtDRect rect;
+	gccv::Rect rect;
 	m_pData->GetObjectBounds (m_pDoc, &rect);
 	m_pData->ShowSelection (false);
 	int w = (int) (ceil (rect.x1) - floor (rect.x0)), h = (int) (ceil (rect.y1) - floor (rect.y0));
@@ -1032,7 +963,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 			gtk_widget_destroy (message);
 			g_error_free (error);
 		}
-		ArtDRect rect;
+		gccv::Rect rect;
 		m_pData->GetObjectBounds (m_pDoc, &rect);
 		cairo_surface_t *surface = NULL;
 		if (!strcmp (type, "pdf"))
@@ -1072,7 +1003,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 
 xmlDocPtr View::BuildSVG ()
 {
-	ArtDRect rect;
+	gccv::Rect rect;
 	m_pData->GetObjectBounds (m_pDoc, &rect);
 	xmlDocPtr doc = xmlNewDoc ((const xmlChar*)"1.0");
 	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
@@ -1114,7 +1045,7 @@ xmlDocPtr View::BuildSVG ()
 		g_free (buf);
 	} else
 		node = doc->children;
-	g_printable_export_svg (G_PRINTABLE (m_pData->Group), doc, node);
+//	g_printable_export_svg (G_PRINTABLE (m_pData->Group), doc, node);
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 	return doc;
@@ -1122,7 +1053,7 @@ xmlDocPtr View::BuildSVG ()
 
 GdkPixbuf *View::BuildPixbuf (int resolution)
 {
-	ArtDRect rect;
+	gccv::Rect rect;
 	m_pData->GetObjectBounds (m_pDoc, &rect);
 	m_pData->ShowSelection (false);
 	int w = (int) (ceil (rect.x1) - floor (rect.x0)), h = (int) (ceil (rect.y1) - floor (rect.y0));
@@ -1134,11 +1065,11 @@ GdkPixbuf *View::BuildPixbuf (int resolution)
 		h = (int) rint ((double) h * zoom);
 	} else
 		zoom = 1.;
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), zoom);
-	gnome_canvas_update_now (GNOME_CANVAS (m_pWidget));
+/*	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), zoom);
+	gnome_canvas_update_now (GNOME_CANVAS (m_pWidget));*/
 	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, w, h);
 	gdk_pixbuf_fill (pixbuf, 0xffffffff);
-	GnomeCanvasBuf buf;
+/*	GnomeCanvasBuf buf;
 	buf.buf = gdk_pixbuf_get_pixels (pixbuf);
 	buf.rect.x0 = (int) floor (rect.x0 * zoom);
 	buf.rect.x1 = (int) ceil (rect.x1 * zoom);
@@ -1149,14 +1080,12 @@ GdkPixbuf *View::BuildPixbuf (int resolution)
 	buf.is_buf = 1;
 	(* GNOME_CANVAS_ITEM_GET_CLASS (m_pData->Group)->render) (GNOME_CANVAS_ITEM (m_pData->Group), &buf);
 	// restore zoom level
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), m_pData->Zoom);
+	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), m_pData->Zoom);*/
 	return pixbuf;
 }
 
 void View::EnsureSize ()
 {
-	GnomeCanvas *canvas = GNOME_CANVAS (m_pWidget);
-	gnome_canvas_update_now (canvas);
 	if (GTK_WIDGET_REALIZED (m_pWidget))
 		g_signal_emit_by_name (m_pWidget, "update_bounds");
 }
@@ -1164,7 +1093,7 @@ void View::EnsureSize ()
 void View::Zoom (double zoom)
 {
 	m_pData->Zoom = zoom;
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), zoom);
+//	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), zoom);
 	EnsureSize ();
 	// Call OnSize to be certain that the canvas scroll region will be correct
 	OnSize (m_pWidget, m_width, m_height);
@@ -1172,8 +1101,8 @@ void View::Zoom (double zoom)
 
 void View::ShowCursor (bool show)
 {
-	if (m_ActiveRichText)
-		g_object_set (G_OBJECT (m_ActiveRichText), "editing", show, NULL);
+/*	if (m_ActiveRichText)
+		g_object_set (G_OBJECT (m_ActiveRichText), "editing", show, NULL);*/
 }
 
 void View::UpdateTheme ()
@@ -1207,17 +1136,94 @@ void View::UpdateTheme ()
 void View::Render (cairo_t *cr)
 {
 	m_pData->ShowSelection(false);
-	Object* pObj = NULL;
-	if (m_ActiveRichText) {
+//	Object* pObj = NULL;
+/*	if (m_ActiveRichText) {
 		pObj = (Object*) g_object_get_data (G_OBJECT (m_ActiveRichText), "object");
 		if (pObj) pObj->SetSelected (m_pWidget, SelStateUnselected);
-	}
-	GnomeCanvas *canvas = GNOME_CANVAS (m_pWidget);
+	}*/
+/*	GnomeCanvas *canvas = GNOME_CANVAS (m_pWidget);
 	gnome_canvas_update_now (canvas);
 	g_printable_draw_cairo (G_PRINTABLE (m_pData->Group), cr);
 	m_pData->ShowSelection (true);
 	if (pObj)
-		pObj->SetSelected (m_pWidget, SelStateUpdating);
+		pObj->SetSelected (m_pWidget, SelStateUpdating);*/
+}
+
+// Events
+
+bool View::OnButtonPressed (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state)
+{
+	Application *App = m_pDoc->GetApplication ();
+	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
+	m_CurObject = dynamic_cast <Object *> (client);
+	if ((!m_pDoc->GetEditable ()) || (!pActiveTool))
+		return true;
+	switch (button) {
+	case 1: {
+		if (m_Dragging) break;
+		bool result = pActiveTool->OnClicked (this, m_CurObject, x, y, state);
+/*		if (item && (item == (GnomeCanvasItem*)m_ActiveRichText)) {
+			GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (((GTypeInstance*) item)->g_class);
+			return klass->event (item, event);
+		}*/
+		m_Dragging = result;
+		return true;
+	}
+	case 2: {
+		m_lastx = x;
+		m_lasty = y;
+		GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+		OnPasteSelection (m_pWidget, clipboard);
+		return true;
+	}
+	case 3: {
+		bool result;
+		g_object_unref (m_UIManager);
+		m_UIManager = gtk_ui_manager_new ();
+		result = pActiveTool->OnRightButtonClicked (this, m_CurObject, x, y, m_UIManager);
+		if (m_CurObject)
+			result |= m_CurObject->BuildContextualMenu (m_UIManager, m_CurObject, x / GetZoomFactor (), y / GetZoomFactor ());
+		if (result) {
+			GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, "/popup");
+			gtk_menu_popup (GTK_MENU (w), NULL, NULL, NULL, NULL, 3,  gtk_get_current_event_time ());
+			return true;
+		}
+	}
+	}
+	return true;
+}
+
+bool View::OnButtonReleased (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state)
+{
+	Application *App = m_pDoc->GetApplication ();
+	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
+	if ((!m_pDoc->GetEditable ()) || (!pActiveTool))
+		return true;
+	switch (button) {
+	case 1:
+		if (!m_Dragging)
+			break;
+		m_Dragging = false;
+		pActiveTool->OnRelease (x, y, state);
+		m_pDoc->GetApplication ()->ClearStatus ();
+		return true;
+	}
+	return true;
+}
+
+bool View::OnDrag (gccv::ItemClient *client, double x, double y, unsigned state)
+{
+	Application *App = m_pDoc->GetApplication ();
+	Tool* pActiveTool = App? App->GetActiveTool (): NULL;	
+	if (m_pDoc->GetEditable () && pActiveTool && m_Dragging)
+		pActiveTool->OnDrag (x, y, state);
+	return true;
+}
+
+bool View::OnMotion (gccv::ItemClient *client, double x, double y, unsigned state)
+{
+	m_CurObject = reinterpret_cast <Object *> (client);
+	return true;
 }
 
 }	//	namespace gcp

@@ -25,6 +25,7 @@
 #ifndef GCHEMPAINT_REACTION_OPERATOR_H
 #define GCHEMPAINT_REACTION_OPERATOR_H
 
+#include <canvas/item-client.h>
 #include <gcu/object.h>
 
 /*!\file*/
@@ -36,7 +37,7 @@ namespace gcp {
 Objects of this class are added when useful by the framework. There is no need
 to create them manually.
 */
-class ReactionOperator: public gcu::Object
+class ReactionOperator: public gcu::Object, public gccv::ItemClient
 {
 public:
 /*!
@@ -49,17 +50,13 @@ The destructor.
 	virtual ~ReactionOperator ();
 
 /*!
-@param w the GtkWidget inside which the operator will be displayed.
-
-Used to add a representation of the operator in the widget.
+Used to add a representation of the operator in the view.
 */
-	virtual void Add (GtkWidget* w) const;
+	void AddItem ();
 /*!
-@param w the GtkWidget inside which the operator is displayed.
-
-Used to update the representation of the operator in the widget.
+Used to update the representation of the operator in the view.
 */
-	virtual void Update (GtkWidget* w) const;
+	void UpdateItem ();
 /*!
 @param x the x component of the transation vector.
 @param y the y component of the transation vector.
@@ -69,14 +66,13 @@ Moves the reaction operator.
 */
 	virtual void Move (double x, double y, double z = 0);
 /*!
-@param w: the GtkWidget inside which the operator is displayed.
 @param state: the selection state of the operator.
 
-Used to set the selection state of the operator inside the widget.
+Used to set the selection state of the operator.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing. Children will be selected too.
 */
-	virtual void SetSelected (GtkWidget* w, int state);
+	virtual void SetSelected (int state);
 /*!
 @param x the new x coordinate of the operator.
 @param y the new y coordinate of the operator.

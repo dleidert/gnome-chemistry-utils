@@ -24,18 +24,15 @@
 
 #include "config.h"
 #include "atom.h"
-#include "electron.h"
 #include "bond.h"
+#include "document.h"
+#include "electron.h"
 #include "molecule.h"
 #include "settings.h"
 #include "theme.h"
 #include "view.h"
-#include "document.h"
 #include "Hposdlg.h"
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-rect-ellipse.h>
-#include <canvas/gcp-canvas-bpath.h>
-#include <canvas/gcp-canvas-pango.h>
+#include <canvas/text.h>
 #include <gcu/element.h>
 #include <goffice/math/go-math.h>
 #include <openbabel/mol.h>
@@ -51,7 +48,9 @@ using namespace std;
 
 namespace gcp {
 
-Atom::Atom (): gcu::Atom (),
+Atom::Atom ():
+	gcu::Atom (),
+	ItemClient (),
 	m_ShowSymbol (false),
 	m_HPosStyle (AUTO_HPOS)
 {
@@ -94,7 +93,9 @@ Atom::~Atom ()
 		g_object_unref (G_OBJECT (m_ChargeLayout));
 }
 
-Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z),
+Atom::Atom (int Z, double x, double y, double z):
+	gcu::Atom (Z, x, y, z),
+	ItemClient (),
 	m_ShowSymbol (false),
 	m_HPosStyle (AUTO_HPOS)
 {
@@ -116,7 +117,9 @@ Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z),
 	m_SWidth = 0.;
 }
 
-Atom::Atom (OBAtom* atom): gcu::Atom (),
+Atom::Atom (OBAtom* atom):
+	gcu::Atom (),
+	ItemClient (),
 	m_ShowSymbol (false),
 	m_HPosStyle (AUTO_HPOS)
 {
@@ -329,7 +332,7 @@ void Atom::Update ()
 			static_cast<Bond*> ((*j).second)->SetDirty ();
 }
 
-void Atom::Add (GtkWidget* w) const
+/*void Atom::Add (GtkWidget* w) const
 {
 	if (!w || !GetZ ())
 		return;
@@ -341,7 +344,7 @@ void Atom::Add (GtkWidget* w) const
 	View* pView = pData->m_View;
 	Theme *pTheme = pView->GetDoc ()->GetTheme ();
 	if (m_Layout == NULL) {
-		PangoContext* pc = pView->GetPangoContext ();
+		PangoContext *pc = gccv::Text::GetContext ();
 		const_cast <Atom *> (this)->m_Layout = pango_layout_new (pc);
 		const_cast <Atom *> (this)->m_HLayout = pango_layout_new (pc);
 	}
@@ -522,9 +525,9 @@ void Atom::Add (GtkWidget* w) const
 	}
 	pData->Items[this] = group;
 	const_cast <Atom *> (this)->m_width /= pTheme->GetZoomFactor ();
-	const_cast <Atom *> (this)->m_height /= pTheme->GetZoomFactor ();
+	const_cast <Atom *> (this)->m_height /= pTheme->GetZoomFactor ();*/
 	/* add charge */
-	int charge = GetCharge ();
+/*	int charge = GetCharge ();
 	if (charge) {
 		int align = const_cast <Atom *> (this)->GetChargePosition (const_cast <Atom *> (this)->m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
 		if (m_ChargeDist != 0.) {
@@ -539,7 +542,7 @@ void Atom::Add (GtkWidget* w) const
 			fig = g_strdup_printf ("%d", abs (charge));
 			PangoRectangle rect;
 			if (!m_ChargeLayout) {
-				PangoContext* pc = pData->m_View->GetPangoContext();
+				PangoContext* pc = gccv::Text::GetContext();
 				const_cast <Atom *> (this)->m_ChargeLayout = pango_layout_new (pc);
 				pango_layout_set_font_description (m_ChargeLayout, pData->m_View->GetPangoSmallFontDesc ());
 			}
@@ -636,9 +639,9 @@ void Atom::Add (GtkWidget* w) const
 		electron->Add (w);
 		electron = GetNextChild (i);
 	}
-}
+}*/
 
-void Atom::Update (GtkWidget* w) const
+/*void Atom::Update (GtkWidget* w) const
 {
 	if (!w || !GetZ ())
 		return;
@@ -653,7 +656,7 @@ void Atom::Update (GtkWidget* w) const
 	GnomeCanvasGroup *group = pData->Items[this];
 	if (m_FontName != pData->m_View->GetFontName ()) {
 		View *pView = pData->m_View;
-		PangoContext* pc = pView->GetPangoContext ();
+		PangoContext* pc = gccv::Text::GetContext ();
 		PangoLayout *Layout = pango_layout_new (pc);
 		pango_layout_set_font_description (Layout, pView->GetPangoFontDesc ());
 		pango_layout_set_font_description (m_Layout, pView->GetPangoFontDesc ());
@@ -723,7 +726,7 @@ void Atom::Update (GtkWidget* w) const
 				fig = g_strdup_printf ("%d", abs (charge));
 				PangoRectangle rect;
 				if (!m_ChargeLayout) {
-					PangoContext* pc = pData->m_View->GetPangoContext ();
+					PangoContext* pc = gccv::Text::GetContext ();
 					const_cast <Atom *> (this)->m_ChargeLayout = pango_layout_new (pc);
 					pango_layout_set_font_description (m_ChargeLayout, pData->m_View->GetPangoSmallFontDesc ());
 				}
@@ -818,7 +821,7 @@ void Atom::Update (GtkWidget* w) const
 			if 	(abs (charge) > 1) {
 				fig = g_strdup_printf ("%d", abs (charge));
 				if (!m_ChargeLayout) {
-					PangoContext* pc = pData->m_View->GetPangoContext ();
+					PangoContext* pc = gccv::Text::GetContext ();
 					const_cast <Atom *> (this)->m_ChargeLayout = pango_layout_new (pc);
 					pango_layout_set_font_description (m_ChargeLayout, pData->m_View->GetPangoSmallFontDesc ());
 				}
@@ -924,7 +927,7 @@ void Atom::Update (GtkWidget* w) const
 		electron->Update (w);
 		electron = GetNextChild (i);
 	}
-}
+}*/
 
 void Atom::UpdateAvailablePositions ()
 {
@@ -1223,18 +1226,18 @@ bool Atom::LoadNode (xmlNodePtr)
 	return true;
 }
 
-void Atom::SetSelected (GtkWidget* w, int state)
+void Atom::SetSelected (int state)
 {
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+/*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	GnomeCanvasGroup* group = pData->Items[this];
 	gpointer item;
-	gchar const *color, *chargecolor;
+	GOColor color, chargecolor;
 	bool visible = true;
 	
 	switch (state) {	
 	case SelStateUnselected:
 		color = NULL;
-		chargecolor = "black";
+		chargecolor = RGBA_BLACK;
 			visible = false;
 		break;
 	case SelStateSelected:
@@ -1248,7 +1251,7 @@ void Atom::SetSelected (GtkWidget* w, int state)
 		break;
 	default:
 		color = NULL;
-		chargecolor = "black";
+		chargecolor = RGBA_BLACK;
 		break;
 	}
 	item = g_object_get_data (G_OBJECT (group), "rect");
@@ -1265,8 +1268,7 @@ void Atom::SetSelected (GtkWidget* w, int state)
 	if ((item = g_object_get_data (G_OBJECT (group), "circle")))
 		g_object_set (item, "outline_color", chargecolor, NULL);
 	if ((item = g_object_get_data (G_OBJECT (group), "sign")))
-		g_object_set (item, "outline_color", chargecolor, NULL);
-	Object::SetSelected (w, state);
+		g_object_set (item, "outline_color", chargecolor, NULL);*/
 }
 
 bool Atom::AcceptNewBonds (int nb)
@@ -1293,7 +1295,7 @@ void Atom::AddToMolecule (Molecule* Mol)
 	Mol->AddAtom (this);
 }
 
-void Atom::BuildItems (WidgetData* pData)
+/*void Atom::BuildItems (WidgetData* pData)
 {
 	GnomeCanvasGroup* group = pData->Items[this];
 	void* item;
@@ -1488,7 +1490,7 @@ void Atom::BuildItems (WidgetData* pData)
 	m_height /= pTheme->GetZoomFactor ();
 	if (m_Changed > 0)
 		m_Changed--;
-}
+}*/
 	
 double Atom::GetYAlign ()
 {
@@ -1920,5 +1922,12 @@ void Atom::BuildSymbolGeometry (double width, double height, double ascent)
 	m_SAngleL = atan2 (m_SHeightL, m_SWidth);
 }
 
+void Atom::AddItem ()
+{
+}
+
+void Atom::UpdateItem ()
+{
+}
 
 }	//	namespace gcp

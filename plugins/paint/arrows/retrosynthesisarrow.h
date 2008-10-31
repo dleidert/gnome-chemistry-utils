@@ -38,11 +38,11 @@ public:
 	gcpRetrosynthesisArrow (gcpRetrosynthesis *rs);
 	virtual ~gcpRetrosynthesisArrow ();
 	
-	virtual xmlNodePtr Save (xmlDocPtr xml) const;
-	virtual bool Load (xmlNodePtr);
-	virtual void Add (GtkWidget* w) const;
-	virtual void Update (GtkWidget* w) const;
-	virtual void SetSelected (GtkWidget* w, int state);
+	xmlNodePtr Save (xmlDocPtr xml) const;
+	bool Load (xmlNodePtr);
+	void AddItem ();
+	void UpdateItem ();
+	void SetSelected (int state);
 	void SetStartStep (gcpRetrosynthesisStep *Step) {m_Start = Step;}
 	gcpRetrosynthesisStep* GetStartStep () {return m_Start;}
 	void SetEndStep (gcpRetrosynthesisStep *Step) {m_End = Step;}

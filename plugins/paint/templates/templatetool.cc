@@ -28,6 +28,8 @@
 #include <gcp/application.h>
 #include <gcp/document.h>
 #include <gcp/theme.h>
+#include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -95,9 +97,9 @@ bool gcpTemplateTool::OnClicked ()
 			m_pView->Update (m_pObject);
 		}
 	}
-	ArtDRect rect;
+	gccv::Rect rect;
 	double dx, dy;
-	gnome_canvas_update_now (GNOME_CANVAS (m_pWidget));
+//	gnome_canvas_update_now (GNOME_CANVAS (m_pWidget));
 	pDoc->AbortOperation ();
 	m_pData->GetSelectionBounds (rect);
 	dx = m_x0 - (rect.x0 + rect.x1) / 2.;
@@ -201,7 +203,7 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 				m_Template->data =  (gcp::WidgetData*) g_object_get_data (G_OBJECT (m_Template->doc->GetView ()->CreateNewWidget ()), "data");
 				m_Template->doc->AddData (m_Template->node);
 				m_Template->data->UnselectAll ();
-				gnome_canvas_update_now (GNOME_CANVAS (m_Template->doc->GetWidget ()));
+//				gnome_canvas_update_now (GNOME_CANVAS (m_Template->doc->GetWidget ()));
 				m_Template->data->GetObjectBounds (m_Template->doc, &m_Template->rect);
 				m_Template->doc->Move (-m_Template->rect.x0 / pTheme->GetZoomFactor (), -m_Template->rect.y0 / pTheme->GetZoomFactor ());
 				m_Template->bond_length = 140.;
@@ -210,7 +212,7 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 				page = gtk_notebook_page_num (m_Book, m_Template->w);
 			if (page < 0) {
 				m_Template->data =  (gcp::WidgetData*) g_object_get_data (G_OBJECT (m_Template->doc->GetView ()->CreateNewWidget ()), "data");
-				gnome_canvas_update_now (GNOME_CANVAS (m_Template->doc->GetWidget ()));
+//				gnome_canvas_update_now (GNOME_CANVAS (m_Template->doc->GetWidget ()));
 				m_Template->data->GetObjectBounds (m_Template->doc, &m_Template->rect);
 				m_Template->w = gtk_scrolled_window_new (NULL, NULL);
 				gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (m_Template->w), GTK_SHADOW_NONE);
@@ -226,7 +228,7 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 			double h = (wd->allocation.height - 4 * m_Template->w->style->ythickness) / (m_Template->rect.y1 - m_Template->rect.y0);
 			if (w < 1. || h < 1.) {
 				m_Template->data->Zoom = MIN (w, h);
-				gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_Template->doc->GetWidget ()), m_Template->data->Zoom);
+//				gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_Template->doc->GetWidget ()), m_Template->data->Zoom);
 			}
 			gtk_notebook_set_current_page (m_Book, page);
 			gtk_widget_set_sensitive (m_DeleteBtn, m_Template->writeable);
@@ -251,8 +253,8 @@ void gcpTemplateTool::OnPreviewSize (GtkAllocation *allocation)
 		double w = (allocation->width - 4 * m_Template->w->style->xthickness) / (m_Template->rect.x1 - m_Template->rect.x0);
 		double h = (allocation->height - 4 * m_Template->w->style->ythickness) / (m_Template->rect.y1 - m_Template->rect.y0);
 		m_Template->data->Zoom = (w < 1. || h < 1.)? MIN (w, h): 1.;
-		gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_Template->data->Canvas), m_Template->data->Zoom);
-		g_signal_emit_by_name (m_Template->data->Canvas, "update_bounds");
+//		gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_Template->data->Canvas), m_Template->data->Zoom);
+//		g_signal_emit_by_name (m_Template->data->Canvas, "update_bounds");
 	}
 }
 
@@ -408,7 +410,7 @@ void gcpNewTemplateToolDlg::SetTemplate (xmlNodePtr node)
 		xmlFreeNode (m_node);
 	}
 	pDoc->AddData (node);
-	ArtDRect rect;
+	gccv::Rect rect;
 	char *buf = (char*) xmlGetProp (node, (const xmlChar*) "bond-length");
 	double r = 140. / strtod (buf, NULL);
 	xmlFree (buf);

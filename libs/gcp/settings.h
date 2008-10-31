@@ -27,6 +27,7 @@
 
 #include <glib.h>
 #include <pango/pango.h>
+#include <goffice/utils/go-color.h>
 
 #define ROOTDIR "/apps/gchemutils/paint/settings/"
 #define GCP_CONF_DIR_SETTINGS "paint/settings"
@@ -37,19 +38,19 @@ namespace gcp {
 /*!
 The color used for normal drawing.
 */
-extern const gchar *Color;
+extern GOColor Color;
 /*!
 The color used for objects that are to be deleted.
 */
-extern const gchar *DeleteColor;
+extern GOColor DeleteColor;
 /*!
 The color used for new objects.
 */
-extern const gchar *AddColor;
+extern GOColor AddColor;
 /*!
 The color used for selected objects.
 */
-extern const gchar *SelectColor;
+extern GOColor SelectColor;
 /*!
 The stack size for undo/redo operations. Default is no limit.
 */

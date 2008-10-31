@@ -23,16 +23,14 @@
  */
 
 #include "config.h"
+#include "document.h"
 #include "mesomery-arrow.h"
 #include "mesomery.h"
 #include "mesomer.h"
-#include "document.h"
 #include "settings.h"
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
-#include <canvas/gcp-canvas-line.h>
-#include <canvas/gcp-canvas-group.h>
 
 using namespace gcu;
 
@@ -116,7 +114,7 @@ bool MesomeryArrow::Load (xmlNodePtr node)
 	return false;
 }
 
-void MesomeryArrow::Add (GtkWidget* w) const
+/*void MesomeryArrow::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -168,6 +166,14 @@ void MesomeryArrow::Update (GtkWidget* w) const
 						"arrow_shape_c", pTheme->GetArrowHeadC (),
 						NULL);
 	gnome_canvas_points_free (points);
+}*/
+
+void MesomeryArrow::AddItem ()
+{
+}
+
+void MesomeryArrow::UpdateItem ()
+{
 }
 
 void MesomeryArrow::Reverse ()

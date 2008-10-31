@@ -32,7 +32,6 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
-#include <libgnomecanvas/gnome-canvas.h>
 
 using namespace gcu;
 using namespace std;
@@ -47,7 +46,7 @@ ReactionStep::ReactionStep (): Object (ReactionStepType)
 	m_bLoading = false;
 }
 
-ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, map<Object*, ArtDRect> Objects): Object (ReactionStepType)
+ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, map<Object*, gccv::Rect> Objects): Object (ReactionStepType)
 {
 	SetId ("rs1");
 	reaction->AddChild (this);
@@ -57,7 +56,7 @@ ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, 
 	WidgetData  *pData= (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
 	map<double, Object*>::iterator im, endm;
 	double x, y, x0, y0, x1, y1;
-	ArtDRect *rect;
+	gccv::Rect *rect;
 	Object *cur;
 	im = Children.begin ();
 	new Reactant (this, (*im).second);
@@ -72,8 +71,8 @@ ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, 
 		AddChild (pOp);
 		pOp->SetCoords (x / pTheme->GetZoomFactor (), y);
 		pDoc->AddObject (pOp);
-		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);
+/*		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
+		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);*/
 		pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
 		x += pTheme->GetSignPadding () + x1 - x0;
 		cur = (*im).second;
@@ -83,8 +82,8 @@ ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, 
 		cur->Move ((x - rect->x0) / pTheme->GetZoomFactor (), y - y0);
 		x+= rect->x1 - rect->x0;
 	}
-	Update (pData->Canvas);
-	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
+/*	Update (pData->Canvas);
+	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));*/
 	m_bLoading = false;
 }
 
@@ -154,9 +153,9 @@ bool ReactionStep::Load (xmlNodePtr node)
 	m_bLoading = true;
 	if (!Object::Load (node))
 		return false;
-	map<Object*, ArtDRect> Objects;
+	map<Object*, gccv::Rect> Objects;
 	map<double, Object*> Children;
-	ArtDRect rect;
+	gccv::Rect rect;
 	map<string, Object*>::iterator i;
 	Object *pObj = GetFirstChild (i);
 	Document *pDoc = dynamic_cast <Document*> (GetDocument ());
@@ -164,7 +163,7 @@ bool ReactionStep::Load (xmlNodePtr node)
 	WidgetData  *pData= (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
 	map<double, Object*>::iterator im, endm;
 	double x, y, x0, y0, x1, y1;
-	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
+//	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
 	while (pObj) {
 		pData->GetObjectBounds (pObj, &rect);
 		x = (rect.x0 + rect.x1) / 2;
@@ -186,15 +185,15 @@ bool ReactionStep::Load (xmlNodePtr node)
 		AddChild (pOp);
 		pOp->SetCoords(x / pTheme->GetZoomFactor (), y);
 		pDoc->AddObject(pOp);
-		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);
+/*		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
+		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);*/
 		pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
 		x += pTheme->GetSignPadding () + x1 - x0;
 		pObj = (*im).second;
 		rect = Objects[pObj];
 		x+= rect.x1 - rect.x0;
 	}
-	Update (pData->Canvas);
+//	Update (pData->Canvas);
 	m_bLoading = false;
 	return true;
 }
@@ -211,10 +210,10 @@ bool ReactionStep::OnSignal (SignalId Signal, Object *Child)
 	if (Signal == OnChangedSignal) {
 		if (m_bLoading)
 			return false;
-		map<Object*, ArtDRect> Objects;
+		map<Object*, gccv::Rect> Objects;
 		map<double, Object*> Children;
 		list<Object*> Operators;
-		ArtDRect rect;
+		gccv::Rect rect;
 		map<string, Object*>::iterator i;
 		Object *pObj = GetFirstChild (i);
 		Document *pDoc = dynamic_cast <Document*> (GetDocument ());
@@ -255,8 +254,8 @@ bool ReactionStep::OnSignal (SignalId Signal, Object *Child)
 			AddChild (pOp);
 			pOp->SetCoords(x / pTheme->GetZoomFactor (), y);
 			pDoc->AddObject(pOp);
-			gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
-			gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);
+	/*		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
+			gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);*/
 			pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
 			x += pTheme->GetSignPadding () + x1 - x0;
 			pObj = (*im).second;
@@ -264,7 +263,7 @@ bool ReactionStep::OnSignal (SignalId Signal, Object *Child)
 			pObj->Move ((x - rect.x0) / pTheme->GetZoomFactor (), y - pObj->GetYAlign ());
 			x+= rect.x1 - rect.x0;
 		}
-		Update (pData->Canvas);
+	//	Update (pData->Canvas);
 		return true;
 	} else
 		return true;

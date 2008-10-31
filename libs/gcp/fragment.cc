@@ -23,20 +23,20 @@
  */
 
 #include "config.h"
+#include "application.h"
+#include "bond.h"
+#include "document.h"
 #include "fragment.h"
 #include "fragment-residue.h"
-#include "widgetdata.h"
-#include "document.h"
-#include "application.h"
-#include "view.h"
+#include "settings.h"
 #include "text.h"
 #include "theme.h"
 #include "tool.h"
-#include "settings.h"
+#include "view.h"
+#include "widgetdata.h"
 #include "window.h"
-#include <canvas/gcp-canvas-group.h>
-#include <canvas/gcp-canvas-rect-ellipse.h>
-#include <canvas/gcp-canvas-bpath.h>
+#include <canvas/structs.h>
+#include <canvas/text.h>
 #include <gcu/element.h>
 #include <gcu/formula.h>
 #include <gcu/objprops.h>
@@ -56,7 +56,7 @@ static void on_fragment_changed (Fragment *fragment)
 	fragment->OnChanged (true);
 }
 
-static void on_fragment_sel_changed (Fragment *fragment, struct GnomeCanvasPangoSelBounds *bounds)
+static void on_fragment_sel_changed (Fragment *fragment, gccv::TextSelBounds *bounds)
 {
 	fragment->OnSelChanged (bounds);
 }
@@ -98,7 +98,7 @@ bool Fragment::OnChanged (bool save)
 	Document* pDoc = (Document*) GetDocument ();
 	if (!pDoc)
 		return false;
-	View* pView = pDoc->GetView ();
+/*	View* pView = pDoc->GetView ();
 	GtkWidget* pWidget = pView->GetWidget ();
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 	GnomeCanvasGroup *group = pData->Items[this];
@@ -116,9 +116,9 @@ bool Fragment::OnChanged (bool save)
 		PangoLayoutIter *iter = pango_layout_get_iter (m_Layout);
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
-	}
+	}*/
 	/*main atom management*/
-	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
+/*	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
 	Residue *r = NULL;
 	char sy[Residue::MaxSymbolLength + 1];
 	if (!m_Atom->GetSymbol ())
@@ -268,11 +268,19 @@ bool Fragment::OnChanged (bool save)
 		xmlNodePtr node = SaveSelected ();
 		if (node)
 			FragmentTool->PushNode (node);
-	}
+	}*/
 	return true;
 }
 
-void Fragment::Add (GtkWidget* w) const
+void Fragment::AddItem ()
+{
+}
+
+void Fragment::UpdateItem ()
+{
+}
+
+/*void Fragment::Add (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	if (pData->Items[this] != NULL)
@@ -280,7 +288,7 @@ void Fragment::Add (GtkWidget* w) const
 	View* pView = pData->m_View;
 	Theme *pTheme = pView->GetDoc ()->GetTheme ();
 	if (m_ascent <= 0) {
-		PangoContext* pc = pView->GetPangoContext ();
+		PangoContext* pc = gccv::Text::GetContext ();
 		const_cast <Fragment *> (this)->m_Layout = pango_layout_new (pc);
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_layout_set_attributes (m_Layout, l);
@@ -341,7 +349,7 @@ void Fragment::Add (GtkWidget* w) const
 	g_signal_connect_swapped (G_OBJECT (item), "changed", G_CALLBACK (on_fragment_changed), (void *) this);
 	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_fragment_sel_changed), (void *) this);
 	/* add charge */
-	int charge = m_Atom->GetCharge ();
+	/*int charge = m_Atom->GetCharge ();
 	if (charge) {
 		double x, y, Angle, Dist;
 		unsigned char Pos = m_Atom->Atom::GetChargePosition (&Angle, &Dist);
@@ -419,18 +427,16 @@ void Fragment::Add (GtkWidget* w) const
 	}
 	pData->Items[this] = group;
 	const_cast <FragmentAtom *> (m_Atom)->DoBuildSymbolGeometry (pData->m_View);
-}
+}*/
 
-void Fragment::SetSelected (GtkWidget* w, int state)
+void Fragment::SetSelected (int state)
 {
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	GnomeCanvasGroup* group = pData->Items[this];
-	gchar const *chargecolor, *color;
+	GOColor chargecolor, color;
 	bool visible = true;
 	switch (state) {	
 	case SelStateUnselected:
 		color = NULL;
-		chargecolor = "black";
+		chargecolor = RGBA_BLACK;
 		visible = false;
 		break;
 	case SelStateSelected:
@@ -444,10 +450,10 @@ void Fragment::SetSelected (GtkWidget* w, int state)
 		break;
 	default:
 		color = NULL;
-		chargecolor = "black";
+		chargecolor = RGBA_BLACK;
 		break;
 	}
-	gpointer item;
+/*	gpointer item;
 	item = g_object_get_data (G_OBJECT (group), "rect");
 	g_object_set (G_OBJECT (item),
 				"fill_color", color, NULL);
@@ -458,10 +464,10 @@ void Fragment::SetSelected (GtkWidget* w, int state)
 	if ((item = g_object_get_data (G_OBJECT (group), "circle")))
 		g_object_set (item, "outline_color", chargecolor, NULL);
 	if ((item = g_object_get_data (G_OBJECT (group), "sign")))
-		g_object_set (item, "outline_color", chargecolor, NULL);
+		g_object_set (item, "outline_color", chargecolor, NULL);*/
 }
 
-void Fragment::Update (GtkWidget* w) const
+/*void Fragment::Update (GtkWidget* w) const
 {
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
@@ -622,7 +628,7 @@ void Fragment::Update (GtkWidget* w) const
 		}
 	}
 	const_cast <FragmentAtom *> (m_Atom)->DoBuildSymbolGeometry (pData->m_View);
-}
+}*/
 
 xmlNodePtr Fragment::Save (xmlDocPtr xml) const
 {
@@ -968,12 +974,12 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 						pango_attr_list_insert (l, attr);
 						attr = pango_attr_rise_new (2 * size / 3);
 						pango_attr_list_insert (l, attr);
-						gcp_pango_layout_replace_text (m_Layout, s.index, s.end - s.index + 1, buf, l);
+//						gcp_pango_layout_replace_text (m_Layout, s.index, s.end - s.index + 1, buf, l);
 						pango_attr_list_unref (l);
 						m_StartSel = m_EndSel = s.index + strlen (buf);
 						end += m_StartSel - start - 1;
-						GnomeCanvasPango* text = pDoc->GetView ()->GetActiveRichText ();
-						gnome_canvas_pango_set_selection_bounds (text, m_StartSel, m_EndSel);
+/*						GnomeCanvasPango* text = pDoc->GetView ()->GetActiveRichText ();
+						gnome_canvas_pango_set_selection_bounds (text, m_StartSel, m_EndSel);*/
 						g_free (buf);
 					}
 				}
@@ -1051,7 +1057,7 @@ void Fragment::OnChangeAtom ()
 	Document *pDoc = (Document*) GetDocument ();
 	if (!pDoc) return;
 	char const *sym = m_Atom->GetSymbol ();
-	gcp_pango_layout_replace_text (m_Layout, m_BeginAtom, m_EndAtom - m_BeginAtom, sym, pDoc->GetPangoAttrList ());
+//	gcp_pango_layout_replace_text (m_Layout, m_BeginAtom, m_EndAtom - m_BeginAtom, sym, pDoc->GetPangoAttrList ());
 	m_EndAtom = m_BeginAtom + strlen (sym);
 	OnChanged (false);
 }
@@ -1082,7 +1088,7 @@ int Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double
 	if (!pDoc)
 		return 0;
 	GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
+/*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 	GnomeCanvasGroup *item = pData->Items[this];
 	if (!item)
 		return 0;
@@ -1183,7 +1189,7 @@ int Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double
 		x = m_x - width / 2.0;
 		y = m_y;
 		return -1;
-	}
+	}*/
 	return 0;
 }
 
@@ -1196,7 +1202,7 @@ bool Fragment::Validate ()
 		return true;
 	if (m_Atom->GetZ() == 0 || (dynamic_cast <FragmentResidue*> (m_Atom) && !((FragmentResidue*) m_Atom)->GetResidue ())) {
 		Document *pDoc = dynamic_cast<Document*> (GetDocument ());
-		GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
+/*		GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
 		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 		GnomeCanvasGroup *item = pData->Items[this];
 		GnomeCanvasPango* text = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (item), "fragment"));
@@ -1207,7 +1213,7 @@ bool Fragment::Validate ()
 										GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 										_("Invalid symbol."));
 		gtk_dialog_run (GTK_DIALOG (w));
-		gtk_widget_destroy (w);
+		gtk_widget_destroy (w);*/
 		return false;
 	}
 	//now scan for charges and validate
@@ -1223,7 +1229,7 @@ bool Fragment::Validate ()
 		strtol (charge, &err, 10);
 		if (*err != '+' && *err != '-' && err - m_buf.c_str () != (int) (*i)->end_index) {
 			Document *pDoc = dynamic_cast<Document*> (GetDocument ());
-			GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
+/*			GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
 			WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 			GnomeCanvasGroup *item = pData->Items[this];
 			GnomeCanvasPango* text = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (item), "fragment"));
@@ -1234,7 +1240,7 @@ bool Fragment::Validate ()
 											GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 											_("Invalid charge."));
 			gtk_dialog_run(GTK_DIALOG(w));
-			gtk_widget_destroy(w);
+			gtk_widget_destroy(w);*/
 			return false;
 		}
 	}
