@@ -33,9 +33,9 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcu/element.h>
+#include <gccv/text.h>
 #include <cmath>
 #include <cstring>
-#include <canvas/text.h>
 
 using namespace gcu;
 using namespace std;

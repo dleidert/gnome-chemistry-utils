@@ -25,9 +25,9 @@
 #ifndef GCHEMPAINT_BOND_H
 #define GCHEMPAINT_BOND_H
 
+#include <gccv/item-client.h>
 #include <gcu/bond.h>
 #include <list>
-#include <canvas/item-client.h>
 
 namespace gcp {
 

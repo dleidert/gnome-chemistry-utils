@@ -35,8 +35,8 @@
 #include "view.h"
 #include "widgetdata.h"
 #include "window.h"
-#include <canvas/structs.h>
-#include <canvas/text.h>
+#include <gccv/structs.h>
+#include <gccv/text.h>
 #include <gcu/element.h>
 #include <gcu/formula.h>
 #include <gcu/objprops.h>

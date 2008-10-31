@@ -26,7 +26,7 @@
 #define GCHEMPAINT_REACTION_STEP_H
 
 #include <gcu/object.h>
-#include <canvas/structs.h>
+#include <gccv/structs.h>
 #include <set>
 
 /*!\file*/

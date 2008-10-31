@@ -26,7 +26,7 @@
 #define GCHEMPAINT_ELECTRON_H
 
 #include <gcu/object.h>
-#include <canvas/item-client.h>
+#include <gccv/item-client.h>
 
 /*!\file*/
 namespace gcp {

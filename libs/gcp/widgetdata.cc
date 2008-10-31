@@ -31,8 +31,8 @@
 #include "operation.h"
 #include "theme.h"
 #include <goffice/math/go-math.h>
-#include <canvas/item-client.h>
-#include <canvas/item.h>
+#include <gccv/item-client.h>
+#include <gccv/item.h>
 #include <cstring>
 
 using namespace gcu;

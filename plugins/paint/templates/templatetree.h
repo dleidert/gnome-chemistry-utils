@@ -26,7 +26,7 @@
 #define GCHEMPAINT_TEMPLATETREE_H
 
 #include <gcp/tool.h>
-#include <canvas/structs.h>
+#include <gccv/structs.h>
 #include <map>
 #include <string>
 #include <set>

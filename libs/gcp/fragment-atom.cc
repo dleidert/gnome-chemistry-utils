@@ -28,7 +28,7 @@
 #include "fragment.h"
 #include "molecule.h"
 #include "view.h"
-#include <canvas/text.h>
+#include <gccv/text.h>
 #include <gcu/element.h>
 #include <cstring>
 #include <map>

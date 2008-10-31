@@ -27,7 +27,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
-#include <canvas/structs.h>
+#include <gccv/structs.h>
 #include <glib/gi18n-lib.h>
 #include <cerrno>
 #include <cmath>

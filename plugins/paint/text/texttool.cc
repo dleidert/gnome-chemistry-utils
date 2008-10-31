@@ -33,7 +33,7 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gcp/window.h>
-#include <canvas/text.h>
+#include <gccv/text.h>
 #include <goffice/gtk/go-color-selector.h>
 #include <gdk/gdkkeysyms.h>
 #include <unistd.h>

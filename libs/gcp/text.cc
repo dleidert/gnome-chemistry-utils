@@ -32,7 +32,7 @@
 #include "theme.h"
 #include "tool.h"
 #include "window.h"
-#include <canvas/text.h>
+#include <gccv/text.h>
 #include <gcu/formula.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>

@@ -31,7 +31,7 @@
 #include <gcp/view.h>
 #include <gcu/application.h>
 #include <gcu/filechooser.h>
-#include <canvas/structs.h>
+#include <gccv/structs.h>
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <vector>

@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_REACTION_OPERATOR_H
 #define GCHEMPAINT_REACTION_OPERATOR_H
 
-#include <canvas/item-client.h>
+#include <gccv/item-client.h>
 #include <gcu/object.h>
 
 /*!\file*/

@@ -32,7 +32,7 @@
 #include <gcp/operation.h>
 #include <gcp/settings.h>
 #include <gcp/view.h>
-#include <canvas/item.h>
+#include <gccv/item.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <stdexcept>

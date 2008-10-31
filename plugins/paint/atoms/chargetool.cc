@@ -30,7 +30,7 @@
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
-#include <canvas/text.h>
+#include <gccv/text.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 

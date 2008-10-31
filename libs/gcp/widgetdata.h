@@ -26,7 +26,7 @@
 #define GCHEMPAINT_WIDGET_DATA_H
 
 #include <gcu/object.h>
-#include <canvas/structs.h>
+#include <gccv/structs.h>
 #include <list>
 #include <map>
 

@@ -27,7 +27,7 @@
 
 #include <map>
 #include <glib.h>
-#include <canvas/item-client.h>
+#include <gccv/item-client.h>
 #include <gcu/atom.h>
 #include <gcu/dialog-owner.h>
 #include <gcu/element.h>

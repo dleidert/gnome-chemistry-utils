@@ -29,7 +29,7 @@
 #include "view.h"
 #include "widgetdata.h"
 #include <gcu/objprops.h>
-#include <canvas/line-item.h>
+#include <gccv/line-item.h>
 #include <cstring>
 
 using namespace gcu;

@@ -327,7 +327,7 @@ glade/crystal/Makefile
 glade/paint/Makefile
 glade/table/Makefile
 libs/Makefile
-libs/canvas/Makefile
+libs/gccv/Makefile
 libs/gcp/Makefile
 libs/gcu/Makefile
 plugins/Makefile

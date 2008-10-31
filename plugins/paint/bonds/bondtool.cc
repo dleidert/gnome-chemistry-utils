@@ -32,8 +32,8 @@
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
-#include <canvas/canvas.h>
-#include <canvas/line.h>
+#include <gccv/canvas.h>
+#include <gccv/line.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 

@@ -35,8 +35,8 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gcp/window.h>
-#include <canvas/structs.h>
-#include <canvas/text.h>
+#include <gccv/structs.h>
+#include <gccv/text.h>
 #include <gdk/gdkkeysyms.h>
 
 extern xmlDocPtr pXmlDoc;

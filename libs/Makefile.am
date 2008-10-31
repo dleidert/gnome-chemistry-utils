@@ -1,3 +1,3 @@
-SUBDIRS = gcu canvas gcp
+SUBDIRS = gccv gcu gcp
 
 MAINTAINERCLEANFILES = Makefile.in

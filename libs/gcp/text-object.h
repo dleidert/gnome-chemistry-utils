@@ -27,7 +27,7 @@
 
 #include <gcu/object.h>
 #include <gcu/macros.h>
-#include <canvas/structs.h>
+#include <gccv/structs.h>
 #include <pango/pango-layout.h>
 #include <string>
 

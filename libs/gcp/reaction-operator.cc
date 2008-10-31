@@ -29,7 +29,7 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
-#include <canvas/text.h>
+#include <gccv/text.h>
 #include <cmath>
 #include <cstring>
 

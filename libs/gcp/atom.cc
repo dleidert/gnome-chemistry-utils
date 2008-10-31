@@ -32,7 +32,7 @@
 #include "theme.h"
 #include "view.h"
 #include "Hposdlg.h"
-#include <canvas/text.h>
+#include <gccv/text.h>
 #include <gcu/element.h>
 #include <goffice/math/go-math.h>
 #include <openbabel/mol.h>

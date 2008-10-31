@@ -35,8 +35,8 @@
 #include "view.h"
 #include "widgetdata.h"
 #include "window.h"
-#include <canvas/canvas.h>
-#include <canvas/text.h>
+#include <gccv/canvas.h>
+#include <gccv/text.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>

@@ -26,7 +26,7 @@
 #define GCHEMPAINT_FRAGMENT_H
 
 #include "text-object.h"
-#include <canvas/item-client.h>
+#include <gccv/item-client.h>
 
 /*!\file*/
 namespace gcp {

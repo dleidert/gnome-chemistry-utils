@@ -13,7 +13,7 @@ goffice_gchemutils_LTLIBRARIES = gchemutils.la
 gchemutils_la_LDFLAGS = -module -avoid-version -no-undefined
 
 gchemutils_la_LIBADD = \
-	$(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la \
+	$(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la \
 	@GCU_LIBS@
 
 gchemutils_la_SOURCES =	\

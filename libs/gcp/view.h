@@ -26,7 +26,7 @@
 #define GCHEMPAINT_VIEW_H
 
 #include <gcu/macros.h>
-#include <canvas/client.h>
+#include <gccv/client.h>
 #include <list>
 #include <map>
 

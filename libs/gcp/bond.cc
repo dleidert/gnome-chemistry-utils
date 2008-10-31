@@ -31,9 +31,9 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
-#include <canvas/canvas.h>
-#include <canvas/group.h>
-#include <canvas/line.h>
+#include <gccv/canvas.h>
+#include <gccv/group.h>
+#include <gccv/line.h>
 #include <gcu/cycle.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>

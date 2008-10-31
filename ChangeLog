@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all: moved libs/canvas to libs/gccv and rename libgchempaint to libgcp
+	for more consistency.
+
+2008-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cml/Makefile.am: new cml loader.
 	* plugins/loaders/cml/cml.cc: ditto.
 	* plugins/loaders/cml/plugin.xml.in: ditto.

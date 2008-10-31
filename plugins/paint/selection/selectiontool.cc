@@ -33,8 +33,8 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/window.h>
-#include <canvas/rectangle.h>
-#include <canvas/structs.h>
+#include <gccv/rectangle.h>
+#include <gccv/structs.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <stdexcept>

@@ -1,7 +1,6 @@
 * Periodic table:
 	* add more data using bodr (?).
 	* add crystal structures (? needs reliable crystal structures in bodr).
-	* write help (0.10).
 
 * Calculator:
 	* enhance ambiguous abbreviations support (0.12?).
@@ -45,7 +44,13 @@
 	* support FFT for FIDs.
 	* support inclusion of zoomed partials.
 
-* Library:
+* GCCV Library:
+	* implement a new canvas (0.12).
+
+* GCU Library:
+	* provide clipboard support at the Application level (?).
+
+* GCU Library:
 	* provide clipboard support at the Application level (?).
 
 * Other:

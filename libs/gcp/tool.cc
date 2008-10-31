@@ -28,7 +28,7 @@
 #include "document.h"
 #include "view.h"
 #include "widgetdata.h"
-#include <canvas/item.h>
+#include <gccv/item.h>
 
 using namespace gcu;
 using namespace std;

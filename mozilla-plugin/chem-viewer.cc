@@ -30,7 +30,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
-#include <canvas/structs.h>
+#include <gccv/structs.h>
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>

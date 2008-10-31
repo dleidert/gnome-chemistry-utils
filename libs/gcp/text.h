@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_TEXT_H
 #define GCHEMPAINT_TEXT_H
 
-#include <canvas/item-client.h>
+#include <gccv/item-client.h>
 #include <gcu/macros.h>
 #include <gcu/object.h>
 #include <libxml/tree.h>
