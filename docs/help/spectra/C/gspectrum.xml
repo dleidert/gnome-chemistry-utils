@@ -183,8 +183,8 @@
 		<para>You can run <application>&app;</application> from a command line
 		  and open a single file or multiple files. To open multiple files from a command
 		  line, type the following command, then press <keycap>Return</keycap>:</para>
-		<command>gspectrum <replaceable>file1 file2 file2 ...</replaceable></command> <para>where
-		file1 and others, might be relative, absolute paths or URIs.</para>
+		<para><command>gspectrum <replaceable>file1 file2 file2 ...</replaceable></command></para>
+		<para>where file1 and others, might be relative, absolute paths or URIs.</para>
 		<para>When the application starts, a <application>&app;</application> window is created
 		for each file that you specified.</para>
 	</sect1>
