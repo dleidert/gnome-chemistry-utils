@@ -1,3 +1,7 @@
+Version 0.10.1
+	GSpectrum
+		* Correctly load negative values in (XY..XY) tables. [#24720]
+
 Version 0.10.0
 	GChemTable:
 		* Implement save as image for curves (thanks to Jordan Matha who

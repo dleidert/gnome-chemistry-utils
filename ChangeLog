@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-11-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: do not request gnome builds for goffice >= 0.7.3.
+	* libs/gcu/spectrumdoc.cc: correctly load negative values in
+	(XY..XY) tables. [#24720]
+
 2008-10-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.1).
 
