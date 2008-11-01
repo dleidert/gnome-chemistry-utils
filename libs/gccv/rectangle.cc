@@ -65,6 +65,12 @@ void Rectangle::SetPosition (double x, double y, double width, double height)
 	Invalidate ();
 }
 
+void Rectangle::GetPosition (double &x, double &y)
+{
+	x = m_x;
+	y = m_y;
+}
+
 double Rectangle::Distance (double x, double y, Item **item) const
 {
 	double result;

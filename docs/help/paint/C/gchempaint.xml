@@ -1862,7 +1862,7 @@
 		  </varlistentry>
 		  <varlistentry> <term>Open in Calculator</term> 
 			 <listitem> 
-				<para>Opens the chemical calculator <ulink type="help" url="ghelp:gchemcalc"><application>GChemCalc</application></ulink> with a copy of the molecule
+				<para>Opens the chemical calculator <ulink type="help" url="ghelp:gchemcalc-0.12"><application>GChemCalc</application></ulink> with a copy of the molecule
 				formula and performs the available calculations</para>
 			 </listitem>
 		  </varlistentry>

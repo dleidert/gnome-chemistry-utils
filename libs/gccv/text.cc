@@ -57,12 +57,21 @@ Context::~Context ()
 }
 
 Text::Text (Canvas *canvas, double x, double y):
-		Rectangle (canvas, x, y, 0., 0.)
+	Rectangle (canvas, x, y, 0., 0.),
+	m_x (x), m_y (y), m_w (0.), m_h (0.),
+	m_Padding (0.),
+	m_Anchor (GTK_ANCHOR_CENTER),
+	m_LineOffset (0.)
 {
+	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
 }
 
 Text::Text (Group *parent, double x, double y, ItemClient *client):
-		Rectangle (parent, x, y, 0., 0., client)
+	Rectangle (parent, x, y, 0., 0., client),
+	m_x (x), m_y (y), m_w (0.), m_h (0.),
+	m_Padding (0.),
+	m_Anchor (GTK_ANCHOR_CENTER),
+	m_LineOffset (0.)
 {
 	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
 }
@@ -74,10 +83,60 @@ Text::~Text ()
 
 void Text::SetPosition (double x, double y)
 {
+	double xr, yr, w, h;
+	PangoRectangle r;
+	pango_layout_get_extents (m_Layout, &r, NULL);
+	m_x = x;
+	m_y = y;
+	m_w = (double) r.width / PANGO_SCALE;
+	m_h = (double) r.height / PANGO_SCALE;
+	w = m_w + 2 * m_Padding;
+	h = m_h + 2 * m_Padding;
+	// Horizontal position
+	switch (m_Anchor) {
+	default:
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_N:
+	case GTK_ANCHOR_S:
+		xr = m_x - w / 2.;
+		break;
+	case GTK_ANCHOR_W:
+	case GTK_ANCHOR_NW:
+	case GTK_ANCHOR_SW:
+		xr = m_x - w + m_Padding;
+		break;
+	case GTK_ANCHOR_E:
+	case GTK_ANCHOR_NE:
+	case GTK_ANCHOR_SE:
+		xr = m_x - m_Padding;
+		break;
+	}
+	// Vertical position
+	switch (m_Anchor) {
+	default:
+	case GTK_ANCHOR_CENTER:
+	case GTK_ANCHOR_W:
+	case GTK_ANCHOR_E:
+		yr = m_y - h / 2.;
+			// FIXME: vertical position
+		break;
+	case GTK_ANCHOR_N:
+	case GTK_ANCHOR_NW:
+	case GTK_ANCHOR_NE:
+		yr = m_y - m_Padding;
+		break;
+	case GTK_ANCHOR_S:
+	case GTK_ANCHOR_SW:
+	case GTK_ANCHOR_SE:
+		yr = m_y - m_h + m_Padding;
+		break;
+	}
+	Rectangle::SetPosition (xr, yr, w, h);
 }
 
 void Text::Draw (cairo_t *cr, bool is_vector) const
 {
+	Rectangle::Draw (cr, is_vector);
 }
 
 PangoContext *Text::GetContext ()
@@ -88,19 +147,13 @@ PangoContext *Text::GetContext ()
 void Text::SetText (char const *text)
 {
 	pango_layout_set_text (m_Layout, text, -1);
-	UpdateBounds ();
+	SetPosition (m_x, m_y);
 }
 
 void Text::SetFontDescription (PangoFontDescription *desc)
 {
 	pango_layout_set_font_description (m_Layout, desc);
-	UpdateBounds ();
-}
-
-void Text::UpdateBounds ()
-{
-	// Update the rectangle bounds according to the layout size
-	// TODO: write this code
+	SetPosition (m_x, m_y);
 }
 
 }

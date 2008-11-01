@@ -60,6 +60,19 @@ public:	\
 private:	\
 	type m_##member;
 
+#define GCCV_ITEM_POS_PROP(type,member) \
+public:	\
+	void Set##member (type val) {	\
+		Invalidate ();	\
+		m_##member = val;	\
+		UpdateBounds ();	\
+		Invalidate ();	\
+	}	\
+	type Get##member (void) const {return m_##member;}	\
+	type &GetRef##member (void) {return m_##member;}	\
+private:	\
+	type m_##member;
+
 namespace gccv {
 
 class Canvas;

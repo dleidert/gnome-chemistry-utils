@@ -713,12 +713,12 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 					}
 					cur = line;
 					while (*cur) {
-						while (*cur && (*cur < '0' || *cur > '9'))
+						while (*cur && (*cur < '0' || *cur > '9') && *cur != '-' && *cur !='+')
 							cur++;
 						if (*cur == 0)
 							break;
 						x[read] = strtod (cur, &cur);
-						while (*cur && (*cur < '0' || *cur > '9'))
+						while (*cur && (*cur < '0' || *cur > '9') && *cur != '-' && *cur !='+')
 							cur++;
 						y[read] = strtod (cur, &cur);
 						read++;

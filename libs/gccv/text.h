@@ -31,6 +31,17 @@
 
 namespace gccv {
 
+#define GCCV_TEXT_PROP(type,member) \
+public:	\
+	void Set##member (type val) {	\
+		m_##member = val;	\
+		SetPosition (m_x, m_y);	\
+	}	\
+	type Get##member (void) const {return m_##member;}	\
+	type &GetRef##member (void) {return m_##member;}	\
+private:	\
+	type m_##member;
+
 class Text: public Rectangle
 {
 public:
@@ -45,18 +56,18 @@ public:
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;
 
-protected:
-	void UpdateBounds ();
-
 	// static methods
-public:
 	static PangoContext *GetContext ();
 
-GCU_RO_POINTER_PROP (PangoLayout, Layout);
-GCU_PROP (double, Padding);
-GCU_PROP (GtkAnchorType, Anchor);
+private:
+	double m_x, m_y, m_w, m_h;
+
+GCU_RO_POINTER_PROP (PangoLayout, Layout)
+GCCV_TEXT_PROP (double, Padding)
+GCCV_TEXT_PROP (GtkAnchorType, Anchor)
+GCCV_TEXT_PROP (double, LineOffset)
 };
 
-}
+}   //	namespace gccv
 
 #endif	//	GCCV_TEXT_H

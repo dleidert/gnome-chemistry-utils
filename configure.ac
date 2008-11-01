@@ -155,16 +155,19 @@ fi
 
 PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
 
-dnl check if goffice has gnome support
-saved_cflags=$CFLAGS
-CFLAGS=$GCU_CFLAGS
-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-#include <goffice/goffice-features.h>
-#ifndef GOFFICE_WITH_GNOME
-#error no gnome support present
-#endif
-]])], [], [AC_MSG_ERROR([you need a libgoffice version with gnome support])])
-CFLAGS=$saved_cflags
+dnl check if goffice <=0.7.2 has gnome support
+PKG_CHECK_MODULES(need_goffice_with_gnome, [$libgoffice <= 0.7.2], [need_gnome_support=yes], [need_gnome_support=no])
+if test "x$need_gnome_support" = yes; then
+	saved_cflags=$CFLAGS
+	CFLAGS=$GCU_CFLAGS
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+	#include <goffice/goffice-features.h>
+	#ifndef GOFFICE_WITH_GNOME
+	#error no gnome support present
+	#endif
+	]])], [], [AC_MSG_ERROR([you need a libgoffice version with gnome support])])
+	CFLAGS=$saved_cflags
+fi
 
 dnl check for OSMesa
 dnl AC_CHECK_HEADER([GL/osmesa.h], [], [AC_MSG_ERROR([GL/mesa.h could not be found, please install])])

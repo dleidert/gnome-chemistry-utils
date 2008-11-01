@@ -133,7 +133,7 @@ void Application::OnHelp (string tag)
 		path += string("#") + HelpName + string ("-") + tag;
 	argv[1] = (char*) path.c_str ();
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, NULL);
+				   NULL, NULL, NULL, NULL);
 }
 
 bool Application::HasHelp ()
