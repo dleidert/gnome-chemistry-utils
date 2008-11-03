@@ -1,6 +1,8 @@
 Version 0.11.0
 	GSpectrum
 		* Correctly load negative values in (XY..XY) tables. [#24720]
+	Mozilla plugin:
+		* fix loading of spectra and 3d files.
 	GCCV library:
 		* Initial implementation of the new canvas.
 

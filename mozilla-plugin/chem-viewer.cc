@@ -173,10 +173,14 @@ void ChemComp::SetFilename (string& filename)
 		pData->GetObjectBounds (Doc, &r);
 		xmlFree (xml);
 	} else 	if (MimeType == "chemical/x-jcamp-dx") {
-		gtk_spectrum_viewer_set_uri (GTK_SPECTRUM_VIEWER (Viewer), filename.c_str ());
+		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
+		gtk_spectrum_viewer_set_uri (GTK_SPECTRUM_VIEWER (Viewer), uri);
+		g_free (uri);
 	} else {
+		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
 		gtk_chem3d_viewer_set_uri_with_mime_type (GTK_CHEM3D_VIEWER (Viewer),
-				filename.c_str (), MimeType.c_str ());
+				uri, MimeType.c_str ());
+		g_free (uri);
 		map<string, string>::iterator i, iend = Params.end ();
 		for (i = Params.begin (); i != iend; i++) {
 			if ((*i).first == "display3d") {

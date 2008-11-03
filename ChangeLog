@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-11-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* mozilla-plugin/chem-viewer.cc: convert filename to uri when needed.
+
 2008-11-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: do not request gnome builds for goffice >= 0.7.3.
 	* libs/gccv/item.h: added a macro for properties changing the size
