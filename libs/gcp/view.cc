@@ -1154,8 +1154,12 @@ void View::Render (cairo_t *cr)
 bool View::OnButtonPressed (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state)
 {
 	Application *App = m_pDoc->GetApplication ();
+	Theme *pTheme = m_pDoc->GetTheme ();
 	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
+	Object *pAtom;
 	m_CurObject = dynamic_cast <Object *> (client);
+	if (m_CurObject && ((pAtom = m_CurObject->GetAtomAt (x / pTheme->GetZoomFactor (), y / pTheme->GetZoomFactor ()))))
+			m_CurObject = pAtom;
 	if ((!m_pDoc->GetEditable ()) || (!pActiveTool))
 		return true;
 	switch (button) {

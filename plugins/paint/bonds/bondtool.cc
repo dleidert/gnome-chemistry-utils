@@ -33,6 +33,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gccv/canvas.h>
+#include <gccv/group.h>
 #include <gccv/line.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -43,14 +44,12 @@ using namespace std;
 
 gcpBondTool::gcpBondTool (gcp::Application *App, string ToolId, unsigned nPoints): gcp::Tool (App, ToolId)
 {
-//	points = (nPoints)? gnome_canvas_points_new (nPoints): NULL;
 	m_pOp = NULL;
 	m_AutoDir = false;
 }
 
 gcpBondTool::~gcpBondTool ()
 {
-//	if (points) gnome_canvas_points_free (points);
 }
 
 bool gcpBondTool::OnClicked ()
@@ -80,8 +79,6 @@ bool gcpBondTool::OnClicked ()
 			m_y0 *= m_dZoomFactor;
 			m_x1 *= m_dZoomFactor;
 			m_y1 *= m_dZoomFactor;
-/*			points->coords[0] = m_x0;
-			points->coords[1] = m_y0;*/
 			m_bChanged = true;
 			m_pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 			m_pOp->AddObject (m_pObjectGroup, 0);
@@ -95,8 +92,6 @@ bool gcpBondTool::OnClicked ()
 			((gcp::Atom*) m_pObject)->GetCoords (&m_x0, &m_y0, NULL);
 			m_x0 *= m_dZoomFactor;
 			m_y0 *=  m_dZoomFactor;
-/*			points->coords[0] = m_x0;
-			points->coords[1] = m_y0;*/
 			/* search  preferred orientation for new bond */
 			i = ((gcp::Atom*) m_pObject)->GetBondsNumber ();
 			switch (i) {
@@ -138,6 +133,7 @@ bool gcpBondTool::OnClicked ()
 	double a = m_dAngle * M_PI / 180.;
 	m_x1 =  m_x0 + pDoc->GetBondLength () * m_dZoomFactor * cos (a);
 	m_y1 =  m_y0 - pDoc->GetBondLength () * m_dZoomFactor * sin (a);
+	// TODO: reimplement
 /*	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x1, m_y1);
 	if (pItem == (GnomeCanvasItem*) m_pBackground)
 		pItem = NULL;
@@ -467,39 +463,40 @@ void gcpBondTool::Draw ()
 void gcpBondTool::UpdateBond()
 {
 	double x1, y1, x2, y2;
-	int i = 1;
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
-	BondOrder = ((gcp::Bond*) m_pObject)->GetOrder ();
-	if (((gcp::Bond*) m_pObject)->GetType () == gcp::NormalBondType)
-		((gcp::Bond*) m_pObject)->IncOrder ();
-/*	m_pItem = gnome_canvas_item_new (m_pGroup, gnome_canvas_group_ext_get_type (), NULL);
-	while (((gcp::Bond*) m_pObject)->GetLine2DCoords (i++, &x1, &y1, &x2, &y2)) {
-		points->coords[0] = x1 * m_dZoomFactor;
-		points->coords[1] = y1 * m_dZoomFactor;
-		points->coords[2] = x2 * m_dZoomFactor;
-		points->coords[3] = y2 * m_dZoomFactor;
-		gnome_canvas_item_new (
-						GNOME_CANVAS_GROUP (m_pItem),
-						gnome_canvas_line_get_type (),
-						"points", points,
-						"fill_color", gcp::AddColor,
-						"width_units", pTheme->GetBondWidth (),
-						NULL);
+	gcp::Bond *bond = static_cast <gcp::Bond *> (m_pObject);
+	BondOrder = bond->GetOrder ();
+	if (bond->GetType () == gcp::NormalBondType)
+		bond->IncOrder ();
+	if (m_Item)
+		delete m_Item;
+	if (bond->GetOrder () ==1) {
+		bond->GetLine2DCoords (1, &x1, &y1, &x2, &y2);
+		m_Item = new gccv::Line (m_pView->GetCanvas (), x1, y1, x2, y2);
+		static_cast <LineItem *> (m_Item)->SetLineColor (gcp::AddColor);
+		static_cast <LineItem *> (m_Item)->SetLineWidth (pTheme->GetBondWidth ());
+	} else {
+		int i = 1;
+		m_Item = new gccv::Group (m_pView->GetCanvas ());
+		while (((gcp::Bond*) m_pObject)->GetLine2DCoords (i++, &x1, &y1, &x2, &y2)) {
+			gccv::LineItem *item = new gccv::Line (static_cast <gccv::Group *> (m_Item),
+												   x1 * m_dZoomFactor, y1 * m_dZoomFactor,
+												   x2 * m_dZoomFactor, y2 * m_dZoomFactor);
+			item->SetLineColor (gcp::AddColor);
+			item->SetLineWidth (pTheme->GetBondWidth ());
+		}
 	}
-	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);*/
 }
 
 void gcpBondTool::FinalizeBond ()
 {
 	if (m_bChanged) {
 		gcp::Bond* pBond = (gcp::Bond*) m_pObject;
-		if (pBond->GetType () == gcp::NormalBondType) {
-			pBond->Revert ();
+		if (pBond->GetType () == gcp::NormalBondType)
 			m_pView->Update (m_pObject);
-		} else {
+		else {
 			pBond->SetType (gcp::NormalBondType);
-			m_pView->Remove (m_pObject);
+			m_pView->Remove (m_pObject); // FIXME: may be update would be enough?
 			m_pView->AddObject (m_pObject);
 		}
 	}

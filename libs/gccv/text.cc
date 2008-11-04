@@ -60,7 +60,7 @@ Text::Text (Canvas *canvas, double x, double y):
 	Rectangle (canvas, x, y, 0., 0.),
 	m_x (x), m_y (y), m_w (0.), m_h (0.),
 	m_Padding (0.),
-	m_Anchor (GTK_ANCHOR_CENTER),
+	m_Anchor (AnchorLine),
 	m_LineOffset (0.)
 {
 	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
@@ -70,7 +70,7 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 	Rectangle (parent, x, y, 0., 0., client),
 	m_x (x), m_y (y), m_w (0.), m_h (0.),
 	m_Padding (0.),
-	m_Anchor (GTK_ANCHOR_CENTER),
+	m_Anchor (AnchorLine),
 	m_LineOffset (0.)
 {
 	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
@@ -85,7 +85,7 @@ void Text::SetPosition (double x, double y)
 {
 	double xr, yr, w, h;
 	PangoRectangle r;
-	pango_layout_get_extents (m_Layout, &r, NULL);
+	pango_layout_get_extents (m_Layout, &r, NULL); // FIXME: might be wrong if we allow above-under characters
 	m_x = x;
 	m_y = y;
 	m_w = (double) r.width / PANGO_SCALE;
@@ -95,39 +95,49 @@ void Text::SetPosition (double x, double y)
 	// Horizontal position
 	switch (m_Anchor) {
 	default:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_S:
+	case AnchorNorth:
+	case AnchorLine:
+	case AnchorCenter:
+	case AnchorSouth:
 		xr = m_x - w / 2.;
 		break;
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_SW:
+	case AnchorNorthWest:
+	case AnchorLineWest:
+	case AnchorWest:
+	case AnchorSouthWest:
 		xr = m_x - w + m_Padding;
 		break;
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_SE:
+	case AnchorNorthEast:
+	case AnchorLineEast:
+	case AnchorEast:
+	case AnchorSouthEast:
 		xr = m_x - m_Padding;
 		break;
 	}
 	// Vertical position
 	switch (m_Anchor) {
 	default:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_E:
-		yr = m_y - h / 2.;
-			// FIXME: vertical position
+	case AnchorLine:
+	case AnchorLineWest:
+	case AnchorLineEast: {
+		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
+		yr = m_y - (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE + m_LineOffset;
+		pango_layout_iter_free (iter);
 		break;
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_NE:
+	}
+	case AnchorCenter:
+	case AnchorWest:
+	case AnchorEast:
+		yr = m_y - h / 2.;
+		break;
+	case AnchorNorth:
+	case AnchorNorthWest:
+	case AnchorNorthEast:
 		yr = m_y - m_Padding;
 		break;
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_SE:
+	case AnchorSouth:
+	case AnchorSouthWest:
+	case AnchorSouthEast:
 		yr = m_y - m_h + m_Padding;
 		break;
 	}

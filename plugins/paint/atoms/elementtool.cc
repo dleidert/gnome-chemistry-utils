@@ -68,7 +68,6 @@ bool gcpElementTool::OnClicked ()
 	text->SetFontDescription (m_pView->GetPangoFontDesc ());
 	text->SetPadding (m_pView->GetDoc ()->GetTheme ()->GetPadding ());
 	text->SetFillColor (gcp::AddColor);
-	text->SetAnchor (GTK_ANCHOR_CENTER);
 	text->SetLineOffset (m_pView->GetCHeight ());
 	return true;
 }

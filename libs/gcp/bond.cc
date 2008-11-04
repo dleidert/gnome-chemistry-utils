@@ -583,10 +583,11 @@ void Bond::AddItem ()
 
 void Bond::UpdateItem ()
 {
-	if (!m_Item) {
-		AddItem ();
-		return;
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
 	}
+	AddItem ();
 }
 
 /*void Bond::Add (GtkWidget* w) const

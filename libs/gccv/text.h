@@ -42,6 +42,13 @@ public:	\
 private:	\
 	type m_##member;
 
+typedef enum {
+	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
+	AnchorLineWest, AnchorLine, AnchorLineEast,
+	AnchorWest, AnchorCenter, AnchorEast,
+	AnchorSouthWest, AnchorSouth, AnchorSouthEast 
+} Anchor;
+
 class Text: public Rectangle
 {
 public:
@@ -64,7 +71,7 @@ private:
 
 GCU_RO_POINTER_PROP (PangoLayout, Layout)
 GCCV_TEXT_PROP (double, Padding)
-GCCV_TEXT_PROP (GtkAnchorType, Anchor)
+GCCV_TEXT_PROP (Anchor, Anchor)
 GCCV_TEXT_PROP (double, LineOffset)
 };
 

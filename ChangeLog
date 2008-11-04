@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2008-11-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add back -DG_DISABLE_DEPRECATED and friends.
+	* libs/gccv/text.cc: fixed vertical alignment.
+	* libs/gccv/text.h: add gccv::Anchor enum.
+	* libs/gcp/bond.cc: implement Bond::UpdateItm().
+	* libs/gcp/view.cc: replace the current object by an atom when possible.
+	* plugins/paint/atoms/elementtool.cc: ElemenTool::OnClicked fully
+	reimplemented.
+	* plugins/paint/bonds/bondtool.cc: reimplement bond order changes and
+	use of an existing atom for bond start point.
+
 2008-11-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* mozilla-plugin/chem-viewer.cc: convert filename to uri when needed.
 
