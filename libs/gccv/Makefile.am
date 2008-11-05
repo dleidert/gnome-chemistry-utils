@@ -13,7 +13,8 @@ noinst_HEADERS = \
 	line-item.h	\
 	rectangle.h	\
 	structs.h \
-	text.h
+	text.h \
+	wedge.h
 
 libgccv_@GCU_API_VER@_la_SOURCES =	\
 	canvas.cc	\
@@ -25,7 +26,8 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	line.cc	\
 	line-item.cc	\
 	rectangle.cc	\
-	text.cc
+	text.cc \
+	wedge.cc
 
 libgccv_@GCU_API_VER@_la_LDFLAGS = - -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@

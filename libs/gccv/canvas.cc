@@ -97,20 +97,72 @@ static GtkWidget *gccv_canvas_new (gccv::Canvas *owner)
 // The C++ class
 
 namespace gccv {
+class CanvasPrivate {
+public:
+	// Event related functions
+	static bool OnButtonPressed (Canvas *canvas, GdkEventButton *event);
+	static bool OnButtonReleased (Canvas *canvas, GdkEventButton *event);
+	static bool OnMotion (Canvas *canvas, GdkEventMotion *event);
+	static bool OnExpose (Canvas *canvas, GdkEventExpose *event);
+};
+
+
+bool CanvasPrivate::OnExpose (Canvas *canvas, GdkEventExpose *event)
+{
+	double x0, y0, x1, y1;
+	canvas->m_Root->GetBounds (x0, y0, x1, y1);
+	if (x0 <= event->area.x + event->area.width && x1 >= event->area.x && y0 <= event->area.y + event->area.height && y1 >= event->area.y) {
+		cairo_t *cr = gdk_cairo_create (canvas->m_Widget->window);
+		canvas->m_Root->Draw (cr, event->area.x, event->area.y, event->area.x + event->area.width, event->area.y + event->area.height, false);
+		cairo_destroy (cr);
+	}
+	return true;
+}
+
+bool CanvasPrivate::OnButtonPressed (Canvas *canvas, GdkEventButton *event)
+{
+	Item *item = NULL;
+	if (canvas->m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > canvas->m_Gap)
+		item = NULL;
+	ItemClient *client = (item)? item->GetClient (): NULL;
+	if (event->button == 1)
+		canvas->m_Dragging = true;
+	return (canvas->m_Client)? canvas->m_Client->OnButtonPressed (client, event->button, event->x, event->y, event->state): true;
+}
+
+bool CanvasPrivate::OnButtonReleased (Canvas *canvas, GdkEventButton *event)
+{
+	Item *item = NULL;
+	if (canvas->m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > canvas->m_Gap)
+		item = NULL;
+	ItemClient *client = (item)? item->GetClient (): NULL;
+	if (event->button == 1)
+		canvas->m_Dragging = false;
+	return (canvas->m_Client)? canvas->m_Client->OnButtonReleased (client, event->button, event->x, event->y, event->state): true;
+}
+
+bool CanvasPrivate::OnMotion (Canvas *canvas, GdkEventMotion *event)
+{
+	Item *item = NULL;
+	if (canvas->m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > canvas->m_Gap)
+		item = NULL;
+	ItemClient *client = (item)? item->GetClient (): NULL;
+	return (canvas->m_Client)? (canvas->m_Dragging? canvas->m_Client->OnDrag (client, event->x, event->y, event->state): canvas->m_Client->OnMotion (client, event->x, event->y, event->state)): true;
+}
 
 static void on_button_pressed (Canvas *canvas, GdkEventButton *event)
 {
-	canvas->OnButtonPressed (event);
+	CanvasPrivate::OnButtonPressed (canvas, event);
 }
 
 static void on_button_released (Canvas *canvas, GdkEventButton *event)
 {
-	canvas->OnButtonReleased (event);
+	CanvasPrivate::OnButtonReleased (canvas, event);
 }
 
 static void on_motion (Canvas *canvas, GdkEventMotion *event)
 {
-	canvas->OnMotion (event);
+	CanvasPrivate::OnMotion (canvas, event);
 }
 
 static void on_destroy (Canvas *canvas)
@@ -120,7 +172,7 @@ static void on_destroy (Canvas *canvas)
 
 static bool on_expose_event (Canvas *canvas, GdkEventExpose *event)
 {
-	return canvas->OnExpose (event);
+	return CanvasPrivate::OnExpose (canvas, event);
 }
 
 Canvas::Canvas (Client *client):
@@ -150,52 +202,9 @@ void Canvas::SetScrollRegion (double xmin, double ymin, double xmax, double ymax
 {
 }
 
-bool Canvas::OnButtonPressed (GdkEventButton *event)
-{
-	Item *item = NULL;
-	if (m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > m_Gap)
-		item = NULL;
-	ItemClient *client = (item)? item->GetClient (): NULL;
-	if (event->button == 1)
-		m_Dragging = true;
-	return (m_Client)? m_Client->OnButtonPressed (client, event->button, event->x, event->y, event->state): true;
-}
-
-bool Canvas::OnButtonReleased (GdkEventButton *event)
-{
-	Item *item = NULL;
-	if (m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > m_Gap)
-		item = NULL;
-	ItemClient *client = (item)? item->GetClient (): NULL;
-	if (event->button == 1)
-		m_Dragging = false;
-	return (m_Client)? m_Client->OnButtonReleased (client, event->button, event->x, event->y, event->state): true;
-}
-
-bool Canvas::OnMotion (GdkEventMotion *event)
-{
-	Item *item = NULL;
-	if (m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > m_Gap)
-		item = NULL;
-	ItemClient *client = (item)? item->GetClient (): NULL;
-	return (m_Client)? (m_Dragging? m_Client->OnDrag (client, event->x, event->y, event->state): m_Client->OnMotion (client, event->x, event->y, event->state)): true;
-}
-
 void Canvas::Invalidate (double x0, double y0, double x1, double y1)
 {
 	gtk_widget_queue_draw_area (m_Widget, (int) floor (x0), (int) floor (y0), (int) ceil (x1), (int) ceil (y1));
-}
-
-bool Canvas::OnExpose (GdkEventExpose *event)
-{
-	double x0, y0, x1, y1;
-	m_Root->GetBounds (x0, y0, x1, y1);
-	if (x0 <= event->area.x + event->area.width && x1 >= event->area.x && y0 <= event->area.y + event->area.height && y1 >= event->area.y) {
-		cairo_t *cr = gdk_cairo_create (m_Widget->window);
-		m_Root->Draw (cr, event->area.x, event->area.y, event->area.x + event->area.width, event->area.y + event->area.height, false);
-		cairo_destroy (cr);
-	}
-	return true;
 }
 
 void Canvas::UpdateBounds ()

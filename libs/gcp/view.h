@@ -80,15 +80,6 @@ public:
 */
 	Document* GetDoc () {return m_pDoc;}
 /*!
-@param item the canvas item at the positionof the event.
-@param event the GdkEvent.
-@param widget the canvas widget.
-
-Called by the framework when an event occured in the canvas.
-@return false if the event should be processed further, true otherwise.
-*/
-//	bool OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget);
-/*!
 @param pObject the object to add.
 
 Adds the object to the canvas.

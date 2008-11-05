@@ -212,7 +212,6 @@ Used to update the representation of the bond in the view.
 */
 	void UpdateItem ();
 /*!
-@param w the GtkWidget inside which the bond is displayed.
 @param state the selection state of the bond.
 
 Used to set the selection state of the bond inside the widget.

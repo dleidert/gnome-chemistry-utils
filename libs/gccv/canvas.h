@@ -28,26 +28,75 @@
 #include <gcu/macros.h>
 #include <gtk/gtk.h>
 
+/*!\file*/
+/*!\namespace gccv
+\brief Gnome Chemistry Canvas library namespace
+
+The namespace used for the canvas C++ classes used by GChemPaint.
+*/
+
 namespace gccv {
 
 class Group;
 class Client;
 
+/*!\class Canvas gccv/canvas.h
+\brief the Canvas class
+
+This class is the container class for the items and is the only one interacting
+with the underlying Gtk+ framework. It uses a private widget derived from
+GtkDrawingArea.
+*/
+
+class CanvasPrivate;
 class Canvas
 {
+friend class CanvasPrivate;
 public:
+/*!
+@param client the gccv::Client for the canvas or NULL.
+
+Constructs a canvas for \a client which is mandatory if some interaction
+with the canvas is needed.
+*/
 	Canvas (Client *client);
+/*!
+The destructor.
+You should not delete the canvas, as it will be destroyed with
+the enclosing widget. Instead, if you never show the widget in a window, use:
+\code
+	gtk_widget_destroy (canvas->GetWidget ());
+\endcode
+
+Items are stored in an ordered tree whose top node is a gccv::Group instance
+which can be accessed by the GetRoot() method.
+*/
 	virtual ~Canvas();
 
+/*!
+@return the widget used by the canvas.
+*/
 	GtkWidget *GetWidget () {return m_Widget;}
-	void SetScrollRegion (double xmin, double ymin, double xmax, double ymax);
-	void Invalidate (double x0, double y0, double x1, double y1);
+/*!
+@param xmin the x coordinate for the top left of the scrolling rectangle.
+@param ymin the y coordinate for the top left of the scrolling rectangle.
+@param xmax the x coordinate for the bottom right of the scrolling rectangle.
+@param ymax the y coordinate for the bottom right of the scrolling rectangle.
 
-	// Event related functions
-	bool OnButtonPressed (GdkEventButton *event);
-	bool OnButtonReleased (GdkEventButton *event);
-	bool OnMotion (GdkEventMotion *event);
-	bool OnExpose (GdkEventExpose *event);
+Sets the scrolling region for the canvas.
+*/
+	void SetScrollRegion (double xmin, double ymin, double xmax, double ymax);
+/*!
+@param x0 the x coordinate for the top left of the invalidated rectangle.
+@param y0 the y coordinate for the top left of the scrolling rectangle.
+@param x1 the x coordinate for the bottom right of the scrolling rectangle.
+@param y1 the y coordinate for the bottom right of the scrolling rectangle.
+
+*/
+	void Invalidate (double x0, double y0, double x1, double y1);
+/*!
+Ensure that the canvas is large enough to contain all its items.
+*/
 	void UpdateBounds ();
 
 private:
@@ -55,7 +104,27 @@ private:
 	Client *m_Client;
 	bool m_Dragging;
 
+/*!\fn GetRoot
+@return the root item.
+*/
 GCU_RO_PROP (Group *, Root)
+/*!\fn SetGap(double gap)
+@param gap a distance at which an item might be from an event location
+to be selected for the event.
+
+Sets the maximum distance at which an item might be from an event location
+to be selected for the event. When an even as a mouse button click occurs,
+and if it occurs on an item, the appropriate method of the item client will
+be called; else if it occurs on the background, the nearest item will be used
+if its distance from the event location is less than \a gap. If no item can
+be used, the event will have no associated gccv::ItemClient instance.
+*/
+/*!\fn GetGap()
+@return the current gap for the canvas.
+*/
+/*!\fn GetRefGap()
+@return the current gap for the canvas as a reference.
+*/
 GCU_PROP (double, Gap)
 };
 

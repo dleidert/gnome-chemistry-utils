@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 #include <pango/pango.h>
 
+/*!\file*/
 namespace gccv {
 
 #define GCCV_TEXT_PROP(type,member) \

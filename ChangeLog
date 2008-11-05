@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2008-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Doxyfile.in: add libs/gccv directory.
+	* libs/gccv/Makefile.am: add wedge.*.
+	* libs/gccv/canvas.cc: made event methods really private.
+	* libs/gccv/canvas.h: ditto, and added API documentation.
+	* libs/gccv/text.h: initial API documentation.
+	* libs/gccv/wedge.cc: new item for "wedge" bonds.
+	* libs/gccv/wedge.h: ditto.
+	* libs/gcp/bond.cc: reimplement "wedge" bonds.
+	* libs/gcp/bond.h: fixed API documentation.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/chemistry.h: added gccv namespace to API documentation.
+	* plugins/paint/bonds/bondtool.cc: worked on the "wedge" bond tool.
+
 2008-11-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add back -DG_DISABLE_DEPRECATED and friends.
 	* libs/gccv/text.cc: fixed vertical alignment.

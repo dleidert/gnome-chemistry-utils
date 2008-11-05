@@ -34,6 +34,7 @@
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/line.h>
+#include <gccv/wedge.h>
 #include <gcu/cycle.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
@@ -574,8 +575,19 @@ void Bond::AddItem ()
 		break;
 	case ForeBondType:
 		break;
-	case UpBondType:
+	case UpBondType: {
+		GetLine2DCoords (1, &x1, &y1, &x2, &y2);
+		gccv::Wedge *wedge = new gccv::Wedge (view->GetCanvas ()->GetRoot (),
+							x1 * theme->GetZoomFactor (),
+							y1 * theme->GetZoomFactor (),
+							x2 * theme->GetZoomFactor (),
+							y2 * theme->GetZoomFactor (),
+							theme->GetStereoBondWidth (),
+							this);
+		wedge->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		m_Item = wedge;
 		break;
+	}
 	case DownBondType:
 		break;
 	}

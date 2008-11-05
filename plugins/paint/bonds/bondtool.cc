@@ -35,6 +35,7 @@
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/line.h>
+#include <gccv/wedge.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
@@ -565,6 +566,13 @@ gcpUpBondTool::~gcpUpBondTool ()
 
 void gcpUpBondTool::Draw ()
 {
+	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
+	if (m_Item) {
+		static_cast <Wedge *> (m_Item)->SetPosition (m_x0, m_y0, m_x1, m_y1);
+	} else {
+		m_Item = new Wedge (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1, pTheme->GetStereoBondWidth ());
+		static_cast <Wedge *> (m_Item)->SetFillColor (gcp::AddColor);
+	}
 /*	double dx, dy, x1, y1, x2, y2;
 	gcp::Theme *Theme = m_pView->GetDoc ()->GetTheme ();
 	x1 = sqrt (square (m_x1 - m_x0) + square (m_y1 - m_y0));

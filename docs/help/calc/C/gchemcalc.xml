@@ -273,7 +273,7 @@
 			as groups.</para></listitem>
 		  </varlistentry>
 		</variablelist>
-		<para>Custom nicknames can be defined using <ulink type="help" url="ghelp:gchempaint-0.10#gchempaint-residues">
+		<para>Custom nicknames can be defined using <ulink type="help" url="ghelp:gchempaint-0.12#gchempaint-residues">
 		the <application>GChemPaint</application> application</ulink>.</para>
 	</sect1>
 <!-- ============= To Print a File============================== -->

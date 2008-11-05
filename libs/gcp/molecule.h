@@ -81,13 +81,6 @@ Adds a bond to the molecule.
 */
 	void AddBond (gcu::Bond* pBond);
 /*!
-@param w the GtkWidget inside which the molecule will be displayed.
-
-Used to add a representation of the molecule in the widget. It just calls
-the method for all its children.
-*/
-//	void Add (GtkWidget* w) const;
-/*!
 @param pObject an atom, a bond, or a fragment in the molecule.
 
 Removes an atom, a bond, or a fragment from a molecule.
