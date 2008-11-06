@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-11-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: add Canvas::GetItemAt.
+	* libs/gccv/canvas.h: ditto.
+	* libs/gccv/item-client.cc: delete the item when destroyed.
+	* libs/gccv/item-client.h: add Item as friend class.
+	* libs/gccv/item.cc: unregister from client when deleted.
+	* libs/gcp/view.cc: reimplement View::Remove
+	* plugins/paint/selection/erasertool.cc: reimplemented.
+
 2008-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: add libs/gccv directory.
 	* libs/gccv/Makefile.am: add wedge.*.

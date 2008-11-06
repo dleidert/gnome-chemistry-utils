@@ -32,6 +32,7 @@ namespace gccv {
 class Item;
 
 class ItemClient {
+friend class Item;
 public:
 	ItemClient ();
 	virtual ~ItemClient ();

@@ -24,8 +24,9 @@
 
 #include "config.h"
 #include "canvas.h"
-#include "item.h"
 #include "group.h"
+#include "item.h"
+#include "item-client.h"
 
 namespace gccv {
 
@@ -57,6 +58,8 @@ Item::~Item()
 	Invalidate ();
 	if (m_Parent)
 		m_Parent->RemoveChild (this);
+	if (m_Client)
+		m_Client->m_Item = NULL;
 }
 
 void Item::GetBounds (double &x0, double &y0, double &x1, double &y1) const

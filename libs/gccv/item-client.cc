@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "item.h"
 #include "item-client.h"
 
 namespace gccv {
@@ -34,6 +35,8 @@ ItemClient::ItemClient ():
 
 ItemClient::~ItemClient ()
 {
+	if (m_Item)
+		delete m_Item;
 }
 
 void ItemClient::AddItem ()

@@ -198,13 +198,20 @@ Canvas::~Canvas()
 	delete m_Root;
 }
 
-void Canvas::SetScrollRegion (double xmin, double ymin, double xmax, double ymax)
+Item *Canvas::GetItemAt (double x, double y)
 {
+	Item *item = NULL;
+	return (m_Root->Distance (x, y, &item) <= m_Gap)? item: NULL;
 }
+
 
 void Canvas::Invalidate (double x0, double y0, double x1, double y1)
 {
 	gtk_widget_queue_draw_area (m_Widget, (int) floor (x0), (int) floor (y0), (int) ceil (x1), (int) ceil (y1));
+}
+
+void Canvas::SetScrollRegion (double xmin, double ymin, double xmax, double ymax)
+{
 }
 
 void Canvas::UpdateBounds ()

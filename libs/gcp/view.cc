@@ -418,9 +418,9 @@ void View::Remove (Object* pObject)
 			pData->SelectedObjects.remove (pObj);
 		else
 			pData->SelectedObjects.remove (pObject);
-/*		if (pData->Items[pObject])
-			gtk_object_destroy (GTK_OBJECT (pData->Items[pObject]));
-		pData->Items.erase (pObject);*/
+		gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
+		if (client && client->GetItem ())
+			delete client->GetItem ();
 	}
 }
 

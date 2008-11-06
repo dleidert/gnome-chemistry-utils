@@ -37,8 +37,9 @@ The namespace used for the canvas C++ classes used by GChemPaint.
 
 namespace gccv {
 
-class Group;
 class Client;
+class Group;
+class Item;
 
 /*!\class Canvas gccv/canvas.h
 \brief the Canvas class
@@ -73,6 +74,15 @@ which can be accessed by the GetRoot() method.
 */
 	virtual ~Canvas();
 
+/*!
+@param x the x coordiante.
+@param y the y coordinate.
+
+Used to get the top item at or near the given position.
+@return the found item or NULL if no item is nearer than the current gap
+from the given position.
+*/
+	Item *GetItemAt (double x, double y);
 /*!
 @return the widget used by the canvas.
 */
