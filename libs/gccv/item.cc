@@ -58,7 +58,7 @@ Item::~Item()
 	Invalidate ();
 	if (m_Parent)
 		m_Parent->RemoveChild (this);
-	if (m_Client)
+	if (m_Client && m_Client->GetItem () == this) // this might not be the top item for this client
 		m_Client->m_Item = NULL;
 }
 

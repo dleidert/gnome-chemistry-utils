@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2008-11-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/item-client.h: enhance client retreival.
+	* libs/gccv/item.cc: fixed a potential crasher/leak.
+	* libs/gcp/view.cc: added View::SetSelectionState().
+	* libs/gcp/view.h: ditto.
+	* libs/gcp/widgetdata.cc: reimplemnted selection and object bounds.
+	* plugins/paint/bonds/bondtool.cc: cleaned BondTool::OnDrag() and
+	BondTool::OnRelease().
+	* plugins/paint/selection/selectiontool.cc: mostly reimplemented to
+	use the new canvas.
+
 2008-11-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: add Canvas::GetItemAt.
 	* libs/gccv/canvas.h: ditto.

@@ -1230,4 +1230,17 @@ bool View::OnMotion (gccv::ItemClient *client, double x, double y, unsigned stat
 	return true;
 }
 
+void View::SetSelectionState (Object *object, int state)
+{
+	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (object);
+	if (client)
+		client->SetSelected (state);
+	map<string, Object*>::iterator i;
+	Object *child = object->GetFirstChild (i);
+	while (child) {
+		SetSelectionState (child, state);
+		child = object->GetNextChild (i);
+	}
+}
+
 }	//	namespace gcp

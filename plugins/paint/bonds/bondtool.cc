@@ -135,12 +135,10 @@ bool gcpBondTool::OnClicked ()
 	m_x1 =  m_x0 + pDoc->GetBondLength () * m_dZoomFactor * cos (a);
 	m_y1 =  m_y0 - pDoc->GetBondLength () * m_dZoomFactor * sin (a);
 	// TODO: reimplement
-/*	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x1, m_y1);
-	if (pItem == (GnomeCanvasItem*) m_pBackground)
-		pItem = NULL;
+	Item *pItem = m_pView->GetCanvas ()->GetItemAt (m_x1, m_y1);
 	Object* pObject = NULL;
 	if (pItem)
-		pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
+		pObject = dynamic_cast <Object *> (pItem->GetClient ());
 	m_pAtom = NULL;
 	if (pObject && pObject != m_pObject) {
 		if ((pObject->GetType () == BondType) || (pObject->GetType () == FragmentType))
@@ -149,7 +147,7 @@ bool gcpBondTool::OnClicked ()
 		} else if (pObject->GetType() == AtomType) {
 			m_pAtom = (gcp::Atom*)pObject;
 		}
-	}*/
+	}
 	if (m_pAtom) {
 		m_pAtom->GetCoords(&m_x1, &m_y1, NULL);
 		m_x1 *= m_dZoomFactor;
@@ -181,26 +179,17 @@ void gcpBondTool::OnDrag ()
 			m_bChanged = false;
 		}
 	} else {
-/*		if (m_pItem) {
-			gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-			gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
-			gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
-			m_pItem = NULL;
-		}*/
-
-/*		GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
-		if (pItem == (GnomeCanvasItem*) m_pBackground)
-			pItem = NULL;*/
+		Item *pItem = m_pView->GetCanvas ()->GetItemAt (m_x, m_y);
 		Object* pObject = NULL;
-/*		if (pItem) {
-			pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
+		if (pItem) {
+			pObject = dynamic_cast <Object *> (pItem->GetClient ());
 			if (pObject && (pObject == m_pObject || ((pObject->GetType () == FragmentType) && dynamic_cast<gcp::Fragment*> (pObject)->GetAtom () == m_pObject))) {
 				if (!m_AutoDir)
 					return;
 			} else
 				m_AutoDir = false;
 		} else
-			m_AutoDir = false;*/
+			m_AutoDir = false;
 		double dAngle = 0.;
 		if (m_AutoDir) {
 			dAngle = m_dAngle = m_RefAngle +
@@ -209,12 +198,10 @@ void gcpBondTool::OnDrag ()
 						pDoc->GetBondAngle (): -pDoc->GetBondAngle ());
 			m_x = m_x1 = m_x0 + pDoc->GetBondLength () * m_dZoomFactor * cos (m_dAngle / 180 * M_PI);
 			m_y = m_y1 = m_y0 - pDoc->GetBondLength () * m_dZoomFactor * sin (m_dAngle / 180 * M_PI);
-/*			pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
-			if (pItem == (GnomeCanvasItem*) m_pBackground)
-				pItem = NULL;
+			pItem = m_pView->GetCanvas ()->GetItemAt (m_x, m_y);
 			pObject = NULL;
 			if (pItem)
-				pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");*/
+				pObject = dynamic_cast <Object *> (pItem->GetClient ());
 		}
 		m_pAtom = NULL;
 		if (gcp::MergeAtoms && pObject) {
@@ -307,14 +294,13 @@ void gcpBondTool::OnRelease ()
 		m_pOp = NULL;
 	}
 	m_pApp->ClearStatus ();
-/*	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x1, m_y1);
-	if (pItem == (GnomeCanvasItem*) m_pBackground)
-		pItem = NULL;*/
+	Item *pItem = m_pView->GetCanvas ()->GetItemAt (m_x1, m_y1);
 	Object* pObject = NULL;
-/*	if (pItem)
-		pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
+	if (pItem)
+		pObject = dynamic_cast <Object *> (pItem->GetClient ());
 	m_pAtom = NULL;
-	if (pObject == NULL) {
+// FIXME: are these still needed? looks like the new canvas should do the job automagically.
+/*	if (pObject == NULL) {
 		std::map<Object const*, GnomeCanvasGroup*>::iterator i = m_pData->Items.begin (),
 					end = m_pData->Items.end ();
 		gcp::Bond* pBond;
@@ -366,7 +352,7 @@ void gcpBondTool::OnRelease ()
 			}
 			i++;
 		}
-	}
+	}*/
 	if (gcp::MergeAtoms && pObject) {
 		if (pObject->GetType () == BondType)
 			m_pAtom = (gcp::Atom*) pObject->GetAtomAt (m_x1 / m_dZoomFactor, m_y1 / m_dZoomFactor);
@@ -374,7 +360,7 @@ void gcpBondTool::OnRelease ()
 			m_pAtom = (gcp::Atom*) pObject->GetAtomAt (m_x1 / m_dZoomFactor, m_y1 / m_dZoomFactor);
 		else if (pObject->GetType() == AtomType)
 			m_pAtom = (gcp::Atom*) pObject;
-	}*/
+	}
 	gcp::Atom* pAtom;
 	gcp::Bond* pBond;
 	if (!m_pObject) {
@@ -497,8 +483,7 @@ void gcpBondTool::FinalizeBond ()
 			m_pView->Update (m_pObject);
 		else {
 			pBond->SetType (gcp::NormalBondType);
-			m_pView->Remove (m_pObject); // FIXME: may be update would be enough?
-			m_pView->AddObject (m_pObject);
+			m_pView->Update (m_pObject);
 		}
 	}
 	else ((gcp::Bond*) m_pObject)->SetOrder (BondOrder);

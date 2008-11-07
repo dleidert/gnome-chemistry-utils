@@ -282,7 +282,13 @@ Called by the framework to update the default font size after a theme change.
 Renders the document using cairo.
 */
 	void Render (cairo_t *cr);
+/*!
+@param the object which seection state should be changed.
+@param the new selection state.
 
+Changes the selection state of \a object if it owns an item and of all its descendents.
+*/
+	void SetSelectionState (gcu::Object *object, int state);
 	// Signals
 	bool OnButtonPressed (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state);
 	bool OnButtonReleased (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state);

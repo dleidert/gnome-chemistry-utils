@@ -33,6 +33,8 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/window.h>
+#include <gccv/canvas.h>
+#include <gccv/group.h>
 #include <gccv/rectangle.h>
 #include <gccv/structs.h>
 #include <glib/gi18n-lib.h>
@@ -128,7 +130,7 @@ bool gcpSelectionTool::OnClicked ()
 
 void gcpSelectionTool::OnDrag ()
 {
-	double dx = m_x - m_x1, dy = m_y - m_y1, x1, y1, x2, y2;
+	double dx = m_x - m_x1, dy = m_y - m_y1;
 	m_x1 = m_x;
 	m_y1 = m_y;
 	if (m_pObject) {
@@ -164,25 +166,12 @@ void gcpSelectionTool::OnDrag ()
 	} else {
 		if (m_Item) {
 			reinterpret_cast <Rectangle *> (m_Item)->SetPosition (m_x0, m_y0, m_x - m_x0, m_y - m_y0);
-/*			gnome_canvas_item_get_bounds (m_pItem, &x1, &y1, &x2, &y2);
-			g_object_set (G_OBJECT (m_pItem), "x2", m_x, "y2", m_y, NULL);
-			gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);*/
 		} else {
 			m_Item = new Rectangle (m_pView->GetCanvas (), m_x0, m_y0, m_x - m_x0, m_y - m_y0);
 			gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 			static_cast <LineItem *> (m_Item)->SetLineColor (gcp::SelectColor);
 			static_cast <LineItem *> (m_Item)->SetLineWidth (pTheme->GetBondWidth ());
 			static_cast <FillItem *> (m_Item)->SetFillColor (0);
-/*			m_pItem = gnome_canvas_item_new (
-									m_pData->Group,
-									gnome_canvas_rect_get_type (),
-									"x1", m_x0,
-									"y1", m_y0,
-									"x2", m_x,
-									"y2", m_y,
-									"outline_color", gcp::SelectColor,
-									"width_units", pTheme->GetBondWidth (),
-									NULL);*/
 		}
 	}
 }
@@ -217,24 +206,29 @@ void gcpSelectionTool::OnRelease ()
 		else
 			m_y1 = m_y;
 		double x0, y0, x1, y1;
-/*		std::map<Object const *, GnomeCanvasGroup*>::iterator j, jend = m_pData->Items.end ();
-		for (j = m_pData->Items.begin (); j != jend; j++) {
-			if (!m_pData->IsSelected ((*j).first)) {
-				GnomeCanvasItem *item = GNOME_CANVAS_ITEM ((*j).second);
-				if (!item)
-					continue;
-				gnome_canvas_item_get_bounds (item, &x0, &y0,&x1, &y1);
-				if ((x0 < m_x1) && (y0 < m_y1) && (x1 > m_x0) && (y1 > m_y0)) {
-					m_pObject = (*j).first->GetGroup ();	//GetMolecule();
-					if (m_pObject) {
-						if (!m_pData->IsSelected (m_pObject))
-							m_pData->SetSelected (m_pObject);
-					}
-					else
-						m_pData->SetSelected (const_cast <Object *> ((*j).first));
+		if (m_Item) {
+			delete m_Item;
+			m_Item = NULL;
+		}
+		gccv::Group *group = m_pView->GetCanvas ()->GetRoot ();
+		// all client top items are implemented as a child of the root
+		list<Item *>::iterator it;
+		Item *item = group->GetFirstChild (it);
+		Object *object;
+		while (item) {
+			item->GetBounds (x0, y0, x1, y1);
+			if ((x0 < m_x1) && (y0 < m_y1) && (x1 > m_x0) && (y1 > m_y0)) {
+				object = dynamic_cast <Object *> (item->GetClient ());
+				m_pObject = object->GetGroup ();
+				if (m_pObject) {
+					if (!m_pData->IsSelected (m_pObject))
+						m_pData->SetSelected (m_pObject);
 				}
+				else
+					m_pData->SetSelected (object);
 			}
-		}*/
+			item = group->GetNextChild (it);
+		}
 	}
 	AddSelection (m_pData);
 }

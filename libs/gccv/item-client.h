@@ -55,7 +55,7 @@ default value.
 */
 	virtual void SetSelected (int state);
 
-GCU_PROT_PROP (Item *, Item)
+GCU_PROT_POINTER_PROP (Item, Item)
 };
 
 }
