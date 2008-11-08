@@ -26,6 +26,7 @@
 #define GCHEMPAINT_CHAIN_TOOL_H
 
 #include <gcp/tool.h>
+#include <gccv/structs.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <vector>
@@ -53,6 +54,7 @@ public:
 	void SetAngle (double angle);
 	void SetLength (double length);
 	char const *GetHelpTag () {return "chain";}
+	void Draw ();
 
 private:
 	void FindAtoms ();
@@ -63,7 +65,7 @@ private:
 	bool m_Positive, m_AutoNb, m_Allowed;
 	double m_dAngle, m_dMeanLength, m_BondLength;
 	std::vector <gcp::Atom *> m_Atoms;
-//	GnomeCanvasPoints *m_Points;
+	gccv::Point *m_Points;
 	GtkSpinButton *m_LengthBtn, *m_AngleBtn, *m_NumberBtn;
 	GtkToggleButton *m_MergeBtn, *m_AutoBtn;
 	bool m_AutoDir;

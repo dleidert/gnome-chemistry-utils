@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-11-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/structs.h: add Point struct.
+	* libs/gcp/view.cc: fixed objects remove.
+	* plugins/paint/bonds/bondtool.cc: removed unused local variables.
+	* plugins/paint/bonds/bondtool.h: remove a wrong declaration.
+	* plugins/paint/bonds/chaintool.cc: reimplemented, and fixed undo
+	and unallowed operations issues.
+	* plugins/paint/bonds/chaintool.h: added gcpChainTool::Draw() method.
+
 2008-11-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/item-client.h: enhance client retreival.
 	* libs/gccv/item.cc: fixed a potential crasher/leak.

@@ -264,7 +264,6 @@ void gcpBondTool::OnDrag ()
 
 void gcpBondTool::OnRelease ()
 {
-	double x1, y1, x2, y2;
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	if (m_Item) {
 		delete m_Item;

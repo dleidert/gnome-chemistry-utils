@@ -32,9 +32,13 @@
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gccv/canvas.h>
+#include <gccv/group.h>
+#include <gccv/line.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
+#include <list>
 
 using namespace gcu;
 using namespace std;
@@ -42,7 +46,7 @@ using namespace std;
 gcpChainTool::gcpChainTool (gcp::Application *App): gcp::Tool (App, "Chain")
 {
 	m_Length = 0; // < 2 is auto.
-//	m_Points = gnome_canvas_points_new (3);
+	m_Points = new gccv::Point[3];
 	m_Atoms.resize (3);
 	m_CurPoints = 3;
 	m_AutoNb = true;
@@ -51,7 +55,7 @@ gcpChainTool::gcpChainTool (gcp::Application *App): gcp::Tool (App, "Chain")
 
 gcpChainTool::~gcpChainTool()
 {
-//	gnome_canvas_points_free (m_Points);
+	delete m_Points;
 }
 	
 bool gcpChainTool::OnClicked()
@@ -62,12 +66,11 @@ bool gcpChainTool::OnClicked()
 	unsigned nb = (m_Length > 2)? m_Length + 1: 3;
 	double a1, x, y;
 	gcp::Document* pDoc = m_pView->GetDoc();
-	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 	m_BondLength = pDoc->GetBondLength ();
 	if (nb != m_CurPoints) {
 		m_CurPoints = nb;
-/*		gnome_canvas_points_free (m_Points);
-		m_Points = gnome_canvas_points_new (m_CurPoints);*/
+		delete [] m_Points;
+		m_Points = new gccv::Point[m_CurPoints];
 		if (m_CurPoints > m_Atoms.size ());
 			m_Atoms.resize (m_CurPoints);
 	}
@@ -76,13 +79,13 @@ bool gcpChainTool::OnClicked()
 	if (m_pObject) {
 		if (m_pObject->GetType () != AtomType)
 			return false;
-		m_Atoms[0] = dynamic_cast<gcp::Atom*> (m_pObject);
-		nb = ((gcp::Atom*) m_pObject)->GetBondsNumber ();
+		m_Atoms[0] = static_cast<gcp::Atom*> (m_pObject);
+		if (!m_Atoms[0]->AcceptNewBonds (1))
+			return false;
+		nb = m_Atoms[0]->GetBondsNumber ();
 		m_Atoms[0]->GetCoords(&m_x0, &m_y0, NULL);
-		x = m_x0 *= m_dZoomFactor;
-		y = m_y0 *= m_dZoomFactor;
-/*		m_Points->coords[0] = m_x0;
-		m_Points->coords[1] = m_y0;*/
+		m_Points[0].x = x = m_x0 *= m_dZoomFactor;
+		m_Points[0].y = y = m_y0 *= m_dZoomFactor;
 		switch (nb) {
 		case 1: {
 				map<Atom*, Bond*>::iterator i;
@@ -115,47 +118,34 @@ bool gcpChainTool::OnClicked()
 		}
 	} else {
 		m_Atoms[0] = NULL;
-/*		x = m_Points->coords[0] = m_x0;
-		y = m_Points->coords[1] = m_y0;*/
+		x = m_Points->x = m_x0;
+		y = m_Points->y = m_y0;
 		m_AutoDir = true;
 	}
 	FindAtoms ();
-	if (!(m_Allowed = CheckIfAllowed ()))
+	m_Allowed = false;
+	if (gcp::MergeAtoms && !(m_Allowed = CheckIfAllowed ()))
 		return true; // true, since dragging the mouse might make things OK.
 	char tmp[32];
 	snprintf(tmp, sizeof(tmp) - 1, _("Bonds: %d, Orientation: %g"), m_CurPoints - 1, m_dAngle);
 	m_pApp->SetStatusText(tmp);
-/*	m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_line_get_type (),
-								"points", m_Points,
-								"fill_color", gcp::AddColor,
-								"width_units", pTheme->GetBondWidth (),
-								NULL);*/
+	Draw ();
 	m_dMeanLength = pDoc->GetBondLength () * sin (pDoc->GetBondAngle () / 360. * M_PI) * m_dZoomFactor;
-	m_Allowed = true; // FIXME: if MergeAtoms is true, ensure that atoms accept necessary bonds
+	m_Allowed = true;
 	return true;
 }
 
 void gcpChainTool::OnDrag ()
 {
-//	double x1, y1, x2, y2;
-//	unsigned nb;
+	double x1 = 0., y1 = 0., x2; // initialize to make gcc happy
+	unsigned nb;
 	gcp::Document* pDoc = m_pView->GetDoc ();
-/*	gcp::Theme *pTheme = pDoc->GetTheme ();
-	if (m_pItem) {
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-		gtk_object_destroy (GTK_OBJECT(GNOME_CANVAS_ITEM (m_pItem)));
-		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
-		m_pItem = NULL;
-	}*/
 	m_BondLength = pDoc->GetBondLength ();
-/*	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
-	if (pItem == (GnomeCanvasItem*) m_pBackground)
-		pItem = NULL;
+	gccv::Canvas *canvas = m_pView->GetCanvas ();
+	gccv::Item *item = canvas->GetItemAt (x1, y1);
 	Object* pObject = NULL;
-	if (pItem)
-		pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
+	if (item)
+		pObject = dynamic_cast <Object *> (item->GetClient ());
 	double dAngle = m_dAngle;
 	gcp::Atom *pAtom = NULL;
 	if (pObject) {
@@ -179,8 +169,8 @@ void gcpChainTool::OnDrag ()
 	// If m_Length has changed, adjust the points number
 	if (m_Length > 1 && m_CurPoints != m_Length + 1) {
 		m_CurPoints = m_Length + 1;
-		gnome_canvas_points_free (m_Points);
-		m_Points = gnome_canvas_points_new (m_CurPoints);
+		delete [] m_Points;
+		m_Points = new gccv::Point[m_CurPoints];
 		if (m_CurPoints > m_Atoms.size ());
 			m_Atoms.resize (m_CurPoints);
 	}
@@ -232,33 +222,32 @@ void gcpChainTool::OnDrag ()
 				nb = 3;
 			if (nb != m_CurPoints) {
 				m_CurPoints = nb;
-				gnome_canvas_points_free (m_Points);
-				m_Points = gnome_canvas_points_new (m_CurPoints);
+				delete [] m_Points;
+				m_Points = new gccv::Point[m_CurPoints];
 				if (m_CurPoints > m_Atoms.size ());
 					m_Atoms.resize (m_CurPoints);
 			}
 		}
 	}
-	m_Points->coords[0] = m_x0;
-	m_Points->coords[1] = m_y0;
+	m_Points->x = m_x0;
+	m_Points->y = m_y0;
 	FindAtoms ();
-	if (!(m_Allowed = CheckIfAllowed ()))
+	if (gcp::MergeAtoms && !(m_Allowed = CheckIfAllowed ())) {
+		if (m_Item) {
+			delete m_Item;
+			m_Item = NULL;
+		}
 		return;
+	}
 	char tmp[32];
 	snprintf (tmp, sizeof (tmp) - 1, _("Bonds: %d, Orientation: %g"), m_CurPoints - 1, m_dAngle);
 	m_pApp->SetStatusText(tmp);
-	m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_line_get_type (),
-								"points", m_Points,
-								"fill_color", gcp::AddColor,
-								"width_units", pTheme->GetBondWidth (),
-								NULL);*/
+	Draw ();
+
 }
 
 void gcpChainTool::OnRelease ()
 {
-	double x1, y1, x2, y2;
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	unsigned nb;
 	gcp::Operation *pOp = NULL;
@@ -268,32 +257,33 @@ void gcpChainTool::OnRelease ()
 	gcp::Bond* pBond = NULL;
 	m_pApp->ClearStatus ();
 	m_AutoDir = false;
-/*	if (m_pItem) {
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-		gtk_object_destroy (GTK_OBJECT(GNOME_CANVAS_ITEM (m_pItem)));
-		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
-		m_pItem = NULL;
-	} else*/
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
+	} else
 		return;
 	if (!m_Allowed)
 		return;
 	for (nb = 0; nb < m_CurPoints; nb++) {
 		if (m_Atoms[nb]) {
 			if (pMol == NULL) {
-				pMol = dynamic_cast<gcp::Molecule *> (m_Atoms[0]->GetMolecule ());
+				pMol = dynamic_cast<gcp::Molecule *> (m_Atoms[nb]->GetMolecule ());
 				pMol->Lock (true);
 			}
-			pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 			pObject = m_Atoms[nb]->GetGroup ();
 			Id = pObject->GetId ();
-			pOp->AddObject (pObject);
-			ModifiedObjects.insert (Id);
-		} else {/*
+			if (ModifiedObjects.find (Id) == ModifiedObjects.end ()) {
+				if (!pOp)
+					pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+				pOp->AddObject (pObject);
+				ModifiedObjects.insert (Id);
+			}
+		} else {
 			m_Atoms[nb] = new gcp::Atom (m_pApp->GetCurZ(),
-				m_Points->coords[2 * nb] / m_dZoomFactor,
-				m_Points->coords[2 * nb + 1] / m_dZoomFactor,
+				m_Points[nb].x / m_dZoomFactor,
+				m_Points[nb].y / m_dZoomFactor,
 				0);
-			pDoc->AddAtom (m_Atoms[nb]);*/
+			pDoc->AddAtom (m_Atoms[nb]);
 		}
 		// now add the bond. Atoms might be the same if the bonds are too short.
 		if (nb > 0 && m_Atoms[nb] != m_Atoms[nb - 1]) {
@@ -391,7 +381,7 @@ void gcpChainTool::Activate ()
 
 void gcpChainTool::FindAtoms ()
 {
-/*	double x1 = m_Points->coords[0], y1 = m_Points->coords[1], a;
+	double x1 = m_Points->x, y1 = m_Points->y, a;
 	unsigned nb;
 	for (nb = 1; nb < m_CurPoints; nb++) {
 		a = (m_dAngle +
@@ -403,12 +393,11 @@ void gcpChainTool::FindAtoms ()
 		y1 -= m_BondLength * m_dZoomFactor * sin (a);
 		m_Atoms[nb] = NULL;
 		if (gcp::MergeAtoms) {
-			GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), x1, y1);
-			if (pItem == (GnomeCanvasItem*) m_pBackground)
-				pItem = NULL;
+			gccv::Canvas *canvas = m_pView->GetCanvas ();
+			gccv::Item *item = canvas->GetItemAt (x1, y1);
 			Object* pObject = NULL;
-			if (pItem)
-				pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
+			if (item)
+				pObject = dynamic_cast <Object *> (item->GetClient ());
 			if (pObject && pObject != m_pObject) {
 				if ((pObject->GetType () == BondType) || (pObject->GetType () == FragmentType)) {
 					m_Atoms[nb] = (gcp::Atom*) pObject->GetAtomAt (x1 / m_dZoomFactor, y1 / m_dZoomFactor);
@@ -422,17 +411,25 @@ void gcpChainTool::FindAtoms ()
 				y1 *= m_dZoomFactor;
 			}
 		}
-		m_Points->coords[nb * 2] = x1;
-		m_Points->coords[nb * 2 + 1] = y1;
-	}*/
+		m_Points[nb].x = x1;
+		m_Points[nb].y = y1;
+	}
 }
 
 bool gcpChainTool::CheckIfAllowed ()
 {
 	unsigned i, n;
+	Object *group = NULL, *other;
 	for (i = 1; i < m_CurPoints; i++) {
 		if (m_Atoms[i] == NULL)
 			continue;
+		if (group == NULL)
+			group = m_Atoms[i]->GetMolecule ()->GetGroup ();
+		else {
+			other = m_Atoms[i]->GetMolecule ()->GetGroup ();
+			if (other && other != group)
+				return false;
+		}
 		n = (!m_Atoms[i]->GetBond(m_Atoms[i - 1]))? 1: 0;
 		if ((i < m_CurPoints - 1) && !m_Atoms[i]->GetBond(m_Atoms[i + 1]))
 			n++;
@@ -495,4 +492,36 @@ bool gcpChainTool::OnEvent (GdkEvent* event)
 		OnChangeState ();
 	}
 	return false;
+}
+
+void gcpChainTool::Draw ()
+{
+	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
+	if (!m_Item)
+		m_Item = new gccv::Group (m_pView->GetCanvas ());
+	unsigned i;
+	gccv::Item *item, *next;
+	list <gccv::Item *>::iterator it;
+	next = reinterpret_cast <gccv::Group *> (m_Item)->GetFirstChild (it);
+	for (i = 1; i < m_CurPoints; i++) {
+		if (next) {
+			item = next;
+			next = static_cast <gccv::Group *> (m_Item)->GetNextChild (it);
+			static_cast <gccv::Line *> (item)->SetPosition (m_Points[i-1].x, m_Points[i-1].y, m_Points[i].x, m_Points[i].y);
+		} else {
+			item = new gccv::Line (static_cast <gccv::Group *> (m_Item), m_Points[i-1].x, m_Points[i-1].y, m_Points[i].x, m_Points[i].y);
+			static_cast <gccv::LineItem *> (item)->SetLineColor (gcp::AddColor);
+			static_cast <gccv::LineItem *> (item)->SetLineWidth (pTheme->GetBondWidth ());
+		}
+	}
+	// now delete extra lines if any
+	list <gccv::Item *> lines;
+	while (next) {
+		lines.push_front (next);
+		next = static_cast <gccv::Group *> (m_Item)->GetNextChild (it);
+	}
+	while (!lines.empty ()) {
+		delete lines.front ();
+		lines.pop_front ();
+	}
 }

@@ -410,18 +410,16 @@ void View::UpdateFont ()
 	
 void View::Remove (Object* pObject)
 {
-	std::list<GtkWidget*>::iterator i, end = m_Widgets.end ();
-	for (i = m_Widgets.begin (); i != end; i++) {
-		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (*i), "data");
-		Object* pObj = pObject->GetMolecule ();
-		if (pObj)
-			pData->SelectedObjects.remove (pObj);
-		else
-			pData->SelectedObjects.remove (pObject);
-		gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
-		if (client && client->GetItem ())
-			delete client->GetItem ();
-	}
+	if (!m_pWidget)
+		return;
+	Object* pObj = pObject->GetMolecule ();
+	if (pObj)
+		m_pData->SelectedObjects.remove (pObj);
+	else
+		m_pData->SelectedObjects.remove (pObject);
+	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
+	if (client && client->GetItem ())
+		delete client->GetItem ();
 }
 
 void View::OnDeleteSelection (GtkWidget* w)
@@ -432,14 +430,6 @@ void View::OnDeleteSelection (GtkWidget* w)
 	Object *parent;
 	if (!pActiveTool->DeleteSelection ()) {
 		m_pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-		WidgetData *pData;
-		std::list<GtkWidget*>::iterator j, jend = m_Widgets.end ();
-		for (j = m_Widgets.begin (); j != jend; j++) {
-			if (*j == m_pWidget)
-				continue;
-			pData = (WidgetData*) g_object_get_data (G_OBJECT (*j), "data");
-			pData->UnselectAll ();
-		}
 		Object *pObject, *Group;
 		set<string> ModifiedObjects;
 		bool modify = false;

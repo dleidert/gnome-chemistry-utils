@@ -33,10 +33,6 @@ namespace gcp {
 	class Operation;
 }
 
-namespace gccv {
-	class Point;
-}
-
 class gcpBondTool: public gcp::Tool
 {
 public:

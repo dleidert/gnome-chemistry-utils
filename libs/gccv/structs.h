@@ -32,6 +32,10 @@ typedef struct {
 } Rect;
 
 typedef struct {
+	double x, y;
+} Point;
+
+typedef struct {
 	int start, cur;
 } TextSelBounds;
 
