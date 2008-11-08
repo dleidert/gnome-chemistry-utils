@@ -1,4 +1,7 @@
 Version 0.10.1
+	GChemPaint
+		* Fixed the chain tool for undo/redo operations and unallowed
+		bond addition.
 	GSpectrum
 		* Correctly load negative values in (XY..XY) tables. [#24720]
 	Mozilla plugin:

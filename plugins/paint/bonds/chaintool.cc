@@ -75,8 +75,10 @@ bool gcpChainTool::OnClicked()
 	if (m_pObject) {
 		if (m_pObject->GetType () != AtomType)
 			return false;
-		m_Atoms[0] = dynamic_cast<gcp::Atom*> (m_pObject);
-		nb = ((gcp::Atom*) m_pObject)->GetBondsNumber ();
+		m_Atoms[0] = static_cast<gcp::Atom*> (m_pObject);
+		if (!m_Atoms[0]->AcceptNewBonds (1))
+			return false;
+		nb = m_Atoms[0]->GetBondsNumber ();
 		m_Atoms[0]->GetCoords(&m_x0, &m_y0, NULL);
 		x = m_x0 *= m_dZoomFactor;
 		y = m_y0 *= m_dZoomFactor;
@@ -119,7 +121,8 @@ bool gcpChainTool::OnClicked()
 		m_AutoDir = true;
 	}
 	FindAtoms ();
-	if (!(m_Allowed = CheckIfAllowed ()))
+	m_Allowed = false;
+	if (gcp::MergeAtoms && !(m_Allowed = CheckIfAllowed ()))
 		return true; // true, since dragging the mouse might make things OK.
 	char tmp[32];
 	snprintf(tmp, sizeof(tmp) - 1, _("Bonds: %d, Orientation: %g"), m_CurPoints - 1, m_dAngle);
@@ -132,7 +135,7 @@ bool gcpChainTool::OnClicked()
 								"width_units", pTheme->GetBondWidth (),
 								NULL);
 	m_dMeanLength = pDoc->GetBondLength () * sin (pDoc->GetBondAngle () / 360. * M_PI) * m_dZoomFactor;
-	m_Allowed = true; // FIXME: if MergeAtoms is true, ensure that atoms accept necessary bonds
+	m_Allowed = true;
 	return true;
 }
 
@@ -241,7 +244,7 @@ void gcpChainTool::OnDrag ()
 	m_Points->coords[0] = m_x0;
 	m_Points->coords[1] = m_y0;
 	FindAtoms ();
-	if (!(m_Allowed = CheckIfAllowed ()))
+	if (gcp::MergeAtoms && !(m_Allowed = CheckIfAllowed ()))
 		return;
 	char tmp[32];
 	snprintf (tmp, sizeof (tmp) - 1, _("Bonds: %d, Orientation: %g"), m_CurPoints - 1, m_dAngle);
@@ -282,11 +285,14 @@ void gcpChainTool::OnRelease ()
 				pMol = dynamic_cast<gcp::Molecule *> (m_Atoms[0]->GetMolecule ());
 				pMol->Lock (true);
 			}
-			pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 			pObject = m_Atoms[nb]->GetGroup ();
 			Id = pObject->GetId ();
-			pOp->AddObject (pObject);
-			ModifiedObjects.insert (Id);
+			if (ModifiedObjects.find (Id) == ModifiedObjects.end ()) {
+				if (!pOp)
+					pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+				pOp->AddObject (pObject);
+				ModifiedObjects.insert (Id);
+			}
 		} else {
 			m_Atoms[nb] = new gcp::Atom (m_pApp->GetCurZ(),
 				m_Points->coords[2 * nb] / m_dZoomFactor,
@@ -429,9 +435,17 @@ void gcpChainTool::FindAtoms ()
 bool gcpChainTool::CheckIfAllowed ()
 {
 	unsigned i, n;
+	Object *group = NULL, *other;
 	for (i = 1; i < m_CurPoints; i++) {
 		if (m_Atoms[i] == NULL)
 			continue;
+		if (group == NULL)
+			group = m_Atoms[i]->GetMolecule ()->GetGroup ();
+		else {
+			other = m_Atoms[i]->GetMolecule ()->GetGroup ();
+			if (other && other != group)
+				return false;
+		}
 		n = (!m_Atoms[i]->GetBond(m_Atoms[i - 1]))? 1: 0;
 		if ((i < m_CurPoints - 1) && !m_Atoms[i]->GetBond(m_Atoms[i + 1]))
 			n++;
