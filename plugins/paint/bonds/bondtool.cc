@@ -148,7 +148,7 @@ bool gcpBondTool::OnClicked ()
 	if (pItem)
 		pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
 	m_pAtom = NULL;
-	if (pObject && pObject != m_pObject) {
+	if (gcp::MergeAtoms && pObject && pObject != m_pObject) {
 		if ((pObject->GetType () == BondType) || (pObject->GetType () == FragmentType))
 		{
 			m_pAtom = (gcp::Atom*) pObject->GetAtomAt (m_x1 / m_dZoomFactor, m_y1 / m_dZoomFactor);
@@ -157,6 +157,14 @@ bool gcpBondTool::OnClicked ()
 		}
 	}
 	if (m_pAtom) {
+		if (m_pObject) {
+			Object *group = m_pObject->GetMolecule ()->GetParent ();
+			if (group != pDoc) {
+				Object *other = m_pAtom->GetMolecule ()->GetParent ();
+				if (other != pDoc && group != other)
+					return true;
+			}
+		}
 		m_pAtom->GetCoords(&m_x1, &m_y1, NULL);
 		m_x1 *= m_dZoomFactor;
 		m_y1 *= m_dZoomFactor;
@@ -233,6 +241,14 @@ void gcpBondTool::OnDrag ()
 				m_pAtom = (gcp::Atom*) pObject;
 		}
 		if (m_pAtom) {
+			if (m_pObject) {
+				Object *group = m_pObject->GetMolecule ()->GetParent ();
+				if (group != pDoc) {
+					Object *other = m_pAtom->GetMolecule ()->GetParent ();
+					if (other != pDoc && group != other)
+						return;
+				}
+			}
 			if ((Object*) m_pAtom == m_pObject)
 				return;
 			if (!m_pAtom->AcceptNewBonds ())

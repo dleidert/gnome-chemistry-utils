@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/bonds/bondtool.cc: don't allow bonds between molecules not
+	in the same group.
+	* plugins/paint/bonds/chaintool.cc: ditto.
+
 2008-11-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/chaintool.cc: do not create more than one operation
 	(fixes an undo/redo issue) and correctly check if the addition of bonds
