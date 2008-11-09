@@ -419,15 +419,20 @@ void gcpChainTool::FindAtoms ()
 bool gcpChainTool::CheckIfAllowed ()
 {
 	unsigned i, n;
-	Object *group = NULL, *other;
+	gcp::Document *pDoc = m_pView->GetDoc ();
+	Object *group = m_Atoms[0]->GetMolecule ()->GetParent (), *other;
+	if (group == pDoc)
+		group = NULL;
 	for (i = 1; i < m_CurPoints; i++) {
 		if (m_Atoms[i] == NULL)
 			continue;
-		if (group == NULL)
-			group = m_Atoms[i]->GetMolecule ()->GetGroup ();
-		else {
-			other = m_Atoms[i]->GetMolecule ()->GetGroup ();
-			if (other && other != group)
+		if (group == NULL) {
+			other = m_Atoms[i]->GetMolecule ()->GetParent ();
+			if (other != pDoc)
+				group = other;
+		} else {
+			other = m_Atoms[i]->GetMolecule ()->GetParent ();
+			if (other && other != pDoc && other != group)
 				return false;
 		}
 		n = (!m_Atoms[i]->GetBond(m_Atoms[i - 1]))? 1: 0;
