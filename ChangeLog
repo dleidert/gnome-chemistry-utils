@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2008-11-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: prefer a cycle with cis configuration when drawing
+	double bonds. [#24802]
+
+2008-11-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/cycles/cycletool.cc: partially reimplemented.
 	* plugins/paint/cycles/cycletool.h: ditto.
 

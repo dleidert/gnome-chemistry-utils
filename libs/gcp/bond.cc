@@ -159,16 +159,33 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 			}
 		} else if ((m_order == 2) && IsCyclic ()) {
 			Cycle* pCycle;
+			double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1, a2;
 			if (IsCyclic() > 1) {
 				//Search prefered cycle
 				list<Cycle*>::iterator i = m_Cycles.begin (), end = m_Cycles.end ();
 				pCycle = *i;
-				for (; i != end; i++)
-					if (pCycle->IsBetterForBonds (*i))
+				pCycle->GetAngles2D (this, &a1, &a2);
+				bool trans = sin(a0 - a1) * sin (a0 - a2) <= 0; // we prefer a cycle with cis configuration
+				for (; i != end; i++) {
+					if (trans) {
+						(*i)->GetAngles2D (this, &a1, &a2);
+						if (sin(a0 - a1) * sin (a0 - a2) > 0) {
+							trans = false;
+							pCycle = *i;
+							continue;
+						}
+					}
+					if (pCycle->IsBetterForBonds (*i)) {
+						if (!trans) {
+							(*i)->GetAngles2D (this, &a1, &a2);
+							if (sin(a0 - a1) * sin (a0 - a2) <= 0)
+								continue;
+						}
 						pCycle = *i;
+					}
+				}
 			} else
 				pCycle = m_Cycles.front();
-			double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1, a2;
 			pCycle->GetAngles2D (this, &a1, &a2);
 			if (sin(a0 - a1) * sin (a0 - a2) > 0) {
 				double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
