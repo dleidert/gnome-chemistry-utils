@@ -3,6 +3,8 @@ Version 0.10.1
 		* Fixed the chain tool for undo/redo operations and unallowed
 		bond addition.
 		* Don't allow new bonds between molecules in different groups.
+		* Prefer a cycle with cis configuration when drawing
+		double bonds. [#24802]
 	GSpectrum
 		* Correctly load negative values in (XY..XY) tables. [#24720]
 	Mozilla plugin:
