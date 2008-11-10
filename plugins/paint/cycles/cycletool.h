@@ -26,6 +26,7 @@
 #define GCHEMPAINT_CYCLE_TOOL_H
 
 #include <gcp/tool.h>
+#include <gccv/structs.h>
 
 namespace gcu {
 	class Atom;
@@ -55,10 +56,12 @@ protected:
 	void Init ();
 	bool CheckIfAllowed ();
 
+private:
+	void Draw ();
+
 protected:
-	double *m_xn;
 	unsigned char m_size;
-//	GnomeCanvasPoints *points;
+	gccv::Point *m_Points;
 	GtkSpinButton *m_LengthBtn;
 	GtkToggleButton *m_MergeBtn;
 

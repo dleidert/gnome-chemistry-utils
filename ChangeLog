@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-11-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/cycles/cycletool.cc: partially reimplemented.
+	* plugins/paint/cycles/cycletool.h: ditto.
+
 2008-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/bondtool.cc: don't allow bonds between molecules not
 	in the same group.

@@ -34,6 +34,9 @@
 #include <gcp/view.h>
 #include <gcu/chain.h>
 #include <gcu/cycle.h>
+#include <gccv/canvas.h>
+#include <gccv/group.h>
+#include <gccv/line.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <list>
@@ -54,19 +57,16 @@ static char const *ToolNames [] = {
 
 gcpCycleTool::gcpCycleTool (gcp::Application *App, unsigned char size): gcp::Tool (App, ToolNames[size - 3])
 {
+	m_Points = NULL;
 	if ((m_size = size))
 		Init();
-	else
-		m_xn = NULL;
 	m_Chain = NULL;
 }
 
 gcpCycleTool::~gcpCycleTool ()
 {
-	if (m_size) {
-		delete [] m_xn;
-//		gnome_canvas_points_free (points);
-	}
+	if (m_Points)
+		delete [] m_Points;
 	if (m_Chain)
 		delete m_Chain;
 }
@@ -75,12 +75,11 @@ bool gcpCycleTool::OnClicked ()
 {
 	if (!m_size)
 		return false;
-/*	double x1, y1, x2, y2;
+	double x1, y1, x2, y2;
 	double a0, a1, a2, b1, b2, m1, m2;
 	gcp::Atom* pAtom, *pAtom1;
 	gcp::Bond* pBond, *pBond1;
 	gcp::Document *pDoc = m_pView->GetDoc ();
-	gcp::Theme *pTheme = pDoc->GetTheme ();
 	m_dLength = pDoc->GetBondLength () * m_dZoomFactor;
 	map<Atom*, Bond*>::iterator j;
 	int i;
@@ -108,15 +107,15 @@ bool gcpCycleTool::OnClicked ()
 				pCycle->GetAngles2D (pBond, &a1, &a2);
 				if (sin (a0 - a1) * sin (a0 - a2) > 0) {
 					if (sin (a0 - a1) < 0.0) {
-						points->coords[0] = m_xn[0] = m_x0 = x1;
-						points->coords[1] = m_xn[1] = m_y0 = y1;
+						m_Points->x = m_x0 = x1;
+						m_Points->y = m_y0 = y1;
 						m_dAngle = a0;
 						m_Start = pAtom;
 						m_End = pAtom1;
 						m_Direct = true;
 					} else {
-						points->coords[0] = m_xn[0] = m_x0 = x1 = x2;
-						points->coords[1] = m_xn[1] = m_y0 = y1 = y2;
+						m_Points->x = m_x0 = x1 = x2;
+						m_Points->y = m_y0 = y1 = y2;
 						m_dAngle = a0 - M_PI;
 						m_Start = pAtom1;
 						m_End = pAtom;
@@ -172,13 +171,13 @@ bool gcpCycleTool::OnClicked ()
 					pBond1 = (gcp::Bond*) pAtom1->GetNextBond (j);
 				}
 				if (m2 > m1) {
-					points->coords[0] = m_xn[0] = m_x0 = x1;
-					points->coords[1] = m_xn[1] = m_y0 = y1;
+					m_Points->x = m_x0 = x1;
+					m_Points->y = m_y0 = y1;
 					m_dAngle = a0;
 					m_Direct = true;
 				} else {
-					points->coords[0] = m_xn[0] = m_x0 = x1 = x2;
-					points->coords[1] = m_xn[1] = m_y0 = y1 = y2;
+					m_Points->x = m_x0 = x1 = x2;
+					m_Points->y = m_y0 = y1 = y2;
 					m_dAngle = a0 - M_PI;
 					m_Direct = false;
 				}
@@ -204,8 +203,8 @@ bool gcpCycleTool::OnClicked ()
 					pBond = (gcp::Bond*) pAtom->GetFirstBond (j);
 					pAtom1 = (gcp::Atom*) pBond->GetAtom (pAtom);
 					a0 = pBond->GetAngle2DRad (pAtom);
-					points->coords[0] = m_xn[0] = m_x0 = x1;
-					points->coords[1] = m_xn[1] = m_y0 = y1;
+					m_Points->x = m_x0 = x1;
+					m_Points->y = m_y0 = y1;
 					m_dDefAngle = m_dAngle = - M_PI / 2 + a0 - m_dDev / 2;
 					break;
 				case 2:
@@ -216,8 +215,8 @@ bool gcpCycleTool::OnClicked ()
 					a0 = (a1 + a2) / 2;
 					if (fabs (a1 - a2) > M_PI)
 						a0 += M_PI;
-					points->coords[0] = m_xn[0] = m_x0 = x1;
-					points->coords[1] = m_xn[1] = m_y0 = y1;
+					m_Points->x = m_x0 = x1;
+					m_Points->y = m_y0 = y1;
 					m_dDefAngle = m_dAngle = - M_PI / 2 + a0 - m_dDev / 2;
 					break;
 				default:
@@ -250,8 +249,8 @@ bool gcpCycleTool::OnClicked ()
 					if (!i)
 						m_dAngle += M_PI;
 					m_dDefAngle = m_dAngle;
-					points->coords[0] = m_xn[0] = m_x0 = x1;
-					points->coords[1] = m_xn[1] = m_y0 = y1;
+					m_Points->x = m_x0 = x1;
+					m_Points->y = m_y0 = y1;
 					orientations.clear ();
 			}
 			break;
@@ -262,24 +261,16 @@ bool gcpCycleTool::OnClicked ()
 	}
 	if (!bDone) {
 		m_dAngle = M_PI / 2;
-		points->coords[0] = m_xn[0] = x1 = m_x0;
-		points->coords[1] = m_xn[1] = y1 = m_y0;
+		m_Points->x = x1 = m_x0;
+		m_Points->y = y1 = m_y0;
 	}
-	for (i = 2; i < m_size * 2; i+= 2) {
-		m_xn[i] = x1 += m_dLength * cos (m_dAngle - m_dDev * (i / 2 - 1));
-		m_xn[i + 1] = y1 -= m_dLength * sin (m_dAngle - m_dDev * (i / 2 - 1));
-		points->coords[i] = x1;
-		points->coords[i + 1] = y1;
+	for (i = 1; i < m_size; i++) {
+		m_Points[i].x = x1 += m_dLength * cos (m_dAngle - m_dDev * (i - 1));
+		m_Points[i].y = y1 -= m_dLength * sin (m_dAngle - m_dDev * (i - 1));
 	}
 	
 	m_bAllowed = CheckIfAllowed ();
-	m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_polygon_get_type (),
-								"points", points,
-								"outline_color", (m_bAllowed)? gcp::AddColor: gcp::DeleteColor,
-								"width_units", pTheme->GetBondWidth (),
-								NULL);*/
+	Draw ();
 	return true;
 }
 
@@ -287,31 +278,27 @@ void gcpCycleTool::OnDrag ()
 {
 	if (!m_size)
 		return;
-/*	int i;
+	int i;
 	double x1, y1, x2, y2;
 	bool bDone = false;
-	GnomeCanvasItem* pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
+	gccv::Item *item = m_pView->GetCanvas ()->GetItemAt (m_x, m_y);
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Theme *pTheme = pDoc->GetTheme ();
-	if (pItem == (GnomeCanvasItem*) m_pBackground)
-		pItem = NULL;
-	Object* pObject = NULL;
-	if (pItem)
-		pObject = (Object*) g_object_get_data (G_OBJECT (pItem), "object");
+	Object* pObject = (item)? dynamic_cast <Object *> (item->GetClient ()): NULL;
 	if (m_pObject) {
 		if (m_pObject->GetType() == BondType) {
 			if (((gcp::Bond*) m_pObject)->GetDist (m_x / m_dZoomFactor, m_y / m_dZoomFactor) < (pTheme->GetPadding () + pTheme->GetBondWidth () / 2) * m_dZoomFactor) {
-				if (m_pItem) {
-					gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
-					m_pItem = NULL;
+				if (m_Item) {
+					delete m_Item;
+					m_Item = NULL;
 				}
 				return;
 			}
-			x1 = (m_x - m_xn[0]) * (m_xn[3] - m_xn[1]) + (m_xn[1] - m_y) * (m_xn[2] - m_xn[0]);
+			x1 = (m_x - m_Points->x) * (m_Points[1].y - m_Points->y) + (m_Points->y - m_y) * (m_Points[1].x - m_Points->x);
 			if (m_nState & GDK_SHIFT_MASK) {
 				if (m_Chain->GetLength () == (unsigned) m_size - 2)
 					return;
-				gcp::Bond* pBond;
+/*				gcp::Bond* pBond;
 				if (pObject) {
 					if (pObject->GetType () == AtomType) {
 						if (m_Chain->Contains ((gcp::Atom*) pObject))
@@ -402,27 +389,25 @@ void gcpCycleTool::OnDrag ()
 						i++;
 					}
 				}
-				bDone = true;
+				bDone = true;*/
 			} else if (x1 * m_dDev > 0)  {
 				m_dDev = - m_dDev;
-				x1 = m_xn[2];
-				y1 = m_xn[3];
-				for (i = 4; i < m_size * 2; i+= 2) {
-					m_xn[i] = x1 += (pDoc->GetBondLength () * m_dZoomFactor) * cos (m_dAngle - m_dDev * (i / 2 - 1));
-					m_xn[i + 1] = y1 -= (pDoc->GetBondLength () * m_dZoomFactor) * sin (m_dAngle - m_dDev * (i / 2 - 1));
-					points->coords[i] = x1;
-					points->coords[i + 1] = y1;
+				x1 = m_Points[1].x;
+				y1 = m_Points[1].y;
+				for (i = 2; i < m_size; i++) {
+					m_Points[i].x = x1 += (pDoc->GetBondLength () * m_dZoomFactor) * cos (m_dAngle - m_dDev * (i - 1));
+					m_Points[i].y = y1 -= (pDoc->GetBondLength () * m_dZoomFactor) * sin (m_dAngle - m_dDev * (i - 1));
 				}
 				bDone = true;
 			}
-			else if (m_pItem)
+			else if (m_Item)
 				return;
 			else bDone = true;
 		}
 	}
-	if (m_pItem) {
-		gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
-		m_pItem = NULL;
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
 	}
 	if (!bDone) {
 		double dAngle;
@@ -453,11 +438,9 @@ void gcpCycleTool::OnDrag ()
 			}
 			x1 = m_x0;
 			y1 = m_y0;
-			for (i = 2; i < m_size * 2; i+= 2) {
-				m_xn[i] = x1 += (BondLength) * cos (m_dAngle - m_dDev * (i / 2 - 1));
-				m_xn[i + 1] = y1 -= (BondLength) * sin (m_dAngle - m_dDev * (i / 2 - 1));
-				points->coords[i] = x1;
-				points->coords[i + 1] = y1;
+			for (i = 1; i < m_size; i++) {
+				m_Points[i].x = x1 += (BondLength) * cos (m_dAngle - m_dDev * (i - 1));
+				m_Points[i].y = y1 -= (BondLength) * sin (m_dAngle - m_dDev * (i - 1));
 			}
 		} else {
 			m_x -= m_x0;
@@ -477,11 +460,9 @@ void gcpCycleTool::OnDrag ()
 			x1 = m_x0;
 			y1 = m_y0;
 			double d = (m_nState & GDK_SHIFT_MASK)? sqrt (square (m_x) + square (m_y)): pDoc->GetBondLength () * m_dZoomFactor;
-			for (i = 2; i < m_size * 2; i+= 2) {
-				m_xn[i] = x1 += d * cos (m_dAngle - m_dDev * (i / 2 - 1));
-				m_xn[i + 1] = y1 -= d * sin (m_dAngle - m_dDev * (i / 2 - 1));
-				points->coords[i] = x1;
-				points->coords[i + 1] = y1;
+			for (i = 1; i < m_size; i++) {
+				m_Points[i].x = x1 += d * cos (m_dAngle - m_dDev * (i - 1));
+				m_Points[i].y = y1 -= d * sin (m_dAngle - m_dDev * (i - 1));
 			}
 			char tmp[32];
 			if (dAngle < 0)
@@ -491,13 +472,7 @@ void gcpCycleTool::OnDrag ()
 		}
 	}
 	m_bAllowed = CheckIfAllowed ();
-	m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_polygon_get_type (),
-								"points", points,
-								"outline_color",  (m_bAllowed)? gcp::AddColor: gcp::DeleteColor,
-								"width_units", pTheme->GetBondWidth (),
-								NULL);*/
+	Draw ();
 }
 
 void gcpCycleTool::OnRelease ()
@@ -508,20 +483,17 @@ void gcpCycleTool::OnRelease ()
 		delete m_Chain;
 		m_Chain = NULL;
 	}
-/*	if (m_pItem) {
-		gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
-		m_pItem = NULL;
-	}
-	else
-		return;
-	if (!m_bAllowed)
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
+	} else
 		return;
 	m_pApp->ClearStatus ();
 	gcp::Atom* pAtom[m_size];
 	gcp::Bond* pBond;
 	Object *pObject;
 	char const *Id;
-	GnomeCanvasItem* pItem;
+/*	GnomeCanvasItem* pItem;
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Operation *pOp = NULL;
 	gcp::Molecule *pMol = NULL;
@@ -668,10 +640,10 @@ void gcpCycleTool::OnChangeState ()
 			}
 		} else {
 			double x1, y1, x2, y2;
-/*			if (m_pItem) {
-				gtk_object_destroy(GTK_OBJECT(GNOME_CANVAS_ITEM(m_pItem)));
-				m_pItem = NULL;
-			}*/
+			if (m_Item) {
+				delete m_Item;
+				m_Item = NULL;
+			}
 			if (m_Direct) {
 				m_Start = (gcp::Atom*) ((gcp::Bond*) m_pObject)->GetAtom (0);
 				m_End = (gcp::Atom*) ((gcp::Bond*) m_pObject)->GetAtom (1);
@@ -681,17 +653,15 @@ void gcpCycleTool::OnChangeState ()
 			}
 			m_Start->GetCoords (&x1, &y1);
 			m_End->GetCoords (&x2, &y2);
-/*			points->coords[0] = m_xn[0] = x1 * m_dZoomFactor;
-			points->coords[1] = m_xn[1] = y1 * m_dZoomFactor;
-			points->coords[2] = m_xn[2] = x1 = x2 * m_dZoomFactor;
-			points->coords[3] = m_xn[3] = y1 = y2 * m_dZoomFactor;
-			for (int i = 4; i < m_size * 2; i+= 2) {
+			m_Points->x = x1 * m_dZoomFactor;
+			m_Points->y = y1 * m_dZoomFactor;
+			m_Points[1].x = x1 = x2 * m_dZoomFactor;
+			m_Points[1].y = y1 = y2 * m_dZoomFactor;
+			for (int i = 2; i < m_size; i++) {
 				gcp::Document *pDoc = m_pView->GetDoc ();
-				m_xn[i] = x1 += (pDoc->GetBondLength () * m_dZoomFactor) * cos (m_dAngle - m_dDev * (i / 2 - 1));
-				m_xn[i + 1] = y1 -= (pDoc->GetBondLength () * m_dZoomFactor) * sin (m_dAngle - m_dDev * (i / 2 - 1));
-				points->coords[i] = x1;
-				points->coords[i + 1] = y1;
-			}*/
+				m_Points[i].x = x1 += (pDoc->GetBondLength () * m_dZoomFactor) * cos (m_dAngle - m_dDev * (i - 1));
+				m_Points[i].y = y1 -= (pDoc->GetBondLength () * m_dZoomFactor) * sin (m_dAngle - m_dDev * (i - 1));
+			}
 			 if (m_Chain) {
 				 delete m_Chain;
 				m_Chain = NULL;
@@ -704,25 +674,27 @@ void gcpCycleTool::OnChangeState ()
 
 void gcpCycleTool::Init ()
 {
-	m_xn = new double[m_size * 2];
 	m_dDev = 2 * M_PI / m_size;
-//	points = gnome_canvas_points_new (m_size);
+	m_Points = new gccv::Point[m_size];
 }
 
 bool gcpCycleTool::CheckIfAllowed ()
 {
 //Search atoms at the positions of the vertices and check if adding bonds to them is allowed
-/*	gcp::Atom* pAtom[m_size];
-	GnomeCanvasItem* pItem;
-	Object* pObject;
+	gcp::Atom* pAtom[m_size];
+	gccv::Item *item;
+	gccv::Canvas *canvas = m_pView->GetCanvas ();
+	Object* pObject, *group, *other;
+	gcp::Document *pDoc = m_pView->GetDoc ();
+	group = (m_pObject)? m_pObject->GetMolecule ()->GetParent (): NULL;
+	if (group == pDoc)
+		group = NULL;
 	int i, n;
 	for (i = 0; i < m_size; i++) {
-		m_x = m_xn[2 * i];
-		m_y = m_xn[2 * i + 1];
-		pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
-		if (pItem == (GnomeCanvasItem*) m_pBackground)
-			pItem = NULL;
-		pObject = (pItem)? (Object*) g_object_get_data (G_OBJECT (pItem), "object"): NULL;
+		m_x = m_Points[i].x;
+		m_y = m_Points[i].y;
+		item = canvas->GetItemAt (m_x, m_y);
+		pObject = (item)? dynamic_cast <Object *> (item->GetClient ()): NULL;
 		if (gcp::MergeAtoms && pObject) {
 			TypeId Id = pObject->GetType ();
 			switch (Id) {
@@ -742,6 +714,13 @@ bool gcpCycleTool::CheckIfAllowed ()
 	for (i = 0; i < m_size; i++) {
 		if (!pAtom[i])
 			continue;
+		other = pAtom[i]->GetMolecule ()->GetParent ();
+		if (other != pDoc) {
+			if (group == NULL)
+				group = other;
+			else if (other != group)
+				return false;
+		}
 		n = 0;
 		if (!pAtom[i]->GetBond (pAtom[(i)? i - 1: m_size -1]))
 			n++;
@@ -749,7 +728,10 @@ bool gcpCycleTool::CheckIfAllowed ()
 			n++;
 		if (n && (!pAtom[i]->AcceptNewBonds (n)))
 			return false;
-	}*/
+		pAtom[i]->GetCoords (&m_Points[i].x, &m_Points[i].y);
+		m_Points[i].x *= m_dZoomFactor;
+		m_Points[i].y *= m_dZoomFactor;
+	}
 	return true;
 }
 
@@ -785,6 +767,22 @@ void gcpCycleTool::Activate ()
 	gtk_toggle_button_set_active (m_MergeBtn, gcp::MergeAtoms);
 }
 
+void gcpCycleTool::Draw ()
+{
+	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
+	m_Item = new gccv::Group (m_pView->GetCanvas ());
+	gccv::Item *item;
+	unsigned i;
+	for (i = 1; i < m_size; i++) {
+		item = new gccv::Line (static_cast <gccv::Group *> (m_Item), m_Points[i-1].x, m_Points[i-1].y, m_Points[i].x, m_Points[i].y);
+		static_cast <gccv::LineItem *> (item)->SetLineColor (m_bAllowed? gcp::AddColor: gcp::DeleteColor);
+		static_cast <gccv::LineItem *> (item)->SetLineWidth (pTheme->GetBondWidth ());
+	}
+	item = new gccv::Line (static_cast <gccv::Group *> (m_Item), m_Points[m_size-1].x, m_Points[m_size-1].y, m_Points[0].x, m_Points[0].y);
+	static_cast <gccv::LineItem *> (item)->SetLineColor (m_bAllowed? gcp::AddColor: gcp::DeleteColor);
+	static_cast <gccv::LineItem *> (item)->SetLineWidth (pTheme->GetBondWidth ());
+}
+
 gcpNCycleTool::gcpNCycleTool (gcp::Application* App, unsigned char size): gcpCycleTool (App, 9)
 {
 	SetSize(size);
@@ -796,9 +794,8 @@ gcpNCycleTool::~gcpNCycleTool ()
 
 void gcpNCycleTool::SetSize (unsigned char size)
 {
-	if (m_size) {
-		delete [] m_xn;
-//		gnome_canvas_points_free (points);
+	if (m_Points) {
+		delete [] m_Points;
 	}
 	if ((m_size = size))
 		Init();
