@@ -298,7 +298,7 @@ void gcpCycleTool::OnDrag ()
 			if (m_nState & GDK_SHIFT_MASK) {
 				if (m_Chain->GetLength () == (unsigned) m_size - 2)
 					return;
-/*				gcp::Bond* pBond;
+				gcp::Bond* pBond;
 				if (pObject) {
 					if (pObject->GetType () == AtomType) {
 						if (m_Chain->Contains ((gcp::Atom*) pObject))
@@ -375,21 +375,16 @@ void gcpCycleTool::OnDrag ()
 					m_pAtom = m_Start;
 					do {
 						m_pAtom->GetCoords (&x1, &y1);
-						m_xn[i] = points->coords[i] = x1 * m_dZoomFactor;
-						i++;
-						m_xn[i] = points->coords[i] = y1 * m_dZoomFactor;
-						i++;
-					}
-					while ((m_pAtom != m_End) && (m_pAtom = reinterpret_cast <gcp::Atom *> (m_Chain->GetNextAtom (m_pAtom))));
-					while (i < m_size * 2) {
+						m_Points[i].x = x1 * m_dZoomFactor;
+						m_Points[i++].y = y1 * m_dZoomFactor;
+					} while ((m_pAtom != m_End) && (m_pAtom = reinterpret_cast <gcp::Atom *> (m_Chain->GetNextAtom (m_pAtom))));
+					while (i < m_size) {
 						a0 += 2 * t;
-						m_xn[i] = points->coords[i] = dx + d * cos (a0);
-						i++;
-						m_xn[i] = points->coords[i] = dy - d * sin (a0);
-						i++;
+						m_Points[i].x = dx + d * cos (a0);
+						m_Points[i++].y= dy - d * sin (a0);
 					}
 				}
-				bDone = true;*/
+				bDone = true;
 			} else if (x1 * m_dDev > 0)  {
 				m_dDev = - m_dDev;
 				x1 = m_Points[1].x;
@@ -493,21 +488,22 @@ void gcpCycleTool::OnRelease ()
 	gcp::Bond* pBond;
 	Object *pObject;
 	char const *Id;
-/*	GnomeCanvasItem* pItem;
+	gccv::Item *item;
+	gccv::Canvas *canvas = m_pView->GetCanvas ();
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Operation *pOp = NULL;
 	gcp::Molecule *pMol = NULL;
 	char const *MolId = NULL;
 	int i;
 	for (i = 0; i < m_size; i++) {
-		m_x = m_xn[2 * i];
-		m_y = m_xn[2 * i + 1];
+		m_x = m_Points[i].x;
+		m_y = m_Points[i].y;
 		pAtom[i] = NULL;
-		pItem = gnome_canvas_get_item_at (GNOME_CANVAS (m_pWidget), m_x, m_y);
-		if (pItem == (GnomeCanvasItem*) m_pBackground)
-			pItem = NULL;
-		m_pObject = (pItem)? (Object*) g_object_get_data (G_OBJECT (pItem), "object"): NULL;
-		if (m_pObject == NULL) {
+		item = canvas->GetItemAt (m_x, m_y);
+		m_pObject = 
+		m_pObject = (item)? dynamic_cast <Object *> (item->GetClient ()): NULL;
+// Is this still needed?
+/*		if (m_pObject == NULL) { 
 			std::map<Object const*, GnomeCanvasGroup*>::iterator i = m_pData->Items.begin (),
 						end = m_pData->Items.end ();
 			gcp::Bond* pBond;
@@ -559,8 +555,10 @@ void gcpCycleTool::OnRelease ()
 				}
 				i++;
 			}
-		}
+		}*/
 		if (gcp::MergeAtoms && m_pObject) {
+			// At this point, we don't need to check if things are allowed since otherwise,
+			// m_Item would have been NULL on entry and the method would have already returned.
 			if (m_pObject->GetType () == BondType)
 				pAtom[i] = (gcp::Atom*) m_pObject->GetAtomAt (m_x / m_dZoomFactor, m_y / m_dZoomFactor);
 			else if (m_pObject->GetType () == AtomType)
@@ -570,7 +568,6 @@ void gcpCycleTool::OnRelease ()
 					pMol = reinterpret_cast<gcp::Molecule *> (pAtom[i]->GetMolecule ());
 					pMol->Lock (true);
 					// we must store the id, the molecule might be destroyed
-					// FIXME! what happens to the parent in such a case?
 					MolId = pMol->GetId ();
 				}
 				// if group not in ModifiedObjects, add it and save it
@@ -585,7 +582,7 @@ void gcpCycleTool::OnRelease ()
 			}
 		}
 		if (!pAtom[i]) {
-			pAtom[i] = new gcp::Atom (m_pApp->GetCurZ (), m_xn[2 * i] / m_dZoomFactor, m_xn[2 * i + 1] / m_dZoomFactor, 0);
+			pAtom[i] = new gcp::Atom (m_pApp->GetCurZ (), m_Points[i].x / m_dZoomFactor, m_Points[i].y / m_dZoomFactor, 0);
 			pDoc->AddAtom (pAtom[i]);
 		}
 		if (i) {
@@ -621,7 +618,7 @@ void gcpCycleTool::OnRelease ()
 		pMol->Lock (false);
 		pMol->EmitSignal (gcp::OnChangedSignal);
 	}
-	ModifiedObjects.clear ();*/
+	ModifiedObjects.clear ();
 }
 
 void gcpCycleTool::OnChangeState ()

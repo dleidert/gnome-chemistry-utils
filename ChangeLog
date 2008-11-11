@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: delete previous version when saving.
+	* libs/gcu/object.cc: remove objects from dirty objects list when
+	destroying.
+	* plugins/paint/bonds/chaintool.cc: fixed when the chain starts from a
+	new atom.
+	* plugins/paint/cycles/cycletool.cc: reimplemented.
+	* programs/crystal/document.cc: delete previous version when saving.
+
 2008-11-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: prefer a cycle with cis configuration when drawing
 	double bonds. [#24802]

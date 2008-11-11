@@ -420,8 +420,12 @@ bool gcpChainTool::CheckIfAllowed ()
 {
 	unsigned i, n;
 	gcp::Document *pDoc = m_pView->GetDoc ();
-	Object *group = m_Atoms[0]->GetMolecule ()->GetParent (), *other;
-	if (group == pDoc)
+	Object *group, *other;
+	if (m_Atoms[0]) {
+		group = m_Atoms[0]->GetMolecule ()->GetParent ();
+		if (group == pDoc)
+			group = NULL;
+	} else
 		group = NULL;
 	for (i = 1; i < m_CurPoints; i++) {
 		if (m_Atoms[i] == NULL)
