@@ -621,6 +621,16 @@ void Document::Save () const
 			xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
 			GFile *file = g_file_new_for_uri (m_filename);
 			GError *error = NULL;
+			if (g_file_query_exists (file, NULL)) {
+				// FIXME: for now, delete it, but we might make a backup?
+				g_file_delete (file, NULL, &error);
+				if (error) {
+					g_message ("GIO error: %s", error->message);
+					g_error_free (error);
+					g_object_unref (file);
+					throw (int) 1;
+				}
+			}
 			GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
 			if (error) {
 				g_message ("GIO error: %s", error->message);

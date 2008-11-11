@@ -64,8 +64,10 @@ Object::Object (TypeId Id):
 Object::~Object ()
 {
 	if (m_Id) {
-		if (m_Parent)
+		if (m_Parent) {
+			GetDocument ()->m_DirtyObjects.erase (this);
 			m_Parent->m_Children.erase (m_Id);
+		}
 		g_free (m_Id);
 	}
 	map<string, Object*>::iterator i;
