@@ -57,7 +57,6 @@ protected:
 protected:
 	double m_dAngle;
 	gcp::Atom* m_pAtom;
-//	GnomeCanvasPoints *points;
 	unsigned char BondOrder;
 
 private:

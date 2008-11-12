@@ -646,6 +646,7 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 	var.Values = NULL;
 	while (!s.eof ()) {
 		s.getline (line, 300);
+parse_line:
 		n = ReadField (line, key, buf);
 		switch (n) {
 		case JCAMP_TITLE:
@@ -703,13 +704,12 @@ void SpectrumDocument::LoadJcampDx (char const *data)
 						break;	// this should not occur, but a corrupted or bad file is always possible
 					s.getline (line, 300);
 					if (strstr (line, "##")) {
-						s.seekg (-strlen (line) -1, _S_cur);
 						if (read > npoints) {
 							g_warning (_("Found too many data!"));
 							// FIXME: throw an exception
 						} else
 							npoints = read;
-						break;
+						goto parse_line;
 					}
 					cur = line;
 					while (*cur) {
@@ -1717,6 +1717,11 @@ void SpectrumDocument::OnXUnitChanged (int i)
 		gog_series_set_dim (series, 0, godata, NULL);
 		m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
 		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[m_XUnit]));
+		if (m_XAxisInvertBtn) {
+			g_signal_handler_block (m_XAxisInvertBtn, m_XAxisInvertSgn);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m_XAxisInvertBtn), invert_axis);
+			g_signal_handler_unblock (m_XAxisInvertBtn, m_XAxisInvertSgn);
+		}
 	} else {
 		unsigned i, j;
 		double (*conv) (double, double, double);
