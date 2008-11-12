@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: enhance data loading [#24719] and always
+	update the invert axis check box.
+
 2008-11-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: delete previous version when saving.
 	* libs/gcu/object.cc: remove objects from dirty objects list when
