@@ -103,14 +103,29 @@ Called by the framework if the minimum has changed for the x-axis.
 	void OnMinChanged ();
 
 /*!
+Called by the framework if the minimum has changed for the y-axis.
+*/
+	void OnYMinChanged ();
+
+/*!
 Called by the framework if the maximum has changed for the x-axis.
 */
 	void OnMaxChanged ();
 
 /*!
+Called by the framework if the maximum has changed for the y-axis.
+*/
+	void OnYMaxChanged ();
+
+/*!
 Called by the framework if the range has changed for the x-axis.
 */
 	void OnXRangeChanged ();
+
+/*!
+Called by the framework if the range has changed for the y-axis.
+*/
+	void OnYRangeChanged ();
 
 /*!
 @param new_plot if true, a new plot is created (this is not yet implemented).
@@ -131,10 +146,10 @@ and pdf, and possibly a few other bitmap formats.
 	void SaveAsImage (std::string const &filename, char const *mime_type, unsigned width, unsigned height) const;
 
 private:
-	GtkSpinButton *xminbtn, *xmaxbtn;
-	GtkRange *xrange;
-	gulong minsgn, maxsgn, xrangesgn;
-	double xmin, xmax, xstep;
+	GtkSpinButton *xminbtn, *xmaxbtn, *yminbtn, *ymaxbtn;
+	GtkRange *xrange, *yrange;
+	gulong minsgn, maxsgn, yminsgn, ymaxsgn, xrangesgn, yrangesgn;
+	double xmin, xmax, xstep, ymin, ymax, ystep;
 
 /*!\fn GetDoc()
 @return the associated document.

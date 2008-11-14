@@ -1396,6 +1396,7 @@ out:
 		g_signal_handler_unblock (m_XAxisInvertBtn, m_XAxisInvertSgn);
 	}
 	m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
+	m_View->SetAxisBounds (GOG_AXIS_Y, miny, maxy, invert_axis);
 	if (hide_y_axis)
 		m_View->ShowAxis (GOG_AXIS_Y, false);
 	/* Add axes labels */
