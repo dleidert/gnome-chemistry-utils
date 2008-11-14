@@ -33,6 +33,7 @@
 #include "widgetdata.h"
 #include <gccv/canvas.h>
 #include <gccv/group.h>
+#include <gccv/hash.h>
 #include <gccv/line.h>
 #include <gccv/wedge.h>
 #include <gcu/cycle.h>
@@ -555,10 +556,17 @@ void Bond::SetSelected (int state)
 	}
 	case UndeterminedBondType:
 		break;
-	case ForeBondType:
-	case UpBondType:
-	case DownBondType:
+	case ForeBondType: {
+		gccv::LineItem *item = static_cast <gccv::LineItem *> (m_Item);
+		item->SetLineColor (color);
 		break;
+	}
+	case UpBondType:{
+	case DownBondType:
+		gccv::Wedge *item = static_cast <gccv::Wedge *> (m_Item);
+		item->SetFillColor (color);
+		break;
+	}
 	}
 }
 
@@ -590,8 +598,19 @@ void Bond::AddItem ()
 	}
 	case UndeterminedBondType:
 		break;
-	case ForeBondType:
+	case ForeBondType: {
+		GetLine2DCoords (1, &x1, &y1, &x2, &y2);
+		gccv::Line *line = new gccv::Line (view->GetCanvas ()->GetRoot (),
+							x1 * theme->GetZoomFactor (),
+							y1 * theme->GetZoomFactor (),
+							x2 * theme->GetZoomFactor (),
+							y2 * theme->GetZoomFactor (),
+							this);
+		line->SetLineWidth (theme->GetStereoBondWidth ());
+		line->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		m_Item = line;
 		break;
+	}
 	case UpBondType: {
 		GetLine2DCoords (1, &x1, &y1, &x2, &y2);
 		gccv::Wedge *wedge = new gccv::Wedge (view->GetCanvas ()->GetRoot (),
@@ -605,8 +624,21 @@ void Bond::AddItem ()
 		m_Item = wedge;
 		break;
 	}
-	case DownBondType:
+	case DownBondType: {
+		GetLine2DCoords (1, &x1, &y1, &x2, &y2);
+		gccv::Hash *hash = new gccv::Hash (view->GetCanvas ()->GetRoot (),
+							x2 * theme->GetZoomFactor (),
+							y2 * theme->GetZoomFactor (),
+							x1 * theme->GetZoomFactor (),
+							y1 * theme->GetZoomFactor (),
+							theme->GetStereoBondWidth (),
+							this);
+		hash->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		hash->SetLineWidth (theme->GetHashWidth ());
+		hash->SetLineDist (theme->GetHashDist ());
+		m_Item = hash;
 		break;
+	}
 	}
 }
 

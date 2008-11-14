@@ -7,6 +7,7 @@ noinst_HEADERS = \
 	client.h	\
 	fill-item.h	\
 	group.h		\
+	hash.h		\
 	item.h		\
 	item-client.h	\
 	line.h	\
@@ -21,6 +22,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	client.cc	\
 	fill-item.cc	\
 	group.cc	\
+	hash.cc		\
 	item.cc		\
 	item-client.cc	\
 	line.cc	\

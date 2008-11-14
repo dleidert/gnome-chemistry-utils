@@ -34,6 +34,7 @@
 #include <gcp/view.h>
 #include <gccv/canvas.h>
 #include <gccv/group.h>
+#include <gccv/hash.h>
 #include <gccv/line.h>
 #include <gccv/wedge.h>
 #include <glib/gi18n-lib.h>
@@ -472,7 +473,7 @@ void gcpBondTool::UpdateBond()
 		bond->IncOrder ();
 	if (m_Item)
 		delete m_Item;
-	if (bond->GetOrder () ==1) {
+	if (bond->GetOrder () == 1) {
 		bond->GetLine2DCoords (1, &x1, &y1, &x2, &y2);
 		m_Item = new gccv::Line (m_pView->GetCanvas (), x1, y1, x2, y2);
 		static_cast <LineItem *> (m_Item)->SetLineColor (gcp::AddColor);
@@ -573,25 +574,6 @@ void gcpUpBondTool::Draw ()
 		m_Item = new Wedge (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1, pTheme->GetStereoBondWidth ());
 		static_cast <Wedge *> (m_Item)->SetFillColor (gcp::AddColor);
 	}
-/*	double dx, dy, x1, y1, x2, y2;
-	gcp::Theme *Theme = m_pView->GetDoc ()->GetTheme ();
-	x1 = sqrt (square (m_x1 - m_x0) + square (m_y1 - m_y0));
-	if (x1 == 0)
-		return;
-	dx = (m_y0 - m_y1) / x1 * Theme->GetStereoBondWidth () / 2;
-	dy = (m_x1 - m_x0) / x1 * Theme->GetStereoBondWidth () / 2;
-	points->coords[2] = m_x1 + dx;
-	points->coords[3] = m_y1 + dy;
-	points->coords[4] = m_x1 - dx;
-	points->coords[5] = m_y1 - dy;
-	m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_polygon_get_type (),
-								"points", points,
-								"fill_color", gcp::AddColor,
-								NULL);
-	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);*/
 }
 
 void gcpUpBondTool::UpdateBond ()
@@ -603,8 +585,6 @@ void gcpUpBondTool::UpdateBond ()
 		m_y = m_y0;
 		m_y0 = m_y1;
 		m_y1 = m_y;
-/*		points->coords[0] = m_x0;
-		points->coords[1] = m_y0;*/
 	}
 	Draw ();
 }
@@ -639,59 +619,16 @@ gcpDownBondTool::~gcpDownBondTool ()
 
 void gcpDownBondTool::Draw()
 {
-/*	double dx, dy, dx1, dy1, length;
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
-	m_pItem = gnome_canvas_item_new (m_pGroup, gnome_canvas_group_ext_get_type (), NULL);
-	length = sqrt (square (m_x1 - m_x0) + square (m_y1 - m_y0));
-	if (length == 0.0)
-		return;
-	int n = int (floor (length / (pTheme->GetHashDist () + pTheme->GetHashWidth ())));
-	dx1 = (m_x1 - m_x0) / length * pTheme->GetHashWidth ();
-	dy1 = (m_y1 - m_y0) / length * pTheme->GetHashWidth ();
-	dx = (m_y0 - m_y1) / length * pTheme->GetStereoBondWidth () / 2;
-	dy = (m_x1 - m_x0) / length * pTheme->GetStereoBondWidth () / 2;
-	points->coords[0] = m_x0 + dx;
-	points->coords[1] = m_y0 + dy;
-	points->coords[2] = m_x0 - dx;
-	points->coords[3] = m_y0 - dy;
-	dx *= (1 - pTheme->GetHashWidth () / length);
-	dy *= (1 - pTheme->GetHashWidth () / length);
-	points->coords[4] = m_x0 + dx1 - dx;
-	points->coords[5] = m_y0 + dy1 - dy;
-	points->coords[6] = m_x0 + dx1 + dx;
-	points->coords[7] = m_y0 + dy1 + dy;
-	dx = (m_x1 - m_x0) / length * (pTheme->GetHashDist () + pTheme->GetHashWidth ())
-		- (m_y0 - m_y1) / length * pTheme->GetStereoBondWidth () / 2 * (pTheme->GetHashDist () + pTheme->GetHashWidth ()) / length;
-	dy = (m_y1 - m_y0) / length * (pTheme->GetHashDist () + pTheme->GetHashWidth ())
-		- (m_x1 - m_x0) / length * pTheme->GetStereoBondWidth () / 2 *  (pTheme->GetHashDist () + pTheme->GetHashWidth ()) / length;
-	dx1 = (m_x1 - m_x0) / length * (pTheme->GetHashDist () + pTheme->GetHashWidth ())
-		+ (m_y0 - m_y1) / length * pTheme->GetStereoBondWidth () / 2 *  (pTheme->GetHashDist () + pTheme->GetHashWidth ()) / length;
-	dy1 = (m_y1 - m_y0) / length * (pTheme->GetHashDist () + pTheme->GetHashWidth ())
-		+ (m_x1 - m_x0) / length * pTheme->GetStereoBondWidth () / 2 *  (pTheme->GetHashDist () + pTheme->GetHashWidth ()) / length;
-	gnome_canvas_item_new (
-						GNOME_CANVAS_GROUP (m_pItem),
-						gnome_canvas_polygon_get_type (),
-						"points", points,
-						"fill_color", gcp::AddColor,
-						NULL);
-	for (int i = 1; i < n; i++) {
-		points->coords[0] += dx;
-		points->coords[1] += dy;
-		points->coords[2] += dx1;
-		points->coords[3] += dy1;
-		points->coords[6] += dx;
-		points->coords[7] += dy;
-		points->coords[4] += dx1;
-		points->coords[5] += dy1;
-		gnome_canvas_item_new (
-						GNOME_CANVAS_GROUP (m_pItem),
-						gnome_canvas_polygon_get_type (),
-						"points", points,
-						"fill_color", gcp::AddColor,
-						NULL);
+	if (m_Item) {
+		static_cast <Hash *> (m_Item)->SetPosition (m_x1, m_y1, m_x0, m_y0);
+	} else {
+		gccv::Hash *hash = new Hash (m_pView->GetCanvas (), m_x1, m_y1, m_x0, m_y0, pTheme->GetStereoBondWidth ());
+		hash->SetFillColor (gcp::AddColor);
+		hash->SetLineWidth (pTheme->GetHashWidth ());
+		hash->SetLineDist (pTheme->GetHashDist ());
+		m_Item = hash;
 	}
-	gnome_canvas_item_get_bounds (m_pItem, &dx, &dy, &dx1, &dy1);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) dx, (int) dy, (int) dx1, (int) dy1);*/
 }
 
 void gcpDownBondTool::UpdateBond ()
@@ -737,29 +674,14 @@ gcpForeBondTool::~gcpForeBondTool ()
 
 void gcpForeBondTool::Draw ()
 {
-/*	double dx, dy, x1, y1, x2, y2;
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
-	x1 = sqrt (square (m_x1 - m_x0) + square (m_y1 - m_y0));
-	if (x1 == 0)
-		return;
-	dx = (m_y0 - m_y1) / x1 * pTheme->GetStereoBondWidth () / 2;
-	dy = (m_x1 - m_x0) / x1 * pTheme->GetStereoBondWidth () / 2;
-	points->coords[0] = m_x0 + dx;
-	points->coords[1] = m_y0 + dy;
-	points->coords[2] = m_x1 + dx;
-	points->coords[3] = m_y1 + dy;
-	points->coords[4] = m_x1 - dx;
-	points->coords[5] = m_y1 - dy;
-	points->coords[6] = m_x0 - dx;
-	points->coords[7] = m_y0 - dy;
-	m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_polygon_get_type (),
-								"points", points,
-								"fill_color", gcp::AddColor,
-								NULL);
-	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-	gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);*/
+	if (m_Item) {
+		static_cast <Line *> (m_Item)->SetPosition (m_x0, m_y0, m_x1, m_y1);
+	} else {
+		m_Item = new gccv::Line (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1);
+		static_cast <LineItem *> (m_Item)->SetLineColor (gcp::AddColor);
+		static_cast <LineItem *> (m_Item)->SetLineWidth (pTheme->GetStereoBondWidth ());
+	}
 }
 
 void gcpForeBondTool::UpdateBond ()

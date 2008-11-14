@@ -96,19 +96,19 @@ void Line::UpdateBounds ()
 	double lw = GetLineWidth () / 2., lh;
 	double angle = atan2 (m_yend - m_ystart, m_xend - m_xstart);
 	// TODO: take line cap into account
-	lh = fabs (lw * cos (angle)) / 2.;
-	lw = fabs (lw * sin (angle)) / 2.;
+	lh = fabs (lw * cos (angle));
+	lw = fabs (lw * sin (angle));
 	if (m_xstart < m_xend) {
 		m_x0 = m_xstart - lw;
 		m_x1 = m_xend + lw;
-	}else {
+	} else {
 		m_x0 = m_xend - lw;
 		m_x1 = m_xstart + lw;
 	}
 	if (m_ystart < m_yend) {
 		m_y0 = m_ystart - lh;
 		m_y1 = m_yend + lh;
-	}else {
+	} else {
 		m_y0 = m_yend - lh;
 		m_y1 = m_ystart + lh;
 	}

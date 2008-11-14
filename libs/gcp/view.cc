@@ -306,7 +306,7 @@ GtkWidget* View::CreateNewWidget ()
 	gtk_widget_pop_colormap ();*/
 	m_Canvas = new gccv::Canvas (this);
 	m_pWidget = m_Canvas->GetWidget ();
-	m_Canvas->SetGap (2.);
+	m_Canvas->SetGap (3.); // FIXME: make this configurable
 //	GtkWidget* pWidget = (m_Widgets.size() > 0) ? m_Widgets.front () : NULL;
 	if (m_pWidget) {
 		g_object_set_data (G_OBJECT (m_pWidget), "view", this);

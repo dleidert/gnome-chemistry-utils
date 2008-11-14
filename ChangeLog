@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2008-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: add hash.*.
+	* libs/gccv/hash.cc: new item for "hash" bonds.
+	* libs/gccv/hash.h: ditto.
+	* libs/gccv/line.cc: fixed bounds.
+	* libs/gccv/wedge.cc: implemnted Wedge::Distanc().
+	* libs/gccv/wedge.h: made some members protected instead of private.
+	* libs/gcp/bond.cc: reimplement more bond types.
+	* libs/gcp/view.cc: increase the canvas gap to 3 to ease selection.
+	* libs/gcu/spectrumview.cc: on_max_changed calls OnMaxChanged.
+	* plugins/paint/bonds/bondtool.cc: reimplement more bond types.
+
 2008-11-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: enhance data loading [#24719] and always
 	update the invert axis check box.

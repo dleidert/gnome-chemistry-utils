@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * canvas/wedge.h 
+ * canvas/hash.h 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,37 +22,27 @@
  * USA
  */
 
-#ifndef GCCV_WEDGE_H
-#define GCCV_WEDGE_H
+#ifndef GCCV_HASH_H
+#define GCCV_HASH_H
 
-#include "fill-item.h"
-#include <goffice/utils/go-color.h>
+#include "wedge.h"
 
 namespace gccv {
 
-class Wedge: public Item
+class Hash: public Wedge
 {
 public:
-	Wedge (Canvas *canvas, double x0, double y0, double x1, double y1, double width);
-	Wedge (Group *parent, double x0, double y0, double x1, double y1, double width, ItemClient *client = NULL);
-	virtual ~Wedge ();
-
-	void SetPosition (double x0, double y0, double x1, double y1);
+	Hash (Canvas *canvas, double x0, double y0, double x1, double y1, double width);
+	Hash (Group *parent, double x0, double y0, double x1, double y1, double width, ItemClient *client = NULL);
+	virtual ~Hash ();
 
 	// virtual methods
-	double Distance (double x, double y, Item **item) const;
 	void Draw (cairo_t *cr, bool is_vector) const;
-	void UpdateBounds ();
-	void Move (double x, double y);
 
-protected:
-	double m_xstart, m_ystart, m_xend, m_yend;
-	double m_xe1, m_ye1, m_xe2, m_ye2;
-
-GCCV_ITEM_POS_PROP (double, Width);
-GCCV_ITEM_PROP (GOColor, FillColor)
+GCCV_ITEM_POS_PROP (double, LineWidth);
+GCCV_ITEM_POS_PROP (double, LineDist);
 };
 
 }
 
-#endif	//	 GCCV_WEDGE_H
+#endif	//	 GCCV_HASH_H

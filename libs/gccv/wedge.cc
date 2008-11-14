@@ -61,7 +61,33 @@ void Wedge::SetPosition (double x0, double y0, double x1, double y1)
 
 double Wedge::Distance (double x, double y, Item **item) const
 {
-	return G_MAXDOUBLE; // FIXME
+	double dx, dy, dx1, dy1, length;
+	dx = m_xend - m_xstart;
+	dy = m_yend - m_ystart;
+	dx1 = x - m_xstart;
+	dy1 = y - m_ystart;
+	length = sqrt (dx * dx  + dy * dy);
+	if (length == 0.)
+		return sqrt (dx1 * dx1 + dy1 * dy1);
+	// project the (dx1, dy1) vector on the wedge axis.
+	double xx = (dx1 * dx + dy1 * dy) / length;
+	if (xx < 0.)
+		return sqrt (dx1 * dx1 + dy1 * dy1);
+	double yy = (dx1 * dy - dy1 * dx) / length;
+	if (xx > length) {
+		dx1 = xx -length;
+		if (yy > m_Width / 2.)
+			yy -= m_Width / 2.;
+		else if (yy < -m_Width / 2.)
+			yy += m_Width / 2.;
+		else
+			return fabs (dx1);
+		return sqrt (dx1 * dx1 + yy * yy);
+	}
+	if (fabs (yy) < m_Width / 2. * fabs (xx) / length)
+		return 0.;
+	yy = fabs (yy) - m_Width / 2. * fabs (xx) / length;
+	return yy;
 }
 
 void Wedge::Draw (cairo_t *cr, bool is_vector) const
