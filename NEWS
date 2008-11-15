@@ -5,7 +5,9 @@ Version 0.10.1
 		* Don't allow new bonds between molecules in different groups.
 		* Prefer a cycle with cis configuration when drawing
 		double bonds. [#24802]
+		* Fixed various crashes.
 	GSpectrum
+		* More secure loading of some files. [#24719]
 		* Correctly load negative values in (XY..XY) tables. [#24720]
 	Mozilla plugin:
 		* fix loading of spectra and 3d files.
