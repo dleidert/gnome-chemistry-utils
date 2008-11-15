@@ -51,7 +51,7 @@ static void on_min_changed (SpectrumView *view)
 
 static void on_max_changed (SpectrumView *view)
 {
-	view->OnMinChanged ();
+	view->OnMaxChanged ();
 }
 
 static void on_xrange_changed (SpectrumView *view)
