@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * canvas/hash.h 
+ * canvas/squiggle.h 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,27 +22,38 @@
  * USA
  */
 
-#ifndef GCCV_HASH_H
-#define GCCV_HASH_H
+#ifndef GCCV_SQUIGGLE_H
+#define GCCV_SQUIGGLE_H
 
-#include "wedge.h"
+#include "line-item.h"
 
 namespace gccv {
 
-class Hash: public Wedge
+class Squiggle: public LineItem
 {
 public:
-	Hash (Canvas *canvas, double x0, double y0, double x1, double y1, double width);
-	Hash (Group *parent, double x0, double y0, double x1, double y1, double width, ItemClient *client = NULL);
-	virtual ~Hash ();
+	Squiggle (Canvas *canvas, double xstart, double ystart, double xend, double yend);
+	Squiggle (Group *parent, double xstart, double ystart, double xend, double yend, ItemClient *client = NULL);
+	virtual ~Squiggle ();
+
+	void SetPosition (double xstart, double ystart, double xend, double yend);
 
 	// virtual methods
+	double Distance (double x, double y, Item **item) const;
 	void Draw (cairo_t *cr, bool is_vector) const;
+	void UpdateBounds ();
+	void Move (double x, double y);
 
-GCCV_ITEM_POS_PROP (double, LineWidth)
-GCCV_ITEM_POS_PROP (double, LineDist)
+private:
+	double m_xstart;
+	double m_ystart;
+	double m_xend;
+	double m_yend;
+	
+GCCV_ITEM_POS_PROP (double, Width)
+GCCV_ITEM_POS_PROP (double, Step)
 };
 
 }
 
-#endif	//	 GCCV_HASH_H
+#endif	//	 GCCV_SQUIGGLE_H

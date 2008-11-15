@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: ad squiggle.*.
+	* libs/gccv/hash.h: remove unneeded semicolons.
+	* libs/gccv/squiggle.cc: new item for "squiggle" bonds.
+	* libs/gccv/squiggle.h: ditto.
+	* libs/gccv/wedge.h: remove unneeded semicolons.
+	* libs/gcp/bond.cc: reimplemented squiggle bonds.
+	* plugins/paint/bonds/bondtool.cc: ditto.
+
 2008-11-14  Jordan Mantha  <laserjock@ubuntu.com>
 	* libs/gcu/spectrumview.cc: implement y-axis adjustment
 	* libs/gcu/spectrumview.h: ditto

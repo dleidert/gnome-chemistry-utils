@@ -36,6 +36,7 @@
 #include <gccv/group.h>
 #include <gccv/hash.h>
 #include <gccv/line.h>
+#include <gccv/squiggle.h>
 #include <gccv/wedge.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -716,38 +717,17 @@ gcpSquiggleBondTool::~gcpSquiggleBondTool ()
 
 void gcpSquiggleBondTool::Draw ()
 {
-/*	GnomeCanvasPathDef *path_def;
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
-	path_def = gnome_canvas_path_def_new ();
-	gnome_canvas_path_def_moveto (path_def, m_x0, m_y0);
-	double x = m_x0, y = m_y0, dx, dy, length, x1, x2, y1, y2;
-	length = sqrt (square (m_x1 - m_x0) + square (m_y1 - m_y0));
-	int n = (int)length / 3, s = 1;
-	dx = (m_x1 - m_x0) / n;
-	dy = (m_y1 - m_y0) / n;
-	for (int i = 1; i < n; i++) {
-		x1 = x + dx / 3 + dy /1.5 * s;
-		y1 = y + dy / 3 - dx /1.5 * s;
-		x2 = x + dx / 1.5 + dy /1.5 * s;
-		y2 = y + dy / 1.5 - dx /1.5 * s;
-		x += dx;
-		y += dy;
-		s *= -1;
-		gnome_canvas_path_def_curveto (path_def, x1, y1, x2, y2, x, y);
+	if (m_Item) {
+		static_cast <Squiggle *> (m_Item)->SetPosition (m_x0, m_y0, m_x1, m_y1);
+	} else {
+		Squiggle *squiggle = new Squiggle (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1);
+		squiggle->SetLineColor (gcp::AddColor);
+		squiggle->SetLineWidth (pTheme->GetBondWidth ());
+		squiggle->SetWidth (pTheme->GetStereoBondWidth () - pTheme->GetBondWidth () / 2.);
+		squiggle->SetStep (pTheme->GetHashDist ());
+		m_Item = squiggle;
 	}
-	x1 = x + dx / 3 + dy /1.5 * s;
-	y1 = y + dy / 3 - dx /1.5 * s;
-	x2 = x + dx / 1.5 + dy /1.5 * s;
-	y2 = y + dy / 1.5 - dx /1.5 * s;
-	gnome_canvas_path_def_curveto (path_def, x1, y1, x2, y2, m_x1, m_y1);
-	m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_bpath_get_type (),
-								"outline_color", gcp::AddColor,
-								"width_units", pTheme->GetBondWidth (),
-								"bpath", path_def,
-								NULL);
-	gnome_canvas_path_def_unref (path_def);*/
 }
 
 void gcpSquiggleBondTool::UpdateBond ()

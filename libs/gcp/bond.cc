@@ -35,6 +35,7 @@
 #include <gccv/group.h>
 #include <gccv/hash.h>
 #include <gccv/line.h>
+#include <gccv/squiggle.h>
 #include <gccv/wedge.h>
 #include <gcu/cycle.h>
 #include <gcu/objprops.h>
@@ -555,7 +556,6 @@ void Bond::SetSelected (int state)
 		break;
 	}
 	case UndeterminedBondType:
-		break;
 	case ForeBondType: {
 		gccv::LineItem *item = static_cast <gccv::LineItem *> (m_Item);
 		item->SetLineColor (color);
@@ -596,8 +596,21 @@ void Bond::AddItem ()
 		}
 		break;
 	}
-	case UndeterminedBondType:
+	case UndeterminedBondType: {
+		GetLine2DCoords (1, &x1, &y1, &x2, &y2);
+		gccv::Squiggle *squiggle = new gccv::Squiggle (view->GetCanvas ()->GetRoot (),
+							x1 * theme->GetZoomFactor (),
+							y1 * theme->GetZoomFactor (),
+							x2 * theme->GetZoomFactor (),
+							y2 * theme->GetZoomFactor (),
+							this);
+		squiggle->SetLineWidth (theme->GetBondWidth ());
+		squiggle->SetWidth (theme->GetStereoBondWidth () - theme->GetBondWidth () / 2.);
+		squiggle->SetStep (theme->GetHashDist ());
+		squiggle->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		m_Item = squiggle;
 		break;
+	}
 	case ForeBondType: {
 		GetLine2DCoords (1, &x1, &y1, &x2, &y2);
 		gccv::Line *line = new gccv::Line (view->GetCanvas ()->GetRoot (),

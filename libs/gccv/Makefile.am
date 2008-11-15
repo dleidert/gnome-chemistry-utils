@@ -13,6 +13,7 @@ noinst_HEADERS = \
 	line.h	\
 	line-item.h	\
 	rectangle.h	\
+	squiggle.h \
 	structs.h \
 	text.h \
 	wedge.h
@@ -28,6 +29,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	line.cc	\
 	line-item.cc	\
 	rectangle.cc	\
+	squiggle.cc \
 	text.cc \
 	wedge.cc
 

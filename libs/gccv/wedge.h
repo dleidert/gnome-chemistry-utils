@@ -49,7 +49,7 @@ protected:
 	double m_xstart, m_ystart, m_xend, m_yend;
 	double m_xe1, m_ye1, m_xe2, m_ye2;
 
-GCCV_ITEM_POS_PROP (double, Width);
+GCCV_ITEM_POS_PROP (double, Width)
 GCCV_ITEM_PROP (GOColor, FillColor)
 };
 
