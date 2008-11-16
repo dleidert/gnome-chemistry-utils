@@ -28,10 +28,14 @@
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gcu/xml-utils.h>
+#include <gccv/canvas.h>
+#include <gccv/circle.h>
 #include <cstring>
 
 using namespace gcu;
+using namespace gccv;
 
 TypeId PseudoAtomType = NoType;
 
@@ -58,6 +62,21 @@ void gcpPseudoAtom::Update ()
 
 void gcpPseudoAtom::AddItem ()
 {
+	if (m_Item != NULL)
+		return;
+	gcp::Document *doc = static_cast <gcp::Document *> (GetDocument ());
+	gcp::View *view = doc->GetView ();
+	gcp::WidgetData* pData = view->GetData ();
+	double x, y, r;
+	GetCoords (&x, &y);
+	gcp::Theme *pTheme = static_cast <gcp::Document *> (GetDocument ())->GetTheme ();
+	x *= pTheme->GetZoomFactor ();
+	y *= pTheme->GetZoomFactor ();
+	r = pTheme->GetFontSize () / PANGO_SCALE / 2;
+	Circle *circle = new Circle (pData->m_View->GetCanvas ()->GetRoot (), x, y, r, this);
+	circle->SetFillColor ((pData->IsSelected (this))? gcp::SelectColor: gcp::Color);
+	circle->SetLineColor (0);
+	m_Item = circle;
 /*	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
 	if (pData->Items[this] != NULL)
 		return;
@@ -85,22 +104,20 @@ void gcpPseudoAtom::AddItem ()
 
 void gcpPseudoAtom::UpdateItem ()
 {
-/*	if (!w)
+	if (!m_Item) {
+		AddItem ();
 		return;
-	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
+	}
+	gcp::WidgetData* pData = static_cast <gcp::Document *> (GetDocument ())->GetView ()->GetData ();
 	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
 	double x, y, r;
 	GetCoords (&x, &y);
 	x *= pTheme->GetZoomFactor ();
 	y *= pTheme->GetZoomFactor ();
 	r = pTheme->GetFontSize () / PANGO_SCALE / 2;
-	GnomeCanvasGroup *group = pData->Items[this];
-		g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "ellipse")),
-							"x1", x - r,
-							"y1", y  - r,
-							"x2", x + r,
-							"y2", y  + r,
-							NULL);*/
+	Circle *circle = static_cast <Circle *> (m_Item);
+	circle->SetPosition (x, y);
+	circle->SetRadius (r);
 }
 
 xmlNodePtr gcpPseudoAtom::Save (xmlDocPtr xml) const
@@ -141,6 +158,9 @@ bool gcpPseudoAtom::LoadNode (xmlNodePtr)
 
 void gcpPseudoAtom::SetSelected (int state)
 {
+	if (!m_Item)
+		return;
+	static_cast <FillItem *> (m_Item)->SetFillColor ((state == gcp::SelStateSelected)? gcp::SelectColor: gcp::Color);
 /*	gcp::WidgetData* pData = reinterpret_cast<gcp::WidgetData*> (g_object_get_data (G_OBJECT (w), "data"));
 	GnomeCanvasGroup* group = pData->Items[this];
 	g_object_set (G_OBJECT(g_object_get_data(G_OBJECT(group), "ellipse")),

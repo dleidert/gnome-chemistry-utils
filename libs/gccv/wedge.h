@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * canvas/wedge.h 
+ * gccv/wedge.h 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *

@@ -3,7 +3,9 @@ MAINTAINERCLEANFILES = Makefile.in
 lib_LTLIBRARIES = libgccv-@GCU_API_VER@.la
 
 noinst_HEADERS = \
+	arrow.h		\
 	canvas.h	\
+	circle.h	\
 	client.h	\
 	fill-item.h	\
 	group.h		\
@@ -19,7 +21,9 @@ noinst_HEADERS = \
 	wedge.h
 
 libgccv_@GCU_API_VER@_la_SOURCES =	\
+	arrow.cc	\
 	canvas.cc	\
+	circle.cc	\
 	client.cc	\
 	fill-item.cc	\
 	group.cc	\

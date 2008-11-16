@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * canvas/group.cc 
+ * gccv/group.cc 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *

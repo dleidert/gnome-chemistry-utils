@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * canvas/item.h 
+ * gccv/item.h 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *

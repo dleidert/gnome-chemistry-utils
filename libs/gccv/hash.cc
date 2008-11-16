@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * canvas/hash.cc 
+ * gccv/hash.cc 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *

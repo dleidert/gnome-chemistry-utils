@@ -50,8 +50,8 @@ Possible values are:
 	- FragmentType several atoms linked and represented by a text such as COOH (only in GChemPaint).
 	- BondType a bond between two (or more) atoms.
 	- MoleculeType a molecule.
-	- ChainType a chain of atoms (only in GChemPaint)
-	- CycleType a cycle (only in GChemPaint)
+	- ChainType a chain of atoms.
+	- CycleType a cycle.
 	- ReactantType a molecule involved in a reaction (only in GChemPaint).
 	- ReactionArrowType a reaction arrow (only in GChemPaint).
 	- ReactionOperatorType a + sign in a reaction (only in GChemPaint).

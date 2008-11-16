@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/fill-item.h 
+ * gccv/arrow.h 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,25 +22,42 @@
  * USA
  */
 
-#ifndef GCCV_LINE_ITEM_H
-#define GCCV_LINE_ITEM_H
+#ifndef GCCV_ARROW_H
+#define GCCV_ARROW_H
 
-#include "item.h"
-#include <gcu/macros.h>
-#include <goffice/utils/go-color.h>
+#include "line.h"
 
 namespace gccv {
 
-class LineItem: public Item {
-public:
-	LineItem (Canvas *canvas);
-	LineItem (Group *parent, ItemClient *client = NULL);
-	virtual ~LineItem ();
+typedef enum {
+	ArrowHeadNone,
+	ArrowHeadFull,
+	ArrowHeadLeft,
+	ArrowHeadRight,
+} ArrowHeads;
 
-GCCV_ITEM_PROP (double, LineWidth)
-GCCV_ITEM_PROP (GOColor, LineColor)
+class Arrow: public Line
+{
+public:
+	Arrow (Canvas *canvas, double xstart, double ystart, double xend, double yend);
+	Arrow (Group *parent, double xstart, double ystart, double xend, double yend, ItemClient *client = NULL);
+	virtual ~Arrow ();
+
+	// virtual methods
+	double Distance (double x, double y, Item **item) const;
+	void Draw (cairo_t *cr, bool is_vector) const;
+	void UpdateBounds ();
+	void Move (double x, double y);
+
+private:
+	
+GCCV_ITEM_POS_PROP (ArrowHeads, first)
+GCCV_ITEM_POS_PROP (ArrowHeads, end)
+GCCV_ITEM_POS_PROP (double, A)
+GCCV_ITEM_POS_PROP (double, B)
+GCCV_ITEM_POS_PROP (double, C)
 };
 
 }
 
-#endif	//	GCCV_LINE_ITEM_H
+#endif	//	 GCCV_SQUIGGLE_H

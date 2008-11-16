@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/rectangle.cc 
+ * gccv/circle.cc 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -23,86 +23,61 @@
  */
 
 #include "config.h"
-#include "rectangle.h"
+#include "circle.h"
 #include "canvas.h"
+#include <cmath>
 
 namespace gccv {
 
-Rectangle::Rectangle (Canvas *canvas, double x, double y, double width, double height):
-	FillItem (canvas), m_x (0.), m_y (0.), m_w (0.), m_h (0.)
+Circle::Circle (Canvas *canvas, double x, double y, double radius):
+	FillItem (canvas)
 {
-	SetPosition (x, y, width, height);
+	SetPosition (x, y);
+	SetRadius (radius);
 }
 
-Rectangle::Rectangle (Group *parent, double x, double y, double width, double height, ItemClient *client):
-	FillItem (parent, client), m_x (0.), m_y (0.), m_w (0.), m_h (0.)
+Circle::Circle (Group *parent, double x, double y, double radius, ItemClient *client):
+	FillItem (parent, client)
 {
-	SetPosition (x, y, width, height);
+	SetPosition (x, y);
+	SetRadius (radius);
 }
 
-Rectangle::~Rectangle ()
+Circle::~Circle ()
 {
 }
 
-void Rectangle::SetPosition (double x, double y, double width, double height)
+void Circle::SetPosition (double x, double y)
 {
 	Invalidate ();
-	if (width > 0) {
-		m_x = x;
-		m_w = width;
-	} else {
-		m_x = x + width;
-		m_w = -width;
-	}
-	if (height > 0) {
-		m_y = y;
-		m_h = height;
-	} else {
-		m_y = y + height;
-		m_h = -height;
-	}
+	m_x = x;
+	m_y = y;
 	BoundsChanged ();
 	Invalidate ();
 }
 
-void Rectangle::GetPosition (double &x, double &y)
+void Circle::GetPosition (double &x, double &y)
 {
 	x = m_x;
 	y = m_y;
 }
 
-double Rectangle::Distance (double x, double y, Item **item) const
+double Circle::Distance (double x, double y, Item **item) const
 {
 	double result;
-	if (x < m_x0) {
-		if (y < m_y0) {
-		} else if (y < m_y1) {
-		} else {
-		}
-	} else if (x < m_x1) {
-		if (y < m_y0) {
-		} else if (y < m_y1)
-			result = 0.;
-		else {
-		}
-	} else {
-		if (y < m_y0) {
-		} else if (y < m_y1) {
-		} else {
-		}
-	}
-	if (item)
-		*item = const_cast <Rectangle *> (this);
-	return result;
+	x -= m_x0;
+	y -= m_y0;
+	result = sqrt (x * x + y * y);
+	if (GetFillColor () & 0xff && result < m_Radius + GetLineWidth () / 2.)
+		return 0.;
+	return fabs (result - m_Radius) - GetLineWidth () / 2.;
 }
 
-void Rectangle::Draw (cairo_t *cr, bool is_vector) const
+void Circle::Draw (cairo_t *cr, bool is_vector) const
 {
 	GOColor color = GetFillColor ();
 	cairo_set_line_width (cr, GetLineWidth ());
-	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
-	cairo_set_miter_limit (cr, 10.);
-	cairo_rectangle (cr, m_x, m_y, m_w, m_h);
+	cairo_arc (cr, m_x, m_y, m_Radius, 0., 2 * M_PI);
 	if (color != 0) {
 		cairo_set_source_rgba (cr, DOUBLE_RGBA_R (color), DOUBLE_RGBA_G (color), DOUBLE_RGBA_B (color), DOUBLE_RGBA_A (color));
 		color = GetLineColor ();
@@ -118,17 +93,17 @@ void Rectangle::Draw (cairo_t *cr, bool is_vector) const
 	}
 }
 
-void Rectangle::UpdateBounds ()
+void Circle::UpdateBounds ()
 {
 	double lw = GetLineWidth () / 2.;
-	m_x0 = m_x - lw;
-	m_x1 = m_x + m_w + lw;
-	m_y0 = m_y - lw;
-	m_y1 = m_y + m_h + lw;
+	m_x0 = m_x - m_Radius - lw;
+	m_x1 = m_x + m_Radius + lw;
+	m_y0 = m_y - m_Radius - lw;
+	m_y1 = m_y + m_Radius + lw;
 	Item::UpdateBounds ();
 }
 
-void Rectangle::Move (double x, double y)
+void Circle::Move (double x, double y)
 {
 	Invalidate ();
 	m_x += x;

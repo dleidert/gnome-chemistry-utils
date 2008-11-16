@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/fill-item.h 
+ * gccv/arrow.cc
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,25 +22,43 @@
  * USA
  */
 
-#ifndef GCCV_LINE_ITEM_H
-#define GCCV_LINE_ITEM_H
-
-#include "item.h"
-#include <gcu/macros.h>
-#include <goffice/utils/go-color.h>
+#include "config.h"
+#include "canvas.h"
+#include "group.h"
+#include "arrow.h"
+#include <cmath>
 
 namespace gccv {
 
-class LineItem: public Item {
-public:
-	LineItem (Canvas *canvas);
-	LineItem (Group *parent, ItemClient *client = NULL);
-	virtual ~LineItem ();
-
-GCCV_ITEM_PROP (double, LineWidth)
-GCCV_ITEM_PROP (GOColor, LineColor)
-};
-
+Arrow::Arrow (Canvas *canvas, double xstart, double ystart, double xend, double yend):
+	Line (canvas, xstart, ystart, xend, yend)
+{
 }
 
-#endif	//	GCCV_LINE_ITEM_H
+Arrow::Arrow (Group *parent, double xstart, double ystart, double xend, double yend, ItemClient *client):
+	Line (parent, xstart, ystart, xend, yend, client)
+{
+}
+
+Arrow::~Arrow ()
+{
+}
+
+double Arrow::Distance (double x, double y, Item **item) const
+{
+	return G_MAXDOUBLE; //FIXME
+}
+
+void Arrow::Draw (cairo_t *cr, bool is_vector) const
+{
+}
+
+void Arrow::UpdateBounds ()
+{
+}
+
+void Arrow::Move (double x, double y)
+{
+}
+
+}

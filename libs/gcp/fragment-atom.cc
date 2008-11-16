@@ -160,7 +160,7 @@ xmlNodePtr FragmentAtom::Save (xmlDocPtr xml) const
 				xmlNewProp (node, (xmlChar*) "charge-dist", (xmlChar*) buf);
 				g_free (buf);
 			}
-		}
+		}		
 	}
 	return node;
 }

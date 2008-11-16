@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/fill-item.h 
+ * gccv/circle.h 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,25 +22,35 @@
  * USA
  */
 
-#ifndef GCCV_LINE_ITEM_H
-#define GCCV_LINE_ITEM_H
+#ifndef GCCV_CIRCLE_H
+#define GCCV_CIRCLE_H
 
-#include "item.h"
-#include <gcu/macros.h>
-#include <goffice/utils/go-color.h>
+#include "fill-item.h"
 
 namespace gccv {
 
-class LineItem: public Item {
+class Circle: public FillItem
+{
 public:
-	LineItem (Canvas *canvas);
-	LineItem (Group *parent, ItemClient *client = NULL);
-	virtual ~LineItem ();
+	Circle (Canvas *canvas, double x, double y, double radius);
+	Circle (Group *parent, double x, double y, double radius, ItemClient *client = NULL);
+	virtual ~Circle ();
 
-GCCV_ITEM_PROP (double, LineWidth)
-GCCV_ITEM_PROP (GOColor, LineColor)
+	void SetPosition (double x, double y);
+	void GetPosition (double &x, double &y);
+
+	// virtual methods
+	double Distance (double x, double y, Item **item) const;
+	void Draw (cairo_t *cr, bool is_vector) const;
+	void UpdateBounds ();
+	void Move (double x, double y);
+
+private:
+	double m_x, m_y;
+
+GCCV_ITEM_POS_PROP (double, Radius)
 };
 
 }
 
-#endif	//	GCCV_LINE_ITEM_H
+#endif	//	 GCCV_CIRCLE_H

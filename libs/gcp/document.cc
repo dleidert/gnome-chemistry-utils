@@ -484,7 +484,10 @@ void Document::AddAtom (Atom* pAtom)
 		pAtom->SetId (id);
 		Id = id;
 	}
-	m_pView->AddObject (pAtom);
+	if (!pAtom->GetParent ())
+		AddChild (pAtom);
+	if (m_pView->GetCanvas ())
+		m_pView->AddObject (pAtom);
 	if (m_bIsLoading)
 		return;
 	Molecule* mol = new Molecule ();
@@ -545,10 +548,11 @@ void Document::AddBond (Bond* pBond)
 	}
 	AddChild (pBond);
 	Atom *pAtom0 = (Atom*) pBond->GetAtom (0), *pAtom1 = (Atom*) pBond->GetAtom (1);
-	pAtom0->UpdateItem ();
-	pAtom1->UpdateItem ();
-	if (m_pView->GetCanvas ())
+	if (m_pView->GetCanvas ()) {
+		pAtom0->UpdateItem ();
+		pAtom1->UpdateItem ();
 		pBond->AddItem ();
+	}
 	if (m_bIsLoading)
 		return;
 	//search molecules

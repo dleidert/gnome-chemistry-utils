@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * canvas/item.cc 
+ * gccv/item.cc 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -50,7 +50,6 @@ Item::Item (Group *parent, ItemClient *client):
 	if (parent)
 		parent->AddChild (this);
 	m_Canvas = (parent)? parent->m_Canvas: NULL;
-	
 }
 
 Item::~Item()

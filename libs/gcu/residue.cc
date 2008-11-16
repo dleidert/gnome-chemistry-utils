@@ -170,13 +170,14 @@ void Residue::Load (xmlNodePtr node)
 						lang_matched = true;
 					}
 				}
-				xmlFree (node_lang);
 			} else if (!lang_matched) {
 				if (name)
 					xmlFree (name);
 				name = reinterpret_cast <char *> (xmlNodeGetContent (child));
 			}
 			m_Names[(node_lang)? node_lang: "C"] = reinterpret_cast <char const *> (xmlNodeGetContent (child));
+			if (node_lang)
+				xmlFree (node_lang);
 		} else if (!strcmp (reinterpret_cast <char const *> (child->name), "symbols")) {
 			symbols = reinterpret_cast <char *> (xmlNodeGetContent (child));
 			std::istringstream s(symbols);
