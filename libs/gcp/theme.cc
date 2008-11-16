@@ -206,9 +206,8 @@ static int set_fontsize (double val) {return (int) (val * PANGO_SCALE);}
 ThemeManager::ThemeManager ()
 {
 	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
-#ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#endif
+	g_type_init ();
 #ifdef HAVE_GO_CONF_SYNC
 	libgoffice_init ();
 	m_ConfNode = go_conf_get_node (gcu::Application::GetConfDir (), GCP_CONF_DIR_SETTINGS);

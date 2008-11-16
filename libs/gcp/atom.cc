@@ -478,16 +478,18 @@ void Atom::Add (GtkWidget* w) const
 		g_object_set_data (G_OBJECT (group), "symbol", item);
 		g_object_set_data (G_OBJECT (item), "object", (void *) this);
 		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-		item = gnome_canvas_item_new (
-							group,
-							gnome_canvas_pango_get_type (),
-							"x", x - m_lbearing + m_xHOffs,
-							"y", y - m_ascent + m_CHeight + m_yHOffs,
-							"layout", m_HLayout,
-						NULL);
-		g_object_set_data (G_OBJECT (group), "hydrogens", item);
-		g_object_set_data (G_OBJECT (item), "object", (void *) this);
-		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
+		if (GetAttachedHydrogens ()) {
+			item = gnome_canvas_item_new (
+								group,
+								gnome_canvas_pango_get_type (),
+								"x", x - m_lbearing + m_xHOffs,
+								"y", y - m_ascent + m_CHeight + m_yHOffs,
+								"layout", m_HLayout,
+							NULL);
+			g_object_set_data (G_OBJECT (group), "hydrogens", item);
+			g_object_set_data (G_OBJECT (item), "object", (void *) this);
+			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
+		}
 	} else {
 		item = gnome_canvas_item_new (
 								group,

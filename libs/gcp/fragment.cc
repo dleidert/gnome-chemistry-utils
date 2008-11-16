@@ -150,6 +150,7 @@ bool Fragment::OnChanged (bool save)
 					m_Atom->AddBond (pBond);
 				}
 				delete pOldAtom;
+				AddChild (m_Atom);
 			}
 		} else {
 			int Z = GetElementAtPos (m_StartSel, CurPos);
@@ -167,6 +168,7 @@ bool Fragment::OnChanged (bool save)
 						m_Atom->AddBond (pBond);
 					}
 					delete pOldAtom;
+					AddChild (m_Atom);
 				} else
 					m_Atom->SetZ (Z);
 				m_BeginAtom = m_StartSel;
@@ -210,6 +212,7 @@ bool Fragment::OnChanged (bool save)
 					m_Atom->AddBond (pBond);
 				}
 				delete pOldAtom;
+				AddChild (m_Atom);
 			}
 		} else {
 			int Z = GetElementAtPos (m_BeginAtom, m_EndAtom);
@@ -224,6 +227,7 @@ bool Fragment::OnChanged (bool save)
 					m_Atom->AddBond (pBond);
 				}
 				delete pOldAtom;
+				AddChild (m_Atom);
 			} else
 				m_Atom->SetZ (Z);
 			if (!Z)

@@ -364,8 +364,16 @@ void gcpSelectionTool::CreateGroup ()
 		std::list<Object*>::iterator i, end = m_pData->SelectedObjects.end();
 		for (i = m_pData->SelectedObjects.begin (); i != end; i++)
 			m_pOp->AddObject (*i,0);
-		if (!pObj->Build (m_pData->SelectedObjects))
-			throw logic_error (_("Creation failed!"));
+		if (!pObj->Build (m_pData->SelectedObjects)) {
+			pDoc->AbortOperation ();
+			delete pObj;
+			GtkWidget* message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0,
+								GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Creation failed!"));
+			gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
+			g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
+			gtk_widget_show (message);
+			return;
+		}
 		m_pView->Update (pObj);
 		m_pData->UnselectAll ();
 		m_pData->SetSelected (pObj);
@@ -373,7 +381,7 @@ void gcpSelectionTool::CreateGroup ()
 		m_pOp->AddObject (pObj, 1);
 		pDoc->FinishOperation ();
 	}
-	catch (invalid_argument& e) {
+	catch (invalid_argument &e) {
 			pDoc->AbortOperation ();
 			delete pObj;
 			GtkWidget* message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0,

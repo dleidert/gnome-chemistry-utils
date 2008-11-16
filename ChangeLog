@@ -1,6 +1,17 @@
 ##Text encoding: utf-8
 
 2008-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: do not add the hydrogens item when there are
+	no attached hydrogens.
+	* libs/gcp/bond.cc: a better fix for double bonds drawing.
+	* libs/gcp/fragment.cc: alwayes set the atom as child.
+	* libs/gcp/theme.cc: call g_type_init.
+	* libs/gcu/object.h: fixed documentation.
+	* libs/gcu/residue.cc: don't free lang before using it.
+	* plugins/paint/selection/selectiontool.cc: display an error message box
+	instead crashing when a group creation failed.
+
+2008-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.2).
 	* libs/gcp/bond.cc: fixed second line for a double bond which was too
 	long in some cases.
