@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.10.2).
+	* libs/gcp/bond.cc: fixed second line for a double bond which was too
+	long in some cases.
+
 2008-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumview.cc: on_max_changed calls OnMaxChanged.
 

@@ -1,3 +1,7 @@
+Version 0.10.2
+	GChemPaint
+		* Fixed an issue with double bond drawing.
+
 Version 0.10.1
 	GChemPaint
 		* Fixed the chain tool for undo/redo operations and unallowed

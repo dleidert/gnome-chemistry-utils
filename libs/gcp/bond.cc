@@ -228,7 +228,7 @@ general:
 							}
 							bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
 						}
-					m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
+					m_coords[6] = *x2 + BondDist * cosa * tanb - dy * sign;
 					m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
 					goto done;
 				}
