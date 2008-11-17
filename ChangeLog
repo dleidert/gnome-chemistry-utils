@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-11-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: theme reference fix.
+	* libs/gcp/fragment.cc: major update fixes.
+	* plugins/paint/bonds/bondtool.cc: fix undo when adding a bond between two
+	molecules.
+	* plugins/paint/text/fragmenttool.cc: fix bond update when changing an
+	atom to a fragment.
+
 2008-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: do not add the hydrogens item when there are
 	no attached hydrogens.

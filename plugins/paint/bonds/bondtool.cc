@@ -418,7 +418,7 @@ void gcpBondTool::OnRelease ()
 				ModifiedObjects.clear ();
 				return;
 			}
-			pObject = m_pObject->GetGroup ();
+			pObject = m_pAtom->GetGroup ();
 			if (!pObject)
 				throw runtime_error (_("Invalid document tree, please file a bug report"));
 			ModifiedObjects.insert (pObject->GetId ());

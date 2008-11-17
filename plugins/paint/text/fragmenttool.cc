@@ -271,8 +271,14 @@ bool gcpFragmentTool::Unselect ()
 	if (!m_Active)
 		return true;
 	gcp::Fragment *fragment = (gcp::Fragment*) g_object_get_data (G_OBJECT (m_Active), "object");
-	if (fragment->Validate ())
+	if (fragment->Validate ()) {
+		Atom *atom = fragment->GetAtom ();
+		map<Atom*, Bond*>::iterator i;
+		gcp::Bond *pBond = reinterpret_cast <gcp::Bond *> (atom->GetFirstBond (i));
+		if (pBond)
+			m_pView->Update (pBond);
 		return gcpTextTool::Unselect ();
+	}
 	return false;
 }
 

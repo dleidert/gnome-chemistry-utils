@@ -1296,12 +1296,12 @@ double Document::GetYAlign ()
 
 void Document::SetTheme (Theme *theme)
 {
+	if (m_Theme)
+		m_Theme->RemoveClient (this);
 	if (!theme) {
 		m_Theme = NULL;
 		return;
 	}
-	if (m_Theme)
-		m_Theme->RemoveClient (this);
 	m_Theme = theme;
 	m_Theme->AddClient (this);
 	m_BondLength = theme->GetBondLength ();
