@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-11-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/bonds/bondtool.cc: fix undo when adding a bond between two
+	molecules.
+
 2008-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: added new files.
 	* libs/gccv/arrow.cc: initial work on arrows.
