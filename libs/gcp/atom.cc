@@ -1049,7 +1049,7 @@ int Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double
 			Pos = 0;
 			angle = m_AngleList.front();
 			double max = 0.0;
-			n = m_AngleList.end ();
+			end = m_AngleList.end ();
 			//if we are there, there are at least two bonds
 			for (n = m_AngleList.begin (), n++; n != end; n++) {
 				if (*n - angle > max) {

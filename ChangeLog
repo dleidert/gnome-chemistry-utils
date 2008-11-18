@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: don't crash or end in an infinite loop when adding
+	a fourth bond to phophorus. [#24863]
+
 2008-11-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/bondtool.cc: fix undo when adding a bond between two
 	molecules.
