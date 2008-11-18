@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: don't crash or end in an infinite loop when adding
+	a fourth bond to phophorus. [#24863]
+	* libs/gcp/bond.cc: avoid a crash when a bond is created between two
+	molecules. [#24853]
+
 2008-11-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: theme reference fix.
 	* libs/gcp/fragment.cc: major update fixes.

@@ -1,6 +1,9 @@
 Version 0.10.2
 	GChemPaint
 		* Fixed an issue with double bond drawing.
+		* Fixed a crash when adding a bond between two molecules. [#24853]
+		* Fixed crash or end in an infinite loop when adding
+		a fourth bond to phophorus. [#24863]
 
 Version 0.10.1
 	GChemPaint

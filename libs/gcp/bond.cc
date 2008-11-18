@@ -900,9 +900,11 @@ void Bond::Update(GtkWidget* w) const
 	}
 	path = const_cast <Bond *> (this)->BuildPathDef (pData);
 	obj = g_object_get_data(G_OBJECT(group), "path");
-	g_object_set (obj, "bpath", path, NULL);
-	if (m_type == NormalBondType || m_type == UndeterminedBondType)
-		g_object_set (obj, "width_units", pTheme->GetBondWidth (), NULL);
+	if (obj) {
+		g_object_set (obj, "bpath", path, NULL);
+		if (m_type == NormalBondType || m_type == UndeterminedBondType)
+			g_object_set (obj, "width_units", pTheme->GetBondWidth (), NULL);
+	}
 	gnome_canvas_path_def_unref (path);
 }
 	
