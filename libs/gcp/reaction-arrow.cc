@@ -33,6 +33,8 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gccv/arrow.h>
+#include <gccv/canvas.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -343,10 +345,43 @@ void ReactionArrow::Update (GtkWidget* w) const
 
 void ReactionArrow::AddItem ()
 {
+	if (m_Item)
+		return;
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc->GetTheme ();
+	switch(m_Type) {
+	case SimpleArrow: {
+		gccv::Arrow *arrow = new gccv::Arrow (view->GetCanvas ()->GetRoot (),
+											  m_x * theme->GetZoomFactor (),
+											  m_y * theme->GetZoomFactor (),
+											  (m_x + m_width) * theme->GetZoomFactor (),
+											  (m_y + m_height) * theme->GetZoomFactor (),
+											  this);
+		arrow->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		arrow->SetLineWidth (theme->GetArrowWidth ());
+		arrow->SetA (theme->GetArrowHeadA ());
+		arrow->SetB (theme->GetArrowHeadB ());
+		arrow->SetC (theme->GetArrowHeadC ());
+		m_Item = arrow;
+		break;
+	}
+	case ReversibleArrow: {
+		break;
+	}
+	case FullReversibleArrow: {
+		break;
+	}
+	}
 }
 
 void ReactionArrow::UpdateItem ()
 {
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
+	}
+	AddItem ();
 }
 
 void ReactionArrow::RemoveStep (ReactionStep *Step)

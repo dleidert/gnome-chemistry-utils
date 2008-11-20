@@ -51,8 +51,8 @@ public:
 
 private:
 	
-GCCV_ITEM_POS_PROP (ArrowHeads, first)
-GCCV_ITEM_POS_PROP (ArrowHeads, end)
+GCCV_ITEM_POS_PROP (ArrowHeads, StartHead)
+GCCV_ITEM_POS_PROP (ArrowHeads, EndHead)
 GCCV_ITEM_POS_PROP (double, A)
 GCCV_ITEM_POS_PROP (double, B)
 GCCV_ITEM_POS_PROP (double, C)

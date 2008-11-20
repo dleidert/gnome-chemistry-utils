@@ -44,7 +44,7 @@ public:
 	void UpdateBounds ();
 	void Move (double x, double y);
 
-private:
+protected:
 	double m_xstart;
 	double m_ystart;
 	double m_xend;

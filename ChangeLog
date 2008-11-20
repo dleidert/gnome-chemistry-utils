@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-11-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/arrow.cc: draw simple arrows.
+	* libs/gccv/arrow.h: ditto.
+	* libs/gccv/line.h: ditto.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* plugins/paint/arrows/arrowtool.cc: ditto.
+
 2008-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: don't crash or end in an infinite loop when adding
 	a fourth bond to phophorus. [#24863]

@@ -33,6 +33,7 @@
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gccv/arrow.h>
 #ifdef HAVE_GO_CONF_SYNC
 #	include <goffice/app/go-conf.h>
 #else
@@ -82,24 +83,16 @@ bool gcpArrowTool::OnClicked ()
 	m_y1 = m_y0;
 	m_x1 = m_x0 + pDoc->GetArrowLength () * pTheme->GetZoomFactor ();
 	switch (m_ArrowType) {
-	case gcp::SimpleArrow:
-/*		points->coords[0] = m_x0;
-		points->coords[1] = m_y0;
-		points->coords[2] = m_x1;
-		points->coords[3] = m_y0;
-		m_pItem = gnome_canvas_item_new (
-									m_pGroup,
-									gnome_canvas_line_ext_get_type (),
-									"points", points,
-									"fill_color", gcp::AddColor,
-									"width_units", pTheme->GetArrowWidth (),
-									"last_arrowhead", true,
-									"arrow_shape_a", pTheme->GetArrowHeadA (),
-									"arrow_shape_b", pTheme->GetArrowHeadB (),
-									"arrow_shape_c", pTheme->GetArrowHeadC (),
-									"last_arrowhead_style", (unsigned char)ARROW_HEAD_BOTH,
-									NULL);*/
+	case gcp::SimpleArrow: {
+		gccv::Arrow *arrow = new gccv::Arrow (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1);
+		arrow->SetLineColor (gcp::AddColor);
+		arrow->SetLineWidth (pTheme->GetArrowWidth ());
+		arrow->SetA (pTheme->GetArrowHeadA ());
+		arrow->SetB (pTheme->GetArrowHeadB ());
+		arrow->SetC (pTheme->GetArrowHeadC ());
+		m_Item = arrow;
 		break;
+	}
 	case gcp::ReversibleArrow:
 /*		points->coords[0] = m_x0;
 		points->coords[1] = points->coords[3] = m_y0 - pTheme->GetArrowDist () / 2;
@@ -215,12 +208,10 @@ void gcpArrowTool::OnDrag ()
 	double x1, y1, x2, y2;
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Theme *pTheme = pDoc->GetTheme ();
-/*	if (m_pItem) {
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-		gtk_object_destroy(GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
-		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
-		m_pItem = NULL;
-	}*/
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
+	}
 	double dAngle;
 	m_x -= m_x0;
 	m_y -= m_y0;
@@ -244,25 +235,19 @@ void gcpArrowTool::OnDrag ()
 	m_pApp->SetStatusText (tmp);
 	m_x1 = m_x0 + d * cos (m_dAngle);
 	m_y1 = m_y0 - d * sin (m_dAngle);
-/*	switch (m_ArrowType) {
-	case gcp::SimpleArrow:
-		points->coords[2] = m_x1;
-		points->coords[3] = m_y1;
-		m_pItem = gnome_canvas_item_new (
-									m_pGroup,
-									gnome_canvas_line_ext_get_type (),
-									"points", points,
-									"fill_color", gcp::AddColor,
-									"width_units", pTheme->GetArrowWidth (),
-									"last_arrowhead", true,
-									"arrow_shape_a", pTheme->GetArrowHeadA (),
-									"arrow_shape_b", pTheme->GetArrowHeadB (),
-									"arrow_shape_c", pTheme->GetArrowHeadC (),
-									"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-									NULL);
+	switch (m_ArrowType) {
+	case gcp::SimpleArrow: {
+		gccv::Arrow *arrow = new gccv::Arrow (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1);
+		arrow->SetLineColor (gcp::AddColor);
+		arrow->SetLineWidth (pTheme->GetArrowWidth ());
+		arrow->SetA (pTheme->GetArrowHeadA ());
+		arrow->SetB (pTheme->GetArrowHeadB ());
+		arrow->SetC (pTheme->GetArrowHeadC ());
+		m_Item = arrow;
 		break;
+	}
 	case gcp::ReversibleArrow:
-		points->coords[0] = m_x0 - pTheme->GetArrowDist () / 2 * sin (m_dAngle);
+/*		points->coords[0] = m_x0 - pTheme->GetArrowDist () / 2 * sin (m_dAngle);
 		points->coords[1] = m_y0 - pTheme->GetArrowDist () / 2 * cos (m_dAngle);
 		points->coords[2] = m_x1 - pTheme->GetArrowDist () / 2 * sin (m_dAngle);
 		points->coords[3] = m_y1 - pTheme->GetArrowDist () / 2 * cos (m_dAngle);
@@ -294,10 +279,10 @@ void gcpArrowTool::OnDrag ()
 							"arrow_shape_b", pTheme->GetArrowHeadB (),
 							"arrow_shape_c", pTheme->GetArrowHeadC (),
 							"last_arrowhead_style", (unsigned char)ARROW_HEAD_LEFT,
-							NULL);
+							NULL);*/
 		break;
 	case gcp::FullReversibleArrow:
-		points->coords[0] = m_x0 - pTheme->GetArrowDist () / 2 * sin (m_dAngle);
+/*		points->coords[0] = m_x0 - pTheme->GetArrowDist () / 2 * sin (m_dAngle);
 		points->coords[1] = m_y0 - pTheme->GetArrowDist () / 2 * cos (m_dAngle);
 		points->coords[2] = m_x1 - pTheme->GetArrowDist () / 2 * sin (m_dAngle);
 		points->coords[3] = m_y1 - pTheme->GetArrowDist () / 2 * cos (m_dAngle);
@@ -329,10 +314,10 @@ void gcpArrowTool::OnDrag ()
 							"arrow_shape_b", pTheme->GetArrowHeadB (),
 							"arrow_shape_c", pTheme->GetArrowHeadC (),
 							"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-							NULL);
+							NULL);*/
 		break;
 	case gcpDoubleHeadedArrow:
-		points->coords[2] = m_x1;
+/*		points->coords[2] = m_x1;
 		points->coords[3] = m_y1;
 		m_pItem = gnome_canvas_item_new (
 									m_pGroup,
@@ -347,10 +332,10 @@ void gcpArrowTool::OnDrag ()
 									"arrow_shape_c", pTheme->GetArrowHeadC (),
 									"first_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
 									"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-									NULL);
+									NULL);*/
 		break;
 	case gcpDoubleQueuedArrow: {
-		double x1, y1;
+/*		double x1, y1;
 		x1 = pTheme->GetArrowDist () / 2 * sin (m_dAngle);
 		y1 = pTheme->GetArrowDist () / 2 * cos (m_dAngle);
 		GnomeCanvasPathDef* path = gnome_canvas_path_def_new ();
@@ -371,22 +356,21 @@ void gcpArrowTool::OnDrag ()
 								"width_units", pTheme->GetArrowWidth (),
 								"cap-style", GDK_CAP_BUTT,
 								"join-style", GDK_JOIN_MITER,
-								NULL);
+								NULL);*/
 		break;
 	}
-	}*/
+	}
 }
 
 void gcpArrowTool::OnRelease ()
 {
 	double x1, y1, x2, y2;
-/*	if (m_pItem) {
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-		gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
-		gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
-		m_pItem = NULL;
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
 	}
-	else */return;
+	else
+		return;
 	m_pApp->ClearStatus ();
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	gcp::Arrow* a;
