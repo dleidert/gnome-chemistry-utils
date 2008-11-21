@@ -84,9 +84,7 @@ EltTable Table;
 EltTable::EltTable()
 {
 	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-#ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#endif
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv ("LANG");
