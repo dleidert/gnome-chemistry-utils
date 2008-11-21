@@ -29,7 +29,9 @@
 #include "view.h"
 #include "widgetdata.h"
 #include <gcu/objprops.h>
+#include <gccv/group.h>
 #include <gccv/line-item.h>
+#include <list>
 #include <cstring>
 
 using namespace gcu;
@@ -128,8 +130,6 @@ bool Arrow::Load (xmlNodePtr node)
 void Arrow::SetSelected (int state)
 {
 	gccv::LineItem *line = dynamic_cast <gccv::LineItem *> (m_Item);
-	if (!line)
-		return;
 	GOColor color;
 	switch (state) {	
 	case SelStateUnselected:
@@ -148,7 +148,21 @@ void Arrow::SetSelected (int state)
 		color = Color;
 		break;
 	}
-	line->SetLineColor (color);
+	if (line)
+		line->SetLineColor (color);
+	else {// might be a group
+		gccv::Group *group = dynamic_cast <gccv::Group *> (m_Item);
+		if (!group)
+			return;
+		std::list<gccv::Item *>::iterator it;
+		gccv::Item *item = group->GetFirstChild (it);
+		while (item) {
+			line = dynamic_cast <gccv::LineItem *> (item);
+			if (line)
+				line->SetLineColor (color);
+			item = group->GetNextChild (it);
+		}
+	}
 }
 
 void Arrow::SetCoords (double xstart, double ystart, double xend, double yend)

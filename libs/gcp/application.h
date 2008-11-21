@@ -27,6 +27,7 @@
 
 #include <gcu/application.h>
 #include <gcu/dialog.h>
+#include <gcu/macros.h>
 #include <gcu/object.h>
 #ifdef HAVE_GO_CONF_SYNC
 #include <goffice/app/go-conf.h>
@@ -496,7 +497,8 @@ private:
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	std::list<option_data> m_Options;
-	GtkStyle *m_Style;
+
+GCU_RO_POINTER_PROP	(GtkStyle, Style)
 };
 
 }	// namespace gcp

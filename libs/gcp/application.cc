@@ -341,7 +341,6 @@ Application::Application ():
 		/* get the theme style for labels so that tools buttons colors might
 		be adapted to the current theme */
 		GtkWidget *w=gtk_label_new("");
-		GtkSettings *st = gtk_settings_get_default();
 		m_Style = gtk_rc_get_style(w);
 		gtk_widget_destroy (w);
 

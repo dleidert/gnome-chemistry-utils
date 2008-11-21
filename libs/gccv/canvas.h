@@ -26,6 +26,7 @@
 #define GCCV_CANVAS_H
 
 #include <gcu/macros.h>
+#include <goffice/utils/go-color.h>
 #include <gtk/gtk.h>
 
 /*!\file*/
@@ -108,6 +109,12 @@ Sets the scrolling region for the canvas.
 Ensure that the canvas is large enough to contain all its items.
 */
 	void UpdateBounds ();
+/*!
+@param color a GOColor
+
+Sets the background color for the canvas widget
+*/
+	void SetBackgroundColor (GOColor color);
 
 private:
 	GtkWidget *m_Widget;

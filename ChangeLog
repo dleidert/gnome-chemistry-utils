@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2008-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/arrow.cc: add half heads support.
+	* libs/gccv/canvas.cc: allow setting the background color.
+	* libs/gccv/canvas.h: ditto.
+	* libs/gcp/application.cc: cleaned out an unused local variable.
+	* libs/gcp/application.h: make m_Style accessible.
+	* libs/gcp/arrow.cc: rewrite selection for complex arrows.
+	* libs/gcp/mesomery-arrow.cc: reimplemented.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcp/view.cc: sets the canvas background color to white.
+	* plugins/paint/arrows/arrowtool.cc: reimplement more arrow types.
+
 2008-11-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/arrow.cc: draw simple arrows.
 	* libs/gccv/arrow.h: ditto.

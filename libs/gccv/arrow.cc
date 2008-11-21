@@ -73,10 +73,29 @@ void Arrow::Draw (cairo_t *cr, bool is_vector) const
 		case ArrowHeadNone:
 			break;
 		case ArrowHeadFull:
+			cairo_move_to (cr, m_A, GetLineWidth () / 2.);
+			cairo_line_to (cr, m_B, GetLineWidth () / 2. + m_C);
+			cairo_line_to (cr, 0., 0.);
+			cairo_line_to (cr, m_B, -GetLineWidth () / 2. - m_C);
+			cairo_line_to (cr, m_A, -GetLineWidth () / 2.);
+			cairo_close_path (cr);
+			cairo_fill (cr);
 			break;
 		case ArrowHeadLeft:
+			cairo_move_to (cr, m_A, -GetLineWidth () / 2.);
+			cairo_line_to (cr, m_B, -GetLineWidth () / 2. - m_C);
+			cairo_line_to (cr, 0., GetLineWidth () / 2.);
+			cairo_line_to (cr, m_A, GetLineWidth () / 2.);
+			cairo_close_path (cr);
+			cairo_fill (cr);
 			break;
 		case ArrowHeadRight:
+			cairo_move_to (cr, m_A, GetLineWidth () / 2.);
+			cairo_line_to (cr, m_B, GetLineWidth () / 2. + m_C);
+			cairo_line_to (cr, 0., -GetLineWidth () / 2.);
+			cairo_line_to (cr, m_A, -GetLineWidth () / 2.);
+			cairo_close_path (cr);
+			cairo_fill (cr);
 			break;
 		}
 		switch (m_EndHead) {
@@ -93,8 +112,20 @@ void Arrow::Draw (cairo_t *cr, bool is_vector) const
 			cairo_fill (cr);
 			break;
 		case ArrowHeadLeft:
+			cairo_move_to (cr, length - m_A, -GetLineWidth () / 2.);
+			cairo_line_to (cr, length - m_B, -GetLineWidth () / 2. - m_C);
+			cairo_line_to (cr, length, GetLineWidth () / 2.);
+			cairo_line_to (cr, length - m_A, GetLineWidth () / 2.);
+			cairo_close_path (cr);
+			cairo_fill (cr);
 			break;
 		case ArrowHeadRight:
+			cairo_move_to (cr, length - m_A, GetLineWidth () / 2.);
+			cairo_line_to (cr, length - m_B, GetLineWidth () / 2. + m_C);
+			cairo_line_to (cr, length, -GetLineWidth () / 2.);
+			cairo_line_to (cr, length - m_A, -GetLineWidth () / 2.);
+			cairo_close_path (cr);
+			cairo_fill (cr);
 			break;
 		}
 	}

@@ -35,6 +35,7 @@
 #include "widgetdata.h"
 #include <gccv/arrow.h>
 #include <gccv/canvas.h>
+#include <gccv/group.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -154,195 +155,6 @@ bool ReactionArrow::Load (xmlNodePtr node)
 	return false;
 }
 
-/*void ReactionArrow::Add (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (pData->Items[this] != NULL)
-		return;
-	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
-	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP(gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));
-	GnomeCanvasItem* item;
-	switch(m_Type) {
-		case SimpleArrow:
-			points->coords[0] = m_x * pTheme->GetZoomFactor ();
-			points->coords[1] = m_y * pTheme->GetZoomFactor ();
-			points->coords[2] = (m_x + m_width) * pTheme->GetZoomFactor ();
-			points->coords[3] = (m_y + m_height) * pTheme->GetZoomFactor ();
-			item = gnome_canvas_item_new (
-										group,
-										gnome_canvas_line_ext_get_type (),
-										"points", points,
-										"fill_color", (pData->IsSelected (this))? SelectColor: Color,
-										"width_units", pTheme->GetArrowWidth (),
-										"last_arrowhead", true,
-										"arrow_shape_a", pTheme->GetArrowHeadA (),
-										"arrow_shape_b", pTheme->GetArrowHeadB (),
-										"arrow_shape_c", pTheme->GetArrowHeadC (),
-										"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-										NULL);
-			g_object_set_data (G_OBJECT (item), "object", (void *) this);
-			g_object_set_data (G_OBJECT (group), "arrow", item);
-			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-			break;
-		case ReversibleArrow: {
-			double dAngle = atan (- m_height / m_width);
-			if (m_width < 0)
-				dAngle += M_PI;
-			points->coords[0] = m_x * pTheme->GetZoomFactor () - pTheme->GetArrowDist ()  / 2 * sin (dAngle);
-			points->coords[1] = m_y * pTheme->GetZoomFactor () - pTheme->GetArrowDist ()  / 2 * cos (dAngle);
-			points->coords[2] = (m_x + m_width) * pTheme->GetZoomFactor () - pTheme->GetArrowDist ()  / 2 * sin (dAngle);
-			points->coords[3] = (m_y + m_height) * pTheme->GetZoomFactor () - pTheme->GetArrowDist ()  / 2 * cos (dAngle);
-			item = gnome_canvas_item_new (
-								group,
-								gnome_canvas_line_ext_get_type (),
-								"points", points,
-								"fill_color", (pData->IsSelected(this))? SelectColor: Color,
-								"width_units", pTheme->GetArrowWidth (),
-								"last_arrowhead", true,
-								"arrow_shape_a", pTheme->GetArrowHeadA (),
-								"arrow_shape_b", pTheme->GetArrowHeadB (),
-								"arrow_shape_c", pTheme->GetArrowHeadC (),
-								"last_arrowhead_style", (unsigned char) ARROW_HEAD_LEFT,
-								NULL);
-			g_object_set_data (G_OBJECT (item), "object", (void *) this);
-			g_object_set_data (G_OBJECT (group), "direct", item);
-			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-			points->coords[2] = m_x * pTheme->GetZoomFactor () + pTheme->GetArrowDist () / 2 * sin (dAngle);
-			points->coords[3] = m_y * pTheme->GetZoomFactor () + pTheme->GetArrowDist ()  / 2 * cos (dAngle);
-			points->coords[0] = (m_x + m_width) * pTheme->GetZoomFactor () + pTheme->GetArrowDist ()  / 2 * sin( dAngle);
-			points->coords[1] = (m_y + m_height) * pTheme->GetZoomFactor () + pTheme->GetArrowDist ()  / 2 * cos (dAngle);
-			item = gnome_canvas_item_new (
-								group,
-								gnome_canvas_line_ext_get_type (),
-								"points", points,
-								"fill_color", (pData->IsSelected (this))? SelectColor: Color,
-								"width_units", pTheme->GetArrowWidth (),
-								"last_arrowhead", true,
-								"arrow_shape_a", pTheme->GetArrowHeadA (),
-								"arrow_shape_b", pTheme->GetArrowHeadB (),
-								"arrow_shape_c", pTheme->GetArrowHeadC (),
-								"last_arrowhead_style", (unsigned char) ARROW_HEAD_LEFT,
-								NULL);
-			g_object_set_data (G_OBJECT (item), "object", (void *) this);
-			g_object_set_data (G_OBJECT (group), "reverse", item);
-			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-			break;
-		}
-		case FullReversibleArrow: {
-			double dAngle = atan (- m_height / m_width);
-			if (m_width < 0)
-				dAngle += M_PI;
-			points->coords[0] = m_x * pTheme->GetZoomFactor () - pTheme->GetArrowDist ()  / 2 * sin (dAngle);
-			points->coords[1] = m_y * pTheme->GetZoomFactor () - pTheme->GetArrowDist ()  / 2 * cos (dAngle);
-			points->coords[2] = (m_x + m_width) * pTheme->GetZoomFactor () - pTheme->GetArrowDist ()  / 2 * sin (dAngle);
-			points->coords[3] = (m_y + m_height) * pTheme->GetZoomFactor () - pTheme->GetArrowDist ()  / 2 * cos (dAngle);
-			item = gnome_canvas_item_new(
-								group,
-								gnome_canvas_line_ext_get_type (),
-								"points", points,
-								"fill_color", (pData->IsSelected (this))? SelectColor: Color,
-								"width_units", pTheme->GetArrowWidth (),
-								"last_arrowhead", true,
-								"arrow_shape_a", pTheme->GetArrowHeadA (),
-								"arrow_shape_b", pTheme->GetArrowHeadB (),
-								"arrow_shape_c", pTheme->GetArrowHeadC (),
-								"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-								NULL);
-			g_object_set_data (G_OBJECT (item), "object", (void *) this);
-			g_object_set_data (G_OBJECT (group), "direct", item);
-			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-			points->coords[2] = m_x * pTheme->GetZoomFactor () + pTheme->GetArrowDist () / 2 * sin (dAngle);
-			points->coords[3] = m_y * pTheme->GetZoomFactor () + pTheme->GetArrowDist ()  / 2 * cos (dAngle);
-			points->coords[0] = (m_x + m_width) * pTheme->GetZoomFactor () + pTheme->GetArrowDist ()  / 2 * sin (dAngle);
-			points->coords[1] = (m_y + m_height) * pTheme->GetZoomFactor () + pTheme->GetArrowDist ()  / 2 * cos (dAngle);
-			item = gnome_canvas_item_new (
-								group,
-								gnome_canvas_line_ext_get_type (),
-								"points", points,
-								"fill_color", (pData->IsSelected (this))? SelectColor: Color,
-								"width_units", pTheme->GetArrowWidth (),
-								"last_arrowhead", true,
-								"arrow_shape_a", pTheme->GetArrowHeadA (),
-								"arrow_shape_b", pTheme->GetArrowHeadB (),
-								"arrow_shape_c", pTheme->GetArrowHeadC (),
-								"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-								NULL);
-			g_object_set_data (G_OBJECT (item), "object", (void *) this);
-			g_object_set_data (G_OBJECT (group), "reverse", item);
-			g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-			break;
-		}
-	}
-	pData->Items[this] = group;
-	gnome_canvas_points_free (points);
-}
-
-void ReactionArrow::Update (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasGroup* group = pData->Items[this];
-	if (!group) {
-		Add (w);
-		const_cast <ReactionArrow *> (this)->m_TypeChanged = false;
-		return;
-	}
-	if (m_TypeChanged) {
-		gtk_object_destroy (GTK_OBJECT (group));
-		pData->Items[this] = NULL;
-		Add (w);
-		const_cast <ReactionArrow *> (this)->m_TypeChanged = false;
-		return;
-	}
-	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
-	switch(m_Type) {
-		case SimpleArrow:
-			points->coords[0] = m_x * pTheme->GetZoomFactor ();
-			points->coords[1] = m_y * pTheme->GetZoomFactor ();
-			points->coords[2] = (m_x + m_width) * pTheme->GetZoomFactor ();
-			points->coords[3] = (m_y + m_height) * pTheme->GetZoomFactor ();
-			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "arrow")),
-								"points", points,
-								"width_units", pTheme->GetArrowWidth (),
-								"arrow_shape_a", pTheme->GetArrowHeadA (),
-								"arrow_shape_b", pTheme->GetArrowHeadB (),
-								"arrow_shape_c", pTheme->GetArrowHeadC (),
-								NULL);
-			break;
-		case ReversibleArrow:
-		case FullReversibleArrow:
-			double dAngle = atan (- m_height / m_width);
-			if (m_width < 0) dAngle += M_PI;
-			points->coords[0] = m_x * pTheme->GetZoomFactor () - pTheme->GetArrowDist () / 2 * sin (dAngle);
-			points->coords[1] = m_y * pTheme->GetZoomFactor () - pTheme->GetArrowDist () / 2 * cos (dAngle);
-			points->coords[2] = (m_x + m_width) * pTheme->GetZoomFactor () - pTheme->GetArrowDist () / 2 * sin (dAngle);
-			points->coords[3] = (m_y + m_height) * pTheme->GetZoomFactor () - pTheme->GetArrowDist () / 2 * cos (dAngle);
-			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "direct")),
-								"points", points,
-								"width_units", pTheme->GetArrowWidth (),
-								"arrow_shape_a", pTheme->GetArrowHeadA (),
-								"arrow_shape_b", pTheme->GetArrowHeadB (),
-								"arrow_shape_c", pTheme->GetArrowHeadC (),
-								NULL);
-			points->coords[2] = m_x * pTheme->GetZoomFactor () + pTheme->GetArrowDist () / 2 * sin (dAngle);
-			points->coords[3] = m_y * pTheme->GetZoomFactor () + pTheme->GetArrowDist () / 2 * cos (dAngle);
-			points->coords[0] = (m_x + m_width) * pTheme->GetZoomFactor () + pTheme->GetArrowDist () / 2 * sin (dAngle);
-			points->coords[1] = (m_y + m_height) * pTheme->GetZoomFactor () + pTheme->GetArrowDist () / 2 * cos (dAngle);
-			g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "reverse")),
-								"points", points,
-								"width_units", pTheme->GetArrowWidth (),
-								"arrow_shape_a", pTheme->GetArrowHeadA (),
-								"arrow_shape_b", pTheme->GetArrowHeadB (),
-								"arrow_shape_c", pTheme->GetArrowHeadC (),
-								NULL);
-			break;
-	}
-	gnome_canvas_points_free (points);
-	// Now, update children
-	Object::Update (w);
-}*/
-
 void ReactionArrow::AddItem ()
 {
 	if (m_Item)
@@ -367,9 +179,61 @@ void ReactionArrow::AddItem ()
 		break;
 	}
 	case ReversibleArrow: {
+		double dAngle = atan2 (m_height, m_width);
+		gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), this);
+		gccv::Arrow *arrow = new gccv::Arrow (group,
+											  m_x * theme->GetZoomFactor () - theme->GetArrowDist () / 2. * sin (dAngle),
+											  m_y * theme->GetZoomFactor () - theme->GetArrowDist () / 2. * cos (dAngle),
+											  (m_x + m_width) * theme->GetZoomFactor () - theme->GetArrowDist () / 2. * sin (dAngle),
+											  (m_y + m_height) * theme->GetZoomFactor () - theme->GetArrowDist () / 2. * cos (dAngle),
+											  this);
+		arrow->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		arrow->SetLineWidth (theme->GetArrowWidth ());
+		arrow->SetA (theme->GetArrowHeadA ());
+		arrow->SetB (theme->GetArrowHeadB ());
+		arrow->SetC (theme->GetArrowHeadC ());
+		arrow->SetEndHead (gccv::ArrowHeadLeft);
+		arrow = new gccv::Arrow (group,
+								 (m_x + m_width) * theme->GetZoomFactor () + theme->GetArrowDist () / 2. * sin (dAngle),
+								 (m_y + m_height) * theme->GetZoomFactor () + theme->GetArrowDist () / 2. * cos (dAngle),
+								 m_x * theme->GetZoomFactor () + theme->GetArrowDist () / 2. * sin (dAngle),
+								 m_y * theme->GetZoomFactor () + theme->GetArrowDist () / 2. * cos (dAngle),
+								 this);
+		arrow->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		arrow->SetLineWidth (theme->GetArrowWidth ());
+		arrow->SetA (theme->GetArrowHeadA ());
+		arrow->SetB (theme->GetArrowHeadB ());
+		arrow->SetC (theme->GetArrowHeadC ());
+		arrow->SetEndHead (gccv::ArrowHeadLeft);
+		m_Item = group;
 		break;
 	}
 	case FullReversibleArrow: {
+		double dAngle = atan2 (m_height, m_width);
+		gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), this);
+		gccv::Arrow *arrow = new gccv::Arrow (group,
+											  m_x * theme->GetZoomFactor () - theme->GetArrowDist () / 2. * sin (dAngle),
+											  m_y * theme->GetZoomFactor () - theme->GetArrowDist () / 2. * cos (dAngle),
+											  (m_x + m_width) * theme->GetZoomFactor () - theme->GetArrowDist () / 2. * sin (dAngle),
+											  (m_y + m_height) * theme->GetZoomFactor () - theme->GetArrowDist () / 2. * cos (dAngle),
+											  this);
+		arrow->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		arrow->SetLineWidth (theme->GetArrowWidth ());
+		arrow->SetA (theme->GetArrowHeadA ());
+		arrow->SetB (theme->GetArrowHeadB ());
+		arrow->SetC (theme->GetArrowHeadC ());
+		arrow = new gccv::Arrow (group,
+								 (m_x + m_width) * theme->GetZoomFactor () + theme->GetArrowDist () / 2. * sin (dAngle),
+								 (m_y + m_height) * theme->GetZoomFactor () + theme->GetArrowDist () / 2. * cos (dAngle),
+								 m_x * theme->GetZoomFactor () + theme->GetArrowDist () / 2. * sin (dAngle),
+								 m_y * theme->GetZoomFactor () + theme->GetArrowDist () / 2. * cos (dAngle),
+								 this);
+		arrow->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+		arrow->SetLineWidth (theme->GetArrowWidth ());
+		arrow->SetA (theme->GetArrowHeadA ());
+		arrow->SetB (theme->GetArrowHeadB ());
+		arrow->SetC (theme->GetArrowHeadC ());
+		m_Item = group;
 		break;
 	}
 	}

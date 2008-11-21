@@ -305,6 +305,7 @@ GtkWidget* View::CreateNewWidget ()
 	m_pWidget = gnome_canvas_gcp_new();
 	gtk_widget_pop_colormap ();*/
 	m_Canvas = new gccv::Canvas (this);
+	m_Canvas->SetBackgroundColor (RGBA_WHITE);
 	m_pWidget = m_Canvas->GetWidget ();
 	m_Canvas->SetGap (3.); // FIXME: make this configurable
 //	GtkWidget* pWidget = (m_Widgets.size() > 0) ? m_Widgets.front () : NULL;

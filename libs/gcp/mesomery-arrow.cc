@@ -31,6 +31,8 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gccv/arrow.h>
+#include <gccv/canvas.h>
 
 using namespace gcu;
 
@@ -114,66 +116,35 @@ bool MesomeryArrow::Load (xmlNodePtr node)
 	return false;
 }
 
-/*void MesomeryArrow::Add (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (pData->Items[this] != NULL)
-		return;
-	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
-	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP(gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL));
-	GnomeCanvasItem* item;
-	points->coords[0] = m_x * pTheme->GetZoomFactor ();
-	points->coords[1] = m_y * pTheme->GetZoomFactor ();
-	points->coords[2] = (m_x + m_width) * pTheme->GetZoomFactor ();
-	points->coords[3] = (m_y + m_height) * pTheme->GetZoomFactor ();
-	item = gnome_canvas_item_new (
-								group,
-								gnome_canvas_line_ext_get_type (),
-								"points", points,
-								"fill_color", (pData->IsSelected (this))? SelectColor: Color,
-								"width_units", pTheme->GetArrowWidth (),
-								"first_arrowhead", true,
-								"last_arrowhead", true,
-								"arrow_shape_a", pTheme->GetArrowHeadA (),
-								"arrow_shape_b", pTheme->GetArrowHeadB (),
-								"arrow_shape_c", pTheme->GetArrowHeadC (),
-								"first_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-								"last_arrowhead_style", (unsigned char) ARROW_HEAD_BOTH,
-								NULL);
-	g_object_set_data (G_OBJECT(item), "object", (void *) this);
-	g_object_set_data (G_OBJECT(group), "arrow", item);
-	g_signal_connect(G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	pData->Items[this] = group;
-	gnome_canvas_points_free (points);
-}
-
-void MesomeryArrow::Update (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasGroup* group = pData->Items[this];
-	GnomeCanvasPoints *points = gnome_canvas_points_new( 2);
-	points->coords[0] = m_x * pTheme->GetZoomFactor ();
-	points->coords[1] = m_y * pTheme->GetZoomFactor ();
-	points->coords[2] = (m_x + m_width) * pTheme->GetZoomFactor ();
-	points->coords[3] = (m_y + m_height) * pTheme->GetZoomFactor ();
-	g_object_set (G_OBJECT(g_object_get_data (G_OBJECT (group), "arrow")),
-						"points", points,
-						"width_units", pTheme->GetArrowWidth (),
-						"arrow_shape_a", pTheme->GetArrowHeadA (),
-						"arrow_shape_b", pTheme->GetArrowHeadB (),
-						"arrow_shape_c", pTheme->GetArrowHeadC (),
-						NULL);
-	gnome_canvas_points_free (points);
-}*/
-
 void MesomeryArrow::AddItem ()
 {
+	if (m_Item)
+		return;
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc->GetTheme ();
+	gccv::Arrow *arrow = new gccv::Arrow (view->GetCanvas ()->GetRoot (),
+										  m_x * theme->GetZoomFactor (),
+										  m_y * theme->GetZoomFactor (),
+										  (m_x + m_width) * theme->GetZoomFactor (),
+										  (m_y + m_height) * theme->GetZoomFactor (),
+										  this);
+	arrow->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+	arrow->SetLineWidth (theme->GetArrowWidth ());
+	arrow->SetA (theme->GetArrowHeadA ());
+	arrow->SetB (theme->GetArrowHeadB ());
+	arrow->SetC (theme->GetArrowHeadC ());
+	arrow->SetStartHead (gccv::ArrowHeadFull);
+	m_Item = arrow;
 }
 
 void MesomeryArrow::UpdateItem ()
 {
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
+	}
+	AddItem ();
 }
 
 void MesomeryArrow::Reverse ()
