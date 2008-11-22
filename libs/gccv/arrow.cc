@@ -50,7 +50,79 @@ Arrow::~Arrow ()
 
 double Arrow::Distance (double x, double y, Item **item) const
 {
-	return G_MAXDOUBLE; //FIXME
+	double dx, dy, dx1, dy1, length;
+	dx = m_xend - m_xstart;
+	dy = m_yend - m_ystart;
+	dx1 = x - m_xstart;
+	dy1 = y - m_ystart;
+	length = sqrt (dx * dx  + dy * dy);
+	if (length == 0.)
+		return sqrt (dx1 * dx1 + dy1 * dy1);
+	// project the (dx1, dy1) vector on the wedge axis.
+	double xx = (dx1 * dx + dy1 * dy) / length;
+	double yy = (dx1 * dy - dy1 * dx) / length;
+	double lw = GetLineWidth () / 2.;
+	if (xx < 0.) {
+		switch (m_StartHead) {
+		default:
+		case ArrowHeadNone:
+			break;
+		case ArrowHeadFull:
+			break;
+		case ArrowHeadLeft:
+			break;
+		case ArrowHeadRight:
+			break;
+		}
+		return sqrt (dx1 * dx1 + dy1 * dy1);
+	}
+	if (xx > length) {
+		dx1 = xx -length;
+		switch (m_EndHead) {
+		default:
+		case ArrowHeadNone:
+			break;
+		case ArrowHeadFull:
+			break;
+		case ArrowHeadLeft:
+			break;
+		case ArrowHeadRight:
+			break;
+		}
+/*		if (yy > m_Width / 2.)
+			yy -= m_Width / 2.;
+		else if (yy < -m_Width / 2.)
+			yy += m_Width / 2.;
+		else
+			return fabs (dx1);*/
+		return sqrt (dx1 * dx1 + yy * yy);
+	}
+	if (fabs (yy) < lw)
+		return 0.; // this might be wrong near the head, but still acceptable
+	yy += (yy > 0)? lw: -lw;
+	switch (m_StartHead) {
+	default:
+	case ArrowHeadNone:
+		break;
+	case ArrowHeadFull:
+		break;
+	case ArrowHeadLeft:
+		break;
+	case ArrowHeadRight:
+		break;
+	}
+	switch (m_StartHead) {
+	default:
+	case ArrowHeadNone:
+		break;
+	case ArrowHeadFull:
+		break;
+	case ArrowHeadLeft:
+		break;
+	case ArrowHeadRight:
+		break;
+	}
+	return fabs (yy);
 }
 
 void Arrow::Draw (cairo_t *cr, bool is_vector) const
@@ -159,10 +231,6 @@ void Arrow::UpdateBounds ()
 	m_y1 += m_C;
 	m_x0 -= m_C;
 	m_x1 += m_C;
-}
-
-void Arrow::Move (double x, double y)
-{
 }
 
 }

@@ -143,9 +143,7 @@ G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
-#ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#endif
 	GTypeModule *module = go_plugin_get_type_module (plugin);
 	go_gchemutils_component_register_type (module);
 //	go_components_set_mime_suffix ("chemical/x-xyz", "*.xyz");

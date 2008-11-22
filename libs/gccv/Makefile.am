@@ -14,6 +14,7 @@ noinst_HEADERS = \
 	item-client.h	\
 	line.h	\
 	line-item.h	\
+	poly-line.h	\
 	rectangle.h	\
 	squiggle.h \
 	structs.h \
@@ -32,6 +33,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	item-client.cc	\
 	line.cc	\
 	line-item.cc	\
+	poly-line.cc	\
 	rectangle.cc	\
 	squiggle.cc \
 	text.cc \

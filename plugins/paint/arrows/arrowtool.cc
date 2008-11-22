@@ -36,6 +36,8 @@
 #include <gccv/arrow.h>
 #include <gccv/canvas.h>
 #include <gccv/group.h>
+#include <gccv/line.h>
+#include <gccv/poly-line.h>
 #ifdef HAVE_GO_CONF_SYNC
 #	include <goffice/app/go-conf.h>
 #else
@@ -43,6 +45,8 @@
 #endif
 #include <glib/gi18n-lib.h>
 #include <cmath>
+
+using namespace std;
 
 static char const *ToolNames[] = {
 	"SimpleArrow",
@@ -141,23 +145,36 @@ bool gcpArrowTool::OnClicked ()
 		break;
 	}
 	case gcpDoubleQueuedArrow: {
-/*		GnomeCanvasPathDef* path = gnome_canvas_path_def_new ();
-		gnome_canvas_path_def_moveto (path, m_x0, m_y0 - pTheme->GetArrowDist () / 2.);
-		gnome_canvas_path_def_lineto (path, m_x1 - pTheme->GetArrowDist () / 2., m_y0 - pTheme->GetArrowDist () / 2.);
-		gnome_canvas_path_def_moveto (path, m_x0, m_y0 + pTheme->GetArrowDist () / 2.);
-		gnome_canvas_path_def_lineto (path, m_x1 - pTheme->GetArrowDist () / 2., m_y0 + pTheme->GetArrowDist () / 2.);
-		gnome_canvas_path_def_moveto (path, m_x1 - pTheme->GetArrowDist () / 2. - pTheme->GetArrowHeadC (), m_y0 - pTheme->GetArrowDist () / 2. - pTheme->GetArrowHeadC ());
-		gnome_canvas_path_def_lineto (path, m_x1, m_y0);
-		gnome_canvas_path_def_lineto (path, m_x1 - pTheme->GetArrowDist () / 2. - pTheme->GetArrowHeadC (), m_y0 + pTheme->GetArrowDist () / 2. + pTheme->GetArrowHeadC ());
-		m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_bpath_ext_get_type (),
-								"bpath", path,
-								"outline_color", gcp::AddColor,
-								"width_units", pTheme->GetArrowWidth (),
-								"cap-style", GDK_CAP_BUTT,
-								"join-style", GDK_JOIN_MITER,
-								NULL);*/
+		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
+		gccv::Line *line = new gccv::Line (group, m_x0,
+										   m_y0 - pTheme->GetArrowDist () / 2.,
+										   m_x1 - pTheme->GetArrowDist () / 2.,
+										   m_y0 - pTheme->GetArrowDist () / 2.,
+										   NULL);
+		line->SetLineColor (gcp::AddColor);
+		line->SetLineWidth (pTheme->GetArrowWidth ());
+		line = new gccv::Line (group, m_x0,
+							   m_y0 + pTheme->GetArrowDist () / 2.,
+							   m_x1 - pTheme->GetArrowDist () / 2.,
+							   m_y0 + pTheme->GetArrowDist () / 2.,
+							   NULL);
+		line->SetLineColor (gcp::AddColor);
+		line->SetLineWidth (pTheme->GetArrowWidth ());
+		list <gccv::Point> points;
+		gccv::Point point;
+		point.x = m_x1 - pTheme->GetArrowDist () / 2. - pTheme->GetArrowHeadC ();
+		point.y = m_y0 - pTheme->GetArrowDist () / 2. - pTheme->GetArrowHeadC ();
+		points.push_back (point);
+		point.x = m_x1;
+		point.y = m_y0;
+		points.push_back (point);
+		point.x = m_x1 - pTheme->GetArrowDist () / 2. - pTheme->GetArrowHeadC ();
+		point.y = m_y0 + pTheme->GetArrowDist () / 2. + pTheme->GetArrowHeadC ();
+		points.push_back (point);
+		gccv::PolyLine *pl = new gccv::PolyLine (group, points, NULL);
+		pl->SetLineColor (gcp::AddColor);
+		pl->SetLineWidth (pTheme->GetArrowWidth ());
+		m_Item = group;
 		break;
 	}
 	}
@@ -274,28 +291,37 @@ void gcpArrowTool::OnDrag ()
 		break;
 	}
 	case gcpDoubleQueuedArrow: {
-/*		double x1, y1;
+		double x1, y1;
 		x1 = pTheme->GetArrowDist () / 2 * sin (m_dAngle);
 		y1 = pTheme->GetArrowDist () / 2 * cos (m_dAngle);
-		GnomeCanvasPathDef* path = gnome_canvas_path_def_new ();
-		gnome_canvas_path_def_moveto (path, m_x0 - x1, m_y0 - y1);
-		gnome_canvas_path_def_lineto (path, m_x1 - x1 - y1, m_y1 - y1 + x1);
-		gnome_canvas_path_def_moveto (path, m_x0 + x1, m_y0 + y1);
-		gnome_canvas_path_def_lineto (path, m_x1 + x1 - y1, m_y1 + y1 + x1);
+		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
+		gccv::Line *line = new gccv::Line (group, m_x0 - x1, m_y0 - y1,
+										   m_x1- x1 - y1, m_y1 - y1 + x1,
+										   NULL);
+		line->SetLineColor (gcp::AddColor);
+		line->SetLineWidth (pTheme->GetArrowWidth ());
+		line = new gccv::Line (group,m_x0 + x1, m_y0 + y1,
+							   m_x1 + x1 - y1, m_y1 + y1 + x1,
+							   NULL);
+		line->SetLineColor (gcp::AddColor);
+		line->SetLineWidth (pTheme->GetArrowWidth ());
 		x1 += pTheme->GetArrowHeadC () * sin (m_dAngle);
 		y1 += pTheme->GetArrowHeadC () * cos (m_dAngle);
-		gnome_canvas_path_def_moveto (path, m_x1 - x1 - y1, m_y1 - y1 + x1);
-		gnome_canvas_path_def_lineto (path, m_x1, m_y1);
-		gnome_canvas_path_def_lineto (path, m_x1 + x1 - y1, m_y1 + y1 + x1);
-		m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_bpath_ext_get_type (),
-								"bpath", path,
-								"outline_color", gcp::AddColor,
-								"width_units", pTheme->GetArrowWidth (),
-								"cap-style", GDK_CAP_BUTT,
-								"join-style", GDK_JOIN_MITER,
-								NULL);*/
+		list <gccv::Point> points;
+		gccv::Point point;
+		point.x = m_x1 - x1 - y1;
+		point.y = m_y1 - y1 + x1;
+		points.push_back (point);
+		point.x = m_x1;
+		point.y = m_y1;
+		points.push_back (point);
+		point.x = m_x1 + x1 - y1;
+		point.y = m_y1 + y1 + x1;
+		points.push_back (point);
+		gccv::PolyLine *pl = new gccv::PolyLine (group, points, NULL);
+		pl->SetLineColor (gcp::AddColor);
+		pl->SetLineWidth (pTheme->GetArrowWidth ());
+		m_Item = group;
 		break;
 	}
 	}

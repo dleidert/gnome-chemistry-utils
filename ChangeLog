@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2008-11-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: removed #ifdef ENABLE_NLS.
+	* libs/gccv/Makefile.am: add new files.
+	* libs/gccv/arrow.cc: implement Arrow::Distance.
+	* libs/gccv/arrow.h: remove Arrow::Move, the Line class method is enough.
+	* libs/gccv/item-client.cc: implement a default for UpdateItem ().
+	* libs/gccv/line.cc: set line cap.
+	* libs/gccv/poly-line.cc: new poly segments line.
+	* libs/gccv/poly-line.h: ditto.
+	* libs/gccv/structs.h: fixed file name in copyright.
+	* libs/gcu/element.cc: removed #ifdef ENABLE_NLS.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/paint/arrows/arrowtool.cc: fully reimplemented.
+	* plugins/paint/arrows/retrosynthesisarrow.cc: reimplemented.
+	* plugins/paint/arrows/retrosynthesisarrow.h: ditto.
+
 2008-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/arrow.cc: add half heads support.
 	* libs/gccv/canvas.cc: allow setting the background color.

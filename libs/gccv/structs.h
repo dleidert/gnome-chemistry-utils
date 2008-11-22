@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/rectangle.h 
+ * gccv/structs.h 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *

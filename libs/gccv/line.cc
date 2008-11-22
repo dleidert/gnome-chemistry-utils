@@ -82,6 +82,7 @@ double Line::Distance (double x, double y, Item **item) const
 void Line::Draw (cairo_t *cr, bool is_vector) const
 {
 	cairo_set_line_width (cr, GetLineWidth ());
+	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 	cairo_move_to (cr, m_xstart, m_ystart);
 	cairo_line_to (cr, m_xend, m_yend);
 	GOColor color = GetLineColor ();

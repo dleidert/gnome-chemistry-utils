@@ -41,7 +41,6 @@ public:
 	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr);
 	void AddItem ();
-	void UpdateItem ();
 	void SetSelected (int state);
 	void SetStartStep (gcpRetrosynthesisStep *Step) {m_Start = Step;}
 	gcpRetrosynthesisStep* GetStartStep () {return m_Start;}

@@ -31,6 +31,10 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gccv/canvas.h>
+#include <gccv/group.h>
+#include <gccv/line.h>
+#include <gccv/poly-line.h>
 #include <cmath>
 
 TypeId RetrosynthesisArrowType = NoType;
@@ -113,15 +117,16 @@ bool gcpRetrosynthesisArrow::Load (xmlNodePtr node)
 
 void gcpRetrosynthesisArrow::AddItem ()
 {
-/*	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (pData->Items[this] != NULL)
+	if (m_Item)
 		return;
-	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
+	gcp::Document *doc = static_cast <gcp::Document*> (GetDocument ());
+	gcp::View *view = doc->GetView ();
+	gcp::Theme *theme = doc->GetTheme ();
 	double x0, y0, x1, y1, dx, dy, dAngle;
-	x0 = m_x * pTheme->GetZoomFactor ();
-	y0 = m_y * pTheme->GetZoomFactor ();
-	x1 = (m_x + m_width) * pTheme->GetZoomFactor ();
-	y1 = (m_y + m_height) * pTheme->GetZoomFactor ();
+	x0 = m_x * theme->GetZoomFactor ();
+	y0 = m_y * theme->GetZoomFactor ();
+	x1 = (m_x + m_width) * theme->GetZoomFactor ();
+	y1 = (m_y + m_height) * theme->GetZoomFactor ();
 	if (m_width == 0.) {
 		if (m_height == 0.)
 			return;
@@ -131,75 +136,43 @@ void gcpRetrosynthesisArrow::AddItem ()
 		if (m_width < 0)
 			dAngle += M_PI;
 	}
-	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type(), NULL));
-	GnomeCanvasItem* item;
-	dx = pTheme->GetArrowDist () / 2 * sin (dAngle);
-	dy = pTheme->GetArrowDist () / 2 * cos (dAngle);
-	GnomeCanvasPathDef* path = gnome_canvas_path_def_new ();
-	gnome_canvas_path_def_moveto (path, x0 - dx, y0 - dy);
-	gnome_canvas_path_def_lineto (path, x1 - dx - dy, y1 - dy + dx);
-	gnome_canvas_path_def_moveto (path, x0 + dx, y0 + dy);
-	gnome_canvas_path_def_lineto (path, x1 + dx - dy, y1 + dy + dx);
-	dx += pTheme->GetArrowHeadC () * sin (dAngle);
-	dy += pTheme->GetArrowHeadC () * cos (dAngle);
-	gnome_canvas_path_def_moveto (path, x1 - dx - dy, y1 - dy + dx);
-	gnome_canvas_path_def_lineto (path, x1, y1);
-	gnome_canvas_path_def_lineto (path, x1 + dx - dy, y1 + dy + dx);
-	item = gnome_canvas_item_new (
-							group,
-							gnome_canvas_bpath_ext_get_type (),
-							"bpath", path,
-							"outline_color", (pData->IsSelected (this))? gcp::SelectColor: gcp::Color,
-							"width_units", pTheme->GetArrowWidth (),
-							"cap-style", GDK_CAP_BUTT,
-							"join-style", GDK_JOIN_MITER,
-							NULL);
-	g_object_set_data (G_OBJECT (item), "object", (void *) this);
-	g_object_set_data( G_OBJECT (group), "arrow", item);
-	g_signal_connect(G_OBJECT (item), "event", G_CALLBACK (gcp::on_event), w);
-	pData->Items[this] = group;*/
-}
-
-void gcpRetrosynthesisArrow::UpdateItem ()
-{
-/*	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (pData->Items[this] == NULL)
-		return;
-	gcp::Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasGroup* group = pData->Items[this];
-	double x0, y0, x1, y1, dx, dy, dAngle;
-	x0 = m_x * pTheme->GetZoomFactor ();
-	y0 = m_y * pTheme->GetZoomFactor ();
-	x1 = (m_x + m_width) * pTheme->GetZoomFactor ();
-	y1 = (m_y + m_height) * pTheme->GetZoomFactor ();
-	if (m_width == 0.) {
-		if (m_height == 0.)
-			return;
-		dAngle = (m_height < 0.) ? M_PI / 2 : 1.5 * M_PI;
-	} else {
-		dAngle = atan (- m_height / m_width);
-		if (m_width < 0)
-			dAngle += M_PI;
-	}
-	dx = pTheme->GetArrowDist () / 2 * sin (dAngle);
-	dy = pTheme->GetArrowDist () / 2 * cos (dAngle);
-	GnomeCanvasPathDef* path = gnome_canvas_path_def_new ();
-	gnome_canvas_path_def_moveto (path, x0 - dx, y0 - dy);
-	gnome_canvas_path_def_lineto (path, x1 - dx - dy, y1 - dy + dx);
-	gnome_canvas_path_def_moveto (path, x0 + dx, y0 + dy);
-	gnome_canvas_path_def_lineto (path, x1 + dx - dy, y1 + dy + dx);
-	dx += pTheme->GetArrowHeadC () * sin (dAngle);
-	dy += pTheme->GetArrowHeadC () * cos (dAngle);
-	gnome_canvas_path_def_moveto (path, x1 - dx - dy, y1 - dy + dx);
-	gnome_canvas_path_def_lineto (path, x1, y1);
-	gnome_canvas_path_def_lineto (path, x1 + dx - dy, y1 + dy + dx);
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "arrow")),
-						"bpath", path,
-						NULL);*/
+	dx = theme->GetArrowDist () / 2 * sin (dAngle);
+	dy = theme->GetArrowDist () / 2 * cos (dAngle);
+	GOColor color = (view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color;
+	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), this);
+	gccv::Line *line = new gccv::Line (group, x0 - dx, y0 - dy,
+									  x1- dx - dy, y1 - dy + dx,
+									   this);
+	line->SetLineColor (color);
+	line->SetLineWidth (theme->GetArrowWidth ());
+	line = new gccv::Line (group, x0 + dx, y0 + dy,
+						   x1 + dx - dy, y1 + dy + dx,
+						   this);
+	line->SetLineColor (color);
+	line->SetLineWidth (theme->GetArrowWidth ());
+	dx += theme->GetArrowHeadC () * sin (dAngle);
+	dy += theme->GetArrowHeadC () * cos (dAngle);
+	list <gccv::Point> points;
+	gccv::Point point;
+	point.x = x1 - dx - dy;
+	point.y = y1 - dy + dx;
+	points.push_back (point);
+	point.x = x1;
+	point.y = y1;
+	points.push_back (point);
+	point.x = x1 + dx - dy;
+	point.y = y1 + dy + dx;
+	points.push_back (point);
+	gccv::PolyLine *pl = new gccv::PolyLine (group, points, this);
+	pl->SetLineColor (color);
+	pl->SetLineWidth (theme->GetArrowWidth ());
+	m_Item = group;
 }
 
 void gcpRetrosynthesisArrow::SetSelected (int state)
 {
+	if (!m_Item)
+		return;
 	GOColor color;
 	switch (state) {	
 	case gcp::SelStateUnselected:
@@ -218,7 +191,11 @@ void gcpRetrosynthesisArrow::SetSelected (int state)
 		color = gcp::Color;
 		break;
 	}
-/*	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "arrow")),
-						"outline_color", color,
-						NULL);*/
+	gccv::Group *group = static_cast <gccv::Group *> (m_Item);
+	std::list<gccv::Item *>::iterator it;
+	gccv::LineItem *item = static_cast <gccv::LineItem *> (group->GetFirstChild (it));
+	while (item) {
+		item->SetLineColor (color);
+		item = static_cast <gccv::LineItem *> (group->GetNextChild (it));
+	}
 }

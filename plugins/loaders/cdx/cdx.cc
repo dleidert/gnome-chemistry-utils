@@ -1263,9 +1263,7 @@ G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
-#ifdef ENABLE_NLS
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-#endif
 	// initialize charsets names
 	Charsets[kCDXCharSetUnknown] = "Unknown";
 	Charsets[kCDXCharSetEBCDICOEM] = "EBCDICOEM";

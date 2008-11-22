@@ -45,6 +45,11 @@ void ItemClient::AddItem ()
 
 void ItemClient::UpdateItem ()
 {
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
+	}
+	AddItem ();
 }
 
 void ItemClient::SetSelected (int state)
