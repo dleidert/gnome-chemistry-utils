@@ -435,6 +435,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 		gcp::Theme *Theme = gcp::TheThemeManager.GetTheme ("Default");
 		double width = (Theme->GetArrowLength () * Theme->GetZoomFactor () + 2 * Theme->GetArrowPadding ()),
 			height = Theme->GetArrowDist () + Theme->GetArrowWidth () + 2 * (Theme->GetArrowHeadB () + Theme->GetPadding ());
+		GdkColor color = m_pApp->GetStyle ()->fg[0];
 		gtk_widget_set_size_request (GTK_WIDGET (canvas), (int) width, (int) height);
 		GnomeCanvasGroup *group = gnome_canvas_root (canvas);
 		GnomeCanvasPoints *points = gnome_canvas_points_new (2);
@@ -446,7 +447,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 							group,
 							gnome_canvas_line_ext_get_type (),
 							"points", points,
-							"fill_color", "black",
+							"fill_color_gdk", &color,
 							"width_units", Theme->GetArrowWidth (),
 							"last_arrowhead", true,
 							"arrow_shape_a",Theme->GetArrowHeadA (),
@@ -461,7 +462,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 							group,
 							gnome_canvas_line_ext_get_type (),
 							"points", points,
-							"fill_color", "black",
+							"fill_color_gdk", &color,
 							"width_units",Theme->GetArrowWidth (),
 							"last_arrowhead", true,
 							"arrow_shape_a",Theme->GetArrowHeadA (),
@@ -482,7 +483,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 							group,
 							gnome_canvas_line_ext_get_type (),
 							"points", points,
-							"fill_color", "black",
+							"fill_color_gdk", &color,
 							"width_units", Theme->GetArrowWidth (),
 							"last_arrowhead", true,
 							"arrow_shape_a",Theme->GetArrowHeadA (),
@@ -497,7 +498,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 							group,
 							gnome_canvas_line_ext_get_type (),
 							"points", points,
-							"fill_color", "black",
+							"fill_color_gdk", &color,
 							"width_units",Theme->GetArrowWidth (),
 							"last_arrowhead", true,
 							"arrow_shape_a",Theme->GetArrowHeadA (),

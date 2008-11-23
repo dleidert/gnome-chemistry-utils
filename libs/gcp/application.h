@@ -496,7 +496,8 @@ private:
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	std::list<option_data> m_Options;
-	GtkStyle *m_Style;
+
+GCU_RO_POINTER_PROP	(GtkStyle, Style)
 };
 
 }	// namespace gcp
