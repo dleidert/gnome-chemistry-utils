@@ -32,6 +32,8 @@
 #include "theme.h"
 #include "view.h"
 #include "Hposdlg.h"
+#include <gccv/canvas.h>
+#include <gccv/group.h>
 #include <gccv/text.h>
 #include <gcu/element.h>
 #include <goffice/math/go-math.h>
@@ -1924,10 +1926,29 @@ void Atom::BuildSymbolGeometry (double width, double height, double ascent)
 
 void Atom::AddItem ()
 {
-}
-
-void Atom::UpdateItem ()
-{
+	if (m_Item)
+		return;
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc->GetTheme ();
+	double x, y;
+	GetCoords (&x, &y);
+	x *= theme->GetZoomFactor ();
+	y *= theme->GetZoomFactor ();
+	// always use a group, even if not needed
+	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), this);
+	if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
+		gccv::Text *text = new gccv::Text (group, x, y, this);
+		text->SetFillColor (0);
+		text->SetLineColor (0);
+		text->SetFontDescription (view->GetPangoFontDesc ());
+		text->SetText (GetSymbol ());
+		text->SetLineOffset (view->GetCHeight ());
+		// build the symbol geometry
+		BuildSymbolGeometry (text->GetWidth (), text->GetHeight (), text->GetAscent () - text->GetY () - view->GetCHeight ());		
+	} else {
+	}
+	m_Item = group;
 }
 
 }	//	namespace gcp

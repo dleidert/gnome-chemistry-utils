@@ -236,10 +236,6 @@ Used to add a representation of the atom in the view.
 */
 	void AddItem ();
 /*!
-Used to update the representation of the atom in the view.
-*/
-	void UpdateItem ();
-/*!
 @param state the selection state of the atom.
 
 Used to set the selection state of the atom inside the widget.

@@ -61,6 +61,8 @@ double PolyLine::Distance (double x, double y, Item **item) const
 	double lw = GetLineWidth () / 2.;
 	double result = G_MAXDOUBLE, d, dx, dy, dx1, dy1, xx, yy, length;
 	// we do not take miter limits into account
+	if (item)
+		*item = const_cast <PolyLine *> (this);
 	for (i++; i != end; i++) {
 		x1 = (*i).x;
 		y1 = (*i).y;

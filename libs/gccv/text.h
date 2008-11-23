@@ -63,17 +63,22 @@ public:
 
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;
+	void Move (double x, double y);
 
 	// static methods
 	static PangoContext *GetContext ();
 
 private:
-	double m_x, m_y, m_w, m_h;
+	double m_x, m_y;
 
 GCU_RO_POINTER_PROP (PangoLayout, Layout)
 GCCV_TEXT_PROP (double, Padding)
 GCCV_TEXT_PROP (Anchor, Anchor)
 GCCV_TEXT_PROP (double, LineOffset)
+GCU_RO_PROP (double, Width)
+GCU_RO_PROP (double, Height)
+GCU_RO_PROP (double, Ascent)
+GCU_RO_PROP (double, Y)
 };
 
 }   //	namespace gccv

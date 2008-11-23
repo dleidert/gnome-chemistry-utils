@@ -56,6 +56,8 @@ double Arrow::Distance (double x, double y, Item **item) const
 	dx1 = x - m_xstart;
 	dy1 = y - m_ystart;
 	length = sqrt (dx * dx  + dy * dy);
+	if (item)
+		*item = const_cast <Arrow *> (this);
 	if (length == 0.)
 		return sqrt (dx1 * dx1 + dy1 * dy1);
 	// project the (dx1, dy1) vector on the wedge axis.

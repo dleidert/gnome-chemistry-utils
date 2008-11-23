@@ -58,20 +58,20 @@ Context::~Context ()
 
 Text::Text (Canvas *canvas, double x, double y):
 	Rectangle (canvas, x, y, 0., 0.),
-	m_x (x), m_y (y), m_w (0.), m_h (0.),
+	m_x (x), m_y (y),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
-	m_LineOffset (0.)
+	m_LineOffset (0.), m_Width (0.), m_Height (0.)
 {
 	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
 }
 
 Text::Text (Group *parent, double x, double y, ItemClient *client):
 	Rectangle (parent, x, y, 0., 0., client),
-	m_x (x), m_y (y), m_w (0.), m_h (0.),
+	m_x (x), m_y (y),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
-	m_LineOffset (0.)
+	m_LineOffset (0.), m_Width (0.), m_Height (0.)
 {
 	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
 }
@@ -88,10 +88,14 @@ void Text::SetPosition (double x, double y)
 	pango_layout_get_extents (m_Layout, &r, NULL); // FIXME: might be wrong if we allow above-under characters
 	m_x = x;
 	m_y = y;
-	m_w = (double) r.width / PANGO_SCALE;
-	m_h = (double) r.height / PANGO_SCALE;
-	w = m_w + 2 * m_Padding;
-	h = m_h + 2 * m_Padding;
+	m_Y = (double) r.y / PANGO_SCALE;
+	m_Width = (double) (r.width + 2 * r.x) / PANGO_SCALE; // FIXME: this might be wrong for multiline texts, and any way looks weird
+	m_Height = (double) r.height / PANGO_SCALE;
+	w = m_Width + 2 * m_Padding;
+	h = m_Height + 2 * m_Padding;
+	PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
+	m_Ascent = (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+	pango_layout_iter_free (iter);
 	// Horizontal position
 	switch (m_Anchor) {
 	default:
@@ -120,9 +124,7 @@ void Text::SetPosition (double x, double y)
 	case AnchorLine:
 	case AnchorLineWest:
 	case AnchorLineEast: {
-		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
-		yr = m_y - (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE + m_LineOffset;
-		pango_layout_iter_free (iter);
+		yr = m_y - m_Ascent + m_LineOffset + m_Y - m_Padding;
 		break;
 	}
 	case AnchorCenter:
@@ -138,7 +140,7 @@ void Text::SetPosition (double x, double y)
 	case AnchorSouth:
 	case AnchorSouthWest:
 	case AnchorSouthEast:
-		yr = m_y - m_h + m_Padding;
+		yr = m_y - m_Height + m_Padding;
 		break;
 	}
 	Rectangle::SetPosition (xr, yr, w, h);
@@ -147,6 +149,83 @@ void Text::SetPosition (double x, double y)
 void Text::Draw (cairo_t *cr, bool is_vector) const
 {
 	Rectangle::Draw (cr, is_vector);
+	// now drawing text
+	// first get the pango iter at first character
+	PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
+	// evaluate the starting position
+	double startx, starty, curx;
+	// Horizontal position
+	switch (m_Anchor) {
+	default:
+	case AnchorNorth:
+	case AnchorLine:
+	case AnchorCenter:
+	case AnchorSouth:
+		startx = m_x - m_Width / 2.;
+		break;
+	case AnchorNorthWest:
+	case AnchorLineWest:
+	case AnchorWest:
+	case AnchorSouthWest:
+		startx = m_x - m_Width;
+		break;
+	case AnchorNorthEast:
+	case AnchorLineEast:
+	case AnchorEast:
+	case AnchorSouthEast:
+		startx = m_x;
+		break;
+	}
+	// Vertical position
+	switch (m_Anchor) {
+	default:
+	case AnchorLine:
+	case AnchorLineWest:
+	case AnchorLineEast: {
+		starty = m_y - m_Ascent + m_LineOffset;
+		break;
+	}
+	case AnchorCenter:
+	case AnchorWest:
+	case AnchorEast:
+		starty = m_y - m_Height / 2. - m_LineOffset;
+		break;
+	case AnchorNorth:
+	case AnchorNorthWest:
+	case AnchorNorthEast:
+		starty = m_y - m_LineOffset;
+		break;
+	case AnchorSouth:
+	case AnchorSouthWest:
+	case AnchorSouthEast:
+		starty = m_y - m_Height - m_LineOffset;
+		break;
+	}
+	// now, draw the glyphs
+	char const *text = pango_layout_get_text (m_Layout);
+	char const *next;
+	PangoLayout *pl = pango_cairo_create_layout (cr);
+	pango_layout_set_font_description (pl, pango_layout_get_font_description (m_Layout));
+	PangoRectangle rect;
+	cairo_set_source_rgba (cr, 0., 0., 0., 1.); // FIXME, use text color if any
+	// FIXME: use text attributes
+	while (*text) {
+		pango_layout_iter_get_char_extents (iter, &rect);
+		curx = rect.x / PANGO_SCALE;
+		cairo_move_to (cr, startx + curx, starty  - m_Ascent + (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE);
+		next = g_utf8_find_next_char (text, NULL);
+		pango_layout_set_text (pl, text, next - text);
+		text = next;
+		pango_cairo_show_layout (cr, pl);
+		pango_layout_iter_next_char (iter);
+	}
+	// free the iterator
+	pango_layout_iter_free (iter);
+}
+
+void Text::Move (double x, double y)
+{
+	SetPosition (m_x + x, m_y + y);
 }
 
 PangoContext *Text::GetContext ()

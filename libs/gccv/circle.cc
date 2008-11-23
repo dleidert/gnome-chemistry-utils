@@ -68,6 +68,8 @@ double Circle::Distance (double x, double y, Item **item) const
 	x -= m_x0;
 	y -= m_y0;
 	result = sqrt (x * x + y * y);
+	if (item)
+		*item = const_cast <Circle *> (this);
 	if (GetFillColor () & 0xff && result < m_Radius + GetLineWidth () / 2.)
 		return 0.;
 	return fabs (result - m_Radius) - GetLineWidth () / 2.;

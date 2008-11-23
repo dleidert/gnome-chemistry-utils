@@ -69,6 +69,9 @@ bool gcpElementTool::OnClicked ()
 	text->SetPadding (m_pView->GetDoc ()->GetTheme ()->GetPadding ());
 	text->SetFillColor (gcp::AddColor);
 	text->SetLineOffset (m_pView->GetCHeight ());
+	text->GetPosition (m_x1, m_y1, m_x2, m_y2);
+	m_x2 += m_x1;
+	m_y2 += m_y1;
 	return true;
 }
 

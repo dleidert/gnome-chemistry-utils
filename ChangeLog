@@ -1,5 +1,23 @@
 ##Text encoding: utf-8
 
+2008-11-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/arrow.cc: fixed returned item in Distance().
+	* libs/gccv/circle.cc: ditto.
+	* libs/gccv/line.cc: ditto.
+	* libs/gccv/poly-line.cc: ditto.
+	* libs/gccv/rectangle.cc: ditto.
+	* libs/gccv/rectangle.h: add a new GetPosition method.
+	* libs/gccv/squiggle.cc: fixed returned item in Distance().
+	* libs/gccv/text.cc: make things work minimally.
+	* libs/gccv/text.h: ditto.
+	* libs/gccv/wedge.cc: fixed returned item in Distance().
+	* libs/gcp/atom.cc: add the symbol to the canvas.
+	* libs/gcp/atom.h: removed unused UpdateItem() for now.
+	* libs/gcp/bond.cc: make bonds a little longer now that symbols are
+	correctly centered.
+	* plugins/loaders/cml/cml.cc: wrote some preliminary code.
+	* plugins/paint/atoms/elementtool.cc: fixed dragging.
+
 2008-11-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: removed #ifdef ENABLE_NLS.
 	* libs/gccv/Makefile.am: add new files.

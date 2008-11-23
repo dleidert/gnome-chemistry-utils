@@ -62,6 +62,8 @@ double Squiggle::Distance (double x, double y, Item **item) const
 	double d1, d2;
 	d1 = (m_xend - m_xstart) * (x - m_xstart) + (m_yend - m_ystart) * (y - m_ystart);
 	d2 = (m_xend - m_xstart) * (x - m_xend) + (m_yend - m_ystart) * (y - m_yend);
+	if (item)
+		*item = const_cast <Squiggle *> (this);
 	if (d1 >= 0. && d2 >= 0.) {
 		x -= m_xend;
 		y -= m_yend;

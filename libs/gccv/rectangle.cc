@@ -25,6 +25,7 @@
 #include "config.h"
 #include "rectangle.h"
 #include "canvas.h"
+#include <cmath>
 
 namespace gccv {
 
@@ -65,10 +66,18 @@ void Rectangle::SetPosition (double x, double y, double width, double height)
 	Invalidate ();
 }
 
-void Rectangle::GetPosition (double &x, double &y)
+void Rectangle::GetPosition (double &x, double &y) const
 {
 	x = m_x;
 	y = m_y;
+}
+
+void Rectangle::GetPosition (double &x, double &y, double &width, double &height) const
+{
+	x = m_x;
+	y = m_y;
+	width = m_w;
+	height = m_h;
 }
 
 double Rectangle::Distance (double x, double y, Item **item) const
@@ -76,19 +85,34 @@ double Rectangle::Distance (double x, double y, Item **item) const
 	double result;
 	if (x < m_x0) {
 		if (y < m_y0) {
+			x -= m_x0;
+			y -= m_y0;
+			result = sqrt (x * x + y * y);
 		} else if (y < m_y1) {
+			result = m_x0 - x;
 		} else {
+			x -= m_x0;
+			y -= m_y1;
+			result = sqrt (x * x + y * y);
 		}
 	} else if (x < m_x1) {
-		if (y < m_y0) {
-		} else if (y < m_y1)
+		if (y < m_y0)
+			result = m_y0 - y;
+		else if (y < m_y1)
 			result = 0.;
-		else {
-		}
+		else
+			result = y - m_y1;
 	} else {
 		if (y < m_y0) {
+			x -= m_x1;
+			y -= m_y0;
+			result = sqrt (x * x + y * y);
 		} else if (y < m_y1) {
+			result =  x - m_x1;
 		} else {
+			x -= m_x1;
+			y -= m_y1;
+			result = sqrt (x * x + y * y);
 		}
 	}
 	if (item)

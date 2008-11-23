@@ -113,13 +113,13 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		if (ax > 0) {
 			horizontal = anga >= angb;
 			if (horizontal) {
-				ax = (ax + 2.) / Theme->GetZoomFactor ();
+				ax = (ax + 1.) / Theme->GetZoomFactor ();
 				if (dx > 0)
 					ax = - ax;
 				*x1 -= ax;
 				*y1 -= ax * dy / dx;
 			} else {
-				ay = (ay + 2.) / Theme->GetZoomFactor ();
+				ay = (ay + 1.) / Theme->GetZoomFactor ();
 				if (dy > 0)
 					ay = - ay;
 				*y1 -= ay;
@@ -574,7 +574,7 @@ void Bond::AddItem ()
 {
 	if (m_Item)
 		return;
-	double x1, y1, x2, y2/*, x, y, dx, dy, dx1, dy1*/;
+	double x1, y1, x2, y2;
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();

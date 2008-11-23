@@ -37,7 +37,8 @@ public:
 	virtual ~Rectangle ();
 
 	void SetPosition (double x, double y, double width, double height);
-	void GetPosition (double &x, double &y);
+	void GetPosition (double &x, double &y) const;
+	void GetPosition (double &x, double &y, double &width, double &height) const;
 
 	// virtual methods
 	double Distance (double x, double y, Item **item) const;

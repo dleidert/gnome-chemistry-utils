@@ -76,6 +76,8 @@ double Line::Distance (double x, double y, Item **item) const
 	y -= m_ystart;
 	d1 = m_xend - m_xstart;
 	d2 = m_yend - m_ystart;
+	if (item)
+		*item = const_cast <Line *> (this);
 	return fabs (d1 * y - d2 * x) / sqrt (d1 * d1 + d2 * d2) - GetLineWidth () / 2.;
 }
 
