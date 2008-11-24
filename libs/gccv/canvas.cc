@@ -111,9 +111,14 @@ bool CanvasPrivate::OnExpose (Canvas *canvas, GdkEventExpose *event)
 {
 	double x0, y0, x1, y1;
 	canvas->m_Root->GetBounds (x0, y0, x1, y1);
+	x0 *= canvas->m_Zoom;
+	x1 *= canvas->m_Zoom;
+	y0 *= canvas->m_Zoom;
+	y1 *= canvas->m_Zoom;
 	if (x0 <= event->area.x + event->area.width && x1 >= event->area.x && y0 <= event->area.y + event->area.height && y1 >= event->area.y) {
 		cairo_t *cr = gdk_cairo_create (canvas->m_Widget->window);
-		canvas->m_Root->Draw (cr, event->area.x, event->area.y, event->area.x + event->area.width, event->area.y + event->area.height, false);
+		cairo_scale (cr, canvas->m_Zoom, canvas->m_Zoom);
+		canvas->m_Root->Draw (cr, event->area.x / canvas->m_Zoom, event->area.y / canvas->m_Zoom, (event->area.x + event->area.width) / canvas->m_Zoom, (event->area.y + event->area.height) / canvas->m_Zoom, false);
 		cairo_destroy (cr);
 	}
 	return true;
@@ -122,32 +127,35 @@ bool CanvasPrivate::OnExpose (Canvas *canvas, GdkEventExpose *event)
 bool CanvasPrivate::OnButtonPressed (Canvas *canvas, GdkEventButton *event)
 {
 	Item *item = NULL;
-	if (canvas->m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > canvas->m_Gap)
+	double x = event->x / canvas->m_Zoom, y = event->y / canvas->m_Zoom;
+	if (canvas->m_Root->Distance (x, y, &item) > canvas->m_Gap)
 		item = NULL;
 	ItemClient *client = (item)? item->GetClient (): NULL;
 	if (event->button == 1)
 		canvas->m_Dragging = true;
-	return (canvas->m_Client)? canvas->m_Client->OnButtonPressed (client, event->button, event->x, event->y, event->state): true;
+	return (canvas->m_Client)? canvas->m_Client->OnButtonPressed (client, event->button, x, y, event->state): true;
 }
 
 bool CanvasPrivate::OnButtonReleased (Canvas *canvas, GdkEventButton *event)
 {
 	Item *item = NULL;
-	if (canvas->m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > canvas->m_Gap)
+	double x = event->x / canvas->m_Zoom, y = event->y / canvas->m_Zoom;
+	if (canvas->m_Root->Distance (x, y, &item) > canvas->m_Gap)
 		item = NULL;
 	ItemClient *client = (item)? item->GetClient (): NULL;
 	if (event->button == 1)
 		canvas->m_Dragging = false;
-	return (canvas->m_Client)? canvas->m_Client->OnButtonReleased (client, event->button, event->x, event->y, event->state): true;
+	return (canvas->m_Client)? canvas->m_Client->OnButtonReleased (client, event->button, x, y, event->state): true;
 }
 
 bool CanvasPrivate::OnMotion (Canvas *canvas, GdkEventMotion *event)
 {
 	Item *item = NULL;
-	if (canvas->m_Root->Distance (static_cast <double> (event->x), static_cast <double> (event->y), &item) > canvas->m_Gap)
+	double x = event->x / canvas->m_Zoom, y = event->y / canvas->m_Zoom;
+	if (canvas->m_Root->Distance (x, y, &item) > canvas->m_Gap)
 		item = NULL;
 	ItemClient *client = (item)? item->GetClient (): NULL;
-	return (canvas->m_Client)? (canvas->m_Dragging? canvas->m_Client->OnDrag (client, event->x, event->y, event->state): canvas->m_Client->OnMotion (client, event->x, event->y, event->state)): true;
+	return (canvas->m_Client)? (canvas->m_Dragging? canvas->m_Client->OnDrag (client, x, y, event->state): canvas->m_Client->OnMotion (client, x, y, event->state)): true;
 }
 
 static void on_button_pressed (Canvas *canvas, GdkEventButton *event)
@@ -178,6 +186,7 @@ static bool on_expose_event (Canvas *canvas, GdkEventExpose *event)
 Canvas::Canvas (Client *client):
 	m_Client (client),
 	m_Dragging (false),
+	m_Zoom (1.),
 	m_Root (NULL),
 	m_Gap (0.)
 {
@@ -204,7 +213,7 @@ Item *Canvas::GetItemAt (double x, double y)
 
 void Canvas::Invalidate (double x0, double y0, double x1, double y1)
 {
-	gtk_widget_queue_draw_area (m_Widget, (int) floor (x0), (int) floor (y0), (int) ceil (x1), (int) ceil (y1));
+	gtk_widget_queue_draw_area (m_Widget, (int) floor (x0 * m_Zoom), (int) floor (y0 * m_Zoom), (int) ceil (x1 * m_Zoom), (int) ceil (y1 * m_Zoom));
 }
 
 void Canvas::SetScrollRegion (double xmin, double ymin, double xmax, double ymax)
@@ -220,6 +229,20 @@ void Canvas::SetBackgroundColor (GOColor color)
 	GdkColor gcolor;
 	go_color_to_gdk (color, &gcolor);
 	gtk_widget_modify_bg (m_Widget, GTK_STATE_NORMAL, &gcolor);
+}
+
+void Canvas::SetZoom (double zoom)
+{
+	m_Root->Invalidate ();
+	m_Zoom = zoom;
+	m_Root->Invalidate ();
+}
+
+void Canvas::Render (cairo_t* cr, bool is_vector)
+{
+	double x0, y0, x1, y1;
+	m_Root->GetBounds (x0, y0, x1, y1);
+	m_Root->Draw (cr, x0, y0, x1, y1, is_vector);
 }
 
 }

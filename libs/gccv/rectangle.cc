@@ -122,24 +122,24 @@ double Rectangle::Distance (double x, double y, Item **item) const
 
 void Rectangle::Draw (cairo_t *cr, bool is_vector) const
 {
-	GOColor color = GetFillColor ();
+	GOColor fill_color = GetFillColor (), line_color = GetLineColor ();
+	if (!fill_color && !line_color)
+		return;
 	cairo_set_line_width (cr, GetLineWidth ());
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
 	cairo_set_miter_limit (cr, 10.);
 	cairo_rectangle (cr, m_x, m_y, m_w, m_h);
-	if (color != 0) {
-		cairo_set_source_rgba (cr, DOUBLE_RGBA_R (color), DOUBLE_RGBA_G (color), DOUBLE_RGBA_B (color), DOUBLE_RGBA_A (color));
-		color = GetLineColor ();
-		if (color != 0)
+	if (fill_color != 0) {
+		cairo_set_source_rgba (cr, DOUBLE_RGBA_R (fill_color), DOUBLE_RGBA_G (fill_color), DOUBLE_RGBA_B (fill_color), DOUBLE_RGBA_A (fill_color));
+		if (line_color != 0)
 			cairo_fill_preserve (cr);
-		else
+		else {
 			cairo_fill (cr);
-	} else
-		color = GetLineColor ();
-	if (color != 0) {
-		cairo_set_source_rgba (cr, DOUBLE_RGBA_R (color), DOUBLE_RGBA_G (color), DOUBLE_RGBA_B (color), DOUBLE_RGBA_A (color));
-		cairo_stroke (cr);
+			return;
+		}
 	}
+	cairo_set_source_rgba (cr, DOUBLE_RGBA_R (line_color), DOUBLE_RGBA_G (line_color), DOUBLE_RGBA_B (line_color), DOUBLE_RGBA_A (line_color));
+	cairo_stroke (cr);
 }
 
 void Rectangle::UpdateBounds ()

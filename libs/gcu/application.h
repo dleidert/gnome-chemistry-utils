@@ -224,6 +224,8 @@ Method used to retrieve the base configuration node.
 	static GOConfNode *GetConfDir ();
 #endif
 
+	std::string const &GetIconName () {return IconName;}
+
 protected:
 
 /*!
@@ -243,6 +245,7 @@ private:
 	std::string HelpBrowser;
 	std::string HelpFilename;
 	std::string CurDir;
+	std::string IconName;
 #ifdef HAVE_GO_CONF_SYNC
 	static GOConfNode *m_ConfDir;
 #endif

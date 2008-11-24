@@ -110,16 +110,30 @@ Ensure that the canvas is large enough to contain all its items.
 */
 	void UpdateBounds ();
 /*!
-@param color a GOColor
+@param color a GOColor.
 
 Sets the background color for the canvas widget
 */
 	void SetBackgroundColor (GOColor color);
+/*!
+@param zoom the new zoom level.
+
+Sets the zoom level for the canvas.
+*/
+	void SetZoom (double zoom);
+/*!
+@param cr a cairo context.
+@param is_vector whether the cairo context is vectorial or raster.
+
+Renders the current canvas to the cairo context.
+*/
+	void Render (cairo_t *cr, bool is_vector);
 
 private:
 	GtkWidget *m_Widget;
 	Client *m_Client;
 	bool m_Dragging;
+	double m_Zoom;
 
 /*!\fn GetRoot
 @return the root item.

@@ -77,7 +77,7 @@ Dialog::Dialog (Application* App, const char* filename, const char* windowname, 
 		m_data = data;
 		if (xml)  glade_xml_signal_autoconnect (xml);
 		dialog = GTK_WINDOW (glade_xml_get_widget(xml, windowname));
-		gtk_window_set_icon_name (dialog, App->GetName ().c_str ());
+		gtk_window_set_icon_name (dialog, App->GetIconName ().c_str ());
 		g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (on_destroy), this);
 		GtkWidget* button = glade_xml_get_widget (xml, "OK");
 		if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_OK), this);

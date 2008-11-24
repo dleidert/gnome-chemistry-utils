@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2008-11-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: implement zoom.
+	* libs/gccv/canvas.h: ditto.
+	* libs/gccv/rectangle.cc: don't create a path for a transparent rectangle.
+	* libs/gcp/document.cc: reimplement printing.
+	* libs/gcp/view.cc: reimplement pdf, ps and eps exports.
+	* libs/gcu/application.cc: add a new icon name member, and do not
+	set default icon name for the application.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/dialog.cc: correctly set the icon name.
+	* plugins/paint/templates/templatetool.cc: zoom the templateso
+	that it fits in the preview, and update all positions.
+
 2008-11-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/arrow.cc: fixed returned item in Distance().
 	* libs/gccv/circle.cc: ditto.
