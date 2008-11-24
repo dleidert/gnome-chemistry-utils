@@ -346,7 +346,9 @@ void Atom::Add (GtkWidget* w) const
 		const_cast <Atom *> (this)->m_HLayout = pango_layout_new (pc);
 	}
 	if (m_FontName != pView->GetFontName ()) {
+		const_cast <Atom *> (this)->m_FontName = pView->GetFontName ();
 		pango_layout_set_font_description (m_Layout, pView->GetPangoFontDesc ());
+		pango_layout_set_font_description (m_HLayout, pView->GetPangoFontDesc ());
 		pango_layout_set_text (m_Layout, "l", 1);
 		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
 		const_cast <Atom *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;

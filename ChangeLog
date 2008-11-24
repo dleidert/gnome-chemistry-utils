@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-11-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fixed font for attached hydrogen atoms.
+	* libs/gcp/document.cc: fixed printing natural size.
+	* libs/gcp/view.cc: fixed size for pdf, ps and eps exports.
+
 2008-11-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.h: make m_Style accessible.
 	* plugins/paint/arrows/arrowtool.cc: make samples in property

@@ -1036,13 +1036,14 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		m_pData->GetObjectBounds (m_pDoc, &rect);
 		cairo_surface_t *surface = NULL;
 		if (!strcmp (type, "pdf"))
-			surface = cairo_pdf_surface_create_for_stream (cairo_write_func, output, w, h);
+			surface = cairo_pdf_surface_create_for_stream (cairo_write_func, output, w * .75, h * .75);
 		else {
-			surface = cairo_ps_surface_create_for_stream (cairo_write_func, output, w, h);
+			surface = cairo_ps_surface_create_for_stream (cairo_write_func, output, w * .75, h * .75);
 			if (!strcmp (type, "eps"))
 				cairo_ps_surface_set_eps (surface, TRUE);
 		}
 		cairo_t *cr = cairo_create (surface);
+		cairo_scale (cr, .75, .75);
 		cairo_translate (cr, -rect.x0, -rect.y0);
 		cairo_surface_destroy (surface);
 		Render (cr);

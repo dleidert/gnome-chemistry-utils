@@ -426,7 +426,7 @@ void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) cons
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (widget), "data");
 	ArtDRect rect;
 	pData->GetObjectBounds (this, &rect);
-	double scale = 1.;
+	double scale = .75;
 	x = rect.x0;
 	y = rect.y0;
 	w = rect.x1 - rect.x0;
@@ -439,10 +439,6 @@ void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) cons
 		break;
 	case GCU_PRINT_SCALE_FIXED:
 		scale *= Printable::GetScale ();
-		x *= scale;
-		y *= scale;
-		w *= scale;
-		h *= scale;
 		break;
 	case GCU_PRINT_SCALE_AUTO:
 		if (GetHorizFit () && GetVertFit ())
@@ -451,12 +447,12 @@ void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) cons
 			scale *= width / w;
 		else if (GetVertFit ())
 			scale *= height / h;
-		x *= scale;
-		y *= scale;
-		w *= scale;
-		h *= scale;
 		break;
 	}
+	x *= scale;
+	y *= scale;
+	w *= scale;
+	h *= scale;
 	if (GetHorizCentered ())
 		x -= (width - w) / 2;
 	if (GetVertCentered ())
