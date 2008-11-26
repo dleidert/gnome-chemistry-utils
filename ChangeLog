@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-11-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: fixed issues when loading a fragment with
+	a residue.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcu/document.h: fixed typo in documentation.
+
 2008-11-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fixed font for attached hydrogen atoms.
 	* libs/gcp/document.cc: fixed printing natural size.
@@ -34,7 +40,7 @@
 	* libs/gcp/atom.cc: do not add the hydrogens item when there are
 	no attached hydrogens.
 	* libs/gcp/bond.cc: a better fix for double bonds drawing.
-	* libs/gcp/fragment.cc: alwayes set the atom as child.
+	* libs/gcp/fragment.cc: always set the atom as child.
 	* libs/gcp/theme.cc: call g_type_init.
 	* libs/gcu/object.h: fixed documentation.
 	* libs/gcu/residue.cc: don't free lang before using it.
