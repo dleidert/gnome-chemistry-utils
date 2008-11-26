@@ -138,6 +138,7 @@ void Molecule::AddAtom (gcu::Atom* pAtom)
 
 void Molecule::AddFragment (Fragment* pFragment)
 {
+	m_Fragments.remove (pFragment); // just in case
 	m_Fragments.push_back (pFragment);
 	Object::AddChild (pFragment);
 } 
@@ -393,7 +394,7 @@ bool Molecule::Load (xmlNodePtr node)
 		AddAtom ((Atom*) pObject);
 		child = GetNextNodeByName (child->next, "pseudo-atom");
 	}
-	
+
 	child = GetNodeByName (node, "fragment");
 	while (child) {
 		pObject = new Fragment ();
@@ -405,7 +406,6 @@ bool Molecule::Load (xmlNodePtr node)
 		}
 		if (pDoc)
 			pDoc->AddFragment ((Fragment*) pObject);
-		AddFragment ((Fragment*) pObject);
 		child = GetNextNodeByName (child->next, "fragment");
 	}
 

@@ -140,7 +140,7 @@ private:
 @param Cache: 
 
 When pasting, objects added to the document might have the same Id as objects already existing. In such cases, the document
-maintains a table to update links using Ids as identifiers. If Chache is set to true GetId adds a new entry in
+maintains a table to update links using Ids as identifiers. If Cache is set to true GetId adds a new entry in
 the table.
 GetNewId returns the translated id
 */

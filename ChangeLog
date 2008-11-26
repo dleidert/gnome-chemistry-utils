@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-11-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: fixed issues when loading a fragment with
+	a residue.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcu/document.h: fixed typo in documentation.
+
 2008-11-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: implement zoom.
 	* libs/gccv/canvas.h: ditto.

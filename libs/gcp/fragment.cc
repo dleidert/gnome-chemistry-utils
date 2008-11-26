@@ -129,7 +129,7 @@ bool Fragment::OnChanged (bool save)
 		while (i > 0) {
 			sy[i] = 0;
 			r = (Residue *) Residue::GetResidue (sy, NULL);
-			if (r)
+			if (r || Element::Z (sy) > 0)
 				break;
 			i--;
 		}
@@ -191,7 +191,7 @@ bool Fragment::OnChanged (bool save)
 		while (i > 0) {
 			sy[i] = 0;
 			r = (Residue *) Residue::GetResidue (sy, NULL);
-			if (r)
+			if (r || Element::Z (sy))
 				break;
 			i--;
 		}
@@ -783,6 +783,13 @@ bool Fragment::Load (xmlNodePtr node)
 				m_Atom->AddBond (pBond);
 			}
 			delete pOldAtom;
+			char id[8];
+			int j = 1;
+			id[0] = 'a';
+			do
+				snprintf (id+1, 7, "%d", j++);
+			while (pDoc->GetDescendant (id) != NULL);
+			m_Atom->SetId (id);
 			AddChild (m_Atom);
 			if (!m_Atom->Load (child))
 				return false;
@@ -1010,25 +1017,88 @@ Object* Fragment::GetAtomAt (double x, double y, double z)
 	y0 = (y - m_y) * pTheme->GetZoomFactor () + m_ascent;
 	if ((x0 < 0.) || (x0 > m_length) || (y0 < 0.) || (y0 > m_height))
 		return NULL;
-	int index, trailing;
+	int index, cur, trailing;
 	pango_layout_xy_to_index (m_Layout, (int) (x0 * PANGO_SCALE), (int) (y0 * PANGO_SCALE), &index, &trailing);
 	char c = m_buf[index];
-	if ((c >= 'a') && (c <= 'z')) {
-		index--;
-		c = m_buf[index];
+	cur = index;
+	while ((c >= 'a') && (c <= 'z') && cur >=0) {
+		cur--;
+		c = m_buf[cur];
 	}
-	if ((c >= 'a') && (c <= 'z')) {
-		index--;
-		c = m_buf[index];
+	if (index - cur > Residue::MaxSymbolLength)
+		cur = index - Residue::MaxSymbolLength;
+	if (cur < 0)
+		cur = 0;
+	// first search for residues
+	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
+	Residue *r = NULL;
+	char sy[Residue::MaxSymbolLength + 1];
+	strncpy (sy, m_buf.c_str () + cur, Residue::MaxSymbolLength);
+	int i = Residue::MaxSymbolLength;
+	while (i > 0) {
+		sy[i] = 0;
+		r = (Residue *) Residue::GetResidue (sy, NULL);
+		if (r || Element::Z (sy) > 0)
+			break;
+		i--;
 	}
+	if (r) {
+		m_BeginAtom = cur;
+		m_EndAtom = cur + strlen (sy);
+		if (residue)
+			residue->SetResidue (r);
+		else {
+			map<gcu::Atom*, gcu::Bond*>::iterator i;
+			Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+			Atom *pOldAtom = m_Atom;
+			m_Atom = NULL;
+			m_Atom = new FragmentResidue (this, sy);
+			m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+			if (pBond) {
+				pBond->ReplaceAtom (pOldAtom, m_Atom);
+				m_Atom->AddBond (pBond);
+			}
+			delete pOldAtom;
+			AddChild (m_Atom);
+		}
+		m_x -= m_lbearing / pTheme->GetZoomFactor () ;
+		PangoRectangle rect;
+		pango_layout_index_to_pos (m_Layout, index, &rect);
+		m_lbearing = rect.x / PANGO_SCALE;
+		pango_layout_index_to_pos (m_Layout, index + i, &rect);
+		m_lbearing += rect.x / PANGO_SCALE;
+		m_lbearing /=  2;
+		m_x += m_lbearing / pTheme->GetZoomFactor ();
+		m_Atom->SetCoords(m_x, m_y);
+		return m_Atom;
+	}
+	if (index - cur > 2)
+		index -= 2;
+	else
+		index = cur;
+	c = m_buf[index];
 	int Z = GetElementAtPos((unsigned) index, (unsigned&) trailing);
 	if (!Z)
 		return NULL;
 	m_bLoading = true;
+	if (residue) {
+		map<gcu::Atom*, gcu::Bond*>::iterator i;
+		Bond *pBond = (gcp::Bond*) m_Atom->GetFirstBond (i);
+		Atom *pOldAtom = m_Atom;
+		m_Atom = NULL;
+		m_Atom = new FragmentAtom (this, Z);
+		m_Atom->SetId ((gchar*) pOldAtom->GetId ());
+		if (pBond) {
+			pBond->ReplaceAtom (pOldAtom, m_Atom);
+			m_Atom->AddBond (pBond);
+		}
+		delete pOldAtom;
+		AddChild (m_Atom);
+	}
 	if (m_Atom) {
 		m_Atom->SetZ (Z);
 		m_bLoading = false;
-		m_BeginAtom =index;
+		m_BeginAtom = index;
 		m_EndAtom = trailing;
 		m_x -= m_lbearing / pTheme->GetZoomFactor () ;
 		PangoRectangle rect;
