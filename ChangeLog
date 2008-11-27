@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2008-11-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: unescape uri before displaying it.
+	* libs/gcp/document.cc: ditto.
+
 2008-11-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: fixed issues when loading a fragment with
 	a residue.

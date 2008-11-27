@@ -191,11 +191,13 @@ void Document::SetFileName (string const &Name, const gchar* mime_type)
 	list<string>::iterator cur, end = exts.end ();
 	for (cur = exts.begin (); cur != end; cur++)
 		if (*cur == ext) {
-			m_label = g_strndup (m_filename + i, j - i);
+			char *buf = g_strndup (m_filename + i, j - i);
+			m_label = g_uri_unescape_string (buf, NULL);
+			g_free (buf);
 			break;
 		}
 	if (!m_label)
-		m_label = g_strdup (m_filename + i);
+		m_label = g_uri_unescape_string (m_filename + i, NULL);
 }
 
 void Document::BuildBondList (list<Bond*>& BondList, Object const *obj) const
