@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2008-11-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: unescape uri before displaying it.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/stringdlg.cc: ditto.
+	* programs/3d/application.cc: ditto.
+	* programs/3d/document.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/spectra/application.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+
 2008-11-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: fixed issues when loading a fragment with
 	a residue.

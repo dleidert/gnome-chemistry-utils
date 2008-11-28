@@ -114,7 +114,9 @@ bool StringDlg::Apply ()
 		err = g_file_query_exists (file, NULL);
 		gint result = GTK_RESPONSE_YES;
 		if (err) {
-			gchar * message = g_strdup_printf(_("File %s\nexists, overwrite?"), filename2);
+			char *unescaped = g_uri_unescape_string (filename2, NULL);
+			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			g_free (unescaped);
 			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 			gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
 			result = gtk_dialog_run (Box);
