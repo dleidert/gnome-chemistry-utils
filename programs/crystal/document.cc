@@ -204,7 +204,9 @@ void gcDocument::SetFileName (const string &filename)
 		j--;
 	if (!m_title) {
 		g_free (m_Label);
-		m_Label = (strcmp (m_filename + j, ".gcrystal"))? g_strdup (m_filename + i): g_strndup (m_filename + i, j - i);
+		char *buf = (strcmp (m_filename + j, ".gcrystal"))? g_strdup (m_filename + i): g_strndup (m_filename + i, j - i);
+		m_Label = g_uri_unescape_string (buf, NULL);
+		g_free (buf);
 	}
 }
 

@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2008-11-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/canvas/gcp-canvas-group.c: (gnome_canvas_group_ext_bounds): take
+	invisible items into account. Fixes #24869.
+	* libs/gcp/stringdlg.cc: unescape uri before displaying it.
+	* programs/3d/application.cc: ditto.
+	* programs/3d/document.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/spectra/application.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+
 2008-11-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: unescape uri before displaying it.
 	* libs/gcp/document.cc: ditto.

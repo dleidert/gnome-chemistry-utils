@@ -163,7 +163,9 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 		bool err = g_file_query_exists (file, NULL);
 		gint result = GTK_RESPONSE_YES;
 		if (err) {
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), filename2.c_str ());
+			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
+			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			g_free (unescaped);
 			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
