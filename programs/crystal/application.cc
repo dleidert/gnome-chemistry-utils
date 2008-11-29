@@ -225,7 +225,9 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 					GError *error = NULL;
 					g_file_delete (file, NULL, &error);
 					if (error) {
-						gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), filename2.c_str (), error->message);
+						char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
+						gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
+						g_free (unescaped);
 						g_error_free (error);
 						GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 						gtk_window_set_icon_name (GTK_WINDOW (Box), "gcrystal");

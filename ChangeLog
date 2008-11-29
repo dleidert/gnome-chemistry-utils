@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2008-11-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: unescape uri before displaying it.
+	* libs/gcp/stringdlg.cc: ditto.
+	* plugins/paint/wikipedia/wikipediatool.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/spectra/document.cc: ditto.
+
 2008-11-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: unescape uri before displaying it.
 	* libs/gcp/document.cc: ditto.

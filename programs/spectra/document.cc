@@ -44,8 +44,12 @@ void gsvDocument::Load (char const *uri, char const *mime_type)
 {
 	SpectrumDocument::Load (uri, mime_type);
 	string title = GetTitle ();
-	if (title.length () == 0)
+	if (title.length () == 0) {
 		title = g_path_get_basename (uri);
+		char *buf = g_uri_unescape_string (title.c_str (), NULL);
+		title = buf;
+		g_free (buf);
+	}
 	dynamic_cast <gsvView *> (m_View)->GetWindow ()->SetTitle (title);
 	string dirname = g_path_get_dirname (uri);
 	m_App->SetCurDir (dirname);
