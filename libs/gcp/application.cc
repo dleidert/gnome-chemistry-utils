@@ -551,7 +551,9 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		}
 	}
 	if (file_type < 0 || (!bSave && (file_type > CHEMISTRY))) {
-		char *mess = g_strdup_printf (_("Sorry, format %s not supported!\nFailed to load %s."), mime_type, filename);
+		char *unescaped = g_uri_unescape_string (filename, NULL);
+		char *mess = g_strdup_printf (_("Sorry, format %s not supported!\nFailed to load %s."), mime_type, unescaped);
+		g_free (unescaped);
 		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
 													mess);
 		gtk_dialog_run (GTK_DIALOG (message));
@@ -595,7 +597,9 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				GError *error = NULL;
 				g_file_delete (file, NULL, &error);
 				if (error) {
-					gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), filename2.c_str (), error->message);
+					char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
+					gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
+					g_free (unescaped);
 					g_error_free (error);
 					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 					gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
@@ -814,7 +818,9 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 		default:
 			throw (num); //this should not occur
 		}
-		message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess, g_uri_unescape_string (filename.c_str (), NULL));
+		char *unescaped = g_uri_unescape_string (filename.c_str (), NULL);
+		message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess, unescaped, NULL);
+		g_free (unescaped);
 		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
 		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 		gtk_widget_show(message);
@@ -948,7 +954,9 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 		default:
 			throw (num); //this should not occur
 		}
-		message = gtk_message_dialog_new(NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess, g_uri_unescape_string (filename.c_str (), NULL));
+		char *unescaped = g_uri_unescape_string (filename.c_str (), NULL);
+		message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess, unescaped, NULL);
+		g_free (unescaped);
 		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
 		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 		gtk_widget_show(message);

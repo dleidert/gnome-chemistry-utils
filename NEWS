@@ -1,19 +1,23 @@
 Version 0.10.2
-	GChemPaint
+	GChemPaint:
 		* Fixed an issue with double bond drawing.
 		* Fixed a crash when adding a bond between two molecules. [#24853]
 		* Fixed crash or end in an infinite loop when adding
 		a fourth bond to phophorus. [#24863]
+		* Fixed various issues related to group symbols.
+		* Do not end with an infinite canvas. [#24869]
+	Other:
+		* Unescape URIs before display in all applications.
 
 Version 0.10.1
-	GChemPaint
+	GChemPaint:
 		* Fixed the chain tool for undo/redo operations and unallowed
 		bond addition.
 		* Don't allow new bonds between molecules in different groups.
 		* Prefer a cycle with cis configuration when drawing
 		double bonds. [#24802]
 		* Fixed various crashes.
-	GSpectrum
+	GSpectrum:
 		* More secure loading of some files. [#24719]
 		* Correctly load negative values in (XY..XY) tables. [#24720]
 	Mozilla plugin:

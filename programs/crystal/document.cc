@@ -320,20 +320,22 @@ void gcDocument::Error (int num) const
 {
 	gchar *mess = NULL;
 	GtkWidget* message;
+	char *unescaped = g_uri_unescape_string (m_filename, NULL);
 	switch (num) {
 	case SAVE:
-		mess = g_strdup_printf (_("Could not save file\n%s"), m_filename);
+		mess = g_strdup_printf (_("Could not save file\n%s"), unescaped);
 		break;
 	case LOAD:
-		mess = g_strdup_printf (_("Could not load file\n%s"), m_filename);
+		mess = g_strdup_printf (_("Could not load file\n%s"), unescaped);
 		break;
 	case XML:
-		mess = g_strdup_printf (_("%s: invalid xml file.\nTree is empty?"), m_filename);
+		mess = g_strdup_printf (_("%s: invalid xml file.\nTree is empty?"), unescaped);
 		break;
 	case FORMAT:
-		mess = g_strdup_printf (_("%s: invalid file format."), m_filename);
+		mess = g_strdup_printf (_("%s: invalid file format."), unescaped);
 		break;
 	}
+	g_free (unescaped);
 	message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
 	g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 	gtk_widget_show (message);
