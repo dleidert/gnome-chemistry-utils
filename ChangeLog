@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2008-11-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.10.3).
+
+2008-11-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: unescape uri before displaying it.
 	* libs/gcp/stringdlg.cc: ditto.
 	* plugins/paint/wikipedia/wikipediatool.cc: ditto.
