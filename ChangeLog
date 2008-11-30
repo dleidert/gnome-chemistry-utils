@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: restored selection.
+
 2008-11-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: unescape uri before displaying it.
 	* libs/gcp/stringdlg.cc: ditto.

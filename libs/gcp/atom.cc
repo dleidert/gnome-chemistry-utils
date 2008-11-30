@@ -31,8 +31,10 @@
 #include "settings.h"
 #include "theme.h"
 #include "view.h"
+#include "widgetdata.h"
 #include "Hposdlg.h"
 #include <gccv/canvas.h>
+#include <gccv/circle.h>
 #include <gccv/group.h>
 #include <gccv/text.h>
 #include <gcu/element.h>
@@ -1230,47 +1232,37 @@ bool Atom::LoadNode (xmlNodePtr)
 
 void Atom::SetSelected (int state)
 {
-/*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	GnomeCanvasGroup* group = pData->Items[this];
-	gpointer item;
-	GOColor color, chargecolor;
-	bool visible = true;
+	GOColor textcolor, othercolor;
 	
 	switch (state) {	
+	default:
 	case SelStateUnselected:
-		color = NULL;
-		chargecolor = RGBA_BLACK;
-			visible = false;
+		textcolor = 0;
+		othercolor = RGBA_BLACK;
 		break;
 	case SelStateSelected:
-		chargecolor = color = SelectColor;
+		othercolor = textcolor = SelectColor;
 		break;
 	case SelStateUpdating:
-		chargecolor = color = AddColor;
+		othercolor = textcolor = AddColor;
 		break;
 	case SelStateErasing:
-		chargecolor = color = DeleteColor;
-		break;
-	default:
-		color = NULL;
-		chargecolor = RGBA_BLACK;
+		othercolor = textcolor = DeleteColor;
 		break;
 	}
-	item = g_object_get_data (G_OBJECT (group), "rect");
-	g_object_set (G_OBJECT (item),
-				"fill_color", color, NULL);
-	if (visible)
-		gnome_canvas_item_show (GNOME_CANVAS_ITEM (item));
-	else
-		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (item));
-	if ((item = g_object_get_data (G_OBJECT (group), "bullet")))
-		g_object_set (item, "fill_color", chargecolor, NULL);
-	if ((item = g_object_get_data (G_OBJECT (group), "figure")))
-		g_object_set (item, "fill_color", chargecolor, NULL);
-	if ((item = g_object_get_data (G_OBJECT (group), "circle")))
-		g_object_set (item, "outline_color", chargecolor, NULL);
-	if ((item = g_object_get_data (G_OBJECT (group), "sign")))
-		g_object_set (item, "outline_color", chargecolor, NULL);*/
+	gccv::Group *group = static_cast <gccv::Group *> (m_Item);
+	std::list<gccv::Item *>::iterator it;
+	gccv::Item *item = group->GetFirstChild (it);
+	while (item) {
+		gccv::FillItem *fill;
+		if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
+			fill->SetFillColor (textcolor);
+		else if ((fill = dynamic_cast <gccv::FillItem *> (item)))
+			fill->SetFillColor (othercolor);
+		else
+			static_cast <gccv::LineItem *> (item)->SetLineColor (othercolor);
+		item = group->GetNextChild (it);
+	}
 }
 
 bool Atom::AcceptNewBonds (int nb)
@@ -1939,7 +1931,8 @@ void Atom::AddItem ()
 	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), this);
 	if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
 		gccv::Text *text = new gccv::Text (group, x, y, this);
-		text->SetFillColor (0);
+		text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+		text->SetPadding (theme->GetPadding ());
 		text->SetLineColor (0);
 		text->SetFontDescription (view->GetPangoFontDesc ());
 		text->SetText (GetSymbol ());
@@ -1947,6 +1940,14 @@ void Atom::AddItem ()
 		// build the symbol geometry
 		BuildSymbolGeometry (text->GetWidth (), text->GetHeight (), text->GetAscent () - text->GetY () - view->GetCHeight ());		
 	} else {
+		gccv::FillItem *fill = new gccv::Rectangle (group,  x - 3., y - 3., 6., 6., this);
+		fill->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+		fill->SetLineColor (0);
+		if (m_DrawCircle) {
+			fill = new gccv::Circle ( group, x, y, theme->GetStereoBondWidth () / 2., this);
+			fill->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+			fill->SetLineColor (0);
+		}
 	}
 	m_Item = group;
 }
