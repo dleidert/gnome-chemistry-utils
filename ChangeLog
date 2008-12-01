@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2008-12-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: don't change tool if Tool::Deactivate returns
+	false.
+	* libs/gcp/document.cc: fix a possible crasher.
+
 2008-11-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: restored selection.
 
@@ -39,7 +44,7 @@
 	set default icon name for the application.
 	* libs/gcu/application.h: ditto.
 	* libs/gcu/dialog.cc: correctly set the icon name.
-	* plugins/paint/templates/templatetool.cc: zoom the templateso
+	* plugins/paint/templates/templatetool.cc: zoom the templates so
 	that it fits in the preview, and update all positions.
 
 2008-11-23  Jean Bréfort  <jean.brefort@normalesup.org>

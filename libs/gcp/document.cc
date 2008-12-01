@@ -872,7 +872,7 @@ void Document::RemoveAtom (Atom* pAtom)
 	Bond* pBond;
 	while ((pBond = (Bond*) pAtom->GetFirstBond (i)))
 	{
-		if (!m_bUndoRedo)
+		if (!m_bUndoRedo && !m_bIsLoading && m_pCurOp)
 			m_pCurOp->AddObject (pBond);
 		RemoveBond (pBond);
 	}
@@ -888,7 +888,7 @@ void Document::RemoveFragment (Fragment* pFragment)
 	Atom* pAtom = pFragment->GetAtom ();
 	Bond* pBond;
 	while ((pBond = (Bond*) pAtom->GetFirstBond (i))) {
-		if (!m_bUndoRedo)
+		if (!m_bUndoRedo && !m_bIsLoading && m_pCurOp)
 			m_pCurOp->AddObject (pBond);
 		RemoveBond (pBond);
 	}
