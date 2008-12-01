@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-12-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/canvas/gcp-canvas-group.c: a better fix for #24869.
+	* libs/gcp/application.cc: don't change tool if Tool::Deactivate returns
+	false.
+	* libs/gcp/document.cc: fix a possible crasher.
+
 2008-11-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.3).
 

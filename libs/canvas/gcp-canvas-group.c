@@ -93,19 +93,32 @@ gnome_canvas_group_ext_bounds (GnomeCanvasItem *item, double *x1, double *y1, do
 	GList *list;
 	double tx1, ty1, tx2, ty2;
 	double minx, miny, maxx, maxy;
+	gboolean set = FALSE;
 
 	group = GNOME_CANVAS_GROUP (item);
 
 	/* Get the bounds of the first item, invisible items are acceptable in gchempaint */
 
 	list = group->item_list;
-	child = (list)? list->data: NULL;
+	for (; list; list = list->next) {
+		child = list->data;
 
-	if (child)
-		gnome_canvas_item_get_bounds (child, &minx, &miny, &maxx, &maxy);
-	else {
-		*x1 = *y1 = G_MAXDOUBLE;
-		*x2 = *y2 = -G_MAXDOUBLE;
+		if (child->object.flags & GNOME_CANVAS_ITEM_VISIBLE) {
+			gnome_canvas_item_get_bounds (child, &minx, &miny, &maxx, &maxy);
+			set = TRUE;
+			break;
+		}
+	}
+	
+	if (!set) {
+		/* try using the first invisible child */
+		if (group->item_list) {
+			child = group->item_list->data;
+			gnome_canvas_item_get_bounds (child, x1, y1, x2, y2);
+		} else {
+			*x1 = *y1 = G_MAXDOUBLE;
+			*x2 = *y2 = -G_MAXDOUBLE;
+		}
 		return;
 	}
 

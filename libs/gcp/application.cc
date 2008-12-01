@@ -1008,8 +1008,22 @@ static void on_tool_changed (GtkAction *action, GtkAction *current, Application*
 
 void Application::OnToolChanged (GtkAction *current)
 {
-	if (m_pActiveTool)
-		m_pActiveTool->Activate(false);
+	char const *name = gtk_action_get_name (current);
+	if (m_pActiveTool) {
+		if (m_pActiveTool->GetName () == name)
+			return;
+		if (!m_pActiveTool->Activate(false)) {
+			GSList *list = gtk_radio_action_get_group (GTK_RADIO_ACTION (current));
+			while (list) {
+				if (m_pActiveTool->GetName () == gtk_action_get_name ((GtkAction *) list->data)) {
+					gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (list->data), true);
+					break;
+				}
+				list = list->next;
+			}
+			return;
+		}
+	}
 	m_pActiveTool = m_Tools[gtk_action_get_name (current)];
 	Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
 	if (ToolsBox)
