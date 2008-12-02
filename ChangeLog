@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2008-12-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: removed unuseful stuff and do not invalidate
+	areas with negative coordinates.
+	* libs/gccv/canvas.h: removed unuseful stuff.
+	* libs/gccv/group.cc: add children translation capability.
+	* libs/gccv/group.h: ditto.
+	* libs/gccv/item.cc: ditto.
+	* libs/gccv/rectangle.cc: don't change Item::m_x0 and frineds in Distance.
+	* libs/gccv/text.cc: remove extra braces.
+	* libs/gcp/atom.cc: set the coordinates for the items group, and use
+	relative coordinates for others.
+	* libs/gcp/tool.cc: fixed resizing of view.
+	* libs/gcp/view.cc: reimplemented scrolling. 
+	* libs/gcp/view.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: support cdx and cdxml files.
+	* mozilla-plugin/moz-plugin.c: ditto.
+
 2008-12-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: don't change tool if Tool::Deactivate returns
 	false.

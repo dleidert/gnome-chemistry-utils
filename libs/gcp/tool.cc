@@ -92,7 +92,7 @@ void Tool::OnRelease (double x, double y, unsigned int state)
 	}
 	m_pObject = NULL;
 	m_bChanged = false;
-	g_signal_emit_by_name (m_pWidget, "update_bounds");
+	m_pView->EnsureSize ();
 }
 
 bool Tool::OnRightButtonClicked (View* pView, Object* pObject, double x, double y, GtkUIManager *UIManager)

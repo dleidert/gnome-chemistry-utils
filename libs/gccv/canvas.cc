@@ -43,10 +43,7 @@ typedef struct {
 	gccv::Canvas *canvas;
 } GccvCanvas;
 
-typedef struct {
-	GtkDrawingAreaClass base;
-	void (* update_bounds) (GccvCanvas *canvas);
-} GccvCanvasClass;
+typedef GtkDrawingAreaClass GccvCanvasClass;
 
 GType gccv_canvas_get_type (void);
 
@@ -56,28 +53,8 @@ enum {
 };
 static guint gccv_canvas_signals[LAST_SIGNAL] = { 0 };
 
-static void gccv_canvas_update_bounds (GccvCanvas *canvas)
-{
-	canvas->canvas->UpdateBounds ();
-}
-
-static void gccv_canvas_class_init (GccvCanvasClass *klass)
-{
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	gccv_canvas_signals[UPDATE_BOUNDS] =
-	g_signal_new ("update_bounds",
-				  G_TYPE_FROM_CLASS (gobject_class),
-				  G_SIGNAL_RUN_LAST,
-				  G_STRUCT_OFFSET (GccvCanvasClass, update_bounds),
-				  NULL, NULL,
-				  g_cclosure_marshal_VOID__VOID,
-				  G_TYPE_NONE, 0
-				  );
-	klass->update_bounds = gccv_canvas_update_bounds;
-}
-
 GSF_CLASS (GccvCanvas, gccv_canvas,
-	   gccv_canvas_class_init, NULL,
+	   NULL, NULL,
 	   gtk_drawing_area_get_type ())
 
 static GtkWidget *gccv_canvas_new (gccv::Canvas *owner)
@@ -213,15 +190,17 @@ Item *Canvas::GetItemAt (double x, double y)
 
 void Canvas::Invalidate (double x0, double y0, double x1, double y1)
 {
+	if (x0 < 0) {
+		x0 = 0;
+		if (x1 < 0.)
+			x1 = 0.;
+	}
+	if (y0 < 0) {
+		y0 = 0;
+		if (y1 < 0.)
+			y1 = 0.;
+	}
 	gtk_widget_queue_draw_area (m_Widget, (int) floor (x0 * m_Zoom), (int) floor (y0 * m_Zoom), (int) ceil (x1 * m_Zoom), (int) ceil (y1 * m_Zoom));
-}
-
-void Canvas::SetScrollRegion (double xmin, double ymin, double xmax, double ymax)
-{
-}
-
-void Canvas::UpdateBounds ()
-{
 }
 
 void Canvas::SetBackgroundColor (GOColor color)

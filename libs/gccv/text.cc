@@ -123,10 +123,9 @@ void Text::SetPosition (double x, double y)
 	default:
 	case AnchorLine:
 	case AnchorLineWest:
-	case AnchorLineEast: {
+	case AnchorLineEast:
 		yr = m_y - m_Ascent + m_LineOffset + m_Y - m_Padding;
 		break;
-	}
 	case AnchorCenter:
 	case AnchorWest:
 	case AnchorEast:

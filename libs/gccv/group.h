@@ -34,7 +34,9 @@ class Group: public Item
 {
 public:
 	Group (Canvas *canvas);
+	Group (Canvas *canvas, double x, double y);
 	Group (Group *parent, ItemClient *client = NULL);
+	Group (Group *parent, double x, double y, ItemClient *client = NULL);
 	virtual ~Group();
 
 	void AddChild (Item *item);
@@ -42,6 +44,9 @@ public:
 
 	Item *GetFirstChild (std::list<Item *>::iterator &it);
 	Item *GetNextChild (std::list<Item *>::iterator &it);
+
+	void AdjustBounds (double &x0, double &y0, double &x1, double &y1) const;
+	void SetPosition (double x, double y);
 
 	// virtual methods
 	double Distance (double x, double y, Item **item) const;
@@ -53,6 +58,7 @@ protected:
 
 private:
 	std::list<Item *> m_Children;
+	double m_x, m_y;	// translation offset
 };
 
 }

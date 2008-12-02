@@ -181,25 +181,6 @@ Called by the framework when a key has been released on the keyboard.
 */
 	bool OnKeyRelease (GtkWidget* w, GdkEventKey* event);
 /*!
-@param w the widget which received the event.
-@param width the ne widget width.
-@param height the new widget height.
-
-Called by the framework when the widget size changed.
-@return true (always).
-*/
-	bool OnSize (GtkWidget *w, int width, int height);
-/*!
-@param x1 the left coordinate of the bounding rectangle of the used canvas area.
-@param y1 the top coordinate of the bounding rectangle of the used canvas area.
-@param x2 the right coordinate of the bounding rectangle of the used canvas area.
-@param y2 the bottom coordinate of the bounding rectangle of the used canvas area.
-
-Ensures the canvas is large enough to display everything and, if x1 or y1 is
-negative moves all the items so that they are visible.
-*/
-	void UpdateSize (double x1, double y1, double x2, double y2);
-/*!
 @param item a text item or NULL.
 
 Sets the currently edited text item. \a item should be NULL to tell the view

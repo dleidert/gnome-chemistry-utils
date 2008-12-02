@@ -90,6 +90,7 @@ private:
 	gcp::Document *Doc;
 	map<string, string> Params;
 	MozPaintApp *gcpApp;
+	gcu::Application *App;
 };
 
 ChemComp::ChemComp (void* instance, string& mime_type)
@@ -129,9 +130,9 @@ void ChemComp::SetWindow (XID xid)
 			GDK_WINDOW_XID (Plug->window), xid, 0, 0);
 		XMapWindow (GDK_WINDOW_XDISPLAY (Plug->window),
 			GDK_WINDOW_XID (Plug->window));
-		if (MimeType == "application/x-gcrystal")
+		if (MimeType == "application/x-gcrystal" || MimeType == "chemical/x-cif")
 			Viewer = gtk_crystal_viewer_new (NULL);
-		else if (MimeType == "application/x-gchempaint") {
+		else if (MimeType == "application/x-gchempaint" || MimeType == "chemical/x-cdx" || MimeType == "chemical/x-cdxml") {
 			if (!gcpApp)
 				gcpApp = new MozPaintApp ();
 			Doc = new gcp::Document (gcpApp, true, NULL);
@@ -158,6 +159,11 @@ void ChemComp::SetFilename (string& filename)
 			return;
 		gtk_crystal_viewer_set_data (GTK_CRYSTAL_VIEWER (Viewer), xml->children);
 		xmlFree (xml);
+/*	} else if (MimeType == "chemical/x-cif") {
+		if (!loaded_radii) {
+			Element::LoadRadii ();
+			loaded_radii = true;
+		}*/
 	} else 	if (MimeType == "application/x-gchempaint") {
 		xmlDocPtr xml = xmlParseFile (filename.c_str ());
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "chemistry"))
@@ -172,6 +178,10 @@ void ChemComp::SetFilename (string& filename)
 		Doc->GetView ()->Update (Doc);
 		pData->GetObjectBounds (Doc, &r);
 		xmlFree (xml);
+	} else if (MimeType == "chemical/x-cdx" || MimeType == "chemical/x-cdxml") {
+		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
+		gcpApp->Load (uri, MimeType.c_str (), Doc);
+		g_free (uri);
 	} else 	if (MimeType == "chemical/x-jcamp-dx") {
 		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
 		gtk_spectrum_viewer_set_uri (GTK_SPECTRUM_VIEWER (Viewer), uri);

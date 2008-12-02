@@ -200,7 +200,10 @@ char *NP_GetMIMEDescription (void)
 			"chemical/x-pdb:pdb,ent:Protein DataBank;"
 			"chemical/x-jcamp-dx:dx,jdx:JCAMP Spectroscopic Data Exchange Format;"
 			"application/x-gcrystal:gcrystal:Crystalline structure model;"
-			"application/x-gchempaint:gchempaint:2D chemical structures");
+		/*	"chemical/x-cif:cif:Crystallographic Information File;"*/
+			"application/x-gchempaint:gchempaint:2D chemical structures"
+			"chemical/x-cdx:cdx:ChemDraw binary format;"
+			"chemical/x-cdxml:cdxml:ChemDraw CDXML format;");
 }
 
 /* This is called to initialise the plugin

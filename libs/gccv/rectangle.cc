@@ -82,36 +82,41 @@ void Rectangle::GetPosition (double &x, double &y, double &width, double &height
 
 double Rectangle::Distance (double x, double y, Item **item) const
 {
-	double result;
-	if (x < m_x0) {
-		if (y < m_y0) {
-			x -= m_x0;
-			y -= m_y0;
+	double  lw = GetLineWidth () / 2.,
+			x0 = m_x - lw,
+			x1 = m_x + m_w + lw,
+			y0 = m_y - lw,
+			y1 = m_y + m_h + lw,
+			result;
+	if (x < x0) {
+		if (y < y0) {
+			x -= x0;
+			y -= y0;
 			result = sqrt (x * x + y * y);
-		} else if (y < m_y1) {
-			result = m_x0 - x;
+		} else if (y < y1) {
+			result = x0 - x;
 		} else {
-			x -= m_x0;
-			y -= m_y1;
+			x -= x0;
+			y -= y1;
 			result = sqrt (x * x + y * y);
 		}
-	} else if (x < m_x1) {
-		if (y < m_y0)
-			result = m_y0 - y;
-		else if (y < m_y1)
+	} else if (x < x1) {
+		if (y < y0)
+			result = y0 - y;
+		else if (y < y1)
 			result = 0.;
 		else
-			result = y - m_y1;
+			result = y - y1;
 	} else {
-		if (y < m_y0) {
-			x -= m_x1;
-			y -= m_y0;
+		if (y < y0) {
+			x -= x1;
+			y -= y0;
 			result = sqrt (x * x + y * y);
-		} else if (y < m_y1) {
-			result =  x - m_x1;
+		} else if (y < y1) {
+			result =  x - x1;
 		} else {
-			x -= m_x1;
-			y -= m_y1;
+			x -= x1;
+			y -= y1;
 			result = sqrt (x * x + y * y);
 		}
 	}

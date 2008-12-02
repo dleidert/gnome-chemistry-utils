@@ -36,6 +36,7 @@
 #include "widgetdata.h"
 #include "window.h"
 #include <gccv/canvas.h>
+#include <gccv/group.h>
 #include <gccv/text.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
@@ -52,23 +53,6 @@
 #include <iostream>
 #include <unistd.h>
 
-/*void gnome_canvas_gcp_update_bounds (GnomeCanvas *canvas)
-{
-	GnomeCanvas* w = GNOME_CANVAS (canvas);
-	while (w->idle_id)
-		gtk_main_iteration();
-	gnome_canvas_update_now (w);
-	gcp::WidgetData* pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (canvas), "data");
-	double x1, y1, x2, y2;
-	gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Group), &x1, &y1, &x2, &y2);
-	if (x1 > x2)
-		x1 = x2 = 0.;
-	if (y1 > y2)
-		y1 = y2 = 0.;
-	gcp::View *pView = (gcp::View*) g_object_get_data (G_OBJECT (canvas), "view");
-	pView->UpdateSize (x1, y1, x2, y2);
-}*/
-
 using namespace gcu;
 using namespace std;
 
@@ -83,12 +67,6 @@ namespace gcp {
 static bool on_destroy (GtkWidget *widget, View * pView)
 {
 	pView->OnDestroy (widget);
-	return true;
-}
-
-static bool on_size (GtkWidget *widget, GtkAllocation *alloc, View * pView)
-{
-	pView->OnSize (widget, alloc->width, alloc->height);
 	return true;
 }
 
@@ -335,8 +313,6 @@ GtkWidget* View::CreateNewWidget ()
 		if (m_pDoc->GetEditable ())
 			g_signal_connect (G_OBJECT (m_pData->Background), "event", G_CALLBACK (on_event), m_pWidget);*/
 		g_signal_connect (G_OBJECT (m_pWidget), "destroy", G_CALLBACK (on_destroy), this);
-		g_signal_connect (G_OBJECT (m_pWidget), "size_allocate", G_CALLBACK (on_size), this);
-//		g_signal_connect (G_OBJECT (m_pWidget), "realize", G_CALLBACK (gnome_canvas_gcp_update_bounds), this);
 		gtk_widget_show (m_pWidget);
 //		m_Widgets.push_back (m_pWidget);
 /*		if (pWidget) {
@@ -580,7 +556,6 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 	for (i = m_pData->SelectedObjects.begin(); i != end; i++) 
 		pOp->AddObject (*i);
 	m_pDoc->FinishOperation ();
-//	gnome_canvas_gcp_update_bounds (GNOME_CANVAS (m_pData->Canvas));
 }
 
 void View::OnPasteSelection (GtkWidget* w, GtkClipboard* clipboard)
@@ -862,35 +837,6 @@ bool View::OnKeyRelease (GtkWidget* w, GdkEventKey* event)
 	}
 	return false;
 }
-	
-bool View::OnSize (GtkWidget *w, int width, int height)
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	m_Canvas->SetScrollRegion (0, 0, (double) width / pData->Zoom, (double) height / pData->Zoom);
-/*	if (pData->Background)
-		g_object_set (G_OBJECT (pData->Background), "x2", (double) width / pData->Zoom, "y2", (double) height / pData->Zoom, NULL);*/
-	return true;
-}
-
-void View::UpdateSize (double x1, double y1, double x2, double y2)
-{
-	if (x1 < 0.0) x2 -= x1;
-	if (y1 < 0.0) y2 -= y1;
-	list<GtkWidget*>::iterator i, end = m_Widgets.end ();
-	if ((x2 != m_width) || (y2 != m_height))
-		for (i = m_Widgets.begin(); i != end; i++) {
-			WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (*i), "data");
-			gtk_widget_set_size_request (*i, (int) ceil (x2 * pData->Zoom), (int) ceil (y2 * pData->Zoom));
-		}
-	if ((x1 < 0.0) || (y1 < 0.0))
-	{
-		x1 = - x1;
-		y1 = - y1;
-		Theme* pTheme = m_pDoc->GetTheme ();
-		m_pDoc->Move(x1 / pTheme->GetZoomFactor (), y1 / pTheme->GetZoomFactor ());
-		Update (m_pDoc);
-	}
-}
 
 void View::SetTextActive (gccv::Text* item)
 {
@@ -1078,18 +1024,30 @@ GdkPixbuf *View::BuildPixbuf (int resolution)
 
 void View::EnsureSize ()
 {
-	if (GTK_WIDGET_REALIZED (m_pWidget))
-		g_signal_emit_by_name (m_pWidget, "update_bounds");
+	double x1, y1, x2, y2;
+	m_Canvas->GetRoot ()->GetBounds (x1, y1, x2, y2);
+	if (x1 < 0.0) x2 -= x1;
+	if (y1 < 0.0) y2 -= y1;
+	if ((x2 != m_width) || (y2 != m_height)) {
+		m_width = x2;
+		m_height = y2;
+		gtk_widget_set_size_request (m_pWidget, (int) ceil (x2 * m_Canvas->GetZoom ()), (int) ceil (y2 * m_Canvas->GetZoom ()));
+	}
+	if ((x1 < 0.0) || (y1 < 0.0))
+	{
+		Theme* pTheme = m_pDoc->GetTheme ();
+		x1 = (x1 < 0.)? -x1 / pTheme->GetZoomFactor (): 0.;
+		y1 = (y1 < 0.)? -y1 / pTheme->GetZoomFactor (): 0.;
+		m_pDoc->Move(x1, y1);
+		Update (m_pDoc);
+	}
 }
 
 void View::Zoom (double zoom)
 {
 	m_pData->Zoom = zoom;
 	m_Canvas->SetZoom (zoom);
-//	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), zoom);
 	EnsureSize ();
-	// Call OnSize to be certain that the canvas scroll region will be correct
-	OnSize (m_pWidget, m_width, m_height);
 }
 
 void View::ShowCursor (bool show)

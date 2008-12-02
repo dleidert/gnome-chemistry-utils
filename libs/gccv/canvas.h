@@ -89,15 +89,6 @@ from the given position.
 */
 	GtkWidget *GetWidget () {return m_Widget;}
 /*!
-@param xmin the x coordinate for the top left of the scrolling rectangle.
-@param ymin the y coordinate for the top left of the scrolling rectangle.
-@param xmax the x coordinate for the bottom right of the scrolling rectangle.
-@param ymax the y coordinate for the bottom right of the scrolling rectangle.
-
-Sets the scrolling region for the canvas.
-*/
-	void SetScrollRegion (double xmin, double ymin, double xmax, double ymax);
-/*!
 @param x0 the x coordinate for the top left of the invalidated rectangle.
 @param y0 the y coordinate for the top left of the scrolling rectangle.
 @param x1 the x coordinate for the bottom right of the scrolling rectangle.
@@ -105,10 +96,6 @@ Sets the scrolling region for the canvas.
 
 */
 	void Invalidate (double x0, double y0, double x1, double y1);
-/*!
-Ensure that the canvas is large enough to contain all its items.
-*/
-	void UpdateBounds ();
 /*!
 @param color a GOColor.
 
@@ -133,8 +120,11 @@ private:
 	GtkWidget *m_Widget;
 	Client *m_Client;
 	bool m_Dragging;
-	double m_Zoom;
 
+/*!\fn GetZoom
+@return the current zoom level for the canvas.
+*/
+GCU_RO_PROP (double, Zoom)
 /*!\fn GetRoot
 @return the root item.
 */

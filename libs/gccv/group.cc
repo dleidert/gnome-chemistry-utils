@@ -25,16 +25,37 @@
 #include "config.h"
 #include "group.h"
 
+#include <cstdio>
+
 using namespace std;
 
 namespace gccv {
 
-Group::Group (Canvas *canvas): Item (canvas)
+Group::Group (Canvas *canvas):
+	Item (canvas),
+	m_x (0.),
+	m_y (0.)
+{
+}
+
+Group::Group (Canvas *canvas, double x, double y):
+	Item (canvas),
+	m_x (x),
+	m_y (y)
 {
 }
 
 Group::Group (Group *parent, ItemClient *client):
-	Item (parent, client)
+	Item (parent, client),
+	m_x (0.),
+	m_y (0.)
+{
+}
+
+Group::Group (Group *parent, double x, double y, ItemClient *client):
+	Item (parent, client),
+	m_x (x),
+	m_y (y)
 {
 }
 
@@ -64,6 +85,10 @@ void Group::UpdateBounds ()
 				m_y1 = y1;
 		}
 	}
+	m_x0 += m_x;
+	m_y0 += m_y;
+	m_x1 += m_x;
+	m_y1 += m_y;
 	Item::UpdateBounds ();
 }
 
@@ -71,6 +96,8 @@ double Group::Distance (double x, double y, Item **item) const
 {
 	if (m_Children.empty ())
 		return Item::Distance (x, y, item);
+	x -= m_x;
+	y -= m_y;
 	double d = G_MAXDOUBLE, di;
 	Item *nearest = NULL;
 	list <Item *>::const_iterator i, end = m_Children.end ();
@@ -90,6 +117,12 @@ bool Group::Draw (cairo_t *cr, double x0, double y0, double x1, double y1, bool 
 {
 	if (m_Children.empty ())
 		return true;
+	cairo_save (cr);
+	cairo_translate (cr, m_x, m_y);
+	x0 -= m_x;
+	y0 -= m_y;
+	x1 -= m_x;
+	y1 -= m_y;
 	list <Item *>::const_iterator i, end = m_Children.end ();
 	for (i = m_Children.begin (); i != end; i++) {
 		double x, y, x_, y_;
@@ -101,6 +134,7 @@ bool Group::Draw (cairo_t *cr, double x0, double y0, double x1, double y1, bool 
 				(*i)->Draw (cr, is_vector);
 		}
 	}
+	cairo_restore (cr);
 	return true;
 }
 
@@ -130,9 +164,29 @@ Item *Group::GetNextChild (std::list<Item *>::iterator &it)
 
 void Group::Move (double x, double y)
 {
+	Invalidate ();
 	list <Item *>::const_iterator i, end = m_Children.end ();
-	for (i = m_Children.begin (); i != end; i++)
-		(*i)->Move (x, y);
+	m_x += x;
+	m_y += y;
+	BoundsChanged ();
+	Invalidate ();
+}
+
+void Group::AdjustBounds (double &x0, double &y0, double &x1, double &y1) const
+{
+	x0 += m_x;
+	y0 += m_y;
+	x1 += m_x;
+	y1 += m_y;
+}
+
+void Group::SetPosition (double x, double y)
+{
+	Invalidate ();
+	m_x = x;
+	m_y = y;
+	BoundsChanged ();
+	Invalidate ();
 }
 
 }

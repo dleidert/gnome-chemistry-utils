@@ -1928,23 +1928,24 @@ void Atom::AddItem ()
 	x *= theme->GetZoomFactor ();
 	y *= theme->GetZoomFactor ();
 	// always use a group, even if not needed
-	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), this);
+	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
 	if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
-		gccv::Text *text = new gccv::Text (group, x, y, this);
+		gccv::Text *text = new gccv::Text (group, 0., 0., this);
 		text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
 		text->SetPadding (theme->GetPadding ());
 		text->SetLineColor (0);
+		text->SetLineWidth (0.);
 		text->SetFontDescription (view->GetPangoFontDesc ());
 		text->SetText (GetSymbol ());
 		text->SetLineOffset (view->GetCHeight ());
 		// build the symbol geometry
 		BuildSymbolGeometry (text->GetWidth (), text->GetHeight (), text->GetAscent () - text->GetY () - view->GetCHeight ());		
 	} else {
-		gccv::FillItem *fill = new gccv::Rectangle (group,  x - 3., y - 3., 6., 6., this);
+		gccv::FillItem *fill = new gccv::Rectangle (group,  -3., -3., 6., 6., this);
 		fill->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
 		fill->SetLineColor (0);
 		if (m_DrawCircle) {
-			fill = new gccv::Circle ( group, x, y, theme->GetStereoBondWidth () / 2., this);
+			fill = new gccv::Circle ( group, 0., 0., theme->GetStereoBondWidth () / 2., this);
 			fill->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
 			fill->SetLineColor (0);
 		}

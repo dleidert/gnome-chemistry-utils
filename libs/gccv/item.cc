@@ -103,7 +103,14 @@ void Item::Invalidate () const
 {
 	if (!m_CachedBounds)
 		const_cast <Item *> (this)->UpdateBounds ();
-	m_Canvas->Invalidate (m_x0, m_y0, m_x1, m_y1);
+	Group const *parent = m_Parent;
+	double x0 = m_x0, y0 = m_y0, x1 = m_x1, y1 = m_y1;
+	while (parent) {
+		parent->AdjustBounds (x0, y0, x1, y1);
+		parent = parent->m_Parent;
+	}
+printf("invalidating %g;%g -> %g;%g\n",x0, y0, x1, y1);
+	m_Canvas->Invalidate (x0, y0, x1, y1);
 }
 
 void Item::Move (double x, double y)
@@ -114,7 +121,13 @@ void Item::SetVisible (bool visible)
 {
 	if (visible != m_Visible) {
 		m_Visible = visible;
-		m_Canvas->Invalidate (m_x0, m_y0, m_x1, m_y1);
+		Group const *parent = m_Parent;
+		double x0 = m_x0, y0 = m_y0, x1 = m_x1, y1 = m_y1;
+		while (parent) {
+			parent->AdjustBounds (x0, y0, x1, y1);
+			parent = parent->m_Parent;
+		}
+		m_Canvas->Invalidate (x0, y0, x1, y1);
 	}
 }
 
