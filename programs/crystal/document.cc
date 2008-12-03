@@ -869,7 +869,7 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 		gsize size = g_file_info_get_size (info);
 		read_only = !g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE);
 		g_object_unref (info);
-		if (SetFileName (filename), !m_filename || !m_title)
+		if (SetFileName (filename), !m_filename)
 			throw (int) 2;
 		g_free (oldfilename);
 		g_free (oldtitle);
