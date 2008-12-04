@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2008-12-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/image-resolution.glade: add optional transparency for
+	GChemPaint image export.
+	* libs/gccv/item.cc: removed a printf debug.
+	* libs/gcp/view.cc: add optional transparency for
+	GChemPaint image export.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+
 2008-12-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/document.cc: fix loading CIF files.
 
@@ -10,7 +19,7 @@
 	* libs/gccv/group.cc: add children translation capability.
 	* libs/gccv/group.h: ditto.
 	* libs/gccv/item.cc: ditto.
-	* libs/gccv/rectangle.cc: don't change Item::m_x0 and frineds in Distance.
+	* libs/gccv/rectangle.cc: don't change Item::m_x0 and friends in Distance.
 	* libs/gccv/text.cc: remove extra braces.
 	* libs/gcp/atom.cc: set the coordinates for the items group, and use
 	relative coordinates for others.

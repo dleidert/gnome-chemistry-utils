@@ -39,6 +39,7 @@
 #include <gccv/group.h>
 #include <gccv/text.h>
 #include <gsf/gsf-output-gio.h>
+#include <goffice/utils/go-cairo.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
 #include <pango/pango-context.h>
@@ -989,6 +990,11 @@ xmlDocPtr View::BuildSVG ()
 	return doc;
 }
 
+static void destroy_surface (guchar *pixels, gpointer data)
+{
+	cairo_surface_destroy (reinterpret_cast <cairo_surface_t *> (data));
+}
+
 GdkPixbuf *View::BuildPixbuf (int resolution)
 {
 	gccv::Rect rect;
@@ -1003,22 +1009,20 @@ GdkPixbuf *View::BuildPixbuf (int resolution)
 		h = (int) rint ((double) h * zoom);
 	} else
 		zoom = 1.;
-/*	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), zoom);
-	gnome_canvas_update_now (GNOME_CANVAS (m_pWidget));*/
-	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, w, h);
-	gdk_pixbuf_fill (pixbuf, 0xffffffff);
-/*	GnomeCanvasBuf buf;
-	buf.buf = gdk_pixbuf_get_pixels (pixbuf);
-	buf.rect.x0 = (int) floor (rect.x0 * zoom);
-	buf.rect.x1 = (int) ceil (rect.x1 * zoom);
-	buf.rect.y0 = (int) floor (rect.y0 * zoom);
-	buf.rect.y1 = (int) ceil (rect.y1 * zoom);
-	buf.buf_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	buf.bg_color = 0xffffff;
-	buf.is_buf = 1;
-	(* GNOME_CANVAS_ITEM_GET_CLASS (m_pData->Group)->render) (GNOME_CANVAS_ITEM (m_pData->Group), &buf);
-	// restore zoom level
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), m_pData->Zoom);*/
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, w, h);
+	cairo_t *cr = cairo_create (surface);
+	if (!m_pDoc->GetApp ()->GetTransparentBackground ()) {
+		cairo_set_source_rgb (cr, 1., 1., 1.);
+		cairo_paint (cr);
+	}
+	cairo_translate (cr, -floor (rect.x0), -floor (rect.y0));
+	cairo_scale (cr, zoom, zoom);
+	m_Canvas->Render (cr, false);
+	int rowstride = cairo_image_surface_get_stride (surface);
+	unsigned char *data = cairo_image_surface_get_data (surface);
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, TRUE, 8, w, h, rowstride, destroy_surface, surface);
+	go_cairo_convert_data_to_pixbuf (data, NULL, w, h, rowstride);
+	cairo_destroy (cr);
 	return pixbuf;
 }
 

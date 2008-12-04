@@ -109,7 +109,6 @@ void Item::Invalidate () const
 		parent->AdjustBounds (x0, y0, x1, y1);
 		parent = parent->m_Parent;
 	}
-printf("invalidating %g;%g -> %g;%g\n",x0, y0, x1, y1);
 	m_Canvas->Invalidate (x0, y0, x1, y1);
 }
 

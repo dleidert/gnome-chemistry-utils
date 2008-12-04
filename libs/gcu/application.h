@@ -309,6 +309,18 @@ an exported image size, but not both.
 @return the current image height used on export as a reference.
 */
 GCU_PROP (unsigned, ImageHeight)
+/*!\fn SetTransparentBackground(bool transpasrent)
+@param transparent whether an export image should have a transparent background.
+
+Sets the transparency of the exported image when possible.
+*/
+/*!\fn GetTransparentBackground()
+@return whether exported image have a transparent background.
+*/
+/*!\fn GetRefTransparentBackground()
+@return whether exported image have a transparent background as a reference.
+*/
+GCU_PROP (bool, TransparentBackground)
 /*!\fn GetRecentManager()
 @return the GtkRecentFileManager attached to the application.
 */

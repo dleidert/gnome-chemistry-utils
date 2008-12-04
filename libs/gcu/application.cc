@@ -35,8 +35,7 @@
 #ifndef HAVE_GO_CONF_SYNC
 #include <gconf/gconf-client.h>
 #endif
-#include <gtk/gtklabel.h>
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>
@@ -186,6 +185,11 @@ static void on_height_changed (GtkSpinButton *btn, Application *app)
 	app->SetImageHeight (gtk_spin_button_get_value_as_int (btn));
 }
 
+static void on_transparency_changed (GtkToggleButton *btn, Application *app)
+{
+	app->SetTransparentBackground (gtk_toggle_button_get_active (btn));
+}
+
 GtkWidget *Application::GetImageResolutionWidget ()
 {
 	GladeXML *xml = glade_xml_new (GLADEDIR"/image-resolution.glade", "res-table", NULL);
@@ -196,6 +200,9 @@ GtkWidget *Application::GetImageResolutionWidget ()
 	w = glade_xml_get_widget (xml, "res-btn");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageResolution);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_res_changed), this);
+	w = glade_xml_get_widget (xml, "transparent-btn");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), m_TransparentBackground);
+	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_transparency_changed), this);
 	w = glade_xml_get_widget (xml, "res-table");
 	g_object_unref (G_OBJECT (xml));
 	return w;
