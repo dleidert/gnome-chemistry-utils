@@ -1056,8 +1056,8 @@ void View::Zoom (double zoom)
 
 void View::ShowCursor (bool show)
 {
-/*	if (m_ActiveRichText)
-		g_object_set (G_OBJECT (m_ActiveRichText), "editing", show, NULL);*/
+	if (m_ActiveRichText)
+		m_ActiveRichText->SetEditing (show);
 }
 
 void View::UpdateTheme ()

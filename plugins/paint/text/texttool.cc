@@ -150,15 +150,15 @@ bool gcpTextTool::OnClicked ()
 	if (m_pObject) {
 		if (m_pObject->GetType () != TextType)
 			return false;
-//		m_pObject->SetSelected (m_pWidget, gcp::SelStateUpdating);
+		static_cast <gcp::Text *> (m_pObject)->SetSelected (gcp::SelStateUpdating);
 		m_Active = static_cast <gccv::Text *> (dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ());
 		m_pView->SetTextActive (m_Active);
-//		g_object_set (G_OBJECT (m_Active), "editing", true, NULL);
+		m_Active->SetEditing (true);
 		m_CurNode = ((gcp::Text*) m_pObject)->SaveSelected ();
 		m_InitNode = ((gcp::Text*) m_pObject)->SaveSelected ();
 		m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
-		if (m_SelSignal == 0)
-			m_SelSignal = g_signal_connect_swapped (m_Active, "sel-changed", G_CALLBACK (on_sel_changed), this);
+/*		if (m_SelSignal == 0)
+			m_SelSignal = g_signal_connect_swapped (m_Active, "sel-changed", G_CALLBACK (on_sel_changed), this);*/
 		if (create)
 			BuildAttributeList ();
 		else
@@ -313,11 +313,11 @@ bool gcpTextTool::Unselect ()
 		g_signal_handler_disconnect (m_Active, m_SelSignal);
 		m_SelSignal = 0;
 	}
-	g_object_set (G_OBJECT (m_Active), "editing", false, NULL);
 	m_pView->SetTextActive (NULL);
-	Object *pObj = (Object*) g_object_get_data (G_OBJECT (m_Active), "object");
-//	pObj->SetSelected (m_pWidget, gcp::SelStateUnselected);
-//	char const *text = pango_layout_get_text (gnome_canvas_pango_get_layout (m_Active));
+	m_Active->SetEditing (false);
+	m_Active->GetClient ()->SetSelected (gcp::SelStateUnselected);
+	Object *pObj = dynamic_cast <Object *> (m_Active->GetClient ());
+	char const *text = pango_layout_get_text (const_cast <PangoLayout *> (m_Active->GetLayout ()));
 	m_Active = NULL;
 	while (!m_UndoList.empty ()) {
 		xmlFree(m_UndoList.front ());
@@ -367,13 +367,13 @@ bool gcpTextTool::Unselect ()
 	if (m_InitNode)
 		xmlFree (m_InitNode);
 	m_CurNode = m_InitNode = NULL;
-/*	if (!*text) {
+	if (!*text) {
 		Object* pMol = pObj->GetMolecule ();	//if pObj is a fragment
 		if (pMol)
 			pObj = pMol;
 		m_pView->GetDoc ()->Remove (pObj);
 		m_pView->GetDoc ()->AbortOperation ();
-	}*/
+	}
 	m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", m_pView->GetDoc ()->HasChildren ());
 	return true;
 }
@@ -651,11 +651,11 @@ void gcpTextTool::UpdateAttributeList ()
 	m_Strikethrough = false;
 	m_Color = RGBA_BLACK;
 	if (m_Active) {
-		PangoLayout *layout;
+/*		PangoLayout *layout;
 		g_object_get (m_Active, "layout", &layout, NULL);
 		PangoAttrList *l = pango_layout_get_attributes (layout);
 		if (l)
-			pango_attr_list_filter (l, (PangoAttrFilterFunc) filter_attribute, this);
+			pango_attr_list_filter (l, (PangoAttrFilterFunc) filter_attribute, this);*/
 	}
 	// select the found face
 	GtkTreeIter iter;

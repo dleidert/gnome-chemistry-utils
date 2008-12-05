@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2008-12-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: implemetn cursor blinking.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/text.cc: implement Text::AddItem.
+	* libs/gcp/view.cc: reimplement Vieww::ShowCursor.
+	* plugins/paint/text/texttool.cc: Reimplement TextTool::OnClicked.
+
 2008-12-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/image-resolution.glade: add optional transparency for
 	GChemPaint image export.

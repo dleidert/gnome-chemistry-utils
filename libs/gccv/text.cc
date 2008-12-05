@@ -26,6 +26,7 @@
 #include "text.h"
 #include <pango/pangocairo.h>
 #include <cairo-pdf.h>
+#include <cmath>
 
 namespace gccv {
 
@@ -56,9 +57,37 @@ Context::~Context ()
 	g_object_unref (m_Context);
 }
 
+class TextPrivate
+{
+public:
+	static bool OnBlink (Text *text);
+};
+
+#define PREBLINK_TIME 300
+#define CURSOR_ON_TIME 800
+#define CURSOR_OFF_TIME 400
+
+static gint on_blink (gpointer data)
+{
+	return TextPrivate::OnBlink (reinterpret_cast <Text *> (data));
+}
+
+bool TextPrivate::OnBlink (Text *text)
+{
+	text->m_BlinkSignal = g_timeout_add (((text->m_CursorVisible)? CURSOR_OFF_TIME: CURSOR_ON_TIME), on_blink, text);
+
+	text->m_CursorVisible = !text->m_CursorVisible;
+	text->Invalidate (); // FIXME: just invalidate the cursor rectangle
+	/* Remove ourself */
+	return false;
+}
+
 Text::Text (Canvas *canvas, double x, double y):
 	Rectangle (canvas, x, y, 0., 0.),
 	m_x (x), m_y (y),
+	m_BlinkSignal (0),
+	m_CursorVisible (false),
+	m_CurPos (0),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
 	m_LineOffset (0.), m_Width (0.), m_Height (0.)
@@ -69,6 +98,9 @@ Text::Text (Canvas *canvas, double x, double y):
 Text::Text (Group *parent, double x, double y, ItemClient *client):
 	Rectangle (parent, x, y, 0., 0., client),
 	m_x (x), m_y (y),
+	m_BlinkSignal (0),
+	m_CursorVisible (false),
+	m_CurPos (0),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
 	m_LineOffset (0.), m_Width (0.), m_Height (0.)
@@ -85,7 +117,10 @@ void Text::SetPosition (double x, double y)
 {
 	double xr, yr, w, h;
 	PangoRectangle r;
-	pango_layout_get_extents (m_Layout, &r, NULL); // FIXME: might be wrong if we allow above-under characters
+	if (m_BlinkSignal)
+		pango_layout_get_extents (m_Layout, NULL, &r); // FIXME: might be wrong if we allow above-under characters
+	else 
+		pango_layout_get_extents (m_Layout, &r, NULL); // FIXME: might be wrong if we allow above-under characters
 	m_x = x;
 	m_y = y;
 	m_Y = (double) r.y / PANGO_SCALE;
@@ -218,6 +253,16 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 		pango_cairo_show_layout (cr, pl);
 		pango_layout_iter_next_char (iter);
 	}
+	if (m_CursorVisible) {
+		PangoRectangle rect;
+		pango_layout_get_cursor_pos (m_Layout, m_CurPos, &rect, NULL); // FIXME: might be wrong if we allow above-under characters
+		cairo_set_line_width (cr, 1.);
+		cairo_new_path (cr);
+		cairo_move_to (cr, floor (startx + (double) rect.x / PANGO_SCALE) + .5, floor (starty + (double) rect.y / PANGO_SCALE) + .5);
+		cairo_rel_line_to (cr, 0, rect.height / PANGO_SCALE);
+		cairo_set_source_rgb (cr, 0., 0., 0.);
+		cairo_stroke (cr);
+	}
 	// free the iterator
 	pango_layout_iter_free (iter);
 }
@@ -241,6 +286,23 @@ void Text::SetText (char const *text)
 void Text::SetFontDescription (PangoFontDescription *desc)
 {
 	pango_layout_set_font_description (m_Layout, desc);
+	SetPosition (m_x, m_y);
+}
+
+void Text::SetEditing (bool editing)
+{
+	if (editing) {
+		if (m_BlinkSignal != 0)
+			return;
+		m_BlinkSignal = g_timeout_add (CURSOR_ON_TIME, on_blink, this);
+		m_CursorVisible = true;
+	} else {
+		if (m_BlinkSignal == 0)
+			return;
+		g_source_remove (m_BlinkSignal);
+		m_BlinkSignal = 0;
+		m_CursorVisible = false;
+	}
 	SetPosition (m_x, m_y);
 }
 

@@ -43,6 +43,8 @@ public:	\
 private:	\
 	type m_##member;
 
+class TextPrivate;
+
 typedef enum {
 	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
 	AnchorLineWest, AnchorLine, AnchorLineEast,
@@ -52,6 +54,7 @@ typedef enum {
 
 class Text: public Rectangle
 {
+friend class TextPrivate;
 public:
 	Text (Canvas *canvas, double x, double y);
 	Text (Group *parent, double x, double y, ItemClient *client = NULL);
@@ -60,6 +63,7 @@ public:
 	void SetPosition (double x, double y);
 	void SetText (char const *text);
 	void SetFontDescription (PangoFontDescription *desc);
+	void SetEditing (bool editing);
 
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;
@@ -70,6 +74,9 @@ public:
 
 private:
 	double m_x, m_y;
+	unsigned long m_BlinkSignal;
+	bool m_CursorVisible;
+	unsigned m_CurPos;
 
 GCU_RO_POINTER_PROP (PangoLayout, Layout)
 GCCV_TEXT_PROP (double, Padding)

@@ -32,6 +32,7 @@
 #include "theme.h"
 #include "tool.h"
 #include "window.h"
+#include <gccv/canvas.h>
 #include <gccv/text.h>
 #include <gcu/formula.h>
 #include <gcu/objprops.h>
@@ -649,6 +650,52 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 
 void Text::AddItem ()
 {
+	if (m_Item)
+		return;
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc->GetTheme ();
+	if (m_ascent <= 0) {
+		PangoContext* pc = gccv::Text::GetContext ();
+		const_cast <Text *> (this)->m_Layout = pango_layout_new (pc);
+		PangoAttrList *l = pango_attr_list_new ();
+		pango_layout_set_attributes (m_Layout, l);
+		PangoFontDescription *desc = pango_font_description_new ();
+		pango_font_description_set_family (desc, doc->GetTextFontFamily ());
+		pango_font_description_set_style (desc, doc->GetTextFontStyle ());
+		pango_font_description_set_variant (desc, doc->GetTextFontVariant ());
+		pango_font_description_set_weight (desc, doc->GetTextFontWeight ());
+		pango_font_description_set_size (desc, doc->GetTextFontSize ());
+		pango_layout_set_font_description (m_Layout, desc);
+		pango_font_description_free (desc);
+		pango_layout_set_text (m_Layout, "l", -1);
+		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
+		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		pango_layout_iter_free (iter);
+		pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
+		const_cast <Text *> (this)->m_buf.clear ();
+		if (m_AttrList) {
+			pango_layout_set_attributes (m_Layout, m_AttrList);
+			pango_attr_list_unref (m_AttrList);
+			const_cast <Text *> (this)->m_AttrList = NULL;
+		}
+		if (m_Justified)
+			pango_layout_set_justify (m_Layout, true);
+		else
+			pango_layout_set_alignment (m_Layout, m_Align);
+		PangoRectangle rect;
+		pango_layout_get_extents (m_Layout, NULL, &rect);
+		const_cast <Text *> (this)->m_length = rect.width / PANGO_SCALE;
+		const_cast <Text *> (this)->m_height = rect.height / PANGO_SCALE;
+	}
+	double x = m_x * theme->GetZoomFactor ();
+	double y = m_y * theme->GetZoomFactor ();
+	gccv::Text *text = new gccv::Text (view->GetCanvas ()->GetRoot (), x, y, this);
+	text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+	text->SetPadding (theme->GetPadding ());
+	text->SetLineColor (0);
+	text->SetLineOffset (view->GetCHeight ());
+	m_Item = text;
 }
 
 void Text::UpdateItem ()
@@ -812,7 +859,7 @@ void Text::SetSelected (int state)
 	GOColor color;
 	switch (state) {	
 	case SelStateUnselected:
-		color = RGBA_WHITE;
+		color = 0;
 		break;
 	case SelStateSelected:
 		color = SelectColor;
