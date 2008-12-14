@@ -1,7 +1,20 @@
 ##Text encoding: utf-8
 
+2008-12-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: render crossing bonds for normal bonds
+	* libs/gccv/canvas.h: ditto.
+	* libs/gccv/group.cc: ditto.
+	* libs/gccv/group.h: ditto.
+	* libs/gccv/item.cc: ditto.
+	* libs/gccv/item.h: ditto.
+	* libs/gccv/line.cc: ditto.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/view.cc: use cairo for svg export.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/macros.h: add a missing const keyword.
+
 2008-12-05  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gccv/text.cc: implemetn cursor blinking.
+	* libs/gccv/text.cc: implement cursor blinking.
 	* libs/gccv/text.h: ditto.
 	* libs/gcp/text.cc: implement Text::AddItem.
 	* libs/gcp/view.cc: reimplement Vieww::ShowCursor.

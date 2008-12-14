@@ -169,6 +169,7 @@ Canvas::Canvas (Client *client):
 {
 	m_Root = new Group (this);
 	m_Widget = GTK_WIDGET (gccv_canvas_new (this));
+	SetBackgroundColor (RGBA_WHITE);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-press-event", G_CALLBACK (on_button_pressed), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-release-event", G_CALLBACK (on_button_released), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "motion-notify-event", G_CALLBACK (on_motion), this);
@@ -205,6 +206,7 @@ void Canvas::Invalidate (double x0, double y0, double x1, double y1)
 
 void Canvas::SetBackgroundColor (GOColor color)
 {
+	m_BackgroundColor = color;
 	GdkColor gcolor;
 	go_color_to_gdk (color, &gcolor);
 	gtk_widget_modify_bg (m_Widget, GTK_STATE_NORMAL, &gcolor);

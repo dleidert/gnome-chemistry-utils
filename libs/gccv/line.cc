@@ -83,15 +83,19 @@ double Line::Distance (double x, double y, Item **item) const
 
 void Line::Draw (cairo_t *cr, bool is_vector) const
 {
+	cairo_operator_t op = GetOperator ();
 	cairo_set_line_width (cr, GetLineWidth ());
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 	cairo_move_to (cr, m_xstart, m_ystart);
 	cairo_line_to (cr, m_xend, m_yend);
 	GOColor color = GetLineColor ();
-	if (color != 0) {
-		cairo_set_source_rgba (cr, DOUBLE_RGBA_R (color), DOUBLE_RGBA_G (color), DOUBLE_RGBA_B (color), DOUBLE_RGBA_A (color));
-		cairo_stroke (cr);
+	if (!is_vector && (op == CAIRO_OPERATOR_CLEAR || op == CAIRO_OPERATOR_SOURCE)) {
+		cairo_content_t content = cairo_surface_get_content (cairo_get_target (cr));
+		if (!(content & CAIRO_CONTENT_ALPHA))
+			color = GetCanvas ()->GetBackgroundColor ();
 	}
+	cairo_set_source_rgba (cr, DOUBLE_RGBA_R (color), DOUBLE_RGBA_G (color), DOUBLE_RGBA_B (color), DOUBLE_RGBA_A (color));
+	cairo_stroke (cr);
 }
 
 void Line::UpdateBounds ()

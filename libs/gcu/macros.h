@@ -91,12 +91,12 @@ GCU_RO_PROP(Type,Foo) expands to one private member:
 
 and one public method:
 \code
-	Type GetFoo();
+	Type GetFoo() const;
 \endcode
 */
 #define GCU_RO_PROP(type,member) \
 public:	\
-	type Get##member (void) {return m_##member;}	\
+	type Get##member (void) const {return m_##member;}	\
 private:	\
 	type m_##member;
 

@@ -578,6 +578,13 @@ void Bond::AddItem ()
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
+	bool crossing = false;
+	if (m_Crossing.size () > 0) {
+		map<Bond*, BondCrossing>::const_iterator i, iend = m_Crossing.end ();
+		for (i = m_Crossing.begin (); i != iend; i++)
+			if ((crossing |= (*i).second.is_before))
+				break;
+	}
 	switch(GetType ()) {
 	case NormalBondType: {
 		gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), this);
@@ -585,14 +592,23 @@ void Bond::AddItem ()
 		int i = 1;
 		gccv::Line *line;
 		while (GetLine2DCoords (i++, &x1, &y1, &x2, &y2)) {
-			line = new gccv::Line (group,
-							x1 * theme->GetZoomFactor (),
-							y1 * theme->GetZoomFactor (),
-							x2 * theme->GetZoomFactor (),
-							y2 * theme->GetZoomFactor (),
-							this);
+			x1 *= theme->GetZoomFactor ();
+			y1 *= theme->GetZoomFactor ();
+			x2 *= theme->GetZoomFactor ();
+			y2 *= theme->GetZoomFactor ();
+			line = new gccv::Line (group, x1, y1, x2, y2, this);
 			line->SetLineWidth (theme->GetBondWidth ());
 			line->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
+			if (crossing) {
+				// assuming that the crossing does not occur in the fisrt or last 10%
+				double dx = (x2 - x1) / 10., dy = (y2 - y1) / 10.;
+				line = new gccv::Line (group, x1 + dx, y1 + dy, x2 - dx, y2 -dy, this);
+				line->SetLineWidth (theme->GetBondWidth () * 3);
+				line->SetLineColor (0);
+				line->SetOperator (CAIRO_OPERATOR_SOURCE);
+				/* FIXME: unsecure if several bonds are crossing the same bond */
+				view->GetCanvas ()->GetRoot ()->MoveToBack (group);
+			}
 		}
 		break;
 	}

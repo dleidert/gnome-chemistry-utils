@@ -99,6 +99,7 @@ public:
 protected:
 	void BoundsChanged ();
 	virtual void UpdateBounds ();
+	Canvas const *GetCanvas () const {return m_Canvas;}
 
 protected:
 	double m_x0, m_y0, m_x1, m_y1;
@@ -111,6 +112,7 @@ private:
 GCU_POINTER_PROP (ItemClient, Client)
 GCU_POINTER_PROP (Group, Parent)
 GCU_RO_PROP (bool, Visible)
+GCCV_ITEM_PROP (cairo_operator_t, Operator);
 };
 
 }

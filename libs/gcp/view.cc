@@ -42,6 +42,7 @@
 #include <goffice/utils/go-cairo.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
+#include <cairo-svg.h>
 #include <pango/pango-context.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
@@ -918,11 +919,24 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		Render (cr);
 		cairo_destroy (cr);
 	} else if (!strcmp (type, "svg")) {
-		xmlDocPtr doc = BuildSVG ();
-		xmlIndentTreeOutput = true;
-		xmlKeepBlanksDefault (0);
-		xmlSaveFormatFile (filename.c_str (), doc, true);
-		xmlFreeDoc (doc);
+		GError *error = NULL;
+		GsfOutput *output = gsf_output_gio_new_for_uri (filename.c_str (), &error);
+		if (error) {
+			gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
+			GtkWidget* message = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget)), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
+			g_free (mess);
+			gtk_dialog_run (GTK_DIALOG (message));
+			gtk_widget_destroy (message);
+			g_error_free (error);
+		}
+		gccv::Rect rect;
+		m_pData->GetObjectBounds (m_pDoc, &rect);
+		cairo_surface_t *surface = cairo_svg_surface_create_for_stream (cairo_write_func, output, w, h);
+		cairo_t *cr = cairo_create (surface);
+		cairo_translate (cr, -rect.x0, -rect.y0);
+		cairo_surface_destroy (surface);
+		Render (cr);
+		cairo_destroy (cr);
 	} else {
 		GdkPixbuf *pixbuf = BuildPixbuf (resolution);
 		GFile *file = g_vfs_get_file_for_uri (g_vfs_get_default (), filename.c_str ());
@@ -938,56 +952,6 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		g_object_unref (pixbuf);
 	}
 	m_pData->ShowSelection (true);
-}
-
-xmlDocPtr View::BuildSVG ()
-{
-	gccv::Rect rect;
-	m_pData->GetObjectBounds (m_pDoc, &rect);
-	xmlDocPtr doc = xmlNewDoc ((const xmlChar*)"1.0");
-	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	char *buf;
-	setlocale (LC_NUMERIC, "C");
-	xmlNewDtd (doc,
-		   (const xmlChar*)"svg", (const xmlChar*)"-//W3C//DTD SVG 1.1//EN",
-		   (const xmlChar*)"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
-	xmlDocSetRootElement (doc, xmlNewDocNode (doc, NULL, (const xmlChar*)"svg", NULL));
-	xmlNsPtr ns = xmlNewNs (doc->children, (const xmlChar*)"http://www.w3.org/2000/svg", NULL);
-	xmlSetNs (doc->children, ns);
-	xmlNewProp (doc->children, (const xmlChar*)"version", (const xmlChar*)"1.1");
-	rect.x0 = floor (rect.x0);
-	rect.y0 = floor (rect.y0);
-	rect.x1 = ceil (rect.x1);
-	rect.y1 = ceil (rect.y1);
-	buf = g_strdup_printf ("%g", rect.x1 - rect.x0);
-	xmlNewProp (doc->children, (const xmlChar*)"width", (const xmlChar*)buf);
-	g_free (buf);
-	buf = g_strdup_printf ("%g", rect.y1 - rect.y0);
-	xmlNewProp (doc->children, (const xmlChar*)"height", (const xmlChar*)buf);
-	g_free (buf);
-	xmlNodePtr node;
-	node = xmlNewDocNode (doc, NULL, (const xmlChar*)"rect", NULL);
-	xmlAddChild (doc->children, node);
-	buf = g_strdup_printf ("%g", rect.x1 - rect.x0);
-	xmlNewProp (node, (const xmlChar*)"width", (const xmlChar*)buf);
-	g_free (buf);
-	buf = g_strdup_printf ("%g", rect.y1 - rect.y0);
-	xmlNewProp (node, (const xmlChar*)"height", (const xmlChar*)buf);
-	g_free (buf);
-	xmlNewProp (node, (const xmlChar*)"stroke", (const xmlChar*)"none");
-	xmlNewProp (node, (const xmlChar*)"fill", (const xmlChar*)"white");
-	if (rect.x0 != 0. || rect.y0 != 0) {
-		node = xmlNewDocNode (doc, NULL, (const xmlChar*)"g", NULL);
-		xmlAddChild (doc->children, node);
-		buf = g_strdup_printf ("translate(%g,%g)", - rect.x0, - rect.y0);
-		xmlNewProp (node, (const xmlChar*)"transform", (const xmlChar*)buf);
-		g_free (buf);
-	} else
-		node = doc->children;
-//	g_printable_export_svg (G_PRINTABLE (m_pData->Group), doc, node);
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
-	return doc;
 }
 
 static void destroy_surface (guchar *pixels, gpointer data)

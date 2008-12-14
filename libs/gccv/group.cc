@@ -130,6 +130,7 @@ bool Group::Draw (cairo_t *cr, double x0, double y0, double x1, double y1, bool 
 			continue;
 		(*i)->GetBounds (x, y, x_, y_);
 		if (x <= x1 && x_ >= x0 && y <= y1 && y_ >= y0) {
+			cairo_set_operator (cr, (*i)->GetOperator ());
 			if (!(*i)->Draw (cr, x0, y0, x1, y1, is_vector))
 				(*i)->Draw (cr, is_vector);
 		}
@@ -165,7 +166,6 @@ Item *Group::GetNextChild (std::list<Item *>::iterator &it)
 void Group::Move (double x, double y)
 {
 	Invalidate ();
-	list <Item *>::const_iterator i, end = m_Children.end ();
 	m_x += x;
 	m_y += y;
 	BoundsChanged ();
@@ -187,6 +187,30 @@ void Group::SetPosition (double x, double y)
 	m_y = y;
 	BoundsChanged ();
 	Invalidate ();
+}
+
+void Group::MoveToFront (Item *item)
+{
+	list <Item *>::iterator i, end = m_Children.end ();
+	for (i = m_Children.begin (); i != end; i++)
+		if (*i == item)
+		break;
+	if (i != end) {
+		m_Children.erase (i);
+		m_Children.push_front (item);
+	}
+}
+
+void Group::MoveToBack (Item *item)
+{
+	list <Item *>::iterator i, end = m_Children.end ();
+	for (i = m_Children.begin (); i != end; i++)
+		if (*i == item)
+		break;
+	if (i != end) {
+		m_Children.erase (i);
+		m_Children.push_back (item);
+	}
 }
 
 }

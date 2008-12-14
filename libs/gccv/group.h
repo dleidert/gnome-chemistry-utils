@@ -41,6 +41,8 @@ public:
 
 	void AddChild (Item *item);
 	void RemoveChild (Item *item);
+	void MoveToFront (Item *item);
+	void MoveToBack (Item *item);
 
 	Item *GetFirstChild (std::list<Item *>::iterator &it);
 	Item *GetNextChild (std::list<Item *>::iterator &it);

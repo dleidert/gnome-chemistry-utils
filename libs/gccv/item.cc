@@ -35,7 +35,8 @@ Item::Item (Canvas *canvas):
 	m_CachedBounds (false),
 	m_Client (NULL),
 	m_Parent (canvas->GetRoot ()),
-	m_Visible (true)
+	m_Visible (true),
+	m_Operator (CAIRO_OPERATOR_OVER)
 {
 	if (m_Parent)
 		m_Parent->AddChild (this);
@@ -45,7 +46,8 @@ Item::Item (Group *parent, ItemClient *client):
 	m_CachedBounds (false),
 	m_Client (client),
 	m_Parent (parent),
-	m_Visible (true)
+	m_Visible (true),
+	m_Operator (CAIRO_OPERATOR_OVER)
 {
 	if (parent)
 		parent->AddChild (this);

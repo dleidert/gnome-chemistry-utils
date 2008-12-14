@@ -147,6 +147,10 @@ be used, the event will have no associated gccv::ItemClient instance.
 @return the current gap for the canvas as a reference.
 */
 GCU_PROP (double, Gap)
+/*!\fn GetBackgroundColor
+@return the background color.
+*/
+GCU_RO_PROP (GOColor, BackgroundColor)
 };
 
 }
