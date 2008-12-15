@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2008-12-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: add new files.
+	* libs/gccv/text.cc: preliminary work for rich text.
+	* libs/gccv/text.h: ditto.
+	* libs/gccv/text-tag.cc: ditto.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gcp/atom.cc: preliminary work on attached hydrogens
+	* libs/gcp/bond.cc: changed a comment.
+	* libs/gcp/view.cc: reimplement BuildSVG (needed by the clipboard), and
+	implement View::BuildEPS.
+	* libs/gcp/view.h: ditto.
+	* libs/gcp/widgetdata.cc: ditto.
+
 2008-12-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: render crossing bonds for normal bonds
 	* libs/gccv/canvas.h: ditto.

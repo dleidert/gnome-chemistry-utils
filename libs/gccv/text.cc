@@ -82,6 +82,31 @@ bool TextPrivate::OnBlink (Text *text)
 	return false;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//  gccv::TextRun class implementation
+
+class TextRun
+{
+public:
+	TextRun ();
+	~TextRun ();
+
+	PangoLayout *m_Layout;
+};
+
+TextRun::TextRun ()
+{
+	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
+}
+
+TextRun::~TextRun ()
+{
+	g_object_unref (m_Layout);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//  gccv::Text class implementation
+
 Text::Text (Canvas *canvas, double x, double y):
 	Rectangle (canvas, x, y, 0., 0.),
 	m_x (x), m_y (y),
@@ -111,6 +136,10 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 Text::~Text ()
 {
 	g_object_unref (m_Layout);
+	while (!m_Runs.empty ()) {
+		delete m_Runs.front ();
+		m_Runs.pop_front ();
+	}
 }
 
 void Text::SetPosition (double x, double y)
@@ -304,6 +333,72 @@ void Text::SetEditing (bool editing)
 		m_CursorVisible = false;
 	}
 	SetPosition (m_x, m_y);
+}
+
+void Text::GetBounds (Rect *ink, Rect *logical)
+{
+	PangoRectangle i, l;
+	pango_layout_get_extents (m_Layout, &i, &l); // FIXME: use runs.
+	double startx, starty;
+	// Horizontal position
+	switch (m_Anchor) {
+	default:
+	case AnchorNorth:
+	case AnchorLine:
+	case AnchorCenter:
+	case AnchorSouth:
+		startx = m_x - m_Width / 2.;
+		break;
+	case AnchorNorthWest:
+	case AnchorLineWest:
+	case AnchorWest:
+	case AnchorSouthWest:
+		startx = m_x - m_Width;
+		break;
+	case AnchorNorthEast:
+	case AnchorLineEast:
+	case AnchorEast:
+	case AnchorSouthEast:
+		startx = m_x;
+		break;
+	}
+	// Vertical position
+	switch (m_Anchor) {
+	default:
+	case AnchorLine:
+	case AnchorLineWest:
+	case AnchorLineEast: {
+		starty = m_y - m_Ascent + m_LineOffset;
+		break;
+	}
+	case AnchorCenter:
+	case AnchorWest:
+	case AnchorEast:
+		starty = m_y - m_Height / 2. - m_LineOffset;
+		break;
+	case AnchorNorth:
+	case AnchorNorthWest:
+	case AnchorNorthEast:
+		starty = m_y - m_LineOffset;
+		break;
+	case AnchorSouth:
+	case AnchorSouthWest:
+	case AnchorSouthEast:
+		starty = m_y - m_Height - m_LineOffset;
+		break;
+	}
+	if (ink) {
+		ink->x0 = startx + (double) i.x / PANGO_SCALE;
+		ink->y0 = starty + (double) i.y / PANGO_SCALE;
+		ink->x1 = ink->x0 + (double) i.width / PANGO_SCALE;
+		ink->y1 = ink->y0 + (double) i.height / PANGO_SCALE;
+	}
+	if (logical) {
+		logical->x0 = startx + (double) l.x / PANGO_SCALE;
+		logical->y0 = starty + (double) l.y / PANGO_SCALE;
+		logical->x1 = logical->x0 + (double) l.width / PANGO_SCALE;
+		logical->y1 = logical->y0 + (double) l.height / PANGO_SCALE;
+	}
 }
 
 }

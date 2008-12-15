@@ -19,6 +19,7 @@ noinst_HEADERS = \
 	squiggle.h \
 	structs.h \
 	text.h \
+	text-tag.h  \
 	wedge.h
 
 libgccv_@GCU_API_VER@_la_SOURCES =	\
@@ -37,6 +38,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	rectangle.cc	\
 	squiggle.cc \
 	text.cc \
+	text-tag.cc	\
 	wedge.cc
 
 libgccv_@GCU_API_VER@_la_LDFLAGS = - -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@

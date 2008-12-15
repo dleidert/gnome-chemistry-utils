@@ -128,15 +128,19 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		View *pView = Doc->GetView ();
 		pView->CreateNewWidget (); // force canvas creation
 		Doc->ParseXMLTree (pDoc);
-		xmlDocPtr doc = pView->BuildSVG ();
-		xmlDocDumpFormatMemory (doc, &ClipboardData, &size, info);
-		gtk_selection_data_set (selection_data, gdk_atom_intern (export_targets[info].target, FALSE), 8, (const guchar*) ClipboardData, size);
-		xmlFreeDoc (doc);
+		ClipboardTextData = pView->BuildSVG ();
+		gtk_selection_data_set_text (selection_data, ClipboardTextData, strlen (ClipboardTextData));
 		delete Doc;
 		break;
 	}
 	case GCP_CLIPBOARD_EPS: {
-puts("requesting eps!");
+		Document *Doc = new Document (NULL, true);
+		View *pView = Doc->GetView ();
+		pView->CreateNewWidget (); // force canvas creation
+		Doc->ParseXMLTree (pDoc);
+		ClipboardTextData = pView->BuildEPS ();
+		gtk_selection_data_set_text (selection_data, ClipboardTextData, strlen (ClipboardTextData));
+		delete Doc;
 		break;
 	}
 	case GCP_CLIPBOARD_PNG: {

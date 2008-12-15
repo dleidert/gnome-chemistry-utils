@@ -39,6 +39,7 @@
 #include <gccv/group.h>
 #include <gccv/text.h>
 #include <gsf/gsf-output-gio.h>
+#include <gsf/gsf-output-memory.h>
 #include <goffice/utils/go-cairo.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
@@ -918,6 +919,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		cairo_surface_destroy (surface);
 		Render (cr);
 		cairo_destroy (cr);
+		g_object_unref (output);
 	} else if (!strcmp (type, "svg")) {
 		GError *error = NULL;
 		GsfOutput *output = gsf_output_gio_new_for_uri (filename.c_str (), &error);
@@ -937,6 +939,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		cairo_surface_destroy (surface);
 		Render (cr);
 		cairo_destroy (cr);
+		g_object_unref (output);
 	} else {
 		GdkPixbuf *pixbuf = BuildPixbuf (resolution);
 		GFile *file = g_vfs_get_file_for_uri (g_vfs_get_default (), filename.c_str ());
@@ -952,6 +955,43 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		g_object_unref (pixbuf);
 	}
 	m_pData->ShowSelection (true);
+}
+
+char *View::BuildSVG ()
+{
+	gccv::Rect rect;
+	m_pData->GetObjectBounds (m_pDoc, &rect);
+	int w = (int) (ceil (rect.x1) - floor (rect.x0)), h = (int) (ceil (rect.y1) - floor (rect.y0));
+	GsfOutput *output = gsf_output_memory_new ();
+	cairo_surface_t *surface = cairo_svg_surface_create_for_stream (cairo_write_func, output, w, h);
+	cairo_t *cr = cairo_create (surface);
+	cairo_translate (cr, -rect.x0, -rect.y0);
+	cairo_surface_destroy (surface);
+	Render (cr);
+	cairo_destroy (cr);
+	m_pData->ShowSelection (true);
+	char *m = g_strdup (reinterpret_cast <char const*> (gsf_output_memory_get_bytes (reinterpret_cast <GsfOutputMemory *> (output))));
+	g_object_unref (output);
+	return m;
+}
+
+char *View::BuildEPS ()
+{
+	gccv::Rect rect;
+	m_pData->GetObjectBounds (m_pDoc, &rect);
+	int w = (int) (ceil (rect.x1) - floor (rect.x0)), h = (int) (ceil (rect.y1) - floor (rect.y0));
+	GsfOutput *output = gsf_output_memory_new ();
+	cairo_surface_t *surface = cairo_ps_surface_create_for_stream (cairo_write_func, output, w, h);
+	cairo_ps_surface_set_eps (surface, TRUE);
+	cairo_t *cr = cairo_create (surface);
+	cairo_translate (cr, -rect.x0, -rect.y0);
+	cairo_surface_destroy (surface);
+	Render (cr);
+	cairo_destroy (cr);
+	m_pData->ShowSelection (true);
+	char *m = g_strdup (reinterpret_cast <char const*> (gsf_output_memory_get_bytes (reinterpret_cast <GsfOutputMemory *> (output))));
+	g_object_unref (output);
+	return m;
 }
 
 static void destroy_surface (guchar *pixels, gpointer data)
@@ -975,7 +1015,7 @@ GdkPixbuf *View::BuildPixbuf (int resolution)
 		zoom = 1.;
 	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, w, h);
 	cairo_t *cr = cairo_create (surface);
-	if (!m_pDoc->GetApp ()->GetTransparentBackground ()) {
+	if (m_pDoc->GetApp () && !m_pDoc->GetApp ()->GetTransparentBackground ()) {
 		cairo_set_source_rgb (cr, 1., 1., 1.);
 		cairo_paint (cr);
 	}

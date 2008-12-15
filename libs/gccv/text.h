@@ -2,7 +2,7 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/line.h 
+ * gccv/text.h 
  *
  * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -26,8 +26,10 @@
 #define GCCV_TEXT_H
 
 #include "rectangle.h"
+#include "structs.h"
 #include <gtk/gtk.h>
 #include <pango/pango.h>
+#include <list>
 
 /*!\file*/
 namespace gccv {
@@ -43,7 +45,9 @@ public:	\
 private:	\
 	type m_##member;
 
+// These are private classes
 class TextPrivate;
+class TextRun;
 
 typedef enum {
 	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
@@ -65,6 +69,8 @@ public:
 	void SetFontDescription (PangoFontDescription *desc);
 	void SetEditing (bool editing);
 
+	void GetBounds (Rect *ink, Rect *logical);
+
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;
 	void Move (double x, double y);
@@ -77,6 +83,7 @@ private:
 	unsigned long m_BlinkSignal;
 	bool m_CursorVisible;
 	unsigned m_CurPos;
+	std::list <TextRun *> m_Runs;
 
 GCU_RO_POINTER_PROP (PangoLayout, Layout)
 GCCV_TEXT_PROP (double, Padding)

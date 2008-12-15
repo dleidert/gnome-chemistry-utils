@@ -225,6 +225,14 @@ will be used which will result as a one to one pixel export.
 */
 	void ExportImage (std::string const &filename, const char* type, int resolution = -1);
 /*!
+@return the svg output as a newly allocated string. Call g_free when done with it.
+*/
+	char *BuildSVG ();
+/*!
+@return the eps output as a newly allocated string. Call g_free when done with it.
+*/
+	char *BuildEPS ();
+/*!
 @param resolution the resolution for the new image.
 
 Builds a new image with the given resolution in ppi. The size is evaluated

@@ -606,7 +606,7 @@ void Bond::AddItem ()
 				line->SetLineWidth (theme->GetBondWidth () * 3);
 				line->SetLineColor (0);
 				line->SetOperator (CAIRO_OPERATOR_SOURCE);
-				/* FIXME: unsecure if several bonds are crossing the same bond */
+				/* FIXME: unsecure if several bonds are crossing the same bond, use masking instead */
 				view->GetCanvas ()->GetRoot ()->MoveToBack (group);
 			}
 		}
