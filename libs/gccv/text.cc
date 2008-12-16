@@ -173,13 +173,13 @@ void Text::SetPosition (double x, double y)
 	case AnchorLineWest:
 	case AnchorWest:
 	case AnchorSouthWest:
-		xr = m_x - w + m_Padding;
+		xr = m_x - m_Padding;
 		break;
 	case AnchorNorthEast:
 	case AnchorLineEast:
 	case AnchorEast:
 	case AnchorSouthEast:
-		xr = m_x - m_Padding;
+		xr = m_x - w + m_Padding;
 		break;
 	}
 	// Vertical position
@@ -230,13 +230,13 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 	case AnchorLineWest:
 	case AnchorWest:
 	case AnchorSouthWest:
-		startx = m_x - m_Width;
+		startx = m_x;
 		break;
 	case AnchorNorthEast:
 	case AnchorLineEast:
 	case AnchorEast:
 	case AnchorSouthEast:
-		startx = m_x;
+		startx = m_x - m_Width;
 		break;
 	}
 	// Vertical position
@@ -353,13 +353,13 @@ void Text::GetBounds (Rect *ink, Rect *logical)
 	case AnchorLineWest:
 	case AnchorWest:
 	case AnchorSouthWest:
-		startx = m_x - m_Width;
+		startx = m_x;
 		break;
 	case AnchorNorthEast:
 	case AnchorLineEast:
 	case AnchorEast:
 	case AnchorSouthEast:
-		startx = m_x;
+		startx = m_x - m_Width;
 		break;
 	}
 	// Vertical position

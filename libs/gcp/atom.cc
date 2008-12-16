@@ -1942,6 +1942,40 @@ void Atom::AddItem ()
 		BuildSymbolGeometry (text->GetWidth (), text->GetHeight (), text->GetAscent () - text->GetY () - view->GetCHeight ());		
 		int n = GetAttachedHydrogens ();
 		if (n > 0) {
+			string hs = "H";
+			if (n > 1) {
+			}
+			gccv::Rect ink, logical;
+			text->GetBounds (&ink, &logical);
+			text = new gccv::Text (group, 0., 0., this);
+			text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+			text->SetPadding (theme->GetPadding ());
+			text->SetLineColor (0);
+			text->SetLineWidth (0.);
+			text->SetFontDescription (view->GetPangoFontDesc ());
+			text->SetText (hs.c_str ());
+			text->SetLineOffset (view->GetCHeight ());
+			switch (m_HPos) {
+			case LEFT_HPOS:
+				text->SetAnchor (gccv::AnchorLineEast);
+				text->SetPosition (logical.x0, 0.);
+				break;
+			case RIGHT_HPOS:
+				text->SetAnchor (gccv::AnchorLineWest);
+				text->SetPosition (logical.x1, 0.);
+				break;
+			case TOP_HPOS:
+				text->SetAnchor (gccv::AnchorLineWest);
+				text->SetPosition (-view->GetHWidth (), ink.y0 - ink.y1 - 2.); // 2. is arbitrary
+				break;
+			case BOTTOM_HPOS:
+				text->SetAnchor (gccv::AnchorLineWest);
+				text->SetPosition (-view->GetHWidth (), ink.y1 - ink.y0 + 2.);
+				break;
+			default:
+				g_critical ("This should not happen, please file a bug report");
+				break;
+			}
 /*			pango_layout_set_text (m_HLayout, "H", -1);
 			pango_layout_get_extents (m_HLayout, &HRect, NULL);
 			switch (m_HPos) {

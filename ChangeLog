@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2008-12-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fixed east/west alignment.
+	* libs/gcp/atom.cc: add attached hydrogen (not the number yet).
+	* libs/gcp/view.cc: new H width helper API.
+	* libs/gcp/view.h: ditto.
+
 2008-12-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: add new files.
 	* libs/gccv/text.cc: preliminary work for rich text.

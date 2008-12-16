@@ -113,6 +113,10 @@ View::View (Document *pDoc, bool Embedded):
 	PangoRectangle rect;
 	pango_layout_get_extents (layout, &rect, NULL);
 	m_CHeight =  double (rect.height) / PANGO_SCALE / 2.0;
+	m_BaseLineOffset =  m_CHeight / m_pDoc->GetTheme ()->GetZoomFactor ();
+	pango_layout_set_text (layout, "H", 1);
+	pango_layout_get_extents (layout, &rect, NULL);
+	m_HWidth = (double (rect.width) / 2.0 + rect.x) / PANGO_SCALE;
 	g_object_unref (layout);
 }
 
@@ -385,6 +389,9 @@ void View::UpdateFont ()
 	pango_layout_get_extents (pl, &rect, NULL);
 	m_CHeight = (double) rect.height / PANGO_SCALE / 2.0;
 	m_BaseLineOffset =  m_CHeight / m_pDoc->GetTheme ()->GetZoomFactor ();
+	pango_layout_set_text (pl, "H", 1);
+	pango_layout_get_extents (pl, &rect, NULL);
+	m_HWidth = (double (rect.width) / 2.0 + rect.x) / PANGO_SCALE;
 	g_object_unref (G_OBJECT (pl));
 }
 	

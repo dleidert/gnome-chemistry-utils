@@ -310,6 +310,10 @@ GCU_RO_PROP (gccv::Text *, ActiveRichText)
 @return the half height of a carbon atom symbol in the current theme.
 */
 GCU_RO_PROP (double, CHeight)
+/*!\fn GetHWidth()
+@return the half width of a hydrogen atom symbol in the current theme.
+*/
+GCU_RO_PROP (double, HWidth)
 };
 
 /*!
