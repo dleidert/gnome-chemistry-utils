@@ -1,6 +1,9 @@
 Version 0.11.0
+	GChemPaint
+		* Use the new canvas (brings in some regressions).
 	GSpectrum
 		* Correctly load negative values in (XY..XY) tables. [#24720]
+		* Add a way to zoom vertically (Jordan).
 	Mozilla plugin:
 		* fix loading of spectra and 3d files.
 	GCCV library:

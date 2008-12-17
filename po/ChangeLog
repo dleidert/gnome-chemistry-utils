@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-12-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: updated file list.
+
 2008-11-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: fixed typo.
 
