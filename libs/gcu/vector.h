@@ -31,6 +31,29 @@
 namespace gcu
 {
 
+/*!\class Vector gcu/vector.h
+3d vectors class.
+*/
+
+class Vector
+{
+public:
+/*!
+Constructs a vector with all three coordinates equal to 0.
+*/
+	Vector ();
+	Vector (double x, double y, double z);
+	Vector (double d[3]);
+	Vector (Vector const &v);
+
+	Vector operator+ (Vector const &v) const;
+	double operator[] (unsigned i) const;
+
+GCU_PROP (double, X)
+GCU_PROP (double, Y)
+GCU_PROP (double, Z)
+};
+
 /*!\class Vector3f gcu/vector.h
 Utility 3d vectors class used by the gcu::Sphere class.
 */

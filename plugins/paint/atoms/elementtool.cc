@@ -117,13 +117,22 @@ void gcpElementTool::OnRelease ()
 				if (pBond) {
 					pBond->ReplaceAtom (pAtom, pNewAtom);
 					pNewAtom->AddBond (pBond);
+					m_pView->Update (pBond);
 				}
 				pNewAtom->Update ();
 				m_pView->Update (pNewAtom);
 				delete parent;
 			} else {
-				((gcp::Atom*) m_pObject)->SetZ (CurZ);
+				gcp::Atom* pAtom = static_cast <gcp::Atom *> (m_pObject);
+				pAtom->SetZ (CurZ);
 				m_pView->Update ((gcp::Atom*) m_pObject);
+				map<Atom*, Bond*>::iterator i;
+				gcp::Bond *pBond = (gcp::Bond*) pAtom->GetFirstBond (i);
+				while (pBond) {
+					pBond->SetDirty ();
+					m_pView->Update (pBond);
+					pBond = (gcp::Bond*) pAtom->GetNextBond (i);
+				}	
 			}	
 			pOp->AddObject (pObj, 1);
 		} else {

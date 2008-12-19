@@ -107,6 +107,7 @@ View::View (Document *pDoc, bool Embedded):
 	m_Dragging = false;
 	m_pWidget = NULL;
 	m_CurObject = NULL;
+	m_CurAtom = NULL;
 	PangoLayout *layout = pango_layout_new (gccv::Text::GetContext ());
 	pango_layout_set_text (layout, "C", 1);
 	pango_layout_set_font_description (layout, m_PangoFontDesc);
@@ -668,8 +669,7 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 			if ((event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 || event->keyval > 127)
 				break;
 			// Now try to get the atom at the cursor
-			Atom *atom = dynamic_cast<Atom*> (m_CurObject);
-			unsigned min_bonds = (atom)? atom->GetTotalBondsNumber (): 0;
+			unsigned min_bonds = (m_CurAtom)? m_CurAtom->GetTotalBondsNumber (): 0;
 			int Z = 0;
 			switch (event->keyval) {
 			case GDK_a:
@@ -752,21 +752,21 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 				break;
 			}
 			if (Z) {
-				if (!atom) {
+				if (!m_CurAtom) {
 					Tools *tools = static_cast<Tools*> (pApp->GetDialog ("tools"));
 					tools->SetElement (Z);
-				} else if (atom->GetZ () != Z && Element::GetElement (Z)->GetMaxBonds () >= min_bonds) {
-					Object *group = atom->GetGroup ();
+				} else if (m_CurAtom->GetZ () != Z && Element::GetElement (Z)->GetMaxBonds () >= min_bonds) {
+					Object *group = m_CurAtom->GetGroup ();
 					Operation *op = m_pDoc->GetNewOperation (GCP_MODIFY_OPERATION);
 					op->AddObject (group);
-					atom->SetZ (Z);
-					Update (atom);
+					m_CurAtom->SetZ (Z);
+					Update (m_CurAtom);
 					// set all bonds as dirty
 					map<gcu::Atom*, gcu::Bond*>::iterator i;
-					Bond *bond = reinterpret_cast <Bond *> (atom->GetFirstBond (i));
+					Bond *bond = reinterpret_cast <Bond *> (m_CurAtom->GetFirstBond (i));
 					while (bond) {
 						bond->SetDirty ();
-						bond = reinterpret_cast <Bond *> (atom->GetNextBond (i));
+						bond = reinterpret_cast <Bond *> (m_CurAtom->GetNextBond (i));
 					}
 					op->AddObject (group, 1);
 					m_pDoc->FinishOperation ();
@@ -798,7 +798,7 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 				symbol = (*i).first;
 				symbol.insert (((symbol.length () > 1)? 1: 0), "_");
 				action = GTK_ACTION (gtk_action_new ((*i).second->GetSymbol (), symbol.c_str (), (*i).second->GetName (), NULL));
-				g_signal_connect (action, "activate", G_CALLBACK (do_set_symbol), (atom)? static_cast<Object*> (atom): static_cast<Object*> (m_pDoc));
+				g_signal_connect (action, "activate", G_CALLBACK (do_set_symbol), (m_CurAtom)? static_cast<Object*> (m_CurAtom): static_cast<Object*> (m_pDoc));
 				gtk_action_group_add_action (group, action);
 				g_object_unref (action);
 				ui = string ("<ui><popup><menuitem action='") + (*i).second->GetSymbol () + "'/></popup></ui>";
@@ -1193,7 +1193,16 @@ bool View::OnDrag (gccv::ItemClient *client, double x, double y, unsigned state)
 
 bool View::OnMotion (gccv::ItemClient *client, double x, double y, unsigned state)
 {
-	m_CurObject = reinterpret_cast <Object *> (client);
+	m_CurObject = dynamic_cast <Object *> (client);
+	if (m_CurObject) {
+		m_CurAtom = dynamic_cast <Atom *> (m_CurObject);
+		if (!m_CurAtom) {
+			Theme *theme = m_pDoc->GetTheme ();
+			Object *obj = m_CurObject->GetAtomAt (x / theme->GetZoomFactor (), y / theme->GetZoomFactor ());
+			m_CurAtom = reinterpret_cast <Atom *> (m_CurObject->GetAtomAt (x / theme->GetZoomFactor (), y / theme->GetZoomFactor ()));
+		}
+	} else
+		m_CurAtom = NULL;
 	return true;
 }
 

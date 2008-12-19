@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GCULoader_cif">
+	<information>
+		<_name>Loader : cif</_name>
+		<_description>CIF files loader.</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="cif"/>
+	</loader>
+	<services>
+		<service type="chemical_loader" id="GCULoader_cif">
+			<mime_type name="chemical/x-cif" capabilities="rw" scope="c"/>
+			<information>
+				<_description>CML files loader</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

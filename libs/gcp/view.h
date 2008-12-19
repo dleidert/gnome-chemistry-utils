@@ -296,6 +296,7 @@ private:
 	GtkUIManager *m_UIManager;
 	bool m_Dragging;
 	gcu::Object *m_CurObject;
+	Atom *m_CurAtom;
 	
 
 /*!\fn GetBaseLineOffset()

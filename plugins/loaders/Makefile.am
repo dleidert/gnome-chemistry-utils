@@ -1,3 +1,3 @@
-SUBDIRS = cdx cdxml cml
+SUBDIRS = cdx cdxml cif cml
 
 MAINTAINERCLEANFILES = Makefile.in

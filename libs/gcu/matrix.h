@@ -31,6 +31,8 @@
 namespace gcu
 {
 
+class Vector;
+
 /*!\enum MatrixType
 This enumeration is used to determine the type a Matrix.
 Possible values are:
@@ -51,9 +53,22 @@ class Matrix
 public:
 
 /*!
-Default constructor. Members are not initialized. This constructor is rarely used.
+Default constructor. Initialized to unit matrix.
 */
 	Matrix ();
+/*!
+@param d a number.
+Constructs a scalar matrix. Initializes diagonal elements to \a d and other elements to 0.
+*/
+	Matrix (double d);
+	Matrix (double d[3][3]);
+/*!
+@param m a matrix.
+Copy contructor.
+*/
+	Matrix (Matrix const &m);
+
+	Matrix (Vector const &v1, Vector const &v2, Vector const &v3, bool as_rows = true);
 /*!
 The destructor of Matrix.
 */
@@ -120,7 +135,10 @@ Initially, dx, dy and dz are the components of the vector to transform (multiply
 after execution of this method, dx, dy and dz are the components of the transformed vector. So initial values are lost.
 */
 	void Transform (double &dx, double &dy , double &dz) const;
+	Vector operator* (Vector const &v) const;
 	OpenBabel::vector3 operator* (OpenBabel::vector3 const &v) const;
+	double &operator() (unsigned i, unsigned j) {return x[i][j];}
+	double operator() (unsigned i, unsigned j) const {return x[i][j];}
 	
 private:
 	double x[3][3];

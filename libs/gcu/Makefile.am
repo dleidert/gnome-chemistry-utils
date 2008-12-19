@@ -49,7 +49,9 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		residue.cc \
 		spectrumdoc.cc \
 		spectrumview.cc \
+		spacegroup.cc   \
 		sphere.cc	\
+		transform3d.cc  \
 		value.cc \
 		vector.cc \
 		window.cc \
@@ -97,7 +99,9 @@ noinst_HEADERS = \
 		residue.h \
 		spectrumdoc.h \
 		spectrumview.h \
+		spacegroup.h   \
 		sphere.h	\
+		transform3d.h  \
 		value.h \
 		vector.h \
 		window.h \

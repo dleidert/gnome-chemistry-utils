@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="chemical_loader" id="GCULoader_cml">
-			<mime_type name="chemical/x-cml" capabilities="rw" scope="2"/>
+			<mime_type name="chemical/x-cml" capabilities="rw" scope="23c"/>
 			<information>
 				<_description>CML files loader</_description>
 			</information>

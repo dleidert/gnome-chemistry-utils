@@ -29,6 +29,57 @@
 namespace gcu
 {
 
+// Vector class
+
+Vector::Vector ()
+{
+	m_X = m_Y = m_Z = 0.;
+}
+
+Vector::Vector (double x, double y, double z)
+{
+	m_X = x;
+	m_Y = y;
+	m_Z = z;
+}
+
+Vector::Vector (double d[3])
+{
+	m_X = d[0];
+	m_Y = d[1];
+	m_Z = d[2];
+}
+
+Vector::Vector (Vector const &v)
+{
+	m_X = v.m_X;
+	m_Y = v.m_Y;
+	m_Z = v.m_Z;
+}
+
+Vector Vector::operator+ (Vector const &v) const
+{
+	Vector res;
+	res.m_X = m_X + v.m_X;
+	res.m_Y = m_Y + v.m_Y;
+	res.m_Z = m_Z + v.m_Z;
+	return res;
+}
+
+double Vector::operator[] (unsigned i) const
+{
+	switch (i) {
+	case 0:
+		return m_X;
+	case 1:
+		return m_Y;
+	case 2:
+		return m_Z;
+	default:
+		return 0.;
+	}
+}
+
 Vector3f::Vector3f ():
 	m_x (0.),
 	m_y (0.),

@@ -22,7 +22,9 @@
  * USA
  */
 
+#include "config.h"
 #include "matrix.h"
+#include "vector.h"
 #include <cmath>
 
 using namespace OpenBabel;
@@ -30,24 +32,82 @@ using namespace OpenBabel;
 namespace gcu
 {
 
-Matrix::Matrix()
+Matrix::Matrix ()
+{
+	x[0][0] = x[1][1] = x[2][2] = 1.;
+	x[0][1] = x[0][2] = x[1][0] = x[1][2] = x[2][0] = x[2][1] = 0.;
+}
+
+Matrix::Matrix (double d)
+{
+	x[0][0] = x[1][1] = x[2][2] = d;
+	x[0][1] = x[0][2] = x[1][0] = x[1][2] = x[2][0] = x[2][1] = 0.;
+}
+
+Matrix::Matrix (double d[3][3])
+{
+	x[0][0] = d[0][0];
+	x[0][1] = d[0][1];
+	x[0][2] = d[0][2];
+	x[1][0] = d[1][0];
+	x[1][1] = d[1][1];
+	x[1][2] = d[1][2];
+	x[2][0] = d[2][0];
+	x[2][1] = d[2][1];
+	x[2][2] = d[2][2];
+}
+
+Matrix::Matrix (Matrix const &m)
+{
+	x[0][0] = m.x[0][0];
+	x[0][1] = m.x[0][1];
+	x[0][2] = m.x[0][2];
+	x[1][0] = m.x[1][0];
+	x[1][1] = m.x[1][1];
+	x[1][2] = m.x[1][2];
+	x[2][0] = m.x[2][0];
+	x[2][1] = m.x[2][1];
+	x[2][2] = m.x[2][2];
+}
+
+Matrix::Matrix (Vector const &v1, Vector const &v2, Vector const &v3, bool as_rows)
+{
+	if (as_rows) {
+		x[0][0] = v1.GetX ();
+		x[0][1] = v1.GetY ();
+		x[0][2] = v1.GetZ ();
+		x[1][0] = v2.GetX ();
+		x[1][1] = v2.GetY ();
+		x[1][2] = v2.GetZ ();
+		x[2][0] = v3.GetX ();
+		x[2][1] = v3.GetY ();
+		x[2][2] = v3.GetZ ();
+	} else {
+		x[0][0] = v1.GetX ();
+		x[0][1] = v2.GetX ();
+		x[0][2] = v3.GetX ();
+		x[1][0] = v1.GetY ();
+		x[1][1] = v2.GetY ();
+		x[1][2] = v3.GetY ();
+		x[2][0] = v1.GetZ ();
+		x[2][1] = v2.GetZ ();
+		x[2][2] = v3.GetZ ();
+	}
+}
+
+Matrix::~Matrix ()
 {
 }
 
-Matrix::~Matrix()
+Matrix::Matrix (double Psi, double Theta, double Phi, MatrixType Type)
 {
-}
-
-Matrix::Matrix(double Psi, double Theta, double Phi, MatrixType Type)
-{
-	double sp = sin(Psi);
-	double cp = cos(Psi);
-	double st = sin(Theta);
-	double ct = cos(Theta);
-	double sf = sin(Phi);
-	double cf = cos(Phi);
-	switch(Type)
-	{
+	double sp = sin (Psi);
+	double cp = cos (Psi);
+	double st = sin (Theta);
+	double ct = cos (Theta);
+	double sf = sin (Phi);
+	double cf = cos (Phi);
+	switch(Type) {
 	case euler :
 		x[0][0] = cf * cp - sf * sp * ct;
 		x[0][1] = - cp * sf - sp * cf * ct;
@@ -78,7 +138,7 @@ Matrix::Matrix(double Psi, double Theta, double Phi, MatrixType Type)
 	}
 }
 
-Matrix::Matrix(double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33)
+Matrix::Matrix (double x11, double x12, double x13, double x21, double x22, double x23, double x31, double x32, double x33)
 {
 	x[0][0] = x11;
 	x[0][1] = x12;
@@ -122,18 +182,15 @@ Matrix& Matrix::operator= (Matrix const &cMat)
 	return *this;
 }
 
-void Matrix::Euler(double& Psi, double& Theta, double& Phi)
+void Matrix::Euler (double& Psi, double& Theta, double& Phi)
 {
-	if (fabs(x[2][2]) > .999999999)
-	{
+	if (fabs(x[2][2]) > .999999999) {
 		Theta = (x[2][2] > 0) ? 0 : 3.1415926535897931;
 		Psi = 0;
 		if (fabs(x[0][0]) > .999999999)
 		Phi = (x[0][0] > 0) ? 0 : 3.1415926535897931;
 		else Phi = (x[1][0] > 0) ? acos(x[0][0]) : - acos(x[0][0]);
-	}
-	else
-	{
+	} else {
 		Theta = acos(x[2][2]);
 		double st = sin(Theta);
 		double si = x[0][2] / st;
@@ -166,6 +223,15 @@ vector3 Matrix::operator* (vector3 const &v) const
 	r.z () = v.z () * x[0][0] + v.x () * x[0][1] + v.y () * x[0][2];
 	r.x () = v.z () * x[1][0] + v.x () * x[1][1] + v.y () * x[1][2];
 	r.y () = v.z () * x[2][0] + v.x () * x[2][1] + v.y () * x[2][2];
+	return r;
+}
+
+Vector Matrix::operator* (Vector const &v) const
+{
+	Vector r;
+	r.SetZ (v.GetX () * x[0][0] + v.GetY () * x[0][1] + v.GetZ () * x[0][2]);
+	r.SetY (v.GetX () * x[1][0] + v.GetY () * x[1][1] + v.GetZ () * x[1][2]);
+	r.SetZ (v.GetX () * x[2][0] + v.GetY () * x[2][1] + v.GetZ () * x[2][2]);
 	return r;
 }
 

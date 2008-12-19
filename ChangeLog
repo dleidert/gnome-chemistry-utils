@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2008-12-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.11.1).
+	* libs/gcp/view.cc: fix atom nature change using keyboard.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/Makefile.am: import space groups support from OpenBabel.
+	* libs/gcu/matrix.cc: ditto.
+	* libs/gcu/matrix.h: ditto.
+	* libs/gcu/spacegroup.cc: ditto.
+	* libs/gcu/spacegroup.h: ditto.
+	* libs/gcu/transform3d.cc: ditto.
+	* libs/gcu/transform3d.h: ditto.
+	* libs/gcu/vector.cc: ditto.
+	* libs/gcu/vector.h: ditto.
+	* plugins/loaders/Makefile.am: new CIF loader skeleton.
+	* plugins/loaders/cif/Makefile.am: ditto.
+	* plugins/loaders/cif/cif.cc: ditto.
+	* plugins/loaders/cif/plugin.xml.in: ditto.
+	* plugins/loaders/cml/plugin.xml.in: add 3d and crystal support claims.
+	* plugins/paint/atoms/elementtool.cc: fix update of bonds.
+
 2008-12-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fixed east/west alignment.
 	* libs/gcp/atom.cc: add attached hydrogen (not the number yet).
