@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/zoomdlg.cc: fix spin button callback behavior.
+
 2008-12-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/document.cc: fix loading CIF files.
 

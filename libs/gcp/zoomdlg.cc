@@ -53,7 +53,7 @@ ZoomDlg::ZoomDlg (gcp::Document *pDoc):
 	}
 	g_signal_connect_swapped (G_OBJECT (dialog), "focus_in_event", G_CALLBACK (on_focus_in), this);
 	btn = (GtkSpinButton*) glade_xml_get_widget (xml, "zoom");
-	m_ZoomSignal = g_signal_connect_swapped (G_OBJECT (btn), "value-changed", G_CALLBACK (on_zoom_changed), pDoc);
+	m_ZoomSignal = g_signal_connect (G_OBJECT (btn), "value-changed", G_CALLBACK (on_zoom_changed), pDoc);
 	m_Doc = pDoc;
 }
 
