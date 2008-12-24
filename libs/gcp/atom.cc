@@ -37,6 +37,7 @@
 #include <gccv/circle.h>
 #include <gccv/group.h>
 #include <gccv/text.h>
+#include <gccv/text-tag.h>
 #include <gcu/element.h>
 #include <goffice/math/go-math.h>
 #include <openbabel/mol.h>
@@ -1944,6 +1945,9 @@ void Atom::AddItem ()
 		if (n > 0) {
 			string hs = "H";
 			if (n > 1) {
+				char *str = g_strdup_printf ("%d", n);
+				hs += str;
+				g_free (str);
 			}
 			gccv::Rect ink, logical;
 			text->GetBounds (&ink, &logical);
@@ -1954,6 +1958,12 @@ void Atom::AddItem ()
 			text->SetLineWidth (0.);
 			text->SetFontDescription (view->GetPangoFontDesc ());
 			text->SetText (hs.c_str ());
+			if (n >1) {
+				gccv::TextTag *tag = new gccv::SubscriptTextTag ();
+				tag->SetStartIndex (1);
+				tag->SetEndIndex (hs.length ());
+				text->InsertTextTag (tag);
+			}
 			text->SetLineOffset (view->GetCHeight ());
 			switch (m_HPos) {
 			case LEFT_HPOS:

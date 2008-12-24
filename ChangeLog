@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2008-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: add a priority field.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.cc: introduced runs.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/atom.cc: add attached hydrogen numbers.
+	* libs/gcp/tools.cc: removed deprecated gtk tooltips calls.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcp/zoomdlg.cc: fix spin button callback behavior.
+	* plugins/paint/selection/selectiontool.cc: removed deprecated
+	gtk tooltips calls.
+	* plugins/paint/text/texttool.cc: use gccv::Text::GetText instead
+	of pango layout access.
+
 2008-12-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.11.1).
 	* libs/gcp/view.cc: fix atom nature change using keyboard.

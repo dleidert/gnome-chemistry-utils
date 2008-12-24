@@ -504,7 +504,6 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui):
 	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
 	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainToolbar");
-	gtk_toolbar_set_tooltips (GTK_TOOLBAR(bar), true);
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
 	m_Document = new Document (App, true, this);
 	if (Theme)

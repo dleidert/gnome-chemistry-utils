@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <pango/pango.h>
 #include <list>
+#include <string>
 
 /*!\file*/
 namespace gccv {
@@ -48,6 +49,7 @@ private:	\
 // These are private classes
 class TextPrivate;
 class TextRun;
+class TextTag;
 
 typedef enum {
 	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
@@ -70,6 +72,9 @@ public:
 	void SetEditing (bool editing);
 
 	void GetBounds (Rect *ink, Rect *logical);
+	char const *GetText ();
+
+	void InsertTextTag (TextTag *tag);
 
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;
@@ -84,8 +89,9 @@ private:
 	bool m_CursorVisible;
 	unsigned m_CurPos;
 	std::list <TextRun *> m_Runs;
+	std::list <TextTag *> m_Tags;
+	std::string m_Text;
 
-GCU_RO_POINTER_PROP (PangoLayout, Layout)
 GCCV_TEXT_PROP (double, Padding)
 GCCV_TEXT_PROP (Anchor, Anchor)
 GCCV_TEXT_PROP (double, LineOffset)

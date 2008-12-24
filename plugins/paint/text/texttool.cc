@@ -317,7 +317,7 @@ bool gcpTextTool::Unselect ()
 	m_Active->SetEditing (false);
 	m_Active->GetClient ()->SetSelected (gcp::SelStateUnselected);
 	Object *pObj = dynamic_cast <Object *> (m_Active->GetClient ());
-	char const *text = pango_layout_get_text (const_cast <PangoLayout *> (m_Active->GetLayout ()));
+	char const *text = m_Active->GetText ();
 	m_Active = NULL;
 	while (!m_UndoList.empty ()) {
 		xmlFree(m_UndoList.front ());

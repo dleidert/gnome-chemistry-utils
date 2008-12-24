@@ -30,8 +30,9 @@ namespace gccv {
 ////////////////////////////////////////////////////////////////////////////////
 // Base tag class
 
-TextTag::TextTag (Tag tag):
+TextTag::TextTag (Tag tag, TagPriority priority):
 	m_Tag (tag),
+	m_Priority (priority),
 	m_StartIndex (0),
 	m_EndIndex (0)
 {
@@ -79,7 +80,7 @@ void SizeTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 // Subscript tag class
 
 SubscriptTextTag::SubscriptTextTag ():
-	TextTag (Subscript)
+	TextTag (Subscript, TagPriorityLast)
 {
 }
 

@@ -44,16 +44,23 @@ typedef enum
 	Max
 } Tag;
 
+typedef enum
+{
+	TagPriorityFirst,
+	TagPriorityLast,
+} TagPriority;
+
 class TextTag
 {
 public:
-	TextTag (Tag tag);
+	TextTag (Tag tag, TagPriority priority = TagPriorityFirst);
 	virtual ~TextTag ();
 
 	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end) = 0;
 private:
 
 GCU_RO_PROP (Tag, Tag)
+GCU_RO_PROP (TagPriority, Priority)
 GCU_PROP (unsigned, StartIndex)
 GCU_PROP (unsigned, EndIndex)
 };

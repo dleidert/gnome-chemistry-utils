@@ -105,7 +105,6 @@ void Tools::AddToolbar (string &name)
 		gtk_container_foreach (GTK_CONTAINER (w), (GtkCallback) register_item_cb, this);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
-		gtk_toolbar_set_tooltips (GTK_TOOLBAR (w), true);
 		gtk_container_add (GTK_CONTAINER (h), w);
 		gtk_box_pack_start_defaults (m_ButtonsBox, h);
 		gtk_widget_show_all (h);

@@ -487,7 +487,6 @@ GtkWidget *gcpSelectionTool::GetPropertyPage ()
 	w = gtk_ui_manager_get_widget (m_UIManager, "/Selection");
 	gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
-	gtk_toolbar_set_tooltips (GTK_TOOLBAR (w), true);
 	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 	gtk_widget_show_all (box);
 	m_MergeBtn = gtk_ui_manager_get_widget (m_UIManager, "/Selection/Merge");
