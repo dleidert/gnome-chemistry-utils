@@ -26,6 +26,7 @@
 #define GCU_APPLICATION_H
 
 #include "dialog-owner.h"
+#include "structs.h"
 #include <map>
 #include <set>
 #include <string>
@@ -196,7 +197,7 @@ This method loads a document using the appropriate gcu::Loader class
 instance.
 @return true if no error occurred.
 */
-	bool Load (std::string const &uri, const gchar *mime_type, Document* Doc);
+	ContentType Load (std::string const &uri, const gchar *mime_type, Document* Doc);
 
 /*!
 @param uri the uri to which the document should be saved.
@@ -207,7 +208,7 @@ This method saves the document using the appropriate gcu::Loader class
 instance.
 @return true if no error occurred.
 */
-	bool Save (std::string const &uri, const gchar *mime_type, Document* Doc);
+	bool Save (std::string const &uri, const gchar *mime_type, Document* Doc, ContentType type);
 
 /*!
 Virtual method used to create documents. Default behavior does nothing and returns NULL.

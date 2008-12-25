@@ -1,5 +1,24 @@
 ##Text encoding: utf-8
 
+2008-12-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: add content type detection in the gcu::Loader
+	reading mechanism and a content type parameter for writing.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcu/Makefile.am: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/loader.cc: ditto.
+	* libs/gcu/loader.h: ditto.
+	* libs/gcu/structs.h: ditto.
+	* libs/gcu/atom.cc: add new properties.
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/objprops.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: updated to the new API.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/loaders/cif/cif.cc: ditto.
+	* plugins/loaders/cml/cml.cc: some workon both reading and writing.
+
 2008-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: add a priority field.
 	* libs/gccv/text-tag.h: ditto.

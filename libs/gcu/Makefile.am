@@ -101,6 +101,7 @@ noinst_HEADERS = \
 		spectrumview.h \
 		spacegroup.h   \
 		sphere.h	\
+		structs.h   \
 		transform3d.h  \
 		value.h \
 		vector.h \

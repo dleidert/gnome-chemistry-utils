@@ -25,6 +25,7 @@
 #ifndef GCU_LOADER_H
 #define GCU_LOADER_H
 
+#include "structs.h"
 #include <list>
 #include <map>
 #include <string>
@@ -198,7 +199,7 @@ This function must be overloaded by a derived class able to read. Default
 implementation just return false.
 @return true on success, false otherwise.
 */
-	virtual bool Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
+	virtual ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
 /*!
 @param doc the gcu::Document being written.
 @param out a GsfOutput (see the libgsf documentation at
@@ -210,7 +211,7 @@ This function must be overloaded by a derived class able to write. Default
 implementation just return false.
 @return true on success, false otherwise.
 */
-	virtual bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io);
+	virtual bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type = ContentTypeMisc);
 
 protected:
 /*!

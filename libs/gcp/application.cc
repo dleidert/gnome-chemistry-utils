@@ -628,7 +628,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				m_pActiveDoc->ExportImage (filename2, pixbuf_type, GetImageResolution ());
 				break;
 			default:
-				if (Save (filename2, mime_type, pDoc));
+				if (Save (filename2, mime_type, pDoc, ContentType2D));
 				else if (!strcmp (mime_type, "application/x-gchempaint"))
 					SaveGcp (filename2, pDoc);
 				else
@@ -663,7 +663,18 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			pDoc = m_pActiveDoc;
 		}
 		pDoc->SetFileName(filename2, mime_type);
-		if (Load (filename2, mime_type, pDoc)) {
+		ContentType type = Load (filename2, mime_type, pDoc);
+		if (type != ContentTypeUnknown) {
+			switch (type) {
+			case ContentType3D:
+				break;
+			case ContentTypeCrystal:
+				break;
+			case ContentTypeSpectrum:
+				break;
+			default:
+				break;
+			};
 			pDoc->GetView ()->AddObject (pDoc);
 			pDoc->GetView ()->Update (pDoc);
 			pDoc->GetView ()->EnsureSize ();

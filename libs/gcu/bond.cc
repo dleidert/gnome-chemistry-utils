@@ -181,7 +181,7 @@ bool Bond::SetProperty (unsigned property, char const *value)
 		break;
 	}
 	case GCU_PROP_BOND_BEGIN: {
-		char *tmp = g_strdup_printf ("a%s", value);
+		char *tmp = (*value == 'a')? g_strdup (value): g_strdup_printf ("a%s", value);
 		Object *pObject = GetParent ()->GetDescendant (tmp);
 		g_free (tmp);
 		if (!pObject || (!dynamic_cast <Atom *> (pObject)))
@@ -194,7 +194,7 @@ bool Bond::SetProperty (unsigned property, char const *value)
 		break;
 	}
 	case GCU_PROP_BOND_END: {
-		char *tmp = g_strdup_printf ("a%s", value);
+		char *tmp = (*value == 'a')? g_strdup (value): g_strdup_printf ("a%s", value);
 		Object *pObject = GetParent ()->GetDescendant (tmp);
 		g_free (tmp);
 		if (!pObject || (!dynamic_cast <Atom *> (pObject)))

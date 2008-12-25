@@ -1445,7 +1445,7 @@ bool Document::SetProperty (unsigned property, char const *value)
 		double length = strtod (value, &end);
 		if (*end != 0)
 			return false;
-		gcu::Document::m_Scale = m_Theme->GetBondLength () / length; 
+		gcu::Document::SetScale (m_Theme->GetBondLength () / length); 
 	}
 	}
 	return true;

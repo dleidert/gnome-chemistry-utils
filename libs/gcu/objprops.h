@@ -46,6 +46,18 @@ The position of an object in a 2D representation.
 	GCU_PROP_POS3D,
 	// Document properties
 /*!
+The x coordinate of an object
+*/
+	GCU_PROP_X,
+/*!
+The y coordinate of an object
+*/
+	GCU_PROP_Y,
+/*!
+The z coordinate of an object
+*/
+	GCU_PROP_Z,
+/*!
 The file name.
 */
 	GCU_PROP_DOC_FILENAME,

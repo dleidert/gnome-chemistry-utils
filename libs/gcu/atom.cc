@@ -240,6 +240,15 @@ bool Atom::SetProperty (unsigned property, char const *value)
 		SetCoords (x, y);
 		break;
 	}
+	case GCU_PROP_X:
+		m_x = strtod (value, NULL) * GetDocument ()->GetScale ();
+		break;
+	case GCU_PROP_Y:
+		m_y = strtod (value, NULL) * GetDocument ()->GetScale ();
+		break;
+	case GCU_PROP_Z:
+		m_z = strtod (value, NULL) * GetDocument ()->GetScale ();
+		break;
 	case GCU_PROP_ID: {
 		char *Id = (*value == 'a')? g_strdup (value): g_strdup_printf ("a%s", value);
 		SetId (Id);

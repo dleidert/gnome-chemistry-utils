@@ -57,8 +57,8 @@ public:
 	CDXMLLoader ();
 	virtual ~CDXMLLoader ();
 
-	bool Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io);
+	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
+	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
 };
 
 CDXMLLoader::CDXMLLoader ()
@@ -712,13 +712,13 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 GSF_XML_IN_NODE_END
 };
 
-bool CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
 {
 	CDXMLReadState state;
 
 	state.doc = doc;
 	state.context = io;
-	bool  success = false;
+	ContentType success = ContentTypeUnknown;
 	state.colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white
 	state.colors.push_back ("red=\"0\" green=\"0\" blue=\"0\""); // black
 	state.font = 0;
@@ -726,9 +726,10 @@ bool CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOC
 
 	if (NULL != in) {
 		GsfXMLInDoc *xml = gsf_xml_in_doc_new (cdxml_dtd, NULL);
-		success = gsf_xml_in_doc_parse (xml, in, &state);
+		if (gsf_xml_in_doc_parse (xml, in, &state))
+			success = ContentType2D;
 
-		if (!success)
+		if (success == ContentTypeUnknown)
 			gnm_io_warning (state.context,
 				_("'%s' is corrupt!"),
 				gsf_input_name (in));
@@ -743,7 +744,7 @@ bool CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOC
 						parent = p.obj->GetParent ();
 				}
 				if (!p.obj->SetProperty (p.property, p.value.c_str ())) {
-					success = false;
+					success = ContentTypeUnknown;
 					gnm_io_warning (state.context,
 						_("'%s' is corrupt!"),
 						gsf_input_name (in));
@@ -761,7 +762,7 @@ bool CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOC
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CDXMLLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io)
+bool CDXMLLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	map<string, CDXMLFont> fonts;
 

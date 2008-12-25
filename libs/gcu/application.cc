@@ -253,28 +253,28 @@ void Application::RemoveDocument (Document *Doc)
 		NoMoreDocsEvent ();
 }
 
-bool Application::Load (std::string const &uri, const gchar *mime_type, Document* Doc)
+ContentType Application::Load (std::string const &uri, const gchar *mime_type, Document* Doc)
 {
 	Loader *l = Loader::GetLoader (mime_type);
 	if (!l)
-		return false;
+		return ContentTypeUnknown;
 	string old_num_locale = setlocale (LC_NUMERIC, NULL);
 	setlocale (LC_NUMERIC, "C");
 	GError *error = NULL;
 	GsfInput *input = gsf_input_gio_new_for_uri (uri.c_str (), &error);
 	if (error) {
 		g_error_free (error);
-		return false;
+		return ContentTypeUnknown;
 	}
 	IOContext *io = gnumeric_io_context_new (gcu_get_cmd_context ());
-	bool ret = l->Read (Doc, input, mime_type, io);
+	ContentType ret = l->Read (Doc, input, mime_type, io);
 	g_object_unref (input);
 	g_object_unref (io);
 	setlocale (LC_NUMERIC, old_num_locale.c_str ());
 	return ret;
 }
 
-bool Application::Save (std::string const &uri, const gchar *mime_type, Document* Doc)
+bool Application::Save (std::string const &uri, const gchar *mime_type, Document* Doc, ContentType type)
 {
 	Loader *l = Loader::GetSaver (mime_type);
 	if (!l)
@@ -287,7 +287,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 		g_error_free (error);
 	}
 	IOContext*io  = gnumeric_io_context_new (gcu_get_cmd_context ());
-	bool ret = l->Write (Doc, output, mime_type, io);
+	bool ret = l->Write (Doc, output, mime_type, io, type);
 	g_object_unref (output);
 	g_object_unref (io);
 	setlocale (LC_NUMERIC, old_num_locale.c_str ());

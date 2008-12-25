@@ -211,12 +211,12 @@ void Loader::RemoveMimeType (const char *mime_type)
 		(*it).second.loader = NULL;
 }
 
-bool Loader::Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType Loader::Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
 {
-	return false;
+	return ContentTypeUnknown;
 }
 
-bool Loader::Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io)
+bool Loader::Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	return false;
 }

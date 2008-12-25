@@ -43,8 +43,8 @@ public:
 	CIFLoader ();
 	virtual ~CIFLoader ();
 
-	bool Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io);
+	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
+	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
 };
 
 CIFLoader::CIFLoader ()
@@ -59,17 +59,17 @@ CIFLoader::~CIFLoader ()
 ////////////////////////////////////////////////////////////////////////////////
 // Reading code
 
-bool CIFLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType CIFLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
 {
-	bool  success = false;
+	ContentType type = ContentTypeCrystal;
 
-	return success;
+	return type;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CIFLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io)
+bool CIFLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	if (NULL != out) {
 		return true;

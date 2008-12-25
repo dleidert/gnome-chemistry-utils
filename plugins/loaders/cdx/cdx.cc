@@ -113,8 +113,8 @@ public:
 	CDXLoader ();
 	virtual ~CDXLoader ();
 
-	bool Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io);
+	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
+	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
 
 private:
 	bool ReadGenericObject (GsfInput *in);
@@ -149,20 +149,20 @@ CDXLoader::~CDXLoader ()
 	RemoveMimeType ("chemical/x-cdx");
 }
 
-bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
 {
 	if (doc == NULL || in == NULL)
-		return false;
-	bool result = true;
+		return ContentTypeUnknown;
+	ContentType result = ContentType2D;
 	guint16 code;
 	bufsize = 64;
 	buf = new char [bufsize];
 	// note that we read 28 bytes here while headers for recent cdx files have only 22 bytes, remaining are 0x8000 (document) and its id (0)
 	if (!gsf_input_read (in, kCDX_HeaderLength, (guint8*) buf) || strncmp (buf, kCDX_HeaderString, kCDX_HeaderStringLen)) {
-		result = false;
+		result = ContentTypeUnknown;
 		code = 0;
 	} else if (!(READINT16 (in, code))) {
-		result = false;
+		result = ContentTypeUnknown;
 		code = 0;
 	}
 
@@ -170,15 +170,17 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 		if (code & kCDXTag_Object) {
 			switch (code) {
 			case kCDXObj_Page:
-				result = ReadPage (in, doc);
+				if (!ReadPage (in, doc))
+					result = ContentTypeUnknown;
 				break;
 			default:
-				result = ReadGenericObject (in);
+				if (!ReadGenericObject (in))
+					result = ContentTypeUnknown;
 			}
 		} else {
 			guint16 size;
 			if ((size = ReadSize (in)) == 0xffff) {
-				result = false;
+				result = ContentTypeUnknown;
 				break;
 			}
 			switch (code) {
@@ -188,7 +190,7 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				break;
 			case kCDXProp_CreationDate: {
 				if (size != 14 || !ReadDate (in)) {
-					result = false;
+					result = ContentTypeUnknown;
 					break;
 				}
 				doc->SetProperty (GCU_PROP_DOC_CREATION_TIME, buf);
@@ -196,7 +198,7 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 			}
 			case kCDXProp_ModificationDate:{ 
 				if (size != 14 || !ReadDate (in)) {
-					result = false;
+					result = ContentTypeUnknown;
 					break;
 				}
 				gsf_input_read (in, size, (guint8*) buf);
@@ -213,12 +215,12 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				break;
 			case kCDXProp_BondLength: {
 				if (size != 4) {
-					result = false;
+					result = ContentTypeUnknown;
 					break;
 				}
 				guint32 length;
 				if (!(READINT32 (in,length))) {
-					result = false;
+					result = ContentTypeUnknown;
 					break;
 				}
 				snprintf (buf, bufsize, "%u", length);
@@ -229,13 +231,13 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				// skip origin platform and read fonts number
 				guint16 nb;
 				if (gsf_input_seek (in, 2, G_SEEK_CUR) || !(READINT16 (in,nb)))
-					return false;
+					return ContentTypeUnknown;
 				CDXFont font;
 				for (int i = 0; i < nb; i++) {
 					if (!(READINT16 (in,font.index)) ||
 						!(READINT16 (in,font.encoding)) ||
 						!(READINT16 (in,size)))
-						return false;
+						return ContentTypeUnknown;
 					gsf_input_read (in, size, (guint8*) buf);
 					buf[size] = 0;
 					font.name = buf;
@@ -248,11 +250,11 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 				colors.push_back ("red=\"0\" green=\"0\" blue=\"0\""); // black
 				unsigned nb = (size - 2) / 6;
 				if (!(READINT16 (in,size)) || size != nb)
-					return false;
+					return ContentTypeUnknown;
 				guint16 red, blue, green;
 				for (unsigned i = 0; i < nb; i++) {
 				if (!(READINT16 (in,red)) || !(READINT16 (in,green)) || !(READINT16 (in,blue)))
-					return false;
+					return ContentTypeUnknown;
 					snprintf (buf, bufsize, "red=\"%g\" green=\"%g\" blue=\"%g\"", (double) red / 0xffff, (double) green / 0xffff, (double) blue / 0xffff);
 					colors.push_back (buf);
 				}
@@ -260,18 +262,19 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 			}
 			case kCDXProp_CaptionJustification: {
 				if (!gsf_input_read (in, 1, &m_TextAlign))
-					return false;
+					return ContentTypeUnknown;
 				break;
 			}
 			default:
 				if (size)
-					result = (gsf_input_read (in, size, (guint8*) buf));
+					if (!gsf_input_read (in, size, (guint8*) buf))
+						result = ContentTypeUnknown;
 			}
 		}
-		if (!result)
+		if (!result != ContentType2D)
 			break;
 		if (!(READINT16 (in,code))) {
-			result = false;
+			result = ContentTypeUnknown;
 			break;
 		}
 	}
@@ -280,7 +283,7 @@ bool CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOCon
 	return result;
 }
 
-bool CDXLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io)
+bool CDXLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
