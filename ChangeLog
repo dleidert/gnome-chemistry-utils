@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2008-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: fix stereochemistry for InChI and SMILES output.
+
 2008-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/zoomdlg.cc: fix spin button callback behavior.
 
