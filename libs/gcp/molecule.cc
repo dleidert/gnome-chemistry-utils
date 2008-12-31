@@ -645,7 +645,7 @@ void Molecule::BuildOBMol (OBMol &Mol)
 			}
 			pBond = (Bond*) pgAtom->GetNextBond (i);
 		}
-		obAtom.SetVector ((xav - x )/ 100, (yav - y) / 100, z / 100);
+		obAtom.SetVector ((xav - x) / 100, (yav - y) / 100, z / 100);
 		Mol.AddAtom (obAtom);
 		obAtom.Clear ();
 	}
@@ -690,27 +690,25 @@ void Molecule::BuildOBMol2D (OBMol &Mol)
 		obAtom.SetAtomicNum (pgAtom->GetZ());
 		pgAtom->GetCoords (&x, &y, &z);
 		// Scans the atom bonds and change z to try conservation of stereochemistry
-		obAtom.SetVector ((xav - x )/ 100, (yav - y) / 100, 0.);
+		obAtom.SetVector ((x - xav) / 100, (yav - y) / 100, 0.);
 		Mol.AddAtom (obAtom);
 		obAtom.Clear ();
 	}
 	list<gcu::Bond*>::iterator j, endb = m_Bonds.end ();
 	int start, end, order, flag;
-	for (j = m_Bonds.begin (); j != endb; j++)
-	{
+	for (j = m_Bonds.begin (); j != endb; j++) {
 		order = (*j)->GetOrder ();
 		start = AtomTable[(*j)->GetAtom (0)->GetId ()];
 		end = AtomTable[(*j)->GetAtom (1)->GetId ()];
-		switch((*j)->GetType ())
-		{
-			case UpBondType:
-				flag = OB_WEDGE_BOND;
-				break;
-			case DownBondType:
-				flag = OB_HASH_BOND;
-				break;
-			default:
-				flag = 0;
+		switch (reinterpret_cast <Bond *> (*j)->GetType ()) {
+		case UpBondType:
+			flag = OB_WEDGE_BOND;
+			break;
+		case DownBondType:
+			flag = OB_HASH_BOND;
+			break;
+		default:
+			flag = 0;
 		}
 		Mol.AddBond (start, end, order, flag);
 	}

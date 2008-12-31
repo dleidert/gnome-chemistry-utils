@@ -279,8 +279,19 @@ string Atom::GetProperty (unsigned property) const
 			res << m_x << " " << m_y;
 		break;
 	}
+	case GCU_PROP_POS3D: {
+		Document *doc = const_cast <Atom*> (this)->GetDocument ();
+		if (doc)
+			res << m_x / doc->GetScale () << " " << m_y / doc->GetScale () << " " << m_z / doc->GetScale ();
+		else
+			res << m_x << " " << m_y << " " << m_z;
+		break;
+	}
+	case GCU_PROP_ATOM_SYMBOL:
+		res << GetSymbol ();
+		break;
 	default:
-			return Object::GetProperty (property);
+		return Object::GetProperty (property);
 	}
 	return res.str ();
 }

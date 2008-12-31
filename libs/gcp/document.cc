@@ -613,6 +613,8 @@ void Document::Save () const
 	setlocale (LC_TIME, "C");
 
 	try {
+		if (m_pApp && m_pApp->Save (m_filename, m_FileType.c_str (), this, ContentType2D))
+			return;
 		if (m_FileType != "application/x-gchempaint")
 			ExportOB ();
 		else {

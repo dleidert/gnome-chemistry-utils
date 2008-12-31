@@ -31,6 +31,7 @@
 #include <gsf/gsf-libxml.h>
 #include <glib/gi18n-lib.h>
 #include <map>
+#include <sstream>
 #include <stack>
 #include <string>
 #include <libintl.h>
@@ -46,6 +47,9 @@ typedef struct {
 	stack<Object*> cur;
 	ContentType type;
 } CMLReadState;
+
+typedef struct {
+} CMLWriteState;
 
 class CMLLoader: public Loader
 {
@@ -68,8 +72,27 @@ private:
 bool cml_write_atom (CMLLoader *loader, GsfXMLOut *xml, Object *object, IOContext *io, ContentType type)
 {
 	gsf_xml_out_start_element (xml, "atom");
+	gsf_xml_out_add_cstr_unchecked (xml, "id", object->GetId ());
+	string prop;
+	prop = object->GetProperty (GCU_PROP_ATOM_SYMBOL);
+	gsf_xml_out_add_cstr_unchecked (xml, "elementType", prop.c_str ());
 	if (type == ContentType2D) {
+		double x, y;
+		prop = object->GetProperty (GCU_PROP_POS2D);
+		if (prop.length ()) {
+			sscanf (prop.c_str (), "%lg %lg", &x, &y);
+			gsf_xml_out_add_float (xml, "x2", x, -1);
+			gsf_xml_out_add_float (xml, "y2", -y, -1); // reverse y order
+		}
 	} else {
+		double x, y, z;
+		prop = object->GetProperty (GCU_PROP_POS3D);
+		if (prop.length ()) {
+			sscanf (prop.c_str (), "%lg %lg %lg", &x, &y, &z);
+			gsf_xml_out_add_float (xml, "x3", x, -1);
+			gsf_xml_out_add_float (xml, "y3", y, -1);
+			gsf_xml_out_add_float (xml, "z3", z, -1);
+		}
 	}
 	gsf_xml_out_end_element (xml);
 	return true;
@@ -78,6 +101,21 @@ bool cml_write_atom (CMLLoader *loader, GsfXMLOut *xml, Object *object, IOContex
 bool cml_write_bond (CMLLoader *loader, GsfXMLOut *xml, Object *object, IOContext *io, ContentType type)
 {
 	gsf_xml_out_start_element (xml, "bond");
+	gsf_xml_out_add_cstr_unchecked (xml, "id", object->GetId ());
+	string prop = object->GetProperty (GCU_PROP_BOND_BEGIN) + " " + object->GetProperty (GCU_PROP_BOND_END);
+	gsf_xml_out_add_cstr_unchecked (xml, "atomRefs2", prop.c_str ());
+	prop = object->GetProperty (GCU_PROP_BOND_ORDER);
+	gsf_xml_out_add_cstr_unchecked (xml, "order", prop.c_str ());
+	prop = object->GetProperty (GCU_PROP_BOND_TYPE);
+	if (prop == "wedge") {
+		gsf_xml_out_start_element (xml, "bondStereo");
+		gsf_xml_out_add_cstr_unchecked (xml, NULL, "W");
+		gsf_xml_out_end_element (xml);
+	} else if (prop == "hash") {
+		gsf_xml_out_start_element (xml, "bondStereo");
+		gsf_xml_out_add_cstr_unchecked (xml, NULL, "H");
+		gsf_xml_out_end_element (xml);
+	}
 	gsf_xml_out_end_element (xml);
 	return true;
 }
@@ -158,11 +196,12 @@ cml_doc (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CMLReadState	*state = (CMLReadState *) xin->user_state;
 	map<string, unsigned>::iterator it;
-	while (*attrs) {
-		if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
-			state->doc->SetProperty ((*it).second, (char const *) *attrs);}
-		attrs++;
-	}
+	if (attrs)
+		while (*attrs) {
+			if ((it = KnownProps.find ((char const *) *attrs++)) != KnownProps.end ()) {
+				state->doc->SetProperty ((*it).second, (char const *) *attrs);}
+			attrs++;
+		}
 	state->cur.push (state->doc);
 }
 
@@ -174,20 +213,28 @@ cml_atom_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
 	Object *obj = Object::CreateObject ("atom", state->cur.top ());
+	obj->SetProperty (GCU_PROP_ATOM_SYMBOL, "C");
 	map <string, unsigned>::iterator it;
-	while (*attrs) {
-		if (state->type == ContentTypeMisc) {
-			if (!strcmp ((char const *) *attrs, "x2"))
-				state->type = ContentType2D;
-			else if (!strcmp ((char const *) *attrs, "x3"))
-				state->type = ContentType3D;
-		}
-		if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
+	if (attrs)
+		while (*attrs) {
+			if (state->type == ContentTypeMisc) {
+				if (!strcmp ((char const *) *attrs, "x2"))
+					state->type = ContentType2D;
+				else if (!strcmp ((char const *) *attrs, "x3"))
+					state->type = ContentType3D;
+			}
+			if (!strcmp ((char const *) *attrs, "y2")) {
+				attrs++;
+				double x = -strtod ((char const *) *attrs, NULL); // reverse y direction, see comment in cml_write_atom
+				ostringstream res;
+				res << x;
+				obj->SetProperty (GCU_PROP_Y, res.str ().c_str ());
+			} else if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
+				attrs++;
+				obj->SetProperty ((*it).second, (char const *) *attrs);
+			}
 			attrs++;
-			obj->SetProperty ((*it).second, (char const *) *attrs);
 		}
-		attrs++;
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,20 +246,21 @@ cml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 	CMLReadState *state = (CMLReadState *) xin->user_state;
 	Object *obj = Object::CreateObject ("bond", state->cur.top ());
 	map <string, unsigned>::iterator it;
-	while (*attrs) {
-		if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
+	if (attrs)
+		while (*attrs) {
+			if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
+				attrs++;
+				obj->SetProperty ((*it).second, (char const *) *attrs);
+			} else if (!strcmp ((char const *) *attrs, "atomRefs2")) {
+				attrs++;
+				char **atom_ids = g_strsplit ((char const *) *attrs, " ", 2);
+				obj->SetProperty (GCU_PROP_BOND_BEGIN, atom_ids[0]);
+				obj->SetProperty (GCU_PROP_BOND_END, atom_ids[1]);
+				g_strfreev (atom_ids);
+			} else
+				attrs++;
 			attrs++;
-			obj->SetProperty ((*it).second, (char const *) *attrs);
-		} else if (!strcmp ((char const *) *attrs, "atomRefs2")) {
-			attrs++;
-			char **atom_ids = g_strsplit ((char const *) *attrs, " ", 2);
-			obj->SetProperty (GCU_PROP_BOND_BEGIN, atom_ids[0]);
-			obj->SetProperty (GCU_PROP_BOND_END, atom_ids[1]);
-			g_strfreev (atom_ids);
-		} else
-			attrs++;
-		attrs++;
-	}
+		}
 }
 ////////////////////////////////////////////////////////////////////////////////
 // Molecule code
@@ -254,7 +302,6 @@ ContentType CMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type
 	state.cur.push (doc);
 	state.type = ContentTypeMisc;
 
-	// FIXME: assuming coordinates in angström.
 	doc->SetScale (100.);
 
 	if (NULL != in) {
@@ -286,24 +333,23 @@ bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, IOContext *io, Cont
 bool CMLLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	if (NULL != out) {
+		doc->SetScale (100);
 		GsfXMLOut *xml = gsf_xml_out_new (out);
 		gsf_xml_out_start_element (xml, "cml");
+		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:cml", "http://www.xml-cml.org/schema");
+		// FIXME: add other namespaces if needed
 		string title = doc->GetProperty (GCU_PROP_DOC_TITLE);
 		if (title.length ())
 			gsf_xml_out_add_cstr (xml, "title", title.c_str ());
 		std::map <std::string, Object *>::iterator i;
 		Object *child = doc->GetFirstChild (i);
-		if (doc->GetChildrenNumber () > 1) {
-			gsf_xml_out_start_element (xml, "list");
-			while (child) {
-				if (!WriteObject (xml, child, io, type))
-					return false;
-				child = doc->GetNextChild (i);
-			}
-			gsf_xml_out_end_element (xml);
-		} else
-			if (!WriteObject (xml, child, io, type))
+		while (child) {
+			if (!WriteObject (xml, child, io, type)) {
+				g_object_unref (xml);
 				return false;
+			}
+			child = doc->GetNextChild (i);
+		}
 		gsf_xml_out_end_element (xml);
 		g_object_unref (xml);
 		return true;

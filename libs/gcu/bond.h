@@ -143,6 +143,14 @@ Used by the gcu::Loader mechanism to load properties of bonds.
 	bool SetProperty (unsigned property, char const *value);
 
 /*!
+@param property the identity of the property as defined in objprops.h.
+
+Used by the gcu::Loader mechanism to retrieve properties of bonds.
+@return the value of the property as a string.
+*/
+	std::string GetProperty (unsigned property) const;
+
+/*!
 @param pCycle a cycle to add to the list.
 */
 	virtual void AddCycle (Cycle* pCycle);

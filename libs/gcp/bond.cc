@@ -1193,6 +1193,8 @@ bool Bond::SetProperty (unsigned property, char const *value)
 			BondTypesValues["wedge"] = s;
 			s.type = DownBondType;
 			BondTypesValues["hash"] = s;
+			s.type = UndeterminedBondType;
+			BondTypesValues["unknown"] = s;
 			s.invert = true;
 			s.type = UpBondType;
 			BondTypesValues["wedge-invert"] = s;
@@ -1211,6 +1213,30 @@ bool Bond::SetProperty (unsigned property, char const *value)
 		gcu::Bond::SetProperty (property, value);
 	}
 	return  true;
+}
+
+string Bond::GetProperty (unsigned property) const
+{
+	switch (property) {
+	case GCU_PROP_BOND_TYPE: {
+		switch (m_type) {
+		case NormalBondType:
+		default:
+			return "normal";
+		case UpBondType:
+			return "wedge";
+		case DownBondType:
+			return "hash";
+		case ForeBondType:
+			return "bold";
+		case UndeterminedBondType:
+			return "unknown";
+
+		}
+	}
+	default:
+		return gcu::Bond::GetProperty (property);
+	}
 }
 
 }	//	namespace gcp

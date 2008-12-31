@@ -27,6 +27,9 @@
 #include "atom.h"
 #include "objprops.h"
 #include <cmath>
+#include <sstream>
+
+using namespace std;
 
 namespace gcu
 {
@@ -176,7 +179,7 @@ bool Bond::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
 	case GCU_PROP_ID: {
-		char *Id = g_strdup_printf ("b%s", value);
+		char *Id = (*value == 'b')? g_strdup (value): g_strdup_printf ("b%s", value);
 		SetId (Id);
 		break;
 	}
@@ -215,6 +218,25 @@ bool Bond::SetProperty (unsigned property, char const *value)
 		break;
 	}
 	return  true;
+}
+
+string Bond::GetProperty (unsigned property) const
+{
+	ostringstream res;
+	switch (property) {
+	case GCU_PROP_BOND_BEGIN:
+		res << m_Begin->GetId ();
+		break;
+	case GCU_PROP_BOND_END:
+		res << m_End->GetId ();
+		break;
+	case GCU_PROP_BOND_ORDER:
+		res << static_cast <unsigned> (m_order);
+		break;
+	default:
+			return Object::GetProperty (property);
+	}
+	return res.str ();
 }
 
 void Bond::AddCycle (Cycle* pCycle)

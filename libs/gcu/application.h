@@ -208,7 +208,7 @@ This method saves the document using the appropriate gcu::Loader class
 instance.
 @return true if no error occurred.
 */
-	bool Save (std::string const &uri, const gchar *mime_type, Document* Doc, ContentType type);
+	bool Save (std::string const &uri, const gchar *mime_type, Document const *Doc, ContentType type);
 
 /*!
 Virtual method used to create documents. Default behavior does nothing and returns NULL.

@@ -250,6 +250,13 @@ Brings the bond to front. It has an effect only for crossing bonds.
 */
 	void BringToFront ();
 /*!
+@param property the identity of the property as defined in objprops.h.
+
+Used by the gcu::Loader mechanism to retrieve properties of bonds.
+@return the value of the property as a string.
+*/
+	std::string GetProperty (unsigned property) const;
+/*!
 @param property the property id as defined in objprops.h
 @param value the property value as a string
 

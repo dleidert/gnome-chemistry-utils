@@ -666,14 +666,33 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		ContentType type = Load (filename2, mime_type, pDoc);
 		if (type != ContentTypeUnknown) {
 			switch (type) {
-			case ContentType3D:
-				break;
+			case ContentType3D: {
+				// open in gchem3d instead
+				string command = string ("gchem3d-") + API_VERSION + " " + filename2;
+				g_spawn_command_line_async (command.c_str (), NULL);
+				if (create) {
+					pDoc->GetWindow ()->Destroy ();
+					pDoc = NULL;
+					} else
+					pDoc->Clear ();
+				return false;
+			}
 			case ContentTypeCrystal:
 				break;
 			case ContentTypeSpectrum:
 				break;
-			default:
+			default: {
+				double l = pDoc->GetMedianBondLength ();
+				if (l > 0.) {
+					double r = pDoc->GetBondLength () / l;
+					if (fabs (r - 1.) > .1) { // might not work properly in some rare cases when there are a lot of short or long bonds
+						Matrix2D m (r, 0., 0., r);
+						// FIXME: this would not work for reactions
+						pDoc->Transform2D (m, 0., 0.);
+					}
+				}
 				break;
+			}
 			};
 			pDoc->GetView ()->AddObject (pDoc);
 			pDoc->GetView ()->Update (pDoc);
@@ -682,7 +701,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", pDoc->HasChildren ());
 		} else {
 			if (create) {
-				pDoc->GetWindow ()->Destroy ();;
+				pDoc->GetWindow ()->Destroy ();
 				pDoc = NULL;
 				while (gdk_events_pending ())
 					gtk_main_iteration ();

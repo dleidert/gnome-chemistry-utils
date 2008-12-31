@@ -274,11 +274,30 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 	return ret;
 }
 
-bool Application::Save (std::string const &uri, const gchar *mime_type, Document* Doc, ContentType type)
+bool Application::Save (std::string const &uri, const gchar *mime_type, Document const *Doc, ContentType type)
 {
 	Loader *l = Loader::GetSaver (mime_type);
 	if (!l)
 		return false;
+	GFile *file = g_file_new_for_uri (uri.c_str ());
+	if (g_file_query_exists (file, NULL)) {
+		GError *error = NULL;
+		g_file_delete (file, NULL, &error);
+		if (error) {
+			char *unescaped = g_uri_unescape_string (uri.c_str (), NULL);
+			gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
+			g_free (unescaped);
+			g_error_free (error);
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, message));
+			gtk_window_set_icon_name (GTK_WINDOW (Box), IconName.c_str ());
+			gtk_dialog_run (Box);
+			gtk_widget_destroy (GTK_WIDGET (Box));
+			g_free (message);
+			g_object_unref (file);
+			return false;
+		}
+	}
+	g_object_unref (file);
 	string old_num_locale = setlocale (LC_NUMERIC, NULL);
 	setlocale (LC_NUMERIC, "C");
 	GError *error = NULL;
@@ -287,7 +306,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 		g_error_free (error);
 	}
 	IOContext*io  = gnumeric_io_context_new (gcu_get_cmd_context ());
-	bool ret = l->Write (Doc, output, mime_type, io, type);
+	bool ret = l->Write (const_cast <Document *> (Doc), output, mime_type, io, type);
 	g_object_unref (output);
 	g_object_unref (io);
 	setlocale (LC_NUMERIC, old_num_locale.c_str ());

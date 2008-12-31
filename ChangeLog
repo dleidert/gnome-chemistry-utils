@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2008-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: set a correct scale after a call to
+	Application::Load.
+	* libs/gcp/bond.cc: export properties.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/document.cc: save using the gcu::Loader mechanism when relevant.
+	* libs/gcp/molecule.cc: fix stereochemistry for InChI and SMILES output.
+	* libs/gcu/application.cc: use a const document when saving.
+	* libs/gcu/application.h:
+	* libs/gcu/atom.cc: export more properties.
+	* libs/gcu/bond.cc: export properties.
+	* libs/gcu/bond.h: ditto.
+	* plugins/loaders/cml/cml.cc: writing now nearly as good as the OpenBabel
+	using version.
+
 2008-12-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: add content type detection in the gcu::Loader
 	reading mechanism and a content type parameter for writing.
