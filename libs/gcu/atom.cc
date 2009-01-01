@@ -290,6 +290,9 @@ string Atom::GetProperty (unsigned property) const
 	case GCU_PROP_ATOM_SYMBOL:
 		res << GetSymbol ();
 		break;
+	case GCU_PROP_ATOM_CHARGE:
+		res << static_cast <int> (m_Charge);
+		break;
 	default:
 		return Object::GetProperty (property);
 	}

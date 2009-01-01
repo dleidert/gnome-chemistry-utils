@@ -76,6 +76,9 @@ bool cml_write_atom (CMLLoader *loader, GsfXMLOut *xml, Object *object, IOContex
 	string prop;
 	prop = object->GetProperty (GCU_PROP_ATOM_SYMBOL);
 	gsf_xml_out_add_cstr_unchecked (xml, "elementType", prop.c_str ());
+	prop = object->GetProperty (GCU_PROP_ATOM_CHARGE);
+	if (prop != "0")
+		gsf_xml_out_add_cstr_unchecked (xml, "formalCharge", prop.c_str ());
 	if (type == ContentType2D) {
 		double x, y;
 		prop = object->GetProperty (GCU_PROP_POS2D);
@@ -166,6 +169,7 @@ CMLLoader::CMLLoader ()
 	KnownProps["z3"] = GCU_PROP_Z;
 	// atom properties
 	KnownProps["elementType"] = GCU_PROP_ATOM_SYMBOL;
+	KnownProps["formalCharge"] = GCU_PROP_ATOM_CHARGE;
 	// bond properties
 	KnownProps["order"] = GCU_PROP_BOND_ORDER;
 
@@ -261,7 +265,19 @@ cml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 				attrs++;
 			attrs++;
 		}
+	state->cur.push (obj);
 }
+
+static void
+cml_bond_stereo (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	string stereo = xin->content->str;
+	if (stereo == "W")
+		state->cur.top ()->SetProperty (GCU_PROP_BOND_TYPE, "wedge");
+	else if (stereo == "H")
+		state->cur.top ()->SetProperty (GCU_PROP_BOND_TYPE, "hash");
+};
 ////////////////////////////////////////////////////////////////////////////////
 // Molecule code
 	
@@ -273,7 +289,8 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 		GSF_XML_IN_NODE (MOL, ATOM_ARRAY, -1, "atomArray", GSF_XML_NO_CONTENT, NULL, NULL),
 			GSF_XML_IN_NODE (ATOM_ARRAY, ATOM, -1, "atom", GSF_XML_NO_CONTENT, cml_atom_start, NULL),
 		GSF_XML_IN_NODE (MOL, BOND_ARRAY, -1, "bondArray", GSF_XML_NO_CONTENT, NULL, NULL),
-			GSF_XML_IN_NODE (BOND_ARRAY, BOND, -1, "bond", GSF_XML_NO_CONTENT, cml_bond_start, NULL),
+			GSF_XML_IN_NODE (BOND_ARRAY, BOND, -1, "bond", GSF_XML_NO_CONTENT, cml_bond_start, cml_simple_end),
+				GSF_XML_IN_NODE (BOND, BOND_STEREO, -1, "bondStereo", GSF_XML_CONTENT, NULL, cml_bond_stereo),
 	GSF_XML_IN_NODE_END
 	};
 	CMLReadState	*state = (CMLReadState *) xin->user_state;
