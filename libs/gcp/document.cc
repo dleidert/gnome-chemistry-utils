@@ -417,7 +417,7 @@ void Document::ExportOB () const
 	}
 }
 
-void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const
+void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
 {
 	cairo_t *cr;
 	double width, height, x, y, w, h;

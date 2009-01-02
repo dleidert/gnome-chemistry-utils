@@ -114,7 +114,7 @@ public:
 	virtual ~CDXLoader ();
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
+	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
 
 private:
 	bool ReadGenericObject (GsfInput *in);
@@ -283,7 +283,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type
 	return result;
 }
 
-bool CDXLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool CDXLoader::Write  (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");

@@ -97,7 +97,7 @@ public:
 	GtkListStore *pclist;
 
 	GtkWindow *GetGtkWindow () {return window;}
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const;
 	void OnSaveAsImage ();
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
 
@@ -166,7 +166,7 @@ void GChemCalc::ParseNodes (xmlNodePtr node)
 	}
 }
 
-void GChemCalc::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const
+void GChemCalc::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
 {
 	cairo_t *cr;
 	gdouble width, height;

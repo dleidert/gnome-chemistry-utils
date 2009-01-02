@@ -223,9 +223,9 @@ static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpo
 	gtk_print_operation_set_n_pages (print, ((Printable *) data)->GetPagesNumber ());
 }
 
-static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr,gpointer data)
+static void draw_page (GtkPrintOperation *print, GtkPrintContext *context, gint page_nr, gpointer data)
 {
-	((Printable *) data)->DoPrint (print, context);
+	((Printable *) data)->DoPrint (print, context, page_nr);
 }
 
 void Printable::Print (bool preview)
@@ -236,8 +236,8 @@ void Printable::Print (bool preview)
 	print = gtk_print_operation_new ();
 	gtk_print_operation_set_use_full_page (print, false);
 
-    gtk_print_operation_set_print_settings (print, GetPrintSettings ());
-    gtk_print_operation_set_default_page_setup (print, GetPageSetup ());
+	gtk_print_operation_set_print_settings (print, GetPrintSettings ());
+	gtk_print_operation_set_default_page_setup (print, GetPageSetup ());
 
 	g_signal_connect (print, "begin_print", G_CALLBACK (begin_print), this);
 	g_signal_connect (print, "draw_page", G_CALLBACK (draw_page), this);

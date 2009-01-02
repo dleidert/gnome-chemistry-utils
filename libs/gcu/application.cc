@@ -25,6 +25,7 @@
 #include "config.h"
 #include "application.h"
 #include "cmd-context.h"
+#include "document.h"
 #include "loader.h"
 #include <goffice/goffice.h>
 #include <goffice/app/io-context.h>

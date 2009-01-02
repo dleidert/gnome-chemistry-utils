@@ -1,5 +1,27 @@
 ##Text encoding: utf-8
 
+2009-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: changed gcu::Printable API so that it passes
+	the page number to DoPrint.
+	* libs/gcp/document.h: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/printable.cc: ditto.
+	* libs/gcu/printable.h: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* libs/gcu/loader.cc: changed API to be able to export just one object
+	instead of the whole document.
+	* libs/gcu/loader.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/loaders/cif/cif.cc: ditto.
+	* plugins/loaders/cml/cml.cc: ditto.
+
 2009-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/atom.cc: export formal charge.
 	* plugins/loaders/cml/cml.cc: ditto and import stereochemistry.

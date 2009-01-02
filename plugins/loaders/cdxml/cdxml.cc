@@ -58,7 +58,7 @@ public:
 	virtual ~CDXMLLoader ();
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
+	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
 };
 
 CDXMLLoader::CDXMLLoader ()
@@ -762,7 +762,7 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_ty
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CDXMLLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	map<string, CDXMLFont> fonts;
 

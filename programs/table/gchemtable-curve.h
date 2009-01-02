@@ -48,7 +48,7 @@ public:
 	void OnClose ();
 	void OnProperties ();
 
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const;
 	void SetGraph (GogGraph *graph);
 	GtkWindow *GetGtkWindow () {return GTK_WINDOW (dialog);}
 	void ClearGuru () {m_Guru = NULL;}

@@ -161,10 +161,11 @@ Sets the new file name and its associated mime type.
 /*!
 @param print a GtkPrintOperation.
 @param	context a GtkPrintContext.
+@param page the page to print.
 
 Prints the document.
 */
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const;
 /*!
 @param pObject a new object.
 

@@ -335,7 +335,7 @@ might be changed.
 private:
 	void LoadJcampDx (char const *data);
 	void ReadDataLine (char const *data, std::list<double> &l);
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const;
 	GtkWindow *GetGtkWindow ();
 	void ReadDataTable (std::istream &s, double *x, double *y);
 	double (*GetConversionFunction (SpectrumUnitType oldu, SpectrumUnitType newu, double &factor, double &offset)) (double, double, double);

@@ -58,7 +58,7 @@ public:
 	virtual ~CMLLoader ();
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
+	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
 
 	bool WriteObject (GsfXMLOut *xml, Object *object, IOContext *io, ContentType type);
 
@@ -347,26 +347,30 @@ bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, IOContext *io, Cont
 					either in this code or in the cml schema */
 }
 
-bool CMLLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool CMLLoader::Write  (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	if (NULL != out) {
-		doc->SetScale (100);
 		GsfXMLOut *xml = gsf_xml_out_new (out);
 		gsf_xml_out_start_element (xml, "cml");
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:cml", "http://www.xml-cml.org/schema");
 		// FIXME: add other namespaces if needed
-		string title = doc->GetProperty (GCU_PROP_DOC_TITLE);
-		if (title.length ())
-			gsf_xml_out_add_cstr (xml, "title", title.c_str ());
-		std::map <std::string, Object *>::iterator i;
-		Object *child = doc->GetFirstChild (i);
-		while (child) {
-			if (!WriteObject (xml, child, io, type)) {
-				g_object_unref (xml);
-				return false;
+		Document *doc = dynamic_cast <Document *> (obj);
+		if (doc) {
+			doc->SetScale (100);
+			string title = doc->GetProperty (GCU_PROP_DOC_TITLE);
+			if (title.length ())
+				gsf_xml_out_add_cstr (xml, "title", title.c_str ());
+			std::map <std::string, Object *>::iterator i;
+			Object *child = doc->GetFirstChild (i);
+			while (child) {
+				if (!WriteObject (xml, child, io, type)) {
+					g_object_unref (xml);
+					return false;
+				}
+				child = doc->GetNextChild (i);
 			}
-			child = doc->GetNextChild (i);
-		}
+		} else
+			WriteObject (xml, obj, io, type);
 		gsf_xml_out_end_element (xml);
 		g_object_unref (xml);
 		return true;

@@ -44,7 +44,7 @@ public:
 	virtual ~CIFLoader ();
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
+	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
 };
 
 CIFLoader::CIFLoader ()
@@ -69,7 +69,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, char const *mime_type
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CIFLoader::Write  (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool CIFLoader::Write  (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	if (NULL != out) {
 		return true;

@@ -508,7 +508,7 @@ GChemTableCurve::~GChemTableCurve ()
 	curves.erase (m_Name);
 }
 
-void GChemTableCurve::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const
+void GChemTableCurve::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
 {
 	cairo_t *cr;
 	gdouble width, height;

@@ -38,6 +38,7 @@ namespace gcu {
 
 class Document;
 class Loader;
+class Object;
 
 /*!\struct LoaderStruct gcu/loader.h
 	 Stores data for loaders. They are created when Loader::Init is called for
@@ -211,7 +212,7 @@ This function must be overloaded by a derived class able to write. Default
 implementation just return false.
 @return true on success, false otherwise.
 */
-	virtual bool Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type = ContentTypeMisc);
+	virtual bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type = ContentTypeMisc);
 
 protected:
 /*!

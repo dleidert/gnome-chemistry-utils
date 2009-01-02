@@ -560,7 +560,7 @@ osmesa:
 	return pixbuf;
 }
 
-void GLView::DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const
+void GLView::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
 {
 	cairo_t *cr;
 	gdouble width, height;

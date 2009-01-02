@@ -70,12 +70,13 @@ The destructor.
 /*!
 @param print a GtkPrintOperation*.
 @param context a GtkPrintContext*.
+@param page the page to print.
 
 This is the method doing the real printing. It mustbe overloaded by derived classes
 and take parameters defined in gcu::Printable into account. Default implementation
 does not do anything.
 */
-	virtual void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const = 0;
+	virtual void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const = 0;
 /*!
 Derived classes supporting headers and footers must overload this method.
 @return true if the document headers and footers. Default implementation

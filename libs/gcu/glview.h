@@ -133,10 +133,11 @@ Generates a pixbuf from the current view.
 /*!
 @param print a GtkPrintOperation.
 @param context a GtkPrintContext.
+@param page the page to print.
 
 Prints the current view at 300 dpi.
 */
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context) const;
+	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const;
 /*!
 @return the top level GtkWindow containing the view.
 */

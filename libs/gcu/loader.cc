@@ -216,7 +216,7 @@ ContentType Loader::Read (Document *doc, GsfInput *in, char const *mime_type, IO
 	return ContentTypeUnknown;
 }
 
-bool Loader::Write (Document *doc, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool Loader::Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
 {
 	return false;
 }
