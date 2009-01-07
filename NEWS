@@ -1,3 +1,7 @@
+Version 0.11.1
+	libgcu:
+		* Import space groups support from OpenBabel.
+
 Version 0.11.0
 	GChemPaint
 		* Use the new canvas (brings in some regressions).

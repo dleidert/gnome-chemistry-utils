@@ -135,29 +135,9 @@ bool CanvasPrivate::OnMotion (Canvas *canvas, GdkEventMotion *event)
 	return (canvas->m_Client)? (canvas->m_Dragging? canvas->m_Client->OnDrag (client, x, y, event->state): canvas->m_Client->OnMotion (client, x, y, event->state)): true;
 }
 
-static void on_button_pressed (Canvas *canvas, GdkEventButton *event)
-{
-	CanvasPrivate::OnButtonPressed (canvas, event);
-}
-
-static void on_button_released (Canvas *canvas, GdkEventButton *event)
-{
-	CanvasPrivate::OnButtonReleased (canvas, event);
-}
-
-static void on_motion (Canvas *canvas, GdkEventMotion *event)
-{
-	CanvasPrivate::OnMotion (canvas, event);
-}
-
 static void on_destroy (Canvas *canvas)
 {
 	delete canvas;
-}
-
-static bool on_expose_event (Canvas *canvas, GdkEventExpose *event)
-{
-	return CanvasPrivate::OnExpose (canvas, event);
 }
 
 Canvas::Canvas (Client *client):
@@ -170,11 +150,11 @@ Canvas::Canvas (Client *client):
 	m_Root = new Group (this);
 	m_Widget = GTK_WIDGET (gccv_canvas_new (this));
 	SetBackgroundColor (RGBA_WHITE);
-	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-press-event", G_CALLBACK (on_button_pressed), this);
-	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-release-event", G_CALLBACK (on_button_released), this);
-	g_signal_connect_swapped (G_OBJECT (m_Widget), "motion-notify-event", G_CALLBACK (on_motion), this);
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-press-event", G_CALLBACK (CanvasPrivate::OnButtonPressed), this);
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-release-event", G_CALLBACK (CanvasPrivate::OnButtonReleased), this);
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "motion-notify-event", G_CALLBACK (CanvasPrivate::OnMotion), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "destroy", G_CALLBACK (on_destroy), this);
-	g_signal_connect_swapped (G_OBJECT (m_Widget), "expose-event", G_CALLBACK (on_expose_event), this);
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "expose-event", G_CALLBACK (CanvasPrivate::OnExpose), this);
 }
 
 Canvas::~Canvas()

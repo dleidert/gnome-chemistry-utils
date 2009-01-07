@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-01-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: directly call static methods as callbacks.
+
 2009-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: changed gcu::Printable API so that it passes
 	the page number to DoPrint.
