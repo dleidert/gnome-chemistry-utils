@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-01-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* AUTHORS: added the brasilian translator.
+	* *.h, *.c, *.cc: fixed FSF address.
+
 2009-01-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: directly call static methods as callbacks.
 
