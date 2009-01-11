@@ -47,12 +47,6 @@ typedef GtkDrawingAreaClass GccvCanvasClass;
 
 GType gccv_canvas_get_type (void);
 
-enum {
-  UPDATE_BOUNDS,
-  LAST_SIGNAL
-};
-static guint gccv_canvas_signals[LAST_SIGNAL] = { 0 };
-
 GSF_CLASS (GccvCanvas, gccv_canvas,
 	   NULL, NULL,
 	   gtk_drawing_area_get_type ())
