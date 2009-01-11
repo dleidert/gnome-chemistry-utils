@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-01-10  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* **/cc, **/.h: Fixed FSF address.
+
 2009-01-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.4).
 
