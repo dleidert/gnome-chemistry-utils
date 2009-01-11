@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-01-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* AUTHORS: added brasilian translator.
+	* Makefile.am: added COPYING-LIBS (for canvas library).
+
 2009-01-10  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* **/cc, **/.h: Fixed FSF address.
 

@@ -8,7 +8,8 @@ EXTRA_DIST= \
 	intltool-extract.in \
 	intltool-update.in \
 	intltool-merge.in \
-	COPYING-DOCS
+	COPYING-DOCS \
+	COPYING-LIBS
 
 CLEANFILES = \
 	gchemutils.xml \
