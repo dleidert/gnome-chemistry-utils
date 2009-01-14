@@ -39,6 +39,13 @@ typedef struct {
 	int start, cur;
 } TextSelBounds;
 
+typedef enum {
+	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
+	AnchorLineWest, AnchorLine, AnchorLineEast,
+	AnchorWest, AnchorCenter, AnchorEast,
+	AnchorSouthWest, AnchorSouth, AnchorSouthEast 
+} Anchor;
+
 }
 
 #endif	//	 GCCV_RECTANGLE_H

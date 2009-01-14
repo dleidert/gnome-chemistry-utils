@@ -204,20 +204,20 @@ Sets the justification for the text. Default is false.
 @return the justification for the text as a reference.
 */
 GCU_PROP (bool, Justified)
-/*!\fn SetAnchor(GtkAnchorType Anchor)
-@param Anchor the new GtkAnchorType for the text.
+/*!\fn SetAnchor(gccv::Anchor Anchor)
+@param Anchor the new gccv::Anchor for the text.
 
-Sets the GtkAnchorType used for this text. Default is GTK_ANCHOR_W. The vertical
+Sets the gccv::Anchor used for this text. Default is GTK_ANCHOR_W. The vertical
 alignment being based on the base line with an offset equal to the half height of
 a carbon atom symbol using the current document theme.
 */
 /*!\fn GetAnchor()
-@return the GtkAnchorType used for the text.
+@return the gccv::Anchor used for the text.
 */
 /*!fn GetRefAnchor()
-@return the GtkAnchorType used for the text as a reference.
+@return the gccv::Anchor used for the text as a reference.
 */
-GCU_PROP (GtkAnchorType, Anchor)
+GCU_PROP (gccv::Anchor, Anchor)
 };
 
 }	//	namespace gcp

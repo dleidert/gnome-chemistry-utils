@@ -60,7 +60,7 @@ Text::Text ():
 	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
-	m_Anchor (GTK_ANCHOR_W)
+	m_Anchor (gccv::AnchorLineWest)
 {
 }
 
@@ -69,7 +69,7 @@ Text::Text (double x, double y):
 	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
-	m_Anchor (GTK_ANCHOR_W)
+	m_Anchor (gccv::AnchorLineWest)
 {
 }
 
@@ -340,10 +340,10 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		return NULL;
 	}
 	switch (m_Anchor) {
-	case GTK_ANCHOR_E:
+	case gccv::AnchorLineWest:
 		xmlNewProp (node, (xmlChar const *) "anchor", (xmlChar const *) "right");
 		break;
-	case GTK_ANCHOR_CENTER:
+	case gccv::AnchorLine:
 		xmlNewProp (node, (xmlChar const *) "anchor", (xmlChar const *) "center");
 		break;
 	default:
@@ -433,11 +433,11 @@ bool Text::Load (xmlNodePtr node)
 	buf = xmlGetProp (node, (xmlChar const *) "anchor");
 	if (buf) {
 		if (!strcmp ((char const *) buf, "right"))
-			m_Anchor = GTK_ANCHOR_E;
+			m_Anchor = gccv::AnchorLineEast;
 		else if (!strcmp ((char const *) buf, "center"))
-			m_Anchor = GTK_ANCHOR_CENTER;
+			m_Anchor = gccv::AnchorLine;
 		else
-			m_Anchor = GTK_ANCHOR_W;
+			m_Anchor = gccv::AnchorLineWest;
 		xmlFree (buf);
 	}
 	xmlNodePtr child;
@@ -695,6 +695,7 @@ void Text::AddItem ()
 	text->SetPadding (theme->GetPadding ());
 	text->SetLineColor (0);
 	text->SetLineOffset (view->GetCHeight ());
+	text->SetAnchor (m_Anchor);
 	m_Item = text;
 }
 
@@ -936,11 +937,11 @@ bool Text::SetProperty (unsigned property, char const *value)
 		break;
 	case GCU_PROP_TEXT_ALIGNMENT:
 		if (!strcmp (value, "right"))
-				m_Anchor = GTK_ANCHOR_E;
+				m_Anchor = gccv::AnchorLineEast;
 		else if (!strcmp (value, "left"))
-				m_Anchor = GTK_ANCHOR_W;
+				m_Anchor = gccv::AnchorLineWest;
 		else if (!strcmp (value, "center"))
-				m_Anchor = GTK_ANCHOR_CENTER;
+				m_Anchor = gccv::AnchorLine;
 		break;
 	case GCU_PROP_TEXT_JUSTIFICATION:
 		if (!strcmp (value, "right"))

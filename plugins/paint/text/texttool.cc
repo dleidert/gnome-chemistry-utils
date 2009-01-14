@@ -263,17 +263,21 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 					break;
 				}
 			}
-			if (!g_utf8_validate (((GdkEventKey*) event)->string, -1, NULL)) {
-				gsize r, w;
-				gchar* newstr = g_locale_to_utf8 (((GdkEventKey*) event)->string, ((GdkEventKey*) event)->length, &r, &w, NULL);
-				g_free (((GdkEventKey*) event)->string);
-				((GdkEventKey*) event)->string = newstr;
-				((GdkEventKey*) event)->length = w;
-			}
+			if (event->type == GDK_KEY_PRESS) {
+				if (!g_utf8_validate (((GdkEventKey*) event)->string, -1, NULL)) {
+					gsize r, w;
+					gchar* newstr = g_locale_to_utf8 (((GdkEventKey*) event)->string, ((GdkEventKey*) event)->length, &r, &w, NULL);
+					g_free (((GdkEventKey*) event)->string);
+					((GdkEventKey*) event)->string = newstr;
+					((GdkEventKey*) event)->length = w;
+				}
+				m_Active->OnKeyPressed (reinterpret_cast <GdkEventKey *> (event));
 /*			gnome_canvas_item_grab_focus ((GnomeCanvasItem*) m_Active);
 			GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (m_Active));
 			klass->event ((GnomeCanvasItem*) m_Active, event);*/
-			return true;
+				return true;
+			} else
+				return false;
 		} else if (event->type == GDK_BUTTON_PRESS) {
 			 switch (event->button.button) {
 				case 2:

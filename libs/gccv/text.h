@@ -28,6 +28,7 @@
 #include "rectangle.h"
 #include "structs.h"
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <pango/pango.h>
 #include <list>
 #include <string>
@@ -51,13 +52,6 @@ class TextPrivate;
 class TextRun;
 class TextTag;
 
-typedef enum {
-	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
-	AnchorLineWest, AnchorLine, AnchorLineEast,
-	AnchorWest, AnchorCenter, AnchorEast,
-	AnchorSouthWest, AnchorSouth, AnchorSouthEast 
-} Anchor;
-
 class Text: public Rectangle
 {
 friend class TextPrivate;
@@ -76,9 +70,23 @@ public:
 
 	void InsertTextTag (TextTag *tag);
 
+/*!
+@param str the text to insert
+@param pos the insertion position
+@param length the length (in bytes) of the substring to replace
+
+Replaces (or inserts if \a length is nul) text in the text item. If position is
+-1, the text will be inserted at the current cursor position. Tne cursor will
+be moved to the end of the inserted text.
+*/
+	void ReplaceText (std::string &str, int pos, unsigned length);
+
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;
 	void Move (double x, double y);
+
+	// events related methods
+	bool OnKeyPressed (GdkEventKey *event);
 
 	// static methods
 	static PangoContext *GetContext ();
@@ -91,6 +99,8 @@ private:
 	std::list <TextRun *> m_Runs;
 	std::list <TextTag *> m_Tags;
 	std::string m_Text;
+	GtkIMContext *m_ImContext;
+
 
 GCCV_TEXT_PROP (double, Padding)
 GCCV_TEXT_PROP (Anchor, Anchor)

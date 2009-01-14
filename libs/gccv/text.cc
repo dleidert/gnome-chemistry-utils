@@ -63,6 +63,7 @@ class TextPrivate
 {
 public:
 	static bool OnBlink (Text *text);
+	static void OnCommit (GtkIMContext *context, const gchar *str, Text *text);
 };
 
 #define PREBLINK_TIME 300
@@ -82,6 +83,13 @@ bool TextPrivate::OnBlink (Text *text)
 	text->Invalidate (); // FIXME: just invalidate the cursor rectangle
 	/* Remove ourself */
 	return false;
+}
+
+void TextPrivate::OnCommit (GtkIMContext *context, const gchar *str, Text *text)
+{
+	std::string s = str;
+	// FIXME: erase selection
+	text->ReplaceText (s, -1, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -153,6 +161,9 @@ Text::Text (Canvas *canvas, double x, double y):
 {
 	TextRun *run = new TextRun ();
 	m_Runs.push_front (run);
+	m_ImContext = gtk_im_multicontext_new ();
+	g_signal_connect (G_OBJECT (m_ImContext), "commit",
+		G_CALLBACK (TextPrivate::OnCommit), this);
 }
 
 Text::Text (Group *parent, double x, double y, ItemClient *client):
@@ -167,6 +178,9 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 {
 	TextRun *run = new TextRun ();
 	m_Runs.push_front (run);
+	m_ImContext = gtk_im_multicontext_new ();
+	g_signal_connect (G_OBJECT (m_ImContext), "commit",
+		G_CALLBACK (TextPrivate::OnCommit), this);
 }
 
 Text::~Text ()
@@ -376,10 +390,10 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 		text = next;
 		pango_cairo_show_layout (cr, pl);
 		pango_layout_iter_next_char (iter);
-	}
+	}*/
 	if (m_CursorVisible) {
 		PangoRectangle rect;
-		pango_layout_get_cursor_pos (m_Layout, m_CurPos, &rect, NULL); // FIXME: might be wrong if we allow above-under characters
+		pango_layout_get_cursor_pos (m_Runs.front ()->m_Layout, m_CurPos, &rect, NULL); // FIXME: might be wrong if we allow above-under characters
 		cairo_set_line_width (cr, 1.);
 		cairo_new_path (cr);
 		cairo_move_to (cr, floor (startx + (double) rect.x / PANGO_SCALE) + .5, floor (starty + (double) rect.y / PANGO_SCALE) + .5);
@@ -388,7 +402,7 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 		cairo_stroke (cr);
 	}
 	// free the iterator
-	pango_layout_iter_free (iter);*/
+	/*pango_layout_iter_free (iter);*/
 }
 
 void Text::Move (double x, double y)
@@ -403,6 +417,7 @@ PangoContext *Text::GetContext ()
 
 void Text::SetText (char const *text)
 {
+	m_Text = text;
 	pango_layout_set_text (m_Runs.front ()->m_Layout, text, -1); // FIXME: parse for line breaks
 	m_Runs.front ()->m_Length = g_utf8_strlen (text, -1);
 	SetPosition (m_x, m_y);
@@ -548,6 +563,142 @@ void Text::InsertTextTag (TextTag *tag)
 		m_Tags.push_front (tag);
 	else
 		m_Tags.push_back (tag);
+}
+
+void Text::ReplaceText (std::string &str, int pos, unsigned length)
+{
+	unsigned l = m_Text.length ();
+	if (pos == -1)
+		pos = m_CurPos;
+	else if (static_cast <unsigned> (pos) > l)
+		pos = l;
+	if (length > l - pos)
+		length = l - pos;
+	if (length > 0) {
+		m_Text.erase (pos, length);
+		//TODO: manage atributes
+	}
+	m_Text.insert (pos, str);
+	//TODO: manage atributes
+	pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks
+	m_Runs.front ()->m_Length = g_utf8_strlen (m_Text.c_str (), -1);
+	m_CurPos = pos + str.length ();
+	SetPosition (m_x, m_y);
+}
+
+bool Text::OnKeyPressed (GdkEventKey *event)
+{
+	if (gtk_im_context_filter_keypress (m_ImContext, event))
+		return true;
+
+	switch (event->keyval) {
+	case GDK_Control_L:
+	case GDK_Control_R:
+		return false;
+	case GDK_Return:
+	case GDK_KP_Enter:
+		/* TODO: write this code */
+		break;
+
+	case GDK_Tab:
+		TextPrivate::OnCommit (m_ImContext, "\t", this);
+		break;
+
+	/* MOVEMENT */
+	case GDK_Right:
+		/* TODO: write this code */
+		if (event->state & GDK_CONTROL_MASK) {
+			/* move to start of word */
+			/* TODO: write this code */
+		} else {
+			char const* s = m_Text.c_str ();
+			char *p = g_utf8_next_char (s + m_CurPos);
+			if (!p)
+				break;
+			m_CurPos = p - s;
+			Invalidate ();
+		}
+			break;
+	case GDK_Left:
+		if (m_CurPos == 0)
+			break;
+		if (event->state & GDK_CONTROL_MASK) {
+			/* move to start of word */
+			/* TODO: write this code */
+		} else {
+			char const* s = m_Text.c_str ();
+			char *p = g_utf8_prev_char (s + m_CurPos);
+			m_CurPos = p - s;
+			Invalidate ();
+		}
+		break;
+	case GDK_f:
+		/* TODO: write this code */
+		break;
+	case GDK_b:
+		/* TODO: write this code */
+		break;
+	case GDK_p:
+		if (!(event->state & GDK_CONTROL_MASK))
+			break;
+	case GDK_Up:
+		/* TODO: write this code */
+		break;
+	case GDK_n:
+		if (!(event->state & GDK_CONTROL_MASK))
+			break;
+	case GDK_Down:
+		/* TODO: write this code */
+		break;
+	case GDK_Home:
+		/* TODO: write this code */
+		break;
+	case GDK_End:
+		/* TODO: write this code */
+		break;
+	case GDK_a:
+		/* TODO: write this code */
+		break;
+	case GDK_e:
+		/* TODO: write this code */
+		if (event->state & GDK_CONTROL_MASK) {
+		}
+		break;
+
+	/* DELETING TEXT */
+	case GDK_Delete:
+	case GDK_KP_Delete: {
+		/* TODO: write this code */
+	}
+	case GDK_d:
+		/* TODO: write this code */
+		break;
+	case GDK_BackSpace: {
+		/* TODO: write this code */
+		break;
+	}
+	case GDK_k:
+		if (event->state & GDK_CONTROL_MASK) {
+			/* delete from cursor to end of paragraph */
+			/* TODO: write this code */
+		}
+		break;
+	case GDK_u:
+		if (event->state & GDK_CONTROL_MASK) {
+			/* delete whole paragraph */
+			/* TODO: write this code */
+		}
+		break;
+	case GDK_backslash:
+		if (event->state & GDK_MOD1_MASK) {
+			/* delete all white spaces around the cursor */
+			/* TODO: write this code */
+		}
+		break;
+	default:
+		break;
+	}
+	return true;
 }
 
 }

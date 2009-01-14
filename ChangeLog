@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-01-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: implement very basic text edition.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/text.cc: use gccv::Anchor.
+	* plugins/paint/text/texttool.cc: call gccv::Text::OnKeyPressed when
+	appropriate.
+
 2009-01-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* AUTHORS: added the brasilian translator.
 	* *.h, *.c, *.cc: fixed FSF address.
