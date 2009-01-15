@@ -29,6 +29,7 @@
 #include "document.h"
 #include "electron.h"
 #include "fragment.h"
+#include "gcp-stock-pixbufs.h"
 #include "text.h"
 #include "plugin.h"
 #include "mesomer.h"
@@ -418,6 +419,11 @@ Application::Application ():
 		pTheme = TheThemeManager.GetTheme (*j);
 		pTheme->AddClient (m_Dummy);
 	}
+	// Create cursors
+	GdkPixbuf *unallowed = gdk_pixbuf_new_from_inline (-1, gcp_unallowed, false, NULL);
+	m_Cursors[CursorUnallowed] = gdk_cursor_new_from_pixbuf (gdk_display_get_default (), unallowed, 3, 3);
+	g_object_unref (unallowed);
+	m_Cursors[CursorPencil] = gdk_cursor_new (GDK_PENCIL);
 }
 
 Application::~Application ()
@@ -448,6 +454,9 @@ Application::~Application ()
 	m_ConfClient = NULL;
 #endif
 	TheThemeManager.Shutdown ();
+	// unref cursors
+	for (int i = 0; i < CursorMax; i++)
+		gdk_cursor_unref (m_Cursors[i]);
 }
 
 void Application::ActivateTool (const string& toolname, bool activate)

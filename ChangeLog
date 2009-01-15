@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2009-01-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: add a cursor pixbuf.
+	* libs/gcp/application.cc: add a cursors collection.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/tool.cc: implement Tool::OnMotion to enable context sensitive
+	cursors.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/view.cc: call Tool::OnMotion when appropriate.
+	* plugins/paint/arrows/curvedarrowtool.cc: Implement OnMotion.
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+	* plugins/paint/arrows/plugin.cc: Activate curved arrow tools.
+
 2009-01-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: implement very basic text edition.
 	* libs/gccv/text.h: ditto.

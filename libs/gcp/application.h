@@ -71,6 +71,12 @@ class Document;
 struct option_data;
 typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
 
+typedef enum {
+	CursorUnallowed,
+	CursorPencil,
+	CursorMax
+} CursorId;
+
 /*!\class Application gcp/application.h
 \brief GChemPaint application base class.
 
@@ -432,6 +438,8 @@ it is pure virtual.
 */
 	virtual void OnFileNew (char const *Theme = NULL) = 0;
 
+	GdkCursor *GetCursor (CursorId id)  {return m_Cursors[id];}
+
 protected:
 /*!
 Initialize the tools box so that the selection tool is active. This method is
@@ -497,6 +505,7 @@ private:
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
 	std::list<option_data> m_Options;
+	GdkCursor *m_Cursors[CursorMax];
 
 GCU_RO_POINTER_PROP	(GtkStyle, Style)
 };

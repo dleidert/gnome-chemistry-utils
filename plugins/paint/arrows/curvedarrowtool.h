@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * curvedarrowtool.h
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,9 +33,13 @@ public:
 	gcpCurvedArrowTool (gcp::Application *App, std::string Id);
 	virtual ~gcpCurvedArrowTool ();
 
-	virtual bool OnClicked ();
-	virtual void OnDrag ();
-	virtual void OnRelease ();
+	bool OnClicked ();
+	void OnDrag ();
+	void OnMotion ();
+	void OnRelease ();
+
+private:
+	bool m_Full; // if false use half heads
 };
 
 #endif	//GCHEMPAINT_CURVED_ARROW_TOOL_H

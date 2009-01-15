@@ -4,7 +4,7 @@
  * GChemPaint library
  * tool.cc
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -78,6 +78,21 @@ void Tool::OnDrag (double x, double y, unsigned int state)
 	OnDrag ();
 }
 
+void Tool::OnMotion (View* pView, Object* pObject, double x, double y, unsigned int state)
+{
+	m_x = lastx = x;
+	m_y = lasty = y;
+	m_nState = state;
+	m_pObject = pObject;
+	if (pObject)
+		m_pObjectGroup = pObject->GetGroup ();
+	m_pView = pView;
+	m_pWidget = m_pView->GetWidget ();
+	m_pData = (WidgetData*) g_object_get_data (G_OBJECT(m_pWidget), "data");
+	m_dZoomFactor = m_pView->GetZoomFactor ();
+	OnMotion ();
+}
+
 void Tool::OnRelease (double x, double y, unsigned int state)
 {
 	m_x = lastx = x;
@@ -135,6 +150,11 @@ bool Tool::OnClicked ()
 
 void Tool::OnDrag ()
 {
+}
+
+void Tool::OnMotion ()
+{
+	gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), NULL);
 }
 
 void Tool::OnRelease ()

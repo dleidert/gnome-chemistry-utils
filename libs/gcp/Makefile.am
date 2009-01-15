@@ -1,4 +1,20 @@
+BUILT_SOURCES = gcp-stock-pixbufs.h
+
+CLEANFILES = $(BUILT_SOURCES)
+
 MAINTAINERCLEANFILES = Makefile.in
+
+EXTRA_DIST = \
+	$(IMAGES)
+	
+IMAGES = \
+	unallowed.png
+
+VARIABLES = \
+	gcp_unallowed			$(srcdir)/unallowed.png
+
+$(BUILT_SOURCES): $(IMAGES)
+	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@
 
 lib_LTLIBRARIES= libgcp-@GCU_API_VER@.la
 

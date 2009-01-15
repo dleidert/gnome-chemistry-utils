@@ -4,7 +4,7 @@
  * GChemPaint library
  * view.cc
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -1198,11 +1198,14 @@ bool View::OnMotion (gccv::ItemClient *client, double x, double y, unsigned stat
 		m_CurAtom = dynamic_cast <Atom *> (m_CurObject);
 		if (!m_CurAtom) {
 			Theme *theme = m_pDoc->GetTheme ();
-			Object *obj = m_CurObject->GetAtomAt (x / theme->GetZoomFactor (), y / theme->GetZoomFactor ());
 			m_CurAtom = reinterpret_cast <Atom *> (m_CurObject->GetAtomAt (x / theme->GetZoomFactor (), y / theme->GetZoomFactor ()));
 		}
 	} else
 		m_CurAtom = NULL;
+	Application *App = m_pDoc->GetApplication ();
+	Tool* pActiveTool = App? App->GetActiveTool (): NULL;	
+	if (m_pDoc->GetEditable () && pActiveTool)
+		pActiveTool->OnMotion (this, m_CurObject, x, y, state);
 	return true;
 }
 

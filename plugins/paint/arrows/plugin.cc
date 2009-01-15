@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * plugin.cc 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,6 +26,7 @@
 #include "plugin.h"
 #include <gcp/application.h>
 #include "arrowtool.h"
+#include "curvedarrowtool.h"
 #include "retrosynthesis.h"
 #include "retrosynthesisarrow.h"
 #include "retrosynthesisstep.h"
@@ -92,7 +93,7 @@ static GtkRadioActionEntry entries[] = {
 	{	"CurvedArrow", "gcp_CurvedArrow", N_("Electron pair move arrow"), NULL,
 		N_("Add a curved arrow to represent an electron pair move"),
 		0	},
-	{	"Curved1Arrow", "gcp_Curved1Arrowd", N_("Single electron move arrow"), NULL,
+	{	"Curved1Arrow", "gcp_Curved1Arrow", N_("Single electron move arrow"), NULL,
 		N_("Add a curved arrow to represent an single electron move"),
 		0	},
 };
@@ -104,8 +105,8 @@ static const char *ui_description =
 "    <toolitem action='ReversibleArrow'/>"
 "    <toolitem action='RetrosynthesisArrow'/>"
 "    <toolitem action='DoubleHeadedArrow'/>"
-//"    <toolitem action='CurvedArrow'/>"
-//"    <toolitem action='Curved1Arrow'/>"
+"    <toolitem action='CurvedArrow'/>"
+"    <toolitem action='Curved1Arrow'/>"
 "  </toolbar>"
 "</ui>";
 
@@ -134,6 +135,8 @@ void gcpArrowsPlugin::Populate (gcp::Application* App)
 	new gcpArrowTool (App, FullHeads? gcp::FullReversibleArrow: gcp::ReversibleArrow);
 	new gcpArrowTool (App, gcpDoubleHeadedArrow);
 	new gcpArrowTool (App, gcpDoubleQueuedArrow);
+	new gcpCurvedArrowTool (App, "CurvedArrow");
+	new gcpCurvedArrowTool (App, "Curved1Arrow");
 	Object::AddRule ("retrosynthesis", RuleMustContain, "retrosynthesis-step");
 	Object::AddRule ("retrosynthesis", RuleMustContain, "retrosynthesis-arrow");
 	Object::AddRule ("retrosynthesis-step", RuleMustContain, "molecule");

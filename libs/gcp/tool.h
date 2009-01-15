@@ -4,7 +4,7 @@
  * GChemPaint library
  * tool.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -94,6 +94,17 @@ is pressed and the mouse is moved.
 */
 	void OnDrag (double x, double y, unsigned int state);
 /*!
+@param x the horizontal position of the mouse when the event occured.
+@param y the vertical position of the mouse when the event occured.
+@param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.
+
+This method is called by the framework when the tool is active, the first mouse button
+is not pressed and the mouse is moved.
+*/
+	void OnMotion (View* pView, gcu::Object* pObject, double x, double y, unsigned int state);
+/*!
+@param pView the view instance owning the event.
+@param pObject the Object on which the click occured.
 @param x the horizontal position of the mouse when the event occured.
 @param y the vertical position of the mouse when the event occured.
 @param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.
@@ -264,6 +275,13 @@ derived classes if drag events are meaningful for the tool.
 Default implementation does nothing.
 */
 	virtual void OnDrag ();
+/*!
+Called from OnDrag(double,double,unsigned int) when a motion event occured
+occured. This method must be overriden in
+derived classes if motion events are meaningful for the tool.
+Default implementation does nothing.
+*/
+	virtual void OnMotion ();
 /*!
 Called from OnRelease(double,double,unsigned int) when a button release
 event occured. This method must be overriden in

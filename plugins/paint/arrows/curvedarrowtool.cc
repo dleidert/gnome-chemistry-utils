@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * curvedarrowtool.cc 
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,11 +24,15 @@
 
 #include "config.h"
 #include "curvedarrowtool.h"
+#include <gcp/application.h>
+#include <gcp/electron.h>
+#include <gtk/gtk.h>
 
 using namespace std;
 
 gcpCurvedArrowTool::gcpCurvedArrowTool (gcp::Application *App, string Id): gcp::Tool (App, Id)
 {
+	m_Full = Id == "CurvedArrow";
 }
 
 gcpCurvedArrowTool::~gcpCurvedArrowTool ()
@@ -42,6 +46,26 @@ bool gcpCurvedArrowTool::OnClicked ()
 
 void gcpCurvedArrowTool::OnDrag ()
 {
+}
+
+void gcpCurvedArrowTool::OnMotion ()
+{
+	bool allowed = false;
+	if (m_pObject)
+		switch (m_pObject->GetType ()) {
+		case gcu::AtomType: {
+			break;
+		}
+		case gcu::BondType: {
+			allowed = true;
+			break;
+		}
+		default:
+			if (m_pObject->GetType () == gcp::ElectronType)
+					;
+			break;
+		}
+	gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), allowed? m_pApp->GetCursor (gcp::CursorPencil): m_pApp->GetCursor (gcp::CursorUnallowed));
 }
 
 void gcpCurvedArrowTool::OnRelease ()
