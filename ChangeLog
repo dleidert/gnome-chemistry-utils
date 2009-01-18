@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: one more double bond position fix.
+
 2009-01-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: add a cursor pixbuf.
 	* libs/gcp/application.cc: add a cursors collection.
