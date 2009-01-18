@@ -118,6 +118,12 @@ bool Fragment::OnChanged (bool save)
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
 	}
+	if (m_buf.length () < m_EndAtom) { // needed if the symbol of part of it has been destroyed
+		m_Atom->SetZ (0);
+		m_EndAtom = m_buf.length ();
+		if (m_BeginAtom > m_EndAtom)
+			m_BeginAtom = m_EndAtom;
+	}
 	/*main atom management*/
 	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
 	Residue *r = NULL;

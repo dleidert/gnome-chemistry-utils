@@ -256,8 +256,8 @@ general:
 								}
 								bond = reinterpret_cast <Bond*> (m_Begin->GetNextBond (it));
 							}
-						m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
-						m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
+						m_coords[4] = *x1 - BondDist * cosa * tanb - dy * sign;
+						m_coords[5] = *y1 + dx * sign + BondDist * sina * tanb;
 						tanb = (m_End->GetZ () == 6)? fabs (tan ((a1 - a0) / 2)): 0.;
 						m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 						m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
