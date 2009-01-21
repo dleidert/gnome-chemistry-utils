@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/arrow.h 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,15 +26,9 @@
 #define GCCV_ARROW_H
 
 #include "line.h"
+#include "structs.h"
 
 namespace gccv {
-
-typedef enum {
-	ArrowHeadNone,
-	ArrowHeadFull,
-	ArrowHeadLeft,
-	ArrowHeadRight,
-} ArrowHeads;
 
 class Arrow: public Line
 {

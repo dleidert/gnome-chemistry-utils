@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-01-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: add new files.
+	* libs/gccv/arrow.cc: set default values for arrow head shape.
+	* libs/gccv/arrow.h: moved ArrowHead enum to structs.h.
+	* libs/gccv/bezier-arrow.cc: new bezier cubic curve based arrows (not yet
+	functional).
+	* libs/gccv/bezier-arrow.h: ditto.
+	* libs/gccv/structs.h: moved ArrowHead enum to structs.h.
+	* libs/gccv/text.cc: some work on rich text.
+	* libs/gcp/text.cc: set the default font description.
+
 2009-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: one more double bond position fix.
 

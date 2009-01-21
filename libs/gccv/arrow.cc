@@ -33,14 +33,20 @@ namespace gccv {
 Arrow::Arrow (Canvas *canvas, double xstart, double ystart, double xend, double yend):
 	Line (canvas, xstart, ystart, xend, yend),
 	m_StartHead (ArrowHeadNone),
-	m_EndHead (ArrowHeadFull)
+	m_EndHead (ArrowHeadFull),
+	m_A (6.),
+	m_B (8.),
+	m_C (4.)
 {
 }
 
 Arrow::Arrow (Group *parent, double xstart, double ystart, double xend, double yend, ItemClient *client):
 	Line (parent, xstart, ystart, xend, yend, client),
 	m_StartHead (ArrowHeadNone),
-	m_EndHead (ArrowHeadFull)
+	m_EndHead (ArrowHeadFull),
+	m_A (6.),
+	m_B (8.),
+	m_C (4.)
 {
 }
 

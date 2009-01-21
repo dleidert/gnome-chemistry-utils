@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/structs.h 
+ * gccv/bezier-arrow.h 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,37 +22,35 @@
  * USA
  */
 
-#ifndef GCCV_STRUCTS_H
-#define GCCV_STRUCTS_H
+#ifndef GCCV_BEZIER_ARROW_H
+#define GCCV_BEZIER_ARROW_H
+
+#include "line-item.h"
+#include "structs.h"
 
 namespace gccv {
 
-typedef struct {
-	double x0, x1, y0, y1;
-} Rect;
+class BezierArrow: public LineItem {
+public:
+	BezierArrow (Canvas *canvas);
+	BezierArrow (Group *parent, ItemClient *client = NULL);
+	virtual ~BezierArrow ();
 
-typedef struct {
-	double x, y;
-} Point;
+	// virtual methods
+	double Distance (double x, double y, Item **item) const;
+	void Draw (cairo_t *cr, bool is_vector) const;
+	void UpdateBounds ();
 
-typedef struct {
-	int start, cur;
-} TextSelBounds;
+GCCV_ITEM_POS_PROP (ArrowHeads, Head)
+GCCV_ITEM_POS_PROP (double, A)
+GCCV_ITEM_POS_PROP (double, B)
+GCCV_ITEM_POS_PROP (double, C)
 
-typedef enum {
-	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
-	AnchorLineWest, AnchorLine, AnchorLineEast,
-	AnchorWest, AnchorCenter, AnchorEast,
-	AnchorSouthWest, AnchorSouth, AnchorSouthEast 
-} Anchor;
-
-typedef enum {
-	ArrowHeadNone,
-	ArrowHeadFull,
-	ArrowHeadLeft,
-	ArrowHeadRight,
-} ArrowHeads;
+private:
+	Point m_Controls[4];
+};
 
 }
 
-#endif	//	 GCCV_RECTANGLE_H
+
+#endif  //  GCCV_BEZIER_ARROW_H

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/text.cc 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -134,7 +134,7 @@ void TextRun::Draw (cairo_t *cr)
 	// FIXME: use text attributes
 	while (*text) {
 		pango_layout_iter_get_char_extents (iter, &rect);
-		curx = rect.x / PANGO_SCALE;
+		curx = (double) rect.x / PANGO_SCALE;
 		cairo_move_to (cr, m_X + curx, m_Y + (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE);
 		next = g_utf8_find_next_char (text, NULL);
 		pango_layout_set_text (pl, text, next - text);
@@ -559,10 +559,24 @@ void Text::GetBounds (Rect *ink, Rect *logical)
 
 void Text::InsertTextTag (TextTag *tag)
 {
+	// we need to filter tags to avoid duplicates
+	// now, insert the new plugin
 	if (tag->GetPriority () == TagPriorityFirst)
 		m_Tags.push_front (tag);
 	else
 		m_Tags.push_back (tag);
+	// now, rebuild pango attributes lists for modified runs.
+	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
+	for (run = m_Runs.begin (); run != end_run; run++) {
+		if ((*run)->m_Index < tag->GetEndIndex () && (*run)->m_Index + (*run)->m_Length > tag->GetStartIndex ()) {
+			PangoAttrList *l = pango_layout_get_attributes ((*run)->m_Layout);
+			unsigned start = (tag->GetStartIndex () > (*run)->m_Index)? tag->GetStartIndex () - (*run)->m_Index: 0;
+			unsigned end = (tag->GetEndIndex () < (*run)->m_Index + (*run)->m_Length)? tag->GetEndIndex () - (*run)->m_Index: (*run)->m_Length;
+			tag->Filter (l, start, end);
+		}
+	}
+	// force reposition and redraw
+	SetPosition (m_x, m_y);
 }
 
 void Text::ReplaceText (std::string &str, int pos, unsigned length)

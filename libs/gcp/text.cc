@@ -4,7 +4,7 @@
  * GChemPaint library
  * text.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -655,19 +655,19 @@ void Text::AddItem ()
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
+	PangoFontDescription *desc = pango_font_description_new ();
+	pango_font_description_set_family (desc, doc->GetTextFontFamily ());
+	pango_font_description_set_style (desc, doc->GetTextFontStyle ());
+	pango_font_description_set_variant (desc, doc->GetTextFontVariant ());
+	pango_font_description_set_weight (desc, doc->GetTextFontWeight ());
+	pango_font_description_set_size (desc, doc->GetTextFontSize ());
 	if (m_ascent <= 0) {
 		PangoContext* pc = gccv::Text::GetContext ();
 		const_cast <Text *> (this)->m_Layout = pango_layout_new (pc);
+		pango_layout_set_font_description (m_Layout, desc);
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_layout_set_attributes (m_Layout, l);
-		PangoFontDescription *desc = pango_font_description_new ();
-		pango_font_description_set_family (desc, doc->GetTextFontFamily ());
-		pango_font_description_set_style (desc, doc->GetTextFontStyle ());
-		pango_font_description_set_variant (desc, doc->GetTextFontVariant ());
-		pango_font_description_set_weight (desc, doc->GetTextFontWeight ());
-		pango_font_description_set_size (desc, doc->GetTextFontSize ());
 		pango_layout_set_font_description (m_Layout, desc);
-		pango_font_description_free (desc);
 		pango_layout_set_text (m_Layout, "l", -1);
 		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
@@ -696,11 +696,16 @@ void Text::AddItem ()
 	text->SetLineColor (0);
 	text->SetLineOffset (view->GetCHeight ());
 	text->SetAnchor (m_Anchor);
+	text->SetFontDescription (desc);
+	pango_font_description_free (desc);
 	m_Item = text;
 }
 
 void Text::UpdateItem ()
 {
+	Document *doc = static_cast <Document*> (GetDocument ());
+	Theme *theme = doc->GetTheme ();
+	reinterpret_cast <gccv::Text *> (m_Item)->SetPosition (m_x * theme->GetZoomFactor (), m_y * theme->GetZoomFactor ());
 }
 
 /*void Text::Add (GtkWidget* w) const
