@@ -4,6 +4,7 @@ lib_LTLIBRARIES = libgccv-@GCU_API_VER@.la
 
 noinst_HEADERS = \
 	arrow.h		\
+	bezier-arrow.h  \
 	canvas.h	\
 	circle.h	\
 	client.h	\
@@ -24,6 +25,7 @@ noinst_HEADERS = \
 
 libgccv_@GCU_API_VER@_la_SOURCES =	\
 	arrow.cc	\
+	bezier-arrow.cc  \
 	canvas.cc	\
 	circle.cc	\
 	client.cc	\
