@@ -64,6 +64,19 @@ void BezierArrow::Draw (cairo_t *cr, bool is_vector) const
 
 void BezierArrow::UpdateBounds ()
 {
+	m_x0 = m_x1 = m_Controls[0].x;
+	m_y0 = m_y1 = m_Controls[0].y;
+	for (int i = 1; i < 4; i++) {
+		if (m_Controls[i].x < m_x0)
+			m_x0 = m_Controls[i].x;
+		else if (m_Controls[i].x > m_x1)
+			m_x1 = m_Controls[i].x;
+		if (m_Controls[i].y < m_y0)
+			m_y0 = m_Controls[i].y;
+		else if (m_Controls[i].y > m_y1)
+			m_y1 = m_Controls[i].y;
+	}
+	// TODO: take arrow head into account
 }
 
 }   //  namespace gccv

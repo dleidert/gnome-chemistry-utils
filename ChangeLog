@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-01-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/bezier-arrow.cc: first implementation for bounds.
+	* libs/gccv/text.cc: fixed run lentgh (must be in bytes, not chars).
+
 2009-01-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: add new files.
 	* libs/gccv/arrow.cc: set default values for arrow head shape.

@@ -391,7 +391,7 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 		pango_cairo_show_layout (cr, pl);
 		pango_layout_iter_next_char (iter);
 	}*/
-	if (m_CursorVisible) {
+	if (m_CursorVisible && m_CurPos == 0) {
 		PangoRectangle rect;
 		pango_layout_get_cursor_pos (m_Runs.front ()->m_Layout, m_CurPos, &rect, NULL); // FIXME: might be wrong if we allow above-under characters
 		cairo_set_line_width (cr, 1.);
@@ -595,7 +595,7 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	m_Text.insert (pos, str);
 	//TODO: manage atributes
 	pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks
-	m_Runs.front ()->m_Length = g_utf8_strlen (m_Text.c_str (), -1);
+	m_Runs.front ()->m_Length = m_Text.length ();
 	m_CurPos = pos + str.length ();
 	SetPosition (m_x, m_y);
 }
