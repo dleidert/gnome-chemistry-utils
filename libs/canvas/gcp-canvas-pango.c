@@ -1491,7 +1491,7 @@ gnome_canvas_pango_draw_cairo (GPrintable *gprintable, cairo_t *cr)
 	double ax, ay;
 	g_return_if_fail (text);
 	adjust_for_anchors (text, &ax, &ay);
-	cairo_move_to (cr, ax, ay);
+	cairo_translate (cr, ax, ay);
 	pango_cairo_show_layout (cr, text->_priv->layout);
 }
 

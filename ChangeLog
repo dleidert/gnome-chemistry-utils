@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-02-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Makefile.am: do not install API docs.
+	* libs/canvas/gcp-canvas-pango.c: (gnome_canvas_pango_draw_cairo):
+	do not end with unfinished cairo paths.
+
 2009-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: one more double bond position fix.
 	* libs/gcp/fragment.cc: always replace main atom when its symbol is gone.
