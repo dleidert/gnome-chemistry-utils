@@ -135,11 +135,13 @@ void TextRun::Draw (cairo_t *cr)
 	while (*text) {
 		pango_layout_iter_get_char_extents (iter, &rect);
 		curx = (double) rect.x / PANGO_SCALE;
-		cairo_move_to (cr, m_X + curx, m_Y + (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE);
+		cairo_save (cr);
+		cairo_translate (cr, m_X + curx, m_Y + (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE);
 		next = g_utf8_find_next_char (text, NULL);
 		pango_layout_set_text (pl, text, next - text);
 		text = next;
 		pango_cairo_show_layout (cr, pl);
+		cairo_restore (cr);
 		pango_layout_iter_next_char (iter);
 	}
 	// free the iterator
@@ -367,7 +369,6 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 			PangoRectangle rect;
 			pango_layout_get_cursor_pos ((*i)->m_Layout, m_CurPos - (*i)->m_Index, &rect, NULL);
 			cairo_set_line_width (cr, 1.);
-			cairo_new_path (cr);
 			cairo_move_to (cr, floor (startx + (double) rect.x / PANGO_SCALE) + .5, floor (starty + (double) rect.y / PANGO_SCALE) + .5);
 			cairo_rel_line_to (cr, 0, rect.height / PANGO_SCALE);
 			cairo_set_source_rgb (cr, 0., 0., 0.);

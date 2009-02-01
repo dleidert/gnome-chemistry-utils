@@ -7,8 +7,10 @@ DISTCLEANFILES = Doxyfile
 MAINTAINERCLEANFILES = Makefile.in
 
 # better use the docdir/htmldir variable, configurable via --docdir|--htmldir?
-docsdir = $(datadir)/doc/gchemutils/@GCU_API_VER@/reference
-docs_DATA = html/*.*
+# docsdir = $(datadir)/doc/gchemutils/@GCU_API_VER@/reference
+# docs_DATA = html/*.*
+
+all: html/*.*
 
 html/*.*: html_stamp
 
