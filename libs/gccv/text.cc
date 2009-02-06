@@ -120,26 +120,58 @@ TextRun::~TextRun ()
 	g_object_unref (m_Layout);
 }
 
+struct draw_attrs
+{
+	unsigned index, length;
+	PangoAttrList *attrs;
+};
+
+static gboolean filter_attrs (PangoAttribute *attr, gpointer _data)
+{
+	struct draw_attrs *data = static_cast <struct draw_attrs *> (_data);
+	if (attr->start_index <= data->index && attr->end_index > data->index) {
+		PangoAttribute *new_attr = pango_attribute_copy (attr);
+		new_attr->start_index = 0;
+		new_attr->end_index = data->length;
+		pango_attr_list_insert (data->attrs, new_attr);
+	}
+	return false;
+}
+
 void TextRun::Draw (cairo_t *cr)
 {
 	// first get the pango iter at first character
-	PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
+	PangoLayoutIter* iter = pango_layout_get_iter (m_Layout), *local;
+	PangoAttrList *l = pango_layout_get_attributes (m_Layout);
 	char const *text = pango_layout_get_text (m_Layout);
 	char const *next;
-	double curx;
+	double curx, ascent = (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+	unsigned index = 0;
 	PangoLayout *pl = pango_cairo_create_layout (cr);
 	pango_layout_set_font_description (pl, pango_layout_get_font_description (m_Layout));
 	PangoRectangle rect;
 	cairo_set_source_rgba (cr, 0., 0., 0., 1.); // FIXME, use text color if any
 	// FIXME: use text attributes
+	struct draw_attrs data;
 	while (*text) {
 		pango_layout_iter_get_char_extents (iter, &rect);
 		curx = (double) rect.x / PANGO_SCALE;
-		cairo_save (cr);
-		cairo_translate (cr, m_X + curx, m_Y + (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE);
 		next = g_utf8_find_next_char (text, NULL);
-		pango_layout_set_text (pl, text, next - text);
+		data.attrs = pango_attr_list_new ();
+		data.index = index;
+		data.length = next - text;
+		index += data.length;
+		pango_layout_set_text (pl, text, data.length);
 		text = next;
+		if (l) {
+			pango_attr_list_filter (l, filter_attrs, &data);
+			pango_layout_set_attributes (pl, data.attrs);
+			pango_attr_list_unref (data.attrs);
+		}
+		local = pango_layout_get_iter (pl);
+		pango_layout_iter_get_char_extents (local, &rect);
+		cairo_save (cr);
+		cairo_translate (cr, m_X + curx, m_Y + ascent - (double) pango_layout_iter_get_baseline (local) / PANGO_SCALE);
 		pango_cairo_show_layout (cr, pl);
 		cairo_restore (cr);
 		pango_layout_iter_next_char (iter);
@@ -362,7 +394,7 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 	std::list <TextRun *>::const_iterator i, end = m_Runs.end ();
 	for (i = m_Runs.begin (); i != end; i++) {
 		cairo_save (cr);
-		cairo_translate (cr, startx + (*i)->m_X, starty + (*i)->m_Y - m_Ascent);
+		cairo_translate (cr, startx + (*i)->m_X, starty + (*i)->m_Y);
 		(*i)->Draw (cr);
 		cairo_restore (cr);
 		if (m_CursorVisible && m_CurPos > (*i)->m_Index && m_CurPos <= (*i)->m_Index + (*i)->m_Length) {
@@ -435,6 +467,7 @@ char const *Text::GetText ()
 
 void Text::SetFontDescription (PangoFontDescription *desc)
 {
+	m_FontDesc = desc;
 	std::list <TextRun *>::iterator i, end = m_Runs.end ();
 	for (i = m_Runs.begin (); i != end; i++) {
 		pango_layout_set_font_description ((*i)->m_Layout, desc);
@@ -571,9 +604,12 @@ void Text::InsertTextTag (TextTag *tag)
 	for (run = m_Runs.begin (); run != end_run; run++) {
 		if ((*run)->m_Index < tag->GetEndIndex () && (*run)->m_Index + (*run)->m_Length > tag->GetStartIndex ()) {
 			PangoAttrList *l = pango_layout_get_attributes ((*run)->m_Layout);
+			if (l == NULL)
+				l = pango_attr_list_new ();
 			unsigned start = (tag->GetStartIndex () > (*run)->m_Index)? tag->GetStartIndex () - (*run)->m_Index: 0;
 			unsigned end = (tag->GetEndIndex () < (*run)->m_Index + (*run)->m_Length)? tag->GetEndIndex () - (*run)->m_Index: (*run)->m_Length;
 			tag->Filter (l, start, end);
+			pango_layout_set_attributes ((*run)->m_Layout, l);	
 		}
 	}
 	// force reposition and redraw

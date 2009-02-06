@@ -92,10 +92,13 @@ private:
 class SubscriptTextTag: public TextTag
 {
 public:
-	SubscriptTextTag ();
+	SubscriptTextTag (double size);
 	virtual ~SubscriptTextTag ();
 
 	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	double m_Size; // default size
 };
 
 }   //	namespace gccv

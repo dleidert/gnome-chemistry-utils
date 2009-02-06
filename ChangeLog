@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-02-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: reimplemented subscripts.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.cc: ditto.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/atom.cc: disply again attached hydrogens number as a
+	subscript.
+
 2009-02-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Makefile.am: do not install API docs.
 	* libs/gccv/text.cc: do not end with unfinished cairo paths.

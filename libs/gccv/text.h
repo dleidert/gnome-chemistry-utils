@@ -91,6 +91,8 @@ be moved to the end of the inserted text.
 	// static methods
 	static PangoContext *GetContext ();
 
+unsigned GetDefaultFontSize () { return (m_FontDesc)? (double) pango_font_description_get_size (m_FontDesc) / PANGO_SCALE: 0; }
+
 private:
 	double m_x, m_y;
 	unsigned long m_BlinkSignal;
@@ -100,6 +102,7 @@ private:
 	std::list <TextTag *> m_Tags;
 	std::string m_Text;
 	GtkIMContext *m_ImContext;
+	PangoFontDescription *m_FontDesc;
 
 
 GCCV_TEXT_PROP (double, Padding)
