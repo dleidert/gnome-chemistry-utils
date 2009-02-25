@@ -2,6 +2,8 @@
 
 2009-02-25  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* configure.ac: Also check for iceape-plugin.pc.
+	* Makefile.am (schemasdir): Use $(GCONF_SCHEMA_FILE_DIR).
+	* programs/paint/Makefile.am (schemasdir): ditto.
 	* pixmaps/Makefile.am: The `gnome-mime-' prefix for MIME type icons is
 	obsolete.
 

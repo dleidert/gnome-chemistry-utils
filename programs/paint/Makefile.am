@@ -40,7 +40,7 @@ endif #WITH_KDE_MIME
 
 schemas_in_files = gchempaint.schemas.in
 
-schemasdir = $(sysconfdir)/gconf/schemas
+schemasdir = $(GCONF_SCHEMA_FILE_DIR)
 schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
