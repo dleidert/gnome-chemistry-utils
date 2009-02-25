@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-02-25  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* configure.ac: Also check for iceape-plugin.pc.
+
 2009-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add check for npfunctions.h.
 	* libs/gcu/element.cc: fix compilation with gcc-4.4. [#25628]
