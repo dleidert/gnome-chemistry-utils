@@ -2,6 +2,8 @@
 
 2009-02-25  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* configure.ac: Also check for iceape-plugin.pc.
+	* Makefile.am (schemasdir): Use $(GCONF_SCHEMA_FILE_DIR).
+	* programs/paint/Makefile.am (schemasdir): ditto.
 
 2009-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add check for npfunctions.h.

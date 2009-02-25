@@ -67,7 +67,7 @@ endif #WITH_UPDATE_DESKTOP
 
 schemas_in_files = gchemutils.schemas.in
 
-schemasdir = $(sysconfdir)/gconf/schemas
+schemasdir = $(GCONF_SCHEMA_FILE_DIR)
 schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
