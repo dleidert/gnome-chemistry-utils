@@ -22,7 +22,11 @@
 
 #include <config.h>
 #include "npapi.h"
-#include "npupp.h"
+#ifdef HAVE_NPFUNCTIONS_H
+#   include "npfunctions.h"
+#else
+#   include "npupp.h"
+#endif
 #include <unistd.h>
 #include <string.h>
 
@@ -47,7 +51,11 @@ typedef struct {
 } ChemPlugin;
 
 static NPError ChemNew (NPMIMEType mime_type, NPP instance,
+#ifdef HAVE_NPFUNCTIONS_H
+				 uint16_t mode, uint16_t argc, char *argn[], char *argv[],
+#else
 				 uint16 mode, uint16 argc, char *argn[], char *argv[],
+#endif
 				 NPSavedData *saved)
 {
 	ChemPlugin *plugin;
@@ -145,7 +153,11 @@ static NPError ChemSetWindow (NPP instance, NPWindow *window)
 }
 
 static NPError ChemNewStream (NPP instance, NPMIMEType type, NPStream *stream,
+#ifdef HAVE_NPFUNCTIONS_H
+		      NPBool seekable, uint16_t *stype)
+#else
 		      NPBool seekable, uint16 *stype)
+#endif
 {
 	ChemPlugin *plugin;
 
@@ -220,15 +232,30 @@ NPError NP_Initialize(NPNetscapeFuncs *mozFuncs, NPPluginFuncs *pluginFuncs) {
 	
 	pluginFuncs->version    = (NP_VERSION_MAJOR << 8) + NP_VERSION_MINOR;
 	pluginFuncs->size       = sizeof (NPPluginFuncs);
+#ifdef HAVE_NPFUNCTIONS_H
+	pluginFuncs->newp       = (NPP_NewProcPtr)ChemNew;
+	pluginFuncs->destroy    = (NPP_DestroyProcPtr) ChemDestroy;
+	pluginFuncs->setwindow  = (NPP_SetWindowProcPtr) ChemSetWindow;
+	pluginFuncs->newstream  = (NPP_NewStreamProcPtr) ChemNewStream;
+#else
 	pluginFuncs->newp       = NewNPP_NewProc (ChemNew);
 	pluginFuncs->destroy    = NewNPP_DestroyProc (ChemDestroy);
 	pluginFuncs->setwindow  = NewNPP_SetWindowProc (ChemSetWindow);
 	pluginFuncs->newstream  = NewNPP_NewStreamProc (ChemNewStream);
+#endif
 	pluginFuncs->destroystream = NULL;
+#ifdef HAVE_NPFUNCTIONS_H
+	pluginFuncs->asfile     = (NPP_StreamAsFileProcPtr) ChemStreamAsFile;
+#else
 	pluginFuncs->asfile     = NewNPP_StreamAsFileProc (ChemStreamAsFile);
+#endif
 	pluginFuncs->writeready = NULL;
 	pluginFuncs->write      = NULL;
+#ifdef HAVE_NPFUNCTIONS_H
+	pluginFuncs->print      = (NPP_PrintProcPtr) ChemPrint;
+#else
 	pluginFuncs->print      = NewNPP_PrintProc (ChemPrint);
+#endif
 	pluginFuncs->urlnotify  = NULL;
 	pluginFuncs->event      = NULL;
 #ifdef OJI

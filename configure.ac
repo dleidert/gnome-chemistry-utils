@@ -269,6 +269,12 @@ if test "x$test_mozilla_plugin" != "xno"; then
 	
 	if test "x$MOZILLA_CFLAGS" != "x"; then
 		build_mozilla_plugin=yes
+
+		dnl test for npfunctions.h
+		saved_CFLAGS=$CFLAGS
+		CFLAGS=$MOZILLA_CFLAGS
+		AC_CHECK_HEADERS([npfunctions.h])
+		CFLAGS=$saved_CFLAGS
 	fi
 fi
 

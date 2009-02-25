@@ -1411,7 +1411,7 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 	char buf[32], c = data[0];
 	double val = 0., newval = 0.;
 	bool pos, diff = false;
-	char *eq = strstr (data, "$$");
+	char *eq = strstr (const_cast <char *> (data), "$$");
 	if (eq)
 		*eq = 0;
 	pos = true;
