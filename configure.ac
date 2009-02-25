@@ -223,7 +223,7 @@ AC_SUBST([GOFFICE_PLUGINS_DIR])
 # Check for xulrunner plugin
 ##################################################
 xulclient=
-for pack in xulrunner seamonkey firefox mozilla; do
+for pack in xulrunner seamonkey iceape firefox mozilla; do
   if test "x$xulclient" = x; then
     if pkg-config --exists $pack-plugin; then
       xulclient=$pack-plugin
