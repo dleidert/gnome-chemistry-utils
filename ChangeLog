@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add check for npfunctions.h.
+	* libs/gcu/element.cc: fix compilation with gcc-4.4. [#25628]
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* mozilla-plugin/moz-plugin.c: (ChemNew): compiles with the new
+	xulrunner API.  [see #25628]
+
 2009-02-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: reimplemented subscripts.
 	* libs/gccv/text-tag.h: ditto.

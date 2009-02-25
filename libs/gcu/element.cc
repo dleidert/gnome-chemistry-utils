@@ -44,8 +44,8 @@ static set<string>units;
 
 static void ReadValue (char const *source, GcuValue &value)
 {
-	char *buf, *dot;
-	value.value = strtod (source, &buf);
+	const char *buf, *dot;
+	value.value = strtod (source, const_cast <char**> (&buf));
 	dot = strchr (source, '.');
 	value.prec = (dot)? buf - dot - 1: 0;
 	value.delta = (*buf == '(')? strtol (buf + 1, NULL, 10): 0;
@@ -53,8 +53,8 @@ static void ReadValue (char const *source, GcuValue &value)
 
 static void ReadDimensionalValue (char const *source, GcuDimensionalValue &value)
 {
-	char *buf, *dot;
-	value.value = strtod (source, &buf);
+	const char *buf, *dot;
+	value.value = strtod (source, const_cast <char**> (&buf));
 	dot = strchr (source, '.');
 	value.prec = (dot)? buf - dot - 1: 0;
 	value.delta = (*buf == '(')? strtol (buf + 1, NULL, 10): 0;
