@@ -2,6 +2,8 @@
 
 2009-02-25  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* configure.ac: Also check for iceape-plugin.pc.
+	* pixmaps/Makefile.am: The `gnome-mime-' prefix for MIME type icons is
+	obsolete.
 
 2009-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add check for npfunctions.h.

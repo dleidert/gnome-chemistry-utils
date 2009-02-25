@@ -36,11 +36,11 @@ install-data-hook:
 		$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes; \
 		$(mkinstalldirs) $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps; \
 		$(INSTALL_DATA) $(srcdir)/gcrystal$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gcrystal.png; \
+			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/application-x-gcrystal.png; \
 		$(INSTALL_DATA) $(srcdir)/gcrystal$$i.png \
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gcrystal.png; \
 		$(INSTALL_DATA) $(srcdir)/gchempaint$$i.png \
-			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gchempaint.png; \
+			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/application-x-gchempaint.png; \
 		$(INSTALL_DATA) $(srcdir)/gchempaint$$i.png \
 			$(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchempaint.png; \
 		$(INSTALL_DATA) $(srcdir)/gchem3d$$i.png \
@@ -55,9 +55,9 @@ install-data-hook:
 
 uninstall-hook:
 	for i in 32 48 72 128; do \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gcrystal.png; \
+		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/application-x-gcrystal.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gcrystal.png; \
-		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/gnome-mime-application-x-gchempaint.png; \
+		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/mimetypes/application-x-gchempaint.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchempaint.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchem3d.png; \
 		rm $(DESTDIR)$(datadir)/icons/hicolor/$$i"x"$$i/apps/gchemcalc.png; \
