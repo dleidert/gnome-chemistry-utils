@@ -751,7 +751,7 @@ bool gcDocument::VerifySaved()
 	m_bClosing = true;
 	if (!GetDirty ())
 		return true;
-	gchar* str = g_strdup_printf(_("\"%s\" has been modified.  Do you wish to save it?"), m_title);
+	gchar* str = g_strdup_printf(_("\"%s\" has been modified.  Do you wish to save it?"), m_Label);
 	GtkWidget* mbox;
 	int res;
 	do

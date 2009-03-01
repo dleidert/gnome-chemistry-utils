@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/document.cc: use the label to name the current file,
+	not the title which might not exist.
+
 2009-02-25  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* configure.ac: Also check for iceape-plugin.pc.
 	* Makefile.am (schemasdir): Use $(GCONF_SCHEMA_FILE_DIR).
