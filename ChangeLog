@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-03-01  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* gendocs: Grep for lines beginning with DOC_MODULE.
+	* Makefile.am (MAINTAINERCLEANFILES): Added intltool*.in templates.
+	* docs/help/3d/Makefile.am (MAINTAINERCLEANFILES): Remove versioned
+	files created by gendocs.
+	* docs/help/calc/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* docs/help/crystal/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* docs/help/paint/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* docs/help/spectra/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* docs/help/table/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+
 2009-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/document.cc: use the label to name the current file,
 	not the title which might not exist.
