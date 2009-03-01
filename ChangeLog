@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2009-03-01  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* Makefile.am (MAINTAINERCLEANFILES): Added intltool*.in templates.
+
+2009-03-01  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* gendocs: Grep for lines beginning with DOC_MODULE.
 	* docs/help/3d/Makefile.am (MAINTAINERCLEANFILES): Remove versioned
 	files created by gendocs.

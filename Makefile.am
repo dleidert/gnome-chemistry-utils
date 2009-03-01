@@ -30,6 +30,9 @@ MAINTAINERCLEANFILES = \
 	depcomp \
 	gnome-doc-utils.make \
 	install-sh \
+	intltool-extract.in \
+	intltool-update.in \
+	intltool-merge.in \
 	ltmain.sh \
 	missing \
 	mkinstalldirs \
