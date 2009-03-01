@@ -70,6 +70,7 @@ libs/gcu/gtkperiodic.c
 libs/gcu/loader.cc
 libs/gcu/print-setup-dlg.cc
 libs/gcu/printable.cc
+libs/gcu/spacegroup.cc
 libs/gcu/spectrumdoc.cc
 libs/gcu/spectrumview.cc
 libs/gcu/value.cc
