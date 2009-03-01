@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-03-01  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* gendocs: Grep for lines beginning with DOC_MODULE.
+	* docs/help/3d/Makefile.am (MAINTAINERCLEANFILES): Remove versioned
+	files created by gendocs.
+	* docs/help/calc/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* docs/help/crystal/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* docs/help/paint/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* docs/help/spectra/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* docs/help/table/Makefile.am (MAINTAINERCLEANFILES): Ditto.
+	* plugins/loaders/cif/Makefile.am (xmldir): Fixed.
+
 2009-02-25  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* configure.ac: Also check for iceape-plugin.pc.
 	* Makefile.am (schemasdir): Use $(GCONF_SCHEMA_FILE_DIR).

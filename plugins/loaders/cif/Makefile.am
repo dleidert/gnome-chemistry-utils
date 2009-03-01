@@ -18,5 +18,5 @@ cif_la_SOURCES =	\
 xml_in_files = plugin.xml.in
 
 xml_DATA = $(xml_in_files:.xml.in=.xml)
-xmldir = $(gcu_loader_cmldir)
+xmldir = $(gcu_loader_cifdir)
 @INTLTOOL_XML_RULE@
