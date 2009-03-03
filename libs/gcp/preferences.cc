@@ -343,12 +343,12 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	// add font selector
 	m_FontSel = GCP_FONT_SEL (g_object_new (GCP_FONT_SEL_TYPE, NULL));
 	w = glade_xml_get_widget (xml, "atom-font-box");
-	gtk_box_pack_start_defaults (GTK_BOX (w), GTK_WIDGET (m_FontSel));
+	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_FontSel), true, true, 0);
 	m_FontChanged = g_signal_connect (G_OBJECT (m_FontSel), "changed", G_CALLBACK (on_font_changed), this);
 	// add text font selector
 	m_TextFontSel = GCP_FONT_SEL (g_object_new (GCP_FONT_SEL_TYPE, NULL));
 	w = glade_xml_get_widget (xml, "text-box");
-	gtk_box_pack_start_defaults (GTK_BOX (w), GTK_WIDGET (m_TextFontSel));
+	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_TextFontSel), true, true, 0);
 	m_TextFontChanged = g_signal_connect (G_OBJECT (m_TextFontSel), "changed", G_CALLBACK (on_text_font_changed), this);
 	// arrow spin buttons
 	m_ArrowLengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-length-btn"));

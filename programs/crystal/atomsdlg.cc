@@ -117,12 +117,12 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 	gtk_container_add (GTK_CONTAINER (frame), (GtkWidget *) periodic);
 	gtk_widget_show_all (frame);
 	GtkWidget *button = glade_xml_get_widget (xml, "add");
-	g_signal_connect (G_OBJECT (button), "clicked", GTK_SIGNAL_FUNC (on_add), this);
+	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_add), this);
 	DeleteBtn = glade_xml_get_widget (xml, "delete");
 	gtk_widget_set_sensitive (DeleteBtn,0);
 	g_signal_connect (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (on_delete), this);
 	DeleteAllBtn = glade_xml_get_widget (xml, "delete_all");
-	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", GTK_SIGNAL_FUNC (on_delete_all), this);
+	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
 	AtomList = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE);
 	GtkTreeView *tree = (GtkTreeView *) glade_xml_get_widget (xml, "atomslist");
 	Selection = gtk_tree_view_get_selection (tree);
@@ -206,7 +206,7 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 	RadiusMenu = (GtkComboBox*) glade_xml_get_widget (xml, "radius-menu");
 	m_RadiiSignalID = g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (on_radius_index_changed), this);
 	AtomR = (GtkEntry*) glade_xml_get_widget (xml, "atomr");
-	g_signal_connect (G_OBJECT (Selection), "changed", GTK_SIGNAL_FUNC (on_select), this);
+	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
 	ScaleBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "scale-btn");
 	ApplyBtn = (GtkComboBox *) glade_xml_get_widget (xml, "apply-to-box");
 	gtk_combo_box_set_active (ApplyBtn, 1);

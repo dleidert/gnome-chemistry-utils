@@ -77,12 +77,12 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 	}
 	m_pDoc = pDoc;
 	GtkWidget* button = glade_xml_get_widget(xml, "add");
-	g_signal_connect(G_OBJECT(button), "clicked", GTK_SIGNAL_FUNC(on_add), this);
+	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(on_add), this);
 	DeleteBtn = glade_xml_get_widget(xml, "delete");
 	gtk_widget_set_sensitive(DeleteBtn,0);
 	g_signal_connect(G_OBJECT(DeleteBtn), "clicked", G_CALLBACK(on_delete), this);
 	DeleteAllBtn = glade_xml_get_widget(xml, "delete_all");
-	g_signal_connect(G_OBJECT(DeleteAllBtn), "clicked", GTK_SIGNAL_FUNC(on_delete_all), this);
+	g_signal_connect(G_OBJECT(DeleteAllBtn), "clicked", G_CALLBACK(on_delete_all), this);
 	FixedBtn = GTK_TOGGLE_BUTTON(glade_xml_get_widget(xml, "fixed"));
 	GtkTreeView* tree = (GtkTreeView*)glade_xml_get_widget(xml, "cleavageslist");
 	Selection = gtk_tree_view_get_selection(tree);
@@ -151,7 +151,7 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 				  3, s.planes,
 				  -1);
 	}
-	g_signal_connect(G_OBJECT(Selection), "changed", GTK_SIGNAL_FUNC(on_select), this);
+	g_signal_connect(G_OBJECT(Selection), "changed", G_CALLBACK(on_select), this);
 	if (!m_Cleavages->len)gtk_widget_set_sensitive(DeleteAllBtn, false);
 }
 

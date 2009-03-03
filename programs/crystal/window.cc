@@ -445,7 +445,6 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
 	bar = gtk_ui_manager_get_widget (m_UIManager, "/MainToolbar");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, false, false, 0);
-	gtk_toolbar_set_tooltips(GTK_TOOLBAR(bar), true);
 	m_View = dynamic_cast<gcView *> (m_Doc->GetView ());
 	if (m_View->GetWindow () != NULL) {
 		m_View = dynamic_cast<gcView *> (m_Doc->CreateNewView ());

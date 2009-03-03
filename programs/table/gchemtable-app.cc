@@ -294,7 +294,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 			"can_unselect", true,
 			NULL);
 	g_signal_connect(G_OBJECT(periodic), "element_changed", (GCallback)on_changed, this);
-	gtk_box_pack_end_defaults(GTK_BOX(vbox), GTK_WIDGET(GTK_PERIODIC(periodic)));
+	gtk_box_pack_end (GTK_BOX(vbox), GTK_WIDGET(GTK_PERIODIC(periodic)), true, true, 0);
 	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(vbox));
 	gtk_widget_show_all(window);
 	for (int i = 0; i < 118; i++)

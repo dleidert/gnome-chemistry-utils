@@ -1942,6 +1942,10 @@ void Atom::AddItem ()
 		// build the symbol geometry
 		BuildSymbolGeometry (text->GetWidth (), text->GetHeight (), text->GetAscent () - text->GetY () - view->GetCHeight ());		
 		int n = GetAttachedHydrogens ();
+		gccv::Rect ink, logical;
+		text->GetBounds (&ink, &logical);
+		m_width = (logical.x1 - logical.x0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
+		m_height = (logical.y1 - logical.y0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
 		if (n > 0) {
 			string hs = "H";
 			if (n > 1) {
@@ -1949,8 +1953,6 @@ void Atom::AddItem ()
 				hs += str;
 				g_free (str);
 			}
-			gccv::Rect ink, logical;
-			text->GetBounds (&ink, &logical);
 			text = new gccv::Text (group, 0., 0., this);
 			text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
 			text->SetPadding (theme->GetPadding ());

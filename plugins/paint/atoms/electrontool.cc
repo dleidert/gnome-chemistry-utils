@@ -32,7 +32,9 @@
 #include <gcp/operation.h>
 #include <gcp/settings.h>
 #include <gcp/view.h>
-#include <gccv/item.h>
+#include <gcp/widgetdata.h>
+#include <gccv/circle.h>
+#include <gccv/group.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <stdexcept>
@@ -74,7 +76,7 @@ bool gcpElectronTool::OnClicked ()
 	m_Pos = pAtom->GetAvailablePosition (x, y);
 	m_x = x - m_x0;
 	m_y = y - m_y0;
-/*	ArtDRect rect;
+	gccv::Rect rect;
 	m_pData->GetObjectBounds (m_pObject, &rect);
 	m_x0 *= m_dZoomFactor;
 	m_y0 *= m_dZoomFactor;
@@ -89,46 +91,27 @@ bool gcpElectronTool::OnClicked ()
 	if (m_bIsPair) {
 		double deltax = 3. * sin (m_dAngle);
 		double deltay = 3. * cos (m_dAngle);
-		m_pItem =  gnome_canvas_item_new (
-						m_pGroup,
-						gnome_canvas_group_get_type (),
-						NULL);
-		gnome_canvas_item_new (
-						GNOME_CANVAS_GROUP (m_pItem),
-						gnome_canvas_ellipse_get_type (),
-						"width_units", 0.0,
-						"fill_color", gcp::AddColor,
-						"x1", x + deltax - 2. ,
-						"x2", x + deltax + 2.,
-						"y1", y + deltay - 2.,
-						"y2", y + deltay + 2.,
-						NULL);
-		gnome_canvas_item_new (
-						GNOME_CANVAS_GROUP (m_pItem),
-						gnome_canvas_ellipse_get_type (),
-						"width_units", 0.0,
-						"fill_color", gcp::AddColor,
-						"x1", x - deltax - 2. ,
-						"x2", x - deltax + 2.,
-						"y1", y - deltay - 2.,
-						"y2", y - deltay + 2.,
-						NULL);
+		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
+		m_Item = group;
+		gccv::Circle *circle = new gccv::Circle (group, x + deltax, y + deltay, 2);
+		circle->SetLineWidth (0.);
+		circle->SetLineColor (0);
+		circle->SetFillColor (gcp::AddColor);
+		circle = new gccv::Circle (group, x - deltax, y - deltay, 2);
+		circle->SetLineWidth (0.);
+		circle->SetLineColor (0);
+		circle->SetFillColor (gcp::AddColor);
 	} else {
-		m_pItem = gnome_canvas_item_new (
-						m_pGroup,
-						gnome_canvas_ellipse_get_type (),
-						"width_units", 0.0,
-						"fill_color", gcp::AddColor,
-						"x1", x - 2. ,
-						"x2", x + 2.,
-						"y1", y - 2.,
-						"y2", y + 2.,
-						NULL);
+		gccv::Circle *circle = new gccv::Circle (m_pView->GetCanvas (), x, y, 2);
+		circle->SetLineWidth (0.);
+		circle->SetLineColor (0);
+		circle->SetFillColor (gcp::AddColor);
+		m_Item = circle;
 	}
 	char tmp[32];
 	snprintf (tmp, sizeof (tmp) - 1, _("Orientation: %g"), m_dAngle * 180. / M_PI);
 	m_pApp->SetStatusText (tmp);
-	m_bChanged = true;*/
+	m_bChanged = true;
 	return true;
 }
 
@@ -202,12 +185,9 @@ void gcpElectronTool::OnDrag ()
 			m_bChanged = false;
 		} else if (pAtom->GetPosition (Angle * 180. / M_PI, x, y)) {
 			m_dAngle = Angle;
-			if (m_Item)
-			{
-/*				gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (m_pItem), &x1, &y1, &x2, &y2);
-				gtk_object_destroy (GTK_OBJECT (GNOME_CANVAS_ITEM (m_pItem)));
-				gnome_canvas_request_redraw (GNOME_CANVAS (m_pWidget), (int) x1, (int) y1, (int) x2, (int) y2);
-				m_pItem = NULL;*/
+			if (m_Item) {
+				delete m_Item;
+				m_Item = NULL;
 			}
 			if (m_nState & GDK_SHIFT_MASK) {
 				x = m_x0 + m_dDist * cos (m_dAngle);
@@ -219,43 +199,24 @@ void gcpElectronTool::OnDrag ()
 				y -= 2. * sin (m_dAngle);
 			}
 			if (m_bIsPair) {
-/*				double deltax = 3. * sin (m_dAngle);
+				double deltax = 3. * sin (m_dAngle);
 				double deltay = 3. * cos (m_dAngle);
-				m_pItem =  gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_group_get_type (),
-								NULL);
-				gnome_canvas_item_new (
-								GNOME_CANVAS_GROUP (m_pItem),
-								gnome_canvas_ellipse_get_type (),
-								"width_units", 0.0,
-								"fill_color", gcp::AddColor,
-								"x1", x + deltax - 2. ,
-								"x2", x + deltax + 2.,
-								"y1", y + deltay - 2.,
-								"y2", y + deltay + 2.,
-								NULL);
-				gnome_canvas_item_new (
-								GNOME_CANVAS_GROUP (m_pItem),
-								gnome_canvas_ellipse_get_type (),
-								"width_units", 0.0,
-								"fill_color", gcp::AddColor,
-								"x1", x - deltax - 2. ,
-								"x2", x - deltax + 2.,
-								"y1", y - deltay - 2.,
-								"y2", y - deltay + 2.,
-								NULL);*/
+				gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
+				m_Item = group;
+				gccv::Circle *circle = new gccv::Circle (group, x + deltax, y + deltay, 2);
+				circle->SetLineWidth (0.);
+				circle->SetLineColor (0);
+				circle->SetFillColor (gcp::AddColor);
+				circle = new gccv::Circle (group, x - deltax, y - deltay, 2);
+				circle->SetLineWidth (0.);
+				circle->SetLineColor (0);
+				circle->SetFillColor (gcp::AddColor);
 			} else {
-/*				m_pItem = gnome_canvas_item_new (
-								m_pGroup,
-								gnome_canvas_ellipse_get_type (),
-								"width_units", 0.0,
-								"fill_color", gcp::AddColor,
-								"x1", x - 2. ,
-								"x2", x + 2.,
-								"y1", y - 2.,
-								"y2", y + 2.,
-								NULL);*/
+				gccv::Circle *circle = new gccv::Circle (m_pView->GetCanvas (), x, y, 2);
+				circle->SetLineWidth (0.);
+				circle->SetLineColor (0);
+				circle->SetFillColor (gcp::AddColor);
+				m_Item = circle;
 			}
 			m_bChanged = true;
 		} else
