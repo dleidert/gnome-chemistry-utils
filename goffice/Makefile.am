@@ -4,7 +4,12 @@ DISTCLEANFILES = $(xml_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@gnome_canvas_CFLAGS@ \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@
+		@GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\"
 
 goffice_gchemutilsdir = $(GOFFICE_PLUGINS_DIR)/gchemutils
@@ -13,8 +18,7 @@ goffice_gchemutils_LTLIBRARIES = gchemutils.la
 gchemutils_la_LDFLAGS = -module -avoid-version -no-undefined
 
 gchemutils_la_LIBADD = \
-	$(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la \
-	@GCU_LIBS@
+	$(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la
 
 gchemutils_la_SOURCES =	\
 		gchemutils.cc	\

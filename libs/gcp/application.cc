@@ -338,7 +338,6 @@ Application::Application ():
 		/* get the theme style for labels so that tools buttons colors might
 		be adapted to the current theme */
 		GtkWidget *w=gtk_label_new("");
-		GtkSettings *st = gtk_settings_get_default();
 		m_Style = gtk_rc_get_style(w);
 		gtk_widget_destroy (w);
 
@@ -1032,7 +1031,7 @@ void Application::OnToolChanged (GtkAction *current)
 		m_pActiveTool->Activate(true);
 }
 
-void Application::BuildTools ()
+void Application::BuildTools () throw (std::runtime_error)
 {
 	Tools *ToolsBox = new Tools (this);
 	map<int, string>::iterator i, iend = ToolbarNames.end ();
@@ -1047,9 +1046,9 @@ void Application::BuildTools ()
 	gtk_ui_manager_insert_action_group (ToolsManager, action_group, 0);
 	for (j = UiDescs.begin (); j != jend; j++)
 		if (!gtk_ui_manager_add_ui_from_string (ToolsManager, *j, -1, &error)) {
-			g_message ("building user interface failed: %s", error->message);
+			string what = string ("building user interface failed: ") + error->message;
 			g_error_free (error);
-			exit (EXIT_FAILURE);
+			throw runtime_error (what);
 		}
 	for (i = ToolbarNames.begin (); i != iend; i++) {
 		s = "ui/";

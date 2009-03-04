@@ -60,7 +60,7 @@ Contructs the new window. Default menus do not have a File/Quit item.
 "</ui>";
 \endcode
 */
-	Window (gcp::Application *app, char const *theme = NULL, char const *extra_ui = NULL);
+	Window (gcp::Application *app, char const *theme = NULL, char const *extra_ui = NULL) throw (std::runtime_error);
 	virtual ~Window ();
 
 /*!

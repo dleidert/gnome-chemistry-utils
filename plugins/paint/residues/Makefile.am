@@ -1,6 +1,12 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@gnome_canvas_CFLAGS@ \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@GCU_CFLAGS@
+
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
         -DGLADEDIR=\"$(gladedir)\" \
@@ -9,7 +15,9 @@ DEFS += -DDATADIR=\"$(datadir)\" \
 residuesdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 residues_LTLIBRARIES = residues.la
 
-residues_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
+residues_la_LDFLAGS = -module -avoid-version
+residues_la_LIBADD = \
+		$(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la
 
 residues_la_SOURCES = \
 	plugin.cc \

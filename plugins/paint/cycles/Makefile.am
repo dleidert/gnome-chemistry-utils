@@ -6,7 +6,13 @@ CLEANFILES = $(BUILT_SOURCES)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@gnome_canvas_CFLAGS@ \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@GCU_CFLAGS@
+
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DGLADEDIR=\"$(gladedir)\" \
         -DPLUGINSDIR=\"$(cyclesdir)\"
@@ -32,7 +38,9 @@ VARIABLES = \
 cyclesdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 cycles_LTLIBRARIES = cycles.la
 
-cycles_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
+cycles_la_LDFLAGS = -module -avoid-version
+cycles_la_LIBADD = \
+		$(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la
 
 cycles_la_SOURCES = \
 	plugin.cc \

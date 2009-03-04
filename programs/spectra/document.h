@@ -27,9 +27,6 @@
 
 #include <gcu/macros.h>
 #include <gcu/spectrumdoc.h>
-#include <openbabel/mol.h>
-
-using namespace OpenBabel;
 
 class gsvApplication;
 

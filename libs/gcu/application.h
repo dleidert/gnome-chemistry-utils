@@ -48,7 +48,7 @@ class Dialog;
 /*!\class Application gcu/application.h
 This class is a base class for applications. It provides some basic services.
 */
-class Application: public DialogOwner
+class Application: virtual public DialogOwner
 {
 friend class Document;
 friend class Dialog;

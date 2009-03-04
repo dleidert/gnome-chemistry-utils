@@ -18,6 +18,10 @@ libmozgcu_la_LDFLAGS = -module -avoid-version
 libmozgcu_la_LIBADD = $(MOZILLA_LIBS)
 
 chem_viewer_SOURCES = chem-viewer.cc
-chem_viewer_LDADD = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la  \
-	$(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la @GCU_LIBS@
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+chem_viewer_LDADD = $(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@gnome_canvas_CFLAGS@ \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@
+		@GCU_CFLAGS@

@@ -10,8 +10,13 @@ CLEANFILES = \
 MAINTAINERCLEANFILES = Makefile.in gcrystal.desktop.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
-LDADD = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la @GCU_LIBS@
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@goffice_CFLAGS@ \
+		@gtkglext_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/crystal\" \
         -DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\"

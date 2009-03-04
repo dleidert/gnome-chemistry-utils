@@ -53,7 +53,7 @@
                       <widget class="GtkSpinButton" id="charge">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">0 -8 8 1 4 4</property>
+                        <property name="adjustment">0 -8 8 1 4 0</property>
                         <property name="climb_rate">1</property>
                       </widget>
                       <packing>
@@ -188,6 +188,7 @@ Van der Waals</property>
                                 <property name="visible">True</property>
                                 <property name="xpad">5</property>
                                 <property name="label" translatable="yes">Scale factor:</property>
+                                <property name="use_underline">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -197,7 +198,7 @@ Van der Waals</property>
                               <widget class="GtkSpinButton" id="scale-btn">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="adjustment">100 1 100 1 10 10</property>
+                                <property name="adjustment">100 1 100 1 10 0</property>
                               </widget>
                               <packing>
                                 <property name="position">1</property>

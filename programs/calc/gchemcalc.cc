@@ -264,7 +264,7 @@ GChemCalc *App;
 
 static void on_quit (GtkWidget *widget, void *data)
 {
-	gtk_main_quit();
+	gtk_widget_destroy (GTK_WIDGET (App->window));
 }
 
 static void on_help (GtkWidget *widget, gpointer data)

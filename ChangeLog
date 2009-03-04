@@ -1,5 +1,45 @@
 ##Text encoding: utf-8
 
+2009-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: try removing as many unused direct shlib dependency
+	as possible. [#20617]
+	* glade/crystal/atoms.glade: set page size to 0 for spin buttons to
+	avoid a warning when using gtk+-2 >= 2.14.0.
+	* goffice/Makefile.am: fixes for #20617.
+	* libs/canvas/Makefile.am: ditto.
+	* libs/gcp/Makefile.am: ditto.
+	* libs/gcp/application.cc: don't call exit in a library. [#25686]
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcp/window.h: ditto.
+	* libs/gcu/Makefile.am: fixes for #20617.
+	* libs/gcu/application.cc: store current directory as an URI.
+	* libs/gcu/application.h: make Printable a virtual parent class.
+	* libs/gcu/glview.cc: don't call exit in a library. [#25686]
+	* libs/gcu/glview.h: ditto.
+	* mozilla-plugin/Makefile.am: fixes for #20617.
+	* plugins/loaders/cdx/Makefile.am: ditto.
+	* plugins/loaders/cdxml/Makefile.am: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/templates/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/wikipedia/Makefile.am: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/calc/gchemcalc.cc: exits more cleanly (avoids a goffice
+	critical).
+	* programs/crystal/Makefile.am: fixes for #20617.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/spectra/document.h: ditto.
+	* programs/table/Makefile.am: ditto.
+	* tests/Makefile.am: ditto.
+
 2009-03-01  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* gendocs: Grep for lines beginning with DOC_MODULE.
 	* Makefile.am (MAINTAINERCLEANFILES): Added intltool*.in templates.

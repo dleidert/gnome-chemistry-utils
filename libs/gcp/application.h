@@ -37,6 +37,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <stdexcept>
 
 /*!\file*/
 /*!\namespace gcp
@@ -441,7 +442,7 @@ called only once aafter startup by the framework.
 Builds the tools box. This method is
 called only once after startup by the framework.
 */
-	void BuildTools ();
+	void BuildTools () throw (std::runtime_error);
 /*!
 @param visible whether the tools box should be visible or not
 

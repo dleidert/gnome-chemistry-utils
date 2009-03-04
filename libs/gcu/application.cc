@@ -80,7 +80,11 @@ Application::Application (string name, string datadir, char const *help_name, ch
 		HelpFilename = string ("file://") + datadir + string ("/gnome/help/") + HelpName + string ("-"API_VERSION"/C/") + HelpName + "-"API_VERSION".xml";
 	}
 	HelpBrowser = "yelp"; // there is no more key for that
-	CurDir = g_get_current_dir ();
+	char *dir = g_get_current_dir ();
+	char *uri = g_filename_to_uri (dir, NULL, NULL);
+	g_free (dir);
+	CurDir = uri;
+	g_free (uri);
 	if (first_call) { // needed to create several applications in the same program instance
 		g_set_application_name (name.c_str ());
 		first_call = false;
