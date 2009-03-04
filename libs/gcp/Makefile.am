@@ -93,12 +93,25 @@ libgchempaint_@GCU_API_VER@_la_LDFLAGS = \
 libgchempaint_@GCU_API_VER@_la_LIBADD = \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(top_builddir)/libs/canvas/libgcpcanvas-@GCU_API_VER@.la
+if GCU_NEEDS_GCONF
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		@gnome_canvas_CFLAGS@ \
 		@goffice_CFLAGS@ \
+		@gtkglext_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@gconf_CFLAGS@ \
+		@GCU_CFLAGS@
+else
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@gnome_canvas_CFLAGS@ \
+		@goffice_CFLAGS@ \
+		@gtkglext_CFLAGS@ \
 		@openbabel_CFLAGS@ \
 		@GCU_CFLAGS@
+endif
+
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
 		-DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/paint\" \
 		-DPLUGINSDIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins/paint\" \

@@ -19,9 +19,19 @@ libmozgcu_la_LIBADD = $(MOZILLA_LIBS)
 
 chem_viewer_SOURCES = chem-viewer.cc
 chem_viewer_LDADD = $(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la
+if GCU_NEEDS_GCONF
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		@gnome_canvas_CFLAGS@ \
 		@goffice_CFLAGS@ \
-		@openbabel_CFLAGS@
+		@openbabel_CFLAGS@ \
+		@gnome_vfs_CFLAGS@ \
 		@GCU_CFLAGS@
+else
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@gnome_canvas_CFLAGS@ \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@GCU_CFLAGS@
+endif

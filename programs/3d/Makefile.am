@@ -6,12 +6,22 @@ MAINTAINERCLEANFILES = Makefile.in gchem3d.desktop.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+if GCU_NEEDS_GCONF
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@goffice_CFLAGS@ \
+		@gtkglext_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@gnome_vfs_CFLAGS@ \
+		@GCU_CFLAGS@
+else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		@goffice_CFLAGS@ \
 		@gtkglext_CFLAGS@ \
 		@openbabel_CFLAGS@ \
 		@GCU_CFLAGS@
+endif
 DEFS += -DDATADIR=\"$(datadir)\"
 
 bin_PROGRAMS = gchem3d-@GCU_API_VER@

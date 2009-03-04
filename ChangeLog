@@ -1,6 +1,32 @@
 ##Text encoding: utf-8
 
 2009-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed compilation with goffice-0.6.x.
+	* goffice/Makefile.am: ditto.
+	* libs/gcp/Makefile.am: ditto.
+	* libs/gcu/Makefile.am: ditto.
+	* mozilla-plugin/Makefile.am: ditto.
+	* plugins/loaders/cdx/Makefile.am: ditto.
+	* plugins/loaders/cdxml/Makefile.am: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/templates/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/wikipedia/Makefile.am: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/calc/gchemcalc.cc: reomved an obsolete ifdef.
+	* programs/crystal/Makefile.am: fixed compilation with goffice-0.6.x.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/table/Makefile.am: ditto.
+	* tests/Makefile.am: ditto.
+
+2009-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: try removing as many unused direct shlib dependency
 	as possible. [#20617]
 	* glade/crystal/atoms.glade: set page size to 0 for spin buttons to
@@ -36,8 +62,8 @@
 	* programs/crystal/Makefile.am: fixes for #20617.
 	* programs/paint/Makefile.am: ditto.
 	* programs/spectra/Makefile.am: ditto.
-	* programs/spectra/document.h: ditto.
-	* programs/table/Makefile.am: ditto.
+	* programs/spectra/document.h: remove unused OpenBabel namespace.
+	* programs/table/Makefile.am: fixes for #20617.
 	* tests/Makefile.am: ditto.
 
 2009-03-01  Daniel Leidert  <daniel.leidert@wgdd.de>

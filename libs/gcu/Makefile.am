@@ -1,11 +1,21 @@
 MAINTAINERCLEANFILES = Makefile.in
 
+if GCU_NEEDS_GCONF
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@goffice_CFLAGS@ \
+		@gtkglext_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@gconf_CFLAGS@ \
+		@GCU_CFLAGS@
+else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		@goffice_CFLAGS@ \
 		@gtkglext_CFLAGS@ \
 		@openbabel_CFLAGS@ \
 		@GCU_CFLAGS@
+endif
 libgcu_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcu_@GCU_API_VER@_la_LIBADD = \

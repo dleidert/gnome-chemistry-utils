@@ -123,11 +123,6 @@ if test "x$libgoffice" = x; then
   libgoffice=libgoffice-0.6
 fi
 
-if test "$libgoffice" = "libgoffice-0.6"; then
-	AC_DEFINE_UNQUOTED([GOFFICE_IS_0_6], [1], [Whether goffice is 0.6.x or later])
-	REQUIREMENTS="$REQUIREMENTS gnome-vfs-module-2.0 >= 2.4.0"
-fi
-
 PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
 PKG_CHECK_MODULES(cairo, [cairo >= 1.6.0])
 PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.16.1])
@@ -141,6 +136,14 @@ PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.6.5])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.1.0])
+
+if test "$libgoffice" = "libgoffice-0.6"; then
+	AC_DEFINE_UNQUOTED([GOFFICE_IS_0_6], [1], [Whether goffice is 0.6.x or later])
+	PKG_CHECK_MODULES(gconf, [gconf-2.0 >= 2.4.0])
+	PKG_CHECK_MODULES(gnome_vfs, [gnome-vfs-module-2.0 >= 2.4.0])
+fi
+
+AM_CONDITIONAL([GCU_NEEDS_GCONF], [test "$libgoffice" = "libgoffice-0.6"])
 
 dnl check if goffice <=0.7.2 has gnome support
 PKG_CHECK_MODULES(need_goffice_with_gnome, [$libgoffice <= 0.7.2], [need_gnome_support=yes], [need_gnome_support=no])

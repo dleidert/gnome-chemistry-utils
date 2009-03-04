@@ -12,10 +12,18 @@ MAINTAINERCLEANFILES = Makefile.in gchempaint.desktop.in
 DEPS =  $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcu/libgcpcanvas-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la
+if GCU_NEEDS_GCONF
+INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs \
+		@gnome_canvas_CFLAGS@ \
+		@goffice_CFLAGS@ \
+		@gnome_vfs_CFLAGS@ \
+		@GCU_CFLAGS@
+else
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs \
 		@gnome_canvas_CFLAGS@ \
 		@goffice_CFLAGS@ \
 		@GCU_CFLAGS@
+endif
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/paint\"
 

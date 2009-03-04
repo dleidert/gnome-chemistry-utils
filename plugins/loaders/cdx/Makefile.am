@@ -4,11 +4,21 @@ CLEANFILES = $(xml_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
+if GCU_NEEDS_GCONF
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		@goffice_CFLAGS@ \
 		@openbabel_CFLAGS@ \
+		@gconf_CFLAGS@ \
 		@GCU_CFLAGS@
+else
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@gconf_CFLAGS@ \
+		@GCU_CFLAGS@
+endif
 DEFS += -DDATADIR=\"$(datadir)\"
 
 gcu_loader_cdxdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/cdx
