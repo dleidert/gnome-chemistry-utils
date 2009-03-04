@@ -107,7 +107,7 @@ static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *e
 // GLView implementation
 #define GCU_CONF_DIR_GL "gl"
 
-GLView::GLView (GLDocument* pDoc): Printable ()
+GLView::GLView (GLDocument* pDoc) throw (std::runtime_error): Printable ()
 {
 	m_bInit = false;
 	m_Doc = pDoc;
@@ -121,10 +121,7 @@ GLView::GLView (GLDocument* pDoc): Printable ()
 	{
 		/* Check if OpenGL is supported. */
 		if (!gdk_gl_query_extension())
-		{
-			g_print("\n*** OpenGL is not supported.\n");
-			exit(1);
-		}
+			throw  runtime_error ("*** OpenGL is not supported.\n");
 	
 		/* Configure OpenGL-capable visual. */
 	
@@ -133,10 +130,7 @@ GLView::GLView (GLDocument* pDoc): Printable ()
 											GDK_GL_MODE_DEPTH |
 											GDK_GL_MODE_DOUBLE));
 		if (glconfig == NULL)
-		{
-			g_print("*** Cannot find the double-buffered visual.\n");
-			  exit(1);
-		}
+			throw  runtime_error ("*** Cannot find the double-buffered visual.\n");
 #ifdef HAVE_GO_CONF_SYNC
 		m_ConfNode = go_conf_get_node (Application::GetConfDir (), GCU_CONF_DIR_GL);
 #else

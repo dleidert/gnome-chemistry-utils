@@ -88,11 +88,148 @@ void SizeTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Font style tag class
+
+StyleTextTag::StyleTextTag (PangoStyle style):
+	TextTag (Style),
+	m_Style (style)
+{
+}
+
+StyleTextTag::~StyleTextTag ()
+{
+}
+
+void StyleTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Font weight tag class
+
+WeightTextTag::WeightTextTag (PangoWeight weight):
+	TextTag (Style),
+	m_Weight (weight)
+{
+}
+
+WeightTextTag::~WeightTextTag ()
+{
+}
+
+void WeightTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Font variant tag class
+
+VariantTextTag::VariantTextTag (PangoVariant variant):
+	TextTag (Style),
+	m_Variant (variant)
+{
+}
+
+VariantTextTag::~VariantTextTag ()
+{
+}
+
+void VariantTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Font strecth tag class
+
+StretchTextTag::StretchTextTag (PangoStretch stretch):
+	TextTag (Style),
+	m_Stretch (stretch)
+{
+}
+
+StretchTextTag::~StretchTextTag ()
+{
+}
+
+void StretchTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Font underline tag class
+
+UnderlineTextTag::UnderlineTextTag (PangoUnderline underline):
+	TextTag (Style),
+	m_Underline (underline)
+{
+}
+
+UnderlineTextTag::~UnderlineTextTag ()
+{
+}
+
+void UnderlineTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Font foreground tag class
+
+ForegroundTextTag::ForegroundTextTag (GOColor color):
+	TextTag (Style),
+	m_Color (color)
+{
+}
+
+ForegroundTextTag::~ForegroundTextTag ()
+{
+}
+
+void ForegroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Font background tag class
+
+BackgroundTextTag::BackgroundTextTag (GOColor color):
+	TextTag (Style),
+	m_Color (color)
+{
+}
+
+BackgroundTextTag::~BackgroundTextTag ()
+{
+}
+
+void BackgroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Font rise tag class
+
+RiseTextTag::RiseTextTag (double rise):
+	TextTag (Style),
+	m_Rise (rise)
+{
+}
+
+RiseTextTag::~RiseTextTag ()
+{
+}
+
+void RiseTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Subscript tag class
 
-SubscriptTextTag::SubscriptTextTag (double size):
+SubscriptTextTag::SubscriptTextTag (double size, bool stacked):
 	TextTag (Subscript, TagPriorityLast),
-	m_Size (size)
+	m_Size (size),
+	m_Stacked (stacked)
 {
 }
 
@@ -172,6 +309,24 @@ void SubscriptTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	std::list <PangoAttribute *>::iterator k, kend = data.extra.end ();
 	for (k = data.extra.begin (); k != kend; k++)
 		pango_attr_list_insert (l, *k);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Superscript tag class
+
+SuperscriptTextTag::SuperscriptTextTag (double size, bool stacked):
+	TextTag (Subscript, TagPriorityLast),
+	m_Size (size),
+	m_Stacked (stacked)
+{
+}
+
+SuperscriptTextTag::~SuperscriptTextTag ()
+{
+}
+
+void SuperscriptTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
 }
 
 }

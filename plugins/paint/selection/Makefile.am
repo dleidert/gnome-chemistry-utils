@@ -6,7 +6,12 @@ CLEANFILES = $(BUILT_SOURCES)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@GCU_CFLAGS@
+
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DGLADEDIR=\"$(gladedir)\" \
         -DPLUGINSDIR=\"$(selectiondir)\"
@@ -32,7 +37,9 @@ VARIABLES = \
 selectiondir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 selection_LTLIBRARIES = selection.la
 
-selection_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
+selection_la_LDFLAGS = -module -avoid-version
+selection_la_LIBADD = \
+		$(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la
 
 selection_la_SOURCES = \
 	plugin.cc \

@@ -167,7 +167,7 @@ the associated Residue through a gcu::SymbolResidue structure.
 @param mol a molecule to compare to the atoms group.
 @return true if the molecule is the same as the one associated with \a this.
 */
-	virtual bool operator== (Molecule const &mol) const {return false;}
+	virtual bool operator== (G_GNUC_UNUSED Molecule const &mol) const {return false;}
 
 public:
 /*!

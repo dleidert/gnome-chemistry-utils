@@ -26,6 +26,7 @@
 #define GCCV_TEXT_TAG_H
 
 #include <gcu/macros.h>
+#include <goffice/utils/go-color.h>
 #include <pango/pango.h>
 #include <string>
 
@@ -38,7 +39,14 @@ typedef enum
 	Invalid,
 	Family,
 	Size,
+	Style,
 	Weight,
+	Variant,
+	Strecth,
+	Underline,
+	Foreground,
+	Background,
+	Rise,
 	Subscript,
 	Superscript,
 	Max
@@ -89,16 +97,126 @@ private:
 	double m_Size;
 };
 
+class StyleTextTag: public TextTag
+{
+public:
+	StyleTextTag (PangoStyle style);
+	virtual ~StyleTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	PangoStyle m_Style;
+};
+
+class WeightTextTag: public TextTag
+{
+public:
+	WeightTextTag (PangoWeight weight);
+	virtual ~WeightTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	PangoWeight m_Weight;
+};
+
+class VariantTextTag: public TextTag
+{
+public:
+	VariantTextTag (PangoVariant variant);
+	virtual ~VariantTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	PangoVariant m_Variant;
+};
+
+class StretchTextTag: public TextTag
+{
+public:
+	StretchTextTag (PangoStretch stretch);
+	virtual ~StretchTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	PangoStretch m_Stretch;
+};
+
+class UnderlineTextTag: public TextTag
+{
+public:
+	UnderlineTextTag (PangoUnderline underline);
+	virtual ~UnderlineTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	PangoUnderline m_Underline;
+};
+
+class ForegroundTextTag: public TextTag
+{
+public:
+	ForegroundTextTag (GOColor m_Color);
+	virtual ~ForegroundTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	GOColor m_Color;
+};
+
+class BackgroundTextTag: public TextTag
+{
+public:
+	BackgroundTextTag (GOColor m_Color);
+	virtual ~BackgroundTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	GOColor m_Color;
+};
+
+class RiseTextTag: public TextTag
+{
+public:
+	RiseTextTag (double size);
+	virtual ~RiseTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	double m_Rise;
+};
+
 class SubscriptTextTag: public TextTag
 {
 public:
-	SubscriptTextTag (double size);
+	SubscriptTextTag (double size, bool stacked = false);
 	virtual ~SubscriptTextTag ();
 
 	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
 
 private:
 	double m_Size; // default size
+	bool m_Stacked;
+};
+
+class SuperscriptTextTag: public TextTag
+{
+public:
+	SuperscriptTextTag (double size, bool stacked = false);
+	virtual ~SuperscriptTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	double m_Size; // default size
+	bool m_Stacked;
 };
 
 }   //	namespace gccv

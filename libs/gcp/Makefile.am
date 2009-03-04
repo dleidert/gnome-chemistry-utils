@@ -104,11 +104,16 @@ noinst_HEADERS = \
 		theme.h \
 		Hposdlg.h
 		
-libgcp_@GCU_API_VER@_la_LDFLAGS = -version-info  @GCU_VERSION_INFO@ \
-	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
-	$(top_builddir)/libs/gccv/libgccv-@GCU_API_VER@.la \
-	@GCU_LIBS@
-AM_CXXFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+libgcp_@GCU_API_VER@_la_LDFLAGS = \
+		-version-info  @GCU_VERSION_INFO@
+libgcp_@GCU_API_VER@_la_LIBADD = \
+		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+		$(top_builddir)/libs/gccv/libgccv-@GCU_API_VER@.la
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
 	-DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/paint\" \
 	-DPLUGINSDIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins/paint\" \

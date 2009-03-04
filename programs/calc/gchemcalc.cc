@@ -166,7 +166,7 @@ void GChemCalc::ParseNodes (xmlNodePtr node)
 	}
 }
 
-void GChemCalc::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
+void GChemCalc::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
 {
 	cairo_t *cr;
 	gdouble width, height;
@@ -221,7 +221,7 @@ void GChemCalc::OnSaveAsImage ()
 	FileChooser (this, true, l, NULL, _("Save as image"), GetImageSizeWidget ());
 }
 
-bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc)
+bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc)
 {
 	if(bSave) {
 		GFile *file = g_file_new_for_uri (filename);
@@ -262,42 +262,42 @@ bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool
 
 GChemCalc *App;
 
-static void on_quit (GtkWidget *widget, void *data)
+static void on_quit (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 {
-	gtk_main_quit();
+	gtk_widget_destroy (GTK_WIDGET (App->window));
 }
 
-static void on_help (GtkWidget *widget, gpointer data)
+static void on_help (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer data)
 {
 	App->OnHelp ();
 }
 
-static void on_web (GtkWidget *widget, gpointer data)
+static void on_web (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer data)
 {
 	App->OnWeb ();
 }
 
-static void on_mail (GtkWidget *widget, gpointer data)
+static void on_mail (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer data)
 {
 	App->OnMail ();
 }
 
-static void on_live_assistance (GtkWidget *widget, gpointer dataw)
+static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer dataw)
 {
 	App->OnLiveAssistance ();
 }
 
-static void on_bug (GtkWidget *widget, gpointer data)
+static void on_bug (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer data)
 {
 	App->OnBug ();
 }
 
-static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, G_GNUC_UNUSED gpointer data)
 {
 	App->OnWeb (url);
 }
 
-static void on_about (GtkWidget *widget, void *data)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GChemCalc is a simple calculator for chemists");
@@ -488,7 +488,7 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 
 static GogGraph *graph = NULL;
 
-static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, gpointer data)
+static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, G_GNUC_UNUSED gpointer data)
 {
 	guchar *buffer = NULL;
 	char *format = NULL;
@@ -549,7 +549,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	}
 }
 
-void on_clear_data(GtkClipboard *clipboard, gpointer data)
+void on_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED gpointer data)
 {
 	g_object_unref (graph);
 	graph = NULL;
@@ -593,12 +593,12 @@ static void on_save_as_image ()
 	App->OnSaveAsImage ();
 }
 
-static void on_mode (GtkRadioAction *action, GtkRadioAction *current)
+static void on_mode (GtkRadioAction *action, G_GNUC_UNUSED GtkRadioAction *current)
 {
 	App->formula.SetParseMode (static_cast <FormulaParseMode> (gtk_radio_action_get_current_value (action)));
 }
 
-static void on_page (GtkNotebook *book, GtkNotebookPage *p, int page)
+static void on_page (G_GNUC_UNUSED GtkNotebook *book, G_GNUC_UNUSED GtkNotebookPage *p, int page)
 {
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/FileMenu/SaveAsImage"), page);
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/FileMenu/PageSetup"), page);
@@ -608,7 +608,7 @@ static void on_page (GtkNotebook *book, GtkNotebookPage *p, int page)
 }
 
 static GtkActionEntry entries[] = {
-  { "FileMenu", NULL, N_("_File") },
+  { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
 		  N_("Save the current file as an image"), G_CALLBACK (on_save_as_image) },
 	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
@@ -619,11 +619,11 @@ static GtkActionEntry entries[] = {
 		  N_("Print the current file"), G_CALLBACK (on_print) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemCalc"), G_CALLBACK (on_quit) },
-  { "EditMenu", NULL, N_("_Edit") },
+  { "EditMenu", NULL, N_("_Edit"), NULL, NULL, NULL },
 	  { "Copy", GTK_STOCK_COPY, N_("_Copy"), "<control>C",
 		  N_("Copy the selection"), G_CALLBACK (on_copy) },
-  { "ModeMenu", NULL, N_("_Mode") },
-  { "HelpMenu", NULL, N_("_Help") },
+  { "ModeMenu", NULL, N_("_Mode"), NULL, NULL, NULL },
+  { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Chemical Calculator"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
@@ -650,7 +650,7 @@ static GtkRadioActionEntry radios[] = {
 		GCU_FORMULA_PARSE_RESIDUE },
 	{ "Ask", NULL, N_("As_k"), NULL,
 		N_("Ask user for the correct interpretation of ambiguous symbols"),
-		GCU_FORMULA_PARSE_ASK },
+		GCU_FORMULA_PARSE_ASK }
 };
 
 static const char *ui_description =
@@ -685,7 +685,7 @@ static const char *ui_description =
 "  </menubar>"
 "</ui>";
 
-gboolean cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
+gboolean cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNUSED const gchar *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
 {
 	char *version = g_strconcat (_("GChemCalc Calculator version: "), VERSION, NULL);
 	puts (version);
@@ -697,7 +697,7 @@ gboolean cb_print_version (const gchar *option_name, const gchar *value, gpointe
 static GOptionEntry options[] = 
 {
   { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints GChemCalc version", NULL },
-   { NULL }
+   { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
 int main (int argc, char *argv[])

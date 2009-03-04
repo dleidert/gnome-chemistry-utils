@@ -8,10 +8,15 @@ CLEANFILES = $(BUILT_SOURCES) $(schemas_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@goffice_CFLAGS@ \
+		@openbabel_CFLAGS@ \
+		@GCU_CFLAGS@
+
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DGLADEDIR=\"$(gladedir)\" \
-	-DPLUGINSDIR=\"$(arrowsdir)\"
+		-DPLUGINSDIR=\"$(arrowsdir)\"
 
 IMAGES = \
 	arrow1-24.png \
@@ -32,7 +37,9 @@ VARIABLES = \
 arrowsdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
 arrows_LTLIBRARIES = arrows.la
 
-arrows_la_LDFLAGS = @GCU_LIBS@ -module -avoid-version
+arrows_la_LDFLAGS = -module -avoid-version
+arrows_la_LIBADD = \
+		$(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la
 
 arrows_la_SOURCES = \
 	plugin.cc \

@@ -49,7 +49,7 @@ class Dialog;
 /*!\class Application gcu/application.h
 This class is a base class for applications. It provides some basic services.
 */
-class Application: public DialogOwner
+class Application: virtual public DialogOwner
 {
 friend class Document;
 friend class Dialog;
@@ -107,7 +107,7 @@ if they use the FileChooser.
 	
 @return true if no error occured.
 */
-	virtual bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL)
+	virtual bool FileProcess (G_GNUC_UNUSED const gchar* filename, G_GNUC_UNUSED const gchar* mime_type, G_GNUC_UNUSED bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc = NULL)
 		{return false;}
 
 /*!

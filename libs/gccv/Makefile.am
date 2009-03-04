@@ -43,5 +43,13 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	text-tag.cc	\
 	wedge.cc
 
-libgccv_@GCU_API_VER@_la_LDFLAGS = - -version-info  @GCU_VERSION_INFO@ @GCU_LIBS@
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/libs @GCU_CFLAGS@
+libgccv_@GCU_API_VER@_la_LDFLAGS = \
+		-version-info  @GCU_VERSION_INFO@
+libgccv_@GCU_API_VER@_la_LIBADD = \
+		@cairo_LIBS@ \
+		@gtk_LIBS@ \
+		@goffice_LIBS@
+INCLUDES = \
+		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		@goffice_CFLAGS@ \
+		@GCU_CFLAGS@

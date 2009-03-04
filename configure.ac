@@ -123,43 +123,28 @@ if test "x$libgoffice" = x; then
   libgoffice=libgoffice-0.6
 fi
 
-LIBGLADE_REQUIRED_VERSION=2.4.0
-CAIRO_REQUIRED_VERSION=1.6.0
-GTKGLEXT_REQUIRED_VERSION=1.0.0
-SHARED_MIME_INFO_REQUIRED_VERSION=0.12
-OPENBABEL_REQUIRED_VERSION=2.1.0
-GTK_REQUIRED_VERSION=2.12.0
-GIO_REQUIRED_VERSION=2.16.1
-GSF_VERSION_REQUIRED=1.14.9
-GNOME_OFFICE_REQUIRED_VERSION=0.6.5
-CHEMICAL_MIME_DATA_REQUIRED_VERSION=0.1.94
-BODR_REQUIRED_VERSION=5
-
-REQUIREMENTS="\
-cairo >= $CAIRO_REQUIRED_VERSION \
-libglade-2.0 >= $LIBGLADE_REQUIRED_VERSION \
-gio-2.0 >= $GIO_REQUIRED_VERSION \
-gtk+-2.0 >= $GTK_REQUIRED_VERSION \
-gtkglext-1.0 >= $GTKGLEXT_REQUIRED_VERSION \
-libgsf-1 >= 1.14.9 \
-$libgoffice >= $GNOME_OFFICE_REQUIRED_VERSION \
-chemical-mime-data >= $CHEMICAL_MIME_DATA_REQUIRED_VERSION \
-shared-mime-info >= $SHARED_MIME_INFO_REQUIRED_VERSION \
-openbabel-2.0 >= $OPENBABEL_REQUIRED_VERSION \
-bodr >= $BODR_REQUIRED_VERSION"
-
 if test "$libgoffice" = "libgoffice-0.6"; then
 	AC_DEFINE_UNQUOTED([GOFFICE_IS_0_6], [1], [Whether goffice is 0.6.x or later])
 	REQUIREMENTS="$REQUIREMENTS gnome-vfs-module-2.0 >= 2.4.0"
 fi
 
-PKG_CHECK_MODULES(GCU, $REQUIREMENTS)
+PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
+PKG_CHECK_MODULES(cairo, [cairo >= 1.6.0])
+PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.16.1])
+PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.12.0])
+PKG_CHECK_MODULES(glade, [libglade-2.0 >= 2.4.0])
+PKG_CHECK_MODULES(gtkglext, [gtkglext-1.0 >= 1.0.0])
+PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
+PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.6.5])
+PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
+PKG_CHECK_MODULES(bodr, [bodr >= 5])
+PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.1.0])
 
 dnl check if goffice <=0.7.2 has gnome support
 PKG_CHECK_MODULES(need_goffice_with_gnome, [$libgoffice <= 0.7.2], [need_gnome_support=yes], [need_gnome_support=no])
 if test "x$need_gnome_support" = yes; then
 	saved_cflags=$CFLAGS
-	CFLAGS=$GCU_CFLAGS
+	CFLAGS=$goffice_CFLAGS
 	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 	#include <goffice/goffice-features.h>
 	#ifndef GOFFICE_WITH_GNOME
@@ -168,10 +153,6 @@ if test "x$need_gnome_support" = yes; then
 	]])], [], [AC_MSG_ERROR([you need a libgoffice version with gnome support])])
 	CFLAGS=$saved_cflags
 fi
-
-dnl check for OSMesa
-dnl AC_CHECK_HEADER([GL/osmesa.h], [], [AC_MSG_ERROR([GL/mesa.h could not be found, please install])])
-dnl AC_CHECK_LIB([OSMesa], [OSMesaMakeCurrent], [], [AC_MSG_ERROR([libOSMesa could not be found, please install])])
 
 PKG_CHECK_MODULES(OB22, openbabel-2.0 >= 2.2.0,
 [ob22="yes"],[ob22="no"])
@@ -189,9 +170,12 @@ dnl retrieve BODR data directory
 bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
 AC_DEFINE_UNQUOTED([BODR_PKGDATADIR], ["$bodr_pkgdatadir"], [Path to Blue Obelisk Data Repository])
 
-GCU_CFLAGS="$GCU_CFLAGS -DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall"
+if test "x$gcu_is_stable" = "xyes"; then
+	GCU_CFLAGS="-Wall -Wextra"
+else
+	GCU_CFLAGS="-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall -Wextra"
+fi
 AC_SUBST([GCU_CFLAGS])
-AC_SUBST([GCU_LIBS])
 
 dnl --without is not handled
 GOFFICE_PLUGINS_DIR=`pkg-config --variable=PluginDir $libgoffice`
@@ -211,8 +195,8 @@ AC_ARG_WITH(
 dnl test some functions
 saved_cflags=$CFLAGS
 saved_libs=$LIBS
-CFLAGS=$GCU_CFLAGS
-LIBS=$GCU_LIBS
+CFLAGS=$goffice_CFLAGS
+LIBS=$goffice_LIBS
 AC_CHECK_FUNCS(go_conf_sync)
 CFLAGS=$saved_cflags
 LIBS=$saved_libs

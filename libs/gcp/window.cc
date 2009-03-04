@@ -33,6 +33,7 @@
 #include <gcu/filechooser.h>
 #include <gcu/print-setup-dlg.h>
 #include <glib/gi18n-lib.h>
+#include <string>
 
 static void on_destroy (GtkWidget* widget, gcp::Window* Win)
 {
@@ -438,7 +439,7 @@ using namespace gcu;
 
 namespace gcp {
 
-Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui):
+Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) throw (std::runtime_error):
 	Target (App)
 {
 	GtkWidget *vbox;
@@ -470,9 +471,9 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui):
 	
 	error = NULL;
 	if (!gtk_ui_manager_add_ui_from_string (m_UIManager, ui_description, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
+		std::string what = std::string ("building menus failed: ") + error->message;
 		g_error_free (error);
-		exit (EXIT_FAILURE);
+		throw std::runtime_error (what);
 	}
 	if (extra_ui && !gtk_ui_manager_add_ui_from_string (m_UIManager, extra_ui, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);

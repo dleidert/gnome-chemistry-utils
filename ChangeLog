@@ -1,3 +1,48 @@
+2009-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: try removing as many unused direct shlib dependency
+	as possible. [#20617]
+	* glade/crystal/atoms.glade: set page size to 0 for spin buttons to
+	avoid a warning when using gtk+-2 >= 2.14.0.
+	* goffice/Makefile.am: fixes for #20617.
+	* libs/gccv/Makefile.am: ditto.
+	* libs/gccv/text-tag.cc: add new tags.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gcp/Makefile.am: fixes for #20617.
+	* libs/gcp/application.cc: don't call exit in a library. [#25686]
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcp/window.h: ditto.
+	* libs/gcu/Makefile.am: fixes for #20617.
+	* libs/gcu/application.cc: store current directory as an URI.
+	* libs/gcu/application.h: make Printable a virtual parent class.
+	* libs/gcu/glview.cc: don't call exit in a library. [#25686]
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/residue.h: add G_GNUC_UNUSED flags when needed.
+	* mozilla-plugin/Makefile.am: fixes for #20617.
+	* plugins/loaders/cdx/Makefile.am: ditto.
+	* plugins/loaders/cdxml/Makefile.am: ditto.
+	* plugins/loaders/cif/Makefile.am: ditto.
+	* plugins/loaders/cml/Makefile.am: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/templates/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/wikipedia/Makefile.am: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/calc/gchemcalc.cc: exits more cleanly (avoids a goffice
+	critical) and add G_GNUC_UNUSED flags when needed.
+	* programs/crystal/Makefile.am: fixes for #20617.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/spectra/document.h: remove unused OpenBabel namespace.
+	* programs/table/Makefile.am: fixes for #20617.
+	* tests/Makefile.am: ditto.
+
 ##Text encoding: utf-8
 
 2009-03-03  Jean Bréfort  <jean.brefort@normalesup.org>
@@ -57,7 +102,7 @@
 
 2009-01-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: first implementation for bounds.
-	* libs/gccv/text.cc: fixed run lentgh (must be in bytes, not chars).
+	* libs/gccv/text.cc: fixed run length (must be in bytes, not chars).
 
 2009-01-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: add new files.

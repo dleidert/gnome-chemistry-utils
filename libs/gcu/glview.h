@@ -36,6 +36,7 @@
 #include <gtk/gtkwidget.h>
 #include <map>
 #include <string>
+#include <stdexcept>
 
 extern double DefaultPsi, DefaultTheta, DefaultPhi;
 
@@ -58,7 +59,7 @@ public:
 
 Creates a view for the document.
 */
-	GLView (GLDocument* pDoc);
+	GLView (GLDocument* pDoc) throw (std::runtime_error);
 //!Destructor.
 /*!
 The destructor of GLView.
