@@ -68,9 +68,6 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-gio.h>
-#ifdef GOFFICE_IS_0_6
-#	include <libgnomevfs/gnome-vfs-init.h>
-#endif
 #include <libxml/tree.h>
 #include <iostream>
 #include <cmath>
@@ -706,12 +703,6 @@ int main (int argc, char *argv[])
 	GError *error = NULL;
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
-#ifdef GOFFICE_IS_0_6
-	if (!gnome_vfs_init ()) {
-		printf ("Could not initialize GnomeVFS\n");
-		return 1;
-	}
-#endif
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [formula]"));
 		g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
@@ -794,11 +785,7 @@ int main (int argc, char *argv[])
 	App->mono = GTK_LABEL (glade_xml_get_widget (xml, "mono"));
 	App->monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
 	App->pattern_page = glade_xml_get_widget (xml, "pattern");
-#ifdef GO_GRAPH_WIDGET_OLD_API
-	App->graph_widget = go_graph_widget_new ();
-#else
 	App->graph_widget = go_graph_widget_new (NULL);
-#endif
 	gtk_widget_show (App->graph_widget);
 	gtk_box_pack_end (GTK_BOX (App->pattern_page), App->graph_widget, TRUE, TRUE, 0);
 	App->graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (App->graph_widget));

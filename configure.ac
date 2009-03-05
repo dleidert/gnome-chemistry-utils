@@ -110,8 +110,8 @@ AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
 libgoffice=
-dnl Only 0.6.x, or later will work
-for ver in 0.8 0.6 ; do
+dnl Only 0.7.x, or later will work
+for ver in 0.8 ; do
   if test "x$libgoffice" = x; then
     if pkg-config --exists libgoffice-$ver; then
       libgoffice=libgoffice-$ver
@@ -120,12 +120,7 @@ for ver in 0.8 0.6 ; do
 done
 if test "x$libgoffice" = x; then
   # Not important.  Things will fail below.
-  libgoffice=libgoffice-0.6
-fi
-
-if test "$libgoffice" = "libgoffice-0.6"; then
-	AC_DEFINE_UNQUOTED([GOFFICE_IS_0_6], [1], [Whether goffice is 0.6.x or later])
-	REQUIREMENTS="$REQUIREMENTS gnome-vfs-module-2.0 >= 2.4.0"
+  libgoffice=libgoffice-0.8
 fi
 
 PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
@@ -135,24 +130,10 @@ PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.12.0])
 PKG_CHECK_MODULES(glade, [libglade-2.0 >= 2.4.0])
 PKG_CHECK_MODULES(gtkglext, [gtkglext-1.0 >= 1.0.0])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
-PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.6.5])
+PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.7.3])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.1.0])
-
-dnl check if goffice <=0.7.2 has gnome support
-PKG_CHECK_MODULES(need_goffice_with_gnome, [$libgoffice <= 0.7.2], [need_gnome_support=yes], [need_gnome_support=no])
-if test "x$need_gnome_support" = yes; then
-	saved_cflags=$CFLAGS
-	CFLAGS=$goffice_CFLAGS
-	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-	#include <goffice/goffice-features.h>
-	#ifndef GOFFICE_WITH_GNOME
-	#error no gnome support present
-	#endif
-	]])], [], [AC_MSG_ERROR([you need a libgoffice version with gnome support])])
-	CFLAGS=$saved_cflags
-fi
 
 PKG_CHECK_MODULES(OB22, openbabel-2.0 >= 2.2.0,
 [ob22="yes"],[ob22="no"])
@@ -192,14 +173,7 @@ AC_ARG_WITH(
 	]
 )
 
-dnl test some functions
-saved_cflags=$CFLAGS
-saved_libs=$LIBS
-CFLAGS=$goffice_CFLAGS
-LIBS=$goffice_LIBS
-AC_CHECK_FUNCS(go_conf_sync)
-CFLAGS=$saved_cflags
-LIBS=$saved_libs
+dnl test some functions if needed
 
 AC_SUBST([GOFFICE_PLUGINS_DIR])
 

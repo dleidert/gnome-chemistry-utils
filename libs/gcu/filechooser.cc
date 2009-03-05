@@ -113,10 +113,6 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 			filename = gtk_file_chooser_get_uri (chooser);
 			if (!mime_type) {
 				mime_type = go_get_mime_type (filename);
-#ifdef GOFFICE_IS_0_6
-				if (!mime_type)
-					mime_type = g_content_type_guess (filename, NULL, 0, NULL);
-#endif
 				// ensure the found mime type is in the list
 				bool found = false;
 				if (mime_type) {

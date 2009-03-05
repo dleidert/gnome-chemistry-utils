@@ -124,39 +124,17 @@ static double get_fontsize (double val) {return (double) val / (double) PANGO_SC
 static void on_compression_changed (GtkSpinButton *btn, Application *App)
 {
 	CompressionLevel = gtk_spin_button_get_value_as_int (btn);
-#ifdef HAVE_GO_CONF_SYNC
 	GOConfNode *node = go_conf_get_node (App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 	go_conf_set_int (node, "compression", CompressionLevel);
 	go_conf_free_node (node);
-#else
-	GConfClient *conf_client = gconf_client_get_default ();
-	GError *error = NULL;
-	gconf_client_set_int (conf_client, ROOTDIR"compression", CompressionLevel, &error);
-	if (error) {
-		g_message("GConf failed: %s", error->message);
-		g_error_free (error);
-	}
-	g_object_unref (conf_client);
-#endif
 }
 
 static void on_tearable_mendeleiev_changed (GtkToggleButton *btn, Application *App)
 {
 	TearableMendeleiev = gtk_toggle_button_get_active (btn);
-#ifdef HAVE_GO_CONF_SYNC
 	GOConfNode *node = go_conf_get_node (App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 	go_conf_set_bool (node, "tearable-mendeleiev", TearableMendeleiev);
 	go_conf_free_node (node);
-#else
-	GConfClient *conf_client = gconf_client_get_default ();
-	GError *error = NULL;
-	gconf_client_set_bool (conf_client, ROOTDIR"tearable-mendeleiev", TearableMendeleiev, &error);
-	if (error) {
-		g_message("GConf failed: %s", error->message);
-		g_error_free (error);
-	}
-	g_object_unref (conf_client);
-#endif
 }
 
 static void on_new_theme (PrefsDlg *dlg)
@@ -650,20 +628,9 @@ void PrefsDlg::OnBondLength (double length)
 		m_CurTheme->m_BondLength = length;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "bond-length", length);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"bond-length", length, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -682,20 +649,9 @@ void PrefsDlg::OnBondAngle (double angle)
 		m_CurTheme->m_BondAngle = angle;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "bond-angle", angle);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"bond-angle", angle, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -714,20 +670,9 @@ void PrefsDlg::OnBondWidth (double width)
 		m_CurTheme->m_BondWidth = width;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "bond-width", width);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"bond-width", width, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -746,20 +691,9 @@ void PrefsDlg::OnBondDist (double dist)
 		m_CurTheme->m_BondDist = dist;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "bond-dist", dist);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"bond-dist", dist, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -778,20 +712,9 @@ void PrefsDlg::OnStereoBondWidth (double width)
 		m_CurTheme->m_StereoBondWidth = width;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "stereo-width", width);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"stereo-width", width, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -810,20 +733,9 @@ void PrefsDlg::OnHashWidth (double width)
 		m_CurTheme->m_HashWidth = width;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "hash-width", width);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"hash-width", width, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -842,20 +754,9 @@ void PrefsDlg::OnHashDist (double dist)
 		m_CurTheme->m_HashDist = dist;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "hash-dist", dist);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"hash-dist", dist, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -885,20 +786,9 @@ void PrefsDlg::OnFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_string (node, "font-family", Name);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-				gconf_client_set_string (conf_client, ROOTDIR"font-family", Name, &error);
-				if (error) {
-					g_message("GConf failed: %s", error->message);
-					g_error_free (error);
-				}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -913,20 +803,9 @@ void PrefsDlg::OnFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_int (node, "font-style", get_fontstyle (Style));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_int (conf_client, ROOTDIR"font-style", get_fontstyle (Style), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -941,20 +820,9 @@ void PrefsDlg::OnFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_int (node, "font-weight", get_fontweight (Weight));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_int (conf_client, ROOTDIR"font-weight", get_fontweight (Weight), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -969,20 +837,9 @@ void PrefsDlg::OnFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_int (node, "font-stretch", get_fontstretch (Stretch));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_int (conf_client, ROOTDIR"font-stretch", get_fontstretch (Stretch), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -997,20 +854,9 @@ void PrefsDlg::OnFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_int (node, "font-variant", get_fontvariant (Variant));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_int (conf_client, ROOTDIR"font-variant", get_fontvariant (Variant), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1025,20 +871,9 @@ void PrefsDlg::OnFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "font-size", get_fontsize (Size));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"font-size", get_fontsize (Size), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1069,20 +904,9 @@ void PrefsDlg::OnTextFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_string (node, "text-font-family", Name);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_string (conf_client, ROOTDIR"text-font-family", Name, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1097,20 +921,9 @@ void PrefsDlg::OnTextFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_int (node, "text-font-style", get_fontstyle (Style));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_int (conf_client, ROOTDIR"text-font-style", get_fontstyle (Style), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1125,20 +938,9 @@ void PrefsDlg::OnTextFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_int (node, "text-font-weight", get_fontweight (Weight));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_int (conf_client, ROOTDIR"text-font-weight", get_fontweight (Weight), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1153,20 +955,9 @@ void PrefsDlg::OnTextFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_int (node, "text-font-stretch", get_fontstretch (Stretch));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_int (conf_client, ROOTDIR"text-font-stretch", get_fontstretch (Stretch), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1181,20 +972,9 @@ void PrefsDlg::OnTextFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_int (node, "text-font-variant", get_fontvariant (Variant));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_int (conf_client, ROOTDIR"text-font-variant", get_fontvariant (Variant), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1209,20 +989,9 @@ void PrefsDlg::OnTextFont (GcpFontSel *fs)
 		changed = true;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "text-font-size", get_fontsize (Size));
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"text-font-size", get_fontsize (Size), &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1244,20 +1013,9 @@ void PrefsDlg::OnArrowLength (double length)
 		m_CurTheme->m_ArrowLength = length;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "arrow-length", length);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"arrow-length", length, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1276,20 +1034,9 @@ void PrefsDlg::OnArrowWidth (double width)
 		m_CurTheme->m_ArrowWidth = width;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "arrow-width", width);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"arrow-width", width, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1308,20 +1055,9 @@ void PrefsDlg::OnArrowDist (double dist)
 		m_CurTheme->m_ArrowDist = dist;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "arrow-dist", dist);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"arrow-dist", dist, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1340,20 +1076,9 @@ void PrefsDlg::OnArrowPadding (double padding)
 		m_CurTheme->m_ArrowPadding = padding;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "arrow-padding", padding);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"arrow-padding", padding, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1371,20 +1096,9 @@ void PrefsDlg::OnArrowHeadA (double headA)
 		m_CurTheme->m_ArrowHeadA = headA;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "arrow-headA", headA);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"arrow-headA", headA, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1403,20 +1117,9 @@ void PrefsDlg::OnArrowHeadB (double headB)
 		m_CurTheme->m_ArrowHeadB = headB;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "arrow-headB", headB);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"arrow-headB", headB, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1435,20 +1138,9 @@ void PrefsDlg::OnArrowHeadC (double headC)
 		m_CurTheme->m_ArrowHeadC = headC;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "arrow-headC", headC);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"arrow-headC", headC, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1468,20 +1160,9 @@ void PrefsDlg::OnScale (double scale)
 		m_CurTheme->m_ZoomFactor = zoom;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "scale", scale);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"scale", scale, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1499,20 +1180,9 @@ void PrefsDlg::OnPadding (double padding)
 		m_CurTheme->m_Padding = padding;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "padding", padding);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"padding", padding, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1530,20 +1200,9 @@ void PrefsDlg::OnObjectPadding (double padding)
 		m_CurTheme->m_ObjectPadding = padding;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "object-padding", padding);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"object-padding", padding, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1561,20 +1220,9 @@ void PrefsDlg::OnStoichPadding (double padding)
 		m_CurTheme->m_StoichiometryPadding = padding;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "stoichiometry-padding", padding);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"stoichiometry-padding", padding, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 		break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1592,20 +1240,9 @@ void PrefsDlg::OnSignPadding (double padding)
 		m_CurTheme->m_SignPadding = padding;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "sign-padding", padding);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"sign-padding", padding, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1623,20 +1260,9 @@ void PrefsDlg::OnChargeSize(double size)
 		m_CurTheme->m_ChargeSignSize = size;
 		switch (m_CurTheme->m_ThemeType) {
 		case DEFAULT_THEME_TYPE: {
-#ifdef HAVE_GO_CONF_SYNC
 			GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 			go_conf_set_double (node, "charge-sign-size", size);
 			go_conf_free_node (node);
-#else
-			GConfClient *conf_client = gconf_client_get_default ();
-			GError *error = NULL;
-			gconf_client_set_float (conf_client, ROOTDIR"charge-sign-size", size, &error);
-			if (error) {
-				g_message("GConf failed: %s", error->message);
-				g_error_free (error);
-			}
-			g_object_unref (conf_client);
-#endif
 			break;
 		}
 		case LOCAL_THEME_TYPE:
@@ -1710,20 +1336,9 @@ bool PrefsDlg::CheckError ()
 void PrefsDlg::SetDefaultTheme (char const *name)
 {
 	TheThemeManager.SetDefaultTheme (name);
-#ifdef HAVE_GO_CONF_SYNC
 	GOConfNode *node = go_conf_get_node (m_App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
 	go_conf_set_string (node, "default-theme", name);
 	go_conf_free_node (node);
-#else
-	GConfClient *conf_client = gconf_client_get_default ();
-	GError *error = NULL;
-	gconf_client_set_string (conf_client, ROOTDIR"default-theme", name, &error);
-	if (error) {
-		g_message("GConf failed: %s", error->message);
-		g_error_free (error);
-	}
-	g_object_unref (conf_client);
-#endif
 }
 
 }	//	namespace gcp

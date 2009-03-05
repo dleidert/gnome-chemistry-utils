@@ -37,9 +37,6 @@
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkplug.h>
-#ifdef GOFFICE_IS_0_6
-#	include <libgnomevfs/gnome-vfs.h>
-#endif
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -303,12 +300,6 @@ int main (int argc, char *argv[])
 	GError *error = NULL;
 
 	gtk_init (&argc, &argv);
-#ifdef GOFFICE_IS_0_6
-	if (!gnome_vfs_init ()) {
-		cerr << "Could not initialize GnomeVFS\n" << endl;
-		return 1;
-	}
-#endif
 	libgoffice_init ();
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
 	in_channel = g_io_channel_unix_new (fileno (stdin));

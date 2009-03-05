@@ -27,9 +27,6 @@
 #include <gcu/loader.h>
 #include <goffice/utils/go-file.h>
 #include <gtk/gtk.h>
-#ifdef GOFFICE_IS_0_6
-#	include <libgnomevfs/gnome-vfs-init.h>
-#endif
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
@@ -64,9 +61,6 @@ int main(int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
-#ifdef GOFFICE_IS_0_6
-	gnome_vfs_init ();
-#endif
 	App = new gcpStandaloneApp();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));

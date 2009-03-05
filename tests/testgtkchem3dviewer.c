@@ -26,9 +26,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
-#ifdef GOFFICE_IS_0_6
-#	include <libgnomevfs/gnome-vfs.h>
-#endif
 
 /*!\file
 A simple sample of the use of the GtkChem3DViewer widget.
@@ -49,12 +46,6 @@ int main (int argc, char *argv[])
 	GtkWidget *viewer;
 	gchar* uri;
 	gtk_init (&argc, &argv);
-#ifdef GOFFICE_IS_0_6
-	if (!gnome_vfs_init ()) {
-		printf ("Could not initialize GnomeVFS\n");
-		return 1;
-	}
-#endif
 	
 	gcu_element_load_databases ("radii", NULL);
 

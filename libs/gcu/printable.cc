@@ -57,20 +57,12 @@ public:
 	PrintSettings ();
 	virtual ~PrintSettings ();
 	void Init ();
-#ifdef HAVE_GO_CONF_SYNC
 	void OnConfigChanged (GOConfNode *node, gchar const *name);
-#else
-	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
-#endif
 	GtkPrintSettings *settings;
 	GtkPageSetup *setup;
 	GtkUnit unit;
 	guint m_NotificationId;
-#ifdef HAVE_GO_CONF_SYNC
 	GOConfNode *m_ConfNode;
-#else
-	GConfClient *m_ConfClient;
-#endif
 };
 
 static PrintSettings DefaultSettings;
@@ -81,17 +73,10 @@ PrintSettings::PrintSettings ()
 	setup = NULL;
 }
 
-#ifdef HAVE_GO_CONF_SYNC
 static void on_config_changed (GOConfNode *node, gchar const *key, gpointer data)
 {
 	DefaultSettings.OnConfigChanged (node, key);
 }
-#else
-static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	DefaultSettings.OnConfigChanged (client, cnxn_id, entry);
-}
-#endif
 
 #define ROOTDIR "/apps/gchemutils/printsetup/"
 
@@ -99,13 +84,7 @@ void PrintSettings::Init ()
 {
 	settings = gtk_print_settings_new ();
 	setup = gtk_page_setup_new ();
-#ifdef HAVE_GO_CONF_SYNC
 	m_ConfNode = go_conf_get_node (Application::GetConfDir (), "printsetup");
-#else
-	GError *error = NULL;
-	m_ConfClient = gconf_client_get_default ();
-	gconf_client_add_dir (m_ConfClient, "/apps/gchemutils/printsetup", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-#endif
 	char *name = NULL;
 	GtkPaperSize *size = NULL;
 	GCU_GCONF_GET_STRING ("paper", name, NULL)
@@ -127,12 +106,8 @@ void PrintSettings::Init ()
 	GCU_GCONF_GET_NO_CHECK ("margin-left", float, x, 72);
 	gtk_page_setup_set_left_margin (setup, x, GTK_UNIT_POINTS);
 	// TODO: import other default values from conf keys
-#ifdef HAVE_GO_CONF_SYNC
 	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
 	go_conf_free_node (m_ConfNode);
-#else
-	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchemutils/printsetup", (GConfClientNotifyFunc) on_config_changed, NULL, NULL, NULL);
-#endif
 }
 
 PrintSettings::~PrintSettings ()
@@ -141,28 +116,10 @@ PrintSettings::~PrintSettings ()
 		g_object_unref (setup);
 	if (settings)
 		g_object_unref (settings);
-#ifdef HAVE_GO_CONF_SYNC
-	// don't remove notification, since goffice has already been shut down
-#else
-	if (m_NotificationId) {
-		gconf_client_notify_remove (m_ConfClient,m_NotificationId);
-		gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/printsetup", NULL);
-		g_object_unref (m_ConfClient);
-	}
-#endif
 }
 
-#ifdef HAVE_GO_CONF_SYNC
 void PrintSettings::OnConfigChanged (GOConfNode *node, gchar const *name)
 {
-#else
-void PrintSettings::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry)
-{
-	if (client != m_ConfClient)
-		return;	// we might want an error message?
-	if (cnxn_id != m_NotificationId)
-		return;	// we might want an error message?
-#endif
 	char *val = NULL;
 	GCU_UPDATE_STRING_KEY ("paper", val,
 					{

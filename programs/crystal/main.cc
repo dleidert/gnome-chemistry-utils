@@ -33,9 +33,6 @@
 #include "view.h"
 #include "globals.h"
 #include <goffice/utils/go-file.h>
-#ifdef GOFFICE_IS_0_6
-#	include <libgnomevfs/gnome-vfs-init.h>
-#endif
 #include <gtk/gtkglinit.h>
 #include <glib/gi18n.h>
 #include <cstdio>
@@ -49,30 +46,15 @@ extern GtkWidget *vbox1;
 gcDocument* pDoc;
 gcView* pView;
 GtkWidget *mainwindow, *vbox1 ;
-#ifdef HAVE_GO_CONF_SYNC
-	GOConfNode *node;
-#else
-	GConfClient *conf_client;
-#endif
+GOConfNode *node;
 guint NotificationId;
 
 // defines used for GCU_GCONF_GET
 #define ROOTDIR	"/apps/gchemutils/crystal/"
-#ifdef HAVE_GO_CONF_SYNC
-#	define m_ConfNode node
-#else
-#	define m_ConfClient conf_client
-#endif
+#define m_ConfNode node
 
-#ifdef HAVE_GO_CONF_SYNC
 static void on_config_changed (GOConfNode *node, gchar const *name, gpointer user_data)
 {
-#else
-static void on_config_changed (GConfClient *client,  guint cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	g_return_if_fail (client == conf_client);
-	g_return_if_fail (cnxn_id == NotificationId);
-#endif
 	GCU_UPDATE_KEY ("printing/resolution", int, PrintResolution, {})
 	GCU_UPDATE_KEY ("view/fov", int, FoV, {})
 	GCU_UPDATE_KEY ("view/psi", float, Psi, {})
@@ -106,9 +88,6 @@ int main(int argc, char *argv[])
 
 	gtk_init (&argc, &argv);
 	gtk_gl_init (&argc, &argv);
-#ifdef GOFFICE_IS_0_6
-	gnome_vfs_init ();
-#endif
 	Element::LoadRadii ();
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file...]"));
@@ -127,14 +106,7 @@ int main(int argc, char *argv[])
 	}
 	
 //Configuration loading
-#ifdef HAVE_GO_CONF_SYNC
 	node = go_conf_get_node (Application::GetConfDir (), "crystal");
-#else
-	conf_client = gconf_client_get_default ();
-	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/general", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/printing", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (conf_client, "/apps/gchemutils/crystal/views", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-#endif
 	GCU_GCONF_GET ("printing/resolution", int, PrintResolution, 300)
 	GCU_GCONF_GET ("views/fov", int, FoV, 10)
 	GCU_GCONF_GET_NO_CHECK ("views/psi", float, Psi, 70.)
@@ -143,11 +115,7 @@ int main(int argc, char *argv[])
 	GCU_GCONF_GET_NO_CHECK ("views/red", float, Red, 1.)
 	GCU_GCONF_GET_NO_CHECK ("views/green", float, Green, 1.)
 	GCU_GCONF_GET_NO_CHECK ("views/blue", float, Blue, 1.)
-#ifdef HAVE_GO_CONF_SYNC
 	NotificationId = go_conf_add_monitor (node, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
-#else
-	NotificationId = gconf_client_notify_add (conf_client, "/apps/gchemutils/crystal", on_config_changed, NULL, NULL, NULL);
-#endif
 	gcApplication* gcApp = new gcApplication ();
 	gcDocument *pDoc = gcApp->OnFileNew();
 	gcApp->SetOpening();
@@ -175,19 +143,8 @@ int main(int argc, char *argv[])
 	}
 	gtk_main ();
 
-#ifdef HAVE_GO_CONF_SYNC
 	go_conf_remove_monitor (NotificationId);
 	go_conf_free_node (node);
-#else
-	gconf_client_notify_remove (conf_client, NotificationId);
-	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/general", NULL);
-	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/printing", NULL);
-	gconf_client_remove_dir (conf_client, "/apps/gchemutils/crystal/views", NULL);
-	g_object_unref (G_OBJECT(conf_client));
-#endif
 
-#ifdef GOFFICE_IS_0_6
-	gnome_vfs_shutdown ();
-#endif
 	return 0 ;
 }

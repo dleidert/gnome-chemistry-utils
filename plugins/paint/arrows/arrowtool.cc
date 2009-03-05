@@ -38,11 +38,7 @@
 #include <gccv/group.h>
 #include <gccv/line.h>
 #include <gccv/poly-line.h>
-#ifdef HAVE_GO_CONF_SYNC
-#	include <goffice/app/go-conf.h>
-#else
-#	include <gconf/gconf-client.h>
-#endif
+#include <goffice/app/go-conf.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
@@ -58,15 +54,9 @@ static char const *ToolNames[] = {
 
 static void on_default (GtkToggleButton *button)
 {
-#ifdef HAVE_GO_CONF_SYNC
 	GOConfNode *node = go_conf_get_node (gcu::Application::GetConfDir (), "paint/plugins/arrows");
 	go_conf_set_bool (node, "full-arrows-heads", gtk_toggle_button_get_active (button));
 	go_conf_free_node (node);
-#else
-	GConfClient *conf_client = gconf_client_get_default ();
-	gconf_client_set_bool (conf_client, "/apps/gchemutils/paint/plugins/arrows/full-arrows-heads", gtk_toggle_button_get_active (button), NULL);
-	g_object_unref (conf_client);
-#endif
 }
 
 gcpArrowTool::gcpArrowTool (gcp::Application* App, unsigned ArrowType): gcp::Tool (App, ToolNames[ArrowType])

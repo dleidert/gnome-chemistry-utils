@@ -34,7 +34,7 @@ A simple example of the use of the GtkPeriodic widget.
 The function called  when the selected element changes. It just prints the atomic
 number of the selected element to the standard output.
 */
-void on_changed (GtkPeriodic* periodic, guint Z, gpointer data)
+void on_changed (G_GNUC_UNUSED GtkPeriodic* periodic, guint Z, G_GNUC_UNUSED gpointer data)
 {
 	printf ("Selected element:%d\n", Z);
 }
@@ -87,21 +87,21 @@ int main (int argc, char *argv[])
 	vbox = (GtkVBox*) gtk_vbox_new (FALSE, 0);
 	hbox = (GtkHBox*) gtk_hbox_new (FALSE, 0);
 	label = (GtkLabel*) gtk_label_new ("Color scheme:");
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), GTK_WIDGET (label));
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (label), TRUE, TRUE, 0);
 	btn = (GtkRadioButton*) gtk_radio_button_new_with_label (NULL, "None");
 	g_signal_connect (G_OBJECT (btn), "toggled", (GCallback) on_color_scheme_none, (gpointer) periodic);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), GTK_WIDGET (btn));
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (btn), TRUE, TRUE, 0);
 	btn_group = gtk_radio_button_get_group (btn);
 	btn = (GtkRadioButton*) gtk_radio_button_new_with_label (btn_group, "Default");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (btn), TRUE);
 	g_signal_connect (G_OBJECT (btn), "toggled", (GCallback) on_color_scheme_default, (gpointer) periodic);
-	gtk_box_pack_end_defaults (GTK_BOX (hbox), GTK_WIDGET (btn));
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), GTK_WIDGET (hbox));
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), gtk_hseparator_new ());
+	gtk_box_pack_end (GTK_BOX (hbox), GTK_WIDGET (btn), TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (hbox), TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), gtk_hseparator_new (), TRUE, TRUE, 0);
 
 	g_object_set (G_OBJECT (periodic), "color-style", GTK_PERIODIC_COLOR_DEFAULT, NULL);
 	g_signal_connect (G_OBJECT (periodic), "element_changed", (GCallback) on_changed, NULL);
-	gtk_box_pack_end_defaults (GTK_BOX (vbox), GTK_WIDGET (GTK_PERIODIC (periodic)));
+	gtk_box_pack_end (GTK_BOX (vbox), GTK_WIDGET (GTK_PERIODIC (periodic)), TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (vbox));
 	gtk_widget_show_all (window);
 

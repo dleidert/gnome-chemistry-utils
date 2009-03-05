@@ -27,9 +27,7 @@
 #include "theme.h"
 #include "settings.h"
 #include <gcu/application.h>
-#ifdef HAVE_GO_CONF_SYNC
-#	include <goffice/goffice.h>
-#endif
+#include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>
@@ -136,17 +134,10 @@ Theme::~Theme ()
 
 ThemeManager TheThemeManager;
 
-#ifdef HAVE_GO_CONF_SYNC
 static void on_config_changed (GOConfNode *node, gchar const *key, ThemeManager *manager)
 {
 	manager->OnConfigChanged (node, key);
 }
-#else
-static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, ThemeManager *manager)
-{
-	manager->OnConfigChanged (client, cnxn_id, entry);
-}
-#endif
 
 // transform functions for gconf key values
 
@@ -208,14 +199,8 @@ ThemeManager::ThemeManager ()
 	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	g_type_init ();
-#ifdef HAVE_GO_CONF_SYNC
 	libgoffice_init ();
 	m_ConfNode = go_conf_get_node (gcu::Application::GetConfDir (), GCP_CONF_DIR_SETTINGS);
-#else
-	GError *error = NULL;
-	m_ConfClient = gconf_client_get_default ();
-	gconf_client_add_dir (m_ConfClient, "/apps/gchemutils/paint/settings", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-#endif
 	GCU_GCONF_GET ("bond-length", float, DefaultBondLength, 140.)
 	GCU_GCONF_GET ("bond-angle", float, DefaultBondAngle, 120.)
 	GCU_GCONF_GET ("bond-dist", float, DefaultBondDist, 5.)
@@ -250,11 +235,7 @@ ThemeManager::ThemeManager ()
 	GCU_GCONF_GET_N_TRANSFORM ("text-font-stretch", int, DefaultTextFontStretch, 4, set_fontstretch)
 	GCU_GCONF_GET_N_TRANSFORM ("text-font-size", float, DefaultTextFontSize, 12., set_fontsize)
 	// Build default theme from settings
-#ifdef HAVE_GO_CONF_SYNC
 	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, this);
-#else
-	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchemutils/paint/settings", (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
-#endif
 	m_Themes["GChemPaint"] = new Theme ("GChemPaint");
 	m_Names.push_front ("GChemPaint");
 	// load global themes
@@ -318,16 +299,9 @@ ThemeManager::~ThemeManager ()
 
 void ThemeManager::Shutdown ()
 {
-#ifdef HAVE_GO_CONF_SYNC
 	go_conf_remove_monitor (m_NotificationId);
 	go_conf_free_node (m_ConfNode);
 	m_ConfNode = NULL;
-#else
-	gconf_client_notify_remove (m_ConfClient, m_NotificationId);
-	gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/paint/settings", NULL);
-	g_object_unref (m_ConfClient);
-	m_ConfClient = NULL;
-#endif
 }
 
 Theme *ThemeManager::GetTheme (char const *name)
@@ -349,18 +323,8 @@ list <string> const &ThemeManager::GetThemesNames ()
 	return m_Names;
 }
 
-#ifdef HAVE_GO_CONF_SYNC
 void ThemeManager::OnConfigChanged (GOConfNode *node, gchar const *name)
 {
-#else
-void ThemeManager::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry)
-{
-	if (client != m_ConfClient)
-		return;	// we might want an error message?
-	if (cnxn_id != m_NotificationId)
-		return;	// we might want an error message?
-	char const *name;
-#endif
 	Theme *theme = m_Themes["GChemPaint"];
 	GCU_UPDATE_KEY ("bond-length", float, DefaultBondLength, theme->m_BondLength = DefaultBondLength;)
 	GCU_UPDATE_KEY ("bond-angle", float, DefaultBondAngle, theme->m_BondAngle = DefaultBondAngle;)

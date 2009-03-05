@@ -49,11 +49,7 @@ using namespace std;
 
 namespace gcu
 {
-#ifdef HAVE_GO_CONF_SYNC
 GOConfNode *GLView::m_ConfNode = NULL;
-#else
-GConfClient *GLView::m_ConfClient = NULL;
-#endif
 guint GLView::m_NotificationId = 0;
 int GLView::nbViews = 0;
 
@@ -90,19 +86,11 @@ static bool on_pressed(GtkWidget *widget, GdkEventButton *event, GLView* View)
 	return View->OnPressed (event);
 }
 
-#ifdef HAVE_GO_CONF_SYNC
 static void on_config_changed (GOConfNode *node, gchar const *key, gpointer data)
 {
 	if (!strcmp (key, ROOTDIR"off-screen-rendering"))
 		OffScreenRendering = go_conf_get_bool (node, key);
 }
-#else
-static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	if (!strcmp (gconf_entry_get_key (entry),ROOTDIR"off-screen-rendering"))
-		OffScreenRendering = gconf_value_get_bool (gconf_entry_get_value (entry));
-}
-#endif
 
 // GLView implementation
 #define GCU_CONF_DIR_GL "gl"
@@ -131,19 +119,9 @@ GLView::GLView (GLDocument* pDoc) throw (std::runtime_error): Printable ()
 											GDK_GL_MODE_DOUBLE));
 		if (glconfig == NULL)
 			throw  runtime_error ("*** Cannot find the double-buffered visual.\n");
-#ifdef HAVE_GO_CONF_SYNC
 		m_ConfNode = go_conf_get_node (Application::GetConfDir (), GCU_CONF_DIR_GL);
-#else
-		GError *error = NULL;
-		m_ConfClient = gconf_client_get_default ();
-		gconf_client_add_dir (m_ConfClient, "/apps/gchemutils/gl", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-#endif
 		GCU_GCONF_GET_NO_CHECK ("off-screen-rendering", bool, OffScreenRendering, true)
-#ifdef HAVE_GO_CONF_SYNC
 		m_NotificationId = go_conf_add_monitor (m_ConfNode, "off-screen-rendering", (GOConfMonitorFunc) on_config_changed, NULL);
-#else
-		m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchemutils/gl", (GConfClientNotifyFunc) on_config_changed, NULL, NULL, NULL);
-#endif
 	}
 	/* create new OpenGL widget */
 	m_pWidget = GTK_WIDGET(gtk_drawing_area_new());
@@ -185,16 +163,9 @@ GLView::~GLView ()
 {
 	nbViews--;
 	if (!nbViews) {
-#ifdef HAVE_GO_CONF_SYNC
 		go_conf_remove_monitor (m_NotificationId);
 		go_conf_free_node (m_ConfNode);
 		m_ConfNode = NULL;
-#else
-		gconf_client_notify_remove (m_ConfClient, m_NotificationId);
-		gconf_client_remove_dir (m_ConfClient, "/apps/gchemutils/gl", NULL);
-		g_object_unref (m_ConfClient);
-		m_ConfClient = NULL;
-#endif
 		m_NotificationId = 0;
 	}
 }

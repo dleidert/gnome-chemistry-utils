@@ -1,3 +1,36 @@
+##Text encoding: utf-8
+
+2009-03-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: needs goffice >= 0.7.3 and remove any direct call to
+	gconf or gnome API.
+	* goffice/Makefile.am: ditto.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/preferences.cc: ditto.
+	* libs/gcp/theme.cc: ditto.
+	* libs/gcp/theme.h: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/filechooser.cc: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/macros.h: ditto.
+	* libs/gcu/printable.cc: ditto.
+	* mozilla-plugin/Makefile.am: ditto.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* plugins/paint/arrows/arrowtool.cc: ditto.
+	* plugins/paint/arrows/plugin.cc: ditto.
+	* programs/3d/main.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/globals.h: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/prefs.cc: ditto.
+	* programs/paint/main.cc: ditto.
+	* programs/spectra/gspectrum.cc: ditto.
+	* tests/testgtkchem3dviewer.c: (main): ditto.
+	* tests/testgtkperiodic.c: (on_changed), (main): fixed compilation
+	with gtk+-2.14.x.
+
 2009-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: try removing as many unused direct shlib dependency
 	as possible. [#20617]
@@ -42,8 +75,6 @@
 	* programs/spectra/document.h: remove unused OpenBabel namespace.
 	* programs/table/Makefile.am: fixes for #20617.
 	* tests/Makefile.am: ditto.
-
-##Text encoding: utf-8
 
 2009-03-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: some reimplementation of size evaluation.

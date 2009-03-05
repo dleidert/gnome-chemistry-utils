@@ -22,11 +22,7 @@
  * USA
  */
 #include <glib.h>
-#ifdef HAVE_GO_CONF_SYNC
-#	include <goffice/app/go-conf.h>
-#else
-#	include <gconf/gconf-client.h>
-#endif
+#include <goffice/app/go-conf.h>
 
 bool IsEmbedded();
 
@@ -40,8 +36,4 @@ extern guint PrintWidth, PrintHeight, PrintResolution;
 extern guint FoV;
 extern gdouble Phi, Theta, Psi;
 extern gdouble Red, Green, Blue;
-#ifdef HAVE_GO_CONF_SYNC
-	extern GOConfNode *node;
-#else
-	extern GConfClient *conf_client;
-#endif
+extern GOConfNode *node;

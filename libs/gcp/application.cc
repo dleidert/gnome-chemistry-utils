@@ -54,9 +54,6 @@
 #include <gcu/loader.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/goffice.h>
-#ifndef HAVE_GO_CONF_SYNC
-#	include <gconf/gconf-client.h>
-#endif
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
@@ -252,17 +249,10 @@ bool	Application::m_bInit = false;
 bool	Application::m_Have_Ghemical = false;
 bool	Application::m_Have_InChI = false;
 
-#ifdef HAVE_GO_CONF_SYNC
 static void on_config_changed (GOConfNode *node, gchar const *key, Application *app)
 {
 	app->OnConfigChanged (node, key);
 }
-#else
-static void on_config_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, Application *app)
-{
-	app->OnConfigChanged (client, cnxn_id, entry);
-}
-#endif
 
 Application::Application ():
 	gcu::Application ("GChemPaint", DATADIR, "gchempaint", "gchempaint")
@@ -394,22 +384,13 @@ Application::Application ():
 		}
 	}
 	
-#ifdef HAVE_GO_CONF_SYNC
 	m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
-#else
-	GError *error = NULL;
-	m_ConfClient = gconf_client_get_default ();
-#endif
 	GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
 	GCU_GCONF_GET ("tearable-mendeleiev", bool, TearableMendeleiev, false)
 	bool CopyAsText;
 	GCU_GCONF_GET ("copy-as-text", bool, CopyAsText, false)
 	ClipboardFormats = CopyAsText? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
-#ifdef HAVE_GO_CONF_SYNC
 	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, this);
-#else
-	m_NotificationId = gconf_client_notify_add (m_ConfClient, "/apps/gchemutils/paint/settings", (GConfClientNotifyFunc) on_config_changed, this, NULL, NULL);
-#endif
 	// make themes permanent with this as a dummy client
 	list <string> Names = TheThemeManager.GetThemesNames ();
 	list <string>::iterator j, jend = Names.end ();
@@ -444,15 +425,9 @@ Application::~Application ()
 		pTheme->RemoveClient (m_Dummy);
 	}
 	delete m_Dummy;
-#ifdef HAVE_GO_CONF_SYNC
 	go_conf_remove_monitor (m_NotificationId);
 	go_conf_free_node (m_ConfNode);
 	m_ConfNode = NULL;
-#else
-	gconf_client_notify_remove (m_ConfClient, m_NotificationId);
-	g_object_unref (m_ConfClient);
-	m_ConfClient = NULL;
-#endif
 	TheThemeManager.Shutdown ();
 	// unref cursors
 	for (int i = 0; i < CursorMax; i++)
@@ -1234,17 +1209,8 @@ void Application::ActivateWindowsActionWidget (const char *path, bool activate)
 	}
 }
 
-#ifdef HAVE_GO_CONF_SYNC
 void Application::OnConfigChanged (GOConfNode *node, gchar const *name)
 {
-#else
-void Application::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry)
-{
-	if (client != m_ConfClient)
-		return;	// we might want an error message?
-	if (cnxn_id != m_NotificationId)
-		return;	// we might want an error message?
-#endif
 	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
 	GCU_UPDATE_KEY ("tearable-mendeleiev", bool, TearableMendeleiev,
 					{

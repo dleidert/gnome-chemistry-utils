@@ -25,9 +25,6 @@
 #include "config.h"
 #include "application.h"
 #include "document.h"
-#ifdef GOFFICE_IS_0_6
-#	include <libgnomevfs/gnome-vfs-init.h>
-#endif
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-loader-module.h>
@@ -43,12 +40,6 @@ int main (int argc, char *argv[])
 
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
-#ifdef GOFFICE_IS_0_6
-	if (!gnome_vfs_init ()) {
-		printf ("Could not initialize GnomeVFS\n");
-		return 1;
-	}
-#endif
 
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file]"));

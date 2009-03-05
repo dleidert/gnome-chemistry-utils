@@ -29,11 +29,7 @@
 #include <gcu/dialog.h>
 #include <gcu/macros.h>
 #include <gcu/object.h>
-#ifdef HAVE_GO_CONF_SYNC
 #include <goffice/app/go-conf.h>
-#else
-#include <gconf/gconf-client.h>
-#endif
 #include <set>
 #include <string>
 #include <map>
@@ -359,7 +355,6 @@ Closes all open documents and ends the application.
 @return a list of supported mime types.
 */
 	std::list<std::string> &GetSupportedMimeTypes () {return m_SupportedMimeTypes;}
-#ifdef HAVE_GO_CONF_SYNC
 /*!
 @param node the GONode which changed.
 @param name the name of the key.
@@ -368,17 +363,6 @@ Called by the framework when the configuration entry has changed to update a
 running application preferences if the system allows such callbacks.
 */
 	void OnConfigChanged (GOConfNode *node, gchar const *name);
-#else
-/*!
-@param client a GConfClient.
-@param cnxn_id the id returned by gconf_client_notify_add.
-@param entry the entry which changed.
-
-Called by the framework when the configuration entry has changed to update a
-running application preferences.
-*/
-	void OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntry *entry);
-#endif
 /*!
 @param mime_type a mime type.
 @return the list of file name extensions corresponding to the mime type.
@@ -497,11 +481,7 @@ private:
 	int visible_windows;
 	std::list<std::string> m_SupportedMimeTypes;
 	std::list<std::string> m_WriteableMimeTypes;
-#ifdef HAVE_GO_CONF_SYNC
 	GOConfNode *m_ConfNode;
-#else
-	GConfClient *m_ConfClient;
-#endif
 	guint m_NotificationId;
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;

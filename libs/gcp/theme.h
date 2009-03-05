@@ -29,11 +29,7 @@
 #include <gcu/object.h>
 #include <glib/gtypes.h>
 #include <pango/pango.h>
-#ifdef HAVE_GO_CONF_SYNC
 #include <goffice/app/go-conf.h>
-#else
-#include <gconf/gconf-client.h>
-#endif
 #include <libxml/tree.h>
 #include <list>
 #include <map>
@@ -305,7 +301,6 @@ The destructor.
 @return the list of all theme names currently in use.
 */
 	std::list <std::string> const &GetThemesNames ();
-#ifdef HAVE_GO_CONF_SYNC
 /*!
 @param node the GOConfNode for which a key value changed.
 @param name the key whose value changed.
@@ -314,17 +309,6 @@ Called by the framework when the value associated with \a name changed in the
 settings.
 */
 	void OnConfigChanged (GOConfNode *node, gchar const *name);
-#else
-/*!
-@param client the GConfClient which a key value changed.
-@param cnxn_id the notification id.
-@param entry the entry which changed.
-
-Called by the framework when the value associated with \a entry changed in the
-settings.
-*/
-	void OnConfigChanged (GConfClient *client,  guint cnxn_id, GConfEntry *entry);
-#endif
 /*!
 @param theme a theme to duplicate.
 
@@ -378,11 +362,7 @@ private:
 private:
 	std::map <std::string, Theme*> m_Themes;
 	std::list <std::string> m_Names;
-#ifdef HAVE_GO_CONF_SYNC
 	GOConfNode *m_ConfNode;
-#else
-	GConfClient *m_ConfClient;
-#endif
 	guint m_NotificationId;
 	Theme *m_DefaultTheme;
 };

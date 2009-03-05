@@ -122,7 +122,6 @@ bool gcPrefsDlg::Apply()
 	Red = color.red / 65535.;
 	Green = color.green / 65535.;
 	Blue = color.blue / 65535.;
-#ifdef HAVE_GO_CONF_SYNC
 	go_conf_set_int (node, "printing/resolution", PrintResolution);
 	go_conf_set_int (node, "views/fov", FoV);
 	go_conf_set_double (node, "views/psi", Psi);
@@ -131,16 +130,6 @@ bool gcPrefsDlg::Apply()
 	go_conf_set_double (node, "views/red", Red);
 	go_conf_set_double (node, "views/green", Green);
 	go_conf_set_double (node, "views/blue", Blue);
-#else
-	gconf_client_set_int (conf_client, "/apps/gchemutils/crystal/printing/resolution", PrintResolution, NULL);
-	gconf_client_set_int (conf_client, "/apps/gchemutils/crystal/views/fov", FoV, NULL);
-	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/psi", Psi, NULL);
-	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/theta", Theta, NULL);
-	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/phi", Phi, NULL);
-	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/red", Red, NULL);
-	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/green", Green, NULL);
-	gconf_client_set_float (conf_client, "/apps/gchemutils/crystal/views/blue", Blue, NULL);
-#endif
 	return true;
 }
 

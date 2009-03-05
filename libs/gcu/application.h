@@ -30,9 +30,7 @@
 #include <map>
 #include <set>
 #include <string>
-#ifdef HAVE_GO_CONF_SYNC
 #include <goffice/app/go-conf.h>
-#endif
 #include <gtk/gtkmain.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkrecentmanager.h>
@@ -216,14 +214,11 @@ Virtual method used to create documents. Default behavior does nothing and retur
 */
 	virtual Document *CreateNewDocument () {return NULL;}
 
-#ifdef HAVE_GO_CONF_SYNC
-
 /*!
 Method used to retrieve the base configuration node.
 @return the base configuration node.
 */
 	static GOConfNode *GetConfDir ();
-#endif
 
 	std::string const &GetIconName () {return IconName;}
 
@@ -247,9 +242,7 @@ private:
 	std::string HelpFilename;
 	std::string CurDir;
 	std::string IconName;
-#ifdef HAVE_GO_CONF_SYNC
 	static GOConfNode *m_ConfDir;
-#endif
 
 protected:
 /*!
