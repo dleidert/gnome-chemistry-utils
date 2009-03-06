@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-03-06  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* plugins/loaders/cdx/Makefile.am: We don't need two *dir variables.
+	Make the code a bit easier (also to avoid typos).
+	* plugins/loaders/cdxml/Makefile.am: ditto.
+	* plugins/loaders/cif/Makefile.am: ditto.
+	* plugins/loaders/cml/Makefile.am: ditto.
+
 2009-03-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: needs goffice >= 0.7.3 and remove any direct call to
 	gconf or gnome API.

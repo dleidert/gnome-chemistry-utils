@@ -11,6 +11,7 @@ INCLUDES = \
 DEFS += -DDATADIR=\"$(datadir)\"
 
 gcu_loader_cmldir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/cml
+gcu_loader_cml_DATA = $(xml_in_files:.xml.in=.xml)
 gcu_loader_cml_LTLIBRARIES = cml.la 
 
 cml_la_LDFLAGS = -module -avoid-version -no-undefined
@@ -23,6 +24,4 @@ cml_la_SOURCES =	\
 
 xml_in_files = plugin.xml.in
 
-xml_DATA = $(xml_in_files:.xml.in=.xml)
-xmldir = $(gcu_loader_cmldir)
 @INTLTOOL_XML_RULE@

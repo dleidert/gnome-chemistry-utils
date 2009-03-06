@@ -12,6 +12,7 @@ INCLUDES = \
 DEFS += -DDATADIR=\"$(datadir)\"
 
 gcu_loader_cdxdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/cdx
+gcu_loader_cdx_DATA = $(xml_in_files:.xml.in=.xml)
 gcu_loader_cdx_LTLIBRARIES = cdx.la 
 
 cdx_la_LDFLAGS = -module -avoid-version -no-undefined
@@ -24,6 +25,4 @@ cdx_la_SOURCES =	\
 
 xml_in_files = plugin.xml.in
 
-xml_DATA = $(xml_in_files:.xml.in=.xml)
-xmldir = $(gcu_loader_cdxdir)
 @INTLTOOL_XML_RULE@
