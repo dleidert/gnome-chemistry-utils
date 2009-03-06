@@ -1,6 +1,70 @@
 ##Text encoding: utf-8
 
 2009-03-06  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* goffice/gchemutils.cc: Fixed FSF address.
+	* goffice/gchemutils.h: ditto.
+	* goffice/gchemutils-priv.h: ditto.
+	* goffice/gogcpapp.cc: ditto.
+	* goffice/gogcpapp.h: ditto.
+	* goffice/gogcpwin.cc: ditto.
+	* goffice/gogcpwin.h: ditto.
+	* goffice/gogcuapp.cc: ditto.
+	* goffice/gogcuapp.h: ditto.
+	* libs/gccv/cc-rich-text.h: ditto.
+	* libs/gcp/about.cc: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcp/window.h: ditto.
+	* mozilla-plugin/moz-plugin.c: ditto.
+	* programs/3d/main.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/atom.cc: ditto.
+	* programs/crystal/atom.h: ditto.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/atomsdlg.h: ditto.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/celldlg.h: ditto.
+	* programs/crystal/cleavage.cc: ditto.
+	* programs/crystal/cleavage.h: ditto.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/cleavagesdlg.h: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/gcrystal.h: ditto.
+	* programs/crystal/globals.h: ditto.
+	* programs/crystal/line.cc: ditto.
+	* programs/crystal/line.h: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/crystal/linesdlg.h: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/prefs.cc: ditto.
+	* programs/crystal/prefs.h: ditto.
+	* programs/crystal/sizedlg.cc: ditto.
+	* programs/crystal/sizedlg.h: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/view-settings.cc: ditto.
+	* programs/crystal/view-settings.h: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/crystal/window.h: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+	* programs/table/gchemtable-data-allocator.h: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+	* programs/table/gchemtable-data.h: ditto.
+	* programs/table/gchemtable-elt.cc: ditto.
+	* programs/table/gchemtable-elt.h: ditto.
+	* programs/table/gchemtable-graph-editor.cc: ditto.
+	* programs/table/gchemtable-graph-editor.h: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+	* tests/testgtkchem3dviewer.c: ditto.
+	* tests/testgtkcrystalviewer.c: ditto.
+	* tests/testgtkperiodic.c: ditto.
+
+2009-03-06  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* plugins/loaders/cdx/Makefile.am: We don't need two *dir variables.
 	Make the code a bit easier (also to avoid typos).
 	* plugins/loaders/cdxml/Makefile.am: ditto.

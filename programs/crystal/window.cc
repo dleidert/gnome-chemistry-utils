@@ -18,7 +18,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
  * USA
  */
 
@@ -137,7 +137,7 @@ static void on_about (GtkWidget *widget, gcWindow* Win)
 		"GNU General Public License for more details.\n\n"
 		"You should have received a copy of the GNU General Public License\n"
 		"along with this program; if not, write to the Free Software\n"
-		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
+		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301\n"
 		"USA";
 
 	gtk_about_dialog_set_url_hook (on_about_activate_url, Win, NULL);
