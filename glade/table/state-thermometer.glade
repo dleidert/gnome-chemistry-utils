@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!-- Generated with glade3
+<!--Generated with glade3 3.4.5 on Fri Mar  6 20:01:46 2009 
 	Version: 3.0.1
 	Date: Mon Sep 11 21:20:00 2006
 	User: jean
@@ -20,39 +20,17 @@
           <placeholder/>
         </child>
         <child>
-          <widget class="GtkLabel" id="label1">
+          <widget class="GtkLabel" id="label5">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Temperature (K):</property>
-          </widget>
-          <packing>
-            <property name="x_options"></property>
-            <property name="y_options"></property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkLabel" id="label2">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="red"&gt; &lt;b&gt;Gas&lt;/b&gt; &lt;/span&gt;</property>
+            <property name="label" translatable="yes">&lt;span background="green"&gt; &lt;b&gt;Liquid&lt;/b&gt; &lt;/span&gt;</property>
             <property name="use_markup">True</property>
           </widget>
           <packing>
-            <property name="left_attach">3</property>
-            <property name="right_attach">4</property>
+            <property name="left_attach">2</property>
+            <property name="right_attach">3</property>
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
             <property name="x_options"></property>
-            <property name="y_options"></property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkHScale" id="temperature">
-            <property name="visible">True</property>
-            <property name="adjustment">298 0 6010 1 10 10</property>
-            <property name="digits">0</property>
-          </widget>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">4</property>
             <property name="y_options"></property>
           </packing>
         </child>
@@ -72,16 +50,38 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkLabel" id="label5">
+          <widget class="GtkHScale" id="temperature">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="green"&gt; &lt;b&gt;Liquid&lt;/b&gt; &lt;/span&gt;</property>
+            <property name="adjustment">298 0 6010 1 10 0</property>
+            <property name="digits">0</property>
+          </widget>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">4</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkLabel" id="label2">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">&lt;span background="red"&gt; &lt;b&gt;Gas&lt;/b&gt; &lt;/span&gt;</property>
             <property name="use_markup">True</property>
           </widget>
           <packing>
-            <property name="left_attach">2</property>
-            <property name="right_attach">3</property>
+            <property name="left_attach">3</property>
+            <property name="right_attach">4</property>
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
+            <property name="x_options"></property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Temperature (K):</property>
+          </widget>
+          <packing>
             <property name="x_options"></property>
             <property name="y_options"></property>
           </packing>
