@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.0.2 on Wed Nov  8 07:04:39 2006 by jean@athlon-->
+<!--Generated with glade3 3.4.5 on Fri Mar  6 20:05:45 2009 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <child>
       <widget class="GtkTable" id="res-table">
         <property name="visible">True</property>
-        <property name="n_rows">1</property>
         <property name="n_columns">3</property>
         <property name="column_spacing">12</property>
         <property name="row_spacing">6</property>
         <child>
-          <widget class="GtkLabel" id="screen-lbl">
+          <widget class="GtkSpinButton" id="res-btn">
             <property name="visible">True</property>
-            <property name="xalign">0</property>
+            <property name="can_focus">True</property>
+            <property name="adjustment">72 16 4800 1 10 0</property>
+            <property name="numeric">True</property>
           </widget>
           <packing>
-            <property name="left_attach">2</property>
-            <property name="right_attach">3</property>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
             <property name="x_options"></property>
             <property name="y_options"></property>
           </packing>
@@ -34,15 +35,13 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkSpinButton" id="res-btn">
+          <widget class="GtkLabel" id="screen-lbl">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="adjustment">72 16 4800 1 10 10</property>
-            <property name="numeric">True</property>
+            <property name="xalign">0</property>
           </widget>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
+            <property name="left_attach">2</property>
+            <property name="right_attach">3</property>
             <property name="x_options"></property>
             <property name="y_options"></property>
           </packing>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!-- Generated with glade3
+<!--Generated with glade3 3.4.5 on Fri Mar  6 20:11:20 2009 
 	Version: 3.0.1
 	Date: Wed Sep 20 11:08:07 2006
 	User: jean
@@ -25,8 +25,8 @@
                     <child>
                       <widget class="GtkLabel" id="label62">
                         <property name="visible">True</property>
-                        <property name="xalign">0,000000</property>
-                        <property name="yalign">0,000000</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
                         <property name="xpad">17</property>
                         <property name="label" translatable="yes">Background color:</property>
                         <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -40,6 +40,7 @@
                       <widget class="GtkColorButton" id="color">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="response_id">0</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -57,6 +58,7 @@
                     <property name="visible">True</property>
                   </widget>
                   <packing>
+                    <property name="expand">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -66,8 +68,8 @@
                     <child>
                       <widget class="GtkLabel" id="label63">
                         <property name="visible">True</property>
-                        <property name="xalign">0,000000</property>
-                        <property name="yalign">0,000000</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
                         <property name="xpad">5</property>
                         <property name="label" translatable="yes">Field of view (between 1 and 45°):</property>
                         <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -82,7 +84,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="width_chars">1</property>
-                        <property name="adjustment">10 0 45 1 10 10</property>
+                        <property name="adjustment">0 0 45 1 10 0</property>
                         <property name="climb_rate">1</property>
                       </widget>
                       <packing>
@@ -101,14 +103,15 @@
                     <property name="visible">True</property>
                   </widget>
                   <packing>
+                    <property name="expand">False</property>
                     <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkLabel" id="label67">
                     <property name="visible">True</property>
-                    <property name="xalign">0,000000</property>
-                    <property name="yalign">0,000000</property>
+                    <property name="xalign">0</property>
+                    <property name="yalign">0</property>
                     <property name="label" translatable="yes">Model orientation in space:</property>
                   </widget>
                   <packing>
@@ -120,16 +123,16 @@
                 <child>
                   <widget class="GtkFrame" id="frame6">
                     <property name="visible">True</property>
-                    <property name="label_xalign">0,000000</property>
-                    <property name="label_yalign">0,000000</property>
+                    <property name="label_xalign">0</property>
+                    <property name="label_yalign">0</property>
                     <child>
                       <widget class="GtkHBox" id="hbox19">
                         <property name="visible">True</property>
                         <child>
                           <widget class="GtkLabel" id="label64">
                             <property name="visible">True</property>
-                            <property name="xalign">0,000000</property>
-                            <property name="yalign">0,000000</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
                             <property name="xpad">5</property>
                             <property name="label" translatable="yes">ψ (°):</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -151,8 +154,8 @@
                         <child>
                           <widget class="GtkLabel" id="label65">
                             <property name="visible">True</property>
-                            <property name="xalign">0,000000</property>
-                            <property name="yalign">0,000000</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
                             <property name="xpad">5</property>
                             <property name="label" translatable="yes">θ (°):</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -175,8 +178,8 @@
                         <child>
                           <widget class="GtkLabel" id="label66">
                             <property name="visible">True</property>
-                            <property name="xalign">0,000000</property>
-                            <property name="yalign">0,000000</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
                             <property name="xpad">5</property>
                             <property name="label" translatable="yes">φ (°):</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -201,8 +204,8 @@
                     <child>
                       <widget class="GtkLabel" id="label68">
                         <property name="visible">True</property>
-                        <property name="xalign">0,000000</property>
-                        <property name="yalign">0,000000</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
                         <property name="label" translatable="yes">Euler's angles</property>
                       </widget>
                       <packing>
@@ -215,21 +218,17 @@
                   </packing>
                 </child>
               </widget>
-              <packing>
-                <property name="tab_expand">False</property>
-              </packing>
             </child>
             <child>
               <widget class="GtkLabel" id="label29">
                 <property name="visible">True</property>
-                <property name="xalign">0,000000</property>
-                <property name="yalign">0,000000</property>
+                <property name="xalign">0</property>
+                <property name="yalign">0</property>
                 <property name="label" translatable="yes">Default views settings</property>
                 <property name="justify">GTK_JUSTIFY_CENTER</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -243,8 +242,8 @@
                     <child>
                       <widget class="GtkLabel" id="label25">
                         <property name="visible">True</property>
-                        <property name="xalign">0,000000</property>
-                        <property name="yalign">0,000000</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
                         <property name="xpad">5</property>
                         <property name="label" translatable="yes">Printer resolution:</property>
                         <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -271,7 +270,7 @@ Other</property>
                       <widget class="GtkSpinButton" id="printresbtn">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">300 300 3000 10 300 300</property>
+                        <property name="adjustment">300 300 3000 10 300 0</property>
                         <property name="climb_rate">10</property>
                         <property name="numeric">True</property>
                         <property name="update_policy">GTK_UPDATE_IF_VALID</property>
@@ -294,8 +293,8 @@ Other</property>
                     <child>
                       <widget class="GtkImage" id="image1">
                         <property name="visible">True</property>
-                        <property name="xalign">0,000000</property>
-                        <property name="yalign">0,000000</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
                         <property name="icon_size">6</property>
                         <property name="icon_name">gtk-dialog-warning</property>
                       </widget>
@@ -307,8 +306,8 @@ Other</property>
                     <child>
                       <widget class="GtkLabel" id="label69">
                         <property name="visible">True</property>
-                        <property name="xalign">0,000000</property>
-                        <property name="yalign">0,000000</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
                         <property name="label" translatable="yes">A printer resolution of 300 dpi generally gives a quite acceptable result. Changing to a higher value can lead to a much longer processing time.</property>
                         <property name="wrap">True</property>
                       </widget>
@@ -324,21 +323,19 @@ Other</property>
               </widget>
               <packing>
                 <property name="position">1</property>
-                <property name="tab_expand">False</property>
               </packing>
             </child>
             <child>
               <widget class="GtkLabel" id="label19">
                 <property name="visible">True</property>
-                <property name="xalign">0,000000</property>
-                <property name="yalign">0,000000</property>
+                <property name="xalign">0</property>
+                <property name="yalign">0</property>
                 <property name="label" translatable="yes">Printing</property>
                 <property name="justify">GTK_JUSTIFY_CENTER</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
                 <property name="position">1</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -355,6 +352,7 @@ Other</property>
                 <property name="can_default">True</property>
                 <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
+                <property name="response_id">0</property>
               </widget>
             </child>
             <child>
@@ -365,6 +363,7 @@ Other</property>
                 <property name="has_default">True</property>
                 <property name="label">gtk-apply</property>
                 <property name="use_stock">True</property>
+                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="position">1</property>
@@ -377,6 +376,7 @@ Other</property>
                 <property name="can_default">True</property>
                 <property name="label">gtk-close</property>
                 <property name="use_stock">True</property>
+                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="position">2</property>
@@ -389,6 +389,7 @@ Other</property>
                 <property name="can_default">True</property>
                 <property name="label">gtk-help</property>
                 <property name="use_stock">True</property>
+                <property name="response_id">0</property>
               </widget>
               <packing>
                 <property name="position">3</property>

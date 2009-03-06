@@ -1,5 +1,23 @@
 ##Text encoding: utf-8
 
+2009-03-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* glade/crystal/prefs.glade: set page size to 0 for spin buttons to
+	avoid a warning when using gtk+-2 >= 2.14.0.
+	* glade/crystal/view-settings.glade: ditto.
+	* glade/image-resolution.glade: ditto.
+	* glade/image-size.glade: ditto.
+	* glade/paint/preferences.glade: ditto.
+	* glade/paint/zoom.glade: ditto.
+	* glade/print-setup.glade: ditto.
+	* glade/table/state-thermometer.glade: ditto.
+	* plugins/paint/arrows/arrowtool.glade: ditto.
+	* plugins/paint/bonds/bond.glade: ditto.
+	* plugins/paint/bonds/chain.glade: ditto.
+	* plugins/paint/cycles/cycle.glade: ditto.
+	* plugins/paint/cycles/cyclen.glade: ditto.
+	* plugins/paint/selection/group.glade: ditto.
+	* plugins/paint/text/fontsel.glade: ditto.
+
 2009-03-06  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* libs/gcp/about.cc: Fixed FSF address.
 	* libs/canvas/gcp-canvas-i18n.h: ditto.

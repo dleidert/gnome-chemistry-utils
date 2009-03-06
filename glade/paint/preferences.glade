@@ -36,34 +36,17 @@
                       <placeholder/>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="compression-lbl">
+                      <widget class="GtkLabel" id="default-theme-lbl">
                         <property name="visible">True</property>
+                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="xalign">0</property>
-                        <property name="yalign">0</property>
-                        <property name="ypad">1</property>
-                        <property name="label" translatable="yes">Default Compression _Level For GChemPaint Files:</property>
+                        <property name="label" translatable="yes">_Default theme:</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">compression</property>
-                        <property name="single_line_mode">True</property>
                       </widget>
                       <packing>
-                        <property name="right_attach">2</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkSpinButton" id="compression">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="adjustment">0 0 9 1 5 5</property>
-                        <property name="climb_rate">1</property>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">2</property>
-                        <property name="right_attach">3</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
                       </packing>
                     </child>
                     <child>
@@ -84,17 +67,34 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="default-theme-lbl">
+                      <widget class="GtkSpinButton" id="compression">
                         <property name="visible">True</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">_Default theme:</property>
-                        <property name="use_underline">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="adjustment">0 0 9 1 5 0</property>
+                        <property name="climb_rate">1</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="compression-lbl">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
+                        <property name="ypad">1</property>
+                        <property name="label" translatable="yes">Default Compression _Level For GChemPaint Files:</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">compression</property>
+                        <property name="single_line_mode">True</property>
+                      </widget>
+                      <packing>
+                        <property name="right_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
                       </packing>
                     </child>
                   </widget>
@@ -216,44 +216,78 @@
                                   <placeholder/>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="sign-padding-lbl">
+                                  <widget class="GtkLabel" id="label20">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
                                     <property name="yalign">0</property>
-                                    <property name="label" translatable="yes">Si_gn padding:</property>
-                                    <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="top_attach">5</property>
-                                    <property name="bottom_attach">6</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="scale-btn">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">Scale used to convert real distance to canvas distance expressed in pm per pixel.</property>
+                                    <property name="adjustment">1 1 20 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                    <property name="digits">2</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="stoich-padding-lbl">
+                                  <widget class="GtkEntry" id="name">
                                     <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="yalign">0</property>
-                                    <property name="label" translatable="yes">Stoichio_metry padding:</property>
-                                    <property name="use_underline">True</property>
+                                    <property name="can_focus">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="top_attach">4</property>
-                                    <property name="bottom_attach">5</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="padding-btn">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">Padding used around text objects such as atoms, texts and other typographic signs in pixels.</property>
+                                    <property name="adjustment">1 0 50 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                    <property name="digits">2</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="object-padding-lbl">
+                                  <widget class="GtkSpinButton" id="object-padding-btn">
                                     <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="yalign">0</property>
-                                    <property name="label" translatable="yes">_Object padding:</property>
-                                    <property name="use_underline">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">Default padding in pixels added between consecutive objects during an alignment operation.</property>
+                                    <property name="adjustment">1 0 500 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                    <property name="digits">2</property>
                                   </widget>
                                   <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
                                     <property name="top_attach">3</property>
                                     <property name="bottom_attach">4</property>
                                     <property name="x_options">GTK_FILL</property>
@@ -261,16 +295,50 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="padding-lbl">
+                                  <widget class="GtkSpinButton" id="stoich-padding-btn">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">Extra padding between a stoichiometric coefficient and its associated molecule in pixels.</property>
+                                    <property name="adjustment">1 0 20 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                    <property name="digits">2</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="sign-padding-btn">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">Padding between a '+' sign in a reaction equation and reactants symbols in pixels.</property>
+                                    <property name="adjustment">1 0 50 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                    <property name="digits">2</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">5</property>
+                                    <property name="bottom_attach">6</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="name-lbl">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
                                     <property name="yalign">0</property>
-                                    <property name="label" translatable="yes">General _padding:</property>
+                                    <property name="label" translatable="yes">N_ame:</property>
                                     <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
@@ -291,84 +359,14 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="name-lbl">
+                                  <widget class="GtkLabel" id="padding-lbl">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
                                     <property name="yalign">0</property>
-                                    <property name="label" translatable="yes">N_ame:</property>
+                                    <property name="label" translatable="yes">General _padding:</property>
                                     <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="sign-padding-btn">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="tooltip" translatable="yes">Padding between a '+' sign in a reaction equation and reactants symbols in pixels.</property>
-                                    <property name="adjustment">1 0 50 1 10 10</property>
-                                    <property name="climb_rate">1</property>
-                                    <property name="digits">2</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="top_attach">5</property>
-                                    <property name="bottom_attach">6</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="stoich-padding-btn">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="tooltip" translatable="yes">Extra padding between a stoichiometric coefficient and its associated molecule in pixels.</property>
-                                    <property name="adjustment">1 0 20 1 10 10</property>
-                                    <property name="climb_rate">1</property>
-                                    <property name="digits">2</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="top_attach">4</property>
-                                    <property name="bottom_attach">5</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="object-padding-btn">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="tooltip" translatable="yes">Default padding in pixels added between consecutive objects during an alignment operation.</property>
-                                    <property name="adjustment">1 0 500 1 10 10</property>
-                                    <property name="climb_rate">1</property>
-                                    <property name="digits">2</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="top_attach">3</property>
-                                    <property name="bottom_attach">4</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="padding-btn">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="tooltip" translatable="yes">Padding used around text objects such as atoms, texts and other typographic signs in pixels.</property>
-                                    <property name="adjustment">1 0 50 1 10 10</property>
-                                    <property name="climb_rate">1</property>
-                                    <property name="digits">2</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
                                     <property name="top_attach">2</property>
                                     <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
@@ -376,45 +374,47 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkEntry" id="name">
+                                  <widget class="GtkLabel" id="object-padding-lbl">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="yalign">0</property>
+                                    <property name="label" translatable="yes">_Object padding:</property>
+                                    <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="scale-btn">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="tooltip" translatable="yes">Scale used to convert real distance to canvas distance expressed in pm per pixel.</property>
-                                    <property name="adjustment">1 1 20 1 10 10</property>
-                                    <property name="climb_rate">1</property>
-                                    <property name="digits">2</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="label20">
+                                  <widget class="GtkLabel" id="stoich-padding-lbl">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
                                     <property name="yalign">0</property>
+                                    <property name="label" translatable="yes">Stoichio_metry padding:</property>
+                                    <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="sign-padding-lbl">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="yalign">0</property>
+                                    <property name="label" translatable="yes">Si_gn padding:</property>
+                                    <property name="use_underline">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">5</property>
+                                    <property name="bottom_attach">6</property>
+                                    <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
                                 </child>
@@ -477,6 +477,7 @@
                                 <child>
                                   <widget class="GtkFrame" id="normal-bond-frame">
                                     <property name="visible">True</property>
+                                    <property name="label_xalign">0</property>
                                     <property name="label_yalign">0</property>
                                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                                     <child>
@@ -493,15 +494,72 @@
                                             <property name="column_spacing">6</property>
                                             <property name="row_spacing">6</property>
                                             <child>
-                                              <widget class="GtkLabel" id="bond-angle-lbl">
+                                              <widget class="GtkLabel" id="bond-length-lbl">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">Angl_e:</property>
+                                                <property name="label" translatable="yes">Len_gth:</property>
                                                 <property name="use_underline">True</property>
-                                                <property name="mnemonic_widget">bond-angle-btn</property>
+                                                <property name="mnemonic_widget">bond-length-btn</property>
                                               </widget>
                                               <packing>
+                                                <property name="y_options"></property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="bond-dist-btn">
+                                                <property name="width_request">56</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Distance in pixels between two lines representing a multiple bond.</property>
+                                                <property name="adjustment">5 2 20 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                                <property name="numeric">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">3</property>
+                                                <property name="bottom_attach">4</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="bond-width-btn">
+                                                <property name="width_request">56</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Bond line width (in pixels).</property>
+                                                <property name="adjustment">1 0.10000000000000001 10 0.10000000000000001 1 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                                <property name="numeric">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">2</property>
+                                                <property name="bottom_attach">3</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options"></property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="bond-angle-btn">
+                                                <property name="width_request">56</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Default angle between two consecutive bonds in a chain.</property>
+                                                <property name="adjustment">120 10 180 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                                <property name="numeric">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">1</property>
                                                 <property name="bottom_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
@@ -509,17 +567,19 @@
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="bond-width-lbl">
+                                              <widget class="GtkSpinButton" id="bond-length-btn">
+                                                <property name="width_request">85</property>
                                                 <property name="visible">True</property>
-                                                <property name="xalign">0</property>
-                                                <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">_Width:</property>
-                                                <property name="use_underline">True</property>
-                                                <property name="mnemonic_widget">bond-width-btn</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Default bond length (pm).</property>
+                                                <property name="adjustment">140 10 1000 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                                <property name="numeric">True</property>
                                               </widget>
                                               <packing>
-                                                <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
                                                 <property name="y_options"></property>
                                               </packing>
@@ -541,57 +601,15 @@
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkSpinButton" id="bond-length-btn">
-                                                <property name="width_request">85</property>
+                                              <widget class="GtkLabel" id="bond-width-lbl">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Default bond length (pm).</property>
-                                                <property name="adjustment">140 10 1000 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                                <property name="numeric">True</property>
+                                                <property name="xalign">0</property>
+                                                <property name="yalign">0</property>
+                                                <property name="label" translatable="yes">_Width:</property>
+                                                <property name="use_underline">True</property>
+                                                <property name="mnemonic_widget">bond-width-btn</property>
                                               </widget>
                                               <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options"></property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="bond-angle-btn">
-                                                <property name="width_request">56</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Default angle between two consecutive bonds in a chain.</property>
-                                                <property name="adjustment">120 10 180 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                                <property name="numeric">True</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options"></property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="bond-width-btn">
-                                                <property name="width_request">56</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Bond line width (in pixels).</property>
-                                                <property name="adjustment">1 0.10000000000000001 10 0.10000000000000001 1 1</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                                <property name="numeric">True</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">2</property>
                                                 <property name="bottom_attach">3</property>
                                                 <property name="x_options">GTK_FILL</property>
@@ -599,35 +617,18 @@
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkSpinButton" id="bond-dist-btn">
-                                                <property name="width_request">56</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Distance in pixels between two lines representing a multiple bond.</property>
-                                                <property name="adjustment">5 2 20 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                                <property name="numeric">True</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="top_attach">3</property>
-                                                <property name="bottom_attach">4</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options"></property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkLabel" id="bond-length-lbl">
+                                              <widget class="GtkLabel" id="bond-angle-lbl">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">Len_gth:</property>
+                                                <property name="label" translatable="yes">Angl_e:</property>
                                                 <property name="use_underline">True</property>
-                                                <property name="mnemonic_widget">bond-length-btn</property>
+                                                <property name="mnemonic_widget">bond-angle-btn</property>
                                               </widget>
                                               <packing>
+                                                <property name="top_attach">1</property>
+                                                <property name="bottom_attach">2</property>
+                                                <property name="x_options">GTK_FILL</property>
                                                 <property name="y_options"></property>
                                               </packing>
                                             </child>
@@ -655,11 +656,13 @@
                                 <child>
                                   <widget class="GtkFrame" id="stereo-bond-frame">
                                     <property name="visible">True</property>
+                                    <property name="label_xalign">0</property>
                                     <property name="label_yalign">0</property>
                                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame1">
                                         <property name="visible">True</property>
+                                        <property name="label_xalign">0</property>
                                         <property name="label_yalign">0</property>
                                         <property name="shadow_type">GTK_SHADOW_NONE</property>
                                         <child>
@@ -676,17 +679,72 @@
                                                 <property name="column_spacing">6</property>
                                                 <property name="row_spacing">6</property>
                                                 <child>
-                                                  <widget class="GtkLabel" id="hash-width-lbl">
+                                                  <widget class="GtkLabel" id="stereo-width-lbl">
                                                     <property name="visible">True</property>
                                                     <property name="xalign">0</property>
                                                     <property name="yalign">0</property>
-                                                    <property name="label" translatable="yes">Ha_sh width:</property>
+                                                    <property name="label" translatable="yes">Wid_th</property>
                                                     <property name="use_underline">True</property>
-                                                    <property name="mnemonic_widget">hash-width-btn</property>
+                                                    <property name="mnemonic_widget">stereo-width-btn</property>
                                                   </widget>
                                                   <packing>
+                                                    <property name="y_options"></property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkSpinButton" id="hash-dist-btn">
+                                                    <property name="width_request">56</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="tooltip" translatable="yes">Distance between hashes in pixels.</property>
+                                                    <property name="adjustment">2 0.10000000000000001 10 0.10000000000000001 1 0</property>
+                                                    <property name="climb_rate">1</property>
+                                                    <property name="digits">2</property>
+                                                    <property name="numeric">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="left_attach">1</property>
+                                                    <property name="right_attach">2</property>
+                                                    <property name="top_attach">2</property>
+                                                    <property name="bottom_attach">3</property>
+                                                    <property name="x_options">GTK_FILL</property>
+                                                    <property name="y_options"></property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkSpinButton" id="hash-width-btn">
+                                                    <property name="width_request">56</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="tooltip" translatable="yes">Width of hashes in pixels.</property>
+                                                    <property name="adjustment">1 0.10000000000000001 10 0.10000000000000001 1 0</property>
+                                                    <property name="climb_rate">1</property>
+                                                    <property name="digits">2</property>
+                                                    <property name="numeric">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="left_attach">1</property>
+                                                    <property name="right_attach">2</property>
                                                     <property name="top_attach">1</property>
                                                     <property name="bottom_attach">2</property>
+                                                    <property name="x_options">GTK_FILL</property>
+                                                    <property name="y_options"></property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkSpinButton" id="stereo-width-btn">
+                                                    <property name="width_request">85</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="tooltip" translatable="yes">Width in pixels at the largest end.</property>
+                                                    <property name="adjustment">5 1 20 1 10 0</property>
+                                                    <property name="climb_rate">1</property>
+                                                    <property name="digits">2</property>
+                                                    <property name="numeric">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="left_attach">1</property>
+                                                    <property name="right_attach">2</property>
                                                     <property name="x_options">GTK_FILL</property>
                                                     <property name="y_options"></property>
                                                   </packing>
@@ -708,73 +766,18 @@
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkSpinButton" id="stereo-width-btn">
-                                                    <property name="width_request">85</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="tooltip" translatable="yes">Width in pixels at the largest end.</property>
-                                                    <property name="adjustment">5 1 20 1 10 10</property>
-                                                    <property name="climb_rate">1</property>
-                                                    <property name="digits">2</property>
-                                                    <property name="numeric">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkSpinButton" id="hash-width-btn">
-                                                    <property name="width_request">56</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="tooltip" translatable="yes">Width of hashes in pixels.</property>
-                                                    <property name="adjustment">1 0.10000000000000001 10 0.10000000000000001 1 1</property>
-                                                    <property name="climb_rate">1</property>
-                                                    <property name="digits">2</property>
-                                                    <property name="numeric">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="top_attach">1</property>
-                                                    <property name="bottom_attach">2</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkSpinButton" id="hash-dist-btn">
-                                                    <property name="width_request">56</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="tooltip" translatable="yes">Distance between hashes in pixels.</property>
-                                                    <property name="adjustment">2 0.10000000000000001 10 0.10000000000000001 1 1</property>
-                                                    <property name="climb_rate">1</property>
-                                                    <property name="digits">2</property>
-                                                    <property name="numeric">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="top_attach">2</property>
-                                                    <property name="bottom_attach">3</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                    <property name="y_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="stereo-width-lbl">
+                                                  <widget class="GtkLabel" id="hash-width-lbl">
                                                     <property name="visible">True</property>
                                                     <property name="xalign">0</property>
                                                     <property name="yalign">0</property>
-                                                    <property name="label" translatable="yes">Wid_th</property>
+                                                    <property name="label" translatable="yes">Ha_sh width:</property>
                                                     <property name="use_underline">True</property>
-                                                    <property name="mnemonic_widget">stereo-width-btn</property>
+                                                    <property name="mnemonic_widget">hash-width-btn</property>
                                                   </widget>
                                                   <packing>
+                                                    <property name="top_attach">1</property>
+                                                    <property name="bottom_attach">2</property>
+                                                    <property name="x_options">GTK_FILL</property>
                                                     <property name="y_options"></property>
                                                   </packing>
                                                 </child>
@@ -837,6 +840,7 @@
                                 <child>
                                   <widget class="GtkFrame" id="frame2">
                                     <property name="visible">True</property>
+                                    <property name="label_xalign">0</property>
                                     <property name="label_yalign">0</property>
                                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                                     <child>
@@ -853,30 +857,87 @@
                                             <property name="column_spacing">12</property>
                                             <property name="row_spacing">6</property>
                                             <child>
-                                              <widget class="GtkLabel" id="arrow-padding-lbl">
+                                              <widget class="GtkSpinButton" id="arrow-width-btn">
                                                 <property name="visible">True</property>
-                                                <property name="xalign">0</property>
-                                                <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">_Padding:</property>
-                                                <property name="use_underline">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Arrow line width (in pixels).</property>
+                                                <property name="adjustment">1 0.10000000000000001 10 0.10000000000000001 1 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                                <property name="numeric">True</property>
                                               </widget>
                                               <packing>
-                                                <property name="top_attach">3</property>
-                                                <property name="bottom_attach">4</property>
-                                                <property name="y_options"></property>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">1</property>
+                                                <property name="bottom_attach">2</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options">GTK_EXPAND</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="arrow-dist-lbl">
+                                              <widget class="GtkSpinButton" id="arrow-dist-btn">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Distance in pixels between two parallel lines (either two arrows or one arrow with two lines).</property>
+                                                <property name="adjustment">2 2 20 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">2</property>
+                                                <property name="bottom_attach">3</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options">GTK_EXPAND</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="arrow-padding-btn">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Padding added at each end of an arrow (in pixels).</property>
+                                                <property name="adjustment">1 1 1000 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                                <property name="numeric">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">3</property>
+                                                <property name="bottom_attach">4</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="y_options">GTK_EXPAND</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="arrow-length-btn">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Default arrow length (in pm just like bond lengths).</property>
+                                                <property name="adjustment">200 10 1000 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                                <property name="numeric">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="x_options"></property>
+                                                <property name="y_options">GTK_EXPAND</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="arrow-length-lbl">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">_Distance:</property>
+                                                <property name="label" translatable="yes">Len_gth:</property>
                                                 <property name="use_underline">True</property>
                                               </widget>
                                               <packing>
-                                                <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
                                                 <property name="y_options"></property>
                                               </packing>
                                             </child>
@@ -895,88 +956,31 @@
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="arrow-length-lbl">
+                                              <widget class="GtkLabel" id="arrow-dist-lbl">
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">Len_gth:</property>
+                                                <property name="label" translatable="yes">_Distance:</property>
                                                 <property name="use_underline">True</property>
                                               </widget>
                                               <packing>
+                                                <property name="top_attach">2</property>
+                                                <property name="bottom_attach">3</property>
                                                 <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkSpinButton" id="arrow-length-btn">
+                                              <widget class="GtkLabel" id="arrow-padding-lbl">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Default arrow length (in pm just like bond lengths).</property>
-                                                <property name="adjustment">200 10 1000 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                                <property name="numeric">True</property>
+                                                <property name="xalign">0</property>
+                                                <property name="yalign">0</property>
+                                                <property name="label" translatable="yes">_Padding:</property>
+                                                <property name="use_underline">True</property>
                                               </widget>
                                               <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="x_options"></property>
-                                                <property name="y_options">GTK_EXPAND</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="arrow-padding-btn">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Padding added at each end of an arrow (in pixels).</property>
-                                                <property name="adjustment">1 1 1000 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                                <property name="numeric">True</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">3</property>
                                                 <property name="bottom_attach">4</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options">GTK_EXPAND</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="arrow-dist-btn">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Distance in pixels between two parallel lines (either two arrows or one arrow with two lines).</property>
-                                                <property name="adjustment">2 2 20 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options">GTK_EXPAND</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="arrow-width-btn">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Arrow line width (in pixels).</property>
-                                                <property name="adjustment">1 0.10000000000000001 10 0.10000000000000001 1 1</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                                <property name="numeric">True</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                                <property name="y_options">GTK_EXPAND</property>
+                                                <property name="y_options"></property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -1002,6 +1006,7 @@
                                 <child>
                                   <widget class="GtkFrame" id="arrow-head-frame">
                                     <property name="visible">True</property>
+                                    <property name="label_xalign">0</property>
                                     <property name="label_yalign">0</property>
                                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                                     <child>
@@ -1018,54 +1023,42 @@
                                             <property name="column_spacing">12</property>
                                             <property name="row_spacing">6</property>
                                             <child>
-                                              <widget class="GtkSpinButton" id="arrow-headC-btn">
+                                              <widget class="GtkLabel" id="arrow-headC-lbl">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Distance in pixels of arrowhead trailing points from outside edge of shaft.</property>
-                                                <property name="adjustment">4 0.10000000000000001 100 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
+                                                <property name="xalign">0</property>
+                                                <property name="yalign">0</property>
+                                                <property name="label" translatable="yes">C:</property>
+                                                <property name="use_underline">True</property>
                                               </widget>
                                               <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">2</property>
                                                 <property name="bottom_attach">3</property>
-                                                <property name="x_options"></property>
                                                 <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkSpinButton" id="arrow-headB-btn">
+                                              <widget class="GtkLabel" id="arrow-headA-lbl">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Distance in pixels from tip of arrowhead to trailing point, measured along shaft.</property>
-                                                <property name="adjustment">8 0.10000000000000001 100 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
+                                                <property name="xalign">0</property>
+                                                <property name="yalign">0</property>
+                                                <property name="label" translatable="yes">A:</property>
+                                                <property name="use_underline">True</property>
                                               </widget>
                                               <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
+                                                <property name="y_options"></property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="arrow-headB-lbl">
+                                                <property name="visible">True</property>
+                                                <property name="xalign">0</property>
+                                                <property name="yalign">0</property>
+                                                <property name="label" translatable="yes">B:</property>
+                                                <property name="use_underline">True</property>
+                                              </widget>
+                                              <packing>
                                                 <property name="top_attach">1</property>
                                                 <property name="bottom_attach">2</property>
-                                                <property name="x_options"></property>
-                                                <property name="y_options"></property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="arrow-headA-btn">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">Distance in pixels from tip of arrowhead to center.</property>
-                                                <property name="adjustment">6 0.10000000000000001 100 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="digits">2</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="x_options"></property>
                                                 <property name="y_options"></property>
                                               </packing>
                                             </child>
@@ -1084,42 +1077,54 @@
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="arrow-headB-lbl">
+                                              <widget class="GtkSpinButton" id="arrow-headA-btn">
                                                 <property name="visible">True</property>
-                                                <property name="xalign">0</property>
-                                                <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">B:</property>
-                                                <property name="use_underline">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Distance in pixels from tip of arrowhead to center.</property>
+                                                <property name="adjustment">6 0.10000000000000001 100 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
                                               </widget>
                                               <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="x_options"></property>
+                                                <property name="y_options"></property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="arrow-headB-btn">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Distance in pixels from tip of arrowhead to trailing point, measured along shaft.</property>
+                                                <property name="adjustment">8 0.10000000000000001 100 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">1</property>
                                                 <property name="bottom_attach">2</property>
+                                                <property name="x_options"></property>
                                                 <property name="y_options"></property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="arrow-headA-lbl">
+                                              <widget class="GtkSpinButton" id="arrow-headC-btn">
                                                 <property name="visible">True</property>
-                                                <property name="xalign">0</property>
-                                                <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">A:</property>
-                                                <property name="use_underline">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">Distance in pixels of arrowhead trailing points from outside edge of shaft.</property>
+                                                <property name="adjustment">4 0.10000000000000001 100 1 10 0</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="digits">2</property>
                                               </widget>
                                               <packing>
-                                                <property name="y_options"></property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkLabel" id="arrow-headC-lbl">
-                                                <property name="visible">True</property>
-                                                <property name="xalign">0</property>
-                                                <property name="yalign">0</property>
-                                                <property name="label" translatable="yes">C:</property>
-                                                <property name="use_underline">True</property>
-                                              </widget>
-                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
                                                 <property name="top_attach">2</property>
                                                 <property name="bottom_attach">3</property>
+                                                <property name="x_options"></property>
                                                 <property name="y_options"></property>
                                               </packing>
                                             </child>
@@ -1201,10 +1206,25 @@
                             <child>
                               <widget class="GtkTable" id="atom-other-table">
                                 <property name="visible">True</property>
-                                <property name="n_rows">1</property>
                                 <property name="n_columns">2</property>
                                 <property name="column_spacing">12</property>
                                 <property name="row_spacing">6</property>
+                                <child>
+                                  <widget class="GtkSpinButton" id="charge-size-btn">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="tooltip" translatable="yes">Size of the charge sign in pixels.</property>
+                                    <property name="adjustment">1 1 100 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                    <property name="digits">2</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
                                 <child>
                                   <widget class="GtkLabel" id="charge-size-lbl">
                                     <property name="visible">True</property>
@@ -1214,22 +1234,6 @@
                                     <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="charge-size-btn">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="tooltip" translatable="yes">Size of the charge sign in pixels.</property>
-                                    <property name="adjustment">1 1 100 1 10 10</property>
-                                    <property name="climb_rate">1</property>
-                                    <property name="digits">2</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
