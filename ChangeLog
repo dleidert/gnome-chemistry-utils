@@ -1,5 +1,27 @@
 ##Text encoding: utf-8
 
+2009-03-06  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* libs/gcp/about.cc: Fixed FSF address.
+	* libs/canvas/gcp-canvas-i18n.h: ditto.
+	* libs/canvas/gcp-canvas-text.c: ditto.
+	* libs/canvas/gcp-canvas-polygon.c: ditto.
+	* libs/canvas/gcp-canvas-line.c: ditto.
+	* libs/canvas/gcp-canvas-rect-ellipse.c: ditto.
+	* libs/canvas/gcp-canvas-text.h: ditto.
+	* libs/canvas/gcp-canvas-polygon.h: ditto.
+	* libs/canvas/gcp-canvas-line.h: ditto.
+	* libs/canvas/gcp-canvas-group.c: ditto.
+	* libs/canvas/gcp-canvas-rect-ellipse.h: ditto.
+	* libs/canvas/gcp-canvas-shape.c: ditto.
+	* libs/canvas/gcp-canvas-group.h: ditto.
+	* libs/canvas/gcp-canvas-pango.c: ditto.
+	* libs/canvas/gcp-canvas-shape.h: ditto.
+	* libs/canvas/gcp-canvas-pango.h: ditto.
+	* tests/testgtkperiodic.c: ditto.
+	* tests/testgtkcrystalviewer.c: ditto.
+	* tests/testgtkchem3dviewer.c: ditto.
+
+
 2009-03-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed compilation with goffice-0.6.x.
 	* goffice/Makefile.am: ditto.
