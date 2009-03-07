@@ -1016,7 +1016,7 @@ void Application::Zoom (double zoom)
 	}
 }
 
-static void on_tool_changed (GtkAction *action, GtkAction *current, Application* App)
+static void on_tool_changed (G_GNUC_UNUSED GtkAction *action, GtkAction *current, Application* App)
 {
 	App->OnToolChanged (current);
 }

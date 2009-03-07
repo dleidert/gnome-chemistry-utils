@@ -31,7 +31,7 @@
 
 namespace gcp {
 
-static bool on_focus_in (GtkWidget *widget, GdkEventFocus *event, Target *target)
+static bool on_focus_in (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkEventFocus *event, Target *target)
 {
 	target->GetDocument ()->GetView ()->ShowCursor (true);
 	gcp::Application *App = target->GetApplication ();
@@ -40,14 +40,14 @@ static bool on_focus_in (GtkWidget *widget, GdkEventFocus *event, Target *target
 	return false;
 }
 
-static bool on_focus_out (GtkWidget *widget, GdkEventFocus *event, Target *target)
+static bool on_focus_out (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkEventFocus *event, Target *target)
 {
 	target->GetDocument ()->GetView ()->ShowCursor (false);
 	target->GetApplication ()->NotifyFocus (false);
 	return false;
 }
 
-static bool on_state (GtkWidget *widget, GdkEventWindowState *event, Target *target)
+static bool on_state (G_GNUC_UNUSED GtkWidget *widget, GdkEventWindowState *event, Target *target)
 {
 	if (event->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
 		target->GetApplication ()->NotifyIconification (event->new_window_state & GDK_WINDOW_STATE_ICONIFIED);

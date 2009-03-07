@@ -77,7 +77,7 @@ void Mesomer::AddArrow (MesomeryArrow *arrow, Mesomer *mesomer) throw (std::inva
 	m_Arrows[mesomer] = arrow;
 }
 
-void Mesomer::RemoveArrow (MesomeryArrow *arrow, Mesomer *mesomer)
+void Mesomer::RemoveArrow (G_GNUC_UNUSED MesomeryArrow *arrow, Mesomer *mesomer)
 {
 	m_Arrows.erase (mesomer);
 }
@@ -87,7 +87,7 @@ double Mesomer::GetYAlign ()
 	return (m_Molecule)? m_Molecule->GetYAlign (): 0.;
 }
 
-bool Mesomer::OnSignal (SignalId Signal, Object *Child)
+bool Mesomer::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (GetChildrenNumber () != 1) {
 		delete GetParent ();

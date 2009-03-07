@@ -62,7 +62,7 @@ void Plugin::LoadPlugins ()
 	set<Plugin*>::iterator i = Plugins.begin (), end = Plugins.end ();
 }
 
-void Plugin::Populate (Application* App)
+void Plugin::Populate (G_GNUC_UNUSED Application* App)
 {
 }
 

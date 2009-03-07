@@ -46,7 +46,7 @@ void Cycle::Simplify ()
 			std::list<Cycle*>::iterator j;
 			Cycle* pCycle = (*i).second.fwd->GetFirstCycle (j, this);
 			while (pCycle) {
-				for (k = pCycle->m_Bonds.begin (); (*k).second.fwd != (*i).second.fwd; k++);
+				for (k = pCycle->m_Bonds.begin (); (*k).second.fwd != (*i).second.fwd; k++) ;
 				Atom *pAtom0 = (*i).first, *pAtom1, *pAtom2;
 				bool bReverse = (pAtom0 != (*k).first);
 				Bond *pBond0 = (*i).second.fwd, *pBond;

@@ -396,7 +396,7 @@ void ReactionArrow::PositionChild (ReactionProp *prop)
 	Doc->GetView ()->Update (this);
 }
 
-bool ReactionArrow::OnSignal (SignalId Signal, Object *Child)
+bool ReactionArrow::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (Signal == OnChangedSignal) {
 		// for now we can have only one child property.

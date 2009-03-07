@@ -417,7 +417,7 @@ void Document::ExportOB () const
 	}
 }
 
-void Document::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
+void Document::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
 {
 	cairo_t *cr;
 	double width, height, x, y, w, h;
@@ -1332,7 +1332,7 @@ void Document::SetTheme (Theme *theme)
 		m_pView->UpdateTheme ();
 }
 
-bool Document::OnSignal (SignalId Signal, Object *Child)
+bool Document::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (Signal == OnThemeChangedSignal) {
 		m_BondLength = m_Theme->GetBondLength ();

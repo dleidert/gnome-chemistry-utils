@@ -155,7 +155,7 @@ void Object::AddChild (Object* object)
 	if (object->m_Id == NULL) {
 		int i = 1;
 		char szId[16];
-		while (snprintf (szId, sizeof(szId), "o%d", i++), pDoc->GetDescendant (szId) != NULL);
+		while (snprintf (szId, sizeof(szId), "o%d", i++), pDoc->GetDescendant (szId) != NULL) ;
 		object->m_Id = g_strdup (szId);
 	} else {
 		Object* o = pDoc->RealGetDescendant (object->m_Id);
@@ -381,12 +381,12 @@ bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object, doubl
 	return result | ((m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false);
 }
 
-Object* Object::GetAtomAt (double x, double y, double z)
+Object* Object::GetAtomAt (G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED double z)
 {
 	return NULL;
 }
 
-bool Object::Build (list<Object*>& Children) throw (invalid_argument)
+bool Object::Build (G_GNUC_UNUSED list<Object*>& Children) throw (invalid_argument)
 {
 	return false;
 }
@@ -557,7 +557,7 @@ void Object::EmitSignal (SignalId Signal)
 	}
 }
 
-bool Object::OnSignal (SignalId Signal, Object *Child)
+bool Object::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	return true;
 }
@@ -584,7 +584,7 @@ void Object::Unlink (Object *object)
 	OnUnlink (object);
 }
 
-void Object::OnUnlink (Object *object)
+void Object::OnUnlink (G_GNUC_UNUSED G_GNUC_UNUSED Object *object)
 {
 }
 
@@ -602,7 +602,7 @@ void Object::AddMenuCallback (TypeId Id, BuildMenuCb cb)
 	typedesc.MenuCbs.push_back (cb);
 }
 
-bool Object::SetProperty (unsigned property, char const *value)
+bool Object::SetProperty (G_GNUC_UNUSED unsigned property, G_GNUC_UNUSED char const *value)
 {
 	return true;
 }

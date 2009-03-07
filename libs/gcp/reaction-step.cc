@@ -205,7 +205,7 @@ double ReactionStep::GetYAlign ()
 	return ((*i).second)? (*i).second->GetYAlign (): 0.;
 }
 
-bool ReactionStep::OnSignal (SignalId Signal, Object *Child)
+bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (Signal == OnChangedSignal) {
 		if (m_bLoading)

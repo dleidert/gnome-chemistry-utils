@@ -63,7 +63,7 @@ gchar* Document::GetNewId (gchar* id, bool Cache)
 	if (s.size ())
 		j = atoi (s.c_str ());
 	char* key = g_strdup (buf);
-	while (snprintf (buf + i, 16, "%d", j++), GetDescendant (buf) != NULL);
+	while (snprintf (buf + i, 16, "%d", j++), GetDescendant (buf) != NULL) ;
 	Id = g_strdup_printf ("%d", j);
 	if (Cache) {
 		m_TranslationTable[key] = Id;
@@ -74,7 +74,7 @@ gchar* Document::GetNewId (gchar* id, bool Cache)
 	return buf;
 }
 
-Residue *Document::CreateResidue (char const *name, char const *symbol, Molecule *molecule)
+Residue *Document::CreateResidue (G_GNUC_UNUSED char const *name, G_GNUC_UNUSED char const *symbol, G_GNUC_UNUSED Molecule *molecule)
 {
 	return NULL;
 }

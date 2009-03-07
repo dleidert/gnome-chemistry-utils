@@ -361,7 +361,7 @@ done:
 	return true;
 }
 
-Object* Bond::GetAtomAt(double x, double y, double z)
+Object* Bond::GetAtomAt(double x, double y, G_GNUC_UNUSED double z)
 {
 	double x1, y1;
 	m_Begin->GetCoords (&x1, &y1);
@@ -373,7 +373,7 @@ Object* Bond::GetAtomAt(double x, double y, double z)
 	return NULL;
 }
 
-bool Bond::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
+bool Bond::SaveNode (G_GNUC_UNUSED xmlDocPtr xml, xmlNodePtr node) const
 {
 	switch(m_type) {
 	case UpBondType:
@@ -498,7 +498,7 @@ void Bond::RemoveAllCycles ()
 	}
 }
 
-void Bond::Move (double x, double y, double z)
+void Bond::Move (double x, double y, G_GNUC_UNUSED double z)
 {
 	if (m_Item) {
 		Document *doc = static_cast <Document*> (GetDocument ());
@@ -508,7 +508,7 @@ void Bond::Move (double x, double y, double z)
 	m_CoordsCalc = false;
 }
 
-void Bond::Transform2D (Matrix2D& m, double x, double y)
+void Bond::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	m_CoordsCalc = false;
 }

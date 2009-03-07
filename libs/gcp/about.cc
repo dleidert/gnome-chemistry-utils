@@ -28,7 +28,7 @@
 #include <gtk/gtk.h>
 #include <cstring>
 
-void on_about (GtkWidget* widget, void* data)
+void on_about (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED void* data)
 {
 	char const *authors[] = {"Jean Bréfort", NULL};
 	char const *artists[] = {"Nestor Diaz", NULL};

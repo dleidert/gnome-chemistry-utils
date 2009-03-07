@@ -42,7 +42,7 @@ struct _GtkSpectrumViewerClass
 };
 
 static void
-on_size (GtkSpectrumViewer* w, GtkAllocation *allocation, gpointer user_data)
+on_size (GtkSpectrumViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer user_data)
 {
 	if (GTK_BIN (w)->child && GTK_WIDGET_VISIBLE (GTK_BIN (w)->child))
 		gtk_widget_size_allocate (GTK_BIN (w)->child, allocation);
@@ -84,12 +84,12 @@ gtk_spectrum_viewer_get_graph (GtkSpectrumViewer * viewer)
 }
 
 void
-gtk_spectrum_viewer_init (GtkSpectrumViewer * viewer)
+gtk_spectrum_viewer_init (G_GNUC_UNUSED GtkSpectrumViewer * viewer)
 {
 }
 
 void
-gtk_spectrum_viewer_class_init (GtkSpectrumViewerClass *klass)
+gtk_spectrum_viewer_class_init (G_GNUC_UNUSED GtkSpectrumViewerClass *klass)
 {
 }
 

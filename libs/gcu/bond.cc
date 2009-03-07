@@ -64,7 +64,7 @@ Atom* Bond::GetAtom(int which) const
 	}
 }
 
-Atom* Bond::GetAtom(Atom* pAtom, int which) const
+Atom* Bond::GetAtom(Atom* pAtom, G_GNUC_UNUSED int which) const
 {
 	return (pAtom == m_Begin)? m_End: (pAtom == m_End)? m_Begin: NULL;
 }
@@ -167,11 +167,11 @@ void Bond::IncOrder(int n)
 	if (m_order > 4)  m_order %= 4;
 }
 
-void Bond::Move(double x, double y, double z)
+void Bond::Move(G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED double z)
 {
 }
 
-void Bond::Transform2D(Matrix2D& m, double x, double y)
+void Bond::Transform2D(G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 }
 

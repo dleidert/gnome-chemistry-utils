@@ -67,7 +67,7 @@ static void on_scale_type_changed (GtkToggleButton *btn, PrintSetupDlg *dlg)
 }
 
 static gint unit_sort_func (GtkTreeModel *model,
-		GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
+		GtkTreeIter *a, GtkTreeIter *b, G_GNUC_UNUSED gpointer user_data)
 {
 	char *str_a;
 	char *str_b;
@@ -83,7 +83,7 @@ static gint unit_sort_func (GtkTreeModel *model,
 	return result;
 }
 
-static bool select_unit (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, PrintSetupDlg *dlg)
+static bool select_unit (G_GNUC_UNUSED GtkTreeModel *model, G_GNUC_UNUSED GtkTreePath *path, GtkTreeIter *iter, G_GNUC_UNUSED PrintSetupDlg *dlg)
 {
 	return dlg->SelectUnit(iter);
 }
@@ -408,11 +408,11 @@ void PrintSetupDlg::OnLeftMarginChanged (double x)
 	gtk_page_setup_set_left_margin (m_Printable->GetPageSetup (), x, m_Printable->GetUnit ());
 }
 
-void PrintSetupDlg::OnHeaderHeightChanged (double x)
+void PrintSetupDlg::OnHeaderHeightChanged (G_GNUC_UNUSED double x)
 {
 }
 
-void PrintSetupDlg::OnFooterHeightChanged (double x)
+void PrintSetupDlg::OnFooterHeightChanged (G_GNUC_UNUSED double x)
 {
 }
 

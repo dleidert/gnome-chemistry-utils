@@ -30,13 +30,13 @@ typedef	GObject GcuCmdContext;
 typedef GObjectClass GcuCmdContextClass;
 
 static void
-gcu_cc_error_error (GOCmdContext *cc, GError *error)
+gcu_cc_error_error (G_GNUC_UNUSED GOCmdContext *cc, GError *error)
 {
 	fprintf (stderr, "Error: %s\n", error->message);
 }
 
 static void
-gcu_cc_error_info (GOCmdContext *cc, ErrorInfo *error)
+gcu_cc_error_info (G_GNUC_UNUSED GOCmdContext *cc, ErrorInfo *error)
 {
 	error_info_print (error);
 }
@@ -55,17 +55,17 @@ gcu_cc_set_sensitive (G_GNUC_UNUSED GOCmdContext *cc,
 }
 
 static void
-gcu_cc_progress_set (GOCmdContext *cc, gfloat val)
+gcu_cc_progress_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED gfloat val)
 {
 }
 
 static void
-gcu_cc_progress_message_set (GOCmdContext *cc, gchar const *msg)
+gcu_cc_progress_message_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED gchar const *msg)
 {
 }
 
 static void
-gcu_cc_cmd_context_init (GOCmdContextClass *iface)
+gcu_cc_cmd_context_init (G_GNUC_UNUSED GOCmdContextClass *iface)
 {
 	iface->get_password			= gcu_cc_get_password;
 	iface->set_sensitive		= gcu_cc_set_sensitive;

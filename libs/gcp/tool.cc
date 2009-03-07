@@ -161,7 +161,7 @@ void Tool::OnRelease ()
 {
 }
 
-bool Tool::OnRightButtonClicked (GtkUIManager *UIManager)
+bool Tool::OnRightButtonClicked (G_GNUC_UNUSED GtkUIManager *UIManager)
 {
 	return false;
 }
@@ -184,7 +184,7 @@ bool Tool::Deactivate ()
 	return true;
 }
 
-bool Tool::OnEvent (GdkEvent* event)
+bool Tool::OnEvent (G_GNUC_UNUSED GdkEvent* event)
 {
 	return false;
 }
@@ -199,22 +199,22 @@ bool Tool::DeleteSelection ()
 	return false;
 }
 
-bool Tool::CopySelection (GtkClipboard *clipboard)
+bool Tool::CopySelection (G_GNUC_UNUSED GtkClipboard *clipboard)
 {
 	return false;
 }
 
-bool Tool::CutSelection (GtkClipboard *clipboard)
+bool Tool::CutSelection (G_GNUC_UNUSED GtkClipboard *clipboard)
 {
 	return false;
 }
 
-bool Tool::PasteSelection (GtkClipboard *clipboard)
+bool Tool::PasteSelection (G_GNUC_UNUSED GtkClipboard *clipboard)
 {
 	return false;
 }
 
-bool Tool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type)
+bool Tool::OnReceive (G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED GtkSelectionData *data, G_GNUC_UNUSED int type)
 {
 	return false;
 }
@@ -229,11 +229,11 @@ bool Tool::OnRedo ()
 	return false;
 }
 
-void Tool::PushNode (xmlNodePtr node)
+void Tool::PushNode (G_GNUC_UNUSED xmlNodePtr node)
 {
 }
 
-void Tool::AddSelection (WidgetData* data)
+void Tool::AddSelection (G_GNUC_UNUSED WidgetData* data)
 {
 }
 

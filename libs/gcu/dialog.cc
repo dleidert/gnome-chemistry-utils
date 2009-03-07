@@ -32,28 +32,28 @@
 namespace gcu
 {
 
-static void on_OK (GtkWidget *widget, Dialog* pBox)
+static void on_OK (G_GNUC_UNUSED GtkWidget *widget, Dialog* pBox)
 {
 	if (pBox->Apply ())
 		pBox->Destroy ();
 }
 
-static void on_apply (GtkWidget *widget, Dialog* pBox)
+static void on_apply (G_GNUC_UNUSED GtkWidget *widget, Dialog* pBox)
 {
 	pBox->Apply ();
 }
 
-static void on_cancel (GtkWidget *widget, Dialog* pBox)
+static void on_cancel (G_GNUC_UNUSED GtkWidget *widget, Dialog* pBox)
 {
 	pBox->Destroy ();
 }
 
-static void on_help(GtkWidget *widget, Dialog* pBox)
+static void on_help(G_GNUC_UNUSED GtkWidget *widget, Dialog* pBox)
 {
 	pBox->Help();
 }
 
-static bool on_destroy (GtkWidget *widget, Dialog* pBox)
+static bool on_destroy (G_GNUC_UNUSED GtkWidget *widget, Dialog* pBox)
 {
 	delete pBox;
 	return true;

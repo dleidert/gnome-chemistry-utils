@@ -101,7 +101,7 @@ plugin_service_chemical_loader_read_xml (GOPluginService * service, xmlNode * tr
 }
 
 static char *
-plugin_service_chemical_loader_get_description (GOPluginService * service)
+plugin_service_chemical_loader_get_description (G_GNUC_UNUSED GOPluginService * service)
 {
 	return g_strdup (_("Chemical file loader type."));
 }
@@ -116,7 +116,7 @@ plugin_service_chemical_loader_class_init (GObjectClass *gobject_class)
 }
 
 static void
-plugin_service_chemical_loader_init (PluginServiceChemicalLoader *s)
+plugin_service_chemical_loader_init (G_GNUC_UNUSED PluginServiceChemicalLoader *s)
 {
 }
 
@@ -211,12 +211,12 @@ void Loader::RemoveMimeType (const char *mime_type)
 		(*it).second.loader = NULL;
 }
 
-ContentType Loader::Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType Loader::Read (G_GNUC_UNUSED Document *doc, G_GNUC_UNUSED GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
 {
 	return ContentTypeUnknown;
 }
 
-bool Loader::Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool Loader::Write (G_GNUC_UNUSED Object *obj, G_GNUC_UNUSED GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	return false;
 }

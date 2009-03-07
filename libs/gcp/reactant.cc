@@ -188,7 +188,7 @@ void Reactant::AddStoichiometry ()
 	tool->OnClicked (pView, text, rect.x0 * pTheme->GetZoomFactor (), GetYAlign () * pTheme->GetZoomFactor (), 0);
 }
 
-bool Reactant::OnSignal (SignalId Signal, Object *Obj)
+bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 {
 	if (Signal == OnChangedSignal) {
 		Document *pDoc = (Document*) GetDocument ();

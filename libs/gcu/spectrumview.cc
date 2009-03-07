@@ -207,7 +207,7 @@ void SpectrumView::SetAxisLabel (GogAxisType target, char const *unit)
 	
 }
 
-void SpectrumView::ShowAxis (GogAxisType target, bool show)
+void SpectrumView::ShowAxis (GogAxisType target, G_GNUC_UNUSED bool show)
 {
 	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
 	GSList *axes = gog_chart_get_axes (chart, target);

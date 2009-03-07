@@ -1426,7 +1426,7 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 		case '+':
 			c = data[i++];
 			if ((c < '0' || c > '9') && c != '.') // FIXME: throw an exception
-				;
+				{;}
 			continue;
 		case '.':
 		case '0':
@@ -1557,7 +1557,7 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 	}
 }
 
-void SpectrumDocument::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
+void SpectrumDocument::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
 {
 	cairo_t *cr;
 	gdouble width, height;
@@ -2069,7 +2069,7 @@ void SpectrumDocument::OnShowIntegral ()
 	}
 }
 
-void SpectrumDocument::OnTransformFID (GtkButton *btn)
+void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 {
 	double *re = variables[R].Values, *im = variables[I].Values;
 	unsigned n = 2;

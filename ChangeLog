@@ -1,5 +1,55 @@
 ##Text encoding: utf-8
 
+2009-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/about.cc: fixed compilation warnings.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/docprop.cc: ditto.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/fontsel.cc: ditto.
+	* libs/gcp/fragment-atom.cc: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/mesomer.cc: ditto.
+	* libs/gcp/mesomery.cc: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcp/plugin.cc: ditto.
+	* libs/gcp/preferences.cc: ditto.
+	* libs/gcp/reactant.cc: ditto.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcp/reaction-operator.cc: ditto.
+	* libs/gcp/reaction-prop.cc: ditto.
+	* libs/gcp/reaction-step.cc: ditto.
+	* libs/gcp/stringdlg.cc: ditto.
+	* libs/gcp/target.cc: ditto.
+	* libs/gcp/text-object.cc: ditto.
+	* libs/gcp/tool.cc: ditto.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/tools.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcu/atom.cc: ditto.
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/cmd-context.cc: ditto.
+	* libs/gcu/crystalatom.cc: ditto.
+	* libs/gcu/crystaldoc.cc: ditto.
+	* libs/gcu/cycle.cc: ditto.
+	* libs/gcu/dialog.cc: ditto.
+	* libs/gcu/document.cc: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/gtkchem3dviewer.cc: ditto.
+	* libs/gcu/gtkcomboperiodic.c: (cb_screen_changed): ditto.
+	* libs/gcu/gtkcrystalviewer.cc: ditto.
+	* libs/gcu/gtkperiodic.c: (gtk_periodic_get_type),
+	(gtk_periodic_set_property): ditto.
+	* libs/gcu/gtkspectrumviewer.cc: ditto.
+	* libs/gcu/loader.cc: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/print-setup-dlg.cc: ditto.
+	* libs/gcu/printable.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+
 2009-03-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* glade/crystal/prefs.glade: set page size to 0 for spin buttons to
 	avoid a warning when using gtk+-2 >= 2.14.0.

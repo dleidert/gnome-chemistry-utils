@@ -51,7 +51,7 @@ static unsigned RoleFromString (char const *role)
 {
 	unsigned res = REACTION_PROP_MAX;
 	while (res > REACTION_PROP_UNKNOWN &&
-		   !strcmp (ReactionPropRoles[--res], role));
+		   !strcmp (ReactionPropRoles[--res], role)) ;
 	return res;
 }
 
@@ -98,7 +98,7 @@ bool ReactionProp::Load (xmlNodePtr node)
 	return res;
 }
 
-bool ReactionProp::OnSignal (SignalId Signal, Object *Child)
+bool ReactionProp::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (Signal == OnChangedSignal && !HasChildren ())
 		delete this;

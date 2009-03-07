@@ -347,7 +347,7 @@ void Fragment::UpdateItem ()
 	g_object_set_data (G_OBJECT (item), "object", (void *) this);
 	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
 	g_signal_connect_swapped (G_OBJECT (item), "changed", G_CALLBACK (on_fragment_changed), (void *) this);
-	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_fragment_sel_changed), (void *) this);
+	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_fragment_sel_changed), (void *) this);*/
 	/* add charge */
 	/*int charge = m_Atom->GetCharge ();
 	if (charge) {
@@ -1001,7 +1001,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 Must return NULL if active tool is FragmentTool because this tool needs a fragment, not an atom
 TODO: use x and y to figure the best atom in the fragment
 */
-Object* Fragment::GetAtomAt (double x, double y, double z)
+Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 {
 	Document* pDoc = (Document*) GetDocument ();
 	Theme *pTheme = pDoc->GetTheme ();
@@ -1025,7 +1025,7 @@ Object* Fragment::GetAtomAt (double x, double y, double z)
 		cur--;
 		c = m_buf[cur];
 	}
-	if (index - cur > Residue::MaxSymbolLength)
+	if (index - cur > static_cast <int> (Residue::MaxSymbolLength))
 		cur = index - Residue::MaxSymbolLength;
 	if (cur < 0)
 		cur = 0;
@@ -1332,12 +1332,12 @@ double Fragment::GetYAlign ()
 	return m_y;
 }
 
-int Fragment::GetAvailablePosition (double& x, double& y)
+int Fragment::GetAvailablePosition (G_GNUC_UNUSED double& x, G_GNUC_UNUSED double& y)
 {
 	return 0;
 }
 
-bool Fragment::GetPosition (double angle, double& x, double& y)
+bool Fragment::GetPosition (G_GNUC_UNUSED double angle, G_GNUC_UNUSED double& x, G_GNUC_UNUSED double& y)
 {
 	return false;
 }

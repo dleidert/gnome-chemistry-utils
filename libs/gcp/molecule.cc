@@ -463,7 +463,7 @@ void Molecule::Transform2D (Matrix2D& m, double x, double y)
 		(*i)->GetBondsNumber ())  reinterpret_cast <Atom *> (*i)->Update ();
 }
 
-Object* Molecule::GetAtomAt (double x, double y, double z)
+Object* Molecule::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 {
 	// Make use of Bond::GetAtomAt
 	std::list<gcu::Bond*>::iterator n, end = m_Bonds.end ();
@@ -802,7 +802,7 @@ void Molecule::ShowWebBase (char const* uri_start, char const *uri_end)
 	((Document*) GetDocument ())->GetApplication ()->ShowURI (uri);
 }
 
-bool Molecule::OnSignal (SignalId Signal, Object *Child)
+bool Molecule::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	m_Changed = true;
 	return true;

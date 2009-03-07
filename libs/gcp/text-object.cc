@@ -134,7 +134,7 @@ bool TextObject::Load (xmlNodePtr node)
 	return true;
 }
 
-void TextObject::Move (double x, double y, double z)
+void TextObject::Move (double x, double y, G_GNUC_UNUSED double z)
 {
 	m_x += x;
 	m_y += y;

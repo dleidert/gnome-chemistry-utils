@@ -209,12 +209,12 @@ bool Atom::Load (xmlNodePtr node)
 	return true;
 }
 
-bool Atom::LoadNode (xmlNodePtr node)
+bool Atom::LoadNode (G_GNUC_UNUSED xmlNodePtr node)
 {
 	return true;
 }
 
-bool Atom::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
+bool Atom::SaveNode (G_GNUC_UNUSED xmlDocPtr xml, G_GNUC_UNUSED xmlNodePtr node) const
 {
 	return true;
 }

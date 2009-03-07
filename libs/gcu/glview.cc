@@ -54,19 +54,19 @@ guint GLView::m_NotificationId = 0;
 int GLView::nbViews = 0;
 
 // Callbacks
-static bool on_init(GtkWidget *widget, GLView* View) 
+static bool on_init(G_GNUC_UNUSED GtkWidget *widget, GLView* View) 
 {
 	View->Init ();
 	return true;
 }
 
-bool on_reshape(GtkWidget *widget, GdkEventConfigure *event, GLView* View) 
+bool on_reshape(G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkEventConfigure *event, GLView* View) 
 {
 	View->Reshape ();
 	return true;
 }
 
-static bool on_draw(GtkWidget *widget, GdkEventExpose *event, GLView* View) 
+static bool on_draw(G_GNUC_UNUSED GtkWidget *widget, GdkEventExpose *event, GLView* View) 
 {
 	/* Draw only last expose. */
 	if (event->count > 0) return TRUE;
@@ -75,18 +75,18 @@ static bool on_draw(GtkWidget *widget, GdkEventExpose *event, GLView* View)
 	return true;
 }
 
-static bool on_motion(GtkWidget *widget, GdkEventMotion *event, GLView* View) 
+static bool on_motion(G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *event, GLView* View) 
 {
 	View->OnMotion (event);
 	return true;
 }
 
-static bool on_pressed(GtkWidget *widget, GdkEventButton *event, GLView* View) 
+static bool on_pressed(G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, GLView* View) 
 {
 	return View->OnPressed (event);
 }
 
-static void on_config_changed (GOConfNode *node, gchar const *key, gpointer data)
+static void on_config_changed (GOConfNode *node, gchar const *key, G_GNUC_UNUSED gpointer data)
 {
 	if (!strcmp (key, ROOTDIR"off-screen-rendering"))
 		OffScreenRendering = go_conf_get_bool (node, key);
@@ -525,7 +525,7 @@ osmesa:
 	return pixbuf;
 }
 
-void GLView::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
+void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
 {
 	cairo_t *cr;
 	gdouble width, height;

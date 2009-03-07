@@ -35,183 +35,183 @@
 #include <glib/gi18n-lib.h>
 #include <string>
 
-static void on_destroy (GtkWidget* widget, gcp::Window* Win)
+static void on_destroy (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->GetDocument ()->GetView ()->PrepareUnselect ();
 	delete Win;
 }
 
-static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gcp::Window* Win)
+static bool on_delete_event (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, gcp::Window* Win)
 {
 	return !Win->VerifySaved ();
 }
 
-static void on_file_new(GtkWidget* widget, gcp::Window* Win)
+static void on_file_new(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnFileNew ();
 }
 
-static void on_themed_file_new(GtkWidget* widget, gcp::Window* Win)
+static void on_themed_file_new(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	new gcp::NewFileDlg (Win->GetApplication ());
 }
 
-static void on_file_open(GtkWidget* widget, gcp::Window* Win)
+static void on_file_open(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnFileOpen ();
 }
 
-void on_file_save_as(GtkWidget* widget, gcp::Window* Win)
+void on_file_save_as(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->GetApplication ()->OnSaveAs();
 }
 
-static void on_file_save(GtkWidget* widget, gcp::Window* Win)
+static void on_file_save(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnSave ();
 }
 
-static void on_file_save_as_image(GtkWidget* widget, gcp::Window* Win)
+static void on_file_save_as_image(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->GetApplication ()->OnSaveAsImage ();
 }
 
-static void on_properties(GtkWidget* widget, gcp::Window* Win)
+static void on_properties(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnProperties ();
 }
 
-static void on_page_setup (GtkWidget *widget, gcp::Window* Win)
+static void on_page_setup (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
 	Win->OnPageSetup ();
 }
 
-static void on_print_preview (GtkWidget *widget, gcp::Window* Win)
+static void on_print_preview (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
 	Win->GetDocument ()->Print (true);
 }
 
-static void on_file_print (GtkWidget *widget, gcp::Window* Win)
+static void on_file_print (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
 	Win->GetDocument ()->Print (false);
 }
 
-static void on_file_close (GtkWidget* widget, gcp::Window *Win)
+static void on_file_close (G_GNUC_UNUSED GtkWidget* widget, gcp::Window *Win)
 {
 	Win->Close ();
 }
 
-static void on_quit (GtkWidget* widget, gcp::Window *Win)
+static void on_quit (G_GNUC_UNUSED GtkWidget* widget, gcp::Window *Win)
 {
 	Win->GetApplication ()->CloseAll ();
 }
 
-static void on_cut_selection(GtkWidget* widget, gcp::Window* Win)
+static void on_cut_selection(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnCutSelection ();
 }
 
-static void on_copy_selection(GtkWidget* widget, gcp::Window* Win)
+static void on_copy_selection(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnCopySelection ();
 }
 
-static void on_undo(GtkWidget* widget, gcp::Window* Win)
+static void on_undo(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnUndo ();
 }
 
-static void on_redo(GtkWidget* widget, gcp::Window* Win)
+static void on_redo(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnRedo ();
 }
 
-static void on_select_all(GtkWidget* widget, gcp::Window* Win)
+static void on_select_all(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnSelectAll ();
 }
 
-static void on_paste_selection(GtkWidget* widget, gcp::Window* Win)
+static void on_paste_selection(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnPasteSelection ();
 }
 
-static void on_delete_selection(GtkWidget* widget, gcp::Window* Win)
+static void on_delete_selection(G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnDeleteSelection ();
 }
 
-static void on_preferences (GtkWidget* widget, gcp::Window* Win)
+static void on_preferences (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->OnPreferences ();
 }
 
-static void on_zoom_400 (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom_400 (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (4.);
 }
 
-static void on_zoom_300 (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom_300 (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (3.);
 }
 
-static void on_zoom_200 (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom_200 (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (2.);
 }
 
-static void on_zoom_150 (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom_150 (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (1.5);
 }
 
-static void on_zoom_100 (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom_100 (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (1.);
 }
 
-static void on_zoom_75 (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom_75 (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (.75);
 }
 
-static void on_zoom_50 (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom_50 (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (.5);
 }
 
-static void on_zoom_25 (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom_25 (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (.3);
 }
 
-static void on_zoom (GtkWidget* widget, gcp::Window* Win)
+static void on_zoom (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
 	Win->Zoom (0.);
 }
 
-static void on_help (GtkWidget *widget, gcp::Window* Win)
+static void on_help (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
 	Win->GetApplication ()->OnHelp ();
 }
 
-static void on_web (GtkWidget *widget, gcp::Window* Win)
+static void on_web (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
 	Win->GetApplication ()->OnWeb ("gchempaint.nongnu.org");
 }
 
-static void on_mail (GtkWidget *widget, gcp::Window* Win)
+static void on_mail (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
 	Win->GetApplication ()->OnMail ("mailto:gchempaint-main@nongnu.org");
 }
 
-static void on_live_assistance (GtkWidget *widget, gcp::Window *Win)
+static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, gcp::Window *Win)
 {
 	Win->GetApplication ()->OnLiveAssistance ();
 }
 
-static void on_bug (GtkWidget *widget, gcp::Window* Win)
+static void on_bug (G_GNUC_UNUSED GtkWidget *widget, gcp::Window* Win)
 {
 	Win->GetApplication ()->OnBug ();
 }
@@ -232,7 +232,7 @@ static void on_clear_menu_tip (gcp::Window* Win)
 		Win->ClearStatus ();
 }
 
-static void on_connect_proxy (GtkUIManager *ui, GtkAction *action, GtkWidget *proxy, gcp::Window* Win)
+static void on_connect_proxy (G_GNUC_UNUSED GtkUIManager *ui, GtkAction *action, GtkWidget *proxy, gcp::Window* Win)
 {
 	/* connect whether there is a tip or not it may change later */
 	if (GTK_IS_MENU_ITEM (proxy)) {
@@ -244,7 +244,7 @@ static void on_connect_proxy (GtkUIManager *ui, GtkAction *action, GtkWidget *pr
 	}
 }
 
-static void on_disconnect_proxy (GtkUIManager *ui, GtkAction *action, GtkWidget *proxy, gcp::Window* Win)
+static void on_disconnect_proxy (G_GNUC_UNUSED GtkUIManager *ui, G_GNUC_UNUSED GtkAction *action, GtkWidget *proxy, gcp::Window* Win)
 {
 	if (GTK_IS_MENU_ITEM (proxy)) {
 		g_object_set_data (G_OBJECT (proxy), "action", NULL);
@@ -278,7 +278,7 @@ static void on_recent (GtkRecentChooser *widget, gcp::Window *Win)
  * Menus *
  *********/
 static GtkActionEntry entries[] = {
-  { "FileMenu", NULL, N_("_File") },
+  { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "New", GTK_STOCK_NEW, N_("_New File"), NULL,
 		  N_("Create a new file"), G_CALLBACK (on_file_new) },
 	  { "NewThemed", GTK_STOCK_NEW, N_("Ne_w File with Theme..."), "<shift><control>N",
@@ -303,7 +303,7 @@ static GtkActionEntry entries[] = {
 		  N_("Close the current file"), G_CALLBACK (on_file_close) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemPaint"), G_CALLBACK (on_quit) },
-  { "EditMenu", NULL, N_("_Edit") },
+  { "EditMenu", NULL, N_("_Edit"), NULL, NULL, NULL },
 	  { "Undo", GTK_STOCK_UNDO, N_("_Undo"), "<control>Z",
 		  N_("Undo the last action"), G_CALLBACK (on_undo) },
 	  { "Redo", GTK_STOCK_REDO, N_("_Redo"), "<shift><control>Z",
@@ -320,8 +320,8 @@ static GtkActionEntry entries[] = {
 		  N_("Select everything"), G_CALLBACK (on_select_all) },
 	  { "Preferences", GTK_STOCK_PREFERENCES, N_("Pr_eferences..."), NULL,
 		  N_("Configure the application"), G_CALLBACK (on_preferences) },
-  { "ViewMenu", NULL, N_("_View") },
-	  { "ZoomMenu", NULL, N_("_Zoom") },
+  { "ViewMenu", NULL, N_("_View"), NULL, NULL, NULL },
+	  { "ZoomMenu", NULL, N_("_Zoom"), NULL, NULL, NULL },
 		  { "400%", NULL, N_("_400%"), "<control>4",
 			  N_("Zoom to 400%"), G_CALLBACK (on_zoom_400) },
 		  { "300%", NULL, N_("_300%"), "<control>3",
@@ -340,9 +340,9 @@ static GtkActionEntry entries[] = {
 			  N_("Zoom to 25%"), G_CALLBACK (on_zoom_25) },
 		  { "Zoom", NULL, N_("_Zoom to...%"), "<control>M",
 			  N_("Open Zoom Dialog Box"), G_CALLBACK (on_zoom) },
-  { "ToolsMenu", NULL, N_("_Tools") },
-  { "WindowsMenu", NULL, N_("_Windows") },
-  { "HelpMenu", NULL, N_("_Help") },
+  { "ToolsMenu", NULL, N_("_Tools"), NULL, NULL, NULL },
+  { "WindowsMenu", NULL, N_("_Windows"), NULL, NULL, NULL },
+  { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for GChemPaint"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("GChemPaint on the _web"), NULL,
@@ -561,7 +561,7 @@ void Window::OnProperties()
 	m_Document->OnProperties ();
 }
 
-void Window::SetActive (gcp::Document* pDoc, GtkWidget* w)
+void Window::SetActive (G_GNUC_UNUSED gcp::Document* pDoc, G_GNUC_UNUSED GtkWidget* w)
 {
 }
 
@@ -661,14 +661,14 @@ void Window::Show ()
 	gdk_window_raise (GTK_WIDGET (GetWindow ())->window);
 }
 
-bool Window::OnKeyPressed(GtkWidget* widget, GdkEventKey* ev)
+bool Window::OnKeyPressed(G_GNUC_UNUSED GtkWidget* widget, GdkEventKey* ev)
 {
 	return (m_Document->GetEditable ())?
 		m_Document->GetView ()->OnKeyPress (m_Document->GetWidget (), ev):
 		false;
 }
 
-bool Window::OnKeyReleased(GtkWidget* widget, GdkEventKey* ev)
+bool Window::OnKeyReleased(G_GNUC_UNUSED GtkWidget* widget, GdkEventKey* ev)
 {
 	return (m_Document->GetEditable ())?
 		m_Document->GetView ()->OnKeyRelease (m_Document->GetWidget (), ev):

@@ -410,14 +410,14 @@ static void on_select_size (GtkTreeSelection *selection, GcpFontSel *fs)
 	gcp_font_sel_set_size_full (fs, false);
 }
 
-static void on_size_activate (GtkEntry *entry, GcpFontSel *fs)
+static void on_size_activate (G_GNUC_UNUSED GtkEntry *entry, GcpFontSel *fs)
 {
 	char const *text = gtk_entry_get_text (fs->m_SizeEntry);
 	fs->Size = (int) (MAX (0.1, atof (text) * PANGO_SCALE + 0.5));
 	gcp_font_sel_set_size_full (fs, true);
 }
 
-static bool on_size_focus_out (GtkEntry *entry, GdkEventFocus *event, GcpFontSel *fs)
+static bool on_size_focus_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, GcpFontSel *fs)
 {
 	on_size_activate (entry, fs);
 	return true;

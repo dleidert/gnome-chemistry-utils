@@ -42,7 +42,7 @@ static void element_changed_cb (Tools *box, unsigned newZ)
 	box->OnElementChanged (newZ);
 }
 
-static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gpointer data)
+static bool on_delete_event (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, G_GNUC_UNUSED gpointer data)
 {
 	return true;
 }

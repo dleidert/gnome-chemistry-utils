@@ -263,7 +263,7 @@ void FragmentAtom::Update ()
 	m_Fragment->Update ();
 }
 
-bool FragmentAtom::Match (gcu::Atom *atom, AtomMatchState &state)
+bool FragmentAtom::Match (G_GNUC_UNUSED gcu::Atom *atom, G_GNUC_UNUSED AtomMatchState &state)
 {
 	return false; // not supported at the moment
 }
@@ -271,7 +271,7 @@ bool FragmentAtom::Match (gcu::Atom *atom, AtomMatchState &state)
 void FragmentAtom::DoBuildSymbolGeometry (View *pView)
 {
 	// Building atom geometry if necessary
-	double ascent, x;
+	double ascent;
 	char const *symbol = GetSymbol ();
 	if (!symbol)
 		return;

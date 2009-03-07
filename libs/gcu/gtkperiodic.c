@@ -127,6 +127,7 @@ gtk_periodic_get_type (void)
 			sizeof (GtkPeriodic),
 			0,              /* n_preallocs */
 			(GInstanceInitFunc) gtk_periodic_init,
+			NULL
 		};
 
 		periodic_type = g_type_register_static (GTK_TYPE_BIN, "GtkPeriodic", &periodic_info, 0);
@@ -320,7 +321,7 @@ gtk_periodic_set_property (GObject              *object,
 		break;
 
 	case PROP_COLOR_STYLE: {
-		int style = g_value_get_uint (value);
+		unsigned style = g_value_get_uint (value);
 		if (style < GTK_PERIODIC_COLOR_MAX + periodic->nbschemes) {
 			periodic->colorstyle = style;
 			int page = (style >= GTK_PERIODIC_COLOR_MAX)? 

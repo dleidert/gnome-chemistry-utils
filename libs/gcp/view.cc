@@ -814,7 +814,7 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 	return false;
 }
 
-bool View::OnKeyRelease (GtkWidget* w, GdkEventKey* event)
+bool View::OnKeyRelease (G_GNUC_UNUSED GtkWidget* w, GdkEventKey* event)
 {
 	Application *pApp = m_pDoc->GetApplication ();
 	Tool *pActiveTool = pApp->GetActiveTool ();
@@ -1001,7 +1001,7 @@ char *View::BuildEPS ()
 	return m;
 }
 
-static void destroy_surface (guchar *pixels, gpointer data)
+static void destroy_surface (G_GNUC_UNUSED guchar *pixels, gpointer data)
 {
 	cairo_surface_destroy (reinterpret_cast <cairo_surface_t *> (data));
 }
@@ -1164,7 +1164,7 @@ bool View::OnButtonPressed (gccv::ItemClient *client, unsigned button, double x,
 	return true;
 }
 
-bool View::OnButtonReleased (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state)
+bool View::OnButtonReleased (G_GNUC_UNUSED gccv::ItemClient *client, unsigned button, double x, double y, unsigned state)
 {
 	Application *App = m_pDoc->GetApplication ();
 	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
@@ -1182,7 +1182,7 @@ bool View::OnButtonReleased (gccv::ItemClient *client, unsigned button, double x
 	return true;
 }
 
-bool View::OnDrag (gccv::ItemClient *client, double x, double y, unsigned state)
+bool View::OnDrag (G_GNUC_UNUSED gccv::ItemClient *client, double x, double y, unsigned state)
 {
 	Application *App = m_pDoc->GetApplication ();
 	Tool* pActiveTool = App? App->GetActiveTool (): NULL;	

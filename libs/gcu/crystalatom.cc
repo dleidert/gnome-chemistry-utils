@@ -134,7 +134,7 @@ void CrystalAtom::SetSize(double r)
 	m_Radius.scale = NULL;
 	m_Radius.spin = GCU_N_A_SPIN,
 	m_Radius.charge = 0;
-	m_Radius.value.value = 0.0;
+	m_Radius.value.value = r;
 	m_Radius.value.prec = 0;
 	m_Radius.cn = -1;
 	m_Radius.value.value = 0.0;

@@ -168,7 +168,7 @@ void ReactionOperator::SetSelected (int state)
 //	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "text")), "fill_color", color, NULL);
 }
 
-void ReactionOperator::Move (double x, double y, double z)
+void ReactionOperator::Move (double x, double y, G_GNUC_UNUSED double z)
 {
 	m_x += x;
 	m_y += y;

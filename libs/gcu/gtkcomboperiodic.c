@@ -49,7 +49,7 @@ enum {
 static guint go_combo_pixmaps_signals [LAST_SIGNAL] = { 0, };
 
 static void
-cb_screen_changed (GtkComboPeriodic *combo, GdkScreen *previous_screen)
+cb_screen_changed (GtkComboPeriodic *combo, G_GNUC_UNUSED GdkScreen *previous_screen)
 {
 	GtkWidget *w = GTK_WIDGET (combo);
 	GdkScreen *screen = gtk_widget_has_screen (w)

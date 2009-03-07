@@ -94,6 +94,8 @@ is pressed and the mouse is moved.
 */
 	void OnDrag (double x, double y, unsigned int state);
 /*!
+@param pView the view instance owning the event.
+@param pObject the Object on which the click occured.
 @param x the horizontal position of the mouse when the event occured.
 @param y the vertical position of the mouse when the event occured.
 @param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.
@@ -103,8 +105,6 @@ is not pressed and the mouse is moved.
 */
 	void OnMotion (View* pView, gcu::Object* pObject, double x, double y, unsigned int state);
 /*!
-@param pView the view instance owning the event.
-@param pObject the Object on which the click occured.
 @param x the horizontal position of the mouse when the event occured.
 @param y the vertical position of the mouse when the event occured.
 @param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.

@@ -73,7 +73,7 @@ PrintSettings::PrintSettings ()
 	setup = NULL;
 }
 
-static void on_config_changed (GOConfNode *node, gchar const *key, gpointer data)
+static void on_config_changed (GOConfNode *node, gchar const *key, G_GNUC_UNUSED gpointer data)
 {
 	DefaultSettings.OnConfigChanged (node, key);
 }
@@ -175,7 +175,7 @@ Printable::~Printable ()
 	g_object_unref (m_PrintSettings);
 }
 
-static void begin_print (GtkPrintOperation *print, GtkPrintContext *context, gpointer data)
+static void begin_print (GtkPrintOperation *print, G_GNUC_UNUSED GtkPrintContext *context, gpointer data)
 {
 	gtk_print_operation_set_n_pages (print, ((Printable *) data)->GetPagesNumber ());
 }

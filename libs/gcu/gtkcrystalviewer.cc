@@ -43,7 +43,7 @@ struct _GtkCrystalViewerClass
 };
 
 
-static void on_size (GtkCrystalViewer* w, GtkAllocation *allocation, gpointer user_data)
+static void on_size (GtkCrystalViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer user_data)
 {
 	if (GTK_BIN (w)->child && GTK_WIDGET_VISIBLE (GTK_BIN (w)->child))
 		gtk_widget_size_allocate (GTK_BIN (w)->child, allocation);
@@ -73,6 +73,7 @@ gtk_crystal_viewer_get_type (void)
 			sizeof (GtkCrystalViewer),
 			0,              /* n_preallocs */
 			(GInstanceInitFunc) gtk_crystal_viewer_init,
+			NULL
 		};
 
 		crystal_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GtkCrystalViewer", &crystal_viewer_info, (GTypeFlags)0);
@@ -89,7 +90,7 @@ void gtk_crystal_viewer_class_init (GtkCrystalViewerClass  *klass)
 	gobject_class->finalize = gtk_crystal_viewer_finalize;
 }
 
-void gtk_crystal_viewer_init (GtkCrystalViewer *viewer)
+void gtk_crystal_viewer_init (G_GNUC_UNUSED GtkCrystalViewer *viewer)
 {
 }
 

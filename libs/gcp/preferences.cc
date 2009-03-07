@@ -262,13 +262,13 @@ static void on_name_changed (GtkEntry *entry, PrefsDlg *dlg)
 	PrefsDlgPrivate::OnThemeNameChanged (dlg, gtk_entry_get_text (entry));
 }
 
-static bool on_name_focused_out (GtkEntry *entry, GdkEventFocus *event, PrefsDlg *dlg)
+static bool on_name_focused_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, PrefsDlg *dlg)
 {
 	PrefsDlgPrivate::OnThemeNameChanged (dlg, gtk_entry_get_text (entry));
 	return false;
 }
 
-static bool on_delete_event (GtkWidget* widget, GdkEvent *event, PrefsDlg* dlg)
+static bool on_delete_event (GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, PrefsDlg* dlg)
 {
 	bool res = PrefsDlgPrivate::CheckError (dlg);
 	if (res) {

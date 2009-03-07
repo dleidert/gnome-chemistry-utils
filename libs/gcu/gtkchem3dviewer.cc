@@ -98,6 +98,7 @@ gtk_chem3d_viewer_get_type (void)
 			sizeof (GtkChem3DViewer),
 			0,              /* n_preallocs */
 			(GInstanceInitFunc) gtk_chem3d_viewer_init,
+			NULL
 		};
 
 		chem3d_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GtkChem3DViewer", &chem3d_viewer_info, (GTypeFlags)0);
@@ -116,7 +117,7 @@ GtkWidget* gtk_chem3d_viewer_new (const gchar *uri)
 
 } //extern "C"
 
-static void on_size(GtkWidget *w, GtkAllocation *allocation, gpointer data)
+static void on_size(GtkWidget *w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer data)
 {
 	if (GTK_BIN (w)->child && GTK_WIDGET_VISIBLE (GTK_BIN (w)->child))
 		gtk_widget_size_allocate (GTK_BIN (w)->child, allocation);

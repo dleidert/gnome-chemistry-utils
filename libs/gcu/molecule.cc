@@ -248,8 +248,7 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 						PendingAtoms.pop ();
 					}
 					done = true;
-				} else
-					;
+				}
 			}
 		} else if ((fresidue = dynamic_cast <FormulaResidue *> (*i))) {
 			// get the residue molecule and duplicate it

@@ -719,11 +719,11 @@ void Mesomery::Align ()
 
 /* Transform2D is just here to inhibit rotation of retrosynthesis while we do not have 
 real 2D alignment (only vertical at the moment */
-void Mesomery::Transform2D (Matrix2D& m, double x, double y)
+void Mesomery::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 }
 
-bool Mesomery::OnSignal (SignalId Signal, Object *Child)
+bool Mesomery::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	Validate (true);
 	if (GetChildrenNumber () < 3)

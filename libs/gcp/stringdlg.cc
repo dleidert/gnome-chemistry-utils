@@ -51,7 +51,7 @@ static void on_get_data(GtkClipboard *clipboard, GtkSelectionData *selection_dat
 	dlg->OnGetData (clipboard, selection_data, info);
 }
 
-static void on_string_clear_data(GtkClipboard *clipboard, StringDlg *dlg)
+static void on_string_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED StringDlg *dlg)
 {
 }
 
@@ -211,7 +211,7 @@ void StringDlg::Copy ()
 			m_App);
 }
 
-void StringDlg::OnGetData (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info)
+void StringDlg::OnGetData (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData *selection_data,  G_GNUC_UNUSED guint info)
 {
 	gtk_selection_data_set_text(selection_data, (const gchar*) Data.c_str (), Data.length ());
 }

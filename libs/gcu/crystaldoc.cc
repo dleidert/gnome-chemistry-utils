@@ -284,7 +284,7 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 	Update ();
 }
 
-bool CrystalDoc::LoadNewView(xmlNodePtr node)
+bool CrystalDoc::LoadNewView(G_GNUC_UNUSED xmlNodePtr node)
 {
 	return true;
 }
