@@ -67,7 +67,7 @@ bool gcpChainTool::OnClicked()
 		m_CurPoints = nb;
 		gnome_canvas_points_free (m_Points);
 		m_Points = gnome_canvas_points_new (m_CurPoints);
-		if (m_CurPoints > m_Atoms.size ());
+		if (m_CurPoints > m_Atoms.size ())
 			m_Atoms.resize (m_CurPoints);
 	}
 	m_Positive = (m_nState & GDK_LOCK_MASK && !(m_nState & GDK_MOD5_MASK)) ||
@@ -183,7 +183,7 @@ void gcpChainTool::OnDrag ()
 		m_CurPoints = m_Length + 1;
 		gnome_canvas_points_free (m_Points);
 		m_Points = gnome_canvas_points_new (m_CurPoints);
-		if (m_CurPoints > m_Atoms.size ());
+		if (m_CurPoints > m_Atoms.size ())
 			m_Atoms.resize (m_CurPoints);
 	}
 	if (pAtom && gcp::MergeAtoms) {
@@ -236,7 +236,7 @@ void gcpChainTool::OnDrag ()
 				m_CurPoints = nb;
 				gnome_canvas_points_free (m_Points);
 				m_Points = gnome_canvas_points_new (m_CurPoints);
-				if (m_CurPoints > m_Atoms.size ());
+				if (m_CurPoints > m_Atoms.size ())
 					m_Atoms.resize (m_CurPoints);
 			}
 		}
