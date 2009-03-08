@@ -41,22 +41,22 @@ xmlDocPtr user_residues = NULL;
 set<xmlDocPtr> docs;
 
 
-static bool on_key_release (GtkWidget* widget, GdkEventKey* ev, gcpResiduesDlg *dlg)
+static bool on_key_release (G_GNUC_UNUSED GtkWidget* widget, GdkEventKey* ev, gcpResiduesDlg *dlg)
 {
 	return dlg->OnKeyRelease (ev);
 }
 
-static bool on_key_press (GtkWidget* widget, GdkEventKey* ev, gcpResiduesDlg *dlg)
+static bool on_key_press (G_GNUC_UNUSED GtkWidget* widget, GdkEventKey* ev, gcpResiduesDlg *dlg)
 {
 	return dlg->OnKeyPress (ev);
 }
 
-static void on_page (GtkNotebook *book, GtkNotebookPage *page, int num_page, gcpResiduesDlg *dlg)
+static void on_page (G_GNUC_UNUSED GtkNotebook *book, G_GNUC_UNUSED GtkNotebookPage *page, int num_page, gcpResiduesDlg *dlg)
 {
 	dlg->SetPage (num_page);
 }
 
-static void on_cur_changed (GtkComboBox *box, gcpResiduesDlg *dlg)
+static void on_cur_changed (G_GNUC_UNUSED GtkComboBox *box, gcpResiduesDlg *dlg)
 {
 	dlg->OnCurChanged ();
 }
@@ -71,23 +71,23 @@ static void on_delete (gcpResiduesDlg *dlg)
 	dlg->Remove ();
 }
 
-static void on_symbol_activate (GtkEntry *entry, gcpResiduesDlg *dlg)
+static void on_symbol_activate (G_GNUC_UNUSED GtkEntry *entry, gcpResiduesDlg *dlg)
 {
 	dlg->OnSymbolActivate ();
 }
 
-static bool on_symbol_focus_out (GtkEntry *entry, GdkEventFocus *event, gcpResiduesDlg *dlg)
+static bool on_symbol_focus_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcpResiduesDlg *dlg)
 {
 	on_symbol_activate (entry, dlg);
 	return true;
 }
 
-static void on_name_activate (GtkEntry *entry, gcpResiduesDlg *dlg)
+static void on_name_activate (G_GNUC_UNUSED GtkEntry *entry, gcpResiduesDlg *dlg)
 {
 	dlg->OnNameActivate ();
 }
 
-static bool on_name_focus_out (GtkEntry *entry, GdkEventFocus *event, gcpResiduesDlg *dlg)
+static bool on_name_focus_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcpResiduesDlg *dlg)
 {
 	on_name_activate (entry, dlg);
 	return true;

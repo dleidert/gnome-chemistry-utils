@@ -316,7 +316,7 @@ xmlNodePtr gcpGroup::Save (xmlDocPtr xml) const
 	return node;
 }
 
-bool gcpGroup::OnSignal (SignalId Signal, Object *Child)
+bool gcpGroup::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (IsLocked ())
 		return false;
@@ -334,7 +334,7 @@ bool gcpGroup::OnSignal (SignalId Signal, Object *Child)
 	return true;
 }
 
-void gcpGroup::Transform2D (Matrix2D& m, double x, double y)
+void gcpGroup::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 }
 

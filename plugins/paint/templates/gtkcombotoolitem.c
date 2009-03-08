@@ -28,12 +28,12 @@
 #include <gtk/gtkcellrenderertext.h>
 
 static void
-gtk_tool_combo_class_init (GtkToolItemClass *tool_item_class)
+gtk_tool_combo_class_init (G_GNUC_UNUSED GtkToolItemClass *tool_item_class)
 {
 }
 
 static void
-gtk_tool_combo_init (GtkToolCombo *item)
+gtk_tool_combo_init (G_GNUC_UNUSED GtkToolCombo *item)
 {
 }
 

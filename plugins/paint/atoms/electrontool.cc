@@ -178,7 +178,7 @@ void gcpElectronTool::OnDrag ()
 			}
 		}
 	} else {
-		double x, y, x1, y1, x2, y2;
+		double x, y;
 		gcp::Atom *pAtom = (gcp::Atom*) m_pObject;
 		if (!(m_nState & GDK_SHIFT_MASK) && (m_dDist >= m_dDistMax) && m_bChanged) {
 			m_Item->SetVisible (false);

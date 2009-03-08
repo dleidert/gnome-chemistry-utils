@@ -59,7 +59,7 @@ CIFLoader::~CIFLoader ()
 ////////////////////////////////////////////////////////////////////////////////
 // Reading code
 
-ContentType CIFLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
 {
 	ContentType type = ContentTypeCrystal;
 
@@ -69,7 +69,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, char const *mime_type
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CIFLoader::Write  (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool CIFLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	if (NULL != out) {
 		return true;
@@ -91,14 +91,14 @@ extern GOPluginModuleHeader const go_plugin_header =
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) };
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 }
 

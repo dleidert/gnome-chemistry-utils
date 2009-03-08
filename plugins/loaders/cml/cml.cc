@@ -69,7 +69,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 // Write callbacks
 
-bool cml_write_atom (CMLLoader *loader, GsfXMLOut *xml, Object *object, IOContext *io, ContentType type)
+bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *object, G_GNUC_UNUSED IOContext *io, ContentType type)
 {
 	gsf_xml_out_start_element (xml, "atom");
 	gsf_xml_out_add_cstr_unchecked (xml, "id", object->GetId ());
@@ -101,7 +101,7 @@ bool cml_write_atom (CMLLoader *loader, GsfXMLOut *xml, Object *object, IOContex
 	return true;
 }
 
-bool cml_write_bond (CMLLoader *loader, GsfXMLOut *xml, Object *object, IOContext *io, ContentType type)
+bool cml_write_bond (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *object, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	gsf_xml_out_start_element (xml, "bond");
 	gsf_xml_out_add_cstr_unchecked (xml, "id", object->GetId ());
@@ -309,7 +309,7 @@ GSF_XML_IN_NODE (CML, CML, -1, "cml", GSF_XML_CONTENT, &cml_doc, NULL),
 	GSF_XML_IN_NODE (CML, MOLECULE, -1, "molecule", GSF_XML_CONTENT, cml_mol_start, cml_simple_end),
 };
 
-ContentType CMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType CMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
 {
 	CMLReadState state;
 	bool  success = false;
@@ -347,7 +347,7 @@ bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, IOContext *io, Cont
 					either in this code or in the cml schema */
 }
 
-bool CMLLoader::Write  (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool CMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, IOContext *io, ContentType type)
 {
 	if (NULL != out) {
 		GsfXMLOut *xml = gsf_xml_out_new (out);
@@ -392,14 +392,14 @@ extern GOPluginModuleHeader const go_plugin_header =
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) };
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 }
 

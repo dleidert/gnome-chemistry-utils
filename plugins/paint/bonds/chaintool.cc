@@ -71,7 +71,7 @@ bool gcpChainTool::OnClicked()
 		m_CurPoints = nb;
 		delete [] m_Points;
 		m_Points = new gccv::Point[m_CurPoints];
-		if (m_CurPoints > m_Atoms.size ());
+		if (m_CurPoints > m_Atoms.size ())
 			m_Atoms.resize (m_CurPoints);
 	}
 	m_Positive = (m_nState & GDK_LOCK_MASK && !(m_nState & GDK_MOD5_MASK)) ||
@@ -171,7 +171,7 @@ void gcpChainTool::OnDrag ()
 		m_CurPoints = m_Length + 1;
 		delete [] m_Points;
 		m_Points = new gccv::Point[m_CurPoints];
-		if (m_CurPoints > m_Atoms.size ());
+		if (m_CurPoints > m_Atoms.size ())
 			m_Atoms.resize (m_CurPoints);
 	}
 	if (pAtom && gcp::MergeAtoms) {
@@ -224,7 +224,7 @@ void gcpChainTool::OnDrag ()
 				m_CurPoints = nb;
 				delete [] m_Points;
 				m_Points = new gccv::Point[m_CurPoints];
-				if (m_CurPoints > m_Atoms.size ());
+				if (m_CurPoints > m_Atoms.size ())
 					m_Atoms.resize (m_CurPoints);
 			}
 		}

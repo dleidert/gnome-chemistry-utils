@@ -98,7 +98,7 @@ double gcpRetrosynthesisStep::GetYAlign ()
 	return (Molecule)? Molecule->GetYAlign (): 0.;
 }
 
-void gcpRetrosynthesisStep::RemoveArrow (gcpRetrosynthesisArrow *arrow, gcpRetrosynthesisStep *step)
+void gcpRetrosynthesisStep::RemoveArrow (G_GNUC_UNUSED gcpRetrosynthesisArrow *arrow, gcpRetrosynthesisStep *step)
 {
 	if (step == Precursor) {
 		Precursor = NULL;
@@ -107,7 +107,7 @@ void gcpRetrosynthesisStep::RemoveArrow (gcpRetrosynthesisArrow *arrow, gcpRetro
 		Arrows.erase (step);
 }
 
-bool gcpRetrosynthesisStep::OnSignal (SignalId Signal, Object *Child)
+bool gcpRetrosynthesisStep::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (GetChildrenNumber () != 1) {
 		delete GetParent ();

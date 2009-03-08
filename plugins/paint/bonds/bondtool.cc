@@ -45,7 +45,7 @@ using namespace gcu;
 using namespace gccv;
 using namespace std;
 
-gcpBondTool::gcpBondTool (gcp::Application *App, string ToolId, unsigned nPoints): gcp::Tool (App, ToolId)
+gcpBondTool::gcpBondTool (gcp::Application *App, string ToolId, G_GNUC_UNUSED unsigned nPoints): gcp::Tool (App, ToolId)
 {
 	m_pOp = NULL;
 	m_AutoDir = false;

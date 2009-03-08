@@ -61,8 +61,7 @@ void gcpCurvedArrowTool::OnMotion ()
 			break;
 		}
 		default:
-			if (m_pObject->GetType () == gcp::ElectronType)
-					;
+			if (m_pObject->GetType () == gcp::ElectronType)	{;}
 			break;
 		}
 	gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), allowed? m_pApp->GetCursor (gcp::CursorPencil): m_pApp->GetCursor (gcp::CursorUnallowed));

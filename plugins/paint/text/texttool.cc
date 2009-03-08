@@ -461,7 +461,7 @@ static bool filter_fragment (PangoAttribute *attr, struct FragState *s)
 	return false;
 }
 
-bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type)
+bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_GNUC_UNUSED int type)
 {
 	if (!m_Active)
 		return false;
@@ -733,12 +733,12 @@ static void on_select_size (GtkTreeSelection *selection, gcpTextTool *tool)
 	tool->OnSelectSize (size * PANGO_SCALE);
 }
 
-static void on_size_activate (GtkEntry *entry, gcpTextTool *tool)
+static void on_size_activate (G_GNUC_UNUSED GtkEntry *entry, gcpTextTool *tool)
 {
 	tool->OnSizeChanged ();
 }
 
-static void on_size_focus_out (GtkEntry *entry, GdkEventFocus *event, gcpTextTool *tool)
+static void on_size_focus_out (G_GNUC_UNUSED GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcpTextTool *tool)
 {
 	tool->OnSizeChanged ();
 }

@@ -86,7 +86,7 @@ static void do_free_data (struct CallbackData *data)
 	delete data;
 }
 
-static bool on_molecule_menu (Object *target, GtkUIManager *UIManager, Object *object, double x, double y)
+static bool on_molecule_menu (Object *target, GtkUIManager *UIManager, G_GNUC_UNUSED Object *object, double x, double y)
 {
 	gcp::Document *Doc = dynamic_cast <gcp::Document*> (target->GetDocument ());
 	if (!Doc)

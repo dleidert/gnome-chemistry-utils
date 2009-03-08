@@ -63,7 +63,7 @@ static void on_rotate (GtkWidget *btn, gcp::Application* App)
 		tool->Rotate (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (btn)));
 }
 
-static void on_merge (GtkWidget *btn, gcp::Application* App)
+static void on_merge (G_GNUC_UNUSED GtkWidget *btn, gcp::Application* App)
 {
 	gcpSelectionTool *tool = (gcpSelectionTool*) App->GetTool ("Select");
 	tool->Merge ();

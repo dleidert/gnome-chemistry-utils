@@ -149,7 +149,7 @@ CDXLoader::~CDXLoader ()
 	RemoveMimeType ("chemical/x-cdx");
 }
 
-ContentType CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
 {
 	if (doc == NULL || in == NULL)
 		return ContentTypeUnknown;
@@ -283,7 +283,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, char const *mime_type
 	return result;
 }
 
-bool CDXLoader::Write  (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED char const *mime_type, IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
@@ -1192,7 +1192,7 @@ bool CDXLoader::ReadDate  (GsfInput *in)
 	return true;
 }
 
-bool CDXLoader::ReadFragmentText (GsfInput *in, Object *parent)
+bool CDXLoader::ReadFragmentText (GsfInput *in, G_GNUC_UNUSED Object *parent)
 {
 	guint16 code;
 	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
@@ -1263,7 +1263,7 @@ extern GOPluginModuleHeader const go_plugin_header =
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) };
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -1419,7 +1419,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 }
 

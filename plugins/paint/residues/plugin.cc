@@ -97,7 +97,7 @@ static void on_new_residue (gcp::Residue *res)
 static GOptionEntry options[] = 
 {
   {"edit-residue", 'e', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) on_edit_residues, "Open residues dialog", NULL},
-  {NULL}
+  {NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
 static GtkActionEntry entries[] = {

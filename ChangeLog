@@ -1,5 +1,28 @@
 ##Text encoding: utf-8
 
+2009-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: fixed compilation warnings.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/loaders/cif/cif.cc: ditto.
+	* plugins/loaders/cml/cml.cc: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: ditto.
+	* plugins/paint/arrows/retrosynthesis.cc: ditto.
+	* plugins/paint/arrows/retrosynthesisstep.cc: ditto.
+	* plugins/paint/atoms/electrontool.cc: ditto.
+	* plugins/paint/bonds/bondtool.cc: ditto.
+	* plugins/paint/bonds/chaintool.cc: ditto.
+	* plugins/paint/residues/plugin.cc: ditto.
+	* plugins/paint/residues/pseudo-atom.h: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/selection/group.cc: ditto.
+	* plugins/paint/selection/selectiontool.cc: ditto.
+	* plugins/paint/templates/gtkcombotoolitem.c:
+	(gtk_tool_combo_class_init), (gtk_tool_combo_init): ditto.
+	* plugins/paint/templates/templatetool.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* plugins/paint/wikipedia/plugin.cc: ditto.
+
 2009-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/about.cc: fixed compilation warnings.
 	* libs/gcp/application.cc: ditto.

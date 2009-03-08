@@ -267,7 +267,7 @@ bool gcpFragmentTool::CutSelection (GtkClipboard *clipboard)
 * This method does nothing and always return false because pasting something inside
 * a fragment is somewhat unsafe and will not be implemented in a foreseable future.
 */
-bool gcpFragmentTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type)
+bool gcpFragmentTool::OnReceive (G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED GtkSelectionData *data, G_GNUC_UNUSED int type)
 {
 	return false;
 }

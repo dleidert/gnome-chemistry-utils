@@ -141,17 +141,17 @@ static void on_template_changed (GtkComboBox *combo, gcpTemplateTool *tool)
 	tool->OnChanged (combo);
 }
 
-static void on_size (GtkWidget *widget, GtkAllocation *allocation, gcpTemplateTool *tool)
+static void on_size (G_GNUC_UNUSED GtkWidget *widget, GtkAllocation *allocation, gcpTemplateTool *tool)
 {
 	tool->OnPreviewSize (allocation);
 }
 
-static void on_add_template (GtkWidget *w, gcpTemplateTool *tool)
+static void on_add_template (G_GNUC_UNUSED GtkWidget *w, gcpTemplateTool *tool)
 {
 	tool->OnAddTemplate ();
 }
 
-static void on_delete_template (GtkWidget *w, gcpTemplateTool *tool)
+static void on_delete_template (G_GNUC_UNUSED GtkWidget *w, gcpTemplateTool *tool)
 {
 	tool->OnDeleteTemplate ();
 }

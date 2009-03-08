@@ -429,7 +429,7 @@ bool gcpRetrosynthesis::BuildContextualMenu (GtkUIManager *UIManager, Object *ob
 	return true;
 }
 
-bool gcpRetrosynthesis::OnSignal (SignalId Signal, Object *Child)
+bool gcpRetrosynthesis::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	Validate (true);
 	Align ();
@@ -452,6 +452,6 @@ gcpRetrosynthesis::gcpRetrosynthesis (Object* parent, gcpRetrosynthesisStep *ste
 	Align ();
 }
 
-void gcpRetrosynthesis::Transform2D (Matrix2D& m, double x, double y)
+void gcpRetrosynthesis::Transform2D (G_GNUC_UNUSED Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 }

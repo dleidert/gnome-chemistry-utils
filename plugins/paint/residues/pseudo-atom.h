@@ -43,8 +43,8 @@ public:
 	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool LoadNode (xmlNodePtr);
 	void SetSelected (int state);
-	bool AcceptNewBonds (int nb = 1) {return false;}
-	bool AcceptCharge (int charge) {return false;}
+	bool AcceptNewBonds (G_GNUC_UNUSED int nb = 1) {return false;}
+	bool AcceptCharge (G_GNUC_UNUSED int charge) {return false;}
 };
 
 #endif	//	GCP_PSEUDO_ATOM_H

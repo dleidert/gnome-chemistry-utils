@@ -137,7 +137,7 @@ cdxml_doc (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-cdxml_fragment_start (GsfXMLIn *xin, xmlChar const **attrs)
+cdxml_fragment_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	Object *obj = Object::CreateObject ("molecule", state->cur.top ());
@@ -376,7 +376,7 @@ cdxml_string_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-fragment_done (GsfXMLIn *xin, CDXMLReadState *state)
+fragment_done (G_GNUC_UNUSED GsfXMLIn *xin, CDXMLReadState *state)
 {
 	Object *atom = state->cur.top (), *child;
 	state->cur.pop ();
@@ -591,7 +591,7 @@ cdxml_color (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-cdxml_group_start (GsfXMLIn *xin, xmlChar const **attrs)
+cdxml_group_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	Object *obj = Object::CreateObject ("group", state->cur.top ());
@@ -712,7 +712,7 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 GSF_XML_IN_NODE_END
 };
 
-ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_type, IOContext *io)
+ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, IOContext *io)
 {
 	CDXMLReadState state;
 
@@ -762,7 +762,7 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, char const *mime_ty
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type)
+bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	map<string, CDXMLFont> fonts;
 
@@ -791,14 +791,14 @@ extern GOPluginModuleHeader const go_plugin_header =
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) };
 
 G_MODULE_EXPORT void
-go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 }
 
 G_MODULE_EXPORT void
-go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 {
 }
 
