@@ -54,7 +54,7 @@ using namespace gcu;
 #define READINT16(input,i) gsf_input_read (input, 2, (guint8*) &i)
 #define READINT32(input,i) gsf_input_read (input, 4, (guint8*) &i)
 #else
-char buffer[4];
+unsigned char buffer[4];
 bool readint_res;
 #define READINT16(input,i) \
 	readint_res = gsf_input_read (input, 2, (guint8*) buffer), \

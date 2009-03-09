@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: fix integer loading on big endian machines.
+
 2009-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: fixed compilation warnings.
 	* plugins/loaders/cdxml/cdxml.cc: ditto.
