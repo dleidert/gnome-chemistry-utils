@@ -29,6 +29,7 @@
 #endif
 #include <unistd.h>
 #include <string.h>
+#include <glib.h>
 
 static NPNetscapeFuncs mozilla_funcs;
 static int pid = 0;
@@ -52,11 +53,11 @@ typedef struct {
 
 static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 #ifdef HAVE_NPFUNCTIONS_H
-				 uint16_t mode, uint16_t argc, char *argn[], char *argv[],
+				 G_GNUC_UNUSED uint16_t mode, uint16_t argc, char *argn[], char *argv[],
 #else
-				 uint16 mode, uint16 argc, char *argn[], char *argv[],
+				 G_GNUC_UNUSED uint16 mode, uint16 argc, char *argn[], char *argv[],
 #endif
-				 NPSavedData *saved)
+				 G_GNUC_UNUSED NPSavedData *saved)
 {
 	ChemPlugin *plugin;
 	char buf [32];
@@ -120,7 +121,7 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 	return NPERR_NO_ERROR;
 }
 
-static NPError ChemDestroy (NPP instance, NPSavedData **save)
+static NPError ChemDestroy (NPP instance, G_GNUC_UNUSED NPSavedData **save)
 {
 	ChemPlugin *plugin;
 	char buf[32];
@@ -152,11 +153,11 @@ static NPError ChemSetWindow (NPP instance, NPWindow *window)
 	return NPERR_NO_ERROR;
 }
 
-static NPError ChemNewStream (NPP instance, NPMIMEType type, NPStream *stream,
+static NPError ChemNewStream (NPP instance, G_GNUC_UNUSED NPMIMEType type, G_GNUC_UNUSED NPStream *stream,
 #ifdef HAVE_NPFUNCTIONS_H
-		      NPBool seekable, uint16_t *stype)
+		      G_GNUC_UNUSED NPBool seekable, uint16_t *stype)
 #else
-		      NPBool seekable, uint16 *stype)
+		      G_GNUC_UNUSED NPBool seekable, uint16 *stype)
 #endif
 {
 	ChemPlugin *plugin;
@@ -173,12 +174,12 @@ static NPError ChemNewStream (NPP instance, NPMIMEType type, NPStream *stream,
 	return NPERR_NO_ERROR;
 }
 
-static void ChemPrint (NPP instance, NPPrint *platformPrint)
+static void ChemPrint (G_GNUC_UNUSED NPP instance, G_GNUC_UNUSED NPPrint *platformPrint)
 {
 // TODO: implement !!!
 }
 
-static void ChemStreamAsFile (NPP instance, NPStream *stream, const char *fname)
+static void ChemStreamAsFile (NPP instance, G_GNUC_UNUSED NPStream *stream, const char *fname)
 {
 	char buf[32];
 	write (to_pipe, "file\n", 5);
@@ -188,7 +189,7 @@ static void ChemStreamAsFile (NPP instance, NPStream *stream, const char *fname)
 	write (to_pipe, "\n", 1);
 }
 
-NPError NP_GetValue (void *future, NPPVariable variable, void *value)
+NPError NP_GetValue (G_GNUC_UNUSED void *future, NPPVariable variable, void *value)
 {
 	switch (variable) {
 	case NPPVpluginNameString:

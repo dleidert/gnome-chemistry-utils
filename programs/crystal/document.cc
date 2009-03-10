@@ -948,7 +948,7 @@ void gcDocument::SetMail (char const *mail)
 void gcDocument::SetComment (char const *comment)
 {
 	g_free (m_Comment);
-	m_Comment = g_strdup (m_Comment);
+	m_Comment = g_strdup (comment);
 }
 
 void gcDocument::SetLabel (char const *label)

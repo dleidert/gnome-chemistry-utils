@@ -47,7 +47,7 @@ GtkWindow* GOGcpApplication::GetWindow()
 	return NULL;
 }
 
-void GOGcpApplication::ToggleMenu (const string& menuname, bool active)
+void GOGcpApplication::ToggleMenu (G_GNUC_UNUSED const string& menuname, G_GNUC_UNUSED bool active)
 {
 }
 
@@ -99,7 +99,7 @@ GtkWindow * GOGcpApplication::EditDocument (GOGChemUtilsComponent *gogcu)
 	}
 }
 
-bool GOGcpApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), gpointer *user_data)
+bool GOGcpApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), G_GNUC_UNUSED gpointer *user_data)
 {
 	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
 	bool result = false;

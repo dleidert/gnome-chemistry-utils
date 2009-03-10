@@ -52,17 +52,17 @@ struct AtomStruct {
 	double Blue, Red, Green, Alpha;
 };
 
-static void on_add (GtkWidget *widget, gcAtomsDlg *pBox)
+static void on_add (G_GNUC_UNUSED GtkWidget *widget, gcAtomsDlg *pBox)
 {
 	pBox->AtomAdd ();
 }
 
-static void on_delete (GtkWidget *widget, gcAtomsDlg *pBox)
+static void on_delete (G_GNUC_UNUSED GtkWidget *widget, gcAtomsDlg *pBox)
 {
 	pBox->AtomDelete ();
 }
 
-static void on_delete_all (GtkWidget *widget, gcAtomsDlg *pBox)
+static void on_delete_all (G_GNUC_UNUSED GtkWidget *widget, gcAtomsDlg *pBox)
 {
 	pBox->AtomDeleteAll ();
 }
@@ -72,7 +72,7 @@ static void on_select (GtkTreeSelection *Selection, gcAtomsDlg *pBox)
 	pBox->AtomSelect (Selection);
 }
 
-static void on_element (GtkWidget *widget, guint Z, gcAtomsDlg *pBox)
+static void on_element (G_GNUC_UNUSED GtkWidget *widget, guint Z, gcAtomsDlg *pBox)
 {
 	pBox->OnElement (Z);
 }

@@ -29,7 +29,7 @@
 
 guint PrintResolution = 300;
 
-static void on_print_resolution (GtkWidget *widget, gcPrefsDlg * dialog)
+static void on_print_resolution (G_GNUC_UNUSED GtkWidget *widget, gcPrefsDlg * dialog)
 {
 	dialog->UpdatePrinting ();
 }

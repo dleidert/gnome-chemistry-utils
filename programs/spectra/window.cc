@@ -41,84 +41,84 @@
 using namespace std;
 
 //Callbacks
-static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gsvWindow* Win)
+static bool on_delete_event (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, gsvWindow* Win)
 {
 	delete Win;
 	return false;
 }
 
-static void on_file_open (GtkWidget *widget, gsvWindow* Win)
+static void on_file_open (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* Win)
 {
 	Win->OnFileOpen ();
 }
 
-static void on_file_save_as_image(GtkWidget* widget, gsvWindow* Win)
+static void on_file_save_as_image(G_GNUC_UNUSED GtkWidget* widget, gsvWindow* Win)
 {
 	Win->GetApp ()->OnSaveAsImage (Win->GetDoc ());
 }
 
-static void on_file_close (GtkWidget *widget, gsvWindow* Win)
+static void on_file_close (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* Win)
 {
 	Win->OnFileClose ();
 }
 
-static void on_page_setup (GtkWidget *widget, gsvWindow* Win)
+static void on_page_setup (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* Win)
 {
 	Win->OnPageSetup ();
 }
 
-static void on_print_preview (GtkWidget *widget, gsvWindow* Win)
+static void on_print_preview (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* Win)
 {
 	Win->GetDoc ()->Print (true);
 }
 
-static void on_file_print (GtkWidget *widget, gsvWindow* Win)
+static void on_file_print (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* Win)
 {
 	Win->GetDoc ()->Print (false);
 }
 
-static void on_quit (GtkWidget *widget, gsvWindow* Win)
+static void on_quit (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* Win)
 {
 	gsvApplication *App = Win->GetApp ();
 	App->OnQuit ();
 }
 
-static void on_copy (GtkWidget* widget, gsvWindow* Win)
+static void on_copy (G_GNUC_UNUSED GtkWidget* widget, gsvWindow* Win)
 {
 	Win->OnCopy ();
 }
 
-static void on_help (GtkWidget *widget, gsvWindow* window)
+static void on_help (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
 {
 	window->GetApp ()->OnHelp ();
 }
 
-static void on_web (GtkWidget *widget, gsvWindow* window)
+static void on_web (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
 {
 	window->GetApp ()->OnWeb ();
 }
 
-static void on_live_assistance (GtkWidget *widget, gsvWindow *Win)
+static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, gsvWindow *Win)
 {
 	Win->GetApp ()->OnLiveAssistance ();
 }
 
-static void on_mail (GtkWidget *widget, gsvWindow* window)
+static void on_mail (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
 {
 	window->GetApp ()->OnMail ();
 }
 
-static void on_bug (GtkWidget *widget, gsvWindow* window)
+static void on_bug (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
 {
 	window->GetApp ()->OnBug ();
 }
 
-static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, gpointer data)
 {
 	reinterpret_cast <gsvWindow *> (data)->GetApp ()->OnWeb (url);
 }
 
-static void on_about (GtkWidget *widget, gsvWindow *Win)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, gsvWindow *Win)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GSpectrum is a spectrum viewer for Gnome");
@@ -163,7 +163,7 @@ static void on_recent (GtkRecentChooser *widget, gsvWindow *Win)
 }
 
 static GtkActionEntry entries[] = {
-  { "FileMenu", NULL, N_("_File") },
+  { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
@@ -178,10 +178,10 @@ static GtkActionEntry entries[] = {
 		  N_("Close the current file"), G_CALLBACK (on_file_close) },
  	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GSpectrum"), G_CALLBACK (on_quit) },
-  { "EditMenu", NULL, N_("_Edit") },
+  { "EditMenu", NULL, N_("_Edit"), NULL, NULL, NULL },
 	  { "Copy", GTK_STOCK_COPY, N_("_Copy"), "<control>C",
 		  N_("Copy the selection"), G_CALLBACK (on_copy) },
-  { "HelpMenu", NULL, N_("_Help") },
+  { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Spectra Viewer"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
@@ -296,7 +296,7 @@ static GtkTargetEntry const targets[] = {
 	{(char *) "image/png", 0, 3}
 };
 
-static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
+static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
 {
 	guchar *buffer = NULL;
 	char *format = NULL;

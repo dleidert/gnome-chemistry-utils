@@ -25,9 +25,13 @@
 #ifndef GCU_STRUCTS_H
 #define GCU_STRUCTS_H
 
+/*!\file*/
 namespace gcu
 {
 
+/*!\enum ContentType
+The list of supported data types.
+*/
 typedef enum {
 	ContentTypeUnknown,
 	ContentType3D,

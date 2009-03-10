@@ -42,18 +42,18 @@ public:
 	gcpTextTool (gcp::Application *App, string Id = "Text");
 	virtual ~gcpTextTool ();
 
-	virtual bool OnClicked ();
-	virtual bool Deactivate ();
-	virtual void Activate ();
-	virtual bool OnEvent (GdkEvent *event);
-	virtual bool NotifyViewChange ();
-	virtual bool DeleteSelection ();
-	virtual bool CopySelection (GtkClipboard *clipboard);
-	virtual bool CutSelection (GtkClipboard *clipboard);
-	virtual bool PasteSelection (GtkClipboard *clipboard);
-	virtual bool OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type);
-	virtual bool OnUndo ();
-	virtual bool OnRedo ();
+	bool OnClicked ();
+	bool Deactivate ();
+	void Activate ();
+	bool OnEvent (GdkEvent *event);
+	bool NotifyViewChange ();
+	bool DeleteSelection ();
+	bool CopySelection (GtkClipboard *clipboard);
+	bool CutSelection (GtkClipboard *clipboard);
+	bool PasteSelection (GtkClipboard *clipboard);
+	bool OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type);
+	bool OnUndo ();
+	bool OnRedo ();
 	void PushNode (xmlNodePtr node);
 	void OnGetData (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info);
 	GtkWidget *GetPropertyPage ();
@@ -62,8 +62,8 @@ public:
 	void OnSelectSize (int size);
 	void OnSizeChanged ();
 	void SetSizeFull (bool update_list);
-	void UpdateAttributeList ();
-	int GetIndex ();
+	void UpdateTagsList ();
+	unsigned GetIndex ();
 	void OnUnderlineChanged (unsigned underline);
 	void OnStriketroughToggled (bool strikethrough);
 	void OnPositionChanged (int position);
@@ -74,7 +74,7 @@ protected:
 	virtual bool Unselect ();
 
 private:
-	void BuildAttributeList ();
+	void BuildTagsList ();
 	void SelectBestFontFace ();
 
 protected:

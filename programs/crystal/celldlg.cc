@@ -28,7 +28,7 @@
 #include "application.h"
 #include <glib/gi18n.h>
 
-void on_type_changed (GtkWidget* w, gcCellDlg *pBox)
+void on_type_changed (G_GNUC_UNUSED GtkWidget* w, gcCellDlg *pBox)
 {
 	pBox->OnTypeChanged ();
 }

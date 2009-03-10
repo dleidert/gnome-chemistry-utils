@@ -34,43 +34,43 @@
 #include <glib/gi18n.h>
 
 //Callbacks
-static bool on_delete_event (GtkWidget *widget, GdkEvent *event, gc3dWindow *Win)
+static bool on_delete_event (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkEvent *event, gc3dWindow *Win)
 {
 	delete Win;
 	return false;
 }
 
-static void on_file_open (GtkWidget *widget, gc3dWindow *Win)
+static void on_file_open (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->OnFileOpen ();
 }
 
-static void on_file_save_as_image(GtkWidget *widget, gc3dWindow *Win)
+static void on_file_save_as_image(G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->GetApp ()->OnSaveAsImage (Win->GetDoc ());
 }
 
-static void on_file_close (GtkWidget *widget, gc3dWindow *Win)
+static void on_file_close (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->OnFileClose ();
 }
 
-static void on_page_setup (GtkWidget *widget, gc3dWindow *Win)
+static void on_page_setup (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->OnPageSetup ();
 }
 
-static void on_print_preview (GtkWidget *widget, gc3dWindow *Win)
+static void on_print_preview (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->GetView ()->Print (true);
 }
 
-static void on_file_print (GtkWidget *widget, gc3dWindow *Win)
+static void on_file_print (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
 {
 	Win->GetView ()->Print (false);
 }
 
-static void on_quit (GtkWidget *widget, gc3dWindow *Win)
+static void on_quit (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *Win)
 {
 	gc3dApplication *App = Win->GetApp ();
 	App->OnQuit ();
@@ -87,43 +87,43 @@ static void on_color_changed (GOActionComboColor *combo, gc3dWindow *window)
 	View->Update ();
 }
 
-static void on_display (GtkRadioAction *action, GtkRadioAction *current, gc3dWindow *window)
+static void on_display (GtkRadioAction *action, G_GNUC_UNUSED GtkRadioAction *current, G_GNUC_UNUSED gc3dWindow *window)
 {
 	window->GetDoc ()->SetDisplay3D (static_cast <Display3DMode> (gtk_radio_action_get_current_value (action)));
 	window->GetView ()->Update ();
 }
 
-static void on_help (GtkWidget *widget, gc3dWindow *window)
+static void on_help (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnHelp ();
 }
 
-static void on_web (GtkWidget *widget, gc3dWindow *window)
+static void on_web (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnWeb ();
 }
 
-static void on_mail (GtkWidget *widget, gc3dWindow *window)
+static void on_mail (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnMail ();
 }
 
-static void on_bug (GtkWidget *widget, gc3dWindow *window)
+static void on_bug (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnBug ();
 }
 
-static void on_live_assistance (GtkWidget *widget, gc3dWindow *window)
+static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 {
 	window->GetApp ()->OnLiveAssistance ();
 }
 
-static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, gpointer data)
 {
 	reinterpret_cast <gc3dWindow *> (data)->GetApp ()->OnWeb (url);
 }
 
-static void on_about (GtkWidget *widget, gc3dWindow *window)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GChem3D is a molecular structures viewer for Gnome");
@@ -168,7 +168,7 @@ static void on_recent (GtkRecentChooser *widget, gc3dWindow *Win)
 }
 
 static GtkActionEntry entries[] = {
-  { "FileMenu", NULL, N_("_File") },
+  { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
 		  N_("Open a file"), G_CALLBACK (on_file_open) },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
@@ -183,8 +183,8 @@ static GtkActionEntry entries[] = {
 		  N_("Close the current file"), G_CALLBACK (on_file_close) },
  	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChem3D"), G_CALLBACK (on_quit) },
-  { "ViewMenu", NULL, N_("_View") },
-  { "HelpMenu", NULL, N_("_Help") },
+  { "ViewMenu", NULL, N_("_View"), NULL, NULL, NULL },
+  { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Molecules Viewer"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,

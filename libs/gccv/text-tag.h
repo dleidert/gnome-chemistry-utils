@@ -28,6 +28,7 @@
 #include <gcu/macros.h>
 #include <goffice/utils/go-color.h>
 #include <pango/pango.h>
+#include <list>
 #include <string>
 
 /*!\file*/
@@ -44,6 +45,7 @@ typedef enum
 	Variant,
 	Strecth,
 	Underline,
+	Strikethrough,
 	Foreground,
 	Background,
 	Rise,
@@ -157,6 +159,18 @@ private:
 	PangoUnderline m_Underline;
 };
 
+class StrikethroughTextTag: public TextTag
+{
+public:
+	StrikethroughTextTag (bool strikethrough);
+	virtual ~StrikethroughTextTag ();
+
+	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+
+private:
+	bool m_Strikethrough;
+};
+
 class ForegroundTextTag: public TextTag
 {
 public:
@@ -217,6 +231,13 @@ public:
 private:
 	double m_Size; // default size
 	bool m_Stacked;
+};
+
+class TextTagList:public std::list <TextTag *>
+{
+public:
+	TextTagList ();
+	~TextTagList ();
 };
 
 }   //	namespace gccv

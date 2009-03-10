@@ -80,6 +80,7 @@ Replaces (or inserts if \a length is nul) text in the text item. If position is
 be moved to the end of the inserted text.
 */
 	void ReplaceText (std::string &str, int pos, unsigned length);
+	unsigned GetCursorPosition () {return m_CurPos;}
 
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;

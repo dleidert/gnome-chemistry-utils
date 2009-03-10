@@ -45,105 +45,105 @@
 
 using namespace std;
 
-static void on_quit (GtkWidget *widget, GChemTableApp *App)
+static void on_quit (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	delete App;
 	gtk_main_quit();
 }
 
-static void on_new_chart (GtkWidget *widget, GChemTableApp *App)
+static void on_new_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->OnNewChart ();
 }
 
-static void on_no_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_no_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("none");
 }
 
-void on_default_colors (GtkWidget *widget, GChemTableApp *App)
+void on_default_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("default");
 }
 
-static void on_state_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_state_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("state");
 }
 
-static void on_family_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_family_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("family");
 }
 
-void on_acidity_colors (GtkWidget *widget, GChemTableApp *App)
+void on_acidity_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("acidity");
 }
 
-void on_electroneg_colors (GtkWidget *widget, GChemTableApp *App)
+void on_electroneg_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("electroneg");
 }
 
-static void on_radius_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_radius_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("radius");
 }
 
-static void on_block_colors (GtkWidget *widget, GChemTableApp *App)
+static void on_block_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
 	App->SetColorScheme ("block");
 }
 
-static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, gpointer data)
 {
 	reinterpret_cast <Application *> (data)->OnWeb (url);
 }
 
-static void on_help (GtkWidget *widget, GChemTableApp *app)
+static void on_help (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 {
 	app->OnHelp ();
 }
 
-static void on_web (GtkWidget *widget, GChemTableApp *app)
+static void on_web (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 {
 	app->OnWeb ();
 }
 
-static void on_mail (GtkWidget *widget, GChemTableApp *app)
+static void on_mail (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 {
 	app->OnMail ();
 }
 
-static void on_live_assistance (GtkWidget *widget, GChemTableApp *app)
+static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 {
 	app->OnLiveAssistance ();
 }
 
-static void on_bug (GtkWidget *widget, GChemTableApp *app)
+static void on_bug (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 {
 	app->OnBug ();
 }
 
-static void on_about (GtkWidget *widget, GChemTableApp *app)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 {
 	app->OnAbout ();
 }
 
-static void on_changed (GtkPeriodic* periodic, guint Z, GChemTableApp *app)
+static void on_changed (G_GNUC_UNUSED GtkPeriodic* periodic, guint Z, GChemTableApp *app)
 {
 	app->OnElement (Z);
 }
 
 static GtkActionEntry entries[] = {
-  { "FileMenu", NULL, N_("_File") },
+  { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "NewChart", NULL, N_("New _Chart"), "<control>N",
 		  N_("Create a new chart"), G_CALLBACK (on_new_chart) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemTable"), G_CALLBACK (on_quit) },
-  { "ViewMenu", NULL, N_("_View") },
-    {"ColorMenu", NULL, N_("Color scheme") },
+  { "ViewMenu", NULL, N_("_View"), NULL, NULL, NULL },
+    {"ColorMenu", NULL, N_("Color scheme"), NULL, NULL, NULL },
 	  {"NoColors", NULL, N_("No colors"), NULL,
 		  N_("Use default Gtk theme colors"), G_CALLBACK (on_no_colors) },
 	  {"DefaultColors", NULL, N_("Default"), NULL,
@@ -166,7 +166,7 @@ static GtkActionEntry entries[] = {
 	  {"BlockColors", NULL, N_("Block"), NULL,
 		  N_("Use colors to display the blocks elements belong to"),
                   G_CALLBACK (on_block_colors) },
-  { "HelpMenu", NULL, N_("_Help") },
+  { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Periodic Table"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,
@@ -656,7 +656,6 @@ void GChemTableApp::OnSaveAsImage (GChemTableCurve *curve)
 	if (!curve)
 		return;
 	list<string> l;
-	unsigned n = 0;
 	char const *mime;
 	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
@@ -672,7 +671,7 @@ void GChemTableApp::OnSaveAsImage (GChemTableCurve *curve)
 	FileChooser (this, true, l, reinterpret_cast <Document *> (curve), _("Save as image"), GetImageSizeWidget ());
 }
 
-bool GChemTableApp::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc)
+bool GChemTableApp::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, Document *Doc)
 {
 	GChemTableCurve *curve = reinterpret_cast <GChemTableCurve *> (Doc);
 	if(bSave) {

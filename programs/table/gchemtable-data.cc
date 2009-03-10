@@ -33,7 +33,7 @@ using namespace std;
 static map <string, GOData *> GctScalars, GctVectors, GctMatrices;
 
 static  GOData *
-gct_data_dup (GOData const *src)
+gct_data_dup (G_GNUC_UNUSED GOData const *src)
 {
 	GOData *dst = GO_DATA (g_object_ref (G_OBJECT (src)));
 
@@ -41,26 +41,26 @@ gct_data_dup (GOData const *src)
 }
 
 static gboolean
-gct_data_eq (GOData const *data_a, GOData const *data_b)
+gct_data_eq (G_GNUC_UNUSED GOData const *data_a, G_GNUC_UNUSED GOData const *data_b)
 {
 	return FALSE;
 }
 
 static GOFormat *
-gct_data_preferred_fmt (GOData const *dat)
+gct_data_preferred_fmt (G_GNUC_UNUSED GOData const *dat)
 {
 
 	return NULL;
 }
 
 static char *
-gct_data_as_str (GOData const *dat)
+gct_data_as_str (G_GNUC_UNUSED GOData const *dat)
 {
 	return NULL;
 }
 
 static  gboolean
-gct_data_from_str (GOData *dat, char const *str)
+gct_data_from_str (G_GNUC_UNUSED GOData *dat, G_GNUC_UNUSED char const *str)
 {
 	return FALSE;
 }
@@ -80,13 +80,13 @@ typedef GODataScalarClass GctDataScalarClass;
 static GObjectClass *scalar_parent_klass;
 
 static double
-gct_data_scalar_get_value (GODataScalar *dat)
+gct_data_scalar_get_value (G_GNUC_UNUSED GODataScalar *dat)
 {
 	return 0.;
 }
 
 static char const *
-gct_data_scalar_get_str (GODataScalar *dat)
+gct_data_scalar_get_str (G_GNUC_UNUSED GODataScalar *dat)
 {
 	return NULL;
 }
@@ -108,7 +108,7 @@ gct_data_scalar_class_init (GObjectClass *gobject_klass)
 }
 
 static void
-gct_data_scalar_init (GObject *obj)
+gct_data_scalar_init (G_GNUC_UNUSED GObject *obj)
 {
 }
 
@@ -168,7 +168,7 @@ gct_data_vector_load_values (GODataVector *dat)
 	dat->values = vec->data;
 	if (dat->len > 0) {
 		int i = 0;
-		while (!go_finite (vec->data[i++]) && i < dat->len);
+		while (!go_finite (vec->data[i++]) && i < dat->len) {;}
 		if (i < dat->len)
 			dat->minimum = dat->maximum = vec->data[i];
 		for (; i < dat->len; i++)
@@ -236,7 +236,7 @@ gct_data_vector_class_init (GObjectClass *gobject_klass)
 }
 
 static void
-gct_data_vector_init (GObject *obj)
+gct_data_vector_init (G_GNUC_UNUSED GObject *obj)
 {
 }
 
@@ -300,23 +300,23 @@ typedef GODataMatrixClass GctDataMatrixClass;
 static GObjectClass *matrix_parent_klass;
 
 static void
-gct_data_matrix_load_size (GODataMatrix *dat)
+gct_data_matrix_load_size (G_GNUC_UNUSED GODataMatrix *dat)
 {
 }
 
 static void
-gct_data_matrix_load_values (GODataMatrix *dat)
+gct_data_matrix_load_values (G_GNUC_UNUSED GODataMatrix *dat)
 {
 }
 
 static double
-gct_data_matrix_get_value (GODataMatrix *dat, unsigned i, unsigned j)
+gct_data_matrix_get_value (G_GNUC_UNUSED GODataMatrix *dat, G_GNUC_UNUSED unsigned i, G_GNUC_UNUSED unsigned j)
 {
 	return go_nan;
 }
 
 static char *
-gct_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
+gct_data_matrix_get_str (G_GNUC_UNUSED GODataMatrix *dat, G_GNUC_UNUSED unsigned i, G_GNUC_UNUSED unsigned j)
 {
 	return NULL;
 }
@@ -340,7 +340,7 @@ gct_data_matrix_class_init (GObjectClass *gobject_klass)
 }
 
 static void
-gct_data_matrix_init (GObject *obj)
+gct_data_matrix_init (G_GNUC_UNUSED GObject *obj)
 {
 }
 

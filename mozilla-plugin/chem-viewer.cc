@@ -56,7 +56,7 @@ public:
 	MozPaintApp ();
 	virtual ~MozPaintApp ();
 
-	void OnFileNew (char const *Theme = NULL) {}
+	void OnFileNew (G_GNUC_UNUSED char const *Theme = NULL) {}
 	GtkWindow* GetWindow() {return NULL;}
 };
 
@@ -207,7 +207,7 @@ GIOChannel *in_channel;
 map<void*, ChemComp*> components;
 
 static gboolean
-io_func (GIOChannel *source, GIOCondition condition, gpointer data)
+io_func (GIOChannel *source, G_GNUC_UNUSED GIOCondition condition, G_GNUC_UNUSED gpointer data)
 {
 	string buf, strinst;
 	void *instance;

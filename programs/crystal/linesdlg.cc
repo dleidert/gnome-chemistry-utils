@@ -47,17 +47,17 @@ struct LineStruct {
 	bool duplicated;
 };
 
-static void on_add (GtkWidget *widget, gcLinesDlg *pBox)
+static void on_add (G_GNUC_UNUSED GtkWidget *widget, gcLinesDlg *pBox)
 {
 	pBox->LineAdd ();
 }
 
-static void on_delete (GtkWidget *widget, gcLinesDlg *pBox)
+static void on_delete (G_GNUC_UNUSED GtkWidget *widget, gcLinesDlg *pBox)
 {
 	pBox->LineDelete ();
 }
 
-static void on_delete_all (GtkWidget *widget, gcLinesDlg *pBox)
+static void on_delete_all (G_GNUC_UNUSED GtkWidget *widget, gcLinesDlg *pBox)
 {
 	pBox->LineDeleteAll ();
 }
@@ -77,17 +77,17 @@ static void on_toggled (GtkCellRendererToggle *cell, const gchar *path_string, g
 	pBox->OnToggled (cell, path_string);
 }
 
-static void on_edges_toggled (GtkToggleButton* btn, gcLinesDlg *pBox)
+static void on_edges_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
 {
 	pBox->OnToggledSpecial(edges);
 }
 
-static void on_diags_toggled (GtkToggleButton* btn, gcLinesDlg *pBox)
+static void on_diags_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
 {
 	pBox->OnToggledSpecial (diagonals);
 }
 
-static void on_medians_toggled (GtkToggleButton* btn, gcLinesDlg *pBox)
+static void on_medians_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
 {
 	pBox->OnToggledSpecial (medians);
 }
@@ -477,7 +477,7 @@ void gcLinesDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, 
 	gtk_tree_path_free (path);
 }
 
-void gcLinesDlg::OnToggled (GtkCellRendererToggle *cell, const gchar *path_string)
+void gcLinesDlg::OnToggled (G_GNUC_UNUSED GtkCellRendererToggle *cell, const gchar *path_string)
 {
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;

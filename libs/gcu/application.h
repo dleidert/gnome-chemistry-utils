@@ -201,6 +201,7 @@ instance.
 @param uri the uri to which the document should be saved.
 @param mime_type the mime type of the document.
 @param Doc the document instance which contains the data to be saved.
+@param type the type of the data to be saved (see gcu::ContentType).
 
 This method saves the document using the appropriate gcu::Loader class
 instance.
@@ -303,7 +304,7 @@ an exported image size, but not both.
 @return the current image height used on export as a reference.
 */
 GCU_PROP (unsigned, ImageHeight)
-/*!\fn SetTransparentBackground(bool transpasrent)
+/*!\fn SetTransparentBackground(bool transparent)
 @param transparent whether an export image should have a transparent background.
 
 Sets the transparency of the exported image when possible.

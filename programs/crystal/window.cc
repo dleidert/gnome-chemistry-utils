@@ -35,7 +35,7 @@
 #include <cstring>
 
 //Callbacks
-static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gcWindow* Win)
+static bool on_delete_event (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, gcWindow* Win)
 {
 	if (Win->TryClose ()) {
 		delete Win;
@@ -44,67 +44,67 @@ static bool on_delete_event (GtkWidget* widget, GdkEvent *event, gcWindow* Win)
 	return true;
 }
 
-static void on_file_new (GtkWidget *widget, gcWindow* Win)
+static void on_file_new (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnFileNew ();
 }
 
-static void on_file_open (GtkWidget *widget, gcWindow* Win)
+static void on_file_open (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnFileOpen ();
 }
 
-static void on_file_save (GtkWidget *widget, gcWindow* Win)
+static void on_file_save (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnFileSave ();
 }
 
-static void on_file_save_as (GtkWidget *widget, gcWindow* Win)
+static void on_file_save_as (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnFileSaveAs ();
 }
 
-static void on_properties(GtkWidget* widget, gcWindow* Win)
+static void on_properties(G_GNUC_UNUSED GtkWidget* widget, gcWindow* Win)
 {
 	new gcDocPropDlg (Win->GetDoc ());
 }
 
-static void on_file_close (GtkWidget *widget, gcWindow* Win)
+static void on_file_close (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnFileClose ();
 }
 
-static void on_page_setup (GtkWidget *widget, gcWindow* Win)
+static void on_page_setup (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	new PrintSetupDlg (Win->GetApplication (), Win->GetView ());
 }
 
-static void on_print_preview (GtkWidget *widget, gcWindow* Win)
+static void on_print_preview (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetView ()->Print (true);
 }
 
-static void on_file_print (GtkWidget *widget, gcWindow* Win)
+static void on_file_print (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetView ()->Print (false);
 }
 
-static void on_file_save_as_image(GtkWidget* widget, gcWindow* Win)
+static void on_file_save_as_image(G_GNUC_UNUSED GtkWidget* widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnSaveAsImage ();
 }
 
-static void on_view_new (GtkWidget *widget, gcWindow* Win)
+static void on_view_new (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	new gcWindow (Win->GetApplication (), Win->GetDoc ());
 }
 
-static void on_view_close (GtkWidget *widget, gcWindow* Win)
+static void on_view_close (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->Destroy ();
 }
 
-static bool on_quit (GtkWidget *widget, gcWindow* Win)
+static bool on_quit (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	if (!Win->GetApplication ()->OnQuit ())
 		return false;
@@ -112,17 +112,17 @@ static bool on_quit (GtkWidget *widget, gcWindow* Win)
 	return true;
 }
 
-static void on_prefs (GtkWidget* widget, gcWindow* Win)
+static void on_prefs (G_GNUC_UNUSED GtkWidget* widget, gcWindow* Win)
 {
 	new gcPrefsDlg (Win->GetApp ());
 }
 
-static void on_about_activate_url (GtkAboutDialog *about, const gchar *url, gpointer data)
+static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, gpointer data)
 {
 	reinterpret_cast <gcWindow *> (data)->GetApp ()->OnWeb (url);
 }
 
-static void on_about (GtkWidget *widget, gcWindow* Win)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	char const *authors[] = {"Jean Bréfort", NULL};
 //	char * documentors[] = {NULL};
@@ -160,68 +160,68 @@ static void on_about (GtkWidget *widget, gcWindow* Win)
 	g_object_unref (logo);
 }
 
-static void on_lattice(GtkWidget *widget, gcWindow *Win)
+static void on_lattice(G_GNUC_UNUSED GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
 		Win->GetDoc ()->Define (0);
 }
 
-static void on_atoms(GtkWidget *widget, gcWindow *Win)
+static void on_atoms(G_GNUC_UNUSED GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
 		Win->GetDoc ()->Define (1);
 }
 
-static void on_lines (GtkWidget *widget, gcWindow *Win)
+static void on_lines (G_GNUC_UNUSED GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
 		Win->GetDoc ()->Define (2);
 }
 
-static void on_size (GtkWidget *widget, gcWindow *Win)
+static void on_size (G_GNUC_UNUSED GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
 		Win->GetDoc ()->Define (3);
 }
 
-static void on_cleavages (GtkWidget *widget, gcWindow *Win)
+static void on_cleavages (G_GNUC_UNUSED GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
 		Win->GetDoc ()->Define (4);
 }
 
-static void on_view_settings (GtkWidget *widget, gcWindow *Win)
+static void on_view_settings (G_GNUC_UNUSED GtkWidget *widget, gcWindow *Win)
 {
 	if (Win)
 		new gcViewSettingsDlg (Win->GetView ());
 }
 
-static void on_help (GtkWidget *widget, gcWindow* Win)
+static void on_help (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnHelp ();
 }
 
-static void on_web (GtkWidget *widget, gcWindow* Win)
+static void on_web (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApp ()->OnWeb ();
 }
 
-static void on_mail (GtkWidget *widget, gcWindow* Win)
+static void on_mail (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApp ()->OnMail ();
 }
 
-static void on_live_assistance (GtkWidget *widget, gcWindow *Win)
+static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, gcWindow *Win)
 {
 	Win->GetApplication ()->OnLiveAssistance ();
 }
 
-static void on_bug (GtkWidget *widget, gcWindow* Win)
+static void on_bug (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	Win->GetApplication ()->OnBug ();
 }
 
-static bool on_focus_in (GtkWidget *widget, GdkEventFocus *event, gcWindow* Win)
+static bool on_focus_in (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkEventFocus *event, gcWindow* Win)
 {
 	gcApplication *App = Win->GetApp ();
 	Win->GetDoc ()->SetActiveView (Win->GetView ());
@@ -245,7 +245,7 @@ static void on_clear_menu_tip (gcWindow* Win)
 		Win->ClearStatus ();
 }
 
-static void on_connect_proxy (GtkUIManager *ui, GtkAction *action, GtkWidget *proxy, gcWindow* Win)
+static void on_connect_proxy (G_GNUC_UNUSED GtkUIManager *ui, GtkAction *action, GtkWidget *proxy, gcWindow* Win)
 {
 	/* connect whether there is a tip or not it may change later */
 	if (GTK_IS_MENU_ITEM (proxy)) {
@@ -257,7 +257,7 @@ static void on_connect_proxy (GtkUIManager *ui, GtkAction *action, GtkWidget *pr
 	}
 }
 
-static void on_disconnect_proxy (GtkUIManager *ui, GtkAction *action, GtkWidget *proxy, gcWindow* Win)
+static void on_disconnect_proxy (G_GNUC_UNUSED GtkUIManager *ui, G_GNUC_UNUSED GtkAction *action, GtkWidget *proxy, gcWindow* Win)
 {
 	if (GTK_IS_MENU_ITEM (proxy)) {
 		g_object_set_data (G_OBJECT (proxy), "action", NULL);
@@ -277,7 +277,7 @@ static void on_recent (GtkRecentChooser *widget, gcWindow *Win)
 }
 
 static GtkActionEntry entries[] = {
-  { "FileMenu", NULL, N_("_File") },
+  { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "New", GTK_STOCK_NEW, N_("_New File"), NULL,
 		  N_("Create a new file"), G_CALLBACK (on_file_new) },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
@@ -300,10 +300,10 @@ static GtkActionEntry entries[] = {
 		  N_("Close the current file"), G_CALLBACK (on_file_close) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit Gnome Crystal"), G_CALLBACK (on_quit) },
-  { "EditMenu", NULL, N_("_Edit") },
+  { "EditMenu", NULL, N_("_Edit"), NULL, NULL, NULL },
 	  { "Prefs", GTK_STOCK_PREFERENCES, N_("Prefere_nces..."), NULL,
 		  N_("Configure the application"), G_CALLBACK (on_prefs) },
-  { "CrystalMenu", NULL, N_("_Crystal") },
+  { "CrystalMenu", NULL, N_("_Crystal"), NULL, NULL, NULL },
 	{ "Lattice", NULL, N_("_Lattice..."), NULL,
 	  N_("Define the lattice"), G_CALLBACK (on_lattice) },
 	{ "Atoms", NULL, N_("_Atoms..."), NULL,
@@ -314,15 +314,15 @@ static GtkActionEntry entries[] = {
 	  N_("Define size"), G_CALLBACK (on_size) },
 	{ "Cleavages", NULL, N_("_Cleavages..."), NULL,
 	  N_("Add or edit cleavages to remove some planes"), G_CALLBACK (on_cleavages) },
-  { "ViewMenu", NULL, N_("_View") },
+  { "ViewMenu", NULL, N_("_View"), NULL, NULL, NULL },
 	  { "ViewSettings", NULL, N_("View _settings..."), NULL,
 		  N_("Choose background color and model position"), G_CALLBACK (on_view_settings) },
-  { "WindowsMenu", NULL, N_("_Windows") },
+  { "WindowsMenu", NULL, N_("_Windows"), NULL, NULL, NULL },
 	  { "NewView", NULL, N_("Create new _window"), NULL,
 		  N_("Create a new window"), G_CALLBACK (on_view_new) },
 	  { "CloseView", NULL, N_("_Close this window"), NULL,
 		  N_("Close the current window"), G_CALLBACK (on_view_close) },
-  { "HelpMenu", NULL, N_("_Help") },
+  { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for Gnome Crystal"), G_CALLBACK (on_help) },
 	  { "Web", NULL, N_("Gnome Chemistry Utils on the _web"), NULL,

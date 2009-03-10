@@ -202,11 +202,12 @@ implementation just return false.
 */
 	virtual ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
 /*!
-@param doc the gcu::Document being written.
+@param obj the gcu::Object being written.
 @param out a GsfOutput (see the libgsf documentation at
 http://library.gnome.org/devel/gsf/stable/gsf-Output-to-unstructured-files.html#GsfOutput).
 @param mime_type the mime type of the data.
 @param io a GOffice IOContext.
+@param type the type of the data to be saved (see gcu::ContentType).
 
 This function must be overloaded by a derived class able to write. Default
 implementation just return false.

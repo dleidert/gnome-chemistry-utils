@@ -43,17 +43,17 @@ struct CleavageStruct {
 	unsigned planes;
 };
 
-static void on_add(GtkWidget *widget, gcCleavagesDlg *pBox)
+static void on_add(G_GNUC_UNUSED GtkWidget *widget, gcCleavagesDlg *pBox)
 {
 	pBox->CleavageAdd();
 }
 
-static void on_delete(GtkWidget *widget, gcCleavagesDlg *pBox)
+static void on_delete(G_GNUC_UNUSED GtkWidget *widget, gcCleavagesDlg *pBox)
 {
 	pBox->CleavageDelete();
 }
 
-static void on_delete_all(GtkWidget *widget, gcCleavagesDlg *pBox)
+static void on_delete_all(G_GNUC_UNUSED GtkWidget *widget, gcCleavagesDlg *pBox)
 {
 	pBox->CleavageDeleteAll();
 }

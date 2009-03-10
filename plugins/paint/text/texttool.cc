@@ -34,6 +34,7 @@
 #include <gcp/widgetdata.h>
 #include <gcp/window.h>
 #include <gccv/text.h>
+#include <gccv/text-tag.h>
 #include <goffice/gtk/go-color-selector.h>
 #include <gdk/gdkkeysyms.h>
 #include <unistd.h>
@@ -48,7 +49,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 
 static void on_sel_changed (gcpTextTool *tool)
 {
-	tool->UpdateAttributeList ();
+	tool->UpdateTagsList ();
 }
 
 static bool filter_attribute (PangoAttribute *attribute, gcpTextTool *tool)
@@ -160,9 +161,9 @@ bool gcpTextTool::OnClicked ()
 /*		if (m_SelSignal == 0)
 			m_SelSignal = g_signal_connect_swapped (m_Active, "sel-changed", G_CALLBACK (on_sel_changed), this);*/
 		if (create)
-			BuildAttributeList ();
+			BuildTagsList ();
 		else
-			UpdateAttributeList ();
+			UpdateTagsList ();
 	}
 	return true;
 }
@@ -204,7 +205,7 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 				case GDK_i:
 					m_Style = (m_Style == PANGO_STYLE_NORMAL)? PANGO_STYLE_ITALIC: PANGO_STYLE_NORMAL;
 					SelectBestFontFace ();
-					BuildAttributeList ();
+					BuildTagsList ();
 					return true;
 				case GDK_u:
 					gtk_combo_box_set_active (m_UnderlineBox, ((m_Underline == PANGO_UNDERLINE_SINGLE)? PANGO_UNDERLINE_NONE: PANGO_UNDERLINE_SINGLE));
@@ -212,7 +213,7 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 				case GDK_b:
 					m_Weight = (m_Weight == PANGO_WEIGHT_NORMAL)? PANGO_WEIGHT_BOLD: PANGO_WEIGHT_NORMAL;
 					SelectBestFontFace ();
-					BuildAttributeList ();
+					BuildTagsList ();
 					return true;
 				case GDK_k:
 					gtk_toggle_button_set_active (m_StrikethroughBtn, !m_Strikethrough);
@@ -254,9 +255,9 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 				case GDK_space: {
 					gccv::Text *saved = m_Active;
 					m_Active = NULL;
-					UpdateAttributeList ();
+					UpdateTagsList ();
 					m_Active = saved;
-					BuildAttributeList ();
+					BuildTagsList ();
 					return true;
 				}
 				default:
@@ -294,7 +295,7 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 void gcpTextTool::Activate ()
 {
 	if (!m_Active)
-		UpdateAttributeList ();
+		UpdateTagsList ();
 }
 
 bool gcpTextTool::Deactivate ()
@@ -639,7 +640,7 @@ void gcpTextTool::OnGetData (GtkClipboard *clipboard, GtkSelectionData *selectio
 			m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Paste", true);
 }
 
-void gcpTextTool::UpdateAttributeList ()
+void gcpTextTool::UpdateTagsList ()
 {
 	if (!m_FamilyList)
 		return;
@@ -689,24 +690,24 @@ void gcpTextTool::UpdateAttributeList ()
 	g_signal_handler_block (m_ColorSelector, m_ForeSignal);
 	go_color_selector_set_color (m_ColorSelector, m_Color);
 	g_signal_handler_unblock (m_ColorSelector, m_ForeSignal);
-	BuildAttributeList ();
+	BuildTagsList ();
 }
 
-void gcpTextTool::BuildAttributeList ()
+void gcpTextTool::BuildTagsList ()
 {
 	if (!m_Active)
 		return;
-	PangoAttrList *l = pango_attr_list_new ();
-	pango_attr_list_insert (l, pango_attr_family_new (m_FamilyName));
-	pango_attr_list_insert (l, pango_attr_style_new (m_Style));
-	pango_attr_list_insert (l, pango_attr_weight_new (m_Weight));
-	pango_attr_list_insert (l, pango_attr_stretch_new (m_Stretch));
-	pango_attr_list_insert (l, pango_attr_variant_new (m_Variant));
-	pango_attr_list_insert (l, pango_attr_size_new (m_Size));
-	pango_attr_list_insert (l, pango_attr_underline_new (m_Underline));
-	pango_attr_list_insert (l, pango_attr_strikethrough_new (m_Strikethrough));
-	pango_attr_list_insert (l, pango_attr_rise_new (m_Rise));
-	pango_attr_list_insert (l, pango_attr_foreground_new (UINT_RGBA_R (m_Color) * 0x101, UINT_RGBA_G (m_Color) * 0x101, UINT_RGBA_B (m_Color) * 0x101));
+	gccv::TextTagList *l = new gccv::TextTagList ();
+	l->push_front (new gccv::FamilyTextTag (m_FamilyName));
+	l->push_front (new gccv::StyleTextTag (m_Style));
+	l->push_front (new gccv::WeightTextTag (m_Weight));
+	l->push_front (new gccv::StretchTextTag (m_Stretch));
+	l->push_front (new gccv::VariantTextTag (m_Variant));
+	l->push_front (new gccv::SizeTextTag (m_Size));
+	l->push_front (new gccv::UnderlineTextTag (m_Underline));
+	l->push_front (new gccv::StrikethroughTextTag (m_Strikethrough));
+	l->push_front (new gccv::RiseTextTag (m_Rise));
+	l->push_front (new gccv::ForegroundTextTag (m_Color));
 //	gnome_canvas_pango_set_insert_attrs (m_Active, l);
 	m_Dirty = false;
 	if (m_pView)
@@ -959,7 +960,7 @@ void gcpTextTool::OnSelectFace (GtkTreeSelection *selection)
 	m_Variant = pango_font_description_get_variant (desc);
 	m_Stretch = pango_font_description_get_stretch (desc);
 	pango_font_description_free (desc);
-	BuildAttributeList ();
+	BuildTagsList ();
 	if (m_Active) {
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_attr_list_insert (l, pango_attr_style_new (m_Style));
@@ -1011,7 +1012,7 @@ void gcpTextTool::SetSizeFull (bool update_list)
 			gtk_tree_selection_unselect_all (selection);
 		g_signal_handler_unblock (selection, m_SizeSignal);
 	}
-	BuildAttributeList ();
+	BuildTagsList ();
 	if (m_Active) {
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_attr_list_insert (l, pango_attr_size_new (m_Size));
@@ -1065,15 +1066,15 @@ void gcpTextTool::SelectBestFontFace ()
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (m_FaceList), &iter));
 }
 
-int gcpTextTool::GetIndex ()
+unsigned gcpTextTool::GetIndex ()
 {
-//	return gnome_canvas_pango_get_cur_index (m_Active);
+	return (m_Active)? m_Active->GetCursorPosition (): 0;
 }
 
 void gcpTextTool::OnUnderlineChanged (unsigned underline)
 {
 	m_Underline = (PangoUnderline) underline;
-	BuildAttributeList ();
+	BuildTagsList ();
 	if (m_Active) {
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_attr_list_insert (l, pango_attr_underline_new (m_Underline));
@@ -1085,7 +1086,7 @@ void gcpTextTool::OnUnderlineChanged (unsigned underline)
 void gcpTextTool::OnStriketroughToggled (bool strikethrough)
 {
 	m_Strikethrough = strikethrough;
-	BuildAttributeList ();
+	BuildTagsList ();
 	if (m_Active) {
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_attr_list_insert (l, pango_attr_strikethrough_new (m_Strikethrough));
@@ -1097,13 +1098,13 @@ void gcpTextTool::OnStriketroughToggled (bool strikethrough)
 void gcpTextTool::OnPositionChanged (int position)
 {
 	m_Rise = position * PANGO_SCALE;
-	BuildAttributeList ();
+	BuildTagsList ();
 }
 
 void gcpTextTool::OnForeColorChanged (GOColor color)
 {
 	m_Color = color;
-	BuildAttributeList ();
+	BuildTagsList ();
 	if (m_Active) {
 		PangoAttrList *l = pango_attr_list_new ();
 		pango_attr_list_insert (l, pango_attr_foreground_new (UINT_RGBA_R (m_Color) * 0x101, UINT_RGBA_G (m_Color) * 0x101, UINT_RGBA_B (m_Color) * 0x101));

@@ -268,8 +268,8 @@ Renders the document using cairo.
 */
 	void Render (cairo_t *cr);
 /*!
-@param the object which seection state should be changed.
-@param the new selection state.
+@param object the object which seection state should be changed.
+@param state the new selection state.
 
 Changes the selection state of \a object if it owns an item and of all its descendents.
 */

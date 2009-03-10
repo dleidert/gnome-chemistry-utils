@@ -37,7 +37,7 @@ static void on_title_changed (GtkEntry *entry, gcDocPropDlg *dlg)
 	dlg->OnTitleChanged (gtk_entry_get_text (entry));
 }
 
-static bool on_title_focused_out (GtkEntry *entry, GdkEventFocus *event, gcDocPropDlg *dlg)
+static bool on_title_focused_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcDocPropDlg *dlg)
 {
 	dlg->OnTitleChanged (gtk_entry_get_text (entry));
 	return false;
@@ -48,7 +48,7 @@ static void on_name_changed (GtkEntry *entry, gcDocPropDlg *dlg)
 	dlg->OnNameChanged (gtk_entry_get_text (entry));
 }
 
-static bool on_name_focused_out (GtkEntry *entry, GdkEventFocus *event, gcDocPropDlg *dlg)
+static bool on_name_focused_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcDocPropDlg *dlg)
 {
 	dlg->OnNameChanged (gtk_entry_get_text (entry));
 	return false;
@@ -59,7 +59,7 @@ static void on_mail_changed (GtkEntry *entry, gcDocPropDlg *dlg)
 	dlg->OnMailChanged (gtk_entry_get_text (entry));
 }
 
-static bool on_mail_focused_out (GtkEntry *entry, GdkEventFocus *event, gcDocPropDlg *dlg)
+static bool on_mail_focused_out (GtkEntry *entry, G_GNUC_UNUSED GdkEventFocus *event, gcDocPropDlg *dlg)
 {
 	dlg->OnMailChanged (gtk_entry_get_text (entry));
 	return false;

@@ -36,7 +36,7 @@
 #include <cstring>
 #include <cstdio>
 
-void cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
+void cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNUSED const gchar *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
 {
 	char *version = g_strconcat (_("GChem3d Viewer version: "), VERSION, NULL);
 	puts (version);
@@ -52,7 +52,7 @@ static GOptionEntry options[] =
 	{ "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, N_("Prints GChem3d Viewer version"), NULL },
 	{ "bgcolor", 'b', 0, G_OPTION_ARG_STRING, &bgcolor, N_("Background color: white, black or #rrggbb (default is black)"), NULL },
 	{ "display3d", 'd', 0, G_OPTION_ARG_STRING, &display3d, N_("How molecules are displayed; possible values are BallnStick (the default), SpaceFill, Cylinders, and Wireframe"), NULL },
-	{ NULL }
+	{ NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
 static char const *Display3DModeNames[] = {

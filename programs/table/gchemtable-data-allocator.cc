@@ -44,7 +44,7 @@ struct _GctControlGUI
 //
 
 static void
-gct_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
+gct_data_allocator_allocate (G_GNUC_UNUSED GogDataAllocator *dalloc, G_GNUC_UNUSED GogPlot *plot)
 {
 	// Nothing needed
 }
@@ -96,7 +96,7 @@ static void on_vector_data_changed (GtkComboBox *box, GraphDimEditor *editor)
 }
 
 static gpointer
-gct_data_allocator_editor (GogDataAllocator *dalloc,
+gct_data_allocator_editor (G_GNUC_UNUSED GogDataAllocator *dalloc,
 			    GogDataset *dataset, int dim_i, GogDataType data_type)
 {
 	GraphDimEditor *editor;
@@ -166,7 +166,7 @@ gct_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
 }
 
 static void
-gct_control_gui_init (GObject *object)
+gct_control_gui_init (G_GNUC_UNUSED GObject *object)
 {
 }
 

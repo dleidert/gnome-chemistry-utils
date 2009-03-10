@@ -53,7 +53,7 @@ guint NotificationId;
 #define ROOTDIR	"/apps/gchemutils/crystal/"
 #define m_ConfNode node
 
-static void on_config_changed (GOConfNode *node, gchar const *name, gpointer user_data)
+static void on_config_changed (GOConfNode *node, gchar const *name, G_GNUC_UNUSED gpointer user_data)
 {
 	GCU_UPDATE_KEY ("printing/resolution", int, PrintResolution, {})
 	GCU_UPDATE_KEY ("view/fov", int, FoV, {})
@@ -65,7 +65,7 @@ static void on_config_changed (GOConfNode *node, gchar const *name, gpointer use
 	GCU_UPDATE_KEY ("view/blue", float, Blue, {})
 }
 
-static void cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
+static void cb_print_version (G_GNUC_UNUSED const gchar *option_name, G_GNUC_UNUSED const gchar *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
 {
 	char *version = g_strconcat (_("Gnome Chemistry Utils version: "), VERSION, NULL);
 	puts (version);
@@ -76,7 +76,7 @@ static void cb_print_version (const gchar *option_name, const gchar *value, gpoi
 static GOptionEntry entries[] = 
 {
   { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "prints Gnome Crystal version", NULL },
-   { NULL }
+   { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
 int main(int argc, char *argv[])

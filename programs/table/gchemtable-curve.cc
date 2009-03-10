@@ -71,7 +71,7 @@ void on_show_curve (GObject *obj, char const* name)
 		curves[name] = new GChemTableCurve (App, name);
 }
 
-static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
+static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, GogGraph *graph)
 {
 	guchar *buffer = NULL;
 	char *format = NULL;
@@ -132,7 +132,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	}
 }
 
-void on_clear_data(GtkClipboard *clipboard, GogGraph *graph)
+void on_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, GogGraph *graph)
 {
 	g_object_unref (graph);
 }
@@ -144,78 +144,78 @@ static GtkTargetEntry const targets[] = {
 	{(char *) "image/png", 0, 3}
 };
 
-static void on_copy (GtkWidget *widget, GChemTableCurve *curve)
+static void on_copy (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->OnCopy ();
 }
 
-static void on_file_save_as_image(GtkWidget* widget, GChemTableCurve *curve)
+static void on_file_save_as_image(G_GNUC_UNUSED GtkWidget* widget, GChemTableCurve *curve)
 {
 	curve->GetApplication ()->OnSaveAsImage (curve);
 }
 
-static void on_print (GtkWidget *widget, GChemTableCurve *curve)
+static void on_print (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->Print (false);
 }
 
-static void on_print_preview (GtkWidget *widget, GChemTableCurve *curve)
+static void on_print_preview (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->Print (true);
 }
 
-static void on_page_setup (GtkWidget *widget, GChemTableCurve *curve)
+static void on_page_setup (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->OnPageSetup ();
 }
 
-void on_properties (GtkWidget *widget, GChemTableCurve *curve)
+void on_properties (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->OnProperties ();
 }
 
-static void on_close (GtkWidget *widget, GChemTableCurve *curve)
+static void on_close (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->Destroy ();
 }
 
-static void on_help (GtkWidget *widget, GChemTableCurve *curve)
+static void on_help (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->GetApplication ()->OnHelp ();
 }
 
-static void on_curve_help (GtkWidget *widget, GChemTableCurve *curve)
+static void on_curve_help (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->Help ();
 }
 
-static void on_web (GtkWidget *widget, GChemTableCurve *curve)
+static void on_web (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->GetApplication ()->OnWeb ();
 }
 
-static void on_live_assistance (GtkWidget *widget, GChemTableCurve *curve)
+static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->GetApplication ()->OnLiveAssistance ();
 }
 
-static void on_mail (GtkWidget *widget, GChemTableCurve *curve)
+static void on_mail (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->GetApplication ()->OnMail ();
 }
 
-static void on_bug (GtkWidget *widget, GChemTableCurve *curve)
+static void on_bug (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->GetApplication ()->OnBug ();
 }
 
-static void on_about (GtkWidget *widget, GChemTableCurve *curve)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
 	curve->GetApplication ()->OnAbout ();
 }
 
 static GtkActionEntry entries[] = {
-  { "FileMenu", NULL, N_("_File") },
+  { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "SaveAsImage", GTK_STOCK_SAVE_AS, N_("Save As _Image..."), "<control>I",
 		  N_("Save the current file as an image"), G_CALLBACK (on_file_save_as_image) },
 	  { "PageSetup", NULL, N_("Page Set_up..."), NULL,
@@ -230,10 +230,10 @@ static GtkActionEntry entries[] = {
 		  N_("Close the current file"), G_CALLBACK (on_close) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemTable"), G_CALLBACK (gtk_main_quit) },
-  { "EditMenu", NULL, N_("_Edit") },
+  { "EditMenu", NULL, N_("_Edit"), NULL, NULL, NULL },
 	  { "Copy", GTK_STOCK_COPY, N_("_Copy"), "<control>C",
 		  N_("Copy the selection"), G_CALLBACK (on_copy) },
-  { "HelpMenu", NULL, N_("_Help") },
+  { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Periodic Table"), G_CALLBACK (on_help) },
 	  { "CurveHelp", GTK_STOCK_HELP, N_("_Help"), "<control>F1",
@@ -508,7 +508,7 @@ GChemTableCurve::~GChemTableCurve ()
 	curves.erase (m_Name);
 }
 
-void GChemTableCurve::DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const
+void GChemTableCurve::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
 {
 	cairo_t *cr;
 	gdouble width, height;

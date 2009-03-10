@@ -173,6 +173,23 @@ void UnderlineTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Font strikethrough tag class
+
+StrikethroughTextTag::StrikethroughTextTag (bool strikethrough):
+	TextTag (Strikethrough),
+	m_Strikethrough (strikethrough)
+{
+}
+
+StrikethroughTextTag::~StrikethroughTextTag ()
+{
+}
+
+void StrikethroughTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Font foreground tag class
 
 ForegroundTextTag::ForegroundTextTag (GOColor color):
@@ -327,6 +344,19 @@ SuperscriptTextTag::~SuperscriptTextTag ()
 
 void SuperscriptTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Tags list class
+TextTagList::TextTagList (): std::list <TextTag *> ()
+{
+}
+
+TextTagList::~TextTagList ()
+{
+	std::list <TextTag *>::iterator i, iend = end ();
+	for (i = begin (); i != iend; i++)
+		delete (*i);
 }
 
 }

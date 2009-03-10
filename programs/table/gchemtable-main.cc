@@ -36,7 +36,7 @@ int main (int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 
-	GChemTableApp *app = new GChemTableApp ();
+	new GChemTableApp ();
 	/* Initialize plugins manager */
 	GSList *l = NULL;
 	l = g_slist_append (l, (void *) "GOffice_plot_xy");
