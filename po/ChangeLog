@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-03-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* LINGUAS: add zh_TW.
+	* zh_TW.po: new file, thanks to I-Yuan Chiang and his group.
+
 2008-11-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: fixed typo.
 
