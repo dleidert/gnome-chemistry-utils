@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/object.cc: load "text" nodes when they have children.
+
 2009-03-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: fixed more compilation warnings.
 	* goffice/gogcpapp.cc: ditto.

@@ -293,7 +293,7 @@ bool Object::Load (xmlNodePtr node)
 	}
 	child = node->children;
 	while (child) {
-		if (!strcmp ((const char*) child->name, "text")) {
+		if (!strcmp ((const char*) child->name, "text") && !child->children) {
 			child = child->next;
 			continue;
 		}
