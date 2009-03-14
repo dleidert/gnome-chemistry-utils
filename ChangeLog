@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/object.cc: load "text" nodes when they have children.
+
 2009-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: fix integer loading on big endian machines.
 
