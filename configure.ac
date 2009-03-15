@@ -141,11 +141,19 @@ if test "x$ob22" = "xyes"; then
   AC_DEFINE_UNQUOTED([HAVE_OPENBABEL_2_2], 1, [Whether OpenBabel is >= 2.2.0])
 fi
 
+dnl The following 4 lines were borrowed from gnumeric
+dnl The following conditional is set in AM_GCONF_SOURCE_2.
+dnl Because we may skip its execution, we have to set a default here.
+m4_pattern_allow([^AM_GCONF_SOURCE_2$])
+AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
+
+if test ! -z "`echo $goffice_CFLAGS|grep gconf`"; then
 AC_PATH_PROG([GCONFTOOL], [gconftool-2], [no])
 if test "x$GCONFTOOL" = "xno"; then
 	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
 fi
 AM_GCONF_SOURCE_2
+fi
 
 dnl retrieve BODR data directory
 bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
@@ -247,6 +255,49 @@ AM_CONDITIONAL([WITH_MOZILLA], [test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST([MOZILLA_CFLAGS])
 AC_SUBST([mozlibdir])
 
+
+##################################################
+# Check for gnumeric
+##################################################
+
+libspreadsheet=
+for ver in 1.10 1.8 ; do
+  if test "x$libspreadsheet" = x; then
+    if pkg-config --exists libspreadsheet-$ver; then
+      libspreadsheet=libspreadsheet-$ver
+    fi
+  fi
+done
+if test "x$libspreadsheet" = x; then
+  # Not important.  Things will fail below.
+  libspreadsheet=libspreadsheet-1.8
+fi
+
+PKG_CHECK_MODULES(gnumeric, [$libspreadsheet], [build_gnumeric_plugin=yes],
+		[build_gnumeric_plugin=no])
+dnl --without is not handled
+
+if test "x$build_gnumeric_plugin" = "xyes"; then
+GNUMERIC_PLUGINS_DIR=`pkg-config --variable=PluginDir $libspreadsheet`
+gnm_version=`pkg-config --modversion $libspreadsheet`
+AC_ARG_WITH(
+	[gnumeric-plugins-dir],
+	AC_HELP_STRING(
+		[--with-goffice-plugins-dir],
+		[path to GOffice plugins directory [default=auto]]
+	),
+	[
+	 if test "x$withval" != "xyes" -a "x$withval" != "xno" ; then
+		GNUMERIC_PLUGINS_DIR=$withval
+	 fi
+	]
+)
+fi
+		
+AM_CONDITIONAL([WITH_GNUMERIC], [test "x$build_gnumeric_plugin" = "xyes"])
+AC_SUBST([GNUMERIC_PLUGINS_DIR])
+AC_SUBST([gnm_version])
+
 ##################################################
 # Check for manpage target applications
 ##################################################
@@ -314,6 +365,7 @@ plugins/paint/templates/Makefile
 plugins/paint/text/Makefile
 plugins/paint/wikipedia/Makefile
 mozilla-plugin/Makefile
+gnumeric/Makefile
 goffice/Makefile
 pixmaps/Makefile
 po/Makefile.in

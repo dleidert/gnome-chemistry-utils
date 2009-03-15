@@ -392,10 +392,8 @@ bool Formula::AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous,
 
 Formula::Formula (string entry, FormulaParseMode mode) throw (parse_error)
 {
-	Entry = entry;
 	m_ParseMode = mode;
-	Parse (Entry, Details);
-	m_ConnectivityCached = m_WeightCached = false;
+	SetFormula (entry);
 }
 
 Formula::~Formula ()

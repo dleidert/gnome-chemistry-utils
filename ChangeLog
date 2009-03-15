@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2009-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add gnumeric to SUBDIRS.
+	* configure.ac: check for gnumeric.
+	* gnumeric/Makefile.am: new gnumeric plugin.
+	* gnumeric/functions.cc: add molarmass function to gnumeric.
+	* gnumeric/plugin.xml.in: ditto.
+	* libs/gcu/formula.cc: fixed Formula constructor.
+	* libs/gcu/spacegroup.cc: fixed typo in message.
+
 2009-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/object.cc: load "text" nodes when they have children.
 

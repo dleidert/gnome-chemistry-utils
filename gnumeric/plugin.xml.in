@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GChemUtils_functions">
+	<information>
+		<_name>Chemical Functions</_name>
+		<_description>Chemical Formula Functions</_description>
+                <require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="Chemistry">
+			<_category>Chemistry</_category>
+			<functions>
+            	<function name="molarmass"/>
+			</functions>
+		</service>
+	</services> 
+</plugin>

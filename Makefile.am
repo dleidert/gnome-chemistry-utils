@@ -1,5 +1,5 @@
 SUBDIRS = po database glade pixmaps libs plugins programs mozilla-plugin \
-	goffice templates themes samples tests dtds docs
+	gnumeric goffice templates themes samples tests dtds docs
 
 EXTRA_DIST= \
 	$(mime_in_files) \
