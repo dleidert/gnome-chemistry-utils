@@ -33,6 +33,8 @@ database/elements.xml.in
 database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in
+gnumeric/functions.cc
+gnumeric/plugin.xml.in
 goffice/plugin.xml.in
 goffice/gogcpapp.cc
 goffice/gogcpwin.cc
