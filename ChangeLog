@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2009-03-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/tool.h: Fixed crashes while copying text. [#25888]
+	* libs/gcp/widgetdata.cc: ditto.
+	* libs/gcp/widgetdata.h: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+
 2009-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/object.cc: load "text" nodes when they have children.
 

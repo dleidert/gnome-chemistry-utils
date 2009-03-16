@@ -37,6 +37,11 @@
 #include <cstring>
 
 using namespace gcu;
+GtkTargetEntry const text_targets[] = {
+	{(char *) GCHEMPAINT_ATOM_NAME,  0, gcp::GCP_CLIPBOARD_NATIVE},
+	{(char *) "UTF8_STRING", 0, gcp::GCP_CLIPBOARD_UTF8_STRING},
+	{(char *) "STRING", 0, gcp::GCP_CLIPBOARD_STRING}
+};
 
 static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, gcpTextTool* tool)
 {
@@ -413,7 +418,7 @@ bool gcpTextTool::CopySelection (GtkClipboard *clipboard)
 		xmlAddChild (pDoc->children, node);
 	else
 		return false;
-	gtk_clipboard_set_with_data (clipboard, gcp::targets, gcp::ClipboardFormats,
+	gtk_clipboard_set_with_data (clipboard, text_targets, 3,
 				(GtkClipboardGetFunc) on_get_data,
 				(GtkClipboardClearFunc) gcp::on_clear_data, this);
 	gtk_clipboard_request_contents (clipboard,
@@ -610,19 +615,18 @@ void gcpTextTool::OnGetData (GtkClipboard *clipboard, GtkSelectionData *selectio
 {
 	xmlDocPtr pDoc = gcp::WidgetData::GetXmlDoc (clipboard);
 	guint *DataType = (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))? &gcp::ClipboardDataType: &gcp::ClipboardDataType1;
-	if (gcp::ClipboardData) {
-		xmlFree (gcp::ClipboardData);
-	} 
 	*DataType = info;
 	gint size;
 	if (info) {
+		if (gcp::ClipboardTextData) {
+			g_free (gcp::ClipboardTextData);
+		} 
 		gcp::Text *text = new gcp::Text ();
 		text->Load (pDoc->children->children);
-		PangoLayout *layout = text->GetLayout ();
-		gcp::ClipboardData = xmlStrdup ((xmlChar*) pango_layout_get_text (layout));
+		gcp::ClipboardTextData = g_strdup (text->GetBuffer ().c_str ());
 		delete text;
-		size = strlen ((char*) gcp::ClipboardData);
-		gtk_selection_data_set_text (selection_data, (const gchar*) gcp::ClipboardData, size);
+		size = strlen ((char*) gcp::ClipboardTextData);
+		gtk_selection_data_set_text (selection_data, (const gchar*) gcp::ClipboardTextData, size);
 	} else {
 		xmlDocDumpFormatMemory (pDoc, &gcp::ClipboardData, &size, info);
 		gtk_selection_data_set (selection_data, gdk_atom_intern (GCHEMPAINT_ATOM_NAME, FALSE), 8,  (const guchar*) gcp::ClipboardData, size);
