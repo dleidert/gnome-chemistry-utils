@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-03-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed distcheck flags after the gnumeric plugin
+	introduction.
+	* configure.ac: fixed typo.
+	* libs/gcp/reaction-operator.cc: more reimplementation work.
+	* libs/gcp/reaction-operator.h: ditto.
+	* libs/gcp/reaction.cc: ditto.
+	* plugins/paint/arrows/retrosynthesis.cc: ditto.
+	* plugins/paint/selection/group.cc: ditto.
+	* plugins/paint/selection/group.h: ditto.
+
 2009-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add gnumeric to SUBDIRS.
 	* configure.ac: check for gnumeric.

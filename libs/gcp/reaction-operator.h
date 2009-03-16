@@ -54,10 +54,6 @@ Used to add a representation of the operator in the view.
 */
 	void AddItem ();
 /*!
-Used to update the representation of the operator in the view.
-*/
-	void UpdateItem ();
-/*!
 @param x the x component of the transation vector.
 @param y the y component of the transation vector.
 @param z the z component of the transation vector (unused).
@@ -93,7 +89,7 @@ Used to retrieve the y coordinate for alignment.
 @return y coordinate used for reaction operators alignment.
 */
 	virtual double GetYAlign ();
-	
+
 private:
 	double m_x, m_y;
 	PangoLayout *m_Layout;

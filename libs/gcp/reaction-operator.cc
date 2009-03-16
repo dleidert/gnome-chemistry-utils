@@ -29,6 +29,7 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gccv/canvas.h>
 #include <gccv/text.h>
 #include <cmath>
 #include <cstring>
@@ -49,10 +50,22 @@ ReactionOperator::~ReactionOperator ()
 
 void ReactionOperator::AddItem ()
 {
-}
-
-void ReactionOperator::UpdateItem ()
-{
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc ->GetTheme ();
+	double x, y;
+	GetCoords (&x, &y);
+	x *= theme->GetZoomFactor ();
+	y *= theme->GetZoomFactor ();
+	gccv::Text *text = new gccv::Text (view->GetCanvas ()->GetRoot (), x, y, this);
+	text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+	text->SetPadding (theme->GetPadding ());
+	text->SetLineColor (0);
+	text->SetLineWidth (0.);
+	text->SetFontDescription (view->GetPangoFontDesc ());
+	text->SetText ("+");
+	text->SetLineOffset (view->GetCHeight ());
+	m_Item = text;
 }
 
 /*void ReactionOperator::Add (GtkWidget* w) const
@@ -165,7 +178,7 @@ void ReactionOperator::SetSelected (int state)
 		color = Color;
 		break;
 	}
-//	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "text")), "fill_color", color, NULL);
+//	dynamic_cast <gccv::Text *> (m_Item)->SetLineColor (color);
 }
 
 void ReactionOperator::Move (double x, double y, G_GNUC_UNUSED double z)

@@ -45,7 +45,6 @@ public:
 	gcpGroup ();
 	virtual ~gcpGroup ();
 
-	void Add (GtkWidget* w);
 	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 	bool Load (xmlNodePtr);
 	xmlNodePtr Save (xmlDocPtr xml) const;

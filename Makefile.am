@@ -43,8 +43,9 @@ DISTCHECK_CONFIGURE_FLAGS = \
 	--disable-schemas-install \
 	--disable-update-databases \
 	--with-mozilla-libdir=\$${libdir}/mozilla \
-	--with-goffice-plugins-dir=\$${libdir}/goffice
-
+	--with-goffice-plugins-dir=\$${libdir}/goffice \
+	--with-gnumeric-plugins-dir=\$${libdir}/gnumeric
+	
 mime_in_files = gchemutils.xml.in
 
 mimedir = $(datadir)/mime/packages

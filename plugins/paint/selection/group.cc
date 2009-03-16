@@ -111,10 +111,10 @@ void gcpGroup::Align ()
 {
 	if (!m_Align)
 		return;
-/*	map<Object*, double> Children;
+	map<Object*, double> Children;
 	map<string, Object*>::iterator i;
 	Object* obj = GetFirstChild (i);
-	ArtDRect rect;
+	gccv::Rect rect;
 	gcp::Document *pDoc = dynamic_cast <gcp::Document*> (GetDocument ());
 	gcp::View *View = pDoc->GetView ();
 	gcp::Theme *pTheme = pDoc->GetTheme ();
@@ -180,19 +180,19 @@ void gcpGroup::Align ()
 		View->Update (obj);
 		obj = GetNextChild (i);
 	}
-	Space ();*/
+	Space ();
 }
 
 void gcpGroup::Space ()
 {
 	if (!m_Align || !m_Spaced)
 		return;
-/*	map<string, Object*>::iterator i;
-	map<Object*, ArtDRect> rects;
+	map<string, Object*>::iterator i;
+	map<Object*, gccv::Rect> rects;
 	map<double, Object*> Children;
 	map<double, Object*>::iterator im, endm;
 	Object* obj = GetFirstChild (i);
-	ArtDRect rect;
+	gccv::Rect rect;
 	double x;
 	gcp::Document *pDoc = dynamic_cast <gcp::Document*> (GetDocument ());
 	gcp::View *View = pDoc->GetView ();
@@ -224,7 +224,7 @@ void gcpGroup::Space ()
 			x += (rect.y1 - rect.y0) /pTheme->GetZoomFactor ();
 		}
 		View->Update (obj);
-	}*/
+	}
 }
 
 bool gcpGroup::Load (xmlNodePtr node)
@@ -323,13 +323,8 @@ bool gcpGroup::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 	if (Signal == gcp::OnChangedSignal) {
 		if (GetChildrenNumber () < 2)
 			delete this;
-		else {
-/*			GnomeCanvas* w = GNOME_CANVAS (((gcp::Document*) GetDocument ())->GetWidget ());
-			while (w->idle_id)
-				gtk_main_iteration();
-			gnome_canvas_update_now (w);*/
+		else
 			Align ();
-		}
 	}
 	return true;
 }
@@ -345,17 +340,6 @@ double gcpGroup::GetYAlign ()
 	gccv::Rect rect;
 	pData->GetObjectBounds (this, &rect);
 	return (rect.y1 - rect.y0) / 2.;
-}
-
-void gcpGroup::Add (GtkWidget* w)
-{
-	map<string, Object*>::iterator i;
-	Object* p = GetFirstChild (i);
-	while (p)
-	{
-//		p->Add (w);
-		p = GetNextChild (i);
-	}
 }
 
 void gcpGroup::OnLoaded ()

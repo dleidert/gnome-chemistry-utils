@@ -284,7 +284,7 @@ AC_ARG_WITH(
 	[gnumeric-plugins-dir],
 	AC_HELP_STRING(
 		[--with-goffice-plugins-dir],
-		[path to GOffice plugins directory [default=auto]]
+		[path to Gnumeric plugins directory [default=auto]]
 	),
 	[
 	 if test "x$withval" != "xyes" -a "x$withval" != "xno" ; then

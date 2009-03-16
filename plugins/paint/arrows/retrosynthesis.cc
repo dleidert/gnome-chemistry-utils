@@ -375,11 +375,6 @@ void gcpRetrosynthesis::Align ()
 	gcp::Theme *pTheme = pDoc->GetTheme ();
 	gcp::View *pView = pDoc->GetView ();
 	gcp::WidgetData  *pData = reinterpret_cast<gcp::WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
-	/* Update the canvas if necessary */
-/*	GnomeCanvas* w = GNOME_CANVAS (((gcp::Document*) GetDocument ())->GetWidget ());
-	while (w->idle_id)
-		gtk_main_iteration();
-	gnome_canvas_update_now (w);*/
 	map<string, Object*>::iterator i;
 	Object *pObj = GetFirstChild (i);
 	map<Object*, StepData> positions;
