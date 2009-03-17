@@ -256,6 +256,11 @@ the application name. The text tool in GChemPaint returns "text" which becomes
 @return the help tag for the tool.
 */
 	virtual char const *GetHelpTag () {return "";}
+/*!
+Gets the Application instance owning the tool.
+@return the Application instance.
+*/
+	Application * GetApplication () {return m_pApp;}
 
 protected:
 /*!

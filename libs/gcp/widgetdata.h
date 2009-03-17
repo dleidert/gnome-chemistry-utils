@@ -38,9 +38,10 @@ class View;
 
 extern guint ClipboardDataType, ClipboardDataType1;
 extern xmlChar* ClipboardData;
+extern char* ClipboardTextData;
 extern bool cleared;
 void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_data, Application *App);
-void on_clear_data (GtkClipboard *clipboard, Application *App);
+void on_clear_data (GtkClipboard *clipboard, gcu::Object *obj);
 
 /*!\enum SelectionState
 Enumeration of the selection states used in GChemPaint in the gcu::Object::SetSelected method.

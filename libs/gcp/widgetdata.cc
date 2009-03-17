@@ -30,6 +30,7 @@
 #include "application.h"
 #include "operation.h"
 #include "theme.h"
+#include "tool.h"
 #include <goffice/math/go-math.h>
 #include <gccv/canvas.h>
 #include <gccv/group.h>
@@ -192,7 +193,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		App->ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste", true);
 }
 
-void on_clear_data (GtkClipboard *clipboard, Application *App)
+void on_clear_data (GtkClipboard *clipboard, Object *obj)
 {
 	if (ClipboardData) {
 		xmlFree (ClipboardData);
@@ -201,7 +202,15 @@ void on_clear_data (GtkClipboard *clipboard, Application *App)
 	g_free (ClipboardTextData);
 	ClipboardTextData = NULL;
 	cleared =true;
-	gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, App);
+	Application *app = dynamic_cast <Application *> (obj);
+	if (!app) {
+		// the object might be a tool
+		Tool *tool = dynamic_cast <Tool *> (obj);
+		if (tool)
+			app = tool->GetApplication ();
+	}
+	if (app)
+		gtk_clipboard_request_contents (clipboard, gdk_atom_intern ("TARGETS", FALSE),  (GtkClipboardReceivedFunc) on_receive_targets, app);
 }
 
 bool WidgetData::IsSelected (Object const *obj) const
