@@ -1,3 +1,17 @@
+Version 0.10.4
+	GChemPaint:
+		* Fixed text loading in groups.
+		* Fixed copying text while editing a text or fragment object. [#25888]
+		* Fixed loading integers in .cdx files on big endian machines.
+	Mozilla plugin:
+		* Made it compatible with new xulrunner API.
+	Other:
+		* Fixed various build issues (Daniel Leidert).
+		* Fixed compilation issues with gcc-4.4. [#25628]
+		* Do not call exit from a library. [#25686]
+		* Do not hav unused direct shlib dependency. [#20617]
+		* New zh_TW translation (thanks to I-Yuan Chiang and his group).
+
 Version 0.10.3
 	GChemPaint:
 		* Fixed a selection issue introduced by the fix to #24869.
