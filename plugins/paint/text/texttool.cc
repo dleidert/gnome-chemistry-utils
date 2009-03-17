@@ -37,6 +37,8 @@
 #include <cstring>
 
 using namespace gcu;
+extern GtkTargetEntry const text_targets[];
+
 GtkTargetEntry const text_targets[] = {
 	{(char *) GCHEMPAINT_ATOM_NAME,  0, gcp::GCP_CLIPBOARD_NATIVE},
 	{(char *) "UTF8_STRING", 0, gcp::GCP_CLIPBOARD_UTF8_STRING},

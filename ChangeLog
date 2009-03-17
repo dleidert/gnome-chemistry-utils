@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-03-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/fragmenttool.cc: Another fix to #25888.
+	* plugins/paint/text/texttool.cc: ditto.
+
 2009-03-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/tool.h: Fixed crashes while copying text. [#25888]
 	* libs/gcp/widgetdata.cc: ditto.

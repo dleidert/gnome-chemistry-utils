@@ -36,6 +36,7 @@
 extern xmlDocPtr pXmlDoc;
 
 using namespace gcu;
+extern GtkTargetEntry const text_targets[];
 
 gcpFragmentTool::gcpFragmentTool (gcp::Application *App): gcpTextTool (App, "Fragment")
 {
@@ -43,8 +44,10 @@ gcpFragmentTool::gcpFragmentTool (gcp::Application *App): gcpTextTool (App, "Fra
 
 gcpFragmentTool::~gcpFragmentTool ()
 {
-	if (gcp::ClipboardData)
+	if (gcp::ClipboardData) {
 		xmlFree (gcp::ClipboardData);
+		gcp::ClipboardData = NULL;
+	}
 }
 
 static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info, gcpFragmentTool* tool)
@@ -240,7 +243,7 @@ bool gcpFragmentTool::CopySelection (GtkClipboard *clipboard)
 		xmlAddChild (pDoc->children, node);
 	else
 		return false;
-	gtk_clipboard_set_with_data (clipboard, gcp::targets, gcp::ClipboardFormats,
+	gtk_clipboard_set_with_data (clipboard, text_targets, 3,
 				(GtkClipboardGetFunc) on_get_data,
 				(GtkClipboardClearFunc) gcp::on_clear_data, this);
 	gtk_clipboard_request_contents (clipboard,
