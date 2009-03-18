@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/theme.cc: fixed an issue related to file themes.
+
 2009-03-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/fragmenttool.cc: Another fix to #25888.
 	* plugins/paint/text/texttool.cc: ditto.
