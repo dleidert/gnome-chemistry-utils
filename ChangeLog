@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.10.5).
+
 2009-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/man/gchem3d.1: updated man page.
 	* docs/man/gcrystal.1: ditto.
