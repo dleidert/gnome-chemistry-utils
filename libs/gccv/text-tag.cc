@@ -56,6 +56,12 @@ TextTag::~TextTag ()
 ////////////////////////////////////////////////////////////////////////////////
 // Font family tag class
 
+FamilyTextTag::FamilyTextTag (std::string const &family):
+	TextTag (Family),
+	m_Family (family)
+{
+}
+
 FamilyTextTag::FamilyTextTag (char const *family):
 	TextTag (Family),
 	m_Family (family)
@@ -68,6 +74,22 @@ FamilyTextTag::~FamilyTextTag ()
 
 void FamilyTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_family_new (m_Family.c_str ());
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool FamilyTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Family)
+		return false;
+	return static_cast <FamilyTextTag const&> (tag).m_Family == m_Family;
+}
+
+TextTag *FamilyTextTag::Duplicate ()
+{
+	return new FamilyTextTag (m_Family);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +107,22 @@ SizeTextTag::~SizeTextTag ()
 
 void SizeTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_size_new (m_Size);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool SizeTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Size)
+		return false;
+	return static_cast <SizeTextTag const&> (tag).m_Size == m_Size;
+}
+
+TextTag *SizeTextTag::Duplicate ()
+{
+	return new SizeTextTag (m_Size);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,13 +140,29 @@ StyleTextTag::~StyleTextTag ()
 
 void StyleTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_style_new (m_Style);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool StyleTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Style)
+		return false;
+	return static_cast <StyleTextTag const&> (tag).m_Style == m_Style;
+}
+
+TextTag *StyleTextTag::Duplicate ()
+{
+	return new StyleTextTag (m_Style);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Font weight tag class
 
 WeightTextTag::WeightTextTag (PangoWeight weight):
-	TextTag (Style),
+	TextTag (Weight),
 	m_Weight (weight)
 {
 }
@@ -119,13 +173,29 @@ WeightTextTag::~WeightTextTag ()
 
 void WeightTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_weight_new (m_Weight);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool WeightTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Weight)
+		return false;
+	return static_cast <WeightTextTag const&> (tag).m_Weight == m_Weight;
+}
+
+TextTag *WeightTextTag::Duplicate ()
+{
+	return new WeightTextTag (m_Weight);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Font variant tag class
 
 VariantTextTag::VariantTextTag (PangoVariant variant):
-	TextTag (Style),
+	TextTag (Variant),
 	m_Variant (variant)
 {
 }
@@ -136,13 +206,29 @@ VariantTextTag::~VariantTextTag ()
 
 void VariantTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_variant_new (m_Variant);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool VariantTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Variant)
+		return false;
+	return static_cast <VariantTextTag const&> (tag).m_Variant == m_Variant;
+}
+
+TextTag *VariantTextTag::Duplicate ()
+{
+	return new VariantTextTag (m_Variant);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Font strecth tag class
 
 StretchTextTag::StretchTextTag (PangoStretch stretch):
-	TextTag (Style),
+	TextTag (Stretch),
 	m_Stretch (stretch)
 {
 }
@@ -153,13 +239,29 @@ StretchTextTag::~StretchTextTag ()
 
 void StretchTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_stretch_new (m_Stretch);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool StretchTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Stretch)
+		return false;
+	return static_cast <StretchTextTag const&> (tag).m_Stretch == m_Stretch;
+}
+
+TextTag *StretchTextTag::Duplicate ()
+{
+	return new StretchTextTag (m_Stretch);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Font underline tag class
 
 UnderlineTextTag::UnderlineTextTag (PangoUnderline underline):
-	TextTag (Style),
+	TextTag (Underline),
 	m_Underline (underline)
 {
 }
@@ -170,6 +272,22 @@ UnderlineTextTag::~UnderlineTextTag ()
 
 void UnderlineTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_underline_new (m_Underline);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool UnderlineTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Underline)
+		return false;
+	return static_cast <UnderlineTextTag const&> (tag).m_Underline == m_Underline;
+}
+
+TextTag *UnderlineTextTag::Duplicate ()
+{
+	return new UnderlineTextTag (m_Underline);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -187,13 +305,29 @@ StrikethroughTextTag::~StrikethroughTextTag ()
 
 void StrikethroughTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_strikethrough_new (m_Strikethrough);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool StrikethroughTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Strikethrough)
+		return false;
+	return static_cast <StrikethroughTextTag const&> (tag).m_Strikethrough == m_Strikethrough;
+}
+
+TextTag *StrikethroughTextTag::Duplicate ()
+{
+	return new StrikethroughTextTag (m_Strikethrough);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Font foreground tag class
 
 ForegroundTextTag::ForegroundTextTag (GOColor color):
-	TextTag (Style),
+	TextTag (Foreground),
 	m_Color (color)
 {
 }
@@ -204,13 +338,29 @@ ForegroundTextTag::~ForegroundTextTag ()
 
 void ForegroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_foreground_new (UINT_RGBA_R (m_Color) * 0x101, UINT_RGBA_G (m_Color) * 0x101, UINT_RGBA_B (m_Color) * 0x101);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool ForegroundTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Foreground)
+		return false;
+	return static_cast <ForegroundTextTag const&> (tag).m_Color == m_Color;
+}
+
+TextTag *ForegroundTextTag::Duplicate ()
+{
+	return new ForegroundTextTag (m_Color);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Font background tag class
 
 BackgroundTextTag::BackgroundTextTag (GOColor color):
-	TextTag (Style),
+	TextTag (Background),
 	m_Color (color)
 {
 }
@@ -221,13 +371,29 @@ BackgroundTextTag::~BackgroundTextTag ()
 
 void BackgroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_background_new (UINT_RGBA_R (m_Color) * 0x101, UINT_RGBA_G (m_Color) * 0x101, UINT_RGBA_B (m_Color) * 0x101);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool BackgroundTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Background)
+		return false;
+	return static_cast <BackgroundTextTag const&> (tag).m_Color == m_Color;
+}
+
+TextTag *BackgroundTextTag::Duplicate ()
+{
+	return new BackgroundTextTag (m_Color);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Font rise tag class
 
 RiseTextTag::RiseTextTag (double rise):
-	TextTag (Style),
+	TextTag (Rise),
 	m_Rise (rise)
 {
 }
@@ -238,32 +404,49 @@ RiseTextTag::~RiseTextTag ()
 
 void RiseTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	PangoAttribute *attr = pango_attr_rise_new (m_Rise);
+	attr->start_index = start;
+	attr->end_index = end;
+	pango_attr_list_insert (l, attr);
+}
+
+bool RiseTextTag::operator== (TextTag const& tag)
+{
+	if (tag.GetTag () != Rise)
+		return false;
+	return static_cast <RiseTextTag const&> (tag).m_Rise == m_Rise;
+}
+
+TextTag *RiseTextTag::Duplicate ()
+{
+	return new RiseTextTag (m_Rise);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Subscript tag class
+// Position tag class (normal, subscript, superscript,...)
 
-SubscriptTextTag::SubscriptTextTag (double size, bool stacked):
-	TextTag (Subscript, TagPriorityLast),
+PositionTextTag::PositionTextTag (TextPosition position, double size, bool stacked):
+	TextTag (Position, TagPriorityLast),
+	m_Position (position),
 	m_Size (size),
 	m_Stacked (stacked)
 {
 }
 
-SubscriptTextTag::~SubscriptTextTag ()
+PositionTextTag::~PositionTextTag ()
 {
 }
 
-struct subscript_data {
+struct position_data {
 	guint start, end;
 	std::list <PangoAttribute *>extra;
 	std::map <unsigned, int> sizes, rises;
 };
 
 static gboolean
-subscript_filter (PangoAttribute *attr, gpointer _data)
+position_filter (PangoAttribute *attr, gpointer _data)
 {
-	struct subscript_data *data = static_cast <struct subscript_data *> (_data);
+	struct position_data *data = static_cast <struct position_data *> (_data);
 
 	if (attr->end_index <= data->start || attr->start_index >= data->end)
 		return false;
@@ -291,18 +474,31 @@ subscript_filter (PangoAttribute *attr, gpointer _data)
 	return false;
 }
 
-void SubscriptTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+void PositionTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
-	struct subscript_data data;
+	if (m_Position == Normalscript)
+		return;
+	struct position_data data;
 	data.start = start;
 	data.end = end;
 	data.sizes[start] = m_Size * PANGO_SCALE;
 	data.rises[start] = 0.;
-	pango_attr_list_filter (l, subscript_filter, NULL);
+	pango_attr_list_filter (l, position_filter, NULL);
 	// Build and apply the new attributes
 	std::map <unsigned, int>::iterator i, j, iend = data.sizes.end (), jend = data.rises.end (), nexti, nextj;
 	unsigned cur_start = start, cur_end;
 	j =  data.rises.begin ();
+	double rise_f = 1.;
+	switch (m_Position) {
+	case Subscript:
+		rise_f = -3.;
+		break;
+	case Superscript:
+		rise_f = +3/2.;
+		break;
+	case Normalscript:
+		break;
+	}
 	for (i =  data.sizes.begin (); i != iend; i++) {
 		nexti = i;
 		nexti++;
@@ -314,7 +510,7 @@ void SubscriptTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 			attr->start_index = cur_start;
 			attr->end_index = cur_end;
 			pango_attr_list_insert (l, attr);
-			attr = pango_attr_rise_new ((*j).second - (*i).second / 3);
+			attr = pango_attr_rise_new ((*j).second + (*i).second / rise_f);
 			attr->start_index = cur_start;
 			attr->end_index = cur_end;
 			pango_attr_list_insert (l, attr);
@@ -328,22 +524,16 @@ void SubscriptTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 		pango_attr_list_insert (l, *k);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// Superscript tag class
-
-SuperscriptTextTag::SuperscriptTextTag (double size, bool stacked):
-	TextTag (Subscript, TagPriorityLast),
-	m_Size (size),
-	m_Stacked (stacked)
+bool PositionTextTag::operator== (TextTag const& tag)
 {
+	if (tag.GetTag () != Position)
+		return false;
+	return static_cast <PositionTextTag const&> (tag).m_Position == m_Position;
 }
 
-SuperscriptTextTag::~SuperscriptTextTag ()
+TextTag *PositionTextTag::Duplicate ()
 {
-}
-
-void SuperscriptTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
-{
+	return new PositionTextTag (m_Position, m_Size, m_Stacked);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

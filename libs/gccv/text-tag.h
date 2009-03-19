@@ -25,6 +25,7 @@
 #ifndef GCCV_TEXT_TAG_H
 #define GCCV_TEXT_TAG_H
 
+#include "structs.h"
 #include <gcu/macros.h>
 #include <goffice/utils/go-color.h>
 #include <pango/pango.h>
@@ -43,15 +44,14 @@ typedef enum
 	Style,
 	Weight,
 	Variant,
-	Strecth,
+	Stretch,
 	Underline,
 	Strikethrough,
 	Foreground,
 	Background,
 	Rise,
-	Subscript,
-	Superscript,
-	Max
+	Position,
+	MaxTag
 } Tag;
 
 typedef enum
@@ -67,6 +67,9 @@ public:
 	virtual ~TextTag ();
 
 	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end) = 0;
+	virtual bool operator== (TextTag const& tag) = 0;
+	virtual TextTag *Duplicate () = 0;
+
 private:
 
 GCU_RO_PROP (Tag, Tag)
@@ -78,10 +81,13 @@ GCU_PROP (unsigned, EndIndex)
 class FamilyTextTag: public TextTag
 {
 public:
+	FamilyTextTag (std::string const &family);
 	FamilyTextTag (char const *family);
 	virtual ~FamilyTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	std::string m_Family;
@@ -93,7 +99,9 @@ public:
 	SizeTextTag (double size);
 	virtual ~SizeTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	double m_Size;
@@ -105,7 +113,9 @@ public:
 	StyleTextTag (PangoStyle style);
 	virtual ~StyleTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	PangoStyle m_Style;
@@ -117,7 +127,9 @@ public:
 	WeightTextTag (PangoWeight weight);
 	virtual ~WeightTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	PangoWeight m_Weight;
@@ -129,7 +141,9 @@ public:
 	VariantTextTag (PangoVariant variant);
 	virtual ~VariantTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	PangoVariant m_Variant;
@@ -141,7 +155,9 @@ public:
 	StretchTextTag (PangoStretch stretch);
 	virtual ~StretchTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	PangoStretch m_Stretch;
@@ -153,7 +169,9 @@ public:
 	UnderlineTextTag (PangoUnderline underline);
 	virtual ~UnderlineTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	PangoUnderline m_Underline;
@@ -165,7 +183,9 @@ public:
 	StrikethroughTextTag (bool strikethrough);
 	virtual ~StrikethroughTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	bool m_Strikethrough;
@@ -177,7 +197,9 @@ public:
 	ForegroundTextTag (GOColor m_Color);
 	virtual ~ForegroundTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	GOColor m_Color;
@@ -189,7 +211,9 @@ public:
 	BackgroundTextTag (GOColor m_Color);
 	virtual ~BackgroundTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	GOColor m_Color;
@@ -201,34 +225,26 @@ public:
 	RiseTextTag (double size);
 	virtual ~RiseTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
 	double m_Rise;
 };
 
-class SubscriptTextTag: public TextTag
+class PositionTextTag: public TextTag
 {
 public:
-	SubscriptTextTag (double size, bool stacked = false);
-	virtual ~SubscriptTextTag ();
+	PositionTextTag (TextPosition position, double size, bool stacked = false);
+	virtual ~PositionTextTag ();
 
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
-
-private:
-	double m_Size; // default size
-	bool m_Stacked;
-};
-
-class SuperscriptTextTag: public TextTag
-{
-public:
-	SuperscriptTextTag (double size, bool stacked = false);
-	virtual ~SuperscriptTextTag ();
-
-	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag);
+	TextTag *Duplicate ();
 
 private:
+	TextPosition m_Position;
 	double m_Size; // default size
 	bool m_Stacked;
 };

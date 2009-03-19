@@ -27,6 +27,7 @@
 #include "text-tag.h"
 #include <pango/pangocairo.h>
 #include <cairo-pdf.h>
+#include <vector>
 #include <cmath>
 
 namespace gccv {
@@ -189,6 +190,7 @@ Text::Text (Canvas *canvas, double x, double y):
 	m_BlinkSignal (0),
 	m_CursorVisible (false),
 	m_CurPos (0),
+	m_CurTags (NULL),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
 	m_LineOffset (0.), m_Width (0.), m_Height (0.)
@@ -206,6 +208,7 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 	m_BlinkSignal (0),
 	m_CursorVisible (false),
 	m_CurPos (0),
+	m_CurTags (NULL),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
 	m_LineOffset (0.), m_Width (0.), m_Height (0.)
@@ -227,6 +230,8 @@ Text::~Text ()
 		delete m_Tags.front ();
 		m_Tags.pop_front ();
 	}
+	if (m_CurTags)
+		delete m_CurTags;
 }
 
 void Text::SetPosition (double x, double y)
@@ -593,8 +598,8 @@ void Text::GetBounds (Rect *ink, Rect *logical)
 
 void Text::InsertTextTag (TextTag *tag)
 {
-	// we need to filter tags to avoid duplicates
-	// now, insert the new plugin
+	// FIXME: we need to filter tags to avoid duplicates
+	// now, insert the new tag
 	if (tag->GetPriority () == TagPriorityFirst)
 		m_Tags.push_front (tag);
 	else
@@ -616,23 +621,170 @@ void Text::InsertTextTag (TextTag *tag)
 	SetPosition (m_x, m_y);
 }
 
+void Text::SetCurTagList (TextTagList *l)
+{
+	if (m_CurTags)
+		delete m_CurTags;
+	m_CurTags = l;
+}
+
+void Text::ApplyCurTagsToSelection ()
+{
+}
+
 void Text::ReplaceText (std::string &str, int pos, unsigned length)
 {
-	unsigned l = m_Text.length ();
+	unsigned l = m_Text.length (), nl = str.length ();
 	if (pos == -1)
 		pos = m_CurPos;
 	else if (static_cast <unsigned> (pos) > l)
 		pos = l;
 	if (length > l - pos)
 		length = l - pos;
+	TextTagList::iterator i, iend = m_Tags.end ();
+	TextTagList new_tags, extra_tags;
 	if (length > 0) {
 		m_Text.erase (pos, length);
-		//TODO: manage atributes
+		std::vector <TextTag *> borders (MaxTag);
+		for (int n = 0; n < MaxTag; n++) 
+			borders[n] = NULL;
+		//TODO: manage attributes
+		//TODO: update runs
+		for (i = m_Tags.begin (); i != iend; i++) {
+			unsigned end = (*i)->GetEndIndex (), start = (*i)->GetStartIndex ();
+			if (end < static_cast <unsigned> (pos))
+				continue;
+			if (end == static_cast <unsigned> (pos)) {
+				if (borders[(*i)->GetTag ()] != NULL) {
+					if (*(*i) == *borders[(*i)->GetTag ()]) {
+						// merge the two tags
+						(*i)->SetEndIndex (borders[(*i)->GetTag ()]->GetEndIndex ());
+						extra_tags.push_front (borders[(*i)->GetTag ()]); // will be deleted
+					}
+				} else
+					borders[(*i)->GetTag ()] = *i;
+				continue;
+			}
+			if (end - static_cast <unsigned> (pos) > length)
+				end -= length;
+			else
+				end = static_cast <unsigned> (pos);
+			(*i)->SetEndIndex (end);
+			if (start < static_cast <unsigned> (pos))
+				continue;
+			if (start == static_cast <unsigned> (pos)) {
+				if (end == static_cast <unsigned> (pos)) {
+					extra_tags.push_front (*i); // will be deleted
+					continue;
+				}
+				if (borders[(*i)->GetTag ()] != NULL) {
+					if (*(*i) == *borders[(*i)->GetTag ()]) {
+						// merge the two tags
+						(*i)->SetStartIndex (borders[(*i)->GetTag ()]->GetStartIndex ());
+						extra_tags.push_front (borders[(*i)->GetTag ()]); // will be deleted
+					}
+				} else
+					borders[(*i)->GetTag ()] = *i;
+				continue;
+			}
+			// if we are there, the tag must be translated
+			if (start - static_cast <unsigned> (pos) > length)
+				start -= length;
+			else
+				start = static_cast <unsigned> (pos);
+			if (start >= end) { // == should be enough
+				extra_tags.push_front (*i); // will be deleted
+				continue;
+			}
+			(*i)->SetStartIndex (start);
+			if (start == static_cast <unsigned> (pos) || end == static_cast <unsigned> (pos)) {
+				if (borders[(*i)->GetTag ()] != NULL) {
+					if (*(*i) == *borders[(*i)->GetTag ()]) {
+						// merge the two tags
+						if (start == static_cast <unsigned> (pos))
+							(*i)->SetStartIndex (borders[(*i)->GetTag ()]->GetStartIndex ());
+						else
+							(*i)->SetEndIndex (borders[(*i)->GetTag ()]->GetStartIndex ());
+						extra_tags.push_front (borders[(*i)->GetTag ()]); // will be deleted
+					}
+				} else
+					borders[(*i)->GetTag ()] = *i;
+			}
+		}
+		// now delete extra tags
+		iend = extra_tags.end ();
+		for (i = extra_tags.begin (); i != iend; i++) {
+			m_Tags.remove (*i);
+			delete (*i);
+		}
+		extra_tags.clear ();
+		iend = m_Tags.end ();
+	}
+	if (nl == 0) {
+		pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks and update runs
+		m_Runs.front ()->m_Length = m_Text.length ();
+		RebuildAttributes ();
+		m_CurPos = pos;
+		SetPosition (m_x, m_y);
+		//TODO: update attribute list
+		return;
 	}
 	m_Text.insert (pos, str);
-	//TODO: manage atributes
-	pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks
+	TextTagList::iterator j, jend = m_CurTags->end ();
+	for (j = m_CurTags->begin (); j != jend; j++)
+		extra_tags.push_front (*j);
+	for (i = m_Tags.begin (); i != iend; i++) {
+		if ((*i)->GetEndIndex () < static_cast <unsigned> (pos))
+			continue;
+		if ((*i)->GetStartIndex () > static_cast <unsigned> (pos)) {
+			(*i)->SetStartIndex ((*i)->GetStartIndex () + nl);
+			(*i)->SetEndIndex ((*i)->GetEndIndex () + nl);
+		}
+		for (j = m_CurTags->begin (); j != jend; j++) {
+			if ((*i)->GetTag () != (*j)->GetTag ())
+				continue;
+			// now let's see if it is the same tag or not
+			if (*(*i) == *(*j)) {
+				// just merge them
+				(*i)->SetEndIndex ((*i)->GetEndIndex () + nl);
+				extra_tags.remove (*j);
+			} else if ((*i)->GetStartIndex () < static_cast <unsigned> (pos) && (*i)->GetEndIndex () > static_cast <unsigned> (pos)) {
+				TextTag *tag = (*i)->Duplicate ();
+				tag->SetStartIndex (pos + nl);
+				tag->SetEndIndex ((*i)->GetEndIndex () + nl);
+				(*i)->SetEndIndex (pos);
+				new_tags.push_front (tag);
+			} else if ((*i)->GetStartIndex () == static_cast <unsigned> (pos)) {
+				(*i)->SetStartIndex ((*i)->GetStartIndex () + nl);
+				(*i)->SetEndIndex ((*i)->GetEndIndex () + nl);
+			}
+			break; // m_CurTags should not have more than one tag of each category
+		}
+	}
+	// now add all new tags to the list
+	// first those from new_tags:
+	iend = new_tags.end ();
+	for (i = new_tags.begin (); i != iend; i++)
+		if ((*i)->GetPriority () == TagPriorityFirst)
+			m_Tags.push_front (*i);
+		else
+			m_Tags.push_back (*i);
+	new_tags.clear (); // avoid destroying the tags
+	
+	iend = extra_tags.end ();
+	for (i = extra_tags.begin (); i != iend; i++) {
+		TextTag *tag = (*i)->Duplicate ();
+		tag->SetStartIndex (pos);
+		tag->SetEndIndex (pos + nl);
+		if (tag->GetPriority () == TagPriorityFirst)
+			m_Tags.push_front (tag);
+		else
+			m_Tags.push_back (tag);
+	}
+	extra_tags.clear (); // avoid destroying the current tags
+	pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks and update runs
 	m_Runs.front ()->m_Length = m_Text.length ();
+	RebuildAttributes ();
 	m_CurPos = pos + str.length ();
 	SetPosition (m_x, m_y);
 }
@@ -726,6 +878,13 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		break;
 	case GDK_BackSpace: {
 		/* TODO: write this code */
+		if (m_CurPos == 0)
+			break;
+		char const* s = m_Text.c_str ();
+		char *p = g_utf8_prev_char (s + m_CurPos);
+		int new_pos = p - s;
+		std::string st = "";
+		ReplaceText (st, new_pos, m_CurPos - new_pos);
 		break;
 	}
 	case GDK_k:
@@ -750,6 +909,26 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		break;
 	}
 	return true;
+}
+
+void Text::RebuildAttributes ()
+{
+	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
+	TextTagList::iterator tag, end_tag = m_Tags.end ();
+	for (run = m_Runs.begin (); run != end_run; run++) {
+		PangoAttrList *l = pango_attr_list_new ();
+		for (tag = m_Tags.begin (); tag != end_tag; tag++) {
+			if ((*tag)->GetEndIndex () <= (*run)->m_Index || (*tag)->GetStartIndex () >= (*run)->m_Index + (*run)->m_Length)
+				continue;
+			unsigned start = ((*tag)->GetStartIndex () > (*run)->m_Index)? (*tag)->GetStartIndex () - (*run)->m_Index: 0;
+			unsigned end = ((*tag)->GetEndIndex () < (*run)->m_Index + (*run)->m_Length)? (*tag)->GetEndIndex () - (*run)->m_Index: (*run)->m_Length;
+			(*tag)->Filter (l, start, end);
+		}
+		pango_layout_set_attributes ((*run)->m_Layout, l);
+		pango_attr_list_unref (l);
+	}
+	// force reposition and redraw
+	SetPosition (m_x, m_y);
 }
 
 }

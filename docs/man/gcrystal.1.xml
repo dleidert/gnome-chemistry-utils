@@ -76,7 +76,7 @@
 		<cmdsynopsis>
 			<command>&dhpackage;</command>
 			<arg choice="opt" rep="repeat"><option>OPTION(S)</option></arg>
-			<arg choice="opt" rep="norepeat"><replaceable>FILE</replaceable></arg>
+			<arg choice="opt" rep="repeat"><replaceable>FILE</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 	<refsect1 id="gcrystal_1_description">

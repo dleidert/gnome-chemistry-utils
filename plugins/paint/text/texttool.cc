@@ -126,6 +126,7 @@ gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 	m_Rise = 0;
 	m_Color = RGBA_BLACK;
 	m_SelSignal = 0;
+	m_Position = gccv::Normalscript;
 }
 
 gcpTextTool::~gcpTextTool ()
@@ -227,7 +228,9 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 					return true;
 				case GDK_plus:
 				case GDK_dead_circumflex:
-					if (m_Rise == 0) {
+					m_Position = (m_Position == gccv::Superscript)? gccv::Normalscript: gccv::Superscript;
+					BuildTagsList ();
+/*					if (m_Rise == 0) {
 						m_Size = m_Size * 2 / 3;
 						m_Rise = m_Size / PANGO_SCALE;
 					} else if (m_Rise < 0)
@@ -240,11 +243,13 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 					gtk_spin_button_set_value (m_RiseButton, m_Rise);
 					m_Rise *= PANGO_SCALE;
 					g_signal_handler_unblock (m_RiseButton, m_RiseSignal);
-					SetSizeFull (true);
+					SetSizeFull (true);*/
 					return true;
 				case GDK_equal:
 				case GDK_underscore:
-					if (m_Rise == 0) {
+					m_Position = (m_Position == gccv::Subscript)? gccv::Normalscript: gccv::Subscript;
+					BuildTagsList ();
+/*					if (m_Rise == 0) {
 						m_Size = m_Size * 2 / 3;
 						m_Rise = - m_Size / PANGO_SCALE / 2;
 					} else if (m_Rise > 0)
@@ -257,7 +262,7 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 					gtk_spin_button_set_value (m_RiseButton, m_Rise);
 					m_Rise *= PANGO_SCALE;
 					g_signal_handler_unblock (m_RiseButton, m_RiseSignal);
-					SetSizeFull (true);
+					SetSizeFull (true);*/
 					return true;
 				case GDK_space: {
 					gccv::Text *saved = m_Active;
@@ -714,7 +719,8 @@ void gcpTextTool::BuildTagsList ()
 	l->push_front (new gccv::StrikethroughTextTag (m_Strikethrough));
 	l->push_front (new gccv::RiseTextTag (m_Rise));
 	l->push_front (new gccv::ForegroundTextTag (m_Color));
-//	gnome_canvas_pango_set_insert_attrs (m_Active, l);
+	l->push_front (new gccv::PositionTextTag (m_Position, m_Size));
+	m_Active->SetCurTagList (l);
 	m_Dirty = false;
 	if (m_pView)
 		gtk_window_present (m_pView->GetDoc ()->GetWindow ()->GetWindow ());

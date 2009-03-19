@@ -51,6 +51,7 @@ private:	\
 class TextPrivate;
 class TextRun;
 class TextTag;
+class TextTagList;
 
 class Text: public Rectangle
 {
@@ -70,13 +71,17 @@ public:
 
 	void InsertTextTag (TextTag *tag);
 
+	void SetCurTagList (TextTagList *l);
+
+	void ApplyCurTagsToSelection ();
+
 /*!
 @param str the text to insert
 @param pos the insertion position
 @param length the length (in bytes) of the substring to replace
 
 Replaces (or inserts if \a length is nul) text in the text item. If position is
--1, the text will be inserted at the current cursor position. Tne cursor will
+-1, the text will be inserted at the current cursor position. The cursor will
 be moved to the end of the inserted text.
 */
 	void ReplaceText (std::string &str, int pos, unsigned length);
@@ -92,7 +97,10 @@ be moved to the end of the inserted text.
 	// static methods
 	static PangoContext *GetContext ();
 
-unsigned GetDefaultFontSize () { return (m_FontDesc)? (double) pango_font_description_get_size (m_FontDesc) / PANGO_SCALE: 0; }
+	unsigned GetDefaultFontSize () { return (m_FontDesc)? (double) pango_font_description_get_size (m_FontDesc) / PANGO_SCALE: 0; }
+
+private:
+	void RebuildAttributes ();
 
 private:
 	double m_x, m_y;
@@ -104,6 +112,7 @@ private:
 	std::string m_Text;
 	GtkIMContext *m_ImContext;
 	PangoFontDescription *m_FontDesc;
+	TextTagList *m_CurTags;
 
 
 GCCV_TEXT_PROP (double, Padding)

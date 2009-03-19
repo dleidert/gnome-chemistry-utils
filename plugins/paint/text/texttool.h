@@ -25,6 +25,7 @@
 #ifndef GCHEMPAINT_TEXT_TOOL_H
 #define GCHEMPAINT_TEXT_TOOL_H
 
+#include <gccv/structs.h>
 #include <gcp/tool.h>
 #include <gcu/macros.h>
 #include <goffice/gtk/go-color-selector.h>
@@ -110,6 +111,7 @@ GCU_PROP (PangoUnderline, Underline)
 GCU_PROP (int, Size)
 GCU_PROP (int, Rise)
 GCU_PROP (bool, Strikethrough)
+GCU_PROP (gccv::TextPosition, Position)
 GCU_PROP (GOColor, Color);
 };
 

@@ -53,6 +53,12 @@ typedef enum {
 	ArrowHeadRight,
 } ArrowHeads;
 
+typedef enum {
+	Normalscript,
+	Subscript,
+	Superscript
+} TextPosition;
+
 }
 
 #endif	//	 GCCV_RECTANGLE_H

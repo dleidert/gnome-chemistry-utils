@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2009-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/structs.h: add a new TextPosition enum.
+	* libs/gccv/text-tag.cc: make things mostly work.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.cc: start suporting rich text again.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/atom.cc: adapt to gccv API changes.
+	* plugins/paint/text/texttool.cc: ditto and partly reimplement.
+	* plugins/paint/text/texttool.h: ditto.
+
 2009-03-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/theme.cc: fixed an issue related to file themes.
 

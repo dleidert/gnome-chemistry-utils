@@ -70,17 +70,19 @@
 	</refmeta>
 	<refnamediv>
 		<refname>&dhpackage;</refname>
-		<refpurpose>...</refpurpose>
+		<refpurpose>a small spectrum viewer application</refpurpose>
 	</refnamediv>
 	<refsynopsisdiv>
 		<cmdsynopsis>
 			<command>&dhpackage;</command>
 			<arg choice="opt" rep="repeat"><option>OPTION(S)</option></arg>
+			<arg choice="opt" rep="repeat"><replaceable>FILE</replaceable></arg>
 		</cmdsynopsis>
 	</refsynopsisdiv>
 	<refsect1 id="gspectrum_1_description">
 		<title>DESCRIPTION</title>
-		<para><command>&dhpackage;</command> ....</para>
+		<para><command>&dhpackage;</command> is a simple spectrum visualizer. It is only able to display files
+		in the JCAMP-DX format.</para>
 	</refsect1>
 	<refsect1 id="gspectrum_1_options">
 		<title>OPTIONS</title>

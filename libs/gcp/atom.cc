@@ -1961,7 +1961,7 @@ void Atom::AddItem ()
 			text->SetFontDescription (view->GetPangoFontDesc ());
 			text->SetText (hs.c_str ());
 			if (n >1) {
-				gccv::TextTag *tag = new gccv::SubscriptTextTag (text->GetDefaultFontSize ());
+				gccv::TextTag *tag = new gccv::PositionTextTag (gccv::Subscript, text->GetDefaultFontSize ());
 				tag->SetStartIndex (1);
 				tag->SetEndIndex (hs.length ());
 				text->InsertTextTag (tag);
