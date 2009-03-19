@@ -9,7 +9,7 @@ Version 0.10.4
 		* Fixed various build issues (Daniel Leidert).
 		* Fixed compilation issues with gcc-4.4. [#25628]
 		* Do not call exit from a library. [#25686]
-		* Do not hav unused direct shlib dependency. [#20617]
+		* Do not have unused direct shlib dependency. [#20617]
 		* New zh_TW translation (thanks to I-Yuan Chiang and his group).
 
 Version 0.10.3
