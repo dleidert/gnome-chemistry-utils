@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: fixed sub/superscript support.
+
 2009-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/man/gchem3d.1: updated man page.
 	* docs/man/gcrystal.1: ditto.

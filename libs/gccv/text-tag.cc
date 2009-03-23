@@ -447,15 +447,16 @@ static gboolean
 position_filter (PangoAttribute *attr, gpointer _data)
 {
 	struct position_data *data = static_cast <struct position_data *> (_data);
+	int start = MAX (data->start, attr->start_index);
 
 	if (attr->end_index <= data->start || attr->start_index >= data->end)
 		return false;
 	switch (attr->klass->type) {
 	case PANGO_ATTR_SIZE:
-		data->sizes[attr->start_index] = reinterpret_cast <PangoAttrSize *> (attr)->size;
+		data->sizes[start] = reinterpret_cast <PangoAttrSize *> (attr)->size;
 		break;
 	case PANGO_ATTR_RISE:
-		data->rises[attr->start_index] = reinterpret_cast <PangoAttrInt *> (attr)->value;
+		data->rises[start] = reinterpret_cast <PangoAttrInt *> (attr)->value;
 		break;
 	default:
 		return false;
@@ -483,7 +484,7 @@ void PositionTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	data.end = end;
 	data.sizes[start] = m_Size * PANGO_SCALE;
 	data.rises[start] = 0.;
-	pango_attr_list_filter (l, position_filter, NULL);
+	pango_attr_list_filter (l, position_filter, &data);
 	// Build and apply the new attributes
 	std::map <unsigned, int>::iterator i, j, iend = data.sizes.end (), jend = data.rises.end (), nexti, nextj;
 	unsigned cur_start = start, cur_end;
