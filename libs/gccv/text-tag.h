@@ -68,7 +68,7 @@ public:
 
 	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end) = 0;
 	virtual bool operator== (TextTag const& tag) = 0;
-	virtual TextTag *Duplicate () = 0;
+	virtual TextTag *Duplicate () const = 0;
 
 private:
 
@@ -87,7 +87,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	std::string m_Family;
@@ -101,7 +101,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	double m_Size;
@@ -115,7 +115,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	PangoStyle m_Style;
@@ -129,7 +129,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	PangoWeight m_Weight;
@@ -143,7 +143,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	PangoVariant m_Variant;
@@ -157,7 +157,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	PangoStretch m_Stretch;
@@ -171,7 +171,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	PangoUnderline m_Underline;
@@ -185,7 +185,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	bool m_Strikethrough;
@@ -199,7 +199,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	GOColor m_Color;
@@ -213,7 +213,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	GOColor m_Color;
@@ -227,7 +227,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	double m_Rise;
@@ -241,7 +241,7 @@ public:
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
-	TextTag *Duplicate ();
+	TextTag *Duplicate () const;
 
 private:
 	TextPosition m_Position;

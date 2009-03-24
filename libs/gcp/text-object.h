@@ -28,6 +28,7 @@
 #include <gcu/object.h>
 #include <gcu/macros.h>
 #include <gccv/structs.h>
+#include <gccv/text-tag.h>
 #include <pango/pango-layout.h>
 #include <string>
 
@@ -187,20 +188,6 @@ the selection.
 */
 	bool m_RealSave;
 
-/*!\var m_Layout
-The PangoLayout associated with the object.
-*/
-/*!\fn GetLayout
-@return the PangoLayout for this object.
-*/
-GCU_PROT_PROP (PangoLayout*, Layout);
-/*!\var m_AttrList
-The PangoAttrList associated to the text.
-*/
-/*!\fn GetAttrList
-@return the current attributes list.
-*/
-GCU_PROT_PROP (PangoAttrList*, AttrList);
 /*!\var m_Anchor
 The GtkAnchor used for the text object. Default is GTK_ANCHOR_W. When
 GTK_ANCHOR_W, GTK_ANCHOR_CENTER, or GTK_ANCHOR_E is used, the base of the
@@ -210,6 +197,13 @@ first line is used for vertical alignment.
 @return the current GtkAnchor.
 */
 GCU_PROT_PROP (GtkAnchorType, Anchor);
+/*!\var m_TagList
+The tags list associated with the object.
+*/
+/*!\fn GetTagList
+@return a copy of the tags list for this object.
+*/
+GCU_PROT_PROP (gccv::TextTagList, TagList);
 };
 
 }	// namespace gcp

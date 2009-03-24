@@ -63,6 +63,7 @@ public:
 
 	void SetPosition (double x, double y);
 	void SetText (char const *text);
+	void SetText (std::string const &text);
 	void SetFontDescription (PangoFontDescription *desc);
 	void SetEditing (bool editing);
 
@@ -70,6 +71,7 @@ public:
 	char const *GetText ();
 
 	void InsertTextTag (TextTag *tag);
+	std::list <TextTag *> const *GetTags () {return &m_Tags;}
 
 	void SetCurTagList (TextTagList *l);
 

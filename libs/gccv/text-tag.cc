@@ -87,7 +87,7 @@ bool FamilyTextTag::operator== (TextTag const& tag)
 	return static_cast <FamilyTextTag const&> (tag).m_Family == m_Family;
 }
 
-TextTag *FamilyTextTag::Duplicate ()
+TextTag *FamilyTextTag::Duplicate () const
 {
 	return new FamilyTextTag (m_Family);
 }
@@ -120,7 +120,7 @@ bool SizeTextTag::operator== (TextTag const& tag)
 	return static_cast <SizeTextTag const&> (tag).m_Size == m_Size;
 }
 
-TextTag *SizeTextTag::Duplicate ()
+TextTag *SizeTextTag::Duplicate () const
 {
 	return new SizeTextTag (m_Size);
 }
@@ -153,7 +153,7 @@ bool StyleTextTag::operator== (TextTag const& tag)
 	return static_cast <StyleTextTag const&> (tag).m_Style == m_Style;
 }
 
-TextTag *StyleTextTag::Duplicate ()
+TextTag *StyleTextTag::Duplicate () const
 {
 	return new StyleTextTag (m_Style);
 }
@@ -186,7 +186,7 @@ bool WeightTextTag::operator== (TextTag const& tag)
 	return static_cast <WeightTextTag const&> (tag).m_Weight == m_Weight;
 }
 
-TextTag *WeightTextTag::Duplicate ()
+TextTag *WeightTextTag::Duplicate () const
 {
 	return new WeightTextTag (m_Weight);
 }
@@ -219,7 +219,7 @@ bool VariantTextTag::operator== (TextTag const& tag)
 	return static_cast <VariantTextTag const&> (tag).m_Variant == m_Variant;
 }
 
-TextTag *VariantTextTag::Duplicate ()
+TextTag *VariantTextTag::Duplicate () const
 {
 	return new VariantTextTag (m_Variant);
 }
@@ -252,7 +252,7 @@ bool StretchTextTag::operator== (TextTag const& tag)
 	return static_cast <StretchTextTag const&> (tag).m_Stretch == m_Stretch;
 }
 
-TextTag *StretchTextTag::Duplicate ()
+TextTag *StretchTextTag::Duplicate () const
 {
 	return new StretchTextTag (m_Stretch);
 }
@@ -285,7 +285,7 @@ bool UnderlineTextTag::operator== (TextTag const& tag)
 	return static_cast <UnderlineTextTag const&> (tag).m_Underline == m_Underline;
 }
 
-TextTag *UnderlineTextTag::Duplicate ()
+TextTag *UnderlineTextTag::Duplicate () const
 {
 	return new UnderlineTextTag (m_Underline);
 }
@@ -318,7 +318,7 @@ bool StrikethroughTextTag::operator== (TextTag const& tag)
 	return static_cast <StrikethroughTextTag const&> (tag).m_Strikethrough == m_Strikethrough;
 }
 
-TextTag *StrikethroughTextTag::Duplicate ()
+TextTag *StrikethroughTextTag::Duplicate () const
 {
 	return new StrikethroughTextTag (m_Strikethrough);
 }
@@ -351,7 +351,7 @@ bool ForegroundTextTag::operator== (TextTag const& tag)
 	return static_cast <ForegroundTextTag const&> (tag).m_Color == m_Color;
 }
 
-TextTag *ForegroundTextTag::Duplicate ()
+TextTag *ForegroundTextTag::Duplicate () const
 {
 	return new ForegroundTextTag (m_Color);
 }
@@ -384,7 +384,7 @@ bool BackgroundTextTag::operator== (TextTag const& tag)
 	return static_cast <BackgroundTextTag const&> (tag).m_Color == m_Color;
 }
 
-TextTag *BackgroundTextTag::Duplicate ()
+TextTag *BackgroundTextTag::Duplicate () const
 {
 	return new BackgroundTextTag (m_Color);
 }
@@ -417,7 +417,7 @@ bool RiseTextTag::operator== (TextTag const& tag)
 	return static_cast <RiseTextTag const&> (tag).m_Rise == m_Rise;
 }
 
-TextTag *RiseTextTag::Duplicate ()
+TextTag *RiseTextTag::Duplicate () const
 {
 	return new RiseTextTag (m_Rise);
 }
@@ -532,7 +532,7 @@ bool PositionTextTag::operator== (TextTag const& tag)
 	return static_cast <PositionTextTag const&> (tag).m_Position == m_Position;
 }
 
-TextTag *PositionTextTag::Duplicate ()
+TextTag *PositionTextTag::Duplicate () const
 {
 	return new PositionTextTag (m_Position, m_Size, m_Stacked);
 }

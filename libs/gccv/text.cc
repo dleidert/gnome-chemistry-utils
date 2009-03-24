@@ -461,6 +461,14 @@ void Text::SetText (char const *text)
 	SetPosition (m_x, m_y);
 }
 
+void Text::SetText (std::string const &text)
+{
+	m_Text = text;
+	pango_layout_set_text (m_Runs.front ()->m_Layout, text.c_str (), -1); // FIXME: parse for line breaks
+	m_Runs.front ()->m_Length = g_utf8_strlen (text.c_str (), -1);
+	SetPosition (m_x, m_y);
+}
+
 char const *Text::GetText ()
 {
 	std::list <TextRun *>::iterator i = m_Runs.begin (), end = m_Runs.end ();

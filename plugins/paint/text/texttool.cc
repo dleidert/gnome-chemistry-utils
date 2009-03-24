@@ -510,7 +510,8 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 				pango_attr_list_insert (l, attr);
 				attr = pango_attr_size_new (pTheme->GetFontSize ());
 				pango_attr_list_insert (l, attr);
-//				gcp_pango_layout_replace_text (layout, start, end - start, buf.c_str (), l);
+// FIXME
+/*				gcp_pango_layout_replace_text (layout, start, end - start, buf.c_str (), l);
 				pango_attr_list_unref (l);
 				l = fragment->GetAttrList ();
 				struct FragState s;
@@ -519,7 +520,7 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 				pango_attr_list_filter (l, (PangoAttrFilterFunc) filter_fragment, &s);
 				delete fragment;
 				start += buf.length ();
-//				gnome_canvas_pango_set_selection_bounds (m_Active, start, start);
+				gnome_canvas_pango_set_selection_bounds (m_Active, start, start);*/
 			} else {
 				xmlFreeDoc (xml);
 				return false;
@@ -528,13 +529,13 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 			break;
 		}
 		case gcp::GCP_CLIPBOARD_UTF8_STRING: {
-			PangoAttrList *l = pango_attr_list_new ();
+/*			PangoAttrList *l = pango_attr_list_new ();
 //			gcp_pango_layout_replace_text (layout, start, end - start, (char const *) data->data, l);
-			pango_attr_list_unref (l);
+			pango_attr_list_unref (l);*/
 			break;
 		}
 		case gcp::GCP_CLIPBOARD_STRING: {
-			PangoAttrList *l = pango_attr_list_new ();
+//			PangoAttrList *l = pango_attr_list_new ();
 			if (!g_utf8_validate ((const char*) data->data, data->length, NULL)) {
 				gsize r, w;
 				gchar* newstr = g_locale_to_utf8 ((const char*) data->data, data->length, &r, &w, NULL);
@@ -542,7 +543,7 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 				g_free (newstr);
 			} else
 //				gcp_pango_layout_replace_text (layout, start, end - start, (char const *) data->data, l);
-			pango_attr_list_unref (l);
+//			pango_attr_list_unref (l);
 			break;
 		}
 	}

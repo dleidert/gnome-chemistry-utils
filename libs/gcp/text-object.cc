@@ -46,8 +46,6 @@ TextObject::TextObject (TypeId Type): Object (Type)
 	m_height = 15;
 	m_InsertOffset = -2;
 	m_bLoading = false;
-	m_Layout = NULL;
-	m_AttrList = NULL;
 	m_RealSave = true;
 	m_StartSel = m_EndSel = 0;
 }
@@ -61,15 +59,11 @@ TextObject::TextObject (double x, double y, TypeId Type): Object (Type)
 	m_height = 15;
 	m_InsertOffset = -2;
 	m_bLoading = false;
-	m_Layout = NULL;
-	m_AttrList = NULL;
 	m_StartSel = m_EndSel = 0;
 }
 
 TextObject::~TextObject ()
 {
-	if (m_AttrList)
-		pango_attr_list_unref (m_AttrList);;
 }
 
 xmlNodePtr TextObject::SaveSelected ()
@@ -90,10 +84,6 @@ xmlNodePtr TextObject::SaveSelected ()
 
 void TextObject::LoadSelected (xmlNodePtr node)
 {
-	pango_layout_set_text (m_Layout, "", 0);
-	PangoAttrList *l = pango_attr_list_new ();
-	pango_layout_set_attributes (m_Layout, l);
-	pango_attr_list_unref (l);
 	Load(node);
 	OnChanged (false);
 }

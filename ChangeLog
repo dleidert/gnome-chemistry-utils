@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2009-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: made the Duplicate method const.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.cc: add a few new methods.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/fragment.cc: ensure things compile by commenting out most
+	things.
+	* libs/gcp/reactant.cc: ensure things compile.
+	* libs/gcp/text-object.cc: removed m_Layouts and attributes, add tags.
+	* libs/gcp/text-object.h: ditto.
+	* libs/gcp/text.cc: reimplement loading.
+	* plugins/paint/text/texttool.cc: ensure things compile.
+
 2009-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: fixed sub/superscript support.
 

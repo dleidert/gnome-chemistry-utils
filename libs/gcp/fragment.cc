@@ -632,11 +632,11 @@ void Fragment::SetSelected (int state)
 
 xmlNodePtr Fragment::Save (xmlDocPtr xml) const
 {
-	const_cast <Fragment *> (this)->m_buf = pango_layout_get_text (m_Layout);
+/*	const_cast <Fragment *> (this)->m_buf = pango_layout_get_text (m_Layout);
 	if (m_RealSave && !const_cast <Fragment *> (this)->Validate ())
-		return NULL;
+		return NULL;*/
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "fragment", NULL);
-	if (m_buf.length ()) {
+/*	if (m_buf.length ()) {
 		if (!m_Atom->GetBondsNumber () || m_Atom->GetZ ()) {
 			if (!node)
 				return NULL;
@@ -657,7 +657,7 @@ xmlNodePtr Fragment::Save (xmlDocPtr xml) const
 				return NULL;
 			}
 		}
-	}
+	}*/
 	return (SaveNode (xml, node))? node: NULL;
 }
 
@@ -681,7 +681,7 @@ bool filter_func (PangoAttribute *attribute, struct FilterStruct *s)
 
 bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end) const
 {
-	xmlNodePtr child;
+/*	xmlNodePtr child;
 	struct FilterStruct s;
 	s.start = start;
 	s.end = end;
@@ -732,7 +732,7 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 	if (start < end) {
 		str.assign (m_buf, start, end - start);
 		xmlNodeAddContent (node, (const xmlChar*) str.c_str ());
-	}
+	}*/
 	return true;
 }
 
@@ -747,7 +747,7 @@ xmlNodePtr Fragment::SaveSelection (xmlDocPtr xml) const
 
 bool Fragment::Load (xmlNodePtr node)
 {
-	Document* pDoc = (Document*) GetDocument ();
+/*	Document* pDoc = (Document*) GetDocument ();
 	Theme *pTheme = pDoc->GetTheme ();
 	if (!TextObject::Load (node))
 		return false;
@@ -828,7 +828,7 @@ bool Fragment::Load (xmlNodePtr node)
 		pango_layout_set_attributes (m_Layout, m_AttrList);
 	}
 	AnalContent ();
-	m_bLoading = false;
+	m_bLoading = false;*/
 	return true;
 }
 
@@ -836,8 +836,8 @@ void Fragment::AnalContent ()
 {
 	if (!m_Atom->GetParent ())
 		AddChild (m_Atom);
-	unsigned end = (m_Layout)? strlen (pango_layout_get_text (m_Layout)): m_buf.length ();
-	AnalContent(0, end);
+//	unsigned end = (m_Layout)? strlen (pango_layout_get_text (m_Layout)): m_buf.length ();
+//	AnalContent(0, end);
 }
 
 typedef struct
@@ -860,7 +860,7 @@ static bool search_for_charge (PangoAttribute *attr, ChargeFindStruct *s)
 
 void Fragment::AnalContent (unsigned start, unsigned &end)
 {
-	Document* pDoc = (Document*) GetDocument ();
+/*	Document* pDoc = (Document*) GetDocument ();
 	if (!pDoc)
 		return;
 	Theme *pTheme = pDoc->GetTheme ();
@@ -984,17 +984,17 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 //						gcp_pango_layout_replace_text (m_Layout, s.index, s.end - s.index + 1, buf, l);
 						pango_attr_list_unref (l);
 						m_StartSel = m_EndSel = s.index + strlen (buf);
-						end += m_StartSel - start - 1;
+						end += m_StartSel - start - 1;*/
 /*						GnomeCanvasPango* text = pDoc->GetView ()->GetActiveRichText ();
 						gnome_canvas_pango_set_selection_bounds (text, m_StartSel, m_EndSel);*/
-						g_free (buf);
+/*						g_free (buf);
 					}
 				}
 			}
 		} else
 			Charge = false;
 		start++;
-	}
+	}*/
 }
 
 /*!
@@ -1018,7 +1018,7 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 	if ((x0 < 0.) || (x0 > m_length) || (y0 < 0.) || (y0 > m_height))
 		return NULL;
 	int index, cur, trailing;
-	pango_layout_xy_to_index (m_Layout, (int) (x0 * PANGO_SCALE), (int) (y0 * PANGO_SCALE), &index, &trailing);
+//	pango_layout_xy_to_index (m_Layout, (int) (x0 * PANGO_SCALE), (int) (y0 * PANGO_SCALE), &index, &trailing);
 	char c = m_buf[index];
 	cur = index;
 	while ((c >= 'a') && (c <= 'z') && cur >=0) {
@@ -1062,13 +1062,13 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 			AddChild (m_Atom);
 		}
 		m_x -= m_lbearing / pTheme->GetZoomFactor () ;
-		PangoRectangle rect;
+/*		PangoRectangle rect;
 		pango_layout_index_to_pos (m_Layout, index, &rect);
 		m_lbearing = rect.x / PANGO_SCALE;
 		pango_layout_index_to_pos (m_Layout, index + i, &rect);
 		m_lbearing += rect.x / PANGO_SCALE;
 		m_lbearing /=  2;
-		m_x += m_lbearing / pTheme->GetZoomFactor ();
+		m_x += m_lbearing / pTheme->GetZoomFactor ();*/
 		m_Atom->SetCoords(m_x, m_y);
 		return m_Atom;
 	}
@@ -1101,13 +1101,13 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 		m_BeginAtom = index;
 		m_EndAtom = trailing;
 		m_x -= m_lbearing / pTheme->GetZoomFactor () ;
-		PangoRectangle rect;
+	/*	PangoRectangle rect;
 		pango_layout_index_to_pos (m_Layout, index, &rect);
 		m_lbearing = rect.x / PANGO_SCALE;
 		pango_layout_index_to_pos (m_Layout, trailing, &rect);
 		m_lbearing += rect.x / PANGO_SCALE;
 		m_lbearing /=  2;
-		m_x += m_lbearing / pTheme->GetZoomFactor ();
+		m_x += m_lbearing / pTheme->GetZoomFactor ();*/
 		m_Atom->SetCoords(m_x, m_y);
 	}
 	
@@ -1137,7 +1137,7 @@ int Fragment::GetElementAtPos (unsigned start, unsigned &end)
 	int Z;
 	char text[4];
 	memset (text, 0, 4);
-	strncpy (text, ((m_Layout)?pango_layout_get_text ( m_Layout): m_buf.c_str ()) + start, 3);
+//	strncpy (text, ((m_Layout)?pango_layout_get_text ( m_Layout): m_buf.c_str ()) + start, 3);
 	for (unsigned i = strlen (text); i > 0; i--) {
 		text[i] = 0;
 		if ((Z = Element::Z (text))) {
@@ -1290,9 +1290,9 @@ bool Fragment::Validate ()
 	struct FilterStruct s;
 	s.start = 0;
 	s.end = m_buf.length ();
-	if (m_AttrList == NULL)
+/*	if (m_AttrList == NULL)
 		m_AttrList = pango_layout_get_attributes (m_Layout);
-	pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) filter_func, &s);
+	pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) filter_func, &s);*/
 	list<PangoAttribute*>::iterator i, iend = s.pal.end ();
 	for (i = s.pal.begin (); i != iend; i++) {
 		charge = m_buf.c_str () + (*i)->start_index;
@@ -1450,15 +1450,15 @@ bool Fragment::Analyze () {
 		m_Inversable = true;
 	}
 //	int valence = m_Atom->GetValence ();
-	if (m_AttrList != NULL)
+/*	if (m_AttrList != NULL)
 		pango_attr_list_unref (m_AttrList);
-	m_AttrList = pango_attr_list_new ();
+	m_AttrList = pango_attr_list_new ();*/
 	AnalContent ();
 	return true;
 }
 
 void Fragment::Update () {
-	if (m_Atom->GetBondsNumber () > 0 && m_Inversable) {
+	/*if (m_Atom->GetBondsNumber () > 0 && m_Inversable) {
 		map<gcu::Atom*, gcu::Bond*>::iterator i;
 		Bond *bond = reinterpret_cast <Bond *> (m_Atom->GetFirstBond (i));
 		double angle = bond->GetAngle2D (m_Atom);
@@ -1480,7 +1480,7 @@ void Fragment::Update () {
 			AnalContent ();
 		} else if (angle > 91. || angle < -91.) {
 		}
-	}
+	}*/
 }
 
 }	//	namespace gcp

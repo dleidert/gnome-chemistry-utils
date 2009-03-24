@@ -213,16 +213,16 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 			}
 		} else if ((n == 2) && Stoichiometry) {
 			// Just need to space the two children
-//			gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
 			pData->GetObjectBounds (Stoichiometry, &rect);
 			double x = rect.x1 / pTheme->GetZoomFactor () + pTheme->GetStoichiometryPadding ();
 			pData->GetObjectBounds (Child, &rect);
 			Child->Move (x - rect.x0 / pTheme->GetZoomFactor (), 0.);
-			PangoLayout *layout = ((TextObject*) Stoichiometry)->GetLayout ();
+// FIXME
+/*			PangoLayout *layout = ((TextObject*) Stoichiometry)->GetLayout ();
 			const char *txt = pango_layout_get_text (layout);
 			char *endptr;
 			int n = strtol (txt, &endptr, 10);
-			m_Stoich = (!*endptr)? n: 0;
+			m_Stoich = (!*endptr)? n: 0;*/
 		} else {
 			// Most probably child has been splitted
 			xmlNodePtr node = NULL;

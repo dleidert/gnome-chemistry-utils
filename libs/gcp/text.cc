@@ -330,6 +330,19 @@ bool filter_func (PangoAttribute *attribute, SaveStruct **cur_state)
 	return false;
 }
 
+static bool tag_order (gccv::TextTag *first, gccv::TextTag *last)
+{
+	if (first->GetStartIndex () < last->GetStartIndex ())
+		return true;
+	else if (first->GetStartIndex () > last->GetStartIndex ())
+		return false;
+	if (first->GetEndIndex () > last->GetEndIndex ())
+		return true;
+	else if (first->GetEndIndex () < last->GetEndIndex ())
+		return false;
+	return first->GetTag () < last->GetTag ();
+}
+
 xmlNodePtr Text::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "text", NULL);
@@ -355,15 +368,41 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) ((m_Align == PANGO_ALIGN_RIGHT)? "right": "center"));
 	unsigned i = 0;
 	SaveStruct *head = NULL, *cur;
-	const char *text = pango_layout_get_text (m_Layout);
-	PangoAttrList *l = pango_layout_get_attributes (m_Layout);
+	char const *text;
+	std::list <gccv::TextTag *> const *tags;
+	if (m_Item) {
+		gccv::Text *t = reinterpret_cast <gccv::Text *> (m_Item);
+		text = t->GetText ();
+		tags = t->GetTags ();
+	} else {
+		text = m_buf.c_str ();
+		tags = &m_TagList;
+	}
+	gccv::TextTagList tt; // the tags in this list will be destroyed on return
+	std::list <gccv::TextTag *>::const_iterator j, jend = tags->end ();
+	// duplicate the tags so that they can be sorted
+	for (j = tags->begin (); j != jend; j++) {
+		gccv::TextTag *tag = (*j)->Duplicate ();
+		tag->SetStartIndex ((*j)->GetStartIndex ());
+		tag->SetEndIndex ((*j)->GetEndIndex ());
+		tt.push_back (tag);
+	}
+	// sort the duplicated tags
+	tt.sort (tag_order);
+	// now save the text and tags
+	gccv::TextTagList::iterator k, kend = tt.end ();
+	for (k = tt.begin (); k != kend; k++)
+		;
+
+//	= pango_layout_get_text (m_Layout);
+/*	PangoAttrList *l = pango_layout_get_attributes (m_Layout);
 	pango_attr_list_filter (l, (PangoAttrFilterFunc) filter_func, &head);
 	cur = head;
 	while (cur) {
 		save_state (xml, node, text, cur, i, 0, 0, NULL, 0);
 		i = cur->attr->end_index;
 		cur = cur->next;
-	}
+	}*/
 	xmlNodeAddContent (node, (xmlChar*) text + i);
 	delete head;
 	return node;
@@ -391,7 +430,7 @@ xmlNodePtr Text::SaveSelection (xmlDocPtr xml) const
 	if (!node)
 		return NULL;
 	// get the text and attributes
-	const char *text = pango_layout_get_text (m_Layout);
+/*	const char *text = pango_layout_get_text (m_Layout);
 	PangoAttrList *l = pango_layout_get_attributes (m_Layout);
 	string selection (text + m_StartSel, m_EndSel - m_StartSel);
 	// make a new filtered attributes list
@@ -410,7 +449,7 @@ xmlNodePtr Text::SaveSelection (xmlDocPtr xml) const
 		cur = cur->next;
 	}
 	delete head;
-	pango_attr_list_unref (state.l);
+	pango_attr_list_unref (state.l);*/
 	return (TextObject::SaveNode (xml, node))? node: NULL;
 }
 
@@ -443,21 +482,20 @@ bool Text::Load (xmlNodePtr node)
 	xmlNodePtr child;
 	m_bLoading = true;
 	child = node->children;
-	if (m_AttrList)
-		pango_attr_list_unref (m_AttrList);
 	m_buf.clear ();
-	m_AttrList = pango_attr_list_new ();
 	unsigned pos = 0;
 	while (child) {
 		if (!LoadNode (child, pos, 1))
 			return false;
 		child = child->next;
 	}
-	if (m_Layout) {
-		pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
-		pango_layout_set_attributes (m_Layout, m_AttrList);
-		pango_attr_list_unref (m_AttrList);
-		m_AttrList = NULL;
+	if (m_Item) {
+		gccv::Text *text = reinterpret_cast <gccv::Text *> (m_Item);
+		text->SetText (m_buf.c_str ());
+		while (!m_TagList.empty ()) {
+			text->InsertTextTag (m_TagList.front ());
+			m_TagList.pop_front ();
+		}
 	}
 	m_bLoading = false;
 	return true;
@@ -467,7 +505,7 @@ bool Text::LoadSelection (xmlNodePtr node, unsigned pos)
 {
 	xmlNodePtr child;
 	m_bLoading = true;
-	m_buf = pango_layout_get_text (m_Layout);
+/*	m_buf = pango_layout_get_text (m_Layout);
 	m_AttrList = pango_layout_get_attributes (m_Layout);
 	child = node->children;
 	while (child) {
@@ -477,15 +515,15 @@ bool Text::LoadSelection (xmlNodePtr node, unsigned pos)
 	}
 	pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
 	pango_layout_set_attributes (m_Layout, m_AttrList);
-/*	GtkWidget* pWidget = dynamic_cast<Document*> (GetDocument ())->GetWidget ();
+	GtkWidget* pWidget = dynamic_cast<Document*> (GetDocument ())->GetWidget ();
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 	GnomeCanvasGroup *group = pData->Items[this];
 	if (group) {
 		GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "text"));
 		gnome_canvas_pango_set_selection_bounds (PangoItem, pos, pos);
-	}	*/
+	}	
 	m_bLoading = false;
-	OnChanged (true);
+	OnChanged (true);*/
 	return true;
 }
 
@@ -506,28 +544,24 @@ static bool on_insert (PangoAttribute *attr, struct limits *l)
 bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 {
 	char* buf;
-	PangoAttribute *Attr = NULL, *Attr0 = NULL;
+	gccv::TextTag *tag = NULL, *tag0 = NULL;
 	unsigned start = pos;
 	if (!strcmp ((const char*) node->name, "text")) {
 		if (!level)
 			return true;
 		buf = (char*) xmlNodeGetContent (node);
 		if (buf) {
-			struct limits l;
-			l.start = start;
 			pos += strlen (buf);
-			l.length = pos - start;
-			pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) on_insert, &l);
 			m_buf.insert (start, buf);
 			xmlFree (buf);
 		}
 	} else if (!strcmp ((const char*) node->name, "br")) {
-		m_buf.insert (pos, "\n");
+/* FIXME		m_buf.insert (pos, "\n");
 		pos++;
 		struct limits l;
 		l.start = start;
 		l.length = 1;
-		pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) on_insert, &l);
+		pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) on_insert, &l);*/
 	} else if (!strcmp ((const char*) node->name, "b")) {
 		PangoWeight weight = PANGO_WEIGHT_BOLD;
 		buf = (char*) xmlGetProp(node, (xmlChar*) "weight");
@@ -535,7 +569,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 			weight = (PangoWeight) (strtol (buf, NULL, 10) * 100);
 			xmlFree (buf);
 		}
-		Attr = pango_attr_weight_new (weight);
+		tag = new gccv::WeightTextTag (weight);
 	} else if (!strcmp ((const char*) node->name, "i")) {
 		PangoStyle style = PANGO_STYLE_ITALIC;
 		buf = (char*) xmlGetProp(node, (xmlChar*) "style");
@@ -544,7 +578,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 				style = PANGO_STYLE_OBLIQUE;
 			xmlFree (buf);
 		}
-		Attr = pango_attr_style_new (style);
+		tag = new gccv::StyleTextTag (style);
 	} else if (!strcmp ((const char*) node->name, "u")) {
 		PangoUnderline underline = PANGO_UNDERLINE_SINGLE;
 		buf = (char*) xmlGetProp(node, (xmlChar*) "type");
@@ -557,35 +591,35 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 				underline = PANGO_UNDERLINE_ERROR;
 			xmlFree (buf);
 		}
-		Attr = pango_attr_underline_new (underline);
+		tag = new gccv::UnderlineTextTag (underline);
 	} else if (!strcmp ((const char*) node->name, "s"))
-		Attr = pango_attr_strikethrough_new (true);
+		tag = new gccv::StrikethroughTextTag (true);
 	else if (!strcmp ((const char*) node->name, "sub")) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "height");
-		if (!buf)
-			return false;
-		int rise = -strtoul (buf, NULL, 10) * PANGO_SCALE;
-		xmlFree (buf);
-		Attr = pango_attr_rise_new (rise);
+		if (buf) {
+			int rise = -strtoul (buf, NULL, 10) * PANGO_SCALE;
+			xmlFree (buf);
+			tag = new gccv::RiseTextTag (rise);
+		}
 	} else if (!strcmp ((const char*) node->name, "sup")) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "height");
-		if (!buf)
-			return false;
-		int rise = strtoul (buf, NULL, 10) * PANGO_SCALE;
-		xmlFree (buf);
-		Attr = pango_attr_rise_new (rise);
+		if (buf) {
+			int rise = strtoul (buf, NULL, 10) * PANGO_SCALE;
+			xmlFree (buf);
+			tag = new gccv::RiseTextTag (rise);
+		}
 	} else if (!strcmp ((const char*) node->name, "font")) {
 		char* TagName = (char*) xmlGetProp (node, (xmlChar*) "name");
 		if (!TagName)
 			return false;
-		PangoFontDescription* pfd =pango_font_description_from_string (TagName);
-		Attr = pango_attr_family_new (pango_font_description_get_family (pfd));
+		PangoFontDescription* pfd = pango_font_description_from_string (TagName);
+		tag = new gccv::FamilyTextTag (pango_font_description_get_family (pfd));
 		cur_size = pango_font_description_get_size (pfd);
-		Attr0 = pango_attr_size_new (cur_size);
+		tag0 = new gccv::SizeTextTag (cur_size);
 		pango_font_description_free (pfd);
 		xmlFree (TagName);
 	} else if (!strcmp ((const char*) node->name, "small-caps"))
-		Attr = pango_attr_variant_new (PANGO_VARIANT_SMALL_CAPS);
+		tag = new gccv::VariantTextTag (PANGO_VARIANT_SMALL_CAPS);
 	else if (!strcmp ((const char*) node->name, "stretch")) {
 		buf = (char*) xmlGetProp(node, (xmlChar*) "type");
 		if (!buf)
@@ -608,7 +642,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 		else if(!strcmp (buf, "ultra-expanded"))
 			stretch = PANGO_STRETCH_ULTRA_EXPANDED;
 		xmlFree (buf);
-		Attr = pango_attr_stretch_new (stretch);
+		tag = new gccv::StretchTextTag (stretch);
 	} else if (!strcmp ((const char*) node->name, "fore")) {
 		guint16 red, green, blue;
 		buf = (char*) xmlGetProp(node, (xmlChar*) "red");
@@ -626,7 +660,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 			return false;
 		blue = (guint16) (strtod (buf, NULL) * 0xffff);
 		xmlFree (buf);
-		Attr = pango_attr_foreground_new (red, green, blue);
+		tag = new gccv::ForegroundTextTag (RGB_TO_UINT (red, green, blue));
 	} else
 		return true;
 	xmlNodePtr child = node->children;
@@ -635,15 +669,21 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 			return false;
 		child = child->next;
 	}
-	if (Attr) {
-		Attr->start_index = start;
-		Attr->end_index = pos;
-		pango_attr_list_change (m_AttrList, Attr);
+	if (tag) {
+		tag->SetStartIndex (start);
+		tag->SetEndIndex (pos);
+		if (tag->GetPriority () == gccv::TagPriorityLast)
+			m_TagList.push_back (tag);
+		else
+			m_TagList.push_front (tag);
 	}
-	if (Attr0) {
-		Attr0->start_index = start;
-		Attr0->end_index = pos;
-		pango_attr_list_change (m_AttrList, Attr0);
+	if (tag0) {
+		tag0->SetStartIndex (start);
+		tag0->SetEndIndex (pos);
+		if (tag0->GetPriority () == gccv::TagPriorityLast)
+			m_TagList.push_back (tag0);
+		else
+			m_TagList.push_front (tag0);
 	}
 	return true;
 }
@@ -663,30 +703,24 @@ void Text::AddItem ()
 	pango_font_description_set_size (desc, doc->GetTextFontSize ());
 	if (m_ascent <= 0) {
 		PangoContext* pc = gccv::Text::GetContext ();
-		const_cast <Text *> (this)->m_Layout = pango_layout_new (pc);
-		pango_layout_set_font_description (m_Layout, desc);
+		PangoLayout *layout = pango_layout_new (pc);
+		pango_layout_set_font_description (layout, desc);
 		PangoAttrList *l = pango_attr_list_new ();
-		pango_layout_set_attributes (m_Layout, l);
-		pango_layout_set_font_description (m_Layout, desc);
-		pango_layout_set_text (m_Layout, "l", -1);
-		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
+		pango_layout_set_attributes (layout, l);
+		pango_layout_set_font_description (layout, desc);
+		pango_layout_set_text (layout, "l", -1);
+		PangoLayoutIter* iter = pango_layout_get_iter (layout);
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
-		pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
-		const_cast <Text *> (this)->m_buf.clear ();
-		if (m_AttrList) {
-			pango_layout_set_attributes (m_Layout, m_AttrList);
-			pango_attr_list_unref (m_AttrList);
-			const_cast <Text *> (this)->m_AttrList = NULL;
-		}
 		if (m_Justified)
-			pango_layout_set_justify (m_Layout, true);
+			pango_layout_set_justify (layout, true);
 		else
-			pango_layout_set_alignment (m_Layout, m_Align);
+			pango_layout_set_alignment (layout, m_Align);
 		PangoRectangle rect;
-		pango_layout_get_extents (m_Layout, NULL, &rect);
+		pango_layout_get_extents (layout, NULL, &rect);
 		const_cast <Text *> (this)->m_length = rect.width / PANGO_SCALE;
 		const_cast <Text *> (this)->m_height = rect.height / PANGO_SCALE;
+		g_object_unref (layout);
 	}
 	double x = m_x * theme->GetZoomFactor ();
 	double y = m_y * theme->GetZoomFactor ();
@@ -698,6 +732,11 @@ void Text::AddItem ()
 	text->SetAnchor (m_Anchor);
 	text->SetFontDescription (desc);
 	pango_font_description_free (desc);
+	text->SetText (m_buf.c_str ());
+	while (!m_TagList.empty ()) {
+		text->InsertTextTag (m_TagList.front ());
+		m_TagList.pop_front ();
+	}
 	m_Item = text;
 }
 
@@ -801,7 +840,7 @@ bool Text::OnChanged (bool save)
 		pData->Items.erase (this);
 		return false;
 	}*/
-	if (strlen (pango_layout_get_text (m_Layout))) {
+/*	if (strlen (pango_layout_get_text (m_Layout))) {
 		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
@@ -810,7 +849,7 @@ bool Text::OnChanged (bool save)
 	pango_layout_get_extents (m_Layout, NULL, &rect);
 	m_length = rect.width / PANGO_SCALE;
 	m_height = rect.height / PANGO_SCALE;
-	pView->Update (this);
+	pView->Update (this);*/
 	EmitSignal (OnChangedSignal);
 /*	GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "text"));
 	unsigned CurPos = gnome_canvas_pango_get_cur_index (PangoItem);
@@ -923,10 +962,7 @@ bool Text::SetProperty (unsigned property, char const *value)
 		xmlDocPtr xml = xmlParseMemory (value, strlen (value));
 		xmlNodePtr node = xml->children->children;
 		unsigned pos = 0;
-		if (m_AttrList)
-			pango_attr_list_unref (m_AttrList);
 		m_buf.clear ();
-		m_AttrList = pango_attr_list_new ();
 		m_bLoading = true;
 		while (node) {
 			if (!LoadNode (node, pos, 1))
