@@ -493,7 +493,7 @@
 	* plugins/loaders/cdx/cdx.cc: updated to the new API.
 	* plugins/loaders/cdxml/cdxml.cc: ditto.
 	* plugins/loaders/cif/cif.cc: ditto.
-	* plugins/loaders/cml/cml.cc: some workon both reading and writing.
+	* plugins/loaders/cml/cml.cc: some work on both reading and writing.
 
 2008-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: add a priority field.

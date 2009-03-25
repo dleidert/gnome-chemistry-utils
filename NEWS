@@ -1,6 +1,13 @@
 Version 0.11.1
+	GChemPaint
+		* More reimplemntation using the new canvas. Texts now
+		partially work.
+	Gnumeric plugin:
+		* New plugin, adds a molarmass function in gnumeric.
 	libgcu:
 		* Import space groups support from OpenBabel.
+	Other;
+		* The CML loader plugin now works, at least for 2d structures.
 
 Version 0.11.0
 	GChemPaint
