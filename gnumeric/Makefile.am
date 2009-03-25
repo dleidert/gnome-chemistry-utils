@@ -7,7 +7,7 @@ MAINTAINERCLEANFILES = Makefile.in
 if WITH_GNUMERIC
 
 INCLUDES = \
-    -I$(top_srcdir)	-I$(top_builddir)/libs	\
+    -I$(top_srcdir)	-I$(top_srcdir)/libs	\
     @gnumeric_CFLAGS@ \
 	@GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DGNM_VERSION_FULL=\"$(gnm_version)\"

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-03-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gnumeric/Makefile.am: fixed typo in INCLUDES.
+	* plugins/loaders/cdx/Makefile.am: fixed CLEANFILES.
+	* plugins/loaders/cdxml/Makefile.am: ditto.
+	* plugins/loaders/cif/Makefile.am: ditto.
+	* plugins/loaders/cml/Makefile.am: ditto.
+
 2009-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: made the Duplicate method const.
 	* libs/gccv/text-tag.h: ditto.

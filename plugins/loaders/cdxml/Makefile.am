@@ -1,6 +1,6 @@
 EXTRA_DIST = $(xml_in_files)
 
-CLEANFILES = $(xml_DATA)
+CLEANFILES = $(gcu_loader_cdxml_DATA)
 
 MAINTAINERCLEANFILES = Makefile.in
 
