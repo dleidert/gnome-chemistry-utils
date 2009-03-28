@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-03-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.11.2).
+	* libs/gccv/text-tag.h: add methods to retreive properties.
+	* libs/gcp/text.cc: reimplement serialization.
+
 2009-03-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gnumeric/Makefile.am: fixed typo in INCLUDES.
 	* plugins/loaders/cdx/Makefile.am: fixed CLEANFILES.

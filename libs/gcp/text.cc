@@ -38,6 +38,7 @@
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <stdexcept>
+#include <cmath>
 #include <cstring>
 
 using namespace gcu;
@@ -60,7 +61,7 @@ Text::Text ():
 	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
-	m_Anchor (gccv::AnchorLineWest)
+	m_Anchor (gccv::AnchorLineEast)
 {
 }
 
@@ -69,7 +70,7 @@ Text::Text (double x, double y):
 	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
-	m_Anchor (gccv::AnchorLineWest)
+	m_Anchor (gccv::AnchorLineEast)
 {
 }
 
@@ -91,76 +92,125 @@ void Text::SetCoords (double x, double y)
 
 class SaveStruct {
 public:
-	SaveStruct (PangoAttribute *attribute);
+	SaveStruct (gccv::TextTag *tag, unsigned start, unsigned end);
 	~SaveStruct ();
 
+	void Filter (SaveStruct **cur_state) throw (std::logic_error);
+	bool Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string const &text, unsigned es, unsigned ef, char const *f, double n);
+
 	SaveStruct *next, *children;
-	PangoAttribute *attr;
+	gccv::TextTag *m_tag;
+	unsigned m_start, m_end;
 };
 
-SaveStruct::SaveStruct (PangoAttribute *attribute)
+SaveStruct::SaveStruct (gccv::TextTag *tag, unsigned start, unsigned end)
 {
-	attr = pango_attribute_copy (attribute);
+	m_tag = tag;
+	m_start = start;
+	m_end = end;
 	next = children = NULL;
 }
 
 SaveStruct::~SaveStruct ()
 {
-	pango_attribute_destroy (attr);
 	if (children)
 		delete children;
 	if (next)
 		delete next;
 }
 
-static bool save_state (xmlDocPtr xml, xmlNodePtr node, char const *t, SaveStruct *s, unsigned index, int es, int ef, char const *f, int n)
+void SaveStruct::Filter (SaveStruct **cur_state) throw (std::logic_error)
+{
+	if (!*cur_state) {
+		*cur_state = this;
+		return;
+	}
+	if (m_start < (*cur_state)->m_start)
+		throw logic_error (_("This should not have occured, please file a bug record."));
+	else if (m_start == (*cur_state)->m_start) {
+		if (m_end <= (*cur_state)->m_end)
+			Filter (&(*cur_state)->children);
+		else {
+			if ((*cur_state)->next) {
+				throw  logic_error (_("This should not have occured, please file a bug record."));
+			} else {
+				// in that case, just set the new tag as parent of the old one
+				SaveStruct *s = *cur_state;
+				*cur_state = this;
+				(*cur_state)->children = s;
+			}
+		}
+	} else {
+		if (m_start >= (*cur_state)->m_end)
+			Filter (&(*cur_state)->next);
+		else if (m_end <= (*cur_state)->m_end)
+			Filter (&(*cur_state)->children);
+		else {
+			SaveStruct *s = new SaveStruct (m_tag, (*cur_state)->m_end, m_end);
+			m_end = (*cur_state)->m_end;
+			Filter (&(*cur_state)->children);
+			s->Filter (&(*cur_state)->next);
+		}
+	}
+}
+
+bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string const &text, unsigned es, unsigned ef, char const *f, double n)
 {
 	xmlNodePtr child = NULL;
-	switch (s->attr->klass->type) {
-	case PANGO_ATTR_FAMILY:
-		f = ((PangoAttrString*) s->attr)->value;
-		ef = s->attr->end_index;
+	if (index < m_start) {
+		xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (text.c_str () + index), m_start - index);
+		index = m_start;
+	}
+	switch (m_tag->GetTag ()) {
+	case gccv::Family:
+		f = static_cast <gccv::FamilyTextTag *> (m_tag)->GetFamily ().c_str ();
+		ef = m_end;
 		if (es >= ef) {
 			char *str = g_strdup_printf ("%s %g", f, (double) n / PANGO_SCALE);
-			child = xmlNewDocNode (xml, NULL, (xmlChar*) "font", NULL);
-			xmlNewProp (child, (xmlChar*) "name", (xmlChar*) str);
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("font"), NULL);
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("name"), reinterpret_cast <xmlChar const *> (str));
 			g_free (str);
-			xmlAddChild (node, child);
 		}
-		break;		
-	case PANGO_ATTR_STYLE: {
-		PangoStyle st = (PangoStyle) ((PangoAttrInt*) s->attr)->value;
+		break;
+	case gccv::Size:
+		n = static_cast <gccv::SizeTextTag *> (m_tag)->GetSize ();
+		es = m_end;
+		if (ef >= es) {
+			char *str = g_strdup_printf ("%s %g", f, (double) n / PANGO_SCALE);
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("font"), NULL);
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("name"), reinterpret_cast <xmlChar const *> (str));
+			g_free (str);
+		}
+		break;
+	case gccv::Style: {
+		PangoStyle st = static_cast <gccv::StyleTextTag *> (m_tag)->GetStyle ();
 		if (st == PANGO_STYLE_NORMAL)
 			break;
-		child = xmlNewDocNode (xml, NULL, (xmlChar*) "i", NULL);
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("i"), NULL);
 		if (st == PANGO_STYLE_OBLIQUE)
-			xmlNewProp (child, (xmlChar*) "style", (xmlChar*) "oblique");
-		xmlAddChild (node, child);
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("style"), reinterpret_cast <xmlChar const *> ("oblique"));
 		break;
-	}	
-	case PANGO_ATTR_WEIGHT: {
-		PangoWeight w = (PangoWeight) ((PangoAttrInt*) s->attr)->value;
+	}
+	case gccv::Weight: {
+		PangoWeight w = static_cast <gccv::WeightTextTag *> (m_tag)->GetWeight ();
 		if (w == PANGO_WEIGHT_NORMAL)
 			break;
-		child = xmlNewDocNode (xml, NULL, (xmlChar*) "b", NULL);
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("b"), NULL);
 		if (w != PANGO_WEIGHT_BOLD) {
 			char *buf = g_strdup_printf ("%d", (int) w / 100);
-			xmlNewProp (child, (xmlChar*) "weight", (xmlChar*) buf);
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("weight"), reinterpret_cast <xmlChar const *> (buf));
 			g_free (buf);
-		}
-		xmlAddChild (node, child);
-		break;
-	}		
-	case PANGO_ATTR_VARIANT: {
-		PangoVariant v = (PangoVariant) ((PangoAttrInt*) s->attr)->value;
-		if (v == PANGO_VARIANT_SMALL_CAPS) {
-			child = xmlNewDocNode (xml, NULL, (xmlChar*) "small-caps", NULL);
-			xmlAddChild (node, child);
 		}
 		break;
 	}
-	case PANGO_ATTR_STRETCH: {
-		PangoStretch st = (PangoStretch) ((PangoAttrInt*) s->attr)->value;
+	case gccv::Variant: {
+		PangoVariant v = static_cast <gccv::VariantTextTag *> (m_tag)->GetVariant ();
+		if (v == PANGO_VARIANT_SMALL_CAPS)
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("small-caps"), NULL);
+		break;
+	}
+	case gccv::Stretch: {
+		PangoStretch st = static_cast <gccv::StretchTextTag *> (m_tag)->GetStretch ();
 		char const *stretch = NULL;
 		switch (st) {
 		case PANGO_STRETCH_ULTRA_CONDENSED:
@@ -192,24 +242,12 @@ static bool save_state (xmlDocPtr xml, xmlNodePtr node, char const *t, SaveStruc
 		}
 		if (!stretch)
 			break;
-		child = xmlNewDocNode (xml, NULL, (xmlChar*) "stretch", NULL);
-		xmlNewProp (child, (xmlChar*) "type", (xmlChar*) stretch);
-		xmlAddChild (node, child);
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("stretch"), NULL);
+		xmlNewProp (child, reinterpret_cast <xmlChar  const *> ("type"), reinterpret_cast <xmlChar  const *> (stretch));
 		break;
 	}
-	case PANGO_ATTR_SIZE:
-		n = ((PangoAttrInt*) s->attr)->value;
-		es = s->attr->end_index;
-		if (ef >= es) {
-			char *str = g_strdup_printf ("%s %g", f, (double) n / PANGO_SCALE);
-			child = xmlNewDocNode (xml, NULL, (xmlChar*) "font", NULL);
-			xmlNewProp (child, (xmlChar*) "name", (xmlChar*) str);
-			g_free (str);
-			xmlAddChild (node, child);
-		}
-		break;
-	case PANGO_ATTR_UNDERLINE: {
-		PangoUnderline u = (PangoUnderline) ((PangoAttrInt*) s->attr)->value;
+	case gccv::Underline: {
+		PangoUnderline u = static_cast <gccv::UnderlineTextTag *> (m_tag)->GetUnderline ();
 		char const *type = NULL;
 		switch (u) {
 		case PANGO_UNDERLINE_NONE:
@@ -227,44 +265,91 @@ static bool save_state (xmlDocPtr xml, xmlNodePtr node, char const *t, SaveStruc
 		}
 		if (u == PANGO_UNDERLINE_NONE)
 			break;
-		child = xmlNewDocNode (xml, NULL, (xmlChar*) "u", NULL);
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("u"), NULL);
 		if (u != PANGO_UNDERLINE_SINGLE)
-			xmlNewProp (child, (xmlChar*) "type", (xmlChar*) type);
-		xmlAddChild (node, child);
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
 		break;
 	}
-	case PANGO_ATTR_STRIKETHROUGH:
-		if (((PangoAttrInt*) s->attr)->value) {
-			child = xmlNewDocNode (xml, NULL, (xmlChar*) "s", NULL);
-			xmlAddChild (node, child);
+	case gccv::Strikethrough:
+		if (static_cast <gccv::StrikethroughTextTag *> (m_tag)->GetStrikethrough ())
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("s"), NULL);
+		break;
+	case gccv::Foreground: {
+		GOColor color = static_cast <gccv::ForegroundTextTag *> (m_tag)->GetColor ();
+		if (color == RGBA_BLACK)
+			break;
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("fore"), NULL);
+		char *buf = g_strdup_printf ("%g", DOUBLE_RGBA_R (color));
+		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("red"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+		buf = g_strdup_printf ("%g", DOUBLE_RGBA_G (color));
+		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("green"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+		buf = g_strdup_printf ("%g", DOUBLE_RGBA_B (color));
+		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("blue"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+		if (UINT_RGBA_A (color) != 0xff) {
+			buf = g_strdup_printf ("%g", DOUBLE_RGBA_A (color));
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("alpha"), reinterpret_cast <xmlChar const *> (buf));
+			g_free (buf);
 		}
 		break;
-	case PANGO_ATTR_RISE: {
-		int rise = ((PangoAttrInt*) s->attr)->value / PANGO_SCALE;
+	}
+	case gccv::Background: {
+		GOColor color = static_cast <gccv::BackgroundTextTag *> (m_tag)->GetColor ();
+		if (color == RGBA_BLACK)
+			break;
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("back"), NULL);
+		char *buf = g_strdup_printf ("%g", DOUBLE_RGBA_R (color));
+		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("red"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+		buf = g_strdup_printf ("%g", DOUBLE_RGBA_G (color));
+		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("green"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+		buf = g_strdup_printf ("%g", DOUBLE_RGBA_B (color));
+		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("blue"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+		if (UINT_RGBA_A (color) != 0xff) {
+			buf = g_strdup_printf ("%g", DOUBLE_RGBA_A (color));
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("alpha"), reinterpret_cast <xmlChar const *> (buf));
+			g_free (buf);
+		}
+		break;
+	}
+	case gccv::Rise: {
+		double rise = static_cast <gccv::RiseTextTag *> (m_tag)->GetRise ();
 		if (rise != 0) {
-			child = xmlNewDocNode (xml, NULL, (xmlChar*) ((rise > 0)? "sup": "sub"), NULL);
-			char *buf = g_strdup_printf ("%d", abs (rise));
-			xmlNewProp (child, (xmlChar*) "height", (xmlChar*) buf);
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ((rise > 0)? "sup": "sub"), NULL);
+			char *buf = g_strdup_printf ("%g", fabs (rise));
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("height"), reinterpret_cast <xmlChar const *> (buf));
 			g_free (buf);
 			xmlAddChild (node, child);
 		}
 		break;
 	}
-	case PANGO_ATTR_FOREGROUND: {
-		PangoAttrColor *c = (PangoAttrColor*) s->attr;
-		if (c->color.red == 0 && c->color.green == 0 && c->color.blue == 0)
+	case gccv::Position: {
+		bool stacked;
+		double size;
+		gccv::TextPosition pos = static_cast <gccv::PositionTextTag *> (m_tag)->GetPosition (stacked, size);
+		switch (pos) {
+		case gccv::Subscript:
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("sub"), NULL);
 			break;
-		child = xmlNewDocNode (xml, NULL, (xmlChar*) "fore", NULL);
-		char *buf = g_strdup_printf ("%g", (double) c->color.red / 0xffff);
-		xmlNewProp (child, (xmlChar*) "red", (xmlChar*) buf);
-		g_free (buf);
-		buf = g_strdup_printf ("%g", (double) c->color.green / 0xffff);
-		xmlNewProp (child, (xmlChar*) "green", (xmlChar*) buf);
-		g_free (buf);
-		buf = g_strdup_printf ("%g", (double) c->color.blue / 0xffff);
-		xmlNewProp (child, (xmlChar*) "blue", (xmlChar*) buf);
-		g_free (buf);
-		xmlAddChild (node, child);
+		case gccv::Superscript:
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("sup"), NULL);
+			break;
+		default:
+			break;
+		}
+		if (child) {
+			if (stacked)
+				xmlNewProp (child, reinterpret_cast <xmlChar const *> ("stacked"), reinterpret_cast <xmlChar const *> ("true"));
+			if (size != n) {
+				char *buf = g_strdup_printf ("%g", fabs (size));
+				xmlNewProp (child, reinterpret_cast <xmlChar const *> ("size"), reinterpret_cast <xmlChar const *> (buf));
+				g_free (buf);
+			}
+		}
 		break;
 	}
 	default:
@@ -272,62 +357,20 @@ static bool save_state (xmlDocPtr xml, xmlNodePtr node, char const *t, SaveStruc
 	}
 	if (!child)
 		child = node;
-	if (s->children) {
-		SaveStruct *s0 = s->children;
-		while (s0) {
-			if (s0->attr->start_index > index) {
-				xmlNodeAddContentLen (child, (xmlChar const*) (t + index), s0->attr->start_index - index);
-				index = s0->attr->start_index;
-			}
-			save_state (xml, child, t, s0, index, es, ef, f, n);
-			index = s0->attr->end_index;
-			s0 = s0->next;
-		}
-		if (s->attr->end_index > index)
-			xmlNodeAddContentLen (child, (xmlChar const*) (t + index), s->attr->end_index - index);
-	} else {
-		xmlNodeAddContentLen (child, (xmlChar const*) (t + s->attr->start_index), s->attr->end_index - s->attr->start_index);
+	else
+		xmlAddChild (node, child);
+	if (children)
+		if (!children->Save (xml, child, index, text, es, ef, f, n))
+			return false;
+	
+	if (index < m_end) {
+		xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (text.c_str () + index), m_end - index);
+		index = m_end;
 	}
+	if (next)
+		if (!next->Save (xml, node, index, text, es, ef, f, n))
+			return false;
 	return true;
-}
-
-bool filter_func (PangoAttribute *attribute, SaveStruct **cur_state)
-{
-	if (!*cur_state) {
-		*cur_state = new SaveStruct (attribute);
-		return false;
-	}
-	if (attribute->start_index < (*cur_state)->attr->start_index) {
-		throw  logic_error (_("This should not have occured, please file a bug record."));
-	} else if (attribute->start_index == (*cur_state)->attr->start_index) {
-		if (attribute->end_index <= (*cur_state)->attr->end_index)
-			filter_func (attribute, &(*cur_state)->children);
-		else {
-			if ((*cur_state)->next) {
-				throw  logic_error (_("This should not have occured, please file a bug record."));
-			} else {
-				// in that case, just set the new attribute as parent of the old one
-				SaveStruct *s = *cur_state;
-				*cur_state = new SaveStruct (attribute);
-				(*cur_state)->children = s;
-			}
-		}
-	} else {
-		if (attribute->start_index >= (*cur_state)->attr->end_index)
-			filter_func (attribute, &(*cur_state)->next);
-		else if (attribute->end_index <= (*cur_state)->attr->end_index)
-			filter_func (attribute, &(*cur_state)->children);
-		else {
-			PangoAttribute	*attr = pango_attribute_copy (attribute),
-							*attr1 = pango_attribute_copy (attribute);
-			attr->start_index = attr1->end_index = (*cur_state)->attr->end_index;
-			filter_func (attr1, &(*cur_state)->children);
-			filter_func (attr, &(*cur_state)->next);
-			pango_attribute_destroy (attr);
-			pango_attribute_destroy (attr1);
-		}
-	}
-	return false;
 }
 
 static bool tag_order (gccv::TextTag *first, gccv::TextTag *last)
@@ -390,20 +433,15 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 	// sort the duplicated tags
 	tt.sort (tag_order);
 	// now save the text and tags
+	// first buid the tags tree
 	gccv::TextTagList::iterator k, kend = tt.end ();
-	for (k = tt.begin (); k != kend; k++)
-		;
-
-//	= pango_layout_get_text (m_Layout);
-/*	PangoAttrList *l = pango_layout_get_attributes (m_Layout);
-	pango_attr_list_filter (l, (PangoAttrFilterFunc) filter_func, &head);
-	cur = head;
-	while (cur) {
-		save_state (xml, node, text, cur, i, 0, 0, NULL, 0);
-		i = cur->attr->end_index;
-		cur = cur->next;
-	}*/
-	xmlNodeAddContent (node, (xmlChar*) text + i);
+	for (k = tt.begin (); k != kend; k++) {
+		cur = new SaveStruct (*k, (*k)->GetStartIndex (), (*k)->GetEndIndex ());
+		cur->Filter (&head);
+	}
+	// now, save the tree
+	head->Save (xml, node, i, m_buf, 0, 0, NULL, 0);
+	xmlNodeAddContent (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + i));
 	delete head;
 	return node;
 }
@@ -521,9 +559,9 @@ bool Text::LoadSelection (xmlNodePtr node, unsigned pos)
 	if (group) {
 		GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "text"));
 		gnome_canvas_pango_set_selection_bounds (PangoItem, pos, pos);
-	}	
+	}	*/
 	m_bLoading = false;
-	OnChanged (true);*/
+//	OnChanged (true);
 	return true;
 }
 
@@ -600,6 +638,20 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 			int rise = -strtoul (buf, NULL, 10) * PANGO_SCALE;
 			xmlFree (buf);
 			tag = new gccv::RiseTextTag (rise);
+		} else {
+			bool stacked = false;
+			double size = cur_size;
+			buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("stacked")));
+			if (buf) {
+				stacked = !strcmp (buf, "true");
+				xmlFree (buf);
+			}
+			buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("size")));
+			if (buf) {
+				size = strtod (buf, NULL);
+				xmlFree (buf);
+			}
+			tag = new gccv::PositionTextTag (gccv::Subscript, stacked, size);
 		}
 	} else if (!strcmp ((const char*) node->name, "sup")) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "height");
@@ -607,6 +659,20 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 			int rise = strtoul (buf, NULL, 10) * PANGO_SCALE;
 			xmlFree (buf);
 			tag = new gccv::RiseTextTag (rise);
+		} else {
+			bool stacked = false;
+			double size = cur_size;
+			buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("stacked")));
+			if (buf) {
+				stacked = !strcmp (buf, "true");
+				xmlFree (buf);
+			}
+			buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("size")));
+			if (buf) {
+				size = strtod (buf, NULL);
+				xmlFree (buf);
+			}
+			tag = new gccv::PositionTextTag (gccv::Superscript, stacked, size);
 		}
 	} else if (!strcmp ((const char*) node->name, "font")) {
 		char* TagName = (char*) xmlGetProp (node, (xmlChar*) "name");

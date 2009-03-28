@@ -88,6 +88,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	std::string const &GetFamily () const {return m_Family;}
 
 private:
 	std::string m_Family;
@@ -102,6 +103,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	double GetSize () const {return m_Size;}
 
 private:
 	double m_Size;
@@ -116,6 +118,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	PangoStyle GetStyle () const {return m_Style;}
 
 private:
 	PangoStyle m_Style;
@@ -130,6 +133,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	PangoWeight GetWeight () const {return m_Weight;}
 
 private:
 	PangoWeight m_Weight;
@@ -144,6 +148,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	PangoVariant GetVariant () const {return m_Variant;}
 
 private:
 	PangoVariant m_Variant;
@@ -158,6 +163,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	PangoStretch GetStretch () const {return m_Stretch;}
 
 private:
 	PangoStretch m_Stretch;
@@ -172,6 +178,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	PangoUnderline GetUnderline () const {return m_Underline;}
 
 private:
 	PangoUnderline m_Underline;
@@ -186,6 +193,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	bool GetStrikethrough () const {return m_Strikethrough;}
 
 private:
 	bool m_Strikethrough;
@@ -200,6 +208,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	GOColor GetColor () const {return m_Color;}
 
 private:
 	GOColor m_Color;
@@ -214,6 +223,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	GOColor GetColor () const {return m_Color;}
 
 private:
 	GOColor m_Color;
@@ -228,6 +238,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	double GetRise () const {return m_Rise;}
 
 private:
 	double m_Rise;
@@ -242,6 +253,7 @@ public:
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
+	TextPosition GetPosition (bool &stacked, double &size) const {stacked = m_Stacked; size = m_Size; return m_Position;}
 
 private:
 	TextPosition m_Position;
