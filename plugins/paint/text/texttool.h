@@ -44,6 +44,7 @@ public:
 	virtual ~gcpTextTool ();
 
 	bool OnClicked ();
+	void OnDrag ();
 	bool Deactivate ();
 	void Activate ();
 	bool OnEvent (GdkEvent *event);

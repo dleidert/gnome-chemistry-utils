@@ -163,6 +163,7 @@ bool gcpTextTool::OnClicked ()
 		m_Active = static_cast <gccv::Text *> (dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ());
 		m_pView->SetTextActive (m_Active);
 		m_Active->SetEditing (true);
+		m_Active->OnButtonPressed (m_x0, m_y0);
 		m_CurNode = ((gcp::Text*) m_pObject)->SaveSelected ();
 		m_InitNode = ((gcp::Text*) m_pObject)->SaveSelected ();
 		m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
@@ -174,6 +175,12 @@ bool gcpTextTool::OnClicked ()
 			UpdateTagsList ();
 	}
 	return true;
+}
+
+void gcpTextTool::OnDrag ()
+{
+	if (m_Active)
+		m_Active->OnDrag (m_x, m_y);
 }
 
 bool gcpTextTool::OnEvent (GdkEvent* event)
@@ -285,20 +292,9 @@ bool gcpTextTool::OnEvent (GdkEvent* event)
 					((GdkEventKey*) event)->length = w;
 				}
 				m_Active->OnKeyPressed (reinterpret_cast <GdkEventKey *> (event));
-/*			gnome_canvas_item_grab_focus ((GnomeCanvasItem*) m_Active);
-			GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (m_Active));
-			klass->event ((GnomeCanvasItem*) m_Active, event);*/
 				return true;
 			} else
 				return false;
-		} else if (event->type == GDK_BUTTON_PRESS) {
-			 switch (event->button.button) {
-				case 2:
-				return true;
-			}
-		} else if (event->type == GDK_MOTION_NOTIFY) {
-/*			GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (m_Active));
-			klass->event ((GnomeCanvasItem*) m_Active, event);*/
 		}
 	}
 	return false;

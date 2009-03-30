@@ -29,6 +29,8 @@
 #include <cairo-pdf.h>
 #include <vector>
 #include <cmath>
+#include <cstdlib>
+#include <cstring>
 
 namespace gccv {
 
@@ -86,11 +88,19 @@ bool TextPrivate::OnBlink (Text *text)
 	return false;
 }
 
-void TextPrivate::OnCommit (GtkIMContext *context, const gchar *str, Text *text)
+void TextPrivate::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar *str, Text *text)
 {
 	std::string s = str;
+	unsigned start, length;
+	if (text->m_CurPos > text->m_StartSel) {
+		start = text->m_StartSel;
+		length = text->m_CurPos - text->m_StartSel;
+	} else {
+		start = text->m_CurPos;
+		length = text->m_StartSel - text->m_CurPos;
+	}
 	// FIXME: erase selection
-	text->ReplaceText (s, -1, 0);
+	text->ReplaceText (s, start, length);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -347,7 +357,8 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 	// first get the pango iter at first character
 //	PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
 	// evaluate the starting position
-	double startx, starty, curx;
+	double startx, starty;
+	unsigned start_sel, end_sel;
 	// Horizontal position
 	switch (m_Anchor) {
 	default:
@@ -395,18 +406,46 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 		starty = m_y - m_Height - m_LineOffset;
 		break;
 	}
+	if (m_CurPos >= m_StartSel) {
+		start_sel = m_StartSel;
+		end_sel = m_CurPos;
+	} else {
+		end_sel = m_StartSel;
+		start_sel = m_CurPos;
+	}
 	// now, draw the glyphs in each run
 	std::list <TextRun *>::const_iterator i, end = m_Runs.end ();
 	for (i = m_Runs.begin (); i != end; i++) {
+		// display the selection rectangle if needed
+		if (m_BlinkSignal) {
+			if (start_sel < (*i)->m_Index + (*i)->m_Length && end_sel > (*i)->m_Index) {
+				PangoRectangle rect;
+				unsigned s = MAX (start_sel, (*i)->m_Index) - (*i)->m_Index,
+						e = MIN (end_sel, (*i)->m_Index + (*i)->m_Length) - (*i)->m_Index;
+				double x, y, w, h;
+				cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
+				pango_layout_get_cursor_pos ((*i)->m_Layout, s, &rect, NULL);
+				x = (double) rect.x / PANGO_SCALE;
+				h = (double) rect.height / PANGO_SCALE;
+				y = starty + (*i)->m_Y + (double) rect.y / PANGO_SCALE;
+				pango_layout_get_cursor_pos ((*i)->m_Layout, e, &rect, NULL);
+				w = (double) rect.x / PANGO_SCALE - x;
+				x += startx + (*i)->m_X;
+				cairo_rectangle (cr, x, y, w, h);
+				cairo_fill (cr);
+			}
+		}
+		// draw the text
 		cairo_save (cr);
 		cairo_translate (cr, startx + (*i)->m_X, starty + (*i)->m_Y);
 		(*i)->Draw (cr);
 		cairo_restore (cr);
+		// draw the cursor if needed
 		if (m_CursorVisible && m_CurPos > (*i)->m_Index && m_CurPos <= (*i)->m_Index + (*i)->m_Length) {
 			PangoRectangle rect;
 			pango_layout_get_cursor_pos ((*i)->m_Layout, m_CurPos - (*i)->m_Index, &rect, NULL);
 			cairo_set_line_width (cr, 1.);
-			cairo_move_to (cr, floor (startx + (double) rect.x / PANGO_SCALE) + .5, floor (starty + (double) rect.y / PANGO_SCALE) + .5);
+			cairo_move_to (cr, floor (startx + (*i)->m_X + (double) rect.x / PANGO_SCALE) + .5, floor (starty + (*i)->m_Y + (double) rect.y / PANGO_SCALE) + .5);
 			cairo_rel_line_to (cr, 0, rect.height / PANGO_SCALE);
 			cairo_set_source_rgb (cr, 0., 0., 0.);
 			cairo_stroke (cr);
@@ -457,7 +496,7 @@ void Text::SetText (char const *text)
 {
 	m_Text = text;
 	pango_layout_set_text (m_Runs.front ()->m_Layout, text, -1); // FIXME: parse for line breaks
-	m_Runs.front ()->m_Length = g_utf8_strlen (text, -1);
+	m_Runs.front ()->m_Length = strlen (text);
 	SetPosition (m_x, m_y);
 }
 
@@ -465,7 +504,7 @@ void Text::SetText (std::string const &text)
 {
 	m_Text = text;
 	pango_layout_set_text (m_Runs.front ()->m_Layout, text.c_str (), -1); // FIXME: parse for line breaks
-	m_Runs.front ()->m_Length = g_utf8_strlen (text.c_str (), -1);
+	m_Runs.front ()->m_Length = strlen (text.c_str ());
 	SetPosition (m_x, m_y);
 }
 
@@ -793,9 +832,11 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks and update runs
 	m_Runs.front ()->m_Length = m_Text.length ();
 	RebuildAttributes ();
-	m_CurPos = pos + str.length ();
+	m_CurPos = m_StartSel = pos + str.length ();
 	SetPosition (m_x, m_y);
 }
+
+static std::string empty_st = "";
 
 bool Text::OnKeyPressed (GdkEventKey *event)
 {
@@ -817,16 +858,26 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 
 	/* MOVEMENT */
 	case GDK_Right:
-		/* TODO: write this code */
 		if (event->state & GDK_CONTROL_MASK) {
 			/* move to start of word */
-			/* TODO: write this code */
+			char const* s = m_Text.c_str ();
+			char *p = g_utf8_next_char (s + m_CurPos);
+			while (*p && (!g_unichar_isgraph (g_utf8_get_char(p)) || g_unichar_ispunct (g_utf8_get_char(p))))
+				p = g_utf8_next_char (p);
+			while (g_unichar_isgraph (g_utf8_get_char(p)) && !g_unichar_ispunct (g_utf8_get_char(p)))
+				p = g_utf8_next_char (p);
+			m_CurPos = p - s;
+			if (!(event->state & GDK_SHIFT_MASK))
+				m_StartSel = m_CurPos;
+			Invalidate ();
 		} else {
 			char const* s = m_Text.c_str ();
 			char *p = g_utf8_next_char (s + m_CurPos);
 			if (!p)
 				break;
 			m_CurPos = p - s;
+			if (!(event->state & GDK_SHIFT_MASK))
+				m_StartSel = m_CurPos;
 			Invalidate ();
 		}
 			break;
@@ -835,11 +886,24 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 			break;
 		if (event->state & GDK_CONTROL_MASK) {
 			/* move to start of word */
-			/* TODO: write this code */
+			char const* s = m_Text.c_str ();
+			char *p = g_utf8_prev_char (s + m_CurPos);
+			while (p != s && (!g_unichar_isgraph (g_utf8_get_char(p)) || g_unichar_ispunct (g_utf8_get_char (p))))
+				p = g_utf8_prev_char (p);
+			while (p != s && g_unichar_isgraph (g_utf8_get_char(p)) && !g_unichar_ispunct (g_utf8_get_char(p)))
+				p = g_utf8_prev_char (p);
+			if (!g_unichar_isgraph (g_utf8_get_char(p))) // don't go to the previous word end
+				p = g_utf8_next_char (p);
+			m_CurPos = p - s;
+			if (!(event->state & GDK_SHIFT_MASK))
+				m_StartSel = m_CurPos;
+			Invalidate ();
 		} else {
 			char const* s = m_Text.c_str ();
 			char *p = g_utf8_prev_char (s + m_CurPos);
 			m_CurPos = p - s;
+			if (!(event->state & GDK_SHIFT_MASK))
+				m_StartSel = m_CurPos;
 			Invalidate ();
 		}
 		break;
@@ -879,20 +943,32 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 	/* DELETING TEXT */
 	case GDK_Delete:
 	case GDK_KP_Delete: {
-		/* TODO: write this code */
+		if (m_CurPos != m_StartSel) {
+			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
+			break;
+		}
+		if (m_CurPos == m_Text.length ())
+			break;
+		char const* s = m_Text.c_str ();
+		char *p = g_utf8_next_char (s + m_CurPos);
+		int new_pos = p - s;
+		ReplaceText (empty_st, m_CurPos, new_pos - m_CurPos);
+		break;
 	}
 	case GDK_d:
 		/* TODO: write this code */
 		break;
 	case GDK_BackSpace: {
-		/* TODO: write this code */
+		if (m_CurPos != m_StartSel) {
+			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
+			break;
+		}
 		if (m_CurPos == 0)
 			break;
 		char const* s = m_Text.c_str ();
 		char *p = g_utf8_prev_char (s + m_CurPos);
 		int new_pos = p - s;
-		std::string st = "";
-		ReplaceText (st, new_pos, m_CurPos - new_pos);
+		ReplaceText (empty_st, new_pos, m_CurPos - new_pos);
 		break;
 	}
 	case GDK_k:
@@ -938,5 +1014,33 @@ void Text::RebuildAttributes ()
 	// force reposition and redraw
 	SetPosition (m_x, m_y);
 }
+
+void Text::OnButtonPressed (double x, double y)
+{
+	x -= m_x0;
+	y -= m_y0;
+	int index, trailing;
+	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
+	for (run = m_Runs.begin (); run != end_run; run++)
+		if (pango_layout_xy_to_index ((*run)->m_Layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing)) {
+			m_CurPos = m_StartSel = index + trailing + (*run)->m_Index;
+			return;
+		}
+}
+
+void Text::OnDrag (double x, double y)
+{
+	int index, trailing;
+	x -= m_x0;
+	y -= m_y0;
+	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
+	for (run = m_Runs.begin (); run != end_run; run++)
+		if (pango_layout_xy_to_index ((*run)->m_Layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing)) {
+			m_CurPos = index + trailing + (*run)->m_Index;
+			Invalidate ();
+			return;
+		}
+}
+
 
 }

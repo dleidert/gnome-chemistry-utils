@@ -95,6 +95,8 @@ be moved to the end of the inserted text.
 
 	// events related methods
 	bool OnKeyPressed (GdkEventKey *event);
+	void OnButtonPressed (double x, double y);
+	void OnDrag (double x, double y);
 
 	// static methods
 	static PangoContext *GetContext ();
@@ -108,7 +110,7 @@ private:
 	double m_x, m_y;
 	unsigned long m_BlinkSignal;
 	bool m_CursorVisible;
-	unsigned m_CurPos;
+	unsigned m_CurPos, m_StartSel;
 	std::list <TextRun *> m_Runs;
 	std::list <TextTag *> m_Tags;
 	std::string m_Text;

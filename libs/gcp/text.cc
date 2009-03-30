@@ -61,7 +61,7 @@ Text::Text ():
 	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
-	m_Anchor (gccv::AnchorLineEast)
+	m_Anchor (gccv::AnchorLineWest)
 {
 }
 
@@ -70,7 +70,7 @@ Text::Text (double x, double y):
 	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
-	m_Anchor (gccv::AnchorLineEast)
+	m_Anchor (gccv::AnchorLineWest)
 {
 }
 
@@ -440,7 +440,8 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		cur->Filter (&head);
 	}
 	// now, save the tree
-	head->Save (xml, node, i, m_buf, 0, 0, NULL, 0);
+	if (head)
+		head->Save (xml, node, i, m_buf, 0, 0, NULL, 0);
 	xmlNodeAddContent (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + i));
 	delete head;
 	return node;

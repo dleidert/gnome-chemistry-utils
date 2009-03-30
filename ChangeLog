@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/item.h: added missing space.
+	* libs/gccv/text.cc: implement selection.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/text.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* plugins/paint/text/texttool.h: ditto.
+
 2009-03-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.11.2).
 	* libs/gccv/text-tag.h: add methods to retreive properties.

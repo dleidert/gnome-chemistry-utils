@@ -84,7 +84,7 @@ class Item
 public:
 	Item (Canvas *canvas);
 	Item (Group *parent, ItemClient *client = NULL);
-	virtual ~Item();
+	virtual ~Item ();
 
 	void GetBounds (double &x0, double &y0, double &x1, double &y1) const;
 	void Invalidate () const;
