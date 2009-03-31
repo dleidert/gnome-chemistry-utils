@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-03-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: add gcp::Atom::HasAvailableElectrons.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/view.cc: use the atom if any when moving the mouse.
+	* plugins/paint/arrows/curvedarrowtool.cc: don't allow curves starting
+	from an atom without appropriate unbonded electrons.
+
 2009-03-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/item.h: added missing space.
 	* libs/gccv/text.cc: implement selection.

@@ -25,6 +25,7 @@
 #include "config.h"
 #include "curvedarrowtool.h"
 #include <gcp/application.h>
+#include <gcp/atom.h>
 #include <gcp/electron.h>
 #include <gtk/gtk.h>
 
@@ -53,15 +54,19 @@ void gcpCurvedArrowTool::OnMotion ()
 	bool allowed = false;
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
-		case gcu::AtomType: {
+		case gcu::AtomType:
+			allowed = reinterpret_cast <gcp::Atom *> (m_pObject)->HasAvailableElectrons (m_Full);
 			break;
-		}
-		case gcu::BondType: {
+		case gcu::BondType:
 			allowed = true;
 			break;
-		}
 		default:
-			if (m_pObject->GetType () == gcp::ElectronType)	{;}
+			if (m_pObject->GetType () == gcp::ElectronType) {
+				if (m_Full)
+					allowed = static_cast <gcp::Electron *> (m_pObject)->IsPair ();
+				else
+					allowed = true;
+			}
 			break;
 		}
 	gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), allowed? m_pApp->GetCursor (gcp::CursorPencil): m_pApp->GetCursor (gcp::CursorUnallowed));

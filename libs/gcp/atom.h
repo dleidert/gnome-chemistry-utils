@@ -365,6 +365,8 @@ This method is used to avoid bonds lines extyending over their atoms symbols.
 */
 	void GetSymbolGeometry (double &width, double &height, double &angle, bool up) const;
 
+	bool HasAvailableElectrons (bool paired);
+
 protected:
 /*!
 @param width the witdh of the atomic symbol.

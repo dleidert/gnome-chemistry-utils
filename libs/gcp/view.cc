@@ -1205,7 +1205,7 @@ bool View::OnMotion (gccv::ItemClient *client, double x, double y, unsigned stat
 	Application *App = m_pDoc->GetApplication ();
 	Tool* pActiveTool = App? App->GetActiveTool (): NULL;	
 	if (m_pDoc->GetEditable () && pActiveTool)
-		pActiveTool->OnMotion (this, m_CurObject, x, y, state);
+		pActiveTool->OnMotion (this, ((m_CurAtom)? m_CurAtom: m_CurObject), x, y, state);
 	return true;
 }
 

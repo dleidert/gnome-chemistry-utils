@@ -2068,4 +2068,21 @@ void Atom::AddItem ()
 	m_Item = group;
 }
 
+bool Atom::HasAvailableElectrons (bool paired)
+{
+	map<string, Object*>::iterator i;
+	Electron* electron = static_cast <Electron *> (GetFirstChild (i));
+	if (paired) {
+		if (m_nlp)
+			return true;
+		while (electron) { 
+			if (electron->IsPair ())
+				return true;
+			electron = static_cast <Electron *> (GetNextChild (i));
+		}
+	} else {
+		return (electron) || (m_nlp) || (m_nlu); // TODO: take curved arrows into account
+	}
+}
+
 }	//	namespace gcp
