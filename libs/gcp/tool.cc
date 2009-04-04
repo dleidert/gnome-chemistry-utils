@@ -184,7 +184,7 @@ bool Tool::Deactivate ()
 	return true;
 }
 
-bool Tool::OnEvent (G_GNUC_UNUSED GdkEvent* event)
+bool Tool::OnKeyPress (G_GNUC_UNUSED GdkEventKey *event)
 {
 	return false;
 }

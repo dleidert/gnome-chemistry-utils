@@ -89,6 +89,7 @@ noinst_HEADERS = \
 		mesomer.h \
 		mesomery-arrow.h \
 		text.h \
+		text-editor.h \
 		text-object.h \
 		docprop.h \
 		fontsel.h \

@@ -4,7 +4,7 @@
  * GChemPaint bonds plugin
  * chaintool.h
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -47,7 +47,7 @@ public:
 	void OnRelease();
 	GtkWidget *GetPropertyPage ();
 	void Activate ();
-	bool OnEvent (GdkEvent* event);
+	bool OnKeyPress (GdkEvent* event);
 
 	void SetAutoNumber (bool state) {gtk_widget_set_sensitive (GTK_WIDGET (m_NumberBtn), state);}
 	void SetChainLength (unsigned length) {m_Length = length;}

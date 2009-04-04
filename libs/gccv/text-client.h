@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/structs.h 
+ * gccv/text-client.h 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,39 +22,28 @@
  * USA
  */
 
-#ifndef GCCV_STRUCTS_H
-#define GCCV_STRUCTS_H
+#ifndef GCCV_TEXT_CLIENT_H
+#define GCCV_TEXT_CLIENT_H
+
+#include <gccv/item-client.h>
 
 namespace gccv {
 
-typedef struct {
-	double x0, x1, y0, y1;
-} Rect;
+class TextClient: public ItemClient
+{
+public:
+	TextClient ();
+	virtual ~TextClient ();
 
-typedef struct {
-	double x, y;
-} Point;
+/*!
+*/
+	virtual void SelectionChanged (unsigned start, unsigned end) = 0;
+/*!
+*/
+	virtual void TextChanged () = 0;
 
-typedef enum {
-	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
-	AnchorLineWest, AnchorLine, AnchorLineEast,
-	AnchorWest, AnchorCenter, AnchorEast,
-	AnchorSouthWest, AnchorSouth, AnchorSouthEast 
-} Anchor;
-
-typedef enum {
-	ArrowHeadNone,
-	ArrowHeadFull,
-	ArrowHeadLeft,
-	ArrowHeadRight,
-} ArrowHeads;
-
-typedef enum {
-	Normalscript,
-	Subscript,
-	Superscript
-} TextPosition;
+};
 
 }
 
-#endif	//	 GCCV_RECTANGLE_H
+#endif	//	GCCV_CLIENT_H

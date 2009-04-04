@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -50,16 +50,6 @@ using namespace gcu;
 using namespace std;
 
 namespace gcp {
-
-static void on_fragment_changed (Fragment *fragment)
-{
-	fragment->OnChanged (true);
-}
-
-static void on_fragment_sel_changed (Fragment *fragment, gccv::TextSelBounds *bounds)
-{
-	fragment->OnSelChanged (bounds);
-}
 
 Fragment::Fragment ():
 	TextObject (FragmentType),

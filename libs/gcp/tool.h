@@ -178,12 +178,12 @@ m_nState, and calls Tool::OnChangeState ().
 */
 	void OnKeyReleased (unsigned int code) {if (m_nState & code) m_nState -= code; OnChangeState ();}
 /*!
-Called by the framework for the active tool when an event occurs. Default
+Called by the framework for the active tool when a key press event occurs. Default
 just returns \a false.
 
 @return true to stop any further propagation of the event, false otherwise.
 */
-	virtual bool OnEvent (GdkEvent* event);
+	virtual bool OnKeyPress (GdkEventKey *event);
 /*!
 Virtual method called by the framework whenthe active view, and hence the active
 document has changed, so that the tool can finish its current operation in the

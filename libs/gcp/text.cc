@@ -46,19 +46,8 @@ using namespace std;
 
 namespace gcp {
 
-static void on_text_changed (Text *text)
-{
-	text->OnChanged (true);
-}
-
-static void on_text_sel_changed (Text *text, gccv::TextSelBounds *bounds)
-{
-	text->OnSelChanged (bounds);
-}
-
 Text::Text ():
 	TextObject (TextType),
-	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
 	m_Anchor (gccv::AnchorLineWest)
@@ -67,7 +56,6 @@ Text::Text ():
 
 Text::Text (double x, double y):
 	TextObject (x, y, TextType),
-	ItemClient (),
 	m_Align (PANGO_ALIGN_LEFT),
 	m_Justified (false),
 	m_Anchor (gccv::AnchorLineWest)

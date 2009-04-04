@@ -4,7 +4,7 @@
  * GChemPaint library
  * text.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,6 @@
 #ifndef GCHEMPAINT_TEXT_H
 #define GCHEMPAINT_TEXT_H
 
-#include <gccv/item-client.h>
 #include <gcu/macros.h>
 #include <gcu/object.h>
 #include <libxml/tree.h>
@@ -39,7 +38,7 @@ namespace gcp {
 The text objects in GChemPaint, excluding atomic symbols. Using this class to
 represent chemical objects looses the chemical significance.
 */
-class Text: public TextObject, public gccv::ItemClient
+class Text: public TextObject
 {
 public:
 /*!

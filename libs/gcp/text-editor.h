@@ -1,10 +1,10 @@
 // -*- C++ -*-
 
 /* 
- * Gnome Chemistry Utils
- * gccv/structs.h 
+ * GChemPaint library
+ * text-editor.h 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,39 +22,21 @@
  * USA
  */
 
-#ifndef GCCV_STRUCTS_H
-#define GCCV_STRUCTS_H
+#ifndef GCHEMPAINT_TEXT_EDITOR_H
+#define GCHEMPAINT_TEXT_EDITOR_H
 
-namespace gccv {
+/*!\file*/
+namespace gcp {
 
-typedef struct {
-	double x0, x1, y0, y1;
-} Rect;
+/*!\class TextEditor
 
-typedef struct {
-	double x, y;
-} Point;
+*/
+class TextEditor
+{
+public:
+	virtual void SelectionChanged () = 0;
+};
 
-typedef enum {
-	AnchorNorthWest, AnchorNorth, AnchorNorthEast,
-	AnchorLineWest, AnchorLine, AnchorLineEast,
-	AnchorWest, AnchorCenter, AnchorEast,
-	AnchorSouthWest, AnchorSouth, AnchorSouthEast 
-} Anchor;
+}   //  namespace gcp
 
-typedef enum {
-	ArrowHeadNone,
-	ArrowHeadFull,
-	ArrowHeadLeft,
-	ArrowHeadRight,
-} ArrowHeads;
-
-typedef enum {
-	Normalscript,
-	Subscript,
-	Superscript
-} TextPosition;
-
-}
-
-#endif	//	 GCCV_RECTANGLE_H
+#endif  //  GCHEMPAINT_TEXT_EDITOR_H

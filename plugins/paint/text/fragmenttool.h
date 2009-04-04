@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * fragmenttool.h 
  *
- * Copyright (C) 2003-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -36,7 +36,7 @@ public:
 	virtual bool OnClicked ();
 	virtual bool Deactivate ();
 	virtual void Activate ();
-	virtual bool OnEvent (GdkEvent* event);
+	virtual bool OnKeyPress (GdkEventKey *event);
 	virtual bool CopySelection (GtkClipboard *clipboard);
 	virtual bool CutSelection (GtkClipboard *clipboard);
 	virtual bool OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, int type);

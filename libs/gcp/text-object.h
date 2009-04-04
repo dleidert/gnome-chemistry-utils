@@ -4,7 +4,7 @@
  * GChemPaint libray
  * text-object.h 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,7 @@
 #include <gcu/object.h>
 #include <gcu/macros.h>
 #include <gccv/structs.h>
+#include <gccv/text-client.h>
 #include <gccv/text-tag.h>
 #include <pango/pango-layout.h>
 #include <string>
@@ -35,12 +36,14 @@
 /*!\file*/
 namespace gcp {
 
+class TextEditor;
+
 /*!\class TextObject gcp/text-object.h
 
 The base class for texts. This class is virtual with one pure virtual method
 (gcp::TextObject::OnSave).
 */
-class TextObject: public gcu::Object
+class TextObject: public gcu::Object, public gccv::TextClient
 {
 public:
 /*!
@@ -88,13 +91,6 @@ must be overloaded in derived classes.
 */
 	virtual bool OnChanged (bool save) = 0;
 /*!
-@param bounds the bounds of the selection.
-
-Called during edition when the selection has changed, that is after any change.
-The signature of this method will change with the deprecation of GnomeCanvas.
-*/
-	void OnSelChanged (gccv::TextSelBounds *bounds);
-/*!
 @param xml the xml document.
 @param node the node representing the text.
 
@@ -140,6 +136,14 @@ Used when saving to get properties from a text object. Only on eproperty is
 supported: GCU_PROP_TEXT_TEXT
 */
 	virtual std::string GetProperty (unsigned property) const;
+
+	// virtual methods for the gccv:TextClient interface
+/*!
+*/
+	void SelectionChanged (unsigned start, unsigned end);
+/*!
+*/
+	void TextChanged ();
 
 protected:
 /*!
@@ -196,14 +200,15 @@ first line is used for vertical alignment.
 /*!\fn GetAnchor()
 @return the current GtkAnchor.
 */
-GCU_PROT_PROP (GtkAnchorType, Anchor);
+GCU_PROT_PROP (GtkAnchorType, Anchor)
 /*!\var m_TagList
 The tags list associated with the object.
 */
 /*!\fn GetTagList
 @return a copy of the tags list for this object.
 */
-GCU_PROT_PROP (gccv::TextTagList, TagList);
+GCU_PROT_PROP (gccv::TextTagList, TagList)
+GCU_PROP (TextEditor*, Editor)
 };
 
 }	// namespace gcp

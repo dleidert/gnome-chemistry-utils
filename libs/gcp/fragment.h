@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -41,7 +41,7 @@ Represents atoms groups displayed as a string. Currntly, the string is not
 fully parsed, so that some non sense strings might be accepted. Anyway, this
 will not always be the case in the future.
 */
-class Fragment: public TextObject, public gccv::ItemClient
+class Fragment: public TextObject
 {
 public:
 /*!

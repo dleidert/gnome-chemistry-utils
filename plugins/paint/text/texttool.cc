@@ -54,58 +54,6 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 	tool->OnGetData (clipboard, selection_data, info);
 }
 
-static void on_sel_changed (gcpTextTool *tool)
-{
-	tool->UpdateTagsList ();
-}
-
-static bool filter_attribute (PangoAttribute *attribute, gcpTextTool *tool)
-{
-	int index = tool->GetIndex ();
-	if (index < 0)
-		return false;
-	if ((index)? (attribute->start_index < (unsigned) index && attribute->end_index >= (unsigned) index):
-		attribute->start_index == 0) {
-			switch (attribute->klass->type) {
-				case PANGO_ATTR_FAMILY:
-					tool->SetFamilyName (((PangoAttrString*)attribute)->value);
-					break;
-				case PANGO_ATTR_STYLE:
-					tool->SetStyle ((PangoStyle) ((PangoAttrInt*)attribute)->value);
-					break;
-				case PANGO_ATTR_WEIGHT:
-					tool->SetWeight ((PangoWeight) ((PangoAttrInt*)attribute)->value);
-					break;
-				case PANGO_ATTR_VARIANT:
-					tool->SetVariant ((PangoVariant) ((PangoAttrInt*)attribute)->value);
-					break;
-				case PANGO_ATTR_STRETCH:
-					tool->SetStretch ((PangoStretch) ((PangoAttrInt*)attribute)->value);
-					break;
-				case PANGO_ATTR_SIZE:
-					tool->SetSize (((PangoAttrInt*)attribute)->value);
-					break;
-				case PANGO_ATTR_UNDERLINE:
-					tool->SetUnderline ((PangoUnderline) ((PangoAttrInt*)attribute)->value);
-					break;
-				case PANGO_ATTR_STRIKETHROUGH:
-					tool->SetStrikethrough (((PangoAttrInt*)attribute)->value);
-					break;
-				case PANGO_ATTR_RISE:
-					tool->SetRise (((PangoAttrInt*)attribute)->value);
-					break;
-				case PANGO_ATTR_FOREGROUND: {
-					PangoColor color = ((PangoAttrColor*)attribute)->color;
-					tool->SetColor (RGBA_TO_UINT(color.red >> 8, color.green >> 8, color.blue >> 8, 0xff));
-					break;
-				}
-				default:
-					break;
-			}
-		}
-	return false;
-}
-
 gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 	gcp::Tool (App, Id),
 	m_FamilyList (NULL)
@@ -125,7 +73,6 @@ gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 	m_Underline = PANGO_UNDERLINE_NONE;
 	m_Rise = 0;
 	m_Color = RGBA_BLACK;
-	m_SelSignal = 0;
 	m_Position = gccv::Normalscript;
 }
 
@@ -159,7 +106,8 @@ bool gcpTextTool::OnClicked ()
 	if (m_pObject) {
 		if (m_pObject->GetType () != TextType)
 			return false;
-		static_cast <gcp::Text *> (m_pObject)->SetSelected (gcp::SelStateUpdating);
+		gcp::Text *text = static_cast <gcp::Text *> (m_pObject);
+		text->SetSelected (gcp::SelStateUpdating);
 		m_Active = static_cast <gccv::Text *> (dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ());
 		m_pView->SetTextActive (m_Active);
 		m_Active->SetEditing (true);
@@ -167,8 +115,7 @@ bool gcpTextTool::OnClicked ()
 		m_CurNode = ((gcp::Text*) m_pObject)->SaveSelected ();
 		m_InitNode = ((gcp::Text*) m_pObject)->SaveSelected ();
 		m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
-/*		if (m_SelSignal == 0)
-			m_SelSignal = g_signal_connect_swapped (m_Active, "sel-changed", G_CALLBACK (on_sel_changed), this);*/
+		text->SetEditor (this);
 		if (create)
 			BuildTagsList ();
 		else
@@ -183,119 +130,89 @@ void gcpTextTool::OnDrag ()
 		m_Active->OnDrag (m_x, m_y);
 }
 
-bool gcpTextTool::OnEvent (GdkEvent* event)
+bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 {
 	if (m_Active) {
-		if ((event->type == GDK_KEY_PRESS) || (event->type == GDK_KEY_RELEASE)) {
-			if (event->key.state & GDK_CONTROL_MASK) {
-				switch (event->key.keyval) {
-				case GDK_Right:
-				case GDK_Left:
-				case GDK_Up:
-				case GDK_Down:
-				case GDK_End:
-				case GDK_Home:
-				case GDK_Delete:
-				case GDK_KP_Delete:
-				case GDK_BackSpace:
-					break;
-				case GDK_a:
-					m_pView->OnSelectAll ();
-					return true;
-				case GDK_z:
-					m_pView->GetDoc()->OnUndo ();
-					return true;
-				case GDK_Z:
-					m_pView->GetDoc()->OnRedo ();
-					return true;
-				case GDK_c:
-					CopySelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
-					return true;
-				case GDK_v:
-					PasteSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
-					return true;
-				case GDK_x:
-					CutSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
-					return true;
-				case GDK_i:
-					m_Style = (m_Style == PANGO_STYLE_NORMAL)? PANGO_STYLE_ITALIC: PANGO_STYLE_NORMAL;
-					SelectBestFontFace ();
-					BuildTagsList ();
-					return true;
-				case GDK_u:
-					gtk_combo_box_set_active (m_UnderlineBox, ((m_Underline == PANGO_UNDERLINE_SINGLE)? PANGO_UNDERLINE_NONE: PANGO_UNDERLINE_SINGLE));
-					return true;
-				case GDK_b:
-					m_Weight = (m_Weight == PANGO_WEIGHT_NORMAL)? PANGO_WEIGHT_BOLD: PANGO_WEIGHT_NORMAL;
-					SelectBestFontFace ();
-					BuildTagsList ();
-					return true;
-				case GDK_k:
-					gtk_toggle_button_set_active (m_StrikethroughBtn, !m_Strikethrough);
-					return true;
-				case GDK_plus:
-				case GDK_dead_circumflex:
-					m_Position = (m_Position == gccv::Superscript)? gccv::Normalscript: gccv::Superscript;
-					BuildTagsList ();
-/*					if (m_Rise == 0) {
-						m_Size = m_Size * 2 / 3;
-						m_Rise = m_Size / PANGO_SCALE;
-					} else if (m_Rise < 0)
-						m_Rise = m_Size / PANGO_SCALE;
-					else {
-						m_Size = m_Size * 3 / 2;
-						m_Rise = 0;
-					}
-					g_signal_handler_block (m_RiseButton, m_RiseSignal);
-					gtk_spin_button_set_value (m_RiseButton, m_Rise);
-					m_Rise *= PANGO_SCALE;
-					g_signal_handler_unblock (m_RiseButton, m_RiseSignal);
-					SetSizeFull (true);*/
-					return true;
-				case GDK_equal:
-				case GDK_underscore:
-					m_Position = (m_Position == gccv::Subscript)? gccv::Normalscript: gccv::Subscript;
-					BuildTagsList ();
-/*					if (m_Rise == 0) {
-						m_Size = m_Size * 2 / 3;
-						m_Rise = - m_Size / PANGO_SCALE / 2;
-					} else if (m_Rise > 0)
-						m_Rise = - m_Size / PANGO_SCALE/ 2;
-					else {
-						m_Size = m_Size * 3 / 2;
-						m_Rise = 0;
-					}
-					g_signal_handler_block (m_RiseButton, m_RiseSignal);
-					gtk_spin_button_set_value (m_RiseButton, m_Rise);
-					m_Rise *= PANGO_SCALE;
-					g_signal_handler_unblock (m_RiseButton, m_RiseSignal);
-					SetSizeFull (true);*/
-					return true;
-				case GDK_space: {
-					gccv::Text *saved = m_Active;
-					m_Active = NULL;
-					UpdateTagsList ();
-					m_Active = saved;
-					BuildTagsList ();
-					return true;
-				}
-				default:
-					break;
-				}
-			}
-			if (event->type == GDK_KEY_PRESS) {
-				if (!g_utf8_validate (((GdkEventKey*) event)->string, -1, NULL)) {
-					gsize r, w;
-					gchar* newstr = g_locale_to_utf8 (((GdkEventKey*) event)->string, ((GdkEventKey*) event)->length, &r, &w, NULL);
-					g_free (((GdkEventKey*) event)->string);
-					((GdkEventKey*) event)->string = newstr;
-					((GdkEventKey*) event)->length = w;
-				}
-				m_Active->OnKeyPressed (reinterpret_cast <GdkEventKey *> (event));
+		if (event->state & GDK_CONTROL_MASK) {
+			switch (event->keyval) {
+			case GDK_Right:
+			case GDK_Left:
+			case GDK_Up:
+			case GDK_Down:
+			case GDK_End:
+			case GDK_Home:
+			case GDK_Delete:
+			case GDK_KP_Delete:
+			case GDK_BackSpace:
+				break;
+			case GDK_a:
+				m_pView->OnSelectAll ();
 				return true;
-			} else
-				return false;
+			case GDK_z:
+				m_pView->GetDoc()->OnUndo ();
+				return true;
+			case GDK_Z:
+				m_pView->GetDoc()->OnRedo ();
+				return true;
+			case GDK_c:
+				CopySelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+				return true;
+			case GDK_v:
+				PasteSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+				return true;
+			case GDK_x:
+				CutSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+				return true;
+			case GDK_i:
+				m_Style = (m_Style == PANGO_STYLE_NORMAL)? PANGO_STYLE_ITALIC: PANGO_STYLE_NORMAL;
+				SelectBestFontFace ();
+				BuildTagsList ();
+				return true;
+			case GDK_u:
+				gtk_combo_box_set_active (m_UnderlineBox, ((m_Underline == PANGO_UNDERLINE_SINGLE)? PANGO_UNDERLINE_NONE: PANGO_UNDERLINE_SINGLE));
+				return true;
+			case GDK_b:
+				m_Weight = (m_Weight == PANGO_WEIGHT_NORMAL)? PANGO_WEIGHT_BOLD: PANGO_WEIGHT_NORMAL;
+				SelectBestFontFace ();
+				BuildTagsList ();
+				return true;
+			case GDK_k:
+				gtk_toggle_button_set_active (m_StrikethroughBtn, !m_Strikethrough);
+				return true;
+			case GDK_plus:
+			case GDK_dead_circumflex:
+				m_Position = (m_Position == gccv::Superscript)? gccv::Normalscript: gccv::Superscript;
+				BuildTagsList ();
+				return true;
+			case GDK_equal:
+			case GDK_underscore:
+				m_Position = (m_Position == gccv::Subscript)? gccv::Normalscript: gccv::Subscript;
+				BuildTagsList ();
+				return true;
+			case GDK_space: {
+				gccv::Text *saved = m_Active;
+				m_Active = NULL;
+				UpdateTagsList ();
+				m_Active = saved;
+				BuildTagsList ();
+				return true;
+			}
+			default:
+				break;
+			}
 		}
+		if (event->type == GDK_KEY_PRESS) {
+			if (!g_utf8_validate (event->string, -1, NULL)) {
+				gsize r, w;
+				gchar* newstr = g_locale_to_utf8 (event->string, event->length, &r, &w, NULL);
+				g_free (event->string);
+				event->string = newstr;
+				event->length = w;
+			}
+			m_Active->OnKeyPressed (event);
+			return true;
+		} else
+			return false;
 	}
 	return false;
 }
@@ -322,10 +239,6 @@ bool gcpTextTool::Unselect ()
 {
 	if (!m_Active)
 		return true;
-	if (m_SelSignal) {
-		g_signal_handler_disconnect (m_Active, m_SelSignal);
-		m_SelSignal = 0;
-	}
 	m_pView->SetTextActive (NULL);
 	m_Active->SetEditing (false);
 	m_Active->GetClient ()->SetSelected (gcp::SelStateUnselected);
@@ -413,7 +326,7 @@ bool gcpTextTool::CopySelection (GtkClipboard *clipboard)
 	if (!m_Active)
 		return false;
 	unsigned start, end;
-	gcp::Text *text = (gcp::Text*) g_object_get_data (G_OBJECT (m_Active), "object");
+	gcp::Text *text = dynamic_cast <gcp::Text*> (m_Active->GetClient ());
 	text->GetSelectionBounds (start, end);
 	if (start == end)
 		return false;
@@ -664,6 +577,54 @@ void gcpTextTool::UpdateTagsList ()
 	m_Strikethrough = false;
 	m_Color = RGBA_BLACK;
 	if (m_Active) {
+		unsigned index = GetIndex ();
+		std::list <gccv::TextTag *> const *tags = m_Active->GetTags ();
+		std::list <gccv::TextTag *>::const_iterator i, end = tags->end ();
+		for (i = tags->begin (); i != end; i++) {
+			if ((index)? ((*i)->GetStartIndex () < index && (*i)->GetEndIndex () >=  index):
+				(*i)->GetStartIndex () == 0) {
+				switch ((*i)->GetTag ()) {
+				case gccv::Family:
+					m_FamilyName = static_cast <gccv::FamilyTextTag const *> (*i)->GetFamily ();
+					break;
+				case gccv::Size:
+					m_Size = static_cast <gccv::SizeTextTag const *> (*i)->GetSize ();
+					break;
+				case gccv::Style:
+					m_Style = static_cast <gccv::StyleTextTag const *> (*i)->GetStyle ();
+					break;
+				case gccv::Weight:
+					m_Weight = static_cast <gccv::WeightTextTag const *> (*i)->GetWeight ();
+					break;
+				case gccv::Variant:
+					m_Variant = static_cast <gccv::VariantTextTag const *> (*i)->GetVariant ();
+					break;
+				case gccv::Stretch:
+					m_Stretch = static_cast <gccv::StretchTextTag const *> (*i)->GetStretch ();
+					break;
+				case gccv::Underline:
+					m_Underline = static_cast <gccv::UnderlineTextTag const *> (*i)->GetUnderline ();
+					break;
+				case gccv::Strikethrough:
+					m_Strikethrough = static_cast <gccv::StrikethroughTextTag const *> (*i)->GetStrikethrough ();
+					break;
+				case gccv::Foreground:
+					m_Color = static_cast <gccv::ForegroundTextTag const *> (*i)->GetColor ();
+					break;
+				case gccv::Rise:
+					m_Rise = static_cast <gccv::RiseTextTag const *> (*i)->GetRise ();
+					break;
+				case gccv::Position: {
+					bool stacked;
+					double size;
+					m_Position = static_cast <gccv::PositionTextTag const *> (*i)->GetPosition (stacked, size);
+					break;
+				}
+				default:
+					break;
+				}
+			}
+		}
 /*		PangoLayout *layout;
 		g_object_get (m_Active, "layout", &layout, NULL);
 		PangoAttrList *l = pango_layout_get_attributes (layout);
@@ -676,7 +637,7 @@ void gcpTextTool::UpdateTagsList ()
 	gtk_tree_model_get_iter_first (GTK_TREE_MODEL (m_FamilyList), &iter);
 	do {
 		gtk_tree_model_get (GTK_TREE_MODEL (m_FamilyList), &iter, 0, &buf, -1);
-		if (!strcmp (m_FamilyName, buf)) {
+		if (m_FamilyName != buf) {
 			m_Dirty = true;
 			GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (m_FamilyList), &iter);
 			gtk_tree_view_set_cursor (m_FamilyTree, path, NULL, FALSE);
@@ -943,14 +904,14 @@ void gcpTextTool::OnSelectFamily (GtkTreeSelection *selection)
 		//TODO: choose a face when default is not available
 	}
 	if (m_Active) {
-		PangoAttrList *l = pango_attr_list_new ();
+/*		PangoAttrList *l = pango_attr_list_new ();
 		pango_attr_list_insert (l, pango_attr_family_new (m_FamilyName));
 		pango_attr_list_insert (l, pango_attr_style_new (m_Style));
 		pango_attr_list_insert (l, pango_attr_weight_new (m_Weight));
 		pango_attr_list_insert (l, pango_attr_stretch_new (m_Stretch));
 		pango_attr_list_insert (l, pango_attr_variant_new (m_Variant));
-//		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
-		pango_attr_list_unref (l);
+		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
+		pango_attr_list_unref (l);*/
 	}
 }
 
@@ -1120,4 +1081,9 @@ void gcpTextTool::OnForeColorChanged (GOColor color)
 //		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
 		pango_attr_list_unref (l);
 	}
+}
+
+void gcpTextTool::SelectionChanged ()
+{
+	UpdateTagsList ();
 }

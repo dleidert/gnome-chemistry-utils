@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/text.h 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -88,6 +88,7 @@ be moved to the end of the inserted text.
 */
 	void ReplaceText (std::string &str, int pos, unsigned length);
 	unsigned GetCursorPosition () {return m_CurPos;}
+	unsigned GetSelectionBounds (unsigned &start, unsigned &end);
 
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;

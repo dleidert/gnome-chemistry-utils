@@ -27,6 +27,7 @@
 
 #include <gccv/structs.h>
 #include <gcp/tool.h>
+#include <gcp/text-editor.h>
 #include <gcu/macros.h>
 #include <goffice/gtk/go-color-selector.h>
 #include <list>
@@ -37,7 +38,7 @@ namespace gccv {
 }
 using namespace std;
 
-class gcpTextTool: public gcp::Tool
+class gcpTextTool: public gcp::Tool, public gcp::TextEditor
 {
 public:
 	gcpTextTool (gcp::Application *App, string Id = "Text");
@@ -47,7 +48,7 @@ public:
 	void OnDrag ();
 	bool Deactivate ();
 	void Activate ();
-	bool OnEvent (GdkEvent *event);
+	bool OnKeyPress (GdkEventKey *event);
 	bool NotifyViewChange ();
 	bool DeleteSelection ();
 	bool CopySelection (GtkClipboard *clipboard);
@@ -71,6 +72,7 @@ public:
 	void OnPositionChanged (int position);
 	void OnForeColorChanged (GOColor color);
 	char const *GetHelpTag () {return "text";}
+	void SelectionChanged ();
 
 protected:
 	virtual bool Unselect ();
@@ -101,9 +103,9 @@ private:
 	GtkToggleButton *m_StrikethroughBtn;
 	GtkSpinButton *m_RiseButton;
 	bool m_Dirty;
-	gulong m_SelSignal, m_UnderlineSignal, m_StrikethroughSignal, m_ForeSignal, m_RiseSignal;
+	gulong m_UnderlineSignal, m_StrikethroughSignal, m_ForeSignal, m_RiseSignal;
 
-GCU_PROP (char const *, FamilyName)
+GCU_PROP (std::string, FamilyName)
 GCU_PROP (PangoStyle, Style)
 GCU_PROP (PangoWeight, Weight)
 GCU_PROP (PangoStretch, Stretch)

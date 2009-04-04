@@ -630,7 +630,7 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 {
 	Application *pApp = m_pDoc->GetApplication ();
 	Tool *pActiveTool = pApp->GetActiveTool ();
-	if (pActiveTool->OnEvent ((GdkEvent*) event))
+	if (pActiveTool->OnKeyPress (event))
 		return true;
 	switch (event->keyval) {
 	case GDK_Delete:

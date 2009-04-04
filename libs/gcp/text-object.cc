@@ -4,7 +4,7 @@
  * GChemPaint library
  * text-object.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "text-object.h"
+#include "text-editor.h"
 #include "document.h"
 #include "window.h"
 #include <gcu/objprops.h>
@@ -37,7 +38,7 @@ namespace gcp {
 
 extern xmlDocPtr pXmlDoc;
 
-TextObject::TextObject (TypeId Type): Object (Type)
+TextObject::TextObject (TypeId Type): Object (Type), gccv::TextClient ()
 {
 	m_x = 0.;
 	m_y = 0.;
@@ -130,22 +131,6 @@ void TextObject::Move (double x, double y, G_GNUC_UNUSED double z)
 	m_y += y;
 }
 
-void TextObject::OnSelChanged (gccv::TextSelBounds *bounds)
-{
-	if (bounds->start <= bounds->cur) {
-		m_StartSel = bounds->start;
-		m_EndSel = bounds->cur;
-	} else {
-		m_EndSel = bounds->start;
-		m_StartSel = bounds->cur;
-	}
-	bool activate = m_EndSel > m_StartSel;
-	Document* pDoc = dynamic_cast<Document*> (GetDocument ());
-	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Erase", activate);
-	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Copy", activate);
-	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Cut", activate);
-}
-
 string TextObject::GetProperty (unsigned property) const
 {
 	switch (property) {
@@ -154,6 +139,29 @@ string TextObject::GetProperty (unsigned property) const
 	default:
 		return Object::GetProperty (property);
 	}
+}
+
+void TextObject::SelectionChanged (unsigned start, unsigned cur)
+{
+	if (start <= cur) {
+		m_StartSel = start;
+		m_EndSel = cur;
+	} else {
+		m_EndSel = start;
+		m_StartSel = cur;
+	}
+	bool activate = m_EndSel > m_StartSel;
+	Document* pDoc = dynamic_cast<Document*> (GetDocument ());
+	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Erase", activate);
+	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Copy", activate);
+	pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Cut", activate);
+	if (m_Editor)
+		m_Editor->SelectionChanged ();
+}
+
+void TextObject::TextChanged ()
+{
+	OnChanged (true);
 }
 
 }	//	namespace gcp

@@ -20,6 +20,7 @@ noinst_HEADERS = \
 	squiggle.h \
 	structs.h \
 	text.h \
+	text-client.h	\
 	text-tag.h  \
 	wedge.h
 
@@ -40,6 +41,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	rectangle.cc	\
 	squiggle.cc \
 	text.cc \
+	text-client.cc	\
 	text-tag.cc	\
 	wedge.cc
 

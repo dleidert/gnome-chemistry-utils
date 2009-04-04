@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * fragmenttool.cc 
  *
- * Copyright (C) 2003-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -77,7 +77,7 @@ bool gcpFragmentTool::OnClicked ()
 		pDoc->EmptyTranslationTable ();
 		m_pObject = fragment;
 	}
-	gccv::TextSelBounds bounds;
+/*	gccv::TextSelBounds bounds;
 	bool need_update = false;
 	gcp::Fragment *pFragment = NULL;
 	if (m_pObject) {
@@ -121,9 +121,9 @@ bool gcpFragmentTool::OnClicked ()
 						buf = g_strdup ("H");
 					bounds.start = bounds.cur = ((pAtom->GetBestSide ())? strlen (pAtom->GetSymbol ()): 0);
 					pFragment->OnSelChanged (&bounds);
-/*					gcp_pango_layout_replace_text (pFragment->GetLayout (),
+					gcp_pango_layout_replace_text (pFragment->GetLayout (),
 						bounds.cur,
-						0, buf, pDoc->GetPangoAttrList ());*/
+						0, buf, pDoc->GetPangoAttrList ());
 					bounds.cur +=  strlen (buf);
 					need_update = true;
 					g_free (buf);
@@ -147,10 +147,10 @@ bool gcpFragmentTool::OnClicked ()
 			default:
 				return false;
 		}
-//		m_pObject->SetSelected (gcp::SelStateUpdating);
-//		m_Active = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (m_pData->Items[m_pObject]), "fragment"));
+		m_pObject->SetSelected (gcp::SelStateUpdating);
+		m_Active = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (m_pData->Items[m_pObject]), "fragment"));
 		if (need_update) {
-//			gnome_canvas_pango_set_selection_bounds (m_Active,  bounds.cur,  bounds.cur);
+			gnome_canvas_pango_set_selection_bounds (m_Active,  bounds.cur,  bounds.cur);
 			pFragment->AnalContent ((unsigned) bounds.start, (unsigned&) bounds.cur);
 			pFragment->OnChanged (false);
 		}
@@ -159,7 +159,7 @@ bool gcpFragmentTool::OnClicked ()
 		m_CurNode = ((gcp::Fragment*) m_pObject)->SaveSelected ();
 		m_InitNode = ((gcp::Fragment*) m_pObject)->SaveSelected ();
 		pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
-	}
+	}*/
 	return true;
 }
 
@@ -174,56 +174,54 @@ void gcpFragmentTool::Activate ()
 {
 }
 
-bool gcpFragmentTool::OnEvent (GdkEvent* event)
+bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 {
 	if (m_Active) {
-		if ((event->type == GDK_KEY_PRESS) || (event->type == GDK_KEY_RELEASE)) {
-			if (event->key.state & GDK_CONTROL_MASK) {
-				switch(event->key.keyval) {
-					case GDK_Right:
-					case GDK_Left:
-					case GDK_Up:
-					case GDK_Down:
-					case GDK_End:
-					case GDK_Home:
-					case GDK_Delete:
-					case GDK_KP_Delete:
-					case GDK_BackSpace:
-					break;
-					case GDK_z:
-						m_pView->GetDoc ()->OnUndo ();
-						return true;
-					case GDK_Z:
-						m_pView->GetDoc ()->OnRedo ();
-						return true;
-					case GDK_c:
-						CopySelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
-						return true;
-					case GDK_v:
-						PasteSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
-						return true;
-					case GDK_x:
-						CutSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
-						return true;
-					default:
-						return false;
-				}
+		if (event->state & GDK_CONTROL_MASK) {
+			switch(event->keyval) {
+				case GDK_Right:
+				case GDK_Left:
+				case GDK_Up:
+				case GDK_Down:
+				case GDK_End:
+				case GDK_Home:
+				case GDK_Delete:
+				case GDK_KP_Delete:
+				case GDK_BackSpace:
+				break;
+				case GDK_z:
+					m_pView->GetDoc ()->OnUndo ();
+					return true;
+				case GDK_Z:
+					m_pView->GetDoc ()->OnRedo ();
+					return true;
+				case GDK_c:
+					CopySelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+					return true;
+				case GDK_v:
+					PasteSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+					return true;
+				case GDK_x:
+					CutSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
+					return true;
+				default:
+					return false;
 			}
-			if (event->key.keyval == GDK_KP_Enter || event->key.keyval == GDK_Return ||
-								event->key.keyval == GDK_space)
-				return true;
-			if (!g_utf8_validate (((GdkEventKey*) event)->string, -1, NULL)) {
-				gsize r, w;
-				gchar* newstr = g_locale_to_utf8 (((GdkEventKey*) event)->string, ((GdkEventKey*) event)->length, &r, &w, NULL);
-				g_free (((GdkEventKey*) event)->string);
-				((GdkEventKey*) event)->string = newstr;
-				((GdkEventKey*) event)->length = w;
-			}
-/*			gnome_canvas_item_grab_focus ((GnomeCanvasItem*) m_Active);
-			GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (m_Active));
-			klass->event ((GnomeCanvasItem*) m_Active, event);*/
-			return true;
 		}
+		if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return ||
+							event->keyval == GDK_space)
+			return true;
+		if (!g_utf8_validate (event->string, -1, NULL)) {
+			gsize r, w;
+			gchar *newstr = g_locale_to_utf8 (event->string, event->length, &r, &w, NULL);
+			g_free (event->string);
+			event->string = newstr;
+			event->length = w;
+		}
+/*			gnome_canvas_item_grab_focus ((GnomeCanvasItem*) m_Active);
+		GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (m_Active));
+		klass->event ((GnomeCanvasItem*) m_Active, event);*/
+		return true;
 	}
 	return false;
 }

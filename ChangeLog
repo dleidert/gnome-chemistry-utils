@@ -1,5 +1,31 @@
 ##Text encoding: utf-8
 
+2009-04-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: add new TextClient class.
+	* libs/gccv/structs.h: remove text bounds.
+	* libs/gccv/text-client.cc: new ItemClient derived class.
+	* libs/gccv/text-client.h: ditto.
+	* libs/gccv/text-tag.h: update the copyright.
+	* libs/gccv/text.cc: use the new TextClient class.
+	* libs/gccv/text.h: update the copyright.
+	* libs/gcp/Makefile.am: add new TextEditor class.
+	* libs/gcp/fragment.cc: make TextObject derive from gccv::TextClient.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/text-editor.h: new class.
+	* libs/gcp/text-object.cc: make TextObject derive from gccv::TextClient.
+	* libs/gcp/text-object.h: ditto.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcp/text.h: ditto.
+	* libs/gcp/tool.cc: rename OnEvent to OnKeyPress.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* plugins/paint/bonds/chaintool.cc: ditto.
+	* plugins/paint/bonds/chaintool.h: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/fragmenttool.h: ditto.
+	* plugins/paint/text/texttool.cc: more reimplement work.
+	* plugins/paint/text/texttool.h: make the tool derive from gcp::TextEditor.
+
 2009-03-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: add gcp::Atom::HasAvailableElectrons.
 	* libs/gcp/atom.h: ditto.

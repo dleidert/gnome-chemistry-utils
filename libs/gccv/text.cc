@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "text.h"
+#include "text-client.h"
 #include "text-tag.h"
 #include <pango/pangocairo.h>
 #include <cairo-pdf.h>
@@ -840,8 +841,12 @@ static std::string empty_st = "";
 
 bool Text::OnKeyPressed (GdkEventKey *event)
 {
-	if (gtk_im_context_filter_keypress (m_ImContext, event))
+	TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+	if (gtk_im_context_filter_keypress (m_ImContext, event)) {
+		if (client)
+			client->TextChanged ();
 		return true;
+	}
 
 	switch (event->keyval) {
 	case GDK_Control_L:
@@ -854,12 +859,16 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 
 	case GDK_Tab:
 		TextPrivate::OnCommit (m_ImContext, "\t", this);
+		if (client)
+			client->TextChanged ();
 		break;
 
 	/* MOVEMENT */
 	case GDK_Right:
+		if (m_CurPos == m_Text.length ())
+			break;
 		if (event->state & GDK_CONTROL_MASK) {
-			/* move to start of word */
+			/* move to end of word */
 			char const* s = m_Text.c_str ();
 			char *p = g_utf8_next_char (s + m_CurPos);
 			while (*p && (!g_unichar_isgraph (g_utf8_get_char(p)) || g_unichar_ispunct (g_utf8_get_char(p))))
@@ -880,7 +889,9 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 				m_StartSel = m_CurPos;
 			Invalidate ();
 		}
-			break;
+		if (client)
+			client->SelectionChanged (m_StartSel, m_CurPos);
+		break;
 	case GDK_Left:
 		if (m_CurPos == 0)
 			break;
@@ -906,6 +917,8 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 				m_StartSel = m_CurPos;
 			Invalidate ();
 		}
+		if (client)
+			client->SelectionChanged (m_StartSel, m_CurPos);
 		break;
 	case GDK_f:
 		/* TODO: write this code */
@@ -945,6 +958,8 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 	case GDK_KP_Delete: {
 		if (m_CurPos != m_StartSel) {
 			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
+			if (client)
+				client->TextChanged ();
 			break;
 		}
 		if (m_CurPos == m_Text.length ())
@@ -953,6 +968,8 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		char *p = g_utf8_next_char (s + m_CurPos);
 		int new_pos = p - s;
 		ReplaceText (empty_st, m_CurPos, new_pos - m_CurPos);
+		if (client)
+			client->TextChanged ();
 		break;
 	}
 	case GDK_d:
@@ -961,6 +978,8 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 	case GDK_BackSpace: {
 		if (m_CurPos != m_StartSel) {
 			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
+			if (client)
+				client->TextChanged ();
 			break;
 		}
 		if (m_CurPos == 0)
@@ -969,6 +988,8 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		char *p = g_utf8_prev_char (s + m_CurPos);
 		int new_pos = p - s;
 		ReplaceText (empty_st, new_pos, m_CurPos - new_pos);
+		if (client)
+			client->TextChanged ();
 		break;
 	}
 	case GDK_k:
