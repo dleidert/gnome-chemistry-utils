@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * texttool.h 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -64,7 +64,7 @@ public:
 	void OnSelectFace (GtkTreeSelection *selection);
 	void OnSelectSize (int size);
 	void OnSizeChanged ();
-	void SetSizeFull (bool update_list);
+	void SetSizeFull (bool update_list, bool apply);
 	void UpdateTagsList ();
 	unsigned GetIndex ();
 	void OnUnderlineChanged (unsigned underline);

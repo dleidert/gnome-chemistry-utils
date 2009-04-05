@@ -75,7 +75,7 @@ public:
 
 	void SetCurTagList (TextTagList *l);
 
-	void ApplyCurTagsToSelection ();
+	void ApplyTagsToSelection (TextTagList const *l);
 
 /*!
 @param str the text to insert

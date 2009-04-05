@@ -100,7 +100,6 @@ void TextPrivate::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar *st
 		start = text->m_CurPos;
 		length = text->m_StartSel - text->m_CurPos;
 	}
-	// FIXME: erase selection
 	text->ReplaceText (s, start, length);
 }
 
@@ -162,8 +161,7 @@ void TextRun::Draw (cairo_t *cr)
 	PangoLayout *pl = pango_cairo_create_layout (cr);
 	pango_layout_set_font_description (pl, pango_layout_get_font_description (m_Layout));
 	PangoRectangle rect;
-	cairo_set_source_rgba (cr, 0., 0., 0., 1.); // FIXME, use text color if any
-	// FIXME: use text attributes
+	cairo_set_source_rgba (cr, 0., 0., 0., 1.);
 	struct draw_attrs data;
 	while (*text) {
 		pango_layout_iter_get_char_extents (iter, &rect);
@@ -355,8 +353,6 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 {
 	Rectangle::Draw (cr, is_vector);
 	// now drawing text
-	// first get the pango iter at first character
-//	PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
 	// evaluate the starting position
 	double startx, starty;
 	unsigned start_sel, end_sel;
@@ -452,23 +448,6 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 			cairo_stroke (cr);
 		}
 	}
-/*	char const *text = pango_layout_get_text (m_Layout);
-	char const *next;
-	PangoLayout *pl = pango_cairo_create_layout (cr);
-	pango_layout_set_font_description (pl, pango_layout_get_font_description (m_Layout));
-	PangoRectangle rect;
-	cairo_set_source_rgba (cr, 0., 0., 0., 1.); // FIXME, use text color if any
-	// FIXME: use text attributes
-	while (*text) {
-		pango_layout_iter_get_char_extents (iter, &rect);
-		curx = rect.x / PANGO_SCALE;
-		cairo_move_to (cr, startx + curx, starty  - m_Ascent + (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE);
-		next = g_utf8_find_next_char (text, NULL);
-		pango_layout_set_text (pl, text, next - text);
-		text = next;
-		pango_cairo_show_layout (cr, pl);
-		pango_layout_iter_next_char (iter);
-	}*/
 	if (m_CursorVisible && m_CurPos == 0) {
 		PangoRectangle rect;
 		pango_layout_get_cursor_pos (m_Runs.front ()->m_Layout, m_CurPos, &rect, NULL); // FIXME: might be wrong if we allow above-under characters
@@ -479,8 +458,6 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 		cairo_set_source_rgb (cr, 0., 0., 0.);
 		cairo_stroke (cr);
 	}
-	// free the iterator
-	/*pango_layout_iter_free (iter);*/
 }
 
 void Text::Move (double x, double y)
@@ -676,8 +653,80 @@ void Text::SetCurTagList (TextTagList *l)
 	m_CurTags = l;
 }
 
-void Text::ApplyCurTagsToSelection ()
+void Text::ApplyTagsToSelection (TextTagList const *l)
 {
+	if (m_CurPos == m_StartSel)
+		return;
+	TextTagList::iterator i, iend = m_Tags.end ();
+	TextTagList::const_iterator j, jend = l->end ();
+	unsigned start, end;
+	if (m_CurPos > m_StartSel) {
+		start = m_StartSel;
+		end = m_CurPos;
+	} else {
+		start = m_CurPos;
+		end = m_StartSel;
+	}
+	TextTagList extra_tags;
+	// store tags to potentially insert into a vector
+	std::vector <TextTag *> new_tags (MaxTag);
+	// fist set all vectors to NULL
+	for (int n = 0; n < MaxTag; n++) 
+		new_tags[n] = NULL;
+	// set the tags, unuseful ones will be reset to NULL later
+	for (j = l->begin (); j != jend; j++)
+		new_tags[(*j)->GetTag ()] = *j;
+	for (i = m_Tags.begin (); i != iend; i++) {
+		if ((*i)->GetStartIndex () > end || (*i)->GetEndIndex () < start)
+			continue;
+		for (j = l->begin (); j != jend; j++) {
+			if ((*i)->GetTag() == (*j)->GetTag ()) {
+				if (*(*i) == *(*j)) {
+					// check if we need to change the tag limits
+					if ((*i)->GetStartIndex () > start)
+						(*i)->SetStartIndex (start);
+					if ((*i)->GetEndIndex () < end)
+						(*i)->SetEndIndex (end);
+					// remove *j from new_tags
+					new_tags[(*j)->GetTag ()] = NULL;
+				} else if ((*i)->GetStartIndex () < start) {
+					// we must change the tag limits since they overlap, and possibly split it
+					if ((*i)->GetEndIndex () > end) {
+						// we must split the tag
+						TextTag *tag = (*i)->Duplicate ();
+						tag->SetEndIndex ((*i)->GetEndIndex ());
+						tag->SetStartIndex (end);
+						extra_tags.push_front (tag);
+					}
+					(*i)->SetEndIndex (start);
+				} else // ditto
+					(*i)->SetStartIndex (end);
+			}
+		}
+	}
+	// Add new tags
+	for (int n = 0; n < MaxTag; n++) 
+		if (new_tags[n]) {
+			TextTag *tag = new_tags[n]->Duplicate ();
+			tag->SetStartIndex (start);
+			tag->SetEndIndex (end);
+			if (tag->GetPriority () == TagPriorityFirst)
+				m_Tags.push_front (tag);
+			else
+				m_Tags.push_back (tag);
+		}
+	
+	// Add extra tags
+	iend = extra_tags.end ();
+	for (i = extra_tags.begin (); i != iend; i++)
+		if ((*i)->GetPriority () == TagPriorityFirst)
+			m_Tags.push_front (*i);
+		else
+			m_Tags.push_back (*i);
+	extra_tags.clear (); // avoid destroying the tags
+	// Force redraw
+	RebuildAttributes ();
+	SetPosition (m_x, m_y);
 }
 
 void Text::ReplaceText (std::string &str, int pos, unsigned length)
@@ -810,7 +859,6 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 		}
 	}
 	// now add all new tags to the list
-	// first those from new_tags:
 	iend = new_tags.end ();
 	for (i = new_tags.begin (); i != iend; i++)
 		if ((*i)->GetPriority () == TagPriorityFirst)
@@ -1045,6 +1093,9 @@ void Text::OnButtonPressed (double x, double y)
 	for (run = m_Runs.begin (); run != end_run; run++)
 		if (pango_layout_xy_to_index ((*run)->m_Layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing)) {
 			m_CurPos = m_StartSel = index + trailing + (*run)->m_Index;
+			TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+			if (client)
+				client->SelectionChanged (m_StartSel, m_CurPos);
 			return;
 		}
 }
@@ -1059,6 +1110,9 @@ void Text::OnDrag (double x, double y)
 		if (pango_layout_xy_to_index ((*run)->m_Layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing)) {
 			m_CurPos = index + trailing + (*run)->m_Index;
 			Invalidate ();
+			TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+			if (client)
+				client->SelectionChanged (m_StartSel, m_CurPos);
 			return;
 		}
 }

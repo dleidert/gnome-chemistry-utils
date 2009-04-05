@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * texttool.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -309,14 +309,13 @@ bool gcpTextTool::DeleteSelection ()
 	if (!m_Active)
 		return false;
 	unsigned start, end;
+	std::string s = "";
 
-	gcp::TextObject *text = dynamic_cast<gcp::TextObject*> ((Object*) g_object_get_data (G_OBJECT (m_Active), "object"));
+	gcp::TextObject *text = dynamic_cast <gcp::TextObject*> (m_Active->GetClient ());
 	if (!text)
 		return false;
 	text->GetSelectionBounds (start, end);
-/*	gcp_pango_layout_replace_text (gnome_canvas_pango_get_layout (m_Active),
-												start, end - start, "", NULL);
-	gnome_canvas_pango_set_selection_bounds (m_Active, start, start);*/
+	m_Active->ReplaceText (s, start, end - start);
 	text->OnChanged (true);
 	return true;
 }
@@ -477,6 +476,7 @@ bool gcpTextTool::OnUndo ()
 		return false;
 	}
 	xmlNodePtr node = m_UndoList.front();
+	// FIXME
 	gcp::TextObject *text = (gcp::TextObject*) g_object_get_data (G_OBJECT (m_Active), "object");
 	text->LoadSelected (node);
 	m_UndoList.pop_front ();
@@ -503,6 +503,7 @@ bool gcpTextTool::OnRedo ()
 	if (m_RedoList.empty ())
 		return false;
 	xmlNodePtr node = m_RedoList.front ();
+	// FIXME
 	gcp::TextObject *text = (gcp::TextObject*) g_object_get_data (G_OBJECT (m_Active), "object");
 	text->LoadSelected (node);
 	m_RedoList.pop_front ();
@@ -625,11 +626,6 @@ void gcpTextTool::UpdateTagsList ()
 				}
 			}
 		}
-/*		PangoLayout *layout;
-		g_object_get (m_Active, "layout", &layout, NULL);
-		PangoAttrList *l = pango_layout_get_attributes (layout);
-		if (l)
-			pango_attr_list_filter (l, (PangoAttrFilterFunc) filter_attribute, this);*/
 	}
 	// select the found face
 	GtkTreeIter iter;
@@ -637,16 +633,20 @@ void gcpTextTool::UpdateTagsList ()
 	gtk_tree_model_get_iter_first (GTK_TREE_MODEL (m_FamilyList), &iter);
 	do {
 		gtk_tree_model_get (GTK_TREE_MODEL (m_FamilyList), &iter, 0, &buf, -1);
-		if (m_FamilyName != buf) {
+		if (m_FamilyName == buf) {
 			m_Dirty = true;
 			GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (m_FamilyList), &iter);
+			g_signal_handler_block (m_FamilySel, m_FamilySignal);
+			g_signal_handler_block (m_FaceSel, m_FaceSignal);
 			gtk_tree_view_set_cursor (m_FamilyTree, path, NULL, FALSE);
+			g_signal_handler_unblock (m_FaceSel, m_FaceSignal);
+			g_signal_handler_unblock (m_FamilySel, m_FamilySignal);
 			gtk_tree_path_free (path);
 			break;
 		}
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (m_FamilyList), &iter));
 	// Update other widgets
-	SetSizeFull (true);
+	SetSizeFull (true, false);
 	g_signal_handler_block (m_UnderlineBox, m_UnderlineSignal);
 	gtk_combo_box_set_active (m_UnderlineBox, m_Underline);
 	g_signal_handler_unblock (m_UnderlineBox, m_UnderlineSignal);
@@ -780,7 +780,7 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	m_SizeEntry = (GtkEntry*) glade_xml_get_widget (xml, "size-entry");
 	g_signal_connect (m_SizeEntry, "activate", G_CALLBACK (on_size_activate), this);
 	g_signal_connect_after (m_SizeEntry, "focus_out_event", G_CALLBACK (on_size_focus_out), this);
-	SetSizeFull (true);
+	SetSizeFull (true, false);
 	PangoContext *pc = gtk_widget_get_pango_context (GTK_WIDGET (m_SizeEntry));
 	pango_context_list_families (pc, &families, &nb);
 	m_FamilyList = gtk_list_store_new (1, G_TYPE_STRING);
@@ -851,7 +851,8 @@ void gcpTextTool::OnSelectFamily (GtkTreeSelection *selection)
 	char const *name;
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
-	gtk_tree_model_get (model, &iter, 0, &m_FamilyName, -1);
+	gtk_tree_model_get (model, &iter, 0, &name, -1);
+	m_FamilyName = name;
 	PangoFontFamily *family = m_Families[m_FamilyName];
 	PangoFontFace **faces;
 	int i, besti, nb;
@@ -904,14 +905,13 @@ void gcpTextTool::OnSelectFamily (GtkTreeSelection *selection)
 		//TODO: choose a face when default is not available
 	}
 	if (m_Active) {
-/*		PangoAttrList *l = pango_attr_list_new ();
-		pango_attr_list_insert (l, pango_attr_family_new (m_FamilyName));
-		pango_attr_list_insert (l, pango_attr_style_new (m_Style));
-		pango_attr_list_insert (l, pango_attr_weight_new (m_Weight));
-		pango_attr_list_insert (l, pango_attr_stretch_new (m_Stretch));
-		pango_attr_list_insert (l, pango_attr_variant_new (m_Variant));
-		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
-		pango_attr_list_unref (l);*/
+		gccv::TextTagList l;
+		l.push_front (new gccv::FamilyTextTag (m_FamilyName));
+		l.push_front (new gccv::StyleTextTag (m_Style));
+		l.push_front (new gccv::WeightTextTag (m_Weight));
+		l.push_front (new gccv::StretchTextTag (m_Stretch));
+		l.push_front (new gccv::VariantTextTag (m_Variant));
+		m_Active->ApplyTagsToSelection (&l);
 	}
 }
 
@@ -932,30 +932,29 @@ void gcpTextTool::OnSelectFace (GtkTreeSelection *selection)
 	pango_font_description_free (desc);
 	BuildTagsList ();
 	if (m_Active) {
-		PangoAttrList *l = pango_attr_list_new ();
-		pango_attr_list_insert (l, pango_attr_style_new (m_Style));
-		pango_attr_list_insert (l, pango_attr_weight_new (m_Weight));
-		pango_attr_list_insert (l, pango_attr_stretch_new (m_Stretch));
-		pango_attr_list_insert (l, pango_attr_variant_new (m_Variant));
-//		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
-		pango_attr_list_unref (l);
+		gccv::TextTagList l;
+		l.push_front (new gccv::StyleTextTag (m_Style));
+		l.push_front (new gccv::WeightTextTag (m_Weight));
+		l.push_front (new gccv::StretchTextTag (m_Stretch));
+		l.push_front (new gccv::VariantTextTag (m_Variant));
+		m_Active->ApplyTagsToSelection (&l);
 	}
 }
 
 void gcpTextTool::OnSelectSize (int size)
 {
 	m_Size = size;
-	SetSizeFull (false);
+	SetSizeFull (false, true);
 }
 
 void gcpTextTool::OnSizeChanged ()
 {
 	char const *text = gtk_entry_get_text (m_SizeEntry);
 	m_Size = (int) (MAX (0.1, atof (text) * PANGO_SCALE + 0.5));
-	SetSizeFull (true);
+	SetSizeFull (true, true);
 }
 
-void gcpTextTool::SetSizeFull (bool update_list)
+void gcpTextTool::SetSizeFull (bool update_list, bool apply)
 {
 	char *buf = g_strdup_printf ("%.1f", (double) m_Size / PANGO_SCALE);
 	gtk_entry_set_text (m_SizeEntry, buf);
@@ -983,11 +982,10 @@ void gcpTextTool::SetSizeFull (bool update_list)
 		g_signal_handler_unblock (selection, m_SizeSignal);
 	}
 	BuildTagsList ();
-	if (m_Active) {
-		PangoAttrList *l = pango_attr_list_new ();
-		pango_attr_list_insert (l, pango_attr_size_new (m_Size));
-//		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
-		pango_attr_list_unref (l);
+	if (apply && m_Active) {
+		gccv::TextTagList l;
+		l.push_front (new gccv::SizeTextTag (m_Size));
+		m_Active->ApplyTagsToSelection (&l);
 	}
 }
 
@@ -1046,10 +1044,9 @@ void gcpTextTool::OnUnderlineChanged (unsigned underline)
 	m_Underline = (PangoUnderline) underline;
 	BuildTagsList ();
 	if (m_Active) {
-		PangoAttrList *l = pango_attr_list_new ();
-		pango_attr_list_insert (l, pango_attr_underline_new (m_Underline));
-//		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
-		pango_attr_list_unref (l);
+		gccv::TextTagList l;
+		l.push_front (new gccv::UnderlineTextTag (m_Underline));
+		m_Active->ApplyTagsToSelection (&l);
 	}
 }
 
@@ -1058,10 +1055,9 @@ void gcpTextTool::OnStriketroughToggled (bool strikethrough)
 	m_Strikethrough = strikethrough;
 	BuildTagsList ();
 	if (m_Active) {
-		PangoAttrList *l = pango_attr_list_new ();
-		pango_attr_list_insert (l, pango_attr_strikethrough_new (m_Strikethrough));
-//		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
-		pango_attr_list_unref (l);
+		gccv::TextTagList l;
+		l.push_front (new gccv::StrikethroughTextTag (m_Strikethrough));
+		m_Active->ApplyTagsToSelection (&l);
 	}
 }
 
@@ -1069,6 +1065,11 @@ void gcpTextTool::OnPositionChanged (int position)
 {
 	m_Rise = position * PANGO_SCALE;
 	BuildTagsList ();
+	if (m_Active) {
+		gccv::TextTagList l;
+		l.push_front (new gccv::RiseTextTag (m_Rise));
+		m_Active->ApplyTagsToSelection (&l);
+	}
 }
 
 void gcpTextTool::OnForeColorChanged (GOColor color)
@@ -1076,10 +1077,9 @@ void gcpTextTool::OnForeColorChanged (GOColor color)
 	m_Color = color;
 	BuildTagsList ();
 	if (m_Active) {
-		PangoAttrList *l = pango_attr_list_new ();
-		pango_attr_list_insert (l, pango_attr_foreground_new (UINT_RGBA_R (m_Color) * 0x101, UINT_RGBA_G (m_Color) * 0x101, UINT_RGBA_B (m_Color) * 0x101));
-//		gnome_canvas_pango_apply_attrs_to_selection (m_Active, l);
-		pango_attr_list_unref (l);
+		gccv::TextTagList l;
+		l.push_front (new gccv::ForegroundTextTag (m_Color));
+		m_Active->ApplyTagsToSelection (&l);
 	}
 }
 

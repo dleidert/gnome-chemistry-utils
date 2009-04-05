@@ -272,10 +272,6 @@ UnderlineTextTag::~UnderlineTextTag ()
 
 void UnderlineTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
-	PangoAttribute *attr = pango_attr_underline_new (m_Underline);
-	attr->start_index = start;
-	attr->end_index = end;
-	pango_attr_list_insert (l, attr);
 }
 
 bool UnderlineTextTag::operator== (TextTag const& tag)
@@ -305,10 +301,6 @@ StrikethroughTextTag::~StrikethroughTextTag ()
 
 void StrikethroughTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
-	PangoAttribute *attr = pango_attr_strikethrough_new (m_Strikethrough);
-	attr->start_index = start;
-	attr->end_index = end;
-	pango_attr_list_insert (l, attr);
 }
 
 bool StrikethroughTextTag::operator== (TextTag const& tag)

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-04-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: do not use pango for underline and strikethrough
+	(and break these for now).
+	* libs/gccv/text.cc: implement ApplyTagsToSelection.
+	* libs/gccv/text.h: ditto.
+	* plugins/paint/text/texttool.cc: applies newly selected tags to selection.
+	* plugins/paint/text/texttool.h: ditto.
+
 2009-04-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: add new TextClient class.
 	* libs/gccv/structs.h: remove text bounds.
