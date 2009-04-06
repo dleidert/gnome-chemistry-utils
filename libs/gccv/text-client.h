@@ -40,7 +40,7 @@ public:
 	virtual void SelectionChanged (unsigned start, unsigned end) = 0;
 /*!
 */
-	virtual void TextChanged () = 0;
+	virtual void TextChanged (unsigned pos) = 0;
 
 };
 

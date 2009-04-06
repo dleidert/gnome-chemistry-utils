@@ -29,6 +29,7 @@
 #include "window.h"
 #include <gcu/objprops.h>
 #include <gcu/xml-utils.h>
+#include <gccv/text.h>
 #include <cstring>
 
 using namespace gcu;
@@ -85,7 +86,19 @@ xmlNodePtr TextObject::SaveSelected ()
 
 void TextObject::LoadSelected (xmlNodePtr node)
 {
-	Load(node);
+	Load (node);
+	unsigned start = 0, end = 0;
+	char *buf = reinterpret_cast <char*> (xmlGetProp(node, (xmlChar*) "start-sel"));
+	if (buf) {
+		start = strtoul (buf, NULL, 10);
+		xmlFree (buf);
+	}
+	buf = reinterpret_cast <char*> (xmlGetProp(node, (xmlChar*) "end-sel"));
+	if (buf) {
+		end = strtoul (buf, NULL, 10);
+		xmlFree (buf);
+	}
+	reinterpret_cast <gccv::Text *> (m_Item)->SetSelectionBounds (start, end);
 	OnChanged (false);
 }
 
@@ -159,8 +172,9 @@ void TextObject::SelectionChanged (unsigned start, unsigned cur)
 		m_Editor->SelectionChanged ();
 }
 
-void TextObject::TextChanged ()
+void TextObject::TextChanged (unsigned pos)
 {
+	SelectionChanged (pos, pos);
 	OnChanged (true);
 }
 

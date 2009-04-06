@@ -350,7 +350,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 	if (children)
 		if (!children->Save (xml, child, index, text, es, ef, f, n))
 			return false;
-	
+
 	if (index < m_end) {
 		xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (text.c_str () + index), m_end - index);
 		index = m_end;
@@ -399,16 +399,12 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) ((m_Align == PANGO_ALIGN_RIGHT)? "right": "center"));
 	unsigned i = 0;
 	SaveStruct *head = NULL, *cur;
-	char const *text;
 	std::list <gccv::TextTag *> const *tags;
 	if (m_Item) {
 		gccv::Text *t = reinterpret_cast <gccv::Text *> (m_Item);
-		text = t->GetText ();
 		tags = t->GetTags ();
-	} else {
-		text = m_buf.c_str ();
+	} else
 		tags = &m_TagList;
-	}
 	gccv::TextTagList tt; // the tags in this list will be destroyed on return
 	std::list <gccv::TextTag *>::const_iterator j, jend = tags->end ();
 	// duplicate the tags so that they can be sorted
@@ -435,48 +431,40 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 	return node;
 }
 
-struct SelState {
-	unsigned start, end;
-	PangoAttrList *l;
-};
-
-bool selection_filter_func (PangoAttribute *attribute, struct SelState *state)
-{
-	if (attribute->start_index < state->end && attribute ->end_index > state->start) {
-		PangoAttribute *attr = pango_attribute_copy (attribute);
-		attr->start_index = (attribute->start_index < state->start)? 0: attribute->start_index - state->start;
-		attr->end_index = (attribute->end_index > state->end)? state->end - state->start: attribute->end_index - state->start;
-		pango_attr_list_insert (state->l, attr);
-	}
-	return false;
-}
-
 xmlNodePtr Text::SaveSelection (xmlDocPtr xml) const
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "text", NULL);
 	if (!node)
 		return NULL;
-	// get the text and attributes
-/*	const char *text = pango_layout_get_text (m_Layout);
-	PangoAttrList *l = pango_layout_get_attributes (m_Layout);
-	string selection (text + m_StartSel, m_EndSel - m_StartSel);
-	// make a new filtered attributes list
-	struct SelState state;
-	state.start = m_StartSel;
-	state.end = m_EndSel;
-	state.l = pango_attr_list_new ();
-	pango_attr_list_filter (l, (PangoAttrFilterFunc) selection_filter_func, &state);
-	unsigned i = 0;
+	// get the selected text
+	string selection (m_buf.substr (m_StartSel, m_EndSel - m_StartSel));
+	// build the relevant tags list
+	std::list <gccv::TextTag *> const *tags = reinterpret_cast <gccv::Text *> (m_Item)->GetTags ();
+	std::list <gccv::TextTag *> seltags;
+	std::list <gccv::TextTag *>::const_iterator i, iend = tags->end ();
+	for (i = tags->begin (); i != iend; i++)
+		if ((*i)->GetStartIndex () < m_EndSel && (*i)->GetEndIndex () > m_StartSel) {
+			gccv::TextTag *tag = (*i)->Duplicate ();
+			tag->SetStartIndex (((*i)->GetStartIndex () > m_StartSel)? (*i)->GetStartIndex () - m_StartSel : 0);
+			tag->SetEndIndex (((*i)->GetEndIndex () < m_EndSel)? (*i)->GetEndIndex () - m_StartSel : m_EndSel - m_StartSel);
+			seltags.push_back (tag);
+		}
+	// order the tags
+	seltags.sort (tag_order);
+	// now save the text and tags
+	// first buid the tags tree
 	SaveStruct *head = NULL, *cur;
-	pango_attr_list_filter (state.l, (PangoAttrFilterFunc) filter_func, &head);
-	cur = head;
-	while (cur) {
-		save_state (xml, node, selection.c_str (), cur, i, 0, 0, NULL, 0);
-		i = cur->attr->end_index;
-		cur = cur->next;
+	gccv::TextTagList::iterator j, jend = seltags.end ();
+	for (j = seltags.begin (); j != jend; j++) {
+		cur = new SaveStruct (*j, (*j)->GetStartIndex (), (*j)->GetEndIndex ());
+		cur->Filter (&head);
 	}
+	// now, save the tree
+	unsigned index = 0;
+	if (head)
+		head->Save (xml, node, index, selection, 0, 0, NULL, 0);
+	xmlNodeAddContent (node, reinterpret_cast <xmlChar const *> (selection.c_str () + index));
 	delete head;
-	pango_attr_list_unref (state.l);*/
 	return (TextObject::SaveNode (xml, node))? node: NULL;
 }
 
@@ -532,40 +520,22 @@ bool Text::LoadSelection (xmlNodePtr node, unsigned pos)
 {
 	xmlNodePtr child;
 	m_bLoading = true;
-/*	m_buf = pango_layout_get_text (m_Layout);
-	m_AttrList = pango_layout_get_attributes (m_Layout);
 	child = node->children;
 	while (child) {
 		if (!LoadNode (child, pos, 1))
 			return false;
 		child = child->next;
 	}
-	pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
-	pango_layout_set_attributes (m_Layout, m_AttrList);
-	GtkWidget* pWidget = dynamic_cast<Document*> (GetDocument ())->GetWidget ();
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
-	GnomeCanvasGroup *group = pData->Items[this];
-	if (group) {
-		GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "text"));
-		gnome_canvas_pango_set_selection_bounds (PangoItem, pos, pos);
-	}	*/
+	gccv::Text *text = reinterpret_cast <gccv::Text *> (m_Item);
+	text->SetText (m_buf.c_str ());
+	while (!m_TagList.empty ()) {
+		text->InsertTextTag (m_TagList.front ());
+		m_TagList.pop_front ();
+	}
+	text->SetSelectionBounds (pos, pos);
 	m_bLoading = false;
-//	OnChanged (true);
+	OnChanged (true);
 	return true;
-}
-
-struct limits {
-	unsigned start, length;
-};
-
-static bool on_insert (PangoAttribute *attr, struct limits *l)
-{
-	if (attr->start_index > l->start) {
-		attr->start_index += l->length;
-		attr->end_index += l->length;
-	} else if (attr->end_index > l->start)
-		attr->end_index += l->length;
-	return false;
 }
 
 bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
@@ -802,113 +772,13 @@ void Text::UpdateItem ()
 	reinterpret_cast <gccv::Text *> (m_Item)->SetPosition (m_x * theme->GetZoomFactor (), m_y * theme->GetZoomFactor ());
 }
 
-/*void Text::Add (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (pData->Items[this] != NULL)
-		return;
-	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	if (m_ascent <= 0) {
-		PangoContext* pc = pData->m_View->GetPangoContext ();
-		const_cast <Text *> (this)->m_Layout = pango_layout_new (pc);
-		PangoAttrList *l = pango_attr_list_new ();
-		pango_layout_set_attributes (m_Layout, l);
-		PangoFontDescription *desc = pango_font_description_new ();
-		pango_font_description_set_family (desc, pData->m_View->GetDoc ()->GetTextFontFamily ());
-		pango_font_description_set_style (desc, pData->m_View->GetDoc ()->GetTextFontStyle ());
-		pango_font_description_set_variant (desc, pData->m_View->GetDoc ()->GetTextFontVariant ());
-		pango_font_description_set_weight (desc, pData->m_View->GetDoc ()->GetTextFontWeight ());
-		pango_font_description_set_size (desc, pData->m_View->GetDoc ()->GetTextFontSize ());
-		pango_layout_set_font_description (m_Layout, desc);
-		pango_font_description_free (desc);
-		pango_layout_set_text (m_Layout, "l", -1);
-		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
-		const_cast <Text *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
-		pango_layout_iter_free (iter);
-		pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
-		const_cast <Text *> (this)->m_buf.clear ();
-		if (m_AttrList) {
-			pango_layout_set_attributes (m_Layout, m_AttrList);
-			pango_attr_list_unref (m_AttrList);
-			const_cast <Text *> (this)->m_AttrList = NULL;
-		}
-		if (m_Justified)
-			pango_layout_set_justify (m_Layout, true);
-		else
-			pango_layout_set_alignment (m_Layout, m_Align);
-		PangoRectangle rect;
-		pango_layout_get_extents (m_Layout, NULL, &rect);
-		const_cast <Text *> (this)->m_length = rect.width / PANGO_SCALE;
-		const_cast <Text *> (this)->m_height = rect.height / PANGO_SCALE;
-	}
-	double x = m_x * pTheme->GetZoomFactor ();
-	switch (m_Anchor) {
-	case GTK_ANCHOR_E:
-		x -= m_length;
-		break;
-	case GTK_ANCHOR_CENTER:
-		x -= m_length / 2;
-		break;
-	default:
-		break;
-	}
-	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type(), NULL));
-	GnomeCanvasItem* item = gnome_canvas_item_new (
-						group,
-						gnome_canvas_rect_ext_get_type (),
-						"x1", x - pTheme->GetPadding (),
-						"y1", m_y * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_ascent,
-						"x2", x + m_length + pTheme->GetPadding (),
-						"y2", m_y * pTheme->GetZoomFactor () + m_height + pTheme->GetPadding () - m_ascent,
-						"fill_color", "white",
-						"outline_color", "white",
-						NULL);
-	g_object_set_data (G_OBJECT (group), "rect", item);
-	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	g_object_set_data (G_OBJECT (item), "object", (void *) this);
-	item = gnome_canvas_item_new (
-						group,
-						gnome_canvas_pango_get_type (),
-						"layout", m_Layout,
-						"x", x,
-						"y", m_y * pTheme->GetZoomFactor () - m_ascent,
-						"editing", false,
-						NULL);
-	g_object_set_data (G_OBJECT (group), "text", item);
-	g_object_set_data (G_OBJECT (item), "object", (void *) this);
-	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	g_signal_connect_swapped (G_OBJECT(item), "changed", G_CALLBACK (on_text_changed), (void *) this);
-	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_text_sel_changed), (void *) this);
-	pData->Items[this] = group;
-}*/
-
 bool Text::OnChanged (bool save)
 {
 	Document* pDoc = (Document*) GetDocument ();
 	if (!pDoc)
 		return false;
-	View* pView = pDoc->GetView ();
-	GtkWidget* pWidget = pView->GetWidget ();
-/*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
-	GnomeCanvasGroup *group = pData->Items[this];
-	if (!group) {
-		pData->Items.erase (this);
-		return false;
-	}*/
-/*	if (strlen (pango_layout_get_text (m_Layout))) {
-		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
-		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
-		pango_layout_iter_free (iter);
-	}
-	PangoRectangle rect;
-	pango_layout_get_extents (m_Layout, NULL, &rect);
-	m_length = rect.width / PANGO_SCALE;
-	m_height = rect.height / PANGO_SCALE;
-	pView->Update (this);*/
+	m_buf = reinterpret_cast <gccv::Text *> (m_Item)->GetText ();
 	EmitSignal (OnChangedSignal);
-/*	GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "text"));
-	unsigned CurPos = gnome_canvas_pango_get_cur_index (PangoItem);
-	m_StartSel = m_EndSel = CurPos;*/
 	if (save) {
 		Tool* TextTool = dynamic_cast<Application*> (pDoc->GetApplication ())->GetTool ("Text");
 		if (!TextTool)
@@ -919,40 +789,6 @@ bool Text::OnChanged (bool save)
 	}
 	return true;
 }
-
-/*void Text::Update (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasGroup* group = pData->Items[this];
-	if (m_Justified)
-		pango_layout_set_justify (m_Layout, true);
-	else
-		pango_layout_set_alignment (m_Layout, m_Align);
-	double x = m_x * pTheme->GetZoomFactor ();
-	switch (m_Anchor) {
-	case GTK_ANCHOR_E:
-		x -= m_length;
-		break;
-	case GTK_ANCHOR_CENTER:
-		x -= m_length / 2;
-		break;
-	default:
-		break;
-	}
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "text")),
-						"x", x,
-						"y", m_y * pTheme->GetZoomFactor () - m_ascent,
-						"width", m_length,
-						"height", m_height,
-						NULL);
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "rect")),
-						"x1", x - pTheme->GetPadding (),
-						"y1", m_y * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_ascent,
-						"x2", x + m_length + pTheme->GetPadding (),
-						"y2", m_y * pTheme->GetZoomFactor () + m_height + pTheme->GetPadding () - m_ascent,
-						NULL);
-}*/
 
 void Text::SetSelected (int state)
 {
@@ -975,14 +811,6 @@ void Text::SetSelected (int state)
 		break;
 	}
 	dynamic_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
-}
-
-bool Text::OnEvent (GdkEvent *event)
-{
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button.button == 2))
-		return true;
-	else
-		return false;
 }
 
 void Text::Transform2D (Matrix2D& m, double x, double y)

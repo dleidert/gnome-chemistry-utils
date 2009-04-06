@@ -143,7 +143,7 @@ supported: GCU_PROP_TEXT_TEXT
 	void SelectionChanged (unsigned start, unsigned end);
 /*!
 */
-	void TextChanged ();
+	void TextChanged (unsigned pos);
 
 protected:
 /*!

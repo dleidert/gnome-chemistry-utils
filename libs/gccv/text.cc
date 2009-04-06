@@ -892,7 +892,7 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 	TextClient *client = dynamic_cast <TextClient *> (GetClient ());
 	if (gtk_im_context_filter_keypress (m_ImContext, event)) {
 		if (client)
-			client->TextChanged ();
+			client->TextChanged (m_CurPos);
 		return true;
 	}
 
@@ -908,7 +908,7 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 	case GDK_Tab:
 		TextPrivate::OnCommit (m_ImContext, "\t", this);
 		if (client)
-			client->TextChanged ();
+			client->TextChanged (m_CurPos);
 		break;
 
 	/* MOVEMENT */
@@ -1007,7 +1007,7 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		if (m_CurPos != m_StartSel) {
 			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
 			if (client)
-				client->TextChanged ();
+				client->TextChanged (m_CurPos);
 			break;
 		}
 		if (m_CurPos == m_Text.length ())
@@ -1017,7 +1017,7 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		int new_pos = p - s;
 		ReplaceText (empty_st, m_CurPos, new_pos - m_CurPos);
 		if (client)
-			client->TextChanged ();
+			client->TextChanged (m_CurPos);
 		break;
 	}
 	case GDK_d:
@@ -1027,7 +1027,7 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		if (m_CurPos != m_StartSel) {
 			ReplaceText (empty_st, MIN (m_CurPos, m_StartSel), abs (m_CurPos - m_StartSel));
 			if (client)
-				client->TextChanged ();
+				client->TextChanged (m_CurPos);
 			break;
 		}
 		if (m_CurPos == 0)
@@ -1037,7 +1037,7 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		int new_pos = p - s;
 		ReplaceText (empty_st, new_pos, m_CurPos - new_pos);
 		if (client)
-			client->TextChanged ();
+			client->TextChanged (m_CurPos);
 		break;
 	}
 	case GDK_k:
@@ -1117,5 +1117,21 @@ void Text::OnDrag (double x, double y)
 		}
 }
 
+unsigned Text::GetSelectionBounds (unsigned &start, unsigned &end)
+{
+	start = m_StartSel;
+	end = m_CurPos;
+}
+
+void Text::SetSelectionBounds (unsigned start, unsigned end)
+{
+	GetText (); // force update of m_Text
+	m_StartSel = (start > m_Text.length ())? m_Text.length (): start;
+	m_CurPos = (end > m_Text.length ())? m_Text.length (): end;
+	TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+	if (client)
+		client->SelectionChanged (m_StartSel, m_CurPos);
+	Invalidate ();
+}
 
 }

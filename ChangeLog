@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2009-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/group.cc: set empty group size to [G_MAXDOUBLE, -G_MAXDOUBLE].
+	* libs/gccv/text-client.h: add a position argument to TextChanged().
+	* libs/gccv/text.cc: implement Get/SetSelectionBounds().
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/text-object.cc: ditto, and reimplement undo/redo and clipboard
+	operations.
+	* libs/gcp/text-object.h: ditto.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcp/text.h: ditto.
+	* plugins/paint/text/texttool.cc: ditto, still missing: pasting text
+	from other applications and fragment support.
+
 2009-04-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: do not use pango for underline and strikethrough
 	(and break these for now).

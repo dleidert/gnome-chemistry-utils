@@ -68,7 +68,8 @@ Group::~Group()
 void Group::UpdateBounds ()
 {
 	if (m_Children.empty ()) {
-		m_x0 = m_y0 = m_x1 = m_y1 = 0.;
+		m_x0 = m_y0 = G_MAXDOUBLE;
+		m_x1 = m_y1 = -G_MAXDOUBLE;
 	} else {
 		list <Item *>::const_iterator i = m_Children.begin (), end = m_Children.end ();
 		double x0, y0, x1, y1;

@@ -388,10 +388,9 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 		return false;
 	guint *DataType = (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))? &gcp::ClipboardDataType: &gcp::ClipboardDataType1;
 	g_return_val_if_fail ((data->target == gdk_atom_intern (gcp::targets[*DataType].target, FALSE)), FALSE);
-	gcp::Text *text = (gcp::Text*) g_object_get_data (G_OBJECT (m_Active), "object");
+	gcp::Text *text = dynamic_cast <gcp::Text*> (m_Active->GetClient ());
 	unsigned start, end;
 	text->GetSelectionBounds (start, end);
-	PangoLayout *layout = NULL; // FIXME
 	switch (*DataType) {
 		case gcp::GCP_CLIPBOARD_NATIVE: {
 			xmlDocPtr xml = xmlParseMemory ((const char*) data->data, data->length);
@@ -402,12 +401,12 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 			}
 			node = node->children;
 			if (!strcmp ((char*) node->name, "text")) {
-//				gcp_pango_layout_replace_text (layout, start, end - start, "", NULL);
 				text->LoadSelection (node, start);
 				xmlFreeDoc (xml);
 				return true; // otherwise, we'd call OnChange(true) twice.
 			} else if (!strcmp((char*)node->name, "fragment")) {
-				gcp::Fragment* fragment = new gcp::Fragment ();
+// FIXME
+/*				gcp::Fragment* fragment = new gcp::Fragment ();
 				gcp::Document *pDoc = m_pView->GetDoc ();
 				gcp::Theme *pTheme = pDoc->GetTheme ();
 				pDoc->AddChild (fragment);
@@ -417,18 +416,7 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 				PangoAttribute *attr = pango_attr_family_new (pTheme->GetFontFamily ());
 				pango_attr_list_insert (l, attr);
 				attr = pango_attr_size_new (pTheme->GetFontSize ());
-				pango_attr_list_insert (l, attr);
-// FIXME
-/*				gcp_pango_layout_replace_text (layout, start, end - start, buf.c_str (), l);
-				pango_attr_list_unref (l);
-				l = fragment->GetAttrList ();
-				struct FragState s;
-				s.l = pango_layout_get_attributes (layout);
-				s.start = start;
-				pango_attr_list_filter (l, (PangoAttrFilterFunc) filter_fragment, &s);
-				delete fragment;
-				start += buf.length ();
-				gnome_canvas_pango_set_selection_bounds (m_Active, start, start);*/
+				pango_attr_list_insert (l, attr);*/
 			} else {
 				xmlFreeDoc (xml);
 				return false;
@@ -476,8 +464,7 @@ bool gcpTextTool::OnUndo ()
 		return false;
 	}
 	xmlNodePtr node = m_UndoList.front();
-	// FIXME
-	gcp::TextObject *text = (gcp::TextObject*) g_object_get_data (G_OBJECT (m_Active), "object");
+	gcp::TextObject *text = dynamic_cast <gcp::TextObject*> (m_Active->GetClient ());
 	text->LoadSelected (node);
 	m_UndoList.pop_front ();
 	gcp::Document *pDoc = m_pView->GetDoc ();
@@ -486,14 +473,6 @@ bool gcpTextTool::OnUndo ()
 		pWin->ActivateActionWidget ("/MainMenu/EditMenu/Undo", false);
 	m_RedoList.push_front(m_CurNode);
 	pWin->ActivateActionWidget ("/MainMenu/EditMenu/Redo", true);
-	unsigned start, end;
-	char* tmp = (char*) xmlGetProp (node, (xmlChar*) "start-sel");
-	start = (int) strtoul (tmp, NULL, 10);
-	xmlFree (tmp);
-	tmp = (char*) xmlGetProp (node, (xmlChar*) "end-sel");
-	end = (int) strtoul (tmp, NULL, 10);
-	xmlFree (tmp);
-//	gnome_canvas_pango_set_selection_bounds (m_Active, start, end);
 	m_CurNode = node;
 	return true;
 }
@@ -503,8 +482,7 @@ bool gcpTextTool::OnRedo ()
 	if (m_RedoList.empty ())
 		return false;
 	xmlNodePtr node = m_RedoList.front ();
-	// FIXME
-	gcp::TextObject *text = (gcp::TextObject*) g_object_get_data (G_OBJECT (m_Active), "object");
+	gcp::TextObject *text = dynamic_cast <gcp::TextObject*> (m_Active->GetClient ());
 	text->LoadSelected (node);
 	m_RedoList.pop_front ();
 	gcp::Window *pWin = m_pView->GetDoc ()->GetWindow ();
@@ -512,14 +490,6 @@ bool gcpTextTool::OnRedo ()
 		pWin->ActivateActionWidget ("/MainMenu/EditMenu/Redo", false);
 	m_UndoList.push_front (m_CurNode);
 	pWin->ActivateActionWidget ("/MainMenu/EditMenu/Undo", true);
-	unsigned start, end;
-	char* tmp = (char*) xmlGetProp (node, (xmlChar*) "start-sel");
-	start = (int) strtoul (tmp, NULL, 10);
-	xmlFree (tmp);
-	tmp = (char*) xmlGetProp (node, (xmlChar*) "end-sel");
-	end = (int) strtoul (tmp, NULL, 10);
-	xmlFree (tmp);
-//	gnome_canvas_pango_set_selection_bounds (m_Active, start, end);
 	m_CurNode = node;
 	return true;
 }

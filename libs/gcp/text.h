@@ -141,14 +141,6 @@ transformation of its coordinates.
 */
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
 /*!
-@param event a GdkEvent.
-
-Called by the framework during the edition of the text item. It is just called
-to filter out right button clicks.
-@return true for right button clicks to filetr them out, false for other events.
-*/
-	bool OnEvent (GdkEvent *event);
-/*!
 @param x where to store the width of the text.
 @param y where to store the height of the text.
 
