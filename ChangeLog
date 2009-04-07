@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2009-04-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: make our code compatible with new goffice API.
+	[#26105]
+	* libs/gcu/cmd-context.cc:
+	* libs/gcu/gtkcomboperiodic.c:
+	* libs/gcu/loader.cc:
+	* libs/gcu/spectrumdoc.cc:
+	* libs/gcu/spectrumview.cc:
+	* mozilla-plugin/chem-viewer.cc:
+	* programs/calc/gchemcalc.cc:
+	* programs/spectra/gspectrum.cc:
+	* programs/table/gchemtable-curve.cc:
+	* programs/table/gchemtable-data-allocator.cc:
+	* programs/table/gchemtable-data.cc:
+	* programs/table/gchemtable-main.cc:
+
 2009-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.5).
 

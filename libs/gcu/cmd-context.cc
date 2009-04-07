@@ -26,6 +26,10 @@
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 
+#ifndef GO_TYPE_CMD_CONTEXT
+#   define GO_TYPE_CMD_CONTEXT GO_CMD_CONTEXT_TYPE
+#endif
+
 typedef	GObject GcuCmdContext;
 typedef GObjectClass GcuCmdContextClass;
 
@@ -78,7 +82,7 @@ gcu_cc_cmd_context_init (GOCmdContextClass *iface)
 GSF_CLASS_FULL (GcuCmdContext, gcu_cmd_context,
 		NULL, NULL, NULL, NULL,
 		NULL, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gcu_cc_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (gcu_cc_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
 static GOCmdContext *cc = NULL;
 

@@ -54,6 +54,11 @@
 #include <map>
 #include <cstring>
 
+#ifndef GOG_TYPE_LABEL
+#   define GOG_TYPE_LABEL GOG_LABEL_TYPE
+#   define GOG_IS_GRAPH IS_GOG_GRAPH
+#endif
+
 using namespace gcu;
 using namespace std;
 
@@ -332,7 +337,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Pauling electronegativity"), FALSE);
-		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Pauling electronegativity"));
@@ -348,7 +353,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Electron affinity (kJ/mol)"), FALSE);
-		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Electron affinity"));
@@ -381,7 +386,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (buf, TRUE);
-		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		buf = g_strconcat (rk, _("ionization energy"), NULL);
@@ -404,7 +409,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Covalent radii"), FALSE);
-		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Covalent radii"));
@@ -424,7 +429,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Van der Waals radii"), FALSE);
-		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Van der Waals radii"));
@@ -444,7 +449,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Metallic radii"), FALSE);
-		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Metallic radii"));
@@ -459,7 +464,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Melting point"), FALSE);
-		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Melting point"));
@@ -474,7 +479,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Boiling point"), FALSE);
-		label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+		label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Boiling point"));
@@ -496,7 +501,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 			gog_object_find_role_by_name (GOG_OBJECT (chart), "X-Axis"));
 	data = go_data_scalar_str_new ("Z", FALSE);
-	label = (GogObject*) g_object_new (GOG_LABEL_TYPE, NULL);
+	label = (GogObject*) g_object_new (GOG_TYPE_LABEL, NULL);
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 	gog_object_add_by_name (obj, "Label", label);
 }
@@ -571,7 +576,7 @@ graph_user_config_free_data (gpointer data,
 static void
 on_update_graph (GogGraph *graph, gpointer data)
 {
-	g_return_if_fail (IS_GOG_GRAPH (graph));
+	g_return_if_fail (GOG_IS_GRAPH (graph));
 	GctControlGUI *tcg = GCT_CONTROL_GUI (data);
 	GChemTableCurve *curve = gct_control_gui_get_owner (tcg);
 	curve->SetGraph (graph);

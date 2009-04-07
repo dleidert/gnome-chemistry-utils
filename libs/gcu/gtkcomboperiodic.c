@@ -29,6 +29,10 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+#ifndef GO_TYPE_COMBO_BOX
+#   define GO_TYPE_COMBO_BOX GO_COMBO_BOX_TYPE
+#endif
+
 struct _GtkComboPeriodic {
 	GOComboBox     base;
 
@@ -112,7 +116,7 @@ gtk_combo_periodic_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GtkComboPeriodic, gtk_combo_periodic,
 	   gtk_combo_periodic_class_init, gtk_combo_periodic_init,
-	   GO_COMBO_BOX_TYPE)
+	   GO_TYPE_COMBO_BOX)
 
 GtkWidget *gtk_combo_periodic_new (void)
 {

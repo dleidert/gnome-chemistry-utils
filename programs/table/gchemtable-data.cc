@@ -29,6 +29,12 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 
+#ifndef GO_TYPE_DATA_SCALAR
+#   define GO_TYPE_DATA_SCALAR GO_DATA_SCALAR_TYPE
+#   define GO_TYPE_VECTOR_SCALAR GO_DATA_VECTOR_TYPE
+#   define GO_TYPE_MATRIX_SCALAR GO_DATA_MATRIX_TYPE
+#endif
+
 using namespace std;
 static map <string, GOData *> GctScalars, GctVectors, GctMatrices;
 
@@ -114,11 +120,11 @@ gct_data_scalar_init (GObject *obj)
 
 GSF_CLASS (GctDataScalar, gct_data_scalar,
 	   gct_data_scalar_class_init, gct_data_scalar_init,
-	   GO_DATA_SCALAR_TYPE)
+	   GO_TYPE_DATA_SCALAR)
 
 void gct_data_scalar_new (char const *name, void (*loader) (double *value))
 {
-	GctDataScalar *sc = GCT_DATA_SCALAR (g_object_new (GO_DATA_SCALAR_TYPE, NULL));
+	GctDataScalar *sc = GCT_DATA_SCALAR (g_object_new (GCT_DATA_SCALAR_TYPE, NULL));
 	sc->loader = loader;
 	GctScalars[name] = GO_DATA (sc);
 
@@ -242,7 +248,7 @@ gct_data_vector_init (GObject *obj)
 
 GSF_CLASS (GctDataVector, gct_data_vector,
 	   gct_data_vector_class_init, gct_data_vector_init,
-	   GO_DATA_VECTOR_TYPE)
+	   GO_TYPE_DATA_VECTOR)
 
 void gct_data_vector_new (char const *name, void (*loader) (double **values, int *length))
 {
@@ -346,7 +352,7 @@ gct_data_matrix_init (GObject *obj)
 
 GSF_CLASS (GctDataMatrix, gct_data_matrix,
 	   gct_data_matrix_class_init, gct_data_matrix_init,
-	   GO_DATA_MATRIX_TYPE)
+	   GO_TYPE_DATA_MATRIX)
 
 void gct_data_matrix_new (char const *name, void (*loader) (double **values, int *cols, int *rows))
 {

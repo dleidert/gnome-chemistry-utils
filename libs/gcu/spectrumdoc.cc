@@ -40,6 +40,11 @@
 #include <sstream>
 #include <iostream>
 
+#ifndef GOG_TYPE_SERIES_LINES
+#   define GOG_TYPE_SERIES_LINES GOG_SERIES_LINES_TYPE
+#   define GOG_TYPE_AXIS GOG_AXIS_TYPE
+#endif
+
 using namespace std;
 
 namespace gcu
@@ -668,7 +673,7 @@ parse_line:
 		case JCAMP_PEAK_TABLE: {
 			// in that case, add drop lines ans remove the normal line
 			GogSeries *series = m_View->GetSeries ();
-			gog_object_add_by_name (GOG_OBJECT (series), "Vertical drop lines", GOG_OBJECT (g_object_new (GOG_SERIES_LINES_TYPE, NULL)));
+			gog_object_add_by_name (GOG_OBJECT (series), "Vertical drop lines", GOG_OBJECT (g_object_new (GOG_TYPE_SERIES_LINES, NULL)));
 			GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
 			style->line.dash_type = GO_LINE_NONE;
 			style->line.auto_dash = false;
@@ -2036,7 +2041,7 @@ void SpectrumDocument::OnShowIntegral ()
 			gog_series_set_dim (v.Series, 0, godata, NULL);
 			godata = go_data_vector_val_new (v.Values, v.NbValues, NULL);
 			gog_series_set_dim (v.Series, 1, godata, NULL);
-			GogStyledObject *axis = GOG_STYLED_OBJECT (g_object_new (GOG_AXIS_TYPE, "major-tick-labeled", false, NULL));
+			GogStyledObject *axis = GOG_STYLED_OBJECT (g_object_new (GOG_TYPE_AXIS, "major-tick-labeled", false, NULL));
 			GogPlot	*plot = gog_series_get_plot (v.Series);
 			GogObject *chart = GOG_OBJECT (gog_object_get_parent (GOG_OBJECT (plot)));
 			gog_object_add_by_name (chart, "Y-Axis", GOG_OBJECT (axis));

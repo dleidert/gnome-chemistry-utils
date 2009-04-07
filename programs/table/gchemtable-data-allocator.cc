@@ -33,6 +33,11 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 
+#ifndef GOG_TYPE_DATA_ALLOCATOR
+#   define GOG_TYPE_DATA_ALLOCATOR GOG_DATA_ALLOCATOR_TYPE
+#   define GOG_IS_SERIES IS_GOG_SERIES
+#endif
+
 struct _GctControlGUI
 {
 	GObject base;
@@ -106,7 +111,7 @@ gct_data_allocator_editor (GogDataAllocator *dalloc,
 	editor->dim_i		= dim_i;
 	editor->data_type	= data_type;
 					
-	if (IS_GOG_SERIES (dataset) && data_type != GOG_DATA_SCALAR) {
+	if (GOG_IS_SERIES (dataset) && data_type != GOG_DATA_SCALAR) {
 		GogPlot *plot = gog_series_get_plot (GOG_SERIES (dataset));
 		if (plot->desc.series.dim[dim_i].priority == GOG_SERIES_ERRORS) {
 			// FIXME: we might know the errors
@@ -189,7 +194,7 @@ gct_control_gui_class_init (GObjectClass *klass)
 GSF_CLASS_FULL (GctControlGUI, gct_control_gui,
 		NULL, NULL, gct_control_gui_class_init, NULL,
 		gct_control_gui_init, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gct_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE));
+		GSF_INTERFACE (gct_go_plot_data_allocator_init, GOG_TYPE_DATA_ALLOCATOR));
 
 void
 gct_control_gui_set_owner (GctControlGUI *gui, GChemTableCurve *curve)

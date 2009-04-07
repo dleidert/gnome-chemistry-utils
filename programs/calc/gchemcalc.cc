@@ -76,6 +76,10 @@
 #include <cmath>
 #include <cstring>
 
+#ifndef GO_TYPE_PLUGIN_LOADER_MODULE
+#   define GO_TYPE_PLUGIN_LOADER_MODULE GO_PLUGIN_LOADER_MODULE_TYPE
+#endif
+
 using namespace gcu;
 
 using namespace std;
@@ -736,7 +740,7 @@ int main (int argc, char *argv[])
 	App = new GChemCalc ();
 	
 	/* Initialize plugins manager */
-	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_PLUGIN_LOADER_MODULE_TYPE);
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
 	GladeXML *xml =  glade_xml_new (GLADEDIR"/gchemcalc.glade", "gchemcalc", NULL);
 	App->window = GTK_WINDOW (glade_xml_get_widget (xml, "gchemcalc"));
