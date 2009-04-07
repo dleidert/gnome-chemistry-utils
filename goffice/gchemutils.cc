@@ -135,7 +135,7 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 
 GSF_DYNAMIC_CLASS (GOGChemUtilsComponent, go_gchemutils_component,
 	go_gchemutils_component_class_init, go_gchemutils_component_init,
-	GO_COMPONENT_TYPE)
+	GO_TYPE_COMPONENT)
 
 /*************************************************************************************/
 

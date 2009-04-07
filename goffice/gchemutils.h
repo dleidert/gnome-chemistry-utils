@@ -33,9 +33,9 @@ typedef struct _GOGChemUtilsComponent GOGChemUtilsComponent;
 
 typedef GOComponentClass GOGChemUtilsComponentClass;
 
-#define GO_GCHEMUTILS_COMPONENT_TYPE	(go_gchemutils_component_get_type ())
-#define GO_GCHEMUTILS_COMPONENT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_GCHEMUTILS_COMPONENT_TYPE, GOGChemUtilsComponent))
-#define GO_IS_GCHEMUTILS_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_GCHEMUTILS_COMPONENT_TYPE))
+#define GO_TYPE_GCHEMUTILS_COMPONENT	(go_gchemutils_component_get_type ())
+#define GO_GCHEMUTILS_COMPONENT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_GCHEMUTILS_COMPONENT, GOGChemUtilsComponent))
+#define GO_IS_GCHEMUTILS_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_GCHEMUTILS_COMPONENT))
 
 GType go_gchemutils_component_get_type (void);
 

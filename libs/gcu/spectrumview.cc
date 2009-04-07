@@ -80,7 +80,7 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	m_Widget = go_graph_widget_new (NULL);
 	GogGraph *graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_Widget));
 	/* Add a title */
-	GogLabel *label = (GogLabel *) g_object_new (GOG_LABEL_TYPE, NULL);
+	GogLabel *label = (GogLabel *) g_object_new (GOG_TYPE_LABEL, NULL);
 	gog_object_add_by_name (GOG_OBJECT (graph), "Title", GOG_OBJECT (label));
 	/* Get the chart created by the widget initialization */
 	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_Widget));
@@ -201,7 +201,7 @@ void SpectrumView::SetAxisLabel (GogAxisType target, char const *unit)
 		gog_object_clear_parent (label);
 		g_object_unref (label);
 	}
-	label = GOG_OBJECT (g_object_new (GOG_LABEL_TYPE, NULL));
+	label = GOG_OBJECT (g_object_new (GOG_TYPE_LABEL, NULL));
 	gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 	gog_object_add_by_name (axis, "Label", label);
 	

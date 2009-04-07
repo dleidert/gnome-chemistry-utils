@@ -745,7 +745,6 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 		std::vector <TextTag *> borders (MaxTag);
 		for (int n = 0; n < MaxTag; n++) 
 			borders[n] = NULL;
-		//TODO: manage attributes
 		//TODO: update runs
 		for (i = m_Tags.begin (); i != iend; i++) {
 			unsigned end = (*i)->GetEndIndex (), start = (*i)->GetStartIndex ();

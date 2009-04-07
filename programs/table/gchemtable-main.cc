@@ -41,7 +41,7 @@ int main (int argc, char *argv[])
 	GSList *l = NULL;
 	l = g_slist_append (l, (void *) "GOffice_plot_xy");
 	l = g_slist_append (l, (void *) "GOffice_reg_linear");
-	go_plugins_init (NULL, NULL, l, NULL, FALSE, GO_PLUGIN_LOADER_MODULE_TYPE);
+	go_plugins_init (NULL, NULL, l, NULL, FALSE, GO_TYPE_PLUGIN_LOADER_MODULE);
 	g_slist_free (l);
 
 	gtk_main();

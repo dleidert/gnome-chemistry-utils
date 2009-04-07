@@ -403,7 +403,7 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 			if (!strcmp ((char*) node->name, "text")) {
 				text->LoadSelection (node, start);
 				xmlFreeDoc (xml);
-				return true; // otherwise, we'd call OnChange(true) twice.
+				return true; // otherwise, we'd call OnChanged (true) twice.
 			} else if (!strcmp((char*)node->name, "fragment")) {
 // FIXME
 /*				gcp::Fragment* fragment = new gcp::Fragment ();
@@ -425,21 +425,21 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 			break;
 		}
 		case gcp::GCP_CLIPBOARD_UTF8_STRING: {
-/*			PangoAttrList *l = pango_attr_list_new ();
-//			gcp_pango_layout_replace_text (layout, start, end - start, (char const *) data->data, l);
-			pango_attr_list_unref (l);*/
+			string s ((char const *) data->data);
+			m_Active->ReplaceText (s, static_cast <int> (start), start - end);
 			break;
 		}
 		case gcp::GCP_CLIPBOARD_STRING: {
-//			PangoAttrList *l = pango_attr_list_new ();
 			if (!g_utf8_validate ((const char*) data->data, data->length, NULL)) {
 				gsize r, w;
-				gchar* newstr = g_locale_to_utf8 ((const char*) data->data, data->length, &r, &w, NULL);
-//				gcp_pango_layout_replace_text (layout, start, end - start, (char const *) data->data, l);
+				char* newstr = g_locale_to_utf8 ((const char*) data->data, data->length, &r, &w, NULL);
+				string s (newstr);
+				m_Active->ReplaceText (s, static_cast <int> (start), start - end);
 				g_free (newstr);
-			} else
-//				gcp_pango_layout_replace_text (layout, start, end - start, (char const *) data->data, l);
-//			pango_attr_list_unref (l);
+			} else {
+				string s ((char const *) data->data);
+				m_Active->ReplaceText (s, static_cast <int> (start), start - end);
+			}
 			break;
 		}
 	}

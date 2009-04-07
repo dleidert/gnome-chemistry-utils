@@ -110,7 +110,7 @@ AC_PATH_PROG([DOXYGEN], [doxygen], [no])
 AM_CONDITIONAL([DOXYGEN_AVAILABLE], [test "x$DOXYGEN" != "xno"])
 
 libgoffice=
-dnl Only 0.7.x, or later will work
+dnl Only 0.7.5, or later will work
 for ver in 0.8 ; do
   if test "x$libgoffice" = x; then
     if pkg-config --exists libgoffice-$ver; then
@@ -130,7 +130,7 @@ PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.12.0])
 PKG_CHECK_MODULES(glade, [libglade-2.0 >= 2.4.0])
 PKG_CHECK_MODULES(gtkglext, [gtkglext-1.0 >= 1.0.0])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
-PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.7.3])
+PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.7.5])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.1.0])

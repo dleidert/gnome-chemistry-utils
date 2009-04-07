@@ -114,11 +114,11 @@ gct_data_scalar_init (G_GNUC_UNUSED GObject *obj)
 
 GSF_CLASS (GctDataScalar, gct_data_scalar,
 	   gct_data_scalar_class_init, gct_data_scalar_init,
-	   GO_DATA_SCALAR_TYPE)
+	   GO_TYPE_DATA_SCALAR)
 
 void gct_data_scalar_new (char const *name, void (*loader) (double *value))
 {
-	GctDataScalar *sc = GCT_DATA_SCALAR (g_object_new (GO_DATA_SCALAR_TYPE, NULL));
+	GctDataScalar *sc = GCT_DATA_SCALAR (g_object_new (GCT_TYPE_DATA_SCALAR, NULL));
 	sc->loader = loader;
 	GctScalars[name] = GO_DATA (sc);
 
@@ -242,11 +242,11 @@ gct_data_vector_init (G_GNUC_UNUSED GObject *obj)
 
 GSF_CLASS (GctDataVector, gct_data_vector,
 	   gct_data_vector_class_init, gct_data_vector_init,
-	   GO_DATA_VECTOR_TYPE)
+	   GO_TYPE_DATA_VECTOR)
 
 void gct_data_vector_new (char const *name, void (*loader) (double **values, int *length))
 {
-	GctDataVector *vec = GCT_DATA_VECTOR (g_object_new (GCT_DATA_VECTOR_TYPE, NULL));
+	GctDataVector *vec = GCT_DATA_VECTOR (g_object_new (GCT_TYPE_DATA_VECTOR, NULL));
 	vec->loader = loader;
 	GctVectors[name] = GO_DATA (vec);
 }
@@ -346,11 +346,11 @@ gct_data_matrix_init (G_GNUC_UNUSED GObject *obj)
 
 GSF_CLASS (GctDataMatrix, gct_data_matrix,
 	   gct_data_matrix_class_init, gct_data_matrix_init,
-	   GO_DATA_MATRIX_TYPE)
+	   GO_TYPE_DATA_MATRIX)
 
 void gct_data_matrix_new (char const *name, void (*loader) (double **values, int *cols, int *rows))
 {
-	GctDataMatrix *mat = GCT_DATA_MATRIX (g_object_new (GCT_DATA_MATRIX_TYPE, NULL));
+	GctDataMatrix *mat = GCT_DATA_MATRIX (g_object_new (GCT_TYPE_DATA_MATRIX, NULL));
 	mat->loader = loader;
 	GctMatrices[name] = GO_DATA (mat);
 }

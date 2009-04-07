@@ -35,6 +35,7 @@
 #include "view.h"
 #include "widgetdata.h"
 #include "window.h"
+#include <gccv/canvas.h>
 #include <gccv/structs.h>
 #include <gccv/text.h>
 #include <gcu/element.h>
@@ -264,6 +265,39 @@ bool Fragment::OnChanged (bool save)
 
 void Fragment::AddItem ()
 {
+	if (m_Item)
+		return;
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc->GetTheme ();
+	PangoFontDescription *desc = view->GetPangoFontDesc ();
+	if (m_ascent <= 0) {
+		PangoContext* pc = gccv::Text::GetContext ();
+		PangoLayout *layout = pango_layout_new (pc);
+		pango_layout_set_font_description (layout, desc);
+		PangoAttrList *l = pango_attr_list_new ();
+		pango_layout_set_attributes (layout, l);
+		pango_layout_set_font_description (layout, desc);
+		pango_layout_set_text (layout, "l", -1);
+		PangoLayoutIter* iter = pango_layout_get_iter (layout);
+		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		pango_layout_iter_free (iter);
+	}
+	double x = m_x * theme->GetZoomFactor ();
+	double y = m_y * theme->GetZoomFactor ();
+	gccv::Text *text = new gccv::Text (view->GetCanvas ()->GetRoot (), x, y, this);
+	text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+	text->SetPadding (theme->GetPadding ());
+	text->SetLineColor (0);
+	text->SetLineOffset (view->GetCHeight ());
+	text->SetAnchor (gccv::AnchorLineWest);
+	text->SetFontDescription (desc);
+	text->SetText (m_buf.c_str ());
+	while (!m_TagList.empty ()) {
+		text->InsertTextTag (m_TagList.front ());
+		m_TagList.pop_front ();
+	}
+	m_Item = text;
 }
 
 void Fragment::UpdateItem ()

@@ -37,7 +37,7 @@ charts.
 /*!
 @return the GType associated to GcuCmdContext.
 */
-#define GCU_CMD_CONTEXT_TYPE		(gcu_cmd_context_get_type ())
+#define GCU_TYPE_CMD_CONTEXT		(gcu_cmd_context_get_type ())
 GType		gcu_cmd_context_get_type   (void);
 
 /*!

@@ -1,5 +1,34 @@
 ##Text encoding: utf-8
 
+2009-04-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: requires goffice >= 0.7.5 because of some macros renaming.
+	* goffice/gchemutils.cc: make our code compatible with new goffice API.
+	* goffice/gchemutils.h: ditto.
+	* libs/gccv/text.cc: removed an obsolete FIXME.
+	* libs/gcp/document.cc: add fragment to the document before adding it to
+	the view..
+	* libs/gcp/fragment.cc: started reimplementation.
+	* libs/gcp/text-object.h: removed unused m_Align.
+	* libs/gcp/view.cc: don't try to set widget size to a negative value.
+	* libs/gcu/cmd-context.cc: make our code compatible with new goffice API.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/gtkcomboperiodic.c: ditto.
+	* libs/gcu/gtkcomboperiodic.h: ditto.
+	* libs/gcu/loader.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: started reimplementation.
+	* plugins/paint/text/texttool.cc: paste text from other apps.
+	* programs/calc/gchemcalc.cc: make our code compatible with new goffice API.
+	* programs/spectra/gspectrum.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+	* programs/table/gchemtable-data-allocator.h: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+	* programs/table/gchemtable-data.h: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
+
 2009-04-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/group.cc: set empty group size to [G_MAXDOUBLE, -G_MAXDOUBLE].
 	* libs/gccv/text-client.h: add a position argument to TextChanged().

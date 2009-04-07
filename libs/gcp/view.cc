@@ -1041,14 +1041,16 @@ void View::EnsureSize ()
 {
 	double x1, y1, x2, y2;
 	m_Canvas->GetRoot ()->GetBounds (x1, y1, x2, y2);
-	if (x1 < 0.0) x2 -= x1;
-	if (y1 < 0.0) y2 -= y1;
+	if (x1 < 0.) x2 -= x1;
+	if (y1 < 0.) y2 -= y1;
+	if (x2 <= 0. || y2 <= 0.)
+		return;
 	if ((x2 != m_width) || (y2 != m_height)) {
 		m_width = x2;
 		m_height = y2;
 		gtk_widget_set_size_request (m_pWidget, (int) ceil (x2 * m_Canvas->GetZoom ()), (int) ceil (y2 * m_Canvas->GetZoom ()));
 	}
-	if ((x1 < 0.0) || (y1 < 0.0))
+	if ((x1 < 0.) || (y1 < 0.))
 	{
 		Theme* pTheme = m_pDoc->GetTheme ();
 		x1 = (x1 < 0.)? -x1 / pTheme->GetZoomFactor (): 0.;

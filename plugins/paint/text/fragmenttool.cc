@@ -78,11 +78,11 @@ bool gcpFragmentTool::OnClicked ()
 		m_pObject = fragment;
 	}
 /*	gccv::TextSelBounds bounds;
-	bool need_update = false;
+	bool need_update = false;*/
 	gcp::Fragment *pFragment = NULL;
 	if (m_pObject) {
 		switch(m_pObject->GetType ()) {
-			case AtomType: {
+/*			case AtomType: {
 				gcp::Atom* pAtom = (gcp::Atom*) m_pObject;
 				if (pAtom->GetTotalBondsNumber () > 1)
 					return false;
@@ -139,7 +139,7 @@ bool gcpFragmentTool::OnClicked ()
 				pDoc->EmptyTranslationTable ();
 				m_pObject = pFragment;
 				break;
-			}
+			}*/
 			case BondType:
 				return false;
 			case FragmentType:
@@ -147,19 +147,23 @@ bool gcpFragmentTool::OnClicked ()
 			default:
 				return false;
 		}
-		m_pObject->SetSelected (gcp::SelStateUpdating);
-		m_Active = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (m_pData->Items[m_pObject]), "fragment"));
-		if (need_update) {
+		if (!pFragment)
+			pFragment = static_cast <gcp::Fragment *> (m_pObject);
+		pFragment->SetSelected (gcp::SelStateUpdating);
+		m_Active = static_cast <gccv::Text *> (dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ());
+/*		if (need_update) {
 			gnome_canvas_pango_set_selection_bounds (m_Active,  bounds.cur,  bounds.cur);
 			pFragment->AnalContent ((unsigned) bounds.start, (unsigned&) bounds.cur);
 			pFragment->OnChanged (false);
-		}
+		}*/
 		m_pView->SetTextActive (m_Active);
-		g_object_set (G_OBJECT (m_Active), "editing", true, NULL);
-		m_CurNode = ((gcp::Fragment*) m_pObject)->SaveSelected ();
-		m_InitNode = ((gcp::Fragment*) m_pObject)->SaveSelected ();
+		m_Active->SetEditing (true);
+		m_Active->OnButtonPressed (m_x0, m_y0);
+		m_CurNode = pFragment->SaveSelected ();
+		m_InitNode = pFragment->SaveSelected ();
 		pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
-	}*/
+		pFragment->SetEditor (this);
+	}
 	return true;
 }
 
@@ -277,7 +281,7 @@ bool gcpFragmentTool::Unselect ()
 {
 	if (!m_Active)
 		return true;
-	gcp::Fragment *fragment = (gcp::Fragment*) g_object_get_data (G_OBJECT (m_Active), "object");
+	gcp::Fragment *fragment = dynamic_cast <gcp::Fragment*> (m_Active->GetClient ());;
 	if (fragment->Validate ())
 		return gcpTextTool::Unselect ();
 	return false;

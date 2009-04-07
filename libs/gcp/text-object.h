@@ -200,7 +200,7 @@ first line is used for vertical alignment.
 /*!\fn GetAnchor()
 @return the current GtkAnchor.
 */
-GCU_PROT_PROP (GtkAnchorType, Anchor)
+//GCU_PROT_PROP (GtkAnchorType, Anchor)
 /*!\var m_TagList
 The tags list associated with the object.
 */

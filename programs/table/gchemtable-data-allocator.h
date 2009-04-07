@@ -32,9 +32,9 @@ G_BEGIN_DECLS
 typedef struct _GctControlGUI GctControlGUI;
 typedef GObjectClass GctControlGUIClass;
 
-#define GCT_CONTROL_GUI_TYPE	(gct_control_gui_get_type ())
-#define GCT_CONTROL_GUI(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GCT_CONTROL_GUI_TYPE, GctControlGUI))
-#define IS_GCT_CONTROL_GUI(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GCT_CONTROL_GUI_TYPE))
+#define GCT_TYPE_CONTROL_GUI	(gct_control_gui_get_type ())
+#define GCT_CONTROL_GUI(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), GCT_TYPE_CONTROL_GUI, GctControlGUI))
+#define GCT_IS_CONTROL_GUI(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), GCT_TYPE_CONTROL_GUI))
 
 GType gct_control_gui_get_type ();
 void gct_control_gui_set_owner (GctControlGUI *gui, GChemTableCurve *curve);

@@ -112,11 +112,11 @@ gtk_combo_periodic_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GtkComboPeriodic, gtk_combo_periodic,
 	   gtk_combo_periodic_class_init, gtk_combo_periodic_init,
-	   GO_COMBO_BOX_TYPE)
+	   GO_TYPE_COMBO_BOX)
 
 GtkWidget *gtk_combo_periodic_new (void)
 {
-	return GTK_WIDGET (g_object_new (GTK_COMBO_PERIODIC_TYPE, NULL));
+	return GTK_WIDGET (g_object_new (GTK_TYPE_COMBO_PERIODIC, NULL));
 }
 
 guint	gtk_combo_periodic_get_element	(GtkComboPeriodic* combo)

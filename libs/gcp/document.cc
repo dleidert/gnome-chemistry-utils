@@ -513,10 +513,10 @@ void Document::AddFragment (Fragment* pFragment)
 		pFragment->SetId (id);
 		Id = id;
 	}
+	AddObject(pFragment);
 	m_pView->AddObject (pFragment);
 	if (m_bIsLoading)
 		return;
-//	AddObject(pFragment);
 	if (!pFragment->GetMolecule ()) {
 		Molecule* mol = new Molecule ();
 		i = 1;

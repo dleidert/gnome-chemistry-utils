@@ -78,7 +78,7 @@ gcu_cc_cmd_context_init (G_GNUC_UNUSED GOCmdContextClass *iface)
 GSF_CLASS_FULL (GcuCmdContext, gcu_cmd_context,
 		NULL, NULL, NULL, NULL,
 		NULL, G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gcu_cc_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (gcu_cc_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
 static GOCmdContext *cc = NULL;
 
@@ -86,6 +86,6 @@ GOCmdContext *
 gcu_get_cmd_context (void)
 {
 	if (!cc)
-		cc = GO_CMD_CONTEXT (g_object_new (GCU_CMD_CONTEXT_TYPE, NULL));
+		cc = GO_CMD_CONTEXT (g_object_new (GCU_TYPE_CMD_CONTEXT, NULL));
 	return cc;
 }
