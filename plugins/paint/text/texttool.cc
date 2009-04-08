@@ -201,18 +201,15 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				break;
 			}
 		}
-		if (event->type == GDK_KEY_PRESS) {
-			if (!g_utf8_validate (event->string, -1, NULL)) {
-				gsize r, w;
-				gchar* newstr = g_locale_to_utf8 (event->string, event->length, &r, &w, NULL);
-				g_free (event->string);
-				event->string = newstr;
-				event->length = w;
-			}
-			m_Active->OnKeyPressed (event);
-			return true;
-		} else
-			return false;
+		if (!g_utf8_validate (event->string, -1, NULL)) {
+			gsize r, w;
+			gchar* newstr = g_locale_to_utf8 (event->string, event->length, &r, &w, NULL);
+			g_free (event->string);
+			event->string = newstr;
+			event->length = w;
+		}
+		m_Active->OnKeyPressed (event);
+		return true;
 	}
 	return false;
 }

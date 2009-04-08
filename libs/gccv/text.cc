@@ -217,7 +217,7 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 	m_BlinkSignal (0),
 	m_CursorVisible (false),
 	m_CurPos (0),
-	m_CurTags (NULL),
+	m_CurTags (new TextTagList ()),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
 	m_LineOffset (0.), m_Width (0.), m_Height (0.)
@@ -820,7 +820,7 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 		pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks and update runs
 		m_Runs.front ()->m_Length = m_Text.length ();
 		RebuildAttributes ();
-		m_CurPos = pos;
+		m_CurPos = m_StartSel = pos;
 		SetPosition (m_x, m_y);
 		//TODO: update attribute list
 		return;
@@ -1116,7 +1116,7 @@ void Text::OnDrag (double x, double y)
 		}
 }
 
-unsigned Text::GetSelectionBounds (unsigned &start, unsigned &end)
+void Text::GetSelectionBounds (unsigned &start, unsigned &end)
 {
 	start = m_StartSel;
 	end = m_CurPos;

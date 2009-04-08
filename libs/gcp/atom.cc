@@ -2083,6 +2083,7 @@ bool Atom::HasAvailableElectrons (bool paired)
 	} else {
 		return (electron) || (m_nlp) || (m_nlu); // TODO: take curved arrows into account
 	}
+	return false;
 }
 
 }	//	namespace gcp

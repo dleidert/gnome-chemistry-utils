@@ -28,6 +28,10 @@
 #include "text-object.h"
 #include <gccv/item-client.h>
 
+namespace gccv {
+	class Text;
+}
+
 /*!\file*/
 namespace gcp {
 
@@ -65,10 +69,6 @@ The destructor.
 Used to add a representation of the fragment in the view.
 */
 	void AddItem ();
-/*!
-Used to update the representation of the fragment in the view.
-*/
-	void UpdateItem ();
 /*!
 @param state the selection state of the fragment.
 
@@ -238,6 +238,8 @@ private:
 	int m_lbearing;
 	double m_CHeight;
 	bool m_Inversable;
+
+GCU_RO_PROP (gccv::Text *, TextItem);
 };
 
 }	//	namespace gcp

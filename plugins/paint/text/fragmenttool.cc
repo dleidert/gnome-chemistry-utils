@@ -150,7 +150,7 @@ bool gcpFragmentTool::OnClicked ()
 		if (!pFragment)
 			pFragment = static_cast <gcp::Fragment *> (m_pObject);
 		pFragment->SetSelected (gcp::SelStateUpdating);
-		m_Active = static_cast <gccv::Text *> (dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ());
+		m_Active = pFragment->GetTextItem ();
 /*		if (need_update) {
 			gnome_canvas_pango_set_selection_bounds (m_Active,  bounds.cur,  bounds.cur);
 			pFragment->AnalContent ((unsigned) bounds.start, (unsigned&) bounds.cur);
@@ -213,7 +213,7 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 			}
 		}
 		if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return ||
-							event->keyval == GDK_space)
+							event->keyval == GDK_space) // not allowed in fragments
 			return true;
 		if (!g_utf8_validate (event->string, -1, NULL)) {
 			gsize r, w;
@@ -222,9 +222,7 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 			event->string = newstr;
 			event->length = w;
 		}
-/*			gnome_canvas_item_grab_focus ((GnomeCanvasItem*) m_Active);
-		GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (m_Active));
-		klass->event ((GnomeCanvasItem*) m_Active, event);*/
+		m_Active->OnKeyPressed (event);
 		return true;
 	}
 	return false;
@@ -235,7 +233,7 @@ bool gcpFragmentTool::CopySelection (GtkClipboard *clipboard)
 	if (!m_Active)
 		return false;
 	unsigned start, end;
-	gcp::Fragment *fragment = (gcp::Fragment*) g_object_get_data (G_OBJECT (m_Active), "object");
+	gcp::Fragment *fragment = dynamic_cast <gcp::Fragment *> (m_Active->GetClient ());
 	fragment->GetSelectionBounds (start, end);
 	if (start == end)
 		return false;

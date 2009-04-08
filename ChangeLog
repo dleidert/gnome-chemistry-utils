@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-04-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fixed selection start after typing a backspace, fixed
+	GetSelectionBounds signature, and always initialize m_CurTags to non NULL.
+	* libs/gccv/text.h: fixed GetSelectionBounds signature.
+	* libs/gcp/atom.cc: add a missing return.
+	* libs/gcp/fragment.cc: more work on fragments reimplementation.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/text-object.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/texttool.cc: cleaned OnKeyPress.
+
 2009-04-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requires goffice >= 0.7.5 because of some macros renaming.
 	* goffice/gchemutils.cc: make our code compatible with new goffice API.

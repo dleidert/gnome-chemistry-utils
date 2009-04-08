@@ -174,8 +174,9 @@ void TextObject::SelectionChanged (unsigned start, unsigned cur)
 
 void TextObject::TextChanged (unsigned pos)
 {
-	SelectionChanged (pos, pos);
 	OnChanged (true);
+	// call SelectionChanged after OnChanged so that we can know what was selected before the text change
+	SelectionChanged (pos, pos);
 }
 
 }	//	namespace gcp

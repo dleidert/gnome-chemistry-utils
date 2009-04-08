@@ -36,6 +36,7 @@
 #include "widgetdata.h"
 #include "window.h"
 #include <gccv/canvas.h>
+#include <gccv/group.h>
 #include <gccv/structs.h>
 #include <gccv/text.h>
 #include <gcu/element.h>
@@ -89,6 +90,7 @@ bool Fragment::OnChanged (bool save)
 	Document* pDoc = (Document*) GetDocument ();
 	if (!pDoc)
 		return false;
+	m_buf = m_TextItem->GetText ();
 /*	View* pView = pDoc->GetView ();
 	GtkWidget* pWidget = pView->GetWidget ();
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
@@ -97,19 +99,24 @@ bool Fragment::OnChanged (bool save)
 		pData->Items.erase (this);
 		m_bLoading = false;
 		return false;
-	}
-	GnomeCanvasPango *PangoItem = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (group), "fragment"));
-	unsigned CurPos = gnome_canvas_pango_get_cur_index (PangoItem);
-	AnalContent (m_StartSel, CurPos);
+	}*/
+	unsigned CurPos = m_TextItem->GetCursorPosition ();
+//	AnalContent (m_StartSel, CurPos);//why? Probably not anymore needed
 	m_bLoading = true;
-	m_buf = pango_layout_get_text (m_Layout);
-	if (m_buf.length ()) {
+	// Get the ascent, is it still needed now that we can align texts according to the baseline
+/*	if (m_buf.length ()) {
 		PangoLayoutIter *iter = pango_layout_get_iter (m_Layout);
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
 	}*/
 	/*main atom management*/
-/*	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
+	if (m_buf.length () < m_EndAtom) { // needed if the symbol of part of it has been destroyed
+		m_Atom->SetZ (0);
+		m_EndAtom = m_buf.length ();
+		if (m_BeginAtom > m_EndAtom)
+			m_BeginAtom = m_EndAtom;
+	}
+	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
 	Residue *r = NULL;
 	char sy[Residue::MaxSymbolLength + 1];
 	if (!m_Atom->GetSymbol ())
@@ -125,7 +132,7 @@ bool Fragment::OnChanged (bool save)
 			i--;
 		}
 		if (r) {
-			CurPos = m_StartSel + i;
+			CurPos = m_StartSel + strlen (sy);
 			m_BeginAtom = m_StartSel;
 			m_EndAtom = CurPos;
 			if (residue)
@@ -140,7 +147,11 @@ bool Fragment::OnChanged (bool save)
 					pBond->ReplaceAtom (pOldAtom, m_Atom);
 					m_Atom->AddBond (pBond);
 				}
+				double x, y;
+				pOldAtom->GetCoords (&x, &y);
+				m_Atom->SetCoords (x, y);
 				delete pOldAtom;
+				AddChild (m_Atom);
 			}
 		} else {
 			int Z = GetElementAtPos (m_StartSel, CurPos);
@@ -157,7 +168,11 @@ bool Fragment::OnChanged (bool save)
 						pBond->ReplaceAtom (pOldAtom, m_Atom);
 						m_Atom->AddBond (pBond);
 					}
+					double x, y;
+					pOldAtom->GetCoords (&x, &y);
+					m_Atom->SetCoords (x, y);
 					delete pOldAtom;
+					AddChild (m_Atom);
 				} else
 					m_Atom->SetZ (Z);
 				m_BeginAtom = m_StartSel;
@@ -187,7 +202,7 @@ bool Fragment::OnChanged (bool save)
 			i--;
 		}
 		if (r) {
-			m_EndAtom = m_BeginAtom + i;
+			m_EndAtom = m_BeginAtom + strlen (sy);
 			if (residue)
 				residue->SetResidue (r);
 			else {
@@ -200,7 +215,11 @@ bool Fragment::OnChanged (bool save)
 					pBond->ReplaceAtom (pOldAtom, m_Atom);
 					m_Atom->AddBond (pBond);
 				}
+				double x, y;
+				pOldAtom->GetCoords (&x, &y);
+				m_Atom->SetCoords (x, y);
 				delete pOldAtom;
+				AddChild (m_Atom);
 			}
 		} else {
 			int Z = GetElementAtPos (m_BeginAtom, m_EndAtom);
@@ -214,22 +233,26 @@ bool Fragment::OnChanged (bool save)
 					pBond->ReplaceAtom (pOldAtom, m_Atom);
 					m_Atom->AddBond (pBond);
 				}
+				double x, y;
+				pOldAtom->GetCoords (&x, &y);
+				m_Atom->SetCoords (x, y);
 				delete pOldAtom;
+				AddChild (m_Atom);
 			} else
 				m_Atom->SetZ (Z);
 			if (!Z)
 				m_EndAtom = CurPos;
 		}
 	}
-	PangoRectangle rect;
+/*	PangoRectangle rect;
 	pango_layout_index_to_pos (m_Layout, m_BeginAtom, &rect);
 	m_lbearing = rect.x / PANGO_SCALE;
 	pango_layout_index_to_pos (m_Layout, m_EndAtom, &rect);
 	m_lbearing += rect.x / PANGO_SCALE;
 	m_lbearing /=  2;
-	pView->Update (this);
+	pView->Update (this);*/
 	m_bLoading = false;
-	Window* pWin = pDoc->GetWindow ();
+/*	Window* pWin = pDoc->GetWindow ();
 	if (m_Atom->GetZ () || ((m_buf.length () == 0) && (m_Atom->GetBondsNumber () == 0))) {
 		if (!pDoc->GetReadOnly ()) {
 			pWin->ActivateActionWidget ("/MainMenu/FileMenu/Save", true);
@@ -285,23 +308,20 @@ void Fragment::AddItem ()
 	}
 	double x = m_x * theme->GetZoomFactor ();
 	double y = m_y * theme->GetZoomFactor ();
-	gccv::Text *text = new gccv::Text (view->GetCanvas ()->GetRoot (), x, y, this);
-	text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
-	text->SetPadding (theme->GetPadding ());
-	text->SetLineColor (0);
-	text->SetLineOffset (view->GetCHeight ());
-	text->SetAnchor (gccv::AnchorLineWest);
-	text->SetFontDescription (desc);
-	text->SetText (m_buf.c_str ());
+	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
+	m_TextItem = new gccv::Text (group, 0., 0., this);
+	m_TextItem->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+	m_TextItem->SetPadding (theme->GetPadding ());
+	m_TextItem->SetLineColor (0);
+	m_TextItem->SetLineOffset (view->GetCHeight ());
+	m_TextItem->SetAnchor (gccv::AnchorLineWest);
+	m_TextItem->SetFontDescription (desc);
+	m_TextItem->SetText (m_buf.c_str ());
 	while (!m_TagList.empty ()) {
-		text->InsertTextTag (m_TagList.front ());
+		m_TextItem->InsertTextTag (m_TagList.front ());
 		m_TagList.pop_front ();
 	}
-	m_Item = text;
-}
-
-void Fragment::UpdateItem ()
-{
+	m_Item = group;
 }
 
 /*void Fragment::Add (GtkWidget* w) const
@@ -459,7 +479,7 @@ void Fragment::SetSelected (int state)
 	bool visible = true;
 	switch (state) {	
 	case SelStateUnselected:
-		color = NULL;
+		color = 0;
 		chargecolor = RGBA_BLACK;
 		visible = false;
 		break;
@@ -473,22 +493,23 @@ void Fragment::SetSelected (int state)
 		chargecolor = color = DeleteColor;
 		break;
 	default:
-		color = NULL;
+		color = 0;
 		chargecolor = RGBA_BLACK;
 		break;
 	}
-/*	gpointer item;
-	item = g_object_get_data (G_OBJECT (group), "rect");
-	g_object_set (G_OBJECT (item),
-				"fill_color", color, NULL);
-	if (visible)
-		gnome_canvas_item_show (GNOME_CANVAS_ITEM (item));
-	else
-		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (item));
-	if ((item = g_object_get_data (G_OBJECT (group), "circle")))
-		g_object_set (item, "outline_color", chargecolor, NULL);
-	if ((item = g_object_get_data (G_OBJECT (group), "sign")))
-		g_object_set (item, "outline_color", chargecolor, NULL);*/
+	gccv::Group *group = static_cast <gccv::Group *> (m_Item);
+	std::list<gccv::Item *>::iterator it;
+	gccv::Item *item = group->GetFirstChild (it);
+	while (item) {
+		gccv::FillItem *fill;
+		if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
+			fill->SetFillColor (color);
+		else if ((fill = dynamic_cast <gccv::FillItem *> (item)))
+			fill->SetFillColor (chargecolor);
+		else
+			static_cast <gccv::LineItem *> (item)->SetLineColor (chargecolor);
+		item = group->GetNextChild (it);
+	}
 }
 
 /*void Fragment::Update (GtkWidget* w) const
@@ -860,8 +881,8 @@ void Fragment::AnalContent ()
 {
 	if (!m_Atom->GetParent ())
 		AddChild (m_Atom);
-//	unsigned end = (m_Layout)? strlen (pango_layout_get_text (m_Layout)): m_buf.length ();
-//	AnalContent(0, end);
+	unsigned end = m_buf.length ();
+	AnalContent(0, end);
 }
 
 typedef struct
@@ -884,20 +905,20 @@ static bool search_for_charge (PangoAttribute *attr, ChargeFindStruct *s)
 
 void Fragment::AnalContent (unsigned start, unsigned &end)
 {
-/*	Document* pDoc = (Document*) GetDocument ();
+	Document* pDoc = (Document*) GetDocument ();
 	if (!pDoc)
 		return;
 	Theme *pTheme = pDoc->GetTheme ();
-	char const *text;
-	PangoAttrList *l;
+	char const *text = m_buf.c_str ();
+/*	PangoAttrList *l;
 	if (m_Layout) {
 		text = pango_layout_get_text (m_Layout);
 		l = pango_layout_get_attributes (m_Layout);
 	} else {
 		text = m_buf.c_str ();
 		l = pango_attr_list_ref (m_AttrList);
-	}
-	bool Charge = false;
+	}*/
+/*	bool Charge = false;
 	unsigned start_tag, end_tag, next;
 	char c;
 	ChargeFindStruct s;
@@ -1150,9 +1171,10 @@ void Fragment::OnChangeAtom ()
 		return;
 	Document *pDoc = (Document*) GetDocument ();
 	if (!pDoc) return;
-	char const *sym = m_Atom->GetSymbol ();
-//	gcp_pango_layout_replace_text (m_Layout, m_BeginAtom, m_EndAtom - m_BeginAtom, sym, pDoc->GetPangoAttrList ());
-	m_EndAtom = m_BeginAtom + strlen (sym);
+	string sym = m_Atom->GetSymbol ();
+	m_TextItem->ReplaceText (sym, m_BeginAtom, m_EndAtom - m_BeginAtom);
+	m_EndAtom = m_BeginAtom + sym.length ();
+	// FIXME: we probably need to insert a tag there
 	OnChanged (false);
 }
 
@@ -1161,7 +1183,7 @@ int Fragment::GetElementAtPos (unsigned start, unsigned &end)
 	int Z;
 	char text[4];
 	memset (text, 0, 4);
-//	strncpy (text, ((m_Layout)?pango_layout_get_text ( m_Layout): m_buf.c_str ()) + start, 3);
+	strncpy (text, m_buf.c_str () + start, 3);
 	for (unsigned i = strlen (text); i > 0; i--) {
 		text[i] = 0;
 		if ((Z = Element::Z (text))) {
@@ -1482,7 +1504,7 @@ bool Fragment::Analyze () {
 }
 
 void Fragment::Update () {
-	/*if (m_Atom->GetBondsNumber () > 0 && m_Inversable) {
+	if (m_Atom->GetBondsNumber () > 0 && m_Inversable) {
 		map<gcu::Atom*, gcu::Bond*>::iterator i;
 		Bond *bond = reinterpret_cast <Bond *> (m_Atom->GetFirstBond (i));
 		double angle = bond->GetAngle2D (m_Atom);
@@ -1498,13 +1520,13 @@ void Fragment::Update () {
 			delete formula;
 			m_EndAtom = m_buf.length ();
 			m_BeginAtom = m_EndAtom - strlen (m_Atom->GetSymbol ());
-			if (m_AttrList != NULL)
+/*			if (m_AttrList != NULL)
 				pango_attr_list_unref (m_AttrList);
-			m_AttrList = pango_attr_list_new ();
+			m_AttrList = pango_attr_list_new ();*/
 			AnalContent ();
 		} else if (angle > 91. || angle < -91.) {
 		}
-	}*/
+	}
 }
 
 }	//	namespace gcp

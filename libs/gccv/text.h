@@ -88,7 +88,7 @@ be moved to the end of the inserted text.
 */
 	void ReplaceText (std::string &str, int pos, unsigned length);
 	unsigned GetCursorPosition () {return m_CurPos;}
-	unsigned GetSelectionBounds (unsigned &start, unsigned &end);
+	void GetSelectionBounds (unsigned &start, unsigned &end);
 	void SetSelectionBounds (unsigned start, unsigned end);
 
 	// virtual methods
