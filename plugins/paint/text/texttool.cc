@@ -297,6 +297,7 @@ bool gcpTextTool::Unselect ()
 		m_pView->GetDoc ()->Remove (pObj);
 		m_pView->GetDoc ()->AbortOperation ();
 	}
+	m_pView->GetDoc ()->FinishOperation ();
 	m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", m_pView->GetDoc ()->HasChildren ());
 	return true;
 }

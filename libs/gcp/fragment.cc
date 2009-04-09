@@ -39,6 +39,7 @@
 #include <gccv/group.h>
 #include <gccv/structs.h>
 #include <gccv/text.h>
+#include <gccv/text-tag.h>
 #include <gcu/element.h>
 #include <gcu/formula.h>
 #include <gcu/objprops.h>
@@ -1062,8 +1063,8 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 	y0 = (y - m_y) * pTheme->GetZoomFactor () + m_ascent;
 	if ((x0 < 0.) || (x0 > m_length) || (y0 < 0.) || (y0 > m_height))
 		return NULL;
-	int index, cur, trailing;
-//	pango_layout_xy_to_index (m_Layout, (int) (x0 * PANGO_SCALE), (int) (y0 * PANGO_SCALE), &index, &trailing);
+	unsigned index, trailing, cur;
+	index = m_TextItem->GetIndexAt (x0, y0);
 	char c = m_buf[index];
 	cur = index;
 	while ((c >= 'a') && (c <= 'z') && cur >=0) {
@@ -1106,14 +1107,14 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 			delete pOldAtom;
 			AddChild (m_Atom);
 		}
-		m_x -= m_lbearing / pTheme->GetZoomFactor () ;
-/*		PangoRectangle rect;
-		pango_layout_index_to_pos (m_Layout, index, &rect);
-		m_lbearing = rect.x / PANGO_SCALE;
-		pango_layout_index_to_pos (m_Layout, index + i, &rect);
-		m_lbearing += rect.x / PANGO_SCALE;
+		m_x -= m_lbearing / pTheme->GetZoomFactor ();
+		gccv::Rect rect;
+		m_TextItem->GetPositionAtIndex (index, rect);
+		m_lbearing = rect.x0;
+		m_TextItem->GetPositionAtIndex (index + i, rect);
+		m_lbearing += rect.x0;
 		m_lbearing /=  2;
-		m_x += m_lbearing / pTheme->GetZoomFactor ();*/
+		m_x += m_lbearing / pTheme->GetZoomFactor ();
 		m_Atom->SetCoords(m_x, m_y);
 		return m_Atom;
 	}
@@ -1146,13 +1147,13 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 		m_BeginAtom = index;
 		m_EndAtom = trailing;
 		m_x -= m_lbearing / pTheme->GetZoomFactor () ;
-	/*	PangoRectangle rect;
-		pango_layout_index_to_pos (m_Layout, index, &rect);
-		m_lbearing = rect.x / PANGO_SCALE;
-		pango_layout_index_to_pos (m_Layout, trailing, &rect);
-		m_lbearing += rect.x / PANGO_SCALE;
+		gccv::Rect rect;
+		m_TextItem->GetPositionAtIndex (index, rect);
+		m_lbearing = rect.x0;
+		m_TextItem->GetPositionAtIndex (trailing, rect);
+		m_lbearing += rect.x0;
 		m_lbearing /=  2;
-		m_x += m_lbearing / pTheme->GetZoomFactor ();*/
+		m_x += m_lbearing / pTheme->GetZoomFactor ();
 		m_Atom->SetCoords(m_x, m_y);
 	}
 	
@@ -1318,48 +1319,46 @@ bool Fragment::Validate ()
 		return true;
 	if (m_Atom->GetZ() == 0 || (dynamic_cast <FragmentResidue*> (m_Atom) && !((FragmentResidue*) m_Atom)->GetResidue ())) {
 		Document *pDoc = dynamic_cast<Document*> (GetDocument ());
-/*		GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
-		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
-		GnomeCanvasGroup *item = pData->Items[this];
-		GnomeCanvasPango* text = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (item), "fragment"));
-		gnome_canvas_pango_set_selection_bounds (text, m_BeginAtom, (m_EndAtom == m_BeginAtom)? m_EndAtom + 1: m_EndAtom);
+		m_TextItem->SetSelectionBounds (m_BeginAtom, (m_EndAtom == m_BeginAtom)? m_EndAtom + 1: m_EndAtom);
 		GtkWidget* w = gtk_message_dialog_new (
 										GTK_WINDOW (pDoc->GetWindow ()->GetWindow ()),
 										GTK_DIALOG_DESTROY_WITH_PARENT,
 										GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 										_("Invalid symbol."));
 		gtk_dialog_run (GTK_DIALOG (w));
-		gtk_widget_destroy (w);*/
+		gtk_widget_destroy (w);
 		return false;
 	}
 	//now scan for charges and validate
 	struct FilterStruct s;
 	s.start = 0;
 	s.end = m_buf.length ();
+	gccv::TextTagList chargetags;
+	list <gccv::TextTag *> const *tags = m_TextItem->GetTags ();
+	// we get everything displayed as superscript and see ig it is a charge
+	// all text not recognized as a charge will be analyzed through the gcu::Formula mechanism
+	// FIXME: write that code
+
 /*	if (m_AttrList == NULL)
 		m_AttrList = pango_layout_get_attributes (m_Layout);
 	pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) filter_func, &s);*/
-	list<PangoAttribute*>::iterator i, iend = s.pal.end ();
+/*	list<PangoAttribute*>::iterator i, iend = s.pal.end ();
 	for (i = s.pal.begin (); i != iend; i++) {
 		charge = m_buf.c_str () + (*i)->start_index;
 		strtol (charge, &err, 10);
 		if (*err != '+' && *err != '-' && err - m_buf.c_str () != (int) (*i)->end_index) {
 			Document *pDoc = dynamic_cast<Document*> (GetDocument ());
-/*			GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
-			WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
-			GnomeCanvasGroup *item = pData->Items[this];
-			GnomeCanvasPango* text = GNOME_CANVAS_PANGO (g_object_get_data (G_OBJECT (item), "fragment"));
-			gnome_canvas_pango_set_selection_bounds (text, (*i)->start_index, (*i)->end_index);
+			text->SetSelectionBounds (m_BeginAtom, (m_EndAtom == m_BeginAtom)? m_EndAtom + 1: m_EndAtom);
 			GtkWidget* w = gtk_message_dialog_new (
 											GTK_WINDOW (pDoc->GetWindow ()->GetWindow ()),
 											GTK_DIALOG_DESTROY_WITH_PARENT,
 											GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 											_("Invalid charge."));
 			gtk_dialog_run(GTK_DIALOG(w));
-			gtk_widget_destroy(w);*/
+			gtk_widget_destroy(w);
 			return false;
 		}
-	}
+	}*/
 	return true;
 }
 
@@ -1496,9 +1495,6 @@ bool Fragment::Analyze () {
 		m_Inversable = true;
 	}
 //	int valence = m_Atom->GetValence ();
-/*	if (m_AttrList != NULL)
-		pango_attr_list_unref (m_AttrList);
-	m_AttrList = pango_attr_list_new ();*/
 	AnalContent ();
 	return true;
 }
@@ -1520,9 +1516,6 @@ void Fragment::Update () {
 			delete formula;
 			m_EndAtom = m_buf.length ();
 			m_BeginAtom = m_EndAtom - strlen (m_Atom->GetSymbol ());
-/*			if (m_AttrList != NULL)
-				pango_attr_list_unref (m_AttrList);
-			m_AttrList = pango_attr_list_new ();*/
 			AnalContent ();
 		} else if (angle > 91. || angle < -91.) {
 		}

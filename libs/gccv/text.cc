@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "group.h"
 #include "text.h"
 #include "text-client.h"
 #include "text-tag.h"
@@ -1085,8 +1086,10 @@ void Text::RebuildAttributes ()
 
 void Text::OnButtonPressed (double x, double y)
 {
-	x -= m_x0;
-	y -= m_y0;
+	double x0 = m_x0, y0 = m_y0, x1 = 0., y1 = 0.;
+	GetParent ()->AdjustBounds (x0, y0, x1, y1);
+	x -= x0;
+	y -= y0;
 	int index, trailing;
 	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
 	for (run = m_Runs.begin (); run != end_run; run++)
@@ -1131,6 +1134,34 @@ void Text::SetSelectionBounds (unsigned start, unsigned end)
 	if (client)
 		client->SelectionChanged (m_StartSel, m_CurPos);
 	Invalidate ();
+}
+
+unsigned Text::GetIndexAt (double x, double y)
+{
+	int index, trailing;
+	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
+	for (run = m_Runs.begin (); run != end_run; run++)
+		if (pango_layout_xy_to_index ((*run)->m_Layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing))
+			return index + trailing + (*run)->m_Index;
+	return G_MAXUINT;
+}
+
+bool Text::GetPositionAtIndex (unsigned index, Rect &rect)
+{
+	if (index > m_Text.length ())
+		return false;
+	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
+	for (run = m_Runs.begin (); run != end_run; run++)
+		if (index <= (*run)->m_Index + (*run)->m_Length) {
+			PangoRectangle r;
+			pango_layout_index_to_pos ((*run)->m_Layout, index - (*run)->m_Index, &r);
+			rect.x0 = (double) r.x / PANGO_SCALE;
+			rect.y0 = (double) r.y / PANGO_SCALE;
+			rect.x1 = (double) (r.x + r.width) / PANGO_SCALE;
+			rect.y1 = (double) (r.y + r.height) / PANGO_SCALE;
+			break;
+		}
+	return true;
 }
 
 }

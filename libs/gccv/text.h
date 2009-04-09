@@ -90,6 +90,8 @@ be moved to the end of the inserted text.
 	unsigned GetCursorPosition () {return m_CurPos;}
 	void GetSelectionBounds (unsigned &start, unsigned &end);
 	void SetSelectionBounds (unsigned start, unsigned end);
+	unsigned GetIndexAt (double x, double y);
+	bool GetPositionAtIndex (unsigned index, Rect &rect);
 
 	// virtual methods
 	void Draw (cairo_t *cr, bool is_vector) const;

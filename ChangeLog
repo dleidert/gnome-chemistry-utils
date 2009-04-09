@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2009-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: add two new methods and fix OnButtonPressed when the
+	text is inside a positioned group.
+	* libs/gccv/text.h: add two new methods: GetIndexAt and GetPositionAtIndex.
+	* libs/gcp/fragment.cc: more reimplementation work.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/texttool.cc: ensure the document is marked as dirty
+	when a text has changed.
+
 2009-04-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fixed selection start after typing a backspace, fixed
 	GetSelectionBounds signature, and always initialize m_CurTags to non NULL.

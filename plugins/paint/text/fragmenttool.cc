@@ -64,7 +64,7 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 bool gcpFragmentTool::OnClicked ()
 {
 	if (m_Active && ((m_pObject == NULL) || (m_pObject->GetType() != FragmentType) ||
-			(static_cast <gccv::Item *> (m_Active) != dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ()))) {
+			(static_cast <gccv::Item *> (m_Active) != static_cast <gcp::Fragment *> (m_pObject)->GetTextItem ()))) {
 		if (!Unselect ())
 			return false;
 	}
@@ -81,7 +81,7 @@ bool gcpFragmentTool::OnClicked ()
 	bool need_update = false;*/
 	gcp::Fragment *pFragment = NULL;
 	if (m_pObject) {
-		switch(m_pObject->GetType ()) {
+		switch (m_pObject->GetType ()) {
 /*			case AtomType: {
 				gcp::Atom* pAtom = (gcp::Atom*) m_pObject;
 				if (pAtom->GetTotalBondsNumber () > 1)
@@ -152,8 +152,8 @@ bool gcpFragmentTool::OnClicked ()
 		pFragment->SetSelected (gcp::SelStateUpdating);
 		m_Active = pFragment->GetTextItem ();
 /*		if (need_update) {
-			gnome_canvas_pango_set_selection_bounds (m_Active,  bounds.cur,  bounds.cur);
-			pFragment->AnalContent ((unsigned) bounds.start, (unsigned&) bounds.cur);
+			m_Active->SetSelectionBounds (m_Active,  cur,  cur);
+			pFragment->AnalContent (start, cur);
 			pFragment->OnChanged (false);
 		}*/
 		m_pView->SetTextActive (m_Active);
