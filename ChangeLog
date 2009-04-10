@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2009-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: make our code compatible with new goffice API.
+	* libs/gcu/spectrumview.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+
 2009-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: add two new methods and fix OnButtonPressed when the
 	text is inside a positioned group.

@@ -37,11 +37,9 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-style.h>
-#include <goffice/graph/gog-styled-object.h>
 #include <goffice/math/go-math.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-line.h>

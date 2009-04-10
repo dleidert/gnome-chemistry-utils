@@ -56,15 +56,15 @@
 #include <goffice/gtk/goffice-gtk.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-style.h>
-#include <goffice/graph/gog-styled-object.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-image.h>
 #include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-gio.h>
@@ -795,7 +795,7 @@ int main (int argc, char *argv[])
 	// Create a series for the plot and populate it with some simple data
 	App->series = gog_plot_new_series (App->plot);
 	gog_object_add_by_name (GOG_OBJECT (App->series), "Vertical drop lines", NULL);
-	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (App->series));
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (App->series));
 	go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 	style->marker.auto_shape = false;
 	style->line.dash_type = GO_LINE_NONE;
