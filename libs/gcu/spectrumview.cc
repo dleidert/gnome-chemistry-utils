@@ -30,7 +30,16 @@
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-style.h>
+#ifndef GOG_TYPE_LABEL
+#   define GOG_TYPE_LABEL GOG_LABEL_TYPE
+#   include <goffice/graph/gog-style.h>
+#   define GOStyle GogStyle
+#   define go_styled_object_get_style gog_styled_object_get_style
+#   define GO_STYLED_OBJECT GOG_STYLED_OBJECT
+#else
+#   include <goffice/utils/go-style.h>
+#   include <goffice/utils/go-styled-object.h>
+#endif
 #include <goffice/gtk/go-graph-widget.h>
 #include <goffice/utils/go-image.h>
 #include <gsf/gsf-output-gio.h>
@@ -38,10 +47,6 @@
 #include <cmath>
 #include <map>
 #include <string>
-
-#ifndef GOG_TYPE_LABEL
-#   define GOG_TYPE_LABEL GOG_LABEL_TYPE
-#endif
 
 using namespace std;
 
@@ -160,7 +165,7 @@ void SpectrumView::ShowAxis (GogAxisType target, bool show)
 	GSList *axes = gog_chart_get_axes (chart, target);
 	GogObject *axis = GOG_OBJECT (axes->data);
 	g_object_set (G_OBJECT (axis), "major-tick-labeled", false, NULL);
-	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (axis));
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (axis));
 	style->line.dash_type = GO_LINE_NONE;
 	style->line.auto_dash = false;
 }

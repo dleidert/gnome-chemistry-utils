@@ -28,7 +28,18 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series-lines.h>
-#include <goffice/graph/gog-style.h>
+#ifndef GOG_TYPE_SERIES_LINES
+#   define GOG_TYPE_SERIES_LINES GOG_SERIES_LINES_TYPE
+#   define GOG_TYPE_AXIS GOG_AXIS_TYPE
+#   include <goffice/graph/gog-style.h>
+#   define GOStyle GogStyle
+#   define go_styled_object_get_style gog_styled_object_get_style
+#   define GO_STYLED_OBJECT GOG_STYLED_OBJECT
+#   define GOStyledObject GogStyledObject
+#else
+#   include <goffice/utils/go-style.h>
+#   include <goffice/utils/go-styled-object.h>
+#endif
 #include <goffice/math/go-fft.h>
 #include <goffice/math/go-math.h>
 #include <goffice/math/go-rangefunc.h>
@@ -39,11 +50,6 @@
 #include <cstring>
 #include <sstream>
 #include <iostream>
-
-#ifndef GOG_TYPE_SERIES_LINES
-#   define GOG_TYPE_SERIES_LINES GOG_SERIES_LINES_TYPE
-#   define GOG_TYPE_AXIS GOG_AXIS_TYPE
-#endif
 
 using namespace std;
 
@@ -674,7 +680,7 @@ parse_line:
 			// in that case, add drop lines ans remove the normal line
 			GogSeries *series = m_View->GetSeries ();
 			gog_object_add_by_name (GOG_OBJECT (series), "Vertical drop lines", GOG_OBJECT (g_object_new (GOG_TYPE_SERIES_LINES, NULL)));
-			GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+			GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 			style->line.dash_type = GO_LINE_NONE;
 			style->line.auto_dash = false;
 		}
@@ -1971,7 +1977,7 @@ double (*SpectrumDocument::GetConversionFunction (SpectrumUnitType oldu, Spectru
 void SpectrumDocument::OnShowIntegral ()
 {
 	m_IntegralVisible = !m_IntegralVisible;
-	GogStyle *style;
+	GOStyle *style;
 	if (m_IntegralVisible) {
 		if (integral < 0) {
 			integral = variables.size ();
@@ -2041,15 +2047,15 @@ void SpectrumDocument::OnShowIntegral ()
 			gog_series_set_dim (v.Series, 0, godata, NULL);
 			godata = go_data_vector_val_new (v.Values, v.NbValues, NULL);
 			gog_series_set_dim (v.Series, 1, godata, NULL);
-			GogStyledObject *axis = GOG_STYLED_OBJECT (g_object_new (GOG_TYPE_AXIS, "major-tick-labeled", false, NULL));
+			GOStyledObject *axis = GO_STYLED_OBJECT (g_object_new (GOG_TYPE_AXIS, "major-tick-labeled", false, NULL));
 			GogPlot	*plot = gog_series_get_plot (v.Series);
 			GogObject *chart = GOG_OBJECT (gog_object_get_parent (GOG_OBJECT (plot)));
 			gog_object_add_by_name (chart, "Y-Axis", GOG_OBJECT (axis));
 			gog_plot_set_axis (plot, GOG_AXIS (axis));
-			style = gog_styled_object_get_style (axis);
+			style = go_styled_object_get_style (axis);
 			style->line.auto_dash = false;
 			style->line.dash_type = GO_LINE_NONE;
-			style = gog_styled_object_get_style (GOG_STYLED_OBJECT (v.Series));
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (v.Series));
 			style->line.auto_dash = false;
 			style->line.auto_color = false;
 			style->line.color = RGBA_RED;
@@ -2061,13 +2067,13 @@ void SpectrumDocument::OnShowIntegral ()
 			delete [] xn[4];
 			delete [] yb;
 		} else
-			style = gog_styled_object_get_style (GOG_STYLED_OBJECT (variables[integral].Series));
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (variables[integral].Series));
 		// show the series
 		style->line.dash_type = GO_LINE_SOLID;
 		gog_object_request_update (GOG_OBJECT (variables[integral].Series));
 	} else {
 		// hide the series
-		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (variables[integral].Series));
+		style = go_styled_object_get_style (GO_STYLED_OBJECT (variables[integral].Series));
 		style->line.dash_type = GO_LINE_NONE;
 		gog_object_request_update (GOG_OBJECT (variables[integral].Series));
 	}

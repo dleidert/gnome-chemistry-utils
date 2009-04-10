@@ -1,20 +1,27 @@
 ##Text encoding: utf-8
 
+2009-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: take more goffice changes into account.
+	* libs/gcu/spectrumview.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+
 2009-04-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: make our code compatible with new goffice API.
 	[#26105]
-	* libs/gcu/cmd-context.cc:
-	* libs/gcu/gtkcomboperiodic.c:
-	* libs/gcu/loader.cc:
-	* libs/gcu/spectrumdoc.cc:
-	* libs/gcu/spectrumview.cc:
-	* mozilla-plugin/chem-viewer.cc:
-	* programs/calc/gchemcalc.cc:
-	* programs/spectra/gspectrum.cc:
-	* programs/table/gchemtable-curve.cc:
-	* programs/table/gchemtable-data-allocator.cc:
-	* programs/table/gchemtable-data.cc:
-	* programs/table/gchemtable-main.cc:
+	* libs/gcu/cmd-context.cc: ditto.
+	* libs/gcu/gtkcomboperiodic.c: ditto.
+	* libs/gcu/loader.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/spectra/gspectrum.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+	* programs/table/gchemtable-main.cc: ditto.
 
 2009-03-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.5).
