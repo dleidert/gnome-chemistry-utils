@@ -70,6 +70,9 @@ public:
 	virtual bool operator== (TextTag const& tag) = 0;
 	virtual TextTag *Duplicate () const = 0;
 
+	static Tag RegisterTagType ();
+	static Tag MaxTag;
+
 private:
 
 GCU_RO_PROP (Tag, Tag)
@@ -247,7 +250,7 @@ private:
 class PositionTextTag: public TextTag
 {
 public:
-	PositionTextTag (TextPosition position, double size, bool stacked = false);
+	PositionTextTag (TextPosition position, double size, bool stacked = false, Tag tag = Position);
 	virtual ~PositionTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);

@@ -54,9 +54,31 @@ using namespace std;
 
 namespace gcp {
 
+static gccv::Tag ChargeTag = gccv::Invalid, StoichiometryTag = gccv::Invalid;
+
+ChargeTextTag::ChargeTextTag (double size):
+	gccv::PositionTextTag (gccv::Superscript, size, true, (ChargeTag)? ChargeTag:(ChargeTag = gccv::TextTag::RegisterTagType ()))
+{
+}
+
+ChargeTextTag::~ChargeTextTag ()
+{
+}
+
+StoichiometryTextTag::StoichiometryTextTag (double size):
+	gccv::PositionTextTag (gccv::Subscript, size, true, (StoichiometryTag)? StoichiometryTag:(StoichiometryTag = gccv::TextTag::RegisterTagType ()))
+{
+}
+
+StoichiometryTextTag::~StoichiometryTextTag ()
+{
+}
+
+// FIXME: search for unuseful things, such as m_CHeight? is it really unused?
 Fragment::Fragment ():
 	TextObject (FragmentType),
-	m_Inversable (false)
+	m_Inversable (false),
+	m_Valid (false)
 {
 	m_Atom = new FragmentAtom (this, 0);
 	m_BeginAtom = m_EndAtom = 0;
@@ -68,7 +90,8 @@ Fragment::Fragment ():
 
 Fragment::Fragment (double x, double y):
 	TextObject (x, y, FragmentType),
-	m_Inversable (false)
+	m_Inversable (false),
+	m_Valid (false)
 {
 	m_Atom = new FragmentAtom (this, 0);
 	m_Atom->SetCoords (x, y);
@@ -92,8 +115,8 @@ bool Fragment::OnChanged (bool save)
 	if (!pDoc)
 		return false;
 	m_buf = m_TextItem->GetText ();
-/*	View* pView = pDoc->GetView ();
-	GtkWidget* pWidget = pView->GetWidget ();
+	View* pView = pDoc->GetView ();
+/*	GtkWidget* pWidget = pView->GetWidget ();
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 	GnomeCanvasGroup *group = pData->Items[this];
 	if (!group) {
@@ -245,15 +268,16 @@ bool Fragment::OnChanged (bool save)
 				m_EndAtom = CurPos;
 		}
 	}
-/*	PangoRectangle rect;
-	pango_layout_index_to_pos (m_Layout, m_BeginAtom, &rect);
-	m_lbearing = rect.x / PANGO_SCALE;
-	pango_layout_index_to_pos (m_Layout, m_EndAtom, &rect);
-	m_lbearing += rect.x / PANGO_SCALE;
+	gccv::Rect rect;
+	m_TextItem->GetPositionAtIndex (m_BeginAtom, rect);
+	m_lbearing = rect.x0;
+	m_TextItem->GetPositionAtIndex (m_EndAtom, rect);
+	m_lbearing += rect.x0;
 	m_lbearing /=  2;
-	pView->Update (this);*/
+	pView->Update (this);
 	m_bLoading = false;
-/*	Window* pWin = pDoc->GetWindow ();
+	m_Valid = false;
+	Window* pWin = pDoc->GetWindow ();
 	if (m_Atom->GetZ () || ((m_buf.length () == 0) && (m_Atom->GetBondsNumber () == 0))) {
 		if (!pDoc->GetReadOnly ()) {
 			pWin->ActivateActionWidget ("/MainMenu/FileMenu/Save", true);
@@ -267,16 +291,16 @@ bool Fragment::OnChanged (bool save)
 		pWin->ActivateActionWidget ("/MainMenu/FileMenu/Print", false);
 		pWin->ActivateActionWidget ("/MainToolbar/Save", false);
 	}
-	pango_layout_get_extents (m_Layout, NULL, &rect);
+/*	pango_layout_get_extents (m_Layout, NULL, &rect);
 	m_length = rect.width / PANGO_SCALE;
 	m_height = rect.height / PANGO_SCALE;
 	pView->Update (this);
+	m_StartSel = m_EndSel = CurPos;*/
 	EmitSignal (OnChangedSignal);
-	m_StartSel = m_EndSel = CurPos;
 	if (m_buf.length () == 0) {
 		m_BeginAtom = m_EndAtom = 0;
 	}
-	if (save) {
+/*	if (save) {
 		Tool* FragmentTool = dynamic_cast<Application*> (pDoc->GetApplication ())->GetTool ("Fragment");
 		if (!FragmentTool)
 			return  true;
@@ -323,6 +347,15 @@ void Fragment::AddItem ()
 		m_TagList.pop_front ();
 	}
 	m_Item = group;
+}
+
+void Fragment::UpdateItem ()
+{
+	if (!m_TextItem)
+		return;
+	Theme *theme = static_cast <Document*> (GetDocument ())->GetTheme ();
+	static_cast <gccv::Group *> (m_Item)->SetPosition (m_x * theme->GetZoomFactor (), m_y * theme->GetZoomFactor ());
+	m_TextItem->SetPosition (-m_lbearing, 0);
 }
 
 /*void Fragment::Add (GtkWidget* w) const
@@ -678,11 +711,10 @@ void Fragment::SetSelected (int state)
 
 xmlNodePtr Fragment::Save (xmlDocPtr xml) const
 {
-/*	const_cast <Fragment *> (this)->m_buf = pango_layout_get_text (m_Layout);
 	if (m_RealSave && !const_cast <Fragment *> (this)->Validate ())
-		return NULL;*/
+		return NULL;
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "fragment", NULL);
-/*	if (m_buf.length ()) {
+	if (m_buf.length ()) {
 		if (!m_Atom->GetBondsNumber () || m_Atom->GetZ ()) {
 			if (!node)
 				return NULL;
@@ -703,7 +735,7 @@ xmlNodePtr Fragment::Save (xmlDocPtr xml) const
 				return NULL;
 			}
 		}
-	}*/
+	}
 	return (SaveNode (xml, node))? node: NULL;
 }
 
@@ -935,8 +967,8 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	else
 		Charge = false;
 	next = start;
-	start_tag = end_tag = start;
-	while (start < end) {
+	start_tag = end_tag = start;*/
+/*	while (start < end) {
 		c = text[start];
 		if ((c >= '0') && (c <= '9')) {
 			s.result = false;

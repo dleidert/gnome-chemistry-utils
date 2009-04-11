@@ -27,6 +27,7 @@
 
 #include "text-object.h"
 #include <gccv/item-client.h>
+#include <gccv/text-tag.h>
 
 namespace gccv {
 	class Text;
@@ -34,6 +35,20 @@ namespace gccv {
 
 /*!\file*/
 namespace gcp {
+
+class ChargeTextTag: public gccv::PositionTextTag
+{
+public:
+	ChargeTextTag (double size);
+	virtual ~ChargeTextTag ();
+};
+
+class StoichiometryTextTag: public gccv::PositionTextTag
+{
+public:
+	StoichiometryTextTag (double size);
+	virtual ~StoichiometryTextTag ();
+};
 
 class FragmentAtom;
 class Atom;
@@ -69,6 +84,10 @@ The destructor.
 Used to add a representation of the fragment in the view.
 */
 	void AddItem ();
+/*!
+Used to update a representation of the fragment in the view.
+*/
+	void UpdateItem ();
 /*!
 @param state the selection state of the fragment.
 
@@ -240,6 +259,7 @@ private:
 	bool m_Inversable;
 
 GCU_RO_PROP (gccv::Text *, TextItem);
+GCU_RO_PROP (bool, Valid);
 };
 
 }	//	namespace gcp

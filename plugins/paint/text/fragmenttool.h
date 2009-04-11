@@ -27,6 +27,14 @@
 
 #include "texttool.h"
 
+typedef enum {
+	NormalMode,
+	SubscriptMode,
+	SuperscriptMode,
+	ChargeMode,
+	StoichiometryMode
+} FragmentMode;
+
 class gcpFragmentTool: public gcpTextTool
 {
 public:
@@ -44,8 +52,12 @@ public:
 	GtkWidget *GetPropertyPage () {return NULL;}
 	char const *GetHelpTag () {return "fragment";}
 
+private:
+	void BuildTagsList ();
+
 protected:
 	virtual bool Unselect();
+	FragmentMode m_CurMode;
 };
 
 #endif	//GCHEMPAINT_FRAGMENT_TOOL_H

@@ -670,7 +670,7 @@ void Text::ApplyTagsToSelection (TextTagList const *l)
 	}
 	TextTagList extra_tags;
 	// store tags to potentially insert into a vector
-	std::vector <TextTag *> new_tags (MaxTag);
+	std::vector <TextTag *> new_tags (TextTag::MaxTag);
 	// fist set all vectors to NULL
 	for (int n = 0; n < MaxTag; n++) 
 		new_tags[n] = NULL;
@@ -706,7 +706,7 @@ void Text::ApplyTagsToSelection (TextTagList const *l)
 		}
 	}
 	// Add new tags
-	for (int n = 0; n < MaxTag; n++) 
+	for (int n = 0; n < TextTag::MaxTag; n++) 
 		if (new_tags[n]) {
 			TextTag *tag = new_tags[n]->Duplicate ();
 			tag->SetStartIndex (start);
@@ -743,8 +743,8 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	TextTagList new_tags, extra_tags;
 	if (length > 0) {
 		m_Text.erase (pos, length);
-		std::vector <TextTag *> borders (MaxTag);
-		for (int n = 0; n < MaxTag; n++) 
+		std::vector <TextTag *> borders (TextTag::MaxTag);
+		for (int n = 0; n < TextTag::MaxTag; n++) 
 			borders[n] = NULL;
 		//TODO: update runs
 		for (i = m_Tags.begin (); i != iend; i++) {

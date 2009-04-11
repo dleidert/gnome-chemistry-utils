@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2009-04-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: allow for custom tags.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.cc: ditto.
+	* libs/gcp/fragment.cc: more reimplementation.
+	* libs/gcp/fragment.h: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto and add new modes to force
+	interpretation as charge or stoichiometry.
+	* plugins/paint/text/fragmenttool.h: ditto.
+
 2009-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: make our code compatible with new goffice API.
 	* libs/gcu/spectrumview.cc: ditto.

@@ -53,6 +53,15 @@ TextTag::~TextTag ()
 {
 }
 
+Tag TextTag::MaxTag = MaxTag;
+
+Tag TextTag::RegisterTagType ()
+{
+	Tag result = MaxTag;
+	MaxTag = static_cast <Tag> (MaxTag + 1);
+	return result;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Font family tag class
 
@@ -417,8 +426,8 @@ TextTag *RiseTextTag::Duplicate () const
 ////////////////////////////////////////////////////////////////////////////////
 // Position tag class (normal, subscript, superscript,...)
 
-PositionTextTag::PositionTextTag (TextPosition position, double size, bool stacked):
-	TextTag (Position, TagPriorityLast),
+PositionTextTag::PositionTextTag (TextPosition position, double size, bool stacked, Tag tag):
+	TextTag (tag, TagPriorityLast),
 	m_Position (position),
 	m_Size (size),
 	m_Stacked (stacked)

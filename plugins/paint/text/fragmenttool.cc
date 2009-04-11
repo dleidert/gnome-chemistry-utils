@@ -69,6 +69,7 @@ bool gcpFragmentTool::OnClicked ()
 			return false;
 	}
 	gcp::Document* pDoc = m_pView->GetDoc ();
+	SetSize (m_pView->GetFontHeight ());
 	if (!m_pObject) {
 		gcp::Theme *pTheme = pDoc->GetTheme ();
 		gcp::Fragment *fragment = new gcp::Fragment (m_x0 / pTheme->GetZoomFactor (), m_y0 / pTheme->GetZoomFactor ());
@@ -164,6 +165,7 @@ bool gcpFragmentTool::OnClicked ()
 		pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
 		pFragment->SetEditor (this);
 	}
+	BuildTagsList ();
 	return true;
 }
 
@@ -192,7 +194,28 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 				case GDK_Delete:
 				case GDK_KP_Delete:
 				case GDK_BackSpace:
-				break;
+					break;
+				case GDK_KP_Add:
+				case GDK_plus:
+					// enter/quit charge mode
+					m_CurMode = (m_CurMode == ChargeMode)? NormalMode: ChargeMode;
+					BuildTagsList ();
+					break;
+				case GDK_underscore:
+					// enter/quit subscript (not stoichiometric) mode
+					m_CurMode = (m_CurMode == SubscriptMode)? NormalMode: SubscriptMode;
+					BuildTagsList ();
+					break;
+				case GDK_dead_circumflex:
+					// enter/quit superscript (not charge) mode
+					m_CurMode = (m_CurMode == SuperscriptMode)? NormalMode: SuperscriptMode;
+					BuildTagsList ();
+					break;
+				case GDK_n:
+					// enter/quit stoichiometry mode
+					m_CurMode = (m_CurMode == StoichiometryMode)? NormalMode: StoichiometryMode;
+					BuildTagsList ();
+					break;
 				case GDK_z:
 					m_pView->GetDoc ()->OnUndo ();
 					return true;
@@ -306,3 +329,30 @@ void gcpFragmentTool::OnGetData (GtkClipboard *clipboard, GtkSelectionData *sele
 	if (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))
 		m_pApp->ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste", true);
 }
+
+void gcpFragmentTool::BuildTagsList ()
+{
+	if (!m_Active)
+		return;
+	gccv::TextTagList *l = new gccv::TextTagList ();
+	switch (m_CurMode) {
+	case NormalMode:
+		break;
+	case SubscriptMode:
+		l->push_back (new gccv::PositionTextTag (gccv::Subscript, GetSize (), false));
+		break;
+	case SuperscriptMode:
+		l->push_back (new gccv::PositionTextTag (gccv::Superscript, GetSize (), false));
+		break;
+	case ChargeMode:
+		l->push_back (new gcp::ChargeTextTag (GetSize ()));
+		break;
+	case StoichiometryMode:
+		l->push_back (new gcp::StoichiometryTextTag (GetSize ()));
+		break;
+	}
+	m_Active->SetCurTagList (l);
+	if (m_pView)
+		gtk_window_present (m_pView->GetDoc ()->GetWindow ()->GetWindow ());
+}
+
