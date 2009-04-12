@@ -28,7 +28,6 @@
 #include <gcp/atom.h>
 #include <gcp/bond.h>
 #include <gcp/document.h>
-#include <gcp/fragment.h>
 #include <gcp/molecule.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
@@ -46,6 +45,9 @@ extern GtkTargetEntry const text_targets[];
 
 gcpFragmentTool::gcpFragmentTool (gcp::Application *App): gcpTextTool (App, "Fragment")
 {
+	m_ImContext = gtk_im_multicontext_new ();
+	g_signal_connect (G_OBJECT (m_ImContext), "commit",
+		G_CALLBACK (OnCommit), this);
 }
 
 gcpFragmentTool::~gcpFragmentTool ()
@@ -72,15 +74,16 @@ bool gcpFragmentTool::OnClicked ()
 	SetSize (m_pView->GetFontHeight ());
 	if (!m_pObject) {
 		gcp::Theme *pTheme = pDoc->GetTheme ();
-		gcp::Fragment *fragment = new gcp::Fragment (m_x0 / pTheme->GetZoomFactor (), m_y0 / pTheme->GetZoomFactor ());
-		pDoc->AddFragment (fragment);
+		m_Fragment = new gcp::Fragment (m_x0 / pTheme->GetZoomFactor (), m_y0 / pTheme->GetZoomFactor ());
+		pDoc->AddFragment (m_Fragment);
 		pDoc->AbortOperation ();
 		pDoc->EmptyTranslationTable ();
-		m_pObject = fragment;
+		m_pObject = m_Fragment;
+	} else {
+		m_Fragment = NULL;
 	}
 /*	gccv::TextSelBounds bounds;
 	bool need_update = false;*/
-	gcp::Fragment *pFragment = NULL;
 	if (m_pObject) {
 		switch (m_pObject->GetType ()) {
 /*			case AtomType: {
@@ -148,10 +151,10 @@ bool gcpFragmentTool::OnClicked ()
 			default:
 				return false;
 		}
-		if (!pFragment)
-			pFragment = static_cast <gcp::Fragment *> (m_pObject);
-		pFragment->SetSelected (gcp::SelStateUpdating);
-		m_Active = pFragment->GetTextItem ();
+		if (!m_Fragment)
+			m_Fragment = static_cast <gcp::Fragment *> (m_pObject);
+		m_Fragment->SetSelected (gcp::SelStateUpdating);
+		m_Active = m_Fragment->GetTextItem ();
 /*		if (need_update) {
 			m_Active->SetSelectionBounds (m_Active,  cur,  cur);
 			pFragment->AnalContent (start, cur);
@@ -160,10 +163,10 @@ bool gcpFragmentTool::OnClicked ()
 		m_pView->SetTextActive (m_Active);
 		m_Active->SetEditing (true);
 		m_Active->OnButtonPressed (m_x0, m_y0);
-		m_CurNode = pFragment->SaveSelected ();
-		m_InitNode = pFragment->SaveSelected ();
+		m_CurNode = m_Fragment->SaveSelected ();
+		m_InitNode = m_Fragment->SaveSelected ();
 		pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", false);
-		pFragment->SetEditor (this);
+		m_Fragment->SetEditor (this);
 	}
 	BuildTagsList ();
 	return true;
@@ -198,22 +201,32 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 				case GDK_KP_Add:
 				case GDK_plus:
 					// enter/quit charge mode
-					m_CurMode = (m_CurMode == ChargeMode)? NormalMode: ChargeMode;
+					m_CurMode = (m_CurMode == gcp::Fragment::ChargeMode)? gcp::Fragment::AutoMode: gcp::Fragment::ChargeMode;
+					m_Fragment->SetMode (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_underscore:
 					// enter/quit subscript (not stoichiometric) mode
-					m_CurMode = (m_CurMode == SubscriptMode)? NormalMode: SubscriptMode;
+					m_CurMode = (m_CurMode == gcp::Fragment::SubscriptMode)? gcp::Fragment::AutoMode: gcp::Fragment::SubscriptMode;
+					m_Fragment->SetMode (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_dead_circumflex:
 					// enter/quit superscript (not charge) mode
-					m_CurMode = (m_CurMode == SuperscriptMode)? NormalMode: SuperscriptMode;
+					m_CurMode = (m_CurMode == gcp::Fragment::SuperscriptMode)? gcp::Fragment::AutoMode: gcp::Fragment::SuperscriptMode;
+					m_Fragment->SetMode (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_n:
 					// enter/quit stoichiometry mode
-					m_CurMode = (m_CurMode == StoichiometryMode)? NormalMode: StoichiometryMode;
+					m_CurMode = (m_CurMode == gcp::Fragment::StoichiometryMode)? gcp::Fragment::AutoMode: gcp::Fragment::StoichiometryMode;
+					m_Fragment->SetMode (m_CurMode);
+					BuildTagsList ();
+					break;
+				case GDK_space:
+					// back to auto mode
+					m_CurMode = gcp::Fragment::AutoMode;
+					m_Fragment->SetMode (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_z:
@@ -232,19 +245,14 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 					CutSelection (gtk_clipboard_get (GDK_SELECTION_CLIPBOARD));
 					return true;
 				default:
-					return false;
+					break;
 			}
 		}
 		if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return ||
 							event->keyval == GDK_space) // not allowed in fragments
 			return true;
-		if (!g_utf8_validate (event->string, -1, NULL)) {
-			gsize r, w;
-			gchar *newstr = g_locale_to_utf8 (event->string, event->length, &r, &w, NULL);
-			g_free (event->string);
-			event->string = newstr;
-			event->length = w;
-		}
+		if (gtk_im_context_filter_keypress (m_ImContext, event))
+			return true;
 		m_Active->OnKeyPressed (event);
 		return true;
 	}
@@ -336,23 +344,42 @@ void gcpFragmentTool::BuildTagsList ()
 		return;
 	gccv::TextTagList *l = new gccv::TextTagList ();
 	switch (m_CurMode) {
-	case NormalMode:
+	case gcp::Fragment::AutoMode:
+	case gcp::Fragment::NormalMode:
 		break;
-	case SubscriptMode:
+	case gcp::Fragment::SubscriptMode:
 		l->push_back (new gccv::PositionTextTag (gccv::Subscript, GetSize (), false));
 		break;
-	case SuperscriptMode:
+	case gcp::Fragment::SuperscriptMode:
 		l->push_back (new gccv::PositionTextTag (gccv::Superscript, GetSize (), false));
 		break;
-	case ChargeMode:
+	case gcp::Fragment::ChargeMode:
 		l->push_back (new gcp::ChargeTextTag (GetSize ()));
 		break;
-	case StoichiometryMode:
+	case gcp::Fragment::StoichiometryMode:
 		l->push_back (new gcp::StoichiometryTextTag (GetSize ()));
 		break;
 	}
 	m_Active->SetCurTagList (l);
 	if (m_pView)
 		gtk_window_present (m_pView->GetDoc ()->GetWindow ()->GetWindow ());
+}
+
+void gcpFragmentTool::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar *str, gcpFragmentTool *tool)
+{
+	std::string s = (!strcmp (str, "-") && (tool->m_CurMode == gcp::Fragment::AutoMode || tool->m_CurMode == gcp::Fragment::ChargeMode))? "−": str;
+	unsigned start, end;
+	tool->m_Active->GetSelectionBounds (start, end);
+	if (start > end) {
+		unsigned n = end;
+		end = start;
+		virtual void UpdateTagsList ();
+	start = n;
+	}
+	tool->m_Active->ReplaceText (s, start, end - start);
+}
+
+void gcpFragmentTool::UpdateTagsList () {
+	// FIXME: write this
 }
 

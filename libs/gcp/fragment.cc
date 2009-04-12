@@ -78,7 +78,8 @@ StoichiometryTextTag::~StoichiometryTextTag ()
 Fragment::Fragment ():
 	TextObject (FragmentType),
 	m_Inversable (false),
-	m_Valid (false)
+	m_Valid (Invalid),
+	m_Mode (AutoMode)
 {
 	m_Atom = new FragmentAtom (this, 0);
 	m_BeginAtom = m_EndAtom = 0;
@@ -91,7 +92,8 @@ Fragment::Fragment ():
 Fragment::Fragment (double x, double y):
 	TextObject (x, y, FragmentType),
 	m_Inversable (false),
-	m_Valid (false)
+	m_Valid (Invalid),
+	m_Mode (AutoMode)
 {
 	m_Atom = new FragmentAtom (this, 0);
 	m_Atom->SetCoords (x, y);
@@ -276,7 +278,7 @@ bool Fragment::OnChanged (bool save)
 	m_lbearing /=  2;
 	pView->Update (this);
 	m_bLoading = false;
-	m_Valid = false;
+	m_Valid = Invalid;
 	Window* pWin = pDoc->GetWindow ();
 	if (m_Atom->GetZ () || ((m_buf.length () == 0) && (m_Atom->GetBondsNumber () == 0))) {
 		if (!pDoc->GetReadOnly ()) {
@@ -943,16 +945,17 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 		return;
 	Theme *pTheme = pDoc->GetTheme ();
 	char const *text = m_buf.c_str ();
-/*	PangoAttrList *l;
-	if (m_Layout) {
-		text = pango_layout_get_text (m_Layout);
-		l = pango_layout_get_attributes (m_Layout);
-	} else {
-		text = m_buf.c_str ();
-		l = pango_attr_list_ref (m_AttrList);
-	}*/
-/*	bool Charge = false;
-	unsigned start_tag, end_tag, next;
+	list <gccv::TextTag *> const *tags = m_TextItem->GetTags ();
+	list <gccv::TextTag *>::const_iterator i, iend = tags->end ();
+	bool Charge = false;
+	for (i = tags->begin (); i != iend; i++)
+		if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
+			Charge = true; 
+			break;
+		}
+	if (m_Mode == AutoMode && !Charge && text[start] == '+' || !strncmp (text + start, "−", strlen ("−")))
+		Charge = true;
+/*	unsigned start_tag, end_tag, next;
 	char c;
 	ChargeFindStruct s;
 	s.index = s.end = 0;

@@ -26,14 +26,7 @@
 #define GCHEMPAINT_FRAGMENT_TOOL_H
 
 #include "texttool.h"
-
-typedef enum {
-	NormalMode,
-	SubscriptMode,
-	SuperscriptMode,
-	ChargeMode,
-	StoichiometryMode
-} FragmentMode;
+#include "gcp/fragment.h"
 
 class gcpFragmentTool: public gcpTextTool
 {
@@ -51,13 +44,19 @@ public:
 	void OnGetData (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info);
 	GtkWidget *GetPropertyPage () {return NULL;}
 	char const *GetHelpTag () {return "fragment";}
+	virtual void UpdateTagsList ();
+
+	static void OnCommit (GtkIMContext *context, const gchar *str, gcpFragmentTool *tool);
 
 private:
 	void BuildTagsList ();
+	GtkIMContext *m_ImContext;
 
 protected:
 	virtual bool Unselect();
-	FragmentMode m_CurMode;
+private:
+	gcp::Fragment::FragmentMode m_CurMode;
+	gcp::Fragment *m_Fragment;
 };
 
 #endif	//GCHEMPAINT_FRAGMENT_TOOL_H

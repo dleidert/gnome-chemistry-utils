@@ -65,7 +65,7 @@ public:
 	void OnSelectSize (int size);
 	void OnSizeChanged ();
 	void SetSizeFull (bool update_list, bool apply);
-	void UpdateTagsList ();
+	virtual void UpdateTagsList ();
 	unsigned GetIndex ();
 	void OnUnderlineChanged (unsigned underline);
 	void OnStriketroughToggled (bool strikethrough);

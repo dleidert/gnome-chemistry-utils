@@ -248,6 +248,22 @@ of the fragment.
 */
 	void Update ();
 
+	typedef enum {
+		Invalid,
+		Valid,
+		Valid2D,
+		Valid3D
+	} Validity;
+
+	typedef enum {
+		AutoMode,
+		NormalMode,
+		SubscriptMode,
+		SuperscriptMode,
+		ChargeMode,
+		StoichiometryMode
+	} FragmentMode;
+
 private:
 	bool SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end) const;
 
@@ -258,8 +274,9 @@ private:
 	double m_CHeight;
 	bool m_Inversable;
 
-GCU_RO_PROP (gccv::Text *, TextItem);
-GCU_RO_PROP (bool, Valid);
+GCU_RO_PROP (gccv::Text *, TextItem)
+GCU_RO_PROP (Validity, Valid)
+GCU_PROP (FragmentMode, Mode)
 };
 
 }	//	namespace gcp

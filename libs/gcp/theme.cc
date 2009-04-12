@@ -163,6 +163,12 @@ static PangoWeight set_fontweight (int val)
 		case 7: return PANGO_WEIGHT_BOLD;
 		case 8: return PANGO_WEIGHT_ULTRABOLD;
 		case 9: return PANGO_WEIGHT_HEAVY;
+#if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
+		case 1: return PANGO_WEIGHT_THIN;
+		case 38: return PANGO_WEIGHT_BOOK;
+		case 5: return PANGO_WEIGHT_MEDIUM;
+		case 10: return PANGO_WEIGHT_ULTRAHEAVY;
+#endif
 		default: return PANGO_WEIGHT_NORMAL;
 	}
 }
@@ -656,6 +662,20 @@ bool Theme::Save (xmlDocPtr xml)
 	case PANGO_WEIGHT_HEAVY:
 		buf = const_cast<char*> ("heavy");
 		break;
+#if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
+	case PANGO_WEIGHT_THIN:
+		buf = const_cast<char*> ("thin");
+		break;
+	case PANGO_WEIGHT_BOOK:
+		buf = const_cast<char*> ("book");
+		break;
+	case PANGO_WEIGHT_MEDIUM:
+		buf = const_cast<char*> ("medium");
+		break;
+	case PANGO_WEIGHT_ULTRAHEAVY:
+		buf = const_cast<char*> ("ultra-heavy");
+		break;
+#endif
 	}
 	if (buf)
 		xmlNewProp (node, (xmlChar*) "font-weight", (xmlChar*) buf);
@@ -733,6 +753,20 @@ bool Theme::Save (xmlDocPtr xml)
 	case PANGO_WEIGHT_HEAVY:
 		buf = const_cast<char*> ("heavy");
 		break;
+#if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
+	case PANGO_WEIGHT_THIN:
+		buf = const_cast<char*> ("thin");
+		break;
+	case PANGO_WEIGHT_BOOK:
+		buf = const_cast<char*> ("book");
+		break;
+	case PANGO_WEIGHT_MEDIUM:
+		buf = const_cast<char*> ("medium");
+		break;
+	case PANGO_WEIGHT_ULTRAHEAVY:
+		buf = const_cast<char*> ("ultra-heavy");
+		break;
+#endif
 	}
 	if (buf)
 		xmlNewProp (node, (xmlChar*) "text-font-weight", (xmlChar*) buf);
@@ -849,6 +883,16 @@ bool Theme::Load (xmlNodePtr node)
 			m_FontWeight = PANGO_WEIGHT_ULTRABOLD;
 		else if (!strcmp (buf, "heavy"))
 			m_FontWeight = PANGO_WEIGHT_HEAVY;
+#if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
+		else if (!strcmp (buf, "thin"))
+			m_FontWeight = PANGO_WEIGHT_THIN;
+		else if (!strcmp (buf, "book"))
+			m_FontWeight = PANGO_WEIGHT_BOOK;
+		else if (!strcmp (buf, "medium"))
+			m_FontWeight = PANGO_WEIGHT_MEDIUM;
+		else if (!strcmp (buf, "ultra-heavy"))
+			m_FontWeight = PANGO_WEIGHT_ULTRAHEAVY;
+#endif
 		xmlFree (buf);
 	}
 	buf = (char*) xmlGetProp (node, (xmlChar*) "font-variant");
@@ -915,6 +959,16 @@ bool Theme::Load (xmlNodePtr node)
 			m_TextFontWeight = PANGO_WEIGHT_ULTRABOLD;
 		else if (!strcmp (buf, "heavy"))
 			m_TextFontWeight = PANGO_WEIGHT_HEAVY;
+#if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
+		else if (!strcmp (buf, "thin"))
+			m_TextFontWeight = PANGO_WEIGHT_THIN;
+		else if (!strcmp (buf, "book"))
+			m_TextFontWeight = PANGO_WEIGHT_BOOK;
+		else if (!strcmp (buf, "medium"))
+			m_TextFontWeight = PANGO_WEIGHT_MEDIUM;
+		else if (!strcmp (buf, "ultra-heavy"))
+			m_TextFontWeight = PANGO_WEIGHT_ULTRAHEAVY;
+#endif
 		xmlFree (buf);
 	}
 	buf = (char*) xmlGetProp (node, (xmlChar*) "text-font-variant");

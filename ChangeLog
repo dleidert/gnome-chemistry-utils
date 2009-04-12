@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: implement an edition mode.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/preferences.cc: take new PANGO_WEIGHT_* values into account.
+	* libs/gcp/theme.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: replace "-" by minus when it is
+	probably a charge.
+	* plugins/paint/text/fragmenttool.h:
+	* plugins/paint/text/texttool.cc: don't use deprecated event->string.
+	* plugins/paint/text/texttool.h: made UpdateTagsList virtual.
+
 2009-04-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: allow for custom tags.
 	* libs/gccv/text-tag.h: ditto.
