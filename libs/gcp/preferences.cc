@@ -90,6 +90,12 @@ static int get_fontweight (PangoWeight val)
 		case PANGO_WEIGHT_BOLD: return 7;
 		case PANGO_WEIGHT_ULTRABOLD: return 8;
 		case PANGO_WEIGHT_HEAVY: return 9;
+#if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
+		case PANGO_WEIGHT_THIN: return 1;
+		case PANGO_WEIGHT_BOOK: return 38;
+		case PANGO_WEIGHT_MEDIUM: return 5;
+		case PANGO_WEIGHT_ULTRAHEAVY: return 10;
+#endif
 		default: return 4;
 	}
 }

@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/preferences.cc: take new PANGO_WEIGHT_* values into account.
+	* libs/gcp/theme.cc: ditto.
+
 2009-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: take more goffice changes into account.
 	* libs/gcu/spectrumview.cc: ditto.
