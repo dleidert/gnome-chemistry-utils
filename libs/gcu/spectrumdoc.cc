@@ -1562,14 +1562,13 @@ void SpectrumDocument::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrint
 {
 	cairo_t *cr;
 	gdouble width, height;
-	GtkWidget *widget = m_View->GetWidget ();
 
 	cr = gtk_print_context_get_cairo_context (context);
 	width = gtk_print_context_get_width (context);
 	height = gtk_print_context_get_height (context);
 	int w, h; // size in points
-	w = widget->allocation.width;
-	h = widget->allocation.height;
+	w = m_View->GetWidth ();
+	h = m_View->GetHeight ();
 	switch (GetScaleType ()) {
 	case GCU_PRINT_SCALE_NONE:
 		break;

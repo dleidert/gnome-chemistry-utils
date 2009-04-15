@@ -270,14 +270,18 @@ void on_clicked(GtkToggleButton *button, GtkPeriodic* periodic)
 
 void gtk_periodic_size_allocate(GtkPeriodic* w, GtkAllocation *allocation)
 {
-	if (GTK_BIN(w)->child && GTK_WIDGET_VISIBLE (GTK_BIN(w)->child))
-		gtk_widget_size_allocate (GTK_BIN(w)->child, allocation);
+	GtkWidget *widget = gtk_bin_get_child (GTK_BIN (w));
+	gboolean visible = FALSE;
+	if (widget)
+		g_object_get (G_OBJECT (widget), "visible", &visible, NULL);
+	if (visible)
+		gtk_widget_size_allocate (widget, allocation);
 	(GTK_WIDGET_CLASS(parent_class))->size_allocate(GTK_WIDGET(w), allocation);
 }
 
 void gtk_periodic_size_request(GtkPeriodic* w, GtkRequisition *requisition)
 {
-	gtk_widget_size_request ((GTK_BIN(w))->child, requisition);
+	gtk_widget_size_request (gtk_bin_get_child (GTK_BIN (w)), requisition);
 }
 
 guint gtk_periodic_get_element(GtkPeriodic* periodic)

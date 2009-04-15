@@ -87,7 +87,7 @@ bool CanvasPrivate::OnExpose (Canvas *canvas, GdkEventExpose *event)
 	y0 *= canvas->m_Zoom;
 	y1 *= canvas->m_Zoom;
 	if (x0 <= event->area.x + event->area.width && x1 >= event->area.x && y0 <= event->area.y + event->area.height && y1 >= event->area.y) {
-		cairo_t *cr = gdk_cairo_create (canvas->m_Widget->window);
+		cairo_t *cr = gdk_cairo_create (gtk_widget_get_window (canvas->m_Widget));
 		cairo_scale (cr, canvas->m_Zoom, canvas->m_Zoom);
 		canvas->m_Root->Draw (cr, event->area.x / canvas->m_Zoom, event->area.y / canvas->m_Zoom, (event->area.x + event->area.width) / canvas->m_Zoom, (event->area.y + event->area.height) / canvas->m_Zoom, false);
 		cairo_destroy (cr);

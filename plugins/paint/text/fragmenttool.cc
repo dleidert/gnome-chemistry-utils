@@ -373,13 +373,43 @@ void gcpFragmentTool::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar
 	if (start > end) {
 		unsigned n = end;
 		end = start;
-		virtual void UpdateTagsList ();
-	start = n;
+		start = n;
 	}
 	tool->m_Active->ReplaceText (s, start, end - start);
 }
 
 void gcpFragmentTool::UpdateTagsList () {
 	// FIXME: write this
+	gccv::TextTagList *l = new gccv::TextTagList ();
+	if (m_Active) {
+		list <gccv::TextTag *> const *cur = m_Active->GetTags ();
+		unsigned start, end;
+		m_Active->GetSelectionBounds (start, end);
+		list <gccv::TextTag *>::const_iterator i, iend = cur->end ();
+		for (i = cur->begin (); i != iend; i++)
+			if ((*i)->GetStartIndex () < end && (*i)->GetEndIndex () >= end) {
+				l->push_front ((*i)->Duplicate ());
+				gccv::Tag tag = (*i)->GetTag ();
+				if (tag == gccv::Position) {
+					bool stacked;
+					double size;
+					switch (static_cast <gccv::PositionTextTag *> (*i)->GetPosition (stacked, size)) {
+					case gccv::Normalscript:
+						break;
+					case gccv::Subscript:
+						m_CurMode = gcp::Fragment::SubscriptMode;
+						break;
+					case gccv::Superscript:
+						m_CurMode = gcp::Fragment::SuperscriptMode;
+						break;
+					}
+				} else if (tag == gcp::ChargeTag)
+					m_CurMode = gcp::Fragment::ChargeMode;
+				else if (tag == gcp::StoichiometryTag)
+					m_CurMode = gcp::Fragment::StoichiometryMode;
+			}
+		m_Fragment->SetMode (m_CurMode);
+		m_Active->SetCurTagList (l); // no tag
+	}
 }
 

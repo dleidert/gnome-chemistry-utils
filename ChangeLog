@@ -1,8 +1,70 @@
 ##Text encoding: utf-8
 
+2009-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: require gtk+-2.0 >= 2.14 and add -DGSEAL_ENABLE.
+	* libs/gccv/canvas.cc: make things compile with -DGSEAL_ENABLE.
+	* libs/gcp/fragment.cc: export the custom tags.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/view.cc: make things compile with -DGSEAL_ENABLE.
+	* libs/gcp/widgetdata.cc: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/gtkchem3dviewer.cc: ditto.
+	* libs/gcu/gtkcrystalviewer.cc: ditto.
+	* libs/gcu/gtkperiodic.c: (gtk_periodic_size_allocate),
+	(gtk_periodic_size_request): ditto.
+	* libs/gcu/gtkspectrumviewer.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* plugins/paint/templates/templatetool.cc: ditto.
+	* plugins/paint/templates/templatetool.h: ditto.
+	* plugins/paint/text/fragmenttool.cc: implement UpdateTagsList.
+	* plugins/paint/text/fragmenttool.h: ditto.
+	* plugins/paint/text/texttool.cc: make things compile with -DGSEAL_ENABLE.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+
 2009-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: implement an edition mode.
 	* libs/gcp/fragment.h: ditto.
+2009-04-15  Jean Brefort  <jean.brefort@normalesup.org>
+	* configure.ac:
+	* libs/gccv/canvas.cc:
+	* libs/gcp/fragment.cc:
+	* libs/gcp/fragment.h:
+	* libs/gcp/view.cc:
+	* libs/gcp/widgetdata.cc:
+	* libs/gcp/window.cc:
+	* libs/gcu/glview.cc:
+	* libs/gcu/glview.h:
+	* libs/gcu/gtkchem3dviewer.cc:
+	* libs/gcu/gtkcrystalviewer.cc:
+	* libs/gcu/gtkperiodic.c: (gtk_periodic_size_allocate),
+	(gtk_periodic_size_request):
+	* libs/gcu/gtkspectrumviewer.cc:
+	* libs/gcu/spectrumdoc.cc:
+	* libs/gcu/spectrumview.cc:
+	* libs/gcu/spectrumview.h:
+	* mozilla-plugin/chem-viewer.cc:
+	* plugins/paint/templates/templatetool.cc:
+	* plugins/paint/templates/templatetool.h:
+	* plugins/paint/text/fragmenttool.cc:
+	* plugins/paint/text/fragmenttool.h:
+	* plugins/paint/text/texttool.cc:
+	* programs/calc/gchemcalc.cc:
+	* programs/crystal/linesdlg.cc:
+	* programs/spectra/window.cc:
+	* programs/table/gchemtable-curve.cc:
+	* programs/table/gchemtable-curve.h:
+	* programs/table/gchemtable-data-allocator.cc:
+
 	* libs/gcp/preferences.cc: take new PANGO_WEIGHT_* values into account.
 	* libs/gcp/theme.cc: ditto.
 	* plugins/paint/text/fragmenttool.cc: replace "-" by minus when it is

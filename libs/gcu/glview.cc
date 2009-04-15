@@ -60,9 +60,9 @@ static bool on_init(G_GNUC_UNUSED GtkWidget *widget, GLView* View)
 	return true;
 }
 
-bool on_reshape(G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED GdkEventConfigure *event, GLView* View) 
+bool on_reshape(G_GNUC_UNUSED GtkWidget *widget, GdkEventConfigure *event, GLView* View) 
 {
-	View->Reshape ();
+	View->Reshape (event->width, event->height);
 	return true;
 }
 
@@ -193,16 +193,18 @@ void GLView::Init ()
     }
 }
 
-void GLView::Reshape ()
+void GLView::Reshape (int width, int height)
 {
 	if (!m_bInit)
 		return;
+	m_WindowWidth = width;
+	m_WindowHeight = height;
 	float fAspect;
 	GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
 	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
 	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
-		if (m_pWidget->allocation.height) {
-			fAspect = (GLfloat) m_pWidget->allocation.width / (GLfloat) m_pWidget->allocation.height;
+		if (height) {
+			fAspect = (GLfloat) width / (GLfloat) height;
 			if (fAspect == 0.0)
 				fAspect = 1.0;
 		} else	// don't divide by zero, not that we should ever run into that...
@@ -210,7 +212,7 @@ void GLView::Reshape ()
 		double x = m_Doc->GetMaxDist ();
 		if (x == 0)
 			x = 1;
-		glViewport (0,0, m_pWidget->allocation.width, m_pWidget->allocation.height);
+		glViewport (0,0, width, height);
 		if (fAspect > 1.0) {
 			m_Height = x * (1 - tan (m_Angle / 360 * M_PI));
 			m_Width = m_Height * fAspect;
@@ -264,7 +266,7 @@ void GLView::Update()
 		m_Doc->Draw (m_Euler);
 		gdk_gl_drawable_gl_end (gldrawable);
     }
-	Reshape ();
+	Reshape (m_WindowWidth, m_WindowHeight);
 	Draw ();
 }
 
@@ -307,7 +309,7 @@ bool GLView::OnMotion(GdkEventMotion *event)
 		Rotate (x - m_Lastx, y - m_Lasty);
 		m_Lastx = x;
 		m_Lasty = y;
-		gtk_widget_queue_draw_area(m_pWidget, 0, 0, m_pWidget->allocation.width, m_pWidget->allocation.height);
+		gtk_widget_queue_draw_area(m_pWidget, 0, 0, m_WindowWidth, m_WindowHeight);
 	}
 	return true;
 }
@@ -446,14 +448,14 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 		gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget))); 
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
-		if (m_pWidget->allocation.width & (s - 1))
-			LineWidth = ((~(s - 1)) & (m_pWidget->allocation.width * 3)) + s;
+		if (m_WindowWidth & (s - 1))
+			LineWidth = ((~(s - 1)) & (m_WindowWidth * 3)) + s;
 		else
-			LineWidth = m_pWidget->allocation.width * 3;
-		unsigned size = LineWidth * m_pWidget->allocation.height;
+			LineWidth = m_WindowWidth * 3;
+		unsigned size = LineWidth * m_WindowHeight;
 		int i, j;
-		hstep = m_pWidget->allocation.width;
-		vstep = m_pWidget->allocation.height;
+		hstep = m_WindowWidth;
+		vstep = m_WindowHeight;
 		tmp = new unsigned char[size];
 		if (!tmp)
 			goto osmesa;
@@ -491,7 +493,7 @@ GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
 					gdk_gl_drawable_gl_end (gldrawable);
 					glPixelStorei (GL_PACK_ALIGNMENT, s);
 					glReadBuffer (GL_BACK_LEFT);
-					glReadPixels (0, 0, m_pWidget->allocation.width, m_pWidget->allocation.height, GL_RGB,
+					glReadPixels (0, 0, m_WindowWidth, m_WindowHeight, GL_RGB,
 										GL_UNSIGNED_BYTE, tmp);
 					// copy the data to the pixbuf.
 					// linesize
@@ -534,8 +536,8 @@ void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *c
 	width = gtk_print_context_get_width (context);
 	height = gtk_print_context_get_height (context);
 	int w, h; // size in points
-	w = m_pWidget->allocation.width;
-	h = m_pWidget->allocation.height;
+	w = m_WindowWidth;
+	h = m_WindowHeight;
 	switch (GetScaleType ()) {
 	case GCU_PRINT_SCALE_NONE:
 		break;

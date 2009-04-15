@@ -123,10 +123,11 @@ void ChemComp::SetWindow (XID xid)
 		gdk_window_get_geometry (Parent, NULL, NULL, &width, &height, NULL);
 		gtk_window_set_default_size (GTK_WINDOW (Plug), width, height);
 		gtk_widget_realize (Plug);
-		XReparentWindow (GDK_WINDOW_XDISPLAY (Plug->window),
-			GDK_WINDOW_XID (Plug->window), xid, 0, 0);
-		XMapWindow (GDK_WINDOW_XDISPLAY (Plug->window),
-			GDK_WINDOW_XID (Plug->window));
+		GdkWindow *window = gtk_widget_get_window (Plug);
+		XReparentWindow (GDK_WINDOW_XDISPLAY (window),
+			GDK_WINDOW_XID (window), xid, 0, 0);
+		XMapWindow (GDK_WINDOW_XDISPLAY (window),
+			GDK_WINDOW_XID (window));
 		if (MimeType == "application/x-gcrystal" || MimeType == "chemical/x-cif")
 			Viewer = gtk_crystal_viewer_new (NULL);
 		else if (MimeType == "application/x-gchempaint" || MimeType == "chemical/x-cdx" || MimeType == "chemical/x-cdxml") {

@@ -124,7 +124,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 		g_object_unref (output);
 		g_free (format);
 		gtk_selection_data_set (selection_data,
-					selection_data->target, 8,
+					gtk_selection_data_get_target (selection_data), 8,
 					(guchar *) buffer, osize);
 		g_free (buffer);
 	}
@@ -300,6 +300,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (m_GraphBox), bar, FALSE, FALSE, 0);
 	m_GraphWidget = go_graph_widget_new (NULL);
+	g_signal_connect_swapped (m_GraphWidget, "size-allocate", G_CALLBACK (GChemTableCurve::OnSize), this);
 	gtk_widget_set_size_request (m_GraphWidget, 400, 250);
 	gtk_widget_show (m_GraphWidget);
 	gtk_box_pack_end (GTK_BOX (m_GraphBox), m_GraphWidget, TRUE, TRUE, 0);
@@ -516,8 +517,8 @@ void GChemTableCurve::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintC
 	height = gtk_print_context_get_height (context);
 
 	int w, h; // size in points
-	w = m_GraphWidget->allocation.width;
-	h = m_GraphWidget->allocation.height;
+	w = m_GraphWidth;
+	h = m_GraphHeight;
 	switch (GetScaleType ()) {
 	case GCU_PRINT_SCALE_NONE:
 		break;
@@ -619,4 +620,10 @@ void GChemTableCurve::SaveAsImage (string const &filename, char const *mime_type
 	gog_graph_set_size (graph, width, height);
 	gog_graph_export_image (graph, format, output, -1., -1.);
 	g_object_unref (graph);
+}
+
+void GChemTableCurve::OnSize (GChemTableCurve *curve, GtkAllocation *allocation)
+{
+	curve->m_GraphWidth = allocation->width;
+	curve->m_GraphHeight = allocation->height;
 }

@@ -64,7 +64,7 @@ void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_da
 {
 	GtkClipboard* sel_clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	guint *DataType = (clipboard == sel_clipboard)? &ClipboardDataType: &ClipboardDataType1;
-	if (selection_data->target == gdk_atom_intern ("TARGETS", FALSE)) {
+	if (gtk_selection_data_get_target (selection_data) == gdk_atom_intern ("TARGETS", FALSE)) {
 		static char const *formats [] =
 		{
 			GCHEMPAINT_ATOM_NAME,
@@ -79,11 +79,12 @@ void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_da
 			NULL
 		};
 
-		GdkAtom const *targets = (GdkAtom *) selection_data->data;
-		unsigned const atom_count = (selection_data->length / sizeof (GdkAtom));
+		GdkAtom const *targets = (GdkAtom *) gtk_selection_data_get_data (selection_data);
+		int length = gtk_selection_data_get_length (selection_data);
+		unsigned const atom_count = (length / sizeof (GdkAtom));
 		unsigned i, j;
 		/* Nothing on clipboard? */
-		if (selection_data->length < 0) {
+		if (length < 0) {
 			if (clipboard == sel_clipboard)
 				App->ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste", false);
 			return;

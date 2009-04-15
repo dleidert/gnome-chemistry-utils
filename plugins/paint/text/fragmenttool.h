@@ -44,7 +44,7 @@ public:
 	void OnGetData (GtkClipboard *clipboard, GtkSelectionData *selection_data,  guint info);
 	GtkWidget *GetPropertyPage () {return NULL;}
 	char const *GetHelpTag () {return "fragment";}
-	virtual void UpdateTagsList ();
+	void UpdateTagsList ();
 
 	static void OnCommit (GtkIMContext *context, const gchar *str, gcpFragmentTool *tool);
 

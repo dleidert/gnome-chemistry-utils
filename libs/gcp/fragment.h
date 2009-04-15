@@ -36,6 +36,8 @@ namespace gccv {
 /*!\file*/
 namespace gcp {
 
+extern gccv::Tag ChargeTag, StoichiometryTag;
+
 class ChargeTextTag: public gccv::PositionTextTag
 {
 public:

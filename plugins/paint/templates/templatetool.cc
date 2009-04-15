@@ -80,7 +80,7 @@ bool gcpTemplateTool::OnClicked ()
 				xmlNewProp (node, (const xmlChar*) "bond-length", (const xmlChar*) buf);
 				g_free (buf);
 				dlg->SetTemplate (node);
-				gdk_window_raise (GTK_WIDGET (dlg->GetWindow ())->window);
+				gdk_window_raise (gtk_widget_get_window (GTK_WIDGET (dlg->GetWindow ())));
 			}
 		}
 		return false;
@@ -221,10 +221,10 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 				gtk_notebook_append_page (m_Book, m_Template->w, NULL);
 				page = gtk_notebook_page_num (m_Book, m_Template->w);
 			}
-			GtkWidget *wd = gtk_notebook_get_nth_page (m_Book, 0);
 			// Why 4 and not 2 in following lines?
-			double w = (wd->allocation.width - 4 * m_Template->w->style->xthickness) / (m_Template->rect.x1 - m_Template->rect.x0);
-			double h = (wd->allocation.height - 4 * m_Template->w->style->ythickness) / (m_Template->rect.y1 - m_Template->rect.y0);
+			GtkStyle *style = gtk_widget_get_style (m_Template->w);
+			double w = (m_Width - 4 * style->xthickness) / (m_Template->rect.x1 - m_Template->rect.x0);
+			double h = (m_Height - 4 * style->ythickness) / (m_Template->rect.y1 - m_Template->rect.y0);
 			if (w < 1. || h < 1.) {
 				m_Template->data->Zoom = MIN (w, h);
 			}
@@ -247,9 +247,12 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 
 void gcpTemplateTool::OnPreviewSize (GtkAllocation *allocation)
 {
+	m_Width = allocation->width;
+	m_Height = allocation->height;
 	if (m_Template) {
-		double w = (allocation->width - 4 * m_Template->w->style->xthickness) / (m_Template->rect.x1 - m_Template->rect.x0);
-		double h = (allocation->height - 4 * m_Template->w->style->ythickness) / (m_Template->rect.y1 - m_Template->rect.y0);
+		GtkStyle *style = gtk_widget_get_style (m_Template->w);
+		double w = (m_Width - 4 * style->xthickness) / (m_Template->rect.x1 - m_Template->rect.x0);
+		double h = (m_Height - 4 * style->ythickness) / (m_Template->rect.y1 - m_Template->rect.y0);
 		m_Template->data->Zoom = (w < 1. || h < 1.)? MIN (w, h): 1.;
 		m_Template->doc->GetView ()->GetCanvas ()->SetZoom (m_Template->data->Zoom);
 	}

@@ -373,18 +373,20 @@ static bool filter_fragment (PangoAttribute *attr, struct FragState *s)
 	return false;
 }
 
-bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_GNUC_UNUSED int type)
+bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *selection_data, G_GNUC_UNUSED int type)
 {
 	if (!m_Active)
 		return false;
 	guint *DataType = (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))? &gcp::ClipboardDataType: &gcp::ClipboardDataType1;
-	g_return_val_if_fail ((data->target == gdk_atom_intern (gcp::targets[*DataType].target, FALSE)), FALSE);
+	g_return_val_if_fail ((gtk_selection_data_get_target (selection_data) == gdk_atom_intern (gcp::targets[*DataType].target, FALSE)), FALSE);
+	int length = gtk_selection_data_get_length (selection_data);
+	char const *data = reinterpret_cast <char const *> (gtk_selection_data_get_data (selection_data));
 	gcp::Text *text = dynamic_cast <gcp::Text*> (m_Active->GetClient ());
 	unsigned start, end;
 	text->GetSelectionBounds (start, end);
 	switch (*DataType) {
 		case gcp::GCP_CLIPBOARD_NATIVE: {
-			xmlDocPtr xml = xmlParseMemory ((const char*) data->data, data->length);
+			xmlDocPtr xml = xmlParseMemory (data, length);
 			xmlNodePtr node = xml->children;
 			if ((strcmp((char*)node->name, "chemistry")) || (node->children->next)) {
 				xmlFreeDoc (xml);
@@ -416,19 +418,19 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *data, G_
 			break;
 		}
 		case gcp::GCP_CLIPBOARD_UTF8_STRING: {
-			string s ((char const *) data->data);
+			string s (data);
 			m_Active->ReplaceText (s, static_cast <int> (start), start - end);
 			break;
 		}
 		case gcp::GCP_CLIPBOARD_STRING: {
-			if (!g_utf8_validate ((const char*) data->data, data->length, NULL)) {
+			if (!g_utf8_validate (data, length, NULL)) {
 				gsize r, w;
-				char* newstr = g_locale_to_utf8 ((const char*) data->data, data->length, &r, &w, NULL);
+				char* newstr = g_locale_to_utf8 (data, length, &r, &w, NULL);
 				string s (newstr);
 				m_Active->ReplaceText (s, static_cast <int> (start), start - end);
 				g_free (newstr);
 			} else {
-				string s ((char const *) data->data);
+				string s (data);
 				m_Active->ReplaceText (s, static_cast <int> (start), start - end);
 			}
 			break;

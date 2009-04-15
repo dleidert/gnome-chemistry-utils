@@ -73,7 +73,7 @@ Initialize the associated widget. Automatically called by the framework.
 /*!
 Automatically called by the framework when the associated widget size changes.
 */
-	void Reshape ();
+	void Reshape (int width, int height);
 /*!
 Draws the contents of the associated widget. Automatically called by the framework.
 */
@@ -166,6 +166,7 @@ The associated widget.
 private:
 	bool m_bInit;
 	Matrix m_Euler;
+	int m_WindowHeight, m_WindowWidth;
 	double m_Height, m_Width, m_Near, m_Far;
 	double m_Lastx, m_Lasty;
 	static GOConfNode *m_ConfNode;

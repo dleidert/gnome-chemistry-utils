@@ -126,7 +126,7 @@ fi
 PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
 PKG_CHECK_MODULES(cairo, [cairo >= 1.6.0])
 PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.16.1])
-PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.12.0])
+PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.14.0])
 PKG_CHECK_MODULES(glade, [libglade-2.0 >= 2.4.0])
 PKG_CHECK_MODULES(gtkglext, [gtkglext-1.0 >= 1.0.0])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
@@ -162,7 +162,7 @@ AC_DEFINE_UNQUOTED([BODR_PKGDATADIR], ["$bodr_pkgdatadir"], [Path to Blue Obelis
 if test "x$gcu_is_stable" = "xyes"; then
 	GCU_CFLAGS="-Wall -Wextra"
 else
-	GCU_CFLAGS="-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -Wall -Wextra"
+	GCU_CFLAGS="-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE -Wall -Wextra"
 fi
 AC_SUBST([GCU_CFLAGS])
 

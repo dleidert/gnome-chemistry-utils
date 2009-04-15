@@ -45,6 +45,18 @@ using namespace std;
 namespace gcu
 {
 
+class SpectrumViewPrivate
+{
+public:
+	static void OnSize (GtkWidget* w, GtkAllocation *allocation, SpectrumView *view);
+};
+
+void SpectrumViewPrivate::OnSize (G_GNUC_UNUSED GtkWidget* w, GtkAllocation *allocation, SpectrumView *view)
+{
+	view->m_Width = allocation->width;
+	view->m_Height = allocation->height;
+}
+
 static void on_min_changed (SpectrumView *view)
 {
 	view->OnMinChanged ();
@@ -79,6 +91,7 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 {
 	m_Doc = pDoc;
 	m_Widget = go_graph_widget_new (NULL);
+	g_signal_connect (G_OBJECT (m_Widget), "size_allocate", G_CALLBACK (SpectrumViewPrivate::OnSize), NULL);
 	GogGraph *graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_Widget));
 	/* Add a title */
 	GogLabel *label = (GogLabel *) g_object_new (GOG_TYPE_LABEL, NULL);

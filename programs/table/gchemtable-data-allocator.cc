@@ -60,7 +60,9 @@ static void
 on_graph_dim_editor_changed (GtkEntry *box,
 			    GraphDimEditor *editor)
 {
-	if (!GTK_WIDGET_SENSITIVE (box) || editor->dataset == NULL)
+	bool sensitive = false;
+	g_object_get (G_OBJECT (box), "sensitive", &sensitive, NULL);
+	if (!sensitive || editor->dataset == NULL)
 		return;
 
 	GOData *data = go_data_scalar_str_new (g_strdup (gtk_entry_get_text (box)), TRUE);

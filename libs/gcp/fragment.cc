@@ -54,7 +54,7 @@ using namespace std;
 
 namespace gcp {
 
-static gccv::Tag ChargeTag = gccv::Invalid, StoichiometryTag = gccv::Invalid;
+gccv::Tag ChargeTag = gccv::Invalid, StoichiometryTag = gccv::Invalid;
 
 ChargeTextTag::ChargeTextTag (double size):
 	gccv::PositionTextTag (gccv::Superscript, size, true, (ChargeTag)? ChargeTag:(ChargeTag = gccv::TextTag::RegisterTagType ()))

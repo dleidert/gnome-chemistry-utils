@@ -658,7 +658,7 @@ void Window::SetTitle (char const *title)
 
 void Window::Show ()
 {
-	gdk_window_raise (GTK_WIDGET (GetWindow ())->window);
+	gdk_window_raise (gtk_widget_get_window (GTK_WIDGET (GetWindow ())));
 }
 
 bool Window::OnKeyPressed(G_GNUC_UNUSED GtkWidget* widget, GdkEventKey* ev)

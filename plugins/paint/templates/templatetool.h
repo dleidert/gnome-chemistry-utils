@@ -54,6 +54,7 @@ private:
 	gcpTemplate* m_Template;
 	GtkWidget *m_DeleteBtn;
 	GtkNotebook *m_Book;
+	int m_Width, m_Height;
 };
 
 #endif //GCHEMPAINT_TEMPLATETOOL_H

@@ -305,7 +305,7 @@ bool gcLinesDlg::Apply ()
 	//Add edged, diagonals and medians
 	CrystalLine* pLine;
 	double r, Red, Green, Blue, Alpha;
-	if (GTK_TOGGLE_BUTTON (Edges)->active) {
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges))) {
 		GetNumber (EdgesR, &r, Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (EdgesColor, &color);
@@ -317,7 +317,7 @@ bool gcLinesDlg::Apply ()
 			Lines->push_back (pLine);
 		}
 	}
-	if (GTK_TOGGLE_BUTTON (Diags)->active) {
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Diags))) {
 		GetNumber (DiagsR, &r, Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (DiagsColor, &color);
@@ -329,7 +329,7 @@ bool gcLinesDlg::Apply ()
 			Lines->push_back (pLine);
 		}
 	}
-	if (GTK_TOGGLE_BUTTON (Medians)->active) {
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians))) {
 		GetNumber (MediansR, &r, Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (MediansColor, &color);
@@ -495,16 +495,16 @@ void gcLinesDlg::OnToggledSpecial (int Type)
 {
 	switch (Type) {
 	case edges:
-		gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), GTK_TOGGLE_BUTTON (Edges)->active);
-		gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), GTK_TOGGLE_BUTTON (Edges)->active);
+		gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges)));
+		gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges)));
 		break;
 	case diagonals:
-		gtk_widget_set_sensitive (GTK_WIDGET (DiagsColor), GTK_TOGGLE_BUTTON (Diags)->active);
-		gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), GTK_TOGGLE_BUTTON (Diags)->active);
+		gtk_widget_set_sensitive (GTK_WIDGET (DiagsColor), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Diags)));
+		gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Diags)));
 		break;
 	case medians:
-		gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), GTK_TOGGLE_BUTTON (Medians)->active);
-		gtk_widget_set_sensitive (GTK_WIDGET (MediansR), GTK_TOGGLE_BUTTON (Medians)->active);
+		gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians)));
+		gtk_widget_set_sensitive (GTK_WIDGET (MediansR), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians)));
 		break;
 	}
 }

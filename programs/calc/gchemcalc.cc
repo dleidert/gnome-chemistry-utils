@@ -97,9 +97,11 @@ public:
 	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const;
 	void OnSaveAsImage ();
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *pDoc = NULL);
+	static void OnSize (GChemCalc *calc, GtkAllocation *allocation);
 
 private:
 	void ParseNodes (xmlNodePtr node);
+	int m_GraphWidth, m_GraphHeight;
 GCU_PROP (GtkUIManager *, UIManager)
 };
 
@@ -173,8 +175,8 @@ void GChemCalc::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext
 	height = gtk_print_context_get_height (context);
 
 	int w, h; // size in points
-	w = graph_widget->allocation.width;
-	h = graph_widget->allocation.height;
+	w = m_GraphWidth;
+	h = m_GraphHeight;
 	switch (GetScaleType ()) {
 	case GCU_PRINT_SCALE_NONE:
 		break;
@@ -255,6 +257,12 @@ bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool
 		g_object_unref (file);
 	}
 	return false;
+}
+
+void GChemCalc::OnSize (GChemCalc *calc, GtkAllocation *allocation)
+{
+	calc->m_GraphWidth = allocation->width;
+	calc->m_GraphHeight = allocation->height;
 }
 
 GChemCalc *App;
@@ -540,7 +548,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 		g_object_unref (output);
 		g_free (format);
 		gtk_selection_data_set (selection_data,
-					selection_data->target, 8,
+					gtk_selection_data_get_target (selection_data), 8,
 					(guchar *) buffer, osize);
 		g_free (buffer);
 	}
@@ -786,6 +794,7 @@ int main (int argc, char *argv[])
 	App->monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
 	App->pattern_page = glade_xml_get_widget (xml, "pattern");
 	App->graph_widget = go_graph_widget_new (NULL);
+	g_signal_connect_swapped (App->graph_widget, "size-allocate", G_CALLBACK (GChemCalc::OnSize), App);
 	gtk_widget_show (App->graph_widget);
 	gtk_box_pack_end (GTK_BOX (App->pattern_page), App->graph_widget, TRUE, TRUE, 0);
 	App->graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (App->graph_widget));

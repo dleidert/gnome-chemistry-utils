@@ -53,11 +53,13 @@ public:
 	GtkWindow *GetGtkWindow () {return GTK_WINDOW (dialog);}
 	void ClearGuru () {m_Guru = NULL;}
 	void SaveAsImage (std::string const &filename, char const *mime_type, unsigned width, unsigned height) const;
+	static void OnSize (GChemTableCurve *curve, GtkAllocation *allocation);
 
 private:
 	std::string m_Name;
 	GogGraph *m_Graph;
 	GtkWidget *m_GraphWidget, *m_GraphBox, *m_Guru;
+	int m_GraphWidth, m_GraphHeight;
 };
 
 #endif	// GCHEMTABLE_CURVE_H

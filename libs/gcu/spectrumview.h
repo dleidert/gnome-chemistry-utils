@@ -39,6 +39,7 @@ might change in the future.
 */
 class SpectrumView
 {
+friend class SpectrumViewPrivate;
 public:
 //!Constructor.
 /*!
@@ -167,6 +168,8 @@ GCU_RO_PROP (GtkWidget *, OptionBox)
 @return the first GogSeries* created for the view.
 */
 GCU_RO_PROP (GogSeries *, Series)
+GCU_RO_PROP (int, Width)
+GCU_RO_PROP (int, Height)
 };
 
 }

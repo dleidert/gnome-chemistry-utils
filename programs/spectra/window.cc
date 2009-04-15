@@ -351,7 +351,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 		g_object_unref (output);
 		g_free (format);
 		gtk_selection_data_set (selection_data,
-					selection_data->target, 8,
+					gtk_selection_data_get_target (selection_data), 8,
 					(guchar *) buffer, osize);
 		g_free (buffer);
 	}

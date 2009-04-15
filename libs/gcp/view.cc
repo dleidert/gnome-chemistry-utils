@@ -488,12 +488,14 @@ void View::OnCopySelection (GtkWidget* w, GtkClipboard* clipboard)
 
 void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 {
-	if ((selection_data->length <= 0) || !selection_data->data)
+	int length = gtk_selection_data_get_length (selection_data);
+	char const *data = reinterpret_cast <char const *> (gtk_selection_data_get_data (selection_data));
+	if ((length <= 0) || !data)
 		return;
 	Application *pApp = m_pDoc->GetApplication ();
 	Tool *pActiveTool = pApp->GetActiveTool ();
 	guint *DataType = (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))? &ClipboardDataType: &ClipboardDataType1;
-	g_return_if_fail ((selection_data->target == gdk_atom_intern (targets[*DataType].target, FALSE)));
+	g_return_if_fail (gtk_selection_data_get_target (selection_data) == gdk_atom_intern (targets[*DataType].target, FALSE));
 	if (pActiveTool->OnReceive (clipboard, selection_data, *DataType))
 		return;
 	else if (pActiveTool) {
@@ -506,13 +508,13 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 	m_pData->UnselectAll ();
 	switch (*DataType) {
 	case GCP_CLIPBOARD_NATIVE:
-		xml = xmlParseMemory ((const char*) selection_data->data, selection_data->length);
+		xml = xmlParseMemory (data, length);
 		m_pDoc->AddData (xml->children->children);
 		xmlFreeDoc (xml);
 		break;
 	case GCP_CLIPBOARD_UTF8_STRING: {
 			Text* text = new Text ();
-			text->SetText ((char const*) selection_data->data);
+			text->SetText (data);
 			text->OnChanged (true);
 			m_pDoc->AddObject (text);
 			m_pData->SetSelected (text);
@@ -520,13 +522,13 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 		break;
 	case GCP_CLIPBOARD_STRING: {
 			Text* text = new Text ();
-			if (!g_utf8_validate ((const char*) selection_data->data, selection_data->length, NULL)) {
+			if (!g_utf8_validate (data, length, NULL)) {
 				gsize r, w;
-				gchar* newstr = g_locale_to_utf8 ((const char*) selection_data->data, selection_data->length, &r, &w, NULL);
+				gchar* newstr = g_locale_to_utf8 ((const char*) data, length, &r, &w, NULL);
 				text->SetText (newstr);
 				g_free (newstr);
 			} else
-				text->SetText ((char const*) selection_data->data);
+				text->SetText (data);
 			text->OnChanged (true);
 			m_pDoc->AddObject (text);
 			m_pData->SetSelected (text);
@@ -542,15 +544,16 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 	if (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD)) {
 		//center the pasted data at the center of the visible area
 		if (m_bEmbedded) {
-			dx = m_pWidget->allocation.width / 2. - (rect.x0 + rect.x1) / 2.;
-			dy = m_pWidget->allocation.height / 2. - (rect.y0 + rect.y1) / 2.;
+			// might this still occur? what does happen if not everything is visible?
+			dx = m_width / 2. - (rect.x0 + rect.x1) / 2.;
+			dy = m_height / 2. - (rect.y0 + rect.y1) / 2.;
 		} else {
 			GtkAdjustment *horiz, *vert;
 			GtkWidget* parent = gtk_widget_get_parent (m_pWidget);
 			horiz = gtk_viewport_get_hadjustment (GTK_VIEWPORT (parent));
 			vert = gtk_viewport_get_vadjustment (GTK_VIEWPORT (parent));
-			dx = horiz->value + horiz->page_size / 2.  - (rect.x0 + rect.x1) / 2.;
-			dy = vert->value + vert->page_size / 2.  - (rect.y0 + rect.y1) / 2.;
+			dx = gtk_adjustment_get_value (horiz) + gtk_adjustment_get_page_size (horiz) / 2.  - (rect.x0 + rect.x1) / 2.;
+			dy = gtk_adjustment_get_value (vert) + gtk_adjustment_get_page_size (vert) / 2.  - (rect.y0 + rect.y1) / 2.;
 		}
 	} else {
 		//center the pasted data at the mouse click position
