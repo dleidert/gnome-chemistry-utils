@@ -52,7 +52,8 @@ TextObject::TextObject (TypeId Type): Object (Type), gccv::TextClient ()
 	m_StartSel = m_EndSel = 0;
 }
 
-TextObject::TextObject (double x, double y, TypeId Type): Object (Type)
+TextObject::TextObject (double x, double y, TypeId Type): Object (Type),
+	gccv::TextClient ()
 {
 	m_x = x;
 	m_y = y;

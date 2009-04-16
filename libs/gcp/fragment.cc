@@ -78,6 +78,7 @@ StoichiometryTextTag::~StoichiometryTextTag ()
 Fragment::Fragment ():
 	TextObject (FragmentType),
 	m_Inversable (false),
+	m_TextItem (NULL),
 	m_Valid (Invalid),
 	m_Mode (AutoMode)
 {
@@ -92,6 +93,7 @@ Fragment::Fragment ():
 Fragment::Fragment (double x, double y):
 	TextObject (x, y, FragmentType),
 	m_Inversable (false),
+	m_TextItem (NULL),
 	m_Valid (Invalid),
 	m_Mode (AutoMode)
 {
@@ -302,14 +304,14 @@ bool Fragment::OnChanged (bool save)
 	if (m_buf.length () == 0) {
 		m_BeginAtom = m_EndAtom = 0;
 	}
-/*	if (save) {
+	if (save) {
 		Tool* FragmentTool = dynamic_cast<Application*> (pDoc->GetApplication ())->GetTool ("Fragment");
 		if (!FragmentTool)
 			return  true;
 		xmlNodePtr node = SaveSelected ();
 		if (node)
 			FragmentTool->PushNode (node);
-	}*/
+	}
 	return true;
 }
 
@@ -343,7 +345,7 @@ void Fragment::AddItem ()
 	m_TextItem->SetLineOffset (view->GetCHeight ());
 	m_TextItem->SetAnchor (gccv::AnchorLineWest);
 	m_TextItem->SetFontDescription (desc);
-	m_TextItem->SetText (m_buf.c_str ());
+	m_TextItem->SetText (m_buf);
 	while (!m_TagList.empty ()) {
 		m_TextItem->InsertTextTag (m_TagList.front ());
 		m_TagList.pop_front ();
@@ -827,19 +829,16 @@ xmlNodePtr Fragment::SaveSelection (xmlDocPtr xml) const
 
 bool Fragment::Load (xmlNodePtr node)
 {
-/*	Document* pDoc = (Document*) GetDocument ();
+	Document* pDoc = (Document*) GetDocument ();
 	Theme *pTheme = pDoc->GetTheme ();
 	if (!TextObject::Load (node))
 		return false;
-	if (m_AttrList != NULL)
-		pango_attr_list_unref (m_AttrList);
-	m_AttrList = pango_attr_list_new ();
 	m_bLoading = true;
 	m_buf.clear (); // just in case
 	xmlNodePtr child = node->children;
 	char* tmp;
-	PangoAttribute *attr;
-	int size = pTheme->GetFontSize ();
+	double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
+	gccv::TextTag *tag;
 	while (child) {
 		if (!strcmp ((const char*) child->name, "text")) {
 			tmp = (char*) xmlNodeGetContent (child);
@@ -883,32 +882,34 @@ bool Fragment::Load (xmlNodePtr node)
 			int charge = atoi (tmp);
 			xmlFree (tmp);
 			if (abs(charge) > 1)
-				tmp = g_strdup_printf ("%d%c", abs (charge), (charge > 0)? '+': '-');
+				tmp = g_strdup_printf ("%d%s", abs (charge), (charge > 0)? "+": "−");
 			else if (charge == 1)
 				tmp = g_strdup ("+");
 			else if (charge == -1)
-				tmp = g_strdup ("-");
+				tmp = g_strdup ("−");
 			else
 				tmp = g_strdup ("");//should not occur!
 			m_buf += tmp;
 			end = m_buf.length ();
-			attr = pango_attr_size_new (size * 2 / 3);
-			attr->start_index = start;
-			attr->end_index = end;
-			pango_attr_list_insert (m_AttrList, attr);
-			attr = pango_attr_rise_new (2 * size / 3);
-			attr->start_index = start;
-			attr->end_index = end;
-			pango_attr_list_insert (m_AttrList, attr);
+			tag = new ChargeTextTag (size);
+			tag->SetStartIndex (start);
+			tag->SetEndIndex (end);
+			m_TagList.push_back (tag);
+		} else if (!strcmp ((const char*) child->name, "stoichiometry")) {
+		} else if (!strcmp ((const char*) child->name, "sub")) {
+		} else if (!strcmp ((const char*) child->name, "sup")) {
 		}
 		child = child->next;
 	}
-	if (m_Layout) {
-		pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
-		pango_layout_set_attributes (m_Layout, m_AttrList);
+	if (m_TextItem) {
+		m_TextItem->SetText (m_buf);
+		while (!m_TagList.empty ()) {
+			m_TextItem->InsertTextTag (m_TagList.front ());
+			m_TagList.pop_front ();
+		}
 	}
 	AnalContent ();
-	m_bLoading = false;*/
+	m_bLoading = false;
 	return true;
 }
 
@@ -917,7 +918,7 @@ void Fragment::AnalContent ()
 	if (!m_Atom->GetParent ())
 		AddChild (m_Atom);
 	unsigned end = m_buf.length ();
-	AnalContent(0, end);
+	AnalContent (0, end);
 }
 
 typedef struct
@@ -945,7 +946,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 		return;
 	Theme *pTheme = pDoc->GetTheme ();
 	char const *text = m_buf.c_str ();
-	list <gccv::TextTag *> const *tags = m_TextItem->GetTags ();
+	list <gccv::TextTag *> const *tags = (m_TextItem)? m_TextItem->GetTags (): &m_TagList;
 	list <gccv::TextTag *>::const_iterator i, iend = tags->end ();
 	bool Charge = false;
 	for (i = tags->begin (); i != iend; i++)
@@ -953,39 +954,42 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 			Charge = true; 
 			break;
 		}
-	if (m_Mode == AutoMode && !Charge && text[start] == '+' || !strncmp (text + start, "−", strlen ("−")))
+	if (m_Mode == AutoMode && !Charge && (text[start] == '+' || !strncmp (text + start, "−", strlen ("−"))))
 		Charge = true;
-/*	unsigned start_tag, end_tag, next;
 	char c;
-	ChargeFindStruct s;
-	s.index = s.end = 0;
-	if (start > 0) {
-		// search if a charge is at preceeding character
-		s.result = false;
-		s.index = start;
-		pango_attr_list_filter (l, (PangoAttrFilterFunc) search_for_charge, &s);
-		Charge = s.result;
-	} else if (text[start] == '+' || text[start] == '-')
-		Charge = true;
-	else
-		Charge = false;
+	gccv::TextTag *tag;
+	unsigned start_tag, end_tag, next;
 	next = start;
-	start_tag = end_tag = start;*/
-/*	while (start < end) {
+/*	start_tag = end_tag = start;*/
+	while (start < end) {
 		c = text[start];
 		if ((c >= '0') && (c <= '9')) {
-			s.result = false;
-			s.index = start;
-			pango_attr_list_filter (l, (PangoAttrFilterFunc) search_for_charge, &s);
-			Charge = s.result;
-			next = start + 1;
-			// add new size and rise attributes
-			int size = pTheme->GetFontSize ();
-			PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
+			Charge = false;
+			for (i = tags->begin (); i != iend; i++)
+				if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
+					Charge = true; 
+					break;
+				}
+			next = start + 1; // a figure is a one byte character
+			// add new tag
+			double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
+			if (!Charge) {
+				tag = new StoichiometryTextTag (size);
+				tag->SetStartIndex (start);
+				tag->SetEndIndex (next);
+			} else {
+				tag = new ChargeTextTag (size);
+				tag->SetStartIndex (start);
+				tag->SetEndIndex (next);
+			}
+			if (m_TextItem)
+				m_TextItem->InsertTextTag (tag);
+			else
+				m_TagList.push_back (tag);
+/*			PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
 			attr->start_index = start;
 			attr->end_index = next;
 			pango_attr_list_change (l, attr);
-			if (!Charge)
 				attr = pango_attr_rise_new (-size / 3);
 			else {
 				if (text[start - 1] == '+' || text[start - 1] == '-') {
@@ -1004,10 +1008,10 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 			}
 			attr->start_index = start;
 			attr->end_index = next;
-				pango_attr_list_change (l, attr);
+				pango_attr_list_change (l, attr);*/
 			start = next - 1;
 		} else if ((c == '+') || (c == '-')) {
-			if (!m_bLoading) {
+			/*if (!m_bLoading) {
 				//do not allow both local and global charges
 				if (m_Atom->GetCharge ())
 					m_Atom->SetCharge (0);
@@ -1071,11 +1075,11 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 /*						g_free (buf);
 					}
 				}
-			}
+			}*/
 		} else
 			Charge = false;
-		start++;
-	}*/
+		start = g_utf8_find_next_char (m_buf.c_str () + start, NULL) - m_buf.c_str ();
+	}
 }
 
 /*!
@@ -1098,15 +1102,16 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 	y0 = (y - m_y) * pTheme->GetZoomFactor () + m_ascent;
 	if ((x0 < 0.) || (x0 > m_length) || (y0 < 0.) || (y0 > m_height))
 		return NULL;
-	unsigned index, trailing, cur;
+	unsigned index, trailing;
+	int cur;
 	index = m_TextItem->GetIndexAt (x0, y0);
 	char c = m_buf[index];
 	cur = index;
-	while ((c >= 'a') && (c <= 'z') && cur >=0) {
+	while ((c >= 'a') && (c <= 'z') && cur >= 0) {
 		cur--;
 		c = m_buf[cur];
 	}
-	if (index - cur > static_cast <int> (Residue::MaxSymbolLength))
+	if (index - cur > Residue::MaxSymbolLength)
 		cur = index - Residue::MaxSymbolLength;
 	if (cur < 0)
 		cur = 0;
