@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
-2009-04-16  Jean Brefort  <jean.brefort@normalesup.org>
+2009-04-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: fix fragment specific tags issues.
+	* libs/gccv/text-tag.h: add TextTag::NeedNewRun() method.
+	* libs/gcp/fragment.cc: reimplement serialization.
+
+2009-04-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: partially reimplement loading.
 	* libs/gcp/text-object.cc: add missing initialization.
 

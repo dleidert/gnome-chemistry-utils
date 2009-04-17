@@ -69,10 +69,11 @@ public:
 	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end) = 0;
 	virtual bool operator== (TextTag const& tag) = 0;
 	virtual TextTag *Duplicate () const = 0;
+	virtual bool NeedsNewRun () {return false;}
 
 	static Tag RegisterTagType ();
 	static Tag MaxTag;
-
+	static bool Order (TextTag *first, TextTag *last);
 private:
 
 GCU_RO_PROP (Tag, Tag)
@@ -257,6 +258,7 @@ public:
 	bool operator== (TextTag const& tag);
 	TextTag *Duplicate () const;
 	TextPosition GetPosition (bool &stacked, double &size) const {stacked = m_Stacked; size = m_Size; return m_Position;}
+	bool NeedsNewRun () {return m_Stacked;}
 
 private:
 	TextPosition m_Position;

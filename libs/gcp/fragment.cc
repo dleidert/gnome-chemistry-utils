@@ -708,7 +708,7 @@ void Fragment::SetSelected (int state)
 		if (item) {
 			gtk_object_destroy (GTK_OBJECT (item));
 			g_object_set_data ((GObject*) group, "charge", NULL);
-		}
+	}
 	}
 	const_cast <FragmentAtom *> (m_Atom)->DoBuildSymbolGeometry (pData->m_View);
 }*/
@@ -743,78 +743,87 @@ xmlNodePtr Fragment::Save (xmlDocPtr xml) const
 	return (SaveNode (xml, node))? node: NULL;
 }
 
-struct FilterStruct {
-	unsigned start, end;
-	list<PangoAttribute*> pal;
-};
-
-bool filter_func (PangoAttribute *attribute, struct FilterStruct *s)
-{
-	if (attribute->klass->type == PANGO_ATTR_RISE && ((PangoAttrInt*) attribute)->value > 0 &&
-		s->start <= attribute->start_index && s->end >= attribute->end_index) {
-		list<PangoAttribute*>::iterator i, iend = s->pal.end ();
-		for (i = s->pal.begin (); i != iend; i++)
-			if ((*i)->start_index > attribute->end_index)
-				break;
-		s->pal.insert (i, attribute);
-	}
-	return FALSE;
-}
-
 bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsigned end) const
 {
-/*	xmlNodePtr child;
-	struct FilterStruct s;
-	s.start = start;
-	s.end = end;
-	int charge;
-	if (m_AttrList == NULL)
-		const_cast <Fragment *> (this)->m_AttrList = pango_layout_get_attributes (m_Layout);
-	pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) filter_func, &s);
-	list<PangoAttribute*>::iterator i, iend = s.pal.end ();
-	string str;
-	char *err;
-	for (i = s.pal.begin (); i != iend; i++) {
-		if (start < (*i)->start_index) {
-			str.assign (m_buf, start, (*i)->start_index - start);
-			xmlNodeAddContent (node, (const xmlChar*) str.c_str ());
-		}
-		str.assign (m_buf, (*i)->start_index, (*i)->end_index - (*i)->start_index);
-		child = xmlNewDocNode (xml, NULL, (xmlChar*) "charge", NULL);
-		if (!child)
-			return false;
-		charge = strtol (str.c_str (), &err, 10);
-		if (err && strcmp (err, "+") && strcmp (err, "-")) {
-			if (!m_RealSave) {
-				return  false;
-				xmlFreeNode (child);
-			}
-			Document *pDoc = (Document*) GetDocument ();
-			GtkWidget* w = gtk_message_dialog_new (
-											pDoc->GetWindow ()->GetWindow (),
-											GTK_DIALOG_DESTROY_WITH_PARENT,
-											GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-											_("Invalid charge."));
-			gtk_window_set_icon_name (GTK_WINDOW (w), "gchempaint");
-			gtk_dialog_run (GTK_DIALOG (w));
-			gtk_widget_destroy (w);
-			return false;
-		} else {
-			if (!charge)
-				charge = 1;
-			if (*err == '-')
-				charge = - charge;
-			char *buf = g_strdup_printf ("%d", charge);
-			xmlNewProp (child, (xmlChar*) "value", (xmlChar*) buf);
-			g_free (buf);
-			xmlAddChild (node, child);
-		}
-		start = (*i)->end_index;
+	std::list <gccv::TextTag *> const *tags;
+	if (m_Item)
+		tags = m_TextItem->GetTags ();
+	else
+		tags = &m_TagList;
+	gccv::TextTagList tt; // the tags in this list will be destroyed on return
+	std::list <gccv::TextTag *>::const_iterator j, jend = tags->end ();
+	// duplicate the tags so that they can be sorted
+	for (j = tags->begin (); j != jend; j++) {
+		if ((*j)->GetStartIndex () >= end || (*j)->GetEndIndex () <= start)
+			continue;
+		gccv::TextTag *tag = (*j)->Duplicate ();
+		tag->SetStartIndex ((*j)->GetStartIndex ());
+		tag->SetEndIndex ((*j)->GetEndIndex ());
+		tt.push_back (tag);
 	}
-	if (start < end) {
-		str.assign (m_buf, start, end - start);
-		xmlNodeAddContent (node, (const xmlChar*) str.c_str ());
-	}*/
+	// sort the duplicated tags
+	tt.sort (gccv::TextTag::Order);
+	xmlNodePtr child;
+	gccv::TextTagList::iterator k, kend = tt.end ();
+	char *err;
+	int charge;
+	for (k = tt.begin (); k != kend; k++) {
+		if (start < (*k)->GetStartIndex ()) 
+			xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + start), (*k)->GetStartIndex () - start);
+		gccv::Tag tag = (*k)->GetTag ();
+		if (tag == gccv::Position) {
+			bool stacked;
+			double size;
+			gccv::TextPosition pos = static_cast <gccv::PositionTextTag *> (*k)->GetPosition (stacked, size);
+			switch (pos) {
+			case gccv::Subscript:
+				child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("sub"), NULL);
+				break;
+			case gccv::Superscript:
+				child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("sup"), NULL);
+				break;
+			default:
+				break;
+			}
+			xmlNodeAddContentLen ((child)? child: node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*k)->GetStartIndex ()), (*k)->GetEndIndex () - (*k)->GetStartIndex ());
+		} else if (tag == ChargeTag) {
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("charge"), NULL);
+			charge = strtol (m_buf.c_str () + (*k)->GetStartIndex (), &err, 10);
+			if (charge == 0) {
+				if (*err == '+')
+					xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> ("1"));
+				else if (!strncmp (err, "−", strlen ("−")))
+					xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> ("-1"));
+				else
+					xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*k)->GetStartIndex ()), (*k)->GetEndIndex () - (*k)->GetStartIndex ());
+			} else {
+				if (*err != '+')
+					charge = -charge;
+				char *buf = g_strdup_printf ("%d", charge);
+				xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> (buf));
+				g_free (buf);
+			}
+		} else if (tag == StoichiometryTag) {
+			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("stoichiometry"), NULL);
+			// using the charge variable
+			charge = strtol (m_buf.c_str () + (*k)->GetStartIndex (), &err, 10);
+			if (charge <= 0)
+				xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*k)->GetStartIndex ()), (*k)->GetEndIndex () - (*k)->GetStartIndex ());
+			else {
+				char *buf = g_strdup_printf ("%d", charge);
+				xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> (buf));
+				g_free (buf);
+			}
+		} else {
+			xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*k)->GetStartIndex ()), (*k)->GetEndIndex () - (*k)->GetStartIndex ());
+			child = NULL;
+		}
+		if (child)
+			xmlAddChild (node, child);
+		start = (*k)->GetEndIndex ();
+	}
+	if (start < end)
+		xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + start), end - start);
 	return true;
 }
 
@@ -877,25 +886,50 @@ bool Fragment::Load (xmlNodePtr node)
 			m_Atom->SetCoords (m_x, m_y);
 			m_EndAtom = m_buf.length ();
 		} else if (!strcmp ((const char*) child->name, "charge")) {
-			int start = m_buf.length (), end;
+			int start = m_buf.length ();
 			tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
-			int charge = atoi (tmp);
-			xmlFree (tmp);
-			if (abs(charge) > 1)
-				tmp = g_strdup_printf ("%d%s", abs (charge), (charge > 0)? "+": "−");
-			else if (charge == 1)
-				tmp = g_strdup ("+");
-			else if (charge == -1)
-				tmp = g_strdup ("−");
-			else
-				tmp = g_strdup ("");//should not occur!
-			m_buf += tmp;
-			end = m_buf.length ();
+			if (tmp) {
+				int charge = atoi (tmp);
+				xmlFree (tmp);
+				if (abs(charge) > 1)
+					tmp = g_strdup_printf ("%d%s", abs (charge), (charge > 0)? "+": "−");
+				else if (charge == 1)
+					tmp = g_strdup ("+");
+				else if (charge == -1)
+					tmp = g_strdup ("−");
+				else
+					tmp = g_strdup ("");//should not occur!
+				m_buf += tmp;
+				g_free (tmp);
+			} else { // allow things such as "z+" or "δ−"
+				tmp = reinterpret_cast <char *> (xmlNodeGetContent (child));
+				m_buf += tmp;
+				xmlFree (tmp);
+			}
 			tag = new ChargeTextTag (size);
 			tag->SetStartIndex (start);
-			tag->SetEndIndex (end);
+			tag->SetEndIndex (m_buf.length ());
 			m_TagList.push_back (tag);
 		} else if (!strcmp ((const char*) child->name, "stoichiometry")) {
+			int start = m_buf.length ();
+			tmp = (char*) xmlGetProp (child, (xmlChar*) "value");
+			if (tmp) {
+				int nb = atoi (tmp);
+				xmlFree (tmp);
+				if (nb <=0)
+					return false; // negative number is not allowed
+				tmp = g_strdup_printf ("%u", nb);
+				m_buf += tmp;
+				g_free (tmp);
+			} else { // allow things such as "n"
+				tmp = reinterpret_cast <char *> (xmlNodeGetContent (child));
+				m_buf += tmp;
+				xmlFree (tmp);
+			}
+			tag = new StoichiometryTextTag (size);
+			tag->SetStartIndex (start);
+			tag->SetEndIndex (m_buf.length ());
+			m_TagList.push_back (tag);
 		} else if (!strcmp ((const char*) child->name, "sub")) {
 		} else if (!strcmp ((const char*) child->name, "sup")) {
 		}
@@ -948,7 +982,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	char const *text = m_buf.c_str ();
 	list <gccv::TextTag *> const *tags = (m_TextItem)? m_TextItem->GetTags (): &m_TagList;
 	list <gccv::TextTag *>::const_iterator i, iend = tags->end ();
-	bool Charge = false;
+	bool Charge = false, Stoich = false;
 	for (i = tags->begin (); i != iend; i++)
 		if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
 			Charge = true; 
@@ -964,28 +998,36 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	while (start < end) {
 		c = text[start];
 		if ((c >= '0') && (c <= '9')) {
-			Charge = false;
+			tag = NULL;
+			Charge = Stoich = false;
 			for (i = tags->begin (); i != iend; i++)
 				if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
 					Charge = true; 
+					break;
+				} else if ((*i)->GetTag () == StoichiometryTag && (*i)->GetStartIndex () <= start && (*i)->GetEndIndex () >= start) {
+					Stoich = true; 
 					break;
 				}
 			next = start + 1; // a figure is a one byte character
 			// add new tag
 			double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
 			if (!Charge) {
-				tag = new StoichiometryTextTag (size);
-				tag->SetStartIndex (start);
-				tag->SetEndIndex (next);
+				if (!Stoich) {
+					tag = new StoichiometryTextTag (size);
+					tag->SetStartIndex (start);
+					tag->SetEndIndex (next);
+				}
 			} else {
 				tag = new ChargeTextTag (size);
 				tag->SetStartIndex (start);
 				tag->SetEndIndex (next);
 			}
-			if (m_TextItem)
-				m_TextItem->InsertTextTag (tag);
-			else
-				m_TagList.push_back (tag);
+			if (tag) {
+				if (m_TextItem)
+					m_TextItem->InsertTextTag (tag);
+				else
+					m_TagList.push_back (tag);
+			}
 /*			PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
 			attr->start_index = start;
 			attr->end_index = next;
@@ -1369,13 +1411,10 @@ bool Fragment::Validate ()
 		gtk_widget_destroy (w);
 		return false;
 	}
-	//now scan for charges and validate
-	struct FilterStruct s;
-	s.start = 0;
-	s.end = m_buf.length ();
+	//now scan for charges and stoichiometric numbers and validate
 	gccv::TextTagList chargetags;
 	list <gccv::TextTag *> const *tags = m_TextItem->GetTags ();
-	// we get everything displayed as superscript and see ig it is a charge
+	// we get everything displayed as superscript and see if it is a charge
 	// all text not recognized as a charge will be analyzed through the gcu::Formula mechanism
 	// FIXME: write that code
 

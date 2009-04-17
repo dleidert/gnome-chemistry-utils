@@ -53,13 +53,26 @@ TextTag::~TextTag ()
 {
 }
 
-Tag TextTag::MaxTag = MaxTag;
+Tag TextTag::MaxTag = gccv::MaxTag;
 
 Tag TextTag::RegisterTagType ()
 {
 	Tag result = MaxTag;
 	MaxTag = static_cast <Tag> (MaxTag + 1);
 	return result;
+}
+
+bool TextTag::Order (TextTag *first, TextTag *last)
+{
+	if (first->GetStartIndex () < last->GetStartIndex ())
+		return true;
+	else if (first->GetStartIndex () > last->GetStartIndex ())
+		return false;
+	if (first->GetEndIndex () > last->GetEndIndex ())
+		return true;
+	else if (first->GetEndIndex () < last->GetEndIndex ())
+		return false;
+	return first->GetTag () < last->GetTag ();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -528,14 +541,14 @@ void PositionTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 
 bool PositionTextTag::operator== (TextTag const& tag)
 {
-	if (tag.GetTag () != Position)
+	if (tag.GetTag () != GetTag ())
 		return false;
 	return static_cast <PositionTextTag const&> (tag).m_Position == m_Position;
 }
 
 TextTag *PositionTextTag::Duplicate () const
 {
-	return new PositionTextTag (m_Position, m_Size, m_Stacked);
+	return new PositionTextTag (m_Position, m_Size, m_Stacked, GetTag ());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
