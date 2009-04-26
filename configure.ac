@@ -261,7 +261,7 @@ AC_SUBST([mozlibdir])
 ##################################################
 
 libspreadsheet=
-for ver in 1.10 1.8 ; do
+for ver in 1.10 ; do
   if test "x$libspreadsheet" = x; then
     if pkg-config --exists libspreadsheet-$ver; then
       libspreadsheet=libspreadsheet-$ver
@@ -270,10 +270,10 @@ for ver in 1.10 1.8 ; do
 done
 if test "x$libspreadsheet" = x; then
   # Not important.  Things will fail below.
-  libspreadsheet=libspreadsheet-1.8
+  libspreadsheet=libspreadsheet-1.10
 fi
 
-PKG_CHECK_MODULES(gnumeric, [$libspreadsheet], [build_gnumeric_plugin=yes],
+PKG_CHECK_MODULES(gnumeric, [$libspreadsheet >= 1.9.6], [build_gnumeric_plugin=yes],
 		[build_gnumeric_plugin=no])
 dnl --without is not handled
 
