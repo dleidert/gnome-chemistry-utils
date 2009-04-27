@@ -27,6 +27,7 @@
 
 #include <gcu/macros.h>
 #include <gcu/gldocument.h>
+#include <gcu/molecule.h>
 #include <openbabel/mol.h>
 
 /*!\file*/
@@ -85,7 +86,7 @@ Displays the molecule using OpenGL.
 /*!
 @return true if the molecule have no atom, false otherwise.
 */
-	bool IsEmpty () {return m_Mol.NumAtoms () == 0;}
+	bool IsEmpty () {return m_Mol->GetAtomsNumber () == 0;}
 
 /*!
 @param uri the uri of the molecule file.
@@ -104,11 +105,6 @@ Loads a molecule from the provided data using OpenBabel.
 	void LoadData (char const *data, char const *mime_type);
 
 /*!
-@return the title of the molecule if any.
-*/
-	const char *GetTitle () {return m_Mol.GetTitle ();}
-
-/*!
 @param filename the name of the vrml file to which the data should be written.
 
 Exports the embedded molecule as a vrml scene.
@@ -116,7 +112,7 @@ Exports the embedded molecule as a vrml scene.
 	void OnExportVRML (std::string const &filename);
 
 private:
-	OpenBabel::OBMol m_Mol;
+	Molecule *m_Mol;
 
 /*!\fn SetDisplay3D(Display3DMode mode)
 @param mode: the new mode.

@@ -195,10 +195,10 @@ void GLView::Init ()
 
 void GLView::Reshape (int width, int height)
 {
-	if (!m_bInit)
-		return;
 	m_WindowWidth = width;
 	m_WindowHeight = height;
+	if (!m_bInit)
+		return;
 	float fAspect;
 	GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
 	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/molecule.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -116,6 +116,35 @@ coordinates are not calculated.
 @return a molecule on success or NULL.
 */
 	static Molecule *MoleculeFromFormula (Document *Doc, Formula const &formula, bool add_pseudo = true);
+
+/*!
+Clears cycles and chains and call gcu::Object::Clear().
+*/
+	void Clear ();
+/*!
+@param i an uninitialized iterator. 
+
+@return the first atom of the molecule.
+*/
+	Atom const *GetFirstAtom (std::list<Atom*>::const_iterator &i) const;
+/*!
+@param i an iterator initialized by a call to GetFirstAtom(). 
+
+@return the next atom of the molecule or NULL if all atoms have been previously returned.
+*/
+	Atom const *GetNextAtom (std::list<Atom*>::const_iterator &i) const;
+/*!
+@param i an uninitialized iterator. 
+
+@return the first bond of the molecule.
+*/
+	Bond const *GetFirstBond (std::list<Bond*>::const_iterator &i) const;
+/*!
+@param i an iterator initialized by a call to GetFirstBond(). 
+
+@return the next bond of the molecule or NULL if all bonds have been previously returned.
+*/
+	Bond const *GetNextBond(std::list<Bond*>::const_iterator &i) const;
 
 protected:
 /*!

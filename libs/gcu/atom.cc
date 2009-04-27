@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.cc
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,7 @@
 #include "bond.h"
 #include "document.h"
 #include "objprops.h"
+#include "vector.h"
 #include "xml-utils.h"
 #include <cmath>
 #include <cstring>
@@ -345,6 +346,11 @@ bool Atom::Match (Atom *atom, AtomMatchState &state)
 		state.mol2.erase (state.atoms[n].atom2);
 	}
 	return false;
+}
+
+Vector Atom::GetVector () const
+{
+	return Vector (m_x, m_y, m_z);
 }
 
 }	//	namespace gcu

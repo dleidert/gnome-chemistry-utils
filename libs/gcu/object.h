@@ -507,6 +507,11 @@ it  means that the document has been changed.
 	void SetDirty (bool dirty = true);
 
 /*!
+Deletes all children. Derived classes might override this method if needed.
+*/
+	virtual void Clear ();
+
+/*!
 @param TypeName the name of the new type.
 @param CreateFunc a pointer to a function returning a pointer to a new object of the new type.
 @param id the Id of the type to create if a standard one or OtherType for a new type. In this last case, this parameter

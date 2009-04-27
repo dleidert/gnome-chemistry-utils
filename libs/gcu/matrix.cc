@@ -229,9 +229,9 @@ vector3 Matrix::operator* (vector3 const &v) const
 Vector Matrix::operator* (Vector const &v) const
 {
 	Vector r;
-	r.SetZ (v.GetX () * x[0][0] + v.GetY () * x[0][1] + v.GetZ () * x[0][2]);
-	r.SetY (v.GetX () * x[1][0] + v.GetY () * x[1][1] + v.GetZ () * x[1][2]);
-	r.SetZ (v.GetX () * x[2][0] + v.GetY () * x[2][1] + v.GetZ () * x[2][2]);
+	r.SetZ (v.GetZ () * x[0][0] + v.GetX () * x[0][1] + v.GetY () * x[0][2]);
+	r.SetX (v.GetZ () * x[1][0] + v.GetX () * x[1][1] + v.GetY () * x[1][2]);
+	r.SetY (v.GetZ () * x[2][0] + v.GetX () * x[2][1] + v.GetY () * x[2][2]);
 	return r;
 }
 

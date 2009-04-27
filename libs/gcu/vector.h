@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * vector.h 
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -47,12 +47,29 @@ Constructs a vector with all three coordinates equal to 0.
 	Vector (Vector const &v);
 
 	Vector operator+ (Vector const &v) const;
+	Vector operator- (Vector const &v) const;
+	Vector operator* (double m) const;
+	Vector operator/ (double d) const;
+	Vector operator*= (double m);
+	Vector operator/= (double d);
 	double operator[] (unsigned i) const;
+
+	double GetLength () const;
+	Vector CreateOrthogonal () const;
+	Vector Cross (Vector const &v) const;
 
 GCU_PROP (double, X)
 GCU_PROP (double, Y)
 GCU_PROP (double, Z)
 };
+
+/*!
+@param f a multiplication factor
+@param v the vector to multiply
+
+@return the product of f and v. 
+*/
+Vector operator* (double f, Vector const& v);
 
 /*!\class Vector3f gcu/vector.h
 Utility 3d vectors class used by the gcu::Sphere class.

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * molecule.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -51,6 +51,11 @@ Molecule::Molecule (Atom* pAtom): Object (MoleculeType)
 }
 
 Molecule::~Molecule ()
+{
+	Clear ();
+}
+
+void Molecule::Clear ()
 {
 	std::list<Bond*>::iterator n, end = m_Bonds.end ();
 	for (n = m_Bonds.begin (); n != end; n++)
@@ -332,6 +337,30 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 		return NULL;
 	}
 	return mol;
+}
+
+Atom const *Molecule::GetFirstAtom (std::list<Atom*>::const_iterator &i) const
+{
+	i = m_Atoms.begin ();
+	return (i == m_Atoms.end ())? NULL: *i;
+}
+
+Atom const *Molecule::GetNextAtom (std::list<Atom*>::const_iterator &i) const
+{
+	i++;
+	return (i == m_Atoms.end ())? NULL: *i;
+}
+
+Bond const *Molecule::GetFirstBond (std::list<Bond*>::const_iterator &i) const
+{
+	i = m_Bonds.begin ();
+	return (i == m_Bonds.end ())? NULL: *i;
+}
+
+Bond const *Molecule::GetNextBond(std::list<Bond*>::const_iterator &i) const
+{
+	i++;
+	return (i == m_Bonds.end ())? NULL: *i;
 }
 
 }	//namespace gcu

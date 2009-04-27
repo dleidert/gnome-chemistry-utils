@@ -40,8 +40,8 @@ gc3dDocument::~gc3dDocument ()
 void gc3dDocument::Load (char const *uri, char const *mime_type)
 {
 	Chem3dDoc::Load (uri, mime_type);
-	char *title = g_strdup (GetTitle ());
-	if (!title || !*title)
+	char *title = g_strdup (GetTitle ().c_str ());
+	if (!*title)
 		title = g_path_get_basename (uri);
 	char *buf = g_uri_unescape_string (title, NULL);
 	dynamic_cast <gc3dView *> (m_View)->GetWindow ()->SetTitle (buf);

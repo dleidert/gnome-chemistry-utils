@@ -1,7 +1,7 @@
 /**********************************************************************
   Cylinder - Class for drawing cylinders in OpenGL
 
-  Copyright (C) 2007-2008 Jean Brefort <jean.brefort@normalesup.org>
+  Copyright (C) 2007-2009 Jean Brefort <jean.brefort@normalesup.org>
   Copyright (C) 2006,2007 Benoit Jacob <jacob@math.jussieu.fr>
 
   This file is part of the Avogadro molecular editor project.
@@ -29,9 +29,6 @@
 #include "vector.h"
 
 /*!\file*/
-namespace OpenBabel {
-	class vector3;
-}
 
 namespace gcu {
 
@@ -41,6 +38,7 @@ namespace gcu {
    * @brief This class represents and draws a cylinder
    * @author Benoit Jacob <jacob@math.jussieu.fr>
    */
+  class Vector;
   class CylinderPrivate;
   class Cylinder
   {
@@ -64,7 +62,7 @@ namespace gcu {
        that is, the center of the second disc-shaped face.
        @param radius the radius of the cylinder
        */
-      void draw (const OpenBabel::vector3 &end1, const OpenBabel::vector3 &end2,
+      void draw (const Vector &end1, const Vector &end2,
           double radius) const;
       /**
        * draws the cylinder at specified position, with specified
@@ -91,9 +89,9 @@ namespace gcu {
        avoid looking like single bonds. To achieve that, just pass
        the molecule's fitting plane's unit normal vector here.
        */
-      void drawMulti (const OpenBabel::vector3 &end1, const OpenBabel::vector3 &end2,
+      void drawMulti (const Vector &end1, const Vector &end2,
           double radius, int order, double shift,
-          const OpenBabel::vector3 &planeNormalVector) const;
+          const Vector &planeNormalVector) const;
 
     private:
       CylinderPrivate * const d;

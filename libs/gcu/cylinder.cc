@@ -1,7 +1,7 @@
 /**********************************************************************
   Cylinder - OpenGL Cylinder drawing class.
 
-  Copyright (C) 2007 Jean Brefort <jean.brefort@normalesup.org>
+  Copyright (C) 2007-2009 Jean Brefort <jean.brefort@normalesup.org>
   Copyright (C) 2006,2007 Benoit Jacob <jacob@math.jussieu.fr>
 
   This file is part of the Avogadro molecular editor project.
@@ -26,11 +26,9 @@
 #include "config.h"
 #include "cylinder.h"
 #include "matrix.h"
-#include <openbabel/math/vector3.h>
+#include"vector.h"
 #include <GL/gl.h>
 #include <cmath>
-
-using namespace OpenBabel;
 
 namespace gcu {
 
@@ -147,40 +145,40 @@ void Cylinder::initialize()
 	d->isValid = true;
 }
 
-void Cylinder::draw (const vector3 &end1, const vector3 &end2, double radius) const
+void Cylinder::draw (const Vector &end1, const Vector &end2, double radius) const
 {
 	// the "axis vector" of the cylinder
-	vector3 axis = end2 - end1;
+	Vector axis = end2 - end1;
 
 	// construct an orthogonal basis whose first vector is axis, and whose other vectors
 	// have norm equal to 'radius'.
-	vector3 axisNormalized = axis / axis.length ();
-	vector3 ortho1, ortho2;
-	axisNormalized.createOrthoVector (ortho1);
+	Vector axisNormalized = axis / axis.GetLength ();
+	Vector ortho1, ortho2;
+	ortho1 = axisNormalized.CreateOrthogonal ();
 	ortho1 *= radius;
-	ortho2 = cross (axisNormalized, ortho1);
+	ortho2 = axisNormalized.Cross (ortho1);
 
 	// construct the 4D transformation matrix
 	GLMatrix matrix;
 
-	matrix (0, 0) = ortho1.x ();
-	matrix (0, 1) = ortho1.y ();
-	matrix (0, 2) = ortho1.z ();
+	matrix (0, 0) = ortho1.GetX ();
+	matrix (0, 1) = ortho1.GetY ();
+	matrix (0, 2) = ortho1.GetZ ();
 	matrix (0, 3) = 0.0;
 
-	matrix (1, 0) = ortho2.x ();
-	matrix (1, 1) = ortho2.y ();
-	matrix (1, 2) = ortho2.z ();
+	matrix (1, 0) = ortho2.GetX ();
+	matrix (1, 1) = ortho2.GetY ();
+	matrix (1, 2) = ortho2.GetZ ();
 	matrix (1, 3) = 0.0;
 
-	matrix (2, 0) = axis.x ();
-	matrix (2, 1) = axis.y ();
-	matrix (2, 2) = axis.z ();
+	matrix (2, 0) = axis.GetX ();
+	matrix (2, 1) = axis.GetY ();
+	matrix (2, 2) = axis.GetZ ();
 	matrix (2, 3) = 0.0;
 
-	matrix (3, 0) = end1.x ();
-	matrix (3, 1) = end1.y ();
-	matrix (3, 2) = end1.z ();
+	matrix (3, 0) = end1.GetX ();
+	matrix (3, 1) = end1.GetY ();
+	matrix (3, 2) = end1.GetZ ();
 	matrix (3, 3) = 1.0;
 
 	//now we can do the actual drawing !
@@ -190,12 +188,12 @@ void Cylinder::draw (const vector3 &end1, const vector3 &end2, double radius) co
 	glPopMatrix ();
 }
 
-void Cylinder::drawMulti( const vector3 &end1, const vector3 &end2,
+void Cylinder::drawMulti( const Vector &end1, const Vector &end2,
 double radius, int order, double shift,
-const vector3 &planeNormalVector ) const
+const Vector &planeNormalVector ) const
 {
 	// the "axis vector" of the cylinder
-	vector3 axis = end2 - end1;
+	Vector axis = end2 - end1;
 
 	// now we want to construct an orthonormal basis whose first
 	// vector is axis.normalized(). We don't use Eigen's loadOrthoBasis()
@@ -203,42 +201,42 @@ const vector3 &planeNormalVector ) const
 	// basis, which we call ortho1, should be approximately lying in the
 	// z=0 plane if possible. This is to ensure double bonds don't look
 	// like single bonds from the default point of view.
-	double axisNorm = axis.length ();
+	double axisNorm = axis.GetLength ();
 	if (axisNorm == 0.0)
 		return;
-	vector3 axisNormalized = axis / axisNorm;
+	Vector axisNormalized = axis / axisNorm;
 
-	vector3 ortho1 = cross (axisNormalized, planeNormalVector);
-	double ortho1Norm = ortho1.length ();
+	Vector ortho1 = axisNormalized.Cross (planeNormalVector);
+	double ortho1Norm = ortho1.GetLength ();
 	if (ortho1Norm > 0.001)
 		ortho1 /= ortho1Norm;
 	else
-		ortho1.createOrthoVector (axisNormalized);
+		axisNormalized = ortho1.CreateOrthogonal ();
 	ortho1 *= radius;
 
-	vector3 ortho2 = cross (axisNormalized, ortho1 );       
+	Vector ortho2 = axisNormalized.Cross (ortho1);       
 
 	// construct the 4D transformation matrix
 	GLMatrix matrix;
 
-	matrix (0, 0) = ortho1.x ();
-	matrix (0, 1) = ortho1.y ();
-	matrix (0, 2) = ortho1.z ();
+	matrix (0, 0) = ortho1.GetX ();
+	matrix (0, 1) = ortho1.GetY ();
+	matrix (0, 2) = ortho1.GetZ ();
 	matrix (0, 3) = 0.0;
 
-	matrix (1, 0) = ortho2.x ();
-	matrix (1, 1) = ortho2.y ();
-	matrix (1, 2) = ortho2.z ();
+	matrix (1, 0) = ortho2.GetX ();
+	matrix (1, 1) = ortho2.GetY ();
+	matrix (1, 2) = ortho2.GetZ ();
 	matrix (1, 3) = 0.0;
 
-	matrix (2, 0) = axis.x ();
-	matrix (2, 1) = axis.y ();
-	matrix (2, 2) = axis.z ();
+	matrix (2, 0) = axis.GetX ();
+	matrix (2, 1) = axis.GetY ();
+	matrix (2, 2) = axis.GetZ ();
 	matrix (2, 3) = 0.0;
 
-	matrix (3, 0) = end1.x ();
-	matrix (3, 1) = end1.y ();
-	matrix (3, 2) = end1.z ();
+	matrix (3, 0) = end1.GetX ();
+	matrix (3, 1) = end1.GetY ();
+	matrix (3, 2) = end1.GetZ ();
 	matrix (3, 3) = 1.0;
 
 	//now we can do the actual drawing !

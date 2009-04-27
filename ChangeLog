@@ -1,5 +1,27 @@
 ##Text encoding: utf-8
 
+2009-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/atom.cc: start replacing OpenBabel code.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/chem3ddoc.cc: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/crystaldoc.cc: ditto.
+	* libs/gcu/cylinder.cc: ditto.
+	* libs/gcu/cylinder.h: ditto.
+	* libs/gcu/glview.cc: ditto.
+	* libs/gcu/matrix.cc: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+	* libs/gcu/sphere.cc: ditto.
+	* libs/gcu/sphere.h: ditto.
+	* libs/gcu/vector.cc: ditto.
+	* libs/gcu/vector.h: ditto.
+	* programs/3d/application.cc: ditto.
+	* programs/3d/document.cc: ditto.
+	* programs/3d/main.cc: ditto.
+
 2009-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requires libspreadsheet >= 1.9.6 to build the gnumeric
 	plugin.

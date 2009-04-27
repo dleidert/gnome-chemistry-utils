@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <gtk/gtkglinit.h>
 #include <gcu/chemistry.h>
+#include <gcu/element.h>
 #include <goffice/goffice.h>
 #include <goffice/utils/go-file.h>
 #include <gio/gio.h>
@@ -89,6 +90,7 @@ int main(int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 	gtk_gl_init (&argc, &argv);
+	Element::LoadBODR ();
 
 	if (argc > 1 && argv[1][0] == '-') {
 		context = g_option_context_new (_(" [file]"));

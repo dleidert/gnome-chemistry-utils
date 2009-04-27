@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,6 +37,7 @@ namespace gcu
 class Bond;
 class Cycle;
 class AtomMatchState;
+class Vector;
 
 /*!\class Atom gcu/atom.h
 This class is used to represent atoms.
@@ -153,6 +154,10 @@ Removes a Bond.
 @return the z coordinate of this Atom.
 */
 	double z () const {return m_z;}
+/*!
+@return a Vector with the three Atom space coordinates.
+*/
+	Vector GetVector () const;
 /*!
 @param i a C++ std::map iterator.
 

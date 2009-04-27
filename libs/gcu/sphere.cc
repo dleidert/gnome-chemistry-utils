@@ -1,7 +1,7 @@
 /**********************************************************************
   Sphere - Class for drawing spheres in OpenGL
 
-  Copyright (C) 2007 Jean Brefort <jean.brefort@normalesup.org>
+  Copyright (C) 2007-2009 Jean Brefort <jean.brefort@normalesup.org>
   Copyright (C) 2006,2007 Benoit Jacob <jacob@math.jussieu.fr>
 
   This file is part of the Avogadro molecular editor project.
@@ -26,11 +26,8 @@
 #include "config.h"
 #include "sphere.h"
 #include "vector.h"
-#include <openbabel/math/vector3.h>
 #include <GL/gl.h>
 #include <cmath>
-
-using namespace OpenBabel;
 
 namespace gcu {
 
@@ -82,10 +79,10 @@ void Sphere::freeBuffers ()
 	}
 }
 
-void Sphere::draw (vector3 const &center, double radius) const
+void Sphere::draw (Vector const &center, double radius) const
 {
 	glPushMatrix ();
-	glTranslated (center.x (), center.y (), center.z ());
+	glTranslated (center.GetX (), center.GetY (), center.GetZ ());
 	glScaled (radius, radius, radius);
 	glCallList (d->displayList);
 	glPopMatrix ();

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * vector.cc 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -66,6 +66,49 @@ Vector Vector::operator+ (Vector const &v) const
 	return res;
 }
 
+Vector Vector::operator- (Vector const &v) const
+{
+	Vector res;
+	res.m_X = m_X - v.m_X;
+	res.m_Y = m_Y - v.m_Y;
+	res.m_Z = m_Z - v.m_Z;
+	return res;
+}
+
+Vector Vector::operator* (double m) const
+{
+	Vector res;
+	res.m_X = m_X * m;
+	res.m_Y = m_Y * m;
+	res.m_Z = m_Z * m;
+	return res;
+}
+
+Vector Vector::operator/ (double d) const
+{
+	Vector res;
+	res.m_X = m_X / d;
+	res.m_Y = m_Y / d;
+	res.m_Z = m_Z / d;
+	return res;
+}
+
+Vector Vector::operator*= (double m)
+{
+	m_X *= m;
+	m_Y *= m;
+	m_Z *= m;
+	return *this;
+}
+
+Vector Vector::operator/= (double d)
+{
+	m_X /= d;
+	m_Y /= d;
+	m_Z /= d;
+	return *this;
+}
+
 double Vector::operator[] (unsigned i) const
 {
 	switch (i) {
@@ -78,6 +121,44 @@ double Vector::operator[] (unsigned i) const
 	default:
 		return 0.;
 	}
+}
+
+double Vector::GetLength () const
+{
+	return sqrt (m_X * m_X + m_Y * m_Y + m_Z * m_Z);
+}
+
+Vector Vector::CreateOrthogonal () const
+{
+	Vector res;
+	double length = sqrt (m_X * m_X + m_Y * m_Y + m_Z * m_Z);
+
+	if (length == 0.) {
+		res.m_X = 1.;
+		res.m_Y = 0.;
+		res.m_Z = 0.;
+	}
+	
+	if (fabs (m_X / length) > 0.1)
+		res = Cross (Vector (0., 1., 0));
+	else
+		res = Cross (Vector (1., 0., 0.));
+	res /= res.GetLength ();
+	return res;
+}
+
+Vector Vector::Cross (Vector const &v) const
+{
+	Vector res;
+	res.m_X = m_Y * v.m_Z - m_Z * v.m_Y;
+	res.m_Y = m_Z * v.m_X - m_X * v.m_Z;
+	res.m_Z = m_X * v.m_Y - m_Y * v.m_X;
+	return res;
+}
+
+Vector operator* (double f, Vector const& v)
+{
+	return v * f;
 }
 
 Vector3f::Vector3f ():

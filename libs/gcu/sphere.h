@@ -1,7 +1,7 @@
 /**********************************************************************
   Sphere - Class for drawing spheres in OpenGL
 
-  Copyright (C) 2007-2008 Jean Brefort <jean.brefort@normalesup.org>
+  Copyright (C) 2007-2009 Jean Brefort <jean.brefort@normalesup.org>
   Copyright (C) 2006,2007 Benoit Jacob <jacob@math.jussieu.fr>
 
   This file is part of the Avogadro molecular editor project.
@@ -26,10 +26,6 @@
 #ifndef GCU_SPHERE_H
 #define GCU_SPHERE_H
 
-namespace OpenBabel {
-	class vector3;
-}
-
 /*!\file*/
 namespace gcu {
 
@@ -44,6 +40,7 @@ namespace gcu {
 * \author Benoit Jacob <jacob@math.jussieu.fr>
 */
 
+class Vector;
 class SpherePrivate;
 
 class Sphere
@@ -80,7 +77,7 @@ public:
 
 	/** draws the sphere at specified position and with
 	* specified radius */
-	void draw (OpenBabel::vector3 const &center, double radius) const;
+	void draw (Vector const &center, double radius) const;
 };
 
 }

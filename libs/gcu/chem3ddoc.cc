@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/chem3ddoc.cc
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,10 +24,13 @@
 
 #include "config.h"
 #include "chem3ddoc.h"
+#include "atom.h"
 #include "application.h"
+#include "bond.h"
 #include "cylinder.h"
 #include "glview.h"
 #include "sphere.h"
+#include "vector.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <openbabel/obconversion.h>
@@ -50,12 +53,16 @@ Chem3dDoc::Chem3dDoc (): GLDocument (NULL)
 {
 	m_View = new GLView (this);
 	m_Display3D = BALL_AND_STICK;
+	m_Mol = new Molecule ();
+	AddChild (m_Mol);
 }
 
 Chem3dDoc::Chem3dDoc (Application *App, GLView *View): GLDocument (App)
 {
 	m_View = (View)? View: new GLView (this);
 	m_Display3D = BALL_AND_STICK;
+	m_Mol = new Molecule ();
+	AddChild (m_Mol);
 }
 
 Chem3dDoc::~Chem3dDoc ()
@@ -103,6 +110,7 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 		return;
 	}
 	buf[size] = 0;
+	m_Title.clear ();
 	if (n == size) {
 		LoadData (buf, mime_type);
 		if (m_App) {
@@ -110,9 +118,12 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 			m_App->SetCurDir (dirname);
 			g_free (dirname);
 		}
+		if (m_Title.length () == 0) {
+			char *name = g_path_get_basename (uri);
+			SetTitle (name);
+			g_free (name);
+		}
 	}
-	if (!strlen (m_Mol.GetTitle()))
-		m_Mol.SetTitle (g_path_get_basename (uri));
 	delete [] buf;
 	g_object_unref (input);
 	g_object_unref (file);
@@ -121,37 +132,48 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 {
 	istringstream is (data);
-	m_Mol.Clear ();
 	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	OBConversion Conv;
 	OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
+	OBMol Molecule;
 	if (pInFormat) {
 		Conv.SetInAndOutFormats (pInFormat, pInFormat);
-		Conv.Read (&m_Mol,&is);
-		m_Empty = m_Mol.NumAtoms () == 0;
+		Conv.Read (&Molecule,&is);
+		m_Empty = Molecule.NumAtoms () == 0;
 	}
 	setlocale (LC_NUMERIC, old_num_locale);
+	m_Mol->Clear ();
 	// center the molecule around 0,0,0
 	std::vector < OBNodeBase * >::iterator i;
-	OBAtom* atom = m_Mol.BeginAtom (i);
+	OBAtom* atom = Molecule.BeginAtom (i);
+	std::map <OBAtom *, Atom *> atomMap;
 	gdouble x0, y0, z0;
 	x0 = y0 = z0 = 0.0;
 	while (atom) {
 		x0 += atom->GetX ();
 		y0 += atom->GetY ();
 		z0 += atom->GetZ ();
-		atom = m_Mol.NextAtom (i);
+		atom = Molecule.NextAtom (i);
 	}
-	x0 /= m_Mol.NumAtoms ();
-	y0 /= m_Mol.NumAtoms ();
-	z0 /= m_Mol.NumAtoms ();
+	x0 /= Molecule.NumAtoms ();
+	y0 /= Molecule.NumAtoms ();
+	z0 /= Molecule.NumAtoms ();
 	vector3 v(-x0, -y0, -z0);
-	atom = m_Mol.BeginAtom (i);
+	atom = Molecule.BeginAtom (i);
 	while (atom) {
 		atom->SetVector (atom->GetVector () + v);
-		atom = m_Mol.NextAtom (i);
+		atomMap[atom] = new Atom (atom->GetAtomicNum (), atom->GetX (), atom->GetY (), atom->GetZ ());
+		m_Mol->AddAtom (atomMap[atom]);
+		atom = Molecule.NextAtom (i);
 	}
+	std::vector < OBEdgeBase * >::iterator j;
+	OBBond* bond = Molecule.BeginBond (j);
+	while (bond) {
+		m_Mol->AddBond (new Bond (atomMap[bond->GetBeginAtom ()], atomMap[bond->GetEndAtom ()], bond->GetBondOrder ()));
+		bond = Molecule.NextBond (j);
+	}
+	SetTitle (Molecule.GetTitle());
 	m_View->Update ();
 	g_free (old_num_locale);
 }
@@ -160,8 +182,8 @@ struct VrmlBond {
 	double x, y, z;
 	double xrot, zrot, arot;
 };
-typedef struct {int n; list<OBAtom*> l;} sAtom;
-typedef struct {int n; list<struct VrmlBond> l;} sBond;
+typedef struct {int n; list <Atom const *> l;} sAtom;
+typedef struct {int n; list <struct VrmlBond> l;} sBond;
 
 void Chem3dDoc::OnExportVRML (string const &filename)
 {
@@ -188,22 +210,22 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 	file << "#VRML V2.0 utf8" << endl;
 	
 	x0 = y0 = z0 = 0.0;
-	std::vector < OBNodeBase * >::iterator i;
-	OBAtom* atom = m_Mol.BeginAtom (i);
+	std::list <Atom *>::const_iterator i;
+	Atom const *atom = m_Mol->GetFirstAtom (i);
 	while (atom) {
-		Z = atom->GetAtomicNum ();
-		x0 += atom->GetX ();
-		y0 += atom->GetY ();
-		z0 += atom->GetZ ();
-		atom = m_Mol.NextAtom (i);
+		Z = atom->GetZ ();
+		x0 += atom->x ();
+		y0 += atom->y ();
+		z0 += atom->z ();
+		atom = m_Mol->GetNextAtom (i);
 	}
-	x0 /= m_Mol.NumAtoms ();
-	y0 /= m_Mol.NumAtoms ();
-	z0 /= m_Mol.NumAtoms ();
+	x0 /= m_Mol->GetAtomsNumber ();
+	y0 /= m_Mol->GetAtomsNumber ();
+	z0 /= m_Mol->GetAtomsNumber ();
 
 	//Create prototypes for atoms
-	for (atom = m_Mol.BeginAtom (i); atom; atom = m_Mol.NextAtom (i)) {
-		Z = atom->GetAtomicNum ();
+	for (atom = m_Mol->GetFirstAtom (i); atom; atom = m_Mol->GetNextAtom (i)) {
+		Z = atom->GetZ ();
 		if (!Z)
 			continue;
 		symbol = Element::Symbol (Z);
@@ -217,35 +239,35 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 			file << "\tappearance Appearance {" << endl << "\t\tmaterial Material {" << endl << "\t\t\tdiffuseColor " << color[0] << " " << color[1] << " " << color[2] << endl;
 			file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
 		}
-		AtomsMap[symbol].l.push_back(atom);
+		AtomsMap[symbol].l.push_back (atom);
 	}
 
 	//Create prototypes for bonds
 	double conv = M_PI / 180;
 	Matrix m (m_View->GetPsi () * conv, m_View->GetTheta () * conv, m_View->GetPhi () * conv, euler);
 	if (m_Display3D == BALL_AND_STICK) {
-		std::vector < OBEdgeBase * >::iterator b;
-		OBBond* bond = m_Mol.BeginBond (b);
+		std::list <Bond *>::const_iterator b;
+		Bond const *bond = m_Mol->GetFirstBond (b);
 		double x1, y1, z1;
 		struct VrmlBond vb;
 		n = 0;
 		while (bond) {
-			atom = bond->GetBeginAtom ();
-			if (atom->GetAtomicNum () == 0) {
-				bond = m_Mol.NextBond (b);
+			atom = bond->GetAtom (0);
+			if (atom->GetZ () == 0) {
+				bond = m_Mol->GetNextBond (b);
 				continue;
 			}
-			vb.x = atom->GetX () - x0;
-			vb.y = atom->GetY () - y0;
-			vb.z = atom->GetZ () - z0;
-			atom = bond->GetEndAtom ();
-			if (atom->GetAtomicNum () == 0) {
-				bond = m_Mol.NextBond (b);
+			vb.x = atom->x () - x0;
+			vb.y = atom->y () - y0;
+			vb.z = atom->z () - z0;
+			atom = bond->GetAtom (1);
+			if (atom->GetZ () == 0) {
+				bond = m_Mol->GetNextBond (b);
 				continue;
 			}
-			x1 = atom->GetX () - x0 - vb.x;
-			y1 = atom->GetY () - y0 - vb.y;
-			z1 = atom->GetZ () - z0 - vb.z;
+			x1 = atom->x () - x0 - vb.x;
+			y1 = atom->y () - y0 - vb.y;
+			z1 = atom->z () - z0 - vb.z;
 			vb.x += x1 / 2;
 			vb.y += y1 / 2;
 			vb.z += z1 / 2;
@@ -270,7 +292,7 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 				file << "\t\t\tspecularColor 1 1 1" << endl << "\t\t\tshininess 0.9" << endl << "\t\t}" << endl << "\t}\r\n}}" << endl;
 			}
 			BondsMap[buf].l.push_back (vb);
-			bond = m_Mol.NextBond (b);
+			bond = m_Mol->GetNextBond (b);
 		}
 	}
 
@@ -280,13 +302,13 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 	file << "Transform {" << endl << "\tchildren [" << endl;
 
 	map<std::string, sAtom>::iterator k, kend = AtomsMap.end ();
-	list<OBAtom*>::iterator j, jend;
+	list<Atom const *>::const_iterator j, jend;
 	for (k = AtomsMap.begin (); k != kend; k++) {
 		jend = (*k).second.l.end ();
 		for (j = (*k).second.l.begin (); j != jend; j++) {
-			x = (*j)->GetX ();
-			y = (*j)->GetY ();
-			z = (*j)->GetZ ();
+			x = (*j)->x ();
+			y = (*j)->y ();
+			z = (*j)->z ();
 			m.Transform(x, y, z);
 			file << "\t\tTransform {translation " << x << " " << y << " " << z <<  " children [Atom" << (*k).second.n << " {}]}" << endl;
 		}
@@ -320,15 +342,21 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 
 void Chem3dDoc::Draw (Matrix const &m) const
 {
-	std::vector < OBNodeBase * >::iterator i;
-	OBAtom* atom = (const_cast <OBMol *> (&m_Mol))->BeginAtom (i);
+	std::list <Atom *>::const_iterator i;
+	Atom const *atom = m_Mol->GetFirstAtom (i);
 	unsigned int Z;
 	gdouble R, w, x, y, z, dist;
 	dist = 0.;
-	map<OBAtom*, vector3> atomPos;
+	map<Atom const *, Vector> atomPos;
 	const gdouble* color;
-	vector3 v, normal (0., 0., 1.);
+	Vector v, normal (0., 0., 1.);
 	Sphere sp (10);
+	GcuAtomicRadius rad;
+	rad.type = GCU_VAN_DER_WAALS;
+	rad.charge = 0;
+	rad.cn = -1;
+	rad.spin = GCU_N_A_SPIN;
+	rad.scale = NULL;
 	if (m_Display3D == WIREFRAME) {
 		float light_ambient[] = {1.0, 1.0, 1.0, 1.0};
 		glLightfv (GL_LIGHT0, GL_AMBIENT, light_ambient);
@@ -339,20 +367,22 @@ void Chem3dDoc::Draw (Matrix const &m) const
 	}
 	while (atom) {
 		atomPos[atom] = v = m * atom->GetVector ();
-		Z = atom->GetAtomicNum ();
+		Z = atom->GetZ ();
 		if (Z > 0) {
 			if (m_Display3D == CYLINDERS) {
 				R = .12;
 			} else if (m_Display3D == WIREFRAME) {
 				R = 0.;
 			} else {
-				R = etab.GetVdwRad (Z);
+				rad.Z = Z;
+				Element::GetElement (Z)->GetRadius (&rad);
+				R = rad.value.value / 100.;
 				if (m_Display3D == BALL_AND_STICK)
 					R *= 0.2;
 			}
-			x = v.x ();
-			y = v.y ();
-			z = v.z ();
+			x = v.GetX ();
+			y = v.GetY ();
+			z = v.GetZ ();
 			color = gcu_element_get_default_color (Z);
 			if ((w = sqrt (x * x + y * y + z * z)) > dist - R)
 				dist = w + R;
@@ -361,14 +391,14 @@ void Chem3dDoc::Draw (Matrix const &m) const
 				sp.draw (v, R);
 			}
 		}
-		atom = (const_cast <OBMol *> (&m_Mol))->NextAtom (i);
+		atom = m_Mol->GetNextAtom (i);
 	}
 	const_cast <Chem3dDoc *> (this)->m_MaxDist = dist * 1.05;
 	if (m_Display3D != SPACEFILL) {
 		Cylinder cyl (10);
-		std::vector < OBEdgeBase * >::iterator j;
-		OBBond* bond = (const_cast <OBMol *> (&m_Mol))->BeginBond (j);
-		vector3 v0, v1;
+		std::list <Bond *>::const_iterator j;
+		Bond const *bond = m_Mol->GetFirstBond (j);
+		Vector v, v0, v1;
 		double R1;
 		unsigned int Z1;
 		if (m_Display3D == WIREFRAME)
@@ -376,46 +406,52 @@ void Chem3dDoc::Draw (Matrix const &m) const
 		else
 			glEnable (GL_NORMALIZE);
 		while (bond) {
-			atom = bond->GetBeginAtom ();
+			atom = bond->GetAtom (0);
 			v = m * atom->GetVector ();
-			Z = atom->GetAtomicNum ();
+			Z = atom->GetZ ();
 			if (Z == 0) {
-				bond = (const_cast <OBMol *> (&m_Mol))->NextBond (j);
+				bond = m_Mol->GetNextBond (j);
 				continue;
 			}
-			atom = bond->GetEndAtom ();
-			R = etab.GetVdwRad (Z);
-			Z1 = atom->GetAtomicNum ();
+			atom = bond->GetAtom (1);
+			rad.Z = Z;
+			Element::GetElement (Z)->GetRadius (&rad);
+			R = rad.value.value / 100.;
+			Z1 = atom->GetZ ();
 			if (Z1 == 0) {
-				bond = (const_cast <OBMol *> (&m_Mol))->NextBond (j);
+				bond = m_Mol->GetNextBond (j);
 				continue;
 			}
-			R1 = etab.GetVdwRad (Z1);
+			rad.Z = Z1;
+			Element::GetElement (Z1)->GetRadius (&rad);
+			R1 = rad.value.value / 100.;
 			v1 = m * atom->GetVector ();
 			v0 = v + (v1 - v) * (R / (R + R1));
 			color = gcu_element_get_default_color (Z);
 			glColor3d (color[0], color[1], color[2]);
 			if (m_Display3D == WIREFRAME) {
 				glBegin (GL_LINES);
-				glVertex3d (v.x (), v.y (), v.z());
-				glVertex3d (v0.x (), v0.y (), v0.z());
+				glVertex3d (v.GetX (), v.GetY (), v.GetZ ());
+				glVertex3d (v0.GetX (), v0.GetY (), v0.GetZ ());
 				glEnd ();
-			} else if (m_Display3D == BALL_AND_STICK && bond->GetBondOrder () > 1)
-				cyl.drawMulti (v, v0, ((bond->GetBondOrder () > 2)? .07: 0.10), bond->GetBondOrder (), 0.15, normal);
+			} else if (m_Display3D == BALL_AND_STICK && bond->GetOrder () > 1)
+				cyl.drawMulti (v, v0, ((bond->GetOrder () > 2)? .07: 0.10),
+							   static_cast <int> (bond->GetOrder ()), 0.15, normal);
 			else
 				cyl.draw (v, v0, .12);
 			color = gcu_element_get_default_color (Z1);
 			glColor3d (color[0], color[1], color[2]);
 			if (m_Display3D == WIREFRAME) {
 				glBegin (GL_LINES);
-				glVertex3d (v0.x (), v0.y (), v0.z());
-				glVertex3d (v1.x (), v1.y (), v1.z());
+				glVertex3d (v0.GetX (), v0.GetY (), v0.GetZ ());
+				glVertex3d (v1.GetX (), v1.GetY (), v1.GetZ ());
 				glEnd ();
-			} else if (m_Display3D == BALL_AND_STICK && bond->GetBondOrder () > 1)
-				cyl.drawMulti (v0, v1, ((bond->GetBondOrder () > 2)? .07: 0.10), bond->GetBondOrder (), 0.15, normal);
+			} else if (m_Display3D == BALL_AND_STICK && bond->GetOrder () > 1)
+				cyl.drawMulti (v0, v1, ((bond->GetOrder () > 2)? .07: 0.10),
+							   static_cast <int> (bond->GetOrder ()), 0.15, normal);
 			else
 				cyl.draw (v0, v1, .12);
-			bond = (const_cast <OBMol *> (&m_Mol))->NextBond (j);
+			bond = m_Mol->GetNextBond (j);
 		}
 	}
 }

@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystaldoc.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,6 +29,7 @@
 #include "cylinder.h"
 #include "matrix.h"
 #include "sphere.h"
+#include "vector.h"
 #include "xml-utils.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
@@ -36,11 +37,6 @@
 #include <clocale>
 #include <cmath>
 #include <vector>
-#ifdef HAVE_OPENBABEL_2_2
-#	include <list>
-#else
-#	include <openbabel/math/vector3.h>
-#endif
 #include <GL/gl.h>
 #include <cstring>
 
@@ -592,14 +588,14 @@ void CrystalDoc::Duplicate (CrystalLine& Line)
 	
 void CrystalDoc::Draw (Matrix const &m) const
 {
-	vector3 v, v1;
+	Vector v, v1;
 	Sphere sp (10);
 	glEnable (GL_RESCALE_NORMAL);
 	CrystalAtomList::const_iterator i, iend = Atoms.end ();
 	double red, green, blue, alpha;
 	for (i = Atoms.begin (); i != iend; i++)
 		if (!(*i)->IsCleaved ()) {
-			(*i)->GetCoords (&v.z (), &v.x (), &v.y ());
+			v = (*i)->GetVector ();
 			v = m * v;
 			(*i)->GetColor (&red, &green, &blue, &alpha);
 			glColor4d (red, green, blue, alpha) ;
@@ -610,13 +606,13 @@ void CrystalDoc::Draw (Matrix const &m) const
 	Cylinder cyl (10);
 	for (j = Lines.begin (); j != jend; j++)
 		if (!(*j)->IsCleaved ()) {
-			v.z () = (*j)->X1 ();
-			v.x () = (*j)->Y1 ();
-			v.y () = (*j)->Z1 ();
+			v.SetZ ((*j)->X1 ());
+			v.SetX ((*j)->Y1 ());
+			v.SetY ((*j)->Z1 ());
 			v = m * v;
-			v1.z () = (*j)->X2 ();
-			v1.x () = (*j)->Y2 ();
-			v1.y () = (*j)->Z2 ();
+			v1.SetZ ((*j)->X2 ());
+			v1.SetX ((*j)->Y2 ());
+			v1.SetY ((*j)->Z2 ());
 			v1 = m * v1;
 			(*j)->GetColor (&red, &green, &blue, &alpha);
 			glColor4d (red, green, blue, alpha) ;

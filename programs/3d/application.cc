@@ -223,11 +223,11 @@ bool gc3dApplication::FileProcess (const gchar* filename, const gchar* mime_type
 			pDoc = OnFileNew ();
 		pDoc->Load (filename, mime_type);
 		GtkRecentData data;
-		data.display_name = (char*) pDoc->GetTitle ();
+		data.display_name = const_cast <char*> (pDoc->GetTitle ().c_str ());
 		data.description = NULL;
 		data.mime_type = (char*) mime_type;
-		data.app_name = const_cast<char*> ("gchem3d-viewer");
-		data.app_exec = const_cast<char*> ("gchem3d-viewer %u");
+		data.app_name = const_cast <char*> ("gchem3d");
+		data.app_exec = const_cast <char*> ("gchem3d %u");
 		data.groups = NULL;
 		data.is_private =  FALSE;
 		gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
