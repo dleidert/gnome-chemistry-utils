@@ -145,7 +145,11 @@ gct_data_allocator_editor (GogDataAllocator *dalloc,
 		editor->box = gtk_entry_new ();
 		GOData *val = gog_dataset_get_dim (dataset, dim_i);
 		if (val != NULL) {
-			char *txt = go_data_as_str (val);
+#ifdef HAVE_GO_DATA_SERIALIZE
+				char *txt = go_data_serialize (val, NULL);
+#else
+				char *txt = go_data_as_str (val);
+#endif
 			gtk_entry_set_text (GTK_ENTRY (editor->box), txt);
 			g_free (txt);
 		}

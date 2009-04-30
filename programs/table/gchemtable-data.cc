@@ -60,13 +60,21 @@ gct_data_preferred_fmt (GOData const *dat)
 }
 
 static char *
+#ifdef HAVE_GO_DATA_SERIALIZE
+gct_data_serialize (GOData const *dat, gpointer data)
+#else
 gct_data_as_str (GOData const *dat)
+#endif
 {
 	return NULL;
 }
 
 static  gboolean
+#ifdef HAVE_GO_DATA_SERIALIZE
+gct_data_unserialize (GOData *dat, char const *str, gpointer data)
+#else
 gct_data_from_str (GOData *dat, char const *str)
+#endif
 {
 	return FALSE;
 }
@@ -107,8 +115,13 @@ gct_data_scalar_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup = gct_data_dup;
 	godata_klass->eq = gct_data_eq;
 	godata_klass->preferred_fmt	= gct_data_preferred_fmt;
+#ifdef HAVE_GO_DATA_SERIALIZE
+	godata_klass->serialize = gct_data_serialize;
+	godata_klass->unserialize = gct_data_unserialize;
+#else
 	godata_klass->as_str = gct_data_as_str;
 	godata_klass->from_str = gct_data_from_str;
+#endif
 	scalar_klass->get_value = gct_data_scalar_get_value;
 	scalar_klass->get_str = gct_data_scalar_get_str;
 }
@@ -233,8 +246,13 @@ gct_data_vector_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup = gct_data_dup;
 	godata_klass->eq = gct_data_eq;
 	godata_klass->preferred_fmt	= gct_data_preferred_fmt;
+#ifdef HAVE_GO_DATA_SERIALIZE
+	godata_klass->serialize = gct_data_serialize;
+	godata_klass->unserialize = gct_data_unserialize;
+#else
 	godata_klass->as_str = gct_data_as_str;
 	godata_klass->from_str = gct_data_from_str;
+#endif
 	vector_klass->load_len = gct_data_vector_load_len;
 	vector_klass->load_values = gct_data_vector_load_values;
 	vector_klass->get_value = gct_data_vector_get_value;
@@ -337,8 +355,13 @@ gct_data_matrix_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup = gct_data_dup;
 	godata_klass->eq = gct_data_eq;
 	godata_klass->preferred_fmt	= gct_data_preferred_fmt;
+#ifdef HAVE_GO_DATA_SERIALIZE
+	godata_klass->serialize = gct_data_serialize;
+	godata_klass->unserialize = gct_data_unserialize;
+#else
 	godata_klass->as_str = gct_data_as_str;
 	godata_klass->from_str = gct_data_from_str;
+#endif
 	matrix_klass->load_size = gct_data_matrix_load_size;
 	matrix_klass->load_values = gct_data_matrix_load_values;
 	matrix_klass->get_value = gct_data_matrix_get_value;

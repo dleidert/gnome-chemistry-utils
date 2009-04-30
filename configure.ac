@@ -147,7 +147,7 @@ AM_CONDITIONAL([GCU_NEEDS_GCONF], [test "$libgoffice" = "libgoffice-0.6"])
 
 dnl check if goffice <=0.7.2 has gnome support
 PKG_CHECK_MODULES(need_goffice_with_gnome, [$libgoffice <= 0.7.2], [need_gnome_support=yes], [need_gnome_support=no])
-if test "x$need_gnome_support" = yes; then
+if test "x$need_gnome_support" = xyes; then
 	saved_cflags=$CFLAGS
 	CFLAGS=$goffice_CFLAGS
 	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
@@ -202,7 +202,7 @@ saved_cflags=$CFLAGS
 saved_libs=$LIBS
 CFLAGS=$goffice_CFLAGS
 LIBS=$goffice_LIBS
-AC_CHECK_FUNCS(go_conf_sync)
+AC_CHECK_FUNCS(go_conf_sync go_data_serialize)
 CFLAGS=$saved_cflags
 LIBS=$saved_libs
 

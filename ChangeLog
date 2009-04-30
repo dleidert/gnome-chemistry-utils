@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add check for go_data_serialize.
+	* programs/calc/gchemcalc.cc: update to new GOData API if present.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+
 2009-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/preferences.cc: take new PANGO_WEIGHT_* values into account.
 	* libs/gcp/theme.cc: ditto.

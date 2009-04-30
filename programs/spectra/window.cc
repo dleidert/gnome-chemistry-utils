@@ -320,7 +320,11 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 			go_locale_untranslated_booleans ();
 		
 			xout = gsf_xml_out_new (output);
+#ifdef HAVE_GO_DATA_SERIALIZE
+			gog_object_write_xml_sax (GOG_OBJECT (graph), xout, NULL);
+#else
 			gog_object_write_xml_sax (GOG_OBJECT (graph), xout);
+#endif
 			g_object_unref (xout);
 		
 			/* go_setlocale restores bools to locale translation */
