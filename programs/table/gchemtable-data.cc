@@ -54,13 +54,13 @@ gct_data_preferred_fmt (G_GNUC_UNUSED GOData const *dat)
 }
 
 static char *
-gct_data_as_str (G_GNUC_UNUSED GOData const *dat)
+gct_data_serialize (G_GNUC_UNUSED GOData const *dat, G_GNUC_UNUSED gpointer data)
 {
 	return NULL;
 }
 
 static  gboolean
-gct_data_from_str (G_GNUC_UNUSED GOData *dat, G_GNUC_UNUSED char const *str)
+gct_data_unserialize (G_GNUC_UNUSED GOData *dat, G_GNUC_UNUSED char const *str, G_GNUC_UNUSED gpointer data)
 {
 	return FALSE;
 }
@@ -101,8 +101,8 @@ gct_data_scalar_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup = gct_data_dup;
 	godata_klass->eq = gct_data_eq;
 	godata_klass->preferred_fmt	= gct_data_preferred_fmt;
-	godata_klass->as_str = gct_data_as_str;
-	godata_klass->from_str = gct_data_from_str;
+	godata_klass->serialize = gct_data_serialize;
+	godata_klass->unserialize = gct_data_unserialize;
 	scalar_klass->get_value = gct_data_scalar_get_value;
 	scalar_klass->get_str = gct_data_scalar_get_str;
 }
@@ -227,8 +227,8 @@ gct_data_vector_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup = gct_data_dup;
 	godata_klass->eq = gct_data_eq;
 	godata_klass->preferred_fmt	= gct_data_preferred_fmt;
-	godata_klass->as_str = gct_data_as_str;
-	godata_klass->from_str = gct_data_from_str;
+	godata_klass->serialize = gct_data_serialize;
+	godata_klass->unserialize = gct_data_unserialize;
 	vector_klass->load_len = gct_data_vector_load_len;
 	vector_klass->load_values = gct_data_vector_load_values;
 	vector_klass->get_value = gct_data_vector_get_value;
@@ -331,8 +331,8 @@ gct_data_matrix_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup = gct_data_dup;
 	godata_klass->eq = gct_data_eq;
 	godata_klass->preferred_fmt	= gct_data_preferred_fmt;
-	godata_klass->as_str = gct_data_as_str;
-	godata_klass->from_str = gct_data_from_str;
+	godata_klass->serialize = gct_data_serialize;
+	godata_klass->unserialize = gct_data_unserialize;
 	matrix_klass->load_size = gct_data_matrix_load_size;
 	matrix_klass->load_values = gct_data_matrix_load_values;
 	matrix_klass->get_value = gct_data_matrix_get_value;

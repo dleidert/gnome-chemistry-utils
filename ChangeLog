@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: request goffice>=0.7.6 after new API breakage.
+	* programs/calc/gchemcalc.cc: use nes GOData API.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+
 2009-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/atom.cc: start replacing OpenBabel code.
 	* libs/gcu/atom.h: ditto.

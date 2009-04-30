@@ -517,7 +517,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 			go_locale_untranslated_booleans ();
 		
 			xout = gsf_xml_out_new (output);
-			gog_object_write_xml_sax (GOG_OBJECT (graph), xout);
+			gog_object_write_xml_sax (GOG_OBJECT (graph), xout, NULL);
 			g_object_unref (xout);
 		
 			/* go_setlocale restores bools to locale translation */
