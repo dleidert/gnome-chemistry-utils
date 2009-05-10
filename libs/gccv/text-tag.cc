@@ -28,15 +28,6 @@
 #include <map>
 
 namespace gccv {
-
-////////////////////////////////////////////////////////////////////////////////
-// static helper callbacks
-
-static gboolean cb_splice_true (G_GNUC_UNUSED PangoAttribute *attr, G_GNUC_UNUSED gpointer data)
-{
-	return TRUE;
-}
-
 	
 ////////////////////////////////////////////////////////////////////////////////
 // Base tag class
@@ -45,7 +36,9 @@ TextTag::TextTag (Tag tag, TagPriority priority):
 	m_Tag (tag),
 	m_Priority (priority),
 	m_StartIndex (0),
-	m_EndIndex (0)
+	m_EndIndex (0),
+	m_Stacked (false),
+	m_NewLine (false)
 {
 }
 
@@ -102,7 +95,7 @@ void FamilyTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool FamilyTextTag::operator== (TextTag const& tag)
+bool FamilyTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Family)
 		return false;
@@ -135,7 +128,7 @@ void SizeTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool SizeTextTag::operator== (TextTag const& tag)
+bool SizeTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Size)
 		return false;
@@ -168,7 +161,7 @@ void StyleTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool StyleTextTag::operator== (TextTag const& tag)
+bool StyleTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Style)
 		return false;
@@ -201,7 +194,7 @@ void WeightTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool WeightTextTag::operator== (TextTag const& tag)
+bool WeightTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Weight)
 		return false;
@@ -234,7 +227,7 @@ void VariantTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool VariantTextTag::operator== (TextTag const& tag)
+bool VariantTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Variant)
 		return false;
@@ -267,7 +260,7 @@ void StretchTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool StretchTextTag::operator== (TextTag const& tag)
+bool StretchTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Stretch)
 		return false;
@@ -292,11 +285,11 @@ UnderlineTextTag::~UnderlineTextTag ()
 {
 }
 
-void UnderlineTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+void UnderlineTextTag::Filter (G_GNUC_UNUSED PangoAttrList *l, G_GNUC_UNUSED unsigned start, G_GNUC_UNUSED unsigned end)
 {
 }
 
-bool UnderlineTextTag::operator== (TextTag const& tag)
+bool UnderlineTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Underline)
 		return false;
@@ -321,11 +314,11 @@ StrikethroughTextTag::~StrikethroughTextTag ()
 {
 }
 
-void StrikethroughTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
+void StrikethroughTextTag::Filter (G_GNUC_UNUSED PangoAttrList *l, G_GNUC_UNUSED unsigned start, G_GNUC_UNUSED unsigned end)
 {
 }
 
-bool StrikethroughTextTag::operator== (TextTag const& tag)
+bool StrikethroughTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Strikethrough)
 		return false;
@@ -358,7 +351,7 @@ void ForegroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool ForegroundTextTag::operator== (TextTag const& tag)
+bool ForegroundTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Foreground)
 		return false;
@@ -391,7 +384,7 @@ void BackgroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool BackgroundTextTag::operator== (TextTag const& tag)
+bool BackgroundTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Background)
 		return false;
@@ -424,7 +417,7 @@ void RiseTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 	pango_attr_list_insert (l, attr);
 }
 
-bool RiseTextTag::operator== (TextTag const& tag)
+bool RiseTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != Rise)
 		return false;
@@ -442,9 +435,9 @@ TextTag *RiseTextTag::Duplicate () const
 PositionTextTag::PositionTextTag (TextPosition position, double size, bool stacked, Tag tag):
 	TextTag (tag, TagPriorityLast),
 	m_Position (position),
-	m_Size (size),
-	m_Stacked (stacked)
+	m_Size (size)
 {
+	m_Stacked = stacked;
 }
 
 PositionTextTag::~PositionTextTag ()
@@ -539,7 +532,7 @@ void PositionTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 		pango_attr_list_insert (l, *k);
 }
 
-bool PositionTextTag::operator== (TextTag const& tag)
+bool PositionTextTag::operator== (TextTag const& tag) const
 {
 	if (tag.GetTag () != GetTag ())
 		return false;
@@ -549,6 +542,37 @@ bool PositionTextTag::operator== (TextTag const& tag)
 TextTag *PositionTextTag::Duplicate () const
 {
 	return new PositionTextTag (m_Position, m_Size, m_Stacked, GetTag ());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Position tag class (normal, subscript, superscript,...)
+
+NewLineTextTag::NewLineTextTag (double interline):
+	TextTag (NewLine),
+	m_Interline (interline)
+{
+	m_NewLine = true;
+}
+
+NewLineTextTag::~NewLineTextTag ()
+{
+}
+	
+void NewLineTextTag::Filter (G_GNUC_UNUSED PangoAttrList *l, G_GNUC_UNUSED unsigned start, G_GNUC_UNUSED unsigned end)
+{
+	// Nothing to do
+}
+
+bool NewLineTextTag::operator== (TextTag const& tag) const
+{
+	if (tag.GetTag () != NewLine)
+		return false;
+	return static_cast <NewLineTextTag const&> (tag).m_Interline == m_Interline;
+}
+
+TextTag *NewLineTextTag::Duplicate () const
+{
+	return new NewLineTextTag (m_Interline);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

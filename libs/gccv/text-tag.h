@@ -51,6 +51,7 @@ typedef enum
 	Background,
 	Rise,
 	Position,
+	NewLine,
 	MaxTag
 } Tag;
 
@@ -67,19 +68,20 @@ public:
 	virtual ~TextTag ();
 
 	virtual void Filter (PangoAttrList *l, unsigned start, unsigned end) = 0;
-	virtual bool operator== (TextTag const& tag) = 0;
+	virtual bool operator== (TextTag const& tag) const = 0;
 	virtual TextTag *Duplicate () const = 0;
 	virtual bool NeedsNewRun () {return false;}
 
 	static Tag RegisterTagType ();
 	static Tag MaxTag;
 	static bool Order (TextTag *first, TextTag *last);
-private:
 
 GCU_RO_PROP (Tag, Tag)
 GCU_RO_PROP (TagPriority, Priority)
 GCU_PROP (unsigned, StartIndex)
 GCU_PROP (unsigned, EndIndex)
+GCU_PROT_PROP (bool, Stacked)
+GCU_PROT_PROP (bool, NewLine)
 };
 
 class FamilyTextTag: public TextTag
@@ -90,7 +92,7 @@ public:
 	virtual ~FamilyTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	std::string const &GetFamily () const {return m_Family;}
 
@@ -105,7 +107,7 @@ public:
 	virtual ~SizeTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	double GetSize () const {return m_Size;}
 
@@ -120,7 +122,7 @@ public:
 	virtual ~StyleTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	PangoStyle GetStyle () const {return m_Style;}
 
@@ -135,7 +137,7 @@ public:
 	virtual ~WeightTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	PangoWeight GetWeight () const {return m_Weight;}
 
@@ -150,7 +152,7 @@ public:
 	virtual ~VariantTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	PangoVariant GetVariant () const {return m_Variant;}
 
@@ -165,7 +167,7 @@ public:
 	virtual ~StretchTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	PangoStretch GetStretch () const {return m_Stretch;}
 
@@ -180,7 +182,7 @@ public:
 	virtual ~UnderlineTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	PangoUnderline GetUnderline () const {return m_Underline;}
 
@@ -195,7 +197,7 @@ public:
 	virtual ~StrikethroughTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	bool GetStrikethrough () const {return m_Strikethrough;}
 
@@ -210,7 +212,7 @@ public:
 	virtual ~ForegroundTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	GOColor GetColor () const {return m_Color;}
 
@@ -225,7 +227,7 @@ public:
 	virtual ~BackgroundTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	GOColor GetColor () const {return m_Color;}
 
@@ -240,7 +242,7 @@ public:
 	virtual ~RiseTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	double GetRise () const {return m_Rise;}
 
@@ -255,7 +257,7 @@ public:
 	virtual ~PositionTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
-	bool operator== (TextTag const& tag);
+	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
 	TextPosition GetPosition (bool &stacked, double &size) const {stacked = m_Stacked; size = m_Size; return m_Position;}
 	bool NeedsNewRun () {return m_Stacked;}
@@ -263,7 +265,18 @@ public:
 private:
 	TextPosition m_Position;
 	double m_Size; // default size
-	bool m_Stacked;
+};
+
+class NewLineTextTag: public TextTag
+{
+	NewLineTextTag (double interline);
+	virtual ~NewLineTextTag ();
+	
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag) const;
+	TextTag *Duplicate () const;
+
+	GCU_RO_PROP (double, Interline)
 };
 
 class TextTagList:public std::list <TextTag *>

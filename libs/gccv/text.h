@@ -49,6 +49,7 @@ private:	\
 
 // These are private classes
 class TextPrivate;
+class TextLine;
 class TextRun;
 class TextTag;
 class TextTagList;
@@ -70,7 +71,7 @@ public:
 	void GetBounds (Rect *ink, Rect *logical);
 	char const *GetText ();
 
-	void InsertTextTag (TextTag *tag);
+	void InsertTextTag (TextTag *tag, bool rebuild_attributes = true);
 	std::list <TextTag *> const *GetTags () {return &m_Tags;}
 
 	void SetCurTagList (TextTagList *l);
@@ -106,8 +107,6 @@ be moved to the end of the inserted text.
 	static PangoContext *GetContext ();
 
 	unsigned GetDefaultFontSize () { return (m_FontDesc)? (double) pango_font_description_get_size (m_FontDesc) / PANGO_SCALE: 0; }
-
-private:
 	void RebuildAttributes ();
 
 private:
@@ -119,13 +118,15 @@ private:
 	std::list <TextTag *> m_Tags;
 	std::string m_Text;
 	GtkIMContext *m_ImContext;
-	PangoFontDescription *m_FontDesc;
+	PangoFontDescription const *m_FontDesc;
 	TextTagList *m_CurTags;
-
+	TextLine *m_Lines;
+	unsigned m_LinesNumber;
 
 GCCV_TEXT_PROP (double, Padding)
 GCCV_TEXT_PROP (Anchor, Anchor)
 GCCV_TEXT_PROP (double, LineOffset)
+GCCV_TEXT_PROP (GtkJustification, Justification)
 GCU_RO_PROP (double, Width)
 GCU_RO_PROP (double, Height)
 GCU_RO_PROP (double, Ascent)

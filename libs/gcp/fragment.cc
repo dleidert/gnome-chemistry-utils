@@ -347,9 +347,10 @@ void Fragment::AddItem ()
 	m_TextItem->SetFontDescription (desc);
 	m_TextItem->SetText (m_buf);
 	while (!m_TagList.empty ()) {
-		m_TextItem->InsertTextTag (m_TagList.front ());
+		m_TextItem->InsertTextTag (m_TagList.front (), false);
 		m_TagList.pop_front ();
 	}
+	m_TextItem->RebuildAttributes ();
 	m_Item = group;
 }
 
@@ -750,31 +751,20 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 		tags = m_TextItem->GetTags ();
 	else
 		tags = &m_TagList;
-	gccv::TextTagList tt; // the tags in this list will be destroyed on return
 	std::list <gccv::TextTag *>::const_iterator j, jend = tags->end ();
-	// duplicate the tags so that they can be sorted
-	for (j = tags->begin (); j != jend; j++) {
-		if ((*j)->GetStartIndex () >= end || (*j)->GetEndIndex () <= start)
-			continue;
-		gccv::TextTag *tag = (*j)->Duplicate ();
-		tag->SetStartIndex ((*j)->GetStartIndex ());
-		tag->SetEndIndex ((*j)->GetEndIndex ());
-		tt.push_back (tag);
-	}
-	// sort the duplicated tags
-	tt.sort (gccv::TextTag::Order);
 	xmlNodePtr child;
-	gccv::TextTagList::iterator k, kend = tt.end ();
 	char *err;
 	int charge;
-	for (k = tt.begin (); k != kend; k++) {
-		if (start < (*k)->GetStartIndex ()) 
-			xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + start), (*k)->GetStartIndex () - start);
-		gccv::Tag tag = (*k)->GetTag ();
+	for (j = tags->begin (); j != jend; j++) {
+		if (end <= (*j)->GetStartIndex ())
+			continue;
+		if (start < (*j)->GetStartIndex ()) 
+			xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + start), (*j)->GetStartIndex () - start);
+		gccv::Tag tag = (*j)->GetTag ();
 		if (tag == gccv::Position) {
 			bool stacked;
 			double size;
-			gccv::TextPosition pos = static_cast <gccv::PositionTextTag *> (*k)->GetPosition (stacked, size);
+			gccv::TextPosition pos = static_cast <gccv::PositionTextTag *> (*j)->GetPosition (stacked, size);
 			switch (pos) {
 			case gccv::Subscript:
 				child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("sub"), NULL);
@@ -785,17 +775,17 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 			default:
 				break;
 			}
-			xmlNodeAddContentLen ((child)? child: node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*k)->GetStartIndex ()), (*k)->GetEndIndex () - (*k)->GetStartIndex ());
+			xmlNodeAddContentLen ((child)? child: node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*j)->GetStartIndex ()), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 		} else if (tag == ChargeTag) {
 			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("charge"), NULL);
-			charge = strtol (m_buf.c_str () + (*k)->GetStartIndex (), &err, 10);
+			charge = strtol (m_buf.c_str () + (*j)->GetStartIndex (), &err, 10);
 			if (charge == 0) {
 				if (*err == '+')
 					xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> ("1"));
 				else if (!strncmp (err, "−", strlen ("−")))
 					xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> ("-1"));
 				else
-					xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*k)->GetStartIndex ()), (*k)->GetEndIndex () - (*k)->GetStartIndex ());
+					xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*j)->GetStartIndex ()), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			} else {
 				if (*err != '+')
 					charge = -charge;
@@ -806,21 +796,21 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 		} else if (tag == StoichiometryTag) {
 			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("stoichiometry"), NULL);
 			// using the charge variable
-			charge = strtol (m_buf.c_str () + (*k)->GetStartIndex (), &err, 10);
+			charge = strtol (m_buf.c_str () + (*j)->GetStartIndex (), &err, 10);
 			if (charge <= 0)
-				xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*k)->GetStartIndex ()), (*k)->GetEndIndex () - (*k)->GetStartIndex ());
+				xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*j)->GetStartIndex ()), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			else {
 				char *buf = g_strdup_printf ("%d", charge);
 				xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> (buf));
 				g_free (buf);
 			}
 		} else {
-			xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*k)->GetStartIndex ()), (*k)->GetEndIndex () - (*k)->GetStartIndex ());
+			xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*j)->GetStartIndex ()), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			child = NULL;
 		}
 		if (child)
 			xmlAddChild (node, child);
-		start = (*k)->GetEndIndex ();
+		start = (*j)->GetEndIndex ();
 	}
 	if (start < end)
 		xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + start), end - start);

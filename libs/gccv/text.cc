@@ -105,6 +105,28 @@ void TextPrivate::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar *st
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+//  gccv::TextLine class implementation
+
+class TextLine
+{
+public:
+	TextLine ();
+	~TextLine ();
+
+	double m_Width, m_Height, m_BaseLine;
+	std::list <TextRun *> m_Runs;
+};
+
+TextLine::TextLine ()
+{
+	m_Width = m_Height = m_BaseLine = 0.;
+}
+
+TextLine::~TextLine ()
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
 //  gccv::TextRun class implementation
 
 class TextRun
@@ -116,8 +138,9 @@ public:
 	void Draw (cairo_t *cr);
 
 	PangoLayout *m_Layout;
-	double m_X, m_Y;
+	double m_X, m_Y, m_Width, m_Height, m_BaseLine;
 	unsigned m_Index, m_Length;
+	bool m_Stacked, m_NewLine;
 };
 
 TextRun::TextRun ()
@@ -125,6 +148,7 @@ TextRun::TextRun ()
 	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
 	m_X = m_Y = 0.;
 	m_Index = m_Length = 0;
+	m_Stacked = m_NewLine = false;
 }
 
 TextRun::~TextRun ()
@@ -182,7 +206,7 @@ void TextRun::Draw (cairo_t *cr)
 		local = pango_layout_get_iter (pl);
 		pango_layout_iter_get_char_extents (local, &rect);
 		cairo_save (cr);
-		cairo_translate (cr, m_X + curx, m_Y + ascent - (double) pango_layout_iter_get_baseline (local) / PANGO_SCALE);
+		cairo_translate (cr, curx, ascent - (double) pango_layout_iter_get_baseline (local) / PANGO_SCALE);
 		pango_cairo_show_layout (cr, pl);
 		cairo_restore (cr);
 		pango_layout_iter_next_char (iter);
@@ -207,6 +231,7 @@ Text::Text (Canvas *canvas, double x, double y):
 {
 	TextRun *run = new TextRun ();
 	m_Runs.push_front (run);
+	m_FontDesc = pango_layout_get_font_description (run->m_Layout);
 	m_ImContext = gtk_im_multicontext_new ();
 	g_signal_connect (G_OBJECT (m_ImContext), "commit",
 		G_CALLBACK (TextPrivate::OnCommit), this);
@@ -221,10 +246,15 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 	m_CurTags (new TextTagList ()),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
-	m_LineOffset (0.), m_Width (0.), m_Height (0.)
+	m_LineOffset (0.),
+	m_Justification (GTK_JUSTIFY_LEFT),
+	m_Width (0.), m_Height (0.)
 {
 	TextRun *run = new TextRun ();
 	m_Runs.push_front (run);
+	m_FontDesc = pango_layout_get_font_description (run->m_Layout);
+	m_Lines = NULL;
+	m_LinesNumber = 0;
 	m_ImContext = gtk_im_multicontext_new ();
 	g_signal_connect (G_OBJECT (m_ImContext), "commit",
 		G_CALLBACK (TextPrivate::OnCommit), this);
@@ -242,6 +272,8 @@ Text::~Text ()
 	}
 	if (m_CurTags)
 		delete m_CurTags;
+	if (m_Lines)
+		delete [] m_Lines;
 }
 
 void Text::SetPosition (double x, double y)
@@ -622,7 +654,7 @@ void Text::GetBounds (Rect *ink, Rect *logical)
 	}
 }
 
-void Text::InsertTextTag (TextTag *tag)
+void Text::InsertTextTag (TextTag *tag, bool rebuild_attributes)
 {
 	// FIXME: we need to filter tags to avoid duplicates
 	// now, insert the new tag
@@ -631,20 +663,9 @@ void Text::InsertTextTag (TextTag *tag)
 	else
 		m_Tags.push_back (tag);
 	// now, rebuild pango attributes lists for modified runs.
-	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
-	for (run = m_Runs.begin (); run != end_run; run++) {
-		if ((*run)->m_Index < tag->GetEndIndex () && (*run)->m_Index + (*run)->m_Length > tag->GetStartIndex ()) {
-			PangoAttrList *l = pango_layout_get_attributes ((*run)->m_Layout);
-			if (l == NULL)
-				l = pango_attr_list_new ();
-			unsigned start = (tag->GetStartIndex () > (*run)->m_Index)? tag->GetStartIndex () - (*run)->m_Index: 0;
-			unsigned end = (tag->GetEndIndex () < (*run)->m_Index + (*run)->m_Length)? tag->GetEndIndex () - (*run)->m_Index: (*run)->m_Length;
-			tag->Filter (l, start, end);
-			pango_layout_set_attributes ((*run)->m_Layout, l);	
-		}
-	}
-	// force reposition and redraw
-	SetPosition (m_x, m_y);
+	// FIXME: it would be better to update only the changed portion
+	if (rebuild_attributes)
+		RebuildAttributes ();
 }
 
 void Text::SetCurTagList (TextTagList *l)
@@ -1066,9 +1087,53 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 
 void Text::RebuildAttributes ()
 {
+	// This might be optimized: not everything should be scanned each time a change occur
+	// first update runs list
+	// we need to order tags
+	m_Tags.sort (gccv::TextTag::Order);
 	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
+	for (run = m_Runs.begin ();run != end_run; run++) // delete all runs
+		delete (*run);
+	m_Runs.clear ();
+	// Recreate first run
+	TextRun *new_run = new TextRun (), *last_run;
+	pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
+	m_Runs.push_front (new_run);
+	last_run = new_run;
 	TextTagList::iterator tag, end_tag = m_Tags.end ();
+	bool stacked = false;
+	unsigned lines = 1;
+	std::string str;
+	for (tag = m_Tags.begin (); tag != end_tag; tag++) {
+		if (stacked || (*tag)->GetStacked ()) {
+			// we need a new run
+			new_run = new TextRun ();
+			pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
+			new_run ->m_Index = (*tag)->GetStartIndex ();
+			last_run->m_Length = new_run->m_Index - last_run->m_Index;
+			stacked = new_run->m_Stacked = (*tag)->GetStacked ();
+			m_Runs.push_back (new_run);
+			last_run = new_run;
+		} else if ((*tag)->GetNewLine ()) {
+			lines++;
+			stacked = false;
+			// we need a new run
+			new_run = new TextRun ();
+			pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
+			new_run ->m_Index = (*tag)->GetStartIndex ();
+			last_run->m_Length = new_run->m_Index - last_run->m_Index;
+			new_run->m_NewLine = true;
+			m_Runs.push_back (new_run);
+			last_run = new_run;
+		}
+	}
+	last_run->m_Length = m_Text.length () - last_run->m_Index;
+	// now update attributes for each run
+	end_run = m_Runs.end ();
+	PangoLayoutIter *iter;
 	for (run = m_Runs.begin (); run != end_run; run++) {
+		str = m_Text.substr ((*run)->m_Index, (*run)->m_Length);
+		pango_layout_set_text ((*run)->m_Layout, str.c_str (), -1);
 		PangoAttrList *l = pango_attr_list_new ();
 		for (tag = m_Tags.begin (); tag != end_tag; tag++) {
 			if ((*tag)->GetEndIndex () <= (*run)->m_Index || (*tag)->GetStartIndex () >= (*run)->m_Index + (*run)->m_Length)
@@ -1079,6 +1144,44 @@ void Text::RebuildAttributes ()
 		}
 		pango_layout_set_attributes ((*run)->m_Layout, l);
 		pango_attr_list_unref (l);
+		PangoRectangle rect;
+		pango_layout_get_extents ((*run)->m_Layout, NULL, &rect);
+		(*run)->m_Width = (double) rect.width / PANGO_SCALE;
+		(*run)->m_Height = (double) rect.height / PANGO_SCALE;
+		iter = pango_layout_get_iter ((*run)->m_Layout);
+		(*run)->m_BaseLine = (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+		pango_layout_iter_free (iter);
+	}
+	if (m_Lines)
+		delete [] m_Lines;
+	m_Lines = new TextLine[lines];
+	m_LinesNumber = lines;
+	// we now need to rebuild runs positions
+	// FIXME: support several lines
+	double curx = 0., curw = 0.;
+	unsigned cur_line = 0;
+	for (run = m_Runs.begin (); run != end_run; run++) {
+		m_Lines[cur_line].m_Runs.push_back (*run);
+		if ((*run)->m_Stacked) {
+			if ((*run)->m_Width > curw)
+				curw = (*run)->m_Width;
+			(*run)->m_X = curx;
+		} else if ((*run)->m_NewLine) {
+			m_Lines[cur_line].m_Width = curx + curw;
+			cur_line++;
+		} else {
+			(*run)->m_X = curx + curw;
+			curx += (*run)->m_Width;
+			curw = 0.;
+		}
+		if (m_Lines[cur_line].m_BaseLine < (*run)->m_BaseLine)
+			m_Lines[cur_line].m_BaseLine = (*run)->m_BaseLine;
+	}
+	m_Lines[cur_line].m_Width = curx + curw;
+	for (cur_line = 0; cur_line < lines; cur_line++) {
+		end_run = m_Lines[cur_line].m_Runs.end ();
+		for (run = m_Lines[cur_line].m_Runs.begin (); run != end_run; run++)
+			(*run)->m_Y = m_Lines[cur_line].m_BaseLine - (*run)->m_BaseLine;
 	}
 	// force reposition and redraw
 	SetPosition (m_x, m_y);
