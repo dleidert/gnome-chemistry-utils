@@ -281,53 +281,57 @@ void Text::SetPosition (double x, double y)
 	double xr, yr, w, h;
 	PangoRectangle r;
 	std::list <TextRun *>::iterator i, end = m_Runs.end ();
-	int x0, y0, x1, y1;
+	double x0, y0, x1, y1, x_, y_;
 	if (m_BlinkSignal) {
 		i = m_Runs.begin ();
 		pango_layout_get_extents ((*i)->m_Layout, NULL, &r);
-		x0 = r.x;
-		y0 = r.y;
-		x1 = x0 + r.width;
-		y1 = y0 + r.height;
+		x0 = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
+		y0 = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
+		x1 = x0 + static_cast <double> (r.width) / PANGO_SCALE;
+		y1 = y0 + static_cast <double> (r.height) / PANGO_SCALE;
 		for (i++; i != end; i++) {
 			pango_layout_get_extents ((*i)->m_Layout, NULL, &r);
-			if (r.x < x0)
-				x0 = r.x;
-			if (r.y < y0)
-				y0 = r.y;
-			r.x += r.width;
-			r.y += r.height;
-			if (r.x > x1)
-				x1 = r.x;
-			if (r.y > y1)
-				y1 = r.y;
+			x_ = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
+			y_ = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
+			if (x_ < x0)
+				x0 = x_;
+			if (y_ < y0)
+				y0 = y_;
+			x_ += static_cast <double> (r.width) / PANGO_SCALE;
+			y_ += static_cast <double> (r.height) / PANGO_SCALE;
+			if (x_ > x1)
+				x1 = x_;
+			if (y_ > y1)
+				y1 = y_;
 		}
 	} else {
 		i = m_Runs.begin ();
 		pango_layout_get_extents ((*i)->m_Layout, &r, NULL);
-		x0 = r.x;
-		y0 = r.y;
-		x1 = x0 + r.width;
-		y1 = y0 + r.height;
+		x0 = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
+		y0 = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
+		x1 = x0 + static_cast <double> (r.width) / PANGO_SCALE;
+		y1 = y0 + static_cast <double> (r.height) / PANGO_SCALE;
 		for (i++; i != end; i++) {
 			pango_layout_get_extents ((*i)->m_Layout, &r, NULL);
-			if (r.x < x0)
-				x0 = r.x;
-			if (r.y < y0)
-				y0 = r.y;
-			r.x += r.width;
-			r.y += r.height;
-			if (r.x > x1)
-				x1 = r.x;
-			if (r.y > y1)
-				y1 = r.y;
+			x_ = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
+			y_ = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
+			if (x_ < x0)
+				x0 = x_;
+			if (y_ < y0)
+				y0 = y_;
+			x_ += static_cast <double> (r.width) / PANGO_SCALE;
+			y_ += static_cast <double> (r.height) / PANGO_SCALE;
+			if (x_ > x1)
+				x1 = x_;
+			if (y_ > y1)
+				y1 = y_;
 		}
 	}
-	m_x = x;
-	m_y = y;
-	m_Y = (double) y0 / PANGO_SCALE;
-	m_Width = (double) (x0 + x1) / PANGO_SCALE;
-	m_Height = (double) (y1 - y0) / PANGO_SCALE;
+	m_x = x + x0;   // are +x0 and +y0 useful? or can they be negative???
+	m_y = y + y0;
+	m_Y = y0;
+	m_Width = x1 - x0;
+	m_Height = y1 - y0;
 	w = m_Width + 2 * m_Padding;
 	h = m_Height + 2 * m_Padding;
 	PangoLayoutIter* iter = pango_layout_get_iter (m_Runs.front ()->m_Layout);
@@ -558,39 +562,43 @@ void Text::SetEditing (bool editing)
 void Text::GetBounds (Rect *ink, Rect *logical)
 {
 	PangoRectangle i, l;
-	int x0, x1, x2, x3, y0, y1, y2, y3;
+	double x0, x1, x2, x3, y0, y1, y2, y3, x, y;
 	std::list <TextRun *>::iterator it = m_Runs.begin (), end = m_Runs.end ();
 	pango_layout_get_extents ((*it)->m_Layout, &i, &l);
-	x0 = i.x;
-	y0 = i.y;
-	x1 = x0 + i.width;
-	y1 = y0 + i.height;
-	x2 = l.x;
-	y2 = l.y;
-	x3 = x2 + l.width;
-	y3 = y2 + l.height;
+	x0 = (*it)->m_X + static_cast <double> (i.x) / PANGO_SCALE;
+	y0 = (*it)->m_Y + static_cast <double> (i.y) / PANGO_SCALE;
+	x1 = x0 + static_cast <double> (i.width) / PANGO_SCALE;
+	y1 = y0 + static_cast <double> (i.height) / PANGO_SCALE;
+	x2 = (*it)->m_X + static_cast <double> (l.x) / PANGO_SCALE;
+	y2 = (*it)->m_X + static_cast <double> (l.y) / PANGO_SCALE;
+	x3 = x2 + static_cast <double> (l.width) / PANGO_SCALE;
+	y3 = y2 + static_cast <double> (l.height) / PANGO_SCALE;
 	for (it++; it != end; it++) {
 		pango_layout_get_extents ((*it)->m_Layout, &i, &l);
-		if (i.x < x0)
-			x0 = i.x;
-		if (i.y < y0)
-			y0 = i.y;
-		i.x += i.width;
-		i.y += i.height;
-		if (i.x > x1)
-			x1 = i.x;
-		if (i.y > y1)
-			y1 = i.y;
-		if (l.x < x2)
-			x2 = l.x;
-		if (l.y < y2)
-			y2 = l.y;
-		l.x += l.width;
-		l.y += l.height;
-		if (l.x > x3)
-			x3 = l.x;
-		if (l.y > y3)
-			y3 = l.y;
+		x = (*it)->m_X + static_cast <double> (i.x) / PANGO_SCALE;
+		y = (*it)->m_Y + static_cast <double> (i.y) / PANGO_SCALE;
+		if (x < x0)
+			x0 = x;
+		if (y < y0)
+			y0 = y;
+		x += static_cast <double> (i.width) / PANGO_SCALE;
+		y += static_cast <double> (i.height) / PANGO_SCALE;
+		if (x > x1)
+			x1 = x;
+		if (y > y1)
+			y1 = y;
+		x = (*it)->m_X + static_cast <double> (l.x) / PANGO_SCALE;
+		y = (*it)->m_Y + static_cast <double> (l.y) / PANGO_SCALE;
+		if (x < x2)
+			x2 = x;
+		if (y < y2)
+			y2 = y;
+		x += static_cast <double> (l.width) / PANGO_SCALE;
+		y += static_cast <double> (l.height) / PANGO_SCALE;
+		if (x > x3)
+			x3 = x;
+		if (y > y3)
+			y3 = y;
 	}
 	double startx, starty;
 	// Horizontal position

@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-05-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fixed dimensions.
+	* libs/gcp/text-object.cc: always initialize m_Editor.
+
 2009-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: add a new line tag.
 	* libs/gccv/text-tag.h: ditto.
@@ -9,7 +13,7 @@
 
 2009-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: request goffice>=0.7.6 after new API breakage.
-	* programs/calc/gchemcalc.cc: use nes GOData API.
+	* programs/calc/gchemcalc.cc: use new GOData API.
 	* programs/spectra/window.cc: ditto.
 	* programs/table/gchemtable-curve.cc: ditto.
 	* programs/table/gchemtable-data-allocator.cc: ditto.

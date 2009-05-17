@@ -50,6 +50,7 @@ TextObject::TextObject (TypeId Type): Object (Type), gccv::TextClient ()
 	m_bLoading = false;
 	m_RealSave = true;
 	m_StartSel = m_EndSel = 0;
+	m_Editor = NULL;
 }
 
 TextObject::TextObject (double x, double y, TypeId Type): Object (Type),
@@ -63,6 +64,7 @@ TextObject::TextObject (double x, double y, TypeId Type): Object (Type),
 	m_InsertOffset = -2;
 	m_bLoading = false;
 	m_StartSel = m_EndSel = 0;
+	m_Editor = NULL;
 }
 
 TextObject::~TextObject ()
