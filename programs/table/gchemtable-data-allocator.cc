@@ -54,8 +54,107 @@ gct_data_allocator_allocate (GogDataAllocator *dalloc, GogPlot *plot)
 	// Nothing needed
 }
 
+#ifdef HAVE_GOG_DATA_EDITOR_SET_FORMAT
+static void
+gct_data_editor_set_format (G_GNUC_UNUSED GogDataEditor *editor, G_GNUC_UNUSED GOFormat const *fmt)
+{
+}
+
+static void
+gct_data_editor_set_value_double (G_GNUC_UNUSED GogDataEditor *editor, double val,
+				      G_GNUC_UNUSED GODateConventions const *date_conv)
+{
+}
+
+typedef GtkComboBox GctComboBox;
+typedef GtkComboBoxClass GctComboBoxClass;
+
+static void
+gct_data_editor_iface_init (GogDataEditorClass *iface)
+{
+	iface->set_format = gct_data_editor_set_format;
+	iface->set_value_double = gct_data_editor_set_value_double;
+}
+
+GSF_CLASS_FULL (GctComboBox, gct_combo_box,
+		NULL, NULL, NULL, NULL,
+		NULL, GTK_TYPE_COMBO_BOX, 0,
+		GSF_INTERFACE (gct_data_editor_iface_init, GOG_TYPE_DATA_EDITOR))
+
+GogDataEditor *gct_combo_box_new ()
+{
+	GogDataEditor *editor = GOG_DATA_EDITOR (g_object_new (gct_combo_box_get_type (), NULL));
+	// code from gtk_combo_box_new_text
+	// Copyright (C) 2002, 2003  Kristian Rietveld <kris@gtk.org>
+	GtkCellRenderer *cell;
+	GtkListStore *store;
+
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_combo_box_set_model (GTK_COMBO_BOX (editor), GTK_TREE_MODEL (store));
+	g_object_unref (store);
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (editor), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (editor), cell,
+		                          "text", 0,
+		                          NULL);
+
+	return editor;
+}
+
+static void
+gct_entry_set_value_double (GogDataEditor *editor, double val,
+				      G_GNUC_UNUSED GODateConventions const *date_conv)
+{
+	GtkEntry *entry = GTK_ENTRY (editor);
+	char *buf = g_strdup_printf ("%g", val);
+	gtk_entry_set_text (entry, buf);
+	g_free (buf);
+}
+
+typedef GtkEntry GctEntry;
+typedef GtkEntryClass GctEntryClass;
+
+static void
+gct_entry_iface_init (GogDataEditorClass *iface)
+{
+	iface->set_format = gct_data_editor_set_format;
+	iface->set_value_double = gct_entry_set_value_double;
+}
+
+GSF_CLASS_FULL (GctEntry, gct_entry,
+		NULL, NULL, NULL, NULL,
+		NULL, GTK_TYPE_ENTRY, 0,
+		GSF_INTERFACE (gct_entry_iface_init, GOG_TYPE_DATA_EDITOR))
+
+GogDataEditor *gct_entry_new ()
+{
+	return GOG_DATA_EDITOR (g_object_new (gct_entry_get_type (), NULL));
+}
+
+typedef GtkLabel GctLabel;
+typedef GtkLabelClass GctLabelClass;
+
+GSF_CLASS_FULL (GctLabel, gct_label,
+		NULL, NULL, NULL, NULL,
+		NULL, GTK_TYPE_LABEL, 0,
+		GSF_INTERFACE (gct_data_editor_iface_init, GOG_TYPE_DATA_EDITOR))
+
+GogDataEditor *gct_label_new (char const *label)
+{
+	return GOG_DATA_EDITOR (g_object_new (gct_label_get_type (), "label", label, NULL));
+}
+
+#else
+#   define GogDataEditor GtkWidget
+#   define GOG_DATA_EDITOR GTK_WIDGET
+#   define gct_combo_box_new gtk_combo_box_new_text
+#   define gct_entry_new gtk_entry_new
+#   define gct_label_new gtk_label_new
+#endif
+
 typedef struct {
-	GtkWidget *box;
+	GogDataEditor *box;
 	GogDataset *dataset;
 	int dim_i;
 	GogDataType data_type;
@@ -100,7 +199,11 @@ static void on_vector_data_changed (GtkComboBox *box, GraphDimEditor *editor)
 	g_free (name);
 }
 
+#ifdef HAVE_GOG_DATA_EDITOR_SET_FORMAT
+static GogDataEditor *
+#else
 static gpointer
+#endif
 gct_data_allocator_editor (GogDataAllocator *dalloc,
 			    GogDataset *dataset, int dim_i, GogDataType data_type)
 {
@@ -115,12 +218,12 @@ gct_data_allocator_editor (GogDataAllocator *dalloc,
 		GogPlot *plot = gog_series_get_plot (GOG_SERIES (dataset));
 		if (plot->desc.series.dim[dim_i].priority == GOG_SERIES_ERRORS) {
 			// FIXME: we might know the errors
-			editor->box = gtk_label_new (_("Not supported"));
+			editor->box = gct_label_new (_("Not supported"));
 			g_object_set_data_full (G_OBJECT (editor->box),
 				"editor", editor, (GDestroyNotify) graph_dim_editor_free);
 			return editor->box;
 		}
-		editor->box = gtk_combo_box_new_text ();
+		editor->box = GOG_DATA_EDITOR (gct_combo_box_new ());
 		GOData *data = gog_dataset_get_dim (dataset, dim_i), *cur;
 		int i = 1, sel = 0;
 		GtkComboBox *box = GTK_COMBO_BOX (editor->box);
@@ -142,7 +245,7 @@ gct_data_allocator_editor (GogDataAllocator *dalloc,
 						  G_CALLBACK (on_vector_data_changed), editor);
 		// FIXME: what about matrices?
 	} else {
-		editor->box = gtk_entry_new ();
+		editor->box = GOG_DATA_EDITOR (gct_entry_new ());
 		GOData *val = gog_dataset_get_dim (dataset, dim_i);
 		if (val != NULL) {
 #ifdef HAVE_GO_DATA_SERIALIZE

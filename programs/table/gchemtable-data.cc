@@ -188,6 +188,7 @@ gct_data_vector_load_values (GODataVector *dat)
 	if (dat->len > 0) {
 		int i = 0;
 		while (!go_finite (vec->data[i++]) && i < dat->len);
+		i--;
 		if (i < dat->len)
 			dat->minimum = dat->maximum = vec->data[i];
 		for (; i < dat->len; i++)

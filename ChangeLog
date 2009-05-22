@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: make it compile with latest goffice.
+	* programs/table/gchemtable-curve.cc: fixed vector selections.
+	* programs/table/gchemtable-data-allocator.cc: make it compile with latest
+	goffice.
+	* programs/table/gchemtable-data.cc: fix min max calculation for vectors.
+
 2009-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add check for go_data_serialize.
 	* programs/calc/gchemcalc.cc: update to new GOData API if present.
