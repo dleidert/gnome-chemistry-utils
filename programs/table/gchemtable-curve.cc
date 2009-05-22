@@ -315,19 +315,12 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	m_Name = name;
 	// Create a series for the plot and populate it with some simple data
 	GogSeries *series = gog_plot_new_series (plot);
-	double *yvals = g_new0 (double, MAX_ELT);
 	GogObject *obj, *label;
-	GOData *data;
+	GOData *data, *ydata = NULL;
 	int i;
 	// FIXME: find a better way to do the following things !
 	if (!strcmp (name, "en/Pauling")) {
-		GcuElectronegativity en;
-		en.scale = "Pauling";
-		for (i = 1; i <= MAX_ELT; i++) {
-			en.Z = i;
-			yvals[i - 1] = (gcu_element_get_electronegativity (&en))?
-				 				en.value.value: go_nan;
-		}
+		ydata = gct_data_vector_get_from_name (_("Pauling electronegativity"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Pauling electronegativity"), FALSE);
@@ -336,14 +329,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Pauling electronegativity"));
 	} else if (!strcmp (name, "ae")) {
-		GcuDimensionalValue const *val;
-		Element *elt;
-		// assuming all data are in kJ/mol
-		for (i = 1; i <= MAX_ELT; i++) {
-			elt = Element::GetElement (i);
-			val = (elt)? elt->GetElectronAffinity (): NULL;
-			yvals[i - 1] = (val)? val->value: go_nan;
-		}
+		ydata = gct_data_vector_get_from_name (_("Electronic affinity"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Electron affinity (kJ/mol)"), FALSE);
@@ -353,27 +339,25 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gtk_window_set_title (dialog, _("Electron affinity"));
 	} else if (!strncmp (name, "ei/", 3)) {
 		unsigned rank = strtol (name + 3, NULL, 10);
-		GcuDimensionalValue const *val;
-		Element *elt;
-		// assuming all data are in MJ/mol
-		for (i = 1; i <= MAX_ELT; i++) {
-			elt = Element::GetElement (i);
-			val = (elt)? elt->GetIonizationEnergy (rank): NULL;
-			yvals[i - 1] = (val)? val->value: go_nan;
-		}
-		char *rk, *buf;
+		char *rk, *buf;		
 		switch (rank) {
 		case 1:
+			ydata = gct_data_vector_get_from_name (_("First ionization energy"));
 			rk = g_strdup (_("1st. "));
 			break;
 		case 2:
+			ydata = gct_data_vector_get_from_name (_("Second ionization energy"));
 			rk = g_strdup (_("2nd. "));
 			break;
 		case 3:
+			ydata = gct_data_vector_get_from_name (_("Third ionization energy"));
 			rk = g_strdup (_("3rd. "));
 			break;
 		default:
 			rk = g_strdup_printf (_("%dth. "), rank);
+			buf = g_strconcat (rk, "ionization energy", NULL);
+//			ydata = gct_vector_get_ionization_energies (buf); // FIXME: not implemented
+			g_free (buf);
 			break;
 		}
 		buf = g_strconcat (rk, _("ionization energy (MJ/mol)"), NULL);
@@ -388,18 +372,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		g_free (buf);
 		g_free (rk);
 	} else if (!strcmp (name, "covalent")) {
-		Element *elt;
-		GcuAtomicRadius r;
-		r.type = GCU_COVALENT;
-		r.charge = 0;
-		r.scale = NULL;
-		r.cn = -1;
-		r.spin = GCU_N_A_SPIN;
-		for (i = 1; i <= MAX_ELT; i++) {
-			r.Z = i;
-			elt = Element::GetElement (i);
-			yvals[i - 1] = (elt && elt->GetRadius (&r))? r.value.value: go_nan;
-		}
+		ydata = gct_data_vector_get_from_name (_("Covalent radius"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Covalent radii"), FALSE);
@@ -408,18 +381,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Covalent radii"));
 	} else if (!strcmp (name, "vdw")) {
-		Element *elt;
-		GcuAtomicRadius r;
-		r.type = GCU_VAN_DER_WAALS;
-		r.charge = 0;
-		r.scale = NULL;
-		r.cn = -1;
-		r.spin = GCU_N_A_SPIN;
-		for (i = 1; i <= MAX_ELT; i++) {
-			r.Z = i;
-			elt = Element::GetElement (i);
-			yvals[i - 1] = (elt && elt->GetRadius (&r))? r.value.value: go_nan;
-		}
+		ydata = gct_data_vector_get_from_name (_("Van der Waals radius"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Van der Waals radii"), FALSE);
@@ -428,18 +390,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Van der Waals radii"));
 	} else if (!strcmp (name, "metallic")) {
-		Element *elt;
-		GcuAtomicRadius r;
-		r.type = GCU_METALLIC;
-		r.charge = 0;
-		r.scale = NULL;
-		r.cn = -1;
-		r.spin = GCU_N_A_SPIN;
-		for (i = 1; i <= MAX_ELT; i++) {
-			r.Z = i;
-			elt = Element::GetElement (i);
-			yvals[i - 1] = (elt && elt->GetRadius (&r))? r.value.value: go_nan;
-		}
+		ydata = gct_data_vector_get_from_name (_("Metallic radius"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Metallic radii"), FALSE);
@@ -448,13 +399,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Metallic radii"));
 	} else if (!strcmp (name, "mp")) {
-		Element *elt;
-		Value const *prop;
-		for (i = 1; i <= MAX_ELT; i++) {
-			elt = Element::GetElement (i);
-			prop = elt->GetProperty ("meltingpoint");
-			yvals[i - 1] = (prop)? prop->GetAsDouble (): go_nan;
-		}
+		ydata = gct_data_vector_get_from_name (_("Fusion temperature"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Melting point"), FALSE);
@@ -463,13 +408,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Melting point"));
 	} else if (!strcmp (name, "bp")) {
-		Element *elt;
-		Value const *prop;
-		for (i = 1; i <= MAX_ELT; i++) {
-			elt = Element::GetElement (i);
-			prop = elt->GetProperty ("boilingpoint");
-			yvals[i - 1] = (prop)? prop->GetAsDouble (): go_nan;
-		}
+		ydata = gct_data_vector_get_from_name (_("Ebullition temperature"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
 		data = go_data_scalar_str_new (_("Boiling point"), FALSE);
@@ -482,15 +421,16 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		return;
 	}
 	i = MAX_ELT - 1;
-	while (!go_finite (yvals[i]))
-		i--;
-	i++;
+	if (ydata) {
+		while (!go_finite (go_data_vector_get_value (GO_DATA_VECTOR (ydata), i)))
+			i--;
+		i++;
+		gog_series_set_dim (series, 1, ydata, &error);
+	}
 	obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 			gog_object_find_role_by_name (GOG_OBJECT (chart), "X-Axis"));
 	data = go_data_scalar_val_new ((double) i);
 	gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MAX, data, &error);
-	data = go_data_vector_val_new (yvals, MAX_ELT, g_free);
-	gog_series_set_dim (series, 1, data, &error);
 	gog_series_set_dim (series, 0, gct_data_vector_get_from_name (_("Atomic number")), &error);
 	obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 			gog_object_find_role_by_name (GOG_OBJECT (chart), "X-Axis"));

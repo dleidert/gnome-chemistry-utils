@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: needs goffice >= 0.7.7.
+	* programs/table/gchemtable-curve.cc: fixed vector selections.
+	* programs/table/gchemtable-data-allocator.cc: make it compile with latest
+	goffice.
+	* programs/table/gchemtable-data.cc: fix min max calculation for vectors.
+
 2009-05-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fixed dimensions.
 	* libs/gcp/text-object.cc: always initialize m_Editor.
