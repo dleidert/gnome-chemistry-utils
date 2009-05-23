@@ -30,6 +30,7 @@
 #include <gcu/print-setup-dlg.h>
 #include <goffice/gtk/go-graph-widget.h>
 #include <goffice/graph/gog-object-xml.h>
+#include <goffice/graph/gog-chart-map.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-image.h>
 #include <gsf/gsf-output-memory.h>
@@ -162,6 +163,45 @@ static void on_recent (GtkRecentChooser *widget, gsvWindow *Win)
 	gtk_recent_info_unref(info);
 }
 
+
+static bool on_motion (GOGraphWidget *widget, GdkEventMotion *event, GNU_C_UNUSED gpointer data)
+{
+	GogGraph *graph = go_graph_widget_get_graph (widget);
+	GogChart *chart = go_graph_widget_get_chart (widget);
+	GogViewAllocation alloc;
+	GogRenderer *rend = go_graph_widget_get_renderer (widget);
+	GogView *graph_view;
+	GogAxis *x_axis, *y_axis;
+	g_object_get (G_OBJECT (rend), "view", &graph_view, NULL);
+	GSList *l = gog_object_get_children (GOG_OBJECT (chart), gog_object_find_role_by_name (GOG_OBJECT (chart), "Plot"));
+	GogPlot *plot = reinterpret_cast <GogPlot *> (l->data);
+	g_slist_free (l);
+	GogView *view = gog_view_find_child_view (graph_view, GOG_OBJECT (plot));
+	l = gog_chart_get_axes (chart, GOG_AXIS_X);
+	x_axis = GOG_AXIS (l->data);
+	g_slist_free (l);
+	l = gog_chart_get_axes (chart, GOG_AXIS_Y);
+	y_axis = GOG_AXIS (l->data);
+	g_slist_free (l);
+    GogChartMap *map = gog_chart_map_new (chart,
+            &(view->allocation), x_axis, y_axis, NULL, FALSE);
+	if (gog_chart_map_is_valid (map) &&
+			event->x >= view->allocation.x && event->x < view->allocation.x + view->allocation.w &&
+			event->y >= view->allocation.y && event->y < view->allocation.y + view->allocation.h) {
+		GogAxisMap *x_map = gog_chart_map_get_axis_map (map, 0);
+		GogAxisMap *y_map = gog_chart_map_get_axis_map (map, 1);
+		double x = gog_axis_map_from_view (x_map, event->x);
+		double y = gog_axis_map_from_view (y_map, event->y);
+		char *buf = g_strdup_printf ("x=%g y=%g", x, y);
+		gtk_widget_set_tooltip_text (GTK_WIDGET (widget), buf);
+		g_free (buf);
+		gog_chart_map_free (map);
+	} else
+		gtk_widget_set_tooltip_text (GTK_WIDGET (widget), "");
+	g_object_unref (G_OBJECT (graph_view));
+	return true;
+}
+
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
 	  { "Open", GTK_STOCK_OPEN, N_("_Open..."), "<control>O",
@@ -263,7 +303,9 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	m_View = dynamic_cast<gsvView *> (m_Doc->GetView ());
 	m_View->SetWindow (this);
 	gtk_box_pack_start (GTK_BOX (vbox), m_View->GetOptionBox (), FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (vbox), m_View->GetWidget ());
+	w = m_View->GetWidget ();
+	g_signal_connect (G_OBJECT (w), "motion-notify-event", G_CALLBACK (on_motion), NULL);
+	gtk_container_add (GTK_CONTAINER (vbox), w);
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
 	// Initialize print settings
 }

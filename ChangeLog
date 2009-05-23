@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-05-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumview.cc: fixed a crash.
+	* programs/spectra/window.cc: add the coordinates as tip when the mouse
+	pointer is over the chart.
+
 2009-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: needs goffice >= 0.7.7.
 	* programs/table/gchemtable-curve.cc: fixed vector selections.
