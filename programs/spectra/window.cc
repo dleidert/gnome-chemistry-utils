@@ -164,11 +164,9 @@ static void on_recent (GtkRecentChooser *widget, gsvWindow *Win)
 }
 
 
-static bool on_motion (GOGraphWidget *widget, GdkEventMotion *event, GNU_C_UNUSED gpointer data)
+static bool on_motion (GOGraphWidget *widget, GdkEventMotion *event, G_GNUC_UNUSED gpointer data)
 {
-	GogGraph *graph = go_graph_widget_get_graph (widget);
 	GogChart *chart = go_graph_widget_get_chart (widget);
-	GogViewAllocation alloc;
 	GogRenderer *rend = go_graph_widget_get_renderer (widget);
 	GogView *graph_view;
 	GogAxis *x_axis, *y_axis;
