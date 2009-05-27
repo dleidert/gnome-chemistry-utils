@@ -68,81 +68,76 @@ static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const
 	pBox->OnEdited(cell, path_string, new_text);
 }
 
-gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/cleavages.glade", "cleavages", pDoc)
+gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE, pDoc)
 {
-	if (!xml) {
-		m_Cleavages = NULL;
-		delete this;
-		return;
-	}
 	m_pDoc = pDoc;
-	GtkWidget* button = glade_xml_get_widget(xml, "add");
-	g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(on_add), this);
-	DeleteBtn = glade_xml_get_widget(xml, "delete");
+	GtkWidget* button = GetWidget ("add");
+	g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK(on_add), this);
+	DeleteBtn = GetWidget ("delete");
 	gtk_widget_set_sensitive(DeleteBtn,0);
-	g_signal_connect(G_OBJECT(DeleteBtn), "clicked", G_CALLBACK(on_delete), this);
-	DeleteAllBtn = glade_xml_get_widget(xml, "delete_all");
-	g_signal_connect(G_OBJECT(DeleteAllBtn), "clicked", G_CALLBACK(on_delete_all), this);
-	FixedBtn = GTK_TOGGLE_BUTTON(glade_xml_get_widget(xml, "fixed"));
-	GtkTreeView* tree = (GtkTreeView*)glade_xml_get_widget(xml, "cleavageslist");
-	Selection = gtk_tree_view_get_selection(tree);
-	CleavageList = gtk_list_store_new(5, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_UINT, G_TYPE_BOOLEAN);
-	gtk_tree_view_set_model(tree, GTK_TREE_MODEL(CleavageList));
+	g_signal_connect (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (on_delete), this);
+	DeleteAllBtn = GetWidget ("delete_all");
+	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
+	FixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("fixed"));
+	GtkTreeView* tree = GTK_TREE_VIEW (GetWidget ("cleavageslist"));
+	Selection = gtk_tree_view_get_selection (tree);
+	CleavageList = gtk_list_store_new (5, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_UINT, G_TYPE_BOOLEAN);
+	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (CleavageList));
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	/* column for h */
 	renderer = gtk_cell_renderer_text_new ();
-	g_object_set(G_OBJECT(renderer), "editable", true, NULL);
-	g_object_set_data(G_OBJECT (renderer), "column", (gint *)COLUMN_H);
+	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
+	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_H);
 	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
 	column = gtk_tree_view_column_new_with_attributes(_("h"), renderer, "text", 0, NULL);
 	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing(GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width(GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column(tree, column);
+	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
+	gtk_tree_view_append_column (tree, column);
 	/* column for k */
 	renderer = gtk_cell_renderer_text_new ();
-	g_object_set(G_OBJECT(renderer), "editable", true, NULL);
-	g_object_set_data(G_OBJECT (renderer), "column", (gint *)COLUMN_K);
+	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
+	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_K);
 	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	column = gtk_tree_view_column_new_with_attributes(_("k"), renderer, "text", 1, NULL);
+	column = gtk_tree_view_column_new_with_attributes (_("k"), renderer, "text", 1, NULL);
 	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing(GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width(GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column(tree, column);
+	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
+	gtk_tree_view_append_column (tree, column);
 	/* column for l */
 	renderer = gtk_cell_renderer_text_new ();
-	g_object_set(G_OBJECT(renderer), "editable", true, NULL);
-	g_object_set_data(G_OBJECT (renderer), "column", (gint *)COLUMN_L);
+	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
+	g_object_set_data (G_OBJECT (renderer), "column", (gint *) COLUMN_L);
 	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
 	column = gtk_tree_view_column_new_with_attributes(_("l"), renderer, "text", 2, NULL);
 	/* set this column to a fixed sizing (of 50 pixels) */
-	gtk_tree_view_column_set_sizing(GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width(GTK_TREE_VIEW_COLUMN (column), 50);
-	gtk_tree_view_append_column(tree, column);
+	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 50);
+	gtk_tree_view_append_column (tree, column);
 	/* column for planes number */
 	renderer = gtk_cell_renderer_text_new ();
 	g_signal_connect (G_OBJECT (renderer), "edited", G_CALLBACK (on_edited), this);
-	g_object_set(G_OBJECT(renderer), "editable", true, NULL);
-	g_object_set_data(G_OBJECT (renderer), "column", (gint *)COLUMN_PLANES);
-	column = gtk_tree_view_column_new_with_attributes(_("Planes cleaved"), renderer, "text", 3, NULL);
+	g_object_set (G_OBJECT (renderer), "editable", true, NULL);
+	g_object_set_data(G_OBJECT (renderer), "column", (gint *) COLUMN_PLANES);
+	column = gtk_tree_view_column_new_with_attributes (_("Planes cleaved"), renderer, "text", 3, NULL);
 	/* set this column to a fixed sizing (of 75 pixels) */
-	gtk_tree_view_column_set_sizing(GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
-	gtk_tree_view_column_set_fixed_width(GTK_TREE_VIEW_COLUMN (column), 75);
-	gtk_tree_view_append_column(tree, column);
+	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
+	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 75);
+	gtk_tree_view_append_column (tree, column);
 	m_Cleavages = g_array_sized_new (FALSE, FALSE, sizeof (struct CleavageStruct), 1);
-	CrystalCleavageList* Cleavages = m_pDoc->GetCleavageList();
+	CrystalCleavageList* Cleavages = m_pDoc->GetCleavageList ();
 	CrystalCleavage* pCleavage;
 	struct CleavageStruct s;
 	GtkTreeIter iter;
-	for (list<CrystalCleavage*>::iterator i = Cleavages->begin(); i != Cleavages->end(); i++)
+	for (list<CrystalCleavage*>::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)
 	{
 		pCleavage = *i;
-		s.h = pCleavage->h();
-		s.k = pCleavage->k();
-		s.l = pCleavage->l();
-		s.planes = pCleavage->Planes();
-		g_array_append_vals(m_Cleavages, &s, 1);
+		s.h = pCleavage->h ();
+		s.k = pCleavage->k ();
+		s.l = pCleavage->l ();
+		s.planes = pCleavage->Planes ();
+		g_array_append_vals (m_Cleavages, &s, 1);
 		gtk_list_store_append (CleavageList, &iter);
 		gtk_list_store_set (CleavageList, &iter,
 				  0, s.h,
@@ -151,8 +146,9 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 				  3, s.planes,
 				  -1);
 	}
-	g_signal_connect(G_OBJECT(Selection), "changed", G_CALLBACK(on_select), this);
-	if (!m_Cleavages->len)gtk_widget_set_sensitive(DeleteAllBtn, false);
+	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
+	if (!m_Cleavages->len)
+		gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
 gcCleavagesDlg::~gcCleavagesDlg()

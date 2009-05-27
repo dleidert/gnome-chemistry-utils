@@ -8,7 +8,7 @@ INCLUDES = \
 
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
-        -DGLADEDIR=\"$(gladedir)\" \
+        -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(residuesdir)\"
 
 templatesdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
@@ -32,7 +32,7 @@ noinst_HEADERS = \
 	templatetool.h \
 	templatetree.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/templates
-dist_glade_DATA = \
-	templates.glade \
-	new-template.glade
+uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/templates
+dist_ui_DATA = \
+	templates.ui \
+	new-template.ui

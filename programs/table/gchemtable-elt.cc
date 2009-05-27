@@ -38,32 +38,32 @@ static void on_focus_in (GChemTableElt *dlg)
 	dlg->OnFocusIn ();
 }
 
-GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"/eltpage.glade", "eltdlg")
+GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, UIDIR"/eltpage.ui", "eltdlg", GETTEXT_PACKAGE)
 {
 	Element *elt = Element::GetElement (Z);
 	m_Z = Z;
 	char *buf;
 	gtk_window_set_title (dialog, elt->GetName ());
 	g_signal_connect_swapped (G_OBJECT (dialog), "focus-in-event", G_CALLBACK (on_focus_in), this);
-	GtkWidget *w = glade_xml_get_widget (xml, "symbol");
+	GtkWidget *w = GetWidget ("symbol");
 	buf = g_strconcat ("<span font_desc=\"64\">", elt->GetSymbol (), "</span>", NULL);
 	gtk_label_set_markup (GTK_LABEL (w), buf);
 	g_free (buf);
 	buf = g_strdup_printf ("%d", Z);
-	w = glade_xml_get_widget (xml, "z");
+	w = GetWidget ("z");
 	gtk_label_set_text (GTK_LABEL (w), buf);
 	g_free (buf);
-	w = glade_xml_get_widget (xml, "weight");
+	w = GetWidget ("weight");
 	gtk_label_set_markup (GTK_LABEL (w), elt->GetWeight ()->GetAsString ());
-	w = glade_xml_get_widget (xml, "elec-conf-lbl");
+	w = GetWidget ("elec-conf-lbl");
 	/* The <sup> </sup> markup at the end of the chain is there to ensure that
 	things will be correcly aligned, add the same to the translated string */
 	gtk_label_set_markup (GTK_LABEL (w), _("Electronic configuration:<sup> </sup>"));
-	w = glade_xml_get_widget (xml, "elec-conf");
+	w = GetWidget ("elec-conf");
 	gtk_label_set_markup (GTK_LABEL (w), elt->GetElectronicConfiguration ().c_str ());
 	//Add composition list
 	GtkListStore *pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-	GtkTreeView *tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "names"));
+	GtkTreeView *tree = GTK_TREE_VIEW (GetWidget ("names"));
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (pclist));
 	g_object_unref (pclist);
 	GtkCellRenderer *renderer;
@@ -94,7 +94,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 				  -1);
 	}
 	// electronic properties page
-	w = glade_xml_get_widget (xml, "pauling-en");
+	w = GetWidget ("pauling-en");
 	GcuElectronegativity en;
 	en.scale = "Pauling";
 	en.Z = elt->GetZ ();
@@ -104,14 +104,14 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		g_free (buf);
 	} else
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
-	w = glade_xml_get_widget (xml, "pauling-btn");
+	w = GetWidget ("pauling-btn");
 	g_object_set_data (G_OBJECT (w), "app", App);
 	g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (on_show_curve), (void*) "en/Pauling");
 	// ionization energies
 	int n = 1;
 	GcuDimensionalValue const *value;
 	GtkWidget *val, *button;
-	GtkTable *table = GTK_TABLE (glade_xml_get_widget (xml, "ei-table"));
+	GtkTable *table = GTK_TABLE (GetWidget ("ei-table"));
 	while ((value = elt->GetIonizationEnergy (n))) {
 		if (n > 1) {
 			gtk_table_resize (table, 4, n);
@@ -132,8 +132,8 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 				(GtkAttachOptions) GTK_FILL,
 				(GtkAttachOptions) 0 , 0, 0);
 		} else {
-			val = glade_xml_get_widget (xml, "ei-value");
-			button = glade_xml_get_widget (xml, "ei-btn");
+			val = GetWidget ("ei-value");
+			button = GetWidget ("ei-btn");
 		}
 		buf = gcu_dimensional_value_get_string (value);
 		gtk_label_set_markup (GTK_LABEL (val), buf);
@@ -146,14 +146,14 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 	}
 	gtk_widget_show_all (GTK_WIDGET (table));
 	if (n == 1) {
-		w = glade_xml_get_widget (xml, "ei-lbl");
+		w = GetWidget ("ei-lbl");
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
-		w = glade_xml_get_widget (xml, "ei-btn");
+		w = GetWidget ("ei-btn");
 		gtk_widget_hide (w);
 	}
 	// electronic affinities
 	n = 1;
-	table = GTK_TABLE (glade_xml_get_widget (xml, "ae-table"));
+	table = GTK_TABLE (GetWidget ("ae-table"));
 	while ((value = elt->GetElectronAffinity (n))) {
 		if (n > 1) {
 			gtk_table_resize (table, 4, n);
@@ -170,8 +170,8 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 				(GtkAttachOptions) 0 , 0, 0);
 			button = NULL; // not enough values to draw a curve.
 		} else {
-			val = glade_xml_get_widget (xml, "ae-value");
-			button = glade_xml_get_widget (xml, "ae-btn");
+			val = GetWidget ("ae-value");
+			button = GetWidget ("ae-btn");
 			g_object_set_data (G_OBJECT (button), "app", App);
 			g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "ae");
 		}
@@ -182,9 +182,9 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 	}
 	gtk_widget_show_all (GTK_WIDGET (table));
 	if (n == 1) {
-		w = glade_xml_get_widget (xml, "ae-lbl");
+		w = GetWidget ("ae-lbl");
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
-		w = glade_xml_get_widget (xml, "ae-btn");
+		w = GetWidget ("ae-btn");
 		gtk_widget_hide (w);
 	}
 	// Radii page
@@ -196,44 +196,44 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 	r.scale = NULL;
 	r.cn = -1;
 	r.spin = GCU_N_A_SPIN;
-	button = glade_xml_get_widget (xml, "covalent-btn");
+	button = GetWidget ("covalent-btn");
 	if (elt->GetRadius (&r)) {
 		buf = gcu_dimensional_value_get_string (&r.value);
-		w = glade_xml_get_widget (xml, "covalent-radius");
+		w = GetWidget ("covalent-radius");
 		gtk_label_set_text (GTK_LABEL (w), buf);
 		g_free (buf);
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "covalent");
 	} else {
-		w = glade_xml_get_widget (xml, "covalent-radius");
+		w = GetWidget ("covalent-radius");
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
 		gtk_widget_hide (button);
 	}
 	r.type = GCU_VAN_DER_WAALS;
-	button = glade_xml_get_widget (xml, "vdw-btn");
+	button = GetWidget ("vdw-btn");
 	if (elt->GetRadius (&r)) {
 		buf = gcu_dimensional_value_get_string (&r.value);
-		w = glade_xml_get_widget (xml, "vdw-radius");
+		w = GetWidget ("vdw-radius");
 		gtk_label_set_text (GTK_LABEL (w), buf);
 		g_free (buf);
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "vdw");
 	} else {
-		w = glade_xml_get_widget (xml, "vdw-radius");
+		w = GetWidget ("vdw-radius");
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
 		gtk_widget_hide (button);
 	}
 	r.type = GCU_METALLIC;
-	button = glade_xml_get_widget (xml, "metallic-btn");
+	button = GetWidget ("metallic-btn");
 	if (elt->GetRadius (&r)) {
 		buf = gcu_dimensional_value_get_string (&r.value);
-		w = glade_xml_get_widget (xml, "metallic-radius");
+		w = GetWidget ("metallic-radius");
 		gtk_label_set_text (GTK_LABEL (w), buf);
 		g_free (buf);
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "metallic");
 	} else {
-		w = glade_xml_get_widget (xml, "metallic-radius");
+		w = GetWidget ("metallic-radius");
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
 		gtk_widget_hide (button);
 	}
@@ -258,12 +258,12 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 	if (radii_list.size () == 0) {
 		w = gtk_label_new (_("n.a."));
 		gtk_widget_show (w);
-		gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (xml, "ionic-radii")),
+		gtk_box_pack_start (GTK_BOX (GetWidget ("ionic-radii")),
 								w, FALSE, FALSE, 0);
-		gtk_widget_hide (glade_xml_get_widget (xml, "radii-scrolled"));
+		gtk_widget_hide (GetWidget ("radii-scrolled"));
 	} else {
 		pclist = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
-		tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "radii-list"));
+		tree = GTK_TREE_VIEW (GetWidget ("radii-list"));
 		gtk_tree_view_set_model (tree, GTK_TREE_MODEL (pclist));
 		g_object_unref (pclist);
 		/* column for element */
@@ -330,18 +330,18 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, GLADEDIR"
 		}
 	}
 	Value const *prop = elt->GetProperty ("meltingpoint");
-	button = glade_xml_get_widget (xml, "melting-btn");
+	button = GetWidget ("melting-btn");
 	if (prop) {
-		w = glade_xml_get_widget (xml, "melting");
+		w = GetWidget ("melting");
 		gtk_label_set_text (GTK_LABEL (w), prop->GetAsString ());
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "mp");
 	} else
 		gtk_widget_hide (w);
 	prop = elt->GetProperty ("boilingpoint");
-	button = glade_xml_get_widget (xml, "boiling-btn");
+	button = GetWidget ("boiling-btn");
 	if (prop) {
-		w = glade_xml_get_widget (xml, "boiling");
+		w = GetWidget ("boiling");
 		gtk_label_set_text (GTK_LABEL (w), prop->GetAsString ());
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) "bp");

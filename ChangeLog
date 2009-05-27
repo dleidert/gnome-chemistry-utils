@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all files: ported from libglade to GtkBuilder.
+
 2009-05-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumview.cc: fixed a crash.
 	* programs/spectra/window.cc: add the coordinates as tip when the mouse

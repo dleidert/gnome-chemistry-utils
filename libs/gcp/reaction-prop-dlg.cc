@@ -38,18 +38,18 @@ static void on_role_changed (GtkComboBox *box, ReactionProp *prop)
 }
 
 ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
-	Dialog (arrow->GetDocument ()->GetApp (), GLADEDIR"/arrow-object.glade", "reaction-prop", prop),
+	Dialog (arrow->GetDocument ()->GetApp (), UIDIR"/arrow-object.ui", "reaction-prop", GETTEXT_PACKAGE, prop),
 	m_Arrow (arrow),
 	m_Prop (prop)
 {
-	GtkComboBox *box = (GtkComboBox *) glade_xml_get_widget (xml, "role-combo");
+	GtkComboBox *box = GTK_COMBO_BOX (GetWidget ("role-combo"));
 	int max = (prop->GetObject ()->GetType () == MoleculeType)?
 				REACTION_PROP_MAX_MOL: REACTION_PROP_MAX;
 	for (int i = REACTION_PROP_UNKNOWN; i < max; i++)
 		gtk_combo_box_append_text (box, ReactionPropRoles[i]);
 	gtk_combo_box_set_active (box, prop->GetRole ());
 	g_signal_connect (G_OBJECT (box), "changed", G_CALLBACK (on_role_changed), prop);
-	gtk_widget_show (GTK_WIDGET(dialog));
+	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 ReactionPropDlg::~ReactionPropDlg ()

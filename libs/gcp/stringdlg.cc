@@ -56,15 +56,15 @@ static void on_string_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_U
 }
 
 StringDlg::StringDlg (Document *pDoc, string& data, enum data_type type):
-	Dialog (pDoc->GetApplication(), GLADEDIR"/stringdlg.glade", "string")
+	Dialog (pDoc->GetApplication(), UIDIR"/stringdlg.ui", "string", GETTEXT_PACKAGE)
 {
 	Data = data;
 	Type = type;
 	gtk_window_set_title (dialog, (Type == SMILES)? "SMILES": "InChI");
-	View = GTK_TEXT_VIEW (glade_xml_get_widget (xml, "text"));
+	View = GTK_TEXT_VIEW (GetWidget ("text"));
 	Buffer = gtk_text_view_get_buffer (View);
 	gtk_text_buffer_set_text (Buffer, data.c_str () , -1);
-	GtkWidget *w = glade_xml_get_widget (xml, "copy");
+	GtkWidget *w = GetWidget ("copy");
 	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_copy), this);
 	gtk_window_set_transient_for (dialog, pDoc->GetWindow ()->GetWindow ()); 
 }

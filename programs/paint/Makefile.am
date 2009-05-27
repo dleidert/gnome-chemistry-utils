@@ -17,7 +17,7 @@ INCLUDES = \
 		@openbabel_CFLAGS@
 		@GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/paint\"
+        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/paint\"
 
 bin_PROGRAMS = gchempaint-@GCU_API_VER@
 

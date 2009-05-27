@@ -92,23 +92,18 @@ static void on_medians_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *
 	pBox->OnToggledSpecial (medians);
 }
 
-gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/lines.glade", "lines", pDoc)
+gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/lines.ui", "lines", GETTEXT_PACKAGE, pDoc)
 {
-	if (!xml) {
-		m_Lines = NULL;
-		delete this;
-		return;
-	}
 	m_pDoc = pDoc;
-	GtkWidget* button = glade_xml_get_widget (xml, "add");
+	GtkWidget* button = GetWidget ("add");
 	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_add), this);
-	DeleteBtn = glade_xml_get_widget (xml, "delete");
+	DeleteBtn = GetWidget ("delete");
 	gtk_widget_set_sensitive (DeleteBtn,0);
 	g_signal_connect (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (on_delete), this);
-	DeleteAllBtn = glade_xml_get_widget (xml, "delete_all");
+	DeleteAllBtn = GetWidget ("delete_all");
 	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
 	LineList = gtk_list_store_new (7, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
-	GtkTreeView* tree = (GtkTreeView *) glade_xml_get_widget (xml, "lineslist");
+	GtkTreeView* tree = GTK_TREE_VIEW (GetWidget ("lineslist"));
 	Selection = gtk_tree_view_get_selection (tree);
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (LineList));
 	GtkCellRenderer *renderer;
@@ -183,25 +178,25 @@ gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN(column), 50);
 	gtk_tree_view_append_column (tree, column);
 	m_Lines = g_array_sized_new (FALSE, FALSE, sizeof (struct LineStruct), 1);
-	LineColor = (GtkColorButton *) glade_xml_get_widget (xml, "color");
-	LineR = (GtkEntry *) glade_xml_get_widget (xml, "radius");
-	Edges = (GtkCheckButton *) glade_xml_get_widget (xml, "edges");
+	LineColor = GTK_COLOR_BUTTON (GetWidget ("color"));
+	LineR = GTK_ENTRY (GetWidget ("radius"));
+	Edges = GTK_CHECK_BUTTON (GetWidget ("edges"));
 	g_signal_connect (G_OBJECT (Edges), "toggled", G_CALLBACK (on_edges_toggled), this);
-	EdgesColor = (GtkColorButton *) glade_xml_get_widget (xml, "edges-color");
+	EdgesColor = GTK_COLOR_BUTTON (GetWidget ("edges-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), false);
-	EdgesR = (GtkEntry *) glade_xml_get_widget (xml, "edges_radius");
+	EdgesR = GTK_ENTRY (GetWidget ("edges_radius"));
 	gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), false);
-	Medians = (GtkCheckButton *) glade_xml_get_widget (xml, "medians");
+	Medians = GTK_CHECK_BUTTON (GetWidget ("medians"));
 	g_signal_connect (G_OBJECT (Medians), "toggled", G_CALLBACK (on_medians_toggled), this);
-	MediansColor = (GtkColorButton *) glade_xml_get_widget (xml, "med-color");
+	MediansColor = GTK_COLOR_BUTTON (GetWidget ("med-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), false);
-	MediansR = (GtkEntry *) glade_xml_get_widget (xml, "med_radius");
+	MediansR = GTK_ENTRY (GetWidget ("med_radius"));
 	gtk_widget_set_sensitive (GTK_WIDGET (MediansR), false);
-	Diags = (GtkCheckButton *) glade_xml_get_widget (xml, "diagonals");
+	Diags = GTK_CHECK_BUTTON (GetWidget ("diagonals"));
 	g_signal_connect (G_OBJECT (Diags), "toggled", G_CALLBACK (on_diags_toggled), this);
-	DiagsColor = (GtkColorButton *) glade_xml_get_widget (xml, "diag-color");
+	DiagsColor = GTK_COLOR_BUTTON (GetWidget ("diag-color"));
 	gtk_widget_set_sensitive (GTK_WIDGET (DiagsColor), false);
-	DiagsR = (GtkEntry *) glade_xml_get_widget (xml, "diag_radius");
+	DiagsR = GTK_ENTRY (GetWidget ("diag_radius"));
 	gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), false);
 	m_LineSelected = -1;
 	CrystalLineList* Lines = m_pDoc->GetLineList ();

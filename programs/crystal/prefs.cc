@@ -34,14 +34,10 @@ static void on_print_resolution (G_GNUC_UNUSED GtkWidget *widget, gcPrefsDlg * d
 	dialog->UpdatePrinting ();
 }
 
-gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, GLADEDIR"/prefs.glade", "prefs", App)
+gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, UIDIR"/prefs.ui", "prefs", GETTEXT_PACKAGE, App)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
-	PrintResMenu = (GtkComboBox *) glade_xml_get_widget (xml, "printres");
-	PrintResBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "printresbtn");
+	PrintResMenu = GTK_COMBO_BOX (GetWidget ("printres"));
+	PrintResBtn = GTK_SPIN_BUTTON (GetWidget ("printresbtn"));
 	int PrintIndex;
 	bool active = false;
 	switch (PrintResolution) {
@@ -78,11 +74,11 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, GLADEDIR"/prefs.glade"
 	gtk_widget_set_sensitive (GTK_WIDGET (PrintResBtn), active);
 	gtk_combo_box_set_active (PrintResMenu, PrintIndex);
 	g_signal_connect (PrintResMenu, "changed", G_CALLBACK (on_print_resolution), this);
-	FoVBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "fov"));
+	FoVBtn = GTK_SPIN_BUTTON (GetWidget ("fov"));
 	gtk_spin_button_set_value (FoVBtn, FoV);
-	PsiEnt = (GtkEntry *) glade_xml_get_widget (xml, "psi");
-	ThetaEnt = (GtkEntry *) glade_xml_get_widget (xml, "theta");
-	PhiEnt = (GtkEntry *) glade_xml_get_widget (xml, "phi");
+	PsiEnt = GTK_ENTRY (GetWidget ("psi"));
+	ThetaEnt = GTK_ENTRY (GetWidget ("theta"));
+	PhiEnt = GTK_ENTRY (GetWidget ("phi"));
 	char m_buf[32];
 	snprintf (m_buf, sizeof (m_buf) - 1, "%g", Psi);
 	gtk_entry_set_text (PsiEnt, m_buf);
@@ -90,7 +86,7 @@ gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, GLADEDIR"/prefs.glade"
 	gtk_entry_set_text (ThetaEnt, m_buf);
 	snprintf (m_buf, sizeof (m_buf) - 1, "%g", Phi);
 	gtk_entry_set_text (PhiEnt, m_buf);
-	BackgroundBtn = (GtkColorButton *) glade_xml_get_widget (xml, "color");
+	BackgroundBtn = GTK_COLOR_BUTTON (GetWidget ("color"));
 	GdkColor color;
 	color.red = (guint16) (Red * 65535.);
 	color.green = (guint16) (Green * 65535.);

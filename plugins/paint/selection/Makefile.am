@@ -13,7 +13,7 @@ INCLUDES = \
 		@GCU_CFLAGS@
 
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(gladedir)\" \
+        -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(selectiondir)\"
 
 IMAGES = \
@@ -57,8 +57,8 @@ noinst_HEADERS = \
 	groupdlg.h \
 	selectiontool.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/selection
-dist_glade_DATA = group.glade
+uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/selection
+dist_ui_DATA = group.ui
 
 
 $(BUILT_SOURCES): $(IMAGES)

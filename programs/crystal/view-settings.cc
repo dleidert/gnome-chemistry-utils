@@ -26,20 +26,15 @@
 #include "view-settings.h"
 #include "document.h"
 #include "application.h"
-#include <glade/glade.h>
 
-gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDoc ()->GetApp (), GLADEDIR"/view-settings.glade", "view_settings", pView)
+gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDoc ()->GetApp (), UIDIR"/view-settings.ui", "view_settings", GETTEXT_PACKAGE, pView)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	m_pView = pView;
-	FoV = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "fov"));
-	Psi = (GtkEntry *) glade_xml_get_widget (xml, "psi");
-	Theta = (GtkEntry *) glade_xml_get_widget (xml, "theta");
-	Phi = (GtkEntry *) glade_xml_get_widget (xml, "phi");
-	Background = (GtkColorButton *) glade_xml_get_widget (xml, "color");
+	FoV = GTK_SPIN_BUTTON (GetWidget ("fov"));
+	Psi = GTK_ENTRY (GetWidget ("psi"));
+	Theta = GTK_ENTRY (GetWidget ("theta"));
+	Phi = GTK_ENTRY (GetWidget ("phi"));
+	Background = GTK_COLOR_BUTTON (GetWidget ("color"));
 	double x0, x1, x2, x3;
 	GdkColor color;
 	m_pView->GetBackgroundColor (&x0, &x1, &x2, &x3);

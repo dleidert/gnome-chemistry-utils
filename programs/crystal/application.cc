@@ -30,7 +30,6 @@
 #include <gcu/filechooser.h>
 #include <goffice/utils/go-image.h>
 #include <gsf/gsf-output-gio.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>

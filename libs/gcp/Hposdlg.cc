@@ -39,14 +39,10 @@ static void on_pos_changed (HPosDlg *dlg)
 }
 
 HPosDlg::HPosDlg (Document *pDoc, Atom *pAtom):
-	Dialog (pDoc->GetApplication (), GLADEDIR"/H-pos.glade", "Hposdlg", pAtom),
+	Dialog (pDoc->GetApplication (), UIDIR"/H-pos.ui", "Hposdlg", GETTEXT_PACKAGE, pAtom),
 	m_Atom (pAtom)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
-	box = (GtkComboBox*) glade_xml_get_widget (xml, "H-pos");
+	box = GTK_COMBO_BOX (GetWidget ("H-pos"));
 	gtk_combo_box_set_active (box, (int) m_Atom->GetHPosStyle ());
 	g_signal_connect_swapped (G_OBJECT (box), "changed", G_CALLBACK (on_pos_changed), this);
 	m_View = pDoc->GetView ();

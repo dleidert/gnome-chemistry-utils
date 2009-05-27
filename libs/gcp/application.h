@@ -26,15 +26,20 @@
 #define GCHEMPAINT_APPLICATION_H
 
 #include <gcu/application.h>
-#include <gcu/dialog.h>
 #include <gcu/macros.h>
-#include <gcu/object.h>
 #include <goffice/app/go-conf.h>
+#include <gtk/gtk.h>
+#include <libxml/parser.h>
 #include <set>
 #include <string>
 #include <map>
 #include <list>
 #include <stdexcept>
+
+namespace gcu {
+	class Dialog;
+	class Object;
+}
 
 /*!\file*/
 /*!\namespace gcp

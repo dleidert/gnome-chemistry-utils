@@ -8,7 +8,7 @@ INCLUDES = \
 
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
-        -DGLADEDIR=\"$(gladedir)\" \
+        -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(residuesdir)\"
 
 residuesdir = $(libdir)/gchemutils/@GCU_API_VER@/plugins/paint
@@ -28,5 +28,5 @@ noinst_HEADERS = \
 	residues-dlg.h \
 	pseudo-atom.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/residues
-dist_glade_DATA = residues.glade
+uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/residues
+dist_ui_DATA = residues.ui

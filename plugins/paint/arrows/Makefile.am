@@ -15,7 +15,7 @@ INCLUDES = \
 		@GCU_CFLAGS@
 
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(gladedir)\" \
+        -DUIDIR=\"$(uidir)\" \
 		-DPLUGINSDIR=\"$(arrowsdir)\"
 
 IMAGES = \
@@ -57,8 +57,8 @@ noinst_HEADERS = \
 	retrosynthesisarrow.h \
 	retrosynthesisstep.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/arrows
-dist_glade_DATA = arrowtool.glade
+uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/arrows
+dist_ui_DATA = arrowtool.ui
 
 schemas_in_files = gchempaint-arrows.schemas.in
 

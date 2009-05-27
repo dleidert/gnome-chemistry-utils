@@ -3,7 +3,7 @@ AC_CONFIG_SRCDIR([libs/gcu/gtkperiodic.c])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
-
+AC_CONFIG_MACRO_DIR([m4])
 GCU_VERSION=$VERSION
 
 AM_CONFIG_HEADER([config.h])
@@ -127,10 +127,9 @@ PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
 PKG_CHECK_MODULES(cairo, [cairo >= 1.6.0])
 PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.16.1])
 PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.14.0])
-PKG_CHECK_MODULES(glade, [libglade-2.0 >= 2.4.0])
 PKG_CHECK_MODULES(gtkglext, [gtkglext-1.0 >= 1.0.0])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
-PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.7.7])
+PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.7.8])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.1.0])
@@ -340,10 +339,6 @@ docs/man/Makefile
 docs/reference/Makefile
 docs/reference/Doxyfile
 dtds/Makefile
-glade/Makefile
-glade/crystal/Makefile
-glade/paint/Makefile
-glade/table/Makefile
 libs/Makefile
 libs/gccv/Makefile
 libs/gcp/Makefile
@@ -388,5 +383,9 @@ templates/paint/Makefile
 themes/Makefile
 themes/paint/Makefile
 tests/Makefile
+ui/Makefile
+ui/crystal/Makefile
+ui/paint/Makefile
+ui/table/Makefile
 ])
 AC_OUTPUT

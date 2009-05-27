@@ -38,6 +38,7 @@
 #include <gccv/line.h>
 #include <gccv/squiggle.h>
 #include <gccv/wedge.h>
+#include <gcu/ui-builder.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
@@ -540,14 +541,16 @@ void gcpBondTool::SetLength (double length)
 
 GtkWidget *gcpBondTool::GetPropertyPage ()
 {
-	GladeXML *xml = glade_xml_new (GLADEDIR"/bond.glade", "bond", GETTEXT_PACKAGE);
-	m_LengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-length"));
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/bond.ui", GETTEXT_PACKAGE);
+	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
-	m_AngleBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-angle"));
+	m_AngleBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-angle"));
 	g_signal_connect (m_AngleBtn, "value-changed", G_CALLBACK (on_angle_changed), this);
-	m_MergeBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "merge"));
+	m_MergeBtn = GTK_TOGGLE_BUTTON (builder->GetWidget ("merge"));
 	g_signal_connect (m_MergeBtn, "toggled", G_CALLBACK (on_merge_toggled), NULL);
-	return glade_xml_get_widget (xml, "bond");
+	GtkWidget *res = builder->GetRefdWidget ("bond");
+	delete builder;
+	return res;
 }
 
 void gcpBondTool::Activate ()

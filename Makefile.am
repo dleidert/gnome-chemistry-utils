@@ -1,4 +1,4 @@
-SUBDIRS = po database glade pixmaps libs plugins programs mozilla-plugin \
+SUBDIRS = po database ui pixmaps libs plugins programs mozilla-plugin \
 	gnumeric goffice templates themes samples tests dtds docs
 
 EXTRA_DIST= \
@@ -51,6 +51,8 @@ mime_in_files = gchemutils.xml.in
 mimedir = $(datadir)/mime/packages
 mime_DATA = $(mime_in_files:.xml.in=.xml)
 @INTLTOOL_XML_RULE@
+
+ACLOCAL_AMFLAGS = -I m4
 
 install-data-hook:
 if WITH_UPDATE_MIME

@@ -143,7 +143,6 @@ Canvas::Canvas (Client *client):
 {
 	m_Root = new Group (this);
 	m_Widget = GTK_WIDGET (gccv_canvas_new (this));
-	SetBackgroundColor (RGBA_WHITE);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-press-event", G_CALLBACK (CanvasPrivate::OnButtonPressed), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-release-event", G_CALLBACK (CanvasPrivate::OnButtonReleased), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "motion-notify-event", G_CALLBACK (CanvasPrivate::OnMotion), this);

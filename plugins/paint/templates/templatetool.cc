@@ -31,6 +31,7 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gccv/canvas.h>
+#include <gcu/dialog.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -158,11 +159,11 @@ static void on_delete_template (G_GNUC_UNUSED GtkWidget *w, gcpTemplateTool *too
 
 GtkWidget *gcpTemplateTool::GetPropertyPage ()
 {
-	GladeXML *xml = glade_xml_new (GLADEDIR"/templates.glade", "templates", GETTEXT_PACKAGE);
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/templates.ui", GETTEXT_PACKAGE);
 	gcpTemplateTree *tree = (gcpTemplateTree*) m_pApp->GetTool ("TemplateTree");
 	if (!tree)
 		return NULL;
-	GtkComboBox *combo = GTK_COMBO_BOX (glade_xml_get_widget (xml, "templates-combo"));
+	GtkComboBox *combo = GTK_COMBO_BOX (builder->GetWidget ("templates-combo"));
 	gtk_combo_box_set_model (combo, tree->GetModel ());
 	GtkCellRenderer* renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new ();
 	g_object_set (renderer, "xalign", 0.0, NULL);
@@ -173,15 +174,17 @@ GtkWidget *gcpTemplateTool::GetPropertyPage ()
 								NAME_COLUMN);
 	gtk_combo_box_set_active (combo, 0);
 	g_signal_connect (G_OBJECT (combo), "changed", G_CALLBACK (on_template_changed), this);
-	m_DeleteBtn = glade_xml_get_widget (xml, "delete");
+	m_DeleteBtn = builder->GetWidget ("delete");
 	g_signal_connect (m_DeleteBtn, "clicked", G_CALLBACK (on_delete_template), this);
 	gtk_widget_set_sensitive (m_DeleteBtn, false);
-	GtkWidget *w = glade_xml_get_widget (xml, "add");
+	GtkWidget *w = builder->GetWidget ("add");
 	g_signal_connect (w, "clicked", G_CALLBACK (on_add_template), this);
-	m_Book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "book"));
+	m_Book = GTK_NOTEBOOK (builder->GetWidget ("book"));
 	g_signal_connect (m_Book, "size-allocate", G_CALLBACK (on_size), this);
 	
-	return glade_xml_get_widget (xml, "templates");
+	GtkWidget *res = builder->GetRefdWidget ("templates");
+	delete builder;
+	return res;
 }
 
 void gcpTemplateTool::OnChanged (GtkComboBox *combo)
@@ -285,7 +288,7 @@ void gcpTemplateTool::OnDeleteTemplate ()
 }
 
 gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
-	Dialog(App, GLADEDIR"/new-template.glade", "new_template", App)
+	Dialog(App, UIDIR"/new-template.ui", "new_template", GETTEXT_PACKAGE, App)
 {
 	m_node = NULL;
 	if (!xml) {
@@ -295,7 +298,7 @@ gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
 	pDoc = new gcp::Document (reinterpret_cast<gcp::Application*> (m_App), true);
 	pDoc->SetEditable (false);
 	GtkWidget* w;
-	GtkScrolledWindow* scroll = (GtkScrolledWindow*) glade_xml_get_widget (xml, "scrolledcanvas");
+	GtkScrolledWindow* scroll = GTK_SCROLLED_WINDOW (GetWidget ("scrolledcanvas"));
 	gtk_scrolled_window_add_with_viewport (scroll, w = pDoc->GetView ()->CreateNewWidget ());
 	pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	/* build the categories list */
@@ -310,7 +313,7 @@ gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
 	}
 	w = gtk_combo_box_entry_new_with_model (GTK_TREE_MODEL (model), NAME_COLUMN);
 	g_object_unref (model);
-	gtk_table_attach_defaults (GTK_TABLE (glade_xml_get_widget (xml, "table1")), w, 1, 2, 1, 2);
+	gtk_table_attach_defaults (GTK_TABLE (GetWidget ("table1")), w, 1, 2, 1, 2);
 	gtk_widget_show (w);
 	category_entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (w)));
 }
@@ -325,7 +328,7 @@ gcpNewTemplateToolDlg::~gcpNewTemplateToolDlg ()
 
 bool gcpNewTemplateToolDlg::Apply ()
 {
-	const char* name = gtk_entry_get_text ((GtkEntry*) glade_xml_get_widget (xml, "name"));
+	const char* name = gtk_entry_get_text (GTK_ENTRY (GetWidget ("name")));
 	const char* category = gtk_entry_get_text (category_entry);
 	if (!m_node || (*name == 0) || (*category == 0)) {
 		char* msg;

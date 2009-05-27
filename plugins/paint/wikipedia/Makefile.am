@@ -13,7 +13,7 @@ INCLUDES = \
 		@GCU_CFLAGS@
 
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(gladedir)\" \
+        -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(wikipediadir)\"
 
 IMAGES = favicon.png

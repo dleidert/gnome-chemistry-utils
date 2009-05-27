@@ -37,6 +37,7 @@
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/line.h>
+#include <gcu/ui-builder.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <list>
@@ -749,12 +750,14 @@ void gcpCycleTool::SetLength (double length)
 
 GtkWidget *gcpCycleTool::GetPropertyPage ()
 {
-	GladeXML *xml = glade_xml_new (GLADEDIR"/cycle.glade", "cycle", GETTEXT_PACKAGE);
-	m_LengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-length"));
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/cycle.ui", GETTEXT_PACKAGE);
+	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
-	m_MergeBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "merge"));
+	m_MergeBtn = GTK_TOGGLE_BUTTON (builder->GetWidget ("merge"));
 	g_signal_connect (m_MergeBtn, "toggled", G_CALLBACK (on_merge_toggled), NULL);
-	return glade_xml_get_widget (xml, "cycle");
+	GtkWidget *res = builder->GetRefdWidget ("cycle");
+	delete builder;
+	return res;
 }
 
 void gcpCycleTool::Activate ()
@@ -805,13 +808,15 @@ static void on_size_changed (GtkSpinButton *button, gcpNCycleTool *tool)
 
 GtkWidget *gcpNCycleTool::GetPropertyPage ()
 {
-	GladeXML *xml = glade_xml_new (GLADEDIR"/cyclen.glade", "cycle", GETTEXT_PACKAGE);
-	m_LengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-length"));
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/cyclen.ui", GETTEXT_PACKAGE);
+	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
-	m_MergeBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "merge"));
+	m_MergeBtn = GTK_TOGGLE_BUTTON (builder->GetWidget ("merge"));
 	g_signal_connect (m_MergeBtn, "toggled", G_CALLBACK (on_merge_toggled), NULL);
-	m_SizeBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "sizebtn"));
+	m_SizeBtn = GTK_SPIN_BUTTON (builder->GetWidget ("sizebtn"));
 	gtk_spin_button_set_value (m_SizeBtn, m_size);
 	g_signal_connect (m_SizeBtn, "value-changed", G_CALLBACK (on_size_changed), this);
-	return glade_xml_get_widget (xml, "cycle");
+	GtkWidget *res = builder->GetRefdWidget ("cycle");
+	delete builder;
+	return res;
 }

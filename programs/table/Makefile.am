@@ -11,7 +11,7 @@ INCLUDES = \
 		@goffice_CFLAGS@ \
 		@GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/table\"
+        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/table\"
 
 bin_PROGRAMS = gchemtable-@GCU_API_VER@
 

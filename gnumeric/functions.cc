@@ -31,8 +31,6 @@
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
 
-#include <cstdio>
-
 extern "C" {
 
 // needed to export the symbol...???

@@ -24,7 +24,7 @@
 
 #ifndef GCU_DIALOG_H
 #define GCU_DIALOG_H
-#include <glade/glade.h>
+#include "ui-builder.h"
 #include <gtk/gtk.h>
 #include <string>
 
@@ -65,16 +65,17 @@ class DialogOwner;
 /*!\class Dialog gcu/dialog.h
 This class is base class for dialog boxes. It provides some basic services.
 */
-class Dialog
+class Dialog: public UIBuilder
 {
 public:
 /*!
 @param App: the Application which owns the dialog.
-@param filename: the glade file name which contains the description of
+@param filename: the name of the ui file which contains the description of
 the dialog.
 @param windowname: the name of the top level GtkWidget of the dialog box in
 the glade file. This name should be unique for the application. It is used to access
 the contextual help and to ensure the uniqueness of the dialog (in some cases).
+@param domainname: the translation domain.
 @param owner: the address of an owner object, might be App or a document
 or NULL (the default). when owner is not NULL, the dialog will be unique for it.
 @param extra_destroy: a callback to be called when the dialog is detroyed
@@ -83,11 +84,11 @@ before calling gtk_widget_destroy. The destructor being called afterwards, it
 cannot access the widget.
 @param data: the data to be passed to extra_destroy.
 
-If the glade file declares buttons with names "OK", "apply", "cancel" and "help",
+If the ui file declares buttons with names "OK", "apply", "cancel" and "help",
 default actions will be associated with these buttons.
 If the Application does not provide help support, the Help button will be hidden.
 */
-	Dialog (Application* App, const char* filename, const char* windowname, DialogOwner *owner = NULL, void (*extra_destroy)(gpointer) = NULL, gpointer data = NULL);
+	Dialog (Application* App, char const *filename, const char* windowname, char const *domainname, DialogOwner *owner = NULL, void (*extra_destroy)(gpointer) = NULL, gpointer data = NULL) throw (std::runtime_error);
 	virtual ~Dialog ();
 
 /*!
@@ -140,11 +141,6 @@ displayed which let the user know why the value is not correct.
 	bool GetNumber (GtkEntry *Entry, double *x, CheckType c = NoCheck, double min = 0, double max = 0);
 
 protected:
-/*!
-The GladeXML structure used to build the dialog. If NULL, an error
-occured and the dialog should be deleted.
-*/
-	GladeXML* xml;
 /*!
 The associated GtkWindow instance.
 */

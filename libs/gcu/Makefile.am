@@ -15,7 +15,7 @@ libgcu_@GCU_API_VER@_la_LIBADD = \
 DEFS += -DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \
 		-DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
-		-DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade\" \
+		-DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui\" \
 		-DGCU_PLUGINS_DIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins\"
 lib_LTLIBRARIES= libgcu-@GCU_API_VER@.la
 
@@ -62,6 +62,7 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		spacegroup.cc   \
 		sphere.cc	\
 		transform3d.cc  \
+		ui-builder.cc   \
 		value.cc \
 		vector.cc \
 		window.cc \
@@ -113,6 +114,7 @@ noinst_HEADERS = \
 		sphere.h	\
 		structs.h   \
 		transform3d.h  \
+		ui-builder.h   \
 		value.h \
 		vector.h \
 		window.h \

@@ -116,7 +116,7 @@ INCLUDES = \
 		@openbabel_CFLAGS@ \
 		@GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
-	-DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/paint\" \
+	-DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/paint\" \
 	-DPLUGINSDIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins/paint\" \
 	-DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\" \
 	-DLOCALEDIR=\"$(localedir)\"

@@ -102,29 +102,24 @@ static void on_charge_changed (GtkSpinButton *btn, gcAtomsDlg *pBox)
 	pBox->SetCharge (gtk_spin_button_get_value_as_int (btn));
 }
 
-gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/atoms.glade", "atoms", pDoc)
+gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
 {
-	if (!xml) {
-		m_Atoms = NULL;
-		delete this;
-		return;
-	}
 	m_pDoc = pDoc;
-	GtkWidget *frame = glade_xml_get_widget (xml, "mendeleiev");
+	GtkWidget *frame = GetWidget ("mendeleiev");
 	periodic = (GtkPeriodic*) gtk_periodic_new ();
 	g_signal_connect (G_OBJECT (periodic), "element_changed", G_CALLBACK (on_element), this);
 	g_object_set (G_OBJECT (periodic), "can_unselect", TRUE, "color-style", GTK_PERIODIC_COLOR_DEFAULT, NULL);
 	gtk_container_add (GTK_CONTAINER (frame), (GtkWidget *) periodic);
 	gtk_widget_show_all (frame);
-	GtkWidget *button = glade_xml_get_widget (xml, "add");
+	GtkWidget *button = GetWidget ("add");
 	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_add), this);
-	DeleteBtn = glade_xml_get_widget (xml, "delete");
+	DeleteBtn = GetWidget ("delete");
 	gtk_widget_set_sensitive (DeleteBtn,0);
 	g_signal_connect (G_OBJECT (DeleteBtn), "clicked", G_CALLBACK (on_delete), this);
-	DeleteAllBtn = glade_xml_get_widget (xml, "delete_all");
+	DeleteAllBtn = GetWidget ("delete_all");
 	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
 	AtomList = gtk_list_store_new (4, G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_DOUBLE, G_TYPE_DOUBLE);
-	GtkTreeView *tree = (GtkTreeView *) glade_xml_get_widget (xml, "atomslist");
+	GtkTreeView *tree = GTK_TREE_VIEW (GetWidget ("atomslist"));
 	Selection = gtk_tree_view_get_selection (tree);
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (AtomList));
 	GtkCellRenderer *renderer;
@@ -194,21 +189,21 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLAD
 	}
 	if (!m_Atoms->len)
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
-	AtomColor = (GtkColorButton *) glade_xml_get_widget (xml, "color");
-	CustomColor = (GtkToggleButton *) glade_xml_get_widget (xml, "custom_color");
+	AtomColor = GTK_COLOR_BUTTON (GetWidget ("color"));
+	CustomColor = GTK_TOGGLE_BUTTON (GetWidget ("custom_color"));
 	gtk_toggle_button_set_active (CustomColor, true);
 	g_signal_connect (G_OBJECT (CustomColor), "toggled", G_CALLBACK (on_toggled_color), this);
-	ChargeBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "charge");
+	ChargeBtn = GTK_SPIN_BUTTON (GetWidget ("charge"));
 	g_signal_connect (G_OBJECT (ChargeBtn), "value-changed", G_CALLBACK (on_charge_changed), this);
-	RadiusTypeMenu = (GtkComboBox*) glade_xml_get_widget (xml, "radius-type");
+	RadiusTypeMenu = GTK_COMBO_BOX (GetWidget ("radius-type"));
 	gtk_combo_box_set_active (RadiusTypeMenu, 0);
 	g_signal_connect (G_OBJECT (RadiusTypeMenu), "changed", G_CALLBACK (on_radius_type_changed), this);
-	RadiusMenu = (GtkComboBox*) glade_xml_get_widget (xml, "radius-menu");
+	RadiusMenu = GTK_COMBO_BOX (GetWidget ("radius-menu"));
 	m_RadiiSignalID = g_signal_connect (G_OBJECT (RadiusMenu), "changed", G_CALLBACK (on_radius_index_changed), this);
-	AtomR = (GtkEntry*) glade_xml_get_widget (xml, "atomr");
+	AtomR = GTK_ENTRY (GetWidget ("atomr"));
 	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
-	ScaleBtn = (GtkSpinButton *) glade_xml_get_widget (xml, "scale-btn");
-	ApplyBtn = (GtkComboBox *) glade_xml_get_widget (xml, "apply-to-box");
+	ScaleBtn = GTK_SPIN_BUTTON (GetWidget ("scale-btn"));
+	ApplyBtn = GTK_COMBO_BOX (GetWidget ("apply-to-box"));
 	gtk_combo_box_set_active (ApplyBtn, 1);
 	m_RadiusType = m_Charge = 0;
 	m_Radii = NULL;

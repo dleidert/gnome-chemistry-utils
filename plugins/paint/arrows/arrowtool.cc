@@ -38,6 +38,7 @@
 #include <gccv/group.h>
 #include <gccv/line.h>
 #include <gccv/poly-line.h>
+#include <gcu/ui-builder.h>
 #include <goffice/app/go-conf.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -364,9 +365,9 @@ static void on_length_changed (GtkSpinButton *btn, gcpArrowTool *tool)
 GtkWidget *gcpArrowTool::GetPropertyPage ()
 {
 	bool show_all = m_ArrowType == gcp::ReversibleArrow || m_ArrowType == gcp::FullReversibleArrow;
-	GladeXML *xml = glade_xml_new (GLADEDIR"/arrowtool.glade", (show_all? "arrow-box": "length-box"), GETTEXT_PACKAGE);
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/arrowtool.ui", GETTEXT_PACKAGE);
 	if (show_all) {
-		GtkTable *table = GTK_TABLE (glade_xml_get_widget (xml, "heads-table"));
+		GtkTable *table = GTK_TABLE (builder->GetWidget ("heads-table"));
 		gccv::Canvas *canvas = new gccv::Canvas (NULL);
 		gcp::Theme *Theme = gcp::TheThemeManager.GetTheme ("Default");
 		double width = (Theme->GetArrowLength () * Theme->GetZoomFactor () + 2 * Theme->GetArrowPadding ()),
@@ -420,15 +421,21 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 		arrow->SetC (Theme->GetArrowHeadC ());
 		gtk_widget_show (canvas->GetWidget ());
 		gtk_table_attach (table, canvas->GetWidget (), 1, 2, 1, 2, GTK_FILL, GTK_FILL, 10, 0);
-		GtkWidget *b = glade_xml_get_widget (xml, "full");
+		GtkWidget *b = builder->GetWidget ("full");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (b), m_ArrowType == gcp::FullReversibleArrow);
 		g_signal_connect (G_OBJECT (b), "toggled", G_CALLBACK (on_full_toggled), this);
-		GtkWidget *w = glade_xml_get_widget (xml, "default");
+		GtkWidget *w = builder->GetWidget ("default");
 		g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_default), b);
+	} else {
+		gtk_widget_hide (builder->GetWidget ("heads-table"));
+		gtk_widget_hide (builder->GetWidget ("hseparator1"));
+		gtk_widget_hide (builder->GetWidget ("hbox2"));
 	}
-	m_LengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-length"));
+	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("arrow-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
-	return glade_xml_get_widget (xml, (show_all? "arrow-box": "length-box"));
+	GtkWidget *res = builder->GetRefdWidget ("arrow-box");
+	delete builder;
+	return res;
 }
 
 void gcpArrowTool::SetLength (double length)

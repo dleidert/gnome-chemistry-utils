@@ -33,10 +33,10 @@
 #include <gcu/molecule.h>
 #include <gcu/printable.h>
 #include <gcu/print-setup-dlg.h>
+#include <gcu/ui-builder.h>
 #include <gcu/residue.h>
 #include <gcu/value.h>
 #include <glib/gi18n.h>
-#include <glade/glade.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
@@ -737,13 +737,13 @@ int main (int argc, char *argv[])
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
-	GladeXML *xml =  glade_xml_new (GLADEDIR"/gchemcalc.glade", "gchemcalc", NULL);
-	App->window = GTK_WINDOW (glade_xml_get_widget (xml, "gchemcalc"));
+	UIBuilder *builder = new UIBuilder (UIDIR"/gchemcalc.ui", GETTEXT_PACKAGE);
+	App->window = GTK_WINDOW (builder->GetRefdWidget ("gchemcalc"));
 	g_signal_connect (GTK_OBJECT (App->window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
 	
-	GtkWidget *vbox = glade_xml_get_widget (xml, "vbox1");
+	GtkWidget *vbox = builder->GetWidget ("vbox1");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	App->SetUIManager (ui_manager);
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
@@ -761,13 +761,13 @@ int main (int argc, char *argv[])
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (vbox), bar, 0);
-	App->markup = GTK_LABEL (glade_xml_get_widget (xml, "markup"));
-	App->raw = GTK_LABEL (glade_xml_get_widget (xml, "raw"));
-	App->weight = GTK_LABEL (glade_xml_get_widget (xml, "weight"));
+	App->markup = GTK_LABEL (builder->GetWidget ("markup"));
+	App->raw = GTK_LABEL (builder->GetWidget ("raw"));
+	App->weight = GTK_LABEL (builder->GetWidget ("weight"));
 
 	//Add composition list
 	App->pclist = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-	GtkTreeView *tree = GTK_TREE_VIEW (glade_xml_get_widget (xml, "composition"));
+	GtkTreeView *tree = GTK_TREE_VIEW (builder->GetWidget ("composition"));
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (App->pclist));
 	g_object_unref (App->pclist);
 	GtkCellRenderer *renderer;
@@ -790,9 +790,9 @@ int main (int argc, char *argv[])
 	gtk_tree_view_append_column (tree, column);
 	
 	// Add isotopic pattern chart
-	App->mono = GTK_LABEL (glade_xml_get_widget (xml, "mono"));
-	App->monomass = GTK_LABEL (glade_xml_get_widget (xml, "monomass"));
-	App->pattern_page = glade_xml_get_widget (xml, "pattern");
+	App->mono = GTK_LABEL (builder->GetWidget ("mono"));
+	App->monomass = GTK_LABEL (builder->GetWidget ("monomass"));
+	App->pattern_page = builder->GetWidget ("pattern");
 	App->graph_widget = go_graph_widget_new (NULL);
 	g_signal_connect_swapped (App->graph_widget, "size-allocate", G_CALLBACK (GChemCalc::OnSize), App);
 	gtk_widget_show (App->graph_widget);
@@ -815,7 +815,7 @@ int main (int argc, char *argv[])
 	gog_dataset_set_dim (GOG_DATASET (obj), GOG_AXIS_ELEM_MAX, data, &error);
 
 	gtk_widget_hide (App->pattern_page);
-	GtkWidget *w = glade_xml_get_widget (xml, "entry");
+	GtkWidget *w = builder->GetWidget ("entry");
 	g_signal_connect (GTK_OBJECT (w), "activate",
 		 G_CALLBACK (cb_entry_active),
 		 App->window);
@@ -826,9 +826,11 @@ int main (int argc, char *argv[])
 		cb_entry_active (GTK_ENTRY (w), App->window);
 	}
 
-	w = glade_xml_get_widget (xml, "notebook1");
+	w = builder->GetWidget ("notebook1");
 	g_signal_connect (w, "switch-page", G_CALLBACK (on_page), NULL);
 	on_page (NULL, NULL, 0); // force menus deactivation
+
+	delete builder;
 
 	gtk_main ();
 	if (graph)

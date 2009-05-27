@@ -23,7 +23,6 @@
  */
 
 #include "config.h"
-#include <glade/glade.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <gcu/element.h>

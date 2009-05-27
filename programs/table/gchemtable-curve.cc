@@ -279,11 +279,11 @@ static const char *ui_description =
 "</ui>";
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
-	Dialog (App, GLADEDIR"/curve.glade", "curvedlg", App),
+	Dialog (App, UIDIR"/curve.ui", "curvedlg", GETTEXT_PACKAGE, App),
 	Printable (),
 	m_Guru (NULL)
 {
-	m_GraphBox = glade_xml_get_widget (xml, "vbox1");
+	m_GraphBox = GetWidget ("vbox1");
 	GtkUIManager *ui_manager = gtk_ui_manager_new ();
 	GtkActionGroup *action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);

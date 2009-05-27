@@ -159,29 +159,29 @@ static void on_v_pages_changed (GtkSpinButton *btn, PrintSetupDlg *dlg)
 }
 
 PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
-	Dialog (App, GLADEDIR"/print-setup.glade", "print-setup", printable),
+	Dialog (App, UIDIR"/print-setup.ui", "print-setup", GETTEXT_PACKAGE, printable),
 	m_Printable (printable)
 {
 		GtkWidget *w;
-		w = glade_xml_get_widget (xml, "print");
+		w = GetWidget ("print");
 		g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_print), this);
-		w = glade_xml_get_widget (xml, "preview");
+		w = GetWidget ("preview");
 		g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_print_preview), this);
-		w = glade_xml_get_widget (xml, "paper-btn");
+		w = GetWidget ("paper-btn");
 		g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_dialog_gtk_printer_setup), this);
 		// set current page size
-		m_PageTypeLbl = GTK_LABEL (glade_xml_get_widget (xml, "paper-type-lbl"));
-		m_PageSizeLbl = GTK_LABEL (glade_xml_get_widget (xml, "paper-size-lbl"));
-		m_PortraitBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "portrait-btn"));
+		m_PageTypeLbl = GTK_LABEL (GetWidget ("paper-type-lbl"));
+		m_PageSizeLbl = GTK_LABEL (GetWidget ("paper-size-lbl"));
+		m_PortraitBtn = GTK_TOGGLE_BUTTON (GetWidget ("portrait-btn"));
 		g_object_set_data ((GObject*) m_PortraitBtn ,"orientation", GINT_TO_POINTER (GTK_PAGE_ORIENTATION_PORTRAIT));
 		m_PortraitId = g_signal_connect ((GObject*) m_PortraitBtn, "clicked", G_CALLBACK (on_orientation_changed), this);
-		m_LandscapeBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "landscape-btn"));
+		m_LandscapeBtn = GTK_TOGGLE_BUTTON (GetWidget ("landscape-btn"));
 		g_object_set_data ((GObject*) m_LandscapeBtn ,"orientation", GINT_TO_POINTER (GTK_PAGE_ORIENTATION_LANDSCAPE));
 		m_LandscapeId = g_signal_connect ((GObject*) m_LandscapeBtn, "clicked", G_CALLBACK (on_orientation_changed), this);
-		m_RPortraitBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "r-portrait-btn"));
+		m_RPortraitBtn = GTK_TOGGLE_BUTTON (GetWidget ("r-portrait-btn"));
 		g_object_set_data ((GObject*) m_RPortraitBtn ,"orientation", GINT_TO_POINTER (GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT));
 		m_RPortraitId = g_signal_connect ((GObject*) m_RPortraitBtn, "clicked", G_CALLBACK (on_orientation_changed), this);
-		m_RLandscapeBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "r-landscape-btn"));
+		m_RLandscapeBtn = GTK_TOGGLE_BUTTON (GetWidget ("r-landscape-btn"));
 		g_object_set_data ((GObject*) m_RLandscapeBtn ,"orientation", GINT_TO_POINTER (GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE));
 		m_RLandscapeId = g_signal_connect ((GObject*) m_RLandscapeBtn, "clicked", G_CALLBACK (on_orientation_changed), this);
 		m_UnitList = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
@@ -205,51 +205,51 @@ PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 		GtkCellRenderer *text_renderer = gtk_cell_renderer_text_new ();
 		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT(m_UnitBox), text_renderer, TRUE);
 		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT(m_UnitBox), text_renderer, "text", 0);  
-		gtk_table_attach (GTK_TABLE (glade_xml_get_widget (xml, "paper-selector-tbl")),
+		gtk_table_attach (GTK_TABLE (GetWidget ("paper-selector-tbl")),
 						 GTK_WIDGET (m_UnitBox), 3, 4, 8, 9, GTK_FILL, (GtkAttachOptions) 0, 0, 0);
-		m_MarginTopBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "top-margin-btn"));
+		m_MarginTopBtn = GTK_SPIN_BUTTON (GetWidget ("top-margin-btn"));
 		m_MarginTopId = g_signal_connect ((GObject*) m_MarginTopBtn, "value-changed", G_CALLBACK (on_top_margin_changed), this);
-		m_MarginBottomBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bottom-margin-btn"));
+		m_MarginBottomBtn = GTK_SPIN_BUTTON (GetWidget ("bottom-margin-btn"));
 		m_MarginBottomId = g_signal_connect ((GObject*) m_MarginBottomBtn, "value-changed", G_CALLBACK (on_bottom_margin_changed), this);
-		m_MarginRightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "right-margin-btn"));
+		m_MarginRightBtn = GTK_SPIN_BUTTON (GetWidget ("right-margin-btn"));
 		m_MarginRightId = g_signal_connect ((GObject*) m_MarginRightBtn, "value-changed", G_CALLBACK (on_right_margin_changed), this);
-		m_MarginLeftBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "left-margin-btn"));
+		m_MarginLeftBtn = GTK_SPIN_BUTTON (GetWidget ("left-margin-btn"));
 		m_MarginLeftId = g_signal_connect ((GObject*) m_MarginLeftBtn, "value-changed", G_CALLBACK (on_left_margin_changed), this);
-		m_HeaderHeightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "header-height-btn"));
-		m_FooterHeightBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "header-height-btn"));
+		m_HeaderHeightBtn = GTK_SPIN_BUTTON (GetWidget ("header-height-btn"));
+		m_FooterHeightBtn = GTK_SPIN_BUTTON (GetWidget ("header-height-btn"));
 		UpdatePageSetup (NULL);
-		m_HBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "hcenter-btn"));
+		m_HBtn = GTK_TOGGLE_BUTTON (GetWidget ("hcenter-btn"));
 		gtk_toggle_button_set_active (m_HBtn, m_Printable->GetHorizCentered ());
 		m_HId = g_signal_connect_swapped ((GObject*) m_HBtn, "toggled", G_CALLBACK (on_hcenter_changed), this);
-		m_VBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "vcenter-btn"));
+		m_VBtn = GTK_TOGGLE_BUTTON (GetWidget ("vcenter-btn"));
 		gtk_toggle_button_set_active (m_VBtn, m_Printable->GetVertCentered ());
 		m_VId = g_signal_connect_swapped ((GObject*) m_VBtn, "toggled", G_CALLBACK (on_vcenter_changed), this);
-		m_ScalingNoneBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-no-btn"));
+		m_ScalingNoneBtn = GTK_TOGGLE_BUTTON (GetWidget ("scale-no-btn"));
 		g_object_set_data ((GObject*) m_ScalingNoneBtn ,"scale-type", GINT_TO_POINTER (GCU_PRINT_SCALE_NONE));
 		m_ScalingNoneId = g_signal_connect ((GObject*) m_ScalingNoneBtn, "clicked", G_CALLBACK (on_scale_type_changed), this);
-		m_ScalingFixedBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-fixed-btn"));
+		m_ScalingFixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("scale-fixed-btn"));
 		g_object_set_data ((GObject*) m_ScalingFixedBtn ,"scale-type", GINT_TO_POINTER (GCU_PRINT_SCALE_FIXED));
 		m_ScalingFixedId = g_signal_connect ((GObject*) m_ScalingFixedBtn, "clicked", G_CALLBACK (on_scale_type_changed), this);
-		m_ScalingAutoBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-auto-btn"));
+		m_ScalingAutoBtn = GTK_TOGGLE_BUTTON (GetWidget ("scale-auto-btn"));
 		g_object_set_data ((GObject*) m_ScalingAutoBtn ,"scale-type", GINT_TO_POINTER (GCU_PRINT_SCALE_AUTO));
 		m_ScalingAutoId = g_signal_connect ((GObject*) m_ScalingAutoBtn, "clicked", G_CALLBACK (on_scale_type_changed), this);
-		m_HFitBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-fit-h-btn"));
+		m_HFitBtn = GTK_TOGGLE_BUTTON (GetWidget ("scale-fit-h-btn"));
 		gtk_toggle_button_set_active (m_HFitBtn, m_Printable->GetHorizFit ());
 		g_signal_connect ((GObject*) m_HFitBtn, "toggled", G_CALLBACK (on_h_fit), this);
-		m_VFitBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "scale-fit-v-btn"));
+		m_VFitBtn = GTK_TOGGLE_BUTTON (GetWidget ("scale-fit-v-btn"));
 		gtk_toggle_button_set_active (m_VFitBtn, m_Printable->GetVertFit ());
 		g_signal_connect ((GObject*) m_VFitBtn, "toggled", G_CALLBACK (on_v_fit), this);
-		m_HPagesBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "scale-h-btn"));
+		m_HPagesBtn = GTK_SPIN_BUTTON (GetWidget ("scale-h-btn"));
 		gtk_spin_button_set_value (m_HPagesBtn, m_Printable->GetHPages ());
 		g_signal_connect ((GObject*) m_HPagesBtn, "value-changed", G_CALLBACK (on_h_pages_changed), this);
-		m_FitHLbl = GTK_LABEL (glade_xml_get_widget (xml, "fit-h-lbl"));
-		m_VPagesBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "scale-v-btn"));
+		m_FitHLbl = GTK_LABEL (GetWidget ("fit-h-lbl"));
+		m_VPagesBtn = GTK_SPIN_BUTTON (GetWidget ("scale-v-btn"));
 		gtk_spin_button_set_value (m_VPagesBtn, m_Printable->GetVPages ());
 		g_signal_connect ((GObject*) m_VPagesBtn, "value-changed", G_CALLBACK (on_v_pages_changed), this);
-		m_FitVLbl = GTK_LABEL (glade_xml_get_widget (xml, "fit-v-lbl"));
-		m_ScaleBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "scale-percent-btn"));
+		m_FitVLbl = GTK_LABEL (GetWidget ("fit-v-lbl"));
+		m_ScaleBtn = GTK_SPIN_BUTTON (GetWidget ("scale-percent-btn"));
 		g_signal_connect ((GObject*) m_ScaleBtn, "value-changed", G_CALLBACK (on_scale_changed), this);
-		m_ScaleLbl = GTK_LABEL (glade_xml_get_widget (xml, "scale-percent-lbl"));
+		m_ScaleLbl = GTK_LABEL (GetWidget ("scale-percent-lbl"));
 		gtk_spin_button_set_value (m_ScaleBtn, m_Printable->GetScale () * 100.);
 		UpdateScale ();
 		if (printable->SupportsHeaders ()) {
@@ -258,14 +258,14 @@ PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 		} else {
 			// hide everything related to headers and footers
 			// first delete the notebook page
-			GtkNotebook *book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "print-setup-book"));
+			GtkNotebook *book = GTK_NOTEBOOK (GetWidget ("print-setup-book"));
 			gtk_notebook_remove_page (book, 2);
 			// now hide/disable related buttons and labels
 			gtk_spin_button_set_value (m_HeaderHeightBtn, 0.);
-			gtk_widget_set_sensitive (glade_xml_get_widget (xml, "header-height-lbl"), false);
+			gtk_widget_set_sensitive (GetWidget ("header-height-lbl"), false);
 			gtk_widget_set_sensitive (GTK_WIDGET (m_HeaderHeightBtn), false);
 			gtk_spin_button_set_value (m_FooterHeightBtn, 0.);
-			gtk_widget_set_sensitive (glade_xml_get_widget (xml, "footer-height-lbl"), false);
+			gtk_widget_set_sensitive (GetWidget ("footer-height-lbl"), false);
 			gtk_widget_set_sensitive (GTK_WIDGET (m_FooterHeightBtn), false);
 			m_HeaderHeightId = m_FooterHeightId = 0;
 		}

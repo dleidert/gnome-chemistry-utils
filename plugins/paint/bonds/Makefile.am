@@ -13,7 +13,7 @@ INCLUDES = \
 		@GCU_CFLAGS@
 
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(gladedir)\" \
+        -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(bondsdir)\"
 
 IMAGES = \
@@ -53,10 +53,10 @@ noinst_HEADERS = \
 	chaintool.h \
 	delocalizedtool.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/bonds
-dist_glade_DATA = \
-	bond.glade \
-	chain.glade
+uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/bonds
+dist_ui_DATA = \
+	bond.ui \
+	chain.ui
 
 
 $(BUILT_SOURCES): $(IMAGES)

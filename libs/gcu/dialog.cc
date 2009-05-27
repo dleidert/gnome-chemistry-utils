@@ -25,7 +25,7 @@
 #include "config.h"
 #include "dialog.h"
 #include "application.h"
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <cstring>
 #include <cstdlib>
 
@@ -59,7 +59,7 @@ static bool on_destroy (G_GNUC_UNUSED GtkWidget *widget, Dialog* pBox)
 	return true;
 }
 
-Dialog::Dialog (Application* App, const char* filename, const char* windowname, DialogOwner *owner, void (*extra_destroy)(gpointer), gpointer data)
+/*Dialog::Dialog (Application* App, const char* filename, const char* windowname, DialogOwner *owner, void (*extra_destroy)(gpointer), gpointer data): UIBuilder (NULL, NULL)
 {
 	m_App = App;
 	m_Owner = owner;
@@ -71,21 +71,21 @@ Dialog::Dialog (Application* App, const char* filename, const char* windowname, 
 	}
 	m_Owner = owner;
 	if (filename) {
-		xml =  glade_xml_new (filename, windowname, NULL);
+		xml = .ui_xml_new (filename, windowname, NULL);
 		m_extra_destroy = extra_destroy;
 		m_windowname = windowname;
 		m_data = data;
-		if (xml)  glade_xml_signal_autoconnect (xml);
-		dialog = GTK_WINDOW (glade_xml_get_widget(xml, windowname));
+		if (xml) .ui_xml_signal_autoconnect (xml);
+		dialog = GTK_WINDOW .ui_xml_get_widget(xml, windowname));
 		gtk_window_set_icon_name (dialog, App->GetIconName ().c_str ());
 		g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (on_destroy), this);
-		GtkWidget* button = glade_xml_get_widget (xml, "OK");
+		GtkWidget* button =.ui_xml_get_widget (xml, "OK");
 		if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_OK), this);
-		button = glade_xml_get_widget (xml, "apply");
+		button =.ui_xml_get_widget (xml, "apply");
 		if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_apply), this);
-		button = glade_xml_get_widget (xml, "cancel");
+		button =.ui_xml_get_widget (xml, "cancel");
 		if (button) g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_cancel), this);
-		button = glade_xml_get_widget(xml, "help");
+		button =.ui_xml_get_widget(xml, "help");
 		if (button) {
 			if (App->HasHelp ())
 				g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_help), this);
@@ -98,12 +98,44 @@ Dialog::Dialog (Application* App, const char* filename, const char* windowname, 
 		m_extra_destroy = NULL;
 		m_windowname = "";
 	}
+}*/
+
+Dialog::Dialog (Application* App, char const *filename, const char* windowname, char const *domainname, DialogOwner *owner, void (*extra_destroy)(gpointer), gpointer data) throw (std::runtime_error):
+	UIBuilder (filename, domainname)
+{
+	m_App = App;
+	m_Owner = owner;
+	if (owner && !owner->AddDialog (windowname, this)) {
+		m_extra_destroy = NULL;
+		// do we need to set m_Owner to NULL?
+		throw std::runtime_error (_("Could not reference the new dialog."));
+	}
+	dialog = GTK_WINDOW (GetWidget (windowname));
+	m_extra_destroy = extra_destroy;
+	m_windowname = windowname;
+	m_data = data;
+	gtk_window_set_icon_name (dialog, App->GetIconName ().c_str ());
+	g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (on_destroy), this);
+	GtkWidget* button = GetWidget ("OK");
+	if (button)
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_OK), this);
+	button = GetWidget ("apply");
+	if (button)
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_apply), this);
+	button = GetWidget ("cancel");
+	if (button)
+		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_cancel), this);
+	button = GetWidget ("help");
+	if (button) {
+		if (App->HasHelp ())
+			g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_help), this);
+		else
+			gtk_widget_hide (button);
+	}
 }
 
 Dialog::~Dialog()
 {
-	if (xml)
-		g_object_unref (G_OBJECT (xml));
 	if (m_Owner)
 		m_Owner->RemoveDialog (m_windowname);
 }

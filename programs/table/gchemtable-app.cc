@@ -30,6 +30,7 @@
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <gcu/filechooser.h>
+#include <gcu/ui-builder.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkaboutdialog.h>
@@ -304,36 +305,40 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 	colorschemes["none"] = GTK_PERIODIC_COLOR_NONE;
 	colorschemes["default"] = GTK_PERIODIC_COLOR_DEFAULT;
 
-	GladeXML *xml = glade_xml_new (GLADEDIR"/state-thermometer.glade", "state-thermometer", NULL);
-	GtkWidget *thermometer = glade_xml_get_widget (xml, "state-thermometer");
+	UIBuilder *builder = new UIBuilder (UIDIR"/state-thermometer.glade", GETTEXT_PACKAGE);
+	GtkWidget *thermometer = builder->GetRefdWidget ("state-thermometer");
 	colorschemes["state"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_state_color, thermometer, this);
 	gtk_widget_show_all (thermometer);
-	thermometer = glade_xml_get_widget (xml, "temperature");
+	thermometer = builder->GetWidget ("temperature");
 	g_signal_connect (G_OBJECT (thermometer), "value-changed", G_CALLBACK (on_changed_temp), this);
 	temperature = gtk_range_get_value (GTK_RANGE (thermometer));
+	delete builder;
 
-	GladeXML *familyxml = glade_xml_new (GLADEDIR"/family.glade", "family-legend", NULL);
-	GtkWidget *familywidget = glade_xml_get_widget (familyxml, "family-legend");
+	builder = new UIBuilder (UIDIR"/family.glade", GETTEXT_PACKAGE);
+	GtkWidget *familywidget = builder->GetRefdWidget ("family-legend");
 	colorschemes["family"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_family_color, familywidget, this);	
 	gtk_widget_show_all (familywidget);
-	familywidget = glade_xml_get_widget (familyxml, "family-box");
+	familywidget = builder->GetWidget ("family-box");
 	gtk_combo_box_set_active (GTK_COMBO_BOX(familywidget), 0);
 	family = -1;
 	g_signal_connect (G_OBJECT (familywidget), "changed", G_CALLBACK (on_changed_family), this);
+	delete builder;
 
-	GladeXML *acidityxml = glade_xml_new (GLADEDIR"/acidity.glade", "acidity-legend", NULL);
-	GtkWidget *aciditylegend = glade_xml_get_widget (acidityxml, "acidity-legend");
+	builder = new UIBuilder (UIDIR"/acidity.glade", GETTEXT_PACKAGE);
+	GtkWidget *aciditylegend = builder->GetRefdWidget ("acidity-legend");
 	colorschemes["acidity"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_acidity_color, aciditylegend, this);
 	gtk_widget_show_all (aciditylegend);
+	delete builder;
 
 	colorschemes["electroneg"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_electroneg_color, NULL, this);
 
 	colorschemes["radius"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_radius_color, NULL, this);
 
-	GladeXML *blockxml = glade_xml_new (GLADEDIR"/block.glade", "block-legend", NULL);
-	GtkWidget *blocklegend = glade_xml_get_widget (blockxml, "block-legend");
+	builder = new UIBuilder (UIDIR"/block.glade", GETTEXT_PACKAGE);
+	GtkWidget *blocklegend = builder->GetRefdWidget ("block-legend");
 	colorschemes["block"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_block_color, blocklegend, this);
 	gtk_widget_show_all (blocklegend);
+	delete builder;
 	gct_data_init ();
 
 }

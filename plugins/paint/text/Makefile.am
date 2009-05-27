@@ -1,4 +1,4 @@
-EXTRA_DIST = $(IMAGES) $(glade_DATA)
+EXTRA_DIST = $(IMAGES) $(ui_DATA)
 
 BUILT_SOURCES = gcp-stock-pixbufs.h
 
@@ -13,7 +13,7 @@ INCLUDES = \
 		@GCU_CFLAGS@
 
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(gladedir)\" \
+        -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(textdir)\"
 
 IMAGES = \
@@ -41,8 +41,8 @@ noinst_HEADERS = \
 	fragmenttool.h \
 	texttool.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/text
-glade_DATA = fontsel.glade
+uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/text
+ui_DATA = fontsel.ui
 
 $(BUILT_SOURCES): $(IMAGES)
 	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@

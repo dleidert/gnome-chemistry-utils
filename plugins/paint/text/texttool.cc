@@ -35,6 +35,7 @@
 #include <gcp/window.h>
 #include <gccv/text.h>
 #include <gccv/text-tag.h>
+#include <gcu/ui-builder.h>
 #include <goffice/gtk/go-color-selector.h>
 #include <gdk/gdkkeysyms.h>
 #include <unistd.h>
@@ -707,14 +708,14 @@ static const guint16 font_sizes[] = {
 
 GtkWidget *gcpTextTool::GetPropertyPage ()
 {
-	GladeXML *xml = glade_xml_new (GLADEDIR"/fontsel.glade", "fontsel", GETTEXT_PACKAGE);
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/fontsel.ui", GETTEXT_PACKAGE);
 	PangoFontFamily **families;
 	int i, nb;
 	gcp::Theme *pTheme = m_pApp->GetActiveDocument ()->GetTheme ();
 	// Initialize faces list
 	m_FaceList = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (m_FaceList), 0, GTK_SORT_ASCENDING);
-	m_FacesTree = (GtkTreeView *) glade_xml_get_widget (xml, "style");
+	m_FacesTree = GTK_TREE_VIEW (builder->GetWidget ("style"));
 	gtk_tree_view_set_model (m_FacesTree, GTK_TREE_MODEL (m_FaceList));
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
 	GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes (NULL, renderer, "text", 0, NULL);
@@ -724,7 +725,7 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	m_FaceSignal = g_signal_connect (m_FaceSel, "changed", G_CALLBACK (on_select_face), this);
 	// Initialize sizes list
 	m_SizeList = gtk_list_store_new (1, G_TYPE_INT);
-	m_SizesTree = (GtkTreeView *) glade_xml_get_widget (xml, "size-list");
+	m_SizesTree = GTK_TREE_VIEW (builder->GetWidget ("size-list"));
 	gtk_tree_view_set_model (m_SizesTree, GTK_TREE_MODEL (m_SizeList));
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (NULL, renderer, "text", 0, NULL);
@@ -740,7 +741,7 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	m_SizeSel = selection;
 	m_SizeSignal = g_signal_connect (m_SizeSel, "changed", G_CALLBACK (on_select_size), this);
 	// Size entry
-	m_SizeEntry = (GtkEntry*) glade_xml_get_widget (xml, "size-entry");
+	m_SizeEntry = GTK_ENTRY (builder->GetWidget ("size-entry"));
 	g_signal_connect (m_SizeEntry, "activate", G_CALLBACK (on_size_activate), this);
 	g_signal_connect_after (m_SizeEntry, "focus_out_event", G_CALLBACK (on_size_focus_out), this);
 	SetSizeFull (true, false);
@@ -748,7 +749,7 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	pango_context_list_families (pc, &families, &nb);
 	m_FamilyList = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (m_FamilyList), 0, GTK_SORT_ASCENDING);
-	m_FamilyTree = (GtkTreeView *) glade_xml_get_widget (xml, "family");
+	m_FamilyTree = GTK_TREE_VIEW (builder->GetWidget ("family"));
 	gtk_tree_view_set_model (m_FamilyTree, GTK_TREE_MODEL (m_FamilyList));
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (NULL, renderer, "text", 0, NULL);
@@ -792,19 +793,21 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 		gtk_tree_view_scroll_to_cell (m_FamilyTree, path, column, FALSE, 0., 0.);
 		gtk_tree_path_free (path);
 	}
-	m_UnderlineBox = GTK_COMBO_BOX (glade_xml_get_widget (xml, "underline"));
+	m_UnderlineBox = GTK_COMBO_BOX (builder->GetWidget ("underline"));
 	gtk_combo_box_set_active (m_UnderlineBox, 0);
 	m_UnderlineSignal = g_signal_connect (G_OBJECT (m_UnderlineBox), "changed", G_CALLBACK (on_underline_changed), this);
-	m_StrikethroughBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "strikethrough"));
+	m_StrikethroughBtn = GTK_TOGGLE_BUTTON (builder->GetWidget ("strikethrough"));
 	m_StrikethroughSignal = g_signal_connect (G_OBJECT (m_StrikethroughBtn), "toggled", G_CALLBACK (on_strikethrough_toggled), this);
-	m_RiseButton = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "rise"));
+	m_RiseButton = GTK_SPIN_BUTTON (builder->GetWidget ("rise"));
 	m_RiseSignal = g_signal_connect (G_OBJECT (m_RiseButton), "value-changed", G_CALLBACK (on_rise_changed), this);
 	m_ColorSelector = GO_SELECTOR (go_color_selector_new (RGBA_BLACK, RGBA_BLACK, "fore"));
 	go_color_selector_set_allow_alpha (m_ColorSelector, false);
 	m_ForeSignal = g_signal_connect (G_OBJECT (m_ColorSelector), "activate", G_CALLBACK (on_fore_color_changed), this);
 	gtk_widget_show (GTK_WIDGET (m_ColorSelector));
-	gtk_table_attach (GTK_TABLE (glade_xml_get_widget (xml, "table2")), GTK_WIDGET (m_ColorSelector), 1, 2, 0, 1, (GtkAttachOptions) 0, (GtkAttachOptions) 0, 0, 0);
-	return glade_xml_get_widget (xml, "fontsel");
+	gtk_table_attach (GTK_TABLE (builder->GetWidget ("table2")), GTK_WIDGET (m_ColorSelector), 1, 2, 0, 1, (GtkAttachOptions) 0, (GtkAttachOptions) 0, 0, 0);
+	GtkWidget *res = builder->GetRefdWidget ("fontsel");
+	delete builder;
+	return res;
 }
 
 void gcpTextTool::OnSelectFamily (GtkTreeSelection *selection)

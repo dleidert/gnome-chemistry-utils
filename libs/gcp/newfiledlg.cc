@@ -38,16 +38,12 @@ static void on_theme_changed (GtkComboBox *box, NewFileDlg *dlg)
 }
 
 NewFileDlg::NewFileDlg (Application *App):
-	Dialog (App, GLADEDIR"/newfiledlg.glade", "newfile", App),
+	Dialog (App, UIDIR"/newfiledlg.ui", "newfile", GETTEXT_PACKAGE, App),
 	Object ()
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	list <string> names = TheThemeManager.GetThemesNames ();
 	list <string>::iterator i = names.begin (), end = names.end ();
-	GtkWidget *w = glade_xml_get_widget (xml, "themes-box");
+	GtkWidget *w = GetWidget ("themes-box");
 	m_Box = GTK_COMBO_BOX (gtk_combo_box_new_text ());
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_Box), true, true, 0);
 	Theme *theme;

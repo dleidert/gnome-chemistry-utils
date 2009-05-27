@@ -75,33 +75,29 @@ static void on_comments_changed (GtkTextBuffer *buffer, gcDocPropDlg *dlg)
 }
 
 gcDocPropDlg::gcDocPropDlg (gcDocument* pDoc):
-	Dialog (pDoc->GetApp (), GLADEDIR"/docprop.glade", "properties", pDoc)
+	Dialog (pDoc->GetApp (), UIDIR"/docprop.ui", "properties", GETTEXT_PACKAGE, pDoc)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	m_pDoc = pDoc;
-	Title = GTK_ENTRY (glade_xml_get_widget (xml, "title"));
+	Title = GTK_ENTRY (GetWidget ("title"));
 	const gchar* chn;
 	chn = m_pDoc->GetTitle ();
 	if (chn)
 		gtk_entry_set_text (Title, chn);
 	g_signal_connect (G_OBJECT (Title), "activate", G_CALLBACK (on_title_changed), this);
 	g_signal_connect (G_OBJECT (Title), "focus-out-event", G_CALLBACK (on_title_focused_out), this);
-	Name = GTK_ENTRY (glade_xml_get_widget (xml, "name"));
+	Name = GTK_ENTRY (GetWidget ("name"));
 	chn = m_pDoc->GetAuthor ();
 	if (chn)
 		gtk_entry_set_text (Name, chn);
 	g_signal_connect (G_OBJECT (Name), "activate", G_CALLBACK (on_name_changed), this);
 	g_signal_connect (G_OBJECT (Name), "focus-out-event", G_CALLBACK (on_name_focused_out), this);
-	Mail = GTK_ENTRY (glade_xml_get_widget (xml, "mail"));
+	Mail = GTK_ENTRY (GetWidget ("mail"));
 	chn = m_pDoc->GetMail ();
 	if (chn)
 		gtk_entry_set_text (Mail, chn);
 	g_signal_connect (G_OBJECT (Mail), "activate", G_CALLBACK (on_mail_changed), this);
 	g_signal_connect (G_OBJECT (Mail), "focus-out-event", G_CALLBACK (on_mail_focused_out), this);
-	CreationDate = GTK_LABEL (glade_xml_get_widget(xml, "creation"));
+	CreationDate = GTK_LABEL (GetWidget ("creation"));
 	const GDate* Date = pDoc->GetCreationDate ();
 	gchar tmp[64];
 	/* The following format prints date as "Monday, July 8, 2002" */
@@ -109,14 +105,14 @@ gcDocPropDlg::gcDocPropDlg (gcDocument* pDoc):
 		g_date_strftime (tmp, sizeof (tmp), _("%A, %B %d, %Y"), Date);
 		gtk_label_set_text (CreationDate, tmp);
 	}
-	RevisionDate = GTK_LABEL (glade_xml_get_widget (xml, "revision"));
+	RevisionDate = GTK_LABEL (GetWidget ("revision"));
 	Date = pDoc->GetRevisionDate ();
 	if (g_date_valid(Date))
 	{
 		g_date_strftime (tmp, sizeof (tmp), _("%A, %B %d, %Y"), Date);
 		gtk_label_set_text (RevisionDate, tmp);
 	}
-	Comments = GTK_TEXT_VIEW (glade_xml_get_widget (xml, "comments"));
+	Comments = GTK_TEXT_VIEW (GetWidget ("comments"));
 	GtkTextBuffer *Buffer = gtk_text_view_get_buffer (Comments);
 	chn = m_pDoc->GetComment ();
 	if(chn)

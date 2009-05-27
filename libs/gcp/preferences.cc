@@ -291,84 +291,80 @@ static void on_default_theme_changed (GtkComboBox *box, PrefsDlg* dlg)
 }
 
 PrefsDlg::PrefsDlg (Application *pApp):
-	Dialog (pApp, GLADEDIR"/preferences.glade", "preferences", pApp),
+	Dialog (pApp, UIDIR"/preferences.ui", "preferences", GETTEXT_PACKAGE, pApp),
 	Object (),
 	m_CurTheme (NULL),
 	m_Path (NULL)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	g_signal_connect (G_OBJECT (dialog), "delete-event", G_CALLBACK (on_delete_event), this);
 	// compression level
-	GtkWidget *w = glade_xml_get_widget (xml, "compression");
+	GtkWidget *w = GetWidget ("compression");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), CompressionLevel);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_compression_changed), pApp);
 	// tearable table of the elements
-	w = glade_xml_get_widget (xml, "tearable-mendeleiev-btn");
+	w = GetWidget ("tearable-mendeleiev-btn");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TearableMendeleiev);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_tearable_mendeleiev_changed), pApp);
 	// retrieve theme widgets and set signals
-	m_BondLengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-length-btn"));
+	m_BondLengthBtn = GTK_SPIN_BUTTON (GetWidget ("bond-length-btn"));
 	g_signal_connect (G_OBJECT (m_BondLengthBtn), "value-changed", G_CALLBACK (on_bond_length_changed), this);
-	m_BondAngleBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-angle-btn"));
+	m_BondAngleBtn = GTK_SPIN_BUTTON (GetWidget ("bond-angle-btn"));
 	g_signal_connect (G_OBJECT (m_BondAngleBtn), "value-changed", G_CALLBACK (on_bond_angle_changed), this);
-	m_BondWidthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-width-btn"));
+	m_BondWidthBtn = GTK_SPIN_BUTTON (GetWidget ("bond-width-btn"));
 	g_signal_connect (G_OBJECT (m_BondWidthBtn), "value-changed", G_CALLBACK (on_bond_width_changed), this);
-	m_BondDistBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-dist-btn"));
+	m_BondDistBtn = GTK_SPIN_BUTTON (GetWidget ("bond-dist-btn"));
 	g_signal_connect (G_OBJECT (m_BondDistBtn), "value-changed", G_CALLBACK (on_bond_dist_changed), this);
-	m_StereoBondWidthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "stereo-width-btn"));
+	m_StereoBondWidthBtn = GTK_SPIN_BUTTON (GetWidget ("stereo-width-btn"));
 	g_signal_connect (G_OBJECT (m_StereoBondWidthBtn), "value-changed", G_CALLBACK (on_stereo_bond_width_changed), this);
-	m_HashWidthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "hash-width-btn"));
+	m_HashWidthBtn = GTK_SPIN_BUTTON (GetWidget ("hash-width-btn"));
 	g_signal_connect (G_OBJECT (m_HashWidthBtn), "value-changed", G_CALLBACK (on_hash_width_changed), this);
-	m_HashDistBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "hash-dist-btn"));
+	m_HashDistBtn = GTK_SPIN_BUTTON (GetWidget ("hash-dist-btn"));
 	g_signal_connect (G_OBJECT (m_HashDistBtn), "value-changed", G_CALLBACK (on_hash_dist_changed), this);
 	// add font selector
 	m_FontSel = GCP_FONT_SEL (g_object_new (GCP_FONT_SEL_TYPE, NULL));
-	w = glade_xml_get_widget (xml, "atom-font-box");
+	w = GetWidget ("atom-font-box");
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_FontSel), true, true, 0);
 	m_FontChanged = g_signal_connect (G_OBJECT (m_FontSel), "changed", G_CALLBACK (on_font_changed), this);
 	// add text font selector
 	m_TextFontSel = GCP_FONT_SEL (g_object_new (GCP_FONT_SEL_TYPE, NULL));
-	w = glade_xml_get_widget (xml, "text-box");
+	w = GetWidget ("text-box");
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_TextFontSel), true, true, 0);
 	m_TextFontChanged = g_signal_connect (G_OBJECT (m_TextFontSel), "changed", G_CALLBACK (on_text_font_changed), this);
 	// arrow spin buttons
-	m_ArrowLengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-length-btn"));
+	m_ArrowLengthBtn = GTK_SPIN_BUTTON (GetWidget ("arrow-length-btn"));
 	g_signal_connect (G_OBJECT (m_ArrowLengthBtn), "value-changed", G_CALLBACK (on_arrow_length_changed), this);
-	m_ArrowWidthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-width-btn"));
+	m_ArrowWidthBtn = GTK_SPIN_BUTTON( GetWidget ("arrow-width-btn"));
 	g_signal_connect (G_OBJECT (m_ArrowWidthBtn), "value-changed", G_CALLBACK (on_arrow_width_changed), this);
-	m_ArrowDistBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-dist-btn"));
+	m_ArrowDistBtn = GTK_SPIN_BUTTON (GetWidget ("arrow-dist-btn"));
 	g_signal_connect (G_OBJECT (m_ArrowDistBtn), "value-changed", G_CALLBACK (on_arrow_dist_changed), this);
-	m_ArrowPaddingBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-padding-btn"));
+	m_ArrowPaddingBtn = GTK_SPIN_BUTTON (GetWidget ("arrow-padding-btn"));
 	g_signal_connect (G_OBJECT (m_ArrowPaddingBtn), "value-changed", G_CALLBACK (on_arrow_padding_changed), this);
-	m_ArrowHeadABtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-headA-btn"));
+	m_ArrowHeadABtn = GTK_SPIN_BUTTON (GetWidget ("arrow-headA-btn"));
 	g_signal_connect (G_OBJECT (m_ArrowHeadABtn), "value-changed", G_CALLBACK (on_arrow_headA_changed), this);
-	m_ArrowHeadBBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-headB-btn"));
+	m_ArrowHeadBBtn = GTK_SPIN_BUTTON (GetWidget ("arrow-headB-btn"));
 	g_signal_connect (G_OBJECT (m_ArrowHeadBBtn), "value-changed", G_CALLBACK (on_arrow_headB_changed), this);
-	m_ArrowHeadCBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "arrow-headC-btn"));
+	m_ArrowHeadCBtn = GTK_SPIN_BUTTON (GetWidget ("arrow-headC-btn"));
 	g_signal_connect (G_OBJECT (m_ArrowHeadCBtn), "value-changed", G_CALLBACK (on_arrow_headC_changed), this);
-	m_ScaleBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "scale-btn"));
+	m_ScaleBtn = GTK_SPIN_BUTTON (GetWidget ("scale-btn"));
 	g_signal_connect (G_OBJECT (m_ScaleBtn), "value-changed", G_CALLBACK (on_scale), this);
-	m_PaddingBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "padding-btn"));
+	m_PaddingBtn = GTK_SPIN_BUTTON (GetWidget ("padding-btn"));
 	g_signal_connect (G_OBJECT (m_PaddingBtn), "value-changed", G_CALLBACK (on_padding), this);
-	m_ObjectPaddingBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "object-padding-btn"));
+	m_ObjectPaddingBtn = GTK_SPIN_BUTTON (GetWidget ("object-padding-btn"));
 	g_signal_connect (G_OBJECT (m_ObjectPaddingBtn), "value-changed", G_CALLBACK (on_object_padding), this);
-	m_StoichPaddingBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "stoich-padding-btn"));
+	m_StoichPaddingBtn = GTK_SPIN_BUTTON (GetWidget ("stoich-padding-btn"));
 	g_signal_connect (G_OBJECT (m_StoichPaddingBtn), "value-changed", G_CALLBACK (on_stoich_padding), this);
-	m_SignPaddingBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "sign-padding-btn"));
+	m_SignPaddingBtn = GTK_SPIN_BUTTON (GetWidget ("sign-padding-btn"));
 	g_signal_connect (G_OBJECT (m_SignPaddingBtn), "value-changed", G_CALLBACK (on_sign_padding), this);
-	m_ChargeSizeBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "charge-size-btn"));
+	m_ChargeSizeBtn = GTK_SPIN_BUTTON (GetWidget ("charge-size-btn"));
 	g_signal_connect (G_OBJECT (m_ChargeSizeBtn), "value-changed", G_CALLBACK (on_charge_size), this);
-	m_NameEntry = GTK_ENTRY (glade_xml_get_widget (xml, "name"));
+	m_NameEntry = GTK_ENTRY (GetWidget ("name"));
 	gtk_entry_set_text (m_NameEntry, _("Default"));
 	m_NameActivate = g_signal_connect (G_OBJECT (m_NameEntry), "activate", G_CALLBACK (on_name_changed), this);
 	m_NameFocusOut = g_signal_connect (G_OBJECT (m_NameEntry), "focus-out-event", G_CALLBACK (on_name_focused_out), this);
 	// get notebook
-	m_Book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "theme-book"));
+	m_Book = GTK_NOTEBOOK (GetWidget ("theme-book"));
 	// create themes list and select active document theme
-	m_ThemesView = GTK_TREE_VIEW (glade_xml_get_widget (xml, "themes"));
+	m_ThemesView = GTK_TREE_VIEW (GetWidget ("themes"));
 	themes = gtk_tree_store_new (1, G_TYPE_STRING);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (themes), 0, GTK_SORT_ASCENDING);
 	gtk_tree_view_set_model (m_ThemesView, GTK_TREE_MODEL (themes));
@@ -384,7 +380,7 @@ PrefsDlg::PrefsDlg (Application *pApp):
 			default_name = _("Default");
 	Theme *theme, *default_theme = TheThemeManager.GetDefaultTheme ();
 	m_DefaultThemeBox = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-	gtk_table_attach (GTK_TABLE (glade_xml_get_widget (xml, "table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 2, 3,
+	gtk_table_attach (GTK_TABLE (GetWidget ("table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 2, 3,
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 	int n = 0;
@@ -442,7 +438,7 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	}
 	
 	// add event handler to new theme button
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (xml, "new-theme")), "clicked", G_CALLBACK (on_new_theme), this);
+	g_signal_connect_swapped (G_OBJECT (GetWidget ("new-theme")), "clicked", G_CALLBACK (on_new_theme), this);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 

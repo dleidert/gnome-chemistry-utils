@@ -27,19 +27,15 @@
 #include "document.h"
 #include "application.h"
 
-gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/size.glade", "size", pDoc)
+gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/size.ui", "size", GETTEXT_PACKAGE, pDoc)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	m_pDoc = pDoc;
-	MinX = (GtkEntry*) glade_xml_get_widget(xml, "xmin");
-	MaxX = (GtkEntry*) glade_xml_get_widget(xml, "xmax");
-	MinY = (GtkEntry*) glade_xml_get_widget(xml, "ymin");
-	MaxY = (GtkEntry*) glade_xml_get_widget(xml, "ymax");
-	MinZ = (GtkEntry*) glade_xml_get_widget(xml, "zmin");
-	MaxZ = (GtkEntry*) glade_xml_get_widget(xml, "zmax");
+	MinX = GTK_ENTRY (GetWidget ("xmin"));
+	MaxX = GTK_ENTRY (GetWidget ("xmax"));
+	MinY = GTK_ENTRY (GetWidget ("ymin"));
+	MaxY = GTK_ENTRY (GetWidget ("ymax"));
+	MinZ = GTK_ENTRY (GetWidget ("zmin"));
+	MaxZ = GTK_ENTRY (GetWidget ("zmax"));
 	double xmin, xmax, ymin, ymax, zmin, zmax;
 	pDoc->GetSize(&xmin, &xmax, &ymin, &ymax, &zmin, &zmax);
 	snprintf(m_buf, sizeof(m_buf), "%g", xmin);

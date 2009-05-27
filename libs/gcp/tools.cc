@@ -53,23 +53,21 @@ static void help_cb (Tools *box)
 }
 
 Tools::Tools (Application *App):
-	Dialog (App, GLADEDIR"/tools.glade", "tools", App),
+	Dialog (App, UIDIR"/tools.ui", "tools", GETTEXT_PACKAGE, App),
 	m_UIManager (NULL)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	g_signal_connect (G_OBJECT (dialog), "delete-event", G_CALLBACK (on_delete_event), NULL);
 	Application *pApp = dynamic_cast<Application*> (App);
 	m_UIManager = NULL;
-	m_ButtonsBox = GTK_BOX (glade_xml_get_widget (xml, "tools-buttons"));
-	m_Book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "tools-book"));
-	GtkWidget *w = glade_xml_get_widget (xml, "mendeleiev");
+	m_ButtonsBox = GTK_BOX (GetWidget ("tools-buttons"));
+	m_Book = GTK_NOTEBOOK (GetWidget ("tools-book"));
+	GtkWidget *box = GetWidget ("element-box");
+	GtkWidget *w = gtk_combo_periodic_new ();
+	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 	gtk_combo_periodic_set_element (GTK_COMBO_PERIODIC (w), pApp->GetCurZ ());
 	go_combo_box_set_tearable (GO_COMBO_BOX (w), TearableMendeleiev);
 	g_signal_connect_swapped (G_OBJECT (w), "changed", G_CALLBACK (element_changed_cb), this);
-	w = glade_xml_get_widget (xml, "help-btn");
+	w = GetWidget ("help-btn");
 	g_signal_connect_swapped (G_OBJECT (w), "clicked", G_CALLBACK (help_cb), this);
 }
 
@@ -164,7 +162,7 @@ void Tools::OnElementChanged (int Z)
 
 void Tools::Update (void)
 {
-	GtkWidget *w = glade_xml_get_widget (xml, "mendeleiev");
+	GtkWidget *w = GetWidget ("mendeleiev");
 	go_combo_box_set_tearable (GO_COMBO_BOX (w), TearableMendeleiev);
 }
 
@@ -175,7 +173,7 @@ void Tools::OnHelp ()
 
 void Tools::SetElement (int Z)
 {
-	GtkComboPeriodic *w = reinterpret_cast<GtkComboPeriodic*> (glade_xml_get_widget (xml, "mendeleiev"));
+	GtkComboPeriodic *w = reinterpret_cast<GtkComboPeriodic*> (GetWidget ("mendeleiev"));
 	gtk_combo_periodic_set_element (w, Z);
 	OnElementChanged (Z);
 }

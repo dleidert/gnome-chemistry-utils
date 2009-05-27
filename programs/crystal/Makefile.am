@@ -18,7 +18,7 @@ INCLUDES = \
 		@openbabel_CFLAGS@ \
 		@GCU_CFLAGS@
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade/crystal\" \
+        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/crystal\" \
         -DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\"
 
 bin_PROGRAMS = gcrystal-@GCU_API_VER@

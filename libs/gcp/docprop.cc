@@ -83,34 +83,30 @@ static void on_comments_changed (GtkTextBuffer *buffer, DocPropDlg *dlg)
 }
 
 DocPropDlg::DocPropDlg (Document* pDoc):
-	Dialog (pDoc->GetApplication (), GLADEDIR"/docprop.glade", "properties", pDoc),
+	Dialog (pDoc->GetApplication (), UIDIR"/docprop.ui", "properties", GETTEXT_PACKAGE, pDoc),
 	Object ()
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	m_pDoc = pDoc;
-	Title = GTK_ENTRY (glade_xml_get_widget (xml, "title"));
+	Title = GTK_ENTRY (GetWidget ("title"));
 	const gchar* chn;
 	chn = m_pDoc->GetTitle ();
 	if (chn)
 		gtk_entry_set_text (Title, chn);
 	g_signal_connect (G_OBJECT (Title), "activate", G_CALLBACK (on_title_changed), this);
 	g_signal_connect (G_OBJECT (Title), "focus-out-event", G_CALLBACK (on_title_focused_out), this);
-	Name = GTK_ENTRY (glade_xml_get_widget (xml, "name"));
+	Name = GTK_ENTRY (GetWidget ("name"));
 	chn = m_pDoc->GetAuthor ();
 	if (chn)
 		gtk_entry_set_text (Name, chn);
 	g_signal_connect (G_OBJECT (Name), "activate", G_CALLBACK (on_name_changed), this);
 	g_signal_connect (G_OBJECT (Name), "focus-out-event", G_CALLBACK (on_name_focused_out), this);
-	Mail = GTK_ENTRY (glade_xml_get_widget (xml, "mail"));
+	Mail = GTK_ENTRY (GetWidget ("mail"));
 	chn = m_pDoc->GetMail ();
 	if (chn)
 		gtk_entry_set_text (Mail, chn);
 	g_signal_connect (G_OBJECT (Mail), "activate", G_CALLBACK (on_mail_changed), this);
 	g_signal_connect (G_OBJECT (Mail), "focus-out-event", G_CALLBACK (on_mail_focused_out), this);
-	CreationDate = GTK_LABEL (glade_xml_get_widget(xml, "creation"));
+	CreationDate = GTK_LABEL (GetWidget ("creation"));
 	const GDate* Date = pDoc->GetCreationDate ();
 	gchar tmp[64];
 	/* The following format prints date as "Monday, July 8, 2002" */
@@ -118,20 +114,20 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 		g_date_strftime (tmp, sizeof (tmp), _("%A, %B %d, %Y"), Date);
 		gtk_label_set_text (CreationDate, tmp);
 	}
-	RevisionDate = GTK_LABEL (glade_xml_get_widget (xml, "revision"));
+	RevisionDate = GTK_LABEL (GetWidget ("revision"));
 	Date = pDoc->GetRevisionDate ();
 	if (g_date_valid(Date))
 	{
 		g_date_strftime (tmp, sizeof (tmp), _("%A, %B %d, %Y"), Date);
 		gtk_label_set_text (RevisionDate, tmp);
 	}
-	Comments = GTK_TEXT_VIEW (glade_xml_get_widget (xml, "comments"));
+	Comments = GTK_TEXT_VIEW (GetWidget ("comments"));
 	Buffer = gtk_text_view_get_buffer (Comments);
 	chn = m_pDoc->GetComment ();
 	if(chn)
 		gtk_text_buffer_set_text (Buffer, chn , -1);
 	g_signal_connect (G_OBJECT (Buffer), "changed", G_CALLBACK (on_comments_changed), this);
-	GtkWidget *w = glade_xml_get_widget (xml, "props-table");
+	GtkWidget *w = GetWidget ("props-table");
 	m_Box = GTK_COMBO_BOX (gtk_combo_box_new_text ());
 	gtk_table_attach (GTK_TABLE (w), GTK_WIDGET (m_Box), 1, 2, 8, 9,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
@@ -152,7 +148,7 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	}
 	gtk_combo_box_set_active (m_Box, nb);
 	m_ChangedSignal = g_signal_connect (G_OBJECT (m_Box), "changed", G_CALLBACK (on_theme_changed), this);
-	gtk_widget_show_all(GTK_WIDGET (dialog));
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 	
 DocPropDlg::~DocPropDlg ()

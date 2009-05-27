@@ -33,21 +33,17 @@ void on_type_changed (G_GNUC_UNUSED GtkWidget* w, gcCellDlg *pBox)
 	pBox->OnTypeChanged ();
 }
 
-gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, GLADEDIR"/cell.glade", "cell", pDoc)
+gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/cell.ui", "cell", GETTEXT_PACKAGE, pDoc)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	m_pDoc = pDoc;
-	TypeMenu = GTK_COMBO_BOX (glade_xml_get_widget (xml, "lattice-type"));
+	TypeMenu = GTK_COMBO_BOX (GetWidget ("lattice-type"));
 	g_signal_connect (G_OBJECT (TypeMenu), "changed", G_CALLBACK (on_type_changed), this);
-	A = (GtkEntry*) glade_xml_get_widget (xml, "a");
-	B = (GtkEntry*) glade_xml_get_widget (xml, "b");
-	C = (GtkEntry*) glade_xml_get_widget (xml, "c");
-	Alpha = (GtkEntry*) glade_xml_get_widget (xml, "alpha");
-	Beta = (GtkEntry*) glade_xml_get_widget (xml, "beta");
-	Gamma = (GtkEntry*) glade_xml_get_widget (xml, "gamma");
+	A = GTK_ENTRY (GetWidget ("a"));
+	B = GTK_ENTRY (GetWidget ("b"));
+	C = GTK_ENTRY (GetWidget ("c"));
+	Alpha = GTK_ENTRY (GetWidget ("alpha"));
+	Beta = GTK_ENTRY (GetWidget ("beta"));
+	Gamma = GTK_ENTRY (GetWidget ("gamma"));
 	gcLattices i;
 	m_pDoc->GetCell (&i, &m_a, &m_b, &m_c, &m_alpha, &m_beta, &m_gamma);
 	snprintf (m_buf, sizeof (m_buf), "%g", m_a);

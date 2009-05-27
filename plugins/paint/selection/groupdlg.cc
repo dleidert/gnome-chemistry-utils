@@ -42,21 +42,17 @@ static void on_space_toggled (gcpGroupDlg *dlg)
 }
 
 gcpGroupDlg::gcpGroupDlg (gcp::Document *Doc, gcpGroup *group):
-	Dialog (Doc->GetApplication (), GLADEDIR"/group.glade", "group", Doc)
+	Dialog (Doc->GetApplication (), UIDIR"/group.ui", "group", GETTEXT_PACKAGE, Doc)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	m_Group = group;
 	m_Doc = Doc;
 	m_Data = (gcp::WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
-	align_box = GTK_COMBO_BOX (glade_xml_get_widget (xml, "align_type"));
-	align_btn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "align_btn"));
-	group_btn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "group_btn"));
-	space_btn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "space"));
-	padding_btn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "padding"));
-	dist_lbl = glade_xml_get_widget (xml, "dist_lbl");
+	align_box = GTK_COMBO_BOX (GetWidget ("align_type"));
+	align_btn = GTK_TOGGLE_BUTTON (GetWidget ("align_btn"));
+	group_btn = GTK_TOGGLE_BUTTON (GetWidget ("group_btn"));
+	space_btn = GTK_TOGGLE_BUTTON (GetWidget ("space"));
+	padding_btn = GTK_SPIN_BUTTON (GetWidget ("padding"));
+	dist_lbl = GetWidget ("dist_lbl");
 	if (group) {
 		gtk_toggle_button_set_active (group_btn, true);
 		gcpAlignType type;

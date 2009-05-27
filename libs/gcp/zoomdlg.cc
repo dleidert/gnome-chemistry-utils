@@ -47,14 +47,10 @@ static void on_zoom_changed (GtkSpinButton *btn, gcp::Document *pDoc)
 }
 
 ZoomDlg::ZoomDlg (gcp::Document *pDoc):
-	Dialog (pDoc->GetApplication (), GLADEDIR"/zoom.glade", "zoomdlg", pDoc)
+	Dialog (pDoc->GetApplication (), UIDIR"/zoom.ui", "zoomdlg", GETTEXT_PACKAGE, pDoc)
 {
-	if (!xml) {
-		delete this;
-		return;
-	}
 	g_signal_connect_swapped (G_OBJECT (dialog), "focus_in_event", G_CALLBACK (on_focus_in), this);
-	btn = (GtkSpinButton*) glade_xml_get_widget (xml, "zoom");
+	btn = GTK_SPIN_BUTTON (GetWidget ("zoom"));
 	m_ZoomSignal = g_signal_connect (G_OBJECT (btn), "value-changed", G_CALLBACK (on_zoom_changed), pDoc);
 	m_Doc = pDoc;
 }

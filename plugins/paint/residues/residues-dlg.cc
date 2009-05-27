@@ -147,7 +147,7 @@ static void delete_symbol (GtkComboBox *box, char const *str)
 }
 
 gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
-	Dialog (App, GLADEDIR"/residues.glade", "residues", App),
+	Dialog (App, UIDIR"/residues.ui", "residues", GETTEXT_PACKAGE, App),
 	gcp::Target (App)
 {
 	m_Document = new gcp::Document (App, true, NULL);
@@ -159,7 +159,7 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	gtk_scrolled_window_add_with_viewport (scroll, w);
 	gtk_widget_set_size_request (GTK_WIDGET (scroll), 408, 308);
 	gtk_widget_show (GTK_WIDGET (scroll));
-	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (xml, "formula-box")), GTK_WIDGET (scroll), true, true, 0);
+	gtk_box_pack_start (GTK_BOX (GetWidget ("formula-box")), GTK_WIDGET (scroll), true, true, 0);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 	App->SetActiveDocument (m_Document);
 	gcp::Theme *theme = m_Document->GetTheme ();
@@ -175,8 +175,8 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	SetWindow (dialog);
 	g_signal_connect (dialog, "key-press-event", G_CALLBACK (on_key_press), this);
 	g_signal_connect (dialog, "key-release-event", G_CALLBACK (on_key_release), this);
-	g_signal_connect (glade_xml_get_widget (xml, "residue-book"), "switch-page", G_CALLBACK (on_page), this);
-	m_CurBox = GTK_COMBO_BOX (glade_xml_get_widget (xml, "cur-box"));
+	g_signal_connect (GetWidget ("residue-book"), "switch-page", G_CALLBACK (on_page), this);
+	m_CurBox = GTK_COMBO_BOX (GetWidget ("cur-box"));
 	ResidueIterator i;
 	string const *s = Residue::GetFirstResidueSymbol (i);
 	while (s) {
@@ -185,24 +185,24 @@ gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
 	}
 	gtk_combo_box_set_active (m_CurBox, 0);
 	g_signal_connect (G_OBJECT (m_CurBox), "changed", G_CALLBACK (on_cur_changed), this);
-	m_SaveBtn = glade_xml_get_widget (xml, "save");
+	m_SaveBtn = GetWidget ("save");
 	g_signal_connect_swapped (G_OBJECT (m_SaveBtn), "clicked", G_CALLBACK (on_save), this);
-	m_DeleteBtn = glade_xml_get_widget (xml, "delete");
+	m_DeleteBtn = GetWidget ("delete");
 	g_signal_connect_swapped (G_OBJECT (m_DeleteBtn), "clicked", G_CALLBACK (on_delete), this);
-	m_SymbolEntry = GTK_ENTRY (glade_xml_get_widget (xml, "symbol-entry"));
+	m_SymbolEntry = GTK_ENTRY  (GetWidget ("symbol-entry"));
 	g_signal_connect (G_OBJECT (m_SymbolEntry), "activate", G_CALLBACK (on_symbol_activate), this);
 	g_signal_connect_after (G_OBJECT (m_SymbolEntry), "focus_out_event", G_CALLBACK (on_symbol_focus_out), this);
 	m_ValidSymbols = false;
-	m_NameEntry = GTK_ENTRY (glade_xml_get_widget (xml, "name-entry"));
+	m_NameEntry = GTK_ENTRY (GetWidget ("name-entry"));
 	g_signal_connect (G_OBJECT (m_NameEntry), "activate", G_CALLBACK (on_name_activate), this);
 	g_signal_connect_after (G_OBJECT (m_NameEntry), "focus_out_event", G_CALLBACK (on_name_focus_out), this);
 	m_ValidName = false;
-	m_GenericBtn = glade_xml_get_widget (xml, "generic-btn");
+	m_GenericBtn = GetWidget ("generic-btn");
 	g_signal_connect (m_GenericBtn, "toggled", G_CALLBACK (on_generic_toggled), this);
 	m_Generic = false;
 	m_Residue = NULL;
 	m_Page = 0;
-	g_signal_connect (glade_xml_get_widget (xml, "residue-book"), "change-current-page", G_CALLBACK (on_page_changed), this);
+	g_signal_connect (GetWidget ("residue-book"), "change-current-page", G_CALLBACK (on_page_changed), this);
 }
 
 gcpResiduesDlg::~gcpResiduesDlg ()

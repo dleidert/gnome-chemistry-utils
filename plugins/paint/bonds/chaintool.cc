@@ -35,6 +35,7 @@
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/line.h>
+#include <gcu/ui-builder.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -345,7 +346,8 @@ static void on_number_changed (GtkSpinButton *btn, gcpChainTool *tool)
 
 void gcpChainTool::SetAngle (double angle)
 {
-	m_pView->GetDoc ()->SetBondAngle (angle);
+	if (m_pView)
+		m_pView->GetDoc ()->SetBondAngle (angle);
 }
 
 void gcpChainTool::SetLength (double length)
@@ -355,20 +357,22 @@ void gcpChainTool::SetLength (double length)
 
 GtkWidget *gcpChainTool::GetPropertyPage ()
 {
-	GladeXML *xml = glade_xml_new (GLADEDIR"/chain.glade", "chain", GETTEXT_PACKAGE);
-	m_LengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-length"));
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/chain.ui", GETTEXT_PACKAGE);
+	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
-	m_AngleBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-angle"));
+	m_AngleBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-angle"));
 	g_signal_connect (m_AngleBtn, "value-changed", G_CALLBACK (on_angle_changed), this);
-	m_MergeBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "merge"));
+	m_MergeBtn = GTK_TOGGLE_BUTTON (builder->GetWidget ("merge"));
 	g_signal_connect (m_MergeBtn, "toggled", G_CALLBACK (on_merge_toggled), NULL);
-	m_NumberBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bonds-number"));
+	m_NumberBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bonds-number"));
 	gtk_widget_set_sensitive (GTK_WIDGET (m_NumberBtn), false);
 	g_signal_connect (m_NumberBtn, "value-changed", G_CALLBACK (on_number_changed), this);
-	m_AutoBtn = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "auto-number"));
+	m_AutoBtn = GTK_TOGGLE_BUTTON (builder->GetWidget ("auto-number"));
 	gtk_toggle_button_set_active (m_AutoBtn, true);
 	g_signal_connect (m_AutoBtn, "toggled", G_CALLBACK (on_number_toggled), this);
-	return glade_xml_get_widget (xml, "chain");
+	GtkWidget *res = builder->GetRefdWidget ("chain");
+	delete builder;
+	return res;
 }
 
 void gcpChainTool::Activate ()

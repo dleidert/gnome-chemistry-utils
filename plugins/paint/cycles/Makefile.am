@@ -13,7 +13,7 @@ INCLUDES = \
 		@GCU_CFLAGS@
 
 DEFS += -DDATADIR=\"$(datadir)\" \
-        -DGLADEDIR=\"$(gladedir)\" \
+        -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(cyclesdir)\"
 
 IMAGES = \
@@ -49,10 +49,10 @@ noinst_HEADERS = \
 	plugin.h \
 	cycletool.h
 
-gladedir = $(datadir)/gchemutils/@GCU_API_VER@/glade/paint/plugins/cycles
-dist_glade_DATA = \
-	cycle.glade \
-	cyclen.glade
+uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/cycles
+dist_ui_DATA = \
+	cycle.ui \
+	cyclen.ui
 
 
 $(BUILT_SOURCES): $(IMAGES)

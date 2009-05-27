@@ -27,12 +27,12 @@
 #include "cmd-context.h"
 #include "document.h"
 #include "loader.h"
+#include "ui-builder.h"
 #include <goffice/goffice.h>
 #include <goffice/app/io-context.h>
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
-#include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
@@ -185,32 +185,33 @@ static void on_transparency_changed (GtkToggleButton *btn, Application *app)
 
 GtkWidget *Application::GetImageResolutionWidget ()
 {
-	GladeXML *xml = glade_xml_new (GLADEDIR"/image-resolution.glade", "res-table", NULL);
-	GtkWidget *w = glade_xml_get_widget (xml, "screen-lbl");
+	UIBuilder *builder = new UIBuilder (UIDIR"/image-resolution.ui", GETTEXT_PACKAGE);
+	GtkWidget *w = builder->GetWidget ("screen-lbl");
 	char *buf = g_strdup_printf (_("(screen resolution is %u)"), m_ScreenResolution);
 	gtk_label_set_text (GTK_LABEL (w), buf);
 	g_free (buf);
-	w = glade_xml_get_widget (xml, "res-btn");
+	w = builder->GetWidget ("res-btn");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageResolution);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_res_changed), this);
-	w = glade_xml_get_widget (xml, "transparent-btn");
+	w = builder->GetWidget ("transparent-btn");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), m_TransparentBackground);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_transparency_changed), this);
-	w = glade_xml_get_widget (xml, "res-table");
-	g_object_unref (G_OBJECT (xml));
+	w = builder->GetRefdWidget ("res-table");
+	delete builder;
 	return w;
 }
 
 GtkWidget *Application::GetImageSizeWidget ()
 {
-	GladeXML *xml = glade_xml_new (GLADEDIR"/image-size.glade", "size-table", NULL);
-	GtkWidget *w = glade_xml_get_widget (xml, "width");
+	UIBuilder *builder = new UIBuilder (UIDIR"/image-size.ui", GETTEXT_PACKAGE);
+	GtkWidget *w = builder->GetWidget ("width");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageWidth);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_width_changed), this);
-	w = glade_xml_get_widget (xml, "height");
+	w = builder->GetWidget ("height");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageHeight);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_height_changed), this);
-	w = glade_xml_get_widget (xml, "size-table");
+	w = builder->GetRefdWidget ("size-table");
+	delete builder;
 	return w;
 }
 

@@ -38,7 +38,6 @@
 #include "cleavagesdlg.h"
 #include "globals.h"
 #include <gcu/filechooser.h>
-#include <glade/glade.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include <clocale>
