@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-06-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: replaced glade files by ui files.
+
 2009-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: add new gnumeric plugin related files.
 	* fr.po: updated french translation.
