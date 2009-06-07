@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-06-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/gtkperiodic.c (gtk_periodic_init),
+	(gtk_periodic_finalize): ported to GtkBuilder as well.
+	* ui/gtkperiodic.ui: removed the toplevel window.
+
 2009-05-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* all files: ported from libglade to GtkBuilder.
 

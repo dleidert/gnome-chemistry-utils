@@ -23,14 +23,10 @@
 #include "config.h"
 #include "gtkperiodic.h"
 #include "chemistry.h"
+#include <goffice/gtk/goffice-gtk.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <gtk/gtkstyle.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtknotebook.h>
-#include <glade/glade.h>
-#include <glib/garray.h>
 #include <glib/gi18n-lib.h>
 
 struct _GtkPeriodic
@@ -175,34 +171,28 @@ void gtk_periodic_class_init (GtkPeriodicClass *klass)
 
 void gtk_periodic_init (GtkPeriodic *periodic)
 {
-	GladeXML* xml;
+	GtkBuilder* xml;
 	GtkStyle* style;
 	char name[8] = "elt";
 	GtkToggleButton* button;
 	int i;
-	char* domain = g_strdup(textdomain(NULL));
-	textdomain(GETTEXT_PACKAGE);
-	xml =  glade_xml_new(GLADEDIR"/gtkperiodic.glade", "vbox1", NULL);
+	xml = go_gtk_builder_new (UIDIR"/gtkperiodic.ui", GETTEXT_PACKAGE, NULL);
 	g_return_if_fail (xml);
-	g_object_set_data(G_OBJECT(periodic), "xml", xml);
-	glade_xml_signal_autoconnect (xml);
-	periodic->vbox = GTK_VBOX(glade_xml_get_widget(xml, "vbox1"));
-	periodic->book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "book"));
+	periodic->vbox = GTK_VBOX (gtk_builder_get_object (xml, "vbox1"));
+	periodic->book = GTK_NOTEBOOK (gtk_builder_get_object (xml, "book"));
 	periodic->colorstyle = GTK_PERIODIC_COLOR_NONE;
-	memset(periodic->buttons, 0, sizeof(GtkToggleButton*) * 119);
-	for (i = 1; i <= 118; i++)
-	{
+	memset(periodic->buttons, 0, sizeof (GtkToggleButton*) * 119);
+	for (i = 1; i <= 118; i++) {
 		sprintf(name + 3, "%d", i);
-		button = (GtkToggleButton*)glade_xml_get_widget(xml, name);
-		if (GTK_IS_TOGGLE_BUTTON(button))
-		{
+		button = (GtkToggleButton*) gtk_builder_get_object (xml, name);
+		if (GTK_IS_TOGGLE_BUTTON (button)) {
 			gtk_widget_set_tooltip_text (GTK_WIDGET(button), gcu_element_get_name(i));
 			periodic->buttons[i] = button;
 			periodic->labels[i] = GTK_LABEL (gtk_bin_get_child (GTK_BIN (button)));
-			g_signal_connect(G_OBJECT(button), "toggled", (GCallback)on_clicked, periodic);
+			g_signal_connect (G_OBJECT (button), "toggled", G_CALLBACK (on_clicked), periodic);
 		}
 	}
-	style = gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(periodic->buttons[1])));
+	style = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (periodic->buttons[1])));
 	DefaultRed[0] = style->bg[0].red;
 	DefaultGreen[0] = style->bg[0].green;
 	DefaultBlue[0] = style->bg[0].blue;
@@ -215,22 +205,19 @@ void gtk_periodic_init (GtkPeriodic *periodic)
 	DefaultRed[3] = style->bg[3].red;
 	DefaultGreen[3] = style->bg[3].green;
 	DefaultBlue[3] = style->bg[3].blue;
-	g_object_unref(style);
+	g_object_unref (style);
 	periodic->Z = 0;
-	gtk_container_add(GTK_CONTAINER(periodic), GTK_WIDGET(periodic->vbox));
-	gtk_widget_show_all(GTK_WIDGET(periodic));
-	textdomain(domain);
-	g_free(domain);
+	gtk_container_add (GTK_CONTAINER (periodic), GTK_WIDGET (periodic->vbox));
+	gtk_widget_show_all (GTK_WIDGET (periodic));
 	periodic->colorschemes = g_array_new (FALSE, FALSE, sizeof (struct ColorScheme));
+	g_object_unref (xml);
 }
 
 static void gtk_periodic_finalize (GObject *object)
 {
 	GtkPeriodic *periodic = (GtkPeriodic*) object;
-	GObject *obj = (GObject*) g_object_get_data (object, "xml");
 
 	g_array_free (periodic->colorschemes, FALSE);
-	if (obj) g_object_unref (obj);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
