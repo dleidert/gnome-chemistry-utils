@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * macros.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,7 @@
 #ifndef GCU_MACROS_H
 #define GCU_MACROS_H
 
-#include <goffice/app/go-conf.h>
+#include <goffice/goffice.h>
 
 /*!\file */ 
 /*!\def GCU_PROP()

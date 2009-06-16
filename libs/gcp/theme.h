@@ -4,7 +4,7 @@
  * GChemPaint library
  * theme.h
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,9 +27,6 @@
 
 #include <gcu/macros.h>
 #include <gcu/object.h>
-#include <glib/gtypes.h>
-#include <pango/pango.h>
-#include <goffice/app/go-conf.h>
 #include <libxml/tree.h>
 #include <list>
 #include <map>

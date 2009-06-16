@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.h 
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,9 +29,6 @@
 #include <gcu/printable.h>
 #include <string>
 #include "gchemtable-app.h"
-#include <goffice/graph/gog-graph.h>
-#include <gtk/gtkpagesetup.h>
-#include <gtk/gtkprintsettings.h>
 
 using namespace gcu;
 

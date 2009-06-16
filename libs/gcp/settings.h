@@ -4,7 +4,7 @@
  * GChemPaint libray
  * settings.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,9 +25,7 @@
 #ifndef GCHEMPAINT_SETTINGS_H
 #define GCHEMPAINT_SETTINGS_H
 
-#include <glib.h>
-#include <pango/pango.h>
-#include <goffice/utils/go-color.h>
+#include <goffice/goffice.h>
 
 #define ROOTDIR "/apps/gchemutils/paint/settings/"
 #define GCP_CONF_DIR_SETTINGS "paint/settings"

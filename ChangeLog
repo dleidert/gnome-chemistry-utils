@@ -1,5 +1,28 @@
 ##Text encoding: utf-8
 
+2009-06-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.h: include goffice/goffice.h instead of individual
+	files.
+	* libs/gccv/line-item.h: ditto.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/wedge.h: ditto.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/settings.h: ditto.
+	* libs/gcp/theme.h: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/glview.h: ditto.
+	* libs/gcu/gtkspectrumviewer.h: ditto.
+	* libs/gcu/loader.h: ditto.
+	* libs/gcu/macros.h: ditto.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* libs/gcu/spectrumview.h: ditto.
+	* programs/crystal/globals.h: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+	* programs/table/gchemtable-curve.h: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+	* programs/table/gchemtable-data.h: ditto.
+
 2009-06-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/gtkperiodic.c (gtk_periodic_init),
 	(gtk_periodic_finalize): ported to GtkBuilder as well.

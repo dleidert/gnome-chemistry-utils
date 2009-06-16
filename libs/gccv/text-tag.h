@@ -27,8 +27,6 @@
 
 #include "structs.h"
 #include <gcu/macros.h>
-#include <goffice/utils/go-color.h>
-#include <pango/pango.h>
 #include <list>
 #include <string>
 

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/glview.h 
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,7 +28,7 @@
 #include "macros.h"
 #include "matrix.h"
 #include "printable.h"
-#include <goffice/app/go-conf.h>
+#include <goffice/goffice.h>
 #include <gtk/gtkwidget.h>
 #include <map>
 #include <string>

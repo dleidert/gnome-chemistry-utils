@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.cc 
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,22 +29,6 @@
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
 #include <gcu/print-setup-dlg.h>
-#include <goffice/data/go-data-simple.h>
-#include <goffice/gtk/go-graph-widget.h>
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-guru.h>
-#include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-object-xml.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/math/go-math.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-line.h>
-#include <goffice/utils/go-image.h>
-#include <goffice/utils/go-marker.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-gio.h>

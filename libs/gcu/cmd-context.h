@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * cmd-context.h 
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,8 +23,7 @@
 #ifndef GCU_CMD_CONTEXT_H
 #define GCU_CMD_CONTEXT_H
 
-#include <goffice/app/go-cmd-context-impl.h>
-#include <glib-object.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

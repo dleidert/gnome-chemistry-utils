@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * spectrumview.h
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,8 +24,6 @@
 #define GCU_SPECTRUM_VIEW_H
 
 #include "macros.h"
-#include <goffice/graph/gog-series.h>
-#include <gtk/gtkwidget.h>
 
 /*!\file*/
 namespace gcu

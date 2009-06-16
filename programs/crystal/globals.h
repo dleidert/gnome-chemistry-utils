@@ -4,7 +4,7 @@
  * Gnome Crystal
  * globals.h 
  *
- * Copyright (C) 2001-2003 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,7 +22,7 @@
  * USA
  */
 #include <glib.h>
-#include <goffice/app/go-conf.h>
+#include <goffice/goffice.h>
 
 bool IsEmbedded();
 

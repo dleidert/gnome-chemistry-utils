@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gtkspectrumviewer.h
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,8 +23,7 @@
 #ifndef GTK_SPECTRUM_VIEWER_H
 #define GTK_SPECTRUM_VIEWER_H
 
-#include <goffice/graph/gog-graph.h>
-#include <gtk/gtkwidget.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 
