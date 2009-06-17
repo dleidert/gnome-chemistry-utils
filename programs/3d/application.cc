@@ -28,7 +28,6 @@
 #include "view.h"
 #include "window.h"
 #include <gcu/filechooser.h>
-#include <goffice/utils/go-image.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>

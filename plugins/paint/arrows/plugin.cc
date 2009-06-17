@@ -32,7 +32,6 @@
 #include "retrosynthesisstep.h"
 #include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
-#include <goffice/app/go-conf.h>
 
 gcpArrowsPlugin plugin;
 

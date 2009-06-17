@@ -27,7 +27,6 @@
 #include "theme.h"
 #include "settings.h"
 #include <gcu/application.h>
-#include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>

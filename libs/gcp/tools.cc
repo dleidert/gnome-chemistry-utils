@@ -29,7 +29,6 @@
 #include "tools.h"
 #include <gcu/element.h>
 #include <gcu/gtkcomboperiodic.h>
-#include <goffice/gtk/go-combo-box.h>
 #include <cstring>
 
 using namespace gcu;

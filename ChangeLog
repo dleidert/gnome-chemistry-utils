@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-06-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* *: cleaned included headers.
+
 2009-06-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.h: include goffice/goffice.h instead of individual
 	files.

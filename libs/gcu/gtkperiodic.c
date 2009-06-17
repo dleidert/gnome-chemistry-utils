@@ -23,7 +23,7 @@
 #include "config.h"
 #include "gtkperiodic.h"
 #include "chemistry.h"
-#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/goffice.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

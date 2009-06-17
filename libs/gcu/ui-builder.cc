@@ -24,7 +24,6 @@
 
 #include "config.h"
 #include "ui-builder.h"
-#include <goffice/gtk/goffice-gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string>
 

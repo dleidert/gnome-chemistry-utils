@@ -22,7 +22,6 @@
 
 #include "config.h"
 #include "cmd-context.h"
-#include <goffice/app/error-info.h>
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 

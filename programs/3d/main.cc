@@ -27,13 +27,9 @@
 #include "document.h"
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtk.h>
 #include <gtk/gtkglinit.h>
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
-#include <goffice/goffice.h>
-#include <goffice/utils/go-file.h>
-#include <gio/gio.h>
 #include <cstring>
 #include <cstdio>
 

@@ -31,7 +31,6 @@
 #include "operation.h"
 #include "theme.h"
 #include "tool.h"
-#include <goffice/math/go-math.h>
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/item-client.h>

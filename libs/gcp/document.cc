@@ -42,9 +42,6 @@
 #include "window.h"
 #include <gcu/loader.h>
 #include <gcu/objprops.h>
-#include <goffice/math/go-rangefunc.h>
-#include <gtk/gtk.h>
-#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>

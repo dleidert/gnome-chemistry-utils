@@ -28,9 +28,6 @@
 #include "view.h"
 #include "window.h"
 #include <gcu/print-setup-dlg.h>
-#include <goffice/gtk/go-action-combo-color.h>
-#include <goffice/utils/go-image.h>
-#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
 //Callbacks

@@ -36,7 +36,6 @@
 #include <gccv/text.h>
 #include <gccv/text-tag.h>
 #include <gcu/ui-builder.h>
-#include <goffice/gtk/go-color-selector.h>
 #include <gdk/gdkkeysyms.h>
 #include <unistd.h>
 #include <cstring>

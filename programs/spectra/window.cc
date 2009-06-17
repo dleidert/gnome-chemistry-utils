@@ -28,15 +28,7 @@
 #include "view.h"
 #include "window.h"
 #include <gcu/print-setup-dlg.h>
-#include <goffice/gtk/go-graph-widget.h>
-#include <goffice/graph/gog-object-xml.h>
-#include <goffice/graph/gog-chart-map.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-image.h>
 #include <gsf/gsf-output-memory.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcontainer.h>
-#include <gtk/gtkwindow.h>
 #include <glib/gi18n.h>
 
 using namespace std;

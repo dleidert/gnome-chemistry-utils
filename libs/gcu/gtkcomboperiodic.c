@@ -24,8 +24,7 @@
 #include "gtkperiodic.h"
 #include "gtkcomboperiodic.h"
 #include "chemistry.h"
-#include <goffice/gtk/go-combo-box.h>
-#include <gtk/gtklabel.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 

@@ -28,12 +28,9 @@
 #include "prefs.h"
 #include "window.h"
 #include <gcu/filechooser.h>
-#include <goffice/utils/go-image.h>
 #include <gsf/gsf-output-gio.h>
-#include <gtk/gtk.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
-#include <gio/gio.h>
 #include <glib/gi18n.h>
 #include <cstring>
 

@@ -23,17 +23,6 @@
 #include "config.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
-#include <goffice/data/go-data-simple.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/gtk/go-graph-widget.h>
-#include <goffice/utils/go-image.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
 #include <gsf/gsf-output-gio.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>

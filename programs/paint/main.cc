@@ -25,8 +25,6 @@
 #include "config.h"
 #include "standaloneapp.h"
 #include <gcu/loader.h>
-#include <goffice/utils/go-file.h>
-#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 

@@ -24,9 +24,6 @@
 
 #include "config.h"
 #include "gchemtable-app.h"
-#include <goffice/goffice.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-loader-module.h>
 #include <libintl.h>
 
 using namespace gcu;

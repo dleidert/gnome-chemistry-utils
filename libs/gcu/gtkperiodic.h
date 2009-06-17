@@ -26,9 +26,7 @@
 #define GTK_PERIODIC_H
 
 #include <gdk/gdk.h>
-#include <gtk/gtkbin.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

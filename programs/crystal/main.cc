@@ -31,7 +31,6 @@
 #include "document.h"
 #include "view.h"
 #include "globals.h"
-#include <goffice/utils/go-file.h>
 #include <gtk/gtkglinit.h>
 #include <glib/gi18n.h>
 #include <cstdio>

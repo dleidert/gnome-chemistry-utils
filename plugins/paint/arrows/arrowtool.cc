@@ -39,7 +39,6 @@
 #include <gccv/line.h>
 #include <gccv/poly-line.h>
 #include <gcu/ui-builder.h>
-#include <goffice/app/go-conf.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 

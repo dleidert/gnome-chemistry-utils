@@ -52,9 +52,6 @@
 #include "zoomdlg.h"
 #include <gcu/filechooser.h>
 #include <gcu/loader.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/goffice.h>
-#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/reaction.h>

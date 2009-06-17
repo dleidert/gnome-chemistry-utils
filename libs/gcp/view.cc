@@ -40,7 +40,6 @@
 #include <gccv/text.h>
 #include <gsf/gsf-output-gio.h>
 #include <gsf/gsf-output-memory.h>
-#include <goffice/utils/go-cairo.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
 #include <cairo-svg.h>

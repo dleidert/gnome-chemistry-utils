@@ -28,12 +28,8 @@
 #include "document.h"
 #include "loader.h"
 #include "ui-builder.h"
-#include <goffice/goffice.h>
-#include <goffice/app/io-context.h>
-#include <goffice/utils/go-file.h>
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
-#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>

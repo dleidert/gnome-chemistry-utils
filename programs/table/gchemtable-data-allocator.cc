@@ -24,10 +24,6 @@
 #include "gchemtable-data-allocator.h"
 #include "gchemtable-curve.h"
 #include "gchemtable-data.h"
-#include <goffice/data/go-data-simple.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-plot-impl.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkentry.h>
 #include <gsf/gsf-impl-utils.h>
@@ -55,7 +51,7 @@ gct_data_editor_set_format (G_GNUC_UNUSED GogDataEditor *editor, G_GNUC_UNUSED G
 }
 
 static void
-gct_data_editor_set_value_double (G_GNUC_UNUSED GogDataEditor *editor, double val,
+gct_data_editor_set_value_double (G_GNUC_UNUSED GogDataEditor *editor, G_GNUC_UNUSED double val,
 				      G_GNUC_UNUSED GODateConventions const *date_conv)
 {
 }

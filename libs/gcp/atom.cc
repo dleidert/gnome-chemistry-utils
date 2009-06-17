@@ -39,7 +39,6 @@
 #include <gccv/text.h>
 #include <gccv/text-tag.h>
 #include <gcu/element.h>
-#include <goffice/math/go-math.h>
 #include <openbabel/mol.h>
 #include <glib/gi18n-lib.h>
 #include <cstdlib>

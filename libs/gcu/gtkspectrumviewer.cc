@@ -24,7 +24,6 @@
 #include "gtkspectrumviewer.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
-#include <goffice/gtk/go-graph-widget.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkbin.h>
 

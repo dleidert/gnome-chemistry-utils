@@ -25,10 +25,6 @@
 #include "config.h"
 #include "application.h"
 #include "document.h"
-#include <goffice/goffice.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-loader-module.h>
-#include <goffice/utils/go-file.h>
 #include <gtk/gtkmain.h>
 #include <glib.h>
 #include <glib/gi18n.h>
