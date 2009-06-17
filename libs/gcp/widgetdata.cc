@@ -31,7 +31,9 @@
 #include "operation.h"
 #include "theme.h"
 #include "tool.h"
-#include <goffice/math/go-math.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/math/go-math.h>
+#endif
 #include <cstring>
 
 using namespace gcu;

@@ -24,7 +24,11 @@
 #include "gtkperiodic.h"
 #include "gtkcomboperiodic.h"
 #include "chemistry.h"
-#include <goffice/gtk/go-combo-box.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/gtk/go-combo-box.h>
+#endif
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

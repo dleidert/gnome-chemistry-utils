@@ -29,7 +29,11 @@
 #include <gcu/printable.h>
 #include <string>
 #include "gchemtable-app.h"
-#include <goffice/graph/gog-graph.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/graph/gog-graph.h>
+#endif
 #include <gtk/gtkpagesetup.h>
 #include <gtk/gtkprintsettings.h>
 

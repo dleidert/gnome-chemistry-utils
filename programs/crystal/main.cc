@@ -32,7 +32,9 @@
 #include "document.h"
 #include "view.h"
 #include "globals.h"
-#include <goffice/utils/go-file.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/utils/go-file.h>
+#endif
 #ifdef GOFFICE_IS_0_6
 #	include <libgnomevfs/gnome-vfs-init.h>
 #endif

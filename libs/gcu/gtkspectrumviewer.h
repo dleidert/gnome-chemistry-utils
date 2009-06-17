@@ -23,7 +23,11 @@
 #ifndef GTK_SPECTRUM_VIEWER_H
 #define GTK_SPECTRUM_VIEWER_H
 
-#include <goffice/graph/gog-graph.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/graph/gog-graph.h>
+#endif
 #include <gtk/gtkwidget.h>
 
 G_BEGIN_DECLS

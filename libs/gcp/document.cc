@@ -39,11 +39,13 @@
 #include "window.h"
 #include <gcu/objprops.h>
 #include <gcu/loader.h>
-#include <goffice/math/go-rangefunc.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/math/go-rangefunc.h>
+#   include <gtk/gtk.h>
+#   include <gio/gio.h>
+#endif
 #include <unistd.h>
 #include <libgen.h>
-#include <gtk/gtk.h>
-#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>

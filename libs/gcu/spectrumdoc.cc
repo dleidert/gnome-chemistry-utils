@@ -24,27 +24,29 @@
 #include "application.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
-#include <goffice/data/go-data-simple.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series-lines.h>
-#ifndef GOG_TYPE_SERIES_LINES
-#   define GOG_TYPE_SERIES_LINES GOG_SERIES_LINES_TYPE
-#   define GOG_TYPE_AXIS GOG_AXIS_TYPE
-#   include <goffice/graph/gog-style.h>
-#   define GOStyle GogStyle
-#   define go_styled_object_get_style gog_styled_object_get_style
-#   define GO_STYLED_OBJECT GOG_STYLED_OBJECT
-#   define GOStyledObject GogStyledObject
-#else
-#   include <goffice/utils/go-style.h>
-#   include <goffice/utils/go-styled-object.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/data/go-data-simple.h>
+#   include <goffice/graph/gog-axis.h>
+#   include <goffice/graph/gog-plot.h>
+#   include <goffice/graph/gog-series-lines.h>
+#   ifndef GOG_TYPE_SERIES_LINES
+#      define GOG_TYPE_SERIES_LINES GOG_SERIES_LINES_TYPE
+#      define GOG_TYPE_AXIS GOG_AXIS_TYPE
+#      include <goffice/graph/gog-style.h>
+#      define GOStyle GogStyle
+#      define go_styled_object_get_style gog_styled_object_get_style
+#      define GO_STYLED_OBJECT GOG_STYLED_OBJECT
+#      define GOStyledObject GogStyledObject
+#   else
+#      include <goffice/utils/go-style.h>
+#      include <goffice/utils/go-styled-object.h>
+#   endif
+#   include <goffice/math/go-fft.h>
+#   include <goffice/math/go-math.h>
+#   include <goffice/math/go-rangefunc.h>
+#   include <goffice/math/go-regression.h>
+#   include <goffice/utils/go-color.h>
 #endif
-#include <goffice/math/go-fft.h>
-#include <goffice/math/go-math.h>
-#include <goffice/math/go-rangefunc.h>
-#include <goffice/math/go-regression.h>
-#include <goffice/utils/go-color.h>
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>

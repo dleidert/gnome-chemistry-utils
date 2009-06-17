@@ -24,7 +24,11 @@
 #define GCU_SPECTRUM_VIEW_H
 
 #include "macros.h"
-#include <goffice/graph/gog-series.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/graph/gog-series.h>
+#endif
 #include <gtk/gtkwidget.h>
 
 /*!\file*/

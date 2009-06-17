@@ -24,9 +24,11 @@
 #include "gtkspectrumviewer.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
-#include <goffice/gtk/go-graph-widget.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/gtk/go-graph-widget.h>
+#   include <gtk/gtk.h>
+#endif
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkbin.h>
 
 struct _GtkSpectrumViewer
 {

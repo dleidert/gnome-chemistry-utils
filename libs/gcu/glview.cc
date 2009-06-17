@@ -27,12 +27,14 @@
 #include <gcu/gldocument.h>
 #include <gcu/glview.h>
 #include <gcu/macros.h>
-#include <goffice/goffice-features.h>
-#include <goffice/utils/go-image.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice-features.h>
+#   include <goffice/utils/go-image.h>
+#   include <gio/gio.h>
+#endif
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
-#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>

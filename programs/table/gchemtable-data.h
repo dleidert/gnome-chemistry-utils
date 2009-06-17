@@ -23,7 +23,11 @@
 #ifndef GCHEMTABLE_DATA_H
 #define GCHEMTABLE_DATA_H
 
-#include <goffice/data/go-data-impl.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/data/go-data-impl.h>
+#endif
 
 G_BEGIN_DECLS
 

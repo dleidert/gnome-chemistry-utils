@@ -23,7 +23,11 @@
 #ifndef GCU_CMD_CONTEXT_H
 #define GCU_CMD_CONTEXT_H
 
-#include <goffice/app/go-cmd-context-impl.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/app/go-cmd-context-impl.h>
+#endif
 #include <glib-object.h>
 
 G_BEGIN_DECLS

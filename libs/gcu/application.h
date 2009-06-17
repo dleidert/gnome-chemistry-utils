@@ -30,7 +30,11 @@
 #include <set>
 #include <string>
 #ifdef HAVE_GO_CONF_SYNC
-#include <goffice/app/go-conf.h>
+#   ifdef GOFFICE_HAS_GLOBAL_HEADER
+#      include <goffice/goffice.h>
+#   else
+#      include <goffice/app/go-conf.h>
+#   endif
 #endif
 #include <gtk/gtkmain.h>
 #include <gtk/gtkwindow.h>

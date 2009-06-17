@@ -25,7 +25,9 @@
 #include <gcu/element.h>
 #include <map>
 #include <string>
-#include <goffice/math/go-math.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/math/go-math.h>
+#endif
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 

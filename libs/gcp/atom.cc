@@ -37,7 +37,9 @@
 #include <canvas/gcp-canvas-bpath.h>
 #include <canvas/gcp-canvas-pango.h>
 #include <gcu/element.h>
-#include <goffice/math/go-math.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/math/go-math.h>
+#endif
 #include <openbabel/mol.h>
 #include <glib/gi18n-lib.h>
 #include <cstdlib>

@@ -28,10 +28,12 @@
 #include "prefs.h"
 #include "window.h"
 #include <gcu/filechooser.h>
-#include <goffice/utils/go-image.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/utils/go-image.h>
+#   include <gtk/gtk.h>
+#endif
 #include <gsf/gsf-output-gio.h>
 #include <glade/glade.h>
-#include <gtk/gtk.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
 #include <gio/gio.h>

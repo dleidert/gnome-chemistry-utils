@@ -28,9 +28,11 @@
 #include "view.h"
 #include "window.h"
 #include <gcu/print-setup-dlg.h>
-#include <goffice/gtk/go-action-combo-color.h>
-#include <goffice/utils/go-image.h>
-#include <gtk/gtk.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/gtk/go-action-combo-color.h>
+#   include <goffice/utils/go-image.h>
+#   include <gtk/gtk.h>
+#endif
 #include <glib/gi18n.h>
 
 //Callbacks

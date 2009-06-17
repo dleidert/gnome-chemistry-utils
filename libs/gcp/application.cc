@@ -48,12 +48,14 @@
 #include "zoomdlg.h"
 #include <gcu/filechooser.h>
 #include <gcu/loader.h>
-#include <goffice/utils/go-file.h>
 #include <goffice/goffice.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/utils/go-file.h>
+#   include <gio/gio.h>
+#endif
 #ifndef HAVE_GO_CONF_SYNC
 #	include <gconf/gconf-client.h>
 #endif
-#include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/reaction.h>

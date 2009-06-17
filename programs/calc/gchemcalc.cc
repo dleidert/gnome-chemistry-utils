@@ -37,44 +37,46 @@
 #include <gcu/value.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkuimanager.h>
-#include <gtk/gtkaboutdialog.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkclipboard.h>
-#include <goffice/goffice.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-loader-module.h>
-#include <goffice/data/go-data-simple.h>
-#include <goffice/gtk/go-graph-widget.h>
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series.h>
-#ifndef GO_TYPE_PLUGIN_LOADER_MODULE
-#   define GO_TYPE_PLUGIN_LOADER_MODULE GO_PLUGIN_LOADER_MODULE_TYPE
-#   include <goffice/graph/gog-style.h>
-#   include <goffice/graph/gog-styled-object.h>
-#   define GOStyle GogStyle
-#   define go_styled_object_get_style gog_styled_object_get_style
-#   define GO_STYLED_OBJECT GOG_STYLED_OBJECT
-#else
-#   include <goffice/graph/gog-object-xml.h>
-#   include <goffice/utils/go-style.h>
-#   include <goffice/utils/go-styled-object.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <gtk/gtkmain.h>
+#   include <gtk/gtkentry.h>
+#   include <gtk/gtklabel.h>
+#   include <gtk/gtkmessagedialog.h>
+#   include <gtk/gtkuimanager.h>
+#   include <gtk/gtkaboutdialog.h>
+#   include <gtk/gtkstock.h>
+#   include <gtk/gtkbox.h>
+#   include <gtk/gtktreeview.h>
+#   include <gtk/gtkcellrenderertext.h>
+#   include <gtk/gtkclipboard.h>
+#   include <goffice/goffice.h>
+#   include <goffice/app/go-plugin.h>
+#   include <goffice/app/go-plugin-loader-module.h>
+#   include <goffice/data/go-data-simple.h>
+#   include <goffice/gtk/go-graph-widget.h>
+#   include <goffice/gtk/goffice-gtk.h>
+#   include <goffice/graph/gog-axis.h>
+#   include <goffice/graph/gog-data-set.h>
+#   include <goffice/graph/gog-object.h>
+#   include <goffice/graph/gog-plot.h>
+#   include <goffice/graph/gog-series.h>
+#   ifndef GO_TYPE_PLUGIN_LOADER_MODULE
+#      define GO_TYPE_PLUGIN_LOADER_MODULE GO_PLUGIN_LOADER_MODULE_TYPE
+#      include <goffice/graph/gog-style.h>
+#      include <goffice/graph/gog-styled-object.h>
+#      define GOStyle GogStyle
+#      define go_styled_object_get_style gog_styled_object_get_style
+#      define GO_STYLED_OBJECT GOG_STYLED_OBJECT
+#   else
+#      include <goffice/graph/gog-object-xml.h>
+#      include <goffice/utils/go-style.h>
+#      include <goffice/utils/go-styled-object.h>
+#   endif
+#   include <goffice/utils/go-locale.h>
+#   include <goffice/utils/go-image.h>
+#   include <goffice/utils/go-line.h>
+#   include <goffice/utils/go-marker.h>
 #endif
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-image.h>
-#include <goffice/utils/go-line.h>
-#include <goffice/utils/go-marker.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-gio.h>

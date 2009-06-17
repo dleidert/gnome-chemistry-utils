@@ -26,17 +26,18 @@
 #include "application.h"
 #include "cmd-context.h"
 #include "loader.h"
-#include <goffice/goffice.h>
-#include <goffice/app/io-context.h>
-#include <goffice/utils/go-file.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#   include <goffice/app/io-context.h>
+#   include <goffice/utils/go-file.h>
+#   include <gtk/gtk.h>
+#endif
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
 #include <glade/glade.h>
 #ifndef HAVE_GO_CONF_SYNC
 #include <gconf/gconf-client.h>
 #endif
-#include <gtk/gtklabel.h>
-#include <gtk/gtkspinbutton.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>

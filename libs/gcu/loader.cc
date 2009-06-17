@@ -26,10 +26,12 @@
 #include "cmd-context.h"
 #include "document.h"
 #include "loader.h"
-#include <goffice/app/error-info.h>
-#include <goffice/app/go-plugin-service.h>
-#include <goffice/app/go-plugin-service-impl.h>
-#include <goffice/app/go-plugin-loader-module.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/app/error-info.h>
+#   include <goffice/app/go-plugin-service.h>
+#   include <goffice/app/go-plugin-service-impl.h>
+#   include <goffice/app/go-plugin-loader-module.h>
+#endif
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>

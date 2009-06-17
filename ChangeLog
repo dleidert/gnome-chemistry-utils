@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-06-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* *: make things compile with latest goffice.
+
 2009-05-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: make it compile with latest goffice.
 	* programs/table/gchemtable-curve.cc: fixed vector selections.

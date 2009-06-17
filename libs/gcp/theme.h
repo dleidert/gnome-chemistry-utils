@@ -30,9 +30,13 @@
 #include <glib/gtypes.h>
 #include <pango/pango.h>
 #ifdef HAVE_GO_CONF_SYNC
-#include <goffice/app/go-conf.h>
+#   ifdef GOFFICE_HAS_GLOBAL_HEADER
+#      include <goffice/goffice.h>
+#   else
+#	   include <goffice/app/go-conf.h>
+#   endif
 #else
-#include <gconf/gconf-client.h>
+#   include <gconf/gconf-client.h>
 #endif
 #include <libxml/tree.h>
 #include <list>

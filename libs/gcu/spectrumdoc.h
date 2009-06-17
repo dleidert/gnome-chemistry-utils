@@ -26,7 +26,11 @@
 #include "document.h"
 #include "macros.h"
 #include "printable.h"
-#include <goffice/graph/gog-series.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/graph/gog-series.h>
+#endif
 #include <string>
 #include <vector>
 

@@ -145,6 +145,12 @@ fi
 
 AM_CONDITIONAL([GCU_NEEDS_GCONF], [test "$libgoffice" = "libgoffice-0.6"])
 
+dnl check if goffice is >=0.7.8
+PKG_CHECK_MODULES(goffice_has_global_header, [$libgoffice >= 0.7.8], [use_global_header=yes], [use_global_header=no])
+if test "x$use_global_header" = xyes; then
+	AC_DEFINE_UNQUOTED([GOFFICE_HAS_GLOBAL_HEADER], 1, [Whether goffice is >= 0.7.8])
+fi
+
 dnl check if goffice <=0.7.2 has gnome support
 PKG_CHECK_MODULES(need_goffice_with_gnome, [$libgoffice <= 0.7.2], [need_gnome_support=yes], [need_gnome_support=no])
 if test "x$need_gnome_support" = xyes; then

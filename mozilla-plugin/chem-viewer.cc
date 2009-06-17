@@ -31,8 +31,10 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <goffice/goffice.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-loader-module.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/app/go-plugin.h>
+#   include <goffice/app/go-plugin-loader-module.h>
+#endif
 #include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkplug.h>

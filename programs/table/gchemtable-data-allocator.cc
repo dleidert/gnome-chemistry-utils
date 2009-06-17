@@ -24,10 +24,12 @@
 #include "gchemtable-data-allocator.h"
 #include "gchemtable-curve.h"
 #include "gchemtable-data.h"
-#include <goffice/data/go-data-simple.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-plot-impl.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/data/go-data-simple.h>
+#   include <goffice/graph/gog-data-allocator.h>
+#   include <goffice/graph/gog-data-set.h>
+#   include <goffice/graph/gog-plot-impl.h>
+#endif
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkentry.h>
 #include <gsf/gsf-impl-utils.h>

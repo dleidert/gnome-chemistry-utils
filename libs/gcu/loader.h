@@ -28,7 +28,11 @@
 #include <list>
 #include <map>
 #include <string>
-#include <goffice/app/io-context.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/app/io-context.h>
+#endif
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
 

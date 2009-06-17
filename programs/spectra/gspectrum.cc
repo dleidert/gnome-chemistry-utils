@@ -28,12 +28,13 @@
 #ifdef GOFFICE_IS_0_6
 #	include <libgnomevfs/gnome-vfs-init.h>
 #endif
-#include <goffice/goffice.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-loader-module.h>
-#include <goffice/utils/go-file.h>
-#include <gtk/gtkmain.h>
-#include <glib.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#   include <goffice/app/go-plugin.h>
+#   include <goffice/app/go-plugin-loader-module.h>
+#   include <goffice/utils/go-file.h>
+#   include <gtk/gtk.h>
+#endif
 #include <glib/gi18n.h>
 
 #ifndef GO_TYPE_PLUGIN_LOADER_MODULE

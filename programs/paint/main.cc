@@ -25,8 +25,10 @@
 #include "config.h"
 #include "standaloneapp.h"
 #include <gcu/loader.h>
-#include <goffice/utils/go-file.h>
-#include <gtk/gtk.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/utils/go-file.h>
+#   include <gtk/gtk.h>
+#endif
 #ifdef GOFFICE_IS_0_6
 #	include <libgnomevfs/gnome-vfs-init.h>
 #endif

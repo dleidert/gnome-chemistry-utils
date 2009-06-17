@@ -22,7 +22,9 @@
 
 #include "config.h"
 #include "cmd-context.h"
-#include <goffice/app/error-info.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/app/error-info.h>
+#endif
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 

@@ -28,7 +28,9 @@
 #include "tool.h"
 #include "tools.h"
 #include <gcu/gtkcomboperiodic.h>
-#include <goffice/gtk/go-combo-box.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/gtk/go-combo-box.h>
+#endif
 #include <cstring>
 
 using namespace gcu;

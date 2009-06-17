@@ -23,7 +23,11 @@
 #include "config.h"
 #include "element.h"
 #include "xml-utils.h"
-#include <goffice/math/go-math.h>
+#ifdef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#else
+#   include <goffice/math/go-math.h>
+#endif
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>

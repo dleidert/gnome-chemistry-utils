@@ -28,8 +28,10 @@
 #include "view.h"
 #include "window.h"
 #include <gcu/filechooser.h>
-#include <goffice/utils/go-image.h>
-#include <gio/gio.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/utils/go-image.h>
+#   include <gio/gio.h>
+#endif
 #include <glib/gi18n.h>
 #include <clocale>
 #include <map>

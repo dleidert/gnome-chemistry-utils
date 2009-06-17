@@ -24,9 +24,11 @@
 
 #include "config.h"
 #include "gchemtable-app.h"
-#include <goffice/goffice.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-loader-module.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/goffice.h>
+#   include <goffice/app/go-plugin.h>
+#   include <goffice/app/go-plugin-loader-module.h>
+#endif
 #include <libintl.h>
 
 #ifndef GO_TYPE_PLUGIN_LOADER_MODULE
@@ -40,7 +42,7 @@ int main (int argc, char *argv[])
 	textdomain (GETTEXT_PACKAGE);
 	gtk_init (&argc, &argv);
 
-	GChemTableApp *app = new GChemTableApp ();
+	new GChemTableApp ();
 	/* Initialize plugins manager */
 	GSList *l = NULL;
 	l = g_slist_append (l, (void *) "GOffice_plot_xy");

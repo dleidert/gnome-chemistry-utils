@@ -29,9 +29,13 @@
 #include <gcu/dialog.h>
 #include <gcu/object.h>
 #ifdef HAVE_GO_CONF_SYNC
-#include <goffice/app/go-conf.h>
+#   ifdef GOFFICE_HAS_GLOBAL_HEADER
+#      include <goffice/goffice.h>
+#   else
+#	   include <goffice/app/go-conf.h>
+#   endif
 #else
-#include <gconf/gconf-client.h>
+#   include <gconf/gconf-client.h>
 #endif
 #include <set>
 #include <string>

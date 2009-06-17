@@ -27,15 +27,17 @@
 #include "document.h"
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <gtk/gtk.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <gtk/gtk.h>
+#   include <goffice/goffice.h>
+#   include <goffice/utils/go-file.h>
+#   include <gio/gio.h>
+#endif
 #include <gtk/gtkglinit.h>
 #include <gcu/chemistry.h>
-#include <goffice/goffice.h>
-#include <goffice/utils/go-file.h>
 #ifdef GOFFICE_IS_0_6
 #	include <libgnomevfs/gnome-vfs-init.h>
 #endif
-#include <gio/gio.h>
 #include <cstring>
 #include <cstdio>
 

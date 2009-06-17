@@ -26,9 +26,11 @@
 #include "filechooser.h"
 #include <gcu/application.h>
 #include <gcu/document.h>
-#include <gio/gio.h>
+#ifndef GOFFICE_HAS_GLOBAL_HEADER
+#   include <goffice/utils/go-file.h>
+#   include <gio/gio.h>
+#endif
 #include <glib/gi18n-lib.h>
-#include <goffice/utils/go-file.h>
 
 using namespace std;
 
