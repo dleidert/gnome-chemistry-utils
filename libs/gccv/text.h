@@ -118,7 +118,7 @@ private:
 	std::list <TextTag *> m_Tags;
 	std::string m_Text;
 	GtkIMContext *m_ImContext;
-	PangoFontDescription const *m_FontDesc;
+	PangoFontDescription *m_FontDesc;
 	TextTagList *m_CurTags;
 	TextLine *m_Lines;
 	unsigned m_LinesNumber;

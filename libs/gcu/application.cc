@@ -107,6 +107,7 @@ Application::~Application ()
 		ClearDialogs (); // needed to cleanly stop goffice
 		go_conf_free_node (m_ConfDir);
 		m_ConfDir = NULL;
+		libgoffice_shutdown ();
 	}
 }
 

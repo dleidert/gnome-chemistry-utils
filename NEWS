@@ -1,4 +1,10 @@
 Version 0.11.2
+	GChemPaint
+		* Texts now mostly work. Known regressions: multiline texts, underline
+		and strikethrough.
+	Other:
+		* Needs the latest goffice development release.
+		* Various fixes.
 
 Version 0.11.1
 	GChemPaint

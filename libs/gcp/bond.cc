@@ -130,13 +130,13 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		if (ax > 0) {
 			horizontal = anga >= angb;
 			if (horizontal) {
-				ax = (ax + 2.) / Theme->GetZoomFactor ();
+				ax = (ax + 1.) / Theme->GetZoomFactor ();
 				if (dx > 0)
 					ax = - ax;
 				*x2 += ax;
 				*y2 += ax * dy / dx;
 			} else {
-				ay = (ay + 2.) / Theme->GetZoomFactor ();
+				ay = (ay + 1.) / Theme->GetZoomFactor ();
 				if (dy > 0)
 					ay = - ay;
 				*y2 += ay;

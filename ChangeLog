@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2009-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fixed font description life cycle and enhance size.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/bond.cc: fixed dissymetry around atoms.
+	* libs/gcu/application.cc: shutdown goffice when done.
+
 2009-06-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* *: cleaned included headers.
 
@@ -134,37 +140,6 @@
 2009-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: implement an edition mode.
 	* libs/gcp/fragment.h: ditto.
-2009-04-15  Jean Brefort  <jean.brefort@normalesup.org>
-	* configure.ac:
-	* libs/gccv/canvas.cc:
-	* libs/gcp/fragment.cc:
-	* libs/gcp/fragment.h:
-	* libs/gcp/view.cc:
-	* libs/gcp/widgetdata.cc:
-	* libs/gcp/window.cc:
-	* libs/gcu/glview.cc:
-	* libs/gcu/glview.h:
-	* libs/gcu/gtkchem3dviewer.cc:
-	* libs/gcu/gtkcrystalviewer.cc:
-	* libs/gcu/gtkperiodic.c: (gtk_periodic_size_allocate),
-	(gtk_periodic_size_request):
-	* libs/gcu/gtkspectrumviewer.cc:
-	* libs/gcu/spectrumdoc.cc:
-	* libs/gcu/spectrumview.cc:
-	* libs/gcu/spectrumview.h:
-	* mozilla-plugin/chem-viewer.cc:
-	* plugins/paint/templates/templatetool.cc:
-	* plugins/paint/templates/templatetool.h:
-	* plugins/paint/text/fragmenttool.cc:
-	* plugins/paint/text/fragmenttool.h:
-	* plugins/paint/text/texttool.cc:
-	* programs/calc/gchemcalc.cc:
-	* programs/crystal/linesdlg.cc:
-	* programs/spectra/window.cc:
-	* programs/table/gchemtable-curve.cc:
-	* programs/table/gchemtable-curve.h:
-	* programs/table/gchemtable-data-allocator.cc:
-
 	* libs/gcp/preferences.cc: take new PANGO_WEIGHT_* values into account.
 	* libs/gcp/theme.cc: ditto.
 	* plugins/paint/text/fragmenttool.cc: replace "-" by minus when it is

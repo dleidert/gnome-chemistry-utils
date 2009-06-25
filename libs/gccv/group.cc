@@ -119,7 +119,7 @@ bool Group::Draw (cairo_t *cr, double x0, double y0, double x1, double y1, bool 
 	if (m_Children.empty ())
 		return true;
 	cairo_save (cr);
-	cairo_translate (cr, m_x, m_y);
+	cairo_translate (cr, m_x, m_y);	
 	x0 -= m_x;
 	y0 -= m_y;
 	x1 -= m_x;

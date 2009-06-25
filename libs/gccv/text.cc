@@ -231,7 +231,7 @@ Text::Text (Canvas *canvas, double x, double y):
 {
 	TextRun *run = new TextRun ();
 	m_Runs.push_front (run);
-	m_FontDesc = pango_layout_get_font_description (run->m_Layout);
+	m_FontDesc = pango_font_description_copy (pango_layout_get_font_description (run->m_Layout));
 	m_ImContext = gtk_im_multicontext_new ();
 	g_signal_connect (G_OBJECT (m_ImContext), "commit",
 		G_CALLBACK (TextPrivate::OnCommit), this);
@@ -252,7 +252,7 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 {
 	TextRun *run = new TextRun ();
 	m_Runs.push_front (run);
-	m_FontDesc = pango_layout_get_font_description (run->m_Layout);
+	m_FontDesc = pango_font_description_copy (pango_layout_get_font_description (run->m_Layout));
 	m_Lines = NULL;
 	m_LinesNumber = 0;
 	m_ImContext = gtk_im_multicontext_new ();
@@ -274,6 +274,7 @@ Text::~Text ()
 		delete m_CurTags;
 	if (m_Lines)
 		delete [] m_Lines;
+	pango_font_description_free (m_FontDesc);
 }
 
 void Text::SetPosition (double x, double y)
@@ -282,53 +283,29 @@ void Text::SetPosition (double x, double y)
 	PangoRectangle r;
 	std::list <TextRun *>::iterator i, end = m_Runs.end ();
 	double x0, y0, x1, y1, x_, y_;
-	if (m_BlinkSignal) {
-		i = m_Runs.begin ();
+	i = m_Runs.begin ();
+	pango_layout_get_extents ((*i)->m_Layout, NULL, &r);
+	x0 = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
+	y0 = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
+	x1 = x0 + static_cast <double> (r.width) / PANGO_SCALE;
+	y1 = y0 + static_cast <double> (r.height) / PANGO_SCALE;
+	for (i++; i != end; i++) {
 		pango_layout_get_extents ((*i)->m_Layout, NULL, &r);
-		x0 = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
-		y0 = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
-		x1 = x0 + static_cast <double> (r.width) / PANGO_SCALE;
-		y1 = y0 + static_cast <double> (r.height) / PANGO_SCALE;
-		for (i++; i != end; i++) {
-			pango_layout_get_extents ((*i)->m_Layout, NULL, &r);
-			x_ = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
-			y_ = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
-			if (x_ < x0)
-				x0 = x_;
-			if (y_ < y0)
-				y0 = y_;
-			x_ += static_cast <double> (r.width) / PANGO_SCALE;
-			y_ += static_cast <double> (r.height) / PANGO_SCALE;
-			if (x_ > x1)
-				x1 = x_;
-			if (y_ > y1)
-				y1 = y_;
-		}
-	} else {
-		i = m_Runs.begin ();
-		pango_layout_get_extents ((*i)->m_Layout, &r, NULL);
-		x0 = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
-		y0 = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
-		x1 = x0 + static_cast <double> (r.width) / PANGO_SCALE;
-		y1 = y0 + static_cast <double> (r.height) / PANGO_SCALE;
-		for (i++; i != end; i++) {
-			pango_layout_get_extents ((*i)->m_Layout, &r, NULL);
-			x_ = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
-			y_ = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
-			if (x_ < x0)
-				x0 = x_;
-			if (y_ < y0)
-				y0 = y_;
-			x_ += static_cast <double> (r.width) / PANGO_SCALE;
-			y_ += static_cast <double> (r.height) / PANGO_SCALE;
-			if (x_ > x1)
-				x1 = x_;
-			if (y_ > y1)
-				y1 = y_;
-		}
+		x_ = (*i)->m_X + static_cast <double> (r.x) / PANGO_SCALE;
+		y_ = (*i)->m_Y + static_cast <double> (r.y) / PANGO_SCALE;
+		if (x_ < x0)
+			x0 = x_;
+		if (y_ < y0)
+			y0 = y_;
+		x_ += static_cast <double> (r.width) / PANGO_SCALE;
+		y_ += static_cast <double> (r.height) / PANGO_SCALE;
+		if (x_ > x1)
+			x1 = x_;
+		if (y_ > y1)
+			y1 = y_;
 	}
-	m_x = x + x0;   // are +x0 and +y0 useful? or can they be negative???
-	m_y = y + y0;
+	m_x = x;
+	m_y = y;
 	m_Y = y0;
 	m_Width = x1 - x0;
 	m_Height = y1 - y0;
@@ -512,7 +489,6 @@ void Text::SetText (char const *text)
 	m_Text = text;
 	pango_layout_set_text (m_Runs.front ()->m_Layout, text, -1); // FIXME: parse for line breaks
 	m_Runs.front ()->m_Length = strlen (text);
-	SetPosition (m_x, m_y);
 }
 
 void Text::SetText (std::string const &text)
@@ -534,10 +510,10 @@ char const *Text::GetText ()
 
 void Text::SetFontDescription (PangoFontDescription *desc)
 {
-	m_FontDesc = desc;
+	m_FontDesc = pango_font_description_copy (desc);
 	std::list <TextRun *>::iterator i, end = m_Runs.end ();
 	for (i = m_Runs.begin (); i != end; i++) {
-		pango_layout_set_font_description ((*i)->m_Layout, desc);
+		pango_layout_set_font_description ((*i)->m_Layout, m_FontDesc);
 	}
 	SetPosition (m_x, m_y);
 }
@@ -649,16 +625,16 @@ void Text::GetBounds (Rect *ink, Rect *logical)
 		break;
 	}
 	if (ink) {
-		ink->x0 = startx + (double) x0 / PANGO_SCALE;
-		ink->y0 = starty + (double) y0 / PANGO_SCALE;
-		ink->x1 = ink->x0 + (double) (x1 - x0) / PANGO_SCALE;
-		ink->y1 = ink->y0 + (double) (y1 - y0) / PANGO_SCALE;
+		ink->x0 = startx + x0;
+		ink->y0 = starty + y0;
+		ink->x1 = ink->x0 + x1 - x0;
+		ink->y1 = ink->y0 + y1 - y0;
 	}
 	if (logical) {
-		logical->x0 = startx + (double) x2 / PANGO_SCALE;
-		logical->y0 = starty + (double) y2 / PANGO_SCALE;
-		logical->x1 = logical->x0 + (double) (x3 - x2) / PANGO_SCALE;
-		logical->y1 = logical->y0 + (double) (y3 - y2) / PANGO_SCALE;
+		logical->x0 = startx + x2;
+		logical->y0 = starty + y2;
+		logical->x1 = logical->x0 + x3 - x2;
+		logical->y1 = logical->y0 + y3 - y2;
 	}
 }
 
