@@ -62,26 +62,27 @@ dist_ui_DATA = arrowtool.ui
 
 schemas_in_files = gchempaint-arrows.schemas.in
 
-schemasdir = $(GCONF_SCHEMA_FILE_DIR)
-schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
-@INTLTOOL_SCHEMAS_RULE@
-
-
 $(BUILT_SOURCES): $(IMAGES)
 	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@
 
-install-data-local:
-if GCONF_SCHEMAS_INSTALL
-	for p in $(schemas_DATA) ; do \
-		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
-		    $(GCONFTOOL) --makefile-install-rule $$p; \
-	done
-endif #GCONF_SCHEMAS_INSTALL
+if USE_GCONF
+	schemasdir = $(GCONF_SCHEMA_FILE_DIR)
+	schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
+	@INTLTOOL_SCHEMAS_RULE@
 
-uninstall-local:
-if GCONF_SCHEMAS_INSTALL
-	for schema in $(schemas_DATA) ; do \
-		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
-		    $(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
-	done
-endif #GCONF_SCHEMAS_INSTALL
+	install-data-local:
+	if GCONF_SCHEMAS_INSTALL
+		for p in $(schemas_DATA) ; do \
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+				$(GCONFTOOL) --makefile-install-rule $$p; \
+		done
+	endif #GCONF_SCHEMAS_INSTALL
+
+	uninstall-local:
+	if GCONF_SCHEMAS_INSTALL
+		for schema in $(schemas_DATA) ; do \
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+				$(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
+		done
+	endif #GCONF_SCHEMAS_INSTALL
+endif #USE_GCONF

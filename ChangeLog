@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
 2009-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: fixed discheck when goffice doesn't use gconf.
+	* configure.ac: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+
+2009-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fixed font description life cycle and enhance size.
 	* libs/gccv/text.h: ditto.
 	* libs/gcp/bond.cc: fixed dissymetry around atoms.

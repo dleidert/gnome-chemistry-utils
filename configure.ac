@@ -153,6 +153,7 @@ if test "x$GCONFTOOL" = "xno"; then
 fi
 AM_GCONF_SOURCE_2
 fi
+AM_CONDITIONAL([USE_GCONF], [test "x$GCONFTOOL" = "xyes"] )
 
 dnl retrieve BODR data directory
 bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`
