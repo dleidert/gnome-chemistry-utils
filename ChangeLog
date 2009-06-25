@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2009-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release bump (0.11.3).
+
+2009-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: fixed discheck when goffice doesn't use gconf.
 	* configure.ac: ditto.
 	* plugins/paint/arrows/Makefile.am: ditto.
