@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.10.6).
+
 2009-06-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* *: make things compile with latest goffice.
 
