@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-06-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: add command-line options to get maximized
+	or fullscreen windows.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+
 2009-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.11.3).
 

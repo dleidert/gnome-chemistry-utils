@@ -27,6 +27,7 @@
 
 #include "dialog-owner.h"
 #include "structs.h"
+#include <list>
 #include <map>
 #include <set>
 #include <string>
@@ -37,6 +38,14 @@ namespace gcu {
 
 class Document;
 class Dialog;
+struct option_data;
+
+typedef enum {
+	NormalWindowState,
+	MaximizedWindowState,
+	MinimizedWindowState,
+	FullScreenWindowState
+} WindowState;
 
 #define GCU_CONF_DIR "gchemutils"
 
@@ -219,6 +228,24 @@ Method used to retrieve the base configuration node.
 
 	std::string const &GetIconName () {return IconName;}
 
+/*!
+@param entries: the entries to register.
+@param translation_domain: the entries to register.
+
+Adds new command line options. Typically called from a plugin. The new
+options are added to the main group.
+*/
+	void RegisterOptions (GOptionEntry const *entries, char const *translation_domain = GETTEXT_PACKAGE);
+
+/*!
+@param context: a GOptionContext
+
+Adds all registered options to the context. This should be called once
+just after creating the application and before parsing options.
+*/
+	void AddOptions (GOptionContext *context);
+	static WindowState GetDefaultWindowState () {return DefaultWindowState;}
+
 protected:
 
 /*!
@@ -232,6 +259,9 @@ private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
 	void RemoveDocument (Document *Doc);
 
+public:
+	static WindowState DefaultWindowState;
+
 private:
 	std::string Name;
 	std::string HelpName;
@@ -240,6 +270,7 @@ private:
 	std::string CurDir;
 	std::string IconName;
 	static GOConfNode *m_ConfDir;
+	std::list<option_data> m_Options;
 
 protected:
 /*!

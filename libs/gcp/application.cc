@@ -1268,26 +1268,6 @@ void Application::BuildMenu (GtkUIManager *manager)
 		(*i) (manager);
 }
 
-struct option_data {
-	GOptionEntry const *entries;
-	char const *translation_domain;
-};
-
-void Application::RegisterOptions (GOptionEntry const *entries, char const *translation_domain)
-{
-	struct option_data d;
-	d.entries = entries;
-	d.translation_domain = translation_domain;
-	m_Options.push_back (d);
-}
-
-void Application::AddOptions (GOptionContext *context)
-{
-	list<option_data>::iterator i, end = m_Options.end ();
-	for (i = m_Options.begin (); i != end; i++)
-		g_option_context_add_main_entries (context, (*i).entries, (*i).translation_domain);
-}
-
 gcu::Document *Application::CreateNewDocument ()
 {
 	return new Document (this, true, NULL);

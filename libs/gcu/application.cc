@@ -46,6 +46,24 @@ namespace gcu
 GOConfNode *Application::m_ConfDir = NULL;
 
 static set<Application *> Apps;
+WindowState Application::DefaultWindowState = NormalWindowState;
+	
+static void on_maximize_windows ()
+{
+	Application::DefaultWindowState = MaximizedWindowState;
+}
+
+static void on_full_screen ()
+{
+	Application::DefaultWindowState = FullScreenWindowState;
+}
+
+static GOptionEntry options[] = 
+{
+  {"full-screen", 'F', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) on_full_screen, N_("Open new windows full screen"), NULL},
+  {"maximize", 'M', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) on_maximize_windows, N_("Maximize new windows"), NULL},
+  {NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
+};
 
 Application::Application (string name, string datadir, char const *help_name, char const *icon_name)
 {
@@ -98,6 +116,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 		l = l->next;
 	}
 	g_slist_free (formats);
+	RegisterOptions (options);
 }
 
 Application::~Application ()
@@ -311,6 +330,26 @@ GOConfNode *Application::GetConfDir ()
 		m_ConfDir = go_conf_get_node (NULL, GCU_CONF_DIR);
 	}
 	return m_ConfDir;
+}
+
+struct option_data {
+	GOptionEntry const *entries;
+	char const *translation_domain;
+};
+
+void Application::RegisterOptions (GOptionEntry const *entries, char const *translation_domain)
+{
+	struct option_data d;
+	d.entries = entries;
+	d.translation_domain = translation_domain;
+	m_Options.push_back (d);
+}
+
+void Application::AddOptions (GOptionContext *context)
+{
+	list<option_data>::iterator i, end = m_Options.end ();
+	for (i = m_Options.begin (); i != end; i++)
+		g_option_context_add_main_entries (context, (*i).entries, (*i).translation_domain);
 }
 
 }	//	namespace gcu

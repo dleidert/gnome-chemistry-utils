@@ -31,7 +31,6 @@
 #include <set>
 #include <string>
 #include <map>
-#include <list>
 #include <stdexcept>
 
 namespace gcu {
@@ -68,7 +67,6 @@ class Target;
 class NewFileDlg;
 class Tool;
 class Document;
-struct option_data;
 typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
 
 typedef enum {
@@ -394,23 +392,6 @@ with AddMenuCallback.
 	void BuildMenu (GtkUIManager *manager);
 
 /*!
-@param entries: the entries to register.
-@param translation_domain: the entries to register.
-
-Adds new command line options. Typically called from a plugin. The new
-options are added to the main group.
-*/
-	void RegisterOptions (GOptionEntry const *entries, char const *translation_domain = GETTEXT_PACKAGE);
-
-/*!
-@param context: a GOptionContext
-
-Adds all registered options to the context. This should be called once
-just after creating the application and before parsing options.
-*/
-	void AddOptions (GOptionContext *context);
-
-/*!
 Creates a new document using the default theme.
 @return the newly created document.
 */
@@ -488,7 +469,6 @@ private:
 	guint m_NotificationId;
 	gcu::Object *m_Dummy;
 	std::list<BuildMenuCb> m_MenuCbs;
-	std::list<option_data> m_Options;
 	GdkCursor *m_Cursors[CursorMax];
 
 GCU_RO_POINTER_PROP	(GtkStyle, Style)
