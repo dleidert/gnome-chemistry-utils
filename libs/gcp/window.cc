@@ -265,6 +265,14 @@ static bool on_key_press(GtkWidget* widget, GdkEventKey* ev, gcp::Window* Win)
 	return Win->OnKeyPressed(widget, ev);
 }
 
+static void on_full_screen (GtkToggleAction* action, gcp::Window* Win)
+{
+	if (gtk_toggle_action_get_active (action))
+		gtk_window_fullscreen (Win->GetWindow());
+	else
+		gtk_window_unfullscreen (Win->GetWindow());
+}
+
 static void on_recent (GtkRecentChooser *widget, gcp::Window *Win)
 {
 	gcp::Application *App = Win->GetApplication ();
@@ -359,6 +367,8 @@ static GtkActionEntry entries[] = {
 
 /* Toggle items */
 static GtkToggleActionEntry toggle_entries[] = {
+	{ "FullScreen", NULL, N_("_Full Screen"), "F11",
+		N_("Switch between full screen and windowed mode"), G_CALLBACK (on_full_screen), FALSE }
 };
 
 static const char *ui_description =
@@ -395,6 +405,7 @@ static const char *ui_description =
 "      <menuitem action='Preferences'/>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
+"      <menuitem action='FullScreen'/>"
 "      <menu action='ZoomMenu'>"
 "        <menuitem action='400%'/>"
 "        <menuitem action='300%'/>"
@@ -450,19 +461,6 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	GError *error;
 
 	SetWindow (window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL)));
-	switch (App->GetDefaultWindowState ()) {
-	case MaximizedWindowState:
-		gtk_window_maximize (window);
-		break;
-	case MinimizedWindowState:
-		gtk_window_iconify (window);
-		break;
-	case FullScreenWindowState:
-		gtk_window_fullscreen (window);
-		break;
-	default:
-		break;
-	}
 	g_object_set (G_OBJECT (window), "urgency-hint", false, NULL);
 	g_object_set_data (G_OBJECT (window), "gcp-role", (void*) 1);
 	g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (on_destroy), this);
@@ -498,6 +496,21 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 
 	accel_group = gtk_ui_manager_get_accel_group (m_UIManager);
 	gtk_window_add_accel_group (window, accel_group);
+
+	switch (App->GetDefaultWindowState ()) {
+	case MaximizedWindowState:
+		gtk_window_maximize (window);
+		break;
+	case MinimizedWindowState:
+		gtk_window_iconify (window);
+		break;
+	case FullScreenWindowState:
+		gtk_window_fullscreen (window);
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (gtk_ui_manager_get_action (m_UIManager, "/MainMenu/ViewMenu/FullScreen")), true);
+		break;
+	default:
+		break;
+	}
 
 	GtkWidget *menu = gtk_ui_manager_get_widget (m_UIManager, "/MainMenu/FileMenu/Open");
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());

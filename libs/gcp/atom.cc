@@ -1160,6 +1160,7 @@ int Atom::GetAvailablePosition (double& x, double& y)
 	if (m_AvailPos) {
 		if (m_AvailPos & POSITION_N) {
 			x = m_x;
+printf("m_height=%g m_SHeightH=%g m_SHeightL=%g\n",m_height, m_SHeightH,m_SHeightL);
 			y = m_y - m_height / 2.0;
 			return POSITION_N;
 		}
@@ -1839,7 +1840,17 @@ static void do_display_symbol (GtkToggleAction *action, Atom *pAtom)
 	pAtom->EmitSignal (OnChangedSignal);
 	Op->AddObject (Obj, 1);
 	Doc->FinishOperation ();
-	Doc->GetView ()->Update (pAtom);
+	View *view = Doc->GetView ();
+	view->Update (pAtom);
+	// also update the bonds
+	map<gcu::Atom*, gcu::Bond*>::iterator i;
+	Bond *bond = static_cast <Bond *> (pAtom->GetFirstBond (i));
+	while (bond) {
+		bond->SetDirty ();
+		view->Update (bond);
+		bond = static_cast <Bond *> (pAtom->GetNextBond (i));
+	}
+	
 }
 
 static void do_choose_H_pos (Atom* Atom)
@@ -1943,8 +1954,8 @@ void Atom::AddItem ()
 		int n = GetAttachedHydrogens ();
 		gccv::Rect ink, logical;
 		text->GetBounds (&ink, &logical);
-		m_width = (logical.x1 - logical.x0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
-		m_height = (logical.y1 - logical.y0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
+		m_width = (ink.x1 - ink.x0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
+		m_height = (ink.y1 - ink.y0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
 		if (n > 0) {
 			string hs = "H";
 			if (n > 1) {
@@ -2058,6 +2069,7 @@ void Atom::AddItem ()
 		gccv::FillItem *fill = new gccv::Rectangle (group,  -3., -3., 6., 6., this);
 		fill->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
 		fill->SetLineColor (0);
+		m_width = m_height = 2 * theme->GetPadding () / theme->GetZoomFactor ();
 		if (m_DrawCircle) {
 			fill = new gccv::Circle ( group, 0., 0., theme->GetStereoBondWidth () / 2., this);
 			fill->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);

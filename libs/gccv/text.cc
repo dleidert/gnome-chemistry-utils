@@ -232,6 +232,8 @@ Text::Text (Canvas *canvas, double x, double y):
 	TextRun *run = new TextRun ();
 	m_Runs.push_front (run);
 	m_FontDesc = pango_font_description_copy (pango_layout_get_font_description (run->m_Layout));
+	m_Lines = NULL;
+	m_LinesNumber = 0;
 	m_ImContext = gtk_im_multicontext_new ();
 	g_signal_connect (G_OBJECT (m_ImContext), "commit",
 		G_CALLBACK (TextPrivate::OnCommit), this);
