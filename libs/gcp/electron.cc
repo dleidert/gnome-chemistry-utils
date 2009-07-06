@@ -30,6 +30,9 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gccv/canvas.h>
+#include <gccv/circle.h>
+#include <gccv/group.h>
 #include <cmath>
 #include <cstring>
 
@@ -114,126 +117,8 @@ void Electron::SetPosition (unsigned char Pos, double angle, double distance)
 	m_Pos = Pos;
 }
 
-/*void Electron::Add (GtkWidget* w) const
+void Electron::SetSelected (int state)
 {
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (pData->Items[this] != NULL)
-		return;
-	Theme* pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP(gnome_canvas_item_new(pData->Group, gnome_canvas_group_ext_get_type(), NULL));
-	GnomeCanvasItem* item;
-	GOColor color = (m_pAtom)? ((pData->IsSelected(m_pAtom))? SelectColor: Color): RGBA_WHITE;
-	double x, y, angle = m_Angle / 180. * M_PI;
-	if (m_Dist != 0.){
-		m_pAtom->GetCoords (&x, &y);
-		x += m_Dist * cos (angle);
-		y -= m_Dist * sin (angle);
-		x *= pTheme->GetZoomFactor ();
-		y *= pTheme->GetZoomFactor ();
-	} else {
-		m_pAtom->GetPosition (m_Angle, x, y);
-		x *= pTheme->GetZoomFactor ();
-		y *= pTheme->GetZoomFactor ();
-		x += 2. * cos (angle);
-		y -= 2. * sin (angle);
-	}
-	if (m_IsPair) {
-		double deltax = 3. * sin (angle);
-		double deltay = 3. * cos (angle);
-		item = gnome_canvas_item_new (
-						group,
-						gnome_canvas_ellipse_ext_get_type (),
-						"width_units", 0.0,
-						"fill_color", color,
-						"x1", x + deltax - 2. ,
-						"x2", x + deltax + 2.,
-						"y1", y + deltay - 2.,
-						"y2", y + deltay + 2.,
-						NULL);
-		g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-		g_object_set_data (G_OBJECT (item), "object", (void *) this);
-		g_object_set_data (G_OBJECT (group), "0", item);
-		item = gnome_canvas_item_new (
-						group,
-						gnome_canvas_ellipse_ext_get_type (),
-						"width_units", 0.0,
-						"fill_color", color,
-						"x1", x - deltax - 2. ,
-						"x2", x - deltax + 2.,
-						"y1", y - deltay - 2.,
-						"y2", y - deltay + 2.,
-						NULL);
-		g_object_set_data (G_OBJECT (item), "object", (void *) this);
-		g_object_set_data (G_OBJECT (group), "1", item);
-	} else {
-		item = gnome_canvas_item_new (
-						group,
-						gnome_canvas_ellipse_ext_get_type (),
-						"width_units", 0.0,
-						"fill_color", color,
-						"x1", x - 2. ,
-						"x2", x + 2.,
-						"y1", y - 2.,
-						"y2", y + 2.,
-						NULL);
-		g_object_set_data (G_OBJECT (item), "object", (void *) this);
-		g_object_set_data (G_OBJECT (group), "0", item);
-	}
-	g_object_set_data (G_OBJECT (group), "object", (void *) this);
-	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	pData->Items[this] = group;
-}
-
-void Electron::Update (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (pData->Items[this] == NULL)
-		return;
-	Theme* pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasGroup *group = pData->Items[this];
-	double x, y, angle = m_Angle / 180. * M_PI;
-	if (m_Dist != 0.){
-		m_pAtom->GetCoords (&x, &y);
-		x += m_Dist * cos (angle);
-		y -= m_Dist * sin (angle);
-		x *= pTheme->GetZoomFactor ();
-		y *= pTheme->GetZoomFactor ();
-	} else {
-		m_pAtom->GetPosition (m_Angle, x, y);
-		x *= pTheme->GetZoomFactor ();
-		y *= pTheme->GetZoomFactor ();
-		x += 2. * cos (angle);
-		y -= 2. * sin (angle);
-	}
-	if (m_IsPair) {
-		double deltax = 3. * sin (angle);
-		double deltay = 3. * cos (angle);
-		g_object_set(G_OBJECT(g_object_get_data(G_OBJECT(group), "0")),
-						"x1", x + deltax - 2. ,
-						"x2", x + deltax + 2.,
-						"y1", y + deltay - 2.,
-						"y2", y + deltay + 2.,
-						NULL);
-		g_object_set(G_OBJECT(g_object_get_data(G_OBJECT(group), "1")),
-						"x1", x - deltax - 2. ,
-						"x2", x - deltax + 2.,
-						"y1", y - deltay - 2.,
-						"y2", y - deltay + 2.,
-						NULL);
-	} else {
-		g_object_set(G_OBJECT(g_object_get_data(G_OBJECT(group), "0")),
-						"x1", x - 2. ,
-						"x2", x + 2.,
-						"y1", y - 2.,
-						"y2", y + 2.,
-						NULL);
-	}
-}*/
-
-void Electron::SetSelected(int state)
-{
-/*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	GnomeCanvasGroup* group = pData->Items[this];
 	GOColor color;
 	
 	switch (state) {	
@@ -253,11 +138,21 @@ void Electron::SetSelected(int state)
 		color = RGBA_BLACK;
 		break;
 	}
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "0")),
-				"fill_color", color, NULL);
-	if (m_IsPair)
-		g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "1")),
-					"fill_color", color, NULL);*/
+	gccv::Group *group = dynamic_cast <gccv::Group *> (m_Item);
+	if (group) {
+		std::list<gccv::Item *>::iterator it;
+		gccv::Item *child = group->GetFirstChild (it);
+		while (child) {
+			static_cast <gccv::FillItem *> (child)->SetFillColor (color);
+			child = group->GetNextChild (it);
+		}
+	} else {
+		gccv::FillItem *fill = dynamic_cast <gccv::FillItem *> (m_Item);
+		if (fill)
+			fill->SetFillColor (color);
+		else
+			static_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
+	}
 }
 	
 xmlNodePtr Electron::Save (xmlDocPtr xml) const
@@ -385,10 +280,46 @@ void Electron::Transform2D (Matrix2D& m, double x, double y)
 
 void Electron::AddItem ()
 {
-}
-
-void Electron::UpdateItem ()
-{
+	if (m_Item)
+		return;
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc->GetTheme ();
+	GOColor color = (m_pAtom)? ((view->GetData ()->IsSelected (m_pAtom))? SelectColor: Color): RGBA_WHITE;
+	double x, y, angle = m_Angle / 180. * M_PI;
+	if (m_Dist != 0.){
+		m_pAtom->GetCoords (&x, &y);
+		x += m_Dist * cos (angle);
+		y -= m_Dist * sin (angle);
+		x *= theme->GetZoomFactor ();
+		y *= theme->GetZoomFactor ();
+	} else {
+		m_pAtom->GetPosition (m_Angle, x, y);
+		x *= theme->GetZoomFactor ();
+		y *= theme->GetZoomFactor ();
+		x += 2. * cos (angle);
+		y -= 2. * sin (angle);
+	}
+	if (m_IsPair) {
+		double deltax = 3. * sin (m_Angle);
+		double deltay = 3. * cos (m_Angle);
+		gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
+		m_Item = group;
+		gccv::Circle *circle = new gccv::Circle (group, deltax, deltay, 2);
+		circle->SetLineWidth (0.);
+		circle->SetLineColor (0);
+		circle->SetFillColor (color);
+		circle = new gccv::Circle (group, -deltax, -deltay, 2);
+		circle->SetLineWidth (0.);
+		circle->SetLineColor (0);
+		circle->SetFillColor (color);
+	} else {
+		gccv::Circle *circle = new gccv::Circle (view->GetCanvas ()->GetRoot (), x, y, 2., this);
+		circle->SetLineWidth (0.);
+		circle->SetLineColor (0);
+		circle->SetFillColor (color);
+		m_Item = circle;
+	}
 }
 
 }	//	namespace gcp

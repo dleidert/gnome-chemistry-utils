@@ -28,7 +28,6 @@
 #include "tool.h"
 #include "tools.h"
 #include <gcu/element.h>
-#include <gcu/gtkcomboperiodic.h>
 #include <cstring>
 
 using namespace gcu;
@@ -62,6 +61,7 @@ Tools::Tools (Application *App):
 	m_Book = GTK_NOTEBOOK (GetWidget ("tools-book"));
 	GtkWidget *box = GetWidget ("element-box");
 	GtkWidget *w = gtk_combo_periodic_new ();
+	m_Mendeleiev = reinterpret_cast <GtkComboPeriodic *> (w);
 	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 	gtk_combo_periodic_set_element (GTK_COMBO_PERIODIC (w), pApp->GetCurZ ());
 	go_combo_box_set_tearable (GO_COMBO_BOX (w), TearableMendeleiev);
@@ -161,8 +161,7 @@ void Tools::OnElementChanged (int Z)
 
 void Tools::Update (void)
 {
-	GtkWidget *w = GetWidget ("mendeleiev");
-	go_combo_box_set_tearable (GO_COMBO_BOX (w), TearableMendeleiev);
+	go_combo_box_set_tearable (GO_COMBO_BOX (m_Mendeleiev), TearableMendeleiev);
 }
 
 void Tools::OnHelp ()
@@ -172,8 +171,7 @@ void Tools::OnHelp ()
 
 void Tools::SetElement (int Z)
 {
-	GtkComboPeriodic *w = reinterpret_cast<GtkComboPeriodic*> (GetWidget ("mendeleiev"));
-	gtk_combo_periodic_set_element (w, Z);
+	gtk_combo_periodic_set_element (m_Mendeleiev, Z);
 	OnElementChanged (Z);
 }
 
