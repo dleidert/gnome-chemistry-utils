@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2009-07-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* *Makefile.am: make anjuta happy (indentation issue).
+	* libs/gcp/atom.cc: fixed electrons horizontal position.
+	* libs/gcp/electron.cc: fixed electrons pair rendering.
+	* plugins/paint/atoms/electrontool.cc: typo. 
+
 2009-07-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/electron.cc: reimplemented in new canvas.
 	* libs/gcp/electron.h: ditto.

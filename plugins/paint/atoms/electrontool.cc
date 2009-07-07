@@ -83,7 +83,8 @@ bool gcpElectronTool::OnClicked ()
 	m_dDistMax = min (sqrt (square (rect.x0 - m_x0) + square (rect.y0 - m_y0)),
 				sqrt (square (rect.x1 - m_x0) + square (rect.y0 - m_y0)));
 	m_dAngle = atan (- m_y / m_x);
-		if (m_x < 0) m_dAngle += M_PI;
+	if (m_x < 0)
+		m_dAngle += M_PI;
 	x *= m_dZoomFactor;
 	y *= m_dZoomFactor;
 	x += 2. * cos (m_dAngle);

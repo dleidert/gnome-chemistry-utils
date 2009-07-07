@@ -72,23 +72,23 @@ endif #WITH_UPDATE_DESKTOP
 
 schemas_in_files = gchemutils.schemas.in
 if USE_GCONF
-	schemasdir = $(GCONF_SCHEMA_FILE_DIR)
-	schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
-	@INTLTOOL_SCHEMAS_RULE@
+schemasdir = $(GCONF_SCHEMA_FILE_DIR)
+schemas_DATA = $(schemas_in_files:.schemas.in=.schemas)
+@INTLTOOL_SCHEMAS_RULE@
 
-	install-data-local:
-	if GCONF_SCHEMAS_INSTALL
-		for schema in $(schemas_DATA) ; do \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
-				$(GCONFTOOL) --makefile-install-rule $${schema} ; \
-		done
-	endif #GCONF_SCHEMAS_INSTALL
+install-data-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+			$(GCONFTOOL) --makefile-install-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL
 
-	uninstall-local:
-	if GCONF_SCHEMAS_INSTALL
-		for schema in $(schemas_DATA) ; do \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
-				$(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
-		done
-	endif #GCONF_SCHEMAS_INSTALL
+uninstall-local:
+if GCONF_SCHEMAS_INSTALL
+	for schema in $(schemas_DATA) ; do \
+		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) \
+			$(GCONFTOOL) --makefile-uninstall-rule $${schema} ; \
+	done
+endif #GCONF_SCHEMAS_INSTALL
 endif #USE_GCONF

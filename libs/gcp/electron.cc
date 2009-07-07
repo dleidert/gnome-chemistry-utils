@@ -250,7 +250,7 @@ bool Electron::Load (xmlNodePtr node)
 	return true;
 }
 
-bool Electron::OnSignal (SignalId Signal, Object *Child)
+bool Electron::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
 	if (Signal != OnDeleteSignal)
 		return true;
@@ -267,7 +267,7 @@ bool Electron::OnSignal (SignalId Signal, Object *Child)
 	return false;
 }
 
-void Electron::Transform2D (Matrix2D& m, double x, double y)
+void Electron::Transform2D (Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 	double a = m_Angle * M_PI / 180.;
 	double xc = cos (a), yc = - sin (a);
@@ -301,8 +301,8 @@ void Electron::AddItem ()
 		y -= 2. * sin (angle);
 	}
 	if (m_IsPair) {
-		double deltax = 3. * sin (m_Angle);
-		double deltay = 3. * cos (m_Angle);
+		double deltax = 3. * sin (angle);
+		double deltay = 3. * cos (angle);
 		gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
 		m_Item = group;
 		gccv::Circle *circle = new gccv::Circle (group, deltax, deltay, 2);

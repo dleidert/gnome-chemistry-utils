@@ -1160,7 +1160,6 @@ int Atom::GetAvailablePosition (double& x, double& y)
 	if (m_AvailPos) {
 		if (m_AvailPos & POSITION_N) {
 			x = m_x;
-printf("m_height=%g m_SHeightH=%g m_SHeightL=%g\n",m_height, m_SHeightH,m_SHeightL);
 			y = m_y - m_height / 2.0;
 			return POSITION_N;
 		}
@@ -1535,7 +1534,7 @@ bool Atom::MayHaveImplicitUnpairedElectrons ()
 			&& (((m_Element->GetValenceElectrons() - m_Charge) > nel) || m_ChargeAuto);
 }
 
-bool Atom::GetPosition(double angle, double& x, double& y)
+bool Atom::GetPosition (double angle, double& x, double& y)
 {
 	if (angle > 360.)
 		angle -= 360;
@@ -1549,7 +1548,7 @@ bool Atom::GetPosition(double angle, double& x, double& y)
 		double t = tan (angle / 180. * M_PI);
 		double limit = atan (m_height / m_width) * 180. / M_PI;
 		if (angle < limit) {
-			x = m_x +  12. + m_width / 2.;
+			x = m_x + m_width / 2.;
 			y = m_y - m_width / 2. * t;
 		} else if (angle < 180. - limit) {
 			if (!isnan (t))
@@ -1558,7 +1557,7 @@ bool Atom::GetPosition(double angle, double& x, double& y)
 				x = m_x;
 			y = m_y - m_height / 2.;
 		} else if (angle < 180. + limit) {
-			x = m_x - 12. - m_width / 2.;
+			x = m_x - m_width / 2.;
 			y = m_y + m_width / 2. * t;
 		} else if (angle < 360. - limit) {
 			if (!isnan (t))
@@ -1567,7 +1566,7 @@ bool Atom::GetPosition(double angle, double& x, double& y)
 				x = m_x;
 			y = m_y + m_height / 2.;
 		} else {
-			x = m_x +  12. + m_width / 2.;
+			x = m_x + m_width / 2.;
 			y = m_y - m_width / 2. * t;
 		}			
 		return true;
