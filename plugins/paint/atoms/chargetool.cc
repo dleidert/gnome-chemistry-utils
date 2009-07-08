@@ -4,7 +4,7 @@
  * GChemPaint atoms plugin
  * chargetool.cc 
  *
- * Copyright (C) 2003-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,6 +30,9 @@
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
+#include <gccv/canvas.h>
+#include <gccv/group.h>
 #include <gccv/text.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -61,34 +64,22 @@ bool gcpChargeTool::OnClicked ()
 		return false;
 	m_bDragged = false;
 	GObject *obj;
-/*	ArtDRect rect;
 	pAtom->GetCoords (&m_x0, &m_y0);
+	gccv::Rect rect;
+	m_pData->GetObjectBounds (m_pObject, &rect);
 	m_x0 *= m_dZoomFactor;
 	m_y0 *= m_dZoomFactor;
-	if (m_pObject->GetParent ()->GetType () == FragmentType) {
-		obj = G_OBJECT (m_pData->Items[m_pObject->GetParent ()]);
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (g_object_get_data (obj, "fragment")),
-				&rect.x0, &rect.y0, &rect.x1, &rect.y0);
-	} else {
-		obj = G_OBJECT (m_pData->Items[m_pObject]);
-		GnomeCanvasItem *sym = (GnomeCanvasItem*) g_object_get_data (obj, "symbol");
-		if (sym)
-			gnome_canvas_item_get_bounds (sym,
-					&rect.x0, &rect.y0, &rect.x1, &rect.y0);
-		else
-			rect.y0 = m_y0 + 6;
-	}
-	GnomeCanvasItem *item = (GnomeCanvasItem*) g_object_get_data (obj, "charge");
-	m_dDist = 0;
-	m_pData->GetObjectBounds (m_pObject, &rect);
 	m_dDistMax = 1.5 * fabs (rect.y0 - m_y0);
+	m_dDist = 0;
+	gccv::Item *item = pAtom->GetChargeItem ();
+
 	if (m_Charge) {
 		if (item)
-			gnome_canvas_item_hide (item);
+			item->SetVisible (false);
 		double x, y, xc = 0., yc;
 		m_DefaultPos = 0xff;
-		int align = ((gcp::Atom*) m_pObject)->GetChargePosition (m_DefaultPos, 0., x, y);
-		if (!align)
+		gccv::Anchor anchor = pAtom->GetChargePosition (m_DefaultPos, 0., x, y);
+		if (anchor == gccv::AnchorCenter)
 			return false;
 		m_Pos = m_DefaultPos;
 		x *= m_dZoomFactor;
@@ -129,111 +120,33 @@ bool gcpChargeTool::OnClicked ()
 			}
 		}
 		char* markup = NULL;
-		PangoLayout* pl = NULL;
-		if (abs (m_Charge) > 1) {
-			markup = g_strdup_printf ("%d", abs (m_Charge));
-			PangoContext* pc = gccv::Text::GetContext ();
-			PangoRectangle rect;
-			pl = pango_layout_new (pc);
-			pango_layout_set_text (pl, markup, -1);
-			pango_layout_get_extents (pl, NULL, &rect);
-			m_ChargeWidth = rect.width / PANGO_SCALE;
-			pango_layout_set_font_description (pl, m_pView->GetPangoSmallFontDesc ());
-			m_ChargeTWidth = m_ChargeWidth + 1. + Theme->GetChargeSignSize ();
-		} else {
-			m_ChargeWidth = 0.;
-			m_ChargeTWidth = Theme->GetChargeSignSize ();
-		}
-		switch (align) {
-		case -2:
-			xc = x + m_ChargeTWidth / 2. - Theme->GetChargeSignSize ();
-			y += Theme->GetChargeSignSize () / 2.;
-			break;
-		case -1:
-			xc = x - Theme->GetChargeSignSize () - Theme->GetPadding ();
-			break;
-		case 0:
-		case -3:
-			xc = x + m_ChargeTWidth / 2. - Theme->GetChargeSignSize ();
-			break;
-		case 1:
-			xc = x + m_ChargeWidth + Theme->GetPadding ();
-			break;
-		case 2:
-			xc = x + m_ChargeTWidth / 2. - Theme->GetChargeSignSize ();
-			y -= Theme->GetChargeSignSize () / 2.;
-			break;
-		}
-		x = xc - 1.;
-		yc = y - Theme->GetChargeSignSize () / 2.;
-		m_x1 = x;
-		m_y1 = y;
-		m_pItem = gnome_canvas_item_new (
-							m_pGroup,
-							gnome_canvas_group_get_type(),
-							NULL);
-		if (markup) {
-			gnome_canvas_item_new(
-						GNOME_CANVAS_GROUP (m_pItem),
-						gnome_canvas_pango_get_type(),
-						"fill_color", gcp::AddColor,
-						"layout", pl,
-						"anchor", GTK_ANCHOR_EAST,
-						"x", x,
-						"y", y,
-						NULL);
-		}
-		gnome_canvas_item_new (
-					GNOME_CANVAS_GROUP (m_pItem),
-					gnome_canvas_ellipse_get_type (),
-					"x1", xc,
-					"y1", yc,
-					"x2", xc + Theme->GetChargeSignSize (),
-					"y2", yc + Theme->GetChargeSignSize (),
-					"outline_color", gcp::AddColor,
-					"width_units", 0.5,
-					NULL
-				);
-		ArtBpath *path = art_new (ArtBpath, 5);
-		path[0].code = ART_MOVETO_OPEN;
-		path[0].x3 = xc + 1.;
-		path[1].code = ART_LINETO;
-		path[1].x3 = xc + Theme->GetChargeSignSize () - 1.;
-		path[0].y3 = path[1].y3 = yc + Theme->GetChargeSignSize () / 2.;
-		if (m_Charge > 0) {
-			path[2].code = ART_MOVETO_OPEN;
-			path[2].y3 = yc + 1.;
-			path[3].code = ART_LINETO;
-			path[3].y3 = yc + Theme->GetChargeSignSize () - 1.;
-			path[2].x3 = path[3].x3 = xc + Theme->GetChargeSignSize () / 2.;
-			path[4].code = ART_END;
-		} else
-			path[2].code = ART_END;
-		GnomeCanvasPathDef *cpd = gnome_canvas_path_def_new_from_bpath (path);
-		item = gnome_canvas_item_new (
-					GNOME_CANVAS_GROUP (m_pItem),
-					gnome_canvas_bpath_get_type (),
-					"bpath", cpd,
-					"outline_color", gcp::AddColor,
-					"width_units", .75,
-					NULL
-				);
-		gnome_canvas_path_def_unref (cpd);
-		if (pl)
-			g_object_unref (G_OBJECT (pl));
+		if (abs (m_Charge) > 1)
+			markup = g_strdup_printf ("%d%s", abs (m_Charge), m_glyph);
+		else
+			markup = g_strdup_printf ("%s", m_glyph);
+		gccv::Text *text = new gccv::Text (m_pView->GetCanvas ()->GetRoot (), x, y, NULL);
+		text->SetFillColor (0);
+		text->SetPadding (Theme->GetPadding ());
+		text->SetLineColor (0);
+		text->SetLineWidth (0.);
+		text->SetAnchor (anchor);
+		text->SetFontDescription (m_pView->GetPangoSmallFontDesc ());
+		text->SetText (markup);
+		// FIXME: use AddColor!!!
+		m_Item = text;
 	} else {
-		void *child = g_object_get_data (obj, "figure");
+/*		void *child = g_object_get_data (obj, "figure");
 		if (child)
 			g_object_set (G_OBJECT (child), "fill-color", gcp::DeleteColor, NULL);
 		child = g_object_get_data (obj, "circle");
 		g_object_set (G_OBJECT (child), "outline-color", gcp::DeleteColor, NULL);
 		child = g_object_get_data (obj, "sign");
-		g_object_set (G_OBJECT (child), "outline-color", gcp::DeleteColor, NULL);
+		g_object_set (G_OBJECT (child), "outline-color", gcp::DeleteColor, NULL);*/
 	}
 	char buf[32];
 	snprintf (buf, sizeof (buf) - 1, _("Orientation: %g"), m_dAngle * 180. / M_PI);
 	m_pApp->SetStatusText (buf);
-	m_bChanged = true;*/
+	m_bChanged = true;
 	return true;
 }
 

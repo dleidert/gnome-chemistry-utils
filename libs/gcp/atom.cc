@@ -75,6 +75,7 @@ Atom::Atom ():
 	m_Layout = m_ChargeLayout = m_HLayout = NULL;
 	m_DrawCircle = false;
 	m_SWidth = 0.;
+	m_ChargeItem = NULL;
 }
 
 Atom::~Atom ()
@@ -119,6 +120,7 @@ Atom::Atom (int Z, double x, double y, double z):
 	m_Layout = m_ChargeLayout = m_HLayout = NULL;
 	m_DrawCircle = false;
 	m_SWidth = 0.;
+	m_ChargeItem = NULL;
 }
 
 Atom::Atom (OBAtom* atom):
@@ -149,6 +151,7 @@ Atom::Atom (OBAtom* atom):
 	m_DrawCircle = false;
 	m_Charge = atom->GetFormalCharge ();
 	m_SWidth = 0.;
+	m_ChargeItem = NULL;
 }
 
 void Atom::SetZ (int Z)
@@ -1017,7 +1020,7 @@ void Atom::UpdateAvailablePositions ()
 	m_AvailPosCached = true;
 }
 
-int Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y)
+gccv::Anchor Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y)
 {
 	list<double>::iterator n, end;
 	double angle;
@@ -1072,7 +1075,7 @@ int Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double
 		} 
 	} else if (Pos) {
 		if (!(Pos & m_AvailPos) && (Pos != m_ChargePos))
-			return 0;
+			return gccv::AnchorCenter;
 	} else {
 		if (Angle > 360.)
 			Angle -= 360;
@@ -1081,74 +1084,74 @@ int Atom::GetChargePosition (unsigned char& Pos, double Angle, double& x, double
 		if (!(((GetZ() == 6) && (m_Bonds.size() != 0)) ||
 			 !m_nH || ((!m_HPos && (Angle < 135. || Angle > 225.)) ||
 				(m_HPos && (Angle > 45. && Angle < 315.)))))
-			return 0;
+			return gccv::AnchorCenter;
 	}
 	switch (Pos) {
 	case POSITION_NE:
 		x = m_x + m_width / 2.0;
 		y = m_y - m_height / 2.0;
-		return 1;
+		return gccv::AnchorWest;
 	case POSITION_NW:
 		x = m_x - m_width / 2.0;
 		y = m_y - m_height / 2.0;
-		return -1;
+		return gccv::AnchorEast;
 	case POSITION_N:
 		x = m_x;
 		y = m_y - m_height / 2.0;
-		return 2;
+		return gccv::AnchorSouth;
 	case POSITION_SE:
 		x = m_x + m_width / 2.0;
 		y = m_y + m_height / 2.0;
-		return 1;
+		return gccv::AnchorWest;
 	case POSITION_SW:
 		x = m_x - m_width / 2.0;
 		y = m_y + m_height / 2.0;
-		return -1;
+		return gccv::AnchorEast;
 	case POSITION_S:
 		x = m_x;
 		y = m_y + m_height / 2.0;
-		return -2;
+		return gccv::AnchorNorth;
 	case POSITION_E:
 		x = m_x + m_width / 2.0;
 		y = m_y;
-		return 1;
+		return gccv::AnchorWest;
 	case POSITION_W:
 		x = m_x - m_width / 2.0;
 		y = m_y;
-		return -1;
+		return gccv::AnchorEast;
 	default: {
 			double t = tan (Angle / 180. * M_PI);
 			double limit = atan (m_height / m_width) * 180. / M_PI;
 			if (Angle < limit) {
 				x = m_x /*+  12. */+ m_width / 2.;
 				y = m_y - m_width / 2. * t;
-				return 1;
+				return gccv::AnchorWest;
 			} else if (Angle < 180. - limit) {
 				if (!isnan (t))
 					x = m_x + m_height / 2. / t;
 				else
 					x = m_x;
 				y = m_y - m_height / 2.;
-				return 2;
+				return gccv::AnchorSouth;
 			} else if (Angle < 180. + limit) {
 				x = m_x /*- 12.*/ - m_width / 2.;
 				y = m_y + m_width / 2. * t;
-				return -1;
+				return gccv::AnchorEast;
 			} else if (Angle < 360. - limit) {
 				if (!isnan (t))
 					x = m_x - m_height / 2. / t;
 				else
 					x = m_x;
 				y = m_y + m_height / 2.;
-				return -2;
+				return gccv::AnchorNorth;
 			} else {
 				x = m_x /*+  12.*/ + m_width / 2.;
 				y = m_y - m_width / 2. * t;
-				return 1;
+				return gccv::AnchorWest;
 			}
 		}			
 	}
-	return 0; // should not occur
+	return gccv::AnchorCenter; // should not occur
 }
 
 int Atom::GetAvailablePosition (double& x, double& y)

@@ -491,6 +491,7 @@ void Text::SetText (char const *text)
 	m_Text = text;
 	pango_layout_set_text (m_Runs.front ()->m_Layout, text, -1); // FIXME: parse for line breaks
 	m_Runs.front ()->m_Length = strlen (text);
+	SetPosition (m_x, m_y);
 }
 
 void Text::SetText (std::string const &text)

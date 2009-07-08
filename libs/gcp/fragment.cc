@@ -1267,15 +1267,15 @@ int Fragment::GetElementAtPos (unsigned start, unsigned &end)
 	return 0;
 }
 
-int Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double Angle, double &x, double &y)
+gccv::Anchor Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double Angle, double &x, double &y)
 {
 	if ((pAtom != m_Atom) || (m_Atom->GetZ() == 0))
-		return 0;
+		return gccv::AnchorCenter;
 	double width, height;
 	Document* pDoc = (Document*) GetDocument ();
 	Theme *pTheme = pDoc->GetTheme ();
 	if (!pDoc)
-		return 0;
+		return gccv::AnchorCenter;
 	GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
 /*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
 	GnomeCanvasGroup *item = pData->Items[this];
@@ -1379,7 +1379,7 @@ int Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double
 		y = m_y;
 		return -1;
 	}*/
-	return 0;
+	return gccv::AnchorCenter;
 }
 
 bool Fragment::Validate ()
@@ -1591,4 +1591,8 @@ void Fragment::Update () {
 	}
 }
 
+gccv::Item *Fragment::GetChargeItem ()
+{
+	return (m_Atom)? m_Atom->GetChargeItem (): NULL;
+}
 }	//	namespace gcp

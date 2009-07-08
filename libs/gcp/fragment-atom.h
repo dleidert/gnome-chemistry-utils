@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment-atom.h 
  *
- * Copyright (C) 2003-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -114,15 +114,10 @@ already exist.
 On input \a Pos can be one of POSITION_E, POSITION_N,... or 0xff, in which case,
 it will be given a default value. \a x and \a y are set to the position where the charge
 sign should be displayed usding the alignment code returned by this method.
-@return a number to set how the charge symbol should be aligned relative to its
-position. Possible values are:
-- −2: center top.
-- −1: right.
--  0: center.
--  1: left.
--  2: center bottom.
+@return the anchor for the charge symbol. On error, gccv::AnchorCenter is used as
+the returned value.
 */
-	int GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
+	gccv::Anchor GetChargePosition (unsigned char& Pos, double Angle, double& x, double& y);
 /*!
 @param x the x position.
 @param y the y position.

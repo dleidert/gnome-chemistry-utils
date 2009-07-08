@@ -1,3 +1,16 @@
+2009-07-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* libs/gccv/text.cc:
+	* libs/gcp/atom.cc:
+	* libs/gcp/atom.h:
+	* libs/gcp/fragment-atom.cc:
+	* libs/gcp/fragment-atom.h:
+	* libs/gcp/fragment.cc:
+	* libs/gcp/fragment.h:
+	* plugins/paint/atoms/chargetool.cc:
+
 ##Text encoding: utf-8
 
 2009-07-07  Jean Bréfort  <jean.brefort@normalesup.org>
