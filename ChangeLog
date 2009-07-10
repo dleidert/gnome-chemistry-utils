@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-07-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/window.cc: do not use a freed string in a message box.
+
 2009-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.6).
 

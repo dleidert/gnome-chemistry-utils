@@ -704,9 +704,9 @@ bool Window::VerifySaved ()
 	if (!m_Document->GetDirty ())
 		return true;
 	int res;
-	gchar* str = g_strdup_printf(_("\"%s\" has been modified.  Do you wish to save it?"), m_Document->GetTitle ());
 	GtkWidget* mbox;
 	do {
+		gchar* str = g_strdup_printf (_("\"%s\" has been modified.  Do you wish to save it?"), m_Document->GetTitle ());
 		mbox = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, str);
 		g_free (str);
 		gtk_dialog_add_button (GTK_DIALOG (mbox),  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
