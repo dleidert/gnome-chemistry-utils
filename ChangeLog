@@ -1,17 +1,20 @@
-2009-07-08  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* libs/gccv/text.cc:
-	* libs/gcp/atom.cc:
-	* libs/gcp/atom.h:
-	* libs/gcp/fragment-atom.cc:
-	* libs/gcp/fragment-atom.h:
-	* libs/gcp/fragment.cc:
-	* libs/gcp/fragment.h:
-	* plugins/paint/atoms/chargetool.cc:
-
 ##Text encoding: utf-8
+
+2009-07-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/window.cc: do not use a freed string in a message box.
+	* libs/gcp/atom.cc: more work on charges reimplementation.
+	* plugins/paint/atoms/chargetool.cc: ditto.
+
+2009-07-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: set position after text to track size.
+	* libs/gcp/atom.cc: changed int to gccv::Anchor as returned value by
+	Atom::GetChargePosition.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/fragment-atom.cc: ditto.
+	* libs/gcp/fragment-atom.h: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/fragment.h: ditto.
+	* plugins/paint/atoms/chargetool.cc: mostly reimplement OnClicked.
 
 2009-07-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* *Makefile.am: make anjuta happy (indentation issue).

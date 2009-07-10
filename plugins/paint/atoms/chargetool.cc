@@ -34,6 +34,7 @@
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/text.h>
+#include <gccv/text-tag.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
@@ -57,7 +58,7 @@ bool gcpChargeTool::OnClicked ()
 {
 	if (!m_pObject || (m_pObject->GetType () != AtomType))
 		return false;
-	gcp::Atom *pAtom = (gcp::Atom*) m_pObject;
+	gcp::Atom* pAtom = static_cast <gcp::Atom*> (m_pObject);
 	gcp::Theme *Theme = m_pView->GetDoc ()->GetTheme ();
 	m_Charge = pAtom->GetCharge () + ((GetName() == string ("ChargePlus"))? 1: -1);
 	if (!pAtom->AcceptCharge (m_Charge))
@@ -82,8 +83,8 @@ bool gcpChargeTool::OnClicked ()
 		if (anchor == gccv::AnchorCenter)
 			return false;
 		m_Pos = m_DefaultPos;
-		x *= m_dZoomFactor;
-		y *= m_dZoomFactor;
+		m_x1 = x *= m_dZoomFactor;
+		m_y1 = y *= m_dZoomFactor;
 		if (!m_Pos) {
 			m_x = x - m_x0;
 			m_y = y - m_y0;
@@ -132,7 +133,10 @@ bool gcpChargeTool::OnClicked ()
 		text->SetAnchor (anchor);
 		text->SetFontDescription (m_pView->GetPangoSmallFontDesc ());
 		text->SetText (markup);
-		// FIXME: use AddColor!!!
+		g_free (markup);
+		gccv::TextTag *tag = new gccv::ForegroundTextTag (gcp::AddColor);
+		tag->SetEndIndex (strlen (markup));
+		text->InsertTextTag (tag);
 		m_Item = text;
 	} else {
 /*		void *child = g_object_get_data (obj, "figure");
@@ -155,15 +159,15 @@ void gcpChargeTool::OnDrag ()
 	if (m_Charge && !m_Item)
 		return;
 	m_bDragged = true;
-/*	GObject *obj = G_OBJECT ((m_pObject->GetParent ()->GetType () == FragmentType)?
-		m_pData->Items[m_pObject->GetParent ()]: m_pData->Items[m_pObject]);
-	GnomeCanvasItem *item = (GnomeCanvasItem*) g_object_get_data (obj, "charge");
-	int align, old_pos = m_Pos;
+	gcp::Atom* pAtom = static_cast <gcp::Atom*> (m_pObject);
+	gccv::Item *item = pAtom->GetChargeItem ();
+	int old_pos = m_Pos;
+	gccv::Anchor anchor;
 	m_x -= m_x0;
 	m_y -= m_y0;
 	m_dDist = sqrt (square (m_x) + square (m_y));
-	if (!m_pItem) {
-		void *child;
+	if (!m_Item) {
+/*		void *child;
 		if (m_dDist < m_dDistMax) {
 			if (!m_bChanged) {
 				child = g_object_get_data (obj, "figure");
@@ -187,7 +191,7 @@ void gcpChargeTool::OnDrag ()
 				m_bChanged = false;
 			}
 		}
-		return;
+		return;*/
 	}
 	double Angle = atan (- m_y / m_x);
 	if (isnan (Angle))
@@ -234,37 +238,37 @@ void gcpChargeTool::OnDrag ()
 	if ((Angle == m_dAngle) && !(m_nState & GDK_SHIFT_MASK)) {
 		if (m_dDist < m_dDistMax) {
 			if (!m_bChanged) {
-				gnome_canvas_item_show (m_pItem);
+				m_Item->SetVisible (true);
 				if (item)
-					gnome_canvas_item_hide (item);
+					item->SetVisible (false);
 				m_bChanged = true;
 			}
 		} else {
 			if (m_bChanged) {
 				if (item)
-					gnome_canvas_item_show (item);
-				gnome_canvas_item_hide (m_pItem);
+					item->SetVisible (true);
+				m_Item->SetVisible (false);
 				m_bChanged = false;
 			}
 		}
 	} else {
 		double x, y;
-		gcp::Atom *pAtom = (gcp::Atom*) m_pObject;
 		gcp::Theme *Theme = m_pView->GetDoc ()->GetTheme ();
 		if (!(m_nState & GDK_SHIFT_MASK) && (m_dDist >= m_dDistMax) && m_bChanged) {
-			gnome_canvas_item_hide (m_pItem);
+			m_Item->SetVisible (false);
 			m_bChanged = false;
-		} else if ((align = pAtom->GetChargePosition (m_Pos, Angle * 180. / M_PI, x, y))) {
+		} else if ((anchor = pAtom->GetChargePosition (m_Pos, Angle * 180. / M_PI, x, y))) {
 			m_dAngle = Angle;
 			if (m_nState & GDK_SHIFT_MASK) {
-				align = 0;
+				anchor = gccv::AnchorCenter;
 				x = m_x0 + m_dDist * cos (m_dAngle);
 				y = m_y0 - m_dDist * sin (m_dAngle);
 			} else {
 				x = x * m_dZoomFactor;
 				y = y * m_dZoomFactor;
 			}
-			switch (align) {
+			static_cast<gccv::Text *> (m_Item)->SetAnchor (anchor);
+/*			switch (align) {
 			case -2:
 				x += m_ChargeTWidth / 2. - Theme->GetChargeSignSize () - 1.;
 				y += Theme->GetChargeSignSize () / 2.;
@@ -282,33 +286,31 @@ void gcpChargeTool::OnDrag ()
 				x += m_ChargeTWidth / 2. - Theme->GetChargeSignSize () - 1.;
 				y -= Theme->GetChargeSignSize () / 2.;
 				break;
-			}
-			gnome_canvas_item_move (m_pItem, x - m_x1, y - m_y1);
+			}*/
+			m_Item->Move (x - m_x1, y - m_y1);
 			m_x1 = x;
 			m_y1 = y;
-			gnome_canvas_item_show (m_pItem);
+			m_Item->SetVisible (true);
 			if (item)
-				gnome_canvas_item_hide (item);
+				item->SetVisible (false);
 			m_bChanged = true;
 		} else
 			m_Pos = old_pos;
 	}
 	char tmp[32];
 	snprintf(tmp, sizeof(tmp) - 1, _("Orientation: %g"), m_dAngle * 180. / M_PI);
-	m_pApp->SetStatusText(tmp);*/
+	m_pApp->SetStatusText(tmp);
 }
 
 void gcpChargeTool::OnRelease ()
 {
-/*	if (m_bChanged) {
-		gcp::Atom* pAtom = (gcp::Atom*) m_pObject;
+	if (m_bChanged) {
+		gcp::Atom* pAtom = static_cast <gcp::Atom*> (m_pObject);
 		gcp::Document* pDoc = m_pView->GetDoc ();
 		gcp::Operation* pOp = pDoc-> GetNewOperation(gcp::GCP_MODIFY_OPERATION);
-		GObject *obj = G_OBJECT ((m_pObject->GetParent ()->GetType () == FragmentType)?
-			m_pData->Items[m_pObject->GetParent ()]: m_pData->Items[m_pObject]);
-		GnomeCanvasItem *item = (GnomeCanvasItem*) g_object_get_data (obj, "charge");
+		gccv::Item *item = pAtom->GetChargeItem ();
 		if (item)
-			gnome_canvas_item_show (item);
+			item->SetVisible (true);;
 		m_pObject = m_pObject->GetGroup ();
 		pOp->AddObject (m_pObject, 0);
 		pAtom->SetCharge (m_Charge);
@@ -328,5 +330,5 @@ void gcpChargeTool::OnRelease ()
 		pAtom->EmitSignal (gcp::OnChangedSignal);
 		pOp->AddObject (m_pObject, 1);
 		pDoc->FinishOperation ();
-	}*/
+	}
 }

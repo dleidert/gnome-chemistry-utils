@@ -2000,72 +2000,6 @@ void Atom::AddItem ()
 				g_critical ("This should not happen, please file a bug report");
 				break;
 			}
-/*			pango_layout_set_text (m_HLayout, "H", -1);
-			pango_layout_get_extents (m_HLayout, &HRect, NULL);
-			switch (m_HPos) {
-			case LEFT_HPOS:
-				//the x offset needs to be calculated after adding possible stoichimoetry.
-				m_xHOffs = m_yHOffs = 0.;
-				break;
-			case RIGHT_HPOS:
-				m_xHOffs = rect.width / PANGO_SCALE + 1.;
-				m_yHOffs = 0.;
-				break;
-			case TOP_HPOS:
-				m_xHOffs = m_lbearing - pTheme->GetPadding () - HRect.width / PANGO_SCALE / 2.;
-				break;
-			case BOTTOM_HPOS:
-				m_xHOffs = m_lbearing - pTheme->GetPadding () - HRect.width / PANGO_SCALE / 2.;
-				m_yHOffs = m_CHeight * 2. + pTheme->GetPadding ();
-				break;
-			default:
-				g_critical ("This should not happen, please file a bug report");
-				break;
-			}
-			if (n > 1) {
-				gchar const *nb =  g_strdup_printf ("%d", n);
-				int nw = strlen (nb);
-				PangoAttrList *pal = pango_attr_list_new ();
-				text = g_strconcat ("H", nb, NULL);
-				pango_layout_set_text (m_HLayout, text, -1);
-				nw = strlen (text);
-				PangoAttribute *attr = pango_attr_font_desc_new (pView->GetPangoSmallFontDesc());
-				attr->start_index = 1;
-				attr->end_index = strlen (text);
-				pango_attr_list_insert (pal, attr);
-				attr = pango_attr_rise_new (-2 * PANGO_SCALE);
-				attr->start_index = 1;
-				attr->end_index = nw;
-				pango_attr_list_insert (pal, attr);
-				pango_layout_set_attributes (m_HLayout, pal);
-				pango_attr_list_unref (pal);
-			}
-			pango_layout_get_extents (m_HLayout, &HRect, NULL);
-			// evaluate underlying rectangle size and position
-			if (HRect.width > 0) {
-				switch (m_HPos) {
-				case LEFT_HPOS:
-					m_xHOffs = -HRect.width / PANGO_SCALE - 1.;
-					m_xROffs = m_xHOffs;
-					m_length += HRect.width / PANGO_SCALE + 1.;
-					break;
-				case RIGHT_HPOS:
-					m_length += HRect.width / PANGO_SCALE + 1.;
-					break;
-				case TOP_HPOS:
-					m_yHOffs = -HRect.height / PANGO_SCALE - pTheme->GetPadding ();
-					m_yROffs = -HRect.height / PANGO_SCALE - pTheme->GetPadding ();
-					m_text_height += HRect.height / PANGO_SCALE + pTheme->GetPadding ();
-					m_length = MAX (m_length, HRect.width / PANGO_SCALE);
-					break;
-				case BOTTOM_HPOS:
-					m_text_height += HRect.height / PANGO_SCALE + pTheme->GetPadding ();
-					m_length = MAX (m_length, HRect.width / PANGO_SCALE);
-					break;
-				default:
-					break;
-				}
-			}*/
 		}
 	} else {
 		gccv::FillItem *fill = new gccv::Rectangle (group,  -3., -3., 6., 6., this);
@@ -2079,6 +2013,36 @@ void Atom::AddItem ()
 		}
 	}
 	m_Item = group;
+	int charge = GetCharge ();
+	if (charge) {
+		gccv::Anchor anchor = GetChargePosition (m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
+		if (m_ChargeDist != 0.) {
+			anchor = gccv::AnchorCenter;
+			x = m_ChargeDist * cos (m_ChargeAngle);
+			y = m_ChargeDist * sin (m_ChargeAngle);
+		}
+		x -= m_x;
+		x *= theme->GetZoomFactor ();
+		y -= m_y;
+		y *= theme->GetZoomFactor ();
+		char* markup = NULL;
+		char const *glyph = (charge > 0)? "\xE2\x8a\x95": "\xE2\x8a\x96";
+		if (abs (m_Charge) > 1)
+			markup = g_strdup_printf ("%d%s", abs (m_Charge), glyph);
+		else
+			markup = g_strdup (glyph);
+		gccv::Text *text = new gccv::Text (group, x, y, NULL);
+		text->SetFillColor (0);
+		text->SetPadding (theme->GetPadding ());
+		text->SetLineColor (0);
+		text->SetLineWidth (0.);
+		text->SetAnchor (anchor);
+		text->SetFontDescription (view->GetPangoSmallFontDesc ());
+		text->SetText (markup);
+		m_ChargeItem = text;
+		g_free (markup);
+	} else
+		m_ChargeItem = NULL;
 }
 
 bool Atom::HasAvailableElectrons (bool paired)
