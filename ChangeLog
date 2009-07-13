@@ -1,3 +1,12 @@
+2009-07-13  Jean Brefort  <jean.brefort@normalesup.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* libs/gccv/text.cc:
+	* libs/gccv/text.h:
+	* plugins/paint/atoms/chargetool.cc:
+	* plugins/paint/atoms/chargetool.h:
+
 ##Text encoding: utf-8
 
 2009-07-10  Jean Bréfort  <jean.brefort@normalesup.org>

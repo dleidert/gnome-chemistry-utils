@@ -72,6 +72,7 @@ public:
 	char const *GetText ();
 
 	void InsertTextTag (TextTag *tag, bool rebuild_attributes = true);
+	void DeleteTextTag (TextTag *tag, bool rebuild_attributes = true);
 	std::list <TextTag *> const *GetTags () {return &m_Tags;}
 
 	void SetCurTagList (TextTagList *l);

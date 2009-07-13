@@ -27,6 +27,10 @@
 
 #include <gcp/tool.h>
 
+namespace gccv {
+class TextTag;
+}
+
 class gcpChargeTool: public gcp::Tool
 {
 public:
@@ -45,6 +49,7 @@ private:
 	unsigned char m_Pos, m_DefaultPos;
 	bool m_bDragged;
 	double m_ChargeWidth, m_ChargeTWidth, m_ChargeHeight;
+	gccv::TextTag *m_Tag;
 };
 
 #endif	//GCHEMPAINT_CHARGE_TOOL_H

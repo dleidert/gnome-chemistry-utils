@@ -48,6 +48,7 @@ gcpChargeTool::gcpChargeTool (gcp::Application *App, string Id): gcp::Tool (App,
 	else if (Id == string ("ChargeMinus"))
 		m_glyph = "\xE2\x8a\x96";
 	else m_glyph = 0;
+	m_Tag = NULL;
 }
 
 gcpChargeTool::~gcpChargeTool ()
@@ -64,7 +65,6 @@ bool gcpChargeTool::OnClicked ()
 	if (!pAtom->AcceptCharge (m_Charge))
 		return false;
 	m_bDragged = false;
-	GObject *obj;
 	pAtom->GetCoords (&m_x0, &m_y0);
 	gccv::Rect rect;
 	m_pData->GetObjectBounds (m_pObject, &rect);
@@ -77,7 +77,7 @@ bool gcpChargeTool::OnClicked ()
 	if (m_Charge) {
 		if (item)
 			item->SetVisible (false);
-		double x, y, xc = 0., yc;
+		double x, y;
 		m_DefaultPos = 0xff;
 		gccv::Anchor anchor = pAtom->GetChargePosition (m_DefaultPos, 0., x, y);
 		if (anchor == gccv::AnchorCenter)
@@ -139,6 +139,11 @@ bool gcpChargeTool::OnClicked ()
 		text->InsertTextTag (tag);
 		m_Item = text;
 	} else {
+		gccv::Text *text = static_cast <gccv::Text *> (pAtom->GetChargeItem ());
+		m_Tag = new gccv::ForegroundTextTag (gcp::DeleteColor);
+		m_Tag->SetEndIndex (strlen (text->GetText ()));
+		text->InsertTextTag (m_Tag);
+		
 /*		void *child = g_object_get_data (obj, "figure");
 		if (child)
 			g_object_set (G_OBJECT (child), "fill-color", gcp::DeleteColor, NULL);
@@ -167,31 +172,22 @@ void gcpChargeTool::OnDrag ()
 	m_y -= m_y0;
 	m_dDist = sqrt (square (m_x) + square (m_y));
 	if (!m_Item) {
-/*		void *child;
+		gccv::Text *text = static_cast <gccv::Text *> (pAtom->GetChargeItem ());
 		if (m_dDist < m_dDistMax) {
 			if (!m_bChanged) {
-				child = g_object_get_data (obj, "figure");
-				if (child)
-					g_object_set (G_OBJECT (child), "fill-color", gcp::DeleteColor, NULL);
-				child = g_object_get_data (obj, "circle");
-				g_object_set (G_OBJECT (child), "outline-color", gcp::DeleteColor, NULL);
-				child = g_object_get_data (obj, "sign");
-				g_object_set (G_OBJECT (child), "outline-color", gcp::DeleteColor, NULL);
+				m_Tag = new gccv::ForegroundTextTag (gcp::DeleteColor);
+				m_Tag->SetEndIndex (strlen (text->GetText ()));
+				text->InsertTextTag (m_Tag);
 				m_bChanged = true;
 			}
 		} else {
 			if (m_bChanged) {
-				child = g_object_get_data (obj, "figure");
-				if (child)
-					g_object_set (G_OBJECT (child), "fill-color", "black", NULL);
-				child = g_object_get_data (obj, "circle");
-				g_object_set (G_OBJECT (child), "outline-color", "black", NULL);
-				child = g_object_get_data (obj, "sign");
-				g_object_set (G_OBJECT (child), "outline-color", "black", NULL);
+				text->DeleteTextTag (m_Tag);
+				m_Tag = NULL;
 				m_bChanged = false;
 			}
 		}
-		return;*/
+		return;
 	}
 	double Angle = atan (- m_y / m_x);
 	if (isnan (Angle))
@@ -253,7 +249,6 @@ void gcpChargeTool::OnDrag ()
 		}
 	} else {
 		double x, y;
-		gcp::Theme *Theme = m_pView->GetDoc ()->GetTheme ();
 		if (!(m_nState & GDK_SHIFT_MASK) && (m_dDist >= m_dDistMax) && m_bChanged) {
 			m_Item->SetVisible (false);
 			m_bChanged = false;
@@ -268,25 +263,6 @@ void gcpChargeTool::OnDrag ()
 				y = y * m_dZoomFactor;
 			}
 			static_cast<gccv::Text *> (m_Item)->SetAnchor (anchor);
-/*			switch (align) {
-			case -2:
-				x += m_ChargeTWidth / 2. - Theme->GetChargeSignSize () - 1.;
-				y += Theme->GetChargeSignSize () / 2.;
-				break;
-			case -1:
-				x-= Theme->GetChargeSignSize () + Theme->GetPadding ();
-				break;
-			case -3:
-				x += m_ChargeTWidth / 2. - Theme->GetChargeSignSize () - 1.;
-				break;
-			case 1:
-				x += m_ChargeWidth + Theme->GetPadding ();
-				break;
-			case 2:
-				x += m_ChargeTWidth / 2. - Theme->GetChargeSignSize () - 1.;
-				y -= Theme->GetChargeSignSize () / 2.;
-				break;
-			}*/
 			m_Item->Move (x - m_x1, y - m_y1);
 			m_x1 = x;
 			m_y1 = y;
@@ -306,6 +282,11 @@ void gcpChargeTool::OnRelease ()
 {
 	if (m_bChanged) {
 		gcp::Atom* pAtom = static_cast <gcp::Atom*> (m_pObject);
+		if (m_Tag) {
+			gccv::Text *text = static_cast <gccv::Text *> (pAtom->GetChargeItem ());
+			text->DeleteTextTag (m_Tag);
+			m_Tag = NULL;
+		}
 		gcp::Document* pDoc = m_pView->GetDoc ();
 		gcp::Operation* pOp = pDoc-> GetNewOperation(gcp::GCP_MODIFY_OPERATION);
 		gccv::Item *item = pAtom->GetChargeItem ();

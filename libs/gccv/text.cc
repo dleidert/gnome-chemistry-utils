@@ -655,6 +655,16 @@ void Text::InsertTextTag (TextTag *tag, bool rebuild_attributes)
 		RebuildAttributes ();
 }
 
+void Text::DeleteTextTag (TextTag *tag, bool rebuild_attributes)
+{
+	if (!tag)
+		return;
+	m_Tags.remove (tag);
+	delete tag;
+	if (rebuild_attributes)
+		RebuildAttributes ();
+}
+
 void Text::SetCurTagList (TextTagList *l)
 {
 	if (m_CurTags)
