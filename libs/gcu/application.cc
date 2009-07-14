@@ -352,4 +352,12 @@ void Application::AddOptions (GOptionContext *context)
 		g_option_context_add_main_entries (context, (*i).entries, (*i).translation_domain);
 }
 
+Application *Application::GetDefaultApplication ()
+{
+	static Application *Default = NULL;
+	if (!Default)
+		Default = new Application ("gcu"); // the name is just arbitrary
+	return Default;
+}
+
 }	//	namespace gcu

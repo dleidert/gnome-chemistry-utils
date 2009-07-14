@@ -146,6 +146,9 @@ Clears cycles and chains and call gcu::Object::Clear().
 */
 	Bond const *GetNextBond(std::list<Bond*>::const_iterator &i) const;
 
+	void SetName (char const *name, char const *convention);
+	char const *GetName (char const *convention = NULL);
+
 protected:
 /*!
 The cycles contained in the molecules.
@@ -163,6 +166,9 @@ The atoms in the molecule.
 The bonds in the molecule.
 */
 	std::list<Bond*> m_Bonds;
+
+private:
+	std::map <std::string, std::string> m_Names;
 };
 
 }	//	namespace gcu

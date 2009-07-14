@@ -29,6 +29,7 @@
 #include "bond.h"
 #include "cylinder.h"
 #include "glview.h"
+#include "loader.h"
 #include "sphere.h"
 #include "vector.h"
 #include <gcu/chemistry.h>
@@ -49,26 +50,38 @@ using namespace std;
 namespace gcu
 {
 
-Chem3dDoc::Chem3dDoc (): GLDocument (NULL)
+Chem3dDoc::Chem3dDoc (): GLDocument (Application::GetDefaultApplication ())
 {
 	m_View = new GLView (this);
 	m_Display3D = BALL_AND_STICK;
-	m_Mol = new Molecule ();
-	AddChild (m_Mol);
+	m_Mol = NULL;
 }
 
 Chem3dDoc::Chem3dDoc (Application *App, GLView *View): GLDocument (App)
 {
 	m_View = (View)? View: new GLView (this);
 	m_Display3D = BALL_AND_STICK;
-	m_Mol = new Molecule ();
-	AddChild (m_Mol);
+	m_Mol = NULL;
 }
 
 Chem3dDoc::~Chem3dDoc ()
 {
 }
 
+static Object* CreateAtom ()
+{
+	return new Atom ();
+}
+
+static Object* CreateBond ()
+{
+	return new Bond ();
+}
+
+static Object* CreateMolecule ()
+{
+	return new Molecule ();
+}
 void Chem3dDoc::Load (char const *uri, char const *mime_type)
 {
 	GVfs *vfs = g_vfs_get_default ();
@@ -88,6 +101,54 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	}
 	if (!mime_type)
 		mime_type = g_file_info_get_content_type(info);
+	// try using the loader mechanism
+	Application *app = GetApp ();
+	Object *obj = Object::CreateObject ("atom", this);
+	if (obj)
+		delete obj;
+	else {
+		gcu::Loader::Init (); // can be called many times
+		Object::AddType ("atom", CreateAtom, AtomType);
+		Object::AddType ("bond", CreateBond, BondType);
+		Object::AddType ("molecule", CreateMolecule, MoleculeType);
+	}
+	string filename = uri;
+	Clear ();
+	ContentType type = app->Load (filename, mime_type, this);
+	if (type == ContentType3D) {
+		g_object_unref (file);
+		// center the scene around 0,0,0
+		std::map<std::string, Object*>::iterator it;
+		obj =  GetFirstChild (it);
+		while (obj) {
+			m_Mol = dynamic_cast <Molecule *> (obj);
+			if (m_Mol)
+				break;
+			obj = GetNextChild (it);
+		}
+		// FIXME: we show only one molecule
+		double x0, y0, z0;
+		x0 = y0 = z0 = 0.0;
+		std::list <Atom *>::const_iterator i;
+		Atom const *atom = m_Mol->GetFirstAtom (i);
+		while (atom) {
+			x0 += atom->x ();
+			y0 += atom->y ();
+			z0 += atom->z ();
+			atom = m_Mol->GetNextAtom (i);
+		}
+		m_Mol->Move (-x0 * m_Mol->GetAtomsNumber (), -y0 * m_Mol->GetAtomsNumber (), -z0 * m_Mol->GetAtomsNumber ());
+		char const *title = m_Mol->GetName ();
+		if (title)
+			SetTitle (title);
+		m_View->Update ();
+		return;
+	} else if (type != ContentTypeUnknown) {
+		Clear ();
+		g_object_unref (file);
+		// TODO: process the error (display a message at least or open with an appropriate application)
+		return;
+	}
 	gsize size = g_file_info_get_size (info);
 	g_object_unref (info);
 	GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
@@ -111,6 +172,8 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	}
 	buf[size] = 0;
 	m_Title.clear ();
+	m_Mol = new Molecule ();
+	AddChild (m_Mol);
 	if (n == size) {
 		LoadData (buf, mime_type);
 		if (m_App) {
@@ -162,7 +225,7 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 	vector3 v(-x0, -y0, -z0);
 	atom = Molecule.BeginAtom (i);
 	while (atom) {
-		atom->SetVector (atom->GetVector () + v);
+		atom->SetVector ((atom->GetVector () + v) * 100);
 		atomMap[atom] = new Atom (atom->GetAtomicNum (), atom->GetX (), atom->GetY (), atom->GetZ ());
 		m_Mol->AddAtom (atomMap[atom]);
 		atom = Molecule.NextAtom (i);
@@ -187,6 +250,8 @@ typedef struct {int n; list <struct VrmlBond> l;} sBond;
 
 void Chem3dDoc::OnExportVRML (string const &filename)
 {
+	if (!m_Mol)
+		return;
 	char *old_num_locale;
 	double R, w, x, y, z, x0, y0, z0, dist;
 	int n = 0, Z;
@@ -342,6 +407,8 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 
 void Chem3dDoc::Draw (Matrix const &m) const
 {
+	if (!m_Mol)
+		return;
 	std::list <Atom *>::const_iterator i;
 	Atom const *atom = m_Mol->GetFirstAtom (i);
 	unsigned int Z;
@@ -370,13 +437,13 @@ void Chem3dDoc::Draw (Matrix const &m) const
 		Z = atom->GetZ ();
 		if (Z > 0) {
 			if (m_Display3D == CYLINDERS) {
-				R = .12;
+				R = 12.;
 			} else if (m_Display3D == WIREFRAME) {
 				R = 0.;
 			} else {
 				rad.Z = Z;
 				Element::GetElement (Z)->GetRadius (&rad);
-				R = rad.value.value / 100.;
+				R = rad.value.value;
 				if (m_Display3D == BALL_AND_STICK)
 					R *= 0.2;
 			}
@@ -416,7 +483,7 @@ void Chem3dDoc::Draw (Matrix const &m) const
 			atom = bond->GetAtom (1);
 			rad.Z = Z;
 			Element::GetElement (Z)->GetRadius (&rad);
-			R = rad.value.value / 100.;
+			R = rad.value.value;
 			Z1 = atom->GetZ ();
 			if (Z1 == 0) {
 				bond = m_Mol->GetNextBond (j);
@@ -424,7 +491,7 @@ void Chem3dDoc::Draw (Matrix const &m) const
 			}
 			rad.Z = Z1;
 			Element::GetElement (Z1)->GetRadius (&rad);
-			R1 = rad.value.value / 100.;
+			R1 = rad.value.value;
 			v1 = m * atom->GetVector ();
 			v0 = v + (v1 - v) * (R / (R + R1));
 			color = gcu_element_get_default_color (Z);
@@ -435,10 +502,10 @@ void Chem3dDoc::Draw (Matrix const &m) const
 				glVertex3d (v0.GetX (), v0.GetY (), v0.GetZ ());
 				glEnd ();
 			} else if (m_Display3D == BALL_AND_STICK && bond->GetOrder () > 1)
-				cyl.drawMulti (v, v0, ((bond->GetOrder () > 2)? .07: 0.10),
-							   static_cast <int> (bond->GetOrder ()), 0.15, normal);
+				cyl.drawMulti (v, v0, ((bond->GetOrder () > 2)? 7.: 10.),
+							   static_cast <int> (bond->GetOrder ()), 15., normal);
 			else
-				cyl.draw (v, v0, .12);
+				cyl.draw (v, v0, 12.);
 			color = gcu_element_get_default_color (Z1);
 			glColor3d (color[0], color[1], color[2]);
 			if (m_Display3D == WIREFRAME) {
@@ -447,13 +514,19 @@ void Chem3dDoc::Draw (Matrix const &m) const
 				glVertex3d (v1.GetX (), v1.GetY (), v1.GetZ ());
 				glEnd ();
 			} else if (m_Display3D == BALL_AND_STICK && bond->GetOrder () > 1)
-				cyl.drawMulti (v0, v1, ((bond->GetOrder () > 2)? .07: 0.10),
-							   static_cast <int> (bond->GetOrder ()), 0.15, normal);
+				cyl.drawMulti (v0, v1, ((bond->GetOrder () > 2)? 7.: 10.),
+							   static_cast <int> (bond->GetOrder ()), 15., normal);
 			else
-				cyl.draw (v0, v1, .12);
+				cyl.draw (v0, v1, 12.);
 			bond = m_Mol->GetNextBond (j);
 		}
 	}
+}
+
+void Chem3dDoc::Clear ()
+{
+	Object::Clear ();
+	m_Mol = NULL;
 }
 
 }	//	namespace gcu

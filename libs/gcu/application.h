@@ -245,6 +245,7 @@ just after creating the application and before parsing options.
 */
 	void AddOptions (GOptionContext *context);
 	static WindowState GetDefaultWindowState () {return DefaultWindowState;}
+	static Application *GetDefaultApplication ();
 
 protected:
 

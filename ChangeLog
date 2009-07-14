@@ -1,13 +1,20 @@
-2009-07-13  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* libs/gccv/text.cc:
-	* libs/gccv/text.h:
-	* plugins/paint/atoms/chargetool.cc:
-	* plugins/paint/atoms/chargetool.h:
-
 ##Text encoding: utf-8
+
+2009-07-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/application.cc: create a default application used when needed.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/chem3ddoc.cc: use the Application::Loader mechanism whenever
+	possible.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/molecule.cc:add names.
+	* libs/gcu/molecule.h: ditto.
+	* plugins/loaders/cml/cml.cc: load molecule names.
+
+2009-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: added Text::DeleteTextTag.
+	* libs/gccv/text.h: ditto.
+	* plugins/paint/atoms/chargetool.cc: fully reimplemented.
+	* plugins/paint/atoms/chargetool.h: ditto.
 
 2009-07-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/window.cc: do not use a freed string in a message box.

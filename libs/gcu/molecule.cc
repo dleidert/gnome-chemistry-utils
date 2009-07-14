@@ -363,4 +363,21 @@ Bond const *Molecule::GetNextBond(std::list<Bond*>::const_iterator &i) const
 	return (i == m_Bonds.end ())? NULL: *i;
 }
 
+void Molecule::SetName (char const *name, char const *convention)
+{
+	if (!convention)
+		convention = "Unknown";
+	m_Names[convention] = name;
+}
+
+char const *Molecule::GetName (char const *convention)
+{
+	if (m_Names.empty ())
+		return NULL;
+	if (!convention)
+		return (*m_Names.begin()).second.c_str ();
+	map <string, string>::iterator it = m_Names.find (convention);
+	return (it != m_Names.end ())? (*it).second.c_str (): NULL;
+}
+
 }	//namespace gcu

@@ -25,6 +25,7 @@
 #include "config.h"
 #include <gcu/document.h>
 #include <gcu/loader.h>
+#include <gcu/molecule.h>
 #include <gcu/objprops.h>
 
 #include <goffice/app/module-plugin-defs.h>
@@ -46,6 +47,7 @@ typedef struct {
 	IOContext *context;
 	stack<Object*> cur;
 	ContentType type;
+	string curstr;
 } CMLReadState;
 
 typedef struct {
@@ -210,6 +212,31 @@ cml_doc (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Molecule name if any
+
+static void
+cml_mol_name_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	CMLReadState	*state = (CMLReadState *) xin->user_state;
+	while (*attrs) {
+		if (!strcmp ((char const *) *attrs, "convention")) {
+			attrs++;
+			state->curstr = reinterpret_cast <char const *> (*attrs);
+		} else
+			attrs++;
+		attrs++;
+	}
+	
+}
+
+static void
+cml_mol_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CMLReadState	*state = (CMLReadState *) xin->user_state;
+	static_cast <Molecule *> (state->cur.top ())->SetName (xin->content->str, state->curstr.c_str());
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Atom code
 
 static void
@@ -286,6 +313,12 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static GsfXMLInNode const mol_dtd[] = {
 	GSF_XML_IN_NODE (MOL, MOL, -1, "molecule", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (MOL, MOL_NAME, -1, "name", GSF_XML_CONTENT, cml_mol_name_start, cml_mol_name_end),
+		GSF_XML_IN_NODE (MOL, MOL_IDENTIFIER, -1, "identifier", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (MOL, MOL_FORMULA, -1, "formula", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (MOL, MOL_PROPS, -1, "propertyList", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (MOL_PROPS, MOL_PROP, -1, "property", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (MOL_PROP, MOL_PROP_SCALAR, -1, "scalar", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (MOL, ATOM_ARRAY, -1, "atomArray", GSF_XML_NO_CONTENT, NULL, NULL),
 			GSF_XML_IN_NODE (ATOM_ARRAY, ATOM, -1, "atom", GSF_XML_NO_CONTENT, cml_atom_start, NULL),
 		GSF_XML_IN_NODE (MOL, BOND_ARRAY, -1, "bondArray", GSF_XML_NO_CONTENT, NULL, NULL),

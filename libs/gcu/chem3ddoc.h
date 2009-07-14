@@ -86,7 +86,7 @@ Displays the molecule using OpenGL.
 /*!
 @return true if the molecule have no atom, false otherwise.
 */
-	bool IsEmpty () {return m_Mol->GetAtomsNumber () == 0;}
+	bool IsEmpty () {return !m_Mol || m_Mol->GetAtomsNumber () == 0;}
 
 /*!
 @param uri the uri of the molecule file.
@@ -110,6 +110,8 @@ Loads a molecule from the provided data using OpenBabel.
 Exports the embedded molecule as a vrml scene.
 */
 	void OnExportVRML (std::string const &filename);
+
+	void Clear ();
 
 private:
 	Molecule *m_Mol;
