@@ -216,10 +216,13 @@ void on_clear_data (GtkClipboard *clipboard, Object *obj)
 bool WidgetData::IsSelected (Object const *obj) const
 {
 	std::list<Object*>::const_iterator i, end = SelectedObjects.end ();
-	Object* pGroup = obj->GetGroup ();
+	Object const *parent = obj->GetParent ();
+	if (parent && IsSelected (parent))
+		return true;
 	for (i = SelectedObjects.begin (); i != end; i++)
-		if ((*i == obj) || (*i == pGroup))
+		if (*i == obj)
 			return true;
+	
 	return false;
 }
 

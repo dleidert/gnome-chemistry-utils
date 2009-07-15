@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2009-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: add a default text color.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/reaction-operator.cc: reiplemented reactions.
+	* libs/gcp/reaction-step.cc: ditto.
+	* libs/gcp/reaction-step.h: ditto.
+	* libs/gcp/widgetdata.cc: enhance WidgetData::IsSelected().
+	* plugins/loaders/cif/cif.cc: some initial work.
+	* programs/crystal/application.cc: start using gcu::Loader mechanism. 
+
 2009-07-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/application.cc: create a default application used when needed.
 	* libs/gcu/application.h: ditto.

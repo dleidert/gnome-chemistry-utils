@@ -26,8 +26,8 @@
 #include <gcu/document.h>
 #include <gcu/loader.h>
 #include <gcu/objprops.h>
-
 #include <goffice/app/module-plugin-defs.h>
+#include <gsf/gsf-input-textline.h>
 #include <glib/gi18n-lib.h>
 #include <map>
 #include <stack>
@@ -62,7 +62,44 @@ CIFLoader::~CIFLoader ()
 ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
 {
 	ContentType type = ContentTypeCrystal;
-
+	GsfInputTextline *input = reinterpret_cast <GsfInputTextline *> (gsf_input_textline_new (in));
+	char *buf;
+	bool in_string = false, in_loop = false, waiting_value = false, loop_processing = false;
+	string key;
+	int size;
+	while ((buf = reinterpret_cast <char *> (gsf_input_textline_utf8_gets (input)))) {
+		char *cur = buf, *next;
+		size = strlen (buf);
+		while (*cur == ' ')
+			cur++;
+		if (in_string) {
+		} else {
+			if (*cur == '#')
+				continue;
+			// now read the keyword
+			if (!waiting_value) {
+				next = cur;
+				while (*next && *next != ' ')
+					next++;
+				*next = 0;
+				key = cur;
+				cur = next + 1;
+				if (key[0] == '_')
+					waiting_value = true;
+				else {
+					if (key == "loop_")
+						in_loop = true;
+				}
+				if (cur - buf > size)
+					continue;
+			}
+			// read the value
+			;
+			waiting_value = false;
+		}
+		;
+	}
+	g_object_unref (input);
 	return type;
 }
 

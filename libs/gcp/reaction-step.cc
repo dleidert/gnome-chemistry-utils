@@ -32,6 +32,7 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gccv/item.h>
 
 using namespace gcu;
 using namespace std;
@@ -52,8 +53,8 @@ ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, 
 	reaction->AddChild (this);
 	GetDocument ()->EmptyTranslationTable ();
 	Document *pDoc = dynamic_cast <Document*> (GetDocument ());
+	View *view = pDoc->GetView ();
 	Theme *pTheme = pDoc->GetTheme ();
-	WidgetData  *pData= (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
 	map<double, Object*>::iterator im, endm;
 	double x, y, x0, y0, x1, y1;
 	gccv::Rect *rect;
@@ -71,8 +72,7 @@ ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, 
 		AddChild (pOp);
 		pOp->SetCoords (x / pTheme->GetZoomFactor (), y);
 		pDoc->AddObject (pOp);
-/*		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);*/
+		dynamic_cast <gccv::ItemClient *> (pOp)->GetItem ()->GetBounds (x0, y0, x1, y1);
 		pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
 		x += pTheme->GetSignPadding () + x1 - x0;
 		cur = (*im).second;
@@ -82,8 +82,7 @@ ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, 
 		cur->Move ((x - rect->x0) / pTheme->GetZoomFactor (), y - y0);
 		x+= rect->x1 - rect->x0;
 	}
-/*	Update (pData->Canvas);
-	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));*/
+	view->Update (this);
 	m_bLoading = false;
 }
 
@@ -159,11 +158,11 @@ bool ReactionStep::Load (xmlNodePtr node)
 	map<string, Object*>::iterator i;
 	Object *pObj = GetFirstChild (i);
 	Document *pDoc = dynamic_cast <Document*> (GetDocument ());
+	View *view = pDoc->GetView ();
 	Theme *pTheme = pDoc->GetTheme ();
-	WidgetData  *pData= (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
+	WidgetData  *pData= view->GetData ();
 	map<double, Object*>::iterator im, endm;
 	double x, y, x0, y0, x1, y1;
-//	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
 	while (pObj) {
 		pData->GetObjectBounds (pObj, &rect);
 		x = (rect.x0 + rect.x1) / 2;
@@ -185,15 +184,14 @@ bool ReactionStep::Load (xmlNodePtr node)
 		AddChild (pOp);
 		pOp->SetCoords(x / pTheme->GetZoomFactor (), y);
 		pDoc->AddObject(pOp);
-/*		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
-		gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);*/
+		dynamic_cast <gccv::ItemClient *> (pOp)->GetItem ()->GetBounds (x0, y0, x1, y1);
 		pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
 		x += pTheme->GetSignPadding () + x1 - x0;
 		pObj = (*im).second;
 		rect = Objects[pObj];
 		x+= rect.x1 - rect.x0;
 	}
-//	Update (pData->Canvas);
+	view->Update (this);
 	m_bLoading = false;
 	return true;
 }
@@ -222,7 +220,6 @@ bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 		WidgetData  *pData= (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
 		map<double, Object*>::iterator im, endm;
 		double x, y, x0, y0, x1, y1;
-//		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
 		while (pObj) {
 			if (pObj->GetType () == ReactionOperatorType)
 				Operators.push_front (pObj);
@@ -254,8 +251,7 @@ bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 			AddChild (pOp);
 			pOp->SetCoords(x / pTheme->GetZoomFactor (), y);
 			pDoc->AddObject(pOp);
-	/*		gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
-			gnome_canvas_item_get_bounds (GNOME_CANVAS_ITEM (pData->Items[pOp]), &x0, &y0, &x1, &y1);*/
+			dynamic_cast <gccv::ItemClient *> (pOp)->GetItem ()->GetBounds (x0, y0, x1, y1);
 			pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
 			x += pTheme->GetSignPadding () + x1 - x0;
 			pObj = (*im).second;
@@ -263,7 +259,7 @@ bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 			pObj->Move ((x - rect.x0) / pTheme->GetZoomFactor (), y - pObj->GetYAlign ());
 			x+= rect.x1 - rect.x0;
 		}
-	//	Update (pData->Canvas);
+		pDoc->GetView ()->Update (this);
 		return true;
 	} else
 		return true;
@@ -275,14 +271,6 @@ void ReactionStep::RemoveArrow (ReactionArrow *arrow) {
 		// if there is no more arrows this is no more a reaction step
 		delete this;
 	}
-}
-
-void ReactionStep::Add (GtkWidget* w) const
-{
-	/* Now that Object::Add adds children, we need to override this method
-	because a molecule children (atoms, bonds, and fragments) are added to
-	the widget by the document. FIXME! FIXME! FIXME! CHANGE THIS OLD WEIRD CODE!
-	*/
 }
 
 }	//	namespace gcp

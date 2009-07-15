@@ -28,6 +28,7 @@
 #include "prefs.h"
 #include "window.h"
 #include <gcu/filechooser.h>
+#include <gcu/loader.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
@@ -41,6 +42,7 @@ static unsigned short nNewDocs = 1;
 
 gcApplication::gcApplication(): Application ("gcrystal")
 {
+	gcu::Loader::Init ();
 }
 
 gcApplication::~gcApplication ()
@@ -321,6 +323,10 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				if (res != GTK_RESPONSE_YES)
 					return true;
 			}
+		}
+		ContentType ctype = Load (filename, mime_type, pDoc);
+		if (ctype == ContentTypeUnknown) { // FIXME: invert the test
+			return false; // FIXME: use recent manager
 		}
 		if ((type == GCRYSTAL)? Doc->Load (filename):
 #ifdef HAVE_OPENBABEL_2_2

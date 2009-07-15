@@ -66,15 +66,6 @@ Buils a new reaction step from the children and adds as many eaction operators
 as necessary. All children will be horizontally aligned.
 */
 	ReactionStep (Reaction *reaction, std::map<double, gcu::Object*>& Children, std::map<gcu::Object*, gccv::Rect> Objects);
-
-/*!
-@param w the GtkWidget inside which the step will be displayed.
-
-Calledto add a representation of the step in the widget. This is done for all
-objects but in the case of reaction steps, it does nothing. Just there to override
-the default.
-*/
-	void Add (GtkWidget* w) const;
 /*!
 @param xml the xmlDoc used to save the document.
 

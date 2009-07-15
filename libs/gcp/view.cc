@@ -1217,7 +1217,7 @@ void View::SetSelectionState (Object *object, int state)
 {
 	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (object);
 	if (client)
-		client->SetSelected (state);
+		client->SetSelected (state);	
 	map<string, Object*>::iterator i;
 	Object *child = object->GetFirstChild (i);
 	while (child) {

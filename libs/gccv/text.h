@@ -66,6 +66,7 @@ public:
 	void SetText (char const *text);
 	void SetText (std::string const &text);
 	void SetFontDescription (PangoFontDescription *desc);
+	void SetColor (GOColor color);
 	void SetEditing (bool editing);
 
 	void GetBounds (Rect *ink, Rect *logical);
@@ -123,6 +124,7 @@ private:
 	TextTagList *m_CurTags;
 	TextLine *m_Lines;
 	unsigned m_LinesNumber;
+	GOColor m_Color;
 
 GCCV_TEXT_PROP (double, Padding)
 GCCV_TEXT_PROP (Anchor, Anchor)
