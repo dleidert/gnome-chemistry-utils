@@ -750,9 +750,9 @@ void Text::AddItem ()
 	double x = m_x * theme->GetZoomFactor ();
 	double y = m_y * theme->GetZoomFactor ();
 	gccv::Text *text = new gccv::Text (view->GetCanvas ()->GetRoot (), x, y, this);
-	text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+	text->SetFillColor (0);
 	text->SetPadding (theme->GetPadding ());
-	text->SetLineColor (0);
+	text->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
 	text->SetLineOffset (view->GetCHeight ());
 	text->SetAnchor (m_Anchor);
 	text->SetFontDescription (desc);

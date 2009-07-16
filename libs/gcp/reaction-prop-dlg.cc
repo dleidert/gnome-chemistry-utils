@@ -42,7 +42,7 @@ ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
 	m_Arrow (arrow),
 	m_Prop (prop)
 {
-	GtkComboBox *box = GTK_COMBO_BOX (GetWidget ("role-combo"));
+	GtkComboBox *box = GetComboBox ("role-combo");
 	int max = (prop->GetObject ()->GetType () == MoleculeType)?
 				REACTION_PROP_MAX_MOL: REACTION_PROP_MAX;
 	for (int i = REACTION_PROP_UNKNOWN; i < max; i++)

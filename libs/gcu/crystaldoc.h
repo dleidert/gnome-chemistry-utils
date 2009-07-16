@@ -166,7 +166,15 @@ compatiblity with files created by older versions of the program.
 #ifdef HAVE_OPENBABEL_2_2
 	bool ImportOB (OpenBabel::OBMol &mol);
 #endif
-	
+/*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set properties to the document
+@return true if the property could be set, or if the property is not relevant, false otherwise.
+*/
+	virtual bool SetProperty (unsigned property, char const *value);
+
 protected:
 /*!
 Initialize a new CrystalDoc instance.

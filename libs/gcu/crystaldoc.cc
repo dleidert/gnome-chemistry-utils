@@ -28,6 +28,7 @@
 #include "crystalview.h"
 #include "cylinder.h"
 #include "matrix.h"
+#include "objprops.h"
 #include "sphere.h"
 #include "vector.h"
 #include "xml-utils.h"
@@ -595,7 +596,9 @@ void CrystalDoc::Draw (Matrix const &m) const
 	double red, green, blue, alpha;
 	for (i = Atoms.begin (); i != iend; i++)
 		if (!(*i)->IsCleaved ()) {
-			v = (*i)->GetVector ();
+			v.SetZ ((*i)->x ());
+			v.SetX ((*i)->y ());
+			v.SetY ((*i)->z ());
 			v = m * v;
 			(*i)->GetColor (&red, &green, &blue, &alpha);
 			glColor4d (red, green, blue, alpha) ;
@@ -869,5 +872,32 @@ bool CrystalDoc::ImportOB (OBMol &mol)
 	return true;
 }
 #endif
+
+bool CrystalDoc::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_CELL_A:
+		m_a = strtod (value, NULL);
+		break;
+	case GCU_PROP_CELL_B:
+		m_b = strtod (value, NULL);
+		break;
+	case GCU_PROP_CELL_C:
+		m_c = strtod (value, NULL);
+		break;
+	case GCU_PROP_CELL_ALPHA:
+		m_alpha = strtod (value, NULL);
+		break;
+	case GCU_PROP_CELL_BETA:
+		m_beta = strtod (value, NULL);
+		break;
+	case GCU_PROP_CELL_GAMMA:
+		m_gamma = strtod (value, NULL);
+		break;
+	default:
+		return false;
+	}
+	return true;
+}
 
 }	//	namespace gcu

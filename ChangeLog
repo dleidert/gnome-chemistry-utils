@@ -1,5 +1,19 @@
 ##Text encoding: utf-8
 
+2009-07-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reactant.cc: fixed a stoichiometric coefficient issue.
+	* libs/gcp/reaction-prop-dlg.cc: ensure the combo box is populated.
+	* libs/gcp/text.cc: don't set the fill color when selected.
+	* libs/gcu/crystaldoc.cc: load cell parameters using GetProperty().
+	* libs/gcu/crystaldoc.h: add GetPoperty().
+	* libs/gcu/objprops.h: add cell parameters.
+	* libs/gcu/ui-builder.cc: add a combo box intializer.
+	* libs/gcu/ui-builder.h: ditto.
+	* plugins/loaders/cif/cif.cc: loads cell parameters.
+	* programs/crystal/application.cc: load cif files only using the gcu::Loader
+	mechanism.
+	* ui/paint/arrow-object.ui: add a model to the combo box.
+
 2009-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: add a default text color.
 	* libs/gccv/text.h: ditto.

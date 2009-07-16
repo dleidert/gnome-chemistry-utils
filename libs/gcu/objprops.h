@@ -162,6 +162,30 @@ The Id of the object representing the products.
 The type of a reaction arrow ("double" for a reversible arrow).
 */
 	GCU_PROP_REACTION_ARROW_TYPE,
+/*!
+The a parameter of a crystal cell.
+*/
+	GCU_PROP_CELL_A,
+/*!
+The b parameter of a crystal cell.
+*/
+	GCU_PROP_CELL_B,
+/*!
+The c parameter of a crystal cell.
+*/
+	GCU_PROP_CELL_C,
+/*!
+The alpha angle of a crystal cell.
+*/
+	GCU_PROP_CELL_ALPHA,
+/*!
+The beta angle of a crystal cell.
+*/
+	GCU_PROP_CELL_BETA,
+/*!
+The gamme angle of a crystal cell.
+*/
+	GCU_PROP_CELL_GAMMA
 };
 
 #endif	//	GCU_OBJ_PROPS_H

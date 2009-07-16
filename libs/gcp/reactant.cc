@@ -175,11 +175,10 @@ void Reactant::AddStoichiometry ()
 	gccv::Rect rect;
 	pData->GetObjectBounds (this, &rect);
 	double x = rect.x0 / pTheme->GetZoomFactor ();
-	Text *text = new Text (x, GetYAlign () + pView->GetBaseLineOffset ());
+	Text *text = new Text (x, GetYAlign ());
 	Stoichiometry = text;
 	AddChild (text);
 	pDoc->AddObject (text);
-//	gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));
 	pData->GetObjectBounds (text, &rect);
 	Child->Move (rect.x1 / pTheme->GetZoomFactor () + pTheme->GetStoichiometryPadding () - x, 0.);
 	Tool *tool = pApp->GetTool ("Text");
@@ -217,12 +216,10 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 			double x = rect.x1 / pTheme->GetZoomFactor () + pTheme->GetStoichiometryPadding ();
 			pData->GetObjectBounds (Child, &rect);
 			Child->Move (x - rect.x0 / pTheme->GetZoomFactor (), 0.);
-// FIXME
-/*			PangoLayout *layout = ((TextObject*) Stoichiometry)->GetLayout ();
-			const char *txt = pango_layout_get_text (layout);
+			char const *txt = static_cast <TextObject *> (Stoichiometry)->GetBuffer ().c_str ();
 			char *endptr;
 			int n = strtol (txt, &endptr, 10);
-			m_Stoich = (!*endptr)? n: 0;*/
+			m_Stoich = (!*endptr)? n: 0;
 		} else {
 			// Most probably child has been splitted
 			xmlNodePtr node = NULL;

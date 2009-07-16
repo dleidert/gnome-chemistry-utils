@@ -325,8 +325,11 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			}
 		}
 		ContentType ctype = Load (filename, mime_type, pDoc);
-		if (ctype == ContentTypeUnknown) { // FIXME: invert the test
+		if (ctype == ContentTypeCrystal) {
 			return false; // FIXME: use recent manager
+		} else if (ctype != ContentTypeUnknown) {
+			// FIXME: open using the appropriate program.
+			return false;
 		}
 		if ((type == GCRYSTAL)? Doc->Load (filename):
 #ifdef HAVE_OPENBABEL_2_2

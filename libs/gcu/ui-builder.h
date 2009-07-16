@@ -46,6 +46,7 @@ the widgets.
 
 	GtkWidget *GetWidget (char const *wname);
 	GtkWidget *GetRefdWidget (char const *wname);
+	GtkComboBox *GetComboBox (char const *cbname);
 
 GCU_RO_PROP (GtkBuilder *, Builder)
 };

@@ -37,6 +37,8 @@
 using namespace gcu;
 using namespace std;
 
+static map<string, unsigned> KnownProps;
+
 class CIFLoader: public Loader
 {
 public:
@@ -50,6 +52,12 @@ public:
 CIFLoader::CIFLoader ()
 {
 	AddMimeType ("chemical/x-cif");
+	KnownProps["_cell_length_a"] = GCU_PROP_CELL_A;
+	KnownProps["_cell_length_b"] = GCU_PROP_CELL_B;
+	KnownProps["_cell_length_c"] = GCU_PROP_CELL_C;
+	KnownProps["_cell_angle_apha"] = GCU_PROP_CELL_ALPHA;
+	KnownProps["_cell_angle_beta"] = GCU_PROP_CELL_BETA;
+	KnownProps["_cell_angle_gamma"] = GCU_PROP_CELL_GAMMA;
 }
 
 CIFLoader::~CIFLoader ()
@@ -65,8 +73,10 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	GsfInputTextline *input = reinterpret_cast <GsfInputTextline *> (gsf_input_textline_new (in));
 	char *buf;
 	bool in_string = false, in_loop = false, waiting_value = false, loop_processing = false;
-	string key;
+	string key, value;
 	int size;
+	char endstr;
+	map<string, unsigned>::iterator prop;
 	while ((buf = reinterpret_cast <char *> (gsf_input_textline_utf8_gets (input)))) {
 		char *cur = buf, *next;
 		size = strlen (buf);
@@ -84,8 +94,10 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				*next = 0;
 				key = cur;
 				cur = next + 1;
-				if (key[0] == '_')
+				if (key[0] == '_') {
 					waiting_value = true;
+					value.clear ();
+				}
 				else {
 					if (key == "loop_")
 						in_loop = true;
@@ -93,11 +105,39 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				if (cur - buf > size)
 					continue;
 			}
+			if (in_string) {
+			}
+			while (*cur == ' ')
+				cur++;
+			if (!*cur)
+				continue;
+			if (*cur == '\'' || *cur == '"' || *cur == ';') {
+				endstr = *cur;
+				cur++;
+				next = strchr (cur, endstr);
+				if (next) {
+					*next = 0;
+					value = cur;
+				} else {
+					value += cur;
+					value += "\n";
+					in_string = true;
+					continue;
+				}
+			} else {
+				next = cur;
+				while (*next && *next != ' ')
+					next++;
+				*next = 0;
+				value = cur;
+			}
 			// read the value
-			;
+			prop = KnownProps.find (key);
+			if (prop != KnownProps.end ())
+				doc->SetProperty ((*prop).second, value.c_str ());
+			// unkown data are discarded
 			waiting_value = false;
 		}
-		;
 	}
 	g_object_unref (input);
 	return type;
