@@ -4,7 +4,7 @@
  * Gnome Crystal
  * application.cc 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -210,13 +210,11 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		gint result = GTK_RESPONSE_YES;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
-			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
+			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("File %s\nexists, overwrite?"), unescaped));
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 			gtk_window_set_icon_name (GTK_WINDOW (Box), "gcrystal");
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
-			g_free (message);
 			if (result == GTK_RESPONSE_YES) {
 				// destroy the old file if needed
 				if (err) {
@@ -224,14 +222,12 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 					g_file_delete (file, NULL, &error);
 					if (error) {
 						char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
-						gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
+						GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("Error while processing %s:\n%s"), unescaped, error->message));
 						g_free (unescaped);
 						g_error_free (error);
-						GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 						gtk_window_set_icon_name (GTK_WINDOW (Box), "gcrystal");
 						result = gtk_dialog_run (Box);
 						gtk_widget_destroy (GTK_WIDGET (Box));
-						g_free (message);
 						g_object_unref (file);
 						return false;
 					}
@@ -270,9 +266,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				GError *error = NULL;
 				GsfOutput *output = gsf_output_gio_new_for_uri (filename2.c_str (), &error);
 				if (error) {
-					gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
-					GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
-					g_free (mess);
+					GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Could not create stream!\n%s"), error->message);
 					gtk_dialog_run (GTK_DIALOG (message));
 					gtk_widget_destroy (message);
 					g_error_free (error);
@@ -317,8 +311,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			if (!Doc->GetDirty ())
 				return true;
 			else {
-				gchar* str = g_strdup_printf (_("\"%s\" has been modified since last saving. Do you wish to come back to saved version?"), Doc->GetTitle ());
-				GtkWidget* mbox = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, str);
+				GtkWidget* mbox = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("\"%s\" has been modified since last saving. Do you wish to come back to saved version?"), Doc->GetTitle ());
 				int res = gtk_dialog_run (GTK_DIALOG (mbox));
 				if (res != GTK_RESPONSE_YES)
 					return true;
@@ -326,7 +319,9 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		}
 		ContentType ctype = Load (filename, mime_type, pDoc);
 		if (ctype == ContentTypeCrystal) {
-			return false; // FIXME: use recent manager
+			Doc->Loaded ();
+			Doc->UpdateAllViews ();
+			goto normal_exit;
 		} else if (ctype != ContentTypeUnknown) {
 			// FIXME: open using the appropriate program.
 			return false;
@@ -337,6 +332,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 #else
 						false) {
 #endif
+normal_exit:
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();
 			data.description = NULL;

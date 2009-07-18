@@ -58,6 +58,12 @@ CIFLoader::CIFLoader ()
 	KnownProps["_cell_angle_apha"] = GCU_PROP_CELL_ALPHA;
 	KnownProps["_cell_angle_beta"] = GCU_PROP_CELL_BETA;
 	KnownProps["_cell_angle_gamma"] = GCU_PROP_CELL_GAMMA;
+
+	KnownProps["_chemical_name_common"] = GCU_PROP_CHEMICAL_NAME_COMMON;
+	KnownProps["_chemical_name_systematic"] = GCU_PROP_CHEMICAL_NAME_SYSTEMATIC;
+	KnownProps["_chemical_name_mineral"] = GCU_PROP_CHEMICAL_NAME_COMMON;
+	KnownProps["_chemical_name_structure_type"] = GCU_PROP_CHEMICAL_NAME_STRUCTURE;
+	
 }
 
 CIFLoader::~CIFLoader ()
@@ -72,38 +78,74 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	ContentType type = ContentTypeCrystal;
 	GsfInputTextline *input = reinterpret_cast <GsfInputTextline *> (gsf_input_textline_new (in));
 	char *buf;
-	bool in_string = false, in_loop = false, waiting_value = false, loop_processing = false;
+	bool in_string = false, in_loop = false, waiting_value = false;
 	string key, value;
 	int size;
 	char endstr;
-	map<string, unsigned>::iterator prop;
+	map <string, unsigned>::iterator prop;
+	list <unsigned> loop_contents;
+	list <unsigned>::iterator loop_prop;
+	doc->SetScale (100.); // lentghs and positions pus be converted to pm
 	while ((buf = reinterpret_cast <char *> (gsf_input_textline_utf8_gets (input)))) {
 		char *cur = buf, *next;
 		size = strlen (buf);
+		// check for new data bloc
+		if (!strncmp (cur, "data_", 5)) {
+			if (!doc->GetEmpty ()) {
+				// FIXME: implement multiple data blocs reading
+				g_object_unref (input);
+				return type;
+			}
+		}
+		if (!strncmp (cur, "save_", 5)) // FIXME: implement
+			continue;
 		while (*cur == ' ')
 			cur++;
 		if (in_string) {
 		} else {
 			if (*cur == '#')
 				continue;
+			// skip unsupported global words
+			if (!strcmp (cur, "stop_") || !strcmp (cur, "global_"))
+			    continue;
 			// now read the keyword
+			if (in_loop && *cur != '_')
+				waiting_value = true;
+			if (in_loop && waiting_value) {
+				if (*cur == '_' || !strncmp (cur, "loop_", 5)) { // FIXME: implement nested loops
+					waiting_value = false;
+					in_loop = false;
+				}
+			}
 			if (!waiting_value) {
 				next = cur;
 				while (*next && *next != ' ')
 					next++;
+					
 				*next = 0;
 				key = cur;
 				cur = next + 1;
 				if (key[0] == '_') {
-					waiting_value = true;
-					value.clear ();
-				}
-				else {
+					if (in_loop) {
+						prop = KnownProps.find (key);
+						loop_contents.push_back ((prop == KnownProps.end ())? static_cast <unsigned> (GCU_PROP_MAX): (*prop).second);
+					} else {
+						waiting_value = true;
+						value.clear ();
+					}
+				} else {
 					if (key == "loop_")
 						in_loop = true;
 				}
 				if (cur - buf > size)
 					continue;
+			}
+			if (in_loop) {
+				if (*cur == 0) {
+					in_loop = false;
+				} else {
+				}
+				continue;
 			}
 			if (in_string) {
 			}

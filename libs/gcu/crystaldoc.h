@@ -33,6 +33,7 @@
 #include "crystalline.h"
 #include "crystalcleavage.h"
 #include "document.h"
+#include "macros.h"
 #include <gcu/gldocument.h>
 #ifdef HAVE_OPENBABEL_2_2
 #	include <openbabel/math/spacegroup.h>
@@ -174,6 +175,11 @@ Used when loading to set properties to the document
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */
 	virtual bool SetProperty (unsigned property, char const *value);
+/*!
+Called by the application whe the document has been loaded to update the title
+and add some lines.
+*/
+	void Loaded ();
 
 protected:
 /*!
@@ -283,6 +289,11 @@ The space group associated with the lattice.
 */
 	OpenBabel::SpaceGroup const *m_SpaceGroup;
 #endif
+
+GCU_RO_PROP (std::string, NameCommon);
+GCU_RO_PROP (std::string, NameSystematic);
+GCU_RO_PROP (std::string, NameMineral);
+GCU_RO_PROP (std::string, NameStructure);
 };
 
 extern gchar const *LatticeName[];

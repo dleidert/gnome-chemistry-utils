@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.h 
  *
- * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -64,8 +64,9 @@ public:
 	void SetCell(gcLattices lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma);
 	const gchar* GetFileName() {return m_filename;}
 	void SetFileName(const std::string &filename);
-	gchar* GetTitle() {return m_title;}
-	void SetTitle(const gchar* title);
+	void SetTitle (char const *title);
+	void SetTitle (std::string& title);
+	char const *GetTitle () {return m_Title.c_str ();}
 	void Save () const;
 	bool Load (const std::string &filename);
 #ifdef HAVE_OPENBABEL_2_2
@@ -104,7 +105,7 @@ private:
 	
 	//Implementation
 private:
-	gchar *m_filename, *m_title;
+	gchar *m_filename;
 	bool m_bClosing;
 	GtkWidget* m_widget;
 	std::list <gcu::Dialog *> m_Dialogs;

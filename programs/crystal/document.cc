@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.cc 
  *
- * Copyright (C) 2000-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -70,7 +70,6 @@ gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 {
 	Init ();
 	m_filename = NULL;
-	m_title = NULL;
 	m_bClosing = false;
 	m_ReadOnly = false;
 	m_Author = m_Mail = m_Label = m_Comment = NULL;
@@ -81,7 +80,6 @@ gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 gcDocument::~gcDocument()
 {
 	g_free(m_filename);
-	g_free(m_title);
 	Reinit();
 	Dialog *dialog;
 	while (!m_Dialogs.empty())
@@ -194,14 +192,15 @@ void gcDocument::SetFileName (const string &filename)
 		i--;
 	if (i >=0) {
 		m_filename [i] = 0;
-		chdir (m_filename);
+		if (chdir (m_filename) < 0)
+			perror (_("Directory change failed"));
 		m_filename[i] = '/';
 	}
 	i++;
 	int j = filename.length () - 1;
 	while ((i < j) && (m_filename[j] != '.'))
 		j--;
-	if (!m_title) {
+	if (m_Title.length () == 0) {
 		g_free (m_Label);
 		char *buf = (strcmp (m_filename + j, ".gcrystal"))? g_strdup (m_filename + i): g_strndup (m_filename + i, j - i);
 		m_Label = g_uri_unescape_string (buf, NULL);
@@ -211,10 +210,16 @@ void gcDocument::SetFileName (const string &filename)
 
 void gcDocument::SetTitle(const gchar* title)
 {
-	g_free(m_title);
-	m_title = g_strdup(title);
+	m_Title = title;
 	g_free(m_Label);
 	m_Label = g_strdup(title);	
+}
+
+void gcDocument::SetTitle (std::string& title)
+{
+	m_Title = title;
+	g_free (m_Label);
+	m_Label = g_strdup (title.c_str ());	
 }
 
 static int cb_xml_to_vfs (GOutputStream *output, const char* buf, int nb)
@@ -247,8 +252,8 @@ void gcDocument::Save() const
 		xmlNewProp (xml->children, (xmlChar*) "revision", (xmlChar*) tmp);
 		xmlNodePtr node;
 
-		if (m_title && *m_title) {
-			node = xmlNewDocNode (xml, NULL, (xmlChar*) "title", (xmlChar*) m_title);
+		if (m_Title.length () > 0) {
+			node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("title"), reinterpret_cast <xmlChar const *> (m_Title.c_str ()));
 			if (node)
 				xmlAddChild (xml->children, node);
 			else
@@ -317,28 +322,27 @@ void gcDocument::Save() const
 
 void gcDocument::Error (int num) const
 {
-	gchar *mess = NULL;
+	char const *mess = NULL;
 	GtkWidget* message;
 	char *unescaped = g_uri_unescape_string (m_filename, NULL);
 	switch (num) {
 	case SAVE:
-		mess = g_strdup_printf (_("Could not save file\n%s"), unescaped);
+		mess = _("Could not save file\n%s");
 		break;
 	case LOAD:
-		mess = g_strdup_printf (_("Could not load file\n%s"), unescaped);
+		mess = _("Could not load file\n%s");
 		break;
 	case XML:
-		mess = g_strdup_printf (_("%s: invalid xml file.\nTree is empty?"), unescaped);
+		mess = _("%s: invalid xml file.\nTree is empty?");
 		break;
 	case FORMAT:
-		mess = g_strdup_printf (_("%s: invalid file format."), unescaped);
+		mess = _("%s: invalid file format.");
 		break;
 	}
+	message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess, unescaped);
 	g_free (unescaped);
-	message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
 	g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 	gtk_widget_show (message);
-	g_free (mess);
 }
 
 bool gcDocument::Load (const string &filename)
@@ -348,7 +352,7 @@ bool gcDocument::Load (const string &filename)
 	if (m_filename)
 		oldfilename = g_strdup (m_filename);
 	else oldfilename = NULL;
-	oldtitle = g_strdup (m_title);
+	oldtitle = g_strdup (m_Title.c_str ());
 	try {
 		if (SetFileName (filename), !m_filename || !m_Label)
 			throw (int) 1;
@@ -440,8 +444,7 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 	if (node) {
 		txt = (char*) xmlNodeGetContent (node);
 		if (txt) {
-			g_free (m_title);
-			m_title = g_strdup (txt);
+			SetTitle (txt);
 			xmlFree (txt);
 		}
 	}
@@ -750,12 +753,11 @@ bool gcDocument::VerifySaved()
 	m_bClosing = true;
 	if (!GetDirty ())
 		return true;
-	gchar* str = g_strdup_printf(_("\"%s\" has been modified.  Do you wish to save it?"), m_Label);
 	GtkWidget* mbox;
 	int res;
 	do
 	{
-		mbox = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, str);
+		mbox = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("\"%s\" has been modified.  Do you wish to save it?"), m_Label);
 		gtk_dialog_add_button(GTK_DIALOG(mbox),  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		res = gtk_dialog_run(GTK_DIALOG(mbox));
 		gtk_widget_destroy(mbox);
@@ -773,7 +775,6 @@ bool gcDocument::VerifySaved()
 	if (res == GTK_RESPONSE_NO)
 		SetDirty (false);
 	else if (res == GTK_RESPONSE_CANCEL) m_bClosing = false;
-	g_free(str);
 	return (res != GTK_RESPONSE_CANCEL);
 }
 
@@ -844,7 +845,7 @@ bool gcDocument::Import (const string &filename, const string& mime_type)
 	if (m_filename)
 		oldfilename = g_strdup (m_filename);
 	else oldfilename = NULL;
-	oldtitle = g_strdup (m_title);
+	oldtitle = g_strdup (m_Title.c_str ());
 	char *old_num_locale;
 	bool result = false, read_only = false;
 	GFile *file;

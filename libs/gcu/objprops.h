@@ -185,7 +185,27 @@ The beta angle of a crystal cell.
 /*!
 The gamme angle of a crystal cell.
 */
-	GCU_PROP_CELL_GAMMA
+	GCU_PROP_CELL_GAMMA,
+/*!
+The common name of the chemical entity.
+*/
+	GCU_PROP_CHEMICAL_NAME_COMMON,
+/*!
+The IUPAC name of the chemical entity.
+*/
+	GCU_PROP_CHEMICAL_NAME_SYSTEMATIC,
+/*!
+The name of the mineral (see http://www.iucr.org/__data/iucr/cifdic_html/1/cif_core.dic/Ichemical_name_mineral.html).
+*/
+	GCU_PROP_CHEMICAL_NAME_MINERAL,
+/*!
+The name of the structure type (see http://www.iucr.org/__data/iucr/cifdic_html/1/cif_core.dic/Ichemical_name_structure_type.html).
+*/
+	GCU_PROP_CHEMICAL_NAME_STRUCTURE,
+/*!
+The first invalid value. It might be used as an error value.
+*/
+	GCU_PROP_MAX
 };
 
 #endif	//	GCU_OBJ_PROPS_H

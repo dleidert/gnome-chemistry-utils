@@ -89,11 +89,11 @@ to avoid errors on the next paste event.
 /*!
 @param title the new document title.
 */
-	void SetTitle (std::string& title) {m_Title = title;}
+	virtual void SetTitle (std::string& title) {m_Title = title;}
 /*!
 @param title the new document title.
 */
-	void SetTitle (char const *title) {m_Title = title;}
+	virtual void SetTitle (char const *title) {m_Title = title;}
 /*!
 @return the current document title.
 */

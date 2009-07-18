@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-07-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/application.cc: fixed a compiler warning.
+	* libs/gcu/crystaldoc.cc: load chemical names from cif files.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/document.h: made SetTitle virtual.
+	* libs/gcu/objprops.h: add properties for chemical names in cif files.
+	* plugins/loaders/cif/cif.cc: load names and manage keywords.
+	* programs/crystal/application.cc: update document title for cif files.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+
 2009-07-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reactant.cc: fixed a stoichiometric coefficient issue.
 	* libs/gcp/reaction-prop-dlg.cc: ensure the combo box is populated.

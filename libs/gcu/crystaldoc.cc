@@ -873,17 +873,31 @@ bool CrystalDoc::ImportOB (OBMol &mol)
 }
 #endif
 
+void CrystalDoc::Loaded ()
+{
+	if (m_NameCommon.length () > 0)
+		SetTitle (m_NameCommon);
+	else if (m_NameMineral.length () > 0)
+		SetTitle (m_NameMineral);
+	else if (m_NameSystematic.length () > 0)
+		SetTitle (m_NameSystematic);
+	else if (m_NameStructure.length () > 0)
+		SetTitle (m_NameStructure);
+	LineDef.push_back (new CrystalLine (edges, 0., 0., 0., 0., 0., 0., 10., .25 , .25, .25 , 1.));
+	Update ();
+}
+
 bool CrystalDoc::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
 	case GCU_PROP_CELL_A:
-		m_a = strtod (value, NULL);
+		m_a = strtod (value, NULL) * GetScale ();
 		break;
 	case GCU_PROP_CELL_B:
-		m_b = strtod (value, NULL);
+		m_b = strtod (value, NULL) * GetScale ();
 		break;
 	case GCU_PROP_CELL_C:
-		m_c = strtod (value, NULL);
+		m_c = strtod (value, NULL) * GetScale ();
 		break;
 	case GCU_PROP_CELL_ALPHA:
 		m_alpha = strtod (value, NULL);
@@ -893,6 +907,18 @@ bool CrystalDoc::SetProperty (unsigned property, char const *value)
 		break;
 	case GCU_PROP_CELL_GAMMA:
 		m_gamma = strtod (value, NULL);
+		break;
+	case GCU_PROP_CHEMICAL_NAME_COMMON:
+		m_NameCommon = value;
+		break;
+	case GCU_PROP_CHEMICAL_NAME_SYSTEMATIC:
+		m_NameSystematic = value;
+		break;
+	case GCU_PROP_CHEMICAL_NAME_MINERAL:
+		m_NameMineral = value;
+		break;
+	case GCU_PROP_CHEMICAL_NAME_STRUCTURE:
+		m_NameStructure = value;
 		break;
 	default:
 		return false;
