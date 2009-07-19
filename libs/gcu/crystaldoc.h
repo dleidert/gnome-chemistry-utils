@@ -36,7 +36,6 @@
 #include "macros.h"
 #include <gcu/gldocument.h>
 #ifdef HAVE_OPENBABEL_2_2
-#	include <openbabel/math/spacegroup.h>
 #	include <openbabel/mol.h>
 #endif
 
@@ -46,6 +45,7 @@ namespace gcu
 
 class CrystalView;
 class Matrix;
+class SpaceGroup;
 
 /*!\enum gcLattices crystalviewer/crystaldoc.h
 This enumeration gives sympolic names to the fourteen Bravais lattices.
@@ -283,12 +283,10 @@ List of the views of the document.
 */
 	std::list <CrystalView *> m_Views;
 
-#ifdef HAVE_OPENBABEL_2_2
 /*!
 The space group associated with the lattice.
 */
-	OpenBabel::SpaceGroup const *m_SpaceGroup;
-#endif
+	SpaceGroup const *m_SpaceGroup;
 
 GCU_RO_PROP (std::string, NameCommon);
 GCU_RO_PROP (std::string, NameSystematic);

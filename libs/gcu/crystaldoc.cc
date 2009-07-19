@@ -29,7 +29,9 @@
 #include "cylinder.h"
 #include "matrix.h"
 #include "objprops.h"
+#include "spacegroup.h"
 #include "sphere.h"
+#include "transform3d.h"
 #include "vector.h"
 #include "xml-utils.h"
 #include <gtk/gtk.h>
@@ -181,7 +183,6 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 			if (i < 14)
 				m_lattice = (gcLattices)i;
 			xmlFree (txt);
-#ifdef HAVE_OPENBABEL_2_2
 		} else if (!strcmp ((gchar*) node->name, "group")) {
 			SpaceGroup *group = new SpaceGroup ();
 			txt = (char*) xmlGetProp (node, (xmlChar*) "Hall");
@@ -206,8 +207,8 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 				}
 				child = child->next;
 			}
-			m_SpaceGroup = group;
-#endif
+			m_SpaceGroup = SpaceGroup::Find (group);
+			delete group;
 		} else if (!strcmp ((gchar*) node->name, "cell")) {
 			txt = (char*) xmlGetProp (node, (xmlChar*)"a");
 			if (txt) {
@@ -323,17 +324,17 @@ void CrystalDoc::Update()
 	
 #ifdef HAVE_OPENBABEL_2_2
 	if (m_SpaceGroup) {
-		vector3 v;
-		list<vector3> d;
+		Vector v;
+		list<Vector> d;
 		for (i = AtomDef.begin(); i != iend; i++) {
-			v.x () = (*i)->x ();
-			v.y () = (*i)->y ();
-			v.z () = (*i)->z ();
+			v.SetX ((*i)->x ());
+			v.SetY ((*i)->y ());
+			v.SetZ ((*i)->z ());
 			d = m_SpaceGroup->Transform (v);
-			list<vector3>::iterator vi, viend = d.end();
+			list<Vector>::iterator vi, viend = d.end();
 			CrystalAtom atom (**i);
 			for (vi=d.begin (); vi!= viend; vi++) {
-				atom.SetCoords ((*vi).x(), (*vi).y(), (*vi).z());
+				atom.SetCoords ((*vi).GetX(), (*vi).GetY(), (*vi).GetZ());
 				Duplicate (atom);
 			}
 		}
@@ -688,15 +689,15 @@ xmlDocPtr CrystalDoc::BuildXMLTree () const
 					xmlNewProp (node, (xmlChar*) "HM", (xmlChar*) name.c_str ());
 			}
 			xmlNodePtr child;
-			transform3dIterator i;
-			transform3d const *t = m_SpaceGroup->BeginTransform (i);
+			list <Transform3d*>::const_iterator i;
+			Transform3d const *t = m_SpaceGroup->GetFirstTransform (i);
 			while (t) {
 				child = xmlNewDocNode (xml, NULL, (xmlChar*) "transform", (xmlChar const*) t->DescribeAsString ().c_str ());
 				if (child)
 					xmlAddChild (node, child);
 				else
 					throw (int) 0;
-				t = m_SpaceGroup->NextTransform (i);
+				t = m_SpaceGroup->GetNextTransform (i);
 			}
 		}
 #endif
@@ -777,7 +778,7 @@ bool CrystalDoc::ImportOB (OBMol &mol)
 	m_beta = cell->GetBeta ();
 	m_gamma = cell->GetGamma ();
 	string const group_name = cell->GetSpaceGroupName ();
-	m_SpaceGroup = cell->GetSpaceGroup ();
+	m_SpaceGroup = SpaceGroup::GetSpaceGroup (cell->GetSpaceGroup ()->GetHallName ());
     if (!m_SpaceGroup)
 		return false;
 	int lattice = cell->GetLatticeType ();
@@ -920,6 +921,50 @@ bool CrystalDoc::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_CHEMICAL_NAME_STRUCTURE:
 		m_NameStructure = value;
 		break;
+	case GCU_PROP_SPACE_GROUP: {
+		m_SpaceGroup = SpaceGroup::GetSpaceGroup (value);
+		char type = (*value == '-')? value[1]: value[0];
+		int id = m_SpaceGroup->GetId ();
+		if (id <= 2)
+			m_lattice = triclinic;
+		else if (id <= 15)
+			m_lattice = (type == 'P')? monoclinic: base_centered_monoclinic;
+		else if (id <= 74)
+			switch (type) {
+			case 'P':
+				m_lattice = orthorhombic;
+				break;
+			case 'I':
+				m_lattice = body_centered_orthorhombic;
+				break;
+			case 'F':
+				m_lattice = face_centered_orthorhombic;
+				break;
+			default:
+				m_lattice = base_centered_orthorhombic;
+				break;
+			}
+		else if (id <= 142)
+			m_lattice = (type == 'P')? tetragonal: body_centered_tetragonal;
+		else if (id <= 167)
+			m_lattice = rhombohedral;
+		else if (id <= 194)
+			m_lattice = hexagonal;
+		else {
+			switch (type) {
+			case 'P':
+				m_lattice = cubic;
+				break;
+			case 'I':
+				m_lattice = body_centered_cubic;
+				break;
+			case 'F':
+				m_lattice = face_centered_cubic;
+				break;
+			}
+		}
+		break;
+	}
 	default:
 		return false;
 	}

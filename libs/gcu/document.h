@@ -132,6 +132,12 @@ but a different meaning from the standard residue.
 @return the Residue* found or NULL.
 */
 	virtual Residue const *GetResidue (char const *symbol, bool *ambiguous = NULL);
+/*!
+This method is used to get the active window of the document. Derived classes should, override
+it to return a consistent value. Default implementation returns NULL.
+@return the active GtkWindow for the document if any.
+*/
+	virtual GtkWindow *GetGtkWindow () {return NULL;}
 
 private:
 

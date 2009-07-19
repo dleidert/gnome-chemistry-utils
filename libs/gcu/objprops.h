@@ -41,7 +41,7 @@ The position of an object in a 2D representation.
 */
 	GCU_PROP_POS2D,
 /*!
-The position of an object in a 2D representation.
+The position of an object in a 3D representation.
 */
 	GCU_PROP_POS3D,
 	// Document properties
@@ -202,6 +202,10 @@ The name of the mineral (see http://www.iucr.org/__data/iucr/cifdic_html/1/cif_c
 The name of the structure type (see http://www.iucr.org/__data/iucr/cifdic_html/1/cif_core.dic/Ichemical_name_structure_type.html).
 */
 	GCU_PROP_CHEMICAL_NAME_STRUCTURE,
+/*!
+The name of the space group for a crystal. The Hall name is used as it is unique.
+*/
+	GCU_PROP_SPACE_GROUP,
 /*!
 The first invalid value. It might be used as an error value.
 */

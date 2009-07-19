@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * Transform3d.h - Handle 3D transformations in space groups.
  *  
- * Copyright (C) 2007-2008 by Jean Bréfort
+ * Copyright (C) 2007-2009 by Jean Bréfort
  * 
  * This file was originally part of the Open Babel project.
  * For more information, see <http://openbabel.sourceforge.net/>
@@ -41,6 +41,7 @@ Transform3d::Transform3d (Matrix const &m, Vector const &v):
 	Matrix (m),
 	Vector (v)
 {
+	Normalize ();
 }
 
 Transform3d::Transform3d (double s):
@@ -53,12 +54,14 @@ Transform3d::Transform3d (Vector row1, Vector row2, Vector row3, Vector translat
 	Matrix (row1, row2, row3),
 	Vector (translation)
 {
+	Normalize ();
 }
 
 Transform3d::Transform3d (double d[3][3], double t[3]):
 	Matrix (d),
 	Vector (t)
 {
+	Normalize ();
 }
 
 Transform3d::~Transform3d ()

@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2009-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystaldoc.cc: load space group from cif files.
+	* libs/gcu/crystaldoc.h: use gcu::SpaceGroup instead of OpenBabel.
+	* libs/gcu/document.h: add virtual GetGtkWindow().
+	* libs/gcu/objprops.h: add space group property.
+	* libs/gcu/spacegroup.cc: fix initialization in Find() and initial matrix
+	value in AddTransform().
+	* libs/gcu/transform3d.cc: call Normalize() when needed.
+	* plugins/loaders/cif/cif.cc: load space group.
+
 2009-07-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/application.cc: fixed a compiler warning.
 	* libs/gcu/crystaldoc.cc: load chemical names from cif files.

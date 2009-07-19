@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * spacegroup.cc - Handle Crystallographic Space Groups.
  *  
- * Copyright (C) 2007-2008 by Jean Bréfort
+ * Copyright (C) 2007-2009 by Jean Bréfort
  * 
  * This file was originally part of the Open Babel project.
  * For more information, see <http://openbabel.sourceforge.net/>
@@ -62,6 +62,7 @@ public:
 SpaceGroups::SpaceGroups ()
 {
 	sgbi.assign (230, list <SpaceGroup const*> ());
+	m_Init = false;
 }
 
 SpaceGroups::~SpaceGroups ()
@@ -111,7 +112,8 @@ group_start (GsfXMLIn *xin, xmlChar const **attrs)
 static GsfXMLInNode const sg_dtd[] = {
 GSF_XML_IN_NODE (GROUPS, GROUPS, -1, "list", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (GROUPS, GROUP, -1, "group", GSF_XML_NO_CONTENT, group_start, NULL),
-		GSF_XML_IN_NODE (GROUP, TRANSFORM, -1, "transform", GSF_XML_CONTENT, NULL, transform_end)
+		GSF_XML_IN_NODE (GROUP, TRANSFORM, -1, "transform", GSF_XML_CONTENT, NULL, transform_end),
+GSF_XML_IN_NODE_END
 };
 
 void SpaceGroups::Init ()
@@ -132,6 +134,7 @@ void SpaceGroups::Init ()
 	if (!gsf_xml_in_doc_parse (xml, in, &state))
 		cerr << gsf_input_name (in) << _(" is corrupt!"),
 	gsf_xml_in_doc_free (xml);
+	m_Init = true;
 }
 
 SpaceGroup::SpaceGroup ():
@@ -150,7 +153,7 @@ SpaceGroup::~SpaceGroup ()
 */
 void SpaceGroup::AddTransform(const string &s)
 {
-	Matrix m;
+	Matrix m (0.);
 	Vector v;
 	istringstream iss(s);
 	locale cLocale ("C");
@@ -396,6 +399,8 @@ bool SpaceGroup::IsValid () const
 */
 SpaceGroup const *SpaceGroup::Find (SpaceGroup* group)
 {
+	if (!_SpaceGroups.Inited ())
+		_SpaceGroups.Init ();
 	SpaceGroup const *found = NULL;
 	if (group->m_HallName.length () > 0 && _SpaceGroups.sgbn.find (group->m_HallName) != _SpaceGroups.sgbn.end ()) {
 		found = _SpaceGroups.sgbn[group->m_HallName];
