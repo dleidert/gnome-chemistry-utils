@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2009-07-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: removed interline property from NewLineTag.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.cc: add an interline property to Text.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/atom.cc: set the colors to the text, not the underlying
+	rectangle.
+	* libs/gcp/text.cc: load/save multiline text.
+
 2009-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystaldoc.cc: load space group from cif files.
 	* libs/gcu/crystaldoc.h: use gcu::SpaceGroup instead of OpenBabel.

@@ -110,6 +110,7 @@ be moved to the end of the inserted text.
 
 	unsigned GetDefaultFontSize () { return (m_FontDesc)? (double) pango_font_description_get_size (m_FontDesc) / PANGO_SCALE: 0; }
 	void RebuildAttributes ();
+	void SetInterline (double interline);
 
 private:
 	double m_x, m_y;
@@ -130,6 +131,7 @@ GCCV_TEXT_PROP (double, Padding)
 GCCV_TEXT_PROP (Anchor, Anchor)
 GCCV_TEXT_PROP (double, LineOffset)
 GCCV_TEXT_PROP (GtkJustification, Justification)
+GCU_RO_PROP (double, Interline)
 GCU_RO_PROP (double, Width)
 GCU_RO_PROP (double, Height)
 GCU_RO_PROP (double, Ascent)

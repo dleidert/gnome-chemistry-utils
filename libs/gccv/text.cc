@@ -114,12 +114,13 @@ public:
 	~TextLine ();
 
 	double m_Width, m_Height, m_BaseLine;
+	double y;
 	std::list <TextRun *> m_Runs;
 };
 
 TextLine::TextLine ()
 {
-	m_Width = m_Height = m_BaseLine = 0.;
+	m_Width = m_Height = m_BaseLine = y = 0.;
 }
 
 TextLine::~TextLine ()
@@ -227,7 +228,10 @@ Text::Text (Canvas *canvas, double x, double y):
 	m_CurTags (NULL),
 	m_Padding (0.),
 	m_Anchor (AnchorLine),
-	m_LineOffset (0.), m_Width (0.), m_Height (0.)
+	m_LineOffset (0.),
+	m_Justification (GTK_JUSTIFY_LEFT),
+	m_Interline (0.),
+	m_Width (0.), m_Height (0.)
 {
 	TextRun *run = new TextRun ();
 	m_Runs.push_front (run);
@@ -251,6 +255,7 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 	m_Anchor (AnchorLine),
 	m_LineOffset (0.),
 	m_Justification (GTK_JUSTIFY_LEFT),
+	m_Interline (0.),
 	m_Width (0.), m_Height (0.)
 {
 	TextRun *run = new TextRun ();
@@ -921,10 +926,17 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 	case GDK_Control_R:
 		return false;
 	case GDK_Return:
-	case GDK_KP_Enter:
-		/* TODO: write this code */
-		break;
-
+	case GDK_KP_Enter: {
+		TextTag *tag = new NewLineTextTag ();
+		tag->SetStartIndex (m_CurPos);
+		tag->SetEndIndex (m_CurPos);
+		m_Tags.push_front (tag);
+		RebuildAttributes ();
+		SetPosition (m_x, m_y);
+		if (client)
+			client->TextChanged (m_CurPos);
+		return true;
+	}
 	case GDK_Tab:
 		TextPrivate::OnCommit (m_ImContext, "\t", this);
 		if (client)
@@ -1094,7 +1106,7 @@ void Text::RebuildAttributes ()
 	for (run = m_Runs.begin ();run != end_run; run++) // delete all runs
 		delete (*run);
 	m_Runs.clear ();
-	// Recreate first run
+	// Recreate first run and first line
 	TextRun *new_run = new TextRun (), *last_run;
 	pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
 	m_Runs.push_front (new_run);
@@ -1162,16 +1174,19 @@ void Text::RebuildAttributes ()
 	m_LinesNumber = lines;
 	// we now need to rebuild runs positions
 	// FIXME: support several lines
-	double curx = 0., curw = 0.;
+	double curx = 0., curw = 0., cury = 0;
 	unsigned cur_line = 0;
 	for (run = m_Runs.begin (); run != end_run; run++) {
 		m_Lines[cur_line].m_Runs.push_back (*run);
+		(*run)->m_Y = cury;
 		if ((*run)->m_Stacked) {
 			if ((*run)->m_Width > curw)
 				curw = (*run)->m_Width;
 			(*run)->m_X = curx;
 		} else if ((*run)->m_NewLine) {
 			m_Lines[cur_line].m_Width = curx + curw;
+			// evaluate line heigth
+			
 			cur_line++;
 		} else {
 			(*run)->m_X = curx + curw;
@@ -1275,6 +1290,13 @@ void Text::SetColor (GOColor color)
 {
 	m_Color = color;
 	RebuildAttributes ();
+}
+
+void Text::SetInterline (double interline)
+{
+	m_Interline = interline;
+	RebuildAttributes ();
+	SetPosition (m_x, m_y);
 }
 
 }

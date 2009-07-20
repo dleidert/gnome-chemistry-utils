@@ -1258,7 +1258,10 @@ void Atom::SetSelected (int state)
 	gccv::Item *item = group->GetFirstChild (it);
 	while (item) {
 		gccv::FillItem *fill;
-		if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
+		gccv::Text *text;
+		if ((text = dynamic_cast <gccv::Text *> (item)))
+			text->SetColor (othercolor);
+		else if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
 			fill->SetFillColor (textcolor);
 		else if ((fill = dynamic_cast <gccv::FillItem *> (item)))
 			fill->SetFillColor (othercolor);
@@ -1966,7 +1969,7 @@ void Atom::AddItem ()
 				g_free (str);
 			}
 			text = new gccv::Text (group, 0., 0., this);
-			text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+			text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: RGBA_BLACK);
 			text->SetPadding (theme->GetPadding ());
 			text->SetLineColor (0);
 			text->SetLineWidth (0.);

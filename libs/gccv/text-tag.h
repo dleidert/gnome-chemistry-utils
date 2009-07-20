@@ -267,14 +267,13 @@ private:
 
 class NewLineTextTag: public TextTag
 {
-	NewLineTextTag (double interline);
+public:
+	NewLineTextTag ();
 	virtual ~NewLineTextTag ();
 	
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
-
-	GCU_RO_PROP (double, Interline)
 };
 
 class TextTagList:public std::list <TextTag *>

@@ -340,6 +340,9 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		}
 		break;
 	}
+	case gccv::NewLine:
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("br"), NULL);
+		break;
 	default:
 		break;
 	}
@@ -547,12 +550,29 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 		if (!level)
 			return true;
 		buf = (char*) xmlNodeGetContent (node);
+		// search for '\n' because of old GChemPaint versions bug
+		char *cur = buf;
+		while (cur && *cur) {
+			char *nl = strchr (cur, '\n');
+			if (nl) {
+				tag = new gccv::NewLineTextTag ();
+				unsigned index = nl - buf + start;
+				tag->SetStartIndex (index);
+				tag->SetEndIndex (index);
+				m_TagList.push_front (tag);
+				tag = NULL;
+				strcpy (nl, nl + 1);
+				cur = nl;
+			} else
+				cur = NULL;
+		}
 		if (buf) {
 			pos += strlen (buf);
 			m_buf.insert (start, buf);
 			xmlFree (buf);
 		}
 	} else if (!strcmp ((const char*) node->name, "br")) {
+		tag = new gccv::NewLineTextTag ();
 /* FIXME		m_buf.insert (pos, "\n");
 		pos++;
 		struct limits l;

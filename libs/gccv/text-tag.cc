@@ -547,9 +547,8 @@ TextTag *PositionTextTag::Duplicate () const
 ////////////////////////////////////////////////////////////////////////////////
 // Position tag class (normal, subscript, superscript,...)
 
-NewLineTextTag::NewLineTextTag (double interline):
-	TextTag (NewLine),
-	m_Interline (interline)
+NewLineTextTag::NewLineTextTag ():
+	TextTag (NewLine)
 {
 	m_NewLine = true;
 }
@@ -565,14 +564,12 @@ void NewLineTextTag::Filter (G_GNUC_UNUSED PangoAttrList *l, G_GNUC_UNUSED unsig
 
 bool NewLineTextTag::operator== (TextTag const& tag) const
 {
-	if (tag.GetTag () != NewLine)
-		return false;
-	return static_cast <NewLineTextTag const&> (tag).m_Interline == m_Interline;
+	return false;
 }
 
 TextTag *NewLineTextTag::Duplicate () const
 {
-	return new NewLineTextTag (m_Interline);
+	return new NewLineTextTag ();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
