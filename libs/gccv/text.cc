@@ -139,7 +139,7 @@ public:
 	void Draw (cairo_t *cr);
 
 	PangoLayout *m_Layout;
-	double m_X, m_Y, m_Width, m_Height, m_BaseLine;
+	double m_X, m_Y, m_Width, m_Height, m_BaseLine, m_CharOffset;
 	unsigned m_Index, m_Length;
 	bool m_Stacked, m_NewLine;
 };
@@ -149,6 +149,7 @@ TextRun::TextRun ()
 	m_Layout = pango_layout_new (const_cast <PangoContext *> (Ctx.GetContext ()));
 	m_X = m_Y = 0.;
 	m_Index = m_Length = 0;
+	m_CharOffset = 0;
 	m_Stacked = m_NewLine = false;
 }
 
@@ -189,9 +190,11 @@ void TextRun::Draw (cairo_t *cr)
 	PangoRectangle rect;
 	cairo_set_source_rgba (cr, 0., 0., 0., 1.);
 	struct draw_attrs data;
+	double offset = 0; // used for justification
 	while (*text) {
 		pango_layout_iter_get_char_extents (iter, &rect);
-		curx = (double) rect.x / PANGO_SCALE;
+		curx = (double) rect.x / PANGO_SCALE + offset;
+		offset += m_CharOffset;
 		next = g_utf8_find_next_char (text, NULL);
 		data.attrs = pango_attr_list_new ();
 		data.index = index;
@@ -461,7 +464,8 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 		(*i)->Draw (cr);
 		cairo_restore (cr);
 		// draw the cursor if needed
-		if (m_CursorVisible && m_CurPos > (*i)->m_Index && m_CurPos <= (*i)->m_Index + (*i)->m_Length) {
+		if (m_CursorVisible && ((m_CurPos > (*i)->m_Index && m_CurPos <= (*i)->m_Index + (*i)->m_Length) ||
+		    ((*i)->m_NewLine && m_CurPos == (*i)->m_Index))) {
 			PangoRectangle rect;
 			pango_layout_get_cursor_pos ((*i)->m_Layout, m_CurPos - (*i)->m_Index, &rect, NULL);
 			cairo_set_line_width (cr, 1.);
@@ -511,10 +515,6 @@ void Text::SetText (std::string const &text)
 
 char const *Text::GetText ()
 {
-	std::list <TextRun *>::iterator i = m_Runs.begin (), end = m_Runs.end ();
-	m_Text = pango_layout_get_text ((*i)->m_Layout);
-	for (i++; i != end; i++)
-		m_Text += pango_layout_get_text ((*i)->m_Layout);
 	return m_Text.c_str ();
 }
 
@@ -927,9 +927,11 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		return false;
 	case GDK_Return:
 	case GDK_KP_Enter: {
+		m_Text.insert (m_CurPos, "\n");
 		TextTag *tag = new NewLineTextTag ();
-		tag->SetStartIndex (m_CurPos);
+		tag->SetStartIndex (m_CurPos++);
 		tag->SetEndIndex (m_CurPos);
+		m_StartSel = m_CurPos;
 		m_Tags.push_front (tag);
 		RebuildAttributes ();
 		SetPosition (m_x, m_y);
@@ -1132,7 +1134,8 @@ void Text::RebuildAttributes ()
 			new_run = new TextRun ();
 			pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
 			new_run ->m_Index = (*tag)->GetStartIndex ();
-			last_run->m_Length = new_run->m_Index - last_run->m_Index;			
+			last_run->m_Length = new_run->m_Index - last_run->m_Index;
+			new_run->m_Index++; // skip the new line character
 			new_run->m_NewLine = true;
 			m_Runs.push_back (new_run);
 			last_run = new_run;
@@ -1176,31 +1179,36 @@ void Text::RebuildAttributes ()
 	// FIXME: support several lines
 	double curx = 0., curw = 0., cury = 0;
 	unsigned cur_line = 0;
+	double width;
 	for (run = m_Runs.begin (); run != end_run; run++) {
-		m_Lines[cur_line].m_Runs.push_back (*run);
-		(*run)->m_Y = cury;
 		if ((*run)->m_Stacked) {
 			if ((*run)->m_Width > curw)
 				curw = (*run)->m_Width;
 			(*run)->m_X = curx;
 		} else if ((*run)->m_NewLine) {
-			m_Lines[cur_line].m_Width = curx + curw;
-			// evaluate line heigth
-			
+			curw += curx;
+			m_Lines[cur_line].m_Width = curw;
+			if (width < curw)
+				width = curw;
+			curw = 0;
 			cur_line++;
 		} else {
 			(*run)->m_X = curx + curw;
 			curx += (*run)->m_Width;
 			curw = 0.;
 		}
+		m_Lines[cur_line].m_Runs.push_back (*run);
 		if (m_Lines[cur_line].m_BaseLine < (*run)->m_BaseLine)
 			m_Lines[cur_line].m_BaseLine = (*run)->m_BaseLine;
+		if (m_Lines[cur_line].m_Height < (*run)->m_Height)
+			m_Lines[cur_line].m_Height = (*run)->m_Height;
 	}
 	m_Lines[cur_line].m_Width = curx + curw;
 	for (cur_line = 0; cur_line < lines; cur_line++) {
 		end_run = m_Lines[cur_line].m_Runs.end ();
 		for (run = m_Lines[cur_line].m_Runs.begin (); run != end_run; run++)
-			(*run)->m_Y = m_Lines[cur_line].m_BaseLine - (*run)->m_BaseLine;
+			(*run)->m_Y = cury + m_Lines[cur_line].m_BaseLine - (*run)->m_BaseLine;
+		cury += m_Lines[cur_line].m_Height + m_Interline;
 	}
 	// force reposition and redraw
 	SetPosition (m_x, m_y);
@@ -1215,7 +1223,7 @@ void Text::OnButtonPressed (double x, double y)
 	int index, trailing;
 	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
 	for (run = m_Runs.begin (); run != end_run; run++)
-		if (pango_layout_xy_to_index ((*run)->m_Layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing)) {
+		if (pango_layout_xy_to_index ((*run)->m_Layout, (x  - (*run)->m_X) * PANGO_SCALE, (y - (*run)->m_Y) * PANGO_SCALE, &index, &trailing)) {
 			m_CurPos = m_StartSel = index + trailing + (*run)->m_Index;
 			TextClient *client = dynamic_cast <TextClient *> (GetClient ());
 			if (client)
@@ -1231,7 +1239,7 @@ void Text::OnDrag (double x, double y)
 	y -= m_y0;
 	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
 	for (run = m_Runs.begin (); run != end_run; run++)
-		if (pango_layout_xy_to_index ((*run)->m_Layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing)) {
+		if (pango_layout_xy_to_index ((*run)->m_Layout, (x  - (*run)->m_X) * PANGO_SCALE, (y - (*run)->m_Y)  * PANGO_SCALE, &index, &trailing)) {
 			m_CurPos = index + trailing + (*run)->m_Index;
 			Invalidate ();
 			TextClient *client = dynamic_cast <TextClient *> (GetClient ());
@@ -1292,11 +1300,28 @@ void Text::SetColor (GOColor color)
 	RebuildAttributes ();
 }
 
-void Text::SetInterline (double interline)
+void Text::SetInterline (double interline, bool emit_changed)
 {
 	m_Interline = interline;
 	RebuildAttributes ();
 	SetPosition (m_x, m_y);
+	if (emit_changed) {
+		TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+		if (client)
+			client->InterlineChanged (interline);
+	}
+}
+
+void Text::SetJustification (GtkJustification justification, bool emit_changed)
+{
+	m_Justification = justification;
+	RebuildAttributes ();
+	SetPosition (m_x, m_y);
+	if (emit_changed) {
+		TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+		if (client)
+			client->JustificationChanged (justification);
+	}
 }
 
 }

@@ -43,7 +43,6 @@ public:	\
 		SetPosition (m_x, m_y);	\
 	}	\
 	type Get##member (void) const {return m_##member;}	\
-	type &GetRef##member (void) {return m_##member;}	\
 private:	\
 	type m_##member;
 
@@ -110,7 +109,8 @@ be moved to the end of the inserted text.
 
 	unsigned GetDefaultFontSize () { return (m_FontDesc)? (double) pango_font_description_get_size (m_FontDesc) / PANGO_SCALE: 0; }
 	void RebuildAttributes ();
-	void SetInterline (double interline);
+	void SetInterline (double interline, bool emit_changed = false);
+	void SetJustification (GtkJustification justification, bool emit_changed = false);
 
 private:
 	double m_x, m_y;
@@ -130,7 +130,7 @@ private:
 GCCV_TEXT_PROP (double, Padding)
 GCCV_TEXT_PROP (Anchor, Anchor)
 GCCV_TEXT_PROP (double, LineOffset)
-GCCV_TEXT_PROP (GtkJustification, Justification)
+GCU_RO_PROP (GtkJustification, Justification)
 GCU_RO_PROP (double, Interline)
 GCU_RO_PROP (double, Width)
 GCU_RO_PROP (double, Height)

@@ -48,17 +48,17 @@ namespace gcp {
 
 Text::Text ():
 	TextObject (TextType),
-	m_Align (PANGO_ALIGN_LEFT),
-	m_Justified (false),
-	m_Anchor (gccv::AnchorLineWest)
+	m_Anchor (gccv::AnchorLineWest),
+	m_Interline (0.),
+	m_Justification (GTK_JUSTIFY_LEFT)
 {
 }
 
 Text::Text (double x, double y):
 	TextObject (x, y, TextType),
-	m_Align (PANGO_ALIGN_LEFT),
-	m_Justified (false),
-	m_Anchor (gccv::AnchorLineWest)
+	m_Anchor (gccv::AnchorLineWest),
+	m_Interline (0.),
+	m_Justification (GTK_JUSTIFY_LEFT)
 {
 }
 
@@ -342,6 +342,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 	}
 	case gccv::NewLine:
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("br"), NULL);
+		index++;
 		break;
 	default:
 		break;
@@ -387,7 +388,7 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 		return NULL;
 	}
 	switch (m_Anchor) {
-	case gccv::AnchorLineWest:
+	case gccv::AnchorLineEast:
 		xmlNewProp (node, (xmlChar const *) "anchor", (xmlChar const *) "right");
 		break;
 	case gccv::AnchorLine:
@@ -396,10 +397,25 @@ xmlNodePtr Text::Save (xmlDocPtr xml) const
 	default:
 		break;
 	}
-	if (m_Justified)
+	switch (m_Justification) {
+	case GTK_JUSTIFY_FILL:
 		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) "justify");
-	else if (m_Align != PANGO_ALIGN_LEFT)
-		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) ((m_Align == PANGO_ALIGN_RIGHT)? "right": "center"));
+		break;
+	case GTK_JUSTIFY_RIGHT:
+		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) "right");
+		break;
+	case GTK_JUSTIFY_CENTER:
+		xmlNewProp (node, (xmlChar const *) "justification", (xmlChar const *) "center");
+		break;
+	default:
+		break;
+	}
+	if (m_Interline > 0.) {
+		char *buf = g_strdup_printf ("%g", m_Interline);
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("interline"), reinterpret_cast <xmlChar *> (buf));
+		g_free (buf);
+		
+	}
 	unsigned i = 0;
 	SaveStruct *head = NULL, *cur;
 	std::list <gccv::TextTag *> const *tags;
@@ -478,13 +494,13 @@ bool Text::Load (xmlNodePtr node)
 	xmlChar *buf = xmlGetProp (node, (xmlChar const *) "justification");
 	if (buf) {
 		if (!strcmp ((char const *) buf, "justify"))
-			m_Justified = true;
+			m_Justification = GTK_JUSTIFY_FILL;
 		else if (!strcmp ((char const *) buf, "right"))
-			m_Justified = PANGO_ALIGN_RIGHT;
+			m_Justification = GTK_JUSTIFY_RIGHT;
 		else if (!strcmp ((char const *) buf, "center"))
-			m_Justified = PANGO_ALIGN_CENTER;
+			m_Justification = GTK_JUSTIFY_CENTER;
 		else
-			m_Justified = PANGO_ALIGN_LEFT;
+			m_Justification = GTK_JUSTIFY_LEFT;
 		xmlFree (buf);
 	}
 	buf = xmlGetProp (node, (xmlChar const *) "anchor");
@@ -495,6 +511,11 @@ bool Text::Load (xmlNodePtr node)
 			m_Anchor = gccv::AnchorLine;
 		else
 			m_Anchor = gccv::AnchorLineWest;
+		xmlFree (buf);
+	}
+	buf = xmlGetProp (node, (xmlChar const *) "interline");
+	if (buf) {
+		m_Interline = strtod (reinterpret_cast <char *> (buf), NULL);
 		xmlFree (buf);
 	}
 	xmlNodePtr child;
@@ -514,6 +535,8 @@ bool Text::Load (xmlNodePtr node)
 			text->InsertTextTag (m_TagList.front ());
 			m_TagList.pop_front ();
 		}
+		text->SetJustification (m_Justification);
+		text->SetInterline (m_Interline);
 	}
 	m_bLoading = false;
 	return true;
@@ -558,11 +581,10 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 				tag = new gccv::NewLineTextTag ();
 				unsigned index = nl - buf + start;
 				tag->SetStartIndex (index);
-				tag->SetEndIndex (index);
+				tag->SetEndIndex (index + 1);
 				m_TagList.push_front (tag);
 				tag = NULL;
-				strcpy (nl, nl + 1);
-				cur = nl;
+				cur = nl + 1;
 			} else
 				cur = NULL;
 		}
@@ -573,12 +595,8 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 		}
 	} else if (!strcmp ((const char*) node->name, "br")) {
 		tag = new gccv::NewLineTextTag ();
-/* FIXME		m_buf.insert (pos, "\n");
+		m_buf.insert (pos, "\n");
 		pos++;
-		struct limits l;
-		l.start = start;
-		l.length = 1;
-		pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) on_insert, &l);*/
 	} else if (!strcmp ((const char*) node->name, "b")) {
 		PangoWeight weight = PANGO_WEIGHT_BOLD;
 		buf = (char*) xmlGetProp(node, (xmlChar*) "weight");
@@ -757,10 +775,6 @@ void Text::AddItem ()
 		PangoLayoutIter* iter = pango_layout_get_iter (layout);
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
-		if (m_Justified)
-			pango_layout_set_justify (layout, true);
-		else
-			pango_layout_set_alignment (layout, m_Align);
 		PangoRectangle rect;
 		pango_layout_get_extents (layout, NULL, &rect);
 		const_cast <Text *> (this)->m_length = rect.width / PANGO_SCALE;
@@ -776,6 +790,8 @@ void Text::AddItem ()
 	text->SetLineOffset (view->GetCHeight ());
 	text->SetAnchor (m_Anchor);
 	text->SetFontDescription (desc);
+	text->SetJustification (m_Justification);
+	text->SetInterline (m_Interline);
 	pango_font_description_free (desc);
 	text->SetText (m_buf.c_str ());
 	while (!m_TagList.empty ()) {
@@ -889,16 +905,28 @@ bool Text::SetProperty (unsigned property, char const *value)
 		break;
 	case GCU_PROP_TEXT_JUSTIFICATION:
 		if (!strcmp (value, "right"))
-				m_Align = PANGO_ALIGN_RIGHT;
+				m_Justification = GTK_JUSTIFY_RIGHT;
 		else if (!strcmp (value, "left"))
-				m_Align = PANGO_ALIGN_LEFT;
+				m_Justification = GTK_JUSTIFY_LEFT;
 		else if (!strcmp (value, "center"))
-				m_Align = PANGO_ALIGN_CENTER;
+				m_Justification = GTK_JUSTIFY_CENTER;
 		else if (!strcmp (value, "justify"))
-				m_Justified = true;
+				m_Justification = GTK_JUSTIFY_FILL;
 		break;
 	}
 	return true;
+}
+
+void Text::InterlineChanged (double interline)
+{
+	m_Interline = interline;
+	OnChanged (!m_bLoading);
+}
+
+void Text::JustificationChanged (GtkJustification justification)
+{
+	m_Justification = justification;
+	OnChanged (!m_bLoading);
 }
 
 }	//	namespace gcp

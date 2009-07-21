@@ -197,6 +197,35 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				BuildTagsList ();
 				return true;
 			}
+			case GDK_l:
+				if (m_Active)
+					m_Active->SetJustification (GTK_JUSTIFY_LEFT, true);
+				return true;
+			case GDK_r:
+				if (m_Active)
+					m_Active->SetJustification (GTK_JUSTIFY_RIGHT, true);
+				return true;
+			case GDK_f:
+				if (m_Active)
+					m_Active->SetJustification (GTK_JUSTIFY_FILL, true);
+				return true;
+			case GDK_n:
+				if (m_Active)
+					m_Active->SetJustification (GTK_JUSTIFY_CENTER, true);
+				return true;
+			case GDK_w:
+				if (m_Active) {
+					double w = m_Active->GetInterline ();
+					if (w == 0.)
+						return true;
+					w -= 1.;
+					m_Active->SetInterline ((w > 0.? w: 0.), true);
+				}
+				return true;
+			case GDK_W:
+				if (m_Active) 
+					m_Active->SetInterline (m_Active->GetInterline () + 1., true);
+				return true;
 			default:
 				break;
 			}

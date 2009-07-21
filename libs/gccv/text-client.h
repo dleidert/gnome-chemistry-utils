@@ -26,6 +26,7 @@
 #define GCCV_TEXT_CLIENT_H
 
 #include <gccv/item-client.h>
+#include <gtk/gtk.h>
 
 namespace gccv {
 
@@ -41,6 +42,12 @@ public:
 /*!
 */
 	virtual void TextChanged (unsigned pos) = 0;
+/*!
+*/
+	virtual void InterlineChanged (G_GNUC_UNUSED double interline) {;}
+/*!
+*/
+	virtual void JustificationChanged (G_GNUC_UNUSED GtkJustification justification) {;}
 
 };
 

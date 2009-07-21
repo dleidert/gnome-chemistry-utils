@@ -170,31 +170,13 @@ and GCU_PROP_TEXT_JUSTIFICATION.
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */
 	bool SetProperty (unsigned property, char const *value);
+/*!
+*/
+	void InterlineChanged (double interline);
+/*!
+*/
+	void JustificationChanged (GtkJustification justification);
 
-/*!\fn SetAlign(PangoAlignment Align)
-@param Align the new PangoAlignment for the text.
-
-Sets the PangoAlignment for the text. Default is PANGO_ALIGN_LEFT.
-*/
-/*!\fn GetAlign()
-@return the current PangoAlignment for the text instance.
-*/
-/*!fn GetRefAlign()
-@return the current PangoAlignment for the text instance as a reference.
-*/
-GCU_PROP (PangoAlignment, Align)
-/*!\fn SetJustified(bool Justified)
-@param Justified whether the text should be justified.
-
-Sets the justification for the text. Default is false.
-*/
-/*!\fn GetJustified()
-@return the justification for the text.
-*/
-/*!fn GetRefJustified()
-@return the justification for the text as a reference.
-*/
-GCU_PROP (bool, Justified)
 /*!\fn SetAnchor(gccv::Anchor Anchor)
 @param Anchor the new gccv::Anchor for the text.
 
@@ -209,6 +191,10 @@ a carbon atom symbol using the current document theme.
 @return the gccv::Anchor used for the text as a reference.
 */
 GCU_PROP (gccv::Anchor, Anchor)
+
+private:
+	double m_Interline;
+	GtkJustification m_Justification;
 };
 
 }	//	namespace gcp

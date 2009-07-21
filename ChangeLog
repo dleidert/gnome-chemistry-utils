@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2009-07-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-client.h: add methods for interline and justification
+	changes notifications.
+	* libs/gccv/text.cc: manage interline and fix various issues.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/text.cc: make interline and justification persistents.
+	* libs/gcp/text.h: ditto.
+	* plugins/paint/text/texttool.cc: add shortcuts to change justification
+	and interline.
+
 2009-07-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: removed interline property from NewLineTag.
 	* libs/gccv/text-tag.h: ditto.
