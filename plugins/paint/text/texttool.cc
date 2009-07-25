@@ -205,11 +205,11 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_RIGHT, true);
 				return true;
-			case GDK_f:
+			case GDK_j:
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_FILL, true);
 				return true;
-			case GDK_n:
+			case GDK_m:
 				if (m_Active)
 					m_Active->SetJustification (GTK_JUSTIFY_CENTER, true);
 				return true;

@@ -55,6 +55,16 @@ typedef enum {
 	Superscript
 } TextPosition;
 
+typedef enum {
+	TextDecorationDefault,
+	TextDecorationHigh,
+	TextDecorationMedium,
+	TextDecorationLow,
+	TextDecorationDouble,
+	TextDecorationTripple,
+	TextDecorationSquiggle
+} TextDecoration;
+
 }
 
 #endif	//	 GCCV_RECTANGLE_H

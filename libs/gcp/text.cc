@@ -711,19 +711,19 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 		buf = (char*) xmlGetProp(node, (xmlChar*) "red");
 		if (!buf)
 			return false;
-		red = (guint16) (strtod (buf, NULL) * 0xffff);
+		red = (guint16) (strtod (buf, NULL) * 0xff);
 		xmlFree (buf);
 		buf = (char*) xmlGetProp(node, (xmlChar*) "green");
 		if (!buf)
 			return false;
-		green = (guint16) (strtod (buf, NULL) * 0xffff);
+		green = (guint16) (strtod (buf, NULL) * 0xff);
 		xmlFree (buf);
 		buf = (char*) xmlGetProp(node, (xmlChar*) "blue");
 		if (!buf)
 			return false;
-		blue = (guint16) (strtod (buf, NULL) * 0xffff);
+		blue = (guint16) (strtod (buf, NULL) * 0xff);
 		xmlFree (buf);
-		tag = new gccv::ForegroundTextTag (RGB_TO_UINT (red, green, blue));
+		tag = new gccv::ForegroundTextTag (RGBA_TO_UINT (red, green, blue, 0xff));
 	} else
 		return true;
 	xmlNodePtr child = node->children;

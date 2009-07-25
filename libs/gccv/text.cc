@@ -140,7 +140,7 @@ public:
 
 	PangoLayout *m_Layout;
 	double m_X, m_Y, m_Width, m_Height, m_BaseLine, m_CharOffset;
-	unsigned m_Index, m_Length;
+	unsigned m_Index, m_Length, m_NbGlyphs;
 	bool m_Stacked, m_NewLine;
 };
 
@@ -213,6 +213,7 @@ void TextRun::Draw (cairo_t *cr)
 		cairo_translate (cr, curx, ascent - (double) pango_layout_iter_get_baseline (local) / PANGO_SCALE);
 		pango_cairo_show_layout (cr, pl);
 		cairo_restore (cr);
+		pango_layout_iter_free (local);
 		pango_layout_iter_next_char (iter);
 	}
 	// free the iterator
@@ -438,26 +439,28 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 	}
 	// now, draw the glyphs in each run
 	std::list <TextRun *>::const_iterator i, end = m_Runs.end ();
-	for (i = m_Runs.begin (); i != end; i++) {
-		// display the selection rectangle if needed
-		if (m_BlinkSignal) {
+	if (m_BlinkSignal && start_sel != end_sel)
+		for (i = m_Runs.begin (); i != end; i++) {
+			// display the selection rectangle if needed (before drawing any text)
 			if (start_sel < (*i)->m_Index + (*i)->m_Length && end_sel > (*i)->m_Index) {
 				PangoRectangle rect;
 				unsigned s = MAX (start_sel, (*i)->m_Index) - (*i)->m_Index,
 						e = MIN (end_sel, (*i)->m_Index + (*i)->m_Length) - (*i)->m_Index;
 				double x, y, w, h;
-				cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
+				cairo_set_source_rgb (cr, 0.85, 0.85, 0.85);
 				pango_layout_get_cursor_pos ((*i)->m_Layout, s, &rect, NULL);
-				x = (double) rect.x / PANGO_SCALE;
+				x = (double) rect.x / PANGO_SCALE + (s > 0? s - 1: 0) * (*i)->m_CharOffset;
 				h = (double) rect.height / PANGO_SCALE;
 				y = starty + (*i)->m_Y + (double) rect.y / PANGO_SCALE;
 				pango_layout_get_cursor_pos ((*i)->m_Layout, e, &rect, NULL);
-				w = (double) rect.x / PANGO_SCALE - x;
+				w = (double) rect.x / PANGO_SCALE + (e > 0? e - 1: 0) * (*i)->m_CharOffset - x;
 				x += startx + (*i)->m_X;
 				cairo_rectangle (cr, x, y, w, h);
 				cairo_fill (cr);
 			}
 		}
+	// now, draw the glyphs in each run
+	for (i = m_Runs.begin (); i != end; i++) {
 		// draw the text
 		cairo_save (cr);
 		cairo_translate (cr, startx + (*i)->m_X, starty + (*i)->m_Y);
@@ -469,7 +472,8 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 			PangoRectangle rect;
 			pango_layout_get_cursor_pos ((*i)->m_Layout, m_CurPos - (*i)->m_Index, &rect, NULL);
 			cairo_set_line_width (cr, 1.);
-			cairo_move_to (cr, floor (startx + (*i)->m_X + (double) rect.x / PANGO_SCALE) + .5, floor (starty + (*i)->m_Y + (double) rect.y / PANGO_SCALE) + .5);
+			int nbskip = (m_CurPos > (*i)->m_Index)? m_CurPos - (*i)->m_Index - 1: 0;
+			cairo_move_to (cr, floor (startx + (*i)->m_X + (double) rect.x / PANGO_SCALE + nbskip * (*i)->m_CharOffset) + .5, floor (starty + (*i)->m_Y + (double) rect.y / PANGO_SCALE) + .5);
 			cairo_rel_line_to (cr, 0, rect.height / PANGO_SCALE);
 			cairo_set_source_rgb (cr, 0., 0., 0.);
 			cairo_stroke (cr);
@@ -1124,6 +1128,7 @@ void Text::RebuildAttributes ()
 			pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
 			new_run ->m_Index = (*tag)->GetStartIndex ();
 			last_run->m_Length = new_run->m_Index - last_run->m_Index;
+			last_run->m_NbGlyphs = g_utf8_strlen (m_Text.c_str () + last_run->m_Index, last_run->m_Length);
 			stacked = new_run->m_Stacked = (*tag)->GetStacked ();
 			m_Runs.push_back (new_run);
 			last_run = new_run;
@@ -1135,6 +1140,7 @@ void Text::RebuildAttributes ()
 			pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
 			new_run ->m_Index = (*tag)->GetStartIndex ();
 			last_run->m_Length = new_run->m_Index - last_run->m_Index;
+			last_run->m_NbGlyphs = g_utf8_strlen (m_Text.c_str () + last_run->m_Index, last_run->m_Length);
 			new_run->m_Index++; // skip the new line character
 			new_run->m_NewLine = true;
 			m_Runs.push_back (new_run);
@@ -1142,6 +1148,7 @@ void Text::RebuildAttributes ()
 		}
 	}
 	last_run->m_Length = m_Text.length () - last_run->m_Index;
+	last_run->m_NbGlyphs = g_utf8_strlen (m_Text.c_str () + last_run->m_Index, last_run->m_Length);
 	// now update attributes for each run
 	end_run = m_Runs.end ();
 	PangoLayoutIter *iter;
@@ -1179,7 +1186,7 @@ void Text::RebuildAttributes ()
 	// FIXME: support several lines
 	double curx = 0., curw = 0., cury = 0;
 	unsigned cur_line = 0;
-	double width;
+	double width = 0.;
 	for (run = m_Runs.begin (); run != end_run; run++) {
 		if ((*run)->m_Stacked) {
 			if ((*run)->m_Width > curw)
@@ -1190,7 +1197,8 @@ void Text::RebuildAttributes ()
 			m_Lines[cur_line].m_Width = curw;
 			if (width < curw)
 				width = curw;
-			curw = 0;
+			curw = 0.;
+			curx = (*run)->m_Width;
 			cur_line++;
 		} else {
 			(*run)->m_X = curx + curw;
@@ -1203,12 +1211,77 @@ void Text::RebuildAttributes ()
 		if (m_Lines[cur_line].m_Height < (*run)->m_Height)
 			m_Lines[cur_line].m_Height = (*run)->m_Height;
 	}
-	m_Lines[cur_line].m_Width = curx + curw;
+	curw += curx;
+	m_Lines[cur_line].m_Width = curw;
+	if (width < curw)
+		width = curw;
 	for (cur_line = 0; cur_line < lines; cur_line++) {
 		end_run = m_Lines[cur_line].m_Runs.end ();
 		for (run = m_Lines[cur_line].m_Runs.begin (); run != end_run; run++)
 			(*run)->m_Y = cury + m_Lines[cur_line].m_BaseLine - (*run)->m_BaseLine;
 		cury += m_Lines[cur_line].m_Height + m_Interline;
+		// now manage justification
+		if (m_Justification != GTK_JUSTIFY_LEFT && m_Lines[cur_line].m_Width < width) {
+			switch (m_Justification) {
+			case GTK_JUSTIFY_RIGHT:
+				for (run = m_Lines[cur_line].m_Runs.begin (); run != end_run; run++)
+					(*run)->m_X += width - m_Lines[cur_line].m_Width;
+				break;
+			case GTK_JUSTIFY_CENTER:
+				for (run = m_Lines[cur_line].m_Runs.begin (); run != end_run; run++)
+					(*run)->m_X += (width - m_Lines[cur_line].m_Width) / 2.;
+				break;
+			case GTK_JUSTIFY_FILL: {
+				// this is a bit more difficult, current code might be suboptimal if there are stacked runs
+				// evaluate how many characters are in the line
+				unsigned nbchars = 0;
+				stacked = false;
+				unsigned *nc = new unsigned[m_Lines[cur_line].m_Runs.size ()]; // this is more than needed if we have stacked runs
+				int cur, max = 0;
+				nc[0] = 0;	// fortunately, we have at least one run
+				for (run = m_Lines[cur_line].m_Runs.begin (); run != end_run; run++) {
+					if ((*run)->m_Stacked) {
+						stacked = true;
+						if (nc[max] < (*run)->m_NbGlyphs)
+							nc[max] = (*run)->m_NbGlyphs;
+					} else {
+						if (stacked)
+							max++;
+						nc[max++] = (*run)->m_NbGlyphs;
+						nc[max] = 0;
+						stacked = false;
+					}
+				}
+				if (stacked)
+					max++;
+				for (cur = 0; cur < max; cur++)
+					nbchars += nc[cur];
+				// calculate the increment to add between two glyphs
+				double incr = (width - m_Lines[cur_line].m_Width) / (nbchars - 1), curoffs = 0.;
+				// update the runs accordingly
+				cur = 0;
+				for (run = m_Lines[cur_line].m_Runs.begin (); run != end_run; run++) {
+					(*run)->m_X += curoffs;
+					(*run)->m_CharOffset = incr;
+					if ((*run)->m_Stacked)
+						stacked = true;
+					else {
+						if (stacked) {
+							stacked = false;
+							curoffs += nc[cur] * incr;
+							cur++;
+						}
+						curoffs += nc[cur] * incr;
+						cur++;
+					}
+				}
+				delete [] nc;
+				break;
+			}
+			default:
+				break;
+			}
+		}
 	}
 	// force reposition and redraw
 	SetPosition (m_x, m_y);
@@ -1220,33 +1293,29 @@ void Text::OnButtonPressed (double x, double y)
 	GetParent ()->AdjustBounds (x0, y0, x1, y1);
 	x -= x0;
 	y -= y0;
-	int index, trailing;
-	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
-	for (run = m_Runs.begin (); run != end_run; run++)
-		if (pango_layout_xy_to_index ((*run)->m_Layout, (x  - (*run)->m_X) * PANGO_SCALE, (y - (*run)->m_Y) * PANGO_SCALE, &index, &trailing)) {
-			m_CurPos = m_StartSel = index + trailing + (*run)->m_Index;
-			TextClient *client = dynamic_cast <TextClient *> (GetClient ());
-			if (client)
-				client->SelectionChanged (m_StartSel, m_CurPos);
-			return;
-		}
+	unsigned index = GetIndexAt (x, y);
+	if (index < G_MAXUINT) {
+		m_CurPos = m_StartSel = index;
+		TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+		if (client)
+			client->SelectionChanged (m_StartSel, m_CurPos);
+	}
 }
 
 void Text::OnDrag (double x, double y)
 {
-	int index, trailing;
-	x -= m_x0;
-	y -= m_y0;
-	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
-	for (run = m_Runs.begin (); run != end_run; run++)
-		if (pango_layout_xy_to_index ((*run)->m_Layout, (x  - (*run)->m_X) * PANGO_SCALE, (y - (*run)->m_Y)  * PANGO_SCALE, &index, &trailing)) {
-			m_CurPos = index + trailing + (*run)->m_Index;
-			Invalidate ();
-			TextClient *client = dynamic_cast <TextClient *> (GetClient ());
-			if (client)
-				client->SelectionChanged (m_StartSel, m_CurPos);
-			return;
-		}
+	double x0 = m_x0, y0 = m_y0, x1 = 0., y1 = 0.;
+	GetParent ()->AdjustBounds (x0, y0, x1, y1);
+	x -= x0;
+	y -= y0;
+	unsigned index = GetIndexAt (x, y);
+	if (index < G_MAXUINT) {
+		m_CurPos = index;
+		Invalidate ();
+		TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+		if (client)
+			client->SelectionChanged (m_StartSel, m_CurPos);
+	}
 }
 
 void Text::GetSelectionBounds (unsigned &start, unsigned &end)
@@ -1268,12 +1337,72 @@ void Text::SetSelectionBounds (unsigned start, unsigned end)
 
 unsigned Text::GetIndexAt (double x, double y)
 {
-	int index, trailing;
-	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
-	for (run = m_Runs.begin (); run != end_run; run++)
-		if (pango_layout_xy_to_index ((*run)->m_Layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing))
-			return index + trailing + (*run)->m_Index;
-	return G_MAXUINT;
+	// first, find the line
+	double starty = m_Interline / 2.;
+	unsigned line = 0;
+	unsigned result = 0;
+	double runx = 0.;
+	while (line < m_LinesNumber - 1) {
+		if (y < starty + m_Lines[line].m_Height)
+			break;
+		starty += m_Lines[line].m_Height + m_Interline;
+		line++;
+	}
+	// now, find the run
+	std::list <TextRun *>::iterator run, end_run = m_Lines[line].m_Runs.end (), srun;
+	for (run = m_Lines[line].m_Runs.begin (); run != end_run; run++) {
+		runx = x - (*run)->m_X;
+		if (runx <= (*run)->m_Width + (*run)->m_NbGlyphs * (*run)->m_CharOffset)
+			break;
+	}
+	if (run == end_run)
+		run--;
+	// stacked, choose the right run as far as possible
+	if ((*run)->m_Stacked) {
+		while (run != m_Lines[line].m_Runs.begin () && (*run)->m_Stacked)
+			run--;
+		if (!(*run)->m_Stacked)
+			run++;
+		// we are now at the first run in the stack
+		PangoRectangle rect;
+		double ymin, ymax, dy = G_MAXDOUBLE;
+		while (run != end_run && (*run)->m_Stacked) {
+			pango_layout_get_extents ((*run)->m_Layout, &rect, NULL);
+			ymin = (*run)->m_Y + static_cast <double> (rect.y) / PANGO_SCALE;
+			ymax = ymin + static_cast <double> (rect.height) / PANGO_SCALE;
+			if (y < ymin) {
+				if (ymin - y < dy) {
+					dy = ymin - y;
+					srun = run;
+				}
+			} else if (y < ymax) {
+				srun = run;
+				break;
+			} else {
+				if (y - ymax < dy) {
+					dy = y - ymax;
+					srun = run;
+				}
+			}
+			run++;
+		}
+		run = srun;
+	}
+	PangoLayoutIter* iter = pango_layout_get_iter ((*run)->m_Layout);
+	PangoRectangle rect;
+	pango_layout_iter_get_char_extents (iter, &rect);
+	double curx = 0.;
+	while (curx < runx) {
+		if ((double) rect.width / PANGO_SCALE / 2. >= x - curx)
+			break;
+		result++;
+		curx += (double) rect.width / PANGO_SCALE + (*run)->m_CharOffset;
+		if (!pango_layout_iter_next_char (iter))
+			break;
+		pango_layout_iter_get_char_extents (iter, &rect);
+	}
+	pango_layout_iter_free (iter);
+	return result + (*run)->m_Index;
 }
 
 bool Text::GetPositionAtIndex (unsigned index, Rect &rect)
@@ -1285,10 +1414,10 @@ bool Text::GetPositionAtIndex (unsigned index, Rect &rect)
 		if (index <= (*run)->m_Index + (*run)->m_Length) {
 			PangoRectangle r;
 			pango_layout_index_to_pos ((*run)->m_Layout, index - (*run)->m_Index, &r);
-			rect.x0 = (double) r.x / PANGO_SCALE;
-			rect.y0 = (double) r.y / PANGO_SCALE;
-			rect.x1 = (double) (r.x + r.width) / PANGO_SCALE;
-			rect.y1 = (double) (r.y + r.height) / PANGO_SCALE;
+			rect.x0 = (double) r.x / PANGO_SCALE + (*run)->m_X + (index - (*run)->m_Index) * (*run)->m_CharOffset;
+			rect.y0 = (double) r.y / PANGO_SCALE + (*run)->m_Y;
+			rect.x1 = rect.x0 + (double) r.width / PANGO_SCALE;
+			rect.y1 = (double) (r.y + r.height) / PANGO_SCALE + (*run)->m_Y;
 			break;
 		}
 	return true;
@@ -1316,7 +1445,7 @@ void Text::SetJustification (GtkJustification justification, bool emit_changed)
 {
 	m_Justification = justification;
 	RebuildAttributes ();
-	SetPosition (m_x, m_y);
+	Invalidate ();
 	if (emit_changed) {
 		TextClient *client = dynamic_cast <TextClient *> (GetClient ());
 		if (client)
