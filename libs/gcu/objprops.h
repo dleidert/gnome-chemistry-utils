@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * gcu/loader.h
+ * gcu/objprops.h
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -74,9 +74,13 @@ A text added to the document as comment.
 */
 	GCU_PROP_DOC_COMMENT,
 /*!
-Who created the file.
+Who created the file or the main author.
 */
 	GCU_PROP_DOC_CREATOR,
+/*!
+Who created the file or the main author.
+*/
+	GCU_PROP_DOC_CREATOR_EMAIL,
 /*!
 The date of file creation.
 */

@@ -99,6 +99,7 @@ public:
 	void SetLabel (char const *label);
 	GDate *GetCreationDate () {return &m_CreationDate;}
 	GDate *GetRevisionDate () {return &m_RevisionDate;}
+	bool SetProperty (unsigned property, char const *value);
 
 private:
 	void Error(int num) const;

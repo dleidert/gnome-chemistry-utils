@@ -433,7 +433,7 @@ void Chem3dDoc::Draw (Matrix const &m) const
 		glLightfv (GL_LIGHT0, GL_AMBIENT, light_ambient);
 	}
 	while (atom) {
-		atomPos[atom] = v = m * atom->GetVector ();
+		atomPos[atom] = v = m.glmult (atom->GetVector ());
 		Z = atom->GetZ ();
 		if (Z > 0) {
 			if (m_Display3D == CYLINDERS) {
@@ -474,7 +474,7 @@ void Chem3dDoc::Draw (Matrix const &m) const
 			glEnable (GL_NORMALIZE);
 		while (bond) {
 			atom = bond->GetAtom (0);
-			v = m * atom->GetVector ();
+			v = m.glmult (atom->GetVector ());
 			Z = atom->GetZ ();
 			if (Z == 0) {
 				bond = m_Mol->GetNextBond (j);
@@ -492,7 +492,7 @@ void Chem3dDoc::Draw (Matrix const &m) const
 			rad.Z = Z1;
 			Element::GetElement (Z1)->GetRadius (&rad);
 			R1 = rad.value.value;
-			v1 = m * atom->GetVector ();
+			v1 = m.glmult (atom->GetVector ());
 			v0 = v + (v1 - v) * (R / (R + R1));
 			color = gcu_element_get_default_color (Z);
 			glColor3d (color[0], color[1], color[2]);

@@ -37,6 +37,7 @@
 #include "sizedlg.h"
 #include "cleavagesdlg.h"
 #include "globals.h"
+#include <gcu/objprops.h>
 #include <gcu/filechooser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
@@ -45,16 +46,11 @@
 #include <vector>
 #include <map>
 #include <fstream>
+#include <iostream>
 #include <ostream>
 #include <sstream>
 #include <gio/gio.h>
 #include <glib/gi18n.h>
-#ifdef HAVE_OPENBABEL_2_2
-#	include <openbabel/format.h>
-#	include <openbabel/obconversion.h>
-#	include <openbabel/math/matrix3x3.h>
-using namespace OpenBabel;
-#endif
 #include <cstring>
 
 #define SAVE	1
@@ -838,101 +834,6 @@ void gcDocument::RenameViews ()
 	}
 }
 
-#ifdef HAVE_OPENBABEL_2_2
-bool gcDocument::Import (const string &filename, const string& mime_type)
-{
-	gchar *oldfilename, *oldtitle;
-	if (m_filename)
-		oldfilename = g_strdup (m_filename);
-	else oldfilename = NULL;
-	oldtitle = g_strdup (m_Title.c_str ());
-	char *old_num_locale;
-	bool result = false, read_only = false;
-	GFile *file;
-	GFileInfo *info = NULL;
-	GError *error = NULL;
-	try {
-		if (!filename.length ())
-			throw (int) 0;
-		file = g_file_new_for_uri (filename.c_str ());
-		info = g_file_query_info (file,
-								  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE","G_FILE_ATTRIBUTE_STANDARD_SIZE,
-								  G_FILE_QUERY_INFO_NONE, NULL, &error);
-		if (error) {
-			g_warning ("GIO error: %s", error->message);
-			g_error_free (error);
-			if (info)
-				g_object_unref (info);
-			g_object_unref (file);
-			throw (int) 1;
-		}
-		gsize size = g_file_info_get_size (info);
-		read_only = !g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE);
-		g_object_unref (info);
-		if (SetFileName (filename), !m_filename)
-			throw (int) 2;
-		g_free (oldfilename);
-		g_free (oldtitle);
-		char *buf = new char[size + 1];
-		GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
-		gsize n = 0;
-		while (n < size) {
-			n += g_input_stream_read (input, buf, size, NULL, &error);
-			if (error) {
-				g_message ("GIO could not read the file: %s", error->message);
-				g_error_free (error);
-				delete [] buf;
-				g_object_unref (input);
-				g_object_unref (file);
-				throw (int) 3;
-			}
-		}
-		g_object_unref (input);
-		g_object_unref (file);
-		buf[size] = 0;
-		istringstream iss (buf);
-		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-		setlocale(LC_NUMERIC, "C");
-		OBMol Mol;
-		OBConversion Conv;
-		OBFormat* pInFormat = OBFormat::FormatFromMIME (mime_type.c_str ());
-		if (pInFormat == NULL)
-			throw (int) 4;
-		Conv.SetInFormat (pInFormat);
-		Conv.Read (&Mol, &iss);
-		result = ImportOB (Mol);
-		Mol.Clear ();
-		setlocale (LC_NUMERIC, old_num_locale);
-		g_free (old_num_locale);
-		g_free (buf);
-		if (!result)
-			throw (int) 5;
-		UpdateAllViews ();
-		return true;
-	}
-	catch (int num) {
-		switch (num)
-		{
-		default:
-			Error(LOAD);
-		}
-		if (num >= 0) {
-			if (oldfilename)  {
-				SetFileName (oldfilename);
-				g_free (oldfilename);
-			} else {
-				g_free (m_filename);
-				m_filename = NULL;
-			}
-			SetTitle (oldtitle);
-			g_free (oldtitle);
-		}
-		return false;
-	}
-	return false;
-}
-#endif
-
 void gcDocument::SetAuthor (char const *author)
 {
 	g_free (m_Author);
@@ -955,4 +856,21 @@ void gcDocument::SetLabel (char const *label)
 {
 	g_free (m_Label);
 	m_Label = g_strdup (label);
+}
+
+bool gcDocument::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_DOC_CREATOR:
+		g_free (m_Author);
+		m_Author = g_strdup (value);
+		break;
+	case GCU_PROP_DOC_CREATOR_EMAIL:
+		g_free (m_Mail);
+		m_Mail = g_strdup (value);
+		break;
+	default:
+		return CrystalDoc::SetProperty (property, value);
+	}
+	return true;
 }

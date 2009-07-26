@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * crystaldoc.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,9 +35,6 @@
 #include "document.h"
 #include "macros.h"
 #include <gcu/gldocument.h>
-#ifdef HAVE_OPENBABEL_2_2
-#	include <openbabel/mol.h>
-#endif
 
 /*!\file*/
 namespace gcu
@@ -164,9 +161,6 @@ compatiblity with files created by older versions of the program.
 */
 	virtual const char* GetProgramId () const;
 
-#ifdef HAVE_OPENBABEL_2_2
-	bool ImportOB (OpenBabel::OBMol &mol);
-#endif
 /*!
 @param property the property id as defined in objprops.h
 @param value the property value as a string
@@ -174,12 +168,16 @@ compatiblity with files created by older versions of the program.
 Used when loading to set properties to the document
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */
-	virtual bool SetProperty (unsigned property, char const *value);
+	bool SetProperty (unsigned property, char const *value);
 /*!
 Called by the application whe the document has been loaded to update the title
 and add some lines.
 */
 	void Loaded ();
+/*!
+	@param object the Object instance to add as a child.
+*/
+	void AddChild (Object* object);
 
 protected:
 /*!

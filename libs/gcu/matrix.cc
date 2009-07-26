@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/matrix.cc 
  *
- * Copyright (C) 2000-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,8 +26,6 @@
 #include "matrix.h"
 #include "vector.h"
 #include <cmath>
-
-using namespace OpenBabel;
 
 namespace gcu
 {
@@ -217,16 +215,16 @@ void Matrix::Transform (double &dx, double &dy , double &dz) const
 	dy = y1;
 }
 
-vector3 Matrix::operator* (vector3 const &v) const
+Vector Matrix::operator* (Vector const &v) const
 {
-	vector3 r;
-	r.z () = v.z () * x[0][0] + v.x () * x[0][1] + v.y () * x[0][2];
-	r.x () = v.z () * x[1][0] + v.x () * x[1][1] + v.y () * x[1][2];
-	r.y () = v.z () * x[2][0] + v.x () * x[2][1] + v.y () * x[2][2];
+	Vector r;
+	r.SetX (v.GetX () * x[0][0] + v.GetY () * x[0][1] + v.GetZ () * x[0][2]);
+	r.SetY (v.GetX () * x[1][0] + v.GetY () * x[1][1] + v.GetZ () * x[1][2]);
+	r.SetZ (v.GetX () * x[2][0] + v.GetY () * x[2][1] + v.GetZ () * x[2][2]);
 	return r;
 }
 
-Vector Matrix::operator* (Vector const &v) const
+Vector Matrix::glmult (Vector const &v) const
 {
 	Vector r;
 	r.SetZ (v.GetZ () * x[0][0] + v.GetX () * x[0][1] + v.GetY () * x[0][2]);

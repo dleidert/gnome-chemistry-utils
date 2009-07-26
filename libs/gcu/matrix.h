@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * matrix.h 
  *
- * Copyright (C) 2000-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,8 +24,6 @@
  
 #ifndef GCU_MATRIX_H
 #define GCU_MATRIX_H
-
-#include <openbabel/math/vector3.h>
 
 /*!\file*/
 namespace gcu
@@ -136,7 +134,7 @@ after execution of this method, dx, dy and dz are the components of the transfor
 */
 	void Transform (double &dx, double &dy , double &dz) const;
 	Vector operator* (Vector const &v) const;
-	OpenBabel::vector3 operator* (OpenBabel::vector3 const &v) const;
+	Vector glmult (Vector const &v) const;
 	double &operator() (unsigned i, unsigned j) {return x[i][j];}
 	double operator() (unsigned i, unsigned j) const {return x[i][j];}
 	

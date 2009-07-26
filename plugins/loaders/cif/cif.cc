@@ -4,7 +4,7 @@
  * CIF files loader plugin
  * cif.cc 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,6 +25,7 @@
 #include "config.h"
 #include <gcu/document.h>
 #include <gcu/loader.h>
+#include <gcu/element.h>
 #include <gcu/objprops.h>
 #include <gcu/spacegroup.h>
 #include <goffice/app/module-plugin-defs.h>
@@ -50,9 +51,21 @@ public:
 	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
 };
 
+enum { // local only properties
+	CIF_ATOM_SITE_SYMBOL = GCU_PROP_MAX + 1,
+	CIF_ATOM_SITE_OXIDATION_NUMBER,
+	CIF_ATOM_LABEL
+};
+
 CIFLoader::CIFLoader ()
 {
 	AddMimeType ("chemical/x-cif");
+
+	KnownProps["_publ_contact_author_name"] = GCU_PROP_DOC_CREATOR;
+	KnownProps["_publ_author_name"] = GCU_PROP_DOC_CREATOR;
+	KnownProps["_publ_contact_author_email"] = GCU_PROP_DOC_CREATOR_EMAIL;
+	KnownProps["_publ_author_email"] = GCU_PROP_DOC_CREATOR_EMAIL;
+
 	KnownProps["_cell_length_a"] = GCU_PROP_CELL_A;
 	KnownProps["_cell_length_b"] = GCU_PROP_CELL_B;
 	KnownProps["_cell_length_c"] = GCU_PROP_CELL_C;
@@ -64,7 +77,15 @@ CIFLoader::CIFLoader ()
 	KnownProps["_chemical_name_systematic"] = GCU_PROP_CHEMICAL_NAME_SYSTEMATIC;
 	KnownProps["_chemical_name_mineral"] = GCU_PROP_CHEMICAL_NAME_COMMON;
 	KnownProps["_chemical_name_structure_type"] = GCU_PROP_CHEMICAL_NAME_STRUCTURE;
-	
+
+	KnownProps["_atom_type_symbol"] = CIF_ATOM_SITE_SYMBOL;
+	KnownProps["_atom_type_oxidation_number"] = CIF_ATOM_SITE_OXIDATION_NUMBER;
+	KnownProps["_atom_site_type_symbol"] = CIF_ATOM_SITE_SYMBOL;
+	KnownProps["_atom_site_label"] = CIF_ATOM_LABEL;
+	KnownProps["_atom_site_fract_x"] = GCU_PROP_X;
+	KnownProps["_atom_site_fract_y"] = GCU_PROP_Y;
+	KnownProps["_atom_site_fract_z"] = GCU_PROP_Z;
+
 }
 
 CIFLoader::~CIFLoader ()
@@ -82,6 +103,11 @@ enum {
 	LOOP_AUTHOR
 };
 
+typedef struct {
+	string elt;
+	string charge;
+} CIFAtomType;
+
 ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
 {
 	ContentType type = ContentTypeCrystal;
@@ -96,7 +122,9 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	list <unsigned> loop_contents;
 	list <unsigned>::iterator loop_prop;
 	list <string> loop_values;
+	map <string, CIFAtomType> AtomTypes;
 	SpaceGroup *group = new SpaceGroup ();
+	bool author_found = false;
 	doc->SetScale (100.); // lentghs and positions pus be converted to pm
 	while ((buf = reinterpret_cast <char *> (gsf_input_textline_utf8_gets (input)))) {
 		char *cur = buf, *next;
@@ -164,11 +192,11 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 						prop = KnownProps.find (key);
 						loop_contents.push_back ((prop == KnownProps.end ())? static_cast <unsigned> (GCU_PROP_MAX): (*prop).second);
 						if (loop_type == LOOP_UNKNOWN) {
-							if (!key.compare (0, 10, "_atom_type_"))
+							if (!key.compare (0, 11, "_atom_type_", 11))
 								loop_type = LOOP_ATOM_TYPE;
-							else if (!key.compare (0, 10, "_atom_site_"))
+							else if (!key.compare (0, 11, "_atom_site_", 11))
 								loop_type = LOOP_ATOM;
-							else if (!key.compare (0, 10, "_publ_author_"))
+							else if (!key.compare (0, 13, "_publ_author_",13))
 								loop_type = LOOP_AUTHOR;
 							else if (key == "_symmetry_equiv_pos_as_xyz")
 								loop_type = LOOP_SYMMETRY;
@@ -223,12 +251,90 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 						if (loop_prop == loop_contents.end ()) {
 							// store the values
 							switch (loop_type) {
-							case LOOP_ATOM:
+							case LOOP_ATOM: {
+								double scale = doc->GetScale ();
+								doc->SetScale (1.);
+								Object *atom = Object::CreateObject ("atom", doc);
+								for (loop_prop = loop_contents.begin (); loop_prop != loop_contents.end (); loop_prop++) {
+									std::string val = loop_values.front ();
+									loop_values.pop_front ();
+									switch (*loop_prop) {
+									case CIF_ATOM_LABEL: {
+										if (AtomTypes.empty ()) {
+											int i = 0;
+											while (g_ascii_isalpha (val[i]))
+												i++;
+											val = val.substr (0, i);
+											atom->SetProperty (GCU_PROP_ATOM_SYMBOL, val.c_str ());
+										}
+										break;
+									}
+									case CIF_ATOM_SITE_SYMBOL: {
+										CIFAtomType t = AtomTypes[val];
+										atom->SetProperty (GCU_PROP_ATOM_Z, t.elt.c_str ());
+										atom->SetProperty (GCU_PROP_ATOM_CHARGE, t.charge.c_str ());
+										break;
+									}
+									case GCU_PROP_X: {
+										atom->SetProperty (GCU_PROP_X, val.c_str ());
+										break;
+									}
+									case GCU_PROP_Y: {
+										atom->SetProperty (GCU_PROP_Y, val.c_str ());
+										break;
+									}
+									case GCU_PROP_Z: {
+										atom->SetProperty (GCU_PROP_Z, val.c_str ());
+										break;
+									}
+									default:
+										break;
+									}
+								}
+								doc->SetScale (scale);
 								break;
-							case LOOP_ATOM_TYPE:
+							}
+							case LOOP_ATOM_TYPE: {
+								CIFAtomType t = {"", ""}; // make gcc happy
+								std::string ident;
+								for (loop_prop = loop_contents.begin (); loop_prop != loop_contents.end (); loop_prop++) {
+									std::string val = loop_values.front ();
+									loop_values.pop_front ();
+									switch (*loop_prop) {
+									case CIF_ATOM_SITE_SYMBOL: {
+										ident = val;
+										int i = 0;
+										while (g_ascii_isalpha (val[i]))
+											i++;
+										val = val.substr (0, i);
+										int z = Element::Z (val.c_str ());
+										char *buf = g_strdup_printf ("%d", z);
+										t.elt = buf;
+										g_free (buf);
+										break;
+									}
+									case CIF_ATOM_SITE_OXIDATION_NUMBER:
+										t.charge = val;
+										break;
+      								default:
+										break;
+									}
+								}
+								AtomTypes[ident] = t;
 								break;
-							case LOOP_AUTHOR:
+							}
+							case LOOP_AUTHOR: { // FIXME: support several authors
+								if (author_found)
+									break;
+								author_found = true;
+								for (loop_prop = loop_contents.begin (); loop_prop != loop_contents.end (); loop_prop++) {
+									std::string val = loop_values.front ();
+									loop_values.pop_front ();
+									if (*loop_prop < GCU_PROP_MAX)
+										doc->SetProperty (*loop_prop, val.c_str ());
+								}
 								break;
+							}
 							case LOOP_SYMMETRY: {
 								group->AddTransform (loop_values.front ());
 								break;
@@ -272,6 +378,9 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 			else if (key == "_symmetry_Int_Tables_number")
 				group->SetId (strtoul (value.c_str (), NULL, 10));
 			else {
+				// check if this concerns the author
+				if (!author_found && (!key.compare (0, 13, "_publ_author_", 13) || !key.compare (0, 13, "_publ_contact_author_", 13)))
+					author_found = true; // we don't allow several authors for now
 				// otherwise set the property
 				prop = KnownProps.find (key);
 				if (prop != KnownProps.end ())
@@ -301,7 +410,7 @@ read_exit:
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CIFLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
+bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	if (NULL != out) {
 		return true;

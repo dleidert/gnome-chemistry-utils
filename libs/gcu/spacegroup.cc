@@ -30,6 +30,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <sstream>
+#include <iostream>
 #include <map>
 #include <set>
 #include <vector>

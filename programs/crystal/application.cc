@@ -40,9 +40,34 @@ using namespace std;
 
 static unsigned short nNewDocs = 1;
 
+static Object *CreateAtom ()
+{
+	return new gcAtom ();
+}
+
+bool gcApplication::m_bInit = false;
+
 gcApplication::gcApplication(): Application ("gcrystal")
 {
 	gcu::Loader::Init ();
+	m_SupportedMimeTypes.push_back ("application/x-gcrystal");
+	m_WriteableMimeTypes.push_back ("application/x-gcrystal");
+	// browse available loaders
+	map<string, LoaderStruct>::iterator it;
+	bool found = Loader::GetFirstLoader (it);
+	while (found) {
+		if ((*it).second.supportsCrystals) {
+			if ((*it).second.read)
+				AddMimeType (m_SupportedMimeTypes, (*it).first);
+			if ((*it).second.write)
+				AddMimeType (m_WriteableMimeTypes, (*it).first);
+		}
+		found = Loader::GetNextLoader (it);
+	}
+	if (!m_bInit) {
+		Object::AddType ("atom", CreateAtom, AtomType);
+		m_bInit = true;
+	}
 }
 
 gcApplication::~gcApplication ()
@@ -62,12 +87,7 @@ gcDocument *gcApplication::OnFileNew ()
 
 void gcApplication::OnFileOpen ()
 {
-	list<string> l;
-	l.push_front ("application/x-gcrystal");
-#ifdef HAVE_OPENBABEL_2_2
-	l.push_front ("chemical/x-cif");
-#endif
-	FileChooser (this, false, l);
+	FileChooser (this, false, m_SupportedMimeTypes);
 }
 
 void gcApplication::OnFileSave ()
@@ -82,9 +102,7 @@ void gcApplication::OnFileSave ()
 
 void gcApplication::OnFileSaveAs ()
 {
-	list<string> l;
-	l.push_front ("application/x-gcrystal");
-	FileChooser (this, true, l, m_pActiveDoc);
+	FileChooser (this, true, m_WriteableMimeTypes, m_pActiveDoc);
 }
 
 bool gcApplication::OnFileClose ()
@@ -139,6 +157,7 @@ gcDocument* gcApplication::GetDoc (const char* filename)
 enum {
 	GCRYSTAL,
 	CIF,
+	CML,
 	VRML,
 	PDF,
 	PS,
@@ -165,8 +184,10 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 	string filename2 = filename;
 	if (bSave) {
 		char const *pixbuf_type = NULL;
-		if (!strcmp (mime_type, "chemica/x-cif"))
+		if (!strcmp (mime_type, "chemical/x-cif"))
 			type = CIF;
+		if (!strcmp (mime_type, "chemical/x-cml"))
+			type = CML;
 		else if (!strcmp (mime_type, "model/vrml"))
 			type = VRML;
 		else if (!strcmp (mime_type, "image/x-eps"))
@@ -184,6 +205,9 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			break;
 		case CIF:
 			ext = ".cif";
+			break;
+		case CML:
+			ext = ".cml";
 			break;
 		case VRML:
 			ext = ".wrl";
@@ -253,6 +277,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				Doc->RenameViews ();
 				break;
 			case CIF:
+			case CML:
 				break;
 			case VRML:
 				Doc->OnExportVRML (filename2);
@@ -298,6 +323,8 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		if (!strcmp (mime_type, "application/x-gcrystal"));
 		else if (!strcmp (mime_type, "chemical/x-cif"))
 			type = CIF;
+		else if (!strcmp (mime_type, "chemical/x-cml"))
+			type = CML;
 		else
 			return true;
 		gcDocument *xDoc = GetDoc (filename);
@@ -326,12 +353,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			// FIXME: open using the appropriate program.
 			return false;
 		}
-		if ((type == GCRYSTAL)? Doc->Load (filename):
-#ifdef HAVE_OPENBABEL_2_2
-						Doc->Import (filename, mime_type)) {
-#else
-						false) {
-#endif
+		if ((type == GCRYSTAL)? Doc->Load (filename): false) {
 normal_exit:
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();
@@ -381,4 +403,16 @@ bool gcApplication::OnQuit ()
 			return false;
 	}
 	return true;
+}
+
+void gcApplication::AddMimeType (list<string> &l, string const& mime_type)
+{
+	list<string>::iterator i, iend = l.end ();
+	for (i = l.begin (); i != iend; i++)
+		if (*i == mime_type)
+			break;
+	if (i == iend)
+		l.push_back (mime_type);
+	else
+		g_warning ("Duplicate mime type: %s", mime_type.c_str ());
 }

@@ -4,7 +4,7 @@
  * CML files loader plugin
  * cml.cc 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -192,8 +192,10 @@ static void
 cml_simple_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CMLReadState	*state = (CMLReadState *) xin->user_state;
-	state->cur.top ()->Lock (false);
-	state->cur.top ()->OnLoaded ();
+	if (state->cur.top ()) {
+		state->cur.top ()->Lock (false);
+		state->cur.top ()->OnLoaded ();
+	}
 	state->cur.pop ();
 }
 
@@ -276,22 +278,24 @@ cml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
 	Object *obj = Object::CreateObject ("bond", state->cur.top ());
-	map <string, unsigned>::iterator it;
-	if (attrs)
-		while (*attrs) {
-			if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
+	if (obj) {
+		map <string, unsigned>::iterator it;
+		if (attrs)
+			while (*attrs) {
+				if ((it = KnownProps.find ((char const *) *attrs)) != KnownProps.end ()) {
+					attrs++;
+					obj->SetProperty ((*it).second, (char const *) *attrs);
+				} else if (!strcmp ((char const *) *attrs, "atomRefs2")) {
+					attrs++;
+					char **atom_ids = g_strsplit ((char const *) *attrs, " ", 2);
+					obj->SetProperty (GCU_PROP_BOND_BEGIN, atom_ids[0]);
+					obj->SetProperty (GCU_PROP_BOND_END, atom_ids[1]);
+					g_strfreev (atom_ids);
+				} else
+					attrs++;
 				attrs++;
-				obj->SetProperty ((*it).second, (char const *) *attrs);
-			} else if (!strcmp ((char const *) *attrs, "atomRefs2")) {
-				attrs++;
-				char **atom_ids = g_strsplit ((char const *) *attrs, " ", 2);
-				obj->SetProperty (GCU_PROP_BOND_BEGIN, atom_ids[0]);
-				obj->SetProperty (GCU_PROP_BOND_END, atom_ids[1]);
-				g_strfreev (atom_ids);
-			} else
-				attrs++;
-			attrs++;
-		}
+			}
+	}
 	state->cur.push (obj);
 }
 
@@ -299,12 +303,25 @@ static void
 cml_bond_stereo (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
+	if (!state->cur.top ())
+		return;
 	string stereo = xin->content->str;
 	if (stereo == "W")
 		state->cur.top ()->SetProperty (GCU_PROP_BOND_TYPE, "wedge");
 	else if (stereo == "H")
 		state->cur.top ()->SetProperty (GCU_PROP_BOND_TYPE, "hash");
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Crystal code
+	
+static void
+cml_crystal_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	state->type = ContentTypeCrystal;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Molecule code
 	
@@ -324,6 +341,10 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 		GSF_XML_IN_NODE (MOL, BOND_ARRAY, -1, "bondArray", GSF_XML_NO_CONTENT, NULL, NULL),
 			GSF_XML_IN_NODE (BOND_ARRAY, BOND, -1, "bond", GSF_XML_NO_CONTENT, cml_bond_start, cml_simple_end),
 				GSF_XML_IN_NODE (BOND, BOND_STEREO, -1, "bondStereo", GSF_XML_CONTENT, NULL, cml_bond_stereo),
+		GSF_XML_IN_NODE (MOL, CRYSTAL, -1, "crystal", GSF_XML_NO_CONTENT, cml_crystal_start, NULL),
+			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SCALAR, -1, "scalar", GSF_XML_NO_CONTENT, NULL, NULL),
+			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SYMMETRY, -1, "symmetry", GSF_XML_NO_CONTENT, NULL, NULL),
+				GSF_XML_IN_NODE (CRYSTAL_SYMMETRY, CRYSTAL_TRANSFORM, -1, "transform3", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE_END
 	};
 	CMLReadState	*state = (CMLReadState *) xin->user_state;

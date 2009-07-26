@@ -47,7 +47,6 @@
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
 #define PREC 1e-3
 
-using namespace OpenBabel;
 using namespace std;
 
 namespace gcu
@@ -70,12 +69,8 @@ gchar const *LatticeName[] = {
 	"triclinic"
 };
 
-#ifdef HAVE_OPENBABEL_2_2
 CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
 	m_SpaceGroup (NULL)
-#else
-CrystalDoc::CrystalDoc (Application *App): GLDocument (App)
-#endif
 {
 }
 
@@ -321,8 +316,7 @@ void CrystalDoc::Update()
 	////////////////////////////////////////////////////////////
 	//Establish list of atoms
 	CrystalAtomList::iterator i, iend = AtomDef.end ();
-	
-#ifdef HAVE_OPENBABEL_2_2
+
 	if (m_SpaceGroup) {
 		Vector v;
 		list<Vector> d;
@@ -338,9 +332,7 @@ void CrystalDoc::Update()
 				Duplicate (atom);
 			}
 		}
-	} else
-#endif
-	for (i = AtomDef.begin(); i != iend; i++) {
+	} else for (i = AtomDef.begin(); i != iend; i++) {
 		Duplicate(**i);
 		switch (m_lattice) {
 		case body_centered_cubic:
@@ -600,7 +592,7 @@ void CrystalDoc::Draw (Matrix const &m) const
 			v.SetZ ((*i)->x ());
 			v.SetX ((*i)->y ());
 			v.SetY ((*i)->z ());
-			v = m * v;
+			v = m.glmult (v);
 			(*i)->GetColor (&red, &green, &blue, &alpha);
 			glColor4d (red, green, blue, alpha) ;
 			sp.draw (v, (*i)->r () * (*i)->GetEffectiveRadiusRatio ());
@@ -613,11 +605,11 @@ void CrystalDoc::Draw (Matrix const &m) const
 			v.SetZ ((*j)->X1 ());
 			v.SetX ((*j)->Y1 ());
 			v.SetY ((*j)->Z1 ());
-			v = m * v;
+			v = m.glmult (v);
 			v1.SetZ ((*j)->X2 ());
 			v1.SetX ((*j)->Y2 ());
 			v1.SetY ((*j)->Z2 ());
-			v1 = m * v1;
+			v1 = m.glmult (v1);
 			(*j)->GetColor (&red, &green, &blue, &alpha);
 			glColor4d (red, green, blue, alpha) ;
 			cyl.draw (v, v1, (*j)->GetRadius ());
@@ -673,7 +665,6 @@ xmlDocPtr CrystalDoc::BuildXMLTree () const
 		
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"lattice", (xmlChar*)LatticeName[m_lattice]);
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
-#ifdef HAVE_OPENBABEL_2_2
 		if (m_SpaceGroup) {
 			node = xmlNewDocNode (xml, NULL, (xmlChar*) "group", NULL);
 			if (node)
@@ -700,7 +691,6 @@ xmlDocPtr CrystalDoc::BuildXMLTree () const
 				t = m_SpaceGroup->GetNextTransform (i);
 			}
 		}
-#endif
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"cell", NULL);
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		snprintf(buf, sizeof(buf), "%g", m_a);
@@ -765,115 +755,6 @@ xmlDocPtr CrystalDoc::BuildXMLTree () const
 	}
 }
 
-#ifdef HAVE_OPENBABEL_2_2
-bool CrystalDoc::ImportOB (OBMol &mol)
-{
-	OBUnitCell *cell = dynamic_cast<OBUnitCell*> (mol.GetData (OBGenericDataType::UnitCell));
-	if (cell == NULL)
-		return false;
-	m_a = cell->GetA () * 100;
-	m_b = cell->GetB () * 100;
-	m_c = cell->GetC () * 100;
-	m_alpha = cell ->GetAlpha ();
-	m_beta = cell->GetBeta ();
-	m_gamma = cell->GetGamma ();
-	string const group_name = cell->GetSpaceGroupName ();
-	m_SpaceGroup = SpaceGroup::GetSpaceGroup (cell->GetSpaceGroup ()->GetHallName ());
-    if (!m_SpaceGroup)
-		return false;
-	int lattice = cell->GetLatticeType ();
-	switch (lattice) {
-	case OBUnitCell::Triclinic:
-		m_lattice = triclinic;
-		break;
-	case OBUnitCell::Monoclinic:
-		switch (group_name[0]) {
-		case 'C':
-			m_lattice = base_centered_monoclinic;
-			break;
-		default:
-			m_lattice = monoclinic;
-			break;
-		}
-		break;
-	case OBUnitCell::Orthorhombic:
-		switch (group_name[0]) {
-		case 'C':
-			m_lattice = base_centered_orthorhombic;
-			break;
-		case 'I':
-			m_lattice = body_centered_orthorhombic;
-			break;
-		case 'F':
-			m_lattice = face_centered_orthorhombic;
-			break;
-		default:
-			m_lattice = orthorhombic;
-			break;
-		}
-		break;
-	case OBUnitCell::Tetragonal:
-		switch (group_name[0]) {
-		case 'I':
-			m_lattice = body_centered_tetragonal;
-			break;
-		default:
-			m_lattice = tetragonal;
-			break;
-		}
-		break;
-	case OBUnitCell::Rhombohedral:
-		m_lattice = rhombohedral;
-		break;
-	case OBUnitCell::Hexagonal:
-		m_lattice = hexagonal;
-		break;
-	case OBUnitCell::Cubic:
-		switch (group_name[0]) {
-		case 'I':
-			m_lattice = body_centered_cubic;
-			break;
-		case 'F':
-			m_lattice = face_centered_cubic;
-			break;
-		default:
-			m_lattice = cubic;
-			break;
-		}
-		break;
-	}
-	matrix3x3 m = cell->GetFractionalMatrix ();
-	vector3 v;
-	// now get the atoms
-	OBAtomIterator it;
-	OBAtom *atom = mol.BeginAtom (it);
-	CrystalAtom *catom;
-	GcuAtomicRadius radius;
-	radius.type = GCU_VAN_DER_WAALS;
-	radius.charge = 0;
-    radius.cn = -1;
-    radius.spin = GCU_N_A_SPIN;
-    radius.scale = NULL;
-	while (atom) {
-		v.x () = atom->GetX();
-		v.y () = atom->GetY();
-		v.z () = atom->GetZ();
-		v *= m;
-		radius.Z = atom->GetAtomicNum ();
-		catom = new CrystalAtom (radius.Z, v.x (), v.y (), v.z ());
-		if (gcu_element_get_radius (&radius)) {
-			catom->SetRadius (radius);
-			catom->SetEffectiveRadiusRatio (.4);
-		}
-		AtomDef.push_back (catom);
-		atom = mol.NextAtom (it);
-	}
-	LineDef.push_back (new CrystalLine (edges, 0., 0., 0., 0., 0., 0., 10., .25 , .25, .25 , 1.));
-	Update ();
-	return true;
-}
-#endif
-
 void CrystalDoc::Loaded ()
 {
 	if (m_NameCommon.length () > 0)
@@ -885,6 +766,24 @@ void CrystalDoc::Loaded ()
 	else if (m_NameStructure.length () > 0)
 		SetTitle (m_NameStructure);
 	LineDef.push_back (new CrystalLine (edges, 0., 0., 0., 0., 0., 0., 10., .25 , .25, .25 , 1.));
+	// set radii
+	CrystalAtomList::iterator i, iend = AtomDef.end ();
+	GcuAtomicRadius radius;
+	radius.type = GCU_VAN_DER_WAALS;
+	radius.charge = 0;
+    radius.cn = -1;
+    radius.spin = GCU_N_A_SPIN;
+    radius.scale = NULL;
+	/* use van der Waals radii for now in all cases, using ionic radii would need the
+	evaluation of the coordination numbers */
+	for (i = AtomDef.begin (); i != iend; i++) {
+		radius.Z = (*i)->GetZ ();
+		if (gcu_element_get_radius (&radius)) {
+			(*i)->SetRadius (radius);
+			(*i)->SetEffectiveRadiusRatio (.4);
+		}
+		(*i)->SetDefaultColor ();
+	}
 	Update ();
 }
 
@@ -969,6 +868,14 @@ bool CrystalDoc::SetProperty (unsigned property, char const *value)
 		return false;
 	}
 	return true;
+}
+
+void CrystalDoc::AddChild (Object* object)
+{
+	Object::AddChild (object);
+	CrystalAtom *atom = dynamic_cast <CrystalAtom *> (object);
+	if (atom)
+		AtomDef.push_back (atom);
 }
 
 }	//	namespace gcu

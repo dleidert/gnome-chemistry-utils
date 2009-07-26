@@ -52,7 +52,10 @@ public:
 	void AddDocument (gcDocument *pDoc) {m_Docs.push_front (pDoc);}
 	void RemoveDocument (gcDocument *pDoc);
 	bool OnQuit ();
-	
+
+private:
+	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
+
 private:
 	std::list<gcView*>m_Views;
 	std::list<gcDocument*> m_Docs;
@@ -60,6 +63,9 @@ private:
 	GtkUIManager* m_UIManager;
 	unsigned m_statusId;
 	bool m_bFileOpening;
+	static bool m_bInit;
+	std::list<std::string> m_SupportedMimeTypes;
+	std::list<std::string> m_WriteableMimeTypes;
 };
 
 #endif //GCRYSTAL_APPLICATION_H
