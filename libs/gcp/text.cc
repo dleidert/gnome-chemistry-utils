@@ -235,33 +235,104 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		break;
 	}
 	case gccv::Underline: {
-		PangoUnderline u = static_cast <gccv::UnderlineTextTag *> (m_tag)->GetUnderline ();
+		gccv::TextDecoration u = static_cast <gccv::UnderlineTextTag *> (m_tag)->GetUnderline ();
 		char const *type = NULL;
+		if (u == gccv::TextDecorationNone)
+			break;
 		switch (u) {
-		case PANGO_UNDERLINE_NONE:
-		case PANGO_UNDERLINE_SINGLE:
+		default:
+		case gccv::TextDecorationDefault:
 			break;
-		case PANGO_UNDERLINE_DOUBLE:
-			type = "double";
+		case gccv::TextDecorationHigh:
+			type = "high"; // not really implemented
 			break;
-		case PANGO_UNDERLINE_LOW:
+		case gccv::TextDecorationMedium:
+			type = "medium"; // not really implemented
+			break;
+		case gccv::TextDecorationLow:
 			type = "low";
 			break;
-		case PANGO_UNDERLINE_ERROR:
-			type = "error"; // not really implemented
+		case gccv::TextDecorationDouble:
+			type = "double";
+			break;
+		case gccv::TextDecorationTriple:
+			type = "triple"; // not really implemented
+			break;
+		case gccv::TextDecorationSquiggle:
+			type = "squiggle"; // not really implemented
 			break;
 		}
-		if (u == PANGO_UNDERLINE_NONE)
-			break;
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("u"), NULL);
-		if (u != PANGO_UNDERLINE_SINGLE)
+		if (u != gccv::TextDecorationDefault)
 			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
 		break;
 	}
-	case gccv::Strikethrough:
-		if (static_cast <gccv::StrikethroughTextTag *> (m_tag)->GetStrikethrough ())
-			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("s"), NULL);
+	case gccv::Overline: { // not really implemented
+		gccv::TextDecoration o = static_cast <gccv::OverlineTextTag *> (m_tag)->GetOverline ();
+		char const *type = NULL;
+		if (o == gccv::TextDecorationNone)
+			break;
+		switch (o) {
+		default:
+		case gccv::TextDecorationDefault:
+			break;
+		case gccv::TextDecorationHigh:
+			type = "high";
+			break;
+		case gccv::TextDecorationMedium:
+			type = "medium";
+			break;
+		case gccv::TextDecorationLow:
+			type = "low";
+			break;
+		case gccv::TextDecorationDouble:
+			type = "double";
+			break;
+		case gccv::TextDecorationTriple:
+			type = "triple";
+			break;
+		case gccv::TextDecorationSquiggle:
+			type = "squiggle";
+			break;
+		}
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("o"), NULL);
+		if (o != gccv::TextDecorationDefault)
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
 		break;
+	}
+	case gccv::Strikethrough: {
+		gccv::TextDecoration s = static_cast <gccv::StrikethroughTextTag *> (m_tag)->GetStrikethrough ();
+		char const *type = NULL;
+		if (s == gccv::TextDecorationNone)
+			break;
+		switch (s) {
+		default:
+		case gccv::TextDecorationDefault:
+			break;
+		case gccv::TextDecorationHigh:
+			type = "high"; // not really implemented
+			break;
+		case gccv::TextDecorationMedium:
+			type = "medium"; // not really implemented
+			break;
+		case gccv::TextDecorationLow:
+			type = "low";
+			break;
+		case gccv::TextDecorationDouble:
+			type = "double";
+			break;
+		case gccv::TextDecorationTriple:
+			type = "triple"; // not really implemented
+			break;
+		case gccv::TextDecorationSquiggle:
+			type = "squiggle"; // not really implemented
+			break;
+		}
+		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("s"), NULL);
+		if (s != gccv::TextDecorationDefault)
+			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
+		break;
+	}
 	case gccv::Foreground: {
 		GOColor color = static_cast <gccv::ForegroundTextTag *> (m_tag)->GetColor ();
 		if (color == RGBA_BLACK)
@@ -615,21 +686,63 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 		}
 		tag = new gccv::StyleTextTag (style);
 	} else if (!strcmp ((const char*) node->name, "u")) {
-		PangoUnderline underline = PANGO_UNDERLINE_SINGLE;
+		gccv::TextDecoration underline = gccv::TextDecorationDefault;
 		buf = (char*) xmlGetProp(node, (xmlChar*) "type");
 		if (buf) {
 			if (!strcmp (buf, "double"))
-				underline = PANGO_UNDERLINE_DOUBLE;
+				underline = gccv::TextDecorationDouble;
+			else if (!strcmp (buf, "triple"))
+				underline = gccv::TextDecorationTriple;
 			else if (!strcmp (buf, "low"))
-				underline = PANGO_UNDERLINE_LOW;
-			else if (!strcmp (buf, "error"))
-				underline = PANGO_UNDERLINE_ERROR;
+				underline = gccv::TextDecorationLow;
+			else if (!strcmp (buf, "medium"))
+				underline = gccv::TextDecorationMedium;
+			else if (!strcmp (buf, "high"))
+				underline = gccv::TextDecorationHigh;
+			else if (!strcmp (buf, "squiggle"))
+				underline = gccv::TextDecorationSquiggle;
 			xmlFree (buf);
 		}
 		tag = new gccv::UnderlineTextTag (underline);
-	} else if (!strcmp ((const char*) node->name, "s"))
-		tag = new gccv::StrikethroughTextTag (true);
-	else if (!strcmp ((const char*) node->name, "sub")) {
+	} else if (!strcmp ((const char*) node->name, "o")) {
+		gccv::TextDecoration overline = gccv::TextDecorationDefault;
+		buf = (char*) xmlGetProp(node, (xmlChar*) "type");
+		if (buf) {
+			if (!strcmp (buf, "double"))
+				overline = gccv::TextDecorationDouble;
+			else if (!strcmp (buf, "triple"))
+				overline = gccv::TextDecorationTriple;
+			else if (!strcmp (buf, "low"))
+				overline = gccv::TextDecorationLow;
+			else if (!strcmp (buf, "medium"))
+				overline = gccv::TextDecorationMedium;
+			else if (!strcmp (buf, "high"))
+				overline = gccv::TextDecorationHigh;
+			else if (!strcmp (buf, "squiggle"))
+				overline = gccv::TextDecorationSquiggle;
+			xmlFree (buf);
+		}
+		tag = new gccv::OverlineTextTag (overline);
+	} else if (!strcmp ((const char*) node->name, "s")) {
+		gccv::TextDecoration strikethrough = gccv::TextDecorationDefault;
+		buf = (char*) xmlGetProp(node, (xmlChar*) "type");
+		if (buf) {
+			if (!strcmp (buf, "double"))
+				strikethrough = gccv::TextDecorationDouble;
+			else if (!strcmp (buf, "triple"))
+				strikethrough = gccv::TextDecorationTriple;
+			else if (!strcmp (buf, "low"))
+				strikethrough = gccv::TextDecorationLow;
+			else if (!strcmp (buf, "medium"))
+				strikethrough = gccv::TextDecorationMedium;
+			else if (!strcmp (buf, "high"))
+				strikethrough = gccv::TextDecorationHigh;
+			else if (!strcmp (buf, "squiggle"))
+				strikethrough = gccv::TextDecorationSquiggle;
+			xmlFree (buf);
+		}
+		tag = new gccv::StrikethroughTextTag (strikethrough);
+	} else if (!strcmp ((const char*) node->name, "sub")) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "height");
 		if (buf) {
 			int rise = -strtoul (buf, NULL, 10) * PANGO_SCALE;

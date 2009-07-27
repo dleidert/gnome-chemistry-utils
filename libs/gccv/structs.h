@@ -56,15 +56,16 @@ typedef enum {
 } TextPosition;
 
 typedef enum {
+	TextDecorationNone,
 	TextDecorationDefault,
 	TextDecorationHigh,
 	TextDecorationMedium,
 	TextDecorationLow,
 	TextDecorationDouble,
-	TextDecorationTripple,
+	TextDecorationTriple,
 	TextDecorationSquiggle
 } TextDecoration;
 
 }
 
-#endif	//	 GCCV_RECTANGLE_H
+#endif	//	 GCCV_STRUCTS_H

@@ -61,7 +61,7 @@ gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 	m_Active = NULL;
 	m_bUndo = true;
 	m_CurNode = m_InitNode = NULL;
-	m_Strikethrough = false;
+	m_Strikethrough = gccv::TextDecorationNone;
 	m_FontDesc = NULL;
 	gcp::Theme *pTheme = gcp::TheThemeManager.GetTheme ("Default");
 	m_FamilyName = pTheme->GetTextFontFamily ();
@@ -70,7 +70,7 @@ gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 	m_Stretch = pTheme->GetFontStretch ();
 	m_Variant = pTheme->GetFontVariant ();
 	m_Size = pTheme->GetFontSize ();
-	m_Underline = PANGO_UNDERLINE_NONE;
+	m_Underline = gccv::TextDecorationNone;
 	m_Rise = 0;
 	m_Color = RGBA_BLACK;
 	m_Position = gccv::Normalscript;
@@ -169,7 +169,7 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				BuildTagsList ();
 				return true;
 			case GDK_u:
-				gtk_combo_box_set_active (m_UnderlineBox, ((m_Underline == PANGO_UNDERLINE_SINGLE)? PANGO_UNDERLINE_NONE: PANGO_UNDERLINE_SINGLE));
+				gtk_combo_box_set_active (m_UnderlineBox, ((m_Underline == gccv::TextDecorationDefault)? 0: 1));
 				return true;
 			case GDK_b:
 				m_Weight = (m_Weight == PANGO_WEIGHT_NORMAL)? PANGO_WEIGHT_BOLD: PANGO_WEIGHT_NORMAL;
@@ -566,8 +566,8 @@ void gcpTextTool::UpdateTagsList ()
 	m_Variant = pTheme->GetFontVariant ();
 	m_Size = pTheme->GetFontSize ();
 	m_Rise = 0;
-	m_Underline = PANGO_UNDERLINE_NONE;
-	m_Strikethrough = false;
+	m_Underline = gccv::TextDecorationNone;
+	m_Strikethrough = gccv::TextDecorationNone;
 	m_Color = RGBA_BLACK;
 	if (m_Active) {
 		unsigned index = GetIndex ();
@@ -1035,7 +1035,20 @@ unsigned gcpTextTool::GetIndex ()
 
 void gcpTextTool::OnUnderlineChanged (unsigned underline)
 {
-	m_Underline = (PangoUnderline) underline;
+	switch (underline) {
+	default:
+		m_Underline = gccv::TextDecorationNone;
+		break;
+	case 1:
+		m_Underline = gccv::TextDecorationDefault;
+		break;
+	case 2:
+		m_Underline = gccv::TextDecorationDouble;
+		break;
+	case 3:
+		m_Underline = gccv::TextDecorationLow;
+		break;
+	}
 	BuildTagsList ();
 	if (m_Active) {
 		gccv::TextTagList l;
@@ -1046,7 +1059,7 @@ void gcpTextTool::OnUnderlineChanged (unsigned underline)
 
 void gcpTextTool::OnStriketroughToggled (bool strikethrough)
 {
-	m_Strikethrough = strikethrough;
+	m_Strikethrough = strikethrough? gccv::TextDecorationDefault: gccv::TextDecorationNone;
 	BuildTagsList ();
 	if (m_Active) {
 		gccv::TextTagList l;

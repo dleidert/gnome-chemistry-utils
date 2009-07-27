@@ -275,7 +275,7 @@ TextTag *StretchTextTag::Duplicate () const
 ////////////////////////////////////////////////////////////////////////////////
 // Font underline tag class
 
-UnderlineTextTag::UnderlineTextTag (PangoUnderline underline):
+UnderlineTextTag::UnderlineTextTag (TextDecoration underline):
 	TextTag (Underline),
 	m_Underline (underline)
 {
@@ -302,9 +302,38 @@ TextTag *UnderlineTextTag::Duplicate () const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Font overline tag class
+
+OverlineTextTag::OverlineTextTag (TextDecoration overline):
+	TextTag (Overline),
+	m_Overline (overline)
+{
+}
+
+OverlineTextTag::~OverlineTextTag ()
+{
+}
+
+void OverlineTextTag::Filter (G_GNUC_UNUSED PangoAttrList *l, G_GNUC_UNUSED unsigned start, G_GNUC_UNUSED unsigned end)
+{
+}
+
+bool OverlineTextTag::operator== (TextTag const& tag) const
+{
+	if (tag.GetTag () != Overline)
+		return false;
+	return static_cast <OverlineTextTag const&> (tag).m_Overline == m_Overline;
+}
+
+TextTag *OverlineTextTag::Duplicate () const
+{
+	return new OverlineTextTag (m_Overline);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Font strikethrough tag class
 
-StrikethroughTextTag::StrikethroughTextTag (bool strikethrough):
+StrikethroughTextTag::StrikethroughTextTag (TextDecoration strikethrough):
 	TextTag (Strikethrough),
 	m_Strikethrough (strikethrough)
 {
@@ -562,7 +591,7 @@ void NewLineTextTag::Filter (G_GNUC_UNUSED PangoAttrList *l, G_GNUC_UNUSED unsig
 	// Nothing to do
 }
 
-bool NewLineTextTag::operator== (TextTag const& tag) const
+bool NewLineTextTag::operator== (G_GNUC_UNUSED TextTag const& tag) const
 {
 	return false;
 }

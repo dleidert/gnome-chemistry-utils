@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2009-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/structs.h: add support for better text underline, strikethrough
+	and overline.
+	* libs/gccv/text-tag.cc: ditto.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gcp/text.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* plugins/paint/text/texttool.h: ditto.
+
 2009-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chem3ddoc.cc: ues Matrix::glmult.
 	* libs/gcu/crystaldoc.cc: completed cif files loading and removed OpenBabel

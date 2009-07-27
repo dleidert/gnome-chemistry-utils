@@ -44,6 +44,7 @@ typedef enum
 	Variant,
 	Stretch,
 	Underline,
+	Overline,
 	Strikethrough,
 	Foreground,
 	Background,
@@ -176,31 +177,46 @@ private:
 class UnderlineTextTag: public TextTag
 {
 public:
-	UnderlineTextTag (PangoUnderline underline);
+	UnderlineTextTag (TextDecoration underline);
 	virtual ~UnderlineTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
-	PangoUnderline GetUnderline () const {return m_Underline;}
+	TextDecoration GetUnderline () const {return m_Underline;}
 
 private:
-	PangoUnderline m_Underline;
+	TextDecoration m_Underline;
+};
+
+class OverlineTextTag: public TextTag
+{
+public:
+	OverlineTextTag (TextDecoration overline);
+	virtual ~OverlineTextTag ();
+
+	void Filter (PangoAttrList *l, unsigned start, unsigned end);
+	bool operator== (TextTag const& tag) const;
+	TextTag *Duplicate () const;
+	TextDecoration GetOverline () const {return m_Overline;}
+
+private:
+	TextDecoration m_Overline;
 };
 
 class StrikethroughTextTag: public TextTag
 {
 public:
-	StrikethroughTextTag (bool strikethrough);
+	StrikethroughTextTag (TextDecoration strikethrough);
 	virtual ~StrikethroughTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
 	bool operator== (TextTag const& tag) const;
 	TextTag *Duplicate () const;
-	bool GetStrikethrough () const {return m_Strikethrough;}
+	TextDecoration GetStrikethrough () const {return m_Strikethrough;}
 
 private:
-	bool m_Strikethrough;
+	TextDecoration m_Strikethrough;
 };
 
 class ForegroundTextTag: public TextTag

@@ -110,10 +110,10 @@ GCU_PROP (PangoStyle, Style)
 GCU_PROP (PangoWeight, Weight)
 GCU_PROP (PangoStretch, Stretch)
 GCU_PROP (PangoVariant, Variant)
-GCU_PROP (PangoUnderline, Underline)
+GCU_PROP (gccv::TextDecoration, Underline)
 GCU_PROP (int, Size)
 GCU_PROP (int, Rise)
-GCU_PROP (bool, Strikethrough)
+GCU_PROP (gccv::TextDecoration, Strikethrough)
 GCU_PROP (gccv::TextPosition, Position)
 GCU_PROP (GOColor, Color);
 };
