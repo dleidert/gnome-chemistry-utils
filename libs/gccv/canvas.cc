@@ -98,6 +98,7 @@ bool CanvasPrivate::OnExpose (Canvas *canvas, GdkEventExpose *event)
 bool CanvasPrivate::OnButtonPressed (Canvas *canvas, GdkEventButton *event)
 {
 	Item *item = NULL;
+	canvas->m_LastEventState = event->state;
 	double x = event->x / canvas->m_Zoom, y = event->y / canvas->m_Zoom;
 	if (canvas->m_Root->Distance (x, y, &item) > canvas->m_Gap)
 		item = NULL;
@@ -110,6 +111,7 @@ bool CanvasPrivate::OnButtonPressed (Canvas *canvas, GdkEventButton *event)
 bool CanvasPrivate::OnButtonReleased (Canvas *canvas, GdkEventButton *event)
 {
 	Item *item = NULL;
+	canvas->m_LastEventState = event->state;
 	double x = event->x / canvas->m_Zoom, y = event->y / canvas->m_Zoom;
 	if (canvas->m_Root->Distance (x, y, &item) > canvas->m_Gap)
 		item = NULL;
@@ -122,6 +124,7 @@ bool CanvasPrivate::OnButtonReleased (Canvas *canvas, GdkEventButton *event)
 bool CanvasPrivate::OnMotion (Canvas *canvas, GdkEventMotion *event)
 {
 	Item *item = NULL;
+	canvas->m_LastEventState = event->state;
 	double x = event->x / canvas->m_Zoom, y = event->y / canvas->m_Zoom;
 	if (canvas->m_Root->Distance (x, y, &item) > canvas->m_Gap)
 		item = NULL;

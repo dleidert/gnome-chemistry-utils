@@ -177,7 +177,7 @@ private:
 class UnderlineTextTag: public TextTag
 {
 public:
-	UnderlineTextTag (TextDecoration underline);
+	UnderlineTextTag (TextDecoration underline, GOColor color = 0xff);
 	virtual ~UnderlineTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
@@ -187,12 +187,14 @@ public:
 
 private:
 	TextDecoration m_Underline;
+
+GCU_PROP (GOColor, Color)
 };
 
 class OverlineTextTag: public TextTag
 {
 public:
-	OverlineTextTag (TextDecoration overline);
+	OverlineTextTag (TextDecoration overline, GOColor color = 0xff);
 	virtual ~OverlineTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
@@ -202,12 +204,14 @@ public:
 
 private:
 	TextDecoration m_Overline;
+
+GCU_PROP (GOColor, Color)
 };
 
 class StrikethroughTextTag: public TextTag
 {
 public:
-	StrikethroughTextTag (TextDecoration strikethrough);
+	StrikethroughTextTag (TextDecoration strikethrough, GOColor color = 0xff);
 	virtual ~StrikethroughTextTag ();
 
 	void Filter (PangoAttrList *l, unsigned start, unsigned end);
@@ -217,6 +221,8 @@ public:
 
 private:
 	TextDecoration m_Strikethrough;
+
+GCU_PROP (GOColor, Color)
 };
 
 class ForegroundTextTag: public TextTag

@@ -275,9 +275,10 @@ TextTag *StretchTextTag::Duplicate () const
 ////////////////////////////////////////////////////////////////////////////////
 // Font underline tag class
 
-UnderlineTextTag::UnderlineTextTag (TextDecoration underline):
+UnderlineTextTag::UnderlineTextTag (TextDecoration underline, GOColor color):
 	TextTag (Underline),
-	m_Underline (underline)
+	m_Underline (underline),
+	m_Color (color)
 {
 }
 
@@ -304,9 +305,10 @@ TextTag *UnderlineTextTag::Duplicate () const
 ////////////////////////////////////////////////////////////////////////////////
 // Font overline tag class
 
-OverlineTextTag::OverlineTextTag (TextDecoration overline):
+OverlineTextTag::OverlineTextTag (TextDecoration overline, GOColor color):
 	TextTag (Overline),
-	m_Overline (overline)
+	m_Overline (overline),
+	m_Color (color)
 {
 }
 
@@ -333,9 +335,10 @@ TextTag *OverlineTextTag::Duplicate () const
 ////////////////////////////////////////////////////////////////////////////////
 // Font strikethrough tag class
 
-StrikethroughTextTag::StrikethroughTextTag (TextDecoration strikethrough):
+StrikethroughTextTag::StrikethroughTextTag (TextDecoration strikethrough, GOColor color):
 	TextTag (Strikethrough),
-	m_Strikethrough (strikethrough)
+	m_Strikethrough (strikethrough),
+	m_Color (color)
 {
 }
 

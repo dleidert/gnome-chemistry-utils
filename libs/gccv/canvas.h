@@ -150,6 +150,7 @@ GCU_PROP (double, Gap)
 @return the background color.
 */
 GCU_RO_PROP (GOColor, BackgroundColor)
+GCU_PROP (unsigned, LastEventState)
 };
 
 }

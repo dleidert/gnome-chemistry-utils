@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2009-07-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: more work on underline and friends.
+	* libs/gccv/canvas.h: ditto.
+	* libs/gccv/structs.h: ditto.
+	* libs/gccv/text-tag.cc: ditto.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.cc: ditto.
+	* libs/gcp/application.cc: do not loose spaces while loading. [#27131]
+	* libs/gcp/text.cc: ditto.
+	* libs/gcu/xml-utils.cc: new color serialization methods.
+	* libs/gcu/xml-utils.h: ditto.
+
 2009-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/structs.h: add support for better text underline, strikethrough
 	and overline.

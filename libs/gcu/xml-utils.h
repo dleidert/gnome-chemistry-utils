@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * xml-utils.h
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,7 @@
 
 #include <libxml/parser.h>
 #include "chemistry.h"
+#include <goffice/goffice.h>
 
 /*!\file
 Some helper functions to load / save Object instances.
@@ -106,6 +107,21 @@ Save a color as an XML node added to the children of node. This color can then b
 bool WriteColor (xmlDocPtr xml, xmlNodePtr node, const char* id, double red, double green, double blue, double alpha = 1.0);
 
 /*!
+@param node: a pointer to the xmlNode from which the color must be retrieved.
+Builds a GOColor from the node properties.
+
+@return the GOColor found or black (0xff).
+*/
+GOColor ReadColor (xmlNodePtr node);
+
+/*!
+@param node: a pointer to the xmlNode to which the color must be serialized.
+@param color: a pointer to the xmlNode from which the color must be retrieved.
+Serializes \a color to \a node.
+*/
+void WriteColor (xmlNodePtr node, GOColor color);
+
+/*!
 @param node: a pointer to the xmlNode representing an Object instance.
 @param radius: a GcuAtomicRadius structure.
 
@@ -137,4 +153,5 @@ electronegativity), hence its name.
 @return a static version of buf or NULL if a new static string could not be created.
 */
 char const *GetStaticScale (char *buf);
+
 #endif	// GCU_XML_UTILS_H

@@ -62,7 +62,6 @@ typedef enum {
 	TextDecorationMedium,
 	TextDecorationLow,
 	TextDecorationDouble,
-	TextDecorationTriple,
 	TextDecorationSquiggle
 } TextDecoration;
 

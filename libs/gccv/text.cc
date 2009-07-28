@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "canvas.h"
 #include "group.h"
 #include "text.h"
 #include "text-client.h"
@@ -105,30 +106,7 @@ void TextPrivate::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar *st
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//  gccv::TextLine class implementation
-
-class TextLine
-{
-public:
-	TextLine ();
-	~TextLine ();
-
-	double m_Width, m_Height, m_BaseLine;
-	double y;
-	std::list <TextRun *> m_Runs;
-};
-
-TextLine::TextLine ()
-{
-	m_Width = m_Height = m_BaseLine = y = 0.;
-}
-
-TextLine::~TextLine ()
-{
-}
-
-////////////////////////////////////////////////////////////////////////////////
-//  gccv::TextRun class implementation
+//  gccv::TextRun class declaration
 
 class TextRun
 {
@@ -143,6 +121,117 @@ public:
 	unsigned m_Index, m_Length, m_NbGlyphs;
 	bool m_Stacked, m_NewLine;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+//  gccv::TextLine class implementation
+
+class TextLine
+{
+public:
+	TextLine ();
+	~TextLine ();
+
+	void DrawDecorations (cairo_t *cr);
+
+	double m_Width, m_Height, m_BaseLine;
+	double m_Y;
+	std::list <TextRun *> m_Runs;
+	std::list <TextTag *> m_Decorations;
+	unsigned m_Index, m_End;
+};
+
+TextLine::TextLine ()
+{
+	m_Width = m_Height = m_BaseLine = m_Y = 0.;
+}
+
+TextLine::~TextLine ()
+{
+}
+
+void TextLine::DrawDecorations (cairo_t *cr)
+{
+	unsigned start, end;
+	double xstart, xend, y;
+	std::list <TextTag *>::iterator tag, end_tag = m_Decorations.end ();
+	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
+	Tag type;
+	TextDecoration dec;
+	GOColor color = 0xff;
+	for (tag = m_Decorations.begin (); tag != end_tag; tag++) {
+		type = (*tag)->GetTag ();
+		switch (type) {
+		case Underline:
+			dec = static_cast <UnderlineTextTag *> (*tag)->GetUnderline ();
+			color = static_cast <UnderlineTextTag *> (*tag)->GetColor ();
+			y = m_BaseLine + (m_Height - m_BaseLine) * 2. / 3.;
+			if (dec == TextDecorationDefault)
+					dec = TextDecorationHigh;
+			break;
+		case Overline:
+			dec = static_cast <OverlineTextTag *> (*tag)->GetOverline ();
+			color = static_cast <OverlineTextTag *> (*tag)->GetColor ();
+			y = (m_Height - m_BaseLine) / 3.;
+			if (dec == TextDecorationDefault)
+					dec = TextDecorationLow;
+			break;
+		case Strikethrough:
+			dec = static_cast <StrikethroughTextTag *> (*tag)->GetStrikethrough ();
+			color = static_cast <StrikethroughTextTag *> (*tag)->GetColor ();
+			y = m_Height / 2.;
+			if (dec == TextDecorationDefault)
+					dec = TextDecorationMedium;
+			break;
+		default:
+			dec = TextDecorationNone;
+			break;
+		}
+		if (dec == TextDecorationNone || color == 0)
+			continue;
+		// find the limits as indexes
+		start = MAX (m_Index, (*tag)->GetStartIndex ());
+		end = MIN (m_End, (*tag)->GetEndIndex ());
+		// now convert to x coordinates
+		xstart = xend = 0.;
+		for (run = m_Runs.begin (); run != end_run; run++) {
+			if (start > (*run)->m_Index + (*run)->m_Length)
+				continue;
+			if (start < (*run)->m_Index)
+				xstart = (*run)->m_X;
+			else {
+				PangoRectangle rect;
+				pango_layout_get_cursor_pos ((*run)->m_Layout, start - (*run)->m_Index, &rect, NULL);
+				xstart = static_cast <double> (rect.x) / PANGO_SCALE;
+			}
+			break;
+		}
+		for (; run != end_run; run++) {
+			if (end > (*run)->m_Index + (*run)->m_Length)
+				continue;
+			if (end < (*run)->m_Index)
+				xend = (*run)->m_X;
+			else {
+				PangoRectangle rect;
+				pango_layout_get_cursor_pos ((*run)->m_Layout, end - (*run)->m_Index, &rect, NULL);
+				xend = static_cast <double> (rect.x) / PANGO_SCALE;
+			}
+		}
+		if (xstart > xend) {
+			double buf = xstart;
+			xstart = xend;
+			xend = buf;
+		}
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
+		cairo_set_line_width (cr, 1.);
+		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+		cairo_move_to (cr, xstart, y);
+		cairo_line_to (cr, xend, y);
+		cairo_stroke (cr);
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//  gccv::TextRun class implementation
 
 TextRun::TextRun ()
 {
@@ -479,6 +568,12 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 			cairo_stroke (cr);
 		}
 	}
+	// draw decorations (underline and friends)
+	cairo_save (cr);
+	cairo_translate (cr, startx, starty);
+	for (unsigned line = 0; line < m_LinesNumber; line++)
+		m_Lines[line].DrawDecorations (cr);
+	cairo_restore (cr);
 	if (m_CursorVisible && m_CurPos == 0) {
 		PangoRectangle rect;
 		pango_layout_get_cursor_pos (m_Runs.front ()->m_Layout, m_CurPos, &rect, NULL); // FIXME: might be wrong if we allow above-under characters
@@ -1121,6 +1216,7 @@ void Text::RebuildAttributes ()
 	bool stacked = false;
 	unsigned lines = 1;
 	std::string str;
+	TextTagList decorations;
 	for (tag = m_Tags.begin (); tag != end_tag; tag++) {
 		if (stacked || (*tag)->GetStacked ()) {
 			// we need a new run
@@ -1145,7 +1241,8 @@ void Text::RebuildAttributes ()
 			new_run->m_NewLine = true;
 			m_Runs.push_back (new_run);
 			last_run = new_run;
-		}
+		} else if ((*tag)->GetTag () == Underline || (*tag)->GetTag () == Strikethrough || (*tag)->GetTag () == Overline)
+			decorations.push_back (*tag);
 	}
 	last_run->m_Length = m_Text.length () - last_run->m_Index;
 	last_run->m_NbGlyphs = g_utf8_strlen (m_Text.c_str () + last_run->m_Index, last_run->m_Length);
@@ -1186,6 +1283,7 @@ void Text::RebuildAttributes ()
 	// FIXME: support several lines
 	double curx = 0., curw = 0., cury = 0;
 	unsigned cur_line = 0;
+	m_Lines[0].m_Index = 0;
 	double width = 0.;
 	for (run = m_Runs.begin (); run != end_run; run++) {
 		if ((*run)->m_Stacked) {
@@ -1195,11 +1293,13 @@ void Text::RebuildAttributes ()
 		} else if ((*run)->m_NewLine) {
 			curw += curx;
 			m_Lines[cur_line].m_Width = curw;
+			m_Lines[cur_line].m_End = (*run)->m_Index;
 			if (width < curw)
 				width = curw;
 			curw = 0.;
 			curx = (*run)->m_Width;
 			cur_line++;
+			m_Lines[cur_line].m_Index = (*run)->m_Index - 1; // -1 because of the hidden \n
 		} else {
 			(*run)->m_X = curx + curw;
 			curx += (*run)->m_Width;
@@ -1213,9 +1313,13 @@ void Text::RebuildAttributes ()
 	}
 	curw += curx;
 	m_Lines[cur_line].m_Width = curw;
+	run --;
+	m_Lines[cur_line].m_End = (*run)->m_Index + (*run)->m_Length;
 	if (width < curw)
 		width = curw;
+	end_tag = decorations.end ();
 	for (cur_line = 0; cur_line < lines; cur_line++) {
+		m_Lines[cur_line].m_Y = cury;
 		end_run = m_Lines[cur_line].m_Runs.end ();
 		for (run = m_Lines[cur_line].m_Runs.begin (); run != end_run; run++)
 			(*run)->m_Y = cury + m_Lines[cur_line].m_BaseLine - (*run)->m_BaseLine;
@@ -1282,7 +1386,12 @@ void Text::RebuildAttributes ()
 				break;
 			}
 		}
+		// now find which decorations apply to the line
+		for (tag = decorations.begin (); tag != end_tag; tag++)
+			if ((*tag)->GetStartIndex () < m_Lines[cur_line].m_End && (*tag)->GetEndIndex () > m_Lines[cur_line].m_Index)
+				m_Lines[cur_line].m_Decorations.push_back (*tag);
 	}
+	decorations.clear ();
 	// force reposition and redraw
 	SetPosition (m_x, m_y);
 }
@@ -1295,7 +1404,9 @@ void Text::OnButtonPressed (double x, double y)
 	y -= y0;
 	unsigned index = GetIndexAt (x, y);
 	if (index < G_MAXUINT) {
-		m_CurPos = m_StartSel = index;
+		m_CurPos = index;
+		if ((GetCanvas ()->GetLastEventState () & GDK_SHIFT_MASK) == 0)
+			m_StartSel = m_CurPos;
 		TextClient *client = dynamic_cast <TextClient *> (GetClient ());
 		if (client)
 			client->SelectionChanged (m_StartSel, m_CurPos);

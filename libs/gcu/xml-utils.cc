@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/xml-utils.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -155,6 +155,58 @@ bool WriteColor (xmlDocPtr xml, xmlNodePtr node, const char* id, double red, dou
 		xmlNewProp (child, (xmlChar*) "alpha", (xmlChar*) buf);
 	}
 	return true;
+}
+
+GOColor ReadColor (xmlNodePtr node)
+{
+	char *buf;
+	unsigned char red = 0, green = 0, blue = 0, alpha = 0xff;
+	buf = reinterpret_cast <char *> (xmlGetProp(node, (xmlChar*) "red"));
+	if (buf) {
+		red = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
+		xmlFree (buf);
+	}
+	buf = reinterpret_cast <char *> (xmlGetProp(node, (xmlChar*) "green"));
+	if (buf) {
+		green = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
+		xmlFree (buf);
+	}
+	buf = reinterpret_cast <char *> (xmlGetProp(node, (xmlChar*) "blue"));
+	if (buf) {
+		blue = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
+		xmlFree (buf);
+	}
+	buf = reinterpret_cast <char *> (xmlGetProp(node, (xmlChar*) "alpha"));
+	if (buf) {
+		alpha = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
+		xmlFree (buf);
+	}
+	return RGBA_TO_UINT (red, green, blue, alpha);
+}
+
+void WriteColor (xmlNodePtr node, GOColor color)
+{
+	unsigned field = UINT_RGBA_R (color);
+	char *buf;
+	if (field) {
+		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("red"), reinterpret_cast <xmlChar *> (buf));
+	}
+	field = UINT_RGBA_G (color);
+	if (field) {
+		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("green"), reinterpret_cast <xmlChar *> (buf));
+	}
+	field = UINT_RGBA_B (color);
+	if (field) {
+		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("blue"), reinterpret_cast <xmlChar *> (buf));
+	}
+	field = UINT_RGBA_A (color);
+	if (field != 0xff) {
+		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("alpha"), reinterpret_cast <xmlChar *> (buf));
+	}
 }
 
 bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)

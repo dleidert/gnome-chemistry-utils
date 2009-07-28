@@ -36,6 +36,7 @@
 #include <gccv/text.h>
 #include <gcu/formula.h>
 #include <gcu/objprops.h>
+#include <gcu/xml-utils.h>
 #include <glib/gi18n-lib.h>
 #include <stdexcept>
 #include <cmath>
@@ -255,9 +256,6 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		case gccv::TextDecorationDouble:
 			type = "double";
 			break;
-		case gccv::TextDecorationTriple:
-			type = "triple"; // not really implemented
-			break;
 		case gccv::TextDecorationSquiggle:
 			type = "squiggle"; // not really implemented
 			break;
@@ -265,6 +263,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("u"), NULL);
 		if (u != gccv::TextDecorationDefault)
 			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
+		WriteColor (child, static_cast <gccv::UnderlineTextTag *> (m_tag)->GetColor ());
 		break;
 	}
 	case gccv::Overline: { // not really implemented
@@ -288,9 +287,6 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		case gccv::TextDecorationDouble:
 			type = "double";
 			break;
-		case gccv::TextDecorationTriple:
-			type = "triple";
-			break;
 		case gccv::TextDecorationSquiggle:
 			type = "squiggle";
 			break;
@@ -298,6 +294,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("o"), NULL);
 		if (o != gccv::TextDecorationDefault)
 			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
+		WriteColor (child, static_cast <gccv::OverlineTextTag *> (m_tag)->GetColor ());
 		break;
 	}
 	case gccv::Strikethrough: {
@@ -321,9 +318,6 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		case gccv::TextDecorationDouble:
 			type = "double";
 			break;
-		case gccv::TextDecorationTriple:
-			type = "triple"; // not really implemented
-			break;
 		case gccv::TextDecorationSquiggle:
 			type = "squiggle"; // not really implemented
 			break;
@@ -331,6 +325,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("s"), NULL);
 		if (s != gccv::TextDecorationDefault)
 			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
+		WriteColor (child, static_cast <gccv::StrikethroughTextTag *> (m_tag)->GetColor ());
 		break;
 	}
 	case gccv::Foreground: {
@@ -338,20 +333,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		if (color == RGBA_BLACK)
 			break;
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("fore"), NULL);
-		char *buf = g_strdup_printf ("%g", DOUBLE_RGBA_R (color));
-		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("red"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
-		buf = g_strdup_printf ("%g", DOUBLE_RGBA_G (color));
-		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("green"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
-		buf = g_strdup_printf ("%g", DOUBLE_RGBA_B (color));
-		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("blue"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
-		if (UINT_RGBA_A (color) != 0xff) {
-			buf = g_strdup_printf ("%g", DOUBLE_RGBA_A (color));
-			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("alpha"), reinterpret_cast <xmlChar const *> (buf));
-			g_free (buf);
-		}
+		WriteColor (child, color);
 		break;
 	}
 	case gccv::Background: {
@@ -359,20 +341,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 		if (color == RGBA_BLACK)
 			break;
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("back"), NULL);
-		char *buf = g_strdup_printf ("%g", DOUBLE_RGBA_R (color));
-		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("red"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
-		buf = g_strdup_printf ("%g", DOUBLE_RGBA_G (color));
-		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("green"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
-		buf = g_strdup_printf ("%g", DOUBLE_RGBA_B (color));
-		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("blue"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
-		if (UINT_RGBA_A (color) != 0xff) {
-			buf = g_strdup_printf ("%g", DOUBLE_RGBA_A (color));
-			xmlNewProp (child, reinterpret_cast <xmlChar const *> ("alpha"), reinterpret_cast <xmlChar const *> (buf));
-			g_free (buf);
-		}
+		WriteColor (child, color);
 		break;
 	}
 	case gccv::Rise: {
@@ -595,7 +564,7 @@ bool Text::Load (xmlNodePtr node)
 	m_buf.clear ();
 	unsigned pos = 0;
 	while (child) {
-		if (!LoadNode (child, pos, 1))
+		if (!LoadNode (child, pos, 0))
 			return false;
 		child = child->next;
 	}
@@ -691,8 +660,6 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 		if (buf) {
 			if (!strcmp (buf, "double"))
 				underline = gccv::TextDecorationDouble;
-			else if (!strcmp (buf, "triple"))
-				underline = gccv::TextDecorationTriple;
 			else if (!strcmp (buf, "low"))
 				underline = gccv::TextDecorationLow;
 			else if (!strcmp (buf, "medium"))
@@ -703,15 +670,13 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 				underline = gccv::TextDecorationSquiggle;
 			xmlFree (buf);
 		}
-		tag = new gccv::UnderlineTextTag (underline);
+		tag = new gccv::UnderlineTextTag (underline, ReadColor (node));
 	} else if (!strcmp ((const char*) node->name, "o")) {
 		gccv::TextDecoration overline = gccv::TextDecorationDefault;
 		buf = (char*) xmlGetProp(node, (xmlChar*) "type");
 		if (buf) {
 			if (!strcmp (buf, "double"))
 				overline = gccv::TextDecorationDouble;
-			else if (!strcmp (buf, "triple"))
-				overline = gccv::TextDecorationTriple;
 			else if (!strcmp (buf, "low"))
 				overline = gccv::TextDecorationLow;
 			else if (!strcmp (buf, "medium"))
@@ -722,15 +687,13 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 				overline = gccv::TextDecorationSquiggle;
 			xmlFree (buf);
 		}
-		tag = new gccv::OverlineTextTag (overline);
+		tag = new gccv::OverlineTextTag (overline, ReadColor (node));
 	} else if (!strcmp ((const char*) node->name, "s")) {
 		gccv::TextDecoration strikethrough = gccv::TextDecorationDefault;
 		buf = (char*) xmlGetProp(node, (xmlChar*) "type");
 		if (buf) {
 			if (!strcmp (buf, "double"))
 				strikethrough = gccv::TextDecorationDouble;
-			else if (!strcmp (buf, "triple"))
-				strikethrough = gccv::TextDecorationTriple;
 			else if (!strcmp (buf, "low"))
 				strikethrough = gccv::TextDecorationLow;
 			else if (!strcmp (buf, "medium"))
@@ -741,7 +704,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 				strikethrough = gccv::TextDecorationSquiggle;
 			xmlFree (buf);
 		}
-		tag = new gccv::StrikethroughTextTag (strikethrough);
+		tag = new gccv::StrikethroughTextTag (strikethrough, ReadColor (node));
 	} else if (!strcmp ((const char*) node->name, "sub")) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "height");
 		if (buf) {
@@ -819,25 +782,11 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 			stretch = PANGO_STRETCH_ULTRA_EXPANDED;
 		xmlFree (buf);
 		tag = new gccv::StretchTextTag (stretch);
-	} else if (!strcmp ((const char*) node->name, "fore")) {
-		guint16 red, green, blue;
-		buf = (char*) xmlGetProp(node, (xmlChar*) "red");
-		if (!buf)
-			return false;
-		red = (guint16) (strtod (buf, NULL) * 0xff);
-		xmlFree (buf);
-		buf = (char*) xmlGetProp(node, (xmlChar*) "green");
-		if (!buf)
-			return false;
-		green = (guint16) (strtod (buf, NULL) * 0xff);
-		xmlFree (buf);
-		buf = (char*) xmlGetProp(node, (xmlChar*) "blue");
-		if (!buf)
-			return false;
-		blue = (guint16) (strtod (buf, NULL) * 0xff);
-		xmlFree (buf);
-		tag = new gccv::ForegroundTextTag (RGBA_TO_UINT (red, green, blue, 0xff));
-	} else
+	} else if (!strcmp ((const char*) node->name, "fore"))
+		tag = new gccv::ForegroundTextTag (ReadColor (node));
+	else if (!strcmp ((const char*) node->name, "back"))
+		tag = new gccv::BackgroundTextTag (ReadColor (node));
+	else
 		return true;
 	xmlNodePtr child = node->children;
 	while (child) {
