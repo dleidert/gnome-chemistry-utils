@@ -446,7 +446,7 @@ bool Text::Load (xmlNodePtr node)
 	m_AttrList = pango_attr_list_new ();
 	unsigned pos = 0;
 	while (child) {
-		if (!LoadNode (child, pos, 1))
+		if (!LoadNode (child, pos, 0))
 			return false;
 		child = child->next;
 	}

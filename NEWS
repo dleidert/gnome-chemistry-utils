@@ -1,4 +1,8 @@
 Version 0.10.5
+	GChemPaint:
+		* Do not loose isolated spaces when loading. [#27131]
+
+Version 0.10.5
 	Other:
 		* Make our code compatible with new goffice API. [#26105]
 

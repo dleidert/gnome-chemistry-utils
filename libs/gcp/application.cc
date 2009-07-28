@@ -885,6 +885,7 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 			g_error_free (error);
 			throw 1;
 		}
+		xmlKeepBlanksDefault (1); // to be sure we don't loose significant spaces.
 		if (!(xml = xmlReadIO ((xmlInputReadCallback) cb_vfs_to_xml, 
 				 (xmlInputCloseCallback) g_input_stream_close, input, filename.c_str (), NULL, 0))) {
 			g_object_unref (file);
