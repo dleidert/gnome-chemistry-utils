@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-07-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fix y for lines.
+	* libs/gcu/crystalatom.cc: ensure that only fractional properties are
+	imported.
+	* libs/gcu/crystalatom.h: ditto.
+	* libs/gcu/crystaldoc.cc: don't add an atom twice or more.
+	* libs/gcu/objprops.h: add new fractional coordinates properties.
+	* libs/gcu/spacegroup.cc: fix a possible crash.
+	* plugins/loaders/cif/cif.cc: use new fractional coordinates properties.
+	* plugins/loaders/cml/cml.cc: enhanced crystal structure import.
+
 2009-07-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: more work on underline and friends.
 	* libs/gccv/canvas.h: ditto.

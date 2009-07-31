@@ -784,6 +784,41 @@ void CrystalDoc::Loaded ()
 		}
 		(*i)->SetDefaultColor ();
 	}
+	switch (m_lattice) { // ensure that the paraleters are coherent
+	case cubic:
+	case body_centered_cubic:
+	case face_centered_cubic:
+		m_alpha = m_beta = m_gamma  = 90;
+		m_b = m_c = m_a;
+		break;
+	case hexagonal:
+		m_alpha = m_beta = 90;
+		m_gamma  = 120;
+		m_b = m_a;
+		break;
+	case tetragonal:
+	case body_centered_tetragonal:
+		m_alpha = m_beta = m_gamma  = 90;
+		m_b = m_a;
+		break;
+	case orthorhombic:
+	case base_centered_orthorhombic:
+	case body_centered_orthorhombic:
+	case face_centered_orthorhombic:
+		m_alpha = m_beta = m_gamma  = 90;
+		break;
+	case rhombohedral:
+		m_beta = m_gamma = m_alpha;
+		m_b = m_c = m_a;
+		break;
+	case monoclinic:
+	case base_centered_monoclinic:
+		m_alpha = m_gamma  = 90;
+		break;
+	case triclinic:
+		break;
+	}
+
 	Update ();
 }
 
@@ -874,8 +909,10 @@ void CrystalDoc::AddChild (Object* object)
 {
 	Object::AddChild (object);
 	CrystalAtom *atom = dynamic_cast <CrystalAtom *> (object);
-	if (atom)
+	if (atom) {
+		AtomDef.remove (atom); // don't add more than needed (a set might be better than a list)
 		AtomDef.push_back (atom);
+	}
 }
 
 }	//	namespace gcu

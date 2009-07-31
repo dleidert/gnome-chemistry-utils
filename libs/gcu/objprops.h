@@ -58,6 +58,18 @@ The z coordinate of an object
 */
 	GCU_PROP_Z,
 /*!
+The fractional x coordinate of an object
+*/
+	GCU_PROP_XFRACT,
+/*!
+The fractional y coordinate of an object
+*/
+	GCU_PROP_YFRACT,
+/*!
+The fractional z coordinate of an object
+*/
+	GCU_PROP_ZFRACT,
+/*!
 The file name.
 */
 	GCU_PROP_DOC_FILENAME,

@@ -27,6 +27,7 @@
 #include <gcu/loader.h>
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
+#include <gcu/spacegroup.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-libxml.h>
@@ -48,6 +49,8 @@ typedef struct {
 	stack<Object*> cur;
 	ContentType type;
 	string curstr;
+	unsigned cur_prop;
+	gpointer data; // used for whatever has to be stores which is not an Object
 } CMLReadState;
 
 typedef struct {
@@ -88,6 +91,15 @@ bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *ob
 			sscanf (prop.c_str (), "%lg %lg", &x, &y);
 			gsf_xml_out_add_float (xml, "x2", x, -1);
 			gsf_xml_out_add_float (xml, "y2", -y, -1); // reverse y order
+		}
+	} else if (type == ContentTypeCrystal) {
+		double x, y, z;
+		prop = object->GetProperty (GCU_PROP_POS3D);
+		if (prop.length ()) {
+			sscanf (prop.c_str (), "%lg %lg %lg", &x, &y, &z);
+			gsf_xml_out_add_float (xml, "xFract", x, -1);
+			gsf_xml_out_add_float (xml, "yFract", y, -1);
+			gsf_xml_out_add_float (xml, "zFract", z, -1);
 		}
 	} else {
 		double x, y, z;
@@ -172,13 +184,43 @@ CMLLoader::CMLLoader ()
 	// atom properties
 	KnownProps["elementType"] = GCU_PROP_ATOM_SYMBOL;
 	KnownProps["formalCharge"] = GCU_PROP_ATOM_CHARGE;
+	KnownProps["xFract"] = GCU_PROP_XFRACT;
+	KnownProps["yFract"] = GCU_PROP_YFRACT;
+	KnownProps["zFract"] = GCU_PROP_ZFRACT;
 	// bond properties
 	KnownProps["order"] = GCU_PROP_BOND_ORDER;
-
+	// crystal properties
+	KnownProps["a"] = GCU_PROP_CELL_A;
+	KnownProps["b"] = GCU_PROP_CELL_B;
+	KnownProps["c"] = GCU_PROP_CELL_C;
+	KnownProps["alpha"] = GCU_PROP_CELL_ALPHA;
+	KnownProps["beta"] = GCU_PROP_CELL_BETA;
+	KnownProps["gamma"] = GCU_PROP_CELL_GAMMA;
 	// Add write callbacks
 	m_WriteCallbacks["atom"] = cml_write_atom;
 	m_WriteCallbacks["bond"] = cml_write_bond;
 	m_WriteCallbacks["molecule"] = cml_write_molecule;
+	// CIF derived properties
+	KnownProps["iucr:_publ_contact_author_name"] = GCU_PROP_DOC_CREATOR;
+	KnownProps["iucr:_publ_author_name"] = GCU_PROP_DOC_CREATOR;
+	KnownProps["iucr:_publ_contact_author_email"] = GCU_PROP_DOC_CREATOR_EMAIL;
+	KnownProps["iucr:_publ_author_email"] = GCU_PROP_DOC_CREATOR_EMAIL;
+
+	KnownProps["iucr:_cell_length_a"] = GCU_PROP_CELL_A;
+	KnownProps["iucr:_cell_length_b"] = GCU_PROP_CELL_B;
+	KnownProps["iucr:_cell_length_c"] = GCU_PROP_CELL_C;
+	KnownProps["iucr:_cell_angle_apha"] = GCU_PROP_CELL_ALPHA;
+	KnownProps["iucr:_cell_angle_beta"] = GCU_PROP_CELL_BETA;
+	KnownProps["iucr:_cell_angle_gamma"] = GCU_PROP_CELL_GAMMA;
+
+	KnownProps["iucr:_chemical_name_common"] = GCU_PROP_CHEMICAL_NAME_COMMON;
+	KnownProps["iucr:_chemical_name_systematic"] = GCU_PROP_CHEMICAL_NAME_SYSTEMATIC;
+	KnownProps["iucr:_chemical_name_mineral"] = GCU_PROP_CHEMICAL_NAME_COMMON;
+	KnownProps["iucr:_chemical_name_structure_type"] = GCU_PROP_CHEMICAL_NAME_STRUCTURE;
+
+	KnownProps["iucr:_atom_site_fract_x"] = GCU_PROP_XFRACT;
+	KnownProps["iucr:_atom_site_fract_y"] = GCU_PROP_YFRACT;
+	KnownProps["iucr:_atom_site_fract_z"] = GCU_PROP_ZFRACT;
 }
 
 CMLLoader::~CMLLoader ()
@@ -198,6 +240,34 @@ cml_simple_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 	state->cur.pop ();
 }
+	
+static void
+cml_scalar_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp (reinterpret_cast <char const *> (*attrs), "title") ||
+			    !strcmp (reinterpret_cast <char const *> (*attrs), "dictRef")) {
+				map <string, unsigned>::iterator it = KnownProps.find (reinterpret_cast <char const *> (attrs[1]));
+			    state->cur_prop = it == KnownProps.end ()? static_cast <unsigned> (GCU_PROP_MAX): (*it).second;
+			} else if (!strcmp (reinterpret_cast <char const *> (*attrs), "units"))
+				state->curstr = reinterpret_cast <char const *> (attrs[1]);
+			attrs += 2;
+		}
+}
+
+static void
+cml_scalar_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	double val = strtod (xin->content->str, NULL);
+	if (state->curstr == "units:angstrom")
+		val *= 100.;
+	char *buf = g_strdup_printf ("%g", val);
+	state->doc->SetProperty (state->cur_prop, buf);
+	g_free (buf);
+};
 
 static void
 cml_doc (GsfXMLIn *xin, xmlChar const **attrs)
@@ -245,7 +315,8 @@ static void
 cml_atom_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("atom", state->cur.top ());
+	Object *parent = state->cur.top ();
+	Object *obj = Object::CreateObject ("atom", parent? parent: state->doc);
 	obj->SetProperty (GCU_PROP_ATOM_SYMBOL, "C");
 	map <string, unsigned>::iterator it;
 	if (attrs)
@@ -320,7 +391,75 @@ cml_crystal_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
 	state->type = ContentTypeCrystal;
+	state->data = new SpaceGroup ();
+
+	state->doc->SetScale (1.); // FIXME: assuming fractional coordinates
 }
+
+static void
+cml_crystal_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	SpaceGroup *group = static_cast <SpaceGroup *> (state->data);
+	SpaceGroup const *found = SpaceGroup::Find (group);
+	if (found != NULL)
+		state->doc->SetProperty (GCU_PROP_SPACE_GROUP, found->GetHallName ().c_str ());
+	delete group;
+	state->data = NULL;
+};
+	
+static void
+cml_crystal_scalar_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	state->curstr = "";
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp (reinterpret_cast <char const *> (*attrs), "title") ||
+			    !strcmp (reinterpret_cast <char const *> (*attrs), "dictRef")) {
+				map <string, unsigned>::iterator it = KnownProps.find (reinterpret_cast <char const *> (attrs[1]));
+			    state->cur_prop = it == KnownProps.end ()? static_cast <unsigned> (GCU_PROP_MAX): (*it).second;
+			} else if (!strcmp (reinterpret_cast <char const *> (*attrs), "units"))
+				state->curstr = reinterpret_cast <char const *> (attrs[1]);
+			attrs += 2;
+		}
+}
+
+static void
+cml_crystal_scalar_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	double val = strtod (xin->content->str, NULL);
+	if (state->curstr == "units:angstrom" || state->curstr == "")
+		val *= 100.;
+	char *buf = g_strdup_printf ("%g", val);
+	state->doc->SetProperty (state->cur_prop, buf);
+	g_free (buf);
+};
+	
+static void
+cml_symmetry_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	SpaceGroup *group = static_cast <SpaceGroup *> (state->data);
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp (reinterpret_cast <char const *> (*attrs), "spaceGroup")) {
+				SpaceGroup const *found = SpaceGroup::GetSpaceGroup (reinterpret_cast <char const *> (attrs[1]));
+				if (found)
+					group->SetHallName (found->GetHallName ());
+			}
+			attrs += 2;
+		}
+}
+
+static void
+cml_transform_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	SpaceGroup *group = static_cast <SpaceGroup *> (state->data);
+	group->AddTransform (xin->content->str);
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Molecule code
@@ -335,16 +474,17 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 		GSF_XML_IN_NODE (MOL, MOL_FORMULA, -1, "formula", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (MOL, MOL_PROPS, -1, "propertyList", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (MOL_PROPS, MOL_PROP, -1, "property", GSF_XML_NO_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (MOL_PROP, MOL_PROP_SCALAR, -1, "scalar", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (MOL_PROP, MOL_PROP_SCALAR, -1, "scalar", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (MOL, ATOM_ARRAY, -1, "atomArray", GSF_XML_NO_CONTENT, NULL, NULL),
 			GSF_XML_IN_NODE (ATOM_ARRAY, ATOM, -1, "atom", GSF_XML_NO_CONTENT, cml_atom_start, NULL),
 		GSF_XML_IN_NODE (MOL, BOND_ARRAY, -1, "bondArray", GSF_XML_NO_CONTENT, NULL, NULL),
 			GSF_XML_IN_NODE (BOND_ARRAY, BOND, -1, "bond", GSF_XML_NO_CONTENT, cml_bond_start, cml_simple_end),
 				GSF_XML_IN_NODE (BOND, BOND_STEREO, -1, "bondStereo", GSF_XML_CONTENT, NULL, cml_bond_stereo),
-		GSF_XML_IN_NODE (MOL, CRYSTAL, -1, "crystal", GSF_XML_NO_CONTENT, cml_crystal_start, NULL),
-			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SCALAR, -1, "scalar", GSF_XML_NO_CONTENT, NULL, NULL),
-			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SYMMETRY, -1, "symmetry", GSF_XML_NO_CONTENT, NULL, NULL),
-				GSF_XML_IN_NODE (CRYSTAL_SYMMETRY, CRYSTAL_TRANSFORM, -1, "transform3", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (MOL, CRYSTAL, -1, "crystal", GSF_XML_NO_CONTENT, cml_crystal_start, cml_crystal_end),
+			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SCALAR, -1, "scalar", GSF_XML_CONTENT, cml_crystal_scalar_start, cml_crystal_scalar_end),
+			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SYMMETRY, -1, "symmetry", GSF_XML_NO_CONTENT, cml_symmetry_start, NULL),
+				GSF_XML_IN_NODE (CRYSTAL_SYMMETRY, CRYSTAL_TRANSFORM, -1, "transform3", GSF_XML_CONTENT, NULL, cml_transform_end),
+				GSF_XML_IN_NODE (CRYSTAL_SYMMETRY, CRYSTAL_MATRIX, -1, "matrix", GSF_XML_CONTENT, NULL, cml_transform_end),
 	GSF_XML_IN_NODE_END
 	};
 	CMLReadState	*state = (CMLReadState *) xin->user_state;
@@ -360,6 +500,7 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 // Reading code
 static GsfXMLInNode const cml_dtd[] = {
 GSF_XML_IN_NODE (CML, CML, -1, "cml", GSF_XML_CONTENT, &cml_doc, NULL),
+	GSF_XML_IN_NODE (CML, CML_SCALAR, -1, "scalar", GSF_XML_CONTENT, cml_scalar_start, cml_scalar_end),
 	GSF_XML_IN_NODE (CML, MOLECULE, -1, "molecule", GSF_XML_CONTENT, cml_mol_start, cml_simple_end),
 };
 

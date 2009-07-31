@@ -219,6 +219,15 @@ not be displayed.
 */
 	int m_nCleave; //0 if not cleaved
 
+/*!
+@param property the identity of the property as defined in objprops.h.
+@param value the value of the property as a string.
+
+Used by the gcu::Loader mechanism to load properties of atoms.
+@return true on success.
+*/
+	bool SetProperty (unsigned property, char const *value);
+
 GCU_PROP (double, EffectiveRadiusRatio);
 };
 

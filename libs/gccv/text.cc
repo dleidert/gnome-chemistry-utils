@@ -164,21 +164,21 @@ void TextLine::DrawDecorations (cairo_t *cr)
 		case Underline:
 			dec = static_cast <UnderlineTextTag *> (*tag)->GetUnderline ();
 			color = static_cast <UnderlineTextTag *> (*tag)->GetColor ();
-			y = m_BaseLine + (m_Height - m_BaseLine) * 2. / 3.;
+			y = m_Y + m_BaseLine + (m_Height - m_BaseLine) * 2. / 3.;
 			if (dec == TextDecorationDefault)
 					dec = TextDecorationHigh;
 			break;
 		case Overline:
 			dec = static_cast <OverlineTextTag *> (*tag)->GetOverline ();
 			color = static_cast <OverlineTextTag *> (*tag)->GetColor ();
-			y = (m_Height - m_BaseLine) / 3.;
+			y = m_Y + (m_Height - m_BaseLine) / 3.;
 			if (dec == TextDecorationDefault)
 					dec = TextDecorationLow;
 			break;
 		case Strikethrough:
 			dec = static_cast <StrikethroughTextTag *> (*tag)->GetStrikethrough ();
 			color = static_cast <StrikethroughTextTag *> (*tag)->GetColor ();
-			y = m_Height / 2.;
+			y = m_Y + m_Height / 2.;
 			if (dec == TextDecorationDefault)
 					dec = TextDecorationMedium;
 			break;

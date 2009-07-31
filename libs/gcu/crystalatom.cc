@@ -25,7 +25,9 @@
 #include "config.h"
 #include "element.h"
 #include "crystalatom.h"
+#include "document.h"
 #include "element.h"
+#include "objprops.h"
 #include "xml-utils.h"
 #include <GL/glu.h>
 #include <cmath>
@@ -213,6 +215,29 @@ void CrystalAtom::SetRadius(const GcuAtomicRadius& r)
 	m_Radius.scale = r.scale;
 	m_Radius.cn = r.cn;	//coordination number: -1: unspecified
 	m_Radius.spin = r.spin;
+}
+
+bool CrystalAtom::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_POS2D:
+	case GCU_PROP_X:
+	case GCU_PROP_Y:
+	case GCU_PROP_Z:
+		break;
+	case GCU_PROP_XFRACT:
+		m_x = strtod (value, NULL) * GetDocument ()->GetScale ();
+		break;
+	case GCU_PROP_YFRACT:
+		m_y = strtod (value, NULL) * GetDocument ()->GetScale ();
+		break;
+	case GCU_PROP_ZFRACT:
+		m_z = strtod (value, NULL) * GetDocument ()->GetScale ();
+		break;
+	default:
+		return Atom::SetProperty (property, value);
+	}
+	return  true;
 }
 
 }	//	namespace gcu

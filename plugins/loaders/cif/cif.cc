@@ -82,10 +82,9 @@ CIFLoader::CIFLoader ()
 	KnownProps["_atom_type_oxidation_number"] = CIF_ATOM_SITE_OXIDATION_NUMBER;
 	KnownProps["_atom_site_type_symbol"] = CIF_ATOM_SITE_SYMBOL;
 	KnownProps["_atom_site_label"] = CIF_ATOM_LABEL;
-	KnownProps["_atom_site_fract_x"] = GCU_PROP_X;
-	KnownProps["_atom_site_fract_y"] = GCU_PROP_Y;
-	KnownProps["_atom_site_fract_z"] = GCU_PROP_Z;
-
+	KnownProps["_atom_site_fract_x"] = GCU_PROP_XFRACT;
+	KnownProps["_atom_site_fract_y"] = GCU_PROP_YFRACT;
+	KnownProps["_atom_site_fract_z"] = GCU_PROP_ZFRACT;
 }
 
 CIFLoader::~CIFLoader ()
@@ -398,7 +397,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 		gtk_widget_show_all (w);
 	} else {
 		SpaceGroup const *sp = SpaceGroup::Find (group);
-		if (group)
+		if (sp)
 			doc->SetProperty (GCU_PROP_SPACE_GROUP, sp->GetHallName ().c_str ());
 	}
 read_exit:
