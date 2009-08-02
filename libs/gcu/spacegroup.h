@@ -56,6 +56,7 @@ public:
 	static SpaceGroup const *GetSpaceGroup (char const *name);
 	static SpaceGroup const *GetSpaceGroup (std::string const &name);
 	static SpaceGroup const *GetSpaceGroup (unsigned id);
+	static std::list <SpaceGroup const *> &GetSpaceGroups (unsigned id);
 	static SpaceGroup const *Find (SpaceGroup* group);
 	/* Use it if the space group is unknown (might happen if no database has
 	been loaded or if the HM name is not usual. */
@@ -67,6 +68,7 @@ public:
 	return !((*this) == other);
 	}
 	bool IsValid() const;
+	unsigned GetTransformsNumber () const {return m_Transforms.size ();}
 
 private:
 	std::list<Transform3d*> m_Transforms;

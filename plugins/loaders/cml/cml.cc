@@ -49,6 +49,7 @@ typedef struct {
 	stack<Object*> cur;
 	ContentType type;
 	string curstr;
+	string proptype;
 	unsigned cur_prop;
 	gpointer data; // used for whatever has to be stores which is not an Object
 } CMLReadState;
@@ -245,13 +246,17 @@ static void
 cml_scalar_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
+	state->curstr = "";
+	state->proptype = "xsd:double";
 	if (attrs)
 		while (*attrs) {
 			if (!strcmp (reinterpret_cast <char const *> (*attrs), "title") ||
 			    !strcmp (reinterpret_cast <char const *> (*attrs), "dictRef")) {
 				map <string, unsigned>::iterator it = KnownProps.find (reinterpret_cast <char const *> (attrs[1]));
 			    state->cur_prop = it == KnownProps.end ()? static_cast <unsigned> (GCU_PROP_MAX): (*it).second;
-			} else if (!strcmp (reinterpret_cast <char const *> (*attrs), "units"))
+			} else if (!strcmp (reinterpret_cast <char const *> (*attrs), "dataType"))
+				state->proptype = reinterpret_cast <char const *> (attrs[1]);
+			else if (!strcmp (reinterpret_cast <char const *> (*attrs), "units"))
 				state->curstr = reinterpret_cast <char const *> (attrs[1]);
 			attrs += 2;
 		}
@@ -261,12 +266,15 @@ static void
 cml_scalar_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
-	double val = strtod (xin->content->str, NULL);
-	if (state->curstr == "units:angstrom")
-		val *= 100.;
-	char *buf = g_strdup_printf ("%g", val);
-	state->doc->SetProperty (state->cur_prop, buf);
-	g_free (buf);
+	if (state->proptype == "xsd:double") {
+		double val = strtod (xin->content->str, NULL);
+		if (state->curstr == "units:angstrom" || state->curstr == "")
+			val *= 100.;
+		char *buf = g_strdup_printf ("%g", val);
+		state->doc->SetProperty (state->cur_prop, buf);
+		g_free (buf);
+	} else if (state->proptype == "xsd:string")
+		state->doc->SetProperty (state->cur_prop, xin->content->str);
 };
 
 static void
@@ -409,35 +417,6 @@ cml_crystal_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 };
 	
 static void
-cml_crystal_scalar_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
-{
-	CMLReadState *state = (CMLReadState *) xin->user_state;
-	state->curstr = "";
-	if (attrs)
-		while (*attrs) {
-			if (!strcmp (reinterpret_cast <char const *> (*attrs), "title") ||
-			    !strcmp (reinterpret_cast <char const *> (*attrs), "dictRef")) {
-				map <string, unsigned>::iterator it = KnownProps.find (reinterpret_cast <char const *> (attrs[1]));
-			    state->cur_prop = it == KnownProps.end ()? static_cast <unsigned> (GCU_PROP_MAX): (*it).second;
-			} else if (!strcmp (reinterpret_cast <char const *> (*attrs), "units"))
-				state->curstr = reinterpret_cast <char const *> (attrs[1]);
-			attrs += 2;
-		}
-}
-
-static void
-cml_crystal_scalar_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	CMLReadState *state = (CMLReadState *) xin->user_state;
-	double val = strtod (xin->content->str, NULL);
-	if (state->curstr == "units:angstrom" || state->curstr == "")
-		val *= 100.;
-	char *buf = g_strdup_printf ("%g", val);
-	state->doc->SetProperty (state->cur_prop, buf);
-	g_free (buf);
-};
-	
-static void
 cml_symmetry_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
@@ -481,7 +460,7 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 			GSF_XML_IN_NODE (BOND_ARRAY, BOND, -1, "bond", GSF_XML_NO_CONTENT, cml_bond_start, cml_simple_end),
 				GSF_XML_IN_NODE (BOND, BOND_STEREO, -1, "bondStereo", GSF_XML_CONTENT, NULL, cml_bond_stereo),
 		GSF_XML_IN_NODE (MOL, CRYSTAL, -1, "crystal", GSF_XML_NO_CONTENT, cml_crystal_start, cml_crystal_end),
-			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SCALAR, -1, "scalar", GSF_XML_CONTENT, cml_crystal_scalar_start, cml_crystal_scalar_end),
+			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SCALAR, -1, "scalar", GSF_XML_CONTENT, cml_scalar_start, cml_scalar_end),
 			GSF_XML_IN_NODE (CRYSTAL, CRYSTAL_SYMMETRY, -1, "symmetry", GSF_XML_NO_CONTENT, cml_symmetry_start, NULL),
 				GSF_XML_IN_NODE (CRYSTAL_SYMMETRY, CRYSTAL_TRANSFORM, -1, "transform3", GSF_XML_CONTENT, NULL, cml_transform_end),
 				GSF_XML_IN_NODE (CRYSTAL_SYMMETRY, CRYSTAL_MATRIX, -1, "matrix", GSF_XML_CONTENT, NULL, cml_transform_end),

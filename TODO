@@ -4,10 +4,10 @@
 
 * Calculator:
 	* enhance ambiguous abbreviations support (0.12?).
-	* a lot of code cleaning (0.12).
+	* a lot of code cleaning (0.12?).
 
 * 3d viewer:
-	* allow selection of atoms and or bonds, and display or lengths and angles (0.12).
+	* allow selection of atoms and or bonds, and display of lengths and angles (0.12?).
 	* add a preferences dialog.
 
 * Mozilla plugin:
@@ -16,7 +16,6 @@
 	* support for options when displaying a spectrum (?).
 
 * Gnome Crystal:
-	* open cml files (0.12).
 	* export to cif and cml formats (needs space group sniffing) (?).
 
 * GChemPaint:

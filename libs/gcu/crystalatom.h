@@ -37,6 +37,8 @@
 namespace gcu
 {
 
+#define PREC 1e-3
+
 /*! \class CrystalAtom gcu/crystalatom.h
 Used to represent atoms in a crystal.
 */
@@ -186,7 +188,7 @@ Saves the color and the radius of the atom.
 Loads the color and the radius of the atom.
 */
 	virtual bool LoadNode (xmlNodePtr node);
-	
+
 protected:
 /*!
 The blue component of the color of the sphere representing the atom.

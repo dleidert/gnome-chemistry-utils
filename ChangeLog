@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2009-08-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: m	kz underline and strikethrough work again.
+	* libs/gcu/crystalatom.cc: partly implement space group sniffing.
+	* libs/gcu/crystalatom.h: ditto.
+	* libs/gcu/crystaldoc.cc: ditto.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/spacegroup.cc: ditto.
+	* libs/gcu/spacegroup.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: fix a test.
+	* plugins/loaders/cif/cif.cc: remove unuseful code.
+	* plugins/loaders/cml/cml.cc: enhance the <scalar/> node support.
+	* programs/crystal/application.cc: do not write cml and cif files for now.
+	* programs/crystal/document.h: removed the ReadOnly property (moved to
+	gcu::CrystalDoc class).
+
 2009-07-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fix y for lines.
 	* libs/gcu/crystalatom.cc: ensure that only fractional properties are

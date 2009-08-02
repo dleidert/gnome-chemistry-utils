@@ -271,7 +271,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 						result = ContentTypeUnknown;
 			}
 		}
-		if (!result != ContentType2D)
+		if (result != ContentType2D)
 			break;
 		if (!(READINT16 (in,code))) {
 			result = ContentTypeUnknown;

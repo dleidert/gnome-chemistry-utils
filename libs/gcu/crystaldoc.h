@@ -179,6 +179,8 @@ and add some lines.
 */
 	void AddChild (Object* object);
 
+	SpaceGroup const *FindSpaceGroup ();
+
 protected:
 /*!
 Initialize a new CrystalDoc instance.

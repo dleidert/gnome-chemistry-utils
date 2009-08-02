@@ -131,7 +131,7 @@ public:
 	TextLine ();
 	~TextLine ();
 
-	void DrawDecorations (cairo_t *cr);
+	void DrawDecorations (cairo_t *cr, bool is_vector);
 
 	double m_Width, m_Height, m_BaseLine;
 	double m_Y;
@@ -149,7 +149,7 @@ TextLine::~TextLine ()
 {
 }
 
-void TextLine::DrawDecorations (cairo_t *cr)
+void TextLine::DrawDecorations (cairo_t *cr, bool is_vector)
 {
 	unsigned start, end;
 	double xstart, xend, y;
@@ -164,21 +164,21 @@ void TextLine::DrawDecorations (cairo_t *cr)
 		case Underline:
 			dec = static_cast <UnderlineTextTag *> (*tag)->GetUnderline ();
 			color = static_cast <UnderlineTextTag *> (*tag)->GetColor ();
-			y = m_Y + m_BaseLine + (m_Height - m_BaseLine) * 2. / 3.;
+			y = m_Y + m_BaseLine + (m_Height - m_BaseLine) * 3. / 4.;
 			if (dec == TextDecorationDefault)
 					dec = TextDecorationHigh;
 			break;
 		case Overline:
 			dec = static_cast <OverlineTextTag *> (*tag)->GetOverline ();
 			color = static_cast <OverlineTextTag *> (*tag)->GetColor ();
-			y = m_Y + (m_Height - m_BaseLine) / 3.;
+			y = m_Y + (m_Height - m_BaseLine) / 4.;
 			if (dec == TextDecorationDefault)
 					dec = TextDecorationLow;
 			break;
 		case Strikethrough:
 			dec = static_cast <StrikethroughTextTag *> (*tag)->GetStrikethrough ();
 			color = static_cast <StrikethroughTextTag *> (*tag)->GetColor ();
-			y = m_Y + m_Height / 2.;
+			y = m_Y + m_BaseLine * 3. / 4.;
 			if (dec == TextDecorationDefault)
 					dec = TextDecorationMedium;
 			break;
@@ -188,6 +188,7 @@ void TextLine::DrawDecorations (cairo_t *cr)
 		}
 		if (dec == TextDecorationNone || color == 0)
 			continue;
+		double width = (m_Height - m_BaseLine) / 4.;
 		// find the limits as indexes
 		start = MAX (m_Index, (*tag)->GetStartIndex ());
 		end = MIN (m_End, (*tag)->GetEndIndex ());
@@ -221,11 +222,43 @@ void TextLine::DrawDecorations (cairo_t *cr)
 			xstart = xend;
 			xend = buf;
 		}
+		if (!is_vector) {
+			double scalex = 1., scale = 1.;
+			cairo_user_to_device_distance (cr, &scalex, &scale);
+			width = round (width * scale) / scale;
+			y = round ((y + width / 2.) * scale) / scale - width / 2.;
+			xstart = round (xstart * scale) / scale;
+			xend = round (xend * scale) / scale;
+		}
+		switch (dec) {
+		case TextDecorationHigh:
+			y -= width;
+			cairo_move_to (cr, xstart, y);
+			cairo_line_to (cr, xend, y);
+			break;	
+		case TextDecorationLow:
+			y += width;
+			cairo_move_to (cr, xstart, y);
+			cairo_line_to (cr, xend, y);
+			break;	
+		case TextDecorationMedium:
+			cairo_move_to (cr, xstart, y);
+			cairo_line_to (cr, xend, y);
+			break;	
+		case TextDecorationDouble:
+			y += width;
+			cairo_move_to (cr, xstart, y);
+			cairo_line_to (cr, xend, y);
+			y -= 2 * width;
+			cairo_move_to (cr, xstart, y);
+			cairo_line_to (cr, xend, y);
+			break;	
+		default:
+			break;	
+		}
 		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
-		cairo_set_line_width (cr, 1.);
+		cairo_set_line_width (cr, width);
 		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
-		cairo_move_to (cr, xstart, y);
-		cairo_line_to (cr, xend, y);
 		cairo_stroke (cr);
 	}
 }
@@ -570,9 +603,15 @@ void Text::Draw (cairo_t *cr, bool is_vector) const
 	}
 	// draw decorations (underline and friends)
 	cairo_save (cr);
+	if (!is_vector) {
+		double scalex = 1., scale = 1.;
+		cairo_user_to_device_distance (cr, &scalex, &scale);
+		startx = round (startx * scale) / scale;
+		starty = round (starty * scale) / scale;
+	}
 	cairo_translate (cr, startx, starty);
 	for (unsigned line = 0; line < m_LinesNumber; line++)
-		m_Lines[line].DrawDecorations (cr);
+		m_Lines[line].DrawDecorations (cr, is_vector);
 	cairo_restore (cr);
 	if (m_CursorVisible && m_CurPos == 0) {
 		PangoRectangle rect;

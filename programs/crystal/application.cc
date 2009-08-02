@@ -59,8 +59,9 @@ gcApplication::gcApplication(): Application ("gcrystal")
 		if ((*it).second.supportsCrystals) {
 			if ((*it).second.read)
 				AddMimeType (m_SupportedMimeTypes, (*it).first);
-			if ((*it).second.write)
-				AddMimeType (m_WriteableMimeTypes, (*it).first);
+			// FIXME: add write support for cif and cml
+/*			if ((*it).second.write)
+				AddMimeType (m_WriteableMimeTypes, (*it).first);*/
 		}
 		found = Loader::GetNextLoader (it);
 	}
@@ -347,6 +348,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		ContentType ctype = Load (filename, mime_type, pDoc);
 		if (ctype == ContentTypeCrystal) {
 			Doc->Loaded ();
+			Doc->SetReadOnly (true);
 			Doc->UpdateAllViews ();
 			goto normal_exit;
 		} else if (ctype != ContentTypeUnknown) {

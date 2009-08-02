@@ -100,6 +100,7 @@ CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
 	m_fAlpha = caAtom.m_fAlpha ;
 	m_EffectiveRadiusRatio = caAtom.m_EffectiveRadiusRatio;
 	m_nCleave = 0 ;
+	SetCharge (caAtom.GetCharge ());
 	return *this ;
 }
 
@@ -151,9 +152,12 @@ double CrystalAtom::GetSize()
 
 bool CrystalAtom::operator==(CrystalAtom& caAtom)
 {
-	return (x() == caAtom.x()) &&
-			(y() == caAtom.y()) &&
-			(z() == caAtom.z()) ;
+	// original version only checked x, y and z, we might need a SameCoords method.
+	return ((fabs (x() - caAtom.x()) < PREC) &&
+			(fabs (y() - caAtom.y()) < PREC) &&
+			(fabs (z() - caAtom.z()) < PREC) &&
+			(GetZ () == caAtom.GetZ ()) &&
+			(GetCharge () == caAtom.GetCharge ())) ;
 }
 
 double CrystalAtom::ScalProd(int h, int k, int l)

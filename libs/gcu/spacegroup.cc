@@ -462,4 +462,11 @@ SpaceGroup const *SpaceGroup::Find (SpaceGroup* group)
 	return NULL;
 }
 
+std::list <SpaceGroup const *> &SpaceGroup::GetSpaceGroups (unsigned id)
+{
+	if (!_SpaceGroups.Inited ())
+		_SpaceGroups.Init ();
+	return _SpaceGroups.sgbi[id - 1];
+}
+
 }   //  namespace gcu

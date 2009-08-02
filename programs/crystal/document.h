@@ -113,7 +113,7 @@ private:
 	gcView *m_pActiveView;
 	GDate m_CreationDate, m_RevisionDate;
 
-GCU_RO_PROP (bool, ReadOnly)
+GCU_PROP (bool, ReadOnly)
 GCU_RO_PROP (char *, Label)
 GCU_RO_PROP (char *, Author)
 GCU_RO_PROP (char *, Mail)

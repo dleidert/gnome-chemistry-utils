@@ -45,7 +45,6 @@
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
-#define PREC 1e-3
 
 using namespace std;
 
@@ -275,6 +274,8 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 	g_free (old_num_locale);
 	SetDirty (false);
 	Update ();
+	if (!m_SpaceGroup)
+		m_SpaceGroup = FindSpaceGroup ();
 }
 
 bool CrystalDoc::LoadNewView(G_GNUC_UNUSED xmlNodePtr node)
@@ -540,6 +541,7 @@ void CrystalDoc::Update()
 		m_MaxDist = __max (m_MaxDist, d);
 		(*j)->Move (- x, - y, - z);
 	}
+	m_SpaceGroup = FindSpaceGroup ();
 }
 
 void CrystalDoc::Duplicate (CrystalAtom& Atom)
@@ -913,6 +915,146 @@ void CrystalDoc::AddChild (Object* object)
 		AtomDef.remove (atom); // don't add more than needed (a set might be better than a list)
 		AtomDef.push_back (atom);
 	}
+}
+
+SpaceGroup const *CrystalDoc::FindSpaceGroup ()
+{
+	if (!AtomDef.size ())
+		return NULL;
+	if (m_SpaceGroup)
+		return (m_SpaceGroup);
+	unsigned start, end, id;
+	switch (m_lattice) {
+	case cubic:
+	case body_centered_cubic:
+	case face_centered_cubic:
+		start = 195;
+		end = 230;
+		break;
+	case hexagonal:
+		start = 168;
+		end = 194;
+		break;
+	case tetragonal:
+	case body_centered_tetragonal:
+		start = 75;
+		end = 142;
+		break;
+	case orthorhombic:
+	case base_centered_orthorhombic:
+	case body_centered_orthorhombic:
+	case face_centered_orthorhombic:
+		start = 16;
+		end = 74;
+		break;
+	case rhombohedral:
+		start = 143;
+		end = 167;
+		break;
+	case monoclinic:
+	case base_centered_monoclinic:
+		start = 3;
+		end = 15;
+		break;
+	case triclinic:
+		start = 1;
+		end = 2;
+		break;
+	default:
+		start = end = 0;
+	}
+	//make a list of all atoms inside the cell
+	list <CrystalAtom *> atoms;
+	CrystalAtom *a;
+	double x, y, z;
+	CrystalAtomList::iterator i, i0, iend = AtomDef.end ();
+	for (i = AtomDef.begin (); i != iend; i++) {
+		atoms.push_back (new CrystalAtom (**i));
+		switch (m_lattice) {
+		case body_centered_cubic:
+		case body_centered_tetragonal:
+		case body_centered_orthorhombic:
+			a = new CrystalAtom (**i);
+			a->GetCoords (&x, &y, &z);
+			x = (x > .5 - PREC)? x - .5: x + .5;
+			y = (y > .5 - PREC)? y - .5: y + .5;
+			z = (z > .5 - PREC)? z - .5: z + .5;
+			a->SetCoords (x, y, z);
+			atoms.push_back (a);
+			break;
+		case face_centered_cubic:
+		case face_centered_orthorhombic:
+			a = new CrystalAtom (**i);
+			a->GetCoords (&x, &y, &z);
+			x = (x > .5 - PREC)? x - .5: x + .5;
+			z = (z > .5 - PREC)? z - .5: z + .5;
+			a->SetCoords (x, y, z);
+			atoms.push_back (a);
+			a = new CrystalAtom (**i);
+			a->GetCoords (&x, &y, &z);
+			y = (y > .5 - PREC)? y - .5: y + .5;
+			z = (z > .5 - PREC)? z - .5: z + .5;
+			a->SetCoords (x, y, z);
+			atoms.push_back (a);
+		case base_centered_orthorhombic:
+		case base_centered_monoclinic:
+			a = new CrystalAtom (**i);
+			a->GetCoords (&x, &y, &z);
+			x = (x > .5 - PREC)? x - .5: x + .5;
+			y = (y > .5 - PREC)? y - .5: y + .5;
+			a->SetCoords (x, y, z);
+			atoms.push_back (a);
+			break;
+		default:
+			break;
+		}
+	}
+	iend = atoms.end ();
+	SpaceGroup const *res = NULL;
+	Vector v;
+	for (id = end; id >= start; id--) {
+		std::list <SpaceGroup const *> &groups = SpaceGroup::GetSpaceGroups (id);
+		std::list <SpaceGroup const *>::iterator g, gend = groups.end ();
+		for (g = groups.begin (); g != gend; g++) {
+			for (i = atoms.begin (); i != iend; i++) {
+				a = new CrystalAtom (**i);
+				v = a->GetVector ();
+				std::list <Vector> vv = (*g)->Transform (v);
+				std::list <Vector>::iterator j, jend = vv.end ();
+				for (j = vv.begin (); j != jend; j++) {
+					x = (*j).GetX ();
+					y = (*j).GetY ();
+					z = (*j).GetZ ();
+					while (x > 1. - PREC)
+						x -= 1.;
+					while (y > 1. - PREC)
+						y -= 1.;
+					while (z > 1. - PREC)
+						z -= 1.;
+					a->SetCoords (x, y, z);
+					for (i0 = atoms.begin (); i0 != iend; i0++)
+						if (*a == **i0)
+							break;
+					if (i0 == iend)
+						goto end_loop;
+				}
+				delete a;
+				if (j != jend)
+					goto end_loop;
+			}
+			if (i == iend)
+				break;
+end_loop:;
+		}
+		if (g != gend) {
+			res = *g;
+			break;
+		}
+	}
+	// clean atoms
+	for (i = atoms.begin (); i != iend; i++)
+		delete *i;
+	return res;
 }
 
 }	//	namespace gcu

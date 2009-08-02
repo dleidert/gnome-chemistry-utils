@@ -274,19 +274,9 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 										atom->SetProperty (GCU_PROP_ATOM_CHARGE, t.charge.c_str ());
 										break;
 									}
-									case GCU_PROP_X: {
-										atom->SetProperty (GCU_PROP_X, val.c_str ());
-										break;
-									}
-									case GCU_PROP_Y: {
-										atom->SetProperty (GCU_PROP_Y, val.c_str ());
-										break;
-									}
-									case GCU_PROP_Z: {
-										atom->SetProperty (GCU_PROP_Z, val.c_str ());
-										break;
-									}
 									default:
+										if (*loop_prop != GCU_PROP_MAX)
+											atom->SetProperty (*loop_prop, val.c_str ());
 										break;
 									}
 								}
