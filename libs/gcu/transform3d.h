@@ -61,11 +61,11 @@ public:
 
 /*! 
 */
-	Vector operator* (Vector const &);
+	Vector operator* (Vector const &) const;
 
 /*! 
 */
-	Transform3d operator* (Transform3d const &);
+	Transform3d operator* (Transform3d const &) const;
 
 /*! 
 */

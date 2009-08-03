@@ -120,6 +120,7 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 		}
 	} else
 		return true;
+	GdkPixbuf *pixbuf = Doc->GetView ()->BuildPixbuf (0);
 /*	ArtDRect rect;
 	GnomeCanvas *canvas = GNOME_CANVAS (Doc->GetWidget ());
 	gcp::WidgetData *pData = static_cast <gcp::WidgetData*> (g_object_get_data (G_OBJECT (canvas), "data"));
@@ -154,7 +155,7 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 			color++;
 		}
 		color = line += rowstride;
-	}
+	}*/
 
 	map<string, Object*>::iterator i;
 	gcp::Molecule *Mol = dynamic_cast<gcp::Molecule*> (pDoc->GetFirstChild (i));
@@ -177,15 +178,15 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 		values.push_back (const_cast<char*> (InChI));
 		keys.push_back (reinterpret_cast<char*> (NULL));
 		values.push_back (reinterpret_cast<char*> (NULL));
-		gdk_pixbuf_save_to_callbackv (alpha, do_save_image, output, "png", keys.data (), values.data (), &error);
+		gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, output, "png", keys.data (), values.data (), &error);
 		g_output_stream_close (output, NULL, NULL); // hope there will be no error there
 	}
 	if (error) {
 		cerr << _("Unable to save image file: ") << error->message << endl;
 		g_error_free (error);
-	}*/
+	}
 	g_object_unref (file);
-//	g_object_unref (alpha);
+	g_object_unref (pixbuf);
 
 	g_free (filename2);
 	return false;

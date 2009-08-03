@@ -334,12 +334,13 @@ void Fragment::AddItem ()
 		PangoLayoutIter* iter = pango_layout_get_iter (layout);
 		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
 		pango_layout_iter_free (iter);
+		g_object_unref (layout);
 	}
 	double x = m_x * theme->GetZoomFactor ();
 	double y = m_y * theme->GetZoomFactor ();
 	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
 	m_TextItem = new gccv::Text (group, 0., 0., this);
-	m_TextItem->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+	m_TextItem->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: RGBA_BLACK);
 	m_TextItem->SetPadding (theme->GetPadding ());
 	m_TextItem->SetLineColor (0);
 	m_TextItem->SetLineOffset (view->GetCHeight ());
@@ -351,6 +352,16 @@ void Fragment::AddItem ()
 		m_TagList.pop_front ();
 	}
 	m_TextItem->RebuildAttributes ();
+	if (m_buf.length () > 0) {
+		gccv::Rect rect;
+		m_TextItem->GetPositionAtIndex (m_BeginAtom, rect);
+		m_lbearing = rect.x0;
+		m_TextItem->GetPositionAtIndex (m_EndAtom, rect);
+		m_lbearing += rect.x0;
+		m_lbearing /= 2.;
+		m_TextItem->Move (-m_lbearing, 0.);
+	}
+	m_Atom->DoBuildSymbolGeometry (view);
 	m_Item = group;
 }
 
@@ -514,39 +525,37 @@ void Fragment::UpdateItem ()
 
 void Fragment::SetSelected (int state)
 {
-	GOColor chargecolor, color;
+	GOColor color, othercolor = 0;
 	bool visible = true;
 	switch (state) {	
 	case SelStateUnselected:
-		color = 0;
-		chargecolor = RGBA_BLACK;
+		color = RGBA_BLACK;
 		visible = false;
 		break;
 	case SelStateSelected:
-		chargecolor = color = SelectColor;
+		color = SelectColor;
 		break;
 	case SelStateUpdating:
-		chargecolor = color = AddColor;
+		othercolor = AddColor;
+		color = RGBA_BLACK;
 		break;
 	case SelStateErasing:
-		chargecolor = color = DeleteColor;
+		color = DeleteColor;
 		break;
 	default:
-		color = 0;
-		chargecolor = RGBA_BLACK;
+		color = RGBA_BLACK;
 		break;
 	}
 	gccv::Group *group = static_cast <gccv::Group *> (m_Item);
 	std::list<gccv::Item *>::iterator it;
 	gccv::Item *item = group->GetFirstChild (it);
 	while (item) {
-		gccv::FillItem *fill;
-		if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
-			fill->SetFillColor (color);
-		else if ((fill = dynamic_cast <gccv::FillItem *> (item)))
-			fill->SetFillColor (chargecolor);
-		else
-			static_cast <gccv::LineItem *> (item)->SetLineColor (chargecolor);
+		gccv::Text *text;
+		if ((text = dynamic_cast <gccv::Text *> (item))) {
+			text->SetColor (color);
+			text->SetLineColor (othercolor);
+		} else
+			static_cast <gccv::LineItem *> (item)->SetLineColor (color);
 		item = group->GetNextChild (it);
 	}
 }
@@ -1595,4 +1604,5 @@ gccv::Item *Fragment::GetChargeItem ()
 {
 	return (m_Atom)? m_Atom->GetChargeItem (): NULL;
 }
+
 }	//	namespace gcp

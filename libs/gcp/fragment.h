@@ -268,7 +268,7 @@ private:
 private:
 	FragmentAtom *m_Atom;
 	unsigned m_BeginAtom, m_EndAtom;
-	int m_lbearing;
+	double m_lbearing;
 	double m_CHeight;
 	bool m_Inversable;
 

@@ -1926,8 +1926,8 @@ void Atom::GetSymbolGeometry (double &width, double &height, double &angle, bool
 void Atom::BuildSymbolGeometry (double width, double height, double ascent)
 {
 	m_SWidth = width / 2.;
-	m_SHeightH = ascent;
-	m_SHeightL = height - m_SHeightH;
+	m_SHeightH = ascent + 1.; // we use ink extent vertically and logical extent horizonatlly
+	m_SHeightL = height - m_SHeightH + 2.;
 	m_SAngleH = atan2 (m_SHeightH, m_SWidth);
 	m_SAngleL = atan2 (m_SHeightL, m_SWidth);
 }
@@ -1947,18 +1947,19 @@ void Atom::AddItem ()
 	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
 	if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
 		gccv::Text *text = new gccv::Text (group, 0., 0., this);
-		text->SetFillColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
+		text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: RGBA_BLACK);
 		text->SetPadding (theme->GetPadding ());
 		text->SetLineColor (0);
 		text->SetLineWidth (0.);
+		text->SetFillColor (0);
 		text->SetFontDescription (view->GetPangoFontDesc ());
 		text->SetText (GetSymbol ());
 		text->SetLineOffset (view->GetCHeight ());
 		// build the symbol geometry
-		BuildSymbolGeometry (text->GetWidth (), text->GetHeight (), text->GetAscent () - text->GetY () - view->GetCHeight ());		
 		int n = GetAttachedHydrogens ();
 		gccv::Rect ink, logical;
 		text->GetBounds (&ink, &logical);
+		BuildSymbolGeometry (text->GetWidth (), ink.y1 - ink.y0, /*text->GetAscent () - view->GetCHeight ()*/ - ink.y0);		
 		m_width = (ink.x1 - ink.x0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
 		m_height = (ink.y1 - ink.y0 + 2 * theme->GetPadding ()) / theme->GetZoomFactor ();
 		if (n > 0) {
@@ -1973,6 +1974,7 @@ void Atom::AddItem ()
 			text->SetPadding (theme->GetPadding ());
 			text->SetLineColor (0);
 			text->SetLineWidth (0.);
+			text->SetFillColor (0);
 			text->SetFontDescription (view->GetPangoFontDesc ());
 			text->SetText (hs.c_str ());
 			if (n >1) {

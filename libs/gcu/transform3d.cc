@@ -68,14 +68,14 @@ Transform3d::~Transform3d ()
 {
 }
 
-Vector Transform3d::operator* (Vector const &v)
+Vector Transform3d::operator* (Vector const &v) const
 {
-	return *static_cast <Matrix *> (this) * v + *static_cast <Vector *> (this);
+	return *static_cast <Matrix const *> (this) * v + *static_cast <Vector const *> (this);
 }
 
-Transform3d Transform3d::operator* (Transform3d const &t)
+Transform3d Transform3d::operator* (Transform3d const &t) const
 {
-	return Transform3d (*static_cast <Matrix *> (this) * *static_cast <const Matrix *> (&t), *this * *static_cast <const Vector *> (&t));
+	return Transform3d (*static_cast <Matrix const *> (this) * *static_cast <Matrix const *> (&t), *this * *static_cast <Vector const *> (&t));
 }
 
 /*! 

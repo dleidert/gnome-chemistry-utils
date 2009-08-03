@@ -1,7 +1,16 @@
 ##Text encoding: utf-8
 
+2009-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: enhanced bond drawing near symbols and clean out white
+	rectangles.
+	* libs/gcp/fragment.cc: fix horizontal position.
+	* libs/gcp/fragment.h: use double for left bearing.
+	* libs/gcu/transform3d.cc: add missing const.
+	* libs/gcu/transform3d.h: ditto.
+	* plugins/paint/wikipedia/wikipediatool.cc: start exporting png files again.
+
 2009-08-02  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gccv/text.cc: m	kz underline and strikethrough work again.
+	* libs/gccv/text.cc: make underline and strikethrough work again.
 	* libs/gcu/crystalatom.cc: partly implement space group sniffing.
 	* libs/gcu/crystalatom.h: ditto.
 	* libs/gcu/crystaldoc.cc: ditto.
