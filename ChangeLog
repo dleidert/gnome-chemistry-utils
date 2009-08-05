@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-08-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fix runs evaluation.
+	* libs/gcp/fragment.cc: automatic stoichiometry coefficients reimplemented.
+	* plugins/paint/text/fragmenttool.cc: don't automatically change the current
+	mode to StoichiometryMode or ChargeMode.
+	* programs/crystal/document.cc: fixed unneeded warnings and error messages.
+
 2009-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: enhanced bond drawing near symbols and clean out white
 	rectangles.

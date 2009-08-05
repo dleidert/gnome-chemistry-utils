@@ -129,7 +129,7 @@ bool Fragment::OnChanged (bool save)
 		return false;
 	}*/
 	unsigned CurPos = m_TextItem->GetCursorPosition ();
-//	AnalContent (m_StartSel, CurPos);//why? Probably not anymore needed
+	AnalContent (m_StartSel, CurPos);//why? Probably not anymore needed
 	m_bLoading = true;
 	// Get the ascent, is it still needed now that we can align texts according to the baseline
 /*	if (m_buf.length ()) {
@@ -972,6 +972,7 @@ static bool search_for_charge (PangoAttribute *attr, ChargeFindStruct *s)
 	return false;
 }
 
+static int lenminus = strlen ("−");
 void Fragment::AnalContent (unsigned start, unsigned &end)
 {
 	Document* pDoc = (Document*) GetDocument ();
@@ -982,50 +983,73 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	list <gccv::TextTag *> const *tags = (m_TextItem)? m_TextItem->GetTags (): &m_TagList;
 	list <gccv::TextTag *>::const_iterator i, iend = tags->end ();
 	bool Charge = false, Stoich = false;
+	gccv::TextTag *tag = NULL, *new_tag = NULL;
 	for (i = tags->begin (); i != iend; i++)
-		if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
-			Charge = true; 
-			break;
+		if ((*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
+			if ((*i)->GetTag () == ChargeTag) {
+				Charge = true;
+				tag = *i;
+				break;
+			}
+			if ((*i)->GetTag () == StoichiometryTag) {
+				tag =*i;
+				Stoich = true; 
+				break;
+			}
 		}
-	if (m_Mode == AutoMode && !Charge && (text[start] == '+' || !strncmp (text + start, "−", strlen ("−"))))
-		Charge = true;
+/*	if (start > 1) { // analyse what is before
+		next = start - 1;
+		if (m_Mode == AutoMode && !Charge && !Stoich) {
+			if (text[next - 1] == '+' || (start > lenminus) && !strncmp (text + start - lenminus, "−", lenminus))
+				Charge = true;
+			else if ((text[next] >= '0') && (text[next] <= '9'))
+				Stoich = true;
+		}
+	}*/
 	char c;
-	gccv::TextTag *tag;
 	unsigned start_tag, end_tag, next;
 	next = start;
 /*	start_tag = end_tag = start;*/
 	while (start < end) {
 		c = text[start];
-		if ((c >= '0') && (c <= '9')) {
+		if ((c >= '0') && (c <= '9') && (m_Mode == AutoMode || m_Mode ==StoichiometryMode)) {
 			tag = NULL;
-			Charge = Stoich = false;
-			for (i = tags->begin (); i != iend; i++)
-				if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
-					Charge = true; 
-					break;
-				} else if ((*i)->GetTag () == StoichiometryTag && (*i)->GetStartIndex () <= start && (*i)->GetEndIndex () >= start) {
-					Stoich = true; 
-					break;
-				}
+//			Charge = Stoich = false;
+		if (!tag) 
+				for (i = tags->begin (); i != iend; i++)
+					if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
+						Charge = true; 
+						break;
+					} else if ((*i)->GetTag () == StoichiometryTag && (*i)->GetStartIndex () <= start && (*i)->GetEndIndex () >= start) {
+						Stoich = true; 
+						break;
+					}
 			next = start + 1; // a figure is a one byte character
 			// add new tag
 			double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
 			if (!Charge) {
 				if (!Stoich) {
-					tag = new StoichiometryTextTag (size);
-					tag->SetStartIndex (start);
-					tag->SetEndIndex (next);
+					new_tag = new StoichiometryTextTag (size);
+					new_tag->SetStartIndex (start);
+					new_tag->SetEndIndex (next);
+					Stoich = true;
 				}
 			} else {
-				tag = new ChargeTextTag (size);
-				tag->SetStartIndex (start);
-				tag->SetEndIndex (next);
+				if (tag)
+					tag->SetEndIndex (next);
+				else {
+					new_tag = new ChargeTextTag (size);
+					new_tag->SetStartIndex (start);
+					new_tag->SetEndIndex (next);
+				}
 			}
-			if (tag) {
+			if (new_tag) {
 				if (m_TextItem)
-					m_TextItem->InsertTextTag (tag);
+					m_TextItem->InsertTextTag (new_tag);
 				else
-					m_TagList.push_back (tag);
+					m_TagList.push_back (new_tag);
+				tag = new_tag;
+				new_tag = NULL;
 			}
 /*			PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
 			attr->start_index = start;
@@ -1052,11 +1076,11 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				pango_attr_list_change (l, attr);*/
 			start = next - 1;
 		} else if ((c == '+') || (c == '-')) {
-			/*if (!m_bLoading) {
+			if (!m_bLoading && (m_Mode == AutoMode || m_Mode == ChargeMode)) {
 				//do not allow both local and global charges
 				if (m_Atom->GetCharge ())
 					m_Atom->SetCharge (0);
-				next = start + 1;
+/*				next = start + 1;
 				if (!Charge) {
 					Charge = true;
 					int size = pTheme->GetFontSize ();
@@ -1115,12 +1139,20 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 						gnome_canvas_pango_set_selection_bounds (text, m_StartSel, m_EndSel);*/
 /*						g_free (buf);
 					}
-				}
-			}*/
-		} else
+				}*/
+			}
+		} else {
 			Charge = false;
+			Stoich = false;
+			if (tag) {
+				tag->SetEndIndex (start);
+				tag = NULL;
+			}
+		}
 		start = g_utf8_find_next_char (m_buf.c_str () + start, NULL) - m_buf.c_str ();
 	}
+	if (m_TextItem)
+		m_TextItem->RebuildAttributes ();
 }
 
 /*!

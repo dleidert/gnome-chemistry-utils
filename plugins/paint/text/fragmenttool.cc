@@ -154,6 +154,7 @@ bool gcpFragmentTool::OnClicked ()
 		if (!m_Fragment)
 			m_Fragment = static_cast <gcp::Fragment *> (m_pObject);
 		m_Fragment->SetSelected (gcp::SelStateUpdating);
+		m_Fragment->SetMode (m_CurMode = gcp::Fragment::AutoMode);
 		m_Active = m_Fragment->GetTextItem ();
 /*		if (need_update) {
 			m_Active->SetSelectionBounds (m_Active,  cur,  cur);
@@ -250,8 +251,6 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 		}
 		if (event->keyval == GDK_KP_Enter || event->keyval == GDK_Return ||
 							event->keyval == GDK_space) // not allowed in fragments
-			return true;
-		if (gtk_im_context_filter_keypress (m_ImContext, event))
 			return true;
 		m_Active->OnKeyPressed (event);
 		return true;
@@ -403,10 +402,10 @@ void gcpFragmentTool::UpdateTagsList () {
 						m_CurMode = gcp::Fragment::SuperscriptMode;
 						break;
 					}
-				} else if (tag == gcp::ChargeTag)
+				}/* else if (tag == gcp::ChargeTag)
 					m_CurMode = gcp::Fragment::ChargeMode;
 				else if (tag == gcp::StoichiometryTag)
-					m_CurMode = gcp::Fragment::StoichiometryMode;
+					m_CurMode = gcp::Fragment::StoichiometryMode;*/
 			}
 		m_Fragment->SetMode (m_CurMode);
 		m_Active->SetCurTagList (l); // no tag

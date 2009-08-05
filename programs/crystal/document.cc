@@ -165,17 +165,20 @@ void gcDocument::SetFileName (const string &filename)
 {
 	GFile *file = g_file_new_for_uri (filename.c_str ());
 	GError *error = NULL;
-	GFileInfo *info = g_file_query_info (file,
-							  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
-							  G_FILE_QUERY_INFO_NONE, NULL, &error);
-	if (error) {
-		g_warning ("GIO error: %s", error->message);
-		g_error_free (error);
-		m_ReadOnly = true;
+	if (g_file_query_exists (file, NULL)) {
+		GFileInfo *info = g_file_query_info (file,
+								  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE,
+								  G_FILE_QUERY_INFO_NONE, NULL, &error);
+		if (error) {
+			g_warning ("GIO error: %s", error->message);
+			g_error_free (error);
+			m_ReadOnly = true;
+		} else
+			m_ReadOnly = !g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE);
+		if (info)
+			g_object_unref (info);
 	} else
-		m_ReadOnly = !g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE);
-	if (info)
-		g_object_unref (info);
+		m_ReadOnly = false;
 	g_object_unref (file);
 	if (m_filename)
 		g_free (m_filename);
@@ -186,12 +189,6 @@ void gcDocument::SetFileName (const string &filename)
 	int i = filename.length () - 1;
 	while ((m_filename[i] != '/') && (i >= 0))
 		i--;
-	if (i >=0) {
-		m_filename [i] = 0;
-		if (chdir (m_filename) < 0)
-			perror (_("Directory change failed"));
-		m_filename[i] = '/';
-	}
 	i++;
 	int j = filename.length () - 1;
 	while ((i < j) && (m_filename[j] != '.'))
