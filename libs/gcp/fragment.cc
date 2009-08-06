@@ -1010,6 +1010,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	unsigned start_tag, end_tag, next;
 	next = start;
 /*	start_tag = end_tag = start;*/
+	double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
 	while (start < end) {
 		c = text[start];
 		if ((c >= '0') && (c <= '9') && (m_Mode == AutoMode || m_Mode ==StoichiometryMode)) {
@@ -1026,7 +1027,6 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					}
 			next = start + 1; // a figure is a one byte character
 			// add new tag
-			double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
 			if (!Charge) {
 				if (!Stoich) {
 					new_tag = new StoichiometryTextTag (size);
@@ -1080,8 +1080,27 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				//do not allow both local and global charges
 				if (m_Atom->GetCharge ())
 					m_Atom->SetCharge (0);
-/*				next = start + 1;
+				if (Stoich) {
+					tag->SetEndIndex (start);
+					Stoich = false;
+				}
+				next = start + 1;
 				if (!Charge) {
+					if (c == '-') {
+						string sign = "−";
+						m_TextItem->ReplaceText (sign, start, 1);
+						next = start + strlen ("−");
+					}
+					tag = new ChargeTextTag (size);
+					tag->SetStartIndex (start);
+					tag->SetEndIndex (next);
+					if (m_TextItem)
+						m_TextItem->InsertTextTag (tag);
+					else
+						m_TagList.push_back (tag);
+					Charge = true;
+				}
+/*				if (!Charge) {
 					Charge = true;
 					int size = pTheme->GetFontSize ();
 					PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);

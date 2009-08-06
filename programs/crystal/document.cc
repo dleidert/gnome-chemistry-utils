@@ -871,3 +871,22 @@ bool gcDocument::SetProperty (unsigned property, char const *value)
 	}
 	return true;
 }
+
+std::string gcDocument::GetProperty (unsigned property) const
+{
+	string res;
+	switch (property) {
+	case GCU_PROP_DOC_CREATOR:
+		if (m_Author)
+				 res = m_Author;
+		break;
+	case GCU_PROP_DOC_CREATOR_EMAIL:
+		if (m_Mail)
+				res = m_Mail;
+		g_free (m_Mail);
+		break;
+	default:
+		return CrystalDoc::GetProperty (property);
+	}
+	return res;
+}

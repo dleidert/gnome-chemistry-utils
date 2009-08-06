@@ -169,6 +169,15 @@ Used when loading to set properties to the document
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */
 	bool SetProperty (unsigned property, char const *value);
+
+/*!
+@param property the property id as defined in objprops.h
+
+Used when saving to get properties from the document.
+@return the property as a string. The returned string might be empty.
+*/
+	std::string GetProperty (unsigned property) const;
+
 /*!
 Called by the application whe the document has been loaded to update the title
 and add some lines.

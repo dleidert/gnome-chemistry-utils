@@ -42,6 +42,7 @@
 #include <vector>
 #include <GL/gl.h>
 #include <cstring>
+#include <sstream>
 
 #define __max(x,y)  ((x) > (y)) ? (x) : (y)
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
@@ -905,6 +906,29 @@ bool CrystalDoc::SetProperty (unsigned property, char const *value)
 		return false;
 	}
 	return true;
+}
+
+std::string CrystalDoc::GetProperty (unsigned property) const
+{
+	ostringstream res;
+	switch (property) {
+	case GCU_PROP_DOC_TITLE:
+		return m_Title;
+	case GCU_PROP_CHEMICAL_NAME_COMMON:
+		return m_NameCommon;
+		break;
+	case GCU_PROP_CHEMICAL_NAME_SYSTEMATIC:
+		return m_NameSystematic;
+		break;
+	case GCU_PROP_CHEMICAL_NAME_MINERAL:
+		return m_NameMineral;
+		break;
+	case GCU_PROP_SPACE_GROUP:
+		return m_SpaceGroup->GetHallName ();
+	default:
+		return GLDocument::GetProperty (property);
+	}
+	return res.str ();
 }
 
 void CrystalDoc::AddChild (Object* object)

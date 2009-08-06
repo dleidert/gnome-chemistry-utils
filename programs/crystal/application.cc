@@ -60,8 +60,8 @@ gcApplication::gcApplication(): Application ("gcrystal")
 			if ((*it).second.read)
 				AddMimeType (m_SupportedMimeTypes, (*it).first);
 			// FIXME: add write support for cif and cml
-/*			if ((*it).second.write)
-				AddMimeType (m_WriteableMimeTypes, (*it).first);*/
+			if ((*it).second.write)
+				AddMimeType (m_WriteableMimeTypes, (*it).first);
 		}
 		found = Loader::GetNextLoader (it);
 	}
@@ -279,6 +279,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				break;
 			case CIF:
 			case CML:
+				Save (filename2, mime_type, Doc, ContentTypeCrystal);
 				break;
 			case VRML:
 				Doc->OnExportVRML (filename2);

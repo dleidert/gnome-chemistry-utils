@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2009-08-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: some work on charges.
+	* libs/gcu/crystaldoc.cc: start work on cif export.
+	* libs/gcu/crystaldoc.h: ditto.
+	* plugins/loaders/cif/cif.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+
 2009-08-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fix runs evaluation.
 	* libs/gcp/fragment.cc: automatic stoichiometry coefficients reimplemented.

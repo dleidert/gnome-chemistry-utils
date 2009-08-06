@@ -28,6 +28,7 @@
 #include <gcu/element.h>
 #include <gcu/objprops.h>
 #include <gcu/spacegroup.h>
+#include <gcu/transform3d.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-input-textline.h>
 #include <glib/gi18n-lib.h>
@@ -399,9 +400,61 @@ read_exit:
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
+static void WriteStringField (GsfOutput *out, char const *propname, std::string &prop)
+{
+	if (!g_utf8_validate (prop.c_str (), -1, NULL)) // FIXME: try some conversion
+		return;
+	char const *separator = (strstr (prop.c_str (), "' "))? "\"": "'";
+	std::string str = std::string (propname) + std::string (35 - strlen (propname), ' ') + separator + prop + separator + "\n";
+	gsf_output_write (out, str.length (), reinterpret_cast <guint8 const *> (str.c_str ()));
+}
+
 bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
+	std::string prop;
+	unsigned i;
 	if (NULL != out) {
+		prop = obj->GetProperty (GCU_PROP_DOC_TITLE);
+		if (prop.length () == 0)
+			prop = "0";
+		for (i = 0; i < prop.length (); i++)
+			if (!g_ascii_isalnum (prop[i]))
+				prop[i] = '_';
+		gsf_output_write (out, 5, reinterpret_cast <guint8 const *> ("data_"));
+		gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
+		gsf_output_write (out, 1, reinterpret_cast <guint8 const *> ("\n"));
+		prop = obj->GetProperty (GCU_PROP_CHEMICAL_NAME_COMMON);
+		if (prop.length ())
+			WriteStringField (out, "_chemical_name_common", prop);
+		prop = obj->GetProperty (GCU_PROP_CHEMICAL_NAME_SYSTEMATIC);
+		if (prop.length ())
+			WriteStringField (out, "_chemical_name_systematic", prop);
+		prop = obj->GetProperty (GCU_PROP_CHEMICAL_NAME_MINERAL);
+		if (prop.length ())
+			WriteStringField (out, "_chemical_name_mineral", prop);
+		prop = obj->GetProperty (GCU_PROP_DOC_CREATOR);
+		if (prop.length ())
+			WriteStringField (out, "_publ_author_name", prop);
+		prop = obj->GetProperty (GCU_PROP_DOC_CREATOR_EMAIL);
+		if (prop.length ())
+			WriteStringField (out, "_publ_author_email", prop);
+		// export space group
+		prop = obj->GetProperty (GCU_PROP_SPACE_GROUP);
+		if (prop.length ()) {
+			WriteStringField (out, "_symmetry_space_group_name_Hall", prop);
+			gsf_output_write (out, 6, reinterpret_cast <guint8 const *> ("loop_\n"));
+			gsf_output_write (out, 27, reinterpret_cast <guint8 const *> ("_symmetry_equiv_pos_as_xyz\n"));
+			std::list <Transform3d*>::const_iterator t;
+			SpaceGroup const *group = SpaceGroup::GetSpaceGroup (prop);
+			Transform3d const *tr = group->GetFirstTransform (t);
+			while (tr) {
+				prop = string ("  '") + tr->DescribeAsString() + "'\n";
+				gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
+				tr = group->GetNextTransform (t);
+			}
+			
+		}
+		
 		return true;
 	}
 	return false;
