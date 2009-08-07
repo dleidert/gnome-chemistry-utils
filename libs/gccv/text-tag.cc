@@ -68,6 +68,36 @@ bool TextTag::Order (TextTag *first, TextTag *last)
 	return first->GetTag () < last->GetTag ();
 }
 
+TextTag *TextTag::Restrict (TextTag *tag)
+{
+	if (tag->GetTag () == GetTag () && tag->GetEndIndex () > GetStartIndex () && tag->GetStartIndex () < GetEndIndex ()) {
+		if (*tag == *this) {
+			if (m_StartIndex > tag->GetStartIndex ())
+				m_StartIndex = tag->GetStartIndex ();
+			if (m_EndIndex < tag->GetEndIndex ())
+				m_EndIndex = tag->GetEndIndex ();
+			tag->SetEndIndex (m_StartIndex); // makes tag invalid
+			return NULL;
+		}
+		if (tag->GetEndIndex () > GetEndIndex ()) {
+			if (tag->GetStartIndex () < GetStartIndex ()) {
+				// split tag
+				TextTag *new_tag = tag->Duplicate ();
+				new_tag->SetStartIndex (m_EndIndex);
+				new_tag->SetEndIndex (tag->GetEndIndex ());
+				tag->SetEndIndex (m_StartIndex);
+				return new_tag;
+			}
+			tag->SetStartIndex (m_EndIndex);
+			return NULL;
+		} else {
+			tag->SetEndIndex (m_StartIndex);
+			return NULL;
+		}
+	}
+	return NULL;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Font family tag class
 

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: add TextTag::Restrict to avoid overlapping tags.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.cc: use TextTag::Restrict when inserting a new tag.
+	* libs/gcp/fragment.cc: allow a charge after a stoichiometry coefficient.
+	* libs/gcp/fragment.h: add TextTag::Restrict support for charges and
+	stoichiometry.
+
 2009-08-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: some work on charges.
 	* libs/gcu/crystaldoc.cc: start work on cif export.

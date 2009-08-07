@@ -43,6 +43,8 @@ class ChargeTextTag: public gccv::PositionTextTag
 public:
 	ChargeTextTag (double size);
 	virtual ~ChargeTextTag ();
+
+	TextTag *Restrict (TextTag *tag);
 };
 
 class StoichiometryTextTag: public gccv::PositionTextTag
@@ -50,6 +52,8 @@ class StoichiometryTextTag: public gccv::PositionTextTag
 public:
 	StoichiometryTextTag (double size);
 	virtual ~StoichiometryTextTag ();
+
+	TextTag *Restrict (TextTag *tag);
 };
 
 class FragmentAtom;

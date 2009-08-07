@@ -788,14 +788,38 @@ void Text::GetBounds (Rect *ink, Rect *logical)
 
 void Text::InsertTextTag (TextTag *tag, bool rebuild_attributes)
 {
-	// FIXME: we need to filter tags to avoid duplicates
+	// we need to filter tags to avoid duplicates
+	std::list <TextTag *> new_tags, invalid;
+	TextTagList::iterator i, iend = m_Tags.end ();
+	TextTag *new_tag;
+	for (i = m_Tags.begin (); i != m_Tags.end (); i++) {
+		new_tag = tag->Restrict (*i);
+		if (new_tag)
+			new_tags.push_back (new_tag);
+		if ((*i)->GetStartIndex () >= (*i)->GetEndIndex ())
+			invalid.push_back (*i);
+	}
+	// no remove invalid tags
+	while (!invalid.empty ()) {
+		m_Tags.remove (invalid.front ());
+		invalid.pop_front ();
+	}
+	// add split tags
+	while (!new_tags.empty ()) {
+		new_tag = new_tags.front ();
+		new_tags.pop_front ();
+		if (new_tag->GetPriority () == TagPriorityFirst)
+			m_Tags.push_front (new_tag);
+		else
+			m_Tags.push_back (new_tag);
+	}
 	// now, insert the new tag
 	if (tag->GetPriority () == TagPriorityFirst)
 		m_Tags.push_front (tag);
 	else
 		m_Tags.push_back (tag);
 	// now, rebuild pango attributes lists for modified runs.
-	// FIXME: it would be better to update only the changed portion
+	// Note: it would be better to update only the changed portion, but how???
 	if (rebuild_attributes)
 		RebuildAttributes ();
 }

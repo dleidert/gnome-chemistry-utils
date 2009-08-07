@@ -70,6 +70,7 @@ public:
 	virtual bool operator== (TextTag const& tag) const = 0;
 	virtual TextTag *Duplicate () const = 0;
 	virtual bool NeedsNewRun () {return false;}
+	virtual TextTag *Restrict (TextTag *tag);
 
 	static Tag RegisterTagType ();
 	static Tag MaxTag;
@@ -281,6 +282,7 @@ public:
 	TextTag *Duplicate () const;
 	TextPosition GetPosition (bool &stacked, double &size) const {stacked = m_Stacked; size = m_Size; return m_Position;}
 	bool NeedsNewRun () {return m_Stacked;}
+	TextTag *Restrict (G_GNUC_UNUSED TextTag *tag) {return NULL;}
 
 private:
 	TextPosition m_Position;

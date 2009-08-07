@@ -65,6 +65,36 @@ ChargeTextTag::~ChargeTextTag ()
 {
 }
 
+gccv::TextTag *ChargeTextTag::Restrict (gccv::TextTag *tag)
+{
+	if (tag->GetTag () == StoichiometryTag && tag->GetEndIndex () > GetStartIndex () && tag->GetStartIndex () < GetEndIndex ()) {
+		if (*tag == *this) {
+			if (GetStartIndex () > tag->GetStartIndex ())
+				SetStartIndex (tag->GetStartIndex ());
+			if (GetEndIndex () < tag->GetEndIndex ())
+				SetEndIndex (tag->GetEndIndex ());
+			tag->SetEndIndex (GetStartIndex ()); // makes tag invalid
+			return NULL;
+		}
+		if (tag->GetEndIndex () > GetEndIndex ()) {
+			if (tag->GetStartIndex () < GetStartIndex ()) {
+				// split tag
+				gccv::TextTag *new_tag = tag->Duplicate ();
+				new_tag->SetStartIndex (GetEndIndex ());
+				new_tag->SetEndIndex (tag->GetEndIndex ());
+				tag->SetEndIndex (GetStartIndex ());
+				return new_tag;
+			}
+			tag->SetStartIndex (GetEndIndex ());
+			return NULL;
+		} else {
+			tag->SetEndIndex (GetStartIndex ());
+			return NULL;
+		}
+	}
+	return TextTag::Restrict (tag);
+}
+
 StoichiometryTextTag::StoichiometryTextTag (double size):
 	gccv::PositionTextTag (gccv::Subscript, size, true, (StoichiometryTag)? StoichiometryTag:(StoichiometryTag = gccv::TextTag::RegisterTagType ()))
 {
@@ -72,6 +102,36 @@ StoichiometryTextTag::StoichiometryTextTag (double size):
 
 StoichiometryTextTag::~StoichiometryTextTag ()
 {
+}
+
+gccv::TextTag *StoichiometryTextTag::Restrict (gccv::TextTag *tag)
+{
+	if (tag->GetTag () == ChargeTag && tag->GetEndIndex () > GetStartIndex () && tag->GetStartIndex () < GetEndIndex ()) {
+		if (*tag == *this) {
+			if (GetStartIndex () > tag->GetStartIndex ())
+				SetStartIndex (tag->GetStartIndex ());
+			if (GetEndIndex () < tag->GetEndIndex ())
+				SetEndIndex (tag->GetEndIndex ());
+			tag->SetEndIndex (GetStartIndex ()); // makes tag invalid
+			return NULL;
+		}
+		if (tag->GetEndIndex () > GetEndIndex ()) {
+			if (tag->GetStartIndex () < GetStartIndex ()) {
+				// split tag
+				gccv::TextTag *new_tag = tag->Duplicate ();
+				new_tag->SetStartIndex (GetEndIndex ());
+				new_tag->SetEndIndex (tag->GetEndIndex ());
+				tag->SetEndIndex (GetStartIndex ());
+				return new_tag;
+			}
+			tag->SetStartIndex (GetEndIndex ());
+			return NULL;
+		} else {
+			tag->SetEndIndex (GetStartIndex ());
+			return NULL;
+		}
+	}
+	return TextTag::Restrict (tag);
 }
 
 // FIXME: search for unuseful things, such as m_CHeight? is it really unused?
@@ -1014,9 +1074,8 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	while (start < end) {
 		c = text[start];
 		if ((c >= '0') && (c <= '9') && (m_Mode == AutoMode || m_Mode ==StoichiometryMode)) {
-			tag = NULL;
 //			Charge = Stoich = false;
-		if (!tag) 
+/*			if (!tag) 
 				for (i = tags->begin (); i != iend; i++)
 					if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
 						Charge = true; 
@@ -1024,7 +1083,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					} else if ((*i)->GetTag () == StoichiometryTag && (*i)->GetStartIndex () <= start && (*i)->GetEndIndex () >= start) {
 						Stoich = true; 
 						break;
-					}
+					}*/
 			next = start + 1; // a figure is a one byte character
 			// add new tag
 			if (!Charge) {
@@ -1050,6 +1109,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					m_TagList.push_back (new_tag);
 				tag = new_tag;
 				new_tag = NULL;
+				Stoich = true;
 			}
 /*			PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
 			attr->start_index = start;
@@ -1080,10 +1140,6 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				//do not allow both local and global charges
 				if (m_Atom->GetCharge ())
 					m_Atom->SetCharge (0);
-				if (Stoich) {
-					tag->SetEndIndex (start);
-					Stoich = false;
-				}
 				next = start + 1;
 				if (!Charge) {
 					if (c == '-') {
@@ -1091,13 +1147,23 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 						m_TextItem->ReplaceText (sign, start, 1);
 						next = start + strlen ("−");
 					}
-					tag = new ChargeTextTag (size);
-					tag->SetStartIndex (start);
-					tag->SetEndIndex (next);
+					new_tag = new ChargeTextTag (size);
+					new_tag->SetStartIndex (start);
+					new_tag->SetEndIndex (next);
+					if (Stoich) {
+						tag->SetEndIndex (start);
+						tag = NULL;
+						Stoich = false;
+					}
+				} else {
+				}
+				if (new_tag) {
 					if (m_TextItem)
-						m_TextItem->InsertTextTag (tag);
+						m_TextItem->InsertTextTag (new_tag);
 					else
-						m_TagList.push_back (tag);
+						m_TagList.push_back (new_tag);
+					tag = new_tag;
+					new_tag = NULL;
 					Charge = true;
 				}
 /*				if (!Charge) {
