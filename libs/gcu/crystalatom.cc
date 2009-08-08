@@ -32,6 +32,7 @@
 #include <GL/glu.h>
 #include <cmath>
 #include <string>
+#include <sstream>
 
 namespace gcu
 {
@@ -243,5 +244,27 @@ bool CrystalAtom::SetProperty (unsigned property, char const *value)
 	}
 	return  true;
 }
+
+std::string CrystalAtom::GetProperty (unsigned property) const
+{
+	std::ostringstream res;
+	switch (property) {
+	case GCU_PROP_ATOM_CHARGE:
+		res << static_cast <int> (m_Radius.charge);
+		break;
+	case GCU_PROP_XFRACT:
+		res << x ();
+		break;
+	case GCU_PROP_YFRACT:
+		res << y ();
+		break;
+	case GCU_PROP_ZFRACT:
+		res << z ();
+		break;
+	default:
+		return Atom::GetProperty (property);
+	}
+	return res.str ();
+};
 
 }	//	namespace gcu

@@ -409,11 +409,29 @@ static void WriteStringField (GsfOutput *out, char const *propname, std::string 
 	gsf_output_write (out, str.length (), reinterpret_cast <guint8 const *> (str.c_str ()));
 }
 
+typedef struct
+{
+	string symbol;
+	string charge;
+} Atom_Type;
+
+typedef struct
+{
+	string symbol;
+	string label;
+	string XFract, YFract, ZFract; 
+} AtomInstance;
+
 bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	std::string prop;
 	unsigned i;
 	if (NULL != out) {
+		Document *doc = dynamic_cast <Document *> (obj);
+		if (!doc)
+			doc = obj->GetDocument ();
+		if (doc)
+			doc->SetScale (100);
 		prop = obj->GetProperty (GCU_PROP_DOC_TITLE);
 		if (prop.length () == 0)
 			prop = "0";
@@ -452,8 +470,61 @@ bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED
 				gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
 				tr = group->GetNextTransform (t);
 			}
-			
 		}
+		// iterate through the children and prepare atoms export
+		map <string, Object *>::iterator i;
+		Object *child = doc->GetFirstChild (i);
+		map <string, Atom_Type> AtomTypes;
+		list <AtomInstance> AtomInstances;
+		map <int, int> types;
+		map <int, int> indices;
+		map <string, Atom_Type>::iterator t, tend;
+		char *buf;
+		while (child) {
+			// FIXME, using gcu::Atom is not conform to the spirit of the loader mechanism
+			if (child->GetType () == AtomType) {
+				string prop = child->GetProperty (GCU_PROP_ATOM_Z);
+				int Z = atoi (prop.c_str ());
+				int index = indices[Z] + 1;
+				string symbol = (Z > 0)? child->GetProperty (GCU_PROP_ATOM_SYMBOL): "Xx";
+				indices[Z] = index;
+				AtomInstance instance;
+				string charge = child->GetProperty (GCU_PROP_ATOM_CHARGE);
+				string id = symbol + charge;
+				buf = g_strdup_printf ("%d", index);
+				instance.label = symbol + buf;
+				g_free (buf);
+				t = AtomTypes.find (id);
+				if (t != AtomTypes.end ())
+					instance.symbol = (*t).second.symbol;
+				else {
+					Atom_Type type;
+					index = types[Z];
+					types[Z] = index + 1;
+					buf = g_strdup_printf ("%d", index);
+					type.symbol = symbol + buf;
+					g_free (buf);
+					type.charge = charge;
+					AtomTypes[id] = type;
+					instance.symbol = type.symbol;
+				}
+				instance.XFract = child->GetProperty (GCU_PROP_XFRACT);
+				instance.YFract = child->GetProperty (GCU_PROP_YFRACT);
+				instance.ZFract = child->GetProperty (GCU_PROP_ZFRACT);
+				AtomInstances.push_back (instance);
+			}
+			child = doc->GetNextChild (i);
+		}
+		// export atom types
+		gsf_output_write (out, 6, reinterpret_cast <guint8 const *> ("loop_\n"));
+		gsf_output_write (out, 18, reinterpret_cast <guint8 const *> ("_atom_type_symbol\n"));
+		gsf_output_write (out, 28, reinterpret_cast <guint8 const *> ("_atom_type_oxidation_number\n"));
+		tend = AtomTypes.end ();
+		for (t = AtomTypes.begin (); t != tend; t++) {
+			prop = string ("  ") + (*t).second.symbol + string (MAX (8 - static_cast <int> ((*t).second.symbol.length ()), 1), ' ') + (*t).second.charge + "\n";
+			gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
+		}
+		//export atoms
 		
 		return true;
 	}

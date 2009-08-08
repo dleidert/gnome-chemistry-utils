@@ -189,7 +189,7 @@ bool Fragment::OnChanged (bool save)
 		return false;
 	}*/
 	unsigned CurPos = m_TextItem->GetCursorPosition ();
-	AnalContent (m_StartSel, CurPos);//why? Probably not anymore needed
+	AnalContent (m_StartSel, CurPos);
 	m_bLoading = true;
 	// Get the ascent, is it still needed now that we can align texts according to the baseline
 /*	if (m_buf.length ()) {
@@ -1044,35 +1044,28 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	list <gccv::TextTag *>::const_iterator i, iend = tags->end ();
 	bool Charge = false, Stoich = false;
 	gccv::TextTag *tag = NULL, *new_tag = NULL;
-	for (i = tags->begin (); i != iend; i++)
-		if ((*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
-			if ((*i)->GetTag () == ChargeTag) {
-				Charge = true;
-				tag = *i;
-				break;
-			}
-			if ((*i)->GetTag () == StoichiometryTag) {
-				tag =*i;
-				Stoich = true; 
-				break;
-			}
-		}
-/*	if (start > 1) { // analyse what is before
-		next = start - 1;
-		if (m_Mode == AutoMode && !Charge && !Stoich) {
-			if (text[next - 1] == '+' || (start > lenminus) && !strncmp (text + start - lenminus, "−", lenminus))
-				Charge = true;
-			else if ((text[next] >= '0') && (text[next] <= '9'))
-				Stoich = true;
-		}
-	}*/
 	char c;
-	unsigned start_tag, end_tag, next;
+	unsigned next;
 	next = start;
-/*	start_tag = end_tag = start;*/
 	double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
 	while (start < end) {
-		c = text[start];
+		for (i = tags->begin (); i != iend; i++)
+			if ((*i)->GetStartIndex () <= start && (*i)->GetEndIndex () >= start) {
+				if ((*i)->GetTag () == ChargeTag) {
+					Charge = true;
+					tag = *i;
+					break;
+				}
+				if ((*i)->GetTag () == StoichiometryTag) {
+					tag =*i;
+					Stoich = true; 
+					break;
+				}
+			}
+		if (tag)
+			c = *g_utf8_find_prev_char (text, text + tag->GetEndIndex ());
+		else
+			c = text[start];
 		if ((c >= '0') && (c <= '9') && (m_Mode == AutoMode || m_Mode ==StoichiometryMode)) {
 //			Charge = Stoich = false;
 /*			if (!tag) 
@@ -1094,13 +1087,6 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					Stoich = true;
 				}
 			} else {
-				if (tag)
-					tag->SetEndIndex (next);
-				else {
-					new_tag = new ChargeTextTag (size);
-					new_tag->SetStartIndex (start);
-					new_tag->SetEndIndex (next);
-				}
 			}
 			if (new_tag) {
 				if (m_TextItem)
@@ -1111,6 +1097,8 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				new_tag = NULL;
 				Stoich = true;
 			}
+			start = tag->GetEndIndex ();
+			continue;
 /*			PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
 			attr->start_index = start;
 			attr->end_index = next;
@@ -1134,8 +1122,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 			attr->start_index = start;
 			attr->end_index = next;
 				pango_attr_list_change (l, attr);*/
-			start = next - 1;
-		} else if ((c == '+') || (c == '-')) {
+		} else if ((c == '+') || (c == '-') || !strncmp (text + start, "−", lenminus)) {
 			if (!m_bLoading && (m_Mode == AutoMode || m_Mode == ChargeMode)) {
 				//do not allow both local and global charges
 				if (m_Atom->GetCharge ())
@@ -1145,7 +1132,12 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					if (c == '-') {
 						string sign = "−";
 						m_TextItem->ReplaceText (sign, start, 1);
-						next = start + strlen ("−");
+						text = m_buf.c_str ();
+						next = start + lenminus;
+						if (m_BeginAtom > start) {
+							m_BeginAtom += lenminus - 1;
+							m_EndAtom += lenminus - 1;
+						}
 					}
 					new_tag = new ChargeTextTag (size);
 					new_tag->SetStartIndex (start);
@@ -1156,6 +1148,43 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 						Stoich = false;
 					}
 				} else {
+					// old charge is tag content minus the last character (+ or - just typed)
+					string old_charge (m_buf, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex () - 1);
+					char *nextch = NULL;
+					int charge = strtol (old_charge.c_str (), &nextch, 10);
+					if (charge == 0)
+						charge = 1;
+					if (nextch && !strncmp (nextch, "−", lenminus))
+						charge = -charge;
+					if (*(text + tag->GetEndIndex () - 1) == '+')
+						charge++;
+					else
+						charge--;
+					if (charge == 0) {
+						old_charge.clear ();
+						end -= tag->GetEndIndex () - tag->GetStartIndex ();
+						next = tag->GetStartIndex ();
+						if (m_BeginAtom > start) {
+							m_BeginAtom -= tag->GetEndIndex () - tag->GetStartIndex ();
+							m_EndAtom -= tag->GetEndIndex () - tag->GetStartIndex ();
+						}
+						m_TextItem->ReplaceText (old_charge, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex ());
+						text = m_buf.c_str ();
+						tag = NULL;
+						Charge = false;
+					} else {
+						nextch = g_strdup_printf ("%d", abs (charge));
+						old_charge = string (nextch) + ((charge > 0)? "+": "−");
+						end -= tag->GetEndIndex () - tag->GetStartIndex () - old_charge.length ();
+						next = start + old_charge.length ();
+						if (m_BeginAtom > start) {
+							m_BeginAtom -= tag->GetEndIndex () - tag->GetStartIndex () - old_charge.length ();
+							m_EndAtom -= tag->GetEndIndex () - tag->GetStartIndex () - old_charge.length ();
+						}
+						m_TextItem->ReplaceText (old_charge, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex ());
+						text = m_buf.c_str ();
+						g_free (nextch);
+					}
 				}
 				if (new_tag) {
 					if (m_TextItem)
@@ -1166,65 +1195,8 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					new_tag = NULL;
 					Charge = true;
 				}
-/*				if (!Charge) {
-					Charge = true;
-					int size = pTheme->GetFontSize ();
-					PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
-					attr->start_index = start;
-					attr->end_index = next;
-					pango_attr_list_change (l, attr);
-					attr = pango_attr_rise_new (2 * size / 3);
-					attr->start_index = start;
-					attr->end_index = next;
-					pango_attr_list_change (l, attr);
-				} else {
-					string old_charge (m_buf, s.index, s.end - s.index);
-					char *nextch = NULL;
-					int charge = strtol (old_charge.c_str (), &nextch, 10);
-					if (charge == 0)
-						charge = 1;
-					if (*nextch == 0) {
-						// no sign, just add it
-						int size = pTheme->GetFontSize ();
-						PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
-						attr->start_index = start;
-						attr->end_index = next;
-						pango_attr_list_change (l, attr);
-						attr = pango_attr_rise_new (2 * size / 3);
-						attr->start_index = start;
-						attr->end_index = next;
-						pango_attr_list_change (l, attr);
-					} else {
-						if (*nextch == '-')
-							charge = - charge;
-						if (c == '+')
-							charge++;
-						else
-							charge--;
-						char *buf;
-						if (abs(charge) > 1)
-							buf = g_strdup_printf ("%d%c", abs (charge), (charge > 0)? '+': '-');
-						else if (charge == 1)
-							buf = g_strdup ("+");
-						else if (charge == -1)
-							buf = g_strdup ("-");
-						else
-							buf = g_strdup ("");
-						int size = pTheme->GetFontSize ();
-						PangoAttrList *l = pango_attr_list_new ();
-						PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
-						pango_attr_list_insert (l, attr);
-						attr = pango_attr_rise_new (2 * size / 3);
-						pango_attr_list_insert (l, attr);
-//						gcp_pango_layout_replace_text (m_Layout, s.index, s.end - s.index + 1, buf, l);
-						pango_attr_list_unref (l);
-						m_StartSel = m_EndSel = s.index + strlen (buf);
-						end += m_StartSel - start - 1;*/
-/*						GnomeCanvasPango* text = pDoc->GetView ()->GetActiveRichText ();
-						gnome_canvas_pango_set_selection_bounds (text, m_StartSel, m_EndSel);*/
-/*						g_free (buf);
-					}
-				}*/
+				start = next;
+				continue;
 			}
 		} else {
 			Charge = false;

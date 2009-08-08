@@ -130,7 +130,7 @@ CrystalView.
 */
 	virtual CrystalView* CreateNewView ();
 /*!
-Creates a new atom. This method should be overrided by programs deriving a new view class from
+Creates a new atom. This method should be overrided by programs deriving a new atom class from
 CrystalAtom.
 
 @return a pointer to the new CrystalAtom instance.

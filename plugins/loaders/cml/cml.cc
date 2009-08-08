@@ -94,14 +94,12 @@ bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *ob
 			gsf_xml_out_add_float (xml, "y2", -y, -1); // reverse y order
 		}
 	} else if (type == ContentTypeCrystal) {
-		double x, y, z;
-		prop = object->GetProperty (GCU_PROP_POS3D);
-		if (prop.length ()) {
-			sscanf (prop.c_str (), "%lg %lg %lg", &x, &y, &z);
-			gsf_xml_out_add_float (xml, "xFract", x, -1);
-			gsf_xml_out_add_float (xml, "yFract", y, -1);
-			gsf_xml_out_add_float (xml, "zFract", z, -1);
-		}
+		prop = object->GetProperty (GCU_PROP_XFRACT);
+		gsf_xml_out_add_cstr_unchecked (xml, "xFract", prop.c_str ());
+		prop = object->GetProperty (GCU_PROP_YFRACT);
+		gsf_xml_out_add_cstr_unchecked (xml, "yFract", prop.c_str ());
+		prop = object->GetProperty (GCU_PROP_ZFRACT);
+		gsf_xml_out_add_cstr_unchecked (xml, "zFract", prop.c_str ());
 	} else {
 		double x, y, z;
 		prop = object->GetProperty (GCU_PROP_POS3D);

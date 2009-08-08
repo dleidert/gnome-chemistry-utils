@@ -284,7 +284,7 @@ bool gcAtomsDlg::Apply ()
 		pAtom->SetRadius (s->Radius);
 		if (s->CustomColor)
 			pAtom->SetColor ((float) s->Red, (float) s->Green, (float) s->Blue, (float) s->Alpha);
-		Atoms->push_back (pAtom);
+		m_pDoc->AddChild (pAtom);
 		pAtom->SetEffectiveRadiusRatio (s->EffectiveRadiusRatio);
 	}
 	m_pDoc->Update ();

@@ -288,6 +288,9 @@ string Atom::GetProperty (unsigned property) const
 			res << m_x << " " << m_y << " " << m_z;
 		break;
 	}
+	case GCU_PROP_ATOM_Z:
+		res << GetZ ();
+		break;
 	case GCU_PROP_ATOM_SYMBOL:
 		res << GetSymbol ();
 		break;

@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2009-08-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: removed an obsolete FIXME.
+	* libs/gcp/fragment.cc: more work on charges.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/text-object.cc: ditto.
+	* libs/gcu/atom.cc: more work on cif and cml export.
+	* libs/gcu/crystalatom.cc: ditto.
+	* libs/gcu/crystalatom.h: ditto.
+	* libs/gcu/crystaldoc.cc: ditto.
+	* libs/gcu/crystaldoc.h: ditto.
+	* plugins/loaders/cif/cif.cc: ditto.
+	* plugins/loaders/cml/cml.cc: ditto.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+
 2009-08-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: add TextTag::Restrict to avoid overlapping tags.
 	* libs/gccv/text-tag.h: ditto.

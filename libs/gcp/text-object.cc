@@ -179,7 +179,9 @@ void TextObject::TextChanged (unsigned pos)
 {
 	OnChanged (true);
 	// call SelectionChanged after OnChanged so that we can know what was selected before the text change
-	SelectionChanged (pos, pos);
+	unsigned start;
+	static_cast <gccv::Text *> (m_Item)->GetSelectionBounds (start, pos);
+	SelectionChanged (start, pos);
 }
 
 }	//	namespace gcp

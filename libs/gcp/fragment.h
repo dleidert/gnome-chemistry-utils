@@ -120,7 +120,7 @@ the framework when editing the fragment.
 /*!
 @param node a pointer to the xmlNode containing the serialized fragment.
 
-Used to load a frafment in memory. The Fragment must already exist.
+Used to load a fragment in memory. The Fragment must already exist.
 @return true on succes, false otherwise.
 */
 	bool Load (xmlNodePtr node);

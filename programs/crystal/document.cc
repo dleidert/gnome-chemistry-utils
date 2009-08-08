@@ -524,8 +524,10 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 			else if (!strcmp((gchar*)node->name, "atom"))
 			{
 				gcAtom *pAtom = new gcAtom();
-				if (pAtom->LoadOld(node, version)) AtomDef.push_back((CrystalAtom*)pAtom);
-				else delete pAtom;
+				if (pAtom->LoadOld(node, version))
+					AddChild (pAtom);
+				else
+					delete pAtom;
 			}
 			else if (!strcmp((gchar*)node->name, "line"))
 			{

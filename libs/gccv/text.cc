@@ -1010,7 +1010,6 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 		RebuildAttributes ();
 		m_CurPos = m_StartSel = pos;
 		SetPosition (m_x, m_y);
-		//TODO: update attribute list
 		return;
 	}
 	m_Text.insert (pos, str);

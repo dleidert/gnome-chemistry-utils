@@ -247,7 +247,7 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 		} else if (!strcmp ((gchar*) node->name, "atom")) {
 			CrystalAtom *pAtom = CreateNewAtom ();
 			if (pAtom->Load (node))
-				AtomDef.push_back (pAtom);
+				AddChild (pAtom);
 			else
 				delete pAtom;
 		} else if (!strcmp ((gchar*) node->name, "line")) {
