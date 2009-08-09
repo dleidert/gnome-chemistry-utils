@@ -1007,8 +1007,8 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	if (nl == 0) {
 		pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks and update runs
 		m_Runs.front ()->m_Length = m_Text.length ();
-		RebuildAttributes ();
 		m_CurPos = m_StartSel = pos;
+		RebuildAttributes ();
 		SetPosition (m_x, m_y);
 		return;
 	}
@@ -1019,7 +1019,7 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	for (i = m_Tags.begin (); i != iend; i++) {
 		if ((*i)->GetEndIndex () < static_cast <unsigned> (pos))
 			continue;
-		if ((*i)->GetStartIndex () > static_cast <unsigned> (pos)) {
+		if ((*i)->GetStartIndex () >= static_cast <unsigned> (pos)) {
 			(*i)->SetStartIndex ((*i)->GetStartIndex () + nl);
 			(*i)->SetEndIndex ((*i)->GetEndIndex () + nl);
 		}
@@ -1066,8 +1066,8 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	extra_tags.clear (); // avoid destroying the current tags
 	pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks and update runs
 	m_Runs.front ()->m_Length = m_Text.length ();
-	RebuildAttributes ();
 	m_CurPos = m_StartSel = pos + str.length ();
+	RebuildAttributes ();
 	SetPosition (m_x, m_y);
 }
 
@@ -1507,6 +1507,7 @@ void Text::GetSelectionBounds (unsigned &start, unsigned &end)
 {
 	start = m_StartSel;
 	end = m_CurPos;
+printf("m_CurPos=%u m_StartSel=%u\n",m_CurPos,m_StartSel);
 }
 
 void Text::SetSelectionBounds (unsigned start, unsigned end)

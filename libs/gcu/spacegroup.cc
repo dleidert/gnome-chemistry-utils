@@ -275,14 +275,15 @@ list<Vector> SpaceGroup::Transform (const Vector &v) const
 Transform3d const * SpaceGroup::GetFirstTransform (list <Transform3d*>::const_iterator &i) const
 {
 	i = m_Transforms.begin ();
-	return (i == m_Transforms.end())? reinterpret_cast <Transform3d *> (NULL): *i++;
+	return (i == m_Transforms.end())? reinterpret_cast <Transform3d *> (NULL): *i;
 }
 
 /*! 
 */
 Transform3d const * SpaceGroup::GetNextTransform (list <Transform3d*>::const_iterator &i) const
 {
-	return (i == m_Transforms.end ())? reinterpret_cast <Transform3d *> (NULL): *i++;
+	i++;
+	return (i == m_Transforms.end ())? reinterpret_cast <Transform3d *> (NULL): *i;
 }
 
 /*! 

@@ -916,12 +916,27 @@ std::string CrystalDoc::GetProperty (unsigned property) const
 		return m_Title;
 	case GCU_PROP_CHEMICAL_NAME_COMMON:
 		return m_NameCommon;
-		break;
 	case GCU_PROP_CHEMICAL_NAME_SYSTEMATIC:
 		return m_NameSystematic;
-		break;
 	case GCU_PROP_CHEMICAL_NAME_MINERAL:
 		return m_NameMineral;
+	case GCU_PROP_CELL_A:
+		res << m_a / GetScale ();
+		break;
+	case GCU_PROP_CELL_B:
+		res << m_b / GetScale ();
+		break;
+	case GCU_PROP_CELL_C:
+		res << m_c / GetScale ();
+		break;
+	case GCU_PROP_CELL_ALPHA:
+		res << m_alpha;
+		break;
+	case GCU_PROP_CELL_BETA:
+		res << m_beta;
+		break;
+	case GCU_PROP_CELL_GAMMA:
+		res << m_gamma;
 		break;
 	case GCU_PROP_SPACE_GROUP:
 		return m_SpaceGroup->GetHallName ();

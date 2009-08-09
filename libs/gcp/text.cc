@@ -860,7 +860,7 @@ void Text::AddItem ()
 		text->InsertTextTag (m_TagList.front ());
 		m_TagList.pop_front ();
 	}
-	m_Item = text;
+	m_Item = m_TextItem = text;
 }
 
 void Text::UpdateItem ()

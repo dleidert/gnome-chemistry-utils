@@ -28,6 +28,7 @@
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
 #include <gcu/spacegroup.h>
+#include <gcu/transform3d.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-libxml.h>
@@ -532,6 +533,73 @@ bool CMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *m
 			string title = doc->GetProperty (GCU_PROP_DOC_TITLE);
 			if (title.length ())
 				gsf_xml_out_add_cstr (xml, "title", title.c_str ());
+			if (type == ContentTypeCrystal) {
+				gsf_xml_out_start_element (xml, "molecule");
+				gsf_xml_out_add_cstr (xml, "id", "mol0");
+				gsf_xml_out_start_element (xml, "crystal");
+				// exporting cell parameters using old cml style
+				// FIXME: use cellParameter
+				// a
+				title = doc->GetProperty (GCU_PROP_CELL_A);
+				gsf_xml_out_start_element (xml, "scalar");
+				gsf_xml_out_add_cstr (xml, "title", "a");
+				gsf_xml_out_add_cstr (xml, "units", "units:angstrom");
+				gsf_xml_out_add_cstr_unchecked (xml, NULL, title.c_str ());
+				gsf_xml_out_end_element (xml);
+				// b
+				title = doc->GetProperty (GCU_PROP_CELL_B);
+				gsf_xml_out_start_element (xml, "scalar");
+				gsf_xml_out_add_cstr (xml, "title", "b");
+				gsf_xml_out_add_cstr (xml, "units", "units:angstrom");
+				gsf_xml_out_add_cstr_unchecked (xml, NULL, title.c_str ());
+				gsf_xml_out_end_element (xml);
+				// c
+				title = doc->GetProperty (GCU_PROP_CELL_C);
+				gsf_xml_out_start_element (xml, "scalar");
+				gsf_xml_out_add_cstr (xml, "title", "c");
+				gsf_xml_out_add_cstr (xml, "units", "units:angstrom");
+				gsf_xml_out_add_cstr_unchecked (xml, NULL, title.c_str ());
+				gsf_xml_out_end_element (xml);
+				// alpha
+				title = doc->GetProperty (GCU_PROP_CELL_ALPHA);
+				gsf_xml_out_start_element (xml, "scalar");
+				gsf_xml_out_add_cstr (xml, "title", "alpha");
+				gsf_xml_out_add_cstr (xml, "units", "units:angstrom");
+				gsf_xml_out_add_cstr_unchecked (xml, NULL, title.c_str ());
+				gsf_xml_out_end_element (xml);
+				// beta
+				title = doc->GetProperty (GCU_PROP_CELL_BETA);
+				gsf_xml_out_start_element (xml, "scalar");
+				gsf_xml_out_add_cstr (xml, "title", "beta");
+				gsf_xml_out_add_cstr (xml, "units", "units:angstrom");
+				gsf_xml_out_add_cstr_unchecked (xml, NULL, title.c_str ());
+				gsf_xml_out_end_element (xml);
+				// gamma
+				title = doc->GetProperty (GCU_PROP_CELL_GAMMA);
+				gsf_xml_out_start_element (xml, "scalar");
+				gsf_xml_out_add_cstr (xml, "title", "gamma");
+				gsf_xml_out_add_cstr (xml, "units", "units:angstrom");
+				gsf_xml_out_add_cstr_unchecked (xml, NULL, title.c_str ());
+				gsf_xml_out_end_element (xml);
+				// space group
+				title = doc->GetProperty (GCU_PROP_SPACE_GROUP);
+				gsf_xml_out_start_element (xml, "symmetry");
+				gsf_xml_out_add_cstr (xml, "spaceGroup", title.c_str ());
+				std::list <Transform3d*>::const_iterator t;
+				SpaceGroup const *group = SpaceGroup::GetSpaceGroup (title);
+				Transform3d const *tr = group->GetFirstTransform (t);
+				while (tr) {
+					gsf_xml_out_start_element (xml, "transform3");
+					gsf_xml_out_add_cstr_unchecked (xml, NULL, tr->DescribeAsValues().c_str ());
+					gsf_xml_out_end_element (xml);
+					tr = group->GetNextTransform (t);
+				}
+				gsf_xml_out_end_element (xml);
+				// close <crystal> node
+				gsf_xml_out_end_element (xml);
+				// start atoms array
+				gsf_xml_out_start_element (xml, "atomArray");
+			}
 			std::map <std::string, Object *>::iterator i;
 			Object *child = doc->GetFirstChild (i);
 			while (child) {
@@ -543,6 +611,10 @@ bool CMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *m
 			}
 		} else
 			WriteObject (xml, obj, io, type);
+		if (type == ContentTypeCrystal) {
+			gsf_xml_out_end_element (xml);
+			gsf_xml_out_end_element (xml);
+		}
 		gsf_xml_out_end_element (xml);
 		g_object_unref (xml);
 		return true;

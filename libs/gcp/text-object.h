@@ -33,6 +33,10 @@
 #include <pango/pango-layout.h>
 #include <string>
 
+namespace gccv {
+	class Text;
+}
+
 /*!\file*/
 namespace gcp {
 
@@ -209,6 +213,7 @@ The tags list associated with the object.
 */
 GCU_PROT_PROP (gccv::TextTagList, TagList)
 GCU_PROP (TextEditor*, Editor)
+GCU_PROT_PROP (gccv::Text*, TextItem)
 };
 
 }	// namespace gcp

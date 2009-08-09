@@ -409,6 +409,14 @@ static void WriteStringField (GsfOutput *out, char const *propname, std::string 
 	gsf_output_write (out, str.length (), reinterpret_cast <guint8 const *> (str.c_str ()));
 }
 
+static void WriteField (GsfOutput *out, char const *propname, std::string &prop)
+{
+	if (!g_utf8_validate (prop.c_str (), -1, NULL)) // FIXME: try some conversion
+		return;
+	std::string str = std::string (propname) + std::string (35 - strlen (propname), ' ') + prop + "\n";
+	gsf_output_write (out, str.length (), reinterpret_cast <guint8 const *> (str.c_str ()));
+}
+
 typedef struct
 {
 	string symbol;
@@ -456,6 +464,18 @@ bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED
 		prop = obj->GetProperty (GCU_PROP_DOC_CREATOR_EMAIL);
 		if (prop.length ())
 			WriteStringField (out, "_publ_author_email", prop);
+		prop = obj->GetProperty (GCU_PROP_CELL_A);
+		WriteField (out, "_cell_length_a", prop);
+		prop = obj->GetProperty (GCU_PROP_CELL_B);
+		WriteField (out, "_cell_length_b", prop);
+		prop = obj->GetProperty (GCU_PROP_CELL_C);
+		WriteField (out, "_cell_length_c", prop);
+		prop = obj->GetProperty (GCU_PROP_CELL_ALPHA);
+		WriteField (out, "_cell_angle_apha", prop);
+		prop = obj->GetProperty (GCU_PROP_CELL_BETA);
+		WriteField (out, "_cell_angle_beta", prop);
+		prop = obj->GetProperty (GCU_PROP_CELL_GAMMA);
+		WriteField (out, "_cell_angle_gamma", prop);
 		// export space group
 		prop = obj->GetProperty (GCU_PROP_SPACE_GROUP);
 		if (prop.length ()) {
@@ -525,6 +545,21 @@ bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED
 			gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
 		}
 		//export atoms
+		gsf_output_write (out, 6, reinterpret_cast <guint8 const *> ("loop_\n"));
+		gsf_output_write (out, 17, reinterpret_cast <guint8 const *> ("_atom_site_label\n"));
+		gsf_output_write (out, 23, reinterpret_cast <guint8 const *> ("_atom_site_type_symbol\n"));
+		gsf_output_write (out, 19, reinterpret_cast <guint8 const *> ("_atom_site_fract_x\n"));
+		gsf_output_write (out, 19, reinterpret_cast <guint8 const *> ("_atom_site_fract_y\n"));
+		gsf_output_write (out, 19, reinterpret_cast <guint8 const *> ("_atom_site_fract_z\n"));
+		list <AtomInstance>::iterator n, nend = AtomInstances.end ();
+		for (n = AtomInstances.begin (); n != nend; n++) {
+			prop = string ("  ") + (*n).label + string (MAX (6 - static_cast <int> ((*n).label.length ()), 1), ' ')
+				+ (*n).symbol + string (MAX (6 - static_cast <int> ((*n).symbol.length ()), 1), ' ')
+				+ (*n).XFract + string (MAX (6 - static_cast <int> ((*n).XFract.length ()), 1), ' ')
+				+ (*n).YFract + string (MAX (6 - static_cast <int> ((*n).YFract.length ()), 1), ' ')
+				+ (*n).ZFract + "\n";
+			gsf_output_write (out, prop.length (), reinterpret_cast <guint8 const *> (prop.c_str ()));
+		}
 		
 		return true;
 	}

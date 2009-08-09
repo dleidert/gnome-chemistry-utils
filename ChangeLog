@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2009-08-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fixed some fragment related issues.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/text-object.cc: ditto.
+	* libs/gcp/text-object.h: ditto.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcu/crystaldoc.cc: ditto.
+	* libs/gcu/spacegroup.cc: fixed transforms iterations so that the iterator
+	points to the current element, not the next one.
+	* plugins/loaders/cif/cif.cc: crystal export to cif completed.
+	* plugins/loaders/cml/cml.cc: crystal export to cml completed.
+
 2009-08-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: removed an obsolete FIXME.
 	* libs/gcp/fragment.cc: more work on charges.

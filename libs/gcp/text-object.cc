@@ -39,7 +39,8 @@ namespace gcp {
 
 extern xmlDocPtr pXmlDoc;
 
-TextObject::TextObject (TypeId Type): Object (Type), gccv::TextClient ()
+TextObject::TextObject (TypeId Type): Object (Type), gccv::TextClient (),
+	m_TextItem (NULL)
 {
 	m_x = 0.;
 	m_y = 0.;
@@ -54,7 +55,8 @@ TextObject::TextObject (TypeId Type): Object (Type), gccv::TextClient ()
 }
 
 TextObject::TextObject (double x, double y, TypeId Type): Object (Type),
-	gccv::TextClient ()
+	gccv::TextClient (),
+	m_TextItem (NULL)
 {
 	m_x = x;
 	m_y = y;
@@ -180,7 +182,7 @@ void TextObject::TextChanged (unsigned pos)
 	OnChanged (true);
 	// call SelectionChanged after OnChanged so that we can know what was selected before the text change
 	unsigned start;
-	static_cast <gccv::Text *> (m_Item)->GetSelectionBounds (start, pos);
+	m_TextItem->GetSelectionBounds (start, pos);
 	SelectionChanged (start, pos);
 }
 

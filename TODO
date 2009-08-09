@@ -16,12 +16,11 @@
 	* support for options when displaying a spectrum (?).
 
 * Gnome Crystal:
-	* export to cif and cml formats (needs space group sniffing) (?).
+	* make HIG compilant (?).
 
 * GChemPaint:
 	* enhance copy-and-paste support for OpenOffice.org (?).
 	* plugin to prepare png files of molecules ready for publication in wikipedia (almost done).
-	* Use a cairo based canvas (0.12).
 	* New tools:
 		- delocalized bonds (?),
 		- week interactions (e.g. H-bonds) (?),
@@ -44,7 +43,7 @@
 	* support inclusion of zoomed partials.
 
 * GCCV Library:
-	* implement a new canvas (0.12).
+	* add new items as needed.
 
 * GCU Library:
 	* provide clipboard support at the Application level (?).

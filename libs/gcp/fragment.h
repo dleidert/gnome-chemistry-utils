@@ -276,7 +276,6 @@ private:
 	double m_CHeight;
 	bool m_Inversable;
 
-GCU_RO_PROP (gccv::Text *, TextItem)
 GCU_RO_PROP (Validity, Valid)
 GCU_PROP (FragmentMode, Mode)
 };

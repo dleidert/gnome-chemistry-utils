@@ -138,7 +138,6 @@ gccv::TextTag *StoichiometryTextTag::Restrict (gccv::TextTag *tag)
 Fragment::Fragment ():
 	TextObject (FragmentType),
 	m_Inversable (false),
-	m_TextItem (NULL),
 	m_Valid (Invalid),
 	m_Mode (AutoMode)
 {
@@ -153,7 +152,6 @@ Fragment::Fragment ():
 Fragment::Fragment (double x, double y):
 	TextObject (x, y, FragmentType),
 	m_Inversable (false),
-	m_TextItem (NULL),
 	m_Valid (Invalid),
 	m_Mode (AutoMode)
 {
@@ -1001,7 +999,7 @@ bool Fragment::Load (xmlNodePtr node)
 			m_TagList.pop_front ();
 		}
 	}
-	AnalContent ();
+//	AnalContent (); // FIXME: analyze only untagged parts
 	m_bLoading = false;
 	return true;
 }
@@ -1049,8 +1047,8 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	next = start;
 	double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
 	while (start < end) {
-		for (i = tags->begin (); i != iend; i++)
-			if ((*i)->GetStartIndex () <= start && (*i)->GetEndIndex () >= start) {
+		for (i = tags->begin (); i != iend; i++){
+			if ((*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
 				if ((*i)->GetTag () == ChargeTag) {
 					Charge = true;
 					tag = *i;
@@ -1061,7 +1059,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					Stoich = true; 
 					break;
 				}
-			}
+			}}
 		if (tag)
 			c = *g_utf8_find_prev_char (text, text + tag->GetEndIndex ());
 		else
@@ -1080,13 +1078,22 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 			next = start + 1; // a figure is a one byte character
 			// add new tag
 			if (!Charge) {
+puts("not a charge");
 				if (!Stoich) {
 					new_tag = new StoichiometryTextTag (size);
 					new_tag->SetStartIndex (start);
 					new_tag->SetEndIndex (next);
 					Stoich = true;
 				}
-			} else {
+			} else if (start == tag->GetEndIndex () - 1) {
+				string repl (1, c);
+				char *buf = g_utf8_find_prev_char (text, text + start);
+				repl.append (buf, text + start - buf);
+				if (m_TextItem)
+					m_TextItem->ReplaceText (repl, buf - text, text + start + 1 - buf);
+				else
+					m_buf.replace (buf - text, repl.length (), repl.c_str ());
+				text = m_buf.c_str ();
 			}
 			if (new_tag) {
 				if (m_TextItem)

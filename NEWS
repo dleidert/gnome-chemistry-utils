@@ -1,3 +1,8 @@
+Version 0.11.3
+	Gnome Crystal:
+		* Export both cml and cif files (at least minimally).
+		* Import cml files.
+
 Version 0.11.2
 	GChemPaint
 		* Texts now mostly work. Known regressions: multiline texts, underline
