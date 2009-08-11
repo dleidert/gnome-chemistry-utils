@@ -184,8 +184,8 @@ void Document::SetFileName (string const &Name, const gchar* mime_type)
 	int j = strlen (m_filename) - 1;
 	while ((i < j) && (m_filename[j] != '.'))
 		j--;
-	if (m_label)
-		g_free (m_label);
+	g_free (m_label);
+	m_label = NULL;
 	char *ext = m_filename + j + 1;
 	list<string> &exts = m_pApp->GetExtensions (m_FileType);
 	list<string>::iterator cur, end = exts.end ();

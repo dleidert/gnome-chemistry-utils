@@ -1283,17 +1283,17 @@ void Text::RebuildAttributes ()
 	for (tag = m_Tags.begin (); tag != end_tag; tag++) {
 		if (stacked || (*tag)->GetStacked ()) {
 			// we need a new run
-			if (cur_end < (*tag)->GetStartIndex ()) {
+			if (cur_end < (*tag)->GetStartIndex () && last_run->m_Stacked) {
 				new_run = new TextRun ();
 				pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
 				new_run ->m_Index = cur_end;
 				last_run->m_Length = new_run->m_Index - last_run->m_Index;
 				last_run->m_NbGlyphs = g_utf8_strlen (m_Text.c_str () + last_run->m_Index, last_run->m_Length);
 				new_run->m_Stacked = false;
-				cur_end = (*tag)->GetEndIndex ();
 				m_Runs.push_back (new_run);
 				last_run = new_run;
 			}
+			cur_end = (*tag)->GetEndIndex ();
 			new_run = new TextRun ();
 			pango_layout_set_font_description (new_run->m_Layout, m_FontDesc);
 			new_run ->m_Index = (*tag)->GetStartIndex ();
@@ -1507,7 +1507,6 @@ void Text::GetSelectionBounds (unsigned &start, unsigned &end)
 {
 	start = m_StartSel;
 	end = m_CurPos;
-printf("m_CurPos=%u m_StartSel=%u\n",m_CurPos,m_StartSel);
 }
 
 void Text::SetSelectionBounds (unsigned start, unsigned end)

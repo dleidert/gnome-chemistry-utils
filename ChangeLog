@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: don't create too many runs.
+	* libs/gcp/document.cc: fix a window title issue.
+	* libs/gcp/fragment.cc: import 0.10 and earlier fragments.
+
 2009-08-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fixed some fragment related issues.
 	* libs/gcp/fragment.cc: ditto.

@@ -822,6 +822,7 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 	xmlNodePtr child;
 	char *err;
 	int charge;
+	string content;
 	for (j = tags->begin (); j != jend; j++) {
 		if (end <= (*j)->GetStartIndex ())
 			continue;
@@ -862,8 +863,9 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 			}
 		} else if (tag == StoichiometryTag) {
 			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("stoichiometry"), NULL);
+			content = m_buf.substr ((*j)->GetStartIndex (), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			// using the charge variable
-			charge = strtol (m_buf.c_str () + (*j)->GetStartIndex (), &err, 10);
+			charge = strtol (content.c_str () + (*j)->GetStartIndex (), &err, 10);
 			if (charge <= 0)
 				xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*j)->GetStartIndex ()), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			else {
@@ -992,14 +994,30 @@ bool Fragment::Load (xmlNodePtr node)
 		}
 		child = child->next;
 	}
+	// analyse text between tags to support previous versions
+	list <gccv::TextTag *> tags;
+	gccv::TextTagList::iterator i, iend = m_TagList.end ();
+	unsigned start = 0, end;
+	for (i = m_TagList.begin (); i != iend; i++)
+		tags.push_back (*i);
+	list <gccv::TextTag *>::iterator j, jend = tags.end ();
+	for (j = tags.begin (); j != jend; j++) {
+		end = (*j)->GetStartIndex ();
+		if (end > start)
+			AnalContent (start, end);
+		start = (*j)->GetEndIndex ();
+	}
+	end = m_buf.length ();
+	if (end > start)
+		AnalContent (start, end);
 	if (m_TextItem) {
 		m_TextItem->SetText (m_buf);
 		while (!m_TagList.empty ()) {
 			m_TextItem->InsertTextTag (m_TagList.front ());
 			m_TagList.pop_front ();
 		}
+		m_TextItem->RebuildAttributes ();
 	}
-//	AnalContent (); // FIXME: analyze only untagged parts
 	m_bLoading = false;
 	return true;
 }
@@ -1039,7 +1057,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	Theme *pTheme = pDoc->GetTheme ();
 	char const *text = m_buf.c_str ();
 	list <gccv::TextTag *> const *tags = (m_TextItem)? m_TextItem->GetTags (): &m_TagList;
-	list <gccv::TextTag *>::const_iterator i, iend = tags->end ();
+	list <gccv::TextTag *>::const_iterator i, iend;
 	bool Charge = false, Stoich = false;
 	gccv::TextTag *tag = NULL, *new_tag = NULL;
 	char c;
@@ -1047,6 +1065,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	next = start;
 	double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
 	while (start < end) {
+		iend = tags->end ();
 		for (i = tags->begin (); i != iend; i++){
 			if ((*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
 				if ((*i)->GetTag () == ChargeTag) {
@@ -1060,7 +1079,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					break;
 				}
 			}}
-		if (tag)
+		if (tag && start < tag->GetEndIndex ())
 			c = *g_utf8_find_prev_char (text, text + tag->GetEndIndex ());
 		else
 			c = text[start];
@@ -1078,7 +1097,6 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 			next = start + 1; // a figure is a one byte character
 			// add new tag
 			if (!Charge) {
-puts("not a charge");
 				if (!Stoich) {
 					new_tag = new StoichiometryTextTag (size);
 					new_tag->SetStartIndex (start);
@@ -1104,8 +1122,10 @@ puts("not a charge");
 				new_tag = NULL;
 				Stoich = true;
 			}
-			start = tag->GetEndIndex ();
-			continue;
+			if (start < tag->GetEndIndex ()) {
+				start = tag->GetEndIndex ();
+				continue;
+			}
 /*			PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
 			attr->start_index = start;
 			attr->end_index = next;
