@@ -25,6 +25,7 @@
 #ifndef GCHEMPAINT_TOOL_H
 #define GCHEMPAINT_TOOL_H
 
+#include <gcu/macros.h>
 #include <gtk/gtk.h>
 #include <libxml/tree.h>
 #include <vector>
@@ -382,6 +383,8 @@ private:
 	double lastx, lasty;
 	std::string name;
 	bool m_bPressed;
+
+GCU_PROT_PROP (bool, OwnStatus)
 };
 
 }	// namespace gcp

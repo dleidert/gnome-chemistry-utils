@@ -45,6 +45,7 @@ public:
 	GtkWidget *GetPropertyPage () {return NULL;}
 	char const *GetHelpTag () {return "fragment";}
 	void UpdateTagsList ();
+	void SetStatusText (gcp::Fragment::FragmentMode mode);
 
 	static void OnCommit (GtkIMContext *context, const gchar *str, gcpFragmentTool *tool);
 

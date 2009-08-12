@@ -52,6 +52,8 @@
 using namespace gcu;
 using namespace std;
 
+static int lenminus = strlen ("−");
+
 namespace gcp {
 
 gccv::Tag ChargeTag = gccv::Invalid, StoichiometryTag = gccv::Invalid;
@@ -178,23 +180,9 @@ bool Fragment::OnChanged (bool save)
 		return false;
 	m_buf = m_TextItem->GetText ();
 	View* pView = pDoc->GetView ();
-/*	GtkWidget* pWidget = pView->GetWidget ();
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
-	GnomeCanvasGroup *group = pData->Items[this];
-	if (!group) {
-		pData->Items.erase (this);
-		m_bLoading = false;
-		return false;
-	}*/
 	unsigned CurPos = m_TextItem->GetCursorPosition ();
 	AnalContent (m_StartSel, CurPos);
 	m_bLoading = true;
-	// Get the ascent, is it still needed now that we can align texts according to the baseline
-/*	if (m_buf.length ()) {
-		PangoLayoutIter *iter = pango_layout_get_iter (m_Layout);
-		m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
-		pango_layout_iter_free (iter);
-	}*/
 	/*main atom management*/
 	if (m_buf.length () < m_EndAtom) { // needed if the symbol of part of it has been destroyed
 		m_Atom->SetZ (0);
@@ -202,14 +190,24 @@ bool Fragment::OnChanged (bool save)
 		if (m_BeginAtom > m_EndAtom)
 			m_BeginAtom = m_EndAtom;
 	}
+	// don't take tagged glyphs into consideration
+	std::list <gccv::TextTag *> const *tags = m_TextItem->GetTags ();
+	std::list <gccv::TextTag *>::const_iterator tag, tag_end = tags->end ();
+	unsigned start = m_BeginAtom, end = m_buf.length ();
 	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
 	Residue *r = NULL;
 	char sy[Residue::MaxSymbolLength + 1];
-	if (!m_Atom->GetSymbol ())
-		m_StartSel = m_BeginAtom;
+/*	if (!m_Atom->GetSymbol ())
+		start = m_BeginAtom;*/
+	for (tag = tags->begin (); tag != tag_end; tag++) {
+		if ((*tag)->GetStartIndex () <= start && (*tag)->GetEndIndex () > start)
+			start = (*tag)->GetEndIndex ();
+		else if ((*tag)->GetStartIndex () >= start && (*tag)->GetStartIndex () < end)
+			end = (*tag)->GetStartIndex ();
+	}
 	if (!m_Atom->GetZ () || (residue != NULL && residue->GetResidue () == NULL)) {
-		strncpy (sy, m_buf.c_str () + m_StartSel, Residue::MaxSymbolLength);
-		int i = Residue::MaxSymbolLength;
+		strncpy (sy, m_buf.c_str () + start, Residue::MaxSymbolLength);
+		int i = MIN (Residue::MaxSymbolLength, end - start);
 		while (i > 0) {
 			sy[i] = 0;
 			r = (Residue *) Residue::GetResidue (sy, NULL);
@@ -240,6 +238,7 @@ bool Fragment::OnChanged (bool save)
 				AddChild (m_Atom);
 			}
 		} else {
+			CurPos = end;
 			int Z = GetElementAtPos (m_StartSel, CurPos);
 			if (!Z && m_StartSel > m_BeginAtom)
 				Z = GetElementAtPos (m_StartSel = m_BeginAtom, CurPos);
@@ -272,14 +271,15 @@ bool Fragment::OnChanged (bool save)
 	} else if ((m_EndAtom <= m_EndSel && m_EndAtom >= m_StartSel) ||
 		(m_BeginAtom <= m_EndSel && m_BeginAtom >= m_StartSel) ||
 		(m_BeginAtom + Residue::MaxSymbolLength >= CurPos)) {
-		if (m_BeginAtom > m_StartSel)
-			m_BeginAtom = m_StartSel;
-		if (m_EndAtom > CurPos)
-			m_EndAtom = CurPos;
-		else if (m_EndAtom < m_BeginAtom + Residue::MaxSymbolLength)
-			m_EndAtom = m_BeginAtom + Residue::MaxSymbolLength;
-		strncpy (sy, m_buf.c_str () + m_BeginAtom, Residue::MaxSymbolLength);
-		int i = Residue::MaxSymbolLength;
+		if (m_BeginAtom > start)
+			m_BeginAtom = start;
+		unsigned maxlength = MIN (Residue::MaxSymbolLength, end - m_BeginAtom);
+		if (m_EndAtom > end)
+			m_EndAtom = end;
+		else if (m_EndAtom < m_BeginAtom + maxlength)
+			m_EndAtom = m_BeginAtom + maxlength;
+		strncpy (sy, m_buf.c_str () + m_BeginAtom, maxlength);
+		unsigned i = maxlength;
 		while (i > 0) {
 			sy[i] = 0;
 			r = (Residue *) Residue::GetResidue (sy, NULL);
@@ -353,11 +353,6 @@ bool Fragment::OnChanged (bool save)
 		pWin->ActivateActionWidget ("/MainMenu/FileMenu/Print", false);
 		pWin->ActivateActionWidget ("/MainToolbar/Save", false);
 	}
-/*	pango_layout_get_extents (m_Layout, NULL, &rect);
-	m_length = rect.width / PANGO_SCALE;
-	m_height = rect.height / PANGO_SCALE;
-	pView->Update (this);
-	m_StartSel = m_EndSel = CurPos;*/
 	EmitSignal (OnChangedSignal);
 	if (m_buf.length () == 0) {
 		m_BeginAtom = m_EndAtom = 0;
@@ -819,7 +814,7 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 	else
 		tags = &m_TagList;
 	std::list <gccv::TextTag *>::const_iterator j, jend = tags->end ();
-	xmlNodePtr child;
+	xmlNodePtr child = NULL;
 	char *err;
 	int charge;
 	string content;
@@ -847,26 +842,32 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 		} else if (tag == ChargeTag) {
 			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("charge"), NULL);
 			charge = strtol (m_buf.c_str () + (*j)->GetStartIndex (), &err, 10);
-			if (charge == 0) {
-				if (*err == '+')
+			if (charge == 0 && m_buf[(*j)->GetStartIndex ()] != '0') {
+				if (*err == '+' && (*j)->GetEndIndex () == err - m_buf.c_str () + 1)
 					xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> ("1"));
-				else if (!strncmp (err, "−", strlen ("−")))
+				else if (!strncmp (err, "−", lenminus) && (*j)->GetEndIndex () == err - m_buf.c_str () + lenminus)
 					xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> ("-1"));
 				else
 					xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*j)->GetStartIndex ()), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			} else {
-				if (*err != '+')
+				bool known = (*err == '+' && (*j)->GetEndIndex () == err - m_buf.c_str () + 1);
+				if (!known && !strncmp (err, "−", lenminus)/* && (*j)->GetEndIndex () == err - m_buf.c_str () + lenminus*/) {
 					charge = -charge;
-				char *buf = g_strdup_printf ("%d", charge);
-				xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> (buf));
-				g_free (buf);
+					known = true;
+				}
+				if (known) {
+					char *buf = g_strdup_printf ("%d", charge);
+					xmlNewProp (child, reinterpret_cast <xmlChar const *> ("value"), reinterpret_cast <xmlChar const *> (buf));
+					g_free (buf);
+				} else
+					xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*j)->GetStartIndex ()), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			}
 		} else if (tag == StoichiometryTag) {
 			child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("stoichiometry"), NULL);
 			content = m_buf.substr ((*j)->GetStartIndex (), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			// using the charge variable
-			charge = strtol (content.c_str () + (*j)->GetStartIndex (), &err, 10);
-			if (charge <= 0)
+			charge = strtol (content.c_str (), &err, 10);
+			if (charge <= 0 || (err && *err))
 				xmlNodeAddContentLen (child, reinterpret_cast <xmlChar const *> (m_buf.c_str () + (*j)->GetStartIndex ()), (*j)->GetEndIndex () - (*j)->GetStartIndex ());
 			else {
 				char *buf = g_strdup_printf ("%d", charge);
@@ -910,7 +911,8 @@ bool Fragment::Load (xmlNodePtr node)
 	while (child) {
 		if (!strcmp ((const char*) child->name, "text")) {
 			tmp = (char*) xmlNodeGetContent (child);
-			m_buf += tmp;
+			if (!strchr (tmp, '\n'))
+				m_buf += tmp;
 			xmlFree (tmp);
 		} else if (!strcmp ((const char*) child->name, "atom")) {
 			if (!m_Atom->Load (child))
@@ -1048,7 +1050,6 @@ static bool search_for_charge (PangoAttribute *attr, ChargeFindStruct *s)
 	return false;
 }
 
-static int lenminus = strlen ("−");
 void Fragment::AnalContent (unsigned start, unsigned &end)
 {
 	Document* pDoc = (Document*) GetDocument ();
@@ -1083,17 +1084,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 			c = *g_utf8_find_prev_char (text, text + tag->GetEndIndex ());
 		else
 			c = text[start];
-		if ((c >= '0') && (c <= '9') && (m_Mode == AutoMode || m_Mode ==StoichiometryMode)) {
-//			Charge = Stoich = false;
-/*			if (!tag) 
-				for (i = tags->begin (); i != iend; i++)
-					if ((*i)->GetTag () == ChargeTag && (*i)->GetStartIndex () < start && (*i)->GetEndIndex () >= start) {
-						Charge = true; 
-						break;
-					} else if ((*i)->GetTag () == StoichiometryTag && (*i)->GetStartIndex () <= start && (*i)->GetEndIndex () >= start) {
-						Stoich = true; 
-						break;
-					}*/
+		if ((c >= '0') && (c <= '9') && (m_Mode == AutoMode)) {
 			next = start + 1; // a figure is a one byte character
 			// add new tag
 			if (!Charge) {
@@ -1107,9 +1098,10 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				string repl (1, c);
 				char *buf = g_utf8_find_prev_char (text, text + start);
 				repl.append (buf, text + start - buf);
-				if (m_TextItem)
+				if (m_TextItem) {
 					m_TextItem->ReplaceText (repl, buf - text, text + start + 1 - buf);
-				else
+					m_buf = m_TextItem->GetText ();
+				} else
 					m_buf.replace (buf - text, repl.length (), repl.c_str ());
 				text = m_buf.c_str ();
 			}
@@ -1126,31 +1118,8 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				start = tag->GetEndIndex ();
 				continue;
 			}
-/*			PangoAttribute *attr = pango_attr_size_new (size * 2 / 3);
-			attr->start_index = start;
-			attr->end_index = next;
-			pango_attr_list_change (l, attr);
-				attr = pango_attr_rise_new (-size / 3);
-			else {
-				if (text[start - 1] == '+' || text[start - 1] == '-') {
-					// move character before sign
-					char *new_t = g_strdup (text);
-					new_t[start] = new_t[start - 1];
-					new_t[start - 1] = c;
-					if (m_Layout) {
-						pango_layout_set_text (m_Layout, new_t, -1);
-						text = pango_layout_get_text (m_Layout);
-					} else
-						m_buf = new_t;
-						text = m_buf.c_str ();
-				}
-				attr = pango_attr_rise_new (size * 2 / 3);
-			}
-			attr->start_index = start;
-			attr->end_index = next;
-				pango_attr_list_change (l, attr);*/
 		} else if ((c == '+') || (c == '-') || !strncmp (text + start, "−", lenminus)) {
-			if (!m_bLoading && (m_Mode == AutoMode || m_Mode == ChargeMode)) {
+			if (!m_bLoading && (m_Mode == AutoMode)) {
 				//do not allow both local and global charges
 				if (m_Atom->GetCharge ())
 					m_Atom->SetCharge (0);
@@ -1159,6 +1128,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					if (c == '-') {
 						string sign = "−";
 						m_TextItem->ReplaceText (sign, start, 1);
+						m_buf = m_TextItem->GetText ();
 						text = m_buf.c_str ();
 						next = start + lenminus;
 						if (m_BeginAtom > start) {
@@ -1196,6 +1166,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 							m_EndAtom -= tag->GetEndIndex () - tag->GetStartIndex ();
 						}
 						m_TextItem->ReplaceText (old_charge, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex ());
+						m_buf = m_TextItem->GetText ();
 						text = m_buf.c_str ();
 						tag = NULL;
 						Charge = false;
@@ -1209,6 +1180,7 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 							m_EndAtom -= tag->GetEndIndex () - tag->GetStartIndex () - old_charge.length ();
 						}
 						m_TextItem->ReplaceText (old_charge, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex ());
+						m_buf = m_TextItem->GetText ();
 						text = m_buf.c_str ();
 						g_free (nextch);
 					}
@@ -1224,8 +1196,12 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				}
 				start = next;
 				continue;
+			} else if (c == '-' && m_Mode == ChargeMode) {
+				string minus = "−";
+				m_TextItem->ReplaceText (minus, start, 1);
+				next = start + lenminus;
 			}
-		} else {
+		} else if (m_Mode == AutoMode) {
 			Charge = false;
 			Stoich = false;
 			if (tag) {
@@ -1382,7 +1358,7 @@ int Fragment::GetElementAtPos (unsigned start, unsigned &end)
 	char text[4];
 	memset (text, 0, 4);
 	strncpy (text, m_buf.c_str () + start, 3);
-	for (unsigned i = strlen (text); i > 0; i--) {
+	for (unsigned i = MIN (strlen (text), end - start); i > 0; i--) {
 		text[i] = 0;
 		if ((Z = Element::Z (text))) {
 			end = start + i;

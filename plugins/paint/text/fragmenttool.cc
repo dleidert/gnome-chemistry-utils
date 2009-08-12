@@ -37,6 +37,7 @@
 #include <gccv/structs.h>
 #include <gccv/text.h>
 #include <gdk/gdkkeysyms.h>
+#include <glib/gi18n-lib.h>
 
 extern xmlDocPtr pXmlDoc;
 
@@ -48,6 +49,7 @@ gcpFragmentTool::gcpFragmentTool (gcp::Application *App): gcpTextTool (App, "Fra
 	m_ImContext = gtk_im_multicontext_new ();
 	g_signal_connect (G_OBJECT (m_ImContext), "commit",
 		G_CALLBACK (OnCommit), this);
+	m_OwnStatus = true;
 }
 
 gcpFragmentTool::~gcpFragmentTool ()
@@ -170,6 +172,7 @@ bool gcpFragmentTool::OnClicked ()
 		m_Fragment->SetEditor (this);
 	}
 	BuildTagsList ();
+	SetStatusText (gcp::Fragment::AutoMode);
 	return true;
 }
 
@@ -204,30 +207,42 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 					// enter/quit charge mode
 					m_CurMode = (m_CurMode == gcp::Fragment::ChargeMode)? gcp::Fragment::AutoMode: gcp::Fragment::ChargeMode;
 					m_Fragment->SetMode (m_CurMode);
+					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_underscore:
 					// enter/quit subscript (not stoichiometric) mode
 					m_CurMode = (m_CurMode == gcp::Fragment::SubscriptMode)? gcp::Fragment::AutoMode: gcp::Fragment::SubscriptMode;
 					m_Fragment->SetMode (m_CurMode);
+					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_dead_circumflex:
 					// enter/quit superscript (not charge) mode
 					m_CurMode = (m_CurMode == gcp::Fragment::SuperscriptMode)? gcp::Fragment::AutoMode: gcp::Fragment::SuperscriptMode;
 					m_Fragment->SetMode (m_CurMode);
+					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_n:
 					// enter/quit stoichiometry mode
 					m_CurMode = (m_CurMode == gcp::Fragment::StoichiometryMode)? gcp::Fragment::AutoMode: gcp::Fragment::StoichiometryMode;
 					m_Fragment->SetMode (m_CurMode);
+					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_space:
 					// back to auto mode
 					m_CurMode = gcp::Fragment::AutoMode;
 					m_Fragment->SetMode (m_CurMode);
+					SetStatusText (m_CurMode);
+					BuildTagsList ();
+					break;
+				case GDK_equal:
+					// enter/quit normal mode
+					m_CurMode = (m_CurMode == gcp::Fragment::NormalMode)? gcp::Fragment::AutoMode: gcp::Fragment::NormalMode;
+					m_Fragment->SetMode (m_CurMode);
+					SetStatusText (m_CurMode);
 					BuildTagsList ();
 					break;
 				case GDK_z:
@@ -309,9 +324,13 @@ bool gcpFragmentTool::Unselect ()
 {
 	if (!m_Active)
 		return true;
-	gcp::Fragment *fragment = dynamic_cast <gcp::Fragment*> (m_Active->GetClient ());;
-	if (fragment->Validate ())
-		return gcpTextTool::Unselect ();
+	gcp::Fragment *fragment = dynamic_cast <gcp::Fragment*> (m_Active->GetClient ());
+	if (fragment->Validate ()) {
+		bool result = gcpTextTool::Unselect ();
+		if (result)
+			m_pApp->ClearStatus ();
+		return result;
+	}
 	return false;
 }
 
@@ -397,18 +416,42 @@ void gcpFragmentTool::UpdateTagsList () {
 						break;
 					case gccv::Subscript:
 						m_CurMode = gcp::Fragment::SubscriptMode;
+						SetStatusText (m_CurMode);
 						break;
 					case gccv::Superscript:
 						m_CurMode = gcp::Fragment::SuperscriptMode;
+						SetStatusText (m_CurMode);
 						break;
 					}
-				}/* else if (tag == gcp::ChargeTag)
-					m_CurMode = gcp::Fragment::ChargeMode;
-				else if (tag == gcp::StoichiometryTag)
-					m_CurMode = gcp::Fragment::StoichiometryMode;*/
+				}
 			}
 		m_Fragment->SetMode (m_CurMode);
 		m_Active->SetCurTagList (l); // no tag
 	}
 }
 
+void gcpFragmentTool::SetStatusText (gcp::Fragment::FragmentMode mode)
+{
+	string status = _("Mode: ");
+	switch (mode) {
+	case gcp::Fragment::AutoMode:
+		status += _("auto");
+		break;
+	case gcp::Fragment::NormalMode:
+		status += _("normal");
+		break;
+	case gcp::Fragment::SubscriptMode:
+		status += _("subscript");
+		break;
+	case gcp::Fragment::SuperscriptMode:
+		status += _("superscript");
+		break;
+	case gcp::Fragment::ChargeMode:
+		status += _("charge");
+		break;
+	case gcp::Fragment::StoichiometryMode:
+		status += _("stoichiometry");
+		break;
+	}
+	m_pApp->SetStatusText (status.c_str ());
+}

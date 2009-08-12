@@ -447,7 +447,7 @@ void Text::SetPosition (double x, double y)
 	w = m_Width + 2 * m_Padding;
 	h = m_Height + 2 * m_Padding;
 	PangoLayoutIter* iter = pango_layout_get_iter (m_Runs.front ()->m_Layout);
-	m_Ascent = (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
+	m_Ascent = (double) pango_layout_iter_get_baseline (iter) / PANGO_SCALE + m_Runs.front ()->m_Y;
 	pango_layout_iter_free (iter);
 	// Horizontal position
 	switch (m_Anchor) {

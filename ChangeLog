@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2009-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fixed vertical position when text have several runs.
+	* libs/gcp/fragment.cc: fix various bugs.
+	* libs/gcp/tool.cc: add a flag to avoid status erasing on button release.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: add status text according to mode.
+	* plugins/paint/text/fragmenttool.h: ditto.
+
 2009-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: don't create too many runs.
 	* libs/gcp/document.cc: fix a window title issue.

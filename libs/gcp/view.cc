@@ -1180,7 +1180,8 @@ bool View::OnButtonReleased (G_GNUC_UNUSED gccv::ItemClient *client, unsigned bu
 			break;
 		m_Dragging = false;
 		pActiveTool->OnRelease (x, y, state);
-		m_pDoc->GetApplication ()->ClearStatus ();
+		if (!pActiveTool->GetOwnStatus ())
+			m_pDoc->GetApplication ()->ClearStatus ();
 		return true;
 	}
 	return true;
