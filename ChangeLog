@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add domainname to gnumeric/plugin.xml.
+	* gnumeric/functions.cc: ditto, and move function help to new API.
+	* gnumeric/plugin.xml.in: add domainname to gnumeric/plugin.xml.
+	* gnumeric/plugin.xml.in.in: ditto.
+	* libs/gcp/fragment.cc: more reimplementation.
+	* libs/gcu/crystaldoc.cc: delete duplicate atoms from definition.
+
 2009-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fixed vertical position when text have several runs.
 	* libs/gcp/fragment.cc: fix various bugs.

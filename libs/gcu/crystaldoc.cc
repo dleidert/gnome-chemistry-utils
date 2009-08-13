@@ -39,6 +39,7 @@
 #include <libintl.h>
 #include <clocale>
 #include <cmath>
+#include <set>
 #include <vector>
 #include <GL/gl.h>
 #include <cstring>
@@ -275,8 +276,6 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 	g_free (old_num_locale);
 	SetDirty (false);
 	Update ();
-	if (!m_SpaceGroup)
-		m_SpaceGroup = FindSpaceGroup ();
 }
 
 bool CrystalDoc::LoadNewView(G_GNUC_UNUSED xmlNodePtr node)
@@ -314,6 +313,9 @@ void CrystalDoc::Update()
 		delete Lines.front();
 		Lines.pop_front();
 	}
+
+	// update space group
+	m_SpaceGroup = FindSpaceGroup ();
 
 	////////////////////////////////////////////////////////////
 	//Establish list of atoms
@@ -1051,6 +1053,7 @@ SpaceGroup const *CrystalDoc::FindSpaceGroup ()
 	iend = atoms.end ();
 	SpaceGroup const *res = NULL;
 	Vector v;
+	std::list <Vector>::iterator j, jend;
 	for (id = end; id >= start; id--) {
 		std::list <SpaceGroup const *> &groups = SpaceGroup::GetSpaceGroups (id);
 		std::list <SpaceGroup const *>::iterator g, gend = groups.end ();
@@ -1059,7 +1062,7 @@ SpaceGroup const *CrystalDoc::FindSpaceGroup ()
 				a = new CrystalAtom (**i);
 				v = a->GetVector ();
 				std::list <Vector> vv = (*g)->Transform (v);
-				std::list <Vector>::iterator j, jend = vv.end ();
+				jend = vv.end ();
 				for (j = vv.begin (); j != jend; j++) {
 					x = (*j).GetX ();
 					y = (*j).GetY ();
@@ -1093,6 +1096,45 @@ end_loop:;
 	// clean atoms
 	for (i = atoms.begin (); i != iend; i++)
 		delete *i;
+	// now, search for duplicates in AtomDef
+	set <CrystalAtom *> dups;
+	iend = AtomDef.end ();
+	for (i = AtomDef.begin (); i != iend; i++) {
+		if (dups.find (*i) != dups.end ())
+			continue;
+		a = new CrystalAtom (**i);
+		v = a->GetVector ();
+		std::list <Vector> vv = res->Transform (v);
+		for (j = vv.begin (); j != jend; j++) {
+			x = (*j).GetX ();
+			y = (*j).GetY ();
+			z = (*j).GetZ ();
+			while (x > 1. - PREC)
+				x -= 1.;
+			while (y > 1. - PREC)
+				y -= 1.;
+			while (z > 1. - PREC)
+				z -= 1.;
+			a->SetCoords (x, y, z);
+			for (i0 = i, i0++; i0 != iend; i0++) {
+				if (dups.find (*i0) != dups.end ())
+					continue;
+				if (*a == **i0) {
+					if ((*i0)->x () < (*i)->x () || (*i0)->y () < (*i)->y () || (*i0)->z () < (*i)->z ()) {
+						dups.insert (*i);
+						goto end_loop1;
+					}
+					dups.insert (*i0);
+				}
+			}
+		}
+end_loop1:;
+	}
+	set <CrystalAtom *>::iterator k, kend = dups.end ();
+	for (k = dups.begin (); k != kend; k++) {
+		AtomDef.remove (*k);
+		delete *k;
+	}
 	return res;
 }
 

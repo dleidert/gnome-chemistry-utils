@@ -395,6 +395,7 @@ void Fragment::AddItem ()
 	m_TextItem = new gccv::Text (group, 0., 0., this);
 	m_TextItem->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: RGBA_BLACK);
 	m_TextItem->SetPadding (theme->GetPadding ());
+	m_TextItem->SetFillColor (0);
 	m_TextItem->SetLineColor (0);
 	m_TextItem->SetLineOffset (view->GetCHeight ());
 	m_TextItem->SetAnchor (gccv::AnchorLineWest);
@@ -819,7 +820,7 @@ bool Fragment::SavePortion (xmlDocPtr xml, xmlNodePtr node, unsigned start, unsi
 	int charge;
 	string content;
 	for (j = tags->begin (); j != jend; j++) {
-		if (end <= (*j)->GetStartIndex ())
+		if (end <= (*j)->GetStartIndex () || start >= (*j)->GetEndIndex ())
 			continue;
 		if (start < (*j)->GetStartIndex ()) 
 			xmlNodeAddContentLen (node, reinterpret_cast <xmlChar const *> (m_buf.c_str () + start), (*j)->GetStartIndex () - start);
@@ -992,7 +993,23 @@ bool Fragment::Load (xmlNodePtr node)
 			tag->SetEndIndex (m_buf.length ());
 			m_TagList.push_back (tag);
 		} else if (!strcmp ((const char*) child->name, "sub")) {
+			int start = m_buf.length ();
+			tmp = reinterpret_cast <char *> (xmlNodeGetContent (child));
+			m_buf += tmp;
+			xmlFree (tmp);
+			tag = new gccv::PositionTextTag (gccv::Subscript, (double) pTheme->GetFontSize () / PANGO_SCALE);
+			tag->SetStartIndex (start);
+			tag->SetEndIndex (m_buf.length ());
+			m_TagList.push_back (tag);
 		} else if (!strcmp ((const char*) child->name, "sup")) {
+			int start = m_buf.length ();
+			tmp = reinterpret_cast <char *> (xmlNodeGetContent (child));
+			m_buf += tmp;
+			xmlFree (tmp);
+			tag = new gccv::PositionTextTag (gccv::Superscript, (double) pTheme->GetFontSize () / PANGO_SCALE);
+			tag->SetStartIndex (start);
+			tag->SetEndIndex (m_buf.length ());
+			m_TagList.push_back (tag);
 		}
 		child = child->next;
 	}
@@ -1368,7 +1385,7 @@ int Fragment::GetElementAtPos (unsigned start, unsigned &end)
 	return 0;
 }
 
-gccv::Anchor Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, double Angle, double &x, double &y)
+gccv::Anchor Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Pos, G_GNUC_UNUSED double Angle, double &x, double &y)
 {
 	if ((pAtom != m_Atom) || (m_Atom->GetZ() == 0))
 		return gccv::AnchorCenter;
@@ -1377,48 +1394,47 @@ gccv::Anchor Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Po
 	Theme *pTheme = pDoc->GetTheme ();
 	if (!pDoc)
 		return gccv::AnchorCenter;
-	GtkWidget* pWidget = pDoc->GetView ()->GetWidget ();
-/*	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
-	GnomeCanvasGroup *item = pData->Items[this];
-	if (!item)
-		return 0;
-	GnomeCanvasPango* text = (GnomeCanvasPango*) g_object_get_data (G_OBJECT (item), "fragment");
-	if (!GNOME_IS_CANVAS_PANGO (text))
-		return 0;
-	struct FilterStruct s;
-	s.start = 0;
-	s.end = m_buf.length ();
-	if (m_AttrList == NULL)
-		m_AttrList = pango_layout_get_attributes (m_Layout);
-	pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) filter_func, &s);
-	if (s.pal.size () > 0)
-		return 0; //localized charges are prohibited if a global charge already exists
+	if (!m_TextItem)
+		return gccv::AnchorCenter;
+	/* search for charges */
+	list <gccv::TextTag *> const *tags = m_TextItem->GetTags ();
+	list <gccv::TextTag *>::const_iterator i, iend = tags->end ();
+	for (i = tags->begin (); i != iend; i++)
+		if ((*i)->GetTag () == ChargeTag)
+			return gccv::AnchorCenter; //localized charges are prohibited if a global charge already exists
 	// Get atom bounds
 	int result = 0xff;
-	PangoRectangle rect;
-	pango_layout_index_to_pos (m_Layout, m_BeginAtom, &rect);
-	x = rect.x / PANGO_SCALE;
+	gccv::Rect rect;
+	m_TextItem->GetPositionAtIndex (m_BeginAtom, rect);
+	x = rect.x0;
 	if (m_BeginAtom != 0)
 		result &= 0x6d;
-	pango_layout_index_to_pos (m_Layout, m_EndAtom, &rect);
-	width = rect.x / PANGO_SCALE - x;
+	m_TextItem->GetPositionAtIndex (m_EndAtom, rect);
+	width = rect.x0 - x;
 	if (m_EndAtom < m_buf.length ())
 		result &= 0xb6;
 	width /= pTheme->GetZoomFactor ();
-	height = m_height / pTheme->GetZoomFactor ();
-	if (m_Atom->GetBondsNumber())
-	{
-		map<gcu::Atom*, gcu::Bond*>::iterator i;
-		Bond* pBond = (Bond*)m_Atom->GetFirstBond(i);
-		double angle = pBond->GetAngle2D(m_Atom) + 180.0;
-		if ((result & POSITION_NE) && (angle >= 180.0) && (angle <= 270.0)) result -= POSITION_NE;
-		if ((result & POSITION_NW) && (((angle >= 270.0) && (angle <= 360.0)) || (fabs(angle) < 0.1))) result -= POSITION_NW;
-		if ((result & POSITION_N) && (angle >= 225.0) && (angle <= 315.0)) result -= POSITION_N;
-		if ((result & POSITION_SE) && (angle >= 90.0) && (angle <= 180.0)) result -= POSITION_SE;
-		if ((result & POSITION_SW) && (((angle >= 0.0) && (angle <= 90.0)) || (fabs(angle - 360.0) < 0.1))) result -= POSITION_SW;
-		if ((result & POSITION_S) && (angle >= 45.0) && (angle <= 135.0)) result -= POSITION_S;
-		if ((result & POSITION_E) && ((angle <= 225.0) && (angle >= 135.0))) result -= POSITION_E;
-		if ((result & POSITION_W) && ((angle >= 315.0) || (angle <= 45.0))) result -= POSITION_W;
+	height = m_height / pTheme->GetZoomFactor (); // hmm, we might find something better
+	if (m_Atom->GetBondsNumber()) {
+		map<gcu::Atom*, gcu::Bond*>::iterator j;
+		Bond* pBond = (Bond*)m_Atom->GetFirstBond (j);
+		double angle = pBond->GetAngle2D (m_Atom) + 180.0;
+		if ((result & POSITION_NE) && (angle >= 180.0) && (angle <= 270.0))
+			result -= POSITION_NE;
+		if ((result & POSITION_NW) && (((angle >= 270.0) && (angle <= 360.0)) || (fabs(angle) < 0.1)))
+			result -= POSITION_NW;
+		if ((result & POSITION_N) && (angle >= 225.0) && (angle <= 315.0))
+			result -= POSITION_N;
+		if ((result & POSITION_SE) && (angle >= 90.0) && (angle <= 180.0))
+			result -= POSITION_SE;
+		if ((result & POSITION_SW) && (((angle >= 0.0) && (angle <= 90.0)) || (fabs(angle - 360.0) < 0.1)))
+			result -= POSITION_SW;
+		if ((result & POSITION_S) && (angle >= 45.0) && (angle <= 135.0))
+			result -= POSITION_S;
+		if ((result & POSITION_E) && ((angle <= 225.0) && (angle >= 135.0)))
+			result -= POSITION_E;
+		if ((result & POSITION_W) && ((angle >= 315.0) || (angle <= 45.0)))
+			result -= POSITION_W;
 	}
 	if (Pos == 0xff) {
 		if (result) {
@@ -1439,47 +1455,47 @@ gccv::Anchor Fragment::GetChargePosition (FragmentAtom *pAtom, unsigned char &Po
 			else if (result & POSITION_W)
 				Pos = POSITION_W;
 		} else
-			return 0;
+			return gccv::AnchorCenter;
 	} else if (Pos) {
 		if (!(Pos & result))
-			return 0;
+			return gccv::AnchorCenter;
 	} else
-		return 0;
+		return gccv::AnchorCenter;
 
 	switch (Pos) {
 	case POSITION_NE:
 		x = m_x + width / 2.0;
 		y = m_y - height / 2.0;
-		return 1;
+		return gccv::AnchorWest;
 	case  POSITION_NW:
 		x = m_x - width / 2.0;
 		y = m_y - height / 2.0;
-		return -1;
+		return gccv::AnchorEast;
 	case  POSITION_N:
 		x = m_x;
 		y = m_y - height / 2.0;
-		return 2;
+		return gccv::AnchorSouth;
 	case POSITION_SE:
 		x = m_x + width / 2.0;
 		y = m_y + height / 2.0;
-		return 1;
+		return gccv::AnchorWest;
 	case POSITION_SW:
 		x = m_x - width / 2.0;
 		y = m_y + height / 2.0;
-		return -1;
+		return gccv::AnchorEast;
 	case POSITION_S:
 		x = m_x;
 		y = m_y + height / 2.0;
-		return -2;
+		return gccv::AnchorNorth;
 	case POSITION_E:
 		x = m_x + width / 2.0;
 		y = m_y;
-		return 1;
+		return gccv::AnchorWest;
 	case POSITION_W:
 		x = m_x - width / 2.0;
 		y = m_y;
-		return -1;
-	}*/
+		return gccv::AnchorEast;
+	}
 	return gccv::AnchorCenter;
 }
 

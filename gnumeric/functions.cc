@@ -36,27 +36,23 @@ extern "C" {
 // needed to export the symbol...???
 extern const GnmFuncDescriptor Chemistry_functions[];
 
-GNM_PLUGIN_MODULE_HEADER;
+//GNM_PLUGIN_MODULE_HEADER;
+extern GOPluginModuleDepend const go_plugin_depends [] = {
+	{ "goffice",	GOFFICE_API_VERSION },
+	{ "gnumeric",	GNM_VERSION_FULL }
+};
+extern GOPluginModuleHeader const go_plugin_header =
+	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) };
 
 // add some definitions since we can't include value.h
 GnmValue *value_new_error_std        (GnmEvalPos const *pos, GnmStdError err);
 char const *value_peek_string		 (GnmValue const *v);
 GnmValue *value_new_float            (gnm_float f);
-
 static GnmFuncHelp const help_molarmass[] = {
-	{ GNM_FUNC_HELP_OLD,
-	N_("@FUNCTION=MOLARMASS\n"
-	   "@SYNTAX=MOLARMASS(formula)\n"
-
-	   "@DESCRIPTION= \n"
-	   "MOLARMASS returns the molar mass associated with the given @formula\n"
-	   "\n"
-	   "@formula is the input formula such as \"CCl4\".\n"
-	   "@EXAMPLES=\n"
-	   "=molarmass(\"CCl4\")\n"
-	   "\n"
-	  )
-	},
+    { GNM_FUNC_HELP_NAME, N_("MOLARMASS:calculate a molar mass")},
+    { GNM_FUNC_HELP_ARG, N_("formula:the input chemical formula such as \"CCl4\"")},
+	{ GNM_FUNC_HELP_DESCRIPTION, N_("MOLARMASS calculates a molar mass associated with the given @{formula}.") },
+	{ GNM_FUNC_HELP_EXAMPLES, N_("=molarmass(\"CCl4\")") },
 	{ GNM_FUNC_HELP_END, NULL }
 };
 
@@ -83,7 +79,7 @@ gnumeric_molarmass (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 const GnmFuncDescriptor Chemistry_functions[] = {
 
-        { "molarmass",       "s",   N_("Formula"),
+        { N_("molarmass"),       "s",   N_("Formula"),
 			help_molarmass, gnumeric_molarmass, NULL, NULL, NULL, NULL,
 			GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 

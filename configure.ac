@@ -362,6 +362,7 @@ plugins/paint/text/Makefile
 plugins/paint/wikipedia/Makefile
 mozilla-plugin/Makefile
 gnumeric/Makefile
+gnumeric/plugin.xml.in
 goffice/Makefile
 pixmaps/Makefile
 po/Makefile.in

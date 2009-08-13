@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-chemistry-utils-0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-15 10:35+0100\n"
-"PO-Revision-Date: 2009-03-15 11:25+0100\n"
+"POT-Creation-Date: 2009-08-13 10:35+0200\n"
+"PO-Revision-Date: 2009-08-13 10:40+0100\n"
 "Last-Translator: Jean Bréfort <jean.brefort@normalesup.org>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -194,331 +194,382 @@ msgstr "Triflyle"
 msgid "sec-Butyl"
 msgstr "sec-Butyle"
 
-#: ../glade/gchemcalc.glade.h:1
+#: ../ui/gchemcalc.ui.h:1
 msgid "Chemical calculator"
 msgstr "Calculatrice chimique"
 
-#: ../glade/gchemcalc.glade.h:2
+#: ../ui/gchemcalc.ui.h:2
 msgid "Composition"
 msgstr "Composition"
 
-#: ../glade/gchemcalc.glade.h:3 ../programs/calc/gchemcalc.cc:340
+#: ../ui/gchemcalc.ui.h:3 ../programs/calc/gchemcalc.cc:320
 msgid "Formula:"
 msgstr "Formule :"
 
-#: ../glade/gchemcalc.glade.h:4
+#: ../ui/gchemcalc.ui.h:4
 msgid "Isotopic Pattern"
 msgstr "Motif Isotopique"
 
-#: ../glade/gchemcalc.glade.h:5
+#: ../ui/gchemcalc.ui.h:5
 msgid "Molecular weight:"
 msgstr "Masse molaire :"
 
-#: ../glade/gchemcalc.glade.h:6
+#: ../ui/gchemcalc.ui.h:6
 msgid "Monoisotopic mass:"
 msgstr "Masse monoisotopique :"
 
-#: ../glade/gchemcalc.glade.h:7 ../programs/calc/gchemcalc.cc:343
+#: ../ui/gchemcalc.ui.h:7 ../programs/calc/gchemcalc.cc:323
 msgid "Raw formula:"
 msgstr "Formule brute :"
 
-#: ../glade/gtkperiodic.glade.h:1
+#: ../ui/gtkperiodic.ui.h:1
 msgid "Actinides"
 msgstr "Actinides"
 
-#: ../glade/gtkperiodic.glade.h:2
+#: ../ui/gtkperiodic.ui.h:2
 msgid "Lanthanides"
 msgstr "Lanthanides"
 
-#: ../glade/image-size.glade.h:1
+#: ../ui/image-size.ui.h:1
 msgid "Height:"
 msgstr "Hauteur :"
 
-#: ../glade/image-size.glade.h:2
+#: ../ui/image-size.ui.h:2
 msgid "Width:"
 msgstr "Largeur :"
 
-#: ../glade/image-resolution.glade.h:1
+#: ../ui/image-resolution.ui.h:1
 msgid "Image _resolution:"
 msgstr "_Résolution de l'image : "
 
-#: ../glade/image-resolution.glade.h:2
+#: ../ui/image-resolution.ui.h:2
 msgid "Tr_ansparent background"
 msgstr "Arrière plan _transparent"
 
-#: ../glade/print-setup.glade.h:2
+#: ../ui/print-setup.ui.h:2
 #, no-c-format
 msgid "% of normal size"
 msgstr "% de la taille normale"
 
-#: ../glade/print-setup.glade.h:3
+#: ../ui/print-setup.ui.h:3
 msgid "<b>Center on page:</b>"
 msgstr "<b>Centrer sur la page :</b>"
 
-#: ../glade/print-setup.glade.h:4
+#: ../ui/print-setup.ui.h:4
 msgid "<b>O_rientation:</b>"
 msgstr "O_rientation : %g"
 
-#: ../glade/print-setup.glade.h:5
+#: ../ui/print-setup.ui.h:5
 msgid "<b>Paper:</b>"
 msgstr "<b>Papier :</b>"
 
-#: ../glade/print-setup.glade.h:6
+#: ../ui/print-setup.ui.h:6
 msgid "<b>Scale</b>"
 msgstr "<b>Échelle</b>"
 
-#: ../glade/print-setup.glade.h:7
+#: ../ui/print-setup.ui.h:7
 msgid "Bottom margin:"
 msgstr "Marge basse :"
 
-#: ../glade/print-setup.glade.h:8
+#: ../ui/print-setup.ui.h:8
 msgid "Change Paper Type"
 msgstr "Changer le type de papier"
 
-#: ../glade/print-setup.glade.h:9
+#: ../ui/print-setup.ui.h:9
 msgid "Configure"
 msgstr "Configurer"
 
-#: ../glade/print-setup.glade.h:10
+#: ../ui/print-setup.ui.h:10
 msgid "Fi_rst page number:"
 msgstr "Numé_ro de la première page :"
 
-#: ../glade/print-setup.glade.h:11
+#: ../ui/print-setup.ui.h:11
 msgid "Footer:"
 msgstr "Pied de page :"
 
-#: ../glade/print-setup.glade.h:12
+#: ../ui/print-setup.ui.h:12
 msgid "Header:"
 msgstr "En-tête :"
 
-#: ../glade/print-setup.glade.h:13
+#: ../ui/print-setup.ui.h:13
 msgid "Headers and Footers"
 msgstr "En-têtes et pieds de page"
 
-#: ../glade/print-setup.glade.h:14
+#: ../ui/print-setup.ui.h:14
 msgid "Landscape"
 msgstr "Paysage"
 
-#: ../glade/print-setup.glade.h:15
+#: ../ui/print-setup.ui.h:15
 msgid "Left margin:"
 msgstr "Marge gauche :"
 
-#: ../glade/print-setup.glade.h:16
+#: ../ui/print-setup.ui.h:16
 msgid "Page"
 msgstr "Page"
 
-#: ../glade/print-setup.glade.h:17
+#: ../ui/print-setup.ui.h:17
 msgid "Page Setup"
 msgstr "Configuration de la page"
 
-#: ../glade/print-setup.glade.h:18
+#: ../ui/print-setup.ui.h:18
 msgid "Portrait"
 msgstr "Portrait"
 
-#: ../glade/print-setup.glade.h:19
+#: ../ui/print-setup.ui.h:19
 msgid "Reload defaults"
 msgstr "Recharger les valeurs pas défaut"
 
-#: ../glade/print-setup.glade.h:20
+#: ../ui/print-setup.ui.h:20
 msgid "Reverse landscape"
 msgstr "Paysage renversé"
 
-#: ../glade/print-setup.glade.h:21
+#: ../ui/print-setup.ui.h:21
 msgid "Reverse portrait"
 msgstr "Portrait renversé"
 
-#: ../glade/print-setup.glade.h:22
+#: ../ui/print-setup.ui.h:22
 msgid "Right margin:"
 msgstr "Marge droite :"
 
-#: ../glade/print-setup.glade.h:23
+#: ../ui/print-setup.ui.h:23
 msgid "Save as defaults"
 msgstr "Sauver comme valeurs par défaut"
 
-#: ../glade/print-setup.glade.h:24
+#: ../ui/print-setup.ui.h:24
 msgid "Scale"
 msgstr "Échelle"
 
-#: ../glade/print-setup.glade.h:25
+#: ../ui/print-setup.ui.h:25
 msgid "Scale to fit _horizontally on"
 msgstr "Remplit horizontalement"
 
-#: ../glade/print-setup.glade.h:26
+#: ../ui/print-setup.ui.h:26
 msgid "Scale to fit _vertically on"
 msgstr "Remplit _verticalement"
 
-#: ../glade/print-setup.glade.h:27
+#: ../ui/print-setup.ui.h:27
 msgid "Top margin:"
 msgstr "Marge haute :"
 
-#: ../glade/print-setup.glade.h:28
+#: ../ui/print-setup.ui.h:28
 msgid "Unit:"
 msgstr "Unité :"
 
-#: ../glade/print-setup.glade.h:29
+#: ../ui/print-setup.ui.h:29
 msgid "_Automatic scaling:"
 msgstr "Échelle _automatique"
 
-#: ../glade/print-setup.glade.h:30
+#: ../ui/print-setup.ui.h:30
 msgid "_Fixed scaling:"
 msgstr "Échelle fi_xe :"
 
-#: ../glade/print-setup.glade.h:31
+#: ../ui/print-setup.ui.h:31
 msgid "_Footer:"
 msgstr "_Pied de page :"
 
-#: ../glade/print-setup.glade.h:32
+#: ../ui/print-setup.ui.h:32
 msgid "_Header:"
 msgstr "_En-tête :"
 
-#: ../glade/print-setup.glade.h:33
+#: ../ui/print-setup.ui.h:33
 msgid "_Horizontally"
 msgstr "_Horizontalement"
 
-#: ../glade/print-setup.glade.h:34
+#: ../ui/print-setup.ui.h:34
 msgid "_No scaling"
 msgstr "Taille _naturelle"
 
-#: ../glade/print-setup.glade.h:35
+#: ../ui/print-setup.ui.h:35
 msgid "_Vertically"
 msgstr "Verticalement"
 
-#: ../glade/print-setup.glade.h:36
+#: ../ui/print-setup.ui.h:36
 msgid "page(s)"
 msgstr "page(s)"
 
-#: ../glade/crystal/bonds.glade.h:1 ../libs/gcp/preferences.cc:417
-#: ../libs/gcp/preferences.cc:491 ../libs/gcp/preferences.cc:541
+#: ../ui/crystal/bonds.ui.h:1 ../libs/gcp/preferences.cc:419
+#: ../libs/gcp/preferences.cc:493 ../libs/gcp/preferences.cc:543
 msgid "Bonds"
 msgstr "Liaisons"
 
-#: ../glade/crystal/cell.glade.h:1
+#: ../ui/crystal/cell.ui.h:1
+msgid "&#x3B1; (&#xB0;):"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:2
+msgid "&#x3B2; (&#xB0;):"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:3
+msgid "&#x3B3; (&#xB0;):"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:4
+msgid "Base-centered monoclinic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:5
+msgid "Base-centered orthorhombic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:6
+msgid "Body-centered cubic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:7
+msgid "Body-centered orthorhombic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:8
+msgid "Body-centered tetragonal"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:9
 msgid "Cell"
 msgstr "Maille"
 
-#: ../glade/crystal/cell.glade.h:2
+#: ../ui/crystal/cell.ui.h:10
 msgid "Cell parameters"
 msgstr "Paramètres de la maille"
 
-#: ../glade/crystal/cell.glade.h:3
+#: ../ui/crystal/cell.ui.h:11
+msgid "Face-centered cubic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:12
+msgid "Face-centered orthorhombic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:13
+#, fuzzy
+msgid "Hexagonal"
+msgstr "Diagonales"
+
+#: ../ui/crystal/cell.ui.h:14
 msgid "Lattice:"
 msgstr "_Réseau :"
 
-#: ../glade/crystal/cell.glade.h:4
-msgid ""
-"Simple cubic\n"
-"Body-centered cubic\n"
-"Face-centered cubic\n"
-"Hexagonal\n"
-"Tetragonal\n"
-"Body-centered tetragonal\n"
-"Orthorhombic\n"
-"Base-centered orthorhombic\n"
-"Body-centered orthorhombic\n"
-"Face-centered orthorhombic\n"
-"Rhombohedral\n"
-"Monoclinic\n"
-"Base-centered monoclinic\n"
-"Triclinic"
+#: ../ui/crystal/cell.ui.h:15
+msgid "Monoclinic"
 msgstr ""
-"Cubique simple\n"
-"Cubique centré\n"
-"Cubique faces centrées\n"
-"Hexagonal\n"
-"Tétragonal\n"
-"Tétragonal centré\n"
-"Orthorhombique\n"
-"Orthorhombique bases centrées\n"
-"Orthorhombique centré\n"
-"Orthorhombique faces centrées\n"
-"Rhomboédrique\n"
-"Monoclinique\n"
-"Monoclinique bases centrées\n"
-"Triclinique"
 
-#: ../glade/crystal/cell.glade.h:18
+#: ../ui/crystal/cell.ui.h:16
+msgid "Orthorhombic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:17
+msgid "Rhombohedral"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:18
+msgid "Simple cubic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:19
+#, fuzzy
+msgid "Tetragonal"
+msgstr "Diagonales"
+
+#: ../ui/crystal/cell.ui.h:20
+msgid "Triclinic"
+msgstr ""
+
+#: ../ui/crystal/cell.ui.h:21
 msgid "a (pm): "
 msgstr "a (pm) :"
 
-#: ../glade/crystal/cell.glade.h:19
+#: ../ui/crystal/cell.ui.h:22
 msgid "b (pm):"
 msgstr "b (pm) :"
 
-#: ../glade/crystal/cell.glade.h:20
+#: ../ui/crystal/cell.ui.h:23
 msgid "c (pm):"
 msgstr "c (pm) :"
 
-#: ../glade/crystal/cell.glade.h:21
-msgid "α (°):"
-msgstr "α (°) :"
-
-#: ../glade/crystal/cell.glade.h:22
-msgid "β (°):"
-msgstr "β (°) :"
-
-#: ../glade/crystal/cell.glade.h:23
-msgid "γ (°):"
-msgstr "γ (°) :"
-
-#: ../glade/crystal/docprop.glade.h:1 ../glade/paint/docprop.glade.h:1
+#: ../ui/crystal/docprop.ui.h:1 ../ui/paint/docprop.ui.h:1
 msgid "<b>Author:</b>"
 msgstr "<b>Auteur :</b>"
 
-#: ../glade/crystal/docprop.glade.h:2 ../glade/paint/docprop.glade.h:2
+#: ../ui/crystal/docprop.ui.h:2 ../ui/paint/docprop.ui.h:2
 msgid "<b>History</b>"
 msgstr "<b>Historique</b>"
 
-#: ../glade/crystal/docprop.glade.h:3 ../glade/paint/docprop.glade.h:4
+#: ../ui/crystal/docprop.ui.h:3 ../ui/paint/docprop.ui.h:4
 msgid "<b>_Comments:</b>"
 msgstr "<b>_Commentaires :</b>"
 
-#: ../glade/crystal/docprop.glade.h:4 ../glade/paint/docprop.glade.h:5
+#: ../ui/crystal/docprop.ui.h:4 ../ui/paint/docprop.ui.h:5
 msgid "Creation date:"
 msgstr "Date de création :"
 
-#: ../glade/crystal/docprop.glade.h:5 ../glade/paint/docprop.glade.h:6
+#: ../ui/crystal/docprop.ui.h:5 ../ui/paint/docprop.ui.h:6
 msgid "Document properties"
 msgstr "Propriétés du document"
 
-#: ../glade/crystal/docprop.glade.h:6 ../glade/paint/docprop.glade.h:7
+#: ../ui/crystal/docprop.ui.h:6 ../ui/paint/docprop.ui.h:7
 msgid "E-_mail:"
 msgstr "Cou_rriel :"
 
-#: ../glade/crystal/docprop.glade.h:7 ../glade/paint/docprop.glade.h:8
+#: ../ui/crystal/docprop.ui.h:7 ../ui/paint/docprop.ui.h:8
 msgid "Revision date:"
 msgstr "Date de révision :"
 
-#: ../glade/crystal/docprop.glade.h:8 ../glade/paint/docprop.glade.h:10
+#: ../ui/crystal/docprop.ui.h:8 ../ui/paint/docprop.ui.h:10
 msgid "_Name:"
 msgstr "_Nom :"
 
-#: ../glade/crystal/docprop.glade.h:9 ../glade/paint/docprop.glade.h:11
+#: ../ui/crystal/docprop.ui.h:9 ../ui/paint/docprop.ui.h:11
 msgid "_Title:"
 msgstr "_Titre :"
 
-#: ../glade/crystal/prefs.glade.h:1
-msgid ""
-"300\n"
-"360\n"
-"600\n"
-"720\n"
-"1200\n"
-"1440\n"
-"2400\n"
-"2880\n"
-"Other"
+#: ../ui/crystal/prefs.ui.h:1 ../ui/crystal/view-settings.ui.h:1
+msgid "&#x3B8; (&#xB0;):"
 msgstr ""
-"300\n"
-"360\n"
-"600\n"
-"720\n"
-"1200\n"
-"1440\n"
-"2400\n"
-"2880\n"
-"Autre"
 
-#: ../glade/crystal/prefs.glade.h:10
+#: ../ui/crystal/prefs.ui.h:2 ../ui/crystal/view-settings.ui.h:2
+msgid "&#x3C6; (&#xB0;):"
+msgstr ""
+
+#: ../ui/crystal/prefs.ui.h:3 ../ui/crystal/view-settings.ui.h:3
+msgid "&#x3C8; (&#xB0;):"
+msgstr ""
+
+#: ../ui/crystal/prefs.ui.h:4
+#, fuzzy
+msgid "1200"
+msgstr "_200%"
+
+#: ../ui/crystal/prefs.ui.h:5
+msgid "1440"
+msgstr ""
+
+#: ../ui/crystal/prefs.ui.h:6
+#, fuzzy
+msgid "2400"
+msgstr "_400%"
+
+#: ../ui/crystal/prefs.ui.h:7
+msgid "2880"
+msgstr ""
+
+#: ../ui/crystal/prefs.ui.h:8
+#, fuzzy
+msgid "300"
+msgstr "_300%"
+
+#: ../ui/crystal/prefs.ui.h:9
+msgid "360"
+msgstr ""
+
+#: ../ui/crystal/prefs.ui.h:10
+msgid "600"
+msgstr ""
+
+#: ../ui/crystal/prefs.ui.h:11
+msgid "720"
+msgstr ""
+
+#: ../ui/crystal/prefs.ui.h:12
 msgid ""
 "A printer resolution of 300 dpi generally gives a quite acceptable result. "
 "Changing to a higher value can lead to a much longer processing time."
@@ -527,315 +578,334 @@ msgstr ""
 "acceptable. Changer pour une résolution plus importante peut demander un "
 "temps d'exécution nettement plus important."
 
-#: ../glade/crystal/prefs.glade.h:11 ../glade/crystal/view-settings.glade.h:1
+#: ../ui/crystal/prefs.ui.h:13 ../ui/crystal/view-settings.ui.h:4
 msgid "Background color:"
 msgstr "Couleur du fond :"
 
-#: ../glade/crystal/prefs.glade.h:12
+#: ../ui/crystal/prefs.ui.h:14
 msgid "Default views settings"
 msgstr "Paramètres par défaut des vues"
 
-#: ../glade/crystal/prefs.glade.h:13 ../glade/crystal/view-settings.glade.h:2
+#: ../ui/crystal/prefs.ui.h:15 ../ui/crystal/view-settings.ui.h:5
 msgid "Euler's angles"
 msgstr "Angles d'Euler"
 
-#: ../glade/crystal/prefs.glade.h:14 ../glade/crystal/view-settings.glade.h:3
-msgid "Field of view (between 1 and 45°):"
+#: ../ui/crystal/prefs.ui.h:16 ../ui/crystal/view-settings.ui.h:6
+#, fuzzy
+msgid "Field of view (between 1 and 45&#xB0;):"
 msgstr "Angle du cône de vision (entre 1 et 45°) :"
 
-#: ../glade/crystal/prefs.glade.h:15 ../glade/crystal/view-settings.glade.h:4
+#: ../ui/crystal/prefs.ui.h:17 ../ui/crystal/view-settings.ui.h:7
 msgid "Model orientation in space:"
 msgstr "Orientation du modèle dans l'espace :"
 
-#: ../glade/crystal/prefs.glade.h:16
+#: ../ui/crystal/prefs.ui.h:18 ../libs/gcp/preferences.cc:415
+#: ../libs/gcp/preferences.cc:489 ../libs/gcp/preferences.cc:541
+msgid "Other"
+msgstr "Autre"
+
+#: ../ui/crystal/prefs.ui.h:19
 msgid "Printer resolution:"
 msgstr "Résolution de l'imprimante"
 
-#: ../glade/crystal/prefs.glade.h:17
+#: ../ui/crystal/prefs.ui.h:20
 msgid "Printing"
 msgstr "Impression"
 
-#: ../glade/crystal/prefs.glade.h:18 ../glade/crystal/view-settings.glade.h:5
-msgid "θ (°):"
-msgstr "θ (°) :"
+#: ../ui/crystal/atoms.ui.h:1
+#, fuzzy
+msgid "All atoms"
+msgstr "Atomes"
 
-#: ../glade/crystal/prefs.glade.h:19 ../glade/crystal/view-settings.glade.h:6
-msgid "φ (°):"
-msgstr "φ (°) :"
-
-#: ../glade/crystal/prefs.glade.h:20 ../glade/crystal/view-settings.glade.h:7
-msgid "ψ (°):"
-msgstr "ψ (°) :"
-
-#: ../glade/crystal/atoms.glade.h:1
+#: ../ui/crystal/atoms.ui.h:2
 msgid "Apply changes to:"
 msgstr "Appliquer les changements à :"
 
-#: ../glade/crystal/atoms.glade.h:2 ../libs/gcp/preferences.cc:405
-#: ../libs/gcp/preferences.cc:479 ../libs/gcp/preferences.cc:529
+#: ../ui/crystal/atoms.ui.h:3 ../libs/gcp/preferences.cc:407
+#: ../libs/gcp/preferences.cc:481 ../libs/gcp/preferences.cc:531
 msgid "Atoms"
 msgstr "Atomes"
 
-#: ../glade/crystal/atoms.glade.h:3
+#: ../ui/crystal/atoms.ui.h:4
 msgid "Charge: "
 msgstr "Charge : "
 
-#: ../glade/crystal/atoms.glade.h:4
+#: ../ui/crystal/atoms.ui.h:5
+#, fuzzy
+msgid "Covalent"
+msgstr "Covalent :"
+
+#: ../ui/crystal/atoms.ui.h:6
 msgid "Custom"
 msgstr "Personnalisé"
 
-#: ../glade/crystal/atoms.glade.h:5
+#: ../ui/crystal/atoms.ui.h:7
 msgid "Custom color:"
 msgstr "Couleur personnalisée:"
 
-#: ../glade/crystal/atoms.glade.h:6 ../glade/crystal/cleavages.glade.h:2
-#: ../glade/crystal/lines.glade.h:2
+#: ../ui/crystal/atoms.ui.h:8 ../ui/crystal/cleavages.ui.h:2
+#: ../ui/crystal/lines.ui.h:2
 msgid "Dele_te all"
 msgstr "Supprimer _tout"
 
-#: ../glade/crystal/atoms.glade.h:7 ../libs/gcu/gtkcomboperiodic.c:96
-#: ../programs/table/gchemtable-app.cc:267
+#: ../ui/crystal/atoms.ui.h:9
+#, fuzzy
+msgid "Ionic"
+msgstr "Ion"
+
+#: ../ui/crystal/atoms.ui.h:10
+#, fuzzy
+msgid "Metallic"
+msgstr "Métallique :"
+
+#: ../ui/crystal/atoms.ui.h:11 ../libs/gcu/gtkcomboperiodic.c:95
+#: ../programs/table/gchemtable-app.cc:268
 msgid "Periodic table of the elements"
 msgstr "Tableau périodique des éléments"
 
-#: ../glade/crystal/atoms.glade.h:8
+#: ../ui/crystal/atoms.ui.h:12
 msgid "Radius"
 msgstr "Rayon"
 
-#: ../glade/crystal/atoms.glade.h:9
+#: ../ui/crystal/atoms.ui.h:13
 msgid "Scale factor:"
 msgstr "Éch_elle :"
 
-#: ../glade/crystal/atoms.glade.h:10
-msgid ""
-"Selected element\n"
-"Selected atom\n"
-"All atoms"
-msgstr ""
-"Élement sélectionné\n"
-"Atome sélectionné\n"
-"Tous les atomes"
+#: ../ui/crystal/atoms.ui.h:14
+#, fuzzy
+msgid "Selected atom"
+msgstr "Famille sélectionnée :"
 
-#: ../glade/crystal/atoms.glade.h:13
+#: ../ui/crystal/atoms.ui.h:15
+#, fuzzy
+msgid "Selected element"
+msgstr "Séléctionner l'élément utilisé pour l'alignement"
+
+#: ../ui/crystal/atoms.ui.h:16
 msgid "Type:"
 msgstr "Type :"
 
-#: ../glade/crystal/atoms.glade.h:14
-msgid ""
-"Unknown\n"
-"Ionic\n"
-"Metallic\n"
-"Covalent\n"
-"Van der Waals"
-msgstr ""
-"Inconnu\n"
-"Ionique\n"
-"Metallique\n"
-"Covalent\n"
-"Van der Waals"
+#: ../ui/crystal/atoms.ui.h:17 ../libs/gcp/theme.cc:519
+#: ../libs/gcp/theme.cc:523 ../programs/crystal/atomsdlg.cc:184
+#: ../programs/crystal/atomsdlg.cc:314 ../programs/crystal/atomsdlg.cc:478
+msgid "Unknown"
+msgstr "Inconnu"
 
-#: ../glade/crystal/atoms.glade.h:19
+#: ../ui/crystal/atoms.ui.h:18
 msgid "Value (pm):"
 msgstr "valeur (pm) :"
 
-#: ../glade/crystal/atoms.glade.h:20 ../glade/crystal/cleavages.glade.h:5
-#: ../glade/crystal/lines.glade.h:7
+#: ../ui/crystal/atoms.ui.h:19
+#, fuzzy
+msgid "Van der Waals"
+msgstr "Van der Waals :"
+
+#: ../ui/crystal/atoms.ui.h:20 ../ui/crystal/cleavages.ui.h:5
+#: ../ui/crystal/lines.ui.h:7
 msgid "_Add"
 msgstr "_Ajouter"
 
-#: ../glade/crystal/atoms.glade.h:21 ../glade/crystal/cleavages.glade.h:6
-#: ../glade/crystal/lines.glade.h:8
+#: ../ui/crystal/atoms.ui.h:21 ../ui/crystal/cleavages.ui.h:6
+#: ../ui/crystal/lines.ui.h:8
 msgid "_Delete"
 msgstr "_Supprimer"
 
-#: ../glade/crystal/cleavages.glade.h:1
+#: ../ui/crystal/cleavages.ui.h:1
 msgid "Cleavages"
 msgstr "Clivages"
 
-#: ../glade/crystal/cleavages.glade.h:3
+#: ../ui/crystal/cleavages.ui.h:3
 msgid "Fixed model size"
 msgstr "Taille du modèle fixe"
 
-#: ../glade/crystal/cleavages.glade.h:4
+#: ../ui/crystal/cleavages.ui.h:4
 msgid "List of defined cleavages (h, k, and l are the Miller indices)"
 msgstr "Liste des clivages définis (h, k et l sont les indices de Miller)"
 
-#: ../glade/crystal/lines.glade.h:1
+#: ../ui/crystal/lines.ui.h:1
 msgid "Cell edges"
 msgstr "Contours de la maille"
 
-#: ../glade/crystal/lines.glade.h:3
+#: ../ui/crystal/lines.ui.h:3
 msgid "Diagonals"
 msgstr "Diagonales"
 
-#: ../glade/crystal/lines.glade.h:4
+#: ../ui/crystal/lines.ui.h:4
 msgid "Lines"
 msgstr "Lignes"
 
-#: ../glade/crystal/lines.glade.h:5
+#: ../ui/crystal/lines.ui.h:5
 msgid "Medians"
 msgstr "Médianes"
 
-#: ../glade/crystal/lines.glade.h:6
+#: ../ui/crystal/lines.ui.h:6
 msgid "Other lines"
 msgstr "Autres lignes"
 
-#: ../glade/crystal/lines.glade.h:9
+#: ../ui/crystal/lines.ui.h:9
 msgid "color:"
 msgstr "Couleur :"
 
-#: ../glade/crystal/lines.glade.h:10
+#: ../ui/crystal/lines.ui.h:10
 msgid "radius (pm):"
 msgstr "Rayon (pm) :"
 
-#: ../glade/crystal/size.glade.h:1
-#: ../plugins/paint/templates/new-template.glade.h:1
+#: ../ui/crystal/size.ui.h:1 ../plugins/paint/templates/new-template.ui.h:1
 msgid "*"
 msgstr "*"
 
-#: ../glade/crystal/size.glade.h:2
+#: ../ui/crystal/size.ui.h:2
 msgid "Crystal size"
 msgstr "Taille du cristal"
 
-#: ../glade/crystal/size.glade.h:3
+#: ../ui/crystal/size.ui.h:3
 msgid "Give minimum and maximum coordinates in cell units"
 msgstr "Indiquez les coordonnées minimales et maximales en nombre de cellules"
 
-#: ../glade/crystal/size.glade.h:4
+#: ../ui/crystal/size.ui.h:4
 msgid "Maximum"
 msgstr "Maximum"
 
-#: ../glade/crystal/size.glade.h:5
+#: ../ui/crystal/size.ui.h:5
 msgid "Minimum"
 msgstr "Minimum"
 
-#: ../glade/crystal/size.glade.h:6 ../programs/crystal/atomsdlg.cc:144
+#: ../ui/crystal/size.ui.h:6 ../programs/crystal/atomsdlg.cc:139
 msgid "x"
 msgstr "x"
 
-#: ../glade/crystal/size.glade.h:7 ../programs/crystal/atomsdlg.cc:154
+#: ../ui/crystal/size.ui.h:7 ../programs/crystal/atomsdlg.cc:149
 msgid "y"
 msgstr "y"
 
-#: ../glade/crystal/size.glade.h:8 ../programs/crystal/atomsdlg.cc:164
+#: ../ui/crystal/size.ui.h:8 ../programs/crystal/atomsdlg.cc:159
 msgid "z"
 msgstr "z"
 
-#: ../glade/paint/arrow-object.glade.h:1
+#: ../ui/paint/arrow-object.ui.h:1
 msgid "Arrow associated object"
 msgstr "Objet associé à la flèche"
 
-#: ../glade/paint/arrow-object.glade.h:2
+#: ../ui/paint/arrow-object.ui.h:2
 msgid "_Role:"
 msgstr "_Role"
 
-#: ../glade/paint/arrow-object.glade.h:3
+#: ../ui/paint/arrow-object.ui.h:3
 msgid "gtk-close"
 msgstr "gtk-close"
 
-#: ../glade/paint/arrow-object.glade.h:4 ../glade/paint/newfiledlg.glade.h:5
+#: ../ui/paint/arrow-object.ui.h:4 ../ui/paint/newfiledlg.ui.h:5
 msgid "gtk-help"
 msgstr "gtk-help"
 
-#: ../glade/paint/docprop.glade.h:3
+#: ../ui/paint/docprop.ui.h:3
 msgid "<b>Theme</b>"
 msgstr "<b>Thème</b>"
 
-#: ../glade/paint/docprop.glade.h:9 ../glade/paint/newfiledlg.glade.h:2
+#: ../ui/paint/docprop.ui.h:9 ../ui/paint/newfiledlg.ui.h:2
 msgid "Theme:"
 msgstr "Thème :"
 
-#: ../glade/paint/H-pos.glade.h:1 ../libs/gcp/atom.cc:1876
+#: ../ui/paint/H-pos.ui.h:1
+#, fuzzy
+msgid "Auto"
+msgstr "Atome"
+
+#: ../ui/paint/H-pos.ui.h:2 ../plugins/paint/selection/group.ui.h:2
+#, fuzzy
+msgid "Bottom"
+msgstr "Marge basse :"
+
+#: ../ui/paint/H-pos.ui.h:3 ../libs/gcp/atom.cc:1891
 msgid "Hydrogen atoms position"
 msgstr "Position des atomes d'hydrogène"
 
-#: ../glade/paint/H-pos.glade.h:2
-msgid ""
-"Left\n"
-"Right\n"
-"Top\n"
-"Bottom\n"
-"Auto"
+#: ../ui/paint/H-pos.ui.h:4 ../plugins/paint/selection/group.ui.h:6
+msgid "Left"
 msgstr ""
-"Gauche\n"
-"Droite\n"
-"Haut\n"
-"Bas\n"
-"Auto"
 
-#: ../glade/paint/newfiledlg.glade.h:1
+#: ../ui/paint/H-pos.ui.h:5 ../plugins/paint/selection/group.ui.h:9
+#, fuzzy
+msgid "Right"
+msgstr "Graisse"
+
+#: ../ui/paint/H-pos.ui.h:6 ../plugins/paint/selection/group.ui.h:10
+msgid "Top"
+msgstr ""
+
+#: ../ui/paint/newfiledlg.ui.h:1
 msgid "New file with theme"
 msgstr "Nouveau fichier avec thème"
 
-#: ../glade/paint/newfiledlg.glade.h:3
+#: ../ui/paint/newfiledlg.ui.h:3
 msgid "gtk-apply"
 msgstr "gtk-apply"
 
-#: ../glade/paint/newfiledlg.glade.h:4
+#: ../ui/paint/newfiledlg.ui.h:4
 msgid "gtk-cancel"
 msgstr "gtk-cancel"
 
-#: ../glade/paint/preferences.glade.h:1
+#: ../ui/paint/preferences.ui.h:1
 msgid "<b>Arrow heads</b>"
 msgstr "<b>Têtes des flèches</b>"
 
-#: ../glade/paint/preferences.glade.h:2
+#: ../ui/paint/preferences.ui.h:2
 msgid "<b>Normal bonds</b>"
 msgstr "<b>Liaisons normales</b>"
 
-#: ../glade/paint/preferences.glade.h:3
+#: ../ui/paint/preferences.ui.h:3
 msgid "<b>Stereochemical bonds</b>"
 msgstr "<b>Liaisons de stéréochimie</b>"
 
-#: ../glade/paint/preferences.glade.h:4
+#: ../ui/paint/preferences.ui.h:4
 msgid "<b>Themes</b>"
 msgstr "<b>Thèmes</b>"
 
-#: ../glade/paint/preferences.glade.h:5
+#: ../ui/paint/preferences.ui.h:5
 msgid "A:"
 msgstr "A :"
 
-#: ../glade/paint/preferences.glade.h:6
+#: ../ui/paint/preferences.ui.h:6
 msgid "Angl_e:"
 msgstr "An_gle:"
 
-#: ../glade/paint/preferences.glade.h:7
+#: ../ui/paint/preferences.ui.h:7
 msgid "Arrow line width (in pixels)."
 msgstr "Largeur de la queue d'une flèche (en pixels)."
 
-#: ../glade/paint/preferences.glade.h:8
+#: ../ui/paint/preferences.ui.h:8
 msgid "B:"
 msgstr "B :"
 
-#: ../glade/paint/preferences.glade.h:9
+#: ../ui/paint/preferences.ui.h:9
 msgid "Bond line width (in pixels)."
 msgstr "Largeur de ligne d'une liaison (en pixels)."
 
-#: ../glade/paint/preferences.glade.h:10
+#: ../ui/paint/preferences.ui.h:10
 msgid "C:"
 msgstr "C :"
 
-#: ../glade/paint/preferences.glade.h:11
+#: ../ui/paint/preferences.ui.h:11
 msgid "Charge _sign size:"
 msgstr "_Taille d'un signe de charge :"
 
-#: ../glade/paint/preferences.glade.h:12
+#: ../ui/paint/preferences.ui.h:12
 msgid "Default Compression _Level For GChemPaint Files:"
 msgstr "Niveau de _compression par défaut des fichiers de GChemPaint :"
 
-#: ../glade/paint/preferences.glade.h:13
+#: ../ui/paint/preferences.ui.h:13
 msgid "Default angle between two consecutive bonds in a chain."
 msgstr "Angle par défaut entre deux liaisons consécutives dans une chaîne."
 
-#: ../glade/paint/preferences.glade.h:14
+#: ../ui/paint/preferences.ui.h:14
 msgid "Default arrow length (in pm just like bond lengths)."
 msgstr "Longueur par défaut d'une flèche (en pm comme pour les liaisons)"
 
-#: ../glade/paint/preferences.glade.h:15
+#: ../ui/paint/preferences.ui.h:15
 msgid "Default bond length (pm)."
 msgstr "Longueur par défaut d'une liaison (pm)."
 
-#: ../glade/paint/preferences.glade.h:16
+#: ../ui/paint/preferences.ui.h:16
 msgid ""
 "Default padding in pixels added between consecutive objects during an "
 "alignment operation."
@@ -843,20 +913,20 @@ msgstr ""
 "Espacement par défaut en pixels entre deux objets consécutifs lors d'une "
 "opération d'alignement."
 
-#: ../glade/paint/preferences.glade.h:17
+#: ../ui/paint/preferences.ui.h:17
 msgid "Dist_ance:"
 msgstr "Distanc_e :"
 
-#: ../glade/paint/preferences.glade.h:18
+#: ../ui/paint/preferences.ui.h:18
 msgid "Distance between hashes in pixels."
 msgstr "Distance entre les hachures en pixels"
 
-#: ../glade/paint/preferences.glade.h:19
+#: ../ui/paint/preferences.ui.h:19
 msgid "Distance in pixels between two lines representing a multiple bond."
 msgstr ""
 "Distance en pixels entre deux lignes représentant une liaison multiple."
 
-#: ../glade/paint/preferences.glade.h:20
+#: ../ui/paint/preferences.ui.h:20
 msgid ""
 "Distance in pixels between two parallel lines (either two arrows or one "
 "arrow with two lines)."
@@ -864,11 +934,11 @@ msgstr ""
 "Distance en pixels entre deux lignes parallèles (soit deux flèches, soit une "
 "flèche avec deux lignes)."
 
-#: ../glade/paint/preferences.glade.h:21
+#: ../ui/paint/preferences.ui.h:21
 msgid "Distance in pixels from tip of arrowhead to center."
 msgstr "Distance en pixels de la pointe de la flèche au centre."
 
-#: ../glade/paint/preferences.glade.h:22
+#: ../ui/paint/preferences.ui.h:22
 msgid ""
 "Distance in pixels from tip of arrowhead to trailing point, measured along "
 "shaft."
@@ -876,12 +946,12 @@ msgstr ""
 "Distance entre la pointe de la flèche et son point de fuite, mesurée "
 "parallèlement à la queue."
 
-#: ../glade/paint/preferences.glade.h:23
+#: ../ui/paint/preferences.ui.h:23
 msgid ""
 "Distance in pixels of arrowhead trailing points from outside edge of shaft."
 msgstr "Distance entre le point de fuite de la tête de la flèche et la queue."
 
-#: ../glade/paint/preferences.glade.h:24
+#: ../ui/paint/preferences.ui.h:24
 msgid ""
 "Extra padding between a stoichiometric coefficient and its associated "
 "molecule in pixels."
@@ -889,36 +959,35 @@ msgstr ""
 "Espace supplémentaire entre un coefficient stœchiométrique et sa molécule "
 "associée en pixels."
 
-#: ../glade/paint/preferences.glade.h:25
+#: ../ui/paint/preferences.ui.h:25
 msgid "GChemPaint Preferences"
 msgstr "Préférences de GChemPaint"
 
-#: ../glade/paint/preferences.glade.h:26
+#: ../ui/paint/preferences.ui.h:26
 msgid "General _padding:"
 msgstr "Bourrage _général :"
 
-#: ../glade/paint/preferences.glade.h:27
+#: ../ui/paint/preferences.ui.h:27
 msgid "Ha_sh width:"
 msgstr "Largeur de _hachure :"
 
-#: ../glade/paint/preferences.glade.h:28
+#: ../ui/paint/preferences.ui.h:28
 msgid "Ha_ve a tearable table of the elements"
 msgstr "Tableau périodique des éléments _détachable"
 
-#: ../glade/paint/preferences.glade.h:29
+#: ../ui/paint/preferences.ui.h:29
 msgid "Len_gth:"
 msgstr "_Longueur :"
 
-#: ../glade/paint/preferences.glade.h:30
-#: ../plugins/paint/residues/residues.glade.h:3
+#: ../ui/paint/preferences.ui.h:30 ../plugins/paint/residues/residues.ui.h:3
 msgid "N_ame:"
 msgstr "N_om :"
 
-#: ../glade/paint/preferences.glade.h:31
+#: ../ui/paint/preferences.ui.h:31
 msgid "Padding added at each end of an arrow (in pixels)."
 msgstr "Espace ajouté à chaque extrémité d'une flèche (en pixels)."
 
-#: ../glade/paint/preferences.glade.h:32
+#: ../ui/paint/preferences.ui.h:32
 msgid ""
 "Padding between a '+' sign in a reaction equation and reactants symbols in "
 "pixels."
@@ -926,7 +995,7 @@ msgstr ""
 "Espace en pixels entre un signe '+' et les symboles des réactifs dans une "
 "réction chimique."
 
-#: ../glade/paint/preferences.glade.h:33
+#: ../ui/paint/preferences.ui.h:33
 msgid ""
 "Padding used around text objects such as atoms, texts and other typographic "
 "signs in pixels."
@@ -934,7 +1003,7 @@ msgstr ""
 "Espace en pixels ajouté autour des objets de texte comme les symboles "
 "chimiques, les textes et autres signes typographiques."
 
-#: ../glade/paint/preferences.glade.h:34
+#: ../ui/paint/preferences.ui.h:34
 msgid ""
 "Scale used to convert real distance to canvas distance expressed in pm per "
 "pixel."
@@ -942,204 +1011,227 @@ msgstr ""
 "Échelle utilisée pour convertir une distance réelle en distance dans le "
 "dessin exprimée en pm par pixel."
 
-#: ../glade/paint/preferences.glade.h:35
+#: ../ui/paint/preferences.ui.h:35
 msgid "Si_gn padding:"
 msgstr "Bourrage de _signe :"
 
-#: ../glade/paint/preferences.glade.h:36
+#: ../ui/paint/preferences.ui.h:36
 msgid "Size of the charge sign in pixels."
 msgstr "Taille du signe d'une charge en pixels."
 
-#: ../glade/paint/preferences.glade.h:37
+#: ../ui/paint/preferences.ui.h:37
 msgid "Stoichio_metry padding:"
 msgstr "Bourrage de stœc_hiométrie :"
 
-#: ../glade/paint/preferences.glade.h:38
+#: ../ui/paint/preferences.ui.h:38
 msgid "Wid_th"
 msgstr "Large_ur"
 
-#: ../glade/paint/preferences.glade.h:39
+#: ../ui/paint/preferences.ui.h:39
 msgid "Width in pixels at the largest end."
 msgstr "Largeur en pixels à l'extrémité la plus large."
 
-#: ../glade/paint/preferences.glade.h:40
+#: ../ui/paint/preferences.ui.h:40
 msgid "Width of hashes in pixels."
 msgstr "Largeur des hachures en pixels."
 
-#: ../glade/paint/preferences.glade.h:41
+#: ../ui/paint/preferences.ui.h:41
 msgid "_Default theme:"
 msgstr "Thème par _défaut :"
 
-#: ../glade/paint/preferences.glade.h:42
+#: ../ui/paint/preferences.ui.h:42
 msgid "_Distance:"
 msgstr "Di_stance :"
 
-#: ../glade/paint/preferences.glade.h:43
+#: ../ui/paint/preferences.ui.h:43
 msgid "_Object padding:"
 msgstr "Bourrage d'aligne_ment :"
 
-#: ../glade/paint/preferences.glade.h:44
+#: ../ui/paint/preferences.ui.h:44
 msgid "_Padding:"
 msgstr "_Bourrage :"
 
-#: ../glade/paint/preferences.glade.h:45
+#: ../ui/paint/preferences.ui.h:45
 msgid "_Scale:"
 msgstr "Éch_elle :"
 
-#: ../glade/paint/preferences.glade.h:46
+#: ../ui/paint/preferences.ui.h:46
 msgid "_Width:"
 msgstr "La_rgeur"
 
-#: ../glade/paint/tools.glade.h:1
+#: ../ui/paint/tools.ui.h:1
 msgid "_Current element:"
 msgstr "Élément _courant :"
 
-#: ../glade/paint/zoom.glade.h:1
+#: ../ui/paint/zoom.ui.h:1
 msgid "Zoom"
 msgstr "Zoom"
 
-#: ../glade/paint/zoom.glade.h:3
+#: ../ui/paint/zoom.ui.h:3
 #, no-c-format
 msgid "Zoom factor (%):"
 msgstr "Facteur de zoom (%) :"
 
-#: ../glade/table/acidity.glade.h:1
+#: ../ui/table/acidity.ui.h:1
 msgid "<span background=\"blue\"><b>Basic</b></span>"
 msgstr "<span background=\"blue\"> <b>Basique</b> </span>"
 
-#: ../glade/table/acidity.glade.h:2
+#: ../ui/table/acidity.ui.h:2
 msgid "<span background=\"green\"><b>Neutral</b></span>"
 msgstr "<span background=\"green\"> <b>Neutre</b> </span>"
 
-#: ../glade/table/acidity.glade.h:3
+#: ../ui/table/acidity.ui.h:3
 msgid "<span background=\"magenta\"><b>Amphoteric</b></span>"
 msgstr "<span background=\"green\"> <b>Amphotère</b> </span>"
 
-#: ../glade/table/acidity.glade.h:4
+#: ../ui/table/acidity.ui.h:4
 msgid "<span background=\"red\"><b>Acidic</b></span>"
 msgstr "<span background=\"red\"> <b>Acide</b> </span>"
 
-#: ../glade/table/eltpage.glade.h:1
+#: ../ui/table/eltpage.ui.h:1
 msgid "1:"
 msgstr "1 :"
 
-#: ../glade/table/eltpage.glade.h:2
+#: ../ui/table/eltpage.ui.h:2
 msgid "Atomic number:"
 msgstr "Numéro atomique :"
 
-#: ../glade/table/eltpage.glade.h:3
+#: ../ui/table/eltpage.ui.h:3
 msgid "Atomic weight:"
 msgstr "Masse atomique :"
 
-#: ../glade/table/eltpage.glade.h:4
+#: ../ui/table/eltpage.ui.h:4
 msgid "Boiling point:"
 msgstr "Température d'ébullition"
 
-#: ../glade/table/eltpage.glade.h:5
+#: ../ui/table/eltpage.ui.h:5
 msgid "Covalent:"
 msgstr "Covalent :"
 
-#: ../glade/table/eltpage.glade.h:6
+#: ../ui/table/eltpage.ui.h:6
 msgid "Electronic affinities:"
 msgstr "Affinités électroniques :"
 
-#: ../glade/table/eltpage.glade.h:7
+#: ../ui/table/eltpage.ui.h:7
 msgid "Electronic properties"
 msgstr "Propriétés électroniques"
 
-#: ../glade/table/eltpage.glade.h:8
+#: ../ui/table/eltpage.ui.h:8
 msgid "Ionic radii (Shannon and Prewitt):"
 msgstr "Rayons ioniques (Shannon and Prewitt) :"
 
-#: ../glade/table/eltpage.glade.h:9
+#: ../ui/table/eltpage.ui.h:9
 msgid "Ionization energies:"
 msgstr "Énergies d'ionisations :"
 
-#: ../glade/table/eltpage.glade.h:10
+#: ../ui/table/eltpage.ui.h:10
 msgid "Isotopes"
 msgstr "Isotopes"
 
-#: ../glade/table/eltpage.glade.h:11
+#: ../ui/table/eltpage.ui.h:11
 msgid "Main"
 msgstr "Accueil"
 
-#: ../glade/table/eltpage.glade.h:12
+#: ../ui/table/eltpage.ui.h:12
 msgid "Melting point:"
 msgstr "Température de fusion :"
 
-#: ../glade/table/eltpage.glade.h:13
+#: ../ui/table/eltpage.ui.h:13
 msgid "Metallic:"
 msgstr "Métallique :"
 
-#: ../glade/table/eltpage.glade.h:14
+#: ../ui/table/eltpage.ui.h:14
 msgid "Pauling electronegativity:"
 msgstr "Électronégaivité de Pauling :"
 
-#: ../glade/table/eltpage.glade.h:15
+#: ../ui/table/eltpage.ui.h:15
 msgid "Radii"
 msgstr "Rayons"
 
-#: ../glade/table/eltpage.glade.h:16 ../programs/table/gchemtable-elt.cc:130
+#: ../ui/table/eltpage.ui.h:16 ../programs/table/gchemtable-elt.cc:130
 msgid "Show curve"
 msgstr "Courbe"
 
-#: ../glade/table/eltpage.glade.h:17
+#: ../ui/table/eltpage.ui.h:17
 msgid "Thermodynamics"
 msgstr "Thermodynamique"
 
-#: ../glade/table/eltpage.glade.h:18
+#: ../ui/table/eltpage.ui.h:18
 msgid "Van der Waals:"
 msgstr "Van der Waals :"
 
-#: ../glade/table/state-thermometer.glade.h:1
+#: ../ui/table/state-thermometer.ui.h:1
 msgid "<span background=\"blue\"> <b>Solid</b> </span>"
 msgstr "<span background=\"blue\"> <b>Solide</b> </span>"
 
-#: ../glade/table/state-thermometer.glade.h:2
+#: ../ui/table/state-thermometer.ui.h:2
 msgid "<span background=\"green\"> <b>Liquid</b> </span>"
 msgstr "<span background=\"green\"> <b>Liquide</b> </span>"
 
-#: ../glade/table/state-thermometer.glade.h:3
+#: ../ui/table/state-thermometer.ui.h:3
 msgid "<span background=\"red\"> <b>Gas</b> </span>"
 msgstr "<span background=\"red\"> <b>Gaz</b> </span>"
 
-#: ../glade/table/state-thermometer.glade.h:4
+#: ../ui/table/state-thermometer.ui.h:4
 msgid "Temperature (K):"
 msgstr "Température (K) :"
 
-#: ../glade/table/curve.glade.h:1
+#: ../ui/table/curve.ui.h:1
 msgid "GChemTable Graph"
 msgstr "Graphique GChemTable"
 
-#: ../glade/table/family.glade.h:1
-msgid ""
-"All\n"
-"Alkali Metals\n"
-"Alkaline Earths Metals\n"
-"Halogenes\n"
-"Metalloids\n"
-"Noble Gases\n"
-"Non-Metals\n"
-"Rare Earths Metals\n"
-"Transition Metals\n"
-"Other Metals\n"
+#: ../ui/table/family.ui.h:1
+msgid "Alkali Metals"
 msgstr ""
-"Toutes\n"
-"Alcalins\n"
-"Alkalino Terreux\n"
-"Halogènes\n"
-"Métalloïdes\n"
-"Gaz Nobles\n"
-"Non-Métaux\n"
-"Terre Rares\n"
-"Métaux de Transition\n"
-"Autres Metaux\n"
 
-#: ../glade/table/family.glade.h:12
+#: ../ui/table/family.ui.h:2
+msgid "Alkaline Earths Metals"
+msgstr ""
+
+#: ../ui/table/family.ui.h:3
+#, fuzzy
+msgid "All"
+msgstr "Alkyle"
+
+#: ../ui/table/family.ui.h:4
+#, fuzzy
+msgid "Halogenes"
+msgstr "Halogène"
+
+#: ../ui/table/family.ui.h:5
+#, fuzzy
+msgid "Metalloids"
+msgstr "Métallique :"
+
+#: ../ui/table/family.ui.h:6
+#, fuzzy
+msgid "Noble Gases"
+msgstr "Bases nucléiques"
+
+#: ../ui/table/family.ui.h:7
+#, fuzzy
+msgid "Non-Metals"
+msgstr "Métal"
+
+#: ../ui/table/family.ui.h:8
+#, fuzzy
+msgid "Other Metals"
+msgstr "Autres lignes"
+
+#: ../ui/table/family.ui.h:9
+msgid "Rare Earths Metals"
+msgstr ""
+
+#: ../ui/table/family.ui.h:10
 msgid "Selected Family:"
 msgstr "Famille sélectionnée :"
 
-#: ../glade/table/block.glade.h:1
+#: ../ui/table/family.ui.h:11
+#, fuzzy
+msgid "Transition Metals"
+msgstr "Transmittance"
+
+#: ../ui/table/block.ui.h:1
 msgid ""
 "<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> s block </span>"
@@ -1147,7 +1239,7 @@ msgstr ""
 "<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> bloc s </span>"
 
-#: ../glade/table/block.glade.h:2
+#: ../ui/table/block.ui.h:2
 msgid ""
 "<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> d block </span>"
@@ -1155,7 +1247,7 @@ msgstr ""
 "<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> bloc d </span>"
 
-#: ../glade/table/block.glade.h:3
+#: ../ui/table/block.ui.h:3
 msgid ""
 "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> p block </span>"
@@ -1163,7 +1255,7 @@ msgstr ""
 "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> bloc p </span>"
 
-#: ../glade/table/block.glade.h:4
+#: ../ui/table/block.ui.h:4
 msgid ""
 "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
 "\"bold\"> f block </span>"
@@ -1647,29 +1739,27 @@ msgstr "protium"
 msgid "tritium"
 msgstr "tritium"
 
-#: ../gnumeric/functions.cc:47
-msgid ""
-"@FUNCTION=MOLARMASS\n"
-"@SYNTAX=MOLARMASS(formula)\n"
-"@DESCRIPTION= \n"
-"MOLARMASS returns the molar mass associated with the given @formula\n"
-"\n"
-"@formula is the input formula such as \"CCl4\".\n"
-"@EXAMPLES=\n"
-"=molarmass(\"CCl4\")\n"
-"\n"
-msgstr ""
-"@FUNCTION=MOLARMASS\n"
-"@SYNTAX=MOLARMASS(formule)\n"
-"@DESCRIPTION= \n"
-"MOLARMASS retourne la masse molaire associée à @formule\n"
-"\n"
-"@formule est la formule utilisée comme \"CCl4\".\n"
-"@EXAMPLES=\n"
-"=molarmass(\"CCl4\")\n"
-"\n"
+#: ../gnumeric/functions.cc:52
+msgid "MOLARMASS:calculate a molar mass"
+msgstr "MOLARMASS:calcule une masse molaire"
 
-#: ../gnumeric/functions.cc:85 ../plugins/paint/residues/residues.glade.h:1
+#: ../gnumeric/functions.cc:53
+msgid "formula:the input chemical formula such as \"CCl4\""
+msgstr "formule:une formule chimique comme \"CCl4\""
+
+#: ../gnumeric/functions.cc:54
+msgid "MOLARMASS calculates a molar mass associated with the given @{formula}."
+msgstr "MOLARMASS calcule la masse molaire correspondant à la @{formule} donnée"
+
+#: ../gnumeric/functions.cc:55
+msgid "=molarmass(\"CCl4\")"
+msgstr "=molarmass(\"CCl4\")"
+
+#: ../gnumeric/functions.cc:82
+msgid "molarmass"
+msgstr "molarmass"
+
+#: ../gnumeric/functions.cc:82 ../plugins/paint/residues/residues.ui.h:1
 msgid "Formula"
 msgstr "Formule"
 
@@ -1711,9 +1801,9 @@ msgid "Embedded GChemPaint Object"
 msgstr "Objet GChemPaint encapsulé"
 
 #. Note to translators: replace the following string with the appropriate credits for you lang
-#: ../libs/gcp/about.cc:49 ../programs/3d/window.cc:149
-#: ../programs/calc/gchemcalc.cc:320 ../programs/crystal/window.cc:145
-#: ../programs/spectra/window.cc:144 ../programs/table/gchemtable-app.cc:369
+#: ../libs/gcp/about.cc:49 ../programs/3d/window.cc:146
+#: ../programs/calc/gchemcalc.cc:300 ../programs/crystal/window.cc:145
+#: ../programs/spectra/window.cc:137 ../programs/table/gchemtable-app.cc:374
 msgid "translator_credits"
 msgstr "Jean Bréfort"
 
@@ -1725,15 +1815,15 @@ msgstr "GChemPaint est un éditeur de structures chimiques en 2D pour Gnome"
 msgid "Copyright © 2001-2008 by Jean Bréfort"
 msgstr "Copyright © 2001-2008 par Jean Bréfort"
 
-#: ../libs/gcp/application.cc:297
+#: ../libs/gcp/application.cc:294
 msgid "Create a new reaction"
 msgstr "Créer une nouvelle réaction"
 
-#: ../libs/gcp/application.cc:304
+#: ../libs/gcp/application.cc:301
 msgid "Create a new mesomery relationship"
 msgstr "Créer une nouvelle relation de mésomérie"
 
-#: ../libs/gcp/application.cc:497 ../libs/gcp/stringdlg.cc:102
+#: ../libs/gcp/application.cc:494 ../libs/gcp/stringdlg.cc:102
 #: ../plugins/paint/wikipedia/wikipediatool.cc:81
 msgid ""
 "Please enter a file name,\n"
@@ -1742,19 +1832,19 @@ msgstr ""
 "Veuillez entre un nom de fichier,\n"
 "pas un nom de répertoire"
 
-#: ../libs/gcp/application.cc:540
+#: ../libs/gcp/application.cc:537
 #, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
 "Failed to load %s."
 msgstr "Désolé, format %s non supporté !%s n'a pas pu être chargé."
 
-#: ../libs/gcp/application.cc:571 ../libs/gcp/stringdlg.cc:118
+#: ../libs/gcp/application.cc:568 ../libs/gcp/stringdlg.cc:118
 #: ../plugins/paint/wikipedia/wikipediatool.cc:95
-#: ../programs/3d/application.cc:167 ../programs/calc/gchemcalc.cc:229
-#: ../programs/crystal/application.cc:215
-#: ../programs/spectra/application.cc:82
-#: ../programs/table/gchemtable-app.cc:683
+#: ../programs/3d/application.cc:166 ../programs/calc/gchemcalc.cc:203
+#: ../programs/crystal/application.cc:238
+#: ../programs/spectra/application.cc:80
+#: ../programs/table/gchemtable-app.cc:688
 #, c-format
 msgid ""
 "File %s\n"
@@ -1763,10 +1853,10 @@ msgstr ""
 "Le fichier %s\n"
 "existe, souhaitez vous l'écraser ?"
 
-#: ../libs/gcp/application.cc:586 ../libs/gcp/stringdlg.cc:134
-#: ../libs/gcu/application.cc:281
+#: ../libs/gcp/application.cc:583 ../libs/gcp/stringdlg.cc:134
+#: ../libs/gcu/application.cc:298
 #: ../plugins/paint/wikipedia/wikipediatool.cc:109
-#: ../programs/crystal/application.cc:229
+#: ../programs/crystal/application.cc:250
 #, c-format
 msgid ""
 "Error while processing %s:\n"
@@ -1775,11 +1865,11 @@ msgstr ""
 "Erreur pendant le traitement de %s :\n"
 "%s"
 
-#: ../libs/gcp/application.cc:825 ../libs/gcp/application.cc:955
+#: ../libs/gcp/application.cc:822 ../libs/gcp/application.cc:953
 msgid "No filename"
 msgstr "Pas nom de fichier"
 
-#: ../libs/gcp/application.cc:828
+#: ../libs/gcp/application.cc:825
 #, c-format
 msgid ""
 "Could not open file\n"
@@ -1788,12 +1878,12 @@ msgstr ""
 "Impossible d'ouvrir le fichier\n"
 "%s"
 
-#: ../libs/gcp/application.cc:831 ../libs/gcp/application.cc:967
+#: ../libs/gcp/application.cc:828 ../libs/gcp/application.cc:965
 #, c-format
 msgid "%s: parse error."
 msgstr "%s: erreur d'analyse."
 
-#: ../libs/gcp/application.cc:958 ../programs/crystal/document.cc:329
+#: ../libs/gcp/application.cc:956 ../programs/crystal/document.cc:326
 #, c-format
 msgid ""
 "Could not load file\n"
@@ -1802,7 +1892,7 @@ msgstr ""
 "Erreur lors du chargement du fichier\n"
 "%s"
 
-#: ../libs/gcp/application.cc:961 ../programs/crystal/document.cc:332
+#: ../libs/gcp/application.cc:959 ../programs/crystal/document.cc:329
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
@@ -1811,28 +1901,28 @@ msgstr ""
 "%s: fichier xml incorrect.\n"
 "L'arborescence est vide ?"
 
-#: ../libs/gcp/application.cc:964 ../programs/crystal/document.cc:335
+#: ../libs/gcp/application.cc:962 ../programs/crystal/document.cc:332
 #, c-format
 msgid "%s: invalid file format."
 msgstr "%s: format de fichier incorrect."
 
-#: ../libs/gcp/application.cc:1001 ../programs/3d/application.cc:250
-#: ../programs/calc/gchemcalc.cc:218 ../programs/crystal/application.cc:112
-#: ../programs/spectra/application.cc:135
-#: ../programs/table/gchemtable-app.cc:671
+#: ../libs/gcp/application.cc:999 ../programs/3d/application.cc:249
+#: ../programs/calc/gchemcalc.cc:192 ../programs/crystal/application.cc:129
+#: ../programs/spectra/application.cc:133
+#: ../programs/table/gchemtable-app.cc:676
 msgid "Save as image"
 msgstr "Sauvegarder en tant qu'image"
 
-#: ../libs/gcp/atom.cc:1858 ../libs/gcp/atom.cc:1872
-#: ../plugins/paint/atoms/plugin.cc:55 ../programs/crystal/atomsdlg.cc:134
+#: ../libs/gcp/atom.cc:1873 ../libs/gcp/atom.cc:1887
+#: ../plugins/paint/atoms/plugin.cc:55 ../programs/crystal/atomsdlg.cc:129
 msgid "Atom"
 msgstr "Atome"
 
-#: ../libs/gcp/atom.cc:1861
+#: ../libs/gcp/atom.cc:1876
 msgid "Display symbol"
 msgstr "Afficher le symbole"
 
-#: ../libs/gcp/atom.cc:1861
+#: ../libs/gcp/atom.cc:1876
 msgid "Whether to display carbon atom symbol or not"
 msgstr "Afficher ou non le symbole d'un atome de carbone"
 
@@ -1848,12 +1938,12 @@ msgstr "Mettre à l'arrière plan"
 msgid "Bring to front"
 msgstr "Mettre à l'avant plan"
 
-#: ../libs/gcp/docprop.cc:118 ../libs/gcp/docprop.cc:125
-#: ../programs/crystal/docprop.cc:109 ../programs/crystal/docprop.cc:116
+#: ../libs/gcp/docprop.cc:114 ../libs/gcp/docprop.cc:121
+#: ../programs/crystal/docprop.cc:105 ../programs/crystal/docprop.cc:112
 msgid "%A, %B %d, %Y"
 msgstr "%A %d %B %Y"
 
-#: ../libs/gcp/fontsel.cc:287 ../programs/table/gchemtable-app.cc:154
+#: ../libs/gcp/fontsel.cc:287 ../programs/table/gchemtable-app.cc:155
 msgid "Family"
 msgstr "Famille"
 
@@ -1901,9 +1991,9 @@ msgstr "Taille"
 msgid "The font size (in pango units)"
 msgstr "La taille de la police (en unités pango)"
 
-#: ../libs/gcp/fragment.cc:715
-msgid "Invalid charge."
-msgstr "Charge incorrecte."
+#: ../libs/gcp/fragment.cc:1517
+msgid "Invalid symbol."
+msgstr "Symbole non valide."
 
 #: ../libs/gcp/mesomer.cc:76
 msgid "Only one arrow can link two given mesomers."
@@ -1971,40 +2061,44 @@ msgstr "Ouvrir dans la calculette"
 msgid "Select alignment item"
 msgstr "Séléctionner l'élément utilisé pour l'alignement"
 
-#: ../libs/gcp/preferences.cc:359 ../libs/gcp/preferences.cc:378
-#: ../libs/gcp/preferences.cc:507 ../libs/gcp/theme.cc:309
-#: ../libs/gcp/theme.cc:316 ../programs/table/gchemtable-app.cc:149
+#: ../libs/gcp/preferences.cc:361 ../libs/gcp/preferences.cc:380
+#: ../libs/gcp/preferences.cc:509 ../libs/gcp/theme.cc:314
+#: ../libs/gcp/theme.cc:321 ../programs/table/gchemtable-app.cc:150
 msgid "Default"
 msgstr "Défaut"
 
-#: ../libs/gcp/preferences.cc:399 ../libs/gcp/preferences.cc:468
-#: ../libs/gcp/preferences.cc:535
+#: ../libs/gcp/preferences.cc:401 ../libs/gcp/preferences.cc:470
+#: ../libs/gcp/preferences.cc:537
 msgid "General"
 msgstr "Général"
 
-#: ../libs/gcp/preferences.cc:409 ../libs/gcp/preferences.cc:483
-#: ../libs/gcp/preferences.cc:537
+#: ../libs/gcp/preferences.cc:411 ../libs/gcp/preferences.cc:485
+#: ../libs/gcp/preferences.cc:539
 msgid "Font"
 msgstr "Police"
 
-#: ../libs/gcp/preferences.cc:413 ../libs/gcp/preferences.cc:487
-#: ../libs/gcp/preferences.cc:539
-msgid "Other"
-msgstr "Autre"
-
-#: ../libs/gcp/preferences.cc:421 ../libs/gcp/preferences.cc:495
-#: ../libs/gcp/preferences.cc:543
+#: ../libs/gcp/preferences.cc:423 ../libs/gcp/preferences.cc:497
+#: ../libs/gcp/preferences.cc:545
 msgid "Arrows"
 msgstr "Flèches"
 
-#: ../libs/gcp/preferences.cc:425 ../libs/gcp/preferences.cc:499
-#: ../libs/gcp/preferences.cc:545 ../plugins/paint/text/plugin.cc:52
+#: ../libs/gcp/preferences.cc:427 ../libs/gcp/preferences.cc:501
+#: ../libs/gcp/preferences.cc:547 ../plugins/paint/text/plugin.cc:52
 msgid "Text"
 msgstr "Texte"
 
 #: ../libs/gcp/reactant.cc:81
 msgid "Add a stoichiometry coefficient"
 msgstr "Ajouter un coefficient stœchiométrique"
+
+#. Object too far from the arrow direction
+#: ../libs/gcp/reaction.cc:136 ../libs/gcp/reaction.cc:209
+msgid ""
+"Error could not build a reaction\n"
+"from the selected objects."
+msgstr ""
+"Erreur, il n'est pas possible de construire une réaction à partir des objets "
+"sélectionnés."
 
 #: ../libs/gcp/reaction.cc:377
 msgid "Destroy the reaction"
@@ -2054,7 +2148,7 @@ msgstr "Durée"
 msgid "Enthalpy"
 msgstr "Enthalpie"
 
-#: ../libs/gcp/stringdlg.cc:79 ../libs/gcu/filechooser.cc:43
+#: ../libs/gcp/stringdlg.cc:79 ../libs/gcu/filechooser.cc:41
 msgid "Save as"
 msgstr "Enregistrer _sous"
 
@@ -2088,27 +2182,22 @@ msgstr ""
 "l'erreur était :\n"
 "%s"
 
-#: ../libs/gcp/text.cc:301 ../libs/gcp/text.cc:307
+#: ../libs/gcp/text.cc:118 ../libs/gcp/text.cc:124
 msgid "This should not have occured, please file a bug record."
 msgstr ""
 "Un événement inattendu est survenu, merci de faire un rapport de bogue."
 
-#: ../libs/gcp/theme.cc:412
+#: ../libs/gcp/theme.cc:417
 msgid "NewTheme1"
 msgstr "NouveauThème1"
 
-#: ../libs/gcp/theme.cc:416
+#: ../libs/gcp/theme.cc:421
 #, c-format
 msgid "NewTheme%d"
 msgstr "NouveauThème%d"
 
-#: ../libs/gcp/theme.cc:513 ../programs/crystal/atomsdlg.cc:189
-#: ../programs/crystal/atomsdlg.cc:319 ../programs/crystal/atomsdlg.cc:483
-msgid "Unknown"
-msgstr "Inconnu"
-
-#: ../libs/gcp/view.cc:906 ../libs/gcp/view.cc:934
-#: ../programs/3d/application.cc:188 ../programs/crystal/application.cc:275
+#: ../libs/gcp/view.cc:908 ../libs/gcp/view.cc:936
+#: ../programs/3d/application.cc:187 ../programs/crystal/application.cc:296
 #, c-format
 msgid ""
 "Could not create stream!\n"
@@ -2117,441 +2206,464 @@ msgstr ""
 "Impossible de créer le flux !\n"
 "%s"
 
-#: ../libs/gcp/view.cc:958 ../libs/gcu/glview.cc:359
+#: ../libs/gcp/view.cc:960 ../libs/gcu/glview.cc:358
 #, c-format
 msgid "Unable to save image file: %s\n"
 msgstr "Impossible de sauvegarder l'image : %s\n"
 
-#: ../libs/gcp/window.cc:281 ../programs/3d/window.cc:171
-#: ../programs/calc/gchemcalc.cc:608 ../programs/crystal/window.cc:280
-#: ../programs/spectra/window.cc:166 ../programs/table/gchemtable-app.cc:140
-#: ../programs/table/gchemtable-curve.cc:218
+#: ../libs/gcp/window.cc:289 ../programs/3d/window.cc:168
+#: ../programs/calc/gchemcalc.cc:588 ../programs/crystal/window.cc:280
+#: ../programs/spectra/window.cc:196 ../programs/table/gchemtable-app.cc:141
+#: ../programs/table/gchemtable-curve.cc:200
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../libs/gcp/window.cc:282 ../programs/crystal/window.cc:281
+#: ../libs/gcp/window.cc:290 ../programs/crystal/window.cc:281
 msgid "_New File"
 msgstr "_Nouveau fichier"
 
-#: ../libs/gcp/window.cc:283 ../programs/crystal/window.cc:282
+#: ../libs/gcp/window.cc:291 ../programs/crystal/window.cc:282
 msgid "Create a new file"
 msgstr "Créer un nouveau fichier"
 
-#: ../libs/gcp/window.cc:284
+#: ../libs/gcp/window.cc:292
 msgid "Ne_w File with Theme..."
 msgstr "Nouvea_u fichier avec thème..."
 
-#: ../libs/gcp/window.cc:285
+#: ../libs/gcp/window.cc:293
 msgid "Create a new file using a theme"
 msgstr "Créer un nouveau fichier utilisant un thème"
 
-#: ../libs/gcp/window.cc:286 ../programs/3d/window.cc:172
-#: ../programs/crystal/window.cc:283 ../programs/spectra/window.cc:167
+#: ../libs/gcp/window.cc:294 ../programs/3d/window.cc:169
+#: ../programs/crystal/window.cc:283 ../programs/spectra/window.cc:197
 msgid "_Open..."
 msgstr "_Ouvrir..."
 
-#: ../libs/gcp/window.cc:287 ../programs/3d/window.cc:173
-#: ../programs/crystal/window.cc:284 ../programs/spectra/window.cc:168
+#: ../libs/gcp/window.cc:295 ../programs/3d/window.cc:170
+#: ../programs/crystal/window.cc:284 ../programs/spectra/window.cc:198
 msgid "Open a file"
 msgstr "Ouvrir un fichier"
 
-#: ../libs/gcp/window.cc:288 ../programs/crystal/window.cc:285
+#: ../libs/gcp/window.cc:296 ../programs/crystal/window.cc:285
 msgid "_Save"
 msgstr "_Enregistrer"
 
-#: ../libs/gcp/window.cc:289 ../programs/crystal/window.cc:286
+#: ../libs/gcp/window.cc:297 ../programs/crystal/window.cc:286
 msgid "Save the current file"
 msgstr "Enregistrer le fichier actif"
 
-#: ../libs/gcp/window.cc:290 ../programs/crystal/window.cc:287
+#: ../libs/gcp/window.cc:298 ../programs/crystal/window.cc:287
 msgid "Save _As..."
 msgstr "Enregistrer _sous..."
 
-#: ../libs/gcp/window.cc:291 ../programs/crystal/window.cc:288
+#: ../libs/gcp/window.cc:299 ../programs/crystal/window.cc:288
 msgid "Save the current file with a different name"
 msgstr "Enregistrer le fichier actif sous un nouveau nom"
 
-#: ../libs/gcp/window.cc:292 ../programs/3d/window.cc:174
-#: ../programs/calc/gchemcalc.cc:609 ../programs/crystal/window.cc:289
-#: ../programs/spectra/window.cc:169 ../programs/table/gchemtable-curve.cc:219
+#: ../libs/gcp/window.cc:300 ../programs/3d/window.cc:171
+#: ../programs/calc/gchemcalc.cc:589 ../programs/crystal/window.cc:289
+#: ../programs/spectra/window.cc:199 ../programs/table/gchemtable-curve.cc:201
 msgid "Save As _Image..."
 msgstr "Enregistrer en tant qu'_Image..."
 
-#: ../libs/gcp/window.cc:293 ../programs/3d/window.cc:175
-#: ../programs/calc/gchemcalc.cc:610 ../programs/crystal/window.cc:290
-#: ../programs/spectra/window.cc:170 ../programs/table/gchemtable-curve.cc:220
+#: ../libs/gcp/window.cc:301 ../programs/3d/window.cc:172
+#: ../programs/calc/gchemcalc.cc:590 ../programs/crystal/window.cc:290
+#: ../programs/spectra/window.cc:200 ../programs/table/gchemtable-curve.cc:202
 msgid "Save the current file as an image"
 msgstr "Enregistrer le fichier actif en tant qu'image"
 
-#: ../libs/gcp/window.cc:294 ../programs/3d/window.cc:176
-#: ../programs/calc/gchemcalc.cc:611 ../programs/crystal/window.cc:291
-#: ../programs/spectra/window.cc:171 ../programs/table/gchemtable-curve.cc:221
+#: ../libs/gcp/window.cc:302 ../programs/3d/window.cc:173
+#: ../programs/calc/gchemcalc.cc:591 ../programs/crystal/window.cc:291
+#: ../programs/spectra/window.cc:201 ../programs/table/gchemtable-curve.cc:203
 msgid "Page Set_up..."
 msgstr "_Configuration de l'impression..."
 
-#: ../libs/gcp/window.cc:295 ../programs/3d/window.cc:177
-#: ../programs/calc/gchemcalc.cc:612 ../programs/crystal/window.cc:292
-#: ../programs/spectra/window.cc:172 ../programs/table/gchemtable-curve.cc:222
+#: ../libs/gcp/window.cc:303 ../programs/3d/window.cc:174
+#: ../programs/calc/gchemcalc.cc:592 ../programs/crystal/window.cc:292
+#: ../programs/spectra/window.cc:202 ../programs/table/gchemtable-curve.cc:204
 msgid "Setup the page settings for your current printer"
 msgstr "Configure la mise en page pour votre imprimante"
 
-#: ../libs/gcp/window.cc:296 ../programs/3d/window.cc:178
-#: ../programs/calc/gchemcalc.cc:613 ../programs/crystal/window.cc:293
-#: ../programs/spectra/window.cc:173 ../programs/table/gchemtable-curve.cc:223
+#: ../libs/gcp/window.cc:304 ../programs/3d/window.cc:175
+#: ../programs/calc/gchemcalc.cc:593 ../programs/crystal/window.cc:293
+#: ../programs/spectra/window.cc:203 ../programs/table/gchemtable-curve.cc:205
 msgid "Print Pre_view"
 msgstr "_Aperçu avant impression"
 
-#: ../libs/gcp/window.cc:297 ../programs/3d/window.cc:179
-#: ../programs/calc/gchemcalc.cc:614 ../programs/crystal/window.cc:294
-#: ../programs/spectra/window.cc:174 ../programs/table/gchemtable-curve.cc:224
+#: ../libs/gcp/window.cc:305 ../programs/3d/window.cc:176
+#: ../programs/calc/gchemcalc.cc:594 ../programs/crystal/window.cc:294
+#: ../programs/spectra/window.cc:204 ../programs/table/gchemtable-curve.cc:206
 msgid "Print preview"
 msgstr "Aperçu avant impression"
 
-#: ../libs/gcp/window.cc:298 ../programs/3d/window.cc:180
-#: ../programs/calc/gchemcalc.cc:615 ../programs/crystal/window.cc:295
-#: ../programs/spectra/window.cc:175 ../programs/table/gchemtable-curve.cc:225
+#: ../libs/gcp/window.cc:306 ../programs/3d/window.cc:177
+#: ../programs/calc/gchemcalc.cc:595 ../programs/crystal/window.cc:295
+#: ../programs/spectra/window.cc:205 ../programs/table/gchemtable-curve.cc:207
 msgid "_Print..."
 msgstr "Im_primer..."
 
-#: ../libs/gcp/window.cc:299 ../programs/calc/gchemcalc.cc:616
-#: ../programs/crystal/window.cc:296 ../programs/spectra/window.cc:176
-#: ../programs/table/gchemtable-curve.cc:226
+#: ../libs/gcp/window.cc:307 ../programs/calc/gchemcalc.cc:596
+#: ../programs/crystal/window.cc:296 ../programs/spectra/window.cc:206
+#: ../programs/table/gchemtable-curve.cc:208
 msgid "Print the current file"
 msgstr "Imprimer la scène courante"
 
-#: ../libs/gcp/window.cc:300 ../programs/crystal/window.cc:297
-#: ../programs/table/gchemtable-curve.cc:227
+#: ../libs/gcp/window.cc:308 ../programs/crystal/window.cc:297
+#: ../programs/table/gchemtable-curve.cc:209
 msgid "Prope_rties..."
 msgstr "P_ropriétés..."
 
-#: ../libs/gcp/window.cc:301 ../programs/crystal/window.cc:298
+#: ../libs/gcp/window.cc:309 ../programs/crystal/window.cc:298
 msgid "Modify the file's properties"
 msgstr "Édite les propriétés du fichier"
 
-#: ../libs/gcp/window.cc:302 ../programs/3d/window.cc:182
-#: ../programs/crystal/window.cc:299 ../programs/spectra/window.cc:177
-#: ../programs/table/gchemtable-curve.cc:229
+#: ../libs/gcp/window.cc:310 ../programs/3d/window.cc:179
+#: ../programs/crystal/window.cc:299 ../programs/spectra/window.cc:207
+#: ../programs/table/gchemtable-curve.cc:211
 msgid "_Close"
 msgstr "_Fermer"
 
-#: ../libs/gcp/window.cc:303 ../programs/3d/window.cc:183
-#: ../programs/crystal/window.cc:300 ../programs/spectra/window.cc:178
-#: ../programs/table/gchemtable-curve.cc:230
+#: ../libs/gcp/window.cc:311 ../programs/3d/window.cc:180
+#: ../programs/crystal/window.cc:300 ../programs/spectra/window.cc:208
+#: ../programs/table/gchemtable-curve.cc:212
 msgid "Close the current file"
 msgstr "Fermer le fichier actif"
 
-#: ../libs/gcp/window.cc:304 ../programs/3d/window.cc:184
-#: ../programs/calc/gchemcalc.cc:617 ../programs/crystal/window.cc:301
-#: ../programs/spectra/window.cc:179 ../programs/table/gchemtable-app.cc:143
-#: ../programs/table/gchemtable-curve.cc:231
+#: ../libs/gcp/window.cc:312 ../programs/3d/window.cc:181
+#: ../programs/calc/gchemcalc.cc:597 ../programs/crystal/window.cc:301
+#: ../programs/spectra/window.cc:209 ../programs/table/gchemtable-app.cc:144
+#: ../programs/table/gchemtable-curve.cc:213
 msgid "_Quit"
 msgstr "_Quitter"
 
-#: ../libs/gcp/window.cc:305
+#: ../libs/gcp/window.cc:313
 msgid "Quit GChemPaint"
 msgstr "Quitter GChemPaint"
 
-#: ../libs/gcp/window.cc:306 ../programs/calc/gchemcalc.cc:619
-#: ../programs/crystal/window.cc:303 ../programs/spectra/window.cc:181
-#: ../programs/table/gchemtable-curve.cc:233
+#: ../libs/gcp/window.cc:314 ../programs/calc/gchemcalc.cc:599
+#: ../programs/crystal/window.cc:303 ../programs/spectra/window.cc:211
+#: ../programs/table/gchemtable-curve.cc:215
 msgid "_Edit"
 msgstr "_Édition"
 
-#: ../libs/gcp/window.cc:307
+#: ../libs/gcp/window.cc:315
 msgid "_Undo"
 msgstr "A_nnuler"
 
-#: ../libs/gcp/window.cc:308
+#: ../libs/gcp/window.cc:316
 msgid "Undo the last action"
 msgstr "Annule la dernière opération"
 
-#: ../libs/gcp/window.cc:309
+#: ../libs/gcp/window.cc:317
 msgid "_Redo"
 msgstr "_Refaire"
 
-#: ../libs/gcp/window.cc:310
+#: ../libs/gcp/window.cc:318
 msgid "Redo the undone action"
 msgstr "Refait la dernière opération"
 
-#: ../libs/gcp/window.cc:311
+#: ../libs/gcp/window.cc:319
 msgid "Cu_t"
 msgstr "Co_uper"
 
-#: ../libs/gcp/window.cc:312
+#: ../libs/gcp/window.cc:320
 msgid "Cut the selection"
 msgstr "Coupe la sélection"
 
-#: ../libs/gcp/window.cc:313 ../programs/calc/gchemcalc.cc:620
-#: ../programs/spectra/window.cc:182 ../programs/table/gchemtable-curve.cc:234
+#: ../libs/gcp/window.cc:321 ../programs/calc/gchemcalc.cc:600
+#: ../programs/spectra/window.cc:212 ../programs/table/gchemtable-curve.cc:216
 msgid "_Copy"
 msgstr "_Copier"
 
-#: ../libs/gcp/window.cc:314 ../programs/calc/gchemcalc.cc:621
-#: ../programs/spectra/window.cc:183 ../programs/table/gchemtable-curve.cc:235
+#: ../libs/gcp/window.cc:322 ../programs/calc/gchemcalc.cc:601
+#: ../programs/spectra/window.cc:213 ../programs/table/gchemtable-curve.cc:217
 msgid "Copy the selection"
 msgstr "Copie la sélection"
 
-#: ../libs/gcp/window.cc:315
+#: ../libs/gcp/window.cc:323
 msgid "_Paste"
 msgstr "C_oller"
 
-#: ../libs/gcp/window.cc:316
+#: ../libs/gcp/window.cc:324
 msgid "Paste the clipboard"
 msgstr "Colle le contenu du presse-papier"
 
-#: ../libs/gcp/window.cc:317
+#: ../libs/gcp/window.cc:325
 msgid "C_lear"
 msgstr "_Effacer"
 
-#: ../libs/gcp/window.cc:318
+#: ../libs/gcp/window.cc:326
 msgid "Clear the selection"
 msgstr "Efface la sélection"
 
-#: ../libs/gcp/window.cc:319
+#: ../libs/gcp/window.cc:327
 msgid "Select _All"
 msgstr "_Tout sélectionner"
 
-#: ../libs/gcp/window.cc:320
+#: ../libs/gcp/window.cc:328
 msgid "Select everything"
 msgstr "Sélectionne le document en entier"
 
-#: ../libs/gcp/window.cc:321
+#: ../libs/gcp/window.cc:329
 msgid "Pr_eferences..."
 msgstr "_Préférences..."
 
-#: ../libs/gcp/window.cc:322 ../programs/crystal/window.cc:305
+#: ../libs/gcp/window.cc:330 ../programs/crystal/window.cc:305
 msgid "Configure the application"
 msgstr "Configurer l'application"
 
-#: ../libs/gcp/window.cc:323 ../programs/3d/window.cc:186
-#: ../programs/crystal/window.cc:317 ../programs/table/gchemtable-app.cc:145
+#: ../libs/gcp/window.cc:331 ../programs/3d/window.cc:183
+#: ../programs/crystal/window.cc:317 ../programs/table/gchemtable-app.cc:146
 msgid "_View"
 msgstr "_Vue"
 
-#: ../libs/gcp/window.cc:324
+#: ../libs/gcp/window.cc:332
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../libs/gcp/window.cc:325
+#: ../libs/gcp/window.cc:333
 msgid "_400%"
 msgstr "_400%"
 
-#: ../libs/gcp/window.cc:326
+#: ../libs/gcp/window.cc:334
 msgid "Zoom to 400%"
 msgstr "Zoom à 400%"
 
-#: ../libs/gcp/window.cc:327
+#: ../libs/gcp/window.cc:335
 msgid "_300%"
 msgstr "_300%"
 
-#: ../libs/gcp/window.cc:328
+#: ../libs/gcp/window.cc:336
 msgid "Zoom to 300%"
 msgstr "Zoom à 300%"
 
-#: ../libs/gcp/window.cc:329
+#: ../libs/gcp/window.cc:337
 msgid "_200%"
 msgstr "_200%"
 
-#: ../libs/gcp/window.cc:330
+#: ../libs/gcp/window.cc:338
 msgid "Zoom to 200%"
 msgstr "Zoom à 200%"
 
-#: ../libs/gcp/window.cc:331
+#: ../libs/gcp/window.cc:339
 msgid "150%"
 msgstr "150%"
 
-#: ../libs/gcp/window.cc:332
+#: ../libs/gcp/window.cc:340
 msgid "Zoom to 150%"
 msgstr "Zoom à 150%"
 
-#: ../libs/gcp/window.cc:333
+#: ../libs/gcp/window.cc:341
 msgid "_100%"
 msgstr "_100%"
 
-#: ../libs/gcp/window.cc:334
+#: ../libs/gcp/window.cc:342
 msgid "Zoom to 100%"
 msgstr "Zoom à 100%"
 
-#: ../libs/gcp/window.cc:335
+#: ../libs/gcp/window.cc:343
 msgid "_75%"
 msgstr "_75%"
 
-#: ../libs/gcp/window.cc:336
+#: ../libs/gcp/window.cc:344
 msgid "Zoom to 75%"
 msgstr "Zoom à 75%"
 
-#: ../libs/gcp/window.cc:337
+#: ../libs/gcp/window.cc:345
 msgid "_50%"
 msgstr "_50%"
 
-#: ../libs/gcp/window.cc:338
+#: ../libs/gcp/window.cc:346
 msgid "Zoom to 50%"
 msgstr "Zoom à 50%"
 
-#: ../libs/gcp/window.cc:339
+#: ../libs/gcp/window.cc:347
 msgid "25%"
 msgstr "25%"
 
-#: ../libs/gcp/window.cc:340
+#: ../libs/gcp/window.cc:348
 msgid "Zoom to 25%"
 msgstr "Zoom à 25%"
 
-#: ../libs/gcp/window.cc:341
+#: ../libs/gcp/window.cc:349
 msgid "_Zoom to...%"
 msgstr "_Zoom à...%"
 
-#: ../libs/gcp/window.cc:342
+#: ../libs/gcp/window.cc:350
 msgid "Open Zoom Dialog Box"
 msgstr "Ouvrir la boite de dialogue de zoom"
 
-#: ../libs/gcp/window.cc:343
+#: ../libs/gcp/window.cc:351
 msgid "_Tools"
 msgstr "_Outils"
 
-#: ../libs/gcp/window.cc:344 ../programs/crystal/window.cc:320
+#: ../libs/gcp/window.cc:352 ../programs/crystal/window.cc:320
 msgid "_Windows"
 msgstr "Fe_nêtres"
 
-#: ../libs/gcp/window.cc:345 ../programs/3d/window.cc:187
-#: ../programs/calc/gchemcalc.cc:623 ../programs/crystal/window.cc:325
-#: ../programs/spectra/window.cc:184 ../programs/table/gchemtable-app.cc:169
-#: ../programs/table/gchemtable-curve.cc:236
-#: ../programs/table/gchemtable-curve.cc:239
+#: ../libs/gcp/window.cc:353 ../programs/3d/window.cc:184
+#: ../programs/calc/gchemcalc.cc:603 ../programs/crystal/window.cc:325
+#: ../programs/spectra/window.cc:214 ../programs/table/gchemtable-app.cc:170
+#: ../programs/table/gchemtable-curve.cc:218
+#: ../programs/table/gchemtable-curve.cc:221
 msgid "_Help"
 msgstr "_Aide"
 
-#: ../libs/gcp/window.cc:346 ../programs/3d/window.cc:188
-#: ../programs/calc/gchemcalc.cc:624 ../programs/crystal/window.cc:326
-#: ../programs/spectra/window.cc:185 ../programs/table/gchemtable-app.cc:170
-#: ../programs/table/gchemtable-curve.cc:237
+#: ../libs/gcp/window.cc:354 ../programs/3d/window.cc:185
+#: ../programs/calc/gchemcalc.cc:604 ../programs/crystal/window.cc:326
+#: ../programs/spectra/window.cc:215 ../programs/table/gchemtable-app.cc:171
+#: ../programs/table/gchemtable-curve.cc:219
 msgid "_Contents"
 msgstr "_Contenu"
 
-#: ../libs/gcp/window.cc:347
+#: ../libs/gcp/window.cc:355
 msgid "View help for GChemPaint"
 msgstr "Consulter l'aide pour GChemPaint"
 
-#: ../libs/gcp/window.cc:348
+#: ../libs/gcp/window.cc:356
 msgid "GChemPaint on the _web"
 msgstr "Page _internet de GChemPaint"
 
-#: ../libs/gcp/window.cc:349
+#: ../libs/gcp/window.cc:357
 msgid "Browse GChemPaint's web site"
 msgstr "Ouvre un navigateur internet à la page de GChemPaint"
 
-#: ../libs/gcp/window.cc:350 ../programs/3d/window.cc:192
-#: ../programs/calc/gchemcalc.cc:628 ../programs/crystal/window.cc:330
-#: ../programs/spectra/window.cc:189 ../programs/table/gchemtable-app.cc:174
-#: ../programs/table/gchemtable-curve.cc:243
+#: ../libs/gcp/window.cc:358 ../programs/3d/window.cc:189
+#: ../programs/calc/gchemcalc.cc:608 ../programs/crystal/window.cc:330
+#: ../programs/spectra/window.cc:219 ../programs/table/gchemtable-app.cc:175
+#: ../programs/table/gchemtable-curve.cc:225
 msgid "Live assistance"
 msgstr "_Assistance en ligne"
 
-#: ../libs/gcp/window.cc:351 ../programs/3d/window.cc:193
-#: ../programs/calc/gchemcalc.cc:629 ../programs/crystal/window.cc:331
-#: ../programs/spectra/window.cc:190 ../programs/table/gchemtable-app.cc:175
-#: ../programs/table/gchemtable-curve.cc:244
+#: ../libs/gcp/window.cc:359 ../programs/3d/window.cc:190
+#: ../programs/calc/gchemcalc.cc:609 ../programs/crystal/window.cc:331
+#: ../programs/spectra/window.cc:220 ../programs/table/gchemtable-app.cc:176
+#: ../programs/table/gchemtable-curve.cc:226
 msgid "Open the Gnome Chemistry Utils IRC channel"
 msgstr "Ouvrir le cannal IRC des Gnome Chemistry Utils"
 
-#: ../libs/gcp/window.cc:352 ../programs/3d/window.cc:194
-#: ../programs/calc/gchemcalc.cc:630 ../programs/crystal/window.cc:332
-#: ../programs/spectra/window.cc:191 ../programs/table/gchemtable-app.cc:176
-#: ../programs/table/gchemtable-curve.cc:245
+#: ../libs/gcp/window.cc:360 ../programs/3d/window.cc:191
+#: ../programs/calc/gchemcalc.cc:610 ../programs/crystal/window.cc:332
+#: ../programs/spectra/window.cc:221 ../programs/table/gchemtable-app.cc:177
+#: ../programs/table/gchemtable-curve.cc:227
 msgid "_Ask a question"
 msgstr "Poser une _question"
 
-#: ../libs/gcp/window.cc:353
+#: ../libs/gcp/window.cc:361
 msgid "Ask a question about GChemPaint"
 msgstr "Envoie un message sur la liste de diffusion de GChemPaint"
 
-#: ../libs/gcp/window.cc:354 ../programs/3d/window.cc:196
-#: ../programs/calc/gchemcalc.cc:632 ../programs/crystal/window.cc:334
-#: ../programs/spectra/window.cc:193 ../programs/table/gchemtable-app.cc:178
-#: ../programs/table/gchemtable-curve.cc:247
+#: ../libs/gcp/window.cc:362 ../programs/3d/window.cc:193
+#: ../programs/calc/gchemcalc.cc:612 ../programs/crystal/window.cc:334
+#: ../programs/spectra/window.cc:223 ../programs/table/gchemtable-app.cc:179
+#: ../programs/table/gchemtable-curve.cc:229
 msgid "Report _Bugs"
 msgstr "_Rapporter une Anomalie"
 
-#: ../libs/gcp/window.cc:355
+#: ../libs/gcp/window.cc:363
 msgid "Submit a bug report for GChemPaint"
 msgstr "Ouvre un navigateur internet pour signaler un problème via Bugzilla"
 
-#: ../libs/gcp/window.cc:356 ../programs/3d/window.cc:198
-#: ../programs/calc/gchemcalc.cc:634 ../programs/crystal/window.cc:336
-#: ../programs/spectra/window.cc:195 ../programs/table/gchemtable-app.cc:180
-#: ../programs/table/gchemtable-curve.cc:249
+#: ../libs/gcp/window.cc:364 ../programs/3d/window.cc:195
+#: ../programs/calc/gchemcalc.cc:614 ../programs/crystal/window.cc:336
+#: ../programs/spectra/window.cc:225 ../programs/table/gchemtable-app.cc:181
+#: ../programs/table/gchemtable-curve.cc:231
 msgid "_About"
 msgstr "À _propos..."
 
-#: ../libs/gcp/window.cc:357
+#: ../libs/gcp/window.cc:365
 msgid "About GChemPaint"
 msgstr "À propos de GChemPain"
 
-#: ../libs/gcp/window.cc:500
+#: ../libs/gcp/window.cc:370
+#, fuzzy
+msgid "_Full Screen"
+msgstr "Pointes _entières"
+
+#: ../libs/gcp/window.cc:371
+msgid "Switch between full screen and windowed mode"
+msgstr ""
+
+#: ../libs/gcp/window.cc:526
 msgid "Open _recent"
 msgstr "Ou_vrir récents"
 
-#: ../libs/gcp/window.cc:523 ../programs/crystal/window.cc:458
+#: ../libs/gcp/window.cc:549 ../programs/crystal/window.cc:458
 msgid "Ready"
 msgstr "Prêt"
 
-#: ../libs/gcp/window.cc:691
+#: ../libs/gcp/window.cc:717
 msgid "GChemPaint"
 msgstr "GChemPaint"
 
-#: ../libs/gcp/window.cc:706 ../programs/crystal/document.cc:754
+#: ../libs/gcp/window.cc:734 ../programs/crystal/document.cc:755
 #, c-format
 msgid "\"%s\" has been modified.  Do you wish to save it?"
 msgstr "``%s'' a été modifié? Voulez-vous le sauvegarder ?"
 
-#: ../libs/gcu/application.cc:190
+#: ../libs/gcu/application.cc:63
+msgid "Open new windows full screen"
+msgstr ""
+
+#: ../libs/gcu/application.cc:64
+#, fuzzy
+msgid "Maximize new windows"
+msgstr "_Nouvelle fenêtre"
+
+#: ../libs/gcu/application.cc:206
 #, c-format
 msgid "(screen resolution is %u)"
 msgstr "(la résolution de l'écran est %u)"
 
-#: ../libs/gcu/crystaldoc.cc:467
+#: ../libs/gcu/crystaldoc.cc:461
 msgid "Everything has been cleaved"
 msgstr "Tout a été clivé"
 
-#: ../libs/gcu/dialog.cc:135
+#. do we need to set m_Owner to NULL?
+#: ../libs/gcu/dialog.cc:111
+msgid "Could not reference the new dialog."
+msgstr ""
+
+#: ../libs/gcu/dialog.cc:167
 msgid "Type a number"
 msgstr "Entrez un nombre"
 
-#: ../libs/gcu/dialog.cc:144
+#: ../libs/gcu/dialog.cc:176
 #, c-format
 msgid "Type a number greater than or equal %g and lower than to %g"
 msgstr "Entrez un nombre plus grand ou égal à %g et plus petit que %g"
 
-#: ../libs/gcu/dialog.cc:154
+#: ../libs/gcu/dialog.cc:186
 #, c-format
 msgid "Type a number greater than %g and lower than or equal to %g"
 msgstr "Entrez un nombre plus grand que %g et plus petit ou égal à %g"
 
-#: ../libs/gcu/dialog.cc:164
+#: ../libs/gcu/dialog.cc:196
 #, c-format
 msgid "Type a number between %g and %g, the limits are valid."
 msgstr "Entrez un nombre entre %g et %g, les limites sont valides"
 
-#: ../libs/gcu/dialog.cc:174
+#: ../libs/gcu/dialog.cc:206
 #, c-format
 msgid "Type a number greater than %g and lower than %g"
 msgstr "Entrez un nombre plus grand que %g et plus petit que %g"
 
-#: ../libs/gcu/dialog.cc:184
+#: ../libs/gcu/dialog.cc:216
 #, c-format
 msgid "Type a number lower than %g"
 msgstr "Entrez un nombre plus petit que %g"
 
-#: ../libs/gcu/dialog.cc:194
+#: ../libs/gcu/dialog.cc:226
 #, c-format
 msgid "Type a number greater than %g"
 msgstr "Entrez un nombre plus grand que %g"
 
-#: ../libs/gcu/dialog.cc:204
+#: ../libs/gcu/dialog.cc:236
 #, c-format
 msgid "Type a number lower than or equal to %g"
 msgstr "Entrez un nombre plus petit ou égal à %g"
 
-#: ../libs/gcu/dialog.cc:214
+#: ../libs/gcu/dialog.cc:246
 #, c-format
 msgid "Type a number greater than or equal to %g"
 msgstr "Entrez un nombre plus grand ou égal à %g"
@@ -2616,43 +2728,43 @@ msgstr "Impossible de trouver et lire isotopes.xml"
 msgid "Incorrect file format: isotopes.xml"
 msgstr "Format de fichier incorrect : isotopes.xml"
 
-#: ../libs/gcu/filechooser.cc:43
+#: ../libs/gcu/filechooser.cc:41
 msgid "Open"
 msgstr "Ouvrir"
 
-#: ../libs/gcu/filechooser.cc:62
+#: ../libs/gcu/filechooser.cc:60
 msgid "File _type:"
 msgstr "_Type de fichier :"
 
-#: ../libs/gcu/filechooser.cc:64
+#: ../libs/gcu/filechooser.cc:62
 msgid "Automatic"
 msgstr "Automatique"
 
-#: ../libs/gcu/formula.cc:512 ../libs/gcu/formula.cc:552
+#: ../libs/gcu/formula.cc:510 ../libs/gcu/formula.cc:550
 msgid "Unmatched parenthesis"
 msgstr "Parenthèse non appariée"
 
-#: ../libs/gcu/formula.cc:540
+#: ../libs/gcu/formula.cc:538
 msgid "Could not interpret the symbol list"
 msgstr "Impossible d'interpréter la liste de symboles"
 
-#: ../libs/gcu/formula.cc:546
+#: ../libs/gcu/formula.cc:544
 msgid "Parser failed, please fill a bug report."
 msgstr "L'analyseur a échoué, veuillez remplir un rapport de bogue."
 
-#: ../libs/gcu/formula.cc:554
+#: ../libs/gcu/formula.cc:552
 msgid "Invalid character"
 msgstr "Charactère invalide"
 
-#: ../libs/gcu/gtkchem3dviewer.cc:158
+#: ../libs/gcu/gtkchem3dviewer.cc:162
 msgid "Background Color"
 msgstr "Couleur du fond"
 
-#: ../libs/gcu/gtkchem3dviewer.cc:159
+#: ../libs/gcu/gtkchem3dviewer.cc:163
 msgid "Color used to paint the background"
 msgstr "Couleur utilisée pour peindre le fond"
 
-#: ../libs/gcu/gtkperiodic.c:332
+#: ../libs/gcu/gtkperiodic.c:323
 #, c-format
 msgid ""
 "Out of range value %d for property \"color-style\" for GtkPeriodic instance %"
@@ -2661,7 +2773,7 @@ msgstr ""
 "La valeur %d n'est pas dans la plage valide pour l'instance de GtkPeriodic %"
 "p\n"
 
-#: ../libs/gcu/loader.cc:106
+#: ../libs/gcu/loader.cc:102
 msgid "Chemical file loader type."
 msgstr "Type des filtres d'importation des fichiers chimiques."
 
@@ -2691,176 +2803,183 @@ msgstr "pouces"
 msgid "mm"
 msgstr "mm"
 
-#: ../libs/gcu/spacegroup.cc:122
+#: ../libs/gcu/spacegroup.cc:125
 msgid "Could not find space groups definitions in "
 msgstr "Impossible de trouver les définicitions des groupes d'espace dans "
 
-#: ../libs/gcu/spacegroup.cc:123
+#: ../libs/gcu/spacegroup.cc:126
 msgid "Error is: "
 msgstr "L'erreur est : "
 
-#: ../libs/gcu/spacegroup.cc:133
+#: ../libs/gcu/spacegroup.cc:136
 msgid " is corrupt!"
 msgstr " est corrompu !"
 
-#: ../libs/gcu/spacegroup.cc:367
+#: ../libs/gcu/spacegroup.cc:374
 msgid "Duplicated transform: "
 msgstr "Transformation dupliquée : "
 
-#: ../libs/gcu/spacegroup.cc:381
+#: ../libs/gcu/spacegroup.cc:388
 msgid "Invalid transform: "
 msgstr "Transformation invalide : "
 
-#: ../libs/gcu/spacegroup.cc:388
+#: ../libs/gcu/spacegroup.cc:395
 msgid "Transform with no inverse: "
 msgstr "Transformation sans inverse : "
 
-#: ../libs/gcu/spacegroup.cc:403 ../libs/gcu/spacegroup.cc:420
-#: ../libs/gcu/spacegroup.cc:453
+#: ../libs/gcu/spacegroup.cc:412 ../libs/gcu/spacegroup.cc:429
+#: ../libs/gcu/spacegroup.cc:462
 msgid "Unknown space group error, please file a bug report."
 msgstr ""
 "Erreur de groupe d'espace inconnue, veuillez remplir un rapport de bogue."
 
-#: ../libs/gcu/spacegroup.cc:405
+#: ../libs/gcu/spacegroup.cc:414
 msgid "Space group error, please file a bug report."
 msgstr "Erreur de groupe d'espace, veuillez remplir un rapport de bogue."
 
-#: ../libs/gcu/spacegroup.cc:429 ../libs/gcu/spacegroup.cc:440
+#: ../libs/gcu/spacegroup.cc:438 ../libs/gcu/spacegroup.cc:449
 msgid "Ambiguous space group with incomplete definition."
 msgstr "Groupe d'espace ambigu avec une définition incomplète."
 
-#: ../libs/gcu/spacegroup.cc:446
+#: ../libs/gcu/spacegroup.cc:455
 msgid "Unknown space group with incomplete or wrong definition."
 msgstr "Groupe d'espace inconnu avec une définition incomplète ou fausse."
 
-#: ../libs/gcu/spectrumdoc.cc:239
+#: ../libs/gcu/spectrumdoc.cc:228
 msgid "Wavenumber (1/cm)"
 msgstr "Longueur d'onde (1/cm)"
 
-#: ../libs/gcu/spectrumdoc.cc:240 ../libs/gcu/spectrumdoc.cc:1344
+#: ../libs/gcu/spectrumdoc.cc:229 ../libs/gcu/spectrumdoc.cc:1333
 msgid "Transmittance"
 msgstr "Transmittance"
 
-#: ../libs/gcu/spectrumdoc.cc:241 ../libs/gcu/spectrumdoc.cc:1343
+#: ../libs/gcu/spectrumdoc.cc:230 ../libs/gcu/spectrumdoc.cc:1332
 msgid "Absorbance"
 msgstr "Absorbance"
 
-#: ../libs/gcu/spectrumdoc.cc:242 ../libs/gcu/spectrumdoc.cc:1279
+#: ../libs/gcu/spectrumdoc.cc:231 ../libs/gcu/spectrumdoc.cc:1268
 msgid "Chemical shift (ppm)"
 msgstr "Déplacement chimique (ppm)"
 
-#: ../libs/gcu/spectrumdoc.cc:243
+#: ../libs/gcu/spectrumdoc.cc:232
 msgid "Wavelength (nm)"
 msgstr "Longueur d'onde (nm)"
 
-#: ../libs/gcu/spectrumdoc.cc:244
+#: ../libs/gcu/spectrumdoc.cc:233
 msgid "Wavelength (µm)"
 msgstr "Longueur d'onde (µm)"
 
-#: ../libs/gcu/spectrumdoc.cc:245
+#: ../libs/gcu/spectrumdoc.cc:234
 msgid "Time (s)"
 msgstr "Temps (s)"
 
-#: ../libs/gcu/spectrumdoc.cc:246 ../libs/gcu/spectrumdoc.cc:1280
+#: ../libs/gcu/spectrumdoc.cc:235 ../libs/gcu/spectrumdoc.cc:1269
 msgid "Frequency (Hz)"
 msgstr "Fréquence (Hz)"
 
-#: ../libs/gcu/spectrumdoc.cc:247
+#: ../libs/gcu/spectrumdoc.cc:236
 msgid "Mass/charge ratio"
 msgstr "Rapport masse/charge"
 
-#: ../libs/gcu/spectrumdoc.cc:248
+#: ../libs/gcu/spectrumdoc.cc:237
 msgid "Relative abundance"
 msgstr "Abondance relative"
 
-#: ../libs/gcu/spectrumdoc.cc:618 ../libs/gcu/spectrumdoc.cc:1286
+#: ../libs/gcu/spectrumdoc.cc:607 ../libs/gcu/spectrumdoc.cc:1275
 msgid "Show integral"
 msgstr "Montrer l'intégrale"
 
-#: ../libs/gcu/spectrumdoc.cc:618
+#: ../libs/gcu/spectrumdoc.cc:607
 msgid "Hide integral"
 msgstr "Cacher l'intégrale"
 
-#: ../libs/gcu/spectrumdoc.cc:708 ../libs/gcu/spectrumdoc.cc:1617
+#: ../libs/gcu/spectrumdoc.cc:697 ../libs/gcu/spectrumdoc.cc:1605
 msgid "Found too many data!"
 msgstr "Trom de données trouvées !"
 
-#: ../libs/gcu/spectrumdoc.cc:1276 ../libs/gcu/spectrumdoc.cc:1323
+#: ../libs/gcu/spectrumdoc.cc:1265 ../libs/gcu/spectrumdoc.cc:1312
 msgid "X unit:"
 msgstr "Unité X :"
 
-#: ../libs/gcu/spectrumdoc.cc:1327
+#: ../libs/gcu/spectrumdoc.cc:1316
 msgid "Wave length (nm)"
 msgstr "Longueur d'onde (nm)"
 
-#: ../libs/gcu/spectrumdoc.cc:1329
+#: ../libs/gcu/spectrumdoc.cc:1318
 msgid "Wave length (µm)"
 msgstr "Longueur d'onde (µm)"
 
-#: ../libs/gcu/spectrumdoc.cc:1330
+#: ../libs/gcu/spectrumdoc.cc:1319
 msgid "Wave number (1/cm)"
 msgstr "Nombre d'ondes (1/cm)"
 
-#: ../libs/gcu/spectrumdoc.cc:1335
+#: ../libs/gcu/spectrumdoc.cc:1324
 msgid "Invert X Axis"
 msgstr "Inverser l'axe des X"
 
-#: ../libs/gcu/spectrumdoc.cc:1340
+#: ../libs/gcu/spectrumdoc.cc:1329
 msgid "Y unit:"
 msgstr "Unité Y :"
 
-#: ../libs/gcu/spectrumdoc.cc:1512 ../libs/gcu/spectrumdoc.cc:1542
+#: ../libs/gcu/spectrumdoc.cc:1501 ../libs/gcu/spectrumdoc.cc:1531
 msgid "Constant too long"
 msgstr "Constante trop longue"
 
-#: ../libs/gcu/spectrumdoc.cc:1535
+#: ../libs/gcu/spectrumdoc.cc:1524
 msgid "Invalid character in data block"
 msgstr "Charactère invalide dans le bloc de données"
 
-#: ../libs/gcu/spectrumdoc.cc:1639
+#: ../libs/gcu/spectrumdoc.cc:1627
 msgid "Data check failed!"
 msgstr "Échec de la vérification des données !"
 
-#: ../libs/gcu/spectrumdoc.cc:1656
+#: ../libs/gcu/spectrumdoc.cc:1644
 msgid "Data check failed: FIRSTX!"
 msgstr "Échec de la vérification des données : FIRSTX !"
 
-#: ../libs/gcu/spectrumdoc.cc:1661
+#: ../libs/gcu/spectrumdoc.cc:1649
 msgid "Data check failed: FIRSTY!"
 msgstr "Échec de la vérification des données : FIRSTY !"
 
 #. FIXME: Throw an exception
-#: ../libs/gcu/spectrumdoc.cc:1665
+#: ../libs/gcu/spectrumdoc.cc:1653
 msgid "Found too many data"
 msgstr "Trop de données ont été trouvées."
 
-#: ../libs/gcu/spectrumdoc.cc:1976
+#: ../libs/gcu/spectrumdoc.cc:1964
 msgid "Integral"
 msgstr "Intégrale"
 
-#: ../libs/gcu/spectrumdoc.cc:2097
+#: ../libs/gcu/spectrumdoc.cc:2085
 msgid "Real transformed data"
 msgstr "Données réelles transformées"
 
-#: ../libs/gcu/spectrumdoc.cc:2114
+#: ../libs/gcu/spectrumdoc.cc:2102
 msgid "Imaginary transformed data"
 msgstr "Données imagnaires transformées"
 
-#: ../libs/gcu/spectrumview.cc:95
+#: ../libs/gcu/spectrumview.cc:98
 msgid "Minimum X value:"
 msgstr "Valeur minimale X"
 
-#: ../libs/gcu/spectrumview.cc:100
+#: ../libs/gcu/spectrumview.cc:103
 msgid "Maximum X value:"
 msgstr "Valeur maximale X"
 
-#: ../libs/gcu/spectrumview.cc:111
+#: ../libs/gcu/spectrumview.cc:114
 msgid "Minimum Y value:"
 msgstr "Valeur minimale Y"
 
-#: ../libs/gcu/spectrumview.cc:116
+#: ../libs/gcu/spectrumview.cc:119
 msgid "Maximum Y value:"
 msgstr "Valeur maximale Y"
+
+#: ../libs/gcu/ui-builder.cc:37
+#, fuzzy, c-format
+msgid "Could not load %s."
+msgstr ""
+"Erreur lors du chargement du fichier\n"
+"%s"
 
 #: ../libs/gcu/value.cc:146
 msgid "Attempt to add two values with different units."
@@ -2892,7 +3011,7 @@ msgid "Loader : cdx"
 msgstr "Filtre : cdx"
 
 #: ../plugins/loaders/cdxml/cdxml.cc:734 ../plugins/loaders/cdxml/cdxml.cc:749
-#: ../plugins/loaders/cml/cml.cc:330
+#: ../plugins/loaders/cml/cml.cc:503
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "'%s' est corrompu !"
@@ -2908,6 +3027,16 @@ msgstr "Filtre de fichiers Chemdraw XML."
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:3
 msgid "Loader : cdxml"
 msgstr "Filtre : cdxml"
+
+#: ../plugins/loaders/cif/cif.cc:171
+#, fuzzy
+msgid "Invalid loop in data."
+msgstr "Donnée invalide"
+
+#: ../plugins/loaders/cif/cif.cc:386
+#, fuzzy
+msgid "Invalid symmetry group."
+msgstr "Symbole non valide."
 
 #: ../plugins/loaders/cif/plugin.xml.in.h:1
 msgid "CIF files loader."
@@ -2931,29 +3060,31 @@ msgid "Loader : cml"
 msgstr "Filtre : cml"
 
 #: ../plugins/paint/arrows/arrowtool.cc:201
-#: ../plugins/paint/atoms/electrontool.cc:112
-#: ../plugins/paint/atoms/electrontool.cc:226
-#: ../plugins/paint/bonds/bondtool.cc:171
-#: ../plugins/paint/bonds/bondtool.cc:277
-#: ../plugins/paint/cycles/cycletool.cc:465
+#: ../plugins/paint/atoms/chargetool.cc:156
+#: ../plugins/paint/atoms/chargetool.cc:277
+#: ../plugins/paint/atoms/electrontool.cc:113
+#: ../plugins/paint/atoms/electrontool.cc:227
+#: ../plugins/paint/bonds/bondtool.cc:172
+#: ../plugins/paint/bonds/bondtool.cc:278
+#: ../plugins/paint/cycles/cycletool.cc:466
 #: ../plugins/paint/selection/selectiontool.cc:162
 #, c-format
 msgid "Orientation: %g"
 msgstr "Orientation : %g"
 
-#: ../plugins/paint/arrows/arrowtool.glade.h:1
+#: ../plugins/paint/arrows/arrowtool.ui.h:1
 msgid "Arrow len_gth:"
 msgstr "_Longueur de la flèche"
 
-#: ../plugins/paint/arrows/arrowtool.glade.h:2
+#: ../plugins/paint/arrows/arrowtool.ui.h:2
 msgid "H_alf heads"
 msgstr "_Demi pointes"
 
-#: ../plugins/paint/arrows/arrowtool.glade.h:3
+#: ../plugins/paint/arrows/arrowtool.ui.h:3
 msgid "Set _default"
 msgstr "_Par défaut"
 
-#: ../plugins/paint/arrows/arrowtool.glade.h:4
+#: ../plugins/paint/arrows/arrowtool.ui.h:4
 msgid "_Full heads"
 msgstr "Pointes _entières"
 
@@ -2969,57 +3100,57 @@ msgstr ""
 msgid "Use full arrows heads for reversible reactions"
 msgstr "Utiliser des têtes de flèches entières pour les réactions réversibles"
 
-#: ../plugins/paint/arrows/plugin.cc:57
+#: ../plugins/paint/arrows/plugin.cc:56
 msgid "Create a new retrosynthesis pathway"
 msgstr "Créer un chemin de rétrosynthèse"
 
-#: ../plugins/paint/arrows/plugin.cc:77
+#: ../plugins/paint/arrows/plugin.cc:76
 msgid "Simple arrow"
 msgstr "Flèche simple"
 
-#: ../plugins/paint/arrows/plugin.cc:78
+#: ../plugins/paint/arrows/plugin.cc:77
 msgid "Add an arrow for an irreversible reaction"
 msgstr "Ajouter une flèche pour une réaction irréversible"
 
-#: ../plugins/paint/arrows/plugin.cc:80
+#: ../plugins/paint/arrows/plugin.cc:79
 msgid "Double arrow"
 msgstr "Flèche double"
 
-#: ../plugins/paint/arrows/plugin.cc:81
+#: ../plugins/paint/arrows/plugin.cc:80
 msgid "Add a pair of arrows for a reversible reaction"
 msgstr "Ajouter une paire de flèches pour une réaction réversible"
 
-#: ../plugins/paint/arrows/plugin.cc:83
+#: ../plugins/paint/arrows/plugin.cc:82
 msgid "Retrosynthesis arrow"
 msgstr "Flèche de rétrosynthèse"
 
-#: ../plugins/paint/arrows/plugin.cc:84
+#: ../plugins/paint/arrows/plugin.cc:83
 msgid "Add an arrow for a retrosynthesis step"
 msgstr "Ajouter une flèche de rétrosynthèse"
 
-#: ../plugins/paint/arrows/plugin.cc:86
+#: ../plugins/paint/arrows/plugin.cc:85
 msgid "Mesomery arrow"
 msgstr "Flêche de mésomérie"
 
-#: ../plugins/paint/arrows/plugin.cc:87
+#: ../plugins/paint/arrows/plugin.cc:86
 msgid "Add a double headed arrow to represent mesomery"
 msgstr "Ajouter une flèche  à deux pointes pour représenter une mésomérie"
 
-#: ../plugins/paint/arrows/plugin.cc:89
+#: ../plugins/paint/arrows/plugin.cc:88
 msgid "Electron pair move arrow"
 msgstr "Flèche de déplacement d'une paire d'électrons"
 
-#: ../plugins/paint/arrows/plugin.cc:90
+#: ../plugins/paint/arrows/plugin.cc:89
 msgid "Add a curved arrow to represent an electron pair move"
 msgstr ""
 "Ajouter une flèche courbe pour représenter un déplacement de paire "
 "d'électrons"
 
-#: ../plugins/paint/arrows/plugin.cc:92
+#: ../plugins/paint/arrows/plugin.cc:91
 msgid "Single electron move arrow"
 msgstr "Flèche de déplacement d'unh électron"
 
-#: ../plugins/paint/arrows/plugin.cc:93
+#: ../plugins/paint/arrows/plugin.cc:92
 msgid "Add a curved arrow to represent an single electron move"
 msgstr ""
 "Ajouter une flèche courbe pour représenter le déplacement d'un électron"
@@ -3036,7 +3167,7 @@ msgstr "Présence de cibles multiples ou flèches manquantes."
 msgid "Sorry, cyclic retrosynthesis paths are not supported."
 msgstr "Désolé, les chemins de rétrosynthèse cycliques ne sont pas supportés."
 
-#: ../plugins/paint/arrows/retrosynthesis.cc:419
+#: ../plugins/paint/arrows/retrosynthesis.cc:414
 msgid "Destroy the retrosynthesis path"
 msgstr "Détruire le chemin de rétrosynthèse"
 
@@ -3080,85 +3211,46 @@ msgstr "Électron non apparié"
 msgid "Add an unpaired electron to an atom"
 msgstr "Ajoute un électron non apparié à un atome"
 
-#: ../plugins/paint/bonds/bond.glade.h:1
-#: ../plugins/paint/bonds/chain.glade.h:2
-#: ../plugins/paint/cycles/cycle.glade.h:1
-#: ../plugins/paint/cycles/cyclen.glade.h:1
+#: ../plugins/paint/bonds/bond.ui.h:1 ../plugins/paint/bonds/chain.ui.h:2
+#: ../plugins/paint/cycles/cycle.ui.h:1 ../plugins/paint/cycles/cyclen.ui.h:1
 msgid "<b>Property</b>"
 msgstr "<b>Propriété</b>"
 
-#: ../plugins/paint/bonds/bond.glade.h:2
-#: ../plugins/paint/bonds/chain.glade.h:3
-#: ../plugins/paint/cycles/cycle.glade.h:2
-#: ../plugins/paint/cycles/cyclen.glade.h:2
+#: ../plugins/paint/bonds/bond.ui.h:2 ../plugins/paint/bonds/chain.ui.h:3
+#: ../plugins/paint/cycles/cycle.ui.h:2 ../plugins/paint/cycles/cyclen.ui.h:2
 msgid "<b>Value</b>"
 msgstr "<b>Valeur</b>"
 
-#: ../plugins/paint/bonds/bond.glade.h:3
-#: ../plugins/paint/bonds/chain.glade.h:4
-msgid "Angle between two new bonds in an open chain"
-msgstr "Angle entre deux nouvelles liaison dans une chaîne ouverte"
-
-#: ../plugins/paint/bonds/bond.glade.h:4
-#: ../plugins/paint/bonds/chain.glade.h:5
+#: ../plugins/paint/bonds/bond.ui.h:3 ../plugins/paint/bonds/chain.ui.h:4
 msgid "Bond _angle:"
 msgstr "Angl_e de liaison :"
 
-#: ../plugins/paint/bonds/bond.glade.h:5
-#: ../plugins/paint/bonds/chain.glade.h:6
-#: ../plugins/paint/cycles/cycle.glade.h:3
-#: ../plugins/paint/cycles/cyclen.glade.h:3
+#: ../plugins/paint/bonds/bond.ui.h:4 ../plugins/paint/bonds/chain.ui.h:5
+#: ../plugins/paint/cycles/cycle.ui.h:3 ../plugins/paint/cycles/cyclen.ui.h:3
 msgid "Bond len_gth:"
 msgstr "_Longueur de liaison :"
 
-#: ../plugins/paint/bonds/bond.glade.h:6
-#: ../plugins/paint/bonds/chain.glade.h:8
-#: ../plugins/paint/cycles/cycle.glade.h:4
-#: ../plugins/paint/cycles/cyclen.glade.h:5
-msgid "Default length for new bonds"
-msgstr "Longueur par défaut pour les nouvelles liaisons"
-
-#: ../plugins/paint/bonds/bond.glade.h:7
-#: ../plugins/paint/bonds/chain.glade.h:11
-#: ../plugins/paint/cycles/cycle.glade.h:5
-#: ../plugins/paint/cycles/cyclen.glade.h:6
-msgid "Use existing atoms for end of bonds"
-msgstr "Utiler les atomes existants pour la fin des liaisons"
-
-#: ../plugins/paint/bonds/bond.glade.h:8
-#: ../plugins/paint/bonds/chain.glade.h:12
-#: ../plugins/paint/cycles/cycle.glade.h:6
-#: ../plugins/paint/cycles/cyclen.glade.h:7
+#: ../plugins/paint/bonds/bond.ui.h:5 ../plugins/paint/bonds/chain.ui.h:7
+#: ../plugins/paint/cycles/cycle.ui.h:4 ../plugins/paint/cycles/cyclen.ui.h:5
 msgid "_Merge with existing atoms"
 msgstr "_Utiliser les atomes existants"
 
-#: ../plugins/paint/bonds/bondtool.cc:401
+#: ../plugins/paint/bonds/bondtool.cc:402
 msgid "Invalid document tree, please file a bug report"
 msgstr ""
 "L'arbre du document n'est pas valide,\n"
 "veuillez faire un rapport de bogue."
 
-#: ../plugins/paint/bonds/chain.glade.h:1
+#: ../plugins/paint/bonds/chain.ui.h:1
 msgid "<b>Auto</b>"
 msgstr "<b>Auto</b>"
 
-#: ../plugins/paint/bonds/chain.glade.h:7
+#: ../plugins/paint/bonds/chain.ui.h:6
 msgid "Bonds _number:"
 msgstr "_Nombre de liaisons :"
 
-#: ../plugins/paint/bonds/chain.glade.h:9
-msgid ""
-"If set, the number of new bonds will be evaluated from the mouse position"
-msgstr ""
-"Si la case est cochée, nombre de liaisons sera calculé à partir de la "
-"position de la souris"
-
-#: ../plugins/paint/bonds/chain.glade.h:10
-msgid "Number of new bonds"
-msgstr "Nombre de nouvelles liaisons"
-
-#: ../plugins/paint/bonds/chaintool.cc:130
-#: ../plugins/paint/bonds/chaintool.cc:243
+#: ../plugins/paint/bonds/chaintool.cc:131
+#: ../plugins/paint/bonds/chaintool.cc:244
 #, c-format
 msgid "Bonds: %d, Orientation: %g"
 msgstr "Liaisons: %d, Orientation : %g"
@@ -3215,7 +3307,7 @@ msgstr "Outil liaison délocalisée"
 msgid "Add a delocalized bonds system"
 msgstr "Ajouter un système de liaisons délocalisées"
 
-#: ../plugins/paint/cycles/cyclen.glade.h:4
+#: ../plugins/paint/cycles/cyclen.ui.h:4
 msgid "Cycle _Size"
 msgstr "_Taille du cycle :"
 
@@ -3298,7 +3390,7 @@ msgstr "Le symboles de plus de huit caractères ne sont pas autorisés."
 
 #: ../plugins/paint/residues/residues-dlg.cc:256
 #: ../plugins/paint/residues/residues-dlg.cc:402
-#: ../plugins/paint/residues/residues.glade.h:4
+#: ../plugins/paint/residues/residues.ui.h:4
 msgid "New"
 msgstr "Nouveau"
 
@@ -3323,27 +3415,27 @@ msgstr ""
 "La formule est vide, cela ne devrait jamais arriver.\n"
 "Merci de faire un rapport de bogue."
 
-#: ../plugins/paint/residues/residues.glade.h:2
+#: ../plugins/paint/residues/residues.ui.h:2
 msgid "Identity"
 msgstr "Identité"
 
-#: ../plugins/paint/residues/residues.glade.h:5
+#: ../plugins/paint/residues/residues.ui.h:5
 msgid "Residues"
 msgstr "Résidus"
 
-#: ../plugins/paint/residues/residues.glade.h:6
+#: ../plugins/paint/residues/residues.ui.h:6
 msgid "_Generic"
 msgstr "_Générique"
 
-#: ../plugins/paint/residues/residues.glade.h:7
+#: ../plugins/paint/residues/residues.ui.h:7
 msgid "_Symbol(s):"
 msgstr "_Symbole(s) :"
 
-#: ../plugins/paint/residues/residues.glade.h:8
+#: ../plugins/paint/residues/residues.ui.h:8
 msgid "gtk-delete"
 msgstr "gtk-delete"
 
-#: ../plugins/paint/residues/residues.glade.h:9
+#: ../plugins/paint/residues/residues.ui.h:9
 msgid "gtk-save"
 msgstr "gtk-save"
 
@@ -3351,41 +3443,38 @@ msgstr "gtk-save"
 msgid "Group properties..."
 msgstr "Propriétés du groupe..."
 
-#: ../plugins/paint/selection/group.glade.h:1
+#: ../plugins/paint/selection/group.ui.h:1
 msgid "A_lign"
 msgstr "A_ligner"
 
-#: ../plugins/paint/selection/group.glade.h:2
+#: ../plugins/paint/selection/group.ui.h:3
+#, fuzzy
+msgid "Center"
+msgstr "Général"
+
+#: ../plugins/paint/selection/group.ui.h:4
 msgid "Distance:"
 msgstr "Distance :"
 
-#: ../plugins/paint/selection/group.glade.h:3
+#: ../plugins/paint/selection/group.ui.h:5
 msgid "Group and/or align selected objects"
 msgstr "Grouper et/ou aligner les objets sélectionnés"
 
-#: ../plugins/paint/selection/group.glade.h:4
-msgid ""
-"Normal\n"
-"Top\n"
-"Mid-height\n"
-"Bottom\n"
-"Left\n"
-"Center\n"
-"Right"
-msgstr ""
-"Normal\n"
-"Haut\n"
-"Mi-hauteur\n"
-"Bas\n"
-"Gauche\n"
-"Centre\n"
-"Droite"
+#: ../plugins/paint/selection/group.ui.h:7
+#, fuzzy
+msgid "Mid-height"
+msgstr "Graisse"
 
-#: ../plugins/paint/selection/group.glade.h:11
+#: ../plugins/paint/selection/group.ui.h:8
+#, fuzzy
+msgid "Normal"
+msgstr "Formule"
+
+#: ../plugins/paint/selection/group.ui.h:11
 msgid "_Group"
 msgstr "_Grouper"
 
-#: ../plugins/paint/selection/group.glade.h:12
+#: ../plugins/paint/selection/group.ui.h:12
 msgid "_Space evenly"
 msgstr "E_spacer régulièrement"
 
@@ -3445,15 +3534,15 @@ msgstr "_Rotation"
 msgid "Rotate the selection"
 msgstr "Fait pivoter la sélection"
 
-#: ../plugins/paint/templates/new-template.glade.h:2
+#: ../plugins/paint/templates/new-template.ui.h:2
 msgid "New template"
 msgstr "Nouveau modèle"
 
-#: ../plugins/paint/templates/new-template.glade.h:3
+#: ../plugins/paint/templates/new-template.ui.h:3
 msgid "_Category:"
 msgstr "_Catégorie :"
 
-#: ../plugins/paint/templates/new-template.glade.h:4
+#: ../plugins/paint/templates/new-template.ui.h:4
 msgid "_Name"
 msgstr "_Nom"
 
@@ -3470,69 +3559,109 @@ msgstr "Utilise ou gère les modèles"
 msgid "Miscellaneous"
 msgstr "Divers"
 
-#: ../plugins/paint/templates/templates.glade.h:1
+#: ../plugins/paint/templates/templates.ui.h:1
 msgid "No selected template"
 msgstr "Aucun modèle sélectionné"
 
-#: ../plugins/paint/templates/templates.glade.h:2
+#: ../plugins/paint/templates/templates.ui.h:2
 msgid "_Templates"
 msgstr "_Modèles"
 
-#: ../plugins/paint/templates/templates.glade.h:3
+#: ../plugins/paint/templates/templates.ui.h:3
 msgid "category"
 msgstr "catégorie"
 
-#: ../plugins/paint/templates/templatetool.cc:330
+#: ../plugins/paint/templates/templatetool.cc:336
 msgid "Please provide an object."
 msgstr "Veuillez fournir un objet."
 
-#: ../plugins/paint/templates/templatetool.cc:332
+#: ../plugins/paint/templates/templatetool.cc:338
 msgid "Please give a name."
 msgstr "Veuillez donner un nom."
 
-#: ../plugins/paint/templates/templatetool.cc:334
+#: ../plugins/paint/templates/templatetool.cc:340
 msgid "Please choose a category."
 msgstr "Veuillez choisir une catégorie."
 
-#: ../plugins/paint/text/fontsel.glade.h:1
-msgid ""
-"None\n"
-"Single\n"
-"Double\n"
-"Low"
-msgstr ""
-"Aucun\n"
-"Simple\n"
-"Double\n"
-"Bas"
+#: ../plugins/paint/text/fontsel.ui.h:1
+#, fuzzy
+msgid "Double"
+msgstr "Flèche double"
 
-#: ../plugins/paint/text/fontsel.glade.h:5
+#: ../plugins/paint/text/fontsel.ui.h:2
+#: ../programs/table/gchemtable-elt.cc:310
+msgid "Low"
+msgstr "Bas"
+
+#: ../plugins/paint/text/fontsel.ui.h:3
+#: ../programs/table/gchemtable-data-allocator.cc:210
+msgid "None"
+msgstr "Aucun"
+
+#: ../plugins/paint/text/fontsel.ui.h:4
 msgid "Si_ze:"
 msgstr "_Taille"
 
-#: ../plugins/paint/text/fontsel.glade.h:6
+#: ../plugins/paint/text/fontsel.ui.h:5 ../programs/crystal/linesdlg.cc:175
+msgid "Single"
+msgstr "Unique"
+
+#: ../plugins/paint/text/fontsel.ui.h:6
 msgid "Stri_kethrough"
 msgstr "_Barré"
 
-#: ../plugins/paint/text/fontsel.glade.h:7
+#: ../plugins/paint/text/fontsel.ui.h:7
 msgid "_Color:"
 msgstr "_Couleur :"
 
-#: ../plugins/paint/text/fontsel.glade.h:8
+#: ../plugins/paint/text/fontsel.ui.h:8
 msgid "_Family:"
 msgstr "_Famille"
 
-#: ../plugins/paint/text/fontsel.glade.h:9
+#: ../plugins/paint/text/fontsel.ui.h:9
 msgid "_Position:"
 msgstr "_Position :"
 
-#: ../plugins/paint/text/fontsel.glade.h:10
+#: ../plugins/paint/text/fontsel.ui.h:10
 msgid "_Style:"
 msgstr "_Style :"
 
-#: ../plugins/paint/text/fontsel.glade.h:11
+#: ../plugins/paint/text/fontsel.ui.h:11
 msgid "_Underline:"
 msgstr "So_uligné"
+
+#: ../plugins/paint/text/fragmenttool.cc:435
+#, fuzzy
+msgid "Mode: "
+msgstr "_Mode"
+
+#: ../plugins/paint/text/fragmenttool.cc:438
+#, fuzzy
+msgid "auto"
+msgstr "Personnalisé"
+
+#: ../plugins/paint/text/fragmenttool.cc:441
+#, fuzzy
+msgid "normal"
+msgstr "Formule"
+
+#: ../plugins/paint/text/fragmenttool.cc:444
+msgid "subscript"
+msgstr ""
+
+#: ../plugins/paint/text/fragmenttool.cc:447
+msgid "superscript"
+msgstr ""
+
+#: ../plugins/paint/text/fragmenttool.cc:450
+#, fuzzy
+msgid "charge"
+msgstr "Charge : "
+
+#: ../plugins/paint/text/fragmenttool.cc:453
+#, fuzzy
+msgid "stoichiometry"
+msgstr "Bourrage de stœc_hiométrie :"
 
 #: ../plugins/paint/text/plugin.cc:53
 msgid "Add or modify a text"
@@ -3554,27 +3683,31 @@ msgstr "Exporter en vue d'une publication dans Wikipedia"
 msgid "Generate Wikipedia conformant PNG image"
 msgstr "Générer une image PNG conforme aux exigences de Wikipedia"
 
-#: ../programs/3d/application.cc:41 ../programs/3d/application.cc:78
+#: ../plugins/paint/wikipedia/wikipediatool.cc:185
+msgid "Unable to save image file: "
+msgstr "Impossible de sauvegarder l'image : "
+
+#: ../programs/3d/application.cc:40 ../programs/3d/application.cc:77
 msgid "GChem3D Viewer"
 msgstr "Visionneuse de molécules GChem3D"
 
-#: ../programs/3d/application.cc:155
+#: ../programs/3d/application.cc:154
 msgid "Sorry, format not supported!"
 msgstr "Désolé, format non supporté !"
 
-#: ../programs/3d/main.cc:41
+#: ../programs/3d/main.cc:38
 msgid "GChem3d Viewer version: "
 msgstr "Version de la visionneuse GChem3D :"
 
-#: ../programs/3d/main.cc:52
+#: ../programs/3d/main.cc:49
 msgid "Prints GChem3d Viewer version"
 msgstr "Imprime la version de la visionneuse GChem3D"
 
-#: ../programs/3d/main.cc:53
+#: ../programs/3d/main.cc:50
 msgid "Background color: white, black or #rrggbb (default is black)"
 msgstr "Couleur de fond : white, black ou #rrvvbb (black par défaut)"
 
-#: ../programs/3d/main.cc:54
+#: ../programs/3d/main.cc:51
 msgid ""
 "How molecules are displayed; possible values are BallnStick (the default), "
 "SpaceFill, Cylinders, and Wireframe"
@@ -3582,111 +3715,111 @@ msgstr ""
 "Comment les molécules sont dessinées ; les valeurs possibles sont BallnStick "
 "(la valeur par défaut), SpaceFill, Cylinders et Wireframe"
 
-#: ../programs/3d/main.cc:94 ../programs/spectra/gspectrum.cc:45
+#: ../programs/3d/main.cc:92 ../programs/spectra/gspectrum.cc:41
 msgid " [file]"
 msgstr " [fichier]"
 
-#: ../programs/3d/main.cc:115 ../programs/crystal/main.cc:127
-#: ../programs/paint/main.cc:84 ../programs/spectra/gspectrum.cc:65
+#: ../programs/3d/main.cc:113 ../programs/crystal/main.cc:125
+#: ../programs/paint/main.cc:82 ../programs/spectra/gspectrum.cc:61
 #, c-format
 msgid "Invalid or misplaced argument: %s\n"
 msgstr "Argument invalide ou mal placé : %s\n"
 
-#: ../programs/3d/window.cc:129
+#: ../programs/3d/window.cc:126
 msgid "GChem3D is a molecular structures viewer for Gnome"
 msgstr "GChem3D est une visionneuse de structures moléculaires pour Gnome"
 
 #. const gchar * documentors[] = {NULL};
-#: ../programs/3d/window.cc:131
+#: ../programs/3d/window.cc:128
 msgid "Copyright © 2004-2008 Jean Bréfort\n"
 msgstr "Copyright © 2004-2008 par Jean Bréfort\n"
 
-#: ../programs/3d/window.cc:181
+#: ../programs/3d/window.cc:178
 msgid "Print the current scene"
 msgstr "Imprimer la scène courante"
 
-#: ../programs/3d/window.cc:185
+#: ../programs/3d/window.cc:182
 msgid "Quit GChem3D"
 msgstr "Quiiter GChem3D"
 
-#: ../programs/3d/window.cc:189
+#: ../programs/3d/window.cc:186
 msgid "View help for the Molecules Viewer"
 msgstr "Voir l'aide pour la Visionneuse de Molécules"
 
-#: ../programs/3d/window.cc:190 ../programs/calc/gchemcalc.cc:626
-#: ../programs/crystal/window.cc:328 ../programs/spectra/window.cc:187
-#: ../programs/table/gchemtable-app.cc:172
-#: ../programs/table/gchemtable-curve.cc:241
+#: ../programs/3d/window.cc:187 ../programs/calc/gchemcalc.cc:606
+#: ../programs/crystal/window.cc:328 ../programs/spectra/window.cc:217
+#: ../programs/table/gchemtable-app.cc:173
+#: ../programs/table/gchemtable-curve.cc:223
 msgid "Gnome Chemistry Utils on the _web"
 msgstr "Gnome Chemistry Utils sur la _Toile"
 
-#: ../programs/3d/window.cc:191 ../programs/calc/gchemcalc.cc:627
-#: ../programs/crystal/window.cc:329 ../programs/spectra/window.cc:188
-#: ../programs/table/gchemtable-app.cc:173
-#: ../programs/table/gchemtable-curve.cc:242
+#: ../programs/3d/window.cc:188 ../programs/calc/gchemcalc.cc:607
+#: ../programs/crystal/window.cc:329 ../programs/spectra/window.cc:218
+#: ../programs/table/gchemtable-app.cc:174
+#: ../programs/table/gchemtable-curve.cc:224
 msgid "Browse the Gnome Chemistry Utils's web site"
 msgstr "Parcourir le site internet des Gnome Chemistry Utils"
 
-#: ../programs/3d/window.cc:195 ../programs/calc/gchemcalc.cc:631
-#: ../programs/crystal/window.cc:333 ../programs/spectra/window.cc:192
-#: ../programs/table/gchemtable-app.cc:177
-#: ../programs/table/gchemtable-curve.cc:246
+#: ../programs/3d/window.cc:192 ../programs/calc/gchemcalc.cc:611
+#: ../programs/crystal/window.cc:333 ../programs/spectra/window.cc:222
+#: ../programs/table/gchemtable-app.cc:178
+#: ../programs/table/gchemtable-curve.cc:228
 msgid "Ask a question about the Gnome Chemistry Utils"
 msgstr "Poser une question sur les Gnome Chemistry Utils"
 
-#: ../programs/3d/window.cc:197 ../programs/calc/gchemcalc.cc:633
-#: ../programs/crystal/window.cc:335 ../programs/spectra/window.cc:194
-#: ../programs/table/gchemtable-app.cc:179
-#: ../programs/table/gchemtable-curve.cc:248
+#: ../programs/3d/window.cc:194 ../programs/calc/gchemcalc.cc:613
+#: ../programs/crystal/window.cc:335 ../programs/spectra/window.cc:224
+#: ../programs/table/gchemtable-app.cc:180
+#: ../programs/table/gchemtable-curve.cc:230
 msgid "Submit a bug report for the Gnome Chemistry Utils"
 msgstr "Rapporter une anomalie concernant les Gnome Chemistry Utils"
 
-#: ../programs/3d/window.cc:199
+#: ../programs/3d/window.cc:196
 msgid "About GChem3D"
 msgstr "À propos de GChem3D"
 
-#: ../programs/3d/window.cc:203
+#: ../programs/3d/window.cc:200
 msgid "Balls and sticks"
 msgstr "Éclaté"
 
-#: ../programs/3d/window.cc:204
+#: ../programs/3d/window.cc:201
 msgid "Display a balls and sticks model"
 msgstr "Affiche un modèle éclaté"
 
-#: ../programs/3d/window.cc:206
+#: ../programs/3d/window.cc:203
 msgid "Space filling"
 msgstr "Compact"
 
-#: ../programs/3d/window.cc:207
+#: ../programs/3d/window.cc:204
 msgid "Display a space filling model"
 msgstr "Affiche un modèle compact"
 
-#: ../programs/3d/window.cc:209
+#: ../programs/3d/window.cc:206
 msgid "Cylinders"
 msgstr "Cylindres"
 
-#: ../programs/3d/window.cc:210
+#: ../programs/3d/window.cc:207
 msgid "Display a cylinders model"
 msgstr "Affiche un modèle en cylindres"
 
-#: ../programs/3d/window.cc:212
+#: ../programs/3d/window.cc:209
 msgid "Wireframe"
 msgstr "Fil de fer"
 
-#: ../programs/3d/window.cc:213
+#: ../programs/3d/window.cc:210
 msgid "Display a wireframe model"
 msgstr "Affiche un modèle en fil de fer"
 
-#: ../programs/3d/window.cc:271
+#: ../programs/3d/window.cc:268
 msgid "Background color"
 msgstr "Couleur de fond"
 
-#: ../programs/3d/window.cc:272
+#: ../programs/3d/window.cc:269
 msgid "Choose a new background color"
 msgstr "Choisir un nouvelle couleur de fond"
 
-#: ../programs/3d/window.cc:295 ../programs/crystal/window.cc:439
-#: ../programs/spectra/window.cc:257
+#: ../programs/3d/window.cc:292 ../programs/crystal/window.cc:439
+#: ../programs/spectra/window.cc:287
 msgid "Open recent"
 msgstr "Récemment ouverts"
 
@@ -3699,80 +3832,80 @@ msgstr "Affiche des structures moléculaires en trois dimensions"
 msgid "Molecules Viewer (0.12 unstable)"
 msgstr "Visionneuse de molécules"
 
-#: ../programs/calc/gchemcalc.cc:300
+#: ../programs/calc/gchemcalc.cc:280
 msgid "GChemCalc is a simple calculator for chemists"
 msgstr "GChemCalc est une calculatrice simple pour chimiste"
 
 #. const gchar * documentors[] = {NULL};
-#: ../programs/calc/gchemcalc.cc:302 ../programs/table/gchemtable-app.cc:351
+#: ../programs/calc/gchemcalc.cc:282 ../programs/table/gchemtable-app.cc:356
 msgid "Copyright © 2005-2008 Jean Bréfort"
 msgstr "Copyright © 2005-2008 par Jean Bréfort"
 
-#: ../programs/calc/gchemcalc.cc:618
+#: ../programs/calc/gchemcalc.cc:598
 msgid "Quit GChemCalc"
 msgstr "Quitter GChemCalc"
 
-#: ../programs/calc/gchemcalc.cc:622
+#: ../programs/calc/gchemcalc.cc:602
 msgid "_Mode"
 msgstr "_Mode"
 
-#: ../programs/calc/gchemcalc.cc:625
+#: ../programs/calc/gchemcalc.cc:605
 msgid "View help for the Chemical Calculator"
 msgstr "Voir l'aide pour la Calculatrice chimique"
 
-#: ../programs/calc/gchemcalc.cc:635
+#: ../programs/calc/gchemcalc.cc:615
 msgid "About GChemCalc"
 msgstr "À propos de GChemCalc"
 
-#: ../programs/calc/gchemcalc.cc:639
+#: ../programs/calc/gchemcalc.cc:619
 msgid "_Guess"
 msgstr "_Devine"
 
-#: ../programs/calc/gchemcalc.cc:640
+#: ../programs/calc/gchemcalc.cc:620
 msgid "Try to guess what is correct when interpreting ambiguous symbols"
 msgstr "Essaie de deviner la signification des symboles ambigus"
 
-#: ../programs/calc/gchemcalc.cc:642
+#: ../programs/calc/gchemcalc.cc:622
 msgid "_Atom"
 msgstr "_Atome"
 
-#: ../programs/calc/gchemcalc.cc:643
+#: ../programs/calc/gchemcalc.cc:623
 msgid "Interpreting ambiguous symbols as atoms"
 msgstr "Interprète les symboles ambigus comme des atomes"
 
-#: ../programs/calc/gchemcalc.cc:645
+#: ../programs/calc/gchemcalc.cc:625
 msgid "_Nickname"
 msgstr "_Groupe"
 
-#: ../programs/calc/gchemcalc.cc:646
+#: ../programs/calc/gchemcalc.cc:626
 msgid "Interpret ambiguous symbols as atoms groups nicknames"
 msgstr "Interprète les symboles ambigus comme des groupes d'atomes"
 
-#: ../programs/calc/gchemcalc.cc:648
+#: ../programs/calc/gchemcalc.cc:628
 msgid "As_k"
 msgstr "De_mander"
 
-#: ../programs/calc/gchemcalc.cc:649
+#: ../programs/calc/gchemcalc.cc:629
 msgid "Ask user for the correct interpretation of ambiguous symbols"
 msgstr "Demander à l'utilisateur la signification des symboles ambigus"
 
-#: ../programs/calc/gchemcalc.cc:687
+#: ../programs/calc/gchemcalc.cc:667
 msgid "GChemCalc Calculator version: "
 msgstr "Version de la Calculatrice Chimique :"
 
-#: ../programs/calc/gchemcalc.cc:707
+#: ../programs/calc/gchemcalc.cc:687
 msgid " [formula]"
 msgstr "[formule]"
 
-#: ../programs/calc/gchemcalc.cc:723
+#: ../programs/calc/gchemcalc.cc:703
 msgid "For usage see: gchemcalc [-?|--help]"
 msgstr "Pour l'utilisation, voir : gchemcalc [-?|--help]"
 
-#: ../programs/calc/gchemcalc.cc:769
+#: ../programs/calc/gchemcalc.cc:749
 msgid "Element"
 msgstr "Élément"
 
-#: ../programs/calc/gchemcalc.cc:776
+#: ../programs/calc/gchemcalc.cc:756
 msgid "Mass %"
 msgstr "% Masse"
 
@@ -3881,12 +4014,12 @@ msgstr ""
 "Valeur par défaut de la composante rouge de la couleur d'arrière-plan. Les "
 "valeurs acceptables sont comprises entre 0 et 1."
 
-#: ../programs/crystal/application.cc:58
+#: ../programs/crystal/application.cc:82
 #, c-format
 msgid "Untitled%d"
 msgstr "SansTitre%d"
 
-#: ../programs/crystal/application.cc:322
+#: ../programs/crystal/application.cc:343
 #, c-format
 msgid ""
 "\"%s\" has been modified since last saving. Do you wish to come back to "
@@ -3896,43 +4029,43 @@ msgstr ""
 " Voulez-vous revenir à la version enregistrée ?"
 
 #. Note for translators: c.n. is for coordination number
-#: ../programs/crystal/atomsdlg.cc:624
+#: ../programs/crystal/atomsdlg.cc:619
 msgid " c.n.="
 msgstr " i.c. ="
 
-#: ../programs/crystal/atomsdlg.cc:630
+#: ../programs/crystal/atomsdlg.cc:625
 msgid "low spin"
 msgstr "bas spin"
 
-#: ../programs/crystal/atomsdlg.cc:630
+#: ../programs/crystal/atomsdlg.cc:625
 msgid "high spin"
 msgstr "haut spin"
 
-#: ../programs/crystal/atomsdlg.cc:632
+#: ../programs/crystal/atomsdlg.cc:627
 msgid "Database"
 msgstr "Base de données"
 
-#: ../programs/crystal/celldlg.cc:141
+#: ../programs/crystal/celldlg.cc:137
 msgid "The sum of the three angles must be less than 360°"
 msgstr "La somme des trois angles doit être inférieure à 360°"
 
-#: ../programs/crystal/cleavagesdlg.cc:98
+#: ../programs/crystal/cleavagesdlg.cc:93
 msgid "h"
 msgstr "h"
 
-#: ../programs/crystal/cleavagesdlg.cc:108
+#: ../programs/crystal/cleavagesdlg.cc:103
 msgid "k"
 msgstr "k"
 
-#: ../programs/crystal/cleavagesdlg.cc:118
+#: ../programs/crystal/cleavagesdlg.cc:113
 msgid "l"
 msgstr "l"
 
-#: ../programs/crystal/cleavagesdlg.cc:128
+#: ../programs/crystal/cleavagesdlg.cc:123
 msgid "Planes cleaved"
 msgstr "Plans clivés"
 
-#: ../programs/crystal/document.cc:326
+#: ../programs/crystal/document.cc:323
 #, c-format
 msgid ""
 "Could not save file\n"
@@ -3941,39 +4074,35 @@ msgstr ""
 "Erreur lors de la sauvegarde du fichier\n"
 "%s"
 
-#: ../programs/crystal/linesdlg.cc:121
+#: ../programs/crystal/linesdlg.cc:116
 msgid "x1"
 msgstr "x1"
 
-#: ../programs/crystal/linesdlg.cc:131
+#: ../programs/crystal/linesdlg.cc:126
 msgid "y1"
 msgstr "y1"
 
-#: ../programs/crystal/linesdlg.cc:141
+#: ../programs/crystal/linesdlg.cc:136
 msgid "z1"
 msgstr "z1"
 
-#: ../programs/crystal/linesdlg.cc:151
+#: ../programs/crystal/linesdlg.cc:146
 msgid "x2"
 msgstr "x2"
 
-#: ../programs/crystal/linesdlg.cc:161
+#: ../programs/crystal/linesdlg.cc:156
 msgid "y2"
 msgstr "y2"
 
-#: ../programs/crystal/linesdlg.cc:171
+#: ../programs/crystal/linesdlg.cc:166
 msgid "z2"
 msgstr "z2"
 
-#: ../programs/crystal/linesdlg.cc:180
-msgid "Single"
-msgstr "Unique"
-
-#: ../programs/crystal/main.cc:70
+#: ../programs/crystal/main.cc:68
 msgid "Gnome Chemistry Utils version: "
 msgstr "Version de Gnome Chemistry Utils :"
 
-#: ../programs/crystal/main.cc:93 ../programs/paint/main.cc:66
+#: ../programs/crystal/main.cc:91 ../programs/paint/main.cc:64
 msgid " [file...]"
 msgstr " [fichier...]"
 
@@ -4542,11 +4671,11 @@ msgstr "Rendre la classification périodique des éléments détachable"
 msgid "Whether to export simple text when copying."
 msgstr "Exporter du texte simple ou non lors d'une copie."
 
-#: ../programs/paint/main.cc:43
+#: ../programs/paint/main.cc:41
 msgid "GChemPaint version: "
 msgstr "Version de GChemPaint : "
 
-#: ../programs/spectra/application.cc:40 ../programs/spectra/application.cc:52
+#: ../programs/spectra/application.cc:38 ../programs/spectra/application.cc:50
 msgid "GSpectrum"
 msgstr "GSpectrum"
 
@@ -4559,115 +4688,115 @@ msgstr "Une visionneuse de spectre pour le bureau de GNOME"
 msgid "Spectrum viewer (0.12 unstable)"
 msgstr "Visionneuse de spectres"
 
-#: ../programs/spectra/window.cc:124
+#: ../programs/spectra/window.cc:117
 msgid "GSpectrum is a spectrum viewer for Gnome"
 msgstr "GSpoectrum est une visionneuse de spectres pour Gnome"
 
 #. const gchar * documentors[] = {NULL};
-#: ../programs/spectra/window.cc:126
+#: ../programs/spectra/window.cc:119
 msgid "Copyright © 2007-2008 Jean Bréfort\n"
 msgstr "Copyright © 2007-2008 par Jean Bréfort\n"
 
-#: ../programs/spectra/window.cc:180
+#: ../programs/spectra/window.cc:210
 msgid "Quit GSpectrum"
 msgstr "Quiiter GSpectrum"
 
-#: ../programs/spectra/window.cc:186
+#: ../programs/spectra/window.cc:216
 msgid "View help for the Spectra Viewer"
 msgstr "Voir l'aide pour la Visionneuse de Spectres"
 
-#: ../programs/spectra/window.cc:196
+#: ../programs/spectra/window.cc:226
 msgid "About GSpectrum"
 msgstr "À propos de GSpectrum"
 
-#: ../programs/table/gchemtable-app.cc:141
+#: ../programs/table/gchemtable-app.cc:142
 msgid "New _Chart"
 msgstr "Nouveau _Graphique"
 
-#: ../programs/table/gchemtable-app.cc:142
+#: ../programs/table/gchemtable-app.cc:143
 msgid "Create a new chart"
 msgstr "Créer un nouveau graphique"
 
-#: ../programs/table/gchemtable-app.cc:144
-#: ../programs/table/gchemtable-curve.cc:232
+#: ../programs/table/gchemtable-app.cc:145
+#: ../programs/table/gchemtable-curve.cc:214
 msgid "Quit GChemTable"
 msgstr "Quitter GChemTable"
 
-#: ../programs/table/gchemtable-app.cc:146
+#: ../programs/table/gchemtable-app.cc:147
 msgid "Color scheme"
 msgstr "Mode de choix des couleurs"
 
-#: ../programs/table/gchemtable-app.cc:147
+#: ../programs/table/gchemtable-app.cc:148
 msgid "No colors"
 msgstr "Aucune couleur"
 
-#: ../programs/table/gchemtable-app.cc:148
+#: ../programs/table/gchemtable-app.cc:149
 msgid "Use default Gtk theme colors"
 msgstr "Utilise les couleurs du thème par défaut de Gtk"
 
-#: ../programs/table/gchemtable-app.cc:150
+#: ../programs/table/gchemtable-app.cc:151
 msgid "Use default symbolic element colors"
 msgstr "Utilise les couleurs symboliques des éléments"
 
-#: ../programs/table/gchemtable-app.cc:151
+#: ../programs/table/gchemtable-app.cc:152
 msgid "Physical states"
 msgstr "États physiques"
 
-#: ../programs/table/gchemtable-app.cc:152
+#: ../programs/table/gchemtable-app.cc:153
 msgid "Use colors to display physical state at a given temperature"
 msgstr ""
 "Utilise des couleurs pour indiquer l'état physique à une température donnée"
 
-#: ../programs/table/gchemtable-app.cc:155
+#: ../programs/table/gchemtable-app.cc:156
 msgid "Use colors to display the family grouping of the elements"
 msgstr ""
 "Utilise des couleurs pour indiquer la famille à laquelle appartient l'élément"
 
-#: ../programs/table/gchemtable-app.cc:157
+#: ../programs/table/gchemtable-app.cc:158
 msgid "Acidity"
 msgstr "Acidité"
 
-#: ../programs/table/gchemtable-app.cc:158
+#: ../programs/table/gchemtable-app.cc:159
 msgid "Use colors to display the acidity of the elements"
 msgstr ""
 "Utilise des couleurs pour indiquer le comportement acido-basique des éléments"
 
-#: ../programs/table/gchemtable-app.cc:160
+#: ../programs/table/gchemtable-app.cc:161
 msgid "Electronegativity"
 msgstr "Électronégativité"
 
-#: ../programs/table/gchemtable-app.cc:161
+#: ../programs/table/gchemtable-app.cc:162
 msgid "Use colors to display the electronegativity of the elements"
 msgstr "Utilise des couleurs pour indiquer l'électronégativité des éléments"
 
-#: ../programs/table/gchemtable-app.cc:163
+#: ../programs/table/gchemtable-app.cc:164
 msgid "Atomic radius"
 msgstr "Rayon atomique"
 
-#: ../programs/table/gchemtable-app.cc:164
+#: ../programs/table/gchemtable-app.cc:165
 msgid "Use colors to display the covalent radii of the elements"
 msgstr "Utilise des couleurs pour indiquer le rayon covalent des éléments"
 
-#: ../programs/table/gchemtable-app.cc:166
+#: ../programs/table/gchemtable-app.cc:167
 msgid "Block"
 msgstr "Bloc"
 
-#: ../programs/table/gchemtable-app.cc:167
+#: ../programs/table/gchemtable-app.cc:168
 msgid "Use colors to display the blocks elements belong to"
 msgstr ""
 "Utilise des couleurs pour indiquer le bloc auquel chaque élément appartient"
 
-#: ../programs/table/gchemtable-app.cc:171
-#: ../programs/table/gchemtable-curve.cc:238
+#: ../programs/table/gchemtable-app.cc:172
+#: ../programs/table/gchemtable-curve.cc:220
 msgid "View help for the Periodic Table"
 msgstr "Consulter l'aide du Tableau Périodique"
 
-#: ../programs/table/gchemtable-app.cc:181
-#: ../programs/table/gchemtable-curve.cc:250
+#: ../programs/table/gchemtable-app.cc:182
+#: ../programs/table/gchemtable-curve.cc:232
 msgid "About GChemTable"
 msgstr "À propos de GChemTable"
 
-#: ../programs/table/gchemtable-app.cc:349
+#: ../programs/table/gchemtable-app.cc:354
 msgid "GChemTable is a chemical periodic table of the elements application"
 msgstr "GChemTable est une application de tableau périodique des éléments"
 
@@ -4718,143 +4847,145 @@ msgstr "Spin"
 msgid "Value"
 msgstr "Valeur"
 
-#: ../programs/table/gchemtable-elt.cc:310
-msgid "Low"
-msgstr "Bas"
-
 #: ../programs/table/gchemtable-elt.cc:313
 msgid "High"
 msgstr "Haut"
 
-#: ../programs/table/gchemtable-curve.cc:228
+#: ../programs/table/gchemtable-curve.cc:210
 msgid "Modify the graph properties"
 msgstr "Édite le graphe"
 
-#: ../programs/table/gchemtable-curve.cc:240
+#: ../programs/table/gchemtable-curve.cc:222
 msgid "View help for the Curve Window"
 msgstr "Voir l'aide pour la fenêtre graphique"
 
-#: ../programs/table/gchemtable-curve.cc:334
-#: ../programs/table/gchemtable-curve.cc:338
+#: ../programs/table/gchemtable-curve.cc:307
+#: ../programs/table/gchemtable-curve.cc:310
+#: ../programs/table/gchemtable-curve.cc:314
 #: ../programs/table/gchemtable-data.cc:528
 msgid "Pauling electronegativity"
 msgstr "Électronégaivité de Pauling"
 
-#: ../programs/table/gchemtable-curve.cc:350
-msgid "Electron affinity (kJ/mol)"
-msgstr "Affinité électronique (kJ/mol)"
-
-#: ../programs/table/gchemtable-curve.cc:354
-msgid "Electron affinity"
-msgstr "Affinité électronique"
-
-#: ../programs/table/gchemtable-curve.cc:368
-msgid "1st. "
-msgstr "1ère "
-
-#: ../programs/table/gchemtable-curve.cc:371
-msgid "2nd. "
-msgstr "2ème "
-
-#: ../programs/table/gchemtable-curve.cc:374
-msgid "3rd. "
-msgstr "3ème "
-
-#: ../programs/table/gchemtable-curve.cc:377
-#, c-format
-msgid "%dth. "
-msgstr "%dème "
-
-#: ../programs/table/gchemtable-curve.cc:380
-msgid "ionization energy (MJ/mol)"
-msgstr "Énergie d'ionisation (MJ/mol)"
-
-#: ../programs/table/gchemtable-curve.cc:387
-msgid "ionization energy"
-msgstr "Énergie d'ionisation"
-
-#: ../programs/table/gchemtable-curve.cc:406
-#: ../programs/table/gchemtable-curve.cc:410
-msgid "Covalent radii"
-msgstr "Rayons covalents"
-
-#: ../programs/table/gchemtable-curve.cc:426
-#: ../programs/table/gchemtable-curve.cc:430
-msgid "Van der Waals radii"
-msgstr "Rayons de van der Waals"
-
-#: ../programs/table/gchemtable-curve.cc:446
-#: ../programs/table/gchemtable-curve.cc:450
-msgid "Metallic radii"
-msgstr "Rayons métalliques"
-
-#: ../programs/table/gchemtable-curve.cc:461
-#: ../programs/table/gchemtable-curve.cc:465
-msgid "Melting point"
-msgstr "Température de fusion"
-
-#: ../programs/table/gchemtable-curve.cc:476
-#: ../programs/table/gchemtable-curve.cc:480
-msgid "Boiling point"
-msgstr "Température d'ébullition"
-
-#: ../programs/table/gchemtable-curve.cc:495
-#: ../programs/table/gchemtable-data.cc:526
-msgid "Atomic number"
-msgstr "Numéro atomique"
-
-#: ../programs/table/gchemtable-data-allocator.cc:69
-msgid "Invalid data"
-msgstr "Donnée invalide"
-
-#. FIXME: we might know the errors
-#: ../programs/table/gchemtable-data-allocator.cc:113
-msgid "Not supported"
-msgstr "Non supporté"
-
-#: ../programs/table/gchemtable-data-allocator.cc:122
-msgid "None"
-msgstr "Aucun"
-
-#: ../programs/table/gchemtable-data.cc:527
-msgid "Atomic mass"
-msgstr "Masse atomique"
-
-#: ../programs/table/gchemtable-data.cc:529
-msgid "First ionization energy"
-msgstr "Première énergie d'ionisation"
-
-#: ../programs/table/gchemtable-data.cc:530
-msgid "Second ionization energy"
-msgstr "Seconde énergie d'ionisation"
-
-#: ../programs/table/gchemtable-data.cc:531
-msgid "Third ionization energy"
-msgstr "Troisième énergie d'ionisation"
-
+#: ../programs/table/gchemtable-curve.cc:316
 #: ../programs/table/gchemtable-data.cc:532
 msgid "Electronic affinity"
 msgstr "Affinité électronique"
 
+#: ../programs/table/gchemtable-curve.cc:319
+msgid "Electron affinity (kJ/mol)"
+msgstr "Affinité électronique (kJ/mol)"
+
+#: ../programs/table/gchemtable-curve.cc:323
+msgid "Electron affinity"
+msgstr "Affinité électronique"
+
+#: ../programs/table/gchemtable-curve.cc:329
+#: ../programs/table/gchemtable-data.cc:529
+msgid "First ionization energy"
+msgstr "Première énergie d'ionisation"
+
+#: ../programs/table/gchemtable-curve.cc:330
+msgid "1st. "
+msgstr "1ère "
+
+#: ../programs/table/gchemtable-curve.cc:333
+#: ../programs/table/gchemtable-data.cc:530
+msgid "Second ionization energy"
+msgstr "Seconde énergie d'ionisation"
+
+#: ../programs/table/gchemtable-curve.cc:334
+msgid "2nd. "
+msgstr "2ème "
+
+#: ../programs/table/gchemtable-curve.cc:337
+#: ../programs/table/gchemtable-data.cc:531
+msgid "Third ionization energy"
+msgstr "Troisième énergie d'ionisation"
+
+#: ../programs/table/gchemtable-curve.cc:338
+msgid "3rd. "
+msgstr "3ème "
+
+#: ../programs/table/gchemtable-curve.cc:341
+#, c-format
+msgid "%dth. "
+msgstr "%dème "
+
+#: ../programs/table/gchemtable-curve.cc:347
+msgid "ionization energy (MJ/mol)"
+msgstr "Énergie d'ionisation (MJ/mol)"
+
+#: ../programs/table/gchemtable-curve.cc:354
+msgid "ionization energy"
+msgstr "Énergie d'ionisation"
+
+#: ../programs/table/gchemtable-curve.cc:359
 #: ../programs/table/gchemtable-data.cc:533
 msgid "Covalent radius"
 msgstr "Rayon covalent"
 
+#: ../programs/table/gchemtable-curve.cc:362
+#: ../programs/table/gchemtable-curve.cc:366
+msgid "Covalent radii"
+msgstr "Rayons covalents"
+
+#: ../programs/table/gchemtable-curve.cc:368
 #: ../programs/table/gchemtable-data.cc:534
 msgid "Van der Waals radius"
 msgstr "Rayon de van der Waals"
 
+#: ../programs/table/gchemtable-curve.cc:371
+#: ../programs/table/gchemtable-curve.cc:375
+msgid "Van der Waals radii"
+msgstr "Rayons de van der Waals"
+
+#: ../programs/table/gchemtable-curve.cc:377
 #: ../programs/table/gchemtable-data.cc:535
 msgid "Metallic radius"
 msgstr "Rayon métallique"
 
+#: ../programs/table/gchemtable-curve.cc:380
+#: ../programs/table/gchemtable-curve.cc:384
+msgid "Metallic radii"
+msgstr "Rayons métalliques"
+
+#: ../programs/table/gchemtable-curve.cc:386
 #: ../programs/table/gchemtable-data.cc:536
 msgid "Fusion temperature"
 msgstr "Température de fusion"
 
+#: ../programs/table/gchemtable-curve.cc:389
+#: ../programs/table/gchemtable-curve.cc:393
+msgid "Melting point"
+msgstr "Température de fusion"
+
+#: ../programs/table/gchemtable-curve.cc:395
 #: ../programs/table/gchemtable-data.cc:537
 msgid "Ebullition temperature"
 msgstr "Température d'ébullition"
+
+#: ../programs/table/gchemtable-curve.cc:398
+#: ../programs/table/gchemtable-curve.cc:402
+msgid "Boiling point"
+msgstr "Température d'ébullition"
+
+#: ../programs/table/gchemtable-curve.cc:418
+#: ../programs/table/gchemtable-data.cc:526
+msgid "Atomic number"
+msgstr "Numéro atomique"
+
+#: ../programs/table/gchemtable-data-allocator.cc:157
+msgid "Invalid data"
+msgstr "Donnée invalide"
+
+#. FIXME: we might know the errors
+#: ../programs/table/gchemtable-data-allocator.cc:201
+msgid "Not supported"
+msgstr "Non supporté"
+
+#: ../programs/table/gchemtable-data.cc:527
+msgid "Atomic mass"
+msgstr "Masse atomique"
 
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
@@ -5081,6 +5212,204 @@ msgstr "Uridine"
 msgid "Valine"
 msgstr "Valine"
 
+#~ msgid ""
+#~ "Simple cubic\n"
+#~ "Body-centered cubic\n"
+#~ "Face-centered cubic\n"
+#~ "Hexagonal\n"
+#~ "Tetragonal\n"
+#~ "Body-centered tetragonal\n"
+#~ "Orthorhombic\n"
+#~ "Base-centered orthorhombic\n"
+#~ "Body-centered orthorhombic\n"
+#~ "Face-centered orthorhombic\n"
+#~ "Rhombohedral\n"
+#~ "Monoclinic\n"
+#~ "Base-centered monoclinic\n"
+#~ "Triclinic"
+#~ msgstr ""
+#~ "Cubique simple\n"
+#~ "Cubique centré\n"
+#~ "Cubique faces centrées\n"
+#~ "Hexagonal\n"
+#~ "Tétragonal\n"
+#~ "Tétragonal centré\n"
+#~ "Orthorhombique\n"
+#~ "Orthorhombique bases centrées\n"
+#~ "Orthorhombique centré\n"
+#~ "Orthorhombique faces centrées\n"
+#~ "Rhomboédrique\n"
+#~ "Monoclinique\n"
+#~ "Monoclinique bases centrées\n"
+#~ "Triclinique"
+
+#~ msgid "α (°):"
+#~ msgstr "α (°) :"
+
+#~ msgid "β (°):"
+#~ msgstr "β (°) :"
+
+#~ msgid "γ (°):"
+#~ msgstr "γ (°) :"
+
+#~ msgid ""
+#~ "300\n"
+#~ "360\n"
+#~ "600\n"
+#~ "720\n"
+#~ "1200\n"
+#~ "1440\n"
+#~ "2400\n"
+#~ "2880\n"
+#~ "Other"
+#~ msgstr ""
+#~ "300\n"
+#~ "360\n"
+#~ "600\n"
+#~ "720\n"
+#~ "1200\n"
+#~ "1440\n"
+#~ "2400\n"
+#~ "2880\n"
+#~ "Autre"
+
+#~ msgid "θ (°):"
+#~ msgstr "θ (°) :"
+
+#~ msgid "φ (°):"
+#~ msgstr "φ (°) :"
+
+#~ msgid "ψ (°):"
+#~ msgstr "ψ (°) :"
+
+#~ msgid ""
+#~ "Selected element\n"
+#~ "Selected atom\n"
+#~ "All atoms"
+#~ msgstr ""
+#~ "Élement sélectionné\n"
+#~ "Atome sélectionné\n"
+#~ "Tous les atomes"
+
+#~ msgid ""
+#~ "Unknown\n"
+#~ "Ionic\n"
+#~ "Metallic\n"
+#~ "Covalent\n"
+#~ "Van der Waals"
+#~ msgstr ""
+#~ "Inconnu\n"
+#~ "Ionique\n"
+#~ "Metallique\n"
+#~ "Covalent\n"
+#~ "Van der Waals"
+
+#~ msgid ""
+#~ "Left\n"
+#~ "Right\n"
+#~ "Top\n"
+#~ "Bottom\n"
+#~ "Auto"
+#~ msgstr ""
+#~ "Gauche\n"
+#~ "Droite\n"
+#~ "Haut\n"
+#~ "Bas\n"
+#~ "Auto"
+
+#~ msgid ""
+#~ "All\n"
+#~ "Alkali Metals\n"
+#~ "Alkaline Earths Metals\n"
+#~ "Halogenes\n"
+#~ "Metalloids\n"
+#~ "Noble Gases\n"
+#~ "Non-Metals\n"
+#~ "Rare Earths Metals\n"
+#~ "Transition Metals\n"
+#~ "Other Metals\n"
+#~ msgstr ""
+#~ "Toutes\n"
+#~ "Alcalins\n"
+#~ "Alkalino Terreux\n"
+#~ "Halogènes\n"
+#~ "Métalloïdes\n"
+#~ "Gaz Nobles\n"
+#~ "Non-Métaux\n"
+#~ "Terre Rares\n"
+#~ "Métaux de Transition\n"
+#~ "Autres Metaux\n"
+
+#~ msgid ""
+#~ "@FUNCTION=MOLARMASS\n"
+#~ "@SYNTAX=MOLARMASS(formula)\n"
+#~ "@DESCRIPTION= \n"
+#~ "MOLARMASS returns the molar mass associated with the given @formula\n"
+#~ "\n"
+#~ "@formula is the input formula such as \"CCl4\".\n"
+#~ "@EXAMPLES=\n"
+#~ "=molarmass(\"CCl4\")\n"
+#~ "\n"
+#~ msgstr ""
+#~ "@FUNCTION=MOLARMASS\n"
+#~ "@SYNTAX=MOLARMASS(formule)\n"
+#~ "@DESCRIPTION= \n"
+#~ "MOLARMASS retourne la masse molaire associée à @formule\n"
+#~ "\n"
+#~ "@formule est la formule utilisée comme \"CCl4\".\n"
+#~ "@EXAMPLES=\n"
+#~ "=molarmass(\"CCl4\")\n"
+#~ "\n"
+
+#~ msgid "Invalid charge."
+#~ msgstr "Charge incorrecte."
+
+#~ msgid "Angle between two new bonds in an open chain"
+#~ msgstr "Angle entre deux nouvelles liaison dans une chaîne ouverte"
+
+#~ msgid "Default length for new bonds"
+#~ msgstr "Longueur par défaut pour les nouvelles liaisons"
+
+#~ msgid "Use existing atoms for end of bonds"
+#~ msgstr "Utiler les atomes existants pour la fin des liaisons"
+
+#~ msgid ""
+#~ "If set, the number of new bonds will be evaluated from the mouse position"
+#~ msgstr ""
+#~ "Si la case est cochée, nombre de liaisons sera calculé à partir de la "
+#~ "position de la souris"
+
+#~ msgid "Number of new bonds"
+#~ msgstr "Nombre de nouvelles liaisons"
+
+#~ msgid ""
+#~ "Normal\n"
+#~ "Top\n"
+#~ "Mid-height\n"
+#~ "Bottom\n"
+#~ "Left\n"
+#~ "Center\n"
+#~ "Right"
+#~ msgstr ""
+#~ "Normal\n"
+#~ "Haut\n"
+#~ "Mi-hauteur\n"
+#~ "Bas\n"
+#~ "Gauche\n"
+#~ "Centre\n"
+#~ "Droite"
+
+#~ msgid ""
+#~ "None\n"
+#~ "Single\n"
+#~ "Double\n"
+#~ "Low"
+#~ msgstr ""
+#~ "Aucun\n"
+#~ "Simple\n"
+#~ "Double\n"
+#~ "Bas"
+
 #~ msgid "Layout"
 #~ msgstr "Agencement"
 
@@ -5128,19 +5457,6 @@ msgstr "Valine"
 
 #~ msgid "Is this rich text item currently edited?"
 #~ msgstr "Indique si la zone de texte est en cours d'édition."
-
-#~ msgid "Invalid symbol."
-#~ msgstr "Symbole non valide."
-
-#~ msgid ""
-#~ "Error could not build a reaction\n"
-#~ "from the selected objects."
-#~ msgstr ""
-#~ "Erreur, il n'est pas possible de construire une réaction à partir des "
-#~ "objets sélectionnés."
-
-#~ msgid "Unable to save image file: "
-#~ msgstr "Impossible de sauvegarder l'image : "
 
 #~ msgid "Chemical calculator@"
 #~ msgstr "Calculatrice chimique@"

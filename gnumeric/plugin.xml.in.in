@@ -11,7 +11,7 @@
 	<services>
 		<service type="function_group" id="Chemistry">
 			<_category>Chemistry</_category>
-			<functions>
+			<functions textdomain="gchemutils-@GCU_API_VER@">
             	<function name="molarmass"/>
 			</functions>
 		</service>
