@@ -197,8 +197,6 @@ bool Fragment::OnChanged (bool save)
 	FragmentResidue *residue = dynamic_cast <FragmentResidue*> (m_Atom);
 	Residue *r = NULL;
 	char sy[Residue::MaxSymbolLength + 1];
-/*	if (!m_Atom->GetSymbol ())
-		start = m_BeginAtom;*/
 	for (tag = tags->begin (); tag != tag_end; tag++) {
 		if ((*tag)->GetStartIndex () <= start && (*tag)->GetEndIndex () > start)
 			start = (*tag)->GetEndIndex ();
@@ -417,165 +415,80 @@ void Fragment::AddItem ()
 	}
 	m_Atom->DoBuildSymbolGeometry (view);
 	m_Item = group;
+	int charge = m_Atom->GetCharge ();
+	if (charge) {
+		double x, y, Angle, Dist;
+		unsigned char Pos = m_Atom->Atom::GetChargePosition (&Angle, &Dist);
+		gccv::Anchor anchor = const_cast <Fragment *> (this)->GetChargePosition (m_Atom, Pos, 0., x, y);
+		if (Dist != 0.) {
+			anchor = gccv::AnchorCenter;
+			x = Dist * cos (Angle);
+			y = Dist * sin (Angle);
+		}
+		x -= m_x;
+		x *= theme->GetZoomFactor ();
+		y -= m_y;
+		y *= theme->GetZoomFactor ();
+		char const *glyph = (charge > 0)? "\xE2\x8a\x95": "\xE2\x8a\x96";
+		gccv::Text *text = new gccv::Text (group, x, y, NULL);
+		text->SetFillColor (0);
+		text->SetPadding (theme->GetPadding ());
+		text->SetLineColor (0);
+		text->SetLineWidth (0.);
+		text->SetAnchor (anchor);
+		text->SetFontDescription (view->GetPangoSmallFontDesc ());
+		text->SetText (glyph);
+		m_Atom->SetChargeItem (text);
+	} else
+		m_Atom->SetChargeItem (NULL);
 }
 
 void Fragment::UpdateItem ()
 {
 	if (!m_TextItem)
 		return;
-	Theme *theme = static_cast <Document*> (GetDocument ())->GetTheme ();
-	static_cast <gccv::Group *> (m_Item)->SetPosition (m_x * theme->GetZoomFactor (), m_y * theme->GetZoomFactor ());
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	Theme *theme = doc->GetTheme ();
+	gccv::Group *group = static_cast <gccv::Group *> (m_Item);
+	group->SetPosition (m_x * theme->GetZoomFactor (), m_y * theme->GetZoomFactor ());
 	m_TextItem->SetPosition (-m_lbearing, 0);
-}
-
-/*void Fragment::Add (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	if (pData->Items[this] != NULL)
-		return;
-	View* pView = pData->m_View;
-	Theme *pTheme = pView->GetDoc ()->GetTheme ();
-	if (m_ascent <= 0) {
-		PangoContext* pc = gccv::Text::GetContext ();
-		const_cast <Fragment *> (this)->m_Layout = pango_layout_new (pc);
-		PangoAttrList *l = pango_attr_list_new ();
-		pango_layout_set_attributes (m_Layout, l);
-		pango_layout_set_font_description (m_Layout, pView->GetPangoFontDesc ());
-		pango_layout_set_text (m_Layout, "l", 1);
-		PangoLayoutIter* iter = pango_layout_get_iter (m_Layout);
-		const_cast <Fragment *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
-		pango_layout_iter_free (iter);
-		pango_layout_set_text (m_Layout, "C", 1);
-		PangoRectangle rect;
-		pango_layout_get_extents (m_Layout, &rect, NULL);
-		const_cast <Fragment *> (this)->m_CHeight =  double (rect.height / PANGO_SCALE) / 2.0;
-		pango_layout_set_text (m_Layout, m_buf.c_str (), -1);
-		if (m_AttrList) {
-			pango_layout_set_attributes (m_Layout, m_AttrList);
-			pango_attr_list_unref (m_AttrList);
-			const_cast <Fragment *> (this)->m_AttrList = NULL;
-		}
-		if (m_buf.length () > 0) {
-			const_cast <Fragment *> (this)->m_buf.clear ();
-			pango_layout_index_to_pos (m_Layout, m_BeginAtom, &rect);
-			const_cast <Fragment *> (this)->m_lbearing = rect.x / PANGO_SCALE;
-			pango_layout_index_to_pos (m_Layout, m_EndAtom, &rect);
-			const_cast <Fragment *> (this)->m_lbearing += rect.x / PANGO_SCALE;
-			const_cast <Fragment *> (this)->m_lbearing /=  2;
-			iter = pango_layout_get_iter (m_Layout);
-			const_cast <Fragment *> (this)->m_ascent = pango_layout_iter_get_baseline (iter) / PANGO_SCALE;
-			pango_layout_iter_free (iter);
-		}
-		pango_layout_get_extents (m_Layout, NULL, &rect);
-		const_cast <Fragment *> (this)->m_length = rect.width / PANGO_SCALE;
-		const_cast <Fragment *> (this)->m_height = rect.height / PANGO_SCALE;
-	}
-	GnomeCanvasGroup* group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (pData->Group, gnome_canvas_group_ext_get_type (), NULL)), *chgp;
-	GnomeCanvasItem* item = gnome_canvas_item_new(
-						group,
-						gnome_canvas_rect_ext_get_type (),
-						"x1", m_x * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_lbearing,
-						"y1", m_y * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_ascent + m_CHeight,
-						"x2", m_x * pTheme->GetZoomFactor () + m_length + pTheme->GetPadding () - m_lbearing,
-						"y2", m_y * pTheme->GetZoomFactor () + m_height + pTheme->GetPadding () - m_ascent + m_CHeight,
-						NULL);
-	gnome_canvas_item_hide (item);
-	g_object_set_data (G_OBJECT (group), "rect", item);
-	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	g_object_set_data (G_OBJECT (item), "object", (void *) this);
-	item = gnome_canvas_item_new (
-						group,
-						gnome_canvas_pango_get_type (),
-						"layout", m_Layout,
-						"x", m_x * pTheme->GetZoomFactor () - m_lbearing,
-						"y", m_y * pTheme->GetZoomFactor () - m_ascent + m_CHeight,
-						"editing", false,
-						NULL);
-	g_object_set_data (G_OBJECT (group), "fragment", item);
-	g_object_set_data (G_OBJECT (item), "object", (void *) this);
-	g_signal_connect (G_OBJECT (item), "event", G_CALLBACK (on_event), w);
-	g_signal_connect_swapped (G_OBJECT (item), "changed", G_CALLBACK (on_fragment_changed), (void *) this);
-	g_signal_connect_swapped (G_OBJECT (item), "sel-changed", G_CALLBACK (on_fragment_sel_changed), (void *) this);*/
-	/* add charge */
-	/*int charge = m_Atom->GetCharge ();
+	int charge = m_Atom->GetCharge ();
 	if (charge) {
 		double x, y, Angle, Dist;
 		unsigned char Pos = m_Atom->Atom::GetChargePosition (&Angle, &Dist);
-		int align = const_cast <Fragment *> (this)->GetChargePosition (m_Atom, Pos, 0., x, y);
+		gccv::Anchor anchor = const_cast <Fragment *> (this)->GetChargePosition (m_Atom, Pos, 0., x, y);
 		if (Dist != 0.) {
-			x = m_x + Dist * cos (Angle);
-			y = m_y - Dist * sin (Angle);
+			anchor = gccv::AnchorCenter;
+			x = Dist * cos (Angle);
+			y = Dist * sin (Angle);
 		}
-		x *= pTheme->GetZoomFactor ();
-		y *= pTheme->GetZoomFactor ();
-		switch (align) {
-		case -2:
-			x -= pTheme->GetChargeSignSize () / 2.;
-			y += pTheme->GetChargeSignSize () / 2.;
-			break;
-			case -1:
-				x -= pTheme->GetChargeSignSize () + pTheme->GetPadding ();
-				break;
-			case 0:
-			case -3:
-				x -= pTheme->GetChargeSignSize () / 2.;
-				break;
-			case 1:
-				x += pTheme->GetPadding ();
-				break;
-		case 2:
-			x -= pTheme->GetChargeSignSize () / 2.;
-			y -= pTheme->GetChargeSignSize () / 2.;
-			break;
+		x -= m_x;
+		x *= theme->GetZoomFactor ();
+		y -= m_y;
+		y *= theme->GetZoomFactor ();
+		if (m_Atom->GetChargeItem ()) {
+			gccv::Text *text = static_cast <gccv::Text *> (m_Atom->GetChargeItem ());
+			text->SetPosition (x, y);
+			text->SetAnchor (anchor);
+		} else {
+			char const *glyph = (charge > 0)? "\xE2\x8a\x95": "\xE2\x8a\x96";
+			gccv::Text *text = new gccv::Text (group, x, y, NULL);
+			text->SetFillColor (0);
+			text->SetPadding (theme->GetPadding ());
+			text->SetLineColor (0);
+			text->SetLineWidth (0.);
+			text->SetAnchor (anchor);
+			text->SetFontDescription (view->GetPangoSmallFontDesc ());
+			text->SetText (glyph);
+			m_Atom->SetChargeItem (text);
 		}
-		y -= pTheme->GetChargeSignSize () / 2.;
-		chgp = (GnomeCanvasGroup*) gnome_canvas_item_new (
-					group,
-					gnome_canvas_group_ext_get_type (),
-					NULL);
-		g_object_set_data (G_OBJECT (group), "charge", chgp);
-		item = gnome_canvas_item_new (
-					chgp,
-					gnome_canvas_ellipse_ext_get_type (),
-					"x1", x,
-					"y1", y,
-					"x2", x + pTheme->GetChargeSignSize (),
-					"y2", y + pTheme->GetChargeSignSize (),
-					"outline_color", (pData->IsSelected (this))? SelectColor: Color,
-					"width_units", 0.5,
-					NULL
-				);
-		g_object_set_data (G_OBJECT (group), "circle", item);
-		ArtBpath *path = art_new (ArtBpath, 5);
-		path[0].code = ART_MOVETO_OPEN;
-		path[0].x3 = x + 1.;
-		path[1].code = ART_LINETO;
-		path[1].x3 = x + pTheme->GetChargeSignSize () - 1.;
-		path[0].y3 = path[1].y3 = y + pTheme->GetChargeSignSize () / 2.;
-		if (charge > 0) {
-			path[2].code = ART_MOVETO_OPEN;
-			path[2].y3 = y + 1.;
-			path[3].code = ART_LINETO;
-			path[3].y3 = y + pTheme->GetChargeSignSize () - 1.;
-			path[2].x3 = path[3].x3 = x + pTheme->GetChargeSignSize () / 2.;
-			path[4].code = ART_END;
-		} else
-			path[2].code = ART_END;
-		GnomeCanvasPathDef *cpd = gnome_canvas_path_def_new_from_bpath (path);
-		item = gnome_canvas_item_new (
-					chgp,
-					gnome_canvas_bpath_ext_get_type (),
-					"bpath", cpd,
-					"outline_color", (pData->IsSelected(this))? SelectColor: Color,
-					"width_units", 1.,
-					NULL
-				);
-		gnome_canvas_path_def_unref (cpd);
-		g_object_set_data (G_OBJECT (group), "sign", item);
+	} else if (m_Atom->GetChargeItem ()) {
+		delete m_Atom->GetChargeItem ();
+		m_Atom->SetChargeItem (NULL);
 	}
-	pData->Items[this] = group;
-	const_cast <FragmentAtom *> (m_Atom)->DoBuildSymbolGeometry (pData->m_View);
-}*/
+	const_cast <FragmentAtom *> (m_Atom)->DoBuildSymbolGeometry (view);
+}
 
 void Fragment::SetSelected (int state)
 {
@@ -613,169 +526,6 @@ void Fragment::SetSelected (int state)
 		item = group->GetNextChild (it);
 	}
 }
-
-/*void Fragment::Update (GtkWidget* w) const
-{
-	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
-	Theme *pTheme = pData->m_View->GetDoc ()->GetTheme ();
-	GnomeCanvasGroup *group = pData->Items[this];
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "fragment")),
-						"x", m_x * pTheme->GetZoomFactor () - m_lbearing,
-						"y", m_y * pTheme->GetZoomFactor () - m_ascent + m_CHeight,
-						"width", m_length,
-						"height", m_height,
-						NULL);
-	g_object_set (G_OBJECT (g_object_get_data (G_OBJECT (group), "rect")),
-						"x1", m_x * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_lbearing,
-						"y1", m_y * pTheme->GetZoomFactor () - pTheme->GetPadding () - m_ascent + m_CHeight,
-						"x2", m_x * pTheme->GetZoomFactor () + m_length + pTheme->GetPadding () - m_lbearing,
-						"y2", m_y * pTheme->GetZoomFactor () + m_height + pTheme->GetPadding () - m_ascent + m_CHeight,
-						NULL);
-	void* item = g_object_get_data (G_OBJECT (group), "charge");
-	int charge = m_Atom->GetCharge ();
-	if (charge) {
-		double x, y, Angle, Dist;
-		unsigned char Pos = m_Atom->Atom::GetChargePosition (&Angle, &Dist);
-		if (item) {
-			int align = const_cast <Fragment *> (this)->GetChargePosition (m_Atom, Pos, Angle, x, y);
-			if (Dist != 0.) {
-				x = m_x + Dist * cos (Angle);
-				y = m_y - Dist * sin (Angle);
-			}
-			x *= pTheme->GetZoomFactor ();
-			y *= pTheme->GetZoomFactor ();
-			switch (align) {
-			case -2:
-				x -= pTheme->GetChargeSignSize () / 2.;
-				y += pTheme->GetChargeSignSize () / 2.;
-				break;
-			case -1:
-				x -= pTheme->GetChargeSignSize () + pTheme->GetPadding ();
-				break;
-			case 0:
-			case -3:
-				x -= pTheme->GetChargeSignSize () / 2.;
-				break;
-			case 1:
-				x += pTheme->GetPadding ();
-				break;
-			case 2:
-				x -= pTheme->GetChargeSignSize () / 2.;
-				y -= pTheme->GetChargeSignSize () / 2.;
-				break;
-			}
-			y -= pTheme->GetChargeSignSize () / 2.;
-			item = g_object_get_data (G_OBJECT (group), "circle");
-			g_object_set (G_OBJECT (item),
-						"x1", x,
-						"y1", y,
-						"x2", x + pTheme->GetChargeSignSize (),
-						"y2", y + pTheme->GetChargeSignSize (),
-						NULL);
-			item = g_object_get_data (G_OBJECT (group), "sign");
-			ArtBpath *path = art_new (ArtBpath, 5);
-			path[0].code = ART_MOVETO_OPEN;
-			path[0].x3 = x + 1.;
-			path[1].code = ART_LINETO;
-			path[1].x3 = x + pTheme->GetChargeSignSize () - 1.;
-			path[0].y3 = path[1].y3 = y + pTheme->GetChargeSignSize () / 2.;
-			if (charge > 0) {
-				path[2].code = ART_MOVETO_OPEN;
-				path[2].y3 = y + 1.;
-				path[3].code = ART_LINETO;
-				path[3].y3 = y + pTheme->GetChargeSignSize () - 1.;
-				path[2].x3 = path[3].x3 = x + pTheme->GetChargeSignSize () / 2.;
-				path[4].code = ART_END;
-			} else
-				path[2].code = ART_END;
-			GnomeCanvasPathDef *cpd = gnome_canvas_path_def_new_from_bpath (path);
-			g_object_set (G_OBJECT (item),
-						"bpath", cpd,
-						NULL
-					);
-			gnome_canvas_path_def_unref (cpd);
-		} else {
-			GnomeCanvasGroup *chgp;
-			int align = const_cast <Fragment *> (this)->GetChargePosition (m_Atom, Pos, Angle, x, y);
-			x *= pTheme->GetZoomFactor ();
-			if (Dist != 0.) {
-				x = m_x + Dist * cos (Angle);
-				y = m_y - Dist * sin (Angle);
-			}
-			y *= pTheme->GetZoomFactor ();
-			switch (align) {
-			case -2:
-				x -= pTheme->GetChargeSignSize () / 2.;
-				y += pTheme->GetChargeSignSize () / 2.;
-				break;
-			case -1:
-				x -= pTheme->GetChargeSignSize () + pTheme->GetPadding ();
-				break;
-			case 0:
-			case -3:
-				x -= pTheme->GetChargeSignSize () / 2.;
-				break;
-			case 1:
-				x += pTheme->GetPadding ();
-				break;
-			case 2:
-				x -= pTheme->GetChargeSignSize () / 2.;
-				y -= pTheme->GetChargeSignSize () / 2.;
-				break;
-			}
-			y -= pTheme->GetChargeSignSize () / 2.;
-			chgp = (GnomeCanvasGroup*) gnome_canvas_item_new (
-						group,
-						gnome_canvas_group_ext_get_type (),
-						NULL);
-			g_object_set_data (G_OBJECT (group), "charge", chgp);
-			item = gnome_canvas_item_new (
-						chgp,
-						gnome_canvas_ellipse_ext_get_type (),
-						"x1", x,
-						"y1", y,
-						"x2", x + pTheme->GetChargeSignSize (),
-						"y2", y + pTheme->GetChargeSignSize (),
-						"outline_color", (pData->IsSelected (this))? SelectColor: Color,
-						"width_units", 0.5,
-						NULL
-					);
-			g_object_set_data (G_OBJECT (group), "circle", item);
-			ArtBpath *path = art_new (ArtBpath, 5);
-			path[0].code = ART_MOVETO_OPEN;
-			path[0].x3 = x + 1.;
-			path[1].code = ART_LINETO;
-			path[1].x3 = x + pTheme->GetChargeSignSize () - 1.;
-			path[0].y3 = path[1].y3 = y + pTheme->GetChargeSignSize () / 2.;
-			if (charge > 0) {
-				path[2].code = ART_MOVETO_OPEN;
-				path[2].y3 = y + 1.;
-				path[3].code = ART_LINETO;
-				path[3].y3 = y + pTheme->GetChargeSignSize () - 1.;
-				path[2].x3 = path[3].x3 = x + pTheme->GetChargeSignSize () / 2.;
-				path[4].code = ART_END;
-			} else
-				path[2].code = ART_END;
-			GnomeCanvasPathDef *cpd = gnome_canvas_path_def_new_from_bpath (path);
-			item = gnome_canvas_item_new (
-						chgp,
-						gnome_canvas_bpath_ext_get_type (),
-						"bpath", cpd,
-						"outline_color", (pData->IsSelected (this))? SelectColor: Color,
-						"width_units", 1.,
-						NULL
-					);
-			gnome_canvas_path_def_unref (cpd);
-			g_object_set_data (G_OBJECT (group), "sign", item);
-		}
-	} else {
-		if (item) {
-			gtk_object_destroy (GTK_OBJECT (item));
-			g_object_set_data ((GObject*) group, "charge", NULL);
-	}
-	}
-	const_cast <FragmentAtom *> (m_Atom)->DoBuildSymbolGeometry (pData->m_View);
-}*/
 
 xmlNodePtr Fragment::Save (xmlDocPtr xml) const
 {

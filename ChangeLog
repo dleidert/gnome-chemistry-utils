@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: add a comment.
+	* libs/gccv/text.cc: don't set the color by default.
+	* libs/gcp/fragment.cc: reimplement charge.
+	* plugins/paint/atoms/chargetool.cc: fully reimplemented.
+	* plugins/paint/atoms/chargetool.h: ditto.
+
 2009-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add domainname to gnumeric/plugin.xml.
 	* gnumeric/functions.cc: ditto, and move function help to new API.

@@ -48,7 +48,6 @@ gcpChargeTool::gcpChargeTool (gcp::Application *App, string Id): gcp::Tool (App,
 	else if (Id == string ("ChargeMinus"))
 		m_glyph = "\xE2\x8a\x96";
 	else m_glyph = 0;
-	m_Tag = NULL;
 }
 
 gcpChargeTool::~gcpChargeTool ()
@@ -67,7 +66,7 @@ bool gcpChargeTool::OnClicked ()
 	m_bDragged = false;
 	pAtom->GetCoords (&m_x0, &m_y0);
 	gccv::Rect rect;
-	m_pData->GetObjectBounds (m_pObject, &rect);
+	m_pData->GetObjectBounds (((m_pObject->GetParent ()->GetType () == FragmentType)? m_pObject->GetParent (): m_pObject), &rect);
 	m_x0 *= m_dZoomFactor;
 	m_y0 *= m_dZoomFactor;
 	m_dDistMax = 1.5 * fabs (rect.y0 - m_y0);
@@ -134,24 +133,10 @@ bool gcpChargeTool::OnClicked ()
 		text->SetFontDescription (m_pView->GetPangoSmallFontDesc ());
 		text->SetText (markup);
 		g_free (markup);
-		gccv::TextTag *tag = new gccv::ForegroundTextTag (gcp::AddColor);
-		tag->SetEndIndex (strlen (markup));
-		text->InsertTextTag (tag);
+		text->SetColor (gcp::AddColor);
 		m_Item = text;
-	} else {
-		gccv::Text *text = static_cast <gccv::Text *> (pAtom->GetChargeItem ());
-		m_Tag = new gccv::ForegroundTextTag (gcp::DeleteColor);
-		m_Tag->SetEndIndex (strlen (text->GetText ()));
-		text->InsertTextTag (m_Tag);
-		
-/*		void *child = g_object_get_data (obj, "figure");
-		if (child)
-			g_object_set (G_OBJECT (child), "fill-color", gcp::DeleteColor, NULL);
-		child = g_object_get_data (obj, "circle");
-		g_object_set (G_OBJECT (child), "outline-color", gcp::DeleteColor, NULL);
-		child = g_object_get_data (obj, "sign");
-		g_object_set (G_OBJECT (child), "outline-color", gcp::DeleteColor, NULL);*/
-	}
+	} else
+		static_cast <gccv::Text *> (pAtom->GetChargeItem ())->SetColor (gcp::DeleteColor);
 	char buf[32];
 	snprintf (buf, sizeof (buf) - 1, _("Orientation: %g"), m_dAngle * 180. / M_PI);
 	m_pApp->SetStatusText (buf);
@@ -172,18 +157,15 @@ void gcpChargeTool::OnDrag ()
 	m_y -= m_y0;
 	m_dDist = sqrt (square (m_x) + square (m_y));
 	if (!m_Item) {
-		gccv::Text *text = static_cast <gccv::Text *> (pAtom->GetChargeItem ());
+		gccv::Text *text = static_cast <gccv::Text *> (item);
 		if (m_dDist < m_dDistMax) {
 			if (!m_bChanged) {
-				m_Tag = new gccv::ForegroundTextTag (gcp::DeleteColor);
-				m_Tag->SetEndIndex (strlen (text->GetText ()));
-				text->InsertTextTag (m_Tag);
+				text->SetColor (gcp::DeleteColor);
 				m_bChanged = true;
 			}
 		} else {
 			if (m_bChanged) {
-				text->DeleteTextTag (m_Tag);
-				m_Tag = NULL;
+				text->SetColor (gcp::Color);
 				m_bChanged = false;
 			}
 		}
@@ -282,16 +264,11 @@ void gcpChargeTool::OnRelease ()
 {
 	if (m_bChanged) {
 		gcp::Atom* pAtom = static_cast <gcp::Atom*> (m_pObject);
-		if (m_Tag) {
-			gccv::Text *text = static_cast <gccv::Text *> (pAtom->GetChargeItem ());
-			text->DeleteTextTag (m_Tag);
-			m_Tag = NULL;
-		}
 		gcp::Document* pDoc = m_pView->GetDoc ();
 		gcp::Operation* pOp = pDoc-> GetNewOperation(gcp::GCP_MODIFY_OPERATION);
 		gccv::Item *item = pAtom->GetChargeItem ();
 		if (item)
-			item->SetVisible (true);;
+			item->SetVisible (true);
 		m_pObject = m_pObject->GetGroup ();
 		pOp->AddObject (m_pObject, 0);
 		pAtom->SetCharge (m_Charge);

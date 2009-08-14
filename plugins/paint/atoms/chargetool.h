@@ -4,7 +4,7 @@
  * GChemPaint atoms plugin
  * chargetool.h 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -49,7 +49,6 @@ private:
 	unsigned char m_Pos, m_DefaultPos;
 	bool m_bDragged;
 	double m_ChargeWidth, m_ChargeTWidth, m_ChargeHeight;
-	gccv::TextTag *m_Tag;
 };
 
 #endif	//GCHEMPAINT_CHARGE_TOOL_H

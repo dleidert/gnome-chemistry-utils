@@ -389,7 +389,7 @@ Text::Text (Group *parent, double x, double y, ItemClient *client):
 	m_FontDesc = pango_font_description_copy (pango_layout_get_font_description (run->m_Layout));
 	m_Lines = NULL;
 	m_LinesNumber = 0;
-	m_Color = RGBA_BLACK;
+	m_Color = 0;
 	m_ImContext = gtk_im_multicontext_new ();
 	g_signal_connect (G_OBJECT (m_ImContext), "commit",
 		G_CALLBACK (TextPrivate::OnCommit), this);
@@ -1328,10 +1328,12 @@ void Text::RebuildAttributes ()
 		pango_layout_set_text ((*run)->m_Layout, str.c_str (), -1);
 		PangoAttrList *l = pango_attr_list_new ();
 		// set the default text color
-		PangoAttribute *attr = pango_attr_foreground_new (UINT_RGBA_R (m_Color) * 0x101, UINT_RGBA_G (m_Color) * 0x101, UINT_RGBA_B (m_Color) * 0x101);
-		attr->start_index = 0;
-		attr->end_index = (*run)->m_Length;
-		pango_attr_list_insert (l, attr);
+		if (m_Color) {
+			PangoAttribute *attr = pango_attr_foreground_new (UINT_RGBA_R (m_Color) * 0x101, UINT_RGBA_G (m_Color) * 0x101, UINT_RGBA_B (m_Color) * 0x101);
+			attr->start_index = 0;
+			attr->end_index = (*run)->m_Length;
+			pango_attr_list_insert (l, attr);
+		}
 		for (tag = m_Tags.begin (); tag != end_tag; tag++) {
 			if ((*tag)->GetEndIndex () <= (*run)->m_Index || (*tag)->GetStartIndex () >= (*run)->m_Index + (*run)->m_Length)
 				continue;

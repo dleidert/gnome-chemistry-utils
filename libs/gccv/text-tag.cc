@@ -407,6 +407,7 @@ ForegroundTextTag::~ForegroundTextTag ()
 
 void ForegroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
+	// this might be not enough since we use a global attribute with SetColor().
 	PangoAttribute *attr = pango_attr_foreground_new (UINT_RGBA_R (m_Color) * 0x101, UINT_RGBA_G (m_Color) * 0x101, UINT_RGBA_B (m_Color) * 0x101);
 	attr->start_index = start;
 	attr->end_index = end;
