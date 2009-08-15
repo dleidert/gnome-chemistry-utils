@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-08-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/theme.cc: fixed localization in themes.
+	* themes/paint/Wikipedia: ditto.
+
 2009-07-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: do not loose spaces while loading. [#27131]
 	* libs/gcp/text.cc: ditto.
