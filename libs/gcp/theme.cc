@@ -474,6 +474,8 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 	string filename;
 	GDir *dir = g_dir_open (path.c_str (), 0, NULL);
 	if (dir) {
+		string old_num_locale = setlocale (LC_NUMERIC, NULL);
+		setlocale (LC_NUMERIC, "C");
 		path += "/";
 		while ((name = g_dir_read_name (dir))) {
 			if (name[strlen (name) - 1] == '~')
@@ -506,6 +508,7 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 			xmlFree (doc);
 		}
 		g_dir_close (dir);
+		setlocale (LC_NUMERIC, old_num_locale.c_str ());
 	}
 }
 
@@ -558,6 +561,8 @@ void ThemeManager::SetDefaultTheme (char const *name)
 bool Theme::Save (xmlDocPtr xml)
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "theme", NULL);
+	string old_num_locale = setlocale (LC_NUMERIC, NULL);
+	setlocale (LC_NUMERIC, "C");
 	char *buf;
 	if (!node)
 		return false;
@@ -806,6 +811,7 @@ bool Theme::Save (xmlDocPtr xml)
 	xmlNewProp (node, (xmlChar*) "text-font-size", (xmlChar*) buf);
 	g_free (buf);
 	xmlAddChild (xml->children, node);
+	setlocale (LC_NUMERIC, old_num_locale.c_str ());
 	return true;
 }
 

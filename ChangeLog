@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2009-08-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gnumeric/functions.cc: make documentation more gnumeric compliant.
+	* libs/gcp/theme.cc: fixed localization in themes.
+	* plugins/paint/wikipedia/wikipediatool.cc: reimplemented.
+	* themes/paint/Wikipedia: fixed localization in themes.
+
 2009-08-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: add a comment.
 	* libs/gccv/text.cc: don't set the color by default.

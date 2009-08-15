@@ -29,8 +29,10 @@
 #include <gcp/molecule.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gcu/application.h>
 #include <gcu/filechooser.h>
+#include <gccv/canvas.h>
 #include <gccv/structs.h>
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
@@ -73,9 +75,16 @@ static gboolean do_save_image (const gchar *buf, gsize count, GError **error, gp
 	return true;
 }
 
-bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc)
+static void destroy_surface (G_GNUC_UNUSED guchar *pixels, gpointer data)
 {
-	gcp::Document *Doc = static_cast<gcp::Document*> (pDoc);
+	cairo_surface_destroy (reinterpret_cast <cairo_surface_t *> (data));
+}
+
+#define ZOOM 1.
+
+bool WikipediaApp::FileProcess (char const *filename, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED bool bSave, GtkWindow *window, gcu::Document *pDoc)
+{
+	gcp::Document *Doc = static_cast<gcp::Document *> (pDoc);
 	if (!filename || !strlen( filename) || filename[strlen( filename) - 1] == '/') {
 		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
 															_("Please enter a file name,\nnot a directory"));
@@ -92,13 +101,11 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 	gint result = GTK_RESPONSE_YES;
 	if (err) {
 		char *buf = g_uri_unescape_string (filename2, NULL);
-		gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), buf);
+		GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("File %s\nexists, overwrite?"), buf));
 		g_free (buf);
-		GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 		gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
 		result = gtk_dialog_run (Box);
 		gtk_widget_destroy (GTK_WIDGET (Box));
-		g_free (message);
 	}
 	if (result == GTK_RESPONSE_YES) {
 		if (err) {
@@ -106,56 +113,34 @@ bool WikipediaApp::FileProcess (const gchar* filename, const gchar* mime_type, b
 			g_file_delete (file, NULL, &error);
 			if (error) {
 				char *buf = g_uri_unescape_string (filename2, NULL);
-				gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), buf, error->message);
+				GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, _("Error while processing %s:\n%s"), buf, error->message));
 				g_free (buf);
 				g_error_free (error);
-				GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
 				gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
 				result = gtk_dialog_run (Box);
 				gtk_widget_destroy (GTK_WIDGET (Box));
-				g_free (message);
 				g_object_unref (file);
 				return true;
 			}
 		}
 	} else
 		return true;
-	GdkPixbuf *pixbuf = Doc->GetView ()->BuildPixbuf (0);
-/*	ArtDRect rect;
-	GnomeCanvas *canvas = GNOME_CANVAS (Doc->GetWidget ());
-	gcp::WidgetData *pData = static_cast <gcp::WidgetData*> (g_object_get_data (G_OBJECT (canvas), "data"));
-	pData->GetObjectBounds (Doc, &rect);
-	int x, y, w, h;
-	x = static_cast<int> (rect.x0);
-	y = static_cast<int> (rect.y0);
-	w = static_cast<int> (rect.x1 - rect.x0) + 36;
-	h = static_cast<int> (rect.y1 - rect.y0) + 36;
-	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, false, 8, w, h);
-	gdk_pixbuf_fill (pixbuf, 0xffffffff);
-	GnomeCanvasBuf buf;
-	buf.buf = gdk_pixbuf_get_pixels (pixbuf);
-	buf.rect.x0 = (int) floor (rect.x0) - 18;
-	buf.rect.x1 = (int) ceil (rect.x1);
-	buf.rect.y0 = (int) floor (rect.y0) - 18;
-	buf.rect.y1 = (int) ceil (rect.y1);
-	buf.buf_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	buf.bg_color = 0xffffff;
-	buf.is_buf = 1;
-	(* GNOME_CANVAS_ITEM_GET_CLASS (pData->Group)->render) (GNOME_CANVAS_ITEM (pData->Group), &buf);
-
-	GdkPixbuf *alpha = gdk_pixbuf_add_alpha (pixbuf, false, 0, 0, 0);
-	g_object_unref (pixbuf);
-	// Now make it transparent
-	int row, col, rowstride = gdk_pixbuf_get_rowstride (alpha) / 4;;
-	guint32 *color, *line;
-	line = color = reinterpret_cast<guint32*> (gdk_pixbuf_get_pixels (alpha));
-	for (row = 0; row < h; row++) {
-		for (col = 0; col < w ; col++) {
-			*color = (~*color & 0xff) << 24;
-			color++;
-		}
-		color = line += rowstride;
-	}*/
+	gccv::Rect rect;
+	gcp::WidgetData *Data = Doc->GetView ()->GetData ();
+	Data->GetObjectBounds (Doc, &rect);
+	int w = (int) (ceil (rect.x1) - floor (rect.x0)), h = (int) (ceil (rect.y1) - floor (rect.y0));
+	w = (int) rint (w + 12) * ZOOM;
+	h = (int) rint (h + 12) * ZOOM;
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, w, h);
+	cairo_t *cr = cairo_create (surface);
+	cairo_scale (cr, ZOOM, ZOOM);
+	cairo_translate (cr, -floor (rect.x0) + 6., -floor (rect.y0) + 6.);
+	Doc->GetView ()->GetCanvas ()->Render (cr, false);
+	int rowstride = cairo_image_surface_get_stride (surface);
+	unsigned char *data = cairo_image_surface_get_data (surface);
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data (data, GDK_COLORSPACE_RGB, TRUE, 8, w, h, rowstride, destroy_surface, surface);
+	go_cairo_convert_data_to_pixbuf (data, NULL, w, h, rowstride);
+	cairo_destroy (cr);
 
 	map<string, Object*>::iterator i;
 	gcp::Molecule *Mol = dynamic_cast<gcp::Molecule*> (pDoc->GetFirstChild (i));
@@ -203,7 +188,6 @@ gcpWikipediaTool::~gcpWikipediaTool ()
 {
 	delete pApp;
 }
-
 
 bool gcpWikipediaTool::OnClicked ()
 {
