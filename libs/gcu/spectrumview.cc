@@ -91,7 +91,7 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 	GogPlot *plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	g_object_set (plot, "default-style-has-markers", false, NULL);
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
-	/* Create a series for the plot and populate it with some simple data */
+	/* Create a series for the plot */
 	m_Series = gog_plot_new_series (plot);
 	m_OptionBox = gtk_vbox_new (false, 5);
 	GtkWidget *box = gtk_hbox_new (false, 5);

@@ -24,9 +24,14 @@
 
 #include "config.h"
 #include "curvedarrowtool.h"
+#include <gccv/bezier-arrow.h>
 #include <gcp/application.h>
 #include <gcp/atom.h>
+#include <gcp/document.h>
 #include <gcp/electron.h>
+#include <gcp/settings.h>
+#include <gcp/theme.h>
+#include <gcp/view.h>
 #include <gtk/gtk.h>
 
 using namespace std;
@@ -42,7 +47,38 @@ gcpCurvedArrowTool::~gcpCurvedArrowTool ()
 
 bool gcpCurvedArrowTool::OnClicked ()
 {
-	return false;
+	bool allowed = false;
+	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0.;
+	gcp::Document *pDoc = m_pView->GetDoc ();
+	gcp::Theme *pTheme = pDoc->GetTheme ();
+	gccv::ArrowHeads arrow_head = m_Full? gccv::ArrowHeadFull: gccv::ArrowHeadLeft;
+	if (m_pObject)
+		switch (m_pObject->GetType ()) {
+		case gcu::AtomType:
+			allowed = reinterpret_cast <gcp::Atom *> (m_pObject)->HasAvailableElectrons (m_Full);
+			break;
+		case gcu::BondType:
+			allowed = true;
+			break;
+		default:
+			if (m_pObject->GetType () == gcp::ElectronType) {
+				if (m_Full)
+					allowed = static_cast <gcp::Electron *> (m_pObject)->IsPair ();
+				else
+					allowed = true;
+			}
+			break;
+		}
+	if (allowed) {
+		gccv::BezierArrow *arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
+		arrow->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
+		arrow->SetShowControls (true);
+		arrow->SetLineWidth (pTheme->GetArrowWidth ());
+		arrow->SetLineColor (gcp::AddColor);
+		arrow->SetHead (arrow_head);
+		m_Item = arrow;
+	}
+	return allowed;
 }
 
 void gcpCurvedArrowTool::OnDrag ()

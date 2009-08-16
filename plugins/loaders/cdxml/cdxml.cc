@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include <gcu/application.h>
 #include <gcu/atom.h>
 #include <gcu/bond.h>
 #include <gcu/document.h>
@@ -762,16 +763,40 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
+static bool start = true;
+static int cb_xml_to_vfs (GsfOutput *output, const guint8* buf, int nb)
+{
+	if (start) {
+		char const *end = strchr (reinterpret_cast <char const *> (buf), '\n');
+		gsf_output_write (output, 40, reinterpret_cast <guint8 const *> ("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"));
+		gsf_output_write (output, 70, reinterpret_cast <guint8 const *> ("<!DOCTYPE CDXML SYSTEM \"http://www.cambridgesoft.com/xml/cdxml.dtd\" >\n"));
+		start = false;
+		return gsf_output_write (output, strlen (end) - 1, reinterpret_cast <guint8 const *> (end + 1))? nb: 0;
+	} else
+		return gsf_output_write (output, nb, buf)? nb: 0;
+}
+
 bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	map<string, CDXMLFont> fonts;
 
+	/* we can't use sax, because we need colors and fonts */
 	if (NULL != out) {
-		GsfXMLOut *xml = gsf_xml_out_new (out);
-		gsf_xml_out_set_doc_type (xml, "<!DOCTYPE CDXML SYSTEM \"http://www.cambridgesoft.com/xml/cdxml.dtd\">");
-		gsf_xml_out_start_element (xml, "CDXML");
-		gsf_xml_out_end_element (xml);
-		g_object_unref (xml);
+		xmlDocPtr xml = xmlNewDoc (reinterpret_cast <xmlChar const *> ("1.0"));
+		xmlDocSetRootElement (xml,  xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("CDXML"), NULL));
+		Document *doc = obj->GetDocument ();
+		std::string app = doc->GetApp ()->GetName () + " "VERSION;
+		xmlNewProp (xml->children, reinterpret_cast <xmlChar const *> ("CreationProgram"),
+		            reinterpret_cast <xmlChar const *> (app.c_str ()));
+		xmlIndentTreeOutput = true;
+		xmlKeepBlanksDefault (0);
+		xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
+		buf->context = out;
+		buf->closecallback = NULL;
+		buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
+		start = true;
+		xmlSaveFormatFileTo (buf, xml, NULL, true);
+		xmlFreeDoc (xml);
 		return true;
 	}
 	return false;

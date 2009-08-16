@@ -820,6 +820,8 @@ bool View::OnKeyRelease (G_GNUC_UNUSED GtkWidget* w, GdkEventKey* event)
 {
 	Application *pApp = m_pDoc->GetApplication ();
 	Tool *pActiveTool = pApp->GetActiveTool ();
+	if (pActiveTool->OnKeyRelease (event))
+		return true;
 	switch(event->keyval) {
 	case GDK_Shift_L:
 	case GDK_Shift_R:
@@ -905,9 +907,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		GError *error = NULL;
 		GsfOutput *output = gsf_output_gio_new_for_uri (filename.c_str (), &error);
 		if (error) {
-			gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
-			GtkWidget* message = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget)), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
-			g_free (mess);
+			GtkWidget* message = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget)), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Could not create stream!\n%s"), error->message);
 			gtk_dialog_run (GTK_DIALOG (message));
 			gtk_widget_destroy (message);
 			g_error_free (error);
@@ -933,9 +933,7 @@ void View::ExportImage (string const &filename, const char* type, int resolution
 		GError *error = NULL;
 		GsfOutput *output = gsf_output_gio_new_for_uri (filename.c_str (), &error);
 		if (error) {
-			gchar * mess = g_strdup_printf (_("Could not create stream!\n%s"), error->message);
-			GtkWidget* message = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget)), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess);
-			g_free (mess);
+			GtkWidget* message = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget)), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Could not create stream!\n%s"), error->message);
 			gtk_dialog_run (GTK_DIALOG (message));
 			gtk_widget_destroy (message);
 			g_error_free (error);

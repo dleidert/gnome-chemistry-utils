@@ -1065,7 +1065,6 @@ void Text::ReplaceText (std::string &str, int pos, unsigned length)
 	}
 	extra_tags.clear (); // avoid destroying the current tags
 	pango_layout_set_text (m_Runs.front ()->m_Layout, m_Text.c_str (), -1); // FIXME: parse for line breaks and update runs
-	m_Runs.front ()->m_Length = m_Text.length ();
 	m_CurPos = m_StartSel = pos + str.length ();
 	RebuildAttributes ();
 	SetPosition (m_x, m_y);
@@ -1257,6 +1256,17 @@ bool Text::OnKeyPressed (GdkEventKey *event)
 		break;
 	}
 	return true;
+}
+
+bool Text::OnKeyReleased (GdkEventKey *event)
+{
+	TextClient *client = dynamic_cast <TextClient *> (GetClient ());
+	if (gtk_im_context_filter_keypress (m_ImContext, event)) {
+		if (client)
+			client->TextChanged (m_CurPos);
+		return true;
+	}
+	return false;
 }
 
 void Text::RebuildAttributes ()

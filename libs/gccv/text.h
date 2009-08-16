@@ -101,6 +101,7 @@ be moved to the end of the inserted text.
 
 	// events related methods
 	bool OnKeyPressed (GdkEventKey *event);
+	bool OnKeyReleased (GdkEventKey *event);
 	void OnButtonPressed (double x, double y);
 	void OnDrag (double x, double y);
 

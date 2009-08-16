@@ -186,6 +186,13 @@ just returns \a false.
 */
 	virtual bool OnKeyPress (GdkEventKey *event);
 /*!
+Called by the framework for the active tool when a key release event occurs. Default
+just returns \a false.
+
+@return true to stop any further propagation of the event, false otherwise.
+*/
+	virtual bool OnKeyRelease (GdkEventKey *event);
+/*!
 Virtual method called by the framework whenthe active view, and hence the active
 document has changed, so that the tool can finish its current operation in the
 previously active document and update its options box according to

@@ -236,6 +236,12 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 	return false;
 }
 
+bool gcpTextTool::OnKeyRelease (GdkEventKey* event)
+{
+	m_Active->OnKeyReleased (event);
+	return true;
+}
+
 void gcpTextTool::Activate ()
 {
 	if (!m_Active)

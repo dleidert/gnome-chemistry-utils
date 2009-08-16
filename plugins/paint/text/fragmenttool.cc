@@ -397,8 +397,6 @@ void gcpFragmentTool::OnCommit (G_GNUC_UNUSED GtkIMContext *context, const gchar
 }
 
 void gcpFragmentTool::UpdateTagsList () {
-	// FIXME: write this
-	gccv::TextTagList *l = new gccv::TextTagList ();
 	if (m_Active) {
 		list <gccv::TextTag *> const *cur = m_Active->GetTags ();
 		unsigned start, end;
@@ -406,7 +404,6 @@ void gcpFragmentTool::UpdateTagsList () {
 		list <gccv::TextTag *>::const_iterator i, iend = cur->end ();
 		for (i = cur->begin (); i != iend; i++)
 			if ((*i)->GetStartIndex () < end && (*i)->GetEndIndex () >= end) {
-				l->push_front ((*i)->Duplicate ());
 				gccv::Tag tag = (*i)->GetTag ();
 				if (tag == gccv::Position) {
 					bool stacked;
@@ -426,7 +423,7 @@ void gcpFragmentTool::UpdateTagsList () {
 				}
 			}
 		m_Fragment->SetMode (m_CurMode);
-		m_Active->SetCurTagList (l); // no tag
+		BuildTagsList ();
 	}
 }
 

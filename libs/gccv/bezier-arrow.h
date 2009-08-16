@@ -40,11 +40,13 @@ public:
 	double Distance (double x, double y, Item **item) const;
 	void Draw (cairo_t *cr, bool is_vector) const;
 	void UpdateBounds ();
+	void SetControlPoints (double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3);
 
 GCCV_ITEM_POS_PROP (ArrowHeads, Head)
 GCCV_ITEM_POS_PROP (double, A)
 GCCV_ITEM_POS_PROP (double, B)
 GCCV_ITEM_POS_PROP (double, C)
+GCCV_ITEM_POS_PROP (bool, ShowControls)
 
 private:
 	Point m_Controls[4];

@@ -49,6 +49,7 @@ public:
 	bool Deactivate ();
 	void Activate ();
 	bool OnKeyPress (GdkEventKey *event);
+	bool OnKeyRelease (GdkEventKey *event);
 	bool NotifyViewChange ();
 	bool DeleteSelection ();
 	bool CopySelection (GtkClipboard *clipboard);

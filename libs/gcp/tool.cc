@@ -190,6 +190,11 @@ bool Tool::OnKeyPress (G_GNUC_UNUSED GdkEventKey *event)
 	return false;
 }
 
+bool Tool::OnKeyRelease (G_GNUC_UNUSED GdkEventKey *event)
+{
+	return false;
+}
+
 bool Tool::NotifyViewChange ()
 {
 	return true;

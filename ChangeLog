@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2009-08-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/bezier-arrow.cc: implement drawing.
+	* libs/gccv/bezier-arrow.h: ditto.
+	* libs/gccv/text.cc: fix unicode keyboard input.
+	* libs/gccv/text.h: ditto.
+	* libs/gcp/tool.cc: ditto.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: use xmlDoc instead of GsfXML.
+	* plugins/paint/arrows/curvedarrowtool.cc: create a bezier arrow on click.
+	* plugins/paint/text/fragmenttool.cc: fix unicode keyboard input.
+	* plugins/paint/text/texttool.cc: ditto.
+	* plugins/paint/text/texttool.h: ditto.
+	* programs/spectra/window.cc: fix a memory leak.
+
 2009-08-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gnumeric/functions.cc: make documentation more gnumeric compliant.
 	* libs/gcp/theme.cc: fixed localization in themes.

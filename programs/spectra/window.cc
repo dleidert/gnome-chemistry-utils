@@ -185,9 +185,9 @@ static bool on_motion (GOGraphWidget *widget, GdkEventMotion *event, G_GNUC_UNUS
 		char *buf = g_strdup_printf ("x=%g y=%g", x, y);
 		gtk_widget_set_tooltip_text (GTK_WIDGET (widget), buf);
 		g_free (buf);
-		gog_chart_map_free (map);
 	} else
 		gtk_widget_set_tooltip_text (GTK_WIDGET (widget), "");
+	gog_chart_map_free (map);
 	g_object_unref (G_OBJECT (graph_view));
 	return true;
 }
