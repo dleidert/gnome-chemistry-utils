@@ -60,7 +60,29 @@ public:
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
 	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
+
+private:
+	bool WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, IOContext *io);
+
+private:
+	map <string, bool (*) (CDXMLLoader *, xmlNodePtr, Object *, IOContext *)> m_WriteCallbacks;
+	list <GOColor> m_Colors;
 };
+
+static bool cdxml_write_atom (CDXMLLoader *loader, xmlNodePtr parent, Object *obj, IOContext *s)
+{
+	return true;
+}
+
+static bool cdxml_write_bond (CDXMLLoader *loader, xmlNodePtr parent, Object *obj, IOContext *s)
+{
+	return true;
+}
+static bool cdxml_write_molecule (CDXMLLoader *loader, xmlNodePtr parent, Object *obj, IOContext *s)
+{
+	return true;
+}
+
 
 CDXMLLoader::CDXMLLoader ()
 {
@@ -82,6 +104,10 @@ CDXMLLoader::CDXMLLoader ()
 	KnownProps["LabelJustification"] =GCU_PROP_TEXT_JUSTIFICATION;
 	KnownProps["Justification"] =GCU_PROP_TEXT_JUSTIFICATION;
 	KnownProps["LabelAlignment"] = GCU_PROP_TEXT_ALIGNMENT;
+	// Add write callbacks
+	m_WriteCallbacks["atom"] = cdxml_write_atom;
+	m_WriteCallbacks["bond"] = cdxml_write_bond;
+	m_WriteCallbacks["molecule"] = cdxml_write_molecule;
 }
 
 CDXMLLoader::~CDXMLLoader ()
@@ -776,30 +802,79 @@ static int cb_xml_to_vfs (GsfOutput *output, const guint8* buf, int nb)
 		return gsf_output_write (output, nb, buf)? nb: 0;
 }
 
+bool CDXMLLoader::WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, IOContext *io)
+{
+	string name = Object::GetTypeName (object->GetType ());
+	map <string, bool (*) (CDXMLLoader *, xmlNodePtr, Object *, IOContext *)>::iterator i = m_WriteCallbacks.find (name);
+	if (i != m_WriteCallbacks.end ())
+		return (*i).second (this, node, object, io);
+	return true; /* loosing data is not considered an error, it is just a missing feature
+					either in this code or in the cml schema */
+}
+
 bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	map<string, CDXMLFont> fonts;
+	Document *doc = dynamic_cast <Document *> (obj);
+	xmlNodePtr colors, fonttable;
+	if (!doc || !out)
+		return false;
 
+	// Init default colors
+	m_Colors.push_back (RGBA_WHITE);
+	m_Colors.push_back (RGBA_BLACK);
+	m_Colors.push_back (RGBA_RED);
+	m_Colors.push_back (RGBA_YELLOW);
+	m_Colors.push_back (RGBA_GREEN);
+	m_Colors.push_back (RGBA_CYAN);
+	m_Colors.push_back (RGBA_BLUE);
+	m_Colors.push_back (RGBA_VIOLET);
 	/* we can't use sax, because we need colors and fonts */
-	if (NULL != out) {
-		xmlDocPtr xml = xmlNewDoc (reinterpret_cast <xmlChar const *> ("1.0"));
-		xmlDocSetRootElement (xml,  xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("CDXML"), NULL));
-		Document *doc = obj->GetDocument ();
-		std::string app = doc->GetApp ()->GetName () + " "VERSION;
-		xmlNewProp (xml->children, reinterpret_cast <xmlChar const *> ("CreationProgram"),
-		            reinterpret_cast <xmlChar const *> (app.c_str ()));
-		xmlIndentTreeOutput = true;
-		xmlKeepBlanksDefault (0);
-		xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
-		buf->context = out;
-		buf->closecallback = NULL;
-		buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
-		start = true;
-		xmlSaveFormatFileTo (buf, xml, NULL, true);
-		xmlFreeDoc (xml);
-		return true;
+	xmlDocPtr xml = xmlNewDoc (reinterpret_cast <xmlChar const *> ("1.0"));
+	xmlDocSetRootElement (xml,  xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("CDXML"), NULL));
+	std::string app = doc->GetApp ()->GetName () + " "VERSION;
+	xmlNewProp (xml->children, reinterpret_cast <xmlChar const *> ("CreationProgram"),
+	            reinterpret_cast <xmlChar const *> (app.c_str ()));
+	// add color table
+	colors = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("colortable"), NULL);
+	xmlAddChild (xml->children, colors);
+	// build tree from children
+	std::map <std::string, Object *>::iterator i;
+	Object *child = doc->GetFirstChild (i);
+	while (child) {
+		if (!WriteObject (xml, xml->children, child, io)) {
+			xmlFreeDoc (xml);
+			m_Colors.clear ();
+			return false;
+		}
+		child = doc->GetNextChild (i);
 	}
-	return false;
+	// add colors to color table
+	list <GOColor>::iterator color, end_color = m_Colors.end ();
+	for (color = m_Colors.begin (); color != end_color; color++) {
+		xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("colortable"), NULL);
+		xmlAddChild (colors, node);
+		char *buf = g_strdup_printf ("%g", DOUBLE_RGBA_R (*color));
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("r"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+		buf = g_strdup_printf ("%g", DOUBLE_RGBA_G (*color));
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("g"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+		buf = g_strdup_printf ("%g", DOUBLE_RGBA_B (*color));
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("b"), reinterpret_cast <xmlChar const *> (buf));
+		g_free (buf);
+	}
+	xmlIndentTreeOutput = true;
+	xmlKeepBlanksDefault (0);
+	xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
+	buf->context = out;
+	buf->closecallback = NULL;
+	buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
+	start = true;
+	xmlSaveFormatFileTo (buf, xml, NULL, true);
+	xmlFreeDoc (xml);
+	m_Colors.clear ();
+	return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -79,12 +79,12 @@ gnumeric_molarmass (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 const GnmFuncDescriptor Chemistry_functions[] = {
 
-        { N_("molarmass"),       "s",   N_("Formula"),
+        { N_("molarmass"),       "s",
 			help_molarmass, gnumeric_molarmass, NULL, NULL, NULL, NULL,
 			GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE},
 
 
-        {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 			GNM_FUNC_IS_PLACEHOLDER,  GNM_FUNC_IMPL_STATUS_UNIMPLEMENTED, GNM_FUNC_TEST_STATUS_NO_TESTSUITE}
 };
 

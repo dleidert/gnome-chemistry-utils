@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2009-08-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: request gnumeric 1.9.10 to build the gnumeric plugin.
+	* gnumeric/functions.cc: fixed function description according to new API.
+	* plugins/loaders/cdx/cdx.cc: export color table.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+
 2009-08-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: implement drawing.
 	* libs/gccv/bezier-arrow.h: ditto.

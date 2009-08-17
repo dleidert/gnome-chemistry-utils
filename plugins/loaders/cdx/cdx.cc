@@ -35,6 +35,7 @@
 #include <gcu/residue.h>
 
 #include <goffice/app/module-plugin-defs.h>
+#include <gsf/gsf-output-memory.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/chemdrawcdx.h>
 #include <map>
@@ -53,6 +54,8 @@ using namespace gcu;
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 #define READINT16(input,i) gsf_input_read (input, 2, (guint8*) &i)
 #define READINT32(input,i) gsf_input_read (input, 4, (guint8*) &i)
+#define WRITEINT16(output,i) gsf_output_write  (output, 2, (guint8*) &i)
+#define WRITEINT32(output,i) gsf_output_write  (output, 4, (guint8*) &i)
 #else
 unsigned char buffer[4];
 bool readint_res;
@@ -62,6 +65,14 @@ bool readint_res;
 #define READINT32(input,i) \
 	readint_res = gsf_input_read (input, 4, (guint8*) buffer), \
 	i = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24), readint_res
+#define WRITEINT16(output,i) \
+	gsf_output_write  (output, 1, (guint8*) (&i) + 1);\
+	gsf_output_write  (output, 1, (guint8*) &i)
+#define WRITEINT32(output,i) \
+	gsf_output_write  (output, 1, (guint8*) (&i) + 3);\
+	gsf_output_write  (output, 1, (guint8*) (&i) + 2);\
+	gsf_output_write  (output, 1, (guint8*) (&i) + 1);\
+	gsf_output_write  (output, 1, (guint8*) &i)
 #endif
 
 typedef struct {
@@ -129,19 +140,48 @@ private:
 	guint16 ReadSize (GsfInput *in);
 	bool ReadDate (GsfInput *in);
 
+	bool WriteObject (GsfOutput *out, Object *object, IOContext *io);
+	void WriteProperty (GsfOutput *out, unsigned id, unsigned length, char const *data);
+
 private:
 	char *buf;
 	size_t bufsize;
 	map<unsigned, CDXFont> fonts;
 	vector <string> colors;
 	guint8 m_TextAlign, m_TextJustify;
+
+	map <string, bool (*) (CDXLoader *, GsfOutput *, Object *, IOContext *)> m_WriteCallbacks;
+	list <GOColor> m_Colors;
 };
+
+/******************************************************************************
+ *	Write callbacks															  *
+ ******************************************************************************/
+ 
+static bool cdx_write_atom (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s)
+{
+	return true;
+}
+
+static bool cdx_write_bond (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s)
+{
+	return true;
+}
+
+static bool cdx_write_molecule (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s)
+{
+	return true;
+}
 
 CDXLoader::CDXLoader ():
 	m_TextAlign (0),
 	m_TextJustify (0)
 {
 	AddMimeType ("chemical/x-cdx");
+	// Add write callbacks
+	m_WriteCallbacks["atom"] = cdx_write_atom;
+	m_WriteCallbacks["bond"] = cdx_write_bond;
+	m_WriteCallbacks["molecule"] = cdx_write_molecule;
 }
 
 CDXLoader::~CDXLoader ()
@@ -283,16 +323,83 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	return result;
 }
 
+bool CDXLoader::WriteObject (GsfOutput *out, Object *object, IOContext *io)
+{
+	string name = Object::GetTypeName (object->GetType ());
+	map <string, bool (*) (CDXLoader *, GsfOutput *, Object *, IOContext *)>::iterator i = m_WriteCallbacks.find (name);
+	if (i != m_WriteCallbacks.end ())
+		return (*i).second (this, out, object, io);
+	return true; /* loosing data is not considered an error, it is just a missing feature
+					either in this code or in the cml schema */
+}
+
+void CDXLoader::WriteProperty (GsfOutput *out, unsigned id, unsigned length, char const *data)
+{
+	WRITEINT16 (out, id);
+	WRITEINT32 (out, length);
+	gsf_output_write (out, length, reinterpret_cast <guint8 const *> (data));
+}
+
 bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED char const *mime_type, IOContext *io, G_GNUC_UNUSED ContentType type)
 {
+	Document *doc = dynamic_cast <Document *> (obj);
+	int n;
+	if (!doc || !out)
+		return false;
+
+	// Init colors
+	m_Colors.push_back (RGBA_WHITE);
+	m_Colors.push_back (RGBA_BLACK);
+	m_Colors.push_back (RGBA_RED);
+	m_Colors.push_back (RGBA_YELLOW);
+	m_Colors.push_back (RGBA_GREEN);
+	m_Colors.push_back (RGBA_CYAN);
+	m_Colors.push_back (RGBA_BLUE);
+	m_Colors.push_back (RGBA_VIOLET);
+
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
+	std::string app = doc->GetApp ()->GetName () + " "VERSION;
+	WriteProperty (out, kCDXProp_CreationProgram, app.length (), app.c_str ());
 	// write the document contents
 	// there is a need for a two paths procedure
 	// in the first path, we collect fonts and colors
 	// everything else is saved during the second path
 	// write end of document and end of file
+	GsfOutput *buf = gsf_output_memory_new ();
+	std::map <std::string, Object *>::iterator i;
+	Object *child = doc->GetFirstChild (i);
+	while (child) {
+		if (!WriteObject (buf, child, io)) {
+			g_object_unref (buf);
+			m_Colors.clear ();
+			return false;
+		}
+		child = doc->GetNextChild (i);
+	}
+	// write colors
+	n = kCDXProp_ColorTable;
+	WRITEINT16 (out, n);
+	n = m_Colors.size () * 6 + 2;
+	WRITEINT16 (out, n);
+	n = m_Colors.size ();
+	WRITEINT16 (out, n);
+	list <GOColor>::iterator color, end_color = m_Colors.end ();
+	for (color = m_Colors.begin (); color != end_color; color++) {
+		n = UINT_RGBA_R (*color) * 0x101;
+		WRITEINT16 (out, n);
+		n = UINT_RGBA_G (*color) * 0x101;
+		WRITEINT16 (out, n);
+		n = UINT_RGBA_B (*color) * 0x101;
+		WRITEINT16 (out, n);
+	}
+	gint64 size;
+	g_object_get (buf, "size", &size, NULL);
+	if (size > 0)
+		gsf_output_write (out, size, gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (buf)));
+	g_object_unref (buf);
 	gsf_output_write (out, 4, (guint8 const *) "\x00\x00\x00\x00");
+	m_Colors.clear ();
 	return true;
 }
 
