@@ -52,6 +52,12 @@ using namespace gcu;
 
 static map<string, unsigned> KnownProps;
 
+typedef struct {
+	unsigned index;
+	string encoding;
+	string name;
+} CDXMLFont;
+
 class CDXMLLoader: public gcu::Loader
 {
 public:
@@ -63,10 +69,13 @@ public:
 
 private:
 	bool WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, IOContext *io);
+	void AddIntProperty (xmlNodePtr node, char const *id, int value);
+	void AddStringProperty (xmlNodePtr node, char const *id, string &value);
 
 private:
 	map <string, bool (*) (CDXMLLoader *, xmlNodePtr, Object *, IOContext *)> m_WriteCallbacks;
-	list <GOColor> m_Colors;
+	map <unsigned, GOColor> m_Colors;
+	map <unsigned, CDXMLFont> m_Fonts;
 };
 
 static bool cdxml_write_atom (CDXMLLoader *loader, xmlNodePtr parent, Object *obj, IOContext *s)
@@ -120,12 +129,6 @@ typedef struct {
 	unsigned property;
 	string value;
 } CDXMLProps;
-
-typedef struct {
-	unsigned index;
-	string encoding;
-	string name;
-} CDXMLFont;
 
 typedef struct {
 	Document *doc;
@@ -630,7 +633,7 @@ static void
 cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	guint32 Id;
+	guint32 Id = 0;
 	guint16 type = 0xffff, arrow_type = 0xffff;
 	double x0, y0, x1, y1;
 	while (*attrs) {
@@ -812,6 +815,18 @@ bool CDXMLLoader::WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, I
 					either in this code or in the cml schema */
 }
 
+void CDXMLLoader::AddIntProperty (xmlNodePtr node, char const *id, int value)
+{
+	char *buf = g_strdup_printf("%d", value);
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (buf));
+	g_free (buf);
+}
+
+void CDXMLLoader::AddStringProperty (xmlNodePtr node, char const *id, string &value)
+{
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (value.c_str ()));
+}
+
 bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	map<string, CDXMLFont> fonts;
@@ -821,14 +836,19 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 		return false;
 
 	// Init default colors
-	m_Colors.push_back (RGBA_WHITE);
-	m_Colors.push_back (RGBA_BLACK);
-	m_Colors.push_back (RGBA_RED);
-	m_Colors.push_back (RGBA_YELLOW);
-	m_Colors.push_back (RGBA_GREEN);
-	m_Colors.push_back (RGBA_CYAN);
-	m_Colors.push_back (RGBA_BLUE);
-	m_Colors.push_back (RGBA_VIOLET);
+	m_Colors[2] = RGBA_WHITE;
+	m_Colors[3] = RGBA_BLACK;
+	m_Colors[4] = RGBA_RED;
+	m_Colors[5] = RGBA_YELLOW;
+	m_Colors[6] = RGBA_GREEN;
+	m_Colors[7] = RGBA_CYAN;
+	m_Colors[8] = RGBA_BLUE;
+	m_Colors[9] = RGBA_VIOLET;
+
+	// Init fonts, we always use Unknown as the charset, hoping it is not an issue
+	m_Fonts[3] = (CDXMLFont) {3, string ("Unknown"), string ("Arial")};
+	m_Fonts[4] = (CDXMLFont) {4, string ("Unknown"), string ("Times New Roman")};
+
 	/* we can't use sax, because we need colors and fonts */
 	xmlDocPtr xml = xmlNewDoc (reinterpret_cast <xmlChar const *> ("1.0"));
 	xmlDocSetRootElement (xml,  xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("CDXML"), NULL));
@@ -838,6 +858,9 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 	// add color table
 	colors = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("colortable"), NULL);
 	xmlAddChild (xml->children, colors);
+	// add font table
+	fonttable = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("fonttable"), NULL);
+	xmlAddChild (xml->children, fonttable);
 	// build tree from children
 	std::map <std::string, Object *>::iterator i;
 	Object *child = doc->GetFirstChild (i);
@@ -850,19 +873,28 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 		child = doc->GetNextChild (i);
 	}
 	// add colors to color table
-	list <GOColor>::iterator color, end_color = m_Colors.end ();
+	map <unsigned, GOColor>::iterator color, end_color = m_Colors.end ();
 	for (color = m_Colors.begin (); color != end_color; color++) {
-		xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("colortable"), NULL);
+		xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("color"), NULL);
 		xmlAddChild (colors, node);
-		char *buf = g_strdup_printf ("%g", DOUBLE_RGBA_R (*color));
+		char *buf = g_strdup_printf ("%g", DOUBLE_RGBA_R ((*color).second));
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("r"), reinterpret_cast <xmlChar const *> (buf));
 		g_free (buf);
-		buf = g_strdup_printf ("%g", DOUBLE_RGBA_G (*color));
+		buf = g_strdup_printf ("%g", DOUBLE_RGBA_G ((*color).second));
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("g"), reinterpret_cast <xmlChar const *> (buf));
 		g_free (buf);
-		buf = g_strdup_printf ("%g", DOUBLE_RGBA_B (*color));
+		buf = g_strdup_printf ("%g", DOUBLE_RGBA_B ((*color).second));
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("b"), reinterpret_cast <xmlChar const *> (buf));
 		g_free (buf);
+	}
+	// write fonts
+	map <unsigned, CDXMLFont>::iterator font, end_font = m_Fonts.end ();
+	for (font = m_Fonts.begin (); font != end_font; font++) {
+		xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("font"), NULL);
+		xmlAddChild (fonttable, node);
+		AddIntProperty (node, "id", (*font).second.index);
+		AddStringProperty (node, "charset", (*font).second.encoding);
+		AddStringProperty (node, "name", (*font).second.name);
 	}
 	xmlIndentTreeOutput = true;
 	xmlKeepBlanksDefault (0);

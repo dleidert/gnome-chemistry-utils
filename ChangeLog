@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-08-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: export font table.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+
 2009-08-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: request gnumeric 1.9.10 to build the gnumeric plugin.
 	* gnumeric/functions.cc: fixed function description according to new API.

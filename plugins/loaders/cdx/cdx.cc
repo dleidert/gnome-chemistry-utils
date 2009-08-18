@@ -141,17 +141,17 @@ private:
 	bool ReadDate (GsfInput *in);
 
 	bool WriteObject (GsfOutput *out, Object *object, IOContext *io);
-	void WriteProperty (GsfOutput *out, unsigned id, unsigned length, char const *data);
+	void WriteSimpleStringProperty (GsfOutput *out, unsigned id, unsigned length, char const *data);
 
 private:
 	char *buf;
 	size_t bufsize;
-	map<unsigned, CDXFont> fonts;
+	map<unsigned, CDXFont> m_Fonts;
 	vector <string> colors;
 	guint8 m_TextAlign, m_TextJustify;
 
 	map <string, bool (*) (CDXLoader *, GsfOutput *, Object *, IOContext *)> m_WriteCallbacks;
-	list <GOColor> m_Colors;
+	map<unsigned, GOColor> m_Colors;
 };
 
 /******************************************************************************
@@ -281,7 +281,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					gsf_input_read (in, size, (guint8*) buf);
 					buf[size] = 0;
 					font.name = buf;
-					fonts[font.index] = font;
+					m_Fonts[font.index] = font;
 				}
 			}
 			break;
@@ -319,7 +319,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 		}
 	}
 	delete [] buf;
-	fonts.clear ();
+	m_Fonts.clear ();
 	return result;
 }
 
@@ -333,10 +333,12 @@ bool CDXLoader::WriteObject (GsfOutput *out, Object *object, IOContext *io)
 					either in this code or in the cml schema */
 }
 
-void CDXLoader::WriteProperty (GsfOutput *out, unsigned id, unsigned length, char const *data)
+void CDXLoader::WriteSimpleStringProperty (GsfOutput *out, unsigned id, unsigned length, char const *data)
 {
 	WRITEINT16 (out, id);
-	WRITEINT32 (out, length);
+	WRITEINT16 (out, length);
+	length = 0;
+	WRITEINT16 (out, length); // number of runs in the string
 	gsf_output_write (out, length, reinterpret_cast <guint8 const *> (data));
 }
 
@@ -348,19 +350,23 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 		return false;
 
 	// Init colors
-	m_Colors.push_back (RGBA_WHITE);
-	m_Colors.push_back (RGBA_BLACK);
-	m_Colors.push_back (RGBA_RED);
-	m_Colors.push_back (RGBA_YELLOW);
-	m_Colors.push_back (RGBA_GREEN);
-	m_Colors.push_back (RGBA_CYAN);
-	m_Colors.push_back (RGBA_BLUE);
-	m_Colors.push_back (RGBA_VIOLET);
+	m_Colors[2] = RGBA_WHITE;
+	m_Colors[3] = RGBA_BLACK;
+	m_Colors[4] = RGBA_RED;
+	m_Colors[5] = RGBA_YELLOW;
+	m_Colors[6] = RGBA_GREEN;
+	m_Colors[7] = RGBA_CYAN;
+	m_Colors[8] = RGBA_BLUE;
+	m_Colors[9] = RGBA_VIOLET;
+
+	// Init fonts, we always use Unknown as the charset, hoping it is not an issue
+	m_Fonts[3] = (CDXFont) {3, kCDXCharSetUnknown, string ("Arial")};
+	m_Fonts[4] = (CDXFont) {4, kCDXCharSetUnknown, string ("Times New Roman")};
 
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
 	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
 	std::string app = doc->GetApp ()->GetName () + " "VERSION;
-	WriteProperty (out, kCDXProp_CreationProgram, app.length (), app.c_str ());
+	WriteSimpleStringProperty (out, kCDXProp_CreationProgram, app.length (), app.c_str ());
 	// write the document contents
 	// there is a need for a two paths procedure
 	// in the first path, we collect fonts and colors
@@ -384,15 +390,36 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	WRITEINT16 (out, n);
 	n = m_Colors.size ();
 	WRITEINT16 (out, n);
-	list <GOColor>::iterator color, end_color = m_Colors.end ();
+	map <unsigned, GOColor>::iterator color, end_color = m_Colors.end ();
 	for (color = m_Colors.begin (); color != end_color; color++) {
-		n = UINT_RGBA_R (*color) * 0x101;
+		n = UINT_RGBA_R ((*color).second) * 0x101;
 		WRITEINT16 (out, n);
-		n = UINT_RGBA_G (*color) * 0x101;
+		n = UINT_RGBA_G ((*color).second) * 0x101;
 		WRITEINT16 (out, n);
-		n = UINT_RGBA_B (*color) * 0x101;
+		n = UINT_RGBA_B ((*color).second) * 0x101;
 		WRITEINT16 (out, n);
 	}
+
+	// write fonts
+	n = kCDXProp_FontTable;
+	WRITEINT16 (out, n);
+	n = 4;
+	map <unsigned, CDXFont>::iterator font, end_font = m_Fonts.end ();
+	for (font = m_Fonts.begin (); font != end_font; font++)
+		n += 6 + (*font).second.name.length ();
+	WRITEINT16 (out, n);
+	n = 0; // say we are on a mac even if not true
+	WRITEINT16 (out, n);
+	n = m_Fonts.size ();
+	WRITEINT16 (out, n);
+	for (font = m_Fonts.begin (); font != end_font; font++) {
+		WRITEINT16 (out, (*font).second.index);
+		WRITEINT16 (out, (*font).second.encoding);
+		gsf_output_write (out, (*font).second.name.length (),
+		                  reinterpret_cast <guint8 const *> ((*font).second.name.c_str ()));
+	}
+
+	// write the objects
 	gint64 size;
 	g_object_get (buf, "size", &size, NULL);
 	if (size > 0)
@@ -400,6 +427,7 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	g_object_unref (buf);
 	gsf_output_write (out, 4, (guint8 const *) "\x00\x00\x00\x00");
 	m_Colors.clear ();
+	m_Fonts.clear ();
 	return true;
 }
 
@@ -996,12 +1024,12 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 											str << "</i>";
 										if (attrs0.face & 1)
 											str << "</b>";
-										str << "</fore></font><font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
+										str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
 										str << "<fore " << colors[attrs.color] << ">";
 										str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
 										while (buf[cur] >= '0' && buf[cur] <= '9'){printf("cur=%d c=%c\n",cur,buf[cur]);
 											str << buf[cur++];}
-										str << "</sub></fore></font><font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+										str << "</sub></fore></font><font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
 										str << "<fore " << colors[attrs.color] << ">";
 										if (attrs0.face & 1)
 											str << "<b>";
@@ -1031,7 +1059,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 						}
 						if ((attrs.face & 0x60) != 0 && (attrs.face & 0x60) != 0x60)
 							attrs.size = attrs.size * 2 / 3;
-						str << "<font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+						str << "<font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
 						str << "<fore " << colors[attrs.color] << ">";
 						if (attrs.face & 1)
 							str << "<b>";
@@ -1068,14 +1096,14 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 									str << "</i>";
 								if (attrs0.face & 1)
 									str << "</b>";
-								str << "</fore></font><font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
+								str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
 								str << "<fore " << colors[attrs.color] << ">";
 								str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
 								while (buf[cur] >= '0' && buf[cur] <= '9')
 									str << buf[cur++];
 								str << "</sub></fore></font>";
 								if (cur < size) {
-									str << "<font name=\"" << fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
+									str << "<font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
 									str << "<fore " << colors[attrs.color] << ">";
 									if (attrs0.face & 1)
 										str << "<b>";
