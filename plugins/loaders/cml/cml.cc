@@ -516,6 +516,14 @@ bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, IOContext *io, Cont
 	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object *, IOContext *, ContentType)>::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
 		return (*i).second (this, xml, object, io, type);
+	// if we don't save the object iself, try to save its children
+	std::map <std::string, Object *>::iterator j;
+	Object *child = object->GetFirstChild (j);
+	while (child) {
+		if (!WriteObject (xml, child, io, type))
+			return false;
+		child = object->GetNextChild (j);
+	}
 	return true; /* loosing data is not considered an error, it is just a missing feature
 					either in this code or in the cml schema */
 }

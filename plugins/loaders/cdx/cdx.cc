@@ -141,7 +141,12 @@ private:
 	bool ReadDate (GsfInput *in);
 
 	bool WriteObject (GsfOutput *out, Object *object, IOContext *io);
-	void WriteSimpleStringProperty (GsfOutput *out, unsigned id, unsigned length, char const *data);
+	static void AddIntProperty (GsfOutput *out, gint16 prop, gint16 value);
+	static void WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 length, char const *data);
+	static bool WriteAtom (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s);
+	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s);
+	static bool WriteMolecule (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s);
+	void WriteId (Object *obj, GsfOutput *out);
 
 private:
 	char *buf;
@@ -152,26 +157,9 @@ private:
 
 	map <string, bool (*) (CDXLoader *, GsfOutput *, Object *, IOContext *)> m_WriteCallbacks;
 	map<unsigned, GOColor> m_Colors;
+	map <string, gint32> m_SavedIds;
+	gint32 m_MaxId;
 };
-
-/******************************************************************************
- *	Write callbacks															  *
- ******************************************************************************/
- 
-static bool cdx_write_atom (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s)
-{
-	return true;
-}
-
-static bool cdx_write_bond (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s)
-{
-	return true;
-}
-
-static bool cdx_write_molecule (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s)
-{
-	return true;
-}
 
 CDXLoader::CDXLoader ():
 	m_TextAlign (0),
@@ -179,9 +167,9 @@ CDXLoader::CDXLoader ():
 {
 	AddMimeType ("chemical/x-cdx");
 	// Add write callbacks
-	m_WriteCallbacks["atom"] = cdx_write_atom;
-	m_WriteCallbacks["bond"] = cdx_write_bond;
-	m_WriteCallbacks["molecule"] = cdx_write_molecule;
+	m_WriteCallbacks["atom"] = WriteAtom;
+	m_WriteCallbacks["bond"] = WriteBond;
+	m_WriteCallbacks["molecule"] = WriteMolecule;
 }
 
 CDXLoader::~CDXLoader ()
@@ -323,31 +311,149 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	return result;
 }
 
+/******************************************************************************
+ *	Write callbacks															  *
+ ******************************************************************************/
+ 
+bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNUC_UNUSED IOContext *s)
+{
+	gint16 n = kCDXObj_Node;
+	double x, y;
+	gint32 x_, y_;
+	WRITEINT16 (out, n);
+	loader->WriteId (obj, out);
+	string prop = obj->GetProperty (GCU_PROP_POS2D);
+	if (prop.length ()) {
+		sscanf (prop.c_str (), "%lg %lg", &x, &y);
+		x_ = x;
+		y_ = y;
+		n = kCDXProp_2DPosition;
+		WRITEINT16 (out, n);
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x08\x00"));
+		// write y first
+		WRITEINT32 (out, y_);
+		WRITEINT32 (out, x_);
+	}
+	prop = obj->GetProperty (GCU_PROP_ATOM_Z);
+	if (prop != "6") {
+		n = kCDXProp_Node_Element;
+		WRITEINT16 (out, n);
+		gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x02\x00"));
+		n = strtol (prop.c_str (), NULL, 10);
+		WRITEINT16 (out, n);
+	}
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of atom
+	return true;
+}
+
+bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNUC_UNUSED IOContext *s)
+{
+	gint16 n = kCDXObj_Bond;
+	WRITEINT16 (out, n);
+	loader->WriteId (obj, out);
+	string prop = obj->GetProperty (GCU_PROP_BOND_BEGIN);
+	AddIntProperty (out, kCDXProp_Bond_Begin, loader->m_SavedIds[prop]);
+	prop = obj->GetProperty (GCU_PROP_BOND_END);
+	AddIntProperty (out, kCDXProp_Bond_End, loader->m_SavedIds[prop]);
+	prop = obj->GetProperty (GCU_PROP_BOND_ORDER);
+	if (prop == "3")
+		AddIntProperty (out, kCDXProp_Bond_Order, 4);	
+	else if (prop == "2")
+		AddIntProperty (out, kCDXProp_Bond_Order, 2);	
+	prop = obj->GetProperty (GCU_PROP_BOND_TYPE);
+	if (prop == "wedge")
+		AddIntProperty (out, kCDXProp_Bond_Display, 6);	
+	else if (prop == "hash")
+		AddIntProperty (out, kCDXProp_Bond_Display, 3);	
+	else if (prop == "squiggle")
+		AddIntProperty (out, kCDXProp_Bond_Display, 8);	
+	else
+		AddIntProperty (out, kCDXProp_Bond_Display, 6);	
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of bond
+	return true;
+}
+
+bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object *obj, IOContext *s)
+{
+	gint16 n = kCDXObj_Fragment;
+	WRITEINT16 (out, n);
+	loader->WriteId (obj, out);
+	// save atoms
+	std::map <std::string, Object *>::iterator i;
+	Object *child = obj->GetFirstChild (i);
+	while (child) {
+		if (child->GetType () == AtomType && !loader->WriteObject (out, child, s))
+			return false;
+		child = obj->GetNextChild (i);
+	}
+	// save fragments
+	child = obj->GetFirstChild (i);
+	while (child) {
+		if (child->GetType () == FragmentType && !loader->WriteObject (out, child, s))
+			return false;
+		child = obj->GetNextChild (i);
+	}
+	// save bonds
+	child = obj->GetFirstChild (i);
+	while (child) {
+		if (child->GetType () == BondType && !loader->WriteObject (out, child, s))
+			return false;
+		child = obj->GetNextChild (i);
+	}
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // end of molecule
+	return true;
+}
+
 bool CDXLoader::WriteObject (GsfOutput *out, Object *object, IOContext *io)
 {
 	string name = Object::GetTypeName (object->GetType ());
 	map <string, bool (*) (CDXLoader *, GsfOutput *, Object *, IOContext *)>::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
 		return (*i).second (this, out, object, io);
+	// if we don't save the object iself, try tosave its children
+	std::map <std::string, Object *>::iterator j;
+	Object *child = object->GetFirstChild (j);
+	while (child) {
+		if (!WriteObject (out, child, io))
+			return false;
+		child = object->GetNextChild (j);
+	}
 	return true; /* loosing data is not considered an error, it is just a missing feature
 					either in this code or in the cml schema */
 }
 
-void CDXLoader::WriteSimpleStringProperty (GsfOutput *out, unsigned id, unsigned length, char const *data)
+void CDXLoader::WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 length, char const *data)
 {
 	WRITEINT16 (out, id);
-	WRITEINT16 (out, length);
-	length = 0;
-	WRITEINT16 (out, length); // number of runs in the string
+	gint16 l = length + 2;
+	WRITEINT16 (out, l);
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00"));
 	gsf_output_write (out, length, reinterpret_cast <guint8 const *> (data));
+}
+
+void CDXLoader::WriteId (Object *obj, GsfOutput *out)
+{
+	m_SavedIds[obj->GetId ()] = m_MaxId;
+	gint32 n = m_MaxId++;
+	WRITEINT32 (out, n);
+}
+
+void CDXLoader::AddIntProperty (GsfOutput *out, gint16 prop, gint16 value)
+{
+	WRITEINT16 (out, prop);
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x02\x00"));
+	WRITEINT16 (out, value);
 }
 
 bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED char const *mime_type, IOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	Document *doc = dynamic_cast <Document *> (obj);
-	int n;
+	gint16 n;
+	gint32 l;
 	if (!doc || !out)
 		return false;
+
+	m_MaxId = 1;
 
 	// Init colors
 	m_Colors[2] = RGBA_WHITE;
@@ -364,21 +470,36 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	m_Fonts[4] = (CDXFont) {4, kCDXCharSetUnknown, string ("Times New Roman")};
 
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
-	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
+	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
 	std::string app = doc->GetApp ()->GetName () + " "VERSION;
 	WriteSimpleStringProperty (out, kCDXProp_CreationProgram, app.length (), app.c_str ());
+	// determine the bond length and scale the document appropriately
+	string prop = doc->GetProperty (GCU_PROP_THEME_BOND_LENGTH);
+	double scale = strtod (prop.c_str (), NULL);
+	doc->SetScale (scale / 30.);
+	n = kCDXProp_BondLength;
+	WRITEINT16 (out, n);
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
+	l = 30;
+	WRITEINT32 (out, l);
 	// write the document contents
 	// there is a need for a two paths procedure
 	// in the first path, we collect fonts and colors
 	// everything else is saved during the second path
 	// write end of document and end of file
 	GsfOutput *buf = gsf_output_memory_new ();
+	n = kCDXObj_Page;
+	WRITEINT16 (buf, n);
+	l = 0;
+	WRITEINT32 (buf, l); // id = 0 for the page
 	std::map <std::string, Object *>::iterator i;
 	Object *child = doc->GetFirstChild (i);
 	while (child) {
 		if (!WriteObject (buf, child, io)) {
 			g_object_unref (buf);
 			m_Colors.clear ();
+			m_Fonts.clear ();
+			m_SavedIds.clear ();
 			return false;
 		}
 		child = doc->GetNextChild (i);
@@ -408,14 +529,15 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	for (font = m_Fonts.begin (); font != end_font; font++)
 		n += 6 + (*font).second.name.length ();
 	WRITEINT16 (out, n);
-	n = 0; // say we are on a mac even if not true
-	WRITEINT16 (out, n);
+	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x00\x00")); // say we are on a mac even if not true
 	n = m_Fonts.size ();
 	WRITEINT16 (out, n);
 	for (font = m_Fonts.begin (); font != end_font; font++) {
 		WRITEINT16 (out, (*font).second.index);
 		WRITEINT16 (out, (*font).second.encoding);
-		gsf_output_write (out, (*font).second.name.length (),
+		n = (*font).second.name.length ();
+		WRITEINT16 (out, n);
+		gsf_output_write (out, n,
 		                  reinterpret_cast <guint8 const *> ((*font).second.name.c_str ()));
 	}
 
@@ -428,6 +550,7 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	gsf_output_write (out, 4, (guint8 const *) "\x00\x00\x00\x00");
 	m_Colors.clear ();
 	m_Fonts.clear ();
+	m_SavedIds.clear ();
 	return true;
 }
 
