@@ -157,7 +157,7 @@ Sets the new file name and its associated mime type.
 /*!
 @return the current file name, actually the URI.
 */
-	const gchar* GetFileName () {return m_filename;}
+	const gchar* GetFileName () const {return m_filename;}
 /*!
 @param print a GtkPrintOperation.
 @param	context a GtkPrintContext.
@@ -406,12 +406,23 @@ data so that the bond lengths fit the themed bond length.
 @param property the property id as defined in objprops.h
 @param value the property value as a string
 
-Used when loading to set properties. Supported oroperties for documents are:
+Used when loading to set properties. Supported properties for documents are:
 GCU_PROP_DOC_FILENAME, GCU_PROP_DOC_MIMETYPE, GCU_PROP_DOC_TITLE,
 GCU_PROP_DOC_COMMENT, GCU_PROP_DOC_CREATOR, GCU_PROP_DOC_CREATION_TIME,
 GCU_PROP_DOC_MODIFICATION_TIME, and GCU_PROP_THEME_BOND_LENGTH.
 */
 	bool SetProperty (unsigned property, char const *value);
+
+/*!
+@param property the property id as defined in objprops.h
+
+Used when saving to get properties from document.. Supported properties for documents are:
+GCU_PROP_DOC_FILENAME, GCU_PROP_DOC_MIMETYPE, GCU_PROP_DOC_TITLE,
+GCU_PROP_DOC_COMMENT, GCU_PROP_DOC_CREATOR, GCU_PROP_DOC_CREATION_TIME,
+GCU_PROP_DOC_MODIFICATION_TIME, and GCU_PROP_THEME_BOND_LENGTH.
+*/
+	std::string GetProperty (unsigned property) const;
+
 /*!
 @param loading whether the document is loading data or not.
 

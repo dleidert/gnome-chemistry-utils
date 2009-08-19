@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-08-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: add Document::GetProperty ().
+	* libs/gcp/document.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: start working on moleules export.
+	* plugins/loaders/cdxml/cdxml.cc: export simple molecules.
+	* plugins/loaders/cml/cml.cc: export children of not exported objects.
+
 2009-08-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: export font table.
 	* plugins/loaders/cdxml/cdxml.cc: ditto.

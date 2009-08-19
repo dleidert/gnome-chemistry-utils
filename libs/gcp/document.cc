@@ -48,6 +48,7 @@
 #include <clocale>
 #include <stack>
 #include <cstring>
+#include <sstream>
 #include <libgen.h>
 #include <unistd.h>
 
@@ -1445,9 +1446,53 @@ bool Document::SetProperty (unsigned property, char const *value)
 		if (*end != 0)
 			return false;
 		gcu::Document::SetScale (m_Theme->GetBondLength () / length); 
+		break;
 	}
 	}
 	return true;
+}
+
+std::string Document::GetProperty (unsigned property) const
+{
+	ostringstream res;
+	switch (property) {
+	case GCU_PROP_DOC_FILENAME:
+		res << GetFileName ();
+		break;
+	case GCU_PROP_DOC_MIMETYPE:
+		res << m_FileType;
+		break;
+	case GCU_PROP_DOC_TITLE:
+		res << GetTitle ();
+		break;
+	case GCU_PROP_DOC_COMMENT:
+		res << m_comment;
+		break;
+	case GCU_PROP_DOC_CREATOR:
+		res << m_author;
+		break;
+	case GCU_PROP_DOC_CREATION_TIME: {
+		char buf[16];
+		*buf = 0;
+		g_date_strftime (buf, 16, "%F", &CreationDate);
+		res << buf;
+		break;
+	}
+	case GCU_PROP_DOC_MODIFICATION_TIME: {
+		char buf[16];
+		*buf = 0;
+		g_date_strftime (buf, 16, "%F", &RevisionDate);
+		res << buf;
+		break;
+	}
+	case GCU_PROP_THEME_BOND_LENGTH: {
+		res << m_Theme->GetBondLength ();
+		break;
+	default:
+		return gcu::Document::GetProperty (property);
+	}
+	}
+	return res.str ();
 }
 
 GtkWindow *Document::GetGtkWindow ()
