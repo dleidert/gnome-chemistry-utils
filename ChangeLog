@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-08-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: make compile again after a new goffice API change.
+	* libs/gcu/Makefile.am: ditto.
+	* libs/gcu/cmd-context.cc: ditto.
+	* libs/gcu/goffice-compat.h: ditto.
+	* libs/gcu/loader.h: ditto.
+
 2009-08-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/theme.cc: fixed localization in themes.
 	* themes/paint/Wikipedia: ditto.

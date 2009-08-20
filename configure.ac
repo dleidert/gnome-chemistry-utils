@@ -208,7 +208,7 @@ saved_cflags=$CFLAGS
 saved_libs=$LIBS
 CFLAGS=$goffice_CFLAGS
 LIBS=$goffice_LIBS
-AC_CHECK_FUNCS(go_conf_sync go_data_serialize gog_data_editor_set_format)
+AC_CHECK_FUNCS(go_conf_sync go_data_serialize gog_data_editor_set_format go_error_info_free)
 CFLAGS=$saved_cflags
 LIBS=$saved_libs
 

@@ -25,6 +25,7 @@
 #ifndef GOFFICE_HAS_GLOBAL_HEADER
 #   include <goffice/app/error-info.h>
 #endif
+#include <gcu/goffice-compat.h>
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 

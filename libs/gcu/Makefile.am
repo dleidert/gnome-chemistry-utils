@@ -99,6 +99,7 @@ noinst_HEADERS = \
 		formula.h \
 		gldocument.h	\
 		glview.h	\
+		goffice-compat.h \
 		gtkchem3dviewer.h \
 		gtkcomboperiodic.h \
 		gtkcrystalviewer.h \

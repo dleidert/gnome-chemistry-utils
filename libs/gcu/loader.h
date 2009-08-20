@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/loader.h
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,6 +33,7 @@
 #else
 #   include <goffice/app/io-context.h>
 #endif
+#include <gcu/goffice-compat.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
 
