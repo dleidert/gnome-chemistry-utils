@@ -64,19 +64,19 @@ public:
 	CDXMLLoader ();
 	virtual ~CDXMLLoader ();
 
-	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
+	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
+	bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
 
 private:
-	bool WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, IOContext *io);
+	bool WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, GOIOContext *io);
 	static void AddIntProperty (xmlNodePtr node, char const *id, int value);
 	static void AddStringProperty (xmlNodePtr node, char const *id, string &value);
-	static bool WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, IOContext *s);
-	static bool WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, IOContext *s);
-	static bool WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, IOContext *s);
+	static bool WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, GOIOContext *s);
+	static bool WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, GOIOContext *s);
+	static bool WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, GOIOContext *s);
 
 private:
-	map <string, bool (*) (CDXMLLoader *, xmlDocPtr, xmlNodePtr, Object *, IOContext *)> m_WriteCallbacks;
+	map <string, bool (*) (CDXMLLoader *, xmlDocPtr, xmlNodePtr, Object *, GOIOContext *)> m_WriteCallbacks;
 	map <unsigned, GOColor> m_Colors;
 	map <unsigned, CDXMLFont> m_Fonts;
 	map <string, unsigned> m_SavedIds;
@@ -122,7 +122,7 @@ typedef struct {
 
 typedef struct {
 	Document *doc;
-	IOContext *context;
+	GOIOContext *context;
 	stack<Object*> cur;
 	list<CDXMLProps> failed;
 	map<unsigned, CDXMLFont> fonts;
@@ -732,7 +732,7 @@ GSF_XML_IN_NODE (CDXML, CDXML, -1, "CDXML", GSF_XML_CONTENT, &cdxml_doc, NULL),
 GSF_XML_IN_NODE_END
 };
 
-ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, IOContext *io)
+ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, GOIOContext *io)
 {
 	CDXMLReadState state;
 
@@ -750,7 +750,7 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 			success = ContentType2D;
 
 		if (success == ContentTypeUnknown)
-			gnm_io_warning (state.context,
+			go_io_warning (state.context,
 				_("'%s' is corrupt!"),
 				gsf_input_name (in));
 		else if (!state.failed.empty ()) {
@@ -765,7 +765,7 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 				}
 				if (!p.obj->SetProperty (p.property, p.value.c_str ())) {
 					success = ContentTypeUnknown;
-					gnm_io_warning (state.context,
+					go_io_warning (state.context,
 						_("'%s' is corrupt!"),
 						gsf_input_name (in));
 				}
@@ -795,7 +795,7 @@ static int cb_xml_to_vfs (GsfOutput *output, const guint8* buf, int nb)
 		return gsf_output_write (output, nb, buf)? nb: 0;
 }
 
-bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, G_GNUC_UNUSED IOContext *s)
+bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, G_GNUC_UNUSED GOIOContext *s)
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("n"), NULL);
 	xmlAddChild (parent, node);
@@ -809,7 +809,7 @@ bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	return true;
 }
 
-bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, G_GNUC_UNUSED IOContext *s)
+bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, G_GNUC_UNUSED GOIOContext *s)
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("b"), NULL);
 	xmlAddChild (parent, node);
@@ -840,7 +840,7 @@ bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	return true;
 }
 
-bool CDXMLLoader::WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, IOContext *s)
+bool CDXMLLoader::WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, GOIOContext *s)
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("fragment"), NULL);
 	xmlAddChild (parent, node);
@@ -871,10 +871,10 @@ bool CDXMLLoader::WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr 
 	return true;
 }
 
-bool CDXMLLoader::WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, IOContext *io)
+bool CDXMLLoader::WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, GOIOContext *io)
 {
 	string name = Object::GetTypeName (object->GetType ());
-	map <string, bool (*) (CDXMLLoader *, xmlDocPtr, xmlNodePtr, Object *, IOContext *)>::iterator i = m_WriteCallbacks.find (name);
+	map <string, bool (*) (CDXMLLoader *, xmlDocPtr, xmlNodePtr, Object *, GOIOContext *)>::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
 		return (*i).second (this, xml, node, object, io);
 	// if we don't save the object iself, try to save its children
@@ -901,7 +901,7 @@ void CDXMLLoader::AddStringProperty (xmlNodePtr node, char const *id, string &va
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (value.c_str ()));
 }
 
-bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
+bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	map<string, CDXMLFont> fonts;
 	Document *doc = dynamic_cast <Document *> (obj);

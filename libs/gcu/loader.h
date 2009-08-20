@@ -200,7 +200,7 @@ This function must be overloaded by a derived class able to read. Default
 implementation just return false.
 @return true on success, false otherwise.
 */
-	virtual ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
+	virtual ContentType Read (Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
 /*!
 @param obj the gcu::Object being written.
 @param out a GsfOutput (see the libgsf documentation at
@@ -213,7 +213,7 @@ This function must be overloaded by a derived class able to write. Default
 implementation just return false.
 @return true on success, false otherwise.
 */
-	virtual bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type = ContentTypeMisc);
+	virtual bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type = ContentTypeMisc);
 
 protected:
 /*!

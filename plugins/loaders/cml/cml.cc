@@ -46,7 +46,7 @@ static map<string, unsigned> KnownProps;
 
 typedef struct {
 	Document *doc;
-	IOContext *context;
+	GOIOContext *context;
 	stack<Object*> cur;
 	ContentType type;
 	string curstr;
@@ -64,19 +64,19 @@ public:
 	CMLLoader ();
 	virtual ~CMLLoader ();
 
-	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
+	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
+	bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
 
-	bool WriteObject (GsfXMLOut *xml, Object *object, IOContext *io, ContentType type);
+	bool WriteObject (GsfXMLOut *xml, Object *object, GOIOContext *io, ContentType type);
 
 private:
-	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object *, IOContext *s, ContentType)> m_WriteCallbacks;
+	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object *, GOIOContext *s, ContentType)> m_WriteCallbacks;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // Write callbacks
 
-bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *object, G_GNUC_UNUSED IOContext *io, ContentType type)
+bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *object, G_GNUC_UNUSED GOIOContext *io, ContentType type)
 {
 	gsf_xml_out_start_element (xml, "atom");
 	gsf_xml_out_add_cstr_unchecked (xml, "id", object->GetId ());
@@ -115,7 +115,7 @@ bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *ob
 	return true;
 }
 
-bool cml_write_bond (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *object, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
+bool cml_write_bond (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *object, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	gsf_xml_out_start_element (xml, "bond");
 	gsf_xml_out_add_cstr_unchecked (xml, "id", object->GetId ());
@@ -137,7 +137,7 @@ bool cml_write_bond (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *ob
 	return true;
 }
 
-bool cml_write_molecule (CMLLoader *loader, GsfXMLOut *xml, Object *object, IOContext *io, ContentType type)
+bool cml_write_molecule (CMLLoader *loader, GsfXMLOut *xml, Object *object, GOIOContext *io, ContentType type)
 {
 	gsf_xml_out_start_element (xml, "molecule");
 	std::map <std::string, Object *>::iterator i;
@@ -482,7 +482,7 @@ GSF_XML_IN_NODE (CML, CML, -1, "cml", GSF_XML_CONTENT, &cml_doc, NULL),
 	GSF_XML_IN_NODE (CML, MOLECULE, -1, "molecule", GSF_XML_CONTENT, cml_mol_start, cml_simple_end),
 };
 
-ContentType CMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
+ContentType CMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io)
 {
 	CMLReadState state;
 	bool  success = false;
@@ -499,7 +499,7 @@ ContentType CMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 		success = gsf_xml_in_doc_parse (xml, in, &state);
 
 		if (!success)
-			gnm_io_warning (state.context,
+			go_io_warning (state.context,
 				_("'%s' is corrupt!"),
 				gsf_input_name (in));
 		gsf_xml_in_doc_free (xml);
@@ -510,10 +510,10 @@ ContentType CMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, IOContext *io, ContentType type)
+bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, GOIOContext *io, ContentType type)
 {
 	string name = Object::GetTypeName (object->GetType ());
-	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object *, IOContext *, ContentType)>::iterator i = m_WriteCallbacks.find (name);
+	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object *, GOIOContext *, ContentType)>::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
 		return (*i).second (this, xml, object, io, type);
 	// if we don't save the object iself, try to save its children
@@ -528,7 +528,7 @@ bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, IOContext *io, Cont
 					either in this code or in the cml schema */
 }
 
-bool CMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, IOContext *io, ContentType type)
+bool CMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, GOIOContext *io, ContentType type)
 {
 	if (NULL != out) {
 		GsfXMLOut *xml = gsf_xml_out_new (out);

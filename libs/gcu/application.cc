@@ -276,7 +276,7 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 		g_error_free (error);
 		return ContentTypeUnknown;
 	}
-	IOContext *io = gnumeric_io_context_new (gcu_get_cmd_context ());
+	GOIOContext *io = go_io_context_new (gcu_get_cmd_context ());
 	ContentType ret = l->Read (Doc, input, mime_type, io);
 	g_object_unref (input);
 	g_object_unref (io);
@@ -313,7 +313,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 	if (error) {
 		g_error_free (error);
 	}
-	IOContext*io  = gnumeric_io_context_new (gcu_get_cmd_context ());
+	GOIOContext *io  = go_io_context_new (gcu_get_cmd_context ());
 	bool ret = l->Write (const_cast <Document *> (Doc), output, mime_type, io, type);
 	g_object_unref (output);
 	g_object_unref (io);

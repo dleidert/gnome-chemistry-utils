@@ -35,9 +35,9 @@ gcu_cc_error_error (G_GNUC_UNUSED GOCmdContext *cc, GError *error)
 }
 
 static void
-gcu_cc_error_info (G_GNUC_UNUSED GOCmdContext *cc, ErrorInfo *error)
+gcu_cc_error_info (G_GNUC_UNUSED GOCmdContext *cc, GOErrorInfo *error)
 {
-	error_info_print (error);
+	go_error_info_print (error);
 }
 
 static char *

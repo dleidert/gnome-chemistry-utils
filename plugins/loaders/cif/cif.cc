@@ -48,8 +48,8 @@ public:
 	CIFLoader ();
 	virtual ~CIFLoader ();
 
-	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, IOContext *io);
-	bool Write (Object *obj, GsfOutput *out, char const *mime_type, IOContext *io, ContentType type);
+	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
+	bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
 };
 
 enum { // local only properties
@@ -108,7 +108,7 @@ typedef struct {
 	string charge;
 } CIFAtomType;
 
-ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
+ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io)
 {
 	ContentType type = ContentTypeCrystal;
 	GsfInputTextline *input = reinterpret_cast <GsfInputTextline *> (gsf_input_textline_new (in));
@@ -430,7 +430,7 @@ typedef struct
 	string XFract, YFract, ZFract; 
 } AtomInstance;
 
-bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
+bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	std::string prop;
 	unsigned i;

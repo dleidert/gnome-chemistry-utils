@@ -43,14 +43,14 @@ static map<string, GOPluginService *> services;
 
 GType plugin_service_chemical_loader_get_type (void);
 typedef struct {
-	PluginServiceSimple	base;
+	GOPluginServiceSimple	base;
 
 } PluginServiceChemicalLoader;
-typedef PluginServiceSimpleClass PluginServiceChemicalLoaderClass;
+typedef GOPluginServiceSimpleClass PluginServiceChemicalLoaderClass;
 
 static void
 plugin_service_chemical_loader_read_xml (GOPluginService * service, xmlNode * tree,
-				    ErrorInfo ** ret_error)
+				    GOErrorInfo ** ret_error)
 {
 	xmlNode *ptr;
 
@@ -62,7 +62,7 @@ plugin_service_chemical_loader_read_xml (GOPluginService * service, xmlNode * tr
 			char *name = (char *) xmlGetProp (ptr, (xmlChar const *) "name");
 			if (name) {
 				if (loaders.find (name) != loaders.end ()) {
-					*ret_error = error_info_new_printf ("Duplicate loader for mime type %s", name);
+					*ret_error = go_error_info_new_printf ("Duplicate loader for mime type %s", name);
 					xmlFree (name);
 					return;
 				}
@@ -134,7 +134,7 @@ void Loader::Init ()
 {
 	if (Inited)
 		return;
-	plugin_service_define ("chemical_loader",
+	go_plugin_service_define ("chemical_loader",
 		&plugin_service_chemical_loader_get_type);
 	go_plugin_loader_module_register_version ("gchemutils", VERSION);
 	char *plugins_dir = g_strdup (GCU_PLUGINS_DIR);
@@ -162,10 +162,10 @@ Loader *Loader::GetLoader (char const *mime_type)
 	map<string, LoaderStruct>::iterator it = loaders.find (mime_type);
 	if (it != loaders.end () && (*it).second.read) {
 		if ((*it).second.loader == NULL) {
-			ErrorInfo *error = NULL;
-			plugin_service_load (services[mime_type], &error);
+			GOErrorInfo *error = NULL;
+			go_plugin_service_load (services[mime_type], &error);
 			if (error) {
-				g_warning (error_info_peek_message (error));
+				g_warning ("%s", go_error_info_peek_message (error));
 				g_free (error);
 			}
 		}
@@ -179,10 +179,10 @@ Loader *Loader::GetSaver (char const *mime_type)
 	map<string, LoaderStruct>::iterator it = loaders.find (mime_type);
 	if (it != loaders.end () && (*it).second.write) {
 		if ((*it).second.loader == NULL) {
-			ErrorInfo *error = NULL;
-			plugin_service_load (services[mime_type], &error);
+			GOErrorInfo *error = NULL;
+			go_plugin_service_load (services[mime_type], &error);
 			if (error) {
-				g_warning (error_info_peek_message (error));
+				g_warning ("%s", go_error_info_peek_message (error));
 				g_free (error);
 			}
 		}
@@ -207,12 +207,12 @@ void Loader::RemoveMimeType (const char *mime_type)
 		(*it).second.loader = NULL;
 }
 
-ContentType Loader::Read (G_GNUC_UNUSED Document *doc, G_GNUC_UNUSED GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io)
+ContentType Loader::Read (G_GNUC_UNUSED Document *doc, G_GNUC_UNUSED GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io)
 {
 	return ContentTypeUnknown;
 }
 
-bool Loader::Write (G_GNUC_UNUSED Object *obj, G_GNUC_UNUSED GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED IOContext *io, G_GNUC_UNUSED ContentType type)
+bool Loader::Write (G_GNUC_UNUSED Object *obj, G_GNUC_UNUSED GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	return false;
 }
