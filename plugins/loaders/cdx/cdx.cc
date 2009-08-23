@@ -195,6 +195,9 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 		code = 0;
 	}
 
+	// set a default scale
+	doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, "1966080");
+
 	while (code) {
 		if (code & kCDXTag_Object) {
 			switch (code) {
@@ -476,13 +479,13 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	m_Fonts[4] = (CDXFont) {4, kCDXCharSetUnknown, string ("Times New Roman")};
 
 	gsf_output_write (out, kCDX_HeaderStringLen, (guint8 const *) kCDX_HeaderString);
-	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
+	gsf_output_write (out, kCDX_HeaderLength - kCDX_HeaderStringLen, (guint8 const *) "\x04\x03\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00");
 	std::string app = doc->GetApp ()->GetName () + " "VERSION;
 	WriteSimpleStringProperty (out, kCDXProp_CreationProgram, app.length (), app.c_str ());
 	// determine the bond length and scale the document appropriately
 	string prop = doc->GetProperty (GCU_PROP_THEME_BOND_LENGTH);
 	double scale = strtod (prop.c_str (), NULL);
-	doc->SetScale (scale / 30.);
+	doc->SetScale (scale / 1966080.);
 	n = kCDXProp_BondLength;
 	WRITEINT16 (out, n);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));

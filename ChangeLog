@@ -1,7 +1,10 @@
 ##Text encoding: utf-8
 
+2009-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdx/cdx.cc: fixed scale issues.
+
 2009-08-20  Jean Bréfort  <jean.brefort@normalesup.org>
-	* configure.ac: requires goffice-0.10.
+	* configure.ac: requires goffice-0.7.10.
 	* libs/gcu/application.cc: fixed after goffice grand rename.
 	* libs/gcu/cmd-context.cc: ditto.
 	* libs/gcu/loader.cc: ditto.
