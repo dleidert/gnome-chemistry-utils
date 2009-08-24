@@ -312,12 +312,42 @@ bool gcpFragmentTool::CutSelection (GtkClipboard *clipboard)
 }
 
 /**
-* This method does nothing and always return false because pasting something inside
+* Accept only unformated text since pasting something else inside
 * a fragment is somewhat unsafe and will not be implemented in a foreseable future.
 */
-bool gcpFragmentTool::OnReceive (G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED GtkSelectionData *data, G_GNUC_UNUSED int type)
+bool gcpFragmentTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *selection_data, G_GNUC_UNUSED int type)
 {
-	return false;
+	if (!m_Active)
+		return false;
+	guint *DataType = (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))? &gcp::ClipboardDataType: &gcp::ClipboardDataType1;
+	g_return_val_if_fail ((gtk_selection_data_get_target (selection_data) == gdk_atom_intern (gcp::targets[*DataType].target, FALSE)), FALSE);
+	int length = gtk_selection_data_get_length (selection_data);
+	char const *data = reinterpret_cast <char const *> (gtk_selection_data_get_data (selection_data));
+	gcp::Fragment *fragment = dynamic_cast <gcp::Fragment*> (m_Active->GetClient ());
+	unsigned start, end;
+	fragment->GetSelectionBounds (start, end);
+	switch (*DataType) {
+		case gcp::GCP_CLIPBOARD_UTF8_STRING: {
+			string s (data);
+			m_Active->ReplaceText (s, static_cast <int> (start), start - end);
+			break;
+		}
+		case gcp::GCP_CLIPBOARD_STRING: {
+			if (!g_utf8_validate (data, length, NULL)) {
+				gsize r, w;
+				char* newstr = g_locale_to_utf8 (data, length, &r, &w, NULL);
+				string s (newstr);
+				m_Active->ReplaceText (s, static_cast <int> (start), start - end);
+				g_free (newstr);
+			} else {
+				string s (data);
+				m_Active->ReplaceText (s, static_cast <int> (start), start - end);
+			}
+			break;
+		}
+	}
+	fragment->OnChanged (true);
+	return true;
 }
 
 bool gcpFragmentTool::Unselect ()

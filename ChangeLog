@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/fragmenttool.cc: implement text pasting in fragments.
+
 2009-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: fixed scale issues.
 
