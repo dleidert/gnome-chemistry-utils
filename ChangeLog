@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/bezier-arrow.cc: take arrow head into account for bounds.
+	* plugins/loaders/cdx/cdx.cc: export Z order.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+
 2009-08-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/fragmenttool.cc: implement text pasting in fragments.
 

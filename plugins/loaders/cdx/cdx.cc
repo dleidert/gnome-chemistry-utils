@@ -160,6 +160,7 @@ private:
 	map<unsigned, GOColor> m_Colors;
 	map <string, gint32> m_SavedIds;
 	gint32 m_MaxId;
+	unsigned m_Z;
 };
 
 CDXLoader::CDXLoader ():
@@ -338,6 +339,7 @@ bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNU
 		WRITEINT32 (out, y_);
 		WRITEINT32 (out, x_);
 	}
+	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);	
 	prop = obj->GetProperty (GCU_PROP_ATOM_Z);
 	if (prop != "6") {
 		n = kCDXProp_Node_Element;
@@ -355,6 +357,7 @@ bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNU
 	gint16 n = kCDXObj_Bond;
 	WRITEINT16 (out, n);
 	loader->WriteId (obj, out);
+	AddInt16Property (out, kCDXProp_ZOrder, loader->m_Z++);	
 	string prop = obj->GetProperty (GCU_PROP_BOND_BEGIN);
 	AddInt32Property (out, kCDXProp_Bond_Begin, loader->m_SavedIds[prop]);
 	prop = obj->GetProperty (GCU_PROP_BOND_END);
@@ -462,7 +465,7 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	if (!doc || !out)
 		return false;
 
-	m_MaxId = 1;
+	m_MaxId = m_Z = 1;
 
 	// Init colors
 	m_Colors[2] = RGBA_WHITE;

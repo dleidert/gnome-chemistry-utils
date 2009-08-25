@@ -129,7 +129,7 @@ void BezierArrow::UpdateBounds ()
 {
 	// ensure that the two last control points are at least 2 * m_A away from
 	// each other, and otherwise, move Control[2]
-	double dx, dy, l;
+	double dx, dy, l, x, y, c;
 	dx = m_Controls[3].x - m_Controls[2].x;
 	dy = m_Controls[3].y - m_Controls[2].y;
 	l = hypot (dx, dy);
@@ -153,7 +153,29 @@ void BezierArrow::UpdateBounds ()
 		else if (m_Controls[i].y > m_y1)
 			m_y1 = m_Controls[i].y;
 	}
-	// TODO: take arrow head and line width into account
+	dx /= l;
+	dy /= l;
+	c = m_C + GetLineWidth () / 2.;
+	x = m_Controls[3].x - m_B * dx - c * dy;
+	y = m_Controls[3].y - m_B * dy + c * dx;
+	if (x < m_x0)
+		m_x0 = x;
+	else if (x > m_x1)
+		m_x1 = x;
+	if (y < m_y0)
+		m_y0 = y;
+	else if (y > m_y1)
+		m_y1 = y;
+	x = m_Controls[3].x - m_B * dx + c * dy;
+	y = m_Controls[3].y - m_B * dy - c * dx;
+	if (x < m_x0)
+		m_x0 = x;
+	else if (x > m_x1)
+		m_x1 = x;
+	if (y < m_y0)
+		m_y0 = y;
+	else if (y > m_y1)
+		m_y1 = y;
 }
 
 void BezierArrow::SetControlPoints (double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3)

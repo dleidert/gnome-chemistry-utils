@@ -81,6 +81,7 @@ private:
 	map <unsigned, CDXMLFont> m_Fonts;
 	map <string, unsigned> m_SavedIds;
 	int m_MaxId;
+	unsigned m_Z;
 };
 
 CDXMLLoader::CDXMLLoader ()
@@ -803,6 +804,7 @@ bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	AddIntProperty (node, "id", loader->m_MaxId++);
 	string prop = obj->GetProperty (GCU_PROP_POS2D);
 	AddStringProperty (node, "p", prop);
+	AddIntProperty (node, "Z", loader->m_Z++);	
 	prop = obj->GetProperty (GCU_PROP_ATOM_Z);
 	if (prop != "6")
 		AddStringProperty (node, "Element", prop);
@@ -815,6 +817,7 @@ bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	xmlAddChild (parent, node);
 	loader->m_SavedIds[obj->GetId ()] = loader->m_MaxId;
 	AddIntProperty (node, "id", loader->m_MaxId++);
+	AddIntProperty (node, "Z", loader->m_Z++);	
 	string prop = obj->GetProperty (GCU_PROP_BOND_BEGIN);
 	AddIntProperty (node, "B", loader->m_SavedIds[prop]);
 	prop = obj->GetProperty (GCU_PROP_BOND_END);
@@ -909,7 +912,7 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 	if (!doc || !out)
 		return false;
 
-	m_MaxId = 1;
+	m_MaxId = m_Z = 1;
 
 	// Init default colors
 	m_Colors[2] = RGBA_WHITE;
