@@ -55,12 +55,79 @@ BezierArrow::~BezierArrow ()
 {
 }
 
-double BezierArrow::Distance (double x, double y, Item **item) const
+static double newton (double t, double d5, double d4, double d3, double d2, double d1, double d0)
 {
-	return G_MAXDOUBLE; //FIXME
+	int i;
+	double u;
+	// limit to 10 iterations to avoid an improbable infinite loop
+	for (i = 0; i < 10; i++) {
+		u = t;
+		t -= (((((d5 * t + d4) * t + d3) * t + d2) * t + d1) * t + d0) / ((((5 * d5 * t + 4 * d4) * t + 3 * d3) * t + 2 * d2) * t + d1);
+		if (fabs (1 - u / t) < 1.e-12)
+			break;
+	}
+	return t;
 }
 
-void BezierArrow::Draw (cairo_t *cr, bool is_vector) const
+double BezierArrow::Distance (double x, double y, Item **item) const
+{
+	double a, b, c, d, e, f, g, h, r, s, t, u;
+	if (item)
+		*item = const_cast <BezierArrow *> (this);
+	if (x < m_x0 - 10. || x > m_x1 + 10 || y < m_y0 - 10 || y > m_y1 + 10)
+		return G_MAXDOUBLE; // don't care we are far from the arrow
+	a = m_Controls[3].x - 3 * (m_Controls[2].x - m_Controls[1].x) - m_Controls[0].x;
+	b = 3 * (m_Controls[2].x - 2 * m_Controls[1].x + m_Controls[0].x);
+	c = 3 * (m_Controls[1].x - m_Controls[0].x);
+	d = m_Controls[0].x - x;
+	e = m_Controls[3].y - 3 * (m_Controls[2].y - m_Controls[1].y) - m_Controls[0].y;
+	f = 3 * (m_Controls[2].y - 2 * m_Controls[1].y + m_Controls[0].y);
+	g = 3 * (m_Controls[1].y - m_Controls[0].y);
+	h = m_Controls[0].y - y;
+	// evaluate the distance using the Newton method starting from each end and
+	// from the center, and take the lowest found value (undemonstrated validity).
+	// evaluate the derivative at 0:
+	double d5, d4, d3, d2, d1, d0;
+	d5 = 3 * (a * a + e * e);
+	d4 = 5 * (a * b + e * f);
+	d3 = 4 * (a * c + e * g) + 2 * (b * b + f * f);
+	d2 = 3 * (b * c + a * d + f * g + e * h);
+	d1 = c * c + g * g + 2 * (b * d + f * h);
+	d0 = c * d + g * h;
+	if (d0 < 0.) {
+		// the curve moves towards the target at x0, y0
+		// find where the derivative becomes 0
+		t = newton (0, d5, d4, d3, d2, d1, d0);
+		u = ((a * t + b) * t + c) * t + d;
+		r = u * u;
+		u = ((e * t + f) * t + g) * t + h;
+		r += u * u;
+	} else
+		r = hypot (x - m_Controls[0].x, y - m_Controls[0].y);
+	// reiterate from the other end
+	if (d5 + d4 + d3 + d2 + d1 + d0 > 0.) {
+		t = newton (1, d5, d4, d3, d2, d1, d0);
+		u = ((a * t + b) * t + c) * t + d;
+		s = u * u;
+		u = ((e * t + f) * t + g) * t + h;
+		s += u * u;
+	} else
+		s = hypot (x - m_Controls[3].x, y - m_Controls[3].y);
+	if (s < r)
+		r = s;
+	// now start from t = .5
+	t = newton (0.5, d5, d4, d3, d2, d1, d0);
+	u = ((a * t + b) * t + c) * t + d;
+	s = u * u;
+	u = ((e * t + f) * t + g) * t + h;
+	s += u * u;
+	if (s < r)
+		r = s;
+	// FIXME: take arrow head into account
+	return r;
+}
+
+void BezierArrow::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	double dx, dy, x, y, l;
 	dx = m_Controls[3].x - m_Controls[2].x;

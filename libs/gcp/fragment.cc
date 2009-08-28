@@ -975,6 +975,53 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				tag->SetEndIndex (start);
 				tag = NULL;
 			}
+			if (c == '\'' || c == '"') {
+				unsigned nb = 0;
+				int l;
+				if (start > 0) {
+					next = g_utf8_find_prev_char (m_buf.c_str (), m_buf.c_str () + start) - m_buf.c_str ();
+					l = start - next;
+					if (!strncmp (m_buf.c_str () + next, "′", l))
+						nb = 1;
+					else if (!strncmp (m_buf.c_str () + next, "″", l))
+						nb = 2;
+					else if (!strncmp (m_buf.c_str () + next, "‴", l))
+						nb = 3;
+					else if (!strncmp (m_buf.c_str () + next, "⁗", l) || m_buf[next] == '\'' || m_buf[next] == '"')
+						nb = 4;
+					else
+						next = start;
+				} else {
+					next = start;
+					l = 0;
+				}
+				nb += (c == '"')? 2: 1;
+				if (nb > 4)
+					break;
+				l++;
+				string glyph;
+				switch (nb) {
+				case 1:
+					glyph = "′";
+					break;
+				case 2:
+					glyph = "″";
+					break;
+				case 3:
+					glyph = "‴";
+					break;
+				case 4:
+					glyph = "⁗";
+					break;
+				default: // should not happen
+					break;
+				}
+				m_TextItem->ReplaceText (glyph, next, l);
+				m_buf = m_TextItem->GetText ();
+				text = m_buf.c_str ();
+				end += glyph.length () - l;
+				start = next;
+			}
 		}
 		start = g_utf8_find_next_char (m_buf.c_str () + start, NULL) - m_buf.c_str ();
 	}

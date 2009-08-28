@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-08-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/bezier-arrow.cc: implement BezierArrow::Distance().
+	* libs/gcp/fragment.cc: implement smart primes.
+
 2009-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: take arrow head into account for bounds.
 	* plugins/loaders/cdx/cdx.cc: export Z order.
