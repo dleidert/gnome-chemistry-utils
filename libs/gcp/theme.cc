@@ -123,11 +123,12 @@ Theme::~Theme ()
 	// set all remaining document client theme to NULL
 	// this is just a work around, but a ThemeClient class should be implemented
 	Document *doc;
-	std::set <gcu::Object*>::iterator i, end = m_Clients.end ();
-	for (i = m_Clients.begin (); i != end; i++) {
-		doc = dynamic_cast <Document *> (*i);
+	while (!m_Clients.empty ()) {
+		doc = dynamic_cast <Document *> (*m_Clients.begin ());
 		if (doc)
 			doc->SetTheme (NULL);
+		else
+			m_Clients.erase (m_Clients.begin ());
 	}
 }
 

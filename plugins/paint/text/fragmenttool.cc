@@ -84,11 +84,11 @@ bool gcpFragmentTool::OnClicked ()
 	} else {
 		m_Fragment = NULL;
 	}
-/*	gccv::TextSelBounds bounds;
-	bool need_update = false;*/
+/*	bool need_update = false;*/
+	unsigned start, end;
 	if (m_pObject) {
 		switch (m_pObject->GetType ()) {
-/*			case AtomType: {
+			case AtomType: {
 				gcp::Atom* pAtom = (gcp::Atom*) m_pObject;
 				if (pAtom->GetTotalBondsNumber () > 1)
 					return false;
@@ -97,8 +97,8 @@ bool gcpFragmentTool::OnClicked ()
 				gcp::Molecule *pMol = (gcp::Molecule*) pAtom->GetMolecule ();
 				map<Atom*, Bond*>::iterator i;
 				gcp::Bond *pBond = (gcp::Bond*) pAtom->GetFirstBond (i);
-				pFragment = new gcp::Fragment (x, y);
-				gcp::Atom* pFragAtom = (gcp::Atom*) pFragment->GetAtom ();
+				m_Fragment = new gcp::Fragment (x, y);
+				gcp::Atom* pFragAtom = (gcp::Atom*) m_Fragment->GetAtom ();
 				map<string, Object*>::iterator ie;
 				Object* electron = pAtom->GetFirstChild (ie);
 				while (electron) {
@@ -108,8 +108,8 @@ bool gcpFragmentTool::OnClicked ()
 				}
 				pMol->Remove (pAtom);
 				pAtom->SetParent (NULL);
-				pMol->AddFragment (pFragment);
-				pDoc->AddFragment (pFragment);
+				pMol->AddFragment (m_Fragment);
+				pDoc->AddFragment (m_Fragment);
 				pDoc->AbortOperation ();
 				gcp::Operation* pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 				pOp->AddObject (pAtom, 0);
@@ -125,13 +125,14 @@ bool gcpFragmentTool::OnClicked ()
 						buf = g_strdup_printf ("H%d", n);
 					else
 						buf = g_strdup ("H");
-					bounds.start = bounds.cur = ((pAtom->GetBestSide ())? strlen (pAtom->GetSymbol ()): 0);
-					pFragment->OnSelChanged (&bounds);
-					gcp_pango_layout_replace_text (pFragment->GetLayout (),
+					start = ((pAtom->GetBestSide ())? strlen (pAtom->GetSymbol ()): 0);
+/*					gcp_pango_layout_replace_text (pFragment->GetLayout (),
 						bounds.cur,
 						0, buf, pDoc->GetPangoAttrList ());
-					bounds.cur +=  strlen (buf);
+					end = start + strlen (buf);
 					need_update = true;
+					*/
+					m_Fragment->SelectionChanged (start, end);
 					g_free (buf);
 				}
 				delete pAtom;
@@ -139,13 +140,14 @@ bool gcpFragmentTool::OnClicked ()
 					pBond->ReplaceAtom (pAtom, pFragAtom);
 					pFragAtom->AddBond (pBond);
 					pOp->AddObject (pBond, 1);
+					pBond->UpdateItem ();// FIXME: is this needed?
 				}
-				pOp->AddObject (pFragment, 1);
+				pOp->AddObject (m_Fragment, 1);
 				pDoc->FinishOperation ();
 				pDoc->EmptyTranslationTable ();
-				m_pObject = pFragment;
+				m_pObject = m_Fragment;
 				break;
-			}*/
+			}
 			case BondType:
 				return false;
 			case FragmentType:

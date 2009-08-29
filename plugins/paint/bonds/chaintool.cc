@@ -56,7 +56,7 @@ gcpChainTool::gcpChainTool (gcp::Application *App): gcp::Tool (App, "Chain")
 
 gcpChainTool::~gcpChainTool()
 {
-	delete m_Points;
+	delete [] m_Points;
 }
 	
 bool gcpChainTool::OnClicked()

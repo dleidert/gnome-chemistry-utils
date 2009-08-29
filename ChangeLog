@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-08-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/docprop.cc: release the themes when done.
+	* libs/gcp/document.cc: always release old theme.
+	* libs/gcp/theme.cc: exit cleanly.
+	* plugins/paint/bonds/chaintool.cc: use delete [] to delete an array.
+	* plugins/paint/text/fragmenttool.cc: some work on atom to fragment
+	transformation.
+
 2009-08-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: implement BezierArrow::Distance().
 	* libs/gcp/fragment.cc: implement smart primes.
