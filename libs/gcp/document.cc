@@ -542,7 +542,8 @@ void Document::AddBond (Bond* pBond)
 		while (GetDescendant(id) != NULL);
 		pBond->SetId (id);
 	}
-	AddChild (pBond);
+	if (pBond->GetParent () == NULL)
+		AddChild (pBond);
 	Atom *pAtom0 = (Atom*) pBond->GetAtom (0), *pAtom1 = (Atom*) pBond->GetAtom (1);
 	if (m_pView->GetCanvas ()) {
 		pAtom0->UpdateItem ();

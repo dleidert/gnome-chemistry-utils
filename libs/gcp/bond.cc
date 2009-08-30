@@ -108,7 +108,7 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 		dy *= (BondDist / l);
 		// now, exclude symbols rectangles from the drawing
 		double ax, ay, anga, angb = atan2 (fabs (dy), fabs (dx));
-		reinterpret_cast <Atom *> (m_Begin)->GetSymbolGeometry (ax, ay, anga, dy < 0);
+		static_cast <Atom *> (m_Begin)->GetSymbolGeometry (ax, ay, anga, dy < 0);
 		bool horizontal;
 		if (ax > 0) {
 			horizontal = anga >= angb;
@@ -126,7 +126,7 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 				*x1 -= ay * dx / dy;
 			}
 		}
-		reinterpret_cast <Atom *> (m_End)->GetSymbolGeometry (ax, ay, anga, dy > 0);
+		static_cast <Atom *> (m_End)->GetSymbolGeometry (ax, ay, anga, dy > 0);
 		if (ax > 0) {
 			horizontal = anga >= angb;
 			if (horizontal) {
@@ -192,11 +192,11 @@ bool Bond::GetLine2DCoords (unsigned Num, double* x1, double* y1, double* x2, do
 			if (sin(a0 - a1) * sin (a0 - a2) > 0) {
 				double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 				double tanb = 0., cosa = cos (a0), sina = sin (a0);
-				if (m_Begin->GetZ () == 6 && !reinterpret_cast <Atom*> (m_Begin)->GetShowSymbol ())
+				if (m_Begin->GetZ () == 6 && !static_cast <Atom*> (m_Begin)->GetShowSymbol ())
 					tanb = fabs (tan ((M_PI - a0 + a1) / 2));
 				m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
 				m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
-				tanb = (m_End->GetZ () == 6 && !reinterpret_cast <Atom*> (m_End)->GetShowSymbol ())? fabs (tan ((a2 - a0) / 2)): 0.;
+				tanb = (m_End->GetZ () == 6 && !static_cast <Atom*> (m_End)->GetShowSymbol ())? fabs (tan ((a2 - a0) / 2)): 0.;
 				m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 				m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
 			} else goto general;
@@ -207,10 +207,10 @@ general:
 			if (n1 == 1) {
 				// put the second line on the bond side if any
 				map <gcu::Atom*, gcu::Bond*>::iterator it;
-				Bond *bond = reinterpret_cast <Bond*> (m_Begin->GetFirstBond (it));
+				Bond *bond = static_cast <Bond*> (m_Begin->GetFirstBond (it));
 				if (bond == this)
-					bond = reinterpret_cast <Bond*> (m_Begin->GetNextBond (it));
-				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin)), a2, a;
+					bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
+				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (static_cast <Atom*> (m_Begin)), a2, a;
 				if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
 					double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 					double tanb = ((m_Begin->GetZ () == 6)? fabs (tan ((M_PI - a0 + a1) / 2)): 0.), cosa = cos (a0), sina = sin (a0);
@@ -220,44 +220,44 @@ general:
 					a2 = M_PI + a0;
 					if (a2 > 2 * M_PI)
 						a2 -= 2 * M_PI;
-					bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
+					bond = static_cast <Bond*> (m_End->GetFirstBond (it));
 					if (m_End->GetZ () == 6)
 						while (bond) {
 							if (bond != this) {
-								a = tan ((bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End)) - a0) / 2);
+								a = tan ((bond->GetAngle2DRad (static_cast <Atom*> (m_End)) - a0) / 2);
 								if (sign * a < sign * tanb)
 									tanb = a;
 								
 							}
-							bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
+							bond = static_cast <Bond*> (m_End->GetNextBond (it));
 						}
-					m_coords[6] = *x2 + BondDist * cosa * tanb - dy * sign;
-					m_coords[7] = *y2 + dx * sign - BondDist * sina * tanb;
+					m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
+					m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
 					goto done;
 				}
 			} else if (n1 > 1 && n2 > 0) {
 				if (n2 == 1) {
 					map <gcu::Atom*, gcu::Bond*>::iterator it;
-					Bond *bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
+					Bond *bond = static_cast <Bond*> (m_End->GetFirstBond (it));
 					if (bond == this)
-						bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
-					double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End)), a2, a;
+						bond = static_cast <Bond*> (m_End->GetNextBond (it));
+					double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (static_cast <Atom*> (m_End)), a2, a;
 					if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
 						double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 						double tanb = 0., cosa = cos (a0), sina = sin (a0);
 						a2 = M_PI + a0;
 						if (a2 > 2 * M_PI)
 							a2 -= 2 * M_PI;
-						bond = reinterpret_cast <Bond*> (m_Begin->GetFirstBond (it));
+						bond = static_cast <Bond*> (m_Begin->GetFirstBond (it));
 						if (m_Begin->GetZ () == 6)
 							while (bond) {
 								if (bond != this) {
-									a = tan ((bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin)) - a2) / 2);
+									a = tan ((bond->GetAngle2DRad (static_cast <Atom*> (m_Begin)) - a2) / 2);
 									if (sign * a < sign * tanb)
 										tanb = a;
 									
 								}
-								bond = reinterpret_cast <Bond*> (m_Begin->GetNextBond (it));
+								bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
 							}
 						m_coords[4] = *x1 - BondDist * cosa * tanb - dy * sign;
 						m_coords[5] = *y1 + dx * sign + BondDist * sina * tanb;
@@ -268,36 +268,36 @@ general:
 				} else {
 					// use the side with more room.
 					double tana = 0., tanb = 0., tanc = 0., tand = 0.;
-					double a, a0 = GetAngle2DRad (reinterpret_cast <Atom*> (m_End)), a1 = GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin));
+					double a, a0 = GetAngle2DRad (static_cast <Atom*> (m_End)), a1 = GetAngle2DRad (static_cast <Atom*> (m_Begin));
 					double cosa = cos (a0), sina = sin (a0);
 					map <gcu::Atom*, gcu::Bond*>::iterator it;
 					Bond *bond;
 					if (m_Begin->GetZ () == 6) {
-						bond = reinterpret_cast <Bond*> (m_Begin->GetFirstBond (it));
+						bond = static_cast <Bond*> (m_Begin->GetFirstBond (it));
 						while (bond) {
 							if (bond != this) {
-								a = tan ((bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_Begin)) - a0) / 2);
+								a = tan ((bond->GetAngle2DRad (static_cast <Atom*> (m_Begin)) - a0) / 2);
 								if (a > tana)
 									tana = a;
 								if (a < tanb)
 									tanb = a;
 								
 							}
-							bond = reinterpret_cast <Bond*> (m_Begin->GetNextBond (it));
+							bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
 						}
 					}
 					if (m_End->GetZ () == 6) {
-						bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
+						bond = static_cast <Bond*> (m_End->GetFirstBond (it));
 						while (bond) {
 							if (bond != this) {
-								a = tan ((bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End)) - a1) / 2);
+								a = tan ((bond->GetAngle2DRad (static_cast <Atom*> (m_End)) - a1) / 2);
 								if (a > tanc)
 									tanc = a;
 								if (a < tand)
 									tand = a;
 								
 							}
-							bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
+							bond = static_cast <Bond*> (m_End->GetNextBond (it));
 						}
 					}
 					if (tana - tand > tanc - tanb) {
@@ -315,10 +315,10 @@ general:
 				goto done;
 			} else if (n2 == 1) { // n1 is 0
 				map <gcu::Atom*, gcu::Bond*>::iterator it;
-				Bond *bond = reinterpret_cast <Bond*> (m_End->GetFirstBond (it));
+				Bond *bond = static_cast <Bond*> (m_End->GetFirstBond (it));
 				if (bond == this)
-					bond = reinterpret_cast <Bond*> (m_End->GetNextBond (it));
-				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (reinterpret_cast <Atom*> (m_End));
+					bond = static_cast <Bond*> (m_End->GetNextBond (it));
+				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (static_cast <Atom*> (m_End));
 				if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
 					double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 					double tanb, cosa = cos (a0), sina = sin (a0);
@@ -1145,7 +1145,7 @@ bool Bond::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 
 void Bond::MoveToBack ()
 {
-	View *pView = reinterpret_cast<Document*> (GetDocument ())->GetView ();
+	View *pView = static_cast <Document *> (GetDocument ())->GetView ();
 	map<Bond*, BondCrossing>::iterator i, iend = m_Crossing.end ();
 	for (i = m_Crossing.begin (); i != iend; i++) {
 		if (m_level > (*i).first->m_level && m_type == (*i).first->m_type) {
@@ -1160,7 +1160,7 @@ void Bond::MoveToBack ()
 
 void Bond::BringToFront ()
 {
-	View *pView = reinterpret_cast<Document*> (GetDocument ())->GetView ();
+	View *pView = static_cast <Document *> (GetDocument ())->GetView ();
 	map<Bond*, BondCrossing>::iterator i, iend = m_Crossing.end ();
 	for (i = m_Crossing.begin (); i != iend; i++) {
 		if (m_level < (*i).first->m_level && m_type == (*i).first->m_type) {

@@ -672,6 +672,7 @@ bool Fragment::Load (xmlNodePtr node)
 			m_buf += m_Atom->GetSymbol();
 			m_Atom->SetCoords (m_x, m_y);
 			m_EndAtom = m_buf.length ();
+			AddChild (m_Atom);
 		} else if (!strcmp ((const char*) child->name, "residue")) {
 			// replace the atom by a residue
 			map<gcu::Atom*, gcu::Bond*>::iterator i;
@@ -823,6 +824,8 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 	if (!pDoc)
 		return;
 	Theme *pTheme = pDoc->GetTheme ();
+	if (m_TextItem)
+		m_buf = m_TextItem->GetText ();
 	char const *text = m_buf.c_str ();
 	list <gccv::TextTag *> const *tags = (m_TextItem)? m_TextItem->GetTags (): &m_TagList;
 	list <gccv::TextTag *>::const_iterator i, iend;

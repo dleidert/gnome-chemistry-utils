@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: fixed a double bond position.
+	* libs/gcp/document.cc: do not set a bond as direct child when it already
+	has a parent.
+	* libs/gcp/fragment.cc: allways add atom as child when loading.
+	* libs/gcp/molecule.cc: removed obsolete code.
+	* plugins/paint/text/fragmenttool.cc: make atoms replacement work.
+
 2009-08-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/docprop.cc: release the themes when done.
 	* libs/gcp/document.cc: always release old theme.

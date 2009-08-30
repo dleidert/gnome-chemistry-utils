@@ -84,7 +84,6 @@ bool gcpFragmentTool::OnClicked ()
 	} else {
 		m_Fragment = NULL;
 	}
-/*	bool need_update = false;*/
 	unsigned start, end;
 	if (m_pObject) {
 		switch (m_pObject->GetType ()) {
@@ -118,29 +117,28 @@ bool gcpFragmentTool::OnClicked ()
 				m_pView->Remove (pAtom);
 				pFragAtom->SetZ (pAtom->GetZ ());
 				pFragAtom->SetId ((gchar*) pAtom->GetId ());
+				m_Fragment->OnChanged (false);
 				int n = pAtom->GetAttachedHydrogens ();
 				if (n) {
-					char* buf;
+					ostringstream stream;
+					stream << "H";
 					if (n > 1)
-						buf = g_strdup_printf ("H%d", n);
-					else
-						buf = g_strdup ("H");
+						stream << n;
+					string buf = stream.str ();
 					start = ((pAtom->GetBestSide ())? strlen (pAtom->GetSymbol ()): 0);
-/*					gcp_pango_layout_replace_text (pFragment->GetLayout (),
-						bounds.cur,
-						0, buf, pDoc->GetPangoAttrList ());
-					end = start + strlen (buf);
-					need_update = true;
-					*/
-					m_Fragment->SelectionChanged (start, end);
-					g_free (buf);
+					m_Fragment->GetTextItem ()->SetSelectionBounds (start, start);
+					m_Fragment->GetTextItem ()->ReplaceText (buf, start, 0);
+					end = start + buf.length ();
+					m_Fragment->OnChanged (false);
+					m_Fragment->AnalContent (start, end);
+					m_Fragment->GetTextItem ()->SetSelectionBounds (start, end);
 				}
 				delete pAtom;
 				if (pBond) {
 					pBond->ReplaceAtom (pAtom, pFragAtom);
 					pFragAtom->AddBond (pBond);
 					pOp->AddObject (pBond, 1);
-					pBond->UpdateItem ();// FIXME: is this needed?
+					pBond->SetDirty (); // force redraw
 				}
 				pOp->AddObject (m_Fragment, 1);
 				pDoc->FinishOperation ();
@@ -160,11 +158,6 @@ bool gcpFragmentTool::OnClicked ()
 		m_Fragment->SetSelected (gcp::SelStateUpdating);
 		m_Fragment->SetMode (m_CurMode = gcp::Fragment::AutoMode);
 		m_Active = m_Fragment->GetTextItem ();
-/*		if (need_update) {
-			m_Active->SetSelectionBounds (m_Active,  cur,  cur);
-			pFragment->AnalContent (start, cur);
-			pFragment->OnChanged (false);
-		}*/
 		m_pView->SetTextActive (m_Active);
 		m_Active->SetEditing (true);
 		m_Active->OnButtonPressed (m_x0, m_y0);

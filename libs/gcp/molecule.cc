@@ -101,19 +101,6 @@ Molecule::~Molecule ()
 {
 }
 
-/*void Molecule::Add (GtkWidget* w) const
-{
-	std::list<gcu::Atom*>::const_iterator i, iend = m_Atoms.end ();
-	for (i = m_Atoms.begin (); i != iend; i++)
-		(*i)->Add (w);
-	std::list<Fragment*>::const_iterator j, jend = m_Fragments.end ();
-	for (j = m_Fragments.begin (); j != jend; j++)
-		(*j)->Add (w);
-	std::list<gcu::Bond*>::const_iterator k, kend = m_Bonds.end ();
-	for (k = m_Bonds.begin (); k != kend; k++)
-		(*k)->Add (w);
-}*/
-
 void Molecule::AddChild (Object* object)
 {
 	switch (object->GetType ()) {
