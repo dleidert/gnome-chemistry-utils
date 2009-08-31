@@ -32,7 +32,9 @@
 #include <gcp/theme.h>
 #include <gcp/window.h>
 #ifndef GOFFICE_HAS_GLOBAL_HEADER
-#   include <goffice/gtk/go-color-selector.h>
+#	include <goffice/gtk/go-color-selector.h>
+#else
+#	include <gcu/goffice-compat.h>
 #endif
 #include <gdk/gdkkeysyms.h>
 #include <unistd.h>

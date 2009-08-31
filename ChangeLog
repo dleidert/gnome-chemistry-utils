@@ -1,6 +1,11 @@
 ##Text encoding: utf-8
 
 2009-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: make things compile after go-color.h changes.
+	* plugins/paint/text/texttool.cc: ditto.
+	* programs/3d/window.cc: ditto.
+
+2009-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed a build issue.
 	* libs/gcu/Makefile.am: explicitly link with libglade.
 

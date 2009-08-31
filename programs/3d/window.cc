@@ -32,6 +32,8 @@
 #   include <goffice/gtk/go-action-combo-color.h>
 #   include <goffice/utils/go-image.h>
 #   include <gtk/gtk.h>
+#else
+#	include <gcu/goffice-compat.h>
 #endif
 #include <glib/gi18n.h>
 

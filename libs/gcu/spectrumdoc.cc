@@ -46,6 +46,8 @@
 #   include <goffice/math/go-rangefunc.h>
 #   include <goffice/math/go-regression.h>
 #   include <goffice/utils/go-color.h>
+#else
+#	include "goffice-compat.h"
 #endif
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
