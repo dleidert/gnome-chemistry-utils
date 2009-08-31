@@ -21,6 +21,7 @@ endif
 libgcu_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcu_@GCU_API_VER@_la_LIBADD = \
+		@glade_LIBS@ \
 		@goffice_LIBS@ \
 		@openbabel_LIBS@ \
 		@glade_LIBS@ \

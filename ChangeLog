@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2009-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed a build issue.
+	* libs/gcu/Makefile.am: explicitly link with libglade.
+
+2009-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/Makefile.am: make compile with most recent goffice (again).
 	* libs/gcu/goffice-compat.h: prepare for changes to come in goffice.
 

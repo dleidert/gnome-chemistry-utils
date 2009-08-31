@@ -17,6 +17,8 @@ ln -sf $AMPATH/share/automake-$AMVER/mkinstalldirs .
 ln -sf $AMPATH/share/automake-$AMVER/install-sh .
 ln -sf $AMPATH/share/automake-$AMVER/depcomp .
 ln -sf $AMPATH/share/automake-$AMVER/compile .
+# assuming that gettext and automake are installed at the same place
+ln -sf $AMPATH/share/gettext/config.rpath .
 
 ## run aclocal
 if [ -r /usr/share/aclocal/gnome-common.m4 ]; then
