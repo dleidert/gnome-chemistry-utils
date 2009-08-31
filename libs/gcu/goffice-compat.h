@@ -34,3 +34,17 @@
 #	define plugin_service_define go_plugin_service_define
 #	define plugin_service_load go_plugin_service_load
 #endif
+
+#ifdef GO_RGBA_TO_UINT
+#	define RGBA_TO_UINT GO_RGBA_TO_UINT
+#	define RGBA_BLACK GO_RGBA_BLACK
+#	define RGBA_RED GO_RGBA_RED
+#	define UINT_RGBA_R GO_UINT_RGBA_R
+#	define UINT_RGBA_G GO_UINT_RGBA_G
+#	define UINT_RGBA_B GO_UINT_RGBA_B
+#	define UINT_RGBA_A GO_UINT_RGBA_A
+#	define DOUBLE_RGBA_R GO_DOUBLE_RGBA_R
+#	define DOUBLE_RGBA_G GO_DOUBLE_RGBA_G
+#	define DOUBLE_RGBA_B GO_DOUBLE_RGBA_B
+#	define DOUBLE_RGBA_A GO_DOUBLE_RGBA_A
+#endif

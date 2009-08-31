@@ -6,6 +6,7 @@ INCLUDES = \
 		@goffice_CFLAGS@ \
 		@gtkglext_CFLAGS@ \
 		@openbabel_CFLAGS@ \
+		@glade_CFLAGS@ \
 		@gconf_CFLAGS@ \
 		@GCU_CFLAGS@
 else
@@ -14,6 +15,7 @@ INCLUDES = \
 		@goffice_CFLAGS@ \
 		@gtkglext_CFLAGS@ \
 		@openbabel_CFLAGS@ \
+		@glade_CFLAGS@ \
 		@GCU_CFLAGS@
 endif
 libgcu_@GCU_API_VER@_la_LDFLAGS = \
@@ -21,6 +23,7 @@ libgcu_@GCU_API_VER@_la_LDFLAGS = \
 libgcu_@GCU_API_VER@_la_LIBADD = \
 		@goffice_LIBS@ \
 		@openbabel_LIBS@ \
+		@glade_LIBS@ \
 		@gtkglext_LIBS@
 DEFS += -DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \

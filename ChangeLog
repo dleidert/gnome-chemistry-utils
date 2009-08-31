@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/Makefile.am: make compile with most recent goffice (again).
+	* libs/gcu/goffice-compat.h: prepare for changes to come in goffice.
+
 2009-08-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: make compile again after a new goffice API change.
 	* libs/gcu/Makefile.am: ditto.
