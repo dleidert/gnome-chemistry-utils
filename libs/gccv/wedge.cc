@@ -32,7 +32,7 @@ Wedge::Wedge (Canvas *canvas, double x0, double y0, double x1, double y1, double
 	Item (canvas), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.)
 {
 	m_Width = width;
-	m_FillColor = RGBA_BLACK;
+	m_FillColor = GO_RGBA_BLACK;
 	SetPosition (x0, y0, x1, y1);
 }
 
@@ -40,7 +40,7 @@ Wedge::Wedge (Group *parent, double x0, double y0, double x1, double y1, double 
 	Item (parent, client), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.)
 {
 	m_Width = width;
-	m_FillColor = RGBA_BLACK;
+	m_FillColor = GO_RGBA_BLACK;
 	SetPosition (x0, y0, x1, y1);
 }
 
@@ -100,7 +100,7 @@ void Wedge::Draw (cairo_t *cr, bool is_vector) const
 	cairo_line_to (cr, m_xe1, m_ye1);
 	cairo_line_to (cr, m_xe2, m_ye2);
 	cairo_close_path (cr);
-	cairo_set_source_rgba (cr, DOUBLE_RGBA_R (m_FillColor), DOUBLE_RGBA_G (m_FillColor), DOUBLE_RGBA_B (m_FillColor), DOUBLE_RGBA_A (m_FillColor));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (m_FillColor));
 	cairo_fill (cr);
 }
 

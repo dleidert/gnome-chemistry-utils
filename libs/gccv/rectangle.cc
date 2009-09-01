@@ -135,7 +135,7 @@ void Rectangle::Draw (cairo_t *cr, bool is_vector) const
 	cairo_set_miter_limit (cr, 10.);
 	cairo_rectangle (cr, m_x, m_y, m_w, m_h);
 	if (fill_color != 0) {
-		cairo_set_source_rgba (cr, DOUBLE_RGBA_R (fill_color), DOUBLE_RGBA_G (fill_color), DOUBLE_RGBA_B (fill_color), DOUBLE_RGBA_A (fill_color));
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (fill_color));
 		if (line_color != 0)
 			cairo_fill_preserve (cr);
 		else {
@@ -143,7 +143,7 @@ void Rectangle::Draw (cairo_t *cr, bool is_vector) const
 			return;
 		}
 	}
-	cairo_set_source_rgba (cr, DOUBLE_RGBA_R (line_color), DOUBLE_RGBA_G (line_color), DOUBLE_RGBA_B (line_color), DOUBLE_RGBA_A (line_color));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (line_color));
 	cairo_stroke (cr);
 }
 

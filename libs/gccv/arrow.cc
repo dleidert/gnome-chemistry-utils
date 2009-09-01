@@ -145,7 +145,7 @@ void Arrow::Draw (cairo_t *cr, bool is_vector) const
 		cairo_move_to (cr, ((m_StartHead == ArrowHeadNone)? 0.: m_A), 0.);
 		cairo_line_to (cr, ((m_EndHead == ArrowHeadNone)? length: length - m_A), 0.);
 		cairo_set_line_width (cr, GetLineWidth ());
-		cairo_set_source_rgba (cr, DOUBLE_RGBA_R (color), DOUBLE_RGBA_G (color), DOUBLE_RGBA_B (color), DOUBLE_RGBA_A (color));
+		cairo_set_source_rgba (cr,  GO_COLOR_TO_CAIRO (color));
 		cairo_stroke (cr);
 		cairo_set_line_width (cr, 0.);
 		switch (m_StartHead) {

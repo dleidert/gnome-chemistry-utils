@@ -330,7 +330,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 	}
 	case gccv::Foreground: {
 		GOColor color = static_cast <gccv::ForegroundTextTag *> (m_tag)->GetColor ();
-		if (color == RGBA_BLACK)
+		if (color == GO_RGBA_BLACK)
 			break;
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("fore"), NULL);
 		WriteColor (child, color);
@@ -338,7 +338,7 @@ bool SaveStruct::Save (xmlDocPtr xml, xmlNodePtr node, unsigned &index, string c
 	}
 	case gccv::Background: {
 		GOColor color = static_cast <gccv::BackgroundTextTag *> (m_tag)->GetColor ();
-		if (color == RGBA_BLACK)
+		if (color == GO_RGBA_BLACK)
 			break;
 		child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("back"), NULL);
 		WriteColor (child, color);
@@ -905,7 +905,7 @@ void Text::SetSelected (int state)
 		color = DeleteColor;
 		break;
 	default:
-		color = RGBA_WHITE;
+		color = GO_RGBA_WHITE;
 		break;
 	}
 	dynamic_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);

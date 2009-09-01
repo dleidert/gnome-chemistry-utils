@@ -72,7 +72,7 @@ gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 	m_Size = pTheme->GetFontSize ();
 	m_Underline = gccv::TextDecorationNone;
 	m_Rise = 0;
-	m_Color = RGBA_BLACK;
+	m_Color = GO_RGBA_BLACK;
 	m_Position = gccv::Normalscript;
 }
 
@@ -574,7 +574,7 @@ void gcpTextTool::UpdateTagsList ()
 	m_Rise = 0;
 	m_Underline = gccv::TextDecorationNone;
 	m_Strikethrough = gccv::TextDecorationNone;
-	m_Color = RGBA_BLACK;
+	m_Color = GO_RGBA_BLACK;
 	if (m_Active) {
 		unsigned index = GetIndex ();
 		std::list <gccv::TextTag *> const *tags = m_Active->GetTags ();
@@ -834,7 +834,7 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	m_StrikethroughSignal = g_signal_connect (G_OBJECT (m_StrikethroughBtn), "toggled", G_CALLBACK (on_strikethrough_toggled), this);
 	m_RiseButton = GTK_SPIN_BUTTON (builder->GetWidget ("rise"));
 	m_RiseSignal = g_signal_connect (G_OBJECT (m_RiseButton), "value-changed", G_CALLBACK (on_rise_changed), this);
-	m_ColorSelector = GO_SELECTOR (go_color_selector_new (RGBA_BLACK, RGBA_BLACK, "fore"));
+	m_ColorSelector = GO_SELECTOR (go_color_selector_new (GO_RGBA_BLACK, GO_RGBA_BLACK, "fore"));
 	go_color_selector_set_allow_alpha (m_ColorSelector, false);
 	m_ForeSignal = g_signal_connect (G_OBJECT (m_ColorSelector), "activate", G_CALLBACK (on_fore_color_changed), this);
 	gtk_widget_show (GTK_WIDGET (m_ColorSelector));

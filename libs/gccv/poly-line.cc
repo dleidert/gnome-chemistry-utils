@@ -118,7 +118,7 @@ void PolyLine::Draw (cairo_t *cr, bool is_vector) const
 		cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 		cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
 		cairo_set_miter_limit (cr, 10.);
-		cairo_set_source_rgba (cr, DOUBLE_RGBA_R (color), DOUBLE_RGBA_G (color), DOUBLE_RGBA_B (color), DOUBLE_RGBA_A (color));
+		cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 		cairo_stroke (cr);
 	}
 }

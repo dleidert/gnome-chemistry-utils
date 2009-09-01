@@ -123,7 +123,7 @@ void Electron::SetSelected (int state)
 	
 	switch (state) {	
 	case SelStateUnselected:
-		color = RGBA_BLACK;
+		color = GO_RGBA_BLACK;
 		break;
 	case SelStateSelected:
 		color = SelectColor;
@@ -135,7 +135,7 @@ void Electron::SetSelected (int state)
 		color = DeleteColor;
 		break;
 	default:
-		color = RGBA_BLACK;
+		color = GO_RGBA_BLACK;
 		break;
 	}
 	gccv::Group *group = dynamic_cast <gccv::Group *> (m_Item);
@@ -285,7 +285,7 @@ void Electron::AddItem ()
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
-	GOColor color = (m_pAtom)? ((view->GetData ()->IsSelected (m_pAtom))? SelectColor: Color): RGBA_WHITE;
+	GOColor color = (m_pAtom)? ((view->GetData ()->IsSelected (m_pAtom))? SelectColor: Color): GO_RGBA_WHITE;
 	double x, y, angle = m_Angle / 180. * M_PI;
 	if (m_Dist != 0.){
 		m_pAtom->GetCoords (&x, &y);

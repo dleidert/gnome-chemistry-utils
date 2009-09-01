@@ -64,7 +64,7 @@ void Hash::Draw (cairo_t *cr, bool is_vector) const
 	cairo_clip (cr);
 	cairo_set_line_width (cr, m_LineWidth);
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
-	cairo_set_source_rgba (cr, DOUBLE_RGBA_R (GetFillColor ()), DOUBLE_RGBA_G (GetFillColor ()), DOUBLE_RGBA_B (GetFillColor ()), DOUBLE_RGBA_A (GetFillColor ()));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (GetFillColor ()));
 	for (int i = 0; i < n; i++) {
 		cairo_move_to (cr, x1, y1);
 		cairo_line_to (cr, x2, y2);

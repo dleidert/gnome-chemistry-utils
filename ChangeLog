@@ -1,5 +1,34 @@
 ##Text encoding: utf-8
 
+2009-09-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: requires goffice >= 0.7.12.
+	* libs/gccv/arrow.cc: update according to goffice API changes.
+	* libs/gccv/bezier-arrow.cc: ditto.
+	* libs/gccv/circle.cc: ditto.
+	* libs/gccv/fill-item.cc: ditto.
+	* libs/gccv/hash.cc: ditto.
+	* libs/gccv/line-item.cc: ditto.
+	* libs/gccv/line.cc: ditto.
+	* libs/gccv/poly-line.cc: ditto.
+	* libs/gccv/rectangle.cc: ditto.
+	* libs/gccv/squiggle.cc: ditto.
+	* libs/gccv/text-tag.cc: ditto.
+	* libs/gccv/text.cc: ditto.
+	* libs/gccv/wedge.cc: ditto.
+	* libs/gcp/atom.cc: ditto.
+	* libs/gcp/electron.cc: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/settings.cc: ditto.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/xml-utils.cc: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/paint/arrows/arrowtool.cc:  ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* programs/3d/window.cc: ditto.
+
 2009-08-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: fixed a double bond position.
 	* libs/gcp/document.cc: do not set a bond as direct child when it already

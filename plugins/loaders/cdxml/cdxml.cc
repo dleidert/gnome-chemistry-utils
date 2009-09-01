@@ -915,14 +915,14 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 	m_MaxId = m_Z = 1;
 
 	// Init default colors
-	m_Colors[2] = RGBA_WHITE;
-	m_Colors[3] = RGBA_BLACK;
-	m_Colors[4] = RGBA_RED;
-	m_Colors[5] = RGBA_YELLOW;
-	m_Colors[6] = RGBA_GREEN;
-	m_Colors[7] = RGBA_CYAN;
-	m_Colors[8] = RGBA_BLUE;
-	m_Colors[9] = RGBA_VIOLET;
+	m_Colors[2] = GO_RGBA_WHITE;
+	m_Colors[3] = GO_RGBA_BLACK;
+	m_Colors[4] = GO_RGBA_RED;
+	m_Colors[5] = GO_RGBA_YELLOW;
+	m_Colors[6] = GO_RGBA_GREEN;
+	m_Colors[7] = GO_RGBA_CYAN;
+	m_Colors[8] = GO_RGBA_BLUE;
+	m_Colors[9] = GO_RGBA_VIOLET;
 
 	// Init fonts, we always use Unknown as the charset, hoping it is not an issue
 	m_Fonts[3] = (CDXMLFont) {3, string ("Unknown"), string ("Arial")};
@@ -967,13 +967,13 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 	for (color = m_Colors.begin (); color != end_color; color++) {
 		xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("color"), NULL);
 		xmlAddChild (colors, node);
-		char *buf = g_strdup_printf ("%g", DOUBLE_RGBA_R ((*color).second));
+		char *buf = g_strdup_printf ("%g", GO_DOUBLE_RGBA_R ((*color).second));
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("r"), reinterpret_cast <xmlChar const *> (buf));
 		g_free (buf);
-		buf = g_strdup_printf ("%g", DOUBLE_RGBA_G ((*color).second));
+		buf = g_strdup_printf ("%g", GO_DOUBLE_RGBA_G ((*color).second));
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("g"), reinterpret_cast <xmlChar const *> (buf));
 		g_free (buf);
-		buf = g_strdup_printf ("%g", DOUBLE_RGBA_B ((*color).second));
+		buf = g_strdup_printf ("%g", GO_DOUBLE_RGBA_B ((*color).second));
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("b"), reinterpret_cast <xmlChar const *> (buf));
 		g_free (buf);
 	}

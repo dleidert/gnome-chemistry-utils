@@ -286,14 +286,10 @@ GtkWidget* View::CreateNewWidget ()
 {
 	if (m_Canvas)
 		return m_Canvas->GetWidget ();
-/*	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
-	m_pWidget = gnome_canvas_gcp_new();
-	gtk_widget_pop_colormap ();*/
 	m_Canvas = new gccv::Canvas (this);
-	m_Canvas->SetBackgroundColor (RGBA_WHITE);
+	m_Canvas->SetBackgroundColor (GO_RGBA_WHITE);
 	m_pWidget = m_Canvas->GetWidget ();
 	m_Canvas->SetGap (3.); // FIXME: make this configurable
-//	GtkWidget* pWidget = (m_Widgets.size() > 0) ? m_Widgets.front () : NULL;
 	if (m_pWidget) {
 		g_object_set_data (G_OBJECT (m_pWidget), "view", this);
 		g_object_set_data (G_OBJECT (m_pWidget), "doc", m_pDoc);
@@ -301,39 +297,10 @@ GtkWidget* View::CreateNewWidget ()
 		m_pData->Canvas = m_pWidget;
 		g_object_set_data (G_OBJECT (m_pWidget), "data", m_pData);
 		m_pData->m_View = this;
-//		gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (m_pWidget), 1);
-//		gnome_canvas_set_scroll_region (GNOME_CANVAS (m_pWidget), 0, 0, m_width, m_height);
 		m_pData->Zoom = 1.0;
-/*		m_pData->Background = gnome_canvas_item_new (
-									gnome_canvas_root (GNOME_CANVAS (m_pWidget)),
-									gnome_canvas_rect_ext_get_type (),
-									"x1", 0.0,
-									"y1", 0.0,
-									"x2", (double) m_width,
-									"y2", (double) m_height,
-									"fill_color", "white",
-									NULL);
-		m_pData->Group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (
-									gnome_canvas_root (GNOME_CANVAS (m_pWidget)),
-									gnome_canvas_group_ext_get_type (),
-									NULL));
-		if (m_pDoc->GetEditable ())
-			g_signal_connect (G_OBJECT (m_pData->Background), "event", G_CALLBACK (on_event), m_pWidget);*/
 		g_signal_connect (G_OBJECT (m_pWidget), "destroy", G_CALLBACK (on_destroy), this);
 		gtk_widget_show (m_pWidget);
-//		m_Widgets.push_back (m_pWidget);
-/*		if (pWidget) {
-			WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (pWidget), "data");
-			std::map<Object const*, GnomeCanvasGroup*>::iterator i, iend = pData->Items.end ();
-			for (i = pData->Items.begin (); i != iend; i++)
-				if ((*i).first->GetType () != gcu::BondType)
-				 (*i).first->Add (m_pWidget);
-			for (i = pData->Items.begin (); i != iend; i++)
-				if ((*i).first->GetType () == gcu::BondType)
-				 (*i).first->Add (m_pWidget);
-		} else*/ {
-			UpdateFont ();
-		}
+		UpdateFont ();
 	}
 	return m_pWidget;
 }
@@ -346,17 +313,6 @@ void View::OnDestroy (GtkWidget* widget)
 	} else
 		delete m_pDoc;
 }
-
-/*GnomeCanvasItem* View::GetCanvasItem (GtkWidget* widget, Object* Object)
-{
-	WidgetData* pData = reinterpret_cast<WidgetData*> (g_object_get_data (G_OBJECT (widget), "data"));
-	if ((!pData) || (pData->m_View != this))
-		return NULL;
-	GnomeCanvasItem *result = reinterpret_cast<GnomeCanvasItem*> (pData->Items[Object]);
-	if (!result)
-		pData->Items.erase (Object);
-	return result;
-}*/
 
 void View::Update (Object *pObject)
 {

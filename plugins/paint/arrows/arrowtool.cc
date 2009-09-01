@@ -372,7 +372,7 @@ GtkWidget *gcpArrowTool::GetPropertyPage ()
 		double width = (Theme->GetArrowLength () * Theme->GetZoomFactor () + 2 * Theme->GetArrowPadding ()),
 			height = Theme->GetArrowDist () + Theme->GetArrowWidth () + 2 * (Theme->GetArrowHeadB () + Theme->GetPadding ());
 		gtk_widget_set_size_request (canvas->GetWidget (), (int) width, (int) height);
-		GOColor color = GDK_TO_UINT (m_pApp->GetStyle ()->fg[0]);
+		GOColor color = GO_GDK_TO_UINT (m_pApp->GetStyle ()->fg[0]);
 		gccv::Arrow *arrow = new gccv::Arrow (canvas,
 											  (width - Theme->GetArrowLength () * Theme->GetZoomFactor ()) / 2.,
 											  (height - Theme->GetArrowDist  ()) / 2.,

@@ -94,7 +94,7 @@ void Line::Draw (cairo_t *cr, bool is_vector) const
 		if (!(content & CAIRO_CONTENT_ALPHA))
 			color = GetCanvas ()->GetBackgroundColor ();
 	}
-	cairo_set_source_rgba (cr, DOUBLE_RGBA_R (color), DOUBLE_RGBA_G (color), DOUBLE_RGBA_B (color), DOUBLE_RGBA_A (color));
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (color));
 	cairo_stroke (cr);
 }
 
