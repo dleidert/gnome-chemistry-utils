@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: set version to 0.10.7.
+	* libs/gcu/goffice-compat.h: new compatibility macro.
+
 2009-08-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: make things compile after go-color.h changes.
 	* plugins/paint/text/texttool.cc: ditto.
