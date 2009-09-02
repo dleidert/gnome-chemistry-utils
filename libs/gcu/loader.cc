@@ -105,7 +105,7 @@ plugin_service_chemical_loader_get_description (G_GNUC_UNUSED GOPluginService * 
 static void
 plugin_service_chemical_loader_class_init (GObjectClass *gobject_class)
 {
-	GOPluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
 	plugin_service_class->read_xml = plugin_service_chemical_loader_read_xml;
 	plugin_service_class->get_description = plugin_service_chemical_loader_get_description;

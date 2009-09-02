@@ -1,7 +1,12 @@
 Version 0.11.3
+	GChemPaint:
+		* Almost fully reimplemented with new canvas.
+		* Enhanced atom groups (fragments).
+		* Initial work on ChemDraw files export, both in cdx and cdxml formats.
 	Gnome Crystal:
 		* Export both cml and cif files (at least minimally).
-		* Import cml files.
+	GCCV library:
+		* New canvas is now functional.
 
 Version 0.11.2
 	GChemPaint

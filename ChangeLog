@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/loader.cc: fixed after last goffice change.
+
 2009-09-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: requires goffice >= 0.7.12.
 	* libs/gccv/arrow.cc: update according to goffice API changes.
