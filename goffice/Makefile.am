@@ -9,7 +9,7 @@ DEFS += -DDATADIR=\"$(datadir)\"
 goffice_gchemutilsdir = $(GOFFICE_PLUGINS_DIR)/gchemutils
 goffice_gchemutils_LTLIBRARIES = gchemutils.la
 
-gchemutils_la_CFLAGS = \
+INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(openbabel_CFLAGS) \
