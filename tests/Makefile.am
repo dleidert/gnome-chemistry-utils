@@ -3,14 +3,14 @@ EXTRA_DIST = nickel.gcrystal methane.xyz
 MAINTAINERCLEANFILES = Makefile.in
 
 if GCU_NEEDS_GCONF
-INCLUDES = -I$(top_srcdir)/gcu @gtk_CFLAGS@ @gsf_CFLAGS@ @gnome_vfs_CFLAGS@
+INCLUDES = -I$(top_srcdir)/gcu $(gtk_CFLAGS) $(gsf_CFLAGS) $(gnome_vfs_CFLAGS)
 else
-INCLUDES = -I$(top_srcdir)/gcu @gtk_CFLAGS@ @gsf_CFLAGS@
+INCLUDES = -I$(top_srcdir)/gcu $(gtk_CFLAGS) $(gsf_CFLAGS)
 endif
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
-AM_CFLAGS = -I$(top_srcdir)/libs @GCU_CFLAGS@ -Werror-implicit-function-declaration
-DEFS += -DSRCDIR=\"@TESTSSRCDIR@\"
+AM_CFLAGS = -I$(top_srcdir)/libs $(GCU_CFLAGS) -Werror-implicit-function-declaration
+DEFS += -DSRCDIR=\"$(TESTSSRCDIR)\"
 
 check_PROGRAMS = \
 	testgtkperiodic \

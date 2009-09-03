@@ -9,14 +9,14 @@ LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 if GCU_NEEDS_GCONF
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@gnome_vfs_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(gnome_vfs_CFLAGS) \
+		$(GCU_CFLAGS)
 else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(GCU_CFLAGS)
 endif
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
 	-DGLADEDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/glade\"

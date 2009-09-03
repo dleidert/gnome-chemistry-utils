@@ -3,29 +3,29 @@ MAINTAINERCLEANFILES = Makefile.in
 if GCU_NEEDS_GCONF
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@gtkglext_CFLAGS@ \
-		@openbabel_CFLAGS@ \
-		@glade_CFLAGS@ \
-		@gconf_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(gtkglext_CFLAGS) \
+		$(openbabel_CFLAGS) \
+		$(glade_CFLAGS) \
+		$(gconf_CFLAGS) \
+		$(GCU_CFLAGS)
 else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@gtkglext_CFLAGS@ \
-		@openbabel_CFLAGS@ \
-		@glade_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(gtkglext_CFLAGS) \
+		$(openbabel_CFLAGS) \
+		$(glade_CFLAGS) \
+		$(GCU_CFLAGS)
 endif
 libgcu_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcu_@GCU_API_VER@_la_LIBADD = \
-		@glade_LIBS@ \
-		@goffice_LIBS@ \
-		@openbabel_LIBS@ \
-		@glade_LIBS@ \
-		@gtkglext_LIBS@
+		$(glade_LIBS) \
+		$(goffice_LIBS) \
+		$(openbabel_LIBS) \
+		$(glade_LIBS) \
+		$(gtkglext_LIBS)
 DEFS += -DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \
 		-DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \

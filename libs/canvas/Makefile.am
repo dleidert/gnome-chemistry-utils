@@ -28,9 +28,9 @@ libgcpcanvas_@GCU_API_VER@_la_SOURCES =	\
 libgcpcanvas_@GCU_API_VER@_la_LDFLAGS = \
 	-version-info  @GCU_VERSION_INFO@
 libgcpcanvas_@GCU_API_VER@_la_LIBADD = \
-	@gnome_canvas_LIBS@ \
-	@xml_LIBS@
+	$(gnome_canvas_LIBS) \
+	$(xml_LIBS)
 INCLUDES = \
-	@gnome_canvas_CFLAGS@ \
-	@xml_CFLAGS@
-	@GCU_CFLAGS@
+	$(gnome_canvas_CFLAGS) \
+	$(xml_CFLAGS)
+	$(GCU_CFLAGS)

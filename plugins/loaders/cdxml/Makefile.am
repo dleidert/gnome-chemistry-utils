@@ -7,14 +7,14 @@ MAINTAINERCLEANFILES = Makefile.in
 if GCU_NEEDS_GCONF
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@gconf_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(gconf_CFLAGS) \
+		$(GCU_CFLAGS)
 else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(GCU_CFLAGS)
 endif
 DEFS += -DDATADIR=\"$(datadir)\"
 

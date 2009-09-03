@@ -96,20 +96,20 @@ libgchempaint_@GCU_API_VER@_la_LIBADD = \
 if GCU_NEEDS_GCONF
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@gnome_canvas_CFLAGS@ \
-		@goffice_CFLAGS@ \
-		@gtkglext_CFLAGS@ \
-		@openbabel_CFLAGS@ \
-		@gconf_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(gnome_canvas_CFLAGS) \
+		$(goffice_CFLAGS) \
+		$(gtkglext_CFLAGS) \
+		$(openbabel_CFLAGS) \
+		$(gconf_CFLAGS) \
+		$(GCU_CFLAGS)
 else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@gnome_canvas_CFLAGS@ \
-		@goffice_CFLAGS@ \
-		@gtkglext_CFLAGS@ \
-		@openbabel_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(gnome_canvas_CFLAGS) \
+		$(goffice_CFLAGS) \
+		$(gtkglext_CFLAGS) \
+		$(openbabel_CFLAGS) \
+		$(GCU_CFLAGS)
 endif
 
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
