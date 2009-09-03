@@ -8,8 +8,8 @@ if WITH_GNUMERIC
 
 INCLUDES = \
     -I$(top_srcdir)	-I$(top_srcdir)/libs	\
-    @gnumeric_CFLAGS@ \
-	@GCU_CFLAGS@
+    $(gnumeric_CFLAGS) \
+	$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" -DGNM_VERSION_FULL=\"$(gnm_version)\"
 
 gchemutils_plugindir = $(GNUMERIC_PLUGINS_DIR)/gchemutils
@@ -18,7 +18,7 @@ plugin_la_LDFLAGS = -module -avoid-version
 plugin_la_SOURCES =	\
 	functions.cc
 plugin_la_LIBADD = \
-	@gnumeric_LIBS@ \
+	$(gnumeric_LIBS) \
 	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 
 

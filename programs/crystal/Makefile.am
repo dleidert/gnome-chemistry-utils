@@ -13,10 +13,10 @@ DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@gtkglext_CFLAGS@ \
-		@openbabel_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(gtkglext_CFLAGS) \
+		$(openbabel_CFLAGS) \
+		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/crystal\" \
         -DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\"

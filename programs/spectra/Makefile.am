@@ -8,8 +8,8 @@ DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
 	-DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui\"
 

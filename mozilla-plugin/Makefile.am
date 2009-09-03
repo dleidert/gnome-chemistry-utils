@@ -21,6 +21,6 @@ chem_viewer_SOURCES = chem-viewer.cc
 chem_viewer_LDADD = $(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@openbabel_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(openbabel_CFLAGS) \
+		$(GCU_CFLAGS)

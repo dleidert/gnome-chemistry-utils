@@ -1,5 +1,35 @@
 ##Text encoding: utf-8
 
+2009-09-03  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* docs/reference/Makefile.am: Don't use @foo@ syntax for variables
+	like CFLAGS.
+	* gnumeric/Makefile.am: Ditto.
+	* goffice/Makefile.am: Ditto.
+	* libs/gccv/Makefile.am: Ditto.
+	* libs/gcp/Makefile.am: Ditto.
+	* libs/gcu/Makefile.am: Ditto.
+	* mozilla-plugin/Makefile.am: Ditto.
+	* plugins/loaders/cdx/Makefile.am: Ditto.
+	* plugins/loaders/cdxml/Makefile.am: Ditto.
+	* plugins/loaders/cif/Makefile.am: Ditto.
+	* plugins/loaders/cml/Makefile.am: Ditto.
+	* plugins/paint/arrows/Makefile.am: Ditto.
+	* plugins/paint/atoms/Makefile.am: Ditto.
+	* plugins/paint/bonds/Makefile.am: Ditto.
+	* plugins/paint/cycles/Makefile.am: Ditto.
+	* plugins/paint/residues/Makefile.am: Ditto.
+	* plugins/paint/selection/Makefile.am: Ditto.
+	* plugins/paint/templates/Makefile.am: Ditto.
+	* plugins/paint/text/Makefile.am: Ditto.
+	* plugins/paint/wikipedia/Makefile.am: Ditto.
+	* programs/3d/Makefile.am: Ditto.
+	* programs/calc/Makefile.am: Ditto.
+	* programs/crystal/Makefile.am: Ditto.
+	* programs/paint/Makefile.am: Ditto.
+	* programs/spectra/Makefile.am: Ditto.
+	* programs/table/Makefile.am: Ditto.
+	* tests/Makefile.am: Ditto.
+
 2009-09-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/loader.cc: fixed after last goffice change.
 

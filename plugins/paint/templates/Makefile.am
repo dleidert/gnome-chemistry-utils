@@ -2,9 +2,9 @@ MAINTAINERCLEANFILES = Makefile.in
 
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
-		@goffice_CFLAGS@ \
-		@openbabel_CFLAGS@ \
-		@GCU_CFLAGS@
+		$(goffice_CFLAGS) \
+		$(openbabel_CFLAGS) \
+		$(GCU_CFLAGS)
 
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
