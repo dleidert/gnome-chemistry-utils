@@ -2,21 +2,6 @@ MAINTAINERCLEANFILES = Makefile.in
 
 lib_LTLIBRARIES = libgccv-@GCU_API_VER@.la
 
-libgccv_@GCU_API_VER@_la_CFLAGS
-
-libgccv_@GCU_API_VER@_la_LDFLAGS = \
-		-version-info  @GCU_VERSION_INFO@
-
-libgccv_@GCU_API_VER@_la_LIBADD = \
-		$(cairo_LIBS@ \
-		$(gtk_LIBS) \
-		$(goffice_LIBS)
-INCLUDES = \
-	                   -I$(top_srcdir) -I$(top_srcdir)/libs \
-			                   $(goffice_CFLAGS) \
-					                   $(GCU_CFLAGS)
-
-
 noinst_HEADERS = \
 	arrow.h		\
 	bezier-arrow.h  \
