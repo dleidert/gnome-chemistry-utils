@@ -287,7 +287,7 @@ GtkWidget* View::CreateNewWidget ()
 	if (m_Canvas)
 		return m_Canvas->GetWidget ();
 	m_Canvas = new gccv::Canvas (this);
-	m_Canvas->SetBackgroundColor (GO_RGBA_WHITE);
+	m_Canvas->SetBackgroundColor (GO_COLOR_WHITE);
 	m_pWidget = m_Canvas->GetWidget ();
 	m_Canvas->SetGap (3.); // FIXME: make this configurable
 	if (m_pWidget) {

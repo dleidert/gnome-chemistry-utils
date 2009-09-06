@@ -468,14 +468,14 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	m_MaxId = m_Z = 1;
 
 	// Init colors
-	m_Colors[2] = GO_RGBA_WHITE;
-	m_Colors[3] = GO_RGBA_BLACK;
-	m_Colors[4] = GO_RGBA_RED;
-	m_Colors[5] = GO_RGBA_YELLOW;
-	m_Colors[6] = GO_RGBA_GREEN;
-	m_Colors[7] = GO_RGBA_CYAN;
-	m_Colors[8] = GO_RGBA_BLUE;
-	m_Colors[9] = GO_RGBA_VIOLET;
+	m_Colors[2] = GO_COLOR_WHITE;
+	m_Colors[3] = GO_COLOR_BLACK;
+	m_Colors[4] = GO_COLOR_RED;
+	m_Colors[5] = GO_COLOR_YELLOW;
+	m_Colors[6] = GO_COLOR_GREEN;
+	m_Colors[7] = GO_COLOR_CYAN;
+	m_Colors[8] = GO_COLOR_BLUE;
+	m_Colors[9] = GO_COLOR_VIOLET;
 
 	// Init fonts, we always use Unknown as the charset, hoping it is not an issue
 	m_Fonts[3] = (CDXFont) {3, kCDXCharSetUnknown, string ("Arial")};
@@ -525,11 +525,11 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	WRITEINT16 (out, n);
 	map <unsigned, GOColor>::iterator color, end_color = m_Colors.end ();
 	for (color = m_Colors.begin (); color != end_color; color++) {
-		n = GO_UINT_RGBA_R ((*color).second) * 0x101;
+		n = GO_COLOR_UINT_R ((*color).second) * 0x101;
 		WRITEINT16 (out, n);
-		n = GO_UINT_RGBA_G ((*color).second) * 0x101;
+		n = GO_COLOR_UINT_G ((*color).second) * 0x101;
 		WRITEINT16 (out, n);
-		n = GO_UINT_RGBA_B ((*color).second) * 0x101;
+		n = GO_COLOR_UINT_B ((*color).second) * 0x101;
 		WRITEINT16 (out, n);
 	}
 

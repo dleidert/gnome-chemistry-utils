@@ -77,10 +77,10 @@ static void on_color_changed (GOActionComboColor *combo, gc3dWindow *window)
 {
 	GOColor color = go_action_combo_color_get_color (combo, FALSE);
 	gc3dView *View = window->GetView ();
-	View->SetRed (GO_DOUBLE_RGBA_R (color));
-	View->SetGreen (GO_DOUBLE_RGBA_G (color));
-	View->SetBlue (GO_DOUBLE_RGBA_B (color));
-	View->SetAlpha (GO_DOUBLE_RGBA_A (color));
+	View->SetRed (GO_COLOR_DOUBLE_R (color));
+	View->SetGreen (GO_COLOR_DOUBLE_G (color));
+	View->SetBlue (GO_COLOR_DOUBLE_B (color));
+	View->SetAlpha (GO_COLOR_DOUBLE_A (color));
 	View->Update ();
 }
 
@@ -264,7 +264,7 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	action_group = gtk_action_group_new ("MenuActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), this);
-	GOActionComboColor *combo = go_action_combo_color_new ("Background", "gcu_Background", "", GO_RGBA_BLACK, NULL);
+	GOActionComboColor *combo = go_action_combo_color_new ("Background", "gcu_Background", "", GO_COLOR_BLACK, NULL);
 	g_object_set (G_OBJECT (combo), "label", _("Background color"), "tooltip",
 		_("Choose a new background color"), NULL);
 	g_signal_connect (G_OBJECT (combo), "activate", G_CALLBACK (on_color_changed), this);

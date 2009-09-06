@@ -32,7 +32,7 @@ Wedge::Wedge (Canvas *canvas, double x0, double y0, double x1, double y1, double
 	Item (canvas), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.)
 {
 	m_Width = width;
-	m_FillColor = GO_RGBA_BLACK;
+	m_FillColor = GO_COLOR_BLACK;
 	SetPosition (x0, y0, x1, y1);
 }
 
@@ -40,7 +40,7 @@ Wedge::Wedge (Group *parent, double x0, double y0, double x1, double y1, double 
 	Item (parent, client), m_xstart (0.), m_ystart (0.), m_xend (0.), m_yend (0.)
 {
 	m_Width = width;
-	m_FillColor = GO_RGBA_BLACK;
+	m_FillColor = GO_COLOR_BLACK;
 	SetPosition (x0, y0, x1, y1);
 }
 

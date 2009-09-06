@@ -2036,7 +2036,7 @@ void SpectrumDocument::OnShowIntegral ()
 			style = go_styled_object_get_style (GO_STYLED_OBJECT (v.Series));
 			style->line.auto_dash = false;
 			style->line.auto_color = false;
-			style->line.color = GO_RGBA_RED;
+			style->line.color = GO_COLOR_RED;
 			variables.push_back (v);
 			delete [] xn[0];
 			delete [] xn[1];

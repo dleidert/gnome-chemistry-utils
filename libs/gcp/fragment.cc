@@ -391,7 +391,7 @@ void Fragment::AddItem ()
 	double y = m_y * theme->GetZoomFactor ();
 	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
 	m_TextItem = new gccv::Text (group, 0., 0., this);
-	m_TextItem->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_RGBA_BLACK);
+	m_TextItem->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
 	m_TextItem->SetPadding (theme->GetPadding ());
 	m_TextItem->SetFillColor (0);
 	m_TextItem->SetLineColor (0);
@@ -496,7 +496,7 @@ void Fragment::SetSelected (int state)
 	bool visible = true;
 	switch (state) {	
 	case SelStateUnselected:
-		color = GO_RGBA_BLACK;
+		color = GO_COLOR_BLACK;
 		visible = false;
 		break;
 	case SelStateSelected:
@@ -504,13 +504,13 @@ void Fragment::SetSelected (int state)
 		break;
 	case SelStateUpdating:
 		othercolor = AddColor;
-		color = GO_RGBA_BLACK;
+		color = GO_COLOR_BLACK;
 		break;
 	case SelStateErasing:
 		color = DeleteColor;
 		break;
 	default:
-		color = GO_RGBA_BLACK;
+		color = GO_COLOR_BLACK;
 		break;
 	}
 	gccv::Group *group = static_cast <gccv::Group *> (m_Item);

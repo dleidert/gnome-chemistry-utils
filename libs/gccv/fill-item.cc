@@ -29,13 +29,13 @@ namespace gccv {
 
 FillItem::FillItem (Canvas *canvas):
 	LineItem (canvas),
-	m_FillColor (GO_RGBA_WHITE)
+	m_FillColor (GO_COLOR_WHITE)
 {
 }
 
 FillItem::FillItem (Group *parent, ItemClient *client):
 	LineItem (parent, client),
-	m_FillColor (GO_RGBA_WHITE)
+	m_FillColor (GO_COLOR_WHITE)
 {
 }
 

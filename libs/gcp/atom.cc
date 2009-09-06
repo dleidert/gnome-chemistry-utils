@@ -1241,7 +1241,7 @@ void Atom::SetSelected (int state)
 	default:
 	case SelStateUnselected:
 		textcolor = 0;
-		othercolor = GO_RGBA_BLACK;
+		othercolor = GO_COLOR_BLACK;
 		break;
 	case SelStateSelected:
 		othercolor = textcolor = SelectColor;
@@ -1947,7 +1947,7 @@ void Atom::AddItem ()
 	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
 	if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
 		gccv::Text *text = new gccv::Text (group, 0., 0., this);
-		text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_RGBA_BLACK);
+		text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
 		text->SetPadding (theme->GetPadding ());
 		text->SetLineColor (0);
 		text->SetLineWidth (0.);
@@ -1970,7 +1970,7 @@ void Atom::AddItem ()
 				g_free (str);
 			}
 			text = new gccv::Text (group, 0., 0., this);
-			text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_RGBA_BLACK);
+			text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
 			text->SetPadding (theme->GetPadding ());
 			text->SetLineColor (0);
 			text->SetLineWidth (0.);

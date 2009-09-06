@@ -181,28 +181,28 @@ GOColor ReadColor (xmlNodePtr node)
 		alpha = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
 		xmlFree (buf);
 	}
-	return GO_RGBA_TO_UINT (red, green, blue, alpha);
+	return GO_COLOR_FROM_RGBA (red, green, blue, alpha);
 }
 
 void WriteColor (xmlNodePtr node, GOColor color)
 {
-	unsigned field = GO_UINT_RGBA_R (color);
+	unsigned field = GO_COLOR_UINT_R (color);
 	char *buf;
 	if (field) {
 		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("red"), reinterpret_cast <xmlChar *> (buf));
 	}
-	field = GO_UINT_RGBA_G (color);
+	field = GO_COLOR_UINT_G (color);
 	if (field) {
 		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("green"), reinterpret_cast <xmlChar *> (buf));
 	}
-	field = GO_UINT_RGBA_B (color);
+	field = GO_COLOR_UINT_B (color);
 	if (field) {
 		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("blue"), reinterpret_cast <xmlChar *> (buf));
 	}
-	field = GO_UINT_RGBA_A (color);
+	field = GO_COLOR_UINT_A (color);
 	if (field != 0xff) {
 		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("alpha"), reinterpret_cast <xmlChar *> (buf));

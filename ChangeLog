@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2009-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/fill-item.cc: fixed after last goffice change.
+	* libs/gccv/line-item.cc: ditto.
+	* libs/gccv/text-tag.cc: ditto.
+	* libs/gccv/text.cc: ditto.
+	* libs/gccv/wedge.cc: ditto.
+	* libs/gcp/atom.cc: ditto.
+	* libs/gcp/electron.cc: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/settings.cc: ditto.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/xml-utils.cc: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/paint/arrows/arrowtool.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* programs/3d/window.cc: ditto.
+
 2009-09-03  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* docs/reference/Makefile.am: Don't use @foo@ syntax for variables
 	like CFLAGS.

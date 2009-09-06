@@ -364,7 +364,7 @@ Text::Text (Canvas *canvas, double x, double y):
 	m_FontDesc = pango_font_description_copy (pango_layout_get_font_description (run->m_Layout));
 	m_Lines = NULL;
 	m_LinesNumber = 0;
-	m_Color = GO_RGBA_BLACK;
+	m_Color = GO_COLOR_BLACK;
 	m_ImContext = gtk_im_multicontext_new ();
 	g_signal_connect (G_OBJECT (m_ImContext), "commit",
 		G_CALLBACK (TextPrivate::OnCommit), this);
@@ -1339,7 +1339,7 @@ void Text::RebuildAttributes ()
 		PangoAttrList *l = pango_attr_list_new ();
 		// set the default text color
 		if (m_Color) {
-			PangoAttribute *attr = pango_attr_foreground_new (GO_UINT_RGBA_R (m_Color) * 0x101, GO_UINT_RGBA_G (m_Color) * 0x101, GO_UINT_RGBA_B (m_Color) * 0x101);
+			PangoAttribute *attr = pango_attr_foreground_new (GO_COLOR_UINT_R (m_Color) * 0x101, GO_COLOR_UINT_G (m_Color) * 0x101, GO_COLOR_UINT_B (m_Color) * 0x101);
 			attr->start_index = 0;
 			attr->end_index = (*run)->m_Length;
 			pango_attr_list_insert (l, attr);

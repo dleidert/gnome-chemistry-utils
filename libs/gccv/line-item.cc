@@ -30,14 +30,14 @@ namespace gccv {
 LineItem::LineItem (Canvas *canvas):
 	Item (canvas),
 	m_LineWidth (1.),
-	m_LineColor (GO_RGBA_WHITE)
+	m_LineColor (GO_COLOR_WHITE)
 {
 }
 
 LineItem::LineItem (Group *parent, ItemClient *client):
 	Item (parent, client),
 	m_LineWidth (1.),
-	m_LineColor (GO_RGBA_WHITE)
+	m_LineColor (GO_COLOR_WHITE)
 {
 }
 

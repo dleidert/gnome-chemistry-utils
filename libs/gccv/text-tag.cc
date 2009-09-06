@@ -408,7 +408,7 @@ ForegroundTextTag::~ForegroundTextTag ()
 void ForegroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
 	// this might be not enough since we use a global attribute with SetColor().
-	PangoAttribute *attr = pango_attr_foreground_new (GO_UINT_RGBA_R (m_Color) * 0x101, GO_UINT_RGBA_G (m_Color) * 0x101, GO_UINT_RGBA_B (m_Color) * 0x101);
+	PangoAttribute *attr = pango_attr_foreground_new (GO_COLOR_UINT_R (m_Color) * 0x101, GO_COLOR_UINT_G (m_Color) * 0x101, GO_COLOR_UINT_B (m_Color) * 0x101);
 	attr->start_index = start;
 	attr->end_index = end;
 	pango_attr_list_insert (l, attr);
@@ -441,7 +441,7 @@ BackgroundTextTag::~BackgroundTextTag ()
 
 void BackgroundTextTag::Filter (PangoAttrList *l, unsigned start, unsigned end)
 {
-	PangoAttribute *attr = pango_attr_background_new (GO_UINT_RGBA_R (m_Color) * 0x101, GO_UINT_RGBA_G (m_Color) * 0x101, GO_UINT_RGBA_B (m_Color) * 0x101);
+	PangoAttribute *attr = pango_attr_background_new (GO_COLOR_UINT_R (m_Color) * 0x101, GO_COLOR_UINT_G (m_Color) * 0x101, GO_COLOR_UINT_B (m_Color) * 0x101);
 	attr->start_index = start;
 	attr->end_index = end;
 	pango_attr_list_insert (l, attr);

@@ -27,10 +27,10 @@
 
 namespace gcp {
 	
-GOColor Color = GO_RGBA_BLACK;
-GOColor DeleteColor = GO_RGBA_RED;
-GOColor AddColor = GO_RGBA_GREEN;
-GOColor SelectColor = GO_RGBA_CYAN;
+GOColor Color = GO_COLOR_BLACK;
+GOColor DeleteColor = GO_COLOR_RED;
+GOColor AddColor = GO_COLOR_GREEN;
+GOColor SelectColor = GO_COLOR_CYAN;
 unsigned MaxStackSize = 0;//infinite size authorized for undo:redo stacks
 bool MergeAtoms = true;
 int CompressionLevel = 0;
