@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.10.8).
+	* libs/gcu/goffice-compat.h: update after last changes in goffice API.
+
 2009-09-03  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* goffice/Makefile.am: Don't use @foo@ syntax for variables like
 	CFLAGS.
