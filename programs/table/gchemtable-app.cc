@@ -305,7 +305,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 	colorschemes["none"] = GTK_PERIODIC_COLOR_NONE;
 	colorschemes["default"] = GTK_PERIODIC_COLOR_DEFAULT;
 
-	UIBuilder *builder = new UIBuilder (UIDIR"/state-thermometer.glade", GETTEXT_PACKAGE);
+	UIBuilder *builder = new UIBuilder (UIDIR"/state-thermometer.ui", GETTEXT_PACKAGE);
 	GtkWidget *thermometer = builder->GetRefdWidget ("state-thermometer");
 	colorschemes["state"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_state_color, thermometer, this);
 	gtk_widget_show_all (thermometer);
@@ -314,7 +314,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 	temperature = gtk_range_get_value (GTK_RANGE (thermometer));
 	delete builder;
 
-	builder = new UIBuilder (UIDIR"/family.glade", GETTEXT_PACKAGE);
+	builder = new UIBuilder (UIDIR"/family.ui", GETTEXT_PACKAGE);
 	GtkWidget *familywidget = builder->GetRefdWidget ("family-legend");
 	colorschemes["family"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_family_color, familywidget, this);	
 	gtk_widget_show_all (familywidget);
@@ -324,7 +324,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 	g_signal_connect (G_OBJECT (familywidget), "changed", G_CALLBACK (on_changed_family), this);
 	delete builder;
 
-	builder = new UIBuilder (UIDIR"/acidity.glade", GETTEXT_PACKAGE);
+	builder = new UIBuilder (UIDIR"/acidity.ui", GETTEXT_PACKAGE);
 	GtkWidget *aciditylegend = builder->GetRefdWidget ("acidity-legend");
 	colorschemes["acidity"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_acidity_color, aciditylegend, this);
 	gtk_widget_show_all (aciditylegend);
@@ -334,7 +334,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 
 	colorschemes["radius"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_radius_color, NULL, this);
 
-	builder = new UIBuilder (UIDIR"/block.glade", GETTEXT_PACKAGE);
+	builder = new UIBuilder (UIDIR"/block.ui", GETTEXT_PACKAGE);
 	GtkWidget *blocklegend = builder->GetRefdWidget ("block-legend");
 	colorschemes["block"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_block_color, blocklegend, this);
 	gtk_widget_show_all (blocklegend);

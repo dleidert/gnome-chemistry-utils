@@ -1,58 +1,55 @@
 <?xml version="1.0"?>
-<!--Generated with glade3 3.0.2 on Sat Nov 25 12:50:53 2006 by mantha@electron-->
 <interface>
-  <object class="GtkWindow" id="window1">
+  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkTable" id="acidity-legend">
+    <property name="visible">True</property>
+    <property name="border_width">4</property>
+    <property name="n_rows">2</property>
+    <property name="n_columns">2</property>
+    <property name="column_spacing">5</property>
+    <property name="row_spacing">5</property>
     <child>
-      <object class="GtkTable" id="acidity-legend">
+      <object class="GtkLabel" id="label4">
         <property name="visible">True</property>
-        <property name="border_width">4</property>
-        <property name="n_rows">2</property>
-        <property name="n_columns">2</property>
-        <property name="column_spacing">5</property>
-        <property name="row_spacing">5</property>
-        <child>
-          <object class="GtkLabel" id="label4">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="magenta"&gt;&lt;b&gt;Amphoteric&lt;/b&gt;&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label3">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="green"&gt;&lt;b&gt;Neutral&lt;/b&gt;&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label2">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="blue"&gt;&lt;b&gt;Basic&lt;/b&gt;&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="red"&gt;&lt;b&gt;Acidic&lt;/b&gt;&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
-          </object>
-        </child>
+        <property name="label" translatable="yes">&lt;span background="magenta"&gt;&lt;b&gt;Amphoteric&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label3">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">&lt;span background="green"&gt;&lt;b&gt;Neutral&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label2">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">&lt;span background="blue"&gt;&lt;b&gt;Basic&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label1">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">&lt;span background="red"&gt;&lt;b&gt;Acidic&lt;/b&gt;&lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+        <property name="justify">center</property>
       </object>
     </child>
   </object>

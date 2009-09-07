@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
 2009-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/table/gchemtable-app.cc: load the ui flies not glade. [#27395]
+	* ui/table/acidity.ui: removed the top level window.
+	* ui/table/block.ui: ditto.
+	* ui/table/family.ui: ditto.
+	* ui/table/state-thermometer.ui: ditto.
+
+2009-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.11.4).
 
 2009-09-06  Jean Bréfort  <jean.brefort@normalesup.org>

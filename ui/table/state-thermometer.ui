@@ -1,99 +1,90 @@
 <?xml version="1.0"?>
-<!--Generated with glade3 3.4.5 on Fri Mar  6 20:01:46 2009 
-	Version: 3.0.1
-	Date: Mon Sep 11 21:20:00 2006
-	User: jean
-	Host: athlon
--->
 <interface>
+  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">6010</property>
-    <property name="lower">0</property>
-    <property name="page_increment">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_size">0</property>
     <property name="value">298</property>
+    <property name="upper">6010</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
-  <object class="GtkWindow" id="window1">
+  <object class="GtkTable" id="state-thermometer">
+    <property name="visible">True</property>
+    <property name="border_width">4</property>
+    <property name="n_rows">2</property>
+    <property name="n_columns">4</property>
+    <property name="column_spacing">5</property>
+    <property name="row_spacing">5</property>
     <child>
-      <object class="GtkTable" id="state-thermometer">
+      <object class="GtkLabel" id="label5">
         <property name="visible">True</property>
-        <property name="border_width">4</property>
-        <property name="n_rows">2</property>
-        <property name="n_columns">4</property>
-        <property name="column_spacing">5</property>
-        <property name="row_spacing">5</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label5">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="green"&gt; &lt;b&gt;Liquid&lt;/b&gt; &lt;/span&gt;</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">2</property>
-            <property name="right_attach">3</property>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-            <property name="x_options"/>
-            <property name="y_options"/>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label4">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="blue"&gt; &lt;b&gt;Solid&lt;/b&gt; &lt;/span&gt;</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">2</property>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-            <property name="x_options"/>
-            <property name="y_options"/>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkHScale" id="temperature">
-            <property name="visible">True</property>
-            <property name="adjustment">adjustment1</property>
-            <property name="digits">0</property>
-          </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="right_attach">4</property>
-            <property name="y_options"/>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label2">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">&lt;span background="red"&gt; &lt;b&gt;Gas&lt;/b&gt; &lt;/span&gt;</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">3</property>
-            <property name="right_attach">4</property>
-            <property name="top_attach">1</property>
-            <property name="bottom_attach">2</property>
-            <property name="x_options"/>
-            <property name="y_options"/>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label1">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">Temperature (K):</property>
-          </object>
-          <packing>
-            <property name="x_options"/>
-            <property name="y_options"/>
-          </packing>
-        </child>
+        <property name="label" translatable="yes">&lt;span background="green"&gt; &lt;b&gt;Liquid&lt;/b&gt; &lt;/span&gt;</property>
+        <property name="use_markup">True</property>
       </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="right_attach">3</property>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+        <property name="x_options"></property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label4">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">&lt;span background="blue"&gt; &lt;b&gt;Solid&lt;/b&gt; &lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+        <property name="x_options"></property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHScale" id="temperature">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="adjustment">adjustment1</property>
+        <property name="digits">0</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">4</property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label2">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">&lt;span background="red"&gt; &lt;b&gt;Gas&lt;/b&gt; &lt;/span&gt;</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">3</property>
+        <property name="right_attach">4</property>
+        <property name="top_attach">1</property>
+        <property name="bottom_attach">2</property>
+        <property name="x_options"></property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label1">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Temperature (K):</property>
+      </object>
+      <packing>
+        <property name="x_options"></property>
+        <property name="y_options"></property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
 </interface>
