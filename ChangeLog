@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.11.4).
+
 2009-09-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/fill-item.cc: fixed after last goffice change.
 	* libs/gccv/line-item.cc: ditto.
