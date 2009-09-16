@@ -124,6 +124,13 @@ should be either GCP_CLIPBOARD_NO_TEXT or GCP_CLIPBOARD_ALL
 */
 extern int ClipboardFormats;
 
+/*!
+Hashed bonds are normally represented with the large side nearest, which is
+the opposite of what many people want. Setting InvertWedgeHashes to true will
+change this behavior. Default is false.
+*/
+extern bool InvertWedgeHashes;
+
 }	//	namespace gcp
 
 #endif // GCHEMPAINT_SETTINGS_H

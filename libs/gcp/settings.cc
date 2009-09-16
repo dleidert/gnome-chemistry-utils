@@ -36,5 +36,6 @@ bool MergeAtoms = true;
 int CompressionLevel = 0;
 bool TearableMendeleiev = false;
 int ClipboardFormats = GCP_CLIPBOARD_NO_TEXT;
+bool InvertWedgeHashes = false;
 
 }

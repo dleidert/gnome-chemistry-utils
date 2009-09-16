@@ -430,6 +430,7 @@ Shows or hides the tools box.
 private:
 	void TestSupportedType (char const *mime_type);
 	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
+	void UpdateAllTargets ();
 
 protected:
 /*!

@@ -397,6 +397,17 @@
 		<long>Default theme used when creating a new file.</long>
       </locale>
     </schema>
+    <schema>
+      <key>/schemas/apps/gchemutils/paint/settings/invert-wedge-hashes</key>
+      <applyto>/apps/gchemutils/paint/settings/invert-wedge-hashes</applyto>
+      <owner>gchemutils</owner>
+      <type>bool</type>
+      <default>FALSE</default>
+      <locale name="C">
+        <short>Whether the hashed wedge bonds shopuld be inverted.</short>
+		<long>Hashed bonds are normally represented with the large side nearest, which is the opposite of what many people want. Setting this key to TRUE will change this behavior. Default is FALSE.</long>
+      </locale>
+    </schema>
 </schemalist>
 
 </gconfschemafile>

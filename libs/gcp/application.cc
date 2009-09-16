@@ -384,6 +384,7 @@ Application::Application ():
 	m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
 	GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
 	GCU_GCONF_GET ("tearable-mendeleiev", bool, TearableMendeleiev, false)
+	GCU_GCONF_GET ("invert-wedge-hashes", bool, InvertWedgeHashes, false)
 	bool CopyAsText;
 	GCU_GCONF_GET ("copy-as-text", bool, CopyAsText, false)
 	ClipboardFormats = CopyAsText? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
@@ -1207,6 +1208,15 @@ void Application::ActivateWindowsActionWidget (const char *path, bool activate)
 	}
 }
 
+void Application::UpdateAllTargets ()
+{
+	set <Target *>::iterator target, tend = m_Targets.end ();
+	for (target = m_Targets.begin (); target != tend; target++) {
+		Document *doc = (*target)->GetDocument ();
+		doc->GetView ()->Update (doc);
+	}
+}
+
 void Application::OnConfigChanged (GOConfNode *node, gchar const *name)
 {
 	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
@@ -1217,6 +1227,7 @@ void Application::OnConfigChanged (GOConfNode *node, gchar const *name)
 							ToolsBox->Update ();
 					})
 	bool CopyAsText;
+	GCU_UPDATE_KEY ("invert-wedge-hashes", int, InvertWedgeHashes, UpdateAllTargets ();)
 	GCU_UPDATE_KEY ("copy-as-text", bool, CopyAsText, ClipboardFormats = CopyAsText?GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;)
 }
 

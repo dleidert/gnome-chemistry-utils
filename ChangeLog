@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-09-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: add an option to invert hash bonds. [#26810]
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/preferences.cc: ditto.
+	* libs/gcp/settings.cc: ditto.
+	* libs/gcp/settings.h: ditto.
+	* plugins/paint/bonds/bondtool.cc: ditto.
+	* programs/paint/gchempaint.schemas.in: ditto.
+	* ui/paint/preferences.ui: ditto.
+
 2009-09-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/table/gchemtable-app.cc: load the ui flies not glade. [#27395]
 	* ui/table/acidity.ui: removed the top level window.

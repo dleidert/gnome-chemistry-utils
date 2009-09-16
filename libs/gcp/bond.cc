@@ -655,7 +655,15 @@ void Bond::AddItem ()
 	}
 	case DownBondType: {
 		GetLine2DCoords (1, &x1, &y1, &x2, &y2);
-		gccv::Hash *hash = new gccv::Hash (view->GetCanvas ()->GetRoot (),
+		gccv::Hash *hash = InvertWedgeHashes?
+			new gccv::Hash (view->GetCanvas ()->GetRoot (),
+							x1 * theme->GetZoomFactor (),
+							y1 * theme->GetZoomFactor (),
+							x2 * theme->GetZoomFactor (),
+							y2 * theme->GetZoomFactor (),
+							theme->GetStereoBondWidth (),
+							this):
+			new gccv::Hash (view->GetCanvas ()->GetRoot (),
 							x2 * theme->GetZoomFactor (),
 							y2 * theme->GetZoomFactor (),
 							x1 * theme->GetZoomFactor (),
