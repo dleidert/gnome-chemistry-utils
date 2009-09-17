@@ -146,14 +146,17 @@ dnl Because we may skip its execution, we have to set a default here.
 m4_pattern_allow([^AM_GCONF_SOURCE_2$])
 AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
 
+use_gconf="no"
 if test ! -z "`echo $goffice_CFLAGS|grep gconf`"; then
 AC_PATH_PROG([GCONFTOOL], [gconftool-2], [no])
 if test "x$GCONFTOOL" = "xno"; then
 	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
+else
+	use_gconf="yes"
 fi
 AM_GCONF_SOURCE_2
 fi
-AM_CONDITIONAL([USE_GCONF], [test "x$GCONFTOOL" = "xyes"] )
+AM_CONDITIONAL([USE_GCONF], [test "x$use_gconf" = "xyes"] )
 
 dnl retrieve BODR data directory
 bodr_pkgdatadir=`pkg-config --variable=pkgdatadir bodr`

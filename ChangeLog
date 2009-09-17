@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed gconf tests.
+
 2009-09-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: add an option to invert hash bonds. [#26810]
 	* libs/gcp/application.h: ditto.
