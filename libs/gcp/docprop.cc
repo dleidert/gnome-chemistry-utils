@@ -157,6 +157,14 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	
 DocPropDlg::~DocPropDlg ()
 {
+	list <string> names = TheThemeManager.GetThemesNames ();
+	list <string>::iterator i, end = names.end ();
+	Theme *theme;
+	for (i = names.begin (); i != end; i++) {
+		theme = TheThemeManager.GetTheme (*i);
+		if (theme)
+			theme->RemoveClient (this);
+	}
 }
 
 void DocPropDlg::OnThemeNamesChanged ()
