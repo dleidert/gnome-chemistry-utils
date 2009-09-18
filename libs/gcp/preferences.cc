@@ -315,7 +315,7 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_tearable_mendeleiev_changed), pApp);
 	// invert hashed bonds or not
 	w = GetWidget ("invert-wedge-hashes");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TearableMendeleiev);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), InvertWedgeHashes);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_invert_wedge_hashes_changed), pApp);
 	// retrieve theme widgets and set signals
 	m_BondLengthBtn = GTK_SPIN_BUTTON (GetWidget ("bond-length-btn"));

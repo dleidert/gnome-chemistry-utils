@@ -1227,7 +1227,7 @@ void Application::OnConfigChanged (GOConfNode *node, gchar const *name)
 							ToolsBox->Update ();
 					})
 	bool CopyAsText;
-	GCU_UPDATE_KEY ("invert-wedge-hashes", int, InvertWedgeHashes, UpdateAllTargets ();)
+	GCU_UPDATE_KEY ("invert-wedge-hashes", bool, InvertWedgeHashes, UpdateAllTargets ();)
 	GCU_UPDATE_KEY ("copy-as-text", bool, CopyAsText, ClipboardFormats = CopyAsText?GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;)
 }
 

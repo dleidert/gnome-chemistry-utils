@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-09-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fixed the kay type for "inverd-hashed-wedge".
+	* libs/gcp/preferences.cc: fixed initialization of the same option.
+
 2009-09-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed gconf tests.
 
