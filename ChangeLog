@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-09-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* themes/paint/Wikipedia: revised theme (Matthias Mailänder).
+
 2009-09-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/docprop.cc: unregister from themes when destroying. [#27419]
 
