@@ -100,14 +100,12 @@ Inserts a text inside an existing instance during a paste operation.
 /*!
 @param node the xml node representing a portion of the text.
 @param pos where to insert the new text.
-@param level the imbrication level used to filter out extra text nodes
-added by libxml2.
 @param cur_size the current size in bytes.
 
 Loads a portion of a text with a unique set of attributes. \a pos and
 \a cur_size are updated.
 */
-	bool LoadNode (xmlNodePtr node, unsigned &pos, int level = 0, int cur_size = 0);
+	bool LoadNode (xmlNodePtr node, unsigned &pos, int cur_size = 0);
 /*!
 Used to add a representation of the text in the view.
 */

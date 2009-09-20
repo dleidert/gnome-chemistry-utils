@@ -43,7 +43,7 @@ GOGcpWindow::GOGcpWindow (GOGcpApplication *App, GOGChemUtilsComponent *gogcu):
 			xmlFreeDoc (xml);
 			xml = NULL;
 		}
-		SetTitle (m_Document->GetTitle ());
+		SetTitle (m_Document->GetLabel ());
 		gtk_window_present (GetWindow ());
 	}
 	catch (int i) {
@@ -73,6 +73,7 @@ void GOGcpWindow::OnSave ()
 		doc->Load (xml->children);
 		xmlFreeDoc (xml);
 		xml = NULL;
+		m_Document->SetDirty (false);
 		go_component_emit_changed (GO_COMPONENT (m_gogcu));
 	}
 	catch (int i) {

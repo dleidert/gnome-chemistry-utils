@@ -1215,6 +1215,10 @@ void Application::UpdateAllTargets ()
 		Document *doc = (*target)->GetDocument ();
 		doc->GetView ()->Update (doc);
 	}
+	// now propagate to tools
+	std::map <std::string, Tool*>::iterator i, iend = m_Tools.end ();
+	for (i = m_Tools.begin (); i != iend; i++)
+		(*i).second->OnConfigChanged ();
 }
 
 void Application::OnConfigChanged (GOConfNode *node, gchar const *name)

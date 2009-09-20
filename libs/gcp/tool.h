@@ -269,6 +269,11 @@ Gets the Application instance owning the tool.
 @return the Application instance.
 */
 	Application * GetApplication () {return m_pApp;}
+/*!
+Callback for a settings change event. Only tools which are dependent on some
+configuration key need to override this method. Default does nothing.
+*/
+	virtual void OnConfigChanged () {}
 
 protected:
 /*!

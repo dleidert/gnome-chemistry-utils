@@ -62,6 +62,7 @@ void ReactionOperator::AddItem ()
 	gccv::Text *text = new gccv::Text (view->GetCanvas ()->GetRoot (), x, y, this);
 	text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: 0);
 	text->SetPadding (theme->GetPadding ());
+	text->SetFillColor (0);
 	text->SetLineColor (0);
 	text->SetLineWidth (0.);
 	text->SetFontDescription (view->GetPangoFontDesc ());

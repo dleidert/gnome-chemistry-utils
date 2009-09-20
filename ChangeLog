@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2009-09-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcpapp.cc: cleaned code from old commented out lines.
+	* goffice/gogcpwin.cc: fixed window title for component edition.
+	* libs/gcp/application.cc: propagate configurations changes to tools.
+	* libs/gcp/document.cc:  fixed window title for component edition.
+	* libs/gcp/reaction-operator.cc: use a transparent background.
+	* libs/gcp/text.cc: fixed text loading.
+	* libs/gcp/text.h: ditto.
+	* libs/gcp/tool.h: add Too::OnConfigChanged().
+
 2009-09-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add silent rules when available.
 	* themes/paint/Wikipedia: revised theme (Matthias Mailänder).

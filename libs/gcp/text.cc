@@ -564,7 +564,7 @@ bool Text::Load (xmlNodePtr node)
 	m_buf.clear ();
 	unsigned pos = 0;
 	while (child) {
-		if (!LoadNode (child, pos, 0))
+		if (!LoadNode (child, pos))
 			return false;
 		child = child->next;
 	}
@@ -588,7 +588,7 @@ bool Text::LoadSelection (xmlNodePtr node, unsigned pos)
 	m_bLoading = true;
 	child = node->children;
 	while (child) {
-		if (!LoadNode (child, pos, 1))
+		if (!LoadNode (child, pos))
 			return false;
 		child = child->next;
 	}
@@ -604,17 +604,29 @@ bool Text::LoadSelection (xmlNodePtr node, unsigned pos)
 	return true;
 }
 
-bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
+bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int cur_size)
 {
 	char* buf;
 	gccv::TextTag *tag = NULL, *tag0 = NULL;
 	unsigned start = pos;
 	if (!strcmp ((const char*) node->name, "text")) {
-		if (!level)
-			return true;
 		buf = (char*) xmlNodeGetContent (node);
-		// search for '\n' because of old GChemPaint versions bug
+		// discard when there are only ASCII spaces, this might break some old files
 		char *cur = buf;
+		bool new_line = false;
+		while (cur && *cur) {
+			if (!g_ascii_isspace (*cur))
+				break;
+			if (*cur == '\n')
+				new_line = true;
+			cur++;
+		}
+		if (new_line && !*cur) {
+			xmlFree (buf);
+			return true;
+		}
+		// search for '\n' because of old GChemPaint versions bug
+		cur = buf;
 		while (cur && *cur) {
 			char *nl = strchr (cur, '\n');
 			if (nl) {
@@ -790,7 +802,7 @@ bool Text::LoadNode (xmlNodePtr node, unsigned &pos, int level, int cur_size)
 		return true;
 	xmlNodePtr child = node->children;
 	while (child) {
-		if (!LoadNode (child, pos, 1, cur_size))
+		if (!LoadNode (child, pos, cur_size))
 			return false;
 		child = child->next;
 	}
@@ -946,7 +958,7 @@ bool Text::SetProperty (unsigned property, char const *value)
 		m_buf.clear ();
 		m_bLoading = true;
 		while (node) {
-			if (!LoadNode (node, pos, 1))
+			if (!LoadNode (node, pos))
 				return false;
 			node = node->next;
 		}
