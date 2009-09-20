@@ -3,6 +3,8 @@ Version 0.10.9
 		* Do not crash when modifying a theme after using the doc properties
 		dialog. [#27419]
 		* Revised Wikipedia theme (Matthias Mailänder).
+	Goffice component:
+		* Fixed edition window title.
 
 Version 0.10.8
 	* Make compile with goffice-0.7.11 and, hopefully, later versions.

@@ -161,8 +161,10 @@ const gchar* Document::GetTitle () const
 {
 	if (m_title)
 		return m_title;
+	else if (m_label)
+		return m_label;
 	else
-		return GetLabel ();
+		return m_Window->GetDefaultTitle ();
 }
 
 const gchar* Document::GetLabel () const

@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-09-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcpwin.cc: fixed window title for component edition.
+	* libs/gcp/document.cc: ditto.
+
 2009-09-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* themes/paint/Wikipedia: revised theme (Matthias Mailänder).
 
