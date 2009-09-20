@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-09-20  Matthias Mailänder
+	* de.po: Updated German translation.
+
 2009-03-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* LINGUAS: add zh_TW.
 	* zh_TW.po: new file, thanks to I-Yuan Chiang and his group.
