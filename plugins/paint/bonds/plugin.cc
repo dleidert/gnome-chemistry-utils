@@ -29,6 +29,7 @@
 #include "gcp-stock-pixbufs.h"
 #include "plugin.h"
 #include <gcp/application.h>
+#include <gcp/settings.h>
 #include <glib/gi18n-lib.h>
 
 gcpBondsPlugin plugin;
@@ -46,6 +47,7 @@ static gcp::IconDesc icon_descs[] = {
 	{"gcp_Chain", gcp_chain_24},
 	{"gcp_UpBond", gcp_upbond_24},
 	{"gcp_DownBond", gcp_downbond_24},
+	{"gcp_iDownBond", gcp_idownbond_24},
 	{"gcp_XBond", gcp_xbond_24},
 	{"gcp_ForeBond", gcp_forebond_24},
 	{"gcp_DelocalizedBond", gcp_delocalizedbond_24},
@@ -91,6 +93,8 @@ static const char *ui_description =
 
 void gcpBondsPlugin::Populate (gcp::Application* App)
 {
+	if (gcp::InvertWedgeHashes)
+		entries[3].stock_id = "gcp_iDownBond";
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
 	App->RegisterToolbar ("BondsToolbar", 2);
 	new gcpBondTool (App);

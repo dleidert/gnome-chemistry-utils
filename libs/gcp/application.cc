@@ -332,6 +332,16 @@ Application::Application ():
 		m_Style = gtk_rc_get_style(w);
 		gtk_widget_destroy (w);
 
+		// load settings before plugins
+		m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
+		GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
+		GCU_GCONF_GET ("tearable-mendeleiev", bool, TearableMendeleiev, false)
+		GCU_GCONF_GET ("invert-wedge-hashes", bool, InvertWedgeHashes, false)
+		bool CopyAsText;
+		GCU_GCONF_GET ("copy-as-text", bool, CopyAsText, false)
+		ClipboardFormats = CopyAsText? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
+		m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, this);
+
 		// load plugins
 		Plugin::LoadPlugins ();
 		m_bInit = true;
@@ -381,14 +391,6 @@ Application::Application ():
 		}
 	}
 	
-	m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
-	GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
-	GCU_GCONF_GET ("tearable-mendeleiev", bool, TearableMendeleiev, false)
-	GCU_GCONF_GET ("invert-wedge-hashes", bool, InvertWedgeHashes, false)
-	bool CopyAsText;
-	GCU_GCONF_GET ("copy-as-text", bool, CopyAsText, false)
-	ClipboardFormats = CopyAsText? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
-	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, this);
 	// make themes permanent with this as a dummy client
 	list <string> Names = TheThemeManager.GetThemesNames ();
 	list <string>::iterator j, jend = Names.end ();

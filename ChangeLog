@@ -1,6 +1,13 @@
 ##Text encoding: utf-8
 
 2009-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: load settings before plugins.
+	* plugins/paint/bonds/Makefile.am: add a new pixmap.
+	* plugins/paint/bonds/bondtool.cc: invert hash icon when inverting bonds.
+	* plugins/paint/bonds/bondtool.h: ditto.
+	* plugins/paint/bonds/plugin.cc: ditto.
+
+2009-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/tools.cc: don't add a NULL tool.
 	* plugins/paint/templates/templatetool.cc: update hashed bonds when setting
 	changes.

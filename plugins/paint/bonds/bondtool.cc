@@ -616,6 +616,14 @@ void gcpDownBondTool::SetType (gcp::Bond* pBond)
 	pBond->SetType (gcp::DownBondType);
 }
 
+void gcpDownBondTool::OnConfigChanged ()
+{
+	GtkWidget *w = m_pApp->GetToolItem ("DownBond");
+	if (!w)
+		return;
+	gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON (w), gcp::InvertWedgeHashes? "gcp_iDownBond": "gcp_DownBond");
+}
+
 gcpForeBondTool::gcpForeBondTool (gcp::Application *App): gcpBondTool (App, "ForeBond", 4)
 {
 }

@@ -99,6 +99,8 @@ public:
 	gcpDownBondTool (gcp::Application *App);
 	virtual ~gcpDownBondTool ();
 
+	void OnConfigChanged ();
+
 protected:
 	virtual void Draw ();
 	virtual void UpdateBond ();

@@ -21,6 +21,7 @@ IMAGES = \
 	chain24.png \
 	delocalized24.png \
 	downbond24.png \
+	idownbond24.png \
 	forebond24.png \
 	upbond24.png \
 	xbond24.png
@@ -30,6 +31,7 @@ VARIABLES = \
 	gcp_chain_24			$(srcdir)/chain24.png \
 	gcp_delocalizedbond_24		$(srcdir)/delocalized24.png \
 	gcp_downbond_24			$(srcdir)/downbond24.png \
+	gcp_idownbond_24		$(srcdir)/idownbond24.png \
 	gcp_forebond_24			$(srcdir)/forebond24.png \
 	gcp_upbond_24			$(srcdir)/upbond24.png \
 	gcp_xbond_24			$(srcdir)/xbond24.png
