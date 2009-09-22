@@ -287,6 +287,14 @@ void gcpTemplateTool::OnDeleteTemplate ()
 	gtk_notebook_set_current_page (m_Book, 0);
 }
 
+void gcpTemplateTool::OnConfigChanged ()
+{
+	map<string, gcpTemplate*>::iterator t, tend = Templates.end ();
+	for (t = Templates.begin (); t != tend; t++)
+		if ((*t).second->doc)
+			(*t).second->doc->GetView ()->Update ((*t).second->doc);
+}
+
 gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
 	Dialog(App, UIDIR"/new-template.ui", "new_template", GETTEXT_PACKAGE, App)
 {

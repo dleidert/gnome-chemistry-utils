@@ -136,10 +136,11 @@ void Tools::RegisterTool (GtkWidget *w)
 {
 	char const *name = gtk_widget_get_name (w);
 	Application *App = dynamic_cast<Application*> (m_App);
-	if (strncmp (name, "Gtk", 3))
+	if (strncmp (name, "Gtk", 3)) {
 		App->SetToolItem (name, w);
-	Tool *tool = App->GetTool (name);
-	m_Pages[tool] = -1;
+		Tool *tool = App->GetTool (name);
+		m_Pages[tool] = -1;
+	}
 }
 
 void Tools::OnElementChanged (int Z)

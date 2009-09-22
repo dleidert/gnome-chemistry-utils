@@ -49,6 +49,7 @@ public:
 	void OnAddTemplate ();
 	void OnDeleteTemplate ();
 	char const *GetHelpTag () {return "templates";}
+	void OnConfigChanged ();
 
 private:
 	gcpTemplate* m_Template;

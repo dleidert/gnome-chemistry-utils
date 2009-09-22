@@ -1,4 +1,6 @@
 Version 0.11.4
+	GChemPaint:
+		* Allow for hash bond convention inversion. [#26810]
 	GChemTable:
 		* Fix loading of ui files. [#27395]
 		* Revised Wikipedia theme (Matthias Mailänder).

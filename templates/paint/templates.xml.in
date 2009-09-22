@@ -1473,8 +1473,8 @@
       <bond id="b39" order="1" begin="a12" end="a37"/>
       <bond id="b4" order="1" begin="a4" end="a5"/>
       <bond id="b5" order="1" begin="a5" end="a1"/>
-      <bond id="b6" order="1" begin="a6" end="a3" type="down"/>
-      <bond id="b7" order="1" begin="a7" end="a4" type="down"/>
+      <bond id="b6" order="1" begin="a3" end="a6" type="down"/>
+      <bond id="b7" order="1" begin="a4" end="a7" type="down"/>
       <bond id="b8" order="1" begin="a2" end="a8" type="up"/>
       <bond id="b9" order="1" begin="a5" end="a9" type="up"/>
     </molecule>
@@ -1548,8 +1548,8 @@
       <bond id="b50" order="1" begin="a47" end="a49"/>
       <bond id="b52" order="1" begin="a49" end="a50"/>
       <bond id="b53" order="1" begin="a50" end="a31"/>
-      <bond id="b54" order="1" begin="a51" end="a47" type="down"/>
-      <bond id="b55" order="1" begin="a52" end="a49" type="down"/>
+      <bond id="b54" order="1" begin="a47" end="a51" type="down"/>
+      <bond id="b55" order="1" begin="a49" end="a52" type="down"/>
       <bond id="b56" order="1" begin="a46" end="a53" type="up"/>
       <bond id="b57" order="1" begin="a50" end="a54" type="up"/>
     </molecule>
@@ -1626,7 +1626,7 @@
       <bond id="b30" order="1" begin="a28" end="a29"/>
       <bond id="b31" order="1" begin="a29" end="a30"/>
       <bond id="b32" order="1" begin="a30" end="a18"/>
-      <bond id="b34" order="1" begin="a32" end="a29" type="down"/>
+      <bond id="b34" order="1" begin="a29" end="a32" type="down"/>
       <bond id="b35" order="1" begin="a27" end="a33" type="up"/>
       <bond id="b36" order="1" begin="a30" end="a34" type="up"/>
       <bond id="b37" order="1" begin="a23" end="a35"/>
@@ -1699,7 +1699,7 @@
       <bond id="b68" order="1" begin="a64" end="a65"/>
       <bond id="b69" order="1" begin="a65" end="a66"/>
       <bond id="b70" order="1" begin="a66" end="a48"/>
-      <bond id="b72" order="1" begin="a68" end="a65" type="down"/>
+      <bond id="b72" order="1" begin="a65" end="a68" type="down"/>
       <bond id="b73" order="1" begin="a63" end="a69" type="up"/>
       <bond id="b74" order="1" begin="a66" end="a70" type="up"/>
     </molecule>
@@ -1780,8 +1780,8 @@
       <bond id="b86" order="1" begin="a78" end="a81"/>
       <bond id="b87" order="1" begin="a82" end="a83"/>
       <bond id="b88" order="1" begin="a83" end="a67"/>
-      <bond id="b89" order="1" begin="a84" end="a80" type="down"/>
-      <bond id="b90" order="1" begin="a85" end="a82" type="down"/>
+      <bond id="b89" order="1" begin="a80" end="a84" type="down"/>
+      <bond id="b90" order="1" begin="a82" end="a85" type="down"/>
       <bond id="b91" order="2" begin="a81" end="a86"/>
       <bond id="b92" order="1" begin="a83" end="a87" type="up"/>
       <bond id="b93" order="1" begin="a86" end="a76"/>
@@ -1865,8 +1865,8 @@
       <bond id="b107" order="1" begin="a97" end="a100"/>
       <bond id="b108" order="1" begin="a101" end="a102"/>
       <bond id="b109" order="1" begin="a102" end="a89"/>
-      <bond id="b110" order="1" begin="a103" end="a99" type="down"/>
-      <bond id="b111" order="1" begin="a104" end="a101" type="down"/>
+      <bond id="b110" order="1" begin="a99" end="a103" type="down"/>
+      <bond id="b111" order="1" begin="a101" end="a104" type="down"/>
       <bond id="b112" order="2" begin="a100" end="a105"/>
       <bond id="b113" order="1" begin="a102" end="a106" type="up"/>
       <bond id="b114" order="1" begin="a105" end="a95"/>
@@ -1953,7 +1953,7 @@
       <bond id="b130" order="1" begin="a118" end="a121"/>
       <bond id="b131" order="1" begin="a122" end="a123"/>
       <bond id="b132" order="1" begin="a123" end="a110"/>
-      <bond id="b134" order="1" begin="a125" end="a122" type="down"/>
+      <bond id="b134" order="1" begin="a122" end="a125" type="down"/>
       <bond id="b135" order="2" begin="a121" end="a126"/>
       <bond id="b136" order="1" begin="a123" end="a127" type="up"/>
       <bond id="b137" order="1" begin="a126" end="a116"/>
@@ -2034,7 +2034,7 @@
       <bond id="b145" order="1" begin="a146" end="a124"/>
       <bond id="b146" order="1" begin="a129" end="a130"/>
       <bond id="b147" order="1" begin="a130" end="a138"/>
-      <bond id="b149" order="1" begin="a132" end="a129" type="down"/>
+      <bond id="b149" order="1" begin="a129" end="a132" type="down"/>
       <bond id="b150" order="2" begin="a124" end="a133"/>
       <bond id="b151" order="1" begin="a130" end="a134" type="up"/>
       <bond id="b152" order="1" begin="a133" end="a144"/>

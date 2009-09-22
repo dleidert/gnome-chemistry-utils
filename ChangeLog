@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/tools.cc: don't add a NULL tool.
+	* plugins/paint/templates/templatetool.cc: update hashed bonds when setting
+	changes.
+	* plugins/paint/templates/templatetool.h: ditto.
+	* templates/paint/templates.xml.in: fixed nucleosides stereochemistry.
+
 2009-09-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcpapp.cc: cleaned code from old commented out lines.
 	* goffice/gogcpwin.cc: fixed window title for component edition.
