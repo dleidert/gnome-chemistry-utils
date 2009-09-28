@@ -152,7 +152,7 @@ void Document::Clear ()
 
 GtkWidget* Document::GetWidget ()
 {
-	return (m_pView) ? m_pView->GetWidget () : NULL;
+	return (m_pView)? m_pView->GetWidget (): NULL;
 }
 
 
@@ -162,7 +162,7 @@ const gchar* Document::GetTitle () const
 		return m_title;
 	else if (m_label)
 		return m_label;
-	return m_Window->GetDefaultTitle ();
+	return (m_Window)? m_Window->GetDefaultTitle (): NULL;
 }
 
 const gchar* Document::GetLabel () const
@@ -769,7 +769,7 @@ bool Document::Load (xmlNodePtr root)
 		pObject = CreateObject ((const char*) child->name, this);
 		if (pObject) {
 			if (!pObject->Load (child))
-				delete pObject;
+				Remove (pObject);
 			else
 				m_pView->AddObject (pObject);
 		}
