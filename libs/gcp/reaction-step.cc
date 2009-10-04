@@ -41,13 +41,13 @@ namespace gcp {
 
 TypeId ReactionStepType = NoType;
 
-ReactionStep::ReactionStep (): Object (ReactionStepType)
+ReactionStep::ReactionStep (): MechanismStep (ReactionStepType)
 {
 	SetId ("rs1");
 	m_bLoading = false;
 }
 
-ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, map<Object*, gccv::Rect> Objects): Object (ReactionStepType)
+ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, map<Object*, gccv::Rect> Objects): MechanismStep (ReactionStepType)
 {
 	SetId ("rs1");
 	reaction->AddChild (this);

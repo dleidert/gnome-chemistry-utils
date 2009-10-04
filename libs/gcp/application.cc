@@ -32,6 +32,8 @@
 #include "gcp-stock-pixbufs.h"
 #include "text.h"
 #include "plugin.h"
+#include "mechanism-arrow.h"
+#include "mechanism-step.h"
 #include "mesomer.h"
 #include "mesomery.h"
 #include "mesomery-arrow.h"
@@ -242,6 +244,16 @@ static Object* CreateFragment ()
 	return new Fragment ();
 }
 
+static Object* CreateMechanismArrow ()
+{
+	return new MechanismArrow ();
+}
+
+static Object* CreateMechanismStep ()
+{
+	return new MechanismStep (MechanismStepType);
+}
+
 bool	Application::m_bInit = false;
 bool	Application::m_Have_Ghemical = false;
 bool	Application::m_Have_InChI = false;
@@ -320,6 +332,8 @@ Application::Application ():
 		Object::AddRule ("mesomery", RuleMustContain, "mesomer");
 		Object::AddRule ("mesomery", RuleMustContain, "mesomery-arrow");
 		Object::AddRule ("mesomery-arrow", RuleMustBeIn, "mesomery");
+		MechanismArrowType = Object::AddType ("mechanism-arrow", CreateMechanismArrow);
+		MechanismStepType = Object::AddType ("mechanism-step", CreateMechanismStep);
 
 		// Create global signal ids
 		OnChangedSignal = Object::CreateNewSignalId ();

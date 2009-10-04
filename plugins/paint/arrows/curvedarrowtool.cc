@@ -27,8 +27,11 @@
 #include <gccv/bezier-arrow.h>
 #include <gcp/application.h>
 #include <gcp/atom.h>
+#include <gcp/bond.h>
 #include <gcp/document.h>
 #include <gcp/electron.h>
+#include <gcp/mechanism-arrow.h>
+#include <gcp/mechanism-step.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -48,24 +51,91 @@ gcpCurvedArrowTool::~gcpCurvedArrowTool ()
 bool gcpCurvedArrowTool::OnClicked ()
 {
 	bool allowed = false;
-	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0.;
+	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., l;
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Theme *pTheme = pDoc->GetTheme ();
 	gccv::ArrowHeads arrow_head = m_Full? gccv::ArrowHeadFull: gccv::ArrowHeadLeft;
+	m_SourceAux = NULL;
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
 		case gcu::AtomType:
 			allowed = reinterpret_cast <gcp::Atom *> (m_pObject)->HasAvailableElectrons (m_Full);
 			break;
-		case gcu::BondType:
+		case gcu::BondType: {
 			allowed = true;
+			// try to add an arrow starting from the center of the bond and ending on the nearest atom
+			gcp::Bond *bond = static_cast <gcp::Bond *> (m_pObject);
+			gcp::Atom *start = static_cast <gcp::Atom *> (bond->GetAtom (0)),
+					  *end = static_cast <gcp::Atom *> (bond->GetAtom (1));
+			start->GetCoords (&x0, &y0);
+			end->GetCoords (&x1, &y1);
+			// convert to canvas coordinates
+			x0 *= m_dZoomFactor;
+			y0 *= m_dZoomFactor;
+			x1 *= m_dZoomFactor;
+			y1 *= m_dZoomFactor;
+			x2 = m_x0 - x0;
+			y2 = m_y0 - y0;
+			x1 -= x0;
+			y1 -= y0;			// use x3 as bond length for now
+			l = hypot (x1, y1);
+			double dx = x1 / l, dy = y1 / l;
+			// everything beeing normalized, vector product sign will say on which side we are
+			// and scalar product where we are. Let's use x3 for scalar and y3 for vector products.
+			x2 /= l;
+			y2 /= l;
+			x3 = dx * x2 + dy * y2;
+			y3 = dx * y2 - dy * x2;
+			x0 += (x1 /= 2.);
+			y0 += (y1 /= 2.);
+			x2 = dx;
+			if (y3 < 0) {
+				dx = dy;
+				dy = -x2;
+			} else {
+				dx = -dy;
+				dy = x2;
+			}
+			if (x3 > .5) {
+				m_Target = end;
+				x3 = x0 + x1;
+				y3 = y0 + y1;
+			} else {
+				m_Target = end = start;
+				x3 = x0 - x1;
+				y3 = y0 - y1;
+			}
+			// add some padding
+			x0 += dx * pTheme->GetPadding ();
+			y0 += dy * pTheme->GetPadding ();
+			l /= 2.;
+			m_CPx1 = dx * l;
+			m_CPy1 = dy * l;
+			x1 = x0 + m_CPx1;
+			y1 = y0 + m_CPy1;
+			// adjust end position
+			double angle = -atan2 (dy, dx) * 180. / M_PI;
+			end->GetPosition (angle, x3, y3);
+			// convert to canvas coordinates
+			x3 *= m_dZoomFactor;
+			y3 *= m_dZoomFactor;
+			// set second control point
+			l += pTheme->GetArrowHeadA ();
+			m_CPx2 = dx * l;
+			m_CPy2 = dy * l;
+			x2 = x3 + m_CPx2;
+			y2 = y3 + m_CPy2;
 			break;
+		}
 		default:
 			if (m_pObject->GetType () == gcp::ElectronType) {
 				if (m_Full)
 					allowed = static_cast <gcp::Electron *> (m_pObject)->IsPair ();
 				else
 					allowed = true;
+			} else if (m_pObject->GetType () == gcp::MechanismArrowType) {
+				// select the arrow and show the control points
+				return true;
 			}
 			break;
 		}
@@ -110,4 +180,22 @@ void gcpCurvedArrowTool::OnMotion ()
 
 void gcpCurvedArrowTool::OnRelease ()
 {
+	if (m_Item) {
+		delete m_Item;
+		m_Item = NULL;
+	}
+	else
+		return;
+	m_pApp->ClearStatus ();
+	gcp::Document* pDoc = m_pView->GetDoc ();
+	if (!m_pObject)
+		return;
+	gcp::MechanismArrow *a = new gcp::MechanismArrow ();
+	pDoc->AddObject (a);
+	a->SetSource (m_pObject);
+	a->SetSourceAux (m_SourceAux);
+	a->SetTarget (m_Target);
+	a->SetControlPoint (1, m_CPx1 / m_dZoomFactor, m_CPy1 / m_dZoomFactor);
+	a->SetControlPoint (1, m_CPx2 / m_dZoomFactor, m_CPy2 / m_dZoomFactor);
+	pDoc->FinishOperation ();
 }

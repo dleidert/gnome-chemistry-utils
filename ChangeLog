@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2009-10-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/bezier-arrow.cc: take control points in bounds when visible.
+	* libs/gcp/Makefile.am: add some classes to support mechanism curved arrows.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/mechanism-arrow.cc: ditto.
+	* libs/gcp/mechanism-arrow.h: ditto.
+	* libs/gcp/mechanism-step.cc: ditto.
+	* libs/gcp/mechanism-step.h: ditto.
+	* libs/gcp/reaction-step.cc: ditto.
+	* libs/gcp/reaction-step.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: removed extra spaces.
+	* mozilla-plugin/moz-plugin.c (ChemNew): remove apparently obsolete code.
+	* plugins/paint/arrows/curvedarrowtool.cc: show a curved arrow when clicked
+	on a bond.
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+
 2009-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: fixed a couple of crashers.
 

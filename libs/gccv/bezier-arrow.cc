@@ -243,6 +243,13 @@ void BezierArrow::UpdateBounds ()
 		m_y0 = y;
 	else if (y > m_y1)
 		m_y1 = y;
+	if (m_ShowControls) {
+		double half_width = GetLineWidth () * 2.5;
+		m_x0 -= half_width;
+		m_y0 -= half_width;
+		m_x1 += half_width;
+		m_y1 += half_width;
+	}
 }
 
 void BezierArrow::SetControlPoints (double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3)

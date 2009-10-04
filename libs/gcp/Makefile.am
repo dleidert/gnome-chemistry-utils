@@ -45,6 +45,8 @@ libgcp_@GCU_API_VER@_la_SOURCES = \
 		mesomery.cc \
 		mesomer.cc \
 		mesomery-arrow.cc \
+		mechanism-arrow.cc \
+		mechanism-step.cc \
 		text.cc \
 		text-object.cc \
 		docprop.cc \
@@ -88,6 +90,8 @@ noinst_HEADERS = \
 		mesomery.h \
 		mesomer.h \
 		mesomery-arrow.h \
+		mechanism-arrow.h \
+		mechanism-step.h \
 		text.h \
 		text-editor.h \
 		text-object.h \

@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_REACTION_STEP_H
 #define GCHEMPAINT_REACTION_STEP_H
 
-#include <gcu/object.h>
+#include <mechanism-step.h>
 #include <gccv/structs.h>
 #include <set>
 
@@ -45,7 +45,7 @@ the operators betwwen them. This class is misnamed, since the step is more
 generally associated with the arrow. It might be renamed ReactionStage in the
 future if it is possible without making old files unreadable.
 */
-class ReactionStep: public gcu::Object
+class ReactionStep: public MechanismStep
 {
 public:
 /*!

@@ -1,10 +1,10 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint arrows plugin
- * curvedarrowtool.h
+ * GChemPaint library
+ * mechanism-step.h 
  *
- * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,26 +22,22 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_CURVED_ARROW_TOOL_H
-#define GCHEMPAINT_CURVED_ARROW_TOOL_H
+#ifndef GCHEMPAINT_MECHANISM_STEP_H
+#define GCHEMPAINT_MECHANISM_STEP_H
 
-#include <gcp/tool.h>
+#include <gcu/object.h>
 
-class gcpCurvedArrowTool: public gcp::Tool
+namespace gcp {
+
+extern gcu::TypeId MechanismStepType;
+
+class MechanismStep: public gcu::Object
 {
 public:
-	gcpCurvedArrowTool (gcp::Application *App, std::string Id);
-	virtual ~gcpCurvedArrowTool ();
-
-	bool OnClicked ();
-	void OnDrag ();
-	void OnMotion ();
-	void OnRelease ();
-
-private:
-	bool m_Full; // if false use half heads
-	gcu::Object *m_Target, *m_SourceAux;
-	double m_CPx1, m_CPy1, m_CPx2, m_CPy2; // x and y deltas from ends to central control points
+	MechanismStep (gcu::TypeId type = MechanismStepType);
+	virtual ~MechanismStep ();
 };
 
-#endif	//GCHEMPAINT_CURVED_ARROW_TOOL_H
+}	//	namespace gcp
+
+#endif	//	GCHEMPAINT_MECHANISM_STEP_H

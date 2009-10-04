@@ -118,7 +118,7 @@ void ChemComp::SetWindow (XID xid)
 		if (Plug) // does this happen ?
 			return;
 		Xid = xid;
-		Plug = gtk_plug_new (xid);    
+		Plug = gtk_plug_new (xid);
 		Parent = gdk_window_foreign_new (xid);
 		gdk_window_get_geometry (Parent, NULL, NULL, &width, &height, NULL);
 		gtk_window_set_default_size (GTK_WINDOW (Plug), width, height);
