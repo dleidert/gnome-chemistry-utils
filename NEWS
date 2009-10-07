@@ -4,6 +4,8 @@ Version 0.11.4
 	GChemTable:
 		* Fix loading of ui files. [#27395]
 		* Revised Wikipedia theme (Matthias Mailänder).
+	Other:
+		* Fixed three typos in isotopes database. [#27619]
 
 Version 0.11.3
 	GChemPaint:

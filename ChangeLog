@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-10-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/isotopes.xml.in: fixed three typos. [#27619]
+
 2009-10-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: take control points in bounds when visible.
 	* libs/gcp/Makefile.am: add some classes to support mechanism curved arrows.
