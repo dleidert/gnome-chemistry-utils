@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-10-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/isotopes.xml.in: fixed three typos. [#27619]
+
 2009-09-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcpwin.cc: fixed window title for component edition.
 	* libs/gcp/document.cc: ditto.
