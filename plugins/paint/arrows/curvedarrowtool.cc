@@ -195,7 +195,9 @@ void gcpCurvedArrowTool::OnRelease ()
 	a->SetSource (m_pObject);
 	a->SetSourceAux (m_SourceAux);
 	a->SetTarget (m_Target);
+	a->SetPair (m_Full);
 	a->SetControlPoint (1, m_CPx1 / m_dZoomFactor, m_CPy1 / m_dZoomFactor);
-	a->SetControlPoint (1, m_CPx2 / m_dZoomFactor, m_CPy2 / m_dZoomFactor);
+	a->SetControlPoint (2, m_CPx2 / m_dZoomFactor, m_CPy2 / m_dZoomFactor);
+	m_pView->Update (a);
 	pDoc->FinishOperation ();
 }

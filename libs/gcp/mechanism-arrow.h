@@ -42,6 +42,8 @@ public:
 	void SetSourceAux (gcu::Object *aux);
 	void SetTarget (gcu::Object *target);
 	void SetControlPoint (int num, double dx, double dy);
+	void SetShowControls (bool show);
+	void SetPair (bool is_pair);
 
 	// virtual gcu::Object methods
 /*!
@@ -87,6 +89,8 @@ private:
 GCU_RO_PROP (gcu::Object *, Source)
 GCU_RO_PROP (gcu::Object *, SourceAux)
 GCU_RO_PROP (gcu::Object *, Target)
+GCU_RO_PROP (bool, ShowControls)
+GCU_RO_PROP (bool, Pair);
 };
 
 }	//	namespace gcp

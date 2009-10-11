@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-10-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: implement partially AddItem().
+	* libs/gcp/mechanism-arrow.h: some more members.
+	* plugins/paint/arrows/curvedarrowtool.cc: fixed second control point.
+
 2009-10-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/isotopes.xml.in: fixed three typos. [#27619]
 
