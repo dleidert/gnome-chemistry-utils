@@ -30,7 +30,7 @@ The Gnome Chemistry Utils Library provides some widgets and C++ classes related 
 Available widgets are:
 - GcpFontSel: a font selector.
 - GtkPeriodic: a periodic table of the elements.
-- GtkComboPeriodic: a combo box witha dropdown periodic table widget.
+- GtkComboPeriodic: a combo box with a dropdown periodic table widget.
 - GtkCrystalViewer: a crystal structure viewer.
 - GtkChem3DViewer: a 3D molecular structure viewer.
 - GtkSpectrumViewer: a spectrum viewer.

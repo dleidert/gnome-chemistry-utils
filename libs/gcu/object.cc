@@ -81,6 +81,8 @@ Object::~Object ()
 			m_Children.erase ((*i).first);
 		}
 	}
+	while (!m_Links.empty ())
+		Unlink (*(m_Links.begin ()));
 }
 
 void Object::Clear ()
@@ -587,13 +589,18 @@ Object* Object::GetNextLink (set<Object*>::iterator& i)
 	return *i;
 }
 
+void Object::Link (Object *object)
+{
+	m_Links.insert (object);
+}
+
 void Object::Unlink (Object *object)
 {
 	m_Links.erase (object);
-	OnUnlink (object);
+	object->OnUnlink (this);
 }
 
-void Object::OnUnlink (G_GNUC_UNUSED G_GNUC_UNUSED Object *object)
+void Object::OnUnlink (G_GNUC_UNUSED Object *object)
 {
 }
 

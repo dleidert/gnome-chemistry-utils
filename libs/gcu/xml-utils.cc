@@ -25,9 +25,12 @@
 #include "xml-utils.h"
 #include <cstring>
 #include <set>
+#include <sstream>
 #include <string>
 
 using namespace std;
+
+namespace gcu {
 
 xmlNodePtr FindNodeByNameAndId (xmlNodePtr node, const char* name, const char* id)
 {
@@ -338,3 +341,12 @@ char const *GetStaticScale (char *buf)
 	}
 	return (*i).c_str ();
 }
+
+void WriteFloat (xmlNodePtr node, char const *name, double value)
+{
+	std::ostringstream s;
+	s << value;
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> (name), reinterpret_cast <xmlChar const *> (s.str ().c_str ()));
+}
+
+}	//	namespace gcu

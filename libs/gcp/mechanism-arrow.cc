@@ -33,6 +33,7 @@
 #include <gcp/widgetdata.h>
 #include <gccv/bezier-arrow.h>
 #include <gccv/canvas.h>
+#include <gcu/xml-utils.h>
 
 namespace gcp {
 	
@@ -51,24 +52,71 @@ MechanismArrow::MechanismArrow ():
 
 MechanismArrow::~MechanismArrow ()
 {
+	Lock ();
+	if (m_Source)
+		m_Source->Unlink (this);
+	if (m_SourceAux)
+		m_SourceAux->Unlink (this);
+	if (m_Target)
+		m_Target->Unlink (this);
 }
 
 void MechanismArrow::SetSource (gcu::Object *source)
 {
+	if (!source)
+		return;
+	if (m_Source) {
+		Lock ();
+		m_Source->Unlink (this);
+		m_Source = NULL;
+		Lock (false);
+	}
 	m_Source = source;
+	m_Source->Link (this);
 	static_cast <Document *> (GetDocument ())->SetDirty (this);
 }
 
 void MechanismArrow::SetSourceAux (gcu::Object *aux)
 {
+	if (!aux)
+		return;
+	if (m_SourceAux) {
+		Lock ();
+		m_SourceAux->Unlink (this);
+		m_SourceAux = NULL;
+		Lock (false);
+	}
 	m_SourceAux = aux;
+	m_SourceAux->Link (this);
 	static_cast <Document *> (GetDocument ())->SetDirty (this);
 }
 
 void MechanismArrow::SetTarget (gcu::Object *target)
 {
+	if (!target)
+		return;
+	if (m_Target) {
+		Lock ();
+		m_Target->Unlink (this);
+		m_Target = NULL;
+		Lock (false);
+	}
 	m_Target = target;
+	m_Target->Link (this);
 	static_cast <Document *> (GetDocument ())->SetDirty (this);
+}
+
+void MechanismArrow::OnUnlink (Object *object)
+{
+	if (IsLocked ())
+		return;
+	if (object == m_Source)
+		m_Source = NULL;
+	else if (object == m_SourceAux)
+		m_SourceAux = NULL;
+	else if (object == m_Target)
+		m_Target = NULL;
+	delete this;
 }
 
 void MechanismArrow::SetControlPoint (int num, double dx, double dy)
@@ -107,7 +155,15 @@ xmlNodePtr MechanismArrow::Save (xmlDocPtr xml) const
 	if (!m_Source || !m_Target)
 		return NULL;	// this should not occur
 	xmlNodePtr node = Object::Save (xml);
-
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> ("source"), reinterpret_cast <xmlChar const *> (m_Source->GetId ()));
+	if (m_SourceAux)
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("source-aux"), reinterpret_cast <xmlChar const *> (m_SourceAux->GetId ()));
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> ("target"), reinterpret_cast <xmlChar const *> (m_Target->GetId ()));
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (m_Pair? "full": "single"));
+	gcu::WriteFloat (node, "ct1x", m_CPx1);
+	gcu::WriteFloat (node, "ct1y", m_CPy1);
+	gcu::WriteFloat (node, "ct2x", m_CPx2);
+	gcu::WriteFloat (node, "ct2y", m_CPy2);
 	return node;
 }
 
@@ -186,6 +242,25 @@ void MechanismArrow::AddItem ()
 
 void MechanismArrow::SetSelected (int state)
 {
+	GOColor color;
+	switch (state) {	
+	case SelStateUnselected:
+		color = Color;
+		break;
+	case SelStateSelected:
+		color = SelectColor;
+		break;
+	case SelStateUpdating:
+		color = AddColor;
+		break;
+	case SelStateErasing:
+		color = DeleteColor;
+		break;
+	default:
+		color = Color;
+		break;
+	}
+	static_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
 }
 
 }	//	namespace gcp

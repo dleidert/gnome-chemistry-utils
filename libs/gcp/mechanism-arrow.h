@@ -83,6 +83,11 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
 	void SetSelected (int state);
 
+/*!
+@param object the object just unlinked by Object::Unlink.
+*/
+	void OnUnlink (Object *object);
+
 private:
 	double m_CPx1, m_CPy1, m_CPx2, m_CPy2;
 

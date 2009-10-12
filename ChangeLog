@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2009-10-12  Jean Bréfort  <jean.brefort@normalesup.org>
+
+	* libs/gcp/mechanism-arrow.cc: add links to source and target.
+	* libs/gcp/mechanism-arrow.h: ditto.
+	* libs/gcu/chemistry.h: fixed typo in documentation.
+	* libs/gcu/object.cc: add Object::Link() and make links really work.
+	* libs/gcu/object.h: ditto.
+	* libs/gcu/xml-utils.cc: add gcu::WriteFloat and move all functions to
+	gcu namespace.
+	* libs/gcu/xml-utils.h: ditto.
+
 2009-10-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: implement partially AddItem().
 	* libs/gcp/mechanism-arrow.h: some more members.

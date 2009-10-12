@@ -455,6 +455,13 @@ Use this method to iterate through the list of Object instances linked to the ob
 	Object* GetNextLink (std::set<Object*>::iterator& i);
 
 /*!
+@param object the object to link.
+
+Adds a link to \a object.
+*/
+	void Link (Object *object);
+
+/*!
 @param object the object to unlink.
 
 Unlinks object and calls Object::OnUnlink.
@@ -464,7 +471,7 @@ Unlinks object and calls Object::OnUnlink.
 /*!
 @param object the object just unlinked by Object::Unlink.
 
-Virtual method called when an object hs been unlinked. Programs should not call it
+Virtual method called when an object has been unlinked. Programs should not call it
 directly, but should call Object::OnUnlink instead.
 */
 	virtual void OnUnlink (Object *object);

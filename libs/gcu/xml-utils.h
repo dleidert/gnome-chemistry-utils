@@ -30,6 +30,8 @@
 #include "chemistry.h"
 #include <goffice/goffice.h>
 
+namespace gcu {
+
 /*!\file
 Some helper functions to load / save Object instances.
 */
@@ -153,5 +155,16 @@ electronegativity), hence its name.
 @return a static version of buf or NULL if a new static string could not be created.
 */
 char const *GetStaticScale (char *buf);
+
+/*!
+@param node a pointer to an XML node.
+@param name the property name.
+@param value the value for the property.
+
+Adds \a value as a property with name \a name to \a node.
+*/
+void WriteFloat (xmlNodePtr node, char const *name, double value);
+
+}	//	namespace gcu
 
 #endif	// GCU_XML_UTILS_H
