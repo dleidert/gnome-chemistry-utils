@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-10-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/bonds/chaintool.cc: always set the bond angle in the
+	active document.
+
 2009-10-12  Jean Bréfort  <jean.brefort@normalesup.org>
 
 	* libs/gcp/mechanism-arrow.cc: add links to source and target.

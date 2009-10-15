@@ -346,8 +346,7 @@ static void on_number_changed (GtkSpinButton *btn, gcpChainTool *tool)
 
 void gcpChainTool::SetAngle (double angle)
 {
-	if (m_pView)
-		m_pView->GetDoc ()->SetBondAngle (angle);
+	m_pApp->GetActiveDocument ()->SetBondAngle (angle);
 }
 
 void gcpChainTool::SetLength (double length)
