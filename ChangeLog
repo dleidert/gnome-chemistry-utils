@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-10-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/bonds/chaintool.cc: Do not crash when changing the bond
+	angle in the chain tool. [sr #107062]
+
 2009-10-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/isotopes.xml.in: fixed three typos. [#27619]
 

@@ -3,6 +3,8 @@ Version 0.10.9
 		* Do not crash when modifying a theme after using the doc properties
 		dialog. [#27419]
 		* Revised Wikipedia theme (Matthias Mailänder).
+		* Do not crash when changing the bond angle in the chain
+		tool. [sr #107062]
 	Goffice component:
 		* Fixed edition window title.
 	Other:
