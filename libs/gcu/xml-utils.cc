@@ -349,4 +349,21 @@ void WriteFloat (xmlNodePtr node, char const *name, double value)
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> (name), reinterpret_cast <xmlChar const *> (s.str ().c_str ()));
 }
 
+bool ReadFloat (xmlNodePtr node, char const *name, double &value, double default_value)
+{
+	xmlChar *buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> (name));
+	char *end;
+	if (!buf) {
+		value = default_value;
+		return false;
+	}
+	value = strtod (reinterpret_cast <char *> (buf), &end);
+	xmlFree (buf);
+	if (end && (*end)) {
+		value = default_value;
+		return false;
+	}
+	return true;                           
+}
+
 }	//	namespace gcu

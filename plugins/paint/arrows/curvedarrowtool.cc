@@ -32,6 +32,7 @@
 #include <gcp/electron.h>
 #include <gcp/mechanism-arrow.h>
 #include <gcp/mechanism-step.h>
+#include <gcp/molecule.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -191,7 +192,26 @@ void gcpCurvedArrowTool::OnRelease ()
 	if (!m_pObject)
 		return;
 	gcp::MechanismArrow *a = new gcp::MechanismArrow ();
+	gcp::Molecule *mol = static_cast <gcp::Molecule *> (m_Target->GetMolecule ());
+	// we suppose that the molecule is owned either by a mechanism step, a reaction step or the document
+	// anyway, the tool must refuse all other situations
+	gcu::Object *obj = mol->GetParent ();
+	if (obj->GetType () == gcu::DocumentType) {
+		gcp::Molecule *mol_ = static_cast <gcp::Molecule *> (m_pObject->GetMolecule ());
+		if (mol_->GetParent () != obj) {// the source is already inside a mechanism step
+			obj = mol_->GetParent ();
+			obj->AddChild (mol);
+		} else {
+			gcp::MechanismStep *step = new gcp::MechanismStep ();
+			pDoc->AddChild (step);
+			obj = step;
+			obj->AddChild (mol);
+			if (mol !=mol_)
+				obj->AddChild (mol_);
+		}
+	}
 	pDoc->AddObject (a);
+	obj->AddChild (a);
 	a->SetSource (m_pObject);
 	a->SetSourceAux (m_SourceAux);
 	a->SetTarget (m_Target);

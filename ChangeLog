@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: implement loading.
+	* libs/gcu/xml-utils.cc: new gcu::ReadFloat function.
+	* libs/gcu/xml-utils.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: when creating an arrow, make
+	sure it is inside a mechanism step.
+
 2009-10-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/chaintool.cc: always set the bond angle in the
 	active document.

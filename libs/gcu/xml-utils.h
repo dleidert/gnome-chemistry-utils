@@ -163,7 +163,19 @@ char const *GetStaticScale (char *buf);
 
 Adds \a value as a property with name \a name to \a node.
 */
-void WriteFloat (xmlNodePtr node, char const *name, double value);
+	void WriteFloat (xmlNodePtr node, char const *name, double value);
+
+/*!
+@param node a pointer to an XML node.
+@param name the property name.
+@param value the value for the property.
+@param default_value the default value for the property if the property can't be retrieved.
+
+Retrieves \a value from the \a node property with name \a name. Sets the default
+value if somthing goes wrong.
+@return true if the value could be retrieved.
+*/
+bool ReadFloat (xmlNodePtr node, char const *name, double &value, double default_value = 0.);
 
 }	//	namespace gcu
 

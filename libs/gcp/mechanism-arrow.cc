@@ -34,6 +34,7 @@
 #include <gccv/bezier-arrow.h>
 #include <gccv/canvas.h>
 #include <gcu/xml-utils.h>
+#include <cstring>
 
 namespace gcp {
 	
@@ -169,6 +170,23 @@ xmlNodePtr MechanismArrow::Save (xmlDocPtr xml) const
 
 bool MechanismArrow::Load (xmlNodePtr node)
 {
+	xmlChar *buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("source"));
+	m_Source = GetParent ()->GetDescendant (reinterpret_cast <char *> (buf));
+	xmlFree (buf);
+	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("target"));
+	m_Target = GetParent ()->GetDescendant (reinterpret_cast <char *> (buf));
+	xmlFree (buf);
+	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("source-aux"));
+	if (buf) {
+		m_Target = GetParent ()->GetDescendant (reinterpret_cast <char *> (buf));
+		xmlFree (buf);
+	}
+	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("type"));
+	m_Pair = strcmp (reinterpret_cast <char *> (buf), "single");
+	gcu::ReadFloat (node, "ct1x", m_CPx1);
+	gcu::ReadFloat (node, "ct1y", m_CPy1);
+	gcu::ReadFloat (node, "ct2x", m_CPx2);
+	gcu::ReadFloat (node, "ct2y", m_CPy2);
 	return true;
 }
 
