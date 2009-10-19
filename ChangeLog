@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-10-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fixed color in tool buttons. [#27746]
+
 2009-10-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/chaintool.cc: Do not crash when changing the bond
 	angle in the chain tool. [sr #107062]
