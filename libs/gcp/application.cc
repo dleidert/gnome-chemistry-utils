@@ -1138,8 +1138,8 @@ void Application::AddActions (GtkRadioActionEntry const *entries, int nb, char c
 				// set the pixbuf color to the corresponding style for the style
 				unsigned char red, blue, green;
 				red = m_Style->fg[c].red >> 8;
-				green = m_Style->fg[c].red >> 8;
-				blue = m_Style->fg[c].red >> 8;
+				green = m_Style->fg[c].green >> 8;
+				blue = m_Style->fg[c].blue >> 8;
 				unsigned char *line, *cur;
 				line = gdk_pixbuf_get_pixels (icon);
 				int i, j, rows, cols, rowstride;

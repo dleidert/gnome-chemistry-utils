@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-10-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fixed color in tool buttons. [#27746]
+
 2009-10-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: implement loading.
 	* libs/gcu/xml-utils.cc: new gcu::ReadFloat function.
