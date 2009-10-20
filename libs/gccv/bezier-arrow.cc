@@ -264,4 +264,19 @@ void BezierArrow::SetControlPoints (double x0, double y0, double x1, double y1, 
 	m_Controls[3].y = y3;
 }
 
+void BezierArrow::Move (double x, double y)
+{
+	Invalidate ();
+	m_Controls[0].x += x;
+	m_Controls[0].y += y;
+	m_Controls[1].x += x;
+	m_Controls[1].y += y;
+	m_Controls[2].x += x;
+	m_Controls[2].y += y;
+	m_Controls[3].x += x;
+	m_Controls[3].y += y;
+	BoundsChanged ();
+	Invalidate ();
+}
+
 }   //  namespace gccv
