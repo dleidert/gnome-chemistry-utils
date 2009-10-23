@@ -27,6 +27,11 @@
 
 #include <gcp/tool.h>
 
+namespace gcp {
+	class Atom;
+	class Bond;
+};
+
 class gcpCurvedArrowTool: public gcp::Tool
 {
 public:
@@ -37,6 +42,12 @@ public:
 	void OnDrag ();
 	void OnMotion ();
 	void OnRelease ();
+
+private:
+	bool AllowAsSource (gcp::Atom *atom);
+	bool AllowAsTarget (gcp::Atom *atom);
+	bool AllowAsSource (gcp::Bond *bond);
+	bool AllowAsTarget (gcp::Bond *bond);
 
 private:
 	bool m_Full; // if false use half heads

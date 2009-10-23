@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2009-10-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: correcty set the arrowhead size for half-
+	headed arrows.
+	* mozilla-plugin/chem-viewer.cc: fixed some details.
+	* mozilla-plugin/moz-plugin.c (ChemNew): fix parameters management (don't
+	crash anymore) and allow chemical/x-cif files.
+	* plugins/paint/arrows/curvedarrowtool.cc: don't allow a bond to be the
+	source of more than 2 electron moves.
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+
 2009-10-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: implement BezierArrow::Move()
 	* libs/gccv/bezier-arrow.h: ditto.

@@ -110,7 +110,7 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 	write (to_pipe, mime_type, strlen ((char*) mime_type));
 	write (to_pipe, "\n", 1);
 	i = 0;
-/*	while (puts(argn[i]),strcmp (argn[i++], "PARAM"));*/
+	while (i < argc && strcmp (argn[i++], "PARAM"));
 	for (; i < argc; i++) {
 		if (argn[i] == NULL || argv[i] == NULL)
 			break;
@@ -215,7 +215,7 @@ char *NP_GetMIMEDescription (void)
 			"chemical/x-pdb:pdb,ent:Protein DataBank;"
 			"chemical/x-jcamp-dx:dx,jdx:JCAMP Spectroscopic Data Exchange Format;"
 			"application/x-gcrystal:gcrystal:Crystalline structure model;"
-		/*	"chemical/x-cif:cif:Crystallographic Information File;"*/
+			"chemical/x-cif:cif:Crystallographic Information File;"
 			"application/x-gchempaint:gchempaint:2D chemical structures"
 			"chemical/x-cdx:cdx:ChemDraw binary format;"
 			"chemical/x-cdxml:cdxml:ChemDraw CDXML format;");

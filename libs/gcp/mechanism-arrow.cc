@@ -253,8 +253,7 @@ void MechanismArrow::AddItem ()
 	arrow->SetShowControls (false);
 	arrow->SetLineWidth (theme->GetArrowWidth ());
 	arrow->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
-	// FIXME the head might be right
-	arrow->SetHead (m_Pair? gccv::ArrowHeadFull: gccv::ArrowHeadLeft);
+	arrow->SetHead (m_Pair? gccv::ArrowHeadFull: ((x2 -x3) * (y1 - y3) - (x1 - x3) * (y2 - y3) > 0? gccv::ArrowHeadRight: gccv::ArrowHeadLeft));
 	m_Item = arrow;
 }
 

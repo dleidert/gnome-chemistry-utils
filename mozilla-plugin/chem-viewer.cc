@@ -98,6 +98,7 @@ ChemComp::ChemComp (void* instance, string& mime_type)
 	Plug = NULL;
 	Doc = NULL;
 	gcpApp = NULL;
+	Viewer = NULL;
 }
 
 ChemComp::~ChemComp ()
@@ -110,6 +111,8 @@ ChemComp::~ChemComp ()
 void ChemComp::SetWindow (XID xid)
 {
 	int width, height;
+	if (Viewer)
+		return;
 	if (Xid == xid) {
 		//just resize and redraw
 		gdk_window_get_geometry (Parent, NULL, NULL, &width, &height, NULL);
@@ -134,6 +137,7 @@ void ChemComp::SetWindow (XID xid)
 			if (!gcpApp)
 				gcpApp = new MozPaintApp ();
 			Doc = new gcp::Document (gcpApp, true, NULL);
+			Doc->SetEditable (false);
 			Viewer = Doc->GetView ()->CreateNewWidget ();
 		} else 	if (MimeType == "chemical/x-jcamp-dx")
 			Viewer = gtk_spectrum_viewer_new (NULL);
@@ -146,6 +150,8 @@ void ChemComp::SetWindow (XID xid)
 
 void ChemComp::SetFilename (string& filename)
 {
+	if (Filename.length ())
+		return;
 	Filename = filename;
 	if (MimeType == "application/x-gcrystal") {
 		if (!loaded_radii) {
@@ -157,11 +163,11 @@ void ChemComp::SetFilename (string& filename)
 			return;
 		gtk_crystal_viewer_set_data (GTK_CRYSTAL_VIEWER (Viewer), xml->children);
 		xmlFree (xml);
-/*	} else if (MimeType == "chemical/x-cif") {
+	} else if (MimeType == "chemical/x-cif") {
 		if (!loaded_radii) {
 			Element::LoadRadii ();
 			loaded_radii = true;
-		}*/
+		}
 	} else 	if (MimeType == "application/x-gchempaint") {
 		xmlDocPtr xml = xmlParseFile (filename.c_str ());
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "chemistry"))
@@ -218,6 +224,7 @@ io_func (GIOChannel *source, G_GNUC_UNUSED GIOCondition condition, G_GNUC_UNUSED
 	str[length - 1] = 0;
 	buf = str;
 	g_free (str);
+	str = NULL;
 
 	if (buf == "new") {
 		string mime_type;
@@ -225,10 +232,12 @@ io_func (GIOChannel *source, G_GNUC_UNUSED GIOCondition condition, G_GNUC_UNUSED
 		str[length - 1] = 0;
 		strinst = str;
 		g_free (str);
+		str = NULL;
 		g_io_channel_read_line (source, &str, &length, NULL, NULL);
 		str[length - 1] = 0;
 		mime_type = str;
 		g_free (str);
+		str = NULL;
 		istringstream iss (strinst);
 		iss >> hex >> instance;
 		if (components[instance] != NULL) // this should not occur
@@ -238,15 +247,18 @@ io_func (GIOChannel *source, G_GNUC_UNUSED GIOCondition condition, G_GNUC_UNUSED
 		str[length - 1] = 0;
 		buf = str;
 		g_free (str);
+		str = NULL;
 		while (buf != "end") {
 			g_io_channel_read_line (source, &str, &length, NULL, NULL);
 			str[length - 1] = 0;
 			components[instance]->SetProperty (buf, str);
 			g_free (str);
+			str = NULL;
 			g_io_channel_read_line (source, &str, &length, NULL, NULL);
 			str[length - 1] = 0;
 			buf = str;
 			g_free (str);
+			str = NULL;
 		}
 	} else if (buf == "win") {
 		string strwin;
@@ -254,10 +266,12 @@ io_func (GIOChannel *source, G_GNUC_UNUSED GIOCondition condition, G_GNUC_UNUSED
 		str[length - 1] = 0;
 		strinst = str;
 		g_free (str);
+		str = NULL;
 		g_io_channel_read_line (source, &str, &length, NULL, NULL);
 		str[length - 1] = 0;
 		strwin = str;
 		g_free (str);
+		str = NULL;
 		istringstream iss (strinst), iss_ (strwin);
 		XID xid;
 		iss >> hex >> instance;
@@ -270,13 +284,14 @@ io_func (GIOChannel *source, G_GNUC_UNUSED GIOCondition condition, G_GNUC_UNUSED
 		str[length - 1] = 0;
 		strinst = str;
 		g_free (str);
+		str = NULL;
 		istringstream iss (strinst);
 		iss >> hex >> instance;
 		g_io_channel_read_line (source, &str, &length, NULL, NULL);
 		str[length - 1] = 0;
 		filename = str;
 		g_free (str);
-		ifstream ifs (filename.c_str ());
+		str = NULL;
 		if (components[instance] != NULL)
 			components[instance]->SetFilename (filename);
 	} else if (buf == "kill") {
@@ -285,6 +300,7 @@ io_func (GIOChannel *source, G_GNUC_UNUSED GIOCondition condition, G_GNUC_UNUSED
 		str[length - 1] = 0;
 		strinst = str;
 		g_free (str);
+		str = NULL;
 		istringstream iss (strinst);
 		iss >> hex >> instance;
 		if (components[instance] != NULL)

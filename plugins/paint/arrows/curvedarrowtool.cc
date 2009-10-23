@@ -51,7 +51,6 @@ gcpCurvedArrowTool::~gcpCurvedArrowTool ()
 
 bool gcpCurvedArrowTool::OnClicked ()
 {
-	bool allowed = false;
 	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., l;
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Theme *pTheme = pDoc->GetTheme ();
@@ -59,13 +58,17 @@ bool gcpCurvedArrowTool::OnClicked ()
 	m_SourceAux = NULL;
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
-		case gcu::AtomType:
-			allowed = reinterpret_cast <gcp::Atom *> (m_pObject)->HasAvailableElectrons (m_Full);
+		case gcu::AtomType: {
+			gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
+			if (!AllowAsSource (atom))
+			    return false;
 			break;
+		}
 		case gcu::BondType: {
-			allowed = true;
 			// try to add an arrow starting from the center of the bond and ending on the nearest atom
 			gcp::Bond *bond = static_cast <gcp::Bond *> (m_pObject);
+			if (!AllowAsSource (bond))
+			    return false;
 			gcp::Atom *start = static_cast <gcp::Atom *> (bond->GetAtom (0)),
 					  *end = static_cast <gcp::Atom *> (bond->GetAtom (1));
 			start->GetCoords (&x0, &y0);
@@ -130,26 +133,24 @@ bool gcpCurvedArrowTool::OnClicked ()
 		}
 		default:
 			if (m_pObject->GetType () == gcp::ElectronType) {
-				if (m_Full)
-					allowed = static_cast <gcp::Electron *> (m_pObject)->IsPair ();
-				else
-					allowed = true;
+				if (m_Full) {
+					if (!static_cast <gcp::Electron *> (m_pObject)->IsPair ())
+						return false;
+				}
 			} else if (m_pObject->GetType () == gcp::MechanismArrowType) {
 				// select the arrow and show the control points
 				return true;
 			}
 			break;
 		}
-	if (allowed) {
-		gccv::BezierArrow *arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
-		arrow->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
-		arrow->SetShowControls (true);
-		arrow->SetLineWidth (pTheme->GetArrowWidth ());
-		arrow->SetLineColor (gcp::AddColor);
-		arrow->SetHead (arrow_head);
-		m_Item = arrow;
-	}
-	return allowed;
+	gccv::BezierArrow *arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
+	arrow->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
+	arrow->SetShowControls (true);
+	arrow->SetLineWidth (pTheme->GetArrowWidth ());
+	arrow->SetLineColor (gcp::AddColor);
+	arrow->SetHead (arrow_head);
+	m_Item = arrow;
+	return true;
 }
 
 void gcpCurvedArrowTool::OnDrag ()
@@ -162,10 +163,10 @@ void gcpCurvedArrowTool::OnMotion ()
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
 		case gcu::AtomType:
-			allowed = reinterpret_cast <gcp::Atom *> (m_pObject)->HasAvailableElectrons (m_Full);
+			allowed = AllowAsSource (reinterpret_cast <gcp::Atom *> (m_pObject));
 			break;
 		case gcu::BondType:
-			allowed = true;
+			allowed = AllowAsSource (reinterpret_cast <gcp::Bond *> (m_pObject));
 			break;
 		default:
 			if (m_pObject->GetType () == gcp::ElectronType) {
@@ -220,4 +221,54 @@ void gcpCurvedArrowTool::OnRelease ()
 	a->SetControlPoint (2, m_CPx2 / m_dZoomFactor, m_CPy2 / m_dZoomFactor);
 	m_pView->Update (a);
 	pDoc->FinishOperation ();
+}
+
+bool gcpCurvedArrowTool::AllowAsSource (gcp::Atom *atom)
+{
+	if (!atom->HasAvailableElectrons (m_Full))
+	    return false;
+	return true;
+}
+
+bool gcpCurvedArrowTool::AllowAsTarget (gcp::Atom *atom)
+{
+	return true;
+}
+
+bool gcpCurvedArrowTool::AllowAsSource (gcp::Bond *bond)
+{
+	std::set <gcu::Object *>::iterator i;
+	gcu::Object* obj = bond->GetFirstLink (i);
+	if (obj && obj->GetType () == gcp::MechanismArrowType) {
+		if (m_Full)
+			return false;
+		// for homolytic cleavage, the bond must be the source for both arrows
+		gcp::MechanismArrow *arrow = static_cast <gcp::MechanismArrow *> (obj);
+		if (arrow->GetPair () || arrow->GetSource () != bond)
+			return false;
+		// only one arrow should be there
+		obj = bond->GetNextLink (i);
+		if (obj && obj->GetType () == gcp::MechanismArrowType)
+			return false;
+	}
+	return true;
+}
+
+bool gcpCurvedArrowTool::AllowAsTarget (gcp::Bond *bond)
+{
+	std::set <gcu::Object *>::iterator i;
+	gcu::Object* obj = bond->GetFirstLink (i);
+	if (obj && obj->GetType () == gcp::MechanismArrowType) {
+		if (m_Full)
+			return false;
+		// for homolytic cleavage, the bond must be the source for both arrows
+		gcp::MechanismArrow *arrow = static_cast <gcp::MechanismArrow *> (obj);
+		if (arrow->GetPair () || arrow->GetTarget () != bond)
+			return false;
+		// only one arrow should be there
+		obj = bond->GetNextLink (i);
+		if (obj && obj->GetType () == gcp::MechanismArrowType)
+			return false;
+	}
+	return true;
 }
