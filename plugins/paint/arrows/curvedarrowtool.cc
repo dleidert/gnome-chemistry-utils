@@ -25,6 +25,7 @@
 #include "config.h"
 #include "curvedarrowtool.h"
 #include <gccv/bezier-arrow.h>
+#include <gccv/canvas.h>
 #include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
@@ -62,6 +63,7 @@ bool gcpCurvedArrowTool::OnClicked ()
 			gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
 			if (!AllowAsSource (atom))
 			    return false;
+			return false; // TODO: implement and return true
 			break;
 		}
 		case gcu::BondType: {
@@ -137,9 +139,10 @@ bool gcpCurvedArrowTool::OnClicked ()
 					if (!static_cast <gcp::Electron *> (m_pObject)->IsPair ())
 						return false;
 				}
+				return false; // TODO: implement and return true
 			} else if (m_pObject->GetType () == gcp::MechanismArrowType) {
 				// select the arrow and show the control points
-				return true;
+				return false; // TODO: implement and return true
 			}
 			break;
 		}
@@ -155,6 +158,109 @@ bool gcpCurvedArrowTool::OnClicked ()
 
 void gcpCurvedArrowTool::OnDrag ()
 {
+	if (!m_Item)
+		return;	// this should not occur
+	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., l;
+	gcp::Document *pDoc = m_pView->GetDoc ();
+	gcp::Theme *pTheme = pDoc->GetTheme ();
+	gccv::Item *item = m_pView->GetCanvas ()->GetItemAt (m_x, m_y);
+	if (item == m_Item) {
+		// TODO: implement moving the control points
+		return;
+	}
+	if (item) {
+		gcu::Object *cur = dynamic_cast <gcu::Object *> (item->GetClient ());
+		if (cur == m_pObject) {
+			switch (m_pObject->GetType ()) {
+			case gcu::BondType: {
+				gcp::Bond *bond = static_cast <gcp::Bond *> (m_pObject);
+				if (m_Target == bond->GetAtom (0) || m_Target == bond->GetAtom (1)) {
+					// in that case, put the arrow on the same side as the mouse pointer
+					gcp::Atom *start = static_cast <gcp::Atom *> (bond->GetAtom (0)),
+							  *end = static_cast <gcp::Atom *> (bond->GetAtom (1));
+					start->GetCoords (&x0, &y0);
+					end->GetCoords (&x1, &y1);
+					// convert to canvas coordinates
+					x0 *= m_dZoomFactor;
+					y0 *= m_dZoomFactor;
+					x1 *= m_dZoomFactor;
+					y1 *= m_dZoomFactor;
+					x2 = m_x - x0;
+					y2 = m_y - y0;
+					x1 -= x0;
+					y1 -= y0;			// use x3 as bond length for now
+					l = hypot (x1, y1);
+					double dx = x1 / l, dy = y1 / l;
+					// everything beeing normalized, vector product sign will say on which side we are
+					// and scalar product where we are. Let's use x3 for scalar and y3 for vector products.
+					x2 /= l;
+					y2 /= l;
+					x3 = dx * x2 + dy * y2;
+					y3 = dx * y2 - dy * x2;
+					x0 += (x1 /= 2.);
+					y0 += (y1 /= 2.);
+					x2 = dx;
+					if (y3 < 0) {
+						dx = dy;
+						dy = -x2;
+					} else {
+						dx = -dy;
+						dy = x2;
+					}
+					if (m_Target == end) {
+						x3 = x0 + x1;
+						y3 = y0 + y1;
+					} else {
+						x3 = x0 - x1;
+						y3 = y0 - y1;
+					}
+					// add some padding
+					x0 += dx * pTheme->GetPadding ();
+					y0 += dy * pTheme->GetPadding ();
+					l /= 2.;
+					m_CPx1 = dx * l;
+					m_CPy1 = dy * l;
+					x1 = x0 + m_CPx1;
+					y1 = y0 + m_CPy1;
+					// adjust end position
+					double angle = -atan2 (dy, dx) * 180. / M_PI;
+					end->GetPosition (angle, x3, y3);
+					// convert to canvas coordinates
+					x3 *= m_dZoomFactor;
+					y3 *= m_dZoomFactor;
+					// set second control point
+					l += pTheme->GetArrowHeadA ();
+					m_CPx2 = dx * l;
+					m_CPy2 = dy * l;
+					x2 = x3 + m_CPx2;
+					y2 = y3 + m_CPy2;
+				} else
+					return; // TODO: implement
+				break;
+			}
+			default:
+				return;	// TODO: add more types
+			}
+			
+		} else if (cur == m_Target)
+			return;
+		else {
+			switch (cur->GetType ()) {
+			case gcu::BondType: {
+				gcp::Bond *bond = static_cast <gcp::Bond *> (cur);
+				if (!AllowAsTarget (bond))
+					break;
+				// TODO: evaluate coordinates
+				return;
+			}
+			default:
+				return;	// TODO: add more types
+			}
+			return;	// TODO: implement
+		}
+	}
+	gccv::BezierArrow *arrow = static_cast <gccv::BezierArrow *> (m_Item);
+	arrow->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
 void gcpCurvedArrowTool::OnMotion ()
@@ -269,6 +375,17 @@ bool gcpCurvedArrowTool::AllowAsTarget (gcp::Bond *bond)
 		obj = bond->GetNextLink (i);
 		if (obj && obj->GetType () == gcp::MechanismArrowType)
 			return false;
+	}
+	// now check if the source is an adjacent bond or atom
+	switch (m_pObject->GetType ()) {
+	case gcu::BondType: {
+		gcp::Bond *bond0 = static_cast <gcp::Bond *> (m_pObject);
+		if (bond->GetAtom (bond0->GetAtom (0)) == NULL && bond->GetAtom (bond0->GetAtom (1)) == NULL)
+			return false;
+		break;
+	}
+	default:
+		return false; // TODO:manage atoms and electrons
 	}
 	return true;
 }

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/bezier-arrow.cc: invalidate when changing the control points.
+	* plugins/paint/arrows/curvedarrowtool.cc: started work on
+	gcpCurvedArrowTool::OnDrag ().
+
 2009-10-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: correcty set the arrowhead size for half-
 	headed arrows.

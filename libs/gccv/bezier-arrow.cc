@@ -254,6 +254,7 @@ void BezierArrow::UpdateBounds ()
 
 void BezierArrow::SetControlPoints (double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3)
 {
+	Invalidate ();
 	m_Controls[0].x = x0;
 	m_Controls[0].y = y0;
 	m_Controls[1].x = x1;
@@ -262,6 +263,8 @@ void BezierArrow::SetControlPoints (double x0, double y0, double x1, double y1, 
 	m_Controls[2].y = y2;
 	m_Controls[3].x = x3;
 	m_Controls[3].y = y3;
+	BoundsChanged ();
+	Invalidate ();
 }
 
 void BezierArrow::Move (double x, double y)
