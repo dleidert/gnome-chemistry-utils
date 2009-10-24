@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* mozilla-plugin/moz-plugin.c (ChemNew): fix parameters management (don't
+	crash anymore).
+	
 2009-10-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fixed color in tool buttons. [#27746]
 

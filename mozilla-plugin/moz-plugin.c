@@ -109,7 +109,7 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 	write (to_pipe, mime_type, strlen ((char*) mime_type));
 	write (to_pipe, "\n", 1);
 	i = 0;
-	while (strcmp (argn[i++], "PARAM"));
+	while (i < argc && strcmp (argn[i++], "PARAM"));
 	for (; i < argc; i++) {
 		write (to_pipe, argn[i], strlen (argn[i]));
 		write (to_pipe, "\n", 1);

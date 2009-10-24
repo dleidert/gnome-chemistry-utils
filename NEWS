@@ -5,8 +5,11 @@ Version 0.10.9
 		* Revised Wikipedia theme (Matthias Mailänder).
 		* Do not crash when changing the bond angle in the chain
 		tool. [sr #107062]
+		* Fixed color in tool buttons. [#27746]
 	Goffice component:
 		* Fixed edition window title.
+	Mozilla plugin:
+		* Do not crash when there are no parameters.
 	Other:
 		* Fixed three typos in isotopes database. [#27619]
 
