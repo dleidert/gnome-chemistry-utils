@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/glview.cc 
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -158,11 +158,12 @@ GLView::GLView (GLDocument* pDoc) throw (std::runtime_error): Printable ()
 					GDK_GL_RGBA_TYPE);
 	
 	gtk_widget_set_events(GTK_WIDGET(m_pWidget),
-	GDK_EXPOSURE_MASK|
-	GDK_BUTTON_MOTION_MASK|
-	GDK_POINTER_MOTION_HINT_MASK|
-	GDK_BUTTON_PRESS_MASK);
-	
+		GDK_EXPOSURE_MASK |
+		GDK_POINTER_MOTION_MASK |
+		GDK_POINTER_MOTION_HINT_MASK |
+		GDK_BUTTON_PRESS_MASK |
+	    GDK_BUTTON_RELEASE_MASK);
+
 	// Connect signal handlers
 	// Do initialization when widget has been realized.
 	g_signal_connect (G_OBJECT (m_pWidget), "realize",

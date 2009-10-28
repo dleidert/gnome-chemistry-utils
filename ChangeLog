@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-10-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/glview.cc: fixed behavior with gtk+-2.18.
+	* mozilla-plugin/chem-viewer.cc: do not load an object more than once.
+
 2009-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* mozilla-plugin/moz-plugin.c (ChemNew): fix parameters management (don't
 	crash anymore).

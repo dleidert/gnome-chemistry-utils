@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * chem-viewer.c 
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2009 Jean Bréfort <jean.brefort@normalesup.org>
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
  * published by the Free Software Foundation; either version 2 of the
@@ -105,6 +105,7 @@ ChemComp::ChemComp (void* instance, string& mime_type)
 	Plug = NULL;
 	Doc = NULL;
 	gcpApp = NULL;
+	Viewer = NULL;
 }
 
 ChemComp::~ChemComp ()
@@ -117,6 +118,8 @@ ChemComp::~ChemComp ()
 void ChemComp::SetWindow (XID xid)
 {
 	int width, height;
+	if (Viewer)
+		return;
 	if (Xid == xid) {
 		//just resize and redraw
 		gdk_window_get_geometry (Parent, NULL, NULL, &width, &height, NULL);
@@ -140,6 +143,7 @@ void ChemComp::SetWindow (XID xid)
 			if (!gcpApp)
 				gcpApp = new MozPaintApp ();
 			Doc = new gcp::Document (gcpApp, true, NULL);
+			Doc->SetEditable (false);
 			Viewer = Doc->GetView ()->CreateNewWidget ();
 		} else 	if (MimeType == "chemical/x-jcamp-dx")
 			Viewer = gtk_spectrum_viewer_new (NULL);
@@ -152,6 +156,8 @@ void ChemComp::SetWindow (XID xid)
 
 void ChemComp::SetFilename (string& filename)
 {
+	if (Filename.length ())
+		return;
 	Filename = filename;
 	if (MimeType == "application/x-gcrystal") {
 		if (!loaded_radii) {
