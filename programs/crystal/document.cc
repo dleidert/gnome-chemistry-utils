@@ -116,7 +116,10 @@ void gcDocument::Update()
 void gcDocument::UpdateAllViews()
 {
 	list<CrystalView*>::iterator i;
-	for (i = m_Views.begin(); i != m_Views.end(); i++) (*i)->Update();
+	for (i = m_Views.begin(); i != m_Views.end(); i++) {
+		(*i)->Update();
+		static_cast <gcView *> (*i)->GetWindow ()->ClearStatus ();
+	}
 }
 
 void gcDocument::GetSize(gdouble* xmin, gdouble* xmax, gdouble* ymin, gdouble* ymax, gdouble* zmin, gdouble* zmax)

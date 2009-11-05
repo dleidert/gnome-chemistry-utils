@@ -292,15 +292,15 @@ List of the views of the document.
 */
 	std::list <CrystalView *> m_Views;
 
-/*!
-The space group associated with the lattice.
+/*!GetSpaceGroup()
+@return the space group associated with the lattice.
 */
-	SpaceGroup const *m_SpaceGroup;
 
 GCU_RO_PROP (std::string, NameCommon);
 GCU_RO_PROP (std::string, NameSystematic);
 GCU_RO_PROP (std::string, NameMineral);
 GCU_RO_PROP (std::string, NameStructure);
+GCU_RO_PROP (SpaceGroup const *, SpaceGroup);
 };
 
 extern gchar const *LatticeName[];

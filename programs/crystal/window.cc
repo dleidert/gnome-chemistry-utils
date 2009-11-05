@@ -4,7 +4,7 @@
  * Gnome Crystal
  * window.cc 
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,6 +31,7 @@
 #include "view-settings.h"
 #include <gcu/crystalview.h>
 #include <gcu/print-setup-dlg.h>
+#include <gcu/spacegroup.h>
 #include <glib/gi18n.h>
 #include <cstring>
 
@@ -457,6 +458,7 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	m_statusId = gtk_statusbar_get_context_id (GTK_STATUSBAR (m_Bar), "status");
 	gtk_statusbar_push (GTK_STATUSBAR (m_Bar), m_statusId, _("Ready"));
 	m_MessageId = 0;
+	ClearStatus ();
 	gtk_box_pack_start (GTK_BOX (vbox), m_Bar, false, false, 0);
 	
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
@@ -468,10 +470,14 @@ gcWindow::~gcWindow ()
 
 void gcWindow::ClearStatus()
 {
-	if (m_MessageId) {
+	if (m_MessageId)
 		gtk_statusbar_pop (GTK_STATUSBAR (m_Bar), m_statusId);
+	if (m_Doc->GetSpaceGroup ()) {
+		char *text = g_strdup_printf(_("Space group: %u"),m_Doc->GetSpaceGroup ()->GetId ());
+		m_MessageId = gtk_statusbar_push (GTK_STATUSBAR (m_Bar), m_statusId, text);
+		g_free (text);
+	} else
 		m_MessageId = 0;
-	}
 }
 
 void gcWindow::SetStatusText(const char* text)

@@ -112,8 +112,8 @@ bool gcpCurvedArrowTool::OnClicked ()
 				y3 = y0 - y1;
 			}
 			// add some padding
-			x0 += dx * pTheme->GetPadding ();
-			y0 += dy * pTheme->GetPadding ();
+			m_CPx0 = x0 += dx * pTheme->GetPadding ();
+			m_CPy0 = y0 += dy * pTheme->GetPadding ();
 			l /= 2.;
 			m_CPx1 = dx * l;
 			m_CPy1 = dy * l;
@@ -160,7 +160,7 @@ void gcpCurvedArrowTool::OnDrag ()
 {
 	if (!m_Item)
 		return;	// this should not occur
-	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., l;
+	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., l, dx, dy;
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Theme *pTheme = pDoc->GetTheme ();
 	gccv::Item *item = m_pView->GetCanvas ()->GetItemAt (m_x, m_y);
@@ -168,6 +168,7 @@ void gcpCurvedArrowTool::OnDrag ()
 		// TODO: implement moving the control points
 		return;
 	}
+	gccv::BezierArrow *arrow = static_cast <gccv::BezierArrow *> (m_Item);
 	if (item) {
 		gcu::Object *cur = dynamic_cast <gcu::Object *> (item->GetClient ());
 		if (cur == m_pObject) {
@@ -190,7 +191,8 @@ void gcpCurvedArrowTool::OnDrag ()
 					x1 -= x0;
 					y1 -= y0;			// use x3 as bond length for now
 					l = hypot (x1, y1);
-					double dx = x1 / l, dy = y1 / l;
+					dx = x1 / l;
+					dy = y1 / l;
 					// everything beeing normalized, vector product sign will say on which side we are
 					// and scalar product where we are. Let's use x3 for scalar and y3 for vector products.
 					x2 /= l;
@@ -215,8 +217,8 @@ void gcpCurvedArrowTool::OnDrag ()
 						y3 = y0 - y1;
 					}
 					// add some padding
-					x0 += dx * pTheme->GetPadding ();
-					y0 += dy * pTheme->GetPadding ();
+					m_CPx0 = x0 += dx * pTheme->GetPadding ();
+					m_CPy0 = y0 += dy * pTheme->GetPadding ();
 					l /= 2.;
 					m_CPx1 = dx * l;
 					m_CPy1 = dy * l;
@@ -250,16 +252,48 @@ void gcpCurvedArrowTool::OnDrag ()
 				gcp::Bond *bond = static_cast <gcp::Bond *> (cur);
 				if (!AllowAsTarget (bond))
 					break;
-				// TODO: evaluate coordinates
-				return;
+				double x, y, x_, y_;
+				gcp::Atom *start = static_cast <gcp::Atom *> (bond->GetAtom (0)),
+						  *end = static_cast <gcp::Atom *> (bond->GetAtom (1));
+				start->GetCoords (&x, &y);
+				end->GetCoords (&x_, &y_);
+				m_Target = bond;
+				// convert to canvas coordinates
+				x *= m_dZoomFactor;
+				y *= m_dZoomFactor;
+				x_ *= m_dZoomFactor;
+				y_ *= m_dZoomFactor;
+				x0 = m_CPx0;
+				y0 = m_CPy0;
+				x1 = x0 + m_CPx1;
+				y1 = y0 + m_CPy1;
+				x3 = (x + x_) / 2.;
+				y3 = (y + y_) / 2.;
+				// 
+				dx = y_ -y;
+				dy = x - x_;
+				l = hypot (dx, dy);
+				if (m_CPx1 * dy - m_CPy1 * dx > 0.) {
+					dx = -dx;
+					dy = -dy;
+				}
+				dx /= l;
+				dy /= l;
+				x3 += dx * pTheme->GetPadding ();
+				y3 += dy * pTheme->GetPadding ();
+				l += pTheme->GetArrowHeadA ();
+				m_CPx2 = dx * l;
+				m_CPy2 = dy * l;
+				x2 = x3 + m_CPx2;
+				y2 = y3 + m_CPy2;
+				m_SourceAux = NULL;
+				break;
 			}
 			default:
 				return;	// TODO: add more types
 			}
-			return;	// TODO: implement
 		}
 	}
-	gccv::BezierArrow *arrow = static_cast <gccv::BezierArrow *> (m_Item);
 	arrow->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 

@@ -176,6 +176,11 @@ static NPError ChemNewStream (NPP instance, G_GNUC_UNUSED NPMIMEType type, G_GNU
 	return NPERR_NO_ERROR;
 }
 
+static NPError ChemDestroyStream (G_GNUC_UNUSED NPP instance, G_GNUC_UNUSED NPStream* stream, G_GNUC_UNUSED NPReason reason)
+{
+	return NPERR_NO_ERROR;
+}
+
 static void ChemPrint (G_GNUC_UNUSED NPP instance, G_GNUC_UNUSED NPPrint *platformPrint)
 {
 // TODO: implement !!!
@@ -235,7 +240,6 @@ NPError NP_Initialize(NPNetscapeFuncs *mozFuncs, NPPluginFuncs *pluginFuncs) {
 		return NPERR_INVALID_FUNCTABLE_ERROR;
 
 	memcpy (&mozilla_funcs, mozFuncs, sizeof (NPNetscapeFuncs));
-	
 	pluginFuncs->version    = (NP_VERSION_MAJOR << 8) + NP_VERSION_MINOR;
 	pluginFuncs->size       = sizeof (NPPluginFuncs);
 #ifdef HAVE_NPFUNCTIONS_H
@@ -243,16 +247,14 @@ NPError NP_Initialize(NPNetscapeFuncs *mozFuncs, NPPluginFuncs *pluginFuncs) {
 	pluginFuncs->destroy    = (NPP_DestroyProcPtr) ChemDestroy;
 	pluginFuncs->setwindow  = (NPP_SetWindowProcPtr) ChemSetWindow;
 	pluginFuncs->newstream  = (NPP_NewStreamProcPtr) ChemNewStream;
+	pluginFuncs->destroystream  = (NPP_DestroyStreamProcPtr) ChemDestroyStream;
+	pluginFuncs->asfile     = (NPP_StreamAsFileProcPtr) ChemStreamAsFile;
 #else
 	pluginFuncs->newp       = NewNPP_NewProc (ChemNew);
 	pluginFuncs->destroy    = NewNPP_DestroyProc (ChemDestroy);
 	pluginFuncs->setwindow  = NewNPP_SetWindowProc (ChemSetWindow);
 	pluginFuncs->newstream  = NewNPP_NewStreamProc (ChemNewStream);
-#endif
-	pluginFuncs->destroystream = NULL;
-#ifdef HAVE_NPFUNCTIONS_H
-	pluginFuncs->asfile     = (NPP_StreamAsFileProcPtr) ChemStreamAsFile;
-#else
+	pluginFuncs->destroystream  = NewNPP_DestroyStreamProcPtr (ChemDestroyStream);
 	pluginFuncs->asfile     = NewNPP_StreamAsFileProc (ChemStreamAsFile);
 #endif
 	pluginFuncs->writeready = NULL;

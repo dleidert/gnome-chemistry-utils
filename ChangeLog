@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2009-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: use more recent LT macros and request gtk+-2.0 >= 2.18.
+	* libs/gccv/bezier-arrow.cc: add GetControlPoints.
+	* libs/gccv/bezier-arrow.h: ditto.
+	* libs/gcu/crystaldoc.h: make space group a standard read-only property.
+	* libs/gcu/glview.cc: fixed events with recent gtk+
+	* libs/gcu/gtkchem3dviewer.cc: ditto.
+	* libs/gcu/gtkcrystalviewer.cc: ditto.
+	* mozilla-plugin/moz-plugin.c: fixed epiphany crasher.
+	* plugins/paint/arrows/curvedarrowtool.cc: more work on OnDrag().
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+	* programs/crystal/document.cc: display the space group in the status
+	bar when known.
+	* programs/crystal/window.cc: ditto.
+
 2009-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: invalidate when changing the control points.
 	* plugins/paint/arrows/curvedarrowtool.cc: started work on

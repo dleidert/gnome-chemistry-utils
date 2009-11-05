@@ -15,12 +15,10 @@ AC_SUBST([CXXFLAGS])
 AC_SUBST([CPPFLAGS])
 AC_SUBST([LDFLAGS])
 
-AC_DISABLE_STATIC
-
 AC_ISC_POSIX
 AC_PROG_CXX
 AC_HEADER_STDC
-AC_PROG_LIBTOOL
+LT_INIT([disable-static])
 AC_PROG_LN_S
 DOLT
 IT_PROG_INTLTOOL([0.37.1])
@@ -128,7 +126,7 @@ fi
 PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
 PKG_CHECK_MODULES(cairo, [cairo >= 1.6.0])
 PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.16.1])
-PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.14.0])
+PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.18.0])
 PKG_CHECK_MODULES(gtkglext, [gtkglext-1.0 >= 1.0.0])
 PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
 PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.7.12])

@@ -41,6 +41,7 @@ public:
 	void Draw (cairo_t *cr, bool is_vector) const;
 	void Move (double x, double y);
 	void UpdateBounds ();
+	void GetControlPoints (double &x0, double &y0, double &x1, double &y1, double &x2, double &y2, double &x3, double &y3);
 	void SetControlPoints (double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3);
 
 GCCV_ITEM_POS_PROP (ArrowHeads, Head)

@@ -120,10 +120,7 @@ GtkWidget* gtk_chem3d_viewer_new (const gchar *uri)
 static void on_size(GtkWidget *w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer data)
 {
 	GtkWidget *widget = gtk_bin_get_child (GTK_BIN (w));
-	bool visible = false;
-	if (widget)
-		g_object_get (G_OBJECT (widget), "visible", &visible, NULL);
-	if (visible)
+	if (widget && gtk_widget_get_visible (widget))
 		gtk_widget_size_allocate (widget, allocation);
 }
 
