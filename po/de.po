@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gnome-chemistry-utils 0.8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-09-18 17:01+0200\n"
-"PO-Revision-Date: 2009-09-19 15:17+0100\n"
+"PO-Revision-Date: 2009-10-15 18:18+0100\n"
 "Last-Translator: Matthias Mailänder <https://launchpad.net/~mailaender>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -842,7 +842,7 @@ msgstr "Standardbindungslänge (pm)."
 
 #: ../glade/paint/preferences.glade.h:16
 msgid "Default padding in pixels added between consecutive objects during an alignment operation."
-msgstr ""
+msgstr "Standardabstand in Pixel zwischen zwei aufeinanderfolgenden Objekten während einer Ausrichtungsoperation."
 
 #: ../glade/paint/preferences.glade.h:17
 msgid "Dist_ance:"
@@ -855,27 +855,29 @@ msgstr "Entfernung zwischen Strichkeilen in Pixel."
 
 #: ../glade/paint/preferences.glade.h:19
 msgid "Distance in pixels between two lines representing a multiple bond."
-msgstr ""
+msgstr "Abstand in Pixel zwischen zwei Linien einer Doppelbindung."
 
 #: ../glade/paint/preferences.glade.h:20
 msgid "Distance in pixels between two parallel lines (either two arrows or one arrow with two lines)."
-msgstr ""
+msgstr "Abstand in Pixel zwischen zwei parallelen Linien (entweder zwei Pfeilen oder einem Pfeil mit zwei Linien)."
 
 #: ../glade/paint/preferences.glade.h:21
 msgid "Distance in pixels from tip of arrowhead to center."
-msgstr ""
+msgstr "Abstand in Pixel von Spitze des Pfeilkopfes zum Zentrum."
 
 #: ../glade/paint/preferences.glade.h:22
+#, fuzzy
 msgid "Distance in pixels from tip of arrowhead to trailing point, measured along shaft."
 msgstr ""
 
 #: ../glade/paint/preferences.glade.h:23
+#, fuzzy
 msgid "Distance in pixels of arrowhead trailing points from outside edge of shaft."
 msgstr ""
 
 #: ../glade/paint/preferences.glade.h:24
 msgid "Extra padding between a stoichiometric coefficient and its associated molecule in pixels."
-msgstr ""
+msgstr "Zusätzlicher Abstand zwischen einem stöchiometrischen Koeffizienten und seinen zugehörigen Molekülen in Pixel."
 
 #: ../glade/paint/preferences.glade.h:25
 msgid "GChemPaint Preferences"
@@ -906,19 +908,19 @@ msgstr "N_ame:"
 
 #: ../glade/paint/preferences.glade.h:31
 msgid "Padding added at each end of an arrow (in pixels)."
-msgstr ""
+msgstr "Abstand, der jedem Ende eines Pfeils hinzugefügt wird (in Pixel)."
 
 #: ../glade/paint/preferences.glade.h:32
 msgid "Padding between a '+' sign in a reaction equation and reactants symbols in pixels."
-msgstr ""
+msgstr "Abstand zwischen einem Pluszeichen in einer Reaktionsgleichung und den Symbolen der Reaktanden in Pixel."
 
 #: ../glade/paint/preferences.glade.h:33
 msgid "Padding used around text objects such as atoms, texts and other typographic signs in pixels."
-msgstr ""
+msgstr "Abstand um Textobjekte wie Atome, Textelemente und andere typographische Zeichen in Pixel."
 
 #: ../glade/paint/preferences.glade.h:34
 msgid "Scale used to convert real distance to canvas distance expressed in pm per pixel."
-msgstr ""
+msgstr "Skalierung um die echte Distanz in pm pro Pixel auf der Zeichenfläche in umzuwandeln."
 
 #: ../glade/paint/preferences.glade.h:35
 #, fuzzy
@@ -931,7 +933,7 @@ msgstr "Größe des Ladungszeichens in Pixel."
 
 #: ../glade/paint/preferences.glade.h:37
 msgid "Stoichio_metry padding:"
-msgstr ""
+msgstr "Stöchio_metrieabstand:"
 
 #: ../glade/paint/preferences.glade.h:38
 msgid "Wid_th"
@@ -939,7 +941,7 @@ msgstr "Brei_te"
 
 #: ../glade/paint/preferences.glade.h:39
 msgid "Width in pixels at the largest end."
-msgstr ""
+msgstr "Breite in Pixel am größten Ende."
 
 #: ../glade/paint/preferences.glade.h:40
 #, fuzzy
@@ -1092,7 +1094,7 @@ msgstr "Temperatur (K):"
 
 #: ../glade/table/curve.glade.h:1
 msgid "GChemTable Graph"
-msgstr ""
+msgstr "GChemTable Graph"
 
 #: ../glade/table/family.glade.h:1
 msgid ""
@@ -1124,19 +1126,19 @@ msgstr "Gewählte Familie:"
 
 #: ../glade/table/block.glade.h:1
 msgid "<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> s block </span>"
-msgstr ""
+msgstr "<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> s-Block </span>"
 
 #: ../glade/table/block.glade.h:2
 msgid "<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight=\"bold\"> d block </span>"
-msgstr ""
+msgstr "<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight=\"bold\"> d-Block </span>"
 
 #: ../glade/table/block.glade.h:3
 msgid "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight=\"bold\"> p block </span>"
-msgstr ""
+msgstr "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight=\"bold\"> p-Block </span>"
 
 #: ../glade/table/block.glade.h:4
 msgid "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> f block </span>"
-msgstr ""
+msgstr "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> f-Block </span>"
 
 #: ../database/elements.xml.in.h:1
 msgid "Actinium"
@@ -1623,6 +1625,7 @@ msgid "Chemical structures"
 msgstr "chemische Strukturen"
 
 #: ../goffice/plugin.xml.in.h:3
+#, fuzzy
 msgid "Chemical structures component engine"
 msgstr ""
 
@@ -1702,8 +1705,9 @@ msgid "Editing"
 msgstr "Bearbeitung"
 
 #: ../libs/canvas/gcp-canvas-pango.c:425
+#, fuzzy
 msgid "Is this rich text item currently edited?"
-msgstr ""
+msgstr "Wird dieses Rich Text Segment momentan bearbeitet?"
 
 #. Note to translators: replace the following string with the appropriate credits for you lang
 #: ../libs/gcp/about.cc:49
@@ -1883,8 +1887,9 @@ msgid "Style"
 msgstr "Stil"
 
 #: ../libs/gcp/fontsel.cc:292
+#, fuzzy
 msgid "The font style (normal, oblique or italic)"
-msgstr ""
+msgstr "Der Schriftstil (normal, schräg oder kursiv)"
 
 #: ../libs/gcp/fontsel.cc:296
 msgid "Weight"
@@ -1909,7 +1914,7 @@ msgstr "Streckung"
 
 #: ../libs/gcp/fontsel.cc:307
 msgid "The font stretch (condensed, normal or expanded)"
-msgstr ""
+msgstr "Der Schriftabstand (eng, normal oder weit)"
 
 #: ../libs/gcp/fontsel.cc:311
 msgid "Size"
@@ -1996,7 +2001,7 @@ msgstr "Öffne im Rechner"
 
 #: ../libs/gcp/molecule.cc:547
 msgid "Select alignment item"
-msgstr ""
+msgstr "Wähle Ausrichtungselement"
 
 #: ../libs/gcp/preferences.cc:387
 #: ../libs/gcp/preferences.cc:406
@@ -2062,7 +2067,7 @@ msgstr "Pfeil"
 
 #: ../libs/gcp/reaction-arrow.cc:387
 msgid "Attach selection to arrow..."
-msgstr ""
+msgstr "Füge Auswahl zu Pfeil hinzu..."
 
 #: ../libs/gcp/reaction-prop.cc:39
 msgid "Unkown"
@@ -4247,20 +4252,22 @@ msgid "Default distance from tip of arrowhead to center."
 msgstr "Standardentfernung von Spitze des Pfeilkopfes zum Zentrum."
 
 #: ../programs/paint/gchempaint.schemas.in.h:33
-#, no-c-format
+#, fuzzy, no-c-format
 msgid "Default distance from tip of arrowhead to trailing point, measured along shaft, in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:34
+#, fuzzy
 msgid "Default distance from tip of arrowhead to trailing point, measured along shaft."
 msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:36
-#, no-c-format
+#, fuzzy, no-c-format
 msgid "Default distance of arrowhead trailing points from outside edge of shaft in pixels (at 100% zoom). Used in the default theme."
 msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:37
+#, fuzzy
 msgid "Default distance of arrowhead trailing points from outside edge of shaft."
 msgstr ""
 
@@ -4304,16 +4311,16 @@ msgstr "Standardlinienabstand bei gestrichelten Keilen"
 #: ../programs/paint/gchempaint.schemas.in.h:49
 #, no-c-format
 msgid "Default largest width for hash or wedge bonds (at 100% zoom). Used in the default theme."
-msgstr ""
+msgstr "Größte Standarddicke für Keil- oder Strichbindungen (bei 100% Vergrößerung). Verwendet im Standardthema."
 
 #: ../programs/paint/gchempaint.schemas.in.h:50
 msgid "Default largest width for hash or wedge bonds."
-msgstr ""
+msgstr "Größte Standarddicke für Keil- oder Strichbindungen."
 
 #: ../programs/paint/gchempaint.schemas.in.h:52
 #, no-c-format
 msgid "Default line width in pixels for hash bonds (at 100% zoom). Used in the default theme."
-msgstr ""
+msgstr "Standardlinienbreite in Pixel für gestrichelte Bindungen (bei 100% Vergrößerung). Verwendet im Standardthema."
 
 #: ../programs/paint/gchempaint.schemas.in.h:53
 msgid "Default padding around arrows."
@@ -4322,20 +4329,20 @@ msgstr "Standardabstand um Pfeile"
 #: ../programs/paint/gchempaint.schemas.in.h:55
 #, no-c-format
 msgid "Default padding between a '+' sign in a reaction equation and reactants symbols in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
+msgstr "Standardabstand zwischen einem Pluszeichen und den Symbolen der Reaktanden in einer Reaktionsgleichung (bei 100% Vergrößerung). Verwendet im Standardthema."
 
 #: ../programs/paint/gchempaint.schemas.in.h:56
 msgid "Default padding between a '+' sign in a reaction equation and reactants symbols."
-msgstr ""
+msgstr "Standardabstand zwischen einem Pluszeichen und den Symbolen der Reaktanden in einer Reaktionsgleichung."
 
 #: ../programs/paint/gchempaint.schemas.in.h:57
 msgid "Default padding between aligned objects."
-msgstr ""
+msgstr "Standardabstand zwischen ausgerichteten Objekten."
 
 #: ../programs/paint/gchempaint.schemas.in.h:59
 #, no-c-format
 msgid "Default padding between arrows and associated objects in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
+msgstr "Standardabstand in Pixel zwischen zusammengehörigen Objekten während einer Ausrichtungsoperation (bei 100% Vergrößerung). Verwendet im Standardthema."
 
 #: ../programs/paint/gchempaint.schemas.in.h:60
 msgid "Default padding for texts."
@@ -4344,7 +4351,7 @@ msgstr "Standardabstand um Textelemente"
 #: ../programs/paint/gchempaint.schemas.in.h:62
 #, no-c-format
 msgid "Default padding in pixels added between consecutive objects during an alignment operation (at 100% zoom). Used in the default theme."
-msgstr ""
+msgstr "Standardabstand in Pixel zwischen aufeinanderfolgenden Objekten während einer Ausrichtungsoperation (bei 100% Vergrößerung). Verwendet im Standardthema."
 
 #: ../programs/paint/gchempaint.schemas.in.h:64
 #, no-c-format
