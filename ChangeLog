@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-11-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: do not invert Y-axis.
+
 2009-11-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: use more recent LT macros and request gtk+-2.0 >= 2.18.
 	* libs/gccv/bezier-arrow.cc: add GetControlPoints.
