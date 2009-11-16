@@ -150,7 +150,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				prop = KnownProps.find (key);
 				if (prop != KnownProps.end ())
 					doc->SetProperty ((*prop).second, value.c_str ());
-				// unkown data are discarded
+				// unknown data are discarded
 				waiting_value = false;
 			} else {
 				if (value.length () > 0 && strlen (cur) > 0)
@@ -375,7 +375,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				prop = KnownProps.find (key);
 				if (prop != KnownProps.end ())
 					doc->SetProperty ((*prop).second, value.c_str ());
-				// unkown properties are discarded
+				// unknown properties are discarded
 			}
 			waiting_value = false;
 			continue;
