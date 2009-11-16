@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-11-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.10.10).
+
 2009-10-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/glview.cc: fixed behavior with gtk+-2.18.
 	* mozilla-plugin/chem-viewer.cc: do not load an object more than once.
