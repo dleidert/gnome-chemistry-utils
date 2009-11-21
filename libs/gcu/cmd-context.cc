@@ -62,7 +62,11 @@ gcu_cc_set_sensitive (G_GNUC_UNUSED GOCmdContext *cc,
 }
 
 static void
+#ifdef GOFFICE_USE_DOUBLE
+gcu_cc_progress_set (GOCmdContext *cc, double val)
+#else
 gcu_cc_progress_set (GOCmdContext *cc, gfloat val)
+#endif
 {
 }
 

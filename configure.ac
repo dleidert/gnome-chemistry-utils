@@ -166,6 +166,12 @@ if test "x$need_gnome_support" = xyes; then
 	CFLAGS=$saved_cflags
 fi
 
+dnl check if goffice >=0.7.16
+PKG_CHECK_MODULES(goffice_use_double, [$libgoffice >= 0.7.16], [gnome_use_double=yes], [gnome_use_double=no])
+if test "x$gnome_use_double" = xyes; then
+	AC_DEFINE_UNQUOTED([GOFFICE_USE_DOUBLE], [1], [Whether goffice always use double instead of float])
+fi
+
 PKG_CHECK_MODULES(OB22, openbabel-2.0 >= 2.2.0,
 [ob22="yes"],[ob22="no"])
 if test "x$ob22" = "xyes"; then
