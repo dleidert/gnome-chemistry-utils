@@ -54,7 +54,7 @@ gcu_cc_set_sensitive (G_GNUC_UNUSED GOCmdContext *cc,
 }
 
 static void
-gcu_cc_progress_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED gfloat val)
+gcu_cc_progress_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED double val)
 {
 }
 

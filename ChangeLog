@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2009-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: request goffice >= 0.7.16.
+	* libs/gcu/cmd-context.cc: fixed after goffice API change.
+
 2009-11-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/arrows/curvedarrowtool.cc: more work.
 
