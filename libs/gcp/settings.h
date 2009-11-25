@@ -62,10 +62,6 @@ extern bool MergeAtoms;
 XML file compression level.
 */
 extern int CompressionLevel;
-/*!
-Whether the mendeleiv table widget might be detached from the tool box or not.
-*/
-extern bool TearableMendeleiev;
 
 /*!
 Clipboard formats identifiers

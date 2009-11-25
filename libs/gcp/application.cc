@@ -349,7 +349,6 @@ Application::Application ():
 		// load settings before plugins
 		m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
 		GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
-		GCU_GCONF_GET ("tearable-mendeleiev", bool, TearableMendeleiev, false)
 		GCU_GCONF_GET ("invert-wedge-hashes", bool, InvertWedgeHashes, false)
 		bool CopyAsText;
 		GCU_GCONF_GET ("copy-as-text", bool, CopyAsText, false)
@@ -1240,12 +1239,6 @@ void Application::UpdateAllTargets ()
 void Application::OnConfigChanged (GOConfNode *node, gchar const *name)
 {
 	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
-	GCU_UPDATE_KEY ("tearable-mendeleiev", bool, TearableMendeleiev,
-					{
-						Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
-						if (ToolsBox)
-							ToolsBox->Update ();
-					})
 	bool CopyAsText;
 	GCU_UPDATE_KEY ("invert-wedge-hashes", bool, InvertWedgeHashes, UpdateAllTargets ();)
 	GCU_UPDATE_KEY ("copy-as-text", bool, CopyAsText, ClipboardFormats = CopyAsText?GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;)

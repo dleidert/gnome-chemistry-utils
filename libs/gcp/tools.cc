@@ -64,7 +64,6 @@ Tools::Tools (Application *App):
 	m_Mendeleiev = reinterpret_cast <GtkComboPeriodic *> (w);
 	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 	gtk_combo_periodic_set_element (GTK_COMBO_PERIODIC (w), pApp->GetCurZ ());
-	go_combo_box_set_tearable (GO_COMBO_BOX (w), TearableMendeleiev);
 	g_signal_connect_swapped (G_OBJECT (w), "changed", G_CALLBACK (element_changed_cb), this);
 	w = GetWidget ("help-btn");
 	g_signal_connect_swapped (G_OBJECT (w), "clicked", G_CALLBACK (help_cb), this);
@@ -158,11 +157,6 @@ void Tools::OnElementChanged (int Z)
 		gtk_widget_show_all (w);
 	} else
 		gtk_label_set_text (GTK_LABEL (icon), Element::Symbol (Z));
-}
-
-void Tools::Update (void)
-{
-	go_combo_box_set_tearable (GO_COMBO_BOX (m_Mendeleiev), TearableMendeleiev);
 }
 
 void Tools::OnHelp ()

@@ -163,7 +163,7 @@
                 <child>
                   <object class="GtkTable" id="table1">
                     <property name="visible">True</property>
-                    <property name="n_rows">4</property>
+                    <property name="n_rows">3</property>
                     <property name="n_columns">3</property>
                     <property name="column_spacing">24</property>
                     <property name="row_spacing">8</property>
@@ -176,26 +176,9 @@
                         <property name="use_underline">True</property>
                       </object>
                       <packing>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="tearable-mendeleiev-btn">
-                        <property name="label" translatable="yes">Ha_ve a tearable table of the elements</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
                       </packing>
                     </child>
                     <child>
@@ -230,21 +213,6 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
                       <object class="GtkCheckButton" id="invert-wedge-hashes">
                         <property name="label" translatable="yes">_Invert wedge hashes</property>
                         <property name="visible">True</property>
@@ -255,11 +223,23 @@
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>

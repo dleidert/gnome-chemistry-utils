@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2009-11-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: periodic table is not anymor tearable
+	because this feature is going to be deprecated iN both gtk+ and goffice.
+	* libs/gcp/preferences.cc: ditto.
+	* libs/gcp/settings.h: ditto.
+	* libs/gcp/tools.cc: ditto.
+	* libs/gcp/tools.h: ditto.
+	* programs/paint/gchempaint.schemas.in: ditto.
+	* ui/paint/preferences.ui: ditto.
+
 2009-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: request goffice >= 0.7.16.
 	* libs/gcu/cmd-context.cc: fixed after goffice API change.

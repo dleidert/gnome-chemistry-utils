@@ -135,19 +135,11 @@ static void on_compression_changed (GtkSpinButton *btn, Application *App)
 	go_conf_free_node (node);
 }
 
-static void on_tearable_mendeleiev_changed (GtkToggleButton *btn, Application *App)
-{
-	TearableMendeleiev = gtk_toggle_button_get_active (btn);
-	GOConfNode *node = go_conf_get_node (App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
-	go_conf_set_bool (node, "tearable-mendeleiev", TearableMendeleiev);
-	go_conf_free_node (node);
-}
-
 static void on_invert_wedge_hashes_changed (GtkToggleButton *btn, Application *App)
 {
-	TearableMendeleiev = gtk_toggle_button_get_active (btn);
+	InvertWedgeHashes = gtk_toggle_button_get_active (btn);
 	GOConfNode *node = go_conf_get_node (App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
-	go_conf_set_bool (node, "invert-wedge-hashes", TearableMendeleiev);
+	go_conf_set_bool (node, "invert-wedge-hashes", InvertWedgeHashes);
 	go_conf_free_node (node);
 }
 
@@ -309,10 +301,6 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	GtkWidget *w = GetWidget ("compression");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), CompressionLevel);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_compression_changed), pApp);
-	// tearable table of the elements
-	w = GetWidget ("tearable-mendeleiev-btn");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TearableMendeleiev);
-	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_tearable_mendeleiev_changed), pApp);
 	// invert hashed bonds or not
 	w = GetWidget ("invert-wedge-hashes");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), InvertWedgeHashes);
@@ -392,7 +380,7 @@ PrefsDlg::PrefsDlg (Application *pApp):
 			default_name = _("Default");
 	Theme *theme, *default_theme = TheThemeManager.GetDefaultTheme ();
 	m_DefaultThemeBox = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-	gtk_table_attach (GTK_TABLE (GetWidget ("table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 3, 4,
+	gtk_table_attach (GTK_TABLE (GetWidget ("table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 2, 3,
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 	int n = 0;

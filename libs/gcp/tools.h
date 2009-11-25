@@ -103,11 +103,6 @@ using the Mendeleiev table widget.
 */
 	void SetElement (int Z);
 /*!
-Called by the framework when the tearable property of the Mendeleiev table
-widget changed.
-*/
-	void Update (void);
-/*!
 Called by the framework when the Help button is clicked.
 */
 	void OnHelp ();
