@@ -400,7 +400,6 @@ Application::Application ():
 	m_ConfClient = gconf_client_get_default ();
 #endif
 	GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
-	GCU_GCONF_GET ("tearable-mendeleiev", bool, TearableMendeleiev, false)
 	bool CopyAsText;
 	GCU_GCONF_GET ("copy-as-text", bool, CopyAsText, false)
 	ClipboardFormats = CopyAsText? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
@@ -1208,12 +1207,6 @@ void Application::OnConfigChanged (GConfClient *client, guint cnxn_id, GConfEntr
 		return;	// we might want an error message?
 #endif
 	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
-	GCU_UPDATE_KEY ("tearable-mendeleiev", bool, TearableMendeleiev,
-					{
-						Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
-						if (ToolsBox)
-							ToolsBox->Update ();
-					})
 	bool CopyAsText;
 	GCU_UPDATE_KEY ("copy-as-text", bool, CopyAsText, ClipboardFormats = CopyAsText?GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;)
 }

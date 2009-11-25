@@ -146,25 +146,6 @@ static void on_compression_changed (GtkSpinButton *btn, Application *App)
 #endif
 }
 
-static void on_tearable_mendeleiev_changed (GtkToggleButton *btn, Application *App)
-{
-	TearableMendeleiev = gtk_toggle_button_get_active (btn);
-#ifdef HAVE_GO_CONF_SYNC
-	GOConfNode *node = go_conf_get_node (App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
-	go_conf_set_bool (node, "tearable-mendeleiev", TearableMendeleiev);
-	go_conf_free_node (node);
-#else
-	GConfClient *conf_client = gconf_client_get_default ();
-	GError *error = NULL;
-	gconf_client_set_bool (conf_client, ROOTDIR"tearable-mendeleiev", TearableMendeleiev, &error);
-	if (error) {
-		g_message("GConf failed: %s", error->message);
-		g_error_free (error);
-	}
-	g_object_unref (conf_client);
-#endif
-}
-
 static void on_new_theme (PrefsDlg *dlg)
 {
 	PrefsDlgPrivate::OnNewTheme (dlg);
@@ -327,10 +308,6 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	GtkWidget *w = glade_xml_get_widget (xml, "compression");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), CompressionLevel);
 	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_compression_changed), pApp);
-	// tearable table of the elements
-	w = glade_xml_get_widget (xml, "tearable-mendeleiev-btn");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TearableMendeleiev);
-	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_tearable_mendeleiev_changed), pApp);
 	// retrieve theme widgets and set signals
 	m_BondLengthBtn = GTK_SPIN_BUTTON (glade_xml_get_widget (xml, "bond-length-btn"));
 	g_signal_connect (G_OBJECT (m_BondLengthBtn), "value-changed", G_CALLBACK (on_bond_length_changed), this);
@@ -406,7 +383,7 @@ PrefsDlg::PrefsDlg (Application *pApp):
 			default_name = _("Default");
 	Theme *theme, *default_theme = TheThemeManager.GetDefaultTheme ();
 	m_DefaultThemeBox = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-	gtk_table_attach (GTK_TABLE (glade_xml_get_widget (xml, "table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 2, 3,
+	gtk_table_attach (GTK_TABLE (glade_xml_get_widget (xml, "table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 1, 2,
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 	int n = 0;

@@ -68,7 +68,6 @@ Tools::Tools (Application *App):
 	m_Book = GTK_NOTEBOOK (glade_xml_get_widget (xml, "tools-book"));
 	GtkWidget *w = glade_xml_get_widget (xml, "mendeleiev");
 	gtk_combo_periodic_set_element (GTK_COMBO_PERIODIC (w), pApp->GetCurZ ());
-	go_combo_box_set_tearable (GO_COMBO_BOX (w), TearableMendeleiev);
 	g_signal_connect_swapped (G_OBJECT (w), "changed", G_CALLBACK (element_changed_cb), this);
 	w = glade_xml_get_widget (xml, "help-btn");
 	g_signal_connect_swapped (G_OBJECT (w), "clicked", G_CALLBACK (help_cb), this);
@@ -162,12 +161,6 @@ void Tools::OnElementChanged (int Z)
 		gtk_widget_show_all (w);
 	} else
 		gtk_label_set_text (GTK_LABEL (icon), Element::Symbol (Z));
-}
-
-void Tools::Update (void)
-{
-	GtkWidget *w = glade_xml_get_widget (xml, "mendeleiev");
-	go_combo_box_set_tearable (GO_COMBO_BOX (w), TearableMendeleiev);
 }
 
 void Tools::OnHelp ()
