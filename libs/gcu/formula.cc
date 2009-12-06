@@ -270,6 +270,9 @@ bool Formula::AnalString (char *sz, list<FormulaElt *> &result, bool &ambiguous,
 			r = Residue::GetResidue (sy, &local_amb);
 			if (r)
 				break;
+			// don't search for a shorter residue symbol if the string represents an atom
+			if (Element::Z (sy) > 0)
+				break;
 			i--;
 		}
 		if (r) {

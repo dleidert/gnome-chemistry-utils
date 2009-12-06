@@ -1,3 +1,7 @@
+Version 0.10.10
+	GChemCalc
+		* Fixed interpretation of strins such as Mn and Rn. [#28192]
+
 Version 0.10.9
 	GChemPaint:
 		* Do not crash when modifying a theme after using the doc properties
