@@ -1,4 +1,6 @@
 Version 0.11.4
+	GChemCalc
+		* Fixed interpretation of strins such as Mn and Rn. [#28192]
 	GChemPaint:
 		* Allow for hash bond convention inversion. [#26810]
 	GChemTable:
