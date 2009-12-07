@@ -214,8 +214,8 @@ bool Fragment::OnChanged (bool save)
 			i--;
 		}
 		if (r) {
-			CurPos = m_StartSel + strlen (sy);
-			m_BeginAtom = m_StartSel;
+			CurPos = start + strlen (sy);
+			m_BeginAtom = start;
 			m_EndAtom = CurPos;
 			if (residue)
 				residue->SetResidue (r);

@@ -501,62 +501,9 @@ void gcpCycleTool::OnRelease ()
 		m_y = m_Points[i].y;
 		pAtom[i] = NULL;
 		item = canvas->GetItemAt (m_x, m_y);
-		m_pObject = 
 		m_pObject = (item)? dynamic_cast <Object *> (item->GetClient ()): NULL;
-// Is this still needed?
-/*		if (m_pObject == NULL) { 
-			std::map<Object const*, GnomeCanvasGroup*>::iterator i = m_pData->Items.begin (),
-						end = m_pData->Items.end ();
-			gcp::Bond* pBond;
-			while (i != end) {
-				if ((*i).first->GetType () == gcu::BondType) {
-					pBond = (gcp::Bond*) (*i).first;
-					if (pBond->GetDist(m_x / pDoc->GetTheme ()->GetZoomFactor (), m_y / pDoc->GetTheme ()->GetZoomFactor ()) < (pDoc->GetTheme ()->GetPadding () + pDoc->GetTheme ()->GetBondWidth () / 2) / pDoc->GetTheme ()->GetZoomFactor ()) {
-						pItem = GNOME_CANVAS_ITEM ((*i).second);
-						m_pObject = pBond;
-						break;
-					} else {
-						// may be one of the atoms might work
-						gcu::Atom *pAtom = pBond->GetAtom (0);
-						double xa, ya;
-						pAtom->GetCoords (&xa, &ya, NULL);
-						xa *= pDoc->GetTheme ()->GetZoomFactor ();
-						ya *= pDoc->GetTheme ()->GetZoomFactor ();
-						xa -= m_x;
-						ya -= m_y;
-						if (sqrt (xa * xa + ya * ya) < 3.5) {
-							//3.5 is arbitrary
-							m_pObject = pAtom;
-							break;
-						}
-						pAtom = pBond->GetAtom (1);
-						pAtom->GetCoords (&xa, &ya, NULL);
-						xa *= pDoc->GetTheme ()->GetZoomFactor ();
-						ya *= pDoc->GetTheme ()->GetZoomFactor ();
-						xa -= m_x;
-						ya -= m_y;
-						if (sqrt (xa * xa + ya * ya) < 3.5) {
-							m_pObject = pAtom;
-							break;
-						}
-					}
-				} else if ((*i).first->GetType () == gcu::AtomType) {
-					double xa, ya;
-					gcu::Atom *pAtom = (gcu::Atom*) (*i).first;
-					pAtom->GetCoords (&xa, &ya, NULL);
-					xa *= pDoc->GetTheme ()->GetZoomFactor ();
-					ya *= pDoc->GetTheme ()->GetZoomFactor ();
-					xa -= m_x;
-					ya -= m_y;
-					if (sqrt (xa * xa + ya * ya) < 3.5) {
-						//3.5 is arbitrary
-						m_pObject = pAtom;
-						break;
-					}
-				}
-				i++;
-			}
-		}*/
+		if (i && m_pObject == pAtom[i - 1]) // this might happen if the symbol is large enough
+			m_pObject = NULL;
 		if (gcp::MergeAtoms && m_pObject) {
 			// At this point, we don't need to check if things are allowed since otherwise,
 			// m_Item would have been NULL on entry and the method would have already returned.
