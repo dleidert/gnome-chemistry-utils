@@ -1,9 +1,11 @@
 ##Text encoding: utf-8
 
+2009-12-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/loader.cc: don't double free plugins dir.
+
 2009-12-07  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gcp/fragment.cc: fix atom position
-	* mozilla-plugin/moz-plugin.c (ChemNew):
-	* plugins/paint/cycles/cycletool.cc:
+	* libs/gcp/fragment.cc: fix atom position.
+	* plugins/paint/cycles/cycletool.cc: really create all atoms.
 
 2009-12-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/formula.cc: do not interpret a substring as a residue when the

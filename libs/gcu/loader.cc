@@ -140,8 +140,7 @@ void Loader::Init ()
 	char *plugins_dir = g_strdup (GCU_PLUGINS_DIR);
 	GSList *dirs = g_slist_prepend (NULL, plugins_dir);
 	go_plugins_init (gcu_get_cmd_context (), NULL, NULL, dirs, true, GO_TYPE_PLUGIN_LOADER_MODULE);
-	g_slist_free (dirs);
-	g_free (plugins_dir);
+	// do not free dirs and plugins_dir, goffice will
 	Inited = true;
 }
 
