@@ -1,6 +1,9 @@
 Version 0.10.10
+	GChemPaint:
+		* Don't crash after searching for cycles for a molecule containing
+		fragments.
 	GChemCalc
-		* Fixed interpretation of strins such as Mn and Rn. [#28192]
+		* Fixed interpretation of strings such as Mn and Rn. [#28192]
 
 Version 0.10.9
 	GChemPaint:

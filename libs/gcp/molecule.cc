@@ -115,6 +115,13 @@ void Molecule::Add (GtkWidget* w) const
 void Molecule::AddChild (Object* object)
 {
 	switch (object->GetType ()) {
+	case gcu::AtomType:
+			if (object->GetParent () && object->GetParent ()->GetType () == FragmentType)
+				object = object->GetParent ();
+			else {
+				gcu::Molecule::AddChild (object);
+				break;
+			}
 	case FragmentType: {
 		Fragment *fragment = reinterpret_cast<Fragment *> (object);
 		m_Fragments.remove (fragment);
