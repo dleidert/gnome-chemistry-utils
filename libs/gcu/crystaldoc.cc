@@ -760,7 +760,7 @@ xmlDocPtr CrystalDoc::BuildXMLTree () const
 	}
 }
 
-void CrystalDoc::Loaded ()
+bool CrystalDoc::Loaded () throw (LoaderError)
 {
 	if (m_NameCommon.length () > 0)
 		SetTitle (m_NameCommon);
@@ -825,6 +825,7 @@ void CrystalDoc::Loaded ()
 	}
 
 	Update ();
+	return false;	// no pending reference updated
 }
 
 bool CrystalDoc::SetProperty (unsigned property, char const *value)

@@ -378,9 +378,11 @@ void gcpCurvedArrowTool::OnRelease ()
 	// we suppose that the molecule is owned either by a mechanism step, a reaction step or the document
 	// anyway, the tool must refuse all other situations
 	gcu::Object *obj = mol->GetParent ();
+	if (obj->GetType () == gcu::ReactantType)
+		obj = obj->GetParent ();
 	if (obj->GetType () == gcu::DocumentType) {
 		gcp::Molecule *mol_ = static_cast <gcp::Molecule *> (m_pObject->GetMolecule ());
-		if (mol_->GetParent () != obj) {// the source is already inside a mechanism step
+		if (mol_->GetParent () != obj) {// the source is already inside a mechanism step, NOT in a reaction step
 			obj = mol_->GetParent ();
 			obj->AddChild (mol);
 		} else {

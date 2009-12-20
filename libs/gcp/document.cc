@@ -775,6 +775,7 @@ bool Document::Load (xmlNodePtr root)
 		}
 		node = node->next;
 	}
+	Loaded ();
 	m_pView->Update (this);
 	Update ();
 	m_Empty = !HasChildren ();
@@ -1225,6 +1226,7 @@ void Document::LoadObjects (xmlNodePtr node)
 		else delete pBond;
 		child = GetNextNodeByName (child->next, "bond");
 	}
+	Loaded ();
 }
 
 Operation* Document::GetNewOperation (OperationType type)
@@ -1266,6 +1268,7 @@ void Document::AddData (xmlNodePtr node)
 	}
 	m_bIsLoading = false;
 	EmptyTranslationTable ();
+	Loaded ();
 	FinishOperation ();
 }
 

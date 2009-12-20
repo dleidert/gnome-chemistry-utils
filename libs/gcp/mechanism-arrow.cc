@@ -170,15 +170,16 @@ xmlNodePtr MechanismArrow::Save (xmlDocPtr xml) const
 
 bool MechanismArrow::Load (xmlNodePtr node)
 {
+	gcu::Document *doc = GetDocument ();
 	xmlChar *buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("source"));
-	m_Source = GetParent ()->GetDescendant (reinterpret_cast <char *> (buf));
+	doc->SetTarget (reinterpret_cast <char *> (buf), &m_Source, GetParent ());
 	xmlFree (buf);
 	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("target"));
-	m_Target = GetParent ()->GetDescendant (reinterpret_cast <char *> (buf));
+	doc->SetTarget (reinterpret_cast <char *> (buf), &m_Target, GetParent ());
 	xmlFree (buf);
 	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("source-aux"));
 	if (buf) {
-		m_Target = GetParent ()->GetDescendant (reinterpret_cast <char *> (buf));
+		doc->SetTarget (reinterpret_cast <char *> (buf), &m_SourceAux, GetParent ());
 		xmlFree (buf);
 	}
 	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("type"));
@@ -259,6 +260,8 @@ void MechanismArrow::AddItem ()
 
 void MechanismArrow::SetSelected (int state)
 {
+	if (!m_Item)
+		return;
 	GOColor color;
 	switch (state) {	
 	case SelStateUnselected:

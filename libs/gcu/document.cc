@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/document.cc
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,12 +27,15 @@
 #include "application.h"
 #include "residue.h"
 #include "dialog.h"
+#include <glib/gi18n-lib.h>
 #include <cstring>
+#include <sstream>
 
 using namespace std;
 
 namespace gcu
 {
+
 
 Document::Document (Application *App): Object (DocumentType),
 m_Empty (true)
@@ -71,6 +74,13 @@ gchar* Document::GetNewId (gchar* id, bool Cache)
 	}
 	g_free (Id);
 	g_free (key);
+	if (m_PendingTable.size () > 0) {
+		std::map <std::string, std::pair <Object**, Object*> >::iterator it, end = m_PendingTable.end ();
+		if ((it = m_PendingTable.find (id)) != end) {
+			m_PendingTable[buf] = (*it).second;
+			m_PendingTable.erase (it);
+		}
+	}
 	return buf;
 }
 
@@ -82,6 +92,36 @@ Residue *Document::CreateResidue (G_GNUC_UNUSED char const *name, G_GNUC_UNUSED 
 Residue const *Document::GetResidue (char const *symbol, bool *ambiguous)
 {
 	return Residue::GetResidue (symbol, ambiguous);
+}
+
+bool Document::SetTarget (char const *id, Object **target, Object *parent) throw (std::runtime_error)
+{
+	if (target == NULL)
+	    throw std::runtime_error ("Can't set a NULL target.");
+	*target = parent->GetDescendant (id);
+	if (*target)
+		return true;
+	m_PendingTable[id] = std::pair <Object**, Object*> (target, parent);
+	return false;
+}
+
+bool Document::Loaded () throw (LoaderError)
+{
+	unsigned count = 0;
+	std::map <std::string, std::pair <Object**, Object*> >::iterator i, end = m_PendingTable.end ();
+	for (i = m_PendingTable.begin (); i != end; i++) {
+		std::string id = (*i).first;
+		if ((*(*i).second.first = (*i).second.second->GetDescendant (id.c_str ())) == NULL) {
+			m_PendingTable.clear ();
+			std::ostringstream str;
+			// Note to translators: the two strings are concatenated with the missing id between them.
+			str << _("The input contains a reference to object \"") << id << _("\" but no object with this Id is described.");
+			throw LoaderError (str.str ());
+		} else
+			count++;
+	}
+	m_PendingTable.clear ();
+	return count > 0;
 }
 
 }	//	namespace gcu

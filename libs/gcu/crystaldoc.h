@@ -182,7 +182,7 @@ Used when saving to get properties from the document.
 Called by the application whe the document has been loaded to update the title
 and add some lines.
 */
-	void Loaded ();
+	bool Loaded () throw (LoaderError);
 /*!
 	@param object the Object instance to add as a child.
 */

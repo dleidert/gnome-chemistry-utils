@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2009-12-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: alwas set the correct color for the charge.
+	* libs/gcp/document.cc: allow setting references to unknown objects while
+	loading.
+	* libs/gcp/mechanism-arrow.cc: ditto.
+	* libs/gcp/reaction-step.cc: do not take mechanism arrow into account
+	while spacing children.
+	* libs/gcp/text.cc: fixed vertical alignment.
+	* libs/gcu/Makefile.am: add new files.
+	* libs/gcu/crystaldoc.cc: make compatible with new parent API.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/document.cc: allow setting references to unknown objects while
+	loading.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/loader-error.cc: new LoaderError exception class.
+	* libs/gcu/loader-error.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: correctly add arrows inside
+	reaction steps.
+	* programs/table/gchemtable-curve.cc: start working on a tooltip API.
+	* programs/table/gchemtable-curve.h: ditto.
+
 2009-12-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: correctly add atoms inside fragments.
 

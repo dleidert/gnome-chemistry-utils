@@ -926,7 +926,7 @@ void Text::SetSelected (int state)
 void Text::Transform2D (Matrix2D& m, double x, double y)
 {
 	m_x += m_length / 2 - x;
-	m_y += m_height / 2 - m_ascent +  - y;
+	m_y += m_height / 2 - m_ascent - y;
 	m.Transform (m_x, m_y);
 	m_x -= m_length / 2 - x;
 	m_y -= m_height / 2 - m_ascent - y;
@@ -934,7 +934,7 @@ void Text::Transform2D (Matrix2D& m, double x, double y)
 	
 double Text::GetYAlign ()
 {
-	return m_y - ((Document*) GetDocument ())->GetView ()->GetBaseLineOffset ();
+	return m_y;
 }
 
 bool Text::SetProperty (unsigned property, char const *value)

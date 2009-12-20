@@ -51,6 +51,7 @@ public:
 	void ClearGuru () {m_Guru = NULL;}
 	void SaveAsImage (std::string const &filename, char const *mime_type, unsigned width, unsigned height) const;
 	static void OnSize (GChemTableCurve *curve, GtkAllocation *allocation);
+	static bool OnMotion (GChemTableCurve *curve, GdkEventMotion *event);
 
 private:
 	std::string m_Name;

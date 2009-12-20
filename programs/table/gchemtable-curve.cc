@@ -285,6 +285,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	gtk_box_pack_start (GTK_BOX (m_GraphBox), bar, FALSE, FALSE, 0);
 	m_GraphWidget = go_graph_widget_new (NULL);
 	g_signal_connect_swapped (m_GraphWidget, "size-allocate", G_CALLBACK (GChemTableCurve::OnSize), this);
+	g_signal_connect_swapped (m_GraphWidget, "motion-notify-event", G_CALLBACK (GChemTableCurve::OnMotion), this);
 	gtk_widget_set_size_request (m_GraphWidget, 400, 250);
 	gtk_widget_show (m_GraphWidget);
 	gtk_box_pack_end (GTK_BOX (m_GraphBox), m_GraphWidget, TRUE, TRUE, 0);
@@ -550,4 +551,26 @@ void GChemTableCurve::OnSize (GChemTableCurve *curve, GtkAllocation *allocation)
 {
 	curve->m_GraphWidth = allocation->width;
 	curve->m_GraphHeight = allocation->height;
+}
+
+bool GChemTableCurve::OnMotion (GChemTableCurve *curve, GdkEventMotion *event)
+{
+	GogRenderer *renderer = go_graph_widget_get_renderer (GO_GRAPH_WIDGET (curve->m_GraphWidget));
+	GogView *view;
+	GogObject *obj;
+	GogSeries *series;
+	int index;
+	g_object_get (G_OBJECT (renderer), "view", &view, NULL);
+	gog_view_get_view_at_point (view, event->x, event->y, &obj, NULL);
+	if (!obj)
+		goto tooltip;
+	obj = gog_object_get_parent_typed (obj, GOG_TYPE_PLOT);
+	if (!obj)
+		goto tooltip;
+	view = gog_view_find_child_view (view, obj);
+	index = gog_plot_view_get_data_at_point (GOG_PLOT_VIEW (view), event->x, event->y, &series);
+
+tooltip:
+	gtk_widget_set_tooltip_text (curve->m_GraphWidget, NULL);
+	return true;
 }

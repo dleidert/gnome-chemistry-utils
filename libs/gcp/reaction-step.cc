@@ -29,6 +29,7 @@
 #include "reaction-arrow.h"
 #include "reaction-operator.h"
 #include "document.h"
+#include "mechanism-arrow.h"
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
@@ -136,8 +137,8 @@ xmlNodePtr ReactionStep::Save (xmlDocPtr xml) const
 	Object const *obj = GetFirstChild (i);
 	xmlNodePtr child;
 	while (obj) {
-		if ((*i).second->GetType () != ReactionOperatorType) {
-			if ((child = (*i).second->Save (xml)))
+		if (obj->GetType () != ReactionOperatorType) {
+			if ((child = obj->Save (xml)))
 				xmlAddChild (node, child);
 			else
 				return NULL;
@@ -164,12 +165,14 @@ bool ReactionStep::Load (xmlNodePtr node)
 	map<double, Object*>::iterator im, endm;
 	double x, y, x0, y0, x1, y1;
 	while (pObj) {
-		pData->GetObjectBounds (pObj, &rect);
-		x = (rect.x0 + rect.x1) / 2;
-		while (Children[x] != NULL)
-			x += 1e-5;
-		Children[x] = pObj;
-		Objects[pObj] = rect;
+		if (pObj->GetType () != gcp::MechanismArrowType) {
+			pData->GetObjectBounds (pObj, &rect);
+			x = (rect.x0 + rect.x1) / 2;
+			while (Children[x] != NULL)
+				x += 1e-5;
+			Children[x] = pObj;
+			Objects[pObj] = rect;
+		}
 		pObj = GetNextChild (i);
 	}
 	im = Children.begin ();

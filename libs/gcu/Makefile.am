@@ -50,6 +50,7 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		gtkspectrumviewer.cc \
 		isotope.cc \
 		loader.cc \
+		loader-error.cc \
 		matrix.cc \
 		matrix2d.cc \
 		molecule.cc \
@@ -99,6 +100,7 @@ noinst_HEADERS = \
 		gtkspectrumviewer.h \
 		isotope.h \
 		loader.h \
+		loader-error.h \
 		macros.h	\
 		matrix.h	\
 		matrix2d.h	\

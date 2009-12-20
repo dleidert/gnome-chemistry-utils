@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * chemistry/document.h 
+ * gcu/document.h 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,6 +29,7 @@
 #include <gcu/object.h>
 #include <gcu/dialog-owner.h>
 #include <gcu/macros.h>
+#include <gcu/loader-error.h>
 #include <string>
 #include <set>
 
@@ -127,7 +128,7 @@ implementation just returns NULL.
 @param ambiguous where to store the boolean telling if the symbol is ambiguous
 or NULL.
 
-Documents might own not global residues with the samesymbol or name
+Documents might own not global residues with the same symbol or name
 but a different meaning from the standard residue.
 @return the Residue* found or NULL.
 */
@@ -138,6 +139,24 @@ it to return a consistent value. Default implementation returns NULL.
 @return the active GtkWindow for the document if any.
 */
 	virtual GtkWindow *GetGtkWindow () {return NULL;}
+/*!
+@param id the id of the target Object.
+@param target where to store the found object.
+@param parent the ancestor of the search object or NULL.
+
+Search the descendant of \a parent, or of the whole document if \a parent is not set
+whose Id is \id. I not found, the parameters are stored for post loading processing
+using gcu::Document::Loaded(), and \a target is set to NULL.
+@return true if the target object was found.
+*/
+	bool SetTarget (char const *id, Object **target, Object *parent) throw (std::runtime_error);
+
+protected:
+/*!
+Processes pending references resulting from failed calls to SetTarget().
+@return true if any reference was set.
+*/
+	virtual bool Loaded () throw (LoaderError);
 
 private:
 
@@ -154,6 +173,7 @@ GetNewId returns the translated id
 
 private:
 	std::map <std::string, std::string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
+	std::map <std::string, std::pair <Object**, Object*> > m_PendingTable;//used to set pointers to objects when loading does not occur in the ideal order
 
 protected:
 /*!
