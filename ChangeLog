@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-12-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: correctly save and load attached hydrogens position.
+
 2009-12-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: correctly add atoms inside fragments.
 

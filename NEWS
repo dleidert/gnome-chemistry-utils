@@ -2,6 +2,7 @@ Version 0.10.10
 	GChemPaint:
 		* Don't crash after searching for cycles for a molecule containing
 		fragments.
+		* Correctly save and load attached hydrogen atoms position.
 	GChemCalc
 		* Fixed interpretation of strings such as Mn and Rn. [#28192]
 
