@@ -184,6 +184,11 @@ bool Fragment::OnChanged (bool save)
 	AnalContent (m_StartSel, CurPos);
 	m_bLoading = true;
 	/*main atom management*/
+	if (m_EndSel > CurPos && m_BeginAtom >= m_EndSel) {
+		// if text was deleted before the atom, adjust its bounds
+		m_BeginAtom -= m_EndSel - CurPos;
+		m_EndAtom -= m_EndSel - CurPos;
+	}
 	if (m_buf.length () < m_EndAtom) { // needed if the symbol of part of it has been destroyed
 		m_Atom->SetZ (0);
 		m_EndAtom = m_buf.length ();

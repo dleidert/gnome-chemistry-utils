@@ -1668,8 +1668,24 @@ xmlNodePtr Atom::Save (xmlDocPtr xml) const
 		xmlNewProp (node, (xmlChar*) "show-symbol", (xmlChar*) "true");
 	}
 	if (m_HPosStyle != AUTO_HPOS) {
-		xmlNewProp (node, (xmlChar*) "H-position",
-					(xmlChar*) ((m_HPosStyle == LEFT_HPOS)? "left": "right"));
+		char const *pos;
+		switch (m_HPosStyle) {
+		default:
+		case RIGHT_HPOS:
+			pos = "right";
+			break;
+		case LEFT_HPOS:
+			pos = "left";
+			break;
+		case TOP_HPOS:
+			pos = "top";
+			break;
+		case BOTTOM_HPOS:
+			pos = "bottom";
+			break;
+		}
+		xmlNewProp (node, reinterpret_cast <xmlChar const*> ("H-position"),
+					reinterpret_cast <xmlChar const*> (pos));
 	}
 	return node;
 }
@@ -1751,6 +1767,12 @@ bool Atom::Load (xmlNodePtr node)
 			m_HPosStyle = LEFT_HPOS;
 		else if (!strcmp (buf, "right"))
 			m_HPosStyle = RIGHT_HPOS;
+		else if (!strcmp (buf, "top"))
+			m_HPosStyle = TOP_HPOS;
+		else if (!strcmp (buf, "bottom"))
+			m_HPosStyle = BOTTOM_HPOS;
+		else // who know?
+			m_HPosStyle = AUTO_HPOS;
 		xmlFree (buf);
 		Update ();
 	}

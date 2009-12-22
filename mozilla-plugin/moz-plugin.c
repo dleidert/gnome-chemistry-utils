@@ -49,6 +49,9 @@ typedef struct {
 	char **args;
 	pthread_t thread;*/
 	NPP instance;
+
+	NPStream *m_Stream;
+	bool m_ExpectingStream;
 } ChemPlugin;
 
 static NPError ChemNew (NPMIMEType mime_type, NPP instance,
@@ -120,6 +123,8 @@ static NPError ChemNew (NPMIMEType mime_type, NPP instance,
 		write (to_pipe, "\n", 1);
 	}
 	write (to_pipe, "end\n", 4);
+	plugin->m_Stream = NULL;
+	plugin->m_ExpectingStream = true;
 	return NPERR_NO_ERROR;
 }
 
@@ -162,15 +167,24 @@ static NPError ChemNewStream (NPP instance, G_GNUC_UNUSED NPMIMEType type, G_GNU
 		      G_GNUC_UNUSED NPBool seekable, uint16 *stype)
 #endif
 {
+	if (!stream || !stream->url)
+		return NPERR_GENERIC_ERROR;
+
 	ChemPlugin *plugin;
 
 	if (instance == NULL)
 		return NPERR_INVALID_INSTANCE_ERROR;
-	
+
 	plugin = (ChemPlugin *) instance->pdata;
 	if (plugin == NULL)
-		return NPERR_NO_ERROR;	
-	
+		return NPERR_INVALID_INSTANCE_ERROR;	
+
+	if (plugin->m_Stream || !plugin->m_ExpectingStream)
+		return mozilla_funcs.destroystream (instance, stream, NPRES_DONE);
+
+	plugin->m_ExpectingStream = false;
+	plugin->m_Stream = stream;
+
 	*stype = NP_ASFILEONLY;
 
 	return NPERR_NO_ERROR;
@@ -178,6 +192,12 @@ static NPError ChemNewStream (NPP instance, G_GNUC_UNUSED NPMIMEType type, G_GNU
 
 static NPError ChemDestroyStream (G_GNUC_UNUSED NPP instance, G_GNUC_UNUSED NPStream* stream, G_GNUC_UNUSED NPReason reason)
 {
+	if (instance == NULL)
+		return NPERR_INVALID_INSTANCE_ERROR;
+	ChemPlugin *plugin = (ChemPlugin *) instance->pdata;
+	if (!plugin->m_Stream || plugin->m_Stream != stream)
+		return NPERR_GENERIC_ERROR;
+	plugin->m_Stream = NULL;
 	return NPERR_NO_ERROR;
 }
 

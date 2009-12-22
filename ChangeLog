@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-12-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: correctly save and load attached hydrogens position.
+	* libs/gcp/fragment.cc: fixed main atom sniffing when deleting text.
+	* mozilla-plugin/moz-plugin.c (ChemNew): some work on stream support.
+
 2009-12-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: alwas set the correct color for the charge.
 	* libs/gcp/document.cc: allow setting references to unknown objects while
