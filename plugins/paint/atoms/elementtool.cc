@@ -132,6 +132,7 @@ void gcpElementTool::OnRelease ()
 				pNewAtom->SetId ((gchar*) pAtom->GetId ());
 				if (pBond) {
 					pBond->ReplaceAtom (pAtom, pNewAtom);
+					pBond->SetDirty ();
 					pNewAtom->AddBond (pBond);
 				}
 				pNewAtom->Update ();

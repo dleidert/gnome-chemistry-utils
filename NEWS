@@ -5,6 +5,8 @@ Version 0.10.10
 		* Correctly save and load attached hydrogen atoms position.
 	GChemCalc
 		* Fixed interpretation of strings such as Mn and Rn. [#28192]
+	libgcu:
+		* Do not access a NULL document when destroying an object.
 
 Version 0.10.9
 	GChemPaint:
