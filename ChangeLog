@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2009-12-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/bond.h: fixed documentation typo.
+	* libs/gcu/object.cc: do not access a NULL pointer when destroying objects.
+	* plugins/paint/atoms/elementtool.cc: always update bond after an atom
+	change.
+	* programs/table/gchemtable-curve.cc: display element name as a tooltip
+	when the mouse cursor rests over a data point.
+
 2009-12-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: correctly save and load attached hydrogens position.
 	* libs/gcp/fragment.cc: fixed main atom sniffing when deleting text.

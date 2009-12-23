@@ -5,9 +5,10 @@ Version 0.11.4
 		* Allow for hash bond convention inversion. [#26810]
 	GChemTable:
 		* Fix loading of ui files. [#27395]
-		* Revised Wikipedia theme (Matthias Mailänder).
+		* Display element name when moving the mouse over a point in a chart.
 	Other:
 		* Fixed three typos in isotopes database. [#27619]
+		* Revised Wikipedia theme (Matthias Mailänder).
 
 Version 0.11.3
 	GChemPaint:

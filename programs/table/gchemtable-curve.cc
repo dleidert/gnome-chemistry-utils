@@ -35,6 +35,7 @@
 #include <glib/gi18n.h>
 #include <map>
 #include <cstring>
+#include <sstream>
 
 using namespace gcu;
 using namespace std;
@@ -560,6 +561,7 @@ bool GChemTableCurve::OnMotion (GChemTableCurve *curve, GdkEventMotion *event)
 	GogObject *obj;
 	GogSeries *series;
 	int index;
+	ostringstream buf;
 	g_object_get (G_OBJECT (renderer), "view", &view, NULL);
 	gog_view_get_view_at_point (view, event->x, event->y, &obj, NULL);
 	if (!obj)
@@ -569,6 +571,11 @@ bool GChemTableCurve::OnMotion (GChemTableCurve *curve, GdkEventMotion *event)
 		goto tooltip;
 	view = gog_view_find_child_view (view, obj);
 	index = gog_plot_view_get_data_at_point (GOG_PLOT_VIEW (view), event->x, event->y, &series);
+	if (index >=0) {
+		buf << Element::GetElement (index + 1)->GetName ();
+		gtk_widget_set_tooltip_text (curve->m_GraphWidget, buf.str ().c_str ());
+		return true;
+	}
 
 tooltip:
 	gtk_widget_set_tooltip_text (curve->m_GraphWidget, NULL);

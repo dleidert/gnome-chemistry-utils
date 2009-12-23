@@ -110,17 +110,17 @@ void gcpElementTool::OnRelease ()
 				gcp::Atom* pNewAtom = new gcp::Atom (CurZ, x, y, 0.);
 				pMol->Remove (parent);
 				m_pView->Remove (parent);
-				m_pView->AddObject (pNewAtom);
-				parent->SetParent (NULL);
 				pMol->AddAtom (pNewAtom);
+				parent->SetParent (NULL);
 				pNewAtom->SetId ((gchar*) pAtom->GetId ());
 				if (pBond) {
 					pBond->ReplaceAtom (pAtom, pNewAtom);
 					pNewAtom->AddBond (pBond);
+					pBond->SetDirty ();
 					m_pView->Update (pBond);
 				}
 				pNewAtom->Update ();
-				m_pView->Update (pNewAtom);
+				m_pView->AddObject (pNewAtom);
 				delete parent;
 			} else {
 				gcp::Atom* pAtom = static_cast <gcp::Atom *> (m_pObject);

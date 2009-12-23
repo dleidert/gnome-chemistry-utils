@@ -211,7 +211,7 @@ as second argument.
 @param oldAtom the atom to replace.
 @param newAtom the new atom.
 
-To sucess, this needs that the new atom can accpt all the bonds from the old one.
+To sucess, this needs that the new atom can accept all the bonds from the old one.
 @return true on success.
 */
 	bool ReplaceAtom (Atom* oldAtom, Atom* newAtom);

@@ -65,7 +65,9 @@ Object::~Object ()
 {
 	if (m_Id) {
 		if (m_Parent) {
-			GetDocument ()->m_DirtyObjects.erase (this);
+			Document *doc = GetDocument ();
+			if (doc)
+				doc->m_DirtyObjects.erase (this);
 			m_Parent->m_Children.erase (m_Id);
 		}
 		g_free (m_Id);
@@ -194,8 +196,12 @@ void Object::SetParent (Object* Parent)
 	if (Parent)
 		Parent->AddChild(this);
 	else {
-		if (m_Parent)
-			m_Parent->m_Children.erase (m_Id); 
+		if (m_Parent) {
+			Document *doc = GetDocument ();
+			if (doc)
+				doc->m_DirtyObjects.erase (this);
+			m_Parent->m_Children.erase (m_Id);
+		}
 		m_Parent = NULL;
 	}
 }
