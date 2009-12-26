@@ -54,7 +54,7 @@ public:
 	void GetElectronegColor (int Z, GdkColor *color);
 	void GetRadiusColor (int Z, GdkColor *color);
 	void GetBlockColor (int Z, GdkColor *color);
-	void OnNewChart ();
+	void OnNewChart (char const *name);
 	void OnSaveAsImage (GChemTableCurve *curve);
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, Document *Doc);
 	

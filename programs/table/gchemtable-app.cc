@@ -54,7 +54,22 @@ static void on_quit (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 
 static void on_new_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 {
-	App->OnNewChart ();
+	App->OnNewChart (NULL);
+}
+
+static void on_electroneg_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
+{
+	App->OnNewChart ("en/Pauling");
+}
+
+static void on_radius_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
+{
+	App->OnNewChart ("covalent");
+}
+
+static void on_affinity_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
+{
+	App->OnNewChart ("ae");
 }
 
 static void on_no_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
@@ -139,8 +154,6 @@ static void on_changed (G_GNUC_UNUSED GtkPeriodic* periodic, guint Z, GChemTable
 
 static GtkActionEntry entries[] = {
   { "FileMenu", NULL, N_("_File"), NULL, NULL, NULL },
-	  { "NewChart", NULL, N_("New _Chart"), "<control>N",
-		  N_("Create a new chart"), G_CALLBACK (on_new_chart) },
 	  { "Quit", GTK_STOCK_QUIT, N_("_Quit"), "<control>Q",
 		  N_("Quit GChemTable"), G_CALLBACK (on_quit) },
   { "ViewMenu", NULL, N_("_View"), NULL, NULL, NULL },
@@ -167,6 +180,15 @@ static GtkActionEntry entries[] = {
 	  {"BlockColors", NULL, N_("Block"), NULL,
 		  N_("Use colors to display the blocks elements belong to"),
                   G_CALLBACK (on_block_colors) },
+    {"ChartMenu", NULL, N_("Element charts "), NULL, NULL, NULL },
+      { "ElectronegChart", NULL, N_("Electronegativty "), NULL,
+		  N_("Create an electronegativity chart"), G_CALLBACK (on_electroneg_chart) },
+      { "RadiusChart", NULL, N_("Atomic radius"), NULL,
+		  N_("Create an atomic radius chart"), G_CALLBACK (on_radius_chart) },
+      { "AffinityChart", NULL, N_("Electon affinity"), NULL,
+		  N_("Create an electronic affinity chart"), G_CALLBACK (on_affinity_chart) },
+	  { "CustomChart", NULL, N_("Custom "), NULL,
+		  N_("Create a custom chart"), G_CALLBACK (on_new_chart) },
   { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
 		  N_("View help for the Periodic Table"), G_CALLBACK (on_help) },
@@ -186,9 +208,6 @@ static const char *ui_description =
 "<ui>"
 "  <menubar name='MainMenu'>"
 "    <menu action='FileMenu'>"
-"	   <separator name='file-sep1'/>"
-"      <menuitem action='NewChart'/>"
-"	   <separator name='file-sep2'/>"
 "      <menuitem action='Quit'/>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
@@ -201,6 +220,12 @@ static const char *ui_description =
 "        <menuitem action='ElectronegColors'/>"
 "        <menuitem action='RadiusColors'/>"
 "        <menuitem action='BlockColors'/>"
+"      </menu>"
+"      <menu action='ChartMenu'>"
+"        <menuitem action='ElectronegChart'/>"
+"        <menuitem action='RadiusChart'/>"
+"        <menuitem action='AffinityChart'/>"
+"        <menuitem action='CustomChart'/>"
 "      </menu>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
@@ -651,9 +676,9 @@ void GChemTableApp::GetBlockColor (int Z, GdkColor *color)
 	}
 }
 
-void GChemTableApp::OnNewChart ()
+void GChemTableApp::OnNewChart (char const *name)
 {
-	new GChemTableCurve (this, NULL);
+	new GChemTableCurve (this, name);
 }
 
 void GChemTableApp::OnSaveAsImage (GChemTableCurve *curve)
