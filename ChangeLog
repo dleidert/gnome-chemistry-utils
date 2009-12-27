@@ -1,4 +1,13 @@
 ##Text encoding: utf-8
+
+2009-12-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/atoms/Makefile.am: add new file.
+	* plugins/paint/atoms/orbital.cc: new class to represent an atomic orbital.
+	* plugins/paint/atoms/orbital.h: ditto.
+	* plugins/paint/atoms/orbitaltool.cc: new tool to draw orbitals.
+	* plugins/paint/atoms/orbitaltool.h: ditto.
+	* plugins/paint/atoms/plugin.cc: ditto.
+
 2009-12-26  Jordan Mantha  <jordan.mantha@gmail.com>
 	* programs/table/gchemtable-app.cc: added new charts submenu to view menu
 	and move File->New Chart to new submenu as "Custom".

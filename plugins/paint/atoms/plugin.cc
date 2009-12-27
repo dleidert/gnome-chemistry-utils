@@ -29,13 +29,21 @@
 #include "elementtool.h"
 #include "chargetool.h"
 #include "electrontool.h"
+#include "orbital.h"
+#include "orbitaltool.h"
 #include "gcp-stock-pixbufs.h"
 #include <glib/gi18n-lib.h>
 
 gcpAtomsPlugin plugin;
 
+static gcu::Object *CreateOrbital ()
+{
+	return new gcpOrbital (NULL, GCP_ORBITAL_TYPE_S);
+}
+
 gcpAtomsPlugin::gcpAtomsPlugin(): gcp::Plugin()
 {
+	OrbitalType = gcu::Object::AddType ("orbital", CreateOrbital);
 }
 
 gcpAtomsPlugin::~gcpAtomsPlugin()
@@ -48,6 +56,7 @@ static gcp::IconDesc icon_descs[] = {
 	{"gcp_ChargeMinus", gcp_chargem_24},
 	{"gcp_ElectronPair", gcp_elecpair_24},
 	{"gcp_UnpairedElectron", gcp_unpairedelec_24},
+	{"gcp_Orbit", gcp_orbit_24},
 	{NULL, NULL},
 };
 
@@ -67,6 +76,9 @@ static GtkRadioActionEntry entries[] = {
 	{	"UnpairedElectron", "gcp_UnpairedElectron", N_("Unpaired Electron"), NULL,
 		N_("Add an unpaired electron to an atom"),
 		0	},
+	{	"Orbital", "gcp_Orbit", N_("Orbital"), NULL,
+		N_("Add or modify an atomic orbital"),
+		0	},
 };
 
 static const char *ui_description =
@@ -81,6 +93,7 @@ static const char *ui_description =
 "	   <toolitem action='ChargeMinus'/>"
 "	   <toolitem action='ElectronPair'/>"
 "	   <toolitem action='UnpairedElectron'/>"
+"	   <toolitem action='Orbital'/>"
 "	 </placeholder>"
 "  </toolbar>"
 "</ui>";
@@ -94,4 +107,5 @@ void gcpAtomsPlugin::Populate (gcp::Application* App)
 	new gcpChargeTool (App, "ChargeMinus");
 	new gcpElectronTool (App, "ElectronPair");
 	new gcpElectronTool (App, "UnpairedElectron");
+	new gcpOrbitalTool (App);
 }
