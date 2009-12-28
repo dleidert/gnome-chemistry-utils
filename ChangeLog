@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2009-12-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: added new files.
+	* libs/gccv/group.cc:fixed front/back logic.
+	* libs/gccv/lemniscate.cc: new lemniscate item.
+	* libs/gccv/lemniscate.h: ditto.
+	* libs/gcp/atom.cc: bring item to front.
+	* plugins/paint/atoms/Makefile.am: add new files.
+	* plugins/paint/atoms/orbital.cc: implement basic serialization.
+	* plugins/paint/atoms/orbital.ui: UI for the orbital tool.
+	* plugins/paint/atoms/orbitaltool.cc: make it minimally work.
+	* plugins/paint/atoms/orbitaltool.h: ditto.
+
 2009-12-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/atoms/Makefile.am: add new file.
 	* plugins/paint/atoms/orbital.cc: new class to represent an atomic orbital.

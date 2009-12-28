@@ -13,6 +13,7 @@ INCLUDES = \
 		$(GCU_CFLAGS)
 
 DEFS += -DDATADIR=\"$(datadir)\" \
+        -DUIDIR=\"$(uidir)\" \
         -DPLUGINSDIR=\"$(atomsdir)\"
 
 IMAGES = \
@@ -53,6 +54,10 @@ noinst_HEADERS = \
 	elementtool.h \
 	orbital.h \
 	orbitaltool.h
+
+uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/atoms
+dist_ui_DATA = \
+	orbital.ui
 
 
 $(BUILT_SOURCES): $(IMAGES)

@@ -27,6 +27,8 @@
 
 #include <cstdio>
 
+#include <typeinfo>
+
 using namespace std;
 
 namespace gccv {
@@ -198,7 +200,7 @@ void Group::MoveToFront (Item *item)
 		break;
 	if (i != end) {
 		m_Children.erase (i);
-		m_Children.push_front (item);
+		m_Children.push_back (item); // back items are displayed at last
 	}
 }
 
@@ -210,7 +212,7 @@ void Group::MoveToBack (Item *item)
 		break;
 	if (i != end) {
 		m_Children.erase (i);
-		m_Children.push_back (item);
+		m_Children.push_front (item); // front items are displayed at first
 	}
 }
 

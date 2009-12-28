@@ -1703,6 +1703,15 @@ bool Atom::Load (xmlNodePtr node)
 			electron = new Electron (this, false);
 		else if (!strcmp ((char*) child->name, "electron-pair"))
 			electron = new Electron (this, true);
+		else if (strcmp (reinterpret_cast <char const *> (child->name), "position")
+		    && strcmp (reinterpret_cast <char const *> (child->name), "text")) {
+			Object *obj = CreateObject (reinterpret_cast <char const *> (child->name));
+			if (obj) {
+				AddChild (obj);
+				if (!obj->Load (child))
+						return false;
+			}
+		}
 		if (electron && !electron->Load (child))
 			return false;
 		child = child->next;
@@ -1967,6 +1976,7 @@ void Atom::AddItem ()
 	y *= theme->GetZoomFactor ();
 	// always use a group, even if not needed
 	gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
+	view->GetCanvas ()->GetRoot ()->MoveToFront (group);
 	if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
 		gccv::Text *text = new gccv::Text (group, 0., 0., this);
 		text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);

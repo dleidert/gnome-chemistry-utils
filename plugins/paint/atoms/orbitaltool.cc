@@ -30,10 +30,12 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gccv/circle.h>
+#include <gcu/ui-builder.h>
 
 gcpOrbitalTool::gcpOrbitalTool (gcp::Application *App):
 	gcp::Tool (App, "Orbital"),
-	m_Coef (1.)
+	m_Coef (1.),
+	m_Type (GCP_ORBITAL_TYPE_S)
 {
 }
 
@@ -68,6 +70,19 @@ void gcpOrbitalTool::OnDrag ()
 
 void gcpOrbitalTool::OnRelease ()
 {
+	if (!m_Item)
+		return;
+	gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
+	gcu::Object *obj = m_pObject->GetParent ();
+	gcp::Document* doc = m_pView->GetDoc ();
+	gcp::Operation* op = doc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+	op->AddObject (obj, 0);
+	gcpOrbital *orbital = new gcpOrbital (atom, m_Type);
+	orbital->SetCoef (m_Coef);
+	m_pObject->EmitSignal (gcp::OnChangedSignal);
+	op->AddObject (obj, 1);
+	doc->FinishOperation ();
+	m_pView->AddObject (orbital);
 }
 
 void gcpOrbitalTool::OnMotion ()
@@ -86,5 +101,16 @@ void gcpOrbitalTool::OnMotion ()
 
 GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 {
-	return NULL;
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/orbital.ui", GETTEXT_PACKAGE);
+	m_CoefBtn = GTK_SPIN_BUTTON (builder->GetWidget ("coef-btn"));
+	gtk_spin_button_set_value (m_CoefBtn, m_Coef);
+	g_signal_connect_swapped (m_CoefBtn, "value-changed", G_CALLBACK (CoefChanged), this);
+	GtkWidget *res = builder->GetRefdWidget ("orbital");
+	delete builder;
+	return res;
+}
+
+void gcpOrbitalTool::CoefChanged (gcpOrbitalTool *tool, GtkSpinButton *btn)
+{
+	tool->m_Coef = gtk_spin_button_get_value (btn);
 }

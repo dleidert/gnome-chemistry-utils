@@ -26,6 +26,7 @@
 #define GCHEMPAINT_ORBITAL_TOOL_H
 
 #include <gcp/tool.h>
+#include "orbital.h"
 
 class gcpOrbitalTool: public gcp::Tool
 {
@@ -40,8 +41,13 @@ public:
 	GtkWidget *GetPropertyPage ();
 	char const *GetHelpTag () {return "orbital";}
 
+	// callbacks
+	static void CoefChanged (gcpOrbitalTool *tool, GtkSpinButton *btn);
+
 private:
 	double m_Coef;
+	gcpOrbitalType m_Type;
+	GtkSpinButton *m_CoefBtn;
 };
 
 #endif	//GCHEMPAINT_ORBITAL_TOOL_H
