@@ -27,8 +27,6 @@
 
 #include <cstdio>
 
-#include <typeinfo>
-
 using namespace std;
 
 namespace gccv {

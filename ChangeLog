@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2009-12-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/group.cc: removed unused header.
+	* libs/gcp/atom.cc: be careful with children (fixes orbital issues).
+	* libs/gcp/widgetdata.cc: ditto.
+	* plugins/paint/atoms/orbital.cc: implement gcpOrbital::SetSelected().
+	* plugins/paint/atoms/orbital.h: ditto.
+
 2009-12-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: added new files.
 	* libs/gccv/group.cc:fixed front/back logic.

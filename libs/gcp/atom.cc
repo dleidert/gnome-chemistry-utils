@@ -246,13 +246,16 @@ void Atom::Update ()
 	int nb, nexplp = 0, nexplu = 0; //nexplp is the number of explicit lone pairs
 	//nexplu is the number of explicit unpaired electrons
 	map<string, Object*>::iterator i;
-	Electron* electron = (Electron*) GetFirstChild (i);
-	while (electron) { 
-		if (electron->IsPair ())
-			nexplp++;
-		else
-			nexplu++;
-		electron = (Electron*) GetNextChild (i);
+	Object *obj = GetFirstChild (i);
+	while (obj) {
+		Electron *electron = dynamic_cast <Electron *> (obj);
+		if (electron) {
+			if (electron->IsPair ())
+				nexplp++;
+			else
+				nexplu++;
+		}
+		obj = GetNextChild (i);
 	}
 	int nbonds = GetTotalBondsNumber ();
 	if (m_Valence > 0 && !m_Element->IsMetallic ()) {
@@ -1257,16 +1260,18 @@ void Atom::SetSelected (int state)
 	std::list<gccv::Item *>::iterator it;
 	gccv::Item *item = group->GetFirstChild (it);
 	while (item) {
-		gccv::FillItem *fill;
-		gccv::Text *text;
-		if ((text = dynamic_cast <gccv::Text *> (item)))
-			text->SetColor (othercolor);
-		else if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
-			fill->SetFillColor (textcolor);
-		else if ((fill = dynamic_cast <gccv::FillItem *> (item)))
-			fill->SetFillColor (othercolor);
-		else
-			static_cast <gccv::LineItem *> (item)->SetLineColor (othercolor);
+		if (item->GetClient () == this) {
+			gccv::FillItem *fill;
+			gccv::Text *text;
+			if ((text = dynamic_cast <gccv::Text *> (item)))
+				text->SetColor (othercolor);
+			else if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
+				fill->SetFillColor (textcolor);
+			else if ((fill = dynamic_cast <gccv::FillItem *> (item)))
+				fill->SetFillColor (othercolor);
+			else
+				static_cast <gccv::LineItem *> (item)->SetLineColor (othercolor);
+		}
 		item = group->GetNextChild (it);
 	}
 }

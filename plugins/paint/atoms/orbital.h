@@ -50,6 +50,7 @@ public:
 	void AddItem ();
 	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr node);
+	void SetSelected (int state);
 
 private:
 	gcp::Atom *m_Atom;

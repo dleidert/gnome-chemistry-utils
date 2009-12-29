@@ -26,8 +26,10 @@
 #include "orbital.h"
 #include <gcp/atom.h>
 #include <gcp/document.h>
+#include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gccv/canvas.h>
 #include <gccv/circle.h>
 #include <gccv/group.h>
@@ -64,7 +66,7 @@ void gcpOrbital::AddItem ()
 	case GCP_ORBITAL_TYPE_S: {
 		gccv::Circle *circle = new gccv::Circle (group, 0., 0., theme->GetBondLength () * fabs (m_Coef) * zoom / 2., this);
 		circle->SetLineWidth (1.);
-		circle->SetLineColor (GO_COLOR_BLACK);
+		circle->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
 		circle->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
 		m_Item = circle;
 		group->MoveToBack (m_Item);
@@ -117,4 +119,28 @@ bool gcpOrbital::Load (xmlNodePtr node)
 		xmlFree (buf);
 	}
 	return true;
+}
+
+void gcpOrbital::SetSelected (int state)
+{
+	GOColor color;
+	
+	switch (state) {	
+	case gcp::SelStateUnselected:
+		color = GO_COLOR_BLACK;
+		break;
+	case gcp::SelStateSelected:
+		color = gcp::SelectColor;
+		break;
+	case gcp::SelStateUpdating:
+		color = gcp::AddColor;
+		break;
+	case gcp::SelStateErasing:
+		color = gcp::DeleteColor;
+		break;
+	default:
+		color = GO_COLOR_BLACK;
+		break;
+	}
+	static_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
 }

@@ -262,7 +262,7 @@ void WidgetData::MoveItems (Object* obj, double dx, double dy)
 	Object* pObject;
 	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (obj);
 	gccv::Item *item = (client)? client->GetItem (): NULL;
-	if (item)
+	if (item && item->GetParent ()->GetParent () == NULL) // move only if parent is root group
 		item->Move (dx, dy);
 	std::map<std::string, Object*>::iterator i;
 	pObject = obj->GetFirstChild (i);
@@ -328,7 +328,7 @@ void WidgetData::Copy (GtkClipboard* clipboard)
 void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect &rect) const
 {
 	Object const *pObject;
-	gccv::ItemClient const *client;
+	gccv::ItemClient const *client, *child_client;
 	double x1, y1, x2,  y2;
 	client = dynamic_cast <gccv::ItemClient const *> (obj);
 	if (client && client->GetItem ()) {
@@ -350,7 +350,9 @@ void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect &rect) const
 	std::map<std::string, Object*>::const_iterator i;
 	pObject = obj->GetFirstChild (i);
 	while (pObject) {
-		GetObjectBounds (pObject, rect);
+		child_client = dynamic_cast <gccv::ItemClient const *> (pObject);
+		if (!child_client || !child_client->GetItem () || !client || child_client->GetItem ()->GetParent () != client->GetItem ())
+			GetObjectBounds (pObject, rect);
 		pObject = obj->GetNextChild (i);
 	}
 }
