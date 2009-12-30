@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2009-12-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/arrows/curvedarrowtool.cc: arrow from bond to adjacent atom
+	now fully implemented.
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+
 2009-12-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/group.cc: removed unused header.
 	* libs/gcp/atom.cc: be careful with children (fixes orbital issues).

@@ -49,6 +49,12 @@ private:
 	bool AllowAsSource (gcp::Bond *bond);
 	bool AllowAsTarget (gcp::Bond *bond);
 
+	void AtomToAdjBond ();
+	void AtomToAtom ();
+	void BondToAdjAtom ();
+	void BondToAdjBond ();
+	void BondToAtom ();
+
 private:
 	bool m_Full; // if false use half heads
 	gcu::Object *m_Target, *m_SourceAux;
