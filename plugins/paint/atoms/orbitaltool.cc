@@ -27,8 +27,10 @@
 #include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/document.h>
+#include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gccv/circle.h>
 #include <gcu/ui-builder.h>
 
@@ -55,7 +57,7 @@ bool gcpOrbitalTool::OnClicked ()
 	m_y0 *= m_dZoomFactor;
 	gccv::Circle *circle = new gccv::Circle (m_pView->GetCanvas (), m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor / 2.);
 	circle->SetLineWidth (1.);
-	circle->SetLineColor (GO_COLOR_BLACK);
+	circle->SetLineColor (gcp::AddColor);
 	circle->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
 	m_Item = circle;
 	return true;
@@ -65,12 +67,15 @@ void gcpOrbitalTool::OnDrag ()
 {
 	if (!m_Item)
 		return;
-	
+	gccv::Item *item = dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ();
+	double x0, y0, x1, y1;
+	item->GetBounds (x0, y0, x1, y1);
+	m_Item->SetVisible (m_x >= x0 && m_x <= x1 && m_y >= y0 && m_y <= y1);
 }
 
 void gcpOrbitalTool::OnRelease ()
 {
-	if (!m_Item)
+	if (!m_Item || !m_Item->GetVisible ())
 		return;
 	gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
 	gcu::Object *obj = m_pObject->GetParent ();
@@ -87,6 +92,7 @@ void gcpOrbitalTool::OnRelease ()
 
 void gcpOrbitalTool::OnMotion ()
 {
+	m_pData->UnselectAll ();
 	bool allowed = false;
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
@@ -96,7 +102,14 @@ void gcpOrbitalTool::OnMotion ()
 		default:
 			break;
 		}
+	if (allowed)
+		m_pData->SetSelected (m_pObject);
 	gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), allowed? m_pApp->GetCursor (gcp::CursorPencil): m_pApp->GetCursor (gcp::CursorUnallowed));
+}
+
+void gcpOrbitalTool::OnLeaveNotify ()
+{
+	m_pData->UnselectAll ();
 }
 
 GtkWidget *gcpOrbitalTool::GetPropertyPage ()

@@ -106,6 +106,14 @@ is not pressed and the mouse is moved.
 */
 	void OnMotion (View* pView, gcu::Object* pObject, double x, double y, unsigned int state);
 /*!
+@param pView the view instance owning the event.
+@param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.
+
+This method is called by the framework when the tool is active and the mouse is moved
+outside the current view.
+*/
+	void OnLeaveNotify (View* pView, unsigned int state);
+/*!
 @param x the horizontal position of the mouse when the event occured.
 @param y the vertical position of the mouse when the event occured.
 @param state a bit-mask representing the state of the modifier keys (e.g. Control, Shift and Alt) and the pointer buttons. See GdkModifierType in GDK documentation.
@@ -294,12 +302,19 @@ Default implementation does nothing.
 */
 	virtual void OnDrag ();
 /*!
-Called from OnDrag(double,double,unsigned int) when a motion event occured
+Called from OnMotion(gcp::View,double,double,unsigned int) when a motion event
 occured. This method must be overriden in
 derived classes if motion events are meaningful for the tool.
 Default implementation does nothing.
 */
 	virtual void OnMotion ();
+/*!
+Called from OnLeaveNotify(gcp::View,unsigned int) when a leave notify event
+occured. This method must be overriden in
+derived classes if leave notify events are meaningful for the tool.
+Default implementation does nothing.
+*/
+	virtual void OnLeaveNotify ();
 /*!
 Called from OnRelease(double,double,unsigned int) when a button release
 event occured. This method must be overriden in

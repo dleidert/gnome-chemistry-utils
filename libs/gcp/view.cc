@@ -1168,6 +1168,15 @@ bool View::OnMotion (gccv::ItemClient *client, double x, double y, unsigned stat
 	return true;
 }
 
+bool View::OnLeaveNotify (unsigned state)
+{
+	Application *App = m_pDoc->GetApplication ();
+	Tool* pActiveTool = App? App->GetActiveTool (): NULL;	
+	if (m_pDoc->GetEditable () && pActiveTool)
+		pActiveTool->OnLeaveNotify (this, state);
+	return true;
+}
+
 void View::SetSelectionState (Object *object, int state)
 {
 	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (object);

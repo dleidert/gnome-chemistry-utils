@@ -57,4 +57,9 @@ bool Client::OnMotion (ItemClient *client, double x, double y, unsigned state)
 	return true;
 }
 
+bool Client::OnLeaveNotify (unsigned state)
+{
+	return true;
+}
+
 }

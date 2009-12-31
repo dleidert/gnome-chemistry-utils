@@ -42,6 +42,7 @@ public:
 	void OnDrag ();
 	void OnMotion ();
 	void OnRelease ();
+	void OnLeaveNotify ();
 
 private:
 	bool AllowAsSource (gcp::Atom *atom);

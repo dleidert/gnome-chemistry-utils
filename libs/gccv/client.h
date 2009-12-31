@@ -43,6 +43,7 @@ public:
 	virtual bool OnButtonReleased (ItemClient *client, unsigned button, double x, double y, unsigned state);
 	virtual bool OnMotion (ItemClient *client, double x, double y, unsigned state);
 	virtual bool OnDrag (ItemClient *client, double x, double y, unsigned state);
+	virtual bool OnLeaveNotify (unsigned state);
 
 GCU_PROT_PROP (Canvas *, Canvas)
 };

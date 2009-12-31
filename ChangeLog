@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2009-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: add support for leave-notify-event.
+	* libs/gccv/client.cc: ditto.
+	* libs/gccv/client.h: ditto.
+	* libs/gccv/hash.cc: do not call cairo_reset_clip to avoid issues with
+	client side gtk+.
+	* libs/gcp/tool.cc: add support for leave-notify-event.
+	* libs/gcp/tool.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcp/view.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: select potential source when
+	moving the mouse to make clear from where the arrow would start.
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+	* plugins/paint/atoms/orbitaltool.cc: implement OnDrag and ditto.
+	* plugins/paint/atoms/orbitaltool.h: ditto.
+
 2009-12-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/arrows/curvedarrowtool.cc: arrow from bond to adjacent atom
 	now fully implemented.

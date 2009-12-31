@@ -38,6 +38,7 @@ public:
 	void OnDrag();
 	void OnRelease();
 	void OnMotion ();
+	void OnLeaveNotify ();
 	GtkWidget *GetPropertyPage ();
 	char const *GetHelpTag () {return "orbital";}
 

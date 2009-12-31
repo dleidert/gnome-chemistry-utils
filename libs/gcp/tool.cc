@@ -94,6 +94,13 @@ void Tool::OnMotion (View* pView, Object* pObject, double x, double y, unsigned 
 	OnMotion ();
 }
 
+void Tool::OnLeaveNotify (View* pView, unsigned int state)
+{
+	m_pView = pView;
+	m_pData = pView->GetData ();
+	OnLeaveNotify ();
+}
+
 void Tool::OnRelease (double x, double y, unsigned int state)
 {
 	m_x = lastx = x;
@@ -156,6 +163,10 @@ void Tool::OnDrag ()
 void Tool::OnMotion ()
 {
 	gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), NULL);
+}
+
+void Tool::OnLeaveNotify ()
+{
 }
 
 void Tool::OnRelease ()

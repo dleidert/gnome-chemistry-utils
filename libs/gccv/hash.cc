@@ -57,6 +57,7 @@ void Hash::Draw (cairo_t *cr, bool is_vector) const
 		   y1 = m_ye1 - m_LineWidth / 2. * dy / length,
 		   x2 = m_xe2 - m_LineWidth / 2. * dx / length,
 		   y2 = m_ye2 - m_LineWidth / 2. * dy / length;
+	cairo_save (cr);
 	cairo_move_to (cr, m_xstart, m_ystart);
 	cairo_line_to (cr, m_xe1, m_ye1);
 	cairo_line_to (cr, m_xe2, m_ye2);
@@ -75,7 +76,7 @@ void Hash::Draw (cairo_t *cr, bool is_vector) const
 		y2 -= ystep;
 	}
 	cairo_stroke (cr);
-	cairo_reset_clip (cr);
+	cairo_restore (cr);
 }
 
 }

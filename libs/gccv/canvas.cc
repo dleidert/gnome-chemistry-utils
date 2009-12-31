@@ -60,7 +60,8 @@ static GtkWidget *gccv_canvas_new (gccv::Canvas *owner)
 						   GDK_POINTER_MOTION_MASK |
 						   GDK_BUTTON_MOTION_MASK |
 						   GDK_BUTTON_PRESS_MASK |
-						   GDK_BUTTON_RELEASE_MASK
+						   GDK_BUTTON_RELEASE_MASK |
+    					   GDK_LEAVE_NOTIFY_MASK
 						   );
 	return w;
 }
@@ -75,6 +76,7 @@ public:
 	static bool OnButtonReleased (Canvas *canvas, GdkEventButton *event);
 	static bool OnMotion (Canvas *canvas, GdkEventMotion *event);
 	static bool OnExpose (Canvas *canvas, GdkEventExpose *event);
+	static bool OnLeaveNotify (Canvas *canvas, GdkEventCrossing *event);
 };
 
 
@@ -132,6 +134,12 @@ bool CanvasPrivate::OnMotion (Canvas *canvas, GdkEventMotion *event)
 	return (canvas->m_Client)? (canvas->m_Dragging? canvas->m_Client->OnDrag (client, x, y, event->state): canvas->m_Client->OnMotion (client, x, y, event->state)): true;
 }
 
+bool CanvasPrivate::OnLeaveNotify (Canvas *canvas, GdkEventCrossing *event)
+{
+	canvas->m_LastEventState = event->state;
+	return (canvas->m_Client)? canvas->m_Client->OnLeaveNotify (event->state): true;
+}
+
 static void on_destroy (Canvas *canvas)
 {
 	delete canvas;
@@ -149,6 +157,7 @@ Canvas::Canvas (Client *client):
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-press-event", G_CALLBACK (CanvasPrivate::OnButtonPressed), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "button-release-event", G_CALLBACK (CanvasPrivate::OnButtonReleased), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "motion-notify-event", G_CALLBACK (CanvasPrivate::OnMotion), this);
+	g_signal_connect_swapped (G_OBJECT (m_Widget), "leave-notify-event", G_CALLBACK (CanvasPrivate::OnLeaveNotify), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "destroy", G_CALLBACK (on_destroy), this);
 	g_signal_connect_swapped (G_OBJECT (m_Widget), "expose-event", G_CALLBACK (CanvasPrivate::OnExpose), this);
 }

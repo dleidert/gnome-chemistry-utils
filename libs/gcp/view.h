@@ -279,6 +279,7 @@ Changes the selection state of \a object if it owns an item and of all its desce
 	bool OnButtonReleased (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state);
 	bool OnDrag (gccv::ItemClient *client, double x, double y, unsigned state);
 	bool OnMotion (gccv::ItemClient *client, double x, double y, unsigned state);
+	bool OnLeaveNotify (unsigned state);
 
 	WidgetData *GetData () {return m_pData;}
 	//Implementation

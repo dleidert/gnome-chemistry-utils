@@ -37,6 +37,7 @@
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gtk/gtk.h>
 
 using namespace std;
@@ -259,6 +260,7 @@ void gcpCurvedArrowTool::OnDrag ()
 
 void gcpCurvedArrowTool::OnMotion ()
 {
+	m_pData->UnselectAll ();
 	bool allowed = false;
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
@@ -277,7 +279,14 @@ void gcpCurvedArrowTool::OnMotion ()
 			}
 			break;
 		}
+	if (allowed)
+		m_pData->SetSelected (m_pObject);
 	gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), allowed? m_pApp->GetCursor (gcp::CursorPencil): m_pApp->GetCursor (gcp::CursorUnallowed));
+}
+
+void gcpCurvedArrowTool::OnLeaveNotify ()
+{
+	m_pData->UnselectAll ();
 }
 
 void gcpCurvedArrowTool::OnRelease ()
