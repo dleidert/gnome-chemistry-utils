@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2009-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: add missing files.
+
 2009-08-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.skip: add gnumeric/plugin.xml.in.in.
 	* fr.po: translate molarmass gnumeric function help.

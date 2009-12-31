@@ -62,6 +62,7 @@ libs/gcu/application.cc
 libs/gcu/crystaldoc.cc
 libs/gcu/crystalview.cc
 libs/gcu/dialog.cc
+libs/gcu/document.cc
 libs/gcu/element.cc
 libs/gcu/filechooser.cc
 libs/gcu/formula.cc
@@ -93,6 +94,7 @@ plugins/paint/arrows/retrosynthesis.cc
 plugins/paint/arrows/retrosynthesisstep.cc
 plugins/paint/atoms/chargetool.cc
 plugins/paint/atoms/electrontool.cc
+[type: gettext/glade]plugins/paint/atoms/orbital.ui
 plugins/paint/atoms/plugin.cc
 [type: gettext/glade]plugins/paint/bonds/bond.ui
 plugins/paint/bonds/bondtool.cc
