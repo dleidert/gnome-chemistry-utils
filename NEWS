@@ -10,6 +10,8 @@ Version 0.11.4
 	GChemTable:
 		* Fix loading of ui files. [#27395]
 		* Display element name when moving the mouse over a point in a chart.
+	libgcu:
+		* Do not access a NULL document when destroying an object.
 	Other:
 		* Fixed three typos in isotopes database. [#27619]
 		* Revised Wikipedia theme (Matthias Mailänder).
