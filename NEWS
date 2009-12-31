@@ -1,8 +1,12 @@
 Version 0.11.4
 	GChemCalc
-		* Fixed interpretation of strins such as Mn and Rn. [#28192]
+		* Fixed interpretation of strings such as Mn and Rn. [#28192]
 	GChemPaint:
 		* Allow for hash bond convention inversion. [#26810]
+		* Implement mechanism arrow tool restricted to bond to adjacent atom
+		electron move for now.
+		* New Orbital tool (restricted to s type orbitals for now).
+		* Fixed various bugs, especially atoms groups related ones.
 	GChemTable:
 		* Fix loading of ui files. [#27395]
 		* Display element name when moving the mouse over a point in a chart.
