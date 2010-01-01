@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.10.11).
+
 2009-12-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/bond.h: fixed documentation typo.
 	* libs/gcu/object.cc: do not access a NULL pointer when destroying objects.
