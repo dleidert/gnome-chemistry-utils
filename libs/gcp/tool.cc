@@ -4,7 +4,7 @@
  * GChemPaint library
  * tool.cc
  *
- * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -218,7 +218,7 @@ bool Tool::DeleteSelection ()
 
 bool Tool::CopySelection (G_GNUC_UNUSED GtkClipboard *clipboard)
 {
-	return false;
+	return true; // makes copying impossible
 }
 
 bool Tool::CutSelection (G_GNUC_UNUSED GtkClipboard *clipboard)

@@ -4,7 +4,7 @@
  * GChemPaint atoms plugin
  * orbitaltool.cc 
  *
- * Copyright (C) 2003-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -49,6 +49,7 @@ bool gcpOrbitalTool::OnClicked ()
 {
 	if (!m_pObject || (m_pObject->GetType () != gcu::AtomType))
 		return false;
+	m_pData->UnselectAll ();
 	gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
 	atom->GetCoords (&m_x0, &m_y0);
 	gcp::Document *doc = m_pView->GetDoc ();

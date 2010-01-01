@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2010-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.11.5).
+	* libs/gcp/tool.cc: don't allow clipboard operations by default.
+	* plugins/paint/arrows/curvedarrowtool.cc: unselect all on click.
+	* plugins/paint/atoms/orbital.cc: fixed copyright years.
+	* plugins/paint/atoms/orbital.h: ditto.
+	* plugins/paint/atoms/orbitaltool.cc: unselect all on click.
+	* plugins/paint/atoms/orbitaltool.h: fixed copyright years.
+	* plugins/paint/selection/selectiontool.h: allow clipboard operations.
+
 2009-12-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: add support for leave-notify-event.
 	* libs/gccv/client.cc: ditto.

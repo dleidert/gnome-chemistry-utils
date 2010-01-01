@@ -4,7 +4,7 @@
  * GChemPaint selection plugin
  * selectiontool.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -40,13 +40,14 @@ public:
 	gcpSelectionTool (gcp::Application *App);
 	virtual ~gcpSelectionTool ();
 
-	virtual bool OnClicked ();
-	virtual void OnDrag ();
-	virtual void OnRelease ();
-	virtual void Activate ();
-	virtual bool Deactivate ();
-	virtual bool OnRightButtonClicked (GtkUIManager *UIManager);
-	virtual GtkWidget *GetPropertyPage ();
+	bool OnClicked ();
+	void OnDrag ();
+	void OnRelease ();
+	void Activate ();
+	bool Deactivate ();
+	bool OnRightButtonClicked (GtkUIManager *UIManager);
+	GtkWidget *GetPropertyPage ();
+	bool CopySelection (G_GNUC_UNUSED GtkClipboard *clipboard) {return false;} // allow clipboard operations
 
 	void AddSelection (gcp::WidgetData* data);
 	void OnFlip (bool horizontal);

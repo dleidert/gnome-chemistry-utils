@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * curvedarrowtool.cc 
  *
- * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -58,6 +58,7 @@ bool gcpCurvedArrowTool::OnClicked ()
 	gccv::ArrowHeads arrow_head = m_Full? gccv::ArrowHeadFull: gccv::ArrowHeadLeft;
 	gccv::BezierArrow *arrow = NULL; // make g++ happy
 	m_SourceAux = NULL;
+	m_pData->UnselectAll ();
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
 		case gcu::AtomType: {
