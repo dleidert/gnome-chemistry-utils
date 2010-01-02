@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/crystal/document.cc: make things compile with OpenBabel-2.1.x.
+
 2010-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.11).
 

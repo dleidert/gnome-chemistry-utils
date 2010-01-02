@@ -45,6 +45,7 @@
 #include <cmath>
 #include <vector>
 #include <map>
+#include <iostream>
 #include <fstream>
 #include <ostream>
 #include <sstream>
