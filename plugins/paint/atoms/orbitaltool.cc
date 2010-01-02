@@ -56,11 +56,22 @@ bool gcpOrbitalTool::OnClicked ()
 	gcp::Theme *theme = doc->GetTheme ();
 	m_x0 *= m_dZoomFactor;
 	m_y0 *= m_dZoomFactor;
-	gccv::Circle *circle = new gccv::Circle (m_pView->GetCanvas (), m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor / 2.);
-	circle->SetLineWidth (1.);
-	circle->SetLineColor (gcp::AddColor);
-	circle->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
-	m_Item = circle;
+	switch (m_Type) {
+	case GCP_ORBITAL_TYPE_S: {
+		gccv::Circle *circle = new gccv::Circle (m_pView->GetCanvas (), m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor / 2.);
+		circle->SetLineWidth (1.);
+		circle->SetLineColor (gcp::AddColor);
+		circle->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		m_Item = circle;
+		break;
+	}
+	case GCP_ORBITAL_TYPE_P:
+		break;
+	case GCP_ORBITAL_TYPE_DXY:
+		break;
+	case GCP_ORBITAL_TYPE_DZ2:
+		break;
+	}
 	return true;
 }
 
@@ -119,6 +130,18 @@ GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 	m_CoefBtn = GTK_SPIN_BUTTON (builder->GetWidget ("coef-btn"));
 	gtk_spin_button_set_value (m_CoefBtn, m_Coef);
 	g_signal_connect_swapped (m_CoefBtn, "value-changed", G_CALLBACK (CoefChanged), this);
+	GtkWidget *w = builder->GetWidget ("s-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_S));
+	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
+	w = builder->GetWidget ("p-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_P));
+	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
+	w = builder->GetWidget ("dxy-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_DXY));
+	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
+	w = builder->GetWidget ("dz2-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_DZ2));
+	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
 	GtkWidget *res = builder->GetRefdWidget ("orbital");
 	delete builder;
 	return res;
@@ -127,4 +150,10 @@ GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 void gcpOrbitalTool::CoefChanged (gcpOrbitalTool *tool, GtkSpinButton *btn)
 {
 	tool->m_Coef = gtk_spin_button_get_value (btn);
+}
+
+void gcpOrbitalTool::TypeChanged (gcpOrbitalTool *tool, GtkToggleButton *btn)
+{
+	if (gtk_toggle_button_get_active (btn))
+		tool->m_Type = static_cast <gcpOrbitalType> (GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (btn), "orbital-type")));
 }

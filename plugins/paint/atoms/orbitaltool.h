@@ -44,6 +44,7 @@ public:
 
 	// callbacks
 	static void CoefChanged (gcpOrbitalTool *tool, GtkSpinButton *btn);
+	static void TypeChanged (gcpOrbitalTool *tool, GtkToggleButton *btn);
 
 private:
 	double m_Coef;

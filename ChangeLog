@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/atoms/orbital.ui: started work on p and d orbitals.
+	* plugins/paint/atoms/orbitaltool.cc: ditto.
+	* plugins/paint/atoms/orbitaltool.h: ditto.
+
 2010-01-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.11.5).
 	* libs/gcp/tool.cc: don't allow clipboard operations by default.
