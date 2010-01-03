@@ -188,7 +188,7 @@ void gcpCurvedArrowTool::OnDrag ()
 						y = y_;
 						y_ = y0;
 					}
-					// start is the common atom
+					// start is the common atom, x and y its coordinates
 					x0 = m_CPx0;
 					y0 = m_CPy0;
 					x1 = x0 + m_CPx1;
@@ -199,7 +199,7 @@ void gcpCurvedArrowTool::OnDrag ()
 					dx = y_ -y;
 					dy = x - x_;
 					l = hypot (dx, dy);
-					if (m_CPx1 * dy - m_CPy1 * dx > 0.) {
+					if ((m_CPx1 * (y0 - y) - m_CPy1 * (x0 - x)) * (dx * (y3 - y) - dy * (x3 - y)) > 0.) {
 						dx = -dx;
 						dy = -dy;
 					}

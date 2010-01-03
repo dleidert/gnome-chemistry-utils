@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-01-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: enhance portability.
+	* plugins/paint/arrows/curvedarrowtool.cc: fixed test for bond to bond case.
+	* plugins/paint/wikipedia/wikipediatool.cc: enhance portability.
+
+2010-01-03  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* libs/gcp/reaction-prop.cc: Fixed typo.
+
 2010-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/atoms/orbital.ui: started work on p and d orbitals.
 	* plugins/paint/atoms/orbitaltool.cc: ditto.

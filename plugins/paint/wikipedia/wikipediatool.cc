@@ -163,7 +163,7 @@ bool WikipediaApp::FileProcess (char const *filename, G_GNUC_UNUSED char const *
 		values.push_back (const_cast<char*> (InChI));
 		keys.push_back (reinterpret_cast<char*> (NULL));
 		values.push_back (reinterpret_cast<char*> (NULL));
-		gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, output, "png", keys.data (), values.data (), &error);
+		gdk_pixbuf_save_to_callbackv (pixbuf, do_save_image, output, "png", &keys[0], &values[0], &error);
 		g_output_stream_close (output, NULL, NULL); // hope there will be no error there
 	}
 	if (error) {
