@@ -361,7 +361,7 @@ void Document::ExportOB () const
 				Mol.SetTitle ((char*) GetTitle ());
 				Mol.SetDimension (2);
 				for (i = AtomTable.begin (); i != AtomTable.end (); i++) {
-					pgAtom = (Atom*) Ob->GetDescendant ((*i).first.data ());
+					pgAtom = (Atom*) Ob->GetDescendant ((*i).first.c_str ());
 					obAtom.SetIdx ((*i).second);
 					obAtom.SetAtomicNum (pgAtom->GetZ ());
 					pgAtom->GetCoords (&x, &y, &z);
@@ -1404,7 +1404,7 @@ double Document::GetMedianBondLength ()
 		}
 	}
 	if (nb > 0)
-		go_range_median_inter_nonconst (lengths.data (), nb, &result);
+		go_range_median_inter_nonconst (&lengths[0], nb, &result);
 	return result;
 }
 

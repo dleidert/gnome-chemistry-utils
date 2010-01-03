@@ -1042,7 +1042,7 @@ Object* Fragment::GetAtomAt (double x, double y, double z)
 		cur--;
 		c = m_buf[cur];
 	}
-	if (index - cur > Residue::MaxSymbolLength)
+	if (index - cur > static_cast <int> (Residue::MaxSymbolLength))
 		cur = index - Residue::MaxSymbolLength;
 	if (cur < 0)
 		cur = 0;

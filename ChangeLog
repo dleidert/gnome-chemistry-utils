@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-01-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: improve portability.
+	* libs/gcp/fragment-atom.cc: fixed compilation warning.
+	* libs/gcp/fragment.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/paint/wikipedia/wikipediatool.cc: improve portability.
+	* programs/spectra/application.cc: fixed compilation warning.
+	* programs/table/gchemtable-app.cc: ditto.
+
 2010-01-03  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* libs/gcp/reaction-prop.cc: Fixed typo.
 

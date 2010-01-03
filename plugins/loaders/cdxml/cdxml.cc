@@ -603,7 +603,7 @@ static void
 cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	guint32 Id;
+	guint32 Id = 0;
 	guint16 type = 0xffff, arrow_type = 0xffff;
 	double x0, y0, x1, y1;
 	while (*attrs) {

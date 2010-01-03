@@ -269,7 +269,7 @@ bool FragmentAtom::Match (gcu::Atom *atom, AtomMatchState &state)
 void FragmentAtom::DoBuildSymbolGeometry (View *pView)
 {
 	// Building atom geometry if necessary
-	double ascent, x;
+	double ascent;
 	char const *symbol = GetSymbol ();
 	if (!symbol)
 		return;

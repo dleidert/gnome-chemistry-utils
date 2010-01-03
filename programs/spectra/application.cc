@@ -122,7 +122,6 @@ void gsvApplication::OnSaveAsImage (gsvDocument *Doc)
 	if (!Doc)
 		return;
 	list<string> l;
-	unsigned n = 0;
 	char const *mime;
 	map<string, GdkPixbufFormat*>::iterator i, end = m_SupportedPixbufFormats.end ();
 	for (i = m_SupportedPixbufFormats.begin (); i != end; i++)
