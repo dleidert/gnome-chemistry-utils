@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-01-03  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* libs/gcp/reaction-prop.cc: Fixed typo.
+
 2010-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/crystal/document.cc: make things compile with OpenBabel-2.1.x.
 

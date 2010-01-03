@@ -36,7 +36,7 @@ namespace gcp {
 TypeId ReactionPropType = NoType;
 
 char const *ReactionPropRoles[] = {
-	N_("Unkown"),
+	N_("Unknown"),
 	N_("Catalyst"),
 	N_("Reactant"),
 	N_("Product"),
