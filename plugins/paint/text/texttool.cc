@@ -25,6 +25,8 @@
 #include "config.h"
 #include "texttool.h"
 #include <gcp/application.h>
+#include <gcp/atom.h>
+#include <gcp/bond.h>
 #include <gcp/document.h>
 #include <gcp/fragment.h>
 #include <gcp/settings.h>
@@ -344,15 +346,24 @@ bool gcpTextTool::Unselect ()
 		char* initval = (char*) xmlNodeGetContent (m_InitNode);
 		char* endval = (char*) xmlNodeGetContent (m_CurNode);
 		gcp::Operation *pOp = NULL;
+		gcp::Fragment *fragment = dynamic_cast <gcp::Fragment *> (pObj);
+		map<Atom*, Bond*>::iterator i;
+		gcp::Bond *pBond = reinterpret_cast <gcp::Bond *> (fragment->GetAtom ()->GetFirstBond (i));
 		if ((initval && strlen (initval))) {
 			if (endval && strlen (endval)) {
 				pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 				pOp->AddNode (m_InitNode, 0);
 				pOp->AddNode (m_CurNode, 1);
+				if (pBond) {
+					pOp->AddObject (pBond, 0);
+					pOp->AddObject (pBond, 1);
+				}
 				m_CurNode = m_InitNode = NULL;
 			} else {
 				pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_DELETE_OPERATION);
 				pOp->AddNode (m_InitNode);
+				if (pBond)
+					pOp->AddObject (pBond);
 				m_InitNode = NULL;
 			}
 		} else if (endval && strlen (endval)) {

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-01-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/text/texttool.cc: fixed a clipboard issue.
+
 2010-01-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: improve portability.
 	* libs/gcp/fragment-atom.cc: fixed compilation warning.
