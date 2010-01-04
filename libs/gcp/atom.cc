@@ -2073,7 +2073,7 @@ void Atom::AddItem ()
 			markup = g_strdup_printf ("%d%s", abs (m_Charge), glyph);
 		else
 			markup = g_strdup (glyph);
-		gccv::Text *text = new gccv::Text (group, x, y, NULL);
+		gccv::Text *text = new gccv::Text (group, x, y, this);
 		text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
 		text->SetFillColor (0);
 		text->SetPadding (theme->GetPadding ());

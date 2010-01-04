@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-01-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fixed one more selection issue.
+	* libs/gcp/fragment.cc: don't loose the main symbol when deleting text
+	before it.
+	* plugins/paint/text/texttool.cc: fixed a clipboard issue.
+
 2010-01-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: enhance portability.
 	* plugins/paint/arrows/curvedarrowtool.cc: fixed test for bond to bond case.

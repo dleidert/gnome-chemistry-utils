@@ -178,16 +178,24 @@ bool Fragment::OnChanged (bool save)
 	Document* pDoc = (Document*) GetDocument ();
 	if (!pDoc)
 		return false;
+	int length = m_buf.length ();
 	m_buf = m_TextItem->GetText ();
+	if (length)
+		length -= m_buf.length ();
 	View* pView = pDoc->GetView ();
 	unsigned CurPos = m_TextItem->GetCursorPosition ();
 	AnalContent (m_StartSel, CurPos);
 	m_bLoading = true;
 	/*main atom management*/
-	if (m_EndSel > CurPos && m_BeginAtom >= m_EndSel) {
-		// if text was deleted before the atom, adjust its bounds
-		m_BeginAtom -= m_EndSel - CurPos;
-		m_EndAtom -= m_EndSel - CurPos;
+	if (m_EndAtom > m_BeginAtom) {
+		if (m_EndSel > CurPos && m_BeginAtom >= m_EndSel) {
+			// if text was deleted before the atom, adjust its bounds
+			m_BeginAtom -= m_EndSel - CurPos;
+			m_EndAtom -= m_EndSel - CurPos;
+		} else if (length > 0 && CurPos < m_BeginAtom + length) {
+			m_BeginAtom -= length;
+			m_EndAtom -= length;
+		}
 	}
 	if (m_buf.length () < m_EndAtom) { // needed if the symbol of part of it has been destroyed
 		m_Atom->SetZ (0);
@@ -269,8 +277,10 @@ bool Fragment::OnChanged (bool save)
 		}
 	} else if (m_EndSel <= m_BeginAtom) {
 		int delta = CurPos - m_EndSel;
-		m_BeginAtom += delta;
-		m_EndAtom += delta;
+		if (delta > 0) { // negative values have already been dealt with
+			m_BeginAtom += delta;
+			m_EndAtom += delta;
+		}
 	} else if ((m_EndAtom <= m_EndSel && m_EndAtom >= m_StartSel) ||
 		(m_BeginAtom <= m_EndSel && m_BeginAtom >= m_StartSel) ||
 		(m_BeginAtom + Residue::MaxSymbolLength >= CurPos)) {
