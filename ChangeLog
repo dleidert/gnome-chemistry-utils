@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-01-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/canvas.cc: fixed invalidated area.
+	* plugins/paint/arrows/curvedarrowtool.cc: fixed arrow end position in
+	bond to bond case.
+
 2010-01-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fixed one more selection issue.
 	* libs/gcp/fragment.cc: don't loose the main symbol when deleting text

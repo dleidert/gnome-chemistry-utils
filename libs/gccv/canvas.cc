@@ -186,7 +186,7 @@ void Canvas::Invalidate (double x0, double y0, double x1, double y1)
 		if (y1 < 0.)
 			y1 = 0.;
 	}
-	gtk_widget_queue_draw_area (m_Widget, (int) floor (x0 * m_Zoom), (int) floor (y0 * m_Zoom), (int) ceil (x1 * m_Zoom), (int) ceil (y1 * m_Zoom));
+	gtk_widget_queue_draw_area (m_Widget, (int) floor (x0 * m_Zoom), (int) floor (y0 * m_Zoom), (int) (ceil (x1 * m_Zoom) - floor (x0 * m_Zoom)), (int) (ceil (y1 * m_Zoom) - floor (y0 * m_Zoom)));
 }
 
 void Canvas::SetBackgroundColor (GOColor color)
