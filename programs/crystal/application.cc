@@ -346,7 +346,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 					return true;
 			}
 		}
-		ContentType ctype = Load (filename, mime_type, pDoc);
+		ContentType ctype = Load (filename, mime_type, Doc);
 		if (ctype == ContentTypeCrystal) {
 			Doc->Loaded ();
 			Doc->SetReadOnly (true);

@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2010-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: make build success with GNU gold ld. [#28479]
+	* mozilla-plugin/Makefile.am: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/crystal/application.cc: pass the valid document to the loader
+	(fixes CIF files loading).
+	* programs/paint/Makefile.am: make build success with GNU gold ld..
+	* programs/spectra/Makefile.am: ditto.
+	* programs/table/Makefile.am: ditto.
+	* tests/Makefile.am: ditto.
+
 2010-01-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/canvas.cc: fixed invalidated area.
 	* plugins/paint/arrows/curvedarrowtool.cc: fixed arrow end position in

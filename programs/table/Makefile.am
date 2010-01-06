@@ -5,7 +5,10 @@ CLEANFILES = $(desktop_DATA) gchemtable.desktop
 MAINTAINERCLEANFILES = Makefile.in gchemtable.desktop.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
-LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la\
+	$(goffice_LIBS) \
+	$(gsf_LIBS) \
+	$(gtk_LIBS)
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \

@@ -1,3 +1,7 @@
+Version 0.11.5
+	Other:
+		* Fixed build when using GNU gold ld. [#28479]
+
 Version 0.11.4
 	GChemCalc
 		* Fixed interpretation of strings such as Mn and Rn. [#28192]
