@@ -10,8 +10,17 @@ CLEANFILES = \
 MAINTAINERCLEANFILES = Makefile.in gcrystal.desktop.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
-LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+		$(glade_LIBS) \
+		$(goffice_LIBS) \
+		$(gsf_LIBS) \
+		$(gtkglext_LIBS) \
+		$(openbabel_LIBS) \
+		$(gnome_vfs_LIBS) \
+
 if GCU_NEEDS_GCONF
+LIBS +=  \
+		$(xml_LIBS)
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
@@ -23,6 +32,7 @@ else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
+		$(gsf_LIBS) \
 		$(gtkglext_CFLAGS) \
 		$(openbabel_CFLAGS) \
 		$(GCU_CFLAGS)

@@ -1,3 +1,10 @@
+Version 0.10.11
+	GChemPaint:
+		* Fixed a clipboard issue.
+	Other:
+		* Fixed build when using GNU gold ld. [#28479]
+		* Improved portability.
+
 Version 0.10.10
 	GChemPaint:
 		* Don't crash after searching for cycles for a molecule containing

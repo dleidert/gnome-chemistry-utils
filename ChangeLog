@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2010-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: make build success with GNU gold ld. [#28479]
+	* mozilla-plugin/Makefile.am: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/table/Makefile.am: ditto.
+	* tests/Makefile.am: ditto.
+
 2010-01-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/text/texttool.cc: fixed a clipboard issue.
 

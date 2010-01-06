@@ -5,8 +5,13 @@ CLEANFILES = $(desktop_DATA) gspectrum.desktop
 MAINTAINERCLEANFILES = Makefile.in gspectrum.desktop.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
-LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+	$(goffice_LIBS) \
+	$(gsf_LIBS) \
+	$(gtk_LIBS)
 if GCU_NEEDS_GCONF
+LIBS += \
+		$(gnome_vfs_LIBS)
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
