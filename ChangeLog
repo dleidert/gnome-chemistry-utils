@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-01-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cif/cif.cc: fix some crashes on import.
+
 2010-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: make build success with GNU gold ld. [#28479]
 	* mozilla-plugin/Makefile.am: ditto.

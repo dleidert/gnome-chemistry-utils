@@ -222,6 +222,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					continue; // FIXME: this should not happen
 				if (*cur == 0) {
 					in_loop = false;
+					waiting_value = false;
 				} else {
 					while (*cur) {
 						while (*cur == ' ')
@@ -270,9 +271,13 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 										break;
 									}
 									case CIF_ATOM_SITE_SYMBOL: {
-										CIFAtomType t = AtomTypes[val];
-										atom->SetProperty (GCU_PROP_ATOM_Z, t.elt.c_str ());
-										atom->SetProperty (GCU_PROP_ATOM_CHARGE, t.charge.c_str ());
+										if (AtomTypes.empty ())
+											atom->SetProperty (GCU_PROP_ATOM_SYMBOL, val.c_str ());
+										else {
+											CIFAtomType t = AtomTypes[val];
+											atom->SetProperty (GCU_PROP_ATOM_Z, t.elt.c_str ());
+											atom->SetProperty (GCU_PROP_ATOM_CHARGE, t.charge.c_str ());
+										}
 										break;
 									}
 									default:
@@ -381,11 +386,13 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 			continue;
 		}
 	}
-	// check ymmetry
+	// check symmetry
 	if (!group->IsValid ()) {
-		GtkWidget *w = gtk_message_dialog_new (doc->GetGtkWindow (), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Invalid symmetry group."));
-		g_signal_connect (G_OBJECT (w), "response", G_CALLBACK (gtk_widget_destroy), NULL);
+		if (group->GetTransformsNumber ()) {
+			GtkWidget *w = gtk_message_dialog_new (doc->GetGtkWindow (), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Invalid symmetry group."));
+			g_signal_connect (G_OBJECT (w), "response", G_CALLBACK (gtk_widget_destroy), NULL);
 		gtk_widget_show_all (w);
+		}
 	} else {
 		SpaceGroup const *sp = SpaceGroup::Find (group);
 		if (sp)
