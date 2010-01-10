@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * chemistry/document.h 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,7 @@
 
 #include <gcu/object.h>
 #include <gcu/dialog-owner.h>
+#include <gcu/loader-error.h>
 #include <gcu/macros.h>
 #include <string>
 #include <set>
@@ -40,6 +41,14 @@ class Application;
 class Dialog;
 class Molecule;
 class Residue;
+
+class PendingTarget
+{
+public:
+	Object *parent;
+	Object *owner;
+	Object **target;
+};
 
 /*!\class Document gcu/document.h
 This class is the base document class.
@@ -133,6 +142,26 @@ but a different meaning from the standard residue.
 */
 	virtual Residue const *GetResidue (char const *symbol, bool *ambiguous = NULL);
 
+/*!
+@param id the id of the target Object.
+@param target where to store the found object.
+@param parent the ancestor of the search object or NULL.
+@param owner the owner of the reference to the search object.
+
+Search the descendant of \a parent, or of the whole document if \a parent is not set
+whose Id is \id. I not found, the parameters are stored for post loading processing
+using gcu::Document::Loaded(), and \a target is set to NULL.
+if \a owner is not NULL, post processing will call its OnLoaded() method.
+@return true if the target object was found.
+*/
+	bool SetTarget (char const *id, Object **target, Object *parent, Object *owner = NULL) throw (std::runtime_error);
+
+/*!
+Processes pending references resulting from failed calls to SetTarget().
+@return true if any reference was set.
+*/
+	virtual bool Loaded () throw (LoaderError);
+
 private:
 
 /*!
@@ -148,6 +177,7 @@ GetNewId returns the translated id
 
 private:
 	std::map <std::string, std::string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
+	std::map <std::string, std::list <PendingTarget> > m_PendingTable;//used to set pointers to objects when loading does not occur in the ideal order
 
 protected:
 /*!

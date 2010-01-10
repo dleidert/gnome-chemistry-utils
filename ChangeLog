@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2010-01-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: allow forward references when loading. [#28515]
+	* libs/gcu/Makefile.am: ditto.
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/document.cc: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/loader-error.cc: ditto.
+	* libs/gcu/loader-error.h: ditto.
+
 2010-01-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: make build success with GNU gold ld. [#28479]
 	* mozilla-plugin/Makefile.am: ditto.

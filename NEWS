@@ -1,9 +1,10 @@
 Version 0.10.11
 	GChemPaint:
 		* Fixed a clipboard issue.
+		* Survive forward references to atoms. [#28515]
 	Other:
 		* Fixed build when using GNU gold ld. [#28479]
-		* Improved portability.
+		* Fixed some portabilitiy issues.
 
 Version 0.10.10
 	GChemPaint:

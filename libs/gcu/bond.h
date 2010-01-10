@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean BrÃ©fort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -207,6 +207,11 @@ To sucess, this needs that the new atom can accept all the bonds from the old on
 @return true on success.
 */
 	bool ReplaceAtom (Atom* oldAtom, Atom* newAtom);
+
+/*!
+This method should be called when a bond has been fully loaded.
+*/
+	void OnLoaded ();
 
 protected:
 /*!

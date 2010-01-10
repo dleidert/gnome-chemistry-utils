@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,6 +26,7 @@
 #include "bond.h"
 #include "atom.h"
 #include "objprops.h"
+#include "document.h"
 #include <cmath>
 
 namespace gcu
@@ -181,12 +182,10 @@ bool Bond::SetProperty (unsigned property, char const *value)
 		break;
 	}
 	case GCU_PROP_BOND_BEGIN: {
-		char *tmp = g_strdup_printf ("a%s", value);
-		Object *pObject = GetParent ()->GetDescendant (tmp);
-		g_free (tmp);
-		if (!pObject || (!dynamic_cast <Atom *> (pObject)))
+		char *tmp = (*value == 'a')? g_strdup (value): g_strdup_printf ("a%s", value);
+		if (!GetDocument ()->SetTarget (tmp, reinterpret_cast <Object **> (&m_Begin), GetParent (), this))
 			return false;
-		m_Begin = (Atom*) pObject;
+		g_free (tmp);
 		if (m_End) {
 			m_Begin->AddBond (this);
 			m_End->AddBond (this);
@@ -194,12 +193,10 @@ bool Bond::SetProperty (unsigned property, char const *value)
 		break;
 	}
 	case GCU_PROP_BOND_END: {
-		char *tmp = g_strdup_printf ("a%s", value);
-		Object *pObject = GetParent ()->GetDescendant (tmp);
-		g_free (tmp);
-		if (!pObject || (!dynamic_cast <Atom *> (pObject)))
+		char *tmp = (*value == 'a')? g_strdup (value): g_strdup_printf ("a%s", value);
+		if (!GetDocument ()->SetTarget (tmp, reinterpret_cast <Object **> (&m_End), GetParent (), this))
 			return false;
-		m_End = (Atom*) pObject;
+		g_free (tmp);
 		if (m_Begin) {
 			m_Begin->AddBond (this);
 			m_End->AddBond (this);
@@ -299,6 +296,14 @@ bool Bond::ReplaceAtom (Atom* oldAtom, Atom* newAtom)
 			m_Begin->AddBond (this);
 	}
 	return true;
+}
+
+void Bond::OnLoaded ()
+{
+	if (m_Begin && m_End) {
+		m_Begin->AddBond (this);
+		m_End->AddBond (this);
+	}
 }
 
 }	//	namespace gcu
