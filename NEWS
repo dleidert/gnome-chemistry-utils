@@ -1,4 +1,6 @@
 Version 0.11.5
+	GChemPaint:
+		* Survive forward references to atoms. [#28515]
 	Other:
 		* Fixed build when using GNU gold ld. [#28479]
 

@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-01-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: allow for forward references to atoms in cdx
+	files. [#28515]
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/document.cc: ditto.
+	* libs/gcu/document.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: added missing break.
+
 2010-01-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cif/cif.cc: fix some crashes on import.
 

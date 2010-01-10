@@ -196,6 +196,7 @@ void gcpCurvedArrowTool::OnDrag ()
 						BondToAdjAtom ();
 					else
 						BondToAtom ();
+					break;
 				}
 				default:
 					m_Target = NULL;

@@ -4,7 +4,7 @@
  * GChemPaint library
  * application.cc 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -679,6 +679,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			case ContentTypeSpectrum:
 				break;
 			default: {
+				pDoc->Loaded ();
 				double l = pDoc->GetMedianBondLength ();
 				if (l > 0.) {
 					double r = pDoc->GetBondLength () / l;

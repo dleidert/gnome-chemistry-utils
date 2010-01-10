@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/document.cc
  *
- * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -75,8 +75,9 @@ gchar* Document::GetNewId (gchar* id, bool Cache)
 	g_free (Id);
 	g_free (key);
 	if (m_PendingTable.size () > 0) {
-		std::map <std::string, std::pair <Object**, Object*> >::iterator it, end = m_PendingTable.end ();
+		std::map <std::string, list <PendingTarget> >::iterator it, end = m_PendingTable.end ();
 		if ((it = m_PendingTable.find (id)) != end) {
+			// Hmm, this might be unsecure if several imported objects have the same Id
 			m_PendingTable[buf] = (*it).second;
 			m_PendingTable.erase (it);
 		}
@@ -94,31 +95,43 @@ Residue const *Document::GetResidue (char const *symbol, bool *ambiguous)
 	return Residue::GetResidue (symbol, ambiguous);
 }
 
-bool Document::SetTarget (char const *id, Object **target, Object *parent) throw (std::runtime_error)
+bool Document::SetTarget (char const *id, Object **target, Object *parent, Object *owner) throw (std::runtime_error)
 {
 	if (target == NULL)
 	    throw std::runtime_error ("Can't set a NULL target.");
 	*target = parent->GetDescendant (id);
 	if (*target)
 		return true;
-	m_PendingTable[id] = std::pair <Object**, Object*> (target, parent);
+	PendingTarget pt;
+	pt.target = target;
+	pt.parent = parent;
+	pt.owner = owner;
+	m_PendingTable[id].push_back (pt);
 	return false;
 }
 
 bool Document::Loaded () throw (LoaderError)
 {
 	unsigned count = 0;
-	std::map <std::string, std::pair <Object**, Object*> >::iterator i, end = m_PendingTable.end ();
+	std::map <std::string, list <PendingTarget> >::iterator i, end = m_PendingTable.end ();
 	for (i = m_PendingTable.begin (); i != end; i++) {
 		std::string id = (*i).first;
-		if ((*(*i).second.first = (*i).second.second->GetDescendant (id.c_str ())) == NULL) {
+		std::list <PendingTarget> &l = (*i).second;
+		std::list <PendingTarget>::iterator j = l.begin (), jend = l.end ();
+		Object *obj = (*j).parent->GetDescendant (id.c_str ());
+		if (obj == NULL) {
 			m_PendingTable.clear ();
 			std::ostringstream str;
 			// Note to translators: the two strings are concatenated with the missing id between them.
 			str << _("The input contains a reference to object \"") << id << _("\" but no object with this Id is described.");
 			throw LoaderError (str.str ());
-		} else
+		} else while (j != jend) {
+			*(*j).target = obj;
+			if ((*j).owner)
+				(*j).owner->OnLoaded ();
 			count++;
+			j++;
+		}
 	}
 	m_PendingTable.clear ();
 	return count > 0;
