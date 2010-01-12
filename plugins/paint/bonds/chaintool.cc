@@ -143,7 +143,7 @@ void gcpChainTool::OnDrag ()
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	m_BondLength = pDoc->GetBondLength ();
 	gccv::Canvas *canvas = m_pView->GetCanvas ();
-	gccv::Item *item = canvas->GetItemAt (x1, y1);
+	gccv::Item *item = canvas->GetItemAt (m_x, m_y);
 	Object* pObject = NULL;
 	if (item)
 		pObject = dynamic_cast <Object *> (item->GetClient ());

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-01-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/bonds/chaintool.cc: fixed OnDrag().
+
 2010-01-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: catch LoaderError and display a message box
 	instead of crashing.
