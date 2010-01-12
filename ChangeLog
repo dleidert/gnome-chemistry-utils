@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-01-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: catch LoaderError and display a message box
+	instead of crashing.
+	* programs/3d/Makefile.am: fixed typos.
+	* programs/calc/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+
 2010-01-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: allow forward references when loading. [#28515]
 	* libs/gcu/Makefile.am: ditto.

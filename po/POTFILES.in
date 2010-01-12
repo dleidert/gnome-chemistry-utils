@@ -61,6 +61,7 @@ libs/gcu/application.cc
 libs/gcu/crystaldoc.cc
 libs/gcu/crystalview.cc
 libs/gcu/dialog.cc
+libs/gcu/document.cc
 libs/gcu/element.cc
 libs/gcu/filechooser.cc
 libs/gcu/formula.cc

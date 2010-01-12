@@ -48,6 +48,7 @@
 #include "zoomdlg.h"
 #include <gcu/filechooser.h>
 #include <gcu/loader.h>
+#include <gcu/loader-error.h>
 #include <goffice/goffice.h>
 #ifndef GOFFICE_HAS_GLOBAL_HEADER
 #   include <goffice/utils/go-file.h>
@@ -635,7 +636,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			}
 		}
 		g_object_unref (file);
-	} else  { //loading
+	} else  try { //loading
 		file = g_file_new_for_uri (filename);
 		err = g_file_query_exists (file, NULL);
 		g_object_unref (file);
@@ -681,6 +682,20 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			else
 				OpenWithBabel (filename2, mime_type, pDoc);
 		}
+	}
+	catch (LoaderError &e) {
+		pDoc->Clear ();
+		char *unescaped = g_uri_unescape_string (filename, NULL);
+		string mess = _("Error in ");
+		mess += unescaped;
+		// Note to translator: add a space if needed before the semicolon
+		mess += _(":\n");
+		mess += e.what ();
+		GtkWidget *message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess.c_str (), NULL, NULL);
+		g_free (unescaped);
+		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
+		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
+		gtk_widget_show (message);
 	}
 	return false;
 }

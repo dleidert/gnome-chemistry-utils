@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-01-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: add missing file.
+	* fr.po: fix missing translations.
+
 2009-11-14  Matthias Mailänder
 	* de.po: Updated German translation.
 

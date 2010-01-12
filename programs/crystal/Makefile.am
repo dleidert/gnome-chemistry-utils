@@ -15,11 +15,11 @@ LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(goffice_LIBS) \
 		$(gsf_LIBS) \
 		$(gtkglext_LIBS) \
-		$(openbabel_LIBS) \
-		$(gnome_vfs_LIBS) \
+		$(openbabel_LIBS)
 
 if GCU_NEEDS_GCONF
 LIBS +=  \
+		$(gnome_vfs_LIBS) \
 		$(xml_LIBS)
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \

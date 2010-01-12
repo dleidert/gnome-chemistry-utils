@@ -9,7 +9,8 @@ LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(glade_LIBS) \
 		$(goffice_LIBS) \
 		$(gsf_LIBS) \
-		$(gtk_LIBS) \
+		$(gtk_LIBS)
+
 if GCU_NEEDS_GCONF
 LIBS +=  \
 		$(gnome_vfs_LIBS)
