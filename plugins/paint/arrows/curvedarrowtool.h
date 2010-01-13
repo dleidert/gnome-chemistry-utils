@@ -55,6 +55,8 @@ private:
 	void BondToAdjAtom ();
 	void BondToAdjBond ();
 	void BondToAtom ();
+	void ElectronToAdjBond ();
+	void ElectronToAtom ();
 
 private:
 	bool m_Full; // if false use half heads

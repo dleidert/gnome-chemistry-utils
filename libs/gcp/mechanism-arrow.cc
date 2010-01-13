@@ -27,6 +27,7 @@
 #include <gcp/atom.h>
 #include <gcp/bond.h>
 #include <gcp/document.h>
+#include <gcp/electron.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -225,15 +226,46 @@ void MechanismArrow::AddItem ()
 		y1 = y0 + m_CPy1 * theme->GetZoomFactor ();
 		break;
 	}
-	case gcu::AtomType:
+	case gcu::AtomType: {
+		gcp::Atom *atom = static_cast <gcp::Atom *> (m_Source);
+		a = atan2 (-m_CPy1, m_CPx1) * 180. / M_PI;
+		atom->GetPosition (a, x0, y0);
+		// convert to canvas coordinates
+		x0 *= theme->GetZoomFactor ();
+		y0 *= theme->GetZoomFactor ();
+		x1 = x0 + m_CPx1 * theme->GetZoomFactor ();
+		y1 = y0 + m_CPy1 * theme->GetZoomFactor ();
 		break;
-	default:
+	}
+	default: {
+		if (m_Source->GetType () == ElectronType) {
+		}
+		// otherwise we should throw an exception: TODO
 		break;
+	}
 	}
 	id = m_Target->GetType ();
 	switch (id) {
-	case gcu::BondType:
+	case gcu::BondType: {
+		gcp::Bond *bond = static_cast <gcp::Bond *> (m_Target);
+		gcp::Atom *start = static_cast <gcp::Atom *> (bond->GetAtom (0)),
+				  *end = static_cast <gcp::Atom *> (bond->GetAtom (1));
+		start->GetCoords (&x2, &y2);
+		end->GetCoords (&x3, &y3);
+		// convert to canvas coordinates
+		x2 *= theme->GetZoomFactor ();
+		y2 *= theme->GetZoomFactor ();
+		x3 *= theme->GetZoomFactor ();
+		y3 *= theme->GetZoomFactor ();
+		x3 = (x2 + x3) / 2.;
+		y3 = (y2 + y3) / 2.;
+		l = hypot (m_CPx2, m_CPy2);
+		x3 += m_CPx2 / l * theme->GetPadding ();
+		y3 += m_CPy2 / l * theme->GetPadding ();
+		x2 = x3 + m_CPx2 * theme->GetZoomFactor ();
+		y2 = y3 + m_CPy2 * theme->GetZoomFactor ();
 		break;
+	}
 	case gcu::AtomType: {
 		gcp::Atom *atom = static_cast <gcp::Atom *> (m_Target);
 		a = atan2 (-m_CPy2, m_CPx2) * 180. / M_PI;

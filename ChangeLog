@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-01-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: implement AddItem when the source is an atom.
+	* plugins/paint/arrows/curvedarrowtool.cc: fixed bond to bond and made some
+	work on atom to adjacent bond. 
+	* plugins/paint/arrows/curvedarrowtool.h: add new unimplemented methods.
+
 2010-01-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/chaintool.cc: fixed OnDrag().
 
