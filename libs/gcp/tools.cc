@@ -60,10 +60,10 @@ Tools::Tools (Application *App):
 	m_ButtonsBox = GTK_BOX (GetWidget ("tools-buttons"));
 	m_Book = GTK_NOTEBOOK (GetWidget ("tools-book"));
 	GtkWidget *box = GetWidget ("element-box");
-	GtkWidget *w = gtk_combo_periodic_new ();
-	m_Mendeleiev = reinterpret_cast <GtkComboPeriodic *> (w);
+	GtkWidget *w = gcu_combo_periodic_new ();
+	m_Mendeleiev = reinterpret_cast <GcuComboPeriodic *> (w);
 	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-	gtk_combo_periodic_set_element (GTK_COMBO_PERIODIC (w), pApp->GetCurZ ());
+	gcu_combo_periodic_set_element (GCU_COMBO_PERIODIC (w), pApp->GetCurZ ());
 	g_signal_connect_swapped (G_OBJECT (w), "changed", G_CALLBACK (element_changed_cb), this);
 	w = GetWidget ("help-btn");
 	g_signal_connect_swapped (G_OBJECT (w), "clicked", G_CALLBACK (help_cb), this);
@@ -166,7 +166,7 @@ void Tools::OnHelp ()
 
 void Tools::SetElement (int Z)
 {
-	gtk_combo_periodic_set_element (m_Mendeleiev, Z);
+	gcu_combo_periodic_set_element (m_Mendeleiev, Z);
 	OnElementChanged (Z);
 }
 

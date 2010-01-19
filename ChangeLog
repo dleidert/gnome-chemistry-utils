@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-01-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all files: renamed all widgets from Gtk* to Gcu*.
+
 2010-01-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: implement AddItem when the source is an atom.
 	* plugins/paint/arrows/curvedarrowtool.cc: fixed bond to bond and made some

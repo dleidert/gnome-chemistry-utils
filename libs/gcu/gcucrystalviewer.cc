@@ -1,8 +1,8 @@
 /* 
  * Gnome Chemisty Utils
- * gtkcrystalviewer.cc 
+ * gcucrystalviewer.cc 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -21,14 +21,14 @@
  */
 
 #include "config.h"
-#include "gtkcrystalviewer.h"
+#include "gcucrystalviewer.h"
 #include "crystalview.h"
 #include "crystaldoc.h"
 
 extern "C"
 {
 
-struct _GtkCrystalViewer
+struct _GcuCrystalViewer
 {
 	GtkBin bin;
 
@@ -37,13 +37,13 @@ struct _GtkCrystalViewer
 	guint glList;
 };
 
-struct _GtkCrystalViewerClass
+struct _GcuCrystalViewerClass
 {
 	GtkBinClass parent_class;
 };
 
 
-static void on_size (GtkCrystalViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer user_data)
+static void on_size (GcuCrystalViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer user_data)
 {
 	GtkWidget *widget = gtk_bin_get_child (GTK_BIN (w));
 	if (widget && gtk_widget_get_visible (widget))
@@ -52,12 +52,12 @@ static void on_size (GtkCrystalViewer* w, GtkAllocation *allocation, G_GNUC_UNUS
 
 static GtkBinClass *parent_class = NULL;
 
-static void gtk_crystal_viewer_class_init (GtkCrystalViewerClass  *klass);
-static void gtk_crystal_viewer_init (GtkCrystalViewer *viewer);
-static void gtk_crystal_viewer_finalize (GObject* object);
+static void gcu_crystal_viewer_class_init (GcuCrystalViewerClass  *klass);
+static void gcu_crystal_viewer_init (GcuCrystalViewer *viewer);
+static void gcu_crystal_viewer_finalize (GObject* object);
 
 GType
-gtk_crystal_viewer_get_type (void)
+gcu_crystal_viewer_get_type (void)
 {
 	static GType crystal_viewer_type = 0;
   
@@ -65,39 +65,39 @@ gtk_crystal_viewer_get_type (void)
 	{
 		static const GTypeInfo crystal_viewer_info =
 		{
-			sizeof (GtkCrystalViewerClass),
+			sizeof (GcuCrystalViewerClass),
 			NULL,           /* base_init */
 			NULL,           /* base_finalize */
-			(GClassInitFunc) gtk_crystal_viewer_class_init,
+			(GClassInitFunc) gcu_crystal_viewer_class_init,
 			NULL,           /* class_finalize */
 			NULL,           /* class_data */
-			sizeof (GtkCrystalViewer),
+			sizeof (GcuCrystalViewer),
 			0,              /* n_preallocs */
-			(GInstanceInitFunc) gtk_crystal_viewer_init,
+			(GInstanceInitFunc) gcu_crystal_viewer_init,
 			NULL
 		};
 
-		crystal_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GtkCrystalViewer", &crystal_viewer_info, (GTypeFlags)0);
+		crystal_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GcuCrystalViewer", &crystal_viewer_info, (GTypeFlags)0);
 	}
   
 	return crystal_viewer_type;
 }
 
-void gtk_crystal_viewer_class_init (GtkCrystalViewerClass  *klass)
+void gcu_crystal_viewer_class_init (GcuCrystalViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
 	
-	gobject_class->finalize = gtk_crystal_viewer_finalize;
+	gobject_class->finalize = gcu_crystal_viewer_finalize;
 }
 
-void gtk_crystal_viewer_init (G_GNUC_UNUSED GtkCrystalViewer *viewer)
+void gcu_crystal_viewer_init (G_GNUC_UNUSED GcuCrystalViewer *viewer)
 {
 }
 
-GtkWidget* gtk_crystal_viewer_new (xmlNodePtr node)
+GtkWidget* gcu_crystal_viewer_new (xmlNodePtr node)
 {
-	GtkCrystalViewer* viewer = (GtkCrystalViewer*) g_object_new (GTK_TYPE_CRYSTAL_VIEWER, NULL);
+	GcuCrystalViewer* viewer = (GcuCrystalViewer*) g_object_new (GCU_TYPE_CRYSTAL_VIEWER, NULL);
 	viewer->pDoc = new gcu::CrystalDoc (NULL);
 	viewer->pView = viewer->pDoc->GetView();
 	GtkWidget* w = viewer->pView->GetWidget ();
@@ -109,23 +109,23 @@ GtkWidget* gtk_crystal_viewer_new (xmlNodePtr node)
 	return GTK_WIDGET (viewer);
 }
 
-void gtk_crystal_viewer_finalize (GObject* object)
+void gcu_crystal_viewer_finalize (GObject* object)
 {
 	((GObjectClass*) parent_class)->finalize (object);
-	GtkCrystalViewer* viewer = GTK_CRYSTAL_VIEWER (object);
+	GcuCrystalViewer* viewer = GCU_CRYSTAL_VIEWER (object);
 	delete viewer->pView;
 	delete viewer->pDoc;
 }
 
-void gtk_crystal_viewer_set_data (GtkCrystalViewer * viewer, xmlNodePtr node)
+void gcu_crystal_viewer_set_data (GcuCrystalViewer * viewer, xmlNodePtr node)
 {
-	g_return_if_fail (GTK_IS_CRYSTAL_VIEWER (viewer));
+	g_return_if_fail (GCU_IS_CRYSTAL_VIEWER (viewer));
 	g_return_if_fail (node);
 	viewer->pDoc->ParseXMLTree (node);
 	viewer->pView->Update ();
 }
 
-GdkPixbuf *gtk_crystal_viewer_new_pixbuf (GtkCrystalViewer * viewer, guint width, guint height)
+GdkPixbuf *gcu_crystal_viewer_new_pixbuf (GcuCrystalViewer * viewer, guint width, guint height)
 {
 	return viewer->pDoc->GetView ()->BuildPixbuf (width, height);
 }

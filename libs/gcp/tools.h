@@ -26,7 +26,7 @@
 #define GCHEMPAINT_TOOLS_H
 
 #include <gcu/dialog.h>
-#include <gcu/gtkcomboperiodic.h>
+#include <gcu/gcucomboperiodic.h>
 #include <map>
 
 /*!\file*/
@@ -113,7 +113,7 @@ private:
 	std::map<Tool*, int> m_Pages;
 	GtkNotebook *m_Book;
 	Tool *m_Tool;
-	GtkComboPeriodic *m_Mendeleiev;
+	GcuComboPeriodic *m_Mendeleiev;
 };
 
 }	// namespace gcp

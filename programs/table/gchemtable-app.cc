@@ -147,7 +147,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 	app->OnAbout ();
 }
 
-static void on_changed (G_GNUC_UNUSED GtkPeriodic* periodic, guint Z, GChemTableApp *app)
+static void on_changed (G_GNUC_UNUSED GcuPeriodic* periodic, guint Z, GChemTableApp *app)
 {
 	app->OnElement (Z);
 }
@@ -314,25 +314,25 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
-	periodic = GTK_PERIODIC (gtk_periodic_new());
+	periodic = GCU_PERIODIC (gcu_periodic_new());
 	g_object_set(G_OBJECT(periodic),
-			"color-style", GTK_PERIODIC_COLOR_DEFAULT,
+			"color-style", GCU_PERIODIC_COLOR_DEFAULT,
 			"can_unselect", true,
 			NULL);
 	g_signal_connect(G_OBJECT(periodic), "element_changed", (GCallback)on_changed, this);
-	gtk_box_pack_end (GTK_BOX(vbox), GTK_WIDGET(GTK_PERIODIC(periodic)), true, true, 0);
+	gtk_box_pack_end (GTK_BOX(vbox), GTK_WIDGET(GCU_PERIODIC(periodic)), true, true, 0);
 	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(vbox));
 	gtk_widget_show_all(window);
 	for (int i = 0; i < 118; i++)
 		Pages[i] = NULL;
 	
 	gcu::Element::LoadAllData ();
-	colorschemes["none"] = GTK_PERIODIC_COLOR_NONE;
-	colorschemes["default"] = GTK_PERIODIC_COLOR_DEFAULT;
+	colorschemes["none"] = GCU_PERIODIC_COLOR_NONE;
+	colorschemes["default"] = GCU_PERIODIC_COLOR_DEFAULT;
 
 	UIBuilder *builder = new UIBuilder (UIDIR"/state-thermometer.ui", GETTEXT_PACKAGE);
 	GtkWidget *thermometer = builder->GetRefdWidget ("state-thermometer");
-	colorschemes["state"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_state_color, thermometer, this);
+	colorschemes["state"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_state_color, thermometer, this);
 	gtk_widget_show_all (thermometer);
 	thermometer = builder->GetWidget ("temperature");
 	g_signal_connect (G_OBJECT (thermometer), "value-changed", G_CALLBACK (on_changed_temp), this);
@@ -341,7 +341,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 
 	builder = new UIBuilder (UIDIR"/family.ui", GETTEXT_PACKAGE);
 	GtkWidget *familywidget = builder->GetRefdWidget ("family-legend");
-	colorschemes["family"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_family_color, familywidget, this);	
+	colorschemes["family"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_family_color, familywidget, this);	
 	gtk_widget_show_all (familywidget);
 	familywidget = builder->GetWidget ("family-box");
 	gtk_combo_box_set_active (GTK_COMBO_BOX(familywidget), 0);
@@ -351,17 +351,17 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 
 	builder = new UIBuilder (UIDIR"/acidity.ui", GETTEXT_PACKAGE);
 	GtkWidget *aciditylegend = builder->GetRefdWidget ("acidity-legend");
-	colorschemes["acidity"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_acidity_color, aciditylegend, this);
+	colorschemes["acidity"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_acidity_color, aciditylegend, this);
 	gtk_widget_show_all (aciditylegend);
 	delete builder;
 
-	colorschemes["electroneg"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_electroneg_color, NULL, this);
+	colorschemes["electroneg"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_electroneg_color, NULL, this);
 
-	colorschemes["radius"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_radius_color, NULL, this);
+	colorschemes["radius"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_radius_color, NULL, this);
 
 	builder = new UIBuilder (UIDIR"/block.ui", GETTEXT_PACKAGE);
 	GtkWidget *blocklegend = builder->GetRefdWidget ("block-legend");
-	colorschemes["block"] = gtk_periodic_add_color_scheme (periodic, (GtkPeriodicColorFunc) get_block_color, blocklegend, this);
+	colorschemes["block"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_block_color, blocklegend, this);
 	gtk_widget_show_all (blocklegend);
 	delete builder;
 	gct_data_init ();
@@ -424,7 +424,7 @@ void GChemTableApp::OnElement (int Z)
 void GChemTableApp::ClearPage (int Z)
 {
 	Pages[Z - 1] = NULL;
-	gtk_periodic_set_element (periodic, 0);
+	gcu_periodic_set_element (periodic, 0);
 	if (Z == m_CurZ) {
 		SetCurZ (0);
 	}
@@ -433,7 +433,7 @@ void GChemTableApp::ClearPage (int Z)
 void GChemTableApp::SetCurZ (int Z)
 {
 	if (Z != m_CurZ) {
-		gtk_periodic_set_element (periodic, Z);
+		gcu_periodic_set_element (periodic, Z);
 		m_CurZ = Z;
 	}
 }
@@ -446,13 +446,13 @@ void GChemTableApp::SetColorScheme (char const *name)
 void GChemTableApp::SetTemperature (double T)
 {
 	temperature = T;
-	gtk_periodic_set_colors (periodic);
+	gcu_periodic_set_colors (periodic);
 }
 
 void GChemTableApp::SetFamily (int family_N)
 {
 	family = (family_N)? 1 << (family_N - 1): -1;
-	gtk_periodic_set_colors (periodic);
+	gcu_periodic_set_colors (periodic);
 }
 
 void GChemTableApp::GetStateColor (int Z, GdkColor *color)

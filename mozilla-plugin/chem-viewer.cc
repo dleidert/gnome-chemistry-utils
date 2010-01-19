@@ -21,9 +21,9 @@
 
 #include "config.h"
 #include <gcu/element.h>
-#include <gcu/gtkchem3dviewer.h>
-#include <gcu/gtkcrystalviewer.h>
-#include <gcu/gtkspectrumviewer.h>
+#include <gcu/gcuchem3dviewer.h>
+#include <gcu/gcucrystalviewer.h>
+#include <gcu/gcuspectrumviewer.h>
 #include <gcu/chem3ddoc.h>
 #include <gcp/application.h>
 #include <gcp/document.h>
@@ -132,7 +132,7 @@ void ChemComp::SetWindow (XID xid)
 		XMapWindow (GDK_WINDOW_XDISPLAY (window),
 			GDK_WINDOW_XID (window));
 		if (MimeType == "application/x-gcrystal" || MimeType == "chemical/x-cif")
-			Viewer = gtk_crystal_viewer_new (NULL);
+			Viewer = gcu_crystal_viewer_new (NULL);
 		else if (MimeType == "application/x-gchempaint" || MimeType == "chemical/x-cdx" || MimeType == "chemical/x-cdxml") {
 			if (!gcpApp)
 				gcpApp = new MozPaintApp ();
@@ -140,9 +140,9 @@ void ChemComp::SetWindow (XID xid)
 			Doc->SetEditable (false);
 			Viewer = Doc->GetView ()->CreateNewWidget ();
 		} else 	if (MimeType == "chemical/x-jcamp-dx")
-			Viewer = gtk_spectrum_viewer_new (NULL);
+			Viewer = gcu_spectrum_viewer_new (NULL);
 		else
-			Viewer = gtk_chem3d_viewer_new (NULL);
+			Viewer = gcu_chem3d_viewer_new (NULL);
 		gtk_container_add (GTK_CONTAINER (Plug), Viewer);
 		gtk_widget_show_all (Plug);
 	}
@@ -161,7 +161,7 @@ void ChemComp::SetFilename (string& filename)
 		xmlDocPtr xml = xmlParseFile (filename.c_str ());
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "crystal"))
 			return;
-		gtk_crystal_viewer_set_data (GTK_CRYSTAL_VIEWER (Viewer), xml->children);
+		gcu_crystal_viewer_set_data (GCU_CRYSTAL_VIEWER (Viewer), xml->children);
 		xmlFree (xml);
 	} else if (MimeType == "chemical/x-cif") {
 		if (!loaded_radii) {
@@ -188,11 +188,11 @@ void ChemComp::SetFilename (string& filename)
 		g_free (uri);
 	} else 	if (MimeType == "chemical/x-jcamp-dx") {
 		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
-		gtk_spectrum_viewer_set_uri (GTK_SPECTRUM_VIEWER (Viewer), uri);
+		gcu_spectrum_viewer_set_uri (GCU_SPECTRUM_VIEWER (Viewer), uri);
 		g_free (uri);
 	} else {
 		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
-		gtk_chem3d_viewer_set_uri_with_mime_type (GTK_CHEM3D_VIEWER (Viewer),
+		gcu_chem3d_viewer_set_uri_with_mime_type (GCU_CHEM3D_VIEWER (Viewer),
 				uri, MimeType.c_str ());
 		g_free (uri);
 		map<string, string>::iterator i, iend = Params.end ();

@@ -106,9 +106,9 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 {
 	m_pDoc = pDoc;
 	GtkWidget *frame = GetWidget ("mendeleiev");
-	periodic = (GtkPeriodic*) gtk_periodic_new ();
+	periodic = (GcuPeriodic*) gcu_periodic_new ();
 	g_signal_connect (G_OBJECT (periodic), "element_changed", G_CALLBACK (on_element), this);
-	g_object_set (G_OBJECT (periodic), "can_unselect", TRUE, "color-style", GTK_PERIODIC_COLOR_DEFAULT, NULL);
+	g_object_set (G_OBJECT (periodic), "can_unselect", TRUE, "color-style", GCU_PERIODIC_COLOR_DEFAULT, NULL);
 	gtk_container_add (GTK_CONTAINER (frame), (GtkWidget *) periodic);
 	gtk_widget_show_all (frame);
 	GtkWidget *button = GetWidget ("add");
@@ -402,7 +402,7 @@ void gcAtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 		gtk_widget_set_sensitive (DeleteBtn, true);
 		path = gtk_tree_model_get_path (model, &m_Iter);
 		m_AtomSelected = gtk_tree_path_get_indices (path)[0];
-		gtk_periodic_set_element (periodic, g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Elt);
+		gcu_periodic_set_element (periodic, g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Elt);
 		if (g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).CustomColor) {
 			gtk_toggle_button_set_active (CustomColor, true);
 			GdkColor color;

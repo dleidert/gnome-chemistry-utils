@@ -1,8 +1,8 @@
 /* 
  * Gnome Chemisty Utils
- * gtkchem3dviewer.c 
+ * gcuchem3dviewer.c 
  *
- * Copyright (C) 2003-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -21,7 +21,7 @@
  */
 
 #include "config.h"
-#include "gtkchem3dviewer.h"
+#include "gcuchem3dviewer.h"
 #include "chem3ddoc.h"
 #include "glview.h"
 #include <glib/gi18n-lib.h>
@@ -32,7 +32,7 @@ using namespace std;
 using namespace OpenBabel;
 using namespace gcu;
 
-struct _GtkChem3DViewer
+struct _GcuChem3DViewer
 {
 	GtkBin bin;
 
@@ -40,7 +40,7 @@ struct _GtkChem3DViewer
 	GtkWidget *widget;
 };
 
-struct _GtkChem3DViewerClass
+struct _GcuChem3DViewerClass
 {
 	GtkBinClass parent_class;
 };
@@ -50,8 +50,9 @@ enum {
 	PROP_DISPLAY3D,
 	PROP_BGCOLOR
 };
+
 GType
-gtk_display3d_get_type (void)
+gcu_display3d_get_type (void)
 {
   static GType etype = 0;
   if (etype == 0) {
@@ -62,26 +63,26 @@ gtk_display3d_get_type (void)
       { WIREFRAME, "WIREFRAME", "wireframe" },
       { 0, NULL, NULL }
     };
-    etype = g_enum_register_static ("Dispay3D", values);
+    etype = g_enum_register_static ("GcuDispay3D", values);
   }
   return etype;
 }
 
 static GtkBinClass *parent_class = NULL;
 
-static void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass);
-static void gtk_chem3d_viewer_init(GtkChem3DViewer *viewer);
-static void gtk_chem3d_viewer_update(GtkChem3DViewer *viewer);
-static void gtk_chem3d_viewer_set_property(GObject *object, guint property_id,
+static void gcu_chem3d_viewer_class_init (GcuChem3DViewerClass  *klass);
+static void gcu_chem3d_viewer_init(GcuChem3DViewer *viewer);
+static void gcu_chem3d_viewer_update(GcuChem3DViewer *viewer);
+static void gcu_chem3d_viewer_set_property(GObject *object, guint property_id,
 						const GValue *value, GParamSpec *pspec);
-static void gtk_chem3d_viewer_get_property(GObject *object, guint property_id,
+static void gcu_chem3d_viewer_get_property(GObject *object, guint property_id,
 						GValue *value, GParamSpec *pspec);
 
 extern "C"
 {
 
 GType
-gtk_chem3d_viewer_get_type (void)
+gcu_chem3d_viewer_get_type (void)
 {
 	static GType chem3d_viewer_type = 0;
   
@@ -89,29 +90,29 @@ gtk_chem3d_viewer_get_type (void)
 	{
 		static const GTypeInfo chem3d_viewer_info =
 		{
-			sizeof (GtkChem3DViewerClass),
+			sizeof (GcuChem3DViewerClass),
 			NULL,           /* base_init */
 			NULL,           /* base_finalize */
-			(GClassInitFunc) gtk_chem3d_viewer_class_init,
+			(GClassInitFunc) gcu_chem3d_viewer_class_init,
 			NULL,           /* class_finalize */
 			NULL,           /* class_data */
-			sizeof (GtkChem3DViewer),
+			sizeof (GcuChem3DViewer),
 			0,              /* n_preallocs */
-			(GInstanceInitFunc) gtk_chem3d_viewer_init,
+			(GInstanceInitFunc) gcu_chem3d_viewer_init,
 			NULL
 		};
 
-		chem3d_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GtkChem3DViewer", &chem3d_viewer_info, (GTypeFlags)0);
+		chem3d_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GcuChem3DViewer", &chem3d_viewer_info, (GTypeFlags)0);
 	}
   
 	return chem3d_viewer_type;
 }
 
-GtkWidget* gtk_chem3d_viewer_new (const gchar *uri)
+GtkWidget* gcu_chem3d_viewer_new (const gchar *uri)
 {
-	GtkChem3DViewer* viewer = (GtkChem3DViewer*) g_object_new (GTK_TYPE_CHEM3D_VIEWER, NULL);
+	GcuChem3DViewer* viewer = (GcuChem3DViewer*) g_object_new (GCU_TYPE_CHEM3D_VIEWER, NULL);
 	if (uri)
-		gtk_chem3d_viewer_set_uri (viewer, uri);
+		gcu_chem3d_viewer_set_uri (viewer, uri);
 	return GTK_WIDGET (viewer);
 }
 
@@ -124,9 +125,9 @@ static void on_size(GtkWidget *w, GtkAllocation *allocation, G_GNUC_UNUSED gpoin
 		gtk_widget_size_allocate (widget, allocation);
 }
 
-static void gtk_chem3d_viewer_finalize (GObject *obj)
+static void gcu_chem3d_viewer_finalize (GObject *obj)
 {
-	GtkChem3DViewer *viewer = GTK_CHEM3D_VIEWER (obj);
+	GcuChem3DViewer *viewer = GCU_CHEM3D_VIEWER (obj);
 	if (viewer->Doc)  {
 		delete viewer->Doc->GetView ();
 		delete viewer->Doc;
@@ -134,14 +135,14 @@ static void gtk_chem3d_viewer_finalize (GObject *obj)
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
-void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass)
+void gcu_chem3d_viewer_class_init (GcuChem3DViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
 	
-	gobject_class->set_property = gtk_chem3d_viewer_set_property;
-	gobject_class->get_property = gtk_chem3d_viewer_get_property;
-	gobject_class->finalize = gtk_chem3d_viewer_finalize;
+	gobject_class->set_property = gcu_chem3d_viewer_set_property;
+	gobject_class->get_property = gcu_chem3d_viewer_get_property;
+	gobject_class->finalize = gcu_chem3d_viewer_finalize;
 	
 	g_object_class_install_property (
 		gobject_class,
@@ -149,7 +150,7 @@ void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass)
 		g_param_spec_enum("display3d",
 						"3D display mode",
 						"Mode used to display the model",
-						GTK_DISPLAY_3D,
+						GCU_DISPLAY_3D,
 						BALL_AND_STICK,
 						(GParamFlags)G_PARAM_READWRITE));
         g_object_class_install_property
@@ -162,9 +163,9 @@ void gtk_chem3d_viewer_class_init (GtkChem3DViewerClass  *klass)
                                       (GParamFlags)(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 }
 
-void gtk_chem3d_viewer_init (GtkChem3DViewer *viewer)
+void gcu_chem3d_viewer_init (GcuChem3DViewer *viewer)
 {
-	g_return_if_fail (GTK_IS_CHEM3D_VIEWER (viewer));
+	g_return_if_fail (GCU_IS_CHEM3D_VIEWER (viewer));
 	viewer->Doc = new Chem3dDoc ();
 	viewer->widget = viewer->Doc->GetView ()->GetWidget ();
 	gtk_widget_show (GTK_WIDGET (viewer->widget));
@@ -173,32 +174,32 @@ void gtk_chem3d_viewer_init (GtkChem3DViewer *viewer)
 	g_signal_connect (G_OBJECT (viewer), "size_allocate", G_CALLBACK (on_size), NULL);
 }
 
-void gtk_chem3d_viewer_set_uri (GtkChem3DViewer * viewer, const gchar *uri)
+void gcu_chem3d_viewer_set_uri (GcuChem3DViewer * viewer, const gchar *uri)
 {
-	gtk_chem3d_viewer_set_uri_with_mime_type (viewer, uri, NULL);
+	gcu_chem3d_viewer_set_uri_with_mime_type (viewer, uri, NULL);
 }
 
-void gtk_chem3d_viewer_set_uri_with_mime_type (GtkChem3DViewer * viewer, const gchar * uri, const gchar* mime_type)
+void gcu_chem3d_viewer_set_uri_with_mime_type (GcuChem3DViewer * viewer, const gchar * uri, const gchar* mime_type)
 {
-	g_return_if_fail (GTK_IS_CHEM3D_VIEWER (viewer));
+	g_return_if_fail (GCU_IS_CHEM3D_VIEWER (viewer));
 	g_return_if_fail (uri);
 	viewer->Doc->Load (uri, mime_type);
 }
 
-void gtk_chem3d_viewer_set_data (GtkChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
+void gcu_chem3d_viewer_set_data (GcuChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
 {
 	viewer->Doc->LoadData (data, mime_type);
 }
 
-void gtk_chem3d_viewer_update (GtkChem3DViewer *viewer)
+void gcu_chem3d_viewer_update (GcuChem3DViewer *viewer)
 {
 	viewer->Doc->GetView ()->Update ();
 }
 
-static void gtk_chem3d_viewer_get_property (GObject *object, guint property_id,
+static void gcu_chem3d_viewer_get_property (GObject *object, guint property_id,
 				     GValue *value, GParamSpec *pspec)
 {
-	GtkChem3DViewer *viewer = GTK_CHEM3D_VIEWER(object);
+	GcuChem3DViewer *viewer = GCU_CHEM3D_VIEWER(object);
 
 	switch (property_id) {
 	case PROP_DISPLAY3D:
@@ -227,10 +228,10 @@ static void gtk_chem3d_viewer_get_property (GObject *object, guint property_id,
 	}
 }
 
-static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
+static void gcu_chem3d_viewer_set_property (GObject *object, guint property_id,
 				     const GValue *value, GParamSpec *pspec)
 {
-	GtkChem3DViewer *viewer = GTK_CHEM3D_VIEWER(object);
+	GcuChem3DViewer *viewer = GCU_CHEM3D_VIEWER(object);
 
 	switch (property_id) {
 		case PROP_DISPLAY3D:
@@ -268,10 +269,10 @@ static void gtk_chem3d_viewer_set_property (GObject *object, guint property_id,
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 			break;
 	}
-	gtk_chem3d_viewer_update(viewer);
+	gcu_chem3d_viewer_update(viewer);
 }
 
-GdkPixbuf *gtk_chem3d_viewer_new_pixbuf (GtkChem3DViewer * viewer, guint width, guint height)
+GdkPixbuf *gcu_chem3d_viewer_new_pixbuf (GcuChem3DViewer * viewer, guint width, guint height)
 {
 	return viewer->Doc->GetView ()->BuildPixbuf (width, height);
 }

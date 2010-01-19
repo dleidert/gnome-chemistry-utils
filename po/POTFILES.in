@@ -3,7 +3,7 @@ gchemutils.schemas.in
 gchemutils.xml.in
 database/residues.xml.in
 [type: gettext/glade]ui/gchemcalc.ui
-[type: gettext/glade]ui/gtkperiodic.ui
+[type: gettext/glade]ui/gcuperiodic.ui
 [type: gettext/glade]ui/image-size.ui
 [type: gettext/glade]ui/image-resolution.ui
 [type: gettext/glade]ui/print-setup.ui
@@ -67,9 +67,9 @@ libs/gcu/element.cc
 libs/gcu/filechooser.cc
 libs/gcu/formula.cc
 libs/gcu/glview.cc
-libs/gcu/gtkchem3dviewer.cc
-libs/gcu/gtkcomboperiodic.c
-libs/gcu/gtkperiodic.c
+libs/gcu/gcuchem3dviewer.cc
+libs/gcu/gcucomboperiodic.c
+libs/gcu/gcuperiodic.c
 libs/gcu/loader.cc
 libs/gcu/print-setup-dlg.cc
 libs/gcu/printable.cc

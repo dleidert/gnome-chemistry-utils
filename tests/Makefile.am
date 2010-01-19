@@ -10,10 +10,10 @@ AM_CFLAGS = -I$(top_srcdir)/libs $(GCU_CFLAGS) -Werror-implicit-function-declara
 DEFS += -DSRCDIR=\"$(TESTSSRCDIR)\"
 
 check_PROGRAMS = \
-	testgtkperiodic \
-	testgtkcrystalviewer \
-	testgtkchem3dviewer
+	testgcuperiodic \
+	testgcucrystalviewer \
+	testgcuchem3dviewer
 
-testgtkcrystalviewer_SOURCES = testgtkcrystalviewer.c
-testgtkchem3dviewer_SOURCES = testgtkchem3dviewer.c
-testgtkperiodic_SOURCES = testgtkperiodic.c
+testgcucrystalviewer_SOURCES = testgcucrystalviewer.c
+testgcuchem3dviewer_SOURCES = testgcuchem3dviewer.c
+testgcuperiodic_SOURCES = testgcuperiodic.c

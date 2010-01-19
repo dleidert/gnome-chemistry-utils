@@ -1,8 +1,8 @@
 /* 
  * Gnome Chemisty Utils
- * gtkcomboperiodic.h 
+ * gcucomboperiodic.h 
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -20,32 +20,32 @@
  * USA
  */
 
-#ifndef GTK_COMBO_PERIODIC_H
-#define GTK_COMBO_PERIODIC_H
+#ifndef GCU_COMBO_PERIODIC_H
+#define GCU_COMBO_PERIODIC_H
 
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
-/*!\return the GType associated to GtkComboPeriodic */
-#define GTK_TYPE_COMBO_PERIODIC	(gtk_combo_periodic_get_type ())
+/*!\return the GType associated to GcuComboPeriodic */
+#define GCU_TYPE_COMBO_PERIODIC	(gcu_combo_periodic_get_type ())
 /*!
-Casts \a obj to a GtkComboPeriodic * pointer.
-\return a pointer to the GtkComboPeriodic * or NULL if \a obj does not point to 
-a GtkComboPeriodic widget.
+Casts \a obj to a GcuComboPeriodic * pointer.
+\return a pointer to the GcuComboPeriodic * or NULL if \a obj does not point to 
+a GcuComboPeriodic widget.
 */
-#define GTK_COMBO_PERIODIC(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GTK_TYPE_COMBO_PERIODIC, GtkComboPeriodic))
+#define GCU_COMBO_PERIODIC(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GCU_TYPE_COMBO_PERIODIC, GcuComboPeriodic))
 /*!
-\return TRUE if \a obj points to a GtkComboPeriodic widget, FALSE otherwise.
+\return TRUE if \a obj points to a GcuComboPeriodic widget, FALSE otherwise.
 */
-#define GTK_IS_COMBO_PERIODIC(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GTK_TYPE_COMBO_PERIODIC))
+#define GCU_IS_COMBO_PERIODIC(o)	(G_TYPE_CHECK_INSTANCE_TYPE((o), GCU_TYPE_COMBO_PERIODIC))
 
 /*!\file
-Declaration of the GtkComboPeriodic widget.
+Declaration of the GcuComboPeriodic widget.
 */
 
-/*! \struct GtkComboPeriodic gcu/gtkcomboperiodic.h
- The GtkComboPeriodic is a combo box with a dropdown periodic table widget.
+/*! \struct GcuComboPeriodic gcu/gcucomboperiodic.h
+ The GcuComboPeriodic is a combo box with a dropdown periodic table widget.
 <hr>
 <h2>Signals</h2>
 
@@ -60,31 +60,31 @@ Declaration of the GtkComboPeriodic widget.
 <hr>
 <h2>Functions</h2>
 
-Functions related to the GtkComboPeriodic Widget are described in the gtkcomboperiodic.h page.
+Functions related to the GcuComboPeriodic Widget are described in the gcucomboperiodic.h page.
 */
-/*! The GtkComboPeriodic widget.*/
-typedef struct _GtkComboPeriodic	GtkComboPeriodic;
+/*! The GcuComboPeriodic widget.*/
+typedef struct _GcuComboPeriodic	GcuComboPeriodic;
 
-GType      gtk_combo_periodic_get_type	 (void);
+GType      gcu_combo_periodic_get_type	 (void);
 /*!
-@return a pointer to a newly created GtkComboPeriodic widget.
+@return a pointer to a newly created GcuComboPeriodic widget.
 */
-GtkWidget *gtk_combo_periodic_new (void);
+GtkWidget *gcu_combo_periodic_new (void);
 
 /*!
-@param combo  a GtkComboPeriodic widget
+@param combo  a GcuComboPeriodic widget
 Used to get the currently selected element in the periodic table.
 @return the atomic number of the currently selected element or %0 if none is selected.
  */
-guint	gtk_combo_periodic_get_element	(GtkComboPeriodic *combo);
+guint	gcu_combo_periodic_get_element	(GcuComboPeriodic *combo);
 
 /*!
-@param combo  a GtkComboPeriodic widget
+@param combo  a GcuComboPeriodic widget
 @param element the atomic number of the element to select or 0
 Sets the selected element in the periodic table.
 */
-void	gtk_combo_periodic_set_element	(GtkComboPeriodic *combo, guint element);
+void	gcu_combo_periodic_set_element	(GcuComboPeriodic *combo, guint element);
 
 G_END_DECLS
 
-#endif /* GTK_COMBO_PERIODIC_H */
+#endif /* GCU_COMBO_PERIODIC_H */

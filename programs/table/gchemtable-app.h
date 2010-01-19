@@ -27,7 +27,7 @@
 
 #include <gcu/application.h>
 #include <gcu/dialog.h>
-#include <gcu/gtkperiodic.h>
+#include <gcu/gcuperiodic.h>
 #include <map>
 
 using namespace gcu;
@@ -62,7 +62,7 @@ public:
 private:
 	Dialog *Pages[118];
 	GtkWidget *window;
-	GtkPeriodic *periodic;
+	GcuPeriodic *periodic;
 	int m_CurZ;
 	std::map <std::string, unsigned> colorschemes;
 	double temperature;

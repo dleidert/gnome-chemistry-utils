@@ -41,13 +41,13 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		element.cc \
 		filechooser.cc \
 		formula.cc \
+		gcuchem3dviewer.cc \
+		gcucomboperiodic.c \
+		gcucrystalviewer.cc \
+		gcuperiodic.c \
+		gcuspectrumviewer.cc \
 		gldocument.cc	\
 		glview.cc	\
-		gtkchem3dviewer.cc \
-		gtkcomboperiodic.c \
-		gtkcrystalviewer.cc \
-		gtkperiodic.c \
-		gtkspectrumviewer.cc \
 		isotope.cc \
 		loader.cc \
 		loader-error.cc \
@@ -91,13 +91,13 @@ noinst_HEADERS = \
 		element.h \
 		filechooser.h \
 		formula.h \
+		gcuchem3dviewer.h \
+		gcucomboperiodic.h \
+		gcucrystalviewer.h \
+		gcuperiodic.h \
+		gcuspectrumviewer.h \
 		gldocument.h	\
 		glview.h	\
-		gtkchem3dviewer.h \
-		gtkcomboperiodic.h \
-		gtkcrystalviewer.h \
-		gtkperiodic.h \
-		gtkspectrumviewer.h \
 		isotope.h \
 		loader.h \
 		loader-error.h \

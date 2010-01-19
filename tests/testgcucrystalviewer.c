@@ -1,8 +1,8 @@
 /* 
  * Gnome Chemisty Utils
- * tests/testgtkchem3dviewer.c 
+ * tests/testgcucrystalviewer.c 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,47 +20,49 @@
  * Boston, MA  02110-1301, USA.
  */
 
-#include "config.h"
+#include <gcu/gcucrystalviewer.h>
 #include <gcu/chemistry.h>
-#include <gcu/gtkchem3dviewer.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <libxml/parser.h>
 
 /*!\file
-A simple sample of the use of the GtkChem3DViewer widget.
+A simple sample of the use of the GcuCrystalViewer widget.
 */
 
 /*!
 \a main function of the test program. It fulfills the following operations, in order:
-- initialize Gt and GnomeVFS;
-- loads atomic radii (the 3D viewer needs the van der Waals radii).
-- build the widow embedding the sample GtkChem3DViewer.
-- build the GtkChem3DViewer with either a file from the command line or the default
-methane.xyz provided with the sources.
+- initialize Gtk;
+- loads atomic radii.
+- build the widow embedding the sample GcuCrystalViewer.
+- build the GcuCrystalViewer with either a file from the command line or the default
+nickel.gcrystal provided with the sources.
 - shows everything and enter \a gtk_main().
 */
 int main (int argc, char *argv[])
 {
 	GtkWidget *window;
 	GtkWidget *viewer;
-	gchar* uri;
+	const char* filename;
+	xmlDocPtr xml;
 	gtk_init (&argc, &argv);
 	
 	gcu_element_load_databases ("radii", NULL);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title (GTK_WINDOW (window), "GtkChem3dViewer test");
+	gtk_window_set_title (GTK_WINDOW (window), "GcuCrystalViewer test");
 	g_signal_connect (G_OBJECT (window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);
 
 	if (argc >= 2)
-		uri = argv[1];
+		filename = argv[1];
 	else
-		uri = "file://"SRCDIR"/methane.xyz";
+		filename = SRCDIR"/nickel.gcrystal";
+	xml = xmlParseFile (filename);
 	
-	viewer = gtk_chem3d_viewer_new (uri);
+	viewer = gcu_crystal_viewer_new (xml->children);
 	gtk_container_add (GTK_CONTAINER (window), viewer);
 	gtk_widget_show_all (window);
 

@@ -26,7 +26,7 @@
 #define GCRYSTAL_ATOMSDLG_H
 
 #include <gcu/dialog.h>
-#include <gcu/gtkperiodic.h>
+#include <gcu/gcuperiodic.h>
 #include <vector>
 
 using namespace std;
@@ -61,7 +61,7 @@ private:
 	gcDocument *m_pDoc;
 	GtkListStore *AtomList;
 	GtkTreeSelection *Selection;
-	GtkPeriodic* periodic;
+	GcuPeriodic* periodic;
 	GtkToggleButton* CustomColor;
 	GtkColorButton *AtomColor;
 	GtkEntry *AtomR;

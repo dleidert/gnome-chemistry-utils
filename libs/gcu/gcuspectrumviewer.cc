@@ -1,8 +1,8 @@
 /* 
  * Gnome Chemisty Utils
- * gtkspectrumviewer.cc
+ * gcuspectrumviewer.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -21,13 +21,13 @@
  */
 
 #include "config.h"
-#include "gtkspectrumviewer.h"
+#include "gcuspectrumviewer.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkbin.h>
 
-struct _GtkSpectrumViewer
+struct _GcuSpectrumViewer
 {
 	GtkBin base;
 
@@ -35,13 +35,13 @@ struct _GtkSpectrumViewer
 	GogGraph *graph;
 };
 
-struct _GtkSpectrumViewerClass
+struct _GcuSpectrumViewerClass
 {
 	GtkBinClass base;
 };
 
 static void
-on_size (GtkSpectrumViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer user_data)
+on_size (GcuSpectrumViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer user_data)
 {
 	GtkWidget *widget = gtk_bin_get_child (GTK_BIN (w));
 	bool visible = false;
@@ -52,9 +52,9 @@ on_size (GtkSpectrumViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer
 }
 
 GtkWidget*
-gtk_spectrum_viewer_new  (const gchar* uri)
+gcu_spectrum_viewer_new  (const gchar* uri)
 {
-	GtkSpectrumViewer *viewer = GTK_SPECTRUM_VIEWER (g_object_new (GTK_TYPE_SPECTRUM_VIEWER, NULL));
+	GcuSpectrumViewer *viewer = GCU_SPECTRUM_VIEWER (g_object_new (GCU_TYPE_SPECTRUM_VIEWER, NULL));
 	viewer->doc = new gcu::SpectrumDocument ();
 	gcu::SpectrumView *View = viewer->doc->GetView();
 	GtkWidget* w = View->GetWidget ();
@@ -62,12 +62,12 @@ gtk_spectrum_viewer_new  (const gchar* uri)
 	gtk_container_add (GTK_CONTAINER (viewer), w);
 	g_signal_connect (G_OBJECT (viewer), "size_allocate", G_CALLBACK (on_size), NULL);
 	gtk_widget_show (w);
-	gtk_spectrum_viewer_set_uri (viewer, uri);
+	gcu_spectrum_viewer_set_uri (viewer, uri);
 	return reinterpret_cast<GtkWidget*> (viewer);
 }
 
 void
-gtk_spectrum_viewer_set_uri	(GtkSpectrumViewer * viewer, const gchar * uri)
+gcu_spectrum_viewer_set_uri	(GcuSpectrumViewer * viewer, const gchar * uri)
 {
 	if (!uri)
 		return;
@@ -76,26 +76,26 @@ gtk_spectrum_viewer_set_uri	(GtkSpectrumViewer * viewer, const gchar * uri)
 	viewer->doc->Load (uri, "chemical/x-jcamp-dx");
 	setlocale (LC_NUMERIC, old_locale);
 	g_free (old_locale);
-	g_return_if_fail (GTK_IS_SPECTRUM_VIEWER (viewer));
+	g_return_if_fail (GCU_IS_SPECTRUM_VIEWER (viewer));
 }
 
 GogGraph *
-gtk_spectrum_viewer_get_graph (GtkSpectrumViewer * viewer)
+gcu_spectrum_viewer_get_graph (GcuSpectrumViewer * viewer)
 {
-	g_return_val_if_fail (GTK_IS_SPECTRUM_VIEWER (viewer), NULL);
+	g_return_val_if_fail (GCU_IS_SPECTRUM_VIEWER (viewer), NULL);
 	return viewer->graph;
 }
 
 void
-gtk_spectrum_viewer_init (G_GNUC_UNUSED GtkSpectrumViewer * viewer)
+gcu_spectrum_viewer_init (G_GNUC_UNUSED GcuSpectrumViewer * viewer)
 {
 }
 
 void
-gtk_spectrum_viewer_class_init (G_GNUC_UNUSED GtkSpectrumViewerClass *klass)
+gcu_spectrum_viewer_class_init (G_GNUC_UNUSED GcuSpectrumViewerClass *klass)
 {
 }
 
-GSF_CLASS (GtkSpectrumViewer, gtk_spectrum_viewer,
-	   gtk_spectrum_viewer_class_init, gtk_spectrum_viewer_init,
+GSF_CLASS (GcuSpectrumViewer, gcu_spectrum_viewer,
+	   gcu_spectrum_viewer_class_init, gcu_spectrum_viewer_init,
 	   GTK_TYPE_BIN)
