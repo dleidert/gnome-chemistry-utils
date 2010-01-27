@@ -76,6 +76,7 @@ Atom::Atom ():
 	m_DrawCircle = false;
 	m_SWidth = 0.;
 	m_ChargeItem = NULL;
+	m_ShowCharge = true;
 }
 
 Atom::~Atom ()
@@ -121,6 +122,7 @@ Atom::Atom (int Z, double x, double y, double z):
 	m_DrawCircle = false;
 	m_SWidth = 0.;
 	m_ChargeItem = NULL;
+	m_ShowCharge = true;
 }
 
 Atom::Atom (OBAtom* atom):
@@ -152,6 +154,7 @@ Atom::Atom (OBAtom* atom):
 	m_Charge = atom->GetFormalCharge ();
 	m_SWidth = 0.;
 	m_ChargeItem = NULL;
+	m_ShowCharge = true;
 }
 
 void Atom::SetZ (int Z)
@@ -1692,6 +1695,9 @@ xmlNodePtr Atom::Save (xmlDocPtr xml) const
 		xmlNewProp (node, reinterpret_cast <xmlChar const*> ("H-position"),
 					reinterpret_cast <xmlChar const*> (pos));
 	}
+	if (!m_ShowCharge)
+		xmlNewProp (node, reinterpret_cast <xmlChar const*> ("show-charge"),
+					reinterpret_cast <xmlChar const*> ("no"));
 	return node;
 }
 	
@@ -1789,6 +1795,12 @@ bool Atom::Load (xmlNodePtr node)
 			m_HPosStyle = AUTO_HPOS;
 		xmlFree (buf);
 		Update ();
+	}
+	buf = reinterpret_cast <char *> (xmlGetProp (node, (xmlChar*) "show-charge"));
+	if (buf) {
+		if (!strcmp (buf, "no"))
+			m_ShowCharge = false;
+		xmlFree (buf);
 	}
 	return true;
 }
@@ -1899,6 +1911,20 @@ static void do_choose_H_pos (Atom* Atom)
 	new HPosDlg (static_cast<Document*> (Atom->GetDocument ()), Atom);
 }
 
+static void do_show_charge (GtkToggleAction *action, Atom *atom)
+{
+	Document *Doc = static_cast <Document *> (atom->GetDocument ());
+	Operation *Op = Doc->GetNewOperation (GCP_MODIFY_OPERATION);
+	Object *Obj = atom->GetGroup ();
+	Op->AddObject (Obj, 0);
+	atom->SetShowCharge (gtk_toggle_action_get_active (action));
+	Op->AddObject (Obj, 1);
+	Doc->FinishOperation ();
+	View *view = Doc->GetView ();
+	view->Update (atom);
+	
+}
+
 bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	bool result = false;
@@ -1909,7 +1935,7 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 		action = gtk_action_new ("Atom", _("Atom"),NULL, NULL);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		action = GTK_ACTION (gtk_toggle_action_new ("show-symbol", _("Display symbol"),  _("Whether to display carbon atom symbol or not"), NULL));
+		action = GTK_ACTION (gtk_toggle_action_new ("show-symbol", _("Display symbol"),  _("Whether to display carbon atom symbol"), NULL));
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), m_ShowSymbol);
 		g_signal_connect (action, "toggled", G_CALLBACK (do_display_symbol), this);
 		gtk_action_group_add_action (group, action);
@@ -1930,6 +1956,20 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Atom'><menuitem action='H-position'/></menu></popup></ui>", -1, NULL);
 	}
+	if (m_Charge) {
+		if (!group) {
+			group = gtk_action_group_new ("atom");
+			action = gtk_action_new ("Atom", _("Atom"),NULL, NULL);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+		}
+		action = GTK_ACTION (gtk_toggle_action_new ("show-charge", _("Show charge"),   _("Whether to display atom charge"), NULL));
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), m_ShowCharge);
+		g_signal_connect (action, "toggled", G_CALLBACK (do_show_charge), this);
+		gtk_action_group_add_action (group, action);
+		g_object_unref (action);
+		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Atom'><menuitem action='show-charge'/></menu></popup></ui>", -1, NULL);
+    }
 	if (group) {
 		gtk_ui_manager_insert_action_group (UIManager, group, 0);
 		g_object_unref (group);
@@ -2056,7 +2096,7 @@ void Atom::AddItem ()
 	}
 	m_Item = group;
 	int charge = GetCharge ();
-	if (charge) {
+	if (charge && m_ShowCharge) {
 		gccv::Anchor anchor = GetChargePosition (m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
 		if (m_ChargeDist != 0.) {
 			anchor = gccv::AnchorCenter;

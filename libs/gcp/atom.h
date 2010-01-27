@@ -441,7 +441,7 @@ Sets the position of attached hydrogen atoms symbol.
 */
 GCU_PROP (HPos, HPosStyle) //0=force left, 1=force right, 2=force top, 3=force bottom, 4=auto.
 GCU_PROP (gccv::Item *, ChargeItem) //0=force left, 1=force right, 2=force top, 3=force bottom, 4=auto.
-
+GCU_PROP (bool, ShowCharge);
 };
 
 }	//	namespace gcp
