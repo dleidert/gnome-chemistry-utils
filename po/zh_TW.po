@@ -3,19 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-18 07:22+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Traditional Chinese in Taiwan<zh-l10n@linux.org.tw><tryneeds@gmail.com>\n"
+"Project-Id-Version: Gchemutils 0.10.10\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: I-Yuan Chiang <iychiang1809@gmail.com>\n"
+"Language-Team: Tryneeds in Tawian <tryneeds@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+# GChemutils for zh_TW
 #: ../gchemutils.schemas.in.h:1
 msgid "Default Bottom Margin"
 msgstr "預設下端邊界"
@@ -53,14 +52,12 @@ msgid "This is the default paper orientation."
 msgstr "這是預設紙張的方向"
 
 #: ../gchemutils.schemas.in.h:10
-msgid ""
-"This is the default paper specification like iso_a4 or na_letter, i.e. a PWG "
-"5101.1-2002 paper name."
-msgstr ""
+msgid "This is the default paper specification like iso_a4 or na_letter, i.e. a PWG 5101.1-2002 paper name."
+msgstr "這是預設的紙張尺寸像是 iso_a4 or na_letter, 例如 a PWG 5101.1-2002 paper name"
 
 #: ../gchemutils.schemas.in.h:11
 msgid "This string gives the default unit to be used in the page setup dialog."
-msgstr "這個附加條件傳達預設裝置在這個頁面被使用的設定"
+msgstr "這字串說明了頁面設定的預設單位"
 
 #: ../gchemutils.schemas.in.h:12
 msgid "This value gives the default footer height number of points."
@@ -71,40 +68,32 @@ msgid "This value gives the default header height number of points."
 msgstr "這個數值傳達預設頁首高度的位置"
 
 #: ../gchemutils.schemas.in.h:14
-msgid ""
-"This value gives the default number of points from the bottom of a page to "
-"the end of the body."
-msgstr ""
+msgid "This value gives the default number of points from the bottom of a page to the end of the body."
+msgstr "這數值代表從頁底到文章最後預設的點數"
 
 #: ../gchemutils.schemas.in.h:15
-msgid ""
-"This value gives the default number of points from the left of a page to the "
-"left of the body."
-msgstr ""
+msgid "This value gives the default number of points from the left of a page to the left of the body."
+msgstr "這數值代表從頁面左側到文章左側預設的點數"
 
 #: ../gchemutils.schemas.in.h:16
-msgid ""
-"This value gives the default number of points from the right of a page to "
-"the right of the body."
-msgstr ""
+msgid "This value gives the default number of points from the right of a page to the right of the body."
+msgstr "這數值代表從頁面右側到文章右側預設的點數"
 
 #: ../gchemutils.schemas.in.h:17
-msgid ""
-"This value gives the default number of points from the top of a page to the "
-"start of the body."
-msgstr ""
+msgid "This value gives the default number of points from the top of a page to the start of the body."
+msgstr "這數值代表從頁面頂端到文章上端預設的點數"
 
 #: ../gchemutils.schemas.in.h:18
-msgid ""
-"Whether to use off-screen rendering when printing or exporting as an image. "
-"Setting it to true might lead to a crash with some video cards drivers."
-msgstr ""
+msgid "Whether to use off-screen rendering when printing or exporting as an image. Setting it to true might lead to a crash with some video cards drivers."
+msgstr "當列印或是匯出圖像時, 是否使用真實模式呈現. 若設定為真, 使用某些顯示卡的可能會造成程式當機"
 
-#: ../gchemutils.xml.in.h:1 ../programs/paint/x-gchempaint.desktop.in.h:1
+#: ../gchemutils.xml.in.h:1
+#: ../programs/paint/x-gchempaint.desktop.in.h:1
 msgid "2D Chemical structure"
-msgstr "2D Chemical structure (平面化學結構檔)"
+msgstr "2D 化學結構"
 
-#: ../gchemutils.xml.in.h:2 ../programs/crystal/x-gcrystal.desktop.in.h:1
+#: ../gchemutils.xml.in.h:2
+#: ../programs/crystal/x-gcrystal.desktop.in.h:1
 msgid "Crystalline structure model"
 msgstr "晶體結構模型"
 
@@ -188,7 +177,8 @@ msgstr "化學計算機"
 msgid "Composition"
 msgstr "化學組成"
 
-#: ../glade/gchemcalc.glade.h:3 ../programs/calc/gchemcalc.cc:341
+#: ../glade/gchemcalc.glade.h:3
+#: ../programs/calc/gchemcalc.cc:355
 msgid "Formula:"
 msgstr "化學式:"
 
@@ -204,7 +194,8 @@ msgstr "分子量"
 msgid "Monoisotopic mass:"
 msgstr "單同位素質量"
 
-#: ../glade/gchemcalc.glade.h:7 ../programs/calc/gchemcalc.cc:344
+#: ../glade/gchemcalc.glade.h:7
+#: ../programs/calc/gchemcalc.cc:358
 msgid "Raw formula:"
 msgstr "簡單式"
 
@@ -279,7 +270,7 @@ msgstr "頁頭與頁尾"
 
 #: ../glade/print-setup.glade.h:14
 msgid "Landscape"
-msgstr "景色"
+msgstr "橫式"
 
 #: ../glade/print-setup.glade.h:15
 msgid "Left margin:"
@@ -295,19 +286,19 @@ msgstr "頁面設定"
 
 #: ../glade/print-setup.glade.h:18
 msgid "Portrait"
-msgstr "頁面設定為直向"
+msgstr "直式"
 
 #: ../glade/print-setup.glade.h:19
 msgid "Reload defaults"
-msgstr "重新預設"
+msgstr "重新載入預設值"
 
 #: ../glade/print-setup.glade.h:20
 msgid "Reverse landscape"
-msgstr "景色相反"
+msgstr "反轉橫式"
 
 #: ../glade/print-setup.glade.h:21
 msgid "Reverse portrait"
-msgstr "畫像相反"
+msgstr "反轉直式"
 
 #: ../glade/print-setup.glade.h:22
 msgid "Right margin:"
@@ -315,7 +306,7 @@ msgstr "右邊界"
 
 #: ../glade/print-setup.glade.h:23
 msgid "Save as defaults"
-msgstr "保留預設"
+msgstr "存為預設值"
 
 #: ../glade/print-setup.glade.h:24
 msgid "Scale"
@@ -335,7 +326,7 @@ msgstr "上邊界"
 
 #: ../glade/print-setup.glade.h:28
 msgid "Unit:"
-msgstr "裝置:"
+msgstr "單位:"
 
 #: ../glade/print-setup.glade.h:29
 msgid "_Automatic scaling:"
@@ -369,8 +360,10 @@ msgstr "垂直地"
 msgid "page(s)"
 msgstr "頁"
 
-#: ../glade/crystal/bonds.glade.h:1 ../libs/gcp/preferences.cc:439
-#: ../libs/gcp/preferences.cc:513 ../libs/gcp/preferences.cc:563
+#: ../glade/crystal/bonds.glade.h:1
+#: ../libs/gcp/preferences.cc:422
+#: ../libs/gcp/preferences.cc:496
+#: ../libs/gcp/preferences.cc:546
 msgid "Bonds"
 msgstr "Bonds 鍵"
 
@@ -403,19 +396,19 @@ msgid ""
 "Base-centered monoclinic\n"
 "Triclinic"
 msgstr ""
-"Simple cubic (簡單立方)\n"
-"Body-centered cubic (體心立方)\n"
-"Face-centered cubic (面心立方)\n"
-"Hexagonal (六方堆積/六方最密堆積)\n"
-"Tetragonal (四方晶系)\n"
-"Body-centered tetragonal (體心四方)\n"
-"Orthorhombic (斜方晶系)\n"
-"Base-centered orthorhombic (底心斜方)\n"
-"Body-centered orthorhombic (體心斜方)\n"
-"Face-centered orthorhombic (面心斜方)\n"
-"Rhombohedral (菱形晶系)\n"
-"Monoclinic (單斜晶系)\n"
-"Base-centered monoclinic (底心單斜)\n"
+"Simple cubic (簡單立方)\n"
+"Body-centered cubic (體心立方)\n"
+"Face-centered cubic (面心立方)\n"
+"Hexagonal (六方堆積/六方最密堆積)\n"
+"Tetragonal (四方晶系)\n"
+"Body-centered tetragonal (體心四方)\n"
+"Orthorhombic (斜方晶系)\n"
+"Base-centered orthorhombic (底心斜方)\n"
+"Body-centered orthorhombic (體心斜方)\n"
+"Face-centered orthorhombic (面心斜方)\n"
+"Rhombohedral (菱形晶系)\n"
+"Monoclinic (單斜晶系)\n"
+"Base-centered monoclinic (底心單斜)\n"
 "Triclinic (三斜晶系)"
 
 #: ../glade/crystal/cell.glade.h:18
@@ -442,39 +435,48 @@ msgstr "β (°):"
 msgid "γ (°):"
 msgstr "γ (°):"
 
-#: ../glade/crystal/docprop.glade.h:1 ../glade/paint/docprop.glade.h:1
+#: ../glade/crystal/docprop.glade.h:1
+#: ../glade/paint/docprop.glade.h:1
 msgid "<b>Author:</b>"
 msgstr "<b>作者:</b>"
 
-#: ../glade/crystal/docprop.glade.h:2 ../glade/paint/docprop.glade.h:2
+#: ../glade/crystal/docprop.glade.h:2
+#: ../glade/paint/docprop.glade.h:2
 msgid "<b>History</b>"
 msgstr "<b>歷史記錄</b>"
 
-#: ../glade/crystal/docprop.glade.h:3 ../glade/paint/docprop.glade.h:4
+#: ../glade/crystal/docprop.glade.h:3
+#: ../glade/paint/docprop.glade.h:4
 msgid "<b>_Comments:</b>"
 msgstr "<b>評論:</b>"
 
-#: ../glade/crystal/docprop.glade.h:4 ../glade/paint/docprop.glade.h:5
+#: ../glade/crystal/docprop.glade.h:4
+#: ../glade/paint/docprop.glade.h:5
 msgid "Creation date:"
 msgstr "建立日期"
 
-#: ../glade/crystal/docprop.glade.h:5 ../glade/paint/docprop.glade.h:6
+#: ../glade/crystal/docprop.glade.h:5
+#: ../glade/paint/docprop.glade.h:6
 msgid "Document properties"
 msgstr "檔案性質"
 
-#: ../glade/crystal/docprop.glade.h:6 ../glade/paint/docprop.glade.h:7
+#: ../glade/crystal/docprop.glade.h:6
+#: ../glade/paint/docprop.glade.h:7
 msgid "E-_mail:"
 msgstr "E-_mail:"
 
-#: ../glade/crystal/docprop.glade.h:7 ../glade/paint/docprop.glade.h:8
+#: ../glade/crystal/docprop.glade.h:7
+#: ../glade/paint/docprop.glade.h:8
 msgid "Revision date:"
 msgstr "修正日期:"
 
-#: ../glade/crystal/docprop.glade.h:8 ../glade/paint/docprop.glade.h:10
+#: ../glade/crystal/docprop.glade.h:8
+#: ../glade/paint/docprop.glade.h:10
 msgid "_Name:"
 msgstr "名稱:"
 
-#: ../glade/crystal/docprop.glade.h:9 ../glade/paint/docprop.glade.h:11
+#: ../glade/crystal/docprop.glade.h:9
+#: ../glade/paint/docprop.glade.h:11
 msgid "_Title:"
 msgstr "標題:"
 
@@ -490,30 +492,41 @@ msgid ""
 "2880\n"
 "Other"
 msgstr ""
+"300\n"
+"360\n"
+"600\n"
+"720\n"
+"1200\n"
+"1440\n"
+"2400\n"
+"2880\n"
+"其他"
 
 #: ../glade/crystal/prefs.glade.h:10
-msgid ""
-"A printer resolution of 300 dpi generally gives a quite acceptable result. "
-"Changing to a higher value can lead to a much longer processing time."
-msgstr "基本上將列印品質設在 300 dpi 可得到可接受的結果. 若調高解析度將可能會需要更多的時間進行列印."
+msgid "A printer resolution of 300 dpi generally gives a quite acceptable result. Changing to a higher value can lead to a much longer processing time."
+msgstr "將列印設在 300 dpi 的品質一般是可接受. 若調高解析度則需要更多的時間進行列印."
 
-#: ../glade/crystal/prefs.glade.h:11 ../glade/crystal/view-settings.glade.h:1
+#: ../glade/crystal/prefs.glade.h:11
+#: ../glade/crystal/view-settings.glade.h:1
 msgid "Background color:"
 msgstr "背景顏色:"
 
 #: ../glade/crystal/prefs.glade.h:12
 msgid "Default views settings"
-msgstr "預設的瀏覽裝置:"
+msgstr "預設的瀏覽設定:"
 
-#: ../glade/crystal/prefs.glade.h:13 ../glade/crystal/view-settings.glade.h:2
+#: ../glade/crystal/prefs.glade.h:13
+#: ../glade/crystal/view-settings.glade.h:2
 msgid "Euler's angles"
 msgstr "尤拉角"
 
-#: ../glade/crystal/prefs.glade.h:14 ../glade/crystal/view-settings.glade.h:3
+#: ../glade/crystal/prefs.glade.h:14
+#: ../glade/crystal/view-settings.glade.h:3
 msgid "Field of view (between 1 and 45°):"
-msgstr "視野角度(介於 1 到 45 度之間)"
+msgstr "視野角度 (介於 1 到 45 度之間):"
 
-#: ../glade/crystal/prefs.glade.h:15 ../glade/crystal/view-settings.glade.h:4
+#: ../glade/crystal/prefs.glade.h:15
+#: ../glade/crystal/view-settings.glade.h:4
 msgid "Model orientation in space:"
 msgstr "空間中模型的位向"
 
@@ -523,26 +536,31 @@ msgstr "列印解析度:"
 
 #: ../glade/crystal/prefs.glade.h:17
 msgid "Printing"
-msgstr "列印數量"
+msgstr "列印"
 
-#: ../glade/crystal/prefs.glade.h:18 ../glade/crystal/view-settings.glade.h:5
+#: ../glade/crystal/prefs.glade.h:18
+#: ../glade/crystal/view-settings.glade.h:5
 msgid "θ (°):"
 msgstr "θ (°):"
 
-#: ../glade/crystal/prefs.glade.h:19 ../glade/crystal/view-settings.glade.h:6
+#: ../glade/crystal/prefs.glade.h:19
+#: ../glade/crystal/view-settings.glade.h:6
 msgid "φ (°):"
 msgstr "φ (°):"
 
-#: ../glade/crystal/prefs.glade.h:20 ../glade/crystal/view-settings.glade.h:7
+#: ../glade/crystal/prefs.glade.h:20
+#: ../glade/crystal/view-settings.glade.h:7
 msgid "ψ (°):"
 msgstr "ψ (°):"
 
 #: ../glade/crystal/atoms.glade.h:1
 msgid "Apply changes to:"
-msgstr "申請變動:"
+msgstr "套用變更到:"
 
-#: ../glade/crystal/atoms.glade.h:2 ../libs/gcp/preferences.cc:427
-#: ../libs/gcp/preferences.cc:501 ../libs/gcp/preferences.cc:551
+#: ../glade/crystal/atoms.glade.h:2
+#: ../libs/gcp/preferences.cc:410
+#: ../libs/gcp/preferences.cc:484
+#: ../libs/gcp/preferences.cc:534
 msgid "Atoms"
 msgstr "原子"
 
@@ -558,12 +576,14 @@ msgstr "自訂的"
 msgid "Custom color:"
 msgstr "自訂的色彩:"
 
-#: ../glade/crystal/atoms.glade.h:6 ../glade/crystal/cleavages.glade.h:2
+#: ../glade/crystal/atoms.glade.h:6
+#: ../glade/crystal/cleavages.glade.h:2
 #: ../glade/crystal/lines.glade.h:2
 msgid "Dele_te all"
 msgstr "刪除全部"
 
-#: ../glade/crystal/atoms.glade.h:7 ../libs/gcu/gtkcomboperiodic.c:96
+#: ../glade/crystal/atoms.glade.h:7
+#: ../libs/gcu/gtkcomboperiodic.c:104
 #: ../programs/table/gchemtable-app.cc:267
 msgid "Periodic table of the elements"
 msgstr "週期表上的元素"
@@ -574,7 +594,7 @@ msgstr "半徑"
 
 #: ../glade/crystal/atoms.glade.h:9
 msgid "Scale factor:"
-msgstr "比例係數"
+msgstr "縮放比例係數"
 
 #: ../glade/crystal/atoms.glade.h:10
 msgid ""
@@ -582,6 +602,9 @@ msgid ""
 "Selected atom\n"
 "All atoms"
 msgstr ""
+"選取元素\n"
+"選取原子\n"
+"全部原子"
 
 #: ../glade/crystal/atoms.glade.h:13
 msgid "Type:"
@@ -595,17 +618,24 @@ msgid ""
 "Covalent\n"
 "Van der Waals"
 msgstr ""
+"未知的\n"
+"離子\n"
+"金屬\n"
+"共價\n"
+"凡得瓦"
 
 #: ../glade/crystal/atoms.glade.h:19
 msgid "Value (pm):"
-msgstr "計算結果(pm):"
+msgstr "值 (pm):"
 
-#: ../glade/crystal/atoms.glade.h:20 ../glade/crystal/cleavages.glade.h:5
+#: ../glade/crystal/atoms.glade.h:20
+#: ../glade/crystal/cleavages.glade.h:5
 #: ../glade/crystal/lines.glade.h:7
 msgid "_Add"
 msgstr "新增(_A)"
 
-#: ../glade/crystal/atoms.glade.h:21 ../glade/crystal/cleavages.glade.h:6
+#: ../glade/crystal/atoms.glade.h:21
+#: ../glade/crystal/cleavages.glade.h:6
 #: ../glade/crystal/lines.glade.h:8
 msgid "_Delete"
 msgstr "刪除(_D)"
@@ -620,7 +650,7 @@ msgstr "固定的樣式大小"
 
 #: ../glade/crystal/cleavages.glade.h:4
 msgid "List of defined cleavages (h, k, and l are the Miller indices)"
-msgstr "被定義的分裂名單(h,k,和l是 Miller 索引)"
+msgstr "所定義分裂名單(h,k,和 l 是米勒指數)"
 
 #: ../glade/crystal/lines.glade.h:1
 msgid "Cell edges"
@@ -661,7 +691,7 @@ msgstr "晶體大小"
 
 #: ../glade/crystal/size.glade.h:3
 msgid "Give minimum and maximum coordinates in cell units"
-msgstr "給單位晶格最小和最大的座標"
+msgstr "給定單位晶格最小和最大的座標"
 
 #: ../glade/crystal/size.glade.h:4
 msgid "Maximum"
@@ -671,15 +701,18 @@ msgstr "最大"
 msgid "Minimum"
 msgstr "最小"
 
-#: ../glade/crystal/size.glade.h:6 ../programs/crystal/atomsdlg.cc:144
+#: ../glade/crystal/size.glade.h:6
+#: ../programs/crystal/atomsdlg.cc:144
 msgid "x"
 msgstr "x"
 
-#: ../glade/crystal/size.glade.h:7 ../programs/crystal/atomsdlg.cc:154
+#: ../glade/crystal/size.glade.h:7
+#: ../programs/crystal/atomsdlg.cc:154
 msgid "y"
 msgstr "y"
 
-#: ../glade/crystal/size.glade.h:8 ../programs/crystal/atomsdlg.cc:164
+#: ../glade/crystal/size.glade.h:8
+#: ../programs/crystal/atomsdlg.cc:164
 msgid "z"
 msgstr "z"
 
@@ -695,19 +728,22 @@ msgstr "作用:"
 msgid "gtk-close"
 msgstr "gtk-關閉"
 
-#: ../glade/paint/arrow-object.glade.h:4 ../glade/paint/newfiledlg.glade.h:5
+#: ../glade/paint/arrow-object.glade.h:4
+#: ../glade/paint/newfiledlg.glade.h:5
 msgid "gtk-help"
 msgstr "gtk-求助"
 
 #: ../glade/paint/docprop.glade.h:3
 msgid "<b>Theme</b>"
-msgstr "<b>題目</b>"
+msgstr "<b>主題</b>"
 
-#: ../glade/paint/docprop.glade.h:9 ../glade/paint/newfiledlg.glade.h:2
+#: ../glade/paint/docprop.glade.h:9
+#: ../glade/paint/newfiledlg.glade.h:2
 msgid "Theme:"
-msgstr "題目:"
+msgstr "主題:"
 
-#: ../glade/paint/H-pos.glade.h:1 ../libs/gcp/atom.cc:1881
+#: ../glade/paint/H-pos.glade.h:1
+#: ../libs/gcp/atom.cc:1907
 msgid "Hydrogen atoms position"
 msgstr "氫原子位置"
 
@@ -719,6 +755,11 @@ msgid ""
 "Bottom\n"
 "Auto"
 msgstr ""
+"左\n"
+"右\n"
+"上\n"
+"下\n"
+"自動"
 
 #: ../glade/paint/newfiledlg.glade.h:1
 msgid "New file with theme"
@@ -726,7 +767,7 @@ msgstr "新增檔案及主題"
 
 #: ../glade/paint/newfiledlg.glade.h:3
 msgid "gtk-apply"
-msgstr "gtk-申請"
+msgstr "gtk-套用"
 
 #: ../glade/paint/newfiledlg.glade.h:4
 msgid "gtk-cancel"
@@ -738,7 +779,7 @@ msgstr "<b>箭頭前端</b>"
 
 #: ../glade/paint/preferences.glade.h:2
 msgid "<b>Normal bonds</b>"
-msgstr "<b>標準連結</b>"
+msgstr "<b>一般鍵</b>"
 
 #: ../glade/paint/preferences.glade.h:3
 msgid "<b>Stereochemical bonds</b>"
@@ -746,7 +787,7 @@ msgstr "<b>立體化學的鍵</b>"
 
 #: ../glade/paint/preferences.glade.h:4
 msgid "<b>Themes</b>"
-msgstr "<b>題目</b>"
+msgstr "<b>主題</b>"
 
 #: ../glade/paint/preferences.glade.h:5
 msgid "A:"
@@ -778,63 +819,55 @@ msgstr "電荷符號大小:"
 
 #: ../glade/paint/preferences.glade.h:12
 msgid "Default Compression _Level For GChemPaint Files:"
-msgstr "內設 GChemPaint 檔案的壓縮參數:"
+msgstr "預設 GChemPaint 檔案的壓縮程度:"
 
 #: ../glade/paint/preferences.glade.h:13
 msgid "Default angle between two consecutive bonds in a chain."
-msgstr ""
+msgstr "鍊中兩個連續鍵的預設角度."
 
 #: ../glade/paint/preferences.glade.h:14
 msgid "Default arrow length (in pm just like bond lengths)."
-msgstr "內設箭頭長度 (單位是 pm, 如同鍵的長度)."
+msgstr "預設箭頭長度 (單位是 pm, 如同鍵的長度)."
 
 #: ../glade/paint/preferences.glade.h:15
 msgid "Default bond length (pm)."
-msgstr "內設的鍵長度 (pm)."
+msgstr "預設鍵長度 (pm)."
 
 #: ../glade/paint/preferences.glade.h:16
-msgid ""
-"Default padding in pixels added between consecutive objects during an "
-"alignment operation."
-msgstr ""
+msgid "Default padding in pixels added between consecutive objects during an alignment operation."
+msgstr "當排列連續物件時的預設填充功能, 單位為像素. "
 
 #: ../glade/paint/preferences.glade.h:17
 msgid "Dist_ance:"
-msgstr ""
+msgstr "距離"
 
 #: ../glade/paint/preferences.glade.h:18
 msgid "Distance between hashes in pixels."
-msgstr ""
+msgstr "虛線之間的距離, 單位為像素. "
 
 #: ../glade/paint/preferences.glade.h:19
 msgid "Distance in pixels between two lines representing a multiple bond."
-msgstr ""
+msgstr "在多重鍵線條中的兩線之距離. "
 
 #: ../glade/paint/preferences.glade.h:20
-msgid ""
-"Distance in pixels between two parallel lines (either two arrows or one "
-"arrow with two lines)."
-msgstr ""
+msgid "Distance in pixels between two parallel lines (either two arrows or one arrow with two lines)."
+msgstr "兩平行線之距離, 單位為像素 (如兩箭頭或是一個箭頭加兩條線)"
 
 #: ../glade/paint/preferences.glade.h:21
 msgid "Distance in pixels from tip of arrowhead to center."
-msgstr ""
+msgstr "箭頭尖端到中心的距離"
 
 #: ../glade/paint/preferences.glade.h:22
-msgid ""
-"Distance in pixels from tip of arrowhead to trailing point, measured along "
-"shaft."
-msgstr ""
+msgid "Distance in pixels from tip of arrowhead to trailing point, measured along shaft."
+msgstr "箭頭尖端到起點的距離, 沿著箭型計算"
 
 #: ../glade/paint/preferences.glade.h:23
 msgid "Distance in pixels of arrowhead trailing points from outside edge of shaft."
-msgstr ""
+msgstr "箭頭起點到箭型外緣的距離."
 
 #: ../glade/paint/preferences.glade.h:24
-msgid ""
-"Extra padding between a stoichiometric coefficient and its associated "
-"molecule in pixels."
-msgstr ""
+msgid "Extra padding between a stoichiometric coefficient and its associated molecule in pixels."
+msgstr "額外的的填充功能, 用在計量化學係數及相關的分子之間, 單位為像素."
 
 #: ../glade/paint/preferences.glade.h:25
 msgid "GChemPaint Preferences"
@@ -842,92 +875,82 @@ msgstr "GChemPaint 偏好設定"
 
 #: ../glade/paint/preferences.glade.h:26
 msgid "General _padding:"
-msgstr ""
+msgstr "一般的填充功能:"
 
 #: ../glade/paint/preferences.glade.h:27
 msgid "Ha_sh width:"
-msgstr ""
+msgstr "虛線寬度:"
 
 #: ../glade/paint/preferences.glade.h:28
-msgid "Ha_ve a tearable table of the elements"
-msgstr ""
+msgid "Len_gth:"
+msgstr "長度"
 
 #: ../glade/paint/preferences.glade.h:29
-msgid "Len_gth:"
-msgstr ""
-
-#: ../glade/paint/preferences.glade.h:30
 #: ../plugins/paint/residues/residues.glade.h:3
 msgid "N_ame:"
-msgstr ""
+msgstr "名稱"
+
+#: ../glade/paint/preferences.glade.h:30
+msgid "Padding added at each end of an arrow (in pixels)."
+msgstr "填充到每個箭頭的末端 (單位為像素)"
 
 #: ../glade/paint/preferences.glade.h:31
-msgid "Padding added at each end of an arrow (in pixels)."
-msgstr ""
+msgid "Padding between a '+' sign in a reaction equation and reactants symbols in pixels."
+msgstr "在化學式中的 '+' 與反應物符號之填充, 單位為像素."
 
 #: ../glade/paint/preferences.glade.h:32
-msgid ""
-"Padding between a '+' sign in a reaction equation and reactants symbols in "
-"pixels."
-msgstr ""
+msgid "Padding used around text objects such as atoms, texts and other typographic signs in pixels."
+msgstr "用在文字物件如原子, 文字, 符號等的填充功能, 單位為像素."
 
 #: ../glade/paint/preferences.glade.h:33
-msgid ""
-"Padding used around text objects such as atoms, texts and other typographic "
-"signs in pixels."
-msgstr ""
+msgid "Scale used to convert real distance to canvas distance expressed in pm per pixel."
+msgstr "用以轉換真實長度到軟體操作區域長度的比例, 1 像素代表 1 pm."
 
 #: ../glade/paint/preferences.glade.h:34
-msgid ""
-"Scale used to convert real distance to canvas distance expressed in pm per "
-"pixel."
-msgstr ""
+msgid "Si_gn padding:"
+msgstr "符號填充"
 
 #: ../glade/paint/preferences.glade.h:35
-msgid "Si_gn padding:"
-msgstr ""
-
-#: ../glade/paint/preferences.glade.h:36
 msgid "Size of the charge sign in pixels."
 msgstr "電荷符號的大小 (像素)"
 
-#: ../glade/paint/preferences.glade.h:37
+#: ../glade/paint/preferences.glade.h:36
 msgid "Stoichio_metry padding:"
-msgstr ""
+msgstr "計量化學填充:"
+
+#: ../glade/paint/preferences.glade.h:37
+msgid "Wid_th"
+msgstr "寬度"
 
 #: ../glade/paint/preferences.glade.h:38
-msgid "Wid_th"
-msgstr ""
-
-#: ../glade/paint/preferences.glade.h:39
 msgid "Width in pixels at the largest end."
 msgstr "已達像素寬度的最大極限"
 
-#: ../glade/paint/preferences.glade.h:40
+#: ../glade/paint/preferences.glade.h:39
 msgid "Width of hashes in pixels."
-msgstr ""
+msgstr "虛線寬度, 單位為像素."
 
-#: ../glade/paint/preferences.glade.h:41
+#: ../glade/paint/preferences.glade.h:40
 msgid "_Default theme:"
 msgstr "預設主題"
 
-#: ../glade/paint/preferences.glade.h:42
+#: ../glade/paint/preferences.glade.h:41
 msgid "_Distance:"
 msgstr "距離;"
 
-#: ../glade/paint/preferences.glade.h:43
+#: ../glade/paint/preferences.glade.h:42
 msgid "_Object padding:"
-msgstr "_填充目標:"
+msgstr "填充目標:"
+
+#: ../glade/paint/preferences.glade.h:43
+msgid "_Padding:"
+msgstr "填充"
 
 #: ../glade/paint/preferences.glade.h:44
-msgid "_Padding:"
-msgstr "_填充"
+msgid "_Scale:"
+msgstr "縮放值:"
 
 #: ../glade/paint/preferences.glade.h:45
-msgid "_Scale:"
-msgstr "縮放值 (數字越大圖形越小):"
-
-#: ../glade/paint/preferences.glade.h:46
 msgid "_Width:"
 msgstr "寬度:"
 
@@ -937,28 +960,28 @@ msgstr "目前設定為繪圖的元素"
 
 #: ../glade/paint/zoom.glade.h:1
 msgid "Zoom"
-msgstr ""
+msgstr "縮放"
 
 #: ../glade/paint/zoom.glade.h:3
 #, no-c-format
 msgid "Zoom factor (%):"
-msgstr ""
+msgstr "縮放比例 (%):"
 
 #: ../glade/table/acidity.glade.h:1
 msgid "<span background=\"blue\"><b>Basic</b></span>"
-msgstr ""
+msgstr "<span background=\"blue\"><b>Basic</b></span>"
 
 #: ../glade/table/acidity.glade.h:2
 msgid "<span background=\"green\"><b>Neutral</b></span>"
-msgstr ""
+msgstr "<span background=\"green\"><b>Neutral</b></span>"
 
 #: ../glade/table/acidity.glade.h:3
 msgid "<span background=\"magenta\"><b>Amphoteric</b></span>"
-msgstr ""
+msgstr "<span background=\"magenta\"><b>Amphoteric</b></span>"
 
 #: ../glade/table/acidity.glade.h:4
 msgid "<span background=\"red\"><b>Acidic</b></span>"
-msgstr ""
+msgstr "<span background=\"red\"><b>Acidic</b></span>"
 
 #: ../glade/table/eltpage.glade.h:1
 msgid "1:"
@@ -1020,7 +1043,8 @@ msgstr "Pauling electronegativity 鮑林電負度/陰電性 :"
 msgid "Radii"
 msgstr "Radii 半徑"
 
-#: ../glade/table/eltpage.glade.h:16 ../programs/table/gchemtable-elt.cc:130
+#: ../glade/table/eltpage.glade.h:16
+#: ../programs/table/gchemtable-elt.cc:130
 msgid "Show curve"
 msgstr "顯示趨勢圖"
 
@@ -1034,15 +1058,15 @@ msgstr "Van der Waals 凡得瓦:"
 
 #: ../glade/table/state-thermometer.glade.h:1
 msgid "<span background=\"blue\"> <b>Solid</b> </span>"
-msgstr ""
+msgstr "<span background=\"blue\"> <b>Solid</b> </span>"
 
 #: ../glade/table/state-thermometer.glade.h:2
 msgid "<span background=\"green\"> <b>Liquid</b> </span>"
-msgstr ""
+msgstr "<span background=\"green\"> <b>Liquid</b> </span>"
 
 #: ../glade/table/state-thermometer.glade.h:3
 msgid "<span background=\"red\"> <b>Gas</b> </span>"
-msgstr ""
+msgstr "<span background=\"red\"> <b>Gas</b> </span>"
 
 #: ../glade/table/state-thermometer.glade.h:4
 msgid "Temperature (K):"
@@ -1050,7 +1074,7 @@ msgstr "Temperature 溫度 (K):"
 
 #: ../glade/table/curve.glade.h:1
 msgid "GChemTable Graph"
-msgstr ""
+msgstr "GChemTable 圖形"
 
 #: ../glade/table/family.glade.h:1
 msgid ""
@@ -1065,44 +1089,36 @@ msgid ""
 "Transition Metals\n"
 "Other Metals\n"
 msgstr ""
-"All 全部\n"
-"Alkali Metals 鹼金族\n"
-"Alkaline Earths Metals 鹼土族\n"
-"Halogenes 鹵素\n"
-"Metalloids 類金屬\n"
-"Noble Gases\n"
-"Non-Metals\n"
-"Rare Earths Metals\n"
-"Transition Metals\n"
-"Other Metals\n"
+"All 全部\n"
+"Alkali Metals 鹼金族\n"
+"Alkaline Earths Metals 鹼土族\n"
+"Halogenes 鹵素\n"
+"Metalloids 類金屬\n"
+"Noble Gases 惰性氣體\n"
+"Non-Metals 非金屬\n"
+"Rare Earths Metals 稀土金屬\n"
+"Transition Metals 過渡金屬\n"
+"Other Metals 其他金屬\n"
 
 #: ../glade/table/family.glade.h:12
 msgid "Selected Family:"
 msgstr "選擇的家族:"
 
 #: ../glade/table/block.glade.h:1
-msgid ""
-"<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight="
-"\"bold\"> s block </span>"
-msgstr ""
+msgid "<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> s block </span>"
+msgstr "<span background=\"#00008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> s block </span>"
 
 #: ../glade/table/block.glade.h:2
-msgid ""
-"<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight="
-"\"bold\"> d block </span>"
-msgstr ""
+msgid "<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight=\"bold\"> d block </span>"
+msgstr "<span background=\"#008e00\" foreground=\"white\" size=\"larger\" weight=\"bold\"> d block </span>"
 
 #: ../glade/table/block.glade.h:3
-msgid ""
-"<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight="
-"\"bold\"> p block </span>"
-msgstr ""
+msgid "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight=\"bold\"> p block </span>"
+msgstr "<span background=\"#8e0000\" foreground=\"white\" size=\"larger\" weight=\"bold\"> p block </span>"
 
 #: ../glade/table/block.glade.h:4
-msgid ""
-"<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight="
-"\"bold\"> f block </span>"
-msgstr ""
+msgid "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> f block </span>"
+msgstr "<span background=\"#8e008e\" foreground=\"white\" size=\"larger\" weight=\"bold\"> f block </span>"
 
 #: ../database/elements.xml.in.h:1
 msgid "Actinium"
@@ -1150,7 +1166,7 @@ msgstr "鉍_Bismuth"
 
 #: ../database/elements.xml.in.h:12
 msgid "Bohrium"
-msgstr ""
+msgstr "Bohrium"
 
 #: ../database/elements.xml.in.h:13
 msgid "Boron"
@@ -1206,11 +1222,11 @@ msgstr "鋦_Curium"
 
 #: ../database/elements.xml.in.h:26
 msgid "Darmstadtium"
-msgstr ""
+msgstr "鐽_Darmstadtium"
 
 #: ../database/elements.xml.in.h:27
 msgid "Dubnium"
-msgstr ""
+msgstr "_Dubnium"
 
 #: ../database/elements.xml.in.h:28
 msgid "Dysprosium"
@@ -1262,7 +1278,7 @@ msgstr "鉿_Hafnium"
 
 #: ../database/elements.xml.in.h:40
 msgid "Hassium"
-msgstr ""
+msgstr "Hassium"
 
 #: ../database/elements.xml.in.h:41
 msgid "Helium"
@@ -1326,7 +1342,7 @@ msgstr "錳_Manganese"
 
 #: ../database/elements.xml.in.h:56
 msgid "Meitnerium"
-msgstr ""
+msgstr "䥑_Meitnerium"
 
 #: ../database/elements.xml.in.h:57
 msgid "Mendelevium"
@@ -1430,7 +1446,7 @@ msgstr "銠_Rhodium"
 
 #: ../database/elements.xml.in.h:82
 msgid "Roentgenium"
-msgstr ""
+msgstr "錀_Roentgenium"
 
 #: ../database/elements.xml.in.h:83
 msgid "Rubidium"
@@ -1454,7 +1470,7 @@ msgstr "鈧_Scandium"
 
 #: ../database/elements.xml.in.h:88
 msgid "Seaborgium"
-msgstr ""
+msgstr "Seaborgium"
 
 #: ../database/elements.xml.in.h:89
 msgid "Selenium"
@@ -1522,23 +1538,23 @@ msgstr "鎢_Tungsten"
 
 #: ../database/elements.xml.in.h:105
 msgid "Ununbium"
-msgstr ""
+msgstr "Ununbium"
 
 #: ../database/elements.xml.in.h:106
 msgid "Ununhexium"
-msgstr ""
+msgstr "Ununhexium"
 
 #: ../database/elements.xml.in.h:107
 msgid "Ununpentium"
-msgstr ""
+msgstr "Ununpentium"
 
 #: ../database/elements.xml.in.h:108
 msgid "Ununquadium"
-msgstr ""
+msgstr "Ununquadium"
 
 #: ../database/elements.xml.in.h:109
 msgid "Ununtrium"
-msgstr ""
+msgstr "Ununtrium"
 
 #: ../database/elements.xml.in.h:110
 msgid "Uranium"
@@ -1594,16 +1610,17 @@ msgstr "化學結構組合工具"
 
 #: ../goffice/plugin.xml.in.h:4
 msgid "Component : GChemPaint"
-msgstr ""
+msgstr "Component : GChemPaint"
 
-#: ../goffice/gogcpapp.cc:183 ../programs/paint/standaloneapp.cc:46
+#: ../goffice/gogcpapp.cc:183
+#: ../programs/paint/standaloneapp.cc:46
 #, c-format
 msgid "Untitled %d"
-msgstr ""
+msgstr "未命名 %d"
 
-#: ../goffice/gogcpwin.cc:88
+#: ../goffice/gogcpwin.cc:89
 msgid "Embedded GChemPaint Object"
-msgstr ""
+msgstr "嵌入的 GChemPaint 物件"
 
 #: ../libs/canvas/gcp-canvas-pango.c:367
 msgid "Layout"
@@ -1611,7 +1628,7 @@ msgstr "規劃"
 
 #: ../libs/canvas/gcp-canvas-pango.c:368
 msgid "Pango layout"
-msgstr ""
+msgstr "Pango layout"
 
 #: ../libs/canvas/gcp-canvas-pango.c:375
 msgid "X"
@@ -1659,7 +1676,7 @@ msgstr "色彩"
 
 #: ../libs/canvas/gcp-canvas-pango.c:417
 msgid "Text color, as string"
-msgstr ""
+msgstr "文字顏色, 如字串"
 
 #: ../libs/canvas/gcp-canvas-pango.c:424
 msgid "Editing"
@@ -1667,13 +1684,16 @@ msgstr "編輯"
 
 #: ../libs/canvas/gcp-canvas-pango.c:425
 msgid "Is this rich text item currently edited?"
-msgstr ""
+msgstr "這文字是否正在編輯中?"
 
-#: ../libs/gcp/about.cc:49 ../programs/3d/window.cc:149
-#: ../programs/calc/gchemcalc.cc:321 ../programs/crystal/window.cc:145
-#: ../programs/spectra/window.cc:144 ../programs/table/gchemtable-app.cc:369
+#: ../libs/gcp/about.cc:49
+#: ../programs/3d/window.cc:153
+#: ../programs/calc/gchemcalc.cc:335
+#: ../programs/crystal/window.cc:145
+#: ../programs/spectra/window.cc:146
+#: ../programs/table/gchemtable-app.cc:369
 msgid "translator_credits"
-msgstr ""
+msgstr "翻譯者貢獻"
 
 #: ../libs/gcp/about.cc:55
 msgid "GChemPaint is a 2D chemical structures editor for Gnome"
@@ -1681,109 +1701,137 @@ msgstr "GChempaint 是 Gnome 的平面化學繪圖軟體"
 
 #: ../libs/gcp/about.cc:56
 msgid "Copyright © 2001-2008 by Jean Bréfort"
-msgstr ""
+msgstr "Copyright © 2001-2008 by Jean Bréfort"
 
-#: ../libs/gcp/application.cc:303
+#: ../libs/gcp/application.cc:305
 msgid "Create a new reaction"
-msgstr ""
+msgstr "新增一個反應"
 
-#: ../libs/gcp/application.cc:310
+#: ../libs/gcp/application.cc:312
 msgid "Create a new mesomery relationship"
-msgstr ""
+msgstr "新增消旋關係"
 
-#: ../libs/gcp/application.cc:512 ../libs/gcp/stringdlg.cc:102
+#: ../libs/gcp/application.cc:512
+#: ../libs/gcp/stringdlg.cc:102
 #: ../plugins/paint/wikipedia/wikipediatool.cc:79
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
+"請輸入檔名, \n"
+" 不是子目錄"
 
-#: ../libs/gcp/application.cc:554
+#: ../libs/gcp/application.cc:555
 #, c-format
 msgid ""
 "Sorry, format %s not supported!\n"
 "Failed to load %s."
 msgstr ""
+"抱歉, 不支援 %s 格式! \n"
+"無法載入 %s."
 
-#: ../libs/gcp/application.cc:583 ../libs/gcp/stringdlg.cc:117
-#: ../plugins/paint/wikipedia/wikipediatool.cc:92
-#: ../programs/3d/application.cc:166 ../programs/calc/gchemcalc.cc:231
-#: ../programs/crystal/application.cc:214
-#: ../programs/spectra/application.cc:81
-#: ../programs/table/gchemtable-app.cc:683
+#: ../libs/gcp/application.cc:586
+#: ../libs/gcp/stringdlg.cc:118
+#: ../plugins/paint/wikipedia/wikipediatool.cc:93
+#: ../programs/3d/application.cc:171
+#: ../programs/calc/gchemcalc.cc:244
+#: ../programs/crystal/application.cc:217
+#: ../programs/spectra/application.cc:84
+#: ../programs/table/gchemtable-app.cc:684
 #, c-format
 msgid ""
 "File %s\n"
 "exists, overwrite?"
 msgstr ""
+"%s檔案\n"
+"已經存在, 要覆寫嗎?"
 
-#: ../libs/gcp/application.cc:596 ../libs/gcp/stringdlg.cc:131
-#: ../plugins/paint/wikipedia/wikipediatool.cc:104
-#: ../programs/crystal/application.cc:226
+#: ../libs/gcp/application.cc:601
+#: ../libs/gcp/stringdlg.cc:134
+#: ../plugins/paint/wikipedia/wikipediatool.cc:107
+#: ../programs/crystal/application.cc:231
 #, c-format
 msgid ""
 "Error while processing %s:\n"
 "%s"
 msgstr ""
+"過程中出現錯誤 %s:\n"
+"%s"
 
-#: ../libs/gcp/application.cc:804 ../libs/gcp/application.cc:932
+#: ../libs/gcp/application.cc:810
+#: ../libs/gcp/application.cc:941
 msgid "No filename"
 msgstr "沒有檔名"
 
-#: ../libs/gcp/application.cc:807
+#: ../libs/gcp/application.cc:813
 #, c-format
 msgid ""
 "Could not open file\n"
 "%s"
 msgstr ""
+"無法開啟檔案 \n"
+"%s"
 
-#: ../libs/gcp/application.cc:810 ../libs/gcp/application.cc:944
+#: ../libs/gcp/application.cc:816
+#: ../libs/gcp/application.cc:953
 #, c-format
 msgid "%s: parse error."
-msgstr ""
+msgstr "%s: 語法錯誤"
 
-#: ../libs/gcp/application.cc:935 ../programs/crystal/document.cc:326
+#: ../libs/gcp/application.cc:944
+#: ../programs/crystal/document.cc:329
 #, c-format
 msgid ""
 "Could not load file\n"
 "%s"
 msgstr ""
+"無法載入檔案 \n"
+"%s"
 
-#: ../libs/gcp/application.cc:938 ../programs/crystal/document.cc:329
+#: ../libs/gcp/application.cc:947
+#: ../programs/crystal/document.cc:332
 #, c-format
 msgid ""
 "%s: invalid xml file.\n"
 "Tree is empty?"
 msgstr ""
+"%s: 無效的 xml 檔. \n"
+"目錄是空的嗎?"
 
-#: ../libs/gcp/application.cc:941 ../programs/crystal/document.cc:332
+#: ../libs/gcp/application.cc:950
+#: ../programs/crystal/document.cc:335
 #, c-format
 msgid "%s: invalid file format."
-msgstr ""
+msgstr "%s: 無效的檔案格式."
 
-#: ../libs/gcp/application.cc:976 ../programs/3d/application.cc:248
-#: ../programs/calc/gchemcalc.cc:221 ../programs/crystal/application.cc:112
-#: ../programs/spectra/application.cc:134
+#: ../libs/gcp/application.cc:987
+#: ../programs/3d/application.cc:254
+#: ../programs/calc/gchemcalc.cc:233
+#: ../programs/crystal/application.cc:114
+#: ../programs/spectra/application.cc:138
 #: ../programs/table/gchemtable-app.cc:672
 msgid "Save as image"
 msgstr "存成影像檔"
 
-#: ../libs/gcp/atom.cc:1863 ../libs/gcp/atom.cc:1877
-#: ../plugins/paint/atoms/plugin.cc:55 ../programs/crystal/atomsdlg.cc:134
+#: ../libs/gcp/atom.cc:1889
+#: ../libs/gcp/atom.cc:1903
+#: ../plugins/paint/atoms/plugin.cc:55
+#: ../programs/crystal/atomsdlg.cc:134
 msgid "Atom"
 msgstr "原子"
 
-#: ../libs/gcp/atom.cc:1866
+#: ../libs/gcp/atom.cc:1892
 msgid "Display symbol"
 msgstr "顯示符號"
 
-#: ../libs/gcp/atom.cc:1866
+#: ../libs/gcp/atom.cc:1892
 msgid "Whether to display carbon atom symbol or not"
 msgstr "是否顯示碳原子符號？ "
 
-#: ../libs/gcp/bond.cc:999 ../plugins/paint/bonds/plugin.cc:56
+#: ../libs/gcp/bond.cc:999
+#: ../plugins/paint/bonds/plugin.cc:56
 msgid "Bond"
-msgstr ""
+msgstr "鍵"
 
 #: ../libs/gcp/bond.cc:1003
 msgid "Move to back"
@@ -1791,20 +1839,23 @@ msgstr "向後移動"
 
 #: ../libs/gcp/bond.cc:1010
 msgid "Bring to front"
-msgstr ""
+msgstr "移到前方"
 
-#: ../libs/gcp/docprop.cc:118 ../libs/gcp/docprop.cc:125
-#: ../programs/crystal/docprop.cc:109 ../programs/crystal/docprop.cc:116
+#: ../libs/gcp/docprop.cc:118
+#: ../libs/gcp/docprop.cc:125
+#: ../programs/crystal/docprop.cc:109
+#: ../programs/crystal/docprop.cc:116
 msgid "%A, %B %d, %Y"
-msgstr ""
+msgstr "%A, %B %d, %Y"
 
-#: ../libs/gcp/fontsel.cc:287 ../programs/table/gchemtable-app.cc:154
+#: ../libs/gcp/fontsel.cc:287
+#: ../programs/table/gchemtable-app.cc:154
 msgid "Family"
 msgstr "族"
 
 #: ../libs/gcp/fontsel.cc:288
 msgid "Font family"
-msgstr "字型系列"
+msgstr "字型庫"
 
 #: ../libs/gcp/fontsel.cc:291
 msgid "Style"
@@ -1812,23 +1863,23 @@ msgstr "樣式"
 
 #: ../libs/gcp/fontsel.cc:292
 msgid "The font style (normal, oblique or italic)"
-msgstr "字型樣式(正常,斜體)"
+msgstr "字型樣式 (正常, 傾斜字, 斜體)"
 
 #: ../libs/gcp/fontsel.cc:296
 msgid "Weight"
-msgstr "重量"
+msgstr "粗細"
 
 #: ../libs/gcp/fontsel.cc:297
 msgid "The font weight"
-msgstr "字型重量"
+msgstr "字型粗細"
 
 #: ../libs/gcp/fontsel.cc:301
 msgid "Variant"
-msgstr "變形"
+msgstr "變體"
 
 #: ../libs/gcp/fontsel.cc:302
 msgid "The font variant"
-msgstr "字型變化"
+msgstr "字型變體"
 
 #: ../libs/gcp/fontsel.cc:306
 msgid "Stretch"
@@ -1836,7 +1887,7 @@ msgstr "伸展"
 
 #: ../libs/gcp/fontsel.cc:307
 msgid "The font stretch (condensed, normal or expanded)"
-msgstr "字型伸縮(壓縮、正常、擴展)"
+msgstr "字型伸縮 (壓縮、正常、擴展)"
 
 #: ../libs/gcp/fontsel.cc:311
 msgid "Size"
@@ -1844,107 +1895,123 @@ msgstr "大小"
 
 #: ../libs/gcp/fontsel.cc:312
 msgid "The font size (in pango units)"
-msgstr ""
+msgstr "字型大小 (pango 單位)"
 
-#: ../libs/gcp/fragment.cc:726 ../libs/gcp/fragment.cc:1316
+#: ../libs/gcp/fragment.cc:732
+#: ../libs/gcp/fragment.cc:1329
 msgid "Invalid charge."
 msgstr "無效的電荷"
 
-#: ../libs/gcp/fragment.cc:1289
+#: ../libs/gcp/fragment.cc:1302
 msgid "Invalid symbol."
-msgstr "無效符號."
+msgstr "無效的符號."
 
 #: ../libs/gcp/mesomer.cc:76
 msgid "Only one arrow can link two given mesomers."
-msgstr ""
+msgstr "只能用一個箭頭連接兩個內消旋化合物"
 
-#: ../libs/gcp/mesomery.cc:153 ../libs/gcp/mesomery.cc:531
+#: ../libs/gcp/mesomery.cc:153
+#: ../libs/gcp/mesomery.cc:531
 #: ../plugins/paint/arrows/retrosynthesis.cc:162
 msgid "Something wrong happened, please file a bug report."
-msgstr ""
+msgstr "發生錯誤, 請回報臭蟲."
 
-#: ../libs/gcp/mesomery.cc:191 ../plugins/paint/arrows/retrosynthesis.cc:199
+#: ../libs/gcp/mesomery.cc:191
+#: ../plugins/paint/arrows/retrosynthesis.cc:199
 msgid "No space left between molecule and arrow!"
-msgstr ""
+msgstr "分子與箭頭之間已沒有空間了!"
 
-#: ../libs/gcp/mesomery.cc:209 ../plugins/paint/arrows/retrosynthesis.cc:217
+#: ../libs/gcp/mesomery.cc:209
+#: ../plugins/paint/arrows/retrosynthesis.cc:217
 msgid "Isolated arrows are not allowed!"
-msgstr ""
+msgstr "不允許分離的箭頭!"
 
-#: ../libs/gcp/mesomery.cc:223 ../plugins/paint/arrows/retrosynthesis.cc:232
+#: ../libs/gcp/mesomery.cc:223
+#: ../plugins/paint/arrows/retrosynthesis.cc:232
 msgid ""
 "Isolated molecule!\n"
 " Please add missing arrows."
 msgstr ""
+"分離的分子!\n"
+"將加入箭頭"
 
 #: ../libs/gcp/mesomery.cc:228
 msgid "Please add missing arrows."
-msgstr ""
+msgstr "請加入箭頭"
 
 #: ../libs/gcp/mesomery.cc:751
 msgid "Destroy the mesomery relationship"
-msgstr ""
+msgstr "摧毀內消旋相關性"
 
-#: ../libs/gcp/molecule.cc:505
+#: ../libs/gcp/molecule.cc:512
 msgid "Molecule"
 msgstr "分子"
 
-#: ../libs/gcp/molecule.cc:511
-msgid "Export molecule to Ghemical"
-msgstr ""
-
 #: ../libs/gcp/molecule.cc:518
+msgid "Export molecule to Ghemical"
+msgstr "匯出分子到 Ghemical"
+
+#: ../libs/gcp/molecule.cc:525
 msgid "Generate InChI"
-msgstr ""
+msgstr "產生 InChI 文字化學式"
 
-#: ../libs/gcp/molecule.cc:523
+#: ../libs/gcp/molecule.cc:530
 msgid "NIST WebBook page for this molecule"
-msgstr ""
+msgstr "有關此分子在 NIST WebBook 的網頁"
 
-#: ../libs/gcp/molecule.cc:528
+#: ../libs/gcp/molecule.cc:535
 msgid "PubChem page for this molecule"
-msgstr ""
+msgstr "有關此分子在 PubChem 的網頁"
 
-#: ../libs/gcp/molecule.cc:534
+#: ../libs/gcp/molecule.cc:541
 msgid "Generate SMILES"
-msgstr ""
+msgstr "產生 SMILES 文字化學式"
 
-#: ../libs/gcp/molecule.cc:539
+#: ../libs/gcp/molecule.cc:546
 msgid "Open in Calculator"
-msgstr ""
+msgstr "使用化學計算機開啟"
 
-#: ../libs/gcp/molecule.cc:547
+#: ../libs/gcp/molecule.cc:554
 msgid "Select alignment item"
-msgstr ""
+msgstr "選擇排列項目"
 
-#: ../libs/gcp/preferences.cc:381 ../libs/gcp/preferences.cc:400
-#: ../libs/gcp/preferences.cc:529 ../libs/gcp/theme.cc:335
-#: ../libs/gcp/theme.cc:342 ../programs/table/gchemtable-app.cc:149
+#: ../libs/gcp/preferences.cc:364
+#: ../libs/gcp/preferences.cc:383
+#: ../libs/gcp/preferences.cc:512
+#: ../libs/gcp/theme.cc:341
+#: ../libs/gcp/theme.cc:348
+#: ../programs/table/gchemtable-app.cc:149
 msgid "Default"
 msgstr "預設"
 
-#: ../libs/gcp/preferences.cc:421 ../libs/gcp/preferences.cc:490
-#: ../libs/gcp/preferences.cc:557
+#: ../libs/gcp/preferences.cc:404
+#: ../libs/gcp/preferences.cc:473
+#: ../libs/gcp/preferences.cc:540
 msgid "General"
 msgstr "一般的"
 
-#: ../libs/gcp/preferences.cc:431 ../libs/gcp/preferences.cc:505
-#: ../libs/gcp/preferences.cc:559
+#: ../libs/gcp/preferences.cc:414
+#: ../libs/gcp/preferences.cc:488
+#: ../libs/gcp/preferences.cc:542
 msgid "Font"
 msgstr "字型"
 
-#: ../libs/gcp/preferences.cc:435 ../libs/gcp/preferences.cc:509
-#: ../libs/gcp/preferences.cc:561
+#: ../libs/gcp/preferences.cc:418
+#: ../libs/gcp/preferences.cc:492
+#: ../libs/gcp/preferences.cc:544
 msgid "Other"
 msgstr "其他"
 
-#: ../libs/gcp/preferences.cc:443 ../libs/gcp/preferences.cc:517
-#: ../libs/gcp/preferences.cc:565
+#: ../libs/gcp/preferences.cc:426
+#: ../libs/gcp/preferences.cc:500
+#: ../libs/gcp/preferences.cc:548
 msgid "Arrows"
 msgstr "箭頭"
 
-#: ../libs/gcp/preferences.cc:447 ../libs/gcp/preferences.cc:521
-#: ../libs/gcp/preferences.cc:567 ../plugins/paint/text/plugin.cc:52
+#: ../libs/gcp/preferences.cc:430
+#: ../libs/gcp/preferences.cc:504
+#: ../libs/gcp/preferences.cc:550
+#: ../plugins/paint/text/plugin.cc:52
 msgid "Text"
 msgstr "本文"
 
@@ -1952,15 +2019,16 @@ msgstr "本文"
 msgid "Add a stoichiometry coefficient"
 msgstr "加入計量化學係數"
 
-#: ../libs/gcp/reaction.cc:135 ../libs/gcp/reaction.cc:208
+#: ../libs/gcp/reaction.cc:135
+#: ../libs/gcp/reaction.cc:208
 msgid ""
 "Error could not build a reaction\n"
 "from the selected objects."
-msgstr ""
+msgstr "錯誤! 無法自選取的物件建立反應."
 
 #: ../libs/gcp/reaction.cc:376
 msgid "Destroy the reaction"
-msgstr ""
+msgstr "摧毀該反應"
 
 #: ../libs/gcp/reaction-arrow.cc:381
 msgid "Arrow"
@@ -1968,621 +2036,719 @@ msgstr "箭頭"
 
 #: ../libs/gcp/reaction-arrow.cc:387
 msgid "Attach selection to arrow..."
-msgstr ""
+msgstr "將所選的附在箭頭..."
 
 #: ../libs/gcp/reaction-prop.cc:39
 msgid "Unkown"
-msgstr ""
+msgstr "未知"
 
 #: ../libs/gcp/reaction-prop.cc:40
 msgid "Catalyst"
-msgstr ""
+msgstr "催化劑"
 
 #: ../libs/gcp/reaction-prop.cc:41
 msgid "Reactant"
-msgstr ""
+msgstr "反應物"
 
 #: ../libs/gcp/reaction-prop.cc:42
 msgid "Product"
-msgstr ""
+msgstr "產物"
 
 #: ../libs/gcp/reaction-prop.cc:43
 msgid "Solvent"
-msgstr ""
+msgstr "溶劑"
 
 #: ../libs/gcp/reaction-prop.cc:44
 msgid "Temperature"
-msgstr ""
+msgstr "溫度"
 
 #: ../libs/gcp/reaction-prop.cc:45
 msgid "Pressure"
-msgstr ""
+msgstr "壓力"
 
 #: ../libs/gcp/reaction-prop.cc:46
 msgid "Time"
-msgstr ""
+msgstr "時間"
 
 #: ../libs/gcp/reaction-prop.cc:47
 msgid "Enthalpy"
-msgstr ""
+msgstr "Enthalpy 焓"
 
-#: ../libs/gcp/stringdlg.cc:79 ../libs/gcu/filechooser.cc:43
+#: ../libs/gcp/stringdlg.cc:79
+#: ../libs/gcu/filechooser.cc:45
 msgid "Save as"
 msgstr "另存新檔"
 
-#: ../libs/gcp/stringdlg.cc:145
+#: ../libs/gcp/stringdlg.cc:150
 #, c-format
 msgid ""
 "Could not open file %s, error was:\n"
 "%s"
 msgstr ""
+"無法開啟檔案 %s, 錯誤: \n"
+"%s"
 
-#: ../libs/gcp/stringdlg.cc:161
+#: ../libs/gcp/stringdlg.cc:168
 #, c-format
 msgid ""
 "Could not write to file %s, error was:\n"
 "%s."
 msgstr ""
+"無法寫入檔案 %s, 錯誤: \n"
+"%s"
 
-#: ../libs/gcp/stringdlg.cc:175
+#: ../libs/gcp/stringdlg.cc:184
 #, c-format
 msgid ""
 "Could not close file %s, error was:\n"
 "%s"
-msgstr "無法關閉檔案 %s, 錯誤訊息:\n %s"
+msgstr ""
+"無法關閉檔案 %s, 錯誤訊息:\n"
+"%s"
 
-#: ../libs/gcp/text.cc:298 ../libs/gcp/text.cc:304
+#: ../libs/gcp/text.cc:298
+#: ../libs/gcp/text.cc:304
 msgid "This should not have occured, please file a bug record."
-msgstr ""
+msgstr "這不應該存在, 請回報錯誤."
 
-#: ../libs/gcp/theme.cc:448
+#: ../libs/gcp/theme.cc:454
 msgid "NewTheme1"
-msgstr ""
+msgstr "新主題 1"
 
-#: ../libs/gcp/theme.cc:452
+#: ../libs/gcp/theme.cc:458
 #, c-format
 msgid "NewTheme%d"
-msgstr ""
+msgstr "新主題 %d"
 
-#: ../libs/gcp/theme.cc:549 ../programs/crystal/atomsdlg.cc:189
-#: ../programs/crystal/atomsdlg.cc:319 ../programs/crystal/atomsdlg.cc:483
+#: ../libs/gcp/theme.cc:559
+#: ../libs/gcp/theme.cc:563
+#: ../programs/crystal/atomsdlg.cc:189
+#: ../programs/crystal/atomsdlg.cc:319
+#: ../programs/crystal/atomsdlg.cc:483
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
-#: ../libs/gcp/view.cc:1028 ../programs/3d/application.cc:186
-#: ../programs/crystal/application.cc:271
+#: ../libs/gcp/view.cc:1028
+#: ../programs/3d/application.cc:192
+#: ../programs/crystal/application.cc:277
 #, c-format
 msgid ""
 "Could not create stream!\n"
 "%s"
 msgstr ""
+"無法新增 stream! \n"
+"%s"
 
-#: ../libs/gcp/view.cc:1064 ../libs/gcu/glview.cc:394
+#: ../libs/gcp/view.cc:1065
+#: ../libs/gcu/glview.cc:391
 #, c-format
 msgid "Unable to save image file: %s\n"
 msgstr "無法存成影像檔: %s\n"
 
-#: ../libs/gcp/window.cc:280 ../programs/3d/window.cc:171
-#: ../programs/calc/gchemcalc.cc:609 ../programs/crystal/window.cc:280
-#: ../programs/spectra/window.cc:166 ../programs/table/gchemtable-app.cc:140
-#: ../programs/table/gchemtable-curve.cc:218
+#: ../libs/gcp/window.cc:281
+#: ../programs/3d/window.cc:175
+#: ../programs/calc/gchemcalc.cc:627
+#: ../programs/crystal/window.cc:280
+#: ../programs/spectra/window.cc:168
+#: ../programs/table/gchemtable-app.cc:140
+#: ../programs/table/gchemtable-curve.cc:228
 msgid "_File"
 msgstr "檔案"
 
-#: ../libs/gcp/window.cc:281 ../programs/crystal/window.cc:281
+#: ../libs/gcp/window.cc:282
+#: ../programs/crystal/window.cc:281
 msgid "_New File"
 msgstr "新檔案"
 
-#: ../libs/gcp/window.cc:282 ../programs/crystal/window.cc:282
+#: ../libs/gcp/window.cc:283
+#: ../programs/crystal/window.cc:282
 msgid "Create a new file"
 msgstr "開新檔案"
 
-#: ../libs/gcp/window.cc:283
+#: ../libs/gcp/window.cc:284
 msgid "Ne_w File with Theme..."
 msgstr "新增檔案及主題"
 
-#: ../libs/gcp/window.cc:284
+#: ../libs/gcp/window.cc:285
 msgid "Create a new file using a theme"
 msgstr "以此主題新增一個檔案"
 
-#: ../libs/gcp/window.cc:285 ../programs/3d/window.cc:172
-#: ../programs/crystal/window.cc:283 ../programs/spectra/window.cc:167
+#: ../libs/gcp/window.cc:286
+#: ../programs/3d/window.cc:176
+#: ../programs/crystal/window.cc:283
+#: ../programs/spectra/window.cc:169
 msgid "_Open..."
 msgstr "開啟"
 
-#: ../libs/gcp/window.cc:286 ../programs/3d/window.cc:173
-#: ../programs/crystal/window.cc:284 ../programs/spectra/window.cc:168
+#: ../libs/gcp/window.cc:287
+#: ../programs/3d/window.cc:177
+#: ../programs/crystal/window.cc:284
+#: ../programs/spectra/window.cc:170
 msgid "Open a file"
 msgstr "開啟檔案"
 
-#: ../libs/gcp/window.cc:287 ../programs/crystal/window.cc:285
+#: ../libs/gcp/window.cc:288
+#: ../programs/crystal/window.cc:285
 msgid "_Save"
 msgstr "存檔"
 
-#: ../libs/gcp/window.cc:288 ../programs/crystal/window.cc:286
+#: ../libs/gcp/window.cc:289
+#: ../programs/crystal/window.cc:286
 msgid "Save the current file"
 msgstr "儲存目前的檔案"
 
-#: ../libs/gcp/window.cc:289 ../programs/crystal/window.cc:287
+#: ../libs/gcp/window.cc:290
+#: ../programs/crystal/window.cc:287
 msgid "Save _As..."
 msgstr "另存新檔"
 
-#: ../libs/gcp/window.cc:290 ../programs/crystal/window.cc:288
+#: ../libs/gcp/window.cc:291
+#: ../programs/crystal/window.cc:288
 msgid "Save the current file with a different name"
 msgstr "將目前的檔案存成不同檔名"
 
-#: ../libs/gcp/window.cc:291 ../programs/3d/window.cc:174
-#: ../programs/calc/gchemcalc.cc:610 ../programs/crystal/window.cc:289
-#: ../programs/spectra/window.cc:169 ../programs/table/gchemtable-curve.cc:219
+#: ../libs/gcp/window.cc:292
+#: ../programs/3d/window.cc:178
+#: ../programs/calc/gchemcalc.cc:628
+#: ../programs/crystal/window.cc:289
+#: ../programs/spectra/window.cc:171
+#: ../programs/table/gchemtable-curve.cc:229
 msgid "Save As _Image..."
-msgstr "存成影像檔..."
+msgstr "存成影像..."
 
-#: ../libs/gcp/window.cc:292 ../programs/3d/window.cc:175
-#: ../programs/calc/gchemcalc.cc:611 ../programs/crystal/window.cc:290
-#: ../programs/spectra/window.cc:170 ../programs/table/gchemtable-curve.cc:220
+#: ../libs/gcp/window.cc:293
+#: ../programs/3d/window.cc:179
+#: ../programs/calc/gchemcalc.cc:629
+#: ../programs/crystal/window.cc:290
+#: ../programs/spectra/window.cc:172
+#: ../programs/table/gchemtable-curve.cc:230
 msgid "Save the current file as an image"
-msgstr "將目前的檔案存成影像檔"
+msgstr "將目前的檔案存成影像"
 
-#: ../libs/gcp/window.cc:293 ../programs/3d/window.cc:176
-#: ../programs/calc/gchemcalc.cc:612 ../programs/crystal/window.cc:291
-#: ../programs/spectra/window.cc:171 ../programs/table/gchemtable-curve.cc:221
+#: ../libs/gcp/window.cc:294
+#: ../programs/3d/window.cc:180
+#: ../programs/calc/gchemcalc.cc:630
+#: ../programs/crystal/window.cc:291
+#: ../programs/spectra/window.cc:173
+#: ../programs/table/gchemtable-curve.cc:231
 msgid "Page Set_up..."
-msgstr ""
+msgstr "頁面設定"
 
-#: ../libs/gcp/window.cc:294 ../programs/3d/window.cc:177
-#: ../programs/calc/gchemcalc.cc:613 ../programs/crystal/window.cc:292
-#: ../programs/spectra/window.cc:172 ../programs/table/gchemtable-curve.cc:222
+#: ../libs/gcp/window.cc:295
+#: ../programs/3d/window.cc:181
+#: ../programs/calc/gchemcalc.cc:631
+#: ../programs/crystal/window.cc:292
+#: ../programs/spectra/window.cc:174
+#: ../programs/table/gchemtable-curve.cc:232
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "為您目前的印表機進行頁面設定"
 
-#: ../libs/gcp/window.cc:295 ../programs/3d/window.cc:178
-#: ../programs/calc/gchemcalc.cc:614 ../programs/crystal/window.cc:293
-#: ../programs/spectra/window.cc:173 ../programs/table/gchemtable-curve.cc:223
+#: ../libs/gcp/window.cc:296
+#: ../programs/3d/window.cc:182
+#: ../programs/calc/gchemcalc.cc:632
+#: ../programs/crystal/window.cc:293
+#: ../programs/spectra/window.cc:175
+#: ../programs/table/gchemtable-curve.cc:233
 msgid "Print Pre_view"
-msgstr ""
+msgstr "預覽列印"
 
-#: ../libs/gcp/window.cc:296 ../programs/3d/window.cc:179
-#: ../programs/calc/gchemcalc.cc:615 ../programs/crystal/window.cc:294
-#: ../programs/spectra/window.cc:174 ../programs/table/gchemtable-curve.cc:224
+#: ../libs/gcp/window.cc:297
+#: ../programs/3d/window.cc:183
+#: ../programs/calc/gchemcalc.cc:633
+#: ../programs/crystal/window.cc:294
+#: ../programs/spectra/window.cc:176
+#: ../programs/table/gchemtable-curve.cc:234
 msgid "Print preview"
-msgstr ""
+msgstr "預覽列印"
 
-#: ../libs/gcp/window.cc:297 ../programs/3d/window.cc:180
-#: ../programs/calc/gchemcalc.cc:616 ../programs/crystal/window.cc:295
-#: ../programs/spectra/window.cc:175 ../programs/table/gchemtable-curve.cc:225
+#: ../libs/gcp/window.cc:298
+#: ../programs/3d/window.cc:184
+#: ../programs/calc/gchemcalc.cc:634
+#: ../programs/crystal/window.cc:295
+#: ../programs/spectra/window.cc:177
+#: ../programs/table/gchemtable-curve.cc:235
 msgid "_Print..."
-msgstr "列印"
+msgstr "列印..."
 
-#: ../libs/gcp/window.cc:298 ../programs/calc/gchemcalc.cc:617
-#: ../programs/crystal/window.cc:296 ../programs/spectra/window.cc:176
-#: ../programs/table/gchemtable-curve.cc:226
+#: ../libs/gcp/window.cc:299
+#: ../programs/calc/gchemcalc.cc:635
+#: ../programs/crystal/window.cc:296
+#: ../programs/spectra/window.cc:178
+#: ../programs/table/gchemtable-curve.cc:236
 msgid "Print the current file"
 msgstr "列印目前的檔案"
 
-#: ../libs/gcp/window.cc:299 ../programs/crystal/window.cc:297
-#: ../programs/table/gchemtable-curve.cc:227
+#: ../libs/gcp/window.cc:300
+#: ../programs/crystal/window.cc:297
+#: ../programs/table/gchemtable-curve.cc:237
 msgid "Prope_rties..."
-msgstr ""
+msgstr "特性..."
 
-#: ../libs/gcp/window.cc:300 ../programs/crystal/window.cc:298
+#: ../libs/gcp/window.cc:301
+#: ../programs/crystal/window.cc:298
 msgid "Modify the file's properties"
 msgstr "修改檔案的屬性"
 
-#: ../libs/gcp/window.cc:301 ../programs/3d/window.cc:182
-#: ../programs/crystal/window.cc:299 ../programs/spectra/window.cc:177
-#: ../programs/table/gchemtable-curve.cc:229
+#: ../libs/gcp/window.cc:302
+#: ../programs/3d/window.cc:186
+#: ../programs/crystal/window.cc:299
+#: ../programs/spectra/window.cc:179
+#: ../programs/table/gchemtable-curve.cc:239
 msgid "_Close"
 msgstr "關閉"
 
-#: ../libs/gcp/window.cc:302 ../programs/3d/window.cc:183
-#: ../programs/crystal/window.cc:300 ../programs/spectra/window.cc:178
-#: ../programs/table/gchemtable-curve.cc:230
+#: ../libs/gcp/window.cc:303
+#: ../programs/3d/window.cc:187
+#: ../programs/crystal/window.cc:300
+#: ../programs/spectra/window.cc:180
+#: ../programs/table/gchemtable-curve.cc:240
 msgid "Close the current file"
 msgstr "關閉目前的檔案"
 
-#: ../libs/gcp/window.cc:303 ../programs/3d/window.cc:184
-#: ../programs/calc/gchemcalc.cc:618 ../programs/crystal/window.cc:301
-#: ../programs/spectra/window.cc:179 ../programs/table/gchemtable-app.cc:143
-#: ../programs/table/gchemtable-curve.cc:231
+#: ../libs/gcp/window.cc:304
+#: ../programs/3d/window.cc:188
+#: ../programs/calc/gchemcalc.cc:636
+#: ../programs/crystal/window.cc:301
+#: ../programs/spectra/window.cc:181
+#: ../programs/table/gchemtable-app.cc:143
+#: ../programs/table/gchemtable-curve.cc:241
 msgid "_Quit"
 msgstr "關閉程式"
 
-#: ../libs/gcp/window.cc:304
+#: ../libs/gcp/window.cc:305
 msgid "Quit GChemPaint"
-msgstr ""
+msgstr "關閉 GChempaint"
 
-#: ../libs/gcp/window.cc:305 ../programs/calc/gchemcalc.cc:620
-#: ../programs/crystal/window.cc:303 ../programs/spectra/window.cc:181
-#: ../programs/table/gchemtable-curve.cc:233
+#: ../libs/gcp/window.cc:306
+#: ../programs/calc/gchemcalc.cc:638
+#: ../programs/crystal/window.cc:303
+#: ../programs/spectra/window.cc:183
+#: ../programs/table/gchemtable-curve.cc:243
 msgid "_Edit"
 msgstr "編輯"
 
-#: ../libs/gcp/window.cc:306
-msgid "_Undo"
-msgstr ""
-
 #: ../libs/gcp/window.cc:307
-msgid "Undo the last action"
-msgstr ""
+msgid "_Undo"
+msgstr "復原"
 
 #: ../libs/gcp/window.cc:308
-msgid "_Redo"
-msgstr ""
+msgid "Undo the last action"
+msgstr "回復上一個動作"
 
 #: ../libs/gcp/window.cc:309
-msgid "Redo the undone action"
-msgstr ""
+msgid "_Redo"
+msgstr "重製"
 
 #: ../libs/gcp/window.cc:310
-msgid "Cu_t"
-msgstr ""
+msgid "Redo the undone action"
+msgstr "重製上一個動作"
 
 #: ../libs/gcp/window.cc:311
+msgid "Cu_t"
+msgstr "剪下"
+
+#: ../libs/gcp/window.cc:312
 msgid "Cut the selection"
-msgstr ""
+msgstr "剪下所選的"
 
-#: ../libs/gcp/window.cc:312 ../programs/calc/gchemcalc.cc:621
-#: ../programs/spectra/window.cc:182 ../programs/table/gchemtable-curve.cc:234
+#: ../libs/gcp/window.cc:313
+#: ../programs/calc/gchemcalc.cc:639
+#: ../programs/spectra/window.cc:184
+#: ../programs/table/gchemtable-curve.cc:244
 msgid "_Copy"
-msgstr ""
-
-#: ../libs/gcp/window.cc:313 ../programs/calc/gchemcalc.cc:622
-#: ../programs/spectra/window.cc:183 ../programs/table/gchemtable-curve.cc:235
-msgid "Copy the selection"
-msgstr ""
+msgstr "複製"
 
 #: ../libs/gcp/window.cc:314
-msgid "_Paste"
-msgstr ""
+#: ../programs/calc/gchemcalc.cc:640
+#: ../programs/spectra/window.cc:185
+#: ../programs/table/gchemtable-curve.cc:245
+msgid "Copy the selection"
+msgstr "複製所選的"
 
 #: ../libs/gcp/window.cc:315
-msgid "Paste the clipboard"
-msgstr ""
+msgid "_Paste"
+msgstr "貼上"
 
 #: ../libs/gcp/window.cc:316
-msgid "C_lear"
-msgstr ""
+msgid "Paste the clipboard"
+msgstr "貼到剪貼簿"
 
 #: ../libs/gcp/window.cc:317
-msgid "Clear the selection"
-msgstr ""
+msgid "C_lear"
+msgstr "清除"
 
 #: ../libs/gcp/window.cc:318
-msgid "Select _All"
-msgstr ""
+msgid "Clear the selection"
+msgstr "清除所選的"
 
 #: ../libs/gcp/window.cc:319
-msgid "Select everything"
-msgstr ""
+msgid "Select _All"
+msgstr "選擇全部"
 
 #: ../libs/gcp/window.cc:320
+msgid "Select everything"
+msgstr "選擇每一樣"
+
+#: ../libs/gcp/window.cc:321
 msgid "Pr_eferences..."
-msgstr ""
+msgstr "偏好設定..."
 
-#: ../libs/gcp/window.cc:321 ../programs/crystal/window.cc:305
+#: ../libs/gcp/window.cc:322
+#: ../programs/crystal/window.cc:305
 msgid "Configure the application"
-msgstr ""
+msgstr "設定應用"
 
-#: ../libs/gcp/window.cc:322 ../programs/3d/window.cc:186
-#: ../programs/crystal/window.cc:317 ../programs/table/gchemtable-app.cc:145
+#: ../libs/gcp/window.cc:323
+#: ../programs/3d/window.cc:190
+#: ../programs/crystal/window.cc:317
+#: ../programs/table/gchemtable-app.cc:145
 msgid "_View"
 msgstr "檢視"
 
-#: ../libs/gcp/window.cc:323
-msgid "_Zoom"
-msgstr ""
-
 #: ../libs/gcp/window.cc:324
-msgid "_400%"
-msgstr ""
+msgid "_Zoom"
+msgstr "縮放"
 
 #: ../libs/gcp/window.cc:325
-msgid "Zoom to 400%"
-msgstr ""
+msgid "_400%"
+msgstr "400%"
 
 #: ../libs/gcp/window.cc:326
-msgid "_300%"
-msgstr ""
+msgid "Zoom to 400%"
+msgstr "縮放到 400%"
 
 #: ../libs/gcp/window.cc:327
-msgid "Zoom to 300%"
-msgstr ""
+msgid "_300%"
+msgstr "300%"
 
 #: ../libs/gcp/window.cc:328
-msgid "_200%"
-msgstr ""
+msgid "Zoom to 300%"
+msgstr "縮放到 300%"
 
 #: ../libs/gcp/window.cc:329
-msgid "Zoom to 200%"
-msgstr ""
+msgid "_200%"
+msgstr "200%"
 
 #: ../libs/gcp/window.cc:330
-msgid "150%"
-msgstr ""
+msgid "Zoom to 200%"
+msgstr "縮放到 200%"
 
 #: ../libs/gcp/window.cc:331
-msgid "Zoom to 150%"
-msgstr ""
+msgid "150%"
+msgstr "150%"
 
 #: ../libs/gcp/window.cc:332
-msgid "_100%"
-msgstr ""
+msgid "Zoom to 150%"
+msgstr "縮放到 150%"
 
 #: ../libs/gcp/window.cc:333
-msgid "Zoom to 100%"
-msgstr ""
+msgid "_100%"
+msgstr "100%"
 
 #: ../libs/gcp/window.cc:334
-msgid "_75%"
-msgstr ""
+msgid "Zoom to 100%"
+msgstr "縮放到 100%"
 
 #: ../libs/gcp/window.cc:335
-msgid "Zoom to 75%"
-msgstr ""
+msgid "_75%"
+msgstr "75%"
 
 #: ../libs/gcp/window.cc:336
-msgid "_50%"
-msgstr ""
+msgid "Zoom to 75%"
+msgstr "縮放到 750%"
 
 #: ../libs/gcp/window.cc:337
-msgid "Zoom to 50%"
-msgstr ""
+msgid "_50%"
+msgstr "50%"
 
 #: ../libs/gcp/window.cc:338
-msgid "25%"
-msgstr ""
+msgid "Zoom to 50%"
+msgstr "縮放到 50%"
 
 #: ../libs/gcp/window.cc:339
-msgid "Zoom to 25%"
-msgstr ""
+msgid "25%"
+msgstr "25%"
 
 #: ../libs/gcp/window.cc:340
-msgid "_Zoom to...%"
-msgstr ""
+msgid "Zoom to 25%"
+msgstr "縮放到 250%"
 
 #: ../libs/gcp/window.cc:341
-msgid "Open Zoom Dialog Box"
-msgstr ""
+msgid "_Zoom to...%"
+msgstr "縮放到 ...%"
 
 #: ../libs/gcp/window.cc:342
-msgid "_Tools"
-msgstr ""
+msgid "Open Zoom Dialog Box"
+msgstr "開啟縮放對話方塊"
 
-#: ../libs/gcp/window.cc:343 ../programs/crystal/window.cc:320
+#: ../libs/gcp/window.cc:343
+msgid "_Tools"
+msgstr "工具"
+
+#: ../libs/gcp/window.cc:344
+#: ../programs/crystal/window.cc:320
 msgid "_Windows"
 msgstr "視窗"
 
-#: ../libs/gcp/window.cc:344 ../programs/3d/window.cc:187
-#: ../programs/calc/gchemcalc.cc:624 ../programs/crystal/window.cc:325
-#: ../programs/spectra/window.cc:184 ../programs/table/gchemtable-app.cc:169
-#: ../programs/table/gchemtable-curve.cc:236
-#: ../programs/table/gchemtable-curve.cc:239
+#: ../libs/gcp/window.cc:345
+#: ../programs/3d/window.cc:191
+#: ../programs/calc/gchemcalc.cc:642
+#: ../programs/crystal/window.cc:325
+#: ../programs/spectra/window.cc:186
+#: ../programs/table/gchemtable-app.cc:169
+#: ../programs/table/gchemtable-curve.cc:246
+#: ../programs/table/gchemtable-curve.cc:249
 msgid "_Help"
 msgstr "求助"
 
-#: ../libs/gcp/window.cc:345 ../programs/3d/window.cc:188
-#: ../programs/calc/gchemcalc.cc:625 ../programs/crystal/window.cc:326
-#: ../programs/spectra/window.cc:185 ../programs/table/gchemtable-app.cc:170
-#: ../programs/table/gchemtable-curve.cc:237
+#: ../libs/gcp/window.cc:346
+#: ../programs/3d/window.cc:192
+#: ../programs/calc/gchemcalc.cc:643
+#: ../programs/crystal/window.cc:326
+#: ../programs/spectra/window.cc:187
+#: ../programs/table/gchemtable-app.cc:170
+#: ../programs/table/gchemtable-curve.cc:247
 msgid "_Contents"
 msgstr "說明的內容"
 
-#: ../libs/gcp/window.cc:346
+#: ../libs/gcp/window.cc:347
 msgid "View help for GChemPaint"
 msgstr "檢視 Gchempaint 的說明"
 
-#: ../libs/gcp/window.cc:347
-msgid "GChemPaint on the _web"
-msgstr ""
-
 #: ../libs/gcp/window.cc:348
+msgid "GChemPaint on the _web"
+msgstr "GChemPaint 網頁"
+
+#: ../libs/gcp/window.cc:349
 msgid "Browse GChemPaint's web site"
-msgstr ""
+msgstr " 瀏覽 GChemPaint 網頁"
 
-#: ../libs/gcp/window.cc:349 ../programs/3d/window.cc:192
-#: ../programs/calc/gchemcalc.cc:629 ../programs/crystal/window.cc:330
-#: ../programs/spectra/window.cc:189 ../programs/table/gchemtable-app.cc:174
-#: ../programs/table/gchemtable-curve.cc:243
+#: ../libs/gcp/window.cc:350
+#: ../programs/3d/window.cc:196
+#: ../programs/calc/gchemcalc.cc:647
+#: ../programs/crystal/window.cc:330
+#: ../programs/spectra/window.cc:191
+#: ../programs/table/gchemtable-app.cc:174
+#: ../programs/table/gchemtable-curve.cc:253
 msgid "Live assistance"
-msgstr ""
+msgstr "線上協助"
 
-#: ../libs/gcp/window.cc:350 ../programs/3d/window.cc:193
-#: ../programs/calc/gchemcalc.cc:630 ../programs/crystal/window.cc:331
-#: ../programs/spectra/window.cc:190 ../programs/table/gchemtable-app.cc:175
-#: ../programs/table/gchemtable-curve.cc:244
+#: ../libs/gcp/window.cc:351
+#: ../programs/3d/window.cc:197
+#: ../programs/calc/gchemcalc.cc:648
+#: ../programs/crystal/window.cc:331
+#: ../programs/spectra/window.cc:192
+#: ../programs/table/gchemtable-app.cc:175
+#: ../programs/table/gchemtable-curve.cc:254
 msgid "Open the Gnome Chemistry Utils IRC channel"
-msgstr ""
-
-#: ../libs/gcp/window.cc:351 ../programs/3d/window.cc:194
-#: ../programs/calc/gchemcalc.cc:631 ../programs/crystal/window.cc:332
-#: ../programs/spectra/window.cc:191 ../programs/table/gchemtable-app.cc:176
-#: ../programs/table/gchemtable-curve.cc:245
-msgid "_Ask a question"
-msgstr "我有問題"
+msgstr "開啟 Gnome Chemistry Utils IRC 頻道"
 
 #: ../libs/gcp/window.cc:352
-msgid "Ask a question about GChemPaint"
-msgstr "我有 GChenPaint 的問題"
+#: ../programs/3d/window.cc:198
+#: ../programs/calc/gchemcalc.cc:649
+#: ../programs/crystal/window.cc:332
+#: ../programs/spectra/window.cc:193
+#: ../programs/table/gchemtable-app.cc:176
+#: ../programs/table/gchemtable-curve.cc:255
+msgid "_Ask a question"
+msgstr "問題諮詢"
 
-#: ../libs/gcp/window.cc:353 ../programs/3d/window.cc:196
-#: ../programs/calc/gchemcalc.cc:633 ../programs/crystal/window.cc:334
-#: ../programs/spectra/window.cc:193 ../programs/table/gchemtable-app.cc:178
-#: ../programs/table/gchemtable-curve.cc:247
+#: ../libs/gcp/window.cc:353
+msgid "Ask a question about GChemPaint"
+msgstr "詢問有關 GChenPaint 的問題"
+
+#: ../libs/gcp/window.cc:354
+#: ../programs/3d/window.cc:200
+#: ../programs/calc/gchemcalc.cc:651
+#: ../programs/crystal/window.cc:334
+#: ../programs/spectra/window.cc:195
+#: ../programs/table/gchemtable-app.cc:178
+#: ../programs/table/gchemtable-curve.cc:257
 msgid "Report _Bugs"
 msgstr "回報臭蟲"
 
-#: ../libs/gcp/window.cc:354
+#: ../libs/gcp/window.cc:355
 msgid "Submit a bug report for GChemPaint"
-msgstr ""
-
-#: ../libs/gcp/window.cc:355 ../programs/3d/window.cc:198
-#: ../programs/calc/gchemcalc.cc:635 ../programs/crystal/window.cc:336
-#: ../programs/spectra/window.cc:195 ../programs/table/gchemtable-app.cc:180
-#: ../programs/table/gchemtable-curve.cc:249
-msgid "_About"
-msgstr ""
+msgstr "提交 GChemPaint 的臭蟲報告"
 
 #: ../libs/gcp/window.cc:356
+#: ../programs/3d/window.cc:202
+#: ../programs/calc/gchemcalc.cc:653
+#: ../programs/crystal/window.cc:336
+#: ../programs/spectra/window.cc:197
+#: ../programs/table/gchemtable-app.cc:180
+#: ../programs/table/gchemtable-curve.cc:259
+msgid "_About"
+msgstr "有關"
+
+#: ../libs/gcp/window.cc:357
 msgid "About GChemPaint"
-msgstr ""
+msgstr "有關 GChemPaint"
 
-#: ../libs/gcp/window.cc:499
+#: ../libs/gcp/window.cc:500
 msgid "Open _recent"
-msgstr ""
+msgstr "最近開啟的"
 
-#: ../libs/gcp/window.cc:523 ../programs/crystal/window.cc:459
+#: ../libs/gcp/window.cc:524
+#: ../programs/crystal/window.cc:459
 msgid "Ready"
-msgstr ""
+msgstr "就緒"
 
-#: ../libs/gcp/window.cc:691
+#: ../libs/gcp/window.cc:692
 msgid "GChemPaint"
-msgstr ""
+msgstr "GChemPaint"
 
-#: ../libs/gcp/window.cc:706 ../programs/crystal/document.cc:750
+#: ../libs/gcp/window.cc:709
+#: ../programs/crystal/document.cc:754
 #, c-format
 msgid "\"%s\" has been modified.  Do you wish to save it?"
 msgstr "\"%s\" 已經修改過了. 您要存檔嗎?"
 
-#: ../libs/gcu/application.cc:193
+#: ../libs/gcu/application.cc:198
 #, c-format
 msgid "(screen resolution is %u)"
-msgstr ""
+msgstr "(螢幕解析度 %u)"
 
 #: ../libs/gcu/crystaldoc.cc:467
 msgid "Everything has been cleaved"
-msgstr ""
+msgstr "每個東西都被分割了"
 
 #: ../libs/gcu/dialog.cc:135
 msgid "Type a number"
-msgstr ""
+msgstr "輸入數字"
 
 #: ../libs/gcu/dialog.cc:144
 #, c-format
 msgid "Type a number greater than or equal %g and lower than to %g"
-msgstr ""
+msgstr "請輸入大於或等於 %g 但小於 %g 的數字"
 
 #: ../libs/gcu/dialog.cc:154
 #, c-format
 msgid "Type a number greater than %g and lower than or equal to %g"
-msgstr ""
+msgstr "請輸入大於 %g 但小於或等於 %g 的數字"
 
 #: ../libs/gcu/dialog.cc:164
 #, c-format
 msgid "Type a number between %g and %g, the limits are valid."
-msgstr ""
+msgstr "請輸入介於 %g 與 %g 之間的數字, 這限制使是有效的"
 
 #: ../libs/gcu/dialog.cc:174
 #, c-format
 msgid "Type a number greater than %g and lower than %g"
-msgstr ""
+msgstr "請輸入大於 %g 及小於 %g 的數字"
 
 #: ../libs/gcu/dialog.cc:184
 #, c-format
 msgid "Type a number lower than %g"
-msgstr ""
+msgstr "請輸入小於 %g 的數字"
 
 #: ../libs/gcu/dialog.cc:194
 #, c-format
 msgid "Type a number greater than %g"
-msgstr ""
+msgstr "請輸入大於 %g 的數字"
 
 #: ../libs/gcu/dialog.cc:204
 #, c-format
 msgid "Type a number lower than or equal to %g"
-msgstr ""
+msgstr "請輸入小於或等於 %g 的數字"
 
 #: ../libs/gcu/dialog.cc:214
 #, c-format
 msgid "Type a number greater than or equal to %g"
-msgstr ""
-
-#: ../libs/gcu/element.cc:97
-msgid "German"
-msgstr ""
-
-#: ../libs/gcu/element.cc:98
-msgid "French"
-msgstr ""
+msgstr "請輸入大於或等於 %g 的數字"
 
 #: ../libs/gcu/element.cc:99
-msgid "Italian"
-msgstr ""
+msgid "German"
+msgstr "德語"
 
 #: ../libs/gcu/element.cc:100
-msgid "Polish"
-msgstr ""
+msgid "French"
+msgstr "法語"
 
 #: ../libs/gcu/element.cc:101
-msgid "Brazilian"
-msgstr ""
+msgid "Italian"
+msgstr "義大利語"
 
 #: ../libs/gcu/element.cc:102
-msgid "Russian"
-msgstr ""
+msgid "Polish"
+msgstr "波蘭語"
+
+#: ../libs/gcu/element.cc:103
+msgid "Brazilian"
+msgstr "巴西語"
 
 #: ../libs/gcu/element.cc:104
-msgid "Can't find and read elements.xml"
-msgstr ""
+msgid "Russian"
+msgstr "俄語"
 
-#: ../libs/gcu/element.cc:110 ../libs/gcu/element.cc:119
+#: ../libs/gcu/element.cc:106
+msgid "Can't find and read elements.xml"
+msgstr "無法找到及讀取 elements.xml"
+
+#: ../libs/gcu/element.cc:112
+#: ../libs/gcu/element.cc:121
 msgid "Incorrect file format: elements.xml"
 msgstr "錯誤的檔案格式: elements.xml"
 
-#: ../libs/gcu/element.cc:155
+#: ../libs/gcu/element.cc:157
 msgid "English"
-msgstr ""
+msgstr "英語"
 
-#: ../libs/gcu/element.cc:407
+#: ../libs/gcu/element.cc:409
 msgid "Can't find and read radii.xml"
-msgstr ""
+msgstr "無法找到及讀取 radii.xml"
 
-#: ../libs/gcu/element.cc:413 ../libs/gcu/element.cc:426
+#: ../libs/gcu/element.cc:415
+#: ../libs/gcu/element.cc:428
 msgid "Incorrect file format: radii.xml"
 msgstr "錯誤的檔案格式: radii.xml"
 
-#: ../libs/gcu/element.cc:514
+#: ../libs/gcu/element.cc:516
 msgid "Can't find and read elecprops.xml"
-msgstr ""
+msgstr "無法找到及讀取 elecprops.xml"
 
-#: ../libs/gcu/element.cc:520 ../libs/gcu/element.cc:527
+#: ../libs/gcu/element.cc:522
+#: ../libs/gcu/element.cc:529
 msgid "Incorrect file format: elecprops.xml"
 msgstr "錯誤的檔案格式: elecprops.xml"
 
-#: ../libs/gcu/element.cc:676
+#: ../libs/gcu/element.cc:678
 msgid "Can't find and read isotopes.xml"
-msgstr ""
+msgstr "無法找到及讀取 isotopes.xml"
 
-#: ../libs/gcu/element.cc:682 ../libs/gcu/element.cc:691
+#: ../libs/gcu/element.cc:684
+#: ../libs/gcu/element.cc:693
 msgid "Incorrect file format: isotopes.xml"
 msgstr "錯誤的檔案格式: isotopes.xml"
 
-#: ../libs/gcu/filechooser.cc:43
+#: ../libs/gcu/filechooser.cc:45
 msgid "Open"
-msgstr ""
+msgstr "開啟"
 
-#: ../libs/gcu/filechooser.cc:62
+#: ../libs/gcu/filechooser.cc:64
 msgid "File _type:"
 msgstr "檔案種類:"
 
-#: ../libs/gcu/filechooser.cc:64
+#: ../libs/gcu/filechooser.cc:66
 msgid "Automatic"
-msgstr ""
+msgstr "自動"
 
-#: ../libs/gcu/formula.cc:512 ../libs/gcu/formula.cc:552
+#: ../libs/gcu/formula.cc:515
+#: ../libs/gcu/formula.cc:555
 msgid "Unmatched parenthesis"
-msgstr ""
+msgstr "不相符的括號"
 
-#: ../libs/gcu/formula.cc:540
+#: ../libs/gcu/formula.cc:543
 msgid "Could not interpret the symbol list"
-msgstr ""
+msgstr "無法判讀這些符號"
 
-#: ../libs/gcu/formula.cc:546
+#: ../libs/gcu/formula.cc:549
 msgid "Parser failed, please fill a bug report."
-msgstr ""
+msgstr "分析失敗, 請回報錯誤"
 
-#: ../libs/gcu/formula.cc:554
+#: ../libs/gcu/formula.cc:557
 msgid "Invalid character"
-msgstr ""
+msgstr "無效字元"
 
 #: ../libs/gcu/gtkchem3dviewer.cc:157
 msgid "Background Color"
@@ -2590,178 +2756,187 @@ msgstr "背景顏色"
 
 #: ../libs/gcu/gtkchem3dviewer.cc:158
 msgid "Color used to paint the background"
-msgstr ""
+msgstr "作為背景的顏色"
 
 #: ../libs/gcu/gtkperiodic.c:331
 #, c-format
-msgid ""
-"Out of range value %d for property \"color-style\" for GtkPeriodic instance %"
-"p\n"
-msgstr ""
+msgid "Out of range value %d for property \"color-style\" for GtkPeriodic instance %p\n"
+msgstr "%d 超出範圍  \"color-style\" for GtkPeriodic instance %p\n"
 
-#: ../libs/gcu/loader.cc:106
+#: ../libs/gcu/loader.cc:113
 msgid "Chemical file loader type."
-msgstr ""
+msgstr "化學檔案載入器種類"
 
 #: ../libs/gcu/print-setup-dlg.cc:328
 #, c-format
 msgid "%.1f %s wide by %.1f %s tall"
-msgstr ""
+msgstr "寬%.1f %s 及高 %.1f %s"
 
 #: ../libs/gcu/print-setup-dlg.cc:328
 #, c-format
 msgid "%.0f %s wide by %.0f %s tall"
-msgstr ""
+msgstr "寬 %.0f %s 及高 %.0f %s "
 
 #: ../libs/gcu/printable.cc:34
 msgid "pixels"
-msgstr ""
+msgstr "像素"
 
 #: ../libs/gcu/printable.cc:35
 msgid "points"
-msgstr ""
+msgstr "點"
 
 #: ../libs/gcu/printable.cc:36
 msgid "inches"
-msgstr ""
+msgstr "英吋"
 
 #: ../libs/gcu/printable.cc:37
 msgid "mm"
-msgstr ""
+msgstr "mm"
 
-#: ../libs/gcu/spectrumdoc.cc:239
+#: ../libs/gcu/spectrumdoc.cc:254
 msgid "Wavenumber (1/cm)"
-msgstr ""
+msgstr "波數 (1/cm)"
 
-#: ../libs/gcu/spectrumdoc.cc:240 ../libs/gcu/spectrumdoc.cc:1344
+#: ../libs/gcu/spectrumdoc.cc:255
+#: ../libs/gcu/spectrumdoc.cc:1359
 msgid "Transmittance"
-msgstr ""
+msgstr "透光度"
 
-#: ../libs/gcu/spectrumdoc.cc:241 ../libs/gcu/spectrumdoc.cc:1343
+#: ../libs/gcu/spectrumdoc.cc:256
+#: ../libs/gcu/spectrumdoc.cc:1358
 msgid "Absorbance"
-msgstr ""
+msgstr "吸光度"
 
-#: ../libs/gcu/spectrumdoc.cc:242 ../libs/gcu/spectrumdoc.cc:1279
+#: ../libs/gcu/spectrumdoc.cc:257
+#: ../libs/gcu/spectrumdoc.cc:1294
 msgid "Chemical shift (ppm)"
-msgstr ""
+msgstr "化學位移 (ppm)"
 
-#: ../libs/gcu/spectrumdoc.cc:243
+#: ../libs/gcu/spectrumdoc.cc:258
 msgid "Wavelength (nm)"
 msgstr "波長 (nm)"
 
-#: ../libs/gcu/spectrumdoc.cc:244
+#: ../libs/gcu/spectrumdoc.cc:259
 msgid "Wavelength (µm)"
 msgstr "波長 (µm)"
 
-#: ../libs/gcu/spectrumdoc.cc:245
+#: ../libs/gcu/spectrumdoc.cc:260
 msgid "Time (s)"
-msgstr ""
+msgstr "時間 (s)"
 
-#: ../libs/gcu/spectrumdoc.cc:246 ../libs/gcu/spectrumdoc.cc:1280
+#: ../libs/gcu/spectrumdoc.cc:261
+#: ../libs/gcu/spectrumdoc.cc:1295
 msgid "Frequency (Hz)"
-msgstr ""
+msgstr "頻率 (Hz)"
 
-#: ../libs/gcu/spectrumdoc.cc:247
+#: ../libs/gcu/spectrumdoc.cc:262
 msgid "Mass/charge ratio"
 msgstr "質量/電荷 比"
 
-#: ../libs/gcu/spectrumdoc.cc:248
+#: ../libs/gcu/spectrumdoc.cc:263
 msgid "Relative abundance"
-msgstr ""
+msgstr "相對含量"
 
-#: ../libs/gcu/spectrumdoc.cc:618 ../libs/gcu/spectrumdoc.cc:1286
+#: ../libs/gcu/spectrumdoc.cc:633
+#: ../libs/gcu/spectrumdoc.cc:1301
 msgid "Show integral"
-msgstr ""
+msgstr "顯示積分"
 
-#: ../libs/gcu/spectrumdoc.cc:618
+#: ../libs/gcu/spectrumdoc.cc:633
 msgid "Hide integral"
-msgstr ""
+msgstr "隱藏積分"
 
-#: ../libs/gcu/spectrumdoc.cc:708 ../libs/gcu/spectrumdoc.cc:1616
+#: ../libs/gcu/spectrumdoc.cc:723
+#: ../libs/gcu/spectrumdoc.cc:1631
 msgid "Found too many data!"
-msgstr ""
+msgstr "找到太多資料"
 
-#: ../libs/gcu/spectrumdoc.cc:1276 ../libs/gcu/spectrumdoc.cc:1323
+#: ../libs/gcu/spectrumdoc.cc:1291
+#: ../libs/gcu/spectrumdoc.cc:1338
 msgid "X unit:"
-msgstr ""
+msgstr "X 單位:"
 
-#: ../libs/gcu/spectrumdoc.cc:1327
+#: ../libs/gcu/spectrumdoc.cc:1342
 msgid "Wave length (nm)"
 msgstr "波的長度 (nm)"
 
-#: ../libs/gcu/spectrumdoc.cc:1329
+#: ../libs/gcu/spectrumdoc.cc:1344
 msgid "Wave length (µm)"
 msgstr "波的長度 (µm)"
 
-#: ../libs/gcu/spectrumdoc.cc:1330
+#: ../libs/gcu/spectrumdoc.cc:1345
 msgid "Wave number (1/cm)"
-msgstr ""
+msgstr "波數 (1/cm)"
 
-#: ../libs/gcu/spectrumdoc.cc:1335
+#: ../libs/gcu/spectrumdoc.cc:1350
 msgid "Invert X Axis"
-msgstr ""
+msgstr "反向 X 軸"
 
-#: ../libs/gcu/spectrumdoc.cc:1340
+#: ../libs/gcu/spectrumdoc.cc:1355
 msgid "Y unit:"
-msgstr ""
+msgstr "Y 單位:"
 
-#: ../libs/gcu/spectrumdoc.cc:1511 ../libs/gcu/spectrumdoc.cc:1541
+#: ../libs/gcu/spectrumdoc.cc:1526
+#: ../libs/gcu/spectrumdoc.cc:1556
 msgid "Constant too long"
-msgstr ""
+msgstr "常數過長"
 
-#: ../libs/gcu/spectrumdoc.cc:1534
+#: ../libs/gcu/spectrumdoc.cc:1549
 msgid "Invalid character in data block"
-msgstr ""
+msgstr "資料區中有無效的字元"
 
-#: ../libs/gcu/spectrumdoc.cc:1638
+#: ../libs/gcu/spectrumdoc.cc:1653
 msgid "Data check failed!"
-msgstr ""
+msgstr "資料檢查失敗!"
 
-#: ../libs/gcu/spectrumdoc.cc:1655
+#: ../libs/gcu/spectrumdoc.cc:1670
 msgid "Data check failed: FIRSTX!"
-msgstr ""
+msgstr "資料檢查失敗: FIRSTX"
 
-#: ../libs/gcu/spectrumdoc.cc:1660
+#: ../libs/gcu/spectrumdoc.cc:1675
 msgid "Data check failed: FIRSTY!"
-msgstr ""
+msgstr "資料檢查失敗: FIRSTY"
 
-#: ../libs/gcu/spectrumdoc.cc:1664
+#: ../libs/gcu/spectrumdoc.cc:1679
 msgid "Found too many data"
-msgstr ""
+msgstr "找到太多數據"
 
-#: ../libs/gcu/spectrumdoc.cc:1975
+#: ../libs/gcu/spectrumdoc.cc:1990
 msgid "Integral"
-msgstr ""
+msgstr "積分"
 
-#: ../libs/gcu/spectrumdoc.cc:2096
+#: ../libs/gcu/spectrumdoc.cc:2111
 msgid "Real transformed data"
-msgstr ""
+msgstr "真實轉換過的數據"
 
-#: ../libs/gcu/spectrumdoc.cc:2113
+#: ../libs/gcu/spectrumdoc.cc:2128
 msgid "Imaginary transformed data"
-msgstr ""
+msgstr "Imaginary 轉換過的數據"
 
-#: ../libs/gcu/spectrumview.cc:80
+#: ../libs/gcu/spectrumview.cc:91
 msgid "Minimum X value:"
-msgstr ""
+msgstr "X 最小值"
 
-#: ../libs/gcu/spectrumview.cc:85
+#: ../libs/gcu/spectrumview.cc:96
 msgid "Maximum X value:"
-msgstr ""
+msgstr "X 最大值"
 
 #: ../libs/gcu/value.cc:146
 msgid "Attempt to add two values with different units."
-msgstr ""
+msgstr "試著把兩個不同單位的值相加"
 
-#: ../plugins/loaders/cdx/cdx.cc:503 ../plugins/loaders/cdx/cdx.cc:507
-#: ../plugins/loaders/cdx/cdx.cc:632 ../plugins/loaders/cdx/cdx.cc:637
+#: ../plugins/loaders/cdx/cdx.cc:503
+#: ../plugins/loaders/cdx/cdx.cc:507
+#: ../plugins/loaders/cdx/cdx.cc:632
+#: ../plugins/loaders/cdx/cdx.cc:637
 msgid "Unsupported feature, please report!"
-msgstr ""
+msgstr "不支援的功能, 請回報!"
 
-#: ../plugins/loaders/cdx/cdx.cc:594 ../plugins/loaders/cdxml/cdxml.cc:473
+#: ../plugins/loaders/cdx/cdx.cc:594
+#: ../plugins/loaders/cdxml/cdxml.cc:473
 #, c-format
 msgid "failed for %s\n"
-msgstr ""
+msgstr "無法 %s\n"
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:1
 msgid "Chemdraw cdx files loader"
@@ -2773,12 +2948,13 @@ msgstr "Chemdraw cdx 檔案載入器."
 
 #: ../plugins/loaders/cdx/plugin.xml.in.h:3
 msgid "Loader : cdx"
-msgstr ""
+msgstr "載入器: cdx"
 
-#: ../plugins/loaders/cdxml/cdxml.cc:733 ../plugins/loaders/cdxml/cdxml.cc:748
+#: ../plugins/loaders/cdxml/cdxml.cc:733
+#: ../plugins/loaders/cdxml/cdxml.cc:748
 #, c-format
 msgid "'%s' is corrupt!"
-msgstr ""
+msgstr "'%s' 損壞"
 
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:1
 msgid "Chemdraw XML files loader"
@@ -2790,7 +2966,7 @@ msgstr "Chemdraw XML 檔案載入器."
 
 #: ../plugins/loaders/cdxml/plugin.xml.in.h:3
 msgid "Loader : cdxml"
-msgstr ""
+msgstr "載入器: cdxml"
 
 #: ../plugins/paint/arrows/arrowtool.cc:245
 #: ../plugins/paint/atoms/chargetool.cc:233
@@ -2807,53 +2983,51 @@ msgstr "位向: %g"
 
 #: ../plugins/paint/arrows/arrowtool.glade.h:1
 msgid "Arrow len_gth:"
-msgstr ""
+msgstr "箭頭長度"
 
 #: ../plugins/paint/arrows/arrowtool.glade.h:2
 msgid "H_alf heads"
-msgstr ""
+msgstr "半頭"
 
 #: ../plugins/paint/arrows/arrowtool.glade.h:3
 msgid "Set _default"
-msgstr ""
+msgstr "設為預設值"
 
 #: ../plugins/paint/arrows/arrowtool.glade.h:4
 msgid "_Full heads"
-msgstr ""
+msgstr "全形箭頭"
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:1
-msgid ""
-"If set to true, arrows for reversible reaction steps will use full arrows "
-"heads by default instead of half heads."
-msgstr ""
+msgid "If set to true, arrows for reversible reaction steps will use full arrows heads by default instead of half heads."
+msgstr "如果設定為真, 可逆反應步驟將使用全形箭頭以取代預設的半形箭頭"
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:2
 msgid "Use full arrows heads for reversible reactions"
-msgstr ""
+msgstr "使用全形箭頭在可逆反應"
 
 #: ../plugins/paint/arrows/plugin.cc:60
 msgid "Create a new retrosynthesis pathway"
-msgstr ""
+msgstr "創造一個逆合成路徑"
 
 #: ../plugins/paint/arrows/plugin.cc:80
 msgid "Simple arrow"
-msgstr ""
+msgstr "簡單箭頭"
 
 #: ../plugins/paint/arrows/plugin.cc:81
 msgid "Add an arrow for an irreversible reaction"
-msgstr "加入單向箭頭 (表示不可逆的反應)"
+msgstr "加入單向箭頭到不可逆反應"
 
 #: ../plugins/paint/arrows/plugin.cc:83
 msgid "Double arrow"
-msgstr ""
+msgstr "雙向箭頭"
 
 #: ../plugins/paint/arrows/plugin.cc:84
 msgid "Add a pair of arrows for a reversible reaction"
-msgstr "加入一對箭頭 (表示可逆反應)"
+msgstr "加入一組箭頭 (表示可逆反應)"
 
 #: ../plugins/paint/arrows/plugin.cc:86
 msgid "Retrosynthesis arrow"
-msgstr ""
+msgstr "逆合成箭頭"
 
 #: ../plugins/paint/arrows/plugin.cc:87
 msgid "Add an arrow for a retrosynthesis step"
@@ -2861,7 +3035,7 @@ msgstr "加入箭頭 (表示逆合成的步驟)"
 
 #: ../plugins/paint/arrows/plugin.cc:89
 msgid "Mesomery arrow"
-msgstr ""
+msgstr "內消旋箭頭"
 
 #: ../plugins/paint/arrows/plugin.cc:90
 msgid "Add a double headed arrow to represent mesomery"
@@ -2869,39 +3043,39 @@ msgstr "加入雙向箭頭 (表示化學式互變或是共振等結構)"
 
 #: ../plugins/paint/arrows/plugin.cc:92
 msgid "Electron pair move arrow"
-msgstr ""
+msgstr "電子對移動之箭頭"
 
 #: ../plugins/paint/arrows/plugin.cc:93
 msgid "Add a curved arrow to represent an electron pair move"
-msgstr "加入曲線箭頭 (表示電子對的移動)"
+msgstr "加入曲線箭頭, 表示電子對的移動"
 
 #: ../plugins/paint/arrows/plugin.cc:95
 msgid "Single electron move arrow"
-msgstr ""
+msgstr "單電子移動之箭頭"
 
 #: ../plugins/paint/arrows/plugin.cc:96
 msgid "Add a curved arrow to represent an single electron move"
-msgstr "加入曲線箭頭 (表示單電子的移動)"
+msgstr "加入曲線箭頭, 表示單電子的移動"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:239
 msgid "No target molecule!"
-msgstr ""
+msgstr "沒有目標分子!"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:241
 msgid "Multiple target molecules or missing arrows."
-msgstr ""
+msgstr "多個目標分子或是缺少箭頭"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:243
 msgid "Sorry, cyclic retrosynthesis paths are not supported."
-msgstr ""
+msgstr "抱歉, 不支援環狀逆合成路徑"
 
 #: ../plugins/paint/arrows/retrosynthesis.cc:419
 msgid "Destroy the retrosynthesis path"
-msgstr ""
+msgstr "摧毀逆合成路徑"
 
 #: ../plugins/paint/arrows/retrosynthesisstep.cc:76
 msgid "Only one arrow can link two given steps."
-msgstr ""
+msgstr "只能用一個箭頭連接兩個給定的步驟"
 
 #: ../plugins/paint/atoms/plugin.cc:56
 msgid "Add or modify an atom"
@@ -2925,11 +3099,11 @@ msgstr "增加負電荷"
 
 #: ../plugins/paint/atoms/plugin.cc:64
 msgid "Electron Pair"
-msgstr ""
+msgstr "電子對"
 
 #: ../plugins/paint/atoms/plugin.cc:65
 msgid "Add an electron pair to an atom"
-msgstr "加入電子對"
+msgstr "加入電子對到原子"
 
 #: ../plugins/paint/atoms/plugin.cc:67
 msgid "Unpaired Electron"
@@ -2937,26 +3111,26 @@ msgstr "不成對電子"
 
 #: ../plugins/paint/atoms/plugin.cc:68
 msgid "Add an unpaired electron to an atom"
-msgstr "加入不成對電子 (單電子)"
+msgstr "加入不成對電子到原子"
 
 #: ../plugins/paint/bonds/bond.glade.h:1
 #: ../plugins/paint/bonds/chain.glade.h:2
 #: ../plugins/paint/cycles/cycle.glade.h:1
 #: ../plugins/paint/cycles/cyclen.glade.h:1
 msgid "<b>Property</b>"
-msgstr ""
+msgstr "<b>性質</b>"
 
 #: ../plugins/paint/bonds/bond.glade.h:2
 #: ../plugins/paint/bonds/chain.glade.h:3
 #: ../plugins/paint/cycles/cycle.glade.h:2
 #: ../plugins/paint/cycles/cyclen.glade.h:2
 msgid "<b>Value</b>"
-msgstr ""
+msgstr "<b>數值</b>"
 
 #: ../plugins/paint/bonds/bond.glade.h:3
 #: ../plugins/paint/bonds/chain.glade.h:4
 msgid "Angle between two new bonds in an open chain"
-msgstr ""
+msgstr "在開放鍊中兩個新增鍵的角度"
 
 #: ../plugins/paint/bonds/bond.glade.h:4
 #: ../plugins/paint/bonds/chain.glade.h:5
@@ -2975,14 +3149,14 @@ msgstr "鍵長:"
 #: ../plugins/paint/cycles/cycle.glade.h:4
 #: ../plugins/paint/cycles/cyclen.glade.h:5
 msgid "Default length for new bonds"
-msgstr "新鍵的內設長度"
+msgstr "新鍵的預設長度"
 
 #: ../plugins/paint/bonds/bond.glade.h:7
 #: ../plugins/paint/bonds/chain.glade.h:11
 #: ../plugins/paint/cycles/cycle.glade.h:5
 #: ../plugins/paint/cycles/cyclen.glade.h:6
 msgid "Use existing atoms for end of bonds"
-msgstr ""
+msgstr "使用已存在的原子作為鍵的末端"
 
 #: ../plugins/paint/bonds/bond.glade.h:8
 #: ../plugins/paint/bonds/chain.glade.h:12
@@ -2997,7 +3171,7 @@ msgstr "無效的文件樹狀結構, 請回報臭蟲"
 
 #: ../plugins/paint/bonds/chain.glade.h:1
 msgid "<b>Auto</b>"
-msgstr ""
+msgstr "<b>自動</b>"
 
 #: ../plugins/paint/bonds/chain.glade.h:7
 msgid "Bonds _number:"
@@ -3005,11 +3179,11 @@ msgstr "鍵的數目"
 
 #: ../plugins/paint/bonds/chain.glade.h:9
 msgid "If set, the number of new bonds will be evaluated from the mouse position"
-msgstr ""
+msgstr "如果設定了, 將會從滑鼠位置估算新鍵的數目"
 
 #: ../plugins/paint/bonds/chain.glade.h:10
 msgid "Number of new bonds"
-msgstr ""
+msgstr "新鍵的數目"
 
 #: ../plugins/paint/bonds/chaintool.cc:128
 #: ../plugins/paint/bonds/chaintool.cc:250
@@ -3023,7 +3197,7 @@ msgstr "新增鍵或是增加已存在鍵的級數"
 
 #: ../plugins/paint/bonds/plugin.cc:59
 msgid "Chain"
-msgstr ""
+msgstr "鍊"
 
 #: ../plugins/paint/bonds/plugin.cc:60
 msgid "Add a chain"
@@ -3031,7 +3205,7 @@ msgstr "加入長鍊"
 
 #: ../plugins/paint/bonds/plugin.cc:62
 msgid "Wedge bond tool"
-msgstr ""
+msgstr "楔形鍵工具"
 
 #: ../plugins/paint/bonds/plugin.cc:63
 msgid "Add a wedge bond"
@@ -3039,7 +3213,7 @@ msgstr "加入楔形鍵"
 
 #: ../plugins/paint/bonds/plugin.cc:65
 msgid "Hash bond tool"
-msgstr ""
+msgstr "虛線鍵"
 
 #: ../plugins/paint/bonds/plugin.cc:66
 msgid "Add a hash bond"
@@ -3047,7 +3221,7 @@ msgstr "加入虛線鍵"
 
 #: ../plugins/paint/bonds/plugin.cc:68
 msgid "Squiggle bond tool"
-msgstr ""
+msgstr "波浪鍵工具"
 
 #: ../plugins/paint/bonds/plugin.cc:69
 msgid "Add a squiggle bond"
@@ -3055,7 +3229,7 @@ msgstr "加入波浪線鍵"
 
 #: ../plugins/paint/bonds/plugin.cc:71
 msgid "Fore bond tool"
-msgstr ""
+msgstr "前方鍵工具"
 
 #: ../plugins/paint/bonds/plugin.cc:72
 msgid "Add a fore bond"
@@ -3063,7 +3237,7 @@ msgstr "加入前方鍵"
 
 #: ../plugins/paint/bonds/plugin.cc:74
 msgid "Delocalized bond tool"
-msgstr ""
+msgstr "非定域鍵系統工具"
 
 #: ../plugins/paint/bonds/plugin.cc:75
 msgid "Add a delocalized bonds system"
@@ -3075,7 +3249,7 @@ msgstr "構成環的原子數目"
 
 #: ../plugins/paint/cycles/plugin.cc:54
 msgid "Three atoms cycle"
-msgstr ""
+msgstr "三員環"
 
 #: ../plugins/paint/cycles/plugin.cc:55
 msgid "Add a three membered cycle"
@@ -3083,7 +3257,7 @@ msgstr "加入三員環"
 
 #: ../plugins/paint/cycles/plugin.cc:57
 msgid "Four atoms cycle"
-msgstr ""
+msgstr "四員環"
 
 #: ../plugins/paint/cycles/plugin.cc:58
 msgid "Add a four membered cycle"
@@ -3091,7 +3265,7 @@ msgstr "加入四員環"
 
 #: ../plugins/paint/cycles/plugin.cc:60
 msgid "Five atoms cycle"
-msgstr ""
+msgstr "五員環"
 
 #: ../plugins/paint/cycles/plugin.cc:61
 msgid "Add a five membered cycle"
@@ -3099,7 +3273,7 @@ msgstr "加入五員環"
 
 #: ../plugins/paint/cycles/plugin.cc:63
 msgid "Six atoms cycle"
-msgstr ""
+msgstr "六員環"
 
 #: ../plugins/paint/cycles/plugin.cc:64
 msgid "Add a six membered cycle"
@@ -3107,7 +3281,7 @@ msgstr "加入六員環"
 
 #: ../plugins/paint/cycles/plugin.cc:66
 msgid "Seven atoms cycle"
-msgstr ""
+msgstr "七員環"
 
 #: ../plugins/paint/cycles/plugin.cc:67
 msgid "Add a seven membered cycle"
@@ -3115,7 +3289,7 @@ msgstr "加入七員環"
 
 #: ../plugins/paint/cycles/plugin.cc:69
 msgid "Eight atoms cycle"
-msgstr ""
+msgstr "八員環"
 
 #: ../plugins/paint/cycles/plugin.cc:70
 msgid "Add an eight membered cycle"
@@ -3123,7 +3297,7 @@ msgstr "加入八員環"
 
 #: ../plugins/paint/cycles/plugin.cc:72
 msgid "Variable sized cycle"
-msgstr ""
+msgstr "自訂大小的環"
 
 #: ../plugins/paint/cycles/plugin.cc:73
 msgid "Add a cycle"
@@ -3135,25 +3309,25 @@ msgstr "編輯殘基..."
 
 #: ../plugins/paint/residues/plugin.cc:105
 msgid "Create new abbreviations"
-msgstr ""
+msgstr "新增新的縮寫"
 
 #: ../plugins/paint/residues/residues-dlg.cc:216
 msgid "Please, provide only one molecule."
-msgstr ""
+msgstr "請提供一個分子就好"
 
 #: ../plugins/paint/residues/residues-dlg.cc:232
 msgid "Please, provide a name for the residue"
-msgstr ""
+msgstr "請為殘基提供一個名稱"
 
 #: ../plugins/paint/residues/residues-dlg.cc:250
 msgid "Symbols with more than eight characters are not allowed."
-msgstr ""
+msgstr "不能使用超過 8 個字元的符號."
 
 #: ../plugins/paint/residues/residues-dlg.cc:255
 #: ../plugins/paint/residues/residues-dlg.cc:401
 #: ../plugins/paint/residues/residues.glade.h:4
 msgid "New"
-msgstr ""
+msgstr "新增"
 
 #: ../plugins/paint/residues/residues-dlg.cc:256
 msgid "\"New\" is not a valid symbol"
@@ -3161,56 +3335,56 @@ msgstr "\"New\" 不是個有效的符號"
 
 #: ../plugins/paint/residues/residues-dlg.cc:265
 msgid "Please provide at least one symbol"
-msgstr ""
+msgstr "請提供至少一個符號"
 
 #: ../plugins/paint/residues/residues-dlg.cc:275
 #, c-format
 msgid "%s is already used by another residue."
-msgstr ""
+msgstr "%s 已經用在其他的殘基"
 
 #: ../plugins/paint/residues/residues-dlg.cc:287
 msgid ""
 "Empty formula, this should never happen.\n"
 "Please file a bug report"
 msgstr ""
-"空白的化學式, 這不應該發生的.\n"
+"空白的化學式, 這不應該發生的.\n"
 "請回報臭蟲"
 
 #: ../plugins/paint/residues/residues.glade.h:1
 msgid "Formula"
-msgstr ""
+msgstr "化學式"
 
 #: ../plugins/paint/residues/residues.glade.h:2
 msgid "Identity"
-msgstr ""
+msgstr "身份/鑑別"
 
 #: ../plugins/paint/residues/residues.glade.h:5
 msgid "Residues"
-msgstr ""
+msgstr "殘基"
 
 #: ../plugins/paint/residues/residues.glade.h:6
 msgid "_Generic"
-msgstr ""
+msgstr "一般的"
 
 #: ../plugins/paint/residues/residues.glade.h:7
 msgid "_Symbol(s):"
-msgstr ""
+msgstr "符號:"
 
 #: ../plugins/paint/residues/residues.glade.h:8
 msgid "gtk-delete"
-msgstr ""
+msgstr "gtk-刪除"
 
 #: ../plugins/paint/residues/residues.glade.h:9
 msgid "gtk-save"
-msgstr ""
+msgstr "gtk-存檔"
 
 #: ../plugins/paint/selection/group.cc:59
 msgid "Group properties..."
-msgstr ""
+msgstr "官能基性質..."
 
 #: ../plugins/paint/selection/group.glade.h:1
 msgid "A_lign"
-msgstr ""
+msgstr "排列"
 
 #: ../plugins/paint/selection/group.glade.h:2
 msgid "Distance:"
@@ -3218,7 +3392,7 @@ msgstr "距離:"
 
 #: ../plugins/paint/selection/group.glade.h:3
 msgid "Group and/or align selected objects"
-msgstr ""
+msgstr "群組化以及/或者排列所選的物件"
 
 #: ../plugins/paint/selection/group.glade.h:4
 msgid ""
@@ -3230,26 +3404,34 @@ msgid ""
 "Center\n"
 "Right"
 msgstr ""
+"一般\n"
+"上方\n"
+"中高\n"
+"底端\n"
+"左側\n"
+"中間\n"
+"右側"
 
 #: ../plugins/paint/selection/group.glade.h:11
 msgid "_Group"
-msgstr ""
+msgstr "Group 群組"
 
 #: ../plugins/paint/selection/group.glade.h:12
 msgid "_Space evenly"
-msgstr ""
+msgstr "空間均等"
 
 #: ../plugins/paint/selection/plugin.cc:64
 msgid "Select"
-msgstr ""
+msgstr "選取"
 
 #: ../plugins/paint/selection/plugin.cc:65
 msgid "Select one or more objects"
 msgstr "選取一個或多個物件"
 
-#: ../plugins/paint/selection/plugin.cc:67 ../plugins/paint/text/plugin.cc:55
+#: ../plugins/paint/selection/plugin.cc:67
+#: ../plugins/paint/text/plugin.cc:55
 msgid "Erase"
-msgstr ""
+msgstr "擦掉"
 
 #: ../plugins/paint/selection/plugin.cc:68
 msgid "Eraser"
@@ -3257,31 +3439,31 @@ msgstr "橡皮擦"
 
 #: ../plugins/paint/selection/selectiontool.cc:371
 msgid "Creation failed!"
-msgstr ""
+msgstr "新增失敗!"
 
 #: ../plugins/paint/selection/selectiontool.cc:400
 msgid "Group and/or align objects"
-msgstr ""
+msgstr "群組以及/或排列物件"
 
 #: ../plugins/paint/selection/selectiontool.cc:438
 msgid "Horizontal flip"
-msgstr ""
+msgstr "水平翻動"
 
 #: ../plugins/paint/selection/selectiontool.cc:439
 msgid "Flip the selection horizontally"
-msgstr "水平翻動 (水平鏡像)"
+msgstr "水平翻動選取的物件 (水平鏡像)"
 
 #: ../plugins/paint/selection/selectiontool.cc:440
 msgid "Vertical flip"
-msgstr ""
+msgstr "垂直翻動"
 
 #: ../plugins/paint/selection/selectiontool.cc:441
 msgid "Flip the selection vertically"
-msgstr "垂直翻動 (垂直鏡像)"
+msgstr "垂直翻動選取的物件 (垂直鏡像)"
 
 #: ../plugins/paint/selection/selectiontool.cc:442
 msgid "Merge"
-msgstr ""
+msgstr "合併"
 
 #: ../plugins/paint/selection/selectiontool.cc:443
 msgid "Merge two molecules"
@@ -3297,15 +3479,15 @@ msgstr "旋轉所選的物件"
 
 #: ../plugins/paint/templates/new-template.glade.h:2
 msgid "New template"
-msgstr ""
+msgstr "新增範本"
 
 #: ../plugins/paint/templates/new-template.glade.h:3
 msgid "_Category:"
-msgstr ""
+msgstr "分類"
 
 #: ../plugins/paint/templates/new-template.glade.h:4
 msgid "_Name"
-msgstr ""
+msgstr "名稱"
 
 #: ../plugins/paint/templates/plugin.cc:106
 msgid "Templates"
@@ -3322,7 +3504,7 @@ msgstr "其他"
 
 #: ../plugins/paint/templates/templates.glade.h:1
 msgid "No selected template"
-msgstr ""
+msgstr "沒有選擇範本"
 
 #: ../plugins/paint/templates/templates.glade.h:2
 msgid "_Templates"
@@ -3330,19 +3512,19 @@ msgstr "化學圖形範本"
 
 #: ../plugins/paint/templates/templates.glade.h:3
 msgid "category"
-msgstr ""
+msgstr "分類"
 
 #: ../plugins/paint/templates/templatetool.cc:331
 msgid "Please provide an object."
-msgstr ""
+msgstr "請提供一個物件"
 
 #: ../plugins/paint/templates/templatetool.cc:333
 msgid "Please give a name."
-msgstr ""
+msgstr "請給定名稱"
 
 #: ../plugins/paint/templates/templatetool.cc:335
 msgid "Please choose a category."
-msgstr ""
+msgstr "請選一個分類"
 
 #: ../plugins/paint/text/fontsel.glade.h:1
 msgid ""
@@ -3351,6 +3533,10 @@ msgid ""
 "Double\n"
 "Low"
 msgstr ""
+"無\n"
+"一個\n"
+"兩個\n"
+"低"
 
 #: ../plugins/paint/text/fontsel.glade.h:5
 msgid "Si_ze:"
@@ -3358,11 +3544,11 @@ msgstr "大小:"
 
 #: ../plugins/paint/text/fontsel.glade.h:6
 msgid "Stri_kethrough"
-msgstr ""
+msgstr "刪除線"
 
 #: ../plugins/paint/text/fontsel.glade.h:7
 msgid "_Color:"
-msgstr ""
+msgstr "顏色"
 
 #: ../plugins/paint/text/fontsel.glade.h:8
 msgid "_Family:"
@@ -3370,7 +3556,7 @@ msgstr "字型:"
 
 #: ../plugins/paint/text/fontsel.glade.h:9
 msgid "_Position:"
-msgstr ""
+msgstr "位置"
 
 #: ../plugins/paint/text/fontsel.glade.h:10
 msgid "_Style:"
@@ -3390,244 +3576,256 @@ msgstr "新增或修改一群原子"
 
 #: ../plugins/paint/wikipedia/plugin.cc:52
 msgid "Wikipedia export"
-msgstr ""
+msgstr "匯出為 Wikipedia"
 
 #: ../plugins/paint/wikipedia/plugin.cc:53
 msgid "Export for Wikipedia publication"
-msgstr ""
+msgstr "匯出為 Wikipedia 出版品"
 
 #: ../plugins/paint/wikipedia/plugin.cc:99
 msgid "Generate Wikipedia conformant PNG image"
-msgstr ""
+msgstr "產生與 Wikipedia 相符的 PNG 圖檔"
 
-#: ../plugins/paint/wikipedia/wikipediatool.cc:178
+#: ../plugins/paint/wikipedia/wikipediatool.cc:182
 msgid "Unable to save image file: "
 msgstr "無法存成影像檔:"
 
-#: ../programs/3d/application.cc:41 ../programs/3d/application.cc:78
+#: ../programs/3d/application.cc:45
+#: ../programs/3d/application.cc:82
 msgid "GChem3D Viewer"
-msgstr "Gchem3D 立體分子展示軟體"
+msgstr "GChem3D 立體分子展示軟體"
 
-#: ../programs/3d/application.cc:155
+#: ../programs/3d/application.cc:159
 msgid "Sorry, format not supported!"
-msgstr ""
+msgstr "抱歉, 不支援此格式"
 
-#: ../programs/3d/main.cc:44
+#: ../programs/3d/main.cc:46
 msgid "GChem3d Viewer version: "
-msgstr ""
-
-#: ../programs/3d/main.cc:55
-msgid "Prints GChem3d Viewer version"
-msgstr ""
-
-#: ../programs/3d/main.cc:56
-msgid "Background color: white, black or #rrggbb (default is black)"
-msgstr ""
+msgstr "GChem3d 看圖軟體之版本:"
 
 #: ../programs/3d/main.cc:57
-msgid ""
-"How molecules are displayed; possible values are BallnStick (the default), "
-"SpaceFill, Cylinders, and Wireframe"
-msgstr ""
+msgid "Prints GChem3d Viewer version"
+msgstr "印出 GChem3d 看圖軟體版本"
 
-#: ../programs/3d/main.cc:103 ../programs/spectra/gspectrum.cc:54
+#: ../programs/3d/main.cc:58
+msgid "Background color: white, black or #rrggbb (default is black)"
+msgstr "背景顏色: 白, 黑或是 #rrggbb (預設為黑色)"
+
+#: ../programs/3d/main.cc:59
+msgid "How molecules are displayed; possible values are BallnStick (the default), SpaceFill, Cylinders, and Wireframe"
+msgstr "該如何呈現分子; 可能的方式是球與棒 (這是預設的), 空間填充, 柱狀, 線圖"
+
+#: ../programs/3d/main.cc:105
+#: ../programs/spectra/gspectrum.cc:59
 msgid " [file]"
 msgstr "[檔案]"
 
-#: ../programs/3d/main.cc:124 ../programs/crystal/main.cc:159
-#: ../programs/paint/main.cc:90 ../programs/spectra/gspectrum.cc:74
+#: ../programs/3d/main.cc:126
+#: ../programs/crystal/main.cc:161
+#: ../programs/paint/main.cc:92
+#: ../programs/spectra/gspectrum.cc:79
 #, c-format
 msgid "Invalid or misplaced argument: %s\n"
-msgstr ""
+msgstr "無效或是放錯參數: %s\n"
 
-#: ../programs/3d/window.cc:129
+#: ../programs/3d/window.cc:133
 msgid "GChem3D is a molecular structures viewer for Gnome"
-msgstr ""
+msgstr "GChem3D 是 Gnome 的分子結構看圖軟體"
 
-#: ../programs/3d/window.cc:131
+#: ../programs/3d/window.cc:135
 msgid "Copyright © 2004-2008 Jean Bréfort\n"
 msgstr "Copyright © 2004-2008 Jean Bréfort\n"
 
-#: ../programs/3d/window.cc:181
-msgid "Print the current scene"
-msgstr ""
-
 #: ../programs/3d/window.cc:185
-msgid "Quit GChem3D"
-msgstr ""
+msgid "Print the current scene"
+msgstr "列印目前的畫面"
 
 #: ../programs/3d/window.cc:189
+msgid "Quit GChem3D"
+msgstr "結束 GChen3D"
+
+#: ../programs/3d/window.cc:193
 msgid "View help for the Molecules Viewer"
-msgstr ""
+msgstr "分子看圖軟體求助"
 
-#: ../programs/3d/window.cc:190 ../programs/calc/gchemcalc.cc:627
-#: ../programs/crystal/window.cc:328 ../programs/spectra/window.cc:187
+#: ../programs/3d/window.cc:194
+#: ../programs/calc/gchemcalc.cc:645
+#: ../programs/crystal/window.cc:328
+#: ../programs/spectra/window.cc:189
 #: ../programs/table/gchemtable-app.cc:172
-#: ../programs/table/gchemtable-curve.cc:241
+#: ../programs/table/gchemtable-curve.cc:251
 msgid "Gnome Chemistry Utils on the _web"
-msgstr ""
+msgstr "Gnome Chemistry Utils 網頁"
 
-#: ../programs/3d/window.cc:191 ../programs/calc/gchemcalc.cc:628
-#: ../programs/crystal/window.cc:329 ../programs/spectra/window.cc:188
+#: ../programs/3d/window.cc:195
+#: ../programs/calc/gchemcalc.cc:646
+#: ../programs/crystal/window.cc:329
+#: ../programs/spectra/window.cc:190
 #: ../programs/table/gchemtable-app.cc:173
-#: ../programs/table/gchemtable-curve.cc:242
+#: ../programs/table/gchemtable-curve.cc:252
 msgid "Browse the Gnome Chemistry Utils's web site"
-msgstr ""
+msgstr "瀏覽 Gnome Chemistry Utils 網頁"
 
-#: ../programs/3d/window.cc:195 ../programs/calc/gchemcalc.cc:632
-#: ../programs/crystal/window.cc:333 ../programs/spectra/window.cc:192
+#: ../programs/3d/window.cc:199
+#: ../programs/calc/gchemcalc.cc:650
+#: ../programs/crystal/window.cc:333
+#: ../programs/spectra/window.cc:194
 #: ../programs/table/gchemtable-app.cc:177
-#: ../programs/table/gchemtable-curve.cc:246
+#: ../programs/table/gchemtable-curve.cc:256
 msgid "Ask a question about the Gnome Chemistry Utils"
 msgstr "我有 Gnome Chemistry Utils 的問題"
 
-#: ../programs/3d/window.cc:197 ../programs/calc/gchemcalc.cc:634
-#: ../programs/crystal/window.cc:335 ../programs/spectra/window.cc:194
+#: ../programs/3d/window.cc:201
+#: ../programs/calc/gchemcalc.cc:652
+#: ../programs/crystal/window.cc:335
+#: ../programs/spectra/window.cc:196
 #: ../programs/table/gchemtable-app.cc:179
-#: ../programs/table/gchemtable-curve.cc:248
+#: ../programs/table/gchemtable-curve.cc:258
 msgid "Submit a bug report for the Gnome Chemistry Utils"
-msgstr ""
-
-#: ../programs/3d/window.cc:199
-msgid "About GChem3D"
-msgstr ""
+msgstr "提報 Gnome Chemistry Utils 的臭蟲"
 
 #: ../programs/3d/window.cc:203
+msgid "About GChem3D"
+msgstr "有關 GChem3D"
+
+#: ../programs/3d/window.cc:207
 msgid "Balls and sticks"
 msgstr "球與棒的模式"
 
-#: ../programs/3d/window.cc:204
+#: ../programs/3d/window.cc:208
 msgid "Display a balls and sticks model"
 msgstr "顯示球與棒的模型"
 
-#: ../programs/3d/window.cc:206
+#: ../programs/3d/window.cc:210
 msgid "Space filling"
 msgstr "填滿空間模式"
 
-#: ../programs/3d/window.cc:207
+#: ../programs/3d/window.cc:211
 msgid "Display a space filling model"
 msgstr "顯示填滿空間的模型"
 
-#: ../programs/3d/window.cc:209
-msgid "Cylinders"
-msgstr ""
-
-#: ../programs/3d/window.cc:210
-msgid "Display a cylinders model"
-msgstr ""
-
-#: ../programs/3d/window.cc:212
-msgid "Wireframe"
-msgstr ""
-
 #: ../programs/3d/window.cc:213
+msgid "Cylinders"
+msgstr "柱狀"
+
+#: ../programs/3d/window.cc:214
+msgid "Display a cylinders model"
+msgstr "顯示柱狀模式"
+
+#: ../programs/3d/window.cc:216
+msgid "Wireframe"
+msgstr "線圖"
+
+#: ../programs/3d/window.cc:217
 msgid "Display a wireframe model"
-msgstr ""
+msgstr "顯示線圖模式"
 
-#: ../programs/3d/window.cc:271
+#: ../programs/3d/window.cc:275
 msgid "Background color"
-msgstr ""
+msgstr "背景顏色"
 
-#: ../programs/3d/window.cc:272
+#: ../programs/3d/window.cc:276
 msgid "Choose a new background color"
 msgstr "選個新的背景顏色"
 
-#: ../programs/3d/window.cc:295 ../programs/crystal/window.cc:439
-#: ../programs/spectra/window.cc:257
+#: ../programs/3d/window.cc:299
+#: ../programs/crystal/window.cc:439
+#: ../programs/spectra/window.cc:259
 msgid "Open recent"
 msgstr "最近開啟的"
 
 #: ../programs/3d/gchem3d.desktop.in.h:1
 msgid "Display chemical 3D structures"
-msgstr ""
+msgstr "顯示化學 3D 結構"
 
 #: ../programs/3d/gchem3d.desktop.in.h:2
 msgid "Molecules Viewer "
-msgstr ""
+msgstr "分子看圖軟體"
 
-#: ../programs/calc/gchemcalc.cc:301
+#: ../programs/calc/gchemcalc.cc:315
 msgid "GChemCalc is a simple calculator for chemists"
-msgstr ""
+msgstr "GChemCalc 是為化學家設計的簡易計算機"
 
-#: ../programs/calc/gchemcalc.cc:303 ../programs/table/gchemtable-app.cc:351
+#: ../programs/calc/gchemcalc.cc:317
+#: ../programs/table/gchemtable-app.cc:351
 msgid "Copyright © 2005-2008 Jean Bréfort"
-msgstr ""
+msgstr "Copyright © 2005-2008 Jean Bréfort"
 
-#: ../programs/calc/gchemcalc.cc:619
+#: ../programs/calc/gchemcalc.cc:637
 msgid "Quit GChemCalc"
-msgstr ""
-
-#: ../programs/calc/gchemcalc.cc:623
-msgid "_Mode"
-msgstr ""
-
-#: ../programs/calc/gchemcalc.cc:626
-msgid "View help for the Chemical Calculator"
-msgstr ""
-
-#: ../programs/calc/gchemcalc.cc:636
-msgid "About GChemCalc"
-msgstr ""
-
-#: ../programs/calc/gchemcalc.cc:640
-msgid "_Guess"
-msgstr ""
+msgstr "關閉 GChemCalc"
 
 #: ../programs/calc/gchemcalc.cc:641
-msgid "Try to guess what is correct when interpreting ambiguous symbols"
-msgstr ""
-
-#: ../programs/calc/gchemcalc.cc:643
-msgid "_Atom"
-msgstr ""
+msgid "_Mode"
+msgstr "模式"
 
 #: ../programs/calc/gchemcalc.cc:644
+msgid "View help for the Chemical Calculator"
+msgstr "檢視 Chemical Calculator 求助訊息"
+
+#: ../programs/calc/gchemcalc.cc:654
+msgid "About GChemCalc"
+msgstr "有關 GChemCalc"
+
+#: ../programs/calc/gchemcalc.cc:658
+msgid "_Guess"
+msgstr "猜測"
+
+#: ../programs/calc/gchemcalc.cc:659
+msgid "Try to guess what is correct when interpreting ambiguous symbols"
+msgstr "當判讀到模稜兩可的符號時, 將猜測正確的意義"
+
+#: ../programs/calc/gchemcalc.cc:661
+msgid "_Atom"
+msgstr "原子"
+
+#: ../programs/calc/gchemcalc.cc:662
 msgid "Interpreting ambiguous symbols as atoms"
-msgstr ""
+msgstr "把模稜兩可的符號判讀為原子"
 
-#: ../programs/calc/gchemcalc.cc:646
+#: ../programs/calc/gchemcalc.cc:664
 msgid "_Nickname"
-msgstr ""
+msgstr "別名/俗名"
 
-#: ../programs/calc/gchemcalc.cc:647
+#: ../programs/calc/gchemcalc.cc:665
 msgid "Interpret ambiguous symbols as atoms groups nicknames"
-msgstr ""
+msgstr "把模稜兩可的符號判讀為原子團的別名"
 
-#: ../programs/calc/gchemcalc.cc:649
+#: ../programs/calc/gchemcalc.cc:667
 msgid "As_k"
-msgstr ""
+msgstr "詢問"
 
-#: ../programs/calc/gchemcalc.cc:650
+#: ../programs/calc/gchemcalc.cc:668
 msgid "Ask user for the correct interpretation of ambiguous symbols"
-msgstr ""
+msgstr "詢問使用者有關模稜兩可符號之正確意義"
 
-#: ../programs/calc/gchemcalc.cc:688
+#: ../programs/calc/gchemcalc.cc:706
 msgid "GChemCalc Calculator version: "
-msgstr ""
+msgstr "GChemCalc Calculator 版本:"
 
-#: ../programs/calc/gchemcalc.cc:714
+#: ../programs/calc/gchemcalc.cc:732
 msgid " [formula]"
-msgstr ""
+msgstr "[化學式]"
 
-#: ../programs/calc/gchemcalc.cc:730
+#: ../programs/calc/gchemcalc.cc:748
 msgid "For usage see: gchemcalc [-?|--help]"
-msgstr ""
+msgstr "使用上請見: gchemcalc [-?|--help]"
 
-#: ../programs/calc/gchemcalc.cc:776
+#: ../programs/calc/gchemcalc.cc:794
 msgid "Element"
-msgstr ""
+msgstr "元素"
 
-#: ../programs/calc/gchemcalc.cc:783
+#: ../programs/calc/gchemcalc.cc:801
 msgid "Mass %"
-msgstr ""
+msgstr "質量 %"
 
 #: ../programs/calc/gchemcalc.desktop.in.h:1
 msgid "A simple calculator for chemistry"
-msgstr ""
+msgstr "化學簡易計算機"
 
 #: ../programs/calc/gchemcalc.desktop.in.h:2
 msgid "Chemical calculator "
-msgstr ""
+msgstr "化學計算機"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:1
 msgid "Edit and display crystalline structures"
@@ -3639,37 +3837,31 @@ msgstr "Gnome Crystal 晶體結構展示軟體"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:1
 msgid "Background color blue value"
-msgstr ""
+msgstr "背景色藍色值"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:2
 msgid "Background color green value"
-msgstr ""
+msgstr "背景色綠色值"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:3
 msgid "Background color red value"
-msgstr ""
+msgstr "背景色紅色值"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:4
 msgid "Blue value for the default background color. Acceptable values are 0. to 1."
-msgstr ""
+msgstr "預設背景色之藍色值. 可接受值為 0. 到 1."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:5
-msgid ""
-"Default Euler's nutation angle for model display. Acceptable values are 0. "
-"to + 180."
-msgstr ""
+msgid "Default Euler's nutation angle for model display. Acceptable values are 0. to + 180."
+msgstr "預設的尤拉章動角, 用在展示模型. 可接受的值為 0 到 +180"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:6
-msgid ""
-"Default Euler's precession angle for model display. Acceptable values are -"
-"180. to + 180."
-msgstr ""
+msgid "Default Euler's precession angle for model display. Acceptable values are -180. to + 180."
+msgstr "預設的尤拉進洞角,用在展示模型. 可接受的值為 -180 到 +180 "
 
 #: ../programs/crystal/gcrystal.schemas.in.h:7
-msgid ""
-"Default Euler's spin angle for model display. Acceptable values are -180. to "
-"+ 180."
-msgstr ""
+msgid "Default Euler's spin angle for model display. Acceptable values are -180. to + 180."
+msgstr "預設的尤拉自旋角,用在展示模型. 可接受的值為 -180 到 +180"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:8
 msgid "Default field of view"
@@ -3677,15 +3869,15 @@ msgstr "預設的可視範圍"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:9
 msgid "Default nutation"
-msgstr ""
+msgstr "預設章動 (nutation)"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:10
 msgid "Default precession"
-msgstr ""
+msgstr "預設進洞 (precession)"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:11
 msgid "Default spin"
-msgstr ""
+msgstr "預設自旋"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:12
 msgid "Field of view used by default for the model display."
@@ -3693,35 +3885,33 @@ msgstr "展示模型使用預設的可視範圍"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:13
 msgid "Green value for the default background color. Acceptable values are 0. to 1."
-msgstr ""
+msgstr "預設背景色之綠色值. 可接受值為 0. 到 1."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:14
 msgid "Printing resolution"
-msgstr ""
+msgstr "列印解析度"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:15
 msgid "Printing resolution if not automatically detected."
-msgstr ""
+msgstr "當若無法自動偵測時列印解析度顯示解析度."
 
 #: ../programs/crystal/gcrystal.schemas.in.h:16
 msgid "Red value for the default background color. Acceptable values are 0. to 1."
-msgstr ""
+msgstr "預設背景色之紅色值. 可接受值為 0. 到 1."
 
-#: ../programs/crystal/application.cc:58
+#: ../programs/crystal/application.cc:60
 #, c-format
 msgid "Untitled%d"
-msgstr ""
+msgstr "未命名 %d"
 
-#: ../programs/crystal/application.cc:318
+#: ../programs/crystal/application.cc:324
 #, c-format
-msgid ""
-"\"%s\" has been modified since last saving. Do you wish to come back to "
-"saved version?"
-msgstr ""
+msgid "\"%s\" has been modified since last saving. Do you wish to come back to saved version?"
+msgstr "自上次存檔後, \"%s\" 已經修改過了. 您希望回到前一個儲存的版本嗎?"
 
 #: ../programs/crystal/atomsdlg.cc:624
 msgid " c.n.="
-msgstr ""
+msgstr "c.n.="
 
 #: ../programs/crystal/atomsdlg.cc:630
 msgid "low spin"
@@ -3733,74 +3923,76 @@ msgstr "高自旋"
 
 #: ../programs/crystal/atomsdlg.cc:632
 msgid "Database"
-msgstr ""
+msgstr "資料庫"
 
 #: ../programs/crystal/celldlg.cc:141
 msgid "The sum of the three angles must be less than 360°"
-msgstr ""
+msgstr "這三個角的總和必須小於 360°"
 
 #: ../programs/crystal/cleavagesdlg.cc:98
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #: ../programs/crystal/cleavagesdlg.cc:108
 msgid "k"
-msgstr ""
+msgstr "k"
 
 #: ../programs/crystal/cleavagesdlg.cc:118
 msgid "l"
-msgstr ""
+msgstr "l"
 
 #: ../programs/crystal/cleavagesdlg.cc:128
 msgid "Planes cleaved"
 msgstr "被分開的面"
 
-#: ../programs/crystal/document.cc:323
+#: ../programs/crystal/document.cc:326
 #, c-format
 msgid ""
 "Could not save file\n"
 "%s"
 msgstr ""
-"無法存檔\n"
+"無法存檔\n"
 "%s"
 
 #: ../programs/crystal/linesdlg.cc:121
 msgid "x1"
-msgstr ""
+msgstr "x1"
 
 #: ../programs/crystal/linesdlg.cc:131
 msgid "y1"
-msgstr ""
+msgstr "y1"
 
 #: ../programs/crystal/linesdlg.cc:141
 msgid "z1"
-msgstr ""
+msgstr "z1"
 
 #: ../programs/crystal/linesdlg.cc:151
 msgid "x2"
-msgstr ""
+msgstr "x2"
 
 #: ../programs/crystal/linesdlg.cc:161
 msgid "y2"
-msgstr ""
+msgstr "y2"
 
 #: ../programs/crystal/linesdlg.cc:171
 msgid "z2"
-msgstr ""
+msgstr "z2"
 
 #: ../programs/crystal/linesdlg.cc:180
 msgid "Single"
-msgstr ""
+msgstr "Single 單一"
 
-#: ../programs/crystal/main.cc:88
+#: ../programs/crystal/main.cc:90
 msgid "Gnome Chemistry Utils version: "
-msgstr ""
+msgstr "Gnome Chemistry Utils 版本:"
 
-#: ../programs/crystal/main.cc:114 ../programs/paint/main.cc:72
+#: ../programs/crystal/main.cc:116
+#: ../programs/paint/main.cc:74
 msgid " [file...]"
 msgstr " [檔案...]"
 
-#: ../programs/crystal/window.cc:148 ../programs/crystal/window.cc:404
+#: ../programs/crystal/window.cc:148
+#: ../programs/crystal/window.cc:404
 msgid "Gnome Crystal"
 msgstr "Gnome Crystal"
 
@@ -3810,7 +4002,7 @@ msgstr "Gnome Crystal 是 Gnome 的輕量級的晶體結構看圖軟體"
 
 #: ../programs/crystal/window.cc:152
 msgid "Copyright © 1999-2008 by Jean Bréfort"
-msgstr ""
+msgstr "Copyright © 1999-2008 by Jean Bréfort"
 
 #: ../programs/crystal/window.cc:302
 msgid "Quit Gnome Crystal"
@@ -3818,7 +4010,7 @@ msgstr "關閉 Gnome Crystal"
 
 #: ../programs/crystal/window.cc:304
 msgid "Prefere_nces..."
-msgstr ""
+msgstr "偏好..."
 
 #: ../programs/crystal/window.cc:306
 msgid "_Crystal"
@@ -3842,7 +4034,7 @@ msgstr "增加或是編輯原子"
 
 #: ../programs/crystal/window.cc:311
 msgid "_Bonds and lines..."
-msgstr "鍵與線"
+msgstr "鍵與線..."
 
 #: ../programs/crystal/window.cc:312
 msgid "Add or edit bonds and lines"
@@ -3854,7 +4046,7 @@ msgstr "大小..."
 
 #: ../programs/crystal/window.cc:314
 msgid "Define size"
-msgstr ""
+msgstr "定義大小"
 
 #: ../programs/crystal/window.cc:315
 msgid "_Cleavages..."
@@ -3870,7 +4062,7 @@ msgstr "檢視之設定..."
 
 #: ../programs/crystal/window.cc:319
 msgid "Choose background color and model position"
-msgstr ""
+msgstr "選擇背景色及模型位置"
 
 #: ../programs/crystal/window.cc:321
 msgid "Create new _window"
@@ -3886,7 +4078,7 @@ msgstr "關閉本視窗"
 
 #: ../programs/crystal/window.cc:324
 msgid "Close the current window"
-msgstr ""
+msgstr "關閉現在的視窗"
 
 #: ../programs/crystal/window.cc:327
 msgid "View help for Gnome Crystal"
@@ -3898,7 +4090,7 @@ msgstr "有關 Gnome Crystal"
 
 #: ../programs/paint/gchempaint.desktop.in.h:1
 msgid "Edit chemical 2D structures"
-msgstr "編輯平面化學結構"
+msgstr "編輯 2D 化學結構"
 
 #: ../programs/paint/gchempaint.desktop.in.h:2
 msgid "GChemPaint Chemical Structures Editor "
@@ -3906,77 +4098,73 @@ msgstr "GChempaint 化學結構編輯軟體"
 
 #: ../programs/paint/gchempaint.schemas.in.h:1
 msgid "Chemical formula font family."
-msgstr ""
+msgstr "化學式字型庫."
 
 #: ../programs/paint/gchempaint.schemas.in.h:2
 msgid "Chemical formula font size."
-msgstr ""
+msgstr "化學式字型大小."
 
 #: ../programs/paint/gchempaint.schemas.in.h:3
 msgid "Chemical formula font stretch."
-msgstr ""
+msgstr "化學式字型擴展."
 
 #: ../programs/paint/gchempaint.schemas.in.h:4
 msgid "Chemical formula font style."
-msgstr ""
+msgstr "化學式字型樣式."
 
 #: ../programs/paint/gchempaint.schemas.in.h:5
 msgid "Chemical formula font variant."
-msgstr ""
+msgstr "化學式字型變體"
 
 #: ../programs/paint/gchempaint.schemas.in.h:6
 msgid "Chemical formula font weight."
-msgstr ""
+msgstr "化學式字型粗細"
 
 #: ../programs/paint/gchempaint.schemas.in.h:7
-msgid ""
-"Compression factor when saving files. Acceptable values are 0 (no "
-"compression) to 9."
+msgid "Compression factor when saving files. Acceptable values are 0 (no compression) to 9."
 msgstr "存檔時的壓縮係數. 可接受的值是從 0 (沒有壓縮) 到 9."
 
 #: ../programs/paint/gchempaint.schemas.in.h:8
 msgid "Default angle between two bonds."
-msgstr ""
+msgstr "預設的兩鍵之夾角"
 
 #: ../programs/paint/gchempaint.schemas.in.h:9
-msgid ""
-"Default angle between two consecutive bonds in a chain in degrees. Used in "
-"the default theme."
-msgstr ""
+msgid "Default angle between two consecutive bonds in a chain in degrees. Used in the default theme."
+msgstr "在一個鍊中兩個連續角度鍵預設之角度. 用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:10
 msgid "Default arrow length"
-msgstr "內設的箭頭長度"
+msgstr "預設的箭頭長度"
 
 #: ../programs/paint/gchempaint.schemas.in.h:11
 msgid "Default arrow length in picometers. Used in the default theme."
-msgstr "內設的箭頭長度 (單位: pm). 使用在內設的主題."
+msgstr "預設的箭頭長度 (單位: pm). 使用在預設的主題."
 
 #: ../programs/paint/gchempaint.schemas.in.h:13
 #, no-c-format
 msgid "Default arrow line width in pixels (at 100% zoom). Used in the default theme."
-msgstr "內設箭頭線的寬度 (單位: 像素). 使用在內設的主題."
+msgstr "預設箭頭線的寬度, 單位為像素 (在 100% 縮放比). 使用在預設的主題."
 
 #: ../programs/paint/gchempaint.schemas.in.h:14
 msgid "Default arrow line width."
-msgstr "內設箭頭線的寬度."
+msgstr "預設箭頭線的寬度."
 
 #: ../programs/paint/gchempaint.schemas.in.h:15
 msgid "Default bond length"
-msgstr "內設鍵的長度"
+msgstr "預設鍵的長度"
 
 #: ../programs/paint/gchempaint.schemas.in.h:16
 msgid "Default bond length in picometers. Used in the default theme."
-msgstr "內設鍵的長度 (單位: pm). 使用在內設的主題 "
+msgstr "預設鍵的長度 (單位: pm). 使用在預設的主題."
 
 #: ../programs/paint/gchempaint.schemas.in.h:18
 #, no-c-format
 msgid "Default bond line width in pixels (at 100% zoom). Used in the default theme."
-msgstr "內設鍵的寬度 (單位: 像素, 當縮放比 100% 時). 使用在內設的主題."
+msgstr "預設鍵線條的寬度 (單位: 像素, 當縮放比 100% 時). 使用在預設的主題."
 
 #: ../programs/paint/gchempaint.schemas.in.h:19
 msgid "Default bond line width."
-msgstr "內設鍵的寬度."
+msgstr "預設鍵的寬度."
 
 #: ../programs/paint/gchempaint.schemas.in.h:20
 msgid "Default charge sign size."
@@ -3984,349 +4172,280 @@ msgstr "預設的電荷符號大小"
 
 #: ../programs/paint/gchempaint.schemas.in.h:21
 msgid "Default distance between two lines for double arrows."
-msgstr ""
+msgstr "雙向箭頭兩線之間的預設距離"
 
 #: ../programs/paint/gchempaint.schemas.in.h:22
 msgid "Default distance between two lines in a multiple bond."
-msgstr ""
+msgstr "雙鍵或三鍵符號的直線間預設距離"
 
 #: ../programs/paint/gchempaint.schemas.in.h:24
 #, no-c-format
-msgid ""
-"Default distance between two lines in pixels (at 100% zoom) for double "
-"arrows or for retrosynthesis arrows. Used in the default theme."
-msgstr ""
+msgid "Default distance between two lines in pixels (at 100% zoom) for double arrows or for retrosynthesis arrows. Used in the default theme."
+msgstr "雙向箭頭或逆合成箭頭兩線之間的預設距離 (單位為像素, 當縮放比為 100%). 用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:26
 #, no-c-format
-msgid ""
-"Default distance between two lines in pixels (at 100% zoom) in a multiple "
-"bond. Used in the default theme."
-msgstr ""
+msgid "Default distance between two lines in pixels (at 100% zoom) in a multiple bond. Used in the default theme."
+msgstr "多重鍵符號兩線之間的預設距離 (單位為像素, 當縮放比為 100%), 用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:28
 #, no-c-format
-msgid ""
-"Default distance between two lines in pixels for hash bonds (at 100% zoom). "
-"Used in the default theme."
-msgstr ""
+msgid "Default distance between two lines in pixels for hash bonds (at 100% zoom). Used in the default theme."
+msgstr "兩線之間的預設距離 (單位為像素, 當縮放比為 100%), 用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:30
 #, no-c-format
-msgid ""
-"Default distance from tip of arrowhead to center in pixels (at 100% zoom). "
-"Used in the default theme."
-msgstr ""
+msgid "Default distance from tip of arrowhead to center in pixels (at 100% zoom). Used in the default theme."
+msgstr "從箭頭尖端到中心的預設距離, 單位為像素 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:31
 msgid "Default distance from tip of arrowhead to center."
-msgstr ""
+msgstr "從箭頭尖端到中心的預設距離"
 
 #: ../programs/paint/gchempaint.schemas.in.h:33
 #, no-c-format
-msgid ""
-"Default distance from tip of arrowhead to trailing point, measured along "
-"shaft, in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
+msgid "Default distance from tip of arrowhead to trailing point, measured along shaft, in pixels (at 100% zoom). Used in the default theme."
+msgstr "從箭頭尖端到起點的預設距離, 單位為像素 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:34
-msgid ""
-"Default distance from tip of arrowhead to trailing point, measured along "
-"shaft."
-msgstr ""
+msgid "Default distance from tip of arrowhead to trailing point, measured along shaft."
+msgstr "自箭頭尖端到起始點的預設距離, 沿著箭型計算."
 
 #: ../programs/paint/gchempaint.schemas.in.h:36
 #, no-c-format
-msgid ""
-"Default distance of arrowhead trailing points from outside edge of shaft in "
-"pixels (at 100% zoom). Used in the default theme."
-msgstr ""
+msgid "Default distance of arrowhead trailing points from outside edge of shaft in pixels (at 100% zoom). Used in the default theme."
+msgstr "箭頭起點到箭型外緣的預設距離, 單位為像素 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:37
 msgid "Default distance of arrowhead trailing points from outside edge of shaft."
-msgstr ""
+msgstr "箭頭起點到箭型外緣的預設距離."
 
 #: ../programs/paint/gchempaint.schemas.in.h:38
 msgid "Default extra padding after a stoichiometric coefficient."
-msgstr ""
+msgstr "預設的額外文字填充功能, 用在計量化學係數."
 
 #: ../programs/paint/gchempaint.schemas.in.h:40
 #, no-c-format
-msgid ""
-"Default extra padding between a stoichiometric coefficient and its "
-"associated molecule in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
+msgid "Default extra padding between a stoichiometric coefficient and its associated molecule in pixels (at 100% zoom). Used in the default theme."
+msgstr "預設的額外文字填充功能, 在計量化學係數與相關分子之間的距離, 單位為像素 (在 100 % 縮放比) . 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:41
 msgid "Default font family used for texts. Used in the default theme."
-msgstr ""
+msgstr "文字預設的字型庫. 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:42
-msgid ""
-"Default font stretch used for texts (0 = ultra-condensed; 1 = extra-"
-"condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; "
-"6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default "
-"theme."
-msgstr ""
+msgid "Default font stretch used for texts (0 = ultra-condensed; 1 = extra-condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; 6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default theme."
+msgstr "文字預設的字型擴展功能 (0 = 超級壓縮; 1 = 額外壓縮; 2 = 壓縮的; 3 = 半壓縮; 4 = 一般; 5 = 半擴展; 6 = 擴展; 7 = 額外擴展; 8 = 超級擴展). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:43
-msgid ""
-"Default font style used for texts (0 = normal; 1 = oblique; 2 = italic). "
-"Used in the default theme."
-msgstr ""
+msgid "Default font style used for texts (0 = normal; 1 = oblique; 2 = italic). Used in the default theme."
+msgstr "預設字體樣式  (0 = 一般; 1 = 傾斜字; 2 = 斜體). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:44
-msgid ""
-"Default font variant used for texts (0 = normal; 1 = small caps). Used in "
-"the default theme."
-msgstr ""
+msgid "Default font variant used for texts (0 = normal; 1 = small caps). Used in the default theme."
+msgstr "用在文字的預設字型變體 (0 = 一般; 1 = 小型大寫) 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:45
-msgid ""
-"Default font weight used for texts (2 = ultra-light; 3 = light; 4 = normal; "
-"6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default "
-"theme."
-msgstr ""
+msgid "Default font weight used for texts (2 = ultra-light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default theme."
+msgstr "用在文字的預設字型粗細 (2 = 超細; 3 = 細; 4 = 一般; 6 = 半粗; 7 = 粗體; 8 = 超粗; 9 = 超重) 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:46
 msgid "Default hash line width."
-msgstr ""
+msgstr "預設虛線的寬度"
 
 #: ../programs/paint/gchempaint.schemas.in.h:47
 msgid "Default hash lines distance."
-msgstr ""
+msgstr "預設虛線的長度"
 
 #: ../programs/paint/gchempaint.schemas.in.h:49
 #, no-c-format
-msgid ""
-"Default largest width for hash or wedge bonds (at 100% zoom). Used in the "
-"default theme."
-msgstr ""
+msgid "Default largest width for hash or wedge bonds (at 100% zoom). Used in the default theme."
+msgstr "預設虛線鍵或是楔形鍵的最大寬度 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:50
 msgid "Default largest width for hash or wedge bonds."
-msgstr ""
+msgstr "預設虛線鍵的最大寬度"
 
 #: ../programs/paint/gchempaint.schemas.in.h:52
 #, no-c-format
-msgid ""
-"Default line width in pixels for hash bonds (at 100% zoom). Used in the "
-"default theme."
-msgstr ""
+msgid "Default line width in pixels for hash bonds (at 100% zoom). Used in the default theme."
+msgstr "預設虛線鍵的寬度, 單位為像素 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:53
 msgid "Default padding around arrows."
-msgstr ""
+msgstr "預設的字型填充功能, 用在箭頭"
 
 #: ../programs/paint/gchempaint.schemas.in.h:55
 #, no-c-format
-msgid ""
-"Default padding between a '+' sign in a reaction equation and reactants "
-"symbols in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
+msgid "Default padding between a '+' sign in a reaction equation and reactants symbols in pixels (at 100% zoom). Used in the default theme."
+msgstr "預設的填充功能,  用在化學式中的 '+' 及反應物符號, 單位為像素 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:56
-msgid ""
-"Default padding between a '+' sign in a reaction equation and reactants "
-"symbols."
-msgstr ""
+msgid "Default padding between a '+' sign in a reaction equation and reactants symbols."
+msgstr "預設的填充功能,  用在化學式中的 '+' 及反應物符號, 單位為像素"
 
 #: ../programs/paint/gchempaint.schemas.in.h:57
 msgid "Default padding between aligned objects."
-msgstr ""
+msgstr "預設的填充功能, 用在排列的物件之間."
 
 #: ../programs/paint/gchempaint.schemas.in.h:59
 #, no-c-format
-msgid ""
-"Default padding between arrows and associated objects in pixels (at 100% "
-"zoom). Used in the default theme."
-msgstr ""
+msgid "Default padding between arrows and associated objects in pixels (at 100% zoom). Used in the default theme."
+msgstr "預設的填充功能, 用在箭頭及相關物件之間, 單位為像素 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:60
 msgid "Default padding for texts."
-msgstr ""
+msgstr "預設的文字填充功能."
 
 #: ../programs/paint/gchempaint.schemas.in.h:62
 #, no-c-format
-msgid ""
-"Default padding in pixels added between consecutive objects during an "
-"alignment operation (at 100% zoom). Used in the default theme."
-msgstr ""
+msgid "Default padding in pixels added between consecutive objects during an alignment operation (at 100% zoom). Used in the default theme."
+msgstr "預設的填充功能, 用在排列過程中連續的物件 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:64
 #, no-c-format
-msgid ""
-"Default size of the charge sign in pixels (at 100% zoom). Used in the "
-"default theme."
+msgid "Default size of the charge sign in pixels (at 100% zoom). Used in the default theme."
 msgstr "預設的電荷符號大小 (單位是像素, 在縮放比 100% 時). 用在預設的主題."
 
 #: ../programs/paint/gchempaint.schemas.in.h:65
 msgid "Default text font family."
-msgstr ""
+msgstr "預設文字字型庫"
 
 #: ../programs/paint/gchempaint.schemas.in.h:66
 msgid "Default text font size."
-msgstr ""
+msgstr "預設文字字型大小"
 
 #: ../programs/paint/gchempaint.schemas.in.h:67
 msgid "Default text font stretch."
-msgstr ""
+msgstr "預設文字字型擴展"
 
 #: ../programs/paint/gchempaint.schemas.in.h:68
 msgid "Default text font style."
-msgstr ""
+msgstr "預設文字字型樣式"
 
 #: ../programs/paint/gchempaint.schemas.in.h:69
 msgid "Default text font variant."
-msgstr ""
+msgstr "預設文字字型變體."
 
 #: ../programs/paint/gchempaint.schemas.in.h:70
 msgid "Default text font weight."
-msgstr ""
+msgstr "預設文字字型之比重."
 
 #: ../programs/paint/gchempaint.schemas.in.h:71
 msgid "Default theme used when creating a new file."
-msgstr "新增檔案時的內設主題"
+msgstr "新增檔案時的預設主題."
 
 #: ../programs/paint/gchempaint.schemas.in.h:72
 msgid "Default theme."
-msgstr ""
+msgstr "預設主題."
 
 #: ../programs/paint/gchempaint.schemas.in.h:73
 msgid "File compression factor."
 msgstr "檔案壓縮係數."
 
 #: ../programs/paint/gchempaint.schemas.in.h:74
-msgid ""
-"Font family used for chemical formula such as atoms and fragments. Used in "
-"the default theme."
-msgstr ""
+msgid "Font family used for chemical formula such as atoms and fragments. Used in the default theme."
+msgstr "用在化學式如原子與片段的字型庫. 用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:75
-msgid ""
-"Font size used for chemical formula such as atoms and fragments. Used in the "
-"default theme."
-msgstr ""
+msgid "Font size used for chemical formula such as atoms and fragments. Used in the default theme."
+msgstr "用在化學式如原子與片段的字型大小. 用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:76
 msgid "Font size used for texts. Used in the default theme."
-msgstr ""
+msgstr "文字之字型大小. 用在預設的字型."
 
 #: ../programs/paint/gchempaint.schemas.in.h:77
-msgid ""
-"Font stretch used for chemical formula such as atoms and fragments (0 = "
-"ultra-condensed; 1 = extra-condensed; 2 = condensed; 3 = semi-condensed; 4 = "
-"normal; 5 = semi-expanded; 6 = expanded; 7 = extra-expanded; 8 = ultra-"
-"expanded). Used in the default theme."
-msgstr ""
+msgid "Font stretch used for chemical formula such as atoms and fragments (0 = ultra-condensed; 1 = extra-condensed; 2 = condensed; 3 = semi-condensed; 4 = normal; 5 = semi-expanded; 6 = expanded; 7 = extra-expanded; 8 = ultra-expanded). Used in the default theme."
+msgstr "字型 stretch, 用在化學式如原子及片段 ((0 = 超級壓縮; 1 = 額外壓縮; 2 = 壓縮; 3 = 半壓縮; 4 = 正常; 5 = 半擴展; 6 = 擴展; 7 = 額外擴展; 8 = 超級擴展)"
 
 #: ../programs/paint/gchempaint.schemas.in.h:78
-msgid ""
-"Font style used for chemical formula such as atoms and fragments (0 = "
-"normal; 1 = oblique; 2 = italic). Used in the default theme."
-msgstr ""
+msgid "Font style used for chemical formula such as atoms and fragments (0 = normal; 1 = oblique; 2 = italic). Used in the default theme."
+msgstr "字型之樣式 (0 = 一般; 1 = 傾斜字; 2 = 斜體) . 用在化學式如原子或片段"
 
 #: ../programs/paint/gchempaint.schemas.in.h:79
-msgid ""
-"Font variant used for chemical formula such as atoms and fragments (0 = "
-"normal; 1 = small caps). Used in the default theme."
-msgstr ""
+msgid "Font variant used for chemical formula such as atoms and fragments (0 = normal; 1 = small caps). Used in the default theme."
+msgstr "字型之變體,用在化學式如原子或片段 (0 = 一般, 1= small caps) 用在預設主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:80
-msgid ""
-"Font weight used for chemical formula such as atoms and fragments (2 = ultra-"
-"light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = "
-"heavy). Used in the default theme."
-msgstr ""
+msgid "Font weight used for chemical formula such as atoms and fragments (2 = ultra-light; 3 = light; 4 = normal; 6 = semi-bold; 7 = bold; 8 = ultra-bold; 9 = heavy). Used in the default theme."
+msgstr "字型之粗細, 用在化學式如原子或片段 (2 = 極細; 3 = 細; 4 = 一般; 6 = 半粗; 7 = 粗; 8 = 極粗; 9 = 厚重) 用在預設主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:81
 msgid "If TRUE, STRING_UTF8 and STRING are added to the clipboard formats."
-msgstr ""
+msgstr "如果為真, STRING_UTF8 及字串將會被加到剪貼簿的格式"
 
-#: ../programs/paint/gchempaint.schemas.in.h:82
-msgid ""
-"If TRUE, the periodic table popup widget will be tearable from the tools "
-"dialog box."
-msgstr ""
+#: ../programs/paint/gchempaint.schemas.in.h:83
+#, no-c-format
+msgid "Padding used around text objects such as atoms, texts and other typographic signs in pixels (at 100% zoom). Used in the default theme."
+msgstr "填充功能, 用在文字物件如原子, 文字, 符號 (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:84
-#, no-c-format
-msgid ""
-"Padding used around text objects such as atoms, texts and other typographic "
-"signs in pixels (at 100% zoom). Used in the default theme."
-msgstr ""
-
-#: ../programs/paint/gchempaint.schemas.in.h:85
 msgid "Scale (pm per pixel)."
-msgstr ""
+msgstr "縮放大小 (pm/像素)"
+
+#: ../programs/paint/gchempaint.schemas.in.h:86
+#, no-c-format
+msgid "Scale used to convert real distance to canvas distance expressed in pm per pixel (at 100% zoom). Used in the default theme."
+msgstr "用以轉換真實長度到軟體操作區域長度的比例, 一像素代表 1 pm (在 100% 縮放比). 將用在預設的主題"
 
 #: ../programs/paint/gchempaint.schemas.in.h:87
-#, no-c-format
-msgid ""
-"Scale used to convert real distance to canvas distance expressed in pm per "
-"pixel (at 100% zoom). Used in the default theme."
-msgstr ""
-
-#: ../programs/paint/gchempaint.schemas.in.h:88
-msgid "Whether the periodic table is tearable."
-msgstr ""
-
-#: ../programs/paint/gchempaint.schemas.in.h:89
 msgid "Whether to export simple text when copying."
-msgstr ""
+msgstr "當複製時, 需要匯出成簡單的文字."
 
-#: ../programs/paint/main.cc:46
+#: ../programs/paint/main.cc:48
 msgid "GChemPaint version: "
-msgstr ""
+msgstr "GChemPaint 版本:"
 
-#: ../programs/spectra/application.cc:40 ../programs/spectra/application.cc:52
+#: ../programs/spectra/application.cc:42
+#: ../programs/spectra/application.cc:54
 msgid "GSpectrum"
-msgstr ""
+msgstr "GSpectrum"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:1
 msgid "A spectrum viewer for the GNOME desktop"
-msgstr ""
+msgstr "Gnome 桌面的光譜瀏覽軟體"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:2
 msgid "Spectrum viewer "
-msgstr ""
-
-#: ../programs/spectra/window.cc:124
-msgid "GSpectrum is a spectrum viewer for Gnome"
-msgstr ""
+msgstr "Spectrum viewer 光譜瀏覽軟體"
 
 #: ../programs/spectra/window.cc:126
+msgid "GSpectrum is a spectrum viewer for Gnome"
+msgstr "GSpectrum 是 Gnome 的光譜瀏覽軟體"
+
+#: ../programs/spectra/window.cc:128
 msgid "Copyright © 2007-2008 Jean Bréfort\n"
-msgstr ""
+msgstr "Copyright © 2007-2008 Jean Bréfort\n"
 
-#: ../programs/spectra/window.cc:180
+#: ../programs/spectra/window.cc:182
 msgid "Quit GSpectrum"
-msgstr ""
+msgstr "關閉 GSpectrum"
 
-#: ../programs/spectra/window.cc:186
+#: ../programs/spectra/window.cc:188
 msgid "View help for the Spectra Viewer"
-msgstr ""
+msgstr "檢視光譜瀏覽軟體求助訊息"
 
-#: ../programs/spectra/window.cc:196
+#: ../programs/spectra/window.cc:198
 msgid "About GSpectrum"
-msgstr ""
+msgstr "有關 GSpectrum"
 
 #: ../programs/table/gchemtable-app.cc:141
 msgid "New _Chart"
-msgstr ""
+msgstr "新增圖形"
 
 #: ../programs/table/gchemtable-app.cc:142
 msgid "Create a new chart"
-msgstr ""
+msgstr "新增圖形"
 
 #: ../programs/table/gchemtable-app.cc:144
-#: ../programs/table/gchemtable-curve.cc:232
+#: ../programs/table/gchemtable-curve.cc:242
 msgid "Quit GChemTable"
-msgstr ""
+msgstr "關閉 GChemTable"
 
 #: ../programs/table/gchemtable-app.cc:146
 msgid "Color scheme"
-msgstr "色彩設定"
+msgstr "色彩規劃"
 
 #: ../programs/table/gchemtable-app.cc:147
 msgid "No colors"
@@ -4334,11 +4453,11 @@ msgstr "不設顏色"
 
 #: ../programs/table/gchemtable-app.cc:148
 msgid "Use default Gtk theme colors"
-msgstr ""
+msgstr "使用 Gtk 主題的預設顏色"
 
 #: ../programs/table/gchemtable-app.cc:150
 msgid "Use default symbolic element colors"
-msgstr ""
+msgstr "使用預設的符號元素顏色"
 
 #: ../programs/table/gchemtable-app.cc:151
 msgid "Physical states"
@@ -4385,12 +4504,12 @@ msgid "Use colors to display the blocks elements belong to"
 msgstr "使用不同顏色表示元素所屬的區塊"
 
 #: ../programs/table/gchemtable-app.cc:171
-#: ../programs/table/gchemtable-curve.cc:238
+#: ../programs/table/gchemtable-curve.cc:248
 msgid "View help for the Periodic Table"
 msgstr "檢視週期表的求助"
 
 #: ../programs/table/gchemtable-app.cc:181
-#: ../programs/table/gchemtable-curve.cc:250
+#: ../programs/table/gchemtable-curve.cc:260
 msgid "About GChemTable"
 msgstr "有關 GChemTable (週期表)"
 
@@ -4432,7 +4551,7 @@ msgstr "離子"
 
 #: ../programs/table/gchemtable-elt.cc:278
 msgid "C.N."
-msgstr ""
+msgstr "C.N."
 
 #: ../programs/table/gchemtable-elt.cc:283
 msgid "Spin"
@@ -4450,134 +4569,144 @@ msgstr "低"
 msgid "High"
 msgstr "高"
 
-#: ../programs/table/gchemtable-curve.cc:228
+#: ../programs/table/gchemtable-curve.cc:238
 msgid "Modify the graph properties"
 msgstr "修改圖的屬性"
 
-#: ../programs/table/gchemtable-curve.cc:240
+#: ../programs/table/gchemtable-curve.cc:250
 msgid "View help for the Curve Window"
 msgstr "檢視圖形視窗的求助功能"
 
 #: ../programs/table/gchemtable-curve.cc:334
-#: ../programs/table/gchemtable-curve.cc:338
-#: ../programs/table/gchemtable-data.cc:528
+#: ../programs/table/gchemtable-curve.cc:337
+#: ../programs/table/gchemtable-curve.cc:341
+#: ../programs/table/gchemtable-data.cc:560
 msgid "Pauling electronegativity"
 msgstr "鮑林電負度"
 
-#: ../programs/table/gchemtable-curve.cc:350
+#: ../programs/table/gchemtable-curve.cc:343
+#: ../programs/table/gchemtable-data.cc:564
+msgid "Electronic affinity"
+msgstr "電子親和力"
+
+#: ../programs/table/gchemtable-curve.cc:346
 msgid "Electron affinity (kJ/mol)"
 msgstr "電子親和力 (KJ/mol)"
 
-#: ../programs/table/gchemtable-curve.cc:354
+#: ../programs/table/gchemtable-curve.cc:350
 msgid "Electron affinity"
 msgstr "電子親合力"
 
-#: ../programs/table/gchemtable-curve.cc:368
+#: ../programs/table/gchemtable-curve.cc:356
+#: ../programs/table/gchemtable-data.cc:561
+msgid "First ionization energy"
+msgstr "第一游離能"
+
+#: ../programs/table/gchemtable-curve.cc:357
 msgid "1st. "
 msgstr "第一"
 
-#: ../programs/table/gchemtable-curve.cc:371
+#: ../programs/table/gchemtable-curve.cc:360
+#: ../programs/table/gchemtable-data.cc:562
+msgid "Second ionization energy"
+msgstr "第二游離能"
+
+#: ../programs/table/gchemtable-curve.cc:361
 msgid "2nd. "
 msgstr "第二"
 
-#: ../programs/table/gchemtable-curve.cc:374
+#: ../programs/table/gchemtable-curve.cc:364
+#: ../programs/table/gchemtable-data.cc:563
+msgid "Third ionization energy"
+msgstr "第三游離能"
+
+#: ../programs/table/gchemtable-curve.cc:365
 msgid "3rd. "
 msgstr "第三"
 
-#: ../programs/table/gchemtable-curve.cc:377
+#: ../programs/table/gchemtable-curve.cc:368
 #, c-format
 msgid "%dth. "
 msgstr "第 %d"
 
-#: ../programs/table/gchemtable-curve.cc:380
+#: ../programs/table/gchemtable-curve.cc:374
 msgid "ionization energy (MJ/mol)"
 msgstr "游離能 (MJ/mol)"
 
-#: ../programs/table/gchemtable-curve.cc:387
+#: ../programs/table/gchemtable-curve.cc:381
 msgid "ionization energy"
 msgstr "游離能"
 
-#: ../programs/table/gchemtable-curve.cc:406
-#: ../programs/table/gchemtable-curve.cc:410
-msgid "Covalent radii"
-msgstr "共價半徑"
-
-#: ../programs/table/gchemtable-curve.cc:426
-#: ../programs/table/gchemtable-curve.cc:430
-msgid "Van der Waals radii"
-msgstr "凡得瓦半徑"
-
-#: ../programs/table/gchemtable-curve.cc:446
-#: ../programs/table/gchemtable-curve.cc:450
-msgid "Metallic radii"
-msgstr "金屬結合半徑/金屬原子半徑"
-
-#: ../programs/table/gchemtable-curve.cc:461
-#: ../programs/table/gchemtable-curve.cc:465
-msgid "Melting point"
-msgstr "熔點"
-
-#: ../programs/table/gchemtable-curve.cc:476
-#: ../programs/table/gchemtable-curve.cc:480
-msgid "Boiling point"
-msgstr "沸點"
-
-#: ../programs/table/gchemtable-curve.cc:495
-#: ../programs/table/gchemtable-data.cc:526
-msgid "Atomic number"
-msgstr "原子序"
-
-#: ../programs/table/gchemtable-data-allocator.cc:69
-msgid "Invalid data"
-msgstr "無效數值"
-
-#: ../programs/table/gchemtable-data-allocator.cc:113
-msgid "Not supported"
-msgstr "不支援"
-
-#: ../programs/table/gchemtable-data-allocator.cc:122
-msgid "None"
-msgstr "無"
-
-#: ../programs/table/gchemtable-data.cc:527
-msgid "Atomic mass"
-msgstr "原子量"
-
-#: ../programs/table/gchemtable-data.cc:529
-msgid "First ionization energy"
-msgstr "第一游離能"
-
-#: ../programs/table/gchemtable-data.cc:530
-msgid "Second ionization energy"
-msgstr "第二游離能"
-
-#: ../programs/table/gchemtable-data.cc:531
-msgid "Third ionization energy"
-msgstr "第三游離能"
-
-#: ../programs/table/gchemtable-data.cc:532
-msgid "Electronic affinity"
-msgstr "電子親和力"
-
-#: ../programs/table/gchemtable-data.cc:533
+#: ../programs/table/gchemtable-curve.cc:386
+#: ../programs/table/gchemtable-data.cc:565
 msgid "Covalent radius"
 msgstr "共價半徑"
 
-#: ../programs/table/gchemtable-data.cc:534
+#: ../programs/table/gchemtable-curve.cc:389
+#: ../programs/table/gchemtable-curve.cc:393
+msgid "Covalent radii"
+msgstr "共價半徑"
+
+#: ../programs/table/gchemtable-curve.cc:395
+#: ../programs/table/gchemtable-data.cc:566
 msgid "Van der Waals radius"
 msgstr "凡得瓦半徑"
 
-#: ../programs/table/gchemtable-data.cc:535
+#: ../programs/table/gchemtable-curve.cc:398
+#: ../programs/table/gchemtable-curve.cc:402
+msgid "Van der Waals radii"
+msgstr "凡得瓦半徑"
+
+#: ../programs/table/gchemtable-curve.cc:404
+#: ../programs/table/gchemtable-data.cc:567
 msgid "Metallic radius"
 msgstr "金屬結合半徑/金屬原子半徑"
 
-#: ../programs/table/gchemtable-data.cc:536
+#: ../programs/table/gchemtable-curve.cc:407
+#: ../programs/table/gchemtable-curve.cc:411
+msgid "Metallic radii"
+msgstr "金屬結合半徑/金屬原子半徑"
+
+#: ../programs/table/gchemtable-curve.cc:413
+#: ../programs/table/gchemtable-data.cc:568
 msgid "Fusion temperature"
 msgstr "融合溫度"
 
-#: ../programs/table/gchemtable-data.cc:537
+#: ../programs/table/gchemtable-curve.cc:416
+#: ../programs/table/gchemtable-curve.cc:420
+msgid "Melting point"
+msgstr "熔點"
+
+#: ../programs/table/gchemtable-curve.cc:422
+#: ../programs/table/gchemtable-data.cc:569
 msgid "Ebullition temperature"
 msgstr "沸點"
+
+#: ../programs/table/gchemtable-curve.cc:425
+#: ../programs/table/gchemtable-curve.cc:429
+msgid "Boiling point"
+msgstr "沸點"
+
+#: ../programs/table/gchemtable-curve.cc:445
+#: ../programs/table/gchemtable-data.cc:558
+msgid "Atomic number"
+msgstr "原子序"
+
+#: ../programs/table/gchemtable-data-allocator.cc:175
+msgid "Invalid data"
+msgstr "無效數值"
+
+#: ../programs/table/gchemtable-data-allocator.cc:223
+msgid "Not supported"
+msgstr "不支援"
+
+#: ../programs/table/gchemtable-data-allocator.cc:232
+msgid "None"
+msgstr "無"
+
+#: ../programs/table/gchemtable-data.cc:559
+msgid "Atomic mass"
+msgstr "原子量"
 
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
@@ -4593,11 +4722,11 @@ msgstr "Saccharides 醣類"
 
 #: ../templates/paint/haworth.xml.in.h:2
 msgid "α-D-deoxyribofuranose"
-msgstr "α-D-deoxyribofuranose 去氧夫喃糖"
+msgstr "α-D-deoxyribofuranose 去氧呋喃糖"
 
 #: ../templates/paint/haworth.xml.in.h:3
 msgid "α-D-fructofuranose"
-msgstr "α-D-fructofuranose 果夫喃糖"
+msgstr "α-D-fructofuranose 果呋喃糖"
 
 #: ../templates/paint/haworth.xml.in.h:4
 msgid "α-D-galactopyranose"
@@ -4609,15 +4738,15 @@ msgstr "α-D-glucopyranose 葡萄呱喃糖"
 
 #: ../templates/paint/haworth.xml.in.h:6
 msgid "α-D-ribofuranose"
-msgstr "α-D-ribofuranose 核夫喃糖"
+msgstr "α-D-ribofuranose 核呋喃糖"
 
 #: ../templates/paint/haworth.xml.in.h:7
 msgid "β-D-deoxyribofuranose"
-msgstr "β-D-deoxyribofuranose 去氧夫喃糖"
+msgstr "β-D-deoxyribofuranose 去氧核呋喃糖"
 
 #: ../templates/paint/haworth.xml.in.h:8
 msgid "β-D-fructofuranose"
-msgstr "β-D-fructofuranose 果夫喃糖"
+msgstr "β-D-fructofuranose 果呋喃糖"
 
 #: ../templates/paint/haworth.xml.in.h:9
 msgid "β-D-galactopyranose"
@@ -4629,7 +4758,7 @@ msgstr "β-D-glucopyranose 葡萄呱喃糖"
 
 #: ../templates/paint/haworth.xml.in.h:11
 msgid "β-D-ribofuranose"
-msgstr "β-D-ribofuranose 核夫喃糖"
+msgstr "β-D-ribofuranose 核呋喃糖"
 
 #: ../templates/paint/templates.xml.in.h:1
 msgid "Adenine"
@@ -4701,7 +4830,7 @@ msgstr "Deoxyguanosine 去氧鳥嘌呤核苷"
 
 #: ../templates/paint/templates.xml.in.h:18
 msgid "Deoxythymidine"
-msgstr ""
+msgstr "Deoxythymine 去氧胸嘧啶"
 
 #: ../templates/paint/templates.xml.in.h:19
 msgid "Glutamic acid"
@@ -4802,3 +4931,4 @@ msgstr "Uridine 尿核苷"
 #: ../templates/paint/templates.xml.in.h:43
 msgid "Valine"
 msgstr "Valine 纈胺酸"
+
