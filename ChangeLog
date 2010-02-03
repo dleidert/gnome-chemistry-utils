@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-02-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.10.12).
+
 2010-01-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: catch LoaderError and display a message box
 	instead of crashing.
