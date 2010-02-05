@@ -1,6 +1,15 @@
 ##Text encoding: utf-8
 
 2010-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/view.cc: fixed high resolution bitmap export.
+	* libs/gcu/crystaldoc.cc: initialize size in constructor.
+	* libs/gcu/crystaldoc.h: make Reinit public.
+	* libs/gcu/gcucrystalviewer.cc: new load from uri functions (cif files only
+	for now).
+	* libs/gcu/gcucrystalviewer.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: make cif files work.
+
+2010-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed mozilla related issues.
 
 2010-01-27  Jean Bréfort  <jean.brefort@normalesup.org>

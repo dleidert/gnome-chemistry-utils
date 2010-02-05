@@ -73,6 +73,8 @@ gchar const *LatticeName[] = {
 CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
 	m_SpaceGroup (NULL)
 {
+	m_xmin = m_ymin = m_zmin = 0;
+	m_xmax = m_ymax = m_zmax = 1;
 }
 
 

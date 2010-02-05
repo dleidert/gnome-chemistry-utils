@@ -24,6 +24,10 @@
 #include "gcucrystalviewer.h"
 #include "crystalview.h"
 #include "crystaldoc.h"
+#include "crystalatom.h"
+#include "application.h"
+#include "loader.h"
+#include <cstring>
 
 extern "C"
 {
@@ -128,6 +132,60 @@ void gcu_crystal_viewer_set_data (GcuCrystalViewer * viewer, xmlNodePtr node)
 GdkPixbuf *gcu_crystal_viewer_new_pixbuf (GcuCrystalViewer * viewer, guint width, guint height)
 {
 	return viewer->pDoc->GetView ()->BuildPixbuf (width, height);
+}
+
+static gcu::Application *App = NULL;
+
+static gcu::Object *CreateCrystalAtom ()
+{
+	return new gcu::CrystalAtom ();
+}
+
+void gcu_crystal_viewer_set_uri_with_mime_type (GcuCrystalViewer * viewer, const gchar * uri, const gchar* mime_type)
+{
+	if (mime_type == NULL) {
+		g_message ("Cannot open an uri with unkown mime type.");
+		return;
+	}
+	viewer->pDoc->Reinit ();
+	if  (!strcmp (mime_type, "application/x-gcrystal")) {
+/*		xmlDocPtr xml = xmlParseFile (filename.c_str ());
+		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "crystal")) {
+			g_message ("Invalid data");
+			return;
+		}
+		gcu_crystal_viewer_set_data (GCU_CRYSTAL_VIEWER (Viewer), xml->children);
+		xmlFree (xml);*/
+	} else {
+		if (!App) {
+			App = new gcu::Application ("GChemMoz");
+			gcu::Object::AddType ("atom", CreateCrystalAtom, gcu::AtomType);
+		}
+		if (App->Load (uri, mime_type, viewer->pDoc) != gcu::ContentTypeCrystal)
+			g_message ("Invalid data");
+		viewer->pDoc->Loaded ();
+		viewer->pDoc->Update ();
+		viewer->pDoc->GetView ()->Update ();
+	}
+}
+
+void gcu_crystal_viewer_set_uri	(GcuCrystalViewer * viewer, const gchar * uri)
+{
+	GVfs *vfs = g_vfs_get_default ();
+	GFile *file = g_vfs_get_file_for_uri (vfs, uri);
+	GError *error = NULL;
+	GFileInfo *info = g_file_query_info (file,
+										 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_STANDARD_SIZE,
+										 G_FILE_QUERY_INFO_NONE,
+										 NULL, &error);
+	if (error) {
+		g_message ("GIO querry failed: %s", error->message);
+		g_error_free (error);
+		g_object_unref (file);
+		error = NULL;
+		return;
+	}
+	gcu_crystal_viewer_set_uri_with_mime_type (viewer, uri, g_file_info_get_content_type (info));
 }
 
 } //extern "C"

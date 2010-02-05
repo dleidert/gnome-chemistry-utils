@@ -25,6 +25,7 @@
 #include <gcu/gcucrystalviewer.h>
 #include <gcu/gcuspectrumviewer.h>
 #include <gcu/chem3ddoc.h>
+#include <gcu/loader.h>
 #include <gcp/application.h>
 #include <gcp/document.h>
 #include <gcp/theme.h>
@@ -88,6 +89,7 @@ private:
 	map<string, string> Params;
 	MozPaintApp *gcpApp;
 	gcu::Application *App;
+	bool Loaded;
 };
 
 ChemComp::ChemComp (void* instance, string& mime_type)
@@ -99,6 +101,8 @@ ChemComp::ChemComp (void* instance, string& mime_type)
 	Doc = NULL;
 	gcpApp = NULL;
 	Viewer = NULL;
+	App = NULL;
+	Loaded = false;
 }
 
 ChemComp::~ChemComp ()
@@ -150,6 +154,9 @@ void ChemComp::SetWindow (XID xid)
 
 void ChemComp::SetFilename (string& filename)
 {
+	if (Loaded)
+		return;
+	Loaded = true;
 	if (Filename.length ())
 		return;
 	Filename = filename;
@@ -168,6 +175,12 @@ void ChemComp::SetFilename (string& filename)
 			Element::LoadRadii ();
 			loaded_radii = true;
 		}
+		if (filename[0] == '/') {
+			char *uri = go_filename_to_uri (filename.c_str ());
+			filename = uri;
+			g_free (uri);
+		}
+		gcu_crystal_viewer_set_uri_with_mime_type (GCU_CRYSTAL_VIEWER (Viewer), filename.c_str (), "chemical/x-cif");
 	} else 	if (MimeType == "application/x-gchempaint") {
 		xmlDocPtr xml = xmlParseFile (filename.c_str ());
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "chemistry"))
@@ -319,6 +332,7 @@ int main (int argc, char *argv[])
 	gtk_init (&argc, &argv);
 	libgoffice_init ();
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+			Loader::Init ();
 	in_channel = g_io_channel_unix_new (fileno (stdin));
 	g_io_add_watch (in_channel, G_IO_IN, io_func, &error);
 	gtk_main ();

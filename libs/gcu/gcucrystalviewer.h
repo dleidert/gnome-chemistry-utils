@@ -101,6 +101,24 @@ Renders the scene to a newly allocated pixbuf.
 */
 GdkPixbuf *gcu_crystal_viewer_new_pixbuf (GcuCrystalViewer * viewer, guint width, guint height);
 
+/*!
+@param viewer a pointer to a GcuCrystalViewer widget.
+@param uri the URI of the file containing the crystal structure to display.
+@param mime_type: the mime_type of the data.
+
+Changes the crystal structure displayed by the one described in the uri.
+Nothing happens if uri is NULL.
+*/
+void	gcu_crystal_viewer_set_uri_with_mime_type	(GcuCrystalViewer * viewer, const gchar * uri, const gchar* mime_type);
+/*!
+@param viewer a pointer to a GcuCrystalViewer widget.
+@param uri the URI of the file containing the crystal structure to display.
+
+Changes the crystal structure displayed by the one described in the uri.
+Nothing happens if uri is NULL.
+*/
+void	gcu_crystal_viewer_set_uri	(GcuCrystalViewer * viewer, const gchar * uri);
+
 G_END_DECLS
 
 #endif //GCU_CRYSTAL_VIEWER_H

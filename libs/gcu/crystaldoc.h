@@ -189,16 +189,16 @@ and add some lines.
 	void AddChild (Object* object);
 
 	SpaceGroup const *FindSpaceGroup ();
+/*!
+Reinitialize a CrystalDoc instance. Used when loading a file in an already existing document.
+*/
+	void Reinit ();
 
 protected:
 /*!
 Initialize a new CrystalDoc instance.
 */
 	void Init ();
-/*!
-Reinitialize a CrystalDoc instance. Used when loading a file in an already existing document.
-*/
-	void Reinit ();
 /*!
 @param node: the xmlNode containing the serialized view.
 
