@@ -240,10 +240,10 @@ if test "x$test_mozilla_plugin" != "xno"; then
 		build_mozilla_plugin=yes
 
 		dnl test for npfunctions.h
-		saved_CFLAGS=$CFLAGS
-		CFLAGS=$MOZILLA_CFLAGS
+		saved_CPPFLAGS=$CPPFLAGS
+		CPPFLAGS=$MOZILLA_CFLAGS
 		AC_CHECK_HEADERS([npfunctions.h])
-		CFLAGS=$saved_CFLAGS
+		CPPFLAGS=$saved_CPPFLAGS
 	fi
 fi
 
@@ -256,6 +256,10 @@ AC_ARG_WITH(
 	[mozlibdir=$withval]
 )
 
+if test -z "$mozlibdir"; then
+		build_mozilla_plugin=no
+		AC_WARN([Mozilla plugins directory has not been set, the plugin will not be built])
+fi
 AM_CONDITIONAL([WITH_MOZILLA], [test "x$build_mozilla_plugin" = "xyes"])
 AC_SUBST([MOZILLA_CFLAGS])
 AC_SUBST([mozlibdir])

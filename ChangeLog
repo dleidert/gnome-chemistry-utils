@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed mozilla related issues.
+
 2010-01-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: add a menu item to hide atomic formal charge.[#26735]
 	* libs/gcp/atom.h: ditto.
