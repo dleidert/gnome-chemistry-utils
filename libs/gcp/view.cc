@@ -982,8 +982,8 @@ GdkPixbuf *View::BuildPixbuf (int resolution)
 		cairo_set_source_rgb (cr, 1., 1., 1.);
 		cairo_paint (cr);
 	}
-	cairo_translate (cr, -floor (rect.x0) * zoom, -floor (rect.y0) * zoom);
 	cairo_scale (cr, zoom, zoom);
+	cairo_translate (cr, -floor (rect.x0), -floor (rect.y0));
 	m_Canvas->Render (cr, false);
 	int rowstride = cairo_image_surface_get_stride (surface);
 	unsigned char *data = cairo_image_surface_get_data (surface);

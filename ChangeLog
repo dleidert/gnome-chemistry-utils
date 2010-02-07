@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/view.cc: better fix for high resolution bitmaps.
+	* libs/gcu/crystaldoc.cc: do not use a NULL space group.
+	* plugins/loaders/cif/cif.cc: fixed reading invalid loops and support
+	unkown space groups.
+
 2010-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: fixed high resolution bitmap export.
 	* libs/gcu/crystaldoc.cc: initialize size in constructor.

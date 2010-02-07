@@ -191,6 +191,9 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					if (in_loop) {
 						prop = KnownProps.find (key);
 						loop_contents.push_back ((prop == KnownProps.end ())? static_cast <unsigned> (GCU_PROP_MAX): (*prop).second);
+						// initialize loop_prop there because loop_ might be erroneously followed by
+						// just a property and its value.
+						loop_prop = loop_contents.begin ();
 						if (loop_type == LOOP_UNKNOWN) {
 							if (!key.compare (0, 11, "_atom_type_", 11))
 								loop_type = LOOP_ATOM_TYPE;
@@ -248,6 +251,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 						*next = endstr;
 						cur = next;
 						loop_prop++;
+						waiting_value = true; // fixes a loop with just a key and value on the same line
 						loop_values.push_back (value);
 						if (loop_prop == loop_contents.end ()) {
 							// store the values
@@ -397,9 +401,20 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 		SpaceGroup const *sp = SpaceGroup::Find (group);
 		if (sp)
 			doc->SetProperty (GCU_PROP_SPACE_GROUP, sp->GetHallName ().c_str ());
+		else {
+			group->RegisterSpaceGroup (0);
+			std::string name = group->GetHallName ();
+			if (name.length () == 0)
+				name = group->GetHMName ();
+			if (name.length () > 0)
+				doc->SetProperty (GCU_PROP_SPACE_GROUP, name.c_str ());
+			// FIXME: implement use of Id if available
+			group = NULL; // do not delete
+		}
 	}
 read_exit:
-	delete group;
+	if (group)
+		delete group;
 	g_object_unref (input);
 	return type;
 }

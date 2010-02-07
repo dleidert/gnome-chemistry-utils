@@ -1100,6 +1100,8 @@ end_loop:;
 	for (i = atoms.begin (); i != iend; i++)
 		delete *i;
 	// now, search for duplicates in AtomDef
+	if (!res)
+		return NULL;
 	set <CrystalAtom *> dups;
 	iend = AtomDef.end ();
 	for (i = AtomDef.begin (); i != iend; i++) {
