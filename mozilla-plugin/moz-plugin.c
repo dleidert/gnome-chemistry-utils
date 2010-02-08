@@ -242,7 +242,7 @@ char *NP_GetMIMEDescription (void)
 			"application/x-gcrystal:gcrystal:Crystalline structure model;"
 			"chemical/x-cif:cif:Crystallographic Information File;"
 			"application/x-gchempaint:gchempaint:2D chemical structures"
-			"chemical/x-cdx:cdx:ChemDraw binary format;"
+			"chemical/x-cdx:cdx:ChemDraw binary CDX format;"
 			"chemical/x-cdxml:cdxml:ChemDraw CDXML format;");
 }
 

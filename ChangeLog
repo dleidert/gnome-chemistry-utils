@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-02-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/view.cc: cleaned out deprecated and commented out code.
+	* mozilla-plugin/chem-viewer.cc: fixed issues with chemdraw files support.
+	* mozilla-plugin/moz-plugin.c: ditto.
+
 2010-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: better fix for high resolution bitmaps.
 	* libs/gcu/crystaldoc.cc: do not use a NULL space group.

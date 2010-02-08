@@ -188,17 +188,25 @@ void ChemComp::SetFilename (string& filename)
 		Doc->Load (xml->children);
 		gccv::Rect r;
 		gcp::WidgetData *pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (Viewer), "data");
+		Doc->GetView ()->Update (Doc);
 		pData->GetObjectBounds (Doc, &r);
 		gcp::Theme *pTheme = Doc->GetTheme ();
 		if (r.x0 || r.y0)
 			Doc->Move (- r.x0 / pTheme->GetZoomFactor (), - r.y0 / pTheme->GetZoomFactor ());
 		Doc->GetView ()->Update (Doc);
-		pData->GetObjectBounds (Doc, &r);
 		xmlFree (xml);
 	} else if (MimeType == "chemical/x-cdx" || MimeType == "chemical/x-cdxml") {
 		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
 		gcpApp->Load (uri, MimeType.c_str (), Doc);
 		g_free (uri);
+		gccv::Rect r;
+		gcp::WidgetData *pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (Viewer), "data");
+		gcp::Theme *pTheme = Doc->GetTheme ();
+		Doc->GetView ()->Update (Doc);
+		pData->GetObjectBounds (Doc, &r);
+		if (r.x0 || r.y0)
+			Doc->Move (- r.x0 / pTheme->GetZoomFactor (), - r.y0 / pTheme->GetZoomFactor ());
+		Doc->GetView ()->Update (Doc);
 	} else 	if (MimeType == "chemical/x-jcamp-dx") {
 		char *uri = g_filename_to_uri (filename.c_str (), NULL, NULL);
 		gcu_spectrum_viewer_set_uri (GCU_SPECTRUM_VIEWER (Viewer), uri);

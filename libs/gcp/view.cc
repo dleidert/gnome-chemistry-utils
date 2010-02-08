@@ -60,12 +60,6 @@ using namespace std;
 
 namespace gcp {
 
-/* bool on_event (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
-{
-	View* pView = (View*) g_object_get_data(G_OBJECT(widget), "view");
-	return pView->OnEvent(item, event, widget);
-} */
-
 static bool on_destroy (GtkWidget *widget, View * pView)
 {
 	pView->OnDestroy (widget);
@@ -131,142 +125,6 @@ View::~View ()
 	g_object_unref (m_UIManager);
 	// we don't need to delete the canvas, since destroying the widget does the job.
 }
-
-/*bool View::OnEvent (GnomeCanvasItem *item, GdkEvent *event, GtkWidget* widget)
-{
-	Application *App = m_pDoc->GetApplication ();
-	Theme *pTheme = m_pDoc->GetTheme ();
-	Tool* pActiveTool = App? App->GetActiveTool (): NULL;
-	if ((!m_pDoc->GetEditable ()) || (!pActiveTool))
-		return true;
-	m_CurObject = (item) ? (Object*) g_object_get_data (G_OBJECT (item), "object") : NULL;
-	if (item == (GnomeCanvasItem*) m_ActiveRichText) {
-		GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (((GTypeInstance*) item)->g_class);
-		return klass->event (item, event);
-	} else if (pActiveTool->OnEvent (event))
-		return true;
-	m_pData = (WidgetData*) g_object_get_data (G_OBJECT (widget), "data");
-	m_pWidget = widget;
-	double x, y;
-	x = event->button.x;
-	y = event->button.y;
-	gnome_canvas_item_w2i (GNOME_CANVAS_ITEM (m_pData->Group), &x, &y);
-//	if (event->type == GDK_BUTTON_PRESS) {
-		if (item == m_pData->Background) {
-			item = NULL;
-			std::map<Object const*, GnomeCanvasGroup*>::iterator i = m_pData->Items.begin (),
-						end = m_pData->Items.end ();
-			Bond* pBond;
-			while (i != end) {
-				if ((*i).first->GetType () == gcu::BondType) {
-					pBond = (Bond*) (*i).first;
-					if (pBond->GetDist(x / pTheme->GetZoomFactor (), y / pTheme->GetZoomFactor ()) < (pTheme->GetPadding () + pTheme->GetBondWidth () / 2) / pTheme->GetZoomFactor ()) {
-						item = GNOME_CANVAS_ITEM ((*i).second);
-						m_CurObject = pBond;
-						break;
-					} else {
-						// may be one of the atoms might work
-						gcu::Atom *pAtom = pBond->GetAtom (0);
-						double xa, ya;
-						pAtom->GetCoords (&xa, &ya, NULL);
-						xa *= pTheme->GetZoomFactor ();
-						ya *= pTheme->GetZoomFactor ();
-						xa -= x;
-						ya -= y;
-						if (sqrt (xa * xa + ya * ya) < 3.5) {
-							//3.5 is arbitrary
-							m_CurObject = pAtom;
-							break;
-						}
-						pAtom = pBond->GetAtom (1);
-						pAtom->GetCoords (&xa, &ya, NULL);
-						xa *= pTheme->GetZoomFactor ();
-						ya *= pTheme->GetZoomFactor ();
-						xa -= x;
-						ya -= y;
-						if (sqrt (xa * xa + ya * ya) < 3.5) {
-							m_CurObject = pAtom;
-							break;
-						}
-					}
-				} else if ((*i).first->GetType () == gcu::AtomType) {
-					double xa, ya;
-					gcu::Atom *pAtom = (gcu::Atom*) (*i).first;
-					pAtom->GetCoords (&xa, &ya, NULL);
-					xa *= pTheme->GetZoomFactor ();
-					ya *= pTheme->GetZoomFactor ();
-					xa -= x;
-					ya -= y;
-					if (sqrt (xa * xa + ya * ya) < 3.5) {
-						//3.5 is arbitrary
-						m_CurObject = pAtom;
-						break;
-					}
-				}
-				i++;
-			}
-		}
-//	}
-	Object *pAtom;
-	if (m_CurObject && ((pAtom = m_CurObject->GetAtomAt (x / pTheme->GetZoomFactor (), y / pTheme->GetZoomFactor ()))))
-			m_CurObject = pAtom;
-	switch (event->type) {
-	case GDK_BUTTON_PRESS:
-		switch (event->button.button) {
-			case 1: {
-				if (m_Dragging) break;
-				bool result = pActiveTool->OnClicked(this, m_CurObject, x, y, event->button.state);
-				if (item && (item == (GnomeCanvasItem*)m_ActiveRichText)) {
-					GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (((GTypeInstance*) item)->g_class);
-					return klass->event (item, event);
-				}
-				m_Dragging = result;
-				return true;
-			}
-			case 2: {
-				m_lastx = x;
-				m_lasty = y;
-				GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
-				OnPasteSelection (m_pWidget, clipboard);
-				return true;
-			}
-			case 3: {
-				bool result;
-				g_object_unref (m_UIManager);
-			 	m_UIManager = gtk_ui_manager_new ();
-				result = pActiveTool->OnRightButtonClicked (this, m_CurObject, event->button.x, event->button.y, m_UIManager);
-				if (m_CurObject)
-					result |= m_CurObject->BuildContextualMenu (m_UIManager, m_CurObject, x / GetZoomFactor (), y / GetZoomFactor ());
-				if (result) {
-					GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, "/popup");
-					gtk_menu_popup (GTK_MENU (w), NULL, NULL, NULL, NULL, 3,  gtk_get_current_event_time ());
-					return true;
-				}
-			}
-		}
-		break;
-	case GDK_MOTION_NOTIFY:
-		if (!m_Dragging)
-			break;
-		pActiveTool->OnDrag (x, y, event->button.state);
-		return true;
-	case GDK_BUTTON_RELEASE:
-	switch (event->button.button)
-		{
-		case 1:
-			if (!m_Dragging)
-				break;
-			m_Dragging = false;
-			pActiveTool->OnRelease (x, y, event->button.state);
-			m_pDoc->GetApplication ()->ClearStatus ();
-			return true;
-		}
-		break;
-	default:
-		break;
-	}
-	return false;
-}*/
 
 void View::AddObject (Object *pObject)
 {
@@ -1060,18 +918,8 @@ void View::UpdateTheme ()
 void View::Render (cairo_t *cr)
 {
 	m_pData->ShowSelection(false);
-//	Object* pObj = NULL;
-/*	if (m_ActiveRichText) {
-		pObj = (Object*) g_object_get_data (G_OBJECT (m_ActiveRichText), "object");
-		if (pObj) pObj->SetSelected (m_pWidget, SelStateUnselected);
-	}*/
 	m_Canvas->Render (cr, true);
-/*	GnomeCanvas *canvas = GNOME_CANVAS (m_pWidget);
-	gnome_canvas_update_now (canvas);
-	g_printable_draw_cairo (G_PRINTABLE (m_pData->Group), cr);*/
 	m_pData->ShowSelection (true);
-/*	if (pObj)
-		pObj->SetSelected (SelStateUpdating);*/
 }
 
 // Events
@@ -1091,10 +939,6 @@ bool View::OnButtonPressed (gccv::ItemClient *client, unsigned button, double x,
 	case 1: {
 		if (m_Dragging) break;
 		bool result = pActiveTool->OnClicked (this, m_CurObject, x, y, state);
-/*		if (item && (item == (GnomeCanvasItem*)m_ActiveRichText)) {
-			GnomeCanvasItemClass* klass = GNOME_CANVAS_ITEM_CLASS (((GTypeInstance*) item)->g_class);
-			return klass->event (item, event);
-		}*/
 		m_Dragging = result;
 		return true;
 	}
