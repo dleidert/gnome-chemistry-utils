@@ -31,6 +31,7 @@ chem_viewer_LDADD += \
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(gnome_canvas_CFLAGS) \
+		$(glade_CFLAGS) \
 		$(goffice_CFLAGS) \
 		$(openbabel_CFLAGS) \
 		$(gnome_vfs_CFLAGS) \
@@ -39,6 +40,7 @@ else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(gnome_canvas_CFLAGS) \
+		$(glade_CFLAGS) \
 		$(goffice_CFLAGS) \
 		$(openbabel_CFLAGS) \
 		$(GCU_CFLAGS)

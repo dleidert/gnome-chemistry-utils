@@ -18,12 +18,14 @@ LIBS = $(top_builddir)/libs/gcp/libgchempaint-@GCU_API_VER@.la \
 if GCU_NEEDS_GCONF
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(gnome_canvas_CFLAGS) \
+		$(glade_CFLAGS) \
 		$(goffice_CFLAGS) \
 		$(gnome_vfs_CFLAGS) \
 		$(GCU_CFLAGS)
 else
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(gnome_canvas_CFLAGS) \
+		$(glade_CFLAGS) \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
 endif

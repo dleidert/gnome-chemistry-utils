@@ -16,6 +16,7 @@ LIBS +=  \
 		$(gnome_vfs_LIBS)
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		$(glade_CFLAGS) \
 		$(goffice_CFLAGS) \
 		$(gtkglext_CFLAGS) \
 		$(openbabel_CFLAGS) \
@@ -24,6 +25,7 @@ INCLUDES = \
 else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		$(glade_CFLAGS) \
 		$(goffice_CFLAGS) \
 		$(gtkglext_CFLAGS) \
 		$(openbabel_CFLAGS) \

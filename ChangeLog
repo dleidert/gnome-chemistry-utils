@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2010-02-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/Makefile.am: add glade includes after fix in goffice-0.8.
+	* libs/gcp/Makefile.am: ditto.
+	* mozilla-plugin/Makefile.am: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/templates/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/wikipedia/Makefile.am: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/calc/Makefile.am: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+	* programs/spectra/Makefile.am: ditto.
+	* programs/table/Makefile.am: ditto.
+
 2010-02-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.12).
 

@@ -14,12 +14,14 @@ LIBS += \
 		$(gnome_vfs_LIBS)
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		$(glade_CFLAGS) \
 		$(goffice_CFLAGS) \
 		$(gnome_vfs_CFLAGS) \
 		$(GCU_CFLAGS)
 else
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
+		$(glade_CFLAGS) \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
 endif
