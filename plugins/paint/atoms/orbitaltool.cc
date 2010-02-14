@@ -32,6 +32,8 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gccv/circle.h>
+#include <gccv/group.h>
+#include <gccv/leaf.h>
 #include <gcu/ui-builder.h>
 
 gcpOrbitalTool::gcpOrbitalTool (gcp::Application *App):
@@ -51,6 +53,7 @@ bool gcpOrbitalTool::OnClicked ()
 		return false;
 	m_pData->UnselectAll ();
 	gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
+	// FIXME: don't allow two orbitals for the same atom.
 	atom->GetCoords (&m_x0, &m_y0);
 	gcp::Document *doc = m_pView->GetDoc ();
 	gcp::Theme *theme = doc->GetTheme ();
@@ -65,8 +68,22 @@ bool gcpOrbitalTool::OnClicked ()
 		m_Item = circle;
 		break;
 	}
-	case GCP_ORBITAL_TYPE_P:
+	case GCP_ORBITAL_TYPE_P: {
+		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
+		gccv::Leaf *leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor / 2.);
+		leaf->SetWidthFactor (.6);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor / 2.);
+		leaf->SetWidthFactor (.6);
+		leaf->SetRotation (M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (GO_COLOR_WHITE);
+		m_Item = group;
 		break;
+	}
 	case GCP_ORBITAL_TYPE_DXY:
 		break;
 	case GCP_ORBITAL_TYPE_DZ2:

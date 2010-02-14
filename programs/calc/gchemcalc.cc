@@ -203,7 +203,7 @@ bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
 			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
-			gtk_window_set_icon_name (GTK_WINDOW (Box), "gspectrum");
+			gtk_window_set_icon_name (GTK_WINDOW (Box), "gchemcalc");
 			result = gtk_dialog_run (Box);
 			gtk_widget_destroy (GTK_WIDGET (Box));
 			g_free (message);

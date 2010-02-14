@@ -33,6 +33,8 @@
 #include <gccv/canvas.h>
 #include <gccv/circle.h>
 #include <gccv/group.h>
+#include <gccv/leaf.h>
+#include <cstring>
 
 gcu::TypeId OrbitalType;
 
@@ -72,8 +74,23 @@ void gcpOrbital::AddItem ()
 		group->MoveToBack (m_Item);
 		break;
 	}
-	case GCP_ORBITAL_TYPE_P:
+	case GCP_ORBITAL_TYPE_P: {
+		gccv::Group *new_group = new gccv::Group (group, this);
+		gccv::Leaf *leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom / 2., this);
+		leaf->SetWidthFactor (.6);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom / 2., this);
+		leaf->SetWidthFactor (.6);
+		leaf->SetRotation (M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		m_Item = new_group;
+		group->MoveToBack (m_Item);
 		break;
+	}
 	case GCP_ORBITAL_TYPE_DXY:
 		break;
 	case GCP_ORBITAL_TYPE_DZ2:
@@ -113,7 +130,19 @@ xmlNodePtr gcpOrbital::Save (xmlDocPtr xml) const
 bool gcpOrbital::Load (xmlNodePtr node)
 {
 	m_Atom = dynamic_cast <gcp::Atom *> (GetParent ());
-	char *buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("coef")));
+	char *buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("type")));
+	if (buf) {
+		if (!strcmp (buf, "s"))
+			m_Type = GCP_ORBITAL_TYPE_S;
+		else if (!strcmp (buf, "p"))
+			m_Type = GCP_ORBITAL_TYPE_P;
+		else if (!strcmp (buf, "dxy"))
+			m_Type = GCP_ORBITAL_TYPE_DXY;
+		else if (!strcmp (buf, "dz2"))
+			m_Type = GCP_ORBITAL_TYPE_DZ2;
+		xmlFree (buf);
+	}
+	buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("coef")));
 	if (buf) {
 		m_Coef = g_strtod (buf, NULL);
 		xmlFree (buf);

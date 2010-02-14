@@ -13,7 +13,7 @@ noinst_HEADERS = \
 	hash.h		\
 	item.h		\
 	item-client.h	\
-	lemniscate.h	\
+	leaf.h	\
 	line.h	\
 	line-item.h	\
 	poly-line.h	\
@@ -36,7 +36,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	hash.cc		\
 	item.cc		\
 	item-client.cc	\
-	lemniscate.cc	\
+	leaf.cc	\
 	line.cc	\
 	line-item.cc	\
 	poly-line.cc	\

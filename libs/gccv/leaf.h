@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * gccv/lemniscate.h 
+ * gccv/leaf.h 
  *
- * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,18 +22,20 @@
  * USA
  */
 
-#ifndef GCCV_LEMNISCATE_H
-#define GCCV_LEMNISCATE_H
+#ifndef GCCV_LEAF_H
+#define GCCV_LEAF_H
 
-#include "line-item.h"
+#include "fill-item.h"
+#include "structs.h"
 
 namespace gccv {
 
-class Lemniscate: public LineItem
+class Leaf: public FillItem
 {
-	Lemniscate (Canvas *canvas, double x, double y, double radius);
-	Lemniscate (Group *parent, double x, double y, double radius, ItemClient *client = NULL);
-	virtual ~Lemniscate ();
+public:
+	Leaf (Canvas *canvas, double x, double y, double radius);
+	Leaf (Group *parent, double x, double y, double radius, ItemClient *client = NULL);
+	virtual ~Leaf ();
 
 	void SetPosition (double x, double y);
 	void GetPosition (double &x, double &y);
@@ -43,17 +45,17 @@ class Lemniscate: public LineItem
 	void Draw (cairo_t *cr, bool is_vector) const;
 	void UpdateBounds ();
 	void Move (double x, double y);
+	void SetWidthFactor (double factor);
 
 private:
 	double m_x, m_y;
+	gccv::Point m_Controls[11];
 
 GCCV_ITEM_POS_PROP (double, Radius)
-GCCV_ITEM_PROP (double, Angle)
-GCCV_ITEM_PROP (double, Rotation)
-GCCV_ITEM_PROP (GOColor, ColorPlus)
-GCCV_ITEM_PROP (GOColor, ColorMinus)
+GCCV_ITEM_POS_PROP (double, Rotation)
+GCU_RO_PROP (double, WidthFactor)
 };
 
 }	//	namespace gccv
 
-#endif	//	GCCV_LEMNISCATE_H
+#endif	//	GCCV_LEAF_H

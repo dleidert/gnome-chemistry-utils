@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2010-02-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: delete lemniscate, add leaf.
+	* libs/gccv/leaf.cc: new file.
+	* libs/gccv/leaf.h: ditto.
+	* libs/gccv/lemniscate.cc: deleted.
+	* libs/gccv/lemniscate.h: ditto.
+	* plugins/paint/atoms/orbital.cc: add support for p type atomic orbitals.
+	* plugins/paint/atoms/orbitaltool.cc: ditto.
+	* programs/calc/gchemcalc.cc: fixed icon name.
+
 2010-02-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: cleaned out deprecated and commented out code.
 	* mozilla-plugin/chem-viewer.cc: fixed issues with chemdraw files support.
