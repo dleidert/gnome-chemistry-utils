@@ -45,11 +45,14 @@ public:
 	// callbacks
 	static void CoefChanged (gcpOrbitalTool *tool, GtkSpinButton *btn);
 	static void TypeChanged (gcpOrbitalTool *tool, GtkToggleButton *btn);
+	static void RotationChanged (gcpOrbitalTool *tool, GtkSpinButton *btn);
 
 private:
 	double m_Coef;
+	double m_Rotation;
 	gcpOrbitalType m_Type;
-	GtkSpinButton *m_CoefBtn;
+	GtkSpinButton *m_CoefBtn, *m_RotationBtn;
+	GtkWidget *m_RotationLbl;
 };
 
 #endif	//GCHEMPAINT_ORBITAL_TOOL_H

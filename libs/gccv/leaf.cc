@@ -70,21 +70,21 @@ double Leaf::Distance (double x, double y, Item **item) const
 }
 
 // x position of first control point
-#define LEAF_INCR1	.4
+#define LEAF_INCR1	.2
 // y position of first control point
-#define LEAF_INCR2	.4
+#define LEAF_INCR2	.2
 // x position of side limit
-#define LEAF_INCR3	.8
+#define LEAF_INCR3	.4
 // y position of control point befre the side limit
-#define LEAF_INCR4	.8
+#define LEAF_INCR4	.4
 // y position of side limit
-#define LEAF_INCR5	1.2
+#define LEAF_INCR5	.6
 // y position of control point after the side limit
-#define LEAF_INCR6	1.6
+#define LEAF_INCR6	.8
 // x position of control point before top
-#define LEAF_INCR7	.4
+#define LEAF_INCR7	.2
 // y poisition at top
-#define LEAF_INCR8	2.
+#define LEAF_INCR8	1.
 void Leaf::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	GOColor fill_color = GetFillColor (), line_color = GetLineColor ();

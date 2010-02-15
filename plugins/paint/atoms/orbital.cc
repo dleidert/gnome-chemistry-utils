@@ -76,14 +76,45 @@ void gcpOrbital::AddItem ()
 	}
 	case GCP_ORBITAL_TYPE_P: {
 		gccv::Group *new_group = new gccv::Group (group, this);
-		gccv::Leaf *leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom / 2., this);
-		leaf->SetWidthFactor (.6);
+		gccv::Leaf *leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom, this);
+		leaf->SetRotation (m_Rotation / 180. * M_PI);
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom, this);
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI + M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (GO_COLOR_WHITE);
+		m_Item = new_group;
+		group->MoveToBack (m_Item);
+		break;
+	}
+	case GCP_ORBITAL_TYPE_DXY: {
+		gccv::Group *new_group = new gccv::Group (group, this);
+		gccv::Leaf *leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom, this);
+		leaf->SetRotation ((m_Rotation / 180. + .25) * M_PI);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
 		leaf->SetLineWidth (1.);
 		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
 		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
-		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom / 2., this);
-		leaf->SetWidthFactor (.6);
-		leaf->SetRotation (M_PI);
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom, this);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.25) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom, this);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + .75) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom, this);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.75) * M_PI);
 		leaf->SetLineWidth (1.);
 		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
 		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
@@ -91,10 +122,36 @@ void gcpOrbital::AddItem ()
 		group->MoveToBack (m_Item);
 		break;
 	}
-	case GCP_ORBITAL_TYPE_DXY:
+	case GCP_ORBITAL_TYPE_DZ2: {
+		gccv::Group *new_group = new gccv::Group (group, this);
+		gccv::Leaf *leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom, this);
+		leaf->SetRotation (m_Rotation / 180. * M_PI);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * zoom, this);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * GCP_ORBITAL_DZ2_FACTOR * zoom, this);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + .5) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (new_group, 0., 0., theme->GetBondLength () * m_Coef * GCP_ORBITAL_DZ2_FACTOR * zoom, this);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.5) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor ((view->GetData ()->IsSelected (this))? gcp::SelectColor: gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		m_Item = new_group;
+		group->MoveToBack (m_Item);
 		break;
-	case GCP_ORBITAL_TYPE_DZ2:
-		break;
+	}
 	}
 }
 
@@ -145,6 +202,11 @@ bool gcpOrbital::Load (xmlNodePtr node)
 	buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("coef")));
 	if (buf) {
 		m_Coef = g_strtod (buf, NULL);
+		xmlFree (buf);
+	}
+	buf = reinterpret_cast <char *> (xmlGetProp (node, reinterpret_cast <xmlChar const *> ("rotation")));
+	if (buf) {
+		m_Rotation = g_strtod (buf, NULL);
 		xmlFree (buf);
 	}
 	return true;

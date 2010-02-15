@@ -39,6 +39,7 @@
 gcpOrbitalTool::gcpOrbitalTool (gcp::Application *App):
 	gcp::Tool (App, "Orbital"),
 	m_Coef (1.),
+	m_Rotation (0.),
 	m_Type (GCP_ORBITAL_TYPE_S)
 {
 }
@@ -70,23 +71,78 @@ bool gcpOrbitalTool::OnClicked ()
 	}
 	case GCP_ORBITAL_TYPE_P: {
 		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
-		gccv::Leaf *leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor / 2.);
-		leaf->SetWidthFactor (.6);
+		gccv::Leaf *leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI);
 		leaf->SetLineWidth (1.);
 		leaf->SetLineColor (gcp::AddColor);
 		leaf->SetFillColor (GO_COLOR_GREY (100));
-		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor / 2.);
-		leaf->SetWidthFactor (.6);
-		leaf->SetRotation (M_PI);
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI + M_PI);
 		leaf->SetLineWidth (1.);
 		leaf->SetLineColor (gcp::AddColor);
 		leaf->SetFillColor (GO_COLOR_WHITE);
 		m_Item = group;
 		break;
 	}
-	case GCP_ORBITAL_TYPE_DXY:
+	case GCP_ORBITAL_TYPE_DXY: {
+		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
+		gccv::Leaf *leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + .25) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.25) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + .75) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.75) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		m_Item = group;
+		break;
+	}
 		break;
 	case GCP_ORBITAL_TYPE_DZ2:
+		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
+		gccv::Leaf *leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * GCP_ORBITAL_DZ2_FACTOR * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + .5) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * GCP_ORBITAL_DZ2_FACTOR * m_dZoomFactor);
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.5) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::AddColor);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		m_Item = group;
 		break;
 	}
 	return true;
@@ -113,6 +169,7 @@ void gcpOrbitalTool::OnRelease ()
 	op->AddObject (obj, 0);
 	gcpOrbital *orbital = new gcpOrbital (atom, m_Type);
 	orbital->SetCoef (m_Coef);
+	orbital->SetRotation (m_Rotation);
 	m_pObject->EmitSignal (gcp::OnChangedSignal);
 	op->AddObject (obj, 1);
 	doc->FinishOperation ();
@@ -147,6 +204,12 @@ GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 	m_CoefBtn = GTK_SPIN_BUTTON (builder->GetWidget ("coef-btn"));
 	gtk_spin_button_set_value (m_CoefBtn, m_Coef);
 	g_signal_connect_swapped (m_CoefBtn, "value-changed", G_CALLBACK (CoefChanged), this);
+	m_RotationLbl = builder->GetWidget ("rotation-lbl");
+	m_RotationBtn = GTK_SPIN_BUTTON (builder->GetWidget ("rotation-btn"));
+	gtk_widget_set_sensitive (m_RotationLbl, m_Type != GCP_ORBITAL_TYPE_S);
+	gtk_spin_button_set_value (m_RotationBtn, m_Rotation);
+	gtk_widget_set_sensitive (GTK_WIDGET (m_RotationBtn), m_Type != GCP_ORBITAL_TYPE_S);
+	g_signal_connect_swapped (m_RotationBtn, "value-changed", G_CALLBACK (RotationChanged), this);
 	GtkWidget *w = builder->GetWidget ("s-btn");
 	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_S));
 	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
@@ -173,4 +236,11 @@ void gcpOrbitalTool::TypeChanged (gcpOrbitalTool *tool, GtkToggleButton *btn)
 {
 	if (gtk_toggle_button_get_active (btn))
 		tool->m_Type = static_cast <gcpOrbitalType> (GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (btn), "orbital-type")));
+	gtk_widget_set_sensitive (GTK_WIDGET (tool->m_RotationBtn), tool->m_Type != GCP_ORBITAL_TYPE_S);
+	gtk_widget_set_sensitive (tool->m_RotationLbl, tool->m_Type != GCP_ORBITAL_TYPE_S);
+}
+
+void gcpOrbitalTool::RotationChanged (gcpOrbitalTool *tool, GtkSpinButton *btn)
+{
+	tool->m_Rotation = gtk_spin_button_get_value (btn);
 }

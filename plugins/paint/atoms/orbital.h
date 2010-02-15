@@ -41,6 +41,10 @@ typedef enum {
 	GCP_ORBITAL_TYPE_DZ2
 } gcpOrbitalType;
 
+#define GCP_ORBITAL_P_WIDTH 0.8
+#define GCP_ORBITAL_D_WIDTH 0.6
+#define GCP_ORBITAL_DZ2_FACTOR .3
+
 class gcpOrbital: public gcu::Object, public gccv::ItemClient
 {
 public:
