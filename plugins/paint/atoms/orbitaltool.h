@@ -4,7 +4,7 @@
  * GChemPaint atoms plugin
  * orbitaltool.h 
  *
- * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,11 @@
 #include <gcp/tool.h>
 #include "orbital.h"
 
+namespace gccv {
+	class Canvas;
+	class Item;
+}
+
 class gcpOrbitalTool: public gcp::Tool
 {
 public:
@@ -41,11 +46,13 @@ public:
 	void OnLeaveNotify ();
 	GtkWidget *GetPropertyPage ();
 	char const *GetHelpTag () {return "orbital";}
+	void UpdatePreview ();
 
 	// callbacks
 	static void CoefChanged (gcpOrbitalTool *tool, GtkSpinButton *btn);
 	static void TypeChanged (gcpOrbitalTool *tool, GtkToggleButton *btn);
 	static void RotationChanged (gcpOrbitalTool *tool, GtkSpinButton *btn);
+	static void SizeAllocate (gcpOrbitalTool *tool);
 
 private:
 	double m_Coef;
@@ -53,6 +60,8 @@ private:
 	gcpOrbitalType m_Type;
 	GtkSpinButton *m_CoefBtn, *m_RotationBtn;
 	GtkWidget *m_RotationLbl;
+	gccv::Canvas *m_Preview;
+	gccv::Item *m_PreviewItem;
 };
 
 #endif	//GCHEMPAINT_ORBITAL_TOOL_H

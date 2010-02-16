@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fixed custom charge position dieplay.
+	* plugins/paint/atoms/orbital.cc: update copyright.
+	* plugins/paint/atoms/orbital.h: ditto.
+	* plugins/paint/atoms/orbitaltool.cc: implement preview.
+	* plugins/paint/atoms/orbitaltool.h: ditto.
+
 2010-02-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/leaf.cc: fixed size to something more logical.
 	* plugins/paint/atoms/orbital.cc: implement d orbitals and orbital rotation.

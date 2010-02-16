@@ -2,6 +2,9 @@ Version 0.11.5
 	GChemPaint:
 		* Survive forward references to atoms. [#28515]
 		* Add a menu item to hide atomic formal charge.[#26735]
+		* Orbital tool supports p and d orbitals.
+	Mozilla plugin:
+		* Supports CIF data as well as ChemDraw files.
 	Other:
 		* Fixed build when using GNU gold ld. [#28479]
 

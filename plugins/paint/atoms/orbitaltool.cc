@@ -31,6 +31,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gccv/canvas.h>
 #include <gccv/circle.h>
 #include <gccv/group.h>
 #include <gccv/leaf.h>
@@ -40,7 +41,8 @@ gcpOrbitalTool::gcpOrbitalTool (gcp::Application *App):
 	gcp::Tool (App, "Orbital"),
 	m_Coef (1.),
 	m_Rotation (0.),
-	m_Type (GCP_ORBITAL_TYPE_S)
+	m_Type (GCP_ORBITAL_TYPE_S),
+	m_PreviewItem (NULL)
 {
 }
 
@@ -116,7 +118,7 @@ bool gcpOrbitalTool::OnClicked ()
 		break;
 	}
 		break;
-	case GCP_ORBITAL_TYPE_DZ2:
+	case GCP_ORBITAL_TYPE_DZ2: {
 		gccv::Group *group = new gccv::Group (m_pView->GetCanvas ());
 		gccv::Leaf *leaf = new gccv::Leaf (group, m_x0, m_y0, theme->GetBondLength () * m_Coef * m_dZoomFactor);
 		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
@@ -144,6 +146,7 @@ bool gcpOrbitalTool::OnClicked ()
 		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
 		m_Item = group;
 		break;
+	}
 	}
 	return true;
 }
@@ -223,6 +226,11 @@ GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_DZ2));
 	g_signal_connect_swapped (G_OBJECT (w), "toggled", G_CALLBACK (TypeChanged), this);
 	GtkWidget *res = builder->GetRefdWidget ("orbital");
+	m_Preview = new gccv::Canvas (NULL);
+	w = m_Preview->GetWidget ();
+	gtk_widget_show (w);
+	gtk_table_attach (GTK_TABLE (res), w, 1, 3, 3, 8, GTK_FILL, GTK_FILL, 10, 0);
+	g_signal_connect_swapped (G_OBJECT (w), "size-allocate", G_CALLBACK (SizeAllocate), this);
 	delete builder;
 	return res;
 }
@@ -230,6 +238,7 @@ GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 void gcpOrbitalTool::CoefChanged (gcpOrbitalTool *tool, GtkSpinButton *btn)
 {
 	tool->m_Coef = gtk_spin_button_get_value (btn);
+	tool->UpdatePreview ();
 }
 
 void gcpOrbitalTool::TypeChanged (gcpOrbitalTool *tool, GtkToggleButton *btn)
@@ -238,9 +247,113 @@ void gcpOrbitalTool::TypeChanged (gcpOrbitalTool *tool, GtkToggleButton *btn)
 		tool->m_Type = static_cast <gcpOrbitalType> (GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (btn), "orbital-type")));
 	gtk_widget_set_sensitive (GTK_WIDGET (tool->m_RotationBtn), tool->m_Type != GCP_ORBITAL_TYPE_S);
 	gtk_widget_set_sensitive (tool->m_RotationLbl, tool->m_Type != GCP_ORBITAL_TYPE_S);
+	tool->UpdatePreview ();
 }
 
 void gcpOrbitalTool::RotationChanged (gcpOrbitalTool *tool, GtkSpinButton *btn)
 {
 	tool->m_Rotation = gtk_spin_button_get_value (btn);
+	tool->UpdatePreview ();
+}
+
+void gcpOrbitalTool::SizeAllocate (gcpOrbitalTool *tool)
+{
+	tool->UpdatePreview ();
+}
+
+void gcpOrbitalTool::UpdatePreview ()
+{
+	if (m_PreviewItem)
+		delete m_PreviewItem;
+	gcp::Theme *theme = gcp::TheThemeManager.GetTheme ("Default");
+	GtkAllocation alloc;
+	gtk_widget_get_allocation (m_Preview->GetWidget (), &alloc);
+	double x = alloc.width / 2;
+	double y = alloc.height / 2;
+	switch (m_Type) {
+	case GCP_ORBITAL_TYPE_S: {
+		gccv::Circle *circle = new gccv::Circle (m_Preview, x,  y, theme->GetBondLength () * m_Coef * theme->GetZoomFactor () / 2.);
+		circle->SetLineWidth (1.);
+		circle->SetLineColor (gcp::Color);
+		circle->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		m_PreviewItem = circle;
+		break;
+	}
+	case GCP_ORBITAL_TYPE_P: {
+		gccv::Group *group = new gccv::Group (m_Preview,  x,  y);
+		gccv::Leaf *leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_P_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI + M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (GO_COLOR_WHITE);
+		m_PreviewItem = group;
+		break;
+	}
+	case GCP_ORBITAL_TYPE_DXY: {
+		gccv::Group *group = new gccv::Group (m_Preview,  x,  y);
+		gccv::Leaf *leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + .25) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.25) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + .75) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.75) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		m_PreviewItem = group;
+		break;
+	}
+		break;
+	case GCP_ORBITAL_TYPE_DZ2: {
+		gccv::Group *group = new gccv::Group (m_Preview, x, y);
+		gccv::Leaf *leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation (m_Rotation / 180. * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_GREY (100): GO_COLOR_WHITE);
+		leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * GCP_ORBITAL_DZ2_FACTOR * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + .5) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		leaf = new gccv::Leaf (group, 0., 0., theme->GetBondLength () * m_Coef * GCP_ORBITAL_DZ2_FACTOR * theme->GetZoomFactor ());
+		leaf->SetWidthFactor (GCP_ORBITAL_D_WIDTH);
+		leaf->SetRotation ((m_Rotation / 180. + 1.5) * M_PI);
+		leaf->SetLineWidth (1.);
+		leaf->SetLineColor (gcp::Color);
+		leaf->SetFillColor (m_Coef > 0.? GO_COLOR_WHITE: GO_COLOR_GREY (100));
+		m_PreviewItem = group;
+		break;
+	}
+	}
 }

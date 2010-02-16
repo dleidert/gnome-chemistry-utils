@@ -2100,8 +2100,8 @@ void Atom::AddItem ()
 		gccv::Anchor anchor = GetChargePosition (m_ChargePos, m_ChargeAngle * 180 / M_PI, x, y);
 		if (m_ChargeDist != 0.) {
 			anchor = gccv::AnchorCenter;
-			x = m_ChargeDist * cos (m_ChargeAngle);
-			y = m_ChargeDist * sin (m_ChargeAngle);
+			x = m_x + m_ChargeDist * cos (m_ChargeAngle);
+			y = m_y - m_ChargeDist * sin (m_ChargeAngle);
 		}
 		x -= m_x;
 		x *= theme->GetZoomFactor ();
