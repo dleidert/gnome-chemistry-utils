@@ -233,5 +233,12 @@ void gcpOrbital::SetSelected (int state)
 		color = GO_COLOR_BLACK;
 		break;
 	}
-	static_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
+	if (m_Type == GCP_ORBITAL_TYPE_S)
+		static_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
+	else {
+		gccv::Group *group = static_cast <gccv::Group *> (m_Item);
+		std::list<gccv::Item *>::iterator it;
+		for (gccv::Item *item = group->GetFirstChild (it); item; item = group->GetNextChild (it))
+			static_cast <gccv::LineItem *> (item)->SetLineColor (color);
+	}
 }

@@ -100,13 +100,14 @@ double Group::Distance (double x, double y, Item **item) const
 	x -= m_x;
 	y -= m_y;
 	double d = G_MAXDOUBLE, di;
-	Item *nearest = NULL;
+	Item *nearest = NULL, *cur;
 	list <Item *>::const_iterator i, end = m_Children.end ();
 	for (i = m_Children.begin (); i != end; i++) {
-		di = (*i)->Distance (x, y, NULL);
+		cur = NULL;
+		di = (*i)->Distance (x, y, &cur);
 		if (di < d) {
 			d = di;
-			nearest = *i;
+			nearest = cur? cur: *i;
 		}
 	}
 	if (item)

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-02-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/group.cc: allow better selection.
+	* libs/gccv/leaf.cc: partially implemented Leaf::Distance().
+	* libs/gcp/atom.cc: fix some children related issues.
+	* libs/gcp/electron.cc: set the client for all items.
+	* plugins/paint/atoms/orbital.cc: implement Orbital::SetSelected().
+
 2010-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fixed custom charge position dieplay.
 	* plugins/paint/atoms/orbital.cc: update copyright.

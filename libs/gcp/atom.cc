@@ -1277,6 +1277,14 @@ void Atom::SetSelected (int state)
 		}
 		item = group->GetNextChild (it);
 	}
+	// select children
+	map<string, Object*>::iterator ic;
+	gccv::ItemClient *client;
+	for (Object* obj = GetFirstChild (ic); obj; obj = GetNextChild (ic)) {
+		client = dynamic_cast <gccv::ItemClient *> (obj);
+		if (client)
+			client->SetSelected (state);
+	}
 }
 
 bool Atom::AcceptNewBonds (int nb)
@@ -1284,14 +1292,16 @@ bool Atom::AcceptNewBonds (int nb)
 	if ((m_Valence > 0) || m_ChargeAuto)
 		return Element::GetMaxBonds (m_Z) >= (GetTotalBondsNumber () + GetChildrenNumber () + nb);
 	map<string, Object*>::iterator i;
-	Electron* electron = (Electron*) GetFirstChild (i);
+	Electron* electron;
 	unsigned nel = 0;
-	while (electron){ 
+	for (Object *obj = GetFirstChild (i); obj; obj = GetNextChild (i)) {
+		electron = dynamic_cast <Electron *> (obj);
+		if (electron == NULL)
+			continue;
 		if (electron->IsPair ())
 			nel += 2;
 		else
 			nel++;
-		electron = (Electron*) GetNextChild (i);
 	}
 	nel += GetTotalBondsNumber ();
 	return (m_ValenceOrbitals - GetTotalBondsNumber () - GetChildrenNumber () > 0)

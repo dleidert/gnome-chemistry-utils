@@ -4,7 +4,7 @@
  * GChemPaint library
  * electron.cc
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -305,7 +305,7 @@ void Electron::AddItem ()
 		double deltay = 3. * cos (angle);
 		gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
 		m_Item = group;
-		gccv::Circle *circle = new gccv::Circle (group, deltax, deltay, 2);
+		gccv::Circle *circle = new gccv::Circle (group, deltax, deltay, 2, this);
 		circle->SetLineWidth (0.);
 		circle->SetLineColor (0);
 		circle->SetFillColor (color);

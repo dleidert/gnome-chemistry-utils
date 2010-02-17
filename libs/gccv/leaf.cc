@@ -34,6 +34,8 @@ Leaf::Leaf (Canvas *canvas, double x, double y, double radius):
 	SetPosition (x, y);
 	SetRadius (radius);
 	SetRotation (0.);
+	for (int i = 0; i < 11; i++)
+		m_Controls[i].x = m_Controls[i].y = 0.;
 }
 
 Leaf::Leaf (Group *parent, double x, double y, double radius, ItemClient *client):
@@ -43,6 +45,8 @@ Leaf::Leaf (Group *parent, double x, double y, double radius, ItemClient *client
 	SetPosition (x, y);
 	SetRadius (radius);
 	SetRotation (0.);
+	for (int i = 0; i < 11; i++)
+		m_Controls[i].x = m_Controls[i].y = 0.;
 }
 
 Leaf::~Leaf ()
@@ -66,6 +70,36 @@ void Leaf::GetPosition (double &x, double &y)
 
 double Leaf::Distance (double x, double y, Item **item) const
 {
+	// use cairo_in_fill to detect if the point is inside
+	// size for the surface is probably unimportant
+	if (item)
+		*item = const_cast <Leaf *> (this);
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1, 1);
+	cairo_t *cr = cairo_create (surface);
+	cairo_surface_destroy (surface);
+	cairo_move_to (cr, m_x, m_y);
+	cairo_curve_to (cr,
+	    			m_Controls[0].x, m_Controls[0].y,
+	    			m_Controls[1].x, m_Controls[1].y,
+	    			m_Controls[2].x, m_Controls[2].y);
+	cairo_curve_to (cr,
+	    			m_Controls[3].x, m_Controls[3].y,
+	    			m_Controls[4].x, m_Controls[4].y,
+	    			m_Controls[5].x, m_Controls[5].y);
+	cairo_curve_to (cr,
+	    			m_Controls[6].x, m_Controls[6].y,
+	    			m_Controls[7].x, m_Controls[7].y,
+	    			m_Controls[8].x, m_Controls[8].y);
+	cairo_curve_to (cr,
+	    			m_Controls[9].x, m_Controls[9].y,
+	    			m_Controls[10].x, m_Controls[10].y,
+	    			m_x, m_y);
+	cairo_close_path (cr);
+	if (cairo_in_fill (cr, x, y)) {
+		cairo_destroy (cr);
+		return 0.;
+	}
+	cairo_destroy (cr);
 	return G_MAXDOUBLE; // FIXME
 }
 
