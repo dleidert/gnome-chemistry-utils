@@ -229,29 +229,26 @@ GtkWidget* gcu_periodic_new()
 	return GTK_WIDGET(bin);
 }
 
-void on_clicked(GtkToggleButton *button, GcuPeriodic* periodic)
+void on_clicked (GtkToggleButton *button, GcuPeriodic* periodic)
 {
 	static gboolean change = FALSE;
-	if (button != periodic->buttons[0])
-	{
+	if (button != periodic->buttons[0]) {
 		const gchar* name;
 		change = TRUE;
-		if (periodic->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->buttons[0]), FALSE);
+		if (periodic->buttons[0])
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (periodic->buttons[0]), FALSE);
 		periodic->buttons[0] = button;
-		name = gtk_widget_get_name(GTK_WIDGET(periodic->buttons[0]));
-		periodic->Z = atoi(name + 3);
-		g_signal_emit(periodic, gcu_periodic_signals[ELEMENT_CHANGED], 0, periodic->Z);
+		name = gtk_buildable_get_name (GTK_BUILDABLE (periodic->buttons[0]));
+		periodic->Z = atoi (name + 3);
+		g_signal_emit (periodic, gcu_periodic_signals[ELEMENT_CHANGED], 0, periodic->Z);
 		change = FALSE;
-	}
-	else if (!change)
-	{
-		if (periodic->can_unselect)
-		{
+	} else if (!change) {
+		if (periodic->can_unselect) {
 			periodic->buttons[0] = NULL;
 			periodic->Z = 0;
-			g_signal_emit(periodic, gcu_periodic_signals[ELEMENT_CHANGED], 0, 0);
-		}
-		else if (periodic->buttons[0]) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(periodic->buttons[0]), TRUE);
+			g_signal_emit (periodic, gcu_periodic_signals[ELEMENT_CHANGED], 0, 0);
+		} else if (periodic->buttons[0])
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (periodic->buttons[0]), TRUE);
 	}
 }
 

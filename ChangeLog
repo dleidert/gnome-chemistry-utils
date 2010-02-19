@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-02-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/gcuperiodic.c (on_clicked): use gtk_buildable_get_name.
+
 2010-02-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/group.cc: allow better selection.
 	* libs/gccv/leaf.cc: partially implemented Leaf::Distance().
