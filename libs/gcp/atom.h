@@ -4,7 +4,7 @@
  * GChemPaint library
  * atom.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -197,6 +197,16 @@ that they give the absolute position.
 @return an available position.
 */
 	virtual int GetAvailablePosition (double& x, double& y);
+/*!
+@param angle the angle at which a charge sign or an electron should be displayed.
+@param x the x position.
+@param y the y position.
+
+Updates \a x and \a y so that they become the position corresponding to the angle
+when the position is available, the origin being the position of the atom.
+@return true on success, false otherwise.
+*/
+	virtual bool GetRelativePosition (double angle, double& x, double& y);
 /*!
 @param angle the angle at which a charge sign or an electron should be displayed.
 @param x the x position.

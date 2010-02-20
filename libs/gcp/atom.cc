@@ -4,7 +4,7 @@
  * GChemPaint library
  * atom.cc
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -1558,7 +1558,7 @@ bool Atom::MayHaveImplicitUnpairedElectrons ()
 			&& (((m_Element->GetValenceElectrons() - m_Charge) > nel) || m_ChargeAuto);
 }
 
-bool Atom::GetPosition (double angle, double& x, double& y)
+bool Atom::GetRelativePosition (double angle, double& x, double& y)
 {
 	if (angle > 360.)
 		angle -= 360;
@@ -1572,27 +1572,37 @@ bool Atom::GetPosition (double angle, double& x, double& y)
 		double t = tan (angle / 180. * M_PI);
 		double limit = atan (m_height / m_width) * 180. / M_PI;
 		if (angle < limit) {
-			x = m_x + m_width / 2.;
-			y = m_y - m_width / 2. * t;
+			x = m_width / 2.;
+			y = m_width / 2. * t;
 		} else if (angle < 180. - limit) {
 			if (!isnan (t))
-				x = m_x + m_height / 2. / t;
+				x = m_height / 2. / t;
 			else
-				x = m_x;
-			y = m_y - m_height / 2.;
+				x = 0.;
+			y = -m_height / 2.;
 		} else if (angle < 180. + limit) {
-			x = m_x - m_width / 2.;
-			y = m_y + m_width / 2. * t;
+			x = -m_width / 2.;
+			y = m_width / 2. * t;
 		} else if (angle < 360. - limit) {
 			if (!isnan (t))
-				x = m_x - m_height / 2. / t;
+				x = -m_height / 2. / t;
 			else
 				x = m_x;
-			y = m_y + m_height / 2.;
+			y = m_height / 2.;
 		} else {
-			x = m_x + m_width / 2.;
-			y = m_y - m_width / 2. * t;
+			x = m_width / 2.;
+			y = -m_width / 2. * t;
 		}			
+		return true;
+	}
+	return false;
+}
+
+bool Atom::GetPosition (double angle, double& x, double& y)
+{
+	if (GetRelativePosition (angle, x, y)) {
+		x += m_x;
+		y += m_y;
 		return true;
 	}
 	return false;
@@ -2136,6 +2146,14 @@ void Atom::AddItem ()
 		g_free (markup);
 	} else
 		m_ChargeItem = NULL;
+	// select children
+	map<string, Object*>::iterator ic;
+	gccv::ItemClient *client;
+	for (Object* obj = GetFirstChild (ic); obj; obj = GetNextChild (ic)) {
+		client = dynamic_cast <gccv::ItemClient *> (obj);
+		if (client)
+			client->AddItem ();
+	}
 }
 
 bool Atom::HasAvailableElectrons (bool paired)

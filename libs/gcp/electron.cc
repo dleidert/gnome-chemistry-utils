@@ -280,21 +280,20 @@ void Electron::Transform2D (Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED d
 
 void Electron::AddItem ()
 {
-	if (m_Item)
+	if (m_Item || !m_pAtom)
 		return;
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
-	GOColor color = (m_pAtom)? ((view->GetData ()->IsSelected (m_pAtom))? SelectColor: Color): GO_COLOR_WHITE;
+	GOColor color = (view->GetData ()->IsSelected (m_pAtom))? SelectColor: Color;
 	double x, y, angle = m_Angle / 180. * M_PI;
-	if (m_Dist != 0.){
-		m_pAtom->GetCoords (&x, &y);
-		x += m_Dist * cos (angle);
-		y -= m_Dist * sin (angle);
+	if (m_Dist != 0.) {
+		x = m_Dist * cos (angle);
+		y = -m_Dist * sin (angle);
 		x *= theme->GetZoomFactor ();
 		y *= theme->GetZoomFactor ();
 	} else {
-		m_pAtom->GetPosition (m_Angle, x, y);
+		m_pAtom->GetRelativePosition (m_Angle, x, y);
 		x *= theme->GetZoomFactor ();
 		y *= theme->GetZoomFactor ();
 		x += 2. * cos (angle);
@@ -303,18 +302,18 @@ void Electron::AddItem ()
 	if (m_IsPair) {
 		double deltax = 3. * sin (angle);
 		double deltay = 3. * cos (angle);
-		gccv::Group *group = new gccv::Group (view->GetCanvas ()->GetRoot (), x, y, this);
+		gccv::Group *group = new gccv::Group (static_cast <gccv::Group *> (m_pAtom->GetItem ()), x, y, this);
 		m_Item = group;
 		gccv::Circle *circle = new gccv::Circle (group, deltax, deltay, 2, this);
 		circle->SetLineWidth (0.);
 		circle->SetLineColor (0);
 		circle->SetFillColor (color);
-		circle = new gccv::Circle (group, -deltax, -deltay, 2);
+		circle = new gccv::Circle (group, -deltax, -deltay, 2, this);
 		circle->SetLineWidth (0.);
 		circle->SetLineColor (0);
 		circle->SetFillColor (color);
 	} else {
-		gccv::Circle *circle = new gccv::Circle (view->GetCanvas ()->GetRoot (), x, y, 2., this);
+		gccv::Circle *circle = new gccv::Circle (static_cast <gccv::Group *> (m_pAtom->GetItem ()), x, y, 2., this);
 		circle->SetLineWidth (0.);
 		circle->SetLineColor (0);
 		circle->SetFillColor (color);

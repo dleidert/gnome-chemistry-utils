@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: new Atom::GetRelativePosition() method.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/electron.cc: make the item a child of the atom item.
+	* plugins/paint/atoms/elementtool.cc: set the text color, not the
+	background.
+	* plugins/paint/selection/erasertool.cc: fixed undo when deleting an
+	atom child.
+
 2010-02-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/gcuperiodic.c (on_clicked): use gtk_buildable_get_name.
 

@@ -4,7 +4,7 @@
  * GChemPaint selection plugin
  * erasertool.cc
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -158,21 +158,28 @@ void gcpEraserTool::OnRelease ()
 	}
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	gcp::Operation *pOp;
-	Object *pObj = m_pObject->GetGroup (), *Parent;
-	if (pObj && (pObj->GetType () != MoleculeType || m_pObject->GetType () == OtherType)) {
-		pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
-		pOp->AddObject (pObj, 0);
-		id = g_strdup (pObj->GetId ());
-	} else {
-		pOp = pDoc->GetNewOperation (gcp::GCP_DELETE_OPERATION);
-		pOp->AddObject (m_pObject);
-	}
+	Object *pObj = m_pObject->GetGroup (), *Parent = m_pObject->GetParent ();
 	if (m_pObject->GetType () == AtomType) {
 		Object* parent = m_pObject->GetParent ();
 		if (parent->GetType () == FragmentType)
 			m_pObject = parent;
 	}
-	Parent = m_pObject->GetParent ();
+	if (pObj && (pObj->GetType () != MoleculeType)) {
+		pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+		pOp->AddObject (pObj, 0);
+		id = g_strdup (pObj->GetId ());
+	} else if (Parent->GetType () == AtomType) {
+		Parent = m_pObject->GetParent ();
+		Object* parent = Parent->GetParent ();
+		if (parent->GetType () == FragmentType)
+			Parent = parent;
+		id = g_strdup (Parent->GetId ());
+		pOp = pDoc->GetNewOperation (gcp::GCP_DELETE_OPERATION);
+		pOp->AddObject (Parent);
+	} else {
+		pOp = pDoc->GetNewOperation (gcp::GCP_DELETE_OPERATION);
+		pOp->AddObject (m_pObject);
+	}
 // A molecule might disappear, so get its parent
 	if (Parent->GetType () == MoleculeType)
 		Parent = Parent->GetParent ();

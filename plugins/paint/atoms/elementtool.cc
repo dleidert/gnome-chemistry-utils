@@ -4,7 +4,7 @@
  * GChemPaint atoms plugin
  * elementtool.cc 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -67,7 +67,8 @@ bool gcpElementTool::OnClicked ()
 	text->SetText (symbol);
 	text->SetFontDescription (m_pView->GetPangoFontDesc ());
 	text->SetPadding (m_pView->GetDoc ()->GetTheme ()->GetPadding ());
-	text->SetFillColor (gcp::AddColor);
+	text->SetFillColor (0);
+	text->SetColor (gcp::AddColor);
 	text->SetLineOffset (m_pView->GetCHeight ());
 	text->GetPosition (m_x1, m_y1, m_x2, m_y2);
 	m_x2 += m_x1;
