@@ -242,11 +242,11 @@ void WidgetData::UnselectAll ()
 	}
 }
 
-void WidgetData::SetSelected (Object *obj)
+void WidgetData::SetSelected (Object *obj, int state)
 {
 	if (!IsSelected (obj)) {
 		SelectedObjects.push_front (obj);
-		m_View->SetSelectionState (obj, SelStateSelected);
+		m_View->SetSelectionState (obj, state);
 	}
 }
 

@@ -4,7 +4,7 @@
  * GChemPaint library
  * bond.cc 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -210,16 +210,13 @@ general:
 				Bond *bond = static_cast <Bond*> (m_Begin->GetFirstBond (it));
 				if (bond == this)
 					bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
-				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (static_cast <Atom*> (m_Begin)), a2, a;
+				double a0 = atan2 (*y1 - *y2, *x2 - *x1), a1 = bond->GetAngle2DRad (static_cast <Atom*> (m_Begin)), a;
 				if (fabs (fabs (a0 - a1) - M_PI) > 0.01) {
 					double sign = sin (a0 - a1) > 0.0 ? 1.0 : -1.0;
 					double tanb = ((m_Begin->GetZ () == 6)? fabs (tan ((M_PI - a0 + a1) / 2)): 0.), cosa = cos (a0), sina = sin (a0);
 					m_coords[4] = *x1 + BondDist * cosa * tanb - dy * sign;
 					m_coords[5] = *y1 + dx * sign - BondDist * sina * tanb;
 					tanb = 0.;
-					a2 = M_PI + a0;
-					if (a2 > 2 * M_PI)
-						a2 -= 2 * M_PI;
 					bond = static_cast <Bond*> (m_End->GetFirstBond (it));
 					if (m_End->GetZ () == 6)
 						while (bond) {
@@ -231,8 +228,8 @@ general:
 							}
 							bond = static_cast <Bond*> (m_End->GetNextBond (it));
 						}
-					m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
-					m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
+					m_coords[6] = *x2 + (BondDist * cosa * tanb - dy) * sign;
+					m_coords[7] = *y2 + (dx - BondDist * sina * tanb) * sign;
 					goto done;
 				}
 			} else if (n1 > 1 && n2 > 0) {
@@ -259,8 +256,8 @@ general:
 								}
 								bond = static_cast <Bond*> (m_Begin->GetNextBond (it));
 							}
-						m_coords[4] = *x1 - BondDist * cosa * tanb - dy * sign;
-						m_coords[5] = *y1 + dx * sign + BondDist * sina * tanb;
+						m_coords[4] = *x1 - (BondDist * cosa * tanb + dy) * sign;
+						m_coords[5] = *y1 + (dx + BondDist * sina * tanb) * sign;
 						tanb = (m_End->GetZ () == 6)? fabs (tan ((a1 - a0) / 2)): 0.;
 						m_coords[6] = *x2 - BondDist * cosa * tanb - dy * sign;
 						m_coords[7] = *y2 + dx * sign + BondDist * sina * tanb;
@@ -607,7 +604,7 @@ void Bond::AddItem ()
 				line->SetLineColor (0);
 				line->SetOperator (CAIRO_OPERATOR_SOURCE);
 				/* FIXME: unsecure if several bonds are crossing the same bond, use masking instead */
-				view->GetCanvas ()->GetRoot ()->MoveToBack (group);
+				view->GetCanvas ()->GetRoot ()->MoveToFront (group);
 			}
 		}
 		break;

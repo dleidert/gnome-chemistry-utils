@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2010-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/line.cc: fixed for vector targets not supporting transparency.
+	* libs/gcp/bond.cc: correctly pack crossing bonds.
+	* libs/gcp/electron.cc: move item to front of its group.
+	* libs/gcp/widgetdata.cc: change WidgetData::SetSelected() signature to
+	allow for more states.
+	* libs/gcp/widgetdata.h: ditto.
+	* plugins/paint/selection/erasertool.cc: implement OnMotion().
+	* plugins/paint/selection/erasertool.h: ditto.
+
 2010-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: new Atom::GetRelativePosition() method.
 	* libs/gcp/atom.h: ditto.

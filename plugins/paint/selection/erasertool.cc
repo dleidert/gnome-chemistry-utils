@@ -50,6 +50,7 @@ gcpEraserTool::~gcpEraserTool ()
 
 bool gcpEraserTool::OnClicked ()
 {
+	m_pData->UnselectAll ();
 	if (m_pObject) {
 		if (m_pObject->IsLocked ())
 			return false;
@@ -193,4 +194,31 @@ void gcpEraserTool::OnRelease ()
 		g_free (id);
 	}
 	pDoc->FinishOperation ();
+}
+
+void gcpEraserTool::OnMotion ()
+{
+	m_pData->UnselectAll ();
+	if (m_pObject) {
+		if (m_pObject->IsLocked ())
+			return;
+		TypeId Id = m_pObject->GetType ();
+		if (Id == ReactionOperatorType)
+			return; //It's an automatic object, can't be deleted
+		m_pData->SetSelected (m_pObject, gcp::SelStateErasing);
+		if (Id == AtomType) {
+			Object* parent = m_pObject->GetParent ();
+			std::map<Atom*, Bond*>::iterator i;
+			gcp::Bond* pBond = (gcp::Bond*)((gcp::Atom*)m_pObject)->GetFirstBond (i);
+			while (pBond) {
+				m_pData->SetSelected (pBond, gcp::SelStateErasing);
+				pBond = (gcp::Bond*) ((gcp::Atom*) m_pObject)->GetNextBond (i);
+			}
+		}
+	}
+}
+
+void gcpEraserTool::OnLeaveNotify ()
+{
+	m_pData->UnselectAll ();
 }

@@ -89,7 +89,7 @@ void Line::Draw (cairo_t *cr, bool is_vector) const
 	cairo_move_to (cr, m_xstart, m_ystart);
 	cairo_line_to (cr, m_xend, m_yend);
 	GOColor color = GetLineColor ();
-	if (!is_vector && (op == CAIRO_OPERATOR_CLEAR || op == CAIRO_OPERATOR_SOURCE)) {
+	if (op == CAIRO_OPERATOR_CLEAR || op == CAIRO_OPERATOR_SOURCE) {
 		cairo_content_t content = cairo_surface_get_content (cairo_get_target (cr));
 		if (!(content & CAIRO_CONTENT_ALPHA))
 			color = GetCanvas ()->GetBackgroundColor ();

@@ -299,10 +299,11 @@ void Electron::AddItem ()
 		x += 2. * cos (angle);
 		y -= 2. * sin (angle);
 	}
+	gccv::Group *parent = static_cast <gccv::Group *> (m_pAtom->GetItem ());
 	if (m_IsPair) {
 		double deltax = 3. * sin (angle);
 		double deltay = 3. * cos (angle);
-		gccv::Group *group = new gccv::Group (static_cast <gccv::Group *> (m_pAtom->GetItem ()), x, y, this);
+		gccv::Group *group = new gccv::Group (parent, x, y, this);
 		m_Item = group;
 		gccv::Circle *circle = new gccv::Circle (group, deltax, deltay, 2, this);
 		circle->SetLineWidth (0.);
@@ -313,12 +314,13 @@ void Electron::AddItem ()
 		circle->SetLineColor (0);
 		circle->SetFillColor (color);
 	} else {
-		gccv::Circle *circle = new gccv::Circle (static_cast <gccv::Group *> (m_pAtom->GetItem ()), x, y, 2., this);
+		gccv::Circle *circle = new gccv::Circle (parent, x, y, 2., this);
 		circle->SetLineWidth (0.);
 		circle->SetLineColor (0);
 		circle->SetFillColor (color);
 		m_Item = circle;
 	}
+	parent->MoveToFront (m_Item);
 }
 
 }	//	namespace gcp

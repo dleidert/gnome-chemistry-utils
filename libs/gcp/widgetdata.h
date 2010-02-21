@@ -102,10 +102,11 @@ The list of selected objects.
 	bool IsSelected (gcu::Object const *obj) const;
 /*!
 @param obj the object to select.
+@param state the new selection state.
 
 Selects the specified object.
 */
-	void SetSelected (gcu::Object *obj);
+	void SetSelected (gcu::Object *obj, int state = gcp::SelStateSelected);
 /*!
 @param obj the object to unselect.
 

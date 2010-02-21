@@ -4,7 +4,7 @@
  * GChemPaint selection plugin
  * erasertool.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,9 +37,11 @@ public:
 	gcpEraserTool (gcp::Application* App);
 	virtual ~gcpEraserTool ();
 
-	virtual bool OnClicked ();
-	virtual void OnDrag ();
-	virtual void OnRelease ();
+	bool OnClicked ();
+	void OnDrag ();
+	void OnRelease ();
+	void OnMotion ();
+	void OnLeaveNotify ();
 	char const *GetHelpTag () {return "eraser";}
 };
 
