@@ -4,7 +4,7 @@
  * GChemPaint library
  * mesomery-arrow.cc 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,6 +33,7 @@
 #include "widgetdata.h"
 #include <gccv/arrow.h>
 #include <gccv/canvas.h>
+#include <glib/gi18n-lib.h>
 
 using namespace gcu;
 
@@ -156,6 +157,11 @@ void MesomeryArrow::Reverse ()
 	m_y = m_y + m_height;
 	m_width = - m_width;
 	m_height = - m_height;
+}
+
+std::string MesomeryArrow::Name ()
+{
+	return _("Mesomery arrow");
 }
 
 }	//	namespace gcp

@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-operator.cc 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,6 +31,7 @@
 #include "widgetdata.h"
 #include <gccv/canvas.h>
 #include <gccv/text.h>
+#include <glib/gi18n.h>
 #include <cmath>
 #include <cstring>
 
@@ -116,6 +117,11 @@ bool ReactionOperator::GetCoords (double* x, double* y) const
 double ReactionOperator::GetYAlign ()
 {
 	return m_y;
+}
+
+std::string ReactionOperator::Name ()
+{
+	return _("Reaction operator");
 }
 
 }	//	namespace gcp

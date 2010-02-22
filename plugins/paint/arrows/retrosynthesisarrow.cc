@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * retrosynthesisarrow.cc
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,6 +35,7 @@
 #include <gccv/group.h>
 #include <gccv/line.h>
 #include <gccv/poly-line.h>
+#include <glib/gi18n.h>
 #include <cmath>
 
 TypeId RetrosynthesisArrowType = NoType;
@@ -198,4 +199,9 @@ void gcpRetrosynthesisArrow::SetSelected (int state)
 		item->SetLineColor (color);
 		item = static_cast <gccv::LineItem *> (group->GetNextChild (it));
 	}
+}
+
+std::string gcpRetrosynthesisArrow::Name ()
+{
+	return _("Retrosynthesis arrow");
 }

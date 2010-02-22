@@ -4,7 +4,7 @@
  * GChemPaint library
  * reactant.h 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -122,6 +122,8 @@ coefficient does not need to be an integer, but should always be positive.
 @return the text representing the stoichiometry coefficient of this instance.
 */
 	gcu::Object *GetStoichChild () {return Stoichiometry;}
+
+	std::string Name ();
 
 private:
 	unsigned m_Stoich;	//always positive

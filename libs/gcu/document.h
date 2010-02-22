@@ -168,6 +168,8 @@ Processes pending references resulting from failed calls to SetTarget().
 */
 	virtual bool Loaded () throw (LoaderError);
 
+	std::string Name ();
+
 private:
 
 /*!

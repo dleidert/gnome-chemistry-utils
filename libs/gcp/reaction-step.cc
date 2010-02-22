@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-step.cc 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -34,6 +34,7 @@
 #include "view.h"
 #include "widgetdata.h"
 #include <gccv/item.h>
+#include <glib/gi18n.h>
 
 using namespace gcu;
 using namespace std;
@@ -274,6 +275,11 @@ void ReactionStep::RemoveArrow (ReactionArrow *arrow) {
 		// if there is no more arrows this is no more a reaction step
 		delete this;
 	}
+}
+
+std::string ReactionStep::Name ()
+{
+	return _("Reaction step");
 }
 
 }	//	namespace gcp

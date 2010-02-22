@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * retrosynthesis.h 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -48,6 +48,7 @@ public:
 	virtual void Transform2D (Matrix2D& m, double x, double y);
 	int Validate (bool split);
 	void Align ();
+	std::string Name();
 
 private:
 	gcpRetrosynthesis (Object* parent, gcpRetrosynthesisStep *step);

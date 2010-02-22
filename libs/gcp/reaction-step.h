@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-step.h 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -110,6 +110,8 @@ Removes an arrow from the list of arrows related to this instance when it
 not anymore relevant.
 */
 	void RemoveArrow (ReactionArrow *arrow);
+
+	std::string Name ();
 
 private:
 	bool m_bLoading;

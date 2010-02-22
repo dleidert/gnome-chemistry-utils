@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/chain.cc
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,6 +29,7 @@
 #include "cycle.h"
 #include "molecule.h"
 #include "document.h"
+#include <glib/gi18n-lib.h>
 
 using namespace std;
 
@@ -288,6 +289,11 @@ double Chain::GetMeanBondLength ()
 Atom* Chain::GetNextAtom (Atom* pAtom)
 {
 	return (Atom*) m_Bonds[pAtom].fwd->GetAtom (pAtom);
+}
+
+std::string Chain::Name ()
+{
+	return _("Chain");
 }
 
 }	//	namespace gcp

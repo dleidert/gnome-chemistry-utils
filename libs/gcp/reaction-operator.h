@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-operator.h 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -89,6 +89,8 @@ Used to retrieve the y coordinate for alignment.
 @return y coordinate used for reaction operators alignment.
 */
 	virtual double GetYAlign ();
+
+	std::string Name ();
 
 private:
 	double m_x, m_y;

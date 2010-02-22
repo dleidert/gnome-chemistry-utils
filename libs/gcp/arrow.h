@@ -4,7 +4,7 @@
  * GChemPaint library
  * arrow.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -143,7 +143,9 @@ This method must be called from derived classes overloaded Save methods.
 @return true on succes, false otherwise.
 */
 	bool Save (xmlDocPtr xml, xmlNodePtr node) const;
-	
+
+	std::string Name ();
+
 protected:
 /*!
 The x coordinate to the start point.

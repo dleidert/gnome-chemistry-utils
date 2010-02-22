@@ -4,7 +4,7 @@
  * GChemPaint library
  * docprop.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -86,10 +86,10 @@ Called by the framework when the author mail changed.
 Called by the framework when the document comments changed.
 */
 	void OnCommentsChanged (char const *title);
-	
+
 private:
 	Document* m_pDoc;
-	GtkEntry *Title, *Name, *Mail;
+	GtkEntry *Title, *NameEntry, *Mail;
 	GtkLabel *CreationDate, *RevisionDate;
 	GtkTextView *Comments;
 	GtkTextBuffer *Buffer;

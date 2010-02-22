@@ -221,6 +221,8 @@ This method should be called when a bond has been fully loaded.
 */
 	void OnLoaded ();
 
+	std::string Name ();
+
 protected:
 /*!
 The order of the bond.

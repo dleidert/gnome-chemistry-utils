@@ -4,7 +4,7 @@
  * GChemPaint library
  * mechanism-arrow.h 
  *
- * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -87,6 +87,8 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 @param object the object just unlinked by Object::Unlink.
 */
 	void OnUnlink (Object *object);
+
+	std::string Name ();
 
 private:
 	double m_CPx1, m_CPy1, m_CPx2, m_CPy2;

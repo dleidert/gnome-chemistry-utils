@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * object.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -519,6 +519,17 @@ Deletes all children. Derived classes might override this method if needed.
 	virtual void Clear ();
 
 /*!
+@return the object generic name.
+*/
+	virtual std::string Name ();
+
+/*!
+@return the object identity comosed of the object name as returned by
+gcu::Object::Name() concatenated with its unique Id as returned by gcu::Object::GetId().
+*/
+	std::string Identity ();
+
+/*!
 @param TypeName the name of the new type.
 @param CreateFunc a pointer to a function returning a pointer to a new object of the new type.
 @param id the Id of the type to create if a standard one or OtherType for a new type. In this last case, this parameter
@@ -528,6 +539,14 @@ This method is used to register a new type derived from Object.
 @return the Id of the new type.
 */
 	static TypeId AddType (std::string TypeName, Object* (*CreateFunc) (), TypeId id = OtherType);
+
+/*!
+@param id the Id of an existing type.
+@param TypeName a new name for the type.
+
+This method is used to add an alternative name to an existing type.
+*/
+	static void AddAlias (TypeId id, std::string TypeName);
 
 /*!
 @param TypeName the name of the new type.

@@ -55,6 +55,7 @@ public:
 	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool Load (xmlNodePtr node);
 	void SetSelected (int state);
+	std::string Name ();
 
 private:
 	gcp::Atom *m_Atom;

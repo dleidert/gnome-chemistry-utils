@@ -27,6 +27,7 @@
 #include "atom.h"
 #include "objprops.h"
 #include "document.h"
+#include <glib/gi18n-lib.h>
 #include <cmath>
 #include <sstream>
 
@@ -326,6 +327,11 @@ void Bond::OnLoaded ()
 		m_Begin->AddBond (this);
 		m_End->AddBond (this);
 	}
+}
+
+std::string Bond::Name ()
+{
+	return _("Bond");
 }
 
 }	//	namespace gcu

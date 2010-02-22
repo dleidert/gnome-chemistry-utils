@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/cycle.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -89,6 +89,8 @@ Evaluates the angles between the bond and its two adjacent bonds in the cycle.
 @return the number of bonds shared with other cycles.
 */
 	int GetFusedBonds ();
+
+	std::string Name ();
 };
 
 }	//	namespace gcu

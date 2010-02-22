@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * retrosynthesisstep.h 
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -54,6 +54,7 @@ public:
 	map<gcpRetrosynthesisStep *, gcpRetrosynthesisArrow *> *GetArrows () {return &Arrows;}
 	gcpRetrosynthesisArrow const *GetArrow () {return Arrow;}
 	void RemoveArrow (gcpRetrosynthesisArrow *arrow, gcpRetrosynthesisStep *step);
+	std::string Name();
 
 private:
 	gcp::Molecule *Molecule;

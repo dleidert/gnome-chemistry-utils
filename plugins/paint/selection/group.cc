@@ -2,7 +2,7 @@
  * GChemPaint selection plugin
  * group.cc
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -348,4 +348,9 @@ void gcpGroup::OnLoaded ()
 		delete this;
 	else
 		Align ();
+}
+
+std::string gcpGroup::Name ()
+{
+	return _("Group");
 }

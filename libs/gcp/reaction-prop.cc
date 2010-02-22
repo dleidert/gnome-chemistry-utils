@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-prop.cc 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -103,6 +103,11 @@ bool ReactionProp::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 	if (Signal == OnChangedSignal && !HasChildren ())
 		delete this;
 	return true;
+}
+
+std::string ReactionProp::Name ()
+{
+	return _("Reaction property");
 }
 
 }	//	namespace gcp

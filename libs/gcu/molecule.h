@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/molecule.h 
  *
- * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -148,6 +148,8 @@ Clears cycles and chains and call gcu::Object::Clear().
 
 	void SetName (char const *name, char const *convention);
 	char const *GetName (char const *convention = NULL);
+
+	std::string Name ();
 
 protected:
 /*!

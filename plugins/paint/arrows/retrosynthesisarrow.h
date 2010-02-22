@@ -46,6 +46,7 @@ public:
 	gcpRetrosynthesisStep* GetStartStep () {return m_Start;}
 	void SetEndStep (gcpRetrosynthesisStep *Step) {m_End = Step;}
 	gcpRetrosynthesisStep* GetEndStep () {return m_End;}
+	std::string Name();
 
 private:
 	gcpRetrosynthesisStep *m_Start, *m_End;

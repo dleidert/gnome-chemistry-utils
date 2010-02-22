@@ -30,6 +30,7 @@
 #include "objprops.h"
 #include "vector.h"
 #include "xml-utils.h"
+#include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
 #include <sstream>
@@ -354,6 +355,11 @@ bool Atom::Match (Atom *atom, AtomMatchState &state)
 Vector Atom::GetVector () const
 {
 	return Vector (m_x, m_y, m_z);
+}
+
+std::string Atom::Name ()
+{
+	return _("Atom");
 }
 
 }	//	namespace gcu

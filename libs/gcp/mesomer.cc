@@ -4,7 +4,7 @@
  * GChemPaint library
  * mesomer.cc
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -106,6 +106,11 @@ bool Mesomer::Load (xmlNodePtr node)
 		return true;
 	}
 	return false;
+}
+
+std::string Mesomer::Name ()
+{
+	return _("Mesomer");
 }
 
 }	//	namespace gcp

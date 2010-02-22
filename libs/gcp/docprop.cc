@@ -4,7 +4,7 @@
  * GChemPaint library
  * docprop.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -94,12 +94,12 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 		gtk_entry_set_text (Title, chn);
 	g_signal_connect (G_OBJECT (Title), "activate", G_CALLBACK (on_title_changed), this);
 	g_signal_connect (G_OBJECT (Title), "focus-out-event", G_CALLBACK (on_title_focused_out), this);
-	Name = GTK_ENTRY (GetWidget ("name"));
+	NameEntry = GTK_ENTRY (GetWidget ("name"));
 	chn = m_pDoc->GetAuthor ();
 	if (chn)
-		gtk_entry_set_text (Name, chn);
-	g_signal_connect (G_OBJECT (Name), "activate", G_CALLBACK (on_name_changed), this);
-	g_signal_connect (G_OBJECT (Name), "focus-out-event", G_CALLBACK (on_name_focused_out), this);
+		gtk_entry_set_text (NameEntry, chn);
+	g_signal_connect (G_OBJECT (NameEntry), "activate", G_CALLBACK (on_name_changed), this);
+	g_signal_connect (G_OBJECT (NameEntry), "focus-out-event", G_CALLBACK (on_name_focused_out), this);
 	Mail = GTK_ENTRY (GetWidget ("mail"));
 	chn = m_pDoc->GetMail ();
 	if (chn)

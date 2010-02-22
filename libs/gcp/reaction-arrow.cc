@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-arrow.cc 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -418,6 +418,11 @@ bool ReactionArrow::SetProperty (unsigned property, char const *value)
 		return Arrow::SetProperty (property, value);
 	}
 	return true;
+}
+
+std::string ReactionArrow::Name ()
+{
+	return _("Reaction arrow");
 }
 
 }	//	namespace gcp

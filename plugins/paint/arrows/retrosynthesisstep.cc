@@ -2,9 +2,9 @@
 
 /* 
  * GChemPaint arrows plugin
- * retrosynthesisstep.h 
+ * retrosynthesisstep.cc
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -114,4 +114,9 @@ bool gcpRetrosynthesisStep::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUS
 		return false;
 	}
 	return true;
+}
+
+std::string gcpRetrosynthesisStep::Name ()
+{
+	return _("Retrosynthesis step");
 }

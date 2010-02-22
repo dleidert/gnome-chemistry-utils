@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * molecule.h 
+ * molecule.cc 
  *
- * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,6 +31,7 @@
 #include "document.h"
 #include "formula.h"
 #include "residue.h"
+#include <glib/gi18n-lib.h>
 #include <stack>
 
 using namespace std;
@@ -378,6 +379,11 @@ char const *Molecule::GetName (char const *convention)
 		return (*m_Names.begin()).second.c_str ();
 	map <string, string>::iterator it = m_Names.find (convention);
 	return (it != m_Names.end ())? (*it).second.c_str (): NULL;
+}
+
+std::string Molecule::Name ()
+{
+	return _("Molecule");
 }
 
 }	//namespace gcu

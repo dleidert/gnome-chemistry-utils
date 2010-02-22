@@ -123,6 +123,8 @@ Used to move and/or transform an Electron.
 */
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
 
+	std::string Name ();
+
 private:
 	Atom* m_pAtom;
 	bool m_IsPair;

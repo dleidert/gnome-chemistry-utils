@@ -34,6 +34,7 @@
 #include <gccv/circle.h>
 #include <gccv/group.h>
 #include <gccv/leaf.h>
+#include <glib/gi18n.h>
 #include <cstring>
 
 gcu::TypeId OrbitalType;
@@ -241,4 +242,9 @@ void gcpOrbital::SetSelected (int state)
 		for (gccv::Item *item = group->GetFirstChild (it); item; item = group->GetNextChild (it))
 			static_cast <gccv::LineItem *> (item)->SetLineColor (color);
 	}
+}
+
+std::string gcpOrbital::Name ()
+{
+	return _("Orbital");
 }

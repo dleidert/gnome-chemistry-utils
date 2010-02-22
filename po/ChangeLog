@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: add missing files.
+
 2010-02-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* zh_TW.po: updated file, thanks to I-Yuan Chiang and his group.
 

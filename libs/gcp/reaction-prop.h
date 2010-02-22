@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-prop.h 
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -139,6 +139,8 @@ It should not be called by a program; call Object::EmitSignal instead.
 @return true to be propagate the signal to the parent.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+
+	std::string Name ();
 
 private:
 /*!\fn GetObject()

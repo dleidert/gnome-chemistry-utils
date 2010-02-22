@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/chain.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -177,6 +177,8 @@ Adds the two atoms and the bond between them to the chain. The two atoms must be
 @return the next atom in the chain or NULL if pAtom is the last one.
 */
 	Atom* GetNextAtom (Atom* pAtom);
+
+	std::string Name ();
 
 protected:
 /*!

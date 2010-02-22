@@ -255,6 +255,11 @@ static Object* CreateMechanismStep ()
 	return new MechanismStep (MechanismStepType);
 }
 
+static Object* CreateElectron ()
+{
+	return new Electron (NULL, false);
+}
+
 bool	Application::m_bInit = false;
 bool	Application::m_Have_Ghemical = false;
 bool	Application::m_Have_InChI = false;
@@ -315,7 +320,8 @@ Application::Application ():
 		Object::AddType ("mesomery-arrow", CreateMesomeryArrow, MesomeryArrowType);
 		Object::AddType ("text", CreateText, TextType);
 		Object::AddType ("fragment", CreateFragment, FragmentType);
-		ElectronType = Object::AddType ("electron", NULL);
+		ElectronType = Object::AddType ("electron", CreateElectron);
+		Object::AddAlias (ElectronType, "electron-pair");
 		// Add rules
 		Object::AddRule ("reaction", RuleMustContain, "reaction-step");
 		Object::AddRule ("reaction-step", RuleMustContain, "reactant");

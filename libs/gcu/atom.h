@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.h 
  *
- * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -259,6 +259,8 @@ and return its result.
 @return true if the atoms match, false otherwise.
 */
 	virtual bool Match (Atom *atom, AtomMatchState &state);
+
+	std::string Name ();
 
 protected:
 /*!

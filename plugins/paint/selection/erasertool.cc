@@ -165,18 +165,10 @@ void gcpEraserTool::OnRelease ()
 		if (parent->GetType () == FragmentType)
 			m_pObject = parent;
 	}
-	if (pObj && (pObj->GetType () != MoleculeType)) {
+	if (pObj && (pObj->GetType () != MoleculeType || Parent->GetType () == AtomType)) {
 		pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 		pOp->AddObject (pObj, 0);
 		id = g_strdup (pObj->GetId ());
-	} else if (Parent->GetType () == AtomType) {
-		Parent = m_pObject->GetParent ();
-		Object* parent = Parent->GetParent ();
-		if (parent->GetType () == FragmentType)
-			Parent = parent;
-		id = g_strdup (Parent->GetId ());
-		pOp = pDoc->GetNewOperation (gcp::GCP_DELETE_OPERATION);
-		pOp->AddObject (Parent);
 	} else {
 		pOp = pDoc->GetNewOperation (gcp::GCP_DELETE_OPERATION);
 		pOp->AddObject (m_pObject);

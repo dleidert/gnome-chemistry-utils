@@ -85,7 +85,7 @@ private:
 protected:
 	gccv::Text* m_Active;
 	list<xmlNodePtr> m_UndoList, m_RedoList;
-	xmlNodePtr m_CurNode, m_InitNode;
+	xmlNodePtr m_CurNode, m_InitNode, m_GroupNode;
 
 private:
 	bool m_bUndo;
@@ -105,6 +105,7 @@ private:
 	GtkSpinButton *m_RiseButton;
 	bool m_Dirty;
 	gulong m_UnderlineSignal, m_StrikethroughSignal, m_ForeSignal, m_RiseSignal;
+	gcu::Object *m_Group;
 
 GCU_PROP (std::string, FamilyName)
 GCU_PROP (PangoStyle, Style)

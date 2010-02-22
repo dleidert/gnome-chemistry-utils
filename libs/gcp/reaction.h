@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -97,6 +97,8 @@ Used to retrieve the y coordinate for alignment.
 @return y coordinate used for the reaction alignment.
 */
 	double GetYAlign ();
+
+	std::string Name ();
 };
 
 }	//	namespace gcp

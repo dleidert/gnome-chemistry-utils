@@ -4,7 +4,7 @@
  * GChemPaint library
  * text.h 
  *
- * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -174,6 +174,8 @@ and GCU_PROP_TEXT_JUSTIFICATION.
 /*!
 */
 	void JustificationChanged (GtkJustification justification);
+
+	std::string Name ();
 
 /*!\fn SetAnchor(gccv::Anchor Anchor)
 @param Anchor the new gccv::Anchor for the text.

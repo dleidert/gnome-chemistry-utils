@@ -4,7 +4,7 @@
  * GChemPaint library
  * mesomery-arrow.h 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -98,6 +98,8 @@ alignment is dealt with elsewhere.
 Exchange both ends or the arrow and their associated mesomers.
 */
 	void Reverse ();
+
+	std::string Name ();
 
 private:
 	Mesomer *m_Start, *m_End;

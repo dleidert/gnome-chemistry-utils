@@ -4,7 +4,7 @@
  * GChemPaint library
  * reactant.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -173,6 +173,8 @@ void Reactant::AddStoichiometry ()
 	Theme *pTheme= pDoc->GetTheme ();
 	WidgetData *pData = (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
 	gccv::Rect rect;
+	Operation *op = pDoc->GetNewOperation (GCP_MODIFY_OPERATION);
+	op->AddNode (GetGroup ()->Save (pXmlDoc), 0);
 	pData->GetObjectBounds (this, &rect);
 	double x = rect.x0 / pTheme->GetZoomFactor ();
 	Text *text = new Text (x, GetYAlign ());
@@ -196,7 +198,7 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 		gccv::Rect rect;
 		unsigned n = GetChildrenNumber ();
 		map<string, Object*>::iterator i;
-		Object *pObj;
+		Object *pObj, *parent = GetParent ();
 		if (n == 0)
 			delete this;
 		else if (n == 1) {
@@ -210,6 +212,7 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 					delete this;
 				}
 			}
+			parent->EmitSignal (OnChangedSignal);
 		} else if ((n == 2) && Stoichiometry) {
 			// Just need to space the two children
 			pData->GetObjectBounds (Stoichiometry, &rect);
@@ -256,6 +259,11 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 		}
 	}
 	return true;
+}
+
+std::string Reactant::Name ()
+{
+	return _("Reactant");
 }
 
 }	//	namespace gcp

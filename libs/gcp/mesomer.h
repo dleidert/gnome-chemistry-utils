@@ -4,7 +4,7 @@
  * GChemPaint library
  * mesomer.h 
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -112,6 +112,8 @@ mesomer at the other end of the arrow.
 @return th molecule associated with this mesomer.
 */
 	Molecule *GetMolecule () {return m_Molecule;}
+
+	std::string Name ();
 
 private:
 	Molecule *m_Molecule;

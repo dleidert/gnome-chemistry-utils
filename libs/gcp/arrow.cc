@@ -4,7 +4,7 @@
  * GChemPaint library
  * arrow.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,6 +31,7 @@
 #include <gcu/objprops.h>
 #include <gccv/group.h>
 #include <gccv/line-item.h>
+#include <glib/gi18n-lib.h>
 #include <list>
 #include <cstring>
 
@@ -221,6 +222,11 @@ bool Arrow::SetProperty (unsigned property, char const *value)
 	}
 	}
 	return true;
+}
+
+std::string Arrow::Name ()
+{
+	return _("Arrow");
 }
 
 }	//	namespace gcp

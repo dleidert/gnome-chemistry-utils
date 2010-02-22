@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.h 
  *
- * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -249,6 +249,8 @@ of the fragment.
 */
 	void Update ();
 	gccv::Item *GetChargeItem ();
+
+	std::string Name ();
 
 	typedef enum {
 		Invalid,

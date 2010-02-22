@@ -4,7 +4,7 @@
  * GChemPaint library
  * mechanism-arrow.cc 
  *
- * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +24,7 @@
  
 #include "config.h"
 #include "mechanism-arrow.h"
+#include <glib/gi18n.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
 #include <gcp/document.h>
@@ -313,6 +314,11 @@ void MechanismArrow::SetSelected (int state)
 		break;
 	}
 	static_cast <gccv::LineItem *> (m_Item)->SetLineColor (color);
+}
+
+std::string MechanismArrow::Name ()
+{
+	return _("Mechanism arrow");
 }
 
 }	//	namespace gcp

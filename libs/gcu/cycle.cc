@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/cycle.cc 
  *
- * Copyright (C) 2001-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +27,7 @@
 #include "atom.h"
 #include "bond.h"
 #include "molecule.h"
+#include <glib/gi18n-lib.h>
 
 namespace gcu {
 
@@ -214,6 +215,11 @@ int Cycle::GetFusedBonds ()
 	for (i = m_Bonds.begin (); i != end; i++)
 		if ((*i).second.fwd->IsCyclic() > 1) n++;
 	return n;
+}
+
+std::string Cycle::Name ()
+{
+	return _("Cycle");
 }
 
 }	//	namespace gcu

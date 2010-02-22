@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.cc 
  *
- * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -1526,6 +1526,11 @@ void Fragment::Update () {
 gccv::Item *Fragment::GetChargeItem ()
 {
 	return (m_Atom)? m_Atom->GetChargeItem (): NULL;
+}
+
+std::string Fragment::Name ()
+{
+	return _("Fragment");
 }
 
 }	//	namespace gcp

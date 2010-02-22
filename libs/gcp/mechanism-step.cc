@@ -4,7 +4,7 @@
  * GChemPaint library
  * mechanism-step.cc 
  *
- * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "mechanism-step.h"
+#include <glib/gi18n.h>
 
 namespace gcp {
 	
@@ -37,6 +38,11 @@ MechanismStep::MechanismStep (gcu::TypeId type):
 
 MechanismStep::~MechanismStep ()
 {
+}
+
+std::string MechanismStep::Name ()
+{
+	return _("Mechanism step");
 }
 
 }	//	namespace gcp

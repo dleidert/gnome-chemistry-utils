@@ -1,5 +1,70 @@
 ##Text encoding: utf-8
 
+2010-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: add a localizable identity to objects.
+	* libs/gcp/arrow.cc: ditto.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/docprop.cc: ditto.
+	* libs/gcp/docprop.h: ditto.
+	* libs/gcp/electron.cc: ditto.
+	* libs/gcp/electron.h: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/mechanism-arrow.cc: ditto.
+	* libs/gcp/mechanism-arrow.h: ditto.
+	* libs/gcp/mechanism-step.cc: ditto.
+	* libs/gcp/mechanism-step.h: ditto.
+	* libs/gcp/mesomer.cc: ditto.
+	* libs/gcp/mesomer.h: ditto.
+	* libs/gcp/mesomery-arrow.cc: ditto.
+	* libs/gcp/mesomery-arrow.h: ditto.
+	* libs/gcp/mesomery.cc: ditto.
+	* libs/gcp/mesomery.h: ditto.
+	* libs/gcp/reactant.cc: fixed critical reaction stoichiometry issues.
+	* libs/gcp/reactant.h: add a localizable identity to objects.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-operator.cc: ditto.
+	* libs/gcp/reaction-operator.h: ditto.
+	* libs/gcp/reaction-prop.cc: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* libs/gcp/reaction-step.cc: ditto.
+	* libs/gcp/reaction-step.h: ditto.
+	* libs/gcp/reaction.cc: ditto.
+	* libs/gcp/reaction.h: ditto.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcp/text.h: ditto.
+	* libs/gcu/atom.cc: ditto.
+	* libs/gcu/atom.h: ditto.
+	* libs/gcu/bond.cc: ditto.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/chain.cc: ditto.
+	* libs/gcu/chain.h: ditto.
+	* libs/gcu/cycle.cc: ditto.
+	* libs/gcu/cycle.h: ditto.
+	* libs/gcu/document.cc: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+	* plugins/paint/arrows/retrosynthesis.cc: ditto.
+	* plugins/paint/arrows/retrosynthesis.h: ditto.
+	* plugins/paint/arrows/retrosynthesisarrow.cc: ditto.
+	* plugins/paint/arrows/retrosynthesisarrow.h: ditto.
+	* plugins/paint/arrows/retrosynthesisstep.cc: ditto.
+	* plugins/paint/arrows/retrosynthesisstep.h: ditto.
+	* plugins/paint/atoms/orbital.cc: ditto.
+	* plugins/paint/atoms/orbital.h: ditto.
+	* plugins/paint/selection/erasertool.cc: ditto.
+	* plugins/paint/selection/group.cc: ditto.
+	* plugins/paint/selection/group.h: ditto.
+	* plugins/paint/text/texttool.cc: fixed critical reaction stoichiometry
+	issues.
+	* plugins/paint/text/texttool.h: ditto.
+	* programs/crystal/celldlg.cc: fixed copyright.
+	* ui/crystal/cell.ui: fixed duplicate Ids.
+
 2010-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/line.cc: fixed for vector targets not supporting transparency.
 	* libs/gcp/bond.cc: correctly pack crossing bonds.

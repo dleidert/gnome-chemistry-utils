@@ -2,7 +2,7 @@
  * GChemPaint selection plugin
  * group.h
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -58,6 +58,7 @@ public:
 	void Transform2D (Matrix2D& m, double x, double y);
 	double GetYAlign ();
 	void OnLoaded ();
+	std::string Name();
 
 private:
 	void Align ();

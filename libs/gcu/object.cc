@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * object.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +24,7 @@
 #include "object.h"
 #include "objprops.h"
 #include "document.h"
+#include <glib/gi18n.h>
 #include <string>
 #include <iostream>
 #include <vector>
@@ -438,6 +439,16 @@ TypeId Object::AddType (string TypeName, Object* (*Create) (), TypeId id)
 	return typedesc.Id;
 }
 
+void Object::AddAlias (TypeId id, std::string TypeName)
+{
+	if (id > TypeNames.size ())
+		return;
+	string &name = TypeNames[id];
+	if (name.length () == 0)
+		return;
+	Types[TypeName] = Types[name];
+}
+
 Object* Object::CreateObject (const string& TypeName, Object* parent)
 {
 	TypeDesc& typedesc = Types[TypeName];
@@ -652,6 +663,16 @@ void Object::SetDirty (bool dirty)
 		if (doc)
 			doc->NotifyDirty (this);
 	}
+}
+
+std::string Object::Identity ()
+{
+	return Name () + " " + GetId ();
+}
+
+std::string Object::Name ()
+{
+	return _("Object");
 }
 
 }	//	namespace gcu

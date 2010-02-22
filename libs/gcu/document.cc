@@ -137,4 +137,9 @@ bool Document::Loaded () throw (LoaderError)
 	return count > 0;
 }
 
+std::string Document::Name ()
+{
+	return _("Document");
+}
+
 }	//	namespace gcu

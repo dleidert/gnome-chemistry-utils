@@ -30,6 +30,7 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <glib/gi18n.h>
 #include <gccv/canvas.h>
 #include <gccv/circle.h>
 #include <gccv/group.h>
@@ -321,6 +322,11 @@ void Electron::AddItem ()
 		m_Item = circle;
 	}
 	parent->MoveToFront (m_Item);
+}
+
+std::string Electron::Name ()
+{
+	return _("Electron");
 }
 
 }	//	namespace gcp
