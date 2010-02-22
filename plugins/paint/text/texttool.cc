@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * texttool.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -44,6 +44,10 @@
 
 using namespace gcu;
 extern GtkTargetEntry const text_targets[];
+namespace gcp {
+extern xmlDocPtr pXmlDoc;
+};
+
 
 GtkTargetEntry const text_targets[] = {
 	{(char *) GCHEMPAINT_ATOM_NAME,  0, gcp::GCP_CLIPBOARD_NATIVE},
@@ -114,7 +118,7 @@ gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 {
 	m_Active = NULL;
 	m_bUndo = true;
-	m_CurNode = m_InitNode = NULL;
+	m_CurNode = m_InitNode = m_GroupNode = NULL;
 	m_Strikethrough = false;
 	m_FontDesc = NULL;
 	gcp::Theme *pTheme = gcp::TheThemeManager.GetTheme ("Default");
@@ -128,6 +132,7 @@ gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 	m_Rise = 0;
 	m_Color = RGBA_BLACK;
 	m_SelSignal = 0;
+	m_Group = NULL;
 }
 
 gcpTextTool::~gcpTextTool ()
@@ -173,6 +178,9 @@ bool gcpTextTool::OnClicked ()
 			BuildAttributeList ();
 		else
 			UpdateAttributeList ();
+		m_Group = m_pObject->GetGroup ();
+		if (m_pView->GetDoc ()->GetCurrentOperation () == NULL && m_Group)
+			m_GroupNode = m_Group->Save (gcp::pXmlDoc);
 	}
 	return true;
 }
@@ -341,43 +349,64 @@ bool gcpTextTool::Unselect ()
 	xmlBufferPtr endbuf = xmlBufferCreate ();
 	xmlNodeDump (initbuf, m_pApp->GetXmlDoc (), m_InitNode, 0, 0);
 	xmlNodeDump (endbuf, m_pApp->GetXmlDoc (), m_CurNode, 0, 0);
-	if (strcmp ((char*) initbuf->content, (char*) endbuf->content))
-	{
-		char* initval = (char*) xmlNodeGetContent (m_InitNode);
-		char* endval = (char*) xmlNodeGetContent (m_CurNode);
-		gcp::Operation *pOp = NULL;
-		gcp::Fragment *fragment = dynamic_cast <gcp::Fragment *> (pObj);
-		map<Atom*, Bond*>::iterator i;
-		gcp::Bond *pBond = reinterpret_cast <gcp::Bond *> (fragment->GetAtom ()->GetFirstBond (i));
-		if ((initval && strlen (initval))) {
-			if (endval && strlen (endval)) {
+	gcp::Operation *pOp = NULL;
+	if (strcmp ((char*) initbuf->content, (char*) endbuf->content)) {
+		if (m_Group) {
+			pOp = m_pView->GetDoc ()->GetCurrentOperation ();
+			if (!pOp) {
 				pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
-				pOp->AddNode (m_InitNode, 0);
-				pOp->AddNode (m_CurNode, 1);
-				if (pBond) {
-					pOp->AddObject (pBond, 0);
-					pOp->AddObject (pBond, 1);
-				}
-				m_CurNode = m_InitNode = NULL;
-			} else {
-				pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_DELETE_OPERATION);
-				pOp->AddNode (m_InitNode);
-				if (pBond)
-					pOp->AddObject (pBond);
-				m_InitNode = NULL;
+				pOp->AddNode (m_GroupNode, 0);
 			}
-		} else if (endval && strlen (endval)) {
-			pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_ADD_OPERATION);
-			pOp->AddNode (m_CurNode);
-			m_CurNode = NULL;
+			pOp->AddNode (m_Group->Save (gcp::pXmlDoc), 1);
+			m_Group = NULL;
+			m_GroupNode = NULL;
+		} else {
+			char* endval = (char*) xmlNodeGetContent (m_CurNode);
+			char* initval = (char*) xmlNodeGetContent (m_InitNode);
+			gcp::Fragment *fragment = dynamic_cast <gcp::Fragment *> (pObj);
+			map<Atom*, Bond*>::iterator i;
+			gcp::Bond *pBond = (fragment)? reinterpret_cast <gcp::Bond *> (fragment->GetAtom ()->GetFirstBond (i)): NULL;
+			if ((initval && strlen (initval))) {
+				if (endval && strlen (endval)) {
+					pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+					pOp->AddNode (m_InitNode, 0);
+					pOp->AddNode (m_CurNode, 1);
+					if (pBond) {
+						pOp->AddObject (pBond, 0);
+						pOp->AddObject (pBond, 1);
+					}
+					m_CurNode = m_InitNode = NULL;
+				} else {
+					pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_DELETE_OPERATION);
+					pOp->AddNode (m_InitNode);
+					if (pBond)
+						pOp->AddObject (pBond);
+					m_InitNode = NULL;
+				}
+			} else if (endval && strlen (endval)) {
+				pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_ADD_OPERATION);
+				pOp->AddNode (m_CurNode);
+				m_CurNode = NULL;
+			}
+			if (initval)
+				xmlFree (initval);
+			if (endval)
+				xmlFree (endval);
 		}
-		if (initval)
-			xmlFree (initval);
-		if (endval)
-			xmlFree (endval);
 		if (pOp)
 			m_pView->GetDoc ()->PushOperation (pOp, m_bUndo);
 		m_bUndo = true;
+	} else {
+		if (m_Group) {
+			if (m_GroupNode) {
+				xmlFree (m_GroupNode);
+				m_GroupNode = NULL;
+			}
+			m_Group = NULL;
+		}
+		pOp = m_pView->GetDoc ()->GetCurrentOperation ();
+		if (pOp)
+			m_pView->GetDoc ()->AbortOperation ();
 	}
 	xmlBufferFree (initbuf);
 	xmlBufferFree (endbuf);
@@ -390,8 +419,10 @@ bool gcpTextTool::Unselect ()
 		Object* pMol = pObj->GetMolecule ();	//if pObj is a fragment
 		if (pMol)
 			pObj = pMol;
+		gcu::Object *parent = pObj->GetParent ();
 		m_pView->GetDoc ()->Remove (pObj);
 		m_pView->GetDoc ()->AbortOperation ();
+		parent->EmitSignal (gcp::OnChangedSignal);
 	}
 	m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", m_pView->GetDoc ()->HasChildren ());
 	return true;

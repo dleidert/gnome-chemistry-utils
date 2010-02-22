@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * texttool.h 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -76,7 +76,7 @@ private:
 protected:
 	GnomeCanvasPango* m_Active;
 	list<xmlNodePtr> m_UndoList, m_RedoList;
-	xmlNodePtr m_CurNode, m_InitNode;
+	xmlNodePtr m_CurNode, m_InitNode, m_GroupNode;
 
 private:
 	bool m_bUndo;
@@ -96,6 +96,7 @@ private:
 	GtkSpinButton *m_RiseButton;
 	bool m_Dirty;
 	gulong m_SelSignal, m_UnderlineSignal, m_StrikethroughSignal, m_ForeSignal, m_RiseSignal;
+	gcu::Object *m_Group;
 
 GCU_PROP (char const *, FamilyName)
 GCU_PROP (PangoStyle, Style)

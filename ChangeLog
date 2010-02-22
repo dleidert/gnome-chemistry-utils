@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/reactant.cc: Fixed critical reaction stoichiometry issues.
+	* plugins/paint/text/texttool.cc: ditto.
+	* plugins/paint/text/texttool.h: ditto.
+
 2010-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: fixed some misplaced second lines in double bonds.
 
