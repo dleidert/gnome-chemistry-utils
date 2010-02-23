@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-02-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: add contextual menus for children.
+	* libs/gcp/electron.cc: set a default Id.
+	* libs/gcp/view.cc: ensure that deleted object ar removed from the
+	selection list.
+	* plugins/paint/atoms/chargetool.cc: fix position for unwanted
+	orientations.
+
 2010-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: add a localizable identity to objects.
 	* libs/gcp/arrow.cc: ditto.

@@ -254,6 +254,7 @@ void View::OnDeleteSelection (GtkWidget* w)
 				Op->AddObject (pObject);
 			pObject->Lock ();
 			parent = pObject->GetParent ();
+			m_pData->Unselect (pObject);
 			m_pDoc->Remove (pObject);
 			if (parent)
 				parent->EmitSignal (OnChangedSignal);

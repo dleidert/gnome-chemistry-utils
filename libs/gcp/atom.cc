@@ -43,6 +43,7 @@
 #include <glib/gi18n-lib.h>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 
 using namespace gcu;
 using namespace OpenBabel;
@@ -1945,6 +1946,25 @@ static void do_show_charge (GtkToggleAction *action, Atom *atom)
 	
 }
 
+static void do_select_child (Object *obj)
+{
+	Document *Doc = static_cast <Document *> (obj->GetDocument ());
+	View *view = Doc->GetView ();
+	WidgetData *data = view->GetData ();
+	data->UnselectAll ();
+	data->SetSelected (obj);
+}
+
+static void do_delete_child (Object *obj)
+{
+	Document *Doc = static_cast <Document *> (obj->GetDocument ());
+	View *view = Doc->GetView ();
+	WidgetData *data = view->GetData ();
+	data->UnselectAll ();
+	data->SetSelected (obj);
+	view->OnDeleteSelection (view->GetWidget ());
+}
+
 bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	bool result = false;
@@ -1990,6 +2010,33 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Atom'><menuitem action='show-charge'/></menu></popup></ui>", -1, NULL);
     }
+	if (HasChildren ()) {
+		if (!group)
+			group = gtk_action_group_new ("atom");
+		// add a submenu for each child
+		std::map< std::string, Object * >::iterator i;
+		for (Object *obj = GetFirstChild (i); obj; obj = GetNextChild (i)) {
+			string id = obj->Identity ();
+			string sel = id + "-select";
+			string del = id + "-delete";
+			action = gtk_action_new (id.c_str (), id.c_str (),NULL, NULL);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+			action = GTK_ACTION (gtk_action_new (sel.c_str (), _("Select"), _("Select child"), NULL));
+			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_select_child), obj);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+			action = GTK_ACTION (gtk_action_new (del.c_str (), _("Delete"), _("Delete child"), NULL));
+			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_delete_child), obj);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+			// now add the ui string
+			ostringstream str;
+			str << "<ui><popup><menu action='" << id << "'><menuitem action='" << sel <<
+				"'/><menuitem action='" << del << "'/></menu></popup></ui>";
+			gtk_ui_manager_add_ui_from_string (UIManager, str.str ().c_str (), -1, NULL);
+		}
+	}
 	if (group) {
 		gtk_ui_manager_insert_action_group (UIManager, group, 0);
 		g_object_unref (group);

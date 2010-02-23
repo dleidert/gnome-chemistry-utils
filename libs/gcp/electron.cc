@@ -56,6 +56,7 @@ Electron::Electron (Atom *pAtom, bool IsPair):
 	Object (ElectronType),
 	gccv::ItemClient ()
 {
+	SetId ("el1");
 	m_IsPair = IsPair;
 	m_pAtom = pAtom;
 	m_Pos = 1;

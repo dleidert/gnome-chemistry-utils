@@ -234,7 +234,7 @@ void gcpChargeTool::OnDrag ()
 		if (!(m_nState & GDK_SHIFT_MASK) && (m_dDist >= m_dDistMax) && m_bChanged) {
 			m_Item->SetVisible (false);
 			m_bChanged = false;
-		} else if ((anchor = pAtom->GetChargePosition (m_Pos, Angle * 180. / M_PI, x, y))) {
+		} else if ((anchor = pAtom->GetChargePosition (m_Pos, Angle * 180. / M_PI, x, y)) != gccv::AnchorCenter) {
 			m_dAngle = Angle;
 			if (m_nState & GDK_SHIFT_MASK) {
 				anchor = gccv::AnchorCenter;
