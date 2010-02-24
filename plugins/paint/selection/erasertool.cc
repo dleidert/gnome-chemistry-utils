@@ -159,12 +159,13 @@ void gcpEraserTool::OnRelease ()
 	}
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	gcp::Operation *pOp;
-	Object *pObj = m_pObject->GetGroup (), *Parent = m_pObject->GetParent ();
+	Object *pObj = m_pObject->GetGroup (), *Parent;
 	if (m_pObject->GetType () == AtomType) {
 		Object* parent = m_pObject->GetParent ();
 		if (parent->GetType () == FragmentType)
 			m_pObject = parent;
 	}
+	Parent = m_pObject->GetParent ();
 	if (pObj && (pObj->GetType () != MoleculeType || Parent->GetType () == AtomType)) {
 		pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 		pOp->AddObject (pObj, 0);
@@ -199,7 +200,6 @@ void gcpEraserTool::OnMotion ()
 			return; //It's an automatic object, can't be deleted
 		m_pData->SetSelected (m_pObject, gcp::SelStateErasing);
 		if (Id == AtomType) {
-			Object* parent = m_pObject->GetParent ();
 			std::map<Atom*, Bond*>::iterator i;
 			gcp::Bond* pBond = (gcp::Bond*)((gcp::Atom*)m_pObject)->GetFirstBond (i);
 			while (pBond) {

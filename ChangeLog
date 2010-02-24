@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-02-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: do not chage atom position to negative values
+	(actually huge values since it is unsigned).
+	* plugins/paint/selection/erasertool.cc: don't crash when deleting a
+	fragment.
+
 2010-02-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: add contextual menus for children.
 	* libs/gcp/electron.cc: set a default Id.

@@ -193,8 +193,12 @@ bool Fragment::OnChanged (bool save)
 			m_BeginAtom -= m_EndSel - CurPos;
 			m_EndAtom -= m_EndSel - CurPos;
 		} else if (length > 0 && CurPos < m_BeginAtom + length) {
-			m_BeginAtom -= length;
-			m_EndAtom -= length;
+			if (m_BeginAtom >= length) {
+				m_BeginAtom -= length;
+				m_EndAtom -= length;
+			} else {
+				m_BeginAtom = m_EndAtom = 0;
+			}
 		}
 	}
 	if (m_buf.length () < m_EndAtom) { // needed if the symbol of part of it has been destroyed
@@ -343,6 +347,7 @@ bool Fragment::OnChanged (bool save)
 				m_EndAtom = CurPos;
 		}
 	}
+printf("when done, atom: %u->%u\n",m_BeginAtom,m_EndAtom);
 	gccv::Rect rect;
 	m_TextItem->GetPositionAtIndex (m_BeginAtom, rect);
 	m_lbearing = rect.x0;
