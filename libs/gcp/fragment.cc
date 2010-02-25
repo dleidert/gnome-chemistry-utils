@@ -193,7 +193,7 @@ bool Fragment::OnChanged (bool save)
 			m_BeginAtom -= m_EndSel - CurPos;
 			m_EndAtom -= m_EndSel - CurPos;
 		} else if (length > 0 && CurPos < m_BeginAtom + length) {
-			if (m_BeginAtom >= length) {
+			if (m_BeginAtom >= static_cast <unsigned> (length)) {
 				m_BeginAtom -= length;
 				m_EndAtom -= length;
 			} else {
@@ -347,7 +347,6 @@ bool Fragment::OnChanged (bool save)
 				m_EndAtom = CurPos;
 		}
 	}
-printf("when done, atom: %u->%u\n",m_BeginAtom,m_EndAtom);
 	gccv::Rect rect;
 	m_TextItem->GetPositionAtIndex (m_BeginAtom, rect);
 	m_lbearing = rect.x0;
@@ -883,18 +882,23 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					new_tag->SetStartIndex (start);
 					new_tag->SetEndIndex (next);
 					Stoich = true;
-				}
-			} else if (start == tag->GetEndIndex () - 1) {
+				} else
+					tag->SetEndIndex (next);
+			} else if (start == tag->GetEndIndex ()) {
 				string repl (1, c);
 				char *buf = g_utf8_find_prev_char (text, text + start);
 				repl.append (buf, text + start - buf);
+				new_tag = new ChargeTextTag (size);
+				new_tag->SetStartIndex (tag->GetStartIndex ());
+				new_tag->SetEndIndex (next);
 				if (m_TextItem) {
 					m_TextItem->ReplaceText (repl, buf - text, text + start + 1 - buf);
 					m_buf = m_TextItem->GetText ();
 				} else
 					m_buf.replace (buf - text, repl.length (), repl.c_str ());
 				text = m_buf.c_str ();
-			}
+			} else
+				tag->SetEndIndex (tag->GetEndIndex () + 1);
 			if (new_tag) {
 				if (m_TextItem)
 					m_TextItem->InsertTextTag (new_tag);
@@ -936,43 +940,47 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 					}
 				} else {
 					// old charge is tag content minus the last character (+ or - just typed)
-					string old_charge (m_buf, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex () - 1);
+					string old_charge (m_buf, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex ());
 					char *nextch = NULL;
 					int charge = strtol (old_charge.c_str (), &nextch, 10);
 					if (charge == 0)
 						charge = 1;
 					if (nextch && !strncmp (nextch, "−", lenminus))
 						charge = -charge;
-					if (*(text + tag->GetEndIndex () - 1) == '+')
+					if (*(text + tag->GetEndIndex ()) == '+')
 						charge++;
 					else
 						charge--;
 					if (charge == 0) {
 						old_charge.clear ();
-						end -= tag->GetEndIndex () - tag->GetStartIndex ();
+						end -= tag->GetEndIndex () - tag->GetStartIndex () + 1;
 						next = tag->GetStartIndex ();
 						if (m_BeginAtom > start) {
 							m_BeginAtom -= tag->GetEndIndex () - tag->GetStartIndex ();
 							m_EndAtom -= tag->GetEndIndex () - tag->GetStartIndex ();
 						}
-						m_TextItem->ReplaceText (old_charge, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex ());
+						m_TextItem->ReplaceText (old_charge, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex () + 1);
 						m_buf = m_TextItem->GetText ();
 						text = m_buf.c_str ();
 						tag = NULL;
 						Charge = false;
 					} else {
-						nextch = g_strdup_printf ("%d", abs (charge));
+						nextch = (abs (charge) > 1)? g_strdup_printf ("%d", abs (charge)): g_strdup ("");
 						old_charge = string (nextch) + ((charge > 0)? "+": "−");
-						end -= tag->GetEndIndex () - tag->GetStartIndex () - old_charge.length ();
+						end -= tag->GetEndIndex () - tag->GetStartIndex () - old_charge.length () + 1;
+						start = tag->GetStartIndex ();
 						next = start + old_charge.length ();
 						if (m_BeginAtom > start) {
 							m_BeginAtom -= tag->GetEndIndex () - tag->GetStartIndex () - old_charge.length ();
 							m_EndAtom -= tag->GetEndIndex () - tag->GetStartIndex () - old_charge.length ();
 						}
-						m_TextItem->ReplaceText (old_charge, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex ());
+						m_TextItem->ReplaceText (old_charge, tag->GetStartIndex (), tag->GetEndIndex () - tag->GetStartIndex () + 1);
 						m_buf = m_TextItem->GetText ();
 						text = m_buf.c_str ();
 						g_free (nextch);
+						new_tag = new ChargeTextTag (size);
+						new_tag->SetStartIndex (start);
+						new_tag->SetEndIndex (next);
 					}
 				}
 				if (new_tag) {

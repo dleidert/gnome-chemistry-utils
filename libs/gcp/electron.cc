@@ -327,7 +327,7 @@ void Electron::AddItem ()
 
 std::string Electron::Name ()
 {
-	return _("Electron");
+	return m_IsPair? _("Electron pair"): _("Electron");
 }
 
 }	//	namespace gcp

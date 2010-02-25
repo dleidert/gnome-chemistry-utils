@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-02-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/electron.cc: use different nales for single electron and
+	electron pair.
+	* libs/gcp/fragment.cc: fixed some stoichiometry and charge issues.
+
 2010-02-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: do not chage atom position to negative values
 	(actually huge values since it is unsigned).
