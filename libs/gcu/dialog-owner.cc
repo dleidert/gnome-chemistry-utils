@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * gcu/dialog-owner.h
+ * gcu/dialog-owner.cc
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,8 +31,10 @@ using namespace std;
 namespace gcu
 {
 
-DialogOwner::DialogOwner ()
+DialogOwner::DialogOwner (char const *prop_ui_file)
 {
+	if (prop_ui_file)
+		m_PropUIFile = prop_ui_file;
 }
 
 DialogOwner::~DialogOwner ()
@@ -66,6 +68,16 @@ void DialogOwner::ClearDialogs ()
 		else
 			Dialogs.erase (i);
 	}
+}
+
+bool DialogOwner::HasPropertiesDialog () const
+{
+	return m_PropUIFile.length () > 0;
+}
+
+Dialog *DialogOwner::GetPropertiesDialog ()
+{
+	return NULL;
 }
 
 }	//	namespace gcu

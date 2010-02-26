@@ -42,6 +42,8 @@
 namespace gcu
 {
 
+class Dialog;
+
 /*!\enum GcuTypeId
 This enumeration is used to determine the type of an Object instance.
 Possible values are:
@@ -524,10 +526,20 @@ Deletes all children. Derived classes might override this method if needed.
 	virtual std::string Name ();
 
 /*!
-@return the object identity comosed of the object name as returned by
+@return the object identity composed of the object name as returned by
 gcu::Object::Name() concatenated with its unique Id as returned by gcu::Object::GetId().
 */
 	std::string Identity ();
+
+/*!
+@return true if a properties dialog exists for this object.
+*/
+	bool HasPropertiesDialog () const;
+
+/*!
+@return the gcu::Dialog related to the object properties or NULL if none exists.
+*/
+	Dialog *GetPropertiesDialog ();
 
 /*!
 @param TypeName the name of the new type.

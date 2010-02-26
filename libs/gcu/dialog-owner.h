@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/dialog-owner.h
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -46,7 +46,7 @@ public:
 /*!
 The constructor.
 */
-	DialogOwner ();
+	DialogOwner (char const *prop_ui_file = NULL);
 /*!
 The destructor.
 */
@@ -64,12 +64,23 @@ The destructor.
 */
 	void ClearDialogs ();
 
+/*!
+@return true if a properties dialog exists for this object.
+*/
+	bool HasPropertiesDialog () const;
+
+/*!
+@return the gcu::Dialog related to the object properties or NULL if none exists.
+*/
+	virtual gcu::Dialog *GetPropertiesDialog ();
+
 private:
 	bool AddDialog (std::string name, Dialog *dialog) ;
 	void RemoveDialog (std::string name)  {Dialogs.erase (name);}
 
 private:
 	std::map <std::string, Dialog*> Dialogs;
+	std::string m_PropUIFile;
 };
 
 }	// namespace gcu

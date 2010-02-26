@@ -41,6 +41,7 @@ gcu::TypeId OrbitalType;
 
 gcpOrbital::gcpOrbital (gcp::Atom *parent, gcpOrbitalType type):
 	gcu::Object (OrbitalType),
+	gcu::DialogOwner (UIDIR"/orbital-prop.ui"),
 	gccv::ItemClient (),
 	m_Atom (parent),
 	m_Type (type),
@@ -247,4 +248,9 @@ void gcpOrbital::SetSelected (int state)
 std::string gcpOrbital::Name ()
 {
 	return _("Orbital");
+}
+
+bool gcpOrbital::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+{
+	return Object::BuildContextualMenu (UIManager, object, x, y);
 }

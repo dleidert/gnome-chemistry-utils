@@ -399,6 +399,17 @@ bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object, doubl
 	return result | ((m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false);
 }
 
+bool Object::HasPropertiesDialog () const
+{
+	DialogOwner const *owner = dynamic_cast <DialogOwner const *> (this);
+	return (owner != NULL)? owner->HasPropertiesDialog (): false;
+}
+
+Dialog *Object::GetPropertiesDialog ()
+{
+	return dynamic_cast <DialogOwner *> (this)->GetPropertiesDialog ();
+}
+
 Object* Object::GetAtomAt (G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED double z)
 {
 	return NULL;

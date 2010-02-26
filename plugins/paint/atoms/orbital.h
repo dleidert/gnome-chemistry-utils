@@ -25,6 +25,7 @@
 #ifndef GCHEMPAINT_ORBITAL_H
 #define GCHEMPAINT_ORBITAL_H
 
+#include <gcu/dialog-owner.h>
 #include <gcu/object.h>
 #include <gccv/item-client.h>
 
@@ -45,7 +46,7 @@ typedef enum {
 #define GCP_ORBITAL_D_WIDTH 0.6
 #define GCP_ORBITAL_DZ2_FACTOR .3
 
-class gcpOrbital: public gcu::Object, public gccv::ItemClient
+class gcpOrbital: public gcu::Object, public gcu::DialogOwner, public gccv::ItemClient
 {
 public:
 	gcpOrbital (gcp::Atom *parent, gcpOrbitalType type);
@@ -56,6 +57,7 @@ public:
 	bool Load (xmlNodePtr node);
 	void SetSelected (int state);
 	std::string Name ();
+	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
 
 private:
 	gcp::Atom *m_Atom;
