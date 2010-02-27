@@ -110,6 +110,7 @@ plugins/paint/atoms/chargetool.cc
 plugins/paint/atoms/electrontool.cc
 plugins/paint/atoms/orbital.cc
 [type: gettext/glade]plugins/paint/atoms/orbital.ui
+[type: gettext/glade]plugins/paint/atoms/orbital-prop.ui
 plugins/paint/atoms/plugin.cc
 [type: gettext/glade]plugins/paint/bonds/bond.ui
 plugins/paint/bonds/bondtool.cc
