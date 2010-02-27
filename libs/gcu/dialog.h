@@ -125,6 +125,8 @@ should not be closed.
 */
 	void Present () {gtk_window_present (dialog);}
 
+	void SetTransientFor (GtkWindow *window);
+
 protected:
 /*!
 @param Entry: the GtkEntry from which the number should be retrieved.

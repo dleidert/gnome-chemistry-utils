@@ -33,13 +33,18 @@ namespace gcp {
 	class Atom;
 };
 
+namespace gcu {
+	class Dialog;
+};
+
 extern gcu::TypeId OrbitalType;
 
 typedef enum {
 	GCP_ORBITAL_TYPE_S,
 	GCP_ORBITAL_TYPE_P,
 	GCP_ORBITAL_TYPE_DXY,
-	GCP_ORBITAL_TYPE_DZ2
+	GCP_ORBITAL_TYPE_DZ2,
+	GCP_ORBITAL_INVALID
 } gcpOrbitalType;
 
 #define GCP_ORBITAL_P_WIDTH 0.8
@@ -57,7 +62,9 @@ public:
 	bool Load (xmlNodePtr node);
 	void SetSelected (int state);
 	std::string Name ();
-	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	char const *HasPropertiesDialog () const;
+	gcu::Dialog *BuildPropertiesDialog ();
 
 private:
 	gcp::Atom *m_Atom;

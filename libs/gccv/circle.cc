@@ -65,12 +65,12 @@ void Circle::GetPosition (double &x, double &y)
 double Circle::Distance (double x, double y, Item **item) const
 {
 	double result;
-	x -= m_x0;
-	y -= m_y0;
+	x -= m_x;
+	y -= m_y;
 	result = sqrt (x * x + y * y);
 	if (item)
 		*item = const_cast <Circle *> (this);
-	if (GetFillColor () & 0xff && result < m_Radius + GetLineWidth () / 2.)
+	if ((GetFillColor () & 0xff) && result < m_Radius + GetLineWidth () / 2.)
 		return 0.;
 	return fabs (result - m_Radius) - GetLineWidth () / 2.;
 }

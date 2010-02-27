@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2010-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/circle.cc: fixed distance evaluation.
+	* libs/gcp/atom.cc: don't crash in destructor.
+	* libs/gcu/dialog-owner.cc: reverse previous change (don't belong 
+	to this class).
+	* libs/gcu/dialog-owner.h: ditto.
+	* libs/gcu/dialog.cc: add Dialog::SetTransientFor().
+	* libs/gcu/dialog.h: ditto.
+	* libs/gcu/object.cc: make properties dialogs work.
+	* libs/gcu/object.h: ditto.
+	* plugins/paint/atoms/Makefile.am: add orbital-tool.ui.
+	* plugins/paint/atoms/orbital-prop.ui: fixed some issues.
+	* plugins/paint/atoms/orbital.cc: implement properties dialog and contextual
+	menu.
+	* plugins/paint/atoms/orbital.h: ditto.
+
 2010-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/dialog-owner.cc: start wrking on generic properties dialogs
 	for objects.

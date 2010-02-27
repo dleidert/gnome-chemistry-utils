@@ -532,14 +532,14 @@ gcu::Object::Name() concatenated with its unique Id as returned by gcu::Object::
 	std::string Identity ();
 
 /*!
-@return true if a properties dialog exists for this object.
+@return the name of the properties dialog for this object if one exists, or NULL.
 */
-	bool HasPropertiesDialog () const;
+	virtual char const *HasPropertiesDialog () const;
 
 /*!
-@return the gcu::Dialog related to the object properties or NULL if none exists.
+Exposes the gcu::Dialog related to the object properties if it exists.
 */
-	Dialog *GetPropertiesDialog ();
+	void ShowPropertiesDialog ();
 
 /*!
 @param TypeName the name of the new type.
@@ -655,6 +655,12 @@ the class seems possible.
 @return a new SignalId.
 */
 	static SignalId CreateNewSignalId ();
+
+protected:
+/*!
+@return the gcu::Dialog related to the object properties or NULL if none exists.
+*/
+	virtual Dialog *BuildPropertiesDialog ();
 
 private:
 	Object* RealGetDescendant (const gchar* Id) const;

@@ -15,7 +15,7 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkDialog" id="properties">
+  <object class="GtkDialog" id="orbital-properties">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Orbital properties</property>
     <property name="type_hint">normal</property>
@@ -32,6 +32,7 @@
             <property name="n_columns">4</property>
             <property name="column_spacing">10</property>
             <property name="row_spacing">6</property>
+            <property name="homogeneous">True</property>
             <child>
               <object class="GtkLabel" id="prop-lbl">
                 <property name="visible">True</property>
@@ -264,7 +265,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="close">
+              <object class="GtkButton" id="cancel">
                 <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -288,7 +289,7 @@
     </child>
     <action-widgets>
       <action-widget response="0">help</action-widget>
-      <action-widget response="0">close</action-widget>
+      <action-widget response="0">cancel</action-widget>
     </action-widgets>
   </object>
 </interface>

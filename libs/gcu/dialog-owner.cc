@@ -31,10 +31,8 @@ using namespace std;
 namespace gcu
 {
 
-DialogOwner::DialogOwner (char const *prop_ui_file)
+DialogOwner::DialogOwner ()
 {
-	if (prop_ui_file)
-		m_PropUIFile = prop_ui_file;
 }
 
 DialogOwner::~DialogOwner ()
@@ -68,16 +66,6 @@ void DialogOwner::ClearDialogs ()
 		else
 			Dialogs.erase (i);
 	}
-}
-
-bool DialogOwner::HasPropertiesDialog () const
-{
-	return m_PropUIFile.length () > 0;
-}
-
-Dialog *DialogOwner::GetPropertiesDialog ()
-{
-	return NULL;
 }
 
 }	//	namespace gcu

@@ -23,6 +23,7 @@
 #include "config.h"
 #include "object.h"
 #include "objprops.h"
+#include "dialog.h"
 #include "document.h"
 #include <glib/gi18n.h>
 #include <string>
@@ -399,15 +400,30 @@ bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object, doubl
 	return result | ((m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false);
 }
 
-bool Object::HasPropertiesDialog () const
+char const *Object::HasPropertiesDialog () const
 {
-	DialogOwner const *owner = dynamic_cast <DialogOwner const *> (this);
-	return (owner != NULL)? owner->HasPropertiesDialog (): false;
+	return NULL;
 }
 
-Dialog *Object::GetPropertiesDialog ()
+Dialog *Object::BuildPropertiesDialog ()
 {
-	return dynamic_cast <DialogOwner *> (this)->GetPropertiesDialog ();
+	return NULL;
+}
+
+void Object::ShowPropertiesDialog ()
+{
+	const char *dlg_name = HasPropertiesDialog ();
+	if (!dlg_name)
+		return;
+	DialogOwner *owner = dynamic_cast <DialogOwner *> (this);
+	if (!owner)
+		return;
+	Dialog *dlg = owner->GetDialog (dlg_name);
+	if (!dlg)
+		dlg = BuildPropertiesDialog ();
+	if (dlg)
+		dlg->Present ();
+	
 }
 
 Object* Object::GetAtomAt (G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED double z)

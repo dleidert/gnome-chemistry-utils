@@ -24,6 +24,8 @@
 
 #include "config.h"
 #include "orbital.h"
+#include <gcu/dialog.h>
+#include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/document.h>
 #include <gcp/settings.h>
@@ -37,11 +39,142 @@
 #include <glib/gi18n.h>
 #include <cstring>
 
+////////////////////////////////////////////////////////////////////////////////
+// class gcpOrbitalProps: the Orbital properties dialog class
+
+namespace gcp {
+extern xmlDocPtr pXmlDoc;
+}
+
+class gcpOrbitalProps: public gcu::Dialog
+{
+public:
+	friend class gcpOrbital;
+	gcpOrbitalProps (gcp::Document *doc, gcpOrbital *orbital);
+	~gcpOrbitalProps ();
+
+	static void OnStartEditing (gcpOrbitalProps *dlg);
+	static void OnEndEditing (gcpOrbitalProps *dlg);
+	static void OnTypeChanged (gcpOrbitalProps *dlg, GtkToggleButton *btn);
+	static void OnCoefChanged (gcpOrbitalProps *dlg, GtkSpinButton *btn);
+	static void OnRotationChanged (gcpOrbitalProps *dlg, GtkSpinButton *btn);
+
+private:
+	gcpOrbital *m_Orbital;
+	gcp::Document *m_Doc;
+	//values on edition start
+	gcpOrbitalType m_Type;
+	double m_Coef, m_Rotation;
+	xmlNodePtr m_Node;
+};
+
+gcpOrbitalProps::gcpOrbitalProps (gcp::Document *doc, gcpOrbital *orbital):
+	gcu::Dialog (doc? doc->GetApplication (): NULL, UIDIR"/orbital-prop.ui", "orbital-properties", GETTEXT_PACKAGE, orbital)
+{
+	m_Orbital = orbital;
+	m_Doc = doc;
+	SetTransientFor (doc->GetGtkWindow ());
+	m_Type = GCP_ORBITAL_INVALID;
+	m_Rotation = m_Coef = 0.;
+	m_Node = NULL;
+	g_signal_connect_swapped (dialog, "focus-in-event", G_CALLBACK (gcpOrbitalProps::OnStartEditing), this);
+	g_signal_connect_swapped (dialog, "focus-out-event", G_CALLBACK (gcpOrbitalProps::OnEndEditing), this);
+	g_signal_connect_swapped (dialog, "destroy", G_CALLBACK (gcpOrbitalProps::OnEndEditing), this);
+	GtkWidget *w = GetWidget ("s-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_S));
+	if (m_Orbital->GetType () == GCP_ORBITAL_TYPE_S) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), true);
+		gtk_widget_set_sensitive (GetWidget ("rotation-btn"), false);
+		gtk_widget_set_sensitive (GetWidget ("rotation-btn"), false);
+	}
+	g_signal_connect_swapped (w, "toggled", G_CALLBACK (gcpOrbitalProps::OnTypeChanged), this);
+	w = GetWidget ("p-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_P));
+	if (m_Orbital->GetType () == GCP_ORBITAL_TYPE_P)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), true);
+	g_signal_connect_swapped (w, "toggled", G_CALLBACK (gcpOrbitalProps::OnTypeChanged), this);
+	w = GetWidget ("dxy-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_DXY));
+	if (m_Orbital->GetType () == GCP_ORBITAL_TYPE_DXY)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), true);
+	g_signal_connect_swapped (w, "toggled", G_CALLBACK (gcpOrbitalProps::OnTypeChanged), this);
+	w = GetWidget ("dz2-btn");
+	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_DZ2));
+	if (m_Orbital->GetType () == GCP_ORBITAL_TYPE_DZ2)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), true);
+	g_signal_connect_swapped (w, "toggled", G_CALLBACK (gcpOrbitalProps::OnTypeChanged), this);
+	w = GetWidget ("coef-btn");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_Orbital->GetCoef ());
+	g_signal_connect_swapped (w, "value-changed", G_CALLBACK (gcpOrbitalProps::OnCoefChanged), this);
+	w = GetWidget ("rotation-btn");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_Orbital->GetRotation ());
+	g_signal_connect_swapped (w, "value-changed", G_CALLBACK (gcpOrbitalProps::OnRotationChanged), this);
+}
+
+gcpOrbitalProps::~gcpOrbitalProps ()
+{
+	if (m_Node)
+		xmlFree (m_Node);
+}
+
+void gcpOrbitalProps::OnStartEditing (gcpOrbitalProps *dlg)
+{
+	if (dlg->m_Node)
+		xmlFree (dlg->m_Node);
+	dlg->m_Coef = dlg->m_Orbital->GetCoef ();
+	dlg->m_Rotation = dlg->m_Orbital->GetRotation ();
+	dlg->m_Type = dlg->m_Orbital->GetType ();
+	gcu::Object *obj = dlg->m_Orbital->GetGroup ();
+	dlg->m_Node = obj->Save (gcp::pXmlDoc);
+}
+
+void gcpOrbitalProps::OnEndEditing (gcpOrbitalProps *dlg)
+{
+	if (dlg->m_Orbital == NULL)
+		return;
+	bool changed = dlg->m_Coef != dlg->m_Orbital->GetCoef () || dlg->m_Type != dlg->m_Orbital->GetType () ||
+					(dlg->m_Type != GCP_ORBITAL_TYPE_S && dlg->m_Rotation != dlg->m_Orbital->GetRotation ());
+	if (changed) {
+		gcp::Operation *op = dlg->m_Doc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+		op->AddNode (dlg->m_Node, 0);
+		gcu::Object *obj = dlg->m_Orbital->GetGroup ();
+		op->AddObject (obj, 1);
+		dlg->m_Doc->FinishOperation ();
+	}
+	dlg->m_Node = NULL;
+}
+
+void gcpOrbitalProps::OnTypeChanged (gcpOrbitalProps *dlg, GtkToggleButton *btn)
+{
+	if (gtk_toggle_button_get_active (btn)) {
+		gcpOrbitalType type = static_cast <gcpOrbitalType> (GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (btn), "orbital-type")));
+		gtk_widget_set_sensitive (dlg->GetWidget ("rotation-btn"), type != GCP_ORBITAL_TYPE_S);
+		gtk_widget_set_sensitive (dlg->GetWidget ("rotation-btn"), type != GCP_ORBITAL_TYPE_S);
+		dlg->m_Orbital->SetType (type);
+		dlg->m_Doc->GetView ()->Update (dlg->m_Orbital);
+	}
+}
+
+void gcpOrbitalProps::OnCoefChanged (gcpOrbitalProps *dlg, GtkSpinButton *btn)
+{
+	dlg->m_Orbital->SetCoef (gtk_spin_button_get_value (btn));
+	dlg->m_Doc->GetView ()->Update (dlg->m_Orbital);
+}
+
+void gcpOrbitalProps::OnRotationChanged (gcpOrbitalProps *dlg, GtkSpinButton *btn)
+{
+	dlg->m_Orbital->SetRotation (gtk_spin_button_get_value (btn));
+	dlg->m_Doc->GetView ()->Update (dlg->m_Orbital);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// class gcpOrbital: atomic orbitals
+
 gcu::TypeId OrbitalType;
 
 gcpOrbital::gcpOrbital (gcp::Atom *parent, gcpOrbitalType type):
 	gcu::Object (OrbitalType),
-	gcu::DialogOwner (UIDIR"/orbital-prop.ui"),
+	gcu::DialogOwner (),
 	gccv::ItemClient (),
 	m_Atom (parent),
 	m_Type (type),
@@ -55,6 +188,9 @@ gcpOrbital::gcpOrbital (gcp::Atom *parent, gcpOrbitalType type):
 
 gcpOrbital::~gcpOrbital ()
 {
+	gcu::Dialog *dlg = GetDialog ("orbital-properties");
+	if (dlg)
+		static_cast <gcpOrbitalProps *> (dlg)->m_Orbital = NULL;
 }
 
 void gcpOrbital::AddItem ()
@@ -154,6 +290,9 @@ void gcpOrbital::AddItem ()
 		group->MoveToBack (m_Item);
 		break;
 	}
+	default:
+		// we might throw an exception here.
+		break;
 	}
 }
 
@@ -173,6 +312,8 @@ xmlNodePtr gcpOrbital::Save (xmlDocPtr xml) const
 		break;
 	case GCP_ORBITAL_TYPE_DZ2:
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> ("dz2"));
+		break;
+	default:
 		break;
 	}
 	buf = g_strdup_printf("%g", m_Coef);
@@ -250,7 +391,36 @@ std::string gcpOrbital::Name ()
 	return _("Orbital");
 }
 
-bool gcpOrbital::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+static void do_orbital_properties (gcu::Object *obj)
 {
-	return Object::BuildContextualMenu (UIManager, object, x, y);
+	obj->ShowPropertiesDialog ();
+}
+
+bool gcpOrbital::BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y)
+{
+	GtkActionGroup *group = gtk_action_group_new ("orbital");
+	GtkAction *action = gtk_action_new ("Orbital", _("Orbital"), NULL, NULL);
+	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
+	action = gtk_action_new ("orbital-properties", _("Properties"), _("Orbital properties"), NULL);
+	g_signal_connect_swapped (action, "activate", G_CALLBACK (do_orbital_properties), this);
+	gtk_action_group_add_action (group, action);
+	g_object_unref (action);
+	gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Orbital'><menuitem action='orbital-properties'/></menu></popup></ui>", -1, NULL);
+	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	g_object_unref (group);
+	gcu::Object::BuildContextualMenu (UIManager, object, x, y);
+	return true;
+}
+
+char const *gcpOrbital::HasPropertiesDialog () const
+{
+	return "orbital-properties";
+}
+
+gcu::Dialog *gcpOrbital::BuildPropertiesDialog ()
+{
+	gcp::Document *doc = static_cast <gcp::Document *> (GetDocument ());
+	gcu::Dialog *dlg = new gcpOrbitalProps (doc, this);
+	return dlg;
 }

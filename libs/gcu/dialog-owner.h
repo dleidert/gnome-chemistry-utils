@@ -46,7 +46,7 @@ public:
 /*!
 The constructor.
 */
-	DialogOwner (char const *prop_ui_file = NULL);
+	DialogOwner ();
 /*!
 The destructor.
 */
@@ -64,23 +64,12 @@ The destructor.
 */
 	void ClearDialogs ();
 
-/*!
-@return true if a properties dialog exists for this object.
-*/
-	bool HasPropertiesDialog () const;
-
-/*!
-@return the gcu::Dialog related to the object properties or NULL if none exists.
-*/
-	virtual gcu::Dialog *GetPropertiesDialog ();
-
 private:
 	bool AddDialog (std::string name, Dialog *dialog) ;
 	void RemoveDialog (std::string name)  {Dialogs.erase (name);}
 
 private:
 	std::map <std::string, Dialog*> Dialogs;
-	std::string m_PropUIFile;
 };
 
 }	// namespace gcu

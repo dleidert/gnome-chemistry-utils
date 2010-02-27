@@ -57,7 +57,8 @@ noinst_HEADERS = \
 
 uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/atoms
 dist_ui_DATA = \
-	orbital.ui
+	orbital.ui \
+	orbital-prop.ui
 
 
 $(BUILT_SOURCES): $(IMAGES)
