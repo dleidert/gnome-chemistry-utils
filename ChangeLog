@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2010-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.11.6).
+
+2010-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/circle.cc: fixed distance evaluation.
 	* libs/gcp/atom.cc: don't crash in destructor.
 	* libs/gcu/dialog-owner.cc: reverse previous change (don't belong 

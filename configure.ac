@@ -1,4 +1,4 @@
-AC_INIT([gnome-chemistry-utils], [0.11.5], [http://savannah.nongnu.org/bugs/?group=gchemutils])
+AC_INIT([gnome-chemistry-utils], [0.11.6], [http://savannah.nongnu.org/bugs/?group=gchemutils])
 AC_CONFIG_SRCDIR([libs/gcu/gcuperiodic.c])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AM_MAINTAINER_MODE
