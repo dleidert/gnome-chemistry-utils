@@ -88,7 +88,7 @@ Atom::~Atom ()
 		pView->Remove (electron);
 		electron->SetParent (NULL); // avoids a call to RemoveElectron()
 		delete electron;
-		electron = GetNextChild (i);
+		electron = GetFirstChild (i);
 	}
 	if (m_Layout)
 		g_object_unref (G_OBJECT (m_Layout));

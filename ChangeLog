@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fixed a potential crasher.
+
 2010-02-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/reactant.cc: Fixed critical reaction stoichiometry issues.
 	* plugins/paint/text/texttool.cc: ditto.

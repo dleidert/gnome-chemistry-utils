@@ -1,7 +1,8 @@
 Version 0.10.12
 	GChemPaint:
 		* Fixed double bond drawing.
-		* Fixed critical reaction stoichiometry issues.
+		* Fixed critical reaction stoichiometry issues (introduced in 0.10.10).
+		* Fixed potential crasher in gcp::Atom destructor.
 	Other:
 		* Fixed build with most recent goffice.
 
@@ -9,8 +10,6 @@ Version 0.10.11
 	GChemPaint:
 		* Fixed a clipboard issue.
 		* Survive forward references to atoms. [#28515]
-		* Fixed double bond drawing.
-		* Fixed critical reaction stoichiometry issues.
 	Other:
 		* Fixed build when using GNU gold ld. [#28479]
 		* Fixed some portabilitiy issues.
