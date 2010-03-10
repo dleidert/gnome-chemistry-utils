@@ -1,12 +1,14 @@
-AC_INIT([gnome-chemistry-utils], [0.11.6], [http://savannah.nongnu.org/bugs/?group=gchemutils])
+AC_PREREQ(2.64)
+
+AC_INIT([gnome-chemistry-utils], [0.11.6], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gchemutils],[http://gchemutils.nongnu.org/])
 AC_CONFIG_SRCDIR([libs/gcu/gcuperiodic.c])
-AM_INIT_AUTOMAKE([dist-bzip2])
+AM_INIT_AUTOMAKE([1.11.1 dist-bzip2])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 AC_CONFIG_MACRO_DIR([m4])
 GCU_VERSION=$VERSION
 
-m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+AM_SILENT_RULES([yes])
 
 AM_CONFIG_HEADER([config.h])
 
@@ -18,11 +20,18 @@ AC_SUBST([LDFLAGS])
 AC_ISC_POSIX
 AC_PROG_CXX
 AC_HEADER_STDC
+
+LT_PREREQ([2.2.6])
 LT_INIT([disable-static])
+
 AC_PROG_LN_S
 DOLT
-IT_PROG_INTLTOOL([0.37.1])
+IT_PROG_INTLTOOL([0.40.6])
 GNOME_DOC_INIT
+
+GNOME_COMPILE_WARNINGS([maximum])
+GNOME_CXX_WARNINGS([yes])
+GNOME_MAINTAINER_MODE_DEFINES
 
 GCU_VERSION_INFO=`echo $GCU_VERSION | awk -F . '{ print $1+$2":"$3":"$2 }'`
 AC_SUBST([GCU_VERSION_INFO])

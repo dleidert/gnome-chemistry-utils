@@ -356,7 +356,11 @@ bool gcpCurvedArrowTool::AllowAsSource (gcp::Atom *atom)
 
 bool gcpCurvedArrowTool::AllowAsTarget (G_GNUC_UNUSED gcp::Atom *atom)
 {
-	return (atom == m_pObject)? false: true;
+	if (atom == m_pObject)
+		return false;
+	if (m_pObject->GetType () == gcu::AtomType && static_cast <gcp::Atom *> (m_pObject)->GetBond (atom))
+			return false;
+	return true;
 }
 
 bool gcpCurvedArrowTool::AllowAsSource (gcp::Bond *bond)
@@ -431,20 +435,27 @@ void gcpCurvedArrowTool::AtomToAdjBond ()
 	l = hypot (dx, dy);
 	dx /= l;
 	dy /= l;
+	// try to find on which side we are
+	if ((m_x - x0) * dx + (y0 - m_y) * dy < 0) {
+		dx = -dx;
+		dy = -dy;
+	}
 	x3 = (x0 + x1) / 2 + dx * pTheme->GetPadding ();
 	y3 = (y0 + y1) / 2 + dy * pTheme->GetPadding ();
 	l /= 2.;
 	m_CPx1 = m_CPx2 = l * dx;
 	m_CPy1 = m_CPy2 = l * dy;
 	double a = atan2 (-m_CPy1, m_CPx1) * 180. / M_PI;
-	start->GetPosition (a, x0, y0);
-	// convert to canvas coordinates
-	m_CPx0 = x0 *= pTheme->GetZoomFactor ();
-	m_CPy0 = y0 *= pTheme->GetZoomFactor ();
-	x1 = x0 + m_CPx1;
-	y1 = y0 + m_CPy1;
-	x2 = x3 + m_CPx1;
-	y2 = y3 + m_CPy1;
+	if (start->GetPosition (a, x0, y0)) {
+		// convert to canvas coordinates
+		m_CPx0 = x0 *= m_dZoomFactor;
+		m_CPy0 = y0 *= m_dZoomFactor;
+		x1 = x0 + m_CPx1;
+		y1 = y0 + m_CPy1;
+		x2 = x3 + m_CPx1;
+		y2 = y3 + m_CPy1;
+	} else
+		x0 = y0 = m_CPx1 = m_CPx2= m_CPy0 = m_CPy1 = x3 = y3 = 0;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -469,19 +480,25 @@ void gcpCurvedArrowTool::AtomToAtom ()
 	m_CPx1 = dy * l;
 	m_CPy1 = -dx * l;
 	double angle = -atan2 (m_CPy1, m_CPx1) * 180. / M_PI;
-	start->GetPosition (angle, x0, y0);
-	m_CPx0 = x0 *= m_dZoomFactor;
-	m_CPy0 = y0 *= m_dZoomFactor;
-	x1 = x0 + m_CPx1;
-	y1 = y0 + m_CPy1;
-	m_CPx2 = -dx * l;
-	m_CPy2 = -dy * l;
-	angle = -atan2 (m_CPy2, m_CPx2) * 180. / M_PI;
-	end->GetPosition (angle, x3, y3);
-	x3 *= m_dZoomFactor;
-	y3 *= m_dZoomFactor;
-	x2 = x3 + m_CPx2;
-	y2 = y3 + m_CPy2;
+	if (start->GetPosition (angle, x0, y0)) {
+		// convert to canvas coordinates
+		m_CPx0 = x0 *= m_dZoomFactor;
+		m_CPy0 = y0 *= m_dZoomFactor;
+		x1 = x0 + m_CPx1;
+		y1 = y0 + m_CPy1;
+		m_CPx2 = -dx * l;
+		m_CPy2 = -dy * l;
+		angle = -atan2 (m_CPy2, m_CPx2) * 180. / M_PI;
+		if (end->GetPosition (angle, x3, y3)) {
+			x3 *= m_dZoomFactor;
+			y3 *= m_dZoomFactor;
+			x2 = x3 + m_CPx2;
+			y2 = y3 + m_CPy2;
+		} else
+			goto ata_err;
+	} else
+ata_err:
+		x0 = y0 = m_CPx1 = m_CPx2= m_CPy0 = m_CPy1 = x3 = y3 = 0;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -562,6 +579,7 @@ void gcpCurvedArrowTool::BondToAdjAtom ()
 	m_CPy2 = dy * l;
 	x2 = x3 + m_CPx2;
 	y2 = y3 + m_CPy2;
+	m_LastTarget = m_Target;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -623,6 +641,29 @@ void gcpCurvedArrowTool::BondToAdjBond ()
 
 void gcpCurvedArrowTool::BondToAtom ()
 {
+	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., a, dx, dy;
+	gcp::Atom *start = static_cast <gcp::Atom *> (m_LastTarget),
+			  *end = static_cast <gcp::Atom *> (m_Target);
+	start->GetCoords (&x0, &y0);
+	end->GetCoords (&x1, &y1);
+	dx = x0 - x1;
+	dy = y0 - y1;
+	a = atan2 (-dy, dx) * 180. / M_PI;
+	if (end->GetPosition (a, x3, y3)) {
+		x3 *= m_dZoomFactor;
+		y3 *= m_dZoomFactor;
+		x2 = (x0 + x1) / 2. * m_dZoomFactor;
+		y2 = (y0 + y1) / 2. * m_dZoomFactor;
+		m_CPx2 = x2 - x3;
+		m_CPy2 = y2 - y3;
+		x0 = m_CPx0;
+		y0 = m_CPy0;
+		x1 = x0 + m_CPx1;
+		y1 = y0 + m_CPy1;
+	} else
+		x0 = y0 = x1 = y1 = 0.;
+	m_SourceAux = m_LastTarget;
+	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
 void gcpCurvedArrowTool::ElectronToAdjBond ()
