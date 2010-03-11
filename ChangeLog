@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/bezier-arrow.cc: fixed bounds.
+
 2010-03-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: modernize a bit.
 	* libs/gcu/xml-utils.cc: fixed ReadFloat().
