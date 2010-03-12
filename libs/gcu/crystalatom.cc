@@ -116,6 +116,8 @@ void CrystalAtom::SetColor(float red, float green, float blue, float alpha)
 
 void CrystalAtom::SetDefaultColor()
 {
+	if (!GetZ())
+		return;
 	m_bCustomColor = false;
 	double *Colors = Element::GetElement(GetZ())->GetDefaultColor();
 	m_fRed = (float) Colors[0];

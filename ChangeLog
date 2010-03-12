@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-03-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: Fixed typo.
+	* libs/gcu/crystalatom.cc: don't crash if atomic numer is 0.
+	* libs/gcu/xml-utils.cc: one more fix in ReadFloat().
+	* plugins/loaders/cif/cif.cc: fixed an atom_label issue.
+	* plugins/paint/residues/residues-dlg.cc: use the same user residues as
+	the library (don't have a duplicated symbol).
+
 2010-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: fixed bounds.
 

@@ -357,7 +357,7 @@ bool ReadFloat (xmlNodePtr node, char const *name, double &value, double default
 		value = default_value;
 		return false;
 	}
-	value = strtod (reinterpret_cast <char *> (buf), &end);
+	value = g_ascii_strtod (reinterpret_cast <char *> (buf), &end);
 	if (end && (*end)) {
 		xmlFree (buf);
 		value = default_value;

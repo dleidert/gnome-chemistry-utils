@@ -37,7 +37,7 @@
 #include <glib/gi18n-lib.h>
 #include <sstream>
 
-xmlDocPtr user_residues = NULL;
+extern xmlDocPtr user_residues;
 set<xmlDocPtr> docs;
 
 

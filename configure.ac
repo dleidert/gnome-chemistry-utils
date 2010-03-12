@@ -301,7 +301,7 @@ gnm_version=`pkg-config --modversion $libspreadsheet`
 AC_ARG_WITH(
 	[gnumeric-plugins-dir],
 	AC_HELP_STRING(
-		[--with-goffice-plugins-dir],
+		[--with-gnumeric-plugins-dir],
 		[path to Gnumeric plugins directory [default=auto]]
 	),
 	[

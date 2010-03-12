@@ -270,7 +270,14 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 											while (g_ascii_isalpha (val[i]))
 												i++;
 											val = val.substr (0, i);
-											atom->SetProperty (GCU_PROP_ATOM_SYMBOL, val.c_str ());
+											int z = Element::Z (val.c_str ());
+											while (i  && !z) {
+												i--;
+												val[i] = 0;
+												z = Element::Z (val.c_str ());
+											}
+											if (z)
+												atom->SetProperty (GCU_PROP_ATOM_SYMBOL, val.c_str ());
 										}
 										break;
 									}
