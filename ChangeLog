@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-03-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/residues/residues-dlg.cc: use the same user residues as
+	the library (don't have a duplicated symbol).
+
 2010-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.10.13).
 
