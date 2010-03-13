@@ -29,6 +29,7 @@
 #include "view.h"
 #include "widgetdata.h"
 #include <gcu/objprops.h>
+#include <gcu/xml-utils.h>
 #include <gccv/group.h>
 #include <gccv/line-item.h>
 #include <glib/gi18n-lib.h>
@@ -52,7 +53,6 @@ Arrow::~Arrow ()
 bool Arrow::Save (xmlDocPtr xml, xmlNodePtr node) const
 {
 	xmlNodePtr child;
-	gchar buf[16];
 	if (!node)
 		return false;
 	SaveId (node);
@@ -61,70 +61,39 @@ bool Arrow::Save (xmlDocPtr xml, xmlNodePtr node) const
 		xmlAddChild (node, child);
 	else
 		return false;
-	g_snprintf (buf, sizeof (buf), "%g", m_x);
-	xmlNewProp (child, (xmlChar*) "x", (xmlChar*) buf);
-	g_snprintf (buf, sizeof (buf), "%g", m_y);
-	xmlNewProp (child, (xmlChar*) "y", (xmlChar*) buf);
+	WriteFloat (child,  "x", m_x);
+	WriteFloat (child,  "y", m_y);
 	child = xmlNewDocNode (xml, NULL, (xmlChar*) "end", NULL);
 	if (child)
 		xmlAddChild(node, child);
 	else
 		return false;
-	g_snprintf (buf, sizeof (buf), "%g", m_x + m_width);
-	xmlNewProp (child, (xmlChar*) "x", (xmlChar*) buf);
-	g_snprintf (buf, sizeof (buf), "%g", m_y + m_height);
-	xmlNewProp (child, (xmlChar*) "y", (xmlChar*) buf);
+	WriteFloat (child,  "x", m_x + m_width);
+	WriteFloat (child,  "y", m_y + m_height);
 	return true;
 }
 
 bool Arrow::Load (xmlNodePtr node)
 {
-	char* tmp, *endptr;
-	bool result;
+	char* buf;
 	xmlNodePtr child;
-	tmp = (char*) xmlGetProp (node, (xmlChar*) "id");
-	if (tmp) {
-		SetId (tmp);
-		xmlFree (tmp);
+	buf = reinterpret_cast <char *> (xmlGetProp (node, (xmlChar*) "id"));
+	if (buf) {
+		SetId (buf);
+		xmlFree (buf);
 	}
 	child = GetNodeByName (node, "start");
 	if (!child)
 		return false;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "x");
-	if (!tmp)
-		return false;
-	m_x = strtod (tmp, &endptr);
-	result = *endptr;
-	xmlFree (tmp);
-	if (result)
-		return false;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "y");
-	if (!tmp)
-		return false;
-	m_y = strtod (tmp, &endptr);
-	result = *endptr;
-	xmlFree (tmp);
-	if (result)
+	if (!ReadFloat (child, "x", m_x, 0.) || !ReadFloat (child, "y", m_y, 0.))
 		return false;
 	child = GetNodeByName (node, "end");
 	if (!child)
 		return false;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "x");
-	if (!tmp)
+	if (!ReadFloat (child, "x", m_width, 0.) || !ReadFloat (child, "y", m_height, 0.))
 		return false;
-	m_width = strtod (tmp, &endptr) - m_x;
-	result = *endptr;
-	xmlFree (tmp);
-	if (result)
-		return false;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "y");
-	if (!tmp)
-		return false;
-	m_height = strtod (tmp, &endptr) - m_y;
-	result = *endptr;
-	xmlFree (tmp);
-	if (result)
-		return false;
+	m_width -= m_x;
+	m_height -= m_y;
 	return true;
 }
 

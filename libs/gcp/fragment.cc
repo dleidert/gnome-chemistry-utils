@@ -449,7 +449,7 @@ void Fragment::AddItem ()
 		y -= m_y;
 		y *= theme->GetZoomFactor ();
 		char const *glyph = (charge > 0)? "\xE2\x8a\x95": "\xE2\x8a\x96";
-		gccv::Text *text = new gccv::Text (group, x, y, NULL);
+		gccv::Text *text = new gccv::Text (group, x, y, this);
 		text->SetFillColor (0);
 		text->SetPadding (theme->GetPadding ());
 		text->SetLineColor (0);

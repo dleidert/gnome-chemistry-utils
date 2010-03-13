@@ -344,9 +344,9 @@ char const *GetStaticScale (char *buf)
 
 void WriteFloat (xmlNodePtr node, char const *name, double value)
 {
-	std::ostringstream s;
-	s << value;
-	xmlNewProp (node, reinterpret_cast <xmlChar const *> (name), reinterpret_cast <xmlChar const *> (s.str ().c_str ()));
+	static char buf[G_ASCII_DTOSTR_BUF_SIZE];
+	g_ascii_dtostr (buf, G_ASCII_DTOSTR_BUF_SIZE, value);
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> (name), reinterpret_cast <xmlChar const *> (buf));
 }
 
 bool ReadFloat (xmlNodePtr node, char const *name, double &value, double default_value)

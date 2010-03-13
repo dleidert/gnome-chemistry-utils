@@ -436,7 +436,7 @@ void gcpCurvedArrowTool::AtomToAdjBond ()
 	dx /= l;
 	dy /= l;
 	// try to find on which side we are
-	if ((m_x - x0) * dx + (y0 - m_y) * dy < 0) {
+	if ((m_x - x0) * dx + (m_y - y0) * dy < 0) {
 		dx = -dx;
 		dy = -dy;
 	}
@@ -477,8 +477,6 @@ void gcpCurvedArrowTool::AtomToAtom ()
 	dx /= l;
 	dy /= l;
 	l = pTheme->GetBondLength () * m_dZoomFactor;
-	m_CPx1 = dy * l;
-	m_CPy1 = -dx * l;
 	double angle = -atan2 (m_CPy1, m_CPx1) * 180. / M_PI;
 	if (start->GetPosition (angle, x0, y0)) {
 		// convert to canvas coordinates

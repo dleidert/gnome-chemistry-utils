@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-03-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: Use gcu::ReadFloat() and gcu::WriteFloat() for
+	serialization.
+	* libs/gcp/fragment.cc: use the fragment as client for the charge item.
+	* libs/gcu/xml-utils.cc: make gcu::WriteFloat() locale independant.
+	* plugins/paint/arrows/curvedarrowtool.cc: fixed orientation of arrows
+	at start.
+
 2010-03-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: Fixed typo.
 	* libs/gcu/crystalatom.cc: don't crash if atomic numer is 0.
