@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/arrows/curvedarrowtool.cc: various improvements.
+
 2010-03-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.cc: Use gcu::ReadFloat() and gcu::WriteFloat() for
 	serialization.

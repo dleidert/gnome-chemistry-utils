@@ -61,6 +61,8 @@ bool gcpCurvedArrowTool::OnClicked ()
 	m_pData->UnselectAll ();
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
+		case gcu::FragmentType:
+			m_pObject = static_cast <gcp::Fragment *> (m_pObject)->GetAtom ();
 		case gcu::AtomType: {
 			gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
 			if (!AllowAsSource (atom))
@@ -78,9 +80,18 @@ bool gcpCurvedArrowTool::OnClicked ()
 				if (atom->GetBondsNumber () == 1 || (x == m_x0 && y == m_y0)) // use first bond
 					m_Target = atom->GetFirstBond (it); // FIXME: check if the bond can ba a target
 				else {
-					double angle = 2 * M_PI; // something larger that anything we can get
+					double angle = 2 * M_PI,// something larger that anything we can get
+						   a0 = atan2 (y - m_y0, m_x0 - x), a1; 
 					for (bond = static_cast <gcp::Bond *> (atom->GetFirstBond (it)); bond; bond = static_cast <gcp::Bond *> (atom->GetNextBond (it))) {
-						m_Target = bond;
+						a1 = bond->GetAngle2DRad (atom);
+						a1 -= a0;
+						a1 = fabs (a1);
+						if (a1 > M_PI)
+							a1 = 2 * M_PI - a1;
+						if (a1 < angle) {
+							angle = a1;
+							m_Target = bond;
+						}
 					}
 				}
 				m_Item = arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
@@ -135,6 +146,8 @@ void gcpCurvedArrowTool::OnDrag ()
 	gccv::BezierArrow *arrow = static_cast <gccv::BezierArrow *> (m_Item);
 	if (item) {
 		gcu::Object *cur = dynamic_cast <gcu::Object *> (item->GetClient ());
+		if (cur->GetType () == gcu::FragmentType)
+			cur = static_cast <gcp::Fragment *> (cur)->GetAtom ();
 		if (cur == m_pObject) {
 			switch (m_pObject->GetType ()) {
 			case gcu::BondType: {
@@ -263,6 +276,8 @@ void gcpCurvedArrowTool::OnMotion ()
 	bool allowed = false;
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
+		case gcu::FragmentType:
+			m_pObject = static_cast <gcp::Fragment *> (m_pObject)->GetAtom ();
 		case gcu::AtomType:
 			allowed = AllowAsSource (reinterpret_cast <gcp::Atom *> (m_pObject));
 			break;
@@ -298,7 +313,7 @@ void gcpCurvedArrowTool::OnRelease ()
 		return;
 	m_pApp->ClearStatus ();
 	gcp::Document* pDoc = m_pView->GetDoc ();
-	if (!m_pObject || !m_Target)
+	if (!m_pObject || !m_Target || (m_CPx2 == 0. && m_CPy2 == 0.))
 		return;
 	gcp::MechanismArrow *a = new gcp::MechanismArrow ();
 	gcp::Molecule *mol = static_cast <gcp::Molecule *> (m_Target->GetMolecule ());
@@ -360,7 +375,7 @@ bool gcpCurvedArrowTool::AllowAsTarget (G_GNUC_UNUSED gcp::Atom *atom)
 		return false;
 	if (m_pObject->GetType () == gcu::AtomType && static_cast <gcp::Atom *> (m_pObject)->GetBond (atom))
 			return false;
-	return true;
+	return atom->AcceptNewBonds () || atom->GetBondsNumber (); 
 }
 
 bool gcpCurvedArrowTool::AllowAsSource (gcp::Bond *bond)
@@ -455,7 +470,7 @@ void gcpCurvedArrowTool::AtomToAdjBond ()
 		x2 = x3 + m_CPx1;
 		y2 = y3 + m_CPy1;
 	} else
-		x0 = y0 = m_CPx1 = m_CPx2= m_CPy0 = m_CPy1 = x3 = y3 = 0;
+		x0 = y0 = m_CPx1 = m_CPx2 = m_CPy1 = m_CPy2 = x3 = y3 = 0;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -567,17 +582,19 @@ void gcpCurvedArrowTool::BondToAdjAtom ()
 	y1 = y0 + m_CPy1;
 	// adjust end position
 	double angle = -atan2 (dy, dx) * 180. / M_PI;
-	static_cast <gcp::Atom *> (m_Target)->GetPosition (angle, x3, y3);
-	// convert to canvas coordinates
-	x3 *= m_dZoomFactor;
-	y3 *= m_dZoomFactor;
-	// set second control point
-	l += pTheme->GetArrowHeadA ();
-	m_CPx2 = dx * l;
-	m_CPy2 = dy * l;
-	x2 = x3 + m_CPx2;
-	y2 = y3 + m_CPy2;
-	m_LastTarget = m_Target;
+	if (static_cast <gcp::Atom *> (m_Target)->GetPosition (angle, x3, y3)) {
+		// convert to canvas coordinates
+		x3 *= m_dZoomFactor;
+		y3 *= m_dZoomFactor;
+		// set second control point
+		l += pTheme->GetArrowHeadA ();
+		m_CPx2 = dx * l;
+		m_CPy2 = dy * l;
+		x2 = x3 + m_CPx2;
+		y2 = y3 + m_CPy2;
+		m_LastTarget = m_Target;
+	} else
+		x0 = y0 = x1 = y1 = x2 = y2 = x3 = y3 = m_CPx2 = m_CPy2 = 0;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -659,7 +676,7 @@ void gcpCurvedArrowTool::BondToAtom ()
 		x1 = x0 + m_CPx1;
 		y1 = y0 + m_CPy1;
 	} else
-		x0 = y0 = x1 = y1 = 0.;
+		x0 = y0 = x1 = y1 = m_CPx2 = m_CPy2 = 0.;
 	m_SourceAux = m_LastTarget;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
