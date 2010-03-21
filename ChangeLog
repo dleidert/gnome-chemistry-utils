@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/arrows/Makefile.am: add a property page to the curved
+	arrow tool.
+	* plugins/paint/arrows/curvedarrowtool.cc: ditto.
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.ui: ditto.
+
 2010-03-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/arrows/curvedarrowtool.cc: various improvements.
 

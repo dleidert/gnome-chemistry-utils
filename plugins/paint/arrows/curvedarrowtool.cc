@@ -38,6 +38,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gcu/ui-builder.h>
 #include <gtk/gtk.h>
 
 using namespace std;
@@ -45,6 +46,7 @@ using namespace std;
 gcpCurvedArrowTool::gcpCurvedArrowTool (gcp::Application *App, string Id): gcp::Tool (App, Id)
 {
 	m_Full = Id == "CurvedArrow";
+	m_EndAtBondCenter = !m_Full;
 }
 
 gcpCurvedArrowTool::~gcpCurvedArrowTool ()
@@ -346,6 +348,16 @@ void gcpCurvedArrowTool::OnRelease ()
 	a->SetControlPoint (2, m_CPx2 / m_dZoomFactor, m_CPy2 / m_dZoomFactor);
 	m_pView->Update (a);
 	pDoc->FinishOperation ();
+}
+
+GtkWidget *gcpCurvedArrowTool::GetPropertyPage ()
+{
+	if (!m_Full)
+		return NULL;
+	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/curvedarrowtool.ui", GETTEXT_PACKAGE);
+	GtkWidget *res = builder->GetRefdWidget ("curvedarrow-box");
+	delete builder;
+	return res;
 }
 
 bool gcpCurvedArrowTool::AllowAsSource (gcp::Atom *atom)
