@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-03-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: implement the end position option.
+	* libs/gcp/mechanism-arrow.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: more work on the end position
+	(still not working).
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.ui: ditto.
+	* plugins/paint/arrows/gchempaint-arrows.schemas.in: ditto.
+
 2010-03-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/arrows/Makefile.am: add a property page to the curved
 	arrow tool.

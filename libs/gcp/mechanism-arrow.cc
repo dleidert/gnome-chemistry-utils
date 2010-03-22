@@ -49,7 +49,8 @@ MechanismArrow::MechanismArrow ():
 	m_SourceAux (NULL),
 	m_Target (NULL),
 	m_ShowControls (false),
-	m_Pair (true)
+	m_Pair (true),
+	m_EndAtNewBondCenter (false)
 {
 }
 
@@ -153,6 +154,12 @@ void MechanismArrow::SetPair (bool is_pair)
 	static_cast <Document *> (GetDocument ())->SetDirty (this);
 }
 
+void MechanismArrow::SetEndAtNewBondCenter (bool end_at_new_bond_center)
+{
+	m_EndAtNewBondCenter = end_at_new_bond_center;
+	static_cast <Document *> (GetDocument ())->SetDirty (this);
+}
+
 xmlNodePtr MechanismArrow::Save (xmlDocPtr xml) const
 {
 	if (!m_Source || !m_Target)
@@ -167,6 +174,8 @@ xmlNodePtr MechanismArrow::Save (xmlDocPtr xml) const
 	gcu::WriteFloat (node, "ct1y", m_CPy1);
 	gcu::WriteFloat (node, "ct2x", m_CPx2);
 	gcu::WriteFloat (node, "ct2y", m_CPy2);
+	if (m_EndAtNewBondCenter)
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("end-new-bond-at-center"), reinterpret_cast <xmlChar const *> ("true"));
 	return node;
 }
 
@@ -190,11 +199,18 @@ bool MechanismArrow::Load (xmlNodePtr node)
 	gcu::ReadFloat (node, "ct1y", m_CPy1);
 	gcu::ReadFloat (node, "ct2x", m_CPx2);
 	gcu::ReadFloat (node, "ct2y", m_CPy2);
+	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("end-new-bond-at-center"));
+	if (buf) {
+		m_EndAtNewBondCenter = !strcmp (reinterpret_cast <char const *> (buf), "true");
+		xmlFree (buf);
+	}
 	return true;
 }
 
-void MechanismArrow::Transform2D (gcu::Matrix2D& m, double x, double y)
+void MechanismArrow::Transform2D (gcu::Matrix2D& m, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
+	m.Transform (m_CPx1, m_CPy1);
+	m.Transform (m_CPx2, m_CPy2);
 }
 
 void MechanismArrow::AddItem ()

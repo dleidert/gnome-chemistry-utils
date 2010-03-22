@@ -44,6 +44,7 @@ public:
 	void SetControlPoint (int num, double dx, double dy);
 	void SetShowControls (bool show);
 	void SetPair (bool is_pair);
+	void SetEndAtNewBondCenter (bool end_at_new_bond_center);
 
 	// virtual gcu::Object methods
 /*!
@@ -97,7 +98,8 @@ GCU_RO_PROP (gcu::Object *, Source)
 GCU_RO_PROP (gcu::Object *, SourceAux)
 GCU_RO_PROP (gcu::Object *, Target)
 GCU_RO_PROP (bool, ShowControls)
-GCU_RO_PROP (bool, Pair);
+GCU_RO_PROP (bool, Pair)
+GCU_RO_PROP (bool, EndAtNewBondCenter)
 };
 
 }	//	namespace gcp

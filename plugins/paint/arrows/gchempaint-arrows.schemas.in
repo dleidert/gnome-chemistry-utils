@@ -12,5 +12,17 @@
 		use full arrows heads by default instead of half heads.</long>
       </locale>
     </schema>
+    <schema>
+      <key>/schemas/apps/gchemutils/paint/plugins/arrows/end-at-new-bond-center</key>
+      <applyto>/apps/gchemutils/paint/plugins/arrows/end-at-new-bond-center</applyto>
+      <owner>gchemutils</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>End mechanism arrows at center of new bonds</short>
+		<long>If true, a curved arrow corresponding to a new bond will end at center
+		of the new bond, otherwise, the arrow will end at the other atom.</long>
+      </locale>
+    </schema>
   </schemalist>
 </gconfschemafile>

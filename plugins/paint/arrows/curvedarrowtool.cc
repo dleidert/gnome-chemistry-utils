@@ -46,7 +46,12 @@ using namespace std;
 gcpCurvedArrowTool::gcpCurvedArrowTool (gcp::Application *App, string Id): gcp::Tool (App, Id)
 {
 	m_Full = Id == "CurvedArrow";
-	m_EndAtBondCenter = !m_Full;
+	if (m_Full) {
+		GOConfNode *node = go_conf_get_node (gcu::Application::GetConfDir (), "paint/plugins/arrows");
+		m_EndAtBondCenter = go_conf_get_bool (node, "end-at-new-bond-center");
+		go_conf_free_node (node);
+	} else
+		m_EndAtBondCenter = true;
 }
 
 gcpCurvedArrowTool::~gcpCurvedArrowTool ()
@@ -346,8 +351,22 @@ void gcpCurvedArrowTool::OnRelease ()
 	a->SetPair (m_Full);
 	a->SetControlPoint (1, m_CPx1 / m_dZoomFactor, m_CPy1 / m_dZoomFactor);
 	a->SetControlPoint (2, m_CPx2 / m_dZoomFactor, m_CPy2 / m_dZoomFactor);
+	if (m_SetEnd)
+		a->SetEndAtNewBondCenter (m_EndAtBondCenter);
 	m_pView->Update (a);
 	pDoc->FinishOperation ();
+}
+
+static void on_default (GtkToggleButton *button)
+{
+	GOConfNode *node = go_conf_get_node (gcu::Application::GetConfDir (), "paint/plugins/arrows");
+	go_conf_set_bool (node, "end-at-new-bond-center", gtk_toggle_button_get_active (button));
+	go_conf_free_node (node);
+}
+
+static void on_end_toggled (GtkToggleButton *button, gcpCurvedArrowTool *tool)
+{
+	tool->SetEndAtBondCenter (gtk_toggle_button_get_active (button));
 }
 
 GtkWidget *gcpCurvedArrowTool::GetPropertyPage ()
@@ -355,6 +374,11 @@ GtkWidget *gcpCurvedArrowTool::GetPropertyPage ()
 	if (!m_Full)
 		return NULL;
 	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/curvedarrowtool.ui", GETTEXT_PACKAGE);
+	GtkWidget *b = builder->GetWidget ("target");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (b), m_EndAtBondCenter);
+	g_signal_connect (G_OBJECT (b), "toggled", G_CALLBACK (on_end_toggled), this);
+	GtkWidget *w = builder->GetWidget ("default");
+	g_signal_connect_swapped (w, "clicked", G_CALLBACK (on_default), b);
 	GtkWidget *res = builder->GetRefdWidget ("curvedarrow-box");
 	delete builder;
 	return res;
@@ -483,6 +507,7 @@ void gcpCurvedArrowTool::AtomToAdjBond ()
 		y2 = y3 + m_CPy1;
 	} else
 		x0 = y0 = m_CPx1 = m_CPx2 = m_CPy1 = m_CPy2 = x3 = y3 = 0;
+	m_SetEnd = false;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -524,6 +549,7 @@ void gcpCurvedArrowTool::AtomToAtom ()
 	} else
 ata_err:
 		x0 = y0 = m_CPx1 = m_CPx2= m_CPy0 = m_CPy1 = x3 = y3 = 0;
+	m_SetEnd = m_Full;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -607,6 +633,7 @@ void gcpCurvedArrowTool::BondToAdjAtom ()
 		m_LastTarget = m_Target;
 	} else
 		x0 = y0 = x1 = y1 = x2 = y2 = x3 = y3 = m_CPx2 = m_CPy2 = 0;
+	m_SetEnd = false;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -663,6 +690,7 @@ void gcpCurvedArrowTool::BondToAdjBond ()
 	x2 = x3 + m_CPx2;
 	y2 = y3 + m_CPy2;
 	m_SourceAux = NULL;
+	m_SetEnd = false;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
@@ -690,6 +718,7 @@ void gcpCurvedArrowTool::BondToAtom ()
 	} else
 		x0 = y0 = x1 = y1 = m_CPx2 = m_CPy2 = 0.;
 	m_SourceAux = m_LastTarget;
+	m_SetEnd = m_Full;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
