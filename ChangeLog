@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: implement the end at center feature.
+	* plugins/paint/arrows/curvedarrowtool.cc: still more work on the
+	end position.
+
 2010-03-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: implement the end position option.
 	* libs/gcp/mechanism-arrow.h: ditto.

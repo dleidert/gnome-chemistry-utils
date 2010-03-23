@@ -29,6 +29,7 @@
 #include <gcp/bond.h>
 #include <gcp/document.h>
 #include <gcp/electron.h>
+#include <gcp/fragment.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -221,8 +222,9 @@ void MechanismArrow::AddItem ()
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
 	double x0, y0, x1, y1, x2, y2, x3, y3, l, a;
-	gcu::TypeId id = m_Source->GetType ();
-	switch (id) {
+	gcu::TypeId sid = m_Source->GetType (), tid = m_Target->GetType ();
+	Atom *source = NULL;
+	switch (sid) {
 	case gcu::BondType: {
 		gcp::Bond *bond = static_cast <gcp::Bond *> (m_Source);
 		gcp::Atom *start = static_cast <gcp::Atom *> (bond->GetAtom (0)),
@@ -244,9 +246,9 @@ void MechanismArrow::AddItem ()
 		break;
 	}
 	case gcu::AtomType: {
-		gcp::Atom *atom = static_cast <gcp::Atom *> (m_Source);
+		source = static_cast <Atom *> (m_Source);
 		a = atan2 (-m_CPy1, m_CPx1) * 180. / M_PI;
-		atom->GetPosition (a, x0, y0);
+		source->GetPosition (a, x0, y0);
 		// convert to canvas coordinates
 		x0 *= theme->GetZoomFactor ();
 		y0 *= theme->GetZoomFactor ();
@@ -256,13 +258,17 @@ void MechanismArrow::AddItem ()
 	}
 	default: {
 		if (m_Source->GetType () == ElectronType) {
+			Object *obj = GetParent ();
+			if (obj->GetType () == gcu::FragmentType)
+				source = static_cast <gcp::Fragment *> (obj)->GetAtom ();
+			else
+				source = static_cast <gcp::Atom *> (obj);
 		}
 		// otherwise we should throw an exception: TODO
 		break;
 	}
 	}
-	id = m_Target->GetType ();
-	switch (id) {
+	switch (tid) {
 	case gcu::BondType: {
 		gcp::Bond *bond = static_cast <gcp::Bond *> (m_Target);
 		gcp::Atom *start = static_cast <gcp::Atom *> (bond->GetAtom (0)),
@@ -285,11 +291,26 @@ void MechanismArrow::AddItem ()
 	}
 	case gcu::AtomType: {
 		gcp::Atom *atom = static_cast <gcp::Atom *> (m_Target);
-		a = atan2 (-m_CPy2, m_CPx2) * 180. / M_PI;
-		atom->GetPosition (a, x3, y3);
-		// convert to canvas coordinates
-		x3 *= theme->GetZoomFactor ();
-		y3 *= theme->GetZoomFactor ();
+		if ((source != NULL || m_SourceAux != NULL) && (m_EndAtNewBondCenter || !m_Pair))
+		{
+			atom->GetCoords (&x3, &y3);
+			x3 *= theme->GetZoomFactor ();
+			y3 *= theme->GetZoomFactor ();
+			if (source)
+				source->GetCoords (&x2, &y2);
+			else
+				static_cast <gcp::Atom *> (m_SourceAux)->GetCoords (&x2, &y2);
+			x2 *= theme->GetZoomFactor ();
+			y2 *= theme->GetZoomFactor ();
+			x3 = (x2 + x3) / 2.;
+			y3 = (y2 + y3) / 2.;
+		} else {
+		    a = atan2 (-m_CPy2, m_CPx2) * 180. / M_PI;
+			atom->GetPosition (a, x3, y3);
+			// convert to canvas coordinates
+			x3 *= theme->GetZoomFactor ();
+			y3 *= theme->GetZoomFactor ();
+		}
 		// set second control point
 		x2 = x3 + m_CPx2 * theme->GetZoomFactor ();
 		y2 = y3 + m_CPy2 * theme->GetZoomFactor ();

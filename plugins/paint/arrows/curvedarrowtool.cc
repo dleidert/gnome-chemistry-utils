@@ -374,7 +374,7 @@ GtkWidget *gcpCurvedArrowTool::GetPropertyPage ()
 	if (!m_Full)
 		return NULL;
 	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/curvedarrowtool.ui", GETTEXT_PACKAGE);
-	GtkWidget *b = builder->GetWidget ("target");
+	GtkWidget *b = builder->GetWidget ("target-btn");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (b), m_EndAtBondCenter);
 	g_signal_connect (G_OBJECT (b), "toggled", G_CALLBACK (on_end_toggled), this);
 	GtkWidget *w = builder->GetWidget ("default");
@@ -529,6 +529,9 @@ void gcpCurvedArrowTool::AtomToAtom ()
 	dx /= l;
 	dy /= l;
 	l = pTheme->GetBondLength () * m_dZoomFactor;
+	if (m_CPx1 == 0. && m_CPy1 == 0.) {
+		// FIXME
+	}
 	double angle = -atan2 (m_CPy1, m_CPx1) * 180. / M_PI;
 	if (start->GetPosition (angle, x0, y0)) {
 		// convert to canvas coordinates
@@ -536,16 +539,24 @@ void gcpCurvedArrowTool::AtomToAtom ()
 		m_CPy0 = y0 *= m_dZoomFactor;
 		x1 = x0 + m_CPx1;
 		y1 = y0 + m_CPy1;
-		m_CPx2 = -dx * l;
-		m_CPy2 = -dy * l;
-		angle = -atan2 (m_CPy2, m_CPx2) * 180. / M_PI;
-		if (end->GetPosition (angle, x3, y3)) {
-			x3 *= m_dZoomFactor;
-			y3 *= m_dZoomFactor;
-			x2 = x3 + m_CPx2;
-			y2 = y3 + m_CPy2;
-		} else
-			goto ata_err;
+		if (!m_Full || m_EndAtBondCenter) {
+			x3 = (x3 + x0) / 2.;
+			y3 = (y3 + y0) / 2.;
+			// FIXME: the sign might be reversed for the next two lines.
+			m_CPx2 = -dy * l;
+			m_CPy2 = dx * l;
+		} else {
+			angle = -atan2 (m_CPy2, m_CPx2) * 180. / M_PI;
+			if (end->GetPosition (angle, x3, y3)) {
+				x3 *= m_dZoomFactor;
+				y3 *= m_dZoomFactor;
+				m_CPx2 = -dx * l;
+				m_CPy2 = -dy * l;
+			} else
+				goto ata_err;
+		}
+		x2 = x3 + m_CPx2;
+		y2 = y3 + m_CPy2;
 	} else
 ata_err:
 		x0 = y0 = m_CPx1 = m_CPx2= m_CPy0 = m_CPy1 = x3 = y3 = 0;
