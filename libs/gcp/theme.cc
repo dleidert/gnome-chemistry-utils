@@ -301,6 +301,7 @@ ThemeManager::~ThemeManager ()
 	}
 	g_free (DefaultFontFamily);
 	g_free (DefaultTextFontFamily);
+	libgoffice_shutdown ();
 }
 
 void ThemeManager::Shutdown ()

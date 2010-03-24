@@ -106,13 +106,13 @@ int main(int argc, char *argv[])
 //Configuration loading
 	node = go_conf_get_node (Application::GetConfDir (), "crystal");
 	GCU_GCONF_GET ("printing/resolution", int, PrintResolution, 300)
-	GCU_GCONF_GET ("views/fov", int, FoV, 10)
-	GCU_GCONF_GET_NO_CHECK ("views/psi", float, Psi, 70.)
-	GCU_GCONF_GET_NO_CHECK ("views/theta", float,Theta, 10.)
-	GCU_GCONF_GET_NO_CHECK ("views/phi", float, Phi, -90.)
-	GCU_GCONF_GET_NO_CHECK ("views/red", float, Red, 1.)
-	GCU_GCONF_GET_NO_CHECK ("views/green", float, Green, 1.)
-	GCU_GCONF_GET_NO_CHECK ("views/blue", float, Blue, 1.)
+	FoV = go_conf_load_int (node, "views/fov", 0, 45, 10);
+	Psi = go_conf_load_double (node, "views/psi", 180., 180., 70.);
+	Theta = go_conf_load_double (node, "views/theta", 180., 180., 10.);
+	Phi = go_conf_load_double (node, "views/phi", 180., 180., -90.);
+	Red = go_conf_load_double (node, "views/red", 0., 1., 1.);
+	Green = go_conf_load_double (node, "views/green", 0., 1., 1.);
+	Blue = go_conf_load_double (node, "views/blue", 0., 1., 1.);
 	NotificationId = go_conf_add_monitor (node, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
 	gcApplication* gcApp = new gcApplication ();
 	gcDocument *pDoc = gcApp->OnFileNew();
@@ -143,6 +143,8 @@ int main(int argc, char *argv[])
 
 	go_conf_remove_monitor (NotificationId);
 	go_conf_free_node (node);
+
+	delete gcApp;
 
 	return 0 ;
 }

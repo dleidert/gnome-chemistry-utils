@@ -130,6 +130,8 @@ int main(int argc, char *argv[])
 	}
 
 	gtk_main();
+
+	delete App;
 	
 	return(0);
 }
