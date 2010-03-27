@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-03-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc:
+	* plugins/paint/arrows/curvedarrowtool.cc:
+
 2010-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/theme.cc: fixed configuration issues when using a key file.
 	* programs/3d/main.cc: ditto.

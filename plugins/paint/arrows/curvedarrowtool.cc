@@ -322,11 +322,16 @@ void gcpCurvedArrowTool::OnRelease ()
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	if (!m_pObject || !m_Target || (m_CPx2 == 0. && m_CPy2 == 0.))
 		return;
+	gcp::Operation *op = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+	gcu::Object *obj = m_pObject->GetGroup ();
+	op->AddObject (obj, 0);
+	if (obj != m_Target->GetGroup ())
+		op->AddObject (m_Target->GetGroup (), 0);
 	gcp::MechanismArrow *a = new gcp::MechanismArrow ();
 	gcp::Molecule *mol = static_cast <gcp::Molecule *> (m_Target->GetMolecule ());
 	// we suppose that the molecule is owned either by a mechanism step, a reaction step or the document
 	// anyway, the tool must refuse all other situations
-	gcu::Object *obj = mol->GetParent ();
+	obj = mol->GetParent ();
 	if (obj->GetType () == gcu::ReactantType)
 		obj = obj->GetParent ();
 	if (obj->GetType () == gcu::DocumentType) {
@@ -354,6 +359,8 @@ void gcpCurvedArrowTool::OnRelease ()
 	if (m_SetEnd)
 		a->SetEndAtNewBondCenter (m_EndAtBondCenter);
 	m_pView->Update (a);
+	
+	op->AddObject (obj, 1);
 	pDoc->FinishOperation ();
 }
 
@@ -395,7 +402,7 @@ bool gcpCurvedArrowTool::AllowAsSource (gcp::Atom *atom)
 			return false;
 		// for homolytic cleavage, the bond must be the source for both arrows
 		gcp::MechanismArrow *arrow = static_cast <gcp::MechanismArrow *> (obj);
-		if (arrow->GetPair () || arrow->GetSource () != atom)
+		if (arrow->GetPair ())
 			return false;
 		// only one arrow should be there
 		obj = atom->GetNextLink (i);
@@ -529,8 +536,16 @@ void gcpCurvedArrowTool::AtomToAtom ()
 	dx /= l;
 	dy /= l;
 	l = pTheme->GetBondLength () * m_dZoomFactor;
-	if (m_CPx1 == 0. && m_CPy1 == 0.) {
-		// FIXME
+	if (start->GetBondsNumber () == 0) {
+		// Set values to m_CPx1 and m_CPy1 according to the cursor position
+		if ((m_x - x0) * (y3 - y0) - (m_y - y0) * (x3 - x0) < 0)
+		{
+			m_CPx1 = -l * dy;
+			m_CPy1 = l * dx;
+		} else {
+			m_CPx1 = l * dy;
+			m_CPy1 = -l * dx;
+		}
 	}
 	double angle = -atan2 (m_CPy1, m_CPx1) * 180. / M_PI;
 	if (start->GetPosition (angle, x0, y0)) {
@@ -542,9 +557,18 @@ void gcpCurvedArrowTool::AtomToAtom ()
 		if (!m_Full || m_EndAtBondCenter) {
 			x3 = (x3 + x0) / 2.;
 			y3 = (y3 + y0) / 2.;
+			if (!m_Full) {
+				x3 -= 2. * dx;
+				y3 -= 2. * dy;
+			}
 			// FIXME: the sign might be reversed for the next two lines.
-			m_CPx2 = -dy * l;
-			m_CPy2 = dx * l;
+			if (m_CPx1 * dy - m_CPy1 * dx < 0.) {
+				m_CPx2 = -dy * l;
+				m_CPy2 = dx * l;
+			} else {
+				m_CPx2 = dy * l;
+				m_CPy2 = -dx * l;
+			}
 		} else {
 			angle = -atan2 (m_CPy2, m_CPx2) * 180. / M_PI;
 			if (end->GetPosition (angle, x3, y3)) {
@@ -707,27 +731,54 @@ void gcpCurvedArrowTool::BondToAdjBond ()
 
 void gcpCurvedArrowTool::BondToAtom ()
 {
-	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., a, dx, dy;
+	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., x, y, a, dx, dy;
 	gcp::Atom *start = static_cast <gcp::Atom *> (m_LastTarget),
 			  *end = static_cast <gcp::Atom *> (m_Target);
+	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 	start->GetCoords (&x0, &y0);
-	end->GetCoords (&x1, &y1);
-	dx = x0 - x1;
-	dy = y0 - y1;
-	a = atan2 (-dy, dx) * 180. / M_PI;
-	if (end->GetPosition (a, x3, y3)) {
-		x3 *= m_dZoomFactor;
-		y3 *= m_dZoomFactor;
-		x2 = (x0 + x1) / 2. * m_dZoomFactor;
-		y2 = (y0 + y1) / 2. * m_dZoomFactor;
-		m_CPx2 = x2 - x3;
-		m_CPy2 = y2 - y3;
+	end->GetCoords (&x, &y);
+	x0 *= m_dZoomFactor;
+	y0 *= m_dZoomFactor;
+	x *= m_dZoomFactor;
+	y *= m_dZoomFactor;
+	dx = x - x0;
+	dy = y - y0;
+	if (!m_Full || m_EndAtBondCenter) {
+		double l = hypot (dx, dy);
+		dx /= l;
+		dy /= l;
+		x3 = (x + x0) / 2.;
+		y3 = (y + y0) / 2.;
+		if (!m_Full) {
+			x3 -= 2. * dx;
+			y3 -= 2. * dy;
+		}
+		if (m_CPx1 * dy - m_CPy1 * dx < 0.) {
+			dx = -dx;
+			dy = -dy;
+		}
+		x2 = x3 + (m_CPx2 = dy * pTheme->GetBondLength () * m_dZoomFactor);
+		y2 = y3 + (m_CPy2 = -dx * pTheme->GetBondLength () * m_dZoomFactor);
 		x0 = m_CPx0;
 		y0 = m_CPy0;
 		x1 = x0 + m_CPx1;
 		y1 = y0 + m_CPy1;
-	} else
-		x0 = y0 = x1 = y1 = m_CPx2 = m_CPy2 = 0.;
+	} else {
+		a = atan2 (dy, -dx) * 180. / M_PI;
+		if (end->GetPosition (a, x3, y3)) {
+			x3 *= m_dZoomFactor;
+			y3 *= m_dZoomFactor;
+			x2 = (x0 + x) / 2.;
+			y2 = (y0 + y) / 2.;
+			m_CPx2 = x2 - x3;
+			m_CPy2 = y2 - y3;
+			x0 = m_CPx0;
+			y0 = m_CPy0;
+			x1 = x0 + m_CPx1;
+			y1 = y0 + m_CPy1;
+		} else
+			x0 = y0 = x1 = y1 = m_CPx2 = m_CPy2 = 0.;
+	}
 	m_SourceAux = m_LastTarget;
 	m_SetEnd = m_Full;
 	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);

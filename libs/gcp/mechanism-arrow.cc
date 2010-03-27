@@ -282,6 +282,11 @@ void MechanismArrow::AddItem ()
 		y3 *= theme->GetZoomFactor ();
 		x3 = (x2 + x3) / 2.;
 		y3 = (y2 + y3) / 2.;
+		if (!m_Pair) {
+			double dx = x3 - x0, dy = y3 - y0, l = hypot (dx, dy);
+			x3 -= 2. * dx / l;
+			y3 -= 2. * dy / l;
+		}
 		l = hypot (m_CPx2, m_CPy2);
 		x3 += m_CPx2 / l * theme->GetPadding ();
 		y3 += m_CPy2 / l * theme->GetPadding ();
@@ -304,6 +309,11 @@ void MechanismArrow::AddItem ()
 			y2 *= theme->GetZoomFactor ();
 			x3 = (x2 + x3) / 2.;
 			y3 = (y2 + y3) / 2.;
+			if (!m_Pair) {
+				double dx = x3 - x0, dy = y3 - y0, l = hypot (dx, dy);
+				x3 -= 2. * dx / l;
+				y3 -= 2. * dy / l;
+			}
 		} else {
 		    a = atan2 (-m_CPy2, m_CPx2) * 180. / M_PI;
 			atom->GetPosition (a, x3, y3);
@@ -324,7 +334,7 @@ void MechanismArrow::AddItem ()
 	arrow->SetShowControls (false);
 	arrow->SetLineWidth (theme->GetArrowWidth ());
 	arrow->SetLineColor ((view->GetData ()->IsSelected (this))? SelectColor: Color);
-	arrow->SetHead (m_Pair? gccv::ArrowHeadFull: ((x2 -x3) * (y1 - y3) - (x1 - x3) * (y2 - y3) > 0? gccv::ArrowHeadRight: gccv::ArrowHeadLeft));
+	arrow->SetHead (m_Pair? gccv::ArrowHeadFull: ((x2 -x3) * (y1 - y3) - (x1 - x3) * (y2 - y3) < 0? gccv::ArrowHeadRight: gccv::ArrowHeadLeft));
 	m_Item = arrow;
 }
 
