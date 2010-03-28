@@ -1,8 +1,13 @@
 ##Text encoding: utf-8
 
+2010-03-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/electron.h: doc typo.
+	* plugins/paint/arrows/curvedarrowtool.cc: start work on curved arrow
+	starting from an electron or electrons pair.
+
 2010-03-27  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gcp/mechanism-arrow.cc:
-	* plugins/paint/arrows/curvedarrowtool.cc:
+	* libs/gcp/mechanism-arrow.cc: enhanced arrow positions.
+	* plugins/paint/arrows/curvedarrowtool.cc: ditto.
 
 2010-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/theme.cc: fixed configuration issues when using a key file.

@@ -73,7 +73,7 @@ POSITION_E, POSITION_N,...
 @param angle the angle from the east direction in the trigonometric convention.
 @param distance the distance from the center of the atom, or 0. if automatic.
 
-Sets the position of an electronn relative to its parent atom.
+Sets the position of an electron relative to its parent atom.
 */
 	void SetPosition (unsigned char Pos, double angle = 0., double distance = 0.);
 /*!

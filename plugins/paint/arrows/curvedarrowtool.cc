@@ -75,20 +75,39 @@ bool gcpCurvedArrowTool::OnClicked ()
 			if (!AllowAsSource (atom))
 			    return false;
 			// find if there is an explicit electron pair or single electron and use it as source
-			// TODO
+			std::map <std::string, gcu::Object *>::iterator it;
+			gcu::Object *obj;
+			gcp::Electron *elec = NULL, *cur;
+			double x, y, angle, dist, a0, a1;
+			atom->GetCoords (&x, &y);
+			x *= pTheme->GetZoomFactor ();
+			y *= pTheme->GetZoomFactor ();
+			a0 = (x == m_x0 && y == m_y0)? go_nan: atan2 (y - m_y0, m_x0 - x);
+			for (obj = atom->GetFirstChild (it); obj; obj = atom->GetNextChild (it)) {
+				cur = dynamic_cast <gcp::Electron *> (obj);
+				if (!cur || (m_Full && !cur->IsPair ()))
+					continue;
+				cur->GetPosition (&angle, &dist);
+				if (elec) {
+				} else {
+					elec = cur;
+					if (isnan (a0))
+						break;
+				}
+			}
+			if (elec) {
+				elec->GetPosition (&angle, &dist);
+				a0 *= M_PI / 180.;
+				m_pObject = elec;
+			}
 			// find the most probable bond or the nearest atom
 			if (atom->GetBondsNumber () > 0) {
 				gcp::Bond *bond;
 				std::map< gcu::Atom *, gcu::Bond * >::iterator it;
-				double x, y;
-				atom->GetCoords (&x, &y);
-				x *= pTheme->GetZoomFactor ();
-				y *= pTheme->GetZoomFactor ();
 				if (atom->GetBondsNumber () == 1 || (x == m_x0 && y == m_y0)) // use first bond
 					m_Target = atom->GetFirstBond (it); // FIXME: check if the bond can ba a target
 				else {
-					double angle = 2 * M_PI,// something larger that anything we can get
-						   a0 = atan2 (y - m_y0, m_x0 - x), a1; 
+					angle = 2 * M_PI;// something larger that anything we can get
 					for (bond = static_cast <gcp::Bond *> (atom->GetFirstBond (it)); bond; bond = static_cast <gcp::Bond *> (atom->GetNextBond (it))) {
 						a1 = bond->GetAngle2DRad (atom);
 						a1 -= a0;
@@ -102,7 +121,12 @@ bool gcpCurvedArrowTool::OnClicked ()
 					}
 				}
 				m_Item = arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
-				AtomToAdjBond ();
+				if (m_Target == NULL)
+					break;
+				if (m_pObject == atom)
+					AtomToAdjBond ();
+				else
+					ElectronToAdjBond ();
 			} else {
 				// try to find a possible atom target
 				// TODO: implement and return true
@@ -786,6 +810,59 @@ void gcpCurvedArrowTool::BondToAtom ()
 
 void gcpCurvedArrowTool::ElectronToAdjBond ()
 {
+	gcp::Electron *elec = static_cast <gcp::Electron *> (m_pObject);
+	gcp::Bond *bond = static_cast <gcp::Bond *> (m_Target);
+	gcp::Atom *atom = static_cast <gcp::Atom *> (elec->GetParent ()),
+			  *start = static_cast <gcp::Atom *> (bond->GetAtom (0)),
+			  *end = static_cast <gcp::Atom *> (bond->GetAtom (1));
+	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
+	if (end == atom) {
+		end = start;
+		start = atom;
+	}
+	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., x, y, a, dx, dy, l;
+	elec->GetPosition (&a, &dx);
+	a *= M_PI / 180.;
+	if (dx != 0.) {
+		x = dx * cos (a);
+		y = -dx * sin (a);
+		x *= pTheme->GetZoomFactor ();
+		y *= pTheme->GetZoomFactor ();
+	} else {
+		start->GetRelativePosition (a, x, y);
+		x *= pTheme->GetZoomFactor ();
+		y *= pTheme->GetZoomFactor ();
+		x += 2. * cos (a);
+		y -= 2. * sin (a);
+	}
+	start->GetCoords (&x0, &y0);
+	end->GetCoords (&x3, &y3);
+	x0 *= m_dZoomFactor;
+	y0 *= m_dZoomFactor;
+	x3 *= m_dZoomFactor;
+	y3 *= m_dZoomFactor;
+	dx = x3 - x0;
+	dy = y3 - y0;
+	x0 += x + pTheme->GetPadding () * cos (a);
+	y0 += y - pTheme->GetPadding () * sin (a);
+	l = hypot (x, y) / pTheme->GetBondLength () / pTheme->GetZoomFactor ();
+	x1 = x0 + (m_CPx1 = x / l);
+	y1 = y0 + (m_CPy1 = y / l);
+	l = hypot (dx, dy);
+	dx /= l;
+	dy /= l;
+	// try to find on which side we are
+	if ((m_CPy1) * dx - (m_CPx1) * dy > 0) {
+		dx = -dx;
+		dy = -dy;
+	}
+	x3 = (x0 + x3) / 2 + dy * pTheme->GetPadding ();
+	y3 = (y0 + y3) / 2 + dx * pTheme->GetPadding ();
+	m_CPx2 = l * dy;
+	m_CPy2 = -l * dx;
+	x2 = x3 + m_CPx2;
+	y2 = y3 + m_CPy2;
+	static_cast <gccv::BezierArrow *> (m_Item)->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);
 }
 
 void gcpCurvedArrowTool::ElectronToAtom ()
