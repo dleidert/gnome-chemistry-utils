@@ -31,6 +31,7 @@
 namespace gcp {
 	class Atom;
 	class Bond;
+	class Electron;
 };
 
 class gcpCurvedArrowTool: public gcp::Tool
@@ -51,6 +52,7 @@ private:
 	bool AllowAsTarget (gcp::Atom *atom);
 	bool AllowAsSource (gcp::Bond *bond);
 	bool AllowAsTarget (gcp::Bond *bond);
+	bool AllowAsSource (gcp::Electron *elec);
 
 	void AtomToAdjBond ();
 	void AtomToAtom ();

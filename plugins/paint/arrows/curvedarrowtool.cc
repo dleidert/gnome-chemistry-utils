@@ -96,7 +96,7 @@ bool gcpCurvedArrowTool::OnClicked ()
 				}
 			}
 			if (elec) {
-				elec->GetPosition (&angle, &dist);
+				elec->GetPosition (&a0, &dist);
 				a0 *= M_PI / 180.;
 				m_pObject = elec;
 			}
@@ -145,11 +145,45 @@ bool gcpCurvedArrowTool::OnClicked ()
 		}
 		default:
 			if (m_pObject->GetType () == gcp::ElectronType) {
-				if (m_Full) {
-					if (!static_cast <gcp::Electron *> (m_pObject)->IsPair ())
-						return false;
+				gcp::Electron *elec = static_cast <gcp::Electron *> (m_pObject);
+				if (!AllowAsSource (elec))
+					return false;
+				gcu::Object *obj = m_pObject->GetParent ();
+				gcp::Atom *atom = static_cast <gcp::Atom *> ((obj->GetType () == gcu::AtomType)? obj: static_cast <gcp::Fragment *> (m_pObject)->GetAtom ());
+				double x, y, angle, a0, a1;
+				elec->GetPosition (&a0, &x);
+				a0 *= M_PI / 180.;
+				// find the most probable bond or the nearest atom
+				if (atom->GetBondsNumber () > 0) {
+					gcp::Bond *bond;
+					std::map< gcu::Atom *, gcu::Bond * >::iterator it;
+					if (atom->GetBondsNumber () == 1 || (x == m_x0 && y == m_y0)) // use first bond
+						m_Target = atom->GetFirstBond (it); // FIXME: check if the bond can ba a target
+					else {
+						angle = 2 * M_PI;// something larger that anything we can get
+						for (bond = static_cast <gcp::Bond *> (atom->GetFirstBond (it)); bond; bond = static_cast <gcp::Bond *> (atom->GetNextBond (it))) {
+							a1 = bond->GetAngle2DRad (atom);
+							a1 -= a0;
+							a1 = fabs (a1);
+							if (a1 > M_PI)
+								a1 = 2 * M_PI - a1;
+							if (a1 < angle) {
+								angle = a1;
+								m_Target = bond;
+							}
+						}
+					}
+					m_Item = arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
+					if (m_Target == NULL)
+						break;
+					ElectronToAdjBond ();
+				} else {
+					// try to find a possible atom target
+					// TODO: implement and return true
+					m_Item = arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
+					break;
 				}
-				return false; // TODO: implement and return true
+				break;
 			} else if (m_pObject->GetType () == gcp::MechanismArrowType) {
 				// select the arrow and show the control points
 				return false; // TODO: implement and return true
@@ -212,8 +246,14 @@ void gcpCurvedArrowTool::OnDrag ()
 				break;
 			}
 			default:
-				m_Target = NULL;
-				return;	// TODO: add more types
+				if (m_pObject->GetType () == gcp::ElectronType) {
+					break; // TODO: implement
+				} else if (m_pObject->GetType () == gcp::MechanismArrowType) {
+					break; // TODO: implement
+				} else {
+					m_Target = NULL;
+					return;	// TODO: add more types
+				}
 			}
 			
 		} else if (cur == m_Target) {
@@ -490,6 +530,27 @@ bool gcpCurvedArrowTool::AllowAsTarget (gcp::Bond *bond)
 	}
 	default:
 		return false; // TODO:manage atoms and electrons
+	}
+	return true;
+}
+
+bool gcpCurvedArrowTool::AllowAsSource (gcp::Electron *elec)
+{
+	if (m_Full && !elec->IsPair ())
+		return false;
+	std::set <gcu::Object *>::iterator i;
+	gcu::Object* obj = elec->GetFirstLink (i);
+	if (obj && obj->GetType () == gcp::MechanismArrowType) {
+		if (m_Full)
+			return false;
+		// for homolytic cleavage, the electron must be the source for both arrows
+		gcp::MechanismArrow *arrow = static_cast <gcp::MechanismArrow *> (obj);
+		if (arrow->GetPair ())
+			return false;
+		// only one arrow should be there
+		obj = elec->GetNextLink (i);
+		if (obj && obj->GetType () == gcp::MechanismArrowType)
+			return false;
 	}
 	return true;
 }
@@ -826,12 +887,12 @@ void gcpCurvedArrowTool::ElectronToAdjBond ()
 	if (dx != 0.) {
 		x = dx * cos (a);
 		y = -dx * sin (a);
-		x *= pTheme->GetZoomFactor ();
-		y *= pTheme->GetZoomFactor ();
+		x *= m_dZoomFactor;
+		y *= m_dZoomFactor;
 	} else {
-		start->GetRelativePosition (a, x, y);
-		x *= pTheme->GetZoomFactor ();
-		y *= pTheme->GetZoomFactor ();
+		start->GetRelativePosition (a * 180. / M_PI, x, y);
+		x *= m_dZoomFactor;
+		y *= m_dZoomFactor;
 		x += 2. * cos (a);
 		y -= 2. * sin (a);
 	}
@@ -845,7 +906,7 @@ void gcpCurvedArrowTool::ElectronToAdjBond ()
 	dy = y3 - y0;
 	x0 += x + pTheme->GetPadding () * cos (a);
 	y0 += y - pTheme->GetPadding () * sin (a);
-	l = hypot (x, y) / pTheme->GetBondLength () / pTheme->GetZoomFactor ();
+	l = hypot (x, y) / pTheme->GetBondLength () / m_dZoomFactor * 2.;
 	x1 = x0 + (m_CPx1 = x / l);
 	y1 = y0 + (m_CPy1 = y / l);
 	l = hypot (dx, dy);

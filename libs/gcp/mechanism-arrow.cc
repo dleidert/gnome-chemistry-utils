@@ -258,11 +258,34 @@ void MechanismArrow::AddItem ()
 	}
 	default: {
 		if (m_Source->GetType () == ElectronType) {
-			Object *obj = GetParent ();
+			Object *obj = m_Source->GetParent ();
 			if (obj->GetType () == gcu::FragmentType)
 				source = static_cast <gcp::Fragment *> (obj)->GetAtom ();
 			else
 				source = static_cast <gcp::Atom *> (obj);
+			double a, x, y, dx;
+			Electron *elec = static_cast <Electron *> (m_Source);
+			elec->GetPosition (&a, &dx);
+			a *= M_PI / 180.;
+			if (dx != 0.) {
+				x = dx * cos (a);
+				y = -dx * sin (a);
+				x *= theme->GetZoomFactor ();
+				y *= theme->GetZoomFactor ();
+			} else {
+				source->GetRelativePosition (a * 180. / M_PI, x, y);
+				x *= theme->GetZoomFactor ();
+				y *= theme->GetZoomFactor ();
+				x += 2. * cos (a);
+				y -= 2. * sin (a);
+			}
+			source->GetCoords (&x0, &y0);
+			x0 *= theme->GetZoomFactor ();
+			y0 *= theme->GetZoomFactor ();
+			x0 += x + theme->GetPadding () * cos (a);
+			y0 += y - theme->GetPadding () * sin (a);
+			x1 = x0 + m_CPx1 * theme->GetZoomFactor ();
+			y1 = y0 + m_CPy1 * theme->GetZoomFactor ();
 		}
 		// otherwise we should throw an exception: TODO
 		break;

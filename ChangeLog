@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-03-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: allow electrons as source.
+	* plugins/paint/arrows/curvedarrowtool.cc: more work on electrons as
+	sources.
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
+
 2010-03-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/electron.h: doc typo.
 	* plugins/paint/arrows/curvedarrowtool.cc: start work on curved arrow
