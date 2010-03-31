@@ -373,6 +373,13 @@ This method is used to avoid bonds lines extyending over their atoms symbols.
 
 	bool HasAvailableElectrons (bool paired);
 
+/*!
+@param angle the angle from the east direction in the trigonometric convention.
+
+@return the bond at or near the direction given by \a angle.
+*/
+	Bond *GetBondAtAngle (double angle);
+
 protected:
 /*!
 @param width the witdh of the atomic symbol.

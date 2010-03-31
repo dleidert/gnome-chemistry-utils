@@ -65,6 +65,7 @@ bool gcpCurvedArrowTool::OnClicked ()
 	gccv::ArrowHeads arrow_head = m_Full? gccv::ArrowHeadFull: gccv::ArrowHeadLeft;
 	gccv::BezierArrow *arrow = NULL; // make g++ happy
 	m_SourceAux = NULL;
+	m_Target = NULL;
 	m_pData->UnselectAll ();
 	if (m_pObject)
 		switch (m_pObject->GetType ()) {
@@ -78,7 +79,7 @@ bool gcpCurvedArrowTool::OnClicked ()
 			std::map <std::string, gcu::Object *>::iterator it;
 			gcu::Object *obj;
 			gcp::Electron *elec = NULL, *cur;
-			double x, y, angle, dist, a0, a1;
+			double x, y, angle, dist, a0;
 			atom->GetCoords (&x, &y);
 			x *= pTheme->GetZoomFactor ();
 			y *= pTheme->GetZoomFactor ();
@@ -102,24 +103,7 @@ bool gcpCurvedArrowTool::OnClicked ()
 			}
 			// find the most probable bond or the nearest atom
 			if (atom->GetBondsNumber () > 0) {
-				gcp::Bond *bond;
-				std::map< gcu::Atom *, gcu::Bond * >::iterator it;
-				if (atom->GetBondsNumber () == 1 || (x == m_x0 && y == m_y0)) // use first bond
-					m_Target = atom->GetFirstBond (it); // FIXME: check if the bond can ba a target
-				else {
-					angle = 2 * M_PI;// something larger that anything we can get
-					for (bond = static_cast <gcp::Bond *> (atom->GetFirstBond (it)); bond; bond = static_cast <gcp::Bond *> (atom->GetNextBond (it))) {
-						a1 = bond->GetAngle2DRad (atom);
-						a1 -= a0;
-						a1 = fabs (a1);
-						if (a1 > M_PI)
-							a1 = 2 * M_PI - a1;
-						if (a1 < angle) {
-							angle = a1;
-							m_Target = bond;
-						}
-					}
-				}
+				m_Target = atom->GetBondAtAngle (a0);
 				m_Item = arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
 				if (m_Target == NULL)
 					break;
@@ -150,29 +134,12 @@ bool gcpCurvedArrowTool::OnClicked ()
 					return false;
 				gcu::Object *obj = m_pObject->GetParent ();
 				gcp::Atom *atom = static_cast <gcp::Atom *> ((obj->GetType () == gcu::AtomType)? obj: static_cast <gcp::Fragment *> (m_pObject)->GetAtom ());
-				double x, y, angle, a0, a1;
+				double x, a0;
 				elec->GetPosition (&a0, &x);
 				a0 *= M_PI / 180.;
 				// find the most probable bond or the nearest atom
 				if (atom->GetBondsNumber () > 0) {
-					gcp::Bond *bond;
-					std::map< gcu::Atom *, gcu::Bond * >::iterator it;
-					if (atom->GetBondsNumber () == 1 || (x == m_x0 && y == m_y0)) // use first bond
-						m_Target = atom->GetFirstBond (it); // FIXME: check if the bond can ba a target
-					else {
-						angle = 2 * M_PI;// something larger that anything we can get
-						for (bond = static_cast <gcp::Bond *> (atom->GetFirstBond (it)); bond; bond = static_cast <gcp::Bond *> (atom->GetNextBond (it))) {
-							a1 = bond->GetAngle2DRad (atom);
-							a1 -= a0;
-							a1 = fabs (a1);
-							if (a1 > M_PI)
-								a1 = 2 * M_PI - a1;
-							if (a1 < angle) {
-								angle = a1;
-								m_Target = bond;
-							}
-						}
-					}
+					m_Target = atom->GetBondAtAngle (a0);
 					m_Item = arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
 					if (m_Target == NULL)
 						break;
@@ -181,12 +148,15 @@ bool gcpCurvedArrowTool::OnClicked ()
 					// try to find a possible atom target
 					// TODO: implement and return true
 					m_Item = arrow = new gccv::BezierArrow (m_pView->GetCanvas ());
-					break;
 				}
 				break;
 			} else if (m_pObject->GetType () == gcp::MechanismArrowType) {
 				// select the arrow and show the control points
-				return false; // TODO: implement and return true
+				m_Item = arrow = static_cast <gccv::BezierArrow *> (dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ());
+				m_x0 = -1; // to make clear we have not hit a control point yet
+				arrow->GetControlPoints (m_CPx0, m_CPy0, m_CPx1, m_CPy1, m_CPx2, m_CPy2, m_CPx3, m_CPy3);
+				// store control point half width in m_y0
+				m_y0 = arrow->GetLineWidth () * 2.5;
 			}
 			break;
 		}
@@ -203,14 +173,42 @@ void gcpCurvedArrowTool::OnDrag ()
 {
 	if (!m_Item || !m_pObject)
 		return;	// this should not occur
-	gccv::Item *item = m_pView->GetCanvas ()->GetItemAt (m_x, m_y);
-	if (item == m_Item) {
-		// TODO: implement moving the control points
+	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
+	gccv::BezierArrow *arrow = static_cast <gccv::BezierArrow *> (m_Item);
+	if (m_pObject->GetType () == gcp::MechanismArrowType) {
+			if (m_x0 < 0.) {
+				if (m_x >= m_CPx1 - m_y0 && m_x <= m_CPx1 + m_y0 && m_y >= m_CPy1 - m_y0 && m_y <= m_CPy1 + m_y0) {
+					// we are inside the second control point
+					m_x0 = m_x;
+					m_y0 = m_y;
+					// store original values
+					m_x1 = m_CPx1;
+					m_y1 = m_CPy1;
+				} else if (m_x >=m_CPx2 - m_y0 && m_x <= m_CPx2 + m_y0 && m_y >= m_CPy2 - m_y0 && m_y <= m_CPy2 + m_y0) {
+					// we are inside the third control point
+					m_x0 = m_x;
+					m_y0 = m_y;
+					m_Target = m_pObject; // to differentiate between the two control points
+					// store original values
+					m_x1 = m_CPx2;
+					m_y1 = m_CPy2;
+				}
+			} else {
+			// TODO: implement moving the control points
+				if (m_Target) {
+					m_CPx2 = m_x1 + m_x - m_x0;
+					m_CPy2 = m_y1 + m_y - m_y0;
+				} else {
+					m_CPx1 = m_x1 + m_x - m_x0;
+					m_CPy1 = m_y1 + m_y - m_y0;
+				}
+				arrow->SetControlPoints (m_CPx0, m_CPy0, m_CPx1, m_CPy1, m_CPx2, m_CPy2, m_CPx3, m_CPy3);				
+			}
 		return;
 	}
-	gccv::BezierArrow *arrow = static_cast <gccv::BezierArrow *> (m_Item);
+	gccv::Item *item = m_pView->GetCanvas ()->GetItemAt (m_x, m_y);
 	if (item) {
-		gcu::Object *cur = dynamic_cast <gcu::Object *> (item->GetClient ());
+		gcu::Object *cur = (item == m_Item)? m_Target: dynamic_cast <gcu::Object *> (item->GetClient ());
 		if (cur->GetType () == gcu::FragmentType)
 			cur = static_cast <gcp::Fragment *> (cur)->GetAtom ();
 		if (cur == m_pObject) {
@@ -231,23 +229,43 @@ void gcpCurvedArrowTool::OnDrag ()
 				gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
 				if (!m_Target) {
 					std::map< gcu::Atom *, gcu::Bond * >::iterator it;
-					m_Target = atom->GetFirstBond (it); // TODO: be more intelligent
+					double x, y;
+					atom->GetCoords (&x, &y);
+					x *= pTheme->GetZoomFactor ();
+					y *= pTheme->GetZoomFactor ();
+					double a0 = (x == m_x && y == m_y)? go_nan: atan2 (y - m_y, m_x - x);
+					if (isnan (a0))
+						m_Target = atom->GetFirstBond (it);
+					else
+						m_Target = atom->GetBondAtAngle (a0);
 					if (m_Target)
 						AtomToAdjBond ();
-					return;
+					break;
 				} else {
 					gcp::Bond *bond = dynamic_cast <gcp::Bond *> (m_Target);
 					if (bond)
 						AtomToAdjBond ();
 					else
 						m_Target = NULL;
-					return; // TODO: implement
 				}
 				break;
 			}
 			default:
 				if (m_pObject->GetType () == gcp::ElectronType) {
-					break; // TODO: implement
+					gcp::Electron *elec = static_cast <gcp::Electron *> (m_pObject);
+					gcu::Object *obj = m_pObject->GetParent ();
+					gcp::Atom *atom = static_cast <gcp::Atom *> ((obj->GetType () == gcu::AtomType)? obj: static_cast <gcp::Fragment *> (m_pObject)->GetAtom ());
+					double x, a0;
+					elec->GetPosition (&a0, &x);
+					a0 *= M_PI / 180.;
+					// find the most probable bond or the nearest atom
+					if (atom->GetBondsNumber () > 0) {
+						m_Target = atom->GetBondAtAngle (a0);
+						if (m_Target == NULL)
+							break;
+						ElectronToAdjBond ();
+					}
+					break;
 				} else if (m_pObject->GetType () == gcp::MechanismArrowType) {
 					break; // TODO: implement
 				} else {
@@ -255,7 +273,6 @@ void gcpCurvedArrowTool::OnDrag ()
 					return;	// TODO: add more types
 				}
 			}
-			
 		} else if (cur == m_Target) {
 			gcu::TypeId sid, tid;
 			sid = m_pObject->GetType ();
@@ -300,6 +317,10 @@ void gcpCurvedArrowTool::OnDrag ()
 					return;
 				}
 				default:
+					if (m_pObject->GetType () == gcp::ElectronType) {
+						ElectronToAdjBond ();
+						return;
+					}
 					m_Target = NULL;
 					return;
 				}
@@ -325,6 +346,10 @@ void gcpCurvedArrowTool::OnDrag ()
 					AtomToAtom ();
 					break;
 				default:
+					if (m_pObject->GetType () == gcp::ElectronType) {
+						ElectronToAtom ();
+						return;
+					}
 					m_Target = NULL;
 					return;
 				}
@@ -361,6 +386,13 @@ void gcpCurvedArrowTool::OnMotion ()
 					allowed = static_cast <gcp::Electron *> (m_pObject)->IsPair ();
 				else
 					allowed = true;
+			} else if (m_pObject->GetType () == gcp::MechanismArrowType) {
+				if (m_Full)
+					allowed = static_cast <gcp::MechanismArrow *> (m_pObject)->GetPair ();
+				else
+					allowed = !static_cast <gcp::MechanismArrow *> (m_pObject)->GetPair ();
+				if (allowed)
+					static_cast <gccv::BezierArrow *> (dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ())->SetShowControls (true);
 			}
 			break;
 		}
@@ -376,14 +408,30 @@ void gcpCurvedArrowTool::OnLeaveNotify ()
 
 void gcpCurvedArrowTool::OnRelease ()
 {
+	m_pApp->ClearStatus ();
+	gcp::Document* pDoc = m_pView->GetDoc ();
 	if (m_Item) {
-		delete m_Item;
-		m_Item = NULL;
+		if (m_pObject->GetType () == gcp::MechanismArrowType) {
+			m_Item = NULL;
+			gcp::Operation *op = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+			gcu::Object *obj = m_pObject->GetGroup ();
+			op->AddObject (obj, 0);
+			gcp::MechanismArrow *a = static_cast <gcp::MechanismArrow *> (m_pObject);
+			if (m_Target)
+				a->SetControlPoint (2, (m_CPx2 - m_CPx3) / m_dZoomFactor, (m_CPy2 - m_CPy3) / m_dZoomFactor);
+			else
+				a->SetControlPoint (1, (m_CPx1 - m_CPx0) / m_dZoomFactor, (m_CPy1 - m_CPy0) / m_dZoomFactor);
+			m_pView->Update (m_pObject);
+			op->AddObject (obj, 1);
+			pDoc->FinishOperation ();
+			return;
+		} else {
+			delete m_Item;
+			m_Item = NULL;
+		}
 	}
 	else
 		return;
-	m_pApp->ClearStatus ();
-	gcp::Document* pDoc = m_pView->GetDoc ();
 	if (!m_pObject || !m_Target || (m_CPx2 == 0. && m_CPy2 == 0.))
 		return;
 	gcp::Operation *op = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
@@ -482,6 +530,12 @@ bool gcpCurvedArrowTool::AllowAsTarget (G_GNUC_UNUSED gcp::Atom *atom)
 		return false;
 	if (m_pObject->GetType () == gcu::AtomType && static_cast <gcp::Atom *> (m_pObject)->GetBond (atom))
 			return false;
+	if (m_pObject->GetType () == gcp::ElectronType) {
+		gcu::Object *obj = m_pObject->GetParent ();
+		gcp::Atom *atom0 = static_cast <gcp::Atom *> ((obj->GetType () == gcu::AtomType)? obj: static_cast <gcp::Fragment *> (m_pObject)->GetAtom ());
+		if (atom0->GetBond (atom))
+			return false;
+	}
 	return atom->AcceptNewBonds () || atom->GetBondsNumber (); 
 }
 
@@ -528,8 +582,21 @@ bool gcpCurvedArrowTool::AllowAsTarget (gcp::Bond *bond)
 			return false;
 		break;
 	}
+	case gcu::AtomType: {
+		gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
+		if (bond->GetAtom (0) != atom && bond->GetAtom (1) != atom)
+			return false;
+		break;
+	}
 	default:
-		return false; // TODO:manage atoms and electrons
+		if (m_pObject->GetType () == gcp::ElectronType) {
+			gcu::Object *obj = m_pObject->GetParent ();
+			gcp::Atom *atom = static_cast <gcp::Atom *> ((obj->GetType () == gcu::AtomType)? obj: static_cast <gcp::Fragment *> (m_pObject)->GetAtom ());
+			if (bond->GetAtom (0) != atom && bond->GetAtom (1) != atom)
+				return false;
+			break;
+		}
+		return false;
 	}
 	return true;
 }
@@ -928,4 +995,65 @@ void gcpCurvedArrowTool::ElectronToAdjBond ()
 
 void gcpCurvedArrowTool::ElectronToAtom ()
 {
+	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., x, y, a, dx, dy, l;
+	gcp::Electron *elec = static_cast <gcp::Electron *> (m_pObject);
+	gcp::Atom *start = static_cast <gcp::Atom *> (elec->GetParent ()),
+			  *end = static_cast <gcp::Atom *> (m_Target);
+	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
+	elec->GetPosition (&a, &dx);
+	a *= M_PI / 180.;
+	if (dx != 0.) {
+		x = dx * cos (a);
+		y = -dx * sin (a);
+		x *= m_dZoomFactor;
+		y *= m_dZoomFactor;
+	} else {
+		start->GetRelativePosition (a * 180. / M_PI, x, y);
+		x *= m_dZoomFactor;
+		y *= m_dZoomFactor;
+		x += 2. * cos (a);
+		y -= 2. * sin (a);
+	}
+	start->GetCoords (&x0, &y0);
+	end->GetCoords (&x3, &y3);
+	x0 *= m_dZoomFactor;
+	y0 *= m_dZoomFactor;
+	x3 *= m_dZoomFactor;
+	y3 *= m_dZoomFactor;
+	dx = x3 - x0;
+	dy = y3 - y0;
+	x0 += x + pTheme->GetPadding () * cos (a);
+	y0 += y - pTheme->GetPadding () * sin (a);
+	l = hypot (x, y) / pTheme->GetBondLength () / m_dZoomFactor * 2.;
+	x1 = x0 + (m_CPx1 = x / l);
+	y1 = y0 + (m_CPy1 = y / l);
+	l = hypot (dx, dy);
+	dx /= l;
+	dy /= l;
+	// try to find on which side we are
+	if ((m_CPy1) * dx - (m_CPx1) * dy > 0) {
+		dx = -dx;
+		dy = -dy;
+	}
+	if (!m_Full || m_EndAtBondCenter) {
+		x3 = (x3 + x0) / 2.;
+		y3 = (y3 + y0) / 2.;
+		if (!m_Full) {
+			x3 -= 2. * dx;
+			y3 -= 2. * dy;
+		}
+		x2 = x3 + (m_CPx2 = dy * pTheme->GetBondLength () * m_dZoomFactor);
+		y2 = y3 + (m_CPy2 = -dx * pTheme->GetBondLength () * m_dZoomFactor);
+	} else {
+		a = atan2 (dy, -dx) * 180. / M_PI;
+		x2 = (x0 + x3) / 2.;
+		y2 = (y0 + y3) / 2.;
+		if (end->GetPosition (a, x3, y3)) {
+			x3 *= m_dZoomFactor;
+			y3 *= m_dZoomFactor;
+			m_CPx2 = x2 - x3;
+			m_CPy2 = y2 - y3;
+		} else
+			x0 = y0 = x1 = y1 = m_CPx2 = m_CPy2 = 0.;
+	}
 }

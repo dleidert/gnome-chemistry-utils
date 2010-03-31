@@ -65,7 +65,7 @@ private:
 private:
 	bool m_Full; // if false use half heads
 	gcu::Object *m_Target, *m_SourceAux, *m_LastTarget;
-	double m_CPx0, m_CPy0, m_CPx1, m_CPy1, m_CPx2, m_CPy2; // x and y deltas from ends to central control points
+	double m_CPx0, m_CPy0, m_CPx1, m_CPy1, m_CPx2, m_CPy2, m_CPx3, m_CPy3; // x and y deltas from ends to central control points
 	bool m_SetEnd;
 
 GCU_PROP (bool, EndAtBondCenter)

@@ -366,6 +366,8 @@ void MechanismArrow::SetSelected (int state)
 	if (!m_Item)
 		return;
 	GOColor color;
+	if (state != SelStateSelected)
+		static_cast <gccv::BezierArrow *> (m_Item)->SetShowControls (false);
 	switch (state) {	
 	case SelStateUnselected:
 		color = Color;

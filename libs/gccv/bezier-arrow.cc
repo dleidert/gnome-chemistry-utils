@@ -76,6 +76,10 @@ double BezierArrow::Distance (double x, double y, Item **item) const
 		*item = const_cast <BezierArrow *> (this);
 	if (x < m_x0 - 10. || x > m_x1 + 10 || y < m_y0 - 10 || y > m_y1 + 10)
 		return G_MAXDOUBLE; // don't care we are far from the arrow
+	if (m_ShowControls) {
+		if (x >= m_x0 && x <= m_x1 && y >= m_y0 && y <= m_y1)
+			return 0.;
+	}
 	a = m_Controls[3].x - 3 * (m_Controls[2].x - m_Controls[1].x) - m_Controls[0].x;
 	b = 3 * (m_Controls[2].x - 2 * m_Controls[1].x + m_Controls[0].x);
 	c = 3 * (m_Controls[1].x - m_Controls[0].x);

@@ -339,12 +339,12 @@ y coordinate for the last mouse click (unless the tool modified it).
 	double m_y0;
 /*!
 x coordinate for the last mouse click (unless the tool modified it). It might
-be used by tools necessitating to pairs of coordinates.
+be used by tools necessitating two pairs of coordinates.
 */
 	double m_x1;
 /*!
 y coordinate for the last mouse click (unless the tool modified it). It might
-be used by tools necessitating to pairs of coordinates.
+be used by tools necessitating two pairs of coordinates.
 */
 	double m_y1;
 /*!

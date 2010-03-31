@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-03-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/bezier-arrow.cc: implement control points dragging.
+	* libs/gcp/atom.cc: add Atom::GetBondAtAngle().
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/mechanism-arrow.cc: hide control points when unselecting.
+	* libs/gcp/tool.h: fixed doc typo.
+	* plugins/paint/arrows/curvedarrowtool.cc:
+	* plugins/paint/arrows/curvedarrowtool.h:
+
 2010-03-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: allow electrons as source.
 	* plugins/paint/arrows/curvedarrowtool.cc: more work on electrons as
