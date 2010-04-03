@@ -108,10 +108,15 @@ ReactionStep::~ReactionStep ()
 	Object *pObj = pReaction->GetParent (), *Child, *Group = pReaction->GetGroup ();
 	map<string, Object *>::iterator j;
 	Reactant *pReactant;
+	list <MechanismArrow *> arrows;
 	while (HasChildren ()) {
 		Child = GetFirstChild (j);
 		if (Child->GetType () == ReactionOperatorType) {
 			pDoc->Remove (Child);
+			continue;
+		} else if (Child->GetType () == MechanismArrowType) {
+			Child->SetParent (pObj);
+			arrows.push_back (static_cast <MechanismArrow *> (Child));
 			continue;
 		}
 		pReactant = reinterpret_cast<Reactant *> (Child);
@@ -125,6 +130,36 @@ ReactionStep::~ReactionStep ()
 				pOp->AddObject (Child, 1);
 		}
 		delete pReactant;
+	}
+	while (!arrows.empty ()) {
+		MechanismArrow *arrow = arrows.front ();
+		MechanismStep *step;
+		Object *obj = arrow->GetSource (), *molecule = obj->GetMolecule (), *parent = molecule->GetParent ();
+		if (parent->GetType () == MechanismStepType) {
+			step = static_cast <MechanismStep *> (parent);
+			step->AddChild (arrow);
+		} else {
+			step = new MechanismStep ();
+			step->SetParent (parent);
+			step->AddChild (arrow);
+			step->AddChild (molecule);
+		}
+		obj = arrow->GetTarget ();
+		molecule = obj->GetMolecule ();
+		parent = molecule->GetParent ();
+		if (parent != step) {
+			if (parent->GetType () == MechanismStepType) {
+				map <string, Object *>::iterator it;
+				obj = parent->GetFirstChild (it);
+				while (obj) {
+					step->AddChild (obj);
+					obj = parent->GetFirstChild (it);
+				}
+				
+			} else
+				step->AddChild (molecule);
+		}
+		arrows.pop_front ();
 	}
 }
 	
@@ -204,6 +239,8 @@ double ReactionStep::GetYAlign ()
 {
 	map<string, Object*>::iterator i;
 	GetFirstChild (i);
+	while ((*i).second->GetType () != gcu::ReactantType)
+		GetNextChild (i);
 	return ((*i).second)? (*i).second->GetYAlign (): 0.;
 }
 
@@ -227,6 +264,7 @@ bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 		while (pObj) {
 			if (pObj->GetType () == ReactionOperatorType)
 				Operators.push_front (pObj);
+			else if (pObj->GetType () == MechanismArrowType); // don't do anything
 			else {
 				pData->GetObjectBounds (pObj, &rect);
 				x = (rect.x0 + rect.x1) / 2;

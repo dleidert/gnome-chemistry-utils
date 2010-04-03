@@ -218,6 +218,8 @@ void MechanismArrow::AddItem ()
 {
 	if (!m_Source || !m_Target)
 		return;
+	if (m_Item)
+		return;
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();

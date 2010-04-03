@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-04-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: don't add more than one item.
+	* libs/gcp/reaction-step.cc: fix several issues with curved arrows
+	inside reactions.
+
 2010-03-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/bezier-arrow.cc: implement control points dragging.
 	* libs/gcp/atom.cc: add Atom::GetBondAtAngle().
