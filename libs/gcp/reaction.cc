@@ -27,6 +27,7 @@
 #include "reaction-arrow.h"
 #include "reaction-step.h"
 #include "document.h"
+#include "mechanism-step.h"
 #include "molecule.h"
 #include "theme.h"
 #include "view.h"
@@ -87,8 +88,8 @@ bool Reaction::Build (list<Object*>& Children) throw (invalid_argument)
 		// Search arrows
 		if ((*i)->GetType() == ReactionArrowType)
 			Arrows.push_front ((ReactionArrow*) (*i));
-		else if ((*i)->GetType() == MoleculeType)
-			Others.push_front ((Molecule*) (*i));
+		else if ((*i)->GetType() == MoleculeType || (*i)->GetType() == MechanismStepType)
+			Others.push_front (*i);
 		else return false;
 	}
 	if (Arrows.size () == 1) {

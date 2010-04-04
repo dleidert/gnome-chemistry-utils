@@ -378,6 +378,7 @@ void gcpSelectionTool::CreateGroup ()
 			return;
 		}
 		m_pView->Update (pObj);
+		m_pView->EnsureSize ();
 		m_pData->UnselectAll ();
 		m_pData->SetSelected (pObj);
 		AddSelection (m_pData);

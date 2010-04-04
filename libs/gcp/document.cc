@@ -767,11 +767,16 @@ bool Document::Load (xmlNodePtr root)
 	while (node) {
 		child = (strcmp ((const char*) node->name, "object"))? node: node->children;
 		pObject = CreateObject ((const char*) child->name, this);
-		if (pObject) {
+		while (pObject) {
 			if (!pObject->Load (child))
 				Remove (pObject);
 			else
 				m_pView->AddObject (pObject);
+			if (child != node) {
+				child = child->next;
+				pObject = (child) ?CreateObject ((const char*) child->name, this): NULL;
+			} else
+				pObject = NULL;
 		}
 		node = node->next;
 	}

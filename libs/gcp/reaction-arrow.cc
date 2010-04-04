@@ -152,6 +152,7 @@ bool ReactionArrow::Load (xmlNodePtr node)
 		}
 		return true;
 	}
+puts("1");
 	return false;
 }
 

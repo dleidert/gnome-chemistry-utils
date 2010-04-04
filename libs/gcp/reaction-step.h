@@ -65,7 +65,7 @@ The destructor.
 Buils a new reaction step from the children and adds as many eaction operators
 as necessary. All children will be horizontally aligned.
 */
-	ReactionStep (Reaction *reaction, std::map<double, gcu::Object*>& Children, std::map<gcu::Object*, gccv::Rect> Objects);
+	ReactionStep (Reaction *reaction, std::map<double, gcu::Object*>& Children, std::map<gcu::Object*, gccv::Rect> Objects) throw (std::invalid_argument);
 /*!
 @param xml the xmlDoc used to save the document.
 
@@ -112,6 +112,9 @@ not anymore relevant.
 	void RemoveArrow (ReactionArrow *arrow);
 
 	std::string Name ();
+
+private:
+	void CleanChildren ();
 
 private:
 	bool m_bLoading;

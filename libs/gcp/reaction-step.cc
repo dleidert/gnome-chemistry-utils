@@ -49,7 +49,7 @@ ReactionStep::ReactionStep (): MechanismStep (ReactionStepType)
 	m_bLoading = false;
 }
 
-ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, map<Object*, gccv::Rect> Objects): MechanismStep (ReactionStepType)
+ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, map<Object*, gccv::Rect> Objects) throw (std::invalid_argument): MechanismStep (ReactionStepType)
 {
 	SetId ("rs1");
 	reaction->AddChild (this);
@@ -62,105 +62,52 @@ ReactionStep::ReactionStep (Reaction *reaction, map<double, Object*>& Children, 
 	gccv::Rect *rect;
 	Object *cur;
 	im = Children.begin ();
-	new Reactant (this, (*im).second);
-	endm = Children.end ();
-	rect = &Objects[(*im).second];
-	x = rect->x1;
-	y = (*im).second->GetYAlign ();
-	for (im++; im != endm; im++) {
-		x += pTheme->GetSignPadding ();
-		//Add a sign
-		ReactionOperator* pOp = new ReactionOperator ();
-		AddChild (pOp);
-		pOp->SetCoords (x / pTheme->GetZoomFactor (), y);
-		pDoc->AddObject (pOp);
-		dynamic_cast <gccv::ItemClient *> (pOp)->GetItem ()->GetBounds (x0, y0, x1, y1);
-		pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
-		x += pTheme->GetSignPadding () + x1 - x0;
-		cur = (*im).second;
-		new Reactant (this, cur);
-		rect = &Objects[cur];
-		y0 = cur->GetYAlign ();
-		cur->Move ((x - rect->x0) / pTheme->GetZoomFactor (), y - y0);
-		x+= rect->x1 - rect->x0;
+	try {
+		if ((*im).second->GetType () == MechanismStepType) {
+			if (Children.size () > 1)
+				throw invalid_argument (_("A mechanism step must stay alone inside a reaction step"));
+			AddChild ((*im).second);
+		} else
+			new Reactant (this, (*im).second);
+		endm = Children.end ();
+		rect = &Objects[(*im).second];
+		x = rect->x1;
+		y = (*im).second->GetYAlign ();
+		for (im++; im != endm; im++) {
+			x += pTheme->GetSignPadding ();
+			//Add a sign
+			ReactionOperator* pOp = new ReactionOperator ();
+			AddChild (pOp);
+			pOp->SetCoords (x / pTheme->GetZoomFactor (), y);
+			pDoc->AddObject (pOp);
+			dynamic_cast <gccv::ItemClient *> (pOp)->GetItem ()->GetBounds (x0, y0, x1, y1);
+			pOp->Move ((x - x0) / pTheme->GetZoomFactor (), 0);
+			x += pTheme->GetSignPadding () + x1 - x0;
+			cur = (*im).second;
+			if ((*im).second->GetType () == MechanismStepType)
+				throw invalid_argument (_("A mechanism step must stay alone inside a reaction step"));
+			else
+				new Reactant (this, cur);
+			rect = &Objects[cur];
+			y0 = cur->GetYAlign ();
+			cur->Move ((x - rect->x0) / pTheme->GetZoomFactor (), y - y0);
+			x+= rect->x1 - rect->x0;
+		}
+		view->Update (this);
+		m_bLoading = false;
 	}
-	view->Update (this);
-	m_bLoading = false;
+	catch (invalid_argument& e) {
+		m_bLoading = false;
+		CleanChildren ();
+		throw e;
+	}
 }
 
 ReactionStep::~ReactionStep ()
 {
 	if (IsLocked ())
 		return;
-	set<ReactionArrow *>::iterator i, end = m_Arrows.end();
-	for (i = m_Arrows.begin (); i != end; i++)
-		(*i)->RemoveStep (this);
-	/* If there are no chidren, don't care and exit */
-	if (!GetChildrenNumber ())
-		return;
-	/* Now, destroy children and add the reactant contents to the reaction parent,
-	not to the reaction */
-	Document *pDoc = reinterpret_cast<Document *> (GetDocument ());
-	Operation *pOp = pDoc->GetCurrentOperation ();
-	Reaction *pReaction = reinterpret_cast<Reaction *> (GetParent ());
-	if (!pReaction)
-		return;
-	Object *pObj = pReaction->GetParent (), *Child, *Group = pReaction->GetGroup ();
-	map<string, Object *>::iterator j;
-	Reactant *pReactant;
-	list <MechanismArrow *> arrows;
-	while (HasChildren ()) {
-		Child = GetFirstChild (j);
-		if (Child->GetType () == ReactionOperatorType) {
-			pDoc->Remove (Child);
-			continue;
-		} else if (Child->GetType () == MechanismArrowType) {
-			Child->SetParent (pObj);
-			arrows.push_back (static_cast <MechanismArrow *> (Child));
-			continue;
-		}
-		pReactant = reinterpret_cast<Reactant *> (Child);
-		Child = pReactant->GetStoichChild ();
-		if (Child)
-			pDoc->Remove (Child);
-		Child = pReactant->GetChild ();
-		if (Child) {
-			Child->SetParent (pObj);
-			if (pOp && !Group)
-				pOp->AddObject (Child, 1);
-		}
-		delete pReactant;
-	}
-	while (!arrows.empty ()) {
-		MechanismArrow *arrow = arrows.front ();
-		MechanismStep *step;
-		Object *obj = arrow->GetSource (), *molecule = obj->GetMolecule (), *parent = molecule->GetParent ();
-		if (parent->GetType () == MechanismStepType) {
-			step = static_cast <MechanismStep *> (parent);
-			step->AddChild (arrow);
-		} else {
-			step = new MechanismStep ();
-			step->SetParent (parent);
-			step->AddChild (arrow);
-			step->AddChild (molecule);
-		}
-		obj = arrow->GetTarget ();
-		molecule = obj->GetMolecule ();
-		parent = molecule->GetParent ();
-		if (parent != step) {
-			if (parent->GetType () == MechanismStepType) {
-				map <string, Object *>::iterator it;
-				obj = parent->GetFirstChild (it);
-				while (obj) {
-					step->AddChild (obj);
-					obj = parent->GetFirstChild (it);
-				}
-				
-			} else
-				step->AddChild (molecule);
-		}
-		arrows.pop_front ();
-	}
+	CleanChildren ();
 }
 	
 xmlNodePtr ReactionStep::Save (xmlDocPtr xml) const
@@ -239,7 +186,7 @@ double ReactionStep::GetYAlign ()
 {
 	map<string, Object*>::iterator i;
 	GetFirstChild (i);
-	while ((*i).second->GetType () != gcu::ReactantType)
+	while ((*i).second->GetType () != gcu::ReactantType && (*i).second->GetType () != MechanismStepType)
 		GetNextChild (i);
 	return ((*i).second)? (*i).second->GetYAlign (): 0.;
 }
@@ -318,6 +265,82 @@ void ReactionStep::RemoveArrow (ReactionArrow *arrow) {
 std::string ReactionStep::Name ()
 {
 	return _("Reaction step");
+}
+
+void ReactionStep::CleanChildren ()
+{
+	set<ReactionArrow *>::iterator i, end = m_Arrows.end();
+	for (i = m_Arrows.begin (); i != end; i++)
+		(*i)->RemoveStep (this);
+	/* If there are no chidren, don't care and exit */
+	if (!GetChildrenNumber ())
+		return;
+	/* Now, destroy children and add the reactant contents to the reaction parent,
+	not to the reaction */
+	Document *pDoc = reinterpret_cast<Document *> (GetDocument ());
+	Operation *pOp = pDoc->GetCurrentOperation ();
+	Reaction *pReaction = reinterpret_cast<Reaction *> (GetParent ());
+	if (!pReaction)
+		return;
+	Object *pObj = pReaction->GetParent (), *Child, *Group = pReaction->GetGroup ();
+	map<string, Object *>::iterator j;
+	Reactant *pReactant;
+	list <MechanismArrow *> arrows;
+	while (HasChildren ()) {
+		Child = GetFirstChild (j);
+		if (Child->GetType () == ReactionOperatorType) {
+			pDoc->Remove (Child);
+			continue;
+		} else if (Child->GetType () == MechanismArrowType) {
+			Child->SetParent (pObj);
+			arrows.push_back (static_cast <MechanismArrow *> (Child));
+			continue;
+		} else if (Child->GetType () == MechanismStepType) {
+			Child->SetParent (pObj);
+			continue;
+		}
+		pReactant = reinterpret_cast<Reactant *> (Child);
+		Child = pReactant->GetStoichChild ();
+		if (Child)
+			pDoc->Remove (Child);
+		Child = pReactant->GetChild ();
+		if (Child) {
+			Child->SetParent (pObj);
+			if (pOp && !Group)
+				pOp->AddObject (Child, 1);
+		}
+		delete pReactant;
+	}
+	while (!arrows.empty ()) {
+		MechanismArrow *arrow = arrows.front ();
+		MechanismStep *step;
+		Object *obj = arrow->GetSource (), *molecule = obj->GetMolecule (), *parent = molecule->GetParent ();
+		if (parent->GetType () == MechanismStepType) {
+			step = static_cast <MechanismStep *> (parent);
+			step->AddChild (arrow);
+		} else {
+			step = new MechanismStep ();
+			step->SetParent (parent);
+			step->AddChild (arrow);
+			step->AddChild (molecule);
+		}
+		obj = arrow->GetTarget ();
+		molecule = obj->GetMolecule ();
+		parent = molecule->GetParent ();
+		if (parent != step) {
+			if (parent->GetType () == MechanismStepType) {
+				map <string, Object *>::iterator it;
+				obj = parent->GetFirstChild (it);
+				while (obj) {
+					step->AddChild (obj);
+					obj = parent->GetFirstChild (it);
+				}
+				
+			} else
+				step->AddChild (molecule);
+		}
+		arrows.pop_front ();
+	}
 }
 
 }	//	namespace gcp

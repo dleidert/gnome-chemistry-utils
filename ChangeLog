@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2010-04-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: enhance support for curved arrows in reactions.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/mechanism-step.cc: ditto.
+	* libs/gcp/mechanism-step.h: ditto.
+	* libs/gcp/reaction-arrow.cc: ditto.
+	* libs/gcp/reaction-step.cc: ditto.
+	* libs/gcp/reaction-step.h: ditto.
+	* libs/gcp/reaction.cc: ditto.
+	* plugins/paint/selection/selectiontool.cc: ditto.
+
 2010-04-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: don't add more than one item.
 	* libs/gcp/reaction-step.cc: fix several issues with curved arrows
@@ -11,8 +22,8 @@
 	* libs/gcp/atom.h: ditto.
 	* libs/gcp/mechanism-arrow.cc: hide control points when unselecting.
 	* libs/gcp/tool.h: fixed doc typo.
-	* plugins/paint/arrows/curvedarrowtool.cc:
-	* plugins/paint/arrows/curvedarrowtool.h:
+	* plugins/paint/arrows/curvedarrowtool.cc: arrow control points edition.
+	* plugins/paint/arrows/curvedarrowtool.h: ditto.
 
 2010-03-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: allow electrons as source.

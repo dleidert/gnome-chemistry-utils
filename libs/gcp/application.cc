@@ -341,6 +341,7 @@ Application::Application ():
 		Object::AddRule ("mesomery-arrow", RuleMustBeIn, "mesomery");
 		MechanismArrowType = Object::AddType ("mechanism-arrow", CreateMechanismArrow);
 		MechanismStepType = Object::AddType ("mechanism-step", CreateMechanismStep);
+		Object::AddRule ("reaction-step", RuleMayContain, "mechanism-step");
 
 		// Create global signal ids
 		OnChangedSignal = Object::CreateNewSignalId ();

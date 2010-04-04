@@ -37,7 +37,14 @@ public:
 	MechanismStep (gcu::TypeId type = MechanismStepType);
 	virtual ~MechanismStep ();
 
+	double GetYAlign ();
+	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+	bool Load (xmlNodePtr node);
+
 	std::string Name ();
+
+private:
+	bool m_bLoading;
 };
 
 }	//	namespace gcp

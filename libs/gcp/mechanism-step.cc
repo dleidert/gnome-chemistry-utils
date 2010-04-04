@@ -29,9 +29,11 @@
 namespace gcp {
 	
 gcu::TypeId MechanismStepType;
+extern gcu::SignalId OnChangedSignal;
 
 MechanismStep::MechanismStep (gcu::TypeId type):
-	Object (type)
+	Object (type),
+	m_bLoading (false)
 {
 	SetId ("ms1");
 }
@@ -43,6 +45,36 @@ MechanismStep::~MechanismStep ()
 std::string MechanismStep::Name ()
 {
 	return _("Mechanism step");
+}
+
+double MechanismStep::GetYAlign ()
+{
+	unsigned nb = 0;
+	double res = 0.;
+	std::map <std::string, Object *>::iterator i;
+	for (Object *obj = GetFirstChild (i); obj; obj = GetNextChild (i))
+		if (obj->GetType () == gcu::MoleculeType) {
+			res += obj->GetYAlign ();
+			nb++;
+		}
+	return res / nb;
+}
+
+bool MechanismStep::OnSignal (gcu::SignalId Signal, G_GNUC_UNUSED gcu::Object *Child)
+{
+	if (Signal == OnChangedSignal) {
+		if (m_bLoading)
+			return false;
+	}
+	return true;
+}
+
+bool MechanismStep::Load (xmlNodePtr node)
+{
+	m_bLoading = true;
+	bool res = gcu::Object::Load (node);
+	m_bLoading = false;
+	return res;
 }
 
 }	//	namespace gcp
