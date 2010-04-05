@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_MESOMER_H
 #define GCHEMPAINT_MESOMER_H
 
-#include <gcu/object.h>
+#include "mechanism-step.h"
 #include <map>
 
 /*!\file*/
@@ -40,7 +40,7 @@ class Molecule;
 /*!\class Mesomer gcp/mesomer.h
 Represents one esomeric form in a mesomery relationship.
 */
-class Mesomer: public gcu::Object
+class Mesomer: public MechanismStep
 {
 public:
 /*!
@@ -61,6 +61,16 @@ invalid, it throws an std::invalid_argument exception and should be destroyed
 since it is invalid.
 */
 	Mesomer (Mesomery *mesomery, Molecule *molecule) throw (std::invalid_argument);
+
+/*!
+@param mesomery the parent Mesomery.
+@param step a mesomeric form with curved arrows.
+
+Constructs a Mesomer from its parent Mesomery and a molecule with at least one
+curved arrow. If one of them is invalid, it throws an std::invalid_argument
+exception and should be destroyed since it is invalid.
+*/
+	Mesomer (Mesomery *mesomery, MechanismStep *step) throw (std::invalid_argument);
 /*!
 @param node a pointer to the xmlNode containing the serialized object.
 

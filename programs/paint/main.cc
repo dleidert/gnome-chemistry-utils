@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 		App->OnFileNew();
 
 	gtk_main();
-	delete App;
+	delete App;		
 
 	return 0;
 }

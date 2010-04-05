@@ -128,106 +128,131 @@ bool Mesomery::Build (list<Object*>& Children) throw (invalid_argument)
 	WidgetData  *pData= reinterpret_cast<WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
 	list<Object *>::iterator i, iend = Children.end ();
 	map<Object *, ObjectData> Objects;
-	list<Object *> Arrows;
+	list <Object *> Arrows, Trash;
 	double minright, minleft, x, y, x0, y0, x1, y1, l, d, ps;
 	Object *Left, *Right;
 	ObjectData od;
 	MesomeryArrow *arrow;
 	unsigned narrows = 0, nmol = 0;
-	for (i = Children.begin (); i != iend; i++) {
-		pData->GetObjectBounds (*i, &od.r);
-		od.x = (od.r.x0 + od.r.x1) / 2.;
-		od.y = (*i)->GetYAlign () * pTheme->GetZoomFactor ();
-		switch ((*i)->GetType ()) {
-		case MoleculeType:
-			od.mes = new Mesomer (this, dynamic_cast<Molecule *>(*i));
-			Objects[*i] = od;
-			nmol++;
-			break;
-		case MesomeryArrowType:
-			narrows++;
-			Arrows.push_back (*i);
-			AddChild (*i);
-			break;
-		default:
-			throw  invalid_argument (_("Something wrong happened, please file a bug report."));
+	try {
+		for (i = Children.begin (); i != iend; i++) {
+			pData->GetObjectBounds (*i, &od.r);
+			od.x = (od.r.x0 + od.r.x1) / 2.;
+			od.y = (*i)->GetYAlign () * pTheme->GetZoomFactor ();
+			switch ((*i)->GetType ()) {
+			case MoleculeType:
+				od.mes = new Mesomer (this, dynamic_cast<Molecule *>(*i));
+				Objects[*i] = od;
+				nmol++;
+				break;
+			case MesomeryArrowType:
+				narrows++;
+				Arrows.push_back (*i);
+				AddChild (*i);
+				break;
+			default:
+				if ((*i)->GetType () == MechanismStepType) {
+					od.mes = new Mesomer (this, dynamic_cast <MechanismStep *> (*i));
+					Objects[*i] = od;
+					nmol++;
+					Trash.push_back (*i);
+					break;
+				}
+				throw  invalid_argument (_("Something wrong happened, please file a bug report."));
+			}
 		}
-	}
-	// now, for each arrow, search closiest object on both sides and verify it's a molecule
-	list<Object *>::iterator j, jend = Arrows.end ();
-	map<Object *, ObjectData>::iterator k, kend = Objects.end ();
-	for (j = Arrows.begin (); j != jend; j++) {
-		arrow = reinterpret_cast<MesomeryArrow *>(*j);
-		arrow->GetCoords (&x0, &y0, &x1, &y1);
-		//x0 and y0 should be the center of the arrow, not the beginning, so we must transform them
-		x0 = (x0 + x1) / 2;
-		y0 = (y0 + y1) / 2;
-		// x1, y1 will now be the coordinates of a normalized vector:
-		x1 -= x0;
-		y1 -= y0;
-		x0 *= pTheme->GetZoomFactor ();
-		y0 *= pTheme->GetZoomFactor ();
-		l = sqrt (x1 * x1 + y1 * y1);
-		x1 /= l;
-		y1 /= l;
-		l *= pTheme->GetZoomFactor (); // half length of the arrow on the screen
-		// No molecule should be nearer than that
-		minright = minleft = DBL_MAX;
-		Left = Right = NULL;
-		for (k = Objects.begin (); k != kend; k++) {
-			od = (*k).second;
-			x = od.x - x0;
-			y = od.y - y0;
-			d = sqrt (x * x + y * y);
-			ps = (x * x1 + y * y1) / d;
-			if (ps >= -.71 && ps <= .71)
-				continue;
-			if (d < l) {
-				Left = (*k).first;
-				Right = *j;
+		// empty trash
+		while (!Trash.empty ()) {
+			Left = Trash.front ();
+			pData->Unselect (Left);
+			Trash.pop_front ();
+			delete Left;
+		}
+		// now, for each arrow, search closiest object on both sides and verify it's a molecule
+		list<Object *>::iterator j, jend = Arrows.end ();
+		map<Object *, ObjectData>::iterator k, kend = Objects.end ();
+		for (j = Arrows.begin (); j != jend; j++) {
+			arrow = reinterpret_cast<MesomeryArrow *>(*j);
+			arrow->GetCoords (&x0, &y0, &x1, &y1);
+			//x0 and y0 should be the center of the arrow, not the beginning, so we must transform them
+			x0 = (x0 + x1) / 2;
+			y0 = (y0 + y1) / 2;
+			// x1, y1 will now be the coordinates of a normalized vector:
+			x1 -= x0;
+			y1 -= y0;
+			x0 *= pTheme->GetZoomFactor ();
+			y0 *= pTheme->GetZoomFactor ();
+			l = sqrt (x1 * x1 + y1 * y1);
+			x1 /= l;
+			y1 /= l;
+			l *= pTheme->GetZoomFactor (); // half length of the arrow on the screen
+			// No molecule should be nearer than that
+			minright = minleft = DBL_MAX;
+			Left = Right = NULL;
+			for (k = Objects.begin (); k != kend; k++) {
+				od = (*k).second;
+				x = od.x - x0;
+				y = od.y - y0;
+				d = sqrt (x * x + y * y);
+				ps = (x * x1 + y * y1) / d;
+				if (ps >= -.71 && ps <= .71)
+					continue;
+				if (d < l) {
+					Left = (*k).first;
+					Right = *j;
+					pData->UnselectAll ();
+					pData->SetSelected (Left);
+					pData->SetSelected (Right);
+					throw invalid_argument (_("No space left between molecule and arrow!"));
+				}
+				if (ps < 0) {
+					if (d < minleft) {
+						Left = od.mes;
+						minleft = d;
+					}
+				} else {
+					if (d < minright) {
+						Right = od.mes;
+						minright = d;
+					}
+				}
+			}
+			if (!Left || !Right) { // Do not accept arrows with only one mesomer (?)
+				Left = *j;
 				pData->UnselectAll ();
 				pData->SetSelected (Left);
-				pData->SetSelected (Right);
-				throw invalid_argument (_("No space left between molecule and arrow!"));
+				throw invalid_argument (_("Isolated arrows are not allowed!"));
 			}
-			if (ps < 0) {
-				if (d < minleft) {
-					Left = od.mes;
-					minleft = d;
-				}
-			} else {
-				if (d < minright) {
-					Right = od.mes;
-					minright = d;
-				}
+			reinterpret_cast<MesomeryArrow *> (*j)->SetStartMesomer (reinterpret_cast<Mesomer *> (Left));
+			reinterpret_cast<MesomeryArrow *> (*j)->SetEndMesomer (reinterpret_cast<Mesomer *> (Right));
+			reinterpret_cast<Mesomer *> (Left)->AddArrow (reinterpret_cast<MesomeryArrow *> (*j), reinterpret_cast<Mesomer *> (Right));
+			reinterpret_cast<Mesomer *> (Right)->AddArrow (reinterpret_cast<MesomeryArrow *> (*j), reinterpret_cast<Mesomer *> (Left));
+		}
+		// now, check if each mesomer has at least one arrow, may be we should add missing arrows?
+		for (k = Objects.begin (); k != kend; k++) {
+			od = (*k).second;
+			if (!od.mes->Validate ()) {
+				Left = (*k).first;
+				pData->UnselectAll ();
+				pData->SetSelected (Left);
+				throw invalid_argument (_("Isolated molecule!\n Please add missing arrows."));
 			}
 		}
-		if (!Left || !Right) { // Do not accept arrows with only one mesomer (?)
-			Left = *j;
-			pData->UnselectAll ();
-			pData->SetSelected (Left);
-			throw invalid_argument (_("Isolated arrows are not allowed!"));
-		}
-		reinterpret_cast<MesomeryArrow *> (*j)->SetStartMesomer (reinterpret_cast<Mesomer *> (Left));
-		reinterpret_cast<MesomeryArrow *> (*j)->SetEndMesomer (reinterpret_cast<Mesomer *> (Right));
-		reinterpret_cast<Mesomer *> (Left)->AddArrow (reinterpret_cast<MesomeryArrow *> (*j), reinterpret_cast<Mesomer *> (Right));
-		reinterpret_cast<Mesomer *> (Right)->AddArrow (reinterpret_cast<MesomeryArrow *> (*j), reinterpret_cast<Mesomer *> (Left));
+		// Check if all mesomers are related (only connectivity is checked for now)
+		if (!Validate (false))
+			throw invalid_argument (_("Please add missing arrows."));
+		// Align the children
+		Align ();
 	}
-	// now, check if each mesomer has at least one arrow, may be we should add missing arrows?
-	for (k = Objects.begin (); k != kend; k++) {
-		od = (*k).second;
-		if (!od.mes->Validate ()) {
-			Left = (*k).first;
-			pData->UnselectAll ();
-			pData->SetSelected (Left);
-			throw invalid_argument (_("Isolated molecule!\n Please add missing arrows."));
+	catch (invalid_argument& e) {
+		while (!Trash.empty ()) {
+			Left = Trash.front ();
+			pData->Unselect (Left);
+			Trash.pop_front ();
+			delete Left;
 		}
+		throw e;
 	}
-	// Check if all mesomers are related (only connectivity is checked for now)
-	if (!Validate (false))
-		throw invalid_argument (_("Please add missing arrows."));
-	// Align the children
-	Align ();
 	return true;
 }
 

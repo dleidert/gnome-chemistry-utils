@@ -342,6 +342,7 @@ Application::Application ():
 		MechanismArrowType = Object::AddType ("mechanism-arrow", CreateMechanismArrow);
 		MechanismStepType = Object::AddType ("mechanism-step", CreateMechanismStep);
 		Object::AddRule ("reaction-step", RuleMayContain, "mechanism-step");
+		Object::AddRule ("mesomery", RuleMayContain, "mechanism-step");
 
 		// Create global signal ids
 		OnChangedSignal = Object::CreateNewSignalId ();
@@ -719,6 +720,8 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		}
 	}
 	catch (LoaderError &e) {
+		if (!pDoc)
+			pDoc = m_pActiveDoc;
 		pDoc->Clear ();
 		char *unescaped = g_uri_unescape_string (filename, NULL);
 		string mess = _("Error in ");

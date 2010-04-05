@@ -33,7 +33,9 @@
 #include <gcp/electron.h>
 #include <gcp/mechanism-arrow.h>
 #include <gcp/mechanism-step.h>
+#include <gcp/mesomer.h>
 #include <gcp/molecule.h>
+#include <gcp/reaction-step.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -209,6 +211,10 @@ void gcpCurvedArrowTool::OnDrag ()
 	gccv::Item *item = m_pView->GetCanvas ()->GetItemAt (m_x, m_y);
 	if (item) {
 		gcu::Object *cur = (item == m_Item)? m_Target: dynamic_cast <gcu::Object *> (item->GetClient ());
+		if (!cur) { // looks that this can happen, why?
+			arrow->SetControlPoints (0., 0., 0., 0., 0., 0., 0., 0.);
+			return;
+		}
 		if (cur->GetType () == gcu::FragmentType)
 			cur = static_cast <gcp::Fragment *> (cur)->GetAtom ();
 		if (cur == m_pObject) {
@@ -221,7 +227,7 @@ void gcpCurvedArrowTool::OnDrag ()
 					return;
 				} else {
 					m_Target = NULL;
-					return; // TODO: implement
+					break; // TODO: implement
 				}
 				break;
 			}
@@ -270,7 +276,7 @@ void gcpCurvedArrowTool::OnDrag ()
 					break; // TODO: implement
 				} else {
 					m_Target = NULL;
-					return;	// TODO: add more types
+					break;	// TODO: add more types
 				}
 			}
 		} else if (cur == m_Target) {
@@ -304,7 +310,7 @@ void gcpCurvedArrowTool::OnDrag ()
 				gcp::Bond *bond = static_cast <gcp::Bond *> (cur);
 				if (!AllowAsTarget (bond)) {
 					m_Target = NULL;
-					return;
+					break;
 				}
 				m_Target = bond;
 				switch (m_pObject->GetType ()) {
@@ -322,7 +328,7 @@ void gcpCurvedArrowTool::OnDrag ()
 						return;
 					}
 					m_Target = NULL;
-					return;
+					break;
 				}
 				break;
 			}
@@ -330,7 +336,7 @@ void gcpCurvedArrowTool::OnDrag ()
 				gcp::Atom *atom = static_cast <gcp::Atom *> (cur);
 				if (!AllowAsTarget (atom)) {
 					m_Target = NULL;
-					return;
+					break;
 				}
 				m_Target = cur;
 				switch (m_pObject->GetType ()) {
@@ -351,19 +357,18 @@ void gcpCurvedArrowTool::OnDrag ()
 						return;
 					}
 					m_Target = NULL;
-					return;
 				}
 				break;
 			}
 			default:
 				m_Target = NULL;
-				return;	// TODO: add more types
+				break;	// TODO: add more types
 			}
 		}
-	} else {
+	} else
 		m_Target = NULL;
+	if (m_Target == NULL)
 		arrow->SetControlPoints (0., 0., 0., 0., 0., 0., 0., 0.);
-	}
 }
 
 void gcpCurvedArrowTool::OnMotion ()
@@ -534,6 +539,23 @@ bool gcpCurvedArrowTool::AllowAsTarget (G_GNUC_UNUSED gcp::Atom *atom)
 		gcu::Object *obj = m_pObject->GetParent ();
 		gcp::Atom *atom0 = static_cast <gcp::Atom *> ((obj->GetType () == gcu::AtomType)? obj: static_cast <gcp::Fragment *> (m_pObject)->GetAtom ());
 		if (atom0->GetBond (atom))
+			return false;
+	}
+	// now check that molecules are not in incompatible groups
+	gcu::Object *obj1 = m_pObject->GetMolecule (), *obj2 = atom->GetMolecule ();
+	if (obj1 != obj2) {
+		// otherwise, no problem
+		// get molecules parents
+		obj1 = obj1->GetParent ();
+		obj2 = obj2->GetParent ();
+		// if they belong to two different reaction step, return false
+		if ((obj1->GetType () == gcp::ReactionStepType || obj2->GetType () == gcp::ReactionStepType) && obj1 != obj2)
+			return false;
+		// no arrows between a mesomer and anything else
+		if (obj1->GetType () == gcp::MesomerType || obj2->GetType () == gcp::MesomerType)
+			return false;
+		// otherwise we request that the two molecules have the same parent or parents inside one another (might be a bug)
+		if (obj1 != obj2 && obj1->GetParent () != obj2->GetParent () && obj1->GetParent () != obj2 && obj1 != obj2->GetParent ())
 			return false;
 	}
 	return atom->AcceptNewBonds () || atom->GetBondsNumber (); 

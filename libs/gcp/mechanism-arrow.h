@@ -89,6 +89,11 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
 	void OnUnlink (Object *object);
 
+/*!
+Ensure that links are correctly set.
+*/
+	void OnLoaded ();
+
 	std::string Name ();
 
 private:

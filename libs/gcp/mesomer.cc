@@ -27,6 +27,9 @@
 #include "mesomery.h"
 #include "molecule.h"
 #include "document.h"
+#include "mechanism-arrow.h"
+#include "view.h"
+#include "widgetdata.h"
 #include <glib/gi18n-lib.h>
 
 using namespace gcu;
@@ -36,7 +39,7 @@ namespace gcp {
 
 TypeId MesomerType;
 
-Mesomer::Mesomer (): Object (MesomerType)
+Mesomer::Mesomer (): MechanismStep (MesomerType)
 {
 }
 
@@ -51,15 +54,50 @@ Mesomer::~Mesomer ()
 		return;
 	map<string, Object *>::iterator i;
 	Object *Child, *Group = ms->GetGroup ();
+	list <MechanismArrow *> arrows;
 	while (HasChildren ()) {
 		Child = GetFirstChild (i);
 		GetParent ()->GetParent ()->AddChild (Child);
+		if (Child->GetType () == MechanismArrowType) {
+			arrows.push_back (static_cast <MechanismArrow *> (Child));
+			continue;
+		}
 		if (pOp && !Group)
 			pOp->AddObject (Child, 1);
 	}
+	while (!arrows.empty ()) {
+		MechanismArrow *arrow = arrows.front ();
+		MechanismStep *step;
+		Object *obj = arrow->GetSource (), *molecule = obj->GetMolecule (), *parent = molecule->GetParent ();
+		if (parent->GetType () == MechanismStepType) {
+			step = static_cast <MechanismStep *> (parent);
+			step->AddChild (arrow);
+		} else {
+			step = new MechanismStep ();
+			step->SetParent (parent);
+			step->AddChild (arrow);
+			step->AddChild (molecule);
+		}
+		obj = arrow->GetTarget ();
+		molecule = obj->GetMolecule ();
+		parent = molecule->GetParent ();
+		if (parent != step) {
+			if (parent->GetType () == MechanismStepType) {
+				map <string, Object *>::iterator it;
+				obj = parent->GetFirstChild (it);
+				while (obj) {
+					step->AddChild (obj);
+					obj = parent->GetFirstChild (it);
+				}
+				
+			} else
+				step->AddChild (molecule);
+		}
+		arrows.pop_front ();
+	}
 }
 
-Mesomer::Mesomer (Mesomery* mesomery, Molecule* molecule) throw (std::invalid_argument): Object (MesomerType)
+Mesomer::Mesomer (Mesomery* mesomery, Molecule* molecule) throw (std::invalid_argument): MechanismStep (MesomerType)
 {
 	if (!mesomery || !molecule)
 		throw invalid_argument ("NULL argument to Mesomer constructor!");
@@ -68,6 +106,21 @@ Mesomer::Mesomer (Mesomery* mesomery, Molecule* molecule) throw (std::invalid_ar
 	GetDocument ()->EmptyTranslationTable();
 	AddChild (molecule);
 	m_Molecule = molecule;
+}
+
+Mesomer::Mesomer (Mesomery *mesomery, MechanismStep *step) throw (std::invalid_argument): MechanismStep (MesomerType)
+{
+	if (!mesomery || !step)
+		throw invalid_argument (_("NULL argument to Mesomer constructor!"));
+	SetId ("ms1");
+	mesomery->AddChild (this);
+	GetDocument ()->EmptyTranslationTable();
+	map <string, Object *>::iterator it;
+	while (Object *obj = step->GetFirstChild (it)) {
+		if (obj->GetType () == MoleculeType)
+			m_Molecule = static_cast <Molecule *> (obj);
+		AddChild (obj);
+	}
 }
 
 void Mesomer::AddArrow (MesomeryArrow *arrow, Mesomer *mesomer) throw (std::invalid_argument)
@@ -99,10 +152,13 @@ bool Mesomer::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Chi
 bool Mesomer::Load (xmlNodePtr node)
 {
 	if (Object::Load (node)) {
-		if (GetChildrenNumber () != 1)
-			return false;
 		map<string, Object*>::iterator i;
-		m_Molecule = reinterpret_cast<Molecule *> (GetFirstChild (i));
+		Object *obj = GetFirstChild (i);
+		while (obj && obj->GetType () != MoleculeType)
+			obj = GetNextChild (i);
+		if (!obj)
+			return false;
+		m_Molecule = reinterpret_cast <Molecule *> (obj);
 		return true;
 	}
 	return false;

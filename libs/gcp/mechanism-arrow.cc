@@ -184,14 +184,20 @@ bool MechanismArrow::Load (xmlNodePtr node)
 {
 	gcu::Document *doc = GetDocument ();
 	xmlChar *buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("source"));
-	doc->SetTarget (reinterpret_cast <char *> (buf), &m_Source, GetParent ());
+	doc->SetTarget (reinterpret_cast <char *> (buf), &m_Source, GetParent (), this);
+	if (m_Source)
+		m_Source->Link (this);
 	xmlFree (buf);
 	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("target"));
-	doc->SetTarget (reinterpret_cast <char *> (buf), &m_Target, GetParent ());
+	doc->SetTarget (reinterpret_cast <char *> (buf), &m_Target, GetParent (), this);
+	if (m_Target)
+		m_Target->Link (this);
 	xmlFree (buf);
 	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("source-aux"));
 	if (buf) {
-		doc->SetTarget (reinterpret_cast <char *> (buf), &m_SourceAux, GetParent ());
+		doc->SetTarget (reinterpret_cast <char *> (buf), &m_SourceAux, GetParent (), this);
+		if (m_SourceAux)
+			m_SourceAux->Link (this);
 		xmlFree (buf);
 	}
 	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("type"));
@@ -393,6 +399,25 @@ void MechanismArrow::SetSelected (int state)
 std::string MechanismArrow::Name ()
 {
 	return _("Mechanism arrow");
+}
+
+void MechanismArrow::OnLoaded ()
+{
+	Lock (); // don't destroy when unlinking
+	if (m_Source) {
+		m_Source->Unlink (this); // avoids two links
+		m_Source->Link (this);
+	}
+	if (m_SourceAux) {
+		m_SourceAux->Unlink (this); // avoids two links
+		m_SourceAux->Link (this);
+	}
+	if (m_Target) {
+		m_Target->Unlink (this); // avoids two links
+		m_Target->Link (this);
+	}
+	Lock (false);
+	GetParent ()->OnLoaded ();
 }
 
 }	//	namespace gcp

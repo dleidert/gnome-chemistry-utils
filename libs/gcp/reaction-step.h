@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_REACTION_STEP_H
 #define GCHEMPAINT_REACTION_STEP_H
 
-#include <mechanism-step.h>
+#include <gcp/mechanism-step.h>
 #include <gccv/structs.h>
 #include <set>
 

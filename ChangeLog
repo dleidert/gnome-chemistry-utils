@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2010-04-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: implement curved arrow support in mesomery and
+	fixed various issues.
+	* libs/gcp/mechanism-arrow.cc: ditto.
+	* libs/gcp/mechanism-arrow.h: ditto.
+	* libs/gcp/mesomer.cc: ditto.
+	* libs/gcp/mesomer.h: ditto.
+	* libs/gcp/mesomery.cc: ditto.
+	* libs/gcp/reaction-step.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: ditto.
+
 2010-04-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: enhance support for curved arrows in reactions.
 	* libs/gcp/document.cc: ditto.
