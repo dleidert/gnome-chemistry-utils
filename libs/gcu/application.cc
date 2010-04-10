@@ -90,7 +90,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	g_free (dir);
 	CurDir = uri;
 	g_free (uri);
-	if (first_call) { // needed to create several applications in the same program instance
+	if (first_call && !g_get_application_name ()) { // needed to create several applications in the same program instance
 		g_set_application_name (name.c_str ());
 		first_call = false;
 	}

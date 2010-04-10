@@ -240,15 +240,18 @@ void MechanismArrow::AddItem ()
 		start->GetCoords (&x0, &y0);
 		end->GetCoords (&x1, &y1);
 		// convert to canvas coordinates
-		x0 *= theme->GetZoomFactor ();
-		y0 *= theme->GetZoomFactor ();
-		x1 *= theme->GetZoomFactor ();
-		y1 *= theme->GetZoomFactor ();
 		x0 = (x0 + x1) / 2.;
 		y0 = (y0 + y1) / 2.;
+		x0 *= theme->GetZoomFactor ();
+		y0 *= theme->GetZoomFactor ();
 		l = hypot (m_CPx1, m_CPy1);
 		x0 += m_CPx1 / l * theme->GetPadding ();
 		y0 += m_CPy1 / l * theme->GetPadding ();
+		x0 /= theme->GetZoomFactor ();
+		y0 /= theme->GetZoomFactor ();
+		bond->AdjustPosition (x0, y0);
+		x0 *= theme->GetZoomFactor ();
+		y0 *= theme->GetZoomFactor ();
 		x1 = x0 + m_CPx1 * theme->GetZoomFactor ();
 		y1 = y0 + m_CPy1 * theme->GetZoomFactor ();
 		break;
@@ -307,12 +310,10 @@ void MechanismArrow::AddItem ()
 		start->GetCoords (&x2, &y2);
 		end->GetCoords (&x3, &y3);
 		// convert to canvas coordinates
-		x2 *= theme->GetZoomFactor ();
-		y2 *= theme->GetZoomFactor ();
-		x3 *= theme->GetZoomFactor ();
-		y3 *= theme->GetZoomFactor ();
 		x3 = (x2 + x3) / 2.;
 		y3 = (y2 + y3) / 2.;
+		x3 *= theme->GetZoomFactor ();
+		y3 *= theme->GetZoomFactor ();
 		if (!m_Pair) {
 			double dx = x3 - x0, dy = y3 - y0, l = hypot (dx, dy);
 			x3 -= 2. * dx / l;
@@ -321,6 +322,11 @@ void MechanismArrow::AddItem ()
 		l = hypot (m_CPx2, m_CPy2);
 		x3 += m_CPx2 / l * theme->GetPadding ();
 		y3 += m_CPy2 / l * theme->GetPadding ();
+		x3 /= theme->GetZoomFactor ();
+		y3 /= theme->GetZoomFactor ();
+		bond->AdjustPosition (x3, y3);
+		x3 *= theme->GetZoomFactor ();
+		y3 *= theme->GetZoomFactor ();
 		x2 = x3 + m_CPx2 * theme->GetZoomFactor ();
 		y2 = y3 + m_CPy2 * theme->GetZoomFactor ();
 		break;

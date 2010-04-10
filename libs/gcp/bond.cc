@@ -1244,4 +1244,59 @@ string Bond::GetProperty (unsigned property) const
 	}
 }
 
+void Bond::AdjustPosition (double &x, double &y)
+{
+	if (m_order == 1 && m_type == NormalBondType)
+		return;
+	// evaluate where we are relative to the bond
+	int i = 1;
+	double x0, y0, x1, y1, x2, y2, x3, y3, d, l;
+	GetLine2DCoords (i++, &x1, &y1, &x2, &y2);
+	// we need the vector orthogonal to the bond and ending at x,y
+	x2 -= x1;
+	y2 -= y1;
+	// normalize
+	d = hypot (x2, y2);
+	x3 = x2 / d;
+	y3 = y2 / d;
+	l = (x - x1) * x3 + (y - y1) * y3;
+	x2 = x1 + l * x3;
+	y2 = y1 + l * y3;
+	x0 = x - x2;
+	y0 = y - y2;
+	switch (m_type) {
+	case NormalBondType:
+		while (i <= m_order) {
+			GetLine2DCoords (i++, &x1, &y1, &x2, &y2);
+			l = (x - x1) * x3 + (y - y1) * y3;
+			x2 = x - x1 - l * x3;
+			y2 = y - y1 - l * y3;
+			x1 = hypot (x2, y2);
+			y1 = hypot (x0, y0);
+			if ((x2 * x0 + y2 * y0 < 0 && x1 >= y1) || x1 < y1) {
+				x -= x2 - x0;
+				y -= y2 - y0;
+			}
+		}
+		return;
+	case UpBondType:
+		l = l / d;
+		break;
+	case DownBondType:
+		l = InvertWedgeHashes? l / d: 1. - l / d;
+		break;
+	case ForeBondType:
+	case UndeterminedBondType:
+		l = 1.;
+		break;
+	default:
+		return; // should not happen
+	}
+	Document *doc = static_cast <Document*> (GetDocument ());
+	Theme *theme = doc->GetTheme ();
+	d = hypot (x - x2, y - y2) / l / (theme->GetStereoBondWidth () -theme->GetBondWidth ()) * 2. * theme->GetZoomFactor ();
+	x += (x - x2) / d;
+	y += (y - y2) / d;
+}
+
 }	//	namespace gcp

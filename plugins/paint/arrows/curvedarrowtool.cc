@@ -672,8 +672,13 @@ void gcpCurvedArrowTool::AtomToAdjBond ()
 		dx = -dx;
 		dy = -dy;
 	}
-	x3 = (x0 + x1) / 2 + dx * pTheme->GetPadding ();
-	y3 = (y0 + y1) / 2 + dy * pTheme->GetPadding ();
+	x3 = ((x0 + x1) / 2 + dx * pTheme->GetPadding ());
+	y3 = ((y0 + y1) / 2 + dy * pTheme->GetPadding ());
+	x3 /= m_dZoomFactor;
+	y3 /= m_dZoomFactor;
+	bond->AdjustPosition (x3, y3);
+	x3 *= m_dZoomFactor;
+	y3 *= m_dZoomFactor;
 	l /= 2.;
 	m_CPx1 = m_CPx2 = l * dx;
 	m_CPy1 = m_CPy2 = l * dy;
@@ -820,8 +825,13 @@ void gcpCurvedArrowTool::BondToAdjAtom ()
 		dy = x2;
 	}
 	// add some padding
-	m_CPx0 = x0 += dx * pTheme->GetPadding ();
-	m_CPy0 = y0 += dy * pTheme->GetPadding ();
+	x0 += dx * pTheme->GetPadding ();
+	y0 += dy * pTheme->GetPadding ();
+	x0 /= m_dZoomFactor;
+	y0 /= m_dZoomFactor;
+	bond->AdjustPosition (x0, y0);
+	m_CPx0 = x0 *= m_dZoomFactor;
+	m_CPy0 = y0 *= m_dZoomFactor;
 	l /= 2.;
 	m_CPx1 = dx * l;
 	m_CPy1 = dy * l;
@@ -892,6 +902,11 @@ void gcpCurvedArrowTool::BondToAdjBond ()
 	dy /= l;
 	x3 += dx * pTheme->GetPadding ();
 	y3 += dy * pTheme->GetPadding ();
+	x3 /= m_dZoomFactor;
+	y3 /= m_dZoomFactor;
+	bond->AdjustPosition (x3, y3);
+	x3 *= m_dZoomFactor;
+	y3 *= m_dZoomFactor;
 	l /= 2.;
 	l += pTheme->GetArrowHeadA ();
 	m_CPx2 = dx * l;

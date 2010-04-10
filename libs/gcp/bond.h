@@ -266,6 +266,16 @@ GCU_PROP_BOND_TYPE and calls gcu::Bond::SetProperty() for other properties.
 */
 	bool SetProperty (unsigned property, char const *value);
 
+/*!
+@param x the x coordinate to adjust
+@param y the y coordinate to adjust
+
+On entering coordinates are considered relative to the bond axis. This method
+adjust them so that they are put farer from the bond taking line width or
+multiple bonds line into account.
+*/
+	void AdjustPosition (double &x, double &y);
+
 private:
 //	GnomeCanvasPathDef* BuildPathDef (WidgetData* pData);
 //	GnomeCanvasPathDef* BuildCrossingPathDef (WidgetData* pData);

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: adjust curved arrows positions relative to stereo
+	and multiple bonds.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/mechanism-arrow.cc: ditto.
+	* libs/gcu/application.cc: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: ditto.
+
 2010-04-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: implement curved arrow support in mesomery and
 	fixed various issues.
