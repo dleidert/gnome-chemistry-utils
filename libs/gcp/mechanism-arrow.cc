@@ -229,7 +229,7 @@ void MechanismArrow::AddItem ()
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
-	double x0, y0, x1, y1, x2, y2, x3, y3, l, a;
+	double x0, y0, x1, y1, x2, y2, x3, y3, l, a, dx = 0., dy = 0.;
 	gcu::TypeId sid = m_Source->GetType (), tid = m_Target->GetType ();
 	Atom *source = NULL;
 	switch (sid) {
@@ -240,10 +240,19 @@ void MechanismArrow::AddItem ()
 		start->GetCoords (&x0, &y0);
 		end->GetCoords (&x1, &y1);
 		// convert to canvas coordinates
-		x0 = (x0 + x1) / 2.;
-		y0 = (y0 + y1) / 2.;
 		x0 *= theme->GetZoomFactor ();
 		y0 *= theme->GetZoomFactor ();
+		x1 *= theme->GetZoomFactor ();
+		y1 *= theme->GetZoomFactor ();
+		if (!m_Pair) {
+			dx = x1 - x0;
+			dy = y1 - y0;
+			l = hypot (dx, dy);
+			dx = 2. * dx / l;
+			dy = 2. * dy / l;
+		}
+		x0 = (x0 + x1) / 2.;
+		y0 = (y0 + y1) / 2.;
 		l = hypot (m_CPx1, m_CPy1);
 		x0 += m_CPx1 / l * theme->GetPadding ();
 		y0 += m_CPy1 / l * theme->GetPadding ();
@@ -265,6 +274,16 @@ void MechanismArrow::AddItem ()
 		y0 *= theme->GetZoomFactor ();
 		x1 = x0 + m_CPx1 * theme->GetZoomFactor ();
 		y1 = y0 + m_CPy1 * theme->GetZoomFactor ();
+		if (!m_Pair) {
+			source->GetCoords (&x2, &y2);
+			x2 *= theme->GetZoomFactor ();
+			y2 *= theme->GetZoomFactor ();
+			x2 -= x0;
+			y2 -= y0;
+			l = hypot (x2, y2);
+			dx = 2. * y2 / l;
+			dy = -2. * x2 / l;
+		}
 		break;
 	}
 	default: {
@@ -274,7 +293,7 @@ void MechanismArrow::AddItem ()
 				source = static_cast <gcp::Fragment *> (obj)->GetAtom ();
 			else
 				source = static_cast <gcp::Atom *> (obj);
-			double a, x, y, dx;
+			double a, x, y;
 			Electron *elec = static_cast <Electron *> (m_Source);
 			elec->GetPosition (&a, &dx);
 			a *= M_PI / 180.;
@@ -297,6 +316,11 @@ void MechanismArrow::AddItem ()
 			y0 += y - theme->GetPadding () * sin (a);
 			x1 = x0 + m_CPx1 * theme->GetZoomFactor ();
 			y1 = y0 + m_CPy1 * theme->GetZoomFactor ();
+			if (!m_Pair && elec->IsPair ()) {
+				l = hypot (x, y);
+				dx = 2. * y / l;
+				dy = -2. * x / l;
+			}
 		}
 		// otherwise we should throw an exception: TODO
 		break;
@@ -347,7 +371,8 @@ void MechanismArrow::AddItem ()
 			x3 = (x2 + x3) / 2.;
 			y3 = (y2 + y3) / 2.;
 			if (!m_Pair) {
-				double dx = x3 - x0, dy = y3 - y0, l = hypot (dx, dy);
+				double dx = x3 - x2, dy = y3 - y2;
+				l = hypot (dx, dy);
 				x3 -= 2. * dx / l;
 				y3 -= 2. * dy / l;
 			}
@@ -357,6 +382,23 @@ void MechanismArrow::AddItem ()
 			// convert to canvas coordinates
 			x3 *= theme->GetZoomFactor ();
 			y3 *= theme->GetZoomFactor ();
+			if (!m_Pair) {
+				atom->GetCoords (&x2, &y2);
+				x2 *= theme->GetZoomFactor ();
+				y2 *= theme->GetZoomFactor ();
+				x2 -= x3;
+				y2 -= y3;
+				l = hypot (x2, y2);
+				dx = 2. * y2 / l;
+				dy = -2. * x2 / l;
+				if (dx * (x3 - x0) + dy * (y3 - y0) < 0) {
+					x3 += dx;
+					y3 += dy;
+				} else {
+					x3 -= dx;
+					y3 -= dy;
+				}
+			}
 		}
 		// set second control point
 		x2 = x3 + m_CPx2 * theme->GetZoomFactor ();
@@ -365,6 +407,20 @@ void MechanismArrow::AddItem ()
 	}
 	default:
 		break;
+	}
+	if (!m_Pair) {
+		// This might be bad in some cases if both arrows go to the same side, but might this be chemically significant?
+		if (dx * (x3 - x0) + dy * (y3 - y0) < 0) {
+			x0 -= dx;
+			x1 -= dx;
+			y0 -= dy;
+			y1 -= dy;
+		} else {
+			x0 += dx;
+			x1 += dx;
+			y0 += dy;
+			y1 += dy;
+		}
 	}
 	gccv::BezierArrow *arrow = new gccv::BezierArrow (view->GetCanvas ()->GetRoot (), this);
 	arrow->SetControlPoints (x0, y0, x1, y1, x2, y2, x3, y3);

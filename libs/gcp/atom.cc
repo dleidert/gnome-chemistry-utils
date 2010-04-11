@@ -60,7 +60,7 @@ Atom::Atom ():
 	m_HPosStyle (AUTO_HPOS)
 {
 	m_Valence = -1; //unspecified
-	m_nlp = 0;
+	m_nlp = m_nlu = 0;
 	m_nH = 0;
 	m_HPos = GetBestSide();
 	m_ChargeAuto = false;
@@ -108,7 +108,7 @@ Atom::Atom (int Z, double x, double y, double z):
 {
 	m_ChargeAuto = false;
 	m_HPos = GetBestSide ();
-	m_nlp = 0;
+	m_nlp = m_nlu = 0;
 	SetZ(Z);
 	m_ascent = 0;
 	m_CHeight = 0.;
@@ -135,7 +135,7 @@ Atom::Atom (OBAtom* atom):
 	m_x = atom->GetX ();
 	m_y = - atom->GetY ();
 	m_z = atom->GetZ ();
-	m_nlp = 0;
+	m_nlp = m_nlu = 0;
 	SetZ (atom->GetAtomicNum ());
 	gchar* Id = g_strdup_printf ("a%d", atom->GetIdx());
 	SetId (Id);
@@ -725,23 +725,28 @@ double Atom::GetYAlign ()
 bool Atom::HasImplicitElectronPairs ()
 {
 	map<string, Object*>::iterator i;
-	Electron* electron = (Electron*) GetFirstChild (i);
+	Object *obj = GetFirstChild (i);
+	Electron* electron = NULL;
 	if (m_Valence > 0) {
 		int nexplp = 0; //nexplp is the number of explicit lone pairs
-		while (electron) { 
-			if (electron->IsPair ())
+		while (obj) {
+			electron = dynamic_cast <Electron *> (obj);
+			if (electron && electron->IsPair ())
 				nexplp++;
-			electron = (Electron*) GetNextChild (i);
+			obj = GetNextChild (i);
 		}
 		return (m_nlp > nexplp);
 	}
 	unsigned nel = 0;
-	while (electron){ 
-		if (electron->IsPair ())
-			nel += 2;
-		else
-			nel++;
-		electron = (Electron*) GetNextChild (i);
+	while (electron) { 
+		electron = dynamic_cast <Electron *> (obj);
+		if (electron) {
+			if (electron->IsPair ())
+				nel += 2;
+			else
+				nel++;
+		}
+		obj = GetNextChild (i);
 	}
 	nel += GetTotalBondsNumber ();
 	int nocc = GetChildrenNumber () + GetTotalBondsNumber ();
@@ -780,7 +785,7 @@ bool Atom::GetRelativePosition (double angle, double& x, double& y)
 		double limit = atan (m_height / m_width) * 180. / M_PI;
 		if (angle < limit) {
 			x = m_width / 2.;
-			y = m_width / 2. * t;
+			y = -m_width / 2. * t;
 		} else if (angle < 180. - limit) {
 			if (!isnan (t))
 				x = m_height / 2. / t;
@@ -1429,17 +1434,24 @@ void Atom::AddItem ()
 bool Atom::HasAvailableElectrons (bool paired)
 {
 	map<string, Object*>::iterator i;
-	Electron* electron = static_cast <Electron *> (GetFirstChild (i));
+	Object *obj = GetFirstChild (i);
+	Electron *electron = NULL;
+	while (obj) {
+		if ((electron = dynamic_cast <Electron *> (obj)))
+			break;
+			obj = GetNextChild (i);
+	}
 	if (paired) {
 		if (m_nlp)
 			return true;
-		while (electron) { 
-			if (electron->IsPair ())
+		while (obj) { 
+			if (electron && electron->IsPair ())
 				return true;
-			electron = static_cast <Electron *> (GetNextChild (i));
+			obj = GetNextChild (i);
+			electron = dynamic_cast <Electron *> (obj);
 		}
 	} else {
-		return (electron) || (m_nlp) || (m_nlu); // TODO: take curved arrows into account
+		return electron || m_nlp || m_nlu; // TODO: take curved arrows into account
 	}
 	return false;
 }
