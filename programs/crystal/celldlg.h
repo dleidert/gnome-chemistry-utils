@@ -34,11 +34,12 @@ using namespace gcu;
 
 class gcCellDlg: public Dialog
 {
+friend class gcCellDlgPrivate;
 public:
 	gcCellDlg (gcApplication *App, gcDocument* pDoc);
 	virtual ~gcCellDlg ();
 	
-	virtual bool Apply ();
+	bool Apply ();
 	void OnTypeChanged ();
 	
 private:
@@ -47,6 +48,10 @@ private:
 	gdouble m_a, m_b, m_c, m_alpha, m_beta, m_gamma;
 	GtkComboBox* TypeMenu;
 	GtkEntry *A, *B, *C, *Alpha, *Beta, *Gamma;
+	GtkToggleButton *AutoSpaceGroup;
+	GtkSpinButton *SpaceGroup;
+	GtkAdjustment *SpaceGroupAdj;
+	unsigned SpaceGroupSignal, TypeSignal;
 };
 
 #endif //GCRYSTAL_CELLDLG_H

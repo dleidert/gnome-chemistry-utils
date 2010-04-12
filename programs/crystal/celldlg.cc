@@ -26,7 +26,17 @@
 #include "celldlg.h"
 #include "document.h"
 #include "application.h"
+#include <gcu/spacegroup.h>
 #include <glib/gi18n.h>
+
+
+class gcCellDlgPrivate
+{
+public:
+	static void OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg);
+	static void OnAutoSpaceGroupToggled (GtkToggleButton *btn, gcCellDlg *dlg);
+	// TODO move OnTypeChanged there
+};
 
 void on_type_changed (G_GNUC_UNUSED GtkWidget* w, gcCellDlg *pBox)
 {
@@ -37,13 +47,18 @@ gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"
 {
 	m_pDoc = pDoc;
 	TypeMenu = GTK_COMBO_BOX (GetWidget ("lattice-type"));
-	g_signal_connect (G_OBJECT (TypeMenu), "changed", G_CALLBACK (on_type_changed), this);
+	TypeSignal = g_signal_connect (G_OBJECT (TypeMenu), "changed", G_CALLBACK (on_type_changed), this);
 	A = GTK_ENTRY (GetWidget ("a"));
 	B = GTK_ENTRY (GetWidget ("b"));
 	C = GTK_ENTRY (GetWidget ("c"));
 	Alpha = GTK_ENTRY (GetWidget ("alpha"));
 	Beta = GTK_ENTRY (GetWidget ("beta"));
 	Gamma = GTK_ENTRY (GetWidget ("gamma"));
+	AutoSpaceGroup = GTK_TOGGLE_BUTTON (GetWidget ("auto-space-group-btn"));
+	g_signal_connect (G_OBJECT (AutoSpaceGroup), "toggled", G_CALLBACK (gcCellDlgPrivate::OnAutoSpaceGroupToggled), this);
+	SpaceGroup = GTK_SPIN_BUTTON (GetWidget ("space-group-btn"));
+	SpaceGroupSignal = g_signal_connect (G_OBJECT (SpaceGroup), "value-changed", G_CALLBACK (gcCellDlgPrivate::OnSpaceGroupChanged), this);
+	SpaceGroupAdj = gtk_spin_button_get_adjustment (SpaceGroup);
 	gcLattices i;
 	m_pDoc->GetCell (&i, &m_a, &m_b, &m_c, &m_alpha, &m_beta, &m_gamma);
 	snprintf (m_buf, sizeof (m_buf), "%g", m_a);
@@ -59,6 +74,8 @@ gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"
 	snprintf (m_buf, sizeof (m_buf), "%g", m_gamma);
 	gtk_entry_set_text (Gamma, m_buf);
 	gtk_combo_box_set_active (TypeMenu, i);
+	gtk_toggle_button_set_active (AutoSpaceGroup, m_pDoc->GetAutoSpaceGroup ());
+	gtk_widget_set_sensitive (GTK_WIDGET (SpaceGroup), !m_pDoc->GetAutoSpaceGroup ());
 	OnTypeChanged ();
 }
 
@@ -138,6 +155,13 @@ bool gcCellDlg::Apply ()
 		gtk_dialog_run (box);
 	}
 	m_pDoc->SetCell (i, m_a, m_b, m_c, m_alpha, m_beta, m_gamma);
+	if (gtk_toggle_button_get_active (AutoSpaceGroup)) {
+		m_pDoc->SetAutoSpaceGroup (true);
+		m_pDoc->SetSpaceGroup (NULL);
+	} else {
+		m_pDoc->SetAutoSpaceGroup (false);
+		m_pDoc->SetSpaceGroup (SpaceGroup::GetSpaceGroup (gtk_spin_button_get_value (SpaceGroup)));
+	}
 	m_pDoc->Update ();
 	m_pDoc->SetDirty (true);
 	return true;
@@ -146,77 +170,209 @@ bool gcCellDlg::Apply ()
 void gcCellDlg::OnTypeChanged ()
 {
 	gcLattices i = (gcLattices) gtk_combo_box_get_active (TypeMenu);
-	switch(i)
-	{
-		case cubic:
-		case body_centered_cubic:
-		case face_centered_cubic:
-			gtk_entry_set_text (Alpha, "90");
-			gtk_entry_set_text (Beta, "90");
-			gtk_entry_set_text (Gamma, "90");
-			gtk_widget_set_sensitive (GTK_WIDGET (Alpha),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Beta),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Gamma),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (B),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (C),0);
-			break;
-		case hexagonal:
-			gtk_entry_set_text (Alpha, "90");
-			gtk_entry_set_text (Beta, "90");
-			gtk_entry_set_text (Gamma, "120");
-			gtk_widget_set_sensitive (GTK_WIDGET (Alpha),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Beta),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Gamma),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (B),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (C),1);
-			break;
-		case tetragonal:
-		case body_centered_tetragonal:
-			gtk_entry_set_text (Alpha, "90");
-			gtk_entry_set_text (Beta, "90");
-			gtk_entry_set_text (Gamma, "90");
-			gtk_widget_set_sensitive (GTK_WIDGET (Alpha),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Beta),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Gamma),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (B),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (C),1);
-			break;
-		case orthorhombic:
-		case base_centered_orthorhombic:
-		case body_centered_orthorhombic:
-		case face_centered_orthorhombic:
-			gtk_entry_set_text (Alpha, "90");
-			gtk_entry_set_text (Beta, "90");
-			gtk_entry_set_text (Gamma, "90");
-			gtk_widget_set_sensitive (GTK_WIDGET (Alpha),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Beta),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Gamma),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (B),1);
-			gtk_widget_set_sensitive (GTK_WIDGET (C),1);
-			break;
-		case rhombohedral:
-			gtk_widget_set_sensitive (GTK_WIDGET (Alpha),1);
-			gtk_widget_set_sensitive (GTK_WIDGET (Beta),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Gamma),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (B),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (C),0);
-			break;
-		case monoclinic:
-		case base_centered_monoclinic:
-			gtk_entry_set_text (Alpha, "90");
-			gtk_entry_set_text (Gamma, "90");
-			gtk_widget_set_sensitive (GTK_WIDGET (Alpha),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (Beta),1);
-			gtk_widget_set_sensitive (GTK_WIDGET (Gamma),0);
-			gtk_widget_set_sensitive (GTK_WIDGET (B),1);
-			gtk_widget_set_sensitive (GTK_WIDGET (C),1);
-			break;
-		case triclinic:
-			gtk_widget_set_sensitive (GTK_WIDGET (Alpha),1);
-			gtk_widget_set_sensitive (GTK_WIDGET (Beta),1);
-			gtk_widget_set_sensitive (GTK_WIDGET (Gamma),1);
-			gtk_widget_set_sensitive (GTK_WIDGET (B),1);
-			gtk_widget_set_sensitive (GTK_WIDGET (C),1);
-			break;
+	gcu::SpaceGroup const *spg = m_pDoc->GetAutoSpaceGroup ()? m_pDoc->GetSpaceGroup (): NULL;
+	std::string name = (spg)? spg->GetHMName (): "";
+	unsigned id = gtk_spin_button_get_value (SpaceGroup);
+	switch (i) {
+	case cubic:
+		if (!spg || spg->GetId () < 195 || name[0] != 'P')
+			id = 195;
+		goto cubic_end;
+	case body_centered_cubic:
+		if (!spg || spg->GetId () < 195 || name[0] != 'I')
+			id = 197;
+		goto cubic_end;
+	case face_centered_cubic:
+		if (!spg || spg->GetId () < 195 || name[0] != 'F')
+			id = 196;
+cubic_end:
+		gtk_adjustment_set_lower (SpaceGroupAdj, 195);
+		gtk_adjustment_set_upper (SpaceGroupAdj, 232);
+		gtk_entry_set_text (Alpha, "90");
+		gtk_entry_set_text (Beta, "90");
+		gtk_entry_set_text (Gamma, "90");
+		gtk_widget_set_sensitive (GTK_WIDGET (Alpha), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Beta), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Gamma), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (B), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (C), false);
+		break;
+	case hexagonal:
+		if (!spg || spg->GetId () < 168 || spg->GetId () > 194)
+			id = 168;
+		gtk_adjustment_set_lower (SpaceGroupAdj, 168);
+		gtk_adjustment_set_upper (SpaceGroupAdj, 194);
+		gtk_entry_set_text (Alpha, "90");
+		gtk_entry_set_text (Beta, "90");
+		gtk_entry_set_text (Gamma, "120");
+		gtk_widget_set_sensitive (GTK_WIDGET (Alpha), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Beta), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Gamma), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (B), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
+		break;
+	case tetragonal:
+		if (!spg || spg->GetId () < 75 || spg->GetId () > 142 || name[0] != 'P')
+			id = 75;
+		goto tetragonal_end;
+	case body_centered_tetragonal:
+		if (!spg || spg->GetId () < 75 || spg->GetId () > 142 || name[0] != 'I')
+			id = 79;
+tetragonal_end:
+		gtk_adjustment_set_lower (SpaceGroupAdj, 75);
+		gtk_adjustment_set_upper (SpaceGroupAdj, 142);
+		gtk_entry_set_text (Alpha, "90");
+		gtk_entry_set_text (Beta, "90");
+		gtk_entry_set_text (Gamma, "90");
+		gtk_widget_set_sensitive (GTK_WIDGET (Alpha), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Beta), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Gamma), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (B), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
+		break;
+	case base_centered_orthorhombic:
+		if (!spg || spg->GetId () < 16 || spg->GetId () > 74 || (name[0] != 'C' && name[0] != 'B' && name[0] != 'A'))
+			id = 20;
+		goto orthorhombic_end;
+	case orthorhombic:
+		if (!spg || spg->GetId () < 16 || spg->GetId () > 74 || name[0] != 'P')
+			id = 16;
+		goto orthorhombic_end;
+	case body_centered_orthorhombic:
+		if (!spg || spg->GetId () < 16 || spg->GetId () > 74 || name[0] != 'I')
+			id = 23;
+		goto orthorhombic_end;
+	case face_centered_orthorhombic:
+		if (!spg || spg->GetId () < 16 || spg->GetId () > 74 || name[0] != 'F')
+			id = 22;
+orthorhombic_end:
+		gtk_adjustment_set_lower (SpaceGroupAdj, 16);
+		gtk_adjustment_set_upper (SpaceGroupAdj, 74);
+		gtk_entry_set_text (Alpha, "90");
+		gtk_entry_set_text (Beta, "90");
+		gtk_entry_set_text (Gamma, "90");
+		gtk_widget_set_sensitive (GTK_WIDGET (Alpha), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Beta), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Gamma), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (B), true);
+		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
+		break;
+	case rhombohedral:
+		if (!spg || spg->GetId () < 143 || spg->GetId () > 167)
+			id = 143;
+		gtk_adjustment_set_lower (SpaceGroupAdj, 143);
+		gtk_adjustment_set_upper (SpaceGroupAdj, 167);
+		gtk_widget_set_sensitive (GTK_WIDGET (Alpha), true);
+		gtk_widget_set_sensitive (GTK_WIDGET (Beta), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Gamma), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (B), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (C), false);
+		break;
+	case monoclinic:
+		if (!spg || spg->GetId () < 3 || spg->GetId () > 16 || name[0] != 'P')
+			id = 3;
+		goto monoclinic_end;
+	case base_centered_monoclinic:
+		if (!spg || spg->GetId () < 3 || spg->GetId () > 16 || name[0] == 'P')
+			id = 5;
+monoclinic_end:
+		gtk_adjustment_set_lower (SpaceGroupAdj, 3);
+		gtk_adjustment_set_upper (SpaceGroupAdj, 15);
+		gtk_entry_set_text (Alpha, "90");
+		gtk_entry_set_text (Gamma, "90");
+		gtk_widget_set_sensitive (GTK_WIDGET (Alpha), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (Beta), true);
+		gtk_widget_set_sensitive (GTK_WIDGET (Gamma), false);
+		gtk_widget_set_sensitive (GTK_WIDGET (B), true);
+		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
+		break;
+	case triclinic:
+		if (!spg || spg->GetId () > 2)
+			id = 1;
+		gtk_adjustment_set_lower (SpaceGroupAdj, 1);
+		gtk_adjustment_set_upper (SpaceGroupAdj, 2);
+		gtk_widget_set_sensitive (GTK_WIDGET (Alpha), true);
+		gtk_widget_set_sensitive (GTK_WIDGET (Beta), true);
+		gtk_widget_set_sensitive (GTK_WIDGET (Gamma), true);
+		gtk_widget_set_sensitive (GTK_WIDGET (B), true);
+		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
+		break;
 	}
+	g_signal_handler_block (SpaceGroup, SpaceGroupSignal);
+	gtk_spin_button_set_value (SpaceGroup, id);
+	g_signal_handler_unblock (SpaceGroup, SpaceGroupSignal);
+}
+
+void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
+{
+	g_signal_handler_block (dlg->TypeMenu, dlg->TypeSignal);
+	unsigned id = gtk_spin_button_get_value_as_int (btn);
+	std::string name = SpaceGroup::GetSpaceGroup (id)->GetHMName ();
+	switch (name[0]) {
+	case 'P':
+		if (id > 2) {
+			if (id > 16) {
+				if (id > 74) {
+					if (id > 194) {
+						// cubic
+						gtk_combo_box_set_active (dlg->TypeMenu, cubic);
+					} else {
+						// tetragonal
+						gtk_combo_box_set_active (dlg->TypeMenu, tetragonal);
+					}
+				} else {
+					// orthorhombic
+					gtk_combo_box_set_active (dlg->TypeMenu, orthorhombic);
+				}
+			} else {
+				// monoclinic
+				gtk_combo_box_set_active (dlg->TypeMenu, monoclinic);
+			}
+		}
+		break;
+	case 'I':
+		if (id > 16) {
+			if (id > 74) {
+				if (id > 194) {
+					// cubic
+					gtk_combo_box_set_active (dlg->TypeMenu, body_centered_cubic);
+				} else {
+					// tetragonal
+					gtk_combo_box_set_active (dlg->TypeMenu, body_centered_tetragonal);
+				}
+			} else {
+				// orthorhombic
+				gtk_combo_box_set_active (dlg->TypeMenu, body_centered_orthorhombic);
+			}
+		}
+		break;
+	case 'F':
+		if (id > 16) {
+			if (id > 194) {
+				// cubic
+				gtk_combo_box_set_active (dlg->TypeMenu, face_centered_cubic);
+			} else {
+				// orthorhombic
+				gtk_combo_box_set_active (dlg->TypeMenu, face_centered_orthorhombic);
+			}
+		}
+		break;
+	default:
+		if (id > 2) {
+			if (id > 16) {
+				// orthorhombic
+				gtk_combo_box_set_active (dlg->TypeMenu, base_centered_orthorhombic);
+			} else {
+				// monoclinic
+				gtk_combo_box_set_active (dlg->TypeMenu, base_centered_monoclinic);
+			}
+		}
+		break;
+	}
+	g_signal_handler_unblock (dlg->TypeMenu, dlg->TypeSignal);
+}
+
+void gcCellDlgPrivate::OnAutoSpaceGroupToggled (GtkToggleButton *btn, gcCellDlg *dlg)
+{
+	gtk_widget_set_sensitive (GTK_WIDGET (dlg->SpaceGroup), !gtk_toggle_button_get_active (btn));
 }

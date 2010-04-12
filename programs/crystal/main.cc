@@ -107,9 +107,9 @@ int main(int argc, char *argv[])
 	node = go_conf_get_node (Application::GetConfDir (), "crystal");
 	GCU_GCONF_GET ("printing/resolution", int, PrintResolution, 300)
 	FoV = go_conf_load_int (node, "views/fov", 0, 45, 10);
-	Psi = go_conf_load_double (node, "views/psi", 180., 180., 70.);
-	Theta = go_conf_load_double (node, "views/theta", 180., 180., 10.);
-	Phi = go_conf_load_double (node, "views/phi", 180., 180., -90.);
+	Psi = go_conf_load_double (node, "views/psi", -180., 180., 70.);
+	Theta = go_conf_load_double (node, "views/theta", 0., 180., 10.);
+	Phi = go_conf_load_double (node, "views/phi", -180., 180., -90.);
 	Red = go_conf_load_double (node, "views/red", 0., 1., 1.);
 	Green = go_conf_load_double (node, "views/green", 0., 1., 1.);
 	Blue = go_conf_load_double (node, "views/blue", 0., 1., 1.);

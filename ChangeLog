@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2010-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/Makefile.am: add space groups from BODR since the original is
+	a bit buggy.
+	* database/space-groups.xml: ditto.
+	* libs/gcu/crystaldoc.cc: add an auto flag for the sapece group.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/spacegroup.cc: load groups from our database, not BODR.
+	* programs/crystal/celldlg.cc: manage space group.
+	* programs/crystal/celldlg.h: ditto.
+	* programs/crystal/main.cc: fixed key limits.
+	* ui/crystal/cell.ui: manage space group.
+
 2010-04-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fixed various issues.
 	* libs/gcp/mechanism-arrow.cc: fix positions for single electron moves.

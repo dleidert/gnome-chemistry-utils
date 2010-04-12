@@ -296,11 +296,12 @@ List of the views of the document.
 @return the space group associated with the lattice.
 */
 
-GCU_RO_PROP (std::string, NameCommon);
-GCU_RO_PROP (std::string, NameSystematic);
-GCU_RO_PROP (std::string, NameMineral);
-GCU_RO_PROP (std::string, NameStructure);
-GCU_RO_PROP (SpaceGroup const *, SpaceGroup);
+GCU_RO_PROP (std::string, NameCommon)
+GCU_RO_PROP (std::string, NameSystematic)
+GCU_RO_PROP (std::string, NameMineral)
+GCU_RO_PROP (std::string, NameStructure)
+GCU_PROP (SpaceGroup const *, SpaceGroup)
+GCU_PROP (bool, AutoSpaceGroup)
 };
 
 extern gchar const *LatticeName[];

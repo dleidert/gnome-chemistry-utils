@@ -458,7 +458,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 	GtkWindow *window;
 	GtkActionGroup *action_group;
 	GtkAccelGroup *accel_group;
-	GError *error;
+		GError *error;
 
 	SetWindow (window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL)));
 	g_object_set (G_OBJECT (window), "urgency-hint", false, NULL);

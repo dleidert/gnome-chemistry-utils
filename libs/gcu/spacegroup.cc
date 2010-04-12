@@ -120,7 +120,8 @@ GSF_XML_IN_NODE_END
 void SpaceGroups::Init ()
 {
 	GError *error = NULL;
-	GsfInput *in = gsf_input_gio_new_for_path (BODR_PKGDATADIR"/space-groups.xml", &error);
+	// do not use BODR space groups database for now until it is fully verified and fixed
+	GsfInput *in = gsf_input_gio_new_for_path (PKGDATADIR"/space-groups.xml", &error);
 	if (error) {
 		cerr << _("Could not find space groups definitions in ") << BODR_PKGDATADIR"/space-groups.xml" << endl;
 		cerr << _("Error is: ") << error->message << endl;

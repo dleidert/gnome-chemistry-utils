@@ -71,7 +71,7 @@ gchar const *LatticeName[] = {
 };
 
 CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
-	m_SpaceGroup (NULL)
+	m_SpaceGroup (NULL), m_AutoSpaceGroup (false)
 {
 	m_xmin = m_ymin = m_zmin = 0;
 	m_xmax = m_ymax = m_zmax = 1;
@@ -136,6 +136,8 @@ void CrystalDoc::Init()
 	m_a = m_b = m_c = 100;
 	m_alpha = m_beta = m_gamma = 90;
 	m_lattice = cubic;
+	m_SpaceGroup = SpaceGroup::GetSpaceGroup (195);
+	m_AutoSpaceGroup = false;
 	m_xmin = m_ymin = m_zmin = 0;
 	m_xmax = m_ymax = m_zmax = 1;
 	m_bFixedSize = false;
@@ -965,7 +967,7 @@ SpaceGroup const *CrystalDoc::FindSpaceGroup ()
 {
 	if (!AtomDef.size ())
 		return NULL;
-	if (m_SpaceGroup)
+	if (m_SpaceGroup && !m_AutoSpaceGroup)
 		return (m_SpaceGroup);
 	unsigned start, end, id;
 	switch (m_lattice) {

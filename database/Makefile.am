@@ -9,7 +9,8 @@ xml_in_files = \
 	elecprops.xml.in \
 	isotopes.xml.in \
 	radii.xml.in \
-	residues.xml.in
+	residues.xml.in \
+	space-groups.xml
 
 xmldir = $(datadir)/gchemutils/@GCU_API_VER@
 xml_DATA = $(xml_in_files:.xml.in=.xml)
