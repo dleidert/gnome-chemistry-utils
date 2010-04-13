@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-04-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: add plugins/paint/arrows/curvedarrowtool.ui.
+
 2010-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: add plugins/paint/atoms/orbital-prop.ui.
 
