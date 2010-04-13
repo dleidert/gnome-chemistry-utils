@@ -94,7 +94,7 @@ void Tool::OnMotion (View* pView, Object* pObject, double x, double y, unsigned 
 	OnMotion ();
 }
 
-void Tool::OnLeaveNotify (View* pView, unsigned int state)
+void Tool::OnLeaveNotify (View* pView, G_GNUC_UNUSED unsigned int state)
 {
 	m_pView = pView;
 	m_pData = pView->GetData ();

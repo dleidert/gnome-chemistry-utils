@@ -75,7 +75,7 @@ gcpTextTool::gcpTextTool (gcp::Application* App, string Id):
 	m_Weight = pTheme->GetFontWeight ();
 	m_Stretch = pTheme->GetFontStretch ();
 	m_Variant = pTheme->GetFontVariant ();
-	m_Size = pTheme->GetFontSize ();
+	m_Size = pTheme->GetTextFontSize ();
 	m_Underline = gccv::TextDecorationNone;
 	m_Rise = 0;
 	m_Color = GO_COLOR_BLACK;
@@ -102,8 +102,8 @@ bool gcpTextTool::OnClicked ()
 			(static_cast <gccv::Item *> (m_Active) != dynamic_cast <gccv::ItemClient *> (m_pObject)->GetItem ())))
 		Unselect ();
 	bool create = false;
+	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 	if (!m_pObject) {
-		gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 		gcp::Text *text = new gcp::Text(m_x0 / pTheme->GetZoomFactor (), m_y0 / pTheme->GetZoomFactor ());
 		m_pView->GetDoc ()->AddObject (text);
 		m_pView->GetDoc ()->AbortOperation ();
@@ -131,6 +131,7 @@ bool gcpTextTool::OnClicked ()
 		if (m_pView->GetDoc ()->GetCurrentOperation () == NULL && m_Group)
 			m_GroupNode = m_Group->Save (gcp::pXmlDoc);
 	}
+	m_Size = pTheme->GetTextFontSize () / PANGO_SCALE;
 	return true;
 }
 
@@ -437,20 +438,6 @@ bool gcpTextTool::PasteSelection (GtkClipboard *clipboard)
 	return true;
 }
 
-struct FragState {
-	PangoAttrList *l;
-	unsigned start;
-};
-
-static bool filter_fragment (PangoAttribute *attr, struct FragState *s)
-{
-	PangoAttribute *new_attr = pango_attribute_copy (attr);
-	new_attr->start_index += s->start;
-	new_attr->end_index += s->start;
-	pango_attr_list_change (s->l, new_attr);
-	return false;
-}
-
 bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *selection_data, G_GNUC_UNUSED int type)
 {
 	if (!m_Active)
@@ -476,18 +463,51 @@ bool gcpTextTool::OnReceive (GtkClipboard *clipboard, GtkSelectionData *selectio
 				xmlFreeDoc (xml);
 				return true; // otherwise, we'd call OnChanged (true) twice.
 			} else if (!strcmp((char*)node->name, "fragment")) {
-// FIXME
-/*				gcp::Fragment* fragment = new gcp::Fragment ();
+				gcp::Fragment* fragment = new gcp::Fragment ();
 				gcp::Document *pDoc = m_pView->GetDoc ();
-				gcp::Theme *pTheme = pDoc->GetTheme ();
 				pDoc->AddChild (fragment);
 				fragment->Load (node);
 				string buf = fragment->GetBuffer ();
-				PangoAttrList *l = pango_attr_list_new ();
-				PangoAttribute *attr = pango_attr_family_new (pTheme->GetFontFamily ());
-				pango_attr_list_insert (l, attr);
-				attr = pango_attr_size_new (pTheme->GetFontSize ());
-				pango_attr_list_insert (l, attr);*/
+				m_Active->ReplaceText (buf, static_cast <int> (start), start - end);
+				gccv::TextTagList tags = fragment->GetTagList ();
+				gccv::TextTagList::iterator it, end = tags.end ();
+				gccv::TextTag *tag;
+				for (it = tags.begin (); it != end; it++) {
+					switch ((*it)->GetTag ()) {
+					case gccv::Family:
+					case gccv::Size:
+					case gccv::Style:
+					case gccv::Weight:
+					case gccv::Variant:
+					case gccv::Stretch:
+					case gccv::Underline:
+					case gccv::Overline:
+					case gccv::Strikethrough:
+					case gccv::Foreground:
+					case gccv::Background:
+					case gccv::Rise:
+					case gccv::NewLine:
+						tag = (*it)->Duplicate ();
+						break;
+					default: {
+						gccv::PositionTextTag *ptag = dynamic_cast <gccv::PositionTextTag *> (*it);
+						if (!ptag)
+							continue; // should not happen
+						bool stacked;
+						double size;
+						if (!ptag)
+							continue; // should not happen
+						gccv::TextPosition position = ptag->GetPosition (stacked, size);
+						tag = new gccv::PositionTextTag (position, stacked, size);
+						break;
+					}
+					}
+					tag->SetStartIndex ((*it)->GetStartIndex () + start);
+					tag->SetEndIndex ((*it)->GetEndIndex () + start);
+					m_Active->InsertTextTag (tag);
+				}
+				tags.clear ();
+				delete fragment;
 			} else {
 				xmlFreeDoc (xml);
 				return false;

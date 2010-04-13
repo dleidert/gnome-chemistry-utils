@@ -73,9 +73,8 @@ bool gcpFragmentTool::OnClicked ()
 			return false;
 	}
 	gcp::Document* pDoc = m_pView->GetDoc ();
-	SetSize (m_pView->GetFontHeight ());
+	gcp::Theme *pTheme = pDoc->GetTheme ();
 	if (!m_pObject) {
-		gcp::Theme *pTheme = pDoc->GetTheme ();
 		m_Fragment = new gcp::Fragment (m_x0 / pTheme->GetZoomFactor (), m_y0 / pTheme->GetZoomFactor ());
 		pDoc->AddFragment (m_Fragment);
 		pDoc->AbortOperation ();
@@ -168,6 +167,7 @@ bool gcpFragmentTool::OnClicked ()
 	}
 	BuildTagsList ();
 	SetStatusText (gcp::Fragment::AutoMode);
+	SetSize (pTheme->GetFontSize () / PANGO_SCALE);
 	return true;
 }
 

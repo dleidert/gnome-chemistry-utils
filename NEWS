@@ -1,6 +1,7 @@
 Version 0.11.5
 	GChemPaint:
 		* Mechanism arrows support completed. [#21340]
+		* Fixed various text related issues.
 	Gnome Crystal:
 		* Enhanced support for space groups.
 

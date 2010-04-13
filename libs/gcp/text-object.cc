@@ -103,7 +103,7 @@ void TextObject::LoadSelected (xmlNodePtr node)
 		end = strtoul (buf, NULL, 10);
 		xmlFree (buf);
 	}
-	reinterpret_cast <gccv::Text *> (m_Item)->SetSelectionBounds (start, end);
+	reinterpret_cast <gccv::Text *> (m_TextItem)->SetSelectionBounds (start, end);
 	OnChanged (false);
 }
 
@@ -177,13 +177,9 @@ void TextObject::SelectionChanged (unsigned start, unsigned cur)
 		m_Editor->SelectionChanged ();
 }
 
-void TextObject::TextChanged (unsigned pos)
+void TextObject::TextChanged (G_GNUC_UNUSED unsigned pos)
 {
 	OnChanged (true);
-	// call SelectionChanged after OnChanged so that we can know what was selected before the text change
-	unsigned start;
-	m_TextItem->GetSelectionBounds (start, pos);
-	SelectionChanged (start, pos);
 }
 
 }	//	namespace gcp

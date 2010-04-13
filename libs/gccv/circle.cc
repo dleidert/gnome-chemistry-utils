@@ -75,7 +75,7 @@ double Circle::Distance (double x, double y, Item **item) const
 	return fabs (result - m_Radius) - GetLineWidth () / 2.;
 }
 
-void Circle::Draw (cairo_t *cr, bool is_vector) const
+void Circle::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	GOColor color = GetFillColor ();
 	cairo_set_line_width (cr, GetLineWidth ());

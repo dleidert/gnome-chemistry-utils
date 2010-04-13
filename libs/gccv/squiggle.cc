@@ -81,7 +81,7 @@ double Squiggle::Distance (double x, double y, Item **item) const
 	return fabs (d1 * y - d2 * x) / sqrt (d1 * d1 + d2 * d2) - m_Width / 2.;
 }
 
-void Squiggle::Draw (cairo_t *cr, bool is_vector) const
+void Squiggle::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	GOColor color = GetLineColor ();
 	if (color != 0) {

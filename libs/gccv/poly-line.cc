@@ -106,7 +106,7 @@ double PolyLine::Distance (double x, double y, Item **item) const
 	return result;
 }
 
-void PolyLine::Draw (cairo_t *cr, bool is_vector) const
+void PolyLine::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	GOColor color = GetLineColor ();
 	if (color != 0) {

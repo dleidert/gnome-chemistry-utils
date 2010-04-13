@@ -893,6 +893,11 @@ bool Text::OnChanged (bool save)
 		Tool* TextTool = dynamic_cast<Application*> (pDoc->GetApplication ())->GetTool ("Text");
 		if (!TextTool)
 			return  true;
+		if (m_TextItem) {
+			unsigned start, pos;
+			m_TextItem->GetSelectionBounds (start, pos);
+			SelectionChanged (start, pos);
+		}
 		xmlNodePtr node = SaveSelected ();
 		if (node)
 			TextTool->PushNode (node);

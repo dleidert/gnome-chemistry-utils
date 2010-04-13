@@ -42,7 +42,7 @@ Hash::~Hash ()
 {
 }
 
-void Hash::Draw (cairo_t *cr, bool is_vector) const
+void Hash::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	if (GetFillColor () == 0)
 		return;

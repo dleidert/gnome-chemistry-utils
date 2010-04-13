@@ -81,7 +81,7 @@ double Line::Distance (double x, double y, Item **item) const
 	return fabs (d1 * y - d2 * x) / sqrt (d1 * d1 + d2 * d2) - GetLineWidth () / 2.;
 }
 
-void Line::Draw (cairo_t *cr, bool is_vector) const
+void Line::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	cairo_operator_t op = GetOperator ();
 	cairo_set_line_width (cr, GetLineWidth ());

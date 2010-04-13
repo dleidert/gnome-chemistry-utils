@@ -125,7 +125,7 @@ double Rectangle::Distance (double x, double y, Item **item) const
 	return result;
 }
 
-void Rectangle::Draw (cairo_t *cr, bool is_vector) const
+void Rectangle::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	GOColor fill_color = GetFillColor (), line_color = GetLineColor ();
 	if (!fill_color && !line_color)

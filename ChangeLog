@@ -1,5 +1,29 @@
 ##Text encoding: utf-8
 
+2010-04-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: change version to 0.11.90.
+	* database/Makefile.am: change space-groups.xml to space-groups.xml.in.
+	* database/space-groups.xml: ditto.
+	* libs/gccv/arrow.cc: fixed compilation warnings.
+	* libs/gccv/circle.cc: ditto.
+	* libs/gccv/client.cc: ditto.
+	* libs/gccv/hash.cc: ditto.
+	* libs/gccv/item-client.cc: ditto.
+	* libs/gccv/item.cc: ditto.
+	* libs/gccv/line.cc: ditto.
+	* libs/gccv/poly-line.cc: ditto.
+	* libs/gccv/rectangle.cc: ditto.
+	* libs/gccv/squiggle.cc: ditto.
+	* libs/gccv/text.cc: ditto.
+	* libs/gccv/wedge.cc: ditto.
+	* libs/gcp/fragment.cc: fixed charge checking.
+	* libs/gcp/text-object.cc: fixed cursor position after undo/redo.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcp/tool.cc: fixed compilation warnings.
+	* plugins/paint/atoms/orbitaltool.cc: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/text/texttool.cc: restore chemistry into texts pasting.
+
 2010-04-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/Makefile.am: add space groups from BODR since the original is
 	a bit buggy.

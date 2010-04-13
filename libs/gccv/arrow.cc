@@ -133,7 +133,7 @@ double Arrow::Distance (double x, double y, Item **item) const
 	return fabs (yy);
 }
 
-void Arrow::Draw (cairo_t *cr, bool is_vector) const
+void Arrow::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	double theta = atan2 (m_yend - m_ystart, m_xend -m_xstart),
 		   length = sqrt ((m_yend - m_ystart) * (m_yend - m_ystart) + (m_xend -m_xstart) * (m_xend -m_xstart));

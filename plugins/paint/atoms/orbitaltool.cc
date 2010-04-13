@@ -147,6 +147,8 @@ bool gcpOrbitalTool::OnClicked ()
 		m_Item = group;
 		break;
 	}
+	default:
+		break;
 	}
 	return true;
 }
@@ -355,5 +357,7 @@ void gcpOrbitalTool::UpdatePreview ()
 		m_PreviewItem = group;
 		break;
 	}
+	default:
+		break;
 	}
 }

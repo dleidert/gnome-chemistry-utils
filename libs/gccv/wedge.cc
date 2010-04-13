@@ -92,7 +92,7 @@ double Wedge::Distance (double x, double y, Item **item) const
 	return yy;
 }
 
-void Wedge::Draw (cairo_t *cr, bool is_vector) const
+void Wedge::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	if (m_FillColor == 0)
 		return;

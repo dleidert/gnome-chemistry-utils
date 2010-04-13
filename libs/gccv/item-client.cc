@@ -52,7 +52,7 @@ void ItemClient::UpdateItem ()
 	AddItem ();
 }
 
-void ItemClient::SetSelected (int state)
+void ItemClient::SetSelected (G_GNUC_UNUSED int state)
 {
 }
 

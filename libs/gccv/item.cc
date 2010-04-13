@@ -85,18 +85,18 @@ void Item::UpdateBounds ()
 	m_CachedBounds = true;
 }
 
-double Item::Distance (double x, double y, Item **item) const
+double Item::Distance (G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED Item **item) const
 {
 	if (item)
 		*item = NULL;
 	return G_MAXDOUBLE;
 }
 
-void Item::Draw (cairo_t *cr, bool is_vector) const
+void Item::Draw (G_GNUC_UNUSED cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 }
 
-bool Item::Draw (cairo_t *cr, double x0, double y0, double x1, double y1, bool is_vector) const
+bool Item::Draw (G_GNUC_UNUSED cairo_t *cr, G_GNUC_UNUSED double x0, G_GNUC_UNUSED double y0, G_GNUC_UNUSED double x1, G_GNUC_UNUSED double y1, G_GNUC_UNUSED bool is_vector) const
 {
 	return false;
 }
@@ -114,7 +114,7 @@ void Item::Invalidate () const
 	m_Canvas->Invalidate (x0, y0, x1, y1);
 }
 
-void Item::Move (double x, double y)
+void Item::Move (G_GNUC_UNUSED double x, G_GNUC_UNUSED double y)
 {
 }
 

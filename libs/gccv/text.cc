@@ -152,7 +152,7 @@ TextLine::~TextLine ()
 void TextLine::DrawDecorations (cairo_t *cr, bool is_vector)
 {
 	unsigned start, end;
-	double xstart, xend, y;
+	double xstart, xend, y = 0.;
 	std::list <TextTag *>::iterator tag, end_tag = m_Decorations.end ();
 	std::list <TextRun *>::iterator run, end_run = m_Runs.end ();
 	Tag type;
@@ -638,16 +638,22 @@ PangoContext *Text::GetContext ()
 void Text::SetText (char const *text)
 {
 	m_Text = text;
-	pango_layout_set_text (m_Runs.front ()->m_Layout, text, -1); // FIXME: parse for line breaks
-	m_Runs.front ()->m_Length = strlen (text);
+	// clear all attributes
+	while (!m_Tags.empty ()) {
+		delete m_Tags.front ();
+		m_Tags.pop_front ();
+	}
 	RebuildAttributes ();
 }
 
 void Text::SetText (std::string const &text)
 {
 	m_Text = text;
-	pango_layout_set_text (m_Runs.front ()->m_Layout, text.c_str (), -1); // FIXME: parse for line breaks
-	m_Runs.front ()->m_Length = strlen (text.c_str ());
+	// clear all attributes
+	while (!m_Tags.empty ()) {
+		delete m_Tags.front ();
+		m_Tags.pop_front ();
+	}
 	RebuildAttributes ();
 }
 

@@ -378,6 +378,11 @@ bool Fragment::OnChanged (bool save)
 		Tool* FragmentTool = dynamic_cast<Application*> (pDoc->GetApplication ())->GetTool ("Fragment");
 		if (!FragmentTool)
 			return  true;
+		if (m_TextItem) {
+			unsigned start, pos;
+			m_TextItem->GetSelectionBounds (start, pos);
+			SelectionChanged (start, pos);
+		}
 		xmlNodePtr node = SaveSelected ();
 		if (node)
 			FragmentTool->PushNode (node);
@@ -783,23 +788,24 @@ bool Fragment::Load (xmlNodePtr node)
 		}
 		child = child->next;
 	}
-	// analyse text between tags to support previous versions
-	list <gccv::TextTag *> tags;
-	gccv::TextTagList::iterator i, iend = m_TagList.end ();
-	unsigned start = 0, end;
-	for (i = m_TagList.begin (); i != iend; i++)
-		tags.push_back (*i);
-	list <gccv::TextTag *>::iterator j, jend = tags.end ();
-	for (j = tags.begin (); j != jend; j++) {
-		end = (*j)->GetStartIndex ();
+	if (!m_TextItem) {
+		// analyse text between tags to support previous versions
+		list <gccv::TextTag *> tags;
+		gccv::TextTagList::iterator i, iend = m_TagList.end ();
+		unsigned start = 0, end;
+		for (i = m_TagList.begin (); i != iend; i++)
+			tags.push_back (*i);
+		list <gccv::TextTag *>::iterator j, jend = tags.end ();
+		for (j = tags.begin (); j != jend; j++) {
+			end = (*j)->GetStartIndex ();
+			if (end > start)
+				AnalContent (start, end);
+			start = (*j)->GetEndIndex ();
+		}
+		end = m_buf.length ();
 		if (end > start)
 			AnalContent (start, end);
-		start = (*j)->GetEndIndex ();
-	}
-	end = m_buf.length ();
-	if (end > start)
-		AnalContent (start, end);
-	if (m_TextItem) {
+	} else {
 		m_TextItem->SetText (m_buf);
 		while (!m_TagList.empty ()) {
 			m_TextItem->InsertTextTag (m_TagList.front ());
@@ -825,26 +831,12 @@ typedef struct
 	bool result;
 } ChargeFindStruct;
 
-static bool search_for_charge (PangoAttribute *attr, ChargeFindStruct *s)
-{
-	if (attr->start_index <= s->index && attr->end_index >= s->index
-		&& attr->klass->type == PANGO_ATTR_RISE &&
-		((PangoAttrInt*) attr)->value > 0) {
-			s->result = true;
-			s->index = attr->start_index;
-			s->end = attr->end_index;
-		}
-	return false;
-}
-
 void Fragment::AnalContent (unsigned start, unsigned &end)
 {
 	Document* pDoc = (Document*) GetDocument ();
 	if (!pDoc)
 		return;
 	Theme *pTheme = pDoc->GetTheme ();
-	if (m_TextItem)
-		m_buf = m_TextItem->GetText ();
 	char const *text = m_buf.c_str ();
 	list <gccv::TextTag *> const *tags = (m_TextItem)? m_TextItem->GetTags (): &m_TagList;
 	list <gccv::TextTag *>::const_iterator i, iend;
@@ -1347,22 +1339,25 @@ bool Fragment::Validate ()
 		return false;
 	}
 	//now scan for charges and stoichiometric numbers and validate
-	gccv::TextTagList chargetags;
+//	gccv::TextTagList chargetags; // FIXME: don't use for now
 	list <gccv::TextTag *> const *tags = m_TextItem->GetTags ();
-	// we get everything displayed as superscript and see if it is a charge
-	// all text not recognized as a charge will be analyzed through the gcu::Formula mechanism
-	// FIXME: write that code
-
-/*	if (m_AttrList == NULL)
-		m_AttrList = pango_layout_get_attributes (m_Layout);
-	pango_attr_list_filter (m_AttrList, (PangoAttrFilterFunc) filter_func, &s);*/
-/*	list<PangoAttribute*>::iterator i, iend = s.pal.end ();
-	for (i = s.pal.begin (); i != iend; i++) {
-		charge = m_buf.c_str () + (*i)->start_index;
-		strtol (charge, &err, 10);
-		if (*err != '+' && *err != '-' && err - m_buf.c_str () != (int) (*i)->end_index) {
+	list <gccv::TextTag *>::const_iterator it, itend = tags->end ();
+	for (it = tags->begin (); it != itend; it++) {
+		if ((*it)->GetTag () == ChargeTag) {
+			charge = m_buf.c_str () + (*it)->GetStartIndex ();
+			strtol (charge, &err, 10);
+			if (err == charge) {
+				// we allow for any alphabetic unicode character
+				if (g_unichar_isalpha (g_utf8_get_char (err)))
+					err = g_utf8_next_char (err);
+			}
+			unsigned length = (*it)->GetEndIndex () - (*it)->GetStartIndex () - (err - charge);
+			if ((*err == '+' && length == 1) ||
+			    (!strcmp (err, "−") && length == strlen ("−")))
+				continue;
+			// if we are there, we have an error
 			Document *pDoc = dynamic_cast<Document*> (GetDocument ());
-			text->SetSelectionBounds (m_BeginAtom, (m_EndAtom == m_BeginAtom)? m_EndAtom + 1: m_EndAtom);
+			m_TextItem->SetSelectionBounds ((*it)->GetStartIndex (), (*it)->GetEndIndex ());
 			GtkWidget* w = gtk_message_dialog_new (
 											GTK_WINDOW (pDoc->GetWindow ()->GetWindow ()),
 											GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1372,7 +1367,10 @@ bool Fragment::Validate ()
 			gtk_widget_destroy(w);
 			return false;
 		}
-	}*/
+	}
+	// we get everything displayed as superscript and see if it is a charge
+	// all text not recognized as a charge will be analyzed through the gcu::Formula mechanism
+	// FIXME: write that code
 	return true;
 }
 

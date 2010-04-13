@@ -37,27 +37,27 @@ Client::~Client ()
 {
 }
 
-bool Client::OnButtonPressed (ItemClient *client, unsigned button, double x, double y, unsigned state)
+bool Client::OnButtonPressed (G_GNUC_UNUSED ItemClient *client, G_GNUC_UNUSED unsigned button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED unsigned state)
 {
 	return true;
 }
 
-bool Client::OnButtonReleased (ItemClient *client, unsigned button, double x, double y, unsigned state)
+bool Client::OnButtonReleased (G_GNUC_UNUSED ItemClient *client, G_GNUC_UNUSED unsigned button, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED unsigned state)
 {
 	return true;
 }
 
-bool Client::OnDrag (ItemClient *client, double x, double y, unsigned state)
+bool Client::OnDrag (G_GNUC_UNUSED ItemClient *client, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED unsigned state)
 {
 	return true;
 }
 
-bool Client::OnMotion (ItemClient *client, double x, double y, unsigned state)
+bool Client::OnMotion (G_GNUC_UNUSED ItemClient *client, G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNUC_UNUSED unsigned state)
 {
 	return true;
 }
 
-bool Client::OnLeaveNotify (unsigned state)
+bool Client::OnLeaveNotify (G_GNUC_UNUSED unsigned state)
 {
 	return true;
 }
