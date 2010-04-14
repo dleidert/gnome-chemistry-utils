@@ -1,4 +1,6 @@
-Version 0.11.5
+Version 0.11.91
+
+Version 0.11.90
 	GChemPaint:
 		* Mechanism arrows support completed. [#21340]
 		* Fixed various text related issues.

@@ -216,7 +216,7 @@ PrintSetupDlg::PrintSetupDlg (Application* App, Printable *printable):
 		m_MarginLeftBtn = GTK_SPIN_BUTTON (GetWidget ("left-margin-btn"));
 		m_MarginLeftId = g_signal_connect ((GObject*) m_MarginLeftBtn, "value-changed", G_CALLBACK (on_left_margin_changed), this);
 		m_HeaderHeightBtn = GTK_SPIN_BUTTON (GetWidget ("header-height-btn"));
-		m_FooterHeightBtn = GTK_SPIN_BUTTON (GetWidget ("header-height-btn"));
+		m_FooterHeightBtn = GTK_SPIN_BUTTON (GetWidget ("footer-height-btn"));
 		UpdatePageSetup (NULL);
 		m_HBtn = GTK_TOGGLE_BUTTON (GetWidget ("hcenter-btn"));
 		gtk_toggle_button_set_active (m_HBtn, m_Printable->GetHorizCentered ());

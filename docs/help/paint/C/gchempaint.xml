@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.5//EN"
                "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.10.0">
-  <!ENTITY manrevision "0.10.0">
-  <!ENTITY date "September 2008">
+  <!ENTITY appversion "0.12.0">
+  <!ENTITY manrevision "0.12.0">
+  <!ENTITY date "April 2010">
   <!ENTITY app "GChemPaint">
 ]>
 <!-- 
@@ -71,6 +71,15 @@
    		<revision> 
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
+		  <revdescription> 
+			 <para role="author">Jean Bréfort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+   		<revision> 
+		  <revnumber>&app; Manual V0.10.0</revnumber>
+		  <date>September 2008</date> 
 		  <revdescription> 
 			 <para role="author">Jean Bréfort
 				<email>jean.brefort@normalesup.org</email> </para>
@@ -279,9 +288,7 @@
 		  <listitem><para>XYZ Co-ordinate Animation Format (*.xyz)</para>
 		  </listitem>
 		</itemizedlist>
-		<para>With the exception of the native format which is always supported,
-		the other formats will only be supported if the OpenBabel installed
-		version supports them. For some formats, only reading might be supported.</para>
+		<para>For some formats, only reading might be supported.</para>
 		<para>GChemPaint can also support formats not listed here provided they have a
 		known mime type, they are supported by OpenBabel and you add the mime type, one
 		per line to the $HOME/.gchempaint/mime-types file.</para>
@@ -368,10 +375,12 @@
 		</itemizedlist>
 		<para>Of course, only 2D data are exported, even if most
 		formats support 3D coordinates.</para>
-		<para>Exept for the native format, files are saved (and read) using the <citetitle>OpenBabel library</citetitle>
+		<para>The native format is supported directly by GChemPaint, Chemdraw formats
+		and CML are supported through plugins, and other files are saved (and read)
+		using the <citetitle>OpenBabel library</citetitle>
 		<ulink url="http://openbabel.sourceforge.net"></ulink>.</para>
 		<para>Saving in a file format other than the native format is unsafe because not all features are
-			supported by the OpenBabel library.</para>
+			supported either by the plugins or the OpenBabel library.</para>
 		<para>Other formats might be supported, depending on the OpenBabel
 		version as explained in the section <link linkend="gchempaint-open-file">
 		To Open a File</link>.</para>
@@ -910,9 +919,11 @@
 					</mediaobject>
 				</screenshot>
 			</figure>
+			<para>When you drag the mouse cursor, this tool being active, the objects which
+			would be deleted after clicking are highlighted in red.</para>
 			<para>To erase a bond or an atom, click on it when this tool is active. An atom is suppressed
-			with all its bonds. While the button is	pressed, the bond or atom appear coloured in red if
-			the pointer remains near it and revert to black if the mouse pointer is moved away.
+			with all its bonds. While the button is	pressed, the objects to delete appear coloured in red if
+			the pointer remains near them and revert to black if the mouse pointer is moved away.
 			When the left button is released, the objects coloured in red are deleted.</para>
 			<para>You can also delete whole molecules and groups of objects at once with the help of the
 			<link linkend="gchempaint-selection">Selection Tool</link>.</para>

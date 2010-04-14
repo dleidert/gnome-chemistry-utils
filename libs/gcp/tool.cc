@@ -142,6 +142,8 @@ bool Tool::Activate (bool bState)
 		return true;
 	} else {
 		if (Deactivate ()) {
+			if (m_pWidget)
+				gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), NULL);
 			m_pObject = NULL;
 			m_pWidget = NULL;
 			m_pView = NULL;

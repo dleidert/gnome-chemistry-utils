@@ -116,7 +116,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, gsvWindow *Win)
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GSpectrum is a spectrum viewer for Gnome");
 	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2007-2008 Jean Bréfort\n");
+	const gchar * copyright = _("Copyright © 2007-2010 Jean Bréfort\n");
 	const gchar * license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"

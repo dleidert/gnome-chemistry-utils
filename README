@@ -1,6 +1,7 @@
-The Gnome chemistry Utils are a collection of 
+The Gnome chemistry Utils are a collection of libraries and programs for the
+GNOME desktop which migh be useful for chemists and science students.
 
-Copyright 1999-2007 Jean Bréfort jean.brefort@normalesup.org, All Rights Reserved.
+Copyright 1999-2010 Jean Bréfort jean.brefort@normalesup.org, All Rights Reserved.
 	http://jean.brefort.free.fr
 
 This software is copyrighted under the GNU GPL version 2 or later.  Please see
@@ -16,10 +17,8 @@ The latest version of the software can be found at:
 See the file ChangeLog for more information about this software.
 
 What is needed to install the Gnome Chemistry Utils:
-	libglade-2 version 2.4.0 or later.
-	libgnomeprintui-2.2 version 2.4.0 or later.
 	GtkGLExt version 1.0.0 or later.
-	GOffice version 0.4.x.
+	GOffice version 0.8.x.
 	All dependencies of these libraries.
 These libraries are available from ftp://ftp.gnome.org or one of its mirrors.
 	BODR (the Blue Obelisk Data Repository) version 5 or later.
@@ -38,17 +37,26 @@ Odd minor versions are development version. To see what remains to be done
 before a stable version can be released read the TODO file. Help is of course
 welcomed.
 
-Four widgets are present in this version of the software:
-* GtkPeriodic is a periodic table of the elements.
-* GtkComboPeriodic is a combo button with a drop down
+Five widgets are present in this version of the software:
+* GcukPeriodic is a periodic table of the elements.
+* GcuComboPeriodic is a combo button with a drop down
 periodic table.
-* GtkCrystalViewer is a crystal structure viewer.
-* GtkChem3DViewer is a 3D molecular structure viewer.
+* GcuCrystalViewer is a crystal structure viewer.
+* GcuChem3DViewer is a 3D molecular structure viewer.
+* GcuSpectrumViewer is a spectrum viewer.
 Simple samples of their use are provided in the test programs
 
-Five programs are avaible:
+Six programs are avaible:
 * A 2D chemical editor (GChemPaint).
 * A 3D molecular structure viewer (GChem3Viewer).
 * A Crystal structure viewer (GCrystal).
 * A Chemical calculator (GChemCalc).
+* A Spectrum viewer (GSpectrum).
 * A periodic table of the elements application (GChemTable).
+
+Three plugins for external programs are included:
+* A GOffice plugin allows embedding GChemPaint supported files in programs
+supporting the GOffice component framework (Abiword is the only one none).
+* A Gnumeric plugin provides a molarmass function for the spreadsheet.
+* A Mozilla plugin allows embedding 2D, 3D and crystal structures as well as
+spectra in web pages.

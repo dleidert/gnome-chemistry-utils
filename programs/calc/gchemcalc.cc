@@ -279,7 +279,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GChemCalc is a simple calculator for chemists");
 	/* const gchar * documentors[] = {NULL}; */
-	const gchar * copyright = _("Copyright © 2005-2008 Jean Bréfort");
+	const gchar * copyright = _("Copyright © 2005-2010 Jean Bréfort");
 	const gchar * license =
 		"This program is free software; you can redistribute it and/or\n"
 		"modify it under the terms of the GNU General Public License as\n"

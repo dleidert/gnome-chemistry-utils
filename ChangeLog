@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2010-04-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* README: updated for 0.12.
+	* configure.ac: post release version bump (0.11.91).
+	* docs/help/paint/C/gchempaint.xml: some updates.
+	* libs/gccv/structs.h: API docs.
+	* libs/gcp/about.cc: updated copyright.
+	* libs/gcp/bond.cc: cleaned out obsolete code.
+	* libs/gcp/tool.cc: fixed cursor after deactivation.
+	* libs/gcu/print-setup-dlg.cc: fixed footer widgets sensitivity.
+	* programs/3d/window.cc: updated copyright.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+
 2010-04-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: change version to 0.11.90.
 	* database/Makefile.am: change space-groups.xml to space-groups.xml.in.

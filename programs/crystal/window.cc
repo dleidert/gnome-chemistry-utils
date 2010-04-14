@@ -150,7 +150,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 					"authors", authors,
 					"artists", artists,
 					"comments", _("Gnome Crystal is a lightweight crystal structures viewer for Gnome"),
-					"copyright", _("Copyright © 1999-2008 by Jean Bréfort"),
+					"copyright", _("Copyright © 1999-2010 by Jean Bréfort"),
 					"license", license,
 					"logo", logo,
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
