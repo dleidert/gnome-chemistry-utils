@@ -1343,12 +1343,50 @@
 			more than one single bond in the present version of <application>&app;</application>. The bond
 			can be added to any atom in the fragment. The bonded atom is the reference atom of the fragment.
 			When editing, you must always have a valid symbol at its position.</para>
-			<para>Figures are automatically displayed smaller than symbols and slightly lowered unless they
+			<para>This tool has several input modes. To switch between modes, you
+			need to use the appropriate key combinations. Current mode is displayed in the status bar.
+			Typing the shortcut for current mode always select normal mode.</para>
+			<para>Available modes:</para>
+				<itemizedlist> 
+				  <listitem><para>Normal mode (<keycombo><keycap>Control</keycap><keycap>Space</keycap></keycombo>):
+				  in this mode, <application>&app;</application> tries to interpret the string according to knwon rules.
+				  </para>
+				  </listitem>			  
+				  <listitem><para>Stoichiometry mode (<keycombo><keycap>Control</keycap><keycap>n</keycap></keycombo>):
+				  text entered in this mode is displayed as subscript and considered as a stoichiometric coefficient.
+				  <application>&app;</application> does not check what is entered in this version, but
+				  this will change in the future.
+				  </para>
+				  </listitem>
+				  <listitem><para>Charge mode (<keycombo><keycap>Control</keycap><keycap>+</keycap></keycombo>):
+				  text entered in this mode is considered as charge and displayed as superscript.
+				  <application>&app;</application> checks what is entered and complains when it
+				  does not cosider the entered text as a valid charge. Currently, a valid charge
+				  is either a number or a single character (might be a unicode character like &delta;
+				  followed by either + or &#8722;.
+				  </para>
+				  </listitem>
+				  <listitem><para>Subscript mode (<keycombo><keycap>Control</keycap><keycap>_</keycap></keycombo>):
+				  text entered as subscript, but with no stoichiometry meaning. Should nevertheless
+				  have a chemical meaning since <application>&app;</application> might check it in the future.
+				  </para>
+				  </listitem>
+				  <listitem><para>Superscript mode (<keycombo><keycap>Control</keycap><keycap>^</keycap></keycombo>):
+				  text entered as superscript, but with no charge meaning. Should nevertheless
+				  have a chemical meaning since <application>&app;</application> might check it in the future.
+				  </para>
+				  </listitem>
+				</itemizedlist>
+			<para>In normal mode, figures are automatically displayed smaller than symbols and slightly lowered unless they
 			are part of a charge. To add a charge in the fragment, first type the sign and then, either the figures
 			or other signs: typing a + increments the current charge and typing a - decrements it.</para>
 			<para>To obtain Fe<superscript>2+</superscript>, you can type Fe+2 or Fe++.</para>
 			<para>Fragments also support <link linkend="gchempaint-charge">local charges</link>,
 			but only if no charge is indicated in the fragment itself.</para>
+			<para>It is also possible to force some text to appear and be considered as a charge
+			by switching to the charge input mode. Inside charges the - sign is replaced by an unicode
+			minus character (&#8722;). <application>&app;</application> will check if the entered text looks like
+			a charge.</para>
 			<para>The fragment tool also converts existing atoms to fragment. This might be useful
 			to change the position of attached hydrogens or to display terminal carbon atoms.
 			In the other way, the Element Tool can also be used on fragments. It tries to replace the symbol
@@ -1411,6 +1449,85 @@
 		drag the charge to the wanted position while pressing the mouse button.
 		Pressing the Shift key and/or the Control key change the behavior while
 		dragging.</para>
+	</sect1>
+<!-- ============= Add orbitals to atoms ================ -->
+	<sect1 id="gchempaint-orbitals">
+		<title>To Add or Modify Orbitals representations</title>
+		<para>It is possible to add an orbital representation to an atom such as:</para>
+		<figure id="gchempaint-orbital-sample"> 
+		  <screenshot>
+		  	<title>Orbital sample</title>
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of an orbital representation.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/orbital-sample.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>To add one such representation, select the orbital tool:</para>
+		<figure id="gchempaint-orbital-tool"> 
+		  <screenshot>
+		  	<title>Orbital tool</title>
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the orbital tool.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/orbital.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>When this tool is selected the toolbox looks like:</para>
+		<figure id="gchempaint-orbital-toolbox"> 
+		  <screenshot>
+		  	<title>Toolbox with orbital tool selected</title>
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the toolbox with the orbitaltool selected.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/orbital-toolbox.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>The available options are:</para>
+		<variablelist> 
+		  <varlistentry> <term>Coefficient</term> 
+			 <listitem> 
+				<para>A coefficient which affects the size and sign of the orbital.
+				Acceptable valies are -1. to +1.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Rotation</term> 
+			 <listitem> 
+				<para>The rotation relative to the vertical. This option is, of course,
+				not available for s-type orbitals.</para>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term>Type</term> 
+			 <listitem> 
+				<para>The type of the new orbital.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist> 
+		<para>To modify an existing orbital, right click on it or on the corresponding
+		atomic symbol, select the orbital in the popup menu, and choose <menuchoice>
+		<guimenuitem>Properties</guimenuitem> </menuchoice>.</para>
+		<para>This pops up the following window with the same options as in the toolbox:</para>
+		<figure id="gchempaint-orbital-properties"> 
+		  <screenshot>
+		  	<title>Orbital properties dialog</title>
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the orbital properties dialog.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/orbital-prop.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
 	</sect1>
 <!-- ============= Add or modify a bond ================ -->
 	<sect1 id="gchempaint-bond">

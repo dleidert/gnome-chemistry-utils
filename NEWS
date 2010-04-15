@@ -1,5 +1,6 @@
 Version 0.11.91
-
+	GChemPaint:
+		* Don't crash when closig an orbital properties box. [#29559] 
 Version 0.11.90
 	GChemPaint:
 		* Mechanism arrows support completed. [#21340]

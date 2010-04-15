@@ -79,7 +79,6 @@ gcpOrbitalProps::gcpOrbitalProps (gcp::Document *doc, gcpOrbital *orbital):
 	m_Node = NULL;
 	g_signal_connect_swapped (dialog, "focus-in-event", G_CALLBACK (gcpOrbitalProps::OnStartEditing), this);
 	g_signal_connect_swapped (dialog, "focus-out-event", G_CALLBACK (gcpOrbitalProps::OnEndEditing), this);
-	g_signal_connect_swapped (dialog, "destroy", G_CALLBACK (gcpOrbitalProps::OnEndEditing), this);
 	GtkWidget *w = GetWidget ("s-btn");
 	g_object_set_data (G_OBJECT (w), "orbital-type", GUINT_TO_POINTER (GCP_ORBITAL_TYPE_S));
 	if (m_Orbital->GetType () == GCP_ORBITAL_TYPE_S) {
@@ -113,6 +112,7 @@ gcpOrbitalProps::gcpOrbitalProps (gcp::Document *doc, gcpOrbital *orbital):
 
 gcpOrbitalProps::~gcpOrbitalProps ()
 {
+	OnEndEditing (this);
 	if (m_Node)
 		xmlFree (m_Node);
 }
@@ -316,11 +316,11 @@ xmlNodePtr gcpOrbital::Save (xmlDocPtr xml) const
 	default:
 		break;
 	}
-	buf = g_strdup_printf("%g", m_Coef);
+	buf = g_strdup_printf ("%g", m_Coef);
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> ("coef"), reinterpret_cast <xmlChar *> (buf));
 	g_free (buf);
 	if (m_Rotation != 0. && m_Type != GCP_ORBITAL_TYPE_S) {
-		buf = g_strdup_printf("%g", m_Rotation);
+		buf = g_strdup_printf ("%g", m_Rotation);
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("rotation"), reinterpret_cast <xmlChar *> (buf));
 		g_free (buf);
 	}

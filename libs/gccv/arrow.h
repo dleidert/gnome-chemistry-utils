@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/arrow.h 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,8 @@
 #include "line.h"
 #include "structs.h"
 
+/*!\file*/
+
 namespace gccv {
 
 class Arrow: public Line
@@ -43,12 +45,42 @@ public:
 	void UpdateBounds ();
 
 private:
-	
+
+/*!\fn SetStartHead(ArrowHeads StartHead)
+*/
+/*!\fn GetStartHead()
+*/
+/*!\fn GetRefStartHead()
+*/
 GCCV_ITEM_POS_PROP (ArrowHeads, StartHead)
-GCCV_ITEM_POS_PROP (ArrowHeads, EndHead)
-GCCV_ITEM_POS_PROP (double, A)
-GCCV_ITEM_POS_PROP (double, B)
-GCCV_ITEM_POS_PROP (double, C)
+/*!\fn SetEndHead(ArrowHeads EndHead)
+*/
+/*!\fn GetAndHead()
+*/
+/*!\fn GetRefEndHead()
+*/
+		GCCV_ITEM_POS_PROP (ArrowHeads, EndHead)
+/*!\fn SetA(double A)
+*/
+/*!\fn GetA()
+*/
+/*!\fn GetRefA()
+*/
+		GCCV_ITEM_POS_PROP (double, A)
+/*!\fn SetB(double B)
+*/
+/*!\fn GetB()
+*/
+/*!\fn GetRefB()
+*/
+		GCCV_ITEM_POS_PROP (double, B)
+/*!\fn SetC(double C)
+*/
+/*!\fn GetC()
+*/
+/*!\fn GetRefC()
+*/
+		GCCV_ITEM_POS_PROP (double, C)
 };
 
 }

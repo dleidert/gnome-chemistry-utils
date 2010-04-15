@@ -961,6 +961,7 @@ SEARCH_INCLUDES        = YES
 # the preprocessor.
 
 INCLUDE_PATH           = @top_srcdir@ @top_srcdir@/libs \
+						 @top_srcdir@/libs/gccv \
 						 @top_srcdir@/libs/gcu \
 						 @top_srcdir@/libs/gcp
 

@@ -73,7 +73,8 @@ void Operation::AddObject (Object* pObject, unsigned type)
 
 void Operation::AddNode (xmlNodePtr node, unsigned type)
 {
-	if (node) xmlAddChild(m_Nodes[type], node);
+	if (node)
+		xmlAddChild (m_Nodes[type], node);
 }
 
  AddOperation:: AddOperation (gcp::Document* pDoc, unsigned long ID):  Operation(pDoc, ID)
