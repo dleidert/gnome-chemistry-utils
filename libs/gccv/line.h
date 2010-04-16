@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/line.h 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,10 +25,17 @@
 #ifndef GCCV_LINE_H
 #define GCCV_LINE_H
 
+/*!\file*/
+
 #include "line-item.h"
 
 namespace gccv {
 
+/*!
+@brief Straight lines.
+
+Implements one segment straight lines.
+*/
 class Line: public LineItem
 {
 public:

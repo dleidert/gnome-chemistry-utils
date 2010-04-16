@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-04-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/paint/C/gchempaint.xml: more help updating.
+	* libs/gccv/arrow.h: API documentation work.
+	* libs/gccv/item.h: ditto.
+	* libs/gccv/line-item.h: ditto.
+	* libs/gccv/line.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.h: add GetHelpTag().
+	* plugins/paint/atoms/orbital.cc: fixed an undo/redo issue.
+
 2010-04-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: minor update.
 	* docs/help/paint/C/gchempaint.xml: more help updating.

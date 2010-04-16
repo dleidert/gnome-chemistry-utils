@@ -32,53 +32,127 @@
 
 namespace gccv {
 
+/*!
+@brief Simple arrows class.
+
+Item class for arrows composed of a straight line with one or both ends decorated
+with an arrow head.
+*/
 class Arrow: public Line
 {
 public:
+/*!
+@param canvas a Canvas.
+@param xstart the horizontal start position.
+@param ystart the vertical start position.
+@param xend the horizontal end position.
+@param yend the vertical end position.
+
+Creates a new Arrow with a full head at end and no head at start and sets
+it as a child of the root Group of \a canvas.
+*/
 	Arrow (Canvas *canvas, double xstart, double ystart, double xend, double yend);
+/*!
+@param parent the Group to which the new Arrow will be added.
+@param xstart the horizontal start position.
+@param ystart the vertical start position.
+@param xend the horizontal end position.
+@param yend the vertical end position.
+@param client the ItemClient for the new Arrow if any.
+
+Creates a new Arrow with a full head at end and no head at start inside
+\a parent and sets \a client as its associated ItemClient.
+*/
 	Arrow (Group *parent, double xstart, double ystart, double xend, double yend, ItemClient *client = NULL);
+/*!
+The destructor.
+*/
 	virtual ~Arrow ();
 
 	// virtual methods
+/*!
+@param x horizontal position
+@param y vertical position
+@param item where to store the Item.
+
+Implementation of Item::Distance() for the Arrow class. Sets \a item to \a this.
+*/
 	double Distance (double x, double y, Item **item) const;
+/*!
+@param cr a cairo_t.
+@param is_vector whether the cairo_t is a vectorial context.
+
+Draws the Arrow to \a cr.
+*/
 	void Draw (cairo_t *cr, bool is_vector) const;
+/*!
+Evaluates the Arrow bounds.
+*/
 	void UpdateBounds ();
 
 private:
 
 /*!\fn SetStartHead(ArrowHeads StartHead)
+@param StartHead the ArrowHeads for the start position of the arrow.
+
+Sets the arrow head type at the segment start position.
 */
 /*!\fn GetStartHead()
+@return the ArrowHeads for the start position of the arrow.
 */
 /*!\fn GetRefStartHead()
+@return the ArrowHeads for the start position of the arrow as a reference.
 */
 GCCV_ITEM_POS_PROP (ArrowHeads, StartHead)
 /*!\fn SetEndHead(ArrowHeads EndHead)
+@param EndHead the ArrowHeads for the end position of the arrow.
+
+Sets the arrow head type at the segment end position.
 */
-/*!\fn GetAndHead()
+/*!\fn GetEndHead()
+@return the ArrowHeads for the end position of the arrow.
 */
 /*!\fn GetRefEndHead()
+@return the ArrowHeads for the end position of the arrow as a reference.
 */
 		GCCV_ITEM_POS_PROP (ArrowHeads, EndHead)
 /*!\fn SetA(double A)
+@param A new arrow head size parameter.
+
+Sets the distance from tip of arrowhead to center.
 */
 /*!\fn GetA()
+@return the distance from tip of arrowhead to center.
 */
 /*!\fn GetRefA()
+@return the distance from tip of arrowhead to center as a reference.
 */
 		GCCV_ITEM_POS_PROP (double, A)
 /*!\fn SetB(double B)
+@param B new arrow head size parameter.
+
+Sets the distance from tip of arrowhead to trailing point, measured along shaft.
 */
 /*!\fn GetB()
+@return the distance from tip of arrowhead to trailing point, measured along
+shaft.
 */
 /*!\fn GetRefB()
+@return the distance from tip of arrowhead to trailing point, measured along
+shaft as a reference.
 */
 		GCCV_ITEM_POS_PROP (double, B)
 /*!\fn SetC(double C)
+@param C new arrow head size parameter.
+
+Sets the distance of arrowhead trailing points from outside edge of shaft.
 */
 /*!\fn GetC()
+@return the distance of arrowhead trailing points from outside edge of shaft.
 */
 /*!\fn GetRefC()
+@return the distance of arrowhead trailing points from outside edge of shaft as
+a reference.
 */
 		GCCV_ITEM_POS_PROP (double, C)
 };

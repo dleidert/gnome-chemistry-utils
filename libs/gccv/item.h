@@ -113,54 +113,124 @@ class Item
 {
 public:
 /*!
+@param canvas a Canvas.
+
+Creates a new Item and sets it as a child of the root Group of \a canvas.
 */
 	Item (Canvas *canvas);
 /*!
+@param parent the Group to which the new Item will be added.
+@param client the ItemClient for the new Item if any.
+
+Creates a new Item inside \a parent and sets \a client as its associated ItemClient.
 */
 	Item (Group *parent, ItemClient *client = NULL);
 /*!
+The destructor.
 */
 	virtual ~Item ();
 
 /*!
+@param x0 where to store the top left horizontal bound.
+@param y0 where to store the top left vertical bound.
+@param x1 where to store the bottom right horizontal bound.
+@param y1 where to store the bottom right vertical bound.
+
+Retrieves the current bounds coordinate for the Itm.
 */
 	void GetBounds (double &x0, double &y0, double &x1, double &y1) const;
 /*!
+Invalidates the Item and force a redraw of the rectangular region defined by
+its bounds.
 */
 	void Invalidate () const;
 /*!
+@param visible whether the Item should be visible.
+
+Show or Hide the Item according to the value of \a visible.
 */
 	void SetVisible (bool visible);
 
 	// virtual methods
 /*!
+@param x horizontal position
+@param y vertical position
+@param item where to store the Item.
+
+Evaluates an approximative distance between the point defined by (@a x,\a y) and
+the Item. A complex Item like a Group should set the nearest Item in \a item.
+Simple item just set themselves.
+\a return 0. when the point is inside the item, a reasonable small value when
+the point is near the Item, and a large value when far. Defult implementation
+returns G_MAXDOUBLE.
 */
 	virtual double Distance (double x, double y, Item **item) const;
 /*!
+@param cr a cairo_t.
+@param is_vector whether the cairo_t is a vectorial context.
+
+Draws Item to \a cr. \a is_vector might be used to enhance rendering in the case
+of a raster target.
+Derived classes should override at least one of the Draw() methods
 */
 	virtual void Draw (cairo_t *cr, bool is_vector) const;
 /*!
+@param cr a cairo_t.
+@param x0 the top left horizontal bound of the region to draw.
+@param y0 the top left vertical bound of the region to draw.
+@param x1 the bottom right horizontal bound of the region to draw.
+@param y1 the bottom right top left vertical bound of the region to draw.
+@param is_vector whether the cairo_t is a vectorial context.
+
+Draws Item to \a cr, limiting the operations to the given rectangular region.
+\a is_vector might be used to enhance rendering in the case
+of a raster target.
+Derived classes should override at least one of the Draw() methods
+@return true if done. Default implementation returns false. When false is
+returned the other Draw() method is called.
 */
 	virtual bool Draw (cairo_t *cr, double x0, double y0, double x1, double y1, bool is_vector) const;
 /*!
+@param x the horizontal deplacement
+@param y the vertical deplacement
+
+Moves the Item.
 */
 	virtual void Move (double x, double y);
 
 protected:
 /*!
+Must be called when the bounds have changed.
 */
 	void BoundsChanged ();
 /*!
+Updates Item::m_x0, Item::m_y0, Item::m_x1 and Item::m_y1. All derived classes
+should implement this method to set the bounds and call Item::UpdateBounds()
+when done.
 */
 	virtual void UpdateBounds ();
 /*!
+@return the Canvas enclosing the Item.
+
 */
 	Canvas const *GetCanvas () const {return m_Canvas;}
 
 protected:
+/*!
+The top left horizontal bound.
+*/
 	double m_x0;
+/*!
+The top left vertical bound.
+*/
 	double m_y0;
+/*!
+The bottom right horizontal bound.
+*/
 	double m_x1;
+/*!
+The bottom right vertical bound.
+*/
 	double m_y1;
 
 private:
@@ -168,7 +238,9 @@ private:
 	bool m_CachedBounds;
 	bool m_NeedsRedraw;
 
-/*!\fn  SetClient(ItemClient Client)
+/*!\fn  SetClient(ItemClient *Client)
+@param Client an ItemClient instance.
+
 Sets the Item Client associated with the Item.
 */
 /*!\fn  GetClient()
@@ -184,6 +256,8 @@ GCU_RO_POINTER_PROP (Group, Parent)
 */
 GCU_RO_PROP (bool, Visible)
 /*!\fn SetOperator(cairo_operator_t Operator)
+@param Operator a cairo_operator_t.
+
 Sets the cairo_operator_t used by the item.
 */
 /*!\fn GetOperator()

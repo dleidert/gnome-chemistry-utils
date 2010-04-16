@@ -46,6 +46,7 @@ public:
 	void OnRelease ();
 	void OnLeaveNotify ();
 	GtkWidget *GetPropertyPage ();
+	char const *GetHelpTag () {return "curved-arrow";}
 
 private:
 	bool AllowAsSource (gcp::Atom *atom);

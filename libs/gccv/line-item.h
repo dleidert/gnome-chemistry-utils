@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/fill-item.h 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,11 +25,18 @@
 #ifndef GCCV_LINE_ITEM_H
 #define GCCV_LINE_ITEM_H
 
+/*!\file*/
+
 #include "item.h"
 #include <gcu/macros.h>
 
 namespace gccv {
 
+/*!
+@brief Base class for line items, whether straight or curved.
+
+This base class implements the common properties of all lines.
+*/
 class LineItem: public Item {
 public:
 	LineItem (Canvas *canvas);

@@ -140,6 +140,7 @@ void gcpOrbitalProps::OnEndEditing (gcpOrbitalProps *dlg)
 		gcu::Object *obj = dlg->m_Orbital->GetGroup ();
 		op->AddObject (obj, 1);
 		dlg->m_Doc->FinishOperation ();
+		OnStartEditing (dlg); // updates everything so that we really do incremental undo/redo
 	}
 	dlg->m_Node = NULL;
 }

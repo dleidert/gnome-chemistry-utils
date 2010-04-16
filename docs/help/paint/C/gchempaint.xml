@@ -1451,7 +1451,7 @@
 		dragging.</para>
 	</sect1>
 <!-- ============= Add orbitals to atoms ================ -->
-	<sect1 id="gchempaint-orbitals">
+	<sect1 id="gchempaint-orbital">
 		<title>To Add or Modify Orbitals representations</title>
 		<para>It is possible to add an orbital representation to an atom such as:</para>
 		<figure id="gchempaint-orbital-sample"> 
@@ -2078,7 +2078,7 @@
 	</sect1>
 
 
-<!-- ============= Add an arrow ================ -->
+<!-- ============= Attach objects to reaction arrows ================ -->
 	<sect1 id="gchempaint-reaction-prop">
 		<title>To Attach an Object to a Reaction Arrow</title>
 		<para>Objects such as text and molecules can be attached to reaction arrows to give more
@@ -2138,6 +2138,87 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
+	</sect1>
+
+<!-- ============= Add or edit curved arrow ============== -->
+	<sect1 id="gchempaint-curved-arrow">
+		<title>To Add or Edit a Curved Arrow</title>
+		<para>To add a curved arrow, activate the appropriate tool.</para>
+		<figure id="gchempaint-curved-arrow-tool">
+			<title>Arrow Tools buttons</title>
+			<screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Curved Arrow Tools buttons.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/curved-arrow.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>Curved arrows are used to depict electrons positionn changes in reaction
+		mechanisms. If the arrow head is a full head, the arrow symbolize the move of an
+		electrons pair, while half-headed arrows represent single electron moves.
+		Select the appropriate tool according to the type of a curved arrow
+		you want to add.</para>
+		<para>To add a curved arrow, go where you want the arrow to start, the mouse cursor
+		should change to a drawing pencil. If not, then the framework does not allow
+		an arrow at this position. The object owning the electron or electron pair should
+		be highlighted. Then click and, if the new arrow does not end where you ant or if no
+		new arrow is displayed, drag the mouse to the target of the electron deplacement.
+		When yoy see an arrow at the wanted position, release the mouse button.</para>
+		<para>When possible, the arrow initial orientation is choosen according
+		to the mouse cursor position relative to the source of the electrons.</para>
+		<para>When the full headed curve arrow tool is selected, the toolbox looks
+		like:</para>
+		<figure id="gchempaint-curved-arrow-tool-opts">
+			<title>Toolbox when the full headed curved arrow tool is selected</title>
+			<screenshot> 
+				<mediaobject>
+					<imageobject>
+						<objectinfo> <abstract><para>Screenshot of the Full Headed Curved Arrow Tool.</para></abstract>
+						</objectinfo> 
+						<imagedata fileref="figures/curved-arrow-opts.png"/>
+					</imageobject>
+				</mediaobject>
+			</screenshot>
+		</figure>
+		<para>Only one option is present:</para>
+		<variablelist> 
+		  <varlistentry> <term>End arrow at center of new bonds</term> 
+			 <listitem> 
+				<para>When a new bond is created during a mechanism step, you can end the
+				curved arrow either at the other atom position, or at the center of
+				the future bond. The result of the two possibilities are displayed in
+				the following figure:</para>
+				<figure id="gchempaint-curved-arrow-ends">
+					<title>Alternative positions.</title>
+					<screenshot> 
+						<mediaobject>
+							<imageobject>
+								<objectinfo> <abstract><para>Alternative positions of a curved arrow end.</para></abstract>
+								</objectinfo> 
+								<imagedata fileref="figures/curved-arrow-end.png"/>
+							</imageobject>
+						</mediaobject>
+					</screenshot>
+				</figure>
+			 </listitem>
+		  </varlistentry>
+		  <varlistentry> <term><guibutton>Default</guibutton></term> 
+			 <listitem> 
+				<para>Clicking the <guibutton>Default</guibutton> button will make
+				the current option the default.</para>
+			 </listitem>
+		  </varlistentry>
+		</variablelist>
+		<para>Half-headed arrows will always end near the center of the future bond, because
+		a second electron should come from the other side.</para>
+		<para>Curved arrows can be edited to some extents. Only the intermediate control points can
+		be moved. In order to do that, select the appropriate tool, click on the arrow
+		that you wish to edit, the control points will be displayed, drag the mouse until
+		it reaches one of the conrol points. When you are there, the control point
+		will follow any further mouse move. When done, release the mouse button.</para>
 	</sect1>
 
 <!-- ============= Add or edit a reaction ================ -->
