@@ -34,7 +34,7 @@ database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in
 gnumeric/functions.cc
-gnumeric/plugin.xml.in
+gnumeric/plugin.xml.in.in
 goffice/plugin.xml.in
 goffice/gogcpapp.cc
 goffice/gogcpwin.cc
@@ -141,10 +141,10 @@ plugins/paint/wikipedia/wikipediatool.cc
 programs/3d/application.cc
 programs/3d/main.cc
 programs/3d/window.cc
-programs/3d/gchem3d.desktop.in
+programs/3d/gchem3d.desktop.in.in
 programs/calc/gchemcalc.cc
-programs/calc/gchemcalc.desktop.in
-programs/crystal/gcrystal.desktop.in
+programs/calc/gchemcalc.desktop.in.in
+programs/crystal/gcrystal.desktop.in.in
 programs/crystal/gcrystal.schemas.in
 programs/crystal/application.cc
 programs/crystal/atomsdlg.cc
@@ -156,13 +156,13 @@ programs/crystal/linesdlg.cc
 programs/crystal/main.cc
 programs/crystal/window.cc
 programs/crystal/x-gcrystal.desktop.in
-programs/paint/gchempaint.desktop.in
+programs/paint/gchempaint.desktop.in.in
 programs/paint/gchempaint.schemas.in
 programs/paint/main.cc
 programs/paint/standaloneapp.cc
 programs/paint/x-gchempaint.desktop.in
 programs/spectra/application.cc
-programs/spectra/gspectrum.desktop.in
+programs/spectra/gspectrum.desktop.in.in
 programs/spectra/gspectrum.cc
 programs/spectra/window.cc
 programs/table/gchemtable-app.cc
@@ -170,6 +170,6 @@ programs/table/gchemtable-elt.cc
 programs/table/gchemtable-curve.cc
 programs/table/gchemtable-data-allocator.cc
 programs/table/gchemtable-data.cc
-programs/table/gchemtable.desktop.in
+programs/table/gchemtable.desktop.in.in
 templates/paint/haworth.xml.in
 templates/paint/templates.xml.in
