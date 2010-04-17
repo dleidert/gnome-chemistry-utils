@@ -880,7 +880,8 @@ void Document::RemoveAtom (Atom* pAtom)
 	Bond* pBond;
 	while ((pBond = (Bond*) pAtom->GetFirstBond (i)))
 	{
-		if (!m_bUndoRedo && !m_bIsLoading && m_pCurOp)
+		// save only for delete operations since otherwise, the whole group has already been saved
+		if (!m_bUndoRedo && !m_bIsLoading && m_pCurOp && dynamic_cast <DeleteOperation *> (m_pCurOp))
 			m_pCurOp->AddObject (pBond);
 		RemoveBond (pBond);
 	}

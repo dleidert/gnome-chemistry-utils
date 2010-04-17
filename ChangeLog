@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-04-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/paint/C/gchempaint.xml: more help updating.
+	* libs/gccv/arrow.h: API documentation work.
+	* libs/gccv/bezier-arrow.h: ditto.
+	* libs/gccv/item.h: fixed GCCV_ITEM_* macros.
+	* libs/gcp/document.cc: fixed one more undo/redo issue.
+
 2010-04-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/paint/C/gchempaint.xml: more help updating.
 	* libs/gccv/arrow.h: API documentation work.

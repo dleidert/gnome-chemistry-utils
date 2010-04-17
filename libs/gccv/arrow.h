@@ -100,9 +100,6 @@ Sets the arrow head type at the segment start position.
 /*!\fn GetStartHead()
 @return the ArrowHeads for the start position of the arrow.
 */
-/*!\fn GetRefStartHead()
-@return the ArrowHeads for the start position of the arrow as a reference.
-*/
 GCCV_ITEM_POS_PROP (ArrowHeads, StartHead)
 /*!\fn SetEndHead(ArrowHeads EndHead)
 @param EndHead the ArrowHeads for the end position of the arrow.
@@ -112,9 +109,6 @@ Sets the arrow head type at the segment end position.
 /*!\fn GetEndHead()
 @return the ArrowHeads for the end position of the arrow.
 */
-/*!\fn GetRefEndHead()
-@return the ArrowHeads for the end position of the arrow as a reference.
-*/
 		GCCV_ITEM_POS_PROP (ArrowHeads, EndHead)
 /*!\fn SetA(double A)
 @param A new arrow head size parameter.
@@ -123,9 +117,6 @@ Sets the distance from tip of arrowhead to center.
 */
 /*!\fn GetA()
 @return the distance from tip of arrowhead to center.
-*/
-/*!\fn GetRefA()
-@return the distance from tip of arrowhead to center as a reference.
 */
 		GCCV_ITEM_POS_PROP (double, A)
 /*!\fn SetB(double B)
@@ -137,10 +128,6 @@ Sets the distance from tip of arrowhead to trailing point, measured along shaft.
 @return the distance from tip of arrowhead to trailing point, measured along
 shaft.
 */
-/*!\fn GetRefB()
-@return the distance from tip of arrowhead to trailing point, measured along
-shaft as a reference.
-*/
 		GCCV_ITEM_POS_PROP (double, B)
 /*!\fn SetC(double C)
 @param C new arrow head size parameter.
@@ -149,10 +136,6 @@ Sets the distance of arrowhead trailing points from outside edge of shaft.
 */
 /*!\fn GetC()
 @return the distance of arrowhead trailing points from outside edge of shaft.
-*/
-/*!\fn GetRefC()
-@return the distance of arrowhead trailing points from outside edge of shaft as
-a reference.
 */
 		GCCV_ITEM_POS_PROP (double, C)
 };

@@ -562,11 +562,14 @@
 				files. If not 0 the file will be compressed using gzip.</para>
 			 </listitem>
 		  </varlistentry>
-		  <varlistentry> <term>Detachable periodic table</term> 
+		  <varlistentry> <term>Invert wedge hashes</term> 
 			 <listitem> 
-				<para>If set, the drop-down periodic table from the tools box
-				will be tearable. See the section <link linkend="gchempaint-mendeleiev">To Change the Current Element</link>
-				for more details.</para>
+				<para>If set, the wedge hashes bonds will follow the usual
+				convention which put the narrow end at start and the large end
+				at the farest end. Default convention in <application>&app;</application>
+				is just the inverse, because it is more consistent with perspective
+				rules.See the <link linkend="gchempaint-stereobonds">Stereo bond tools</link>
+				section for more information.</para>
 			 </listitem>
 		  </varlistentry>
 		</variablelist>
@@ -1362,7 +1365,7 @@
 				  text entered in this mode is considered as charge and displayed as superscript.
 				  <application>&app;</application> checks what is entered and complains when it
 				  does not cosider the entered text as a valid charge. Currently, a valid charge
-				  is either a number or a single character (might be a unicode character like &delta;
+				  is either a number or a single character (might be a unicode character like &#948;
 				  followed by either + or &#8722;.
 				  </para>
 				  </listitem>
@@ -1600,6 +1603,10 @@
 			of bond, extremities are exchanged, except for squiggle bonds for which it has no effect.
 			Otherwise these tools work as the
 			<link linkend="gchempaint-normal-bond">normal bond tool</link>.</para>
+			<para>Convention for the wedge hashes start and end widths in <application>&app;</application>
+			pust the largest end at start, because it is the nearest from the viewer perspective. This
+			is contrary to the usual convention. To use the usual convention, check the appropriate
+			box in the <link linkend="gchempaint-preferences">Preferences dialog</link>.</para>
 		</sect2>
 		<sect2 id="gchempaint-bond-options">
 			<title>Bond tools options</title>

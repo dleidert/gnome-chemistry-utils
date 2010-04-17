@@ -41,13 +41,8 @@ and three public methods:
 \code
 	void SetFoo(Type val);
 	Type GetFoo();
-	Type& GetRefFoo();
 \endcode
 
-The last one allows code as:
-\code
-	obj.GetRefFoo() = val;
-\endcode
 Calling SetFoo(val) will set the member and invalidate the item.
 */
 #define GCCV_ITEM_PROP(type,member) \
@@ -57,7 +52,6 @@ public:	\
 		Invalidate ();	\
 	}	\
 	type Get##member (void) const {return m_##member;}	\
-	type &GetRef##member (void) {return m_##member;}	\
 private:	\
 	type m_##member;
 
@@ -73,13 +67,8 @@ and three public methods:
 \code
 	void SetFoo(Type val);
 	Type GetFoo();
-	Type& GetRefFoo();
 \endcode
 
-The last one allows code as:
-\code
-	obj.GetRefFoo() = val;
-\endcode
 Calling SetFoo(val) will set the member and invalidate the item bounds.
 */
 #define GCCV_ITEM_POS_PROP(type,member) \
@@ -91,7 +80,6 @@ public:	\
 		Invalidate ();	\
 	}	\
 	type Get##member (void) const {return m_##member;}	\
-	type &GetRef##member (void) {return m_##member;}	\
 private:	\
 	type m_##member;
 
