@@ -556,8 +556,8 @@
 	<color red="0.94" green="0.00" blue="0.13"/>
 </element>
 
-<element Z="112" symbol="Uub" max_bonds="6">
-	<_name>Ununbium</_name>
+<element Z="112" symbol="Cn" max_bonds="6">
+	<_name>Copernicium</_name>
 	<color red="0.95" green="0.00" blue="0.12"/>
 </element>
 

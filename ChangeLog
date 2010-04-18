@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2010-04-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/elements.xml.in: use Cn and Copernicium for element 112.
+
+2010-04-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/paint/C/gchempaint.xml: user help updated.
 	* libs/gccv/arrow.h: API documentation work.
 	* libs/gccv/bezier-arrow.h: ditto.

@@ -1,6 +1,8 @@
 Version 0.11.91
 	GChemPaint:
 		* Don't crash when closing an orbital properties box. [#29559]
+	Other:
+		* Use Cn and Copernicium for element 112.
 
 Version 0.11.90
 	GChemPaint:
