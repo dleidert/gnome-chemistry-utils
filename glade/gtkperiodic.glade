@@ -645,7 +645,7 @@
               <widget class="GtkToggleButton" id="elt112">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="label">Uub</property>
+                <property name="label">Cn</property>
               </widget>
               <packing>
                 <property name="left_attach">11</property>

@@ -1,7 +1,7 @@
 ##Text encoding: utf-8
 
 2010-04-18  Jean Bréfort  <jean.brefort@normalesup.org>
-	* database/elements.xml.in:	use Cn and Copernicium for element 112.
+	* database/elements.xml.in: use Cn and Copernicium for element 112.
 
 2010-03-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/residues/residues-dlg.cc: use the same user residues as
