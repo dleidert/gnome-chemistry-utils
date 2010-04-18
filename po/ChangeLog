@@ -1,8 +1,5 @@
 ##Text encoding: utf-8
 
-2010-04-17  Jean Bréfort  <jean.brefort@normalesup.org>
-	* POTFILES.in: fixed files list.
-
 2010-04-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: add plugins/paint/arrows/curvedarrowtool.ui.
 
