@@ -1,3 +1,7 @@
+Version 0.10.13
+	Other:
+		* Use Cn and Copernicium for element 112.
+
 Version 0.10.12
 	GChemPaint:
 		* Fixed double bond drawing.
