@@ -120,11 +120,11 @@ private:
 	Client *m_Client;
 	bool m_Dragging;
 
-/*!\fn GetZoom
+/*!\fn GetZoom()
 @return the current zoom level for the canvas.
 */
 GCU_RO_PROP (double, Zoom)
-/*!\fn GetRoot
+/*!\fn GetRoot()
 @return the root item.
 */
 GCU_RO_PROP (Group *, Root)
@@ -146,11 +146,14 @@ be used, the event will have no associated gccv::ItemClient instance.
 @return the current gap for the canvas as a reference.
 */
 GCU_PROP (double, Gap)
-/*!\fn GetBackgroundColor
+/*!\fn GetBackgroundColor()
 @return the background color.
 */
 GCU_RO_PROP (GOColor, BackgroundColor)
-GCU_PROP (unsigned, LastEventState)
+/*!\fn GetLastEventState()
+@return the GdkModifierType value for the last received event.
+*/
+		GCU_RO_PROP (unsigned, LastEventState)
 };
 
 }

@@ -559,12 +559,25 @@ void gcpUpBondTool::SetType (gcp::Bond* pBond)//FIXME: Is it really useful?
 	pBond->SetType (gcp::UpBondType);
 }
 
+static void on_config_changed (GOConfNode *node, G_GNUC_UNUSED gchar const *key, gcp::Application *app)
+{
+	bool InvertWedgeHashes = go_conf_get_bool (node, "invert-wedge-hashes");
+	GtkWidget *w = app->GetToolItem("DownBond");
+	if (!w)
+		return;
+	gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON (w), InvertWedgeHashes? "gcp_iDownBond": "gcp_DownBond");
+}
+
 gcpDownBondTool::gcpDownBondTool (gcp::Application *App): gcpBondTool (App, "DownBond", 4)
 {
+	m_ConfNode = go_conf_get_node (App->GetConfDir (), GCP_CONF_DIR_SETTINGS);
+	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, GetApplication ());
 }
 
 gcpDownBondTool::~gcpDownBondTool ()
 {
+	go_conf_remove_monitor (m_NotificationId);
+	go_conf_free_node (m_ConfNode);
 }
 
 void gcpDownBondTool::Draw()
@@ -614,14 +627,6 @@ void gcpDownBondTool::FinalizeBond ()
 void gcpDownBondTool::SetType (gcp::Bond* pBond)
 {
 	pBond->SetType (gcp::DownBondType);
-}
-
-void gcpDownBondTool::OnConfigChanged ()
-{
-	GtkWidget *w = m_pApp->GetToolItem ("DownBond");
-	if (!w)
-		return;
-	gtk_tool_button_set_stock_id (GTK_TOOL_BUTTON (w), gcp::InvertWedgeHashes? "gcp_iDownBond": "gcp_DownBond");
 }
 
 gcpForeBondTool::gcpForeBondTool (gcp::Application *App): gcpBondTool (App, "ForeBond", 4)

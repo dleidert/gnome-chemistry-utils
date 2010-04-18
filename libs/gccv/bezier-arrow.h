@@ -47,8 +47,8 @@ it as a child of the root Group of \a canvas.
 */
 	BezierArrow (Canvas *canvas);
 /*!
-@param parent the Group to which the new Arrow will be added.
-@param client the ItemClient for the new Arrow if any.
+@param parent the Group to which the new BezierArrow will be added.
+@param client the ItemClient for the new BezierArrow if any.
 
 Creates a new BezierArrow with a full head inside
 \a parent and sets \a client as its associated ItemClient.
@@ -82,10 +82,14 @@ Draws the BezierArrow to \a cr.
 Moves the BezierArrow.
 */
 	void Move (double x, double y);
-/*!
+
+protected:
+	/*!
 Evaluates the BezierArrow bounds.
 */
 	void UpdateBounds ();
+
+public:
 /*!
 @param x0 where to store the horizontal coordinate of the first control point.
 @param y0 where to store the horizontal coordinate of the first control point.

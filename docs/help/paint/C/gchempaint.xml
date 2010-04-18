@@ -1107,23 +1107,6 @@
 			</screenshot>
 		</figure>
 		<para>Just click on the wanted element, and it becomes the current element.</para>
-		<para>If you choose to have a tearable periodic table in the
-		<link linkend="gchempaint-preferences">preferences dialog box</link>,
-		you can make the table permanently displayed as a separate window by clicking
-		on the dotted line. Clicking again on the dotted line in the window
-		closes the window.</para>
-		<figure id="gchempaint-mendeleiev-dialog"> 
-		  <title>Periodic Table Dialog</title>
-		  <screenshot> 
-				<mediaobject>
-					<imageobject>
-						<objectinfo> <abstract><para>Screenshot of the Periodic Table Dialog Box.</para></abstract>
-						</objectinfo> 
-						<imagedata fileref="figures/mendeleiev.png"/>
-					</imageobject>
-				</mediaobject>
-			</screenshot>
-		</figure>
 		<para>The symbol of the selected element also appears on the
 		<link linkend="gchempaint-element">Element tool button</link>.
 		Every new atom created with all tools are atoms of the default element.
@@ -1458,8 +1441,8 @@
 		<title>To Add or Modify Orbitals representations</title>
 		<para>It is possible to add an orbital representation to an atom such as:</para>
 		<figure id="gchempaint-orbital-sample"> 
+	  	  <title>Orbital sample</title>
 		  <screenshot>
-		  	<title>Orbital sample</title>
 				<mediaobject>
 					<imageobject>
 						<objectinfo> <abstract><para>Screenshot of an orbital representation.</para></abstract>
@@ -1471,8 +1454,8 @@
 		</figure>
 		<para>To add one such representation, select the orbital tool:</para>
 		<figure id="gchempaint-orbital-tool"> 
-		  <screenshot>
 		  	<title>Orbital tool</title>
+ 		    <screenshot>
 				<mediaobject>
 					<imageobject>
 						<objectinfo> <abstract><para>Screenshot of the orbital tool.</para></abstract>
@@ -1484,8 +1467,8 @@
 		</figure>
 		<para>When this tool is selected the toolbox looks like:</para>
 		<figure id="gchempaint-orbital-toolbox"> 
-		  <screenshot>
 		  	<title>Toolbox with orbital tool selected</title>
+		    <screenshot>
 				<mediaobject>
 					<imageobject>
 						<objectinfo> <abstract><para>Screenshot of the toolbox with the orbitaltool selected.</para></abstract>
@@ -1520,8 +1503,8 @@
 		<guimenuitem>Properties</guimenuitem> </menuchoice>.</para>
 		<para>This pops up the following window with the same options as in the toolbox:</para>
 		<figure id="gchempaint-orbital-properties"> 
+		  <title>Orbital properties dialog</title>
 		  <screenshot>
-		  	<title>Orbital properties dialog</title>
 				<mediaobject>
 					<imageobject>
 						<objectinfo> <abstract><para>Screenshot of the orbital properties dialog.</para></abstract>
@@ -1604,9 +1587,25 @@
 			Otherwise these tools work as the
 			<link linkend="gchempaint-normal-bond">normal bond tool</link>.</para>
 			<para>Convention for the wedge hashes start and end widths in <application>&app;</application>
-			pust the largest end at start, because it is the nearest from the viewer perspective. This
+			puts the largest end at start, because it is the nearest from the viewer perspective. This
 			is contrary to the usual convention. To use the usual convention, check the appropriate
 			box in the <link linkend="gchempaint-preferences">Preferences dialog</link>.</para>
+			<para>The current convention is reflected by the icon displayed in the tool button.
+			The bottom left end represents the start bond position and top right the end bond
+			position. When the usual convention is used, the tool button will look like:</para>
+			<figure id="gchempaint-downbond-tool"> 
+			  <title>Inverted convention.</title>
+			  <screenshot> 
+					<mediaobject>
+						<imageobject>
+							<objectinfo> <abstract><para>Screenshot of the Down bond tool
+							when the invert wedge hashes option is selected.</para></abstract>
+							</objectinfo> 
+							<imagedata fileref="figures/downbond.png"/>
+						</imageobject>
+					</mediaobject>
+				</screenshot>
+			</figure>
 		</sect2>
 		<sect2 id="gchempaint-bond-options">
 			<title>Bond tools options</title>
@@ -2163,7 +2162,7 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
-		<para>Curved arrows are used to depict electrons positionn changes in reaction
+		<para>Curved arrows are used to depict electrons position changes in reaction
 		mechanisms. If the arrow head is a full head, the arrow symbolize the move of an
 		electrons pair, while half-headed arrows represent single electron moves.
 		Select the appropriate tool according to the type of a curved arrow
@@ -2171,9 +2170,9 @@
 		<para>To add a curved arrow, go where you want the arrow to start, the mouse cursor
 		should change to a drawing pencil. If not, then the framework does not allow
 		an arrow at this position. The object owning the electron or electron pair should
-		be highlighted. Then click and, if the new arrow does not end where you ant or if no
+		be highlighted. Then click and, if the new arrow does not end where you want or if no
 		new arrow is displayed, drag the mouse to the target of the electron deplacement.
-		When yoy see an arrow at the wanted position, release the mouse button.</para>
+		When you see an arrow at the wanted position, release the mouse button.</para>
 		<para>When possible, the arrow initial orientation is choosen according
 		to the mouse cursor position relative to the source of the electrons.</para>
 		<para>When the full headed curve arrow tool is selected, the toolbox looks
@@ -2226,6 +2225,11 @@
 		that you wish to edit, the control points will be displayed, drag the mouse until
 		it reaches one of the conrol points. When you are there, the control point
 		will follow any further mouse move. When done, release the mouse button.</para>
+		<para>Curved arrows can be created inside a reaction or a mesomery. It is also possible
+		to add the curved arrow to the molecule before creating the reaction or the mesomery.
+		If you add a curved arrow between two molecules, and then create a reaction,
+		the two molecules will be considered as only one reactant and no + sign will
+		be added between them, and the molecules will not be realigned.</para>
 	</sect1>
 
 <!-- ============= Add or edit a reaction ================ -->

@@ -99,13 +99,15 @@ public:
 	gcpDownBondTool (gcp::Application *App);
 	virtual ~gcpDownBondTool ();
 
-	void OnConfigChanged ();
-
 protected:
 	virtual void Draw ();
 	virtual void UpdateBond ();
 	virtual void FinalizeBond ();
 	virtual void SetType (gcp::Bond* pBond);
+
+private:
+	GOConfNode *m_ConfNode;
+	guint m_NotificationId;
 };
 
 class gcpSquiggleBondTool: public gcpBondTool

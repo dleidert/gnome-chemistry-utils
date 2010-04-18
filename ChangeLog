@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2010-04-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/paint/C/gchempaint.xml: user help updated.
+	* libs/gccv/arrow.h: API documentation work.
+	* libs/gccv/bezier-arrow.h: ditto.
+	* libs/gccv/canvas.h: ditto.
+	* libs/gccv/circle.h: ditto.
+	* libs/gccv/client.h: ditto.
+	* plugins/paint/bonds/bondtool.cc: fixed down bond tool button appearance
+	when configuration changes.
+	* plugins/paint/bonds/bondtool.h: ditto.
+
 2010-04-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/paint/C/gchempaint.xml: more help updating.
 	* libs/gccv/arrow.h: API documentation work.
@@ -24,7 +35,7 @@
 	* libs/gccv/item.h: ditto.
 	* libs/gcp/operation.cc: minor typography update.
 	* plugins/paint/atoms/orbital-prop.ui: fixed help button position.
-	* plugins/paint/atoms/orbital.cc: don't crash when closig the properties
+	* plugins/paint/atoms/orbital.cc: don't crash when closing the properties
 	box. [#29559] 
 
 2010-04-14  Jean Bréfort  <jean.brefort@normalesup.org>

@@ -85,6 +85,8 @@ Implementation of Item::Distance() for the Arrow class. Sets \a item to \a this.
 Draws the Arrow to \a cr.
 */
 	void Draw (cairo_t *cr, bool is_vector) const;
+
+protected:
 /*!
 Evaluates the Arrow bounds.
 */
