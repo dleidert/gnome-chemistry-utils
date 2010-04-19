@@ -1,5 +1,24 @@
 ##Text encoding: utf-8
 
+2010-04-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/calc/C/gchemcalc.xml: user help updated.
+	* docs/help/3d/C/gchem3d.xml: ditto.
+	* docs/help/paint/C/gchempaint.xml: ditto.
+	* docs/help/spectra/C/gspectrum.xml: ditto.
+	* libs/gccv/bezier-arrow.h: API documentation work.
+	* libs/gccv/circle.h: ditto.
+	* libs/gccv/fill-item.h: ditto.
+	* libs/gccv/group.h: ditto.
+	* libs/gccv/hash.h: ditto.
+	* libs/gccv/item.h: ditto.
+	* libs/gccv/text-client.h: ditto.
+	* libs/gccv/wedge.h: ditto.
+	* libs/gcp/text-object.h: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/gcuchem3dviewer.h: ditto.
+	* libs/gcu/spectrumdoc.cc: accept more spectrum type strings such as
+	"UV/VIS SPECTRUM".
+
 2010-04-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elements.xml.in: use Cn and Copernicium for element 112.
 

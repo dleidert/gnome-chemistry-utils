@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/wedge.h 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,10 +25,15 @@
 #ifndef GCCV_WEDGE_H
 #define GCCV_WEDGE_H
 
+/*!\file*/
+
 #include "fill-item.h"
 
 namespace gccv {
 
+/*!
+@brief Equilateral triangle.
+*/
 class Wedge: public Item
 {
 public:

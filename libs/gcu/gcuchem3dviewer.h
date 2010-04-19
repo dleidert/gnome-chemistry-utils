@@ -65,7 +65,7 @@ NULL otherwise.
 */
 #define GCU_CHEM3D_VIEWER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_CHEM3D_VIEWER, GcuChem3DViewerClass))
 
-/*! \struct GcuChem3DViewer gcu/gtkchem3dviewer.h
+/*! \struct GcuChem3DViewer gcu/gcuchem3dviewer.h
  The GcuChem3DViewer displays 3D models of molecules using an OpenGL window.
  A test program is available in the tests directory of the Gnome Chemistry Utils source archive (sources in testgtkchem3dviewer.c).
 <hr>

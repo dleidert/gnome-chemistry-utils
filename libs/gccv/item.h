@@ -251,9 +251,6 @@ Sets the cairo_operator_t used by the item.
 /*!\fn GetOperator()
 @return the cairo_operator_t used when rendering the item.
 */
-/*!\fn GetRefOperator()
-@return the cairo_operator_t used when rendering the item as a reference.
-*/
 GCCV_ITEM_PROP (cairo_operator_t, Operator);
 };
 

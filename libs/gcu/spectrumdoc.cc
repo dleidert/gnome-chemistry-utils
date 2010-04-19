@@ -197,18 +197,21 @@ static void parse_data_type (char const *type, struct data_type_struct &s)
 		s.variables = g_strdup (variables.c_str ());
 }
 
-char const *Types[] = {
-	"INFRARED SPECTRUM",
-	"RAMAN SPECTRUM",
-	"INFRARED PEAK TABLE",
-	"INFRARED INTERFEROGRAM",
-	"INFRARED TRANSFORMED SPECTRUM",
-	"UV-VISIBLE SPECTRUM",
-	"NMR SPECTRUM",
-	"NMR FID",
-	"NMR PEAK TABLE",
-	"NMR PEAK ASSIGNMENTS",
-	"MASS SPECTRUM"
+static struct {char const *name; SpectrumType type;} Types[] = {
+	{"INFRARED SPECTRUM", GCU_SPECTRUM_INFRARED},
+	{"RAMAN SPECTRUM", GCU_SPECTRUM_RAMAN},
+	{"INFRARED PEAK TABLE", GCU_SPECTRUM_INFRARED_PEAK_TABLE},
+	{"INFRARED INTERFEROGRAM", GCU_SPECTRUM_INFRARED_INTERFEROGRAM},
+	{"INFRARED TRANSFORMED SPECTRUM", GCU_SPECTRUM_INFRARED_TRANSFORMED},
+	{"UV-VISIBLE SPECTRUM", GCU_SPECTRUM_UV_VISIBLE},
+	{"NMR SPECTRUM", GCU_SPECTRUM_NMR},
+	{"NMR FID", GCU_SPECTRUM_NMR_FID},
+	{"NMR PEAK TABLE", GCU_SPECTRUM_NMR_PEAK_TABLE},
+	{"NMR PEAK ASSIGNMENTS", GCU_SPECTRUM_NMR_PEAK_ASSIGNMENTS},
+	{"MASS SPECTRUM", GCU_SPECTRUM_MASS},
+	{"UV-VIS SPECTRUM", GCU_SPECTRUM_UV_VISIBLE},
+	{"UV/VISIBLE SPECTRUM", GCU_SPECTRUM_UV_VISIBLE},
+	{"UV/VIS SPECTRUM", GCU_SPECTRUM_UV_VISIBLE}
 };
 
 char const *Units[] = {
@@ -615,6 +618,15 @@ static void on_transform_fid (GtkButton *btn, SpectrumDocument *doc)
 }
 */
 
+static SpectrumType get_spectrum_type_from_string (char const *buf)
+{
+	unsigned i;
+	for (i = 0; i < G_N_ELEMENTS (Types); i++)
+		if (!strcmp (Types[i].name, buf))
+		return Types[i].type;
+	return GCU_SPECTRUM_MAX;
+}
+
 #define JCAMP_PREC 1e-3 // fully arbitrary
 
 void SpectrumDocument::LoadJcampDx (char const *data)
@@ -644,7 +656,7 @@ parse_line:
 		case JCAMP_JCAMP_DX:
 			break;
 		case JCAMP_DATA_TYPE:
-			m_SpectrumType = (SpectrumType) get_spectrum_data_from_string (buf, Types, GCU_SPECTRUM_MAX);
+			m_SpectrumType = get_spectrum_type_from_string (buf);
 			break;
 		case JCAMP_DATACLASS:
 		case JCAMP_APPLICATION:

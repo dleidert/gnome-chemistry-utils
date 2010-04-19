@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/circle.h 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -43,7 +43,7 @@ public:
 @param canvas a Canvas.
 @param x the circle center horizontal position.
 @param y the circle center vertical position.
-@param radius the cricle radius.
+@param radius the circle radius.
 
 Creates a new Circle and sets it as a child of the root Group of \a canvas.
 */
@@ -52,10 +52,10 @@ Creates a new Circle and sets it as a child of the root Group of \a canvas.
 @param parent the Group to which the new Circle will be added.
 @param x the circle center horizontal position.
 @param y the circle center vertical position.
-@param radius the cricle radius.
+@param radius the circle radius.
 @param client the ItemClient for the new Circle if any.
 
-Creates a new Circle insideb\a parent and sets \a client as its associated
+Creates a new Circle inside \a parent and sets \a client as its associated
 ItemClient.
 */
 	Circle (Group *parent, double x, double y, double radius, ItemClient *client = NULL);

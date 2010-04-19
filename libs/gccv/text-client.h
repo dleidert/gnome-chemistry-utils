@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/text-client.h 
  *
- * Copyright (C) 2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,11 +25,16 @@
 #ifndef GCCV_TEXT_CLIENT_H
 #define GCCV_TEXT_CLIENT_H
 
+/*!\file*/
+
 #include <gccv/item-client.h>
 #include <gtk/gtk.h>
 
 namespace gccv {
 
+/*!
+@brief ItemClient for text items.
+*/
 class TextClient: public ItemClient
 {
 public:

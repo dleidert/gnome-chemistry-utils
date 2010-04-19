@@ -155,7 +155,7 @@ it to return a consistent value. Default implementation returns NULL.
 @param owner the owner of the reference to the search object.
 
 Search the descendant of \a parent, or of the whole document if \a parent is not set
-whose Id is \id. I not found, the parameters are stored for post loading processing
+whose Id is \a id. I not found, the parameters are stored for post loading processing
 using gcu::Document::Loaded(), and \a target is set to NULL.
 if \a owner is not NULL, post processing will call its OnLoaded() method.
 @return true if the target object was found.

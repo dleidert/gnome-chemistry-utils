@@ -196,14 +196,6 @@ the selection.
 */
 	bool m_RealSave;
 
-/*!\var m_Anchor
-The GtkAnchor used for the text object. Default is GTK_ANCHOR_W. When
-GTK_ANCHOR_W, GTK_ANCHOR_CENTER, or GTK_ANCHOR_E is used, the base of the
-first line is used for vertical alignment.
-*/
-/*!\fn GetAnchor()
-@return the current GtkAnchor.
-*/
 //GCU_PROT_PROP (GtkAnchorType, Anchor)
 /*!\var m_TagList
 The tags list associated with the object.

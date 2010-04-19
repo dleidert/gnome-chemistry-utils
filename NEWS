@@ -1,6 +1,10 @@
 Version 0.11.91
 	GChemPaint:
 		* Don't crash when closing an orbital properties box. [#29559]
+		* Fixed several undo/redo issues.
+		* Really update the down bond tool icon when the convention is switched.
+	GSpectrum:
+		* Accept more spectrum type strings such as "UV/VIS SPECTRUM".
 	Other:
 		* Use Cn and Copernicium for element 112.
 
