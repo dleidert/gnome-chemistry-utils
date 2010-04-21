@@ -360,6 +360,8 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 normal_exit:
 			GtkRecentData data;
 			data.display_name = (char*) Doc->GetTitle ();
+			if (!(*data.display_name))
+				data.display_name = (char*) Doc->GetLabel ();
 			data.description = NULL;
 			data.mime_type = const_cast<char*> (mime_type);
 			data.app_name = const_cast<char*> ("gcrystal");

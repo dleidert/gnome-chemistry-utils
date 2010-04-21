@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.10.0">
-  <!ENTITY manrevision "0.10.0">
-  <!ENTITY date "September 2008">
+  <!ENTITY appversion "0.12.0">
+  <!ENTITY manrevision "0.12.0">
+  <!ENTITY date "April 2010">
   <!ENTITY app "Gnome Crystal">
 ]>
 <!-- 
@@ -78,6 +78,15 @@
 		  </revdescription>
 		</revision>
   		<revision> 
+		  <revnumber>&app; Manual V0.10.0</revnumber>
+		  <date>September 2008</date> 
+		  <revdescription> 
+			 <para role="author">Jean Bréfort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+  		<revision> 
 		  <revnumber>&app; Manual V0.8.0</revnumber>
 		  <date>September 2006</date> 
 		  <revdescription> 
@@ -128,7 +137,7 @@
 
 	<para>The <application>&app;</application> application is a simple
 	crystalline structures visualizer. It uses its own file format, and is also able to
-	open CIF files (but not save them) when used with <productname>OpenBabel</productname> version <productnumber>2.2.x</productnumber></para>
+	open CIF and CML files.</para>
 	<para><application>&app;</application> files can also be displayed in a html page if you use a
 	<ulink type="help" url="http://www.mozilla.org">mozilla</ulink>
 	based navigator.</para>
@@ -202,7 +211,7 @@
 			 <listitem> 
 				<para>The statusbar displays information about current
 				  <application>&app;</application> activity and contextual information about the
-				  menu items. </para>
+				  menu items. The default display is the space group number for the current file.</para>
 			 </listitem>
 		  </varlistentry>
 		</variablelist>
@@ -221,7 +230,8 @@
 		<para><application>&app;</application> can open files on a distant server.
 			If the file is read-only, the <menuchoice> <guimenu>File</guimenu> <guimenuitem>Save</guimenuitem>
 			</menuchoice> menu item and the corresponding tool button are disabled.</para>
-		<para>When opened with <application>&app;</application>, CIF files are always read-only.</para>
+		<para>Saving CIF or CML files in not fully implemented, and a lot of fields
+		will be lossed. Only the crystal structure will be saved.</para>
 		<para>You can open multiple files in <application>&app;</application>.
 		  Each file is opened in it's own top-level window.</para>
 	</sect1>
@@ -405,6 +415,10 @@
 	or dependents. Only independent parameters may be changed, entries corresponding to constant or
 	dependent values are disabled.</para>
 	<para>Lengths must be given in picometers and angles are expressed in degrees.</para>
+	<para>You can choose a symmetry space group using the spin button or check the "Automatic" button
+	to ask to <application>&app;</application> to detect the correct space group for you.
+	Currently <application>&app;</application> does not make any attempt to move the origin
+	to find the best possible space group, so the detected group might not be the expected one.</para>
 </sect1>
 
 <sect1 id="gcrystal-atoms"><title>Atoms</title>

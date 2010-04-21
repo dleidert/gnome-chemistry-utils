@@ -109,7 +109,7 @@ double Leaf::Distance (double x, double y, Item **item) const
 #define LEAF_INCR2	.2
 // x position of side limit
 #define LEAF_INCR3	.4
-// y position of control point befre the side limit
+// y position of control point before the side limit
 #define LEAF_INCR4	.4
 // y position of side limit
 #define LEAF_INCR5	.6

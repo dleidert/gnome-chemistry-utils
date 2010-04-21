@@ -39,11 +39,42 @@ This base class implements the common properties of all lines.
 */
 class LineItem: public Item {
 public:
+/*!
+@param canvas a Canvas.
+
+Creates a new LineItem and sets it as a child of the root Group of \a canvas.
+*/
 	LineItem (Canvas *canvas);
+/*!
+@param parent the Group to which the new LineItem will be added.
+@param client the ItemClient for the new LineItem if any.
+
+Creates a new LineItem inside \a parent and sets \a client as its associated
+ItemClient.
+*/
 	LineItem (Group *parent, ItemClient *client = NULL);
+/*!
+The destructor.
+*/
 	virtual ~LineItem ();
 
+/*!\fn SetLineWidth(double width)
+@param the new line width.
+
+Sets the LineItem line width.
+*/
+/*!\fn GetLineWidth()
+@return the line width
+*/
 GCCV_ITEM_PROP (double, LineWidth)
+/*!\fn SetLineColor(GOColor color)
+@param color the new line color.
+
+Sets the LineItem color.
+*/
+/*!\fn GetLineColor()
+@return the line color.
+*/
 GCCV_ITEM_PROP (GOColor, LineColor)
 };
 

@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2010-04-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/crystal/C/gcrystal.xml: user help updated.
+	* libs/gccv/leaf.cc: fixed typo in comment.
+	* libs/gccv/leaf.h: API documentation work.
+	* libs/gccv/line-item.h: ditto.
+	* libs/gcu/crystaldoc.cc: force space group detection for old files.
+	* programs/crystal/application.cc: never end with en empty recent file
+	entry.
+	* programs/crystal/celldlg.cc: fixed a space group related issue.
+	* programs/crystal/document.cc: kill open dialogs when loading a file.
+
 2010-04-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/calc/C/gchemcalc.xml: user help updated.
 	* docs/help/3d/C/gchem3d.xml: ditto.

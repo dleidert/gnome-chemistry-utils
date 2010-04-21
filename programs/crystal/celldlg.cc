@@ -170,7 +170,7 @@ bool gcCellDlg::Apply ()
 void gcCellDlg::OnTypeChanged ()
 {
 	gcLattices i = (gcLattices) gtk_combo_box_get_active (TypeMenu);
-	gcu::SpaceGroup const *spg = m_pDoc->GetAutoSpaceGroup ()? m_pDoc->GetSpaceGroup (): NULL;
+	gcu::SpaceGroup const *spg = m_pDoc->GetSpaceGroup ();
 	std::string name = (spg)? spg->GetHMName (): "";
 	unsigned id = gtk_spin_button_get_value (SpaceGroup);
 	switch (i) {
@@ -299,7 +299,7 @@ monoclinic_end:
 		break;
 	}
 	g_signal_handler_block (SpaceGroup, SpaceGroupSignal);
-	gtk_spin_button_set_value (SpaceGroup, id);
+	gtk_spin_button_set_value (SpaceGroup, (spg)? spg->GetId (): id);
 	g_signal_handler_unblock (SpaceGroup, SpaceGroupSignal);
 }
 

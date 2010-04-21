@@ -3,6 +3,9 @@ Version 0.11.91
 		* Don't crash when closing an orbital properties box. [#29559]
 		* Fixed several undo/redo issues.
 		* Really update the down bond tool icon when the convention is switched.
+	Gnome Crystal:
+		* Fix some space group related issues.
+		* Never end with an empty recent file entry.
 	GSpectrum:
 		* Accept more spectrum type strings such as "UV/VIS SPECTRUM".
 	Other:

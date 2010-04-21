@@ -156,6 +156,7 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 	bool bViewLoaded = false;
 
 	Reinit ();
+	m_SpaceGroup = NULL;
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
 	//look for generator node

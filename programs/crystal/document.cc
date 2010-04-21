@@ -345,6 +345,8 @@ bool gcDocument::Load (const string &filename)
 {
 	xmlDocPtr xml = NULL;
 	gchar *oldfilename, *oldtitle;
+	// close all dialogs
+	ClearDialogs ();
 	if (m_filename)
 		oldfilename = g_strdup (m_filename);
 	else oldfilename = NULL;
