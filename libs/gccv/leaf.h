@@ -80,7 +80,7 @@ Sets the position of the leaf origin.
 @param x where to store the leaf originhorizontal position.
 @param y where to store the leaf origin vertical position.
 
-Retreives the position of the leaf origin.
+Retrieves the position of the leaf origin.
 */
 	void GetPosition (double &x, double &y);
 /*!

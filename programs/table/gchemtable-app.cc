@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-app.cc 
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -290,7 +290,8 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 	GtkVBox* vbox;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title (GTK_WINDOW(window), _("Periodic table of the elements"));
+	gtk_window_set_title (GTK_WINDOW (window), _("Periodic table of the elements"));
+	gtk_window_set_icon_name (GTK_WINDOW (window), GetIconName ().c_str ());
 	g_signal_connect_swapped (G_OBJECT (window), "delete-event",
 		 G_CALLBACK (on_destroy),
 		 this);

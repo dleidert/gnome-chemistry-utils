@@ -33,27 +33,116 @@ namespace gccv {
 
 /*!
 @brief Equilateral triangle.
+
+Filled equilateral triangle.
 */
 class Wedge: public Item
 {
 public:
+/*!
+@param canvas a Canvas.
+@param x0 the triangle top horizontal position.
+@param y0 the triangle top vertical position.
+@param x1 the horizontal position of the canter of the triangle base.
+@param y1 the vertical position of the canter of the triangle base.
+@param width the triangle base width.
+
+Creates a new Wedge and sets it as a child of the root Group of \a canvas.
+*/
 	Wedge (Canvas *canvas, double x0, double y0, double x1, double y1, double width);
+/*!
+@param parent the Group to which the new Hash will be added.
+@param x0 the triangle top horizontal position.
+@param y0 the triangle top vertical position.
+@param x1 the horizontal position of the canter of the triangle base.
+@param y1 the vertical position of the canter of the triangle base.
+@param width the triangle base width.
+@param client the ItemClient for the new Hash if any.
+
+Creates a new Wedge inside \a parent and sets \a client as its associated
+ItemClient.
+*/
 	Wedge (Group *parent, double x0, double y0, double x1, double y1, double width, ItemClient *client = NULL);
+/*!
+The destructor.
+*/
 	virtual ~Wedge ();
 
+/*!
+@param x0 the triangle top horizontal position.
+@param y0 the triangle top vertical position.
+@param x1 the horizontal position of the canter of the triangle base.
+@param y1 the vertical position of the canter of the triangle base.
+
+Setes the new position for the Wedge instance.
+*/
 	void SetPosition (double x0, double y0, double x1, double y1);
 
 	// virtual methods
+/*!
+@param x horizontal position
+@param y vertical position
+@param item where to store the Item.
+
+Implementation of Item::Distance() for the Wedge class. Sets \a item to \a this.
+*/
 	double Distance (double x, double y, Item **item) const;
+/*!
+@param cr a cairo_t.
+@param is_vector whether the cairo_t is a vectorial context.
+
+Draws the Wedge to \a cr.
+*/
 	void Draw (cairo_t *cr, bool is_vector) const;
-	void UpdateBounds ();
+/*!
+@param x the horizontal deplacement
+@param y the vertical deplacement
+
+Moves the Wedge.
+*/
 	void Move (double x, double y);
 
 protected:
-	double m_xstart, m_ystart, m_xend, m_yend;
-	double m_xe1, m_ye1, m_xe2, m_ye2;
+/*!
+Evaluates the Wedge bounds.
+*/
+	void UpdateBounds ();
 
+protected:
+/*!
+*/
+	double m_xstart;
+/*!
+*/
+	double m_ystart;
+/*!
+*/
+	double m_xend;
+/*!
+*/
+	double m_yend;
+/*!
+*/
+	double m_xe1;
+/*!
+*/
+	double m_ye1;
+/*!
+*/
+	double m_xe2;
+/*!
+*/
+	double m_ye2;
+
+/*!\fn SetWidth(double width)
+*/
+/*!\fn GetWidth()
+*/
 GCCV_ITEM_POS_PROP (double, Width)
+/*!\fn SetFillColor(GOColor color)
+*/
+/*!\fn GetFillColor()
+*/
 GCCV_ITEM_PROP (GOColor, FillColor)
 };
 

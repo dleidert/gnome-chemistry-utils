@@ -2,9 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS/DTD DocBookXML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "0.10.0">
-  <!ENTITY manrevision "0.10.0">
-  <!ENTITY date "October 2008">
+  <!ENTITY appversion "0.12.0">
+  <!ENTITY manrevision "0.12.0">
+  <!ENTITY date "April 2010">
   <!ENTITY app "GChemTable">
 ]>
 <!-- 
@@ -71,6 +71,15 @@
    		<revision> 
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
+		  <revdescription> 
+			 <para role="author">Jean Bréfort
+				<email>jean.brefort@normalesup.org</email> </para>
+			 <para role="publisher">GNOME Documentation Project</para>
+		  </revdescription>
+		</revision>
+  		<revision> 
+		  <revnumber>&app; Manual V0.10.0</revnumber>
+		  <date>October 2008</date> 
 		  <revdescription> 
 			 <para role="author">Jean Bréfort
 				<email>jean.brefort@normalesup.org</email> </para>
@@ -392,6 +401,10 @@
 				</mediaobject>
 			</screenshot>
 		</figure>
+		<para>Some charts can also be displayed by selecting one of the items in
+		<guimenu>Edit</guimenu><guimenu>Element charts</guimenu>, except
+		<guimenuitem>Custom</guimenuitem> which creates a
+		<link linkend="gchemtable-user-curve">custom chart</link>.</para>
 		<para>Consecutive points are joined by a segment. The absence of a segment
 		means that at least one data point is missing.</para>
 		<para>Charts can be customized as explained in the <link linkend="gchemtable-customize-curve">next section</link>.</para>
@@ -475,9 +488,10 @@
 		<title>User Defined Charts</title>
 		<para>A user can create a new empty plot, and then customize it as explained
 		in the <link linkend="gchemtable-customize-curve">previous section</link>.</para>
-		<para>To create a new empty plot, choose <menuchoice> <guimenu>File</guimenu>
-		<guimenuitem>New Chart</guimenuitem></menuchoice>. This will open two new windows:
-		one containing the new chart, and one containing the chart properties dialog.</para>
+		<para>To create a new empty plot, choose <menuchoice> <guimenu>Edit</guimenu>
+		<guimenu>Element charts</guimenu><guimenuitem>Custom</guimenuitem></menuchoice>.
+		This will open two new windows: one containing the new chart, and one
+		containing the chart properties dialog.</para>
 		<figure id="gchemtable-new-chart"> 
 		  <title>New empty chart window</title>
 		  <screenshot> 

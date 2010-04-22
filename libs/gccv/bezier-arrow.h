@@ -100,7 +100,7 @@ public:
 @param x3 where to store the horizontal coordinate of the fourth control point.
 @param y3 where to store the horizontal coordinate of the fourth control point.
 
-Retreives the coordinates of the four control points used to build the Bezier
+Retrieves the coordinates of the four control points used to build the Bezier
 cubic curve.
 */
 	void GetControlPoints (double &x0, double &y0, double &x1, double &y1, double &x2, double &y2, double &x3, double &y3);

@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2010-04-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/table/C/gchemtable.xml: user help updated.
+	* libs/gccv/bezier-arrow.h: API documentation work.
+	* libs/gccv/circle.h: ditto.
+	* libs/gccv/leaf.h: ditto.
+	* libs/gccv/line.h: ditto.
+	* libs/gccv/poly-line.h: ditto.
+	* libs/gccv/rectangle.h: ditto.
+	* libs/gccv/squiggle.h: ditto.
+	* libs/gccv/wedge.h: ditto.
+	* programs/table/gchemtable-app.cc: fixed window icon.
+
 2010-04-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/crystal/C/gcrystal.xml: user help updated.
 	* libs/gccv/leaf.cc: fixed typo in comment.

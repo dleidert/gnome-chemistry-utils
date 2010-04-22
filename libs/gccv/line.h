@@ -36,25 +36,91 @@ namespace gccv {
 
 Implements one segment straight lines.
 */
-class Line: public LineItem
+	class Line: public LineItem
 {
 public:
-	Line (Canvas *canvas, double xstart, double ystart, double xend, double yend);
-	Line (Group *parent, double xstart, double ystart, double xend, double yend, ItemClient *client = NULL);
-	virtual ~Line ();
+/*!
+@param canvas a Canvas.
+@param xstart the horizontal start position.
+@param ystart the vertical start position.
+@param xend the horizontal end position.
+@param yend the vertical end position.
 
+Creates a new Line sets it as a child of the root Group of \a canvas.
+*/
+	Line (Canvas *canvas, double xstart, double ystart, double xend, double yend);
+/*!
+@param parent the Group to which the new Arrow will be added.
+@param xstart the horizontal start position.
+@param ystart the vertical start position.
+@param xend the horizontal end position.
+@param yend the vertical end position.
+@param client the ItemClient for the new Arrow if any.
+
+Creates a new Line inside \a parent and sets \a client as its associated
+ItemClient.
+*/
+	Line (Group *parent, double xstart, double ystart, double xend, double yend, ItemClient *client = NULL);
+/*!
+The destructor.
+*/
+	virtual ~Line (); 
+/*!
+param xstart the new horizontal start position.
+@param ystart the new vertical start position.
+@param xend the new horizontal end position.
+@param yend the new vertical end position.
+
+Sets the Line position.
+*/
 	void SetPosition (double xstart, double ystart, double xend, double yend);
 
 	// virtual methods
+/*!
+@param x horizontal position
+@param y vertical position
+@param item where to store the Item.
+
+Implementation of Item::Distance() for the Line class. Sets \a item to \a this.
+*/
 	double Distance (double x, double y, Item **item) const;
+/*!
+@param cr a cairo_t.
+@param is_vector whether the cairo_t is a vectorial context.
+
+Draws the Line to \a cr.
+*/
 	void Draw (cairo_t *cr, bool is_vector) const;
-	void UpdateBounds ();
+/*!
+@param x the horizontal deplacement
+@param y the vertical deplacement
+
+Moves the Line.
+*/
 	void Move (double x, double y);
 
 protected:
+/*!
+Evaluates the Line bounds.
+*/
+	void UpdateBounds ();
+
+protected:
+/*!
+The horizontal start position.
+*/
 	double m_xstart;
+/*!
+The vertical start position.
+*/
 	double m_ystart;
+/*!
+The horizontal end position.
+*/
 	double m_xend;
+/*!
+The vertical end position.
+*/
 	double m_yend;
 };
 

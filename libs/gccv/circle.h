@@ -75,7 +75,7 @@ Sets the position of the circle center.
 @param x where to store the circle center horizontal position.
 @param y where to store the circle center vertical position.
 
-Retreives the position of the circle center.
+Retrieves the position of the circle center.
 */
 	void GetPosition (double &x, double &y);
 
