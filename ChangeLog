@@ -1,5 +1,30 @@
 ##Text encoding: utf-8
 
+2010-04-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/help/*: user help updated.
+	* libs/gccv/group.h: API documentation work.
+	* libs/gccv/leaf.h: ditto.
+	* libs/gccv/line-item.h: ditto.
+	* libs/gccv/line.h: ditto.
+	* libs/gccv/poly-line.h: ditto.
+	* libs/gccv/rectangle.h: ditto.
+	* libs/gccv/squiggle.h: ditto.
+	* libs/gccv/text-client.h: ditto.
+	* libs/gccv/text-tag.h: ditto.
+	* libs/gccv/text.h: ditto.
+	* libs/gccv/wedge.h: ditto.
+	* libs/gcp/window.cc: fix icon.
+	* libs/gcu/dialog.cc: add Dialog::SetRealName().
+	* libs/gcu/dialog.h: ditto.
+	* programs/3d/application.cc: fix default window title.
+	* programs/3d/window.cc: fix icon.
+	* programs/calc/gchemcalc.cc: fix icon.
+	* programs/spectra/window.cc: fix icon.
+	* programs/table/gchemtable-app.cc: fix curves related issues and add new
+	pre-defined curves in menus.
+	* programs/table/gchemtable-curve.cc: fix curves related issues.
+	* programs/table/gchemtable-elt.cc: fix curves related issues.
+
 2010-04-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/table/C/gchemtable.xml: user help updated.
 	* libs/gccv/bezier-arrow.h: API documentation work.

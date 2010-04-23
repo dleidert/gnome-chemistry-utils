@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.cc 
  *
- * Copyright (C) 2005-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -264,7 +264,7 @@ static const char *ui_description =
 "</ui>";
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
-	Dialog (App, UIDIR"/curve.ui", "curvedlg", GETTEXT_PACKAGE, App),
+	Dialog (App, UIDIR"/curve.ui", "curvedlg", GETTEXT_PACKAGE),
 	Printable (),
 	m_Guru (NULL)
 {
@@ -293,9 +293,14 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	m_Graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (m_GraphWidget));
 	GogChart *chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (m_GraphWidget));
 	if (!name) {
+		static unsigned id = 0;
+		char *buf = g_strdup_printf ("Custom%u\n", id++);
+		SetRealName (buf, App);
+		g_free (buf);
 		OnProperties ();
 		return;
 	}
+	SetRealName (name, App);
 	GogPlot *plot = (GogPlot *) gog_plot_new_by_name ("GogXYPlot");
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
 	m_Name = name;
@@ -305,7 +310,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	GOData *data, *ydata = NULL;
 	int i;
 	// FIXME: find a better way to do the following things !
-	if (!strcmp (name, "en/Pauling")) {
+	if (!strcmp (name, "en-Pauling")) {
 		ydata = gct_data_vector_get_from_name (_("Pauling electronegativity"));
 		obj = gog_object_get_child_by_role (GOG_OBJECT (chart),
 				gog_object_find_role_by_name (GOG_OBJECT (chart), "Y-Axis"));
@@ -323,7 +328,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, &error);
 		gog_object_add_by_name (obj, "Label", label);
 		gtk_window_set_title (dialog, _("Electron affinity"));
-	} else if (!strncmp (name, "ei/", 3)) {
+	} else if (!strncmp (name, "ei-", 3)) {
 		unsigned rank = strtol (name + 3, NULL, 10);
 		char *rk, *buf;		
 		switch (rank) {

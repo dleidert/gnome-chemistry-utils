@@ -1304,8 +1304,8 @@
 					</mediaobject>
 				</screenshot>
 			</figure>
-			<para>Choose one of the options (Left, Right or Auto). The choosen option
-			will be instantly applied.</para>
+			<para>Choose one of the options (Left, Right, Top, Bottom, or Auto).
+			The chosen option will be instantly applied.</para>
 		</sect2>
 		<sect2 id="gchempaint-fragment">
 			<title>To Add or Modify a Group of Atoms</title>

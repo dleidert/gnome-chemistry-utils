@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/spectra/window.cc
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -260,6 +260,7 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	m_Doc = Doc;
 	m_Window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
 	gtk_window_set_default_size (m_Window, 600, 400);
+	gtk_window_set_icon_name (m_Window, App->GetIconName ().c_str ());
 	g_signal_connect (G_OBJECT (m_Window), "delete-event", G_CALLBACK (on_delete_event), this);
 
 	GtkWidget *vbox = gtk_vbox_new (FALSE, 0);

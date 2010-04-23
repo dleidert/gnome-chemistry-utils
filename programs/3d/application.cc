@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/3d/application.cc 
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -80,7 +80,8 @@ gc3dDocument *gc3dApplication::OnFileNew ()
 	view->SetRed (m_Red);
 	view->SetGreen (m_Green);
 	view->SetBlue (m_Blue);
-	new gc3dWindow (this, Doc);
+	gc3dWindow *w = new gc3dWindow (this, Doc);
+	w->SetTitle (_("GChem3D Viewer"));
 	return Doc;
 }
 

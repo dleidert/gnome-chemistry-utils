@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-elt.cc 
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -106,7 +106,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, UIDIR"/el
 		gtk_label_set_text (GTK_LABEL (w), _("n.a."));
 	w = GetWidget ("pauling-btn");
 	g_object_set_data (G_OBJECT (w), "app", App);
-	g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (on_show_curve), (void*) "en/Pauling");
+	g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (on_show_curve), (void*) "en-Pauling");
 	// ionization energies
 	int n = 1;
 	GcuDimensionalValue const *value;
@@ -138,7 +138,7 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, UIDIR"/el
 		buf = gcu_dimensional_value_get_string (value);
 		gtk_label_set_markup (GTK_LABEL (val), buf);
 		g_free (buf);
-		buf = g_strdup_printf ("ei/%d", n);
+		buf = g_strdup_printf ("ei-%d", n);
 		g_object_set_data (G_OBJECT (button), "app", App);
 		g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_show_curve), (void*) buf);
 // FIXME: clean this on exit

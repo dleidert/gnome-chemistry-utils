@@ -57,19 +57,9 @@ static void on_new_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
 	App->OnNewChart (NULL);
 }
 
-static void on_electroneg_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
+static void on_chart (GtkAction *action, GChemTableApp *App)
 {
-	App->OnNewChart ("en/Pauling");
-}
-
-static void on_radius_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
-{
-	App->OnNewChart ("covalent");
-}
-
-static void on_affinity_chart (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
-{
-	App->OnNewChart ("ae");
+	App->OnNewChart (gtk_action_get_name (action));
 }
 
 static void on_no_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App)
@@ -181,12 +171,26 @@ static GtkActionEntry entries[] = {
 		  N_("Use colors to display the blocks elements belong to"),
                   G_CALLBACK (on_block_colors) },
     {"ChartMenu", NULL, N_("Element charts "), NULL, NULL, NULL },
-      { "ElectronegChart", NULL, N_("Electronegativty "), NULL,
-		  N_("Create an electronegativity chart"), G_CALLBACK (on_electroneg_chart) },
-      { "RadiusChart", NULL, N_("Atomic radius"), NULL,
-		  N_("Create an atomic radius chart"), G_CALLBACK (on_radius_chart) },
-      { "AffinityChart", NULL, N_("Electon affinity"), NULL,
-		  N_("Create an electronic affinity chart"), G_CALLBACK (on_affinity_chart) },
+      { "en-Pauling", NULL, N_("Electronegativty "), NULL,
+		  N_("Create an electronegativity chart"), G_CALLBACK (on_chart) },
+      { "ae", NULL, N_("Electon affinity"), NULL,
+		  N_("Create an electronic affinity chart"), G_CALLBACK (on_chart) },
+      { "ei-1", NULL, N_("First ionization energy"), NULL,
+		  N_("Create an first ionization energy chart"), G_CALLBACK (on_chart) },
+      { "ei-2", NULL, N_("Second ionization energy"), NULL,
+		  N_("Create an second ionization energy chart"), G_CALLBACK (on_chart) },
+      { "ei-3", NULL, N_("Third ionization energy"), NULL,
+		  N_("Create an third ionization energy chart"), G_CALLBACK (on_chart) },
+      { "covalent", NULL, N_("Covalent radius"), NULL,
+		  N_("Create an atomic covalent radius chart"), G_CALLBACK (on_chart) },
+      { "vdw", NULL, N_("Van der Waals radius"), NULL,
+		  N_("Create an atomic van der Waals radius chart"), G_CALLBACK (on_chart) },
+      { "metallic", NULL, N_("Metallic radius"), NULL,
+		  N_("Create an atomic metallic radius chart"), G_CALLBACK (on_chart) },
+      { "mp", NULL, N_("Melting temperature"), NULL,
+		  N_("Create an melting temperature chart"), G_CALLBACK (on_chart) },
+      { "bp", NULL, N_("Ebullition temperature"), NULL,
+		  N_("Create an ebullition temperature chart"), G_CALLBACK (on_chart) },
 	  { "CustomChart", NULL, N_("Custom "), NULL,
 		  N_("Create a custom chart"), G_CALLBACK (on_new_chart) },
   { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
@@ -222,9 +226,19 @@ static const char *ui_description =
 "        <menuitem action='BlockColors'/>"
 "      </menu>"
 "      <menu action='ChartMenu'>"
-"        <menuitem action='ElectronegChart'/>"
-"        <menuitem action='RadiusChart'/>"
-"        <menuitem action='AffinityChart'/>"
+"        <menuitem action='en-Pauling'/>"
+"        <menuitem action='ae'/>"
+"        <menuitem action='ei-1'/>"
+"        <menuitem action='ei-2'/>"
+"        <menuitem action='ei-3'/>"
+"        <separator/>"
+"        <menuitem action='covalent'/>"
+"        <menuitem action='vdw'/>"
+"        <menuitem action='metallic'/>"
+"        <separator/>"
+"        <menuitem action='mp'/>"
+"        <menuitem action='bp'/>"
+"        <separator/>"
 "        <menuitem action='CustomChart'/>"
 "      </menu>"
 "    </menu>"
@@ -679,7 +693,11 @@ void GChemTableApp::GetBlockColor (int Z, GdkColor *color)
 
 void GChemTableApp::OnNewChart (char const *name)
 {
-	new GChemTableCurve (this, name);
+	Dialog *dlg = (name)? GetDialog (name): NULL;
+	if (dlg)
+		dlg->Present ();
+	else
+		new GChemTableCurve (this, name);
 }
 
 void GChemTableApp::OnSaveAsImage (GChemTableCurve *curve)

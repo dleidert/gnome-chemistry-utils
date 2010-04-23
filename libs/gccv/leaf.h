@@ -117,7 +117,7 @@ Moves the Leaf.
 
 protected:
 /*!
-Evaluates the Arrow bounds.
+Evaluates the Leaf bounds.
 */
 	void UpdateBounds ();
 

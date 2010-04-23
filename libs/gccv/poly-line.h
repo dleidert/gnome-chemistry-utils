@@ -49,9 +49,9 @@ Creates a new PolyLine sets it as a child of the root Group of \a canvas.
 */
 	PolyLine (Canvas *canvas, std::list <Point> &points);
 /*!
-@param parent the Group to which the new Arrow will be added.
+@param parent the Group to which the new PolyLine will be added.
 @param points the vertices positions.
-@param client the ItemClient for the new Arrow if any.
+@param client the ItemClient for the new PolyLine if any.
 
 Creates a new PolyLine inside \a parent and sets \a client as its associated
 ItemClient.

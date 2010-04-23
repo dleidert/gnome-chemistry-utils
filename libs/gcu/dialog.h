@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/dialog.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -121,11 +121,28 @@ should not be closed.
 	GtkWindow* GetWindow () {return dialog;}
 
 /*!
-	Brings the dialog to top of the windows stack.
+Brings the dialog to top of the windows stack.
 */
 	void Present () {gtk_window_present (dialog);}
 
+/*!
+@param window the parent window.
+
+Make the diaolg box transient for \a window.
+*/
 	void SetTransientFor (GtkWindow *window);
+/*!
+@param name a new name for the window.
+@param owner the address of an dialog owner object.
+
+Usually, the Dialog is registered using its window name as passed to the
+constructor. If several occurences of the same Dialog are acceptable, another
+unique name is needed. \a owner might be NULL if it has already been set in the
+constructor.
+The existence of a Dialog with the same name should be checked before calling this
+method, because that would throw an error.
+*/
+	void SetRealName (char const *name, DialogOwner *owner) throw (std::runtime_error);
 
 protected:
 /*!

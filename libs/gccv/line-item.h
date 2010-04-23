@@ -59,7 +59,7 @@ The destructor.
 	virtual ~LineItem ();
 
 /*!\fn SetLineWidth(double width)
-@param the new line width.
+@param width the new line width.
 
 Sets the LineItem line width.
 */

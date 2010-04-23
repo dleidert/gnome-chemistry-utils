@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/dialog.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -219,6 +219,20 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 void Dialog::SetTransientFor (GtkWindow *window)
 {
 	gtk_window_set_transient_for (dialog, window);
+}
+
+void Dialog::SetRealName (char const *name, DialogOwner *owner) throw (std::runtime_error)
+{
+	if (m_Owner)
+		m_Owner->RemoveDialog (m_windowname);
+	if (owner)
+		m_Owner = owner;
+	m_windowname = name;
+	if (m_Owner && !m_Owner->AddDialog (name, this)) {
+		m_extra_destroy = NULL;
+		// do we need to set m_Owner to NULL?
+		throw std::runtime_error (_("Could not reference the new dialog."));
+	}
 }
 
 }	//	namespace gcu

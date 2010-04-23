@@ -150,7 +150,7 @@ Sets the Group shift values.
 @param y vertical position
 @param item where to store the nearest Item.
 
-Implementation of Item::Distance() for the Arrow class. Sets \a item to the
+Implementation of Item::Distance() for the Group class. Sets \a item to the
 descendant Item nearest to the given position.
 */
 	double Distance (double x, double y, Item **item) const;

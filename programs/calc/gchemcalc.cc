@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/calc/gchemcalc.cc 
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -711,6 +711,7 @@ int main (int argc, char *argv[])
 
 	UIBuilder *builder = new UIBuilder (UIDIR"/gchemcalc.ui", GETTEXT_PACKAGE);
 	App->window = GTK_WINDOW (builder->GetRefdWidget ("gchemcalc"));
+	gtk_window_set_icon_name (App->window, App->GetIconName ().c_str ());
 	g_signal_connect (GTK_OBJECT (App->window), "destroy",
 		 G_CALLBACK (gtk_main_quit),
 		 NULL);

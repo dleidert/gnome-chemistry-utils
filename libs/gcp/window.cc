@@ -461,6 +461,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 		GError *error;
 
 	SetWindow (window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL)));
+	gtk_window_set_icon_name (window, App->GetIconName ().c_str ());
 	g_object_set (G_OBJECT (window), "urgency-hint", false, NULL);
 	g_object_set_data (G_OBJECT (window), "gcp-role", (void*) 1);
 	g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (on_destroy), this);

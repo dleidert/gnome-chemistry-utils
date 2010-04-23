@@ -51,13 +51,13 @@ Creates a new Wedge and sets it as a child of the root Group of \a canvas.
 */
 	Wedge (Canvas *canvas, double x0, double y0, double x1, double y1, double width);
 /*!
-@param parent the Group to which the new Hash will be added.
+@param parent the Group to which the new Wedge will be added.
 @param x0 the triangle top horizontal position.
 @param y0 the triangle top vertical position.
 @param x1 the horizontal position of the canter of the triangle base.
 @param y1 the vertical position of the canter of the triangle base.
 @param width the triangle base width.
-@param client the ItemClient for the new Hash if any.
+@param client the ItemClient for the new Wedge if any.
 
 Creates a new Wedge inside \a parent and sets \a client as its associated
 ItemClient.

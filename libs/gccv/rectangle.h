@@ -50,12 +50,12 @@ Creates a new Rectangle sets it as a child of the root Group of \a canvas.
 */
 	Rectangle (Canvas *canvas, double x, double y, double width, double height);
 /*!
-@param parent the Group to which the new Arrow will be added.
+@param parent the Group to which the new Text will be added.
 @param x the top left corner horizontal position.
 @param y the top left corner vertical position.
 @param width the rectangle width.
 @param height the rectangle height.
-@param client the ItemClient for the new Arrow if any.
+@param client the ItemClient for the new Text if any.
 
 Creates a new Rectangle inside \a parent and sets \a client as its associated
 ItemClient.

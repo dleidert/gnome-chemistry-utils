@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/text-tag.h 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,33 +33,98 @@
 /*!\file*/
 namespace gccv {
 
-// Text attributes support
+/*!
+Text attributes support.
+*/
 typedef enum
 {
+/*!
+Invalid tag.
+*/
 	Invalid,
+/*!
+Font family.
+*/
 	Family,
+/*!
+Font size.
+*/
 	Size,
+/*!
+Font style.
+*/
 	Style,
+/*!
+Font weight.
+*/
 	Weight,
+/*!
+Font variant.
+*/
 	Variant,
+/*!
+Font stretch.
+*/
 	Stretch,
+/*!
+Text underline mode.
+*/
 	Underline,
+/*!
+Text overline mode.
+*/
 	Overline,
+/*!
+Text strikethrough mode.
+*/
 	Strikethrough,
+/*!
+Foreground color.
+*/
 	Foreground,
+/*!
+Background color.
+*/
 	Background,
+/*!
+Vertical position.
+*/
 	Rise,
+/*!
+Normal, Subscript or Superscript.
+*/
 	Position,
+/*!
+Insert a new line.
+*/
 	NewLine,
+/*!
+First unused value. Larger values might be used by applications.
+*/
 	MaxTag
 } Tag;
 
+/*!
+Used for ordering tags.
+*/
 typedef enum
 {
+/*!
+Puts the Tag on the front of the list so that it will be considered before
+other tags. The default value.
+*/
 	TagPriorityFirst,
+/*!
+Puts the Tag on the back of the list. Only PositionTextTag has this priority.
+*/
 	TagPriorityLast,
 } TagPriority;
 
+/*!
+@brief class for text attributes
+
+Used to set various attributes to a Text item.
+*/
 class TextTag
 {
 public:

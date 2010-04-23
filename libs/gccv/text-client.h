@@ -34,23 +34,44 @@ namespace gccv {
 
 /*!
 @brief ItemClient for text items.
+
+A specialized ItemClient class for Text items. This class is virtual.
 */
 class TextClient: public ItemClient
 {
 public:
+/*!
+The default constructor.
+*/
 	TextClient ();
+/*!
+The destructor.
+*/
 	virtual ~TextClient ();
 
 /*!
+@param start new selection start index.
+@param end new selection end index.
+
+Notifies the client that the selection position has changed.
 */
 	virtual void SelectionChanged (unsigned start, unsigned end) = 0;
 /*!
+@param pos the new cursor position.
+
+Notifies the client that the text has been changed.
 */
 	virtual void TextChanged (unsigned pos) = 0;
 /*!
+@param interline the new interline spacing.
+
+Notifies the client that the interline has been changed.
 */
 	virtual void InterlineChanged (G_GNUC_UNUSED double interline) {;}
 /*!
+@param justification the new justification.
+
+Notifies the client that the justification has been changed.
 */
 	virtual void JustificationChanged (G_GNUC_UNUSED GtkJustification justification) {;}
 

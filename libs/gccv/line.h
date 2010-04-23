@@ -50,12 +50,12 @@ Creates a new Line sets it as a child of the root Group of \a canvas.
 */
 	Line (Canvas *canvas, double xstart, double ystart, double xend, double yend);
 /*!
-@param parent the Group to which the new Arrow will be added.
+@param parent the Group to which the new Line will be added.
 @param xstart the horizontal start position.
 @param ystart the vertical start position.
 @param xend the horizontal end position.
 @param yend the vertical end position.
-@param client the ItemClient for the new Arrow if any.
+@param client the ItemClient for the new Line if any.
 
 Creates a new Line inside \a parent and sets \a client as its associated
 ItemClient.
@@ -66,7 +66,7 @@ The destructor.
 */
 	virtual ~Line (); 
 /*!
-param xstart the new horizontal start position.
+@param xstart the new horizontal start position.
 @param ystart the new vertical start position.
 @param xend the new horizontal end position.
 @param yend the new vertical end position.
