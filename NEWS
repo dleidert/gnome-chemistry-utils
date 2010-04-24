@@ -8,8 +8,11 @@ Version 0.11.91
 		* Never end with an empty recent file entry.
 	GSpectrum:
 		* Accept more spectrum type strings such as "UV/VIS SPECTRUM".
+	GChemTable:
+		* Add menus items for all pre-defined charts.
 	Other:
 		* Use Cn and Copernicium for element 112.
+		* Updated user documentation.
 
 Version 0.11.90
 	GChemPaint:

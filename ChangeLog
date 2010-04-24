@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-04-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.h: API documentation work.
+
 2010-04-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/help/*: user help updated.
 	* libs/gccv/group.h: API documentation work.
