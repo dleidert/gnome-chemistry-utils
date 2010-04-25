@@ -260,6 +260,9 @@ and return its result.
 */
 	virtual bool Match (Atom *atom, AtomMatchState &state);
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 protected:

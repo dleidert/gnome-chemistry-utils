@@ -47,21 +47,28 @@ GOConfNode *Application::m_ConfDir = NULL;
 
 static set<Application *> Apps;
 WindowState Application::DefaultWindowState = NormalWindowState;
-	
-static void on_maximize_windows ()
+
+class ApplicationPrivate
+{
+public:
+	static void MaximizeWindows ();
+	static void FullScreenWindows ();
+};
+
+void ApplicationPrivate::MaximizeWindows ()
 {
 	Application::DefaultWindowState = MaximizedWindowState;
 }
 
-static void on_full_screen ()
+void ApplicationPrivate::FullScreenWindows ()
 {
 	Application::DefaultWindowState = FullScreenWindowState;
 }
 
 static GOptionEntry options[] = 
 {
-  {"full-screen", 'F', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) on_full_screen, N_("Open new windows full screen"), NULL},
-  {"maximize", 'M', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) on_maximize_windows, N_("Maximize new windows"), NULL},
+  {"full-screen", 'F', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void *)ApplicationPrivate::MaximizeWindows, N_("Open new windows full screen"), NULL},
+  {"maximize", 'M', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void *) ApplicationPrivate::FullScreenWindows, N_("Maximize new windows"), NULL},
   {NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 

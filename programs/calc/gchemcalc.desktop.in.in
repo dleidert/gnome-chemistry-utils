@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-_Name=Chemical calculator @STABILITY_POSTFIX@
+_Name=Chemical calculator@STABILITY_POSTFIX@
 _Comment=A simple calculator for chemistry
 Exec=gchemcalc-@GCU_API_VER@
 Icon=gchemcalc

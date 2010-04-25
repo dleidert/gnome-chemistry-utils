@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * element.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -50,22 +50,27 @@ namespace gcu
 class EltTable;
 
 /*!\class Element gcu/element.h
-	Represents a chemical element.
-	This class has no public constructor or destructor. The instances are created by the framework
-	from data in the elements.xml file and
-	a user cannot create a new element.
+@brief Chemical element.
+
+Represents a chemical element.
+This class has no public constructor or destructor. The instances are created by the framework
+from data in the elements.xml file and
+a user cannot create a new element.
 */
 class Element
 {
 friend class EltTable;
 private:
-	/*!
-	\param Z: the atomic number corresponding to the element
-	\param Symbol: the atomic symbol of the element
+/*!
+\param Z: the atomic number corresponding to the element
+\param Symbol: the atomic symbol of the element
 
-	This constructor is private and cannot be used ouside of this class.
+This constructor is private and cannot be used ouside of this class.
 	*/
 	Element (int Z, const char* Symbol);
+	/*!
+	The destructor.
+	*/
 	virtual ~Element ();
 
 public:

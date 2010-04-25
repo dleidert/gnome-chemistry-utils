@@ -145,10 +145,26 @@ Clears cycles and chains and call gcu::Object::Clear().
 @return the next bond of the molecule or NULL if all bonds have been previously returned.
 */
 	Bond const *GetNextBond(std::list<Bond*>::const_iterator &i) const;
+/*!
+@return the localized object generic name.
+*/
+/*!
+@param name a name.
+@param convention a naming convention, might be NULL.
 
+Adds a molecule name following \a convention. Only one name can be stored for
+a given convention.
+*/
 	void SetName (char const *name, char const *convention);
-	char const *GetName (char const *convention = NULL);
+/*!
+@param convention a naming convention.
 
+@return the molecule name using \a convention if known.
+*/
+	char const *GetName (char const *convention = NULL);
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 protected:

@@ -221,6 +221,9 @@ This method should be called when a bond has been fully loaded.
 */
 	void OnLoaded ();
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 protected:

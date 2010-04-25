@@ -1010,7 +1010,7 @@ void Text::JustificationChanged (GtkJustification justification)
 
 std::string Text::Name ()
 {
-	return _("Texte");
+	return _("Text");
 }
 
 }	//	namespace gcp

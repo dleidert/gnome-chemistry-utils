@@ -191,7 +191,7 @@ static GtkActionEntry entries[] = {
 		  N_("Create an melting temperature chart"), G_CALLBACK (on_chart) },
       { "bp", NULL, N_("Ebullition temperature"), NULL,
 		  N_("Create an ebullition temperature chart"), G_CALLBACK (on_chart) },
-	  { "CustomChart", NULL, N_("Custom "), NULL,
+	  { "CustomChart", NULL, N_("Custom"), NULL,
 		  N_("Create a custom chart"), G_CALLBACK (on_new_chart) },
   { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",

@@ -111,6 +111,9 @@ Exports the embedded molecule as a vrml scene.
 */
 	void OnExportVRML (std::string const &filename);
 
+/*!
+Clears the document.
+*/
 	void Clear ();
 
 private:

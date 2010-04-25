@@ -1,5 +1,38 @@
 ##Text encoding: utf-8
 
+2010-04-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed typo.
+	* libs/gcp/text.cc: ditto.
+	* libs/gcu/application.cc: made default window mode really private.
+	* libs/gcu/application.h: ditto and API documentation work.
+	* libs/gcu/atom.h: API documentation work.
+	* libs/gcu/bond.h: ditto.
+	* libs/gcu/chain.h: ditto.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/cycle.h: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/element.cc: add chinese to langs.
+	* libs/gcu/element.h: API documentation work.
+	* libs/gcu/formula.h: ditto.
+	* libs/gcu/loader-error.h: ditto.
+	* libs/gcu/matrix.h: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/print-setup-dlg.h: ditto.
+	* libs/gcu/spacegroup.h: ditto.
+	* libs/gcu/structs.h: ditto.
+	* libs/gcu/value.h: ditto.
+	* libs/gcu/vector.h: ditto.
+	* plugins/paint/arrows/curvedarrowtool.ui: fixed typo.
+	* programs/3d/gchem3d.desktop.in.in: ditto.
+	* programs/calc/gchemcalc.desktop.in.in: ditto.
+	* programs/crystal/gcrystal.desktop.in.in: ditto.
+	* programs/paint/gchempaint.desktop.in.in: ditto.
+	* programs/spectra/gspectrum.desktop.in.in: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable.desktop.in.in: ditto.
+	* ui/paint/preferences.ui: ditto.
+
 2010-04-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.h: API documentation work.
 

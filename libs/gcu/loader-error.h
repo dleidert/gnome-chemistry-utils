@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/loader-error.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,6 +30,8 @@
 namespace gcu {
 
 /*!\class loader_error gcu/loader-error.h
+@brief Loader exception.
+
 Exception class derived from std::exception used for errors encountered
 when parsing a formula.
 */
@@ -41,6 +43,9 @@ public:
 */
     explicit LoaderError (const std::string&  __arg);
 
+/*!
+The destructor.
+*/
     virtual ~LoaderError () throw ();
 
 /*! Returns a C-style character string describing the general cause of

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/application.h
  *
- * Copyright (C) 2005-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -40,10 +40,25 @@ class Document;
 class Dialog;
 struct option_data;
 
+/*!
+Window states
+*/
 typedef enum {
+/*!
+Normal window.
+*/
 	NormalWindowState,
+/*!
+Maximized window.
+*/
 	MaximizedWindowState,
+/*!
+Minimized window.
+*/
 	MinimizedWindowState,
+/*!
+Full screen window.
+*/
 	FullScreenWindowState
 } WindowState;
 
@@ -56,6 +71,7 @@ class Application: virtual public DialogOwner
 {
 friend class Document;
 friend class Dialog;
+friend class ApplicationPrivate;
 public:
 /*!
 @param name the name of the application.
@@ -226,6 +242,10 @@ Method used to retrieve the base configuration node.
 */
 	static GOConfNode *GetConfDir ();
 
+/*!
+Retrieves the icon name that should be set to every window owned by the application.
+@return the icon name for the appication.
+*/
 	std::string const &GetIconName () {return IconName;}
 
 /*!
@@ -244,7 +264,14 @@ Adds all registered options to the context. This should be called once
 just after creating the application and before parsing options.
 */
 	void AddOptions (GOptionContext *context);
+/*!
+@return the default WindowState for the application. New window should use this setting.
+*/
 	static WindowState GetDefaultWindowState () {return DefaultWindowState;}
+/*!
+@return a dummy Application instance which might be used when there is no other
+Application available.
+*/
 	static Application *GetDefaultApplication ();
 
 protected:
@@ -260,9 +287,6 @@ private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
 	void RemoveDocument (Document *Doc);
 
-public:
-	static WindowState DefaultWindowState;
-
 private:
 	std::string Name;
 	std::string HelpName;
@@ -272,6 +296,7 @@ private:
 	std::string IconName;
 	static GOConfNode *m_ConfDir;
 	std::list<option_data> m_Options;
+	static WindowState DefaultWindowState;
 
 protected:
 /*!

@@ -7,7 +7,7 @@
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkCheckButton" id="target-btn">
-        <property name="label" translatable="yes">End arrow at center of new bonds.</property>
+        <property name="label" translatable="yes">End arrow at center of new bond.</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>

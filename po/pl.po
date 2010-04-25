@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-24 09:13+0200\n"
+"POT-Creation-Date: 2010-04-25 09:37+0200\n"
 "PO-Revision-Date: 2008-09-18 12:26+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@lists.kde.org>\n"
@@ -201,7 +201,7 @@ msgstr "Triflyl"
 msgid "sec-Butyl"
 msgstr "sec-Butyl"
 
-#: ../ui/gchemcalc.ui.h:1
+#: ../ui/gchemcalc.ui.h:1 ../programs/calc/gchemcalc.desktop.in.h:2
 msgid "Chemical calculator"
 msgstr "Kalkulator chemiczny"
 
@@ -656,7 +656,7 @@ msgstr "Ładunek: "
 msgid "Covalent"
 msgstr "Kowalencyjny:"
 
-#: ../ui/crystal/atoms.ui.h:6
+#: ../ui/crystal/atoms.ui.h:6 ../programs/table/gchemtable-app.cc:194
 msgid "Custom"
 msgstr "Użytkownika"
 
@@ -681,6 +681,7 @@ msgstr "Metaliczny:"
 
 #: ../ui/crystal/atoms.ui.h:11 ../libs/gcu/gcucomboperiodic.c:95
 #: ../programs/table/gchemtable-app.cc:307
+#: ../programs/table/gchemtable.desktop.in.h:2
 msgid "Periodic table of the elements"
 msgstr "Układ okresowy pierwiastków"
 
@@ -1001,7 +1002,8 @@ msgstr "Gru_bość linii:"
 #: ../ui/paint/preferences.ui.h:28
 msgid ""
 "Hashed bonds are normally represented with the large side nearest, which is "
-"the opposite of what many people want. If checked, this behavior."
+"the opposite of what many people want. If checked, this behavior will be "
+"reversed."
 msgstr ""
 
 #: ../ui/paint/preferences.ui.h:29
@@ -1897,7 +1899,7 @@ msgstr ""
 "istnieje, nadpisać?"
 
 #: ../libs/gcp/application.cc:608 ../libs/gcp/stringdlg.cc:134
-#: ../libs/gcu/application.cc:298
+#: ../libs/gcu/application.cc:305
 #: ../plugins/paint/wikipedia/wikipediatool.cc:116
 #: ../programs/crystal/application.cc:250
 #, c-format
@@ -2221,7 +2223,8 @@ msgid "Arrows"
 msgstr "Strzałki"
 
 #: ../libs/gcp/preferences.cc:427 ../libs/gcp/preferences.cc:501
-#: ../libs/gcp/preferences.cc:547 ../plugins/paint/text/plugin.cc:52
+#: ../libs/gcp/preferences.cc:547 ../libs/gcp/text.cc:1013
+#: ../plugins/paint/text/plugin.cc:52
 msgid "Text"
 msgstr "Tekst"
 
@@ -2340,11 +2343,6 @@ msgstr ""
 #: ../libs/gcp/text.cc:118 ../libs/gcp/text.cc:124
 msgid "This should not have occured, please file a bug record."
 msgstr "To nie powinno się stać, proszę zgłosić raport o błędzie"
-
-#: ../libs/gcp/text.cc:1013
-#, fuzzy
-msgid "Texte"
-msgstr "Tekst"
 
 #: ../libs/gcp/theme.cc:419
 msgid "NewTheme1"
@@ -2760,16 +2758,16 @@ msgstr "GChemPaint"
 msgid "\"%s\" has been modified.  Do you wish to save it?"
 msgstr "\"%s\" został zmodyfikowany.  Czy chcesz go zapisać?"
 
-#: ../libs/gcu/application.cc:63
+#: ../libs/gcu/application.cc:70
 msgid "Open new windows full screen"
 msgstr ""
 
-#: ../libs/gcu/application.cc:64
+#: ../libs/gcu/application.cc:71
 #, fuzzy
 msgid "Maximize new windows"
 msgstr "Stwórz nowe _okno"
 
-#: ../libs/gcu/application.cc:206
+#: ../libs/gcu/application.cc:213
 #, c-format
 msgid "(screen resolution is %u)"
 msgstr "(rozdzielczość ekranu to %u)"
@@ -2874,39 +2872,43 @@ msgstr "Brazylijski"
 msgid "Russian"
 msgstr "Rosyjski"
 
-#: ../libs/gcu/element.cc:102
+#: ../libs/gcu/element.cc:101
+msgid "Chinese (TW)"
+msgstr ""
+
+#: ../libs/gcu/element.cc:103
 msgid "Can't find and read elements.xml"
 msgstr "Nie można odnaleźć i odczytać elements.xml"
 
-#: ../libs/gcu/element.cc:108 ../libs/gcu/element.cc:117
+#: ../libs/gcu/element.cc:109 ../libs/gcu/element.cc:118
 msgid "Incorrect file format: elements.xml"
 msgstr "NIeprawidłowy format pliku: elements.xml"
 
-#: ../libs/gcu/element.cc:153
+#: ../libs/gcu/element.cc:154
 msgid "English"
 msgstr "Angielski"
 
-#: ../libs/gcu/element.cc:405
+#: ../libs/gcu/element.cc:406
 msgid "Can't find and read radii.xml"
 msgstr "Nie można odnaleźć i odczytać radii.xml"
 
-#: ../libs/gcu/element.cc:411 ../libs/gcu/element.cc:424
+#: ../libs/gcu/element.cc:412 ../libs/gcu/element.cc:425
 msgid "Incorrect file format: radii.xml"
 msgstr "NIeprawidłowy format pliku: radii.xml"
 
-#: ../libs/gcu/element.cc:512
+#: ../libs/gcu/element.cc:513
 msgid "Can't find and read elecprops.xml"
 msgstr "Nie można odnaleźć i odczytać elecprops.xml"
 
-#: ../libs/gcu/element.cc:518 ../libs/gcu/element.cc:525
+#: ../libs/gcu/element.cc:519 ../libs/gcu/element.cc:526
 msgid "Incorrect file format: elecprops.xml"
 msgstr "NIeprawidłowy format pliku: elecprops.xml"
 
-#: ../libs/gcu/element.cc:674
+#: ../libs/gcu/element.cc:675
 msgid "Can't find and read isotopes.xml"
 msgstr "Nie można odnaleźć i odczytać isotopes.xml"
 
-#: ../libs/gcu/element.cc:680 ../libs/gcu/element.cc:689
+#: ../libs/gcu/element.cc:681 ../libs/gcu/element.cc:690
 msgid "Incorrect file format: isotopes.xml"
 msgstr "Nieprawidłowy format pliku: isotopes.xml"
 
@@ -3282,7 +3284,7 @@ msgid "_Full heads"
 msgstr "P_ełne groty"
 
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:1
-msgid "End arrow at center of new bonds."
+msgid "End arrow at center of new bond."
 msgstr ""
 
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:2
@@ -4111,7 +4113,8 @@ msgid "Display chemical 3D structures"
 msgstr "Wyświetl trójwymiarowe struktury chemiczne"
 
 #: ../programs/3d/gchem3d.desktop.in.h:2
-msgid "Molecules Viewer "
+#, fuzzy
+msgid "Molecules Viewer"
 msgstr "Przeglądarka cząsteczek"
 
 #: ../programs/calc/gchemcalc.cc:280
@@ -4198,16 +4201,13 @@ msgstr "Masa %"
 msgid "A simple calculator for chemistry"
 msgstr "Prosty kalkulator chemiczny"
 
-#: ../programs/calc/gchemcalc.desktop.in.h:2
-msgid "Chemical calculator "
-msgstr "Kalkulator chemiczny"
-
 #: ../programs/crystal/gcrystal.desktop.in.h:1
 msgid "Edit and display crystalline structures"
 msgstr "Edytuj i wyświetlaj struktury krystaliczne"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:2
-msgid "Gnome Crystal Crystalline Structures Viewer "
+#, fuzzy
+msgid "Gnome Crystal Crystalline Structures Viewer"
 msgstr "Przeglądarka struktur krystalicznych Gnome Crystal"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:1
@@ -4494,7 +4494,8 @@ msgid "Edit chemical 2D structures"
 msgstr "Edytuj dwuwymiarowe wzory chemiczne"
 
 #: ../programs/paint/gchempaint.desktop.in.h:2
-msgid "GChemPaint Chemical Structures Editor "
+#, fuzzy
+msgid "GChemPaint Chemical Structures Editor"
 msgstr "Edytor wzorów strukturalnych GChemPaint"
 
 #: ../programs/paint/gchempaint.schemas.in.h:1
@@ -4963,7 +4964,8 @@ msgid "A spectrum viewer for the GNOME desktop"
 msgstr "Przeglądarka widm dla pulpitu GNOME"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:2
-msgid "Spectrum viewer "
+#, fuzzy
+msgid "Spectrum viewer"
 msgstr "Przeglądarka widm"
 
 #: ../programs/spectra/window.cc:117
@@ -5163,11 +5165,6 @@ msgstr "Temperatura wrzenia"
 msgid "Create an ebullition temperature chart"
 msgstr "Temperatura wrzenia"
 
-#: ../programs/table/gchemtable-app.cc:194
-#, fuzzy
-msgid "Custom "
-msgstr "Użytkownika"
-
 #: ../programs/table/gchemtable-app.cc:195
 #, fuzzy
 msgid "Create a custom chart"
@@ -5343,10 +5340,6 @@ msgstr "Masa atomowa"
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "Układ okresowy pierwiastków Mendelejewa"
-
-#: ../programs/table/gchemtable.desktop.in.h:2
-msgid "Periodic table of the elements "
-msgstr "Układ okresowy pierwiastków"
 
 #: ../templates/paint/haworth.xml.in.h:1
 msgid "Saccharides"
@@ -5563,6 +5556,20 @@ msgstr "Urydyna"
 #: ../templates/paint/templates.xml.in.h:43
 msgid "Valine"
 msgstr "Walina"
+
+#, fuzzy
+#~ msgid "Texte"
+#~ msgstr "Tekst"
+
+#~ msgid "Chemical calculator "
+#~ msgstr "Kalkulator chemiczny"
+
+#, fuzzy
+#~ msgid "Custom "
+#~ msgstr "Użytkownika"
+
+#~ msgid "Periodic table of the elements "
+#~ msgstr "Układ okresowy pierwiastków"
 
 #~ msgid ""
 #~ "Simple cubic\n"

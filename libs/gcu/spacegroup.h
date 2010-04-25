@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * spacegroup.h - Handle Crystallographic Space Groups.
  *  
- * Copyright (C) 2007-2008 by Jean Bréfort
+ * Copyright (C) 2007-2010 by Jean Bréfort
  * 
  * This file was originally part of the Open Babel project.
  * For more information, see <http://openbabel.sourceforge.net/>
@@ -41,40 +41,91 @@ class Vector;
 class SpaceGroup
 {
 public:
+/*!
+Constructs a new empty, and then invalid, SpaceGroup.
+*/
 	SpaceGroup();
+/*!
+The desrtuctor. Destructs everything.
+*/
 	~SpaceGroup();
 
+/*!
+*/
 	void AddTransform(const std::string &s);
 
+/*!
+*/
 	std::list<Vector> Transform (Vector const &v) const;
 
+/*!
+*/
 	Transform3d const *GetFirstTransform (std::list <Transform3d*>::const_iterator &i) const;
+/*!
+*/
 	Transform3d const *GetNextTransform (std::list <Transform3d*>::const_iterator &i) const;
 
 	// static methods
 	/* The name might be either a HM or Hall name */
+/*!
+*/
 	static SpaceGroup const *GetSpaceGroup (char const *name);
+/*!
+*/
 	static SpaceGroup const *GetSpaceGroup (std::string const &name);
+/*!
+*/
 	static SpaceGroup const *GetSpaceGroup (unsigned id);
+/*!
+*/
 	static std::list <SpaceGroup const *> &GetSpaceGroups (unsigned id);
+/*!
+*/
 	static SpaceGroup const *Find (SpaceGroup* group);
-	/* Use it if the space group is unknown (might happen if no database has
-	been loaded or if the HM name is not usual. */
+/*!
+Use it if the space group is unknown (might happen if no database has
+	been loaded or if the HM name is not usual).
+*/
 	void RegisterSpaceGroup (int nb = 0, ...);
 
+/*!
+*/
 	bool operator ==(const SpaceGroup &) const;
+/*!
+*/
 	int operator!=(const SpaceGroup &other) const
 	{
 	return !((*this) == other);
 	}
+/*!
+*/
 	bool IsValid() const;
+/*!
+*/
 	unsigned GetTransformsNumber () const {return m_Transforms.size ();}
 
 private:
 	std::list<Transform3d*> m_Transforms;
 
+/*!\fn SetHMName(std::string name)
+*/
+/*!\fn GetHMName()
+*/
+/*!\fn GetRefHMName()
+*/
 GCU_PROP (std::string, HMName)
+/*!\fn SetHallName(std::string name)
+*/
+/*!\fn GetHallName()
+*/
+/*!\fn GetRefHallName()
+*/
 GCU_PROP (std::string, HallName)
+/*!\fn SetId(unsigned id)
+*/
+/*!\fn GetId()
+/*!\fn GetRefId()
+*/
 GCU_PROP (unsigned, Id)
 };
 

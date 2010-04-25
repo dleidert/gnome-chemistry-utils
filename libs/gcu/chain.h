@@ -178,6 +178,9 @@ Adds the two atoms and the bond between them to the chain. The two atoms must be
 */
 	Atom* GetNextAtom (Atom* pAtom);
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 protected:

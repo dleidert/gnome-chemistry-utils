@@ -51,7 +51,7 @@ if test "$GCU_API_MINOR_VERSION" = "$GCU_MINOR_VERSION" -o $GCU_MICRO_VERSION -g
 	STABILITY=""
 else
 	gcu_is_stable="no"
-	STABILITY_POSTFIX="($GCU_API_VER unstable)"
+	STABILITY_POSTFIX=" ($GCU_API_VER unstable)"
 	STABILITY="-unstable"
 fi
 AC_SUBST([STABILITY])

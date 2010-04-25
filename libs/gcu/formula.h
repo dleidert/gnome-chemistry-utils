@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * formula.h 
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -228,6 +228,9 @@ The list of the formula elements delimited by the pair of brackets.
 class Residue;
 
 /*! class FormulaResidue gcu/formula.h
+@brief Residue.
+
+Represents a residue in a formula.
 */
 
 class FormulaResidue: public FormulaElt

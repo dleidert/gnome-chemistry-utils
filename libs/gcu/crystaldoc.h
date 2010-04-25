@@ -187,7 +187,10 @@ and add some lines.
 	@param object the Object instance to add as a child.
 */
 	void AddChild (Object* object);
-
+/*!
+Attempts to infer the symmetry space group for the crystal.
+@return the SpaceGroup found.
+*/
 	SpaceGroup const *FindSpaceGroup ();
 /*!
 Reinitialize a CrystalDoc instance. Used when loading a file in an already existing document.
@@ -291,19 +294,53 @@ List of the cleavages defined.
 List of the views of the document.
 */
 	std::list <CrystalView *> m_Views;
-
-/*!GetSpaceGroup()
+	
+/*
+/*!\fn GetNameCommon()
+@return the common name or the chemical entity.
+*/
+GCU_RO_PROP (std::string, NameCommon)
+/*!\fn GetNameSystematic()
+@return the systematic name or the chemical entity.
+*/
+GCU_RO_PROP (std::string, NameSystematic)
+/*!\fn GetNameMineral()
+@return the mineral name or the chemical entity.
+*/
+GCU_RO_PROP (std::string, NameMineral)
+/*!\fn GetNameStructure()
+@return the structure name or the chemical entity.
+*/
+GCU_RO_PROP (std::string, NameStructure)
+/*!\fn SetSpaceGroup(SpaceGroup *group)
+@param group a SpaceGroup.
+Associates a the space group with the lattice.
+*/
+/*!\fn GetSpaceGroup()
 @return the space group associated with the lattice.
 */
-
-GCU_RO_PROP (std::string, NameCommon)
-GCU_RO_PROP (std::string, NameSystematic)
-GCU_RO_PROP (std::string, NameMineral)
-GCU_RO_PROP (std::string, NameStructure)
+/*!\fn GetRefSpaceGroup()
+@return the space group associated with the lattice as a reference.
+*/
 GCU_PROP (SpaceGroup const *, SpaceGroup)
+/*!\fn SetAutoSpaceGroup(bool auto)
+@param auto wheteher the lattice SpaceGroup should be automatically searched for.
+
+If true, after each change, the framework will reevaluate the space group according
+to the Bravais lattice and the defines atoms.
+*/
+/*!\fn GetAutoSpaceGroup()
+@return whether the space group is automatically evaluated.
+*/
+/*!\fn GetRefAutoSpaceGroup()
+@return whether the space group is automatically evaluated as a reference.
+*/
 GCU_PROP (bool, AutoSpaceGroup)
 };
 
+/*!
+A table of the Bravais lattices names.
+*/
 extern gchar const *LatticeName[];
 
 } //namespace gcu

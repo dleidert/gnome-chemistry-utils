@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gchemutils 0.10.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-24 09:13+0200\n"
+"POT-Creation-Date: 2010-04-25 09:37+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: I-Yuan Chiang <iychiang1809@gmail.com>\n"
 "Language-Team: Tryneeds in Tawian <tryneeds@gmail.com>\n"
@@ -183,7 +183,7 @@ msgstr "Triflyl"
 msgid "sec-Butyl"
 msgstr "sec-Butyl 第二丁基/二級丁基"
 
-#: ../ui/gchemcalc.ui.h:1
+#: ../ui/gchemcalc.ui.h:1 ../programs/calc/gchemcalc.desktop.in.h:2
 msgid "Chemical calculator"
 msgstr "化學計算機"
 
@@ -636,7 +636,7 @@ msgstr "電荷:"
 msgid "Covalent"
 msgstr "Covalent 共價:"
 
-#: ../ui/crystal/atoms.ui.h:6
+#: ../ui/crystal/atoms.ui.h:6 ../programs/table/gchemtable-app.cc:194
 msgid "Custom"
 msgstr "自訂的"
 
@@ -661,6 +661,7 @@ msgstr "Metallic 金屬:"
 
 #: ../ui/crystal/atoms.ui.h:11 ../libs/gcu/gcucomboperiodic.c:95
 #: ../programs/table/gchemtable-app.cc:307
+#: ../programs/table/gchemtable.desktop.in.h:2
 msgid "Periodic table of the elements"
 msgstr "週期表上的元素"
 
@@ -967,7 +968,8 @@ msgstr "虛線寬度:"
 #: ../ui/paint/preferences.ui.h:28
 msgid ""
 "Hashed bonds are normally represented with the large side nearest, which is "
-"the opposite of what many people want. If checked, this behavior."
+"the opposite of what many people want. If checked, this behavior will be "
+"reversed."
 msgstr ""
 
 #: ../ui/paint/preferences.ui.h:29
@@ -1854,7 +1856,7 @@ msgstr ""
 "已經存在, 要覆寫嗎?"
 
 #: ../libs/gcp/application.cc:608 ../libs/gcp/stringdlg.cc:134
-#: ../libs/gcu/application.cc:298
+#: ../libs/gcu/application.cc:305
 #: ../plugins/paint/wikipedia/wikipediatool.cc:116
 #: ../programs/crystal/application.cc:250
 #, c-format
@@ -2178,7 +2180,8 @@ msgid "Arrows"
 msgstr "箭頭"
 
 #: ../libs/gcp/preferences.cc:427 ../libs/gcp/preferences.cc:501
-#: ../libs/gcp/preferences.cc:547 ../plugins/paint/text/plugin.cc:52
+#: ../libs/gcp/preferences.cc:547 ../libs/gcp/text.cc:1013
+#: ../plugins/paint/text/plugin.cc:52
 msgid "Text"
 msgstr "本文"
 
@@ -2295,11 +2298,6 @@ msgstr ""
 #: ../libs/gcp/text.cc:118 ../libs/gcp/text.cc:124
 msgid "This should not have occured, please file a bug record."
 msgstr "這不應該存在, 請回報錯誤."
-
-#: ../libs/gcp/text.cc:1013
-#, fuzzy
-msgid "Texte"
-msgstr "本文"
 
 #: ../libs/gcp/theme.cc:419
 msgid "NewTheme1"
@@ -2715,16 +2713,16 @@ msgstr "GChemPaint"
 msgid "\"%s\" has been modified.  Do you wish to save it?"
 msgstr "\"%s\" 已經修改過了. 您要存檔嗎?"
 
-#: ../libs/gcu/application.cc:63
+#: ../libs/gcu/application.cc:70
 msgid "Open new windows full screen"
 msgstr ""
 
-#: ../libs/gcu/application.cc:64
+#: ../libs/gcu/application.cc:71
 #, fuzzy
 msgid "Maximize new windows"
 msgstr "開啟新視窗"
 
-#: ../libs/gcu/application.cc:206
+#: ../libs/gcu/application.cc:213
 #, c-format
 msgid "(screen resolution is %u)"
 msgstr "(螢幕解析度 %u)"
@@ -2828,39 +2826,43 @@ msgstr "巴西語"
 msgid "Russian"
 msgstr "俄語"
 
-#: ../libs/gcu/element.cc:102
+#: ../libs/gcu/element.cc:101
+msgid "Chinese (TW)"
+msgstr ""
+
+#: ../libs/gcu/element.cc:103
 msgid "Can't find and read elements.xml"
 msgstr "無法找到及讀取 elements.xml"
 
-#: ../libs/gcu/element.cc:108 ../libs/gcu/element.cc:117
+#: ../libs/gcu/element.cc:109 ../libs/gcu/element.cc:118
 msgid "Incorrect file format: elements.xml"
 msgstr "錯誤的檔案格式: elements.xml"
 
-#: ../libs/gcu/element.cc:153
+#: ../libs/gcu/element.cc:154
 msgid "English"
 msgstr "英語"
 
-#: ../libs/gcu/element.cc:405
+#: ../libs/gcu/element.cc:406
 msgid "Can't find and read radii.xml"
 msgstr "無法找到及讀取 radii.xml"
 
-#: ../libs/gcu/element.cc:411 ../libs/gcu/element.cc:424
+#: ../libs/gcu/element.cc:412 ../libs/gcu/element.cc:425
 msgid "Incorrect file format: radii.xml"
 msgstr "錯誤的檔案格式: radii.xml"
 
-#: ../libs/gcu/element.cc:512
+#: ../libs/gcu/element.cc:513
 msgid "Can't find and read elecprops.xml"
 msgstr "無法找到及讀取 elecprops.xml"
 
-#: ../libs/gcu/element.cc:518 ../libs/gcu/element.cc:525
+#: ../libs/gcu/element.cc:519 ../libs/gcu/element.cc:526
 msgid "Incorrect file format: elecprops.xml"
 msgstr "錯誤的檔案格式: elecprops.xml"
 
-#: ../libs/gcu/element.cc:674
+#: ../libs/gcu/element.cc:675
 msgid "Can't find and read isotopes.xml"
 msgstr "無法找到及讀取 isotopes.xml"
 
-#: ../libs/gcu/element.cc:680 ../libs/gcu/element.cc:689
+#: ../libs/gcu/element.cc:681 ../libs/gcu/element.cc:690
 msgid "Incorrect file format: isotopes.xml"
 msgstr "錯誤的檔案格式: isotopes.xml"
 
@@ -3234,7 +3236,7 @@ msgid "_Full heads"
 msgstr "全形箭頭"
 
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:1
-msgid "End arrow at center of new bonds."
+msgid "End arrow at center of new bond."
 msgstr ""
 
 #: ../plugins/paint/arrows/curvedarrowtool.ui.h:2
@@ -4057,7 +4059,8 @@ msgid "Display chemical 3D structures"
 msgstr "顯示化學 3D 結構"
 
 #: ../programs/3d/gchem3d.desktop.in.h:2
-msgid "Molecules Viewer "
+#, fuzzy
+msgid "Molecules Viewer"
 msgstr "分子看圖軟體"
 
 #: ../programs/calc/gchemcalc.cc:280
@@ -4142,16 +4145,13 @@ msgstr "質量 %"
 msgid "A simple calculator for chemistry"
 msgstr "化學簡易計算機"
 
-#: ../programs/calc/gchemcalc.desktop.in.h:2
-msgid "Chemical calculator "
-msgstr "化學計算機"
-
 #: ../programs/crystal/gcrystal.desktop.in.h:1
 msgid "Edit and display crystalline structures"
 msgstr "編輯及展示晶體結構"
 
 #: ../programs/crystal/gcrystal.desktop.in.h:2
-msgid "Gnome Crystal Crystalline Structures Viewer "
+#, fuzzy
+msgid "Gnome Crystal Crystalline Structures Viewer"
 msgstr "Gnome Crystal 晶體結構展示軟體"
 
 #: ../programs/crystal/gcrystal.schemas.in.h:1
@@ -4424,7 +4424,8 @@ msgid "Edit chemical 2D structures"
 msgstr "編輯 2D 化學結構"
 
 #: ../programs/paint/gchempaint.desktop.in.h:2
-msgid "GChemPaint Chemical Structures Editor "
+#, fuzzy
+msgid "GChemPaint Chemical Structures Editor"
 msgstr "GChempaint 化學結構編輯軟體"
 
 #: ../programs/paint/gchempaint.schemas.in.h:1
@@ -4840,7 +4841,8 @@ msgid "A spectrum viewer for the GNOME desktop"
 msgstr "Gnome 桌面的光譜瀏覽軟體"
 
 #: ../programs/spectra/gspectrum.desktop.in.h:2
-msgid "Spectrum viewer "
+#, fuzzy
+msgid "Spectrum viewer"
 msgstr "Spectrum viewer 光譜瀏覽軟體"
 
 #: ../programs/spectra/window.cc:117
@@ -5040,11 +5042,6 @@ msgstr "沸點"
 msgid "Create an ebullition temperature chart"
 msgstr "沸點"
 
-#: ../programs/table/gchemtable-app.cc:194
-#, fuzzy
-msgid "Custom "
-msgstr "自訂的"
-
 #: ../programs/table/gchemtable-app.cc:195
 #, fuzzy
 msgid "Create a custom chart"
@@ -5219,10 +5216,6 @@ msgstr "原子量"
 #: ../programs/table/gchemtable.desktop.in.h:1
 msgid "A Mendeleiev table of the chemical elements"
 msgstr "門得列夫週期表"
-
-#: ../programs/table/gchemtable.desktop.in.h:2
-msgid "Periodic table of the elements "
-msgstr "週期表上的元素"
 
 #: ../templates/paint/haworth.xml.in.h:1
 msgid "Saccharides"
@@ -5439,6 +5432,20 @@ msgstr "Uridine 尿核苷"
 #: ../templates/paint/templates.xml.in.h:43
 msgid "Valine"
 msgstr "Valine 纈胺酸"
+
+#, fuzzy
+#~ msgid "Texte"
+#~ msgstr "本文"
+
+#~ msgid "Chemical calculator "
+#~ msgstr "化學計算機"
+
+#, fuzzy
+#~ msgid "Custom "
+#~ msgstr "自訂的"
+
+#~ msgid "Periodic table of the elements "
+#~ msgstr "週期表上的元素"
 
 #~ msgid ""
 #~ "Simple cubic\n"

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * matrix.h 
  *
- * Copyright (C) 2000-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -56,16 +56,30 @@ Default constructor. Initialized to unit matrix.
 	Matrix ();
 /*!
 @param d a number.
+
 Constructs a scalar matrix. Initializes diagonal elements to \a d and other elements to 0.
 */
 	Matrix (double d);
+/*!
+@param d a table of numbers.
+
+Constructs a matrix from the values in \a d.
+*/
 	Matrix (double d[3][3]);
 /*!
 @param m a matrix.
+
 Copy contructor.
 */
 	Matrix (Matrix const &m);
+/*!
+@param v1 a Vector.
+@param v2 a Vector.
+@param v3 a Vector.
+@param as_rows whether the Vector arguments are used as rows or columns.
 
+Constructs a Matrix from three Vector arguments.
+*/
 	Matrix (Vector const &v1, Vector const &v2, Vector const &v3, bool as_rows = true);
 /*!
 The destructor of Matrix.
@@ -133,9 +147,33 @@ Initially, dx, dy and dz are the components of the vector to transform (multiply
 after execution of this method, dx, dy and dz are the components of the transformed vector. So initial values are lost.
 */
 	void Transform (double &dx, double &dy , double &dz) const;
+/*!
+@param v a Vector.
+
+Multiplies \a v by the Matrix.
+@return the result of the multiplication.
+*/
 	Vector operator* (Vector const &v) const;
+/*!
+@param v a Vector.
+
+Multiplies \a v by the Matrix using OpenGL coordinates conventions.
+@return the result of the multiplication.
+*/
 	Vector glmult (Vector const &v) const;
+/*!
+@param i the row.
+@param j the column.
+
+return the value at row \a i and column \a j as a reference.
+*/
 	double &operator() (unsigned i, unsigned j) {return x[i][j];}
+/*!
+@param i the row.
+@param j the column.
+
+return the value at row \a i and column \a j.
+*/
 	double operator() (unsigned i, unsigned j) const {return x[i][j];}
 	
 private:

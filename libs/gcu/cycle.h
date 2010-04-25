@@ -89,7 +89,9 @@ Evaluates the angles between the bond and its two adjacent bonds in the cycle.
 @return the number of bonds shared with other cycles.
 */
 	int GetFusedBonds ();
-
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 };
 

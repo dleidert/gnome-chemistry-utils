@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/structs.h
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,11 +33,29 @@ namespace gcu
 The list of supported data types.
 */
 typedef enum {
+/*!
+Unknown content.
+*/
 	ContentTypeUnknown,
+/*!
+3D molecular structure.
+*/
 	ContentType3D,
+/*!
+2D molecular structure.
+*/
 	ContentType2D,
+/*!
+Crystal structure.
+*/
 	ContentTypeCrystal,
+/*!
+Spectral data.
+*/
 	ContentTypeSpectrum,
+/*!
+Miscalleneous contents. Might include anything.
+*/
 	ContentTypeMisc
 } ContentType;
 

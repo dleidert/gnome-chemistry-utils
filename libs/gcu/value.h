@@ -71,6 +71,11 @@ public:
 Default constructor
 */
 	SimpleValue ();
+/*!
+@param value a GcuValue to embed.
+
+Constructs a SimpleValue \a value.
+*/
 	SimpleValue (GcuValue value);
 /*!
 Default destructor
@@ -89,7 +94,19 @@ Default destructor
 @return the embedded GcuValue structure.
 */
 	GcuValue const GetValue () {return val;}
+/*!
+@value the value to add.
+
+Adds two values.
+@return the result of the addition.
+*/
 	SimpleValue operator+ (SimpleValue const &value) const;
+/*!
+@n the number used to multiply.
+
+Multiplies \a this by \a n.
+@return the result of the multiplication.
+*/
 	SimpleValue operator* (int n) const;
 
 private:
@@ -122,8 +139,20 @@ Default destructor
 @return the embedded value. Note that the unit is lost.
 */
 	double GetAsDouble () const;
+/*!
+@value the value to add.
 
+Adds two values. They need to have the same dimension, otherwise an exception
+will be thrown.
+@return the result of the addition.
+*/
 	DimensionalValue operator+ (DimensionalValue const &value) const throw (std::invalid_argument);
+/*!
+@n the number used to multiply.
+
+Multiplies \a this by \a n.
+@return the result of the multiplication.
+*/
 	DimensionalValue operator* (int n) const;
 /*!
 @return the embedded GcuDimensionalValue structure.

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-_Name=Periodic table of the elements @STABILITY_POSTFIX@
+_Name=Periodic table of the elements@STABILITY_POSTFIX@
 _Comment=A Mendeleiev table of the chemical elements
 Exec=gchemtable-@GCU_API_VER@
 Icon=gchemtable

@@ -167,7 +167,9 @@ Processes pending references resulting from failed calls to SetTarget().
 @return true if any reference was set.
 */
 	virtual bool Loaded () throw (LoaderError);
-
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 private:

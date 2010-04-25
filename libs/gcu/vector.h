@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * vector.h 
  *
- * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -32,9 +32,10 @@ namespace gcu
 {
 
 /*!\class Vector gcu/vector.h
-3d vectors class.
-*/
+@brief 3D vector.
 
+3D vectors class.
+*/
 class Vector
 {
 public:
@@ -42,24 +43,94 @@ public:
 Constructs a vector with all three coordinates equal to 0.
 */
 	Vector ();
+/*!
+@param x the first coordinate.
+@param y the second coordinate.
+@param z the third coordinate.
+
+Constructs a vector using the given coordinates.
+*/
 	Vector (double x, double y, double z);
+/*!
+@param d an array of coordinates.
+
+Constructs a vector using the given coordinates.
+*/
 	Vector (double d[3]);
+/*!
+@param v a Vector.
+
+Coopy constructor.
+*/
 	Vector (Vector const &v);
 
+/*!
+*/
 	Vector operator+ (Vector const &v) const;
+/*!
+*/
 	Vector operator- (Vector const &v) const;
+/*!
+*/
 	Vector operator* (double m) const;
+/*!
+*/
 	Vector operator/ (double d) const;
+/*!
+*/
 	Vector operator*= (double m);
+/*!
+*/
 	Vector operator/= (double d);
+/*!
+*/
 	double operator[] (unsigned i) const;
 
+/*!
+*/
 	double GetLength () const;
+/*!
+*/
 	Vector CreateOrthogonal () const;
+/*!
+*/
 	Vector Cross (Vector const &v) const;
 
+/*!\fn SetX(double x)
+@param x the first coordinate.
+
+Sets the first vector coordinate.
+*/
+/*!\fn GetX()
+@return the first vector coordinate.
+*/
+/*!\fn GetRefX()
+@return the first vector coordinate as a reference.
+*/
 GCU_PROP (double, X)
+/*!\fn SetY(double y)
+@param x the second coordinate.
+
+Sets the second vector coordinate.
+*/
+/*!\fn GetY)
+@return the second vector coordinate.
+*/
+/*!\fn GetRefY()
+@return the second vector coordinate as a reference.
+*/
 GCU_PROP (double, Y)
+/*!\fn SetZ(double z)
+@param z the third coordinate.
+
+Sets the third vector coordinate.
+*/
+/*!\fn GetZ()
+@return the third vector coordinate.
+*/
+/*!\fn GetRefZ()
+@return the third vector coordinate as a reference.
+*/
 GCU_PROP (double, Z)
 };
 

@@ -36,6 +36,7 @@ The print setup dialog.
 */
 class PrintSetupDlg: public Dialog
 {
+friend class PrintSetupDlgPrivate;
 public:
 /*!
 @param App the application.
@@ -44,6 +45,9 @@ public:
 Builds and shows a print setup dialog for the gcu::Printable instance.
 */
 	PrintSetupDlg (Application* App, Printable *printable);
+/*!
+The destructor.
+*/
 	virtual ~PrintSetupDlg ();
 
 	void DoPrint (bool preview);

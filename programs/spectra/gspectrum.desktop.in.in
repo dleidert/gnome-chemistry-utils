@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-_Name=Spectrum viewer @STABILITY_POSTFIX@
+_Name=Spectrum viewer@STABILITY_POSTFIX@
 _Comment=A spectrum viewer for the GNOME desktop
 Exec=gspectrum-@GCU_API_VER@
 Icon=gspectrum
