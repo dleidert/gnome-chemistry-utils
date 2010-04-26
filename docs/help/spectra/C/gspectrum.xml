@@ -23,7 +23,7 @@
 	 <title>&app; Manual V&manrevision;</title>
 	 <copyright> 
        <year>2008-2010</year>
-       <holder>Jean Bréfort</holder>
+       <holder>Jean Br&#233;fort</holder>
      </copyright>
 
   <!-- translators: uncomment this and add lang=".." to the <book> tag:
@@ -44,7 +44,7 @@
 	 <authorgroup> 
 		<author> 
 		  <firstname>Jean</firstname>
-		  <surname>Bréfort</surname>
+		  <surname>Br&#233;fort</surname>
 		  <affiliation> 
 			 <address> <email>jean.brefort@normalesup.org</email> </address>
 		  </affiliation>
@@ -72,7 +72,7 @@
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -81,7 +81,7 @@
 		  <revnumber>&app; Manual V0.1</revnumber>
 		  <date>October 2008</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -241,7 +241,7 @@
 				</screenshot>
 			</figure>
 			<para>The abscissa can be switched between wavelength in nanometers and
-			wave number in cm<superscript>−1</superscript> and the axis inverted (high values at left) or not,
+			wave number in cm<superscript>&#8722;1</superscript> and the axis inverted (high values at left) or not,
 			and the ordinate can be either absorbance or transmittance.</para>
 			<para>The toolbar is almost identical for IR spectra. The only difference
 			is that wavelengths are in micrometers instead of nanometers:</para>

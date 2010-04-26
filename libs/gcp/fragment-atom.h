@@ -170,6 +170,9 @@ Builds the symbol geometry if necessary.
 */
 	void DoBuildSymbolGeometry (View *pView);
 
+/*!\fn GetFragment()
+@return the Fragment eclosing the FragmentAtom.
+*/
 GCU_RO_POINTER_PROP (Fragment, Fragment)
 };
 

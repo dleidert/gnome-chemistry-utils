@@ -69,9 +69,17 @@ class Tool;
 class Document;
 typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
 
+/*!
+@brief Cursors.
+
+Enumerates known cursors.
+*/
 typedef enum {
+/*!Cursor used when a click would have no effect.*/
 	CursorUnallowed,
+/*!Cursor used when a click would start drawing operation.*/
 	CursorPencil,
+/*!Maximum value, does not correspond to a valid cursor.*/
 	CursorMax
 } CursorId;
 
@@ -407,6 +415,11 @@ it is pure virtual.
 */
 	virtual void OnFileNew (char const *Theme = NULL) = 0;
 
+/*!
+@param id a CursorId
+
+@return the corresponding GdkCursor if any.
+*/
 	GdkCursor *GetCursor (CursorId id)  {return m_Cursors[id];}
 
 protected:
@@ -472,6 +485,9 @@ private:
 	std::list<BuildMenuCb> m_MenuCbs;
 	GdkCursor *m_Cursors[CursorMax];
 
+/*!\fn GetStyle()
+@return the default GtkStyle for the windows.
+*/
 GCU_RO_POINTER_PROP	(GtkStyle, Style)
 };
 

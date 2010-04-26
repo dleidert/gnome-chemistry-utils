@@ -146,7 +146,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 	char const *translator_credits = _("translator_credits");
 	GdkPixbuf *logo = gdk_pixbuf_new_from_file (PIXMAPSDIR"/gcrystal_logo.png", NULL);
 	gtk_show_about_dialog (NULL,
-					"name", _("Gnome Crystal"),
+					"program-name", _("Gnome Crystal"),
 					"authors", authors,
 					"artists", artists,
 					"comments", _("Gnome Crystal is a lightweight crystal structures viewer for Gnome"),
@@ -156,7 +156,7 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
 											translator_credits : NULL,
 					"version", VERSION,
-					"website", "http://www.nongnu.org/gchemutils",
+					"website", "http://gchemutils.nongnu.org",
 					NULL);
 	g_object_unref (logo);
 }

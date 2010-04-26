@@ -95,14 +95,14 @@ Default destructor
 */
 	GcuValue const GetValue () {return val;}
 /*!
-@value the value to add.
+@param value the value to add.
 
 Adds two values.
 @return the result of the addition.
 */
 	SimpleValue operator+ (SimpleValue const &value) const;
 /*!
-@n the number used to multiply.
+@param n the number used to multiply.
 
 Multiplies \a this by \a n.
 @return the result of the multiplication.
@@ -140,7 +140,7 @@ Default destructor
 */
 	double GetAsDouble () const;
 /*!
-@value the value to add.
+@param value the value to add.
 
 Adds two values. They need to have the same dimension, otherwise an exception
 will be thrown.
@@ -148,7 +148,7 @@ will be thrown.
 */
 	DimensionalValue operator+ (DimensionalValue const &value) const throw (std::invalid_argument);
 /*!
-@n the number used to multiply.
+@param n the number used to multiply.
 
 Multiplies \a this by \a n.
 @return the result of the multiplication.

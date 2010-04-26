@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * transform3d.h - Handle 3D transformations in space groups.
  *  
- * Copyright (C) 2007-2008 by Jean Bréfort
+ * Copyright (C) 2007-2010 by Jean Bréfort
  * 
  * This file was originally part of the Open Babel project.
  * For more information, see <http://openbabel.sourceforge.net/>
@@ -35,46 +35,84 @@ namespace gcu
 @brief Handle 3D transformations, such as space group definitions
 @since version 0.12
 @sa SpaceGroup
+
+Describes a spatial trnasformation obtained by the combination of a symmetry
+operation and a translation.
 */
 class Transform3d: private Matrix, private Vector
 {
 public:
-/*! 
+/*!
+The default constructor. Initializes all coordinates to 0.
 */
 	Transform3d ();
-/*! 
+/*!
+@param m a symmetry operation matrix.
+@param v a translation vector.
+
+Constructs a new Transform3d from its symmetry operation matrix and its
+translation vector.
 */
 	Transform3d (Matrix const &m, Vector const &v);
-/*! 
+/*!
+@param s a scalar.
+
+Constructs a new Transform3d from a scalar matrix and a null translation vector.
 */
 	Transform3d (double s);
-/*! 
+/*!
+@param row1 first matrix row.
+@param row2 second matrix row.
+@param row3 third matrix row.
+@param translation the translation vector.
+
+Constructs a new Transform3d from the three rows of its symmetry operation
+matrix and its translation vector.
 */
 	Transform3d (Vector row1, Vector row2, Vector row3, Vector translation);
-/*! 
+/*!
+@param d the coefficients of a symmetry operation matrix.
+@param t the coefficients of a translation vector.
+
+Constructs a new Transform3d from the coefficients of its symmetry operation
+matrix and its translation vector.
 */
 	Transform3d (double d[3][3], double t[3]);
 
-/*! 
+/*!
+The destructor.
 */
 	virtual ~Transform3d ();
 
-/*! 
-*/
-	Vector operator* (Vector const &) const;
+/*!
+@param v the vector to transform.
 
-/*! 
+Transforms a vector (multiply by the symmetry matrix and add the
+translation vector).
+@return the transformed vector.
 */
-	Transform3d operator* (Transform3d const &) const;
+	Vector operator* (Vector const &v) const;
 
-/*! 
+/*!
+@param t a Transform3d.
+
+Combines two Transform3d instances a vector.
+@return the combination of the two transforms.
+*/
+	Transform3d operator* (Transform3d const &t) const;
+
+/*!
+@return the transform dexcription in CIF convention, such as "x,y,z".
 */
 	std::string DescribeAsString() const;
-/*! 
+/*!
+@return the transform description in CML convention, limiting to the twelve
+first values, such as "1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0".
 */
 	std::string DescribeAsValues() const;
 
-/*! 
+/*!
+Ensure that the translation vector coordinates are all in the interval [0,1[.
 */
 	void Normalize();
 };

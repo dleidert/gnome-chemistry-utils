@@ -145,14 +145,14 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
 	const gchar * translator_credits = _("translator_credits");
 	gtk_show_about_dialog (NULL,
-	                       "name", "GChem3D",
+	                       "program-name", "GChem3D",
 	                       "authors", authors,
 	                       "comments", comments,
 	                       "copyright", copyright,
 	                       "license", license,
 	                       "translator_credits", translator_credits,
 	                       "version", VERSION,
-	                       "website", "http://www.nongnu.org/gchemutils",
+	                       "website", "http://gchemutils.nongnu.org",
 	                       NULL);
 }
 

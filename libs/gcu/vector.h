@@ -65,34 +65,62 @@ Coopy constructor.
 	Vector (Vector const &v);
 
 /*!
+@param v a Vector.
+
+@return the sum of \a v and \a this.
 */
 	Vector operator+ (Vector const &v) const;
 /*!
+@param v a Vector.
+
+@return the difference \a this minus \a v.
 */
 	Vector operator- (Vector const &v) const;
 /*!
+@param m a number.
+
+@return a Vector equal to m * \a this.
 */
 	Vector operator* (double m) const;
 /*!
+@param d a number.
+
+@return a Vector equal to (1/d) * \a this.
 */
 	Vector operator/ (double d) const;
 /*!
+@param m a number.
+
+Multiplies \a this by \a m.
+@return \a this after the multiplication.
 */
 	Vector operator*= (double m);
 /*!
+@param  d a number.
+
+Divides \a this by \a d.
+@return \a this after the division.
 */
 	Vector operator/= (double d);
 /*!
+@param i an index.
+
+\a return the ith coordinate.
 */
 	double operator[] (unsigned i) const;
 
 /*!
+@return the Vector module.
 */
 	double GetLength () const;
 /*!
+@return a Vector orthogonal to \a this.
 */
 	Vector CreateOrthogonal () const;
 /*!
+@param v a Vector.
+
+@return the vectorial product of \a this and \a v.
 */
 	Vector Cross (Vector const &v) const;
 
@@ -109,11 +137,11 @@ Sets the first vector coordinate.
 */
 GCU_PROP (double, X)
 /*!\fn SetY(double y)
-@param x the second coordinate.
+@param y the second coordinate.
 
 Sets the second vector coordinate.
 */
-/*!\fn GetY)
+/*!\fn GetY()
 @return the second vector coordinate.
 */
 /*!\fn GetRefY()

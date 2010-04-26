@@ -23,7 +23,7 @@
 	 <title>&app; Manual V&manrevision;</title>
 	 <copyright> 
        <year>2006-2010</year>
-       <holder>Jean Bréfort</holder>
+       <holder>Jean Br&#233;fort</holder>
      </copyright>
 
   <!-- translators: uncomment this and add lang=".." to the <book> tag:
@@ -44,7 +44,7 @@
 	 <authorgroup> 
 		<author> 
 		  <firstname>Jean</firstname>
-		  <surname>Bréfort</surname>
+		  <surname>Br&#233;fort</surname>
 		  <affiliation> 
 			 <address> <email>jean.brefort@normalesup.org</email> </address>
 		  </affiliation>
@@ -72,7 +72,7 @@
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -81,7 +81,7 @@
 		  <revnumber>&app; Manual V0.2</revnumber>
 		  <date>September 2008</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -90,7 +90,7 @@
 		  <revnumber>&app; Manual V0.1</revnumber>
 		  <date>February 2006</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>

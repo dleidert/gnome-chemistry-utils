@@ -300,14 +300,14 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 	const gchar * translator_credits = _("translator_credits");
 
 	gtk_show_about_dialog (NULL,
-	                       "name", "GChemCalc",
+	                       "program-name", "GChemCalc",
 	                       "authors", authors,
 	                       "comments", comments,
 	                       "copyright", copyright,
 	                       "license", license,
 	                       "translator_credits", translator_credits,
 	                       "version", VERSION,
-	                       "website", "http://www.nongnu.org/gchemutils",
+	                       "website", "http://gchemutils.nongnu.org",
 	                       NULL);
 }
 

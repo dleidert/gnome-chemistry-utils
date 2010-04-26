@@ -23,7 +23,7 @@
 	 <title>&app; Manual V&manrevision;</title>
 	 <copyright> 
        <year>2005-2010</year>
-       <holder>Jean Bréfort</holder>
+       <holder>Jean Br&#233;fort</holder>
      </copyright>
 
   <!-- translators: uncomment this and add lang=".." to the <article> tag:
@@ -44,7 +44,7 @@
 	 <authorgroup> 
 		<author> 
 		  <firstname>Jean</firstname>
-		  <surname>Bréfort</surname>
+		  <surname>Br&#233;fort</surname>
 		  <affiliation> 
 			 <address> <email>jean.brefort@normalesup.org</email> </address>
 		  </affiliation>
@@ -72,7 +72,7 @@
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -81,7 +81,7 @@
 		  <revnumber>&app; Manual V0.10.0</revnumber>
 		  <date>September 2008</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -90,7 +90,7 @@
 		  <revnumber>&app; Manual V0.8.2</revnumber>
 		  <date>July 2007</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -99,7 +99,7 @@
 		  <revnumber>&app; Manual V0.8.0</revnumber>
 		  <date>June 2007</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -108,7 +108,7 @@
 		  <revnumber>&app; Manual V0.6</revnumber>
 		  <date>August 2005</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -117,7 +117,7 @@
 		  <revnumber>&app; Manual V0.4</revnumber>
 		  <date>January 2004</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@ac-dijon.fr</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -126,7 +126,7 @@
 		  <revnumber>&app; Manual V0.2</revnumber>
 		  <date>July 2002</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@ac-dijon.fr</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -182,10 +182,40 @@
     		<para>Type <command>gchempaint</command>, then press <keycap>Return</keycap>.</para>
     		</listitem>
     		</varlistentry>
-    		</variablelist>
-			<para>GChemPaint can also be run as a Goffice component.
-			This makes possible to embed some chemistry in Abiword. Note that you
-			need an Abiword version using cairo for rendering (not yet released (September 2008)).</para>
+		</variablelist>
+		<para>GChemPaint can also be run as a Goffice component.
+		This makes possible to embed some chemistry in Abiword.</para>
+		<para>When using the command line, some options are available:</para>
+		<variablelist>
+			<varlistentry>
+				<term><option>-e</option></term>
+				<term><option>--edit-residue</option></term>
+				<listitem>
+					<para>Open <link linkend="gchempaint-residues">residues dialog</link>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-F</option></term>
+				<term><option>--full-screen</option></term>
+				<listitem>
+					<para>Open new windows full screen.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-M</option></term>
+				<term><option>--maximize</option></term>
+				<listitem>
+					<para>Open new window maximized.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-?</option></term>
+				<term><option>--help</option></term>
+				<listitem>
+					<para>Show application help options.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
 	</sect1>
 	<sect1 id="gchempaint-when-you-start">
 		<title>When You Start &app;</title>
@@ -2191,7 +2221,7 @@
 		</figure>
 		<para>Only one option is present:</para>
 		<variablelist> 
-		  <varlistentry> <term>End arrow at center of new bonds</term> 
+		  <varlistentry> <term>End arrow at center of new bond</term> 
 			 <listitem> 
 				<para>When a new bond is created during a mechanism step, you can end the
 				curved arrow either at the other atom position, or at the center of

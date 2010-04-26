@@ -371,6 +371,10 @@ This method is used to avoid bonds lines extyending over their atoms symbols.
 */
 	void GetSymbolGeometry (double &width, double &height, double &angle, bool up) const;
 
+/*!
+@param paired whether to ask for a pair of electrons or a single electron.
+@return true if non-bonding valence electrons are available.
+*/
 	bool HasAvailableElectrons (bool paired);
 
 /*!
@@ -457,7 +461,29 @@ Sets the position of attached hydrogen atoms symbol.
 @return the position of attached hydrogen atoms symbol as a reference.
 */
 GCU_PROP (HPos, HPosStyle) //0=force left, 1=force right, 2=force top, 3=force bottom, 4=auto.
-GCU_PROP (gccv::Item *, ChargeItem) //0=force left, 1=force right, 2=force top, 3=force bottom, 4=auto.
+/*!\fn SetChargeItem(gccv::Item *item)
+@param item a gccv::Item.
+
+Sets the gccv::Item used to represent the formal charge of the atom, might be NULL.
+*/
+/*!\fn GetHPosStyle()
+@return the gccv::Item used to represent the formal charge of the atom.
+*/
+/*!\fn GetHPosStyle() const
+@return the gccv::Item used to represent the formal charge of the atom.
+*/
+GCU_POINTER_PROP (gccv::Item, ChargeItem)
+/*!\fn SetShowCharge(bool show)
+@param show whether to display the local charge.
+
+Shows or hides the atom local charge.
+*/
+/*!\fn GetHPosStyle()
+@return whether the local charge is displayed.
+*/
+/*!\fn GetRefHPosStyle()
+@return whether the local charge is displayed as a reference.
+*/
 GCU_PROP (bool, ShowCharge);
 };
 

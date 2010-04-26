@@ -49,7 +49,7 @@ void on_about (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED void* data)
 	char const *translator_credits = _("translator_credits");
 	GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file (PIXMAPSDIR"/gchempaint_logo.png", NULL);
 	gtk_show_about_dialog (NULL,
-					"name", "GChemPaint",
+					"program-name", "GChemPaint",
 					"authors", authors,
 					"artists", artists,
 					"comments", _("GChemPaint is a 2D chemical structures editor for Gnome"),
@@ -60,7 +60,7 @@ void on_about (G_GNUC_UNUSED GtkWidget* widget, G_GNUC_UNUSED void* data)
 					"translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? 
 											translator_credits : NULL,
 					"version", VERSION,
-					"website", "http://www.nongnu.org/gchempaint",
+					"website", "http://gchemutils.nongnu.org",
 					NULL);
 	if (pixbuf != NULL)
 		g_object_unref (pixbuf);

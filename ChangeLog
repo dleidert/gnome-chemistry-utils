@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2010-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.11.91).
+	* docs/*: documentation updates.
+	* libs/gcp/about.cc: fixed program name.
+	* libs/gcp/application.h: API documentation work.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/electron.h: ditto.
+	* libs/gcp/fragment-atom.h: ditto.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/spacegroup.h: ditto.
+	* libs/gcu/transform3d.h: ditto.
+	* libs/gcu/ui-builder.h: ditto.
+	* libs/gcu/value.h: ditto.
+	* libs/gcu/vector.h: ditto.
+	* programs/3d/window.cc: fixed program name.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+
 2010-04-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: fixed typo.
 	* libs/gcp/text.cc: ditto.

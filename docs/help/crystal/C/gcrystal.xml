@@ -22,8 +22,8 @@
   <bookinfo> 
 	 <title>&app; Manual V&manrevision;</title>
 	 <copyright> 
-       <year>2006</year>
-       <holder>Jean Bréfort</holder>
+       <year>2006-2010</year>
+       <holder>Jean Br&#233;fort</holder>
      </copyright>
 
   <!-- translators: uncomment this and add lang=".." to the <book> tag:
@@ -44,7 +44,7 @@
 	 <authorgroup> 
 		<author> 
 		  <firstname>Jean</firstname>
-		  <surname>Bréfort</surname>
+		  <surname>Br&#233;fort</surname>
 		  <affiliation> 
 			 <address> <email>jean.brefort@normalesup.org</email> </address>
 		  </affiliation>
@@ -72,7 +72,7 @@
 		  <revnumber>&app; Manual V&manrevision;</revnumber>
 		  <date>&date;</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -81,7 +81,7 @@
 		  <revnumber>&app; Manual V0.10.0</revnumber>
 		  <date>September 2008</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -90,7 +90,7 @@
 		  <revnumber>&app; Manual V0.8.0</revnumber>
 		  <date>September 2006</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@normalesup.org</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -99,7 +99,7 @@
 		  <revnumber>&app; Manual V0.6.0</revnumber>
 		  <date>November 2003</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@ac-dijon.fr</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -108,7 +108,7 @@
 		  <revnumber>&app; Manual V0.1</revnumber>
 		  <date>2001</date> 
 		  <revdescription> 
-			 <para role="author">Jean Bréfort
+			 <para role="author">Jean Br&#233;fort
 				<email>jean.brefort@ac-dijon.fr</email> </para>
 			 <para role="publisher">GNOME Documentation Project</para>
 		  </revdescription>
@@ -776,7 +776,7 @@
 	  The model may be oriented with the mouse, clicking on the left button inside the view,
 	  dragging until a convenient orientation is obtained, and releasing the button.
 	  It also is possible to use this dialog box to choose an orientation by modifying the three
-	  Euler's angles ψ, θ, and φ.
+	  Euler's angles &#968;, &#952;, and &#966;.
 	 </para>
      <para>
 	  When the three angles are null, <parameter>c</parameter> axis is vertical, with positive values up,
@@ -786,20 +786,20 @@
 	  <itemizedlist>
 	   <listitem>
 	   	<para>
-	     A rotation by angle φ around the vertical axis oriented upwards. Possible values
-		 for φ are in the range - 180° to 180°.
+	     A rotation by angle &#966; around the vertical axis oriented upwards. Possible values
+		 for &#966; are in the range - 180° to 180°.
 		</para>
 	   </listitem>
 	   <listitem>
 	   	<para>
-	     A rotation by angle θ around the axis perpendicular to the view and pointing
-		 towards the viewer. Possible values for θ are from 0° to 180°.
+	     A rotation by angle &#952; around the axis perpendicular to the view and pointing
+		 towards the viewer. Possible values for &#952; are from 0° to 180°.
 		</para>
 	   </listitem>
 	   <listitem>
 	   	<para>
-	     A rotation by angle ψ around the vertical axis oriented upwards. Possible values
-		 for ψ are in the range - 180° to 180°.
+	     A rotation by angle &#968; around the vertical axis oriented upwards. Possible values
+		 for &#968; are in the range - 180° to 180°.
 		</para>
 	   </listitem>
 	  </itemizedlist>

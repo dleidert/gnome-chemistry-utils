@@ -95,6 +95,20 @@
 				</listitem>
 			</varlistentry>
 			<varlistentry>
+				<term><option>-F</option></term>
+				<term><option>--full-screen</option></term>
+				<listitem>
+					<para>Open new windows full screen.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><option>-M</option></term>
+				<term><option>--maximize</option></term>
+				<listitem>
+					<para>Open new window maximized.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
 				<term><option>-?</option></term>
 				<term><option>--help</option></term>
 				<listitem>

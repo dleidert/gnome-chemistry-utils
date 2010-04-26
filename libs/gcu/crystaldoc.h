@@ -295,7 +295,6 @@ List of the views of the document.
 */
 	std::list <CrystalView *> m_Views;
 	
-/*
 /*!\fn GetNameCommon()
 @return the common name or the chemical entity.
 */
@@ -312,7 +311,7 @@ GCU_RO_PROP (std::string, NameMineral)
 @return the structure name or the chemical entity.
 */
 GCU_RO_PROP (std::string, NameStructure)
-/*!\fn SetSpaceGroup(SpaceGroup *group)
+/*!\fn SetSpaceGroup(SpaceGroup const *group)
 @param group a SpaceGroup.
 Associates a the space group with the lattice.
 */

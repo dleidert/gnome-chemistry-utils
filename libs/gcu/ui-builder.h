@@ -33,6 +33,11 @@
 namespace gcu
 {
 
+/*!
+@brief GtkBuilder wrapping.
+
+Wraps a GtkBuilder and provides some useful methods.
+*/
 class UIBuilder
 {
 public:
@@ -40,14 +45,37 @@ public:
 @param filename: the name of the ui file which contains the description of
 the widgets.
 @param domain: the translation domain.
+
+Constructs a UIBuilder using the given file. Throws an exception if things fail.
 */
 	UIBuilder (char const *filename, char const *domain) throw (std::runtime_error);
+/*!
+The destructor.
+*/
 	virtual ~UIBuilder ();
 
+/*!
+@param wname a widget name.
+
+@return the found widget if any.
+*/
 	GtkWidget *GetWidget (char const *wname);
+/*!
+@param wname a widget name.
+
+@return the found widget if any with an incremented references count.
+*/
 	GtkWidget *GetRefdWidget (char const *wname);
+/*!
+@param cbname a combo box name.
+
+@return the found combo box if any.
+*/
 	GtkComboBox *GetComboBox (char const *cbname);
 
+/*!\fn GetBuilder()
+@return the embedded GtkBuilder
+*/
 GCU_RO_PROP (GtkBuilder *, Builder)
 };
 
