@@ -794,7 +794,25 @@ bool CrystalDoc::Loaded () throw (LoaderError)
 		}
 		(*i)->SetDefaultColor ();
 	}
-	switch (m_lattice) { // ensure that the paraleters are coherent
+	if (m_lattice == triclinic) { // this is for invalid files
+		if (m_alpha == m_beta) {
+			if (m_alpha == m_gamma) {
+				if (m_alpha == 90) {
+					if (m_a != m_b)
+						m_lattice = orthorhombic;
+					else if (m_a != m_c)
+						m_lattice = tetragonal;
+					else
+						m_lattice = cubic;
+				} else
+					m_lattice = rhombohedral;
+			}
+		} else if (m_alpha == 90  && m_gamma == 90)
+			m_lattice = monoclinic;
+		else if (m_alpha == 90  && m_gamma == 120)
+				m_lattice = hexagonal;
+	}
+	switch (m_lattice) { // ensure that the parameters are coherent
 	case cubic:
 	case body_centered_cubic:
 	case face_centered_cubic:

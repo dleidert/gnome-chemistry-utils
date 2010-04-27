@@ -466,10 +466,10 @@ GCU_PROP (HPos, HPosStyle) //0=force left, 1=force right, 2=force top, 3=force b
 
 Sets the gccv::Item used to represent the formal charge of the atom, might be NULL.
 */
-/*!\fn GetHPosStyle()
+/*!\fn GetChargeItem()
 @return the gccv::Item used to represent the formal charge of the atom.
 */
-/*!\fn GetHPosStyle() const
+/*!\fn GetChargeItem() const
 @return the gccv::Item used to represent the formal charge of the atom.
 */
 GCU_POINTER_PROP (gccv::Item, ChargeItem)
@@ -478,10 +478,10 @@ GCU_POINTER_PROP (gccv::Item, ChargeItem)
 
 Shows or hides the atom local charge.
 */
-/*!\fn GetHPosStyle()
+/*!\fn GetShowCharge()
 @return whether the local charge is displayed.
 */
-/*!\fn GetRefHPosStyle()
+/*!\fn GetShowCharge()
 @return whether the local charge is displayed as a reference.
 */
 GCU_PROP (bool, ShowCharge);

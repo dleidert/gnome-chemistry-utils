@@ -38,21 +38,61 @@ namespace gcp {
 
 extern gccv::Tag ChargeTag, StoichiometryTag;
 
+/*!
+@brief Charge.
+
+TextTag class for charge. Text using this tag will appear as superscript and
+interpreted as an electric charge.
+*/
 class ChargeTextTag: public gccv::PositionTextTag
 {
 public:
+/*!
+@param size a default font size.
+
+Constructs a new ChargeTextTag.
+*/
 	ChargeTextTag (double size);
+/*!
+The destructor.
+*/
 	virtual ~ChargeTextTag ();
 
+/*!
+@param tag a TextTag.
+
+Implementation of TextTag::Restrict for the ChargeTextTag class.
+@return the new TextTag if \a this split or NULL.
+*/
 	TextTag *Restrict (TextTag *tag);
 };
 
+/*!
+@brief Stoichiometry.
+
+TextTag class for stoichiometry. Text using this tag will appear as subscript
+and interpreted as a stoichiometric index.
+*/
 class StoichiometryTextTag: public gccv::PositionTextTag
 {
 public:
+/*!
+@param size a default font size.
+
+Constructs a new StoichiometryTextTag.
+*/
 	StoichiometryTextTag (double size);
+/*!
+The destructor.
+*/
 	virtual ~StoichiometryTextTag ();
 
+/*!
+@param tag a TextTag.
+
+Implementation of TextTag::Restrict for the StoichiometryTextTag class.
+@return the new TextTag if \a this split or NULL.
+*/
 	TextTag *Restrict (TextTag *tag);
 };
 
@@ -248,23 +288,72 @@ Changes the order of the symbols if necessary when a bond is at an extremity
 of the fragment.
 */
 	void Update ();
+
+/*!
+@return the gccv::Item used to represent the formal charge of the main atom.
+*/
 	gccv::Item *GetChargeItem ();
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
+/*!
+@brief
 
+The validity state of a Fragment as it is currently evaluated by the framework.
+The 0.12.x version don't do anything useful with it and all Fragment instances
+are invalid.
+*/
 	typedef enum {
+/*!
+Invalid Fragment or validity not checked.
+*/
 		Invalid,
+/*!
+Valid Fragment, all symbols in the string can be interpreted.
+*/
 		Valid,
+/*!
+Valid Fragment, with a known and reasonable 2D structure.
+*/
 		Valid2D,
+/*!
+Valid Fragment, with a known and reasonable 3D structure.
+*/
 		Valid3D
 	} Validity;
 
+/*!
+@brief Edition mode.
+
+Current edition mode for the fragment. Used to know how inserted symbolds need
+to be interpreted.
+*/
 	typedef enum {
+/*!
+Automatic mode, try to guess what each new symbol represent.
+*/
 		AutoMode,
+/*!
+New characters are aligned on the base line.
+*/
 		NormalMode,
+/*!
+New characters are subscripts, but are not related to stoichiometry.
+*/
 		SubscriptMode,
+/*!
+New characters are superscripts, but are not related to charge.
+*/
 		SuperscriptMode,
+/*!
+New characters are interpreted as charge and superscript.
+*/
 		ChargeMode,
+/*!
+New characters are interpreted as stoichiometry and subscript.
+*/
 		StoichiometryMode
 	} FragmentMode;
 
@@ -278,7 +367,21 @@ private:
 	double m_CHeight;
 	bool m_Inversable;
 
+/*!\fn GetValid()
+@return the current Fragment::Validity for the Fragment instance.
+*/
 GCU_RO_PROP (Validity, Valid)
+/*!\fn SetMode(FragmentMode mode)
+@param mode the nexw edition mode.
+
+Sets the current edition mode for the Fragment instance.
+*/
+/*!\fn GetMode()
+@return the current edition mode for the Fragment instance.
+*/
+/*!\fn GetRefMode()
+@return the current edition mode for the Fragment instance as a reference.
+*/
 GCU_PROP (FragmentMode, Mode)
 };
 

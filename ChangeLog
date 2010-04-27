@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.h: API documentation work.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcu/crystalatom.cc: survive CIF files with no space group and/or
+	invalid atoms.
+	* libs/gcu/crystaldoc.cc: ditto.
+	* plugins/loaders/cif/cif.cc: ditto.
+
 2010-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.11.91).
 	* docs/*: documentation updates.

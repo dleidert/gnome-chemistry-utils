@@ -123,6 +123,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	list <unsigned>::iterator loop_prop;
 	list <string> loop_values;
 	map <string, CIFAtomType> AtomTypes;
+	doc->SetProperty (GCU_PROP_SPACE_GROUP, "P 1");
 	SpaceGroup *group = new SpaceGroup ();
 	bool author_found = false;
 	doc->SetScale (100.); // lentghs and positions pus be converted to pm
@@ -276,7 +277,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 												val[i] = 0;
 												z = Element::Z (val.c_str ());
 											}
-											if (z)
+											if (z > 0)
 												atom->SetProperty (GCU_PROP_ATOM_SYMBOL, val.c_str ());
 										}
 										break;
