@@ -25,22 +25,57 @@
 #ifndef GCHEMPAINT_MECHANISM_STEP_H
 #define GCHEMPAINT_MECHANISM_STEP_H
 
+/*!\file*/
+
 #include <gcu/object.h>
 
 namespace gcp {
 
 extern gcu::TypeId MechanismStepType;
 
+/*!
+@brief Mechanism step.
+
+One or several molecules with mechanism arrows joining them.
+*/
 class MechanismStep: public gcu::Object
 {
 public:
+/*!
+Constructs a new MechanismStep.
+*/
 	MechanismStep (gcu::TypeId type = MechanismStepType);
+/*!
+The destructor.
+*/
 	virtual ~MechanismStep ();
 
+/*!
+@return the alignment ordinate of the MechanismStep. Uses the average of the
+values returned by the molecules.
+*/
 	double GetYAlign ();
+/*!
+@param Signal the appropriate SignalId
+@param Child the child which emitted the signal or NULL
+
+This function is called by the framework one of the molecules or arrows has
+changed. Might destroy the MechanismStep if there is not anymore an arrow.
+	 
+@return true to propagate the signal to the parent.
+*/
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
+/*!
+@param node a pointer to the xmlNode containing the serialized step.
+
+Used to load a mechanism step in memory. The MechanismStep must already exist.
+@return true on succes, false otherwise.
+*/
 	bool Load (xmlNodePtr node);
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 private:

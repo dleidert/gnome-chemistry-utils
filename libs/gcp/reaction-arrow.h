@@ -156,6 +156,9 @@ false otherwise.
 */
 	bool SetProperty (unsigned property, char const *value);
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 private:

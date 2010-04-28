@@ -123,6 +123,9 @@ mesomer at the other end of the arrow.
 */
 	Molecule *GetMolecule () {return m_Molecule;}
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 private:

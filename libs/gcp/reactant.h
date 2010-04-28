@@ -123,6 +123,9 @@ coefficient does not need to be an integer, but should always be positive.
 */
 	gcu::Object *GetStoichChild () {return Stoichiometry;}
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 private:

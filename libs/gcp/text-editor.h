@@ -28,12 +28,19 @@
 /*!\file*/
 namespace gcp {
 
-/*!\class TextEditor
+/*!
+@brief Text editor.
 
+Virtual class used to edit texts. The goal is to get a notification when the
+selection changes.
 */
 class TextEditor
 {
 public:
+/*!
+The method call by the framework when the edited text selection changes. This
+methid must be implemented by derived classes.
+*/
 	virtual void SelectionChanged () = 0;
 };
 

@@ -140,6 +140,9 @@ It should not be called by a program; call Object::EmitSignal instead.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 private:

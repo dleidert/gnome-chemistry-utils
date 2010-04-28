@@ -411,6 +411,12 @@ private:
 	std::string name;
 	bool m_bPressed;
 
+/*!\var m_OwnStatus
+Whether the tool owns the status bar text.
+*/
+/*!\fn GetOwnStatus()
+@return whether the tool owns the status bar text.
+*/
 GCU_PROT_PROP (bool, OwnStatus)
 };
 

@@ -99,6 +99,9 @@ Exchange both ends or the arrow and their associated mesomers.
 */
 	void Reverse ();
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 private:

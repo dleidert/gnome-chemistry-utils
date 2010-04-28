@@ -169,12 +169,21 @@ and GCU_PROP_TEXT_JUSTIFICATION.
 */
 	bool SetProperty (unsigned property, char const *value);
 /*!
+@param interline the spacing.
+
+Sets the Text interline spacing expressed as points.
 */
 	void InterlineChanged (double interline);
 /*!
+@param justification a GtkJustification.
+
+Sets the justification for the Text. Only meaningful for multiline text.
 */
 	void JustificationChanged (GtkJustification justification);
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 /*!\fn SetAnchor(gccv::Anchor Anchor)

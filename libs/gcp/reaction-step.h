@@ -111,6 +111,9 @@ not anymore relevant.
 */
 	void RemoveArrow (ReactionArrow *arrow);
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 
 private:

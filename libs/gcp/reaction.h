@@ -98,6 +98,9 @@ Used to retrieve the y coordinate for alignment.
 */
 	double GetYAlign ();
 
+/*!
+@return the localized object generic name.
+*/
 	std::string Name ();
 };
 

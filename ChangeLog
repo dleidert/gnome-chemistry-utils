@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2010-04-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment-atom.h: API documentation work.
+	* libs/gcp/mechanism-arrow.h: ditto.
+	* libs/gcp/mechanism-step.h: ditto.
+	* libs/gcp/mesomer.h: ditto.
+	* libs/gcp/mesomery-arrow.h: ditto.
+	* libs/gcp/mesomery.h: ditto.
+	* libs/gcp/reactant.h: ditto.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/reaction-operator.h: ditto.
+	* libs/gcp/reaction-prop.h: ditto.
+	* libs/gcp/reaction-step.h: ditto.
+	* libs/gcp/reaction.h: ditto.
+	* libs/gcp/text-editor.h: ditto.
+	* libs/gcp/text.h: ditto.
+	* libs/gcp/tool.h: ditto.
+
 2010-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.h: API documentation work.
 	* libs/gcp/fragment.h: ditto.
