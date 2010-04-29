@@ -62,7 +62,7 @@ also allowed there.
 */
 	void SetSource (gcu::Object *source);
 /*!
-@param source an object.
+@param aux an object.
 
 Used when a new bond is created by the electron move, using initially bonding
 electrons. In that case the source is the initial bond, the target, the not
@@ -94,7 +94,7 @@ editing.
 */
 	void SetShowControls (bool show);
 /*!
-@param pair whether the arrow represents an electrons pair move or a single
+@param is_pair whether the arrow represents an electrons pair move or a single
 electron move.
 
 Sets the type of electron move.

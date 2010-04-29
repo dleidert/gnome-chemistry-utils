@@ -275,12 +275,16 @@ Changes the selection state of \a object if it owns an item and of all its desce
 */
 	void SetSelectionState (gcu::Object *object, int state);
 	// Signals
+	// there is no needd to document these since the documentation in gccv/client.h is appropriate.
 	bool OnButtonPressed (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state);
 	bool OnButtonReleased (gccv::ItemClient *client, unsigned button, double x, double y, unsigned state);
 	bool OnDrag (gccv::ItemClient *client, double x, double y, unsigned state);
 	bool OnMotion (gccv::ItemClient *client, double x, double y, unsigned state);
 	bool OnLeaveNotify (unsigned state);
 
+/*!
+@return the WidgetData associated with the View widget.
+*/
 	WidgetData *GetData () {return m_pData;}
 	//Implementation
 private:

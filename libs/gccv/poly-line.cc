@@ -144,6 +144,7 @@ void PolyLine::UpdateBounds ()
 	m_x1 += lw;
 	m_y0 -= lw;
 	m_y1 += lw;
+	Item::UpdateBounds ();
 }
 
 void PolyLine::Move (double x, double y)

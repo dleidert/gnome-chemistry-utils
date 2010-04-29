@@ -109,7 +109,6 @@ Atom::Atom (int Z, double x, double y, double z):
 	m_ChargeAuto = false;
 	m_HPos = GetBestSide ();
 	m_nlp = m_nlu = 0;
-	SetZ(Z);
 	m_ascent = 0;
 	m_CHeight = 0.;
 	m_Changed = 0;
@@ -124,6 +123,7 @@ Atom::Atom (int Z, double x, double y, double z):
 	m_SWidth = 0.;
 	m_ChargeItem = NULL;
 	m_ShowCharge = true;
+	SetZ(Z);
 }
 
 Atom::Atom (OBAtom* atom):
@@ -136,7 +136,6 @@ Atom::Atom (OBAtom* atom):
 	m_y = - atom->GetY ();
 	m_z = atom->GetZ ();
 	m_nlp = m_nlu = 0;
-	SetZ (atom->GetAtomicNum ());
 	gchar* Id = g_strdup_printf ("a%d", atom->GetIdx());
 	SetId (Id);
 	g_free (Id);
@@ -156,6 +155,7 @@ Atom::Atom (OBAtom* atom):
 	m_SWidth = 0.;
 	m_ChargeItem = NULL;
 	m_ShowCharge = true;
+	SetZ (atom->GetAtomicNum ());
 }
 
 void Atom::SetZ (int Z)
@@ -210,7 +210,7 @@ int Atom::GetTotalBondsNumber () const
 void Atom::AddBond (gcu::Bond* pBond)
 {
 	gcu::Atom::AddBond (pBond);
-	Update ();
+	m_Changed = true;
 }
 
 void Atom::RemoveBond (gcu::Bond* pBond)
@@ -301,8 +301,6 @@ void Atom::Update ()
 		}
 	}
 	Document *pDoc = (Document *) GetDocument ();
-	if (pDoc && pDoc->GetView ())
-		m_Changed = pDoc->GetView ()->GetNbWidgets ();
 	m_AvailPosCached = false;
 	map<gcu::Atom*, gcu::Bond*>::iterator j = m_Bonds.begin(), jend = m_Bonds.end ();
 	if (nbonds && GetZ () == 6) {
@@ -335,10 +333,8 @@ void Atom::Update ()
 					DrawCircle = true;
 			}
 		}
-		if (DrawCircle != m_DrawCircle) {
+		if (DrawCircle != m_DrawCircle)
 			m_DrawCircle = DrawCircle;
-			m_Changed = true;
-		}
 	}
 	// Update all double bonds
 	for (j = m_Bonds.begin(); j != jend; j++)
@@ -1307,6 +1303,10 @@ void Atom::AddItem ()
 {
 	if (m_Item)
 		return;
+	if (m_Changed) {
+		Update ();
+		m_Changed = true;
+	}
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();

@@ -57,10 +57,10 @@ Bond::Bond (): gcu::Bond (), ItemClient ()
 }
 
 Bond::Bond (Atom* first, Atom* last, unsigned char order):
-		gcu::Bond (first, last, order), ItemClient ()
+		gcu::Bond (first, last, order), ItemClient (), m_type (NormalBondType)
 {
 	m_CoordsCalc = false;
-	m_type = NormalBondType;
+//	m_type = NormalBondType;
 	m_level = 0;
 }
 

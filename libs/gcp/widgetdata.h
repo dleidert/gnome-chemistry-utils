@@ -36,11 +36,36 @@ namespace gcp {
 class Application;
 class View;
 
+/*!\var ClipboardDataType
+The data type available for the default clipboard.
+*/
+/*!\var ClipboardDataType
+The data type available for the primary clipboard.
+*/
 extern guint ClipboardDataType, ClipboardDataType1;
-extern xmlChar* ClipboardData;
+/*!
+A global variable to store clipboard data as a string representation of an xml
+document.
+*/
+	extern xmlChar* ClipboardData;
+/*!
+A global variable to store clipboard data as a string, used for text.
+*/
 extern char* ClipboardTextData;
-extern bool cleared;
+/*!
+@param clipboard a GtkClipboard.
+@param selection_data the data to paste.
+@param App the Application.
+
+A callback to use for receiving targets from a clipboard.
+*/
 void on_receive_targets (GtkClipboard *clipboard, GtkSelectionData *selection_data, Application *App);
+/*!
+@param clipboard a GtkClipboard.
+@param obj an object, might be the Application.
+
+A callback to use for clearing the clipboard data.
+*/
 void on_clear_data (GtkClipboard *clipboard, gcu::Object *obj);
 
 /*!\enum SelectionState

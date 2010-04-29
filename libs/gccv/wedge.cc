@@ -139,6 +139,7 @@ void Wedge::UpdateBounds ()
 		m_y0 = m_ye2;
 	else if (m_ye2 > m_y1)
 		m_y1 = m_ye2;
+	Item::UpdateBounds ();
 }
 
 void Wedge::Move (double x, double y)

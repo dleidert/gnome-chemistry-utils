@@ -47,6 +47,7 @@ Tool::Tool (Application *App, string Id)
 	m_bChanged = m_bPressed = false;
 	m_pData = NULL;
 	m_OwnStatus = false;
+	m_nState = 0;
 }
 
 Tool::~Tool ()

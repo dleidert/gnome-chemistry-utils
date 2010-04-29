@@ -239,6 +239,7 @@ void Arrow::UpdateBounds ()
 	m_y1 += m_C;
 	m_x0 -= m_C;
 	m_x1 += m_C;
+	Item::UpdateBounds ();
 }
 
 }

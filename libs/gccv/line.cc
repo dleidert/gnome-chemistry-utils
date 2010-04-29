@@ -119,6 +119,7 @@ void Line::UpdateBounds ()
 		m_y0 = m_yend - lh;
 		m_y1 = m_ystart + lh;
 	}
+	Item::UpdateBounds ();
 }
 
 void Line::Move (double x, double y)

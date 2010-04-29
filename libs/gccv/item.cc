@@ -56,7 +56,8 @@ Item::Item (Group *parent, ItemClient *client):
 
 Item::~Item()
 {
-	Invalidate ();
+	if (m_CachedBounds)
+		Invalidate ();
 	if (m_Parent)
 		m_Parent->RemoveChild (this);
 	if (m_Client && m_Client->GetItem () == this) // this might not be the top item for this client
@@ -103,8 +104,12 @@ bool Item::Draw (G_GNUC_UNUSED cairo_t *cr, G_GNUC_UNUSED double x0, G_GNUC_UNUS
 
 void Item::Invalidate () const
 {
-	if (!m_CachedBounds)
+	if (!m_CachedBounds) {
 		const_cast <Item *> (this)->UpdateBounds ();
+		// if still not cached, return
+		if (!m_CachedBounds)
+			return;
+	}
 	Group const *parent = m_Parent;
 	double x0 = m_x0, y0 = m_y0, x1 = m_x1, y1 = m_y1;
 	while (parent) {

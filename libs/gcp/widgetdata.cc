@@ -45,7 +45,6 @@ static xmlDocPtr pXmlDoc = NULL, pXmlDoc1 = NULL;
 xmlChar* ClipboardData = NULL;
 char *ClipboardTextData = NULL;
 guint ClipboardDataType, ClipboardDataType1;
-bool cleared = true;
 
 GtkTargetEntry const export_targets[] = {
 	{(char *) GCHEMPAINT_ATOM_NAME,  0, GCP_CLIPBOARD_NATIVE},
@@ -188,7 +187,6 @@ static void on_get_data (GtkClipboard *clipboard, GtkSelectionData *selection_da
 		gtk_selection_data_set_text (selection_data, (const gchar*) ClipboardData, size);
 		break;
 	}
-	cleared = false;
 	if (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))
 		App->ActivateWindowsActionWidget ("/MainMenu/EditMenu/Paste", true);
 }
@@ -201,7 +199,6 @@ void on_clear_data (GtkClipboard *clipboard, Object *obj)
 	}
 	g_free (ClipboardTextData);
 	ClipboardTextData = NULL;
-	cleared =true;
 	Application *app = dynamic_cast <Application *> (obj);
 	if (!app) {
 		// the object might be a tool

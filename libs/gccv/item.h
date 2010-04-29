@@ -76,7 +76,7 @@ public:	\
 	void Set##member (type val) {	\
 		Invalidate ();	\
 		m_##member = val;	\
-		UpdateBounds ();	\
+		BoundsChanged ();	\
 		Invalidate ();	\
 	}	\
 	type Get##member (void) const {return m_##member;}	\

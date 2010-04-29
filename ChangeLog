@@ -1,5 +1,24 @@
 ##Text encoding: utf-8
 
+2010-04-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/arrow.cc: fixed valgrind warnings.
+	* libs/gccv/bezier-arrow.cc: ditto.
+	* libs/gccv/item.cc: ditto.
+	* libs/gccv/item.h: ditto.
+	* libs/gccv/line.cc: ditto.
+	* libs/gccv/poly-line.cc: ditto.
+	* libs/gccv/squiggle.cc: ditto.
+	* libs/gccv/wedge.cc: ditto.
+	* libs/gcp/atom.cc: ditto.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/mechanism-arrow.h: API documentation work.
+	* libs/gcp/tool.cc: fixed valgrind warnings.
+	* libs/gcp/view.h: API documentation work.
+	* libs/gcp/widgetdata.cc: removed gcp::cleared.
+	* libs/gcp/widgetdata.h: API documentation work.
+	* plugins/paint/text/fragmenttool.cc: removed gcp::cleared.
+	* plugins/paint/text/texttool.cc: ditto.
+
 2010-04-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment-atom.h: API documentation work.
 	* libs/gcp/mechanism-arrow.h: ditto.

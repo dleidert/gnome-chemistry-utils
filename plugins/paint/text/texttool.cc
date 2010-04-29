@@ -618,7 +618,6 @@ void gcpTextTool::OnGetData (GtkClipboard *clipboard, GtkSelectionData *selectio
 		xmlDocDumpFormatMemory (pDoc, &gcp::ClipboardData, &size, info);
 		gtk_selection_data_set (selection_data, gdk_atom_intern (GCHEMPAINT_ATOM_NAME, FALSE), 8,  (const guchar*) gcp::ClipboardData, size);
 	}
-	gcp::cleared = false;
 	if (clipboard == gtk_clipboard_get (GDK_SELECTION_CLIPBOARD))
 			m_pView->GetDoc ()->GetWindow ()->ActivateActionWidget ("/MainMenu/EditMenu/Paste", true);
 }

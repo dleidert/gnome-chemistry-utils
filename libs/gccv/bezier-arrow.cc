@@ -252,6 +252,7 @@ void BezierArrow::UpdateBounds ()
 	m_y0 -= half_width;
 	m_x1 += half_width;
 	m_y1 += half_width;
+	Item::UpdateBounds ();
 }
 
 void BezierArrow::SetControlPoints (double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3)
