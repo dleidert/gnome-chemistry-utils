@@ -151,6 +151,7 @@ void Chain::FindCycles (Atom* pAtom)
 						pBond0->AddCycle (pCycle);
 					}
 					pCycle->Simplify ();	//to reduce size of fused cycles
+					m_Molecule->m_Cycles.push_back (pCycle);
 				}
 			}
 		}

@@ -499,6 +499,7 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 					if (theme->m_ThemeType == DEFAULT_THEME_TYPE || theme->m_ThemeType == GLOBAL_THEME_TYPE)
 						name = _(name);
 					if (m_Themes.find (name) != m_Themes.end ()) {
+						xmlFree (doc);
 						delete theme;
 						continue;
 					}
@@ -507,7 +508,7 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 					m_Names.push_back (name);
 				}
 			}
-			xmlFree (doc);
+			xmlFreeDoc (doc);
 		}
 		g_dir_close (dir);
 		setlocale (LC_NUMERIC, old_num_locale.c_str ());
@@ -863,6 +864,7 @@ bool Theme::Load (xmlNodePtr node)
 		if (m_FontFamily)
 			g_free (m_FontFamily);
 		m_FontFamily = g_strdup (buf);
+		xmlFree (buf);
 	}
 	buf = (char*) xmlGetProp (node, (xmlChar*) "font-style");
 	if (buf) {

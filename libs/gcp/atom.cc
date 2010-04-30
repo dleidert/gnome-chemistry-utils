@@ -300,7 +300,6 @@ void Atom::Update ()
 			m_ChargeAuto = true;
 		}
 	}
-	Document *pDoc = (Document *) GetDocument ();
 	m_AvailPosCached = false;
 	map<gcu::Atom*, gcu::Bond*>::iterator j = m_Bonds.begin(), jend = m_Bonds.end ();
 	if (nbonds && GetZ () == 6) {

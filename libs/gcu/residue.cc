@@ -175,7 +175,9 @@ void Residue::Load (xmlNodePtr node)
 					xmlFree (name);
 				name = reinterpret_cast <char *> (xmlNodeGetContent (child));
 			}
-			m_Names[(node_lang)? node_lang: "C"] = reinterpret_cast <char const *> (xmlNodeGetContent (child));
+			buf = reinterpret_cast <char *> (xmlNodeGetContent (child));
+			m_Names[(node_lang)? node_lang: "C"] = buf;
+			xmlFree (buf);
 			if (node_lang)
 				xmlFree (node_lang);
 		} else if (!strcmp (reinterpret_cast <char const *> (child->name), "symbols")) {

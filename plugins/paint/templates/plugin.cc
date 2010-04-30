@@ -100,6 +100,10 @@ gcpTemplatesPlugin::~gcpTemplatesPlugin()
 		delete (*j).second;
 	Templates.clear ();
 	TempbyName.clear ();
+	map<string, gcpTemplateCategory*>::iterator k, kend =  TemplateCategories.end ();
+	for (k = TemplateCategories.begin (); k != kend; k++)
+		delete (*k).second;
+	TemplateCategories.clear ();
 }
 
 static GtkRadioActionEntry entries[] = {

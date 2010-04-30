@@ -563,6 +563,7 @@ Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) 
 
 Window::~Window ()
 {
+	g_object_unref (m_UIManager);
 }
 
 void Window::OnFileNew()

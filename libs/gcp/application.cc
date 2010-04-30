@@ -454,6 +454,9 @@ Application::~Application ()
 	// unref cursors
 	for (int i = 0; i < CursorMax; i++)
 		gdk_cursor_unref (m_Cursors[i]);
+	if (m_entries)
+		g_free (RadioActions);
+	g_object_unref (IconFactory);
 }
 
 void Application::ActivateTool (const string& toolname, bool activate)

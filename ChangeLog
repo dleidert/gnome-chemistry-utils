@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2010-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/man/gchempaint.1: fixed command line options documentation.
+	* libs/gcp/application.cc: fixed memory leaks.
+	* libs/gcp/atom.cc: removed a not anymore used variable.
+	* libs/gcp/theme.cc: fixed memory leaks.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcp/window.cc: ditto.
+	* libs/gcu/chain.cc: ditto.
+	* libs/gcu/element.cc: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* libs/gcu/residue.cc: ditto.
+	* plugins/paint/templates/plugin.cc: ditto.
+
 2010-04-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/arrow.cc: fixed valgrind warnings.
 	* libs/gccv/bezier-arrow.cc: ditto.

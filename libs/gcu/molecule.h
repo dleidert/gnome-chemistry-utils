@@ -41,6 +41,7 @@ Represents molecules.
 */
 class Molecule: public Object
 {
+friend class Chain;
 public:
 /*!
 @param Type the type id of a derived class

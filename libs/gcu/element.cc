@@ -288,8 +288,13 @@ Element::Element(int Z, const char* Symbol):
 Element::~Element()
 {
 	while (!m_radii.empty()) {
-		delete m_radii.back();
-		m_radii.pop_back();
+		GcuAtomicRadius *radius = m_radii.back ();
+		if (radius) {
+			if (radius->scale)
+				g_free (const_cast <char *> (radius->scale));
+			delete radius;
+		}
+		m_radii.pop_back ();
 	}
 	while (!m_en.empty()) {
 		delete m_en.back();
@@ -426,6 +431,7 @@ void Element::LoadRadii ()
 			}
 			num = (char*) xmlGetProp (node, (xmlChar*) "Z");
 			Elt = Table[Z = atoi (num)];
+			xmlFree (num);
 			if (!Elt) {
 				node = node->next;
 				continue;
@@ -451,7 +457,8 @@ void Element::LoadRadii ()
 							xmlFree (buf);
 						child = child->next;
 						continue;
-					}
+					} else if (buf)
+						xmlFree (buf);
 					buf = (char*) xmlGetProp (child, (xmlChar*) "scale");
 					if (buf) {
 						radius->scale = g_strdup (buf);
@@ -889,8 +896,11 @@ void Element::LoadBODR ()
 							buf = (char*) xmlGetProp (child, (xmlChar const*) "dictRef");
 							if (elt)
 								elt->props[(strncmp (buf, "bo:", 3))? buf: buf + 3] = val;
+							else
+								delete val;
 							xmlFree (buf);
 						} else if (!strcmp (buf, "xsd:String") || !strcmp (buf, "xsd:string")) {
+							xmlFree (buf);
 							buf = (char*) xmlGetProp (child, (xmlChar const*) "dictRef");
 							char *val = (char*) xmlNodeGetContent (child);
 							if (elt)
@@ -918,7 +928,8 @@ void Element::LoadBODR ()
 							if (elt && !strcmp (buf, "bo:discoveryDate"))
 								elt->iprops["discoveryDate"] = val;
 							xmlFree (buf);
-						}
+						} else
+							xmlFree (buf);
 					}
 					if (props.size () > 0) {
 						if (elt) {
