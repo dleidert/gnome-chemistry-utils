@@ -4,7 +4,7 @@
  * Gnome Crystal
  * main.cc 
  *
- * Copyright (C) 2000-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -129,13 +129,21 @@ int main(int argc, char *argv[])
 		if (strstr (*argv, "://"))
 			uri = g_strdup (*argv);
 		else {
-			path = g_path_is_absolute (*argv)? g_strdup (*argv): g_build_filename (g_get_current_dir (), *argv, NULL);
+			if (g_path_is_absolute (*argv))
+				path = g_strdup (*argv);
+			else {
+				char *dir = g_get_current_dir ();
+				path = g_build_filename (dir, *argv, NULL);
+				g_free (dir);
+			}
 			uri = g_filename_to_uri (path, NULL, NULL);
 			g_free (path);
 		}
 		if (bres)
 			pDoc = gcApp->OnFileNew ();
-		bres = gcApp->FileProcess (uri, go_get_mime_type (uri), false, NULL, pDoc);
+		char *mime_type = go_get_mime_type (uri);
+		bres = gcApp->FileProcess (uri, mime_type, false, NULL, pDoc);
+		g_free (mime_type);
 		g_free (uri);
 		argv++;
 	}

@@ -284,6 +284,7 @@ GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	}
 	GtkWidget *bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (m_GraphBox), bar, FALSE, FALSE, 0);
+	g_object_unref (ui_manager);
 	m_GraphWidget = go_graph_widget_new (NULL);
 	g_signal_connect_swapped (m_GraphWidget, "size-allocate", G_CALLBACK (GChemTableCurve::OnSize), this);
 	g_signal_connect_swapped (m_GraphWidget, "motion-notify-event", G_CALLBACK (GChemTableCurve::OnMotion), this);

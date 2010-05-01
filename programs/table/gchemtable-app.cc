@@ -338,6 +338,7 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 	gtk_box_pack_end (GTK_BOX(vbox), GTK_WIDGET(GCU_PERIODIC(periodic)), true, true, 0);
 	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(vbox));
 	gtk_widget_show_all(window);
+	g_object_unref (ui_manager);
 	for (int i = 0; i < 118; i++)
 		Pages[i] = NULL;
 	

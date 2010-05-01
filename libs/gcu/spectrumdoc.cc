@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * spectrumdoc.cc
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -83,6 +83,8 @@ SpectrumDocument::~SpectrumDocument ()
 	for (unsigned i = 0; i < variables.size (); i++)
 		if (variables[i].Values)
 			delete [] variables[i].Values;
+	if (m_View)
+		delete m_View;
 }
 
 void SpectrumDocument::Load (char const *uri, char const *mime_type)

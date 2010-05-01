@@ -296,6 +296,7 @@ gc3dWindow::gc3dWindow (gc3dApplication *App, gc3dDocument *Doc)
 	gtk_menu_shell_insert (GTK_MENU_SHELL (gtk_widget_get_parent (menu)), item, 2);
 	bar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
 	gtk_box_pack_start (GTK_BOX (vbox), bar, FALSE, FALSE, 0);
+	g_object_unref (ui_manager);
 	m_View = dynamic_cast<gc3dView *> (m_Doc->GetView ());
 	m_View->SetWindow (this);
 	gtk_container_add (GTK_CONTAINER (vbox), m_View->GetWidget ());

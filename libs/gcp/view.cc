@@ -4,7 +4,7 @@
  * GChemPaint library
  * view.cc
  *
- * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -608,7 +608,7 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 			map<string, Element*>::iterator i, end = entries.end ();
 			g_object_unref (m_UIManager);
 			m_UIManager = gtk_ui_manager_new ();
-			GtkActionGroup *group = gtk_action_group_new ("element");;
+			GtkActionGroup *group = gtk_action_group_new ("element");
 			GtkAction *action;
 			string ui;
 			for (i = entries.begin (); i != end; i++) {

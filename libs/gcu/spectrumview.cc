@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * spectrumview.cc
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -131,6 +131,12 @@ SpectrumView::SpectrumView (SpectrumDocument *pDoc)
 
 SpectrumView::~SpectrumView ()
 {
+	g_signal_handler_disconnect (xminbtn, minsgn);
+	g_signal_handler_disconnect (xmaxbtn, maxsgn);
+	g_signal_handler_disconnect (yminbtn, yminsgn);
+	g_signal_handler_disconnect (ymaxbtn, ymaxsgn);
+	g_signal_handler_disconnect (xrange, xrangesgn);
+	g_signal_handler_disconnect (yrange, yrangesgn);
 }
 
 void SpectrumView::SetAxisBounds (GogAxisType target, double min, double max, bool inverted)

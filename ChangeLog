@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2010-05-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/view.cc: fixed memory leaks.
+	* libs/gcu/filechooser.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/spectrumview.cc: ditto.
+	* programs/3d/main.cc: ditto.
+	* programs/3d/window.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/main.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/paint/main.cc: ditto.
+	* programs/spectra/document.cc: ditto.
+	* programs/spectra/gspectrum.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-curve.cc: ditto.
+
 2010-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/man/gchempaint.1: fixed command line options documentation.
 	* libs/gcp/application.cc: fixed memory leaks.

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/spectra/document.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -51,6 +51,7 @@ void gsvDocument::Load (char const *uri, char const *mime_type)
 		g_free (buf);
 	}
 	dynamic_cast <gsvView *> (m_View)->GetWindow ()->SetTitle (title);
-	string dirname = g_path_get_dirname (uri);
+	char *dirname = g_path_get_dirname (uri);
 	m_App->SetCurDir (dirname);
+	g_free (dirname);
 }

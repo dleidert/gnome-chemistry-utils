@@ -4,7 +4,7 @@
  * Gnome Crystal
  * window.cc 
  *
- * Copyright (C) 2006-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -466,6 +466,7 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 
 gcWindow::~gcWindow ()
 {
+	g_object_unref (m_UIManager);
 }
 
 void gcWindow::ClearStatus()

@@ -298,6 +298,7 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	g_signal_connect (G_OBJECT (w), "motion-notify-event", G_CALLBACK (on_motion), NULL);
 	gtk_container_add (GTK_CONTAINER (vbox), w);
 	gtk_widget_show_all (GTK_WIDGET (m_Window));
+	g_object_unref (ui_manager);
 	// Initialize print settings
 }
 

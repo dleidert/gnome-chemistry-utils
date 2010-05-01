@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * filechooser.cc 
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -95,37 +95,39 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 		gtk_file_chooser_set_current_folder_uri (chooser, dir);
 	while (gtk_widget_show_all (GTK_WIDGET (dialog)), gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		// find the mime_type
-		char const *mime_type = NULL;
+		string mime_type;
 		if (mime_types.size () == 1)
-			mime_type = mime_types.front ().c_str ();
+			mime_type = mime_types.front ();
 		else if (mime_types.size () > 0) {
 			int j = gtk_combo_box_get_active (format_combo);
 			if (j > 0) {
 				i = mime_types.begin ();
 				while (--j > 0)
 					i++;
-				mime_type = (*i).c_str ();
+				mime_type = *i;
 			}
 		}
 		if (Save) {
 			filename = gtk_file_chooser_get_uri (chooser);
-			if (!mime_type) {
-				mime_type = go_get_mime_type (filename);
+			if (mime_type.length () == 0) {
+				char *mime = go_get_mime_type (filename);
 				// ensure the found mime type is in the list
 				bool found = false;
-				if (mime_type) {
+				if (mime) {
 					list<string>::iterator it, itend = mime_types.end ();
 					for (it = mime_types.begin (); it != itend; it++)
-						if (*it == mime_type) {
+						if (*it == mime) {
+							mime_type = *it;
 							found = true;
 							break;
 						}
 				}
+				g_free (mime);
 				if (!found)
-					mime_type = mime_types.front ().c_str ();
+					mime_type = mime_types.front ();
 			}
 			gtk_widget_hide (GTK_WIDGET (dialog));
-			if (!App->FileProcess (filename, mime_type, Save, GTK_WINDOW (dialog), m_pDoc)) {
+			if (!App->FileProcess (filename, mime_type.c_str (), Save, GTK_WINDOW (dialog), m_pDoc)) {
 				g_free (filename);
 				break;
 			}
@@ -136,7 +138,13 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 			gtk_widget_hide (GTK_WIDGET (dialog));
 			while (iter) {
 				filename = (char*) iter->data;
-				App->FileProcess(filename, (mime_type)? mime_type: go_get_mime_type (filename), Save, GTK_WINDOW (dialog), m_pDoc);
+				if (!mime_type.length ()) {
+					char *mime = go_get_mime_type (filename);
+					if (mime)
+						mime_type = mime;
+					g_free (mime);
+				}
+				App->FileProcess(filename, mime_type.c_str (), Save, GTK_WINDOW (dialog), m_pDoc);
 				g_free (filename);
 				iter = iter->next;
 			}

@@ -53,6 +53,7 @@ class GChemCalc: public Application, public Printable
 {
 public:
 	GChemCalc ();
+	~GChemCalc ();
 	Formula formula;
 	GtkLabel *markup, *raw, *weight, *mono, *monomass;
 	GtkWidget *graph_widget;
@@ -123,6 +124,11 @@ GChemCalc::GChemCalc ():
 		xmlFreeDoc (doc);
 	}
 	g_free (name);
+}
+
+GChemCalc::~GChemCalc ()
+{
+	g_object_unref (m_UIManager);
 }
 
 void GChemCalc::ParseNodes (xmlNodePtr node)
