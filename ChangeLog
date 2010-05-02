@@ -1,17 +1,17 @@
-2010-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gccv/text-tag.cc:
-	* libs/gccv/text.cc:
-	* libs/gcp/application.cc:
-	* libs/gcp/fontsel.cc:
-	* libs/gcp/operation.cc:
-	* libs/gcp/preferences.cc:
-	* libs/gcp/view.cc:
-	* libs/gcu/chain.cc:
-	* libs/gcu/element.cc:
-	* libs/gcu/filechooser.cc:
-	* plugins/paint/text/texttool.cc:
-
 ##Text encoding: utf-8
+
+2010-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc: fixed memory leaks.
+	* libs/gccv/text.cc: ditto.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/fontsel.cc: ditto.
+	* libs/gcp/operation.cc: ditto.
+	* libs/gcp/preferences.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcu/chain.cc: ditto.
+	* libs/gcu/element.cc: ditto.
+	* libs/gcu/filechooser.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
 
 2010-05-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: fixed memory leaks.
