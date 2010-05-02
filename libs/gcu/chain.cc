@@ -103,6 +103,7 @@ bool Chain::FindCycle (Atom* pAtom, Bond* pBond)
 			pBond->AddCycle (pCycle);
 		}
 		pCycle->Simplify ();	//to reduce size of fused cycles
+		m_Molecule->m_Cycles.push_back (pCycle);
 		return true;
 	}
 	m_Bonds[pAtom].fwd = pBond;

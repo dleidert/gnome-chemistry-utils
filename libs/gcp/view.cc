@@ -165,11 +165,11 @@ GtkWidget* View::CreateNewWidget ()
 
 void View::OnDestroy (GtkWidget* widget)
 {
-	delete (WidgetData*) g_object_get_data (G_OBJECT (widget), "data");
 	if (m_bEmbedded) {
 		m_Widgets.remove (widget);
 	} else
 		delete m_pDoc;
+	delete (WidgetData*) g_object_get_data (G_OBJECT (widget), "data");
 }
 
 void View::Update (Object *pObject)

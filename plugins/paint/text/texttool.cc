@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * texttool.cc 
  *
- * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -283,11 +283,13 @@ bool gcpTextTool::Unselect ()
 	char const *text = m_Active->GetText ();
 	m_Active = NULL;
 	while (!m_UndoList.empty ()) {
-		xmlFree(m_UndoList.front ());
+		xmlUnlinkNode (m_UndoList.front ());
+		xmlFreeNode (m_UndoList.front ());
 		m_UndoList.pop_front ();
 	}
 	while (!m_RedoList.empty ()) {
-		xmlFree(m_RedoList.front ());
+		xmlUnlinkNode (m_RedoList.front ());
+		xmlFreeNode (m_RedoList.front ());
 		m_RedoList.pop_front ();
 	}
 	xmlBufferPtr initbuf = xmlBufferCreate ();
@@ -355,10 +357,14 @@ bool gcpTextTool::Unselect ()
 	}
 	xmlBufferFree (initbuf);
 	xmlBufferFree (endbuf);
-	if (m_CurNode)
-		xmlFree (m_CurNode);
-	if (m_InitNode)
-		xmlFree (m_InitNode);
+	if (m_CurNode) {
+ 		xmlUnlinkNode (m_CurNode);
+		xmlFreeNode (m_CurNode);
+	}
+	if (m_InitNode) {
+		xmlUnlinkNode (m_InitNode);
+		xmlFreeNode (m_InitNode);
+	}
 	m_CurNode = m_InitNode = NULL;
 	if (!*text) {
 		Object* pMol = pObj->GetMolecule ();	//if pObj is a fragment
@@ -545,7 +551,10 @@ bool gcpTextTool::OnUndo ()
 		{
 			if (!m_RedoList.empty())
 			{
-				if (m_CurNode) xmlFree(m_CurNode);
+				if (m_CurNode) {
+					xmlUnlinkNode (m_CurNode);
+					xmlFreeNode (m_CurNode);
+				}
 				m_CurNode = m_RedoList.back();
 				m_RedoList.pop_back();
 			}
@@ -589,7 +598,8 @@ void gcpTextTool::PushNode (xmlNodePtr node)
 {
 	gcp::Window *pWin = m_pView->GetDoc ()->GetWindow ();
 	while (!m_RedoList.empty ()) {
-		xmlFree (m_RedoList.front ());
+		xmlUnlinkNode (m_RedoList.front ());
+		xmlFreeNode (m_RedoList.front ());
 		m_RedoList.pop_front ();
 		pWin->ActivateActionWidget ("/MainMenu/EditMenu/Redo", false);
 	}
@@ -689,7 +699,7 @@ void gcpTextTool::UpdateTagsList ()
 	}
 	// select the found face
 	GtkTreeIter iter;
-	char const *buf;
+	char *buf;
 	gtk_tree_model_get_iter_first (GTK_TREE_MODEL (m_FamilyList), &iter);
 	do {
 		gtk_tree_model_get (GTK_TREE_MODEL (m_FamilyList), &iter, 0, &buf, -1);
@@ -702,8 +712,10 @@ void gcpTextTool::UpdateTagsList ()
 			g_signal_handler_unblock (m_FaceSel, m_FaceSignal);
 			g_signal_handler_unblock (m_FamilySel, m_FamilySignal);
 			gtk_tree_path_free (path);
+			g_free (buf);
 			break;
 		}
+		g_free (buf);
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (m_FamilyList), &iter));
 	// Update other widgets
 	SetSizeFull (true, false);
@@ -854,14 +866,19 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 	string name;
 	bool default_found = false;
 	for (i = 0; i < nb; i++) {
-		PangoFontFace **faces;
-		int *sizes, n;
+		PangoFontFace **faces = NULL;
+		int *sizes = NULL, n;
 		pango_font_family_list_faces (families[i], &faces, &n);
-		if (n <= 0)
+		if (n <= 0) {
+			g_free (faces);
 			continue;
+		}
 		pango_font_face_list_sizes (faces[0], &sizes, &n);
-		if (n > 0) // Do not use bitmap fonts
+		if (n > 0) {// Do not use bitmap fonts
+			g_free (faces);
+			g_free (sizes);
 			continue;
+		}
 		name = pango_font_family_get_name (families[i]);
 		m_Families[name] = (PangoFontFamily*) g_object_ref (families[i]);
 		gtk_list_store_append (m_FamilyList, &iter);
@@ -872,7 +889,10 @@ GtkWidget *gcpTextTool::GetPropertyPage ()
 			selected = iter;
 			default_found = true;
 		}
+		g_free (faces);
+		g_free (sizes);
 	}
+	g_free (families);
 	if (!default_found) {
 		if	(!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (m_FamilyList), &iter))
 			return NULL;
@@ -915,6 +935,7 @@ void gcpTextTool::OnSelectFamily (GtkTreeSelection *selection)
 		return;
 	gtk_tree_model_get (model, &iter, 0, &name, -1);
 	m_FamilyName = name;
+	g_free (const_cast <char *> (name));
 	PangoFontFamily *family = m_Families[m_FamilyName];
 	PangoFontFace **faces;
 	int i, besti, nb;
@@ -958,6 +979,7 @@ void gcpTextTool::OnSelectFamily (GtkTreeSelection *selection)
 		// TODO: write this code
 		pango_font_description_free (desc);
 	}
+	g_free (faces);
 	g_signal_handler_unblock (m_FaceSel, m_FaceSignal);
 	GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (m_FaceList), &selected);
 	if (path) {
@@ -981,11 +1003,12 @@ void gcpTextTool::OnSelectFace (GtkTreeSelection *selection)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	char const *name;
+	char *name;
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 	gtk_tree_model_get (model, &iter, 0, &name, -1);
 	PangoFontFace *face = m_Faces[name];
+	g_free (name);
 	PangoFontDescription *desc = pango_font_face_describe (face);
 	m_Style = pango_font_description_get_style (desc);
 	m_Weight = pango_font_description_get_weight (desc);

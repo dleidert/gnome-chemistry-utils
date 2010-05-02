@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/text.cc 
  *
- * Copyright (C) 2008-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -807,6 +807,7 @@ void Text::InsertTextTag (TextTag *tag, bool rebuild_attributes)
 	}
 	// no remove invalid tags
 	while (!invalid.empty ()) {
+		delete invalid.front ();
 		m_Tags.remove (invalid.front ());
 		invalid.pop_front ();
 	}

@@ -4,7 +4,7 @@
  * GChemPaint library
  * preferences.cc 
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -529,6 +529,7 @@ void PrefsDlg::OnSelectTheme (GtkTreeSelection *selection)
 	if (gtk_tree_model_iter_parent (model, &parent, &iter)) {
 		gtk_tree_model_get (model, &parent, 0, &name, -1);
 		if (!strcmp (name, _("Atoms"))) {
+			g_free (name);
 			GtkTreeIter grand_parent;
 			gtk_tree_model_iter_parent (model, &grand_parent, &parent);
 			gtk_tree_model_get (model, &grand_parent, 0, &name, -1);
@@ -548,11 +549,13 @@ void PrefsDlg::OnSelectTheme (GtkTreeSelection *selection)
 			gtk_notebook_set_current_page (m_Book, 5);
 		else
 			gtk_notebook_set_current_page (m_Book, 0);
+		g_free (page);
 	} else {
 		gtk_tree_model_get (model, &iter, 0, &name, -1);
 		gtk_notebook_set_current_page (m_Book, 0);
 	}
 	m_CurTheme = TheThemeManager.GetTheme (name);
+	g_free (name);
 	bool rw = m_CurTheme->m_ThemeType != GLOBAL_THEME_TYPE;
 	gtk_spin_button_set_value (m_BondLengthBtn, m_CurTheme->m_BondLength);
 	gtk_widget_set_sensitive (GTK_WIDGET (m_BondLengthBtn), rw);
@@ -917,7 +920,8 @@ void PrefsDlg::OnTextFont (GcpFontSel *fs)
 		default:
 			break;
 		}
-	}
+	} else
+		g_free (Name);
 	if (m_CurTheme->m_TextFontStyle != Style) {
 		m_CurTheme->m_TextFontStyle = Style;
 		changed = true;

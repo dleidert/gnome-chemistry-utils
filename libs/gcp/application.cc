@@ -351,9 +351,10 @@ Application::Application ():
 
 		/* get the theme style for labels so that tools buttons colors might
 		be adapted to the current theme */
-		GtkWidget *w=gtk_label_new("");
-		m_Style = gtk_rc_get_style(w);
-		gtk_widget_destroy (w);
+		GtkWidget *w = gtk_label_new ("");
+		m_Style = GTK_STYLE (g_object_ref (gtk_rc_get_style (w)));
+		g_object_ref_sink (w);
+		g_object_unref (w);
 
 		// load settings before plugins
 		m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
@@ -451,6 +452,7 @@ Application::~Application ()
 	go_conf_free_node (m_ConfNode);
 	m_ConfNode = NULL;
 	TheThemeManager.Shutdown ();
+	g_object_unref (m_Style);
 	// unref cursors
 	for (int i = 0; i < CursorMax; i++)
 		gdk_cursor_unref (m_Cursors[i]);

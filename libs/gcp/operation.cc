@@ -4,7 +4,7 @@
  * GChemPaint library
  * operation.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -85,8 +85,10 @@ void Operation::AddNode (xmlNodePtr node, unsigned type)
 
  AddOperation::~ AddOperation ()
 {
-	if (*m_Nodes)
+	if (*m_Nodes) {
+		xmlUnlinkNode (*m_Nodes);
 		xmlFreeNode (*m_Nodes);
+	}
 }
 
 void  AddOperation::Undo ()
@@ -107,8 +109,10 @@ DeleteOperation::DeleteOperation (gcp::Document* pDoc, unsigned long ID): Operat
 
 DeleteOperation::~DeleteOperation ()
 {
-	if (*m_Nodes)
+	if (*m_Nodes) {
+		xmlUnlinkNode (*m_Nodes);
 		xmlFreeNode (*m_Nodes);
+	}
 }
 
 void DeleteOperation::Undo ()
@@ -132,10 +136,14 @@ ModifyOperation::~ModifyOperation ()
 {
 	if (!m_Nodes)
 		return;
-	if (m_Nodes[0])
+	if (m_Nodes[0]) {
+		xmlUnlinkNode (m_Nodes[0]);
 		xmlFreeNode (m_Nodes[0]);
-	if (m_Nodes[1])
+	}
+	if (m_Nodes[1]) {
+		xmlUnlinkNode (m_Nodes[1]);
 		xmlFreeNode (m_Nodes[1]);
+	}
 }
 
 void ModifyOperation::Undo ()

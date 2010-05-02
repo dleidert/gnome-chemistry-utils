@@ -61,10 +61,11 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
 		gtk_combo_box_append_text (format_combo, _("Automatic"));
 		for (i = mime_types.begin (); i != iend; i++) {
-			char const *type = go_mime_type_get_description ((*i).c_str ());
-			if (type)
+			char *type = go_mime_type_get_description ((*i).c_str ());
+			if (type) {
 				gtk_combo_box_append_text (format_combo, type);
-			else
+				g_free (type);
+			} else
 				gtk_combo_box_append_text (format_combo, (*i).c_str ());
 		}
 		gtk_combo_box_set_active (format_combo, 0);

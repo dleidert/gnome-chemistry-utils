@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * element.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -303,6 +303,10 @@ Element::~Element()
 	while (!m_isotopes.empty ()) {
 		delete (m_isotopes.back ());
 		m_isotopes.pop_back ();
+	}
+	while (!m_patterns.empty ()) {
+		delete (m_patterns.back ());
+		m_patterns.pop_back ();
 	}
 	map<string, Value*>::iterator i, iend = props.end ();
 	for (i = props.begin (); i != iend; i++)

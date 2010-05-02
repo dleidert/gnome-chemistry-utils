@@ -2,7 +2,7 @@
  * GChemPaint library
  * fontsel.c 
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -116,6 +116,7 @@ static void gcp_font_sel_set_label (GcpFontSel *fs)
 	gtk_label_set_markup (fs->Label, markup);
 	g_free (name);
 	g_free (markup);
+	pango_font_description_free (fd);
 }
 
 static void select_best_font_face (GcpFontSel *fs)
@@ -127,7 +128,8 @@ static void select_best_font_face (GcpFontSel *fs)
 	PangoVariant Variant;
 	PangoStretch Stretch;
 	map <string, PangoFontFace*>::iterator i, iend = fs->Faces.end ();
-	char const *name = NULL, *buf;
+	char const *name = NULL;
+	char *buf;
 	GtkTreeIter iter;
 
 	best = 32000; // This should be enough
@@ -156,8 +158,10 @@ static void select_best_font_face (GcpFontSel *fs)
 			GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (fs->FaceList), &iter);
 			gtk_tree_view_set_cursor (fs->FacesTree, path, NULL, FALSE);
 			gtk_tree_path_free (path);
+			g_free (buf);
 			break;
 		}
+		g_free (buf);
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (fs->FaceList), &iter));
 }
 
@@ -240,7 +244,7 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 			g_free (fs->FamilyName);
 		fs->FamilyName = g_strdup (g_value_get_string (value));
 		GtkTreeIter iter;
-		char const *buf;
+		char *buf;
 		gtk_tree_model_get_iter_first (GTK_TREE_MODEL (fs->FamilyList), &iter);
 		do {
 			gtk_tree_model_get (GTK_TREE_MODEL (fs->FamilyList), &iter, 0, &buf, -1);
@@ -249,8 +253,10 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 				gtk_tree_view_set_cursor (fs->FamilyTree, path, NULL, FALSE);
 				gtk_tree_view_scroll_to_cell (fs->FamilyTree, path, NULL, FALSE, 0., 0.);
 				gtk_tree_path_free (path);
+				g_free (buf);
 				break;
 			}
+			g_free (buf);
 		} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (fs->FamilyList), &iter));
 	return;
 	case FONT_SEL_PROP_STYLE:
@@ -329,6 +335,7 @@ static void on_select_family (GtkTreeSelection *selection, GcpFontSel *fs)
 	char const *name;
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
+	g_free (fs->FamilyName);
 	gtk_tree_model_get (model, &iter, 0, &fs->FamilyName, -1);
 	PangoFontFamily *family = fs->Families[fs->FamilyName];
 	PangoFontFace **faces;
@@ -373,6 +380,7 @@ static void on_select_family (GtkTreeSelection *selection, GcpFontSel *fs)
 		// TODO: write this code
 		pango_font_description_free (desc);
 	}
+	g_free (faces);
 	g_signal_handler_unblock (fs->FaceSel, fs->FaceSignal);
 	GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (fs->FaceList), &selected);
 	if (path) {
@@ -385,11 +393,12 @@ static void on_select_face (GtkTreeSelection *selection, GcpFontSel *fs)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	char const *name;
+	char *name;
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 	gtk_tree_model_get (model, &iter, 0, &name, -1);
 	PangoFontFace *face = fs->Faces[name];
+	g_free (name);
 	PangoFontDescription *desc = pango_font_face_describe (face);
 	fs->Style = pango_font_description_get_style (desc);
 	fs->Weight = pango_font_description_get_weight (desc);
@@ -510,17 +519,24 @@ gcp_font_sel_init (GcpFontSel *fs)
 		PangoFontFace **faces;
 		int *sizes, n;
 		pango_font_family_list_faces (families[i], &faces, &n);
-		if (n <= 0)
+		if (n <= 0) {
+			g_free (faces);
 			continue;
+		}
 		pango_font_face_list_sizes (faces[0], &sizes, &n);
-		if (n > 0) // Do not use bitmap fonts
+		if (n > 0) {	// Do not use bitmap fonts
+			g_free (faces);
+			g_free (sizes);
 			continue;
+		}
 		name = pango_font_family_get_name (families[i]);
 		fs->Families[name] = (PangoFontFamily*) g_object_ref (families[i]);
 		gtk_list_store_append (fs->FamilyList, &iter);
 		gtk_list_store_set (fs->FamilyList, &iter,
 				  0, name.c_str (),
 				  -1);
+		g_free (faces);
+		g_free (sizes);
 	}
 	fs->FamilySel = gtk_tree_view_get_selection (fs->FamilyTree);
 	gtk_tree_selection_set_mode (fs->FamilySel, GTK_SELECTION_BROWSE);
@@ -531,6 +547,7 @@ gcp_font_sel_init (GcpFontSel *fs)
 	gtk_table_attach (table, sc, 0, 1, 1, 3,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	g_free (families);
 }
 
 GSF_CLASS (GcpFontSel, gcp_font_sel,

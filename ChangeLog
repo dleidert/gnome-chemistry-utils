@@ -1,3 +1,16 @@
+2010-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text-tag.cc:
+	* libs/gccv/text.cc:
+	* libs/gcp/application.cc:
+	* libs/gcp/fontsel.cc:
+	* libs/gcp/operation.cc:
+	* libs/gcp/preferences.cc:
+	* libs/gcp/view.cc:
+	* libs/gcu/chain.cc:
+	* libs/gcu/element.cc:
+	* libs/gcu/filechooser.cc:
+	* plugins/paint/text/texttool.cc:
+
 ##Text encoding: utf-8
 
 2010-05-01  Jean Bréfort  <jean.brefort@normalesup.org>
