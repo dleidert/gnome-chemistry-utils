@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2010-05-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/space-groups.xml.in: fixed group 205 Hall name.
+	* libs/gccv/text.cc: fixed memory leaks.
+	* libs/gcp/mechanism-arrow.cc: ditto.
+	* libs/gcp/text-object.cc: ditto.
+	* libs/gcu/spacegroup.cc: fixed group search when the Hall name is a
+	duplicate (groups 3 and 68).
+	* programs/crystal/application.cc: add cif and cml to recent files.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/window.cc: ditto.
+
 2010-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text-tag.cc: fixed memory leaks.
 	* libs/gccv/text.cc: ditto.

@@ -202,6 +202,7 @@ bool MechanismArrow::Load (xmlNodePtr node)
 	}
 	buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("type"));
 	m_Pair = strcmp (reinterpret_cast <char *> (buf), "single");
+	xmlFree (buf);
 	gcu::ReadFloat (node, "ct1x", m_CPx1);
 	gcu::ReadFloat (node, "ct1y", m_CPy1);
 	gcu::ReadFloat (node, "ct2x", m_CPx2);

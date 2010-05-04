@@ -434,7 +434,12 @@ gcWindow::gcWindow (gcApplication *App, gcDocument *Doc)
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
 	gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (w), GTK_RECENT_SORT_MRU);
 	GtkRecentFilter *filter = gtk_recent_filter_new ();
-	gtk_recent_filter_add_mime_type (filter, "application/x-gcrystal");
+	std::list<std::string>::iterator it;
+	char const * mime = App->GetFirstSupportedMimeType (it);
+	while (mime) {
+		gtk_recent_filter_add_mime_type (filter, mime);
+		mime = App->GetNextSupportedMimeType (it);
+	}
 	gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (w), filter);
 	g_signal_connect (G_OBJECT (w), "item-activated", G_CALLBACK (on_recent), this);
 	GtkWidget *item = gtk_menu_item_new_with_label (_("Open recent"));

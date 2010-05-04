@@ -263,7 +263,7 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 		map <string, string> options; // not used at the moment
 		if (result == GTK_RESPONSE_YES)
 			switch (type) {
-			case GCRYSTAL:
+			case GCRYSTAL: {
 				Doc->SetFileName (filename2);
 				Doc->Save ();
 				GtkRecentData data;
@@ -277,10 +277,21 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 				gtk_recent_manager_add_full (GetRecentManager (), filename2.c_str (), &data);
 				Doc->RenameViews ();
 				break;
+			}
 			case CIF:
-			case CML:
+			case CML: {
 				Save (filename2, mime_type, Doc, ContentTypeCrystal);
+				GtkRecentData data;
+				data.display_name = (char*) Doc->GetTitle ();
+				data.description = NULL;
+				data.mime_type = const_cast <char*> (mime_type);
+				data.app_name = const_cast <char*> ("gcrystal");
+				data.app_exec = const_cast <char*> ("gcrystal %u");
+				data.groups = NULL;
+				data.is_private =  FALSE;
+				gtk_recent_manager_add_full (GetRecentManager (), filename2.c_str (), &data);
 				break;
+			}
 			case VRML:
 				Doc->OnExportVRML (filename2);
 				break;
@@ -351,6 +362,17 @@ bool gcApplication::FileProcess (const gchar* filename, const gchar* mime_type, 
 			Doc->Loaded ();
 			Doc->SetReadOnly (true);
 			Doc->UpdateAllViews ();
+			GtkRecentData data;
+			data.display_name = (char*) Doc->GetTitle ();
+			if (!(*data.display_name))
+				data.display_name = (char*) Doc->GetLabel ();
+			data.description = NULL;
+			data.mime_type = const_cast<char*> (mime_type);
+			data.app_name = const_cast<char*> ("gcrystal");
+			data.app_exec = const_cast<char*> ("gcrystal %u");
+			data.groups = NULL;
+			data.is_private =  FALSE;
+			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
 			goto normal_exit;
 		} else if (ctype != ContentTypeUnknown) {
 			// FIXME: open using the appropriate program.
@@ -420,4 +442,16 @@ void gcApplication::AddMimeType (list<string> &l, string const& mime_type)
 		l.push_back (mime_type);
 	else
 		g_warning ("Duplicate mime type: %s", mime_type.c_str ());
+}
+
+char const *gcApplication::GetFirstSupportedMimeType (std::list<std::string>::iterator &it)
+{
+	it = m_SupportedMimeTypes.begin ();
+	return (it == m_SupportedMimeTypes.end ())? NULL: (*it).c_str ();
+}
+
+char const *gcApplication::GetNextSupportedMimeType (std::list<std::string>::iterator &it)
+{
+	it++;
+	return (it == m_SupportedMimeTypes.end ())? NULL: (*it).c_str ();
 }

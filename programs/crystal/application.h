@@ -52,6 +52,8 @@ public:
 	void AddDocument (gcDocument *pDoc) {m_Docs.push_front (pDoc);}
 	void RemoveDocument (gcDocument *pDoc);
 	bool OnQuit ();
+	char const *GetFirstSupportedMimeType (std::list<std::string>::iterator &it);
+	char const *GetNextSupportedMimeType (std::list<std::string>::iterator &it);
 
 private:
 	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);

@@ -247,15 +247,15 @@ list<Vector> SpaceGroup::Transform (const Vector &v) const
 		if (t.GetX () < 0.)
 			t.GetRefX () += 1.;
 		else if (t.GetX () > 1.)
-			t.GetRefX () += 1.;
+			t.GetRefX () -= 1.;
 		if (t.GetY () < 0.)
 			t.GetRefY () += 1.;
 		else if (t.GetY () > 1.)
-			t.GetRefY () += 1.;
+			t.GetRefY () -= 1.;
 		if (t.GetZ () < 0.)
 			t.GetRefZ () += 1.;
 		else if (t.GetZ () > 1.)
-			t.GetRefZ () += 1.;
+			t.GetRefZ () -= 1.;
 		list <Vector>::iterator j, jend = res.end ();
 		bool duplicate = false;
 		for (j = res.begin (); j != jend; j++)
@@ -411,8 +411,12 @@ SpaceGroup const *SpaceGroup::Find (SpaceGroup* group)
 		found = _SpaceGroups.sgbn[group->m_HallName];
 		if (!found)
 			cerr << _("Unknown space group error, please file a bug report.") << endl;
-		if (group->m_Transforms.size () && *found  != *group)
+		if (group->m_Transforms.size () && *found  != *group) {
+			unsigned id = group->GetId ();
+			if (id == 3 || id == 68)
+				goto find_by_id; // theses groups have duplicates
 			cerr << _("Space group error, please file a bug report.") << endl;
+		}
 		/* even if there is an error (this should not occur) return the found group, since
 		Hall names are secure */
 		return found;
@@ -440,6 +444,7 @@ SpaceGroup const *SpaceGroup::Find (SpaceGroup* group)
 			return found;
 		}
 	} else if (group->m_Id > 0 && group->m_Id <= 230) {
+find_by_id:
 		if (group->m_Transforms.size ()) { 
 			list <SpaceGroup const *>::const_iterator i, end = _SpaceGroups.sgbi[group->m_Id - 1].end ();
 			for (i = _SpaceGroups.sgbi[group->m_Id - 1].begin (); i!= end; i++)
