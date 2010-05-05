@@ -1,3 +1,12 @@
+Version 0.11.98
+	GCrystal:
+		* Fixed a pair of space group issues.
+		* Add CIF and CML files to recent files.
+		* Survive CIF files with no space group or invalid atoms.
+	Other:
+		* Updated API documentation.
+		* Fixed various memory leaks.
+			
 Version 0.11.91
 	GChemPaint:
 		* Don't crash when closing an orbital properties box. [#29559]
