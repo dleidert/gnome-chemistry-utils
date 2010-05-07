@@ -83,7 +83,7 @@ Sets where the arrow ends. Might be an atom or a bond.
 
 Sets the position of the intermediate control points used to construct a Bezier
 cubic curve for the arrow. If \a num is 1, the vector starts at the start
-point of the arrow, and if \num is 2 it starts at the arrow end.
+point of the arrow, and if \a num is 2 it starts at the arrow end.
 */
 	void SetControlPoint (int num, double dx, double dy);
 /*!
