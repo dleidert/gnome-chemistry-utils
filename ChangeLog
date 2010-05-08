@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2010-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* docs/reference/Doxyfile.in: do not document empty files.
+	* libs/gccv/group.h: fixed API documentation.
+	* libs/gccv/hash.h: ditto.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/mesomery-arrow.h: ditto.
+	* libs/gcp/newfiledlg.h: ditto.
+	* libs/gcp/preferences.h: ditto.
+	* libs/gcp/reaction-arrow.h: ditto.
+	* libs/gcp/view.h: ditto.
+	* libs/gcu/chemistry.h: ditto.
+	* libs/gcu/loader-error.h: ditto.
+	* programs/3d/gchem3d.desktop.in.in: add some mime types.
+	* programs/crystal/gcrystal.desktop.in.in: ditto.
+	* programs/paint/gchempaint.desktop.in.in: ditto.
+
 2010-05-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.11.99).
 	* libs/gcp/mechanism-arrow.h: typo in API documentation.

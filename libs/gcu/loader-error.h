@@ -25,6 +25,8 @@
 #ifndef GCU_LOADER_ERROR_H
 #define GCU_LOADER_ERROR_H
 
+/*!\file*/
+
 #include <stdexcept>
 
 namespace gcu {

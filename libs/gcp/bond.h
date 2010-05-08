@@ -25,6 +25,8 @@
 #ifndef GCHEMPAINT_BOND_H
 #define GCHEMPAINT_BOND_H
 
+/*!\file*/
+
 #include <gccv/item-client.h>
 #include <gcu/bond.h>
 #include <list>

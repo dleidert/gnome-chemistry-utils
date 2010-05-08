@@ -25,6 +25,8 @@
 #ifndef GCHEMPAINT_REACTION_ARROW_H
 #define GCHEMPAINT_REACTION_ARROW_H
 
+/*!\file*/
+
 #include "arrow.h"
 
 namespace gcp {

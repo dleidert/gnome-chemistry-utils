@@ -25,6 +25,8 @@
 #ifndef GCHEMPAINT_VIEW_H
 #define GCHEMPAINT_VIEW_H
 
+/*!\file*/
+
 #include <gcu/macros.h>
 #include <gccv/client.h>
 #include <list>

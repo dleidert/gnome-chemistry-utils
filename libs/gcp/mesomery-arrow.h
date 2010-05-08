@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_MESOMERY_ARROW_H
 #define GCHEMPAINT_MESOMERY_ARROW_H
 
-/*!file*/
+/*!\file*/
 #include "arrow.h"
 
 namespace gcp {

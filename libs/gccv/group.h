@@ -25,7 +25,7 @@
 #ifndef GCCV_GROUP_H
 #define GCCV_GROUP_H
 
-/*!file*/
+/*!\file*/
 
 #include "item.h"
 #include <list>

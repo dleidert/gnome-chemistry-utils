@@ -29,7 +29,7 @@
 #include <gcu/macros.h>
 #include <gcu/object.h>
 
-/*!file*/
+/*!\file*/
 namespace gcp {
 
 class Application;

@@ -25,6 +25,8 @@
 #ifndef GCCV_HASH_H
 #define GCCV_HASH_H
 
+/*!\file*/
+
 #include "wedge.h"
 
 namespace gccv {

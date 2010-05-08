@@ -25,6 +25,8 @@
 #ifndef GCP_PREFERENCES_H
 #define GCP_PREFERENCES_H
 
+/*!\file*/
+
 #include "fontsel.h"
 #include <gcu/dialog.h>
 #include <gcu/object.h>
