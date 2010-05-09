@@ -1,4 +1,6 @@
 ##Text encoding: utf-8
+2010-05-09  Julian Sikorski  <belegdol@gmail.com>
+	* pl.po: updated Polish translation, some strings still missing.
 
 2010-04-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: updated french translation.
