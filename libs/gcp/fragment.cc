@@ -789,22 +789,24 @@ bool Fragment::Load (xmlNodePtr node)
 		child = child->next;
 	}
 	if (!m_TextItem) {
-		// analyse text between tags to support previous versions
-		list <gccv::TextTag *> tags;
-		gccv::TextTagList::iterator i, iend = m_TagList.end ();
-		unsigned start = 0, end;
-		for (i = m_TagList.begin (); i != iend; i++)
-			tags.push_back (*i);
-		list <gccv::TextTag *>::iterator j, jend = tags.end ();
-		for (j = tags.begin (); j != jend; j++) {
-			end = (*j)->GetStartIndex ();
+		if ( static_cast <Document *> (GetDocument ())->GetSoftwareVersion () < 11000) {
+			// analyse text between tags to support previous versions
+			list <gccv::TextTag *> tags;
+			gccv::TextTagList::iterator i, iend = m_TagList.end ();
+			unsigned start = 0, end;
+			for (i = m_TagList.begin (); i != iend; i++)
+				tags.push_back (*i);
+			list <gccv::TextTag *>::iterator j, jend = tags.end ();
+			for (j = tags.begin (); j != jend; j++) {
+				end = (*j)->GetStartIndex ();
+				if (end > start)
+					AnalContent (start, end);
+				start = (*j)->GetEndIndex ();
+			}
+			end = m_buf.length ();
 			if (end > start)
 				AnalContent (start, end);
-			start = (*j)->GetEndIndex ();
 		}
-		end = m_buf.length ();
-		if (end > start)
-			AnalContent (start, end);
 	} else {
 		m_TextItem->SetText (m_buf);
 		while (!m_TagList.empty ()) {

@@ -125,6 +125,7 @@ private:
 	std::string m_Name;
 	std::set <gcu::Object*> m_Clients;
 	bool modified;
+	bool locked;
 
 /*!\fn GetBondLength()
 @return the theme default bond length in picometers.

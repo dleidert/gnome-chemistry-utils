@@ -4,7 +4,7 @@
  * GChemPaint selection plugin
  * selectiontool.cc
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -247,10 +247,13 @@ void gcpSelectionTool::Activate ()
 
 bool gcpSelectionTool::Deactivate ()
 {
+	std::map <gcp::WidgetData *, guint>::iterator i; 
 	while (!SelectedWidgets.empty ())
 	{
-		SelectedWidgets.front ()->UnselectAll ();
-		SelectedWidgets.pop_front ();
+		i = SelectedWidgets.begin ();
+		(*i).first->UnselectAll ();
+		g_signal_handler_disconnect ((*i).first, (*i).second);
+		SelectedWidgets.erase (i);
 	}
 	return true;
 }
@@ -270,8 +273,9 @@ void gcpSelectionTool::AddSelection (gcp::WidgetData* data)
 			win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", true);
 		}
 	}
-	SelectedWidgets.remove (m_pData);
-	SelectedWidgets.push_front (m_pData);
+	std::map <gcp::WidgetData *, guint>::iterator i;
+	if (SelectedWidgets.find (m_pData) == SelectedWidgets.end ())
+		SelectedWidgets[m_pData] = g_signal_connect (m_pData->Canvas, "destroy", G_CALLBACK (OnWidgetDestroyed), this);
 	if (d) {
 		m_pView = d->m_View;
 		m_pData = d;
@@ -500,4 +504,9 @@ char const *gcpSelectionTool::GetHelpTag ()
 	if (m_bRotate)
 		return "rotate";
 	return "selection";
+}
+
+void gcpSelectionTool::OnWidgetDestroyed (GtkWidget *widget, gcpSelectionTool *tool)
+{
+	tool->SelectedWidgets.erase (static_cast <gcp::WidgetData *> (g_object_get_data (G_OBJECT (widget), "data")));
 }

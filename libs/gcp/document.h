@@ -618,6 +618,15 @@ Sets the rights for the document clipbard access.
 @return whether the document may use the clipboard or not as a reference.
 */
 GCU_PROP (bool, AllowClipboard)
+/*!\fn GetSoftwareVersion()
+Retrieves the GChemPaint API number corresponding to the program which saved
+the file last time. Might be 0 if the file has never been saved, or if the file
+was not saved using GChemPaint. The version is an unsigned decimal number of the
+type MMMmmmµµµ, where MMM is the major version, mmm the minor version and µµµ
+the micro version. This is used to detect files with old syntax on loading.
+@return the GChemPaint API version which last saved the file.
+*/
+GCU_RO_PROP (unsigned, SoftwareVersion)
 };
 
 }	//	namespace gcp

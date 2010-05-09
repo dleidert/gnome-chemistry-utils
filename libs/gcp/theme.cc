@@ -111,7 +111,7 @@ Theme::Theme (char const *name)
 	if (name)
 		m_Name = name;
 	m_ThemeType = DEFAULT_THEME_TYPE;
-	modified = false;
+	modified = locked = false;
 }
 
 Theme::~Theme ()
@@ -269,6 +269,7 @@ ThemeManager::~ThemeManager ()
 	map <string, Theme*>::iterator i, iend = m_Themes.end ();
 	for (i = m_Themes.begin (); i != iend; i++) {
 		theme = (*i).second;
+		theme->locked = true;
 		if (!theme || (def && theme == def))
 			continue; // this theme has already been deleted
 		if (theme->modified && theme->m_ThemeType == LOCAL_THEME_TYPE) {
@@ -1068,7 +1069,8 @@ void Theme::RemoveClient (Object *client)
 		m_Clients.erase (iter);
 	if (m_ThemeType == FILE_THEME_TYPE && m_Clients.size () == 0) {
 		TheThemeManager.RemoveFileTheme (this);
-		delete this;
+		if (!locked)
+			delete this;
 	}
 }
 

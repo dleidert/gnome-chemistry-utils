@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2010-05-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fix loading of new fragment nodes.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/theme.cc: do not delete a theme twice.
+	* libs/gcp/theme.h: ditto.
+	* libs/gcp/tool.cc: do not access a destroyed widget.
+	* plugins/paint/selection/selectiontool.cc: ditto.
+	* plugins/paint/selection/selectiontool.h: ditto.
+	* plugins/paint/text/texttool.cc: fixed a font size issue.
+
 2010-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* docs/reference/Doxyfile.in: do not document empty files.
 	* libs/gccv/group.h: fixed API documentation.

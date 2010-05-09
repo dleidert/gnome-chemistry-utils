@@ -131,7 +131,7 @@ bool gcpTextTool::OnClicked ()
 		if (m_pView->GetDoc ()->GetCurrentOperation () == NULL && m_Group)
 			m_GroupNode = m_Group->Save (gcp::pXmlDoc);
 	}
-	m_Size = pTheme->GetTextFontSize () / PANGO_SCALE;
+	m_Size = pTheme->GetTextFontSize ();
 	return true;
 }
 

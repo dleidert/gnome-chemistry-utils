@@ -58,8 +58,10 @@ public:
 	void Group ();
 	char const *GetHelpTag ();
 
+	static void OnWidgetDestroyed (GtkWidget *widget, gcpSelectionTool *tool);
+
 private:
-	std::list<gcp::WidgetData*> SelectedWidgets;
+	std::map <gcp::WidgetData *, guint> SelectedWidgets;
 	bool m_bRotate;
 	double m_cx, m_cy;
 	double m_dAngle, m_dAngleInit;

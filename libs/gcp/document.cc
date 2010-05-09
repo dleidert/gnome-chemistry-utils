@@ -101,6 +101,7 @@ Document::Document (Application *App, bool StandAlone, Window *window):
 	m_bReadOnly = false;
 	SetActive ();
 	m_AllowClipboard = true;
+	m_SoftwareVersion = 0;
 }
 
 Document::~Document ()
@@ -714,6 +715,18 @@ bool Document::Load (xmlNodePtr root)
 		xmlFree (tmp);
 	}
 
+	node = GetNodeByName (root, "generator");
+	if (node) {
+		tmp = reinterpret_cast <char*> (xmlNodeGetContent (node));
+		if (tmp) {
+			char software[strlen (tmp) + 1];
+			unsigned Major = 0, minor = 0, micro = 0, read;
+			if (4 == (read=sscanf (tmp, "%s %u.%u.%u", software, &Major, &minor, &micro)) &&
+			    Major < 1000 && minor < 1000 && micro < 1000)
+				m_SoftwareVersion = Major * 1000000 + minor * 1000 + micro;
+			xmlFree (tmp);
+		}
+	}
 	node = GetNodeByName (root, "title");
 	if (node) {
 		tmp = (char*) xmlNodeGetContent (node);
