@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-02 21:31+0200\n"
-"PO-Revision-Date: 2010-05-02 22:35+0200\n"
+"POT-Creation-Date: 2010-05-11 23:47+0200\n"
+"PO-Revision-Date: 2010-05-11 23:53+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -246,13 +246,12 @@ msgid "Width:"
 msgstr "Szerokość:"
 
 #: ../ui/image-resolution.ui.h:1
-#, fuzzy
 msgid "Image _resolution:"
-msgstr "Rozdzielczość obrazu:"
+msgstr "_Rozdzielczość obrazu:"
 
 #: ../ui/image-resolution.ui.h:2
 msgid "Tr_ansparent background"
-msgstr ""
+msgstr "Przezroczyste tł_o"
 
 #: ../ui/print-setup.ui.h:2
 #, no-c-format
@@ -695,7 +694,7 @@ msgid "Type:"
 msgstr "Typ:"
 
 #: ../ui/crystal/atoms.ui.h:17 ../libs/gcp/reaction-prop.cc:39
-#: ../libs/gcp/theme.cc:525 ../libs/gcp/theme.cc:529
+#: ../libs/gcp/theme.cc:526 ../libs/gcp/theme.cc:530
 #: ../programs/crystal/atomsdlg.cc:184 ../programs/crystal/atomsdlg.cc:314
 #: ../programs/crystal/atomsdlg.cc:478
 msgid "Unknown"
@@ -817,7 +816,7 @@ msgstr "Motyw:"
 
 #: ../ui/paint/H-pos.ui.h:1
 msgid "Auto"
-msgstr "Automatyczna"
+msgstr "Automatyczne"
 
 #: ../ui/paint/H-pos.ui.h:2 ../plugins/paint/selection/group.ui.h:2
 msgid "Bottom"
@@ -988,6 +987,9 @@ msgid ""
 "the opposite of what many people want. If checked, this behavior will be "
 "reversed."
 msgstr ""
+"Kliny przerywane są zwykle rysowane z szerszym końcem bliżej obserwatora, co "
+"jest niezgodne z oczekiwaniami wielu osób. Zaznaczenie tej opcji spowoduje "
+"odwrócenie zachowania."
 
 #: ../ui/paint/preferences.ui.h:29
 msgid "Len_gth:"
@@ -1059,7 +1061,7 @@ msgstr "D_ystans:"
 
 #: ../ui/paint/preferences.ui.h:43
 msgid "_Invert wedge hashes"
-msgstr ""
+msgstr "_Odwróć kliny przerywane"
 
 #: ../ui/paint/preferences.ui.h:44
 msgid "_Object padding:"
@@ -1752,23 +1754,23 @@ msgstr "tryt"
 
 #: ../gnumeric/functions.cc:52
 msgid "MOLARMASS: molar mass of a chemical entity"
-msgstr ""
+msgstr "MASAMOLOWA: masa molowa substancji chemicznej"
 
 #: ../gnumeric/functions.cc:53
 msgid "formula:the input chemical formula such as \"CCl4\""
-msgstr ""
+msgstr "wzór: wejściowy wzór chemiczny taki jak \"CCl4\""
 
 #: ../gnumeric/functions.cc:54
 msgid "MOLARMASS calculates a molar mass associated with the given @{formula}."
-msgstr ""
+msgstr "MASAMOLOWA oblicza masę molową powiązaną z podanym @{wzorem}."
 
 #: ../gnumeric/functions.cc:55
 msgid "=molarmass(\"CCl4\")"
-msgstr ""
+msgstr "=masamolowa(\"CCl4\")"
 
 #: ../gnumeric/functions.cc:82
 msgid "molarmass"
-msgstr ""
+msgstr "masamolowa"
 
 #: ../gnumeric/plugin.xml.in.h:1
 msgid "Chemical Formula Functions"
@@ -2058,19 +2060,19 @@ msgstr "Rozmiar"
 msgid "The font size (in pango units)"
 msgstr "Rozmiar czcionki (w jednostkach pango)"
 
-#: ../libs/gcp/fragment.cc:1336
+#: ../libs/gcp/fragment.cc:1338
 msgid "Invalid symbol."
 msgstr "Nieprawidłowy symbol."
 
-#: ../libs/gcp/fragment.cc:1365
+#: ../libs/gcp/fragment.cc:1367
 msgid "Invalid charge."
 msgstr "Nieprawidłowy ładunek."
 
-#: ../libs/gcp/fragment.cc:1544
+#: ../libs/gcp/fragment.cc:1546
 msgid "Fragment"
 msgstr "Fragment"
 
-#: ../libs/gcp/mechanism-arrow.cc:463
+#: ../libs/gcp/mechanism-arrow.cc:464
 msgid "Mechanism arrow"
 msgstr "Strzałka mechanizmu"
 
@@ -2080,7 +2082,7 @@ msgstr "Etap mechanizmu"
 
 #: ../libs/gcp/mesomer.cc:114
 msgid "NULL argument to Mesomer constructor!"
-msgstr ""
+msgstr "Argument NULL dla konstruktora mezomerów!"
 
 #: ../libs/gcp/mesomer.cc:129
 msgid "Only one arrow can link two given mesomers."
@@ -2160,8 +2162,8 @@ msgid "Select alignment item"
 msgstr "Wybierz element wyrównania"
 
 #: ../libs/gcp/preferences.cc:361 ../libs/gcp/preferences.cc:380
-#: ../libs/gcp/preferences.cc:509 ../libs/gcp/theme.cc:316
-#: ../libs/gcp/theme.cc:323 ../programs/table/gchemtable-app.cc:153
+#: ../libs/gcp/preferences.cc:509 ../libs/gcp/theme.cc:317
+#: ../libs/gcp/theme.cc:324 ../programs/table/gchemtable-app.cc:153
 msgid "Default"
 msgstr "Domyślny"
 
@@ -2298,17 +2300,17 @@ msgstr ""
 msgid "This should not have occured, please file a bug record."
 msgstr "To nie powinno się stać, proszę zgłosić raport o błędzie"
 
-#: ../libs/gcp/theme.cc:419
+#: ../libs/gcp/theme.cc:420
 msgid "NewTheme1"
 msgstr "NowyMotyw1"
 
-#: ../libs/gcp/theme.cc:423
+#: ../libs/gcp/theme.cc:424
 #, c-format
 msgid "NewTheme%d"
 msgstr "NowyMotyw%d"
 
 #: ../libs/gcp/view.cc:725 ../libs/gcp/view.cc:751
-#: ../programs/3d/application.cc:188 ../programs/crystal/application.cc:296
+#: ../programs/3d/application.cc:188 ../programs/crystal/application.cc:307
 #, c-format
 msgid ""
 "Could not create stream!\n"
@@ -2687,19 +2689,18 @@ msgid "About GChemPaint"
 msgstr "O programie GChemPaint"
 
 #: ../libs/gcp/window.cc:370
-#, fuzzy
 msgid "_Full Screen"
-msgstr "P_ełne groty"
+msgstr "Pełny _ekran"
 
 #: ../libs/gcp/window.cc:371
 msgid "Switch between full screen and windowed mode"
-msgstr ""
+msgstr "Przełącz pomiędzy oknem a trybem pełnoekranowym"
 
 #: ../libs/gcp/window.cc:527
 msgid "Open _recent"
 msgstr "Otwórz _poprzedni"
 
-#: ../libs/gcp/window.cc:550 ../programs/crystal/window.cc:459
+#: ../libs/gcp/window.cc:550 ../programs/crystal/window.cc:464
 msgid "Ready"
 msgstr "Gotowy"
 
@@ -2714,7 +2715,7 @@ msgstr "\"%s\" został zmodyfikowany.  Czy chcesz go zapisać?"
 
 #: ../libs/gcu/application.cc:70
 msgid "Open new windows full screen"
-msgstr ""
+msgstr "Otwieranie nowych okien w trybie pełnoekranowym"
 
 #: ../libs/gcu/application.cc:71
 msgid "Maximize new windows"
@@ -2740,7 +2741,7 @@ msgstr "Wszystko zostało odcięte"
 #. do we need to set m_Owner to NULL?
 #: ../libs/gcu/dialog.cc:70 ../libs/gcu/dialog.cc:234
 msgid "Could not reference the new dialog."
-msgstr ""
+msgstr "Nie udało się odnieść nowego okna dialogowego."
 
 #: ../libs/gcu/dialog.cc:126
 msgid "Type a number"
@@ -2789,11 +2790,11 @@ msgstr "Wpisz liczbę większą niż lub równą %g"
 #. Note to translators: the two strings are concatenated with the missing id between them.
 #: ../libs/gcu/document.cc:126
 msgid "The input contains a reference to object \""
-msgstr ""
+msgstr "To wejście zawiera odniesienie do obiektu \""
 
 #: ../libs/gcu/document.cc:126
 msgid "\" but no object with this Id is described."
-msgstr ""
+msgstr "\", ale żaden obiekt o takim id nie jest opisany."
 
 #: ../libs/gcu/document.cc:142
 msgid "Document"
@@ -2952,31 +2953,31 @@ msgstr "  jest uszkodzony!"
 
 #: ../libs/gcu/spacegroup.cc:375
 msgid "Duplicated transform: "
-msgstr ""
+msgstr "Powtórzona transformacja: "
 
 #: ../libs/gcu/spacegroup.cc:389
-#, fuzzy
 msgid "Invalid transform: "
-msgstr "Rzeczywiste dane transformowane"
+msgstr "Nieprawidłowa transformacja: "
 
 #: ../libs/gcu/spacegroup.cc:396
 msgid "Transform with no inverse: "
-msgstr ""
+msgstr "Transformacja bez odwrotności: "
 
-#: ../libs/gcu/spacegroup.cc:413 ../libs/gcu/spacegroup.cc:430
-#: ../libs/gcu/spacegroup.cc:463
+#: ../libs/gcu/spacegroup.cc:413 ../libs/gcu/spacegroup.cc:434
+#: ../libs/gcu/spacegroup.cc:468
 msgid "Unknown space group error, please file a bug report."
 msgstr "Błąd nieznanej grupy przestrzennej, proszę zgłosić raport o błędzie."
 
-#: ../libs/gcu/spacegroup.cc:415
+#. theses groups have duplicates
+#: ../libs/gcu/spacegroup.cc:418
 msgid "Space group error, please file a bug report."
 msgstr "Błąd grupy przestrzennej, proszę zgłosić raport o błędzie."
 
-#: ../libs/gcu/spacegroup.cc:439 ../libs/gcu/spacegroup.cc:450
+#: ../libs/gcu/spacegroup.cc:443 ../libs/gcu/spacegroup.cc:455
 msgid "Ambiguous space group with incomplete definition."
 msgstr "Wieloznacza grupa przestrzenna o niekompletnej definicji."
 
-#: ../libs/gcu/spacegroup.cc:456
+#: ../libs/gcu/spacegroup.cc:461
 msgid "Unknown space group with incomplete or wrong definition."
 msgstr "Nieznana grupa przestrzenna o niekompletnej lub błędnej definicji."
 
@@ -3229,6 +3230,9 @@ msgid ""
 "If check, an arrow corresponding to a new bond will end at center of the new "
 "bond, otherwise, the arrow will end at the other atom."
 msgstr ""
+"Zaznaczenie tej opcji spowoduje, że strzałka odpowiadająca nowemu wiązaniu "
+"będzie kończyła się na jego środku. W przeciwnym wypadku będzie ona kończyła "
+"się na drugim atomie."
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:1
 msgid "End mechanism arrows at center of new bonds"
@@ -3247,6 +3251,9 @@ msgid ""
 "If true, a curved arrow corresponding to a new bond will end at center of "
 "the new bond, otherwise, the arrow will end at the other atom."
 msgstr ""
+"Jeśli prawda, zakrzywiona strzałka odpowiadająca nowemu wiązaniu będzie "
+"kończyła się na jego środku. W przeciwnym wypadku będzie ona kończyła się na "
+"drugim atomie."
 
 #: ../plugins/paint/arrows/gchempaint-arrows.schemas.in.h:4
 msgid "Use full arrows heads for reversible reactions"
@@ -3370,13 +3377,12 @@ msgstr ""
 #: ../plugins/paint/atoms/orbital.ui.h:5
 #: ../plugins/paint/atoms/orbital-prop.ui.h:5
 msgid "_Coefficient:"
-msgstr ""
+msgstr "_Współczynnik:"
 
 #: ../plugins/paint/atoms/orbital.ui.h:6
 #: ../plugins/paint/atoms/orbital-prop.ui.h:6
-#, fuzzy
 msgid "_Rotation:"
-msgstr "Ob_róć"
+msgstr "_Obrót:"
 
 #: ../plugins/paint/atoms/orbital.ui.h:7
 #: ../plugins/paint/atoms/orbital-prop.ui.h:7
@@ -3706,43 +3712,43 @@ msgstr "Wymaż"
 msgid "Eraser"
 msgstr "Gumka"
 
-#: ../plugins/paint/selection/selectiontool.cc:374
+#: ../plugins/paint/selection/selectiontool.cc:378
 msgid "Creation failed!"
 msgstr "Tworzenie się nie powiodło!"
 
-#: ../plugins/paint/selection/selectiontool.cc:404
+#: ../plugins/paint/selection/selectiontool.cc:408
 msgid "Group and/or align objects"
 msgstr "Grupuj i/lub wyrównaj obiekty"
 
-#: ../plugins/paint/selection/selectiontool.cc:442
+#: ../plugins/paint/selection/selectiontool.cc:446
 msgid "Horizontal flip"
 msgstr "Odbij w poziomie"
 
-#: ../plugins/paint/selection/selectiontool.cc:443
+#: ../plugins/paint/selection/selectiontool.cc:447
 msgid "Flip the selection horizontally"
 msgstr "Odbij poziomo zaznaczony fragment"
 
-#: ../plugins/paint/selection/selectiontool.cc:444
+#: ../plugins/paint/selection/selectiontool.cc:448
 msgid "Vertical flip"
 msgstr "Odbij w pionie"
 
-#: ../plugins/paint/selection/selectiontool.cc:445
+#: ../plugins/paint/selection/selectiontool.cc:449
 msgid "Flip the selection vertically"
 msgstr "Odbij pionowo zaznaczony fragment"
 
-#: ../plugins/paint/selection/selectiontool.cc:446
+#: ../plugins/paint/selection/selectiontool.cc:450
 msgid "Merge"
 msgstr "Połącz"
 
-#: ../plugins/paint/selection/selectiontool.cc:447
+#: ../plugins/paint/selection/selectiontool.cc:451
 msgid "Merge two molecules"
 msgstr "Połącz dwie cząsteczki"
 
-#: ../plugins/paint/selection/selectiontool.cc:451
+#: ../plugins/paint/selection/selectiontool.cc:455
 msgid "_Rotate"
 msgstr "Ob_róć"
 
-#: ../plugins/paint/selection/selectiontool.cc:452
+#: ../plugins/paint/selection/selectiontool.cc:456
 msgid "Rotate the selection"
 msgstr "Obróć zaznaczony fragment"
 
@@ -3796,9 +3802,8 @@ msgid "Please choose a category."
 msgstr "Proszę wybrać kategorię."
 
 #: ../plugins/paint/text/fontsel.ui.h:1
-#, fuzzy
 msgid "Double"
-msgstr "Podwójna strzałka"
+msgstr "Podwójne"
 
 #: ../plugins/paint/text/fontsel.ui.h:2
 #: ../programs/table/gchemtable-elt.cc:310
@@ -3816,7 +3821,7 @@ msgstr "_Rozmiar:"
 
 #: ../plugins/paint/text/fontsel.ui.h:5 ../programs/crystal/linesdlg.cc:175
 msgid "Single"
-msgstr "Pojedynczy"
+msgstr "Pojedyncze"
 
 #: ../plugins/paint/text/fontsel.ui.h:6
 msgid "Stri_kethrough"
@@ -3847,14 +3852,12 @@ msgid "Mode: "
 msgstr "Tryb: "
 
 #: ../plugins/paint/text/fragmenttool.cc:459
-#, fuzzy
 msgid "auto"
-msgstr "Użytkownika"
+msgstr "automatyczny"
 
 #: ../plugins/paint/text/fragmenttool.cc:462
-#, fuzzy
 msgid "normal"
-msgstr "Ogólne"
+msgstr "zwykły"
 
 #: ../plugins/paint/text/fragmenttool.cc:465
 msgid "subscript"
@@ -4029,7 +4032,7 @@ msgstr "Kolor tła"
 msgid "Choose a new background color"
 msgstr "Wybierz nowy kolor tła"
 
-#: ../programs/3d/window.cc:293 ../programs/crystal/window.cc:440
+#: ../programs/3d/window.cc:293 ../programs/crystal/window.cc:445
 #: ../programs/spectra/window.cc:288
 msgid "Open recent"
 msgstr "Otwórz poprzedni"
@@ -4223,7 +4226,7 @@ msgstr ""
 msgid "Untitled%d"
 msgstr "BezTytułu%d"
 
-#: ../programs/crystal/application.cc:343
+#: ../programs/crystal/application.cc:354
 #, c-format
 msgid ""
 "\"%s\" has been modified since last saving. Do you wish to come back to "
@@ -4406,7 +4409,7 @@ msgstr "Zobacz pomoc dla Gnome Crystal"
 msgid "About Gnome Crystal"
 msgstr "Informacje o Gnome Crystal"
 
-#: ../programs/crystal/window.cc:477
+#: ../programs/crystal/window.cc:482
 #, c-format
 msgid "Space group: %u"
 msgstr "Grupa przestrzenna: %u"
@@ -4835,6 +4838,9 @@ msgid ""
 "the opposite of what many people want. Setting this key to TRUE will change "
 "this behavior. Default is FALSE."
 msgstr ""
+"Kliny przerywane są zwykle rysowane z szerszym końcem bliżej obserwatora, co "
+"jest niezgodne z oczekiwaniami wielu osób. Ustawienie wartości tego klucza "
+"na PRAWDA zmieni to zachowanie. Wartość domyślna to FAŁSZ."
 
 #: ../programs/paint/gchempaint.schemas.in.h:82
 msgid "If TRUE, STRING_UTF8 and STRING are added to the clipboard formats."
@@ -4866,7 +4872,7 @@ msgstr ""
 
 #: ../programs/paint/gchempaint.schemas.in.h:88
 msgid "Whether the hashed wedge bonds shopuld be inverted."
-msgstr ""
+msgstr "Czy kliny przerywane powinny być odwrócone."
 
 #: ../programs/paint/gchempaint.schemas.in.h:89
 msgid "Whether to export simple text when copying."
