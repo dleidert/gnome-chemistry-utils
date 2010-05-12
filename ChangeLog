@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2010-05-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post branching version bump (0.13.0).
+
+2010-05-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: set version to 0.12.0.
 	* libs/gcp/fragment.cc: fix loading old fragment nodes.
 	* plugins/paint/text/fragmenttool.cc: add more shortcuts.
