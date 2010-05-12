@@ -192,6 +192,8 @@ bool gcpTextTool::OnKeyPress (GdkEventKey* event)
 				return true;
 			case GDK_plus:
 			case GDK_dead_circumflex:
+			case GDK_KP_Add:
+			case GDK_asciicircum:
 				m_Position = (m_Position == gccv::Superscript)? gccv::Normalscript: gccv::Superscript;
 				BuildTagsList ();
 				return true;
@@ -696,6 +698,17 @@ void gcpTextTool::UpdateTagsList ()
 				}
 			}
 		}
+	} else {
+		m_FamilyName = pTheme->GetTextFontFamily ();
+		m_Style = pTheme->GetFontStyle ();
+		m_Weight = pTheme->GetFontWeight ();
+		m_Stretch = pTheme->GetFontStretch ();
+		m_Variant = pTheme->GetFontVariant ();
+		m_Size = pTheme->GetTextFontSize ();
+		m_Underline = gccv::TextDecorationNone;
+		m_Rise = 0;
+		m_Color = GO_COLOR_BLACK;
+		m_Position = gccv::Normalscript;
 	}
 	// select the found face
 	GtkTreeIter iter;

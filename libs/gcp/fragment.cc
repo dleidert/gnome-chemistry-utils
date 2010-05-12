@@ -1041,9 +1041,12 @@ void Fragment::AnalContent (unsigned start, unsigned &end)
 				default: // should not happen
 					break;
 				}
-				m_TextItem->ReplaceText (glyph, next, l);
-				m_buf = m_TextItem->GetText ();
-				text = m_buf.c_str ();
+				if (m_TextItem) {
+					m_TextItem->ReplaceText (glyph, next, l);
+					m_buf = m_TextItem->GetText ();
+					text = m_buf.c_str ();
+				} else
+					m_buf.replace (next, l, glyph);
 				end += glyph.length () - l;
 				start = next;
 			}

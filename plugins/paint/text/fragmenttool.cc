@@ -213,6 +213,7 @@ bool gcpFragmentTool::OnKeyPress (GdkEventKey *event)
 					BuildTagsList ();
 					break;
 				case GDK_dead_circumflex:
+				case GDK_asciicircum:
 					// enter/quit superscript (not charge) mode
 					m_CurMode = (m_CurMode == gcp::Fragment::SuperscriptMode)? gcp::Fragment::AutoMode: gcp::Fragment::SuperscriptMode;
 					m_Fragment->SetMode (m_CurMode);

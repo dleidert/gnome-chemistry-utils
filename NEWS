@@ -1,3 +1,13 @@
+Version 0.12.0
+	GChemPaint:
+		* Fixed various text related minor issues.
+		* Fixed fragment loading issues (both old and new format).
+		* Don't crash after closing a file with selected objects.
+		* Exit more cleanly.
+	Other:
+		* Add various mime types in desktop files.
+		* Fixed some API documentation issues.
+		
 Version 0.11.98
 	GCrystal:
 		* Fixed a pair of space group issues.
