@@ -39,4 +39,12 @@ autoconf
 ./gendocs
 
 ## Job ended
-echo "run ./configure with the appropriate options, then make and enjoy"
+conf_flags="--enable-maintainer-mode"
+
+if test x$NOCONFIGURE = x; then
+  echo Running ./configure $conf_flags "$@" ...
+  ./configure $conf_flags "$@" \
+  && echo Now type \`make\' to compile. || exit 1
+else
+  echo "run ./configure with the appropriate options, then make and enjoy"
+fi

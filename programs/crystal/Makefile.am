@@ -47,6 +47,8 @@ gcrystal_@GCU_API_VER@_SOURCES = \
 		document.h \
 		gcrystal.h \
 		globals.h \
+		grid.cc \
+		grid.h \
 		line.cc \
 		line.h \
 		linesdlg.cc \

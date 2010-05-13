@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-05-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* autogen.sh: now calls configure.
+	* plugins/paint/selection/plugin.cc: show brackets tool button.
+	* programs/crystal/Makefile.am: add new files.
+	* programs/crystal/grid.cc: new grid widget.
+	* programs/crystal/grid.h: ditto.
+
 2010-05-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post branching version bump (0.13.0).
 
