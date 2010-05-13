@@ -1,42 +1,40 @@
 * Periodic table:
-	* add more data using bodr (?).
-	* add crystal structures (? needs reliable crystal structures in bodr).
+	* add more data using bodr.
+	* add crystal structures (needs reliable crystal structures in bodr).
 
 * Calculator:
-	* enhance ambiguous abbreviations support (0.12?).
-	* a lot of code cleaning (0.12?).
+	* enhance ambiguous abbreviations support.
+	* a lot of code cleaning.
 
 * 3d viewer:
-	* allow selection of atoms and or bonds, and display of lengths and angles (0.12?).
+	* allow selection of atoms and or bonds, and display of lengths and angles.
 	* add a preferences dialog.
 
 * Mozilla plugin:
-	* implement printing (?).
-	* add a contextual dropdown menu (?).
-	* support for options when displaying a spectrum (?).
+	* implement printing.
+	* add a contextual dropdown menu.
+	* support for options when displaying a spectrum.
 
 * Gnome Crystal:
-	* make HIG compilant (?).
+	* make HIG compilant.
 
 * GChemPaint:
-	* enhance copy-and-paste support for OpenOffice.org (?).
-	* plugin to prepare png files of molecules ready for publication in wikipedia (almost done).
+	* enhance copy-and-paste support for OpenOffice.org.
 	* New tools:
-		- delocalized bonds (?),
-		- week interactions (e.g. H-bonds) (?),
-		- curved arrows (in mechanisms) (0.12).
-		- curved reaction arrows and Tollman's loops (?),
-		- cluster bonds (as in boranes) (?),
-		- electron vacancies (?).
-	* Multi-steps reactions (0.12?).
-	* Scriptability (?).
-	* Enhance selection (0.12?).
-	* Enhance fragments (0.12+).
-	* Change cursor according to situation (?).
-	* Allow associating several objects with reaction arrows (0.12?).
+		- delocalized bonds,
+		- week interactions (e.g. H-bonds),
+		- curved reaction arrows and Tollman's loops,
+		- cluster bonds (as in boranes),
+		- electron vacancies.
+	* Multi-steps reactions.
+	* Scriptability.
+	* Enhance selection.
+	* Enhance fragments.
+	* Change cursor according to situation.
+	* Allow associating several objects with reaction arrows.
 
 * Goffice component:
-	* support 3d structures (?).
+	* support 3d structures.
 
 * Spectrum viewer:
 	* support FFT for FIDs.
@@ -46,8 +44,8 @@
 	* add new items as needed.
 
 * GCU Library:
-	* provide clipboard support at the Application level (?).
-	* make object creation a per application mechanism (?).
+	* provide clipboard support at the Application level.
+	* make object creation a per application mechanism.
 
 * Other:
 	* Make file operation asynchroneous (especially for remote file systems).
