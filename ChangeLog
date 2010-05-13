@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2010-05-13  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* plugins/paint/*/Makefile.am: Fixed uidir - 's#.ui#/ui#g'.
+
+2010-05-13  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* programs/crystal/gcrystal.desktop.in.in (MimeType): Fixed field -
 	must end with a semicolon.
 	* programs/3d/gchem3d.desktop.in.in (MimeType): Ditto.

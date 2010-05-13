@@ -55,7 +55,7 @@ noinst_HEADERS = \
 	chaintool.h \
 	delocalizedtool.h
 
-uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/bonds
+uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/bonds
 dist_ui_DATA = \
 	bond.ui \
 	chain.ui

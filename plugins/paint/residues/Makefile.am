@@ -28,5 +28,5 @@ noinst_HEADERS = \
 	residues-dlg.h \
 	pseudo-atom.h
 
-uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/residues
+uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/residues
 dist_ui_DATA = residues.ui

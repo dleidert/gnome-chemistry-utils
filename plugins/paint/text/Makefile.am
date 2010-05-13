@@ -41,7 +41,7 @@ noinst_HEADERS = \
 	fragmenttool.h \
 	texttool.h
 
-uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/text
+uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/text
 ui_DATA = fontsel.ui
 
 $(BUILT_SOURCES): $(IMAGES)

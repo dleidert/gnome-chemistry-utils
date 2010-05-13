@@ -57,7 +57,7 @@ noinst_HEADERS = \
 	groupdlg.h \
 	selectiontool.h
 
-uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/selection
+uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/selection
 dist_ui_DATA = group.ui
 
 

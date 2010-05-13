@@ -32,7 +32,7 @@ noinst_HEADERS = \
 	templatetool.h \
 	templatetree.h
 
-uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/templates
+uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/templates
 dist_ui_DATA = \
 	templates.ui \
 	new-template.ui

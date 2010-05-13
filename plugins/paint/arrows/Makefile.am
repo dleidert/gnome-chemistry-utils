@@ -57,7 +57,7 @@ noinst_HEADERS = \
 	retrosynthesisarrow.h \
 	retrosynthesisstep.h
 
-uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/arrows
+uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/arrows
 dist_ui_DATA = arrowtool.ui curvedarrowtool.ui
 
 schemas_in_files = gchempaint-arrows.schemas.in
