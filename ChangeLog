@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-05-13  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* programs/crystal/gcrystal.desktop.in.in (MimeType): Fixed field -
+	must end with a semicolon.
+	* programs/3d/gchem3d.desktop.in.in (MimeType): Ditto.
+	* programs/paint/gchempaint.desktop.in.in (MimeType): Ditto. Removed
+	duplicated entry.
+
 2010-05-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.12.1).
 
