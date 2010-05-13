@@ -144,7 +144,7 @@ static gcu::Object *CreateCrystalAtom ()
 void gcu_crystal_viewer_set_uri_with_mime_type (GcuCrystalViewer * viewer, const gchar * uri, const gchar* mime_type)
 {
 	if (mime_type == NULL) {
-		g_message ("Cannot open an uri with unkown mime type.");
+		g_message ("Cannot open an uri with unknown mime type.");
 		return;
 	}
 	viewer->pDoc->Reinit ();
