@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2010-05-13  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* libs/gcu/gcucrystalviewer.cc: Fixed typo.
+
+2010-05-13  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* plugins/paint/*/Makefile.am: Fixed uidir - 's#.ui#/ui#g'.
 	* programs/crystal/gcrystal.desktop.in.in (MimeType): Fixed field -
 	must end with a semicolon.
