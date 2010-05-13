@@ -49,7 +49,7 @@ noinst_HEADERS = \
 	plugin.h \
 	cycletool.h
 
-uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/cycles
+uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/cycles
 dist_ui_DATA = \
 	cycle.ui \
 	cyclen.ui

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-05-13  Daniel Leidert  <daniel.leidert@wgdd.de>
+	* plugins/paint/*/Makefile.am: Fixed uidir - 's#.ui#/ui#g'.
+	* programs/crystal/gcrystal.desktop.in.in (MimeType): Fixed field -
+	must end with a semicolon.
+	* programs/3d/gchem3d.desktop.in.in (MimeType): Ditto.
+	* programs/paint/gchempaint.desktop.in.in (MimeType): Ditto. Removed
+	duplicated entry.
+
 2010-05-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* autogen.sh: now calls configure.
 	* plugins/paint/selection/plugin.cc: show brackets tool button.
@@ -2656,11 +2664,11 @@
 	* programs/table/gchemtable-curve.h: ditto.
 
 2008-10-25  Jordan Mantha  <laserjock@ubuntu.com>
-        * docs/help/spectra/C/gspectrum.xml: miscellaneous typo and style fixes.
-          Also changed mixed DOS/Unix line endings to Unix.
+	* docs/help/spectra/C/gspectrum.xml: miscellaneous typo and style fixes.
+	  Also changed mixed DOS/Unix line endings to Unix.
 
 2008-10-24  Jordan Mantha  <laserjock@ubuntu.com>
-        * docs/help/table/C/gchemtable.xml: miscellaneous typo and style fixes.
+	* docs/help/table/C/gchemtable.xml: miscellaneous typo and style fixes.
 	
 2008-10-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: check if Fragment::m_Atom is not NULL before
@@ -4772,8 +4780,8 @@
 	* programs/table/gchemtable.desktop.in: ditto.
 
 2007-06-18  Jordan Mantha  <mantha@ubuntu.com>
-        * Added 32,48,72, and 128 pixel icons for gchem3d-viewer,
-        gchemtable, and gchemcalc
+	* Added 32,48,72, and 128 pixel icons for gchem3d-viewer,
+	gchemtable, and gchemcalc
 
 2007-06-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: removed 
@@ -6722,7 +6730,7 @@
 	* gcu/gchem3d-viewer.desktop.in: ditto.
 
 2005-03-02  Daniel Leidert  <daniel.leidert@wgdd.de>
-        * docs/reference/html/Makefile.am: add $(DESTDIR) to install-path
+	* docs/reference/html/Makefile.am: add $(DESTDIR) to install-path
 
 2004-12-12 Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: added de locale.

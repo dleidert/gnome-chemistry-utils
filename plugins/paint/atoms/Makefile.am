@@ -55,7 +55,7 @@ noinst_HEADERS = \
 	orbital.h \
 	orbitaltool.h
 
-uidir = $(datadir)/gchemutils/@GCU_API_VER@.ui/paint/plugins/atoms
+uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/atoms
 dist_ui_DATA = \
 	orbital.ui \
 	orbital-prop.ui

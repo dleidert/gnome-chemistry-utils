@@ -8,4 +8,4 @@ Terminal=false
 Type=Application
 DocPath=gcrystal/gcrystal.xml
 Categories=GTK;GNOME;Education;Science;Chemistry;
-MimeType=application/x-gcrystal;chemical/x-cif;chemical/x-cml
+MimeType=application/x-gcrystal;chemical/x-cif;chemical/x-cml;
