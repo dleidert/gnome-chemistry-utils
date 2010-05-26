@@ -11,6 +11,7 @@ libgcu_@GCU_API_VER@_la_LDFLAGS = \
 libgcu_@GCU_API_VER@_la_LIBADD = \
 		$(goffice_LIBS) \
 		$(openbabel_LIBS) \
+		$(gsf_LIBS) \
 		$(gtkglext_LIBS)
 DEFS += -DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \

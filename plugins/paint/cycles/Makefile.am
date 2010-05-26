@@ -39,6 +39,9 @@ cycles_LTLIBRARIES = cycles.la
 
 cycles_la_LDFLAGS = -module -avoid-version
 cycles_la_LIBADD = \
+		$(gtk_LIBS) \
+		$(top_builddir)/libs/gccv/libgccv-@GCU_API_VER@.la \
+		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la
 
 cycles_la_SOURCES = \

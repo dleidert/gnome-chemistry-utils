@@ -17,6 +17,7 @@ gcu_loader_cml_LTLIBRARIES = cml.la
 cml_la_LDFLAGS = -module -avoid-version -no-undefined
 
 cml_la_LIBADD = \
+		$(gsf_LIBS) $(goffice_LIBS) \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 
 cml_la_SOURCES =	\

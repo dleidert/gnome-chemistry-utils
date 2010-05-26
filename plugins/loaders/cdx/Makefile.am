@@ -18,6 +18,7 @@ gcu_loader_cdx_LTLIBRARIES = cdx.la
 cdx_la_LDFLAGS = -module -avoid-version -no-undefined
 
 cdx_la_LIBADD = \
+		$(gsf_LIBS) \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 
 cdx_la_SOURCES =	\

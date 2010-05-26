@@ -16,6 +16,9 @@ residues_LTLIBRARIES = residues.la
 
 residues_la_LDFLAGS = -module -avoid-version
 residues_la_LIBADD = \
+		$(gtk_LIBS) $(xml_LIBS) \
+		$(top_builddir)/libs/gccv/libgccv-@GCU_API_VER@.la \
+		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la
 
 residues_la_SOURCES = \
