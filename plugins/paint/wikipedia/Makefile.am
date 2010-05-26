@@ -26,6 +26,9 @@ wikipedia_LTLIBRARIES = wikipedia.la
 
 wikipedia_la_LDFLAGS = -module -avoid-version
 wikipedia_la_LIBADD = \
+		$(gtk_LIBS) $(goffice_LIBS) $(xml_LIBS) \
+		$(top_builddir)/libs/gccv/libgccv-@GCU_API_VER@.la \
+		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la
 
 wikipedia_la_SOURCES = \

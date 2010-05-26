@@ -1,5 +1,24 @@
 ##Text encoding: utf-8
 
+2010-05-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/Makefile.am: fixed build with LDFLAGS="-Wl,--no-undefined".
+	[#29966]
+	* libs/gcp/Makefile.am: ditto. (patch from Funda Wang)
+	* libs/gcu/Makefile.am: ditto. (patch from Funda Wang)
+	* plugins/loaders/cdx/Makefile.am: ditto.
+	* plugins/loaders/cdxml/Makefile.am: ditto.
+	* plugins/loaders/cif/Makefile.am: ditto.
+	* plugins/loaders/cml/Makefile.am: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/templates/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/wikipedia/Makefile.am: ditto.
+
 2010-05-13  Daniel Leidert  <daniel.leidert@wgdd.de>
 	* libs/gcu/gcucrystalviewer.cc: Fixed typo.
 
