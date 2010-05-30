@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-05-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystaldoc.cc: mix rhombohedral with hexagonal to be more or
+	less consistent with cif files.
+	* libs/gcu/spacegroup.cc: accept negative and decimal values in transforms.
+	* plugins/loaders/cif/cif.cc: fixed some more files import.
+	* programs/crystal/celldlg.cc: mix rhombohedral with hexagonal to be more or
+	less consistent with cif files.
+
 2010-05-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/Makefile.am: fixed build with LDFLAGS="-Wl,--no-undefined".
 	[#29966]

@@ -86,6 +86,7 @@ CIFLoader::CIFLoader ()
 	KnownProps["_atom_site_fract_x"] = GCU_PROP_XFRACT;
 	KnownProps["_atom_site_fract_y"] = GCU_PROP_YFRACT;
 	KnownProps["_atom_site_fract_z"] = GCU_PROP_ZFRACT;
+	KnownProps["_atom_site_aniso_label"] = CIF_ATOM_LABEL;
 }
 
 CIFLoader::~CIFLoader ()
@@ -123,6 +124,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	list <unsigned>::iterator loop_prop;
 	list <string> loop_values;
 	map <string, CIFAtomType> AtomTypes;
+	map <string, Object *> LabeledAtoms;
 	doc->SetProperty (GCU_PROP_SPACE_GROUP, "P 1");
 	SpaceGroup *group = new SpaceGroup ();
 	bool author_found = false;
@@ -260,12 +262,20 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 							case LOOP_ATOM: {
 								double scale = doc->GetScale ();
 								doc->SetScale (1.);
-								Object *atom = Object::CreateObject ("atom", doc);
+								Object *atom = Object::CreateObject ("atom", NULL);
 								for (loop_prop = loop_contents.begin (); loop_prop != loop_contents.end (); loop_prop++) {
 									std::string val = loop_values.front ();
 									loop_values.pop_front ();
 									switch (*loop_prop) {
 									case CIF_ATOM_LABEL: {
+										map <string, Object *>::iterator at = LabeledAtoms.find (val);
+										if (at != LabeledAtoms.end ()) {
+											delete atom;
+											atom = (*at).second;
+										} else {
+											LabeledAtoms[val] = atom;
+											doc->AddChild (atom);
+										}
 										if (AtomTypes.empty ()) {
 											int i = 0;
 											while (g_ascii_isalpha (val[i]))
@@ -283,12 +293,38 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 										break;
 									}
 									case CIF_ATOM_SITE_SYMBOL: {
-										if (AtomTypes.empty ())
-											atom->SetProperty (GCU_PROP_ATOM_SYMBOL, val.c_str ());
-										else {
-											CIFAtomType t = AtomTypes[val];
-											atom->SetProperty (GCU_PROP_ATOM_Z, t.elt.c_str ());
-											atom->SetProperty (GCU_PROP_ATOM_CHARGE, t.charge.c_str ());
+										if (AtomTypes.empty ()) {
+											int i = 0;
+											while (g_ascii_isalpha (val[i]))
+												i++;
+											val = val.substr (0, i);
+											int z = Element::Z (val.c_str ());
+											while (i  && !z) {
+												i--;
+												val[i] = 0;
+												z = Element::Z (val.c_str ());
+											}
+											if (z)
+												atom->SetProperty (GCU_PROP_ATOM_SYMBOL, val.c_str ());
+										} else {
+											if (AtomTypes.find (val) != AtomTypes.end ()) {
+												CIFAtomType t = AtomTypes[val];
+												atom->SetProperty (GCU_PROP_ATOM_Z, t.elt.c_str ());
+												atom->SetProperty (GCU_PROP_ATOM_CHARGE, t.charge.c_str ());
+											} else {
+												int i = 0;
+												while (g_ascii_isalpha (val[i]))
+													i++;
+												val = val.substr (0, i);
+												int z = Element::Z (val.c_str ());
+												while (i  && !z) {
+													i--;
+													val[i] = 0;
+													z = Element::Z (val.c_str ());
+												}
+												if (z > 0)
+													atom->SetProperty (GCU_PROP_ATOM_SYMBOL, val.c_str ());
+												}
 										}
 										break;
 									}
@@ -403,8 +439,15 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 		if (group->GetTransformsNumber ()) {
 			GtkWidget *w = gtk_message_dialog_new (doc->GetGtkWindow (), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Invalid symmetry group."));
 			g_signal_connect (G_OBJECT (w), "response", G_CALLBACK (gtk_widget_destroy), NULL);
-		gtk_widget_show_all (w);
+			gtk_widget_show_all (w);
 		}
+		SpaceGroup const *sp = SpaceGroup::GetSpaceGroup (group->GetId ());
+		if (!sp)
+			sp = SpaceGroup::GetSpaceGroup (group->GetHMName ());
+		if (!sp)
+			sp = SpaceGroup::GetSpaceGroup (group->GetHallName ());
+		if (sp)
+			doc->SetProperty (GCU_PROP_SPACE_GROUP, sp->GetHallName ().c_str ());
 	} else {
 		SpaceGroup const *sp = SpaceGroup::Find (group);
 		if (sp)
