@@ -836,8 +836,15 @@ bool CrystalDoc::Loaded () throw (LoaderError)
 		m_alpha = m_beta = m_gamma  = 90;
 		break;
 	case rhombohedral:
-		m_beta = m_gamma = m_alpha;
-		m_b = m_c = m_a;
+		if (m_alpha != 90) {
+			m_beta = m_gamma = m_alpha;
+			m_b = m_c = m_a;
+		} else {
+			// looks like the usual convention, at least in CIF files.
+			m_alpha = m_beta = 90;
+			m_gamma  = 120;
+			m_b = m_a;
+		}
 		break;
 	case monoclinic:
 	case base_centered_monoclinic:
@@ -909,11 +916,12 @@ bool CrystalDoc::SetProperty (unsigned property, char const *value)
 			}
 		else if (id <= 142)
 			m_lattice = (type == 'P')? tetragonal: body_centered_tetragonal;
-		else if (id <= 167)
-			m_lattice = rhombohedral;
-		else if (id <= 194)
-			m_lattice = hexagonal;
-		else {
+		else if (id <= 194) {
+			if (id == 146 || id == 148 || id == 155 || id == 160 || id == 161 || id == 166 || id == 167)
+				m_lattice = rhombohedral;
+			else
+				m_lattice = hexagonal;
+		} else {
 			switch (type) {
 			case 'P':
 				m_lattice = cubic;

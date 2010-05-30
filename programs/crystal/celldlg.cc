@@ -198,9 +198,9 @@ cubic_end:
 		gtk_widget_set_sensitive (GTK_WIDGET (C), false);
 		break;
 	case hexagonal:
-		if (!spg || spg->GetId () < 168 || spg->GetId () > 194)
+		if (!spg || spg->GetId () < 143 || spg->GetId () > 194)
 			id = 168;
-		gtk_adjustment_set_lower (SpaceGroupAdj, 168);
+		gtk_adjustment_set_lower (SpaceGroupAdj, 143);
 		gtk_adjustment_set_upper (SpaceGroupAdj, 194);
 		gtk_entry_set_text (Alpha, "90");
 		gtk_entry_set_text (Beta, "90");
@@ -258,10 +258,10 @@ orthorhombic_end:
 		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
 		break;
 	case rhombohedral:
-		if (!spg || spg->GetId () < 143 || spg->GetId () > 167)
-			id = 143;
+		if (!spg || spg->GetId () < 143 || spg->GetId () > 194)
+			id = 146;
 		gtk_adjustment_set_lower (SpaceGroupAdj, 143);
-		gtk_adjustment_set_upper (SpaceGroupAdj, 167);
+		gtk_adjustment_set_upper (SpaceGroupAdj, 194);
 		gtk_widget_set_sensitive (GTK_WIDGET (Alpha), true);
 		gtk_widget_set_sensitive (GTK_WIDGET (Beta), false);
 		gtk_widget_set_sensitive (GTK_WIDGET (Gamma), false);
@@ -299,6 +299,8 @@ monoclinic_end:
 		break;
 	}
 	g_signal_handler_block (SpaceGroup, SpaceGroupSignal);
+	if (id != spg->GetId ())
+		spg = NULL;
 	gtk_spin_button_set_value (SpaceGroup, (spg)? spg->GetId (): id);
 	g_signal_handler_unblock (SpaceGroup, SpaceGroupSignal);
 }
@@ -308,6 +310,13 @@ void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
 	g_signal_handler_block (dlg->TypeMenu, dlg->TypeSignal);
 	unsigned id = gtk_spin_button_get_value_as_int (btn);
 	std::string name = SpaceGroup::GetSpaceGroup (id)->GetHMName ();
+	if (id > 142 && id < 195) {
+		if (id == 146 || id == 148 || id == 155 || id == 160 || id == 161 || id == 166 || id == 167)
+			gtk_combo_box_set_active (dlg->TypeMenu, rhombohedral);
+		else
+			gtk_combo_box_set_active (dlg->TypeMenu, hexagonal);
+		return;
+	}
 	switch (name[0]) {
 	case 'P':
 		if (id > 2) {
@@ -359,6 +368,7 @@ void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
 		break;
 	default:
 		if (id > 2) {
+					gtk_combo_box_set_active (dlg->TypeMenu, rhombohedral);
 			if (id > 16) {
 				// orthorhombic
 				gtk_combo_box_set_active (dlg->TypeMenu, base_centered_orthorhombic);

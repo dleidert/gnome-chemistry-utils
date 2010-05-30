@@ -171,6 +171,27 @@ void SpaceGroup::AddTransform(const string &s)
 			neg = false;
 			while (j < row.length ()) {
 				switch (row[j]) {
+				case '.':
+				case '0': { // anticipating something like 0.5 or .33333
+					char *end;
+					double *t = NULL;
+					switch (i) {
+					case 0:
+						t = &v.GetRefX ();
+						break;
+					case 1:
+						t = &v.GetRefY ();
+						break;
+					case 2:
+						t = &v.GetRefZ ();
+						break;
+					}
+					*t = g_ascii_strtod (row.c_str () + j, &end);
+ 					j = end - row.c_str() - 1;
+					if (neg)
+						*t = -*t;
+					break;
+				}
 				case '1':
 				case '2':
 				case '3':
@@ -190,6 +211,8 @@ void SpaceGroup::AddTransform(const string &s)
 							break;
 						}
 						*t = ((double) (row[j] - '0')) / (row[j+2] - '0');
+						if (neg)
+							*t = -*t;
 					}
 					j +=2;
 					break;
