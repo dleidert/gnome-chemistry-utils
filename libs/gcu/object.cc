@@ -23,6 +23,7 @@
 #include "config.h"
 #include "object.h"
 #include "objprops.h"
+#include "application.h"
 #include "dialog.h"
 #include "document.h"
 #include <glib/gi18n.h>
@@ -36,22 +37,13 @@ using namespace std;
 namespace gcu
 {
 
-class TypeDesc
+TypeDesc::TypeDesc ()
 {
-public:
-	TypeDesc ();
+	Id = NoType;
+	Create = NULL;
+}
 
-	TypeId Id;
-	Object* (*Create) ();
-	set <TypeId> PossibleChildren;
-	set <TypeId> PossibleParents;
-	set <TypeId> RequiredChildren;
-	set <TypeId> RequiredParents;
-	string CreationLabel;
-	list<BuildMenuCb> MenuCbs;
-};
-
-static map<string, TypeDesc> Types;
+static map<string, TypeId> Types;
 static vector<string> TypeNames;
 
 Object::Object (TypeId Id):
@@ -150,6 +142,12 @@ Document* Object::GetDocument () const
 	while (object && (object->m_Type != DocumentType))
 		object = object->m_Parent;
 	return const_cast <Document *> (reinterpret_cast <Document const *> (object));
+}
+
+Application* Object::GetApplication () const
+{
+	Document *doc = GetDocument ();
+	return (doc)? doc->GetApp (): Application::GetDefaultApplication ();
 }
 
 Object* Object::GetParentOfType (TypeId Id) const
@@ -392,11 +390,8 @@ void Object::Transform2D(Matrix2D& m, double x, double y)
 
 bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
 {
-	bool result = false;
-	TypeDesc& typedesc = Types[TypeNames[m_Type]];
-	list<BuildMenuCb>::iterator i, end = typedesc.MenuCbs.end ();
-	for (i = typedesc.MenuCbs.begin (); i != end; i++)
-		result |= (*i) (this, UIManager, object, x, y);
+	Application *app = GetApplication ();
+	bool result = (app)? app->BuildObjectContextualMenu (this, UIManager, object, x, y): false;
 	return result | ((m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false);
 }
 
@@ -441,60 +436,34 @@ double Object::GetYAlign ()
 	return 0.0;
 }
 
-static TypeId NextType = OtherType;
-
-TypeDesc::TypeDesc ()
-{
-	Id = NoType;
-	Create = NULL;
-}
-
 TypeId Object::AddType (string TypeName, Object* (*Create) (), TypeId id)
 {
-	TypeDesc& typedesc = Types[TypeName];
-	typedesc.Create = Create;
-	if (id == OtherType) {
-		typedesc.Id = NextType;
-		NextType = TypeId ((unsigned) NextType + 1);
-	} else
-		typedesc.Id = id;
-	if (TypeNames.size () <= typedesc.Id) {
-		size_t max = (((size_t) typedesc.Id / 10) + 1) * 10;
-		TypeNames.resize (max);
-	}
-	TypeNames.at (typedesc.Id) = TypeName;
-	return typedesc.Id;
+	return Application::GetDefaultApplication ()->AddType (TypeName, Create, id);
 }
 
 void Object::AddAlias (TypeId id, std::string TypeName)
 {
-	if (id > TypeNames.size ())
-		return;
-	string &name = TypeNames[id];
-	if (name.length () == 0)
-		return;
-	Types[TypeName] = Types[name];
+	if (TypeNames.size () <= id) {
+		size_t max = (((size_t) id / 10) + 1) * 10;
+		TypeNames.resize (max);
+		TypeNames[id] = TypeName;
+	} else {
+		string &name = TypeNames[id];
+		if (name.length () == 0)
+			TypeNames[id] = TypeName;
+	}
+	Types[TypeName] = id;
 }
 
 Object* Object::CreateObject (const string& TypeName, Object* parent)
 {
-	TypeDesc& typedesc = Types[TypeName];
-	Object* pObj = (typedesc.Create)? typedesc.Create (): NULL;
-	if (parent && pObj) {
-		if (pObj->m_Id) {
-			char* newId = parent->GetDocument ()->GetNewId (pObj->m_Id, false);
-			pObj->SetId (newId);
-			delete [] newId;
-		}
-		parent->AddChild (pObj);
-	}
-	return pObj;
+	Application *app = (parent)? parent->GetApplication (): NULL;
+	return (app)? app->CreateObject (TypeName, parent): Application::GetDefaultApplication ()->CreateObject (TypeName, parent);
 }
 
 TypeId Object::GetTypeId (const string& Name)
 {
-	TypeDesc& typedesc = Types[Name];
-	TypeId res = typedesc.Id;
+	TypeId res = Types[Name];
 	if (res == NoType)
 		Types.erase (Name);
 	return res;
@@ -512,32 +481,7 @@ void Object::AddRule (TypeId type1, RuleId rule, TypeId type2)
 
 void Object::AddRule (const string& type1, RuleId rule, const string& type2)
 {
-	if (!type1.size() || !type2.size ())
-		return;
-	TypeDesc& typedesc1 = Types[type1];
-	if (typedesc1.Id == NoType) {
-		Types.erase (type1);
-		return;
-	}
-	TypeDesc& typedesc2 = Types[type2];
-	if (typedesc2.Id == NoType) {
-		Types.erase (type2);
-		return;
-	}
-	switch (rule) {
-	case RuleMustContain:
-		typedesc1.RequiredChildren.insert (typedesc2.Id);
-	case RuleMayContain:
-		typedesc1.PossibleChildren.insert (typedesc2.Id);
-		typedesc2.PossibleParents.insert (typedesc1.Id);
-		break;
-	case RuleMustBeIn:
-		typedesc1.RequiredParents.insert (typedesc2.Id);
-	case RuleMayBeIn:
-		typedesc2.PossibleChildren.insert (typedesc1.Id);
-		typedesc1.PossibleParents.insert (typedesc2.Id);
-		break;
-	}
+	Application::GetDefaultApplication ()->AddRule (type1, rule, type2);
 }
 
 const set<TypeId>& Object::GetRules (TypeId type, RuleId rule)
@@ -547,52 +491,37 @@ const set<TypeId>& Object::GetRules (TypeId type, RuleId rule)
 
 const set<TypeId>& Object::GetRules (const string& type, RuleId rule)
 {
-	static set<TypeId> noId;
-	TypeDesc& typedesc = Types[type];
-	switch (rule) {
-	case RuleMustContain:
-		return typedesc.RequiredChildren;
-	case RuleMayContain:
-		return typedesc.PossibleChildren;
-	case RuleMustBeIn:
-		return typedesc.RequiredParents;
-	case RuleMayBeIn:
-		return typedesc.PossibleParents;
-	default:
-		return noId;
-	}
-	return noId;
+	return Application::GetDefaultApplication ()->GetRules (type, rule);
 }
 
-static void AddAncestorTypes (TypeId type, set<TypeId>& types)
+static void AddAncestorTypes (Application *app, TypeId type, set<TypeId>& types)
 {
-	const set<TypeId>& new_types = Object::GetRules (type, RuleMayBeIn);
+	const set<TypeId>& new_types = app->GetRules (type, RuleMayBeIn);
 	set<TypeId>::iterator i = new_types.begin (), end = new_types.end ();
 	for (; i != end; i++) {
 		types.insert (*i);
-		AddAncestorTypes (*i, types);
+		AddAncestorTypes (app, *i, types);
 	}
 }
 
 void Object::GetPossibleAncestorTypes (set<TypeId>& types) const
 {
-	AddAncestorTypes (m_Type, types);
+	AddAncestorTypes (GetApplication (), m_Type, types);
 }
 
 void Object::SetCreationLabel (TypeId Id, string Label)
 {
-	TypeDesc& type = Types[TypeNames[Id]];
-	type.CreationLabel = Label;
+	Application::GetDefaultApplication ()->SetCreationLabel (Id, Label);
 }
 
 const string& Object::GetCreationLabel (TypeId Id)
 {
-	return Types[TypeNames[Id]].CreationLabel;
+	return Application::GetDefaultApplication ()->GetCreationLabel (Id);
 }
 
 const string& Object::GetCreationLabel (const string& TypeName)
 {
-	return Types[TypeName].CreationLabel;
+	return Application::GetDefaultApplication ()->GetCreationLabel (TypeName);
 }
 
 static SignalId NextSignal = 0;
@@ -658,8 +587,7 @@ void Object::Lock (bool state)
 
 void Object::AddMenuCallback (TypeId Id, BuildMenuCb cb)
 {
-	TypeDesc& typedesc = Types[TypeNames[Id]];
-	typedesc.MenuCbs.push_back (cb);
+	Application::GetDefaultApplication ()->AddMenuCallback (Id, cb);
 }
 
 bool Object::SetProperty (G_GNUC_UNUSED unsigned property, G_GNUC_UNUSED char const *value)

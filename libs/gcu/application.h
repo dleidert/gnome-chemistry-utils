@@ -27,6 +27,7 @@
 
 #include "dialog-owner.h"
 #include "structs.h"
+#include "object.h"
 #include <list>
 #include <map>
 #include <set>
@@ -39,6 +40,7 @@ namespace gcu {
 class Document;
 class Dialog;
 struct option_data;
+class TypeDesc;
 
 /*!
 Window states
@@ -274,6 +276,104 @@ Application available.
 */
 	static Application *GetDefaultApplication ();
 
+	// Object creation related methods
+/*!
+@param TypeName the name of the new type.
+@param CreateFunc a pointer to a function returning a pointer to a new object of the new type.
+@param id the Id of the type to create if a standard one or OtherType for a new type. In this last case, this parameter
+can be omitted.
+
+This method is used to register a new type derived from Object.
+@return the Id of the new type.
+*/
+	TypeId AddType (std::string TypeName, Object* (*CreateFunc) (), TypeId id = OtherType);
+
+/*!
+@param TypeName the name of the new type.
+@param parent the parent of the newly created object or NULL. if NULL, the parameter can be omitted.
+
+Used to create an object of type name TypeName. The Object::AddType method must have been called with the same
+TypeName parameter. if parent is given and not NULL, the new Object will be a child of parent.
+It will also be given a default Id.
+
+@return a pointer to the newly created Object or NULL if the Object could not be created.
+*/
+	Object* CreateObject (const std::string& TypeName, Object* parent = NULL);
+
+/*!
+@param UIManager the GtkUIManager to populate.
+@param object the Object on which occured the mouse click.
+@param x x coordinate of the mouse click.
+@param y y coordinate of the mouse click.
+
+This method is called to build a contextual menu for the object. It is called by Object::BuildContextualMenu, so
+it should not be necessary to call it directly.
+@return true if something is added to the UIManager, false otherwise.
+*/
+	bool BuildObjectContextualMenu (Object *target, GtkUIManager *UIManager, Object *object, double x, double y);
+/*!
+@param type1 the TypeId of the first class in the rule
+@param rule the new rule value
+@param type2 the TypeId of the second class in the rule
+
+Adds a rule.
+*/
+	void AddRule (TypeId type1, RuleId rule, TypeId type2);
+/*!
+@param type1 the name of the first class in the rule
+@param rule the new rule value
+@param type2 the name of the second class in the rule
+
+Adds a rule.
+*/
+	void AddRule (const std::string& type1, RuleId rule, const std::string& type2);
+/*!
+@param type the TypeId of a class
+@param rule a RuleId value
+
+@return the set of rules correponding to the RuleId value for this class.
+*/
+	 const std::set<TypeId>& GetRules (TypeId type, RuleId rule);
+
+/*!
+@param type the name of a class
+@param rule a RuleId value
+
+@return the set of rules correponding to the RuleId value for this class.
+*/
+	const std::set<TypeId>& GetRules (const std::string& type, RuleId rule);
+
+/*!
+@param Id the TypeId of a class
+@param Label the string to display in a contextual menu
+
+Used to give a label for contextual menus used when the creation of an instance of
+the class seems possible.
+*/
+	void SetCreationLabel (TypeId Id, std::string Label);
+
+/*!
+@param Id the TypeId of a class
+
+@return the string defined by SetCreationLabel.
+*/
+	const std::string& GetCreationLabel (TypeId Id);
+
+/*!
+@param TypeName the name of a class
+
+@return the string defined by SetCreationLabel.
+*/
+	const std::string& GetCreationLabel (const std::string& TypeName);
+
+/*!
+@param Id the TypeId of the Object derived class
+@param cb the BuildMenuCb callback to call when building the menu.
+
+adds a callback for modifying the contextual menu of objects of type Id.
+*/
+	void AddMenuCallback (TypeId Id, BuildMenuCb cb);
+
 protected:
 
 /*!
@@ -297,6 +397,7 @@ private:
 	static GOConfNode *m_ConfDir;
 	std::list<option_data> m_Options;
 	static WindowState DefaultWindowState;
+	std::map<TypeId, TypeDesc> m_Types;
 
 protected:
 /*!

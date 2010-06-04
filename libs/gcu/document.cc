@@ -51,7 +51,7 @@ Document::~Document ()
 		m_App->RemoveDocument (this);
 }
 
-gchar* Document::GetNewId (gchar* id, bool Cache)
+char* Document::GetNewId (char const *id, bool Cache)
 {
 	gchar *Id = g_strdup (id);
 	int i = 0;

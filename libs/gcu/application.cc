@@ -47,6 +47,7 @@ GOConfNode *Application::m_ConfDir = NULL;
 
 static set<Application *> Apps;
 WindowState Application::DefaultWindowState = NormalWindowState;
+static Application *Default = NULL;
 
 class ApplicationPrivate
 {
@@ -124,6 +125,8 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	}
 	g_slist_free (formats);
 	RegisterOptions (options);
+	if (Default == NULL)
+		Default = this;
 }
 
 Application::~Application ()
@@ -359,10 +362,139 @@ void Application::AddOptions (GOptionContext *context)
 
 Application *Application::GetDefaultApplication ()
 {
-	static Application *Default = NULL;
 	if (!Default)
 		Default = new Application ("gcu"); // the name is just arbitrary
 	return Default;
+}
+
+static TypeId NextType = OtherType;
+
+TypeId Application::AddType (std::string TypeName, Object* (*Create) (), TypeId id)
+{
+	map <TypeId, TypeDesc *>::iterator i;
+	TypeId Id = Object::GetTypeId (TypeName);
+	if (Id != NoType)
+		id = Id;
+	if (id == OtherType) {
+		id = NextType;
+		NextType = TypeId ((unsigned) NextType + 1);
+	}
+	if (Object::GetTypeId (TypeName) != id)
+		Object::AddAlias (id, TypeName);
+	TypeDesc &typedesc = m_Types[id];
+	typedesc.Id = id;
+	typedesc.Create = Create;
+	return typedesc.Id;
+}
+
+Object* Application::CreateObject (const std::string& TypeName, Object* parent)
+{
+	TypeDesc &typedesc = m_Types[Object::GetTypeId (TypeName)];
+	Object* obj = (typedesc.Create)? typedesc.Create (): NULL;
+	if (obj) {
+		if (parent) {
+			char const *id = obj->GetId ();
+			if (id) {
+				char* newId = parent->GetDocument ()->GetNewId (id, false);
+				obj->SetId (newId);
+				delete [] newId;
+			}
+			parent->AddChild (obj);
+		}
+		obj->m_TypeDesc = &typedesc;
+	}
+	return obj;
+}
+
+bool Application::BuildObjectContextualMenu (Object *target, GtkUIManager *UIManager, Object *object, double x, double y)
+{
+	bool result = false;
+	TypeDesc *typedesc = target->m_TypeDesc;
+	if (!typedesc)
+		return false;
+	list<BuildMenuCb>::iterator i, end = typedesc->MenuCbs.end ();
+	for (i = typedesc->MenuCbs.begin (); i != end; i++)
+		result |= (*i) (target, UIManager, object, x, y);
+	return result;
+}
+
+void Application::AddRule (const string& type1, RuleId rule, const string& type2)
+{
+	AddRule (Object::GetTypeId (type1), rule, Object::GetTypeId (type2));
+}
+
+void Application::AddRule (TypeId type1, RuleId rule, TypeId type2)
+{
+	TypeDesc& typedesc1 = m_Types[type1];
+	if (typedesc1.Id == NoType) {
+		m_Types.erase (type1);
+		return;
+	}
+	TypeDesc& typedesc2 = m_Types[type2];
+	if (typedesc2.Id == NoType) {
+		m_Types.erase (type2);
+		return;
+	}
+	switch (rule) {
+	case RuleMustContain:
+		typedesc1.RequiredChildren.insert (typedesc2.Id);
+	case RuleMayContain:
+		typedesc1.PossibleChildren.insert (typedesc2.Id);
+		typedesc2.PossibleParents.insert (typedesc1.Id);
+		break;
+	case RuleMustBeIn:
+		typedesc1.RequiredParents.insert (typedesc2.Id);
+	case RuleMayBeIn:
+		typedesc2.PossibleChildren.insert (typedesc1.Id);
+		typedesc1.PossibleParents.insert (typedesc2.Id);
+		break;
+	}
+}
+
+const set<TypeId>& Application::GetRules (const string& type, RuleId rule)
+{
+	return GetRules (Object::GetTypeId (type), rule);
+}
+
+const set<TypeId>& Application::GetRules (TypeId type, RuleId rule)
+{
+	static set <TypeId> noId;
+	TypeDesc& typedesc = m_Types[type];
+	switch (rule) {
+	case RuleMustContain:
+		return typedesc.RequiredChildren;
+	case RuleMayContain:
+		return typedesc.PossibleChildren;
+	case RuleMustBeIn:
+		return typedesc.RequiredParents;
+	case RuleMayBeIn:
+		return typedesc.PossibleParents;
+	default:
+		return noId;
+	}
+	return noId;
+}
+
+void Application::SetCreationLabel (TypeId Id, string Label)
+{
+	TypeDesc &type = m_Types[Id];
+	type.CreationLabel = Label;
+}
+
+const string& Application::GetCreationLabel (TypeId Id)
+{
+	return m_Types[Id].CreationLabel;
+}
+
+const string& Application::GetCreationLabel (const string& TypeName)
+{
+	return m_Types[Object::GetTypeId (TypeName)].CreationLabel;
+}
+
+void Application::AddMenuCallback (TypeId Id, BuildMenuCb cb)
+{
+	TypeDesc& typedesc = m_Types[Id];
+	typedesc.MenuCbs.push_back (cb);
 }
 
 }	//	namespace gcu

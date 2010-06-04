@@ -43,6 +43,7 @@ namespace gcu
 {
 
 class Dialog;
+class Application;
 
 /*!\enum GcuTypeId
 This enumeration is used to determine the type of an Object instance.
@@ -106,6 +107,23 @@ The type of callbacks for adding new items to the contextual menu of an object.
 */
 typedef bool (*BuildMenuCb) (Object *target, GtkUIManager *UIManager, Object *object, double x, double y);
 
+class TypeDesc
+{
+public:
+	TypeDesc ();
+
+	TypeId Id;
+	Object* (*Create) ();
+	std::set <TypeId> PossibleChildren;
+	std::set <TypeId> PossibleParents;
+	std::set <TypeId> RequiredChildren;
+	std::set <TypeId> RequiredParents;
+	std::string CreationLabel;
+	std::list <BuildMenuCb> MenuCbs;
+};
+
+class Object;
+
 /*!\enum RuleId
 This enumeration is used to maintain a set of rules about the possible
 hierarchical of the document. They are used with two class names or ids.
@@ -139,6 +157,7 @@ This is the base class for most other objects in the gcu namespace.
 */
 class Object
 {
+friend class Application;
 public:
 /*!
 Used to create an object of type Id. Should only be called from the constructor of a derived class.
@@ -163,7 +182,7 @@ the Object::AddType method.
 /*!
 	@return the Id of the Object instance.
 */
-	gchar const *GetId () const {return m_Id;}
+	char const *GetId () const {return m_Id;}
 /*!
 	@param object the Object instance to add as a child.
 	
@@ -201,6 +220,12 @@ the Object::AddType method.
 	the Objects tree (only one should be found) or NULL if none is found.
 */
 	Document* GetDocument () const;
+/*!
+	Used to get the Application owning the Object. 
+	
+	@return the Application owning the Object or NULL.
+*/
+	Application* GetApplication () const;
 /*!
 @param Id the type of the ancestor searched.
 
@@ -548,6 +573,9 @@ Exposes the gcu::Dialog related to the object properties if it exists.
 can be omitted.
 
 This method is used to register a new type derived from Object.
+
+This method is deprecated, use Application::AddType() instead.
+
 @return the Id of the new type.
 */
 	static TypeId AddType (std::string TypeName, Object* (*CreateFunc) (), TypeId id = OtherType);
@@ -567,6 +595,8 @@ This method is used to add an alternative name to an existing type.
 Used to create an object of type name TypeName. The Object::AddType method must have been called with the same
 TypeName parameter. if parent is given and not NULL, the new Object will be a child of parent.
 It will also be given a default Id.
+
+This method is deprecated, use Application::CreateObject() instead.
 
 @return a pointer to the newly created Object or NULL if the Object could not be created.
 */
@@ -591,6 +621,8 @@ It will also be given a default Id.
 @param cb the BuildMenuCb callback to call when building the menu.
 
 adds a callback for modifying the contextual menu of objects of type Id.
+
+This method is deprecated, use Application::AddMenuCallback() instead.
 */
 	static void AddMenuCallback (TypeId Id, BuildMenuCb cb);
 
@@ -598,6 +630,8 @@ adds a callback for modifying the contextual menu of objects of type Id.
 @param type1 the TypeId of the first class in the rule
 @param rule the new rule value
 @param type2 the TypeId of the second class in the rule
+
+This method is deprecated, use Application::AddRule() instead.
 
 Adds a rule.
 */
@@ -608,6 +642,8 @@ Adds a rule.
 @param rule the new rule value
 @param type2 the name of the second class in the rule
 
+This method is deprecated, use Application::AddRule() instead.
+
 Adds a rule.
 */
 	static void AddRule (const std::string& type1, RuleId rule, const std::string& type2);
@@ -616,6 +652,8 @@ Adds a rule.
 @param type the TypeId of a class
 @param rule a RuleId value
 
+This method is deprecated, use Application::GetRules() instead.
+
 @return the set of rules correponding to the RuleId value for this class.
 */
 	static  const std::set<TypeId>& GetRules (TypeId type, RuleId rule);
@@ -623,6 +661,8 @@ Adds a rule.
 /*!
 @param type the name of a class
 @param rule a RuleId value
+
+This method is deprecated, use Application::GetRules() instead.
 
 @return the set of rules correponding to the RuleId value for this class.
 */
@@ -634,11 +674,15 @@ Adds a rule.
 
 Used to give a label for contextual menus used when the creation of an instance of
 the class seems possible.
+
+This method is deprecated, use Application::SetCreationLabel() instead.
 */
 	static void SetCreationLabel (TypeId Id, std::string Label);
 
 /*!
 @param Id the TypeId of a class
+
+This method is deprecated, use Application::GetCreationLabel() instead.
 
 @return the string defined by SetCreationLabel.
 */
@@ -646,6 +690,8 @@ the class seems possible.
 
 /*!
 @param TypeName the name of a class
+
+This method is deprecated, use Application::GetCreationLabel() instead.
 
 @return the string defined by SetCreationLabel.
 */
@@ -666,11 +712,12 @@ private:
 	Object* RealGetDescendant (const gchar* Id) const;
 
 private:
-	gchar* m_Id;
+	char* m_Id;
 	TypeId m_Type;
 	Object *m_Parent;
 	std::map<std::string, Object*> m_Children; //string is Id of object, so each object must have an Id
 	std::set<Object*> m_Links; //objects linked to this but outside of the hierarchy
+	TypeDesc *m_TypeDesc;
 
 private:
 /*!

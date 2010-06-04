@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-06-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/application.cc: make object creation a per application mechanism.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/document.cc: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+	* plugins/paint/residues/plugin.cc: ditto.
+
 2010-05-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystaldoc.cc: mix rhombohedral with hexagonal to be more or
 	less consistent with cif files.

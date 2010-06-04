@@ -55,6 +55,7 @@ This class is the base document class.
 */
 class Document: public Object, virtual public DialogOwner
 {
+friend class Application;
 friend class Object;
 friend class Dialog;
 public:
@@ -183,7 +184,7 @@ maintains a table to update links using Ids as identifiers. If Cache is set to t
 the table.
 GetNewId returns the translated id
 */
-	gchar* GetNewId (gchar* id, bool Cache = true);
+	char* GetNewId (char const *id, bool Cache = true);
 
 private:
 	std::map <std::string, std::string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
