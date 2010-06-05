@@ -75,7 +75,7 @@ The destructor.
 Loads data GChemPaint specific data from \a node, and calls
 gcu::Residue::Load().
 */
-	void Load (xmlNodePtr node, bool ro);
+	void Load (xmlNodePtr node, bool ro, gcu::Application *app);
 /*!
 @param mol the molecule to compare to the residue.
 

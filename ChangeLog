@@ -1,5 +1,29 @@
 ##Text encoding: utf-8
 
+2010-06-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: use gcu::Application::CreateObject().
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/fragment-residue.cc: ditto.
+	* libs/gcp/residue.cc: ditto.
+	* libs/gcp/residue.h: ditto.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/chem3ddoc.cc: ditto.
+	* libs/gcu/gcucrystalviewer.cc: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+	* libs/gcu/residue.cc: ditto.
+	* libs/gcu/residue.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/paint/arrows/plugin.cc: ditto.
+	* plugins/paint/atoms/plugin.cc: ditto.
+	* plugins/paint/residues/plugin.cc: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/selection/plugin.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+
 2010-06-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/application.cc: make object creation a per application mechanism.
 	* libs/gcu/application.h: ditto.

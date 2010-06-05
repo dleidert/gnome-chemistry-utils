@@ -103,14 +103,15 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 		mime_type = g_file_info_get_content_type(info);
 	// try using the loader mechanism
 	Application *app = GetApp ();
-	Object *obj = Object::CreateObject ("atom", this);
+	Object *obj = app->CreateObject ("atom", this);
 	if (obj)
 		delete obj;
 	else {
 		gcu::Loader::Init (); // can be called many times
-		Object::AddType ("atom", CreateAtom, AtomType);
-		Object::AddType ("bond", CreateBond, BondType);
-		Object::AddType ("molecule", CreateMolecule, MoleculeType);
+		Application *app = GetApp ();
+		app->AddType ("atom", CreateAtom, AtomType);
+		app->AddType ("bond", CreateBond, BondType);
+		app->AddType ("molecule", CreateMolecule, MoleculeType);
 	}
 	string filename = uri;
 	Clear ();

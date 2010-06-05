@@ -34,6 +34,7 @@
 /*!\file*/
 namespace gcu {
 
+class Application;
 class Residue;
 class Molecule;
 class Document;
@@ -129,7 +130,7 @@ Removes \a symbol from the list of valid symbols for the atoms group.
 
 loads the residu from an XML file.
 */
-	virtual void Load (xmlNodePtr node);
+	virtual void Load (xmlNodePtr node, Application *app);
 /*!
 @param symbol the symbol for which a Residue* is searched.
 @param ambiguous where to store the boolean telling if the symbol is ambiguous

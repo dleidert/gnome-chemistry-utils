@@ -42,7 +42,6 @@ static Object* CreateGroup ()
 
 gcpSelectionPlugin::gcpSelectionPlugin(): gcp::Plugin()
 {
-	GroupType = Object::AddType ("group", CreateGroup);
 }
 
 gcpSelectionPlugin::~gcpSelectionPlugin()
@@ -87,6 +86,7 @@ static const char *ui_description =
 
 void gcpSelectionPlugin::Populate (gcp::Application* App)
 {
+	GroupType = App->AddType ("group", CreateGroup);
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
 	App->RegisterToolbar ("SelectToolbar", 0);
 	new gcpSelectionTool (App);

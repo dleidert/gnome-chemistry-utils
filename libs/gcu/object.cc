@@ -53,6 +53,7 @@ Object::Object (TypeId Id):
 	m_Id = NULL;
 	m_Parent = NULL;
 	m_Locked = 0;
+	m_TypeDesc = NULL;
 }
 
 Object::~Object ()
@@ -189,6 +190,11 @@ void Object::AddChild (Object* object)
 	}
 	object->m_Parent = this;
 	m_Children[object->m_Id] = object;
+	if (object->m_TypeDesc == NULL) {
+		Application *App = pDoc->GetApp ();
+		if (App)
+			object->m_TypeDesc = App->GetTypeDescription (object->m_Type);
+	}
 }
 
 void Object::SetParent (Object* Parent)

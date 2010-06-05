@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "molecule.h"
+#include "application.h"
 #include "atom.h"
 #include "bond.h"
 #include "chain.h"
@@ -193,7 +194,8 @@ bool Molecule::operator== (Molecule const& molecule) const
 
 Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, bool add_pseudo)
 {
-	Molecule *mol = reinterpret_cast <Molecule*> (Object::CreateObject ("molecule", Doc));
+	Application *app = Doc->GetApp ();
+	Molecule *mol = reinterpret_cast <Molecule*> (app->CreateObject ("molecule", Doc));
 	if (!mol)
 		return NULL;
 	stack <Atom*> atoms;
@@ -314,21 +316,21 @@ Molecule *Molecule::MoleculeFromFormula (Document *Doc, Formula const &formula, 
 			delete mol;
 			return NULL;
 		}
-		atom = reinterpret_cast <Atom*> (Object::CreateObject ("pseudo-atom", mol));
-		bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
+		atom = reinterpret_cast <Atom*> (app->CreateObject ("pseudo-atom", mol));
+		bond = reinterpret_cast <Bond*> (app->CreateObject ("bond", mol));
 		bond->SetOrder (1);
 		bond->ReplaceAtom (NULL, atom);
 		if (PendingAtoms.size () > 0)
 			atom = PendingAtoms.top ();
 		else {
-			atom = reinterpret_cast <Atom*> (Object::CreateObject ("atom", mol));
+			atom = reinterpret_cast <Atom*> (app->CreateObject ("atom", mol));
 			atom->SetZ (1);
 		}
 		bond->ReplaceAtom (NULL, atom);
 		atom->AddBond (bond);
 		PendingAtoms.pop ();
 	} else if (PendingHs + PendingAtoms.size () == 2) {
-		bond = reinterpret_cast <Bond*> (CreateObject ("bond", mol));
+		bond = reinterpret_cast <Bond*> (app->CreateObject ("bond", mol));
 		bond->ReplaceAtom (NULL, PendingAtoms.top ());
 		PendingAtoms.pop ();
 		bond->ReplaceAtom (NULL, PendingAtoms.top ());

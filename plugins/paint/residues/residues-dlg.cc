@@ -322,7 +322,7 @@ void gcpResiduesDlg::Add ()
 	xmlKeepBlanksDefault (0);
 	xmlSaveFormatFile ((char*) user_residues->URL, user_residues, true);
 	xmlFreeDoc (xml);
-	m_Residue->Load (node, false);
+	m_Residue->Load (node, false, m_App);
 	gtk_combo_box_set_active (m_CurBox, n);
 }
 

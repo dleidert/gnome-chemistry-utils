@@ -52,10 +52,6 @@ static Object* CreateRetrosynthesisStep ()
 
 gcpArrowsPlugin::gcpArrowsPlugin (): gcp::Plugin ()
 {
-	RetrosynthesisType = Object::AddType ("retrosynthesis", CreateRetrosynthesis);
-	Object::SetCreationLabel (RetrosynthesisType, _("Create a new retrosynthesis pathway"));
-	RetrosynthesisArrowType = Object::AddType ("retrosynthesis-arrow", CreateRetrosynthesisArrow);
-	RetrosynthesisStepType = Object::AddType ("retrosynthesis-step", CreateRetrosynthesisStep);
 }
 
 gcpArrowsPlugin::~gcpArrowsPlugin ()
@@ -107,6 +103,10 @@ static const char *ui_description =
 
 void gcpArrowsPlugin::Populate (gcp::Application* App)
 {
+	RetrosynthesisType = App->AddType ("retrosynthesis", CreateRetrosynthesis);
+	App->SetCreationLabel (RetrosynthesisType, _("Create a new retrosynthesis pathway"));
+	RetrosynthesisArrowType = App->AddType ("retrosynthesis-arrow", CreateRetrosynthesisArrow);
+	RetrosynthesisStepType = App->AddType ("retrosynthesis-step", CreateRetrosynthesisStep);
 	GOConfNode *node = go_conf_get_node (gcu::Application::GetConfDir (), "paint/plugins/arrows");
 	bool FullHeads = go_conf_get_bool (node, "full-arrows-heads");
 	go_conf_free_node (node);
@@ -118,10 +118,10 @@ void gcpArrowsPlugin::Populate (gcp::Application* App)
 	new gcpArrowTool (App, gcpDoubleQueuedArrow);
 	new gcpCurvedArrowTool (App, "CurvedArrow");
 	new gcpCurvedArrowTool (App, "Curved1Arrow");
-	Object::AddRule ("retrosynthesis", RuleMustContain, "retrosynthesis-step");
-	Object::AddRule ("retrosynthesis", RuleMustContain, "retrosynthesis-arrow");
-	Object::AddRule ("retrosynthesis-step", RuleMustContain, "molecule");
-	Object::AddRule ("molecule", RuleMayBeIn, "retrosynthesis-step");
-	Object::AddRule ("retrosynthesis-arrow", RuleMustBeIn, "retrosynthesis");
-	Object::AddRule ("retrosynthesis-step", RuleMustBeIn, "retrosynthesis");
+	App->AddRule ("retrosynthesis", RuleMustContain, "retrosynthesis-step");
+	App->AddRule ("retrosynthesis", RuleMustContain, "retrosynthesis-arrow");
+	App->AddRule ("retrosynthesis-step", RuleMustContain, "molecule");
+	App->AddRule ("molecule", RuleMayBeIn, "retrosynthesis-step");
+	App->AddRule ("retrosynthesis-arrow", RuleMustBeIn, "retrosynthesis");
+	App->AddRule ("retrosynthesis-step", RuleMustBeIn, "retrosynthesis");
 }

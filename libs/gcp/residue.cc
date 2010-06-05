@@ -70,7 +70,7 @@ Residue::~Residue ()
 {
 }
 
-void Residue::Load (xmlNodePtr node, bool ro)
+void Residue::Load (xmlNodePtr node, bool ro, gcu::Application *app)
 {
 	m_ReadOnly = ro;
 	m_Node = node;
@@ -91,7 +91,7 @@ void Residue::Load (xmlNodePtr node, bool ro)
 	static_cast <Document *> (m_Document)->SetLoading (true);
 	m_Molecule->Load (m_MolNode);
 	static_cast <Document *> (m_Document)->SetLoading (false);
-	gcu::Residue::Load (node);
+	gcu::Residue::Load (node, app);
 }
 
 bool Residue::operator== (gcu::Molecule const &mol) const

@@ -1227,7 +1227,7 @@ void Document::LoadObjects (xmlNodePtr node)
 			m_bIsLoading = true;
 			child1 = (strcmp ((const char*) child->name, "object"))? child: child->children;
 			str = (const char*) child1->name;
-			Object* pObject = Object::CreateObject (str, this);
+			Object* pObject = GetApp ()->CreateObject (str, this);
 			pObject->Load (child1);
 			AddObject (pObject);
 			m_pView->Update (pObject);//FIXME: should not be necessary, but solve problem with cyclic double bonds
@@ -1275,7 +1275,7 @@ void Document::AddData (xmlNodePtr node)
 	while (node) {
 		child = (strcmp ((const char*) node->name, "object"))? node: node->children;
 		str = (const char*) child->name;
-		pObject = Object::CreateObject (str, this);
+		pObject = GetApp ()->CreateObject (str, this);
 		AddObject (pObject);
 		if (!pObject->Load (child))
 			Remove (pObject);

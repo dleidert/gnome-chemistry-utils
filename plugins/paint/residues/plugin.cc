@@ -150,7 +150,7 @@ void gcpResiduesPlugin::ParseNodes (xmlNodePtr node, bool writeable)
 	while (node) {
 		if (!strcmp ((char*) node->name, "residue")) {
 			r = new gcp::Residue ();
-			r->Load (node, !writeable);
+			r->Load (node, !writeable, m_App);
 		}
 		node = node->next;
 	}
@@ -198,7 +198,7 @@ void gcpResiduesPlugin::OnNewResidue (gcp::Residue *res)
 			xmlKeepBlanksDefault (0);
 			xmlSaveFormatFile ((char*) user_residues->URL, user_residues, true);
 			xmlFreeDoc (xml);
-			res->Load (node, false);
+			res->Load (node, false, m_App);
 		}
 	}
 	if (dlg)

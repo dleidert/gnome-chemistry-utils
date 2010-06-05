@@ -636,7 +636,7 @@ bool CDXLoader::ReadPage (GsfInput *in, Object *parent)
 bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 {
 	guint16 code;
-	Object *mol = Object::CreateObject ("molecule", parent);
+	Object *mol = parent->GetApplication ()->CreateObject ("molecule", parent);
 	guint32 Id;
 	if (!(READINT32 (in,Id)))
 		return false;
@@ -676,7 +676,7 @@ bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 {
 	guint16 code;
-	Object *Atom = Object::CreateObject ("atom", parent);
+	Object *Atom = parent->GetApplication ()->CreateObject ("atom", parent);
 	Document *Doc = NULL;
 	Atom->SetProperty (GCU_PROP_ATOM_Z, "6");
 	guint32 Id;
@@ -736,7 +736,7 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 								if (mol)
 									mol->Remove (Atom);
 								delete Atom;
-								Atom = Object::CreateObject ("fragment", parent);
+								Atom = parent->GetApplication ()->CreateObject ("fragment", parent);
 								Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
 								snprintf (buf, bufsize, "a%d", Id);
 								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
@@ -765,7 +765,7 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 								if (mol)
 									mol->Remove (Atom);
 								delete Atom;
-								Atom = Object::CreateObject ("fragment", parent);
+								Atom = parent->GetApplication ()->CreateObject ("fragment", parent);
 								Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
 								snprintf (buf, bufsize, "a%d", Id);
 								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
@@ -877,7 +877,7 @@ fragment_success:
 							if (mol)
 								mol->Remove (Atom);
 							delete Atom;
-							Atom = Object::CreateObject ("fragment", parent);
+							Atom = parent->GetApplication ()->CreateObject ("fragment", parent);
 							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
 							snprintf (buf, bufsize, "a%d", Id);
 							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
@@ -894,7 +894,7 @@ fragment_success:
 							if (mol)
 								mol->Remove (Atom);
 							delete Atom;
-							Atom = Object::CreateObject ("fragment", parent);
+							Atom = parent->GetApplication ()->CreateObject ("fragment", parent);
 							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
 							snprintf (buf, bufsize, "a%d", Id);
 							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
@@ -953,7 +953,7 @@ fragment_success:
 					if (mol)
 						mol->Remove (Atom);
 					delete Atom;
-					Atom = Object::CreateObject ("pseudo-atom", parent);
+					Atom = parent->GetApplication ()->CreateObject ("pseudo-atom", parent);
 					snprintf (buf, bufsize, "a%d", Id);
 					Atom->SetId (buf);
 					Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
@@ -979,7 +979,7 @@ bad_exit:
 bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 {
 	guint16 code;
-	Object *Bond = Object::CreateObject ("bond", parent);
+	Object *Bond = parent->GetApplication ()->CreateObject ("bond", parent);
 	guint32 Id;
 	if (!(READINT32 (in,Id)))
 		return false;
@@ -1076,7 +1076,7 @@ typedef struct {
 bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 {
 	guint16 code;
-	Object *Text= Object::CreateObject ("text", parent);
+	Object *Text= parent->GetApplication ()->CreateObject ("text", parent);
 	guint32 Id;
 	guint8 TextAlign = 0xfe, TextJustify = 0xfe;
 	if (!(READINT32 (in,Id)))
@@ -1330,7 +1330,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 bool CDXLoader::ReadGroup (GsfInput *in, Object *parent)
 {
 	guint16 code;
-	Object *Group= Object::CreateObject ("group", parent);
+	Object *Group= parent->GetApplication ()->CreateObject ("group", parent);
 	Group->Lock ();
 	if (gsf_input_seek (in, 4, G_SEEK_CUR)) //skip the id
 		return false;
@@ -1407,20 +1407,20 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 		switch (arrow_type) {
 		case 1:
 		case 2:
-			obj = Object::CreateObject ("reaction-arrow", parent);
+			obj = parent->GetApplication ()->CreateObject ("reaction-arrow", parent);
 			snprintf (buf, bufsize, "ra%d", Id);
 			break;
 		case 4:
-			obj = Object::CreateObject ("mesomery-arrow", parent);
+			obj = parent->GetApplication ()->CreateObject ("mesomery-arrow", parent);
 			snprintf (buf, bufsize, "ma%d", Id);
 			break;
 		case 8:
-			obj = Object::CreateObject ("reaction-arrow", parent);
+			obj = parent->GetApplication ()->CreateObject ("reaction-arrow", parent);
 			snprintf (buf, bufsize, "ra%d", Id);
 			obj->SetProperty (GCU_PROP_REACTION_ARROW_TYPE, "double");
 			break;
 		case 32:
-			obj = Object::CreateObject ("retrosynthesis-arrow", parent);
+			obj = parent->GetApplication ()->CreateObject ("retrosynthesis-arrow", parent);
 			snprintf (buf, bufsize, "rsa%d", Id);
 			break;
 		default:

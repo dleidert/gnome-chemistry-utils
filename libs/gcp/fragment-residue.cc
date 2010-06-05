@@ -90,10 +90,12 @@ bool FragmentResidue::Load (xmlNodePtr node)
 	if (!buf || !strlen (buf))
 		return false;
 	Residue *residue = (Residue*) Residue::GetResidue (buf, NULL);
+	Document *doc = static_cast <Document *> (GetDocument ());
+	gcu::Application *app = doc->GetApp ();
 	if (residue) {
 		if (child->next) {
-			Residue *res0 = new Residue (NULL, NULL, NULL, static_cast <Document *> (GetDocument ()));
-			res0->Load (node, false);
+			Residue *res0 = new Residue (NULL, NULL, NULL, doc);
+			res0->Load (node, false, app);
 			if (*residue == *(res0->GetMolecule ()))
 				delete res0; // OK, same molecule
 			else {
@@ -102,7 +104,7 @@ bool FragmentResidue::Load (xmlNodePtr node)
 		}
 	} else if (child->next) {
 		residue = new Residue ();
-		residue->Load (node, false);
+		residue->Load (node, false, app);
 		residue->Register ();
 		// TODO: append residue to the local residues ( or to the document?)
 	} else

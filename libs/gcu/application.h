@@ -292,7 +292,7 @@ This method is used to register a new type derived from Object.
 @param TypeName the name of the new type.
 @param parent the parent of the newly created object or NULL. if NULL, the parameter can be omitted.
 
-Used to create an object of type name TypeName. The Object::AddType method must have been called with the same
+Used to create an object of type name TypeName. The AddType() method must have been called with the same
 TypeName parameter. if parent is given and not NULL, the new Object will be a child of parent.
 It will also be given a default Id.
 
@@ -373,6 +373,8 @@ the class seems possible.
 adds a callback for modifying the contextual menu of objects of type Id.
 */
 	void AddMenuCallback (TypeId Id, BuildMenuCb cb);
+
+	TypeDesc const *GetTypeDescription (TypeId Id);
 
 protected:
 

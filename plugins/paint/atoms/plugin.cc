@@ -43,7 +43,6 @@ static gcu::Object *CreateOrbital ()
 
 gcpAtomsPlugin::gcpAtomsPlugin(): gcp::Plugin()
 {
-	OrbitalType = gcu::Object::AddType ("orbital", CreateOrbital);
 }
 
 gcpAtomsPlugin::~gcpAtomsPlugin()
@@ -100,6 +99,7 @@ static const char *ui_description =
 
 void gcpAtomsPlugin::Populate (gcp::Application* App)
 {
+	OrbitalType = App->AddType ("orbital", CreateOrbital);
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
 	App->RegisterToolbar ("AtomsToolbar", 1);
 	new gcpElementTool (App);

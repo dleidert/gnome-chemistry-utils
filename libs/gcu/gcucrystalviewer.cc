@@ -158,8 +158,8 @@ void gcu_crystal_viewer_set_uri_with_mime_type (GcuCrystalViewer * viewer, const
 		xmlFree (xml);*/
 	} else {
 		if (!App) {
-			App = new gcu::Application ("GChemMoz");
-			gcu::Object::AddType ("atom", CreateCrystalAtom, gcu::AtomType);
+			App = viewer->pDoc->GetApp ();
+			App->AddType ("atom", CreateCrystalAtom, gcu::AtomType);
 		}
 		if (App->Load (uri, mime_type, viewer->pDoc) != gcu::ContentTypeCrystal)
 			g_message ("Invalid data");

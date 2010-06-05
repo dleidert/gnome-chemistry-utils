@@ -371,7 +371,6 @@ static TypeId NextType = OtherType;
 
 TypeId Application::AddType (std::string TypeName, Object* (*Create) (), TypeId id)
 {
-	map <TypeId, TypeDesc *>::iterator i;
 	TypeId Id = Object::GetTypeId (TypeName);
 	if (Id != NoType)
 		id = Id;
@@ -389,8 +388,8 @@ TypeId Application::AddType (std::string TypeName, Object* (*Create) (), TypeId 
 
 Object* Application::CreateObject (const std::string& TypeName, Object* parent)
 {
-	TypeDesc &typedesc = m_Types[Object::GetTypeId (TypeName)];
-	Object* obj = (typedesc.Create)? typedesc.Create (): NULL;
+	TypeDesc const *typedesc = &(*m_Types.find (Object::GetTypeId (TypeName))).second;
+	Object* obj = (typedesc->Create)? typedesc->Create (): NULL;
 	if (obj) {
 		if (parent) {
 			char const *id = obj->GetId ();
@@ -401,7 +400,7 @@ Object* Application::CreateObject (const std::string& TypeName, Object* parent)
 			}
 			parent->AddChild (obj);
 		}
-		obj->m_TypeDesc = &typedesc;
+		obj->m_TypeDesc = typedesc;
 	}
 	return obj;
 }
@@ -409,10 +408,10 @@ Object* Application::CreateObject (const std::string& TypeName, Object* parent)
 bool Application::BuildObjectContextualMenu (Object *target, GtkUIManager *UIManager, Object *object, double x, double y)
 {
 	bool result = false;
-	TypeDesc *typedesc = target->m_TypeDesc;
+	TypeDesc const *typedesc = target->m_TypeDesc;
 	if (!typedesc)
 		return false;
-	list<BuildMenuCb>::iterator i, end = typedesc->MenuCbs.end ();
+	list<BuildMenuCb>::const_iterator i, end = typedesc->MenuCbs.end ();
 	for (i = typedesc->MenuCbs.begin (); i != end; i++)
 		result |= (*i) (target, UIManager, object, x, y);
 	return result;
@@ -495,6 +494,12 @@ void Application::AddMenuCallback (TypeId Id, BuildMenuCb cb)
 {
 	TypeDesc& typedesc = m_Types[Id];
 	typedesc.MenuCbs.push_back (cb);
+}
+
+TypeDesc const *Application::GetTypeDescription (TypeId Id)
+{
+	map <TypeId, TypeDesc>::iterator i = m_Types.find (Id);
+	return (i != m_Types.end ())? &(*i).second: NULL;
 }
 
 }	//	namespace gcu

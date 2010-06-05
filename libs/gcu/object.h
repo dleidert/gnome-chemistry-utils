@@ -717,7 +717,7 @@ private:
 	Object *m_Parent;
 	std::map<std::string, Object*> m_Children; //string is Id of object, so each object must have an Id
 	std::set<Object*> m_Links; //objects linked to this but outside of the hierarchy
-	TypeDesc *m_TypeDesc;
+	TypeDesc const *m_TypeDesc;
 
 private:
 /*!

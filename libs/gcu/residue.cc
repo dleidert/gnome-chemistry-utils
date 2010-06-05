@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "application.h"
 #include "document.h"
 #include "element.h"
 #include "molecule.h"
@@ -129,7 +130,7 @@ void Residue::RemoveSymbol (char const *symbol)
 		tbl.rtbs.erase (symbol);
 }
 
-void Residue::Load (xmlNodePtr node)
+void Residue::Load (xmlNodePtr node, Application *app)
 {
 	static char *lang = getenv ("LANG");
 	if (m_Name)
@@ -202,9 +203,9 @@ void Residue::Load (xmlNodePtr node)
 			}
 			xmlFree (symbols);
 		} else if (!strcmp (reinterpret_cast <char const *> (child->name), "molecule") && m_Molecule == NULL) {
-			m_Document = dynamic_cast <Document *> (Object::CreateObject ("document"));
+			m_Document = dynamic_cast <Document *> (app->CreateObject ("document"));
 			if (m_Document) {
-				m_Molecule = dynamic_cast <Molecule *> (Object::CreateObject ("molecule", m_Document));
+				m_Molecule = dynamic_cast <Molecule *> (app->CreateObject ("molecule", m_Document));
 				if (m_Molecule)
 					m_Molecule->Load (child);
 			}

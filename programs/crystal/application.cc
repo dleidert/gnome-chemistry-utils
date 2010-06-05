@@ -66,7 +66,7 @@ gcApplication::gcApplication(): Application ("gcrystal")
 		found = Loader::GetNextLoader (it);
 	}
 	if (!m_bInit) {
-		Object::AddType ("atom", CreateAtom, AtomType);
+		AddType ("atom", CreateAtom, AtomType);
 		m_bInit = true;
 	}
 }

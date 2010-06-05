@@ -103,11 +103,11 @@ GChemCalc::GChemCalc ():
 	Application ("gchemcalc"),
 	formula ("")
 {
-	Object::AddType ("atom", CreateAtom, AtomType);
-	Object::AddType ("pseudo-atom", CreateAtom);
-	Object::AddType ("bond", CreateBond, BondType);
-	Object::AddType ("molecule", CreateMolecule, MoleculeType);
-	Object::AddType ("document", CreateDocument, DocumentType);
+	AddType ("atom", CreateAtom, AtomType);
+	AddType ("pseudo-atom", CreateAtom);
+	AddType ("bond", CreateBond, BondType);
+	AddType ("molecule", CreateMolecule, MoleculeType);
+	AddType ("document", CreateDocument, DocumentType);
 	// Load residues
 	xmlDocPtr doc;
 	char *name;
@@ -137,7 +137,7 @@ void GChemCalc::ParseNodes (xmlNodePtr node)
 	while (node) {
 		if (!strcmp ((char*) node->name, "residue")) {
 			r = new Residue ();
-			r->Load (node);
+			r->Load (node, this);
 		}
 		node = node->next;
 	}

@@ -47,7 +47,6 @@
 
 * GCU Library:
 	* provide clipboard support at the Application level (?).
-	* make object creation a per application mechanism (0.14?).
 
 * Other:
 	* Make file operation asynchroneous (especially for remote file systems).
