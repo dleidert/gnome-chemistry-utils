@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-06-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/loaders/cdxml/cdxml.cc: use gcu::Application::CreateObject().
+	* plugins/loaders/cif/cif.cc: ditto.
+	* plugins/loaders/cml/cml.cc: ditto.
+
 2010-06-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: use gcu::Application::CreateObject().
 	* libs/gcp/document.cc: ditto.

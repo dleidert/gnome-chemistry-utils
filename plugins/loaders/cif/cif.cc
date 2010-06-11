@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include <gcu/application.h>
 #include <gcu/document.h>
 #include <gcu/loader.h>
 #include <gcu/element.h>
@@ -112,6 +113,7 @@ typedef struct {
 ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io)
 {
 	ContentType type = ContentTypeCrystal;
+	Application *app = doc->GetApplication ();
 	GsfInputTextline *input = reinterpret_cast <GsfInputTextline *> (gsf_input_textline_new (in));
 	char *buf;
 	bool in_string = false, in_loop = false, waiting_value = false;
@@ -262,7 +264,7 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 							case LOOP_ATOM: {
 								double scale = doc->GetScale ();
 								doc->SetScale (1.);
-								Object *atom = Object::CreateObject ("atom", NULL);
+								Object *atom = app->CreateObject ("atom", NULL);
 								for (loop_prop = loop_contents.begin (); loop_prop != loop_contents.end (); loop_prop++) {
 									std::string val = loop_values.front ();
 									loop_values.pop_front ();

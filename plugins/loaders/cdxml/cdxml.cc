@@ -123,6 +123,7 @@ typedef struct {
 
 typedef struct {
 	Document *doc;
+	Application *app;
 	GOIOContext *context;
 	stack<Object*> cur;
 	list<CDXMLProps> failed;
@@ -161,7 +162,7 @@ static void
 cdxml_fragment_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("molecule", state->cur.top ());
+	Object *obj = state->app->CreateObject ("molecule", state->cur.top ());
 	state->cur.push (obj);
 }
 
@@ -180,7 +181,7 @@ static void
 cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("bond", state->cur.top ());
+	Object *obj = state->app->CreateObject ("bond", state->cur.top ());
 	obj->SetProperty (GCU_PROP_BOND_ORDER, "1");
 	map<string, unsigned>::iterator it;
 	while (*attrs) {
@@ -257,7 +258,7 @@ static void
 cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("text", state->cur.top ());
+	Object *obj = state->app->CreateObject ("text", state->cur.top ());
 	state->cur.push (obj);
 	char *lowered;
 	map<string, unsigned>::iterator it;
@@ -504,7 +505,7 @@ fragment_success:
 			mol = reinterpret_cast <Molecule *> (state->cur.top ());
 			mol->Remove (atom);
 			delete atom;
-			atom = Object::CreateObject ("fragment", mol);
+			atom = state->app->CreateObject ("fragment", mol);
 			atom->SetProperty (GCU_PROP_TEXT_TEXT, buf.c_str ());
 			atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, id.c_str ());
 			atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
@@ -535,7 +536,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GSF_XML_IN_NODE_END
 	};
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("atom", state->cur.top ());
+	Object *obj = state->app->CreateObject ("atom", state->cur.top ());
 	obj->SetProperty (GCU_PROP_ATOM_Z, "6");
 	map<string, unsigned>::iterator it;
 	bool fragment = false;
@@ -557,7 +558,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 				if (mol)
 					mol->Remove (obj);
 				delete obj;
-				obj = Object::CreateObject ("pseudo-atom", state->cur.top ());
+				obj = state->app->CreateObject ("pseudo-atom", state->cur.top ());
 				if (id.length ())
 					obj->SetProperty (GCU_PROP_ID, id.c_str ());
 				obj->SetProperty (GCU_PROP_POS2D, pos.c_str ());
@@ -615,7 +616,7 @@ static void
 cdxml_group_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("group", state->cur.top ());
+	Object *obj = state->app->CreateObject ("group", state->cur.top ());
 	obj->Lock ();
 	state->cur.push (obj);
 }
@@ -655,20 +656,20 @@ cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
 		switch (arrow_type) {
 		case 1:
 		case 2:
-			obj = Object::CreateObject ("reaction-arrow", state->cur.top ());
+			obj = state->app->CreateObject ("reaction-arrow", state->cur.top ());
 			buf = g_strdup_printf ("ra%d", Id);
 			break;
 		case 4:
-			obj = Object::CreateObject ("mesomery-arrow", state->cur.top ());
+			obj = state->app->CreateObject ("mesomery-arrow", state->cur.top ());
 			buf = g_strdup_printf ("ma%d", Id);
 			break;
 		case 8:
-			obj = Object::CreateObject ("reaction-arrow", state->cur.top ());
+			obj = state->app->CreateObject ("reaction-arrow", state->cur.top ());
 			buf = g_strdup_printf ("ra%d", Id);
 			obj->SetProperty (GCU_PROP_REACTION_ARROW_TYPE, "double");
 			break;
 		case 32:
-			obj = Object::CreateObject ("retrosynthesis-arrow", state->cur.top ());
+			obj = state->app->CreateObject ("retrosynthesis-arrow", state->cur.top ());
 			buf = g_strdup_printf ("rsa%d", Id);
 			break;
 		default:
@@ -738,6 +739,7 @@ ContentType CDXMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char 
 	CDXMLReadState state;
 
 	state.doc = doc;
+	state.app = doc->GetApplication ();
 	state.context = io;
 	ContentType success = ContentTypeUnknown;
 	state.colors.push_back ("red=\"1\" green=\"1\" blue=\"1\""); // white

@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include <gcu/application.h>
 #include <gcu/document.h>
 #include <gcu/loader.h>
 #include <gcu/molecule.h>
@@ -46,6 +47,7 @@ static map<string, unsigned> KnownProps;
 
 typedef struct {
 	Document *doc;
+	Application *app;
 	GOIOContext *context;
 	stack<Object*> cur;
 	ContentType type;
@@ -323,7 +325,7 @@ cml_atom_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
 	Object *parent = state->cur.top ();
-	Object *obj = Object::CreateObject ("atom", parent? parent: state->doc);
+	Object *obj = state->app->CreateObject ("atom", parent? parent: state->doc);
 	obj->SetProperty (GCU_PROP_ATOM_SYMBOL, "C");
 	map <string, unsigned>::iterator it;
 	if (attrs)
@@ -355,7 +357,7 @@ static void
 cml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("bond", state->cur.top ());
+	Object *obj = state->app->CreateObject ("bond", state->cur.top ());
 	if (obj) {
 		map <string, unsigned>::iterator it;
 		if (attrs)
@@ -466,7 +468,7 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GSF_XML_IN_NODE_END
 	};
 	CMLReadState	*state = (CMLReadState *) xin->user_state;
-	Object *obj = Object::CreateObject ("molecule", state->cur.top ());
+	Object *obj = state->app->CreateObject ("molecule", state->cur.top ());
 	state->cur.push (obj);
 	static GsfXMLInDoc *doc = NULL;
 	if (NULL == doc)
@@ -488,6 +490,7 @@ ContentType CMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 	bool  success = false;
 
 	state.doc = doc;
+	state.app = doc->GetApplication ();
 	state.context = io;
 	state.cur.push (doc);
 	state.type = ContentTypeMisc;
