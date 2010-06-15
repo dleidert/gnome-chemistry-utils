@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-06-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/atoms/orbital.cc: fix orbital code when the atom is inside
+	a fragment. [#29862]
+
 2010-05-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/crystaldoc.cc: mix rhombohedral with hexagonal to be more or
 	less consistent with cif files.

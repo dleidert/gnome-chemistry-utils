@@ -203,6 +203,10 @@ void gcpOrbital::AddItem ()
 	gcp::View *view = doc->GetView ();
 	double zoom = theme->GetZoomFactor ();
 	gccv::Group *group = static_cast <gccv::Group *> (m_Atom->GetItem ());
+	if (!group) { // the atom is inside a fragment
+		gcu::Object *parent = m_Atom->GetParent ();
+		group = static_cast <gccv::Group *> (dynamic_cast <gccv::ItemClient *> (parent)->GetItem ());
+	}
 	switch (m_Type) {
 	case GCP_ORBITAL_TYPE_S: {
 		gccv::Circle *circle = new gccv::Circle (group, 0., 0., theme->GetBondLength () * fabs (m_Coef) * zoom / 2., this);

@@ -1,3 +1,12 @@
+Version 0.12.1
+	GChemPaint:
+		* Fixed orbitals on fragments. [#29862]
+		* Fixed GtkBuilder files installation path (Daniel Leidert)
+	GCrystal:
+		* Fixed issues related to CIF files loading.
+	Other:
+		* Fixed build with LDFLAGS="-Wl,--no-undefined". [#29966]
+
 Version 0.12.0
 	GChemPaint:
 		* Fixed various text related minor issues.
