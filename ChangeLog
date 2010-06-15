@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-06-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/atoms/orbital.cc: fix orbital code when the atom is inside
+	a fragment. [#29862]
+
 2010-06-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdxml/cdxml.cc: use gcu::Application::CreateObject().
 	* plugins/loaders/cif/cif.cc: ditto.

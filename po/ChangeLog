@@ -1,4 +1,8 @@
 ##Text encoding: utf-8
+
+2010-06-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* fr.po: Fixed typo.
+
 2010-05-11  Julian Sikorski  <belegdol@gmail.com>
 	* pl.po: Finished Polish translation.
 
