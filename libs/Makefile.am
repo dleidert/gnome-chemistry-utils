@@ -1,3 +1,3 @@
-SUBDIRS = gccv gcu gcp
+SUBDIRS = gccv gcu gcp gcr
 
 MAINTAINERCLEANFILES = Makefile.in

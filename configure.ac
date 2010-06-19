@@ -361,6 +361,7 @@ dtds/Makefile
 libs/Makefile
 libs/gccv/Makefile
 libs/gcp/Makefile
+libs/gcr/Makefile
 libs/gcu/Makefile
 plugins/Makefile
 plugins/loaders/Makefile

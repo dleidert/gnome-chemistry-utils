@@ -1,8 +1,8 @@
 /* 
- * GChemPaint GOffice component
- * gogcpwin.h
+ * GCrystal library
+ * window.cc
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -20,23 +20,20 @@
  * USA
  */
 
+#include "config.h"
+#include "window.h"
+namespace gcr {
 
-#ifndef GCP_GOFFICE_WIN_H
-#define GCP_GOFFICE_WIN_H
-
-#include <gcp/window.h>
-
-class GOGcpWindow: public gcp::Window
+Window::Window (G_GNUC_UNUSED gcu::Application *app)
 {
-public:
-	GOGcpWindow (GOGcpApplication *App, GOGChemUtilsComponent *gogcp);
-	virtual ~GOGcpWindow ();
+}
 
-	void OnSave ();
-	char const *GetDefaultTitle ();
+Window::~Window ()
+{
+}
 
-private:
-	GOGChemUtilsComponent *m_gogcu;
-};
+void Window::Destroy ()
+{
+}
 
-#endif	//	GCP_GOFFICE_WIN_H
+}

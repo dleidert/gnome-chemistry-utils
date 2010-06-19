@@ -430,6 +430,7 @@ WARN_LOGFILE           =
 INPUT                  = @top_srcdir@/libs/gcu \
 							@top_srcdir@/libs/gcp \
 							@top_srcdir@/libs/gccv \
+							@top_srcdir@/libs/gcr \
 							@top_srcdir@/tests
 
 # If the value of the INPUT tag contains directories, you can use the 

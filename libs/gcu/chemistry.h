@@ -35,7 +35,7 @@ Available widgets are:
 - GcuChem3DViewer: a 3D molecular structure viewer.
 - GcuSpectrumViewer: a spectrum viewer.
 
-The C++ classes are grouped in the gcu, gccv, and gcp namespaces. A C interface
+The C++ classes are grouped in the gcu, gccv, gcr, and gcp namespaces. A C interface
 exists to use some (not so many) of the functionalities offered in these classes;
 the corresponding documentation is available in the chemistry.h file.
 */

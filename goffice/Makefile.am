@@ -32,7 +32,11 @@ gchemutils_la_SOURCES =	\
 		gogcpwin.cc	\
 		gogcpwin.h	\
 		gogcuapp.cc	\
-		gogcuapp.h
+		gogcuapp.h	\
+		gogcrystalapp.cc	\
+		gogcrystalapp.h	\
+		gogcrystalwin.cc	\
+		gogcrystalwin.h
 
 xml_in_files = plugin.xml.in
 

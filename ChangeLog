@@ -1,5 +1,23 @@
 ##Text encoding: utf-8
 
+2010-06-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add a new libgcr library.
+	* docs/reference/Doxyfile.in: ditto.
+	* goffice/Makefile.am: start adding support for crystal structures.
+	* goffice/gchemutils.cc: ditto.
+	* goffice/gogcpwin.cc: ditto.
+	* goffice/gogcpwin.h: ditto.
+	* goffice/gogcrystalapp.cc: ditto.
+	* goffice/gogcrystalapp.h: ditto.
+	* goffice/gogcrystalwin.cc: ditto.
+	* goffice/gogcrystalwin.h: ditto.
+	* goffice/plugin.xml.in: ditto.
+	* libs/Makefile.am: add a new libgcr library.
+	* libs/gcr/Makefile.am: ditto.
+	* libs/gcr/window.cc: ditto.
+	* libs/gcr/window.h: ditto.
+	* libs/gcu/chemistry.h: ditto.
+
 2010-06-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/atoms/orbital.cc: fix orbital code when the atom is inside
 	a fragment. [#29862]

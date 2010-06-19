@@ -23,7 +23,7 @@
 #include "config.h"
 #include "gchemutils-priv.h"
 #include "gogcpapp.h"
-
+#include "gogcrystalapp.h"
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <goffice/component/go-component-factory.h>
@@ -149,6 +149,7 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 //	go_components_set_mime_suffix ("chemical/x-xyz", "*.xyz");
 	go_components_set_mime_suffix ("application/x-gchempaint", "*.gchempaint");
 	Apps["application/x-gchempaint"] = new GOGcpApplication ();
+	Apps["application/x-gcrystal"] = new GOGCrystalApplication ();
 //	go_components_set_mime_suffix ("application/x-gcrystal", "*.gcrystal");
 // TODO: add other types
 }

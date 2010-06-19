@@ -1,8 +1,8 @@
 /* 
  * GChemPaint GOffice component
- * gogcpwin.cc
+ * gogcrystalwin.cc
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,20 +22,20 @@
 
 #include "config.h"
 #include "gchemutils-priv.h"
-#include "gogcpapp.h"
-#include "gogcpwin.h"
-#include <gcp/document.h>
-#include <gcp/view.h>
+#include "gogcuapp.h"
+#include "gogcrystalapp.h"
+#include "gogcrystalwin.h"
+#include <gcu/application.h>
 #include <glib/gi18n-lib.h>
 
-GOGcpWindow::GOGcpWindow (GOGcpApplication *App, GOGChemUtilsComponent *gogcu):
-	gcp::Window (App)
+GOGCrystalWindow::GOGCrystalWindow (GOGCrystalApplication *App, GOGChemUtilsComponent *gogcu):
+	gcr::Window (dynamic_cast <gcu::Application *> (App))
 {
 	m_gogcu = gogcu;
 	gogcu->window = this;
 	/* We must first duplicate the document */
 	xmlDocPtr xml = NULL; // makes g++ happy
-	try {
+/*	try {
 		gcp::Document *doc = dynamic_cast <gcp::Document *> (gogcu->document);
 		if (doc && doc->HasChildren ()) {
 			xml = doc->BuildXMLTree ();
@@ -51,20 +51,20 @@ GOGcpWindow::GOGcpWindow (GOGcpApplication *App, GOGChemUtilsComponent *gogcu):
 			xmlFreeDoc (xml);
 		xml = NULL;
 		throw 1;
-	}
+	}*/
 }
 
-GOGcpWindow::~GOGcpWindow ()
+GOGCrystalWindow::~GOGCrystalWindow ()
 {
 	if (!m_gogcu->document)
 		go_component_emit_changed (GO_COMPONENT (m_gogcu));
 	m_gogcu->window = NULL;
 }
 
-void GOGcpWindow::OnSave ()
+void GOGCrystalWindow::OnSave ()
 {
 	delete m_gogcu->document;
-	gcp::Document *doc = new gcp::Document (GetApplication (), false);
+/*	gcp::Document *doc = new gcp::Document (GetApplication (), false);
 	m_gogcu->document = doc;
 	doc->GetView ()->CreateNewWidget ();
 	xmlDocPtr xml = NULL; // makes g++ happy
@@ -81,10 +81,10 @@ void GOGcpWindow::OnSave ()
 			xmlFreeDoc (xml);
 		xml = NULL;
 		throw 1;
-	}
+	}*/
 }
 
-char const *GOGcpWindow::GetDefaultTitle ()
+char const *GOGCrystalWindow::GetDefaultTitle ()
 {
-	return _("Embedded GChemPaint Object");
+	return _("Embedded GCrystal Object");
 }

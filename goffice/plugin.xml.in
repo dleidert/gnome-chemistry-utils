@@ -19,14 +19,20 @@
 				<_description>Chemical structures</_description>
 			</information>
 		</service>
-<!--		<service type="component_type" id="GOGChemUtilsComponent">
+		<service type="component_type" id="GOGChemUtilsComponent">
 			<mime_type name="application/x-gcrystal" priority="native" clipboard="yes"/>
 			<information>
 				<_description>Crystal structures</_description>
 			</information>
 		</service>
 		<service type="component_type" id="GOGChemUtilsComponent">
-			<mime_type name="chemical/x-xyz" priority="print" clipboard="yes"/>
+			<mime_type name="chemical/x-cif" priority="print" clipboard="yes"/>
+			<information>
+				<_description>CIF file</_description>
+			</information>
+		</service>
+<!--		<service type="component_type" id="GOGChemUtilsComponent">
+			<mime_type name="chemical/x-cml" priority="print" clipboard="yes"/>
 			<information>
 				<_description>3D chemical structures</_description>
 			</information>
