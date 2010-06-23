@@ -71,6 +71,7 @@ void GOGcpWindow::OnSave ()
 	try {
 		xml = m_Document->BuildXMLTree ();
 		doc->Load (xml->children);
+		dynamic_cast <GOGcpApplication *> (m_Application)->UpdateBounds (m_gogcu);
 		xmlFreeDoc (xml);
 		xml = NULL;
 		m_Document->SetDirty (false);

@@ -388,7 +388,10 @@ TypeId Application::AddType (std::string TypeName, Object* (*Create) (), TypeId 
 
 Object* Application::CreateObject (const std::string& TypeName, Object* parent)
 {
-	TypeDesc const *typedesc = &(*m_Types.find (Object::GetTypeId (TypeName))).second;
+	map <TypeId, TypeDesc>::const_iterator it = m_Types.find (Object::GetTypeId (TypeName));
+	if (it == m_Types.end ())
+		return NULL;
+	TypeDesc const *typedesc = &(*it).second;
 	Object* obj = (typedesc->Create)? typedesc->Create (): NULL;
 	if (obj) {
 		if (parent) {
