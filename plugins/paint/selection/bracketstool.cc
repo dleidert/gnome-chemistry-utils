@@ -24,6 +24,10 @@
 
 #include "config.h"
 #include "bracketstool.h"
+#include <gcu/message.h>
+#include <gcu/ui-builder.h>
+#include <gcp/application.h>
+#include <glib/gi18n-lib.h>
 
 gcpBracketsTool::gcpBracketsTool (gcp::Application* App): gcp::Tool (App, "Brackets")
 {
@@ -35,7 +39,7 @@ gcpBracketsTool::~gcpBracketsTool ()
 
 bool gcpBracketsTool::OnClicked ()
 {
-	return false;
+	return true;
 }
 
 void gcpBracketsTool::OnDrag ()
@@ -44,4 +48,28 @@ void gcpBracketsTool::OnDrag ()
 
 void gcpBracketsTool::OnRelease ()
 {
+}
+
+GtkWidget *gcpBracketsTool::GetPropertyPage ()
+{
+	gcu::UIBuilder *builder= NULL;
+	try {
+		builder = new gcu::UIBuilder (UIDIR"/brackets.ui", GETTEXT_PACKAGE);
+		GtkWidget *res = builder->GetRefdWidget ("brackets");
+		delete builder;
+		return res;
+	}
+	catch (std::runtime_error &e) {
+		// TODO: add a one time message box
+		static bool done = false;
+		if (!done) {
+			done = true;
+			std::string mess = _("Error loading the properties widget description: \n");
+			mess += e.what ();
+			new gcu::Message (GetApplication (), mess, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE);
+		}
+		if (builder)
+			delete builder;
+		return NULL;
+	}
 }

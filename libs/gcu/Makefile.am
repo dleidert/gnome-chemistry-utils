@@ -54,6 +54,7 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		loader-error.cc \
 		matrix.cc \
 		matrix2d.cc \
+		message.cc \
 		molecule.cc \
 		object.cc \
 		printable.cc \
@@ -105,6 +106,7 @@ noinst_HEADERS = \
 		macros.h	\
 		matrix.h	\
 		matrix2d.h	\
+		message.h \
 		molecule.h \
 		object.h \
 		objprops.h \

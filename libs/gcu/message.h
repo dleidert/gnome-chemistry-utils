@@ -1,10 +1,10 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint selection plugin
- * bracketstool.h 
+ * Gnome Chemistry Utils
+ * gcu/message.h 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,26 +22,30 @@
  * USA
  */
 
-#ifndef GCHEMPAINT_BRACKETS_TOOL_H
-#define GCHEMPAINT_BRACKETS_TOOL_H
+#ifndef GCU_MESSAGE_H
+#define GCU_MESSAGE_H
 
-#include <gcp/tool.h>
+#include <gtk/gtk.h>
+#include <string>
 
-namespace gcp {
-	class Application;
-}
-	
-class gcpBracketsTool: public gcp::Tool
-{
+namespace gcu {
+
+class Application;
+
+class Message {
+friend class MessagePrivate;
 public:
-	gcpBracketsTool (gcp::Application* App);
-	virtual ~gcpBracketsTool ();
+	Message (Application *app, std::string &message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent = NULL);
+	Message (Application *app, char const *message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent = NULL);
+	virtual ~Message ();
 
-	virtual bool OnClicked ();
-	virtual void OnDrag ();
-	virtual void OnRelease ();
-	char const *GetHelpTag () {return "brackets";}
-	GtkWidget *GetPropertyPage ();
+	int Run ();
+
+private:
+	GtkDialog *m_Window;
+	unsigned m_delete_sgn, m_destroy_sgn, m_response_sgn;
 };
 
-#endif // GCHEMPAINT_BRACKETS_TOOL_H
+}
+
+#endif	//	GCU_MESSAGE_H

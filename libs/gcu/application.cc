@@ -27,6 +27,7 @@
 #include "cmd-context.h"
 #include "document.h"
 #include "loader.h"
+#include "message.h"
 #include "ui-builder.h"
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
@@ -37,6 +38,7 @@
 #include <cstring>
 #include <clocale>
 #include <set>
+#include <sstream>
 
 using namespace std;
 
@@ -305,12 +307,12 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 		g_file_delete (file, NULL, &error);
 		if (error) {
 			char *unescaped = g_uri_unescape_string (uri.c_str (), NULL);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("Error while processing %s:\n%s"), unescaped, error->message));
+			ostringstream str;
+			str << _("Error while processing ") << unescaped << ":\n" << error->message;
+			Message *Box = new Message (this, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE);
 			g_free (unescaped);
 			g_error_free (error);
-			gtk_window_set_icon_name (GTK_WINDOW (Box), IconName.c_str ());
-			gtk_dialog_run (Box);
-			gtk_widget_destroy (GTK_WIDGET (Box));
+			Box->Run ();
 			g_object_unref (file);
 			return false;
 		}

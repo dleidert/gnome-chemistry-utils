@@ -25,7 +25,10 @@
 #include "config.h"
 #include "dialog.h"
 #include "application.h"
+#include "message.h"
 #include <glib/gi18n-lib.h>
+#include <string>
+#include <sstream>
 #include <cstring>
 #include <cstdlib>
 
@@ -122,91 +125,88 @@ bool Dialog::GetNumber (GtkEntry *Entry, double *x, CheckType c, double min, dou
 	*x = strtod (text, &end);
 	if (end != text + strlen (text)) {
 		gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
-		GtkDialog* box = GTK_DIALOG(gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL,
-										GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("Type a number")));
-		gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-		if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-			gtk_widget_destroy (GTK_WIDGET (box));
+		Message *box = new Message (m_App, _("Type a number"), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+		box->Run ();
 		return false;
 	}
 	switch (c) {
 	case MinEqMax:
 		if ((*x < min) || (*x >= max)) {
-			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than or equal %g and lower than to %g"), min, max);
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
+			std::ostringstream str;
+			str << _("Type a number greater than or equal to ") << min << _(" and lower than ") << max;
+			gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
+			Message *box = new Message (m_App, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return false;
 		}
 		break;
 	case MinMaxEq:
 		if ((*x <= min) || (*x > max)) {
-			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than %g and lower than or equal to %g"), min, max);
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW(dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
+			std::ostringstream str;
+			str << _("Type a number greater than ") << min << _(" and lower than or equal to ") << max;
+			gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
+			Message *box = new Message (m_App, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return false;
 		}
 		break;
 	case MinEqMaxEq:
 		if ((*x < min) || (*x > max)) {
-			snprintf (m_buf, sizeof (m_buf), _("Type a number between %g and %g, the limits are valid."), min, max);
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
+			std::ostringstream str;
+			str << _("Type a number between ") << min << _(" and ") << max << _(", the limits are valid.");
+			gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
+			Message *box = new Message (m_App, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return false;
 		}
 		break;
 	case MinMax:
 		if ((*x <= min) || (*x >= max)) {
-			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than %g and lower than %g"), min, max);
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
+			std::ostringstream str;
+			str << _("Type a number greater than ") << min << _(" and lower than ") << max;
+			gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
+			Message *box = new Message (m_App, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return false;
 		}
 		break;
 	case Max:
 		if (*x >= max) {
-			snprintf (m_buf, sizeof (m_buf), _("Type a number lower than %g"), max);
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
+			std::ostringstream str;
+			str << _("Type a number lower than ") << max;
+			gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
+			Message *box = new Message (m_App, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return false;
 		}
 		break;
 	case Min:
 		if (*x <= min) {
-			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than %g"), min);
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
+			std::ostringstream str;
+			str << _("Type a number greater than ") << min;
+			gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
+			Message *box = new Message (m_App, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return false;
 		}
 		break;
 	case MaxEq:
 		if (*x > max) {
-			snprintf (m_buf, sizeof (m_buf), _("Type a number lower than or equal to %g"), max);
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
+			std::ostringstream str;
+			str << _("Type a number lower than or equal to ") << max;
+			gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
+			Message *box = new Message (m_App, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return false;
 		}
 		break;
 	case MinEq:
 		if (*x < min) {
-			snprintf (m_buf, sizeof (m_buf), _("Type a number greater than or equal to %g"), min);
-			GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, m_buf));
-			gtk_window_set_icon_name (GTK_WINDOW (box), m_App->GetName ().c_str ());
-			if (gtk_dialog_run (box) != GTK_RESPONSE_NONE)
-				gtk_widget_destroy (GTK_WIDGET (box));
+			std::ostringstream str;
+			str << _("Type a number greater than or equal to ") << min;
+			gtk_window_set_focus (GTK_WINDOW (dialog), GTK_WIDGET (Entry));
+			Message *box = new Message (m_App, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, GTK_WINDOW (dialog));
+			box->Run ();
 			return false;
 		}
 		break;

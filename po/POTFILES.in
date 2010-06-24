@@ -125,6 +125,8 @@ plugins/paint/cycles/plugin.cc
 plugins/paint/residues/plugin.cc
 plugins/paint/residues/residues-dlg.cc
 [type: gettext/glade]plugins/paint/residues/residues.ui
+plugins/paint/selection/bracketstool.cc
+[type: gettext/glade]plugins/paint/selection/brackets.ui
 plugins/paint/selection/group.cc
 [type: gettext/glade]plugins/paint/selection/group.ui
 plugins/paint/selection/plugin.cc
