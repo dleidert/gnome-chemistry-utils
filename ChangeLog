@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/gcucrystalviewer.cc: use the default application to avoid a
+	crash.
+	* mozilla-plugin/chem-viewer.cc: removed an unused application.
+	* plugins/paint/selection/Makefile.am: add new ui file.
+	* plugins/paint/selection/brackets.ui: new properties page.
+
 2010-06-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/Makefile.am: add new message box class.
 	* libs/gcu/application.cc: use gcu::Message.

@@ -38,6 +38,7 @@ gnumeric/plugin.xml.in
 goffice/plugin.xml.in
 goffice/gogcpapp.cc
 goffice/gogcpwin.cc
+goffice/gogcrystalwin.cc
 libs/gcp/about.cc
 libs/gcp/arrow.cc
 libs/gcp/application.cc

@@ -1,10 +1,7 @@
-2010-06-24  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* POTFILES.in:
-
 ##Text encoding: utf-8
+
+2010-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: added new files.
 
 2010-06-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* fr.po: Fixed typo.

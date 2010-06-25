@@ -61,8 +61,9 @@ noinst_HEADERS = \
 	selectiontool.h
 
 uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/selection
-dist_ui_DATA = group.ui
-
+dist_ui_DATA =	\
+	brackets.ui	\
+	group.ui
 
 $(BUILT_SOURCES): $(IMAGES)
 	$(GDK_PIXBUF_CSOURCE) --raw --build-list $(VARIABLES) > $@

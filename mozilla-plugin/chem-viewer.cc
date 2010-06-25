@@ -88,7 +88,6 @@ private:
 	gcp::Document *Doc;
 	map<string, string> Params;
 	MozPaintApp *gcpApp;
-	gcu::Application *App;
 	bool Loaded;
 };
 
@@ -101,7 +100,6 @@ ChemComp::ChemComp (void* instance, string& mime_type)
 	Doc = NULL;
 	gcpApp = NULL;
 	Viewer = NULL;
-	App = NULL;
 	Loaded = false;
 }
 

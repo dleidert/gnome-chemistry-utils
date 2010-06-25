@@ -102,7 +102,7 @@ void gcu_crystal_viewer_init (G_GNUC_UNUSED GcuCrystalViewer *viewer)
 GtkWidget* gcu_crystal_viewer_new (xmlNodePtr node)
 {
 	GcuCrystalViewer* viewer = (GcuCrystalViewer*) g_object_new (GCU_TYPE_CRYSTAL_VIEWER, NULL);
-	viewer->pDoc = new gcu::CrystalDoc (NULL);
+	viewer->pDoc = new gcu::CrystalDoc (gcu::Application::GetDefaultApplication ());
 	viewer->pView = viewer->pDoc->GetView();
 	GtkWidget* w = viewer->pView->GetWidget ();
 	gtk_container_add (GTK_CONTAINER (viewer), w);
