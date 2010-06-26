@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemisty Utils
- * crystalcleavage.h 
+ * gcr/cleavage.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,38 +22,38 @@
  * USA
  */
 
-#ifndef CRYSTAL_CLEAVAGE_H
-#define CRYSTAL_CLEAVAGE_H
+#ifndef GCR_CLEAVAGE_H
+#define GCR_CLEAVAGE_H
 
 #include <libxml/parser.h>
 #include <list>
 
 /*!\file*/
-namespace gcu
+namespace gcr
 {
 
-/*! \class CrystalCleavage gcu/crystalcleavage.h
+/*! \class Cleavage gcr/cleavage.h
 Represents cleavages of a cystal along a plane defined by its Miller indices. A defined number
 of planes are removed by each cleavage. These are those for which the value hx + ky + lz are the greatest. To
 remove planes frome the other side of the crystal, change the sign of the three Miller indices.
 */
-class CrystalCleavage
+class Cleavage
 {
 public:
 /*
 The default constructor.
 */
-	CrystalCleavage ();
+	Cleavage ();
 /*!
 @param ccCleavage: the cleavage instance to copy.
 
 The copy constructor.
 */
-	CrystalCleavage (CrystalCleavage& ccCleavage) ;
+	Cleavage (Cleavage& ccCleavage) ;
 /*
-The destructor of CrystalAtom.
+The destructor of Cleavage.
 */
-	virtual ~CrystalCleavage ();
+	virtual ~Cleavage ();
 
 /*!
 @return the number of planes cleaved.
@@ -74,14 +74,14 @@ The destructor of CrystalAtom.
 /*!
 @param ccCleavage: the cleavage to copy.
 
-@return a CrystalCleavage identical to ccCleavage.
+@return a Cleavage identical to ccCleavage.
 */
-	CrystalCleavage& operator= (CrystalCleavage& ccCleavage) ;
+	Cleavage& operator= (Cleavage& ccCleavage) ;
 /*!
-@param ccCleavage: a CrystalCleavage instance.
+@param ccCleavage: a Cleavage instance.
 @return true if the two cleavages have the same Miller indices and false otherwise.
 */
-	bool operator== (CrystalCleavage& ccCleavage) ;
+	bool operator== (Cleavage& ccCleavage) ;
 /*!
 	@param xml: the xmlDoc used to save the document.
 	
@@ -92,7 +92,7 @@ The destructor of CrystalAtom.
 /*!
 @param node: a pointer to the xmlNode containing the serialized cleavage.
 
-Used to load an CrystalCleavage instance in memory. The CrystalCleavage must already exist.
+Used to load an Cleavage instance in memory. The Cleavage must already exist.
 @return true on succes, false otherwise.
 */
 	bool Load (xmlNodePtr node);
@@ -117,10 +117,10 @@ Number of planes cleaved.
 };
 
 /*!
-a list of pointers to CrystalCleavage instances derived from std::list.
+a list of pointers to Cleavage instances derived from std::list.
 */
-typedef std::list<CrystalCleavage*> CrystalCleavageList;
+typedef std::list<Cleavage*> CleavageList;
 	
-} //namespace gcu
+} //namespace gcr
 
-#endif //CRYSTAL_CLEAVAGE_H
+#endif	//	GCR_CLEAVAGE_H

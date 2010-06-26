@@ -66,13 +66,13 @@ libs/gcp/text.cc
 libs/gcp/theme.cc
 libs/gcp/view.cc
 libs/gcp/window.cc
+libs/gcr/document.cc
+libs/gcr/view.cc
 libs/gcu/application.cc
 libs/gcu/atom.cc
 libs/gcu/bond.cc
 libs/gcu/chain.cc
 libs/gcu/cycle.cc
-libs/gcu/crystaldoc.cc
-libs/gcu/crystalview.cc
 libs/gcu/dialog.cc
 libs/gcu/document.cc
 libs/gcu/element.cc

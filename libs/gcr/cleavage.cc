@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemisty Utils
- * crystalcleavage.cc 
+ * gcr/cleavage.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,21 +23,21 @@
  */
 
 #include "config.h"
-#include "crystalcleavage.h"
+#include "cleavage.h"
 #include <glib.h>
 
-namespace gcu
+namespace gcr
 {
 
-CrystalCleavage::CrystalCleavage()
-{
-}
-
-CrystalCleavage::~CrystalCleavage()
+Cleavage::Cleavage()
 {
 }
 
-CrystalCleavage::CrystalCleavage(CrystalCleavage& ccClivage)
+Cleavage::~Cleavage()
+{
+}
+
+Cleavage::Cleavage(Cleavage& ccClivage)
 {
 	m_nh = ccClivage.m_nh ;
 	m_nk = ccClivage.m_nk ;
@@ -45,7 +45,7 @@ CrystalCleavage::CrystalCleavage(CrystalCleavage& ccClivage)
 	m_nPlanes = ccClivage.m_nPlanes ;
 }
 
-CrystalCleavage& CrystalCleavage::operator=(CrystalCleavage& ccClivage)
+Cleavage& Cleavage::operator=(Cleavage& ccClivage)
 {
 	m_nh = ccClivage.m_nh ;
 	m_nk = ccClivage.m_nk ;
@@ -54,12 +54,12 @@ CrystalCleavage& CrystalCleavage::operator=(CrystalCleavage& ccClivage)
 	return *this ;
 }
 
-bool CrystalCleavage::operator==(CrystalCleavage& ccClivage)
+bool Cleavage::operator==(Cleavage& ccClivage)
 {
 	return ((m_nh == ccClivage.m_nh) && (m_nk == ccClivage.m_nk) && (m_nl == ccClivage.m_nl));
 }
 
-xmlNodePtr CrystalCleavage::Save(xmlDocPtr xml) const
+xmlNodePtr Cleavage::Save(xmlDocPtr xml) const
 {
 	xmlNodePtr node;
 	gchar buf[256];
@@ -81,7 +81,7 @@ xmlNodePtr CrystalCleavage::Save(xmlDocPtr xml) const
 	return node;
 }
 
-bool CrystalCleavage::Load (xmlNodePtr node)
+bool Cleavage::Load (xmlNodePtr node)
 {
 	char *txt;
 	txt = (char*) xmlGetProp (node, (xmlChar*) "h");
@@ -123,4 +123,4 @@ bool CrystalCleavage::Load (xmlNodePtr node)
 	return true;
 }
 
-}	//	namespace gcu
+}	//	namespace gcr

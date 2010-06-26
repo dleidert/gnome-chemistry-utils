@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * crystalview.h 
+ * gcr/view.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,8 +22,8 @@
  * USA
  */
 
-#ifndef CRYSTAL_VIEW_H
-#define CRYSTAL_VIEW_H
+#ifndef GCR_VIEW_H
+#define GCR_VIEW_H
 
 #include <libxml/parser.h>
 #include <gcu/matrix.h>
@@ -33,30 +33,30 @@
 #include <gtk/gtkwidget.h>
 
 /*!\file*/
-namespace gcu
+namespace gcr
 {
-class CrystalDoc;
+class Document;
 	
-/*!\class CrystalView gcu/crystalview.h
+/*!\class View gcr/view.h
 The class representing a view of the model. Each document
 might have several views.
 Most methods are automatically called by the framework and should not be explicitely used in programs.
 */
-class CrystalView: public GLView
+class View: public gcu::GLView
 {
 public:
 //!Constructor.
 /*!
-@param pDoc: a pointer to the CrystalDoc instance.
+@param pDoc: a pointer to the Document instance.
 
 Creates a new view for the document.
 */
-	CrystalView (CrystalDoc* pDoc);
+	View (Document* pDoc);
 //!Destructor.
 /*!
-The destructor of CrystalView.
+The destructor of View.
 */
-	virtual ~CrystalView ();
+	virtual ~View ();
 
 /*!
 @param node: a pointer to the xmlNode containing the serialized view.
@@ -81,6 +81,6 @@ The width of the widget.
 	gdouble m_width;
 };
 
-} //namespace gcu
+}	//	namespace gcr
 
-#endif //CRYSTAL_VIEW_H
+#endif	//	GCR_VIEW_H

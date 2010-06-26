@@ -11,9 +11,9 @@ DEFS += -DSRCDIR=\"$(TESTSSRCDIR)\"
 
 check_PROGRAMS = \
 	testgcuperiodic \
-	testgcucrystalviewer \
+	testgcrcrystalviewer \
 	testgcuchem3dviewer
 
-testgcucrystalviewer_SOURCES = testgcucrystalviewer.c
+testgcrcrystalviewer_SOURCES = testgcrcrystalviewer.c
 testgcuchem3dviewer_SOURCES = testgcuchem3dviewer.c
 testgcuperiodic_SOURCES = testgcuperiodic.c

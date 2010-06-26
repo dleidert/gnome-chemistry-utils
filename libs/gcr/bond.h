@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * crystalbond.h 
+ * gcr/bond.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,29 +22,29 @@
  * USA
  */
 
-#ifndef CRYSTAL_BOND_H
-#define CRYSTAL_BOND_H
+#ifndef GCR_BOND_H
+#define GCR_BOND_H
 
 #include <libxml/parser.h>
 #include <list>
-#include "bond.h"
+#include <gcu/bond.h>
 
-namespace gcu
+namespace gcr
 {
 
-/*!\class CrystalBond gcu/crystalbond.h
+/*!\class Bond gcr/bond.h
 This class will be used to represent bonds inside crystals. It is not implemented yet.
 */
-class CrystalBond: public Bond 
+class Bond: public gcu::Bond 
 {
 public:
-	CrystalBond ();
-	virtual ~CrystalBond ();
+	Bond ();
+	virtual ~Bond ();
 
 public :
-	CrystalBond (double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha);
-	CrystalBond (CrystalBond& cbBond);
-	CrystalBond& operator= (CrystalBond&);
+	Bond (double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha);
+	Bond (Bond& cbBond);
+	Bond& operator= (Bond&);
 
 	void Draw ();
 	double X1 (void) {return m_dx;}
@@ -65,7 +65,7 @@ public :
 	void GetColor (double *red, double *green, double *blue, double *alpha);
 	void SetRadius (double r);
 	double GetRadius () {return m_dr;};
-	bool operator== (CrystalBond&);
+	bool operator== (Bond&);
 	virtual void Move (double x, double y, double z);
 	double ScalProd (int h, int k, int l);
 	void Cleave () {m_nCleave++;}
@@ -83,8 +83,8 @@ private :
 	int m_nCleave; //0 if not cleaved
 };
 
-typedef std::list<CrystalBond*> CrystalBondList;
+typedef std::list<Bond*> BondList;
 
-}// namespace gcu
+}// namespace gcr
 
-#endif // CRYSTAL_BOND_H
+#endif // GCR_BOND_H

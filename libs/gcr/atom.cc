@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * crystalatom.cc 
+ * gcr/atom.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,21 +23,21 @@
  */
 
 #include "config.h"
-#include "element.h"
-#include "crystalatom.h"
-#include "document.h"
-#include "element.h"
-#include "objprops.h"
-#include "xml-utils.h"
+#include "atom.h"
+#include <gcu/element.h>
+#include <gcu/document.h>
+#include <gcu/element.h>
+#include <gcu/objprops.h>
+#include <gcu/xml-utils.h>
 #include <GL/glu.h>
 #include <cmath>
 #include <string>
 #include <sstream>
 
-namespace gcu
+namespace gcr
 {
 
-CrystalAtom::CrystalAtom(): Atom()
+Atom::Atom (): gcu::Atom ()
 {
 	m_Radius.Z = (unsigned char) GetZ();
 	m_Radius.type = GCU_RADIUS_UNKNOWN;
@@ -54,11 +54,11 @@ CrystalAtom::CrystalAtom(): Atom()
 	m_EffectiveRadiusRatio = 1.;
 }
 
-CrystalAtom::~CrystalAtom()
+Atom::~Atom ()
 {
 }
 
-CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
+Atom::Atom (int Z, double x, double y, double z): gcu::Atom (Z, x, y, z)
 {
 	m_Radius.Z = (unsigned char) GetZ();
 	m_Radius.type = GCU_RADIUS_UNKNOWN;
@@ -74,7 +74,7 @@ CrystalAtom::CrystalAtom(int Z, double x, double y, double z): Atom(Z, x, y, z)
 	m_EffectiveRadiusRatio = 1.;
 }
 
-CrystalAtom::CrystalAtom(CrystalAtom& caAtom): Atom(caAtom)
+Atom::Atom (Atom& caAtom): gcu::Atom (caAtom)
 {
 	m_Radius.scale = NULL;
 	SetRadius(caAtom.m_Radius);
@@ -87,7 +87,7 @@ CrystalAtom::CrystalAtom(CrystalAtom& caAtom): Atom(caAtom)
 	m_nCleave = 0;
 }
 
-CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
+Atom& Atom::operator= (Atom& caAtom)
 {
 	SetZ(caAtom.GetZ());
 	double x, y, z;
@@ -105,7 +105,7 @@ CrystalAtom& CrystalAtom::operator=(CrystalAtom& caAtom)
 	return *this ;
 }
 
-void CrystalAtom::SetColor(float red, float green, float blue, float alpha)
+void Atom::SetColor (float red, float green, float blue, float alpha)
 {
 	m_bCustomColor = true;
 	m_fRed = red ;
@@ -114,18 +114,18 @@ void CrystalAtom::SetColor(float red, float green, float blue, float alpha)
 	m_fAlpha = alpha ;
 }
 
-void CrystalAtom::SetDefaultColor()
+void Atom::SetDefaultColor ()
 {
 	if (GetZ () < 1)
 		return;
 	m_bCustomColor = false;
-	double *Colors = Element::GetElement(GetZ())->GetDefaultColor();
+	double *Colors = gcu::Element::GetElement(GetZ())->GetDefaultColor();
 	m_fRed = (float) Colors[0];
 	m_fGreen = (float) Colors[1];
 	m_fBlue = (float) Colors[2];
 }
 
-void CrystalAtom::GetColor(double *red, double *green, double *blue, double *alpha)
+void Atom::GetColor (double *red, double *green, double *blue, double *alpha)
 {
 	*red = m_fRed ;
 	*green = m_fGreen ;
@@ -133,7 +133,7 @@ void CrystalAtom::GetColor(double *red, double *green, double *blue, double *alp
 	*alpha = m_fAlpha ;
 }
 
-void CrystalAtom::SetSize(double r)
+void Atom::SetSize (double r)
 {
 	m_Radius.Z = (unsigned char) GetZ();
 	m_Radius.type = GCU_RADIUS_UNKNOWN;
@@ -148,12 +148,12 @@ void CrystalAtom::SetSize(double r)
 }
 
 
-double CrystalAtom::GetSize()
+double Atom::GetSize ()
 {
 	return m_Radius.value.value;
 }
 
-bool CrystalAtom::operator==(CrystalAtom& caAtom)
+bool Atom::operator== (Atom& caAtom)
 {
 	// original version only checked x, y and z, we might need a SameCoords method.
 	return ((fabs (x() - caAtom.x()) < PREC) &&
@@ -163,12 +163,12 @@ bool CrystalAtom::operator==(CrystalAtom& caAtom)
 			(GetCharge () == caAtom.GetCharge ())) ;
 }
 
-double CrystalAtom::ScalProd(int h, int k, int l)
+double Atom::ScalProd (int h, int k, int l)
 {
 	return x() * h + y() * k + z() * l ;
 }
 
-double CrystalAtom::Distance(double dx, double dy, double dz, bool bFixed)
+double Atom::Distance (double dx, double dy, double dz, bool bFixed)
 {
 	if ((m_nCleave > 0) && ! bFixed) return 0. ;
 	dx -= x() ;
@@ -177,7 +177,7 @@ double CrystalAtom::Distance(double dx, double dy, double dz, bool bFixed)
 	return sqrt(dx * dx + dy * dy + dz * dz) + m_Radius.value.value ;
 }
 
-void CrystalAtom::NetToCartesian(double a, double b, double c, double alpha, double beta, double gamma)
+void Atom::NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma)
 {
 	double dx = x() * a ;
 	double dy = y() * b ;
@@ -187,34 +187,36 @@ void CrystalAtom::NetToCartesian(double a, double b, double c, double alpha, dou
 		(dx * cos(beta) + dy * cos(alpha) + dz));
 }
 
-bool CrystalAtom::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
+bool Atom::SaveNode (xmlDocPtr xml, xmlNodePtr node) const
 {
-	if (!WriteRadius (xml, node, m_Radius))
+	if (!gcu::WriteRadius (xml, node, m_Radius))
 		return false;
 
-	if (m_bCustomColor && !WriteColor (xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha))
+	if (m_bCustomColor && !gcu::WriteColor (xml, node, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha))
 		return false;
 
 	return true;
 }
 
-bool CrystalAtom::LoadNode(xmlNodePtr node)
+bool Atom::LoadNode (xmlNodePtr node)
 {
-	xmlNodePtr child = FindNodeByNameAndId(node, "color");
-	if (!child) SetDefaultColor();
-	else
-	{
-		if (!ReadColor(node, NULL, &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha)) return false;
+	xmlNodePtr child = gcu::FindNodeByNameAndId (node, "color");
+	if (!child)
+		SetDefaultColor();
+	else {
+		if (!gcu::ReadColor (node, NULL, &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha))
+			return false;
 		m_bCustomColor = true;
 	}
-	child = FindNodeByNameAndId(node, "radius");
-	if (!child) return false;
-	m_Radius.Z = GetZ();
-	bool result = ReadRadius(child, m_Radius);
+	child = gcu::FindNodeByNameAndId (node, "radius");
+	if (!child)
+		return false;
+	m_Radius.Z = GetZ ();
+	bool result = gcu::ReadRadius (child, m_Radius);
 	return result;
 }
 
-void CrystalAtom::SetRadius(const GcuAtomicRadius& r)
+void Atom::SetRadius(const GcuAtomicRadius& r)
 {
 	m_Radius.type = r.type;
 	m_Radius.value = r.value;
@@ -224,7 +226,7 @@ void CrystalAtom::SetRadius(const GcuAtomicRadius& r)
 	m_Radius.spin = r.spin;
 }
 
-bool CrystalAtom::SetProperty (unsigned property, char const *value)
+bool Atom::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
 	case GCU_PROP_POS2D:
@@ -247,7 +249,7 @@ bool CrystalAtom::SetProperty (unsigned property, char const *value)
 	return  true;
 }
 
-std::string CrystalAtom::GetProperty (unsigned property) const
+std::string Atom::GetProperty (unsigned property) const
 {
 	std::ostringstream res;
 	switch (property) {

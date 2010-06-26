@@ -28,12 +28,6 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		chem3ddoc.cc	\
 		chemistry.cc \
 		cmd-context.cc \
-		crystalatom.cc \
-		crystalbond.cc \
-		crystalcleavage.cc \
-		crystaldoc.cc \
-		crystalline.cc \
-		crystalview.cc \
 		cycle.cc \
 		cylinder.cc	\
 		dialog.cc \
@@ -44,7 +38,6 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		formula.cc \
 		gcuchem3dviewer.cc \
 		gcucomboperiodic.c \
-		gcucrystalviewer.cc \
 		gcuperiodic.c \
 		gcuspectrumviewer.cc \
 		gldocument.cc	\
@@ -79,12 +72,6 @@ noinst_HEADERS = \
 		chem3ddoc.h	\
 		chemistry.h \
 		cmd-context.h \
-		crystalatom.h \
-		crystalbond.h \
-		crystalcleavage.h \
-		crystaldoc.h \
-		crystalline.h \
-		crystalview.h \
 		cycle.h \
 		cylinder.h	\
 		dialog.h \
@@ -95,7 +82,6 @@ noinst_HEADERS = \
 		formula.h \
 		gcuchem3dviewer.h \
 		gcucomboperiodic.h \
-		gcucrystalviewer.h \
 		gcuperiodic.h \
 		gcuspectrumviewer.h \
 		gldocument.h	\

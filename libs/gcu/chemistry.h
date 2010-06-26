@@ -31,7 +31,7 @@ Available widgets are:
 - GcpFontSel: a font selector.
 - GcuPeriodic: a periodic table of the elements.
 - GcuComboPeriodic: a combo box with a dropdown periodic table widget.
-- GcuCrystalViewer: a crystal structure viewer.
+- GcrCrystalViewer: a crystal structure viewer.
 - GcuChem3DViewer: a 3D molecular structure viewer.
 - GcuSpectrumViewer: a spectrum viewer.
 

@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemisty Utils
- * crystaldoc.h 
+ * gcr/document.h 
  *
- * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,27 +22,29 @@
  * USA
  */
 
-#ifndef CRYSTAL_DOC_H
-#define CRYSTAL_DOC_H
+#ifndef GCR_DOCUMENT_H
+#define GCR_DOCUMENT_H
 
 #include <libxml/tree.h>
 #include <glib.h>
-#include "chemistry.h"
-#include "crystalatom.h"
-#include "crystalbond.h"
-#include "crystalline.h"
-#include "crystalcleavage.h"
-#include "document.h"
-#include "macros.h"
+#include "atom.h"
+#include "bond.h"
+#include "line.h"
+#include "cleavage.h"
+#include <gcu/chemistry.h>
+#include <gcu/macros.h>
 #include <gcu/gldocument.h>
 
-/*!\file*/
-namespace gcu
-{
-
-class CrystalView;
+namespace gcu {
+class Application;
 class Matrix;
 class SpaceGroup;
+}
+
+/*!\file*/
+namespace gcr {
+
+class View;
 
 /*!\enum gcLattices crystalviewer/crystaldoc.h
 This enumeration gives sympolic names to the fourteen Bravais lattices.
@@ -79,29 +81,29 @@ enum gcLattices {cubic=0,
 				 triclinic
 };
 
-/*!\class CrystalDoc gcu/crystaldoc.h
+/*!\class Document gcr/document.h
 The document containing the crystal structure.
 */				 
-class CrystalDoc: public GLDocument
+class Document: public gcu::GLDocument
 {
 public:
 /*!
-The constructor of CrystalDoc
+The constructor of Document
 */
-	CrystalDoc (Application *App);
+	Document (gcu::Application *App);
 /*!
-The destructor of CrystalDoc
+The destructor of Document
 */
-	virtual ~CrystalDoc ();
+	virtual ~Document ();
 
 /*!
 @param xml: a pointer to the root xmlNode of the xmlDoc containing the definition of the crystal.
 
 Analyses the contents of the XML document and builds the cryatl structure from the data. Typical usage is:
 \code
-CrystalDoc* crystal = new CrystalDoc();
-xmlDocPtr doc = xmlParseFile(filename);
-crystal->ParseXMLTree(doc->children);
+Document *crystal = new Document();
+xmlDocPtr doc = xmlParseFile (filename);
+crystal->ParseXMLTree (doc->children);
 \endcode
 */
 	void ParseXMLTree (xmlNode* xml);
@@ -111,44 +113,44 @@ everything and updates all the views.
 */
 	void Update ();
 /*!
-@return a pointer to the first CrystalView of the document. The view will be created if it does not already exist.
+@return a pointer to the first View of the document. The view will be created if it does not already exist.
 */
-	CrystalView* GetView ();
+	View* GetView ();
 
 /*!
 @param m the Matrix giving the current model orientation
 
 Displays the molecule using OpenGL.
 */
-	void Draw (Matrix const &m) const;
+	void Draw (gcu::Matrix const &m) const;
 
 /*!
 Creates a view of the document. This method should be overrided by programs deriving a new view class from
-CrystalView.
+View.
 
-@return a pointer to the new CrystalView instance.
+@return a pointer to the new View instance.
 */
-	virtual CrystalView* CreateNewView ();
+	virtual View* CreateNewView ();
 /*!
 Creates a new atom. This method should be overrided by programs deriving a new atom class from
-CrystalAtom.
+Atom.
 
-@return a pointer to the new CrystalAtom instance.
+@return a pointer to the new Atom instance.
 */
-	virtual CrystalAtom* CreateNewAtom ();
+	virtual Atom* CreateNewAtom ();
 /*!
 Creates a new line. This method should be overrided by programs deriving a new view class from
-CrystalLine.
+Line.
 
-@return a pointer to the new CrystalLine instance.
+@return a pointer to the new Line instance.
 */
-	virtual CrystalLine* CreateNewLine ();
+	virtual Line* CreateNewLine ();
 /*!
 Creates a new cleavage. This method should be overrided by programs deriving a new line class from
-CrystalCleavage
-@return a pointer to the new CrystalCleavage instance.
+Cleavage
+@return a pointer to the new Cleavage instance.
 */
-	virtual CrystalCleavage* CreateNewCleavage ();
+	virtual Cleavage* CreateNewCleavage ();
 /*!
 Builds the xmlDoc corresponding to the crystal structure.
 @return a pointer to the XML document.
@@ -182,7 +184,7 @@ Used when saving to get properties from the document.
 Called by the application whe the document has been loaded to update the title
 and add some lines.
 */
-	bool Loaded () throw (LoaderError);
+	bool Loaded () throw (gcu::LoaderError);
 /*!
 	@param object the Object instance to add as a child.
 */
@@ -191,15 +193,15 @@ and add some lines.
 Attempts to infer the symmetry space group for the crystal.
 @return the SpaceGroup found.
 */
-	SpaceGroup const *FindSpaceGroup ();
+	gcu::SpaceGroup const *FindSpaceGroup ();
 /*!
-Reinitialize a CrystalDoc instance. Used when loading a file in an already existing document.
+Reinitialize a Document instance. Used when loading a file in an already existing document.
 */
 	void Reinit ();
 
 protected:
 /*!
-Initialize a new CrystalDoc instance.
+Initialize a new Document instance.
 */
 	void Init ();
 /*!
@@ -210,8 +212,8 @@ Loads a view from a XML document. This methd must be overrided by applications s
 	virtual bool LoadNewView (xmlNodePtr node);
 
 private:
-	void Duplicate (CrystalAtom& Atom);
-	void Duplicate (CrystalLine& Line);
+	void Duplicate (Atom& Atom);
+	void Duplicate (Line& Line);
 
 protected:
 /*!
@@ -273,27 +275,27 @@ true if cleavages must not change positions in the view.
 /*!
 List of the atoms in the definition of the crystal
 */
-	CrystalAtomList AtomDef;
+	AtomList AtomDef;
 /*!
 List of the atoms displayed.
 */
-	CrystalAtomList Atoms;
+	AtomList Atoms;
 /*!
 List of the lines in the definition of the crystal
 */
-	CrystalLineList LineDef;
+	LineList LineDef;
 /*!
 List of the lines displayed.
 */
-	CrystalLineList Lines;
+	LineList Lines;
 /*!
 List of the cleavages defined.
 */
-	CrystalCleavageList Cleavages;
+	CleavageList Cleavages;
 /*!
 List of the views of the document.
 */
-	std::list <CrystalView *> m_Views;
+	std::list <View *> m_Views;
 	
 /*!\fn GetNameCommon()
 @return the common name or the chemical entity.
@@ -321,7 +323,7 @@ Associates a the space group with the lattice.
 /*!\fn GetRefSpaceGroup()
 @return the space group associated with the lattice as a reference.
 */
-GCU_PROP (SpaceGroup const *, SpaceGroup)
+GCU_PROP (gcu::SpaceGroup const *, SpaceGroup)
 /*!\fn SetAutoSpaceGroup(bool auto)
 @param auto wheteher the lattice SpaceGroup should be automatically searched for.
 
@@ -342,6 +344,6 @@ A table of the Bravais lattices names.
 */
 extern gchar const *LatticeName[];
 
-} //namespace gcu
+} // namespace gcr
 
-#endif //CRYSTAL_DOC_H
+#endif // GCR_DOCUMENT_H

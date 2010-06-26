@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemisty Utils
- * crystaldoc.cc 
+ * gcr/document.cc 
  *
- * Copyright (C) 2002-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,16 +24,16 @@
 
 #include "config.h"
 #include <cstring>
-#include "crystaldoc.h"
-#include "crystalview.h"
-#include "cylinder.h"
-#include "matrix.h"
-#include "objprops.h"
-#include "spacegroup.h"
-#include "sphere.h"
-#include "transform3d.h"
-#include "vector.h"
-#include "xml-utils.h"
+#include "document.h"
+#include "view.h"
+#include <gcu/cylinder.h>
+#include <gcu/matrix.h>
+#include <gcu/objprops.h>
+#include <gcu/spacegroup.h>
+#include <gcu/sphere.h>
+#include <gcu/transform3d.h>
+#include <gcu/vector.h>
+#include <gcu/xml-utils.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <libintl.h>
@@ -50,8 +50,7 @@
 
 using namespace std;
 
-namespace gcu
-{
+namespace gcr {
 	
 gchar const *LatticeName[] = {
 	"simple cubic",
@@ -70,7 +69,7 @@ gchar const *LatticeName[] = {
 	"triclinic"
 };
 
-CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
+Document::Document (gcu::Application *App): gcu::GLDocument (App),
 	m_SpaceGroup (NULL), m_AutoSpaceGroup (false)
 {
 	m_xmin = m_ymin = m_zmin = 0;
@@ -78,7 +77,7 @@ CrystalDoc::CrystalDoc (Application *App): GLDocument (App),
 }
 
 
-CrystalDoc::~CrystalDoc()
+Document::~Document()
 {
 	while (!AtomDef.empty ()) {
 		delete AtomDef.front ();
@@ -105,7 +104,7 @@ CrystalDoc::~CrystalDoc()
 	}
 }
 
-void CrystalDoc::Reinit()
+void Document::Reinit()
 {
 	//destruction of lists
 	while (!AtomDef.empty ()) {
@@ -131,12 +130,12 @@ void CrystalDoc::Reinit()
 	Init ();
 }
 
-void CrystalDoc::Init()
+void Document::Init()
 {
 	m_a = m_b = m_c = 100;
 	m_alpha = m_beta = m_gamma = 90;
 	m_lattice = cubic;
-	m_SpaceGroup = SpaceGroup::GetSpaceGroup (195);
+	m_SpaceGroup = gcu::SpaceGroup::GetSpaceGroup (195);
 	m_AutoSpaceGroup = false;
 	m_xmin = m_ymin = m_zmin = 0;
 	m_xmax = m_ymax = m_zmax = 1;
@@ -144,12 +143,12 @@ void CrystalDoc::Init()
 	m_MaxDist = 0;
 	if (m_Views.size() == 0)
 	{
-		CrystalView* pView = CreateNewView();
+		View* pView = CreateNewView();
 		m_Views.push_back(pView);
 	}
 }
 
-void CrystalDoc::ParseXMLTree (xmlNode* xml)
+void Document::ParseXMLTree (xmlNode* xml)
 {
 	char *old_num_locale, *txt;
 	xmlNodePtr node;
@@ -185,7 +184,7 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 				m_lattice = (gcLattices)i;
 			xmlFree (txt);
 		} else if (!strcmp ((gchar*) node->name, "group")) {
-			SpaceGroup *group = new SpaceGroup ();
+			gcu::SpaceGroup *group = new gcu::SpaceGroup ();
 			txt = (char*) xmlGetProp (node, (xmlChar*) "Hall");
 			if (txt) {
 				group->SetHallName (txt);
@@ -208,7 +207,7 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 				}
 				child = child->next;
 			}
-			m_SpaceGroup = SpaceGroup::Find (group);
+			m_SpaceGroup = gcu::SpaceGroup::Find (group);
 			delete group;
 		} else if (!strcmp ((gchar*) node->name, "cell")) {
 			txt = (char*) xmlGetProp (node, (xmlChar*)"a");
@@ -242,8 +241,8 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 				xmlFree (txt);
 			}
 		} else if (!strcmp ((gchar*) node->name, "size")) {
-			ReadPosition (node, "start", &m_xmin, &m_ymin, &m_zmin);
-			ReadPosition (node, "end", &m_xmax, &m_ymax, &m_zmax);
+			gcu::ReadPosition (node, "start", &m_xmin, &m_ymin, &m_zmin);
+			gcu::ReadPosition (node, "end", &m_xmax, &m_ymax, &m_zmax);
 			txt = (char*) xmlGetProp (node, (xmlChar*) "fixed");
 			if (txt) {
 				if (!strcmp (txt, "true"))
@@ -251,19 +250,19 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 				xmlFree (txt);
 			}
 		} else if (!strcmp ((gchar*) node->name, "atom")) {
-			CrystalAtom *pAtom = CreateNewAtom ();
+			Atom *pAtom = CreateNewAtom ();
 			if (pAtom->Load (node))
 				AddChild (pAtom);
 			else
 				delete pAtom;
 		} else if (!strcmp ((gchar*) node->name, "line")) {
-			CrystalLine *pLine = CreateNewLine ();
+			Line *pLine = CreateNewLine ();
 			if (pLine->Load (node))
 				LineDef.push_back (pLine);
 			else
 				delete pLine;
 		} else if (!strcmp ((gchar*) node->name, "cleavage")) {
-			CrystalCleavage *pCleavage = CreateNewCleavage ();
+			Cleavage *pCleavage = CreateNewCleavage ();
 			if (pCleavage->Load (node))
 				Cleavages.push_back (pCleavage);
 			else
@@ -283,26 +282,26 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 	Update ();
 }
 
-bool CrystalDoc::LoadNewView(G_GNUC_UNUSED xmlNodePtr node)
+bool Document::LoadNewView(G_GNUC_UNUSED xmlNodePtr node)
 {
 	return true;
 }
 
-CrystalView *CrystalDoc::GetView()
+View *Document::GetView()
 {
 	if (m_Views.size() == 0)
 	{
-		CrystalView* pView = CreateNewView();
+		View* pView = CreateNewView();
 		m_Views.push_back(pView);
 	}
 	return m_Views.front();
 }
 
-void CrystalDoc::Update()
+void Document::Update()
 {
 	m_Empty = (AtomDef.empty() && LineDef.empty()) ? true : false;
-	CrystalAtom Atom;
-	CrystalLine Line;
+	Atom atom;
+	Line line;
 	gdouble alpha = m_alpha * M_PI / 180;
 	gdouble beta = m_beta * M_PI / 180;
 	gdouble gamma = m_gamma * M_PI / 180;
@@ -324,46 +323,46 @@ void CrystalDoc::Update()
 
 	////////////////////////////////////////////////////////////
 	//Establish list of atoms
-	CrystalAtomList::iterator i, iend = AtomDef.end ();
+	AtomList::iterator i, iend = AtomDef.end ();
 
 	if (m_SpaceGroup) {
-		Vector v;
-		list<Vector> d;
+		gcu::Vector v;
+		list <gcu::Vector> d;
 		for (i = AtomDef.begin(); i != iend; i++) {
 			v.SetX ((*i)->x ());
 			v.SetY ((*i)->y ());
 			v.SetZ ((*i)->z ());
 			d = m_SpaceGroup->Transform (v);
-			list<Vector>::iterator vi, viend = d.end();
-			CrystalAtom atom (**i);
+			list <gcu::Vector>::iterator vi, viend = d.end();
+			Atom atom (**i);
 			for (vi=d.begin (); vi!= viend; vi++) {
 				atom.SetCoords ((*vi).GetX(), (*vi).GetY(), (*vi).GetZ());
 				Duplicate (atom);
 			}
 		}
 	} else for (i = AtomDef.begin(); i != iend; i++) {
-		Duplicate(**i);
+		Duplicate (**i);
 		switch (m_lattice) {
 		case body_centered_cubic:
 		case body_centered_tetragonal:
 		case body_centered_orthorhombic:
-			Atom = **i;
-			Atom.Move(0.5, 0.5, 0.5);
-			Duplicate(Atom);
+			atom = **i;
+			atom.Move(0.5, 0.5, 0.5);
+			Duplicate (atom);
 			break;
 		case face_centered_cubic:
 		case face_centered_orthorhombic:
-			Atom = **i;
-			Atom.Move(0.5, 0, 0.5);
-			Duplicate(Atom);
-			Atom = **i;
-			Atom.Move(0, 0.5, 0.5);
-			Duplicate(Atom);
+			atom = **i;
+			atom.Move (0.5, 0, 0.5);
+			Duplicate (atom);
+			atom = **i;
+			atom.Move(0, 0.5, 0.5);
+			Duplicate (atom);
 		case base_centered_orthorhombic:
 		case base_centered_monoclinic:
-			Atom = **i;
-			Atom.Move(0.5, 0.5, 0);
-			Duplicate(Atom);
+			atom = **i;
+			atom.Move (0.5, 0.5, 0);
+			Duplicate (atom);
 			break;
 		default:
 			break;
@@ -372,64 +371,61 @@ void CrystalDoc::Update()
 	
 	////////////////////////////////////////////////////////////
 	//Establish list of lines
-	CrystalLineList::iterator j, jend = LineDef.end();
-	for (j = LineDef.begin() ; j != jend ; j++)
-	{
-		switch ((*j)->Type())
-		{
+	LineList::iterator j, jend = LineDef.end();
+	for (j = LineDef.begin() ; j != jend ; j++) {
+		switch ((*j)->Type()) {
 		case edges:
-			Line = **j;
-			Line.SetPosition(0 ,0, 0, 1, 0, 0);
-			Duplicate(Line);
-			Line.SetPosition(0 ,0, 0, 0, 1, 0);
-			Duplicate(Line);
-			Line.SetPosition(0 ,0, 0, 0, 0, 1);
-			Duplicate(Line);
+			line = **j;
+			line.SetPosition (0 ,0, 0, 1, 0, 0);
+			Duplicate (line);
+			line.SetPosition (0 ,0, 0, 0, 1, 0);
+			Duplicate (line);
+			line.SetPosition (0 ,0, 0, 0, 0, 1);
+			Duplicate (line);
 			break ;
 		case diagonals:
-			Line = **j;
-			Line.SetPosition(0 ,0, 0, 1, 1, 1);
-			Duplicate(Line);
-			Line.SetPosition(1 ,0, 0, 0, 1, 1);
-			Duplicate(Line);
-			Line.SetPosition(0 ,1, 0, 1, 0, 1);
-			Duplicate(Line);
-			Line.SetPosition(1 ,1, 0, 0, 0, 1);
-			Duplicate(Line);
+			line = **j;
+			line.SetPosition (0 ,0, 0, 1, 1, 1);
+			Duplicate (line);
+			line.SetPosition (1 ,0, 0, 0, 1, 1);
+			Duplicate (line);
+			line.SetPosition (0 ,1, 0, 1, 0, 1);
+			Duplicate (line);
+			line.SetPosition (1 ,1, 0, 0, 0, 1);
+			Duplicate (line);
 			break ;
 		case medians:
-			Line = **j;
-			Line.SetPosition(.5, .5, 0, .5, .5, 1);
-			Duplicate(Line);
-			Line.SetPosition(0, .5, .5, 1, .5, .5);
-			Duplicate(Line);
-			Line.SetPosition(.5, 0, .5, .5, 1, .5);
-			Duplicate(Line);
+			line = **j;
+			line.SetPosition (.5, .5, 0, .5, .5, 1);
+			Duplicate (line);
+			line.SetPosition (0, .5, .5, 1, .5, .5);
+			Duplicate (line);
+			line.SetPosition (.5, 0, .5, .5, 1, .5);
+			Duplicate (line);
 			break ;
 		case normal:
-			Duplicate(**j) ;
-			switch (m_lattice)
-			{
+			Duplicate (**j) ;
+			switch (m_lattice) {
 			case body_centered_cubic:
 			case body_centered_tetragonal:
 			case body_centered_orthorhombic:
-				Line = **j;
-				Line.Move(0.5, 0.5, 0.5);
-				Duplicate(Line);
+				line = **j;
+				line.Move (0.5, 0.5, 0.5);
+				Duplicate (line);
 				break;
 			case face_centered_cubic:
 			case face_centered_orthorhombic:
-				Line = **j;
-				Line.Move(0.5, 0, 0.5);
-				Duplicate(Line);
-				Line = **j;
-				Line.Move(0, 0.5, 0.5);
-				Duplicate(Line);
+				line = **j;
+				line.Move (0.5, 0, 0.5);
+				Duplicate (line);
+				line = **j;
+				line.Move (0, 0.5, 0.5);
+				Duplicate (line);
 			case base_centered_orthorhombic:
 			case base_centered_monoclinic:
-				Line = **j;
-				Line.Move(0.5, 0.5, 0);
-				Duplicate(Line);
+				line = **j;
+				line.Move (0.5, 0.5, 0);
+				Duplicate (line);
 				break;
 			default:
 				break;
@@ -439,12 +435,12 @@ void CrystalDoc::Update()
 			if (((*j)->Xmin() >= m_xmin) && ((*j)->Xmax() <= m_xmax)
 				&& ((*j)->Ymin() >= m_ymin) && ((*j)->Ymax() <= m_ymax)
 				&& ((*j)->Zmin() >= m_zmin) && ((*j)->Zmax() <= m_zmax))
-					Lines.push_back(new CrystalLine(**j)) ;
+					Lines.push_back(new Line(**j)) ;
 		}
 	}
 
 	//Manage cleavages
-	CrystalCleavageList::iterator k;
+	CleavageList::iterator k;
 	for (k = Cleavages.begin(); k != Cleavages.end(); k++)
 	{
 		double x;
@@ -552,17 +548,17 @@ void CrystalDoc::Update()
 	m_SpaceGroup = FindSpaceGroup ();
 }
 
-void CrystalDoc::Duplicate (CrystalAtom& Atom)
+void Document::Duplicate (Atom& atom)
 {
-	CrystalAtom AtomX, AtomY, AtomZ ;
-	AtomX = Atom ;
+	Atom AtomX, AtomY, AtomZ;
+	AtomX = atom ;
 	AtomX.Move (- floor (AtomX.x ()-m_xmin + 1e-7), - floor (AtomX.y ()-m_ymin + 1e-7), - floor (AtomX.z ()-m_zmin + 1e-7)) ;
 	while (AtomX.x () <= m_xmax + 1e-7) {
 		AtomY = AtomX ;
 		while (AtomY.y () <= m_ymax + 1e-7) {
 			AtomZ = AtomY ;
 			while (AtomZ.z () <= m_zmax + 1e-7) {
-				Atoms.push_back (new CrystalAtom (AtomZ)) ;
+				Atoms.push_back (new Atom (AtomZ)) ;
 				AtomZ.Move (0,0,1) ;
 			}
 			AtomY.Move (0,1,0) ;
@@ -571,17 +567,17 @@ void CrystalDoc::Duplicate (CrystalAtom& Atom)
 	}
 }
 
-void CrystalDoc::Duplicate (CrystalLine& Line)
+void Document::Duplicate (Line& line)
 {
-	CrystalLine LineX, LineY, LineZ ;
-	LineX = Line ;
+	Line LineX, LineY, LineZ ;
+	LineX = line ;
 	LineX.Move (- floor (LineX.Xmin ()-m_xmin + 1e-7), - floor (LineX.Ymin ()-m_ymin + 1e-7), - floor (LineX.Zmin ()-m_zmin + 1e-7)) ;
 	while (LineX.Xmax () <= m_xmax + 1e-7) {
 		LineY = LineX ;
 		while (LineY.Ymax () <= m_ymax + 1e-7) {
 			LineZ = LineY ;
 			while (LineZ.Zmax () <= m_zmax + 1e-7) {
-				Lines.push_back (new CrystalLine (LineZ)) ;
+				Lines.push_back (new Line (LineZ)) ;
 				LineZ.Move (0,0,1) ;
 			}
 			LineY.Move (0,1,0) ;
@@ -590,12 +586,12 @@ void CrystalDoc::Duplicate (CrystalLine& Line)
 	}
 }
 	
-void CrystalDoc::Draw (Matrix const &m) const
+void Document::Draw (gcu::Matrix const &m) const
 {
-	Vector v, v1;
-	Sphere sp (10);
+	gcu::Vector v, v1;
+	gcu::Sphere sp (10);
 	glEnable (GL_RESCALE_NORMAL);
-	CrystalAtomList::const_iterator i, iend = Atoms.end ();
+	AtomList::const_iterator i, iend = Atoms.end ();
 	double red, green, blue, alpha;
 	for (i = Atoms.begin (); i != iend; i++)
 		if (!(*i)->IsCleaved ()) {
@@ -608,8 +604,8 @@ void CrystalDoc::Draw (Matrix const &m) const
 			sp.draw (v, (*i)->r () * (*i)->GetEffectiveRadiusRatio ());
 		}
 	glEnable (GL_NORMALIZE);
-	CrystalLineList::const_iterator j, jend = Lines.end ();
-	Cylinder cyl (10);
+	LineList::const_iterator j, jend = Lines.end ();
+	gcu::Cylinder cyl (10);
 	for (j = Lines.begin (); j != jend; j++)
 		if (!(*j)->IsCleaved ()) {
 			v.SetZ ((*j)->X1 ());
@@ -626,32 +622,32 @@ void CrystalDoc::Draw (Matrix const &m) const
 		}
 }
 
-CrystalView* CrystalDoc::CreateNewView()
+View* Document::CreateNewView()
 {
-	return new CrystalView(this);
+	return new View(this);
 }
 
-CrystalAtom* CrystalDoc::CreateNewAtom()
+Atom* Document::CreateNewAtom()
 {
-	return new CrystalAtom();
+	return new Atom();
 }
 
-CrystalLine* CrystalDoc::CreateNewLine()
+Line* Document::CreateNewLine()
 {
-	return new CrystalLine();
+	return new Line();
 }
 
-CrystalCleavage* CrystalDoc::CreateNewCleavage()
+Cleavage* Document::CreateNewCleavage()
 {
-	return new CrystalCleavage();
+	return new Cleavage();
 }
 
-const char* CrystalDoc::GetProgramId() const
+const char* Document::GetProgramId() const
 {
 	return NULL;
 }
 
-xmlDocPtr CrystalDoc::BuildXMLTree () const
+xmlDocPtr Document::BuildXMLTree () const
 {
 	gchar buf[256];
 	xmlDocPtr xml;
@@ -690,8 +686,8 @@ xmlDocPtr CrystalDoc::BuildXMLTree () const
 					xmlNewProp (node, (xmlChar*) "HM", (xmlChar*) name.c_str ());
 			}
 			xmlNodePtr child;
-			list <Transform3d*>::const_iterator i;
-			Transform3d const *t = m_SpaceGroup->GetFirstTransform (i);
+			list <gcu::Transform3d*>::const_iterator i;
+			gcu::Transform3d const *t = m_SpaceGroup->GetFirstTransform (i);
 			while (t) {
 				child = xmlNewDocNode (xml, NULL, (xmlChar*) "transform", (xmlChar const*) t->DescribeAsString ().c_str ());
 				if (child)
@@ -718,33 +714,33 @@ xmlDocPtr CrystalDoc::BuildXMLTree () const
 	
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"size", NULL);
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
-		WritePosition(xml, node, "start", m_xmin, m_ymin, m_zmin);
-		WritePosition(xml, node, "end", m_xmax, m_ymax, m_zmax);
+		gcu::WritePosition(xml, node, "start", m_xmin, m_ymin, m_zmin);
+		gcu::WritePosition(xml, node, "end", m_xmax, m_ymax, m_zmax);
 		if (m_bFixedSize)
 			xmlNewProp (node, (xmlChar *) "fixed", (xmlChar *) "true");
 		
-		CrystalAtomList::const_iterator i;
+		AtomList::const_iterator i;
 		for (i = AtomDef.begin(); i != AtomDef.end(); i++)
 		{
 			node = (*i)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
 	
-		CrystalLineList::const_iterator j;
+		LineList::const_iterator j;
 		for (j = LineDef.begin(); j != LineDef.end(); j++)
 		{
 			node = (*j)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
 	
-		CrystalCleavageList::const_iterator k;
+		CleavageList::const_iterator k;
 		for (k = Cleavages.begin(); k != Cleavages.end(); k++)
 		{
 			node = (*k)->Save(xml);
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
 		
-		list<CrystalView*>::const_iterator view;
+		list<View*>::const_iterator view;
 		for (view = m_Views.begin(); view != m_Views.end(); view++)
 		{
 			node = (*view)->Save(xml);
@@ -765,7 +761,7 @@ xmlDocPtr CrystalDoc::BuildXMLTree () const
 	}
 }
 
-bool CrystalDoc::Loaded () throw (LoaderError)
+bool Document::Loaded () throw (gcu::LoaderError)
 {
 	if (m_NameCommon.length () > 0)
 		SetTitle (m_NameCommon);
@@ -775,9 +771,9 @@ bool CrystalDoc::Loaded () throw (LoaderError)
 		SetTitle (m_NameSystematic);
 	else if (m_NameStructure.length () > 0)
 		SetTitle (m_NameStructure);
-	LineDef.push_back (new CrystalLine (edges, 0., 0., 0., 0., 0., 0., 10., .25 , .25, .25 , 1.));
+	LineDef.push_back (new Line (edges, 0., 0., 0., 0., 0., 0., 10., .25 , .25, .25 , 1.));
 	// set radii
-	CrystalAtomList::iterator i, iend = AtomDef.end ();
+	AtomList::iterator i, iend = AtomDef.end ();
 	GcuAtomicRadius radius;
 	radius.type = GCU_VAN_DER_WAALS;
 	radius.charge = 0;
@@ -858,7 +854,7 @@ bool CrystalDoc::Loaded () throw (LoaderError)
 	return false;	// no pending reference updated
 }
 
-bool CrystalDoc::SetProperty (unsigned property, char const *value)
+bool Document::SetProperty (unsigned property, char const *value)
 {
 	switch (property) {
 	case GCU_PROP_CELL_A:
@@ -892,7 +888,7 @@ bool CrystalDoc::SetProperty (unsigned property, char const *value)
 		m_NameStructure = value;
 		break;
 	case GCU_PROP_SPACE_GROUP: {
-		m_SpaceGroup = SpaceGroup::GetSpaceGroup (value);
+		m_SpaceGroup = gcu::SpaceGroup::GetSpaceGroup (value);
 		char type = (*value == '-')? value[1]: value[0];
 		int id = m_SpaceGroup->GetId ();
 		if (id <= 2)
@@ -942,7 +938,7 @@ bool CrystalDoc::SetProperty (unsigned property, char const *value)
 	return true;
 }
 
-std::string CrystalDoc::GetProperty (unsigned property) const
+std::string Document::GetProperty (unsigned property) const
 {
 	ostringstream res;
 	switch (property) {
@@ -980,17 +976,17 @@ std::string CrystalDoc::GetProperty (unsigned property) const
 	return res.str ();
 }
 
-void CrystalDoc::AddChild (Object* object)
+void Document::AddChild (Object* object)
 {
 	Object::AddChild (object);
-	CrystalAtom *atom = dynamic_cast <CrystalAtom *> (object);
+	Atom *atom = dynamic_cast <Atom *> (object);
 	if (atom) {
 		AtomDef.remove (atom); // don't add more than needed (a set might be better than a list)
 		AtomDef.push_back (atom);
 	}
 }
 
-SpaceGroup const *CrystalDoc::FindSpaceGroup ()
+gcu::SpaceGroup const *Document::FindSpaceGroup ()
 {
 	if (!AtomDef.size ())
 		return NULL;
@@ -1037,17 +1033,17 @@ SpaceGroup const *CrystalDoc::FindSpaceGroup ()
 		start = end = 0;
 	}
 	//make a list of all atoms inside the cell
-	list <CrystalAtom *> atoms;
-	CrystalAtom *a;
+	list <Atom *> atoms;
+	Atom *a;
 	double x, y, z;
-	CrystalAtomList::iterator i, i0, iend = AtomDef.end ();
+	AtomList::iterator i, i0, iend = AtomDef.end ();
 	for (i = AtomDef.begin (); i != iend; i++) {
-		atoms.push_back (new CrystalAtom (**i));
+		atoms.push_back (new Atom (**i));
 		switch (m_lattice) {
 		case body_centered_cubic:
 		case body_centered_tetragonal:
 		case body_centered_orthorhombic:
-			a = new CrystalAtom (**i);
+			a = new Atom (**i);
 			a->GetCoords (&x, &y, &z);
 			x = (x > .5 - PREC)? x - .5: x + .5;
 			y = (y > .5 - PREC)? y - .5: y + .5;
@@ -1057,13 +1053,13 @@ SpaceGroup const *CrystalDoc::FindSpaceGroup ()
 			break;
 		case face_centered_cubic:
 		case face_centered_orthorhombic:
-			a = new CrystalAtom (**i);
+			a = new Atom (**i);
 			a->GetCoords (&x, &y, &z);
 			x = (x > .5 - PREC)? x - .5: x + .5;
 			z = (z > .5 - PREC)? z - .5: z + .5;
 			a->SetCoords (x, y, z);
 			atoms.push_back (a);
-			a = new CrystalAtom (**i);
+			a = new Atom (**i);
 			a->GetCoords (&x, &y, &z);
 			y = (y > .5 - PREC)? y - .5: y + .5;
 			z = (z > .5 - PREC)? z - .5: z + .5;
@@ -1071,7 +1067,7 @@ SpaceGroup const *CrystalDoc::FindSpaceGroup ()
 			atoms.push_back (a);
 		case base_centered_orthorhombic:
 		case base_centered_monoclinic:
-			a = new CrystalAtom (**i);
+			a = new Atom (**i);
 			a->GetCoords (&x, &y, &z);
 			x = (x > .5 - PREC)? x - .5: x + .5;
 			y = (y > .5 - PREC)? y - .5: y + .5;
@@ -1083,17 +1079,17 @@ SpaceGroup const *CrystalDoc::FindSpaceGroup ()
 		}
 	}
 	iend = atoms.end ();
-	SpaceGroup const *res = NULL;
-	Vector v;
-	std::list <Vector>::iterator j, jend;
+	gcu::SpaceGroup const *res = NULL;
+	gcu::Vector v;
+	std::list <gcu::Vector>::iterator j, jend;
 	for (id = end; id >= start; id--) {
-		std::list <SpaceGroup const *> &groups = SpaceGroup::GetSpaceGroups (id);
-		std::list <SpaceGroup const *>::iterator g, gend = groups.end ();
+		std::list <gcu::SpaceGroup const *> &groups = gcu::SpaceGroup::GetSpaceGroups (id);
+		std::list <gcu::SpaceGroup const *>::iterator g, gend = groups.end ();
 		for (g = groups.begin (); g != gend; g++) {
 			for (i = atoms.begin (); i != iend; i++) {
-				a = new CrystalAtom (**i);
+				a = new Atom (**i);
 				v = a->GetVector ();
-				std::list <Vector> vv = (*g)->Transform (v);
+				std::list <gcu::Vector> vv = (*g)->Transform (v);
 				jend = vv.end ();
 				for (j = vv.begin (); j != jend; j++) {
 					x = (*j).GetX ();
@@ -1131,14 +1127,14 @@ end_loop:;
 	// now, search for duplicates in AtomDef
 	if (!res)
 		return NULL;
-	set <CrystalAtom *> dups;
+	set <Atom *> dups;
 	iend = AtomDef.end ();
 	for (i = AtomDef.begin (); i != iend; i++) {
 		if (dups.find (*i) != dups.end ())
 			continue;
-		a = new CrystalAtom (**i);
+		a = new Atom (**i);
 		v = a->GetVector ();
-		std::list <Vector> vv = res->Transform (v);
+		std::list <gcu::Vector> vv = res->Transform (v);
 		for (j = vv.begin (); j != jend; j++) {
 			x = (*j).GetX ();
 			y = (*j).GetY ();
@@ -1164,7 +1160,7 @@ end_loop:;
 		}
 end_loop1:;
 	}
-	set <CrystalAtom *>::iterator k, kend = dups.end ();
+	set <Atom *>::iterator k, kend = dups.end ();
 	for (k = dups.begin (); k != kend; k++) {
 		AtomDef.remove (*k);
 		delete *k;
@@ -1172,4 +1168,4 @@ end_loop1:;
 	return res;
 }
 
-}	//	namespace gcu
+}	//	namespace gcr

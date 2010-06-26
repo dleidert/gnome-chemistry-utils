@@ -1,5 +1,45 @@
 ##Text encoding: utf-8
 
+2010-06-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/Makefile.am: moved crystal related files from gcu to gcr.
+	(gcrystal will not compile during a few days).
+	* libs/gcr/atom.cc: ditto.
+	* libs/gcr/atom.h: ditto.
+	* libs/gcr/bond.cc: ditto.
+	* libs/gcr/bond.h: ditto.
+	* libs/gcr/cleavage.cc: ditto.
+	* libs/gcr/cleavage.h: ditto.
+	* libs/gcr/document.cc: ditto.
+	* libs/gcr/document.h: ditto.
+	* libs/gcr/gcrcrystalviewer.cc: ditto.
+	* libs/gcr/gcrcrystalviewer.h: ditto.
+	* libs/gcr/line.cc: ditto.
+	* libs/gcr/line.h: ditto.
+	* libs/gcr/view.cc: ditto.
+	* libs/gcr/view.h: ditto.
+	* libs/gcu/Makefile.am: ditto.
+	* libs/gcu/chemistry.h: ditto.
+	* libs/gcu/crystalatom.cc: ditto.
+	* libs/gcu/crystalatom.h: ditto.
+	* libs/gcu/crystalbond.cc: ditto.
+	* libs/gcu/crystalbond.h: ditto.
+	* libs/gcu/crystalcleavage.cc: ditto.
+	* libs/gcu/crystalcleavage.h: ditto.
+	* libs/gcu/crystaldoc.cc: ditto.
+	* libs/gcu/crystaldoc.h: ditto.
+	* libs/gcu/crystalline.cc: ditto.
+	* libs/gcu/crystalline.h: ditto.
+	* libs/gcu/crystalview.cc: ditto.
+	* libs/gcu/crystalview.h: ditto.
+	* libs/gcu/gcucrystalviewer.cc: ditto.
+	* libs/gcu/gcucrystalviewer.h: ditto.
+	* mozilla-plugin/moz-plugin.c: relicense to GPL.
+	* tests/Makefile.am: renamed crystal viewer test.
+	* tests/testgcrcrystalviewer.c: ditto.
+	* tests/testgcuchem3dviewer.c: relicense to GPL.
+	* tests/testgcucrystalviewer.c: removed.
+	* tests/testgcuperiodic.c: relicense to GPL.
+
 2010-06-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/gcucrystalviewer.cc: use the default application to avoid a
 	crash.

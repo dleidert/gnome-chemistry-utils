@@ -1,8 +1,8 @@
 /* 
  * Gnome Chemisty Utils
- * crystalview.cc 
+ * gcr/view.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -21,10 +21,10 @@
  */
 
 #include "config.h"
-#include "crystalview.h"
-#include "crystaldoc.h"
-#include "matrix.h"
-#include "xml-utils.h"
+#include "view.h"
+#include "document.h"
+#include <gcu/matrix.h>
+#include <gcu/xml-utils.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <gtk/gtkgl.h>
@@ -32,21 +32,21 @@
 #include <cmath>
 #include <cstring>
 
-namespace gcu
+namespace gcr
 {
 
-CrystalView::CrystalView(CrystalDoc* pDoc): GLView (pDoc)
+View::View (Document* pDoc): gcu::GLView (pDoc)
 {
 	SetRed (1.);
 	SetGreen (1.);
 	SetBlue (1.);
 }
 
-CrystalView::~CrystalView()
+View::~View ()
 {
 }
 
-bool CrystalView::Load (xmlNodePtr node)
+bool View::Load (xmlNodePtr node)
 {
 	char *txt;
 	xmlNodePtr child = node->children;
@@ -81,7 +81,7 @@ bool CrystalView::Load (xmlNodePtr node)
 		child = child->next;
 	}
 	float r, g, b, a;
-	if (!ReadColor (node, "background", &r, &g, &b, &a))
+	if (!gcu::ReadColor (node, "background", &r, &g, &b, &a))
 		return false;
 	SetRed (r);
 	SetGreen (g);
@@ -90,31 +90,43 @@ bool CrystalView::Load (xmlNodePtr node)
 	return true;
 }
 
-xmlNodePtr CrystalView::Save(xmlDocPtr xml) const
+xmlNodePtr View::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent, child;
 	gchar buf[256];
-	parent = xmlNewDocNode(xml, NULL, (xmlChar*)"view", NULL);
-	if (!parent) return NULL;
+	parent = xmlNewDocNode (xml, NULL, (xmlChar*) "view", NULL);
+	if (!parent)
+		return NULL;
 	
-	child = xmlNewDocNode(xml, NULL, (xmlChar*)"orientation", NULL);
-	if (child) xmlAddChild(parent, child);
-	else {xmlFreeNode(parent); return NULL;}
-	snprintf(buf, sizeof(buf), "%g", GetPsi ());
-	xmlNewProp(child, (xmlChar*)"psi", (xmlChar*)buf);
-	snprintf(buf, sizeof(buf), "%g", GetTheta ());
-	xmlNewProp(child, (xmlChar*)"theta", (xmlChar*)buf);
-	snprintf(buf, sizeof(buf), "%g", GetPhi ());
-	xmlNewProp(child, (xmlChar*)"phi", (xmlChar*)buf);
+	child = xmlNewDocNode (xml, NULL, (xmlChar*) "orientation", NULL);
+	if (child)
+		xmlAddChild (parent, child);
+	else {
+		xmlFreeNode (parent);
+		return NULL;
+	}
+	snprintf (buf, sizeof (buf), "%g", GetPsi ());
+	xmlNewProp (child, (xmlChar*) "psi", (xmlChar*) buf);
+	snprintf (buf, sizeof (buf), "%g", GetTheta ());
+	xmlNewProp (child, (xmlChar*) "theta", (xmlChar*) buf);
+	snprintf (buf, sizeof (buf), "%g", GetPhi ());
+	xmlNewProp (child, (xmlChar*) "phi", (xmlChar*) buf);
 	
-	g_snprintf(buf, sizeof(buf) - 1, "%g", GetAngle ());
-	child = xmlNewDocNode(xml, NULL, (xmlChar*)"fov", (xmlChar*)buf);
-	if (child) xmlAddChild(parent, child);
-	else {xmlFreeNode(parent); return NULL;}
+	g_snprintf (buf, sizeof (buf) - 1, "%g", GetAngle ());
+	child = xmlNewDocNode (xml, NULL, (xmlChar*) "fov", (xmlChar*) buf);
+	if (child)
+		xmlAddChild (parent, child);
+	else {
+		xmlFreeNode (parent);
+		return NULL;
+	}
 	
-	if (!WriteColor(xml, parent, "background", GetRed (), GetGreen (), GetBlue (), GetAlpha ())) {xmlFreeNode(parent); return NULL;}
+	if (!gcu::WriteColor (xml, parent, "background", GetRed (), GetGreen (), GetBlue (), GetAlpha ())) {
+		xmlFreeNode(parent);
+		return NULL;
+	}
 	
 	return parent;
 }
 
-}	//	namespace gcu
+}	//	namespace gcr

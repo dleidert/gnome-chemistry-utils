@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * crystalline.cc 
+ * gcr/line.cc 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-20108 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,8 +22,9 @@
  * USA
  */
 
-#include "crystalline.h"
-#include "xml-utils.h"
+#include "config.h"
+#include "line.h"
+#include <gcu/xml-utils.h>
 #include <glib.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -34,8 +35,7 @@
 #define __min(x,y)  ((x) < (y)) ? (x) : (y)
 #define square(x)	((x)*(x))
 
-namespace gcu
-{
+namespace gcr {
 	
 char const *LineTypeName[] = {
 	"edges",
@@ -45,7 +45,7 @@ char const *LineTypeName[] = {
 	"unique"
 };
 
-CrystalLine::CrystalLine()
+Line::Line ()
 {
 	m_dx = m_dy = m_dz = m_dx2 = m_dy2 = m_dz2 = m_dl = m_dr = 0.0;
 	m_fRed = m_fBlue = m_fGreen = 0.0;
@@ -55,21 +55,21 @@ CrystalLine::CrystalLine()
 	m_nCleave = 0;
 }
 
-CrystalLine::~CrystalLine()
+Line::~Line ()
 {
 }
 
 
-CrystalLine::CrystalLine(CrystalLineType Type, double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha)
+Line::Line (LineType Type, double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha)
 {
 	m_nCleave = 0 ;
 	m_nType = Type;
-	SetPosition(X1, Y1, Z1, X2, Y2, Z2) ;
+	SetPosition (X1, Y1, Z1, X2, Y2, Z2) ;
 	m_dr = r ;
-	SetColor(red, green, blue, alpha) ;
+	SetColor (red, green, blue, alpha) ;
 }
 
-CrystalLine::CrystalLine(CrystalLine& clLine)
+Line::Line (Line& clLine)
 {
 	m_nCleave = 0 ;
 	m_dx = clLine.m_dx ;
@@ -90,7 +90,7 @@ CrystalLine::CrystalLine(CrystalLine& clLine)
 	m_nType = clLine.m_nType ;
 }
 
-CrystalLine& CrystalLine::operator=(CrystalLine& clLine)
+Line& Line::operator= (Line& clLine)
 {
 	m_dx = clLine.m_dx ;
 	m_dy = clLine.m_dy ;
@@ -111,7 +111,7 @@ CrystalLine& CrystalLine::operator=(CrystalLine& clLine)
 	return *this ;
 }
 
-void CrystalLine::SetPosition(double x, double y, double z, double x1, double y1, double z1)
+void Line::SetPosition (double x, double y, double z, double x1, double y1, double z1)
 {
 	m_dx = x ;
 	m_dy = y ;
@@ -123,29 +123,26 @@ void CrystalLine::SetPosition(double x, double y, double z, double x1, double y1
 	x1 -= x ;
 	y1 -= y ;
 	z1 -= z ;
-	m_dl = sqrt(square(x1) + square(y1) + square(z1)) ;
+	m_dl = sqrt (square(x1) + square(y1) + square(z1)) ;
 	//normalization
-	x = sqrt(square(y1) + square(z1)) ;
+	x = sqrt (square(y1) + square(z1)) ;
 	//vectorial product
-	if (x > 0)
-	{
+	if (x > 0) {
 		m_dxrot = - z1 / x ;
 		m_dyrot = y1 / x ;
-		m_darot = atan2(x, x1) * 90 / 1.570796326794897 ;
-	}
-	else
-	{
+		m_darot = atan2 (x, x1) * 180. / M_PI ;
+	} else {
 		m_dxrot = 0;
-		if (x1 > 0) m_dyrot = m_darot = 0.0;
-		else
-		{
+		if (x1 > 0)
+			m_dyrot = m_darot = 0.0;
+		else {
 			m_dyrot = 1.0;
 			m_darot = 180.0;
 		}
 	}
 }
 
-void CrystalLine::SetColor(float red, float green, float blue, float alpha)
+void Line::SetColor (float red, float green, float blue, float alpha)
 {
 	m_fRed = red ;
 	m_fGreen = green ;
@@ -153,7 +150,7 @@ void CrystalLine::SetColor(float red, float green, float blue, float alpha)
 	m_fAlpha = alpha ;
 }
 
-void CrystalLine::GetColor(double *red, double *green, double *blue, double *alpha)
+void Line::GetColor (double *red, double *green, double *blue, double *alpha)
 {
 	*red = m_fRed ;
 	*green = m_fGreen ;
@@ -161,14 +158,15 @@ void CrystalLine::GetColor(double *red, double *green, double *blue, double *alp
 	*alpha = m_fAlpha ;
 }
 
-void CrystalLine::SetRadius(double r)
+void Line::SetRadius (double r)
 {
 	m_dr = r ;
 }
 
-bool CrystalLine::operator==(CrystalLine& clLine)
+bool Line::operator== (Line& clLine)
 {
-	if (m_nType <= 2) return m_nType == clLine.m_nType ; 
+	if (m_nType <= 2)
+		return m_nType == clLine.m_nType ; 
 	return (m_dx == clLine.m_dx) &&
 			(m_dy == clLine.m_dy) &&
 			(m_dz == clLine.m_dz) &&
@@ -178,7 +176,7 @@ bool CrystalLine::operator==(CrystalLine& clLine)
 			(m_nType == clLine.m_nType) ; 
 }
 
-void CrystalLine::Move(double x, double y, double z)
+void Line::Move (double x, double y, double z)
 {
 	m_dx += x ;
 	m_dy += y ;
@@ -188,107 +186,112 @@ void CrystalLine::Move(double x, double y, double z)
 	m_dz2 += z ;
 }
 
-double CrystalLine::ScalProd(int h, int k, int l)
+double Line::ScalProd (int h, int k, int l)
 {
 	return __max(m_dx * h + m_dy * k + m_dz * l, X2() * h + Y2() * k + Z2() * l) ;
 }
 
 
-double CrystalLine::Distance(double x, double y, double z, bool bFixe)
+double Line::Distance (double x, double y, double z, bool bFixe)
 {
-	if ((m_nCleave > 0) && !bFixe) return 0 ;
-	return __max(	sqrt(square(m_dx - x) + square(m_dy - y) + square(m_dz - z)),
-					sqrt(square(X2() - x) + square(Y2() - y) + square(Z2() - z))) ;
+	if ((m_nCleave > 0) && !bFixe)
+		return 0 ;
+	return __max (	sqrt (square (m_dx - x) + square (m_dy - y) + square (m_dz - z)),
+					sqrt (square (X2() - x) + square (Y2() - y) + square (Z2() - z))) ;
 }
 
-void CrystalLine::NetToCartesian(double a, double b, double c, double alpha, double beta, double gamma)
+void Line::NetToCartesian (double a, double b, double c, double alpha, double beta, double gamma)
 {
 	double x = m_dx * a ;
 	double y = m_dy * b ;
 	double z = m_dz * c ;
-	double x2 = X2() * a ;
-	double y2 = Y2() * b ;
-	double z2 = Z2() * c ;
-	SetPosition(x * sqrt(1-square(cos(beta)) - square((cos(gamma) - cos(beta)*cos(alpha))/sin(alpha))),
-				x * (cos(gamma) - cos(beta)*cos(alpha))/sin(alpha) + y * sin(alpha),
-				(x * cos(beta) + y * cos(alpha) + z),
-				x2 * sqrt(1-square(cos(beta)) - square((cos(gamma) - cos(beta)*cos(alpha))/sin(alpha))),
-				x2 * (cos(gamma) - cos(beta)*cos(alpha))/sin(alpha) + y2 * sin(alpha),
-				(x2 * cos(beta) + y2 * cos(alpha) + z2)) ;
+	double x2 = X2 () * a ;
+	double y2 = Y2 () * b ;
+	double z2 = Z2 () * c ;
+	SetPosition (x * sqrt (1 - square (cos (beta)) - square ((cos (gamma) - cos (beta) * cos (alpha)) / sin(alpha))),
+				x * (cos (gamma) - cos (beta) * cos (alpha)) / sin (alpha) + y * sin (alpha),
+				(x * cos (beta) + y * cos (alpha) + z),
+				x2 * sqrt (1-square (cos (beta)) - square ((cos (gamma) - cos (beta) * cos (alpha)) / sin (alpha))),
+				x2 * (cos (gamma) - cos (beta) * cos (alpha)) / sin (alpha) + y2 * sin (alpha),
+				(x2 * cos (beta) + y2 * cos (alpha) + z2)) ;
 }
 
-double CrystalLine::Xmax()
+double Line::Xmax ()
 {
-	return __max(m_dx, m_dx2) ;
+	return __max (m_dx, m_dx2) ;
 }
 
-double CrystalLine::Ymax()
+double Line::Ymax ()
 {
-	return __max(m_dy, m_dy2) ;
+	return __max (m_dy, m_dy2) ;
 }
 
-double CrystalLine::Zmax()
+double Line::Zmax ()
 {
-	return __max(m_dz, m_dz2) ;
+	return __max (m_dz, m_dz2) ;
 }
 
-double CrystalLine::Xmin()
+double Line::Xmin ()
 {
-	return __min(m_dx, m_dx2) ;
+	return __min (m_dx, m_dx2) ;
 }
 
-double CrystalLine::Ymin()
+double Line::Ymin ()
 {
-	return __min(m_dy, m_dy2) ;
+	return __min (m_dy, m_dy2) ;
 }
 
-double CrystalLine::Zmin()
+double Line::Zmin ()
 {
 	return __min(m_dz, m_dz2) ;
 }
 
-void CrystalLine::GetRotation(double & x, double & y, double & z, double & theta)
+void Line::GetRotation (double & x, double & y, double & z, double & theta)
 {
 	x = m_dy - m_dy2;
 	y = m_dx2 - m_dx;
-	double d = sqrt(square(x) + square(y));
-	if (d > 1e-3)
-	{
+	double d = sqrt (square (x) + square (y));
+	if (d > 1e-3) {
 		theta = atan2(d, m_dz2 - m_dz);
 		x /= d;
 		y /= d;
 		z = 0;
-	}
-	else
-	{
+	} else {
 		z = 1.0;
 		theta = 0;
 	}
 }
 
-xmlNodePtr CrystalLine::Save(xmlDocPtr xml) const
+xmlNodePtr Line::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr parent, child;
 	gchar buf[256];
-	parent = xmlNewDocNode(xml, NULL, (xmlChar*)"line", NULL);
-	if (!parent) return NULL;
+	parent = xmlNewDocNode (xml, NULL, (xmlChar*) "line", NULL);
+	if (!parent)
+		return NULL;
 
 	xmlSetProp (parent, (xmlChar*) "type", (xmlChar*) LineTypeName[m_nType]);
 	
-	g_snprintf(buf, sizeof(buf) - 1, "%g", m_dr);
-	child = xmlNewDocNode(xml, NULL, (xmlChar*)"radius", (xmlChar*)buf);
-	if (child) xmlAddChild(parent, child);
-	else {xmlFreeNode(parent); return NULL;}
+	g_snprintf (buf, sizeof (buf) - 1, "%g", m_dr);
+	child = xmlNewDocNode (xml, NULL, (xmlChar*) "radius", (xmlChar*) buf);
+	if (child)
+		xmlAddChild (parent, child);
+	else {
+		xmlFreeNode (parent);
+		return NULL;
+	}
 	
-	if (((m_nType > 2) && (((!WritePosition(xml, parent, "start", m_dx, m_dy, m_dz))) ||
-		(!WritePosition(xml, parent, "end", m_dx2, m_dy2, m_dz2)))) || 
-		(!WriteColor(xml, parent, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha)))
-			{xmlFreeNode(parent); return NULL;}
+	if (((m_nType > 2) && (((!gcu::WritePosition (xml, parent, "start", m_dx, m_dy, m_dz))) ||
+		(!gcu::WritePosition (xml, parent, "end", m_dx2, m_dy2, m_dz2)))) || 
+		(!gcu::WriteColor (xml, parent, NULL, m_fRed, m_fGreen, m_fBlue, m_fAlpha))) {
+			xmlFreeNode (parent);
+			return NULL;
+		}
 	
 	return parent;
 }
 
-bool CrystalLine::Load (xmlNodePtr node)
+bool Line::Load (xmlNodePtr node)
 {
 	char *txt;
 	txt = (char*) xmlGetProp (node, (xmlChar*) "type");
@@ -299,12 +302,12 @@ bool CrystalLine::Load (xmlNodePtr node)
 		i++;
 	xmlFree (txt);
 	if (i < 5)
-		m_nType = (CrystalLineType) i;
+		m_nType = (LineType) i;
 	else
 		return false;
-	if (((m_nType > 2) && ((!ReadPosition (node, "start", &m_dx, &m_dy, &m_dz)) ||
-		(!ReadPosition (node, "end", &m_dx2, &m_dy2, &m_dz2)))) ||
-		(!ReadColor (node, NULL, &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha)))
+	if (((m_nType > 2) && ((!gcu::ReadPosition (node, "start", &m_dx, &m_dy, &m_dz)) ||
+		(!gcu::ReadPosition (node, "end", &m_dx2, &m_dy2, &m_dz2)))) ||
+		(!gcu::ReadColor (node, NULL, &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha)))
 			return false;
 	xmlNodePtr child = node->children;
 	while (child) {
@@ -321,4 +324,4 @@ bool CrystalLine::Load (xmlNodePtr node)
 	return true;
 }
 
-}	//	namespace gcu
+}	//	namespace gcr

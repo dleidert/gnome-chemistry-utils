@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * crystalatom.h 
+ * gcr/atom.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,37 +22,37 @@
  * USA
  */
 
-#ifndef CRYSTAL_ATOM_H
-#define CRYSTAL_ATOM_H
+#ifndef GCR_ATOM_H
+#define GCR_ATOM_H
 
-#include "atom.h"
-#include "chemistry.h"
-#include "macros.h"
+#include <gcu/atom.h>
+#include <gcu/chemistry.h>
+#include <gcu/macros.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include <list>
 
 /*!\file*/
-namespace gcu
+namespace gcr
 {
 
 #define PREC 1e-3
 
-/*! \class CrystalAtom gcu/crystalatom.h
+/*! \class Atom gcr/atom.h
 Used to represent atoms in a crystal.
 */
-class CrystalAtom : public Atom
+class Atom : public gcu::Atom
 {
 public:
 /*
 The default constructor.
 */
-	CrystalAtom ();
+	Atom ();
 /*
-The destructor of CrystalAtom.
+The destructor of Atom.
 */
-	virtual ~CrystalAtom ();
+	virtual ~Atom ();
 
 public :
 /*
@@ -63,19 +63,19 @@ public :
 
 Creates an atom.
 */
-	CrystalAtom (int Z, double x, double y, double z);
+	Atom (int Z, double x, double y, double z);
 /*!
-@param caAtom: the CrystalAtom to duplicate.
+@param caAtom: the Atom to duplicate.
 
-Creates a new CrystalAtom identical to caAtom.
+Creates a new Atom identical to caAtom.
 */
-	CrystalAtom (CrystalAtom& caAtom);
+	Atom (Atom& caAtom);
 /*
 @param caAtom: the Atom to copy.
 
-@return a CrystalAtom identical to caAtom.
+@return an Atom identical to caAtom.
 */
-	CrystalAtom& operator= (CrystalAtom& caAtom);
+	Atom& operator= (Atom& caAtom);
 
 /*!
 @param red: the red component of the color.
@@ -115,10 +115,10 @@ Sets the value of the radius (in pm).
 */
 	double GetSize ();
 /*!
-@param caAtom: a CrystalAtom instance.
+@param caAtom: a Atom instance.
 @return true if the atoms are at the same position and false if their positions are different.
 */
-	bool operator== (CrystalAtom& caAtom);
+	bool operator== (Atom& caAtom);
 /*!
 Method used to cleave an atom. The inverse operation does not exist since the whole crystal must be recalculated
 after a change in the definition.
@@ -215,8 +215,8 @@ The GcuAtomicRadius containing the radius caracteristics of the atom.
 */
 	GcuAtomicRadius m_Radius;
 /*!
-When cleavages (see CrystalCleavage class documentation) are defined, the atom might be cleaved. m_nCleave is
-the number of CrystalCleavage instances which remove the atom. If this member is not 0, the atom will
+When cleavages (see gcr::Cleavage class documentation) are defined, the atom might be cleaved. m_nCleave is
+the number of gcr::Cleavage instances which remove the atom. If this member is not 0, the atom will
 not be displayed.
 */
 	int m_nCleave; //0 if not cleaved
@@ -242,9 +242,9 @@ GCU_PROP (double, EffectiveRadiusRatio);
 };
 
 /*!
-a list of pointers to CrystalAtom instances derived from std::list.
+a list of pointers to gcr::Atom instances derived from std::list.
 */
-typedef std::list<CrystalAtom*> CrystalAtomList;
-}// namespace gcu
+typedef std::list<Atom*> AtomList;
+}// namespace gcr
 
-#endif // CRYSTAL_ATOM_H
+#endif // GCR_ATOM_H

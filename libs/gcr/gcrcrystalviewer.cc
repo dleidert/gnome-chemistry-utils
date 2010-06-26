@@ -1,6 +1,6 @@
 /* 
  * Gnome Chemisty Utils
- * gcucrystalviewer.cc 
+ * gcr/gcrcrystalviewer.cc 
  *
  * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -21,33 +21,33 @@
  */
 
 #include "config.h"
-#include "gcucrystalviewer.h"
-#include "crystalview.h"
-#include "crystaldoc.h"
-#include "crystalatom.h"
-#include "application.h"
-#include "loader.h"
+#include "gcrcrystalviewer.h"
+#include "view.h"
+#include "document.h"
+#include "atom.h"
+#include <gcu/application.h>
+#include <gcu/loader.h>
 #include <cstring>
 
 extern "C"
 {
 
-struct _GcuCrystalViewer
+struct _GcrCrystalViewer
 {
 	GtkBin bin;
 
-	gcu::CrystalView *pView;
-	gcu::CrystalDoc *pDoc;
+	gcr::View *pView;
+	gcr::Document *pDoc;
 	guint glList;
 };
 
-struct _GcuCrystalViewerClass
+struct _GcrCrystalViewerClass
 {
 	GtkBinClass parent_class;
 };
 
 
-static void on_size (GcuCrystalViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer user_data)
+static void on_size (GcrCrystalViewer* w, GtkAllocation *allocation, G_GNUC_UNUSED gpointer user_data)
 {
 	GtkWidget *widget = gtk_bin_get_child (GTK_BIN (w));
 	if (widget && gtk_widget_get_visible (widget))
@@ -56,12 +56,12 @@ static void on_size (GcuCrystalViewer* w, GtkAllocation *allocation, G_GNUC_UNUS
 
 static GtkBinClass *parent_class = NULL;
 
-static void gcu_crystal_viewer_class_init (GcuCrystalViewerClass  *klass);
-static void gcu_crystal_viewer_init (GcuCrystalViewer *viewer);
-static void gcu_crystal_viewer_finalize (GObject* object);
+static void gcr_crystal_viewer_class_init (GcrCrystalViewerClass  *klass);
+static void gcr_crystal_viewer_init (GcrCrystalViewer *viewer);
+static void gcr_crystal_viewer_finalize (GObject* object);
 
 GType
-gcu_crystal_viewer_get_type (void)
+gcr_crystal_viewer_get_type (void)
 {
 	static GType crystal_viewer_type = 0;
   
@@ -69,40 +69,40 @@ gcu_crystal_viewer_get_type (void)
 	{
 		static const GTypeInfo crystal_viewer_info =
 		{
-			sizeof (GcuCrystalViewerClass),
+			sizeof (GcrCrystalViewerClass),
 			NULL,           /* base_init */
 			NULL,           /* base_finalize */
-			(GClassInitFunc) gcu_crystal_viewer_class_init,
+			(GClassInitFunc) gcr_crystal_viewer_class_init,
 			NULL,           /* class_finalize */
 			NULL,           /* class_data */
-			sizeof (GcuCrystalViewer),
+			sizeof (GcrCrystalViewer),
 			0,              /* n_preallocs */
-			(GInstanceInitFunc) gcu_crystal_viewer_init,
+			(GInstanceInitFunc) gcr_crystal_viewer_init,
 			NULL
 		};
 
-		crystal_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GcuCrystalViewer", &crystal_viewer_info, (GTypeFlags)0);
+		crystal_viewer_type = g_type_register_static (GTK_TYPE_BIN, "GcrCrystalViewer", &crystal_viewer_info, (GTypeFlags)0);
 	}
   
 	return crystal_viewer_type;
 }
 
-void gcu_crystal_viewer_class_init (GcuCrystalViewerClass  *klass)
+void gcr_crystal_viewer_class_init (GcrCrystalViewerClass  *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	parent_class = (GtkBinClass*) g_type_class_peek_parent (klass);
 	
-	gobject_class->finalize = gcu_crystal_viewer_finalize;
+	gobject_class->finalize = gcr_crystal_viewer_finalize;
 }
 
-void gcu_crystal_viewer_init (G_GNUC_UNUSED GcuCrystalViewer *viewer)
+void gcr_crystal_viewer_init (G_GNUC_UNUSED GcrCrystalViewer *viewer)
 {
 }
 
-GtkWidget* gcu_crystal_viewer_new (xmlNodePtr node)
+GtkWidget* gcr_crystal_viewer_new (xmlNodePtr node)
 {
-	GcuCrystalViewer* viewer = (GcuCrystalViewer*) g_object_new (GCU_TYPE_CRYSTAL_VIEWER, NULL);
-	viewer->pDoc = new gcu::CrystalDoc (gcu::Application::GetDefaultApplication ());
+	GcrCrystalViewer* viewer = (GcrCrystalViewer*) g_object_new (GCR_TYPE_CRYSTAL_VIEWER, NULL);
+	viewer->pDoc = new gcr::Document (gcu::Application::GetDefaultApplication ());
 	viewer->pView = viewer->pDoc->GetView();
 	GtkWidget* w = viewer->pView->GetWidget ();
 	gtk_container_add (GTK_CONTAINER (viewer), w);
@@ -113,23 +113,23 @@ GtkWidget* gcu_crystal_viewer_new (xmlNodePtr node)
 	return GTK_WIDGET (viewer);
 }
 
-void gcu_crystal_viewer_finalize (GObject* object)
+void gcr_crystal_viewer_finalize (GObject* object)
 {
 	((GObjectClass*) parent_class)->finalize (object);
-	GcuCrystalViewer* viewer = GCU_CRYSTAL_VIEWER (object);
+	GcrCrystalViewer* viewer = GCR_CRYSTAL_VIEWER (object);
 	delete viewer->pView;
 	delete viewer->pDoc;
 }
 
-void gcu_crystal_viewer_set_data (GcuCrystalViewer * viewer, xmlNodePtr node)
+void gcr_crystal_viewer_set_data (GcrCrystalViewer * viewer, xmlNodePtr node)
 {
-	g_return_if_fail (GCU_IS_CRYSTAL_VIEWER (viewer));
+	g_return_if_fail (GCR_IS_CRYSTAL_VIEWER (viewer));
 	g_return_if_fail (node);
 	viewer->pDoc->ParseXMLTree (node);
 	viewer->pView->Update ();
 }
 
-GdkPixbuf *gcu_crystal_viewer_new_pixbuf (GcuCrystalViewer * viewer, guint width, guint height)
+GdkPixbuf *gcr_crystal_viewer_new_pixbuf (GcrCrystalViewer * viewer, guint width, guint height)
 {
 	return viewer->pDoc->GetView ()->BuildPixbuf (width, height);
 }
@@ -138,10 +138,10 @@ static gcu::Application *App = NULL;
 
 static gcu::Object *CreateCrystalAtom ()
 {
-	return new gcu::CrystalAtom ();
+	return new gcr::Atom ();
 }
 
-void gcu_crystal_viewer_set_uri_with_mime_type (GcuCrystalViewer * viewer, const gchar * uri, const gchar* mime_type)
+void gcr_crystal_viewer_set_uri_with_mime_type (GcrCrystalViewer * viewer, const gchar * uri, const gchar* mime_type)
 {
 	if (mime_type == NULL) {
 		g_message ("Cannot open an uri with unknown mime type.");
@@ -154,7 +154,7 @@ void gcu_crystal_viewer_set_uri_with_mime_type (GcuCrystalViewer * viewer, const
 			g_message ("Invalid data");
 			return;
 		}
-		gcu_crystal_viewer_set_data (GCU_CRYSTAL_VIEWER (Viewer), xml->children);
+		gcr_crystal_viewer_set_data (GCR_CRYSTAL_VIEWER (Viewer), xml->children);
 		xmlFree (xml);*/
 	} else {
 		if (!App) {
@@ -169,7 +169,7 @@ void gcu_crystal_viewer_set_uri_with_mime_type (GcuCrystalViewer * viewer, const
 	}
 }
 
-void gcu_crystal_viewer_set_uri	(GcuCrystalViewer * viewer, const gchar * uri)
+void gcr_crystal_viewer_set_uri	(GcrCrystalViewer * viewer, const gchar * uri)
 {
 	GVfs *vfs = g_vfs_get_default ();
 	GFile *file = g_vfs_get_file_for_uri (vfs, uri);
@@ -185,7 +185,7 @@ void gcu_crystal_viewer_set_uri	(GcuCrystalViewer * viewer, const gchar * uri)
 		error = NULL;
 		return;
 	}
-	gcu_crystal_viewer_set_uri_with_mime_type (viewer, uri, g_file_info_get_content_type (info));
+	gcr_crystal_viewer_set_uri_with_mime_type (viewer, uri, g_file_info_get_content_type (info));
 }
 
 } //extern "C"

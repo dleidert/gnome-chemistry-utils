@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * crystalline.h 
+ * gcr/line.h 
  *
- * Copyright (C) 2002-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,25 +22,24 @@
  * USA
  */
 
-#ifndef CRYSTAL_LINE_H
-#define CRYSTAL_LINE_H
+#ifndef GCR_LINE_H
+#define GCR_LINE_H
 
 #include <libxml/parser.h>
 #include <list>
 
 /*!\file*/
-namespace gcu
-{
+namespace gcr {
 
-/*!\enum CrystalLineType crystalviewer/crystalline.h
-The type of a CrystalLine instance. Possible values are:
+/*!\enum LineType gcr/line.h
+The type of a Line instance. Possible values are:
 - edges: all the cell edges.
 - diagonals: the lines joining opposite vertices of a cell.
 - medians: the lines joining the centers of opposite faces of a cell.
 - normal: a line with defined ends, repeated in each displayes cell.
 - unique: a line with defined ends, not repeated.
 */	
-enum CrystalLineType
+enum LineType
 {
 	edges = 0,
 	diagonals,
@@ -49,24 +48,24 @@ enum CrystalLineType
 	unique
 };
 
-/*!\class CrystalLine gcu/crystalline.h
+/*!\class Line gcr/line.h
 Describes lines represented as cylinders in the view. Thes cylinders are not capped.
 */
-class CrystalLine
+class Line
 {
 public:
 /*!
-The default constructor of CrystalLine.
+The default constructor of Line.
 */
-	CrystalLine ();
+	Line ();
 /*!
 The destructior of CrystaLine
 */
-	virtual ~CrystalLine ();
+	virtual ~Line ();
 
 public :
 /*!
-@param Type: the type (CrystalLineType) of the new line.
+@param Type: the type (LineType) of the new line.
 @param X1: the x coordinate of the first end of the new line.
 @param Y1: the y coordinate of the first end of the new line.
 @param Z1: the z coordinate of the first end of the new line.
@@ -81,20 +80,20 @@ public :
 
 Constructs a new line from its characterisitics.
 */
-	CrystalLine (CrystalLineType Type, double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha);
+	Line (LineType Type, double X1, double Y1, double Z1, double X2, double Y2, double Z2, double r, float red, float green, float blue, float alpha);
 /*!
 @param clLine: the line to duplicate.
 
 Creates a new line with the same characteristics as clLine.
 */
-	CrystalLine (CrystalLine& clLine);
+	Line (Line& clLine);
 /*!
 @param clLine: the line to copy.
 
 Copies a line.
 @return the copied line.
 */
-	CrystalLine& operator= (CrystalLine& clLine);
+	Line& operator= (Line& clLine);
 
 /*!
 @return the x coordinate of the first end of the line.
@@ -149,9 +148,9 @@ Copies a line.
 */
 	double Long () {return m_dl;}
 /*!
-@return the type of the line (see CrystalLineType).
+@return the type of the line (see LineType).
 */
-	CrystalLineType Type () {return m_nType;}
+	LineType Type () {return m_nType;}
 /*!
 @param x: the new x coordinate of the first end of the new line.
 @param y: the new y coordinate of the first end of the new line.
@@ -192,10 +191,10 @@ Changes the radius of the cylinder used to represent the line.
 */
 	double GetRadius () {return m_dr;};
 /*!
-@param clLine: a CrystalLine instance.
+@param clLine: a Line instance.
 @return true if the two lines have the same type and the same position.
 */
-	bool operator== (CrystalLine& clLine);
+	bool operator== (Line& clLine);
 /*!
 @param x: the x component of the transation vector.
 @param y: the y component of the transation vector.
@@ -320,20 +319,20 @@ The radius of the cylinder representing the line.
 */
 	double m_dr;
 /*!
-When cleavages (see CrystalCleavage class documentation) are defined, the line might be cleaved. m_nCleave is
-the number of CrystalCleavage instances which remove the line. If this member is not 0, the line will
+When cleavages (see Cleavage class documentation) are defined, the line might be cleaved. m_nCleave is
+the number of Cleavage instances which remove the line. If this member is not 0, the line will
 not be displayed.
 */
 	int m_nCleave; //0 if not cleaved
 /*!
-The type of the CrystalLine instance. Possible values are:
+The type of the Line instance. Possible values are:
 - edges: all the cell edges.
 - diagonals: the lines joining opposite vertices of a cell.
 - medians: the lines joining the centers of opposite faces of a cell.
 - normal: a line with defined ends, repeated in each displayes cell.
 - unique: a line with defined ends, not repeated.
 */
-	CrystalLineType m_nType;
+	LineType m_nType;
 
 private:
 	double m_dl;
@@ -343,15 +342,15 @@ private:
 };
 
 /*!
-a list of pointers to CrystalLine instances derived from std::list.
+a list of pointers to Line instances derived from std::list.
 */
-typedef std::list<CrystalLine*> CrystalLineList;
+typedef std::list<Line*> LineList;
 
 /*!
 an array of the line types names used for serialization.
 */
 extern char const *LineTypeName[];
 
-}// namespace gcu
+}	//	namespace gcr
 
-#endif // CRYSTAL_BOND_H
+#endif // GCR_BOND_H
