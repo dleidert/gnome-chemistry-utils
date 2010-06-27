@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view.h 
  *
- * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,7 @@
 
 #include <libxml/parser.h>
 #include <list>
-#include <gcu/crystalview.h>
+#include <gcr/view.h>
 #include <gcu/matrix.h>
 #include <gcu/dialog.h>
 #include <gcu/dialog-owner.h>
@@ -38,7 +38,7 @@ class gcWindow;
 
 using namespace gcu;
 
-class gcView: public CrystalView
+class gcView: public gcr::View
 {
 public:
 	gcView (gcDocument *pDoc);

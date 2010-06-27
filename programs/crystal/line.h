@@ -4,7 +4,7 @@
  * Gnome Crystal
  * bond.h 
  *
- * Copyright (C) 2000-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,22 +26,16 @@
 #define GCRYSTAL_LINE_H
 
 #include <libxml/parser.h>
-#ifdef GCU_OLD_VER
-#	include <crystalviewer/crystalline.h>
-#else
-#	include <gcu/crystalline.h>
-#endif
+#include <gcr/line.h>
 
-using namespace gcu;
-
-class gcLine: public CrystalLine  
+class gcLine: public gcr::Line  
 {
 public:
-	gcLine();
-	virtual ~gcLine();
+	gcLine ();
+	virtual ~gcLine ();
 
 public :
-	bool LoadOld(xmlNodePtr node, unsigned version);
+	bool LoadOld (xmlNodePtr node, unsigned version);
 };
 
 

@@ -4,7 +4,7 @@
  * Gnome Crystal
  * cleavagesdlg.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -126,11 +126,11 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 75);
 	gtk_tree_view_append_column (tree, column);
 	m_Cleavages = g_array_sized_new (FALSE, FALSE, sizeof (struct CleavageStruct), 1);
-	CrystalCleavageList* Cleavages = m_pDoc->GetCleavageList ();
-	CrystalCleavage* pCleavage;
+	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList ();
+	gcr::Cleavage* pCleavage;
 	struct CleavageStruct s;
 	GtkTreeIter iter;
-	for (list<CrystalCleavage*>::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)
+	for (list<gcr::Cleavage*>::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)
 	{
 		pCleavage = *i;
 		s.h = pCleavage->h ();
@@ -159,7 +159,7 @@ gcCleavagesDlg::~gcCleavagesDlg()
 
 bool gcCleavagesDlg::Apply()
 {
-	CrystalCleavageList* Cleavages = m_pDoc->GetCleavageList();
+	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList();
 	//First, delete old Cleavages
 	while (!Cleavages->empty())
 	{
@@ -168,13 +168,13 @@ bool gcCleavagesDlg::Apply()
 	}
 	//Add new Cleavages from array
 	
-	CrystalCleavage* c;
+	gcr::Cleavage* c;
 	struct CleavageStruct* s;
 	for (unsigned i = 0; i  < m_Cleavages->len; i++)
 	{
 		s = &g_array_index(m_Cleavages, struct CleavageStruct, i);
 		if (!s->planes || ((!s->h) && (!s->k) && (!s->l))) continue;
-		c = new CrystalCleavage();
+		c = new gcr::Cleavage();
 		c->h() = s->h;
 		c->k() = s->k;
 		c->l() = s->l;

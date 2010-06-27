@@ -59,7 +59,7 @@ gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"
 	SpaceGroup = GTK_SPIN_BUTTON (GetWidget ("space-group-btn"));
 	SpaceGroupSignal = g_signal_connect (G_OBJECT (SpaceGroup), "value-changed", G_CALLBACK (gcCellDlgPrivate::OnSpaceGroupChanged), this);
 	SpaceGroupAdj = gtk_spin_button_get_adjustment (SpaceGroup);
-	gcLattices i;
+	gcr::Lattice i;
 	m_pDoc->GetCell (&i, &m_a, &m_b, &m_c, &m_alpha, &m_beta, &m_gamma);
 	snprintf (m_buf, sizeof (m_buf), "%g", m_a);
 	gtk_entry_set_text (A, m_buf);
@@ -85,18 +85,17 @@ gcCellDlg::~gcCellDlg ()
 
 bool gcCellDlg::Apply ()
 {
-	gcLattices i = (gcLattices) gtk_combo_box_get_active (TypeMenu);
-	switch (i)
-	{
-	case cubic:
-	case body_centered_cubic:
-	case face_centered_cubic:
+	gcr::Lattice i = (gcr::Lattice) gtk_combo_box_get_active (TypeMenu);
+	switch (i) {
+	case gcr::cubic:
+	case gcr::body_centered_cubic:
+	case gcr::face_centered_cubic:
 		if (!GetNumber (A, &m_a, Min, 0))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		m_b = m_c = m_a;
 		break;
-	case hexagonal:
+	case gcr::hexagonal:
 		if ((!GetNumber (A, &m_a, Min, 0)) ||
 			(!GetNumber (C, &m_c, Min, 0)))
 			return false;
@@ -104,33 +103,33 @@ bool gcCellDlg::Apply ()
 		m_gamma  = 120;
 		m_b = m_a;
 		break;
-	case tetragonal:
-	case body_centered_tetragonal:
+	case gcr::tetragonal:
+	case gcr::body_centered_tetragonal:
 		if ((!GetNumber (A, &m_a, Min, 0)) ||
 			(!GetNumber (C, &m_c, Min, 0)))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		m_b = m_a;
 		break;
-	case orthorhombic:
-	case base_centered_orthorhombic:
-	case body_centered_orthorhombic:
-	case face_centered_orthorhombic:
+	case gcr::orthorhombic:
+	case gcr::base_centered_orthorhombic:
+	case gcr::body_centered_orthorhombic:
+	case gcr::face_centered_orthorhombic:
 		if ((!GetNumber (A, &m_a, Min, 0)) ||
 			(!GetNumber (B, &m_b, Min, 0)) ||
 			(!GetNumber (C, &m_c, Min, 0)))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		break;
-	case rhombohedral:
+	case gcr::rhombohedral:
 		if ((!GetNumber (A, &m_a, Min, 0)) ||
 			(!GetNumber (Alpha, &m_alpha, MinMax, 0, 180)))
 			return false;
 		m_beta = m_gamma = m_alpha;
 		m_b = m_c = m_a;
 		break;
-	case monoclinic:
-	case base_centered_monoclinic:
+	case gcr::monoclinic:
+	case gcr::base_centered_monoclinic:
 		if ((!GetNumber (A, &m_a, Min, 0)) ||
 			(!GetNumber (B, &m_b, Min, 0)) ||
 			(!GetNumber (C, &m_c, Min, 0)) ||
@@ -138,7 +137,7 @@ bool gcCellDlg::Apply ()
 			return false;
 		m_alpha = m_gamma  = 90;
 		break;
-	case triclinic:
+	case gcr::triclinic:
 		if ((!GetNumber (A, &m_a, Min, 0)) ||
 			(!GetNumber (B, &m_b, Min, 0)) ||
 			(!GetNumber (C, &m_c, Min, 0)) ||
@@ -148,8 +147,7 @@ bool gcCellDlg::Apply ()
 			return false;
 		break;
 	}
-	if (m_alpha + m_beta + m_gamma >= 360)
-	{
+	if (m_alpha + m_beta + m_gamma >= 360) {
 		GtkDialog* box = GTK_DIALOG (gtk_message_dialog_new (GTK_WINDOW (dialog), GTK_DIALOG_MODAL,
 										GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("The sum of the three angles must be less than 360°")));
 		gtk_dialog_run (box);
@@ -169,20 +167,20 @@ bool gcCellDlg::Apply ()
 
 void gcCellDlg::OnTypeChanged ()
 {
-	gcLattices i = (gcLattices) gtk_combo_box_get_active (TypeMenu);
+	gcr::Lattice i = (gcr::Lattice) gtk_combo_box_get_active (TypeMenu);
 	gcu::SpaceGroup const *spg = m_pDoc->GetSpaceGroup ();
 	std::string name = (spg)? spg->GetHMName (): "";
 	unsigned id = gtk_spin_button_get_value (SpaceGroup);
 	switch (i) {
-	case cubic:
+	case gcr::cubic:
 		if (!spg || spg->GetId () < 195 || name[0] != 'P')
 			id = 195;
 		goto cubic_end;
-	case body_centered_cubic:
+	case gcr::body_centered_cubic:
 		if (!spg || spg->GetId () < 195 || name[0] != 'I')
 			id = 197;
 		goto cubic_end;
-	case face_centered_cubic:
+	case gcr::face_centered_cubic:
 		if (!spg || spg->GetId () < 195 || name[0] != 'F')
 			id = 196;
 cubic_end:
@@ -197,7 +195,7 @@ cubic_end:
 		gtk_widget_set_sensitive (GTK_WIDGET (B), false);
 		gtk_widget_set_sensitive (GTK_WIDGET (C), false);
 		break;
-	case hexagonal:
+	case gcr::hexagonal:
 		if (!spg || spg->GetId () < 143 || spg->GetId () > 194)
 			id = 168;
 		gtk_adjustment_set_lower (SpaceGroupAdj, 143);
@@ -211,11 +209,11 @@ cubic_end:
 		gtk_widget_set_sensitive (GTK_WIDGET (B), false);
 		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
 		break;
-	case tetragonal:
+	case gcr::tetragonal:
 		if (!spg || spg->GetId () < 75 || spg->GetId () > 142 || name[0] != 'P')
 			id = 75;
 		goto tetragonal_end;
-	case body_centered_tetragonal:
+	case gcr::body_centered_tetragonal:
 		if (!spg || spg->GetId () < 75 || spg->GetId () > 142 || name[0] != 'I')
 			id = 79;
 tetragonal_end:
@@ -230,19 +228,19 @@ tetragonal_end:
 		gtk_widget_set_sensitive (GTK_WIDGET (B), false);
 		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
 		break;
-	case base_centered_orthorhombic:
+	case gcr::base_centered_orthorhombic:
 		if (!spg || spg->GetId () < 16 || spg->GetId () > 74 || (name[0] != 'C' && name[0] != 'B' && name[0] != 'A'))
 			id = 20;
 		goto orthorhombic_end;
-	case orthorhombic:
+	case gcr::orthorhombic:
 		if (!spg || spg->GetId () < 16 || spg->GetId () > 74 || name[0] != 'P')
 			id = 16;
 		goto orthorhombic_end;
-	case body_centered_orthorhombic:
+	case gcr::body_centered_orthorhombic:
 		if (!spg || spg->GetId () < 16 || spg->GetId () > 74 || name[0] != 'I')
 			id = 23;
 		goto orthorhombic_end;
-	case face_centered_orthorhombic:
+	case gcr::face_centered_orthorhombic:
 		if (!spg || spg->GetId () < 16 || spg->GetId () > 74 || name[0] != 'F')
 			id = 22;
 orthorhombic_end:
@@ -257,7 +255,7 @@ orthorhombic_end:
 		gtk_widget_set_sensitive (GTK_WIDGET (B), true);
 		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
 		break;
-	case rhombohedral:
+	case gcr::rhombohedral:
 		if (!spg || spg->GetId () < 143 || spg->GetId () > 194)
 			id = 146;
 		gtk_adjustment_set_lower (SpaceGroupAdj, 143);
@@ -268,11 +266,11 @@ orthorhombic_end:
 		gtk_widget_set_sensitive (GTK_WIDGET (B), false);
 		gtk_widget_set_sensitive (GTK_WIDGET (C), false);
 		break;
-	case monoclinic:
+	case gcr::monoclinic:
 		if (!spg || spg->GetId () < 3 || spg->GetId () > 16 || name[0] != 'P')
 			id = 3;
 		goto monoclinic_end;
-	case base_centered_monoclinic:
+	case gcr::base_centered_monoclinic:
 		if (!spg || spg->GetId () < 3 || spg->GetId () > 16 || name[0] == 'P')
 			id = 5;
 monoclinic_end:
@@ -286,7 +284,7 @@ monoclinic_end:
 		gtk_widget_set_sensitive (GTK_WIDGET (B), true);
 		gtk_widget_set_sensitive (GTK_WIDGET (C), true);
 		break;
-	case triclinic:
+	case gcr::triclinic:
 		if (!spg || spg->GetId () > 2)
 			id = 1;
 		gtk_adjustment_set_lower (SpaceGroupAdj, 1);
@@ -312,9 +310,9 @@ void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
 	std::string name = SpaceGroup::GetSpaceGroup (id)->GetHMName ();
 	if (id > 142 && id < 195) {
 		if (id == 146 || id == 148 || id == 155 || id == 160 || id == 161 || id == 166 || id == 167)
-			gtk_combo_box_set_active (dlg->TypeMenu, rhombohedral);
+			gtk_combo_box_set_active (dlg->TypeMenu, gcr::rhombohedral);
 		else
-			gtk_combo_box_set_active (dlg->TypeMenu, hexagonal);
+			gtk_combo_box_set_active (dlg->TypeMenu, gcr::hexagonal);
 		return;
 	}
 	switch (name[0]) {
@@ -324,18 +322,18 @@ void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
 				if (id > 74) {
 					if (id > 194) {
 						// cubic
-						gtk_combo_box_set_active (dlg->TypeMenu, cubic);
+						gtk_combo_box_set_active (dlg->TypeMenu, gcr::cubic);
 					} else {
 						// tetragonal
-						gtk_combo_box_set_active (dlg->TypeMenu, tetragonal);
+						gtk_combo_box_set_active (dlg->TypeMenu, gcr::tetragonal);
 					}
 				} else {
 					// orthorhombic
-					gtk_combo_box_set_active (dlg->TypeMenu, orthorhombic);
+					gtk_combo_box_set_active (dlg->TypeMenu, gcr::orthorhombic);
 				}
 			} else {
 				// monoclinic
-				gtk_combo_box_set_active (dlg->TypeMenu, monoclinic);
+				gtk_combo_box_set_active (dlg->TypeMenu, gcr::monoclinic);
 			}
 		}
 		break;
@@ -344,14 +342,14 @@ void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
 			if (id > 74) {
 				if (id > 194) {
 					// cubic
-					gtk_combo_box_set_active (dlg->TypeMenu, body_centered_cubic);
+					gtk_combo_box_set_active (dlg->TypeMenu, gcr::body_centered_cubic);
 				} else {
 					// tetragonal
-					gtk_combo_box_set_active (dlg->TypeMenu, body_centered_tetragonal);
+					gtk_combo_box_set_active (dlg->TypeMenu, gcr::body_centered_tetragonal);
 				}
 			} else {
 				// orthorhombic
-				gtk_combo_box_set_active (dlg->TypeMenu, body_centered_orthorhombic);
+				gtk_combo_box_set_active (dlg->TypeMenu, gcr::body_centered_orthorhombic);
 			}
 		}
 		break;
@@ -359,22 +357,22 @@ void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
 		if (id > 16) {
 			if (id > 194) {
 				// cubic
-				gtk_combo_box_set_active (dlg->TypeMenu, face_centered_cubic);
+				gtk_combo_box_set_active (dlg->TypeMenu, gcr::face_centered_cubic);
 			} else {
 				// orthorhombic
-				gtk_combo_box_set_active (dlg->TypeMenu, face_centered_orthorhombic);
+				gtk_combo_box_set_active (dlg->TypeMenu, gcr::face_centered_orthorhombic);
 			}
 		}
 		break;
 	default:
 		if (id > 2) {
-					gtk_combo_box_set_active (dlg->TypeMenu, rhombohedral);
+					gtk_combo_box_set_active (dlg->TypeMenu, gcr::rhombohedral);
 			if (id > 16) {
 				// orthorhombic
-				gtk_combo_box_set_active (dlg->TypeMenu, base_centered_orthorhombic);
+				gtk_combo_box_set_active (dlg->TypeMenu, gcr::base_centered_orthorhombic);
 			} else {
 				// monoclinic
-				gtk_combo_box_set_active (dlg->TypeMenu, base_centered_monoclinic);
+				gtk_combo_box_set_active (dlg->TypeMenu, gcr::base_centered_monoclinic);
 			}
 		}
 		break;

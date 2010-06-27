@@ -4,7 +4,7 @@
  * Gnome Crystal
  * linesdlg.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -79,17 +79,17 @@ static void on_toggled (GtkCellRendererToggle *cell, const gchar *path_string, g
 
 static void on_edges_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
 {
-	pBox->OnToggledSpecial(edges);
+	pBox->OnToggledSpecial (gcr::edges);
 }
 
 static void on_diags_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
 {
-	pBox->OnToggledSpecial (diagonals);
+	pBox->OnToggledSpecial (gcr::diagonals);
 }
 
 static void on_medians_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
 {
-	pBox->OnToggledSpecial (medians);
+	pBox->OnToggledSpecial (gcr::medians);
 }
 
 gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/lines.ui", "lines", GETTEXT_PACKAGE, pDoc)
@@ -199,13 +199,13 @@ gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 	DiagsR = GTK_ENTRY (GetWidget ("diag_radius"));
 	gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), false);
 	m_LineSelected = -1;
-	CrystalLineList* Lines = m_pDoc->GetLineList ();
-	CrystalLine* pLine;
+	gcr::LineList* Lines = m_pDoc->GetLineList ();
+	gcr::Line* pLine;
 	struct LineStruct s;
 	GtkTreeIter iter;
 	char *tmp;
 	GdkColor color;
-	for (list<CrystalLine*>::iterator i = Lines->begin(); i != Lines->end(); i++) {
+	for (list<gcr::Line*>::iterator i = Lines->begin(); i != Lines->end(); i++) {
 		pLine = *i;
 		s.duplicated = false;
 		s.r = pLine->GetRadius ();
@@ -214,7 +214,7 @@ gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 		color.green = (guint16) (s.Green * 65535.);
 		color.blue = (guint16) (s.Blue * 65535.);
 		switch (pLine->Type()) {
-		case edges:
+		case gcr::edges:
 			gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), true);
 			gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), true);
 			tmp = g_strdup_printf ("%g", s.r);
@@ -224,7 +224,7 @@ gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 			g_free (tmp);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(Edges), true);
 			break;
-		case diagonals:
+		case gcr::diagonals:
 			gtk_widget_set_sensitive (GTK_WIDGET (DiagsColor), true);
 			gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), true);
 			tmp = g_strdup_printf ("%g", s.r);
@@ -234,7 +234,7 @@ gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 			g_free (tmp);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (Diags), true);
 			break;
-		case medians:
+		case gcr::medians:
 			gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), true);
 			gtk_widget_set_sensitive (GTK_WIDGET (MediansR), true);
 			tmp = g_strdup_printf ("%g", s.r);
@@ -244,9 +244,9 @@ gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 			g_free (tmp);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(Medians), true);
 			break;
-		case normal:
+		case gcr::normal:
 			s.duplicated = true;
-		case gcu::unique:
+		case gcr::unique:
 			s.x1 = pLine->X1();
 			s.y1 = pLine->Y1();
 			s.z1 = pLine->Z1();
@@ -290,7 +290,7 @@ bool gcLinesDlg::Apply ()
 		if ((!GetNumber(LineR, &g_array_index (m_Lines, struct LineStruct, m_LineSelected).r, Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
 		}
 	}
-	CrystalLineList* Lines = m_pDoc->GetLineList ();
+	gcr::LineList* Lines = m_pDoc->GetLineList ();
 	//First, delete old lines
 	while (!Lines->empty ())
 	{
@@ -298,7 +298,7 @@ bool gcLinesDlg::Apply ()
 		Lines->pop_front ();
 	}
 	//Add edged, diagonals and medians
-	CrystalLine* pLine;
+	gcr::Line* pLine;
 	double r, Red, Green, Blue, Alpha;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges))) {
 		GetNumber (EdgesR, &r, Min, 0);
@@ -308,7 +308,7 @@ bool gcLinesDlg::Apply ()
 			Green = color.green / 65535.;
 			Blue = color.blue / 65535.;
 			Alpha = gtk_color_button_get_alpha (EdgesColor) / 65535.;
-			pLine = new CrystalLine (edges, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, r, Red, Green, Blue, Alpha);
+			pLine = new gcr::Line (gcr::edges, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, r, Red, Green, Blue, Alpha);
 			Lines->push_back (pLine);
 		}
 	}
@@ -320,7 +320,7 @@ bool gcLinesDlg::Apply ()
 			Green = color.green / 65535.;
 			Blue = color.blue / 65535.;
 			Alpha = gtk_color_button_get_alpha (DiagsColor) / 65535.;
-			pLine = new CrystalLine (diagonals, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, r, Red, Green, Blue, Alpha);
+			pLine = new gcr::Line (gcr::diagonals, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, r, Red, Green, Blue, Alpha);
 			Lines->push_back (pLine);
 		}
 	}
@@ -332,7 +332,7 @@ bool gcLinesDlg::Apply ()
 			Green = color.green / 65535.;
 			Blue = color.blue / 65535.;
 			Alpha = gtk_color_button_get_alpha (MediansColor) / 65535.;
-			pLine = new CrystalLine (medians, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, r, Red, Green, Blue, Alpha);
+			pLine = new gcr::Line (gcr::medians, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, r, Red, Green, Blue, Alpha);
 			Lines->push_back (pLine);
 		}
 	}
@@ -341,7 +341,7 @@ bool gcLinesDlg::Apply ()
 	struct LineStruct* s;
 	for (unsigned i = 0; i  < m_Lines->len; i++) {
 		s = &g_array_index (m_Lines, struct LineStruct, i);
-		Lines->push_back (new CrystalLine((s->duplicated)? normal: gcu::unique, s->x1, s->y1, s->z1, s->x2, s->y2, s->z2, s->r, (float)s->Red, (float)s->Green, (float)s->Blue, (float)s->Alpha));
+		Lines->push_back (new gcr::Line((s->duplicated)? gcr::normal: gcr::unique, s->x1, s->y1, s->z1, s->x2, s->y2, s->z2, s->r, (float)s->Red, (float)s->Green, (float)s->Blue, (float)s->Alpha));
 	}
 	m_pDoc->Update ();
 	m_pDoc->SetDirty (true);
@@ -489,15 +489,15 @@ void gcLinesDlg::OnToggled (G_GNUC_UNUSED GtkCellRendererToggle *cell, const gch
 void gcLinesDlg::OnToggledSpecial (int Type)
 {
 	switch (Type) {
-	case edges:
+	case gcr::edges:
 		gtk_widget_set_sensitive (GTK_WIDGET (EdgesColor), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges)));
 		gtk_widget_set_sensitive (GTK_WIDGET (EdgesR), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges)));
 		break;
-	case diagonals:
+	case gcr::diagonals:
 		gtk_widget_set_sensitive (GTK_WIDGET (DiagsColor), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Diags)));
 		gtk_widget_set_sensitive (GTK_WIDGET (DiagsR), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Diags)));
 		break;
-	case medians:
+	case gcr::medians:
 		gtk_widget_set_sensitive (GTK_WIDGET (MediansColor), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians)));
 		gtk_widget_set_sensitive (GTK_WIDGET (MediansR), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians)));
 		break;

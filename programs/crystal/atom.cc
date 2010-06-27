@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atom.cc 
  *
- * Copyright (C) 2000-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -32,63 +32,55 @@
 #include <cmath>
 #include <cstring>
 
-gcAtom::gcAtom(): CrystalAtom()
+gcAtom::gcAtom (): gcr::Atom ()
 {
 }
 
-gcAtom::~gcAtom()
+gcAtom::~gcAtom ()
 {
 }
 
-gcAtom::gcAtom(int Z, double x, double y, double z): CrystalAtom(Z, x, y, z)
+gcAtom::gcAtom (int Z, double x, double y, double z): gcr::Atom (Z, x, y, z)
 {
 }
 
-gcAtom::gcAtom(gcAtom& caAtom): CrystalAtom((CrystalAtom&)caAtom)
+gcAtom::gcAtom (gcAtom& caAtom): gcr::Atom ((gcr::Atom&) caAtom)
 {
 }
 
-gcAtom& gcAtom::operator=(gcAtom& caAtom)
+gcAtom& gcAtom::operator= (gcAtom& caAtom)
 {
-	(CrystalAtom&)*this = (CrystalAtom&)caAtom;
+	(gcr::Atom&) *this = (gcr::Atom&) caAtom;
 	return *this ;
 }
 
-bool gcAtom::LoadOld(xmlNodePtr node, unsigned version)
+bool gcAtom::LoadOld (xmlNodePtr node, unsigned version)
 {
 	char *txt;
 	xmlNodePtr child = node->children;
-	while(child)
-	{
-		if (!strcmp((gchar*)child->name, "element"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			if (txt)
-			{
-				m_Z = Element::Z(txt);
+	while (child) {
+		if (!strcmp ((gchar*) child->name, "element")) {
+			txt = (char*) xmlNodeGetContent (child);
+			if (txt) {
+				m_Z = Element::Z (txt);
+				xmlFree (txt);
+			}
+		} else if (!strcmp ((gchar*) child->name, "position")) {
+			txt = (char*) xmlNodeGetContent (child);
+			if (txt) {
+				sscanf (txt, "%lg %lg %lg", &m_x, &m_y, &m_z);
+				xmlFree (txt);
+			}
+		} else if (!strcmp ((gchar*) child->name, "color")) {
+			txt = (char*) xmlNodeGetContent (child);
+			if (txt) {
+				if (version < 0x200)
+					sscanf (txt, "%g %g %g %g", &m_fBlue, &m_fRed, &m_fGreen, &m_fAlpha);
+				else
+					sscanf (txt, "%g %g %g %g", &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha);
 				xmlFree(txt);
 			}
-		}
-		else if (!strcmp((gchar*)child->name, "position"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			if (txt)
-			{
-				sscanf(txt, "%lg %lg %lg", &m_x, &m_y, &m_z);
-				xmlFree(txt);
-			}
-		}
-		else if (!strcmp((gchar*)child->name, "color"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			if (txt)
-			{
-				if (version < 0x200) sscanf(txt, "%g %g %g %g", &m_fBlue, &m_fRed, &m_fGreen, &m_fAlpha);
-				else sscanf(txt, "%g %g %g %g", &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha);
-				xmlFree(txt);
-			}
-		}
-		else if (!strcmp((gchar*)child->name, "radius")) {
+		} else if (!strcmp((gchar*)child->name, "radius")) {
 			txt = (char*) xmlNodeGetContent (child);
 			if (txt) {
 				sscanf (txt, "%lg", &m_Radius.value.value);

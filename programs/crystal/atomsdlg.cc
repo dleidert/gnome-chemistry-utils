@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atomsdlg.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -164,11 +164,11 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 	m_nElt = 0;
 	m_AtomSelected = -1;
 	m_Atoms = g_array_sized_new (FALSE, FALSE, sizeof (struct AtomStruct), 1);
-	CrystalAtomList* Atoms = m_pDoc->GetAtomList ();
-	CrystalAtom* pAtom;
+	gcr::AtomList* Atoms = m_pDoc->GetAtomList ();
+	gcr::Atom* pAtom;
 	struct AtomStruct s;
 	GtkTreeIter iter;
-	for (list<CrystalAtom*>::iterator i = Atoms->begin (); i != Atoms->end (); i++) {
+	for (list <gcr::Atom *>::iterator i = Atoms->begin (); i != Atoms->end (); i++) {
 		pAtom = *i;
 		s.Elt = pAtom->GetZ ();
 		s.x = pAtom->x ();
@@ -268,7 +268,7 @@ bool gcAtomsDlg::Apply ()
 			break;
 		}
 	}
-	CrystalAtomList* Atoms = m_pDoc->GetAtomList ();
+	gcr::AtomList* Atoms = m_pDoc->GetAtomList ();
 	//First, delete old atoms
 	while (!Atoms->empty ()) {
 		delete Atoms->front ();

@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atom.h 
  *
- * Copyright (C) 2000-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,26 +29,22 @@
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#ifdef GCU_OLD_VER
-#	include <crystalviewer/crystalatom.h>
-#else
-#	include <gcu/crystalatom.h>
-#endif
+#include <gcr/atom.h>
 
 using namespace gcu;
 
-class gcAtom: public CrystalAtom 
+class gcAtom: public gcr::Atom 
 {
 public:
-	gcAtom();
-	virtual ~gcAtom();
+	gcAtom ();
+	virtual ~gcAtom ();
 
 public :
-	gcAtom(int Z, double x, double y, double z);
-	gcAtom(gcAtom& caAtom);
-	gcAtom& operator=(gcAtom&);
+	gcAtom (int Z, double x, double y, double z);
+	gcAtom (gcAtom& caAtom);
+	gcAtom& operator= (gcAtom&);
 
-	bool LoadOld(xmlNodePtr node, unsigned version);
+	bool LoadOld (xmlNodePtr node, unsigned version);
 };
 
 #endif // GCRYSTAL_ATOM_H

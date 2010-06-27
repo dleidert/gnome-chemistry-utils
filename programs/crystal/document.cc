@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.cc 
  *
- * Copyright (C) 2000-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -62,7 +62,7 @@
 
 using namespace std;
 
-gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
+gcDocument::gcDocument (gcApplication *pApp): gcr::Document (pApp)
 {
 	Init ();
 	m_filename = NULL;
@@ -73,22 +73,21 @@ gcDocument::gcDocument (gcApplication *pApp) :CrystalDoc (pApp)
 	g_date_clear (&m_RevisionDate, 1);
 }
 
-gcDocument::~gcDocument()
+gcDocument::~gcDocument ()
 {
-	g_free(m_filename);
-	Reinit();
+	g_free (m_filename);
+	Reinit ();
 	Dialog *dialog;
-	while (!m_Dialogs.empty())
-	{
-		dialog = m_Dialogs.front();
-		m_Dialogs.pop_front();
-		dialog->Destroy();
+	while (!m_Dialogs.empty ()) {
+		dialog = m_Dialogs.front ();
+		m_Dialogs.pop_front ();
+		dialog->Destroy ();
 	}
 }
 
 void gcDocument::Define (unsigned nPage)
 {
-	switch(nPage) {
+	switch (nPage) {
 	case 0:
 		new gcCellDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
@@ -109,13 +108,13 @@ void gcDocument::Define (unsigned nPage)
 
 void gcDocument::Update()
 {
-	CrystalDoc::Update();
+	gcr::Document::Update();
 	UpdateAllViews();
 }
 
 void gcDocument::UpdateAllViews()
 {
-	list<CrystalView*>::iterator i;
+	list<gcr::View*>::iterator i;
 	for (i = m_Views.begin(); i != m_Views.end(); i++) {
 		(*i)->Update();
 		static_cast <gcView *> (*i)->GetWindow ()->ClearStatus ();
@@ -142,7 +141,7 @@ void gcDocument::SetSize(gdouble xmin, gdouble xmax, gdouble ymin, gdouble ymax,
 	m_zmax = zmax;
 }
 
-void gcDocument::GetCell(gcLattices *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma)
+void gcDocument::GetCell (gcr::Lattice *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma)
 {
 	*lattice = m_lattice;
 	*a = m_a;
@@ -153,7 +152,7 @@ void gcDocument::GetCell(gcLattices *lattice, gdouble *a, gdouble *b, gdouble *c
 	*gamma = m_gamma;
 }
 
-void gcDocument::SetCell(gcLattices lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma)
+void gcDocument::SetCell (gcr::Lattice lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma)
 {
 	m_lattice = lattice;
 	m_a = a;
@@ -484,69 +483,59 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 	}
 	if (version >= 0x500)
 	{
-		CrystalDoc::ParseXMLTree(xml);
+		gcr::Document::ParseXMLTree(xml);
 	}
 	else
 	{
 		node = xml->children;
-		while(node)
-		{
-			if (!strcmp((gchar*)node->name, "lattice"))
-			{
+		while(node) {
+			if (!strcmp((gchar*)node->name, "lattice")) {
 				txt = (char*)xmlNodeGetContent(node);
-				if (txt)
-				{
+				if (txt) {
 					int i = 0;
-					while (strcmp(txt, LatticeName[i]) && (i < 14)) i++;
-					if (i < 14) m_lattice = (gcLattices)i;
-					xmlFree(txt);
+					while (strcmp (txt, gcr::LatticeName[i]) && (i < 14))
+						i++;
+					if (i < 14)
+						m_lattice = (gcr::Lattice) i;
+					xmlFree (txt);
 				}
-			}
-			else if (!strcmp((gchar*)node->name, "cell"))
-			{
-				txt = (char*)xmlNodeGetContent(node);
-				if (txt)
-				{
-					sscanf(txt, "%lg %lg %lg %lg %lg %lg", &m_a, &m_b, &m_c, &m_alpha, &m_beta, &m_gamma);
-					xmlFree(txt);
+			} else if (!strcmp ((gchar*) node->name, "cell")) {
+				txt = (char*) xmlNodeGetContent (node);
+				if (txt) {
+					sscanf (txt, "%lg %lg %lg %lg %lg %lg", &m_a, &m_b, &m_c, &m_alpha, &m_beta, &m_gamma);
+					xmlFree (txt);
 				}
-			}
-			else if (!strcmp((gchar*)node->name, "size"))
-			{
-				txt = (char*)xmlNodeGetContent(node);
-				if (txt)
-				{
-					sscanf(txt, "%lg %lg %lg %lg %lg %lg", &m_xmin, &m_ymin, &m_zmin, &m_xmax, &m_ymax, &m_zmax);
-					xmlFree(txt);
+			} else if (!strcmp ((gchar*) node->name, "size")) {
+				txt = (char*) xmlNodeGetContent (node);
+				if (txt) {
+					sscanf (txt, "%lg %lg %lg %lg %lg %lg", &m_xmin, &m_ymin, &m_zmin, &m_xmax, &m_ymax, &m_zmax);
+					xmlFree (txt);
 				}
-				txt = (char*)xmlGetProp(node, (xmlChar*)"fixed");
-				if (txt)
-				{
-					if (!strcmp(txt, "true")) m_bFixedSize = true;
-					xmlFree(txt);
+				txt = (char*) xmlGetProp (node, (xmlChar*) "fixed");
+				if (txt) {
+					if (!strcmp (txt, "true"))
+						m_bFixedSize = true;
+					xmlFree (txt);
 				}
-			}
-			else if (!strcmp((gchar*)node->name, "atom"))
-			{
-				gcAtom *pAtom = new gcAtom();
-				if (pAtom->LoadOld(node, version))
+			} else if (!strcmp((gchar*)node->name, "atom")) {
+				gcAtom *pAtom = new gcAtom ();
+				if (pAtom->LoadOld (node, version))
 					AddChild (pAtom);
 				else
 					delete pAtom;
-			}
-			else if (!strcmp((gchar*)node->name, "line"))
-			{
-				gcLine *pLine = new gcLine();
-				if (pLine->LoadOld(node, version)) LineDef.push_back((CrystalLine*)pLine);
-				else delete pLine;
-			}
-			else if (!strcmp((gchar*)node->name, "cleavage"))
-			{
-				gcCleavage *pCleavage = new gcCleavage();
-				if (pCleavage->LoadOld(node)) Cleavages.push_back((CrystalCleavage*)pCleavage);
-				else delete pCleavage;
-			}
-			else if (!strcmp( (gchar*) node->name, "view")) {
+			} else if (!strcmp ((gchar*) node->name, "line")) {
+				gcLine *pLine = new gcLine ();
+				if (pLine->LoadOld (node, version))
+					LineDef.push_back ((gcr::Line*) pLine);
+				else
+					delete pLine;
+			} else if (!strcmp((gchar*)node->name, "cleavage")) {
+				gcCleavage *pCleavage = new gcCleavage ();
+				if (pCleavage->LoadOld (node))
+					Cleavages.push_back ((gcr::Cleavage *) pCleavage);
+				else
+					delete pCleavage;
+			} else if (!strcmp( (gchar*) node->name, "view")) {
 				if (bViewLoaded) {
 					gcWindow *pWindow = new gcWindow (dynamic_cast <gcApplication *> (m_App), this);
 					gcView *pView = pWindow->GetView ();
@@ -559,19 +548,19 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 			node = node->next;
 		}
 	}
-	setlocale(LC_NUMERIC, old_num_locale);
-	g_free(old_num_locale);
-	Update();
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+	Update ();
 }
 
-void gcDocument::OnNewDocument()
+void gcDocument::OnNewDocument ()
 {
-	Reinit();
-	UpdateAllViews();
+	Reinit ();
+	UpdateAllViews ();
 }
 
-typedef struct {int n; std::list<CrystalAtom*> l;} sAtom;
-typedef struct {int n; std::list<CrystalLine*> l;} sLine;
+typedef struct {int n; std::list<gcr::Atom*> l;} sAtom;
+typedef struct {int n; std::list<gcr::Line*> l;} sLine;
 
 void gcDocument::OnExportVRML (const string &FileName) const
 {
@@ -597,7 +586,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 		file << "#VRML V2.0 utf8" << endl;
 		
 		//Create prototypes for atoms
-		CrystalAtomList::const_iterator i;
+		gcr::AtomList::const_iterator i;
 		for (i = Atoms.begin(); i != Atoms.end(); i++)
 		{
 			(*i)->GetColor(&x0, &x1, &x2, &x3);
@@ -614,7 +603,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 		}
 	
 		//Create prototypes for bonds
-		CrystalLineList::const_iterator j;
+		gcr::LineList::const_iterator j;
 		n = 0;
 		for (j = Lines.begin(); j != Lines.end(); j++)
 		{
@@ -674,7 +663,7 @@ void gcDocument::OnExportVRML (const string &FileName) const
 					x4 = (*j)->Y2();
 					x5 = (*j)->Z2();
 					m.Transform(x3, x4, x5);
-					CrystalLine line(gcu::unique, x0, x1, x2, x3, x4, x5, 0.0, 0.0, 0.0, 0.0, 0.0);
+					gcr::Line line(gcr::unique, x0, x1, x2, x3, x4, x5, 0.0, 0.0, 0.0, 0.0, 0.0);
 					line.GetRotation(x0, x1, x2, x3);
 					file << "\t\tTransform {" << endl << "\t\t\trotation " << x1 << " " << x2 << " " << x0 << " " << x3 << endl;
 					x0 = (line.X1() + line.X2()) / 200;
@@ -778,24 +767,24 @@ bool gcDocument::VerifySaved()
 	return (res != GTK_RESPONSE_CANCEL);
 }
 
-CrystalView* gcDocument::CreateNewView()
+gcr::View* gcDocument::CreateNewView()
 {
 	return new gcView(this);
 }
 
-CrystalAtom* gcDocument::CreateNewAtom()
+gcr::Atom* gcDocument::CreateNewAtom()
 {
-	return (CrystalAtom*) new gcAtom();
+	return (gcr::Atom*) new gcAtom();
 }
 
-CrystalLine* gcDocument::CreateNewLine()
+gcr::Line* gcDocument::CreateNewLine()
 {
-	return (CrystalLine*) new gcLine();
+	return (gcr::Line*) new gcLine();
 }
 
-CrystalCleavage* gcDocument::CreateNewCleavage()
+gcr::Cleavage* gcDocument::CreateNewCleavage()
 {
-	return (CrystalCleavage*) new gcCleavage();
+	return (gcr::Cleavage*) new gcCleavage();
 }
 
 const char* gcDocument::GetProgramId () const
@@ -820,7 +809,7 @@ bool gcDocument::LoadNewView (xmlNodePtr node)
 
 void gcDocument::RenameViews ()
 {
-	list <CrystalView *>::iterator i, iend = m_Views.end ();
+	list <gcr::View *>::iterator i, iend = m_Views.end ();
 	int n = 1, max = m_Views.size ();
 	for (i = m_Views.begin (); i != iend; i++) {
 		gcWindow *window = dynamic_cast <gcView*> (*i)->GetWindow ();
@@ -874,7 +863,7 @@ bool gcDocument::SetProperty (unsigned property, char const *value)
 		m_Mail = g_strdup (value);
 		break;
 	default:
-		return CrystalDoc::SetProperty (property, value);
+		return gcr::Document::SetProperty (property, value);
 	}
 	return true;
 }
@@ -893,7 +882,7 @@ std::string gcDocument::GetProperty (unsigned property) const
 		g_free (m_Mail);
 		break;
 	default:
-		return CrystalDoc::GetProperty (property);
+		return gcr::Document::GetProperty (property);
 	}
 	return res;
 }

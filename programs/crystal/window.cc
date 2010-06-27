@@ -29,7 +29,7 @@
 #include "document.h"
 #include "prefs.h"
 #include "view-settings.h"
-#include <gcu/crystalview.h>
+#include <gcr/view.h>
 #include <gcu/print-setup-dlg.h>
 #include <gcu/spacegroup.h>
 #include <glib/gi18n.h>

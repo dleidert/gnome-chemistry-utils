@@ -181,7 +181,7 @@ void Document::ParseXMLTree (xmlNode* xml)
 			while (strcmp (txt, LatticeName[i]) && (i < 14))
 				i++;
 			if (i < 14)
-				m_lattice = (gcLattices)i;
+				m_lattice = (Lattice) i;
 			xmlFree (txt);
 		} else if (!strcmp ((gchar*) node->name, "group")) {
 			gcu::SpaceGroup *group = new gcu::SpaceGroup ();

@@ -46,7 +46,7 @@ namespace gcr {
 
 class View;
 
-/*!\enum gcLattices crystalviewer/crystaldoc.h
+/*!\enum Lattice gcr/document.h
 This enumeration gives sympolic names to the fourteen Bravais lattices.
 
 Possible values are:
@@ -65,20 +65,21 @@ Possible values are:
 - base_centered_monoclinic
 - triclinic
 */
-enum gcLattices {cubic=0,
-				 body_centered_cubic,
-				 face_centered_cubic,
-				 hexagonal,
-				 tetragonal,
-				 body_centered_tetragonal,
-				 orthorhombic,
-				 base_centered_orthorhombic,
-				 body_centered_orthorhombic,
-				 face_centered_orthorhombic,
-				 rhombohedral,
-				 monoclinic,
-				 base_centered_monoclinic,
-				 triclinic
+enum Lattice {
+	cubic=0,
+	body_centered_cubic,
+	face_centered_cubic,
+	hexagonal,
+	tetragonal,
+	body_centered_tetragonal,
+	orthorhombic,
+	base_centered_orthorhombic,
+	body_centered_orthorhombic,
+	face_centered_orthorhombic,
+	rhombohedral,
+	monoclinic,
+	base_centered_monoclinic,
+	triclinic
 };
 
 /*!\class Document gcr/document.h
@@ -219,7 +220,7 @@ protected:
 /*!
 The Bravais lattice of the crystal.
 */
-	gcLattices m_lattice;
+	Lattice m_lattice;
 /*!
 The a parameter of the unit cell.
 */

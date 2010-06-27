@@ -88,7 +88,6 @@ EltTable::EltTable()
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv ("LANG");
-	setlocale (LC_ALL, lang);
 	char *old_num_locale, *buf, *num;
 	unsigned char Z;
 	map <string, string> Langs;

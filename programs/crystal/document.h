@@ -26,7 +26,7 @@
 #define GCRYSTAL_DOCUMENT_H
 
 #include <libxml/parser.h>
-#include <gcu/crystaldoc.h>
+#include <gcr/document.h>
 #include <gcu/dialog.h>
 #include <gcu/macros.h>
 #include "atom.h"
@@ -42,28 +42,28 @@ namespace OpenBabel {
 class gcView;
 class gcApplication;
 
-class gcDocument: public gcu::CrystalDoc
+class gcDocument: public gcr::Document
 {
 	//Constructor and destructor
 public:
 	gcDocument (gcApplication *App);
-	~gcDocument();
+	~gcDocument ();
 	
 	//Interface
 public:
-	void Define(unsigned nPage = 0);
-	CrystalAtomList* GetAtomList() {return &AtomDef;}
-	CrystalLineList* GetLineList() {return &LineDef;}
-	CrystalCleavageList* GetCleavageList() {return &Cleavages;}
-	void Update();
-	void UpdateAllViews();
-	void SetWidget(GtkWidget* widget){m_widget = widget;}
-	void GetSize(gdouble* xmin, gdouble* xmax, gdouble* ymin, gdouble* ymax, gdouble* zmin, gdouble* zmax);
-	void SetSize(gdouble xmin, gdouble xmax, gdouble ymin, gdouble ymax, gdouble zmin, gdouble zmax);
-	void GetCell(gcLattices *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma);
-	void SetCell(gcLattices lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma);
-	const gchar* GetFileName() {return m_filename;}
-	void SetFileName(const std::string &filename);
+	void Define (unsigned nPage = 0);
+	gcr::AtomList* GetAtomList () {return &AtomDef;}
+	gcr::LineList* GetLineList () {return &LineDef;}
+	gcr::CleavageList* GetCleavageList () {return &Cleavages;}
+	void Update ();
+	void UpdateAllViews ();
+	void SetWidget (GtkWidget* widget) {m_widget = widget;}
+	void GetSize (gdouble* xmin, gdouble* xmax, gdouble* ymin, gdouble* ymax, gdouble* zmin, gdouble* zmax);
+	void SetSize (gdouble xmin, gdouble xmax, gdouble ymin, gdouble ymax, gdouble zmin, gdouble zmax);
+	void GetCell (gcr::Lattice *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma);
+	void SetCell (gcr::Lattice lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma);
+	const gchar* GetFileName () {return m_filename;}
+	void SetFileName (const std::string &filename);
 	void SetTitle (char const *title);
 	void SetTitle (std::string& title);
 	char const *GetTitle () {return m_Title.c_str ();}
@@ -82,16 +82,16 @@ public:
 	bool VerifySaved();
 	bool GetFixedSize() {return m_bFixedSize;}
 	void SetFixedSize(bool FixedSize) {m_bFixedSize = FixedSize;}
-	virtual CrystalView* CreateNewView();
-	virtual CrystalAtom* CreateNewAtom();
-	virtual CrystalLine* CreateNewLine();
-	virtual CrystalCleavage* CreateNewCleavage();
+	virtual gcr::View* CreateNewView();
+	virtual gcr::Atom* CreateNewAtom();
+	virtual gcr::Line* CreateNewLine();
+	virtual gcr::Cleavage* CreateNewCleavage();
 	virtual const char* GetProgramId() const;
 	void SetActiveView (gcView *pView) {m_pActiveView = pView;}
 	void SaveAsImage (const std::string &filename, char const *type, std::map<std::string, std::string>& options);
 	gcView *GetActiveView () {return m_pActiveView;}
 	virtual bool LoadNewView (xmlNodePtr node);
-	std::list <CrystalView *> *GetViews () {return &m_Views;}
+	std::list <gcr::View *> *GetViews () {return &m_Views;}
 	void RenameViews ();
 	void SetAuthor (char const *author);
 	void SetMail (char const *mail);

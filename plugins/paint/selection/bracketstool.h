@@ -30,7 +30,19 @@
 namespace gcp {
 	class Application;
 }
-	
+
+typedef enum {
+	GCP_BRACKET_NORMAL,
+	GCP_BRACKET_SQUARE,
+	GCP_BRACKET_CURLY
+} gcpBracketType;
+
+typedef enum {
+	GCP_BRACKETS_BOTH,
+	GCP_BRACKETS_OPENING,
+	GCP_BRACKETS_CLOSING
+} gcpBracketsUsed;
+
 class gcpBracketsTool: public gcp::Tool
 {
 public:
@@ -42,6 +54,13 @@ public:
 	virtual void OnRelease ();
 	char const *GetHelpTag () {return "brackets";}
 	GtkWidget *GetPropertyPage ();
+
+	static void OnTypeChanged (GtkComboBox *box, gcpBracketsTool *tool);
+	static void OnUsedChanged (GtkComboBox *box, gcpBracketsTool *tool);
+
+private:
+	gcpBracketType m_Type;
+	gcpBracketsUsed m_Used;
 };
 
 #endif // GCHEMPAINT_BRACKETS_TOOL_H

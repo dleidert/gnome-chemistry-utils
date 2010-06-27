@@ -1,5 +1,32 @@
 ##Text encoding: utf-8
 
+2010-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/document.cc: more renaming.
+	* libs/gcr/document.h: ditto.
+	* libs/gcu/element.cc: do not set locale on startup.
+	* mozilla-plugin/Makefile.am: make things compile again.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* plugins/paint/selection/brackets.ui: fixed appearance.
+	* plugins/paint/selection/bracketstool.cc: implement properties page.
+	* plugins/paint/selection/bracketstool.h: ditto.
+	* programs/crystal/Makefile.am: make things compile again.
+	* programs/crystal/application.cc: ditto.
+	* programs/crystal/atom.cc: ditto.
+	* programs/crystal/atom.h: ditto.
+	* programs/crystal/atomsdlg.cc: ditto.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/cleavage.cc: ditto.
+	* programs/crystal/cleavage.h: ditto.
+	* programs/crystal/cleavagesdlg.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/line.cc: ditto.
+	* programs/crystal/line.h: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/crystal/view.cc: ditto.
+	* programs/crystal/view.h: ditto.
+	* programs/crystal/window.cc: ditto.
+
 2010-06-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/Makefile.am: moved crystal related files from gcu to gcr.
 	(gcrystal will not compile during a few days).

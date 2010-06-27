@@ -22,7 +22,7 @@
 #include "config.h"
 #include <gcu/element.h>
 #include <gcu/gcuchem3dviewer.h>
-#include <gcu/gcucrystalviewer.h>
+#include <gcr/gcrcrystalviewer.h>
 #include <gcu/gcuspectrumviewer.h>
 #include <gcu/chem3ddoc.h>
 #include <gcu/loader.h>
@@ -134,7 +134,7 @@ void ChemComp::SetWindow (XID xid)
 		XMapWindow (GDK_WINDOW_XDISPLAY (window),
 			GDK_WINDOW_XID (window));
 		if (MimeType == "application/x-gcrystal" || MimeType == "chemical/x-cif")
-			Viewer = gcu_crystal_viewer_new (NULL);
+			Viewer = gcr_crystal_viewer_new (NULL);
 		else if (MimeType == "application/x-gchempaint" || MimeType == "chemical/x-cdx" || MimeType == "chemical/x-cdxml") {
 			if (!gcpApp)
 				gcpApp = new MozPaintApp ();
@@ -166,7 +166,7 @@ void ChemComp::SetFilename (string& filename)
 		xmlDocPtr xml = xmlParseFile (filename.c_str ());
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "crystal"))
 			return;
-		gcu_crystal_viewer_set_data (GCU_CRYSTAL_VIEWER (Viewer), xml->children);
+		gcr_crystal_viewer_set_data (GCR_CRYSTAL_VIEWER (Viewer), xml->children);
 		xmlFree (xml);
 	} else if (MimeType == "chemical/x-cif") {
 		if (!loaded_radii) {
@@ -178,7 +178,7 @@ void ChemComp::SetFilename (string& filename)
 			filename = uri;
 			g_free (uri);
 		}
-		gcu_crystal_viewer_set_uri_with_mime_type (GCU_CRYSTAL_VIEWER (Viewer), filename.c_str (), "chemical/x-cif");
+		gcr_crystal_viewer_set_uri_with_mime_type (GCR_CRYSTAL_VIEWER (Viewer), filename.c_str (), "chemical/x-cif");
 	} else 	if (MimeType == "application/x-gchempaint") {
 		xmlDocPtr xml = xmlParseFile (filename.c_str ());
 		if (!xml || !xml->children || strcmp ((char*) xml->children->name, "chemistry"))

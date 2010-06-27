@@ -4,7 +4,7 @@
  * Gnome Crystal
  * line.cc 
  *
- * Copyright (C) 2000-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,61 +31,57 @@
 #include <cmath>
 #include <cstring>
 
-gcLine::gcLine(): CrystalLine()
+gcLine::gcLine (): gcr::Line ()
 {
 }
 
-gcLine::~gcLine()
+gcLine::~gcLine ()
 {
 }
 
 
-bool gcLine::LoadOld(xmlNodePtr node, unsigned version)
+bool gcLine::LoadOld (xmlNodePtr node, unsigned version)
 {
 	char *txt;
-	txt = (char*)xmlGetProp(node, (xmlChar*)"type");
-	if (txt)
-	{
+	txt = (char*) xmlGetProp (node, (xmlChar*) "type");
+	if (txt) {
 		int i = 0;
-		while (strcmp(txt, LineTypeName[i]) && (i < 5)) i++;
-		xmlFree(txt);
-		if (i < 5) m_nType = (CrystalLineType)i;
-		else return false;
-	}
-	else return false;
+		while (strcmp (txt, gcr::LineTypeName[i]) && (i < 5))
+			i++;
+		xmlFree (txt);
+		if (i < 5)
+		    m_nType = (gcr::LineType) i;
+		else
+		    return false;
+	} else
+		return false;
 	xmlNodePtr child = node->children;
-	while(child)
-	{
-		if (!strcmp((gchar*)child->name, "position"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			if (txt)
-			{
-				sscanf(txt, "%lg %lg %lg %lg %lg %lg", &m_dx, &m_dy, &m_dz, &m_dx2, &m_dy2, &m_dz2);
-				xmlFree(txt);
+	while (child) {
+		if (!strcmp ((gchar*) child->name, "position")) {
+			txt = (char*) xmlNodeGetContent (child);
+			if (txt) {
+				sscanf (txt, "%lg %lg %lg %lg %lg %lg", &m_dx, &m_dy, &m_dz, &m_dx2, &m_dy2, &m_dz2);
+				xmlFree (txt);
 			}
-		}
-		else if (!strcmp((gchar*)child->name, "color"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			if (txt)
-			{
-				if (version < 0x200) sscanf(txt, "%g %g %g %g", &m_fBlue, &m_fRed, &m_fGreen, &m_fAlpha);
-				else sscanf(txt, "%g %g %g %g", &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha);
-				xmlFree(txt);
+		} else if (!strcmp ((gchar*) child->name, "color")) {
+			txt = (char*) xmlNodeGetContent (child);
+			if (txt) {
+				if (version < 0x200)
+					sscanf (txt, "%g %g %g %g", &m_fBlue, &m_fRed, &m_fGreen, &m_fAlpha);
+				else
+					sscanf (txt, "%g %g %g %g", &m_fRed, &m_fGreen, &m_fBlue, &m_fAlpha);
+				xmlFree (txt);
 			}
-		}
-		else if (!strcmp((gchar*)child->name, "radius"))
-		{
-			txt = (char*)xmlNodeGetContent(child);
-			if (txt)
-			{
-				sscanf(txt, "%lg", &m_dr);
-				xmlFree(txt);
+		} else if (!strcmp ((gchar*) child->name, "radius")) {
+			txt = (char*) xmlNodeGetContent (child);
+			if (txt) {
+				sscanf (txt, "%lg", &m_dr);
+				xmlFree (txt);
 			}
 		}
 		child = child->next;
 	}
-	if (m_dr == 0) return false;
+	if (m_dr == 0)
+		return false;
 	return true;
 }

@@ -392,8 +392,8 @@ normal_exit:
 			data.is_private =  FALSE;
 			gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
 			// change titles in every window and bring to front
-			list <CrystalView *> *Views = Doc->GetViews ();
-			list <CrystalView *>::iterator i, iend = Views->end ();
+			list <gcr::View *> *Views = Doc->GetViews ();
+			list <gcr::View *>::iterator i, iend = Views->end ();
 			int n = 1, max = Views->size ();
 			Doc->RenameViews ();
 			char const *title = Doc->GetLabel ();

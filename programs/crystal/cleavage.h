@@ -4,7 +4,7 @@
  * Gnome Crystal
  * cleavage.h 
  *
- * Copyright (C) 2001-2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,23 +25,17 @@
 #ifndef GCRYSTAL_CLEAVAGE_H
 #define GCRYSTAL_CLEAVAGE_H
 
-#ifdef GCU_OLD_VER
-#	include <crystalviewer/crystalcleavage.h>
-#else
-#	include <gcu/crystalcleavage.h>
-#endif
+#include <gcr/cleavage.h>
 #include <libxml/parser.h>
 #include <list>
 
-using namespace gcu;
-
-class gcCleavage: public CrystalCleavage
+class gcCleavage: public gcr::Cleavage
 {
 public:
-	gcCleavage();
-	virtual ~gcCleavage();
+	gcCleavage ();
+	virtual ~gcCleavage ();
 
-	bool LoadOld(xmlNodePtr node);
+	bool LoadOld (xmlNodePtr node);
 };
 
 #endif //GCRYSTAL_CLEAVAGE_H

@@ -31,6 +31,8 @@
 
 gcpBracketsTool::gcpBracketsTool (gcp::Application* App): gcp::Tool (App, "Brackets")
 {
+	m_Type = GCP_BRACKET_NORMAL;
+	m_Used = GCP_BRACKETS_BOTH;
 }
 
 gcpBracketsTool::~gcpBracketsTool ()
@@ -55,6 +57,13 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 	gcu::UIBuilder *builder= NULL;
 	try {
 		builder = new gcu::UIBuilder (UIDIR"/brackets.ui", GETTEXT_PACKAGE);
+		GtkComboBox *box = builder->GetComboBox ("type-box");
+		gtk_combo_box_set_active (box, m_Type);
+		g_signal_connect (box, "changed", G_CALLBACK (gcpBracketsTool::OnTypeChanged), this);
+		box = builder->GetComboBox ("used-box");
+		gtk_combo_box_set_active (box, m_Used);
+		g_signal_connect (box, "changed", G_CALLBACK (gcpBracketsTool::OnUsedChanged), this);
+
 		GtkWidget *res = builder->GetRefdWidget ("brackets");
 		delete builder;
 		return res;
@@ -72,4 +81,14 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 			delete builder;
 		return NULL;
 	}
+}
+
+void gcpBracketsTool::OnTypeChanged (GtkComboBox *box, gcpBracketsTool *tool)
+{
+	tool->m_Type = static_cast <gcpBracketType> (gtk_combo_box_get_active (box));
+}
+
+void gcpBracketsTool::OnUsedChanged (GtkComboBox *box, gcpBracketsTool *tool)
+{
+	tool->m_Used = static_cast <gcpBracketsUsed> (gtk_combo_box_get_active (box));
 }

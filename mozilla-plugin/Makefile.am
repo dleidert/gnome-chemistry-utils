@@ -19,6 +19,7 @@ libmozgcu_la_LIBADD = $(MOZILLA_LIBS)
 
 chem_viewer_SOURCES = chem-viewer.cc
 chem_viewer_LDADD = $(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la \
+	$(top_builddir)/libs/gcr/libgcr-@GCU_API_VER@.la \
 	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 	$(goffice_LIBS) \
 	$(gtk_LIBS) \
