@@ -252,7 +252,7 @@ bool gcpSelectionTool::Deactivate ()
 	{
 		i = SelectedWidgets.begin ();
 		(*i).first->UnselectAll ();
-		g_signal_handler_disconnect ((*i).first, (*i).second);
+		g_signal_handler_disconnect ((*i).first->Canvas, (*i).second);
 		SelectedWidgets.erase (i);
 	}
 	return true;
@@ -272,19 +272,19 @@ void gcpSelectionTool::AddSelection (gcp::WidgetData* data)
 			win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", true);
 			win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", true);
 		}
+		std::map <gcp::WidgetData *, guint>::iterator i;
+		if (SelectedWidgets.find (m_pData) == SelectedWidgets.end ())
+			SelectedWidgets[m_pData] = g_signal_connect (m_pData->Canvas, "destroy", G_CALLBACK (OnWidgetDestroyed), this);
+		if (d) {
+			m_pView = d->m_View;
+			m_pData = d;
+		}
+		// If the selection is made of two molecules, activate the merge tool
+		if (m_UIManager)
+			gtk_widget_set_sensitive (m_MergeBtn, ((m_pData->SelectedObjects.size () == 2) &&
+				(m_pData->SelectedObjects.front ()->GetType () == MoleculeType) &&
+				(m_pData->SelectedObjects.back ()->GetType () == MoleculeType)));
 	}
-	std::map <gcp::WidgetData *, guint>::iterator i;
-	if (SelectedWidgets.find (m_pData) == SelectedWidgets.end ())
-		SelectedWidgets[m_pData] = g_signal_connect (m_pData->Canvas, "destroy", G_CALLBACK (OnWidgetDestroyed), this);
-	if (d) {
-		m_pView = d->m_View;
-		m_pData = d;
-	}
-	// If the selection is made of two molecules, activate the merge tool
-	if (m_UIManager)
-		gtk_widget_set_sensitive (m_MergeBtn, ((m_pData->SelectedObjects.size () == 2) &&
-			(m_pData->SelectedObjects.front ()->GetType () == MoleculeType) &&
-			(m_pData->SelectedObjects.back ()->GetType () == MoleculeType)));
 }
 
 void gcpSelectionTool::OnFlip (bool horizontal)

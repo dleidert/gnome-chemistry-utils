@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/selection/Makefile.am: new lasso tool.
+	* plugins/paint/selection/bracketstool.cc: start OnDrag() implementation.
+	* plugins/paint/selection/lassotool.cc: new lasso tool.
+	* plugins/paint/selection/lassotool.h: ditto.
+	* plugins/paint/selection/plugin.cc: ditto.
+	* plugins/paint/selection/selectiontool.cc: fixed a critical.
+
 2010-06-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/document.cc: more renaming.
 	* libs/gcr/document.h: ditto.

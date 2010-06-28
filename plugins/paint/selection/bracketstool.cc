@@ -27,7 +27,17 @@
 #include <gcu/message.h>
 #include <gcu/ui-builder.h>
 #include <gcp/application.h>
+#include <gcp/document.h>
+#include <gcp/settings.h>
+#include <gcp/theme.h>
+#include <gcp/view.h>
+#include <gcp/widgetdata.h>
+#include <gccv/canvas.h>
+#include <gccv/group.h>
+#include <gccv/item-client.h>
+#include <gccv/rectangle.h>
 #include <glib/gi18n-lib.h>
+#include <typeinfo>
 
 gcpBracketsTool::gcpBracketsTool (gcp::Application* App): gcp::Tool (App, "Brackets")
 {
@@ -46,6 +56,36 @@ bool gcpBracketsTool::OnClicked ()
 
 void gcpBracketsTool::OnDrag ()
 {
+	if (m_Item) {
+		reinterpret_cast <gccv::Rectangle *> (m_Item)->SetPosition (m_x0, m_y0, m_x - m_x0, m_y - m_y0);
+	} else {
+		m_Item = new gccv::Rectangle (m_pView->GetCanvas (), m_x0, m_y0, m_x - m_x0, m_y - m_y0);
+		gcp::Theme *theme = m_pView->GetDoc ()->GetTheme ();
+		static_cast <gccv::LineItem *> (m_Item)->SetLineColor (gcp::SelectColor);
+		static_cast <gccv::LineItem *> (m_Item)->SetLineWidth (theme->GetBondWidth ());
+		static_cast <gccv::FillItem *> (m_Item)->SetFillColor (0);
+	}
+	// find everything inside the selected rectangle and select
+	gccv::Group *group = m_pView->GetCanvas ()->GetRoot ();
+	// all client top items are implemented as a child of the root
+	std::list <gccv::Item *>::iterator it;
+	gccv::Item *item = group->GetFirstChild (it);
+	double x0, x1, y0, y1;
+	gcu::Object *object;
+	m_pData->UnselectAll ();
+	while (item) {
+		if (item != m_Item) {
+			item->GetBounds (x0, y0, x1, y1);
+			if ((x0 < m_x) && (y0 < m_y) && (x1 > m_x0) && (y1 > m_y0)) {
+				object = dynamic_cast <gcu::Object *> (item->GetClient ());
+				if (object) {
+					if (!m_pData->IsSelected (object))
+						m_pData->SetSelected (object);
+				}
+			}
+		}
+		item = group->GetNextChild (it);
+	}
 }
 
 void gcpBracketsTool::OnRelease ()

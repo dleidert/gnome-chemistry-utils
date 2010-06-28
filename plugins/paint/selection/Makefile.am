@@ -20,6 +20,7 @@ IMAGES = \
 	brackets24.png \
 	eraser24.png \
 	horiz24.png \
+	lasso24.png \
 	merge24.png \
 	rotate24.png \
 	selection24.png \
@@ -30,6 +31,7 @@ VARIABLES = \
 	gcp_eraser_24		$(srcdir)/eraser24.png \
 	gcp_horiz_24		$(srcdir)/horiz24.png \
 	gcp_merge_24		$(srcdir)/merge24.png \
+	gcp_lasso_24		$(srcdir)/lasso24.png \
 	gcp_rotate_24		$(srcdir)/rotate24.png \
 	gcp_selection_24	$(srcdir)/selection24.png \
 	gcp_vert_24		$(srcdir)/vert24.png
@@ -50,6 +52,7 @@ selection_la_SOURCES = \
 	erasertool.cc \
 	group.cc \
 	groupdlg.cc \
+	lassotool.cc \
 	selectiontool.cc
 
 noinst_HEADERS = \
@@ -58,6 +61,7 @@ noinst_HEADERS = \
 	erasertool.h \
 	group.h \
 	groupdlg.h \
+	lassotool.h \
 	selectiontool.h
 
 uidir = $(datadir)/gchemutils/@GCU_API_VER@/ui/paint/plugins/selection

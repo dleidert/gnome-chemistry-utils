@@ -27,6 +27,7 @@
 #include <gcp/application.h>
 #include <gcp/molecule.h>
 #include "selectiontool.h"
+#include "lassotool.h"
 #include "erasertool.h"
 #include "group.h"
 #include "bracketstool.h"
@@ -52,6 +53,7 @@ static gcp::IconDesc icon_descs[] = {
 	{"gcp_Selection", gcp_selection_24},
 	{"gcp_Eraser", gcp_eraser_24},
 	{"gcp_Horiz", gcp_horiz_24},
+	{"gcp_Lasso", gcp_lasso_24},
 	{"gcp_Vert", gcp_vert_24},
 	{"gcp_Rotate", gcp_rotate_24},
 	{"gcp_Merge", gcp_merge_24},
@@ -66,6 +68,9 @@ static GtkRadioActionEntry entries[] = {
 	{	"Erase", "gcp_Eraser", N_("Erase"), NULL,
 		N_("Eraser"),
 		0	},
+	{	"Lasso", "gcp_Lasso", N_("Area selection"), NULL,
+		N_("Area selection"),
+		0	},
 	{	"Brackets", "gcp_Brackets", N_("Brackets"), NULL,
 		N_("Brackets"),
 		0	},
@@ -76,6 +81,7 @@ static const char *ui_description =
 "  <toolbar name='SelectToolbar'>"
 "	 <placeholder name='Select1'>"
 "      <toolitem action='Select'/>"
+"      <toolitem action='Lasso'/>"
 "      <toolitem action='Erase'/>"
 "      <toolitem action='Brackets'/>"
 "	 </placeholder>"
@@ -90,6 +96,7 @@ void gcpSelectionPlugin::Populate (gcp::Application* App)
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, icon_descs);
 	App->RegisterToolbar ("SelectToolbar", 0);
 	new gcpSelectionTool (App);
+	new gcpLassoTool (App);
 	new gcpEraserTool (App);
 	new gcpBracketsTool (App);
 	App->ActivateTool ("Select", true);
