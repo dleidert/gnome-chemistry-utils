@@ -252,7 +252,7 @@ bool gcpSelectionTool::Deactivate ()
 	{
 		i = SelectedWidgets.begin ();
 		(*i).first->UnselectAll ();
-		g_signal_handler_disconnect ((*i).first, (*i).second);
+		g_signal_handler_disconnect ((*i).first->Canvas, (*i).second);
 		SelectedWidgets.erase (i);
 	}
 	return true;

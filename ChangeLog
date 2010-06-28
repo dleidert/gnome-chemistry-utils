@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/selection/selectiontool.cc: fixed a critical.
+
 2010-06-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/atoms/orbital.cc: fix orbital code when the atom is inside
 	a fragment. [#29862]
