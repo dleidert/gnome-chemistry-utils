@@ -32,6 +32,12 @@ class gcpLassoTool: public gcp::Tool
 public:
 	gcpLassoTool (gcp::Application *App);
 	virtual ~gcpLassoTool ();
+
+	bool OnClicked ();
+	void OnDrag ();
+	void OnRelease ();
+	void Activate ();
+	bool Deactivate ();
 };
 
 #endif // GCHEMPAINT_LASSO_TOOL_H

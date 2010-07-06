@@ -155,6 +155,12 @@ returns G_MAXDOUBLE.
 	virtual double Distance (double x, double y, Item **item) const;
 /*!
 @param cr a cairo_t.
+
+Builds the cairo path corresponding to the Item bounds. Don't draw anything.
+*/
+	virtual void BuildPath (cairo_t *cr) const;
+/*!
+@param cr a cairo_t.
 @param is_vector whether the cairo_t is a vectorial context.
 
 Draws Item to \a cr. \a is_vector might be used to enhance rendering in the case

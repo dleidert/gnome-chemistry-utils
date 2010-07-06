@@ -304,6 +304,15 @@ Example: \code
 */
 	virtual bool Load (xmlNodePtr node);
 /*!
+@param x a pointer to the double value which will receive the x coordinate of the Object.
+@param y a pointer to the double value which will receive the y coordinate of the Object.
+@param z a pointer to the double value which will receive the z coordinate of the Object or NULL for 2D representations.
+
+Retrieves the coordinates of this Object if relevant.
+@return true if successful and false if an error occurs (if x or y is NULL).
+*/
+	virtual bool GetCoords (double *x, double *y, double *z = NULL) const;
+/*!
 @param x the x component of the transation vector.
 @param y the y component of the transation vector.
 @param z the z component of the transation vector.

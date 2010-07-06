@@ -102,6 +102,10 @@ bool Item::Draw (G_GNUC_UNUSED cairo_t *cr, G_GNUC_UNUSED double x0, G_GNUC_UNUS
 	return false;
 }
 
+void Item::BuildPath (cairo_t *cr) const
+{
+}
+
 void Item::Invalidate () const
 {
 	if (!m_CachedBounds) {

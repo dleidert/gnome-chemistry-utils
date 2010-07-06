@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2010-07-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: add gccv::Polygon class.
+	* libs/gccv/item.cc: add Item::BuildPath().
+	* libs/gccv/item.h: ditto.
+	* libs/gccv/polygon.cc: new class.
+	* libs/gccv/polygon.h: ditto.
+	* libs/gcu/atom.h: add Object::GetCoords().
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+	* plugins/paint/selection/lassotool.cc: select atoms inside the path.
+	* plugins/paint/selection/lassotool.h: ditto.
+
 2010-06-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/selection/Makefile.am: new lasso tool.
 	* plugins/paint/selection/bracketstool.cc: start OnDrag() implementation.

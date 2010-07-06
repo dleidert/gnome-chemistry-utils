@@ -96,7 +96,7 @@ Multiplies all three coordinates of this Atom by ZoomFactor.
 Retrieves the coordinates of this Atom.
 @return true if successful and false if an error occurs (if x or y is NULL).
 */
-	virtual bool GetCoords (double *x, double *y, double *z = NULL) const;
+	bool GetCoords (double *x, double *y, double *z = NULL) const;
 /*!
 @param x the new x coordinate of the Atom.
 @param y the new y coordinate of the Atom.

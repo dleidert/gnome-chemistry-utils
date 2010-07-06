@@ -24,6 +24,13 @@
 
 #include "config.h"
 #include "lassotool.h"
+#include <gccv/canvas.h>
+#include <gccv/group.h>
+#include <gccv/item-client.h>
+#include <gccv/polygon.h>
+#include <gcp/settings.h>
+#include <gcp/view.h>
+#include <gcp/widgetdata.h>
 
 gcpLassoTool::gcpLassoTool (gcp::Application *App): gcp::Tool (App, "Lasso")
 {
@@ -31,4 +38,64 @@ gcpLassoTool::gcpLassoTool (gcp::Application *App): gcp::Tool (App, "Lasso")
 
 gcpLassoTool::~gcpLassoTool ()
 {
+}
+
+bool gcpLassoTool::OnClicked ()
+{
+	std::list <gccv::Point> l;
+	gccv::Point p;
+	gccv::Polygon *poly;
+	p.x = m_x0;
+	p.y = m_y0;
+	l.push_front (p);
+	m_Item = poly = new gccv::Polygon (m_pView->GetCanvas (), l);
+	poly->SetLineColor (gcp::SelectColor);
+	return true;
+}
+
+void gcpLassoTool::OnDrag ()
+{
+	static_cast <gccv::Polygon *> (m_Item)->AddPoint (m_x, m_y);
+	// Unselect everything before evaluating current selection
+	m_pData->UnselectAll ();
+	cairo_t *cr;
+	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1 , 1);
+	cr = cairo_create (surface);
+	m_Item->BuildPath (cr);
+	std::list <gccv::Item *>::iterator it;
+	gccv::Group *group = m_pView->GetCanvas ()->GetRoot ();
+	gccv::Item *item = group->GetFirstChild (it);
+	double x0, x1, y0, y1;
+	gcu::Object *object;
+	m_Item->GetBounds (m_x0, m_y0, m_x, m_y);
+	while (item) {
+		if (item != m_Item) {
+			item->GetBounds (x0, y0, x1, y1);
+			if ((x0 < m_x) && (y0 < m_y) && (x1 > m_x0) && (y1 > m_y0)) {
+				object = dynamic_cast <gcu::Object *> (item->GetClient ());
+				if (object && object->GetCoords (&x0, &y0) && !m_pData->IsSelected (object)) {
+					x0 *= m_dZoomFactor;
+					y0 *= m_dZoomFactor;
+					if (cairo_in_fill (cr, x0, y0))
+						m_pData->SetSelected (object);
+				}
+			}
+		}
+		item = group->GetNextChild (it);
+	}
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
+}
+
+void gcpLassoTool::OnRelease ()
+{
+}
+
+void gcpLassoTool::Activate ()
+{
+}
+
+bool gcpLassoTool::Deactivate ()
+{
+	return true;
 }

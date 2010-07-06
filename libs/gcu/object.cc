@@ -387,6 +387,11 @@ void Object::Move (double x, double y, double z)
 		(*i).second->Move (x, y, z);
 }
 
+bool Object::GetCoords (double *x, double *y, double *z) const
+{
+	return false;
+}
+
 void Object::Transform2D(Matrix2D& m, double x, double y)
 {
 	map<string, Object*>::iterator i, end = m_Children.end ();

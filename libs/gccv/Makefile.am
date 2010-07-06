@@ -16,6 +16,7 @@ noinst_HEADERS = \
 	leaf.h	\
 	line.h	\
 	line-item.h	\
+	polygon.h	\
 	poly-line.h	\
 	rectangle.h	\
 	squiggle.h \
@@ -39,6 +40,7 @@ libgccv_@GCU_API_VER@_la_SOURCES =	\
 	leaf.cc	\
 	line.cc	\
 	line-item.cc	\
+	polygon.cc	\
 	poly-line.cc	\
 	rectangle.cc	\
 	squiggle.cc \
