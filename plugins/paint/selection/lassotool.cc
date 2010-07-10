@@ -28,9 +28,12 @@
 #include <gccv/group.h>
 #include <gccv/item-client.h>
 #include <gccv/polygon.h>
+#include <gcp/atom.h>
+#include <gcp/fragment.h>
 #include <gcp/settings.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gcu/bond.h>
 
 gcpLassoTool::gcpLassoTool (gcp::Application *App): gcp::Tool (App, "Lasso")
 {
@@ -76,8 +79,27 @@ void gcpLassoTool::OnDrag ()
 				if (object && object->GetCoords (&x0, &y0) && !m_pData->IsSelected (object)) {
 					x0 *= m_dZoomFactor;
 					y0 *= m_dZoomFactor;
-					if (cairo_in_fill (cr, x0, y0))
+					if (cairo_in_fill (cr, x0, y0)) {
 						m_pData->SetSelected (object);
+						gcp::Atom *atom = static_cast <gcp::Atom *> (object);
+						switch (object->GetType ()) {
+						case gcu::FragmentType:
+								atom = static_cast <gcp::Fragment *> (object)->GetAtom ();
+						case gcu::AtomType: {
+							// go through the bonds and select them if both ends are selected
+							std::map<gcu::Atom*, gcu::Bond*>::iterator i;
+							gcu::Bond *bond = atom->GetFirstBond (i);
+							while (bond) {
+								if (m_pData->IsSelected (bond->GetAtom (atom)))
+									m_pData->SetSelected (bond);
+								bond = atom->GetNextBond (i);
+							}
+						}
+						default:
+							// go through the links and store them for later treatment
+							break;
+						}
+					}
 				}
 			}
 		}

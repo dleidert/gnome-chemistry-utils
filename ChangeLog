@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-07-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/selection/lassotool.cc: select bonds if both atoms
+	are inside the path.
+
 2010-07-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: add gccv::Polygon class.
 	* libs/gccv/item.cc: add Item::BuildPath().
