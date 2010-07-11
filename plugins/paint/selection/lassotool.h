@@ -26,6 +26,7 @@
 #define GCHEMPAINT_LASSO_TOOL_H
 
 #include <gcp/tool.h>
+#include <map>
 
 class gcpLassoTool: public gcp::Tool
 {
@@ -38,6 +39,14 @@ public:
 	void OnRelease ();
 	void Activate ();
 	bool Deactivate ();
+	bool CopySelection (G_GNUC_UNUSED GtkClipboard *clipboard) {return false;} // allow clipboard operations
+
+	void AddSelection (gcp::WidgetData* data);
+
+	static void OnWidgetDestroyed (GtkWidget *widget, gcpLassoTool *tool);
+
+private:
+	std::map <gcp::WidgetData *, guint> SelectedWidgets;
 };
 
 #endif // GCHEMPAINT_LASSO_TOOL_H

@@ -547,7 +547,7 @@ void Document::AddBond (Bond* pBond)
 	if (pBond->GetParent () == NULL)
 		AddChild (pBond);
 	Atom *pAtom0 = (Atom*) pBond->GetAtom (0), *pAtom1 = (Atom*) pBond->GetAtom (1);
-	if (m_pView->GetCanvas ()) {
+	if (m_pView->GetCanvas () && pAtom0 && pAtom1) {
 		pAtom0->UpdateItem ();
 		pAtom1->UpdateItem ();
 		pBond->AddItem ();
@@ -1105,6 +1105,7 @@ void Document::OnUndo ()
 		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
 	}
 	m_bUndoRedo = false;
+	Loaded ();
 	Update ();
 	EmptyTranslationTable ();
 	SetDirty (m_LastStackSize != m_UndoList.size () || (m_LastStackSize > 0 && m_OpID != m_UndoList.front ()->GetID ()));
@@ -1130,6 +1131,7 @@ void Document::OnRedo ()
 		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
 	}
 	m_bUndoRedo = false;
+	Loaded ();
 	EmptyTranslationTable ();
 	SetDirty (m_LastStackSize != m_UndoList.size () || (m_LastStackSize > 0 && m_OpID != m_UndoList.front ()->GetID ()));
 	m_Empty = !HasChildren ();
@@ -1272,10 +1274,15 @@ void Document::AddData (xmlNodePtr node)
 	EmptyTranslationTable ();
 	GtkWidget* w = m_pView->GetWidget ();
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	gcu::Application *app = GetApp ();
+	if (!app)
+		app = Application::GetApplication ("GChemPaint");
+	if (!app)
+		return; // TODO: may be an exception there
 	while (node) {
 		child = (strcmp ((const char*) node->name, "object"))? node: node->children;
 		str = (const char*) child->name;
-		pObject = GetApp ()->CreateObject (str, this);
+		pObject = app->CreateObject (str, this);
 		AddObject (pObject);
 		if (!pObject->Load (child))
 			Remove (pObject);
@@ -1286,8 +1293,8 @@ void Document::AddData (xmlNodePtr node)
 		node = node->next;
 	}
 	m_bIsLoading = false;
-	EmptyTranslationTable ();
 	Loaded ();
+	EmptyTranslationTable ();
 	FinishOperation ();
 }
 

@@ -520,7 +520,7 @@ void Bond::Revert ()
 
 void Bond::SetSelected (int state)
 {
-	if (!m_order)
+	if (!m_order || !m_Item)
 		return;
 	GOColor color;
 	switch (state) {	
@@ -569,7 +569,7 @@ void Bond::SetSelected (int state)
 
 void Bond::AddItem ()
 {
-	if (m_Item)
+	if (m_Item || !m_Begin || !m_End)
 		return;
 	double x1, y1, x2, y2;
 	Document *doc = static_cast <Document*> (GetDocument ());

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/application.cc 
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -47,7 +47,7 @@ namespace gcu
 
 GOConfNode *Application::m_ConfDir = NULL;
 
-static set<Application *> Apps;
+static map<string, Application *> Apps;
 WindowState Application::DefaultWindowState = NormalWindowState;
 static Application *Default = NULL;
 
@@ -81,7 +81,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 		libgoffice_init ();
 		m_ConfDir = go_conf_get_node (NULL, GCU_CONF_DIR);
 	}
-	Apps.insert (this);
+	Apps[name] = this;
 	static bool first_call = true;
 	Name = name;
 	char const *szlang = getenv ("LANG");
@@ -133,7 +133,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 
 Application::~Application ()
 {
-	Apps.erase (this);
+	Apps.erase (Name);
 	if (Apps.empty ()) {
 		ClearDialogs (); // needed to cleanly stop goffice
 		go_conf_free_node (m_ConfDir);
@@ -367,6 +367,18 @@ Application *Application::GetDefaultApplication ()
 	if (!Default)
 		Default = new Application ("gcu"); // the name is just arbitrary
 	return Default;
+}
+
+Application *Application::GetApplication (char const *name)
+{
+	map <string, Application *>::iterator i = Apps.find (name);
+	return (i != Apps.end ())? (*i).second: NULL;
+}
+
+Application *Application::GetApplication (string &name)
+{
+	map <string, Application *>::iterator i = Apps.find (name);
+	return (i != Apps.end ())? (*i).second: NULL;
 }
 
 static TypeId NextType = OtherType;

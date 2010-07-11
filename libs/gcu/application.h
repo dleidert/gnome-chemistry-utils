@@ -275,6 +275,8 @@ just after creating the application and before parsing options.
 Application available.
 */
 	static Application *GetDefaultApplication ();
+	static Application *GetApplication (char const *name);
+	static Application *GetApplication (std::string &name);
 
 	// Object creation related methods
 /*!

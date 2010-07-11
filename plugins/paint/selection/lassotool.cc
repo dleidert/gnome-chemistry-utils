@@ -30,9 +30,12 @@
 #include <gccv/polygon.h>
 #include <gcp/atom.h>
 #include <gcp/fragment.h>
+#include <gcp/application.h>
+#include <gcp/document.h>
 #include <gcp/settings.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gcp/window.h>
 #include <gcu/bond.h>
 
 gcpLassoTool::gcpLassoTool (gcp::Application *App): gcp::Tool (App, "Lasso")
@@ -111,13 +114,56 @@ void gcpLassoTool::OnDrag ()
 
 void gcpLassoTool::OnRelease ()
 {
+	AddSelection (m_pData);
 }
 
 void gcpLassoTool::Activate ()
 {
+	gcp::Document *pDoc = m_pApp->GetActiveDocument ();
+	if (pDoc) {
+		m_pView = m_pApp->GetActiveDocument ()->GetView ();
+		GtkWidget *w = m_pView->GetWidget ();
+		m_pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	}
 }
 
 bool gcpLassoTool::Deactivate ()
 {
+	std::map <gcp::WidgetData *, guint>::iterator i; 
+	while (!SelectedWidgets.empty ()) {
+		i = SelectedWidgets.begin ();
+		(*i).first->UnselectAll ();
+		g_signal_handler_disconnect ((*i).first->Canvas, (*i).second);
+		SelectedWidgets.erase (i);
+	}
 	return true;
+}
+
+void gcpLassoTool::AddSelection (gcp::WidgetData* data)
+{
+	gcp::WidgetData *d = m_pData;
+	m_pData = data;
+	m_pView = data->m_View;
+	gcp::Window *win = m_pView->GetDoc ()->GetWindow ();
+	if (m_pData->HasSelection()) {
+		GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+		m_pView->OnCopySelection (m_pData->Canvas, clipboard);
+		if (win) {
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Copy", true);
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Cut", true);
+			win->ActivateActionWidget ("/MainMenu/EditMenu/Erase", true);
+		}
+		std::map <gcp::WidgetData *, guint>::iterator i;
+		if (SelectedWidgets.find (m_pData) == SelectedWidgets.end ())
+			SelectedWidgets[m_pData] = g_signal_connect (m_pData->Canvas, "destroy", G_CALLBACK (OnWidgetDestroyed), this);
+		if (d) {
+			m_pView = d->m_View;
+			m_pData = d;
+		}
+	}
+}
+
+void gcpLassoTool::OnWidgetDestroyed (GtkWidget *widget, gcpLassoTool *tool)
+{
+	tool->SelectedWidgets.erase (static_cast <gcp::WidgetData *> (g_object_get_data (G_OBJECT (widget), "data")));
 }

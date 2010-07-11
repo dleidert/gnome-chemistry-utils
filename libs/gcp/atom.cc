@@ -1300,7 +1300,7 @@ void Atom::BuildSymbolGeometry (double width, double height, double ascent)
 
 void Atom::AddItem ()
 {
-	if (m_Item)
+	if (m_Item || GetZ() <= 0)
 		return;
 	if (m_Changed) {
 		Update ();

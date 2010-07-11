@@ -99,9 +99,6 @@ bool Document::SetTarget (char const *id, Object **target, Object *parent, Objec
 {
 	if (target == NULL)
 	    throw std::runtime_error ("Can't set a NULL target.");
-	*target = parent->GetDescendant (id);
-	if (*target)
-		return true;
 	PendingTarget pt;
 	pt.target = target;
 	pt.parent = parent;
@@ -119,6 +116,8 @@ bool Document::Loaded () throw (LoaderError)
 		std::list <PendingTarget> &l = (*i).second;
 		std::list <PendingTarget>::iterator j = l.begin (), jend = l.end ();
 		Object *obj = (*j).parent->GetDescendant (id.c_str ());
+		if (obj == NULL)
+			obj = (*j).parent->GetDocument ()->GetDescendant (id.c_str ());
 		if (obj == NULL) {
 			m_PendingTable.clear ();
 			std::ostringstream str;

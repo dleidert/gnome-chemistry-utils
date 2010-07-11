@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2010-07-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: do not add an invalid atom in the canvas.
+	* libs/gcp/bond.cc: do not add an invalid bond in the canvas.
+	* libs/gcp/document.cc: work on loading fixes.
+	* libs/gcu/application.cc: add GetApplication() static methods.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/bond.cc: do not set the atoms on loading, but wait until all
+	atoms are loaded.
+	* libs/gcu/document.cc: ditto.
+	* libs/gcu/object.cc: fixed a compilation warning. 
+	* plugins/paint/selection/lassotool.cc: make copy/paste start working.
+	* plugins/paint/selection/lassotool.h: ditto.
+
 2010-07-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/selection/lassotool.cc: select bonds if both atoms
 	are inside the path.

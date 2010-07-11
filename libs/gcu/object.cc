@@ -387,7 +387,7 @@ void Object::Move (double x, double y, double z)
 		(*i).second->Move (x, y, z);
 }
 
-bool Object::GetCoords (double *x, double *y, double *z) const
+bool Object::GetCoords (G_GNUC_UNUSED double *x, G_GNUC_UNUSED double *y, G_GNUC_UNUSED double *z) const
 {
 	return false;
 }

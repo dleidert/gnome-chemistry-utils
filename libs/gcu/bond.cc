@@ -109,7 +109,7 @@ bool Bond::Load (xmlNodePtr node)
 {
 	char* tmp;
 	xmlNodePtr child;
-	Object* pObject;
+	Document *doc = GetDocument ();
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "id");
 	if (tmp) {
 		SetId (tmp);
@@ -130,11 +130,8 @@ bool Bond::Load (xmlNodePtr node)
 		if (!tmp)
 			return false;
 	}
-	pObject = GetParent ()->GetDescendant (tmp);
+	doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_Begin), GetParent (), this);
 	xmlFree (tmp);
-	if (!pObject || (!dynamic_cast <Atom *> (pObject)))
-		return false;
-	m_Begin = (Atom*)(pObject);
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "end");
 	if (!tmp) {
 		child = GetNodeByName (node, "end");
@@ -142,14 +139,9 @@ bool Bond::Load (xmlNodePtr node)
 		if (!tmp)
 			return false;
 	}
-	pObject = GetParent ()->GetDescendant (tmp);
+	doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_End), GetParent (), this);
 	xmlFree (tmp);
-	if (!pObject || (!dynamic_cast <Atom *> (pObject)))
-		return false;
-	m_End = (Atom*)pObject;
 	bool result = LoadNode (node);
-	m_Begin->AddBond (this);
-	m_End->AddBond (this);
 	return result;
 }
 
