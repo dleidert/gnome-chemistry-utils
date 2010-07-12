@@ -42,10 +42,12 @@ namespace gcu
 
 Molecule::Molecule (TypeId Type): Object (Type)
 {
+	SetId ("m1");
 }
 
 Molecule::Molecule (Atom* pAtom): Object (MoleculeType)
 {
+	SetId ("m1");
 	SetParent (pAtom->GetDocument ());
 	AddAtom (pAtom);
 	Chain* pChain = new Chain (this, pAtom); //will find the cycles

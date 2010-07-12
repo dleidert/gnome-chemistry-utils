@@ -90,7 +90,7 @@ Molecule::Molecule (TypeId Type): gcu::Molecule (Type)
 	m_IsResidue = false;
 }
 
-Molecule::Molecule (Atom* pAtom): gcu::Molecule  (pAtom)
+Molecule::Molecule (Atom* pAtom): gcu::Molecule (pAtom)
 {
 	m_Alignment = NULL;
 	m_Changed = true;
@@ -417,7 +417,7 @@ bool Molecule::Load (xmlNodePtr node)
 		child = GetNextNodeByName (child->next, "bond");
 		CheckCrossings ((Bond*) pObject);
 	}
-	if (!m_Atoms.empty ()) {
+/*	if (!m_Atoms.empty ()) {
 		Atom* pAtom =  reinterpret_cast <Atom *> (m_Atoms.front ());
 		list<gcu::Atom*>::iterator i = m_Atoms.begin ();
 		i++;
@@ -429,7 +429,7 @@ bool Molecule::Load (xmlNodePtr node)
 			(*j)->RemoveAllCycles ();
 		Chain* pChain = new Chain (this, pAtom); //will find the cycles
 		delete pChain;
-	}
+	}*/
 	buf = (char*) xmlGetProp (node, (const xmlChar*) "valign");
 	if (buf) {
 		m_Alignment = GetDescendant (buf);

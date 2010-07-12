@@ -278,6 +278,11 @@ multiple bonds line into account.
 */
 	void AdjustPosition (double &x, double &y);
 
+/*!
+This method should be called when a bond has been fully loaded.
+*/
+	void OnLoaded ();
+
 private:
 //	GnomeCanvasPathDef* BuildPathDef (WidgetData* pData);
 //	GnomeCanvasPathDef* BuildCrossingPathDef (WidgetData* pData);

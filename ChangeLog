@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-07-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: fixed loading.
+	* libs/gcp/bond.h: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcu/molecule.cc: set "m1" as default Id in constructors.
+
 2010-07-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: do not add an invalid atom in the canvas.
 	* libs/gcp/bond.cc: do not add an invalid bond in the canvas.

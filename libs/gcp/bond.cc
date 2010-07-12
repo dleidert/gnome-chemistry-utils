@@ -28,6 +28,7 @@
 #include "fragment.h"
 #include "settings.h"
 #include "document.h"
+#include "molecule.h"
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
@@ -945,6 +946,14 @@ void Bond::AdjustPosition (double &x, double &y)
 	d = hypot (x - x2, y - y2) / l / (theme->GetStereoBondWidth () -theme->GetBondWidth ()) * 2. * theme->GetZoomFactor ();
 	x += (x - x2) / d;
 	y += (y - y2) / d;
+}
+
+void Bond::OnLoaded ()
+{
+	gcu::Bond::OnLoaded ();
+	if (m_Begin && GetParent ()->GetType () != MoleculeType) {
+		Molecule *mol = new Molecule (static_cast <gcp::Atom *> (m_Begin));
+	}
 }
 
 }	//	namespace gcp
