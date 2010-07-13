@@ -95,7 +95,7 @@ Residue const *Document::GetResidue (char const *symbol, bool *ambiguous)
 	return Residue::GetResidue (symbol, ambiguous);
 }
 
-bool Document::SetTarget (char const *id, Object **target, Object *parent, Object *owner) throw (std::runtime_error)
+bool Document::SetTarget (char const *id, Object **target, Object *parent, Object *owner, Action action) throw (std::runtime_error)
 {
 	if (target == NULL)
 	    throw std::runtime_error ("Can't set a NULL target.");
@@ -103,6 +103,7 @@ bool Document::SetTarget (char const *id, Object **target, Object *parent, Objec
 	pt.target = target;
 	pt.parent = parent;
 	pt.owner = owner;
+	pt.action = action;
 	m_PendingTable[id].push_back (pt);
 	return false;
 }
@@ -111,6 +112,7 @@ bool Document::Loaded () throw (LoaderError)
 {
 	unsigned count = 0;
 	std::map <std::string, list <PendingTarget> >::iterator i, end = m_PendingTable.end ();
+	std::set <Object *> Deleted;
 	for (i = m_PendingTable.begin (); i != end; i++) {
 		std::string id = (*i).first;
 		std::list <PendingTarget> &l = (*i).second;
@@ -119,16 +121,31 @@ bool Document::Loaded () throw (LoaderError)
 		if (obj == NULL)
 			obj = (*j).parent->GetDocument ()->GetDescendant (id.c_str ());
 		if (obj == NULL) {
-			m_PendingTable.clear ();
-			std::ostringstream str;
-			// Note to translators: the two strings are concatenated with the missing id between them.
-			str << _("The input contains a reference to object \"") << id << _("\" but no object with this Id is described.");
-			throw LoaderError (str.str ());
+			switch ((*j).action) {
+			case ActionException: {
+				m_PendingTable.clear ();
+				std::ostringstream str;
+				// Note to translators: the two strings are concatenated with the missing id between them.
+				str << _("The input contains a reference to object \"") << id << _("\" but no object with this Id is described.");
+				throw LoaderError (str.str ());
+			}
+			case ActionDelete:
+				if ((*j).owner) {
+					Deleted.insert ((*j).owner);
+					delete (*j).owner;
+					(*j).owner = NULL;
+				}
+			case ActionIgnore:
+				break;
+			}
 		} else while (j != jend) {
-			*(*j).target = obj;
-			if ((*j).owner)
-				(*j).owner->OnLoaded ();
-			count++;
+			std::set <Object *>::iterator d = Deleted.end ();
+			if (Deleted.find ((*j).owner) != d) {
+				*(*j).target = obj;
+				if ((*j).owner)
+					(*j).owner->OnLoaded ();
+				count++;
+			}
 			j++;
 		}
 	}

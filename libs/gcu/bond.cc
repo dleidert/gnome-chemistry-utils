@@ -130,7 +130,7 @@ bool Bond::Load (xmlNodePtr node)
 		if (!tmp)
 			return false;
 	}
-	doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_Begin), GetParent (), this);
+	doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_Begin), GetParent (), this, ActionDelete);
 	xmlFree (tmp);
 	tmp = (char*) xmlGetProp (node, (xmlChar*) "end");
 	if (!tmp) {
@@ -139,7 +139,7 @@ bool Bond::Load (xmlNodePtr node)
 		if (!tmp)
 			return false;
 	}
-	doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_End), GetParent (), this);
+	doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_End), GetParent (), this, ActionDelete);
 	xmlFree (tmp);
 	bool result = LoadNode (node);
 	return result;

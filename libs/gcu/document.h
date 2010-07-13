@@ -42,12 +42,19 @@ class Dialog;
 class Molecule;
 class Residue;
 
+typedef enum {
+	ActionException,
+	ActionDelete,
+	ActionIgnore
+} Action;		
+
 class PendingTarget
 {
 public:
 	Object *parent;
 	Object *owner;
 	Object **target;
+	Action action;
 };
 
 /*!\class Document gcu/document.h
@@ -161,7 +168,7 @@ using gcu::Document::Loaded(), and \a target is set to NULL.
 if \a owner is not NULL, post processing will call its OnLoaded() method.
 @return true if the target object was found.
 */
-	bool SetTarget (char const *id, Object **target, Object *parent, Object *owner = NULL) throw (std::runtime_error);
+	bool SetTarget (char const *id, Object **target, Object *parent, Object *owner = NULL, Action action = ActionException) throw (std::runtime_error);
 
 /*!
 Processes pending references resulting from failed calls to SetTarget().
