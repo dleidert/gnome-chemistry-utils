@@ -47,6 +47,7 @@ public:
 
 private:
 	std::map <gcp::WidgetData *, guint> SelectedWidgets;
+	bool m_Rotate;
 };
 
 #endif // GCHEMPAINT_LASSO_TOOL_H

@@ -29,9 +29,11 @@
 #include <gccv/item-client.h>
 #include <gccv/polygon.h>
 #include <gcp/atom.h>
+#include <gcp/bond.h>
 #include <gcp/fragment.h>
 #include <gcp/application.h>
 #include <gcp/document.h>
+#include <gcp/molecule.h>
 #include <gcp/settings.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
@@ -40,6 +42,7 @@
 
 gcpLassoTool::gcpLassoTool (gcp::Application *App): gcp::Tool (App, "Lasso")
 {
+	m_Rotate = false;
 }
 
 gcpLassoTool::~gcpLassoTool ()
@@ -48,6 +51,10 @@ gcpLassoTool::~gcpLassoTool ()
 
 bool gcpLassoTool::OnClicked ()
 {
+	if (m_pObject && m_pData->IsSelected (m_pObject)) {
+		// save the current coordinates
+		return true;
+	}
 	std::list <gccv::Point> l;
 	gccv::Point p;
 	gccv::Polygon *poly;
@@ -61,55 +68,84 @@ bool gcpLassoTool::OnClicked ()
 
 void gcpLassoTool::OnDrag ()
 {
-	static_cast <gccv::Polygon *> (m_Item)->AddPoint (m_x, m_y);
-	// Unselect everything before evaluating current selection
-	m_pData->UnselectAll ();
-	cairo_t *cr;
-	cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1 , 1);
-	cr = cairo_create (surface);
-	m_Item->BuildPath (cr);
-	std::list <gccv::Item *>::iterator it;
-	gccv::Group *group = m_pView->GetCanvas ()->GetRoot ();
-	gccv::Item *item = group->GetFirstChild (it);
-	double x0, x1, y0, y1;
-	gcu::Object *object;
-	m_Item->GetBounds (m_x0, m_y0, m_x, m_y);
-	while (item) {
-		if (item != m_Item) {
-			item->GetBounds (x0, y0, x1, y1);
-			if ((x0 < m_x) && (y0 < m_y) && (x1 > m_x0) && (y1 > m_y0)) {
-				object = dynamic_cast <gcu::Object *> (item->GetClient ());
-				if (object && object->GetCoords (&x0, &y0) && !m_pData->IsSelected (object)) {
-					x0 *= m_dZoomFactor;
-					y0 *= m_dZoomFactor;
-					if (cairo_in_fill (cr, x0, y0)) {
-						m_pData->SetSelected (object);
-						gcp::Atom *atom = static_cast <gcp::Atom *> (object);
-						switch (object->GetType ()) {
-						case gcu::FragmentType:
-								atom = static_cast <gcp::Fragment *> (object)->GetAtom ();
-						case gcu::AtomType: {
-							// go through the bonds and select them if both ends are selected
-							std::map<gcu::Atom*, gcu::Bond*>::iterator i;
-							gcu::Bond *bond = atom->GetFirstBond (i);
-							while (bond) {
-								if (m_pData->IsSelected (bond->GetAtom (atom)))
-									m_pData->SetSelected (bond);
-								bond = atom->GetNextBond (i);
+	if (m_Item) {
+		static_cast <gccv::Polygon *> (m_Item)->AddPoint (m_x, m_y);
+		// Unselect everything before evaluating current selection
+		m_pData->UnselectAll ();
+		cairo_t *cr;
+		cairo_surface_t *surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 1 , 1);
+		cr = cairo_create (surface);
+		m_Item->BuildPath (cr);
+		std::list <gccv::Item *>::iterator it;
+		gccv::Group *group = m_pView->GetCanvas ()->GetRoot ();
+		gccv::Item *item = group->GetFirstChild (it);
+		double x0, x1, y0, y1;
+		gcu::Object *object;
+		m_Item->GetBounds (m_x0, m_y0, m_x, m_y);
+		while (item) {
+			if (item != m_Item) {
+				item->GetBounds (x0, y0, x1, y1);
+				if ((x0 < m_x) && (y0 < m_y) && (x1 > m_x0) && (y1 > m_y0)) {
+					object = dynamic_cast <gcu::Object *> (item->GetClient ());
+					if (object && object->GetCoords (&x0, &y0) && !m_pData->IsSelected (object)) {
+						x0 *= m_dZoomFactor;
+						y0 *= m_dZoomFactor;
+						if (cairo_in_fill (cr, x0, y0)) {
+							m_pData->SetSelected (object);
+							gcp::Atom *atom = static_cast <gcp::Atom *> (object);
+							switch (object->GetType ()) {
+							case gcu::FragmentType:
+									atom = static_cast <gcp::Fragment *> (object)->GetAtom ();
+							case gcu::AtomType: {
+								// go through the bonds and select them if both ends are selected
+								std::map<gcu::Atom*, gcu::Bond*>::iterator i;
+								gcu::Bond *bond = atom->GetFirstBond (i);
+								while (bond) {
+									if (m_pData->IsSelected (bond->GetAtom (atom)))
+										m_pData->SetSelected (bond);
+									bond = atom->GetNextBond (i);
+								}
 							}
-						}
-						default:
-							// go through the links and store them for later treatment
-							break;
+							default:
+								// go through the links and store them for later treatment
+								break;
+							}
 						}
 					}
 				}
 			}
+			item = group->GetNextChild (it);
 		}
-		item = group->GetNextChild (it);
+		cairo_destroy (cr);
+		cairo_surface_destroy (surface);
+	} else if (m_Rotate) {
+	} else {
+		// Translate the selection
+		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
+		std::set <gcu::Object *> dirty;
+		for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
+			(*i)->Move ((m_x - m_x0) / m_dZoomFactor, (m_y - m_y0) / m_dZoomFactor);
+			if ((*i)->GetParent ()->GetType () == gcu::MoleculeType) {
+				gcp::Molecule *mol = static_cast <gcp::Molecule *> ((*i)->GetParent ());
+				std::list <gcu::Bond*>::const_iterator i;
+				gcp::Bond const *bond = static_cast <gcp::Bond const *> (mol->GetFirstBond (i));
+				while (bond) {
+					const_cast <gcp::Bond *> (bond)->SetDirty ();
+					bond = static_cast <gcp::Bond const *> (mol->GetNextBond (i));
+				}
+				dirty.insert (mol);
+			} else
+				m_pView->Update (*i);
+		}
+		std::set <gcu::Object *>::iterator j;
+		while (!dirty.empty ()) {
+			j = dirty.begin ();
+			m_pView->Update (*j);
+			dirty.erase (j);
+		}
+		m_x0 = m_x;
+		m_y0 = m_y;
 	}
-	cairo_destroy (cr);
-	cairo_surface_destroy (surface);
 }
 
 void gcpLassoTool::OnRelease ()

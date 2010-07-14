@@ -293,7 +293,7 @@ void WidgetData::RotateSelection (double dx, double dy, double angle)
 	Matrix2D m (angle);
 	for (i = SelectedObjects.begin (); i != end; i++) {
 		(*i)->Transform2D (m, dx / pTheme->GetZoomFactor (), dy / pTheme->GetZoomFactor ());
-		m_View->Update(*i);
+		m_View->Update (*i);
 	}
 }
 

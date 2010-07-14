@@ -1081,6 +1081,25 @@ void Atom::SetCharge (int charge)
 	Update ();
 }
 
+void Atom::Move (double x, double y, double z)
+{
+	gcu::Atom::Move (x, y, z);
+	map<string, Object*>::iterator i;
+	Object* electron = GetFirstChild (i);
+	while (electron) {
+		electron->Move (x, y, z);
+		electron = GetNextChild (i);
+	}
+	if (GetCharge ()) {
+		if (m_ChargeAutoPos) {
+			if (m_ChargePos > 0)
+				NotifyPositionOccupation (m_ChargePos, false);
+			m_ChargePos = 0xff;
+			Update ();
+		}
+	}
+}
+
 void Atom::Transform2D (Matrix2D& m, double x, double y)
 {
 	gcu::Atom::Transform2D (m, x, y);

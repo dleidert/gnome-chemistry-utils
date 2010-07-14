@@ -266,6 +266,14 @@ the maximum valence for the element.
 */
 	virtual double GetYAlign ();
 /*!
+@param x the x component of the transation vector.
+@param y the y component of the transation vector.
+@param z the z component of the transation vector.
+
+Used to move an Atom.
+*/
+	virtual void Move (double x, double y, double z = 0.);
+/*!
 @param m the Matrix2D of the transformation.
 @param x the x component of the center of the transformation.
 @param y the y component of the center of the transformation.

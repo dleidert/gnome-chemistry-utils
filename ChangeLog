@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-07-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: implement Atom::Move.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/widgetdata.cc: white space.
+	* plugins/paint/selection/lassotool.cc: move partial selection.
+	* plugins/paint/selection/lassotool.h: ditto.
+
 2010-07-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/bond.cc: enhance loading of invalid files.
 	* libs/gcu/document.cc: ditto.
