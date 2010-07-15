@@ -40,14 +40,23 @@ public:
 	void Activate ();
 	bool Deactivate ();
 	bool CopySelection (G_GNUC_UNUSED GtkClipboard *clipboard) {return false;} // allow clipboard operations
+	GtkWidget *GetPropertyPage ();
+	char const *GetHelpTag ();
+
+	void Rotate (bool rotate);
 
 	void AddSelection (gcp::WidgetData* data);
+	void OnFlip (bool horizontal);
 
 	static void OnWidgetDestroyed (GtkWidget *widget, gcpLassoTool *tool);
 
 private:
 	std::map <gcp::WidgetData *, guint> SelectedWidgets;
 	bool m_Rotate;
+	GtkUIManager *m_UIManager;
+	double m_cx, m_cy;
+	double m_dAngle, m_dAngleInit;
+	gcp::Operation *m_pOp;
 };
 
 #endif // GCHEMPAINT_LASSO_TOOL_H

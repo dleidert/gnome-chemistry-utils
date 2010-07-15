@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: added new file.
+
 2010-06-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: renamed two files.
 

@@ -130,6 +130,7 @@ plugins/paint/selection/bracketstool.cc
 [type: gettext/glade]plugins/paint/selection/brackets.ui
 plugins/paint/selection/group.cc
 [type: gettext/glade]plugins/paint/selection/group.ui
+plugins/paint/selection/lassotool.cc
 plugins/paint/selection/plugin.cc
 plugins/paint/selection/selectiontool.cc
 [type: gettext/glade]plugins/paint/templates/new-template.ui

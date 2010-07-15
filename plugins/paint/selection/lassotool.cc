@@ -38,21 +38,45 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gcp/window.h>
-#include <gcu/bond.h>
+#include <gcu/matrix.h>
+#include <glib/gi18n-lib.h>
 
 gcpLassoTool::gcpLassoTool (gcp::Application *App): gcp::Tool (App, "Lasso")
 {
 	m_Rotate = false;
+	m_UIManager = NULL;
 }
 
 gcpLassoTool::~gcpLassoTool ()
 {
+	if (m_UIManager)
+		g_object_unref (m_UIManager);
 }
 
 bool gcpLassoTool::OnClicked ()
 {
 	if (m_pObject && m_pData->IsSelected (m_pObject)) {
 		// save the current coordinates
+		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
+		gcp::Document *pDoc = m_pView->GetDoc ();
+		m_pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+		for (i = m_pData->SelectedObjects.begin (); i != end; i++)
+			m_pOp->AddObject (*i,0);
+		if (m_Rotate) {
+			// Calculate center of selection
+			gccv::Rect rect;
+			m_pData->GetSelectionBounds (rect);
+			m_cx = (rect.x0 + rect.x1) / 2.;
+			m_cy = (rect.y0 + rect.y1) / 2.;
+			m_dAngle = 0.;
+			m_x0 -= m_cx;
+			m_y0 -= m_cy;
+			if (m_x0 == 0)
+				m_dAngleInit = (m_y0 <= 0) ? 90 : 270;
+			else
+				m_dAngleInit = atan (-m_y0 / m_x0) * 180 / M_PI;
+			if (m_x0 < 0) m_dAngleInit += 180.;
+		}
 		return true;
 	}
 	std::list <gccv::Point> l;
@@ -119,6 +143,55 @@ void gcpLassoTool::OnDrag ()
 		cairo_destroy (cr);
 		cairo_surface_destroy (surface);
 	} else if (m_Rotate) {
+		double dAngle;
+		m_x-= m_cx;
+		m_y -= m_cy;
+		if (m_x == 0) {
+			if (m_y == 0)
+				return;
+			dAngle = (m_y < 0) ? 90 : 270;
+		} else {
+			dAngle = atan (-m_y / m_x) * 180. / M_PI;
+			if (m_x < 0)
+				dAngle += 180.;
+			dAngle -= m_dAngleInit;
+			if (!(m_nState & GDK_CONTROL_MASK))
+				dAngle = rint(dAngle / 5) * 5;
+		}
+		if (dAngle < -180.)
+			dAngle += 360.;
+		if (dAngle > 180.)
+			dAngle -= 360.;
+		if (dAngle != m_dAngle) {
+			// Rotate the selection
+			std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
+			std::set <gcu::Object *> dirty;
+			gcu::Matrix2D m (dAngle - m_dAngle);
+			for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
+				(*i)->Transform2D (m, m_cx / m_dZoomFactor, m_cy / m_dZoomFactor);
+				if ((*i)->GetParent ()->GetType () == gcu::MoleculeType) {
+					gcp::Molecule *mol = static_cast <gcp::Molecule *> ((*i)->GetParent ());
+					std::list <gcu::Bond*>::const_iterator i;
+					gcp::Bond const *bond = static_cast <gcp::Bond const *> (mol->GetFirstBond (i));
+					while (bond) {
+						const_cast <gcp::Bond *> (bond)->SetDirty ();
+						bond = static_cast <gcp::Bond const *> (mol->GetNextBond (i));
+					}
+					dirty.insert (mol);
+				} else
+					m_pView->Update (*i);
+			}
+			std::set <gcu::Object *>::iterator j;
+			while (!dirty.empty ()) {
+				j = dirty.begin ();
+				m_pView->Update (*j);
+				dirty.erase (j);
+			}
+			m_dAngle = dAngle;
+		}
+		char tmp[32];
+		snprintf (tmp, sizeof(tmp) - 1, _("Orientation: %g"), dAngle);
+		m_pApp->SetStatusText (tmp);
 	} else {
 		// Translate the selection
 		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
@@ -202,4 +275,130 @@ void gcpLassoTool::AddSelection (gcp::WidgetData* data)
 void gcpLassoTool::OnWidgetDestroyed (GtkWidget *widget, gcpLassoTool *tool)
 {
 	tool->SelectedWidgets.erase (static_cast <gcp::WidgetData *> (g_object_get_data (G_OBJECT (widget), "data")));
+}
+
+void gcpLassoTool::OnFlip (bool horizontal)
+{
+	if (!m_pData) {
+		m_pView = m_pApp->GetActiveDocument ()->GetView ();
+		GtkWidget *w = m_pView->GetWidget ();
+		m_pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
+	}
+	if (!m_pData->SelectedObjects.size ())
+		return;
+	gccv::Rect rect;
+	m_pData->GetSelectionBounds (rect);
+	m_cx = (rect.x0 + rect.x1) / 2.;
+	m_cy = (rect.y0 + rect.y1) / 2.;
+	m_x = (horizontal)? -1.: 1.;
+	gcu::Matrix2D m (m_x, 0., 0., -m_x);
+	std::list <gcu::Object*>::iterator i, end = m_pData->SelectedObjects.end ();
+	gcp::Document* pDoc = m_pView->GetDoc ();
+	m_pOp = pDoc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+	std::set <gcu::Object *> dirty;
+	for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
+		m_pOp->AddObject (*i,0);
+		(*i)->Transform2D (m, m_cx / m_dZoomFactor, m_cy / m_dZoomFactor);
+		if ((*i)->GetParent ()->GetType () == gcu::MoleculeType) {
+			gcp::Molecule *mol = static_cast <gcp::Molecule *> ((*i)->GetParent ());
+			std::list <gcu::Bond*>::const_iterator i;
+			gcp::Bond const *bond = static_cast <gcp::Bond const *> (mol->GetFirstBond (i));
+			while (bond) {
+				const_cast <gcp::Bond *> (bond)->SetDirty ();
+				bond = static_cast <gcp::Bond const *> (mol->GetNextBond (i));
+			}
+			dirty.insert (mol);
+		} else
+			m_pView->Update (*i);
+		m_pOp->AddObject (*i,1);
+	}
+	std::set <gcu::Object *>::iterator j;
+	while (!dirty.empty ()) {
+		j = dirty.begin ();
+		m_pView->Update (*j);
+		dirty.erase (j);
+	}
+	pDoc->FinishOperation ();
+}
+
+void gcpLassoTool::Rotate (bool rotate)
+{
+	m_Rotate = rotate;
+}
+
+static void on_flip (GtkWidget *btn, gcp::Application* App)
+{
+	gcpLassoTool *tool = static_cast <gcpLassoTool *> (App->GetTool ("Lasso"));
+	if (GTK_IS_WIDGET (btn))
+		tool->OnFlip (strcmp (gtk_widget_get_name (btn), "VertFlip"));
+	else
+		tool->OnFlip (strcmp (gtk_action_get_name (GTK_ACTION (btn)), "VertFlip"));
+}
+
+static void on_rotate (GtkWidget *btn, gcp::Application* App)
+{
+	gcpLassoTool *tool = static_cast <gcpLassoTool *> (App->GetTool ("Lasso"));
+	if (GTK_IS_WIDGET (btn))
+		tool->Rotate (gtk_toggle_tool_button_get_active (GTK_TOGGLE_TOOL_BUTTON (btn)));
+	else
+		tool->Rotate (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (btn)));
+}
+
+static GtkActionEntry entries[] = {
+	{ "HorizFlip", "gcp_Horiz", N_("Horizontal flip"), NULL,
+		N_("Flip the selection horizontally"), G_CALLBACK (on_flip) },
+	{ "VertFlip", "gcp_Vert", N_("Vertical flip"), NULL,
+		N_("Flip the selection vertically"), G_CALLBACK (on_flip) },
+};
+
+static GtkToggleActionEntry toggles[] = {
+	  { "Rotate", "gcp_Rotate", N_("_Rotate"), NULL,
+		  N_("Rotate the selection"), G_CALLBACK (on_rotate), false }
+};
+
+static const char *ui_description =
+"<ui>"
+"  <toolbar name='Lasso'>"
+"    <toolitem action='HorizFlip'/>"
+"    <toolitem action='VertFlip'/>"
+"    <toolitem action='Rotate'/>"
+"  </toolbar>"
+"</ui>";
+
+GtkWidget *gcpLassoTool::GetPropertyPage ()
+{
+	GtkWidget *box, *w;
+	GtkActionGroup *action_group;
+	GError *error;
+
+	box = gtk_vbox_new (FALSE, 0);
+	action_group = gtk_action_group_new ("LassoToolActions");
+	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), m_pApp);
+	gtk_action_group_add_toggle_actions (action_group, toggles, G_N_ELEMENTS (toggles), m_pApp);
+
+	m_UIManager = gtk_ui_manager_new ();
+	if (!gtk_ui_manager_add_ui_from_string (m_UIManager, ui_description, -1, &error))
+	  {
+		g_message ("building property page failed: %s", error->message);
+		g_error_free (error);
+		gtk_widget_destroy (box);
+		g_object_unref (m_UIManager);
+		m_UIManager = NULL;
+		return NULL;;
+	  }
+	gtk_ui_manager_insert_action_group (m_UIManager, action_group, 0);
+	w = gtk_ui_manager_get_widget (m_UIManager, "/Lasso");
+	gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
+	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+	gtk_widget_show_all (box);
+	return box;
+}
+
+char const *gcpLassoTool::GetHelpTag ()
+{
+	if (m_Rotate)
+		return "rotate";
+	return "lasso";
 }

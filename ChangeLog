@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/selection/lassotool.cc: implement rotation and flip.
+	* plugins/paint/selection/lassotool.h: ditto.
+
 2010-07-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: implement Atom::Move.
 	* libs/gcp/atom.h: ditto.
