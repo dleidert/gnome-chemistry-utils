@@ -1323,7 +1323,7 @@ void Atom::AddItem ()
 		return;
 	if (m_Changed) {
 		Update ();
-		m_Changed = true;
+		m_Changed = false;
 	}
 	Document *doc = static_cast <Document*> (GetDocument ());
 	View *view = doc->GetView ();

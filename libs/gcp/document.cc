@@ -1232,22 +1232,25 @@ void Document::LoadObjects (xmlNodePtr node)
 			Object* pObject = GetApp ()->CreateObject (str, this);
 			pObject->Load (child1);
 			AddObject (pObject);
-			m_pView->Update (pObject);//FIXME: should not be necessary, but solve problem with cyclic double bonds
 			m_bIsLoading = false;
 		}
 		child = child->next;
 	}
 	//Now, add bonds
+	m_bIsLoading = true;
 	child = GetNodeByName (node, "bond");
 	while (child) {
 		Bond* pBond = new Bond ();
 		AddChild (pBond);
 		if (pBond->Load (child))
 			AddBond (pBond);
-		else delete pBond;
+		else
+			delete pBond;
 		child = GetNextNodeByName (child->next, "bond");
 	}
+	m_bIsLoading = false;
 	Loaded ();
+	m_pView->Update (this);
 }
 
 Operation* Document::GetNewOperation (OperationType type)

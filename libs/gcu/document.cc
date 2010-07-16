@@ -140,7 +140,7 @@ bool Document::Loaded () throw (LoaderError)
 			}
 		} else while (j != jend) {
 			std::set <Object *>::iterator d = Deleted.end ();
-			if (Deleted.find ((*j).owner) != d) {
+			if (Deleted.find ((*j).owner) == d) {
 				*(*j).target = obj;
 				if ((*j).owner)
 					(*j).owner->OnLoaded ();

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-07-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: undo/redo fixes.
+	* libs/gcp/bond.cc: ditto.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcu/document.cc: ditto.
+	* plugins/paint/selection/lassotool.cc: ditto.
+
 2010-07-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/selection/lassotool.cc: implement rotation and flip.
 	* plugins/paint/selection/lassotool.h: ditto.

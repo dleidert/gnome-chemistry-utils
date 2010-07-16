@@ -301,13 +301,15 @@ void gcpLassoTool::OnFlip (bool horizontal)
 		(*i)->Transform2D (m, m_cx / m_dZoomFactor, m_cy / m_dZoomFactor);
 		if ((*i)->GetParent ()->GetType () == gcu::MoleculeType) {
 			gcp::Molecule *mol = static_cast <gcp::Molecule *> ((*i)->GetParent ());
-			std::list <gcu::Bond*>::const_iterator i;
-			gcp::Bond const *bond = static_cast <gcp::Bond const *> (mol->GetFirstBond (i));
-			while (bond) {
-				const_cast <gcp::Bond *> (bond)->SetDirty ();
-				bond = static_cast <gcp::Bond const *> (mol->GetNextBond (i));
+			if (dirty.find (mol) == dirty.end ()) {
+				std::list <gcu::Bond*>::const_iterator i;
+				gcp::Bond const *bond = static_cast <gcp::Bond const *> (mol->GetFirstBond (i));
+				while (bond) {
+					const_cast <gcp::Bond *> (bond)->SetDirty ();
+					bond = static_cast <gcp::Bond const *> (mol->GetNextBond (i));
+				}
+				dirty.insert (mol);
 			}
-			dirty.insert (mol);
 		} else
 			m_pView->Update (*i);
 		m_pOp->AddObject (*i,1);

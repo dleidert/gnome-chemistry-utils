@@ -952,7 +952,7 @@ void Bond::OnLoaded ()
 {
 	gcu::Bond::OnLoaded ();
 	if (m_Begin && GetParent ()->GetType () != MoleculeType) {
-		Molecule *mol = new Molecule (static_cast <gcp::Atom *> (m_Begin));
+		new Molecule (static_cast <gcp::Atom *> (m_Begin));
 	}
 }
 
