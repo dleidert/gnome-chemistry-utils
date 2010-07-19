@@ -571,6 +571,11 @@ gcu::Object::Name() concatenated with its unique Id as returned by gcu::Object::
 	virtual char const *HasPropertiesDialog () const;
 
 /*!
+@return true if the object can be safely selected. Default implementation returns true.
+*/
+	virtual bool CanSelect () const {return true;}
+	 
+/*!
 Exposes the gcu::Dialog related to the object properties if it exists.
 */
 	void ShowPropertiesDialog ();

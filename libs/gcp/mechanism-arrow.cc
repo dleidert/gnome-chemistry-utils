@@ -483,4 +483,10 @@ void MechanismArrow::OnLoaded ()
 	GetParent ()->OnLoaded ();
 }
 
+bool MechanismArrow::CanSelect () const
+{
+	WidgetData *data = static_cast <Document *> (GetDocument ())->GetView ()->GetData ();
+	return data->IsSelected (m_Source) && data->IsSelected (m_Target) && ((m_SourceAux)? data->IsSelected (m_SourceAux): true);
+}
+
 }	//	namespace gcp

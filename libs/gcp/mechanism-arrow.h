@@ -161,6 +161,11 @@ Ensure that links are correctly set.
 */
 	std::string Name ();
 
+/*!
+@return true if the MechanismArrow can be safely selected.
+*/
+	bool CanSelect () const;
+
 private:
 	double m_CPx1, m_CPy1, m_CPx2, m_CPy2;
 

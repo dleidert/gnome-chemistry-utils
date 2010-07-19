@@ -106,6 +106,8 @@ void gcpLassoTool::OnDrag ()
 		double x0, x1, y0, y1;
 		gcu::Object *object;
 		m_Item->GetBounds (m_x0, m_y0, m_x, m_y);
+		std::set <gcu::Object *> linked_objects;
+		std::set <gcu::Object *>::iterator i, iend;
 		while (item) {
 			if (item != m_Item) {
 				item->GetBounds (x0, y0, x1, y1);
@@ -130,10 +132,17 @@ void gcpLassoTool::OnDrag ()
 									bond = atom->GetNextBond (i);
 								}
 							}
-							default:
+							default: {
 								// go through the links and store them for later treatment
+								gcu::Object *linked_obj;
+								linked_obj = object->GetFirstLink (i);
+								while (linked_obj) {
+									linked_objects.insert (linked_obj);
+									linked_obj = object->GetNextLink (i);
+								}
 								break;
 							}
+							}		
 						}
 					}
 				}
@@ -142,6 +151,10 @@ void gcpLassoTool::OnDrag ()
 		}
 		cairo_destroy (cr);
 		cairo_surface_destroy (surface);
+		// now check if linked objects have all their links selected, and, if yes, select theme_change
+		for (i = linked_objects.begin (), iend = linked_objects.end (); i != iend; i++)
+			if ((*i)->CanSelect ())
+				m_pData->SetSelected (*i);
 	} else if (m_Rotate) {
 		double dAngle;
 		m_x-= m_cx;
