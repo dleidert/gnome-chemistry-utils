@@ -24,12 +24,15 @@
  
 #include "config.h"
 #include "mechanism-arrow.h"
+#include "mechanism-step.h"
 #include <glib/gi18n.h>
 #include <gcp/atom.h>
 #include <gcp/bond.h>
 #include <gcp/document.h>
 #include <gcp/electron.h>
 #include <gcp/fragment.h>
+#include <gcp/mechanism-step.h>
+#include <gcp/molecule.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -480,7 +483,23 @@ void MechanismArrow::OnLoaded ()
 		m_Target->Link (this);
 	}
 	Lock (false);
-	GetParent ()->OnLoaded ();
+	Object *parent = dynamic_cast <MechanismStep *> (GetParent ());
+	if (!parent) {
+		// this will happen after pasting a partial selection
+		parent = new MechanismStep ();
+		Document *doc = static_cast <Document *> (GetDocument ());
+		doc->AddChild (parent);
+		parent->AddChild (this);
+	}
+	Molecule *mol = NULL, *mol1;
+	if (m_Source) { // otherwise, it is most probably a bug
+		mol = static_cast <Molecule *> (m_Source->GetMolecule ());
+		if (mol && mol->GetParent () != parent)
+			parent->AddChild (mol);
+	}
+	if (m_Target && (mol1 = static_cast <Molecule *> (m_Target->GetMolecule ())) && mol1 != mol && mol1->GetParent () != parent)
+		parent->AddChild (mol1);
+	parent->OnLoaded ();
 }
 
 bool MechanismArrow::CanSelect () const

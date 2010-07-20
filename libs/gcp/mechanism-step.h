@@ -78,6 +78,11 @@ Used to load a mechanism step in memory. The MechanismStep must already exist.
 */
 	std::string Name ();
 
+/*!
+Destroys the MechanismStep when empty.
+*/
+	void NotifyEmpty ();
+
 private:
 	bool m_bLoading;
 };

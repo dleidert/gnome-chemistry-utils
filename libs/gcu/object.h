@@ -574,7 +574,13 @@ gcu::Object::Name() concatenated with its unique Id as returned by gcu::Object::
 @return true if the object can be safely selected. Default implementation returns true.
 */
 	virtual bool CanSelect () const {return true;}
-	 
+
+/*!
+Called by Object::Destructor() when the parent becomes empty. Default implementation does
+nothing.
+*/
+	virtual void NotifyEmpty () {;}
+
 /*!
 Exposes the gcu::Dialog related to the object properties if it exists.
 */

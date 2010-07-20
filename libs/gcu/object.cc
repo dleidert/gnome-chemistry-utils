@@ -80,6 +80,8 @@ Object::~Object ()
 	}
 	while (!m_Links.empty ())
 		Unlink (*(m_Links.begin ()));
+	if (m_Parent && !m_Parent->HasChildren ())
+		m_Parent->NotifyEmpty ();
 }
 
 void Object::Clear ()

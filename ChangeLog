@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-07-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: one more undo/redo issue fixed.
+	* libs/gcp/mechanism-step.cc: ditto.
+	* libs/gcp/mechanism-step.h: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+
 2010-07-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: safely select curved arrows when using the
 	lasso tool.

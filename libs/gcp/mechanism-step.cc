@@ -40,6 +40,7 @@ MechanismStep::MechanismStep (gcu::TypeId type):
 
 MechanismStep::~MechanismStep ()
 {
+	Lock ();
 }
 
 std::string MechanismStep::Name ()
@@ -75,6 +76,12 @@ bool MechanismStep::Load (xmlNodePtr node)
 	bool res = gcu::Object::Load (node);
 	m_bLoading = false;
 	return res;
+}
+
+void MechanismStep::NotifyEmpty ()
+{
+	if (!HasChildren () && !IsLocked ())
+		delete this;
 }
 
 }	//	namespace gcp
