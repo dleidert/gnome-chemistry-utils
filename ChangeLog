@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2010-07-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: unselect all on undo/redo.
+	* plugins/paint/selection/brackets.ui: add a notebook so that the font
+	can be selected.
+	* plugins/paint/selection/lassotool.cc: make undo/redo work for partial
+	selection moves.
+	* themes/paint/Gcp-Modern: new GChemPaint theme based on ACS theme, but
+	with longer default bond length.
+	* themes/paint/Makefile.am: add new theme.
+
 2010-07-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: one more undo/redo issue fixed.
 	* libs/gcp/mechanism-step.cc: ditto.

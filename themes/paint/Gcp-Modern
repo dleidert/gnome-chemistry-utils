@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<chemistry>
+  <theme name="GChemPaint 2" bond-length="140" bond-angle="120" bond-dist="4" bond-width="1" arrow-length="350" arrow-head-a="6" arrow-head-b="8" arrow-head-c="4" arrow-dist="5" arrow-width="1" arrow-padding="16" hash-width="1" hash-dist="2" stereo-bond-width="4" zoom-factor="7" padding="2" stoichiometry-padding="1" object-padding="16" sign-padding="8" charge-sign-size="10" font-family="Arial" font-style="normal" font-weight="normal" font-variant="normal" font-stretch="normal" font-size="10240" text-font-family="Arial" text-font-style="normal" text-font-weight="normal" text-font-variant="normal" text-font-stretch="normal" text-font-size="10240"/>
+</chemistry>

@@ -1090,6 +1090,7 @@ void Document::OnUndo ()
 {
 	if (m_pApp->GetActiveTool ()->OnUndo ())
 		return;
+	m_pView->GetData ()->UnselectAll ();
 	m_bUndoRedo = true;
 	if (!m_UndoList.empty ()) {
 		Operation* Op = m_UndoList.front ();
@@ -1116,6 +1117,7 @@ void Document::OnRedo ()
 {
 	if (m_pApp->GetActiveTool ()->OnRedo ())
 		return;
+	m_pView->GetData ()->UnselectAll ();
 	m_bUndoRedo = true;
 	if (!m_RedoList.empty ()) {
 		Operation* Op = m_RedoList.front ();

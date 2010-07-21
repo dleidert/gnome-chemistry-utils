@@ -60,8 +60,15 @@ bool gcpLassoTool::OnClicked ()
 		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
 		gcp::Document *pDoc = m_pView->GetDoc ();
 		m_pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
-		for (i = m_pData->SelectedObjects.begin (); i != end; i++)
-			m_pOp->AddObject (*i,0);
+		std::set <gcu::Object *> groups;
+		gcu::Object *group;
+		for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
+			group = (*i)->GetGroup ();
+			groups.insert ((group)? group: *i);
+		}
+		std::set <gcu::Object *>::iterator j, jend = groups.end ();
+		for (j = groups.begin (); j != jend; j++)
+			m_pOp->AddObject (*j, 0);
 		if (m_Rotate) {
 			// Calculate center of selection
 			gccv::Rect rect;
@@ -236,7 +243,22 @@ void gcpLassoTool::OnDrag ()
 
 void gcpLassoTool::OnRelease ()
 {
-	AddSelection (m_pData);
+	if (m_Item)
+		AddSelection (m_pData);
+	else {
+		std::set <gcu::Object *> groups;
+		std::set <gcu::Object *>::iterator j, jend;
+		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
+		gcu::Object *group;
+		for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
+			group = (*i)->GetGroup ();
+			groups.insert ((group)? group: *i);
+		}
+		jend = groups.end ();
+		for (j = groups.begin (); j != jend; j++)
+			m_pOp->AddObject (*j, 1);
+		m_pView->GetDoc ()->FinishOperation ();
+	}
 }
 
 void gcpLassoTool::Activate ()
