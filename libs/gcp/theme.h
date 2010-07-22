@@ -85,6 +85,12 @@ The destructor.
 @return the theme name.
 */
 	std::string &GetName () {return m_Name;}
+
+/*!
+@return the theme name.
+*/
+	std::string &GetFileName () {return (m_FileName.length ())? m_FileName: m_Name;}
+
 /*!
 @param xml the xml document used for serialization.
 
@@ -122,7 +128,7 @@ Notify all the theme clients that at least one setting changed.
 	void NotifyChanged ();
 
 private:
-	std::string m_Name;
+	std::string m_Name, m_FileName;
 	std::set <gcu::Object*> m_Clients;
 	bool modified;
 	bool locked;

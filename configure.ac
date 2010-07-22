@@ -405,7 +405,9 @@ themes/Makefile
 themes/paint/Makefile
 tests/Makefile
 ui/Makefile
+ui/calc/Makefile
 ui/crystal/Makefile
+ui/libgcu/Makefile
 ui/paint/Makefile
 ui/table/Makefile
 ])

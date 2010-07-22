@@ -256,10 +256,9 @@ ThemeManager::ThemeManager ()
 	ParseDir (path, LOCAL_THEME_TYPE);
 	gchar *default_theme  =NULL;
 	GCU_GCONF_GET_STRING ("default-theme", default_theme, "GChemPaint");
-	m_DefaultTheme = m_Themes[default_theme];
+	map <string, Theme*>::iterator i = m_Themes.find (default_theme);
+	m_DefaultTheme = (i != m_Themes.end ())? (*i).second: m_Themes["GChemPaint"];
 	g_free (default_theme);
-	if (!m_DefaultTheme)
-		m_DefaultTheme = m_Themes["GChemPaint"];
 }
 
 ThemeManager::~ThemeManager ()
@@ -293,7 +292,7 @@ ThemeManager::~ThemeManager ()
 					mkdir (path.c_str (), 0x1ed);
 				} else
 					g_dir_close (dir);
-				path += string ("/") + theme->GetName ();
+				path += string ("/") + theme->GetFileName ();
 				xmlSaveFormatFile (path.c_str (), doc, true);
 			}
 		} else if (theme->m_Name == "Default")
@@ -316,14 +315,16 @@ Theme *ThemeManager::GetTheme (char const *name)
 {
 	if (!strcmp (_(name), _("Default")))
 		return m_DefaultTheme;
-	return m_Themes[name];
+	map <string, Theme*>::iterator i = m_Themes.find (name);
+	return (i != m_Themes.end ())? (*i).second: m_DefaultTheme;
 }
 
 Theme *ThemeManager::GetTheme (string &name)
 {
 	if (name == "Default" || name == _("Default") )
 		return m_DefaultTheme;
-	return m_Themes[name.c_str ()];
+	map <string, Theme*>::iterator i = m_Themes.find (name);
+	return (i != m_Themes.end ())? (*i).second: m_DefaultTheme;
 }
 
 list <string> const &ThemeManager::GetThemesNames ()
@@ -494,8 +495,8 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 					theme = new Theme ("");
 					theme->Load (node);
 					if (theme->GetName () != name) {
-						theme->m_Name = name;
-						theme->modified = true;
+						theme->m_FileName = name;
+						name = theme->GetName ().c_str ();
 					}
 					if (theme->m_ThemeType == DEFAULT_THEME_TYPE || theme->m_ThemeType == GLOBAL_THEME_TYPE)
 						name = _(name);

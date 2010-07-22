@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2010-07-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: new UI files dirs.
+	* libs/gcp/theme.cc: make file name and theme name different.
+	* libs/gcp/theme.h: ditto.
+	* libs/gcu/Makefile.am: rearranged UI files.
+	* programs/calc/Makefile.am: ditto.
+	* ui/Makefile.am: ditto.
+	* ui/calc/Makefile.am: ditto.
+	* ui/calc/gchemcalc.ui: ditto.
+	* ui/gchemcalc.ui: ditto.
+	* ui/gcuperiodic.ui: ditto.
+	* ui/image-resolution.ui: ditto.
+	* ui/image-size.ui: ditto.
+	* ui/libgcu/Makefile.am: ditto.
+	* ui/print-setup.ui: ditto.
+
 2010-07-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: unselect all on undo/redo.
 	* plugins/paint/selection/brackets.ui: add a notebook so that the font
