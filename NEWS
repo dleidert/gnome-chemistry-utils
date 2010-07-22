@@ -1,3 +1,10 @@
+Version 0.12.2
+	GChemPaint:
+		* Do not crash if configured default theme does not exist.
+	Other:
+		* Make the UI files installation paths more consistent.
+		* Updated translation: de.
+
 Version 0.12.1
 	GChemPaint:
 		* Fixed orbitals on fragments. [#29862]

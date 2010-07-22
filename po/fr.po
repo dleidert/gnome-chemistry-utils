@@ -3103,7 +3103,7 @@ msgstr "Valeur maximale Y"
 #, c-format
 msgid "Could not load %s."
 msgstr ""
-"Impossibke de charger\n"
+"Impossible de charger\n"
 "%s"
 
 #: ../libs/gcu/value.cc:146

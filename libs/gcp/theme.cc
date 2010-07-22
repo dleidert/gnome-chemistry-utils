@@ -256,10 +256,9 @@ ThemeManager::ThemeManager ()
 	ParseDir (path, LOCAL_THEME_TYPE);
 	gchar *default_theme  =NULL;
 	GCU_GCONF_GET_STRING ("default-theme", default_theme, "GChemPaint");
-	m_DefaultTheme = m_Themes[default_theme];
+	map <string, Theme*>::iterator i = m_Themes.find (default_theme);
+	m_DefaultTheme = (i != m_Themes.end ())? (*i).second: m_Themes["GChemPaint"];
 	g_free (default_theme);
-	if (!m_DefaultTheme)
-		m_DefaultTheme = m_Themes["GChemPaint"];
 }
 
 ThemeManager::~ThemeManager ()
@@ -316,14 +315,16 @@ Theme *ThemeManager::GetTheme (char const *name)
 {
 	if (!strcmp (_(name), _("Default")))
 		return m_DefaultTheme;
-	return m_Themes[name];
+	map <string, Theme*>::iterator i = m_Themes.find (name);
+	return (i != m_Themes.end ())? (*i).second: m_DefaultTheme;
 }
 
 Theme *ThemeManager::GetTheme (string &name)
 {
 	if (name == "Default" || name == _("Default") )
 		return m_DefaultTheme;
-	return m_Themes[name.c_str ()];
+	map <string, Theme*>::iterator i = m_Themes.find (name);
+	return (i != m_Themes.end ())? (*i).second: m_DefaultTheme;
 }
 
 list <string> const &ThemeManager::GetThemesNames ()

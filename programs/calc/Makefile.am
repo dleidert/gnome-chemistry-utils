@@ -16,7 +16,7 @@ INCLUDES = \
 		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
-        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui\"
+        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/calc\"
 
 bin_PROGRAMS = gchemcalc-@GCU_API_VER@
 

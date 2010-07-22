@@ -1,10 +1,13 @@
 ##Text encoding: utf-8
 
+2010-07-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* fr.po: fixed typo.
+
 2010-07-19  Matthias Mailänder
-	* de.po: Updated German translation.
+	* de.po: updated German translation.
 
 2010-05-11  Julian Sikorski  <belegdol@gmail.com>
-	* pl.po: Finished Polish translation.
+	* pl.po: finished Polish translation.
 
 2010-05-09  Julian Sikorski  <belegdol@gmail.com>
 	* pl.po: updated Polish translation, some strings still missing.
