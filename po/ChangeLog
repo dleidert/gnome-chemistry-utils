@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: updated file list after reorganizing ui files directories.
+
 2010-07-19  Matthias Mailänder
 	* de.po: Updated German translation.
 

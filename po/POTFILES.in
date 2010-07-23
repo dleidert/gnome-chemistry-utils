@@ -2,33 +2,6 @@
 gchemutils.schemas.in
 gchemutils.xml.in
 database/residues.xml.in
-[type: gettext/glade]ui/gchemcalc.ui
-[type: gettext/glade]ui/gcuperiodic.ui
-[type: gettext/glade]ui/image-size.ui
-[type: gettext/glade]ui/image-resolution.ui
-[type: gettext/glade]ui/print-setup.ui
-[type: gettext/glade]ui/crystal/bonds.ui
-[type: gettext/glade]ui/crystal/cell.ui
-[type: gettext/glade]ui/crystal/docprop.ui
-[type: gettext/glade]ui/crystal/prefs.ui
-[type: gettext/glade]ui/crystal/view-settings.ui
-[type: gettext/glade]ui/crystal/atoms.ui
-[type: gettext/glade]ui/crystal/cleavages.ui
-[type: gettext/glade]ui/crystal/lines.ui
-[type: gettext/glade]ui/crystal/size.ui
-[type: gettext/glade]ui/paint/arrow-object.ui
-[type: gettext/glade]ui/paint/docprop.ui
-[type: gettext/glade]ui/paint/H-pos.ui
-[type: gettext/glade]ui/paint/newfiledlg.ui
-[type: gettext/glade]ui/paint/preferences.ui
-[type: gettext/glade]ui/paint/tools.ui
-[type: gettext/glade]ui/paint/zoom.ui
-[type: gettext/glade]ui/table/acidity.ui
-[type: gettext/glade]ui/table/eltpage.ui
-[type: gettext/glade]ui/table/state-thermometer.ui
-[type: gettext/glade]ui/table/curve.ui
-[type: gettext/glade]ui/table/family.ui
-[type: gettext/glade]ui/table/block.ui
 database/elements.xml.in
 database/elecprops.xml.in
 database/isotopes.xml.in
@@ -177,3 +150,30 @@ programs/table/gchemtable-data.cc
 programs/table/gchemtable.desktop.in
 templates/paint/haworth.xml.in
 templates/paint/templates.xml.in
+[type: gettext/glade]ui/calc/gchemcalc.ui
+[type: gettext/glade]ui/crystal/bonds.ui
+[type: gettext/glade]ui/crystal/cell.ui
+[type: gettext/glade]ui/crystal/docprop.ui
+[type: gettext/glade]ui/crystal/prefs.ui
+[type: gettext/glade]ui/crystal/view-settings.ui
+[type: gettext/glade]ui/crystal/atoms.ui
+[type: gettext/glade]ui/crystal/cleavages.ui
+[type: gettext/glade]ui/crystal/lines.ui
+[type: gettext/glade]ui/crystal/size.ui
+[type: gettext/glade]ui/libgcu/gcuperiodic.ui
+[type: gettext/glade]ui/libgcu/image-size.ui
+[type: gettext/glade]ui/libgcu/image-resolution.ui
+[type: gettext/glade]ui/libgcu/print-setup.ui
+[type: gettext/glade]ui/paint/arrow-object.ui
+[type: gettext/glade]ui/paint/docprop.ui
+[type: gettext/glade]ui/paint/H-pos.ui
+[type: gettext/glade]ui/paint/newfiledlg.ui
+[type: gettext/glade]ui/paint/preferences.ui
+[type: gettext/glade]ui/paint/tools.ui
+[type: gettext/glade]ui/paint/zoom.ui
+[type: gettext/glade]ui/table/acidity.ui
+[type: gettext/glade]ui/table/eltpage.ui
+[type: gettext/glade]ui/table/state-thermometer.ui
+[type: gettext/glade]ui/table/curve.ui
+[type: gettext/glade]ui/table/family.ui
+[type: gettext/glade]ui/table/block.ui
