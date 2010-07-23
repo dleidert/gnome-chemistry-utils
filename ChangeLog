@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-07-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: pre release version bump (0.12.2).
+
 2010-07-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: new UI files dirs.
 	* libs/gcp/theme.cc: fixed crash when configured default theme does not
