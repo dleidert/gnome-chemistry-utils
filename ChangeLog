@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-07-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/widgetdata.cc: started work on selection optimization.
+	* libs/gcp/widgetdata.h: ditto.
+	* plugins/paint/selection/lassotool.cc: ditto.
+
 2010-07-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: new UI files dirs.
 	* libs/gcp/theme.cc: make file name and theme name different.

@@ -125,6 +125,22 @@ The list of selected objects.
 @return true if the object is selected, false otherwise.
 */
 	bool IsSelected (gcu::Object const *obj) const;
+	
+/*!
+@param obj an object.
+@return true if all the object children are selected, false otherwise or if @obj
+has no children.
+*/
+	bool ChildrenSelected (gcu::Object const *obj) const;
+
+	
+/*!
+@param obj an object.
+@return the topmost ancestor whose all children are selected, NULL if
+none or if the ancestor is the document.
+*/
+	gcu::Object *GetSelectedAncestor (gcu::Object *obj);
+
 /*!
 @param obj the object to select.
 @param state the new selection state.

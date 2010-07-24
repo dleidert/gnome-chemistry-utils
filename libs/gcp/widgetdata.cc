@@ -36,6 +36,7 @@
 #include <gccv/item-client.h>
 #include <gccv/item.h>
 #include <cstring>
+#include <map>
 
 using namespace gcu;
 
@@ -221,6 +222,33 @@ bool WidgetData::IsSelected (Object const *obj) const
 			return true;
 	
 	return false;
+}
+
+bool WidgetData::ChildrenSelected (gcu::Object const *obj) const
+{
+	if (!obj->HasChildren ())
+		return false;
+	std::map <std::string, gcu::Object *>::const_iterator i;
+	std::list<Object*>::const_iterator j,  end = SelectedObjects.end ();
+	for (Object const *child = obj->GetFirstChild (i); child; child = obj->GetNextChild (i)) {
+		for (j = SelectedObjects.begin (); j != end; j++)
+			if (*j == obj)
+				break;
+		if (j == end || !ChildrenSelected (child))
+		    return false;
+	}
+	return true;
+}
+
+gcu::Object *WidgetData::GetSelectedAncestor (gcu::Object *child)
+{
+	Object *parent = child->GetParent ();
+	if (parent->GetType () == DocumentType)
+		return NULL;
+	Object *ancestor = GetSelectedAncestor (parent);
+	if (ancestor)
+		return ancestor;
+	return (ChildrenSelected (parent))? parent: NULL;
 }
 
 void WidgetData::Unselect (Object *obj)
