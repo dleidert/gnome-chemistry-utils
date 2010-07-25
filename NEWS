@@ -1,3 +1,6 @@
+Version 0.12.3
+	GChemPaint: Fixed GChemPaint crash when changing the text font. [#30495]
+
 Version 0.12.2
 	GChemPaint:
 		* Do not crash if configured default theme does not exist.
