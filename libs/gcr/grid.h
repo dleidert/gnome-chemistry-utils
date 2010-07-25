@@ -1,8 +1,6 @@
-// -*- C++ -*-
-
 /* 
  * Gnome Crystal
- * grid.cc 
+ * grid.h 
  *
  * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -22,29 +20,27 @@
  * USA
  */
 
-#include "config.h"
-#include "grid.h"
+#ifndef GCR_GRID_H
+#define GCR_GRID_H
 
-#include <gsf/gsf-impl-utils.h>
+/*!\file
+@brief Grid widget.
+*/
 
-struct _GcuGrid
-{
-	GtkTable base;
-};
+#include <gtk/gtk.h>
 
-typedef struct
-{
-	GtkTableClass parent_class;
-} GcuGridClass;
+G_BEGIN_DECLS
 
+#define GCR_TYPE_GRID	(gcr_grid_get_type ())
+#define GCR_GRID(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), GCR_TYPE_GRID, GcrGrid))
+#define GCR_IS_GRID(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), GCR_TYPE_GRID))
 
-static void gcu_grid_class_init (GcuGridClass *klass)
-{
-}
+typedef struct _GcrGrid GcrGrid;
 
-static void
-gcu_grid_init (GcuGrid *grid)
-{
-}
+GType      gcr_grid_get_type (void);
 
-GSF_CLASS (GcuGrid, gcu_grid, gcu_grid_class_init, gcu_grid_init, GTK_TYPE_TABLE)
+GtkWidget *gcr_grid_new (char const *col_title,...);
+
+G_END_DECLS
+
+#endif	//	GCR_GRID_H

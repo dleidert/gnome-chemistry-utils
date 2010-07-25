@@ -254,6 +254,10 @@ void gcpLassoTool::OnRelease ()
 			parent = m_pData->GetSelectedAncestor (*i);
 			RealSelection.insert ((parent)? parent: *i);
 		}
+		m_pData->UnselectAll ();
+		std::set <gcu::Object *>::iterator j, jend = RealSelection.end ();
+		for (j = RealSelection.begin (); j != jend; j++)
+			m_pData->SetSelected (*j);
 	} else {
 		std::set <gcu::Object *> groups;
 		std::set <gcu::Object *>::iterator j, jend;

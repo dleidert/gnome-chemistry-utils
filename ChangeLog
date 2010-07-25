@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2010-07-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/arrow.cc: make more objects selectable with the lasso tool.
+	* libs/gcp/arrow.h: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/fragment.h: ditto.
+	* libs/gcp/reaction-operator.cc: ditto.
+	* libs/gcp/reaction-operator.h: ditto.
+	* libs/gcp/view.cc: do not update a NULL widget. [#30495]
+	* libs/gcp/widgetdata.cc: fixed selection optimization.
+	* libs/gcr/Makefile.am: moved grid.* from programs/crystal.
+	* libs/gcr/grid.cc: ditto.
+	* libs/gcr/grid.h: ditto.
+	* plugins/paint/selection/lassotool.cc: fixed selection optimization.
+	* programs/crystal/Makefile.am: moved grid.* to libs/gcr.
+	* programs/crystal/grid.cc: ditto.
+	* programs/crystal/grid.h: ditto.
+
 2010-07-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/widgetdata.cc: started work on selection optimization.
 	* libs/gcp/widgetdata.h: ditto.

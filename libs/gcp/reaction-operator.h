@@ -80,10 +80,12 @@ as left side and vertically as base line.
 /*!
 @param x where to store the x coordinate of the operator.
 @param y where to store the y coordinate of the operator.
+@param z where to store the z coordinate of the operztor or NULL for 2D representations.
 
-Retrieves the current coordinates of the operator.
+Retrieves the current coordinates of the operator. Aways set \a z to 0.
+@return true if successful and false if an error occurs (if x or y is NULL).
 */
-	bool GetCoords (double* x, double* y) const;
+	bool GetCoords (double* x, double* y, double *z = NULL) const;
 /*!
 Used to retrieve the y coordinate for alignment. 
 @return y coordinate used for reaction operators alignment.

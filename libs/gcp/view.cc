@@ -174,6 +174,8 @@ void View::OnDestroy (GtkWidget* widget)
 
 void View::Update (Object *pObject)
 {
+	if (!m_pWidget)
+		return;
 	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
 	if (client)
 		client->UpdateItem ();

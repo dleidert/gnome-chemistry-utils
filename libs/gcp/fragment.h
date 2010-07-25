@@ -299,6 +299,15 @@ of the fragment.
 */
 	std::string Name ();
 /*!
+@param x a pointer to the double value which will receive the x coordinate of the Fragment.
+@param y a pointer to the double value which will receive the y coordinate of the Fragment.
+@param z a pointer to the double value which will receive the z coordinate of the Fragment or NULL for 2D representations.
+
+Retrieves the coordinates of this Arrow.
+@return true if successful and false if an error occurs (if x or y is NULL).
+*/
+	bool GetCoords (double *x, double *y, double *z = NULL) const;
+/*!
 @brief
 
 The validity state of a Fragment as it is currently evaluated by the framework.

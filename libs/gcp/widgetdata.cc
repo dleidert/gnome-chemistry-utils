@@ -232,9 +232,9 @@ bool WidgetData::ChildrenSelected (gcu::Object const *obj) const
 	std::list<Object*>::const_iterator j,  end = SelectedObjects.end ();
 	for (Object const *child = obj->GetFirstChild (i); child; child = obj->GetNextChild (i)) {
 		for (j = SelectedObjects.begin (); j != end; j++)
-			if (*j == obj)
+			if (*j == child)
 				break;
-		if (j == end || !ChildrenSelected (child))
+		if (j == end || (child->HasChildren () && !ChildrenSelected (child)))
 		    return false;
 	}
 	return true;

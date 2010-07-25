@@ -101,7 +101,16 @@ Sets the position and length of an arrow.
 
 Retrieves the position of the arrow.
 */
-	bool GetCoords (double* xstart, double* ystart, double* xend, double* yend);
+	bool GetCoords (double* xstart, double* ystart, double* xend, double* yend) const;
+/*!
+@param x a pointer to the double value which will receive the x coordinate of the Arrow.
+@param y a pointer to the double value which will receive the y coordinate of the Arrow.
+@param z a pointer to the double value which will receive the z coordinate of the Arrow or NULL for 2D representations.
+
+Retrieves the coordinates of this Arrow.
+@return true if successful and false if an error occurs (if x or y is NULL).
+*/
+	bool GetCoords (double *x, double *y, double *z = NULL) const;
 /*!
 @param x: the x component of the transation vector.
 @param y: the y component of the transation vector.

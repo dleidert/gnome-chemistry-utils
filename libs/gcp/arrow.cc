@@ -143,13 +143,25 @@ void Arrow::SetCoords (double xstart, double ystart, double xend, double yend)
 	m_height = yend - ystart;
 }
 
-bool Arrow::GetCoords (double* xstart, double* ystart, double* xend, double* yend)
+bool Arrow::GetCoords (double* xstart, double* ystart, double* xend, double* yend) const
 {
+	if (xstart == NULL || ystart == NULL || xend == NULL || yend == NULL)
+		return false;
 	*xstart = m_x;
 	*ystart = m_y;
 	*xend = m_x + m_width;
 	*yend = m_y + m_height;
 	return true;
+}
+
+bool Arrow::GetCoords (double *x, double *y, double *z) const
+{
+	if (x == NULL || y == NULL)
+		return false;
+	*x = m_x + m_width / 2.;
+	*y = m_y + m_height / 2.;
+	if (z)
+		*z = 0.;
 }
 
 void Arrow::Move (double x, double y, double)

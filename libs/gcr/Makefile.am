@@ -8,6 +8,7 @@ noinst_HEADERS = \
 	cleavage.h \
 	document.h \
 	gcrcrystalviewer.h \
+	grid.h \
 	line.h \
 	view.h \
 	window.h
@@ -18,6 +19,7 @@ libgcr_@GCU_API_VER@_la_SOURCES =	\
 	cleavage.cc \
 	document.cc \
 	gcrcrystalviewer.cc \
+	grid.cc \
 	line.cc \
 	view.cc \
 	window.cc
