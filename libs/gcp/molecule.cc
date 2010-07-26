@@ -622,6 +622,7 @@ void Molecule::BuildOBMol (OBMol &Mol)
 		AtomTable [pgAtom->GetId ()] = index;
 		obAtom.SetIdx (index++);
 		obAtom.SetAtomicNum (pgAtom->GetZ());
+		obAtom.SetFormalCharge (pgAtom->GetCharge ());
 		pgAtom->GetCoords (&x, &y, &z);
 		// Scans the atom bonds and change z to try conservation of stereochemistry
 		pBond = (Bond*) pgAtom->GetFirstBond (i);
@@ -682,6 +683,7 @@ void Molecule::BuildOBMol2D (OBMol &Mol)
 		AtomTable [pgAtom->GetId ()] = index;
 		obAtom.SetIdx (index++);
 		obAtom.SetAtomicNum (pgAtom->GetZ());
+		obAtom.SetFormalCharge (pgAtom->GetCharge ());
 		pgAtom->GetCoords (&x, &y, &z);
 		// Scans the atom bonds and change z to try conservation of stereochemistry
 		obAtom.SetVector ((x - xav) / 100, (yav - y) / 100, 0.);

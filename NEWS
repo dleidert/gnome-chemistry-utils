@@ -1,5 +1,7 @@
 Version 0.12.3
-	GChemPaint: Fixed GChemPaint crash when changing the text font. [#30495]
+	GChemPaint:
+		* Fixed GChemPaint crash when changing the text font. [#30495]
+		* Export formal charges to OpenBabel. [#30547]
 
 Version 0.12.2
 	GChemPaint:

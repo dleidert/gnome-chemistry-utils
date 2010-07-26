@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: export formal charges to OpenBabel. [#30547]
+	* libs/gcp/theme.cc: fixed a double free issue. [see #30495]
+
 2010-07-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/view.cc: do not update a NULL widget. [#30495]
 
