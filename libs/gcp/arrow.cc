@@ -162,6 +162,7 @@ bool Arrow::GetCoords (double *x, double *y, double *z) const
 	*y = m_y + m_height / 2.;
 	if (z)
 		*z = 0.;
+	return true;
 }
 
 void Arrow::Move (double x, double y, double)

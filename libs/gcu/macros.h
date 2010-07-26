@@ -161,8 +161,7 @@ This macro gets the numerical value of type \a type associated to \a key, and
 copies it to \a target. If an error occurs or if the value is 0,
 \a defaultval is used instead.\n
 If the GOConf mechanism is available in goffice (>= 0.7.0), calling class must
-have a GOConfNode called m_ConfNode or, for older GOffice versions, a GConfClient
-member called m_ConfClient, and the code must provide a GError *error initially
+have a GOConfNode called m_ConfNode, and the code must provide a GError *error initially
 set to NULL (GConf version only).
 The real key is obtained by appending the value of ROOTDIR to \a key.
 */
@@ -175,8 +174,7 @@ The real key is obtained by appending the value of ROOTDIR to \a key.
 This macro gets the numerical value of type \a type associated to \a key, and
 copies it to \a target. If an error occurs, \a defaultval is used instead.\n
 If the GOConf mechanism is available in goffice (>= 0.7.0), calling class must
-have a GOConfNode called m_ConfNode or, for older GOffice versions, a GConfClient
-member called m_ConfClient, and the code must provide a GError *error initially
+have a GOConfNode called m_ConfNode, and the code must provide a GError *error initially
 set to NULL (GConf version only).
 The real key is obtained by appending the value of ROOTDIR to \a key.
 */
@@ -189,8 +187,7 @@ occurs or if the value is 0, \a defaultval is used instead.\n
 The resuting value (which might be the default value) is then passed
 to \a func and the result is copied to \a target. \n
 If the GOConf mechanism is available in goffice (>= 0.7.0), calling class must
-have a GOConfNode called m_ConfNode or, for older GOffice versions, a GConfClient
-member called m_ConfClient, and the code must provide a GError *error initially
+have a GOConfNode called m_ConfNode, and the code must provide a GError *error initially
 set to NULL (GConf version only).
 The real key is obtained by appending the value of ROOTDIR to \a key.
 */
@@ -207,7 +204,7 @@ This macro gets the string value associated to \a key, and
 copies it to \a target. If an error occurs, \a defaultval is used instead.\n
 If \a target is not NULL when entering the macro, it is deallocated using g_free
 and set to NULL before calling gconf_client_get_string.\n
-Calling class must have a GConfClient member called m_ConfClient, and the code
+Calling class must have a GOConfNode called m_ConfNode, and the code
 must provide a GError *error initially set to NULL.
 The real key is obtained by appending the value of ROOTDIR to \a key.
 */
@@ -223,8 +220,7 @@ The real key is obtained by appending the value of ROOTDIR to \a key.
 /*!\def GCU_UPDATE_KEY()
 This macro updates a value of type \a type associated to \a key, and
 copies it to \a target. \a action is called after setting the target?
-It also needs either a GOConfNode* called node or a GConfEntry alled entry, depending
-on the GOffice library version.
+It also needs a GOConfNode* called node.
 The real key is obtained by appending the value of ROOTDIR to \a key.
 */
 #define GCU_UPDATE_KEY(key,type,target,action) \
@@ -237,8 +233,7 @@ The real key is obtained by appending the value of ROOTDIR to \a key.
 /*!\def GCU_UPDATE_STRING_KEY()
 This macro updates a string value associated to \a key, and
 copies it to \a target. \a action is called after setting the target?
-It also needs either a GOConfNode* called node or a GConfEntry alled entry, depending
-on the GOffice library version.
+It also needs a GOConfNode* called node.
 The real key is obtained by appending the value of ROOTDIR to \a key.
 */
 #define GCU_UPDATE_STRING_KEY(key,target,action) \

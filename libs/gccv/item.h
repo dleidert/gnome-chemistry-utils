@@ -124,7 +124,7 @@ The destructor.
 @param x1 where to store the bottom right horizontal bound.
 @param y1 where to store the bottom right vertical bound.
 
-Retrieves the current bounds coordinate for the Itm.
+Retrieves the current bounds coordinate for the Item.
 */
 	void GetBounds (double &x0, double &y0, double &x1, double &y1) const;
 /*!

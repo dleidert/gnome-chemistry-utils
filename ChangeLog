@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2010-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/item.h: fixed typo.
+	* libs/gcp/arrow.cc: fixed returned value.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/molecule.cc: export formal charges to OpenBabel. [#30547]
+	* libs/gcp/reaction-operator.h: fixed typo.
+	* libs/gcp/text.cc: make more objects selectable with the lasso tool.
+	* libs/gcp/text.h: ditto.
+	* libs/gcp/theme.cc: fixed crash when changing default theme font.
+	[see #30495]
+	* libs/gcu/macros.h: fixed documentation.
+
 2010-07-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/arrow.cc: make more objects selectable with the lasso tool.
 	* libs/gcp/arrow.h: ditto.

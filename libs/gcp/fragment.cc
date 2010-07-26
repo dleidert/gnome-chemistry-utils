@@ -1557,6 +1557,7 @@ bool Fragment::GetCoords (double *x, double *y, double *z) const
 	*y = m_y;
 	if (z)
 		*z = 0.;
+	return true;
 }
 
 }	//	namespace gcp

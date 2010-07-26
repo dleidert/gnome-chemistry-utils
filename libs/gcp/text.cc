@@ -1013,4 +1013,18 @@ std::string Text::Name ()
 	return _("Text");
 }
 
+bool Text::GetCoords (double* x, double* y, double *z) const
+{
+	if (x == NULL || y == NULL || !m_Item)
+		return false;
+	double x1, y1;
+	Theme *theme = static_cast <Document*> (GetDocument ())->GetTheme ();
+	m_Item->GetBounds (*x, *y, x1, y1);
+	*x = (*x + x1) / 2. / theme->GetZoomFactor ();
+	*y = (*y + y1) / 2. / theme->GetZoomFactor ();
+	if (z)
+		*z = 0.;
+	return true;
+}
+
 }	//	namespace gcp

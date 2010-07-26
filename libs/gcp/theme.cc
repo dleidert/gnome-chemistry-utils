@@ -335,6 +335,7 @@ list <string> const &ThemeManager::GetThemesNames ()
 void ThemeManager::OnConfigChanged (GOConfNode *node, gchar const *name)
 {
 	Theme *theme = m_Themes["GChemPaint"];
+	char *buf = NULL;
 	GCU_UPDATE_KEY ("bond-length", float, DefaultBondLength, theme->m_BondLength = DefaultBondLength;)
 	GCU_UPDATE_KEY ("bond-angle", float, DefaultBondAngle, theme->m_BondAngle = DefaultBondAngle;)
 	GCU_UPDATE_KEY ("bond-dist", float, DefaultBondDist, theme->m_BondDist = DefaultBondDist;)
@@ -360,12 +361,12 @@ void ThemeManager::OnConfigChanged (GOConfNode *node, gchar const *name)
 	GCU_UPDATE_KEY ("object-padding", float, DefaultObjectPadding, theme->m_ObjectPadding = DefaultObjectPadding;)
 	GCU_UPDATE_KEY ("charge-sign-padding", float, DefaultSignPadding, theme->m_SignPadding = DefaultSignPadding;)
 	GCU_UPDATE_KEY ("charge-sign-size", float, DefaultChargeSignSize, theme->m_ChargeSignSize = DefaultChargeSignSize;)
-	GCU_UPDATE_KEY ("font-family", string, name,
-		if (name) {
+	GCU_UPDATE_STRING_KEY ("font-family", buf,
+		if (buf) {
 			if (DefaultFontFamily != NULL)
 				g_free (DefaultFontFamily);
-			DefaultFontFamily = g_strdup (name);
-			theme->m_FontFamily = DefaultFontFamily;
+			DefaultFontFamily = g_strdup (buf);
+			theme->m_FontFamily = g_strdup (DefaultFontFamily);
 		})
 	int n;
 	GCU_UPDATE_KEY ("font-style", int, n, {
@@ -385,12 +386,12 @@ void ThemeManager::OnConfigChanged (GOConfNode *node, gchar const *name)
 		theme->m_FontStretch = DefaultFontStretch;
 	})
 	GCU_UPDATE_KEY ("font-size", float, DefaultFontSize, theme->m_FontSize = DefaultFontSize;)
-	GCU_UPDATE_KEY ("text-font-family", string, name,
-		if (name) {
+	GCU_UPDATE_STRING_KEY ("text-font-family", buf,
+		if (buf) {
 			if (DefaultTextFontFamily != NULL)
 				g_free (DefaultTextFontFamily);
 			DefaultTextFontFamily = g_strdup (name);
-			theme->m_TextFontFamily = DefaultTextFontFamily;
+			theme->m_TextFontFamily = g_strdup (DefaultTextFontFamily);
 		})
 	GCU_UPDATE_KEY ("text-font-style", int, n, {
 		DefaultTextFontStyle = set_fontstyle (n);
