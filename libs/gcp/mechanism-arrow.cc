@@ -215,6 +215,7 @@ bool MechanismArrow::Load (xmlNodePtr node)
 		m_EndAtNewBondCenter = !strcmp (reinterpret_cast <char const *> (buf), "true");
 		xmlFree (buf);
 	}
+	doc->ObjectLoaded (this);
 	return true;
 }
 

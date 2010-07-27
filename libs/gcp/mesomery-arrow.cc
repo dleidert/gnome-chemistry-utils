@@ -112,6 +112,7 @@ bool MesomeryArrow::Load (xmlNodePtr node)
 		}
 		if (m_Start)
 			m_Start->AddArrow (this, m_End);
+		GetDocument ()->ObjectLoaded (this);
 		return true;
 	}
 	return false;

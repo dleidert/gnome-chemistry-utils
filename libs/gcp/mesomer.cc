@@ -159,6 +159,7 @@ bool Mesomer::Load (xmlNodePtr node)
 		if (!obj)
 			return false;
 		m_Molecule = reinterpret_cast <Molecule *> (obj);
+		GetDocument ()->ObjectLoaded (this);
 		return true;
 	}
 	return false;

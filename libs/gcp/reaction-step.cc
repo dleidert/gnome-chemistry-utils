@@ -179,6 +179,7 @@ bool ReactionStep::Load (xmlNodePtr node)
 	}
 	view->Update (this);
 	m_bLoading = false;
+	pDoc->ObjectLoaded (this);
 	return true;
 }
 

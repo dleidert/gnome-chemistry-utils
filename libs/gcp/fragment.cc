@@ -816,6 +816,7 @@ bool Fragment::Load (xmlNodePtr node)
 		m_TextItem->RebuildAttributes ();
 	}
 	m_bLoading = false;
+	pDoc->ObjectLoaded (this);
 	return true;
 }
 

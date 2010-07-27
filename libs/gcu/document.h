@@ -180,6 +180,8 @@ Processes pending references resulting from failed calls to SetTarget().
 */
 	std::string Name ();
 
+	void ObjectLoaded (Object *obj);
+
 private:
 
 /*!
@@ -196,6 +198,7 @@ GetNewId returns the translated id
 private:
 	std::map <std::string, std::string> m_TranslationTable;//used when Ids translations are necessary (on pasting...)
 	std::map <std::string, std::list <PendingTarget> > m_PendingTable;//used to set pointers to objects when loading does not occur in the ideal order
+	std::set<Object*> m_NewObjects;
 
 protected:
 /*!

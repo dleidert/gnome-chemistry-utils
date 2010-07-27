@@ -438,6 +438,7 @@ bool Molecule::Load (xmlNodePtr node)
 			return false;
 	}
 	m_Changed = true;
+	pDoc->ObjectLoaded (this);
 	return true;
 }
 

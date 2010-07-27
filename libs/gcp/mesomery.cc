@@ -111,6 +111,7 @@ bool Mesomery::Load (xmlNodePtr node)
 		arrows.pop_back ();
 	}
 	Lock (false);
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

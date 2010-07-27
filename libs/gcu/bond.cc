@@ -142,6 +142,7 @@ bool Bond::Load (xmlNodePtr node)
 	doc->SetTarget (tmp, reinterpret_cast <Object **> (&m_End), GetParent (), this, ActionDelete);
 	xmlFree (tmp);
 	bool result = LoadNode (node);
+	doc->ObjectLoaded (this);
 	return result;
 }
 

@@ -157,7 +157,11 @@ bool Reactant::Load (xmlNodePtr node)
 		child = child->next;
 	}
 	Lock (false);
-	return (Child != NULL);
+	if (Child != NULL) {
+		pDoc->ObjectLoaded (this);
+		return true;
+	} else
+		return false;
 }
 
 double Reactant::GetYAlign ()

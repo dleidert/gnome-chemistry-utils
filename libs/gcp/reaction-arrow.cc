@@ -105,6 +105,7 @@ bool ReactionArrow::Load (xmlNodePtr node)
 {
 	char *buf;
 	Object *parent, *prop;
+	gcu::Document *doc = GetDocument ();
 	xmlNodePtr child;
 	if (Arrow::Load (node)) {
 		buf = (char*) xmlGetProp (node, (xmlChar*) "type");
@@ -136,24 +137,25 @@ bool ReactionArrow::Load (xmlNodePtr node)
 			return true;
 		buf = (char*) xmlGetProp (node, (xmlChar*) "start");
 		if (buf) {
-			m_Start = reinterpret_cast<ReactionStep*> (parent->GetDescendant (buf));
+			doc->SetTarget (buf, reinterpret_cast <Object **> (&m_Start), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
-			if (!m_Start)
-				return false;
-			m_Start->AddArrow (this);
 		}
 		buf = (char*) xmlGetProp (node, (xmlChar*) "end");
 		if (buf) {
-			m_End = reinterpret_cast<ReactionStep*> (parent->GetDescendant (buf));
+			doc->SetTarget (buf, reinterpret_cast <Object **> (&m_End), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
-			if (!m_End)
-				return false;
-			m_End->AddArrow (this);
 		}
 		return true;
 	}
-puts("1");
 	return false;
+}
+
+void ReactionArrow::OnLoaded ()
+{
+	if (m_Start)
+		m_Start->AddArrow (this);
+	if (m_End)
+		m_End->AddArrow (this);
 }
 
 void ReactionArrow::AddItem ()

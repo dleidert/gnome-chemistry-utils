@@ -159,6 +159,11 @@ false otherwise.
 	bool SetProperty (unsigned property, char const *value);
 
 /*!
+This method should be called when an arrow has been fully loaded.
+*/
+	void OnLoaded ();
+
+/*!
 @return the localized object generic name.
 */
 	std::string Name ();

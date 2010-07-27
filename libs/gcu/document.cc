@@ -113,6 +113,7 @@ bool Document::Loaded () throw (LoaderError)
 	unsigned count = 0;
 	std::map <std::string, list <PendingTarget> >::iterator i, end = m_PendingTable.end ();
 	std::set <Object *> Deleted;
+	std::set <Object *>::iterator new_end = m_NewObjects.end ();
 	for (i = m_PendingTable.begin (); i != end; i++) {
 		std::string id = (*i).first;
 		std::list <PendingTarget> &l = (*i).second;
@@ -120,6 +121,8 @@ bool Document::Loaded () throw (LoaderError)
 		Object *obj = (*j).parent->GetDescendant (id.c_str ());
 		if (obj == NULL)
 			obj = (*j).parent->GetDocument ()->GetDescendant (id.c_str ());
+		if (obj && m_NewObjects.find (obj) == new_end)
+			obj = NULL;
 		if (obj == NULL) {
 			switch ((*j).action) {
 			case ActionException: {
@@ -146,11 +149,17 @@ bool Document::Loaded () throw (LoaderError)
 					(*j).owner->OnLoaded ();
 				count++;
 			}
-			j++;
+				j++;
 		}
 	}
 	m_PendingTable.clear ();
+	m_NewObjects.clear ();
 	return count > 0;
+}
+
+void Document::ObjectLoaded (Object *obj)
+{
+	m_NewObjects.insert (obj);
 }
 
 std::string Document::Name ()

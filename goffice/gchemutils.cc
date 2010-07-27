@@ -82,6 +82,8 @@ static GtkWindow*
 go_gchemutils_component_edit (GOComponent *component)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
+	if (component->snapshot_type == GO_SNAPSHOT_SVG && strcmp (component->mime_type, "application/x-gchempaint"))
+		component->snapshot_type == GO_SNAPSHOT_PNG;
 	if (!gogcu->document) {
 		component->ascent = 1.;
 		component->descent = 0.;
@@ -117,6 +119,7 @@ go_gchemutils_component_init (GOComponent *component)
 	component->ascent = 1.;
 	component->descent = 0.;
 	component->width = 1.;
+	component->snapshot_type = GO_SNAPSHOT_SVG;
 }
 
 static void
@@ -148,6 +151,7 @@ go_plugin_init (GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
 	go_gchemutils_component_register_type (module);
 //	go_components_set_mime_suffix ("chemical/x-xyz", "*.xyz");
 	go_components_set_mime_suffix ("application/x-gchempaint", "*.gchempaint");
+	go_components_set_mime_suffix ("application/x-gcrystal", "*.gcrystal");
 	Apps["application/x-gchempaint"] = new GOGcpApplication ();
 	Apps["application/x-gcrystal"] = new GOGCrystalApplication ();
 //	go_components_set_mime_suffix ("application/x-gcrystal", "*.gcrystal");

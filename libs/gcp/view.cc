@@ -325,7 +325,7 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 	switch (*DataType) {
 	case GCP_CLIPBOARD_NATIVE:
 		xml = xmlParseMemory (data, length);
-		m_pDoc->AddData (xml->children->children);
+		m_pDoc->PasteData (xml->children->children);
 		xmlFreeDoc (xml);
 		break;
 	case GCP_CLIPBOARD_UTF8_STRING: {

@@ -579,6 +579,7 @@ bool Text::Load (xmlNodePtr node)
 		text->SetInterline (m_Interline);
 	}
 	m_bLoading = false;
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

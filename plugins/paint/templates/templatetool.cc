@@ -88,7 +88,7 @@ bool gcpTemplateTool::OnClicked ()
 	}
 	if (!m_Template)
 		return false;
-	pDoc->AddData (m_Template->node);
+	pDoc->PasteData (m_Template->node);
 	m_pObject = m_pData->SelectedObjects.front ();
 	if (m_Template->bond_length != 0.) { // if not, there is no bond...
 		double r = pDoc->GetBondLength () / m_Template->bond_length;
@@ -204,7 +204,7 @@ void gcpTemplateTool::OnChanged (GtkComboBox *combo)
 				gcp::Theme *pTheme = m_Template->doc->GetTheme ();
 				m_Template->doc->SetEditable (false);
 				m_Template->data =  (gcp::WidgetData*) g_object_get_data (G_OBJECT (m_Template->doc->GetView ()->CreateNewWidget ()), "data");
-				m_Template->doc->AddData (m_Template->node);
+				m_Template->doc->PasteData (m_Template->node);
 				m_Template->data->UnselectAll ();
 				m_Template->data->GetObjectBounds (m_Template->doc, &m_Template->rect);
 				m_Template->doc->Move (-m_Template->rect.x0 / pTheme->GetZoomFactor (), -m_Template->rect.y0 / pTheme->GetZoomFactor ());
@@ -420,7 +420,7 @@ void gcpNewTemplateToolDlg::SetTemplate (xmlNodePtr node)
 		xmlUnlinkNode (m_node);
 		xmlFreeNode (m_node);
 	}
-	pDoc->AddData (node);
+	pDoc->PasteData (node);
 	gccv::Rect rect;
 	char *buf = (char*) xmlGetProp (node, (const xmlChar*) "bond-length");
 	double r = 140. / strtod (buf, NULL);

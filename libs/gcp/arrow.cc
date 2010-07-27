@@ -94,6 +94,7 @@ bool Arrow::Load (xmlNodePtr node)
 		return false;
 	m_width -= m_x;
 	m_height -= m_y;
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

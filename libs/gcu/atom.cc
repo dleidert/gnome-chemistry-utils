@@ -208,6 +208,7 @@ bool Atom::Load (xmlNodePtr node)
 		m_Charge = 0;
 	if (!ReadPosition (node, NULL, &m_x, &m_y, &m_z) || (!LoadNode (node))) 
 		return false;
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

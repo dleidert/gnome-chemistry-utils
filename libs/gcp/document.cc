@@ -1270,7 +1270,7 @@ Operation* Document::GetNewOperation (OperationType type)
 	}
 }
 
-void Document::AddData (xmlNodePtr node)
+void Document::PasteData (xmlNodePtr node)
 {
 	xmlNodePtr child;
 	string str;

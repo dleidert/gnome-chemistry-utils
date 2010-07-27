@@ -249,6 +249,7 @@ bool Electron::Load (xmlNodePtr node)
 		xmlFree (buf);
 	} else
 		m_Dist = 0.;
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

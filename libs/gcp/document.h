@@ -313,9 +313,10 @@ menus according to the document state.
 /*!
 @param node the XML node representing objects to add to the document.
 
-Adds previously serialized objects  to the document.
+Adds previously serialized objects from the clipboard to the document. Links
+can be set only to or from pasted objects.
 */
-	void AddData (xmlNodePtr node);
+	void PasteData (xmlNodePtr node);
 /*!
 @return true if the undo stack is not empty.
 */

@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "mechanism-step.h"
+#include <gcu/document.h>
 #include <glib/gi18n.h>
 
 namespace gcp {
@@ -75,6 +76,7 @@ bool MechanismStep::Load (xmlNodePtr node)
 	m_bLoading = true;
 	bool res = gcu::Object::Load (node);
 	m_bLoading = false;
+	GetDocument ()->ObjectLoaded (this);
 	return res;
 }
 
