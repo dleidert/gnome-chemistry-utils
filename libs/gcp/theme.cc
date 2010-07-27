@@ -336,8 +336,6 @@ void ThemeManager::OnConfigChanged (GOConfNode *node, gchar const *name)
 {
 	Theme *theme = m_Themes["GChemPaint"];
 	char *buf = NULL;
-puts(name);
-puts(ROOTDIR "text-font-family");
 	GCU_UPDATE_KEY ("bond-length", float, DefaultBondLength, theme->m_BondLength = DefaultBondLength;)
 	GCU_UPDATE_KEY ("bond-angle", float, DefaultBondAngle, theme->m_BondAngle = DefaultBondAngle;)
 	GCU_UPDATE_KEY ("bond-dist", float, DefaultBondDist, theme->m_BondDist = DefaultBondDist;)

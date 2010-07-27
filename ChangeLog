@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/theme.cc: removed printf debug statements.
+	* libs/gcu/macros.h: updated API documentation.
+
 2010-07-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: export formal charges to OpenBabel. [#30547]
 	* libs/gcp/theme.cc: fixed a double free issue. [see #30495]
