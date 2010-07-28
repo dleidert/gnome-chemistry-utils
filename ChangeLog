@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-07-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/widgetdata.cc: really simplify selection.
+	* plugins/paint/selection/lassotool.cc: ditto.
+
 2010-07-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: implement SVG snapshot.
 	* libs/gcp/arrow.cc: ensure that links are correctly set when pasting data.

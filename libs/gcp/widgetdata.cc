@@ -234,7 +234,7 @@ bool WidgetData::ChildrenSelected (gcu::Object const *obj) const
 		for (j = SelectedObjects.begin (); j != end; j++)
 			if (*j == child)
 				break;
-		if (j == end || (child->HasChildren () && !ChildrenSelected (child)))
+		if (j == end && !ChildrenSelected (child))
 		    return false;
 	}
 	return true;

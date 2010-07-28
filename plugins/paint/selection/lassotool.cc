@@ -244,7 +244,6 @@ void gcpLassoTool::OnDrag ()
 void gcpLassoTool::OnRelease ()
 {
 	if (m_Item) {
-		AddSelection (m_pData);
 		/* try to simplify the selection: if an object is selected, check if all its
 		parent children are, and if yes select the parent and unselect the children */
 		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
@@ -258,6 +257,7 @@ void gcpLassoTool::OnRelease ()
 		std::set <gcu::Object *>::iterator j, jend = RealSelection.end ();
 		for (j = RealSelection.begin (); j != jend; j++)
 			m_pData->SetSelected (*j);
+		AddSelection (m_pData);
 	} else {
 		std::set <gcu::Object *> groups;
 		std::set <gcu::Object *>::iterator j, jend;
