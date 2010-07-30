@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-07-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: do not create empty molecules when pasting.
+	* libs/gcp/widgetdata.cc: do not select objects that can't exist standalone
+	as toplevel objects.
+
 2010-07-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/widgetdata.cc: really simplify selection.
 	* plugins/paint/selection/lassotool.cc: ditto.

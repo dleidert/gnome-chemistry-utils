@@ -248,6 +248,9 @@ gcu::Object *WidgetData::GetSelectedAncestor (gcu::Object *child)
 	Object *ancestor = GetSelectedAncestor (parent);
 	if (ancestor)
 		return ancestor;
+	// check if the object needs a specific parent and return NULL if so
+	if (!parent->GetDocument ()->GetApplication ()->GetRules (parent->GetType (), RuleMustBeIn).empty ())
+		return NULL;
 	return (ChildrenSelected (parent))? parent: NULL;
 }
 
