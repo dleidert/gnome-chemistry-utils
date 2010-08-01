@@ -376,6 +376,7 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 		dx = m_lastx - (rect.x0 + rect.x1) / 2.;
 		dy = m_lasty - (rect.y0 + rect.y1) / 2.;
 	}
+	m_pData->SimplifySelection ();
 	m_pData->MoveSelection (dx, dy);
 	Tool *pTool = pApp->GetTool ("Select");
 	if (pTool)

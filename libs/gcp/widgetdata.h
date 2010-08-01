@@ -227,6 +227,12 @@ Gets the object bounds in canvas coordinates.
 */
 	void GetObjectBounds (gcu::Object const *obj, gccv::Rect *rect) const;
 
+/*!
+Replace th selected objects by their parents if all parents children are
+selected.
+*/
+	void SimplifySelection ();
+
 private:
 	void MoveItems (gcu::Object *obj, double dx, double dy);
 	void GetObjectBounds (gcu::Object const* obj, gccv::Rect &rect) const;

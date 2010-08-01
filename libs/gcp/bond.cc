@@ -951,8 +951,10 @@ void Bond::AdjustPosition (double &x, double &y)
 void Bond::OnLoaded ()
 {
 	gcu::Bond::OnLoaded ();
-	if (m_Begin && m_End && GetParent ()->GetType () != MoleculeType)
-		new Molecule (static_cast <gcp::Atom *> (m_Begin));
+	if (m_Begin && m_End && GetParent ()->GetType () != MoleculeType) {
+		Object *obj = new Molecule (static_cast <gcp::Atom *> (m_Begin));
+		obj->SetDirty ();
+	}
 }
 
 }	//	namespace gcp

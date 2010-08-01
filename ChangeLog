@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-08-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: fixed more issues related to pasting a partial
+	selection.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcp/widgetdata.cc: ditto.
+	* libs/gcp/widgetdata.h: ditto.
+	* plugins/paint/selection/lassotool.cc: ditto.
+
 2010-07-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: do not create empty molecules when pasting.
 	* libs/gcp/widgetdata.cc: do not select objects that can't exist standalone

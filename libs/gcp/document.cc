@@ -874,7 +874,8 @@ xmlDocPtr Document::BuildXMLTree () const
 
 void Document::Update ()
 {
-	std::set<Object*>::iterator i,  end = m_DirtyObjects.end ();
+	std::set <Object *>::iterator i,  end = m_DirtyObjects.end ();
+	std::set <Object *> Deleted;
 	TypeId Id;
 	for (i = m_DirtyObjects.begin (); i != end; i++) {
 		Id = (*i)->GetType ();
@@ -882,8 +883,17 @@ void Document::Update ()
 		case gcu::BondType:
 			m_pView->Update ((Bond*) (*i));
 			break;
+		case gcu::MoleculeType:
+			if ((*i)->GetChildrenNumber() == 0)
+					Deleted.insert (*i);
+			break;
+		default:
+			break;
 		}
 	}
+	end = Deleted.end ();
+	for (i = Deleted.begin (); i != end; i++)
+		delete *i;
 	m_DirtyObjects.clear ();
 }
 	

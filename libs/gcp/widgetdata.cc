@@ -254,6 +254,21 @@ gcu::Object *WidgetData::GetSelectedAncestor (gcu::Object *child)
 	return (ChildrenSelected (parent))? parent: NULL;
 }
 
+void WidgetData::SimplifySelection ()
+{
+		std::list <Object *>::iterator i, end = SelectedObjects.end ();
+		std::set <Object *> RealSelection;
+		Object *parent;
+		for (i = SelectedObjects.begin (); i != end; i++) {
+			parent = GetSelectedAncestor (*i);
+			RealSelection.insert ((parent)? parent: *i);
+		}
+		UnselectAll ();
+		std::set <Object *>::iterator j, jend = RealSelection.end ();
+		for (j = RealSelection.begin (); j != jend; j++)
+			SetSelected (*j);
+}
+
 void WidgetData::Unselect (Object *obj)
 {
 	SelectedObjects.remove (obj);
