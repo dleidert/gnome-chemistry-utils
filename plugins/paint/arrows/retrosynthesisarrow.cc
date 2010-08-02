@@ -90,30 +90,35 @@ bool gcpRetrosynthesisArrow::Load (xmlNodePtr node)
 {
 	char *buf;
 	Object *parent;
+	gcu::Document *doc = GetDocument ();
 	if (gcp::Arrow::Load (node)) {
 		parent = GetParent ();
 		if (!parent)
 			return true;
 		buf = (char*) xmlGetProp (node, (xmlChar*) "start");
 		if (buf) {
-			m_Start = reinterpret_cast<gcpRetrosynthesisStep*> (parent->GetDescendant (buf));
+			doc->SetTarget (buf, reinterpret_cast <Object **> (&m_Start), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
-			if (!m_Start)
-				return false;
 		}
 		buf = (char*) xmlGetProp (node, (xmlChar*) "end");
 		if (buf) {
-			m_End = reinterpret_cast<gcpRetrosynthesisStep*> (parent->GetDescendant (buf));
+			doc->SetTarget (buf, reinterpret_cast <Object **> (&m_End), GetParent (), this, ActionIgnore);
 			xmlFree (buf);
-			if (!m_End)
-				return false;
-			m_End->AddArrow (this, m_Start, false);
 		}
 		if (m_Start)
 			m_Start->AddArrow (this, m_End, true);
+		doc->ObjectLoaded (this);
 		return true;
 	}
 	return false;
+}
+
+void gcpRetrosynthesisArrow::OnLoaded ()
+{
+	if (m_Start)
+		m_Start->AddArrow (this, m_End, false);
+	if (m_End)
+		m_End->AddArrow (this, m_Start, true);
 }
 
 void gcpRetrosynthesisArrow::AddItem ()

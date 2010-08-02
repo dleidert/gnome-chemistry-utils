@@ -269,12 +269,11 @@ bool gcpGroup::Load (xmlNodePtr node)
 				xmlFree (buf);
 			}
 			((gcp::Document*) GetDocument ())->GetView ()->AddObject (this);
-/*			gcp::WidgetData  *pData= (gcp::WidgetData*) g_object_get_data (G_OBJECT (((gcp::Document*) GetDocument ())->GetWidget ()), "data");
-			gnome_canvas_update_now (GNOME_CANVAS (pData->Canvas));*/
 			Align ();
 		}
 	}
 	Lock (false);
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

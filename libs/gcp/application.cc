@@ -313,6 +313,7 @@ Application::Application ():
 		ReactionStepType = AddType ("reaction-step", CreateReactionStep);
 		AddType ("reactant", CreateReactant, ReactantType);
 		AddType ("reaction-arrow", CreateReactionArrow, ReactionArrowType);
+		AddType ("reaction-operator", NULL, ReactionOperatorType);
 		ReactionPropType = AddType ("reaction-prop", CreateReactionProp);
 		MesomerType = AddType ("mesomer", CreateMesomer);
 		AddType ("mesomery", CreateMesomery, MesomeryType);
@@ -333,6 +334,7 @@ Application::Application ():
 		AddRule ("reaction-prop", RuleMustBeIn, "reaction-arrow");
 		AddRule ("reaction-prop", RuleMayContain, "molecule");
 		AddRule ("reaction-prop", RuleMayContain, "text");
+		AddRule ("reaction-operator", RuleMustBeIn, "reaction-step");
 		AddRule ("reactant", RuleMayContain, "molecule");
 		AddRule ("mesomer", RuleMustContain, "molecule");
 		AddRule ("mesomer", RuleMustBeIn, "mesomery");

@@ -133,9 +133,17 @@ xmlNodePtr ReactionStep::Save (xmlDocPtr xml) const
 	
 bool ReactionStep::Load (xmlNodePtr node)
 {
-	m_bLoading = true;
 	if (!Object::Load (node))
 		return false;
+	Document *pDoc = dynamic_cast <Document*> (GetDocument ());
+	pDoc->NotifyDirty (this);
+	pDoc->ObjectLoaded (this);
+	return true;
+}
+
+void ReactionStep::OnLoaded ()
+{
+	m_bLoading = true;
 	map<Object*, gccv::Rect> Objects;
 	map<double, Object*> Children;
 	gccv::Rect rect;
@@ -144,6 +152,7 @@ bool ReactionStep::Load (xmlNodePtr node)
 	Document *pDoc = dynamic_cast <Document*> (GetDocument ());
 	View *view = pDoc->GetView ();
 	Theme *pTheme = pDoc->GetTheme ();
+	view->Update (this);
 	WidgetData  *pData= view->GetData ();
 	map<double, Object*>::iterator im, endm;
 	double x, y, x0, y0, x1, y1;
@@ -177,10 +186,7 @@ bool ReactionStep::Load (xmlNodePtr node)
 		rect = Objects[pObj];
 		x+= rect.x1 - rect.x0;
 	}
-	view->Update (this);
 	m_bLoading = false;
-	pDoc->ObjectLoaded (this);
-	return true;
 }
 
 double ReactionStep::GetYAlign ()

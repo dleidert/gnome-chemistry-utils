@@ -88,6 +88,7 @@ bool gcpRetrosynthesisStep::Load(xmlNodePtr node)
 			return false;
 		map<string, Object*>::iterator i;
 		Molecule = reinterpret_cast<gcp::Molecule *> (GetFirstChild (i));
+		GetDocument ()->ObjectLoaded (this);
 		return true;
 	}
 	return false;

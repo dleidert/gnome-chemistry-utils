@@ -121,6 +121,7 @@ bool gcpRetrosynthesis::Load (xmlNodePtr node)
 	xmlFree (buf);
 	if (!Target)
 		return false;
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

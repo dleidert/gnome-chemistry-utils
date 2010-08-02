@@ -115,6 +115,7 @@ not anymore relevant.
 @return the localized object generic name.
 */
 	std::string Name ();
+	void OnLoaded ();
 
 private:
 	void CleanChildren ();

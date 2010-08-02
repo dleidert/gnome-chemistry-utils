@@ -357,6 +357,7 @@ bool gcpOrbital::Load (xmlNodePtr node)
 		m_Rotation = g_strtod (buf, NULL);
 		xmlFree (buf);
 	}
+	GetDocument ()->ObjectLoaded (this);
 	return true;
 }
 

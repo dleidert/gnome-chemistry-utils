@@ -154,6 +154,10 @@ bool Document::Loaded () throw (LoaderError)
 	}
 	m_PendingTable.clear ();
 	m_NewObjects.clear ();
+	// call OnLoaded for dirty objects
+	std::set <Object *>::iterator k, kend = m_DirtyObjects.end ();
+	for (k = m_DirtyObjects.begin (); k != kend; k++)
+		(*k)->OnLoaded ();
 	return count > 0;
 }
 
