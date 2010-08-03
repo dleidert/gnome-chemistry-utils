@@ -128,7 +128,7 @@ void gcpLassoTool::OnDrag ()
 							gcp::Atom *atom = static_cast <gcp::Atom *> (object);
 							switch (object->GetType ()) {
 							case gcu::FragmentType:
-									atom = static_cast <gcp::Fragment *> (object)->GetAtom ();
+								atom = static_cast <gcp::Fragment *> (object)->GetAtom ();
 							case gcu::AtomType: {
 								// go through the bonds and select them if both ends are selected
 								std::map<gcu::Atom*, gcu::Bond*>::iterator i;

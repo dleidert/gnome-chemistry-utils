@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/selection/bracketstool.cc: fully implement OnDrag().
+
 2010-08-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: prohibit a reaction operator partial slection
 	when the whole reaction is not selected.

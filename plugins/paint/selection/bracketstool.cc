@@ -27,7 +27,10 @@
 #include <gcu/message.h>
 #include <gcu/ui-builder.h>
 #include <gcp/application.h>
+#include <gcp/atom.h>
+#include <gcp/bond.h>
 #include <gcp/document.h>
+#include <gcp/fragment.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -70,22 +73,58 @@ void gcpBracketsTool::OnDrag ()
 	// all client top items are implemented as a child of the root
 	std::list <gccv::Item *>::iterator it;
 	gccv::Item *item = group->GetFirstChild (it);
-	double x0, x1, y0, y1;
+	double x0, x1, y0, y1, xmin, xmax, ymin, ymax;
+	m_Item->GetBounds (xmin, ymin, xmax, ymax);
 	gcu::Object *object;
 	m_pData->UnselectAll ();
+	std::set <gcu::Object *> linked_objects;
+	std::set <gcu::Object *>::iterator i, iend;
 	while (item) {
 		if (item != m_Item) {
 			item->GetBounds (x0, y0, x1, y1);
-			if ((x0 < m_x) && (y0 < m_y) && (x1 > m_x0) && (y1 > m_y0)) {
+			if ((x0 < xmax) && (y0 < ymax) && (x1 > xmin) && (y1 > ymin)) {
 				object = dynamic_cast <gcu::Object *> (item->GetClient ());
-				if (object) {
-					if (!m_pData->IsSelected (object))
+				if (object && object->GetCoords (&x0, &y0) && !m_pData->IsSelected (object)) {
+					x0 *= m_dZoomFactor;
+					y0 *= m_dZoomFactor;
+					if (x0 >= xmin && x0 <= xmax && y0 >= ymin && y0 <= ymax) {
 						m_pData->SetSelected (object);
+						gcp::Atom *atom = static_cast <gcp::Atom *> (object);
+						switch (object->GetType ()) {
+						case gcu::FragmentType:
+							atom = static_cast <gcp::Fragment *> (object)->GetAtom ();
+						case gcu::AtomType: {
+							// go through the bonds and select them if both ends are selected
+							std::map<gcu::Atom*, gcu::Bond*>::iterator i;
+							gcu::Bond *bond = atom->GetFirstBond (i);
+							while (bond) {
+								if (m_pData->IsSelected (bond->GetAtom (atom)))
+									m_pData->SetSelected (bond);
+								bond = atom->GetNextBond (i);
+							}
+						}
+						default: {
+							// go through the links and store them for later treatment
+							gcu::Object *linked_obj;
+							linked_obj = object->GetFirstLink (i);
+							while (linked_obj) {
+								linked_objects.insert (linked_obj);
+								linked_obj = object->GetNextLink (i);
+							}
+							break;
+						}
+						}		
+					}
 				}
 			}
 		}
 		item = group->GetNextChild (it);
 	}
+	// now check if linked objects have all their links selected, and, if yes, select theme_change
+	for (i = linked_objects.begin (), iend = linked_objects.end (); i != iend; i++)
+		if ((*i)->CanSelect ())
+			m_pData->SetSelected (*i);
+	m_pData->SimplifySelection ();
 }
 
 void gcpBracketsTool::OnRelease ()
