@@ -20,7 +20,7 @@
  * USA
  */
 
-#include <gcu/gcucrystalviewer.h>
+#include <gcr/gcrcrystalviewer.h>
 #include <gcu/chemistry.h>
 #include <glib.h>
 #include <gtk/gtk.h>
