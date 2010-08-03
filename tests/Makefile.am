@@ -9,6 +9,8 @@ LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 AM_CFLAGS = -I$(top_srcdir)/libs $(GCU_CFLAGS) -Werror-implicit-function-declaration
 DEFS += -DSRCDIR=\"$(TESTSSRCDIR)\"
 
+testgcrcrystalviewer_LDADD = $(top_builddir)/libs/gcr/libgcr-@GCU_API_VER@.la
+
 check_PROGRAMS = \
 	testgcuperiodic \
 	testgcrcrystalviewer \

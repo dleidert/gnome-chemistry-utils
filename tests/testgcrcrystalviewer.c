@@ -62,7 +62,7 @@ int main (int argc, char *argv[])
 		filename = SRCDIR"/nickel.gcrystal";
 	xml = xmlParseFile (filename);
 	
-	viewer = gcu_crystal_viewer_new (xml->children);
+	viewer = gcr_crystal_viewer_new (xml->children);
 	gtk_container_add (GTK_CONTAINER (window), viewer);
 	gtk_widget_show_all (window);
 

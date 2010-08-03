@@ -1,6 +1,12 @@
 ##Text encoding: utf-8
 
 2010-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/item.cc: fixed a compilation warning.
+	* libs/gccv/item.h: doc typo.
+	* tests/Makefile.am: make testgcrcrystalviewer build.
+	* tests/testgcrcrystalviewer.c (main): ditto.
+
+2010-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/selection/bracketstool.cc: fully implement OnDrag().
 
 2010-08-02  Jean Bréfort  <jean.brefort@normalesup.org>

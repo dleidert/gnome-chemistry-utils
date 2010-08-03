@@ -156,7 +156,7 @@ returns G_MAXDOUBLE.
 /*!
 @param cr a cairo_t.
 
-Builds the cairo path corresponding to the Item bounds. Don't draw anything.
+Builds the cairo path corresponding to the Item bounds. Doesn't draw anything.
 */
 	virtual void BuildPath (cairo_t *cr) const;
 /*!
