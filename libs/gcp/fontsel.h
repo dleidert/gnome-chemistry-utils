@@ -34,17 +34,17 @@ G_BEGIN_DECLS
 typedef struct _GcpFontSel GcpFontSel;
 
 /*!@return the GType associated to GcpFontSel */
-#define GCP_FONT_SEL_TYPE     (gcp_font_sel_get_type ())
+#define GCP_TYPE_FONT_SEL     (gcp_font_sel_get_type ())
 /*!
 Casts \a obj to a GcpFontSel * pointer.
 @return a pointer to the GcpFontSel * or NULL if \a obj does not point to 
 a GcpFontSel widget.
 */
-#define GCP_FONT_SEL(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCP_FONT_SEL_TYPE, GcpFontSel))
+#define GCP_FONT_SEL(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCP_TYPE_FONT_SEL, GcpFontSel))
 /*!
 \return TRUE if \a obj points to a GcpFontSel widget, FALSE otherwise.
 */
-#define IS_GCP_FONT_SEL(obj)  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GCP_FONT_SEL_TYPE))
+#define IS_GCP_FONT_SEL(obj)  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GCP_TYPE_FONT_SEL))
 
 /*!@return the GType associated to GcpFontSel */
 GType gcp_font_sel_get_type (void);
@@ -84,6 +84,9 @@ There are six properties:
 
 - "size": int (Read / Write).
 	<br>The font size expressed in pango units. Default is 12*PANGO_SCALE.
+
+- "allow-slanted": gboolean (Construct only).
+	<br>Whether to allow slanted fonts. Default is TRUE.
 */
 
 G_END_DECLS

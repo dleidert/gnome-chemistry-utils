@@ -55,6 +55,7 @@ struct _GcpFontSel {
 	PangoStretch Stretch;
 	PangoVariant Variant;
 	int Size;
+	bool AllowSlanted;
 };
 
 typedef struct {
@@ -93,7 +94,8 @@ enum {
 	FONT_SEL_PROP_WEIGHT,
 	FONT_SEL_PROP_STRETCH,
 	FONT_SEL_PROP_VARIANT,
-	FONT_SEL_PROP_SIZE
+	FONT_SEL_PROP_SIZE,
+	FONT_SEL_PROP_ALLOW_SLANTED
 };
 
 enum {
@@ -190,6 +192,9 @@ gcp_font_sel_get_property (GObject *obj, guint param_id,
 	case FONT_SEL_PROP_SIZE:
 		g_value_set_int (value, fs->Size);
 		break;
+	case FONT_SEL_PROP_ALLOW_SLANTED:
+		g_value_set_int (value, fs->AllowSlanted);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return;
 	}
@@ -272,6 +277,9 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 		fs->Size = g_value_get_int (value);
 		gcp_font_sel_set_size_full (fs, true);
 		return;
+	case FONT_SEL_PROP_ALLOW_SLANTED:
+		fs->AllowSlanted = g_value_get_boolean (value);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return;
 	}
@@ -318,6 +326,10 @@ gcp_font_sel_class_init (GcpFontSelClass *klass)
 			_("The font size (in pango units)"),
 			0, G_MAXINT, 12 * PANGO_SCALE,
 			(GParamFlags) G_PARAM_READWRITE));
+	g_object_class_install_property (object_class, FONT_SEL_PROP_ALLOW_SLANTED,
+		g_param_spec_boolean ("allow-slanted", _("Allow slanted fonts"),
+			_("Whether to allow slanted fonts"),
+			TRUE, (GParamFlags) (G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY)));
 
 	gcp_font_sel_signals [CHANGED] = g_signal_new ("changed",
 		G_TYPE_FROM_CLASS (klass),
@@ -359,25 +371,26 @@ static void on_select_family (GtkTreeSelection *selection, GcpFontSel *fs)
 	for (i = 0; i < nb; i++) {
 		name = pango_font_face_get_face_name (faces[i]);
 		desc = pango_font_face_describe (faces[i]);
-		fs->Faces[name] = (PangoFontFace*) g_object_ref (faces[i]);
-		gtk_list_store_append (fs->FaceList, &iter);
-		gtk_list_store_set (fs->FaceList, &iter,
-				  0, name,
-				  -1);
 		// Try to select the best available face
 		Style = pango_font_description_get_style (desc);
-		Weight = pango_font_description_get_weight (desc);
-		Variant = pango_font_description_get_variant (desc);
-		Stretch = pango_font_description_get_stretch (desc);
-		distance = abs (Weight - fs->Weight)
-						+ abs ((Style? Style + 2: 0) - (fs->Style? fs->Style + 2: 0)) * 1000
-						+ abs (Variant - fs->Variant) * 10 + abs (Stretch - fs->Stretch);
-		if (distance < best) {
-			best = distance;
-			selected = iter;
-			besti = i;
+		if (fs->AllowSlanted || Style == PANGO_STYLE_NORMAL) {
+			fs->Faces[name] = (PangoFontFace*) g_object_ref (faces[i]);
+			gtk_list_store_append (fs->FaceList, &iter);
+			gtk_list_store_set (fs->FaceList, &iter,
+					  0, name,
+					  -1);
+			Weight = pango_font_description_get_weight (desc);
+			Variant = pango_font_description_get_variant (desc);
+			Stretch = pango_font_description_get_stretch (desc);
+			distance = abs (Weight - fs->Weight)
+							+ abs ((Style? Style + 2: 0) - (fs->Style? fs->Style + 2: 0)) * 1000
+							+ abs (Variant - fs->Variant) * 10 + abs (Stretch - fs->Stretch);
+			if (distance < best) {
+				best = distance;
+				selected = iter;
+				besti = i;
+			}
 		}
-		// TODO: write this code
 		pango_font_description_free (desc);
 	}
 	g_free (faces);
@@ -548,6 +561,7 @@ gcp_font_sel_init (GcpFontSel *fs)
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 	g_free (families);
+	fs->AllowSlanted = true;
 }
 
 GSF_CLASS (GcpFontSel, gcp_font_sel,

@@ -30,6 +30,7 @@
 #include <gcp/atom.h>
 #include <gcp/bond.h>
 #include <gcp/document.h>
+#include <gcp/fontsel.h>
 #include <gcp/fragment.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
@@ -142,6 +143,10 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 		box = builder->GetComboBox ("used-box");
 		gtk_combo_box_set_active (box, m_Used);
 		g_signal_connect (box, "changed", G_CALLBACK (gcpBracketsTool::OnUsedChanged), this);
+		GtkBox *fbox = GTK_BOX (builder->GetWidget ("font-box"));
+		GtkWidget *widget = GTK_WIDGET (g_object_new (GCP_TYPE_FONT_SEL, "allow-slanted", false, NULL));
+		gtk_box_pack_start (fbox, widget, false, true, 0);
+		gtk_widget_show_all (widget);
 
 		GtkWidget *res = builder->GetRefdWidget ("brackets");
 		delete builder;

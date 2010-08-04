@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-08-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post branching version bump (0.13.1). 
+	* libs/gcp/fontsel.cc: add a new property: "allow-slanted".
+	* libs/gcp/fontsel.h: ditto and fixed a type macro.
+	* libs/gcp/preferences.cc: use fixed a type macro.
+	* plugins/paint/selection/bracketstool.cc: add an font selector not
+	allowing slanted fonts.
+
 2010-08-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/item.cc: fixed a compilation warning.
 	* libs/gccv/item.h: doc typo.

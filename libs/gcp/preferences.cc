@@ -321,12 +321,12 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	m_HashDistBtn = GTK_SPIN_BUTTON (GetWidget ("hash-dist-btn"));
 	g_signal_connect (G_OBJECT (m_HashDistBtn), "value-changed", G_CALLBACK (on_hash_dist_changed), this);
 	// add font selector
-	m_FontSel = GCP_FONT_SEL (g_object_new (GCP_FONT_SEL_TYPE, NULL));
+	m_FontSel = GCP_FONT_SEL (g_object_new (GCP_TYPE_FONT_SEL, NULL));
 	w = GetWidget ("atom-font-box");
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_FontSel), true, true, 0);
 	m_FontChanged = g_signal_connect (G_OBJECT (m_FontSel), "changed", G_CALLBACK (on_font_changed), this);
 	// add text font selector
-	m_TextFontSel = GCP_FONT_SEL (g_object_new (GCP_FONT_SEL_TYPE, NULL));
+	m_TextFontSel = GCP_FONT_SEL (g_object_new (GCP_TYPE_FONT_SEL, NULL));
 	w = GetWidget ("text-box");
 	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (m_TextFontSel), true, true, 0);
 	m_TextFontChanged = g_signal_connect (G_OBJECT (m_TextFontSel), "changed", G_CALLBACK (on_text_font_changed), this);
