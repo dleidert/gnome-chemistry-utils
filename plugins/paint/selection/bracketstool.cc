@@ -144,9 +144,10 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 		gtk_combo_box_set_active (box, m_Used);
 		g_signal_connect (box, "changed", G_CALLBACK (gcpBracketsTool::OnUsedChanged), this);
 		GtkBox *fbox = GTK_BOX (builder->GetWidget ("font-box"));
-		GtkWidget *widget = GTK_WIDGET (g_object_new (GCP_TYPE_FONT_SEL, "allow-slanted", false, NULL));
+		GtkWidget *widget = GTK_WIDGET (g_object_new (GCP_TYPE_FONT_SEL, "allow-slanted", false, "label", "{[()]}", NULL));
 		gtk_box_pack_start (fbox, widget, false, true, 0);
 		gtk_widget_show_all (widget);
+		m_FontSel = reinterpret_cast <GcpFontSel *> (widget);
 
 		GtkWidget *res = builder->GetRefdWidget ("brackets");
 		delete builder;
@@ -175,4 +176,16 @@ void gcpBracketsTool::OnTypeChanged (GtkComboBox *box, gcpBracketsTool *tool)
 void gcpBracketsTool::OnUsedChanged (GtkComboBox *box, gcpBracketsTool *tool)
 {
 	tool->m_Used = static_cast <gcpBracketsUsed> (gtk_combo_box_get_active (box));
+}
+
+void gcpBracketsTool::Activate ()
+{
+	gcp::Theme *theme = m_pApp->GetActiveDocument ()->GetTheme ();
+	g_object_set (G_OBJECT (m_FontSel),
+					"family", theme->GetTextFontFamily (),
+					"weight", theme->GetTextFontWeight (),
+					"variant", theme->GetTextFontVariant (),
+					"stretch", theme->GetTextFontStretch (),
+					"size", theme->GetTextFontSize (),
+					NULL);
 }

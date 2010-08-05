@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-08-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: make the crystal component use a window.
+	* libs/gcp/fontsel.cc: add a new "label" property.
+	* libs/gcp/fontsel.h:
+	* plugins/paint/selection/bracketstool.cc: set the current font in the
+	properties page.
+	* plugins/paint/selection/bracketstool.h: ditto.
+
 2010-08-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post branching version bump (0.13.1). 
 	* libs/gcp/fontsel.cc: add a new property: "allow-slanted".

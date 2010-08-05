@@ -87,6 +87,9 @@ There are six properties:
 
 - "allow-slanted": gboolean (Construct only).
 	<br>Whether to allow slanted fonts. Default is TRUE.
+
+- "label": string (Read / Write).
+	<br>The preview text. Default is the font description.
 */
 
 G_END_DECLS

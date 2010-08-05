@@ -56,6 +56,7 @@ struct _GcpFontSel {
 	PangoVariant Variant;
 	int Size;
 	bool AllowSlanted;
+	char *LabelText;
 };
 
 typedef struct {
@@ -95,7 +96,8 @@ enum {
 	FONT_SEL_PROP_STRETCH,
 	FONT_SEL_PROP_VARIANT,
 	FONT_SEL_PROP_SIZE,
-	FONT_SEL_PROP_ALLOW_SLANTED
+	FONT_SEL_PROP_ALLOW_SLANTED,
+	FONT_SEL_PROP_LABEL
 };
 
 enum {
@@ -103,6 +105,8 @@ enum {
 	LAST_SIGNAL
 };
 static gulong gcp_font_sel_signals [LAST_SIGNAL] = { 0, };
+
+static GObjectClass *font_sel_parent_class;
 
 static void gcp_font_sel_set_label (GcpFontSel *fs)
 {
@@ -114,7 +118,7 @@ static void gcp_font_sel_set_label (GcpFontSel *fs)
 	pango_font_description_set_stretch (fd, fs->Stretch);
 	pango_font_description_set_size (fd, fs->Size);
 	char *name = pango_font_description_to_string (fd);
-	char *markup = g_markup_printf_escaped ("<span font_desc=\"%s\">%s</span>", name, name);
+	char *markup = g_markup_printf_escaped ("<span font_desc=\"%s\">%s</span>", name, fs->LabelText? fs->LabelText: name);
 	gtk_label_set_markup (fs->Label, markup);
 	g_free (name);
 	g_free (markup);
@@ -195,6 +199,9 @@ gcp_font_sel_get_property (GObject *obj, guint param_id,
 	case FONT_SEL_PROP_ALLOW_SLANTED:
 		g_value_set_int (value, fs->AllowSlanted);
 		break;
+	case FONT_SEL_PROP_LABEL:
+		g_value_set_string (value, fs->LabelText? fs->LabelText: "");
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return;
 	}
@@ -245,15 +252,14 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case FONT_SEL_PROP_FAMILY:
-		if (fs->FamilyName)
-			g_free (fs->FamilyName);
+		g_free (fs->FamilyName);
 		fs->FamilyName = g_strdup (g_value_get_string (value));
 		GtkTreeIter iter;
 		char *buf;
 		gtk_tree_model_get_iter_first (GTK_TREE_MODEL (fs->FamilyList), &iter);
 		do {
 			gtk_tree_model_get (GTK_TREE_MODEL (fs->FamilyList), &iter, 0, &buf, -1);
-			if (!strcmp (fs->FamilyName, buf)) {
+			if (!strcmp (fs->FamilyName, buf)) {				
 				GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (fs->FamilyList), &iter);
 				gtk_tree_view_set_cursor (fs->FamilyTree, path, NULL, FALSE);
 				gtk_tree_view_scroll_to_cell (fs->FamilyTree, path, NULL, FALSE, 0., 0.);
@@ -279,7 +285,16 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 		return;
 	case FONT_SEL_PROP_ALLOW_SLANTED:
 		fs->AllowSlanted = g_value_get_boolean (value);
+		if (!fs->AllowSlanted) {
+			// remove fonts that are always slanted
+		}
 		break;
+	case FONT_SEL_PROP_LABEL: {
+		char const *lbl = g_value_get_string (value);
+		g_free (fs->LabelText);
+		fs->LabelText = (lbl && *lbl)? g_strdup (lbl): NULL;
+		return;
+	}
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return;
 	}
@@ -287,13 +302,23 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 }
 
 static void
+gcp_font_sel_finalize (GObject *obj)
+{
+	GcpFontSel *fs = GCP_FONT_SEL (obj);
+	g_free (fs->LabelText);
+	font_sel_parent_class->finalize (obj);
+}
+
+static void
 gcp_font_sel_class_init (GcpFontSelClass *klass)
 {
 	GObjectClass *object_class = (GObjectClass*) klass;
 	GtkWidgetClass *widget_class = (GtkWidgetClass *) klass;
+	font_sel_parent_class = (GObjectClass*) g_type_class_peek_parent (klass);
 
 	object_class->get_property = gcp_font_sel_get_property;
 	object_class->set_property = gcp_font_sel_set_property;
+	object_class->finalize = gcp_font_sel_finalize;
 
 	widget_class->size_request = gcp_font_sel_size_request;
 	widget_class->size_allocate = gcp_font_sel_size_allocate;
@@ -330,6 +355,10 @@ gcp_font_sel_class_init (GcpFontSelClass *klass)
 		g_param_spec_boolean ("allow-slanted", _("Allow slanted fonts"),
 			_("Whether to allow slanted fonts"),
 			TRUE, (GParamFlags) (G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY)));
+	g_object_class_install_property (object_class, FONT_SEL_PROP_LABEL,
+		g_param_spec_string ("label", _("Label"),
+			_("Preview label"),
+			"", (GParamFlags) G_PARAM_READWRITE));
 
 	gcp_font_sel_signals [CHANGED] = g_signal_new ("changed",
 		G_TYPE_FROM_CLASS (klass),

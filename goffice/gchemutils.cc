@@ -82,8 +82,6 @@ static GtkWindow*
 go_gchemutils_component_edit (GOComponent *component)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (component);
-	if (component->snapshot_type == GO_SNAPSHOT_SVG && strcmp (component->mime_type, "application/x-gchempaint"))
-		component->snapshot_type == GO_SNAPSHOT_PNG;
 	if (!gogcu->document) {
 		component->ascent = 1.;
 		component->descent = 0.;
@@ -99,6 +97,22 @@ go_gchemutils_component_edit (GOComponent *component)
 			return NULL;
 	}
 	return gogcu->application->EditDocument (gogcu);
+}
+
+static void
+go_gchemutils_component_mime_type_set (GOComponent *component)
+{
+	if (!strcmp (component->mime_type, "application/x-gcrystal")) {
+		component->needs_window = true;
+		component->snapshot_type = GO_SNAPSHOT_PNG;
+	}
+}
+
+static void
+go_gchemutils_component_set_window (GOComponent *component)
+{
+	if (!strcmp (component->mime_type, "application/x-gcrystal")) {
+	}
 }
 
 static void
@@ -134,6 +148,8 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 	klass->set_data = go_gchemutils_component_set_data;
 	klass->render = go_gchemutils_component_render;
 	klass->edit = go_gchemutils_component_edit;
+	klass->mime_type_set = go_gchemutils_component_mime_type_set;
+	klass->set_window = go_gchemutils_component_set_window;
 }
 
 GSF_DYNAMIC_CLASS (GOGChemUtilsComponent, go_gchemutils_component,
