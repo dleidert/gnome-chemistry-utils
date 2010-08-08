@@ -287,6 +287,32 @@ gcp_font_sel_set_property (GObject *obj, guint param_id,
 		fs->AllowSlanted = g_value_get_boolean (value);
 		if (!fs->AllowSlanted) {
 			// remove fonts that are always slanted
+			GtkTreeIter iter;
+			GtkTreeModel *model = GTK_TREE_MODEL (fs->FamilyList);
+			char *family_name;
+			PangoFontFamily *family;
+			PangoFontFace **faces;
+			PangoFontDescription *desc;
+			PangoStyle style;
+			int i, nb;
+			bool valid = gtk_tree_model_get_iter_first (model, &iter);
+			while (valid) {
+				gtk_tree_model_get (model, &iter, 0, &family_name, -1);
+				// get the faces
+				family = fs->Families[family_name];
+				pango_font_family_list_faces (family, &faces, &nb);
+				for (i = 0; i < nb; i++) {
+					desc = pango_font_face_describe (faces[i]);
+					style = pango_font_description_get_style (desc);
+					pango_font_description_free (desc);
+					if (style == PANGO_STYLE_NORMAL)
+						break;
+				}
+				valid = (i == nb)?
+						gtk_list_store_remove (fs->FamilyList, &iter):
+						gtk_tree_model_iter_next (model, &iter);
+				g_free (family_name);
+			}
 		}
 		break;
 	case FONT_SEL_PROP_LABEL: {

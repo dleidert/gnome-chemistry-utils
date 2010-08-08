@@ -817,6 +817,7 @@ bool Fragment::Load (xmlNodePtr node)
 	}
 	m_bLoading = false;
 	pDoc->ObjectLoaded (this);
+	pDoc->ObjectLoaded (m_Atom);
 	return true;
 }
 

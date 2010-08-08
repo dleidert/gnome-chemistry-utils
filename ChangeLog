@@ -1,9 +1,15 @@
 ##Text encoding: utf-8
 
+2010-08-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcpapp.cc: fixed a memory leak.
+	* goffice/gogcrystalapp.cc: import the document.
+	* libs/gcp/fontsel.cc: remove slanted fonts when requested.
+	* libs/gcp/fragment.cc: fix loading.
+
 2010-08-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: make the crystal component use a window.
 	* libs/gcp/fontsel.cc: add a new "label" property.
-	* libs/gcp/fontsel.h:
+	* libs/gcp/fontsel.h: ditto.
 	* plugins/paint/selection/bracketstool.cc: set the current font in the
 	properties page.
 	* plugins/paint/selection/bracketstool.h: ditto.

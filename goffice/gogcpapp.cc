@@ -57,28 +57,30 @@ gcu::Document *GOGcpApplication::ImportDocument (const string& mime_type, const 
 	char *old_num_locale, *old_time_locale;
 	if (mime_type == "application/x-gchempaint") {
 		xmlDocPtr xml;
-		if (!(xml = xmlParseMemory(data, length)) ||
+		if (!(xml = xmlParseMemory (data, length)) ||
 			xml->children == NULL ||
-			strcmp((char*)xml->children->name, "chemistry"))
+			strcmp(reinterpret_cast <char const *> (xml->children->name), "chemistry")) {
+			xmlFreeDoc (xml);
 			return NULL;
+		}
 		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-		setlocale(LC_NUMERIC, "C");
+		setlocale (LC_NUMERIC, "C");
 		old_time_locale = g_strdup (setlocale (LC_TIME, NULL));
-		setlocale(LC_TIME, "C");
-		pDoc = new gcp::Document(this, false);
+		setlocale (LC_TIME, "C");
+		pDoc = new gcp::Document (this, false);
 		pDoc->GetView ()->CreateNewWidget ();
-		bool result = pDoc->Load(xml->children);
-		setlocale(LC_NUMERIC, old_num_locale);
-		g_free(old_num_locale);
-		setlocale(LC_TIME, old_time_locale);
-		g_free(old_time_locale);
-		if (!result)
-		{
+		bool result = pDoc->Load (xml->children);
+		setlocale (LC_NUMERIC, old_num_locale);
+		g_free (old_num_locale);
+		setlocale (LC_TIME, old_time_locale);
+		g_free (old_time_locale);
+		xmlFreeDoc (xml);
+		if (!result) {
 			delete pDoc;
 			return NULL;
 		}
 	} else {
-	}
+	}	
 	return (pDoc);
 }
 
