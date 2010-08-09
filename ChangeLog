@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-08-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcrystalapp.cc: do not use setlocale when loading a gcrystal
+	file.
+	* libs/gcr/document.cc: ditto.
+	* libs/gcu/xml-utils.cc: ditto.
+	* libs/gcu/xml-utils.h: ditto.
+	* programs/crystal/document.cc: ditto.
+
 2010-08-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcpapp.cc: fixed a memory leak.
 	* goffice/gogcrystalapp.cc: import the document.

@@ -57,25 +57,25 @@ bool ReadPosition (xmlNodePtr node, const char* id, double* x, double* y, double
 {
 	xmlNodePtr child = FindNodeByNameAndId (node, "position", id);
 	if (!child) return false;
-	char* tmp;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "x");
-	if (tmp) {
-		sscanf (tmp, "%lg", x);
-		xmlFree (tmp);
+	char* buf;
+	buf = reinterpret_cast <char *> (xmlGetProp (child, (xmlChar*) "x"));
+	if (buf) {
+		*x = g_ascii_strtod (buf, NULL);
+		xmlFree (buf);
 	} else
 		return false;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "y");
-	if (tmp) {
-		sscanf (tmp, "%lg", y);
-		xmlFree (tmp);
+	buf = reinterpret_cast <char *> (xmlGetProp (child, (xmlChar*) "y"));
+	if (buf) {
+		*y = g_ascii_strtod (buf, NULL);
+		xmlFree (buf);
 	} else
 		return false;
 	if (z) 
 	{
-		tmp = (char*) xmlGetProp (child, (xmlChar*) "z");
-		if (tmp) {
-			sscanf (tmp, "%lg", z);
-			xmlFree (tmp);
+		buf = reinterpret_cast <char *> (xmlGetProp (child, (xmlChar*) "z"));
+		if (buf) {
+			*z = g_ascii_strtod (buf, NULL);
+			xmlFree (buf);
 		} else
 			*z = 0.0;
 	}
@@ -85,131 +85,87 @@ bool ReadPosition (xmlNodePtr node, const char* id, double* x, double* y, double
 bool WritePosition (xmlDocPtr xml, xmlNodePtr node, const char* id, double x, double y, double z)
 {
 	xmlNodePtr child;
-	char buf[16];
-	child = xmlNewDocNode (xml, NULL, (xmlChar*) "position", NULL);
+	child = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("position"), NULL);
 	if (child)
 		xmlAddChild (node, child);
 	else
 		return false;
 	if (id)
-		xmlNewProp (child, (xmlChar*) "id", (xmlChar*) id);
-	snprintf (buf, sizeof (buf), "%g", x);
-	xmlNewProp (child, (xmlChar*) "x", (xmlChar*) buf);
-	snprintf (buf, sizeof (buf), "%g", y);
-	xmlNewProp (child, (xmlChar*) "y", (xmlChar*) buf);
-	if (z != 0.0) {
-		snprintf (buf, sizeof (buf), "%g", z);
-		xmlNewProp (child, (xmlChar*) "z", (xmlChar*) buf);
-	}
+		xmlNewProp (child, reinterpret_cast <xmlChar const *> ("id"), reinterpret_cast <xmlChar const *> (id));
+	WriteFloat (child, "x", x);
+	WriteFloat (child, "y", y);
+	if (z != 0.0)
+		WriteFloat (child, "z", z);
 	return true;
 }
 
 bool ReadColor (xmlNodePtr node, const char* id, float* red, float* green, float* blue, float* alpha)
 {
 	xmlNodePtr child = FindNodeByNameAndId (node, "color", id);
-	if (!child) return false;
-	char* tmp;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "red");
-	if (tmp) {
-		sscanf (tmp, "%g", red);
-		xmlFree (tmp);
-	} else
+	double buf;
+	if (!child)
 		return false;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "green");
-	if (tmp) {
-		sscanf (tmp, "%g", green);
-		xmlFree (tmp);
-	} else
+	if (!ReadFloat (child, "red", buf))
 		return false;
-	tmp = (char*) xmlGetProp (child, (xmlChar*) "blue");
-	if (tmp) {
-		sscanf (tmp, "%g", blue);
-		xmlFree (tmp);
-	} else
+	*red = buf;
+	if (!ReadFloat (child, "green", buf))
 		return false;
-	if (alpha) 
-	{
-		tmp = (char*) xmlGetProp (child, (xmlChar*) "alpha");
-		if (tmp) {
-			sscanf (tmp, "%g", alpha);
-		xmlFree (tmp);
-		} else
-			*alpha = 1.0;
-	}
+	*green = buf;
+	if (!ReadFloat (child, "blue", buf))
+		return false;
+	*blue = buf;
+	if (alpha)
+		*alpha = (ReadFloat (child, "alpha", buf))? buf: 1.0;
 	return true;
 }
 
 bool WriteColor (xmlDocPtr xml, xmlNodePtr node, const char* id, double red, double green, double blue, double alpha)
 {
 	xmlNodePtr child;
-	char buf[16];
 	child = xmlNewDocNode (xml, NULL, (xmlChar*) "color", NULL);
-	if (child) xmlAddChild (node, child); else return false;
-	if (id) xmlNewProp (child, (xmlChar*) "id", (xmlChar*) id);
-	snprintf (buf, sizeof (buf), "%g", red);
-	xmlNewProp (child, (xmlChar*) "red", (xmlChar*) buf);
-	snprintf (buf, sizeof (buf), "%g", green);
-	xmlNewProp (child, (xmlChar*) "green", (xmlChar*) buf);
-	snprintf (buf, sizeof (buf), "%g", blue);
-	xmlNewProp (child, (xmlChar*) "blue", (xmlChar*) buf);
+	if (child)
+		xmlAddChild (node, child);
+	else
+		return false;
+	if (id)
+		xmlNewProp (child, (xmlChar*) "id", (xmlChar*) id);
+	WriteFloat (child, "red", red);
+	WriteFloat (child, "green", green);
+	WriteFloat (child, "blue", blue);
 	if (alpha != 1.0)
-	{
-		snprintf (buf, sizeof (buf), "%g", alpha);
-		xmlNewProp (child, (xmlChar*) "alpha", (xmlChar*) buf);
-	}
+		WriteFloat (child, "alpha", alpha);
 	return true;
 }
 
 GOColor ReadColor (xmlNodePtr node)
 {
-	char *buf;
+	double buf;
 	unsigned char red = 0, green = 0, blue = 0, alpha = 0xff;
-	buf = reinterpret_cast <char *> (xmlGetProp(node, (xmlChar*) "red"));
-	if (buf) {
-		red = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
-		xmlFree (buf);
-	}
-	buf = reinterpret_cast <char *> (xmlGetProp(node, (xmlChar*) "green"));
-	if (buf) {
-		green = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
-		xmlFree (buf);
-	}
-	buf = reinterpret_cast <char *> (xmlGetProp(node, (xmlChar*) "blue"));
-	if (buf) {
-		blue = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
-		xmlFree (buf);
-	}
-	buf = reinterpret_cast <char *> (xmlGetProp(node, (xmlChar*) "alpha"));
-	if (buf) {
-		alpha = static_cast <unsigned char> (strtod (buf, NULL) * 0xff);
-		xmlFree (buf);
-	}
+	if (ReadFloat (node, "red", buf))
+		red = buf * 0xff;
+	if (ReadFloat (node, "green", buf))
+		green = buf * 0xff;
+	if (ReadFloat (node, "blue", buf))
+		blue = buf * 0xff;
+	if (ReadFloat (node, "alpha", buf))
+		alpha = buf * 0xff;
 	return GO_COLOR_FROM_RGBA (red, green, blue, alpha);
 }
 
 void WriteColor (xmlNodePtr node, GOColor color)
 {
 	unsigned field = GO_COLOR_UINT_R (color);
-	char *buf;
-	if (field) {
-		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
-		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("red"), reinterpret_cast <xmlChar *> (buf));
-	}
+	if (field)
+		WriteFloat (node, "red", static_cast <double> (field) / 0xff);
 	field = GO_COLOR_UINT_G (color);
-	if (field) {
-		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
-		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("green"), reinterpret_cast <xmlChar *> (buf));
-	}
+	if (field)
+		WriteFloat (node, "green", static_cast <double> (field) / 0xff);
 	field = GO_COLOR_UINT_B (color);
-	if (field) {
-		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
-		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("blue"), reinterpret_cast <xmlChar *> (buf));
-	}
+	if (field)
+		WriteFloat (node, "blue", static_cast <double> (field) / 0xff);
 	field = GO_COLOR_UINT_A (color);
-	if (field != 0xff) {
-		buf = g_strdup_printf ("%g", static_cast <double> (field) / 0xff);
-		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("alpha"), reinterpret_cast <xmlChar *> (buf));
-	}
+	if (field != 0xff)
+		WriteFloat (node, "alpha", static_cast <double> (field) / 0xff);
 }
 
 bool ReadRadius (xmlNodePtr node, GcuAtomicRadius& radius)
@@ -365,6 +321,30 @@ bool ReadFloat (xmlNodePtr node, char const *name, double &value, double default
 	}
 	xmlFree (buf);
 	return true;                           
+}
+
+void WriteDate (xmlNodePtr node, char const *name, GDate const *date)
+{
+	char buf[64];
+	if (!g_date_valid (date))
+		return;
+	g_date_strftime (buf, sizeof (buf), "%m/%d/%Y", date);
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> (name), reinterpret_cast <xmlChar const *> (buf));
+}
+
+bool ReadDate (xmlNodePtr node, char const *name, GDate *date)
+{
+	xmlChar *buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> (name));
+	unsigned d, m, y;
+	if (buf && sscanf (reinterpret_cast <char const *> (buf), "%2u/%2u/%4u", &m, &d, &y)) {
+		xmlFree (buf);
+		g_date_set_dmy (date, d, static_cast <GDateMonth> (m), y);
+		bool res = g_date_valid (date);
+		if (!res)
+			g_date_clear (date, 1);
+		return res;
+	} else
+		return false;
 }
 
 }	//	namespace gcu

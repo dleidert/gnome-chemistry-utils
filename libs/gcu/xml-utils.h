@@ -161,22 +161,45 @@ char const *GetStaticScale (char *buf);
 @param name the property name.
 @param value the value for the property.
 
-Adds \a value as a property with name \a name to \a node.
+Adds \a value as a property with name \a name to \a node. This method is
+locale independent.
 */
 	void WriteFloat (xmlNodePtr node, char const *name, double value);
 
 /*!
 @param node a pointer to an XML node.
 @param name the property name.
-@param value the value for the property.
+@param value where to store the result.
 @param default_value the default value for the property if the property can't be retrieved.
 
 Retrieves \a value from the \a node property with name \a name. Sets the default
-value if somthing goes wrong.
+value if somthing goes wrong. This method is locale independent.
 @return true if the value could be retrieved.
 */
 bool ReadFloat (xmlNodePtr node, char const *name, double &value, double default_value = 0.);
+/*!
+@param node a pointer to an XML node.
+@param name the property name.
+@param date the date to serialize.
 
+Adds \a date as a property with name \a name to \a node. This method is locale
+independent. The date will be stored in the format MM/DD/YYYY.
+*/
+void WriteDate (xmlNodePtr node, char const *name, GDate const *date);
+
+/*!
+@param node a pointer to an XML node.
+@param name the property name.
+@param date where to store the result.
+
+Retrieves \a date from the \a node property with name \a name. On failure,
+ \a date will be cleared using g_date_clear().
+@return true if the date could be retrieved. This method is locale
+independent. The date must be stored in the format MM/DD/YYYY.
+*/
+bool ReadDate (xmlNodePtr node, char const *name, GDate *date);
+
+	
 }	//	namespace gcu
 
 #endif	// GCU_XML_UTILS_H

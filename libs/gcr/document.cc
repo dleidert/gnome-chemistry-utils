@@ -150,14 +150,12 @@ void Document::Init()
 
 void Document::ParseXMLTree (xmlNode* xml)
 {
-	char *old_num_locale, *txt;
+	char *txt;
 	xmlNodePtr node;
 	bool bViewLoaded = false;
 
 	Reinit ();
 	m_SpaceGroup = NULL;
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	//look for generator node
 	unsigned version = 0xffffff , major, minor, micro;
 	node = xml->children;
@@ -210,36 +208,12 @@ void Document::ParseXMLTree (xmlNode* xml)
 			m_SpaceGroup = gcu::SpaceGroup::Find (group);
 			delete group;
 		} else if (!strcmp ((gchar*) node->name, "cell")) {
-			txt = (char*) xmlGetProp (node, (xmlChar*)"a");
-			if (txt) {
-				sscanf (txt, "%lg", &m_a);
-				xmlFree (txt);
-			}
-			txt = (char*) xmlGetProp (node, (xmlChar*) "b");
-			if (txt) {
-				sscanf (txt, "%lg", &m_b);
-				xmlFree (txt);
-			}
-			txt = (char*) xmlGetProp (node, (xmlChar*) "c");
-			if (txt) {
-				sscanf (txt, "%lg", &m_c);
-				xmlFree (txt);
-			}
-			txt = (char*) xmlGetProp (node, (xmlChar*) "alpha");
-			if (txt) {
-				sscanf (txt, "%lg", &m_alpha);
-				xmlFree (txt);
-			}
-			txt = (char*) xmlGetProp (node, (xmlChar*) "beta");
-			if (txt) {
-				sscanf(txt, "%lg", &m_beta);
-				xmlFree (txt);
-			}
-			txt = (char*) xmlGetProp (node, (xmlChar*) "gamma");
-			if (txt) {
-				sscanf(txt, "%lg", &m_gamma);
-				xmlFree (txt);
-			}
+			gcu::ReadFloat (node, "a", m_a, 100);
+			gcu::ReadFloat (node, "b", m_b, 100);
+			gcu::ReadFloat (node, "c", m_c, 100);
+			gcu::ReadFloat (node, "alpha", m_alpha, 90);
+			gcu::ReadFloat (node, "beta", m_beta, 90);
+			gcu::ReadFloat (node, "gamma", m_gamma, 90);
 		} else if (!strcmp ((gchar*) node->name, "size")) {
 			gcu::ReadPosition (node, "start", &m_xmin, &m_ymin, &m_zmin);
 			gcu::ReadPosition (node, "end", &m_xmax, &m_ymax, &m_zmax);
@@ -251,9 +225,8 @@ void Document::ParseXMLTree (xmlNode* xml)
 			}
 		} else if (!strcmp ((gchar*) node->name, "atom")) {
 			Atom *pAtom = CreateNewAtom ();
-			if (pAtom->Load (node))
-				AddChild (pAtom);
-			else
+			AddChild (pAtom);
+			if (!pAtom->Load (node))
 				delete pAtom;
 		} else if (!strcmp ((gchar*) node->name, "line")) {
 			Line *pLine = CreateNewLine ();
@@ -276,8 +249,6 @@ void Document::ParseXMLTree (xmlNode* xml)
 		}
 		node = node->next;
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 	SetDirty (false);
 	Update ();
 }

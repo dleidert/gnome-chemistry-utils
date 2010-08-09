@@ -51,7 +51,6 @@ void GOGCrystalApplication::ToggleMenu (G_GNUC_UNUSED const string& menuname, G_
 gcu::Document *GOGCrystalApplication::ImportDocument (const string& mime_type, const char* data, int length)
 {
 	gcr::Document *doc = NULL;
-	char *old_num_locale, *old_time_locale;
 	if (mime_type == "application/x-gcrystal") {
 		xmlDocPtr xml;
 		if (!(xml = xmlParseMemory(data, length)) ||
@@ -60,17 +59,9 @@ gcu::Document *GOGCrystalApplication::ImportDocument (const string& mime_type, c
 			xmlFreeDoc (xml);
 			return NULL;
 		}
-		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-		setlocale (LC_NUMERIC, "C");
-		old_time_locale = g_strdup (setlocale (LC_TIME, NULL));
-		setlocale (LC_TIME, "C");
 		doc = new gcr::Document (this);
 		gtk_widget_show_all (doc->GetView ()->GetWidget ());
 		bool result = doc->Load (xml->children);
-		setlocale (LC_NUMERIC, old_num_locale);
-		g_free (old_num_locale);
-		setlocale (LC_TIME, old_time_locale);
-		g_free (old_time_locale);
 		xmlFreeDoc (xml);
 		if (!result) {
 			delete doc;

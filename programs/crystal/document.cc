@@ -39,6 +39,7 @@
 #include "globals.h"
 #include <gcu/objprops.h>
 #include <gcu/filechooser.h>
+#include <gcu/xml-utils.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include <clocale>
@@ -403,8 +404,6 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 	bool bViewLoaded = false;
 
 	Reinit();
-	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-	setlocale(LC_NUMERIC, "C");
 	//look for generator node
 	unsigned version = 0xffffff , major, minor, micro;
 	node = xml->children;
@@ -420,22 +419,9 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 		g_free (m_Comment);
 		m_Comment = NULL;
 	}
-	g_date_clear (&m_CreationDate, 1);
-	g_date_clear (&m_RevisionDate, 1);
-	txt = (char*) xmlGetProp (xml, (xmlChar*) "creation");
-	if (txt) {
-		g_date_set_parse (&m_CreationDate, txt);
-		if (!g_date_valid (&m_CreationDate))
-			g_date_clear (&m_CreationDate, 1);
-		xmlFree (txt);
-	}
-	txt = (char*) xmlGetProp (xml, (xmlChar*) "revision");
-	if (txt) {
-		g_date_set_parse (&m_RevisionDate, txt);
-		if (!g_date_valid(&m_RevisionDate))
-			g_date_clear(&m_RevisionDate, 1);
-		xmlFree (txt);
-	}
+
+	gcu::ReadDate (xml, "creation", &m_CreationDate);
+	gcu::ReadDate (xml, "revision", &m_RevisionDate);
 
 	node = GetNodeByName (xml, "title");
 	if (node) {
@@ -548,8 +534,6 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 			node = node->next;
 		}
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 	Update ();
 }
 
