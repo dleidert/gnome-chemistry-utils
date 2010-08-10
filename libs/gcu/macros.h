@@ -243,4 +243,9 @@ The real key is obtained by appending the value of ROOTDIR to \a key.
 		return; \
 	}
 
+#define CC2XML(x) reinterpret_cast <xmlChar const *> (x)
+#define C2XML(x) reinterpret_cast <xmlChar *> (x)
+#define XML2CC(x) reinterpret_cast <char const *> (x)
+#define XML2C(x) reinterpret_cast <char *> (x)
+
 #endif	//	GCU_MACROS_H

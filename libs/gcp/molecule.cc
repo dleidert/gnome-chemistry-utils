@@ -35,7 +35,6 @@
 #include <glib/gi18n-lib.h>
 #include <unistd.h>
 #include <openbabel/obconversion.h>
-#include <clocale>
 #include <cmath>
 #include <cstring>
 #include <map>
@@ -563,16 +562,11 @@ void Molecule::ExportToGhemical ()
 	BuildOBMol (Mol);
 	char *tmpname = g_strdup ("/tmp/2gprXXXXXX");
 	int f = g_mkstemp (tmpname);
-	gchar *old_num_locale;
 	close (f);
 	ofstream ofs;
 	ofs.open(tmpname);
 	if (!ofs) throw (int) 1;
-	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-	setlocale(LC_NUMERIC, "C");
 	Conv.Write (&Mol, &ofs);
-	setlocale(LC_NUMERIC, old_num_locale);
-	g_free(old_num_locale);
 	ofs.close();
 	char *command_line = g_strconcat ("ghemical -f ", tmpname, NULL);	
 	g_free (tmpname);
@@ -722,11 +716,7 @@ void Molecule::BuildInChI ()
 		Conv.SetInAndOutFormats (pMolFormat, pInChIFormat);
 		Conv.SetOptions ("xt", OpenBabel::OBConversion::OUTOPTIONS);
 		ostringstream ofs;
-		char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-		setlocale (LC_NUMERIC, "C");
 		Conv.Write (&Mol, &ofs);
-		setlocale (LC_NUMERIC, old_num_locale);
-		g_free (old_num_locale);
 		// remove "INCHI=" and the new line char at the end
 		m_InChI = ofs.str ().substr (0, ofs.str ().length () - 2);
 	} else {
@@ -736,10 +726,7 @@ void Molecule::BuildInChI ()
 		close (f);
 		ofstream ofs;
 		ofs.open (tmpname);
-		char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-		setlocale (LC_NUMERIC, "C");
 		Conv.Write (&Mol, &ofs);
-		setlocale (LC_NUMERIC, old_num_locale);
 		ofs.close ();
 		// calling main_inchi -STDIO -AuxNone -NoLabels
 		char *command = g_strdup_printf ("main_inchi %s -STDIO -AuxNone -NoLabels", tmpname);
@@ -754,7 +741,6 @@ void Molecule::BuildInChI ()
 		if (errors)
 			g_free (errors);
 		g_free (command);
-		g_free (old_num_locale);
 		remove (tmpname);
 		g_free (tmpname);
 	}
@@ -769,12 +755,8 @@ void Molecule::BuildSMILES ()
 	Conv.SetInAndOutFormats (pOutFormat, pOutFormat);
 	BuildOBMol2D (Mol);
 	ostringstream ofs;
-	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	Conv.Write (&Mol, &ofs);
-	setlocale (LC_NUMERIC, old_num_locale);
 	//TODO: do something with the string
-	g_free (old_num_locale);
 	string str = ofs.str ().substr (0, ofs.str ().length () - 2);
 	new StringDlg (reinterpret_cast<Document *>(GetDocument ()), str, StringDlg::SMILES);
 }

@@ -4,7 +4,7 @@
  * GChemPaint library
  * theme.cc
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +27,7 @@
 #include "theme.h"
 #include "settings.h"
 #include <gcu/application.h>
+#include <gcu/xml-utils.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>
@@ -479,8 +480,6 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 	string filename;
 	GDir *dir = g_dir_open (path.c_str (), 0, NULL);
 	if (dir) {
-		string old_num_locale = setlocale (LC_NUMERIC, NULL);
-		setlocale (LC_NUMERIC, "C");
 		path += "/";
 		while ((name = g_dir_read_name (dir))) {
 			if (name[strlen (name) - 1] == '~')
@@ -514,7 +513,6 @@ void ThemeManager::ParseDir (string &path, ThemeType type)
 			xmlFreeDoc (doc);
 		}
 		g_dir_close (dir);
-		setlocale (LC_NUMERIC, old_num_locale.c_str ());
 	}
 }
 
@@ -567,258 +565,209 @@ void ThemeManager::SetDefaultTheme (char const *name)
 bool Theme::Save (xmlDocPtr xml)
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "theme", NULL);
-	string old_num_locale = setlocale (LC_NUMERIC, NULL);
-	setlocale (LC_NUMERIC, "C");
-	char *buf;
+	char const *buf;
 	if (!node)
 		return false;
 	if (m_Name.length () > 0)
 		xmlNewProp (node, (xmlChar*) "name", (xmlChar*) m_Name.c_str ());
-	buf = g_strdup_printf("%g", m_BondLength);
-	xmlNewProp (node, (xmlChar*) "bond-length", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_BondAngle);
-	xmlNewProp (node, (xmlChar*) "bond-angle", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_BondDist);
-	xmlNewProp (node, (xmlChar*) "bond-dist", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_BondWidth);
-	xmlNewProp (node, (xmlChar*) "bond-width", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ArrowLength);
-	xmlNewProp (node, (xmlChar*) "arrow-length", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ArrowHeadA);
-	xmlNewProp (node, (xmlChar*) "arrow-head-a", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ArrowHeadB);
-	xmlNewProp (node, (xmlChar*) "arrow-head-b", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ArrowHeadC);
-	xmlNewProp (node, (xmlChar*) "arrow-head-c", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ArrowDist);
-	xmlNewProp (node, (xmlChar*) "arrow-dist", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ArrowWidth);
-	xmlNewProp (node, (xmlChar*) "arrow-width", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ArrowPadding);
-	xmlNewProp (node, (xmlChar*) "arrow-padding", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_HashWidth);
-	xmlNewProp (node, (xmlChar*) "hash-width", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_HashDist);
-	xmlNewProp (node, (xmlChar*) "hash-dist", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_StereoBondWidth);
-	xmlNewProp (node, (xmlChar*) "stereo-bond-width", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", 1 / m_ZoomFactor);
-	xmlNewProp (node, (xmlChar*) "zoom-factor", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_Padding);
-	xmlNewProp (node, (xmlChar*) "padding", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_StoichiometryPadding);
-	xmlNewProp (node, (xmlChar*) "stoichiometry-padding", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ObjectPadding);
-	xmlNewProp (node, (xmlChar*) "object-padding", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_SignPadding);
-	xmlNewProp (node, (xmlChar*) "sign-padding", (xmlChar*) buf);
-	g_free (buf);
-	buf = g_strdup_printf("%g", m_ChargeSignSize);
-	xmlNewProp (node, (xmlChar*) "charge-sign-size", (xmlChar*) buf);
-	g_free (buf);
-	xmlNewProp (node, (xmlChar*) "font-family", (xmlChar*) m_FontFamily);
+	gcu::WriteFloat (node, "bond-length", m_BondLength);
+	gcu::WriteFloat (node, "bond-angle", m_BondAngle);
+	gcu::WriteFloat (node, "bond-dist", m_BondDist);
+	gcu::WriteFloat (node, "bond-width", m_BondWidth);
+	gcu::WriteFloat (node, "arrow-length", m_ArrowLength);
+	gcu::WriteFloat (node, "arrow-head-a", m_ArrowHeadA);
+	gcu::WriteFloat (node, "arrow-head-b", m_ArrowHeadB);
+	gcu::WriteFloat (node, "arrow-head-c", m_ArrowHeadC);
+	gcu::WriteFloat (node, "arrow-dist", m_ArrowDist);
+	gcu::WriteFloat (node, "arrow-width", m_ArrowWidth);
+	gcu::WriteFloat (node, "arrow-padding", m_ArrowPadding);
+	gcu::WriteFloat (node, "hash-width", m_HashWidth);
+	gcu::WriteFloat (node, "hash-dist", m_HashDist);
+	gcu::WriteFloat (node, "stereo-bond-width", m_StereoBondWidth);
+	gcu::WriteFloat (node, "zoom-factor", 1 / m_ZoomFactor);
+	gcu::WriteFloat (node, "padding", m_Padding);
+	gcu::WriteFloat (node, "stoichiometry-padding", m_StoichiometryPadding);
+	gcu::WriteFloat (node, "object-padding", m_ObjectPadding);
+	gcu::WriteFloat (node, "sign-padding", m_SignPadding);
+	gcu::WriteFloat (node, "charge-sign-size", m_ChargeSignSize);
+	xmlNewProp (node, CC2XML ("font-family"), CC2XML (m_FontFamily));
 	buf = NULL;
 	switch (m_FontStyle) {
 	case PANGO_STYLE_NORMAL:
-		buf = const_cast<char*> ("normal");
+		buf = "normal";
 		break;
 	case PANGO_STYLE_OBLIQUE:
-		buf = const_cast<char*> ("oblique");
+		buf = "oblique";
 		break;
 	case PANGO_STYLE_ITALIC:
-		buf = const_cast<char*> ("italic");
+		buf = "italic";
 		break;
 	}
 	if (buf)
-		xmlNewProp (node, (xmlChar*) "font-style", (xmlChar*) buf);
+		xmlNewProp (node, CC2XML ("font-style"), CC2XML (buf));
 	buf = NULL;
 	switch (m_FontWeight) {
 	case PANGO_WEIGHT_ULTRALIGHT:
-		buf = const_cast<char*> ("ultra-light");
+		buf = "ultra-light";
 		break;
 	case PANGO_WEIGHT_LIGHT:
-		buf = const_cast<char*> ("light");
+		buf = "light";
 		break;
 	case PANGO_WEIGHT_NORMAL:
-		buf = const_cast<char*> ("normal");
+		buf = "normal";
 		break;
 	case PANGO_WEIGHT_SEMIBOLD:
-		buf = const_cast<char*> ("semi-bold");
+		buf = "semi-bold";
 		break;
 	case PANGO_WEIGHT_BOLD:
-		buf = const_cast<char*> ("bold");
+		buf = "bold";
 		break;
 	case PANGO_WEIGHT_ULTRABOLD:
-		buf = const_cast<char*> ("ultra-bold");
+		buf = "ultra-bold";
 		break;
 	case PANGO_WEIGHT_HEAVY:
-		buf = const_cast<char*> ("heavy");
+		buf = "heavy";
 		break;
 #if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
 	case PANGO_WEIGHT_THIN:
-		buf = const_cast<char*> ("thin");
+		buf = "thin";
 		break;
 	case PANGO_WEIGHT_BOOK:
-		buf = const_cast<char*> ("book");
+		buf = "book";
 		break;
 	case PANGO_WEIGHT_MEDIUM:
-		buf = const_cast<char*> ("medium");
+		buf = "medium";
 		break;
 	case PANGO_WEIGHT_ULTRAHEAVY:
-		buf = const_cast<char*> ("ultra-heavy");
+		buf = "ultra-heavy";
 		break;
 #endif
 	}
 	if (buf)
-		xmlNewProp (node, (xmlChar*) "font-weight", (xmlChar*) buf);
-	xmlNewProp (node, (xmlChar*) "font-variant", (xmlChar*) ((m_FontVariant == PANGO_VARIANT_SMALL_CAPS)? "small-caps": "normal"));
+		xmlNewProp (node, CC2XML ("font-weight"), CC2XML (buf));
+	xmlNewProp (node, CC2XML ("font-variant"), CC2XML (((m_FontVariant == PANGO_VARIANT_SMALL_CAPS)? "small-caps": "normal")));
 	buf = NULL;
 	switch (m_FontStretch) {
 	case PANGO_STRETCH_ULTRA_CONDENSED:
-		buf = const_cast<char*> ("ultra-condensed");
+		buf = "ultra-condensed";
 		break;
 	case PANGO_STRETCH_EXTRA_CONDENSED:
-		buf = const_cast<char*> ("extra-condensed");
+		buf = "extra-condensed";
 		break;
 	case PANGO_STRETCH_CONDENSED:
-		buf = const_cast<char*> ("condensed");
+		buf = "condensed";
 		break;
 	case PANGO_STRETCH_SEMI_CONDENSED:
-		buf = const_cast<char*> ("semi-condensed");
+		buf = "semi-condensed";
 		break;
 	case PANGO_STRETCH_NORMAL:
-		buf = const_cast<char*> ("normal");
+		buf = "normal";
 		break;
 	case PANGO_STRETCH_SEMI_EXPANDED:
-		buf = const_cast<char*> ("semi-expanded");
+		buf = "semi-expanded";
 		break;
 	case PANGO_STRETCH_EXPANDED:
-		buf = const_cast<char*> ("expanded");
+		buf = "expanded";
 		break;
 	case PANGO_STRETCH_EXTRA_EXPANDED:
-		buf = const_cast<char*> ("extra-expanded");
+		buf = "extra-expanded";
 		break;
 	case PANGO_STRETCH_ULTRA_EXPANDED:
-		buf = const_cast<char*> ("ultra-expanded");
+		buf = "ultra-expanded";
 		break;
 	}
 	if (buf)
-		xmlNewProp (node, (xmlChar*) "font-stretch", (xmlChar*) buf);
-	buf = g_strdup_printf("%d", m_FontSize);
-	xmlNewProp (node, (xmlChar*) "font-size", (xmlChar*) buf);
-	g_free (buf);
+		xmlNewProp (node, CC2XML ("font-stretch"), CC2XML (buf));
+	WriteInt (node, "font-size", m_FontSize);
 	xmlNewProp (node, (xmlChar*) "text-font-family", (xmlChar*) m_TextFontFamily);
 	buf = NULL;
 	switch (m_TextFontStyle) {
 	case PANGO_STYLE_NORMAL:
-		buf = const_cast<char*> ("normal");
+		buf = "normal";
 		break;
 	case PANGO_STYLE_OBLIQUE:
-		buf = const_cast<char*> ("oblique");
+		buf = "oblique";
 		break;
 	case PANGO_STYLE_ITALIC:
-		buf = const_cast<char*> ("italic");
+		buf = "italic";
 		break;
 	}
 	if (buf)
-		xmlNewProp (node, (xmlChar*) "text-font-style", (xmlChar*) buf);
+		xmlNewProp (node, CC2XML ("text-font-style"), CC2XML (buf));
 	buf = NULL;
 	switch (m_TextFontWeight) {
 	case PANGO_WEIGHT_ULTRALIGHT:
-		buf = const_cast<char*> ("ultra-light");
+		buf = "ultra-light";
 		break;
 	case PANGO_WEIGHT_LIGHT:
-		buf = const_cast<char*> ("light");
+		buf = "light";
 		break;
 	case PANGO_WEIGHT_NORMAL:
-		buf = const_cast<char*> ("normal");
+		buf = "normal";
 		break;
 	case PANGO_WEIGHT_SEMIBOLD:
-		buf = const_cast<char*> ("semi-bold");
+		buf = "semi-bold";
 		break;
 	case PANGO_WEIGHT_BOLD:
-		buf = const_cast<char*> ("bold");
+		buf = "bold";
 		break;
 	case PANGO_WEIGHT_ULTRABOLD:
-		buf = const_cast<char*> ("ultra-bold");
+		buf = "ultra-bold";
 		break;
 	case PANGO_WEIGHT_HEAVY:
-		buf = const_cast<char*> ("heavy");
+		buf = "heavy";
 		break;
 #if PANGO_VERSION_MAJOR > 1 || PANGO_VERSION_MINOR >= 24
 	case PANGO_WEIGHT_THIN:
-		buf = const_cast<char*> ("thin");
+		buf = "thin";
 		break;
 	case PANGO_WEIGHT_BOOK:
-		buf = const_cast<char*> ("book");
+		buf = "book";
 		break;
 	case PANGO_WEIGHT_MEDIUM:
-		buf = const_cast<char*> ("medium");
+		buf = "medium";
 		break;
 	case PANGO_WEIGHT_ULTRAHEAVY:
-		buf = const_cast<char*> ("ultra-heavy");
+		buf = "ultra-heavy";
 		break;
 #endif
 	}
 	if (buf)
-		xmlNewProp (node, (xmlChar*) "text-font-weight", (xmlChar*) buf);
-	xmlNewProp (node, (xmlChar*) "text-font-variant", (xmlChar*) ((m_TextFontVariant == PANGO_VARIANT_SMALL_CAPS)? "small-caps": "normal"));
+		xmlNewProp (node, CC2XML ("text-font-weight"), CC2XML (buf));
+	xmlNewProp (node, CC2XML ("text-font-variant"), CC2XML (((m_TextFontVariant == PANGO_VARIANT_SMALL_CAPS)? "small-caps": "normal")));
 	buf = NULL;
 	switch (m_TextFontStretch) {
 	case PANGO_STRETCH_ULTRA_CONDENSED:
-		buf = const_cast<char*> ("ultra-condensed");
+		buf = "ultra-condensed";
 		break;
 	case PANGO_STRETCH_EXTRA_CONDENSED:
-		buf = const_cast<char*> ("extra-condensed");
+		buf = "extra-condensed";
 		break;
 	case PANGO_STRETCH_CONDENSED:
-		buf = const_cast<char*> ("condensed");
+		buf = "condensed";
 		break;
 	case PANGO_STRETCH_SEMI_CONDENSED:
-		buf = const_cast<char*> ("semi-condensed");
+		buf = "semi-condensed";
 		break;
 	case PANGO_STRETCH_NORMAL:
-		buf = const_cast<char*> ("normal");
+		buf = "normal";
 		break;
 	case PANGO_STRETCH_SEMI_EXPANDED:
-		buf = const_cast<char*> ("semi-expanded");
+		buf = "semi-expanded";
 		break;
 	case PANGO_STRETCH_EXPANDED:
-		buf = const_cast<char*> ("expanded");
+		buf = "expanded";
 		break;
 	case PANGO_STRETCH_EXTRA_EXPANDED:
-		buf = const_cast<char*> ("extra-expanded");
+		buf = "extra-expanded";
 		break;
 	case PANGO_STRETCH_ULTRA_EXPANDED:
-		buf = const_cast<char*> ("ultra-expanded");
+		buf = "ultra-expanded";
 		break;
 	}
 	if (buf)
-		xmlNewProp (node, (xmlChar*) "text-font-stretch", (xmlChar*) buf);
-	buf = g_strdup_printf("%d", m_TextFontSize);
-	xmlNewProp (node, (xmlChar*) "text-font-size", (xmlChar*) buf);
-	g_free (buf);
-	xmlAddChild (xml->children, node);
-	setlocale (LC_NUMERIC, old_num_locale.c_str ());
-	return true;
+		xmlNewProp (node, CC2XML ("text-font-stretch"), CC2XML (buf));
+	WriteInt (node, "text-font-size", m_TextFontSize);
 }
 
 #define READ_DOUBLE(var,name) \
@@ -836,40 +785,40 @@ bool Theme::Save (xmlDocPtr xml)
 
 bool Theme::Load (xmlNodePtr node)
 {
-	char *buf = (char*) xmlGetProp (node, (xmlChar*) "name");
+	char *buf = XML2C (xmlGetProp (node, (xmlChar*) "name"));
 	if (buf) {
 		m_Name = buf;
 		xmlFree (buf);
 	}
-	READ_DOUBLE (m_BondLength, "bond-length");
-	READ_DOUBLE (m_BondAngle, "bond-angle");
-	READ_DOUBLE (m_BondDist, "bond-dist");
-	READ_DOUBLE (m_BondWidth, "bond-width");
-	READ_DOUBLE (m_ArrowLength, "arrow-length");
-	READ_DOUBLE (m_ArrowHeadA, "arrow-head-a");
-	READ_DOUBLE (m_ArrowHeadB, "arrow-head-b");
-	READ_DOUBLE (m_ArrowHeadC, "arrow-head-c");
-	READ_DOUBLE (m_ArrowDist, "arrow-dist");
-	READ_DOUBLE (m_ArrowWidth, "arrow-width");
-	READ_DOUBLE (m_ArrowPadding, "arrow-padding");
-	READ_DOUBLE (m_HashWidth, "hash-width");
-	READ_DOUBLE (m_HashDist, "hash-dist");
-	READ_DOUBLE (m_StereoBondWidth, "stereo-bond-width");
-	READ_DOUBLE (m_ZoomFactor, "zoom-factor");
+	gcu::ReadFloat (node, "bond-length", m_BondLength, m_BondLength);
+	gcu::ReadFloat (node, "bond-angle", m_BondAngle, m_BondAngle);
+	gcu::ReadFloat (node, "bond-dist", m_BondDist, m_BondDist);
+	gcu::ReadFloat (node, "bond-width", m_BondWidth, m_BondWidth);
+	gcu::ReadFloat (node, "arrow-length", m_ArrowLength, m_ArrowLength);
+	gcu::ReadFloat (node, "arrow-head-a", m_ArrowHeadA, m_ArrowHeadA);
+	gcu::ReadFloat (node, "arrow-head-b", m_ArrowHeadB, m_ArrowHeadB);
+	gcu::ReadFloat (node, "arrow-head-c", m_ArrowHeadC, m_ArrowHeadC);
+	gcu::ReadFloat (node, "arrow-dist", m_ArrowDist, m_ArrowDist);
+	gcu::ReadFloat (node, "arrow-width", m_ArrowWidth, m_ArrowWidth);
+	gcu::ReadFloat (node, "arrow-padding", m_ArrowPadding, m_ArrowPadding);
+	gcu::ReadFloat (node, "hash-width", m_HashWidth, m_HashWidth);
+	gcu::ReadFloat (node, "hash-dist", m_HashDist, m_HashDist);
+	gcu::ReadFloat (node, "stereo-bond-width", m_StereoBondWidth, m_StereoBondWidth);
+	gcu::ReadFloat (node, "zoom-factor", m_ZoomFactor, 1 / m_ZoomFactor);
 	m_ZoomFactor = 1 / m_ZoomFactor;
-	READ_DOUBLE (m_Padding, "padding");
-	READ_DOUBLE (m_StoichiometryPadding, "stoichiometry-padding");
-	READ_DOUBLE (m_ObjectPadding, "object-padding");
-	READ_DOUBLE (m_SignPadding, "sign-padding");
-	READ_DOUBLE (m_ChargeSignSize, "charge-sign-size");
-	buf = (char*) xmlGetProp (node, (xmlChar*) "font-family");
+	gcu::ReadFloat (node, "padding", m_Padding, m_Padding);
+	gcu::ReadFloat (node, "stoichiometry-padding", m_StoichiometryPadding, m_StoichiometryPadding);
+	gcu::ReadFloat (node, "object-padding", m_ObjectPadding, m_ObjectPadding);
+	gcu::ReadFloat (node, "sign-padding", m_SignPadding, m_SignPadding);
+	gcu::ReadFloat (node, "charge-sign-size", m_ChargeSignSize, m_ChargeSignSize);
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "font-family"));
 	if (buf) {
 		if (m_FontFamily)
 			g_free (m_FontFamily);
 		m_FontFamily = g_strdup (buf);
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp (node, (xmlChar*) "font-style");
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "font-style"));
 	if (buf) {
 		if (!strcmp (buf, "normal"))
 			m_FontStyle = PANGO_STYLE_NORMAL;
@@ -879,7 +828,7 @@ bool Theme::Load (xmlNodePtr node)
 			m_FontStyle = PANGO_STYLE_ITALIC;
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp (node, (xmlChar*) "font-weight");
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "font-weight"));
 	if (buf) {
 		if (!strcmp (buf, "ultra-light"))
 			m_FontWeight= PANGO_WEIGHT_ULTRALIGHT;
@@ -907,7 +856,7 @@ bool Theme::Load (xmlNodePtr node)
 #endif
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp (node, (xmlChar*) "font-variant");
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "font-variant"));
 	if (buf) {
 		if (!strcmp (buf, "normal"))
 			m_FontVariant = PANGO_VARIANT_NORMAL;
@@ -915,7 +864,7 @@ bool Theme::Load (xmlNodePtr node)
 			m_FontVariant = PANGO_VARIANT_SMALL_CAPS;
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp (node, (xmlChar*) "font-stretch");
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "font-stretch"));
 	if (buf) {
 		if (!strcmp (buf, "ultra-condensed"))
 			m_FontStretch = PANGO_STRETCH_ULTRA_CONDENSED;
@@ -937,15 +886,15 @@ bool Theme::Load (xmlNodePtr node)
 			m_FontStretch = PANGO_STRETCH_ULTRA_EXPANDED;
 		xmlFree (buf);
 	}
-	READ_INT (m_FontSize, "font-size");
-	buf = (char*) xmlGetProp (node, (xmlChar*) "text-font-family");
+	gcu::ReadInt (node, "font-size", m_FontSize, m_FontSize);
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "text-font-family"));
 	if (buf) {
 		if (m_TextFontFamily)
 			g_free (m_TextFontFamily);
 		m_TextFontFamily = g_strdup (buf);
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp (node, (xmlChar*) "text-font-style");
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "text-font-style"));
 	if (buf) {
 		if (!strcmp (buf, "normal"))
 			m_TextFontStyle = PANGO_STYLE_NORMAL;
@@ -955,7 +904,7 @@ bool Theme::Load (xmlNodePtr node)
 			m_TextFontStyle = PANGO_STYLE_ITALIC;
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp (node, (xmlChar*) "text-font-weight");
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "text-font-weight"));
 	if (buf) {
 		if (!strcmp (buf, "ultra-light"))
 			m_TextFontWeight= PANGO_WEIGHT_ULTRALIGHT;
@@ -983,7 +932,7 @@ bool Theme::Load (xmlNodePtr node)
 #endif
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp (node, (xmlChar*) "text-font-variant");
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "text-font-variant"));
 	if (buf) {
 		if (!strcmp (buf, "normal"))
 			m_TextFontVariant = PANGO_VARIANT_NORMAL;
@@ -991,7 +940,7 @@ bool Theme::Load (xmlNodePtr node)
 			m_TextFontVariant = PANGO_VARIANT_SMALL_CAPS;
 		xmlFree (buf);
 	}
-	buf = (char*) xmlGetProp (node, (xmlChar*) "text-font-stretch");
+	buf = XML2C (xmlGetProp (node, (xmlChar*) "text-font-stretch"));
 	if (buf) {
 		if (!strcmp (buf, "ultra-condensed"))
 			m_TextFontStretch = PANGO_STRETCH_ULTRA_CONDENSED;
@@ -1013,7 +962,7 @@ bool Theme::Load (xmlNodePtr node)
 			m_TextFontStretch = PANGO_STRETCH_ULTRA_EXPANDED;
 		xmlFree (buf);
 	}
-	READ_INT (m_TextFontSize, "text-font-size");
+	gcu::ReadInt (node, "text-font-size", m_TextFontSize, m_TextFontSize);
 	m_ThemeType = FILE_THEME_TYPE;
 	return true;
 }

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-08-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: more setlocale eradication work.
+	* libs/gcp/theme.cc: ditto.
+	* libs/gcu/macros.h: new conversionmacros between char* ans xmlChar*.
+	* libs/gcu/xml-utils.cc: new ReadInt() and WriteInt convenience functions.
+	* libs/gcu/xml-utils.h: ditto.
+
 2010-08-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcrystalapp.cc: do not use setlocale when loading a gcrystal
 	file.

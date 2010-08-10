@@ -23,6 +23,7 @@
  */
 
 #include "xml-utils.h"
+#include "macros.h"
 #include <cstring>
 #include <set>
 #include <sstream>
@@ -314,6 +315,31 @@ bool ReadFloat (xmlNodePtr node, char const *name, double &value, double default
 		return false;
 	}
 	value = g_ascii_strtod (reinterpret_cast <char *> (buf), &end);
+	if (end && (*end)) {
+		xmlFree (buf);
+		value = default_value;
+		return false;
+	}
+	xmlFree (buf);
+	return true;                           
+}
+
+void WriteInt (xmlNodePtr node, char const *name, int value)
+{
+	char *buf = g_strdup_printf ("%d", value);
+	xmlNewProp (node, CC2XML(name), CC2XML (buf));
+	g_free (buf);
+}
+
+bool ReadInt (xmlNodePtr node, char const *name, int &value, int default_value)
+{
+	xmlChar *buf = xmlGetProp (node, CC2XML (name));
+	char *end;
+	if (!buf) {
+		value = default_value;
+		return false;
+	}
+	value = strtol (XML2CC (buf), &end, 10);
 	if (end && (*end)) {
 		xmlFree (buf);
 		value = default_value;
