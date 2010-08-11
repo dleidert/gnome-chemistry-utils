@@ -23,6 +23,7 @@
 #include "config.h"
 #include "gchemutils-priv.h"
 #include "gogcrystalapp.h"
+#include "gogcrystalwin.h"
 #include <gcr/document.h>
 #include <gcr/view.h>
 #include <glib/gi18n-lib.h>
@@ -74,9 +75,9 @@ gcu::Document *GOGCrystalApplication::ImportDocument (const string& mime_type, c
 
 GtkWindow * GOGCrystalApplication::EditDocument (GOGChemUtilsComponent *gogcu)
 {
-/*	GOGcpWindow *win = NULL;
+	GOGCrystalWindow *win = NULL;
 	try {
-		win = new GOGcpWindow (this, gogcu);
+		win = new GOGCrystalWindow (this, gogcu);
 		if (!win)
 			return NULL;
 		win->Show ();	// ensure the window is visible
@@ -86,7 +87,7 @@ GtkWindow * GOGCrystalApplication::EditDocument (GOGChemUtilsComponent *gogcu)
 		if (win)
 			delete win;
 		return NULL;
-	}*/
+	}
 }
 
 bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), G_GNUC_UNUSED gpointer *user_data)

@@ -25,6 +25,7 @@
 #include "gogcuapp.h"
 #include "gogcrystalapp.h"
 #include "gogcrystalwin.h"
+#include <gcr/document.h>
 #include <gcu/application.h>
 #include <glib/gi18n-lib.h>
 
@@ -35,15 +36,15 @@ GOGCrystalWindow::GOGCrystalWindow (GOGCrystalApplication *App, GOGChemUtilsComp
 	gogcu->window = this;
 	/* We must first duplicate the document */
 	xmlDocPtr xml = NULL; // makes g++ happy
-/*	try {
-		gcp::Document *doc = dynamic_cast <gcp::Document *> (gogcu->document);
-		if (doc && doc->HasChildren ()) {
+	try {
+		gcr::Document *doc = dynamic_cast <gcr::Document *> (gogcu->document);
+		if (doc) {
 			xml = doc->BuildXMLTree ();
-			m_Document->Load (xml->children);
+			m_Document->ParseXMLTree (xml->children);
 			xmlFreeDoc (xml);
 			xml = NULL;
 		}
-		SetTitle (m_Document->GetLabel ());
+//		SetTitle (m_Document->GetLabel ());
 		gtk_window_present (GetWindow ());
 	}
 	catch (int i) {
@@ -51,7 +52,7 @@ GOGCrystalWindow::GOGCrystalWindow (GOGCrystalApplication *App, GOGChemUtilsComp
 			xmlFreeDoc (xml);
 		xml = NULL;
 		throw 1;
-	}*/
+	}
 }
 
 GOGCrystalWindow::~GOGCrystalWindow ()
@@ -64,13 +65,13 @@ GOGCrystalWindow::~GOGCrystalWindow ()
 void GOGCrystalWindow::OnSave ()
 {
 	delete m_gogcu->document;
-/*	gcp::Document *doc = new gcp::Document (GetApplication (), false);
+	gcr::Document *doc = new gcr::Document (GetApplication ());
 	m_gogcu->document = doc;
-	doc->GetView ()->CreateNewWidget ();
+//	doc->GetView ()->CreateNewWidget ();
 	xmlDocPtr xml = NULL; // makes g++ happy
 	try {
 		xml = m_Document->BuildXMLTree ();
-		doc->Load (xml->children);
+		doc->ParseXMLTree (xml->children);
 		xmlFreeDoc (xml);
 		xml = NULL;
 		m_Document->SetDirty (false);
@@ -81,7 +82,7 @@ void GOGCrystalWindow::OnSave ()
 			xmlFreeDoc (xml);
 		xml = NULL;
 		throw 1;
-	}*/
+	}
 }
 
 char const *GOGCrystalWindow::GetDefaultTitle ()

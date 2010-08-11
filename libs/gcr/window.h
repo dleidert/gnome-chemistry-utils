@@ -23,6 +23,7 @@
 #ifndef GCR_WINDOW_H
 #define GCR_WINDOW_H
 
+#include <gcu/macros.h>
 #include <gcu/window.h>
 
 namespace gcu {
@@ -31,6 +32,8 @@ class Application;
 
 namespace gcr {
 
+class Document;
+
 class Window: public gcu::Window
 {
 public:
@@ -38,6 +41,20 @@ public:
 	virtual ~Window ();
 
 	virtual void Destroy ();
+/*!\var m_Document
+The gcr::Document displayed in this window.
+*/
+/*!\fn GetApplication()
+@return the gcr::Document displayed in this window.
+*/
+GCU_PROT_PROP (Document*, Document)
+/*!\var m_Application
+The gcu::Application owning this window.
+*/
+/*!\fn GetApplication()
+@return the gcu::Application owning this window.
+*/
+GCU_PROT_PROP (gcu::Application*, Application)
 };
 
 }

@@ -45,7 +45,6 @@
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <clocale>
 #include <stack>
 #include <cstring>
 #include <sstream>
@@ -305,7 +304,6 @@ void Document::ExportOB () const
 	Atom* pgAtom;
 	unsigned index = 1;
 	double x, y, z;
-	gchar *old_num_locale;
 	map< string, Object * >::const_iterator m;
 	stack<map< string, Object * >::const_iterator> iters;
 	set<Object const *> Mols;
@@ -321,8 +319,6 @@ void Document::ExportOB () const
 			g_object_unref (file);
 			throw (int) 1;
 		}
-		old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-		setlocale (LC_NUMERIC, "C");
 		OBConversion Conv;
 		OBFormat* pOutFormat = Conv.FormatFromMIME (m_FileType.c_str ());
 		if (pOutFormat != NULL) {
@@ -397,8 +393,6 @@ void Document::ExportOB () const
 				BondList.clear ();
 			}
 		}
-		setlocale (LC_NUMERIC, old_num_locale);
-		g_free (old_num_locale);
 		gsize nb = ofs.str ().size (), n = 0;
 		while (n < nb) {
 			n += g_output_stream_write (output, ofs.str ().c_str () + n, nb - n, NULL, &error);
@@ -605,14 +599,8 @@ void Document::Save () const
 	if (!m_filename || !m_bWriteable || m_bReadOnly)
 		return;
 	xmlDocPtr xml = NULL;
-	char *old_num_locale, *old_time_locale;
 	const_cast <Document *> (this)->m_SavedResidues.clear ();
 	
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
-	old_time_locale = g_strdup (setlocale (LC_TIME, NULL));
-	setlocale (LC_TIME, "C");
-
 	try {
 		if (m_pApp && m_pApp->Save (m_filename, m_FileType.c_str (), this, ContentType2D))
 			return;
@@ -667,10 +655,6 @@ void Document::Save () const
 		xml = NULL;
 //		Error (SAVE);
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
-	setlocale (LC_TIME, old_time_locale);
-	g_free (old_time_locale);
 	const_cast <Document *> (this)->m_SavedResidues.clear ();
 }
 

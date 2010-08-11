@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gchemutils.cc: make things compile again with current goffice.
+	* goffice/gogcrystalapp.cc: more work on crystal support.
+	* goffice/gogcrystalwin.cc: ditto.
+	* libs/gcp/application.cc: more setlocale eradication work.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcr/window.h: more work on crystal support in component.
+
 2010-08-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: more setlocale eradication work.
 	* libs/gcp/theme.cc: ditto.

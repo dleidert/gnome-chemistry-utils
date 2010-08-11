@@ -46,7 +46,6 @@
 #include <pango/pango-context.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
-#include <clocale>
 #include <cmath>
 #include <fstream>
 #include <map>

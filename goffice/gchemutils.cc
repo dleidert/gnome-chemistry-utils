@@ -104,7 +104,9 @@ go_gchemutils_component_mime_type_set (GOComponent *component)
 {
 	if (!strcmp (component->mime_type, "application/x-gcrystal")) {
 		component->needs_window = true;
+#ifdef GO_SNAPSHOT_PNG
 		component->snapshot_type = GO_SNAPSHOT_PNG;
+#endif
 	}
 }
 
@@ -133,7 +135,9 @@ go_gchemutils_component_init (GOComponent *component)
 	component->ascent = 1.;
 	component->descent = 0.;
 	component->width = 1.;
+#ifdef GO_SNAPSHOT_PNG
 	component->snapshot_type = GO_SNAPSHOT_SVG;
+#endif
 }
 
 static void

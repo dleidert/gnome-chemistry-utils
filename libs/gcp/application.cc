@@ -59,7 +59,6 @@
 #include <openbabel/mol.h>
 #include <openbabel/reaction.h>
 #include <openbabel/obconversion.h>
-#include <clocale>
 #include <fstream>
 #include <cstring>
 #include <sys/stat.h>
@@ -762,7 +761,6 @@ void Application::SaveWithBabel (string const &filename, const gchar *mime_type,
 
 void Application::OpenWithBabel (string const &filename, const gchar *mime_type, Document* pDoc)
 {
-	string old_num_locale;
 	bool bNew = (pDoc == NULL || !pDoc->GetEmpty () || pDoc->GetDirty ());
 	GFile *file;
 	GFileInfo *info = NULL;
@@ -809,8 +807,6 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 		g_object_unref (file);
 		buf[size] = 0;
 		istringstream iss (buf);
-		old_num_locale = setlocale (LC_NUMERIC, NULL);
-		setlocale(LC_NUMERIC, "C");
 		OBMol Mol;
 		OBConversion Conv;
 		OBFormat* pInFormat = Conv.FormatFromExt (filename.c_str ());
@@ -825,7 +821,6 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 			if (!result)
 				break;
 		}
-		setlocale (LC_NUMERIC, old_num_locale.c_str ());
 		delete [] buf;
 		if (!result)
 		{
@@ -917,7 +912,6 @@ static int	cb_vfs_to_xml (GInputStream *input, char* buf, int nb)
 void Application::OpenGcp (string const &filename, Document* pDoc)
 {
 	xmlDocPtr xml = NULL;
-	char *old_num_locale, *old_time_locale;
 	GError *error = NULL;
 	GFileInfo *info = NULL;
 	bool create = false;
@@ -956,10 +950,6 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 			throw (int) 2;
 		if (strcmp((char*)xml->children->name, "chemistry"))
 			throw (int) 3;	//FIXME: that could change when a dtd is available
-		old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-		setlocale(LC_NUMERIC, "C");
-		old_time_locale = g_strdup(setlocale(LC_TIME, NULL));
-		setlocale(LC_TIME, "C");
 		if (!pDoc || !pDoc->GetEmpty () || pDoc->GetDirty ()) {
 			create = true;
 			OnFileNew ();
@@ -967,10 +957,6 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 		}
 		pDoc->SetFileName(filename, "application/x-gchempaint");
 		bool result = pDoc->Load(xml->children);
-		setlocale(LC_NUMERIC, old_num_locale);
-		g_free(old_num_locale);
-		setlocale(LC_TIME, old_time_locale);
-		g_free(old_time_locale);
 		if (!result) {
 			if (create)
 				pDoc->GetWindow ()->Destroy ();
