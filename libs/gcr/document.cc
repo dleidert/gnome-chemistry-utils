@@ -37,7 +37,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <libintl.h>
-#include <clocale>
 #include <cmath>
 #include <set>
 #include <vector>
@@ -624,13 +623,10 @@ xmlDocPtr Document::BuildXMLTree () const
 	xmlDocPtr xml;
 	xmlNodePtr node;
 	xmlNsPtr ns;
-	char *old_num_locale;
 
 	xml = xmlNewDoc((xmlChar*)"1.0");
 	if (xml == NULL) {throw(1);}
 	
-	old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-	setlocale(LC_NUMERIC, "C");
 	xmlDocSetRootElement (xml,  xmlNewDocNode(xml, NULL, (xmlChar*)"crystal", NULL));
 	ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gcrystal", (xmlChar*) "gcry");
 	xmlSetNs (xml->children, ns);
@@ -668,20 +664,17 @@ xmlDocPtr Document::BuildXMLTree () const
 				t = m_SpaceGroup->GetNextTransform (i);
 			}
 		}
-		node = xmlNewDocNode(xml, NULL, (xmlChar*)"cell", NULL);
-		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
-		snprintf(buf, sizeof(buf), "%g", m_a);
-		xmlNewProp(node, (xmlChar*)"a", (xmlChar*)buf);
-		snprintf(buf, sizeof(buf), "%g", m_b);
-		xmlNewProp(node, (xmlChar*)"b", (xmlChar*)buf);
-		snprintf(buf, sizeof(buf), "%g", m_c);
-		xmlNewProp(node, (xmlChar*)"c", (xmlChar*)buf);
-		snprintf(buf, sizeof(buf), "%g", m_alpha);
-		xmlNewProp(node, (xmlChar*)"alpha", (xmlChar*)buf);
-		snprintf(buf, sizeof(buf), "%g", m_beta);
-		xmlNewProp(node, (xmlChar*)"beta", (xmlChar*)buf);
-		snprintf(buf, sizeof(buf), "%g", m_gamma);
-		xmlNewProp(node, (xmlChar*)"gamma", (xmlChar*)buf);
+		node = xmlNewDocNode (xml, NULL, CC2XML ("cell"), NULL);
+		if (node)
+			xmlAddChild (xml->children, node);
+		else
+			throw (int) 0;
+		gcu::WriteFloat (node, "a", m_a);
+		gcu::WriteFloat (node, "b", m_b);
+		gcu::WriteFloat (node, "c", m_c);
+		gcu::WriteFloat (node, "alpha", m_alpha);
+		gcu::WriteFloat (node, "beta", m_beta);
+		gcu::WriteFloat (node, "gamma", m_gamma);
 	
 		node = xmlNewDocNode(xml, NULL, (xmlChar*)"size", NULL);
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
@@ -718,16 +711,11 @@ xmlDocPtr Document::BuildXMLTree () const
 			if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		}
 	
-		setlocale(LC_NUMERIC, old_num_locale);
-		g_free(old_num_locale);
-
 		return xml;
 	}
 	catch (int num)
 	{
 		xmlFreeDoc(xml);
-		setlocale(LC_NUMERIC, old_num_locale);
-		g_free(old_num_locale);
 		return NULL;
 	}
 }

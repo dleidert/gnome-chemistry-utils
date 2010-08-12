@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: more setlocale eradication work.
+	* libs/gcp/theme.cc: ditto.
+	* libs/gcr/document.cc: ditto.
+	* programs/crystal/document.cc: ditto.
+
 2010-08-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: make things compile again with current goffice.
 	* goffice/gogcrystalapp.cc: more work on crystal support.

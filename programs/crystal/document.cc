@@ -242,10 +242,8 @@ void gcDocument::Save() const
 			g_date_set_time_t (&const_cast <gcDocument *> (this)->m_CreationDate, time (NULL));
 		g_date_set_time_t (&const_cast <gcDocument *> (this)->m_RevisionDate, time (NULL));
 		gchar tmp[64];
-		g_date_strftime (tmp, sizeof (tmp), "%m/%d/%Y", &m_CreationDate);
-		xmlNewProp (xml->children, (xmlChar*) "creation", (xmlChar*) tmp);
-		g_date_strftime (tmp, sizeof (tmp), "%m/%d/%Y", &m_RevisionDate);
-		xmlNewProp (xml->children, (xmlChar*) "revision", (xmlChar*) tmp);
+		gcu::WriteDate (xml->children, "creation", &m_CreationDate);
+		gcu::WriteDate (xml->children, "revision", &m_RevisionDate);
 		xmlNodePtr node;
 
 		if (m_Title.length () > 0) {

@@ -42,6 +42,7 @@
 #include "window.h"
 #include <gcu/loader.h>
 #include <gcu/objprops.h>
+#include <gcu/xml-utils.h>
 #include <glib/gi18n-lib.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
@@ -676,8 +677,6 @@ bool Document::Load (xmlNodePtr root)
 		g_free(m_comment);
 		m_comment = NULL;
 	}
-	g_date_clear (&CreationDate, 1);
-	g_date_clear (&RevisionDate, 1);
 	xmlNodePtr node, child;
 	char* tmp;
 	Object* pObject;
@@ -686,18 +685,9 @@ bool Document::Load (xmlNodePtr root)
 		SetId (tmp);
 		xmlFree (tmp);
 	}
-	tmp = (char*) xmlGetProp (root, (xmlChar*) "creation");
-	if (tmp) {
-		g_date_set_parse(&CreationDate, tmp);
-		if (!g_date_valid(&CreationDate)) g_date_clear(&CreationDate, 1);
-		xmlFree (tmp);
-	}
-	tmp = (char*) xmlGetProp (root, (xmlChar*) "revision");
-	if (tmp) {
-		g_date_set_parse(&RevisionDate, tmp);
-		if (!g_date_valid(&RevisionDate)) g_date_clear(&RevisionDate, 1);
-		xmlFree (tmp);
-	}
+
+	gcu::ReadDate (root, "creation", &CreationDate);
+	gcu::ReadDate (root, "revision", &RevisionDate);
 
 	node = GetNodeByName (root, "generator");
 	if (node) {
@@ -810,11 +800,8 @@ xmlDocPtr Document::BuildXMLTree () const
 	if (!g_date_valid (&CreationDate))
 		g_date_set_time_t (&const_cast <Document *> (this)->CreationDate, time (NULL));
 	g_date_set_time_t (&const_cast <Document *> (this)->RevisionDate, time (NULL));
-	gchar buf[64];
-	g_date_strftime (buf, sizeof (buf), "%m/%d/%Y", &CreationDate);
-	xmlNewProp (xml->children, (xmlChar*) "creation", (xmlChar*) buf);
-	g_date_strftime (buf, sizeof (buf), "%m/%d/%Y", &RevisionDate);
-	xmlNewProp (xml->children, (xmlChar*) "revision", (xmlChar*) buf);
+	gcu::WriteDate (xml->children, "creation", &CreationDate);
+	gcu::WriteDate (xml->children, "revision", &RevisionDate);
 	node = xmlNewDocNode (xml, NULL, (xmlChar*)"generator", (xmlChar*)"GChemPaint "VERSION);
 	if (node)
 		xmlAddChild (xml->children, node);

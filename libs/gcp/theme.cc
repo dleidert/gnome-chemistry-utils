@@ -768,20 +768,8 @@ bool Theme::Save (xmlDocPtr xml)
 	if (buf)
 		xmlNewProp (node, CC2XML ("text-font-stretch"), CC2XML (buf));
 	WriteInt (node, "text-font-size", m_TextFontSize);
+	return true;
 }
-
-#define READ_DOUBLE(var,name) \
-	buf = (char*) xmlGetProp (node, (xmlChar*) name); \
-	if (buf) { \
-		var = strtod (buf, NULL); \
-		xmlFree (buf); \
-	}
-#define READ_INT(var,name) \
-	buf = (char*) xmlGetProp (node, (xmlChar*) name); \
-	if (buf) { \
-		var = strtol (buf, NULL, 10); \
-		xmlFree (buf); \
-	}
 
 bool Theme::Load (xmlNodePtr node)
 {
