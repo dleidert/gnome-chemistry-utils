@@ -27,6 +27,7 @@
 
 #include <gcp/tool.h>
 #include <gcp/fontsel.h>
+#include <gccv/structs.h>
 
 namespace gcp {
 	class Application;
@@ -50,12 +51,13 @@ public:
 	gcpBracketsTool (gcp::Application* App);
 	virtual ~gcpBracketsTool ();
 
-	virtual bool OnClicked ();
-	virtual void OnDrag ();
-	virtual void OnRelease ();
+	bool OnClicked ();
+	void OnDrag ();
+	void OnRelease ();
 	char const *GetHelpTag () {return "brackets";}
 	GtkWidget *GetPropertyPage ();
 	void Activate ();
+	bool Evaluate ();
 
 	static void OnTypeChanged (GtkComboBox *box, gcpBracketsTool *tool);
 	static void OnUsedChanged (GtkComboBox *box, gcpBracketsTool *tool);
@@ -64,6 +66,7 @@ private:
 	gcpBracketType m_Type;
 	gcpBracketsUsed m_Used;
 	GcpFontSel *m_FontSel;
+	gccv::Rect m_ActualBounds;
 };
 
 #endif // GCHEMPAINT_BRACKETS_TOOL_H

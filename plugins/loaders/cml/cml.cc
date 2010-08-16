@@ -92,7 +92,8 @@ bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *ob
 		double x, y;
 		prop = object->GetProperty (GCU_PROP_POS2D);
 		if (prop.length ()) {
-			sscanf (prop.c_str (), "%lg %lg", &x, &y);
+			istringstream in (prop);
+			in >> x >> y;
 			gsf_xml_out_add_float (xml, "x2", x, -1);
 			gsf_xml_out_add_float (xml, "y2", -y, -1); // reverse y order
 		}

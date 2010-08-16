@@ -546,7 +546,7 @@ typedef struct {int n; std::list<gcr::Line*> l;} sLine;
 
 void gcDocument::OnExportVRML (const string &FileName) const
 {
-	char *old_num_locale, tmp[128];
+	char tmp[128];
 	double x0, x1, x2, x3, x4, x5;
 	int n = 0;
 	try {
@@ -562,8 +562,6 @@ void gcDocument::OnExportVRML (const string &FileName) const
 		}
 		std::map<std::string, sAtom>AtomsMap;
 		std::map<std::string, sLine>LinesMap;
-		old_num_locale = g_strdup(setlocale(LC_NUMERIC, NULL));
-		setlocale(LC_NUMERIC, "C");
 
 		file << "#VRML V2.0 utf8" << endl;
 		
@@ -663,8 +661,6 @@ void gcDocument::OnExportVRML (const string &FileName) const
 		//end of the world
 		file << "\t]" << endl << "}" << endl;
 
-		setlocale(LC_NUMERIC, old_num_locale);
-		g_free(old_num_locale);
 		g_output_stream_write (output, file.str ().c_str (), file.str ().size (), NULL, &error);
 		if (error) {
 			cerr << "gio error: " << error->message << endl;

@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-08-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/application.cc: more setlocale eradication work.
+	* plugins/loaders/cml/cml.cc: ditto.
+	* plugins/paint/selection/bracketstool.cc: statrt testing the selection.
+	* plugins/paint/selection/bracketstool.h: ditto.
+	* programs/crystal/document.cc: more setlocale eradication work.
+
 2010-08-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: more setlocale eradication work.
 	* libs/gcp/theme.cc: ditto.

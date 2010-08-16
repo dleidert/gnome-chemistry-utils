@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "bracketstool.h"
+#include "group.h"
 #include <gcu/message.h>
 #include <gcu/ui-builder.h>
 #include <gcp/application.h>
@@ -32,6 +33,8 @@
 #include <gcp/document.h>
 #include <gcp/fontsel.h>
 #include <gcp/fragment.h>
+#include <gcp/mechanism-step.h>
+#include <gcp/reaction-step.h>
 #include <gcp/settings.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -65,7 +68,6 @@ void gcpBracketsTool::OnDrag ()
 	} else {
 		m_Item = new gccv::Rectangle (m_pView->GetCanvas (), m_x0, m_y0, m_x - m_x0, m_y - m_y0);
 		gcp::Theme *theme = m_pView->GetDoc ()->GetTheme ();
-		static_cast <gccv::LineItem *> (m_Item)->SetLineColor (gcp::SelectColor);
 		static_cast <gccv::LineItem *> (m_Item)->SetLineWidth (theme->GetBondWidth ());
 		static_cast <gccv::FillItem *> (m_Item)->SetFillColor (0);
 	}
@@ -126,10 +128,16 @@ void gcpBracketsTool::OnDrag ()
 		if ((*i)->CanSelect ())
 			m_pData->SetSelected (*i);
 	m_pData->SimplifySelection ();
+	if (Evaluate ())
+		static_cast <gccv::LineItem *> (m_Item)->SetLineColor (gcp::AddColor);
+	else
+		static_cast <gccv::LineItem *> (m_Item)->SetLineColor (gcp::DeleteColor);
 }
 
 void gcpBracketsTool::OnRelease ()
 {
+	if (Evaluate ()) {
+	}
 }
 
 GtkWidget *gcpBracketsTool::GetPropertyPage ()
@@ -188,4 +196,21 @@ void gcpBracketsTool::Activate ()
 					"stretch", theme->GetTextFontStretch (),
 					"size", theme->GetTextFontSize (),
 					NULL);
+}
+
+bool gcpBracketsTool::Evaluate ()
+{
+	gcu::Object *obj;
+	if (m_pData->SelectedObjects.size () == 1) {
+		obj = m_pData->SelectedObjects.front ();
+		unsigned type = obj->GetType ();
+		if (type == gcu::MoleculeType || type == gcp::ReactionStepType ||
+		    type == gcp::MechanismStepType || type == GroupType) {
+			// Evaluate bounds
+			m_pData->GetObjectBounds (obj, &m_ActualBounds);
+			return true;
+		}
+	} else {
+	}
+	return false;
 }
