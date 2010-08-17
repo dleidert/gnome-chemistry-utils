@@ -32,6 +32,7 @@
 #include <gcu/loader.h>
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
+#include <gcu/xml-utils.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-libxml.h>
@@ -46,6 +47,7 @@
 #include <cstring>
 
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace gcu;
@@ -336,8 +338,9 @@ cdxml_string_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		// for now put all numbers as subscripts
 		// FIXME: fix this kludgy code
 		int cur = 0, size = strlen (xin->content->str);
-		char *new_size = g_strdup_printf ("%g", strtod (state->size.c_str (), NULL) / 1.5);
-		char *height = g_strdup_printf ("%g", strtod (state->size.c_str (), NULL) / 3.);
+		char new_size[G_ASCII_DTOSTR_BUF_SIZE], height[G_ASCII_DTOSTR_BUF_SIZE];
+		g_ascii_dtostr (new_size, G_ASCII_DTOSTR_BUF_SIZE, g_ascii_strtod (state->size.c_str (), NULL) / 1.5);
+		g_ascii_dtostr (height, G_ASCII_DTOSTR_BUF_SIZE, g_ascii_strtod (state->size.c_str (), NULL) / 3.);
 		while (cur < size) {
 			while (cur < size && (xin->content->str[cur] < '0' || xin->content->str[cur] > '9'))
 				state->markup += xin->content->str[cur++];
@@ -374,8 +377,6 @@ cdxml_string_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					opened = false;
 			}
 		}
-		g_free (new_size);
-		g_free (height);
 	} else {
 		state->markup += xin->content->str;
 		if (state->attributes & 0x20)
@@ -631,9 +632,10 @@ cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
 	while (*attrs) {
 		if (!strcmp ((char const *) *attrs, "id"))
 			Id = atoi ((char const *) attrs[1]);
-		else if (!strcmp ((char const *) *attrs, "BoundingBox"))
-			sscanf ((char const *) attrs[1], "%lg %lg %lg %lg", &x1, &y1, &x0, &y0);
-		else if (!strcmp ((char const *) *attrs, "GraphicType")) {
+		else if (!strcmp ((char const *) *attrs, "BoundingBox")) {
+			istringstream str (reinterpret_cast <char const *> (attrs[1]));
+			str >> x1 >> y1 >> x0 >> y0;
+		} else if (!strcmp ((char const *) *attrs, "GraphicType")) {
 			if (!strcmp ((char const *) attrs[1], "Line"))
 				type = 1;
 		} else if (!strcmp ((char const *) *attrs, "ArrowType")) {
@@ -651,36 +653,35 @@ cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
 		attrs+=2;
 	}
 	if (type == 1) {
-		char *buf = NULL;
 		Object *obj = NULL;
+		ostringstream str;
 		switch (arrow_type) {
 		case 1:
 		case 2:
 			obj = state->app->CreateObject ("reaction-arrow", state->cur.top ());
-			buf = g_strdup_printf ("ra%d", Id);
+			str << "ra" << Id;
 			break;
 		case 4:
 			obj = state->app->CreateObject ("mesomery-arrow", state->cur.top ());
-			buf = g_strdup_printf ("ma%d", Id);
+			str << "ma" << Id;
 			break;
 		case 8:
 			obj = state->app->CreateObject ("reaction-arrow", state->cur.top ());
-			buf = g_strdup_printf ("ra%d", Id);
+			str << "ra" << Id;
 			obj->SetProperty (GCU_PROP_REACTION_ARROW_TYPE, "double");
 			break;
 		case 32:
 			obj = state->app->CreateObject ("retrosynthesis-arrow", state->cur.top ());
-			buf = g_strdup_printf ("rsa%d", Id);
+			str << "rsa" << Id;
 			break;
 		default:
 			break;
 		}
 		if (obj) {
-			obj->SetId (buf);
-			g_free (buf);
-			buf = g_strdup_printf ("%g %g %g %g", x0, y0, x1, y1);
-			obj->SetProperty (GCU_PROP_ARROW_COORDS, buf);
-			g_free (buf);
+			obj->SetId (str.str ().c_str ());
+			ostringstream str_;
+			str_ << x0 << " " << y0 << " " << x1 << " " << y1;
+			obj->SetProperty (GCU_PROP_ARROW_COORDS, str_.str ().c_str ());
 		}
 	}
 }
@@ -894,13 +895,6 @@ bool CDXMLLoader::WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, G
 					either in this code or in the cml schema */
 }
 
-void CDXMLLoader::AddIntProperty (xmlNodePtr node, char const *id, int value)
-{
-	char *buf = g_strdup_printf("%d", value);
-	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (buf));
-	g_free (buf);
-}
-
 void CDXMLLoader::AddStringProperty (xmlNodePtr node, char const *id, string &value)
 {
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (value.c_str ()));
@@ -969,22 +963,16 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 	for (color = m_Colors.begin (); color != end_color; color++) {
 		xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("color"), NULL);
 		xmlAddChild (colors, node);
-		char *buf = g_strdup_printf ("%g", GO_COLOR_DOUBLE_R ((*color).second));
-		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("r"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
-		buf = g_strdup_printf ("%g", GO_COLOR_DOUBLE_G ((*color).second));
-		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("g"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
-		buf = g_strdup_printf ("%g", GO_COLOR_DOUBLE_B ((*color).second));
-		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("b"), reinterpret_cast <xmlChar const *> (buf));
-		g_free (buf);
+		WriteFloat (node, "r", GO_COLOR_DOUBLE_R ((*color).second));
+		WriteFloat (node, "g", GO_COLOR_DOUBLE_G ((*color).second));
+		WriteFloat (node, "b", GO_COLOR_DOUBLE_B ((*color).second));
 	}
 	// write fonts
 	map <unsigned, CDXMLFont>::iterator font, end_font = m_Fonts.end ();
 	for (font = m_Fonts.begin (); font != end_font; font++) {
 		xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("font"), NULL);
 		xmlAddChild (fonttable, node);
-		AddIntProperty (node, "id", (*font).second.index);
+		WriteInt (node, "id", (*font).second.index);
 		AddStringProperty (node, "charset", (*font).second.encoding);
 		AddStringProperty (node, "name", (*font).second.name);
 	}

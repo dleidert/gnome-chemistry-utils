@@ -36,6 +36,7 @@
 #include <map>
 #include <stack>
 #include <string>
+#include <sstream>
 #include <libintl.h>
 
 using namespace gcu;
@@ -353,9 +354,9 @@ ContentType CIFLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 											i++;
 										val = val.substr (0, i);
 										int z = Element::Z (val.c_str ());
-										char *buf = g_strdup_printf ("%d", z);
-										t.elt = buf;
-										g_free (buf);
+										ostringstream buf;
+										buf << z;
+										t.elt = buf.str ();
 										break;
 									}
 									case CIF_ATOM_SITE_OXIDATION_NUMBER:
@@ -586,9 +587,9 @@ bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED
 				AtomInstance instance;
 				string charge = child->GetProperty (GCU_PROP_ATOM_CHARGE);
 				string id = symbol + charge;
-				buf = g_strdup_printf ("%d", index);
-				instance.label = symbol + buf;
-				g_free (buf);
+				ostringstream str;
+				str << index;
+				instance.label = symbol + str.str ();
 				t = AtomTypes.find (id);
 				if (t != AtomTypes.end ())
 					instance.symbol = (*t).second.symbol;
@@ -596,8 +597,9 @@ bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED
 					Atom_Type type;
 					index = types[Z];
 					types[Z] = index + 1;
-					buf = g_strdup_printf ("%d", index);
-					type.symbol = symbol + buf;
+					ostringstream str;
+					str << index;
+					type.symbol = symbol + str.str ();
 					g_free (buf);
 					type.charge = charge;
 					AtomTypes[id] = type;

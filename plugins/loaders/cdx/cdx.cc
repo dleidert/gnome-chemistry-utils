@@ -256,8 +256,9 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 					result = ContentTypeUnknown;
 					break;
 				}
-				snprintf (buf, bufsize, "%u", length);
-				doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, buf);
+				ostringstream str;
+				str << length;
+				doc->SetProperty (GCU_PROP_THEME_BOND_LENGTH, str.str ().c_str ());
 				break;
 			}
 			case kCDXProp_FontTable: {
@@ -288,8 +289,9 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 				for (unsigned i = 0; i < nb; i++) {
 				if (!(READINT16 (in,red)) || !(READINT16 (in,green)) || !(READINT16 (in,blue)))
 					return ContentTypeUnknown;
-					snprintf (buf, bufsize, "red=\"%g\" green=\"%g\" blue=\"%g\"", (double) red / 0xffff, (double) green / 0xffff, (double) blue / 0xffff);
-					colors.push_back (buf);
+					ostringstream str;
+					str << "red=\"" << (double) red / 0xffff << "\" green=\"" << (double) green / 0xffff << "\" blue=\"" << (double) blue / 0xffff << "\"";
+					colors.push_back (str.str ());
 				}
 				break;
 			}
@@ -329,7 +331,8 @@ bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNU
 	loader->WriteId (obj, out);
 	string prop = obj->GetProperty (GCU_PROP_POS2D);
 	if (prop.length ()) {
-		sscanf (prop.c_str (), "%lg %lg", &x, &y);
+		istringstream str;
+		str >> x >> y;
 		x_ = x;
 		y_ = y;
 		n = kCDXProp_2DPosition;
@@ -640,8 +643,9 @@ bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 	guint32 Id;
 	if (!(READINT32 (in,Id)))
 		return false;
-	snprintf (buf, bufsize, "m%d", Id);
-	mol->SetId (buf);
+	ostringstream str;
+	str << "m" << Id;
+	mol->SetId (str.str ().c_str ());
 	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
@@ -684,8 +688,9 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 	int Z = 6;
 	if (!(READINT32 (in,Id)))
 		return false;
-	snprintf (buf, bufsize, "a%d", Id);
-	Atom->SetId (buf);
+	ostringstream str;
+	str << "a" << Id;
+	Atom->SetId (str.str ().c_str ());
 	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
@@ -738,8 +743,9 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 								delete Atom;
 								Atom = parent->GetApplication ()->CreateObject ("fragment", parent);
 								Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
-								snprintf (buf, bufsize, "a%d", Id);
-								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+								ostringstream str;
+								str << "a" << Id;
+								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, str.str ().c_str ());
 								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
 								Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 							}
@@ -767,8 +773,9 @@ bool CDXLoader::ReadAtom (GsfInput *in, Object *parent)
 								delete Atom;
 								Atom = parent->GetApplication ()->CreateObject ("fragment", parent);
 								Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
-								snprintf (buf, bufsize, "a%d", Id);
-								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+								ostringstream str;
+								str << "a" << Id;
+								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, str.str ().c_str ());
 								Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
 								Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 							} else {
@@ -879,8 +886,9 @@ fragment_success:
 							delete Atom;
 							Atom = parent->GetApplication ()->CreateObject ("fragment", parent);
 							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
-							snprintf (buf, bufsize, "a%d", Id);
-							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+							ostringstream str;
+							str << "a" << Id;
+							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, str.str ().c_str ());
 							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
 							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 						}
@@ -896,8 +904,9 @@ fragment_success:
 							delete Atom;
 							Atom = parent->GetApplication ()->CreateObject ("fragment", parent);
 							Atom->SetProperty (GCU_PROP_TEXT_TEXT, buf);
-							snprintf (buf, bufsize, "a%d", Id);
-							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, buf);
+							ostringstream str;
+							str << "a" << Id;
+							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, str.str ().c_str ());
 							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
 							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 						} else {
@@ -925,24 +934,29 @@ fragment_success:
 				gint32 x, y;
 				if (size != 8 || !(READINT32 (in,y)) || !(READINT32 (in,x)))
 					goto bad_exit;
-				snprintf (buf, bufsize, "%d %d", x, y);
-				Atom->SetProperty (GCU_PROP_POS2D, buf);
+				ostringstream str;
+				str <<  x << " " << y;
+				Atom->SetProperty (GCU_PROP_POS2D, str.str ().c_str ());
 				break;
 			}
-			case kCDXProp_Node_Element:
+			case kCDXProp_Node_Element: {
 				if (size != 2 || !(READINT16 (in,size)))
 					goto bad_exit;
 				Z = size;
-				snprintf (buf, bufsize, "%u", size);
-				Atom->SetProperty (GCU_PROP_ATOM_Z, buf);
+				ostringstream str;
+				str <<  size;
+				Atom->SetProperty (GCU_PROP_ATOM_Z, str.str ().c_str ());
 				break;
-			case kCDXProp_Atom_Charge:
+			}
+			case kCDXProp_Atom_Charge: {
 				gint8 charge;
 				if (size!= 1 || !gsf_input_read (in, 1, (guint8*) &charge))
 					goto bad_exit;
-				snprintf (buf, bufsize, "%d", charge);
-				Atom->SetProperty (GCU_PROP_ATOM_CHARGE, buf);
+				ostringstream str;
+				str <<  charge;
+				Atom->SetProperty (GCU_PROP_ATOM_CHARGE, str.str ().c_str ());
 				break;
+			}
 			case kCDXProp_Node_Type:
 				if (size != 2 || !(READINT16 (in,type)))
 					goto bad_exit;
@@ -954,8 +968,9 @@ fragment_success:
 						mol->Remove (Atom);
 					delete Atom;
 					Atom = parent->GetApplication ()->CreateObject ("pseudo-atom", parent);
-					snprintf (buf, bufsize, "a%d", Id);
-					Atom->SetId (buf);
+					ostringstream str;
+					str << "a" << Id;
+					Atom->SetId (str.str ().c_str ());
 					Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
 				}
 				break;
@@ -983,8 +998,9 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 	guint32 Id;
 	if (!(READINT32 (in,Id)))
 		return false;
-	snprintf (buf, bufsize, "b%d", Id);
-	Bond->SetId (buf);
+	ostringstream str;
+	str << "b" << Id;
+	Bond->SetId (str.str ().c_str ());
 	Bond->SetProperty (GCU_PROP_BOND_ORDER, "1");
 	if (!(READINT16 (in,code)))
 		return false;
@@ -1000,15 +1016,17 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 			case kCDXProp_Bond_Begin: {
 				if (size != 4 || !(READINT32 (in,Id)))
 					return false;
-				snprintf (buf, bufsize, "%u", Id);
-				Bond->SetProperty (GCU_PROP_BOND_BEGIN, buf);
+				ostringstream str;
+				str << Id;
+				Bond->SetProperty (GCU_PROP_BOND_BEGIN, str.str ().c_str ());
 				break;
 			}
 			case kCDXProp_Bond_End: {
 				if (size != 4 || !(READINT32 (in,Id)))
 					return false;
-				snprintf (buf, bufsize, "%u", Id);
-				Bond->SetProperty (GCU_PROP_BOND_END, buf);
+				ostringstream str;
+				str << Id;
+				Bond->SetProperty (GCU_PROP_BOND_END, str.str ().c_str ());
 				break;
 			}
 			case kCDXProp_Bond_Order:
@@ -1081,8 +1099,9 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 	guint8 TextAlign = 0xfe, TextJustify = 0xfe;
 	if (!(READINT32 (in,Id)))
 		return false;
-	snprintf (buf, bufsize, "t%d", Id);
-	Text->SetId (buf);
+	ostringstream str;
+	str << "t" << Id;
+	Text->SetId (str.str ().c_str ());
 	if (!(READINT16 (in,code)))
 		return false;
 	while (code) {
@@ -1102,8 +1121,9 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 					return false;
 				if (!(READINT32 (in,x)))
 					return false;
-				snprintf (buf, bufsize, "%d %d", x, y);
-				Text->SetProperty (GCU_PROP_POS2D, buf);
+				ostringstream str;
+				str <<  x << " " << y;
+				Text->SetProperty (GCU_PROP_POS2D, str.str ().c_str ());
 				break;
 			}
 			case kCDXProp_Text: {
@@ -1150,8 +1170,8 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 								// FIXME: fix this kludgy code
 								int cur = 0;
 								while (cur < attrs0.index) {
-									while (cur < attrs0.index && (buf[cur] < '0' || buf[cur] > '9')){printf("cur=%d c=%c\n",cur,buf[cur]);
-										str << buf[cur++];}
+									while (cur < attrs0.index && (buf[cur] < '0' || buf[cur] > '9'))
+										str << buf[cur++];
 									if (cur < attrs0.index) {
 										if (attrs0.face & 4)
 											str << "</u>";
@@ -1162,8 +1182,8 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 										str << "</fore></font><font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 30. << "\">";
 										str << "<fore " << colors[attrs.color] << ">";
 										str << "<sub height=\"" << (double) attrs.size / 60. << "\">";
-										while (buf[cur] >= '0' && buf[cur] <= '9'){printf("cur=%d c=%c\n",cur,buf[cur]);
-											str << buf[cur++];}
+										while (buf[cur] >= '0' && buf[cur] <= '9')
+											str << buf[cur++];
 										str << "</sub></fore></font><font name=\"" << m_Fonts[attrs.font].name << " " << (double) attrs.size / 20. << "\">";
 										str << "<fore " << colors[attrs.color] << ">";
 										if (attrs0.face & 1)
@@ -1404,32 +1424,34 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 	}
 	if (type == 1) {
 		Object *obj = NULL;
+		ostringstream str;
 		switch (arrow_type) {
 		case 1:
 		case 2:
 			obj = parent->GetApplication ()->CreateObject ("reaction-arrow", parent);
-			snprintf (buf, bufsize, "ra%d", Id);
+			str << "ra" << Id;
 			break;
 		case 4:
 			obj = parent->GetApplication ()->CreateObject ("mesomery-arrow", parent);
-			snprintf (buf, bufsize, "ma%d", Id);
+			str << "ma" << Id;
 			break;
 		case 8:
 			obj = parent->GetApplication ()->CreateObject ("reaction-arrow", parent);
-			snprintf (buf, bufsize, "ra%d", Id);
+			str << "ra" << Id;
 			obj->SetProperty (GCU_PROP_REACTION_ARROW_TYPE, "double");
 			break;
 		case 32:
 			obj = parent->GetApplication ()->CreateObject ("retrosynthesis-arrow", parent);
-			snprintf (buf, bufsize, "rsa%d", Id);
+			str << "rsa" << Id;
 			break;
 		default:
 			break;
 		}
 		if (obj) {
-			obj->SetId (buf);
-			snprintf (buf, bufsize, "%d %d %d %d", x0, y0, x1, y1);
-			obj->SetProperty (GCU_PROP_ARROW_COORDS, buf);
+			obj->SetId (str.str ().c_str ());
+			ostringstream str_;
+			str_ << x0 << " " << y0 << " " << x1 << " " << y1;
+			obj->SetProperty (GCU_PROP_ARROW_COORDS, str_.str ().c_str ());
 		}
 	}
 	return true;
@@ -1486,8 +1508,9 @@ bool CDXLoader::ReadFragmentText (GsfInput *in, G_GNUC_UNUSED Object *parent)
 					return false;
 				if (!READINT32 (in, x))
 					return false;
-				snprintf (buf, bufsize, "%d %d", x, y);
-//				Text->SetProperty (GCU_PROP_POS2D, buf);
+				ostringstream str;
+				str <<  x << " " << y;
+				Text->SetProperty (GCU_PROP_POS2D, str.str ().c_str ());
 				break;
 			}*/
 			case kCDXProp_Text: {

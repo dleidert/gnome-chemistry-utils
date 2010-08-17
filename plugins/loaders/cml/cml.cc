@@ -108,7 +108,8 @@ bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *ob
 		double x, y, z;
 		prop = object->GetProperty (GCU_PROP_POS3D);
 		if (prop.length ()) {
-			sscanf (prop.c_str (), "%lg %lg %lg", &x, &y, &z);
+			istringstream in (prop);
+			in >> x >> y >> z;
 			gsf_xml_out_add_float (xml, "x3", x, -1);
 			gsf_xml_out_add_float (xml, "y3", y, -1);
 			gsf_xml_out_add_float (xml, "z3", z, -1);
@@ -269,10 +270,11 @@ cml_scalar_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	CMLReadState *state = (CMLReadState *) xin->user_state;
 	if (state->proptype == "xsd:double") {
-		double val = strtod (xin->content->str, NULL);
+		double val = g_ascii_strtod (xin->content->str, NULL);
 		if (state->curstr == "units:angstrom" || state->curstr == "")
 			val *= 100.;
-		char *buf = g_strdup_printf ("%g", val);
+		char buf[G_ASCII_DTOSTR_BUF_SIZE];
+		g_ascii_dtostr (buf, G_ASCII_DTOSTR_BUF_SIZE, val);
 		state->doc->SetProperty (state->cur_prop, buf);
 		g_free (buf);
 	} else if (state->proptype == "xsd:string")
