@@ -24,7 +24,6 @@
 
 #include "config.h"
 #include <gcu/application.h>
-#include <gcu/atom.h>
 #include <gcu/bond.h>
 #include <gcu/document.h>
 #include <gcu/element.h>
@@ -33,6 +32,8 @@
 #include <gcu/molecule.h>
 #include <gcu/objprops.h>
 #include <gcu/residue.h>
+#include <gcp/atom.h>
+#include <gcp/fragment.h>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-output-memory.h>
@@ -331,7 +332,7 @@ bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNU
 	loader->WriteId (obj, out);
 	string prop = obj->GetProperty (GCU_PROP_POS2D);
 	if (prop.length ()) {
-		istringstream str;
+		istringstream str (prop);
 		str >> x >> y;
 		x_ = x;
 		y_ = y;
@@ -674,6 +675,7 @@ bool CDXLoader::ReadMolecule (GsfInput *in, Object *parent)
 			return false;
 	}
 		static_cast <Molecule*> (mol)->UpdateCycles ();
+	parent->GetDocument ()->ObjectLoaded (mol);
 	return true;
 }
 
@@ -909,6 +911,7 @@ fragment_success:
 							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_ID, str.str ().c_str ());
 							Atom->SetProperty (GCU_PROP_FRAGMENT_ATOM_START, "0");
 							Atom->SetProperty (GCU_PROP_POS2D, pos.c_str ());
+							parent->GetDocument ()->ObjectLoaded (static_cast <gcp::Fragment *> (Atom)->GetAtom ());
 						} else {
 							// TODO: import it in the document
 							g_warning (_("Unsupported feature, please report!"));
@@ -984,6 +987,7 @@ fragment_success:
 	}
 	if (Doc)
 		delete Doc;
+	parent->GetDocument ()->ObjectLoaded (Atom);
 	return true;
 bad_exit:
 	if (Doc)
@@ -1080,6 +1084,7 @@ bool CDXLoader::ReadBond (GsfInput *in, Object *parent)
 		if (!(READINT16 (in,code)))
 			return false;
 	}
+	parent->GetDocument ()->ObjectLoaded (Bond);
 	return true;
 }
 
@@ -1344,6 +1349,7 @@ bool CDXLoader::ReadText (GsfInput *in, Object *parent)
 	// Other cases are not currently supported
 		break;
 	}
+	parent->GetDocument ()->ObjectLoaded (Text);
 	return true;
 }
 
@@ -1383,6 +1389,7 @@ bool CDXLoader::ReadGroup (GsfInput *in, Object *parent)
 	}
 	Group->Lock (false);
 	Group->OnLoaded ();
+	parent->GetDocument ()->ObjectLoaded (Group);
 	return true;
 }
 
@@ -1452,6 +1459,7 @@ bool CDXLoader::ReadGraphic  (GsfInput *in, Object *parent)
 			ostringstream str_;
 			str_ << x0 << " " << y0 << " " << x1 << " " << y1;
 			obj->SetProperty (GCU_PROP_ARROW_COORDS, str_.str ().c_str ());
+			parent->GetDocument ()->ObjectLoaded (obj);
 		}
 	}
 	return true;

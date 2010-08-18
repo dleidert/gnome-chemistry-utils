@@ -234,7 +234,8 @@ bool Atom::SetProperty (unsigned property, char const *value)
 	switch (property) {
 	case GCU_PROP_POS2D: {
 		double x, y;
-		sscanf (value, "%lg %lg", &x, &y);
+		istringstream is (value);
+		is >> x >> y;
 		Document *doc = GetDocument ();
 		if (doc) {
 			x *= doc->GetScale ();
@@ -244,13 +245,13 @@ bool Atom::SetProperty (unsigned property, char const *value)
 		break;
 	}
 	case GCU_PROP_X:
-		m_x = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_x = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
 		break;
 	case GCU_PROP_Y:
-		m_y = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_y = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
 		break;
 	case GCU_PROP_Z:
-		m_z = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_z = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
 		break;
 	case GCU_PROP_ID: {
 		char *Id = (*value == 'a')? g_strdup (value): g_strdup_printf ("a%s", value);

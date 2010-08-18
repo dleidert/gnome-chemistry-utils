@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-08-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/atom.cc: fixed various serialization issues.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/loaders/cml/cml.cc: ditto.
+
 2010-08-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/loaders/cdx/cdx.cc: replaced all printf and scanf instances.
 	* plugins/loaders/cdxml/cdxml.cc: ditto.

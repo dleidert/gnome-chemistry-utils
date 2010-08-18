@@ -341,7 +341,7 @@ cml_atom_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 			if (!strcmp ((char const *) *attrs, "y2")) {
 				attrs++;
-				double x = -strtod ((char const *) *attrs, NULL); // reverse y direction, see comment in cml_write_atom
+				double x = -g_ascii_strtod ((char const *) *attrs, NULL); // reverse y direction, see comment in cml_write_atom
 				ostringstream res;
 				res << x;
 				obj->SetProperty (GCU_PROP_Y, res.str ().c_str ());
@@ -351,6 +351,7 @@ cml_atom_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 			attrs++;
 		}
+	state->doc->ObjectLoaded (obj);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -380,6 +381,7 @@ cml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 	}
 	state->cur.push (obj);
+	state->doc->ObjectLoaded (obj);
 }
 
 static void
@@ -477,6 +479,7 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL == doc)
 		doc = gsf_xml_in_doc_new (mol_dtd, NULL);
 	gsf_xml_in_push_state (xin, doc, state, (GsfXMLInExtDtor) NULL, attrs);
+	state->doc->ObjectLoaded (obj);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

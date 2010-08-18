@@ -166,6 +166,7 @@ cdxml_fragment_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	Object *obj = state->app->CreateObject ("molecule", state->cur.top ());
 	state->cur.push (obj);
+	state->doc->ObjectLoaded (obj);
 }
 
 static void
@@ -254,6 +255,7 @@ cdxml_bond_start (GsfXMLIn *xin, xmlChar const **attrs)
 		attrs++;
 	}
 	state->cur.push (obj);
+	state->doc->ObjectLoaded (obj);
 }
 
 static void
@@ -262,6 +264,7 @@ cdxml_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	Object *obj = state->app->CreateObject ("text", state->cur.top ());
 	state->cur.push (obj);
+	state->doc->ObjectLoaded (obj);
 	char *lowered;
 	map<string, unsigned>::iterator it;
 	while (*attrs)
@@ -539,6 +542,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 	CDXMLReadState	*state = (CDXMLReadState *) xin->user_state;
 	Object *obj = state->app->CreateObject ("atom", state->cur.top ());
 	obj->SetProperty (GCU_PROP_ATOM_Z, "6");
+	state->doc->ObjectLoaded (obj);
 	map<string, unsigned>::iterator it;
 	bool fragment = false;
 	while (*attrs) {
@@ -574,6 +578,7 @@ cdxml_node_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (NULL == doc)
 			doc = gsf_xml_in_doc_new (atom_dtd, NULL);
 		state->cur.push (obj); // push it twice in that case
+		state->doc->ObjectLoaded (obj);
 		gsf_xml_in_push_state (xin, doc, state, (GsfXMLInExtDtor) fragment_done, attrs);
 	}
 }
@@ -620,6 +625,7 @@ cdxml_group_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	Object *obj = state->app->CreateObject ("group", state->cur.top ());
 	obj->Lock ();
 	state->cur.push (obj);
+	state->doc->ObjectLoaded (obj);
 }
 
 static void
@@ -682,6 +688,7 @@ cdxml_graphic_start (GsfXMLIn *xin, xmlChar const **attrs)
 			ostringstream str_;
 			str_ << x0 << " " << y0 << " " << x1 << " " << y1;
 			obj->SetProperty (GCU_PROP_ARROW_COORDS, str_.str ().c_str ());
+			state->doc->ObjectLoaded (obj);
 		}
 	}
 }
