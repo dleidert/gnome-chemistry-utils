@@ -720,10 +720,10 @@ parse_line:
 							cur++;
 						if (*cur == 0)
 							break;
-						x[read] = strtod (cur, &cur);
+						x[read] = g_ascii_strtod (cur, &cur);
 						while (*cur && (*cur < '0' || *cur > '9') && *cur != '-' && *cur !='+')
 							cur++;
-						y[read] = strtod (cur, &cur);
+						y[read] = g_ascii_strtod (cur, &cur);
 						read++;
 					}
 				}
@@ -745,16 +745,16 @@ parse_line:
 		case JCAMP_YLABEL:
 			break;
 		case JCAMP_XFACTOR:
-			xfactor = strtod (buf, NULL);
+			xfactor = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_YFACTOR:
-			yfactor = strtod (buf, NULL);
+			yfactor = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_FIRSTX:
-			firstx = strtod (buf, NULL);
+			firstx = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_LASTX:
-			lastx = strtod (buf, NULL);
+			lastx = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_NPOINTS: {
 			unsigned n = (unsigned) atoi (buf);
@@ -770,19 +770,19 @@ parse_line:
 			break;
 		}
 		case JCAMP_FIRSTY:
-			firsty = strtod (buf, NULL);
+			firsty = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_MAXX:
-			maxx = strtod (buf, NULL);
+			maxx = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_MINX:
-			minx = strtod (buf, NULL);
+			minx = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_MAXY:
-			maxy = strtod (buf, NULL);
+			maxy = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_MINY:
-			miny = strtod (buf, NULL);
+			miny = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_RUNITS:
 		case JCAMP_AUNITS:
@@ -959,7 +959,7 @@ parse_line:
 			char *cur = buf;
 			double x;
 			while (*cur) {
-				x = strtod (cur, &cur);
+				x = g_ascii_strtod (cur, &cur);
 				if (*cur)
 					cur++;
 				if (i < variables.size ())
@@ -978,7 +978,7 @@ parse_line:
 			char *cur = buf;
 			double x;
 			while (*cur) {
-				x = strtod (cur, &cur);
+				x = g_ascii_strtod (cur, &cur);
 				if (*cur)
 					cur++;
 				if (i < variables.size ())
@@ -997,7 +997,7 @@ parse_line:
 			char *cur = buf;
 			double x;
 			while (*cur) {
-				x = strtod (cur, &cur);
+				x = g_ascii_strtod (cur, &cur);
 				if (*cur)
 					cur++;
 				if (i < variables.size ())
@@ -1016,7 +1016,7 @@ parse_line:
 			char *cur = buf;
 			double x;
 			while (*cur) {
-				x = strtod (cur, &cur);
+				x = g_ascii_strtod (cur, &cur);
 				if (*cur)
 					cur++;
 				if (i < variables.size ())
@@ -1035,7 +1035,7 @@ parse_line:
 			char *cur = buf;
 			double x;
 			while (*cur) {
-				x = strtod (cur, &cur);
+				x = g_ascii_strtod (cur, &cur);
 				if (*cur)
 					cur++;
 				if (i < variables.size ())
@@ -1143,7 +1143,7 @@ parse_line:
 			break;
 		}
 		case JCAMP_DELTAX:
-			deltax = strtod (buf, NULL);
+			deltax = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_CLASS:
 		case JCAMP_ORIGIN:
@@ -1193,7 +1193,7 @@ parse_line:
 		case JCAMP_MONOISOTOPIC_MASS:
 			break;
 		case JCAMP_OBSERVE_FREQUENCY:
-			freq = strtod (buf, NULL);
+			freq = g_ascii_strtod (buf, NULL);
 			break;
 		case JCAMP_OBSERVE_NUCLEUS:
 		case JCAMP_SOLVENT_REFERENCE:
@@ -1216,10 +1216,10 @@ parse_line:
 		case JCAMP_RELAXATION_TIMES:
 			break;
 		case BRUCKER_OFFSET:
-			offset = strtod (buf, NULL);
+			offset = g_ascii_strtod (buf, NULL);
 			break;
 		case VARIAN_OFFSET:
-			refpoint = strtod (buf, NULL);
+			refpoint = g_ascii_strtod (buf, NULL);
 			break;
 		default:
 			break;
@@ -1548,7 +1548,7 @@ void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
 			buf[j++] = c;
 		}
 		buf[j] = 0;
-		newval = strtod (buf, NULL);
+		newval = g_ascii_strtod (buf, NULL);
 		if (!pos)
 			newval = - newval;
 		if (diff)

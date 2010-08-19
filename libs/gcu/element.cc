@@ -45,7 +45,7 @@ static set<string>units;
 static void ReadValue (char const *source, GcuValue &value)
 {
 	const char *buf, *dot;
-	value.value = strtod (source, const_cast <char**> (&buf));
+	value.value = g_ascii_strtod (source, const_cast <char**> (&buf));
 	dot = strchr (source, '.');
 	value.prec = (dot)? buf - dot - 1: 0;
 	value.delta = (*buf == '(')? strtol (buf + 1, NULL, 10): 0;
@@ -54,7 +54,7 @@ static void ReadValue (char const *source, GcuValue &value)
 static void ReadDimensionalValue (char const *source, GcuDimensionalValue &value)
 {
 	const char *buf, *dot;
-	value.value = strtod (source, const_cast <char**> (&buf));
+	value.value = g_ascii_strtod (source, const_cast <char**> (&buf));
 	dot = strchr (source, '.');
 	value.prec = (dot)? buf - dot - 1: 0;
 	value.delta = (*buf == '(')? strtol (buf + 1, NULL, 10): 0;
@@ -88,7 +88,7 @@ EltTable::EltTable()
 	xmlDocPtr xml;
 	char* DefaultName;
 	char *lang = getenv ("LANG");
-	char *old_num_locale, *buf, *num;
+	char *buf, *num;
 	unsigned char Z;
 	map <string, string> Langs;
 	Langs["de"] = _("German");
@@ -101,8 +101,6 @@ EltTable::EltTable()
 	if (!(xml = xmlParseFile (PKGDATADIR"/elements.xml"))) {
 		g_error (_("Can't find and read elements.xml"));
 	}
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
 	if (strcmp ((const char*) node->name, "gpdata")) {
 		g_error (_("Incorrect file format: elements.xml"));
@@ -156,17 +154,17 @@ EltTable::EltTable()
 				} else if (!strcmp ((const char*) child->name, "color")) {
 					buf = (char*) xmlGetProp (child, (xmlChar*) "red");
 					if (buf) {
-						Elt->m_DefaultColor[0] = strtod (buf, NULL);
+						Elt->m_DefaultColor[0] = g_ascii_strtod (buf, NULL);
 						xmlFree (buf);
 					}
 					buf = (char*) xmlGetProp (child, (xmlChar*) "green");
 					if (buf) {
-						Elt->m_DefaultColor[1] = strtod (buf, NULL);
+						Elt->m_DefaultColor[1] = g_ascii_strtod (buf, NULL);
 						xmlFree (buf);
 					}
 					buf = (char*) xmlGetProp (child, (xmlChar*) "blue");
 					if (buf) {
-						Elt->m_DefaultColor[2] = strtod (buf, NULL);
+						Elt->m_DefaultColor[2] = g_ascii_strtod (buf, NULL);
 						xmlFree (buf);
 					}
 				}				child = child->next;
@@ -178,8 +176,6 @@ EltTable::EltTable()
 		}
 		node = node->next;
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 	xmlFreeDoc (xml);
 }
 
@@ -404,7 +400,7 @@ const GcuElectronegativity** Element::GetElectronegativities()
 void Element::LoadRadii ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *buf, *num;
+	char *buf, *num;
 	unsigned char Z;
 	static bool loaded = false;
 	if (loaded)
@@ -413,8 +409,6 @@ void Element::LoadRadii ()
 	if (!(xml = xmlParseFile (PKGDATADIR"/radii.xml"))) {
 		g_error (_("Can't find and read radii.xml"));
 	}
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
 	if (strcmp ((const char*) node->name, "gpdata")) {
 		g_error (_("Incorrect file format: radii.xml"));
@@ -504,8 +498,6 @@ void Element::LoadRadii ()
 		}
 		node = node->next;
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 	xmlFreeDoc (xml);
 	loaded = true;
 }
@@ -513,7 +505,7 @@ void Element::LoadRadii ()
 void Element::LoadElectronicProps ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *buf, *num, *dot, *end;
+	char *buf, *num, *dot, *end;
 	unsigned char Z;
 	unsigned i;
 	static bool loaded = false;
@@ -522,8 +514,6 @@ void Element::LoadElectronicProps ()
 	if (!(xml = xmlParseFile (PKGDATADIR"/elecprops.xml"))) {
 		g_error (_("Can't find and read elecprops.xml"));
 	}
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
 	if (strcmp ((const char*) node->name, "gpdata")) {
 		g_error (_("Incorrect file format: elecprops.xml"));
@@ -554,7 +544,7 @@ void Element::LoadElectronicProps ()
 						en->scale = NULL;
 					buf = (char*) xmlGetProp (child, (xmlChar*) "value");
 					if (buf) {
-						en->value.value = strtod (buf, &end);
+						en->value.value = g_ascii_strtod (buf, &end);
 						dot = strchr (buf, '.');
 						en->value.prec = (dot)? end - dot - 1: 0;
 						en->value.delta = 0; // we should use a generic parser
@@ -667,8 +657,6 @@ void Element::LoadElectronicProps ()
 		}
 		node = node->next;
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 	xmlFreeDoc (xml);
 	loaded = true;
 }
@@ -676,7 +664,7 @@ void Element::LoadElectronicProps ()
 void Element::LoadIsotopes ()
 {
 	xmlDocPtr xml;
-	char *old_num_locale, *num;
+	char *num;
 	unsigned char Z;
 	static bool loaded = false;
 	if (loaded)
@@ -684,8 +672,6 @@ void Element::LoadIsotopes ()
 	if (!(xml = xmlParseFile (PKGDATADIR"/isotopes.xml"))) {
 		g_error (_("Can't find and read isotopes.xml"));
 	}
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	xmlNode* node = xml->children, *child;
 	if (strcmp ((const char*) node->name, "gpdata")) {
 		g_error (_("Incorrect file format: isotopes.xml"));
@@ -759,8 +745,6 @@ void Element::LoadIsotopes ()
 		}
 		node = node->next;
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 	xmlFreeDoc (xml);
 	loaded = true;
 }
@@ -829,9 +813,6 @@ void Element::LoadBODR ()
 	if (loaded)
 		return;
 	loaded = true;
-	char *old_num_locale;
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	xmlDocPtr xml = xmlParseFile (BODR_PKGDATADIR"/elements.xml");
 	if (!xml)
 		return;
@@ -858,7 +839,7 @@ void Element::LoadBODR ()
 							char *end, *dot;
 							xmlFree (buf);
 							buf = (char*) xmlNodeGetContent (child);
-							double x = strtod (buf, &end);
+							double x = g_ascii_strtod (buf, &end);
 							dot = strchr (buf, '.');
 							int prec = (dot)? end - dot - 1: 0;
 							unit = (char*) xmlGetProp (child, (xmlChar const*) "units");
@@ -1001,9 +982,6 @@ void Element::LoadBODR ()
 			node = node->next;
 		}
 	}
-	xmlFreeDoc (xml);
-	setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
 }
 
 Value const *Element::GetProperty (char const *property_name)

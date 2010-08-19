@@ -116,6 +116,7 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	string filename = uri;
 	Clear ();
 	ContentType type = app->Load (filename, mime_type, this);
+	Loaded ();
 	if (type == ContentType3D) {
 		g_object_unref (file);
 		// center the scene around 0,0,0
@@ -196,8 +197,6 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 {
 	istringstream is (data);
-	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	OBConversion Conv;
 	OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
 	OBMol Molecule;
@@ -206,7 +205,6 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 		Conv.Read (&Molecule,&is);
 		m_Empty = Molecule.NumAtoms () == 0;
 	}
-	setlocale (LC_NUMERIC, old_num_locale);
 	m_Mol->Clear ();
 	// center the molecule around 0,0,0
 	std::vector < OBNodeBase * >::iterator i;
@@ -239,7 +237,6 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type)
 	}
 	SetTitle (Molecule.GetTitle());
 	m_View->Update ();
-	g_free (old_num_locale);
 }
 
 struct VrmlBond {
@@ -253,7 +250,6 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 {
 	if (!m_Mol)
 		return;
-	char *old_num_locale;
 	double R, w, x, y, z, x0, y0, z0, dist;
 	int n = 0, Z;
 	const gdouble* color;
@@ -270,8 +266,6 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 		g_object_unref (stream);
 		return;
 	}
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 
 	file << "#VRML V2.0 utf8" << endl;
 	
@@ -396,8 +390,6 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 	//end of the world
 	file << "\t]" << endl << "}" << endl;
 
-	setlocale(LC_NUMERIC, old_num_locale);
-	g_free(old_num_locale);
 	g_output_stream_write (reinterpret_cast <GOutputStream *> (output), file.str ().c_str (), file.str ().size (), NULL, &error);
 	if (error) {
 		cerr << "gio error: " << error->message << endl;

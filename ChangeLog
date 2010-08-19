@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-08-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/chem3ddoc.cc: more setlocale eradication work.
+	* libs/gcu/element.cc: ditto.
+	* libs/gcu/gcuspectrumviewer.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+
 2010-08-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/atom.cc: fixed various serialization issues.
 	* plugins/loaders/cdx/cdx.cc: ditto.

@@ -71,11 +71,7 @@ gcu_spectrum_viewer_set_uri	(GcuSpectrumViewer * viewer, const gchar * uri)
 {
 	if (!uri)
 		return;
-	char *old_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
 	viewer->doc->Load (uri, "chemical/x-jcamp-dx");
-	setlocale (LC_NUMERIC, old_locale);
-	g_free (old_locale);
 	g_return_if_fail (GCU_IS_SPECTRUM_VIEWER (viewer));
 }
 
