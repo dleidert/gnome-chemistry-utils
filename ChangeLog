@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-08-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/spectra/application.cc: more setlocale eradication work.
+	* programs/table/gchemtable-app.cc: fix clipboard support for curves.
+	* programs/table/gchemtable-curve.cc: ditto.
+
 2010-08-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chem3ddoc.cc: more setlocale eradication work.
 	* libs/gcu/element.cc: ditto.

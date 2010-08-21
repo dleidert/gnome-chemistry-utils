@@ -384,8 +384,12 @@ GChemTableApp::GChemTableApp (): Application ("gchemtable")
 
 }
 
+extern GObject *Copied;
+
 GChemTableApp::~GChemTableApp ()
 {
+	if (Copied)
+		g_object_unref (Copied);
 	gct_data_clear ();
 }
 
