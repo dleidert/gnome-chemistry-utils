@@ -1,4 +1,6 @@
 Version 0.12.4
+	GChemTable:
+		* Fixed copying curves to the clipbboard.
 
 Version 0.12.3
 	GChemPaint:

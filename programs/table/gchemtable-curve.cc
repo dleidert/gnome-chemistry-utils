@@ -41,6 +41,7 @@ using namespace gcu;
 using namespace std;
 
 map<string, GChemTableCurve*> curves;
+GObject *Copied;
 
 void on_show_curve (GObject *obj, char const* name)
 {
@@ -77,9 +78,13 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 			go_setlocale (LC_MONETARY, "C");
 			go_locale_untranslated_booleans ();
 		
+			GogObject *graph_;
+			graph_ = gog_object_dup (GOG_OBJECT (graph),
+				NULL, gog_dataset_dup_to_simple);
 			xout = gsf_xml_out_new (output);
-			gog_object_write_xml_sax (GOG_OBJECT (graph), xout, NULL);
+			gog_object_write_xml_sax (GOG_OBJECT (graph_), xout, NULL);
 			g_object_unref (xout);
+			g_object_unref (graph_);
 		
 			/* go_setlocale restores bools to locale translation */
 			go_setlocale (LC_MONETARY, old_monetary_locale);
@@ -117,6 +122,7 @@ static void on_get_data (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData
 
 void on_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, GogGraph *graph)
 {
+	Copied = NULL;
 	g_object_unref (graph);
 }
 
@@ -484,7 +490,7 @@ void GChemTableCurve::OnPageSetup ()
 void GChemTableCurve::OnCopy ()
 {
 	GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-	g_object_ref (m_Graph);
+	Copied = G_OBJECT (g_object_ref (m_Graph));
 	gtk_clipboard_set_with_data (clipboard, targets, 4,
 		(GtkClipboardGetFunc) on_get_data, (GtkClipboardClearFunc) on_clear_data, m_Graph);
 }
