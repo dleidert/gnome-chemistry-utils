@@ -40,8 +40,6 @@ gcrystal_@GCU_API_VER@_SOURCES = \
 		celldlg.h \
 		cleavage.cc \
 		cleavage.h \
-		cleavagesdlg.cc \
-		cleavagesdlg.h \
 		docprop.cc \
 		docprop.h \
 		document.cc \

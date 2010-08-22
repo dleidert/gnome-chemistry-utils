@@ -35,7 +35,7 @@
 #include "atomsdlg.h"
 #include "linesdlg.h"
 #include "sizedlg.h"
-#include "cleavagesdlg.h"
+#include <gcr/cleavagesdlg.h>
 #include "globals.h"
 #include <gcu/objprops.h>
 #include <gcu/filechooser.h>
@@ -102,7 +102,7 @@ void gcDocument::Define (unsigned nPage)
 		new gcSizeDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 4:
-		new gcCleavagesDlg (dynamic_cast <gcApplication *> (m_App), this);
+		new gcr::CleavagesDlg (m_App, this);
 		break;
 	}
 }
@@ -241,7 +241,6 @@ void gcDocument::Save() const
 		if (!g_date_valid (&m_CreationDate))
 			g_date_set_time_t (&const_cast <gcDocument *> (this)->m_CreationDate, time (NULL));
 		g_date_set_time_t (&const_cast <gcDocument *> (this)->m_RevisionDate, time (NULL));
-		gchar tmp[64];
 		gcu::WriteDate (xml->children, "creation", &m_CreationDate);
 		gcu::WriteDate (xml->children, "revision", &m_RevisionDate);
 		xmlNodePtr node;
@@ -397,7 +396,7 @@ bool gcDocument::Load (const string &filename)
 
 void gcDocument::ParseXMLTree(xmlNode* xml)
 {
-	char *old_num_locale, *txt;
+	char *txt;
 	xmlNodePtr node;
 	bool bViewLoaded = false;
 
@@ -498,7 +497,7 @@ void gcDocument::ParseXMLTree(xmlNode* xml)
 				txt = (char*) xmlGetProp (node, (xmlChar*) "fixed");
 				if (txt) {
 					if (!strcmp (txt, "true"))
-						m_bFixedSize = true;
+						SetFixedSize (true);
 					xmlFree (txt);
 				}
 			} else if (!strcmp((gchar*)node->name, "atom")) {

@@ -6,6 +6,7 @@ noinst_HEADERS = \
 	atom.h \
 	bond.h \
 	cleavage.h \
+	cleavagesdlg.h \
 	document.h \
 	gcrcrystalviewer.h \
 	grid.h \
@@ -17,6 +18,7 @@ libgcr_@GCU_API_VER@_la_SOURCES =	\
 	atom.cc \
 	bond.cc \
 	cleavage.cc \
+	cleavagesdlg.cc \
 	document.cc \
 	gcrcrystalviewer.cc \
 	grid.cc \
@@ -33,4 +35,5 @@ INCLUDES = \
 		$(goffice_CFLAGS) \
 		$(gtkglext_CFLAGS) \
 		$(GCU_CFLAGS)
-DEFS += -DDATADIR=\"$(datadir)\"
+DEFS += -DDATADIR=\"$(datadir)\" \
+        -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/crystal\"

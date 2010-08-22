@@ -199,6 +199,7 @@ Attempts to infer the symmetry space group for the crystal.
 Reinitialize a Document instance. Used when loading a file in an already existing document.
 */
 	void Reinit ();
+	CleavageList *GetCleavageList () {return &Cleavages;}
 
 protected:
 /*!
@@ -270,10 +271,6 @@ The maximum z coordinate in the representation of the crystal structure.
 */
 	gdouble m_zmax;
 /*!
-true if cleavages must not change positions in the view.
-*/
-	gboolean m_bFixedSize;  //true if cleavages must not change positions in the view
-/*!
 List of the atoms in the definition of the crystal
 */
 	AtomList AtomDef;
@@ -338,6 +335,11 @@ to the Bravais lattice and the defines atoms.
 @return whether the space group is automatically evaluated as a reference.
 */
 GCU_PROP (bool, AutoSpaceGroup)
+
+/*!\var m_FixedSize
+true if cleavages must not change positions in the view.
+*/
+GCU_PROP (bool, FixedSize);
 };
 
 /*!

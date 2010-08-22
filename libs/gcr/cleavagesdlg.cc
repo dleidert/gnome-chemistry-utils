@@ -25,10 +25,12 @@
 #include "config.h"
 #include "cleavagesdlg.h"
 #include "document.h"
-#include "application.h"
+#include <gcu/application.h>
 #include <glib/gi18n.h>
 
 using namespace std;
+
+namespace gcr {
 
 enum
 {
@@ -43,32 +45,32 @@ struct CleavageStruct {
 	unsigned planes;
 };
 
-static void on_add(G_GNUC_UNUSED GtkWidget *widget, gcCleavagesDlg *pBox)
+static void on_add(G_GNUC_UNUSED GtkWidget *widget, CleavagesDlg *pBox)
 {
 	pBox->CleavageAdd();
 }
 
-static void on_delete(G_GNUC_UNUSED GtkWidget *widget, gcCleavagesDlg *pBox)
+static void on_delete(G_GNUC_UNUSED GtkWidget *widget, CleavagesDlg *pBox)
 {
 	pBox->CleavageDelete();
 }
 
-static void on_delete_all(G_GNUC_UNUSED GtkWidget *widget, gcCleavagesDlg *pBox)
+static void on_delete_all(G_GNUC_UNUSED GtkWidget *widget, CleavagesDlg *pBox)
 {
 	pBox->CleavageDeleteAll();
 }
 
-static void on_select(GtkTreeSelection *Selection, gcCleavagesDlg *pBox)
+static void on_select(GtkTreeSelection *Selection, CleavagesDlg *pBox)
 {
 	pBox->CleavageSelect(Selection);
 }
 
-static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, gcCleavagesDlg *pBox)
+static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, CleavagesDlg *pBox)
 {
 	pBox->OnEdited(cell, path_string, new_text);
 }
 
-gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE, pDoc)
+CleavagesDlg::CleavagesDlg (gcu::Application *App, gcr::Document* pDoc): Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	GtkWidget* button = GetWidget ("add");
@@ -79,6 +81,11 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 	DeleteAllBtn = GetWidget ("delete_all");
 	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
 	FixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("fixed"));
+	m_Grid = gcr_grid_new ("h", "k", "l", _("Planes cleaved"), NULL);
+	gtk_widget_show_all (m_Grid);
+	GtkWidget *scrolled = GetWidget ("cleavages-window");
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled), m_Grid);
+#if 0
 	GtkTreeView* tree = GTK_TREE_VIEW (GetWidget ("cleavageslist"));
 	Selection = gtk_tree_view_get_selection (tree);
 	CleavageList = gtk_list_store_new (5, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_UINT, G_TYPE_BOOLEAN);
@@ -125,11 +132,12 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 	gtk_tree_view_column_set_sizing (GTK_TREE_VIEW_COLUMN (column), GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_column_set_fixed_width (GTK_TREE_VIEW_COLUMN (column), 75);
 	gtk_tree_view_append_column (tree, column);
+#endif
 	m_Cleavages = g_array_sized_new (FALSE, FALSE, sizeof (struct CleavageStruct), 1);
 	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList ();
 	gcr::Cleavage* pCleavage;
 	struct CleavageStruct s;
-	GtkTreeIter iter;
+//	GtkTreeIter iter;
 	for (list<gcr::Cleavage*>::iterator i = Cleavages->begin (); i != Cleavages->end (); i++)
 	{
 		pCleavage = *i;
@@ -138,26 +146,26 @@ gcCleavagesDlg::gcCleavagesDlg (gcApplication *App, gcDocument* pDoc): Dialog (A
 		s.l = pCleavage->l ();
 		s.planes = pCleavage->Planes ();
 		g_array_append_vals (m_Cleavages, &s, 1);
-		gtk_list_store_append (CleavageList, &iter);
+/*		gtk_list_store_append (CleavageList, &iter);
 		gtk_list_store_set (CleavageList, &iter,
 				  0, s.h,
 				  1, s.k,
 				  2, s.l,
 				  3, s.planes,
-				  -1);
+				  -1);*/
 	}
-	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
+//	g_signal_connect (G_OBJECT (Selection), "changed", G_CALLBACK (on_select), this);
 	if (!m_Cleavages->len)
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
-gcCleavagesDlg::~gcCleavagesDlg()
+CleavagesDlg::~CleavagesDlg()
 {
 	if (m_Cleavages)
 		g_array_free (m_Cleavages, false);
 }
 
-bool gcCleavagesDlg::Apply()
+bool CleavagesDlg::Apply()
 {
 	gcr::CleavageList* Cleavages = m_pDoc->GetCleavageList();
 	//First, delete old Cleavages
@@ -187,7 +195,7 @@ bool gcCleavagesDlg::Apply()
 	return true;
 }
 
-void gcCleavagesDlg::CleavageAdd()
+void CleavagesDlg::CleavageAdd()
 {
 	GtkTreeIter iter;
 	
@@ -206,7 +214,7 @@ void gcCleavagesDlg::CleavageAdd()
 	gtk_tree_selection_select_iter(Selection, &iter);
 }
 
-void gcCleavagesDlg::CleavageDelete()
+void CleavagesDlg::CleavageDelete()
 {
 	GtkTreeModel* model = GTK_TREE_MODEL(CleavageList);
 	GtkTreeIter iter;
@@ -227,7 +235,7 @@ void gcCleavagesDlg::CleavageDelete()
 	if (!m_Cleavages->len)gtk_widget_set_sensitive(DeleteAllBtn, false);
 }
 
-void gcCleavagesDlg::CleavageDeleteAll()
+void CleavagesDlg::CleavageDeleteAll()
 {
 	g_array_free(m_Cleavages, false);
 	m_Cleavages = g_array_sized_new (FALSE, FALSE, sizeof (struct CleavageStruct), 1);
@@ -235,7 +243,7 @@ void gcCleavagesDlg::CleavageDeleteAll()
 	gtk_widget_set_sensitive(DeleteAllBtn, false);
 }
 
-void gcCleavagesDlg::CleavageSelect(GtkTreeSelection *Selection)
+void CleavagesDlg::CleavageSelect(GtkTreeSelection *Selection)
 {
 	GtkTreeModel* model = GTK_TREE_MODEL (CleavageList);
 	GtkTreeIter iter;
@@ -248,7 +256,7 @@ void gcCleavagesDlg::CleavageSelect(GtkTreeSelection *Selection)
 	}
 }
 
-void gcCleavagesDlg::OnEdited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
+void CleavagesDlg::OnEdited(GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
 {
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
@@ -275,3 +283,6 @@ void gcCleavagesDlg::OnEdited(GtkCellRendererText *cell, const gchar *path_strin
 	}
 	gtk_tree_path_free (path);
 }
+
+}	//	namespace gcr
+

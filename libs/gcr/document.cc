@@ -138,7 +138,7 @@ void Document::Init()
 	m_AutoSpaceGroup = false;
 	m_xmin = m_ymin = m_zmin = 0;
 	m_xmax = m_ymax = m_zmax = 1;
-	m_bFixedSize = false;
+	m_FixedSize = false;
 	m_MaxDist = 0;
 	if (m_Views.size() == 0)
 	{
@@ -219,7 +219,7 @@ void Document::ParseXMLTree (xmlNode* xml)
 			txt = (char*) xmlGetProp (node, (xmlChar*) "fixed");
 			if (txt) {
 				if (!strcmp (txt, "true"))
-					m_bFixedSize = true;
+					m_FixedSize = true;
 				xmlFree (txt);
 			}
 		} else if (!strcmp ((gchar*) node->name, "atom")) {
@@ -505,13 +505,13 @@ void Document::Update()
 	z = (zmin + zmax) / 2.;
 	m_MaxDist = 0;
 	for (i = Atoms.begin(); i != iend; i++) {
-		d =  (*i)->Distance (x, y, z, m_bFixedSize);
+		d =  (*i)->Distance (x, y, z, m_FixedSize);
 		m_MaxDist = __max (m_MaxDist, d);
 		(*i)->Move (- x, - y, - z);
 	}
 
 	for (j = Lines.begin(); j != Lines.end(); j++) {
-		d =  (*j)->Distance (x, y, z, m_bFixedSize);
+		d =  (*j)->Distance (x, y, z, m_FixedSize);
 		m_MaxDist = __max (m_MaxDist, d);
 		(*j)->Move (- x, - y, - z);
 	}
@@ -619,7 +619,6 @@ const char* Document::GetProgramId() const
 
 xmlDocPtr Document::BuildXMLTree () const
 {
-	gchar buf[256];
 	xmlDocPtr xml;
 	xmlNodePtr node;
 	xmlNsPtr ns;
@@ -680,7 +679,7 @@ xmlDocPtr Document::BuildXMLTree () const
 		if (node) xmlAddChild(xml->children, node); else throw (int) 0;
 		gcu::WritePosition(xml, node, "start", m_xmin, m_ymin, m_zmin);
 		gcu::WritePosition(xml, node, "end", m_xmax, m_ymax, m_zmax);
-		if (m_bFixedSize)
+		if (m_FixedSize)
 			xmlNewProp (node, (xmlChar *) "fixed", (xmlChar *) "true");
 		
 		AtomList::const_iterator i;

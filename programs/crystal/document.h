@@ -54,7 +54,6 @@ public:
 	void Define (unsigned nPage = 0);
 	gcr::AtomList* GetAtomList () {return &AtomDef;}
 	gcr::LineList* GetLineList () {return &LineDef;}
-	gcr::CleavageList* GetCleavageList () {return &Cleavages;}
 	void Update ();
 	void UpdateAllViews ();
 	void SetWidget (GtkWidget* widget) {m_widget = widget;}
@@ -80,8 +79,6 @@ public:
 	bool RemoveView(gcView* pView);
 	void RemoveAllViews ();
 	bool VerifySaved();
-	bool GetFixedSize() {return m_bFixedSize;}
-	void SetFixedSize(bool FixedSize) {m_bFixedSize = FixedSize;}
 	virtual gcr::View* CreateNewView();
 	virtual gcr::Atom* CreateNewAtom();
 	virtual gcr::Line* CreateNewLine();

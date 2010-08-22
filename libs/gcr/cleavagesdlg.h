@@ -4,7 +4,7 @@
  * Gnome Crystal
  * cleavagesdlg.h 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,39 +22,47 @@
  * USA
  */
 
-#ifndef GCRYSTAL_CLEAVAGESDLG_H
-#define GCRYSTAL_CLEAVAGESDLG_H
+#ifndef GCR_CLEAVAGESDLG_H
+#define GCR_CLEAVAGESDLG_H
 
 #include <gcu/dialog.h>
+#include "grid.h"
 
-class gcDocument;
-class gcApplication;
+namespace gcu {
+class Application;
+}
+
+namespace gcr {
+
+class Document;
+class Application;
 
 struct CleavageStruct;
 
-using namespace gcu;
-
-class gcCleavagesDlg: public Dialog
+class CleavagesDlg: public gcu::Dialog
 {
 public:
-	gcCleavagesDlg (gcApplication *App, gcDocument* pDoc);
-	virtual ~gcCleavagesDlg ();
+	CleavagesDlg (gcu::Application *App, gcr::Document* pDoc);
+	virtual ~CleavagesDlg ();
 	
 	void CleavageAdd ();
 	void CleavageDelete ();
 	void CleavageDeleteAll ();
 	void CleavageSelect (GtkTreeSelection *Selection);
 	void OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text);
-	virtual bool Apply ();
+	bool Apply ();
 
 private:
 	char m_buf[64];
-	gcDocument *m_pDoc;
+	Document *m_pDoc;
 	GtkListStore *CleavageList;
 	GtkToggleButton *FixedBtn;
 	GtkTreeSelection *Selection;
 	GArray *m_Cleavages;
 	GtkWidget *DeleteBtn, *DeleteAllBtn;
+	GtkWidget *m_Grid;
 };
 
-#endif //GCRYSTAL_CLEAVAGESDLG_H
+}	//	namespace gcr
+
+#endif //GCR_CLEAVAGESDLG_H
