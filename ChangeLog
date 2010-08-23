@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/cleavagesdlg.cc: work on GcrGrid use.
+	* libs/gcr/grid.cc: ditto.
+	* ui/crystal/cleavages.ui: ditto.
+
 2010-08-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/Makefile.am: moved cleavages dialog from programs/crystal.
 	* libs/gcr/cleavagesdlg.cc: ditto and use GcrGrid (not working yet).

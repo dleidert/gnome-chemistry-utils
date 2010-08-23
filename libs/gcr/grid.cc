@@ -24,20 +24,22 @@
 
 #include "config.h"
 #include "grid.h"
-#include <goffice/canvas/goc-canvas.h>
+#include <goffice/goffice.h>
 #include <list>
 
 #include <gsf/gsf-impl-utils.h>
 
 struct _GcrGrid
 {
-	GocCanvas base;
+	GtkVBox base;
 	unsigned cols, rows;
+	GocCanvas *headers, *contents;
+	GtkAdjustment *hadj, *vadj;
 };
 
 typedef struct
 {
-	GocCanvasClass parent_class;
+	GtkVBoxClass parent_class;
 } GcrGridClass;
 
 
@@ -50,7 +52,7 @@ gcr_grid_init (G_GNUC_UNUSED GcrGrid *grid)
 {
 }
 
-GSF_CLASS (GcrGrid, gcr_grid, gcr_grid_class_init, gcr_grid_init, GOC_TYPE_CANVAS)
+GSF_CLASS (GcrGrid, gcr_grid, gcr_grid_class_init, gcr_grid_init, GTK_TYPE_VBOX)
 
 GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title,...)
 {
@@ -69,6 +71,15 @@ GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title,...)
 	}
 	va_end (args);
 	grid->cols = titles.size ();
+	grid->headers = GOC_CANVAS (g_object_new (GOC_TYPE_CANVAS, NULL));
+	GtkBox *box = GTK_BOX (grid);
+	gtk_box_pack_start (box, GTK_WIDGET (grid->headers), FALSE, TRUE, 0);
+	grid->hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0, 0, 1, 1, 0, 1));
+	grid->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0, 0, 1, 1, 0, 1));
+	GtkWidget *scrolled = gtk_scrolled_window_new (grid->hadj, grid->vadj);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+	gtk_box_pack_start (box, scrolled, FALSE, TRUE, 0);
+	
 /*	GtkTable *table = GTK_TABLE (grid);
 	gtk_table_resize (table, 2, grid->cols);
 	for (unsigned i = 0; i < grid->cols; i++) {

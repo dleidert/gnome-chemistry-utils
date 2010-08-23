@@ -83,8 +83,8 @@ CleavagesDlg::CleavagesDlg (gcu::Application *App, gcr::Document* pDoc): Dialog 
 	FixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("fixed"));
 	m_Grid = gcr_grid_new ("h", "k", "l", _("Planes cleaved"), NULL);
 	gtk_widget_show_all (m_Grid);
-	GtkWidget *scrolled = GetWidget ("cleavages-window");
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled), m_Grid);
+	GtkWidget *align = GetWidget ("cleavages-align");
+	gtk_container_add (GTK_CONTAINER (align), m_Grid);
 #if 0
 	GtkTreeView* tree = GTK_TREE_VIEW (GetWidget ("cleavageslist"));
 	Selection = gtk_tree_view_get_selection (tree);
