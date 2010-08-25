@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/Makefile.am: make libgcr link with GNU gold ld.
+
 2010-08-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/cleavagesdlg.cc: work on GcrGrid use.
 	* libs/gcr/grid.cc: ditto.

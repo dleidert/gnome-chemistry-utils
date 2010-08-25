@@ -29,7 +29,8 @@ libgcr_@GCU_API_VER@_la_SOURCES =	\
 libgcr_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcr_@GCU_API_VER@_la_LIBADD = \
-		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+		-lGL -lGLU
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
