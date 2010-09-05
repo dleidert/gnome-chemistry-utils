@@ -32,7 +32,7 @@
 #include "view.h"
 #include "window.h"
 #include "celldlg.h"
-#include "atomsdlg.h"
+#include <gcr/atomsdlg.h>
 #include "linesdlg.h"
 #include "sizedlg.h"
 #include <gcr/cleavagesdlg.h>
@@ -93,7 +93,7 @@ void gcDocument::Define (unsigned nPage)
 		new gcCellDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 1:
-		new gcAtomsDlg (dynamic_cast <gcApplication *> (m_App), this);
+		new gcr::AtomsDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 2:
 		new gcLinesDlg (dynamic_cast <gcApplication *> (m_App), this);

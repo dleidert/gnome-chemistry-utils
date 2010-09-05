@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2010-09-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gchemutils.xml.in: add mime type for NUTS FID.
+	* libs/gcr/Makefile.am: add new files.
+	* libs/gcr/application.cc: new application class.
+	* libs/gcr/application.h: ditto.
+	* libs/gcr/atomsdlg.cc: moved from gcrystal.
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcr/document.h: make atoms dialog work.
+	* programs/crystal/Makefile.am: removed atoms dialog related files.
+	* programs/crystal/application.cc: derive from gcr::Application.
+	* programs/crystal/application.h: ditto.
+	* programs/crystal/atomsdlg.cc: moved to libs/gcr.
+	* programs/crystal/atomsdlg.h: ditto.
+	* programs/crystal/document.cc: use gcr::AtomsDlg.
+	* programs/crystal/document.h: ditto.
+
 2010-08-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/Makefile.am: make libgcr link with GNU gold ld.
 

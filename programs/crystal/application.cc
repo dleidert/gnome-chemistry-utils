@@ -4,7 +4,7 @@
  * Gnome Crystal
  * application.cc 
  *
- * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -47,7 +47,7 @@ static Object *CreateAtom ()
 
 bool gcApplication::m_bInit = false;
 
-gcApplication::gcApplication(): Application ("gcrystal")
+gcApplication::gcApplication(): gcr::Application ()
 {
 	gcu::Loader::Init ();
 	m_SupportedMimeTypes.push_back ("application/x-gcrystal");

@@ -4,7 +4,7 @@
  * Gnome Crystal
  * application.h 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,9 +29,9 @@
 #include "config.h"
 #include "document.h"
 #include "view.h"
-#include <gcu/application.h>
+#include <gcr/application.h>
 
-class gcApplication: public gcu::Application
+class gcApplication: public gcr::Application
 {
 public:
 	gcApplication();

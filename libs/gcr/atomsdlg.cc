@@ -35,6 +35,8 @@
 using namespace std;
 using namespace gcu;
 
+namespace gcr {
+
 enum
 {
 	COLUMN_ELT,
@@ -52,57 +54,57 @@ struct AtomStruct {
 	double Blue, Red, Green, Alpha;
 };
 
-static void on_add (G_GNUC_UNUSED GtkWidget *widget, gcAtomsDlg *pBox)
+static void on_add (G_GNUC_UNUSED GtkWidget *widget, AtomsDlg *pBox)
 {
 	pBox->AtomAdd ();
 }
 
-static void on_delete (G_GNUC_UNUSED GtkWidget *widget, gcAtomsDlg *pBox)
+static void on_delete (G_GNUC_UNUSED GtkWidget *widget, AtomsDlg *pBox)
 {
 	pBox->AtomDelete ();
 }
 
-static void on_delete_all (G_GNUC_UNUSED GtkWidget *widget, gcAtomsDlg *pBox)
+static void on_delete_all (G_GNUC_UNUSED GtkWidget *widget, AtomsDlg *pBox)
 {
 	pBox->AtomDeleteAll ();
 }
 
-static void on_select (GtkTreeSelection *Selection, gcAtomsDlg *pBox)
+static void on_select (GtkTreeSelection *Selection, AtomsDlg *pBox)
 {
 	pBox->AtomSelect (Selection);
 }
 
-static void on_element (G_GNUC_UNUSED GtkWidget *widget, guint Z, gcAtomsDlg *pBox)
+static void on_element (G_GNUC_UNUSED GtkWidget *widget, guint Z, AtomsDlg *pBox)
 {
 	pBox->OnElement (Z);
 }
 
-static void on_edited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, gcAtomsDlg *pBox)
+static void on_edited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, AtomsDlg *pBox)
 {
 	pBox->OnEdited (cell, path_string, new_text);
 }
 
-static void on_toggled_color (GtkToggleButton *button, gcAtomsDlg *pBox)
+static void on_toggled_color (GtkToggleButton *button, AtomsDlg *pBox)
 {
 	pBox->SetCustomColor (gtk_toggle_button_get_active (button));
 }
 
-static void on_radius_type_changed (GtkComboBox *menu, gcAtomsDlg *pBox)
+static void on_radius_type_changed (GtkComboBox *menu, AtomsDlg *pBox)
 {
 	pBox->SetRadiusType (gtk_combo_box_get_active (menu));
 }
 
-static void on_radius_index_changed(GtkComboBox *menu, gcAtomsDlg *pBox)
+static void on_radius_index_changed(GtkComboBox *menu, AtomsDlg *pBox)
 {
 	pBox->SetRadiusIndex (gtk_combo_box_get_active (menu));
 }
 
-static void on_charge_changed (GtkSpinButton *btn, gcAtomsDlg *pBox)
+static void on_charge_changed (GtkSpinButton *btn, AtomsDlg *pBox)
 {
 	pBox->SetCharge (gtk_spin_button_get_value_as_int (btn));
 }
 
-gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
+AtomsDlg::AtomsDlg (Application *App, Document* pDoc): Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	GtkWidget *frame = GetWidget ("mendeleiev");
@@ -215,13 +217,13 @@ gcAtomsDlg::gcAtomsDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 	PopulateRadiiMenu ();
 }
 
-gcAtomsDlg::~gcAtomsDlg ()
+AtomsDlg::~AtomsDlg ()
 {
 	if (m_Atoms)
 		g_array_free (m_Atoms, false);
 }
 
-bool gcAtomsDlg::Apply ()
+bool AtomsDlg::Apply ()
 {
 	GdkColor color;
 	if (m_AtomSelected >= 0) {
@@ -277,10 +279,10 @@ bool gcAtomsDlg::Apply ()
 	//Add new atoms from array
 	
 	struct AtomStruct* s;
-	gcAtom* pAtom;
+	Atom* pAtom;
 	for (unsigned i = 0; i  < m_Atoms->len; i++) {
 		s = &g_array_index (m_Atoms, struct AtomStruct, i);
-		pAtom = new gcAtom (s->Elt, s->x, s->y, s->z);
+		pAtom = new Atom (s->Elt, s->x, s->y, s->z);
 		pAtom->SetRadius (s->Radius);
 		if (s->CustomColor)
 			pAtom->SetColor ((float) s->Red, (float) s->Green, (float) s->Blue, (float) s->Alpha);
@@ -292,7 +294,7 @@ bool gcAtomsDlg::Apply ()
 	return true;
 }
 
-void gcAtomsDlg::AtomAdd ()
+void AtomsDlg::AtomAdd ()
 {
 	GtkTreeIter iter;
 	GdkColor color;
@@ -320,7 +322,7 @@ void gcAtomsDlg::AtomAdd ()
 	gtk_tree_selection_select_iter (Selection, &iter);
 }
 
-void gcAtomsDlg::AtomDelete ()
+void AtomsDlg::AtomDelete ()
 {
 	GtkTreeModel* model = GTK_TREE_MODEL (AtomList);
 
@@ -340,7 +342,7 @@ void gcAtomsDlg::AtomDelete ()
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
-void gcAtomsDlg::AtomDeleteAll ()
+void AtomsDlg::AtomDeleteAll ()
 {
 	g_array_free (m_Atoms, false);
 	m_Atoms = g_array_sized_new (FALSE, FALSE, sizeof (struct AtomStruct), 1);
@@ -348,7 +350,7 @@ void gcAtomsDlg::AtomDeleteAll ()
 	gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
-void gcAtomsDlg::AtomSelect(GtkTreeSelection *Selection)
+void AtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 {
 	//First, store color and radius of selected element if necessary
 	if (m_AtomSelected >= 0) {
@@ -449,7 +451,7 @@ void gcAtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 	}
 }
 
-void gcAtomsDlg::OnElement (guint Z)
+void AtomsDlg::OnElement (guint Z)
 {
 	m_nElt = (unsigned short) Z;
 	if (m_nElt)
@@ -479,7 +481,7 @@ void gcAtomsDlg::OnElement (guint Z)
 	}
 }
 
-void gcAtomsDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
+void AtomsDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
 {
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
@@ -503,12 +505,12 @@ void gcAtomsDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, 
 	gtk_tree_path_free (path);
 }
 
-void gcAtomsDlg::SetCustomColor (bool custom)
+void AtomsDlg::SetCustomColor (bool custom)
 {
 	gtk_widget_set_sensitive (GTK_WIDGET(AtomColor), custom);
 }
 
-void gcAtomsDlg::SetRadiusType (int type)
+void AtomsDlg::SetRadiusType (int type)
 {
 	if (type)
 		type++; //jump GCU_ATOMIC
@@ -556,7 +558,7 @@ void gcAtomsDlg::SetRadiusType (int type)
 	PopulateRadiiMenu ();
 }
 
-void gcAtomsDlg::SetRadiusIndex(int index)
+void AtomsDlg::SetRadiusIndex(int index)
 {
 	int i = m_RadiiIndex[index];
 	gtk_widget_set_sensitive(GTK_WIDGET(AtomR), i < 0);
@@ -577,7 +579,7 @@ void gcAtomsDlg::SetRadiusIndex(int index)
 	}
 }
 
-void gcAtomsDlg::SetCharge (int charge)
+void AtomsDlg::SetCharge (int charge)
 {
 	if (m_Charge == charge)
 		return;
@@ -595,7 +597,7 @@ void gcAtomsDlg::SetCharge (int charge)
 	PopulateRadiiMenu ();
 }
 
-void gcAtomsDlg::PopulateRadiiMenu ()
+void AtomsDlg::PopulateRadiiMenu ()
 {
 	const GcuAtomicRadius **radius = m_Radii;
 	int i = m_RadiiIndex.size () - 2;
@@ -632,3 +634,5 @@ void gcAtomsDlg::PopulateRadiiMenu ()
 	g_signal_handler_unblock (RadiusMenu, m_RadiiSignalID);
 	gtk_combo_box_set_active (RadiusMenu, 0);
 }
+
+}	//	namespace gcr

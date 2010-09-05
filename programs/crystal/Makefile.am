@@ -34,8 +34,6 @@ gcrystal_@GCU_API_VER@_SOURCES = \
 		application.h \
 		atom.cc \
 		atom.h \
-		atomsdlg.cc \
-		atomsdlg.h \
 		celldlg.cc \
 		celldlg.h \
 		cleavage.cc \

@@ -199,6 +199,7 @@ Attempts to infer the symmetry space group for the crystal.
 Reinitialize a Document instance. Used when loading a file in an already existing document.
 */
 	void Reinit ();
+	AtomList* GetAtomList () {return &AtomDef;}
 	CleavageList *GetCleavageList () {return &Cleavages;}
 
 protected:

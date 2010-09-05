@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atomsdlg.h 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,8 +22,8 @@
  * USA
  */
 
-#ifndef GCRYSTAL_ATOMSDLG_H
-#define GCRYSTAL_ATOMSDLG_H
+#ifndef GCR_ATOMSDLG_H
+#define GCR_ATOMSDLG_H
 
 #include <gcu/dialog.h>
 #include <gcu/gcuperiodic.h>
@@ -31,18 +31,17 @@
 
 using namespace std;
 
-class gcDocument;
-class gcApplication;
+namespace gcr {
+class Document;
+class Application;
 
 struct AtomsStruct;
 
-using namespace gcu;
-
-class gcAtomsDlg: public Dialog
+class AtomsDlg: public gcu::Dialog
 {
 public:
-	gcAtomsDlg (gcApplication *App, gcDocument* pDoc);
-	virtual ~gcAtomsDlg ();
+	AtomsDlg (Application *App, Document* pDoc);
+	virtual ~AtomsDlg ();
 	
 	virtual bool Apply ();
 	void AtomAdd ();
@@ -58,7 +57,7 @@ public:
 	void PopulateRadiiMenu ();
 
 private:
-	gcDocument *m_pDoc;
+	Document *m_pDoc;
 	GtkListStore *AtomList;
 	GtkTreeSelection *Selection;
 	GcuPeriodic* periodic;
@@ -79,4 +78,6 @@ private:
 	unsigned long m_RadiiSignalID;
 };
 
-#endif //GCRYSTAL_ATOMSDLG_H
+}	//	namespace gcr
+
+#endif //GCR_ATOMSDLG_H

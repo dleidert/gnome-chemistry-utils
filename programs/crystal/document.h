@@ -52,7 +52,6 @@ public:
 	//Interface
 public:
 	void Define (unsigned nPage = 0);
-	gcr::AtomList* GetAtomList () {return &AtomDef;}
 	gcr::LineList* GetLineList () {return &LineDef;}
 	void Update ();
 	void UpdateAllViews ();
