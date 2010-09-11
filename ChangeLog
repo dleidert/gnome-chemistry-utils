@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2010-09-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: attempt to isolate OpenBabel calls.
+	* configure.ac: ditto.
+	* libs/gcu/loader.cc: implement spectra support.
+	* openbabel/Makefile.am: attempt to isolate OpenBabel calls.
+	* openbabel/babelserv.cc: ditto.
+	* plugins/loaders/Makefile.am: new NUTS loader.
+	* plugins/loaders/nuts/Makefile.am: ditto.
+	* plugins/loaders/nuts/nuts.cc: ditto.
+	* plugins/loaders/nuts/plugin.xml.in: ditto.
+	* programs/spectra/application.cc: ditto.
+	* programs/spectra/application.h: ditto.
+
 2010-09-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gchemutils.xml.in: add mime type for NUTS FID.
 	* libs/gcr/Makefile.am: add new files.

@@ -369,6 +369,7 @@ plugins/loaders/cdx/Makefile
 plugins/loaders/cdxml/Makefile
 plugins/loaders/cif/Makefile
 plugins/loaders/cml/Makefile
+plugins/loaders/nuts/Makefile
 plugins/paint/Makefile
 plugins/paint/arrows/Makefile
 plugins/paint/atoms/Makefile
@@ -383,6 +384,7 @@ mozilla-plugin/Makefile
 gnumeric/Makefile
 gnumeric/plugin.xml.in
 goffice/Makefile
+openbabel/Makefile
 pixmaps/Makefile
 po/Makefile.in
 samples/Makefile

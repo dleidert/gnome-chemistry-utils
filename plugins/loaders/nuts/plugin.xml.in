@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GCULoader_cml">
+	<information>
+		<_name>Loader : nuts</_name>
+		<_description>NUTS files loader.</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="nuts"/>
+	</loader>
+	<services>
+		<service type="chemical_loader" id="GCULoader_nuts">
+			<mime_type name="application/x-nuts-fid" capabilities="r" scope="s"/>
+			<information>
+				<_description>NUTS files loader</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

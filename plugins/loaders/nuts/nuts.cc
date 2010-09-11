@@ -1,0 +1,267 @@
+// -*- C++ -*-
+
+/* 
+ * NUTS files loader plugin
+ * nuts.cc 
+ *
+ * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ *
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
+#include "config.h"
+#include <gcu/application.h>
+#include <gcu/document.h>
+#include <gcu/loader.h>
+#include <iostream>
+
+#include <goffice/app/module-plugin-defs.h>
+#include <glib/gi18n-lib.h>
+
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+#define READINT16(input,i) gsf_input_read (input, 2, (guint8*) &i)
+#define READINT32(input,i) gsf_input_read (input, 4, (guint8*) &i)
+#define READFLOAT(input,i) gsf_input_read (input, 4, (guint8*) &i)
+#else
+unsigned char buffer[4];
+bool readint_res;
+#define READINT16(input,i) \
+	readint_res = gsf_input_read (input, 2, (guint8*) buffer), \
+	i = buffer[0] + (buffer[1] << 8), readint_res
+#define READINT32(input,i) \
+	readint_res = gsf_input_read (input, 4, (guint8*) buffer), \
+	i = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24), readint_res
+#define READFLOAT(input,i) \
+	readint_res = gsf_input_read (input, 4, (guint8*) buffer), \
+	*((int32_t *) &i) = buffer[0] + (buffer[1] << 8) + (buffer[2] << 16) + (buffer[3] << 24), readint_res
+#endif
+
+class NUTSLoader: public gcu::Loader
+{
+public:
+	NUTSLoader ();
+	virtual ~NUTSLoader ();
+
+	gcu::ContentType Read (gcu::Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
+};
+
+NUTSLoader::NUTSLoader ()
+{
+	AddMimeType ("application/x-nuts-fid");
+}
+
+NUTSLoader::~NUTSLoader ()
+{
+	RemoveMimeType ("application/x-nuts-fid");
+}
+
+gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, GOIOContext *io)
+{
+	int32_t i32;
+	int32_t header_size, dims, frame_size, nb2D, npts1, data_type1, domain1, axis1, decim, npts2, data_type2, domain2, axis2, nbacq;
+	bool use_ints, tailer, ver2;
+	float sw, sf, sw1, sf1, of1, rp1, pp1, tba1, tpb1, tlb1, time[64], sw2, sf2, of2, rp2, pp2, tba2, tpb2, tlb2, temp, pw, rd, f;
+	int i;
+	char desc[41], uname[41], date[33], comment[129], pgname[33], nucleus[33], solvent[33];
+	if (!READINT32 (in, i32) || i32 != 0x4030201)
+		return gcu::ContentTypeUnknown;
+	READINT32 (in, header_size);
+	READINT32 (in, dims);
+	if (dims != 1)
+		return gcu::ContentTypeUnknown; // only 1D supported for now
+	READINT32 (in, i32);
+	use_ints = i32 != 0;
+	READINT32 (in, i32);
+	ver2 = i32 == 2;
+	READINT32 (in, frame_size);
+	READINT32 (in, i32); //Program version
+	READINT32 (in, nb2D);
+	READINT32 (in, i32);
+	tailer = i32 != 0;
+	for (i = 0; i < 9; i++)
+		READINT32 (in, i32); // unused
+	READFLOAT (in, sw); // not used
+	READFLOAT (in, sf); // nor used
+	for (i = 0; i < 64; i++)
+		READFLOAT (in, time[i]);
+	for (i = 0; i < 12; i++)
+		READINT32 (in, i32); // unassigned
+	READINT32 (in, npts1);
+	READINT32 (in, data_type1);
+	READINT32 (in, domain1);
+	READINT32 (in, axis1);
+	READINT32 (in, decim);
+	for (i = 0; i < 11; i++)
+		READINT32 (in, i32); // unassigned
+	READFLOAT (in, sw1);
+	READFLOAT (in, sf1);
+	READFLOAT (in, of1);
+	READFLOAT (in, rp1);
+ 	READFLOAT (in, pp1);
+ 	READFLOAT (in, tba1);
+ 	READFLOAT (in, tpb1);
+ 	READFLOAT (in, tlb1);
+	for (i = 0; i < 16; i++)
+		READINT32 (in, i32); // unassigned
+	READINT32 (in, npts2);
+	READINT32 (in, data_type2);
+	READINT32 (in, domain2);
+	READINT32 (in, axis2);
+	for (i = 0; i < 12; i++)
+		READINT32 (in, i32); // unassigned
+	READFLOAT (in, sw2);
+	READFLOAT (in, sf2);
+	READFLOAT (in, of2);
+	READFLOAT (in, rp2);
+ 	READFLOAT (in, pp2);
+ 	READFLOAT (in, tba2);
+ 	READFLOAT (in, tpb2);
+ 	READFLOAT (in, tlb2);
+	if (ver2 == 2) {
+		for (i = 0; i < 96; i++) // doc says 42, but two values are undocumented
+			READINT32 (in, i32); // unassigned
+		READFLOAT (in, temp);
+		desc[0] = 0;	// deprecated field
+		READFLOAT (in, pw);
+		READFLOAT (in, rd);
+		READINT32 (in, nbacq);
+		gsf_input_read (in, 32, reinterpret_cast <guint8 *> (pgname));
+		for (i = 32; i >= 0; i--)
+			if (pgname[i]!= ' ')
+				break;
+		pgname[i + 1] = 0;
+		gsf_input_read (in, 32, reinterpret_cast <guint8 *> (nucleus));
+		for (i = 32; i >= 0; i--)
+			if (nucleus[i]!= ' ')
+				break;
+		nucleus[i + 1] = 0;
+		gsf_input_read (in, 32, reinterpret_cast <guint8 *> (solvent));
+		for (i = 32; i >= 0; i--)
+			if (solvent[i]!= ' ')
+				break;
+		solvent[i + 1] = 0;
+		gsf_input_read (in, 32, reinterpret_cast <guint8 *> (uname));
+		for (i = 32; i >= 0; i--)
+			if (uname[i]!= ' ')
+				break;
+		uname[i + 1] = 0;
+		gsf_input_read (in, 32, reinterpret_cast <guint8 *> (date));
+		for (i = 32; i >= 0; i--)
+			if (date[i]!= ' ')
+				break;
+		date[i + 1] = 0;
+		gsf_input_read (in, 128, reinterpret_cast <guint8 *> (comment));
+		for (i = 128; i >= 0; i--)
+			if (comment[i]!= ' ')
+				break;
+		comment[i + 1] = 0;
+		gsf_input_read (in, 2776, NULL);
+	} else {
+		for (i = 0; i < 44; i++) // doc says 42, but two values are undocumented
+			READINT32 (in, i32); // unassigned
+		READFLOAT (in, temp);
+		gsf_input_read (in, 40, reinterpret_cast <guint8 *> (desc));
+		for (i = 40; i >= 0; i--)
+			if (desc[i]!= ' ' && desc[i] != 0)
+				break;
+		desc[i + 1] = 0;
+		READFLOAT (in, pw);
+		READFLOAT (in, rd);
+		READINT32 (in, nbacq);
+		gsf_input_read (in, 40, reinterpret_cast <guint8 *> (uname));
+		for (i = 40; i >= 0; i--)
+			if (uname[i]!= ' ')
+				break;
+		uname[i + 1] = 0;
+		gsf_input_read (in, 32, reinterpret_cast <guint8 *> (date));
+		for (i = 32; i >= 0; i--)
+			if (date[i]!= ' ')
+				break;
+		date[i + 1] = 0;
+		gsf_input_read (in, 84, reinterpret_cast <guint8 *> (comment));
+		for (i = 84; i >= 0; i--)
+			if (comment[i]!= ' ')
+				break;
+		comment[i + 1] = 0;
+		gsf_input_read (in, 4, NULL); // undocumented word
+	}
+	// now read the data, since we support only 1D spectra, we should find only one slice
+	READINT32 (in, i32); // data number
+	switch (data_type1) {
+	case 0: {
+		double *r = g_new (double, npts1);
+		for (i = 0; i < npts1; i++) {
+			if (use_ints) {
+				READINT32 (in, i32);
+				r[i] = f;
+			} else {
+				READFLOAT (in, f);
+				r[i] = f;
+			}
+		}
+		break;
+	}
+	case 1: {
+		double *r = g_new (double, npts1), *im = g_new (double, npts1);
+		for (i = 0; i < npts1; i++) {
+			if (use_ints) {
+				READINT32 (in, i32);
+				r[i] = f;
+				READINT32 (in, i32);
+				im[i] = f;
+			} else {
+				READFLOAT (in, f);
+				r[i] = f;
+				READFLOAT (in, f);
+				im[i] = f;
+			}
+		}
+		break;
+	}
+	case 2: // unsupported for now, needs more info and at least one sample
+	default:
+		return gcu::ContentTypeUnknown;
+	}
+	// populate the document
+	return gcu::ContentTypeSpectrum;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Initialization
+
+static NUTSLoader loader;
+
+extern "C" {
+
+extern GOPluginModuleDepend const go_plugin_depends [] = {
+    { "goffice", GOFFICE_API_VERSION }
+};
+extern GOPluginModuleHeader const go_plugin_header =
+	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) };
+
+G_MODULE_EXPORT void
+go_plugin_init (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
+{
+	bindtextdomain (GETTEXT_PACKAGE, DATADIR"/locale");
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+}
+
+G_MODULE_EXPORT void
+go_plugin_shutdown (G_GNUC_UNUSED GOPlugin *plugin, G_GNUC_UNUSED GOCmdContext *cc)
+{
+}
+
+}

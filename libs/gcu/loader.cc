@@ -67,7 +67,7 @@ plugin_service_chemical_loader_read_xml (GOPluginService * service, xmlNode * tr
 					return;
 				}
 				LoaderStruct l;
-				l.read = l.write = l.supports2D = l.supports3D = l.supportsCrystals = false;
+				l.read = l.write = l.supports2D = l.supports3D = l.supportsCrystals = l.supportsSpectra = false;
 				l.loader = NULL;
 				char *prop = (char *) xmlGetProp (ptr, (xmlChar const *) "capabilities");
 				if (prop) {
@@ -83,9 +83,9 @@ plugin_service_chemical_loader_read_xml (GOPluginService * service, xmlNode * tr
 						l.supports2D = true;
 					if (strchr (prop, '3') != NULL)
 						l.supports3D = true;
-					if (strchr (prop, 'c') != NULL || strchr (prop, 'C'))
+					if (strchr (prop, 'c') != NULL || strchr (prop, 'C') != NULL)
 						l.supportsCrystals = true;
-					if (strchr (prop, 's') != NULL || strchr (prop, 'C'))
+					if (strchr (prop, 's') != NULL || strchr (prop, 'S') != NULL)
 						l.supportsSpectra = true;
 					xmlFree (prop);
 				}

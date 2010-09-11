@@ -27,6 +27,8 @@
 #define GSV_APPLICATION_H
 
 #include <gcu/application.h>
+#include <list>
+#include <string>
 
 class gsvDocument;
 
@@ -41,6 +43,12 @@ public:
 	void OnSaveAsImage (gsvDocument *Doc);
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 	void OnQuit ();
+private:
+	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
+
+private:
+	std::list <std::string> m_SupportedMimeTypes;
+	std::list<std::string> m_WriteableMimeTypes;
 };
 
 #endif	//	GSV_APPLICATION_H

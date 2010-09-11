@@ -28,6 +28,7 @@
 #include "view.h"
 #include "window.h"
 #include <gcu/filechooser.h>
+#include <gcu/loader.h>
 #include <glib/gi18n.h>
 #include <clocale>
 #include <map>
@@ -37,6 +38,19 @@ using namespace std;
 
 gsvApplication::gsvApplication (): Application (_("GSpectrum"), DATADIR, "gspectrum")
 {
+	gcu::Loader::Init ();
+	m_SupportedMimeTypes.push_back ("chemical/x-jcamp-dx");
+	map<string, LoaderStruct>::iterator it;
+	bool found = Loader::GetFirstLoader (it);
+	while (found) {
+		if ((*it).second.supportsSpectra) {
+			if ((*it).second.read)
+				AddMimeType (m_SupportedMimeTypes, (*it).first);
+			if ((*it).second.write)
+				AddMimeType (m_WriteableMimeTypes, (*it).first);
+		}
+		found = Loader::GetNextLoader (it);
+	}
 	SetImageWidth (600);
 }
 
@@ -54,9 +68,7 @@ gsvDocument *gsvApplication::OnFileNew ()
 
 void gsvApplication::OnFileOpen (gsvDocument *Doc)
 {
-	list<string> l;
-	l.push_front ("chemical/x-jcamp-dx");
-	FileChooser (this, false, l, Doc);
+	FileChooser (this, false, m_SupportedMimeTypes, Doc);
 }
 
 void gsvApplication::OnQuit ()
@@ -95,7 +107,11 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 			pDoc = NULL;
 		if (!pDoc)
 			pDoc = OnFileNew ();
-		pDoc->Load (filename, mime_type);
+		ContentType ctype = Load (filename, mime_type, Doc);
+		if (ctype == gcu::ContentTypeUnknown)
+			pDoc->Load (filename, mime_type);
+		else
+			return false;
 		GtkRecentData data;
 		data.display_name = (char*) pDoc->GetTitle ().c_str ();
 		data.description = NULL;
@@ -127,4 +143,16 @@ void gsvApplication::OnSaveAsImage (gsvDocument *Doc)
 	l.push_front ("application/pdf");
 	l.push_front ("image/svg+xml");
 	FileChooser (this, true, l, Doc, _("Save as image"), GetImageSizeWidget ());
+}
+
+void gsvApplication::AddMimeType (list<string> &l, string const& mime_type)
+{
+	list<string>::iterator i, iend = l.end ();
+	for (i = l.begin (); i != iend; i++)
+		if (*i == mime_type)
+			break;
+	if (i == iend)
+		l.push_back (mime_type);
+	else
+		g_warning ("Duplicate mime type: %s", mime_type.c_str ());
 }
