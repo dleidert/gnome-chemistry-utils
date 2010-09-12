@@ -4,7 +4,7 @@
  * Gnome Crystal
  * linesdlg.h 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,21 +22,21 @@
  * USA
  */
 
-#ifndef GCRYSTAL_LINESDLG_H
-#define GCRYSTAL_LINESDLG_H
+#ifndef GCR_LINESDLG_H
+#define GCR_LINESDLG_H
 
 #include <gcu/dialog.h>
 
-using namespace gcu;
+namespace gcr {
 
-class gcDocument;
-class gcApplication;
+class Document;
+class Application;
 
-class gcLinesDlg: public Dialog
+class LinesDlg: public gcu::Dialog
 {
 public:
-	gcLinesDlg (gcApplication *App, gcDocument* pDoc);
-	virtual ~gcLinesDlg ();
+	LinesDlg (Application *App, Document* pDoc);
+	virtual ~LinesDlg ();
 	
 	virtual bool Apply ();
 	void LineAdd ();
@@ -49,7 +49,7 @@ public:
 
 private:
 	char m_buf[64];
-	gcDocument *m_pDoc;
+	Document *m_pDoc;
 	GtkListStore *LineList;
 	GtkTreeSelection *Selection;
 	GtkColorButton *LineColor, *EdgesColor, *MediansColor, *DiagsColor;
@@ -61,4 +61,6 @@ private:
 	GtkTreeIter m_Iter;
 };
 
-#endif //GCRYSTAL_LINESDLG_H
+}	//	namespace gcr
+
+#endif //GCR_LINESDLG_H

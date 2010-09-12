@@ -393,7 +393,7 @@
       <type>bool</type>
       <default>FALSE</default>
       <locale name="C">
-        <short>Whether the hashed wedge bonds shopuld be inverted.</short>
+        <short>Whether the hashed wedge bonds should be inverted.</short>
 		<long>Hashed bonds are normally represented with the large side nearest, which is the opposite of what many people want. Setting this key to TRUE will change this behavior. Default is FALSE.</long>
       </locale>
     </schema>

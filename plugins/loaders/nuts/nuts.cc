@@ -26,7 +26,8 @@
 #include <gcu/application.h>
 #include <gcu/document.h>
 #include <gcu/loader.h>
-#include <iostream>
+#include <gcu/objprops.h>
+#include <sstream>
 
 #include <goffice/app/module-plugin-defs.h>
 #include <glib/gi18n-lib.h>
@@ -68,7 +69,7 @@ NUTSLoader::~NUTSLoader ()
 	RemoveMimeType ("application/x-nuts-fid");
 }
 
-gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, GOIOContext *io)
+gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io)
 {
 	int32_t i32;
 	int32_t header_size, dims, frame_size, nb2D, npts1, data_type1, domain1, axis1, decim, npts2, data_type2, domain2, axis2, nbacq;
@@ -76,6 +77,7 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 	float sw, sf, sw1, sf1, of1, rp1, pp1, tba1, tpb1, tlb1, time[64], sw2, sf2, of2, rp2, pp2, tba2, tpb2, tlb2, temp, pw, rd, f;
 	int i;
 	char desc[41], uname[41], date[33], comment[129], pgname[33], nucleus[33], solvent[33];
+	char *buf;
 	if (!READINT32 (in, i32) || i32 != 0x4030201)
 		return gcu::ContentTypeUnknown;
 	READINT32 (in, header_size);
@@ -94,12 +96,14 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 	for (i = 0; i < 9; i++)
 		READINT32 (in, i32); // unused
 	READFLOAT (in, sw); // not used
-	READFLOAT (in, sf); // nor used
+	READFLOAT (in, sf); // not used
 	for (i = 0; i < 64; i++)
-		READFLOAT (in, time[i]);
+		READFLOAT (in, time[i]); // what are these for?
 	for (i = 0; i < 12; i++)
 		READINT32 (in, i32); // unassigned
 	READINT32 (in, npts1);
+	buf = g_strdup_printf ("%u", npts1);
+	doc->SetProperty (GCU_PROP_SPECTRUM_NPOINTS, buf);
 	READINT32 (in, data_type1);
 	READINT32 (in, domain1);
 	READINT32 (in, axis1);
@@ -200,40 +204,72 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 	}
 	// now read the data, since we support only 1D spectra, we should find only one slice
 	READINT32 (in, i32); // data number
-	switch (data_type1) {
-	case 0: {
-		double *r = g_new (double, npts1);
-		for (i = 0; i < npts1; i++) {
-			if (use_ints) {
+	if (use_ints) {
+		switch (data_type1) {
+		case 0: {
+			std::ostringstream re;
+			READINT32 (in, i32);
+			re << i32;
+			for (i = 1; i < npts1; i++) {
 				READINT32 (in, i32);
-				r[i] = f;
-			} else {
-				READFLOAT (in, f);
-				r[i] = f;
+				re << " " << i32;
 			}
+			doc->SetProperty (GCU_PROP_SPECTRUM_DATA_Y, re.str ().c_str ());
+			break;
 		}
-		break;
-	}
-	case 1: {
-		double *r = g_new (double, npts1), *im = g_new (double, npts1);
-		for (i = 0; i < npts1; i++) {
-			if (use_ints) {
+		case 1: {
+			std::ostringstream re, im;
+			READINT32 (in, i32);
+			re << i32;
+			READINT32 (in, i32);
+			im << i32;
+			for (i = 1; i < npts1; i++) {
 				READINT32 (in, i32);
-				r[i] = f;
+				re << " " << i32;
 				READINT32 (in, i32);
-				im[i] = f;
-			} else {
-				READFLOAT (in, f);
-				r[i] = f;
-				READFLOAT (in, f);
-				im[i] = f;
+				im << " " << i32;
 			}
+			doc->SetProperty (GCU_PROP_SPECTRUM_DATA_REAL, re.str ().c_str ());
+			doc->SetProperty (GCU_PROP_SPECTRUM_DATA_IMAGINARY, im.str ().c_str ());
+			break;
 		}
-		break;
-	}
-	case 2: // unsupported for now, needs more info and at least one sample
-	default:
-		return gcu::ContentTypeUnknown;
+		case 2: // unsupported for now, needs more info and at least one sample
+		default:
+			return gcu::ContentTypeUnknown;
+		}
+	} else {
+		switch (data_type1) {
+		case 0: {
+			std::ostringstream re;
+			READFLOAT (in, f);
+			re << f;
+			for (i = 1; i < npts1; i++) {
+				READFLOAT (in, f);
+				re << " " << f;
+			}
+			doc->SetProperty (GCU_PROP_SPECTRUM_DATA_Y, re.str ().c_str ());
+			break;
+		}
+		case 1: {
+			std::ostringstream re, im;
+			READFLOAT (in, f);
+			re << f;
+			READFLOAT (in, f);
+			im << f;
+			for (i = 1; i < npts1; i++) {
+				READFLOAT (in, f);
+				re << " " << f;
+				READFLOAT (in, f);
+				im << " " << f;
+			}
+			doc->SetProperty (GCU_PROP_SPECTRUM_DATA_REAL, re.str ().c_str ());
+			doc->SetProperty (GCU_PROP_SPECTRUM_DATA_IMAGINARY, im.str ().c_str ());
+			break;
+		}
+		case 2: // unsupported for now, needs more info and at least one sample
+		default:
+			return gcu::ContentTypeUnknown;
+		}
 	}
 	// populate the document
 	return gcu::ContentTypeSpectrum;

@@ -30,6 +30,8 @@
 
 using namespace std;
 
+namespace gcr {
+	
 enum
 {
 	COLUMN_X1,
@@ -47,52 +49,52 @@ struct LineStruct {
 	bool duplicated;
 };
 
-static void on_add (G_GNUC_UNUSED GtkWidget *widget, gcLinesDlg *pBox)
+static void on_add (G_GNUC_UNUSED GtkWidget *widget, LinesDlg *pBox)
 {
 	pBox->LineAdd ();
 }
 
-static void on_delete (G_GNUC_UNUSED GtkWidget *widget, gcLinesDlg *pBox)
+static void on_delete (G_GNUC_UNUSED GtkWidget *widget, LinesDlg *pBox)
 {
 	pBox->LineDelete ();
 }
 
-static void on_delete_all (G_GNUC_UNUSED GtkWidget *widget, gcLinesDlg *pBox)
+static void on_delete_all (G_GNUC_UNUSED GtkWidget *widget, LinesDlg *pBox)
 {
 	pBox->LineDeleteAll ();
 }
 
-static void on_select (GtkTreeSelection *Selection, gcLinesDlg *pBox)
+static void on_select (GtkTreeSelection *Selection, LinesDlg *pBox)
 {
 	pBox->LineSelect (Selection);
 }
 
-static void on_edited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, gcLinesDlg *pBox)
+static void on_edited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text, LinesDlg *pBox)
 {
 	pBox->OnEdited (cell, path_string, new_text);
 }
 
-static void on_toggled (GtkCellRendererToggle *cell, const gchar *path_string, gcLinesDlg *pBox)
+static void on_toggled (GtkCellRendererToggle *cell, const gchar *path_string, LinesDlg *pBox)
 {
 	pBox->OnToggled (cell, path_string);
 }
 
-static void on_edges_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
+static void on_edges_toggled (G_GNUC_UNUSED GtkToggleButton* btn, LinesDlg *pBox)
 {
 	pBox->OnToggledSpecial (gcr::edges);
 }
 
-static void on_diags_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
+static void on_diags_toggled (G_GNUC_UNUSED GtkToggleButton* btn, LinesDlg *pBox)
 {
 	pBox->OnToggledSpecial (gcr::diagonals);
 }
 
-static void on_medians_toggled (G_GNUC_UNUSED GtkToggleButton* btn, gcLinesDlg *pBox)
+static void on_medians_toggled (G_GNUC_UNUSED GtkToggleButton* btn, LinesDlg *pBox)
 {
 	pBox->OnToggledSpecial (gcr::medians);
 }
 
-gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/lines.ui", "lines", GETTEXT_PACKAGE, pDoc)
+LinesDlg::LinesDlg (Application *App, Document* pDoc): gcu::Dialog (App, UIDIR"/lines.ui", "lines", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	GtkWidget* button = GetWidget ("add");
@@ -272,13 +274,13 @@ gcLinesDlg::gcLinesDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDI
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
-gcLinesDlg::~gcLinesDlg ()
+LinesDlg::~LinesDlg ()
 {
 	if (m_Lines)
 		g_array_free (m_Lines, false);
 }
 
-bool gcLinesDlg::Apply ()
+bool LinesDlg::Apply ()
 {
 	GdkColor color;
 	if (m_LineSelected >= 0) {
@@ -287,7 +289,7 @@ bool gcLinesDlg::Apply ()
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Green = color.green / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Blue = color.blue / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Alpha = gtk_color_button_get_alpha (LineColor) / 65535.;
-		if ((!GetNumber(LineR, &g_array_index (m_Lines, struct LineStruct, m_LineSelected).r, Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
+		if ((!GetNumber(LineR, &g_array_index (m_Lines, struct LineStruct, m_LineSelected).r, gcu::Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
 		}
 	}
 	gcr::LineList* Lines = m_pDoc->GetLineList ();
@@ -301,7 +303,7 @@ bool gcLinesDlg::Apply ()
 	gcr::Line* pLine;
 	double r, Red, Green, Blue, Alpha;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges))) {
-		GetNumber (EdgesR, &r, Min, 0);
+		GetNumber (EdgesR, &r, gcu::Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (EdgesColor, &color);
 			Red = color.red / 65535.;
@@ -313,7 +315,7 @@ bool gcLinesDlg::Apply ()
 		}
 	}
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Diags))) {
-		GetNumber (DiagsR, &r, Min, 0);
+		GetNumber (DiagsR, &r, gcu::Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (DiagsColor, &color);
 			Red = color.red / 65535.;
@@ -325,7 +327,7 @@ bool gcLinesDlg::Apply ()
 		}
 	}
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians))) {
-		GetNumber (MediansR, &r, Min, 0);
+		GetNumber (MediansR, &r, gcu::Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (MediansColor, &color);
 			Red = color.red / 65535.;
@@ -348,7 +350,7 @@ bool gcLinesDlg::Apply ()
 	return true;
 }
 
-void gcLinesDlg::LineAdd ()
+void LinesDlg::LineAdd ()
 {
 	GtkTreeIter iter;
 	
@@ -376,7 +378,7 @@ void gcLinesDlg::LineAdd ()
 	gtk_tree_selection_select_iter (Selection, &iter);
 }
 
-void gcLinesDlg::LineDelete ()
+void LinesDlg::LineDelete ()
 {
 	GtkTreeModel* model = GTK_TREE_MODEL (LineList);
 
@@ -396,7 +398,7 @@ void gcLinesDlg::LineDelete ()
 		gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
-void gcLinesDlg::LineDeleteAll ()
+void LinesDlg::LineDeleteAll ()
 {
 	g_array_free (m_Lines, false);
 	m_Lines = g_array_sized_new (FALSE, FALSE, sizeof (struct LineStruct), 1);
@@ -404,7 +406,7 @@ void gcLinesDlg::LineDeleteAll ()
 	gtk_widget_set_sensitive (DeleteAllBtn, false);
 }
 
-void gcLinesDlg::LineSelect (GtkTreeSelection *Selection)
+void LinesDlg::LineSelect (GtkTreeSelection *Selection)
 {
 	GdkColor color;
 	if (m_LineSelected >= 0) {
@@ -413,7 +415,7 @@ void gcLinesDlg::LineSelect (GtkTreeSelection *Selection)
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Green = color.green / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Blue = color.blue / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Alpha = gtk_color_button_get_alpha (LineColor) / 65535.;
-		if ((!GetNumber (LineR, &g_array_index(m_Lines, struct LineStruct, m_LineSelected).r, Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
+		if ((!GetNumber (LineR, &g_array_index(m_Lines, struct LineStruct, m_LineSelected).r, gcu::Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
 		}
 	}
 	GtkTreeModel* model = GTK_TREE_MODEL (LineList);
@@ -439,7 +441,7 @@ void gcLinesDlg::LineSelect (GtkTreeSelection *Selection)
 	}
 }
 
-void gcLinesDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
+void LinesDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, const gchar *new_text)
 {
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
@@ -472,7 +474,7 @@ void gcLinesDlg::OnEdited (GtkCellRendererText *cell, const gchar *path_string, 
 	gtk_tree_path_free (path);
 }
 
-void gcLinesDlg::OnToggled (G_GNUC_UNUSED GtkCellRendererToggle *cell, const gchar *path_string)
+void LinesDlg::OnToggled (G_GNUC_UNUSED GtkCellRendererToggle *cell, const gchar *path_string)
 {
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
@@ -486,7 +488,7 @@ void gcLinesDlg::OnToggled (G_GNUC_UNUSED GtkCellRendererToggle *cell, const gch
 	gtk_tree_path_free (path);
 }
 
-void gcLinesDlg::OnToggledSpecial (int Type)
+void LinesDlg::OnToggledSpecial (int Type)
 {
 	switch (Type) {
 	case gcr::edges:
@@ -503,3 +505,5 @@ void gcLinesDlg::OnToggledSpecial (int Type)
 		break;
 	}
 }
+
+}	//	namespace gcr

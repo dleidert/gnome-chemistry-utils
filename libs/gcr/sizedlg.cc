@@ -4,7 +4,7 @@
  * Gnome Crystal
  * sizedlg.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,9 @@
 #include "document.h"
 #include "application.h"
 
-gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/size.ui", "size", GETTEXT_PACKAGE, pDoc)
+namespace gcr {
+
+SizeDlg::SizeDlg (Application *App, Document* pDoc): gcu::Dialog (App, UIDIR"/size.ui", "size", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	MinX = GTK_ENTRY (GetWidget ("xmin"));
@@ -52,11 +54,11 @@ gcSizeDlg::gcSizeDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"
 	gtk_entry_set_text(MaxZ, m_buf);
 }
 
-gcSizeDlg::~gcSizeDlg()
+SizeDlg::~SizeDlg()
 {
 }
 
-bool gcSizeDlg::Apply ()
+bool SizeDlg::Apply ()
 {
 	double xmin, xmax, ymin, ymax, zmin, zmax, x;
 	if ((!GetNumber (MinX, &xmin)) ||
@@ -87,3 +89,5 @@ bool gcSizeDlg::Apply ()
 	m_pDoc->SetDirty (true);
 	return true;
 }
+
+}	//	namespace gcr

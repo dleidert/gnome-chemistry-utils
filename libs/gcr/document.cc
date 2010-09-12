@@ -1126,4 +1126,46 @@ end_loop1:;
 	return res;
 }
 
+void Document::GetSize(double* xmin, double* xmax, double* ymin, double* ymax, double* zmin, double* zmax)
+{
+	*xmin = m_xmin;
+	*xmax = m_xmax;
+	*ymin = m_ymin;
+	*ymax = m_ymax;
+	*zmin = m_zmin;
+	*zmax = m_zmax;
+}
+
+void Document::SetSize(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)
+{
+	m_xmin = xmin;
+	m_xmax = xmax;
+	m_ymin = ymin;
+	m_ymax = ymax;
+	m_zmin = zmin;
+	m_zmax = zmax;
+}
+
+void Document::GetCell (Lattice *lattice, double *a, double *b, double *c, double *alpha, double *beta, double *gamma)
+{
+	*lattice = m_lattice;
+	*a = m_a;
+	*b = m_b;
+	*c = m_c;
+	*alpha = m_alpha;
+	*beta = m_beta;
+	*gamma = m_gamma;
+}
+
+void Document::SetCell (Lattice lattice, double a, double b, double c, double alpha, double beta, double gamma)
+{
+	m_lattice = lattice;
+	m_a = a;
+	m_b = b;
+	m_c = c;
+	m_alpha = alpha;
+	m_beta = beta;
+	m_gamma = gamma;
+}
+
 }	//	namespace gcr

@@ -34,8 +34,6 @@ gcrystal_@GCU_API_VER@_SOURCES = \
 		application.h \
 		atom.cc \
 		atom.h \
-		celldlg.cc \
-		celldlg.h \
 		cleavage.cc \
 		cleavage.h \
 		docprop.cc \
@@ -46,13 +44,9 @@ gcrystal_@GCU_API_VER@_SOURCES = \
 		globals.h \
 		line.cc \
 		line.h \
-		linesdlg.cc \
-		linesdlg.h \
 		main.cc \
 		prefs.cc \
 		prefs.h \
-		sizedlg.cc \
-		sizedlg.h \
 		view.cc \
 		view.h \
 		view-settings.cc \

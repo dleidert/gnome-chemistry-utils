@@ -222,6 +222,29 @@ The name of the structure type (see http://www.iucr.org/__data/iucr/cifdic_html/
 The name of the space group for a crystal. The Hall name is used as it is unique.
 */
 	GCU_PROP_SPACE_GROUP,
+/******************************************************************************
+ * Spectrum related properties
+ ******************************************************************************/
+/*!
+The data number of a spectrum.
+*/
+	GCU_PROP_SPECTRUM_NPOINTS,
+/*!
+The x data of a spectrum.
+*/
+	GCU_PROP_SPECTRUM_DATA_X,
+/*!
+The y data of a spectrum.
+*/
+	GCU_PROP_SPECTRUM_DATA_Y,
+/*!
+The real components of a spectrum made of complex data.
+*/
+	GCU_PROP_SPECTRUM_DATA_REAL,
+/*!
+The imaginary components of a spectrum made of complex data.
+*/
+	GCU_PROP_SPECTRUM_DATA_IMAGINARY,
 /*!
 The first invalid value. It might be used as an error value.
 */

@@ -7,12 +7,15 @@ noinst_HEADERS = \
 	atom.h \
 	atomsdlg.h \
 	bond.h \
+	celldlg.h \
 	cleavage.h \
 	cleavagesdlg.h \
 	document.h \
 	gcrcrystalviewer.h \
 	grid.h \
 	line.h \
+	linesdlg.h \
+	sizedlg.h \
 	view.h \
 	window.h
 
@@ -21,12 +24,15 @@ libgcr_@GCU_API_VER@_la_SOURCES =	\
 	atom.cc \
 	atomsdlg.cc \
 	bond.cc \
+	celldlg.cc \
 	cleavage.cc \
 	cleavagesdlg.cc \
 	document.cc \
 	gcrcrystalviewer.cc \
 	grid.cc \
 	line.cc \
+	linesdlg.cc \
+	sizedlg.cc \
 	view.cc \
 	window.cc
 

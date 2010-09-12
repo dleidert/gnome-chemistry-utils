@@ -31,10 +31,10 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
-#include "celldlg.h"
+#include <gcr/celldlg.h>
 #include <gcr/atomsdlg.h>
-#include "linesdlg.h"
-#include "sizedlg.h"
+#include <gcr/linesdlg.h>
+#include <gcr/sizedlg.h>
 #include <gcr/cleavagesdlg.h>
 #include "globals.h"
 #include <gcu/objprops.h>
@@ -90,16 +90,16 @@ void gcDocument::Define (unsigned nPage)
 {
 	switch (nPage) {
 	case 0:
-		new gcCellDlg (dynamic_cast <gcApplication *> (m_App), this);
+		new gcr::CellDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 1:
 		new gcr::AtomsDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 2:
-		new gcLinesDlg (dynamic_cast <gcApplication *> (m_App), this);
+		new gcr::LinesDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 3:
-		new gcSizeDlg (dynamic_cast <gcApplication *> (m_App), this);
+		new gcr::SizeDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 4:
 		new gcr::CleavagesDlg (m_App, this);
@@ -120,48 +120,6 @@ void gcDocument::UpdateAllViews()
 		(*i)->Update();
 		static_cast <gcView *> (*i)->GetWindow ()->ClearStatus ();
 	}
-}
-
-void gcDocument::GetSize(gdouble* xmin, gdouble* xmax, gdouble* ymin, gdouble* ymax, gdouble* zmin, gdouble* zmax)
-{
-	*xmin = m_xmin;
-	*xmax = m_xmax;
-	*ymin = m_ymin;
-	*ymax = m_ymax;
-	*zmin = m_zmin;
-	*zmax = m_zmax;
-}
-
-void gcDocument::SetSize(gdouble xmin, gdouble xmax, gdouble ymin, gdouble ymax, gdouble zmin, gdouble zmax)
-{
-	m_xmin = xmin;
-	m_xmax = xmax;
-	m_ymin = ymin;
-	m_ymax = ymax;
-	m_zmin = zmin;
-	m_zmax = zmax;
-}
-
-void gcDocument::GetCell (gcr::Lattice *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma)
-{
-	*lattice = m_lattice;
-	*a = m_a;
-	*b = m_b;
-	*c = m_c;
-	*alpha = m_alpha;
-	*beta = m_beta;
-	*gamma = m_gamma;
-}
-
-void gcDocument::SetCell (gcr::Lattice lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma)
-{
-	m_lattice = lattice;
-	m_a = a;
-	m_b = b;
-	m_c = c;
-	m_alpha = alpha;
-	m_beta = beta;
-	m_gamma = gamma;
 }
 
 void gcDocument::SetFileName (const string &filename)

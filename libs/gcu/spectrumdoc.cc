@@ -22,6 +22,7 @@
 
 #include "config.h"
 #include "application.h"
+#include "objprops.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
 #include <glib/gi18n-lib.h>
@@ -2175,6 +2176,33 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 void SpectrumDocument::OnXAxisInvert (bool inverted)
 {
 	m_View->InvertAxis (GOG_AXIS_X, inverted);
+}
+
+bool SpectrumDocument::SetProperty (unsigned property, char const *value)
+{
+	istringstream is (value);
+	switch (property) {
+	case GCU_PROP_SPECTRUM_NPOINTS:
+		is >> npoints;
+		break;
+	case GCU_PROP_SPECTRUM_DATA_X:
+		break;
+	case GCU_PROP_SPECTRUM_DATA_Y:
+		break;
+	case GCU_PROP_SPECTRUM_DATA_REAL: {
+		if (npoints == 0)
+			return false;
+		if (R == -1) {
+		} else {
+		}
+		break;
+	}
+	case GCU_PROP_SPECTRUM_DATA_IMAGINARY:
+		break;
+	default:
+		return false;
+	}
+	return true;
 }
 
 }	//	nampespace gcu

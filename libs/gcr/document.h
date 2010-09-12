@@ -201,6 +201,11 @@ Reinitialize a Document instance. Used when loading a file in an already existin
 	void Reinit ();
 	AtomList* GetAtomList () {return &AtomDef;}
 	CleavageList *GetCleavageList () {return &Cleavages;}
+	LineList* GetLineList () {return &LineDef;}
+	void GetCell (Lattice *lattice, double *a, double *b, double *c, double *alpha, double *beta, double *gamma);
+	void SetCell (Lattice lattice, double a, double b, double c, double alpha, double beta, double gamma);
+	void GetSize (double* xmin, double* xmax, double* ymin, double* ymax, double* zmin, double* zmax);
+	void SetSize (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax);
 
 protected:
 /*!

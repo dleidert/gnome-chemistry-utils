@@ -1,5 +1,30 @@
 ##Text encoding: utf-8
 
+2010-09-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcr/Makefile.am: moved more files from programs/crystal.
+	* libs/gcr/celldlg.cc: ditto.
+	* libs/gcr/celldlg.h: ditto.
+	* libs/gcr/document.cc: ditto.
+	* libs/gcr/document.h: ditto.
+	* libs/gcr/linesdlg.cc: ditto.
+	* libs/gcr/linesdlg.h: ditto.
+	* libs/gcr/sizedlg.cc: ditto.
+	* libs/gcr/sizedlg.h: ditto.
+	* libs/gcu/objprops.h: add some spectrum related properties.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* libs/gcu/spectrumdoc.h: ditto.
+	* plugins/loaders/nuts/nuts.cc: ditto.
+	* programs/crystal/Makefile.am: moved more files to libs/gcr.
+	* programs/crystal/celldlg.cc: ditto.
+	* programs/crystal/celldlg.h: ditto.
+	* programs/crystal/document.cc: ditto.
+	* programs/crystal/document.h: ditto.
+	* programs/crystal/linesdlg.cc: ditto.
+	* programs/crystal/linesdlg.h: ditto.
+	* programs/crystal/sizedlg.cc: ditto.
+	* programs/crystal/sizedlg.h: ditto.
+	* programs/paint/gchempaint.schemas.in: fixed typo.
+
 2010-09-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: attempt to isolate OpenBabel calls.
 	* configure.ac: ditto.

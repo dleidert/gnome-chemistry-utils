@@ -39,7 +39,11 @@ libs/gcp/text.cc
 libs/gcp/theme.cc
 libs/gcp/view.cc
 libs/gcp/window.cc
+libs/gcr/atomsdlg.cc
+libs/gcr/celldlg.cc
+libs/gcr/cleavagesdlg.cc
 libs/gcr/document.cc
+libs/gcr/linesdlg.cc
 libs/gcr/view.cc
 libs/gcu/application.cc
 libs/gcu/atom.cc
@@ -124,12 +128,8 @@ programs/calc/gchemcalc.desktop.in
 programs/crystal/gcrystal.desktop.in
 programs/crystal/gcrystal.schemas.in
 programs/crystal/application.cc
-programs/crystal/atomsdlg.cc
-programs/crystal/celldlg.cc
-programs/crystal/cleavagesdlg.cc
 programs/crystal/docprop.cc
 programs/crystal/document.cc
-programs/crystal/linesdlg.cc
 programs/crystal/main.cc
 programs/crystal/window.cc
 programs/crystal/x-gcrystal.desktop.in

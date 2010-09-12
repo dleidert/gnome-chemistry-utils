@@ -29,21 +29,22 @@
 #include <gcu/spacegroup.h>
 #include <glib/gi18n.h>
 
+namespace gcr {
 
-class gcCellDlgPrivate
+class CellDlgPrivate
 {
 public:
-	static void OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg);
-	static void OnAutoSpaceGroupToggled (GtkToggleButton *btn, gcCellDlg *dlg);
+	static void OnSpaceGroupChanged (GtkSpinButton *btn, CellDlg *dlg);
+	static void OnAutoSpaceGroupToggled (GtkToggleButton *btn, CellDlg *dlg);
 	// TODO move OnTypeChanged there
 };
 
-void on_type_changed (G_GNUC_UNUSED GtkWidget* w, gcCellDlg *pBox)
+void on_type_changed (G_GNUC_UNUSED GtkWidget* w, CellDlg *pBox)
 {
 	pBox->OnTypeChanged ();
 }
 
-gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"/cell.ui", "cell", GETTEXT_PACKAGE, pDoc)
+CellDlg::CellDlg (Application *App, Document* pDoc): gcu::Dialog (App, UIDIR"/cell.ui", "cell", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	TypeMenu = GTK_COMBO_BOX (GetWidget ("lattice-type"));
@@ -55,9 +56,9 @@ gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"
 	Beta = GTK_ENTRY (GetWidget ("beta"));
 	Gamma = GTK_ENTRY (GetWidget ("gamma"));
 	AutoSpaceGroup = GTK_TOGGLE_BUTTON (GetWidget ("auto-space-group-btn"));
-	g_signal_connect (G_OBJECT (AutoSpaceGroup), "toggled", G_CALLBACK (gcCellDlgPrivate::OnAutoSpaceGroupToggled), this);
+	g_signal_connect (G_OBJECT (AutoSpaceGroup), "toggled", G_CALLBACK (CellDlgPrivate::OnAutoSpaceGroupToggled), this);
 	SpaceGroup = GTK_SPIN_BUTTON (GetWidget ("space-group-btn"));
-	SpaceGroupSignal = g_signal_connect (G_OBJECT (SpaceGroup), "value-changed", G_CALLBACK (gcCellDlgPrivate::OnSpaceGroupChanged), this);
+	SpaceGroupSignal = g_signal_connect (G_OBJECT (SpaceGroup), "value-changed", G_CALLBACK (CellDlgPrivate::OnSpaceGroupChanged), this);
 	SpaceGroupAdj = gtk_spin_button_get_adjustment (SpaceGroup);
 	gcr::Lattice i;
 	m_pDoc->GetCell (&i, &m_a, &m_b, &m_c, &m_alpha, &m_beta, &m_gamma);
@@ -79,25 +80,25 @@ gcCellDlg::gcCellDlg (gcApplication *App, gcDocument* pDoc): Dialog (App, UIDIR"
 	OnTypeChanged ();
 }
 
-gcCellDlg::~gcCellDlg ()
+CellDlg::~CellDlg ()
 {
 }
 
-bool gcCellDlg::Apply ()
+bool CellDlg::Apply ()
 {
 	gcr::Lattice i = (gcr::Lattice) gtk_combo_box_get_active (TypeMenu);
 	switch (i) {
 	case gcr::cubic:
 	case gcr::body_centered_cubic:
 	case gcr::face_centered_cubic:
-		if (!GetNumber (A, &m_a, Min, 0))
+		if (!GetNumber (A, &m_a, gcu::Min, 0))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		m_b = m_c = m_a;
 		break;
 	case gcr::hexagonal:
-		if ((!GetNumber (A, &m_a, Min, 0)) ||
-			(!GetNumber (C, &m_c, Min, 0)))
+		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcu::Min, 0)))
 			return false;
 		m_alpha = m_beta = 90;
 		m_gamma  = 120;
@@ -105,8 +106,8 @@ bool gcCellDlg::Apply ()
 		break;
 	case gcr::tetragonal:
 	case gcr::body_centered_tetragonal:
-		if ((!GetNumber (A, &m_a, Min, 0)) ||
-			(!GetNumber (C, &m_c, Min, 0)))
+		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcu::Min, 0)))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		m_b = m_a;
@@ -115,35 +116,35 @@ bool gcCellDlg::Apply ()
 	case gcr::base_centered_orthorhombic:
 	case gcr::body_centered_orthorhombic:
 	case gcr::face_centered_orthorhombic:
-		if ((!GetNumber (A, &m_a, Min, 0)) ||
-			(!GetNumber (B, &m_b, Min, 0)) ||
-			(!GetNumber (C, &m_c, Min, 0)))
+		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
+			(!GetNumber (B, &m_b, gcu::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcu::Min, 0)))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		break;
 	case gcr::rhombohedral:
-		if ((!GetNumber (A, &m_a, Min, 0)) ||
-			(!GetNumber (Alpha, &m_alpha, MinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
+			(!GetNumber (Alpha, &m_alpha, gcu::MinMax, 0, 180)))
 			return false;
 		m_beta = m_gamma = m_alpha;
 		m_b = m_c = m_a;
 		break;
 	case gcr::monoclinic:
 	case gcr::base_centered_monoclinic:
-		if ((!GetNumber (A, &m_a, Min, 0)) ||
-			(!GetNumber (B, &m_b, Min, 0)) ||
-			(!GetNumber (C, &m_c, Min, 0)) ||
-			(!GetNumber (Beta, &m_beta, MinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
+			(!GetNumber (B, &m_b, gcu::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcu::Min, 0)) ||
+			(!GetNumber (Beta, &m_beta, gcu::MinMax, 0, 180)))
 			return false;
 		m_alpha = m_gamma  = 90;
 		break;
 	case gcr::triclinic:
-		if ((!GetNumber (A, &m_a, Min, 0)) ||
-			(!GetNumber (B, &m_b, Min, 0)) ||
-			(!GetNumber (C, &m_c, Min, 0)) ||
-			(!GetNumber (Alpha, &m_alpha, MinMax, 0, 180)) ||
-			(!GetNumber (Beta, &m_beta, MinMax, 0, 180)) ||
-			(!GetNumber (Gamma, &m_gamma, MinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
+			(!GetNumber (B, &m_b, gcu::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcu::Min, 0)) ||
+			(!GetNumber (Alpha, &m_alpha, gcu::MinMax, 0, 180)) ||
+			(!GetNumber (Beta, &m_beta, gcu::MinMax, 0, 180)) ||
+			(!GetNumber (Gamma, &m_gamma, gcu::MinMax, 0, 180)))
 			return false;
 		break;
 	}
@@ -158,14 +159,14 @@ bool gcCellDlg::Apply ()
 		m_pDoc->SetSpaceGroup (NULL);
 	} else {
 		m_pDoc->SetAutoSpaceGroup (false);
-		m_pDoc->SetSpaceGroup (SpaceGroup::GetSpaceGroup (gtk_spin_button_get_value (SpaceGroup)));
+		m_pDoc->SetSpaceGroup (gcu::SpaceGroup::GetSpaceGroup (gtk_spin_button_get_value (SpaceGroup)));
 	}
 	m_pDoc->Update ();
 	m_pDoc->SetDirty (true);
 	return true;
 }
 
-void gcCellDlg::OnTypeChanged ()
+void CellDlg::OnTypeChanged ()
 {
 	gcr::Lattice i = (gcr::Lattice) gtk_combo_box_get_active (TypeMenu);
 	gcu::SpaceGroup const *spg = m_pDoc->GetSpaceGroup ();
@@ -303,11 +304,11 @@ monoclinic_end:
 	g_signal_handler_unblock (SpaceGroup, SpaceGroupSignal);
 }
 
-void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
+void CellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, CellDlg *dlg)
 {
 	g_signal_handler_block (dlg->TypeMenu, dlg->TypeSignal);
 	unsigned id = gtk_spin_button_get_value_as_int (btn);
-	std::string name = SpaceGroup::GetSpaceGroup (id)->GetHMName ();
+	std::string name = gcu::SpaceGroup::GetSpaceGroup (id)->GetHMName ();
 	if (id > 142 && id < 195) {
 		if (id == 146 || id == 148 || id == 155 || id == 160 || id == 161 || id == 166 || id == 167)
 			gtk_combo_box_set_active (dlg->TypeMenu, gcr::rhombohedral);
@@ -380,7 +381,9 @@ void gcCellDlgPrivate::OnSpaceGroupChanged (GtkSpinButton *btn, gcCellDlg *dlg)
 	g_signal_handler_unblock (dlg->TypeMenu, dlg->TypeSignal);
 }
 
-void gcCellDlgPrivate::OnAutoSpaceGroupToggled (GtkToggleButton *btn, gcCellDlg *dlg)
+void CellDlgPrivate::OnAutoSpaceGroupToggled (GtkToggleButton *btn, CellDlg *dlg)
 {
 	gtk_widget_set_sensitive (GTK_WIDGET (dlg->SpaceGroup), !gtk_toggle_button_get_active (btn));
 }
+
+}	//	namespace gcr

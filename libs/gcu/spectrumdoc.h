@@ -330,6 +330,14 @@ Called to transform an FID to the NMR spectrum. The label in the GtkButton
 might be changed.
 */
 	void OnTransformFID (GtkButton *btn);
+/*!
+@param property the property id as defined in objprops.h
+@param value the property value as a string
+
+Used when loading to set properties to spectra.
+@return true if the property could be set, or if the property is not relevant, false otherwise.
+*/
+	virtual bool SetProperty (unsigned property, char const *value);
 
 private:
 	void LoadJcampDx (char const *data);

@@ -4,7 +4,7 @@
  * Gnome Crystal
  * celldlg.h 
  *
- * Copyright (C) 2002-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,29 +22,29 @@
  * USA
  */
 
-#ifndef GCRYSTAL_CELLDLG_H
-#define GCRYSTAL_CELLDLG_H
+#ifndef GCR_CELLDLG_H
+#define GCR_CELLDLG_H
 
 #include <gcu/dialog.h>
 
-class gcDocument;
-class gcApplication;
+namespace gcr {
 
-using namespace gcu;
+class Document;
+class Application;
 
-class gcCellDlg: public Dialog
+class CellDlg: public gcu::Dialog
 {
-friend class gcCellDlgPrivate;
+friend class CellDlgPrivate;
 public:
-	gcCellDlg (gcApplication *App, gcDocument* pDoc);
-	virtual ~gcCellDlg ();
+	CellDlg (Application *App, Document* pDoc);
+	virtual ~CellDlg ();
 	
 	bool Apply ();
 	void OnTypeChanged ();
 	
 private:
 	char m_buf[64];
-	gcDocument *m_pDoc;
+	Document *m_pDoc;
 	gdouble m_a, m_b, m_c, m_alpha, m_beta, m_gamma;
 	GtkComboBox* TypeMenu;
 	GtkEntry *A, *B, *C, *Alpha, *Beta, *Gamma;
@@ -54,4 +54,6 @@ private:
 	unsigned SpaceGroupSignal, TypeSignal;
 };
 
-#endif //GCRYSTAL_CELLDLG_H
+}	//	namespace gcr
+
+#endif //GCR_CELLDLG_H

@@ -52,14 +52,9 @@ public:
 	//Interface
 public:
 	void Define (unsigned nPage = 0);
-	gcr::LineList* GetLineList () {return &LineDef;}
 	void Update ();
 	void UpdateAllViews ();
 	void SetWidget (GtkWidget* widget) {m_widget = widget;}
-	void GetSize (gdouble* xmin, gdouble* xmax, gdouble* ymin, gdouble* ymax, gdouble* zmin, gdouble* zmax);
-	void SetSize (gdouble xmin, gdouble xmax, gdouble ymin, gdouble ymax, gdouble zmin, gdouble zmax);
-	void GetCell (gcr::Lattice *lattice, gdouble *a, gdouble *b, gdouble *c, gdouble *alpha, gdouble *beta, gdouble *gamma);
-	void SetCell (gcr::Lattice lattice, gdouble a, gdouble b, gdouble c, gdouble alpha, gdouble beta, gdouble gamma);
 	const gchar* GetFileName () {return m_filename;}
 	void SetFileName (const std::string &filename);
 	void SetTitle (char const *title);
