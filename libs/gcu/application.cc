@@ -25,6 +25,7 @@
 #include "config.h"
 #include "application.h"
 #include "cmd-context.h"
+#include "cmd-context-gtk.h"
 #include "document.h"
 #include "loader.h"
 #include "message.h"
@@ -50,6 +51,7 @@ GOConfNode *Application::m_ConfDir = NULL;
 static map<string, Application *> Apps;
 WindowState Application::DefaultWindowState = NormalWindowState;
 static Application *Default = NULL;
+CmdContext *Application::m_CmdContext = NULL;
 
 class ApplicationPrivate
 {
@@ -139,6 +141,8 @@ Application::~Application ()
 		go_conf_free_node (m_ConfDir);
 		m_ConfDir = NULL;
 		libgoffice_shutdown ();
+		if (m_CmdContext)
+			delete m_CmdContext;
 	}
 }
 
@@ -511,6 +515,13 @@ TypeDesc const *Application::GetTypeDescription (TypeId Id)
 {
 	map <TypeId, TypeDesc>::iterator i = m_Types.find (Id);
 	return (i != m_Types.end ())? &(*i).second: NULL;
+}
+
+CmdContext *Application::GetCmdContext ()
+{
+	if (m_CmdContext == NULL)
+		m_CmdContext = new CmdContextGtk ();
+	return m_CmdContext;
 }
 
 }	//	namespace gcu

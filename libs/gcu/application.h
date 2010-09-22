@@ -41,6 +41,7 @@ class Document;
 class Dialog;
 struct option_data;
 class TypeDesc;
+class CmdContext;
 
 /*!
 Window states
@@ -377,6 +378,7 @@ adds a callback for modifying the contextual menu of objects of type Id.
 	void AddMenuCallback (TypeId Id, BuildMenuCb cb);
 
 	TypeDesc const *GetTypeDescription (TypeId Id);
+	CmdContext *GetCmdContext ();
 
 protected:
 
@@ -407,7 +409,9 @@ protected:
 /*!
 std::map of the supported pixbuf formats. Keys are the mime type names.
 */
-	std::map<std::string, GdkPixbufFormat*> m_SupportedPixbufFormats;	
+	std::map<std::string, GdkPixbufFormat*> m_SupportedPixbufFormats;
+
+	static CmdContext *m_CmdContext;
 
 /*!\var m_Docs
 The currently opened documents.

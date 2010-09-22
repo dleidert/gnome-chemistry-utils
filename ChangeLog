@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/Makefile.am: some work on command contexts.
+	* libs/gcu/application.cc: ditto.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/cmd-context-gtk.cc: ditto.
+	* libs/gcu/cmd-context-gtk.h: ditto.
+	* libs/gcu/cmd-context.cc: ditto.
+	* libs/gcu/cmd-context.h: ditto.
+
 2010-09-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcr/Makefile.am: moved more files from programs/crystal.
 	* libs/gcr/celldlg.cc: ditto.

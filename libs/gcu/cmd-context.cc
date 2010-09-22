@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * cmd-context.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +24,21 @@
 #include "cmd-context.h"
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
+
+namespace gcu {
+
+CmdContext::CmdContext ()
+{
+	m_GOCmdContext = NULL;
+}
+
+CmdContext::~CmdContext ()
+{
+	if (m_GOCmdContext)
+		g_object_unref (G_OBJECT (m_GOCmdContext));
+}
+
+}	//	namespace gcu
 
 typedef	GObject GcuCmdContext;
 typedef GObjectClass GcuCmdContextClass;

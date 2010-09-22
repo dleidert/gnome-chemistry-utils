@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * cmd-context.h 
  *
- * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,7 +23,32 @@
 #ifndef GCU_CMD_CONTEXT_H
 #define GCU_CMD_CONTEXT_H
 
+#include "macros.h"
 #include <goffice/goffice.h>
+
+namespace gcu {
+
+class Application;
+
+class CmdContext {
+public:
+	CmdContext ();
+	virtual ~CmdContext ();
+
+	typedef enum {
+		ResponseDefault,
+		ResponseOK = 1 << 0,
+		RespnseCancel = 1 << 1,
+		ResponseYes = 1 << 2,
+		ResponseNo = 1 << 3
+	} Response;
+
+	virtual Response GetResponse (Application *App, char const *message, int responses);
+
+GCU_PROT_PROP (GOCmdContext *, GOCmdContext)
+};
+
+}	//	namespace gcu
 
 G_BEGIN_DECLS
 

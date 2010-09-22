@@ -28,6 +28,7 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		chem3ddoc.cc	\
 		chemistry.cc \
 		cmd-context.cc \
+		cmd-context-gtk.cc \
 		cycle.cc \
 		cylinder.cc	\
 		dialog.cc \
@@ -72,6 +73,7 @@ noinst_HEADERS = \
 		chem3ddoc.h	\
 		chemistry.h \
 		cmd-context.h \
+		cmd-context-gtk.h \
 		cycle.h \
 		cylinder.h	\
 		dialog.h \
