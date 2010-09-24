@@ -226,6 +226,24 @@ The name of the space group for a crystal. The Hall name is used as it is unique
  * Spectrum related properties
  ******************************************************************************/
 /*!
+The spectrum type, acceptable values are:
+	"INFRARED SPECTRUM",
+	"RAMAN SPECTRUM",
+	"INFRARED PEAK TABLE",
+	"INFRARED INTERFEROGRAM",
+	"INFRARED TRANSFORMED SPECTRUM",
+	"UV-VISIBLE SPECTRUM",
+	"NMR SPECTRUM",
+	"NMR FID",
+	"NMR PEAK TABLE",
+	"NMR PEAK ASSIGNMENTS",
+	"MASS SPECTRUM",
+	"UV-VIS SPECTRUM",
+	"UV/VISIBLE SPECTRUM",
+	"UV/VIS SPECTRUM".
+*/
+	GCU_PROP_SPECTRUM_TYPE,
+/*!
 The data number of a spectrum.
 */
 	GCU_PROP_SPECTRUM_NPOINTS,

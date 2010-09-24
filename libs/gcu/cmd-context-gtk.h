@@ -33,6 +33,7 @@ public:
 	virtual ~CmdContextGtk ();
 
 	Response GetResponse (Application *App, char const *message, int responses);
+	void Message (Application *App, char const *message, Severity severity, bool modal);
 };
 
 }	//	namespace gcu

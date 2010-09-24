@@ -52,6 +52,7 @@
 #include "view.h"
 #include "window.h"
 #include "zoomdlg.h"
+#include <gcu/cmd-context.h>
 #include <gcu/filechooser.h>
 #include <gcu/loader.h>
 #include <gcu/loader-error.h>
@@ -274,6 +275,7 @@ Application::Application ():
 	m_CurZ = 6;
 	m_pActiveDoc = NULL;
 	m_pActiveTool = NULL;
+	m_pActiveTarget = NULL;
 	m_NumWindow = 1;
 
 	if (!m_bInit) {
@@ -515,25 +517,22 @@ enum {
 	PIXBUF
 };
 
-bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *Doc)
+bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, gcu::Document *Doc)
 {
 	const gchar* ext;
 	Document *pDoc = static_cast<Document*> (Doc);
-	if (!filename || !strlen(filename) || filename[strlen(filename) - 1] == '/')
-	{
-		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
-															_("Please enter a file name,\nnot a directory"));
-		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
-		gtk_dialog_run (GTK_DIALOG (message));
-		gtk_widget_destroy (message);
+	if (!filename || !strlen (filename) || g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+		GetCmdContext ()->Message (this, _("Please enter a file name,\nnot a directory"), CmdContext::SeverityWarning, true);
 		return true;
 	}
 	int file_type = -1;
 	int n = strlen (filename), i = n - 1;
 	char const *pixbuf_type = NULL;
 	string filename2 = filename;
-	while ((i > 0) && (filename[i] != '.') && (filename[i] != '/')) i--;
-	if (filename[i] == '/') i = 0;
+	while ((i > 0) && (filename[i] != '.') && (filename[i] != '/'))
+		i--;
+	if (filename[i] == '/')
+		i = 0;
 	ext = (i > 0)? filename + i + 1: NULL;
 	if (!mime_type) // to be really sure we don't crash
 		mime_type = "application/x-gchempaint";
@@ -567,11 +566,8 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		char *unescaped = g_uri_unescape_string (filename, NULL);
 		char *mess = g_strdup_printf (_("Sorry, format %s not supported!\nFailed to load %s."), mime_type, unescaped);
 		g_free (unescaped);
-		GtkWidget* message = gtk_message_dialog_new (window, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, 
-													mess);
-		gtk_dialog_run (GTK_DIALOG (message));
+		GetCmdContext ()->Message (this, mess, CmdContext::SeverityError, true);
 		g_free (mess);
-		gtk_widget_destroy (message);
 		return true;
 	}
 	list<string> &exts = globs[mime_type];
@@ -593,31 +589,25 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				filename2 += string(".") + default_ext;
 		file = g_file_new_for_uri (filename2.c_str ());
 		err = g_file_query_exists (file, NULL);
-		gint result = GTK_RESPONSE_YES;
+		CmdContext::Response result = CmdContext::ResponseYes;
 		if (err) {
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
-			gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
-			result = gtk_dialog_run (Box);
-			gtk_widget_destroy (GTK_WIDGET (Box));
+			result = GetCmdContext ()->GetResponse (this, message, CmdContext::ResponseYes | CmdContext::ResponseNo);
 			g_free (message);
 		}
-		if (result == GTK_RESPONSE_YES) {
+		if (result == CmdContext::ResponseYes) {
 			// destroy the old file if needed
 			if (err) {
 				GError *error = NULL;
 				g_file_delete (file, NULL, &error);
 				if (error) {
 					char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
-					gchar * message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
+					gchar *message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
 					g_free (unescaped);
 					g_error_free (error);
-					GtkDialog* Box = GTK_DIALOG (gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, message));
-					gtk_window_set_icon_name (GTK_WINDOW (Box), "gchempaint");
-					result = gtk_dialog_run (Box);
-					gtk_widget_destroy (GTK_WIDGET (Box));
+					GetCmdContext ()->Message (this, message, CmdContext::SeverityError, false);
 					g_free (message);
 					g_object_unref (file);
 					return false;
@@ -735,11 +725,8 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		// Note to translator: add a space if needed before the semicolon
 		mess += _(":\n");
 		mess += e.what ();
-		GtkWidget *message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess.c_str (), NULL, NULL);
+		GetCmdContext ()->Message (this, mess.c_str (), CmdContext::SeverityError, false);
 		g_free (unescaped);
-		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
-		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
-		gtk_widget_show (message);
 	}
 	return false;
 }
@@ -859,7 +846,6 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 	catch (int num)
 	{
 		gchar *mess = NULL;
-		GtkWidget* message;
 		switch (num)
 		{
 		case 0:
@@ -874,12 +860,9 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 		default:
 			throw (num); //this should not occur
 		}
-		char *unescaped = g_uri_unescape_string (filename.c_str (), NULL);
-		message = gtk_message_dialog_new (NULL, (GtkDialogFlags) 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, mess, unescaped, NULL);
+		char *unescaped = g_strdup_printf (mess, g_uri_unescape_string (filename.c_str (), NULL));
+		GetCmdContext ()->Message (this, unescaped, CmdContext::SeverityError, false);
 		g_free (unescaped);
-		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
-		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
-		gtk_widget_show(message);
 	}
 }
 

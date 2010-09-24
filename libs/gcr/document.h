@@ -182,7 +182,7 @@ Used when saving to get properties from the document.
 	std::string GetProperty (unsigned property) const;
 
 /*!
-Called by the application whe the document has been loaded to update the title
+Called by the application when the document has been loaded to update the title
 and add some lines.
 */
 	bool Loaded () throw (gcu::LoaderError);

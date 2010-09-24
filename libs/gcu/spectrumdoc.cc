@@ -1228,186 +1228,7 @@ parse_line:
 	}
 
 out:
-	bool hide_y_axis = false;
-	SpectrumUnitType unit = GCU_SPECTRUM_UNIT_MAX;
-	// doon't do anything for unsupported spectra
-	switch (m_SpectrumType) {
-	case GCU_SPECTRUM_NMR: {
-		if (x == NULL && X > 0 && variables[X].Values == NULL)
-			return;
-		// fix origin
-		if (go_finite (offset)) {
-			unsigned i;
-			if (x) {
-				double d = offset * freq - maxx;
-				maxx += d;
-				minx += d;
-				firstx += d;
-				lastx += d;
-				for (i = 0; i < npoints; i++)
-					x[i] += d;
-			} else {
-				double d = offset * freq - variables[X].Max;
-				maxx = variables[X].Max += d;
-				minx = variables[X].Min += d;
-				variables[X].First += d;
-				variables[X].Last += d;
-				for (i = 0; i < npoints; i++)
-					variables[X].Values[i] += d;
-			}
-		} else if (go_finite (refpoint)) {
-			unsigned i;
-			double d = -refpoint;
-			if (x) {
-				maxx += d;
-				minx += d;
-				firstx += d;
-				lastx += d;
-				for (i = 0; i < npoints; i++)
-					x[i] += d;
-			} else {
-				maxx = variables[X].Max += d;
-				minx = variables[X].Min += d;
-				variables[X].First += d;
-				variables[X].Last += d;
-				for (i = 0; i < npoints; i++)
-					variables[X].Values[i] += d;
-			}
-		}
-		// add some widgets to the option box
-		GtkWidget *box = gtk_hbox_new (false, 5), *w;
-		if (go_finite (freq)) {
-			w = gtk_label_new (_("X unit:"));
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			w = gtk_combo_box_new_text ();
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
-			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
-			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
-			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-		}
-		w = gtk_button_new_with_label (_("Show integral"));
-		g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
-		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-		gtk_widget_show_all (box);
-		gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
-		hide_y_axis = true;
-		break;
-	}
-	case GCU_SPECTRUM_NMR_FID: {
-		if (x == NULL && X > 0 && variables[X].Values == NULL)
-			return;
-// Deactivate Fourier transfor for now
-/*		if (R >= 0 && I >= 0) {
-			GtkWidget *box = gtk_hbox_new (false, 5);
-			GtkWidget *w = gtk_button_new_with_label (_("Transform to spectrum"));
-			g_signal_connect (w, "clicked", G_CALLBACK (on_transform_fid), this);
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			gtk_widget_show_all (box);
-			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
-		}
-		hide_y_axis = true;*/
-		break;
-	}
-	case GCU_SPECTRUM_INFRARED:
-	case GCU_SPECTRUM_RAMAN:
-		unit = GCU_SPECTRUM_UNIT_MICROMETERS;
-//	case GCU_SPECTRUM_INFRARED_PEAK_TABLE:
-//	case GCU_SPECTRUM_INFRARED_INTERFEROGRAM:
-//	case GCU_SPECTRUM_INFRARED_TRANSFORMED:
-	case GCU_SPECTRUM_UV_VISIBLE:
-		if (x == NULL && X > 0 && variables[X].Values == NULL)
-			return;
-		else {
-			if (unit == GCU_SPECTRUM_UNIT_MAX)
-				unit = GCU_SPECTRUM_UNIT_NANOMETERS;
-			// add some widgets to the option box
-			GtkWidget *box = gtk_hbox_new (false, 5), *w;
-			w = gtk_label_new (_("X unit:"));
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			w = gtk_combo_box_new_text ();
-			if  (unit == GCU_SPECTRUM_UNIT_NANOMETERS)
-				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (nm)"));
-			else
-				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (µm)"));
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave number (1/cm)"));
-			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
-			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_CM_1)? 1: 0));
-			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			m_XAxisInvertBtn = gtk_check_button_new_with_label (_("Invert X Axis"));
-			m_XAxisInvertSgn = g_signal_connect (m_XAxisInvertBtn, "toggled", G_CALLBACK (on_xaxis_invert), this);
-			gtk_box_pack_start (GTK_BOX (box), m_XAxisInvertBtn, false, false, 0);
-			w = gtk_vseparator_new ();
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 12);
-			w = gtk_label_new (_("Y unit:"));
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			w = gtk_combo_box_new_text ();
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Absorbance"));
-			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Transmittance"));
-			unit = (Y >= 0)? variables[Y].Unit: m_YUnit;
-			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_ABSORBANCE)? 0: 1));
-			g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);
-			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
-			gtk_widget_show_all (box);
-			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
-		}
-		break;
-//	case GCU_SPECTRUM_NMR_PEAK_TABLE:
-//	case GCU_SPECTRUM_NMR_PEAK_ASSIGNMENTS:
-	case GCU_SPECTRUM_MASS:
-		break;
-	default:
-		return;
-	}
-	m_Empty = npoints == 0;
-	GOData *godata;
-	GogSeries *series = m_View->GetSeries ();
-	if (X >= 0 && variables[X].Values != NULL) {
-		godata = go_data_vector_val_new (variables[X].Values, npoints, NULL);
-		m_XUnit = variables[X].Unit;
-	}
-	else
-		godata = go_data_vector_val_new (x, npoints, NULL);
-	gog_series_set_dim (series, 0, godata, NULL);
-	if (Y >= 0 && variables[Y].Values != NULL) {
-		godata = go_data_vector_val_new (variables[Y].Values, npoints, NULL);
-		m_YUnit = variables[Y].Unit;
-	} else if (R >= 0 && variables[R].Values != NULL) {
-		godata = go_data_vector_val_new (variables[R].Values, npoints, NULL);
-		m_YUnit = variables[R].Unit;
-	} else
-		godata = go_data_vector_val_new (y, npoints, NULL);
-	gog_series_set_dim (series, 1, godata, NULL);
-	/* invert X-axis if needed */
-	bool invert_axis = false;
-	switch (m_XUnit) {
-	case GCU_SPECTRUM_UNIT_CM_1:
-	case GCU_SPECTRUM_UNIT_PPM:
-		invert_axis = true;
-		break;
-	case GCU_SPECTRUM_UNIT_HZ:
-		if (m_SpectrumType == GCU_SPECTRUM_NMR)
-			invert_axis = true;
-		break;
-	default:
-		break;
-	}
-	if (m_XAxisInvertBtn) {
-		g_signal_handler_block (m_XAxisInvertBtn, m_XAxisInvertSgn);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m_XAxisInvertBtn), invert_axis);
-		g_signal_handler_unblock (m_XAxisInvertBtn, m_XAxisInvertSgn);
-	}
-	m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
-	m_View->SetAxisBounds (GOG_AXIS_Y, miny, maxy, false);
-	if (hide_y_axis)
-		m_View->ShowAxis (GOG_AXIS_Y, false);
-	/* Add axes labels */
-	if (m_XUnit < GCU_SPECTRUM_UNIT_MAX)
-		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[m_XUnit]));
-	if (m_YUnit < GCU_SPECTRUM_UNIT_MAX)
-		m_View->SetAxisLabel (GOG_AXIS_Y, _(UnitNames[m_YUnit]));
+	Loaded ();
 }
 
 void SpectrumDocument::ReadDataLine (char const *data, list<double> &l)
@@ -2178,10 +1999,198 @@ void SpectrumDocument::OnXAxisInvert (bool inverted)
 	m_View->InvertAxis (GOG_AXIS_X, inverted);
 }
 
+bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
+{
+	bool hide_y_axis = false;
+	SpectrumUnitType unit = GCU_SPECTRUM_UNIT_MAX;
+	// doon't do anything for unsupported spectra
+	switch (m_SpectrumType) {
+	case GCU_SPECTRUM_NMR: {
+		if (x == NULL && X > 0 && variables[X].Values == NULL)
+			return false;
+		// fix origin
+		if (go_finite (offset)) {
+			unsigned i;
+			if (x) {
+				double d = offset * freq - maxx;
+				maxx += d;
+				minx += d;
+				firstx += d;
+				lastx += d;
+				for (i = 0; i < npoints; i++)
+					x[i] += d;
+			} else {
+				double d = offset * freq - variables[X].Max;
+				maxx = variables[X].Max += d;
+				minx = variables[X].Min += d;
+				variables[X].First += d;
+				variables[X].Last += d;
+				for (i = 0; i < npoints; i++)
+					variables[X].Values[i] += d;
+			}
+		} else if (go_finite (refpoint)) {
+			unsigned i;
+			double d = -refpoint;
+			if (x) {
+				maxx += d;
+				minx += d;
+				firstx += d;
+				lastx += d;
+				for (i = 0; i < npoints; i++)
+					x[i] += d;
+			} else {
+				maxx = variables[X].Max += d;
+				minx = variables[X].Min += d;
+				variables[X].First += d;
+				variables[X].Last += d;
+				for (i = 0; i < npoints; i++)
+					variables[X].Values[i] += d;
+			}
+		}
+		// add some widgets to the option box
+		GtkWidget *box = gtk_hbox_new (false, 5), *w;
+		if (go_finite (freq)) {
+			w = gtk_label_new (_("X unit:"));
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			w = gtk_combo_box_new_text ();
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
+			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
+			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+		}
+		w = gtk_button_new_with_label (_("Show integral"));
+		g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
+		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+		gtk_widget_show_all (box);
+		gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+		hide_y_axis = true;
+		break;
+	}
+	case GCU_SPECTRUM_NMR_FID: {
+		if (x == NULL && X > 0 && variables[X].Values == NULL)
+			return false;
+// Deactivate Fourier transfor for now
+/*		if (R >= 0 && I >= 0) {
+			GtkWidget *box = gtk_hbox_new (false, 5);
+			GtkWidget *w = gtk_button_new_with_label (_("Transform to spectrum"));
+			g_signal_connect (w, "clicked", G_CALLBACK (on_transform_fid), this);
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			gtk_widget_show_all (box);
+			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+		}
+		hide_y_axis = true;*/
+		break;
+	}
+	case GCU_SPECTRUM_INFRARED:
+	case GCU_SPECTRUM_RAMAN:
+		unit = GCU_SPECTRUM_UNIT_MICROMETERS;
+//	case GCU_SPECTRUM_INFRARED_PEAK_TABLE:
+//	case GCU_SPECTRUM_INFRARED_INTERFEROGRAM:
+//	case GCU_SPECTRUM_INFRARED_TRANSFORMED:
+	case GCU_SPECTRUM_UV_VISIBLE:
+		if (x == NULL && X > 0 && variables[X].Values == NULL)
+			return false;
+		else {
+			if (unit == GCU_SPECTRUM_UNIT_MAX)
+				unit = GCU_SPECTRUM_UNIT_NANOMETERS;
+			// add some widgets to the option box
+			GtkWidget *box = gtk_hbox_new (false, 5), *w;
+			w = gtk_label_new (_("X unit:"));
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			w = gtk_combo_box_new_text ();
+			if  (unit == GCU_SPECTRUM_UNIT_NANOMETERS)
+				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (nm)"));
+			else
+				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (µm)"));
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave number (1/cm)"));
+			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_CM_1)? 1: 0));
+			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			m_XAxisInvertBtn = gtk_check_button_new_with_label (_("Invert X Axis"));
+			m_XAxisInvertSgn = g_signal_connect (m_XAxisInvertBtn, "toggled", G_CALLBACK (on_xaxis_invert), this);
+			gtk_box_pack_start (GTK_BOX (box), m_XAxisInvertBtn, false, false, 0);
+			w = gtk_vseparator_new ();
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 12);
+			w = gtk_label_new (_("Y unit:"));
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			w = gtk_combo_box_new_text ();
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Absorbance"));
+			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Transmittance"));
+			unit = (Y >= 0)? variables[Y].Unit: m_YUnit;
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_ABSORBANCE)? 0: 1));
+			g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);
+			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+			gtk_widget_show_all (box);
+			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
+		}
+		break;
+//	case GCU_SPECTRUM_NMR_PEAK_TABLE:
+//	case GCU_SPECTRUM_NMR_PEAK_ASSIGNMENTS:
+	case GCU_SPECTRUM_MASS:
+		break;
+	default:
+		return false;
+	}
+	m_Empty = npoints == 0;
+	GOData *godata;
+	GogSeries *series = m_View->GetSeries ();
+	if (X >= 0 && variables[X].Values != NULL) {
+		godata = go_data_vector_val_new (variables[X].Values, npoints, NULL);
+		m_XUnit = variables[X].Unit;
+	}
+	else
+		godata = go_data_vector_val_new (x, npoints, NULL);
+	gog_series_set_dim (series, 0, godata, NULL);
+	if (Y >= 0 && variables[Y].Values != NULL) {
+		godata = go_data_vector_val_new (variables[Y].Values, npoints, NULL);
+		m_YUnit = variables[Y].Unit;
+	} else if (R >= 0 && variables[R].Values != NULL) {
+		godata = go_data_vector_val_new (variables[R].Values, npoints, NULL);
+		m_YUnit = variables[R].Unit;
+	} else
+		godata = go_data_vector_val_new (y, npoints, NULL);
+	gog_series_set_dim (series, 1, godata, NULL);
+	/* invert X-axis if needed */
+	bool invert_axis = false;
+	switch (m_XUnit) {
+	case GCU_SPECTRUM_UNIT_CM_1:
+	case GCU_SPECTRUM_UNIT_PPM:
+		invert_axis = true;
+		break;
+	case GCU_SPECTRUM_UNIT_HZ:
+		if (m_SpectrumType == GCU_SPECTRUM_NMR)
+			invert_axis = true;
+		break;
+	default:
+		break;
+	}
+	if (m_XAxisInvertBtn) {
+		g_signal_handler_block (m_XAxisInvertBtn, m_XAxisInvertSgn);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m_XAxisInvertBtn), invert_axis);
+		g_signal_handler_unblock (m_XAxisInvertBtn, m_XAxisInvertSgn);
+	}
+	m_View->SetAxisBounds (GOG_AXIS_X, minx, maxx, invert_axis);
+	m_View->SetAxisBounds (GOG_AXIS_Y, miny, maxy, false);
+	if (hide_y_axis)
+		m_View->ShowAxis (GOG_AXIS_Y, false);
+	/* Add axes labels */
+	if (m_XUnit < GCU_SPECTRUM_UNIT_MAX)
+		m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[m_XUnit]));
+	if (m_YUnit < GCU_SPECTRUM_UNIT_MAX)
+		m_View->SetAxisLabel (GOG_AXIS_Y, _(UnitNames[m_YUnit]));
+	return true;
+}
+
 bool SpectrumDocument::SetProperty (unsigned property, char const *value)
 {
 	istringstream is (value);
 	switch (property) {
+	case GCU_PROP_SPECTRUM_TYPE:
+		m_SpectrumType = get_spectrum_type_from_string (value);
+		break;
 	case GCU_PROP_SPECTRUM_NPOINTS:
 		is >> npoints;
 		break;
@@ -2190,14 +2199,51 @@ bool SpectrumDocument::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_SPECTRUM_DATA_Y:
 		break;
 	case GCU_PROP_SPECTRUM_DATA_REAL: {
-		if (npoints == 0)
+		if (npoints == 0 || R >= 0)
 			return false;
-		if (R == -1) {
-		} else {
-		}
+		JdxVar vr;
+		vr.Name = _("Real data");
+		vr.Symbol = 'r';
+		vr.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
+		vr.Unit = GCU_SPECTRUM_UNIT_MAX;
+		vr.Format = GCU_SPECTRUM_FORMAT_MAX;
+		vr.Factor = 1.;
+		vr.NbValues = npoints;
+		vr.Values = new double[npoints];
+		for (unsigned i = 0; i < npoints; i++)
+			is >> vr.Values[i];
+		vr.First = vr.Values[0];
+		vr.Last = vr.Values[npoints - 1];
+		go_range_min (vr.Values, npoints, &vr.Min);
+		go_range_max (vr.Values, npoints, &vr.Max);
+		vr.Series = NULL;
+		Y = R = variables.size ();
+		variables.push_back (vr);
 		break;
 	}
-	case GCU_PROP_SPECTRUM_DATA_IMAGINARY:
+	case GCU_PROP_SPECTRUM_DATA_IMAGINARY: {
+		if (npoints == 0 || I >= 0)
+			return false;
+		JdxVar vi;
+		vi.Name = _("Imaginary data");
+		vi.Symbol = 'i';
+		vi.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
+		vi.Unit = GCU_SPECTRUM_UNIT_MAX;
+		vi.Format = GCU_SPECTRUM_FORMAT_MAX;
+		vi.Factor = 1.;
+		vi.NbValues = npoints;
+		vi.Values = new double[npoints];
+		for (unsigned i = 0; i < npoints; i++)
+			is >> vi.Values[i];
+		vi.First = vi.Values[0];
+		vi.Last = vi.Values[npoints - 1];
+		go_range_min (vi.Values, npoints, &vi.Min);
+		go_range_max (vi.Values, npoints, &vi.Max);
+		vi.Series = NULL;
+		I = variables.size ();
+		variables.push_back (vi);
+		break;
+	}
 		break;
 	default:
 		return false;

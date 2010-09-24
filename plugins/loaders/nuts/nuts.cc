@@ -84,6 +84,7 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 	READINT32 (in, dims);
 	if (dims != 1)
 		return gcu::ContentTypeUnknown; // only 1D supported for now
+	doc->SetProperty (GCU_PROP_SPECTRUM_TYPE, "NMR FID");
 	READINT32 (in, i32);
 	use_ints = i32 != 0;
 	READINT32 (in, i32);
@@ -271,7 +272,7 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 			return gcu::ContentTypeUnknown;
 		}
 	}
-	// populate the document
+	doc->Loaded ();
 	return gcu::ContentTypeSpectrum;
 }
 

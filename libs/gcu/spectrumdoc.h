@@ -337,7 +337,11 @@ might be changed.
 Used when loading to set properties to spectra.
 @return true if the property could be set, or if the property is not relevant, false otherwise.
 */
-	virtual bool SetProperty (unsigned property, char const *value);
+	bool SetProperty (unsigned property, char const *value);
+/*!
+Called by the application when the document has been loaded.
+*/
+	bool Loaded () throw (gcu::LoaderError);
 
 private:
 	void LoadJcampDx (char const *data);

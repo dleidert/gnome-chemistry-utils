@@ -38,12 +38,20 @@ public:
 	typedef enum {
 		ResponseDefault,
 		ResponseOK = 1 << 0,
-		RespnseCancel = 1 << 1,
+		ResponseCancel = 1 << 1,
 		ResponseYes = 1 << 2,
-		ResponseNo = 1 << 3
+		ResponseNo = 1 << 3,
+		ResponseClose = 1 << 4
 	} Response;
 
-	virtual Response GetResponse (Application *App, char const *message, int responses);
+	typedef enum {
+		SeverityMessage,
+		SeverityWarning,
+		SeverityError
+	} Severity;
+
+	virtual Response GetResponse (Application *App, char const *message, int responses) = 0;
+	virtual void Message (Application *App, char const *message, Severity severity, bool modal) = 0;
 
 GCU_PROT_PROP (GOCmdContext *, GOCmdContext)
 };

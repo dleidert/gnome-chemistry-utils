@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-09-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* fr.po: fixed typo.
+
 2010-09-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: moved files from programs/crystal to libs/gcr.
 	* *.po: updated after typo fix.

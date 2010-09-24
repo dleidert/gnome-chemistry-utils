@@ -790,7 +790,8 @@ msgstr ""
 msgid ""
 "Sorry, format %s not supported!\n"
 "Failed to load %s."
-msgstr "Désolé, format %s non supporté !%s n'a pas pu être chargé."
+msgstr "Désolé, format %s non supporté !\n"
+"%s n'a pas pu être chargé."
 
 #: ../libs/gcp/application.cc:599 ../libs/gcp/stringdlg.cc:118
 #: ../plugins/paint/wikipedia/wikipediatool.cc:104

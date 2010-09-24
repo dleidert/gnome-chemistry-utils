@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2010-09-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: use CmdContext instead of gtk to display
+	messages when serializing.
+	* libs/gcr/document.h: fixed typo in docs.
+	* libs/gcu/cmd-context-gtk.cc: add Message method.
+	* libs/gcu/cmd-context-gtk.h: ditto.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/objprops.h: add spectrum related entries.
+	* libs/gcu/spectrumdoc.cc: implement GetProperty().
+	* libs/gcu/spectrumdoc.h: ditto.
+	* plugins/loaders/nuts/nuts.cc: load data to the document.
+	* programs/paint/standaloneapp.cc: don't return an invalid window.
+
 2010-09-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/Makefile.am: some work on command contexts.
 	* libs/gcu/application.cc: ditto.
