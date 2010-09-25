@@ -235,16 +235,16 @@ bool Atom::SetProperty (unsigned property, char const *value)
 	case GCU_PROP_Z:
 		break;
 	case GCU_PROP_XFRACT:
-		m_x = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_x = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
 		break;
 	case GCU_PROP_YFRACT:
-		m_y = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_y = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
 		break;
 	case GCU_PROP_ZFRACT:
-		m_z = strtod (value, NULL) * GetDocument ()->GetScale ();
+		m_z = g_ascii_strtod (value, NULL) * GetDocument ()->GetScale ();
 		break;
 	default:
-		return Atom::SetProperty (property, value);
+		return gcu::Atom::SetProperty (property, value);
 	}
 	return  true;
 }
@@ -266,7 +266,7 @@ std::string Atom::GetProperty (unsigned property) const
 		res << z ();
 		break;
 	default:
-		return Atom::GetProperty (property);
+		return gcu::Atom::GetProperty (property);
 	}
 	return res.str ();
 };

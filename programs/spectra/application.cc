@@ -38,7 +38,7 @@ using namespace std;
 
 gsvApplication::gsvApplication (): Application (_("GSpectrum"), DATADIR, "gspectrum")
 {
-	gcu::Loader::Init ();
+	gcu::Loader::Init (this);
 	m_SupportedMimeTypes.push_back ("chemical/x-jcamp-dx");
 	map<string, LoaderStruct>::iterator it;
 	bool found = Loader::GetFirstLoader (it);

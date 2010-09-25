@@ -157,10 +157,12 @@ mime type they support.
 
 	// static methods
 /*!
+@param app an Application instance.
+
 Initializes the load/save engines system. This must be called before trying to use
 any loader (no one will be available before, anyway).
 */
-	static void Init ();
+	static void Init (Application *app);
 /*!
 @param it a std::map iterator.
 

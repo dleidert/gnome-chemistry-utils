@@ -87,7 +87,7 @@ the help_name or name parameters will be used.
 The datadir variable is used to build the full path to the help file:
 "file://"+datadir+"/gnome/help/"+name+"/"+LANG+"/"+name".xml".
 */
-	Application (std::string name, std::string datadir = DATADIR, char const *help_name = NULL, char const *icon_name = NULL);
+	Application (std::string name, std::string datadir = DATADIR, char const *help_name = NULL, char const *icon_name = NULL, CmdContext *cc = NULL);
 /*!
 The destructor.
 */
@@ -411,7 +411,7 @@ std::map of the supported pixbuf formats. Keys are the mime type names.
 */
 	std::map<std::string, GdkPixbufFormat*> m_SupportedPixbufFormats;
 
-	static CmdContext *m_CmdContext;
+	CmdContext *m_CmdContext;
 
 /*!\var m_Docs
 The currently opened documents.

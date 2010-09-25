@@ -51,7 +51,6 @@ GOConfNode *Application::m_ConfDir = NULL;
 static map<string, Application *> Apps;
 WindowState Application::DefaultWindowState = NormalWindowState;
 static Application *Default = NULL;
-CmdContext *Application::m_CmdContext = NULL;
 
 class ApplicationPrivate
 {
@@ -77,12 +76,15 @@ static GOptionEntry options[] =
   {NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
-Application::Application (string name, string datadir, char const *help_name, char const *icon_name)
+Application::Application (string name, string datadir, char const *help_name, char const *icon_name, CmdContext *cc)
 {
 	if (m_ConfDir == NULL) {
 		libgoffice_init ();
 		m_ConfDir = go_conf_get_node (NULL, GCU_CONF_DIR);
 	}
+	m_CmdContext = cc;
+	if (m_CmdContext)
+		m_CmdContext->m_App = this;
 	Apps[name] = this;
 	static bool first_call = true;
 	Name = name;
@@ -136,13 +138,13 @@ Application::Application (string name, string datadir, char const *help_name, ch
 Application::~Application ()
 {
 	Apps.erase (Name);
+	if (m_CmdContext)
+		delete m_CmdContext;
 	if (Apps.empty ()) {
 		ClearDialogs (); // needed to cleanly stop goffice
 		go_conf_free_node (m_ConfDir);
 		m_ConfDir = NULL;
 		libgoffice_shutdown ();
-		if (m_CmdContext)
-			delete m_CmdContext;
 	}
 }
 
@@ -290,7 +292,7 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 		g_error_free (error);
 		return ContentTypeUnknown;
 	}
-	GOIOContext *io = go_io_context_new (gcu_get_cmd_context ());
+	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
 	ContentType ret = l->Read (Doc, input, mime_type, io);
 	g_object_unref (input);
 	g_object_unref (io);
@@ -324,7 +326,7 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 	if (error) {
 		g_error_free (error);
 	}
-	GOIOContext *io  = go_io_context_new (gcu_get_cmd_context ());
+	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
 	bool ret = l->Write (const_cast <Document *> (Doc), output, mime_type, io, type);
 	g_object_unref (output);
 	g_object_unref (io);
@@ -520,7 +522,7 @@ TypeDesc const *Application::GetTypeDescription (TypeId Id)
 CmdContext *Application::GetCmdContext ()
 {
 	if (m_CmdContext == NULL)
-		m_CmdContext = new CmdContextGtk ();
+		m_CmdContext = new CmdContextGtk (this);
 	return m_CmdContext;
 }
 

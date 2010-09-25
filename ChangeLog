@@ -1,5 +1,22 @@
 ##Text encoding: utf-8
 
+2010-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: enhance the command context API.
+	* libs/gcp/application.h: ditto.
+	* libs/gcr/atom.cc: fixed Atpm::SetProperty().
+	* libs/gcu/application.cc: enhance the command context API.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/chem3ddoc.cc: ditto.
+	* libs/gcu/cmd-context-gtk.cc: ditto.
+	* libs/gcu/cmd-context-gtk.h: ditto.
+	* libs/gcu/cmd-context.cc: ditto.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/loader.cc: ditto.
+	* libs/gcu/loader.h: ditto.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+	* programs/crystal/application.cc: ditto.
+	* programs/spectra/application.cc: ditto.
+
 2010-09-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: use CmdContext instead of gtk to display
 	messages when serializing.

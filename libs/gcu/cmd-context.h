@@ -32,7 +32,8 @@ class Application;
 
 class CmdContext {
 public:
-	CmdContext ();
+	friend class Application;
+	CmdContext (Application *App);
 	virtual ~CmdContext ();
 
 	typedef enum {
@@ -50,33 +51,15 @@ public:
 		SeverityError
 	} Severity;
 
-	virtual Response GetResponse (Application *App, char const *message, int responses) = 0;
-	virtual void Message (Application *App, char const *message, Severity severity, bool modal) = 0;
+	virtual Response GetResponse (char const *message, int responses) = 0;
+	virtual void Message (char const *message, Severity severity, bool modal) = 0;
+
+	GOIOContext *GetNewGOIOContext ();
 
 GCU_PROT_PROP (GOCmdContext *, GOCmdContext)
+GCU_PROT_PROP (Application *, App)
 };
 
 }	//	namespace gcu
 
-G_BEGIN_DECLS
-
-/*!\file
-Declaration of the GcuCmdContext structure, a GObject implementing the
-GOCmdContext interface from goffice. This is mandatory to be able to edit
-charts.
-*/
-
-/*!
-@return the GType associated to GcuCmdContext.
-*/
-#define GCU_TYPE_CMD_CONTEXT		(gcu_cmd_context_get_type ())
-GType		gcu_cmd_context_get_type   (void);
-
-/*!
-@return a static global GcuCmdContext instance.
-*/
-GOCmdContext *gcu_get_cmd_context (void);
-
-G_END_DECLS
-
-#endif	/* GCU_CMD_CONTEXT_H */
+#endif //	GCU_CMD_CONTEXT_H

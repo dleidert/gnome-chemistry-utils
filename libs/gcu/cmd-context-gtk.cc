@@ -26,18 +26,30 @@
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 
+typedef	struct {
+	GObject base;
+	gcu::CmdContextGtk *ccg;
+} GcuCmdContextGtk;
+
+typedef GObjectClass GcuCmdContextGtkClass;
+
+#define GCU_TYPE_CMD_CONTEXT_GTK		(gcu_cmd_context_gtk_get_type ())
+#define GCU_CMD_CONTEXT_GTK(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCU_TYPE_CMD_CONTEXT_GTK, GcuCmdContextGtk))
+GType		gcu_cmd_context_gtk_get_type   (void);
+
 namespace gcu {
 
-CmdContextGtk::CmdContextGtk (): CmdContext ()
+CmdContextGtk::CmdContextGtk (Application *App): CmdContext (App)
 {
-	m_GOCmdContext = NULL;
+	m_GOCmdContext = GO_CMD_CONTEXT (g_object_new (GCU_TYPE_CMD_CONTEXT_GTK, NULL));
+	reinterpret_cast <GcuCmdContextGtk *> (m_GOCmdContext)->ccg = this;
 }
 
 CmdContextGtk::~CmdContextGtk ()
 {
 }
 
-CmdContext::Response CmdContextGtk::GetResponse (Application *App, char const *message, int responses)
+CmdContext::Response CmdContextGtk::GetResponse (char const *message, int responses)
 {
 	int buttons = 0;
 	if (responses & ResponseOK)
@@ -48,12 +60,12 @@ CmdContext::Response CmdContextGtk::GetResponse (Application *App, char const *m
 		buttons |= GTK_BUTTONS_YES_NO;
 	if (responses & ResponseClose)
 		buttons |= GTK_BUTTONS_CLOSE;
-	GtkWidget *dlg = gtk_message_dialog_new_with_markup (App->GetWindow (),
+	GtkWidget *dlg = gtk_message_dialog_new_with_markup (m_App->GetWindow (),
 	                                          static_cast <GtkDialogFlags> (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
 	                                          GTK_MESSAGE_QUESTION,
 	                                          static_cast <GtkButtonsType> (buttons),
 	                                          message);
-	gtk_window_set_icon_name(GTK_WINDOW (dlg), App->GetIconName ().c_str ());
+	gtk_window_set_icon_name(GTK_WINDOW (dlg), m_App->GetIconName ().c_str ());
 	buttons = gtk_dialog_run (GTK_DIALOG (dlg));
 	gtk_widget_destroy (dlg);
 	switch (buttons) {
@@ -72,7 +84,7 @@ CmdContext::Response CmdContextGtk::GetResponse (Application *App, char const *m
 	}
 }
 
-void CmdContextGtk::Message (Application *App, char const *message, Severity severity, bool modal)
+void CmdContextGtk::Message (char const *message, Severity severity, bool modal)
 {
 	GtkMessageType type;
 	switch (severity) {
@@ -89,12 +101,12 @@ void CmdContextGtk::Message (Application *App, char const *message, Severity sev
 		type = GTK_MESSAGE_OTHER;
 		break;
 	}
-	GtkWidget *dlg = gtk_message_dialog_new_with_markup (App->GetWindow (),
+	GtkWidget *dlg = gtk_message_dialog_new_with_markup (m_App->GetWindow (),
 	                                          static_cast <GtkDialogFlags> (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
 	                                          type,
 	                                          GTK_BUTTONS_CLOSE,
 	                                          message);
-	gtk_window_set_icon_name(GTK_WINDOW (dlg), App->GetIconName ().c_str ());
+	gtk_window_set_icon_name(GTK_WINDOW (dlg), m_App->GetIconName ().c_str ());
 	g_signal_connect (G_OBJECT (dlg), "response", G_CALLBACK (gtk_widget_destroy), NULL);
 	if (modal)
 		gtk_dialog_run (GTK_DIALOG (dlg));
@@ -103,3 +115,57 @@ void CmdContextGtk::Message (Application *App, char const *message, Severity sev
 }
 
 }	//	namespace gcu
+
+static void
+gcu_cc_gtk_error_error (GOCmdContext *cc, GError *error)
+{
+	GcuCmdContextGtk *ccg = GCU_CMD_CONTEXT_GTK (cc);
+	char *mess = g_strdup_printf ("Error: %s\n", error->message);
+	ccg->ccg->Message (mess, gcu::CmdContext::SeverityError, false);
+	g_free (mess);
+}
+
+static void
+gcu_cc_gtk_error_info (G_GNUC_UNUSED GOCmdContext *cc, GOErrorInfo *error)
+{
+	go_error_info_print (error);
+}
+
+static char *
+gcu_cc_gtk_get_password (G_GNUC_UNUSED GOCmdContext *cc,
+		  G_GNUC_UNUSED char const* filename)
+{
+	return NULL;
+}
+
+static void
+gcu_cc_gtk_set_sensitive (G_GNUC_UNUSED GOCmdContext *cc,
+		   G_GNUC_UNUSED gboolean sensitive)
+{
+}
+
+static void
+gcu_cc_gtk_progress_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED double val)
+{
+}
+
+static void
+gcu_cc_gtk_progress_message_set (G_GNUC_UNUSED GOCmdContext *cc, G_GNUC_UNUSED gchar const *msg)
+{
+}
+
+static void
+gcu_cc_gtk_cmd_context_init (G_GNUC_UNUSED GOCmdContextClass *iface)
+{
+	iface->get_password			= gcu_cc_gtk_get_password;
+	iface->set_sensitive		= gcu_cc_gtk_set_sensitive;
+	iface->error.error			= gcu_cc_gtk_error_error;
+	iface->error.error_info		= gcu_cc_gtk_error_info;
+	iface->progress_set			= gcu_cc_gtk_progress_set;
+	iface->progress_message_set	= gcu_cc_gtk_progress_message_set;
+}
+
+GSF_CLASS_FULL (GcuCmdContextGtk, gcu_cmd_context_gtk,
+		NULL, NULL, NULL, NULL,
+		NULL, G_TYPE_OBJECT, 0,
+		GSF_INTERFACE (gcu_cc_gtk_cmd_context_init, GO_TYPE_CMD_CONTEXT))

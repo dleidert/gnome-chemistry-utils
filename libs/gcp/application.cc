@@ -269,8 +269,8 @@ static void on_config_changed (GOConfNode *node, gchar const *key, Application *
 	app->OnConfigChanged (node, key);
 }
 
-Application::Application ():
-	gcu::Application ("GChemPaint", DATADIR, "gchempaint", "gchempaint")
+Application::Application (CmdContext *cc):
+	gcu::Application ("GChemPaint", DATADIR, "gchempaint", "gchempaint", cc)
 {
 	m_CurZ = 6;
 	m_pActiveDoc = NULL;
@@ -280,7 +280,7 @@ Application::Application ():
 
 	if (!m_bInit) {
 		/* Initialize plugins manager */
-		gcu::Loader::Init ();
+		gcu::Loader::Init (this);
 		// Check for programs
 		char *result = NULL, *errors = NULL;
 		// check for ghemical
@@ -522,7 +522,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 	const gchar* ext;
 	Document *pDoc = static_cast<Document*> (Doc);
 	if (!filename || !strlen (filename) || g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-		GetCmdContext ()->Message (this, _("Please enter a file name,\nnot a directory"), CmdContext::SeverityWarning, true);
+		GetCmdContext ()->Message (_("Please enter a file name,\nnot a directory"), CmdContext::SeverityWarning, true);
 		return true;
 	}
 	int file_type = -1;
@@ -566,7 +566,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		char *unescaped = g_uri_unescape_string (filename, NULL);
 		char *mess = g_strdup_printf (_("Sorry, format %s not supported!\nFailed to load %s."), mime_type, unescaped);
 		g_free (unescaped);
-		GetCmdContext ()->Message (this, mess, CmdContext::SeverityError, true);
+		GetCmdContext ()->Message (mess, CmdContext::SeverityError, true);
 		g_free (mess);
 		return true;
 	}
@@ -594,7 +594,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			char *unescaped = g_uri_unescape_string (filename2.c_str (), NULL);
 			gchar * message = g_strdup_printf (_("File %s\nexists, overwrite?"), unescaped);
 			g_free (unescaped);
-			result = GetCmdContext ()->GetResponse (this, message, CmdContext::ResponseYes | CmdContext::ResponseNo);
+			result = GetCmdContext ()->GetResponse (message, CmdContext::ResponseYes | CmdContext::ResponseNo);
 			g_free (message);
 		}
 		if (result == CmdContext::ResponseYes) {
@@ -607,7 +607,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 					gchar *message = g_strdup_printf (_("Error while processing %s:\n%s"), unescaped, error->message);
 					g_free (unescaped);
 					g_error_free (error);
-					GetCmdContext ()->Message (this, message, CmdContext::SeverityError, false);
+					GetCmdContext ()->Message (message, CmdContext::SeverityError, false);
 					g_free (message);
 					g_object_unref (file);
 					return false;
@@ -725,7 +725,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		// Note to translator: add a space if needed before the semicolon
 		mess += _(":\n");
 		mess += e.what ();
-		GetCmdContext ()->Message (this, mess.c_str (), CmdContext::SeverityError, false);
+		GetCmdContext ()->Message (mess.c_str (), CmdContext::SeverityError, false);
 		g_free (unescaped);
 	}
 	return false;
@@ -861,7 +861,7 @@ void Application::OpenWithBabel (string const &filename, const gchar *mime_type,
 			throw (num); //this should not occur
 		}
 		char *unescaped = g_strdup_printf (mess, g_uri_unescape_string (filename.c_str (), NULL));
-		GetCmdContext ()->Message (this, unescaped, CmdContext::SeverityError, false);
+		GetCmdContext ()->Message (unescaped, CmdContext::SeverityError, false);
 		g_free (unescaped);
 	}
 }

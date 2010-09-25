@@ -49,7 +49,7 @@ bool gcApplication::m_bInit = false;
 
 gcApplication::gcApplication(): gcr::Application ()
 {
-	gcu::Loader::Init ();
+	gcu::Loader::Init (this);
 	m_SupportedMimeTypes.push_back ("application/x-gcrystal");
 	m_WriteableMimeTypes.push_back ("application/x-gcrystal");
 	// browse available loaders

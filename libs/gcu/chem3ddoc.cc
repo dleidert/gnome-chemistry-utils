@@ -107,8 +107,7 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	if (obj)
 		delete obj;
 	else {
-		gcu::Loader::Init (); // can be called many times
-		Application *app = GetApp ();
+		gcu::Loader::Init (app); // can be called many times
 		app->AddType ("atom", CreateAtom, AtomType);
 		app->AddType ("bond", CreateBond, BondType);
 		app->AddType ("molecule", CreateMolecule, MoleculeType);

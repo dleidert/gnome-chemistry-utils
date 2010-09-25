@@ -95,7 +95,7 @@ public:
 /*!
 The default constructor.
 */
-	Application ();
+	Application (gcu::CmdContext *cc = NULL);
 /*!
 The destructor.
 */

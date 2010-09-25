@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "application.h"
 #include "cmd-context.h"
 #include "document.h"
 #include "loader.h"
@@ -130,7 +131,7 @@ Loader::~Loader ()
 
 bool Loader::Inited = false;
 
-void Loader::Init ()
+void Loader::Init (Application *app)
 {
 	if (Inited)
 		return;
@@ -139,7 +140,7 @@ void Loader::Init ()
 	go_plugin_loader_module_register_version ("gchemutils", VERSION);
 	char *plugins_dir = g_strdup (GCU_PLUGINS_DIR);
 	GSList *dirs = g_slist_prepend (NULL, plugins_dir);
-	go_plugins_init (gcu_get_cmd_context (), NULL, NULL, dirs, true, GO_TYPE_PLUGIN_LOADER_MODULE);
+	go_plugins_init (app->GetCmdContext ()->GetGOCmdContext (), NULL, NULL, dirs, true, GO_TYPE_PLUGIN_LOADER_MODULE);
 	// do not free dirs and plugins_dir, goffice will
 	Inited = true;
 }
