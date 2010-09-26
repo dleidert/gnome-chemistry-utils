@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-09-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/objprops.h: add more spectrum related properties.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* plugins/loaders/nuts/nuts.cc: imports the time related data.
+
 2010-09-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: enhance the command context API.
 	* libs/gcp/application.h: ditto.

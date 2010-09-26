@@ -264,6 +264,36 @@ The imaginary components of a spectrum made of complex data.
 */
 	GCU_PROP_SPECTRUM_DATA_IMAGINARY,
 /*!
+The x data unit for a spectrum, acceptable values are:
+	"1/CM",
+	"TRANSMITTANCE",
+	"ABSORBANCE",
+	"PPM",
+	"NANOMETERS",
+	"MICROMETERS",
+	"SECONDS",
+	"HZ",
+	"M/Z",
+	"RELATIVE ABUNDANCE".
+*/
+	GCU_PROP_SPECTRUM_X_UNIT,
+/*!
+The lowest x datum of a spectrum.
+*/
+	GCU_PROP_SPECTRUM_X_MIN,
+/*!
+The largest x datum of a spectrum.
+*/
+	GCU_PROP_SPECTRUM_X_MAX,
+/*!
+The offset x datum of a spectrum.
+*/
+	GCU_PROP_SPECTRUM_X_OFFSET,
+/*!
+The NMR spectrometer frequency.
+*/
+	GCU_PROP_SPECTRUM_NMR_FREQ,
+/*!
 The first invalid value. It might be used as an error value.
 */
 	GCU_PROP_MAX

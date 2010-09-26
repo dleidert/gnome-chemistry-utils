@@ -2006,7 +2006,7 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 	// doon't do anything for unsupported spectra
 	switch (m_SpectrumType) {
 	case GCU_SPECTRUM_NMR: {
-		if (x == NULL && X > 0 && variables[X].Values == NULL)
+		if (x == NULL && X >= 0 && variables[X].Values == NULL)
 			return false;
 		// fix origin
 		if (go_finite (offset)) {
@@ -2069,8 +2069,14 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 		break;
 	}
 	case GCU_SPECTRUM_NMR_FID: {
-		if (x == NULL && X > 0 && variables[X].Values == NULL)
+		if (x == NULL && X >= 0 && variables[X].Values == NULL)
 			return false;
+		else if (x == NULL && X < 0) {
+			x = new double[npoints];
+			deltax = (maxx - minx) / (npoints - 1);
+			for (unsigned i = 0; i < npoints;i++)
+				x[i] = minx + i * deltax;
+		}
 // Deactivate Fourier transfor for now
 /*		if (R >= 0 && I >= 0) {
 			GtkWidget *box = gtk_hbox_new (false, 5);
@@ -2079,8 +2085,8 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 			gtk_widget_show_all (box);
 			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
-		}
-		hide_y_axis = true;*/
+		}*/
+		hide_y_axis = true;
 		break;
 	}
 	case GCU_SPECTRUM_INFRARED:
@@ -2244,6 +2250,20 @@ bool SpectrumDocument::SetProperty (unsigned property, char const *value)
 		variables.push_back (vi);
 		break;
 	}
+	case GCU_PROP_SPECTRUM_X_UNIT:
+			m_XUnit = (SpectrumUnitType) get_spectrum_data_from_string (value, Units, GCU_SPECTRUM_UNIT_MAX);
+		break;
+	case GCU_PROP_SPECTRUM_X_MIN:
+		is >> minx;
+		break;
+	case GCU_PROP_SPECTRUM_X_MAX:
+		is >> maxx;
+		break;
+	case GCU_PROP_SPECTRUM_X_OFFSET:
+		is >> offset;
+		break;
+	case GCU_PROP_SPECTRUM_NMR_FREQ:
+		is >> freq;
 		break;
 	default:
 		return false;

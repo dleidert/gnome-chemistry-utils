@@ -77,7 +77,7 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 	float sw, sf, sw1, sf1, of1, rp1, pp1, tba1, tpb1, tlb1, time[64], sw2, sf2, of2, rp2, pp2, tba2, tpb2, tlb2, temp, pw, rd, f;
 	int i;
 	char desc[41], uname[41], date[33], comment[129], pgname[33], nucleus[33], solvent[33];
-	char *buf;
+	char *buf, sbuf[G_ASCII_DTOSTR_BUF_SIZE];
 	if (!READINT32 (in, i32) || i32 != 0x4030201)
 		return gcu::ContentTypeUnknown;
 	READINT32 (in, header_size);
@@ -105,6 +105,7 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 	READINT32 (in, npts1);
 	buf = g_strdup_printf ("%u", npts1);
 	doc->SetProperty (GCU_PROP_SPECTRUM_NPOINTS, buf);
+	g_free (buf);
 	READINT32 (in, data_type1);
 	READINT32 (in, domain1);
 	READINT32 (in, axis1);
@@ -114,6 +115,24 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 	READFLOAT (in, sw1);
 	READFLOAT (in, sf1);
 	READFLOAT (in, of1);
+	if (domain1) {
+		doc->SetProperty (GCU_PROP_SPECTRUM_TYPE, "NMR SPECTRUM");
+		// HZ is for axis1 == 2, what about 0 and 1?
+		doc->SetProperty (GCU_PROP_SPECTRUM_X_UNIT, (axis1 == 3)? "PPM": "HZ");
+		// not tested, no sample available
+		g_ascii_dtostr (sbuf, G_ASCII_DTOSTR_BUF_SIZE, sw1);
+	} else {
+		doc->SetProperty (GCU_PROP_SPECTRUM_TYPE, "NMR FID");
+		doc->SetProperty (GCU_PROP_SPECTRUM_X_UNIT, "SECONDS");
+		double max = npts1 / sw1;
+		g_ascii_dtostr (sbuf, G_ASCII_DTOSTR_BUF_SIZE, max);
+		doc->SetProperty (GCU_PROP_SPECTRUM_X_MAX, sbuf);
+	}
+	doc->SetProperty (GCU_PROP_SPECTRUM_X_MIN, "0.");
+	g_ascii_dtostr (sbuf, G_ASCII_DTOSTR_BUF_SIZE, of1);
+	doc->SetProperty (GCU_PROP_SPECTRUM_X_OFFSET, sbuf);
+	g_ascii_dtostr (sbuf, G_ASCII_DTOSTR_BUF_SIZE, sf1);
+	doc->SetProperty (GCU_PROP_SPECTRUM_NMR_FREQ, sbuf);
 	READFLOAT (in, rp1);
  	READFLOAT (in, pp1);
  	READFLOAT (in, tba1);
