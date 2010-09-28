@@ -581,4 +581,14 @@
 	<color red="0.99" green="0.00" blue="0.10"/>
 </element>
 
+<element Z="117" symbol="Uus" max_bonds="6">
+	<_name>Ununseptium</_name>
+	<color red="0.995" green="0.00" blue="0.10"/>
+</element>
+
+<element Z="118" symbol="Uuo" max_bonds="6">
+	<_name>Ununoctium</_name>
+	<color red="1.00" green="0.00" blue="0.10"/>
+</element>
+
 </gpdata>

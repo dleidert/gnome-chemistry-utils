@@ -54,7 +54,8 @@ GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, UIDIR"/el
 	gtk_label_set_text (GTK_LABEL (w), buf);
 	g_free (buf);
 	w = GetWidget ("weight");
-	gtk_label_set_markup (GTK_LABEL (w), elt->GetWeight ()->GetAsString ());
+	DimensionalValue const *v = elt->GetWeight ();
+	gtk_label_set_markup (GTK_LABEL (w), (v)? v->GetAsString (): _("Unknown"));
 	w = GetWidget ("elec-conf-lbl");
 	/* The <sup> </sup> markup at the end of the chain is there to ensure that
 	things will be correcly aligned, add the same to the translated string */

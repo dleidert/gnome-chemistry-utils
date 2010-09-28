@@ -371,7 +371,7 @@ bool Element::GetRadius (GcuAtomicRadius* radius)
 bool Element::GetElectronegativity(GcuElectronegativity* en)
 {
 	Element* Elt = Table[en->Z];
-	if (!Elt) return false;
+	if (!Elt || !Elt->m_en.size ()) return false;
 	if (!en->scale)
 	{
 		*en = *Elt->m_en[0];

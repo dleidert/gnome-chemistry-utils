@@ -1418,10 +1418,32 @@
           <placeholder/>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkToggleButton" id="elt117">
+            <property name="label" translatable="yes">Uus</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">16</property>
+            <property name="right_attach">17</property>
+            <property name="top_attach">6</property>
+            <property name="bottom_attach">7</property>
+          </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkToggleButton" id="elt118">
+            <property name="label" translatable="yes">Uuo</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">17</property>
+            <property name="right_attach">18</property>
+            <property name="top_attach">6</property>
+            <property name="bottom_attach">7</property>
+          </packing>
         </child>
       </object>
       <packing>

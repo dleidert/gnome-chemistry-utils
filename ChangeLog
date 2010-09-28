@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2010-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/elecprops.xml.in: added elements 117 and 118.
+	* database/elements.xml.in: ditto.
+	* libs/gcu/element.cc: don't crash if no electronegativity is known.
+	* programs/table/gchemtable-elt.cc: don't crash if weight is unknown.
+	* ui/libgcu/gcuperiodic.ui: added elements 117 and 118.
+
 2010-09-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/objprops.h: add more spectrum related properties.
 	* libs/gcu/spectrumdoc.cc: ditto.

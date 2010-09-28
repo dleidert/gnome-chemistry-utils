@@ -907,4 +907,12 @@
 	<config>[Rn] 5f14 6d10 7s2 7p4</config>
 </element>
 
+<element Z="117">
+	<config>[Rn] 5f14 6d10 7s2 7p5</config>
+</element>
+
+<element Z="118">
+	<config>[Rn] 5f14 6d10 7s2 7p6</config>
+</element>
+
 </gpdata>
