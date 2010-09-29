@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-09-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/bond.cc: allays update cycles when loaded.
+	* libs/gcu/spectrumdoc.cc: some work on FID transform using fft.
+	* libs/gcu/spectrumdoc.h: ditto.
+
 2010-09-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/elecprops.xml.in: added elements 117 and 118.
 	* database/elements.xml.in: ditto.

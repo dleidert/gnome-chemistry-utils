@@ -63,7 +63,7 @@ SpectrumDocument::SpectrumDocument (Application *App, SpectrumView *View):
 {
 	m_View = (View)? View: new SpectrumView (this);
 	x = y = NULL;
-	X = Y = R = I = integral = Rt = It = Rp = -1;
+	X = Xt = Y = R = I = integral = Rt = It = Rp = -1;
 	npoints = 0;
 	maxx = maxy = minx = miny = go_nan;
 	firstx = lastx = deltax = firsty = go_nan;
@@ -614,12 +614,11 @@ static void on_show_integral (GtkButton *btn, SpectrumDocument *doc)
 	doc->OnShowIntegral ();
 }
 
-/*
+
 static void on_transform_fid (GtkButton *btn, SpectrumDocument *doc)
 {
 	doc->OnTransformFID (btn);
 }
-*/
 
 static SpectrumType get_spectrum_type_from_string (char const *buf)
 {
@@ -1899,7 +1898,6 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	unsigned n = 2;
 	while (n < npoints)
 		n <<= 1;
-	n <<= 1; // doubles the points number to get more transformed values
 	go_complex *fid = new go_complex[n], *sp;
 	unsigned i;
 	for (i = 0; i < npoints; i++) {
@@ -1914,10 +1912,8 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	//we make no apodization at the moment
 	go_fourier_fft (fid, n, 1, &sp, false);
 	delete [] fid;
-	// only the first half values are useful
-	n /= 2;
 	// copy the unphased data to Rt and It (t for transformed)
-	JdxVar vr, vi, rp;
+	JdxVar vr, vi, rp, xt;
 	vr.Name = _("Real transformed data");
 	vr.Symbol = 't';
 	vr.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
@@ -1954,7 +1950,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	variables.push_back (vi);
 	// Now we need to adjust the phase (see http://www.ebyte.it/stan/Poster_EDISPA.html)
 	double phi = 0., tau = 0., *z;
-	double step = M_PI * 2. * tau / n, phase;
+	double step = M_PI * 2. * tau / (n - 1), phase;
 	z = new double[n];
 	for (i = 0; i < n; i++)
 		z[i] = go_complex_mod (sp + i);
@@ -1980,18 +1976,39 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	double *xo, freq;
 	if (X >= 0 && variables[X].Values != NULL) {
 		xo = variables[X].Values;
-		freq = (variables[X].NbValues - 1) / (variables[X].Last - variables[X].First);
+		freq = 1 / (variables[X].Last - variables[X].First);
 	} else {
 		xo = x;
-		freq = (npoints - 1) / (lastx - firstx);
+		freq = 1 / (lastx - firstx);
 	}
 	//now display the spectrum
 	variables[R].Series = NULL;
 	rp.Series = m_View->GetSeries ();
 	GOData *godata = go_data_vector_val_new (rp.Values, n, NULL);
 	gog_series_set_dim (rp.Series, 1, godata, NULL);
-	godata = (X < 0)? go_data_vector_val_new (x, npoints, NULL): go_data_vector_val_new (variables[X].Values, variables[X].NbValues, NULL);
+	if (Xt < 0) {
+		xt.Name = _("Real transformed data");
+		xt.Symbol = 't';
+		xt.Type = GCU_SPECTRUM_TYPE_INDEPENDENT;
+		xt.Unit = GCU_SPECTRUM_UNIT_HZ;
+		xt.Format = GCU_SPECTRUM_FORMAT_MAX;
+		xt.Factor = 1.;
+		xt.NbValues = n;
+		xt.Values = new double[n];
+		for (i = 0; i < n; i++)
+			xt.Values[i] = i * freq/* - offset*/;
+		xt.Min = xt.First = xt.Values[0];
+		xt.Max = xt.Last = xt.Values[n - 1];
+		xt.Series = NULL;
+		X = variables.size ();
+		variables.push_back (xt);
+	}
+	godata = go_data_vector_val_new (variables[X].Values, variables[X].NbValues, NULL);
 	gog_series_set_dim (rp.Series, 0, godata, NULL);
+	m_SpectrumType = GCU_SPECTRUM_NMR;
+	m_View->SetAxisBounds (GOG_AXIS_X, variables[X].Min, variables[X].Max, true);
+	m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[variables[X].Unit]));
+	OnXUnitChanged (0);
 }
 
 void SpectrumDocument::OnXAxisInvert (bool inverted)
@@ -2076,16 +2093,17 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			deltax = (maxx - minx) / (npoints - 1);
 			for (unsigned i = 0; i < npoints;i++)
 				x[i] = minx + i * deltax;
+			firstx = 0;
+			lastx = x[npoints - 1];
 		}
-// Deactivate Fourier transfor for now
-/*		if (R >= 0 && I >= 0) {
+		if (R >= 0 && I >= 0) {
 			GtkWidget *box = gtk_hbox_new (false, 5);
 			GtkWidget *w = gtk_button_new_with_label (_("Transform to spectrum"));
 			g_signal_connect (w, "clicked", G_CALLBACK (on_transform_fid), this);
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 			gtk_widget_show_all (box);
 			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
-		}*/
+		}
 		hide_y_axis = true;
 		break;
 	}

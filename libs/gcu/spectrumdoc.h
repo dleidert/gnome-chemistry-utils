@@ -358,7 +358,7 @@ private:
 	double firstx, lastx, deltax, firsty;
 	double xfactor, yfactor;
 	std::vector <JdxVar> variables;
-	int X, Y, R, I, integral, Rt, It, Rp;
+	int X, Xt, Y, R, I, integral, Rt, It, Rp;
 	double freq;
 	double offset, refpoint;
 	GtkWidget *m_XAxisInvertBtn;
