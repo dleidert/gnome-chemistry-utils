@@ -1922,15 +1922,6 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	vr.Factor = 1.;
 	vr.NbValues = n;
 	vr.Values = new double[n];
-	for (i = 0; i < n; i++)
-		vr.Values[i] = sp[i].re;
-	vr.First = vr.Values[0];
-	vr.Last = vr.Values[n - 1];
-	go_range_min (vr.Values, n, &vr.Min);
-	go_range_max (vr.Values, n, &vr.Max);
-	vr.Series = NULL;
-	Rt = variables.size ();
-	variables.push_back (vr);
 	vi.Name = _("Imaginary transformed data");
 	vi.Symbol = 'u';
 	vi.Type = GCU_SPECTRUM_TYPE_DEPENDENT;
@@ -1939,8 +1930,24 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	vi.Factor = 1.;
 	vi.NbValues = n;
 	vi.Values = new double[n];
-	for (i = 0; i < n; i++)
-		vi.Values[i] = sp[i].im;
+	unsigned n2 = n / 2 - 1, j;
+	for (i = 0, j = n2; i < n2; i++, j--) {
+		vr.Values[i] = sp[j].re;
+		vi.Values[i] = sp[j].im;
+	}
+	vr.Values[i] = 0.;
+	vi.Values[i++] = 0.;
+	for (j = n - 1; i < n; i++, j--) {
+		vr.Values[i] = sp[j].re;
+		vi.Values[i] = sp[j].im;
+	}
+	vr.First = vr.Values[0];
+	vr.Last = vr.Values[n - 1];
+	go_range_min (vr.Values, n, &vr.Min);
+	go_range_max (vr.Values, n, &vr.Max);
+	vr.Series = NULL;
+	Rt = variables.size ();
+	variables.push_back (vr);
 	vi.First = vi.Values[0];
 	vi.Last = vi.Values[n - 1];
 	go_range_min (vi.Values, n, &vi.Min);
@@ -1973,7 +1980,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	// add Hz and ppm variables (0 for last point, user will have to choose a reference peak)
 	// first Hz
 	// if we are there, we have R and I values, we should have also X, but let's check
-	double *xo, freq;
+	double *xo, freq, shift;
 	if (X >= 0 && variables[X].Values != NULL) {
 		xo = variables[X].Values;
 		freq = 1 / (variables[X].Last - variables[X].First);
@@ -1981,6 +1988,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 		xo = x;
 		freq = 1 / (lastx - firstx);
 	}
+	shift = offset - freq * (npoints - 1) / 2.;
 	//now display the spectrum
 	variables[R].Series = NULL;
 	rp.Series = m_View->GetSeries ();
@@ -1996,7 +2004,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 		xt.NbValues = n;
 		xt.Values = new double[n];
 		for (i = 0; i < n; i++)
-			xt.Values[i] = i * freq/* - offset*/;
+			xt.Values[i] = i * freq + shift;
 		xt.Min = xt.First = xt.Values[0];
 		xt.Max = xt.Last = xt.Values[n - 1];
 		xt.Series = NULL;

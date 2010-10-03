@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-10-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: make fourier transform really work.
+
 2010-09-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/bond.cc: allays update cycles when loaded.
 	* libs/gcu/spectrumdoc.cc: some work on FID transform using fft.
