@@ -296,6 +296,9 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 	ContentType ret = l->Read (Doc, input, mime_type, io);
 	g_object_unref (input);
 	g_object_unref (io);
+	char *dirname = g_path_get_dirname (uri.c_str ());
+	SetCurDir (dirname);
+	g_free (dirname);
 	return ret;
 }
 

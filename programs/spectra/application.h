@@ -43,6 +43,10 @@ public:
 	void OnSaveAsImage (gsvDocument *Doc);
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 	void OnQuit ();
+/*!
+@return a list of supported mime types.
+*/
+	std::list<std::string> &GetSupportedMimeTypes () {return m_SupportedMimeTypes;}
 private:
 	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
 

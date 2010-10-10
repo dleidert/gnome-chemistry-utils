@@ -30,6 +30,7 @@ libgcp_@GCU_API_VER@_la_SOURCES = \
 		atom.cc \
 		electron.cc \
 		bond.cc \
+		brackets.cc \
 		residue.cc \
 		fragment-atom.cc \
 		fragment-residue.cc \
@@ -71,10 +72,11 @@ noinst_HEADERS = \
 		target.h \
 		window.h \
 		operation.h \
+		electron.h \
 		arrow.h \
 		atom.h \
-		electron.h \
 		bond.h \
+		brackets.h \
 		residue.h \
 		fragment-atom.h \
 		fragment-residue.h \

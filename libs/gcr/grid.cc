@@ -54,20 +54,25 @@ gcr_grid_init (G_GNUC_UNUSED GcrGrid *grid)
 
 GSF_CLASS (GcrGrid, gcr_grid, gcr_grid_class_init, gcr_grid_init, GTK_TYPE_VBOX)
 
-GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title,...)
+GtkWidget *gcr_grid_new (G_GNUC_UNUSED char const *col_title, GType col_type, ...)
 {
 	g_return_val_if_fail (col_title && g_utf8_validate (col_title, -1, NULL), NULL);
 	GcrGrid *grid = GCR_GRID (g_object_new (GCR_TYPE_GRID, NULL));
 	std::list <char const *> titles;
+	std::list <GType> types;
 	titles.push_front (col_title);
+	types.push_front (col_type);
 	va_list args;
-	va_start (args, col_title);
+	va_start (args, col_type);
 	while (1) {
 		col_title = va_arg (args, char const *);
 		if (!col_title)
 			break;
-		if (g_utf8_validate (col_title, -1, NULL))
+		col_type = va_arg (args, GType);
+		if (g_utf8_validate (col_title, -1, NULL)) {
 			titles.push_back (col_title);
+			types.push_back (col_type);
+		} 
 	}
 	va_end (args);
 	grid->cols = titles.size ();

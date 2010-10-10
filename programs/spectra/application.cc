@@ -107,10 +107,10 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 			pDoc = NULL;
 		if (!pDoc)
 			pDoc = OnFileNew ();
-		ContentType ctype = Load (filename, mime_type, Doc);
+		ContentType ctype = Load (filename, mime_type, pDoc);
 		if (ctype == gcu::ContentTypeUnknown)
 			pDoc->Load (filename, mime_type);
-		else
+		else if (ctype != gcu::ContentTypeSpectrum)
 			return false;
 		GtkRecentData data;
 		data.display_name = (char*) pDoc->GetTitle ().c_str ();

@@ -1,5 +1,21 @@
 ##Text encoding: utf-8
 
+2010-10-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/Makefile.am: add new files.
+	* libs/gcp/application.cc:  new gcp::Brackets class.
+	* libs/gcp/brackets.cc: ditto.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcp/window.cc: enhanced recents file code.
+	* libs/gcr/cleavagesdlg.cc: changed the grid creation signature.
+	* libs/gcr/grid.cc: ditto.
+	* libs/gcr/grid.h: ditto.
+	* libs/gcu/application.cc: set dir after loading a file.
+	* libs/gcu/spectrumdoc.cc: fixed FID transform.
+	* plugins/loaders/nuts/nuts.cc: set some more properties.
+	* programs/spectra/application.cc: enhanced recents file code.
+	* programs/spectra/application.h: ditto.
+	* programs/spectra/window.cc: ditto.
+
 2010-10-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: make fourier transform really work.
 

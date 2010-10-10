@@ -1,6 +1,8 @@
+// -*- C++ -*-
+
 /* 
- * Gnome Crystal
- * grid.h 
+ * GChemPaint library
+ * brackets.cc
  *
  * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -16,31 +18,32 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
 
-#ifndef GCR_GRID_H
-#define GCR_GRID_H
+#include "config.h"
+#include "brackets.h"
 
-/*!\file
-@brief Grid widget.
-*/
+namespace gcp {
 
-#include <gtk/gtk.h>
+gcu::TypeId BracketsType = gcu::NoType;
 
-G_BEGIN_DECLS
+Brackets::Brackets (): gcu::Object (BracketsType), ItemClient ()
+{
+}
 
-#define GCR_TYPE_GRID	(gcr_grid_get_type ())
-#define GCR_GRID(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), GCR_TYPE_GRID, GcrGrid))
-#define GCR_IS_GRID(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), GCR_TYPE_GRID))
+Brackets::~Brackets ()
+{
+}
 
-typedef struct _GcrGrid GcrGrid;
+bool Brackets::Load (xmlNodePtr node)
+{
+	return true;
+}
 
-GType      gcr_grid_get_type (void);
+void Brackets::SetSelected (int state)
+{
+}
 
-GtkWidget *gcr_grid_new (char const *col_title, GType col_type,...);
-
-G_END_DECLS
-
-#endif	//	GCR_GRID_H
+}

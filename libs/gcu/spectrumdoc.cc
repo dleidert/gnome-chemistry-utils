@@ -1935,8 +1935,9 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 		vr.Values[i] = sp[j].re;
 		vi.Values[i] = sp[j].im;
 	}
-	vr.Values[i] = 0.;
-	vi.Values[i++] = 0.;
+	// the value at 0 must be skipped, doing a linear interpolation
+	vr.Values[i] = (sp[1].re + sp[n - 1].re) / 2.;
+	vi.Values[i++] = (sp[1].im + sp[n - 1].im) / 2.;
 	for (j = n - 1; i < n; i++, j--) {
 		vr.Values[i] = sp[j].re;
 		vi.Values[i] = sp[j].im;

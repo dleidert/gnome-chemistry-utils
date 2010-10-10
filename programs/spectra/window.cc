@@ -282,7 +282,10 @@ gsvWindow::gsvWindow (gsvApplication *App, gsvDocument *Doc)
 	GtkWidget *w = gtk_recent_chooser_menu_new_for_manager (App->GetRecentManager ());
 	gtk_recent_chooser_set_sort_type (GTK_RECENT_CHOOSER (w), GTK_RECENT_SORT_MRU);
 	GtkRecentFilter *filter = gtk_recent_filter_new ();
-	gtk_recent_filter_add_mime_type (filter, "chemical/x-jcamp-dx");
+	std::list<std::string> &mime_types = App->GetSupportedMimeTypes ();
+	std::list<std::string>::iterator it, end = mime_types.end ();
+	for (it = mime_types.begin (); it != end; it++)
+		gtk_recent_filter_add_mime_type (filter, (*it).c_str ());
 	gtk_recent_chooser_add_filter (GTK_RECENT_CHOOSER (w), filter);
 	g_signal_connect (G_OBJECT (w), "item-activated", G_CALLBACK (on_recent), this);
 	GtkWidget *item = gtk_menu_item_new_with_label (_("Open recent"));

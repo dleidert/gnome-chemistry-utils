@@ -26,6 +26,7 @@
 #include "application.h"
 #include "atom.h"
 #include "bond.h"
+#include "brackets.h"
 #include "document.h"
 #include "electron.h"
 #include "fragment.h"
@@ -260,6 +261,11 @@ static Object* CreateElectron ()
 	return new Electron (NULL, false);
 }
 
+static Object* CreateBrackets ()
+{
+	return new Brackets ();
+}
+
 bool	Application::m_bInit = false;
 bool	Application::m_Have_Ghemical = false;
 bool	Application::m_Have_InChI = false;
@@ -324,6 +330,7 @@ Application::Application (CmdContext *cc):
 		AddType ("fragment", CreateFragment, FragmentType);
 		ElectronType = AddType ("electron", CreateElectron);
 		Object::AddAlias (ElectronType, "electron-pair");
+		BracketsType = AddType ("brackets", CreateBrackets);
 		// Add rules
 		AddRule ("reaction", RuleMustContain, "reaction-step");
 		AddRule ("reaction-step", RuleMustContain, "reactant");

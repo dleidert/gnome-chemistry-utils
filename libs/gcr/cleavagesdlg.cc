@@ -81,7 +81,7 @@ CleavagesDlg::CleavagesDlg (gcu::Application *App, gcr::Document* pDoc): Dialog 
 	DeleteAllBtn = GetWidget ("delete_all");
 	g_signal_connect (G_OBJECT (DeleteAllBtn), "clicked", G_CALLBACK (on_delete_all), this);
 	FixedBtn = GTK_TOGGLE_BUTTON (GetWidget ("fixed"));
-	m_Grid = gcr_grid_new ("h", "k", "l", _("Planes cleaved"), NULL);
+	m_Grid = gcr_grid_new ("h", G_TYPE_INT, "k", G_TYPE_INT, "l", G_TYPE_INT, _("Planes cleaved"), G_TYPE_BOOLEAN, NULL);
 	gtk_widget_show_all (m_Grid);
 	GtkWidget *align = GetWidget ("cleavages-align");
 	gtk_container_add (GTK_CONTAINER (align), m_Grid);
