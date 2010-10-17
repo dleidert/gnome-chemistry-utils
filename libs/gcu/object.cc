@@ -88,6 +88,7 @@ void Object::Clear ()
 {
 	map<string, Object*>::iterator i;
 	while (!m_Children.empty ()) {
+		i = m_Children.begin ();
 		(*i).second->m_Parent = NULL;
 		delete (*i).second;
 		m_Children.erase ((*i).first);

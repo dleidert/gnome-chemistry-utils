@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-10-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/object.cc: fixed crash in Object::Clear(). (Fredora #637564)
+
 2010-10-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/Makefile.am: add new files.
 	* libs/gcp/application.cc:  new gcp::Brackets class.
