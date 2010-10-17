@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-10-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/object.cc: fixed crash in Object::Clear(). (Fredora #637564)
+
 2010-09-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: post release version bump (0.12.5).
 
