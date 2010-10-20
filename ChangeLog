@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-10-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* openbabel/babelserv.cc: start the server.
+	* tests/Makefile.am: new test program.
+	* tests/testbabelserver.c (main): ditto.
+
 2010-10-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/object.cc: fixed crash in Object::Clear(). (Fredora #637564)
 

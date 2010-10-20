@@ -14,8 +14,10 @@ testgcrcrystalviewer_LDADD = $(top_builddir)/libs/gcr/libgcr-@GCU_API_VER@.la
 check_PROGRAMS = \
 	testgcuperiodic \
 	testgcrcrystalviewer \
-	testgcuchem3dviewer
+	testgcuchem3dviewer \
+	testbabelserver
 
 testgcrcrystalviewer_SOURCES = testgcrcrystalviewer.c
 testgcuchem3dviewer_SOURCES = testgcuchem3dviewer.c
 testgcuperiodic_SOURCES = testgcuperiodic.c
+testbabelserver_SOURCES = testbabelserver.c
