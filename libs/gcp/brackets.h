@@ -27,6 +27,7 @@
 
 #include <gcu/object.h>
 #include <gccv/item-client.h>
+#include <set>
 
 /*!\file*/
 namespace gcp {
@@ -36,11 +37,18 @@ extern gcu::TypeId BracketsType;
 /*!\enum BracketsTypes
 Enumeration of the known brackets types.
 */
-enum BracketsTypes
+typedef enum
 {
 /*!
 */
-};
+	BracketsTypeNormal,
+/*!
+*/
+	BracketsTypeSquare,
+/*!
+*/
+	BracketsTypeCurly
+} BracketsTypes;
 
 /*!\class Braclets gcp/brackets.h
 */
@@ -50,7 +58,7 @@ public:
 /*!
 Used to create a brackets pair or a single bracket.
 */
-	Brackets ();
+	Brackets (BracketsTypes type = BracketsTypeNormal);
 /*!
 The destructor.
 */
@@ -65,6 +73,12 @@ Used to load a Brackets instance in memory.
 */
 	bool Load (xmlNodePtr node);
 /*!
+	@param xml the xmlDoc used to save the document.
+	
+	Used to save the Brackects to the xmlDoc.
+*/
+	xmlNodePtr Save (xmlDocPtr xml) const;
+/*!
 @param state: the selection state of the brackets.
 
 Used to set the selection state of the arrow.
@@ -72,8 +86,12 @@ The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
 	void SetSelected (int state);
+	void SetEmbeddedObjects (std::set <gcu::Object *> objects);
 
 private:
+	std::set <gcu::Object *> m_EmbeddedObjects;
+
+GCU_PROP (BracketsTypes, Type)
 };
 
 }	//	namespace gcp

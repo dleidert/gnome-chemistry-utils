@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/brackets.cc: save brackets.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcu/spectrumdoc.cc: some work on NMR spectrum phasing.
+
 2010-10-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* openbabel/babelserv.cc: start the server.
 	* tests/Makefile.am: new test program.

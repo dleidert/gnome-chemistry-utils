@@ -29,8 +29,9 @@ namespace gcp {
 
 gcu::TypeId BracketsType = gcu::NoType;
 
-Brackets::Brackets (): gcu::Object (BracketsType), ItemClient ()
+Brackets::Brackets (BracketsTypes type): gcu::Object (BracketsType), ItemClient ()
 {
+	m_Type = type;
 }
 
 Brackets::~Brackets ()
@@ -42,8 +43,44 @@ bool Brackets::Load (xmlNodePtr node)
 	return true;
 }
 
+xmlNodePtr Brackets::Save (xmlDocPtr xml) const
+{
+	if (m_EmbeddedObjects.size () == 0)
+		return NULL;
+	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) "brackets", NULL);
+	SaveId (node);
+	char const *type = NULL;
+	switch (m_Type) {
+	case BracketsTypeNormal:
+	default:
+		break;
+	case BracketsTypeSquare:
+		type = "square";
+		break;
+	case BracketsTypeCurly
+		type = "curly";
+		break;
+	}
+	if (type)
+		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
+	// now save embedded objects as a list of Ids
+	std::set <gcu::Object *>::iterator i, end = m_EmbeddedObjects.end ();
+	i = m_EmbeddedObjects.begin ();
+	std::ostringstream str;
+	str << (*i)->GetId ();
+	for (i++ ; i != end; i++)
+		str << "," << (*i)->GetId ();
+	xmlNewProp (node, reinterpret_cast <xmlChar const *> ("objects"), reinterpret_cast <xmlChar const *> (str.str ().c_str ()));
+	return node;
+}
+
 void Brackets::SetSelected (int state)
 {
+}
+
+void Brackets::SetEmbeddedObjects (std::set <gcu::Object *> objects)
+{
+	m_EmbeddedObjects = objects;
 }
 
 }

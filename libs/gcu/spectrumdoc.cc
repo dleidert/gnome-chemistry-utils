@@ -1957,11 +1957,35 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	It = variables.size ();
 	variables.push_back (vi);
 	// Now we need to adjust the phase (see http://www.ebyte.it/stan/Poster_EDISPA.html)
-	double phi = 0., tau = 0., *z;
+	double phi = 0., tau = 0., *z, maxz = 0.;
 	double step = M_PI * 2. * tau / (n - 1), phase;
 	z = new double[n];
-	for (i = 0; i < n; i++)
+	for (i = 0; i < n; i++) {
 		z[i] = go_complex_mod (sp + i);
+		if (z[i] > maxz)
+			maxz = z[i];
+	}
+	// normalize the z values
+	for (i = 0; i < n; i++)
+		z[i] /= maxz;
+	double c = 0.1;
+	unsigned nmax, nmin;
+	while (c > 0.) {
+		nmin = n, nmax = 0;
+		for (i = 0; i < n; i++)
+			if (z[i] > c) {
+				nmin = i;
+				break;
+			}
+		for (i = n - 1; i > 0; i--)
+			if (z[i] > c) {
+				nmax = i;
+				break;
+			}
+		if ((nmax - nmin) > n / 10) // 10 is arbitrary, but should be not too large
+			break;
+		c /= 2.;
+	}
 	g_free (sp);
 	// set the phase real values
 	// free what needs to be freed
