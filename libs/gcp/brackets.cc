@@ -24,10 +24,14 @@
 
 #include "config.h"
 #include "brackets.h"
+#include <gcu/document.h>
+#include <sstream>
+#include <cstring>
 
 namespace gcp {
 
 gcu::TypeId BracketsType = gcu::NoType;
+static gcu::Object *last_loaded;
 
 Brackets::Brackets (BracketsTypes type): gcu::Object (BracketsType), ItemClient ()
 {
@@ -38,8 +42,39 @@ Brackets::~Brackets ()
 {
 }
 
+void Brackets::OnLoaded ()
+{
+	if (last_loaded) {
+		// this is NOT thread safe
+		m_EmbeddedObjects.insert (last_loaded);
+		last_loaded = NULL;
+	}
+}
+
 bool Brackets::Load (xmlNodePtr node)
 {
+	char *buf;
+	gcu::Document *doc = GetDocument ();
+	buf = reinterpret_cast <char *> (xmlGetProp (node, (xmlChar*) "type"));
+	if (!buf)
+		m_Type = BracketsTypeNormal;
+	else if (!strcmp (buf, "square"))
+		m_Type = BracketsTypeSquare;
+	else if (!strcmp (buf, "curly"))
+		m_Type = BracketsTypeCurly;
+	else
+		m_Type = BracketsTypeNormal;
+	if (buf)
+		xmlFree (buf);
+	buf = reinterpret_cast <char *> (xmlGetProp (node, (xmlChar*) "objects"));
+	if (buf) {
+		char **ids = g_strsplit (buf, ",", -1);
+		unsigned i = 0;
+		while (ids[i])
+			doc->SetTarget (ids[i++], &last_loaded, doc, this);
+		g_strfreev (ids);
+		xmlFree (buf);
+	}
 	return true;
 }
 
@@ -57,7 +92,7 @@ xmlNodePtr Brackets::Save (xmlDocPtr xml) const
 	case BracketsTypeSquare:
 		type = "square";
 		break;
-	case BracketsTypeCurly
+	case BracketsTypeCurly:
 		type = "curly";
 		break;
 	}

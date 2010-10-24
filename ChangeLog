@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/brackets.cc: load brackets.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcu/spectrumdoc.cc: more work on phasing.
+
 2010-10-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: save brackets.
 	* libs/gcp/brackets.h: ditto.

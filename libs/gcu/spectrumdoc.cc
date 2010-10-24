@@ -1957,7 +1957,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	It = variables.size ();
 	variables.push_back (vi);
 	// Now we need to adjust the phase (see http://www.ebyte.it/stan/Poster_EDISPA.html)
-	double phi = 0., tau = 0., *z, maxz = 0.;
+	double phi = 0., tau = 0., *z, maxz = 0., phiopt, tauopt;
 	double step = M_PI * 2. * tau / (n - 1), phase;
 	z = new double[n];
 	for (i = 0; i < n; i++) {
@@ -1986,6 +1986,12 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 			break;
 		c /= 2.;
 	}
+	// make a list of indices with z greater than c
+	std::list <unsigned> restricted;
+	for (i = 0; i < n; i++)
+		if (z[i] > c)
+			restricted.push_back (i);
+	
 	g_free (sp);
 	// set the phase real values
 	// free what needs to be freed

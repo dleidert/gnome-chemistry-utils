@@ -86,6 +86,10 @@ The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */
 	void SetSelected (int state);
+/*!
+For brackets, OnLoaded() is called each time an embedded object is added.
+*/
+	virtual void OnLoaded ();
 	void SetEmbeddedObjects (std::set <gcu::Object *> objects);
 
 private:
