@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-10-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/space-groups.xml.in: fixed group 104.
+	* libs/gcu/spectrumdoc.cc: more work on phasing.
+
 2010-10-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: load brackets.
 	* libs/gcp/brackets.h: ditto.

@@ -1957,10 +1957,12 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	It = variables.size ();
 	variables.push_back (vi);
 	// Now we need to adjust the phase (see http://www.ebyte.it/stan/Poster_EDISPA.html)
-	double phi = 0., tau = 0., *z, maxz = 0., phiopt, tauopt;
-	double step = M_PI * 2. * tau / (n - 1), phase;
+	double phi = 0., tau = 0., *z, maxz = 0., phiopt = 0., tauopt = 0.;
 	z = new double[n];
 	for (i = 0; i < n; i++) {
+		// copy reordered data to sp
+		sp[i].re = vr.Values[i];
+		sp[i].im = vi.Values[i];
 		z[i] = go_complex_mod (sp + i);
 		if (z[i] > maxz)
 			maxz = z[i];
@@ -1991,7 +1993,38 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	for (i = 0; i < n; i++)
 		if (z[i] > c)
 			restricted.push_back (i);
-	
+	// evaluate the predictor in c, since the value is not used anymore
+	double maxc = 0, p;
+	std::list <unsigned>::iterator it, itend = restricted.end ();
+	for (tau = -1.; tau <= 3.; tau += 0.1)
+		for (phi = 0; phi < M_PI; phi += 10. / 180. * M_PI) {
+			c = 0.;
+			for (it = restricted.begin (); it != itend; it++) {
+				i = *it;
+				p = phi + 2 * M_PI * tau * (i - n) / ( n + 1);
+				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2 * i - n + 1) / (n + 1));
+			}
+			if (c > maxc) {
+				maxc = c;
+				tauopt = tau;
+				phiopt = phi;
+			}
+		}
+	// let's search more finely around the maximum
+	for (tau = tauopt -0.09; tau <= tauopt + 0.09; tau += 0.01)
+		for (phi = phiopt - 9. / 180. * M_PI; phi < phiopt + 9. / 180. * M_PI; phi += 1. / 180. * M_PI) {
+			c = 0.;
+			for (it = restricted.begin (); it != itend; it++) {
+				i = *it;
+				p = phi + 2 * M_PI * tau * (i - n) / ( n + 1);
+				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2 * i - n + 1) / (n + 1));
+			}
+			if (c > maxc) {
+				maxc = c;
+				tauopt = tau;
+				phiopt = phi;
+			}
+		}
 	g_free (sp);
 	// set the phase real values
 	// free what needs to be freed
@@ -1999,12 +2032,13 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	// set the corrected values
 	rp.Values = new double[n];
 	//store phi and tau as first and last, respectively
-	rp.First = phi;
-	rp.Last = tau;
-	phase = phi - M_PI * 2. * tau;
+	double step = M_PI * 2. * tauopt / (n + 1), phase;
+	phase = phiopt - M_PI * 2. * tauopt;
+	rp.First = phase + step;
+	rp.Last = phiopt + n * step;
 	for (i = 0; i < n; i++) {
 		phase += step;
-		rp.Values[i] = vr.Values[i] * cos (phase) + vi.Values[i] * sin (phase);
+		rp.Values[i] = vr.Values[i] * cos (phase) - vi.Values[i] * sin (phase);
 	}
 	Rp = variables.size ();
 	variables.push_back (rp);
