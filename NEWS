@@ -1,6 +1,8 @@
 Version 0.12.5
 	libgcu:
 		* Fixed crash in Object::Clear(). (Fredora #637564)
+	Other:
+		* Fixed space group 104.
 
 Version 0.12.4
 	GChemTable:

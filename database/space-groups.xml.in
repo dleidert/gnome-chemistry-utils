@@ -3747,15 +3747,16 @@
   <transform>-y,-x,1/2+z</transform>
   <transform>y,x,1/2+z</transform>
 </group>
-<group id="104" HM="P 4 n c" Hall="P 4 -2n">
- x	 y	 z
--x	-y	z
--y	x	z
-y	-x	z
-0.500000 + x	0.500000 - y	0.500000 + z
-0.500000 - x	0.500000 + y	0.500000 + z
-0.500000 - y	0.500000 - x	0.500000 + z
-0.500000 + y	0.500000 + x	0.500000 + z</group>
+<group id="104" Hall="P 4 -2n" HM="P 4 n c">
+  <transform>x,y,z</transform>
+  <transform>-x,-y,z</transform>
+  <transform>-y,x,z</transform>
+  <transform>y,-x,z</transform>
+  <transform>1/2+x,1/2-y,1/2+z</transform>
+  <transform>1/2-x,1/2+y,1/2+z</transform>
+  <transform>1/2-y,1/2-x,1/2+z</transform>
+  <transform>1/2+y,1/2+x,1/2+z</transform>
+</group>
 <group id="105" HM="P 42 m c" Hall="P 4c -2">
   <transform>x,y,z</transform>
   <transform>-x,-y,z</transform>
