@@ -1994,29 +1994,39 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 		if (z[i] > c)
 			restricted.push_back (i);
 	// evaluate the predictor in c, since the value is not used anymore
-	double maxc = 0, p;
+	double maxc = 0., maxk = 0., p, phis[41], cs[41];
+	unsigned k;
 	std::list <unsigned>::iterator it, itend = restricted.end ();
-	for (tau = -1.; tau <= 3.; tau += 0.1)
-		for (phi = 0; phi < M_PI; phi += 10. / 180. * M_PI) {
+	for (k = 0; k < 41; k++) {
+		tau = -1. + k * .1;
+		maxk = 0.;
+		for (phi = 0; phi <  2 * M_PI; phi += 10. / 180. * M_PI) {
 			c = 0.;
 			for (it = restricted.begin (); it != itend; it++) {
 				i = *it;
-				p = phi + 2 * M_PI * tau * (i - n) / ( n + 1);
+				p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
 				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2 * i - n + 1) / (n + 1));
 			}
-			if (c > maxc) {
-				maxc = c;
-				tauopt = tau;
+			if (c > maxk) {
+				if (c > maxc) {
+					maxc = c;
+					tauopt = tau;
+				}
+				maxk = c;
+				phis[k] = phi;
 				phiopt = phi;
 			}
 		}
+		cs[k] = maxk;
+	}
 	// let's search more finely around the maximum
-	for (tau = tauopt -0.09; tau <= tauopt + 0.09; tau += 0.01)
-		for (phi = phiopt - 9. / 180. * M_PI; phi < phiopt + 9. / 180. * M_PI; phi += 1. / 180. * M_PI) {
+	double step = tauopt; 
+	for (tau = step -0.09; tau <= step + 0.09; tau += 0.01)
+		for (phi = 0; phi <  2 * M_PI; phi += 10. / 180. * M_PI) {
 			c = 0.;
 			for (it = restricted.begin (); it != itend; it++) {
 				i = *it;
-				p = phi + 2 * M_PI * tau * (i - n) / ( n + 1);
+				p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
 				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2 * i - n + 1) / (n + 1));
 			}
 			if (c > maxc) {
@@ -2025,6 +2035,19 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 				phiopt = phi;
 			}
 		}
+	double phase = phiopt;
+	for (phi = phiopt - 9. / 180. * M_PI; phi <  phiopt + 9. / 180. * M_PI; phi += 1. / 180. * M_PI) {
+		c = 0.;
+		for (it = restricted.begin (); it != itend; it++) {
+			i = *it;
+			p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
+			c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2 * i - n + 1) / (n + 1));
+		}
+		if (c > maxc) {
+			maxc = c;
+			phiopt = phi;
+		}
+	}
 	g_free (sp);
 	// set the phase real values
 	// free what needs to be freed
@@ -2032,7 +2055,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	// set the corrected values
 	rp.Values = new double[n];
 	//store phi and tau as first and last, respectively
-	double step = M_PI * 2. * tauopt / (n + 1), phase;
+	step = M_PI * 2. * tauopt / n;
 	phase = phiopt - M_PI * 2. * tauopt;
 	rp.First = phase + step;
 	rp.Last = phiopt + n * step;
