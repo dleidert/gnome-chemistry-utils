@@ -1995,7 +1995,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 			restricted.push_back (i);
 	// evaluate the predictor in c, since the value is not used anymore
 	double maxc = 0., maxk = 0., p, phis[41], cs[41];
-	unsigned k;
+	unsigned k, kopt = 0;
 	std::list <unsigned>::iterator it, itend = restricted.end ();
 	for (k = 0; k < 41; k++) {
 		tau = -1. + k * .1;
@@ -2005,49 +2005,52 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 			for (it = restricted.begin (); it != itend; it++) {
 				i = *it;
 				p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
-				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2 * i - n + 1) / (n + 1));
+				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2. * i - n + 2) / n);
 			}
 			if (c > maxk) {
 				if (c > maxc) {
 					maxc = c;
 					tauopt = tau;
+					phiopt = phi;
+					kopt = k;
 				}
 				maxk = c;
 				phis[k] = phi;
-				phiopt = phi;
 			}
 		}
 		cs[k] = maxk;
 	}
 	// let's search more finely around the maximum
+	// using the fact that phis[k] is a(n almost) linear function of tau
+	// first, reevaluate the optimum phi for tauopt and previous value and next value with a step of 1°
 	double step = tauopt; 
-	for (tau = step -0.09; tau <= step + 0.09; tau += 0.01)
+/*	for (tau = step -0.09; tau <= step + 0.09; tau += 0.01)
 		for (phi = 0; phi <  2 * M_PI; phi += 10. / 180. * M_PI) {
 			c = 0.;
 			for (it = restricted.begin (); it != itend; it++) {
 				i = *it;
 				p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
-				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2 * i - n + 1) / (n + 1));
+				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2. * i - n + 1) / (n + 1));
 			}
 			if (c > maxc) {
 				maxc = c;
 				tauopt = tau;
 				phiopt = phi;
 			}
-		}
+		}*/
 	double phase = phiopt;
-	for (phi = phiopt - 9. / 180. * M_PI; phi <  phiopt + 9. / 180. * M_PI; phi += 1. / 180. * M_PI) {
+/*	for (phi = phiopt - 9. / 180. * M_PI; phi <  phiopt + 9. / 180. * M_PI; phi += 1. / 180. * M_PI) {
 		c = 0.;
 		for (it = restricted.begin (); it != itend; it++) {
 			i = *it;
 			p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
-			c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2 * i - n + 1) / (n + 1));
+			c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2. * i - n + 1) / (n + 1));
 		}
 		if (c > maxc) {
 			maxc = c;
 			phiopt = phi;
 		}
-	}
+	}*/
 	g_free (sp);
 	// set the phase real values
 	// free what needs to be freed
