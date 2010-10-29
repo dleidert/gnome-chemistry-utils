@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-10-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gchemutils.xml.in: add a new NUTS mime type.
+	* libs/gcu/spectrumdoc.cc: make 
+	* plugins/loaders/nuts/plugin.xml.in: add support for spectra, not
+	only fids.
+
 2010-10-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: phasing grossly works, needs refinement.
 

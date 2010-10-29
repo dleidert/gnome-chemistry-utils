@@ -2005,7 +2005,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 			for (it = restricted.begin (); it != itend; it++) {
 				i = *it;
 				p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
-				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2. * i - n + 2) / n);
+				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-fabs (4. * i / n -2));
 			}
 			if (c > maxk) {
 				if (c > maxc) {
@@ -2023,34 +2023,91 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	// let's search more finely around the maximum
 	// using the fact that phis[k] is a(n almost) linear function of tau
 	// first, reevaluate the optimum phi for tauopt and previous value and next value with a step of 1°
-	double step = tauopt; 
-/*	for (tau = step -0.09; tau <= step + 0.09; tau += 0.01)
-		for (phi = 0; phi <  2 * M_PI; phi += 10. / 180. * M_PI) {
+	double phase = phiopt;
+	for (phi = phase - 9. / 180. * M_PI; phi < phase + 10. / 180. * M_PI; phi += 1. / 180. * M_PI) {
 			c = 0.;
 			for (it = restricted.begin (); it != itend; it++) {
 				i = *it;
-				p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
-				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2. * i - n + 1) / (n + 1));
+				p = phi - 2. * M_PI * tauopt * (n - 1 - i) / n;
+				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-fabs (4. * i / n -2));
 			}
 			if (c > maxc) {
 				maxc = c;
-				tauopt = tau;
 				phiopt = phi;
 			}
-		}*/
-	double phase = phiopt;
-/*	for (phi = phiopt - 9. / 180. * M_PI; phi <  phiopt + 9. / 180. * M_PI; phi += 1. / 180. * M_PI) {
-		c = 0.;
-		for (it = restricted.begin (); it != itend; it++) {
-			i = *it;
-			p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
-			c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-2. * abs (2. * i - n + 1) / (n + 1));
+	}
+	for (k = 1; k < 10; k++) {
+		// search with lower values of tau
+		tau = tauopt - 0.01 * k;
+		for (phi = 0; phi <  2 * M_PI; phi += 10. / 180. * M_PI) {
+			c = 0.;
+			maxk = 0;
+			for (it = restricted.begin (); it != itend; it++) {
+				i = *it;
+				p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
+				c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-fabs (4. * i / n -2));
+			}
+			if (c > maxk) {
+				phis[0] = phi;
+				maxk = c;
+			}
 		}
-		if (c > maxc) {
-			maxc = c;
-			phiopt = phi;
+		phase = phis[0];
+		for (phi = phase - 9. / 180. * M_PI; phi < phase + 10. / 180. * M_PI; phi += 1. / 180. * M_PI) {
+				c = 0.;
+				for (it = restricted.begin (); it != itend; it++) {
+					i = *it;
+					p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
+					c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-fabs (4. * i / n -2));
+				}
+				if (c > maxk) {
+					maxk = c;
+					phis[0] = phi;
+				}
 		}
-	}*/
+		if (maxk < maxc)
+			break;
+		maxc = maxk;
+		phiopt = phis[0];
+		tauopt = tau;
+	}
+	if (k == 1) {
+		for (k = 1; k < 10; k++) {
+			// search with higher values of tau
+			tau = tauopt + 0.01 * k;
+			for (phi = 0; phi <  2 * M_PI; phi += 10. / 180. * M_PI) {
+				c = 0.;
+				maxk = 0;
+				for (it = restricted.begin (); it != itend; it++) {
+					i = *it;
+					p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
+					c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-fabs (4. * i / n -2));
+				}
+				if (c > maxk) {
+					phis[0] = phi;
+					maxk = c;
+				}
+			}
+			phase = phis[0];
+			for (phi = phase - 9. / 180. * M_PI; phi < phase + 10. / 180. * M_PI; phi += 1. / 180. * M_PI) {
+					c = 0.;
+					for (it = restricted.begin (); it != itend; it++) {
+						i = *it;
+						p = phi - 2. * M_PI * tau * (n - 1 - i) / n;
+						c += z[i] * z[i] * (sp[i].re * cos (p) - sp[i].im * sin (p)) * exp (-fabs (4. * i / n -2));
+					}
+					if (c > maxk) {
+						maxk = c;
+						phis[0] = phi;
+					}
+			}
+			if (maxk < maxc)
+				break;
+			maxc = maxk;
+			phiopt = phis[0];
+			tauopt = tau;
+		}
+	}
 	g_free (sp);
 	// set the phase real values
 	// free what needs to be freed
@@ -2058,7 +2115,7 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	// set the corrected values
 	rp.Values = new double[n];
 	//store phi and tau as first and last, respectively
-	step = M_PI * 2. * tauopt / n;
+	double step = M_PI * 2. * tauopt / n;
 	phase = phiopt - M_PI * 2. * tauopt;
 	rp.First = phase + step;
 	rp.Last = phiopt + n * step;
@@ -2066,6 +2123,8 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 		phase += step;
 		rp.Values[i] = vr.Values[i] * cos (phase) - vi.Values[i] * sin (phase);
 	}
+	go_range_min (rp.Values, n, &rp.Min);
+	go_range_max (rp.Values, n, &rp.Max);
 	Rp = variables.size ();
 	variables.push_back (rp);
 	// add Hz and ppm variables (0 for last point, user will have to choose a reference peak)
@@ -2079,15 +2138,18 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 		xo = x;
 		freq = 1 / (lastx - firstx);
 	}
+	if (!go_finite (offset))
+		offset = 0.;
 	shift = offset - freq * (npoints - 1) / 2.;
 	//now display the spectrum
 	variables[R].Series = NULL;
 	rp.Series = m_View->GetSeries ();
 	GOData *godata = go_data_vector_val_new (rp.Values, n, NULL);
 	gog_series_set_dim (rp.Series, 1, godata, NULL);
+	m_View->SetAxisBounds (GOG_AXIS_Y, rp.Min, rp.Max, false);
 	if (Xt < 0) {
-		xt.Name = _("Real transformed data");
-		xt.Symbol = 't';
+		xt.Name = _("Chemical shift");
+		xt.Symbol = 'X';
 		xt.Type = GCU_SPECTRUM_TYPE_INDEPENDENT;
 		xt.Unit = GCU_SPECTRUM_UNIT_HZ;
 		xt.Format = GCU_SPECTRUM_FORMAT_MAX;
@@ -2199,6 +2261,8 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			GtkWidget *box = gtk_hbox_new (false, 5);
 			GtkWidget *w = gtk_button_new_with_label (_("Transform to spectrum"));
 			g_signal_connect (w, "clicked", G_CALLBACK (on_transform_fid), this);
+			if (!go_finite (offset))
+				gtk_widget_set_sensitive (w, false);
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 			gtk_widget_show_all (box);
 			gtk_box_pack_start (GTK_BOX (m_View->GetOptionBox ()), box, false, false, 0);
