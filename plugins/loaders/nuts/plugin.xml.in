@@ -9,15 +9,9 @@
 	</loader>
 	<services>
 		<service type="chemical_loader" id="GCULoader_nuts">
-			<mime_type name="application/x-nuts-fid" capabilities="r" scope="s"/>
+			<mime_type name="application/x-nuts" capabilities="r" scope="s"/>
 			<information>
-				<_description>NUTS FID files loader</_description>
-			</information>
-		</service>
-		<service type="chemical_loader" id="GCULoader_nuts">
-			<mime_type name="application/x-nuts-spc" capabilities="r" scope="s"/>
-			<information>
-				<_description>NUTS spectrum files loader</_description>
+				<_description>NUTS files loader</_description>
 			</information>
 		</service>
 	</services>

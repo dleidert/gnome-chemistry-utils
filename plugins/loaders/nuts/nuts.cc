@@ -61,12 +61,12 @@ public:
 
 NUTSLoader::NUTSLoader ()
 {
-	AddMimeType ("application/x-nuts-fid");
+	AddMimeType ("application/x-nuts");
 }
 
 NUTSLoader::~NUTSLoader ()
 {
-	RemoveMimeType ("application/x-nuts-fid");
+	RemoveMimeType ("application/x-nuts");
 }
 
 gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io)

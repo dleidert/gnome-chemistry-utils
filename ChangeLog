@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-11-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* gchemutils.xml.in: also accept *.spc files.
+	* plugins/loaders/nuts/nuts.cc: ditto.
+	* plugins/loaders/nuts/plugin.xml.in: ditto.
+
 2010-10-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* gchemutils.xml.in: add a new NUTS mime type.
 	* libs/gcu/spectrumdoc.cc: make 

@@ -22,20 +22,12 @@
     <root-XML namespaceURI="http://www.nongnu.org/gchempaint" localName="gcp"/>
     <glob pattern="*.gchempaint"/>
   </mime-type>
-  <mime-type type="application/x-nuts-fid">
-    <_comment>NUTS FID file format</_comment>
-    <magic priority="50">
+  <mime-type type="application/x-nuts">
+    <_comment>NUTS file format</_comment>
+    <magic priority="70">
       <match type="string" value="\001\002\003\004" offset="0"/>
     </magic>
-    <root-XML namespaceURI="http://www.acornnmr.com/" localName="fid"/>
     <glob pattern="*.fid"/>
-  </mime-type>
-  <mime-type type="application/x-nuts-spc">
-    <_comment>NUTS spectrum file format</_comment>
-    <magic priority="50">
-      <match type="string" value="\001\002\003\004" offset="0"/>
-    </magic>
-    <root-XML namespaceURI="http://www.acornnmr.com/" localName="spc"/>
     <glob pattern="*.spc"/>
   </mime-type>
 </mime-info>
