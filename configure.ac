@@ -316,6 +316,15 @@ AM_CONDITIONAL([WITH_GNUMERIC], [test "x$build_gnumeric_plugin" = "xyes"])
 AC_SUBST([GNUMERIC_PLUGINS_DIR])
 AC_SUBST([gnm_version])
 
+
+##################################################
+# Check for various functions
+##################################################
+SAVE_LIBS=$LIBS
+LIBS="-lm $LIBS"
+AC_CHECK_FUNCS(exp10)
+LIBS=$SAVE_LIBS
+
 ##################################################
 # Check for manpage target applications
 ##################################################

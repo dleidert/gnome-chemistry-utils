@@ -29,6 +29,10 @@
 #include <sstream>
 #include <iostream>
 
+#ifndef HAVE_EXP10
+#	define exp10(x) pow(10.,(x))
+#endif
+
 using namespace std;
 
 namespace gcu
