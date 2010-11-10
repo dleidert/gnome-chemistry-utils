@@ -1,0 +1,517 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+	<!-- hey there :) -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="X-UA-Compatible" content="chrome=1"> 
+
+	<!-- google_ad_section_start --> 
+	<title>request download ticket   | ifile.it</title>
+	<meta name="dc.title" content="ifile.it filehosting service" /> 
+	<meta name="dc.creator" content="ifile" /> 
+	<meta name="dc.description" lang="en" content="Upload your multimedia files to our online file storage service" /> 
+	<meta name="description" content="Upload your multimedia files to our online file storage service" /> 
+	<!-- google_ad_section_end --> 
+	
+	<meta name="google-site-verification" content="CpeUwZBqva_IkLDo9uTBmxFHaCxZOl2CufqtLLdg-Ow" />
+	
+	<link rel="stylesheet" type="text/css" href="http://static.ifile.it/themes/default/css/common_4.css" />
+
+	
+	
+<script type="text/javascript">var kIjs09 = 0;</script> 
+
+
+
+
+	
+	<style type="text/css">
+		body{
+
+							background-image: 	url( 'http://static.ifile.it/themes/default/images/bg.gif' );
+					}
+	</style>
+	
+
+	<script type="text/javascript" src="http://partner.googleadservices.com/gampad/google_service.js">
+	</script>
+	<script type="text/javascript">
+	  GS_googleAddAdSenseService("ca-pub-0757512211744344");
+	  GS_googleEnableAllServices();
+	</script>
+	<script type="text/javascript">
+	  GA_googleAddSlot("ca-pub-0757512211744344", "ifile_it__lb1");
+	  GA_googleAddSlot("ca-pub-0757512211744344", "ifile_it__lb2");
+	  GA_googleAddSlot("ca-pub-0757512211744344", "ifile_it__lb3");
+	  GA_googleAddSlot("ca-pub-0757512211744344", "ifile_it__lb4");
+	  GA_googleAddSlot("ca-pub-0757512211744344", "ifile_it__lr1");
+	  GA_googleAddSlot("ca-pub-0757512211744344", "ifile_it__mb1");
+	  GA_googleAddSlot("ca-pub-0757512211744344", "ifile_it__mr1");
+
+	  GA_googleAddSlot("ca-pub-0757512211744344", "ifile_it__lb4_c1");
+	</script>
+	<script type="text/javascript">
+	  GA_googleFetchAds();
+	</script>
+
+	
+	<script type="text/javascript">function pad_num( num ){ if( num < 10 ){ return '0' + num; } else{ return num; } }function show_local_dt( unix_timestamp ){ var ldt 	= new Date( unix_timestamp * 1000 ); var sltd 	= ldt.getFullYear() + "-" + pad_num( ldt.getMonth() + 1 ) + "-" + pad_num( ldt.getDate() )+ " " + pad_num( ldt.getHours() ) + ":" + pad_num( ldt.getMinutes() ); return sltd; }</script>
+</head>
+
+<body class="yui-skin-sam">
+
+
+	<div id="top_bar">
+
+
+	<table style="width: 99%; background: transparent;" cellpadding="0" cellspacing="0" summary="menu bar" border="0">
+	
+		<tr>
+			<td align="center" valign="bottom" width="130" rowspan="2">
+				<a href="http://ifile.it/"> 
+					<img id="logo_img" src="http://static.ifile.it/themes/default/images/ifile_logo_small2.gif" alt="ifile logo" /> 
+				</a> 
+			</td>
+
+			
+			<td align="right" valign="top"  id="user_menu" style="padding-right: 5px; margin: 0px; padding: 2px;">
+				
+ 
+<a id="usermenu_list_signup" href="https://secure.ifile.it/signup"  rel="nofolow" style="font-weight:bold;">
+create a free account
+</a>
+&nbsp;|&nbsp;
+<a id="usermenu_list_signin" href="https://secure.ifile.it/signin" rel="nofolow">
+sign in
+</a>
+						</td>
+		</tr>
+		
+		<tr>
+
+			<td align="left" valign="top" id="main_menu" style="margin: 0px; padding: 2px;">
+				<span style="font-family: calibri,verdana; cursor:default; color:gray; top:-5px;position:relative;">upload &gt; organize &gt; share!</span>			</td>
+		</tr>
+	</table>
+
+		
+	</div>
+	
+
+	
+	
+	
+	<div id="content">
+	<!-- google_ad_section_start --> 
+	
+	
+		
+
+<div id="dl_content" class="dl_content" style="border:0px solid white; background: white;"> 
+
+	<div id="dda1"> 
+		<table width="100%" cellspacing="0" cellpadding="0" summary=" "> 
+						<tr> 
+							
+							<td width="340" valign="top" align="center"> 
+							
+							
+<script type="text/javascript">
+  GA_googleFillSlot("ifile_it__lr1");
+</script>
+									
+							</td> 
+							
+							<td valign="top" align="left"> 
+							
+							
+<script type="text/javascript">
+  GA_googleFillSlot("ifile_it__mr1");
+</script>
+									
+							</td> 
+ 
+						</tr> 
+		</table> 
+	</div> 
+
+	
+	<div id="features"> 
+ 
+		<h1 style="color: #404040; font-family:	arial; font-size: 120%;"> 
+			iFile.it, <u>free</u> online file storage service.
+		</h1> 
+		<ul> 
+			<li>Resumable downloads! </li> 
+			<li>Download accelerators are allowed.</li> 
+			<li>No daily / hourly download limitations.</li> 
+			<li>We do not block users by country or ip.</li> 
+			<li>Split archives are allowed! (and encouraged)</li> 
+			<li>No waiting for a download to start (no timers, countdowns etc)</li> 
+			<li>Our users dont have to install anything to download their files (no toolbars, spyware etc)</li> 
+		</ul> 
+ 
+	</div> 
+ 
+
+ 
+	<table id="shareTbl" summary="share table" width="100%" border="0" cellspacing="0" cellpadding="0"> 
+	
+		
+		
+<thead>
+	<tr>
+		<td align="center" colspan="3">
+			<a href="https://secure.ifile.it/signup">signup for a free account to avail of more features and faster downloads!</a>
+		</td>
+	</tr>
+</thead>		
+			
+		<tbody> 
+		
+
+			
+			<tr> 
+			
+				<td width="25%" align="right"> 
+					<strong>short link:</strong> 
+				</td> 
+				
+				<td width="5%"> 
+				
+				</td> 
+				
+				<td width="70%" align="left"> 
+					<input onClick="this.focus();this.select();" size="15" style="border: 1px solid #dcdcdc;" type="text" name="share_link" id="share_link" value="http://ifile.it/1dftoyb" /> 
+				
+					&nbsp;&nbsp;&nbsp;
+					
+					<!-- AddThis Button BEGIN -->
+					<a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=ifile" 
+					addthis:url="http://ifile.it/1dftoyb/el.po" 
+					addthis:title="el.po"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=ifile"></script>
+					<!-- AddThis Button END -->
+				</td> 
+				
+			</tr> 
+			
+			<tr> 
+			
+				<td width="25%" align="right"> 
+					<strong>full link:</strong> 
+				</td> 
+				
+				<td width="5%"> 
+				
+				</td> 
+				
+				<td width="70%" align="left"> 
+					<input onClick="this.focus();this.select();" size="40" style="border: 1px solid #dcdcdc;width:400px;" type="text" name="descriptive_link" id="descriptive_link" value="http://ifile.it/1dftoyb/el.po" /> 
+				</td> 
+				
+			</tr> 
+
+		</tbody> 
+			
+	</table> 
+	
+	
+	<div id="req_area" style="text-align: center; border-top: 1px solid #efefef;"> 
+	<span style="cursor: default; font-size: 90%; color: gray;">
+		el.po	&nbsp;
+		173.47 KB	</span>
+	<br /><br />
+	<input type="button" id="req_btn2" value="request download ticket  " />
+	</div> 
+	
+	<br /><br /><hr  style="border: 1px solid #efefef;"/>
+	
+	<div id="dda2"> 
+		
+<script type="text/javascript">
+  GA_googleFillSlot("ifile_it__lb1");
+</script>
+			</div> 
+	
+</div> 
+
+
+		
+		
+	<!-- google_ad_section_end --> 
+	</div>	
+
+	<div id="footer">
+		
+			
+<form action="http://ifile.it/google" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-0757512211744344:pgfig0-vr09" />
+    <input type="hidden" name="cof" value="FORID:10" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="40" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
+
+<br /><br />
+
+	<ul id="footer_list"> 
+	
+
+
+	
+		<li> 
+		<a href="http://ifile.it/api" rel="nofolow">api</a> 
+		</li> 
+		
+		<li> 
+		<a style="font-weight:bold;" href="http://blog.ifile.it" rel="nofolow">blog</a> 
+		</li> 
+		
+		<li> 
+		<a href="http://twitter.com/ifileit" rel="nofolow">twitter</a> 
+		</li> 
+
+		<li> 
+		<a href="http://ifile.it/contact" rel="nofolow">contact</a> 
+		</li> 
+		
+		<li> 
+		<a href="http://ifile.it/dmca" rel="nofolow">dmca</a> 
+		</li> 
+		
+		<li> 
+		<a href="http://ifile.it/faqs" rel="nofolow">faqs</a> 
+		</li> 
+		
+		<li> 
+		<a href="http://ifile.it/privacy" rel="nofolow">privacy</a> 
+		</li> 
+		
+		<li> 
+		<a href="http://ifile.it/tos" rel="nofolow">terms of service</a> 
+		</li> 
+		
+	</ul> 
+	
+	<div id="copyright"> 
+		&copy; 2006-2010 ifile.it &amp; mihd.net
+	</div>		
+				</div>	
+
+	
+	<script type="text/javascript" src="http://static.ifile.it/themes/default/js/common_4.js"></script>
+	
+
+
+<script type="text/javascript" src="http://ifile.it/ads/adframe.js"></script>
+<script type="text/javascript" src="http://static.ifile.it/libraries/recaptcha_1.10/recaptcha_ajax.js"></script>  
+
+
+
+
+<script type="text/javascript">
+
+
+var __token					=	false;
+var __file_key				=	'1dftoyb';
+var __alias_id				=	'5380205';
+var __current_url			=	'http://ifile.it/' + __file_key + '/el.po';
+var __base_url				=	'http://ifile.it/';
+var __file_url				=	'http://ifile.it/' + __file_key;
+var __signup_url			=	'https://secure.ifile.it/signup?redirect_after=1dftoyb';
+var __WAIT					=	'wait';
+var __UNABLE_ISSUE_TICKET	=	'unable to issue download ticket, try again';
+var __CAPTCHA_MSG			=	'sorry but we have to check if you are human as multiple downloads were detected from your ip address in a short period';
+var __CAPTCHA_MSG_BELOW		=	'please complete the challenge below';
+var __INCORRECT_CAPTCHA		=	'incorrect CAPTCHA entered, try again please';
+var __CONTINUE 				=	'continue';
+
+
+
+var __recaptcha_public		=	'6LehdQcAAAAAABt0QFfzJT0yxsFydQsVTADaFakD';
+	
+var __x_recaptcha = '<br \/><table id="requestTbl" width="100%" summary=" " border="0" cellspacing="0" cellpadding="0">' +
+'	<tr><td align="center" colspan="2">' + __CAPTCHA_MSG  + '<br \/><span class="msg_orange" style="cursor:default;">' + __CAPTCHA_MSG_BELOW  + '<\/span><br \/><br \/><\/td><\/tr>' +
+'	<tr>' +
+'		<td style="border: 0px;" width="40%" valign="right">' +
+'		<div id="dynamic_recaptcha">&nbsp;<\/div>' +
+'		<\/td>' +
+'		<td style="border: 0px;" valign="middle" align="left" width="60%">' +
+'			<input type="button" tabindex="2" id="request_link" value="' + __CONTINUE + '" \/>' +
+'		<\/td>' +
+'	<\/tr>' +
+'<\/table>';
+
+var __x_recaptcha_retry = '<br \/><table id="requestTbl" width="100%" summary=" " border="0" cellspacing="0" cellpadding="0">' +
+'	<tr><td align="center" colspan="2"><span class="msg_red" style="cursor:default;">' + __INCORRECT_CAPTCHA + '<\/span><br \/><br \/><\/td><\/tr>' +
+'	<tr>' +
+'		<td style="border: 0px;" width="40%" valign="right">' +
+'		<div id="dynamic_recaptcha">&nbsp;<\/div>' +
+'		<\/td>' +
+'		<td style="border: 0px;" valign="middle" align="left" width="60%">' +
+'			<input type="button" tabindex="2" id="request_link" value="' + __CONTINUE + '" \/>' +
+'		<\/td>' +
+'	<\/tr>' +
+'<\/table>';
+
+var __x_brbr = '<br \/><br \/>';var __x_unableissue = '<br /><br /><a href="' +  __file_url + '">' + __UNABLE_ISSUE_TICKET + '<\/a>';
+
+
+
+var ticket = {
+
+	request:function(){
+		
+		$('#req_area').empty().append( __x_brbr + __WAIT );
+		ticket.makeUrl( 'na', '' );
+	},
+	
+	handleFailure:function(){
+		
+		$("#req_area").empty().append( __x_unableissue );
+	},
+	
+	makeUrl:function( type, extra){
+		
+		var url = __base_url + "download:dl_request?alias_id=" + __alias_id + "&type=" + type + "&kIjs09=" + kIjs09 + "&e94fa1af87=" + 35490 + extra;
+		YAHOO.util.Connect.asyncRequest("GET", url, ticketCallback, null ); 
+	},
+	
+	handleSuccess:function( o ){
+		
+		var response = json_decode( o.responseText ); //parse json
+		
+		if( response.status == "ok" ){
+		
+
+			if ( response.captcha == 1 ){
+
+				ticket.makeRecaptcha( response.retry );
+			}
+			else{ //simple
+			
+				$('#req_area').empty().append( __x_brbr + __WAIT );
+				window.location	=	__current_url;
+			}
+		}
+	 	else{
+			
+	 		ticket.handleFailure();
+	 	}
+	},
+
+	makeRecaptcha:function( retry ){
+		
+		//check whether to show retry message
+		if( retry == 1 ){
+		
+			$("#req_area").empty().append(  __x_recaptcha_retry );
+			
+			var request_link 	= new YAHOO.widget.Button("request_link"); 
+			
+			Recaptcha.create(__recaptcha_public, "dynamic_recaptcha", {
+			    theme: 'white',
+			    tabindex: 0,
+			    callback: Recaptcha.focus_response_field
+			});
+			
+		  
+			
+			YAHOO.util.Event.addListener("request_link", "click", ticket.verify );
+			
+			var return_listener = new YAHOO.util.KeyListener(document, 
+				{ keys:13 },  							
+				{ 	
+					fn:ticket.verify,
+					scope:ticket,
+					correctScope:true 
+				} 
+			);
+			return_listener.enable();   
+		}
+		else{
+		
+			$("#req_area").empty().append( __x_recaptcha );
+			
+			
+			var request_link 	= new YAHOO.widget.Button("request_link"); 
+			
+			Recaptcha.create(__recaptcha_public, "dynamic_recaptcha", {
+			    theme: 'white',
+			    tabindex: 0,
+			    callback: Recaptcha.focus_response_field
+			});
+			
+		  
+			
+			YAHOO.util.Event.addListener("request_link", "click", ticket.verify );
+			
+			var return_listener = new YAHOO.util.KeyListener(document, 
+				{ keys:13 },  							
+				{ 	
+					fn:ticket.verify,
+					scope:ticket,
+					correctScope:true 
+				} 
+			);
+			return_listener.enable();  
+		}
+	},
+	
+	
+	verify:function( ){
+		
+
+		var recaptcha_response_field	=	$("#recaptcha_response_field").val();
+		var recaptcha_challenge_field	=	$("#recaptcha_challenge_field").val();
+		ticket.makeUrl( 'recaptcha', '&recaptcha_response_field=' + escape( recaptcha_response_field ) + '&recaptcha_challenge_field=' + recaptcha_challenge_field );
+
+		$('#req_area').empty().append( __x_brbr + __WAIT );
+	}
+};
+
+
+var ticketCallback = {
+	failure: ticket.handleFailure,
+	success: ticket.handleSuccess,
+	scope: ticket
+};
+
+
+
+
+
+function ic() {  
+
+	var req_btn2 	= new YAHOO.widget.Button("req_btn2"); 
+	YAHOO.util.Event.addListener("req_btn2", "click", ticket.request ); 
+}	
+</script>
+
+	
+	
+
+	<script language="javascript" type="text/javascript">function i() { if (top.location != self.location){top.location.replace(self.location);}ic();}YAHOO.util.Event.onDOMReady( i );</script>
+
+	<script type="text/javascript">
+	
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-6660281-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	
+	</script>
+
+
+</body>
+</html>
