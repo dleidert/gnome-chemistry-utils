@@ -66,7 +66,7 @@ Sets the LineItem line width.
 /*!\fn GetLineWidth()
 @return the line width
 */
-GCCV_ITEM_PROP (double, LineWidth)
+GCCV_ITEM_POS_PROP (double, LineWidth)
 /*!\fn SetLineColor(GOColor color)
 @param color the new line color.
 

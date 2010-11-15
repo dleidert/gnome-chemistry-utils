@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/line-item.h: make line width change the bounds. [#31654]
+
 2010-11-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: test for exp10 and use pow instead if not available.
 	[#31606]
