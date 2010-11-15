@@ -166,7 +166,7 @@ void gcpEraserTool::OnRelease ()
 			m_pObject = parent;
 	}
 	Parent = m_pObject->GetParent ();
-	if (pObj && (pObj->GetType () != MoleculeType || Parent->GetType () == AtomType)) {
+	if (pObj) {
 		pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 		pOp->AddObject (pObj, 0);
 		id = g_strdup (pObj->GetId ());
