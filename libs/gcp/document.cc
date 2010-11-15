@@ -988,6 +988,8 @@ void Document::RemoveBond (Bond* pBond)
 		if ((pAtom1->GetZ () == 6) && (pAtom1->GetBondsNumber () == 0))
 			m_pView->Update (pAtom1);
 		Parent->Lock (false);
+		if (!m_bUndoRedo && !m_bIsLoading && dynamic_cast <ModifyOperation *> (m_pCurOp))
+			m_pCurOp->AddObject (pMol, 1);
 	}
 	m_DirtyObjects.erase (pBond);
 	delete pBond;

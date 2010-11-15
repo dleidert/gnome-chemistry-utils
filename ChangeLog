@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2010-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fixed undo after erasing atoms and/or bonds.
+	* plugins/paint/selection/erasertool.cc: ditto.
+
+2010-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/line-item.h: make line width change the bounds. [#31654]
 
 2010-11-10  Jean Bréfort  <jean.brefort@normalesup.org>
