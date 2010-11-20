@@ -121,6 +121,7 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 		doc->SetProperty (GCU_PROP_SPECTRUM_X_UNIT, (axis1 == 3)? "PPM": "HZ");
 		// not tested, no sample available
 		g_ascii_dtostr (sbuf, G_ASCII_DTOSTR_BUF_SIZE, sw1);
+		doc->SetProperty (GCU_PROP_SPECTRUM_X_MAX, sbuf);
 	} else {
 		doc->SetProperty (GCU_PROP_SPECTRUM_TYPE, "NMR FID");
 		doc->SetProperty (GCU_PROP_SPECTRUM_X_UNIT, "SECONDS");
@@ -198,7 +199,7 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 			READINT32 (in, i32); // unassigned
 		READFLOAT (in, temp);
 		gsf_input_read (in, 40, reinterpret_cast <guint8 *> (desc));
-		for (i = 40; i >= 0; i--)
+		for (i = 39; i >= 0; i--)
 			if (desc[i]!= ' ' && desc[i] != 0)
 				break;
 		desc[i + 1] = 0;
@@ -206,17 +207,17 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 		READFLOAT (in, rd);
 		READINT32 (in, nbacq);
 		gsf_input_read (in, 40, reinterpret_cast <guint8 *> (uname));
-		for (i = 40; i >= 0; i--)
+		for (i = 39; i >= 0; i--)
 			if (uname[i]!= ' ')
 				break;
 		uname[i + 1] = 0;
 		gsf_input_read (in, 32, reinterpret_cast <guint8 *> (date));
-		for (i = 32; i >= 0; i--)
+		for (i = 31; i >= 0; i--)
 			if (date[i]!= ' ')
 				break;
 		date[i + 1] = 0;
 		gsf_input_read (in, 84, reinterpret_cast <guint8 *> (comment));
-		for (i = 84; i >= 0; i--)
+		for (i = 83; i >= 0; i--)
 			if (comment[i]!= ' ')
 				break;
 		comment[i + 1] = 0;
@@ -276,15 +277,33 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 		}
 		case 1: {
 			std::ostringstream re, im;
-			READFLOAT (in, f);
-			re << f;
-			READFLOAT (in, f);
-			im << f;
-			for (i = 1; i < npts1; i++) {
+			if (domain1) {
+				float *rr, *ii;
+				rr = g_new (float, npts1);
+				ii = g_new (float, npts1);
+				for (i = 0; i < npts1; i++) {
+					READFLOAT (in, rr[i]);
+					READFLOAT (in, ii[i]);
+				}
+				re << rr[npts1 - 1];
+				im << ii[npts1 - 1];
+				for (i = 2; i <= npts1; i++) {
+					re << " " << rr[npts1 - i];
+					im << " " << ii[npts1 - i];
+				}
+				g_free (rr);
+				g_free (ii);
+			} else {
 				READFLOAT (in, f);
-				re << " " << f;
+				re << f;
 				READFLOAT (in, f);
-				im << " " << f;
+				im << f;
+				for (i = 1; i < npts1; i++) {
+					READFLOAT (in, f);
+					re << " " << f;
+					READFLOAT (in, f);
+					im << " " << f;
+				}
 			}
 			doc->SetProperty (GCU_PROP_SPECTRUM_DATA_REAL, re.str ().c_str ());
 			doc->SetProperty (GCU_PROP_SPECTRUM_DATA_IMAGINARY, im.str ().c_str ());

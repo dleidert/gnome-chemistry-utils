@@ -627,13 +627,17 @@ static void on_transform_fid (GtkButton *btn, SpectrumDocument *doc)
 static SpectrumType get_spectrum_type_from_string (char const *buf)
 {
 	unsigned i;
+	char *up = g_ascii_strup (buf, -1);
 	for (i = 0; i < G_N_ELEMENTS (Types); i++)
-		if (!strcmp (Types[i].name, buf))
-		return Types[i].type;
+		if (!strcmp (Types[i].name, up)) {
+			g_free (up);
+			return Types[i].type;
+		}
+	g_free (up);
 	return GCU_SPECTRUM_MAX;
 }
 
-#define JCAMP_PREC 1e-3 // fully arbitrary
+#define JCAMP_PREC 1e-2 // fully arbitrary
 
 void SpectrumDocument::LoadJcampDx (char const *data)
 {
@@ -2201,6 +2205,29 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 				lastx += d;
 				for (i = 0; i < npoints; i++)
 					x[i] += d;
+			} else if (X < 0) {
+				JdxVar xt;
+				xt.Name = _("Chemical shift");
+				xt.Symbol = 'X';
+				xt.Type = GCU_SPECTRUM_TYPE_INDEPENDENT;
+				xt.Unit = GCU_SPECTRUM_UNIT_HZ;
+				xt.Format = GCU_SPECTRUM_FORMAT_MAX;
+				xt.Factor = 1.;
+				xt.NbValues = npoints;
+				xt.Values = new double[npoints];
+				double freq = (maxx - minx) / npoints, shift = (maxx - minx) / 2. - offset;
+				maxx -= shift;
+				minx -= shift;
+				for (i = 0; i < npoints; i++)
+					xt.Values[i] = i * freq + minx;
+				xt.Min = xt.First = xt.Values[0];
+				xt.Max = xt.Last = xt.Values[npoints - 1];
+				xt.Series = NULL;
+				X = variables.size ();
+				variables.push_back (xt);
+				OnXUnitChanged (0);
+				minx = variables[X].Min;
+				maxx = variables[X].Max;
 			} else {
 				double d = offset * freq - variables[X].Max;
 				maxx = variables[X].Max += d;

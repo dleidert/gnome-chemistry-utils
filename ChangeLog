@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-11-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: fixed offset when importing a NUTS .spc file.
+	* plugins/loaders/nuts/nuts.cc: ditto.
+
 2010-11-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: fixed undo after erasing atoms and/or bonds.
 	* plugins/paint/selection/erasertool.cc: ditto.
