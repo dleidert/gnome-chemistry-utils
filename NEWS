@@ -2,6 +2,8 @@ Version 0.12.5
 	GChemPaint:
 		* Make line width change the bounds. [#31654]
 		* Fixed undo/redo after erasing atoms or bonds.
+	GSpectrum:
+		* Fix order in NMR spectrum integration.
 	libgcu:
 		* Fixed crash in Object::Clear(). (Fredora #637564)
         * Test for exp10 and use pow instead if not available. [#31606]
