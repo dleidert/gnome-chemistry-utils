@@ -28,6 +28,7 @@
 
 gsvView::gsvView (gsvDocument *Doc): gcu::SpectrumView (Doc)
 {
+	m_Window = NULL;
 }
 
 gsvView::~gsvView ()

@@ -40,18 +40,10 @@ gsvDocument::~gsvDocument ()
 {
 }
 
-void gsvDocument::Load (char const *uri, char const *mime_type)
+void gsvDocument::SetTitle (char const *title)
 {
-	SpectrumDocument::Load (uri, mime_type);
-	string title = GetTitle ();
-	if (title.length () == 0) {
-		title = g_path_get_basename (uri);
-		char *buf = g_uri_unescape_string (title.c_str (), NULL);
-		title = buf;
-		g_free (buf);
-	}
-	dynamic_cast <gsvView *> (m_View)->GetWindow ()->SetTitle (title);
-	char *dirname = g_path_get_dirname (uri);
-	m_App->SetCurDir (dirname);
-	g_free (dirname);
+	gcu::SpectrumDocument::SetTitle (title);
+	gsvView *view = dynamic_cast <gsvView *> (m_View);
+	if (view && view->GetWindow ())
+		view->GetWindow ()->SetTitle (title);
 }

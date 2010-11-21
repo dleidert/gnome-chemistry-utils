@@ -1857,6 +1857,9 @@ void SpectrumDocument::OnShowIntegral ()
 				v.Values[i] -= res[4] * (acc *= cur);
 				v.Values[i] -= res[5] * cur * acc;
 			}
+			if (xo[1] > xo[0])
+				for (i = 0; i < v.NbValues; i++)
+					v.Values[i] = -v.Values[i];
 			g_free (reg.se);
 			g_free (reg.t);
 			g_free (reg.xbar);
@@ -2406,6 +2409,9 @@ bool SpectrumDocument::SetProperty (unsigned property, char const *value)
 {
 	istringstream is (value);
 	switch (property) {
+	case GCU_PROP_DOC_TITLE:
+		SetTitle (value);
+		break;
 	case GCU_PROP_SPECTRUM_TYPE:
 		m_SpectrumType = get_spectrum_type_from_string (value);
 		break;

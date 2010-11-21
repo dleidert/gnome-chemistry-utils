@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: fix NMR spectrum integration.
+	* plugins/loaders/nuts/nuts.cc: fix document title.
+	* programs/spectra/application.cc: ditto.
+	* programs/spectra/document.cc: ditto.
+	* programs/spectra/document.h: ditto.
+	* programs/spectra/view.cc: ditto.
+
 2010-11-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: fixed offset when importing a NUTS .spc file.
 	* plugins/loaders/nuts/nuts.cc: ditto.

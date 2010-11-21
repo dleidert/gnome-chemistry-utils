@@ -36,7 +36,7 @@ public:
 	gsvDocument (gsvApplication *App);
 	virtual ~gsvDocument ();
 
-	void Load (char const *uri, char const *mime_type);
+	void SetTitle (char const *title);
 };
 
 #endif	//	GSV_DOCUMENT_H

@@ -113,7 +113,18 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 		else if (ctype != gcu::ContentTypeSpectrum)
 			return false;
 		GtkRecentData data;
-		data.display_name = (char*) pDoc->GetTitle ().c_str ();
+		data.display_name = g_strdup (pDoc->GetTitle ().c_str ());
+		if (*data.display_name == 0) {
+			char *title = g_path_get_basename (filename);
+			char *buf = g_uri_unescape_string (title, NULL);
+			g_free (title);
+			data.display_name = buf;
+			pDoc->SetTitle (data.display_name);
+			g_free (buf);
+		}
+		char *dirname = g_path_get_dirname (filename);
+		SetCurDir (dirname);
+		g_free (dirname);
 		data.description = NULL;
 		data.mime_type = (char*) mime_type;
 		data.app_name = const_cast<char*> ("gspectrum");
@@ -121,6 +132,7 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 		data.groups = NULL;
 		data.is_private =  FALSE;
 		gtk_recent_manager_add_full (GetRecentManager (), filename, &data);
+		g_free (data.display_name);
 	}
 	return false;
 }

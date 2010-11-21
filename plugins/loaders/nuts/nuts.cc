@@ -223,10 +223,10 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 		comment[i + 1] = 0;
 		gsf_input_read (in, 4, NULL); // undocumented word
 	}
-	doc->SetProperty (GCU_PROP_DOC_TITLE, desc);
+	doc->SetProperty (GCU_PROP_DOC_COMMENT, desc); // better as comment
 	doc->SetProperty (GCU_PROP_DOC_CREATOR, uname);
 	doc->SetProperty (GCU_PROP_DOC_CREATION_TIME, date);
-	doc->SetProperty (GCU_PROP_DOC_COMMENT, comment);
+	doc->SetProperty (GCU_PROP_DOC_TITLE, comment); // looks that this is the best choice for the title
 	// now read the data, since we support only 1D spectra, we should find only one slice
 	READINT32 (in, i32); // data number
 	if (use_ints) {
