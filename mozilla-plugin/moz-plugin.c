@@ -274,7 +274,7 @@ NPError NP_Initialize(NPNetscapeFuncs *mozFuncs, NPPluginFuncs *pluginFuncs) {
 	pluginFuncs->destroy    = NewNPP_DestroyProc (ChemDestroy);
 	pluginFuncs->setwindow  = NewNPP_SetWindowProc (ChemSetWindow);
 	pluginFuncs->newstream  = NewNPP_NewStreamProc (ChemNewStream);
-	pluginFuncs->destroystream  = NewNPP_DestroyStreamProcPtr (ChemDestroyStream);
+	pluginFuncs->destroystream  = NewNPP_DestroyStreamProc (ChemDestroyStream);
 	pluginFuncs->asfile     = NewNPP_StreamAsFileProc (ChemStreamAsFile);
 #endif
 	pluginFuncs->writeready = NULL;

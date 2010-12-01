@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-11-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.12.6).
+
+2010-11-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* mozilla-plugin/moz-plugin.c: fix typo.
+
 2010-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: fix NMR spectrum integration.
 
