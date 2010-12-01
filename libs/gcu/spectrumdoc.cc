@@ -1821,10 +1821,12 @@ void SpectrumDocument::OnShowIntegral ()
 			v.Values = new double[v.NbValues];
 			unsigned i;
 			double *z;
-			if (R >= 0)
+			if (Rp >= 0)
+				z = variables[Rp].Values;
+			else if (R >= 0)
 				z = variables[R].Values;
 			else if (Y >= 0)
-				z = variables[R].Values;
+				z = variables[Y].Values;
 			else
 				z = y;
 			xo = (X >= 0 && variables[X].Values != NULL)? variables[X].Values: x;
@@ -2181,6 +2183,30 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	m_View->SetAxisBounds (GOG_AXIS_X, variables[X].Min, variables[X].Max, true);
 	m_View->SetAxisLabel (GOG_AXIS_X, _(UnitNames[variables[X].Unit]));
 	OnXUnitChanged (0);
+	// remove the last widget from the option box, really a kludge
+	GtkContainer *container = GTK_CONTAINER (m_View->GetOptionBox ());
+	GList *l = gtk_container_get_children (container), *ptr;
+	for (ptr = l; ptr->next != NULL; ptr = ptr->next);
+	gtk_container_remove (container, GTK_WIDGET (ptr->data));
+	g_list_free (l);
+	// now add the widgets appropriate for an NMR spectrum
+	GtkWidget *box = gtk_hbox_new (false, 5), *w;
+	if (go_finite (freq)) {
+		w = gtk_label_new (_("X unit:"));
+		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+		w = gtk_combo_box_new_text ();
+		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
+		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
+		SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
+		gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
+		g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
+		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+	}
+	w = gtk_button_new_with_label (_("Show integral"));
+	g_signal_connect (w, "clicked", G_CALLBACK (on_show_integral), this);
+	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+	gtk_widget_show_all (box);
+	gtk_box_pack_start (GTK_BOX (container), box, false, false, 0);
 }
 
 void SpectrumDocument::OnXAxisInvert (bool inverted)

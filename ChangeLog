@@ -1,5 +1,37 @@
 ##Text encoding: utf-8
 
+2010-12-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-arrow.cc: never remove a molecule from it's reactant
+	parent.
+	* libs/gcp/reactant.cc:  update Child when needed.
+	* libs/gcp/reaction-step.cc: remove unneeded operators.
+	* libs/gcp/view.cc: fix more undo/redo issues.
+
+2010-11-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fixed more undo/redo issues.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* plugins/paint/selection/erasertool.cc: ditto.
+
+2010-11-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: don't crash when deleting a partial selection.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/view.cc: ditto.
+
+2010-11-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post branching version bump (0.13.2).
+	* libs/gcp/reaction-step.cc: fixed serialization issues.
+	* libs/gcp/theme.cc: really save the theme (one line accidentally removed
+	earlier).
+	* libs/gcu/document.cc: clean dirty objects set after cleaning.
+
+2010-11-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/spectrumdoc.cc: change interface after a FID to spectrum
+	transform.
+	* mozilla-plugin/moz-plugin.c: fixed typo.
+	* programs/spectra/window.cc: always use the first Y axis when displaying
+	 coordinates.
+
 2010-11-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/spectrumdoc.cc: fix NMR spectrum integration.
 	* plugins/loaders/nuts/nuts.cc: fix document title.

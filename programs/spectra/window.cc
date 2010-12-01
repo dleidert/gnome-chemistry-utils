@@ -171,7 +171,10 @@ static bool on_motion (GOGraphWidget *widget, GdkEventMotion *event, G_GNUC_UNUS
 	x_axis = GOG_AXIS (l->data);
 	g_slist_free (l);
 	l = gog_chart_get_axes (chart, GOG_AXIS_Y);
-	y_axis = GOG_AXIS (l->data);
+	// we need to use the first y axis, which comes last in the list, is this a kludge?
+	GSList *ptr;
+	for (ptr = l; ptr && ptr->next; ptr = ptr->next);
+	y_axis = GOG_AXIS (ptr->data);
 	g_slist_free (l);
     GogChartMap *map = gog_chart_map_new (chart,
             &(view->allocation), x_axis, y_axis, NULL, FALSE);

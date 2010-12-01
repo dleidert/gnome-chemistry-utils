@@ -768,6 +768,7 @@ bool Theme::Save (xmlDocPtr xml)
 	if (buf)
 		xmlNewProp (node, CC2XML ("text-font-stretch"), CC2XML (buf));
 	WriteInt (node, "text-font-size", m_TextFontSize);
+	xmlAddChild (xml->children, node);
 	return true;
 }
 

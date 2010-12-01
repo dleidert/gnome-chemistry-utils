@@ -215,7 +215,8 @@ bool Reactant::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Obj)
 					pDoc->Remove (Stoichiometry);
 					delete this;
 				}
-			}
+			} else if (GetFirstChild (i) != Child)
+				Child = (*i).second;
 			parent->EmitSignal (OnChangedSignal);
 		} else if ((n == 2) && Stoichiometry) {
 			// Just need to space the two children

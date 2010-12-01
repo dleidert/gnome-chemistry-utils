@@ -1,3 +1,8 @@
+Version 0.13.1
+	GSpectrum:
+		* Loads NUTS files.
+		* Transforms FID to spectrum.
+
 Version 0.13.0
 	GChemPaint:
 		* New "lasso" tool to allow partial selections.

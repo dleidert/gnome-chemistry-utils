@@ -217,8 +217,7 @@ void View::Remove (Object* pObject)
 	Object* pObj = pObject->GetMolecule ();
 	if (pObj)
 		m_pData->SelectedObjects.remove (pObj);
-	else
-		m_pData->SelectedObjects.remove (pObject);
+	m_pData->SelectedObjects.remove (pObject);
 	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
 	if (client && client->GetItem ())
 		delete client->GetItem ();
@@ -230,10 +229,11 @@ void View::OnDeleteSelection (GtkWidget* w)
 	Application *pApp = m_pDoc->GetApplication ();
 	Tool *pActiveTool = pApp->GetActiveTool ();
 	Object *parent;
+	std::string parent_id;
 	if (!pActiveTool->DeleteSelection ()) {
 		m_pData = (WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 		Object *pObject, *Group;
-		set<string> ModifiedObjects;
+		set<string> ModifiedObjects, DirtyObjects;
 		bool modify = false;
 		list<Object *>::iterator i, iend = m_pData->SelectedObjects.end ();
 		// first search if we are deleting top objects or not
@@ -244,24 +244,45 @@ void View::OnDeleteSelection (GtkWidget* w)
 			}
 		Operation *Op = m_pDoc->GetNewOperation (((modify)?
 								GCP_MODIFY_OPERATION: GCP_DELETE_OPERATION));
+		// first save all concerned objects to the operation
+		for (i = m_pData->SelectedObjects.begin (); i != iend; i++) {
+			Group = (*i)->GetGroup ();
+			if (Group) {
+				if (ModifiedObjects.find (Group->GetId ()) == ModifiedObjects.end ()) {
+					Op->AddObject (Group);
+					ModifiedObjects.insert (Group->GetId ());
+				}
+			} else
+				Op->AddObject (*i);
+		}
 		while (!m_pData->SelectedObjects.empty ()) {
 			pObject = m_pData->SelectedObjects.front ();
-			Group = pObject->GetGroup ();
-			if (Group && 
-				(ModifiedObjects.find (Group->GetId ()) == ModifiedObjects.end ())) {
-				Op->AddObject (Group);
-				ModifiedObjects.insert (Group->GetId ());
-			} else
-				Op->AddObject (pObject);
 			pObject->Lock ();
 			parent = pObject->GetParent ();
+			if (parent != m_pDoc)
+				DirtyObjects.insert (parent->GetId ());
 			m_pData->Unselect (pObject);
 			m_pDoc->Remove (pObject);
-			if (parent)
-				parent->EmitSignal (OnChangedSignal);
 		}
 		m_pData->ClearSelection ();
-		set<string>::iterator k, kend = ModifiedObjects.end();
+		set <string> &NewObjects = m_pDoc->GetNewObjects ();
+		set <string>::iterator k, kend;
+		// emit needed signals
+		kend = DirtyObjects.end ();
+		for (k = DirtyObjects.begin (); k != kend; k++) {
+			pObject = m_pDoc->GetDescendant ((*k).c_str ());
+			if (pObject)
+				pObject->EmitSignal (OnChangedSignal);
+		}
+		kend = NewObjects.end ();
+		for (k = NewObjects.begin(); k != kend; k++) {
+			pObject = m_pDoc->GetDescendant ((*k).c_str ());
+			if (!pObject)
+				continue;
+			Group = pObject->GetGroup ();
+			ModifiedObjects.insert ((Group)? Group->GetId (): *k);
+		}
+		kend = ModifiedObjects.end();
 		for (k = ModifiedObjects.begin(); k != kend; k++) {
 			pObject = m_pDoc->GetDescendant ((*k).c_str ());
 			if (pObject)

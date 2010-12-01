@@ -459,6 +459,8 @@ of the residue.
 */
 	gcu::Residue *CreateResidue (char const *name, char const *symbol, gcu::Molecule *molecule);
 
+	std::set <std::string> &GetNewObjects () {return m_NewObjects;}
+
 private:
 	void BuildBondList (std::list<Bond*>& BondList, gcu::Object const *obj) const;
 	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, gcu::Object const *obj, unsigned& index) const;
@@ -485,6 +487,7 @@ private:
 	unsigned m_LastStackSize; // undo list size when last saved
 	std::set<Residue const *> m_SavedResidues;
 	std::map<std::string, gcu::SymbolResidue> m_Residues;
+	std::set <std::string> m_NewObjects;
 
 /* Theme is not really a read only property, but we provide a special Set
 method */

@@ -107,6 +107,7 @@ ReactionStep::~ReactionStep ()
 {
 	if (IsLocked ())
 		return;
+	Lock ();
 	CleanChildren ();
 }
 	
@@ -156,8 +157,12 @@ void ReactionStep::OnLoaded ()
 	WidgetData  *pData= view->GetData ();
 	map<double, Object*>::iterator im, endm;
 	double x, y, x0, y0, x1, y1;
+	// this method is called more than once (might consider this a bug) so we need to remove old operators
+	std::list <gcu::Object *> Operators;
 	while (pObj) {
-		if (pObj->GetType () != gcp::MechanismArrowType) {
+		if (pObj->GetType () == ReactionOperatorType)
+			Operators.push_front (pObj);
+		else if (pObj->GetType () != gcp::MechanismArrowType) {
 			pData->GetObjectBounds (pObj, &rect);
 			x = (rect.x0 + rect.x1) / 2;
 			while (Children[x] != NULL)
@@ -166,6 +171,10 @@ void ReactionStep::OnLoaded ()
 			Objects[pObj] = rect;
 		}
 		pObj = GetNextChild (i);
+	}
+	while (!Operators.empty ()) {
+		delete Operators.front ();
+		Operators.pop_front ();
 	}
 	im = Children.begin ();
 	endm = Children.end ();
@@ -215,20 +224,32 @@ bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 		WidgetData  *pData= (WidgetData*) g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data");
 		map<double, Object*>::iterator im, endm;
 		double x, y, x0, y0, x1, y1;
+		std::set <gcu::Object *> Invalid;
 		while (pObj) {
 			if (pObj->GetType () == ReactionOperatorType)
 				Operators.push_front (pObj);
 			else if (pObj->GetType () == MechanismArrowType); // don't do anything
 			else {
-				pData->GetObjectBounds (pObj, &rect);
-				x = (rect.x0 + rect.x1) / 2;
-				while (Children[x] != NULL)
-					x += 1e-5;
-				Children[x] = pObj;
-				Objects[pObj] = rect;
+				if (pObj->GetChildrenNumber ()) {
+					pData->GetObjectBounds (pObj, &rect);
+					x = (rect.x0 + rect.x1) / 2;
+					while (Children[x] != NULL)
+						x += 1e-5;
+					Children[x] = pObj;
+					Objects[pObj] = rect;
+				} else
+					Invalid.insert (pObj);
 			}
 			pObj = GetNextChild (i);
 		}
+		// delete invalid children
+		// first avoid new signals
+		m_bLoading = true;
+		// really delete
+		std::set <gcu::Object *>::iterator j, jend = Invalid.end ();
+		for (j = Invalid.begin (); j != jend; j++)
+			delete *j;
+		m_bLoading = false;
 		while (!Operators.empty ()) {
 			pObj = Operators.front ();
 			pView->Remove (pObj);

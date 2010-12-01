@@ -158,6 +158,7 @@ bool Document::Loaded () throw (LoaderError)
 	std::set <Object *>::iterator k, kend = m_DirtyObjects.end ();
 	for (k = m_DirtyObjects.begin (); k != kend; k++)
 		(*k)->OnLoaded ();
+	m_DirtyObjects.clear ();
 	return count > 0;
 }
 

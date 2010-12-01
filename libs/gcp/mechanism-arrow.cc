@@ -495,10 +495,10 @@ void MechanismArrow::OnLoaded ()
 	Molecule *mol = NULL, *mol1;
 	if (m_Source) { // otherwise, it is most probably a bug
 		mol = static_cast <Molecule *> (m_Source->GetMolecule ());
-		if (mol && mol->GetParent () != parent)
+		if (mol && mol->GetParent () != parent && mol->GetParent ()->GetParent () != parent)
 			parent->AddChild (mol);
 	}
-	if (m_Target && (mol1 = static_cast <Molecule *> (m_Target->GetMolecule ())) && mol1 != mol && mol1->GetParent () != parent)
+	if (m_Target && (mol1 = static_cast <Molecule *> (m_Target->GetMolecule ())) && mol1 != mol && mol1->GetParent () != parent && mol1->GetParent ()->GetParent () != parent)
 		parent->AddChild (mol1);
 	parent->OnLoaded ();
 }

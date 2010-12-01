@@ -184,6 +184,14 @@ void gcpEraserTool::OnRelease ()
 		pObj = pDoc->GetChild (id);
 		if (pObj)
 			pOp->AddObject (pObj, 1);
+		std::set <std::string> &NewObjects = pDoc->GetNewObjects ();
+		std::set <std::string>::iterator i, end = NewObjects.end ();
+		for (i = NewObjects.begin (); i != end; i++)
+			if (*i != id) {
+				pObj = pDoc->GetChild ((*i).c_str ());
+				if (pObj)
+					pOp->AddObject (pObj, 1);
+			}
 		g_free (id);
 	}
 	pDoc->FinishOperation ();

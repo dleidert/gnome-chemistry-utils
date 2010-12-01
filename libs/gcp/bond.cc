@@ -689,6 +689,8 @@ void Bond::UpdateItem ()
 double Bond::GetYAlign ()
 {
 	double x1, y1, x2, y2;
+	if (!m_Begin || !m_End)
+		return 0.;
 	m_Begin->GetCoords(&x1, &y1);
 	m_End->GetCoords (&x2, &y2);
 	return (y1 + y2) / 2;

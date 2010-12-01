@@ -931,6 +931,7 @@ void Document::RemoveBond (Bond* pBond)
 			snprintf (id, sizeof (id), "m%d", i0++);
 		while (GetDescendant (id) != NULL);
 		pMol->SetId (id);
+		m_NewObjects.insert (id);
 		Parent->AddChild (pMol); /* do not update at this point it's the caller responsibility */
 		Object* pObject = pAtom0->GetParent ();
 		if (pObject->GetType () == FragmentType)
@@ -951,6 +952,7 @@ void Document::RemoveBond (Bond* pBond)
 		pMol = new Molecule ();
 		pMol->Lock (true);
 		pMol->SetId (id);
+		m_NewObjects.insert (id);
 		Parent->AddChild (pMol); /* do not update at this point it's the caller responsibility */
 		pObject = pAtom1->GetParent ();
 		if (pObject->GetType () == FragmentType)
@@ -969,8 +971,6 @@ void Document::RemoveBond (Bond* pBond)
 		if ((pAtom1->GetZ () == 6) && (pAtom1->GetBondsNumber () == 0))
 			m_pView->Update (pAtom1);
 		Parent->Lock (false);
-		if (!m_bUndoRedo && !m_bIsLoading && dynamic_cast <ModifyOperation *> (m_pCurOp))
-			m_pCurOp->AddObject (pMol, 1);
 	}
 	m_DirtyObjects.erase (pBond);
 	delete pBond;
@@ -1140,6 +1140,7 @@ void Document::FinishOperation ()
 		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
 	}
 	Update ();
+	m_NewObjects.clear ();
 }
 
 void Document::AbortOperation()
