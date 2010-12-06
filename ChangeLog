@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2010-12-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/bonds/chaintool.cc: fixed more undo/redo issues.
+	* plugins/paint/cycles/cycletool.cc: ditto.
+
 2010-12-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-arrow.cc: never remove a molecule from it's reactant
 	parent.

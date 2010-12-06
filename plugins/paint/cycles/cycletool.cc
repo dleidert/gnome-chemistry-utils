@@ -496,6 +496,7 @@ void gcpCycleTool::OnRelease ()
 	gcp::Molecule *pMol = NULL;
 	char const *MolId = NULL;
 	int i;
+	// first save groups if any will be modified
 	for (i = 0; i < m_size; i++) {
 		m_x = m_Points[i].x;
 		m_y = m_Points[i].y;
@@ -529,6 +530,9 @@ void gcpCycleTool::OnRelease ()
 				}
 			}
 		}
+	}
+	// now add missing atoms and bonds
+	for (i = 0; i < m_size; i++) {
 		if (!pAtom[i]) {
 			pAtom[i] = new gcp::Atom (m_pApp->GetCurZ (), m_Points[i].x / m_dZoomFactor, m_Points[i].y / m_dZoomFactor, 0);
 			pDoc->AddAtom (pAtom[i]);

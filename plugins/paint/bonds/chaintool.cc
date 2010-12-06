@@ -265,6 +265,7 @@ void gcpChainTool::OnRelease ()
 		return;
 	if (!m_Allowed)
 		return;
+	// first save groups which need to be saved
 	for (nb = 0; nb < m_CurPoints; nb++) {
 		if (m_Atoms[nb]) {
 			if (pMol == NULL) {
@@ -279,7 +280,11 @@ void gcpChainTool::OnRelease ()
 				pOp->AddObject (pObject);
 				ModifiedObjects.insert (Id);
 			}
-		} else {
+		}
+	}
+	// now add new atoms and bonds
+	for (nb = 0; nb < m_CurPoints; nb++) {
+		if (!m_Atoms[nb]) {
 			m_Atoms[nb] = new gcp::Atom (m_pApp->GetCurZ(),
 				m_Points[nb].x / m_dZoomFactor,
 				m_Points[nb].y / m_dZoomFactor,
