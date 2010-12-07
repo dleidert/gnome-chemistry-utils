@@ -196,7 +196,7 @@ void Tool::Activate ()
 
 bool Tool::Deactivate ()
 {
-	return true;
+	return m_bPressed;
 }
 
 bool Tool::OnKeyPress (G_GNUC_UNUSED GdkEventKey *event)
@@ -231,7 +231,7 @@ bool Tool::CutSelection (G_GNUC_UNUSED GtkClipboard *clipboard)
 
 bool Tool::PasteSelection (G_GNUC_UNUSED GtkClipboard *clipboard)
 {
-	return false;
+	return m_bPressed;
 }
 
 bool Tool::OnReceive (G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED GtkSelectionData *data, G_GNUC_UNUSED int type)
@@ -241,12 +241,12 @@ bool Tool::OnReceive (G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED GtkSe
 
 bool Tool::OnUndo ()
 {
-	return false;
+	return m_bPressed;
 }
 
 bool Tool::OnRedo ()
 {
-	return false;
+	return m_bPressed;
 }
 
 void Tool::PushNode (G_GNUC_UNUSED xmlNodePtr node)

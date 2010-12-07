@@ -1,3 +1,8 @@
+Version 0.12.6
+	GChemPaint:
+		*Do not allow document changes using keyboard while
+		dragging the mouse. [#31812]
+
 Version 0.12.5
 	GChemPaint:
 		* Make line width change the bounds. [#31654]
@@ -6,7 +11,7 @@ Version 0.12.5
 		* Fix order in NMR spectrum integration.
 	libgcu:
 		* Fixed crash in Object::Clear(). (Fredora #637564)
-        * Test for exp10 and use pow instead if not available. [#31606]
+        	* Test for exp10 and use pow instead if not available. [#31606]
 	Other:
 		* Fixed space group 104.
 
