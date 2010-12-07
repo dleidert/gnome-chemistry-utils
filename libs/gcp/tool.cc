@@ -196,7 +196,7 @@ void Tool::Activate ()
 
 bool Tool::Deactivate ()
 {
-	return m_bPressed;
+	return !m_bPressed;
 }
 
 bool Tool::OnKeyPress (G_GNUC_UNUSED GdkEventKey *event)
