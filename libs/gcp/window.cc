@@ -745,7 +745,7 @@ bool Window::VerifySaved ()
 	} while ((res == GTK_RESPONSE_YES) && (m_Document->GetFileName () == NULL));
 	if (res == GTK_RESPONSE_NO)
 		m_Document->SetDirty (false);
-	return (res != GTK_RESPONSE_CANCEL);
+	return (res == GTK_RESPONSE_YES || res == GTK_RESPONSE_NO);
 }
 
 void Window::OnPageSetup ()

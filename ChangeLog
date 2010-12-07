@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-12-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/tool.cc: do not allow document changes using keyboard while
+	dragging the mouse. [#31812]
+	* libs/gcp/view.cc: ditto.
+	* libs/gcp/window.cc: ditto.
+
 2010-12-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/chaintool.cc: fixed more undo/redo issues.
 	* plugins/paint/cycles/cycletool.cc: ditto.

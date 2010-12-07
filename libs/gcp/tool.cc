@@ -143,6 +143,10 @@ bool Tool::Activate (bool bState)
 		return true;
 	} else {
 		if (Deactivate ()) {
+			if (m_Item) {
+				delete m_Item;
+				m_Item = NULL;
+			}
 			if (GTK_IS_WIDGET (m_pWidget))
 				gdk_window_set_cursor (gtk_widget_get_parent_window (m_pWidget), NULL);
 			m_pObject = NULL;
@@ -196,7 +200,7 @@ void Tool::Activate ()
 
 bool Tool::Deactivate ()
 {
-	return true;
+	return m_bPressed;
 }
 
 bool Tool::OnKeyPress (G_GNUC_UNUSED GdkEventKey *event)
@@ -231,7 +235,7 @@ bool Tool::CutSelection (G_GNUC_UNUSED GtkClipboard *clipboard)
 
 bool Tool::PasteSelection (G_GNUC_UNUSED GtkClipboard *clipboard)
 {
-	return false;
+	return m_bPressed;
 }
 
 bool Tool::OnReceive (G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED GtkSelectionData *data, G_GNUC_UNUSED int type)
@@ -241,12 +245,12 @@ bool Tool::OnReceive (G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED GtkSe
 
 bool Tool::OnUndo ()
 {
-	return false;
+	return m_bPressed;
 }
 
 bool Tool::OnRedo ()
 {
-	return false;
+	return m_bPressed;
 }
 
 void Tool::PushNode (G_GNUC_UNUSED xmlNodePtr node)

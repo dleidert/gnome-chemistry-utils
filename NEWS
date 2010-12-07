@@ -1,3 +1,8 @@
+Version 0.13.2
+	GChemPaint:
+		*Do not allow document changes using keyboard while
+		dragging the mouse. [#31812]
+
 Version 0.13.1
 	GSpectrum:
 		* Loads NUTS files.

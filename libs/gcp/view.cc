@@ -506,7 +506,7 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 		}
 		return true;
 	default: {
-			if ((event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 || event->keyval > 127)
+			if (m_Dragging || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) != 0 || event->keyval > 127)
 				break;
 			// Now try to get the atom at the cursor
 			unsigned min_bonds = (m_CurAtom)? m_CurAtom->GetTotalBondsNumber (): 0;
