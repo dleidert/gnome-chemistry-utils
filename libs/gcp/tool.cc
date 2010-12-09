@@ -93,6 +93,7 @@ void Tool::OnMotion (View* pView, Object* pObject, double x, double y, unsigned 
 	m_pData = (WidgetData*) g_object_get_data (G_OBJECT(m_pWidget), "data");
 	m_dZoomFactor = m_pView->GetZoomFactor ();
 	OnMotion ();
+	m_pWidget = NULL;
 }
 
 void Tool::OnLeaveNotify (View* pView, G_GNUC_UNUSED unsigned int state)
@@ -100,6 +101,7 @@ void Tool::OnLeaveNotify (View* pView, G_GNUC_UNUSED unsigned int state)
 	m_pView = pView;
 	m_pData = pView->GetData ();
 	OnLeaveNotify ();
+	m_pWidget = NULL;
 }
 
 void Tool::OnRelease (double x, double y, unsigned int state)
@@ -115,6 +117,7 @@ void Tool::OnRelease (double x, double y, unsigned int state)
 		m_Item = NULL;
 	}
 	m_pObject = NULL;
+	m_pWidget = NULL;
 	m_bChanged = false;
 	m_pView->EnsureSize ();
 }

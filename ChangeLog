@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-12-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/tool.cc: avoid crashes when activating a tool.
+
 2010-12-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/tool.cc: do not allow document changes using keyboard while
 	dragging the mouse. [#31812]
