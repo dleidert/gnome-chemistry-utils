@@ -1,6 +1,9 @@
 ##Text encoding: utf-8
 
 2010-12-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: use AC_CONFIG_HEADERS instead of AM_CONFIG_HEADER.
+
+2010-12-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fixed electrons lone pairs count for atoms with
 	an xtended octet.
 	* libs/gcp/tool.cc: fixed a crash in goffice plugin.
