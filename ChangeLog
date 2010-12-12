@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2010-12-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: use AC_CONFIG_HEADERS instead of AM_CONFIG_HEADER.
+	* libs/gcp/atom.cc: fixed electrons lone pairs count for atoms with
+	an xtended octet.
+	* libs/gcp/tool.cc: don't set Tool::m_Pressed when OnClicked return false.
+	* plugins/paint/residues/residues-dlg.cc: don't use deprecated
+	GtkNotebookPage.
+	* programs/calc/gchemcalc.cc: ditto.
+
 2010-12-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/tool.cc: avoid crashes when activating a tool.
 
