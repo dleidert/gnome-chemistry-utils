@@ -263,14 +263,20 @@ void Atom::Update ()
 	}
 	int nbonds = GetTotalBondsNumber ();
 	if (m_Valence > 0 && !m_Element->IsMetallic ()) {
-		m_nlp = (m_Element->GetValenceElectrons () - m_Valence) / 2;
+		m_nlp = (m_Element->GetValenceElectrons () - ((nbonds > m_Valence)? nbonds: m_Valence)) / 2;
 		if ((m_Charge > 0) && (m_nlp > 0)) m_nlp -= (m_Charge + 1) / 2;
 		else if (m_Charge < 0)
 			m_nlp -= m_Charge;
 		if (m_nlp < nexplp) // Can this occur ?
 			m_nlp = nexplp;
-		else if (m_nlp > m_ValenceOrbitals - nbonds - nexplu)
-			m_nlp = m_ValenceOrbitals - nbonds - nexplu;
+		else if (m_nlp > m_ValenceOrbitals - nbonds - nexplu) {
+			int max_bonds = Element::GetElement (m_Z)->GetMaxBonds ();
+			if (max_bonds > m_ValenceOrbitals) {
+				if (m_nlp > max_bonds - nbonds - nexplu)
+					m_nlp = max_bonds - nbonds - nexplu;// FIXME, might be wrong, but will this occur?
+			} else
+				m_nlp = m_ValenceOrbitals - nbonds - nexplu;
+		}
 		if (m_nlp < 0)
 			m_nlp = 0;
 		nb = m_Element->GetValenceElectrons () - 2 * m_nlp - m_Charge;

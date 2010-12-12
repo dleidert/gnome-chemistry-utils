@@ -51,7 +51,7 @@ static bool on_key_press (G_GNUC_UNUSED GtkWidget* widget, GdkEventKey* ev, gcpR
 	return dlg->OnKeyPress (ev);
 }
 
-static void on_page (G_GNUC_UNUSED GtkNotebook *book, G_GNUC_UNUSED GtkNotebookPage *page, int num_page, gcpResiduesDlg *dlg)
+static void on_page (G_GNUC_UNUSED GtkNotebook *book, G_GNUC_UNUSED void *page, int num_page, gcpResiduesDlg *dlg)
 {
 	dlg->SetPage (num_page);
 }

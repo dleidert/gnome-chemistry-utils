@@ -60,7 +60,6 @@ bool Tool::OnClicked (View* pView, Object* pObject, double x, double y, unsigned
 	m_x0 = m_x1 = lastx = x;
 	m_y0 = m_y1 = lasty = y;
 	m_nState = state;
-	m_bPressed = true;
 	m_pObject = pObject;
 	if (pObject)
 		m_pObjectGroup = pObject->GetGroup ();
@@ -69,7 +68,7 @@ bool Tool::OnClicked (View* pView, Object* pObject, double x, double y, unsigned
 	m_pData = (WidgetData*) g_object_get_data (G_OBJECT(m_pWidget), "data");
 	m_dZoomFactor = m_pView->GetZoomFactor ();
 	m_bAllowed = true;
-	return OnClicked ();
+	return (m_bPressed = OnClicked ());
 }
 
 void Tool::OnDrag (double x, double y, unsigned int state)
@@ -93,6 +92,7 @@ void Tool::OnMotion (View* pView, Object* pObject, double x, double y, unsigned 
 	m_pData = (WidgetData*) g_object_get_data (G_OBJECT(m_pWidget), "data");
 	m_dZoomFactor = m_pView->GetZoomFactor ();
 	OnMotion ();
+	m_pWidget = NULL;
 }
 
 void Tool::OnLeaveNotify (View* pView, G_GNUC_UNUSED unsigned int state)
@@ -100,6 +100,7 @@ void Tool::OnLeaveNotify (View* pView, G_GNUC_UNUSED unsigned int state)
 	m_pView = pView;
 	m_pData = pView->GetData ();
 	OnLeaveNotify ();
+	m_pWidget = NULL;
 }
 
 void Tool::OnRelease (double x, double y, unsigned int state)
@@ -115,6 +116,7 @@ void Tool::OnRelease (double x, double y, unsigned int state)
 		m_Item = NULL;
 	}
 	m_pObject = NULL;
+	m_pWidget = NULL;
 	m_bChanged = false;
 	m_pView->EnsureSize ();
 }

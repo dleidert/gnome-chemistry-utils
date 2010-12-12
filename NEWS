@@ -1,7 +1,10 @@
 Version 0.12.6
 	GChemPaint:
-		*Do not allow document changes using keyboard while
+		* Do not allow document changes using keyboard while
 		dragging the mouse. [#31812]
+		* Fix electrons lone pairs count.
+	GOffice component:
+		* Do not crash when selecting a tool.
 
 Version 0.12.5
 	GChemPaint:

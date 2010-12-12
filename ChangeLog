@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-12-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fixed electrons lone pairs count for atoms with
+	an xtended octet.
+	* libs/gcp/tool.cc: fixed a crash in goffice plugin.
+	* plugins/paint/residues/residues-dlg.cc: don't use deprecated
+	GtkNotebookPage.
+	* programs/calc/gchemcalc.cc: ditto.
+
 2010-12-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/tool.cc: do not allow document changes using keyboard while
 	dragging the mouse. [#31812]

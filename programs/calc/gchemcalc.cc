@@ -581,7 +581,7 @@ static void on_mode (GtkRadioAction *action, G_GNUC_UNUSED GtkRadioAction *curre
 	App->formula.SetParseMode (static_cast <FormulaParseMode> (gtk_radio_action_get_current_value (action)));
 }
 
-static void on_page (G_GNUC_UNUSED GtkNotebook *book, G_GNUC_UNUSED GtkNotebookPage *p, int page)
+static void on_page (G_GNUC_UNUSED GtkNotebook *book, G_GNUC_UNUSED void *p, int page)
 {
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/FileMenu/SaveAsImage"), page);
 	gtk_widget_set_sensitive (gtk_ui_manager_get_widget (App->GetUIManager (), "/MainMenu/FileMenu/PageSetup"), page);
