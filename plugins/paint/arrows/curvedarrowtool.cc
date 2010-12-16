@@ -1114,7 +1114,6 @@ void gcpCurvedArrowTool::ElectronToAdjBond ()
 
 void gcpCurvedArrowTool::ElectronToAtom ()
 {
-puts("electron to atom");
 	double x0 = 0., y0 = 0., x1 = 0., y1 = 0., x2 = 0., y2 = 0., x3 = 0., y3 = 0., x, y, a, dx, dy, l;
 	gcp::Electron *elec = static_cast <gcp::Electron *> (m_pObject);
 	gcp::Atom *start = static_cast <gcp::Atom *> (elec->GetParent ()),
