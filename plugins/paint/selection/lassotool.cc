@@ -70,11 +70,17 @@ bool gcpLassoTool::OnClicked ()
 		for (j = groups.begin (); j != jend; j++)
 			m_pOp->AddObject (*j, 0);
 		if (m_Rotate) {
-			// Calculate center of selection
-			gccv::Rect rect;
-			m_pData->GetSelectionBounds (rect);
-			m_cx = (rect.x0 + rect.x1) / 2.;
-			m_cy = (rect.y0 + rect.y1) / 2.;
+			// Try to use the object coordinates
+			if (m_pObject && m_pObject->GetCoords (&m_cx, &m_cy)) {
+				m_cx *= m_dZoomFactor;
+				m_cy *= m_dZoomFactor;
+			} else {
+				// Calculate center of selection
+				gccv::Rect rect;
+				m_pData->GetSelectionBounds (rect);
+				m_cx = (rect.x0 + rect.x1) / 2.;
+				m_cy = (rect.y0 + rect.y1) / 2.;
+			}
 			m_dAngle = 0.;
 			m_x0 -= m_cx;
 			m_y0 -= m_cy;
@@ -167,15 +173,10 @@ void gcpLassoTool::OnDrag ()
 		double dAngle;
 		m_x-= m_cx;
 		m_y -= m_cy;
-		if (m_x == 0) {
-			if (m_y == 0)
+		if (m_x == 0 && m_y == 0)
 				return;
-			dAngle = (m_y < 0) ? 90 : 270;
-		} else {
-			dAngle = atan (-m_y / m_x) * 180. / M_PI;
-			if (m_x < 0)
-				dAngle += 180.;
-			dAngle -= m_dAngleInit;
+		else {
+			dAngle = atan2 (-m_y, m_x) * 180. / M_PI - m_dAngleInit;
 			if (!(m_nState & GDK_CONTROL_MASK))
 				dAngle = rint(dAngle / 5) * 5;
 		}
@@ -255,6 +256,7 @@ void gcpLassoTool::OnRelease ()
 		for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
 			group = (*i)->GetGroup ();
 			groups.insert ((group)? group: *i);
+			(*i)->EmitSignal (gcp::OnChangedSignal);
 		}
 		jend = groups.end ();
 		for (j = groups.begin (); j != jend; j++)

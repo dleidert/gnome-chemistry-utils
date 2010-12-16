@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-12-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/arrows/curvedarrowtool.cc: removed a printf debug statement.
+	* plugins/paint/selection/lassotool.cc: allow rotation around an atom, and
+	call EmitSignal for all modified objects.
+
 2010-12-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: use AC_CONFIG_HEADERS instead of AM_CONFIG_HEADER.
 	* libs/gcp/atom.cc: fixed electrons lone pairs count for atoms with
