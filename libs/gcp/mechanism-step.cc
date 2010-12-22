@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "mechanism-step.h"
+#include "mechanism-arrow.h"
 #include <glib/gi18n.h>
 
 namespace gcp {
@@ -65,6 +66,12 @@ bool MechanismStep::OnSignal (gcu::SignalId Signal, G_GNUC_UNUSED gcu::Object *C
 	if (Signal == OnChangedSignal) {
 		if (m_bLoading)
 			return false;
+		std::map <std::string, Object *>::iterator i;
+		for (Object *obj = GetFirstChild (i); obj; obj = GetNextChild (i))
+			if (obj->GetType () == MechanismArrowType)
+				return true;
+		// if no arrow remains, delete this
+		delete this;
 	}
 	return true;
 }
