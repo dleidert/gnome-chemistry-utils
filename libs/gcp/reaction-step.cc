@@ -30,6 +30,7 @@
 #include "reaction-operator.h"
 #include "document.h"
 #include "mechanism-arrow.h"
+#include "molecule.h"
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
@@ -341,6 +342,13 @@ void ReactionStep::CleanChildren ()
 		}
 		arrows.pop_front ();
 	}
+}
+
+void ReactionStep::AddMolecule (Molecule *molecule, bool signal)
+{
+	new Reactant (this, molecule);
+	if (signal)
+		EmitSignal (OnChangedSignal);
 }
 
 }	//	namespace gcp

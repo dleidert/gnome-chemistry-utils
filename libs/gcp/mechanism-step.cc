@@ -25,6 +25,8 @@
 #include "config.h"
 #include "mechanism-step.h"
 #include "mechanism-arrow.h"
+#include "molecule.h"
+#include "reaction-step.h"
 #include <glib/gi18n.h>
 
 namespace gcp {
@@ -41,6 +43,17 @@ MechanismStep::MechanismStep (gcu::TypeId type):
 
 MechanismStep::~MechanismStep ()
 {
+	Object *parent = GetParent ();
+	SetParent (NULL); //
+	if (parent->GetType () == ReactionStepType) {
+		ReactionStep *step = static_cast <ReactionStep *> (parent);
+		Object *obj;
+		std::map <std::string, Object *>::iterator i;
+		while ((obj = GetFirstChild (i)))
+			if (obj->GetType () == gcu::MoleculeType)
+				step->AddMolecule (static_cast <Molecule *> (obj), false);
+		parent->EmitSignal (OnChangedSignal);
+	}
 }
 
 std::string MechanismStep::Name ()

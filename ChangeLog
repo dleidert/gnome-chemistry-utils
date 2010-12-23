@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-12-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: ensure that the displayed options page always
+	correpond to the active tool.
+	* libs/gcp/mechanism-step.cc: when destroying, reparent children when we
+	are inside a reaction.
+	* libs/gcp/reaction-step.cc: new ReactionStep:AddMolecule() method.
+	* libs/gcp/reaction-step.h: ditto.
+
 2010-12-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-step.cc: destroy a mechanismstep when the last arrow
 	is removed.

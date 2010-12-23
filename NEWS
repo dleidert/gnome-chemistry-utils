@@ -3,7 +3,9 @@ Version 0.12.6
 		* Do not allow document changes using keyboard while
 		dragging the mouse. [#31812]
 		* Fix electrons lone pairs count.
-		* Destroy a mechanismstep when the last arrow is removed.
+		* Destroy a mechanism step when the last arrow is removed.
+		* Display the appropriate option page when a tool is automatically
+		selected.
 	GOffice component:
 		* Do not crash when selecting a tool.
 

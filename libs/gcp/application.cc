@@ -473,6 +473,9 @@ void Application::ActivateTool (const string& toolname, bool activate)
 				GtkToggleToolButton* button = (GtkToggleToolButton*) ToolItems[toolname];
 				if (button && !gtk_toggle_tool_button_get_active (button))
 					gtk_toggle_tool_button_set_active (button, true);
+				Tools *ToolsBox = dynamic_cast<Tools*> (GetDialog ("tools"));
+				if (ToolsBox)
+					ToolsBox->OnSelectTool (m_pActiveTool);		
 			}
 		} else {
 			if (m_pActiveTool == m_Tools[toolname])

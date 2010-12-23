@@ -32,6 +32,7 @@
 /*!\file*/
 namespace gcp {
 
+class Molecule;
 class Reaction;
 class ReactionArrow;
 
@@ -115,6 +116,13 @@ not anymore relevant.
 @return the localized object generic name.
 */
 	std::string Name ();
+/*!
+@param molecule a molecule.
+@param signal wheter to emit the \a OnChangedSignal
+ 
+Adds amolecue to this step.
+*/
+	void AddMolecule (Molecule *molecule, bool signal = true);
 
 private:
 	void CleanChildren ();
