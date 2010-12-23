@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-12-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: ensure that the displayed options page always
+	correpond to the active tool.
+	* libs/gcp/mechanism-step.cc: when destroying, reparent children when we
+	are inside a reaction.
+	* libs/gcp/reaction-step.cc: new ReactionStep:AddMolecule() method.
+	* libs/gcp/reaction-step.h: ditto.
+
 2010-12-22  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-step.cc: destroy a mechanismstep when the last arrow
 	is removed.
@@ -12,7 +20,7 @@
 2010-12-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: use AC_CONFIG_HEADERS instead of AM_CONFIG_HEADER.
 	* libs/gcp/atom.cc: fixed electrons lone pairs count for atoms with
-	an xtended octet.
+	an extended octet.
 	* libs/gcp/tool.cc: don't set Tool::m_Pressed when OnClicked return false.
 	* plugins/paint/residues/residues-dlg.cc: don't use deprecated
 	GtkNotebookPage.
