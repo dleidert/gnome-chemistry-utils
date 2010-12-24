@@ -465,6 +465,11 @@ void Fragment::AddItem ()
 		m_Atom->SetChargeItem (text);
 	} else
 		m_Atom->SetChargeItem (NULL);
+	// update the size
+	gccv::Rect rect;
+	m_TextItem->GetBounds (&rect, NULL);
+	m_length = rect.x1 - rect.x0;
+	m_height = rect.y1 - rect.y0;
 }
 
 void Fragment::UpdateItem ()
@@ -1072,8 +1077,6 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 		return NULL;
 	if (m_Atom->GetBondsNumber () || m_Atom->GetCharge ())
 		return m_Atom;
-	if (!pDoc)
-		return NULL;
 	double x0, y0;
 	x0 = (x - m_x) * pTheme->GetZoomFactor () + m_lbearing;
 	y0 = (y - m_y) * pTheme->GetZoomFactor () + m_ascent;
@@ -1082,6 +1085,8 @@ Object* Fragment::GetAtomAt (double x, double y, G_GNUC_UNUSED double z)
 	unsigned index, trailing;
 	int cur;
 	index = m_TextItem->GetIndexAt (x0, y0);
+	if (index > 0)
+		index--;
 	char c = m_buf[index];
 	cur = index;
 	while ((c >= 'a') && (c <= 'z') && cur >= 0) {

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: fragments accept local charges again.
+	* libs/gcp/mechanism-step.cc: better fix.
+	* plugins/paint/arrows/curvedarrowtool.cc: fixed undo/redo.
+
 2010-12-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: ensure that the displayed options page always
 	correpond to the active tool.
