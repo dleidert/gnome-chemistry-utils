@@ -6,6 +6,8 @@ Version 0.12.6
 		* Destroy a mechanism step when the last arrow is removed.
 		* Display the appropriate option page when a tool is automatically
 		selected.
+		* Fragments accept local charges again.
+		* Fix undo/redo after adding a curved arrow.
 	GOffice component:
 		* Do not crash when selecting a tool.
 

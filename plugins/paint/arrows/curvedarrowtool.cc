@@ -482,8 +482,9 @@ void gcpCurvedArrowTool::OnRelease ()
 	if (m_SetEnd)
 		a->SetEndAtNewBondCenter (m_EndAtBondCenter);
 	m_pView->Update (a);
-	
-	op->AddObject (obj, 1);
+
+	gcu::Object *group = obj->GetGroup ();
+	op->AddObject ((group)? group: obj, 1);
 	pDoc->FinishOperation ();
 }
 

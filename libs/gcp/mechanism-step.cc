@@ -43,17 +43,6 @@ MechanismStep::MechanismStep (gcu::TypeId type):
 
 MechanismStep::~MechanismStep ()
 {
-	Object *parent = GetParent ();
-	SetParent (NULL); //
-	if (parent->GetType () == ReactionStepType) {
-		ReactionStep *step = static_cast <ReactionStep *> (parent);
-		Object *obj;
-		std::map <std::string, Object *>::iterator i;
-		while ((obj = GetFirstChild (i)))
-			if (obj->GetType () == gcu::MoleculeType)
-				step->AddMolecule (static_cast <Molecule *> (obj), false);
-		parent->EmitSignal (OnChangedSignal);
-	}
 }
 
 std::string MechanismStep::Name ()
@@ -80,11 +69,52 @@ bool MechanismStep::OnSignal (gcu::SignalId Signal, G_GNUC_UNUSED gcu::Object *C
 		if (m_bLoading)
 			return false;
 		std::map <std::string, Object *>::iterator i;
+		std::set <Object *> molecules;
 		for (Object *obj = GetFirstChild (i); obj; obj = GetNextChild (i))
-			if (obj->GetType () == MechanismArrowType)
-				return true;
-		// if no arrow remains, delete this
-		delete this;
+			if (obj->GetType () == MechanismArrowType) {
+				MechanismArrow *arrow = static_cast <MechanismArrow *> (obj);
+				Object *mol = arrow->GetSource ()->GetMolecule ();
+				if (mol)
+					molecules.insert (mol);
+				mol = arrow->GetTarget ()->GetMolecule ();
+				if (mol)
+					molecules.insert (mol);
+			}
+		if (molecules.empty ()) {
+			// if no arrow remains, delete this
+			Object *parent = GetParent ();
+			Object *obj;
+			SetParent (NULL); //
+			if (parent->GetType () == ReactionStepType) {
+				ReactionStep *step = static_cast <ReactionStep *> (parent);
+				while ((obj = GetFirstChild (i)))
+					if (obj->GetType () == gcu::MoleculeType)
+						step->AddMolecule (static_cast <Molecule *> (obj), false);
+			} else
+				while ((obj = GetFirstChild (i)))
+					parent->AddChild (obj);
+			delete this;
+			parent->EmitSignal (OnChangedSignal);
+			return false;
+		} else {
+			Object *parent = GetParent ();
+			Object *obj;
+			ReactionStep *step = static_cast <ReactionStep *> (parent);
+			std::set <Object *> orphans;
+			std::set <Object *>::iterator j, end = molecules.end ();
+			// search for molecules without a mechanism arrow
+			for (obj = GetFirstChild (i); obj; obj = GetNextChild (i))
+				if (molecules.find (obj) == end)
+					orphans.insert (obj);
+			// now remove orphans from this
+			j = orphans.end ();
+			for (j = orphans.begin (); j != end; j++) {
+				if (step)
+					step->AddMolecule (static_cast <Molecule *> (*j), false);
+				else
+					parent->AddChild (*j);
+			}
+		}
 	}
 	return true;
 }
