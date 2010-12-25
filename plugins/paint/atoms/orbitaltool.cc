@@ -168,7 +168,7 @@ void gcpOrbitalTool::OnRelease ()
 	if (!m_Item || !m_Item->GetVisible ())
 		return;
 	gcp::Atom *atom = static_cast <gcp::Atom *> (m_pObject);
-	gcu::Object *obj = m_pObject->GetParent ();
+	gcu::Object *obj = m_pObject->GetGroup ();
 	gcp::Document* doc = m_pView->GetDoc ();
 	gcp::Operation* op = doc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 	op->AddObject (obj, 0);

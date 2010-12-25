@@ -8,6 +8,8 @@ Version 0.12.6
 		selected.
 		* Fragments accept local charges again.
 		* Fix undo/redo after adding a curved arrow.
+		* Serialize electrons Ids.
+		* Make orbitals on fragments persistent.
 	GOffice component:
 		* Do not crash when selecting a tool.
 

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2010-12-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: save all children.
+	* libs/gcp/electron.cc: serialize the Id.
+	* libs/gcp/fragment-atom.cc: serialize an orbital child if any.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/reaction-step.cc: make GetYAlign() safer. 
+	* plugins/paint/atoms/orbitaltool.cc: fixed one more undo/redo issue.
+
 2010-12-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: fragments accept local charges again.
 	* libs/gcp/mechanism-step.cc: better fix.

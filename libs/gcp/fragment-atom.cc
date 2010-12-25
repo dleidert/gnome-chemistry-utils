@@ -112,6 +112,7 @@ xmlNodePtr FragmentAtom::Save (xmlDocPtr xml) const
 	strncpy (buf, GetSymbol (), sizeof (buf));
 	xmlNodeSetContent (node, (xmlChar*) buf);
 	
+	SaveChildren (xml, node);
 	if (m_Charge) {
 		snprintf (buf, sizeof (buf), "%d", m_Charge);
 		xmlNewProp (node, (xmlChar*) "charge", (xmlChar*) buf);
@@ -175,6 +176,12 @@ bool FragmentAtom::Load (xmlNodePtr node)
 		SetId (buf);
 		xmlFree (buf);
 	}
+	for (xmlNodePtr child = node->children; child; child = child->next)
+		if (!strcmp (reinterpret_cast <char const *> (child->name), "orbital")) {
+			Object *obj = CreateObject ("orbital", this);
+			if (!obj->Load (child))
+				return false;
+		} else
 	buf = (char*) xmlNodeGetContent (node);
 	if (buf) {
 		m_Z = Element::Z (buf);
