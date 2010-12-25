@@ -202,10 +202,10 @@ void ReactionStep::OnLoaded ()
 double ReactionStep::GetYAlign ()
 {
 	map<string, Object*>::iterator i;
-	GetFirstChild (i);
-	while ((*i).second->GetType () != gcu::ReactantType && (*i).second->GetType () != MechanismStepType)
-		GetNextChild (i);
-	return ((*i).second)? (*i).second->GetYAlign (): 0.;
+	Object *obj = GetFirstChild (i);
+	while (obj && obj->GetType () != gcu::ReactantType && obj->GetType () != MechanismStepType)
+		obj = GetNextChild (i);
+	return (obj)? obj->GetYAlign (): 0.;
 }
 
 bool ReactionStep::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)

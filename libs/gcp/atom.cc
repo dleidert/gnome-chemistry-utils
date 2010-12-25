@@ -850,17 +850,8 @@ void Atom::NotifyPositionOccupation (unsigned char pos, bool occupied)
 xmlNodePtr Atom::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = gcu::Atom::Save (xml), child;
-	if (node) {
-	// Save electrons
-		map<string, Object*>::const_iterator i;
-		Electron* electron = (Electron*) GetFirstChild (i);
-		while (electron){ 
-			child = electron->Save (xml);
-			if (child)
-				xmlAddChild (node, child);
-			electron = (Electron*) GetNextChild (i);
-		}
-	}
+	if (node)
+		SaveChildren (xml, node);
 	if (m_Charge && !m_ChargeAutoPos) {
 		char *buf;
 		if (m_ChargePos) {

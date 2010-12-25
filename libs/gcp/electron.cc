@@ -160,6 +160,7 @@ void Electron::SetSelected (int state)
 xmlNodePtr Electron::Save (xmlDocPtr xml) const
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, (xmlChar*) ((m_IsPair)? "electron-pair": "electron"), NULL);
+	SaveId (node);
 	char *buf;
 	if (m_Pos) {
 		char const *buf;
@@ -207,6 +208,8 @@ xmlNodePtr Electron::Save (xmlDocPtr xml) const
 	
 bool Electron::Load (xmlNodePtr node)
 {
+	if (!Object::Load (node))
+		return false;
 	char *buf = (char*) xmlGetProp (node, (xmlChar*) "position");
 	m_Pos = 0;
 	if (buf) {

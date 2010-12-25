@@ -688,6 +688,7 @@ bool Fragment::Load (xmlNodePtr node)
 	char* tmp;
 	double size = (double) pTheme->GetFontSize () / PANGO_SCALE;
 	gccv::TextTag *tag;
+	m_Atom->SetId ("a0"); // avoids confusion with another atom while loading
 	while (child) {
 		if (!strcmp ((const char*) child->name, "text")) {
 			tmp = (char*) xmlNodeGetContent (child);
@@ -695,13 +696,13 @@ bool Fragment::Load (xmlNodePtr node)
 				m_buf += tmp;
 			xmlFree (tmp);
 		} else if (!strcmp ((const char*) child->name, "atom")) {
+			AddChild (m_Atom);
 			if (!m_Atom->Load (child))
 				return false;
 			m_BeginAtom = m_buf.length ();
 			m_buf += m_Atom->GetSymbol();
 			m_Atom->SetCoords (m_x, m_y);
 			m_EndAtom = m_buf.length ();
-			AddChild (m_Atom);
 		} else if (!strcmp ((const char*) child->name, "residue")) {
 			// replace the atom by a residue
 			map<gcu::Atom*, gcu::Bond*>::iterator i;
