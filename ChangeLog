@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-12-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: fixed a charge automatic position issue.
+	* libs/gcp/mechanism-arrow.cc: add a default Id.
+	* libs/gcu/document.cc: fixed a major loading issue.
+
 2010-12-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: save all children.
 	* libs/gcp/electron.cc: serialize the Id.
