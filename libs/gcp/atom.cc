@@ -437,6 +437,8 @@ gccv::Anchor Atom::GetChargePosition (unsigned char& Pos, double Angle, double& 
 	double angle;
 	if (m_ChargePos != 0xff)
 		m_OccupiedPos &= ~m_ChargePos;
+	if (m_ChargeAutoPos) // reset the charge position
+		m_ChargePos = 0xff;
 	if (!m_AvailPosCached)
 		UpdateAvailablePositions ();
 	if (m_ChargePos != 0xff)
@@ -849,7 +851,7 @@ void Atom::NotifyPositionOccupation (unsigned char pos, bool occupied)
 	
 xmlNodePtr Atom::Save (xmlDocPtr xml) const
 {
-	xmlNodePtr node = gcu::Atom::Save (xml), child;
+	xmlNodePtr node = gcu::Atom::Save (xml);
 	if (node)
 		SaveChildren (xml, node);
 	if (m_Charge && !m_ChargeAutoPos) {

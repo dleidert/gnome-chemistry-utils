@@ -10,6 +10,8 @@ Version 0.12.6
 		* Fix undo/redo after adding a curved arrow.
 		* Serialize electrons Ids.
 		* Make orbitals on fragments persistent.
+		* Fix loading of mechanism arrows starting at an Electron.
+		* Fixed a charge automatic position issue.
 	GOffice component:
 		* Do not crash when selecting a tool.
 

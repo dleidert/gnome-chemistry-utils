@@ -53,6 +53,7 @@ MechanismArrow::MechanismArrow ():
 	m_Pair (true),
 	m_EndAtNewBondCenter (false)
 {
+	SetId ("ma1");
 }
 
 MechanismArrow::~MechanismArrow ()
@@ -183,6 +184,8 @@ xmlNodePtr MechanismArrow::Save (xmlDocPtr xml) const
 bool MechanismArrow::Load (xmlNodePtr node)
 {
 	gcu::Document *doc = GetDocument ();
+	if (!Object::Load (node))
+	    return false;
 	xmlChar *buf = xmlGetProp (node, reinterpret_cast <xmlChar const *> ("source"));
 	doc->SetTarget (reinterpret_cast <char *> (buf), &m_Source, GetParent (), this);
 	if (m_Source)

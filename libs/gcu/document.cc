@@ -66,22 +66,26 @@ gchar* Document::GetNewId (gchar* id, bool Cache)
 	if (s.size ())
 		j = atoi (s.c_str ());
 	char* key = g_strdup (buf);
-	while (snprintf (buf + i, 16, "%d", j++), GetDescendant (buf) != NULL) ;
+	while (snprintf (buf + i, 16, "%d", j), GetDescendant (buf) != NULL)
+		j++;
 	Id = g_strdup_printf ("%d", j);
-	if (Cache) {
-		m_TranslationTable[key] = Id;
-		m_TranslationTable[id] = buf;
+	Object *obj = GetDescendant (id);
+	if (obj && m_DirtyObjects.find (obj) == m_DirtyObjects.end ()) { //ensure the existing object is not new
+		if (Cache) {
+			m_TranslationTable[key] = Id;
+			m_TranslationTable[id] = buf;
+		}
+		if (m_PendingTable.size () > 0) {
+			std::map <std::string, list <PendingTarget> >::iterator it, end = m_PendingTable.end ();
+			if ((it = m_PendingTable.find (id)) != end && m_PendingTable.find (buf) == end) {
+				// Hmm, this might be unsecure if several imported objects have the same Id
+				m_PendingTable[buf] = (*it).second;
+				m_PendingTable.erase (it);
+			}
+		}
 	}
 	g_free (Id);
 	g_free (key);
-	if (m_PendingTable.size () > 0) {
-		std::map <std::string, list <PendingTarget> >::iterator it, end = m_PendingTable.end ();
-		if ((it = m_PendingTable.find (id)) != end) {
-			// Hmm, this might be unsecure if several imported objects have the same Id
-			m_PendingTable[buf] = (*it).second;
-			m_PendingTable.erase (it);
-		}
-	}
 	return buf;
 }
 
@@ -134,6 +138,7 @@ bool Document::Loaded () throw (LoaderError)
 		}
 	}
 	m_PendingTable.clear ();
+	m_DirtyObjects.clear ();
 	return count > 0;
 }
 
