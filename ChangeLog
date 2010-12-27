@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2010-12-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/widgetdata.cc: fixed object items dimension evaluation.
+
 2010-12-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fix a charge automatic porition issue
 	* libs/gcp/electron.cc: ensure mechanism arrow starting from en electron is

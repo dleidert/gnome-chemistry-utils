@@ -328,7 +328,8 @@ void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect &rect) const
 	gccv::ItemClient const *client, *child_client;
 	double x1, y1, x2,  y2;
 	client = dynamic_cast <gccv::ItemClient const *> (obj);
-	if (client && client->GetItem ()) {
+	gccv::Item const *item;
+	if (client && (item = client->GetItem ()) && item->GetParent ()->GetParent () == NULL) {
 		client->GetItem ()->GetBounds (x1, y1, x2, y2);
 		if (x2 > 0.) {
 			if (!go_finite (rect.x0)) {
