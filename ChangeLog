@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2010-12-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/item.cc: fixed object item dimension evaluation.
+	* libs/gccv/item.h: ditto.
+	* libs/gcp/widgetdata.cc: ditto.
+
 2010-12-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: fixed a charge automatic position issue.
 	* libs/gcp/mechanism-arrow.cc: add a default Id.

@@ -378,8 +378,10 @@ void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect &rect) const
 	gccv::ItemClient const *client, *child_client;
 	double x1, y1, x2,  y2;
 	client = dynamic_cast <gccv::ItemClient const *> (obj);
-	if (client && client->GetItem ()) {
-		client->GetItem ()->GetBounds (x1, y1, x2, y2);
+	gccv::Item const *item;
+	// will not work if the object item is not top level, but can this happen?
+	if (client && (item = client->GetItem ()) && item->IsTopLevel ()) {
+		item->GetBounds (x1, y1, x2, y2);
 		if (x2 > 0.) {
 			if (!go_finite (rect.x0)) {
 				rect.x0 = x1;

@@ -191,6 +191,10 @@ returned the other Draw() method is called.
 Moves the Item.
 */
 	virtual void Move (double x, double y);
+/*!
+@return whether the item parent is the canvas root item.
+*/
+	bool IsTopLevel () const;
 
 protected:
 /*!

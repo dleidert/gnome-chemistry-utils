@@ -141,4 +141,9 @@ void Item::SetVisible (bool visible)
 	}
 }
 
+bool Item::IsTopLevel () const
+{
+	return m_Parent == m_Canvas->GetRoot ();
+}
+
 }
