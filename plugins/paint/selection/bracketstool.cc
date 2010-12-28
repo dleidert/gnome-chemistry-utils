@@ -138,6 +138,7 @@ void gcpBracketsTool::OnRelease ()
 {
 	if (Evaluate ()) {
 	}
+	m_pData->UnselectAll ();
 }
 
 GtkWidget *gcpBracketsTool::GetPropertyPage ()
@@ -201,16 +202,28 @@ void gcpBracketsTool::Activate ()
 bool gcpBracketsTool::Evaluate ()
 {
 	gcu::Object *obj;
+	if (m_pData->SelectedObjects.size () == 0)
+		return false;
 	if (m_pData->SelectedObjects.size () == 1) {
 		obj = m_pData->SelectedObjects.front ();
 		unsigned type = obj->GetType ();
 		if (type == gcu::MoleculeType || type == gcp::ReactionStepType ||
-		    type == gcp::MechanismStepType || type == GroupType) {
+		    type == gcp::MechanismStepType || type == GroupType ||
+		    type == gcu::MesomeryType) {
 			// Evaluate bounds
 			m_pData->GetObjectBounds (obj, &m_ActualBounds);
 			return true;
 		}
-	} else {
 	}
+	std::list <gcu::Object*>::iterator i = m_pData->SelectedObjects.begin (),
+									   end = m_pData->SelectedObjects.end ();
+	gcu::Object *molecule = (*i)->GetMolecule ();
+	if (molecule != NULL) {
+		for (i++; i != end; i++)
+			if ((*i)->GetMolecule () != molecule)
+				goto not_a_molecule;
+		// now we need to test whether all selected atoms are connected (is this true?)
+	}
+not_a_molecule:
 	return false;
 }

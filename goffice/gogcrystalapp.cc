@@ -62,12 +62,8 @@ gcu::Document *GOGCrystalApplication::ImportDocument (const string& mime_type, c
 		}
 		doc = new gcr::Document (this);
 		gtk_widget_show_all (doc->GetView ()->GetWidget ());
-		bool result = doc->Load (xml->children);
+		doc->ParseXMLTree (xml->children);
 		xmlFreeDoc (xml);
-		if (!result) {
-			delete doc;
-			return NULL;
-		}
 	} else {
 	}
 	return (doc);
@@ -136,10 +132,8 @@ bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *dat
 
 void GOGCrystalApplication::Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height)
 {
-/*	double zoom = MAX (width / gogcu->parent.width, height / gogcu->parent.height) / 96.;
-	cairo_scale (cr, zoom, zoom);
-	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
-	doc->GetView ()->Render (cr);*/
+	gcr::Document *doc = static_cast <gcr::Document *> (gogcu->document);
+	doc->GetView ()->RenderToCairo (cr, width, height);
 }
 
 void GOGCrystalApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)

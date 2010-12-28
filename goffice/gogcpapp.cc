@@ -148,9 +148,11 @@ bool GOGcpApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data, in
 void GOGcpApplication::Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height)
 {
 	double zoom = MAX (width / gogcu->parent.width, height / gogcu->parent.height) / 96.;
+	cairo_save (cr);
 	cairo_scale (cr, zoom, zoom);
 	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
 	doc->GetView ()->Render (cr);
+	cairo_restore (cr);
 }
 
 void GOGcpApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)

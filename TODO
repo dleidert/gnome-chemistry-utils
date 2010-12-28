@@ -29,7 +29,6 @@
 		- electron vacancies (?).
 	* Multi-steps reactions (0.14?).
 	* Scriptability (?).
-	* Enhance selection (0.14?).
 	* Enhance fragments (0.14+).
 	* Change cursor according to situation (?).
 	* Allow associating several objects with reaction arrows (0.14?).
@@ -40,7 +39,7 @@
 * Spectrum viewer:
 	* support FFT for FIDs.
 	* support inclusion of zoomed partials.
-	* import nuts and varian files (0.14?)
+	* import varian files (0.14?)
 
 * GCCV Library:
 	* add new items as needed.

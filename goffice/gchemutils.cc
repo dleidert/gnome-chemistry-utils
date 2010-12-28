@@ -111,13 +111,6 @@ go_gchemutils_component_mime_type_set (GOComponent *component)
 }
 
 static void
-go_gchemutils_component_set_window (GOComponent *component)
-{
-	if (!strcmp (component->mime_type, "application/x-gcrystal")) {
-	}
-}
-
-static void
 go_gchemutils_component_finalize (GObject *obj)
 {
 	GOGChemUtilsComponent *gogcu = GO_GCHEMUTILS_COMPONENT (obj);
@@ -153,7 +146,6 @@ go_gchemutils_component_class_init (GOComponentClass *klass)
 	klass->render = go_gchemutils_component_render;
 	klass->edit = go_gchemutils_component_edit;
 	klass->mime_type_set = go_gchemutils_component_mime_type_set;
-	klass->set_window = go_gchemutils_component_set_window;
 }
 
 GSF_DYNAMIC_CLASS (GOGChemUtilsComponent, go_gchemutils_component,
