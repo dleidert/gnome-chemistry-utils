@@ -24,6 +24,9 @@
 
 #include "config.h"
 #include "brackets.h"
+#include <gcp/mechanism-step.h>
+#include <gcp/reaction-step.h>
+#include <gcu/application.h>
 #include <gcu/document.h>
 #include <sstream>
 #include <cstring>
@@ -36,6 +39,7 @@ static gcu::Object *last_loaded;
 Brackets::Brackets (BracketsTypes type): gcu::Object (BracketsType), ItemClient ()
 {
 	m_Type = type;
+	m_Valid = false;
 }
 
 Brackets::~Brackets ()
@@ -115,7 +119,35 @@ void Brackets::SetSelected (int state)
 
 void Brackets::SetEmbeddedObjects (std::set <gcu::Object *> objects)
 {
+	// evaluate what objects are really there, and add links to them
+	if (objects.size () == 0) // that case the brackets are not valid
+		return;
+	gcu::Object *obj;
+	std::set <gcu::Object*>::iterator i = objects.begin (),
+									   end = objects.end ();
+	std::set <gcu::TypeId> const &rules = GetApplication ()->GetRules (BracketsType, gcu::RuleMayContain);
+
+
+	if (objects.size () == 1) {
+		obj = *i;
+		gcu::TypeId type = obj->GetType ();
+		if (type != gcu::MoleculeType && type != gcp::ReactionStepType &&
+		    type != gcp::MechanismStepType && rules.find (type) == rules.end ())
+				return;
+		m_Decorations = BracketSuperscript;
+	} else {
+		obj = (*i)->GetMolecule ();
+		if (obj != NULL) {
+			for (i++; i != end; i++)
+				if ((*i)->GetMolecule () != obj)
+					return;
+			// now we need to test whether all selected atoms are connected (is this true?)
+		} else
+			return; // may be we are missing some cases where the enclosed group is valid
+		m_Decorations = BracketSubscript;
+	}
 	m_EmbeddedObjects = objects;
+	m_Valid = true;
 }
 
 }

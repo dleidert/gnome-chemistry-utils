@@ -29,6 +29,7 @@
 #include <gcu/ui-builder.h>
 #include <gcp/application.h>
 #include <gcp/atom.h>
+#include <gcp/brackets.h>
 #include <gcp/bond.h>
 #include <gcp/document.h>
 #include <gcp/fontsel.h>
@@ -204,12 +205,13 @@ bool gcpBracketsTool::Evaluate ()
 	gcu::Object *obj;
 	if (m_pData->SelectedObjects.size () == 0)
 		return false;
+	std::set <gcu::TypeId> const &rules = m_pApp->GetRules (gcp::BracketsType, gcu::RuleMayContain);
 	if (m_pData->SelectedObjects.size () == 1) {
 		obj = m_pData->SelectedObjects.front ();
-		unsigned type = obj->GetType ();
+		gcu::TypeId type = obj->GetType ();
 		if (type == gcu::MoleculeType || type == gcp::ReactionStepType ||
-		    type == gcp::MechanismStepType || type == GroupType ||
-		    type == gcu::MesomeryType) {
+		    type == gcp::MechanismStepType || type == gcu::MesomeryType ||
+		    rules.find (type) != rules.end ()) {
 			// Evaluate bounds
 			m_pData->GetObjectBounds (obj, &m_ActualBounds);
 			return true;

@@ -50,6 +50,11 @@ typedef enum
 	BracketsTypeCurly
 } BracketsTypes;
 
+typedef enum {
+	BracketSubscript = 1,
+	BracketSuperscript = 2
+} BracketsDecorations;
+
 /*!\class Braclets gcp/brackets.h
 */
 class Brackets: public gcu::Object, public gccv::ItemClient
@@ -94,8 +99,10 @@ For brackets, OnLoaded() is called each time an embedded object is added.
 
 private:
 	std::set <gcu::Object *> m_EmbeddedObjects;
+	bool m_Valid;
 
 GCU_PROP (BracketsTypes, Type)
+GCU_RO_PROP (unsigned, Decorations)
 };
 
 }	//	namespace gcp

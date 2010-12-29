@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2010-12-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/brackets.cc: partial implementation of SetEmbeddedObjects();
+	* libs/gcp/brackets.h: ditto.
+	* plugins/paint/selection/bracketstool.cc: ditto.
+	* plugins/paint/selection/plugin.cc: ditto.
+
 2010-12-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gchemutils.cc: don't use the GdkWindow related API.
 	* goffice/gogcpapp.cc: safer use of cairo.

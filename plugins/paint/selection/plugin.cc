@@ -25,6 +25,7 @@
 #include "config.h"
 #include "plugin.h"
 #include <gcp/application.h>
+#include <gcp/brackets.h>
 #include <gcp/molecule.h>
 #include "selectiontool.h"
 #include "lassotool.h"
@@ -100,4 +101,5 @@ void gcpSelectionPlugin::Populate (gcp::Application* App)
 	new gcpEraserTool (App);
 	new gcpBracketsTool (App);
 	App->ActivateTool ("Select", true);
+	App->AddRule (gcp::BracketsType, gcu::RuleMayContain, GroupType);
 }
