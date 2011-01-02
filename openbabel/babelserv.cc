@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "socket.h"
 #include <errno.h>
 #include <locale.h>
 #include <netinet/in.h>
@@ -31,10 +32,15 @@
 #include <sys/un.h>
 #include <time.h>
 #include <unistd.h>
+#include <map>
+#include <set>
+#include <vector> 
 
 int listening_socket;
 time_t timeout = 1800;
 time_t endtime;
+unsigned max_socket = 10;
+std::map <int, BabelSocket *> sockets;
 
 int main (int argc, char *argv[])
 {
@@ -72,24 +78,54 @@ int main (int argc, char *argv[])
 	}
 
 	endtime = time (NULL) + timeout;
-	struct pollfd fds;
-	fds.fd = listening_socket;
-	fds.events = POLLIN;
-	fds.revents = 0;
+	std::vector <struct pollfd> fds;
+	struct pollfd _fds;
+	fds.reserve (max_socket); // should be large enough
+	fds.resize (1);
+	fds[0].fd = listening_socket;
+	fds[0].events = POLLIN;
+	fds[0].revents = 0;
 	struct sockaddr_in fromend;
 	unsigned lng_address;
 	int service_socket;
+	std::set <int> deleted;
 
 	while (time (NULL) < endtime) {
-		if (poll (&fds, 1, 1000) && fds.revents == POLLIN) {
-			service_socket = accept (listening_socket, (struct sockaddr*) &fromend, &lng_address);
-			if (service_socket == -1 && errno == EINTR)	// a signal was received
-				continue ;
-			if (service_socket == -1) {	// fatal error
-				perror ("accept") ;
-				return -4;
+		if (poll (&fds[0], fds.size (), 1000) > 0) {
+			if (fds[0].revents == POLLIN) {
+				service_socket = accept (listening_socket, (struct sockaddr*) &fromend, &lng_address);
+				if (service_socket == -1 && errno == EINTR)	// a signal was received
+					continue ;
+				if (service_socket == -1) {	// fatal error
+					perror ("accept") ;
+					return -4;
+				}
+				// TODO: start listening the client
+				_fds.fd = service_socket;
+				_fds.events = POLLIN | POLLRDHUP;
+				_fds.revents = 0;
+				fds.push_back (_fds);
+				sockets[service_socket] = new BabelSocket (service_socket);
 			}
-			// TODO: start listening the client
+			for (unsigned i = 1; i < fds.size (); i++) {
+				if (fds[i].revents & POLLIN) {
+					if (sockets[fds[i].fd]->Read () == -1)
+						deleted.insert (i);
+				}
+				if (fds[i].revents & POLLRDHUP) {
+					delete sockets[fds[i].fd];
+					sockets.erase (fds[i].fd);
+					deleted.insert (i);
+				}
+				fds[i].revents = 0;
+			}
+			// remove closed sockets
+			if (deleted.size () > 0) {
+				std::set <int>::iterator it, end = deleted.end ();
+				for (it = deleted.begin (); it != end; it++)
+						fds.erase (fds.begin () + *it);
+			}
+			endtime = time (NULL) + timeout; // restart time counter from now
 		}
 	}
 

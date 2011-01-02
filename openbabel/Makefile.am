@@ -8,4 +8,6 @@ LIBS = \
 	$(openbabel_LIBS)
 
 babelserver_SOURCES = \
-	babelserv.cc
+	babelserv.cc	\
+	socket.cc	\
+	socket.h

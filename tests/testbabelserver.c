@@ -30,18 +30,20 @@
 
 int main ()
 {
-	char *args[] = {"babelserver", NULL};
-	GError *error = NULL;
-	g_spawn_async (NULL, (char **) args, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL,&error);
-	if (error) {
-		g_error_free (error);
-		error = NULL;
-	}
 	struct stat statbuf;
-	while (stat ("/tmp/babelsocket", &statbuf));
+	if (stat ("/tmp/babelsocket", &statbuf)) {
+		char *args[] = {"babelserver", NULL};
+		GError *error = NULL;
+		g_spawn_async (NULL, (char **) args, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
+		if (error) {
+			g_error_free (error);
+			error = NULL;
+		}
+		while (stat ("/tmp/babelsocket", &statbuf));
+	}
 	int babelsocket = socket (AF_UNIX, SOCK_STREAM, 0);
 	if (babelsocket == -1) {
-		perror("Could not create the socket");
+		perror ("Could not create the socket");
 		return FALSE;
 	}
 	struct sockaddr_un adr_serv;
@@ -51,6 +53,9 @@ int main ()
 		perror ("Connexion failed");
 		return FALSE;
 	}
+	char const *buf = "-i chemical/x-xyz -o chemical/x-inchi ";
+	write (babelsocket, buf, strlen (buf));
 	// TODO: write the code
+	while (1); // for now don't close the socket
 	return 0;
 }

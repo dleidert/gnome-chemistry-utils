@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* openbabel/Makefile.am: add new files.
+	* openbabel/babelserv.cc: start read code.
+	* openbabel/socket.cc: new class.
+	* openbabel/socket.h: ditto.
+	* tests/testbabelserver.c (main): start sending options.
+
 2010-12-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: partial implementation of SetEmbeddedObjects();
 	* libs/gcp/brackets.h: ditto.
