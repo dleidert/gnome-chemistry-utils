@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-01-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* openbabel/Makefile.am: move babelserver to libexecdir.
+	* tests/Makefile.am: ditto.
+	* tests/testbabelserver.c (main): ditto.
+
 2011-01-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* openbabel/Makefile.am: add new files.
 	* openbabel/babelserv.cc: start read code.

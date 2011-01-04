@@ -1,4 +1,4 @@
-bin_PROGRAMS = babelserver
+libexec_PROGRAMS = babelserver
 
 INCLUDES = \
 	-I$(top_srcdir) -I$(top_srcdir)/libs \

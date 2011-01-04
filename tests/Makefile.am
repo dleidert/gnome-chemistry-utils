@@ -10,6 +10,7 @@ AM_CFLAGS = -I$(top_srcdir)/libs $(GCU_CFLAGS) -Werror-implicit-function-declara
 DEFS += -DSRCDIR=\"$(TESTSSRCDIR)\"
 
 testgcrcrystalviewer_LDADD = $(top_builddir)/libs/gcr/libgcr-@GCU_API_VER@.la
+testbabelserver_CFLAGS = -DLIBEXECDIR=\"$(libexecdir)\"
 
 check_PROGRAMS = \
 	testgcuperiodic \

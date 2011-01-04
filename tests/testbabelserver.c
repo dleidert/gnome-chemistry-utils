@@ -32,9 +32,9 @@ int main ()
 {
 	struct stat statbuf;
 	if (stat ("/tmp/babelsocket", &statbuf)) {
-		char *args[] = {"babelserver", NULL};
+		char *args[] = {LIBEXECDIR"/babelserver", NULL};
 		GError *error = NULL;
-		g_spawn_async (NULL, (char **) args, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
+		g_spawn_async (NULL, (char **) args, NULL, 0, NULL, NULL, NULL, &error);
 		if (error) {
 			g_error_free (error);
 			error = NULL;
