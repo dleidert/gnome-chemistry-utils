@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * tests/testbabelserver.c 
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -55,6 +55,12 @@ int main ()
 	}
 	char const *buf = "-i chemical/x-xyz -o chemical/x-inchi ";
 	write (babelsocket, buf, strlen (buf));
+	write (babelsocket, buf, strlen (buf));
+	buf = "5\n\nC       0       0       0\nH       0       1.093   0\nH       1.030490282     -0.364333333    0\nH       -0.515245141    -0.364333333    0.892430763\nH       -0.515245141    -0.364333333    -0.892430763";
+	char *size = g_strdup_printf ("-l %u -D", strlen (buf));
+	write (babelsocket, size, strlen (size));
+	write (babelsocket, buf, strlen (buf));
+	
 	// TODO: write the code
 	while (1); // for now don't close the socket
 	return 0;

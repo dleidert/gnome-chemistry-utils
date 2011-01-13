@@ -74,7 +74,9 @@ size_t BabelSocket::Read ()
 				break;
 			case 'o':
 				break;
-			case 's':
+			case 'l':
+				break;
+			case 'D':
 				break;
 			default:
 				break;

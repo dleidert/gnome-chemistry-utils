@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-01-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* openbabel/babelserv.cc: more work on reading commands.
+	* openbabel/socket.cc: ditto.
+	* plugins/paint/arrows/curvedarrowtool.cc: update parent after adding
+	an arrow.
+	* tests/testbabelserver.c (main): send a full command.
+
 2011-01-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* openbabel/Makefile.am: move babelserver to libexecdir.
 	* tests/Makefile.am: ditto.
