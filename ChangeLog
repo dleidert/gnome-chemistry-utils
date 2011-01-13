@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-01-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac:  post release version bump (0.12.7).
+	* plugins/paint/arrows/curvedarrowtool.cc: update parent after adding
+	an arrow.
+
 2010-12-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/widgetdata.cc: fixed object items dimension evaluation.
 

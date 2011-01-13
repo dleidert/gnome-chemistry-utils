@@ -481,6 +481,7 @@ void gcpCurvedArrowTool::OnRelease ()
 	a->SetControlPoint (2, m_CPx2 / m_dZoomFactor, m_CPy2 / m_dZoomFactor);
 	if (m_SetEnd)
 		a->SetEndAtNewBondCenter (m_EndAtBondCenter);
+	a->EmitSignal (gcp::OnChangedSignal);
 	m_pView->Update (a);
 
 	gcu::Object *group = obj->GetGroup ();
