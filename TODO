@@ -47,6 +47,10 @@
 * GCU Library:
 	* provide clipboard support at the Application level (?).
 
+* OpenBabel wrapper:
+	* write a streambuf class wrapping the socket.
+	* implement direct read/write from/to file for local files.
+
 * Other:
 	* Make file operation asynchroneous (especially for remote file systems).
 	* Update documentation (always).

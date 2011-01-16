@@ -35,11 +35,13 @@ public:
 	~BabelSocket ();
 
 	size_t Read ();
+	void FinishOption ();
 
 private:
 	int m_Socket;
 	char *m_InBuf;
-	size_t m_Index;
+	size_t m_Index, m_Cur, m_Start, m_Size;
+	bool m_WaitSpace;
 	unsigned m_Step;
 	OpenBabel::OBConversion m_Conv;
 };

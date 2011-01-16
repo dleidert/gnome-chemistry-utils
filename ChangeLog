@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-01-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* openbabel/babelserv.cc: make valgrind happy.
+	* openbabel/socket.cc: make things work.
+	* openbabel/socket.h: ditto.
+	* tests/testbabelserver.c (main): write a mol file for methane and get
+	the InChI.
+
 2011-01-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* openbabel/babelserv.cc: more work on reading commands.
 	* openbabel/socket.cc: ditto.

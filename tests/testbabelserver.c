@@ -31,6 +31,8 @@
 int main ()
 {
 	struct stat statbuf;
+	char inbuf[256], *start = NULL;
+	int index, cur, length;
 	if (stat ("/tmp/babelsocket", &statbuf)) {
 		char *args[] = {LIBEXECDIR"/babelserver", NULL};
 		GError *error = NULL;
@@ -55,13 +57,27 @@ int main ()
 	}
 	char const *buf = "-i chemical/x-xyz -o chemical/x-inchi ";
 	write (babelsocket, buf, strlen (buf));
-	write (babelsocket, buf, strlen (buf));
 	buf = "5\n\nC       0       0       0\nH       0       1.093   0\nH       1.030490282     -0.364333333    0\nH       -0.515245141    -0.364333333    0.892430763\nH       -0.515245141    -0.364333333    -0.892430763";
 	char *size = g_strdup_printf ("-l %u -D", strlen (buf));
 	write (babelsocket, size, strlen (size));
 	write (babelsocket, buf, strlen (buf));
-	
-	// TODO: write the code
-	while (1); // for now don't close the socket
+	while (1) {
+		if ((cur = read (babelsocket, inbuf + index, 255 - index))) {
+			index += cur;
+			inbuf[index] = 0;
+			if (start == NULL) {
+				if ((start = strchr (inbuf, ' '))) {
+					length = strtol (inbuf, NULL, 10);
+					start++;
+				}
+			} else {
+				if (index - (start - inbuf) == length) {
+					printf ("answer is: %s\n", start);
+					break;
+				}
+			}
+		}
+	}
+	close (babelsocket);
 	return 0;
 }

@@ -85,10 +85,10 @@ int main (int argc, char *argv[])
 	fds[0].fd = listening_socket;
 	fds[0].events = POLLIN;
 	fds[0].revents = 0;
-	struct sockaddr_in fromend;
-	unsigned lng_address;
-	int service_socket;
 	std::set <int> deleted;
+	static struct sockaddr_in fromend;
+	static unsigned lng_address;
+	int service_socket;
 
 	while (time (NULL) < endtime) {
 		if (poll (&fds[0], fds.size (), 1000) > 0) {
