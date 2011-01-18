@@ -49,7 +49,6 @@
 
 * OpenBabel wrapper:
 	* write a streambuf class wrapping the socket.
-	* implement direct read/write from/to file for local files.
 
 * Other:
 	* Make file operation asynchroneous (especially for remote file systems).

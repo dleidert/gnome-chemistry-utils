@@ -302,6 +302,17 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 	return ret;
 }
 
+ContentType Application::Load (GsfInput *input, const gchar *mime_type, Document* Doc)
+{
+	Loader *l = Loader::GetLoader (mime_type);
+	if (!l)
+		return ContentTypeUnknown;
+	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
+	ContentType ret = l->Read (Doc, input, mime_type, io);
+	g_object_unref (io);
+	return ret;
+}
+
 bool Application::Save (std::string const &uri, const gchar *mime_type, Document const *Doc, ContentType type)
 {
 	Loader *l = Loader::GetSaver (mime_type);
@@ -332,6 +343,17 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
 	bool ret = l->Write (const_cast <Document *> (Doc), output, mime_type, io, type);
 	g_object_unref (output);
+	g_object_unref (io);
+	return ret;
+}
+
+bool Application::Save (GsfOutput *output, const gchar *mime_type, Document const *Doc, ContentType type)
+{
+	Loader *l = Loader::GetSaver (mime_type);
+	if (!l)
+		return false;
+	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
+	bool ret = l->Write (const_cast <Document *> (Doc), output, mime_type, io, type);
 	g_object_unref (io);
 	return ret;
 }

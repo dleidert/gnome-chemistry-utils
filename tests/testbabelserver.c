@@ -55,7 +55,7 @@ int main ()
 		perror ("Connexion failed");
 		return FALSE;
 	}
-	char const *buf = "-i chemical/x-xyz -o chemical/x-inchi ";
+	char const *buf = "-i xyz -o inchi ";
 	write (babelsocket, buf, strlen (buf));
 	buf = "5\n\nC       0       0       0\nH       0       1.093   0\nH       1.030490282     -0.364333333    0\nH       -0.515245141    -0.364333333    0.892430763\nH       -0.515245141    -0.364333333    -0.892430763";
 	char *size = g_strdup_printf ("-l %u -D", strlen (buf));

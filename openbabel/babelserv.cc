@@ -109,7 +109,9 @@ int main (int argc, char *argv[])
 			}
 			for (unsigned i = 1; i < fds.size (); i++) {
 				if (fds[i].revents & POLLIN) {
-					if (sockets[fds[i].fd]->Read () == -1)
+					int res;
+					while ((res = sockets[fds[i].fd]->Read ()) > 0);
+					if (res == -1)
 						deleted.insert (i);
 				}
 				if (fds[i].revents & POLLRDHUP) {

@@ -222,6 +222,17 @@ instance.
 	ContentType Load (std::string const &uri, const gchar *mime_type, Document* Doc);
 
 /*!
+@param input a GsfInput.
+@param mime_type the mime type of the document.
+@param Doc the document instance which will contain the loaded data.
+
+This method loads a document using the appropriate gcu::Loader class
+instance using \a input as source.
+@return true if no error occurred.
+*/
+	ContentType Load (GsfInput *input, const gchar *mime_type, Document* Doc);
+	            
+/*!
 @param uri the uri to which the document should be saved.
 @param mime_type the mime type of the document.
 @param Doc the document instance which contains the data to be saved.
@@ -232,6 +243,18 @@ instance.
 @return true if no error occurred.
 */
 	bool Save (std::string const &uri, const gchar *mime_type, Document const *Doc, ContentType type);
+	            
+/*!
+@param output a GsfOutput.
+@param mime_type the mime type of the document.
+@param Doc the document instance which contains the data to be saved.
+@param type the type of the data to be saved (see gcu::ContentType).
+
+This method saves the document using the appropriate gcu::Loader class
+instance using \a output as target.
+@return true if no error occurred.
+*/
+	bool Save (GsfOutput *output, const gchar *mime_type, Document const *Doc, ContentType type);
 
 /*!
 Virtual method used to create documents. Default behavior does nothing and returns NULL.

@@ -34,7 +34,9 @@ enum {
 	STEP_INIT,
 	STEP_INIT_OPTION,
 	STEP_OPTION_IN,
+	STEP_INPUT, // file name
 	STEP_OPTION_OUT,
+	STEP_OUTPUT, // file name
 	STEP_SIZE,
 	STEP_DATA
 };
@@ -48,7 +50,7 @@ m_Size (bufsize),
 m_WaitSpace (false),
 m_Step (STEP_INIT)
 {
-	m_InBuf = new char[m_Size + 8];
+	m_InBuf = new char[m_Size + 1];
 }
 
 BabelSocket::~BabelSocket ()
@@ -109,15 +111,25 @@ size_t BabelSocket::Read ()
 				m_Cur++;
 			if (m_InBuf[m_Cur] == ' ') {
 				m_InBuf[m_Cur] = 0;
-				if (strcmp (m_InBuf + m_Start, "chemical/x-inchi")) {
-					OpenBabel::OBFormat *format = m_Conv.FormatFromMIME (m_InBuf + m_Start);
-					if (format)
-						m_Conv.SetInFormat (format);
-					else
-						return -1;
-				} else
-					m_Conv.SetInFormat ("inchi");
-				FinishOption ();
+				OpenBabel::OBFormat *format = m_Conv.FindFormat (m_InBuf + m_Start);
+				if (format)
+					m_Conv.SetInFormat (format);
+				else
+					return -1;
+				FinishOption (STEP_INPUT);
+			}
+			break;
+		case STEP_INPUT:
+			if (!m_Cur && m_InBuf[0] == '-') {
+				m_Step = STEP_INIT;
+				break;
+			}
+			while (m_InBuf[m_Cur] != ' ' && m_Cur < m_Index)
+				m_Cur++;
+			if (m_InBuf[m_Cur] == ' ') {
+				m_InBuf[m_Cur] = 0;
+				m_Input = m_InBuf;
+				FinishOption (STEP_INIT);
 			}
 			break;
 		case STEP_OPTION_OUT:
@@ -125,15 +137,25 @@ size_t BabelSocket::Read ()
 				m_Cur++;
 			if (m_InBuf[m_Cur] == ' ') {
 				m_InBuf[m_Cur] = 0;
-				if (strcmp (m_InBuf + m_Start, "chemical/x-inchi")) {
-					OpenBabel::OBFormat *format = m_Conv.FormatFromMIME (m_InBuf + m_Start);
-					if (format)
-						m_Conv.SetOutFormat (format);
-					else
-						return -1;
-				} else
-					m_Conv.SetOutFormat ("inchi");
-				FinishOption ();
+				OpenBabel::OBFormat *format = m_Conv.FindFormat (m_InBuf + m_Start);
+				if (format)
+					m_Conv.SetOutFormat (format);
+				else
+					return -1;
+				FinishOption (STEP_OUTPUT);
+			}
+			break;
+		case STEP_OUTPUT:
+			if (!m_Cur && m_InBuf[0] == '-') {
+				m_Step = STEP_INIT;
+				break;
+			}
+			while (m_InBuf[m_Cur] != ' ' && m_Cur < m_Index)
+				m_Cur++;
+			if (m_InBuf[m_Cur] == ' ') {
+				m_InBuf[m_Cur] = 0;
+				m_Output = m_InBuf;
+				FinishOption (STEP_INIT);
 			}
 			break;
 		case STEP_SIZE:
@@ -145,24 +167,39 @@ size_t BabelSocket::Read ()
 				m_Size = strtoul (m_InBuf + m_Start, &end, 10);
 				if (end && *end)
 					return -1; // invalid size
-				FinishOption ();
+				FinishOption (STEP_INIT);
 				if (m_Size > bufsize) {
-					char *new_buf = new char[m_Size + 256]; // we need a bit more, at least because of the "-D"
+					char *new_buf = new char[m_Size + 3]; // we need a bit more, at least because of the "-D"
 					memcpy (new_buf, m_InBuf, m_Index);
 					delete [] m_InBuf;
 					m_InBuf = new_buf;
+					m_InBuf[m_Index] = 0;
 				}
 				return res; // force more read
 			}
 			break;
 		case STEP_DATA:
 			if (m_Index == m_Size) {
-				std::istringstream is (m_InBuf);
-				std::ostringstream os, l;
-				m_Conv.Convert (&is, &os);
-				l << os.str ().length () << " ";
-				write (m_Socket, l.str ().c_str (), l.str ().length ());
-				write (m_Socket, os.str ().c_str (), os.str ().length ());
+				std::istream *is;
+				if (m_Input.length ())
+					is = new std::ifstream (m_Input.c_str ());
+				else
+					is = new std::istringstream (m_InBuf);
+				std::ostream *os;
+				if (m_Output.length ())
+					os = new std::ofstream (m_Output.c_str ());
+				else
+					os = new std::ostringstream ();
+				m_Conv.Convert (is, os);
+				if (m_Output.length () == 0) {
+					std::ostringstream *oss = static_cast <std::ostringstream *> (os), l;
+					l << oss->str ().length () << " ";
+					write (m_Socket, l.str ().c_str (), l.str ().length ());
+					write (m_Socket, oss->str ().c_str (), oss->str ().length ());
+				} else
+					static_cast <std::ofstream *> (os)->close ();
+				delete is;
+				delete os;
 				return -1;
 			} else
 				return res;
@@ -173,7 +210,7 @@ size_t BabelSocket::Read ()
 	return res;
 }
 
-void BabelSocket::FinishOption ()
+void BabelSocket::FinishOption (unsigned step)
 {
 	m_Cur++;
 	if (m_Cur < m_Index)
@@ -181,5 +218,5 @@ void BabelSocket::FinishOption ()
 	m_WaitSpace = false;
 	m_Index -= m_Cur;
 	m_Cur = m_Start = 0;
-	m_Step = STEP_INIT;
+	m_Step = step;
 }

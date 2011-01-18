@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/application.cc: allow load/save operations using any gsf
+	stream.
+	* libs/gcu/application.h: ditto.
+	* openbabel/babelserv.cc: fixed reading from socket.
+	* openbabel/socket.cc: implement input and output from/to local files.
+	* openbabel/socket.h: ditto.
+	* tests/testbabelserver.c (main): use openbabel format names instead of
+	mime types.
+
 2011-01-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* openbabel/babelserv.cc: make valgrind happy.
 	* openbabel/socket.cc: make things work.

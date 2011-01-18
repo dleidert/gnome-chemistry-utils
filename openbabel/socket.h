@@ -27,6 +27,7 @@
 
 #include <sys/socket.h>
 #include <openbabel/obconversion.h>
+#include <string>
 
 class BabelSocket
 {
@@ -35,7 +36,9 @@ public:
 	~BabelSocket ();
 
 	size_t Read ();
-	void FinishOption ();
+
+private:
+	void FinishOption (unsigned step);
 
 private:
 	int m_Socket;
@@ -43,6 +46,7 @@ private:
 	size_t m_Index, m_Cur, m_Start, m_Size;
 	bool m_WaitSpace;
 	unsigned m_Step;
+	std::string m_Input, m_Output;
 	OpenBabel::OBConversion m_Conv;
 };
 
