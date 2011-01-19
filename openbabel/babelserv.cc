@@ -24,13 +24,14 @@
 
 #include "config.h"
 #include "socket.h"
-#include <errno.h>
-#include <locale.h>
+#include <cerrno>
+#include <clocale>
 #include <netinet/in.h>
 #include <poll.h>
-#include <stdio.h>
+#include <cstdio>
 #include <sys/un.h>
-#include <time.h>
+#include <ctime>
+#include <cstdlib>
 #include <unistd.h>
 #include <map>
 #include <set>
@@ -60,21 +61,31 @@ int main (int argc, char *argv[])
 	}
 	struct sockaddr_un address;
 	address.sun_family = AF_UNIX;
-	strcpy (address.sun_path, "/tmp/babelsocket");
+	char *usr = getenv ("USER");
+	char *path = reinterpret_cast <char *> (malloc (strlen ("/tmp/babelsocket-") + strlen (usr) + 1));
+	strcpy (path, "/tmp/babelsocket-");
+	strcat (path, usr);
+	if (strlen (path) >= 107) { //WARNING: don't know if this is portable
+		puts ("path too long");
+		free (path);
+		return -2;
+	}
+	strcpy (address.sun_path, path);
+	free (path);
 
 	/* bind the socket */
 	if (bind (listening_socket, (struct sockaddr*) &address, sizeof(address)) == -1) {
 		perror ("socket attachment failed");
 		close (listening_socket);
 		unlink (address.sun_path);
-		return -2;
+		return -3;
 	}
 
 	if (listen (listening_socket, 16) == -1) {
 		perror ("listen");
 		close (listening_socket);
 		unlink (address.sun_path);
-		return -3;
+		return -4;
 	}
 
 	endtime = time (NULL) + timeout;
@@ -98,7 +109,7 @@ int main (int argc, char *argv[])
 					continue ;
 				if (service_socket == -1) {	// fatal error
 					perror ("accept") ;
-					return -4;
+					return -5;
 				}
 				// TODO: start listening the client
 				_fds.fd = service_socket;

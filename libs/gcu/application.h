@@ -217,18 +217,18 @@ is not supported by GdkPixbuf.
 
 This method loads a document using the appropriate gcu::Loader class
 instance.
-@return true if no error occurred.
+@return the found \a ContentType ot ContentTypeUnknown if an error occured.
 */
 	ContentType Load (std::string const &uri, const gchar *mime_type, Document* Doc);
-
+	             
 /*!
 @param input a GsfInput.
 @param mime_type the mime type of the document.
 @param Doc the document instance which will contain the loaded data.
 
 This method loads a document using the appropriate gcu::Loader class
-instance using \a input as source.
-@return true if no error occurred.
+instance.
+@return the found \a ContentType ot ContentTypeUnknown if an error occured.
 */
 	ContentType Load (GsfInput *input, const gchar *mime_type, Document* Doc);
 	            
@@ -255,6 +255,7 @@ instance using \a output as target.
 @return true if no error occurred.
 */
 	bool Save (GsfOutput *output, const gchar *mime_type, Document const *Doc, ContentType type);
+
 
 /*!
 Virtual method used to create documents. Default behavior does nothing and returns NULL.
@@ -412,9 +413,14 @@ the program. Derived class might overide this method to change this.
 */
 	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
 
+	void RegisterBabelType (const char *mime_type, const char *type);
+
 private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
 	void RemoveDocument (Document *Doc);
+	int OpenBabelSocket ();
+	char* ConvertToCML (std::string const &uri, const char *mime_type, const char *options = NULL);
+	char const *MimeToBabelType (char const *mime_type);
 
 private:
 	std::string Name;
@@ -424,9 +430,10 @@ private:
 	std::string CurDir;
 	std::string IconName;
 	static GOConfNode *m_ConfDir;
-	std::list<option_data> m_Options;
+	std::list <option_data> m_Options;
 	static WindowState DefaultWindowState;
-	std::map<TypeId, TypeDesc> m_Types;
+	std::map <TypeId, TypeDesc> m_Types;
+	std::map <std::string, std::string> m_BabelTypes;
 
 protected:
 /*!

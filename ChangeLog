@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-01-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/Makefile.am: add libexecdir to DEFS.
+	* libs/gcu/application.cc: new methods to support the use of babelserver.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/chem3ddoc.cc: remove unwanted white spaces.
+	* openbabel/babelserv.cc: use a user dependant socket.
+	* openbabel/socket.cc: fix loading from file.
+	* tests/testbabelserver.c (main): use a user dependant socket.
+
 2011-01-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/application.cc: allow load/save operations using any gsf
 	stream.

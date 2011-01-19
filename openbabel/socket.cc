@@ -95,8 +95,11 @@ size_t BabelSocket::Read ()
 				break;
 			case 'D':
 				m_Step = STEP_DATA;
-				memmove (m_InBuf, m_InBuf + 2, m_Index + 1);
-				m_Index -= 2;
+				if (m_Input.length () == 0) {
+					memmove (m_InBuf, m_InBuf + 2, m_Index + 1);
+					m_Index -= 2;
+				} else
+					m_Cur = 0; // avoids exiting the loop
 				break;
 			default:
 				break;
@@ -112,6 +115,8 @@ size_t BabelSocket::Read ()
 			if (m_InBuf[m_Cur] == ' ') {
 				m_InBuf[m_Cur] = 0;
 				OpenBabel::OBFormat *format = m_Conv.FindFormat (m_InBuf + m_Start);
+				if (!format)
+					format = m_Conv.FormatFromMIME (m_InBuf + m_Start);
 				if (format)
 					m_Conv.SetInFormat (format);
 				else
@@ -138,6 +143,8 @@ size_t BabelSocket::Read ()
 			if (m_InBuf[m_Cur] == ' ') {
 				m_InBuf[m_Cur] = 0;
 				OpenBabel::OBFormat *format = m_Conv.FindFormat (m_InBuf + m_Start);
+				if (!format)
+					format = m_Conv.FormatFromMIME (m_InBuf + m_Start);
 				if (format)
 					m_Conv.SetOutFormat (format);
 				else
@@ -179,7 +186,7 @@ size_t BabelSocket::Read ()
 			}
 			break;
 		case STEP_DATA:
-			if (m_Index == m_Size) {
+			if (m_Input.length () > 0 || m_Index == m_Size) {
 				std::istream *is;
 				if (m_Input.length ())
 					is = new std::ifstream (m_Input.c_str ());

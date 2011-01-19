@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/un.h>
 #include <unistd.h>
@@ -33,27 +34,39 @@ int main ()
 	struct stat statbuf;
 	char inbuf[256], *start = NULL;
 	int index, cur, length;
-	if (stat ("/tmp/babelsocket", &statbuf)) {
+	char *usr = getenv ("USER");
+	char *path = malloc (strlen ("/tmp/babelsocket-") + strlen (usr) + 1);
+	strcpy (path, "/tmp/babelsocket-");
+	strcat (path, usr);
+	if (strlen (path) >= 107) { //WARNING: don't know if this is portable
+		puts ("path too long");
+		return -1;
+	}
+	if (stat (path, &statbuf)) {
 		char *args[] = {LIBEXECDIR"/babelserver", NULL};
 		GError *error = NULL;
 		g_spawn_async (NULL, (char **) args, NULL, 0, NULL, NULL, NULL, &error);
 		if (error) {
 			g_error_free (error);
 			error = NULL;
+			free (path);
+			return -1;
 		}
-		while (stat ("/tmp/babelsocket", &statbuf));
+		while (stat (path, &statbuf));
 	}
 	int babelsocket = socket (AF_UNIX, SOCK_STREAM, 0);
 	if (babelsocket == -1) {
 		perror ("Could not create the socket");
-		return FALSE;
+		free (path);
+		return -1;
 	}
 	struct sockaddr_un adr_serv;
 	adr_serv.sun_family = AF_UNIX;
-	strcpy (adr_serv.sun_path, "/tmp/babelsocket");
+	strcpy (adr_serv.sun_path, path);
+	free (path);
 	if (connect (babelsocket, (const struct sockaddr*) &adr_serv, sizeof (struct sockaddr_un)) == -1) {
 		perror ("Connexion failed");
-		return FALSE;
+		return -1;
 	}
 	char const *buf = "-i xyz -o inchi ";
 	write (babelsocket, buf, strlen (buf));

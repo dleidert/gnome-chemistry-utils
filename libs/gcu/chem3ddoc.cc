@@ -82,6 +82,7 @@ static Object* CreateMolecule ()
 {
 	return new Molecule ();
 }
+
 void Chem3dDoc::Load (char const *uri, char const *mime_type)
 {
 	GVfs *vfs = g_vfs_get_default ();

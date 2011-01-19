@@ -15,6 +15,7 @@ libgcu_@GCU_API_VER@_la_LIBADD = \
 		$(gtkglext_LIBS)
 DEFS += -DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \
+		-DLIBEXECDIR=\"$(libexecdir)\" \
 		-DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
 		-DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/libgcu\" \
 		-DGCU_PLUGINS_DIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins\"

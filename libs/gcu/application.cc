@@ -32,12 +32,16 @@
 #include "ui-builder.h"
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
+#include <gsf/gsf-input-memory.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <clocale>
+#include <netinet/in.h>
+#include <sys/un.h>
+#include <unistd.h>
 #include <set>
 #include <sstream>
 
@@ -133,6 +137,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	RegisterOptions (options);
 	if (Default == NULL)
 		Default = this;
+	RegisterBabelType ("chemical/x-xyz", "xyz");
 }
 
 Application::~Application ()
@@ -284,13 +289,22 @@ void Application::RemoveDocument (Document *Doc)
 ContentType Application::Load (std::string const &uri, const gchar *mime_type, Document* Doc)
 {
 	Loader *l = Loader::GetLoader (mime_type);
-	if (!l)
-		return ContentTypeUnknown;
-	GError *error = NULL;
-	GsfInput *input = gsf_input_gio_new_for_uri (uri.c_str (), &error);
-	if (error) {
-		g_error_free (error);
-		return ContentTypeUnknown;
+	GsfInput *input;
+	if (!l) {
+		l = Loader::GetLoader ("chemical/x-cml");
+		if (!l)
+			return ContentTypeUnknown;
+		char *cml = ConvertToCML (uri, mime_type);
+		if (!cml)
+			return ContentTypeUnknown;
+		input = gsf_input_memory_new (const_cast <guint8 const *> (reinterpret_cast <guint8 *> (cml)), strlen (cml), true);
+	} else {
+		GError *error = NULL;
+		input = gsf_input_gio_new_for_uri (uri.c_str (), &error);
+		if (error) {
+			g_error_free (error);
+			return ContentTypeUnknown;
+		}
 	}
 	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
 	ContentType ret = l->Read (Doc, input, mime_type, io);
@@ -549,6 +563,112 @@ CmdContext *Application::GetCmdContext ()
 	if (m_CmdContext == NULL)
 		m_CmdContext = new CmdContextGtk (this);
 	return m_CmdContext;
+}
+
+void Application::RegisterBabelType (const char *mime_type, const char *type)
+{
+	std::map <std::string, std::string>::iterator it = m_BabelTypes.find (mime_type);
+	if (it == m_BabelTypes.end ())
+		m_BabelTypes[mime_type] = type;
+}
+
+char const *Application::MimeToBabelType (char const *mime_type)
+{
+	std::map <std::string, std::string>::iterator it = m_BabelTypes.find (mime_type);
+	return (it == m_BabelTypes.end ())? mime_type: (*it).second.c_str ();
+}
+
+
+int Application::OpenBabelSocket ()
+{
+	struct stat statbuf;
+	static std::string socket_path = "/tmp/babelsocket-";
+	if (socket_path.length () == 17)
+		socket_path += getenv ("USER");
+	if (stat (socket_path.c_str (), &statbuf)) {
+		char *args[] = {const_cast <char *> (LIBEXECDIR"/babelserver"), NULL};
+		GError *error = NULL;
+		g_spawn_async (NULL, (char **) args, NULL, static_cast <GSpawnFlags> (0), NULL, NULL, NULL, &error);
+		if (error) {
+			g_error_free (error);
+			error = NULL;
+			return -1;
+		}
+		time_t endtime = time (NULL) + 15; // hoping the server will have started within 15 seconds
+		while (stat (socket_path.c_str (), &statbuf))
+			if (time (NULL) > endtime)
+				return -1; // timeout
+	}
+	int res = socket (AF_UNIX, SOCK_STREAM, 0);
+	if (res == -1) {
+		perror ("Could not create the socket");
+		return -1;
+	}
+	struct sockaddr_un adr_serv;
+	adr_serv.sun_family = AF_UNIX;
+	strcpy (adr_serv.sun_path, socket_path.c_str ());
+	if (connect (res, (const struct sockaddr*) &adr_serv, sizeof (struct sockaddr_un)) == -1) {
+		perror ("Connexion failed");
+		return -1;
+	}
+	return res;
+}
+
+/*!
+@param uri the uri of the document to convert.
+@param mime_type the mime type of the document.
+
+This method converts the source to CML.
+@return the converted text as a newly allocate string or NULL.
+*/
+char* Application::ConvertToCML (std::string const &uri, const char *mime_type, const char *options)
+{
+	GVfs *vfs = g_vfs_get_default ();
+	GFile *file = g_vfs_get_file_for_uri (vfs, uri.c_str ());
+	char *path = g_file_get_path (file);
+	int sock = OpenBabelSocket ();
+	if (sock <= 0)
+		return NULL;
+	std::string buf = "-i ";
+	buf += MimeToBabelType (mime_type);
+	buf += " ";
+	if (path) {
+		buf += path;
+		buf += " -o cml";
+		if (options) {
+			buf += " ";
+			buf += options;
+		}
+		buf += " -D";
+		write (sock, buf.c_str (), buf.length ());
+	} else {
+	}
+	// TODO read back the answer
+	time_t timeout = time (NULL) + 60;
+	char inbuf[256], *start = inbuf, *end;
+	unsigned cur, index = 0, length = 0;
+	while (time (NULL) < timeout) {
+		if ((cur = read (sock, start + index, ((length)? length: 255) - index))) {
+			index += cur;
+			start[index] = 0;
+			if (start == inbuf) {
+				if ((end = strchr (inbuf, ' '))) {
+					length = strtoul (inbuf, NULL, 10);
+					start = reinterpret_cast <char *> (g_malloc (length + 1));
+					if (!start)
+						break;
+					strcpy (start, end + 1);
+					index = strlen (start);
+				}
+			}
+			if (index == length)
+				goto ok_exit;
+		}
+	}
+	start = NULL;
+ok_exit:
+	close (sock);
+	return start;
 }
 
 }	//	namespace gcu
