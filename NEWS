@@ -1,3 +1,9 @@
+Version 0.12.7
+	GChemPaint:
+		* Do not crash when adding an arrow ouside a reaction (introduced in
+		0.12.6).
+		* Do not add cycles when not allowed.
+
 Version 0.12.6
 	GChemPaint:
 		* Do not allow document changes using keyboard while

@@ -485,6 +485,8 @@ void gcpCycleTool::OnRelease ()
 	} else
 		return;
 	m_pApp->ClearStatus ();
+	if (!m_bAllowed)
+		return;
 	gcp::Atom* pAtom[m_size];
 	gcp::Bond* pBond;
 	Object *pObject;
