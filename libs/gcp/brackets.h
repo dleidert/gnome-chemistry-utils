@@ -4,7 +4,7 @@
  * GChemPaint library
  * brackets.h 
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,6 +33,13 @@
 namespace gcp {
 
 extern gcu::TypeId BracketsType;
+
+typedef enum {
+	BracketContentInvalid,
+	BracketContentFragment,
+	BracketContentMolecule,
+	BracketContentGroup
+} BracketContent;
 
 /*!\enum BracketsTypes
 Enumeration of the known brackets types.
@@ -100,6 +107,7 @@ For brackets, OnLoaded() is called each time an embedded object is added.
 private:
 	std::set <gcu::Object *> m_EmbeddedObjects;
 	bool m_Valid;
+	BracketContent m_Content;
 
 GCU_PROP (BracketsTypes, Type)
 GCU_RO_PROP (unsigned, Decorations)

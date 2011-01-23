@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -522,11 +522,9 @@ void Fragment::UpdateItem ()
 void Fragment::SetSelected (int state)
 {
 	GOColor color, othercolor = 0;
-	bool visible = true;
 	switch (state) {	
 	case SelStateUnselected:
 		color = GO_COLOR_BLACK;
-		visible = false;
 		break;
 	case SelStateSelected:
 		color = SelectColor;

@@ -4,7 +4,7 @@
  * GChemPaint library
  * brackets.cc
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,10 +24,14 @@
 
 #include "config.h"
 #include "brackets.h"
+#include "settings.h"
+#include "widgetdata.h"
 #include <gcp/mechanism-step.h>
 #include <gcp/reaction-step.h>
 #include <gcu/application.h>
 #include <gcu/document.h>
+#include <gccv/group.h>
+#include <gccv/text.h>
 #include <sstream>
 #include <cstring>
 
@@ -40,6 +44,7 @@ Brackets::Brackets (BracketsTypes type): gcu::Object (BracketsType), ItemClient 
 {
 	m_Type = type;
 	m_Valid = false;
+	m_Content = BracketContentInvalid;
 }
 
 Brackets::~Brackets ()
@@ -115,6 +120,30 @@ xmlNodePtr Brackets::Save (xmlDocPtr xml) const
 
 void Brackets::SetSelected (int state)
 {
+	GOColor color;
+	switch (state) {	
+	case SelStateUnselected:
+		color = GO_COLOR_BLACK;
+		break;
+	case SelStateSelected:
+		color = SelectColor;
+		break;
+	case SelStateUpdating:
+		color = AddColor;
+		break;
+	case SelStateErasing:
+		color = DeleteColor;
+		break;
+	default:
+		color = GO_COLOR_BLACK;
+		break;
+	}
+	gccv::Group *group = static_cast <gccv::Group *> (m_Item);
+	std::list <gccv::Item *>::iterator it;
+	gccv::Text *text;
+	for (gccv::Item *item = group->GetFirstChild (it); item; item = group->GetNextChild (it))
+		if ((text = dynamic_cast <gccv::Text *> (item)))
+			text->SetColor (color);
 }
 
 void Brackets::SetEmbeddedObjects (std::set <gcu::Object *> objects)
@@ -131,9 +160,12 @@ void Brackets::SetEmbeddedObjects (std::set <gcu::Object *> objects)
 	if (objects.size () == 1) {
 		obj = *i;
 		gcu::TypeId type = obj->GetType ();
-		if (type != gcu::MoleculeType && type != gcp::ReactionStepType &&
-		    type != gcp::MechanismStepType && rules.find (type) == rules.end ())
-				return;
+		if (type == gcu::MoleculeType)
+			m_Content = BracketContentMolecule;
+		else if (type == gcp::ReactionStepType || type == gcp::MechanismStepType || rules.find (type) != rules.end ())
+			m_Content = BracketContentGroup;
+		else
+			return;
 		m_Decorations = BracketSuperscript;
 	} else {
 		obj = (*i)->GetMolecule ();
@@ -142,6 +174,7 @@ void Brackets::SetEmbeddedObjects (std::set <gcu::Object *> objects)
 				if ((*i)->GetMolecule () != obj)
 					return;
 			// now we need to test whether all selected atoms are connected (is this true?)
+			m_Content = BracketContentFragment;
 		} else
 			return; // may be we are missing some cases where the enclosed group is valid
 		m_Decorations = BracketSubscript;
