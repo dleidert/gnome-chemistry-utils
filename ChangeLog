@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-01-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: do not call Application::Load() for native files.
+	* libs/gcp/document.cc: fixed merging molecules owned by another object.
+	* plugins/paint/cycles/cycletool.cc: never address a deleted string.
+
 2011-01-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: add content type.
 	* libs/gcp/brackets.h: ditto.

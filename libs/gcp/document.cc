@@ -558,7 +558,11 @@ void Document::AddBond (Bond* pBond)
 			m_pView->Update (pBond);
 		} else {
 			//merge two molecules
-			pMol0->Merge (pMol1);
+			if (pMol1->GetParent () != this) {
+				pMol1->Merge (pMol0);
+				pMol0 = pMol1;
+			} else
+				pMol0->Merge (pMol1);
 		}
 		pMol0->AddBond (pBond);
 	}
