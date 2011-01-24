@@ -3,6 +3,7 @@ Version 0.12.7
 		* Do not crash when adding an arrow ouside a reaction (introduced in
 		0.12.6).
 		* Do not add cycles when not allowed.
+		* Fixed an invalid memory read in cycles tool.
 
 Version 0.12.6
 	GChemPaint:

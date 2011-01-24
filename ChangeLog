@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-01-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: fixed merging molecules owned by another object.
+	* plugins/paint/cycles/cycletool.cc: never address a deleted string.
+
 2011-01-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-step.cc: don't crash when adding an arrow ouside
 	a reaction.

@@ -496,7 +496,7 @@ void gcpCycleTool::OnRelease ()
 	gcp::Document *pDoc = m_pView->GetDoc ();
 	gcp::Operation *pOp = NULL;
 	gcp::Molecule *pMol = NULL;
-	char const *MolId = NULL;
+	std::string MolId;
 	int i;
 	for (i = 0; i < m_size; i++) {
 		m_x = m_Points[i].x;
@@ -563,7 +563,7 @@ void gcpCycleTool::OnRelease ()
 	}
 	pDoc->FinishOperation ();
 	if (pMol)
-		pMol = static_cast <gcp::Molecule*> (pDoc->GetDescendant (MolId));
+		pMol = static_cast <gcp::Molecule*> (pDoc->GetDescendant (MolId.c_str ()));
 	if (pMol) {
 		pMol->Lock (false);
 		pMol->EmitSignal (gcp::OnChangedSignal);
