@@ -111,7 +111,6 @@ int main (int argc, char *argv[])
 					perror ("accept") ;
 					return -5;
 				}
-				// TODO: start listening the client
 				_fds.fd = service_socket;
 				_fds.events = POLLIN | POLLRDHUP;
 				_fds.revents = 0;
@@ -137,6 +136,7 @@ int main (int argc, char *argv[])
 				std::set <int>::iterator it, end = deleted.end ();
 				for (it = deleted.begin (); it != end; it++)
 						fds.erase (fds.begin () + *it);
+				deleted.clear ();
 			}
 			endtime = time (NULL) + timeout; // restart time counter from now
 		}

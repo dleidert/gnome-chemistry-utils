@@ -29,7 +29,6 @@
 #include <cstring>
 
 using namespace std;
-using namespace OpenBabel;
 using namespace gcu;
 
 struct _GcuChem3DViewer
@@ -186,9 +185,9 @@ void gcu_chem3d_viewer_set_uri_with_mime_type (GcuChem3DViewer * viewer, const g
 	viewer->Doc->Load (uri, mime_type);
 }
 
-void gcu_chem3d_viewer_set_data (GcuChem3DViewer * viewer, const gchar *data, const gchar* mime_type)
+void gcu_chem3d_viewer_set_data (GcuChem3DViewer * viewer, const gchar *data, const gchar* mime_type, size_t size)
 {
-	viewer->Doc->LoadData (data, mime_type);
+	viewer->Doc->LoadData (data, mime_type, size);
 }
 
 void gcu_chem3d_viewer_update (GcuChem3DViewer *viewer)

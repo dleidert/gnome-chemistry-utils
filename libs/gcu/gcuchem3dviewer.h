@@ -122,10 +122,11 @@ void	gcu_chem3d_viewer_set_uri	(GcuChem3DViewer * viewer, const gchar * uri);
 @param data a pointer to the raw data representing a serialized version of molecule to display
 @param mime_type the mime_type of the data. Any type supported by
 <a href="http://openbabel.sourceforge.net">OpenBabel</a> may be used.
+@param size the data size.
 
 Changes the molecule displayed by the one described in the data. Nothing happens if data or mime-type is NULL.
 */
-void	gcu_chem3d_viewer_set_data	(GcuChem3DViewer * viewer, const gchar * data, const gchar* mime_type);
+void	gcu_chem3d_viewer_set_data	(GcuChem3DViewer * viewer, const gchar * data, const gchar* mime_type, size_t size);
 
 /*!
 @param viewer a pointer to a GcuChem3DViewer widget.

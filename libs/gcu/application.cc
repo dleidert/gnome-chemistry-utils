@@ -631,8 +631,8 @@ char* Application::ConvertToCML (std::string const &uri, const char *mime_type, 
 		return NULL;
 	std::string buf = "-i ";
 	buf += MimeToBabelType (mime_type);
-	buf += " ";
 	if (path) {
+		buf += " ";
 		buf += path;
 		buf += " -o cml";
 		if (options) {
@@ -642,8 +642,54 @@ char* Application::ConvertToCML (std::string const &uri, const char *mime_type, 
 		buf += " -D";
 		write (sock, buf.c_str (), buf.length ());
 	} else {
+		buf += " -o cml";
+		if (options) {
+			buf += " ";
+			buf += options;
+		}
+		// load the data in memory and write them to the socket
+		GError *error = NULL;
+		GFileInfo *info = g_file_query_info (file,
+											 ((mime_type)? G_FILE_ATTRIBUTE_STANDARD_SIZE:
+											 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_STANDARD_SIZE),
+											 G_FILE_QUERY_INFO_NONE,
+											 NULL, &error);
+		if (error) {
+			g_message ("GIO querry failed: %s", error->message);
+			g_error_free (error);
+			g_object_unref (file);
+			return NULL;
+		}
+		gsize size = g_file_info_get_size (info);
+		g_object_unref (info);
+		GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
+		if (error) {
+			g_message ("GIO could not create the stream: %s", error->message);
+			g_error_free (error);
+			g_object_unref (file);
+			return NULL;
+		}
+		gchar *szbuf = new gchar[size];
+		gsize n = g_input_stream_read (input, szbuf, size, NULL, &error);
+		if (error) {
+			g_message ("GIO could not read the file: %s", error->message);
+			g_error_free (error);
+			delete [] szbuf;
+			return NULL;
+		}
+		g_object_unref (input);
+		g_object_unref (file);
+		if (n != size) {
+			delete [] szbuf;
+			return NULL;
+		}
+		char *szsize = g_strdup_printf (" -l %lu -D", size);
+		buf += szsize;
+		g_free (szsize);
+		write (sock, buf.c_str (), buf.length ());
+		write (sock, szbuf, size);
+		delete [] szbuf;
 	}
-	// TODO read back the answer
 	time_t timeout = time (NULL) + 60;
 	char inbuf[256], *start = inbuf, *end;
 	unsigned cur, index = 0, length = 0;

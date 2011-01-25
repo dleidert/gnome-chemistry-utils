@@ -28,7 +28,6 @@
 #include <gcu/macros.h>
 #include <gcu/gldocument.h>
 #include <gcu/molecule.h>
-#include <openbabel/mol.h>
 
 /*!\file*/
 namespace gcu {
@@ -99,10 +98,12 @@ Loads a molecule from the provided uri using OpenBabel.
 /*!
 @param data the inline data.
 @param mime_type the mime type of the data.
+@param size the size of the data. If nul, the size will be evaluated from
+the string length.
 
 Loads a molecule from the provided data using OpenBabel.
 */
-	void LoadData (char const *data, char const *mime_type);
+	void LoadData (char const *data, char const *mime_type, size_t size = 0);
 
 /*!
 @param filename the name of the vrml file to which the data should be written.

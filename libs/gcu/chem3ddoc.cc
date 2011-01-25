@@ -34,17 +34,16 @@
 #include "vector.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
-#include <openbabel/obconversion.h>
 #include <gio/gio.h>
 #include <GL/gl.h>
 #include <libintl.h>
 #include <clocale>
 #include <fstream>
+#include <iostream>
 #include <ostream>
 #include <sstream>
 #include <cstring>
 
-using namespace OpenBabel;
 using namespace std;
 
 namespace gcu
@@ -101,7 +100,7 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 		return;
 	}
 	if (!mime_type)
-		mime_type = g_file_info_get_content_type(info);
+		mime_type = g_file_info_get_content_type (info);
 	// try using the loader mechanism
 	Application *app = GetApp ();
 	Object *obj = app->CreateObject ("atom", this);
@@ -118,7 +117,6 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	ContentType type = app->Load (filename, mime_type, this);
 	Loaded ();
 	if (type == ContentType3D) {
-		g_object_unref (file);
 		// center the scene around 0,0,0
 		std::map<std::string, Object*>::iterator it;
 		obj =  GetFirstChild (it);
@@ -144,99 +142,78 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 		if (title)
 			SetTitle (title);
 		m_View->Update ();
-		return;
 	} else if (type != ContentTypeUnknown) {
 		Clear ();
-		g_object_unref (file);
 		// TODO: process the error (display a message at least or open with an appropriate application)
-		return;
 	}
-	gsize size = g_file_info_get_size (info);
-	g_object_unref (info);
-	GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
-	if (error) {
-		g_message ("GIO could not create the stream: %s", error->message);
-		g_error_free (error);
-		g_object_unref (file);
-		error = NULL;
-		return;
-	}
-	gchar *buf = new gchar[size + 1];
-	gsize n = g_input_stream_read (input, buf, size, NULL, &error);
-	if (error) {
-		g_message ("GIO could not read the file: %s", error->message);
-		g_error_free (error);
-		delete [] buf;
-		g_object_unref (input);
-		g_object_unref (file);
-		error = NULL;
-		return;
-	}
-	buf[size] = 0;
-	m_Title.clear ();
-	m_Mol = new Molecule ();
-	AddChild (m_Mol);
-	if (n == size) {
-		LoadData (buf, mime_type);
-		if (m_App) {
-			char *dirname = g_path_get_dirname (uri);
-			m_App->SetCurDir (dirname);
-			g_free (dirname);
-		}
-		if (m_Title.length () == 0) {
-			char *name = g_path_get_basename (uri);
-			SetTitle (name);
-			g_free (name);
-		}
-	}
-	delete [] buf;
-	g_object_unref (input);
 	g_object_unref (file);
 }
 
-void Chem3dDoc::LoadData (char const *data, char const *mime_type)
+void Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
 {
-	istringstream is (data);
-	OBConversion Conv;
-	OBFormat* pInFormat = Conv.FormatFromMIME (mime_type);
-	OBMol Molecule;
-	if (pInFormat) {
-		Conv.SetInAndOutFormats (pInFormat, pInFormat);
-		Conv.Read (&Molecule,&is);
-		m_Empty = Molecule.NumAtoms () == 0;
+	if (size == 0)
+		size = strlen (data);
+	
+/*	GError *error = NULL;
+	GFileInfo *info = g_file_query_info (file,
+										 ((mime_type)? G_FILE_ATTRIBUTE_STANDARD_SIZE:
+										 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_STANDARD_SIZE),
+										 G_FILE_QUERY_INFO_NONE,
+										 NULL, &error);
+	if (error) {
+		g_message ("GIO querry failed: %s", error->message);
+		g_error_free (error);
+		g_object_unref (file);
+		error = NULL;
+		return;
 	}
-	m_Mol->Clear ();
-	// center the molecule around 0,0,0
-	std::vector < OBNodeBase * >::iterator i;
-	OBAtom* atom = Molecule.BeginAtom (i);
-	std::map <OBAtom *, Atom *> atomMap;
-	gdouble x0, y0, z0;
-	x0 = y0 = z0 = 0.0;
-	while (atom) {
-		x0 += atom->GetX ();
-		y0 += atom->GetY ();
-		z0 += atom->GetZ ();
-		atom = Molecule.NextAtom (i);
+	if (!mime_type)
+		mime_type = g_file_info_get_content_type (info);
+	// try using the loader mechanism
+	Application *app = GetApp ();
+	Object *obj = app->CreateObject ("atom", this);
+	if (obj)
+		delete obj;
+	else {
+		gcu::Loader::Init (app); // can be called many times
+		app->AddType ("atom", CreateAtom, AtomType);
+		app->AddType ("bond", CreateBond, BondType);
+		app->AddType ("molecule", CreateMolecule, MoleculeType);
 	}
-	x0 /= Molecule.NumAtoms ();
-	y0 /= Molecule.NumAtoms ();
-	z0 /= Molecule.NumAtoms ();
-	vector3 v(-x0, -y0, -z0);
-	atom = Molecule.BeginAtom (i);
-	while (atom) {
-		atom->SetVector ((atom->GetVector () + v) * 100);
-		atomMap[atom] = new Atom (atom->GetAtomicNum (), atom->GetX (), atom->GetY (), atom->GetZ ());
-		m_Mol->AddAtom (atomMap[atom]);
-		atom = Molecule.NextAtom (i);
-	}
-	std::vector < OBEdgeBase * >::iterator j;
-	OBBond* bond = Molecule.BeginBond (j);
-	while (bond) {
-		m_Mol->AddBond (new Bond (atomMap[bond->GetBeginAtom ()], atomMap[bond->GetEndAtom ()], bond->GetBondOrder ()));
-		bond = Molecule.NextBond (j);
-	}
-	SetTitle (Molecule.GetTitle());
-	m_View->Update ();
+	string filename = uri;
+	Clear ();
+	ContentType type = app->Load (filename, mime_type, this);
+	Loaded ();
+	if (type == ContentType3D) {
+		// center the scene around 0,0,0
+		std::map<std::string, Object*>::iterator it;
+		obj =  GetFirstChild (it);
+		while (obj) {
+			m_Mol = dynamic_cast <Molecule *> (obj);
+			if (m_Mol)
+				break;
+			obj = GetNextChild (it);
+		}
+		// FIXME: we show only one molecule
+		double x0, y0, z0;
+		x0 = y0 = z0 = 0.0;
+		std::list <Atom *>::const_iterator i;
+		Atom const *atom = m_Mol->GetFirstAtom (i);
+		while (atom) {
+			x0 += atom->x ();
+			y0 += atom->y ();
+			z0 += atom->z ();
+			atom = m_Mol->GetNextAtom (i);
+		}
+		m_Mol->Move (-x0 * m_Mol->GetAtomsNumber (), -y0 * m_Mol->GetAtomsNumber (), -z0 * m_Mol->GetAtomsNumber ());
+		char const *title = m_Mol->GetName ();
+		if (title)
+			SetTitle (title);
+		m_View->Update ();
+	} else if (type != ContentTypeUnknown) {
+		Clear ();
+		// TODO: process the error (display a message at least or open with an appropriate application)
+	}*/
 }
 
 struct VrmlBond {
@@ -284,6 +261,12 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 	z0 /= m_Mol->GetAtomsNumber ();
 
 	//Create prototypes for atoms
+	GcuAtomicRadius radius;
+	radius.type = GCU_VAN_DER_WAALS;
+	radius.charge = 0;
+	radius.cn = -1;
+	radius.spin = GCU_N_A_SPIN;
+	radius.scale = NULL;
 	for (atom = m_Mol->GetFirstAtom (i); atom; atom = m_Mol->GetNextAtom (i)) {
 		Z = atom->GetZ ();
 		if (!Z)
@@ -291,7 +274,9 @@ void Chem3dDoc::OnExportVRML (string const &filename)
 		symbol = Element::Symbol (Z);
 		if (AtomsMap[symbol].l.empty()) {
 			AtomsMap[symbol].n = n;
-			R = etab.GetVdwRad (Z);
+			radius.Z = Z;
+			gcu_element_get_radius (&radius);
+			R = radius.value.value / 100; // convert from pm to Angstrom (supposing that the unit is actually pm).
 			if (m_Display3D == BALL_AND_STICK)
 				R *= 0.2;
 			color = gcu_element_get_default_color (Z);

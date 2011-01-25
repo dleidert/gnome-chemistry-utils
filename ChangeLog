@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-01-25  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/Makefile.am: no more direct linking to openbabel.
+	* libs/gcu/application.cc: load distant files using babelserver.
+	* libs/gcu/chem3ddoc.cc: no more use of openbabel.
+	* libs/gcu/chem3ddoc.h: ditto.
+	* libs/gcu/gcuchem3dviewer.cc: ditto.
+	* libs/gcu/gcuchem3dviewer.h: ditto.
+	* openbabel/babelserv.cc: don't close socket too early.
+	* tests/testbabelserver.c (main): avoid infinite loop.
+
 2011-01-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: do not call Application::Load() for native files.
 	* libs/gcp/document.cc: fixed merging molecules owned by another object.

@@ -83,11 +83,10 @@ int main ()
 					length = strtol (inbuf, NULL, 10);
 					start++;
 				}
-			} else {
-				if (index - (start - inbuf) == length) {
-					printf ("answer is: %s\n", start);
-					break;
-				}
+			}
+			if (index - (start - inbuf) == length) {
+				printf ("answer is: %s\n", start);
+				break;
 			}
 		}
 	}
