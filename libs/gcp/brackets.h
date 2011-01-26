@@ -101,7 +101,7 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 /*!
 For brackets, OnLoaded() is called each time an embedded object is added.
 */
-	virtual void OnLoaded ();
+	void OnLoaded ();
 	void SetEmbeddedObjects (std::set <gcu::Object *> objects);
 
 private:

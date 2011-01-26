@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-01-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/Makefile.am: add brackets.*.
+	* libs/gccv/brackets.cc: new Item class.
+	* libs/gccv/brackets.h: ditto.
+	* libs/gcp/brackets.h: remove unneeded virtual keyword.
+
 2011-01-25  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/Makefile.am: no more direct linking to openbabel.
 	* libs/gcu/application.cc: load distant files using babelserver.
