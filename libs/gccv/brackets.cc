@@ -108,18 +108,20 @@ static BracketsMetrics const *GetBracketsMetrics (std::string &fontdesc)
 /******************************************************************************/
 /* Brackets class implementation                                              */
 /******************************************************************************/
-Brackets::Brackets (Canvas *canvas, char const *fontdesc, double x0, double y0, double x1, double y1):
+Brackets::Brackets (Canvas *canvas, BracketsTypes type, char const *fontdesc, double x0, double y0, double x1, double y1):
 	Item (canvas)
 {
 	SetFontDesc (fontdesc);
 	SetPosition (x0, y0, x1, y1);
+	SetType (type);
 }
 
-Brackets::Brackets (Group *parent, char const *fontdesc, double x0, double y0, double x1, double y1, ItemClient *client):
+Brackets::Brackets (Group *parent, BracketsTypes type, char const *fontdesc, double x0, double y0, double x1, double y1, ItemClient *client):
 	Item (parent, client)
 {
 	SetFontDesc (fontdesc);
 	SetPosition (x0, y0, x1, y1);
+	SetType (type);
 }
 
 Brackets::~Brackets ()

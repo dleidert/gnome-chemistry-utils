@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2011-01-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/brackets.cc: add brackets type.
+	* libs/gccv/brackets.h: ditto.
+	* libs/gcp/brackets.cc: move brackets type to gccv.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcp/widgetdata.cc: add GetObjectsBounds().
+	* libs/gcp/widgetdata.h: ditto.
+	* libs/gcu/application.cc: don't block if the soecket is closed.
+	* openbabel/babelserv.cc: delete the socket on error.
+	* programs/spectra/application.cc: use jcamp-dx before any other type.
+	* programs/spectra/gspectrum.cc: int goffice plugins before loaders.
+
 2011-01-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/Makefile.am: add brackets.*.
 	* libs/gccv/brackets.cc: new Item class.

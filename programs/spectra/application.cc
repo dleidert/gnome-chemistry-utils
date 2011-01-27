@@ -38,6 +38,8 @@ using namespace std;
 
 gsvApplication::gsvApplication (): Application (_("GSpectrum"), DATADIR, "gspectrum")
 {
+	// First, initialize plugins manager
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 	gcu::Loader::Init (this);
 	m_SupportedMimeTypes.push_back ("chemical/x-jcamp-dx");
 	map<string, LoaderStruct>::iterator it;
@@ -107,11 +109,13 @@ bool gsvApplication::FileProcess (const gchar* filename, const gchar* mime_type,
 			pDoc = NULL;
 		if (!pDoc)
 			pDoc = OnFileNew ();
-		ContentType ctype = Load (filename, mime_type, pDoc);
-		if (ctype == gcu::ContentTypeUnknown)
+		if (!strcmp (mime_type, "chemical/x-jcamp-dx"))
 			pDoc->Load (filename, mime_type);
-		else if (ctype != gcu::ContentTypeSpectrum)
-			return false;
+		else {
+			ContentType ctype = Load (filename, mime_type, pDoc);
+			if (ctype != gcu::ContentTypeSpectrum)
+				return false;
+		}
 		GtkRecentData data;
 		data.display_name = g_strdup (pDoc->GetTitle ().c_str ());
 		if (*data.display_name == 0) {

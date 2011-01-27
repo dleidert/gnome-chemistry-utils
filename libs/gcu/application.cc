@@ -709,8 +709,11 @@ char* Application::ConvertToCML (std::string const &uri, const char *mime_type, 
 			}
 			if (index == length)
 				goto ok_exit;
-		}
+		} else
+			break;
 	}
+	if (start != inbuf)
+		g_free (start);
 	start = NULL;
 ok_exit:
 	close (sock);

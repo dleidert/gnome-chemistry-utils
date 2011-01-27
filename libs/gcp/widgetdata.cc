@@ -424,6 +424,16 @@ void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect *rect) const
 		rect->x0 = rect->y0 = rect->x1 = rect->y1 = 0.;
 }
 
+void WidgetData::GetObjectsBounds (std::set <gcu::Object const *> const &objects, gccv::Rect *rect) const
+{
+	rect->x0 = go_nan;
+	std::set <gcu::Object const *>::iterator it, end = objects.end ();
+	for (it = objects.begin (); it != end; it++)
+		GetObjectBounds (*it, *rect);
+	if (!go_finite (rect->x0))
+		rect->x0 = rect->y0 = rect->x1 = rect->y1 = 0.;
+}
+
 void WidgetData::SelectAll ()
 {
 	std::list <gccv::Item *>::iterator it;

@@ -121,8 +121,11 @@ int main (int argc, char *argv[])
 				if (fds[i].revents & POLLIN) {
 					int res;
 					while ((res = sockets[fds[i].fd]->Read ()) > 0);
-					if (res == -1)
+					if (res == -1) {
+						delete sockets[fds[i].fd];
+						sockets.erase (fds[i].fd);
 						deleted.insert (i);
+					}
 				}
 				if (fds[i].revents & POLLRDHUP) {
 					delete sockets[fds[i].fd];

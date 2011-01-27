@@ -32,11 +32,27 @@ namespace gccv {
 
 typedef struct _BracketsMetrics BracketsMetrics;
 
+/*!\enum BracketsTypes
+Enumeration of the known brackets types.
+*/
+typedef enum
+{
+/*!
+*/
+	BracketsTypeNormal,
+/*!
+*/
+	BracketsTypeSquare,
+/*!
+*/
+	BracketsTypeCurly
+} BracketsTypes;
+
 class Brackets: public Item
 {
 public:
-	Brackets (Canvas *canvas, char const *fontdesc, double x0, double y0, double x1, double y1);
-	Brackets (Group *parent, char const *fontdesc, double x0, double y0, double x1, double y1, ItemClient *client = NULL);
+	Brackets (Canvas *canvas, BracketsTypes type, char const *fontdesc, double x0, double y0, double x1, double y1);
+	Brackets (Group *parent, BracketsTypes type, char const *fontdesc, double x0, double y0, double x1, double y1, ItemClient *client = NULL);
 	~Brackets ();
 
 /*!
@@ -105,6 +121,7 @@ Sets the brackets size.
 */
 GCCV_ITEM_POS_PROP (double, Size)
 GCCV_ITEM_POS_PROP (std::string, FontDesc)
+GCCV_ITEM_POS_PROP (BracketsTypes, Type)
 /*!\fn SetColor(GOColor color)
 @param color the new brackets color.
 

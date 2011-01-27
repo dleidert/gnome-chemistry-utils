@@ -24,14 +24,17 @@
 
 #include "config.h"
 #include "brackets.h"
-#include "settings.h"
-#include "widgetdata.h"
+#include <gccv/canvas.h>
+#include <gcp/document.h>
 #include <gcp/mechanism-step.h>
 #include <gcp/reaction-step.h>
+#include <gcp/settings.h>
+#include <gcp/view.h>
+#include <gcp/widgetdata.h>
 #include <gcu/application.h>
 #include <gcu/document.h>
-#include <gccv/group.h>
-#include <gccv/text.h>
+#include <gccv/canvas.h>
+#include <gccv/structs.h>
 #include <sstream>
 #include <cstring>
 
@@ -40,7 +43,7 @@ namespace gcp {
 gcu::TypeId BracketsType = gcu::NoType;
 static gcu::Object *last_loaded;
 
-Brackets::Brackets (BracketsTypes type): gcu::Object (BracketsType), ItemClient ()
+Brackets::Brackets (gccv::BracketsTypes type): gcu::Object (BracketsType), ItemClient ()
 {
 	m_Type = type;
 	m_Valid = false;
@@ -60,19 +63,36 @@ void Brackets::OnLoaded ()
 	}
 }
 
+void Brackets::AddItem ()
+{
+	if (m_Item || m_EmbeddedObjects.empty ())
+		return;
+	Document *doc = static_cast <Document*> (GetDocument ());
+	View *view = doc->GetView ();
+	if (!m_FontDesc.length ()) {
+		char *desc = pango_font_description_to_string (view->GetPangoFontDesc ());
+		m_FontDesc = desc;
+		g_free (desc);
+	}
+	gccv::Rect rect;
+	view->GetData ()->GetObjectsBounds (m_EmbeddedObjects, &rect);
+	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1);
+	item->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
+}
+
 bool Brackets::Load (xmlNodePtr node)
 {
 	char *buf;
 	gcu::Document *doc = GetDocument ();
 	buf = reinterpret_cast <char *> (xmlGetProp (node, (xmlChar*) "type"));
 	if (!buf)
-		m_Type = BracketsTypeNormal;
+		m_Type = gccv::BracketsTypeNormal;
 	else if (!strcmp (buf, "square"))
-		m_Type = BracketsTypeSquare;
+		m_Type = gccv::BracketsTypeSquare;
 	else if (!strcmp (buf, "curly"))
-		m_Type = BracketsTypeCurly;
+		m_Type = gccv::BracketsTypeCurly;
 	else
-		m_Type = BracketsTypeNormal;
+		m_Type = gccv::BracketsTypeNormal;
 	if (buf)
 		xmlFree (buf);
 	buf = reinterpret_cast <char *> (xmlGetProp (node, (xmlChar*) "objects"));
@@ -95,20 +115,20 @@ xmlNodePtr Brackets::Save (xmlDocPtr xml) const
 	SaveId (node);
 	char const *type = NULL;
 	switch (m_Type) {
-	case BracketsTypeNormal:
+	case gccv::BracketsTypeNormal:
 	default:
 		break;
-	case BracketsTypeSquare:
+	case gccv::BracketsTypeSquare:
 		type = "square";
 		break;
-	case BracketsTypeCurly:
+	case gccv::BracketsTypeCurly:
 		type = "curly";
 		break;
 	}
 	if (type)
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
 	// now save embedded objects as a list of Ids
-	std::set <gcu::Object *>::iterator i, end = m_EmbeddedObjects.end ();
+	std::set <gcu::Object const *>::iterator i, end = m_EmbeddedObjects.end ();
 	i = m_EmbeddedObjects.begin ();
 	std::ostringstream str;
 	str << (*i)->GetId ();
@@ -138,21 +158,16 @@ void Brackets::SetSelected (int state)
 		color = GO_COLOR_BLACK;
 		break;
 	}
-	gccv::Group *group = static_cast <gccv::Group *> (m_Item);
-	std::list <gccv::Item *>::iterator it;
-	gccv::Text *text;
-	for (gccv::Item *item = group->GetFirstChild (it); item; item = group->GetNextChild (it))
-		if ((text = dynamic_cast <gccv::Text *> (item)))
-			text->SetColor (color);
+	static_cast <gccv::Brackets *> (m_Item)->SetColor (color);
 }
 
-void Brackets::SetEmbeddedObjects (std::set <gcu::Object *> objects)
+void Brackets::SetEmbeddedObjects (std::set <gcu::Object const *> objects)
 {
 	// evaluate what objects are really there, and add links to them
 	if (objects.size () == 0) // that case the brackets are not valid
 		return;
-	gcu::Object *obj;
-	std::set <gcu::Object*>::iterator i = objects.begin (),
+	gcu::Object const *obj;
+	std::set <gcu::Object const *>::iterator i = objects.begin (),
 									   end = objects.end ();
 	std::set <gcu::TypeId> const &rules = GetApplication ()->GetRules (BracketsType, gcu::RuleMayContain);
 

@@ -29,6 +29,7 @@
 #include <gccv/structs.h>
 #include <list>
 #include <map>
+#include <set>
 
 /*!\file*/
 namespace gcp {
@@ -226,9 +227,16 @@ normally. This is used when printing or exporting an image.
 Gets the object bounds in canvas coordinates.
 */
 	void GetObjectBounds (gcu::Object const *obj, gccv::Rect *rect) const;
-
 /*!
-Replace th selected objects by their parents if all parents children are
+@param objects a set of gcu::Object.
+@param rect an ArtDRect which will receive the object bounds.
+
+Gets the object bounds in canvas coordinates.
+*/
+	void GetObjectsBounds (std::set <gcu::Object const *> const &objects, gccv::Rect *rect) const;
+	 
+/*!
+Replace the selected objects by their parents if all parents children are
 selected.
 */
 	void SimplifySelection ();

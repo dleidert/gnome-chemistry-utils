@@ -27,6 +27,7 @@
 
 #include <gcu/object.h>
 #include <gccv/item-client.h>
+#include <gccv/brackets.h>
 #include <set>
 
 /*!\file*/
@@ -41,22 +42,6 @@ typedef enum {
 	BracketContentGroup
 } BracketContent;
 
-/*!\enum BracketsTypes
-Enumeration of the known brackets types.
-*/
-typedef enum
-{
-/*!
-*/
-	BracketsTypeNormal,
-/*!
-*/
-	BracketsTypeSquare,
-/*!
-*/
-	BracketsTypeCurly
-} BracketsTypes;
-
 typedef enum {
 	BracketSubscript = 1,
 	BracketSuperscript = 2
@@ -70,11 +55,17 @@ public:
 /*!
 Used to create a brackets pair or a single bracket.
 */
-	Brackets (BracketsTypes type = BracketsTypeNormal);
+	Brackets (gccv::BracketsTypes type = gccv::BracketsTypeNormal);
 /*!
 The destructor.
 */
 	virtual ~Brackets();
+
+
+/*!
+Used to add a representation of the fragment in the view.
+*/
+	void AddItem ();
 
 /*!
 @param node: a pointer to the xmlNode containing the serialized brackets.
@@ -102,15 +93,16 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 For brackets, OnLoaded() is called each time an embedded object is added.
 */
 	void OnLoaded ();
-	void SetEmbeddedObjects (std::set <gcu::Object *> objects);
+	void SetEmbeddedObjects (std::set <gcu::Object const *> objects);
 
 private:
-	std::set <gcu::Object *> m_EmbeddedObjects;
+	std::set <gcu::Object const *> m_EmbeddedObjects;
 	bool m_Valid;
 	BracketContent m_Content;
 
-GCU_PROP (BracketsTypes, Type)
+GCU_PROP (gccv::BracketsTypes, Type)
 GCU_RO_PROP (unsigned, Decorations)
+GCU_PROP (std::string, FontDesc)
 };
 
 }	//	namespace gcp
