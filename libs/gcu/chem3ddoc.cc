@@ -34,6 +34,8 @@
 #include "vector.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
+#include <gsf/gsf-input-memory.h>
+#include <goffice/goffice.h>
 #include <gio/gio.h>
 #include <GL/gl.h>
 #include <libintl.h>
@@ -101,6 +103,12 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 	}
 	if (!mime_type)
 		mime_type = g_file_info_get_content_type (info);
+	g_object_unref (info);
+	if (!mime_type) {
+		// should not happen
+		g_object_unref (file);
+		return;
+	}
 	// try using the loader mechanism
 	Application *app = GetApp ();
 	Object *obj = app->CreateObject ("atom", this);
@@ -151,24 +159,18 @@ void Chem3dDoc::Load (char const *uri, char const *mime_type)
 
 void Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
 {
-	if (size == 0)
-		size = strlen (data);
-	
-/*	GError *error = NULL;
-	GFileInfo *info = g_file_query_info (file,
-										 ((mime_type)? G_FILE_ATTRIBUTE_STANDARD_SIZE:
-										 G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE","G_FILE_ATTRIBUTE_STANDARD_SIZE),
-										 G_FILE_QUERY_INFO_NONE,
-										 NULL, &error);
-	if (error) {
-		g_message ("GIO querry failed: %s", error->message);
-		g_error_free (error);
-		g_object_unref (file);
-		error = NULL;
+	bool need_free = false;
+	if (!mime_type) {
+		mime_type = go_get_mime_type_for_data (data, size);
+		need_free = true;
+	}
+	if (!mime_type) {
+		// should not happen
 		return;
 	}
-	if (!mime_type)
-		mime_type = g_file_info_get_content_type (info);
+	if (size == 0)
+		size = strlen (data);
+	GsfInput *input = gsf_input_memory_new (reinterpret_cast <guint8 const *> (data), size, false);
 	// try using the loader mechanism
 	Application *app = GetApp ();
 	Object *obj = app->CreateObject ("atom", this);
@@ -180,9 +182,8 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
 		app->AddType ("bond", CreateBond, BondType);
 		app->AddType ("molecule", CreateMolecule, MoleculeType);
 	}
-	string filename = uri;
 	Clear ();
-	ContentType type = app->Load (filename, mime_type, this);
+	ContentType type = app->Load (input, mime_type, this);
 	Loaded ();
 	if (type == ContentType3D) {
 		// center the scene around 0,0,0
@@ -212,8 +213,11 @@ void Chem3dDoc::LoadData (char const *data, char const *mime_type, size_t size)
 		m_View->Update ();
 	} else if (type != ContentTypeUnknown) {
 		Clear ();
-		// TODO: process the error (display a message at least or open with an appropriate application)
-	}*/
+		// TODO: process the error
+	}
+	if (need_free)
+		g_free (const_cast <char *> (mime_type));
+	g_object_unref (input);
 }
 
 struct VrmlBond {

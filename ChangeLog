@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/chem3ddoc.cc: reimplemented Chem3dDoc::LoadData().
+
 2011-01-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/brackets.cc: add brackets type.
 	* libs/gccv/brackets.h: ditto.
