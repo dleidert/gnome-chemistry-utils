@@ -36,6 +36,8 @@
 #include <gccv/structs.h>
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
+#include <iostream>
+#include <sstream>
 #include <vector>
 
 using namespace gcu;

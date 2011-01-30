@@ -107,16 +107,6 @@ Empties a document and reinitialize it.
 */
 	View* GetView () {return m_pView;}
 /*!
-@param Mol an OpenBabel molecule to import.
-
-Imports a molecule using OpenBabel.
-*/
-	bool ImportOB (OpenBabel::OBMol& Mol);
-/*!
-Exports the current file using OpenBabel. Only molecules will be exported.
-*/
-	void ExportOB () const;
-/*!
 Saves the current file.
 */
 	void Save () const;
@@ -462,8 +452,6 @@ of the residue.
 	std::set <std::string> &GetNewObjects () {return m_NewObjects;}
 
 private:
-	void BuildBondList (std::list<Bond*>& BondList, gcu::Object const *obj) const;
-	void BuildAtomTable (std::map<std::string, unsigned>& AtomTable, gcu::Object const *obj, unsigned& index) const;
 	void RemoveAtom (Atom* pAtom);
 	void RemoveBond (Bond* pBond);
 	void RemoveFragment (Fragment* pFragment);

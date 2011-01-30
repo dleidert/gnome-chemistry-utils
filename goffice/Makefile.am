@@ -12,7 +12,6 @@ goffice_gchemutils_LTLIBRARIES = gchemutils.la
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
-		$(openbabel_CFLAGS) \
 		$(GCU_CFLAGS)
 
 gchemutils_la_LDFLAGS = \

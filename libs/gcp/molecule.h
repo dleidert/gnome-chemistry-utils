@@ -28,7 +28,6 @@
 #include "fragment.h"
 #include <list>
 #include <gcu/molecule.h>
-#include <openbabel/mol.h>
 
 /*!\file*/
 namespace gcp {
@@ -174,21 +173,6 @@ a call to their gcu::Object::GetYAlign() method will be used.
 @return the id string of the child used for alignment if any, or an empty string.
 */
 	std::string GetAlignmentId () {return (m_Alignment)? m_Alignment->GetId (): "";}
-/*!
-@param Mol the OpenBabel molecule used for export.
-
-Builds an OpenBabel molecule from this instance.
-The new molecule is built trying to guess appropriate z coordinates so that
-stereochemistry is preserved.
-*/
-	void BuildOBMol (OpenBabel::OBMol &Mol);
-/*!
-@param Mol the OpenBabel molecule used for export.
-
-Builds a 2D OpenBabel molecule from this instance.
-
-*/
-	void BuildOBMol2D (OpenBabel::OBMol &Mol);
 /*!
 Builds the InChI for the molecule if necessary and opens a new StringDlg instance
 displaying it.

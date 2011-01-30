@@ -38,6 +38,7 @@
 #include <gccv/text.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
+#include <sstream>
 
 extern xmlDocPtr pXmlDoc;
 

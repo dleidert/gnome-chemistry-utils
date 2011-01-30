@@ -8,14 +8,12 @@ DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(goffice_LIBS) \
 		$(gsf_LIBS) \
-		$(gtkglext_LIBS) \
-		$(openbabel_LIBS)
+		$(gtkglext_LIBS)
 
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(gtkglext_CFLAGS) \
-		$(openbabel_CFLAGS) \
 		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\"
 

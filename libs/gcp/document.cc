@@ -44,10 +44,9 @@
 #include <gcu/objprops.h>
 #include <gcu/xml-utils.h>
 #include <glib/gi18n-lib.h>
-#include <openbabel/mol.h>
-#include <openbabel/obconversion.h>
 #include <stack>
 #include <cstring>
+#include <iostream>
 #include <sstream>
 #include <libgen.h>
 #include <unistd.h>
@@ -201,215 +200,6 @@ void Document::SetFileName (string const &Name, const gchar* mime_type)
 		}
 	if (!m_label)
 		m_label = g_uri_unescape_string (m_filename + i, NULL);
-}
-
-void Document::BuildBondList (list<Bond*>& BondList, Object const *obj) const
-{
-	Object const *pObject;
-	map<string, Object*>::const_iterator i;
-	for (pObject = obj->GetFirstChild (i); pObject; pObject = obj->GetNextChild (i))
-		if (pObject->GetType () == gcu::BondType)
-			BondList.push_back ((Bond*)(*i).second);
-		else BuildBondList (BondList, pObject);
-}
-
-
-bool Document::ImportOB (OBMol& Mol)
-{
-	//Title, dates, author and so on are not imported and so are invalid
-	if (m_title) {
-		g_free (m_title);
-		m_title = NULL;
-	}
-	if (m_author) {
-		g_free (m_author);
-		m_author = NULL;
-	}
-	if (m_mail) {
-		g_free (m_mail);
-		m_mail = NULL;
-	}
-	if (m_comment) {
-		g_free (m_comment);
-		m_comment = NULL;
-	}
-	g_date_clear (&CreationDate, 1);
-	g_date_clear (&RevisionDate, 1);
-	m_title = g_strdup (Mol.GetTitle ()); // Hmm, and if there are several molecules?
-	OBAtom *atom;
-	Atom* pAtom;
-	vector<OBNodeBase*>::iterator i;
-	for (atom = Mol.BeginAtom (i); atom; atom = Mol.NextAtom (i))
-	{
-		if (atom->GetAtomicNum () == 0)
-			continue;
-		AddAtom (pAtom = new Atom (atom));
-	}
-	Atom *begin, *end;
-	Bond *pBond;
-	unsigned char order;
-	gchar* Id;
-	OBBond *bond;
-	vector<OBEdgeBase*>::iterator j;
-	for (bond = Mol.BeginBond (j); bond; bond = Mol.NextBond (j)) {
-		Id = g_strdup_printf ("a%d", bond->GetBeginAtomIdx ());
-		begin = (Atom*) GetDescendant (Id);//Don't verify it is really an atom?
-		g_free (Id);
-		Id = g_strdup_printf ("a%d", bond->GetEndAtomIdx ());
-		end = (Atom*) GetDescendant (Id);//Don't verify it is really an atom?
-		g_free (Id);
-		if (!end)
-			continue;
-		order = (unsigned char) (bond->GetBO ());
-		if ((pBond = (Bond*) begin->GetBond (end)) != NULL) {
-			pBond->IncOrder (order);
-			m_pView->Update (pBond);
-			m_pView->Update (begin);
-			m_pView->Update (end);
-		} else {
-			Id = g_strdup_printf ("b%d", bond->GetIdx());
-			pBond = new Bond (begin, end, order);
-			if (bond->IsWedge ())
-				pBond->SetType (UpBondType);
-			else if (bond->IsHash ())
-				pBond->SetType (DownBondType);
-			pBond->SetId (Id);
-			g_free (Id);
-			AddBond (pBond);
-		}
-	}
-	m_Empty = !HasChildren ();
-	if (m_Window)
-		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", HasChildren ());
-	return true;
-}
-
-void Document::BuildAtomTable (map<string, unsigned>& AtomTable, Object const *obj, unsigned& index) const
-{
-	Object const *pObject;
-	map<string, Object*>::const_iterator i;
-	for (pObject = obj->GetFirstChild (i); pObject; pObject = obj->GetNextChild (i))
-		if (pObject->GetType() == AtomType)
-			AtomTable[(*i).second->GetId ()] = index++;
-		else
-			BuildAtomTable (AtomTable, pObject, index);
-}
-
-void Document::ExportOB () const
-{
-	OBMol Mol;
-	map<string, unsigned>::iterator i;
-	map<string, unsigned> AtomTable;
-	list<Bond*> BondList;
-	OBAtom obAtom;
-	Atom* pgAtom;
-	unsigned index = 1;
-	double x, y, z;
-	map< string, Object * >::const_iterator m;
-	stack<map< string, Object * >::const_iterator> iters;
-	set<Object const *> Mols;
-	Object const *Cur = this, *Ob;
-	try {
-		ostringstream ofs;
-		GFile *file = g_file_new_for_uri (m_filename);
-		GError *error = NULL;
-		GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
-		if (error) {
-			g_message ("GIO error: %s", error->message);
-			g_error_free (error);
-			g_object_unref (file);
-			throw (int) 1;
-		}
-		OBConversion Conv;
-		OBFormat* pOutFormat = Conv.FormatFromMIME (m_FileType.c_str ());
-		if (pOutFormat != NULL) {
-			Conv.SetOutFormat (pOutFormat);
-			Ob = GetFirstChild (m);
-			while (Ob) {
-				if (Ob->GetType () == MoleculeType)
-					Mols.insert (Ob);
-				else if (Ob->HasChildren ()) {
-					Cur = Ob;
-					iters.push (m);
-					Ob = Cur->GetFirstChild (m);
-					continue;
-				}
-				Ob = Cur->GetNextChild (m);
-				while (!Ob && !iters.empty ()) {
-					m = iters.top ();
-					iters.pop ();
-					Cur = Cur->GetParent ();
-					Ob = Cur->GetNextChild (m);
-				}
-			}
-			set<Object const *>::iterator mi, mend = Mols.end ();
-			unsigned nb = 1;
-			Conv.SetOneObjectOnly (false);
-			for (mi = Mols.begin (); mi != mend; mi++)
-			{
-				Ob = *mi;
-				if (nb == Mols.size ())
-					Conv.SetOneObjectOnly (true);
-				Mol.BeginModify ();
-				index = 1;
-				BuildAtomTable (AtomTable, Ob, index);
-				Mol.ReserveAtoms (AtomTable.size ());
-				Mol.SetTitle ((char*) GetTitle ());
-				Mol.SetDimension (2);
-				for (i = AtomTable.begin (); i != AtomTable.end (); i++) {
-					pgAtom = (Atom*) Ob->GetDescendant ((*i).first.c_str ());
-					obAtom.SetIdx ((*i).second);
-					obAtom.SetAtomicNum (pgAtom->GetZ ());
-					pgAtom->GetCoords (&x, &y, &z);
-					obAtom.SetVector (x / 100., 4. - y / 100., z / 100.);
-					obAtom.SetFormalCharge (pgAtom->GetCharge ());
-					Mol.AddAtom (obAtom);
-					obAtom.Clear ();
-				}
-				BuildBondList (BondList, Ob);
-				list<Bond*>::iterator j;
-				int start, end, order, flag;
-				for (j = BondList.begin (); j != BondList.end (); j++)
-				{
-					order = (*j)->GetOrder ();
-					start = AtomTable[(*j)->GetAtom (0)->GetId ()];
-					end = AtomTable[(*j)->GetAtom (1)->GetId ()];
-					switch ((*j)->GetType ()) {
-					case UpBondType:
-						flag = OB_WEDGE_BOND;
-						break;
-					case DownBondType:
-						flag = OB_HASH_BOND;
-						break;
-					default:
-						flag = 0;
-					}
-					Mol.AddBond (start, end, order, flag);
-				}
-				Mol.EndModify ();
-				Conv.SetOutputIndex (nb++);
-				Conv.Write (&Mol, &ofs);
-				Mol.Clear ();
-				AtomTable.clear ();
-				BondList.clear ();
-			}
-		}
-		gsize nb = ofs.str ().size (), n = 0;
-		while (n < nb) {
-			n += g_output_stream_write (output, ofs.str ().c_str () + n, nb - n, NULL, &error);
-			if (error) {
-				g_message ("GIO error: %s", error->message);
-				g_error_free (error);
-				g_object_unref (file);
-				throw (int) 1;
-			}
-		}
-		g_object_unref (file);
-		const_cast <Document *> (this)->SetReadOnly (false);
-	}
-	catch (int n) {
-		// TODO: implement a meaningful error reporting system
-	}
 }
 
 void Document::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
@@ -609,47 +399,43 @@ void Document::Save () const
 	try {
 		if (m_pApp && m_pApp->Save (m_filename, m_FileType.c_str (), this, ContentType2D))
 			return;
-		if (m_FileType != "application/x-gchempaint")
-			ExportOB ();
-		else {
-			xml = BuildXMLTree ();
-			xmlSetDocCompressMode (xml, CompressionLevel);
+		xml = BuildXMLTree ();
+		xmlSetDocCompressMode (xml, CompressionLevel);
 
-			if (!CompressionLevel) {
-				xmlIndentTreeOutput = true;
-				xmlKeepBlanksDefault (0);
-			}
-		
-			xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
-			GFile *file = g_file_new_for_uri (m_filename);
-			GError *error = NULL;
-			if (g_file_query_exists (file, NULL)) {
-				// FIXME: for now, delete it, but we might make a backup?
-				g_file_delete (file, NULL, &error);
-				if (error) {
-					g_message ("GIO error: %s", error->message);
-					g_error_free (error);
-					g_object_unref (file);
-					throw (int) 1;
-				}
-			}
-			GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
+		if (!CompressionLevel) {
+			xmlIndentTreeOutput = true;
+			xmlKeepBlanksDefault (0);
+		}
+	
+		xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
+		GFile *file = g_file_new_for_uri (m_filename);
+		GError *error = NULL;
+		if (g_file_query_exists (file, NULL)) {
+			// FIXME: for now, delete it, but we might make a backup?
+			g_file_delete (file, NULL, &error);
 			if (error) {
 				g_message ("GIO error: %s", error->message);
 				g_error_free (error);
 				g_object_unref (file);
 				throw (int) 1;
 			}
-			buf->context = output;
-			buf->closecallback = NULL;
-			buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
-			int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
-			g_output_stream_close (output, NULL, NULL);
-			g_object_unref (file);
-			if (n < 0)
-				throw 1;
-			const_cast <Document *> (this)->SetReadOnly (false);
 		}
+		GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
+		if (error) {
+			g_message ("GIO error: %s", error->message);
+			g_error_free (error);
+			g_object_unref (file);
+			throw (int) 1;
+		}
+		buf->context = output;
+		buf->closecallback = NULL;
+		buf->writecallback = (xmlOutputWriteCallback) cb_xml_to_vfs;
+		int n = xmlSaveFormatFileTo (buf, xml, NULL, true);
+		g_output_stream_close (output, NULL, NULL);
+		g_object_unref (file);
+		if (n < 0)
+			throw 1;
+		const_cast <Document *> (this)->SetReadOnly (false);
 		const_cast <Document *> (this)->SetDirty (false);
 		const_cast <Document *> (this)->m_LastStackSize = m_UndoList.size ();
 		const_cast <Document *> (this)->m_OpID = m_UndoList.front ()->GetID ();
@@ -1299,10 +1085,6 @@ void Document::ExportImage (string const &filename, const char* type, int resolu
 void Document::SetReadOnly (bool ro)
 {
 	m_bReadOnly = ro;
-	if (!ro && (m_FileType != "application/x-gchempaint") && !Loader::GetSaver (m_FileType.c_str ())) {
-		OBFormat *f = OBConversion::FormatFromMIME (m_FileType.c_str ());
-		m_bReadOnly = (f == NULL)? true: f->Flags () & NOTWRITABLE;
-	}
 	m_bUndoRedo = true;
 	if (m_Window) {
 		m_Window->ActivateActionWidget ("/MainMenu/FileMenu/Save", !m_bReadOnly);

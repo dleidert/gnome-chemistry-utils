@@ -58,14 +58,10 @@
 #include <gcu/loader.h>
 #include <gcu/loader-error.h>
 #include <glib/gi18n-lib.h>
-#include <openbabel/mol.h>
-#include <openbabel/reaction.h>
-#include <openbabel/obconversion.h>
 #include <fstream>
 #include <cstring>
 #include <sys/stat.h>
 
-using namespace OpenBabel;
 using namespace std;
 using namespace gcu;
 
@@ -300,7 +296,7 @@ Application::Application (CmdContext *cc):
 			g_free (errors);
 			errors = NULL;
 		}
-		OBConversion Conv;
+/*		OBConversion Conv;
 		m_Have_InChI = Conv.FindFormat ("inchi") != NULL || 
 			(g_spawn_command_line_sync ("which main_inchi", &result, &errors, NULL, NULL)
 			&& result && strlen (result));
@@ -309,7 +305,7 @@ Application::Application (CmdContext *cc):
 		if (errors) {
 			g_free (errors);
 			errors = NULL;
-		}
+		}*/
 
 		// Initialize types
 		AddType ("atom", CreateAtom, AtomType);
@@ -640,11 +636,10 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				m_pActiveDoc->ExportImage (filename2, pixbuf_type, GetImageResolution ());
 				break;
 			default:
-				if (Save (filename2, mime_type, pDoc, ContentType2D));
-				else if (!strcmp (mime_type, "application/x-gchempaint"))
+				if (!strcmp (mime_type, "application/x-gchempaint"))
 					SaveGcp (filename2, pDoc);
 				else
-					SaveWithBabel (filename2, mime_type, pDoc);
+					Save (filename2, mime_type, pDoc, ContentType2D);
 			}
 		}
 		g_object_unref (file);
@@ -716,17 +711,6 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 				pDoc->GetView ()->EnsureSize ();
 				if (pDoc->GetWindow ())
 					pDoc->GetWindow ()->ActivateActionWidget ("/MainMenu/FileMenu/SaveAsImage", pDoc->HasChildren ());
-			} else {
-				if (create) {
-					pDoc->GetWindow ()->Destroy ();
-					pDoc = NULL;
-					while (gdk_events_pending ())
-						gtk_main_iteration ();
-				}
-				if (!strcmp (mime_type, "application/x-gchempaint"))
-					OpenGcp (filename2, pDoc);
-				else
-					OpenWithBabel (filename2, mime_type, pDoc);
 			}
 		}
 	}
@@ -744,141 +728,6 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 		g_free (unescaped);
 	}
 	return false;
-}
-
-void Application::SaveWithBabel (string const &filename, const gchar *mime_type, Document* pDoc)
-{
-	pDoc->SetFileName (filename, mime_type);
-	pDoc->Save ();
-	GtkRecentData data;
-	data.display_name = (char*) pDoc->GetTitle ();
-	data.description = NULL;
-	data.mime_type = (char*) mime_type;
-	data.app_name = const_cast<char*> ("gchempaint");
-	data.app_exec = const_cast<char*> ("gchempaint %u");
-	data.groups = NULL;
-	data.is_private =  FALSE;
-	gtk_recent_manager_add_full (GetRecentManager (), filename.c_str (), &data);
-}
-
-void Application::OpenWithBabel (string const &filename, const gchar *mime_type, Document* pDoc)
-{
-	bool bNew = (pDoc == NULL || !pDoc->GetEmpty () || pDoc->GetDirty ());
-	GFile *file;
-	GFileInfo *info = NULL;
-	GError *error = NULL;
-	bool result = true, read_only = false;
-	gsize size = 0;
-	try {
-		if (!filename.length ())
-			throw (int) 0;
-		file = g_file_new_for_uri (filename.c_str ());
-		info = g_file_query_info (file,
-								  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE","G_FILE_ATTRIBUTE_STANDARD_SIZE,
-								  G_FILE_QUERY_INFO_NONE, NULL, &error);
-		if (error) {
-			g_warning ("GIO error: %s", error->message);
-			g_error_free (error);
-			if (info)
-				g_object_unref (info);
-			g_object_unref (file);
-			return;
-		}
-		size = g_file_info_get_size (info);
-		read_only = !g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE);
-		g_object_unref (info);
-		if (bNew) {
-			OnFileNew ();
-			pDoc = m_pActiveDoc;
-		}
-		char *buf = new char[size + 1];
-		GInputStream *input = G_INPUT_STREAM (g_file_read (file, NULL, &error));
-		gsize n = 0;
-		while (n < size) {
-			n += g_input_stream_read (input, buf, size, NULL, &error);
-			if (error) {
-				g_message ("GIO could not read the file: %s", error->message);
-				g_error_free (error);
-				delete [] buf;
-				g_object_unref (input);
-				g_object_unref (file);
-				return;
-			}
-		}
-		g_object_unref (input);
-		g_object_unref (file);
-		buf[size] = 0;
-		istringstream iss (buf);
-		OBMol Mol;
-		OBConversion Conv;
-		OBFormat* pInFormat = Conv.FormatFromExt (filename.c_str ());
-		if (pInFormat == NULL) {
-			delete [] buf;
-			throw 1;
-		}
-		Conv.SetInFormat (pInFormat);
-		while (!iss.eof () && Conv.Read (&Mol, &iss)) {
-			result = pDoc->ImportOB(Mol);
-			Mol.Clear ();
-			if (!result)
-				break;
-		}
-		delete [] buf;
-		if (!result)
-		{
-			if (bNew)
-				pDoc->GetWindow ()->Destroy ();
-			throw (int) 2;
-		}
-		pDoc->SetFileName (filename, mime_type);
-		pDoc->SetReadOnly (read_only);
-		double l = pDoc->GetMedianBondLength ();
-		if (l > 0.) {
-			double r = pDoc->GetBondLength () / l;
-			if (fabs (r - 1.) > .0001) { 
-				Matrix2D m (r, 0., 0., r);
-				// FIXME: this would not work for reactions
-				pDoc->Transform2D (m, 0., 0.);
-			}
-		}
-		View *pView = pDoc->GetView ();
-		pView->Update (pDoc);
-		pDoc->Update ();
-		pView->EnsureSize ();
-		Window *win = pDoc->GetWindow ();
-		if (win)
-			win->SetTitle (pDoc->GetTitle ());
-		GtkRecentData data;
-		data.display_name = (char*) pDoc->GetTitle ();
-		data.description = NULL;
-		data.mime_type = (char*) mime_type;
-		data.app_name = const_cast<char*> ("gchempaint");
-		data.app_exec = const_cast<char*> ("gchempaint %u");
-		data.groups = NULL;
-		data.is_private =  FALSE;
-		gtk_recent_manager_add_full (GetRecentManager (), filename.c_str (), &data);
-	}
-	catch (int num)
-	{
-		gchar *mess = NULL;
-		switch (num)
-		{
-		case 0:
-			mess = _("No filename");
-			break;
-		case 1:
-			mess = _("Could not open file\n%s");
-			break;
-		case 2:
-			mess = _("%s: parse error.");
-			break;
-		default:
-			throw (num); //this should not occur
-		}
-		char *unescaped = g_strdup_printf (mess, g_uri_unescape_string (filename.c_str (), NULL));
-		GetCmdContext ()->Message (unescaped, CmdContext::SeverityError, false);
-		g_free (unescaped);
-	}
 }
 
 void Application::SaveGcp (string const &filename, Document* pDoc)
@@ -1275,12 +1124,12 @@ void Application::AddMimeType (list<string> &l, string const& mime_type)
 
 void Application::TestSupportedType (char const *mime_type)
 {
-	OBFormat *f = OBConversion::FormatFromMIME (mime_type);
+/*	OBFormat *f = OBConversion::FormatFromMIME (mime_type);
 	if (f != NULL) {
 		AddMimeType (m_SupportedMimeTypes, mime_type);
 		if (!(f->Flags () & NOTWRITABLE))
 			AddMimeType (m_WriteableMimeTypes, mime_type);
-	}
+	}*/
 }
 
 list<string> &Application::GetExtensions(string &mime_type)

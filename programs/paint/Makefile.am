@@ -17,7 +17,6 @@ LIBS = $(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la \
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
-		$(openbabel_CFLAGS)
 		$(GCU_CFLAGS)
 DEFS += -DDATADIR=\"$(datadir)\" \
         -DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/paint\"

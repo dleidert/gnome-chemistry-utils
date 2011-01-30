@@ -212,22 +212,6 @@ chooser to process the file.
 	bool FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, GtkWindow *window, gcu::Document *pDoc = NULL);
 /*!
 @param filename the URI of the file to save.
-@param mime_type the mime type.
-@param pDoc the document to save.
-
-Saves the active document using the Openbabel library.
-*/
-	void SaveWithBabel (std::string const &filename, const gchar *mime_type, gcp::Document* pDoc);
-/*!
-@param filename the URI of the file to load.
-@param mime_type the mime type.
-@param pDoc a document or NULL.
-
-Loads a document using the Openbabel library.
-*/
-	void OpenWithBabel (std::string const &filename, const gchar *mime_type, gcp::Document* pDoc);
-/*!
-@param filename the URI of the file to save.
 @param pDoc the document to save.
 
 Saves the active document in the native GChemPaint format.

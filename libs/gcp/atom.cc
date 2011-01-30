@@ -39,14 +39,12 @@
 #include <gccv/text.h>
 #include <gccv/text-tag.h>
 #include <gcu/element.h>
-#include <openbabel/mol.h>
 #include <glib/gi18n-lib.h>
 #include <cstdlib>
 #include <cstring>
 #include <sstream>
 
 using namespace gcu;
-using namespace OpenBabel;
 using namespace std;
 
 #define ATOM_EPSILON 0.1
@@ -124,38 +122,6 @@ Atom::Atom (int Z, double x, double y, double z):
 	m_ChargeItem = NULL;
 	m_ShowCharge = true;
 	SetZ(Z);
-}
-
-Atom::Atom (OBAtom* atom):
-	gcu::Atom (),
-	ItemClient (),
-	m_ShowSymbol (false),
-	m_HPosStyle (AUTO_HPOS)
-{
-	m_x = atom->GetX ();
-	m_y = - atom->GetY ();
-	m_z = atom->GetZ ();
-	m_nlp = m_nlu = 0;
-	gchar* Id = g_strdup_printf ("a%d", atom->GetIdx());
-	SetId (Id);
-	g_free (Id);
-	m_HPos = GetBestSide ();
-	m_ascent = 0;
-	m_CHeight = 0.;
-	m_Changed = 0;
-	m_AvailPosCached = false;
-	m_OccupiedPos = 0;
-	m_ChargePos = 0xff;
-	m_ChargeAngle = 0.;
-	m_ChargeDist = 0.;
-	m_ChargeAutoPos = true;
-	m_Layout = m_ChargeLayout = m_HLayout = NULL;
-	m_DrawCircle = false;
-	m_Charge = atom->GetFormalCharge ();
-	m_SWidth = 0.;
-	m_ChargeItem = NULL;
-	m_ShowCharge = true;
-	SetZ (atom->GetAtomicNum ());
 }
 
 void Atom::SetZ (int Z)

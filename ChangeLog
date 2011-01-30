@@ -1,5 +1,34 @@
 ##Text encoding: utf-8
 
+2011-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/Makefile.am: don't depend anypore on OpenBabel.
+	* goffice/gchemutils.cc: ditto.
+	* libs/gcp/Makefile.am: ditto.
+	* libs/gcp/application.cc: ditto.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/atom.cc: ditto.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/document.h: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcp/molecule.h: ditto.
+	* mozilla-plugin/Makefile.am: ditto.
+	* plugins/paint/arrows/Makefile.am: ditto.
+	* plugins/paint/atoms/Makefile.am: ditto.
+	* plugins/paint/bonds/Makefile.am: ditto.
+	* plugins/paint/cycles/Makefile.am: ditto.
+	* plugins/paint/residues/Makefile.am: ditto.
+	* plugins/paint/selection/Makefile.am: ditto.
+	* plugins/paint/templates/Makefile.am: ditto.
+	* plugins/paint/text/Makefile.am: ditto.
+	* plugins/paint/text/fragmenttool.cc: ditto.
+	* plugins/paint/wikipedia/Makefile.am: ditto.
+	* plugins/paint/wikipedia/wikipediatool.cc: ditto.
+	* programs/3d/Makefile.am: ditto.
+	* programs/3d/document.h: ditto.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/Makefile.am: ditto.
+
 2011-01-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/chem3ddoc.cc: reimplemented Chem3dDoc::LoadData().
 

@@ -34,14 +34,13 @@
 #include <gcu/chain.h>
 #include <glib/gi18n-lib.h>
 #include <unistd.h>
-#include <openbabel/obconversion.h>
 #include <cmath>
 #include <cstring>
 #include <map>
 #include <set>
+#include <sstream>
 
 using namespace gcu;
-using namespace OpenBabel;
 using namespace std;
 
 namespace gcp {
@@ -555,7 +554,7 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 
 void Molecule::ExportToGhemical ()
 {
-	OBMol Mol;
+/*	OBMol Mol;
 	OBConversion Conv;
 	OBFormat* pOutFormat = Conv.FindFormat ("gpr");
 	Conv.SetInAndOutFormats (pOutFormat, pOutFormat);
@@ -571,7 +570,7 @@ void Molecule::ExportToGhemical ()
 	char *command_line = g_strconcat ("ghemical -f ", tmpname, NULL);	
 	g_free (tmpname);
 	g_spawn_command_line_async (command_line, NULL);
-	g_free (command_line);
+	g_free (command_line);*/
 }
 
 void Molecule::SelectAlignmentItem (Object *child)
@@ -590,125 +589,9 @@ xmlNodePtr Molecule::Save (xmlDocPtr xml) const
 	return node;
 }
 
-void Molecule::BuildOBMol (OBMol &Mol)
-{
-	double xav = 0., yav = 0., zf;
-	unsigned n = m_Atoms.size ();
-	map<string, unsigned> AtomTable;
-	list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
-	list<gcu::Bond*> BondList;
-	double x, y, z;
-	for (ia = m_Atoms.begin (); ia != enda; ia++) {
-		(*ia)->GetCoords(&x, &y, &z);
-		xav += x;
-		yav += y;
-	}
-	xav /= n;
-	yav /= n;
-	Atom* pgAtom;
-	OBAtom obAtom;
-	unsigned index = 1;
-	map<gcu::Atom*, gcu::Bond*>::iterator i;
-	Bond *pBond;
-	Mol.BeginModify ();
-	Mol.ReserveAtoms (n);
-	for (ia = m_Atoms.begin (); ia != enda; ia++) {
-		pgAtom =  reinterpret_cast <Atom *> (*ia);
-		AtomTable [pgAtom->GetId ()] = index;
-		obAtom.SetIdx (index++);
-		obAtom.SetAtomicNum (pgAtom->GetZ());
-		obAtom.SetFormalCharge (pgAtom->GetCharge ());
-		pgAtom->GetCoords (&x, &y, &z);
-		// Scans the atom bonds and change z to try conservation of stereochemistry
-		pBond = (Bond*) pgAtom->GetFirstBond (i);
-		while (pBond) {
-			zf = (pBond->GetAtom (0) == pgAtom)? 1.: -1.;
-			switch (pBond->GetType ()) {
-			case UpBondType:
-				z += zf * 50.;
-				break;
-			case DownBondType:
-				z -= zf * 50.;
-				break;
-			default:
-				break;
-			}
-			pBond = (Bond*) pgAtom->GetNextBond (i);
-		}
-		obAtom.SetVector ((xav - x) / 100, (yav - y) / 100, z / 100);
-		Mol.AddAtom (obAtom);
-		obAtom.Clear ();
-	}
-	list<gcu::Bond*>::iterator j, endb = m_Bonds.end ();
-	int start, end, order;
-	for (j = m_Bonds.begin (); j != endb; j++)
-	{
-		order = (*j)->GetOrder ();
-		start = AtomTable[(*j)->GetAtom (0)->GetId ()];
-		end = AtomTable[(*j)->GetAtom (1)->GetId ()];
-		Mol.AddBond(start, end, order, 0);
-	}
-	Mol.EndModify ();
-}
-
-void Molecule::BuildOBMol2D (OBMol &Mol)
-{
-	double xav = 0., yav = 0.;
-	unsigned n = m_Atoms.size ();
-	map<string, unsigned> AtomTable;
-	list<gcu::Atom*>::iterator ia, enda = m_Atoms.end ();
-	list<gcu::Bond*> BondList;
-	double x, y, z;
-	for (ia = m_Atoms.begin (); ia != enda; ia++) {
-		(*ia)->GetCoords (&x, &y, &z);
-		xav += x;
-		yav += y;
-	}
-	xav /= n;
-	yav /= n;
-	Atom* pgAtom;
-	OBAtom obAtom;
-	unsigned index = 1;
-	map<gcu::Atom*, gcu::Bond*>::iterator i;
-	Mol.BeginModify ();
-	Mol.ReserveAtoms (n);
-	Mol.SetDimension (2);
-	for (ia = m_Atoms.begin (); ia != enda; ia++) {
-		pgAtom =  reinterpret_cast <Atom *> (*ia);
-		AtomTable [pgAtom->GetId ()] = index;
-		obAtom.SetIdx (index++);
-		obAtom.SetAtomicNum (pgAtom->GetZ());
-		obAtom.SetFormalCharge (pgAtom->GetCharge ());
-		pgAtom->GetCoords (&x, &y, &z);
-		// Scans the atom bonds and change z to try conservation of stereochemistry
-		obAtom.SetVector ((x - xav) / 100, (yav - y) / 100, 0.);
-		Mol.AddAtom (obAtom);
-		obAtom.Clear ();
-	}
-	list<gcu::Bond*>::iterator j, endb = m_Bonds.end ();
-	int start, end, order, flag;
-	for (j = m_Bonds.begin (); j != endb; j++) {
-		order = (*j)->GetOrder ();
-		start = AtomTable[(*j)->GetAtom (0)->GetId ()];
-		end = AtomTable[(*j)->GetAtom (1)->GetId ()];
-		switch (reinterpret_cast <Bond *> (*j)->GetType ()) {
-		case UpBondType:
-			flag = OB_WEDGE_BOND;
-			break;
-		case DownBondType:
-			flag = OB_HASH_BOND;
-			break;
-		default:
-			flag = 0;
-		}
-		Mol.AddBond (start, end, order, flag);
-	}
-	Mol.EndModify ();
-}
-
 void Molecule::BuildInChI ()
 {
-	OBMol Mol;
+/*	OBMol Mol;
 	OBConversion Conv;
 	BuildOBMol2D (Mol);
 	OBFormat *pInChIFormat = Conv.FindFormat ("inchi"), *pMolFormat = Conv.FindFormat ("mol");
@@ -744,12 +627,12 @@ void Molecule::BuildInChI ()
 		remove (tmpname);
 		g_free (tmpname);
 	}
-	m_Changed = false;
+	m_Changed = false;*/
 }
 
 void Molecule::BuildSMILES ()
 {
-	OBMol Mol;
+/*	OBMol Mol;
 	OBConversion Conv;
 	OBFormat* pOutFormat = Conv.FindFormat ("smi");
 	Conv.SetInAndOutFormats (pOutFormat, pOutFormat);
@@ -758,7 +641,7 @@ void Molecule::BuildSMILES ()
 	Conv.Write (&Mol, &ofs);
 	//TODO: do something with the string
 	string str = ofs.str ().substr (0, ofs.str ().length () - 2);
-	new StringDlg (reinterpret_cast<Document *>(GetDocument ()), str, StringDlg::SMILES);
+	new StringDlg (reinterpret_cast<Document *>(GetDocument ()), str, StringDlg::SMILES);*/
 }
 
 void Molecule::ShowInChI ()

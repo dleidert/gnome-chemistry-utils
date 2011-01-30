@@ -34,11 +34,6 @@
 #include <gcu/element.h>
 #include <gcu/macros.h>
 
-namespace OpenBabel
-{
-	class OBAtom;
-}
-
 /*!\file*/
 namespace gcp {
 
@@ -126,13 +121,6 @@ Default construtor.
 
 */
 	Atom (int Z, double x, double y, double z);
-/*!
-@param atom an OpenBabel Atom instance.
-
-Builds an atom importing as many properties from an existing OpenBabel
-Atom instance.
-*/
-	Atom (OpenBabel::OBAtom* atom);
 /*!
 The destructor.
 */

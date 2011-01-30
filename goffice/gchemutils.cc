@@ -27,7 +27,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <goffice/component/go-component-factory.h>
-#include <openbabel/mol.h>
 #include <libintl.h>
 #include <map>
 #include <string>

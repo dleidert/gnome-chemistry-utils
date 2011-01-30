@@ -27,10 +27,8 @@
 
 #include <gcu/macros.h>
 #include <gcu/chem3ddoc.h>
-#include <openbabel/mol.h>
 
 using namespace gcu;
-using namespace OpenBabel;
 
 class gc3dApplication;
 
