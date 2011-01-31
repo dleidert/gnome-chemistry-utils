@@ -67,18 +67,18 @@ public:
 	virtual ~CDXMLLoader ();
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
-	bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
+	bool Write (Object const *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
 
 private:
-	bool WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, GOIOContext *io);
+	bool WriteObject (xmlDocPtr xml, xmlNodePtr node, Object const *object, GOIOContext *io);
 	static void AddIntProperty (xmlNodePtr node, char const *id, int value);
 	static void AddStringProperty (xmlNodePtr node, char const *id, string &value);
-	static bool WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, GOIOContext *s);
-	static bool WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, GOIOContext *s);
-	static bool WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, GOIOContext *s);
+	static bool WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
+	static bool WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
+	static bool WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s);
 
 private:
-	map <string, bool (*) (CDXMLLoader *, xmlDocPtr, xmlNodePtr, Object *, GOIOContext *)> m_WriteCallbacks;
+	map <string, bool (*) (CDXMLLoader *, xmlDocPtr, xmlNodePtr, Object const *, GOIOContext *)> m_WriteCallbacks;
 	map <unsigned, GOColor> m_Colors;
 	map <unsigned, CDXMLFont> m_Fonts;
 	map <string, unsigned> m_SavedIds;
@@ -806,7 +806,7 @@ static int cb_xml_to_vfs (GsfOutput *output, const guint8* buf, int nb)
 		return gsf_output_write (output, nb, buf)? nb: 0;
 }
 
-bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, G_GNUC_UNUSED GOIOContext *s)
+bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, G_GNUC_UNUSED GOIOContext *s)
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("n"), NULL);
 	xmlAddChild (parent, node);
@@ -821,7 +821,7 @@ bool CDXMLLoader::WriteAtom (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	return true;
 }
 
-bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, G_GNUC_UNUSED GOIOContext *s)
+bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, G_GNUC_UNUSED GOIOContext *s)
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("b"), NULL);
 	xmlAddChild (parent, node);
@@ -853,15 +853,15 @@ bool CDXMLLoader::WriteBond (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr pare
 	return true;
 }
 
-bool CDXMLLoader::WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object *obj, GOIOContext *s)
+bool CDXMLLoader::WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr parent, Object const *obj, GOIOContext *s)
 {
 	xmlNodePtr node = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("fragment"), NULL);
 	xmlAddChild (parent, node);
 	loader->m_SavedIds[obj->GetId ()] = loader->m_MaxId;
 	AddIntProperty (node, "id", loader->m_MaxId++);
 	// save atoms
-	std::map <std::string, Object *>::iterator i;
-	Object *child = obj->GetFirstChild (i);
+	std::map <std::string, Object *>::const_iterator i;
+	Object const *child = obj->GetFirstChild (i);
 	while (child) {
 		if (child->GetType () == AtomType && !loader->WriteObject (xml, node, child, s))
 			return false;
@@ -884,15 +884,15 @@ bool CDXMLLoader::WriteMolecule (CDXMLLoader *loader, xmlDocPtr xml, xmlNodePtr 
 	return true;
 }
 
-bool CDXMLLoader::WriteObject (xmlDocPtr xml, xmlNodePtr node, Object *object, GOIOContext *io)
+bool CDXMLLoader::WriteObject (xmlDocPtr xml, xmlNodePtr node, Object const *object, GOIOContext *io)
 {
 	string name = Object::GetTypeName (object->GetType ());
-	map <string, bool (*) (CDXMLLoader *, xmlDocPtr, xmlNodePtr, Object *, GOIOContext *)>::iterator i = m_WriteCallbacks.find (name);
+	map <string, bool (*) (CDXMLLoader *, xmlDocPtr, xmlNodePtr, Object const *, GOIOContext *)>::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
 		return (*i).second (this, xml, node, object, io);
 	// if we don't save the object iself, try to save its children
-	std::map <std::string, Object *>::iterator j;
-	Object *child = object->GetFirstChild (j);
+	std::map <std::string, Object *>::const_iterator j;
+	Object const *child = object->GetFirstChild (j);
 	while (child) {
 		if (!WriteObject (xml, node, child, io))
 			return false;
@@ -907,10 +907,11 @@ void CDXMLLoader::AddStringProperty (xmlNodePtr node, char const *id, string &va
 	xmlNewProp (node, reinterpret_cast <xmlChar const *> (id), reinterpret_cast <xmlChar const *> (value.c_str ()));
 }
 
-bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
+bool CDXMLLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	map<string, CDXMLFont> fonts;
-	Document *doc = dynamic_cast <Document *> (obj);
+	// FIXME: should be able to export a molecule or a reaction
+	Document const *doc = dynamic_cast <Document const *> (obj);
 	xmlNodePtr colors, fonttable, page;
 	if (!doc || !out)
 		return false;
@@ -940,7 +941,7 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 	// determine the bond length and scale the document appropriately
 	string prop = doc->GetProperty (GCU_PROP_THEME_BOND_LENGTH);
 	double scale = strtod (prop.c_str (), NULL);
-	doc->SetScale (scale / 30.);
+	const_cast <Document *> (doc)->SetScale (scale / 30.);
 	xmlNewProp (xml->children, reinterpret_cast <xmlChar const *> ("BondLength"),
 	            reinterpret_cast <xmlChar const *> ("30"));
 	// add color table
@@ -953,8 +954,8 @@ bool CDXMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const 
 	page = xmlNewDocNode (xml, NULL, reinterpret_cast <xmlChar const *> ("page"), NULL);
 	xmlAddChild (xml->children, page);
 	// build tree from children
-	std::map <std::string, Object *>::iterator i;
-	Object *child = doc->GetFirstChild (i);
+	std::map <std::string, Object *>::const_iterator i;
+	Object const *child = doc->GetFirstChild (i);
 	while (child) {
 		if (!WriteObject (xml, page, child, io)) {
 			xmlFreeDoc (xml);

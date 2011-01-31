@@ -51,7 +51,7 @@ public:
 	virtual ~CIFLoader ();
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
-	bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
+	bool Write (Object const *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
 };
 
 enum { // local only properties
@@ -506,16 +506,16 @@ typedef struct
 	string XFract, YFract, ZFract; 
 } AtomInstance;
 
-bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
+bool CIFLoader::Write  (G_GNUC_UNUSED Object const *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	std::string prop;
 	unsigned i;
 	if (NULL != out) {
-		Document *doc = dynamic_cast <Document *> (obj);
+		Document const *doc = dynamic_cast <Document const *> (obj);
 		if (!doc)
 			doc = obj->GetDocument ();
 		if (doc)
-			doc->SetScale (100);
+			const_cast <Document *> (doc)->SetScale (100);
 		prop = obj->GetProperty (GCU_PROP_DOC_TITLE);
 		if (prop.length () == 0)
 			prop = "0";
@@ -568,14 +568,13 @@ bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED
 			}
 		}
 		// iterate through the children and prepare atoms export
-		map <string, Object *>::iterator i;
-		Object *child = doc->GetFirstChild (i);
+		map <string, Object *>::const_iterator i;
+		Object const *child = doc->GetFirstChild (i);
 		map <string, Atom_Type> AtomTypes;
 		list <AtomInstance> AtomInstances;
 		map <int, int> types;
 		map <int, int> indices;
 		map <string, Atom_Type>::iterator t, tend;
-		char *buf;
 		while (child) {
 			// FIXME, using gcu::Atom is not conform to the spirit of the loader mechanism
 			if (child->GetType () == AtomType) {
@@ -600,7 +599,6 @@ bool CIFLoader::Write  (G_GNUC_UNUSED Object *obj, GsfOutput *out, G_GNUC_UNUSED
 					ostringstream str;
 					str << index;
 					type.symbol = symbol + str.str ();
-					g_free (buf);
 					type.charge = charge;
 					AtomTypes[id] = type;
 					instance.symbol = type.symbol;

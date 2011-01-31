@@ -215,7 +215,7 @@ This function must be overloaded by a derived class able to write. Default
 implementation just return false.
 @return true on success, false otherwise.
 */
-	virtual bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type = ContentTypeMisc);
+	virtual bool Write (Object const *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type = ContentTypeMisc);
 
 protected:
 /*!

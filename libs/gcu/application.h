@@ -109,7 +109,7 @@ helpfilename\#myapp-mytag.
 /*!
 @return the name of the application. Mostly useful to set the icon name of a new window.
 */
-	std::string &GetName () {return Name;}
+	std::string const &GetName () const {return Name;}
 
 /*!
 @return a GtkWindow if any. Should be overloaded by children classes.
@@ -219,7 +219,7 @@ This method loads a document using the appropriate gcu::Loader class
 instance.
 @return the found \a ContentType ot ContentTypeUnknown if an error occured.
 */
-	ContentType Load (std::string const &uri, const gchar *mime_type, Document* Doc);
+	ContentType Load (std::string const &uri, const gchar *mime_type, Document* Doc, const char *options = NULL);
 	             
 /*!
 @param input a GsfInput.
@@ -230,31 +230,31 @@ This method loads a document using the appropriate gcu::Loader class
 instance.
 @return the found \a ContentType ot ContentTypeUnknown if an error occured.
 */
-	ContentType Load (GsfInput *input, const gchar *mime_type, Document* Doc);
+	ContentType Load (GsfInput *input, const gchar *mime_type, Document* Doc, const char *options = NULL);
 	            
 /*!
 @param uri the uri to which the document should be saved.
 @param mime_type the mime type of the document.
-@param Doc the document instance which contains the data to be saved.
+@param Obj the object instance which contains the data to be saved.
 @param type the type of the data to be saved (see gcu::ContentType).
 
 This method saves the document using the appropriate gcu::Loader class
 instance.
 @return true if no error occurred.
 */
-	bool Save (std::string const &uri, const gchar *mime_type, Document const *Doc, ContentType type);
+	bool Save (std::string const &uri, const gchar *mime_type, Object const *Obj, ContentType type, const char *options = NULL);
 	            
 /*!
 @param output a GsfOutput.
 @param mime_type the mime type of the document.
-@param Doc the document instance which contains the data to be saved.
+@param Obj the object instance which contains the data to be saved.
 @param type the type of the data to be saved (see gcu::ContentType).
 
 This method saves the document using the appropriate gcu::Loader class
 instance using \a output as target.
 @return true if no error occurred.
 */
-	bool Save (GsfOutput *output, const gchar *mime_type, Document const *Doc, ContentType type);
+	bool Save (GsfOutput *output, const gchar *mime_type, Object const *Obj, ContentType type, const char *options = NULL);
 
 
 /*!
@@ -420,6 +420,9 @@ private:
 	void RemoveDocument (Document *Doc);
 	int OpenBabelSocket ();
 	char* ConvertToCML (std::string const &uri, const char *mime_type, const char *options = NULL);
+	char* ConvertToCML (GsfInput *input, const char *mime_type, const char *options = NULL);
+	void ConvertFromCML (const char *cml, std::string const &uri, const char *mime_type, const char *options = NULL);
+	void ConvertFromCML (const char *cml, GsfOutput *output, const char *mime_type, const char *options = NULL);
 	char const *MimeToBabelType (char const *mime_type);
 
 private:

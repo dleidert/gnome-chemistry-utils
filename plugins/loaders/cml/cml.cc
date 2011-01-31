@@ -67,18 +67,18 @@ public:
 	virtual ~CMLLoader ();
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
-	bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
+	bool Write (Object const *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
 
-	bool WriteObject (GsfXMLOut *xml, Object *object, GOIOContext *io, ContentType type);
+	bool WriteObject (GsfXMLOut *xml, Object const *object, GOIOContext *io, ContentType type);
 
 private:
-	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object *, GOIOContext *s, ContentType)> m_WriteCallbacks;
+	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object const *, GOIOContext *s, ContentType)> m_WriteCallbacks;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // Write callbacks
 
-bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *object, G_GNUC_UNUSED GOIOContext *io, ContentType type)
+bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object const *object, G_GNUC_UNUSED GOIOContext *io, ContentType type)
 {
 	gsf_xml_out_start_element (xml, "atom");
 	gsf_xml_out_add_cstr_unchecked (xml, "id", object->GetId ());
@@ -119,7 +119,7 @@ bool cml_write_atom (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *ob
 	return true;
 }
 
-bool cml_write_bond (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *object, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
+bool cml_write_bond (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object const *object, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	gsf_xml_out_start_element (xml, "bond");
 	gsf_xml_out_add_cstr_unchecked (xml, "id", object->GetId ());
@@ -141,12 +141,12 @@ bool cml_write_bond (G_GNUC_UNUSED CMLLoader *loader, GsfXMLOut *xml, Object *ob
 	return true;
 }
 
-bool cml_write_molecule (CMLLoader *loader, GsfXMLOut *xml, Object *object, GOIOContext *io, ContentType type)
+bool cml_write_molecule (CMLLoader *loader, GsfXMLOut *xml, Object const *object, GOIOContext *io, ContentType type)
 {
 	gsf_xml_out_start_element (xml, "molecule");
-	std::map <std::string, Object *>::iterator i;
-	Object *child = object->GetFirstChild (i);
-	list <Object *> bonds, fragments;
+	std::map <std::string, Object *>::const_iterator i;
+	Object const *child = object->GetFirstChild (i);
+	list <Object const *> bonds, fragments;
 	gsf_xml_out_start_element (xml, "atomArray");
 	while (child) {
 		switch (child->GetType ()) {
@@ -165,7 +165,7 @@ bool cml_write_molecule (CMLLoader *loader, GsfXMLOut *xml, Object *object, GOIO
 	// now save bonds
 	if (bonds.size () > 0) {
 		gsf_xml_out_start_element (xml, "bondArray");
-		list <Object *>::iterator it, end = bonds.end ();
+		list <Object const *>::iterator it, end = bonds.end ();
 		for (it = bonds.begin (); it != end; it++)
 			loader->WriteObject (xml, *it, io, type);
 		gsf_xml_out_end_element (xml);
@@ -519,15 +519,15 @@ ContentType CMLLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
 ////////////////////////////////////////////////////////////////////////////////
 // Writing code
 
-bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, GOIOContext *io, ContentType type)
+bool CMLLoader::WriteObject (GsfXMLOut *xml, Object const *object, GOIOContext *io, ContentType type)
 {
 	string name = Object::GetTypeName (object->GetType ());
-	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object *, GOIOContext *, ContentType)>::iterator i = m_WriteCallbacks.find (name);
+	map <string, bool (*) (CMLLoader *, GsfXMLOut *, Object const *, GOIOContext *, ContentType)>::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
 		return (*i).second (this, xml, object, io, type);
 	// if we don't save the object iself, try to save its children
-	std::map <std::string, Object *>::iterator j;
-	Object *child = object->GetFirstChild (j);
+	std::map <std::string, Object *>::const_iterator j;
+	Object const *child = object->GetFirstChild (j);
 	while (child) {
 		if (!WriteObject (xml, child, io, type))
 			return false;
@@ -537,16 +537,16 @@ bool CMLLoader::WriteObject (GsfXMLOut *xml, Object *object, GOIOContext *io, Co
 					either in this code or in the cml schema */
 }
 
-bool CMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, GOIOContext *io, ContentType type)
+bool CMLLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, GOIOContext *io, ContentType type)
 {
 	if (NULL != out) {
 		GsfXMLOut *xml = gsf_xml_out_new (out);
 		gsf_xml_out_start_element (xml, "cml");
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:cml", "http://www.xml-cml.org/schema");
 		// FIXME: add other namespaces if needed
-		Document *doc = dynamic_cast <Document *> (obj);
+		Document const *doc = dynamic_cast <Document const *> (obj);
 		if (doc) {
-			doc->SetScale (100);
+			const_cast <Document *> (doc)->SetScale (100);
 			string title = doc->GetProperty (GCU_PROP_DOC_TITLE);
 			if (title.length ())
 				gsf_xml_out_add_cstr (xml, "title", title.c_str ());
@@ -617,8 +617,8 @@ bool CMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *m
 				// start atoms array
 				gsf_xml_out_start_element (xml, "atomArray");
 			}
-			std::map <std::string, Object *>::iterator i;
-			Object *child = doc->GetFirstChild (i);
+			std::map <std::string, Object *>::const_iterator i;
+			Object const *child = doc->GetFirstChild (i);
 			while (child) {
 				if (!WriteObject (xml, child, io, type)) {
 					g_object_unref (xml);
@@ -626,8 +626,11 @@ bool CMLLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED char const *m
 				}
 				child = doc->GetNextChild (i);
 			}
-		} else
+		} else {
+			doc = obj->GetDocument ();
+			const_cast <Document *> (doc)->SetScale (100);
 			WriteObject (xml, obj, io, type);
+		}
 		if (type == ContentTypeCrystal) {
 			gsf_xml_out_end_element (xml);
 			gsf_xml_out_end_element (xml);

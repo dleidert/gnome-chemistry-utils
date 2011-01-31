@@ -33,6 +33,7 @@
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
 #include <gsf/gsf-input-memory.h>
+#include <gsf/gsf-output-memory.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cmath>
@@ -286,7 +287,7 @@ void Application::RemoveDocument (Document *Doc)
 		NoMoreDocsEvent ();
 }
 
-ContentType Application::Load (std::string const &uri, const gchar *mime_type, Document* Doc)
+ContentType Application::Load (std::string const &uri, const gchar *mime_type, Document* Doc, const char *options)
 {
 	Loader *l = Loader::GetLoader (mime_type);
 	GsfInput *input;
@@ -316,7 +317,7 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 	return ret;
 }
 
-ContentType Application::Load (GsfInput *input, const gchar *mime_type, Document* Doc)
+ContentType Application::Load (GsfInput *input, const gchar *mime_type, Document* Doc, const char *options)
 {
 	Loader *l = Loader::GetLoader (mime_type);
 	if (!l)
@@ -327,11 +328,18 @@ ContentType Application::Load (GsfInput *input, const gchar *mime_type, Document
 	return ret;
 }
 
-bool Application::Save (std::string const &uri, const gchar *mime_type, Document const *Doc, ContentType type)
+bool Application::Save (std::string const &uri, const gchar *mime_type, Object const *Obj, ContentType type, const char *options)
 {
 	Loader *l = Loader::GetSaver (mime_type);
-	if (!l)
+	GError *error = NULL;
+	if (!l) {
+		l = Loader::GetSaver ("chemical/x-cml");
+		if (!l)
+			return false;
+		GsfOutput *output = gsf_output_memory_new ();
+		
 		return false;
+	}
 	GFile *file = g_file_new_for_uri (uri.c_str ());
 	if (g_file_query_exists (file, NULL)) {
 		GError *error = NULL;
@@ -349,25 +357,24 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Document
 		}
 	}
 	g_object_unref (file);
-	GError *error = NULL;
 	GsfOutput *output = gsf_output_gio_new_for_uri (uri.c_str (), &error);
 	if (error) {
 		g_error_free (error);
 	}
 	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
-	bool ret = l->Write (const_cast <Document *> (Doc), output, mime_type, io, type);
+	bool ret = l->Write (Obj, output, mime_type, io, type);
 	g_object_unref (output);
 	g_object_unref (io);
 	return ret;
 }
 
-bool Application::Save (GsfOutput *output, const gchar *mime_type, Document const *Doc, ContentType type)
+bool Application::Save (GsfOutput *output, const gchar *mime_type, Object const *Obj, ContentType type, const char *options)
 {
 	Loader *l = Loader::GetSaver (mime_type);
 	if (!l)
 		return false;
 	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
-	bool ret = l->Write (const_cast <Document *> (Doc), output, mime_type, io, type);
+	bool ret = l->Write (const_cast <Object *> (Obj), output, mime_type, io, type);
 	g_object_unref (io);
 	return ret;
 }
@@ -617,18 +624,19 @@ int Application::OpenBabelSocket ()
 /*!
 @param uri the uri of the document to convert.
 @param mime_type the mime type of the document.
-
+@param options options to pass to OpenBabel.
+ 
 This method converts the source to CML.
 @return the converted text as a newly allocate string or NULL.
 */
 char* Application::ConvertToCML (std::string const &uri, const char *mime_type, const char *options)
 {
-	GVfs *vfs = g_vfs_get_default ();
-	GFile *file = g_vfs_get_file_for_uri (vfs, uri.c_str ());
-	char *path = g_file_get_path (file);
 	int sock = OpenBabelSocket ();
 	if (sock <= 0)
 		return NULL;
+	GVfs *vfs = g_vfs_get_default ();
+	GFile *file = g_vfs_get_file_for_uri (vfs, uri.c_str ());
+	char *path = g_file_get_path (file);
 	std::string buf = "-i ";
 	buf += MimeToBabelType (mime_type);
 	if (path) {
@@ -641,6 +649,7 @@ char* Application::ConvertToCML (std::string const &uri, const char *mime_type, 
 		}
 		buf += " -D";
 		write (sock, buf.c_str (), buf.length ());
+		g_free (path);
 	} else {
 		buf += " -o cml";
 		if (options) {
@@ -716,8 +725,101 @@ char* Application::ConvertToCML (std::string const &uri, const char *mime_type, 
 		g_free (start);
 	start = NULL;
 ok_exit:
+	g_object_unref (file);
 	close (sock);
 	return start;
+}
+
+/*!
+@param input a source GsfInput.
+@param mime_type the mime type of the document.
+@param options options to pass to OpenBabel.
+ 
+This method converts the source to CML.
+@return the converted text as a newly allocate string or NULL.
+*/
+
+char* ConvertToCML (GsfInput *input, const char *mime_type, const char *options)
+{
+	return NULL;
+}
+
+/*!
+@param cml: the CML string to convert.
+@param uri the uri of the document to which the document will be saved.
+@param mime_type the mime type of the document.
+@param options options to pass to OpenBabel.
+ 
+This method converts CML to a target.
+*/
+void Application::ConvertFromCML (char const *cml, std::string const &uri, const char *mime_type, const char *options)
+{
+	int sock = OpenBabelSocket ();
+	if (sock <= 0)
+		return;
+	GVfs *vfs = g_vfs_get_default ();
+	GFile *file = g_vfs_get_file_for_uri (vfs, uri.c_str ());
+	char *path = g_file_get_path (file);
+	std::ostringstream os;
+	size_t l = strlen (cml);
+	os << "-i cml -o ";
+	os << MimeToBabelType (mime_type);
+	if (path) {
+		os << " " << path;
+		if (options) {
+			os << " " << options;
+		}
+		os << "" -l << l << " -D";
+		write (sock, os.str ().c_str (), os.str ().length ());
+		write (sock, cml, l);
+		g_free (path);
+		g_object_unref (file);
+		return; // no need to wait, direct output
+	}
+	// if we are there, this means that we have a distant file to write
+	os << "" -l << l << " -D";
+	write (sock, os.str ().c_str (), os.str ().length ());
+	write (sock, cml, l);
+	time_t timeout = time (NULL) + 60;
+	char inbuf[256], *start = inbuf, *end;
+	unsigned cur, index = 0, length = 0;
+	while (time (NULL) < timeout) {
+		if ((cur = read (sock, start + index, ((length)? length: 255) - index))) {
+			index += cur;
+			start[index] = 0;
+			if (start == inbuf) {
+				if ((end = strchr (inbuf, ' '))) {
+					length = strtoul (inbuf, NULL, 10);
+					start = reinterpret_cast <char *> (g_malloc (length + 1));
+					if (!start)
+						break;
+					strcpy (start, end + 1);
+					index = strlen (start);
+				}
+			}
+			if (index == length)
+				break;
+		} else // something failed, we should post an error message
+			goto exit_point;
+	}
+	// save to distant file
+exit_point:
+	if (start != inbuf)
+		g_free (start);
+	g_object_unref (file);
+	close (sock);
+}
+
+/*!
+@param cml: the CML string to convert.
+@param output a target GsfOutput.
+@param mime_type the mime type of the document.
+@param options options to pass to OpenBabel.
+ 
+This method converts CML to a target.
+*/
+void Application::ConvertFromCML (char const *cml, GsfOutput *output, const char *mime_type, const char *options)
+{
 }
 
 }	//	namespace gcu

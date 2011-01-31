@@ -212,7 +212,7 @@ ContentType Loader::Read (G_GNUC_UNUSED Document *doc, G_GNUC_UNUSED GsfInput *i
 	return ContentTypeUnknown;
 }
 
-bool Loader::Write (G_GNUC_UNUSED Object *obj, G_GNUC_UNUSED GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
+bool Loader::Write (G_GNUC_UNUSED Object const *obj, G_GNUC_UNUSED GsfOutput *out, G_GNUC_UNUSED char const *mime_type, G_GNUC_UNUSED GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
 	return false;
 }

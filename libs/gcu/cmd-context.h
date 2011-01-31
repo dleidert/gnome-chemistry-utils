@@ -57,7 +57,7 @@ public:
 	GOIOContext *GetNewGOIOContext ();
 
 GCU_PROT_PROP (GOCmdContext *, GOCmdContext)
-GCU_PROT_PROP (Application *, App)
+GCU_PROT_POINTER_PROP (Application, App)
 };
 
 }	//	namespace gcu

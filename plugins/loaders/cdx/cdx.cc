@@ -126,7 +126,7 @@ public:
 	virtual ~CDXLoader ();
 
 	ContentType Read (Document *doc, GsfInput *in, char const *mime_type, GOIOContext *io);
-	bool Write (Object *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
+	bool Write (Object const *obj, GsfOutput *out, char const *mime_type, GOIOContext *io, ContentType type);
 
 private:
 	bool ReadGenericObject (GsfInput *in);
@@ -141,14 +141,14 @@ private:
 	guint16 ReadSize (GsfInput *in);
 	bool ReadDate (GsfInput *in);
 
-	bool WriteObject (GsfOutput *out, Object *object, GOIOContext *io);
+	bool WriteObject (GsfOutput *out, Object const *object, GOIOContext *io);
 	static void AddInt16Property (GsfOutput *out, gint16 prop, gint16 value);
 	static void AddInt32Property (GsfOutput *out, gint16 prop, gint32 value);
 	static void WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 length, char const *data);
-	static bool WriteAtom (CDXLoader *loader, GsfOutput *out, Object *obj, GOIOContext *s);
-	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object *obj, GOIOContext *s);
-	static bool WriteMolecule (CDXLoader *loader, GsfOutput *out, Object *obj, GOIOContext *s);
-	void WriteId (Object *obj, GsfOutput *out);
+	static bool WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	static bool WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s);
+	void WriteId (Object const *obj, GsfOutput *out);
 
 private:
 	char *buf;
@@ -157,7 +157,7 @@ private:
 	vector <string> colors;
 	guint8 m_TextAlign, m_TextJustify;
 
-	map <string, bool (*) (CDXLoader *, GsfOutput *, Object *, GOIOContext *)> m_WriteCallbacks;
+	map <string, bool (*) (CDXLoader *, GsfOutput *, Object const *, GOIOContext *)> m_WriteCallbacks;
 	map<unsigned, GOColor> m_Colors;
 	map <string, gint32> m_SavedIds;
 	gint32 m_MaxId;
@@ -323,7 +323,7 @@ ContentType CDXLoader::Read  (Document *doc, GsfInput *in, G_GNUC_UNUSED char co
  *	Write callbacks															  *
  ******************************************************************************/
  
-bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNUC_UNUSED GOIOContext *s)
+bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object const *obj, G_GNUC_UNUSED GOIOContext *s)
 {
 	gint16 n = kCDXObj_Node;
 	double x, y;
@@ -356,7 +356,7 @@ bool CDXLoader::WriteAtom (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNU
 	return true;
 }
 
-bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNUC_UNUSED GOIOContext *s)
+bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object const *obj, G_GNUC_UNUSED GOIOContext *s)
 {
 	gint16 n = kCDXObj_Bond;
 	WRITEINT16 (out, n);
@@ -382,14 +382,14 @@ bool CDXLoader::WriteBond (CDXLoader *loader, GsfOutput *out, Object *obj, G_GNU
 	return true;
 }
 
-bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object *obj, GOIOContext *s)
+bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object const *obj, GOIOContext *s)
 {
 	gint16 n = kCDXObj_Fragment;
 	WRITEINT16 (out, n);
 	loader->WriteId (obj, out);
 	// save atoms
-	std::map <std::string, Object *>::iterator i;
-	Object *child = obj->GetFirstChild (i);
+	std::map <std::string, Object *>::const_iterator i;
+	Object const *child = obj->GetFirstChild (i);
 	while (child) {
 		if (child->GetType () == AtomType && !loader->WriteObject (out, child, s))
 			return false;
@@ -413,15 +413,15 @@ bool CDXLoader::WriteMolecule (CDXLoader *loader, GsfOutput *out, Object *obj, G
 	return true;
 }
 
-bool CDXLoader::WriteObject (GsfOutput *out, Object *object, GOIOContext *io)
+bool CDXLoader::WriteObject (GsfOutput *out, Object const *object, GOIOContext *io)
 {
 	string name = Object::GetTypeName (object->GetType ());
-	map <string, bool (*) (CDXLoader *, GsfOutput *, Object *, GOIOContext *)>::iterator i = m_WriteCallbacks.find (name);
+	map <string, bool (*) (CDXLoader *, GsfOutput *, Object const *, GOIOContext *)>::iterator i = m_WriteCallbacks.find (name);
 	if (i != m_WriteCallbacks.end ())
 		return (*i).second (this, out, object, io);
 	// if we don't save the object iself, try tosave its children
-	std::map <std::string, Object *>::iterator j;
-	Object *child = object->GetFirstChild (j);
+	std::map <std::string, Object *>::const_iterator j;
+	Object const *child = object->GetFirstChild (j);
 	while (child) {
 		if (!WriteObject (out, child, io))
 			return false;
@@ -440,7 +440,7 @@ void CDXLoader::WriteSimpleStringProperty (GsfOutput *out, gint16 id, gint16 len
 	gsf_output_write (out, length, reinterpret_cast <guint8 const *> (data));
 }
 
-void CDXLoader::WriteId (Object *obj, GsfOutput *out)
+void CDXLoader::WriteId (Object const *obj, GsfOutput *out)
 {
 	m_SavedIds[obj->GetId ()] = m_MaxId;
 	gint32 n = m_MaxId++;
@@ -461,11 +461,12 @@ void CDXLoader::AddInt32Property (GsfOutput *out, gint16 prop, gint32 value)
 	WRITEINT32 (out, value);
 }
 
-bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED char const *mime_type, GOIOContext *io, G_GNUC_UNUSED ContentType type)
+bool CDXLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED char const *mime_type, GOIOContext *io, G_GNUC_UNUSED ContentType type)
 {
-	Document *doc = dynamic_cast <Document *> (obj);
+	Document const *doc = dynamic_cast <Document const *> (obj);
 	gint16 n;
 	gint32 l;
+	// FIXME: should be able to export a molecule or any object actually
 	if (!doc || !out)
 		return false;
 
@@ -492,7 +493,7 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	// determine the bond length and scale the document appropriately
 	string prop = doc->GetProperty (GCU_PROP_THEME_BOND_LENGTH);
 	double scale = strtod (prop.c_str (), NULL);
-	doc->SetScale (scale / 1966080.);
+	const_cast <Document *> (doc)->SetScale (scale / 1966080.);
 	n = kCDXProp_BondLength;
 	WRITEINT16 (out, n);
 	gsf_output_write (out, 2, reinterpret_cast <guint8 const *> ("\x04\x00"));
@@ -508,8 +509,8 @@ bool CDXLoader::Write  (Object *obj, GsfOutput *out, G_GNUC_UNUSED G_GNUC_UNUSED
 	WRITEINT16 (buf, n);
 	l = 0;
 	WRITEINT32 (buf, l); // id = 0 for the page
-	std::map <std::string, Object *>::iterator i;
-	Object *child = doc->GetFirstChild (i);
+	std::map <std::string, Object *>::const_iterator i;
+	Object const *child = doc->GetFirstChild (i);
 	while (child) {
 		if (!WriteObject (buf, child, io)) {
 			g_object_unref (buf);

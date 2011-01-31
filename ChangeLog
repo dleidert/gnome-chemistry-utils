@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2011-01-31  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/application.cc: make some API changes so that any Object const*
+	can be saved.
+	* libs/gcu/application.h: ditto.
+	* libs/gcu/cmd-context.h: ditto.
+	* libs/gcu/document.h: ditto.
+	* libs/gcu/loader.cc: ditto.
+	* libs/gcu/loader.h: ditto.
+	* plugins/loaders/cdx/cdx.cc: ditto.
+	* plugins/loaders/cdxml/cdxml.cc: ditto.
+	* plugins/loaders/cif/cif.cc: ditto.
+	* plugins/loaders/cml/cml.cc: ditto.
+
 2011-01-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/Makefile.am: don't depend anypore on OpenBabel.
 	* goffice/gchemutils.cc: ditto.

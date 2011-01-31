@@ -218,7 +218,7 @@ The Application instance owning the document.
 @return a pointer to the Appication instance owning the ocument or NULL for
 an orphan document.
 */
-GCU_PROT_PROP (Application *, App)
+GCU_PROT_POINTER_PROP (Application, App)
 /*!\var m_Empty
 Tells if the document is empty or not.
 */
