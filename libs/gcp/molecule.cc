@@ -32,6 +32,7 @@
 #include "tool.h"
 #include "view.h"
 #include <gcu/chain.h>
+#include <gsf/gsf-output-memory.h>
 #include <glib/gi18n-lib.h>
 #include <unistd.h>
 #include <cmath>
@@ -509,7 +510,7 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 			g_object_unref (action);
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='ghemical'/></menu></popup></ui>", -1, NULL);
 		}
-		if (((Document*) GetDocument ())->GetApplication ()->HaveInChI ()) {
+//		if (((Document*) GetDocument ())->GetApplication ()->HaveInChI ()) {
 			action = gtk_action_new ("inchi", _("Generate InChI"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_build_inchi), this);
 			gtk_action_group_add_action (group, action);
@@ -525,7 +526,7 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='pubchem'/></menu></popup></ui>", -1, NULL);
-		}
+//		}
 		action = gtk_action_new ("smiles", _("Generate SMILES"), NULL, NULL);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_build_smiles), this);
 		gtk_action_group_add_action (group, action);
@@ -591,43 +592,17 @@ xmlNodePtr Molecule::Save (xmlDocPtr xml) const
 
 void Molecule::BuildInChI ()
 {
-/*	OBMol Mol;
-	OBConversion Conv;
-	BuildOBMol2D (Mol);
-	OBFormat *pInChIFormat = Conv.FindFormat ("inchi"), *pMolFormat = Conv.FindFormat ("mol");
-	if (pInChIFormat) {
-		Conv.SetInAndOutFormats (pMolFormat, pInChIFormat);
-		Conv.SetOptions ("xt", OpenBabel::OBConversion::OUTOPTIONS);
-		ostringstream ofs;
-		Conv.Write (&Mol, &ofs);
-		// remove "INCHI=" and the new line char at the end
-		m_InChI = ofs.str ().substr (0, ofs.str ().length () - 2);
-	} else {
-		Conv.SetInAndOutFormats (pMolFormat, pMolFormat);
-		char *tmpname = g_strdup ("/tmp/inchiXXXXXX");
-		int f = g_mkstemp (tmpname);
-		close (f);
-		ofstream ofs;
-		ofs.open (tmpname);
-		Conv.Write (&Mol, &ofs);
-		ofs.close ();
-		// calling main_inchi -STDIO -AuxNone -NoLabels
-		char *command = g_strdup_printf ("main_inchi %s -STDIO -AuxNone -NoLabels", tmpname);
-		char *output, *errors;
-		g_spawn_command_line_sync (command, &output, &errors, NULL, NULL);
-		if (output) {
-			// remove the new line char at the end
-			output[strlen (output) - 1] = 0;
-			m_InChI = output + 6;
-			g_free (output);
-		}
-		if (errors)
-			g_free (errors);
-		g_free (command);
-		remove (tmpname);
-		g_free (tmpname);
+	GsfOutput *output = gsf_output_memory_new ();
+	gcu::Application *app = GetDocument ()->GetApp ();
+	if (app->Save (output, "inchi", this, ContentType2D)) {
+		char const *buf = reinterpret_cast <char const *> (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output)));
+		size_t length = gsf_output_size (output);
+		while (buf[length-1] < ' ')
+			length--;
+		m_InChI.assign (buf, length);
+		m_Changed = false;
 	}
-	m_Changed = false;*/
+	g_object_unref (output);
 }
 
 void Molecule::BuildSMILES ()

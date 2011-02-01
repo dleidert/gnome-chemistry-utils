@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-02-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: reimplement BuildInChI().
+	* libs/gcu/application.cc: implement more babelserver related code.
+	* plugins/loaders/cml/cml.cc: save any object, not only a whole document.
+
 2011-01-31  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcu/application.cc: make some API changes so that any Object const*
 	can be saved.

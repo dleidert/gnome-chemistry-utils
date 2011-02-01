@@ -540,11 +540,13 @@ bool CMLLoader::WriteObject (GsfXMLOut *xml, Object const *object, GOIOContext *
 bool CMLLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED char const *mime_type, GOIOContext *io, ContentType type)
 {
 	if (NULL != out) {
+		Document const *doc = dynamic_cast <Document const *> (obj);
+		if (!doc)
+			doc = obj->GetDocument ();
 		GsfXMLOut *xml = gsf_xml_out_new (out);
 		gsf_xml_out_start_element (xml, "cml");
 		gsf_xml_out_add_cstr_unchecked (xml, "xmlns:cml", "http://www.xml-cml.org/schema");
 		// FIXME: add other namespaces if needed
-		Document const *doc = dynamic_cast <Document const *> (obj);
 		if (doc) {
 			const_cast <Document *> (doc)->SetScale (100);
 			string title = doc->GetProperty (GCU_PROP_DOC_TITLE);
@@ -617,14 +619,19 @@ bool CMLLoader::Write  (Object const *obj, GsfOutput *out, G_GNUC_UNUSED char co
 				// start atoms array
 				gsf_xml_out_start_element (xml, "atomArray");
 			}
-			std::map <std::string, Object *>::const_iterator i;
-			Object const *child = doc->GetFirstChild (i);
-			while (child) {
-				if (!WriteObject (xml, child, io, type)) {
-					g_object_unref (xml);
-					return false;
+			if (doc == obj) {
+				std::map <std::string, Object *>::const_iterator i;
+				Object const *child = doc->GetFirstChild (i);
+				while (child) {
+					if (!WriteObject (xml, child, io, type)) {
+						g_object_unref (xml);
+						return false;
+					}
+					child = doc->GetNextChild (i);
 				}
-				child = doc->GetNextChild (i);
+			} else if (!WriteObject (xml, obj, io, type)) {
+				g_object_unref (xml);
+				return false;
 			}
 		} else {
 			doc = obj->GetDocument ();

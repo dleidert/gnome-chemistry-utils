@@ -370,11 +370,22 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Object c
 
 bool Application::Save (GsfOutput *output, const gchar *mime_type, Object const *Obj, ContentType type, const char *options)
 {
+	bool ret;
 	Loader *l = Loader::GetSaver (mime_type);
-	if (!l)
-		return false;
 	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
-	bool ret = l->Write (const_cast <Object *> (Obj), output, mime_type, io, type);
+	if (!l) {
+		l = Loader::GetSaver ("chemical/x-cml");
+		if (!l)
+			return false;
+		GsfOutput *cml = gsf_output_memory_new ();
+		ret = l->Write (const_cast <Object *> (Obj), cml, "chemical/x-cml", io, type);
+		if (ret) {
+			ConvertFromCML (reinterpret_cast <char const *> (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (cml))), output, mime_type, options);
+			ret = gsf_output_size (output) > 0;
+		}
+		g_object_unref (cml);
+	} else
+		ret = l->Write (const_cast <Object *> (Obj), output, mime_type, io, type);
 	g_object_unref (io);
 	return ret;
 }
@@ -766,9 +777,8 @@ void Application::ConvertFromCML (char const *cml, std::string const &uri, const
 	os << MimeToBabelType (mime_type);
 	if (path) {
 		os << " " << path;
-		if (options) {
+		if (options)
 			os << " " << options;
-		}
 		os << "" -l << l << " -D";
 		write (sock, os.str ().c_str (), os.str ().length ());
 		write (sock, cml, l);
@@ -820,6 +830,42 @@ This method converts CML to a target.
 */
 void Application::ConvertFromCML (char const *cml, GsfOutput *output, const char *mime_type, const char *options)
 {
+	int sock = OpenBabelSocket ();
+	if (sock <= 0)
+		return;
+	std::ostringstream os;
+	size_t l = strlen (cml);
+	os << "-i cml -o ";
+	os << MimeToBabelType (mime_type);
+	if (options)
+		os << " " << options;
+	os << " -l " << l << " -D";
+	write (sock, os.str ().c_str (), os.str ().length ());
+	write (sock, cml, l);
+	time_t timeout = time (NULL) + 60;
+	char inbuf[256], *start = inbuf, *end;
+	int cur, index = 0, length = 0;
+	while (time (NULL) < timeout) {
+		if ((cur = read (sock, start + index, ((length)? length: 255) - index)) > 0) {
+			index += cur;
+			start[index] = 0;
+			if (start == inbuf) {
+				if ((end = strchr (inbuf, ' '))) {
+					length = strtoul (inbuf, NULL, 10);
+					start = reinterpret_cast <char *> (g_malloc (length + 1));
+					if (!start)
+						break;
+					strcpy (start, end + 1);
+					index = strlen (start);
+				}
+			}
+			if (index == length) {
+				gsf_output_write (output, length, reinterpret_cast <guint8 *> (start));
+				break;
+			}
+		} else // something failed, we should post an error message
+			break;
+	}
 }
 
 }	//	namespace gcu
