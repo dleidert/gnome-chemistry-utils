@@ -32,6 +32,7 @@
 #include "document.h"
 #include "formula.h"
 #include "residue.h"
+#include <gsf/gsf-output-memory.h>
 #include <glib/gi18n-lib.h>
 #include <stack>
 
@@ -388,6 +389,84 @@ char const *Molecule::GetName (char const *convention)
 std::string Molecule::Name ()
 {
 	return _("Molecule");
+}
+
+std::string const &Molecule::GetCML ()
+{
+	if (m_CML.length () == 0) {
+		GsfOutput *output = gsf_output_memory_new ();
+		GetDocument ()->GetApp ()->Save (output, "chemical/x-cml", this, ContentType3D);
+		size_t l = gsf_output_size (output);
+		if (l > 0)
+			m_CML.assign (reinterpret_cast <char const *> (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output))), l);
+		g_object_unref (output);
+	}
+	return m_CML;
+}
+
+std::string const &Molecule::GetInChI ()
+{
+	if (m_InChI.length () == 0) {
+		if (m_CML.length () == 0)
+			GetCML ();
+		GsfOutput *output = gsf_output_memory_new ();
+		GetDocument ()->GetApp ()->ConvertFromCML (m_CML.c_str (), output, "inchi");
+		size_t l = gsf_output_size (output);
+		if (l > 0) {
+			char const *res = reinterpret_cast <char const *> (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output)));
+			while (res[l - 1] < ' ')
+				l--;
+			m_InChI.assign (res, l);
+		}
+		g_object_unref (output);
+	}
+	return m_InChI;
+}
+
+std::string const &Molecule::GetInChIKey ()
+{
+	if (m_InChIKey.length () == 0) {
+		if (m_CML.length () == 0)
+			GetCML ();
+		GsfOutput *output = gsf_output_memory_new ();
+		GetDocument ()->GetApp ()->ConvertFromCML (m_CML.c_str (), output, "inchi", "-xK");
+		size_t l = gsf_output_size (output);
+		if (l > 0) {
+			char const *res = reinterpret_cast <char const *> (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output)));
+			while (res[l - 1] < ' ')
+				l--;
+			m_InChIKey.assign (res, l);
+		}
+		g_object_unref (output);
+	}
+	return m_InChIKey;
+}
+
+std::string const &Molecule::GetSMILES ()
+{
+	if (m_SMILES.length () == 0) {
+		if (m_CML.length () == 0)
+			GetCML ();
+		GsfOutput *output = gsf_output_memory_new ();
+		GetDocument ()->GetApp ()->ConvertFromCML (m_CML.c_str (), output, "can");
+		size_t l = gsf_output_size (output);
+		if (l > 0) {
+			char const *res = reinterpret_cast <char const *> (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output)));
+			while (res[l - 1] < ' ')
+				l--;
+			m_SMILES.assign (res, l);
+		}
+		g_object_unref (output);
+	}
+	return m_SMILES;
+}
+
+void Molecule::ResetIndentifiers ()
+{
+	m_CML.clear ();
+	m_InChI.clear ();
+	m_InChIKey.clear ();
+	m_SMILES.clear ();
 }
 
 }	//namespace gcu

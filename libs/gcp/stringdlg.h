@@ -50,7 +50,11 @@ SMILES representation of a molecule.
 /*!
 InChI of a molecule.
 */
-		INCHI
+		INCHI,
+/*!
+InChIKey of a molecule.
+*/
+		INCHIKEY
 	};
 /*!
 @param pDoc the document owning the dialog.
@@ -60,7 +64,7 @@ InChI of a molecule.
 Builds a dialog showing the string and display it. \a type is used to select
 an appropriate title for the dialog box.
 */
-	StringDlg (Document *pDoc, std::string& data, enum data_type type);
+	StringDlg (Document *pDoc, std::string const &data, enum data_type type);
 /*!
 The destructor.
 */

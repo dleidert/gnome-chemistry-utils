@@ -55,12 +55,22 @@ static void on_string_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_U
 {
 }
 
-StringDlg::StringDlg (Document *pDoc, string& data, enum data_type type):
+StringDlg::StringDlg (Document *pDoc, string const &data, enum data_type type):
 	Dialog (pDoc->GetApplication(), UIDIR"/stringdlg.ui", "string", GETTEXT_PACKAGE)
 {
 	Data = data;
 	Type = type;
-	gtk_window_set_title (dialog, (Type == SMILES)? "SMILES": "InChI");
+	switch (Type) {
+	case INCHI:
+		gtk_window_set_title (dialog, "InChI");
+		break;
+	case INCHIKEY:
+		gtk_window_set_title (dialog, "InChIKey");
+		break;
+	case SMILES:
+		gtk_window_set_title (dialog, "SMILES");
+		break;
+	}
 	View = GTK_TEXT_VIEW (GetWidget ("text"));
 	Buffer = gtk_text_view_get_buffer (View);
 	gtk_text_buffer_set_text (Buffer, data.c_str () , -1);

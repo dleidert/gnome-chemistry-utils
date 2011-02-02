@@ -46,6 +46,25 @@ using namespace std;
 
 namespace gcp {
 
+class MoleculePrivate
+{
+public:
+	static void ShowInChIKey (Molecule *mol);
+	static void ShowSMILES (Molecule *mol);
+};
+
+void MoleculePrivate::ShowInChIKey (Molecule *mol)
+{
+
+	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChIKey (), StringDlg::INCHIKEY);
+}
+
+void MoleculePrivate::ShowSMILES (Molecule *mol)
+{
+
+	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetSMILES (), StringDlg::SMILES);
+}
+
 static void do_export_to_ghemical (Molecule* pMol)
 {
 	pMol->ExportToGhemical ();
@@ -60,11 +79,6 @@ static void do_select_alignment (GObject *action, Molecule* pMol)
 static void do_build_inchi (Molecule* pMol)
 {
 	pMol->ShowInChI ();
-}
-
-static void do_build_smiles (Molecule* pMol)
-{
-	pMol->BuildSMILES ();
 }
 
 static void do_show_webbook (Molecule* pMol)
@@ -85,14 +99,12 @@ static void do_open_in_calc (Molecule* pMol)
 Molecule::Molecule (TypeId Type): gcu::Molecule (Type)
 {
 	m_Alignment = NULL;
-	m_Changed = true;
 	m_IsResidue = false;
 }
 
 Molecule::Molecule (Atom* pAtom): gcu::Molecule (pAtom)
 {
 	m_Alignment = NULL;
-	m_Changed = true;
 	m_IsResidue = false;
 }
 
@@ -436,7 +448,6 @@ bool Molecule::Load (xmlNodePtr node)
 		if (!m_Alignment)
 			return false;
 	}
-	m_Changed = true;
 	pDoc->ObjectLoaded (this);
 	return true;
 }
@@ -528,7 +539,7 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='pubchem'/></menu></popup></ui>", -1, NULL);
 //		}
 		action = gtk_action_new ("smiles", _("Generate SMILES"), NULL, NULL);
-		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_build_smiles), this);
+		g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ShowSMILES), this);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
 		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='smiles'/></menu></popup></ui>", -1, NULL);
@@ -590,58 +601,26 @@ xmlNodePtr Molecule::Save (xmlDocPtr xml) const
 	return node;
 }
 
-void Molecule::BuildInChI ()
-{
-	GsfOutput *output = gsf_output_memory_new ();
-	gcu::Application *app = GetDocument ()->GetApp ();
-	if (app->Save (output, "inchi", this, ContentType2D)) {
-		char const *buf = reinterpret_cast <char const *> (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output)));
-		size_t length = gsf_output_size (output);
-		while (buf[length-1] < ' ')
-			length--;
-		m_InChI.assign (buf, length);
-		m_Changed = false;
-	}
-	g_object_unref (output);
-}
-
-void Molecule::BuildSMILES ()
-{
-/*	OBMol Mol;
-	OBConversion Conv;
-	OBFormat* pOutFormat = Conv.FindFormat ("smi");
-	Conv.SetInAndOutFormats (pOutFormat, pOutFormat);
-	BuildOBMol2D (Mol);
-	ostringstream ofs;
-	Conv.Write (&Mol, &ofs);
-	//TODO: do something with the string
-	string str = ofs.str ().substr (0, ofs.str ().length () - 2);
-	new StringDlg (reinterpret_cast<Document *>(GetDocument ()), str, StringDlg::SMILES);*/
-}
-
 void Molecule::ShowInChI ()
 {
-	if (m_Changed)
-		BuildInChI ();
-	new StringDlg (reinterpret_cast<Document *>(GetDocument ()), m_InChI, StringDlg::INCHI);
+	new StringDlg (reinterpret_cast<Document *>(GetDocument ()), GetInChI (), StringDlg::INCHI);
 }
 
 void Molecule::ShowWebBase (char const* uri_start, char const *uri_end)
 {
-	if (m_Changed)
-		BuildInChI ();
-	if (m_InChI.length () == 0)
+	std::string InChI = GetInChI ();
+	if (InChI.length () == 0)
 		return; //should emit at least a warning
 	string::size_type t;
-	while ((t = m_InChI.find ('+')) != string::npos)
-		m_InChI.replace (t, 1, "%2b");
-	string uri = string (uri_start) + m_InChI + uri_end;
+	while ((t = InChI.find ('+')) != string::npos)
+		InChI.replace (t, 1, "%2b");
+	string uri = string (uri_start) + InChI + uri_end;
 	((Document*) GetDocument ())->GetApplication ()->ShowURI (uri);
 }
 
 bool Molecule::OnSignal (G_GNUC_UNUSED SignalId Signal, G_GNUC_UNUSED Object *Child)
 {
-	m_Changed = true;
+	ResetIndentifiers ();
 	return true;
 }
 
@@ -670,13 +649,6 @@ void Molecule::CheckCrossings (Bond *pBond)
 			pView->Update (pBond);
 			pView->Update (*i);
 		}
-}
-
-char const *Molecule::GetInChI ()
-{
-	if (m_Changed)
-		BuildInChI ();
-	return m_InChI.c_str ();
 }
 
 std::string Molecule::GetRawFormula () const

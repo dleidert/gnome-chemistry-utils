@@ -39,6 +39,7 @@ class Bond;
 */
 class Molecule: public gcu::Molecule
 {
+friend class MoleculePrivate;
 public:
 /*!
 The default constructor. Builds a new empty molecule.
@@ -179,15 +180,6 @@ displaying it.
 */
 	void ShowInChI ();
 /*!
-Builds the InChI for the molecule.
-*/
-	void BuildInChI ();
-/*!
-Builds the SMILES representation for the molecule and opens a new StringDlg
-instance displaying it.
-*/
-	void BuildSMILES ();
-/*!
 @param uri_start the first part of the URI to open.
 @param uri_end the last part of the URI to open.
 
@@ -208,11 +200,6 @@ that they are crossing.
 */
 	void CheckCrossings (Bond *pBond);
 /*!
-@return the InChI. The returned string should not be freed (it's a const char*).
-Molecules with fragments are not currently supported.
-*/
-	char const *GetInChI ();
-/*!
 @return the raw formula as a string. Molecules with fragments
 are not currently supported.
 */
@@ -230,8 +217,6 @@ only, whatever their real atomic composition.
 private:
 	std::list<Fragment*> m_Fragments;
 	gcu::Object *m_Alignment;
-	std::string m_InChI;
-	bool m_Changed;
 	bool m_IsResidue;
 };
 

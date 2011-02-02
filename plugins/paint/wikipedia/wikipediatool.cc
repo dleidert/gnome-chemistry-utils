@@ -146,7 +146,7 @@ bool WikipediaApp::FileProcess (char const *filename, G_GNUC_UNUSED char const *
 
 	map<string, Object*>::iterator i;
 	gcp::Molecule *Mol = dynamic_cast<gcp::Molecule*> (pDoc->GetFirstChild (i));
-	char const *InChI = Mol->GetInChI ();
+	char const *InChI = Mol->GetInChI ().c_str ();
 	GOutputStream *output = G_OUTPUT_STREAM (g_file_create (file, G_FILE_CREATE_NONE, NULL, &error));
 	if (!error) {
 		vector<char*> keys, values;

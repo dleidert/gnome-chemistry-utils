@@ -168,6 +168,15 @@ a given convention.
 */
 	std::string Name ();
 
+	void ResetIndentifiers ();
+	std::string const &GetCML ();
+/*!
+@return the InChI.
+*/
+	std::string const &GetInChI ();
+	std::string const &GetInChIKey ();
+	std::string const &GetSMILES ();
+
 protected:
 /*!
 The cycles contained in the molecules.
@@ -188,6 +197,10 @@ The bonds in the molecule.
 
 private:
 	std::map <std::string, std::string> m_Names;
+	std::string m_CML;
+	std::string m_InChI;
+	std::string m_InChIKey;
+	std::string m_SMILES;
 };
 
 }	//	namespace gcu

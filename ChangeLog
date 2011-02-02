@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2011-02-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: moved InChI and SMILES generation to gcu::Molecule.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/stringdlg.cc: add InChIKey support.
+	* libs/gcp/stringdlg.h: ditto.
+	* libs/gcu/application.h: mane ConvertTo/FromCML public.
+	* libs/gcu/molecule.cc:moved InChI and SMILES generation from gcp::Molecule.
+	* libs/gcu/molecule.h: ditto.
+	* plugins/paint/wikipedia/wikipediatool.cc: fixed after method signature
+	change.
+
 2011-02-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: reimplement BuildInChI().
 	* libs/gcu/application.cc: implement more babelserver related code.

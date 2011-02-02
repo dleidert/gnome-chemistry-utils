@@ -404,6 +404,11 @@ adds a callback for modifying the contextual menu of objects of type Id.
 	TypeDesc const *GetTypeDescription (TypeId Id);
 	CmdContext *GetCmdContext ();
 
+	char* ConvertToCML (std::string const &uri, const char *mime_type, const char *options = NULL);
+	char* ConvertToCML (GsfInput *input, const char *mime_type, const char *options = NULL);
+	void ConvertFromCML (const char *cml, std::string const &uri, const char *mime_type, const char *options = NULL);
+	void ConvertFromCML (const char *cml, GsfOutput *output, const char *mime_type, const char *options = NULL);
+
 protected:
 
 /*!
@@ -419,10 +424,6 @@ private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
 	void RemoveDocument (Document *Doc);
 	int OpenBabelSocket ();
-	char* ConvertToCML (std::string const &uri, const char *mime_type, const char *options = NULL);
-	char* ConvertToCML (GsfInput *input, const char *mime_type, const char *options = NULL);
-	void ConvertFromCML (const char *cml, std::string const &uri, const char *mime_type, const char *options = NULL);
-	void ConvertFromCML (const char *cml, GsfOutput *output, const char *mime_type, const char *options = NULL);
 	char const *MimeToBabelType (char const *mime_type);
 
 private:
