@@ -1,6 +1,6 @@
 MAINTAINERCLEANFILES = Makefile.in
 
-lib_LTLIBRARIES = libgcr-@GCU_API_VER@.la
+lib_LTLIBRARIES = libgcrystal-@GCU_API_VER@.la
 
 noinst_HEADERS = \
 	application.h \
@@ -19,7 +19,7 @@ noinst_HEADERS = \
 	view.h \
 	window.h
 
-libgcr_@GCU_API_VER@_la_SOURCES =	\
+libgcrystal_@GCU_API_VER@_la_SOURCES =	\
 	application.cc \
 	atom.cc \
 	atomsdlg.cc \
@@ -36,9 +36,9 @@ libgcr_@GCU_API_VER@_la_SOURCES =	\
 	view.cc \
 	window.cc
 
-libgcr_@GCU_API_VER@_la_LDFLAGS = \
+libgcrystal_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
-libgcr_@GCU_API_VER@_la_LIBADD = \
+libgcrystal_@GCU_API_VER@_la_LIBADD = \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		-lGL
 INCLUDES = \
