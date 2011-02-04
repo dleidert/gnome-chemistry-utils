@@ -779,7 +779,7 @@ void Application::ConvertFromCML (char const *cml, std::string const &uri, const
 		os << " " << path;
 		if (options)
 			os << " " << options;
-		os << "" -l << l << " -D";
+		os << " -l" << l << " -D";
 		write (sock, os.str ().c_str (), os.str ().length ());
 		write (sock, cml, l);
 		g_free (path);

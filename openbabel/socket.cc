@@ -38,7 +38,10 @@ enum {
 	STEP_OPTION_OUT,
 	STEP_OUTPUT, // file name
 	STEP_SIZE,
-	STEP_DATA
+	STEP_DATA,
+	STEP_FORMAT_IN_OPTIONS,
+	STEP_FORMAT_OUT_OPTIONS,
+	STEP_GEN_OPTIONS
 };
 
 BabelSocket::BabelSocket (int socket):
@@ -101,7 +104,16 @@ size_t BabelSocket::Read ()
 				} else
 					m_Cur = 0; // avoids exiting the loop
 				break;
+			case 'a': // output format options
+				m_Step = STEP_FORMAT_IN_OPTIONS;
+				break;
+			case 'x': // output format options
+				m_Step = STEP_FORMAT_OUT_OPTIONS;
+				break;
 			default:
+				// generic options
+				m_Step = STEP_GEN_OPTIONS;
+				m_Cur--;
 				break;
 			}
 			m_WaitSpace = false;
@@ -210,6 +222,45 @@ size_t BabelSocket::Read ()
 				return -1;
 			} else
 				return res;
+		case STEP_FORMAT_IN_OPTIONS:
+			if (!m_Cur && m_InBuf[0] == '-') {
+				m_Step = STEP_INIT;
+				break;
+			}
+			while (m_InBuf[m_Cur] != ' ' && m_Cur < m_Index)
+				m_Cur++;
+			if (m_InBuf[m_Cur] == ' ') {
+				m_InBuf[m_Cur] = 0;
+				m_Conv.SetOptions (m_InBuf + m_Start, OpenBabel::OBConversion::INOPTIONS);
+				FinishOption (STEP_INIT);
+			}
+			break;
+		case STEP_FORMAT_OUT_OPTIONS:
+			if (!m_Cur && m_InBuf[0] == '-') {
+				m_Step = STEP_INIT;
+				break;
+			}
+			while (m_InBuf[m_Cur] != ' ' && m_Cur < m_Index)
+				m_Cur++;
+			if (m_InBuf[m_Cur] == ' ') {
+				m_InBuf[m_Cur] = 0;
+				m_Conv.SetOptions (m_InBuf + m_Start, OpenBabel::OBConversion::OUTOPTIONS);
+				FinishOption (STEP_INIT);
+			}
+			break;
+		case STEP_GEN_OPTIONS:
+			if (!m_Cur && m_InBuf[0] == '-') {
+				// long string option
+				m_Start++;
+			}
+			while (m_InBuf[m_Cur] != ' ' && m_Cur < m_Index)
+				m_Cur++;
+			if (m_InBuf[m_Cur] == ' ') {
+				m_InBuf[m_Cur] = 0;
+				m_Conv.SetOptions (m_InBuf + m_Start, OpenBabel::OBConversion::GENOPTIONS);
+				FinishOption (STEP_INIT);
+			}
+			break;
 		default:
 			break;
 		}

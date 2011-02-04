@@ -158,11 +158,6 @@ Signals the molecule that at least one of its children changed.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 /*!
-Opens a Ghemical window with a copy of the molecule trying to preserve the
-stereochemistry as far as possible.
-*/
-	void ExportToGhemical ();
-/*!
 @param child the child used for alignment.
 
 Selects the child used for alignment, which might be an atom or group of atoms,
@@ -174,11 +169,6 @@ a call to their gcu::Object::GetYAlign() method will be used.
 @return the id string of the child used for alignment if any, or an empty string.
 */
 	std::string GetAlignmentId () {return (m_Alignment)? m_Alignment->GetId (): "";}
-/*!
-Builds the InChI for the molecule if necessary and opens a new StringDlg instance
-displaying it.
-*/
-	void ShowInChI ();
 /*!
 @param uri_start the first part of the URI to open.
 @param uri_end the last part of the URI to open.

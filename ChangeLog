@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-02-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: ipmlement standard InChIKey generation.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcu/application.cc: new fix in ConvertFromCML.
+	* openbabel/socket.cc: work on openbabel options support.
+
 2011-02-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/Makefile.am: renamed libgcr to libgcrystal to avoid confusion
 	with the cryptography related libgcr.

@@ -50,7 +50,9 @@ class MoleculePrivate
 {
 public:
 	static void ShowInChIKey (Molecule *mol);
+	static void ShowInChI (Molecule *mol);
 	static void ShowSMILES (Molecule *mol);
+	static void ExportToGhemical (Molecule *mol);
 };
 
 void MoleculePrivate::ShowInChIKey (Molecule *mol)
@@ -59,26 +61,37 @@ void MoleculePrivate::ShowInChIKey (Molecule *mol)
 	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChIKey (), StringDlg::INCHIKEY);
 }
 
+void MoleculePrivate::ShowInChI (Molecule *mol)
+{
+
+	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChIKey (), StringDlg::INCHI);
+}
+
 void MoleculePrivate::ShowSMILES (Molecule *mol)
 {
 
 	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetSMILES (), StringDlg::SMILES);
 }
 
-static void do_export_to_ghemical (Molecule* pMol)
+void MoleculePrivate::ExportToGhemical (Molecule *mol)
 {
-	pMol->ExportToGhemical ();
+	std::string const &cml = mol->GetCML ();
+	char *tmpname = g_strdup ("/tmp/2gprXXXXXX");
+	int f = g_mkstemp (tmpname);
+	close (f);
+	std::string uri = "file://";
+	uri += tmpname;
+	mol->GetDocument ()->GetApp ()->ConvertFromCML (cml.c_str (), uri, "gpr", "-h --gen3D");
+	char *command_line = g_strconcat ("ghemical -f ", tmpname, NULL);	
+	g_free (tmpname);
+	g_spawn_command_line_async (command_line, NULL);
+	g_free (command_line);
 }
 
 static void do_select_alignment (GObject *action, Molecule* pMol)
 {
 	Object *object = (Object*) g_object_get_data (action, "item");
 	pMol->SelectAlignmentItem (object);
-}
-
-static void do_build_inchi (Molecule* pMol)
-{
-	pMol->ShowInChI ();
 }
 
 static void do_show_webbook (Molecule* pMol)
@@ -516,17 +529,21 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 	if (!m_Fragments.size ()) {
 		if (((Document*) GetDocument ())->GetApplication ()->HaveGhemical ()) {
 			action = gtk_action_new ("ghemical", _("Export molecule to Ghemical"), NULL, NULL);
-			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_export_to_ghemical), this);
+			g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ExportToGhemical), this);
 			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
 			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='ghemical'/></menu></popup></ui>", -1, NULL);
 		}
 //		if (((Document*) GetDocument ())->GetApplication ()->HaveInChI ()) {
 			action = gtk_action_new ("inchi", _("Generate InChI"), NULL, NULL);
-			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_build_inchi), this);
+			g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ShowInChI), this);
 			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
-			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='inchi'/></menu></popup></ui>", -1, NULL);
+			action = gtk_action_new ("inchikey", _("Generate InChIKey"), NULL, NULL);
+			g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ShowInChIKey), this);
+			gtk_action_group_add_action (group, action);
+			g_object_unref (action);
+			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='inchikey'/></menu></popup></ui>", -1, NULL);
 			action = gtk_action_new ("webbook", _("NIST WebBook page for this molecule"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (do_show_webbook), this);
 			gtk_action_group_add_action (group, action);
@@ -564,27 +581,6 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 	return result | Object::BuildContextualMenu (UIManager, object, x, y);
 }
 
-void Molecule::ExportToGhemical ()
-{
-/*	OBMol Mol;
-	OBConversion Conv;
-	OBFormat* pOutFormat = Conv.FindFormat ("gpr");
-	Conv.SetInAndOutFormats (pOutFormat, pOutFormat);
-	BuildOBMol (Mol);
-	char *tmpname = g_strdup ("/tmp/2gprXXXXXX");
-	int f = g_mkstemp (tmpname);
-	close (f);
-	ofstream ofs;
-	ofs.open(tmpname);
-	if (!ofs) throw (int) 1;
-	Conv.Write (&Mol, &ofs);
-	ofs.close();
-	char *command_line = g_strconcat ("ghemical -f ", tmpname, NULL);	
-	g_free (tmpname);
-	g_spawn_command_line_async (command_line, NULL);
-	g_free (command_line);*/
-}
-
 void Molecule::SelectAlignmentItem (Object *child)
 {
 	m_Alignment = (m_Alignment != child)? child: NULL;
@@ -601,19 +597,11 @@ xmlNodePtr Molecule::Save (xmlDocPtr xml) const
 	return node;
 }
 
-void Molecule::ShowInChI ()
-{
-	new StringDlg (reinterpret_cast<Document *>(GetDocument ()), GetInChI (), StringDlg::INCHI);
-}
-
 void Molecule::ShowWebBase (char const* uri_start, char const *uri_end)
 {
-	std::string InChI = GetInChI ();
+	std::string InChI = GetInChIKey ();
 	if (InChI.length () == 0)
 		return; //should emit at least a warning
-	string::size_type t;
-	while ((t = InChI.find ('+')) != string::npos)
-		InChI.replace (t, 1, "%2b");
 	string uri = string (uri_start) + InChI + uri_end;
 	((Document*) GetDocument ())->GetApplication ()->ShowURI (uri);
 }
