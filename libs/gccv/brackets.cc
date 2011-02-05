@@ -36,11 +36,11 @@ namespace gccv {
 struct _BracketsMetrics
 {
 	//round brackets metrics
-	double rnheight, rnwidth, rntheight, rnbheight, rnmheight;
+	double rnheight, rnwidth, rntheight, rnbheight, rnmheight, rnmwidth;
 	//square brackets metrics
-	double sqheight, sqwidth, sqtheight, sqbheight, sqmheight;
+	double sqheight, sqwidth, sqtheight, sqbheight, sqmheight, sqmwidth;
 	//curly brackets metrics
-	double cyheight, cywidth, cytheight, cybheight, cymheight, cyeheight;
+	double cyheight, cywidth, cytheight, cybheight, cymheight, cymwidth, cyeheight;
 };
 
 static std::map <std::string, BracketsMetrics> BracketsMetricsMap;
@@ -66,6 +66,7 @@ static BracketsMetrics const *GetBracketsMetrics (std::string &fontdesc)
 		pango_layout_set_text (layout, "⎢", 1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.sqmheight = static_cast <double> (rect.height) / PANGO_SCALE;
+		bm.sqmwidth = static_cast <double> (rect.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎣", 1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.sqbheight = static_cast <double> (rect.height) / PANGO_SCALE;
@@ -79,6 +80,7 @@ static BracketsMetrics const *GetBracketsMetrics (std::string &fontdesc)
 		pango_layout_set_text (layout, "⎜", 1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.rnmheight = static_cast <double> (rect.height) / PANGO_SCALE;
+		bm.rnmwidth = static_cast <double> (rect.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎝", 1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.rnbheight = static_cast <double> (rect.height) / PANGO_SCALE;
@@ -92,6 +94,7 @@ static BracketsMetrics const *GetBracketsMetrics (std::string &fontdesc)
 		pango_layout_set_text (layout, "⎨", 1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.cymheight = static_cast <double> (rect.height) / PANGO_SCALE;
+		bm.cymwidth = static_cast <double> (rect.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎩", 1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.cybheight = static_cast <double> (rect.height) / PANGO_SCALE;
@@ -152,7 +155,7 @@ double Brackets::Distance (double x, double y, Item **item) const
 	return G_MAXDOUBLE;
 }
 
-void Brackets::Draw (cairo_t *cr, bool is_vector) const
+void Brackets::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 }
 
@@ -171,6 +174,5 @@ void Brackets::UpdateBounds ()
 {
 	m_Metrics = GetBracketsMetrics (m_FontDesc);
 }
-
 
 }

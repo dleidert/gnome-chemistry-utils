@@ -62,6 +62,7 @@ class ApplicationPrivate
 public:
 	static void MaximizeWindows ();
 	static void FullScreenWindows ();
+	static bool LoadDatabases (Application *app);
 };
 
 void ApplicationPrivate::MaximizeWindows ()
@@ -74,6 +75,10 @@ void ApplicationPrivate::FullScreenWindows ()
 	Application::DefaultWindowState = FullScreenWindowState;
 }
 
+bool ApplicationPrivate::LoadDatabases (Application *app)
+{
+	return false;
+}
 static GOptionEntry options[] = 
 {
   {"full-screen", 'F', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void *)ApplicationPrivate::MaximizeWindows, N_("Open new windows full screen"), NULL},
@@ -139,6 +144,7 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	if (Default == NULL)
 		Default = this;
 	RegisterBabelType ("chemical/x-xyz", "xyz");
+	g_idle_add (reinterpret_cast <GSourceFunc> (ApplicationPrivate::LoadDatabases), this);
 }
 
 Application::~Application ()

@@ -43,6 +43,11 @@ struct option_data;
 class TypeDesc;
 class CmdContext;
 
+typedef struct {
+	std::string name;
+	std::string uri;
+} Database;
+
 /*!
 Window states
 */
@@ -408,6 +413,7 @@ adds a callback for modifying the contextual menu of objects of type Id.
 	char* ConvertToCML (GsfInput *input, const char *mime_type, const char *options = NULL);
 	void ConvertFromCML (const char *cml, std::string const &uri, const char *mime_type, const char *options = NULL);
 	void ConvertFromCML (const char *cml, GsfOutput *output, const char *mime_type, const char *options = NULL);
+	std::list < Database > const &GetDatabases (char const *classname) {return m_Databases[classname];}
 
 protected:
 
@@ -447,6 +453,8 @@ std::map of the supported pixbuf formats. Keys are the mime type names.
 
 	CmdContext *m_CmdContext;
 
+private:
+	std::map < std::string, std::list <Database> >m_Databases;
 /*!\var m_Docs
 The currently opened documents.
 */

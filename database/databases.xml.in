@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<databases>
+  <database>
+    <name>ChemSpider</name>
+    <uri>http://www.chemspider.com/%K</uri>
+    <class>molecule</class>
+  </database>
+  <database>
+    <name>NIST webbook</name>
+    <uri>http://webbook.nist.gov/cgi/cbook.cgi?Name=%K&amp;Units=SI"</uri>
+    <class>molecule</class>
+  </database>
+  <database>
+    <name>PubChem</name>
+    <uri>http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?CMD=search&amp;DB=pccompound&amp;term="%K"</uri>
+    <class>molecule</class>
+  </database>
+  <database>
+    <name>Wikipedia (en)</name>
+    <uri>http://en.wikipedia.org/wiki/Special:Search/%K</uri>
+    <class>molecule</class>
+  </database>
+  <database>
+    <name>Answers.com</name>
+    <uri>http://www.answers.com/%K</uri>
+    <class>molecule</class>
+  </database>
+  <database>
+    <name>Bing</name>
+    <uri>http://www.bing.com/search?q=%K</uri>
+    <class>molecule</class>
+  </database>
+  <database>
+    <name>Google</name>
+    <uri>http://www.google.com/search?q=%K</uri>
+    <class>molecule</class>
+  </database>
+  <database>
+    <name>Yahoo</name>
+    <uri>http://search.yahoo.com/search?p=%K</uri>
+    <class>molecule</class>
+  </database>
+</databases>

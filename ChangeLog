@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fix automake warning.
+	* database/Makefile.am: add new datas.
+	* database/databases.xml.in: new list of databases.
+	* libs/gccv/brackets.cc: add more sizes. 
+	* libs/gcu/application.cc: start work on extern databases.
+	* libs/gcu/application.h: ditto.
+	* openbabel/socket.cc: implement long option such as --gen3D support.
+
 2011-02-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: ipmlement standard InChIKey generation.
 	* libs/gcp/molecule.h: ditto.

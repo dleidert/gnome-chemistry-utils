@@ -3,6 +3,7 @@ gchemutils.schemas.in
 gchemutils.xml.in
 database/residues.xml.in
 database/elements.xml.in
+database/databases.xml.in
 database/elecprops.xml.in
 database/isotopes.xml.in
 database/radii.xml.in

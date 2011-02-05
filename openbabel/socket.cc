@@ -41,7 +41,8 @@ enum {
 	STEP_DATA,
 	STEP_FORMAT_IN_OPTIONS,
 	STEP_FORMAT_OUT_OPTIONS,
-	STEP_GEN_OPTIONS
+	STEP_GEN_OPTIONS,
+	STEP_LONG_OPTION
 };
 
 BabelSocket::BabelSocket (int socket):
@@ -109,6 +110,9 @@ size_t BabelSocket::Read ()
 				break;
 			case 'x': // output format options
 				m_Step = STEP_FORMAT_OUT_OPTIONS;
+				break;
+			case '-': // option entered with --
+				m_Step = STEP_LONG_OPTION;
 				break;
 			default:
 				// generic options
@@ -249,10 +253,6 @@ size_t BabelSocket::Read ()
 			}
 			break;
 		case STEP_GEN_OPTIONS:
-			if (!m_Cur && m_InBuf[0] == '-') {
-				// long string option
-				m_Start++;
-			}
 			while (m_InBuf[m_Cur] != ' ' && m_Cur < m_Index)
 				m_Cur++;
 			if (m_InBuf[m_Cur] == ' ') {
@@ -261,6 +261,14 @@ size_t BabelSocket::Read ()
 				FinishOption (STEP_INIT);
 			}
 			break;
+		case STEP_LONG_OPTION:
+			while (m_InBuf[m_Cur] != ' ' && m_Cur < m_Index)
+				m_Cur++;
+			if (m_InBuf[m_Cur] == ' ') {
+				m_InBuf[m_Cur] = 0;
+				m_Conv.AddOption (m_InBuf + m_Start, OpenBabel::OBConversion::GENOPTIONS);
+				FinishOption (STEP_INIT);
+			}
 		default:
 			break;
 		}
