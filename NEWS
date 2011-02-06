@@ -4,6 +4,8 @@ Version 0.12.7
 		0.12.6).
 		* Do not add cycles when not allowed.
 		* Fixed an invalid memory read in cycles tool.
+	GCrystal:
+		* Fix space group detection with dummy atoms.
 
 Version 0.12.6
 	GChemPaint:

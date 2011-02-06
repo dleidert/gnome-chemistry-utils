@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-02-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcu/crystalatom.cc: fix space group detection with dummy atoms.
+
 2011-01-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: fixed merging molecules owned by another object.
 	* plugins/paint/cycles/cycletool.cc: never address a deleted string.
