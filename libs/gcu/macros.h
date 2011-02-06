@@ -79,7 +79,7 @@ private:	\
 
 /*!\def GCU_RO_PROP()
 Defines a private member with an appropriate get method. RO stands for Read Only. The member
-can't be modified from outside the class it belongs too or a friend class.
+can't be modified from outside the class it belongs to or a friend class.
 GCU_RO_PROP(Type,Foo) expands to one private member:
 \code
 	Type m_Foo;
@@ -96,9 +96,28 @@ public:	\
 private:	\
 	type m_##member;
 
+/*!\def GCU_RO_STATIC_PROP()
+Defines a static private member with an appropriate get method. RO stands for Read Only. The member
+can't be modified from outside the class it belongs to or a friend class.
+GCU_RO_STATIC_PROP(Type,Foo) expands to one private member:
+\code
+	static Type m_Foo;
+\endcode
+
+and one public method:
+\code
+	Type GetFoo() const;
+\endcode
+*/
+#define GCU_RO_STATIC_PROP(type,member) \
+public:	\
+	type Get##member (void) const {return m_##member;}	\
+private:	\
+	static type m_##member;
+
 /*!\def GCU_RO_POINTER_PROP()
 Defines a private pointer member an with appropriate get method. RO stands for Read Only. The member
-can't be modified from outside the class it belongs too or a friend class.
+can't be modified from outside the class it belongs to or a friend class.
 GCU_RO_POINTER_PROP((Type,Foo) expands to one private member:
 \code
 	Type *m_Foo;

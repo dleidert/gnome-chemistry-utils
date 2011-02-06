@@ -121,7 +121,8 @@ INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
 		$(GCU_CFLAGS)
-DEFS += -DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
+DEFS += -DGCU_API_VER=\"@GCU_API_VER@\" \
+	-DDATADIR=\"$(datadir)\" -DPKGDATADIR=\"$(datadir)/gchemutils/@GCU_API_VER@\" \
 	-DUIDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/ui/paint\" \
 	-DPLUGINSDIR=\"$(libdir)/gchemutils/@GCU_API_VER@/plugins/paint\" \
 	-DPIXMAPSDIR=\"$(datadir)/gchemutils/@GCU_API_VER@/pixmaps\" \

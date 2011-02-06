@@ -91,6 +91,7 @@ It is a virtual class since at least one method is pure virtual (gcp::Applicatio
 */
 class Application: public gcu::Application
 {
+friend class ApplicationPrivate;
 public:
 /*!
 The default constructor.
@@ -233,10 +234,6 @@ tools use it.
 Saves the active view as an image.
 */
 	void OnSaveAsImage ();
-/*!
-@return true if ghemical is usable.
-*/
-	bool HaveGhemical () {return m_Have_Ghemical;}
 /*!
 @return true if InChIs can be evaluated for molecules.
 */
@@ -406,6 +403,8 @@ it is pure virtual.
 */
 	GdkCursor *GetCursor (CursorId id)  {return m_Cursors[id];}
 
+	bool Have3DSupport () {return m_HaveGhemical | m_HaveGChem3D | m_HaveAvogadro;}
+
 protected:
 /*!
 Initialize the tools box so that the selection tool is active. This method is
@@ -450,7 +449,6 @@ private:
 	std::map <std::string, Tool*> m_Tools;
 	Tool* m_pActiveTool;
 	static bool m_bInit;
-	static bool m_Have_Ghemical;
 	static bool m_Have_InChI;
 	xmlDocPtr XmlDoc;
 	GtkIconFactory *IconFactory;
@@ -473,6 +471,12 @@ private:
 @return the default GtkStyle for the windows.
 */
 	GCU_RO_POINTER_PROP	(GtkStyle, Style)
+/*!\fn GetHaveGhemical
+@return true if ghemical is usable on startup.
+*/
+	GCU_RO_STATIC_PROP (bool, HaveGhemical);
+	GCU_RO_STATIC_PROP (bool, HaveGChem3D);
+	GCU_RO_STATIC_PROP (bool, HaveAvogadro);
 };
 
 }	// namespace gcp

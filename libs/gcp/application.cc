@@ -176,6 +176,50 @@ static void load_globs ()
 
 namespace gcp {
 
+// class ApplicationPrivate: implements useful callbacks
+class ApplicationPrivate {
+public:
+	static bool Init (Application *app);
+};
+
+bool ApplicationPrivate::Init (Application *app)
+{
+		// Check for programs
+		char *result = NULL, *errors = NULL;
+		// check for ghemical
+		app->m_HaveGhemical = (g_spawn_command_line_sync ("which ghemical", &result, &errors, NULL, NULL)
+			&& result && strlen (result));
+		if (result) {
+			g_free (result);
+			result = NULL;
+		}
+		if (errors) {
+			g_free (errors);
+			errors = NULL;
+		}
+		app->m_HaveGChem3D = (g_spawn_command_line_sync ("which gchem3d-"GCU_API_VER, &result, &errors, NULL, NULL)
+			&& result && strlen (result));
+		if (result) {
+			g_free (result);
+			result = NULL;
+		}
+		if (errors) {
+			g_free (errors);
+			errors = NULL;
+		}
+		app->m_HaveAvogadro = (g_spawn_command_line_sync ("which avogadro", &result, &errors, NULL, NULL)
+			&& result && strlen (result));
+		if (result) {
+			g_free (result);
+			result = NULL;
+		}
+		if (errors) {
+			g_free (errors);
+			errors = NULL;
+		}
+	return false;
+}
+
 // Objects creation static methods
 static Object* CreateAtom ()
 {
@@ -263,8 +307,10 @@ static Object* CreateBrackets ()
 }
 
 bool	Application::m_bInit = false;
-bool	Application::m_Have_Ghemical = false;
 bool	Application::m_Have_InChI = false;
+bool	Application::m_HaveGhemical = false;
+bool	Application::m_HaveGChem3D = false;
+bool	Application::m_HaveAvogadro = false;
 
 static void on_config_changed (GOConfNode *node, gchar const *key, Application *app)
 {
@@ -283,19 +329,6 @@ Application::Application (CmdContext *cc):
 	if (!m_bInit) {
 		/* Initialize plugins manager */
 		gcu::Loader::Init (this);
-		// Check for programs
-		char *result = NULL, *errors = NULL;
-		// check for ghemical
-		m_Have_Ghemical = (g_spawn_command_line_sync ("which ghemical", &result, &errors, NULL, NULL)
-			&& result && strlen (result));
-		if (result) {
-			g_free (result);
-			result = NULL;
-		}
-		if (errors) {
-			g_free (errors);
-			errors = NULL;
-		}
 /*		OBConversion Conv;
 		m_Have_InChI = Conv.FindFormat ("inchi") != NULL || 
 			(g_spawn_command_line_sync ("which main_inchi", &result, &errors, NULL, NULL)
@@ -374,6 +407,7 @@ Application::Application (CmdContext *cc):
 		// load plugins
 		Plugin::LoadPlugins ();
 		m_bInit = true;
+		g_idle_add (reinterpret_cast <GSourceFunc> (ApplicationPrivate::Init), this); 
 	}
 	RadioActions = NULL;
 	m_entries = 0;

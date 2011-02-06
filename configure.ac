@@ -143,7 +143,7 @@ PKG_CHECK_MODULES(gsf, [libgsf-1 >= 1.14.9])
 PKG_CHECK_MODULES(goffice, [$libgoffice >= 0.7.16])
 PKG_CHECK_MODULES(chemical_mime_data, [chemical-mime-data >= 0.1.94])
 PKG_CHECK_MODULES(bodr, [bodr >= 5])
-PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.1.0])
+PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.3.0])
 PKG_CHECK_MODULES(x11, [x11 >= 1.0.0])
 
 PKG_CHECK_MODULES(OB22, openbabel-2.0 >= 2.2.0,

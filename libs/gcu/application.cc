@@ -756,9 +756,53 @@ This method converts the source to CML.
 @return the converted text as a newly allocate string or NULL.
 */
 
-char* ConvertToCML (GsfInput *input, const char *mime_type, const char *options)
+char* Application::ConvertToCML (GsfInput *input, const char *mime_type, const char *options)
 {
-	return NULL;
+	int sock = OpenBabelSocket ();
+	if (sock <= 0)
+		return NULL;
+	size_t n = gsf_input_size (input);
+	char const *outbuf = reinterpret_cast <char const *> (gsf_input_read (input, n, NULL)); 
+	std::string buf = "-i ";
+	buf += MimeToBabelType (mime_type);
+	buf += " -o cml";
+	if (options) {
+		buf += " ";
+		buf += options;
+	}
+	char *szsize = g_strdup_printf (" -l %lu -D", n);
+	buf += szsize;
+	g_free (szsize);
+	write (sock, buf.c_str (), buf.length ());
+	write (sock, outbuf, n);
+	time_t timeout = time (NULL) + 60;
+	char inbuf[256], *start = inbuf, *end;
+	unsigned cur, index = 0, length = 0;
+	while (time (NULL) < timeout) {
+		if ((cur = read (sock, start + index, ((length)? length: 255) - index))) {
+			index += cur;
+			start[index] = 0;
+			if (start == inbuf) {
+				if ((end = strchr (inbuf, ' '))) {
+					length = strtoul (inbuf, NULL, 10);
+					start = reinterpret_cast <char *> (g_malloc (length + 1));
+					if (!start)
+						break;
+					strcpy (start, end + 1);
+					index = strlen (start);
+				}
+			}
+			if (index == length)
+				goto ok_exit;
+		} else
+			break;
+	}
+	if (start != inbuf)
+		g_free (start);
+	start = NULL;
+ok_exit:
+	close (sock);
+	return start;
 }
 
 /*!

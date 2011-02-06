@@ -32,6 +32,7 @@
 #include "tool.h"
 #include "view.h"
 #include <gcu/chain.h>
+#include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <glib/gi18n-lib.h>
 #include <unistd.h>
@@ -53,6 +54,9 @@ public:
 	static void ShowInChI (Molecule *mol);
 	static void ShowSMILES (Molecule *mol);
 	static void ExportToGhemical (Molecule *mol);
+	static void ExportTo3D (Molecule *mol);
+	static void ExportToAvogadro (Molecule *mol);
+	static char *Build3D (Molecule *mol);
 };
 
 void MoleculePrivate::ShowInChIKey (Molecule *mol)
@@ -64,7 +68,7 @@ void MoleculePrivate::ShowInChIKey (Molecule *mol)
 void MoleculePrivate::ShowInChI (Molecule *mol)
 {
 
-	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChIKey (), StringDlg::INCHI);
+	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetInChI (), StringDlg::INCHI);
 }
 
 void MoleculePrivate::ShowSMILES (Molecule *mol)
@@ -73,16 +77,54 @@ void MoleculePrivate::ShowSMILES (Molecule *mol)
 	new StringDlg (reinterpret_cast<Document *>(mol->GetDocument ()), mol->GetSMILES (), StringDlg::SMILES);
 }
 
+char *MoleculePrivate::Build3D (Molecule *mol)
+{
+	std::string const &InChI = mol->GetInChI ();
+	GsfInput *in = gsf_input_memory_new (reinterpret_cast <guint8 const *> (InChI.c_str ()), InChI.length (), false);
+	char *cml = mol->GetDocument ()->GetApp ()->ConvertToCML (in, "inchi", "-hc --gen3D");
+	g_object_unref (in);
+	return cml;
+}
+
 void MoleculePrivate::ExportToGhemical (Molecule *mol)
 {
-	std::string const &cml = mol->GetCML ();
-	char *tmpname = g_strdup ("/tmp/2gprXXXXXX");
+	char *cml = Build3D (mol);
+	char *tmpname = g_strdup ("/tmp/gprXXXXXX.gpr");
 	int f = g_mkstemp (tmpname);
 	close (f);
 	std::string uri = "file://";
 	uri += tmpname;
-	mol->GetDocument ()->GetApp ()->ConvertFromCML (cml.c_str (), uri, "gpr", "-h --gen3D");
+	mol->GetDocument ()->GetApp ()->ConvertFromCML (cml, uri, "gpr");
+	g_free (cml);
 	char *command_line = g_strconcat ("ghemical -f ", tmpname, NULL);	
+	g_free (tmpname);
+	g_spawn_command_line_async (command_line, NULL);
+	g_free (command_line);
+}
+
+void MoleculePrivate::ExportTo3D (Molecule *mol)
+{
+	char *cml = Build3D (mol);
+	char *tmpname = g_strdup ("/tmp/cmlXXXXXX.cml");
+	int f = g_mkstemp (tmpname);
+	write (f, cml, strlen (cml));
+	close (f);
+	g_free (cml);
+	char *command_line = g_strconcat ("gchem3d-"GCU_API_VER" ", tmpname, NULL);	
+	g_free (tmpname);
+	g_spawn_command_line_async (command_line, NULL);
+	g_free (command_line);
+}
+
+void MoleculePrivate::ExportToAvogadro (Molecule *mol)
+{
+	char *cml = Build3D (mol);
+	char *tmpname = g_strdup ("/tmp/cmlXXXXXX.cml");
+	int f = g_mkstemp (tmpname);
+	write (f, cml, strlen (cml));
+	close (f);
+	g_free (cml);
+	char *command_line = g_strconcat ("avogadro ", tmpname, NULL);	
 	g_free (tmpname);
 	g_spawn_command_line_async (command_line, NULL);
 	g_free (command_line);
@@ -527,18 +569,39 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 	g_object_unref (action);
 	bool result = false;
 	if (!m_Fragments.size ()) {
-		if (((Document*) GetDocument ())->GetApplication ()->HaveGhemical ()) {
-			action = gtk_action_new ("ghemical", _("Export molecule to Ghemical"), NULL, NULL);
-			g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ExportToGhemical), this);
+		Application *app = static_cast <Document *> (GetDocument ())->GetApplication ();
+		if (app->Have3DSupport ()) {
+			action = gtk_action_new ("open3d", _("Open 3D model in"), NULL, NULL);
 			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
-			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='ghemical'/></menu></popup></ui>", -1, NULL);
+			if (app->GetHaveGhemical ()) {
+				action = gtk_action_new ("ghemical", _("Ghemical"), NULL, NULL);
+				g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ExportToGhemical), this);
+				gtk_action_group_add_action (group, action);
+				g_object_unref (action);
+				gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='ghemical'/></menu></menu></popup></ui>", -1, NULL);
+			}
+			if (app->GetHaveGChem3D ()) {
+				action = gtk_action_new ("gchem3d", _("GChem3D"), NULL, NULL);
+				g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ExportTo3D), this);
+				gtk_action_group_add_action (group, action);
+				g_object_unref (action);
+				gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='gchem3d'/></menu></menu></popup></ui>", -1, NULL);
+			}
+			if (app->GetHaveAvogadro ()) {
+				action = gtk_action_new ("avogadro", _("Avogadro"), NULL, NULL);
+				g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ExportToAvogadro), this);
+				gtk_action_group_add_action (group, action);
+				g_object_unref (action);
+				gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='avogadro'/></menu></menu></popup></ui>", -1, NULL);
+			}
 		}
 //		if (((Document*) GetDocument ())->GetApplication ()->HaveInChI ()) {
 			action = gtk_action_new ("inchi", _("Generate InChI"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ShowInChI), this);
 			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
+			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='inchi'/></menu></popup></ui>", -1, NULL);
 			action = gtk_action_new ("inchikey", _("Generate InChIKey"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ShowInChIKey), this);
 			gtk_action_group_add_action (group, action);
