@@ -4,6 +4,7 @@ Version 0.12.7
 		0.12.6).
 		* Do not add cycles when not allowed.
 		* Fixed an invalid memory read in cycles tool.
+		* Try to save the changed files in case of crash.
 	GCrystal:
 		* Fix space group detection with dummy atoms.
 

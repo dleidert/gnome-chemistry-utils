@@ -39,6 +39,7 @@ public:
 	virtual GtkWindow* GetWindow ();
 	void OnFileNew (char const *Theme = NULL);
 	void NoMoreDocsEvent ();
+	void CatchSignals (int sig_num);
 
 private:
 	GtkWidget* CreateView ();
