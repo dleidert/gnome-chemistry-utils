@@ -57,3 +57,35 @@ void gcpStandaloneApp::NoMoreDocsEvent ()
 {
 	gtk_main_quit ();
 }
+
+/* code copied from AbiWord
+ * Copyright (C) 1998-2000 AbiSource, Inc.
+ * Copyright (C) 2009 Hubert Figuiere
+ */
+extern void signalWrapper (int);
+void gcpStandaloneApp::CatchSignals (G_GNUC_UNUSED int sig_num)
+{
+	static int s_signal_count = 0;
+
+	// Reset the signal handler 
+	// (not that it matters - this is mostly for race conditions)
+	signal ( SIGSEGV, signalWrapper);
+
+	s_signal_count = s_signal_count + 1;
+	if (s_signal_count > 1) // new crash during emergency file save
+   		abort();
+
+	std::set <gcu::Document*>::iterator it, end = m_Docs.end ();
+	static unsigned docnum;
+	for (it = m_Docs.begin (); it != end; it++) {
+		gcp::Document *doc = static_cast <gcp::Document *> (*it);
+		if (!doc->GetDirty ())
+			continue;
+		char *uri = (doc->GetFileName ())? g_strdup_printf ("%s.saved", doc->GetFileName ()): g_strdup_printf ("%s/unnamed%u.gchempaint.saved", GetCurDir (), docnum++);
+		doc->SetFileName (uri, "application/x-gchempaint"); // always save in gchempaint format
+		doc->Save ();
+	}
+
+	// Abort and dump core
+	abort();
+}

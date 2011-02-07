@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* programs/paint/main.cc: try to save changed files on crashing.
+	* programs/paint/standaloneapp.cc: ditto.
+	* programs/paint/standaloneapp.h: ditto.
+
 2011-02-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: request OpenBabel >= 2.3.0.
 	* libs/gcp/Makefile.am: export molecules to avogadro and gchem3d.

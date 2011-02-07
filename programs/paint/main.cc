@@ -27,6 +27,7 @@
 #include <gcu/loader.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
+#include <signal.h>
 
 extern "C" {
 	void gnome_authentication_manager_init ();
@@ -44,7 +45,21 @@ void cb_print_version (const gchar *option_name, const gchar *value, gpointer da
 	exit (0);
 }
 
-gcpStandaloneApp* App;
+static gcpStandaloneApp* App = NULL;
+
+/* code copied from AbiWord
+ * Copyright (C) 1998-2000 AbiSource, Inc.
+ * Copyright (C) 2009 Hubert Figuiere
+ */ 
+void signalWrapper(int sig_num)
+{
+	/* make sure we have application, in case we have been called after
+	 * the application object is gone
+	 */
+	if (App)
+		App->CatchSignals (sig_num);
+}
+// end of copied code
 
 static GOptionEntry entries[] = 
 {
@@ -104,9 +119,33 @@ int main(int argc, char *argv[])
 	}
 	
 	if (App->GetDocsNumber () == 0)
-		App->OnFileNew();
+		App->OnFileNew ();
 
-	gtk_main();
+/* code copied from AbiWord
+ * Copyright (C) 1998-2000 AbiSource, Inc.
+ * Copyright (C) 2009 Hubert Figuiere
+ */ 
+	// Setup signal handlers, primarily for segfault
+	// If we segfaulted before here, we *really* blew it
+	struct sigaction sa;
+	sa.sa_handler = signalWrapper;
+
+	sigfillset (&sa.sa_mask);  // We don't want to hear about other signals
+	sigdelset (&sa.sa_mask, SIGABRT); // But we will call abort(), so we can't ignore that
+#if defined (SA_NODEFER) && defined (SA_RESETHAND)
+	sa.sa_flags = SA_NODEFER | SA_RESETHAND; // Don't handle nested signals
+#else
+	sa.sa_flags = 0;
+#endif
+
+	sigaction (SIGSEGV, &sa, NULL);
+	sigaction (SIGBUS, &sa, NULL);
+	sigaction (SIGILL, &sa, NULL);
+	sigaction (SIGQUIT, &sa, NULL);
+	sigaction (SIGFPE, &sa, NULL);
+	// end of copied code
+
+	gtk_main ();
 	delete App;		
 
 	return 0;
