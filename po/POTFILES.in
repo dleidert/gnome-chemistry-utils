@@ -78,6 +78,8 @@ plugins/loaders/cif/cif.cc
 plugins/loaders/cif/plugin.xml.in
 plugins/loaders/cml/cml.cc
 plugins/loaders/cml/plugin.xml.in
+plugins/loaders/ctfiles/ctfiles.cc
+plugins/loaders/ctfiles/plugin.xml.in
 plugins/loaders/nuts/plugin.xml.in
 plugins/paint/arrows/arrowtool.cc
 [type: gettext/glade]plugins/paint/arrows/arrowtool.ui

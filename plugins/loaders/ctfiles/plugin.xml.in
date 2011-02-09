@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="GCULoader_cml">
+	<information>
+		<_name>Loader : CTfiles</_name>
+		<_description>CTfiles loader.</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="ctfiles"/>
+	</loader>
+	<services>
+		<service type="chemical_loader" id="GCULoader_ctfiles">
+			<mime_type name="chemical/x-mdl-molfile" capabilities="w" scope="23"/>
+			<information>
+				<_description>CTfiles loader</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

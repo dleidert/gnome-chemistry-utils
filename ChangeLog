@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-02-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: new CTfiles loader plugin.
+	* plugins/loaders/ctfiles/Makefile.am: ditto.
+	* plugins/loaders/ctfiles/ctfiles.cc: ditto.
+	* plugins/loaders/ctfiles/plugin.xml.in: ditto.
+	* other files: updated copyright.
+
 2011-02-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* programs/paint/main.cc: try to save changed files on crashing.
 	* programs/paint/standaloneapp.cc: ditto.
