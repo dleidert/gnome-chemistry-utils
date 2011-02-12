@@ -2,6 +2,8 @@ Version 0.13.2
 	GChemPaint:
 		*Do not allow document changes using keyboard while
 		dragging the mouse. [#31812]
+		* Don't add new molecules when undoing a mechanism arrow deletion.
+		[#32433]
 
 Version 0.13.1
 	GSpectrum:

@@ -23,9 +23,11 @@
  */
 
 #include "config.h"
+#include "document.h"
 #include "mechanism-step.h"
 #include "mechanism-arrow.h"
 #include "molecule.h"
+#include "operation.h"
 #include "reaction-step.h"
 #include <gcu/document.h>
 #include <glib/gi18n.h>
@@ -82,9 +84,10 @@ bool MechanismStep::OnSignal (gcu::SignalId Signal, G_GNUC_UNUSED gcu::Object *C
 				if (mol)
 					molecules.insert (mol);
 			}
+		Object *parent = GetParent (), *group = GetGroup ();
+		Operation *op = static_cast <Document *> (GetDocument ())->GetCurrentOperation ();
 		if (molecules.empty ()) {
 			// if no arrow remains, delete this
-			Object *parent = GetParent ();
 			Object *obj;
 			SetParent (NULL); //
 			if (parent->GetType () == ReactionStepType) {
@@ -93,13 +96,16 @@ bool MechanismStep::OnSignal (gcu::SignalId Signal, G_GNUC_UNUSED gcu::Object *C
 					if (obj->GetType () == gcu::MoleculeType)
 						step->AddMolecule (static_cast <Molecule *> (obj), false);
 			} else
-				while ((obj = GetFirstChild (i)))
+				while ((obj = GetFirstChild (i))) {
 					parent->AddChild (obj);
+					if (!group && op)
+						op->AddObject (obj, 1);
+						
+				}
 			delete this;
 			parent->EmitSignal (OnChangedSignal);
 			return false;
 		} else {
-			Object *parent = GetParent ();
 			Object *obj;
 			if (parent->GetType () == ReactionStepType) {
 				ReactionStep *step = static_cast <ReactionStep *> (parent);

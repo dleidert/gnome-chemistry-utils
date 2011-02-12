@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-02-12  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/mechanism-step.cc: don't add new molecules when undoing a
+	mechanism arrow deletion. [#32433]
+
 2011-02-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: new CTfiles loader plugin.
 	* plugins/loaders/ctfiles/Makefile.am: ditto.
