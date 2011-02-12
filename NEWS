@@ -5,6 +5,9 @@ Version 0.12.7
 		* Do not add cycles when not allowed.
 		* Fixed an invalid memory read in cycles tool.
 		* Try to save the changed files in case of crash.
+		* Don't add new molecules when undoing a mechanism arrow deletion.
+		[#32433]
+
 	GCrystal:
 		* Fix space group detection with dummy atoms.
 
