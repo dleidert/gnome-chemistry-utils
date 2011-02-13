@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-step.cc 
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -315,6 +315,7 @@ void ReactionStep::CleanChildren ()
 	map<string, Object *>::iterator j;
 	Reactant *pReactant;
 	list <MechanismArrow *> arrows;
+	set <Object *> new_objects;
 	while (HasChildren ()) {
 		Child = GetFirstChild (j);
 		if (Child->GetType () == ReactionOperatorType) {
@@ -326,6 +327,8 @@ void ReactionStep::CleanChildren ()
 			continue;
 		} else if (Child->GetType () == MechanismStepType) {
 			Child->SetParent (pObj);
+			if (pOp && !Group)
+				new_objects.insert (Child);
 			continue;
 		}
 		pReactant = reinterpret_cast<Reactant *> (Child);
@@ -336,7 +339,7 @@ void ReactionStep::CleanChildren ()
 		if (Child) {
 			Child->SetParent (pObj);
 			if (pOp && !Group)
-				pOp->AddObject (Child, 1);
+				new_objects.insert (Child);
 		}
 		delete pReactant;
 	}
@@ -352,6 +355,10 @@ void ReactionStep::CleanChildren ()
 			step->SetParent (parent);
 			step->AddChild (arrow);
 			step->AddChild (molecule);
+			if (pOp) {
+				new_objects.erase (molecule);
+				new_objects.insert (step);
+			}
 		}
 		obj = arrow->GetTarget ();
 		molecule = obj->GetMolecule ();
@@ -361,6 +368,8 @@ void ReactionStep::CleanChildren ()
 				map <string, Object *>::iterator it;
 				obj = parent->GetFirstChild (it);
 				while (obj) {
+					if (pOp)
+						new_objects.erase (obj);
 					step->AddChild (obj);
 					obj = parent->GetFirstChild (it);
 				}
@@ -370,6 +379,9 @@ void ReactionStep::CleanChildren ()
 		}
 		arrows.pop_front ();
 	}
+	set <Object *>::iterator k, kend = new_objects.end ();
+	for (k = new_objects.begin (); k != kend; k++)
+		pOp->AddObject (*k, 1);
 }
 
 void ReactionStep::AddMolecule (Molecule *molecule, bool signal)

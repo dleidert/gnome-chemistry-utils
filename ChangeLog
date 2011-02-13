@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-02-13  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: new comment.
+	* libs/gcp/reaction-step.cc: more undo fix in reactions with curved arrows.
+
 2011-02-12  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/mechanism-step.cc: don't add new molecules when undoing a
 	mechanism arrow deletion. [#32433]

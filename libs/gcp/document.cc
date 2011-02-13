@@ -1026,6 +1026,7 @@ void Document::LoadObjects (xmlNodePtr node)
 	}
 	m_bIsLoading = false;
 	Loaded ();
+	// FIXME: we might just update what needs update, not the whole document
 	m_pView->Update (this);
 }
 
