@@ -7,7 +7,7 @@ Version 0.12.7
 		* Try to save the changed files in case of crash.
 		* Don't add new molecules when undoing a mechanism arrow deletion.
 		[#32433]
-
+		* Fixed negative charges inside a fragment.
 	GCrystal:
 		* Fix space group detection with dummy atoms.
 
