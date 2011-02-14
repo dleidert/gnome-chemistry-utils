@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-02-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/fragment.cc: allow for minus charge in the middel of a string.
+
 2011-02-13  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: new comment.
 	* libs/gcp/reaction-step.cc: more undo fix in reactions with curved arrows.

@@ -1364,7 +1364,7 @@ bool Fragment::Validate ()
 			}
 			unsigned length = (*it)->GetEndIndex () - (*it)->GetStartIndex () - (err - charge);
 			if ((*err == '+' && length == 1) ||
-			    (!strcmp (err, "−") && length == strlen ("−")))
+			    (!strncmp (err, "−", strlen ("−")) && length == strlen ("−")))
 				continue;
 			// if we are there, we have an error
 			Document *pDoc = dynamic_cast<Document*> (GetDocument ());
