@@ -68,6 +68,10 @@ virtual method called when the application ends to ensure everything is
 correctly closed. This is a pure virtual class, so it must be overloaded.
 */
 	virtual bool Close () = 0;
+
+private:
+	unsigned long m_InSignal, m_OutSignal, m_StateSignal;
+
 /*!\var m_Application
 The gcp::Application owning this target.
 */

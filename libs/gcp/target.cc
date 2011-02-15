@@ -66,14 +66,19 @@ Target::~Target ()
 {
 	if (m_Application)
 		m_Application->DeleteTarget (this);
+	if (G_IS_OBJECT (m_Window)) {
+		g_signal_handler_disconnect (m_Window, m_InSignal);
+		g_signal_handler_disconnect (m_Window, m_OutSignal);
+		g_signal_handler_disconnect (m_Window, m_StateSignal);
+	}
 }
 
 void Target::SetWindow (GtkWindow *window)
 {
 	m_Window = window;
-	g_signal_connect (G_OBJECT (m_Window), "focus_in_event", G_CALLBACK (on_focus_in), this);
-	g_signal_connect (G_OBJECT (m_Window), "focus_out_event", G_CALLBACK (on_focus_out), this);
-	g_signal_connect (G_OBJECT (m_Window), "window-state-event", G_CALLBACK (on_state), this);
+	m_InSignal = g_signal_connect (G_OBJECT (m_Window), "focus_in_event", G_CALLBACK (on_focus_in), this);
+	m_OutSignal = g_signal_connect (G_OBJECT (m_Window), "focus_out_event", G_CALLBACK (on_focus_out), this);
+	m_StateSignal = g_signal_connect (G_OBJECT (m_Window), "window-state-event", G_CALLBACK (on_state), this);
 }
 
 }	//	namespace gcp

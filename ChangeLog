@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2011-02-15  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcpapp.cc: fix an alignment issue.
+	* libs/gcp/document.cc: fix alignment with several children
+	* libs/gcp/mechanism-step.cc: don't save an empty step.
+	* libs/gcp/mechanism-step.h: ditto.
+	* libs/gcp/reaction-step.cc: don't create empty steps.
+	* libs/gcp/target.cc: remove signals when destroyed.
+	* libs/gcp/target.h: ditto.
+	* libs/gcu/object.cc: accept unsaved children in Object::SaveChildren().
+	* plugins/paint/bonds/bondtool.cc: fixed an item position issue.
+
 2011-02-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment.cc: allow for minus charge in the middel of a string.
 

@@ -66,6 +66,13 @@ changed. Might destroy the MechanismStep if there is not anymore an arrow.
 */
 	bool OnSignal (gcu::SignalId Signal, gcu::Object *Child);
 /*!
+@param xml the xmlDoc used to save the document.
+
+Used to save the reaction step to the xmlDoc.
+@return the xmlNode containing the serialized step.
+*/
+	xmlNodePtr Save (xmlDocPtr xml) const;
+/*!
 @param node a pointer to the xmlNode containing the serialized step.
 
 Used to load a mechanism step in memory. The MechanismStep must already exist.

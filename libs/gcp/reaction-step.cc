@@ -351,7 +351,9 @@ void ReactionStep::CleanChildren ()
 			step = static_cast <MechanismStep *> (parent);
 			step->AddChild (arrow);
 		} else {
-			step = new MechanismStep ();
+			step = dynamic_cast <MechanismStep *> (arrow->GetTarget ()->GetMolecule ()->GetParent ());
+			if (!step)
+				step = new MechanismStep ();
 			step->SetParent (parent);
 			step->AddChild (arrow);
 			step->AddChild (molecule);

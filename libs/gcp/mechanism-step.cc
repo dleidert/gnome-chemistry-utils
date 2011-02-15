@@ -129,6 +129,12 @@ bool MechanismStep::OnSignal (gcu::SignalId Signal, G_GNUC_UNUSED gcu::Object *C
 	return true;
 }
 
+xmlNodePtr MechanismStep::Save (xmlDocPtr xml) const
+{
+	// don't save an empty step, note that this might not occur
+	return (GetChildrenNumber ())? gcu::Object::Save (xml): NULL;
+}
+
 bool MechanismStep::Load (xmlNodePtr node)
 {
 	m_bLoading = true;

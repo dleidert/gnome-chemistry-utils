@@ -163,12 +163,12 @@ void GOGcpApplication::UpdateBounds (GOGChemUtilsComponent *gogcu)
 	gccv::Rect rect;
 	gcp::WidgetData *pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	pData->GetObjectBounds (doc, &rect);
-	double y = doc->GetYAlign ();
-	y += doc->GetView ()->GetBaseLineOffset ();
-	y *= pTheme->GetZoomFactor ();
 	if (rect.x0 || rect.y0)
 		doc->Move (- rect.x0 / pTheme->GetZoomFactor (), - rect.y0 / pTheme->GetZoomFactor ());
 	doc->GetView ()->Update (doc);
+	double y = doc->GetYAlign ();
+	y += doc->GetView ()->GetBaseLineOffset ();
+	y *= pTheme->GetZoomFactor ();
 	if (y < rect.y0)
 		y = rect.y1;
 	// assuming 96 dpi, setting dimensions as inches.

@@ -345,8 +345,6 @@ bool Object::SaveChildren (xmlDocPtr xml, xmlNodePtr node) const
 	for (i = m_Children.begin (); i != end; i++) {
 		if ((child = (*i).second->Save (xml)))
 			xmlAddChild (node, child);
-		else
-			return false;
 	}
 	return true;
 }
