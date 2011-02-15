@@ -62,12 +62,16 @@ The destructor.
 Sets \a window as the GtkWindow for this target.
 */
 	void SetWindow (GtkWindow *window);
-
+	
 /*!
 virtual method called when the application ends to ensure everything is
 correctly closed. This is a pure virtual class, so it must be overloaded.
 */
 	virtual bool Close () = 0;
+
+private:
+	unsigned long m_InSignal, m_OutSignal, m_StateSignal;
+
 /*!\var m_Application
 The gcp::Application owning this target.
 */

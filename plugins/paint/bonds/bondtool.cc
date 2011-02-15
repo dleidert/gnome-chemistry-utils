@@ -423,7 +423,9 @@ void gcpBondTool::UpdateBond()
 		delete m_Item;
 	if (bond->GetOrder () == 1) {
 		bond->GetLine2DCoords (1, &x1, &y1, &x2, &y2);
-		m_Item = new gccv::Line (m_pView->GetCanvas (), x1, y1, x2, y2);
+		m_Item = new gccv::Line (m_pView->GetCanvas (),
+								 x1 * m_dZoomFactor, y1 * m_dZoomFactor,
+								 x2 * m_dZoomFactor, y2 * m_dZoomFactor);
 		static_cast <LineItem *> (m_Item)->SetLineColor (gcp::AddColor);
 		static_cast <LineItem *> (m_Item)->SetLineWidth (pTheme->GetBondWidth ());
 	} else {

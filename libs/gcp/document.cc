@@ -873,6 +873,7 @@ xmlDocPtr Document::BuildXMLTree () const
 	if (!SaveChildren (xml, xml->children))
 		throw 1;
 
+printf("xml=%p\n",xml);
 	return xml;
 }
 
@@ -1328,7 +1329,7 @@ double Document::GetYAlign ()
 		WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (GetWidget ()), "data");
 		gccv::Rect rect;
 		pData->GetObjectBounds (this, &rect);
-		return (rect.y1 - rect.y0) / 2.;
+		return (rect.y1 - rect.y0) / 2. / m_Theme->GetZoomFactor ();
 	}
 }
 
