@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/bonds/bondtool.cc: fix hashes orientation.
+
 2011-02-15  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcpapp.cc: fix an alignment issue.
 	* libs/gcp/document.cc: fix alignment with several children
