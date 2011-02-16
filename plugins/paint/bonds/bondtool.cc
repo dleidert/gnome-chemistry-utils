@@ -586,7 +586,10 @@ void gcpDownBondTool::Draw()
 {
 	gcp::Theme *pTheme = m_pView->GetDoc ()->GetTheme ();
 	if (m_Item) {
-		static_cast <Hash *> (m_Item)->SetPosition (m_x1, m_y1, m_x0, m_y0);
+		if (gcp::InvertWedgeHashes)
+			static_cast <Hash *> (m_Item)->SetPosition (m_x0, m_y0, m_x1, m_y1);
+		else
+			static_cast <Hash *> (m_Item)->SetPosition (m_x1, m_y1, m_x0, m_y0);
 	} else {
 		gccv::Hash *hash = gcp::InvertWedgeHashes?
 			new Hash (m_pView->GetCanvas (), m_x0, m_y0, m_x1, m_y1, pTheme->GetStereoBondWidth ()):
