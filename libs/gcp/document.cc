@@ -873,7 +873,6 @@ xmlDocPtr Document::BuildXMLTree () const
 	if (!SaveChildren (xml, xml->children))
 		throw 1;
 
-printf("xml=%p\n",xml);
 	return xml;
 }
 
@@ -1088,6 +1087,7 @@ void Document::AddObject (Object* pObject)
 	if (m_bIsLoading || m_bUndoRedo)
 		return;
 	if (!m_pCurOp) {
+		// FIXME: this is a bit dangerous and should be removed in the future
 		m_pCurOp = new AddOperation (this, ++m_OpID);
 		m_pCurOp->AddObject (pObject);
 	}

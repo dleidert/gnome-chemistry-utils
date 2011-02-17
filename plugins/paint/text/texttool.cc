@@ -106,7 +106,6 @@ bool gcpTextTool::OnClicked ()
 	if (!m_pObject) {
 		gcp::Text *text = new gcp::Text(m_x0 / pTheme->GetZoomFactor (), m_y0 / pTheme->GetZoomFactor ());
 		m_pView->GetDoc ()->AddObject (text);
-		m_pView->GetDoc ()->AbortOperation ();
 		m_pObject = text;
 		create = true;
 	}
@@ -302,6 +301,10 @@ bool gcpTextTool::Unselect ()
 	if (strcmp ((char*) initbuf->content, (char*) endbuf->content)) {
 		if (m_Group) {
 			pOp = m_pView->GetDoc ()->GetCurrentOperation ();
+			if (pOp && dynamic_cast <gcp::ModifyOperation *> (pOp) == NULL) {
+				m_pView->GetDoc ()->AbortOperation ();
+				pOp = NULL;
+			}
 			if (!pOp) {
 				pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 				pOp->AddNode (m_GroupNode, 0);

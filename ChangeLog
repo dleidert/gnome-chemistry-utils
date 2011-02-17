@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-02-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/circle.cc: fixed an non initialized variable issue.
+	* libs/gcp/document.cc: add a FIXME cpmment.
+	* libs/gcp/operation.cc: clear extra white spaces.
+	* plugins/paint/text/texttool.cc: fix a crasher.
+
 2011-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/bondtool.cc: fix hashes orientation.
 
