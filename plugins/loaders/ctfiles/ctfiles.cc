@@ -94,6 +94,17 @@ bool CTfilesLoader::Write  (gcu::Object const *obj, GsfOutput *out, G_GNUC_UNUSE
 		gcu::Document const *doc = dynamic_cast <gcu::Document const *> (obj);
 		if (!doc)
 			doc = obj->GetDocument ();
+		if (obj->GetType () == gcu::MoleculeType) {
+			gcu::Molecule *mol = static_cast < gcu::Molecule * > (obj);
+			// we don't use the three first lines at least for now
+			gsf_output_write (out, 3, reinterpret_cast < guint8 const * > ("\n\n\n"));
+			char buf[] = "                                 V2000\n";
+			// fill the various fields
+			snprintf (buf, 3, "%3d", mol->GetAtomsNumber ());
+			gsf_output_write (out, strlen (buf), reinterpret_cast < guint8 const * > (buf));
+			gsf_output_write (out, 6, reinterpret_cast < guint8 const * > ("M END\n"));
+		} else
+			return false;
 		return true;
 	}
 	return false; 

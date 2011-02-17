@@ -4,7 +4,7 @@
  * GChemPaint library
  * operation.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -77,13 +77,13 @@ void Operation::AddNode (xmlNodePtr node, unsigned type)
 		xmlAddChild (m_Nodes[type], node);
 }
 
- AddOperation:: AddOperation (gcp::Document* pDoc, unsigned long ID):  Operation(pDoc, ID)
+AddOperation::AddOperation (gcp::Document* pDoc, unsigned long ID):  Operation(pDoc, ID)
 {
 	m_Nodes = new xmlNodePtr[1];
 	*m_Nodes = xmlNewDocNode (pXmlDoc, NULL, (const xmlChar*) "add", NULL);
 }
 
- AddOperation::~ AddOperation ()
+AddOperation::~AddOperation ()
 {
 	if (*m_Nodes) {
 		xmlUnlinkNode (*m_Nodes);
@@ -91,12 +91,12 @@ void Operation::AddNode (xmlNodePtr node, unsigned type)
 	}
 }
 
-void  AddOperation::Undo ()
+void AddOperation::Undo ()
 {
 	Delete ();
 }
 
-void  AddOperation::Redo ()
+void AddOperation::Redo ()
 {
 	Add ();
 }

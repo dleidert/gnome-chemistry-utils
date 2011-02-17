@@ -302,6 +302,12 @@ bool gcpTextTool::Unselect ()
 	if (strcmp ((char*) initbuf->content, (char*) endbuf->content)) {
 		if (m_Group) {
 			pOp = m_pView->GetDoc ()->GetCurrentOperation ();
+			if (pOp && dynamic_cast <gcp::ModifyOperation *> (pOp) == NULL) {
+				// looks like gcp::Document::AddObject sometimes add a new and unneeded AddOperation
+				// adding that as a security, but it looks like a bug.
+				m_pView->GetDoc ()->AbortOperation ();
+				pOp = NULL;
+			}
 			if (!pOp) {
 				pOp = m_pView->GetDoc ()->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 				pOp->AddNode (m_GroupNode, 0);

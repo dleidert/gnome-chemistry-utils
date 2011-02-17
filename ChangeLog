@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-02-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/circle.cc: fixed an non initialized variable issue.
+	* libs/gcp/document.cc: don't always add new object to a new operation.
+	* libs/gcp/operation.cc: clear extra white spaces.
+	* plugins/loaders/ctfiles/ctfiles.cc: some work on molfiles.
+	* plugins/paint/arrows/arrowtool.cc: fix undo after libs/gcp/document.cc
+	change.
+	* plugins/paint/text/texttool.cc: fix a crasher.
+
 2011-02-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/bonds/bondtool.cc: fix hashes orientation.
 	* themes/paint/Gcp-Modern: better hashes.

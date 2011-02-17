@@ -348,6 +348,8 @@ void gcpArrowTool::OnRelease ()
 			pDoc->AddObject (a);
 		}
 	}
+	gcp::Operation *op = pDoc->GetNewOperation (gcp::GCP_ADD_OPERATION);
+	op->AddObject (a);
 	pDoc->FinishOperation ();
 }
 

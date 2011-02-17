@@ -853,10 +853,11 @@ void Document::AddObject (Object* pObject)
 	m_pView->AddObject (pObject);
 	if (m_bIsLoading || m_bUndoRedo)
 		return;
-	if (!m_pCurOp) {
+// commenting out the following lines since they make bad things. Remove when sure that they are not actually needed
+/*	if (!m_pCurOp) {
 		m_pCurOp = new AddOperation (this, ++m_OpID);
 		m_pCurOp->AddObject (pObject);
-	}
+	}*/
 }
 
 void Document::OnUndo ()

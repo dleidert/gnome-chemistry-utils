@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gccv/circle.cc 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -32,15 +32,21 @@ namespace gccv {
 Circle::Circle (Canvas *canvas, double x, double y, double radius):
 	FillItem (canvas)
 {
-	SetPosition (x, y);
-	SetRadius (radius);
+	m_Radius = radius;
+	m_x = x;
+	m_y = y;
+	BoundsChanged ();
+	Invalidate ();
 }
 
 Circle::Circle (Group *parent, double x, double y, double radius, ItemClient *client):
 	FillItem (parent, client)
 {
-	SetPosition (x, y);
-	SetRadius (radius);
+	m_Radius = radius;
+	m_x = x;
+	m_y = y;
+	BoundsChanged ();
+	Invalidate ();
 }
 
 Circle::~Circle ()
