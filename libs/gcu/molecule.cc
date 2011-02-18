@@ -41,14 +41,16 @@ using namespace std;
 namespace gcu
 {
 
-Molecule::Molecule (TypeId Type): Object (Type)
+Molecule::Molecule (TypeId Type, ContentType ct): Object (Type)
 {
 	SetId ("m1");
+	m_Content = ct;
 }
 
-Molecule::Molecule (Atom* pAtom): Object (MoleculeType)
+Molecule::Molecule (Atom* pAtom, ContentType ct): Object (MoleculeType)
 {
 	SetId ("m1");
+	m_Content = ct;
 	SetParent (pAtom->GetDocument ());
 	AddAtom (pAtom);
 	Chain* pChain = new Chain (this, pAtom); //will find the cycles
@@ -395,7 +397,7 @@ std::string const &Molecule::GetCML ()
 {
 	if (m_CML.length () == 0) {
 		GsfOutput *output = gsf_output_memory_new ();
-		GetDocument ()->GetApp ()->Save (output, "chemical/x-cml", this, ContentType3D);
+		GetDocument ()->GetApp ()->Save (output, "chemical/x-cml", this, m_Content);
 		size_t l = gsf_output_size (output);
 		if (l > 0)
 			m_CML.assign (reinterpret_cast <char const *> (gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output))), l);

@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-02-18  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: add ContentType support at the molecule level.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcu/molecule.h: ditto.
+	* plugins/loaders/ctfiles/ctfiles.cc: make things compile again.
+
 2011-02-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/circle.cc: fixed an non initialized variable issue.
 	* libs/gcp/document.cc: don't always add new object to a new operation.

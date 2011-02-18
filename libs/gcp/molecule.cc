@@ -119,6 +119,8 @@ void MoleculePrivate::ExportTo3D (Molecule *mol)
 void MoleculePrivate::ExportToAvogadro (Molecule *mol)
 {
 	char *cml = Build3D (mol);
+	if (!cml) //
+		return;
 	char *tmpname = g_strdup ("/tmp/cmlXXXXXX.cml");
 	int f = g_mkstemp (tmpname);
 	write (f, cml, strlen (cml));
@@ -151,13 +153,13 @@ static void do_open_in_calc (Molecule* pMol)
 	pMol->OpenCalc ();
 }
 
-Molecule::Molecule (TypeId Type): gcu::Molecule (Type)
+Molecule::Molecule (TypeId Type): gcu::Molecule (Type, gcu::ContentType2D)
 {
 	m_Alignment = NULL;
 	m_IsResidue = false;
 }
 
-Molecule::Molecule (Atom* pAtom): gcu::Molecule (pAtom)
+Molecule::Molecule (Atom* pAtom): gcu::Molecule (pAtom, gcu::ContentType2D)
 {
 	m_Alignment = NULL;
 	m_IsResidue = false;

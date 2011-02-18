@@ -26,6 +26,7 @@
 #define GCU_MOLECULE_H
 
 #include "object.h"
+#include "structs.h"
 
 /*!\file*/
 namespace gcu {
@@ -49,14 +50,14 @@ public:
 The constructor. The type id may be changed in derived classes, otherwise the
 argument is not needed, since the default value is enough.
 */
-	Molecule (TypeId Type = MoleculeType);
+	Molecule (TypeId Type = MoleculeType, ContentType ct = ContentType3D);
 /*!
 @param pAtom
 
 Builds a molecule from an atom. If the atom has bonds, the connectivity will
 be explored and all atoms and bonds found will be added to the molecule.
 */
-	Molecule (Atom* pAtom);
+	Molecule (Atom* pAtom, ContentType ct = ContentType3D);
 /*!
 The destructor.
 */
@@ -201,6 +202,7 @@ private:
 	std::string m_InChI;
 	std::string m_InChIKey;
 	std::string m_SMILES;
+	ContentType m_Content;
 };
 
 }	//	namespace gcu

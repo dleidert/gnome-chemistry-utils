@@ -26,6 +26,7 @@
 #include <gcu/application.h>
 #include <gcu/document.h>
 #include <gcu/loader.h>
+#include <gcu/molecule.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
@@ -95,7 +96,7 @@ bool CTfilesLoader::Write  (gcu::Object const *obj, GsfOutput *out, G_GNUC_UNUSE
 		if (!doc)
 			doc = obj->GetDocument ();
 		if (obj->GetType () == gcu::MoleculeType) {
-			gcu::Molecule *mol = static_cast < gcu::Molecule * > (obj);
+			gcu::Molecule const *mol = static_cast < gcu::Molecule const * > (obj);
 			// we don't use the three first lines at least for now
 			gsf_output_write (out, 3, reinterpret_cast < guint8 const * > ("\n\n\n"));
 			char buf[] = "                                 V2000\n";
