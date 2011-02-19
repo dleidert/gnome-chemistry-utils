@@ -67,8 +67,10 @@ BabelSocket::~BabelSocket ()
 size_t BabelSocket::Read ()
 {
 	size_t res = read (m_Socket, m_InBuf + m_Index, m_Size - m_Index);
-	m_Index += res;
-	m_InBuf[m_Index] = 0;
+	if (res != -1) {
+		m_Index += res;
+		m_InBuf[m_Index] = 0;
+	}
 	while (m_Cur < m_Index) {
 		if (!m_WaitSpace && m_Step != STEP_DATA) {
 			while (m_InBuf[m_Cur] == ' ')
@@ -280,7 +282,7 @@ void BabelSocket::FinishOption (unsigned step)
 {
 	m_Cur++;
 	if (m_Cur < m_Index)
-			memmove (m_InBuf, m_InBuf + m_Cur, m_Index - m_Cur);
+			memmove (m_InBuf, m_InBuf + m_Cur, m_Index - m_Cur + 1);
 	m_WaitSpace = false;
 	m_Index -= m_Cur;
 	m_Cur = m_Start = 0;

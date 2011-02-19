@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-02-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: don't crash on openbabel failure.
+	* openbabel/socket.cc: fix communications issues.
+
 2011-02-18  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: add ContentType support at the molecule level.
 	* libs/gcu/molecule.cc: ditto.

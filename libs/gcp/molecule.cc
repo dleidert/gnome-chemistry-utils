@@ -89,6 +89,8 @@ char *MoleculePrivate::Build3D (Molecule *mol)
 void MoleculePrivate::ExportToGhemical (Molecule *mol)
 {
 	char *cml = Build3D (mol);
+	if (!cml) // how does this happen?
+		return;
 	char *tmpname = g_strdup ("/tmp/gprXXXXXX.gpr");
 	int f = g_mkstemp (tmpname);
 	close (f);
@@ -105,6 +107,8 @@ void MoleculePrivate::ExportToGhemical (Molecule *mol)
 void MoleculePrivate::ExportTo3D (Molecule *mol)
 {
 	char *cml = Build3D (mol);
+	if (!cml) // how does this happen?
+		return;
 	char *tmpname = g_strdup ("/tmp/cmlXXXXXX.cml");
 	int f = g_mkstemp (tmpname);
 	write (f, cml, strlen (cml));
@@ -119,7 +123,7 @@ void MoleculePrivate::ExportTo3D (Molecule *mol)
 void MoleculePrivate::ExportToAvogadro (Molecule *mol)
 {
 	char *cml = Build3D (mol);
-	if (!cml) //
+	if (!cml) // how does this happen?
 		return;
 	char *tmpname = g_strdup ("/tmp/cmlXXXXXX.cml");
 	int f = g_mkstemp (tmpname);
