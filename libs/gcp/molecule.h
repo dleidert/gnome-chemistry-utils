@@ -170,14 +170,6 @@ a call to their gcu::Object::GetYAlign() method will be used.
 */
 	std::string GetAlignmentId () {return (m_Alignment)? m_Alignment->GetId (): "";}
 /*!
-@param uri_start the first part of the URI to open.
-@param uri_end the last part of the URI to open.
-
-Opens a web browser with an URI constructed from both arguments and the InChI
-for the molecule ntercalated between \a uri_start and \a uri_end.
-*/
-	void ShowWebBase (char const *uri_start, char const *uri_end);
-/*!
 Opens GChemCalc with the formula for the molecule. Molecules with fragments
 are not currently supported.
 */

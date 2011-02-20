@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: remove the Wikipedia tool.
+	* database/databases.xml.in: fixed ChemSpider URI.
+	* libs/gcp/molecule.cc: implement configurable access to databases.
+	* libs/gcp/molecule.h: ditto.
+	* plugins/paint/Makefile.am: remove the Wikipedia tool.
+
 2011-02-19  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: don't crash on openbabel failure.
 	* openbabel/socket.cc: fix communications issues.

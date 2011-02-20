@@ -4,6 +4,13 @@ Version 0.13.2
 		dragging the mouse. [#31812]
 		* Don't add new molecules when undoing a mechanism arrow deletion.
 		[#32433]
+		* Removed the Wikipedia tool which was obsolete.
+		* Reorganized molecule contextual menu with new 3D options
+		and databases access.
+	Other:
+		* OpenBabel support has been moved to a separate process and greatly
+		enhanced, specially for 3D export from gchempaint.
+		* A lot of bugs have been fixed.
 
 Version 0.13.1
 	GSpectrum:

@@ -6,7 +6,6 @@ SUBDIRS = \
 	residues \
 	selection \
 	templates \
-	text \
-	wikipedia
+	text
 
 MAINTAINERCLEANFILES = Makefile.in

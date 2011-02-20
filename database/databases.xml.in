@@ -2,7 +2,7 @@
 <databases>
   <database>
     <name>ChemSpider</name>
-    <uri>http://www.chemspider.com/%K</uri>
+    <uri>http://www.chemspider.com/InChIKey=%K</uri>
     <class>molecule</class>
   </database>
   <database>

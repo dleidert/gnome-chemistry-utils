@@ -390,7 +390,6 @@ plugins/paint/residues/Makefile
 plugins/paint/selection/Makefile
 plugins/paint/templates/Makefile
 plugins/paint/text/Makefile
-plugins/paint/wikipedia/Makefile
 mozilla-plugin/Makefile
 gnumeric/Makefile
 gnumeric/plugin.xml.in
