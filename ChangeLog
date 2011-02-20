@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.12.8).
+
 2011-02-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/circle.cc: fixed an non initialized variable issue.
 	* libs/gcp/document.cc: add a FIXME cpmment.
@@ -49,7 +52,7 @@
 	* plugins/paint/cycles/cycletool.cc: do not add a cycle when not allowed.
 
 2011-01-13  Jean Bréfort  <jean.brefort@normalesup.org>
-	* configure.ac:  post release version bump (0.12.7).
+	* configure.ac: post release version bump (0.12.7).
 	* plugins/paint/arrows/curvedarrowtool.cc: update parent after adding
 	an arrow.
 
