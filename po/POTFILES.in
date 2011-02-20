@@ -121,8 +121,6 @@ plugins/paint/templates/templatetool.cc
 [type: gettext/glade]plugins/paint/text/fontsel.ui
 plugins/paint/text/fragmenttool.cc
 plugins/paint/text/plugin.cc
-plugins/paint/wikipedia/plugin.cc
-plugins/paint/wikipedia/wikipediatool.cc
 programs/3d/application.cc
 programs/3d/main.cc
 programs/3d/window.cc

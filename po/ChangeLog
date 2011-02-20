@@ -1,10 +1,7 @@
-2011-02-09  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* POTFILES.in:
-
 ##Text encoding: utf-8
+
+2011-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: removed the Wikipedia tool.
 
 2011-02-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: add database/databases.xml.in.
