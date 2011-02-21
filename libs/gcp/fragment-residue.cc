@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment-residue.cc 
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -70,7 +70,7 @@ xmlNodePtr FragmentResidue::Save (xmlDocPtr xml) const
 	xmlNodePtr node = FragmentAtom::Save (xml);
 	if (node) {
 		xmlNodeSetName (node, (xmlChar const *) "residue");
-		static_cast <Document const*> (GetFragment ()->GetDocument ())->SaveResidue (m_Residue, node);
+		static_cast <Document *> (GetFragment ()->GetDocument ())->SaveResidue (m_Residue, node);
 	}
 	return node;
 }
