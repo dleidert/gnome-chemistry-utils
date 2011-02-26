@@ -30,10 +30,80 @@
 #include "theme.h"
 #include "view.h"
 #include "zoomdlg.h"
+#include <gcu/dialog.h>
 #include <gcu/filechooser.h>
 #include <gcu/print-setup-dlg.h>
+#include <gsf/gsf-input-memory.h>
 #include <glib/gi18n-lib.h>
 #include <string>
+
+using namespace gcu;
+
+namespace gcp {
+
+typedef void (*StringInputCB) (Target *obj, char const *str);
+
+class StringInput: public gcu::Dialog
+{
+public:
+	StringInput (Target *target, StringInputCB cb, char const *title);
+	virtual ~StringInput ();
+
+	bool Apply ();
+
+private:
+	Target *m_Target;
+	StringInputCB m_CB;
+};
+
+StringInput::StringInput (Target *target, StringInputCB cb, char const *title):
+	gcu::Dialog (target->GetApplication (), UIDIR"/stringinputdlg.ui", "string-input", GETTEXT_PACKAGE, target->GetDocument ()),
+	m_Target (target),
+	m_CB (cb)
+{
+	GtkWidget *w = GTK_WIDGET (gtk_builder_get_object (GetBuilder (), "string-input"));
+	gtk_window_set_title (GTK_WINDOW (w), title);
+	gtk_widget_show_all (w);
+}
+
+StringInput::~StringInput ()
+{
+}
+
+bool StringInput::Apply ()
+{
+	GtkEntry *entry = GTK_ENTRY (gtk_builder_get_object (GetBuilder (), "result"));
+	if (entry)
+		m_CB (m_Target, gtk_entry_get_text (entry)); 
+	return true;
+}
+
+class WindowPrivate {
+public:
+	static void ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win);
+	static void DoImportMol (Target *target, char const *str);
+};
+
+void WindowPrivate::ImportMolecule (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
+{
+	new StringInput (Win, &DoImportMol, _("Import moleculefrom InChI or SMILES"));
+}
+
+void WindowPrivate::DoImportMol (Target *target, char const *str)
+{
+	if (!str || !*str)
+		return;
+	Application *app = target->GetApplication ();
+	GsfInput *input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (str), strlen (str), false);
+	char *cml = app->ConvertToCML (input, ((!strncmp (str, "InChI=", 6))? "inchi": "smi"), "-c --gen2D");
+	g_object_unref (input);
+	if (!cml) // TODO: add an error message handler
+		return;
+	input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (cml), strlen (cml), true);
+	app->Load (input, "chemical/x-cml", target->GetDocument (), NULL);
+	target->GetDocument ()->SetDirty ();
+	g_object_unref (input);
+}
 
 static void on_destroy (G_GNUC_UNUSED GtkWidget* widget, gcp::Window* Win)
 {
@@ -349,6 +419,8 @@ static GtkActionEntry entries[] = {
 		  { "Zoom", NULL, N_("_Zoom to...%"), "<control>M",
 			  N_("Open Zoom Dialog Box"), G_CALLBACK (on_zoom) },
   { "ToolsMenu", NULL, N_("_Tools"), NULL, NULL, NULL },
+	  { "ImportMol", NULL, N_("_Import molecule"), NULL,
+		  N_("Import a molecule either from InChI or SMILES"), G_CALLBACK (WindowPrivate::ImportMolecule) },
   { "WindowsMenu", NULL, N_("_Windows"), NULL, NULL, NULL },
   { "HelpMenu", NULL, N_("_Help"), NULL, NULL, NULL },
 	  { "Help", GTK_STOCK_HELP, N_("_Contents"), "F1",
@@ -420,6 +492,7 @@ static const char *ui_description =
 "    </menu>"
 "    <menu action='ToolsMenu'>"
 "	   <placeholder name='tools1'/>"
+"	   <menuitem action='ImportMol'/>"
 "      <separator name='tools-sep1'/>"
 "      <placeholder name='tools2'/>"
 "    </menu>"
@@ -445,11 +518,7 @@ static const char *ui_description =
 "	 <placeholder name='tools1'/>"
 "  </toolbar>"
 "</ui>";
-
-using namespace gcu;
-
-namespace gcp {
-
+	
 Window::Window (gcp::Application *App, char const *Theme, char const *extra_ui) throw (std::runtime_error):
 	Target (App)
 {

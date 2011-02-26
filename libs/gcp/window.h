@@ -40,6 +40,7 @@ associated with a view which might be itself associated with a window.
 */
 class Window: public Target
 {
+friend class WindowPrivate;
 public:
 /*!
 @param app the gcp::Application instance.

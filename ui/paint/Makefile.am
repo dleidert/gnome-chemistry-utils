@@ -9,5 +9,6 @@ dist_ui_DATA = \
 	newfiledlg.ui \
 	preferences.ui \
 	stringdlg.ui	\
+	stringinputdlg.ui	\
 	tools.ui \
 	zoom.ui

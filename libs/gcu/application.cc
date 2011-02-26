@@ -747,15 +747,6 @@ ok_exit:
 	return start;
 }
 
-/*!
-@param input a source GsfInput.
-@param mime_type the mime type of the document.
-@param options options to pass to OpenBabel.
- 
-This method converts the source to CML.
-@return the converted text as a newly allocate string or NULL.
-*/
-
 char* Application::ConvertToCML (GsfInput *input, const char *mime_type, const char *options)
 {
 	int sock = OpenBabelSocket ();
@@ -804,15 +795,6 @@ ok_exit:
 	close (sock);
 	return start;
 }
-
-/*!
-@param cml: the CML string to convert.
-@param uri the uri of the document to which the document will be saved.
-@param mime_type the mime type of the document.
-@param options options to pass to OpenBabel.
- 
-This method converts CML to a target.
-*/
 void Application::ConvertFromCML (char const *cml, std::string const &uri, const char *mime_type, const char *options)
 {
 	int sock = OpenBabelSocket ();
@@ -870,14 +852,6 @@ exit_point:
 	close (sock);
 }
 
-/*!
-@param cml: the CML string to convert.
-@param output a target GsfOutput.
-@param mime_type the mime type of the document.
-@param options options to pass to OpenBabel.
- 
-This method converts CML to a target.
-*/
 void Application::ConvertFromCML (char const *cml, GsfOutput *output, const char *mime_type, const char *options)
 {
 	int sock = OpenBabelSocket ();

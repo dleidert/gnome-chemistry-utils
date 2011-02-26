@@ -409,9 +409,36 @@ adds a callback for modifying the contextual menu of objects of type Id.
 	TypeDesc const *GetTypeDescription (TypeId Id);
 	CmdContext *GetCmdContext ();
 
+
+/*!
+@param input a source GsfInput.
+@param mime_type the mime type of the document.
+@param options options to pass to OpenBabel.
+ 
+This method converts the source to CML.
+@return the converted text as a newly allocate string or NULL.
+*/
 	char* ConvertToCML (std::string const &uri, const char *mime_type, const char *options = NULL);
 	char* ConvertToCML (GsfInput *input, const char *mime_type, const char *options = NULL);
+
+/*!
+@param cml: the CML string to convert.
+@param uri the uri of the document to which the document will be saved.
+@param mime_type the mime type of the document.
+@param options options to pass to OpenBabel.
+ 
+This method converts CML to a target.
+*/
 	void ConvertFromCML (const char *cml, std::string const &uri, const char *mime_type, const char *options = NULL);
+
+/*!
+@param cml: the CML string to convert.
+@param output a target GsfOutput.
+@param mime_type the mime type of the document.
+@param options options to pass to OpenBabel.
+ 
+This method converts CML to a target.
+*/
 	void ConvertFromCML (const char *cml, GsfOutput *output, const char *mime_type, const char *options = NULL);
 	std::list < Database > const &GetDatabases (char const *classname) {return m_Databases[classname];}
 
