@@ -1,7 +1,13 @@
 ##Text encoding: utf-8
 
+2011-02-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: add Molecule::GetMeanBondLength ().
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcp/window.cc: more work on molecule import from string.
+	* libs/gcu/document.h: add an accessor to new objects.
+
 2011-02-26  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gcp/window.cc: start work on moleculeimport from string.
+	* libs/gcp/window.cc: start work on molecule import from string.
 	* libs/gcp/window.h: ditto.
 	* libs/gcu/application.cc: moved documentation to application.h.
 	* libs/gcu/application.h: ditto.

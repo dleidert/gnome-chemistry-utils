@@ -853,4 +853,16 @@ unsigned Molecule::GetAtomsNumber () const
 	return m_Atoms.size () + m_Fragments.size ();
 }
 
+double Molecule::GetMeanBondLength () const
+{
+	unsigned n = 0;
+	double l = 0;
+	std::list < gcu::Bond * >::const_iterator i, end = m_Bonds.end ();
+	for (i = m_Bonds.begin (); i != end; i++) {
+		n++;
+		l += (*i)->Get2DLength ();
+	}
+	return l / n;
+}
+
 }	//	namespace gcp

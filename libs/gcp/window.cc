@@ -25,6 +25,7 @@
 #include "document.h"
 #include "newfiledlg.h"
 #include "window.h"
+#include "molecule.h"
 #include "about.h"
 #include "preferences.h"
 #include "theme.h"
@@ -94,6 +95,7 @@ void WindowPrivate::DoImportMol (Target *target, char const *str)
 	if (!str || !*str)
 		return;
 	Application *app = target->GetApplication ();
+	Document *doc = target->GetDocument ();
 	GsfInput *input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (str), strlen (str), false);
 	char *cml = app->ConvertToCML (input, ((!strncmp (str, "InChI=", 6))? "inchi": "smi"), "-c --gen2D");
 	g_object_unref (input);
@@ -101,7 +103,16 @@ void WindowPrivate::DoImportMol (Target *target, char const *str)
 		return;
 	input = gsf_input_memory_new (reinterpret_cast < guint8 const * > (cml), strlen (cml), true);
 	app->Load (input, "chemical/x-cml", target->GetDocument (), NULL);
-	target->GetDocument ()->SetDirty ();
+	std::set < gcu::Object * > objs = static_cast < gcu::Document * > (doc)->GetNewObjects ();
+	doc->Loaded ();
+	Molecule *mol = static_cast < Molecule * > ((*objs.begin ())->GetMolecule ());
+	double l = mol->GetMeanBondLength (), l0 = doc->GetTheme ()->GetBondLength ();
+	if (l != l0) {
+		// FIXME: scale the molecule
+	}
+	doc->GetView ()->Update (mol);
+	// FIXME: move to view canter
+	doc->SetDirty ();
 	g_object_unref (input);
 }
 

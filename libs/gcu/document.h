@@ -181,6 +181,7 @@ Processes pending references resulting from failed calls to SetTarget().
 	std::string Name ();
 
 	void ObjectLoaded (Object *obj);
+	std::set < Object * > GetNewObjects () {return m_NewObjects;}
 
 private:
 

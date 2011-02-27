@@ -196,6 +196,8 @@ only, whatever their real atomic composition.
 */
 	unsigned GetAtomsNumber () const;
 
+	double GetMeanBondLength () const;
+
 private:
 	std::list<Fragment*> m_Fragments;
 	gcu::Object *m_Alignment;
