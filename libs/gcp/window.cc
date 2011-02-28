@@ -33,6 +33,7 @@
 #include "zoomdlg.h"
 #include <gcu/dialog.h>
 #include <gcu/filechooser.h>
+#include <gcu/matrix.h>
 #include <gcu/print-setup-dlg.h>
 #include <gsf/gsf-input-memory.h>
 #include <glib/gi18n-lib.h>
@@ -106,12 +107,17 @@ void WindowPrivate::DoImportMol (Target *target, char const *str)
 	std::set < gcu::Object * > objs = static_cast < gcu::Document * > (doc)->GetNewObjects ();
 	doc->Loaded ();
 	Molecule *mol = static_cast < Molecule * > ((*objs.begin ())->GetMolecule ());
-	double l = mol->GetMeanBondLength (), l0 = doc->GetTheme ()->GetBondLength ();
-	if (l != l0) {
-		// FIXME: scale the molecule
-	}
+	// scale so that the mean bond length is correct
+	double l = mol->GetMeanBondLength (), l0 = doc->GetTheme ()->GetBondLength (), x0, y0, x1, y1;
+	l0 /= l;
+	Matrix2D m (l0, 0., 0., l0);
+	mol->Transform2D (m, 0., 0.);
+	// move to view center
+	doc->GetView ()->GetVisibleArea (x0, y0, x1, y1);
+	mol->Move ((x0 + x1) / 2., (y0 + y1) / 2.);
+	// show the molecule
 	doc->GetView ()->Update (mol);
-	// FIXME: move to view canter
+	// mark the document as unsaved
 	doc->SetDirty ();
 	g_object_unref (input);
 }

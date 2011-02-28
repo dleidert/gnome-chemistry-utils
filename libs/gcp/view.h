@@ -288,6 +288,9 @@ Changes the selection state of \a object if it owns an item and of all its desce
 @return the WidgetData associated with the View widget.
 */
 	WidgetData *GetData () {return m_pData;}
+
+	void GetVisibleArea (double &x0, double &y0, double &x1, double &y1);
+
 	//Implementation
 private:
 	WidgetData* m_pData;

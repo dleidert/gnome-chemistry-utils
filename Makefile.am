@@ -1,9 +1,10 @@
 SUBDIRS = po database ui pixmaps libs plugins programs mozilla-plugin \
-	openbabel gnumeric goffice templates themes samples tests dtds docs
+	openbabel gnumeric goffice templates themes samples tests dtds docs schemas
 
 EXTRA_DIST= \
 	$(mime_in_files) \
 	gnome-doc-utils.make \
+	$(schemas_in_files) \
 	$(schemas_in_files) \
 	intltool-extract.in \
 	intltool-update.in \

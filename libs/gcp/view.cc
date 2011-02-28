@@ -1058,4 +1058,17 @@ void View::SetSelectionState (Object *object, int state)
 	}
 }
 
+void View::GetVisibleArea (double &x0, double &y0, double &x1, double &y1)
+{
+	GtkAdjustment *horiz, *vert;
+	GtkWidget* parent = gtk_widget_get_parent (m_pWidget);
+	double zoom = m_pDoc->GetTheme ()->GetZoomFactor ();
+	horiz = gtk_viewport_get_hadjustment (GTK_VIEWPORT (parent));
+	vert = gtk_viewport_get_vadjustment (GTK_VIEWPORT (parent));
+	x0 = gtk_adjustment_get_value (horiz) / zoom;
+	x1 = x0 + gtk_adjustment_get_page_size (horiz) / zoom;
+	y0 = gtk_adjustment_get_value (vert) / zoom;
+	y1 = y0 + gtk_adjustment_get_page_size (vert) / zoom;
+}
+
 }	//	namespace gcp

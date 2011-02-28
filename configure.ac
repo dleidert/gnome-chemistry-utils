@@ -135,7 +135,7 @@ fi
 
 PKG_CHECK_MODULES(shared_mime_info, [shared-mime-info >= 0.12])
 PKG_CHECK_MODULES(cairo, [cairo >= 1.6.0])
-PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.16.1])
+PKG_CHECK_MODULES(gio, [gio-2.0 >= 2.26.0])
 PKG_CHECK_MODULES(gtk, [gtk+-2.0 >= 2.18.0])
 PKG_CHECK_MODULES(gtkglext, [gtkglext-1.0 >= 1.0.0])
 PKG_CHECK_MODULES(xml, [libxml-2.0 >= 2.4.16])
@@ -146,17 +146,14 @@ PKG_CHECK_MODULES(bodr, [bodr >= 5])
 PKG_CHECK_MODULES(openbabel, [openbabel-2.0 >= 2.3.0])
 PKG_CHECK_MODULES(x11, [x11 >= 1.0.0])
 
-PKG_CHECK_MODULES(OB22, openbabel-2.0 >= 2.2.0,
-[ob22="yes"],[ob22="no"])
-if test "x$ob22" = "xyes"; then
-  AC_DEFINE_UNQUOTED([HAVE_OPENBABEL_2_2], 1, [Whether OpenBabel is >= 2.2.0])
-fi
-
 dnl The following 4 lines were borrowed from gnumeric
 dnl The following conditional is set in AM_GCONF_SOURCE_2.
 dnl Because we may skip its execution, we have to set a default here.
 m4_pattern_allow([^AM_GCONF_SOURCE_2$])
 AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
+
+dnl GSettings related stuff
+GLIB_GSETTINGS
 
 use_gconf="no"
 if test ! -z "`echo $goffice_CFLAGS|grep gconf`"; then
@@ -398,6 +395,8 @@ openbabel/Makefile
 pixmaps/Makefile
 po/Makefile.in
 samples/Makefile
+schemas/Makefile
+schemas/org.gnome.gchemutils.gschema.xml.in
 programs/Makefile
 programs/3d/Makefile
 programs/3d/gchem3d.desktop.in
