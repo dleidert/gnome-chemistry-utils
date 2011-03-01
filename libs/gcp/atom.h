@@ -390,6 +390,15 @@ Evaluates where lines representing bonds should end to not overload the symbol.
 */
 	void BuildSymbolGeometry (double width, double height, double ascent);
 
+/*!
+@param property the identity of the property as defined in objprops.h.
+@param value the value of the property as a string.
+
+Used by the gcu::Loader mechanism to load properties of atoms.
+@return true on success.
+*/
+	bool SetProperty (unsigned property, char const *value);
+
 private:
 	void UpdateAvailablePositions ();
 
@@ -425,6 +434,9 @@ private:
 	double m_SWidth, m_SHeightH, m_SHeightL, m_SAngleH, m_SAngleL;
 	// special offset for underlying rectangle; will be removed in next version
 	double m_xROffs, m_yROffs;
+
+	// atom parity stuff
+	Atom *m_Bonded[4]; // always using positive parity
 
 protected:
 /*!

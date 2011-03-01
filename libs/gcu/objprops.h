@@ -119,6 +119,10 @@ The atomic number of an atom.
 The charge of an atom.
 */
 	GCU_PROP_ATOM_CHARGE,
+/*!
+The parity of an atom: a + or - sign followed by the ids of the four (or less) bonded atoms.
+*/
+	GCU_PROP_ATOM_PARITY,
 	// Bond properties
 /*!
 The Id of the atom at the first extremity of the bond.

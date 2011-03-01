@@ -39,6 +39,7 @@
 #include <gccv/text.h>
 #include <gccv/text-tag.h>
 #include <gcu/element.h>
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cstdlib>
 #include <cstring>
@@ -1456,6 +1457,37 @@ Bond *Atom::GetBondAtAngle (double angle)
 		}
 	}
 	return res;
+}
+
+bool Atom::SetProperty (unsigned property, char const *value)
+{
+	switch (property) {
+	case GCU_PROP_ATOM_PARITY: {
+		std::istringstream iss (value);
+		int p;
+		std::string a0, a1, a2, a3;
+		iss >> p >> a0 >> a1 >> a2 >> a3;
+		if (p == 0)
+			return false;
+		if (!GetDocument ()->SetTarget (a0.c_str (), reinterpret_cast <Object **> (&m_Bonded[p > 0? 0: 1]), GetParent (), this))
+			return false;
+		if (!GetDocument ()->SetTarget (a1.c_str (), reinterpret_cast <Object **> (&m_Bonded[p < 0? 1: 0]), GetParent (), this))
+			return false;
+		if (!GetDocument ()->SetTarget (a2.c_str (), reinterpret_cast <Object **> (&m_Bonded[2]), GetParent (), this))
+		if (a3.length () == 0) {
+			return false;
+			m_Bonded[3] = NULL;
+		} else {
+			if (!GetDocument ()->SetTarget (a3.c_str (), reinterpret_cast <Object **> (&m_Bonded[3]), GetParent (), this))
+				return false;
+		}
+		static_cast < Molecule * > (GetMolecule ())->AddChiralAtom (this);
+		break;
+	}
+	default:
+		return gcu::Atom::SetProperty (property, value);
+	}
+	return  true;
 }
 
 }	//	namespace gcp

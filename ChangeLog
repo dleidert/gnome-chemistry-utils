@@ -1,5 +1,16 @@
 ##Text encoding: utf-8
 
+2011-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: import parity.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/molecule.cc: store atoms with known parity,still need to do
+	something with that.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcu/chem3ddoc.cc: delete rhe view from the destructor.
+	* libs/gcu/objprops.h: add ATOM_PARITY property.
+	* libs/gcu/printable.cc: unref the GOConfNode.
+	* plugins/loaders/cml/cml.cc: import atomParity.
+
 2011-02-28  Jean Bréfort  <jean.brefort@normalesup.org>
 	* Makefile.am: add schemas directory.
 	* configure.ac: ditto.

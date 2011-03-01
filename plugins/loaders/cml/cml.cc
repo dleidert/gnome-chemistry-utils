@@ -351,7 +351,34 @@ cml_atom_start (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 			attrs++;
 		}
+	state->cur.push (obj);
 	state->doc->ObjectLoaded (obj);
+}
+
+static void
+cml_atom_parity_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	if (attrs)
+		while (*attrs) {
+			if (!strcmp (reinterpret_cast < char const * > (*attrs), "atomRefs4")) {
+				attrs++;
+				state->curstr =  reinterpret_cast < char const * > (*attrs);
+			} else
+				attrs++;
+			attrs++;
+		}
+	
+}
+
+static void
+cml_atom_parity_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	CMLReadState *state = (CMLReadState *) xin->user_state;
+	string prop = xin->content->str;
+	prop += ' ';
+	prop += state->curstr;
+	state->cur.top ()->SetProperty (GCU_PROP_ATOM_PARITY, prop.c_str ());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -461,7 +488,8 @@ cml_mol_start (GsfXMLIn *xin, xmlChar const **attrs)
 		GSF_XML_IN_NODE (MOL_PROPS, MOL_PROP, -1, "property", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (MOL_PROP, MOL_PROP_SCALAR, -1, "scalar", GSF_XML_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (MOL, ATOM_ARRAY, -1, "atomArray", GSF_XML_NO_CONTENT, NULL, NULL),
-			GSF_XML_IN_NODE (ATOM_ARRAY, ATOM, -1, "atom", GSF_XML_NO_CONTENT, cml_atom_start, NULL),
+			GSF_XML_IN_NODE (ATOM_ARRAY, ATOM, -1, "atom", GSF_XML_NO_CONTENT, cml_atom_start, cml_simple_end),
+				GSF_XML_IN_NODE (ATOM, ATOM_PARITY, -1, "atomParity", GSF_XML_CONTENT, cml_atom_parity_start, cml_atom_parity_end),
 		GSF_XML_IN_NODE (MOL, BOND_ARRAY, -1, "bondArray", GSF_XML_NO_CONTENT, NULL, NULL),
 			GSF_XML_IN_NODE (BOND_ARRAY, BOND, -1, "bond", GSF_XML_NO_CONTENT, cml_bond_start, cml_simple_end),
 				GSF_XML_IN_NODE (BOND, BOND_STEREO, -1, "bondStereo", GSF_XML_CONTENT, NULL, cml_bond_stereo),

@@ -846,6 +846,7 @@ std::string Molecule::GetRawFormula () const
 void Molecule::OnLoaded ()
 {
 	UpdateCycles ();
+	// now we need to consider atoms with parity (essentially on import)
 }
 
 unsigned Molecule::GetAtomsNumber () const

@@ -67,6 +67,7 @@ Chem3dDoc::Chem3dDoc (Application *App, GLView *View): GLDocument (App)
 
 Chem3dDoc::~Chem3dDoc ()
 {
+	delete m_View;
 }
 
 static Object* CreateAtom ()

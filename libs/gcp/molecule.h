@@ -197,9 +197,11 @@ only, whatever their real atomic composition.
 	unsigned GetAtomsNumber () const;
 
 	double GetMeanBondLength () const;
+	void AddChiralAtom (Atom *atom) {m_ChiralAtoms.insert (atom);}
 
 private:
 	std::list<Fragment*> m_Fragments;
+	std::set<Atom*> m_ChiralAtoms;
 	gcu::Object *m_Alignment;
 	bool m_IsResidue;
 };

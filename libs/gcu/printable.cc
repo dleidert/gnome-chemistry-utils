@@ -107,7 +107,6 @@ void PrintSettings::Init ()
 	gtk_page_setup_set_left_margin (setup, x, GTK_UNIT_POINTS);
 	// TODO: import other default values from conf keys
 	m_NotificationId = go_conf_add_monitor (m_ConfNode, NULL, (GOConfMonitorFunc) on_config_changed, NULL);
-	go_conf_free_node (m_ConfNode);
 }
 
 PrintSettings::~PrintSettings ()
@@ -116,6 +115,7 @@ PrintSettings::~PrintSettings ()
 		g_object_unref (setup);
 	if (settings)
 		g_object_unref (settings);
+	go_conf_free_node (m_ConfNode);
 }
 
 void PrintSettings::OnConfigChanged (GOConfNode *node, gchar const *name)
