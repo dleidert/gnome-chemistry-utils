@@ -847,6 +847,15 @@ void Molecule::OnLoaded ()
 {
 	UpdateCycles ();
 	// now we need to consider atoms with parity (essentially on import)
+	std::set < Atom * >::iterator it, end = m_ChiralAtoms.end ();
+	std::set < Atom * > done;
+	for (it = m_ChiralAtoms.begin (); it != end; it++)
+		if ((*it)->UpdateStereoBonds ())
+			done.insert (*it);
+	end = done.end ();
+	// for now, we don't keep them
+	for (it = done.begin (); it != end; it++)
+		m_ChiralAtoms.erase (*it);
 }
 
 unsigned Molecule::GetAtomsNumber () const

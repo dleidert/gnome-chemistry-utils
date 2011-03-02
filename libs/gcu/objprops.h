@@ -120,7 +120,7 @@ The charge of an atom.
 */
 	GCU_PROP_ATOM_CHARGE,
 /*!
-The parity of an atom: a + or - sign followed by the ids of the four (or less) bonded atoms.
+The parity of an atom: a positive or negative integer followed by the ids of the four (or less) bonded atoms.
 */
 	GCU_PROP_ATOM_PARITY,
 	// Bond properties

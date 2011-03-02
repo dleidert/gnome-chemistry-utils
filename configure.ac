@@ -2,7 +2,7 @@ AC_PREREQ(2.64)
 
 AC_INIT([gnome-chemistry-utils], [0.13.3], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
 AC_CONFIG_SRCDIR([libs/gcu/gcuperiodic.c])
-AM_INIT_AUTOMAKE([1.11.1 dist-bzip2])
+AM_INIT_AUTOMAKE([1.11.1 dist-bzip2 dist-xz])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
 AC_CONFIG_MACRO_DIR([m4])
@@ -380,6 +380,7 @@ plugins/loaders/ctfiles/Makefile
 plugins/loaders/nuts/Makefile
 plugins/paint/Makefile
 plugins/paint/arrows/Makefile
+plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in
 plugins/paint/atoms/Makefile
 plugins/paint/bonds/Makefile
 plugins/paint/cycles/Makefile
@@ -397,6 +398,8 @@ po/Makefile.in
 samples/Makefile
 schemas/Makefile
 schemas/org.gnome.gchemutils.gschema.xml.in
+schemas/org.gnome.gchemutils.crystal.gschema.xml.in
+schemas/org.gnome.gchemutils.paint.gschema.xml.in
 programs/Makefile
 programs/3d/Makefile
 programs/3d/gchem3d.desktop.in

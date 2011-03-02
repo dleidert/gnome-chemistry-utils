@@ -380,6 +380,8 @@ This method is used to avoid bonds lines extyending over their atoms symbols.
 */
 	Bond *GetBondAtAngle (double angle);
 
+	bool UpdateStereoBonds ();
+
 protected:
 /*!
 @param width the witdh of the atomic symbol.

@@ -38,6 +38,7 @@
 #include <gccv/group.h>
 #include <gccv/text.h>
 #include <gccv/text-tag.h>
+#include <gcu/chain.h>
 #include <gcu/element.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
@@ -1469,18 +1470,14 @@ bool Atom::SetProperty (unsigned property, char const *value)
 		iss >> p >> a0 >> a1 >> a2 >> a3;
 		if (p == 0)
 			return false;
-		if (!GetDocument ()->SetTarget (a0.c_str (), reinterpret_cast <Object **> (&m_Bonded[p > 0? 0: 1]), GetParent (), this))
-			return false;
-		if (!GetDocument ()->SetTarget (a1.c_str (), reinterpret_cast <Object **> (&m_Bonded[p < 0? 1: 0]), GetParent (), this))
-			return false;
-		if (!GetDocument ()->SetTarget (a2.c_str (), reinterpret_cast <Object **> (&m_Bonded[2]), GetParent (), this))
-		if (a3.length () == 0) {
-			return false;
+		gcu::Document *doc = GetDocument ();
+		doc->SetTarget (a0.c_str (), reinterpret_cast <Object **> (m_Bonded + ((p > 0)? 0: 1)), GetParent (), this);
+		doc->SetTarget (a1.c_str (), reinterpret_cast <Object **> (m_Bonded + ((p > 0)? 1: 0)), GetParent (), this);
+		doc->SetTarget (a2.c_str (), reinterpret_cast <Object **> (m_Bonded + 2), GetParent (), this);
+		if (a3.length () == 0)
 			m_Bonded[3] = NULL;
-		} else {
-			if (!GetDocument ()->SetTarget (a3.c_str (), reinterpret_cast <Object **> (&m_Bonded[3]), GetParent (), this))
-				return false;
-		}
+		else
+			doc->SetTarget (a3.c_str (), reinterpret_cast <Object **> (m_Bonded + 3), GetParent (), this);
 		static_cast < Molecule * > (GetMolecule ())->AddChiralAtom (this);
 		break;
 	}
@@ -1488,6 +1485,30 @@ bool Atom::SetProperty (unsigned property, char const *value)
 		return gcu::Atom::SetProperty (property, value);
 	}
 	return  true;
+}
+
+bool Atom::UpdateStereoBonds ()
+{
+	unsigned length[4]; // lengths before end or cycle 0 means cyclic bond
+	unsigned cycle_length[4]; // size of the cycles or of the attached cycles
+	Bond *bond[4];
+	for (unsigned i = 0; i < 4; i++) {
+		if (!m_Bonded[i]) {
+			bond[i] = NULL;
+			length[i] = 0;
+			cycle_length[i] = 0;
+			continue;
+		}
+		bond[i] = static_cast < Bond * > (GetBond (m_Bonded[i]));
+		if (bond[i]->IsCyclic ()) {
+		} else {
+			gcu::Chain *chain = new gcu::Chain (bond[i], this);
+			// find the longuest linear chain
+		}
+	}
+	if (!bond[0]) // not everything has been loaded
+		return false;
+	return true;
 }
 
 }	//	namespace gcp

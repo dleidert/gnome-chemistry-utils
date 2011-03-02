@@ -1,5 +1,20 @@
 ##Text encoding: utf-8
 
+2011-03-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add all GSettings schemas.
+	* libs/gcp/atom.cc: more work on parity import.
+	* libs/gcp/atom.h: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcp/molecule.h: ditto.
+	* libs/gcu/objprops.h: ditto.
+	* plugins/paint/arrows/Makefile.am: add all GSettings schemas.
+	* plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gs
+	chema.xml.in.in: ditto.
+	* schemas/Makefile.am:
+	* schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gchemutils.gschema.xml.in.in: ditto.
+	* schemas/org.gnome.gchemutils.paint.gschema.xml.in.in: ditto.
+
 2011-03-01  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: import parity.
 	* libs/gcp/atom.h: ditto.

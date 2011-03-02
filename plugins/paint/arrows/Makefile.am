@@ -1,10 +1,11 @@
 EXTRA_DIST = \
 	$(IMAGES) \
-	$(schemas_in_files)
+	$(schemas_in_files)	\
+	org.gnome.gchemutils.paint.arrows.gschema.xml.in.in
 
 BUILT_SOURCES = gcp-stock-pixbufs.h
 
-CLEANFILES = $(BUILT_SOURCES) $(schemas_DATA)
+CLEANFILES = $(BUILT_SOURCES) $(schemas_DATA) $(gsettings_SCHEMAS)
 
 MAINTAINERCLEANFILES = Makefile.in
 
@@ -88,3 +89,8 @@ if GCONF_SCHEMAS_INSTALL
 	done
 endif #GCONF_SCHEMAS_INSTALL
 endif #USE_GCONF
+
+gsettings_SCHEMAS =	\
+	org.gnome.gchemutils.paint.plugins.arrows.gschema.xml
+@INTLTOOL_XML_NOMERGE_RULE@
+@GSETTINGS_RULES@
