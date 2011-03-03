@@ -1500,14 +1500,14 @@ bool Atom::UpdateStereoBonds ()
 			continue;
 		}
 		bond[i] = static_cast < Bond * > (GetBond (m_Bonded[i]));
+		if (!bond[i]) // not everything has been loaded
+			return false;
 		if (bond[i]->IsCyclic ()) {
 		} else {
 			gcu::Chain *chain = new gcu::Chain (bond[i], this);
 			// find the longuest linear chain
 		}
 	}
-	if (!bond[0]) // not everything has been loaded
-		return false;
 	return true;
 }
 

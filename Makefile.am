@@ -1,5 +1,6 @@
 SUBDIRS = po database ui pixmaps libs plugins programs mozilla-plugin \
-	openbabel gnumeric goffice templates themes samples tests dtds docs schemas
+	openbabel osmesa gnumeric goffice templates themes samples tests \
+	dtds docs schemas
 
 EXTRA_DIST= \
 	$(mime_in_files) \

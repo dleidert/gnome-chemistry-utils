@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-03-03  Jean Bréfort  <jean.brefort@normalesup.org>
+	* Makefile.am: add a new GL offscreen rendering external process.
+	* configure.ac: ditto.
+	* libs/gcp/atom.cc: fixed a test.
+	* osmesa/Makefile.am: new GL offscreen rendering external process.
+	* osmesa/osmesaserv.cc: ditto.
+	* osmesa/socket.cc: ditto.
+	* osmesa/socket.h: ditto.
+
 2011-03-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add all GSettings schemas.
 	* libs/gcp/atom.cc: more work on parity import.
