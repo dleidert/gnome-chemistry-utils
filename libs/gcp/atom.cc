@@ -1492,8 +1492,15 @@ bool Atom::UpdateStereoBonds ()
 	unsigned length[4]; // lengths before end or cycle 0 means cyclic bond
 	unsigned cycle_length[4]; // size of the cycles or of the attached cycles
 	Bond *bond[4];
+	double x[4], y[4];
+	// we need to determine wich bonds should be considered as stereobonds
+	// the answer is that stereocenters shound not be bonded by a stereobond
+	// then the bond should not be cyclic
+	// then it shoud be in the shortes possible chain
 	for (unsigned i = 0; i < 4; i++) {
 		if (!m_Bonded[i]) {
+			if (i < 3)
+				return false; // atoms are still not fully loaded
 			bond[i] = NULL;
 			length[i] = 0;
 			cycle_length[i] = 0;
@@ -1502,13 +1509,49 @@ bool Atom::UpdateStereoBonds ()
 		bond[i] = static_cast < Bond * > (GetBond (m_Bonded[i]));
 		if (!bond[i]) // not everything has been loaded
 			return false;
-		if (bond[i]->IsCyclic ()) {
+		// search if the bonded atom is a stereocenter
+		if (static_cast < Molecule * > (GetMolecule ())->AtomIsChiral (m_Bonded[i]))
+			length[i] = cycle_length[i] = G_MAXUINT; // this will be large enough
+		else if (bond[i]->IsCyclic ()) {
 		} else {
 			gcu::Chain *chain = new gcu::Chain (bond[i], this);
 			// find the longuest linear chain
+			// now delete the chain
+			delete chain;
 		}
+		m_Bonded[i]->GetCoords (x + i, y + i);
 	}
+	// parity is evaluated using a determinant as explained in CML reference
+	// assume the third atom is at z=1 and evaluate the determinant
+	// | x0 x1 x2 x3 |
+	// | y0 y1 y2 y3 |
+	// | 0  0  0  1  |
+	// | 1  1  1  1  |
+	// this determinant is the same as (substracting the third column from the
+	// two first):
+	// | x0-x2 x1-x2 x2 x3 |
+	// | y0-y2 y1-y2 y2 y3 |
+	// | 0     0     0  1  |
+	// | 0     0     1  1  |
+	// the determinant is then equal to:
+	// (y0-y2)*(x1-x2)-(y1-y2)*(x0-x2)
+	double d = (y[0] - y[2]) * (x[1] - x[2]) - (y[1] - y[2]) * (x[0] - x[2]);
 	return true;
+}
+
+bool Atom::HasStereoBond () const
+{
+	std::map < gcu::Atom *, gcu::Bond * >::const_iterator i, end = m_Bonds.end ();
+	for (i = m_Bonds.begin (); i != end; i++)
+		switch (static_cast < Bond * > ((*i).second)->GetType ()) {
+		case UpBondType:
+		case DownBondType:
+		case UndeterminedBondType:
+			return true;
+		default:
+			break;
+		}
+	return false;
 }
 
 }	//	namespace gcp

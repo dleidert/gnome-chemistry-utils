@@ -198,6 +198,7 @@ only, whatever their real atomic composition.
 
 	double GetMeanBondLength () const;
 	void AddChiralAtom (Atom *atom) {m_ChiralAtoms.insert (atom);}
+	bool AtomIsChiral (Atom *atom) const;
 
 private:
 	std::list< Fragment * > m_Fragments;

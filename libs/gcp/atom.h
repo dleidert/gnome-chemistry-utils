@@ -381,6 +381,7 @@ This method is used to avoid bonds lines extyending over their atoms symbols.
 	Bond *GetBondAtAngle (double angle);
 
 	bool UpdateStereoBonds ();
+	bool HasStereoBond () const;
 
 protected:
 /*!
