@@ -298,4 +298,18 @@ std::string Chain::Name ()
 	return _("Chain");
 }
 
+unsigned Chain::BuildLength (unsigned *cycle_size)
+{
+	// searching the longest chain starting from the first bond, and stopping at any cycle
+	// cycle_size is the largest encountered cycle
+	unsigned length = 0;
+	unsigned max_cycle_size = 0;
+	// searching from there
+
+	//and now ending
+	if (cycle_size)
+		*cycle_size = max_cycle_size;
+	return length;
+}
+
 }	//	namespace gcp

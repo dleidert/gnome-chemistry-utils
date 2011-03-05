@@ -1496,7 +1496,7 @@ bool Atom::UpdateStereoBonds ()
 	// we need to determine wich bonds should be considered as stereobonds
 	// the answer is that stereocenters shound not be bonded by a stereobond
 	// then the bond should not be cyclic
-	// then it shoud be in the shortes possible chain
+	// then it shoud be in the shortest possible chain
 	for (unsigned i = 0; i < 4; i++) {
 		if (!m_Bonded[i]) {
 			if (i < 3)
@@ -1516,6 +1516,7 @@ bool Atom::UpdateStereoBonds ()
 		} else {
 			gcu::Chain *chain = new gcu::Chain (bond[i], this);
 			// find the longuest linear chain
+			length[i] = chain->BuildLength (cycle_length + i);
 			// now delete the chain
 			delete chain;
 		}
@@ -1536,6 +1537,12 @@ bool Atom::UpdateStereoBonds ()
 	// the determinant is then equal to:
 	// (y0-y2)*(x1-x2)-(y1-y2)*(x0-x2)
 	double d = (y[0] - y[2]) * (x[1] - x[2]) - (y[1] - y[2]) * (x[0] - x[2]);
+	// for now setting the last bond as stereochemical, clearly bad
+	// first ensure that this is the bond start
+	if (bond[3]->GetAtom (0) != this)
+		bond[3]->Revert ();
+	// now, set the correct stereochemistry
+	bond[3]->SetType ((d > 0)? UpBondType: DownBondType);
 	return true;
 }
 
