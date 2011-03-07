@@ -1490,13 +1490,16 @@ bool Atom::SetProperty (unsigned property, char const *value)
 bool Atom::UpdateStereoBonds ()
 {
 	unsigned length[4]; // lengths before end or cycle 0 means cyclic bond
-	unsigned cycle_length[4]; // size of the cycles or of the attached cycles
+	unsigned cycle_length[4]; // size of the nearest and largest attached cycle
+	unsigned cycle_pos[4]; // position of the cycle
 	Bond *bond[4];
 	double x[4], y[4];
 	// we need to determine wich bonds should be considered as stereobonds
 	// the answer is that stereocenters shound not be bonded by a stereobond
 	// then the bond should not be cyclic
 	// then it shoud be in the shortest possible chain
+	// it should be not more that 90° from the nearest bond (which might also be
+	// a stereobond)
 	for (unsigned i = 0; i < 4; i++) {
 		if (!m_Bonded[i]) {
 			if (i < 3)
@@ -1504,6 +1507,7 @@ bool Atom::UpdateStereoBonds ()
 			bond[i] = NULL;
 			length[i] = 0;
 			cycle_length[i] = 0;
+			cycle_pos[i] = 0;
 			continue;
 		}
 		bond[i] = static_cast < Bond * > (GetBond (m_Bonded[i]));
@@ -1516,7 +1520,7 @@ bool Atom::UpdateStereoBonds ()
 		} else {
 			gcu::Chain *chain = new gcu::Chain (bond[i], this);
 			// find the longuest linear chain
-			length[i] = chain->BuildLength (cycle_length + i);
+			length[i] = chain->BuildLength (cycle_length + i, cycle_pos + i);
 			// now delete the chain
 			delete chain;
 		}

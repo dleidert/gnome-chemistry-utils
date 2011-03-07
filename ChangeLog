@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: more work on parity import.
+	* libs/gcu/chain.cc: implement some chain structure analysis.
+	* libs/gcu/chain.h: ditto.
+
 2011-03-05  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: more work on parity import.
 	* libs/gcu/chain.cc: ditto.

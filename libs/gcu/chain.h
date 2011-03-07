@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/chain.h 
  *
- * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -137,6 +137,7 @@ Extracts a sub-chain to the chain variable which should be empty before the call
 Reverses the chain order.
 */
 	void Reverse ();
+	void Append (Chain& chain);
 /*!
 @param start an atom.
 @param end an atom.
@@ -182,7 +183,7 @@ Adds the two atoms and the bond between them to the chain. The two atoms must be
 @return the localized object generic name.
 */
 	std::string Name ();
-	unsigned BuildLength (unsigned *cycle_size = NULL);
+	unsigned BuildLength (unsigned *cycle_size = NULL, unsigned *cycle_pos = NULL);
 
 protected:
 /*!

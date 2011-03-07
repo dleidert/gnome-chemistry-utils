@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/chain.cc
  *
- * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -298,18 +298,112 @@ std::string Chain::Name ()
 	return _("Chain");
 }
 
-unsigned Chain::BuildLength (unsigned *cycle_size)
+unsigned Chain::BuildLength (unsigned *cycle_size, unsigned *cycle_pos)
 {
 	// searching the longest chain starting from the first bond, and stopping at any cycle
 	// cycle_size is the largest encountered cycle
 	unsigned length = 0;
+	unsigned nb;
 	unsigned max_cycle_size = 0;
+	unsigned min_cycle_pos = 0;
 	// searching from there
-
+	std::map < Atom *, ChainElt >::iterator i, end = m_Bonds.end ();
+	std::map < Atom *, Bond * >::iterator b;
+	Bond *bond, *last_bond = NULL;
+	Atom *atom = NULL;
+	for (i = m_Bonds.begin(); i != end; i++) {
+		if ((*i).second.fwd)
+			length++;
+		else {
+			atom = (*i).first;
+			last_bond = (*i).second.rev;
+		}
+	}
+	while (atom && (nb = atom->GetBondsNumber ()) != 1)
+		switch (atom->GetBondsNumber ()) {
+		case 2:
+			bond = atom->GetFirstBond (b);
+			if (bond == last_bond)
+				bond = atom->GetNextBond (b);
+			m_Bonds[atom].fwd = bond;
+			atom = bond->GetAtom (atom);
+			m_Bonds[atom].rev = bond;
+				last_bond = bond;
+			length++;
+			break;
+		default: {
+			// we reached a ramification
+			// exploring each chain
+			unsigned rcycle_size = 0, rcycle_pos = 0, rlength = 0;
+			Chain *longchain = NULL;
+			for (bond = atom->GetFirstBond (b); bond; bond = atom->GetNextBond (b)) {
+				if (bond == last_bond)
+					continue;
+				if (bond->IsCyclic ()) {
+					if (min_cycle_pos == 0)
+						min_cycle_pos = length;
+					if (min_cycle_pos == length) {
+						std::list < Cycle * >::iterator c;
+						Cycle * cycle = bond->GetFirstCycle (c, NULL);
+						while (cycle) {
+							if (cycle->GetLength () > max_cycle_size)
+								max_cycle_size = cycle->GetLength ();
+							cycle = bond->GetNextCycle (c, NULL);
+						}
+					}
+					continue;	
+				}
+				// if we are there, we have normal chain that we explore
+				unsigned cycle_pos = 0, cycle_size = 0, length;
+				Chain *chain = new Chain (bond, atom);
+				length = chain->BuildLength (&cycle_size, &cycle_pos);
+				if (length > rlength) {
+					if (longchain)
+						delete longchain;
+					longchain = chain;
+					if ((cycle_pos = !0) && (cycle_pos < rcycle_pos || rcycle_pos == 0)) {
+						rcycle_pos = cycle_pos;
+						rcycle_size = cycle_size;
+					}
+					if (cycle_pos == rcycle_pos && cycle_size >  rcycle_size)
+						rcycle_size = cycle_size;
+				}
+			}
+			if (longchain) {
+				Append (*longchain);
+				if (min_cycle_pos == 0) {
+					min_cycle_pos = rcycle_pos;
+					max_cycle_size = rcycle_size;
+				}
+				length += rlength;
+				delete longchain;
+			}
+			atom = NULL;
+			break;
+		}
+		}
 	//and now ending
 	if (cycle_size)
 		*cycle_size = max_cycle_size;
+	if (cycle_pos)
+		*cycle_size = min_cycle_pos;
 	return length;
+}
+
+void Chain::Append (Chain& chain)
+{
+	std::map < Atom *, ChainElt >::iterator i, end = m_Bonds.end ();
+	for (i = m_Bonds.begin (); (*i).second.fwd; i++);
+	Atom *atom = (*i).first;
+	if (chain.m_Bonds.find (atom) == chain.m_Bonds.end ())
+		return;
+	m_Bonds[atom].fwd = chain.m_Bonds[atom].fwd;
+	atom = m_Bonds[atom].fwd->GetAtom (atom);
+	while (chain.m_Bonds[atom].fwd) {
+		m_Bonds[atom] = chain.m_Bonds[atom];
+		atom = m_Bonds[atom].fwd->GetAtom (atom);
+	}
+
 }
 
 }	//	namespace gcp
