@@ -386,7 +386,7 @@ unsigned Chain::BuildLength (unsigned *cycle_size, unsigned *cycle_pos)
 	if (cycle_size)
 		*cycle_size = max_cycle_size;
 	if (cycle_pos)
-		*cycle_size = min_cycle_pos;
+		*cycle_pos = min_cycle_pos;
 	return length;
 }
 

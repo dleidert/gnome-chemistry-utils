@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: still more work on parity import.
+	* libs/gcu/chain.cc: fixed typo.
+
 2011-03-07  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: more work on parity import.
 	* libs/gcu/chain.cc: implement some chain structure analysis.

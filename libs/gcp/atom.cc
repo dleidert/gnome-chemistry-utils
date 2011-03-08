@@ -1490,10 +1490,12 @@ bool Atom::SetProperty (unsigned property, char const *value)
 bool Atom::UpdateStereoBonds ()
 {
 	unsigned length[4]; // lengths before end or cycle 0 means cyclic bond
-	unsigned cycle_length[4]; // size of the nearest and largest attached cycle
+	unsigned cycle_size[4]; // size of the nearest and largest attached cycle
 	unsigned cycle_pos[4]; // position of the cycle
 	Bond *bond[4];
 	double x[4], y[4];
+	std::list < unsigned > sorted;
+	std::list < unsigned >::iterator s, send;
 	// we need to determine wich bonds should be considered as stereobonds
 	// the answer is that stereocenters shound not be bonded by a stereobond
 	// then the bond should not be cyclic
@@ -1506,7 +1508,7 @@ bool Atom::UpdateStereoBonds ()
 				return false; // atoms are still not fully loaded
 			bond[i] = NULL;
 			length[i] = 0;
-			cycle_length[i] = 0;
+			cycle_size[i] = 0;
 			cycle_pos[i] = 0;
 			continue;
 		}
@@ -1514,18 +1516,37 @@ bool Atom::UpdateStereoBonds ()
 		if (!bond[i]) // not everything has been loaded
 			return false;
 		// search if the bonded atom is a stereocenter
-		if (static_cast < Molecule * > (GetMolecule ())->AtomIsChiral (m_Bonded[i]))
-			length[i] = cycle_length[i] = G_MAXUINT; // this will be large enough
-		else if (bond[i]->IsCyclic ()) {
+		if (static_cast < Molecule * > (GetMolecule ())->AtomIsChiral (m_Bonded[i]) ||
+		    bond[i]->IsCyclic ()) {
+			length[i] = cycle_pos[i] = G_MAXUINT; // this will be large enough
+			cycle_size[i] = 0;
 		} else {
 			gcu::Chain *chain = new gcu::Chain (bond[i], this);
-			// find the longuest linear chain
-			length[i] = chain->BuildLength (cycle_length + i, cycle_pos + i);
+			// find the longuest linear chain and the first attached cycle
+			length[i] = chain->BuildLength (cycle_size + i, cycle_pos + i);
 			// now delete the chain
 			delete chain;
 		}
 		m_Bonded[i]->GetCoords (x + i, y + i);
+		// now sort the atoms with the stereobonds preferably first.
+		send = sorted.end ();
+		for (s = sorted.begin (); s != send; s++) {
+			if (length[*s] > length[i] || 
+			    (length[*s] == length[i] && (cycle_pos[*s] > cycle_pos[i] ||
+			    (cycle_pos[*s] == cycle_pos[i] && (cycle_size[*s] < cycle_size[i] ||
+			    (cycle_size[*s] == cycle_size[i] && m_Bonded[*s]->GetZ () > m_Bonded[i]->GetZ ()))))))
+				break;
+		}
+		sorted.insert (s, i);
 	}
+	unsigned n1, n2;
+	s = sorted.begin ();
+	n1 = *s;
+	s++;
+	n2 = *s;
+	// check if the bond to the n1th atom is properly placed
+	// FIXME
+
 	// parity is evaluated using a determinant as explained in CML reference
 	// assume the third atom is at z=1 and evaluate the determinant
 	// | x0 x1 x2 x3 |
@@ -1540,13 +1561,37 @@ bool Atom::UpdateStereoBonds ()
 	// | 0     0     1  1  |
 	// the determinant is then equal to:
 	// (y0-y2)*(x1-x2)-(y1-y2)*(x0-x2)
-	double d = (y[0] - y[2]) * (x[1] - x[2]) - (y[1] - y[2]) * (x[0] - x[2]);
+	double invert;
+	if (n1 != 3) {
+		x[n1] = x[3];
+		y[n1] = y[3];
+		invert = -1.;
+	} else
+		invert = 1.;
+	double d = ((y[0] - y[2]) * (x[1] - x[2]) - (y[1] - y[2]) * (x[0] - x[2])) * invert;
 	// for now setting the last bond as stereochemical, clearly bad
 	// first ensure that this is the bond start
-	if (bond[3]->GetAtom (0) != this)
-		bond[3]->Revert ();
+	if (bond[n1]->GetAtom (0) != this)
+		bond[n1]->Revert ();
 	// now, set the correct stereochemistry
-	bond[3]->SetType ((d > 0)? UpBondType: DownBondType);
+	bond[n1]->SetType ((d > 0)? UpBondType: DownBondType);
+	if (length[n2] == length[n1]) {
+		double a1, a2;
+		a1 = bond[n1]->GetAngle2D (this);
+		a2 = bond[n2]->GetAngle2D (this);
+		a1 -= a2;
+		if (a1 > 360.)
+			a1 -= 360;
+		else if (a1 < 0)
+			a1 += 360.;
+		if (a1 > 180.)
+			a1 = 360. - a1;
+		if (a1 < 90) {
+			if (bond[n2]->GetAtom (0) != this)
+				bond[n2]->Revert ();
+			bond[n2]->SetType ((d > 0)? DownBondType: UpBondType);
+		}
+	}
 	return true;
 }
 
