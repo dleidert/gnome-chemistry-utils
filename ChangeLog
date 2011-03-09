@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: try to keep carbon atom in the plane as much as
+	possible when importing the parity.
+	* libs/gcp/stringdlg.cc: don't crash when copying a string from a closed
+	dialog.
+	* libs/gcu/bond.cc: add a default id.
+	* libs/gcu/document.cc: fixed pasting.
+
 2011-03-08  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: still more work on parity import.
 	* libs/gcu/chain.cc: fixed typo.

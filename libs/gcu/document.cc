@@ -70,21 +70,11 @@ char* Document::GetNewId (char const *id, bool Cache)
 		j++;
 	Id = g_strdup_printf ("%d", j);
 	Object *obj = GetDescendant (id);
-	if (obj && m_NewObjects.find (obj) == m_NewObjects.end ()) {
+	if (obj)
 		if (Cache) {
 			m_TranslationTable[key] = Id;
 			m_TranslationTable[id] = buf;
 		}
-		if (m_PendingTable.size () > 0) {
-			std::map <std::string, list <PendingTarget> >::iterator it, end = m_PendingTable.end ();
-			// the second test below might be unuseful, but it is one extra security test
-			if ((it = m_PendingTable.find (id)) != end && m_PendingTable.find (buf) == end) {
-				// Hmm, this might be unsecure if several imported objects have the same Id
-				m_PendingTable[buf] = (*it).second;
-				m_PendingTable.erase (it);
-			}
-		}
-	}
 	g_free (Id);
 	g_free (key);
 	return buf;
@@ -164,6 +154,7 @@ bool Document::Loaded () throw (LoaderError)
 	for (k = m_DirtyObjects.begin (); k != kend; k++)
 		(*k)->OnLoaded ();
 	m_DirtyObjects.clear ();
+	m_TranslationTable.clear ();
 	return count > 0;
 }
 

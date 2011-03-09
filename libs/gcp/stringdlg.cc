@@ -40,6 +40,7 @@ namespace gcp {
 static GtkTargetEntry const stargets[] = {
 	{(char *)"STRING", 0, 0}
 };
+static char *copied = NULL;
 
 static void on_copy (StringDlg *dlg)
 {
@@ -53,6 +54,8 @@ static void on_get_data(GtkClipboard *clipboard, GtkSelectionData *selection_dat
 
 static void on_string_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_UNUSED StringDlg *dlg)
 {
+	g_free (copied);
+	copied = NULL;
 }
 
 StringDlg::StringDlg (Document *pDoc, string const &data, enum data_type type):
@@ -211,7 +214,7 @@ bool StringDlg::Apply ()
 
 void StringDlg::Copy ()
 {
-	GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+	GtkClipboard* clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	gtk_clipboard_set_with_data (clipboard, stargets, 1,
 		(GtkClipboardGetFunc) on_get_data,
 		(GtkClipboardClearFunc) on_string_clear_data, this);
@@ -219,11 +222,13 @@ void StringDlg::Copy ()
 			gdk_atom_intern ("TARGETS", FALSE),
 			(GtkClipboardReceivedFunc) on_receive_targets,
 			m_App);
+	g_free (copied); // copied should already be NULL,btw
+	copied = g_strdup (Data.c_str ());
 }
 
 void StringDlg::OnGetData (G_GNUC_UNUSED GtkClipboard *clipboard, GtkSelectionData *selection_data,  G_GNUC_UNUSED guint info)
 {
-	gtk_selection_data_set_text(selection_data, (const gchar*) Data.c_str (), Data.length ());
+	gtk_selection_data_set_text (selection_data, copied, strlen (copied));
 }
 
 }	//	namespace gcp

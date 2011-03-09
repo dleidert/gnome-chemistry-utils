@@ -1534,7 +1534,7 @@ bool Atom::UpdateStereoBonds ()
 			if (length[*s] > length[i] || 
 			    (length[*s] == length[i] && (cycle_pos[*s] > cycle_pos[i] ||
 			    (cycle_pos[*s] == cycle_pos[i] && (cycle_size[*s] < cycle_size[i] ||
-			    (cycle_size[*s] == cycle_size[i] && m_Bonded[*s]->GetZ () > m_Bonded[i]->GetZ ()))))))
+			    (cycle_size[*s] == cycle_size[i] && (m_Bonded[*s]->GetZ () > m_Bonded[i]->GetZ () || m_Bonded[*s]->GetZ () == 6)))))))
 				break;
 		}
 		sorted.insert (s, i);

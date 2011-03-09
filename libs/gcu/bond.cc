@@ -38,6 +38,7 @@ namespace gcu
 
 Bond::Bond(): Object(BondType)
 {
+	SetId ("b1");
 	m_Begin = NULL;
 	m_End = NULL;
 	m_order = 0;
@@ -45,6 +46,7 @@ Bond::Bond(): Object(BondType)
 
 Bond::Bond(Atom* first, Atom* last, unsigned char order): Object(BondType)
 {
+	SetId ("b1");
 	m_Begin = first;
 	m_End = last;
 	m_order = order;
