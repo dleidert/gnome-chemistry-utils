@@ -54,9 +54,11 @@ Document::~Document ()
 char* Document::GetNewId (char const *id, bool Cache)
 {
 	gchar *Id = g_strdup (id);
-	int i = 0;
+	int i = 0, k;
 	while ((Id[i] < '0') || (Id[i] > '9'))
 		i++;
+	k = atoi (id + i);
+printf("searching new id for %s\n",id);
 	gchar *buf = new gchar[i + 16];
 	strncpy (buf, Id, i);
 	buf[i] = 0;
@@ -70,7 +72,7 @@ char* Document::GetNewId (char const *id, bool Cache)
 		j++;
 	Id = g_strdup_printf ("%d", j);
 	Object *obj = GetDescendant (id);
-	if (obj)
+	if (obj && (k > 1 || m_NewObjects.find (obj) == m_NewObjects.end ()))
 		if (Cache) {
 			m_TranslationTable[key] = Id;
 			m_TranslationTable[id] = buf;

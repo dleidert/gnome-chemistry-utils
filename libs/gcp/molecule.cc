@@ -519,6 +519,7 @@ bool Molecule::Load (xmlNodePtr node)
 	xmlNodePtr child;
 	Object* pObject;
 	Document* pDoc = (Document*) GetDocument ();
+puts("loading molecule");
 
 	buf = (char*) xmlGetProp (node, (xmlChar*) "id");
 	if (buf) {
@@ -531,6 +532,7 @@ bool Molecule::Load (xmlNodePtr node)
 		if (pDoc)
 			AddChild (pObject);
 		if (!pObject->Load (child)) {
+g_critical("deleted an atom");
 			delete pObject;
 			return false;
 		}
@@ -561,6 +563,7 @@ bool Molecule::Load (xmlNodePtr node)
 		if (pDoc)
 			AddChild (pObject);
 		if (!pObject->Load (child))  {
+g_critical("deleted a fragment");
 			delete pObject;
 			return false;
 		}
@@ -575,6 +578,7 @@ bool Molecule::Load (xmlNodePtr node)
 		AddBond ((Bond*) pObject);
 		if (!pObject->Load (child)) {
 			delete pObject;
+g_critical("deleted a bond");
 			m_Bonds.remove ((Bond*) pObject);
 			return false;
 		}
@@ -598,12 +602,11 @@ bool Molecule::Load (xmlNodePtr node)
 	}*/
 	buf = (char*) xmlGetProp (node, (const xmlChar*) "valign");
 	if (buf) {
-		m_Alignment = GetDescendant (buf);
+		pDoc->SetTarget (buf, reinterpret_cast <Object **> (&m_Alignment), this, this, ActionDelete);
 		xmlFree (buf);
-		if (!m_Alignment)
-			return false;
 	}
 	pDoc->ObjectLoaded (this);
+puts("molecule loaded");
 	return true;
 }
 

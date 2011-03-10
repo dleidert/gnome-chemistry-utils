@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-03-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/molecule.cc: fixed loading alignment object.
+	* libs/gcu/document.cc: a better fix for pasting.
+
 2011-03-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: try to keep carbon atom in the plane as much as
 	possible when importing the parity.
