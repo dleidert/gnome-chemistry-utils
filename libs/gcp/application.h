@@ -4,7 +4,7 @@
  * GChemPaint library
  * application.h 
  *
- * Copyright (C) 2004-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -424,7 +424,7 @@ Shows or hides the tools box.
 	void ShowTools (bool visible);
 
 private:
-	void TestSupportedType (char const *mime_type);
+	void TestSupportedType (char const *mime_type, char const* babel_type = NULL, bool writeable = false);
 	void AddMimeType (std::list<std::string> &l, std::string const& mime_type);
 	void UpdateAllTargets ();
 

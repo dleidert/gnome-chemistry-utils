@@ -1,5 +1,12 @@
 ##Text encoding: utf-8
 
+2011-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: load from inchi.
+	* libs/gcp/application.h: ditto.
+	* libs/gcp/molecule.cc: removed debug statements.
+	* libs/gcu/application.cc: propagate options to OpenBabel.
+	* libs/gcu/document.cc: ditto.
+
 2011-03-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/molecule.cc: fixed loading alignment object.
 	* libs/gcu/document.cc: a better fix for pasting.

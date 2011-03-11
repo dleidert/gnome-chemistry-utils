@@ -301,10 +301,11 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 		l = Loader::GetLoader ("chemical/x-cml");
 		if (!l)
 			return ContentTypeUnknown;
-		char *cml = ConvertToCML (uri, mime_type);
+		char *cml = ConvertToCML (uri, mime_type, options);
 		if (!cml)
 			return ContentTypeUnknown;
 		input = gsf_input_memory_new (const_cast <guint8 const *> (reinterpret_cast <guint8 *> (cml)), strlen (cml), true);
+		mime_type = "chemical/x-cml";
 	} else {
 		GError *error = NULL;
 		input = gsf_input_gio_new_for_uri (uri.c_str (), &error);

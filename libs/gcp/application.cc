@@ -434,12 +434,13 @@ Application::Application (CmdContext *cc):
 		found = Loader::GetNextLoader (it);
 	}
 	// test if OpenBabel supports some extra types
-	TestSupportedType ("chemical/x-mdl-molfile");
-	TestSupportedType ("chemical/x-pdb");
-	TestSupportedType ("chemical/x-xyz");
-	TestSupportedType ("chemical/x-ncbi-asn1");
-	TestSupportedType ("chemical/x-ncbi-asn1-binary");
-	TestSupportedType ("chemical/x-ncbi-asn1-xml");
+//	TestSupportedType ("chemical/x-mdl-molfile");
+	TestSupportedType ("chemical/x-pdb", "pdb", true);
+	TestSupportedType ("chemical/x-xyz", "xyz", true);
+//	TestSupportedType ("chemical/x-ncbi-asn1");
+//	TestSupportedType ("chemical/x-ncbi-asn1-binary");
+	TestSupportedType ("chemical/x-ncbi-asn1-xml", "pc", false);
+	TestSupportedType ("chemical/x-inchi", "inchi", true);
 	// now read extra types declared by the user
 	char *home = getenv ("HOME");
 	if (home) {
@@ -708,7 +709,7 @@ bool Application::FileProcess (const gchar* filename, const gchar* mime_type, bo
 			OpenGcp (filename2, pDoc);
 		else {
 			// FIXME: rewrite this code
-			ContentType type = Load (filename2, mime_type, pDoc);
+			ContentType type = Load (filename2, mime_type, pDoc, "--gen2D");
 			if (type != ContentTypeUnknown) {
 				switch (type) {
 				case ContentType3D: {
@@ -1156,8 +1157,13 @@ void Application::AddMimeType (list<string> &l, string const& mime_type)
 		g_warning ("Duplicate mime type: %s", mime_type.c_str ());
 }
 
-void Application::TestSupportedType (char const *mime_type)
+void Application::TestSupportedType (char const *mime_type, char const* babel_type, bool writeable)
 {
+	AddMimeType (m_SupportedMimeTypes, mime_type);
+	if (babel_type)
+		RegisterBabelType (mime_type, babel_type);
+	if (writeable)
+		AddMimeType (m_WriteableMimeTypes, mime_type);
 /*	OBFormat *f = OBConversion::FormatFromMIME (mime_type);
 	if (f != NULL) {
 		AddMimeType (m_SupportedMimeTypes, mime_type);

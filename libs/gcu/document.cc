@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * libs/gcu/document.cc
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -58,7 +58,6 @@ char* Document::GetNewId (char const *id, bool Cache)
 	while ((Id[i] < '0') || (Id[i] > '9'))
 		i++;
 	k = atoi (id + i);
-printf("searching new id for %s\n",id);
 	gchar *buf = new gchar[i + 16];
 	strncpy (buf, Id, i);
 	buf[i] = 0;
