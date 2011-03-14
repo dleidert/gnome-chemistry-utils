@@ -75,10 +75,13 @@ void ApplicationPrivate::FullScreenWindows ()
 	Application::DefaultWindowState = FullScreenWindowState;
 }
 
+#if 0
 bool ApplicationPrivate::LoadDatabases (Application *app)
 {
 	return false;
 }
+#endif
+
 static GOptionEntry options[] = 
 {
   {"full-screen", 'F', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void *)ApplicationPrivate::MaximizeWindows, N_("Open new windows full screen"), NULL},
@@ -144,7 +147,9 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	if (Default == NULL)
 		Default = this;
 	RegisterBabelType ("chemical/x-xyz", "xyz");
+#if 0
 	g_idle_add (reinterpret_cast <GSourceFunc> (ApplicationPrivate::LoadDatabases), this);
+#endif
 }
 
 Application::~Application ()
@@ -327,11 +332,23 @@ ContentType Application::Load (std::string const &uri, const gchar *mime_type, D
 ContentType Application::Load (GsfInput *input, const gchar *mime_type, Document* Doc, const char *options)
 {
 	Loader *l = Loader::GetLoader (mime_type);
-	if (!l)
-		return ContentTypeUnknown;
+	bool needs_free = false;
+	if (!l) {
+		l = Loader::GetLoader ("chemical/x-cml");
+		if (!l)
+			return ContentTypeUnknown;
+		char *cml = ConvertToCML (input, mime_type, options);
+		if (!cml)
+			return ContentTypeUnknown;
+		input = gsf_input_memory_new (const_cast <guint8 const *> (reinterpret_cast <guint8 *> (cml)), strlen (cml), true);
+		mime_type = "chemical/x-cml";
+		needs_free = true;
+	}
 	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
 	ContentType ret = l->Read (Doc, input, mime_type, io);
 	g_object_unref (io);
+	if (needs_free)
+		g_object_unref (input);
 	return ret;
 }
 
@@ -339,13 +356,21 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Object c
 {
 	Loader *l = Loader::GetSaver (mime_type);
 	GError *error = NULL;
+	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
 	if (!l) {
 		l = Loader::GetSaver ("chemical/x-cml");
-		if (!l)
+		if (!l) {
+			g_object_unref (io);
 			return false;
+		}
 		GsfOutput *output = gsf_output_memory_new ();
-		
-		return false;
+		l->Write (Obj, output, "chemical/x-cml", io, type);
+		guint8 const* cml = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (output));
+		g_object_unref (io);
+		if (cml)
+			ConvertFromCML (reinterpret_cast < char const * > (cml), uri, mime_type, options);
+		g_object_unref (output);		
+		return true;
 	}
 	GFile *file = g_file_new_for_uri (uri.c_str ());
 	if (g_file_query_exists (file, NULL)) {
@@ -368,7 +393,6 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Object c
 	if (error) {
 		g_error_free (error);
 	}
-	GOIOContext *io = GetCmdContext ()->GetNewGOIOContext ();
 	bool ret = l->Write (Obj, output, mime_type, io, type);
 	g_object_unref (output);
 	g_object_unref (io);
@@ -796,6 +820,7 @@ ok_exit:
 	close (sock);
 	return start;
 }
+
 void Application::ConvertFromCML (char const *cml, std::string const &uri, const char *mime_type, const char *options)
 {
 	int sock = OpenBabelSocket ();

@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: don't add -lOSMesa to everything.
+	* libs/gcu/application.cc: fixed export using OpenBabel.
+
 2011-03-11  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: load from inchi.
 	* libs/gcp/application.h: ditto.
