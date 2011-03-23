@@ -161,7 +161,7 @@ freed with g_free when not anymore nedded.
 private:
 	int m_min, m_max, m_mono;
 	int ref_count;
-	std::vector<double> m_values;
+	std::vector < double > m_values;
 	SimpleValue m_mono_mass;
 	static double epsilon;
 };

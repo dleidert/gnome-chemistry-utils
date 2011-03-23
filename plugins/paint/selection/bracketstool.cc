@@ -49,8 +49,8 @@
 
 gcpBracketsTool::gcpBracketsTool (gcp::Application* App): gcp::Tool (App, "Brackets")
 {
-	m_Type = GCP_BRACKET_NORMAL;
-	m_Used = GCP_BRACKETS_BOTH;
+	m_Type = gccv::BracketsTypeNormal;
+	m_Used = gccv::BracketsBoth;
 }
 
 gcpBracketsTool::~gcpBracketsTool ()
@@ -65,12 +65,15 @@ bool gcpBracketsTool::OnClicked ()
 void gcpBracketsTool::OnDrag ()
 {
 	if (m_Item) {
-		reinterpret_cast <gccv::Rectangle *> (m_Item)->SetPosition (m_x0, m_y0, m_x - m_x0, m_y - m_y0);
+		static_cast < gccv::Rectangle * > (m_Rect)->SetPosition (m_x0, m_y0, m_x - m_x0, m_y - m_y0);
 	} else {
-		m_Item = new gccv::Rectangle (m_pView->GetCanvas (), m_x0, m_y0, m_x - m_x0, m_y - m_y0);
+		m_Item = new gccv::Group (m_pView->GetCanvas ());
+		m_Rect = new gccv::Rectangle (static_cast < gccv::Group * > (m_Item), m_x0, m_y0, m_x - m_x0, m_y - m_y0, NULL);
 		gcp::Theme *theme = m_pView->GetDoc ()->GetTheme ();
-		static_cast <gccv::LineItem *> (m_Item)->SetLineWidth (theme->GetBondWidth ());
-		static_cast <gccv::FillItem *> (m_Item)->SetFillColor (0);
+		static_cast <gccv::LineItem *> (m_Rect)->SetLineWidth (theme->GetBondWidth ());
+		static_cast <gccv::FillItem *> (m_Rect)->SetFillColor (0);
+		m_Bracket = new gccv::Brackets (static_cast < gccv::Group * > (m_Item), m_Type, m_Used, m_pView->GetFontName (), 0., 0., 0., 0., NULL);
+		static_cast <gccv::LineItem *> (m_Rect)->SetLineColor (gcp::AddColor);
 	}
 	// find everything inside the selected rectangle and select
 	gccv::Group *group = m_pView->GetCanvas ()->GetRoot ();
@@ -78,7 +81,7 @@ void gcpBracketsTool::OnDrag ()
 	std::list <gccv::Item *>::iterator it;
 	gccv::Item *item = group->GetFirstChild (it);
 	double x0, x1, y0, y1, xmin, xmax, ymin, ymax;
-	m_Item->GetBounds (xmin, ymin, xmax, ymax);
+	m_Rect->GetBounds (xmin, ymin, xmax, ymax);
 	gcu::Object *object;
 	m_pData->UnselectAll ();
 	std::set <gcu::Object *> linked_objects;
@@ -129,10 +132,17 @@ void gcpBracketsTool::OnDrag ()
 		if ((*i)->CanSelect ())
 			m_pData->SetSelected (*i);
 	m_pData->SimplifySelection ();
-	if (Evaluate ())
-		static_cast <gccv::LineItem *> (m_Item)->SetLineColor (gcp::AddColor);
-	else
-		static_cast <gccv::LineItem *> (m_Item)->SetLineColor (gcp::DeleteColor);
+	if (Evaluate ()) {
+		gccv::Rect r;
+		static_cast < gccv::LineItem * > (m_Rect)->SetLineColor (gcp::AddColor);
+		m_pData->GetSelectionBounds (r);
+		// TODO: store last selection size and change position only when necessary
+		static_cast < gccv::Brackets * > (m_Bracket)->SetPosition (r.x0, r.y0, r.x1, r.y1);
+		m_Bracket->SetVisible (true);
+	} else {
+		static_cast < gccv::LineItem * > (m_Rect)->SetLineColor (gcp::DeleteColor);
+		m_Bracket->SetVisible (false);
+	}
 }
 
 void gcpBracketsTool::OnRelease ()
@@ -180,12 +190,12 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 
 void gcpBracketsTool::OnTypeChanged (GtkComboBox *box, gcpBracketsTool *tool)
 {
-	tool->m_Type = static_cast <gcpBracketType> (gtk_combo_box_get_active (box));
+	tool->m_Type = static_cast < gccv::BracketsTypes > (gtk_combo_box_get_active (box));
 }
 
 void gcpBracketsTool::OnUsedChanged (GtkComboBox *box, gcpBracketsTool *tool)
 {
-	tool->m_Used = static_cast <gcpBracketsUsed> (gtk_combo_box_get_active (box));
+	tool->m_Used = static_cast < gccv::BracketsUses > ((gtk_combo_box_get_active (box) + 1) % 3);
 }
 
 void gcpBracketsTool::Activate ()

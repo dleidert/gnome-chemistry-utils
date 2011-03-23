@@ -47,12 +47,27 @@ typedef enum
 */
 	BracketsTypeCurly
 } BracketsTypes;
-
+/*!\enum BracketsTypes
+Enumeration of the brackets use modes.
+*/
+typedef enum
+{
+/*!
+*/
+	BracketsOpening,
+/*!
+*/
+	BracketsClosing,
+/*!
+*/
+	BracketsBoth
+} BracketsUses;
+	 
 class Brackets: public Item
 {
 public:
-	Brackets (Canvas *canvas, BracketsTypes type, char const *fontdesc, double x0, double y0, double x1, double y1);
-	Brackets (Group *parent, BracketsTypes type, char const *fontdesc, double x0, double y0, double x1, double y1, ItemClient *client = NULL);
+	Brackets (Canvas *canvas, BracketsTypes type, BracketsUses use, char const *fontdesc, double x0, double y0, double x1, double y1);
+	Brackets (Group *parent, BracketsTypes type, BracketsUses use, char const *fontdesc, double x0, double y0, double x1, double y1, ItemClient *client = NULL);
 	~Brackets ();
 
 /*!
@@ -110,6 +125,8 @@ private:
 	BracketsMetrics const *m_Metrics;
 //	std::string m_FontDesc;
 	double m_x0, m_y0, m_x1, m_y1;
+	unsigned m_Elems;
+	double m_Zoom;	// FIXME: use actual size
 
 /*!\fn SetSize(double size)
 @param size the new brackets size.
@@ -122,6 +139,7 @@ Sets the brackets size.
 GCCV_ITEM_POS_PROP (double, Size)
 GCCV_ITEM_POS_PROP (std::string, FontDesc)
 GCCV_ITEM_POS_PROP (BracketsTypes, Type)
+GCCV_ITEM_POS_PROP (BracketsUses, Used)
 /*!\fn SetColor(GOColor color)
 @param color the new brackets color.
 

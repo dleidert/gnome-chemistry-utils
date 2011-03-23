@@ -22,8 +22,8 @@
 
 #include "config.h"
 #include "gcuchem3dviewer.h"
-#include "chem3ddoc.h"
-#include "glview.h"
+#include <gcu/chem3ddoc.h>
+#include <gcu/glview.h>
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 #include <cstring>

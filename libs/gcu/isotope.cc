@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * isotope.cc
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include "isotope.h"
+#include <cstdlib>
 
 using namespace std;
 
@@ -50,9 +51,9 @@ Isotope::Isotope ()
 Isotope::~Isotope ()
 {
 	if (name != NULL)
-		g_free (name);
+		free (name);
 	if (decay_modes != NULL)
-		g_free (decay_modes);
+		free (decay_modes);
 }
 
 IsotopicPattern::IsotopicPattern ()
@@ -170,7 +171,7 @@ void IsotopicPattern::Unref ()
 int IsotopicPattern::GetValues (double **values)
 {
 	int i, result = m_values.size ();
-	*values = g_new (double, result);
+	*values = new double[result];
 	for (i = 0; i < result; i++)
 		(*values)[i] = m_values[i];
 	return result;

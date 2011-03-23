@@ -395,10 +395,13 @@ void Document::Save () const
 		return;
 	xmlDocPtr xml = NULL;
 	const_cast <Document *> (this)->m_SavedResidues.clear ();
-	
+
 	try {
-		if (m_pApp && m_pApp->Save (m_filename, m_FileType.c_str (), this, ContentType2D))
+		if (m_FileType.length () && m_FileType != "application/x-gchempaint") {
+			if (!m_pApp || !m_pApp->Save (m_filename, m_FileType.c_str (), this, ContentType2D))
+				throw (int) -1; // FIXME: really display an error message
 			return;
+		}
 		xml = BuildXMLTree ();
 		xmlSetDocCompressMode (xml, CompressionLevel);
 
@@ -406,7 +409,7 @@ void Document::Save () const
 			xmlIndentTreeOutput = true;
 			xmlKeepBlanksDefault (0);
 		}
-	
+
 		xmlOutputBufferPtr buf = xmlAllocOutputBuffer (NULL);
 		GFile *file = g_file_new_for_uri (m_filename);
 		GError *error = NULL;

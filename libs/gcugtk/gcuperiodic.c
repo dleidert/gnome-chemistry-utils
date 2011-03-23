@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gcuperiodic.c 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,7 +22,7 @@
 
 #include "config.h"
 #include "gcuperiodic.h"
-#include "chemistry.h"
+#include <gcu/chemistry.h>
 #include <goffice/goffice.h>
 #include <string.h>
 #include <stdio.h>

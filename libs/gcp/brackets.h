@@ -101,6 +101,7 @@ private:
 	BracketContent m_Content;
 
 GCU_PROP (gccv::BracketsTypes, Type)
+GCU_PROP (gccv::BracketsUses, Used)
 GCU_RO_PROP (unsigned, Decorations)
 GCU_PROP (std::string, FontDesc)
 };

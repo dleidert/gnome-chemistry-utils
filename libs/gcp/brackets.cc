@@ -76,7 +76,7 @@ void Brackets::AddItem ()
 	}
 	gccv::Rect rect;
 	view->GetData ()->GetObjectsBounds (m_EmbeddedObjects, &rect);
-	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1);
+	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_Used, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1);
 	item->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
 }
 

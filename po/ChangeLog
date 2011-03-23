@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: moved some files from gcu to gcugtk.
+
 2011-02-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: removed the Wikipedia tool.
 

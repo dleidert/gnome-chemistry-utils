@@ -36,10 +36,6 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		element.cc \
 		filechooser.cc \
 		formula.cc \
-		gcuchem3dviewer.cc \
-		gcucomboperiodic.c \
-		gcuperiodic.c \
-		gcuspectrumviewer.cc \
 		gldocument.cc	\
 		glview.cc	\
 		isotope.cc \
@@ -81,10 +77,6 @@ noinst_HEADERS = \
 		element.h \
 		filechooser.h \
 		formula.h \
-		gcuchem3dviewer.h \
-		gcucomboperiodic.h \
-		gcuperiodic.h \
-		gcuspectrumviewer.h \
 		gldocument.h	\
 		glview.h	\
 		isotope.h \

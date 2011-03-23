@@ -11,6 +11,7 @@ MAINTAINERCLEANFILES = Makefile.in gcrystal.desktop.in
 
 DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+		$(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcr/libgcrystal-@GCU_API_VER@.la \
 		$(goffice_LIBS) \
 		$(gsf_LIBS) \

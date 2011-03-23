@@ -39,6 +39,7 @@ libgcrystal_@GCU_API_VER@_la_SOURCES =	\
 libgcrystal_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcrystal_@GCU_API_VER@_la_LIBADD = \
+		$(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		-lGL
 INCLUDES = \

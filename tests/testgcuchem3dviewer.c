@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * tests/testgcuchem3dviewer.c 
  *
- * Copyright (C) 2008-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,7 +22,7 @@
 
 #include "config.h"
 #include <gcu/chemistry.h>
-#include <gcu/gcuchem3dviewer.h>
+#include <gcugtk/gcuchem3dviewer.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <stdio.h>

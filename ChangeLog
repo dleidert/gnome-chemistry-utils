@@ -1,5 +1,52 @@
 ##Text encoding: utf-8
 
+2011-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: add new library.
+	* libs/Makefile.am: ditto.
+	* libs/gccv/brackets.cc: fixed some issues.
+	* libs/gccv/brackets.h: ditto.
+	* libs/gcp/Makefile.am: add new library.
+	* libs/gcp/brackets.cc: fixed brackets creation.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcp/document.cc: fixed saving.
+	* libs/gcp/tools.h: add new library.
+	* libs/gcr/Makefile.am: ditto..
+	* libs/gcr/atomsdlg.h: ditto.
+	* libs/gcu/Makefile.am: start moving gtk+ related code to a new library.
+	* libs/gcu/chemistry.cc: don't use glib.
+	* libs/gcu/chemistry.h: ditto.
+	* libs/gcu/element.h: ditto.
+	* libs/gcu/gcuchem3dviewer.cc: ditto.
+	* libs/gcu/gcuchem3dviewer.h: ditto.
+	* libs/gcu/gcucomboperiodic.c: ditto.
+	* libs/gcu/gcucomboperiodic.h: ditto.
+	* libs/gcu/gcuperiodic.c: ditto.
+	* libs/gcu/gcuperiodic.h: ditto.
+	* libs/gcu/gcuspectrumviewer.c: ditto.
+	* libs/gcu/gcuspectrumviewer.h: ditto.
+	* libs/gcu/isotope.cc: don't use glib.
+	* libs/gcu/isotope.h: ditto.
+	* libs/gcu/object.h: ditto.
+	* libs/gcugtk/Makefile.am: new library for gtk+ related code in gcu.
+	* libs/gcugtk/gcuchem3dviewer.cc: ditto.
+	* libs/gcugtk/gcucomboperiodic.c: ditto.
+	* libs/gcugtk/gcucomboperiodic.h: ditto.
+	* libs/gcugtk/gcuperiodic.c: ditto.
+	* libs/gcugtk/gcuperiodic.h: ditto.
+	* libs/gcugtk/gcuspectrumviewer.cc: ditto.
+	* libs/gcugtk/gcuspectrumviewer.h: ditto.
+	* plugins/paint/selection/bracketstool.cc: add brackets.
+	* plugins/paint/selection/bracketstool.h: ditto.
+	* programs/calc/gchemcalc.cc: use new library.
+	* programs/crystal/Makefile.am: ditto.
+	* programs/paint/main.cc: ditto.
+	* programs/table/Makefile.am: ditto.
+	* programs/table/gchemtable-app.h: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+	* tests/Makefile.am: ditto.
+	* tests/testgcuchem3dviewer.c: ditto.
+	* tests/testgcuperiodic.c: ditto.
+
 2011-03-14  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: don't add -lOSMesa to everything.
 	* libs/gcu/application.cc: fixed export using OpenBabel.

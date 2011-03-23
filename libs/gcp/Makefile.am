@@ -115,6 +115,7 @@ libgcp_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcp_@GCU_API_VER@_la_LIBADD = \
 		$(gtk_LIBS) $(gsf_LIBS) $(goffice_LIBS) -ldl \
+		$(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 		$(top_builddir)/libs/gccv/libgccv-@GCU_API_VER@.la
 INCLUDES = \

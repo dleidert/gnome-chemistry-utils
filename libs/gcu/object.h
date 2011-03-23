@@ -27,14 +27,12 @@
 
 #include "macros.h"
 #include "matrix2d.h"
-#include <glib.h>
 #include <libxml/parser.h>
 #include <map>
 #include <set>
 #include <list>
 #include <string>
 #include <stdexcept>
-#include <gtk/gtk.h>
 
 #define square(x) ((x)*(x))
 
@@ -265,7 +263,7 @@ Use this method to iterate through the list of the Object children.
 This method searches the Object in its children and if not found calls the GetDescendant method for its children. 
 @return the Object instance of type Id if found in the decendants or NULL if not found.
 */
-	Object* GetDescendant (const gchar* Id) const;
+	Object* GetDescendant (const char* Id) const;
 /*!
 @return the parent of the Object.
 */

@@ -1,7 +1,7 @@
 AC_PREREQ(2.64)
 
 AC_INIT([gnome-chemistry-utils], [0.13.3], [http://savannah.nongnu.org/bugs/?group=gchemutils],[gnome-chemistry-utils],[http://gchemutils.nongnu.org/])
-AC_CONFIG_SRCDIR([libs/gcu/gcuperiodic.c])
+AC_CONFIG_SRCDIR([libs/gcugtk/gcuperiodic.c])
 AM_INIT_AUTOMAKE([1.11.1 dist-bzip2 dist-xz])
 AM_MAINTAINER_MODE
 AC_CANONICAL_HOST
@@ -375,6 +375,7 @@ libs/gccv/Makefile
 libs/gcp/Makefile
 libs/gcr/Makefile
 libs/gcu/Makefile
+libs/gcugtk/Makefile
 plugins/Makefile
 plugins/loaders/Makefile
 plugins/loaders/cdx/Makefile

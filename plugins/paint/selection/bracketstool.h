@@ -27,23 +27,12 @@
 
 #include <gcp/tool.h>
 #include <gcp/fontsel.h>
+#include <gccv/brackets.h>
 #include <gccv/structs.h>
 
 namespace gcp {
 	class Application;
 }
-
-typedef enum {
-	GCP_BRACKET_NORMAL,
-	GCP_BRACKET_SQUARE,
-	GCP_BRACKET_CURLY
-} gcpBracketType;
-
-typedef enum {
-	GCP_BRACKETS_BOTH,
-	GCP_BRACKETS_OPENING,
-	GCP_BRACKETS_CLOSING
-} gcpBracketsUsed;
 
 class gcpBracketsTool: public gcp::Tool
 {
@@ -63,10 +52,11 @@ public:
 	static void OnUsedChanged (GtkComboBox *box, gcpBracketsTool *tool);
 
 private:
-	gcpBracketType m_Type;
-	gcpBracketsUsed m_Used;
+	gccv::BracketsTypes m_Type;
+	gccv::BracketsUses m_Used;
 	GcpFontSel *m_FontSel;
 	gccv::Rect m_ActualBounds;
+	gccv::Item *m_Rect, *m_Bracket;
 };
 
 #endif // GCHEMPAINT_BRACKETS_TOOL_H

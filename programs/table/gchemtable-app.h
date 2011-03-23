@@ -27,7 +27,7 @@
 
 #include <gcu/application.h>
 #include <gcu/dialog.h>
-#include <gcu/gcuperiodic.h>
+#include <gcugtk/gcuperiodic.h>
 #include <map>
 
 using namespace gcu;

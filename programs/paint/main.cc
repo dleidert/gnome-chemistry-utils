@@ -37,7 +37,7 @@ extern "C" {
 #undef PACKAGE
 #define PACKAGE "gchempaint-unstable" 
 
-void cb_print_version (const gchar *option_name, const gchar *value, gpointer data, GError **error)
+void cb_print_version (G_GNUC_UNUSED char const *option_name, G_GNUC_UNUSED char const *value, G_GNUC_UNUSED gpointer data, G_GNUC_UNUSED GError **error)
 {
 	char *version = g_strconcat (_("GChemPaint version: "), VERSION, NULL);
 	puts (version);
@@ -64,7 +64,7 @@ void signalWrapper(int sig_num)
 static GOptionEntry entries[] = 
 {
   { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void*) cb_print_version, "Prints GChemPaint version", NULL },
-  { NULL }
+  { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
 int main(int argc, char *argv[])

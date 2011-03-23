@@ -4,7 +4,7 @@
  * Gnome Chemisty Utils
  * chemistry.cc
  *
- * Copyright (C) 2003-2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2003-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,50 +25,52 @@
 #include "config.h"
 #include "chemistry.h"
 #include "element.h"
+#include <sstream>
+#include <cstdarg>
 #include <cstring>
 
 extern "C"
 {
 	
 using namespace gcu;
-const gdouble* gcu_element_get_default_color(gint Z)
+const double* gcu_element_get_default_color (int Z)
 {
-	return Element::GetElement(Z)->GetDefaultColor();
+	return Element::GetElement (Z)->GetDefaultColor ();
 }
 
-const gchar* gcu_element_get_symbol(gint Z)
+char const *gcu_element_get_symbol (int Z)
 {
-	return Element::Symbol(Z);
+	return Element::Symbol (Z);
 }
 
-const gchar* gcu_element_get_name(gint Z)
+char const *gcu_element_get_name (int Z)
 {
-	return Element::GetElement(Z)->GetName();
+	return Element::GetElement (Z)->GetName ();
 }
 
-gint gcu_element_get_Z(gchar* symbol)
+int gcu_element_get_Z (char* symbol)
 {
-	return Element::Z(symbol);
+	return Element::Z (symbol);
 }
 
-gboolean gcu_element_get_radius(GcuAtomicRadius* radius)
+int gcu_element_get_radius (GcuAtomicRadius *radius)
 {
-	return Element::GetRadius(radius);
+	return Element::GetRadius (radius);
 }
 
-gboolean gcu_element_get_electronegativity(GcuElectronegativity* en)
+int gcu_element_get_electronegativity (GcuElectronegativity *en)
 {
 	return Element::GetElectronegativity(en);
 }
 
-const GcuAtomicRadius** gcu_element_get_radii(gint Z)
+const GcuAtomicRadius** gcu_element_get_radii (int Z)
 {
-	return Element::GetElement(Z)->GetRadii();
+	return Element::GetElement (Z)->GetRadii ();
 }
 
-const GcuElectronegativity** gcu_element_get_electronegativities(gint Z)
+const GcuElectronegativity** gcu_element_get_electronegativities (int Z)
 {
-	return Element::GetElement(Z)->GetElectronegativities();
+	return Element::GetElement (Z)->GetElectronegativities ();
 }
 
 void gcu_element_load_databases (char const *name, ...)
@@ -88,28 +90,10 @@ void gcu_element_load_databases (char const *name, ...)
 	va_end (l);
 }
 
-gchar* gcu_value_get_string (GcuValue const *value)
+char* gcu_value_get_string (GcuValue const *value)
 {
-	gchar *format, *str;
-	if (value->delta > 0) {
-		int delta = value->delta, prec = value->prec;
-		while (delta >= 100) {
-			delta /= 10;
-			prec--;
-		}
-		format = g_strdup_printf ("%%.%df(%%d)", prec);
-		str = g_strdup_printf (format, value->value, delta);
-	} else {
-		format = g_strdup_printf ("%%.%df", value->prec);
-		str = g_strdup_printf (format, value->value);
-	}
-	g_free (format);
-	return str;
-}
-
-gchar* gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
-{
-	gchar *format, *str;
+	std::ostringstream s;
+	char *str;
 	if (value->delta > 0) {
 		int delta = value->delta, prec = value->prec;
 		while (delta >= 100) {
@@ -117,13 +101,34 @@ gchar* gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
 			prec--;
 		}
 		// FIXME: what to do if we have a negative precision?
-		format = (prec > 0)? g_strdup_printf ("%%.%df(%%d) %%s", prec): g_strdup ("%.0f %s");
-		str = g_strdup_printf (format, value->value, delta, value->unit);
+		s.precision (prec);
+		s << std::fixed << value->value << '(' << delta << ')';
 	} else {
-		format = g_strdup_printf ("%%.%df %%s", value->prec);
-		str = g_strdup_printf (format, value->value, value->unit);
+		s.precision (value->prec);
+		s << std::fixed << value->value;
 	}
-	g_free (format);
+	str = strdup (s.str ().c_str ());
+	return str;
+}
+
+char *gcu_dimensional_value_get_string (GcuDimensionalValue const *value)
+{
+	std::ostringstream s;
+	char *str;
+	if (value->delta > 0) {
+		int delta = value->delta, prec = value->prec;
+		while (delta >= 100) {
+			delta /= 10;
+			prec--;
+		}
+		// FIXME: what to do if we have a negative precision?
+		s.precision (prec);
+		s << std::fixed << value->value << '(' << delta << ") " << value->unit;
+	} else {
+		s.precision (value->prec);
+		s << std::fixed << value->value << value->unit;
+	}
+	str = strdup (s.str ().c_str ());
 	return str;
 }
 

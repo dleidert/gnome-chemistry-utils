@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * element.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,6 @@
 #ifndef GCU_ELEMENT_H
 #define GCU_ELEMENT_H
 
-#include <glib.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -78,7 +77,7 @@ public:
 	@param Z: the atomic number of a chemical element.
 	@return The chemical symbol of the element whose atomic number is Z or NULL if the element is unknown.
 	*/
-	static const gchar* Symbol (gint Z);
+	static const char* Symbol (int Z);
 	/*!
 	@param Z: the atomic number of a chemical element.
 
@@ -86,22 +85,22 @@ public:
 	attached hydrogens should be written.
 	@return true if hydrogens should be written on the right and false when it should be written on the left side.
 	*/
-	static bool BestSide (gint Z);
+	static bool BestSide (int Z);
 	/*!
 	@param symbol: the symbol of a chemical element.
 	@return The atomic number of the element whose chemical symbol is used as parameter or 0 if the element is unknown.
 	*/
-	static gint Z (const gchar* symbol);
+	static int Z (const char* symbol);
 	/*!
 	@param Z: the atomic number of a chemical element.
 	@return a pointer to the Element whose atomic number is Z or NULL if the element is unknown.
 	*/
-	static Element* GetElement (gint Z);
+	static Element* GetElement (int Z);
 	/*!
 	@param symbol: the symbol of a chemical element.
 	@return a pointer to the Element whose symbol is used as parameter or NULL if the element is unknown.
 	*/
-	static Element* GetElement (const gchar* symbol);
+	static Element* GetElement (const char* symbol);
 	/*!
 	@param radius: a pointer to a GcuAtomicRadius structure.
 	
@@ -142,7 +141,7 @@ public:
 	accept any number of bonds. This behavior might change in future versions.
 	@return the maximum number of bonds an atom of the element can be involved in.
 	*/
-	static unsigned GetMaxBonds (gint Z);
+	static unsigned GetMaxBonds (int Z);
 	/*!
 	Loads the atomic radii database.
 	*/

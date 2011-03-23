@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/calc/gchemcalc.cc 
  *
- * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -317,6 +317,11 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 	                       NULL);
 }
 
+static void clear_values (double *values)
+{
+	delete [] values;
+}
+
 static void cb_entry_active (GtkEntry *entry, gpointer data)
 {
 	GError *error;
@@ -430,9 +435,9 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 				x[i] = mass + n;
 				y[i] = values[n];
 			}
-			GOData *data = go_data_vector_val_new (x, max, g_free);
+			GOData *data = go_data_vector_val_new (x, max, reinterpret_cast <GDestroyNotify> (clear_values));
 			gog_series_set_dim (App->series, 0, data, &error);
-			data = go_data_vector_val_new (y, max, g_free);
+			data = go_data_vector_val_new (y, max, reinterpret_cast <GDestroyNotify> (clear_values));
 			gog_series_set_dim (App->series, 1, data, &error);
 			g_free (values);
 			// set axis bounds

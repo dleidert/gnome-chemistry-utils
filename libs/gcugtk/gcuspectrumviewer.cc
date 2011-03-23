@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * gcuspectrumviewer.cc
  *
- * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,8 +22,8 @@
 
 #include "config.h"
 #include "gcuspectrumviewer.h"
-#include "spectrumdoc.h"
-#include "spectrumview.h"
+#include <gcu/spectrumdoc.h>
+#include <gcu/spectrumview.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkbin.h>
 
