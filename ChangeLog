@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
+	* openbabel/babelserv.cc: don't use POLLRDHUP when not defined. [#32768]
+	* osmesa/osmesaserv.cc: ditto.
+
 2011-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* configure.ac: add new library.
 	* libs/Makefile.am: ditto.

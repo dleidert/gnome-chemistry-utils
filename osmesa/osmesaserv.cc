@@ -112,7 +112,11 @@ int main (int argc, char *argv[])
 					return -5;
 				}
 				_fds.fd = service_socket;
+#ifdef POLLRDHUP
 				_fds.events = POLLIN | POLLRDHUP;
+#else
+				_fds.events = POLLIN;
+#endif
 				_fds.revents = 0;
 				fds.push_back (_fds);
 				sockets[service_socket] = new OSMesaSocket (service_socket);
@@ -127,11 +131,13 @@ int main (int argc, char *argv[])
 						deleted.insert (i);
 					}
 				}
+#ifdef POLLRDHUP
 				if (fds[i].revents & POLLRDHUP) {
 					delete sockets[fds[i].fd];
 					sockets.erase (fds[i].fd);
 					deleted.insert (i);
 				}
+#endif
 				fds[i].revents = 0;
 			}
 			// remove closed sockets
