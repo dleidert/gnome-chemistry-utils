@@ -57,7 +57,6 @@ libs/gcu/element.cc
 libs/gcu/filechooser.cc
 libs/gcu/formula.cc
 libs/gcu/glview.cc
-libs/gcu/gcuperiodic.c
 libs/gcu/loader.cc
 libs/gcu/molecule.cc
 libs/gcu/object.cc
@@ -70,6 +69,7 @@ libs/gcu/ui-builder.cc
 libs/gcu/value.cc
 libs/gcugtk/gcuchem3dviewer.cc
 libs/gcugtk/gcucomboperiodic.c
+libs/gcugtk/gcuperiodic.c
 plugins/loaders/cdx/cdx.cc
 plugins/loaders/cdx/plugin.xml.in
 plugins/loaders/cdxml/cdxml.cc
@@ -85,6 +85,8 @@ plugins/paint/arrows/arrowtool.cc
 [type: gettext/glade]plugins/paint/arrows/arrowtool.ui
 [type: gettext/glade]plugins/paint/arrows/curvedarrowtool.ui
 plugins/paint/arrows/gchempaint-arrows.schemas.in
+plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in
+plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in
 plugins/paint/arrows/plugin.cc
 plugins/paint/arrows/retrosynthesis.cc
 plugins/paint/arrows/retrosynthesisarrow.cc
@@ -150,6 +152,12 @@ programs/table/gchemtable-curve.cc
 programs/table/gchemtable-data-allocator.cc
 programs/table/gchemtable-data.cc
 programs/table/gchemtable.desktop.in
+schemas/org.gnome.gchemutils.crystal.gschema.xml.in
+schemas/org.gnome.gchemutils.crystal.gschema.xml.in.in
+schemas/org.gnome.gchemutils.gschema.xml.in
+schemas/org.gnome.gchemutils.gschema.xml.in.in
+schemas/org.gnome.gchemutils.paint.gschema.xml.in
+schemas/org.gnome.gchemutils.paint.gschema.xml.in.in
 templates/paint/haworth.xml.in
 templates/paint/templates.xml.in
 [type: gettext/glade]ui/calc/gchemcalc.ui
@@ -171,6 +179,7 @@ templates/paint/templates.xml.in
 [type: gettext/glade]ui/paint/H-pos.ui
 [type: gettext/glade]ui/paint/newfiledlg.ui
 [type: gettext/glade]ui/paint/preferences.ui
+[type: gettext/glade]ui/paint/stringinputdlg.ui
 [type: gettext/glade]ui/paint/tools.ui
 [type: gettext/glade]ui/paint/zoom.ui
 [type: gettext/glade]ui/table/acidity.ui

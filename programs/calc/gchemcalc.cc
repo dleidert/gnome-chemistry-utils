@@ -275,11 +275,6 @@ static void on_bug (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gpointer data
 	App->OnBug ();
 }
 
-static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, G_GNUC_UNUSED gpointer data)
-{
-	App->OnWeb (url);
-}
-
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
@@ -299,8 +294,6 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED void *data)
 		"along with this program; if not, write to the Free Software\n"
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
-	
-	gtk_about_dialog_set_url_hook (on_about_activate_url, NULL, NULL);
 
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
 	const gchar * translator_credits = _("translator_credits");

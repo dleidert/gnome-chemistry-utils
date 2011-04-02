@@ -61,7 +61,11 @@ happen if the user edits the preference when this dialog is opened.
 	void OnThemeNamesChanged ();
 
 private:
+#if GTK_CHECK_VERSION (2, 24, 0)
+	GtkComboBoxText *m_Box;
+#else
 	GtkComboBox *m_Box;
+#endif
 	unsigned m_Lines;
 	gulong m_ChangedSignal;
 

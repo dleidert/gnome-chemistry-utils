@@ -102,11 +102,6 @@ static void on_block_colors (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *App
 	App->SetColorScheme ("block");
 }
 
-static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, gpointer data)
-{
-	reinterpret_cast <Application *> (data)->OnWeb (url);
-}
-
 static void on_help (G_GNUC_UNUSED GtkWidget *widget, GChemTableApp *app)
 {
 	app->OnHelp ();
@@ -412,8 +407,6 @@ void GChemTableApp::OnAbout ()
 		"along with this program; if not, write to the Free Software\n"
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301\n"
 		"USA";
-	
-	gtk_about_dialog_set_url_hook (on_about_activate_url, this, NULL);
 
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
 	const gchar * translator_credits = _("translator_credits");

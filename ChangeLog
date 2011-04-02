@@ -1,5 +1,26 @@
 ##Text encoding: utf-8
 
+2011-04-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/docprop.cc: make things compile with gtk+-2.14.
+	* libs/gcp/docprop.h: ditto.
+	* libs/gcp/newfiledlg.cc: ditto.
+	* libs/gcp/newfiledlg.h: ditto.
+	* libs/gcp/preferences.cc: ditto.
+	* libs/gcp/preferences.h: ditto.
+	* libs/gcp/reaction-prop-dlg.cc: ditto.
+	* libs/gcr/atomsdlg.cc: ditto.
+	* libs/gcu/filechooser.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* plugins/paint/residues/residues-dlg.cc: ditto.
+	* plugins/paint/templates/templatetool.cc: ditto.
+	* programs/3d/window.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/crystal/window.cc: ditto.
+	* programs/spectra/window.cc: ditto.
+	* programs/table/gchemtable-app.cc: ditto.
+	* programs/table/gchemtable-data-allocator.cc: ditto.
+	* ui/crystal/atoms.ui: make VBoxes really vertical.
+
 2011-03-24  Jean Bréfort  <jean.brefort@normalesup.org>
 	* openbabel/babelserv.cc: don't use POLLRDHUP when not defined. [#32768]
 	* osmesa/osmesaserv.cc: ditto.

@@ -2194,9 +2194,15 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	if (go_finite (freq)) {
 		w = gtk_label_new (_("X unit:"));
 		gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+#if GTK_CHECK_VERSION (2, 24, 0)
+		w = gtk_combo_box_text_new ();
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Chemical shift (ppm)"));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Frequency (Hz)"));
+#else
 		w = gtk_combo_box_new_text ();
 		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
 		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
+#endif
 		SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 		gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
 		g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
@@ -2290,9 +2296,15 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 		if (go_finite (freq)) {
 			w = gtk_label_new (_("X unit:"));
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+#if GTK_CHECK_VERSION (2, 24, 0)
+			w = gtk_combo_box_text_new ();
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Chemical shift (ppm)"));
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Frequency (Hz)"));
+#else
 			w = gtk_combo_box_new_text ();
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Chemical shift (ppm)"));
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Frequency (Hz)"));
+#endif
 			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_PPM)? 0: 1));
 			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
@@ -2346,12 +2358,21 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			GtkWidget *box = gtk_hbox_new (false, 5), *w;
 			w = gtk_label_new (_("X unit:"));
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+#if GTK_CHECK_VERSION (2, 24, 0)
+			w = gtk_combo_box_text_new ();
+			if  (unit == GCU_SPECTRUM_UNIT_NANOMETERS)
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave length (nm)"));
+			else
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave length (µm)"));
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Wave number (1/cm)"));
+#else
 			w = gtk_combo_box_new_text ();
 			if  (unit == GCU_SPECTRUM_UNIT_NANOMETERS)
 				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (nm)"));
 			else
 				gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave length (µm)"));
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Wave number (1/cm)"));
+#endif
 			SpectrumUnitType unit = (X >= 0)? variables[X].Unit: m_XUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_CM_1)? 1: 0));
 			g_signal_connect (w, "changed", G_CALLBACK (on_xunit_changed), this);
@@ -2363,9 +2384,15 @@ bool SpectrumDocument::Loaded () throw (gcu::LoaderError)
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 12);
 			w = gtk_label_new (_("Y unit:"));
 			gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
+#if GTK_CHECK_VERSION (2, 24, 0)
+			w = gtk_combo_box_text_new ();
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Absorbance"));
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w), _("Transmittance"));
+#else
 			w = gtk_combo_box_new_text ();
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Absorbance"));
 			gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Transmittance"));
+#endif
 			unit = (Y >= 0)? variables[Y].Unit: m_YUnit;
 			gtk_combo_box_set_active (GTK_COMBO_BOX (w), ((unit == GCU_SPECTRUM_UNIT_ABSORBANCE)? 0: 1));
 			g_signal_connect (w, "changed", G_CALLBACK (on_yunit_changed), this);

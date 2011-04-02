@@ -177,7 +177,17 @@ graph_dim_editor_free (GraphDimEditor *editor)
 
 static void on_vector_data_changed (GtkComboBox *box, GraphDimEditor *editor)
 {
+#if GTK_CHECK_VERSION (2, 24, 0)
+	char *name;
+	GtkTreeIter iter;
+	GtkTreePath *path = gtk_tree_path_new_from_indices (gtk_combo_box_get_active (box), -1);
+	GtkTreeModel *model = gtk_combo_box_get_model (box);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+	gtk_tree_model_get (model, &iter, 0, &name, -1);
+#else
 	char *name = gtk_combo_box_get_active_text (box);
+#endif
 	GOData *data = gct_data_vector_get_from_name (name);
 	gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
 	g_free (name);
@@ -207,12 +217,24 @@ gct_data_allocator_editor (G_GNUC_UNUSED GogDataAllocator *dalloc,
 		GOData *data = gog_dataset_get_dim (dataset, dim_i), *cur;
 		int i = 1, sel = 0;
 		GtkComboBox *box = GTK_COMBO_BOX (editor->box);
+#if GTK_CHECK_VERSION (2, 24, 0)
+		GtkListStore *list = GTK_LIST_STORE (gtk_combo_box_get_model (box));
+		GtkTreeIter iter;
+		gtk_list_store_append (list, &iter);
+		gtk_list_store_set (list, &iter, 0, _("None"), -1);
+#else
 		gtk_combo_box_append_text (box, _("None"));
+#endif
 		if (data_type == GOG_DATA_VECTOR) {
 			void *closure = NULL;
 			char const *entry = gct_data_vector_get_first (&cur, &closure);
 			while (entry)  {
+#if GTK_CHECK_VERSION (2, 24, 0)
+				gtk_list_store_append (list, &iter);
+				gtk_list_store_set (list, &iter, 0, entry, -1);
+#else
 				gtk_combo_box_append_text (box, entry);
+#endif
 				if (cur == data)
 					sel = i;
 				i++;

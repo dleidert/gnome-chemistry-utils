@@ -118,11 +118,6 @@ static void on_prefs (G_GNUC_UNUSED GtkWidget* widget, gcWindow* Win)
 	new gcPrefsDlg (Win->GetApp ());
 }
 
-static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, gpointer data)
-{
-	reinterpret_cast <gcWindow *> (data)->GetApp ()->OnWeb (url);
-}
-
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
 	char const *authors[] = {"Jean Bréfort", NULL};
@@ -141,7 +136,6 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301\n"
 		"USA";
 
-	gtk_about_dialog_set_url_hook (on_about_activate_url, Win, NULL);
 /* Note to translators: replace the following string with the appropriate credits for you lang */
 	char const *translator_credits = _("translator_credits");
 	GdkPixbuf *logo = gdk_pixbuf_new_from_file (PIXMAPSDIR"/gcrystal_logo.png", NULL);

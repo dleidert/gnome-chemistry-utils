@@ -319,7 +319,9 @@ gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
 			  NAME_COLUMN, (*it).c_str(),
 			  -1);
 	}
-	w = gtk_combo_box_entry_new_with_model (GTK_TREE_MODEL (model), NAME_COLUMN);
+	w = gtk_combo_box_new_with_entry ();
+	gtk_combo_box_set_model (GTK_COMBO_BOX (w), GTK_TREE_MODEL (model));
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (w), NAME_COLUMN);
 	g_object_unref (model);
 	gtk_table_attach_defaults (GTK_TABLE (GetWidget ("table1")), w, 1, 2, 1, 2);
 	gtk_widget_show (w);

@@ -285,10 +285,17 @@ static bool on_delete_event (GtkWidget* widget, G_GNUC_UNUSED GdkEvent *event, P
 	return res;
 }
 
+#if GTK_CHECK_VERSION (2, 24, 0)
+static void on_default_theme_changed (GtkComboBoxText *box, PrefsDlg* dlg)
+{
+	PrefsDlgPrivate::SetDefaultTheme (dlg, gtk_combo_box_text_get_active_text (box));
+}
+#else
 static void on_default_theme_changed (GtkComboBox *box, PrefsDlg* dlg)
 {
 	PrefsDlgPrivate::SetDefaultTheme (dlg, gtk_combo_box_get_active_text (box));
 }
+#endif
 
 PrefsDlg::PrefsDlg (Application *pApp):
 	Dialog (pApp, UIDIR"/preferences.ui", "preferences", GETTEXT_PACKAGE, pApp),
@@ -379,16 +386,24 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	if (default_name == "Default")
 			default_name = _("Default");
 	Theme *theme, *default_theme = TheThemeManager.GetDefaultTheme ();
+#if GTK_CHECK_VERSION (2, 24, 0)
+	m_DefaultThemeBox = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
+#else
 	m_DefaultThemeBox = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+#endif
 	gtk_table_attach (GTK_TABLE (GetWidget ("table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 2, 3,
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 	int n = 0;
 	for (i = theme_names.begin (); i != iend; i++) {
 		theme = TheThemeManager.GetTheme (*i);
+#if GTK_CHECK_VERSION (2, 24, 0)
+		gtk_combo_box_text_append_text (m_DefaultThemeBox, (*i).c_str ());
+#else
 		gtk_combo_box_append_text (m_DefaultThemeBox, (*i).c_str ());
+#endif
 		if (theme == default_theme)
-			gtk_combo_box_set_active (m_DefaultThemeBox, n);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (m_DefaultThemeBox), n);
 		n++;
 		if (theme)
 			theme->AddClient (this);

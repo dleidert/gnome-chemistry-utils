@@ -52,23 +52,40 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 	list<string>::iterator i, iend = mime_types.end ();
 	for (i = mime_types.begin (); i != iend; i++)
 		gtk_file_filter_add_mime_type (filter, (*i).c_str ());
+#if GTK_CHECK_VERSION (2, 24, 0)
+	GtkComboBoxText *format_combo = NULL;
+#else
 	GtkComboBox *format_combo = NULL;
+#endif
 	if (!Save)
 		gtk_file_chooser_set_select_multiple (chooser, true);
 	if (mime_types.size () > 1) {
 		GtkWidget *box = gtk_hbox_new (FALSE, 2);
 		GtkWidget *label = gtk_label_new_with_mnemonic (_("File _type:"));
+#if GTK_CHECK_VERSION (2, 24, 0)
+		format_combo = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
+		gtk_combo_box_text_append_text (format_combo, _("Automatic"));
+#else
 		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
 		gtk_combo_box_append_text (format_combo, _("Automatic"));
+#endif
 		for (i = mime_types.begin (); i != iend; i++) {
 			char *type = go_mime_type_get_description ((*i).c_str ());
 			if (type) {
+#if GTK_CHECK_VERSION (2, 24, 0)
+				gtk_combo_box_text_append_text (format_combo, type);
+#else
 				gtk_combo_box_append_text (format_combo, type);
+#endif
 				g_free (type);
 			} else
+#if GTK_CHECK_VERSION (2, 24, 0)
+				gtk_combo_box_text_append_text (format_combo, (*i).c_str ());
+#else
 				gtk_combo_box_append_text (format_combo, (*i).c_str ());
+#endif
 		}
-		gtk_combo_box_set_active (format_combo, 0);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (format_combo), 0);
 
 		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 12);
@@ -100,7 +117,7 @@ FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, 
 		if (mime_types.size () == 1)
 			mime_type = mime_types.front ();
 		else if (mime_types.size () > 0) {
-			int j = gtk_combo_box_get_active (format_combo);
+			int j = gtk_combo_box_get_active (GTK_COMBO_BOX (format_combo));
 			if (j > 0) {
 				i = mime_types.begin ();
 				while (--j > 0)

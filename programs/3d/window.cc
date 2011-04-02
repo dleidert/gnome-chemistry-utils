@@ -115,11 +115,6 @@ static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *win
 	window->GetApp ()->OnLiveAssistance ();
 }
 
-static void on_about_activate_url (G_GNUC_UNUSED GtkAboutDialog *about, const gchar *url, gpointer data)
-{
-	reinterpret_cast <gc3dWindow *> (data)->GetApp ()->OnWeb (url);
-}
-
 static void on_about (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
@@ -140,8 +135,6 @@ static void on_about (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
 		"Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02111-1307\n"
 		"USA";
 	
-	gtk_about_dialog_set_url_hook (on_about_activate_url, window, NULL);
-
 	/* Note to translators: replace the following string with the appropriate credits for you lang */
 	const gchar * translator_credits = _("translator_credits");
 	gtk_show_about_dialog (NULL,

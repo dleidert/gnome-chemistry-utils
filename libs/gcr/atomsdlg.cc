@@ -602,8 +602,14 @@ void AtomsDlg::PopulateRadiiMenu ()
 	const GcuAtomicRadius **radius = m_Radii;
 	int i = m_RadiiIndex.size () - 2;
 	g_signal_handler_block (RadiusMenu, m_RadiiSignalID);
+#if GTK_CHECK_VERSION (2, 24, 0)
+	GtkListStore *list = GTK_LIST_STORE (gtk_combo_box_get_model (RadiusMenu));
+	GtkTreeIter iter;
+	gtk_list_store_clear (list);
+#else
 	for (int j = 0; j <= i; j++)
 		gtk_combo_box_remove_text (RadiusMenu, 1);
+#endif
 	m_RadiiIndex.clear ();
 	string str;
 	m_RadiiIndex.push_back (-1);
@@ -627,7 +633,12 @@ void AtomsDlg::PopulateRadiiMenu ()
 				str += string(" (") + string(((*radius)->spin == GCU_LOW_SPIN)? _("low spin"): _("high spin")) + string(")");
 			if (!str.length())
 				str = _("Database");
+#if GTK_CHECK_VERSION (2, 24, 0)
+			gtk_list_store_append (list, &iter);
+			gtk_list_store_set (list, &iter, 0, str.c_str (), -1);
+#else
 			gtk_combo_box_append_text (RadiusMenu, str.c_str ());
+#endif
 			m_RadiiIndex.push_back(i++);
 			radius++;
 		}

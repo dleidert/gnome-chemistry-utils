@@ -35,9 +35,15 @@ using namespace std;
 
 namespace gcp {
 
+#if GTK_CHECK_VERSION (2, 24, 0)
+static void on_theme_changed (GtkComboBoxText *box, DocPropDlg *dlg)
+{
+	dlg->OnThemeChanged (TheThemeManager.GetTheme (gtk_combo_box_text_get_active_text (box)));
+#else
 static void on_theme_changed (GtkComboBox *box, DocPropDlg *dlg)
 {
 	dlg->OnThemeChanged (TheThemeManager.GetTheme (gtk_combo_box_get_active_text (box)));
+#endif
 }
 
 static void on_title_changed (GtkEntry *entry, DocPropDlg *dlg)
@@ -128,7 +134,11 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 		gtk_text_buffer_set_text (Buffer, chn , -1);
 	g_signal_connect (G_OBJECT (Buffer), "changed", G_CALLBACK (on_comments_changed), this);
 	GtkWidget *w = GetWidget ("props-table");
+#if GTK_CHECK_VERSION (2, 24, 0)
+	m_Box = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
+#else
 	m_Box = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+#endif
 	gtk_table_attach (GTK_TABLE (w), GTK_WIDGET (m_Box), 1, 2, 8, 9,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
@@ -138,7 +148,11 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	m_Lines = names.size ();
 	int nb = 0, n;
 	for (i = names.begin (), n = 0; i != end; i++, n++) {
+#if GTK_CHECK_VERSION (2, 24, 0)
+		gtk_combo_box_text_append_text (m_Box, (*i).c_str ());
+#else
 		gtk_combo_box_append_text (m_Box, (*i).c_str ());
+#endif
 		theme = TheThemeManager.GetTheme (*i);
 		if (theme) {
 			theme->AddClient (this);
@@ -146,7 +160,7 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 				nb = n;
 		}
 	}
-	gtk_combo_box_set_active (m_Box, nb);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (m_Box), nb);
 	m_ChangedSignal = g_signal_connect (G_OBJECT (m_Box), "changed", G_CALLBACK (on_theme_changed), this);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
@@ -167,17 +181,25 @@ void DocPropDlg::OnThemeNamesChanged ()
 {
 	list <string> names = TheThemeManager.GetThemesNames ();
 	list <string>::iterator i, end = names.end ();
-	int n, nb = gtk_combo_box_get_active (m_Box);
+	int n, nb = gtk_combo_box_get_active (GTK_COMBO_BOX (m_Box));
 	g_signal_handler_block (m_Box, m_ChangedSignal);
 	while (m_Lines--)
+#if GTK_CHECK_VERSION (2, 24, 0)
+		gtk_combo_box_text_remove (m_Box, 0);
+#else
 		gtk_combo_box_remove_text (m_Box, 0);
+#endif
 	for (i = names.begin (), n = 0; i != end; i++, n++) {
+#if GTK_CHECK_VERSION (2, 24, 0)
+		gtk_combo_box_text_append_text (m_Box, (*i).c_str ());
+#else
 		gtk_combo_box_append_text (m_Box, (*i).c_str ());
+#endif
 		if (m_pDoc->GetTheme () == TheThemeManager.GetTheme (*i))
 			nb = n;
 	}
 	m_Lines = names.size ();
-	gtk_combo_box_set_active (m_Box, nb);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (m_Box), nb);
 	g_signal_handler_unblock (m_Box, m_ChangedSignal);
 }
 

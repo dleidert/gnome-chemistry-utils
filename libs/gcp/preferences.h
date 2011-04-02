@@ -101,7 +101,11 @@ private:
 	GcpFontSel *m_TextFontSel, *m_FontSel;
 	gulong m_NameActivate, m_NameFocusOut, m_TextFontChanged, m_FontChanged;
 	GtkTreePath *m_Path;
+#if GTK_CHECK_VERSION (2, 24, 0)
+	GtkComboBoxText *m_DefaultThemeBox;
+#else
 	GtkComboBox *m_DefaultThemeBox;
+#endif
 };
 
 }	//	namespace gcp

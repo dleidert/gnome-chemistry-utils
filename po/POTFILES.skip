@@ -5,3 +5,5 @@ programs/crystal/gcrystal.desktop.in.in
 programs/paint/gchempaint.desktop.in.in
 programs/spectra/gspectrum.desktop.in.in
 programs/table/gchemtable.desktop.in.in
+plugins/paint/wikipedia/plugin.cc
+plugins/paint/wikipedia/wikipediatool.cc
