@@ -1,11 +1,8 @@
-2011-04-02  Jean Brefort  <jean.brefort@normalesup.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* POTFILES.in:
-	* POTFILES.skip:
-
 ##Text encoding: utf-8
+
+2011-04-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: updated file list.
+	* POTFILES.skip: ditto.
 
 2011-03-23  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: moved some files from gcu to gcugtk.
