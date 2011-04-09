@@ -123,6 +123,7 @@ Brackets::Brackets (Canvas *canvas, BracketsTypes type, BracketsUses used, char 
 	m_y1 = y1;
 	SetType (type);
 	m_Used = used;
+	m_Color = GO_COLOR_BLACK;
 	BoundsChanged ();
 	Invalidate ();
 }
@@ -137,6 +138,7 @@ Brackets::Brackets (Group *parent, BracketsTypes type, BracketsUses used, char c
 	m_y1 = y1;
 	SetType (type);
 	m_Used = used;
+	m_Color = GO_COLOR_BLACK;
 	BoundsChanged ();
 	Invalidate ();
 }
@@ -177,6 +179,45 @@ double Brackets::Distance (double x, double y, Item **item) const
 
 void Brackets::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
+	PangoLayout *layout = pango_layout_new (gccv::Text::GetContext ());
+	int w;
+	PangoFontDescription *desc = pango_font_description_from_string (m_FontDesc.c_str ());
+	pango_layout_set_font_description (layout, desc);
+	pango_font_description_free (desc);
+	cairo_save (cr);
+	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (m_Color));
+	switch (m_Type) {
+	case BracketsTypeNormal:
+		if (m_Used & BracketsOpening) {
+			if (m_Elems == 1) {
+				pango_layout_set_text (layout, "(", 1);
+				pango_layout_get_size (layout, &w, NULL);
+				cairo_move_to (cr, m_x0 - (double) w * m_Zoom / PANGO_SCALE, m_y0);
+				if (m_Zoom > 1.)
+					cairo_scale (cr, m_Zoom, m_Zoom);
+				pango_cairo_show_layout (cr, layout);
+			} else if (m_Elems == 2) {
+			} else {
+			}
+		}
+		if (m_Used & BracketsClosing) {
+		}
+		break;
+	case BracketsTypeSquare:
+		if (m_Used & BracketsOpening) {
+		}
+		if (m_Used & BracketsClosing) {
+		}
+		break;
+	case BracketsTypeCurly:
+		if (m_Used & BracketsOpening) {
+		}
+		if (m_Used & BracketsClosing) {
+		}
+		break;
+	}
+	g_object_unref (layout);
+	cairo_restore (cr);
 }
 
 void Brackets::Move (double x, double y)
@@ -202,11 +243,30 @@ void Brackets::UpdateBounds ()
 	switch (m_Type) {
 	case BracketsTypeNormal:
 		if (height <  m_Metrics->rnheight) {
-				m_Elems = 1;
-				m_Zoom = 1;
-	}
+			m_Elems = 1;
+			m_Zoom = 1.;
+		} else if (height < m_Metrics->rntheight + m_Metrics->rnbheight) {
+			m_Elems = 1;
+			m_Zoom = height / m_Metrics->rnheight;
+		} else if (height < m_Metrics->rntheight + m_Metrics->rnbheight + m_Metrics->rnmheight) {
+			m_Elems = 2;
+			m_Zoom =  height / (m_Metrics->rntheight + m_Metrics->rnbheight);
+		} else {
+			m_Elems = ceil ((height - m_Metrics->rntheight - m_Metrics->rnbheight) / m_Metrics->rnmheight);
+			m_Zoom = 1.;
+		}
 		break;
 	case BracketsTypeSquare:
+		if (height <  m_Metrics->sqheight) {
+			m_Elems = 1;
+			m_Zoom = 1.;
+		} else if (height < m_Metrics->sqtheight + m_Metrics->sqbheight) {
+			m_Elems = 1;
+			m_Zoom = height / m_Metrics->sqheight;
+		} else if (height < m_Metrics->sqtheight + m_Metrics->sqbheight + m_Metrics->sqmheight) {
+			m_Elems = ceil ((height - m_Metrics->sqtheight - m_Metrics->sqbheight) / m_Metrics->sqmheight);
+			m_Zoom = 1.;
+		}
 		break;
 	case BracketsTypeCurly:
 		break;

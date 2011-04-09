@@ -54,7 +54,7 @@ typedef enum
 {
 /*!
 */
-	BracketsOpening,
+	BracketsOpening = 1,
 /*!
 */
 	BracketsClosing,

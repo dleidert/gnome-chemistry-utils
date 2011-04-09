@@ -132,12 +132,11 @@ void gcpBracketsTool::OnDrag ()
 		if ((*i)->CanSelect ())
 			m_pData->SetSelected (*i);
 	m_pData->SimplifySelection ();
+	gccv::Rect r = m_ActualBounds;
 	if (Evaluate ()) {
-		gccv::Rect r;
 		static_cast < gccv::LineItem * > (m_Rect)->SetLineColor (gcp::AddColor);
-		m_pData->GetSelectionBounds (r);
-		// TODO: store last selection size and change position only when necessary
-		static_cast < gccv::Brackets * > (m_Bracket)->SetPosition (r.x0, r.y0, r.x1, r.y1);
+		if (r.x0 != m_ActualBounds.x0 || r.y0 != m_ActualBounds.y0 || r.x1 != m_ActualBounds.x1 || r.y1 != m_ActualBounds.y1)
+			static_cast < gccv::Brackets * > (m_Bracket)->SetPosition (r.x0, r.y0, r.x1, r.y1);
 		m_Bracket->SetVisible (true);
 	} else {
 		static_cast < gccv::LineItem * > (m_Rect)->SetLineColor (gcp::DeleteColor);
@@ -235,6 +234,8 @@ bool gcpBracketsTool::Evaluate ()
 			if ((*i)->GetMolecule () != molecule)
 				goto not_a_molecule;
 		// now we need to test whether all selected atoms are connected (is this true?)
+		m_pData->GetSelectionBounds (m_ActualBounds);
+		return true;
 	}
 not_a_molecule:
 	return false;

@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/brackets.cc: start showing brackets.
+	* libs/gccv/brackets.h: ditto.
+	* plugins/paint/selection/bracketstool.cc: ditto.
+
 2011-04-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/docprop.cc: make things compile with gtk+-2.14.
 	* libs/gcp/docprop.h: ditto.
