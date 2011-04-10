@@ -26,6 +26,7 @@
 #define GCCV_BRACKETS_H
 
 #include "item.h"
+#include <list>
 #include <string>
 
 namespace gccv {
@@ -62,7 +63,14 @@ typedef enum
 */
 	BracketsBoth
 } BracketsUses;
-	 
+
+typedef struct
+{
+	char const *ch;
+	double x, y, w, h, offset;
+	bool needs_clip;
+} BracketElem;
+
 class Brackets: public Item
 {
 public:
@@ -125,8 +133,7 @@ private:
 	BracketsMetrics const *m_Metrics;
 //	std::string m_FontDesc;
 	double m_x0, m_y0, m_x1, m_y1;
-	unsigned m_Elems;
-	double m_Zoom;	// FIXME: use actual size
+	std::list < BracketElem > m_Elems;
 
 /*!\fn SetSize(double size)
 @param size the new brackets size.

@@ -38,11 +38,11 @@ namespace gccv {
 struct _BracketsMetrics
 {
 	//round brackets metrics
-	double rnheight, rnwidth, rntheight, rnbheight, rnmheight, rnmwidth;
+	double rnheight, rnyoffset, rnwidth, rntheight, rntyoffset, rnbheight, rnmheight, rnmwidth;
 	//square brackets metrics
-	double sqheight, sqwidth, sqtheight, sqbheight, sqmheight, sqmwidth;
+	double sqheight, sqyoffset, sqwidth, sqtheight, sqtyoffset, sqbheight, sqmheight, sqmwidth;
 	//curly brackets metrics
-	double cyheight, cywidth, cytheight, cybheight, cymheight, cymwidth, cyeheight;
+	double cyheight, cyyoffset, cywidth, cytheight, cytyoffset, cybheight, cymheight, cymwidth, cyeheight;
 };
 
 static std::map <std::string, BracketsMetrics> BracketsMetricsMap;
@@ -57,46 +57,52 @@ static BracketsMetrics const *GetBracketsMetrics (std::string &fontdesc)
 		PangoFontDescription *desc = pango_font_description_from_string (fontdesc.c_str ());
 		pango_layout_set_font_description (layout, desc);
 		pango_font_description_free (desc);
-		PangoRectangle rect;
+		PangoRectangle rect, log;
 		pango_layout_set_text (layout, "[", 1);
-		pango_layout_get_extents (layout, &rect, NULL);
+		pango_layout_get_extents (layout, &rect, &log);
 		bm.sqheight = static_cast <double> (rect.height) / PANGO_SCALE;
-		bm.sqwidth = static_cast <double> (rect.width) / PANGO_SCALE;
+		bm.sqyoffset = static_cast <double> (rect.y) / PANGO_SCALE;
+		bm.sqwidth = static_cast <double> (log.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎡", -1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.sqtheight = static_cast <double> (rect.height) / PANGO_SCALE;
+		bm.sqtyoffset = static_cast <double> (rect.y) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎢", -1);
-		pango_layout_get_extents (layout, &rect, NULL);
+		pango_layout_get_extents (layout, &rect, &log);
 		bm.sqmheight = static_cast <double> (rect.height) / PANGO_SCALE;
-		bm.sqmwidth = static_cast <double> (rect.width) / PANGO_SCALE;
+		bm.sqmwidth = static_cast <double> (log.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎣", -1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.sqbheight = static_cast <double> (rect.height) / PANGO_SCALE;
 		pango_layout_set_text (layout, "(", -1);
-		pango_layout_get_extents (layout, &rect, NULL);
+		pango_layout_get_extents (layout, &rect, &log);
 		bm.rnheight = static_cast <double> (rect.height) / PANGO_SCALE;
-		bm.rnwidth = static_cast <double> (rect.width) / PANGO_SCALE;
+		bm.rnyoffset = static_cast <double> (rect.y) / PANGO_SCALE;
+		bm.rnwidth = static_cast <double> (log.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎛", -1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.rntheight = static_cast <double> (rect.height) / PANGO_SCALE;
+		bm.rntyoffset = static_cast <double> (rect.y) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎜", -1);
-		pango_layout_get_extents (layout, &rect, NULL);
+		pango_layout_get_extents (layout, &rect, &log);
 		bm.rnmheight = static_cast <double> (rect.height) / PANGO_SCALE;
-		bm.rnmwidth = static_cast <double> (rect.width) / PANGO_SCALE;
+		bm.rnmwidth = static_cast <double> (log.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎝", -1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.rnbheight = static_cast <double> (rect.height) / PANGO_SCALE;
 		pango_layout_set_text (layout, "{", -1);
-		pango_layout_get_extents (layout, &rect, NULL);
+		pango_layout_get_extents (layout, &rect, &log);
 		bm.cyheight = static_cast <double> (rect.height) / PANGO_SCALE;
-		bm.cywidth = static_cast <double> (rect.width) / PANGO_SCALE;
+		bm.cyyoffset = static_cast <double> (rect.y) / PANGO_SCALE;
+		bm.cywidth = static_cast <double> (log.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎧", -1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.cytheight = static_cast <double> (rect.height) / PANGO_SCALE;
+		bm.cytyoffset = static_cast <double> (rect.y) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎨", -1);
-		pango_layout_get_extents (layout, &rect, NULL);
+		pango_layout_get_extents (layout, &rect, &log);
 		bm.cymheight = static_cast <double> (rect.height) / PANGO_SCALE;
-		bm.cymwidth = static_cast <double> (rect.width) / PANGO_SCALE;
+		bm.cymwidth = static_cast <double> (log.width) / PANGO_SCALE;
 		pango_layout_set_text (layout, "⎩", -1);
 		pango_layout_get_extents (layout, &rect, NULL);
 		bm.cybheight = static_cast <double> (rect.height) / PANGO_SCALE;
@@ -145,6 +151,7 @@ Brackets::Brackets (Group *parent, BracketsTypes type, BracketsUses used, char c
 
 Brackets::~Brackets ()
 {
+	m_Elems.clear ();	// not sure it is needed
 }
 
 void Brackets::SetPosition (double x0, double y0, double x1, double y1)
@@ -180,41 +187,29 @@ double Brackets::Distance (double x, double y, Item **item) const
 void Brackets::Draw (cairo_t *cr, G_GNUC_UNUSED bool is_vector) const
 {
 	PangoLayout *layout = pango_layout_new (gccv::Text::GetContext ());
-	int w;
 	PangoFontDescription *desc = pango_font_description_from_string (m_FontDesc.c_str ());
 	pango_layout_set_font_description (layout, desc);
 	pango_font_description_free (desc);
 	cairo_save (cr);
 	cairo_set_source_rgba (cr, GO_COLOR_TO_CAIRO (m_Color));
-	switch (m_Type) {
-	case BracketsTypeNormal:
-		if (m_Used & BracketsOpening) {
-			if (m_Elems == 1) {
-				pango_layout_set_text (layout, "(", 1);
-				pango_layout_get_size (layout, &w, NULL);
-				cairo_move_to (cr, m_x0 - (double) w * m_Zoom / PANGO_SCALE, m_y0);
-				if (m_Zoom > 1.)
-					cairo_scale (cr, m_Zoom, m_Zoom);
-				pango_cairo_show_layout (cr, layout);
-			} else if (m_Elems == 2) {
-			} else {
-			}
-		}
-		if (m_Used & BracketsClosing) {
-		}
-		break;
-	case BracketsTypeSquare:
-		if (m_Used & BracketsOpening) {
-		}
-		if (m_Used & BracketsClosing) {
-		}
-		break;
-	case BracketsTypeCurly:
-		if (m_Used & BracketsOpening) {
-		}
-		if (m_Used & BracketsClosing) {
-		}
-		break;
+	std::list < BracketElem >::const_iterator it, end = m_Elems.end ();
+	for (it = m_Elems.begin (); it != end; it++) {
+		pango_layout_set_text (layout, (*it).ch, -1);
+		cairo_move_to (cr, (*it).x, (*it).y);
+		if ((*it).needs_clip) {
+			cairo_save (cr);
+			cairo_rel_move_to (cr, 0., (*it).offset);
+			cairo_rel_line_to (cr, (*it).w, 0.);
+			cairo_rel_line_to (cr, 0., (*it).h);
+			cairo_rel_line_to (cr, -(*it).w, 0.);
+			cairo_rel_line_to (cr, 0., -(*it).h);
+			cairo_close_path (cr);
+			cairo_clip (cr);
+			cairo_move_to (cr, (*it).x, (*it).y);
+			pango_cairo_show_layout (cr, layout);
+			cairo_restore (cr);
+		} else
+			pango_cairo_show_layout (cr, layout);
 	}
 	g_object_unref (layout);
 	cairo_restore (cr);
@@ -233,44 +228,243 @@ void Brackets::Move (double x, double y)
 
 void Brackets::UpdateBounds ()
 {
+	BracketElem elem;
+	elem.needs_clip = false;
+	elem.offset = 0.;
+	m_Elems.clear ();
 	m_Metrics = GetBracketsMetrics (m_FontDesc);
-	Item::m_x0 = m_x0;
-	Item::m_y0 = m_y0;
-	Item::m_x1 = m_x1;
-	Item::m_y1 = m_y1;
 	// TODO: add the bracket size on all sides
 	double height = m_y1 - m_y0;
 	switch (m_Type) {
 	case BracketsTypeNormal:
 		if (height <  m_Metrics->rnheight) {
-			m_Elems = 1;
-			m_Zoom = 1.;
+			Item::m_y0 = m_y0 - (m_Metrics->rnheight - height) / 2. - m_Metrics->rnyoffset;
+			Item::m_y1 = Item::m_y0 + m_Metrics->rnheight + 2 * m_Metrics->rnyoffset; // a bit larger than really needed
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->rnwidth;
+				elem.x = Item::m_x0;
+				elem.y = Item::m_y0;
+				elem.ch = "(";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->rnwidth;
+				elem.x = m_x1;
+				elem.y = Item::m_y0;
+				elem.ch = ")";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x1 = m_x0;
 		} else if (height < m_Metrics->rntheight + m_Metrics->rnbheight) {
-			m_Elems = 1;
-			m_Zoom = height / m_Metrics->rnheight;
-		} else if (height < m_Metrics->rntheight + m_Metrics->rnbheight + m_Metrics->rnmheight) {
-			m_Elems = 2;
-			m_Zoom =  height / (m_Metrics->rntheight + m_Metrics->rnbheight);
+			Item::m_y0 = m_y0 - (m_Metrics->rntheight + m_Metrics->rnbheight - height) / 2. - m_Metrics->rntyoffset;
+			Item::m_y1 = Item::m_y0 + m_Metrics->rntheight + m_Metrics->rnbheight + 2 * m_Metrics->rntyoffset; // a bit larger than really needed
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->rnmwidth;
+				elem.x = m_x0 - m_Metrics->rnmwidth;
+				elem.y = Item::m_y0;
+				elem.ch = "⎛";
+				m_Elems.push_back (elem);
+				elem.y += m_Metrics->rntheight + m_Metrics->rntyoffset;
+				elem.ch = "⎝";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->rnmwidth;
+				elem.x = m_x1;
+				elem.y = Item::m_y0;
+				elem.ch = "⎞";
+				m_Elems.push_back (elem);
+				elem.y += m_Metrics->rntheight + m_Metrics->rntyoffset;
+				elem.ch = "⎠";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x1 = m_x0;
 		} else {
-			m_Elems = ceil ((height - m_Metrics->rntheight - m_Metrics->rnbheight) / m_Metrics->rnmheight);
-			m_Zoom = 1.;
+			unsigned i, elems = ceil ((height - m_Metrics->rntheight - m_Metrics->rnbheight) / m_Metrics->rnmheight);
+			Item::m_y0 = m_y0;
+			Item::m_y1 = m_y1;
+			elem.w = m_Metrics->rnmwidth;
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->rnmwidth;
+				elem.x = m_x0 - m_Metrics->rnmwidth;
+				elem.y = m_y0 - m_Metrics->rntyoffset;
+				elem.ch = "⎛";
+				m_Elems.push_back (elem);
+				elem.y = m_y1 - m_Metrics->rnbheight;
+				elem.ch = "⎝";
+				m_Elems.push_back (elem);
+				elem.y = m_y0 + m_Metrics->rntheight;
+				elem.ch = "⎜";
+				for (i = 1; i < elems; i++) {
+					m_Elems.push_back (elem);
+					elem.y += m_Metrics->rnmheight;
+				}
+				elem.h = m_y1 - elem.y - m_Metrics->rntheight;
+				if (elem.h > 0.) {
+					elem.needs_clip = true;
+					m_Elems.push_back (elem);
+					elem.needs_clip = false;
+				}
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->rnmwidth;
+				elem.x = m_x1;
+				elem.y = m_y0 - m_Metrics->rntyoffset;
+				elem.ch = "⎞";
+				m_Elems.push_back (elem);
+				elem.y = m_y1 - m_Metrics->rnbheight;
+				elem.ch = "⎠";
+				m_Elems.push_back (elem);
+				elem.y = m_y0 + m_Metrics->rntheight;
+				elem.ch = "⎟";
+				for (i = 1; i < elems; i++) {
+					m_Elems.push_back (elem);
+					elem.y += m_Metrics->rnmheight;
+				}
+				elem.h = m_y1 - elem.y - m_Metrics->rntheight;
+				if (elem.h > 0.) {
+					elem.needs_clip = true;
+					m_Elems.push_back (elem);
+				}
+			} else
+				Item::m_x1 = m_x0;
 		}
 		break;
 	case BracketsTypeSquare:
 		if (height <  m_Metrics->sqheight) {
-			m_Elems = 1;
-			m_Zoom = 1.;
+			Item::m_y0 = m_y0 - (m_Metrics->sqheight - height) / 2. - m_Metrics->sqyoffset;
+			Item::m_y1 = Item::m_y0 + m_Metrics->sqheight + 2 * m_Metrics->sqyoffset; // a bit larger than really needed
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->sqwidth;
+				elem.x = Item::m_x0;
+				elem.y = Item::m_y0;
+				elem.ch = "[";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->sqwidth;
+				elem.x = m_x1;
+				elem.y = Item::m_y0;
+				elem.ch = "]";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x1 = m_x0;
 		} else if (height < m_Metrics->sqtheight + m_Metrics->sqbheight) {
-			m_Elems = 1;
-			m_Zoom = height / m_Metrics->sqheight;
+			// as they are square brackets, they can be easily clipped
+			double clip_height = (m_Metrics->sqtheight + m_Metrics->sqbheight - height) / 2;
+			Item::m_y0 = m_y0;
+			Item::m_y1 = m_y1;
+			elem.needs_clip = true;
+			elem.w = m_Metrics->sqmwidth;
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->sqmwidth;
+				elem.x = m_x0 - m_Metrics->sqmwidth;
+				elem.y = Item::m_y0;
+				elem.h = m_Metrics->sqtheight - clip_height;
+				elem.ch = "⎡";
+				m_Elems.push_back (elem);
+				elem.y = m_y1 - m_Metrics->sqbheight;
+				elem.h = m_Metrics->sqbheight - clip_height;
+				elem.offset = clip_height;
+				elem.ch = "⎣";
+				m_Elems.push_back (elem);
+				elem.offset = 0.;
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->sqmwidth;
+				elem.x = m_x1;
+				elem.y = Item::m_y0;
+				elem.h = m_Metrics->sqtheight - clip_height;
+				elem.ch = "⎤";
+				m_Elems.push_back (elem);
+				elem.y = m_y1 - m_Metrics->sqbheight;
+				elem.h = m_Metrics->sqbheight - clip_height;
+				elem.offset = clip_height;
+				elem.ch = "⎦";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x1 = m_x0;
 		} else if (height < m_Metrics->sqtheight + m_Metrics->sqbheight + m_Metrics->sqmheight) {
-			m_Elems = ceil ((height - m_Metrics->sqtheight - m_Metrics->sqbheight) / m_Metrics->sqmheight);
-			m_Zoom = 1.;
-		}
+			unsigned i, elems = ceil ((height - m_Metrics->sqtheight - m_Metrics->sqbheight) / m_Metrics->sqmheight);
+			Item::m_y0 = m_y0;
+			Item::m_y1 = m_y1;
+			elem.w = m_Metrics->sqmwidth;
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->sqmwidth;
+				elem.x = m_x0 - m_Metrics->sqmwidth;
+				elem.y = m_y0 - m_Metrics->sqtyoffset;
+				elem.ch = "⎡";
+				m_Elems.push_back (elem);
+				elem.y = m_y1 - m_Metrics->sqbheight;
+				elem.ch = "⎣";
+				m_Elems.push_back (elem);
+				elem.y = m_y0 + m_Metrics->sqtheight;
+				elem.ch = "⎢";
+				for (i = 1; i < elems; i++) {
+					m_Elems.push_back (elem);
+					elem.y += m_Metrics->sqmheight;
+				}
+				elem.h = m_y1 - elem.y - m_Metrics->sqtheight;
+				if (elem.h > 0.) {
+					elem.needs_clip = true;
+					m_Elems.push_back (elem);
+					elem.needs_clip = false;
+				}
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->sqmwidth;
+				elem.x = m_x1;
+				elem.y = m_y0 - m_Metrics->sqtyoffset;
+				elem.ch = "⎤";
+				m_Elems.push_back (elem);
+				elem.y = m_y1 - m_Metrics->sqbheight;
+				elem.ch = "⎦";
+				m_Elems.push_back (elem);
+				elem.y = m_y0 + m_Metrics->sqtheight;
+				elem.ch = "⎥";
+				for (i = 1; i < elems; i++) {
+					m_Elems.push_back (elem);
+					elem.y += m_Metrics->sqmheight;
+				}
+				elem.h = m_y1 - elem.y - m_Metrics->sqtheight;
+				if (elem.h > 0.) {
+					elem.needs_clip = true;
+					m_Elems.push_back (elem);
+				}
+			}
+		} else
+				Item::m_x1 = m_x0;
 		break;
 	case BracketsTypeCurly:
+		if (height <  m_Metrics->cyheight) {
+			Item::m_y0 = m_y0 - (m_Metrics->cyheight - height) / 2. - m_Metrics->cyyoffset;
+			Item::m_y1 = Item::m_y0 + m_Metrics->cyheight + 2 * m_Metrics->cyyoffset; // a bit larger than really needed
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->cywidth;
+				elem.x = Item::m_x0;
+				elem.y = Item::m_y0;
+				elem.ch = "{";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->cywidth;
+				elem.x = m_x1;
+				elem.y = Item::m_y0;
+				elem.ch = "}";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x1 = m_x0;
+		}
 		break;
 	}
+	Item::UpdateBounds ();
 }
 
 }

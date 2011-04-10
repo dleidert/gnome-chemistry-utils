@@ -26,13 +26,13 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">Both</col>
-      </row>
-      <row>
         <col id="0" translatable="yes">Opening</col>
       </row>
       <row>
         <col id="0" translatable="yes">Closing</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Both</col>
       </row>
     </data>
   </object>

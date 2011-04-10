@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/brackets.cc: display square and round brackets of all sizes.
+	* libs/gccv/brackets.h: ditto.
+	* plugins/paint/selection/brackets.ui: fix UI after API change.
+	* plugins/paint/selection/bracketstool.cc: ditto.
+
 2011-04-09  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/brackets.cc: start showing brackets.
 	* libs/gccv/brackets.h: ditto.
