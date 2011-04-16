@@ -21,9 +21,9 @@
 
 #include "config.h"
 #include <gcu/element.h>
-#include <gcu/gcuchem3dviewer.h>
+#include <gcugtk/gcuchem3dviewer.h>
 #include <gcr/gcrcrystalviewer.h>
-#include <gcu/gcuspectrumviewer.h>
+#include <gcugtk/gcuspectrumviewer.h>
 #include <gcu/chem3ddoc.h>
 #include <gcu/loader.h>
 #include <gcp/application.h>

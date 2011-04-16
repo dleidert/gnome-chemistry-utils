@@ -175,11 +175,46 @@ void Brackets::GetPosition (double &x0, double &y0, double &x1, double &y1)
 
 double Brackets::Distance (double x, double y, Item **item) const
 {
-	if (x - m_x0 < (m_x1 - m_x0) / 2.) {
-		// nearest bracket is opening bracket
-		;
+	double x_min, x_max;
+	if (item)
+		*item = const_cast < Brackets * > (this);
+	if (m_Used == BracketsBoth) {
+		if (x - m_x0 < (m_x1 - m_x0) / 2.) {
+			// nearest bracket is opening bracket
+			x_min = Item::m_x0;
+			x_max = m_x0;
+		} else {
+			x_min = m_x1;
+			x_max = Item::m_x1;
+		}
 	} else {
-		;
+		x_min = Item::m_x0;
+		x_max = Item::m_x1;
+	}
+	if (x < x_min) {
+		if (y < Item::m_y0)
+			y -= Item::m_y0;
+		else if (y > Item::m_y1)
+			y -= Item::m_y1;
+		else
+			return x_min - x;
+		x -= x_min;
+		return sqrt (x * x + y * y);
+	} else if (x > x_max) {
+		if (y < Item::m_y0)
+			y -= Item::m_y0;
+		else if (y > Item::m_y1)
+			y -= Item::m_y1;
+		else
+			return x - x_max;
+		x -= x_max;
+		return sqrt (x * x + y * y);
+	} else {
+		if (y < Item::m_y0)
+			return Item::m_y0 - y;
+		else if (y > Item::m_y1)
+			return y - Item::m_y1;
+		else return 0.;
 	}
 	return G_MAXDOUBLE;
 }
@@ -233,7 +268,6 @@ void Brackets::UpdateBounds ()
 	elem.offset = 0.;
 	m_Elems.clear ();
 	m_Metrics = GetBracketsMetrics (m_FontDesc);
-	// TODO: add the bracket size on all sides
 	double height = m_y1 - m_y0;
 	switch (m_Type) {
 	case BracketsTypeNormal:
@@ -389,7 +423,7 @@ void Brackets::UpdateBounds ()
 				m_Elems.push_back (elem);
 			} else
 				Item::m_x1 = m_x0;
-		} else if (height < m_Metrics->sqtheight + m_Metrics->sqbheight + m_Metrics->sqmheight) {
+		} else {
 			unsigned i, elems = ceil ((height - m_Metrics->sqtheight - m_Metrics->sqbheight) / m_Metrics->sqmheight);
 			Item::m_y0 = m_y0;
 			Item::m_y1 = m_y1;
@@ -437,9 +471,9 @@ void Brackets::UpdateBounds ()
 					elem.needs_clip = true;
 					m_Elems.push_back (elem);
 				}
-			}
-		} else
+			} else
 				Item::m_x1 = m_x0;
+		}
 		break;
 	case BracketsTypeCurly:
 		if (height <  m_Metrics->cyheight) {
@@ -459,6 +493,106 @@ void Brackets::UpdateBounds ()
 				elem.y = Item::m_y0;
 				elem.ch = "}";
 				m_Elems.push_back (elem);
+			} else
+				Item::m_x1 = m_x0;
+		} else if (height < m_Metrics->cytheight + m_Metrics->cybheight + m_Metrics->cymheight) {
+			Item::m_y0 = m_y0 - (m_Metrics->cytheight + m_Metrics->cybheight + m_Metrics->cymheight - height) / 2. - m_Metrics->cytyoffset;
+			Item::m_y1 = Item::m_y0 + m_Metrics->cytheight + m_Metrics->cybheight + m_Metrics->cymheight + 2 * m_Metrics->cytyoffset; // a bit larger than really needed
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->cymwidth;
+				elem.x = m_x0 - m_Metrics->cymwidth;
+				elem.y = Item::m_y0;
+				elem.ch = "⎧";
+				m_Elems.push_back (elem);
+				elem.y += m_Metrics->cytheight + m_Metrics->cytyoffset;
+				elem.ch = "⎨";
+				m_Elems.push_back (elem);
+				elem.y += m_Metrics->cymheight;
+				elem.ch = "⎩";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->cymwidth;
+				elem.x = m_x1;
+				elem.y = Item::m_y0;
+				elem.ch = "⎫";
+				m_Elems.push_back (elem);
+				elem.y += m_Metrics->cytheight + m_Metrics->cytyoffset;
+				elem.ch = "⎬";
+				m_Elems.push_back (elem);
+				elem.y += m_Metrics->cymheight;
+				elem.ch = "⎭";
+				m_Elems.push_back (elem);
+			} else
+				Item::m_x1 = m_x0;
+		} else {
+			unsigned i, elems = ceil ((height - m_Metrics->cytheight - m_Metrics->cybheight - m_Metrics->cymheight)/ 2. / m_Metrics->cyeheight);
+			Item::m_y0 = m_y0;
+			Item::m_y1 = m_y1;
+			elem.w = m_Metrics->cymwidth;
+			if (m_Used & BracketsOpening) {
+				Item::m_x0 = m_x0 - m_Metrics->cymwidth;
+				elem.x = m_x0 - m_Metrics->cymwidth;
+				elem.y = m_y0 - m_Metrics->cytyoffset;
+				elem.ch = "⎧";
+				m_Elems.push_back (elem);
+				elem.y = m_y1 - m_Metrics->cybheight;
+				elem.ch = "⎩";
+				m_Elems.push_back (elem);
+				elem.y = (m_y0 + m_y1 - m_Metrics->cymheight) /2.;
+				elem.ch = "⎨";
+				m_Elems.push_back (elem);
+				elem.ch = "⎪";
+				double cury =  m_y0 + m_Metrics->cytheight, offset = (height + m_Metrics->cymheight)/ 2. - m_Metrics->cytheight;
+				for (i = 1; i < elems; i++) {
+					elem.y = cury;
+					m_Elems.push_back (elem);
+					elem.y = cury + offset;
+					m_Elems.push_back (elem);
+					cury += m_Metrics->cyeheight;
+				}
+				elem.h = m_y1 - cury - offset - m_Metrics->sqtheight;
+				if (elem.h > 0.) {
+					elem.needs_clip = true;
+					elem.y = cury;
+					m_Elems.push_back (elem);
+					elem.y = cury + offset;
+					m_Elems.push_back (elem);
+					elem.needs_clip = false;
+				}
+			} else
+				Item::m_x0 = m_x1;
+			if (m_Used & BracketsClosing) {
+				Item::m_x1 = m_x1 + m_Metrics->cymwidth;
+				elem.x = m_x1;
+				elem.y = m_y0 - m_Metrics->cytyoffset;
+				elem.ch = "⎫";
+				m_Elems.push_back (elem);
+				elem.y = m_y1 - m_Metrics->cybheight;
+				elem.ch = "⎭";
+				m_Elems.push_back (elem);
+				elem.y = (m_y0 + m_y1 - m_Metrics->cymheight) /2.;
+				elem.ch = "⎬";
+				m_Elems.push_back (elem);
+				elem.ch = "⎪";
+				double cury =  m_y0 + m_Metrics->cytheight, offset = (height + m_Metrics->cymheight)/ 2. - m_Metrics->cytheight;
+				for (i = 1; i < elems; i++) {
+					elem.y = cury;
+					m_Elems.push_back (elem);
+					elem.y = cury + offset;
+					m_Elems.push_back (elem);
+					cury += m_Metrics->cyeheight;
+				}
+				elem.h = m_y1 - cury - offset - m_Metrics->sqtheight;
+				if (elem.h > 0.) {
+					elem.needs_clip = true;
+					elem.y = cury;
+					m_Elems.push_back (elem);
+					elem.y = cury + offset;
+					m_Elems.push_back (elem);
+					elem.needs_clip = false;
+				}
 			} else
 				Item::m_x1 = m_x0;
 		}

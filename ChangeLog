@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-04-16  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/brackets.cc: fully implemented now.
+	* mozilla-plugin/Makefile.am: fix build after moves to gcugtk.
+	* mozilla-plugin/chem-viewer.cc: ditto.
+
 2011-04-10  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/brackets.cc: display square and round brackets of all sizes.
 	* libs/gccv/brackets.h: ditto.
