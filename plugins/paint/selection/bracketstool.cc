@@ -51,10 +51,12 @@ gcpBracketsTool::gcpBracketsTool (gcp::Application* App): gcp::Tool (App, "Brack
 {
 	m_Type = gccv::BracketsTypeNormal;
 	m_Used = gccv::BracketsBoth;
+	m_FontDesc = pango_font_description_new ();
 }
 
 gcpBracketsTool::~gcpBracketsTool ()
 {
+	pango_font_description_free (m_FontDesc);
 }
 
 bool gcpBracketsTool::OnClicked ()
@@ -73,7 +75,7 @@ void gcpBracketsTool::OnDrag ()
 		static_cast <gccv::LineItem *> (m_Rect)->SetLineWidth (theme->GetBondWidth ());
 		static_cast <gccv::FillItem *> (m_Rect)->SetFillColor (0);
 		static_cast <gccv::LineItem *> (m_Rect)->SetLineColor (gcp::AddColor);
-		m_Bracket = new gccv::Brackets (static_cast < gccv::Group * > (m_Item), m_Type, m_Used, m_pView->GetFontName (), 0., 0., 0., 0., NULL);
+		m_Bracket = new gccv::Brackets (static_cast < gccv::Group * > (m_Item), m_Type, m_Used, m_FontName.c_str (), 0., 0., 0., 0., NULL);
 		static_cast <gccv::Brackets *> (m_Bracket)->SetColor (gcp::AddColor);
 	}
 	// find everything inside the selected rectangle and select
@@ -174,6 +176,7 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 		gtk_box_pack_start (fbox, widget, false, true, 0);
 		gtk_widget_show_all (widget);
 		m_FontSel = reinterpret_cast <GcpFontSel *> (widget);
+		g_signal_connect (m_FontSel, "changed", G_CALLBACK (gcpBracketsTool::OnFontChanged), this);
 
 		GtkWidget *res = builder->GetRefdWidget ("brackets");
 		delete builder;
@@ -204,16 +207,36 @@ void gcpBracketsTool::OnUsedChanged (GtkComboBox *box, gcpBracketsTool *tool)
 	tool->m_Used = static_cast < gccv::BracketsUses > (gtk_combo_box_get_active (box) % 3 + 1);
 }
 
+void gcpBracketsTool::OnFontChanged (GcpFontSel *fontsel, gcpBracketsTool *tool)
+{
+	char *family;
+	gcp::Document *doc = tool->m_pApp->GetActiveDocument ();
+	g_object_get (fontsel, "family", &family, "size", &tool->m_FontSize, NULL);
+	tool->m_FontFamily = family;
+	doc->SetBracketsFontFamily (family);
+	doc->SetBracketsFontSize (tool->m_FontSize);
+	pango_font_description_set_family (tool->m_FontDesc, family);
+	pango_font_description_set_size (tool->m_FontDesc, tool->m_FontSize);
+	g_free (family);
+	family = pango_font_description_to_string (tool->m_FontDesc);
+	tool->m_FontName = family;
+	g_free (family);
+}
+
 void gcpBracketsTool::Activate ()
 {
-	gcp::Theme *theme = m_pApp->GetActiveDocument ()->GetTheme ();
+	gcp::Document *doc = m_pApp->GetActiveDocument ();
+	m_FontFamily = doc->GetBracketsFontFamily ();
+	m_FontSize = doc->GetBracketsFontSize ();
+	pango_font_description_set_family (m_FontDesc, m_FontFamily.c_str ());
+	pango_font_description_set_size (m_FontDesc, m_FontSize);
 	g_object_set (G_OBJECT (m_FontSel),
-					"family", theme->GetTextFontFamily (),
-					"weight", theme->GetTextFontWeight (),
-					"variant", theme->GetTextFontVariant (),
-					"stretch", theme->GetTextFontStretch (),
-					"size", theme->GetTextFontSize (),
+					"family", m_FontFamily.c_str (),
+					"size", m_FontSize,
 					NULL);
+	char *buf = pango_font_description_to_string (m_FontDesc);
+	m_FontName = buf;
+	g_free (buf);
 }
 
 bool gcpBracketsTool::Evaluate ()

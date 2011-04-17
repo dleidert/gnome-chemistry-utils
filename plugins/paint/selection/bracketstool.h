@@ -50,6 +50,7 @@ public:
 
 	static void OnTypeChanged (GtkComboBox *box, gcpBracketsTool *tool);
 	static void OnUsedChanged (GtkComboBox *box, gcpBracketsTool *tool);
+	static void OnFontChanged (GcpFontSel *fontsel, gcpBracketsTool *tool);
 
 private:
 	gccv::BracketsTypes m_Type;
@@ -57,6 +58,10 @@ private:
 	GcpFontSel *m_FontSel;
 	gccv::Rect m_ActualBounds;
 	gccv::Item *m_Rect, *m_Bracket;
+	std::string m_FontFamily;
+	int m_FontSize;
+	PangoFontDescription *m_FontDesc;
+	std::string m_FontName;
 };
 
 #endif // GCHEMPAINT_BRACKETS_TOOL_H

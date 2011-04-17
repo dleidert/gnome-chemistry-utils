@@ -619,6 +619,30 @@ the micro version. This is used to detect files with old syntax on loading.
 @return the GChemPaint API version which last saved the file.
 */
 GCU_RO_PROP (unsigned, SoftwareVersion)
+/*!\fn SetBracketsFontFamily(char* val)
+@param val the new brackets font family.
+
+Sets the new current brackets font family for the document.
+*/
+/*!\fn GetBracketsFontFamily()
+@return the current brackets font family.
+*/
+/*!\fn GetRefBracketsFontFamily()
+@return the current brackets font family as a reference.
+*/
+GCU_PROP (std::string, BracketsFontFamily)
+/*!\fn SetBracketsFontSize(int val)
+@param val the new brackets font size.
+
+Sets the new current text font size for the document.
+*/
+/*!\fn GetBracketsFontSize()
+@return the current brackets font size.
+*/
+/*!\fn GetRefBracketsFontSize()
+@return the current brackets font size as a reference.
+*/
+GCU_PROP (int, BracketsFontSize)
 };
 
 }	//	namespace gcp

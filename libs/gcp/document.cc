@@ -1124,12 +1124,12 @@ void Document::SetTheme (Theme *theme)
 	m_BondLength = theme->GetBondLength ();
 	m_BondAngle = theme->GetBondAngle ();
 	m_ArrowLength = theme->GetArrowLength ();
-	m_TextFontFamily = theme->GetTextFontFamily ();
+	m_BracketsFontFamily = m_TextFontFamily = theme->GetTextFontFamily ();
 	m_TextFontStyle = theme->GetTextFontStyle ();
 	m_TextFontWeight = theme->GetTextFontWeight ();
 	m_TextFontVariant = theme->GetTextFontVariant ();
 	m_TextFontStretch = theme->GetTextFontStretch ();
-	m_TextFontSize = theme->GetTextFontSize ();
+	m_BracketsFontSize = m_TextFontSize = theme->GetTextFontSize ();
 	pango_attr_list_unref (m_PangoAttrList);
 	m_PangoAttrList = pango_attr_list_new ();
 	pango_attr_list_insert (m_PangoAttrList, pango_attr_family_new (theme->GetFontFamily ()));

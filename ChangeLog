@@ -1,5 +1,11 @@
 ##Text encoding: utf-8
 
+2011-04-17  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/document.cc: add brackets font related properties.
+	* libs/gcp/document.h: ditto.
+	* plugins/paint/selection/bracketstool.cc: allow brackets font selection.
+	* plugins/paint/selection/bracketstool.h: ditto.
+
 2011-04-16  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/brackets.cc: fully implemented now.
 	* mozilla-plugin/Makefile.am: fix build after moves to gcugtk.
