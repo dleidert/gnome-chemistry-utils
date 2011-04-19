@@ -4,7 +4,7 @@
  * GChemPaint library
  * tools.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +27,7 @@
 #include "settings.h"
 #include "tool.h"
 #include "tools.h"
+#include <gcugtk/ui-manager.h>
 #include <gcu/element.h>
 #include <cstring>
 
@@ -72,7 +73,7 @@ Tools::Tools (Application *App):
 Tools::~Tools ()
 {
 	if (m_UIManager) {
-		g_object_unref (m_UIManager);
+		delete m_UIManager;
 		m_UIManager = NULL;
 	}
 }
@@ -96,7 +97,7 @@ void register_item_cb (GtkWidget *w, Tools *Dlg)
 void Tools::AddToolbar (string &name)
 {
 	if (m_UIManager) {
-		GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, name.c_str ()),
+		GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), name.c_str ()),
 			*h = gtk_handle_box_new ();
 		gtk_container_foreach (GTK_CONTAINER (w), (GtkCallback) register_item_cb, this);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
@@ -107,10 +108,9 @@ void Tools::AddToolbar (string &name)
 	}
 }
 
-void Tools::SetUIManager (GtkUIManager *manager)
+void Tools::SetUIManager (gcugtk::UIManager *manager)
 {
 	m_UIManager = manager;
-	g_object_ref (m_UIManager);
 }
 
 void Tools::SetPage (Tool *tool, int i)
@@ -146,7 +146,7 @@ void Tools::OnElementChanged (int Z)
 {
 	dynamic_cast<Application*> (m_App)->SetCurZ (Z);
 	// Hmm, we should find a better way to do the following, the path might change.
-	GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, "ui/AtomsToolbar/Atom1/Element");
+	GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "ui/AtomsToolbar/Atom1/Element");
 	if (!w)
 		return;
 	GtkWidget* icon = gtk_tool_button_get_icon_widget (GTK_TOOL_BUTTON (w));

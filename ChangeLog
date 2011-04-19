@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-04-19  Jean Bréfort  <jean.brefort@normalesup.org>
+	* all files: more gcugtk split work.
+
 2011-04-17  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/document.cc: add brackets font related properties.
 	* libs/gcp/document.h: ditto.

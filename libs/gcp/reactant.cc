@@ -4,7 +4,7 @@
  * GChemPaint library
  * reactant.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -32,6 +32,7 @@
 #include "tool.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gcugtk/ui-manager.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
@@ -73,19 +74,20 @@ static void do_add_stoichiometry (Reactant *reactant)
 	reactant->AddStoichiometry ();
 }
 
-bool Reactant::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+bool Reactant::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
 {
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	bool result = false;
 	if (m_Stoich == 0 && !Stoichiometry) {
 		GtkActionGroup *group = gtk_action_group_new ("reactant");
 		GtkAction *action = gtk_action_new ("stoichiometry", _("Add a stoichiometry coefficient"), NULL, NULL);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		gtk_ui_manager_insert_action_group (UIManager, group, 0);
+		gtk_ui_manager_insert_action_group (uim, group, 0);
 		g_object_unref (group);
 		char buf[] = "<ui><popup><menuitem action='stoichiometry'/></popup></ui>";
-		gtk_ui_manager_add_ui_from_string (UIManager, buf, -1, NULL);
-		GtkWidget *w = gtk_ui_manager_get_widget (UIManager, "/popup/stoichiometry");
+		gtk_ui_manager_add_ui_from_string (uim, buf, -1, NULL);
+		GtkWidget *w = gtk_ui_manager_get_widget (uim, "/popup/stoichiometry");
 		g_signal_connect_swapped (w, "activate", G_CALLBACK (do_add_stoichiometry), this);
 		result = true;
 	}

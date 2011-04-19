@@ -4,7 +4,7 @@
  * GChemPaint atoms plugin
  * orbital.cc 
  *
- * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -32,6 +32,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gcugtk/ui-manager.h>
 #include <gccv/canvas.h>
 #include <gccv/circle.h>
 #include <gccv/group.h>
@@ -402,8 +403,9 @@ static void do_orbital_properties (gcu::Object *obj)
 	obj->ShowPropertiesDialog ();
 }
 
-bool gcpOrbital::BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y)
+bool gcpOrbital::BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y)
 {
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	GtkActionGroup *group = gtk_action_group_new ("orbital");
 	GtkAction *action = gtk_action_new ("Orbital", _("Orbital"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
@@ -412,8 +414,8 @@ bool gcpOrbital::BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *obje
 	g_signal_connect_swapped (action, "activate", G_CALLBACK (do_orbital_properties), this);
 	gtk_action_group_add_action (group, action);
 	g_object_unref (action);
-	gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Orbital'><menuitem action='orbital-properties'/></menu></popup></ui>", -1, NULL);
-	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Orbital'><menuitem action='orbital-properties'/></menu></popup></ui>", -1, NULL);
+	gtk_ui_manager_insert_action_group (uim, group, 0);
 	g_object_unref (group);
 	gcu::Object::BuildContextualMenu (UIManager, object, x, y);
 	return true;

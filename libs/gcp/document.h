@@ -28,8 +28,9 @@
 #include "operation.h"
 #include <gcu/document.h>
 #include <gcu/macros.h>
-#include <gcu/printable.h>
+#include <gcugtk/printable.h>
 #include <gcu/residue.h>
+#include <gcugtk/printable.h>
 #include <list>
 #include <map>
 #include <set>
@@ -74,7 +75,7 @@ class Molecule;
 /*!\class Document gcp/document.h
 The document class for GChemPaint.
 */
-class Document: public gcu::Document, public gcu::Printable
+class Document: public gcu::Document, public gcugtk::Printable
 {
 	//Constructor and destructor
 public:

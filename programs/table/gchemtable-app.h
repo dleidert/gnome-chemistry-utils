@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-app.h 
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,7 @@
 #ifndef GCHEMTABLE_APP_H
 #define GCHEMTABLE_APP_H
 
-#include <gcu/application.h>
+#include <gcugtk/application.h>
 #include <gcu/dialog.h>
 #include <gcugtk/gcuperiodic.h>
 #include <map>
@@ -34,7 +34,7 @@ using namespace gcu;
 
 class GChemTableCurve;
 
-class GChemTableApp: public Application
+class GChemTableApp: public gcugtk::Application
 {
 public:
 	GChemTableApp ();

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.h 
  *
- * Copyright (C) 2005-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,13 +26,13 @@
 #define GCHEMTABLE_CURVE_H
 
 #include <gcu/dialog.h>
-#include <gcu/printable.h>
+#include <gcugtk/printable.h>
 #include <string>
 #include "gchemtable-app.h"
 
 using namespace gcu;
 
-class GChemTableCurve: public Dialog, public Printable
+class GChemTableCurve: public Dialog, public gcugtk::Printable
 {
 public:
 	GChemTableCurve (GChemTableApp *App, char const *name);

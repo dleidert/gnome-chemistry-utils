@@ -35,6 +35,11 @@
 #include <gcu/macros.h>
 
 /*!\file*/
+
+namespace gcu {
+class UIManager;
+}
+
 namespace gcp {
 
 class Bond;
@@ -270,14 +275,14 @@ Used to move and/or transform an object.
 */
 	virtual void Transform2D (gcu::Matrix2D& m, double x, double y);
 /*!
-@param UIManager: the GtkUIManager to populate.
+@param UIManager: the gcu::UIManager to populate.
 @param object the atom on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
 
 This method is called to build a contextual menu for the atom.
 */
-	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
 /*!
 @param Mol: a pointer to a molecule
 

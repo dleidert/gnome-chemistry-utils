@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * print-setup-dlg.cc
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,9 +28,10 @@
 
 #include "config.h"
 #include "print-setup-dlg.h"
+#include "application.h"
 #include <glib/gi18n-lib.h>
 
-namespace gcu {
+namespace gcugtk {
 
 static void
 on_dialog_printer_setup_done (GtkPageSetup *page_setup,
@@ -498,4 +499,4 @@ void PrintSetupDlg::OnVPages (int pages)
 	m_Printable->SetVPages (pages);
 }
 
-}	//	namespace gcu
+}	//	namespace gcugtk

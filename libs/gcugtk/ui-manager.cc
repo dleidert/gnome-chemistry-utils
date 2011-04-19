@@ -1,10 +1,8 @@
-// -*- C++ -*-
-
 /* 
  * Gnome Chemistry Utils
- * programs/spectra/view.cc 
+ * gcugtk/ui-manager.cc
  *
- * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,14 +21,18 @@
  */
 
 #include "config.h"
-#include "document.h"
-#include "view.h"
+#include "ui-manager.h"
 
-gsvView::gsvView (gsvDocument *Doc): gcugtk::SpectrumView (Doc)
-{
-	m_Window = NULL;
-}
+namespace gcugtk {
 
-gsvView::~gsvView ()
+UIManager::UIManager (GtkUIManager *ui):
+	gcu::UIManager (),
+	m_UIManager (ui)
 {
 }
+
+UIManager::~UIManager ()
+{
+}
+	
+}	//	namespace gcugtk

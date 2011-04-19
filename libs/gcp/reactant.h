@@ -4,7 +4,7 @@
  * GChemPaint library
  * reactant.h 
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,11 @@
 #include <gcu/object.h>
 
 /*!\file*/
+
+namespace gcu {
+class UIManager;
+}
+
 namespace gcp {
 
 class ReactionStep;
@@ -88,7 +93,7 @@ Used to retrieve the y coordinate for alignment.
 */
 	virtual double GetYAlign ();
 /*!
-@param UIManager the GtkUIManager to populate.
+@param UIManager the gcu::UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
@@ -96,7 +101,7 @@ Used to retrieve the y coordinate for alignment.
 This method is called to build a contextual menu for the reactant.
 @return true if something is added to the UIManager, false otherwise.
 */
-	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
 /*!
 @param Signal the appropriate SignalId
 @param Child the child which emitted the signal or NULL

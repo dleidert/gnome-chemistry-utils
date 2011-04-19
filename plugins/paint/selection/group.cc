@@ -2,7 +2,7 @@
  * GChemPaint selection plugin
  * group.cc
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,6 +27,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gcugtk/ui-manager.h>
 #include <gccv/structs.h>
 #include <glib/gi18n-lib.h>
 #include <cerrno>
@@ -54,14 +55,15 @@ gcpGroup::~gcpGroup ()
 {
 }
 
-bool gcpGroup::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+bool gcpGroup::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
 {
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	GtkActionGroup *group = gtk_action_group_new ("group");
 	GtkAction *action = gtk_action_new ("group_properties", _("Group properties..."), NULL, NULL);
 	g_signal_connect_swapped (action, "activate", G_CALLBACK (on_group_properties), this);
 	gtk_action_group_add_action (group, action);
-	gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menuitem action='group_properties'/></popup></ui>", -1, NULL);
-	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menuitem action='group_properties'/></popup></ui>", -1, NULL);
+	gtk_ui_manager_insert_action_group (uim, group, 0);
 	Object::BuildContextualMenu (UIManager, object, x, y);
 	return true;
 }

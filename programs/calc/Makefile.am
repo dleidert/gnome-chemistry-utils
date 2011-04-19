@@ -4,8 +4,9 @@ CLEANFILES = $(desktop_DATA) gchemcalc.desktop
 
 MAINTAINERCLEANFILES = Makefile.in gchemcalc.dektop.in
 
-DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
-LIBS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
+DEPS = $(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la
+LIBS = $(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
+	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 	$(goffice_LIBS) \
 	$(gtk_LIBS) \
 	$(gsf_LIBS) \

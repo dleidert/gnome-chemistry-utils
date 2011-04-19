@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * object.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,6 +26,7 @@
 #include "application.h"
 #include "dialog.h"
 #include "document.h"
+#include "ui-manager.h"
 #include <glib/gi18n.h>
 #include <string>
 #include <iostream>
@@ -400,11 +401,11 @@ void Object::Transform2D(Matrix2D& m, double x, double y)
 		(*i).second->Transform2D (m, x, y);
 }
 
-bool Object::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+bool Object::BuildContextualMenu (UIManager *uim, Object *object, double x, double y)
 {
 	Application *app = GetApplication ();
-	bool result = (app)? app->BuildObjectContextualMenu (this, UIManager, object, x, y): false;
-	return result | ((m_Parent)? m_Parent->BuildContextualMenu (UIManager, object, x, y): false);
+	bool result = (app)? app->BuildObjectContextualMenu (this, uim, object, x, y): false;
+	return result | ((m_Parent)? m_Parent->BuildContextualMenu (uim, object, x, y): false);
 }
 
 char const *Object::HasPropertiesDialog () const

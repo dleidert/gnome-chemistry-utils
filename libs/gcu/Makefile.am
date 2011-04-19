@@ -3,14 +3,12 @@ MAINTAINERCLEANFILES = Makefile.in
 INCLUDES = \
 		-I$(top_srcdir) -I$(top_srcdir)/libs \
 		$(goffice_CFLAGS) \
-		$(gtkglext_CFLAGS) \
 		$(GCU_CFLAGS)
 libgcu_@GCU_API_VER@_la_LDFLAGS = \
 		-version-info  @GCU_VERSION_INFO@
 libgcu_@GCU_API_VER@_la_LIBADD = \
 		$(goffice_LIBS) \
-		$(gsf_LIBS) \
-		$(gtkglext_LIBS)
+		$(gsf_LIBS)
 DEFS += -DDATADIR=\"$(datadir)\" \
 		-DLOCALEDIR=\"$(localedir)\" \
 		-DLIBEXECDIR=\"$(libexecdir)\" \
@@ -27,7 +25,6 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		chem3ddoc.cc	\
 		chemistry.cc \
 		cmd-context.cc \
-		cmd-context-gtk.cc \
 		cycle.cc \
 		cylinder.cc	\
 		dialog.cc \
@@ -46,15 +43,12 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		message.cc \
 		molecule.cc \
 		object.cc \
-		printable.cc \
-		print-setup-dlg.cc \
 		residue.cc \
-		spectrumdoc.cc \
-		spectrumview.cc \
 		spacegroup.cc   \
 		sphere.cc	\
 		transform3d.cc  \
 		ui-builder.cc   \
+		ui-manager.cc   \
 		value.cc \
 		vector.cc \
 		window.cc \
@@ -68,7 +62,6 @@ noinst_HEADERS = \
 		chem3ddoc.h	\
 		chemistry.h \
 		cmd-context.h \
-		cmd-context-gtk.h \
 		cycle.h \
 		cylinder.h	\
 		dialog.h \
@@ -89,16 +82,13 @@ noinst_HEADERS = \
 		molecule.h \
 		object.h \
 		objprops.h \
-		printable.h \
-		print-setup-dlg.h \
 		residue.h \
-		spectrumdoc.h \
-		spectrumview.h \
 		spacegroup.h   \
 		sphere.h	\
 		structs.h   \
 		transform3d.h  \
 		ui-builder.h   \
+		ui-manager.h   \
 		value.h \
 		vector.h \
 		window.h \

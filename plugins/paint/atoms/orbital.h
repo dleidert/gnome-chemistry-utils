@@ -4,7 +4,7 @@
  * GChemPaint atoms plugin
  * orbital.h 
  *
- * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,6 +35,7 @@ namespace gcp {
 
 namespace gcu {
 	class Dialog;
+	class UIManager;
 };
 
 extern gcu::TypeId OrbitalType;
@@ -62,7 +63,7 @@ public:
 	bool Load (xmlNodePtr node);
 	void SetSelected (int state);
 	std::string Name ();
-	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
 	char const *HasPropertiesDialog () const;
 	gcu::Dialog *BuildPropertiesDialog ();
 

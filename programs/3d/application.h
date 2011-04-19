@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/3d/application.h 
  *
- * Copyright (C) 2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,14 +25,14 @@
 #ifndef GC3D_APPLICATION_H
 #define GC3D_APPLICATION_H
 
-#include <gcu/application.h>
+#include <gcugtk/application.h>
 #include <gcu/chem3ddoc.h>
 
 using namespace gcu;
 
 class gc3dDocument;
 
-class gc3dApplication: public Application
+class gc3dApplication: public gcugtk::Application
 {
 public:
 	gc3dApplication (Display3DMode display3d = BALL_AND_STICK, char const *bg = "black");

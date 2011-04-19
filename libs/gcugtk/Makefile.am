@@ -21,13 +21,29 @@ DEFS += -DDATADIR=\"$(datadir)\" \
 lib_LTLIBRARIES= libgcugtk-@GCU_API_VER@.la
 
 libgcugtk_@GCU_API_VER@_la_SOURCES = \
+		application.cc \
+		cmd-context-gtk.cc \
 		gcuchem3dviewer.cc \
 		gcucomboperiodic.c \
 		gcuperiodic.c \
-		gcuspectrumviewer.cc
+		gcuspectrumviewer.cc \
+		glview.cc	\
+		printable.cc \
+		print-setup-dlg.cc	\
+		spectrumdoc.cc \
+		spectrumview.cc \
+		ui-manager.cc
 
 noinst_HEADERS = \
+		application.h \
+		cmd-context-gtk.h \
 		gcuchem3dviewer.h \
 		gcucomboperiodic.h \
 		gcuperiodic.h \
-		gcuspectrumviewer.h
+		gcuspectrumviewer.h \
+		glview.h	\
+		printable.h \
+		print-setup-dlg.h	\
+		spectrumdoc.h \
+		spectrumview.h \
+		ui-manager.h

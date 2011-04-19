@@ -225,12 +225,12 @@ void Document::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext 
 	cairo_rectangle (cr, 0, 0, width, height);
 	cairo_clip (cr);
 	switch (GetScaleType ()) {
-	case GCU_PRINT_SCALE_NONE:
+	case gcugtk::GCU_PRINT_SCALE_NONE:
 		break;
-	case GCU_PRINT_SCALE_FIXED:
+	case gcugtk::GCU_PRINT_SCALE_FIXED:
 		scale *= Printable::GetScale ();
 		break;
-	case GCU_PRINT_SCALE_AUTO:
+	case gcugtk::GCU_PRINT_SCALE_AUTO:
 		if (GetHorizFit () && GetVertFit ())
 			scale *= min (width / w, height / h);
 		else if (GetHorizFit ())

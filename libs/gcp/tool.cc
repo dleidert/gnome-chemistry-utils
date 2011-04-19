@@ -4,7 +4,7 @@
  * GChemPaint library
  * tool.cc
  *
- * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -121,7 +121,7 @@ void Tool::OnRelease (double x, double y, unsigned int state)
 	m_pView->EnsureSize ();
 }
 
-bool Tool::OnRightButtonClicked (View* pView, Object* pObject, double x, double y, GtkUIManager *UIManager)
+bool Tool::OnRightButtonClicked (View* pView, Object* pObject, double x, double y, gcu::UIManager *UIManager)
 {
 	m_pObject = pObject;
 	m_pView = pView;
@@ -182,7 +182,7 @@ void Tool::OnRelease ()
 {
 }
 
-bool Tool::OnRightButtonClicked (G_GNUC_UNUSED GtkUIManager *UIManager)
+bool Tool::OnRightButtonClicked (G_GNUC_UNUSED gcu::UIManager *UIManager)
 {
 	return false;
 }

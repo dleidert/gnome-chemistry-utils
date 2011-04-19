@@ -4,7 +4,7 @@
  * GChemPaint selection plugin
  * selectiontool.h 
  *
- * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,6 +29,10 @@
 #include <list>
 #include <gcu/object.h>
 
+namespace gcugtk {
+class UIManager;
+}
+
 namespace gcp {
 	class WidgetData;
 	class Application;
@@ -45,7 +49,7 @@ public:
 	void OnRelease ();
 	void Activate ();
 	bool Deactivate ();
-	bool OnRightButtonClicked (GtkUIManager *UIManager);
+	bool OnRightButtonClicked (gcu::UIManager *UIManager);
 	GtkWidget *GetPropertyPage ();
 	bool CopySelection (G_GNUC_UNUSED GtkClipboard *clipboard) {return false;} // allow clipboard operations
 
@@ -68,7 +72,7 @@ private:
 	gcp::Operation *m_pOp;
 	gcu::TypeId m_Type;
 	std::list<int> m_uiIds;
-	GtkUIManager *m_UIManager;
+	gcugtk::UIManager *m_UIManager;
 	GtkWidget *m_MergeBtn;
 };
 

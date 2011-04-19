@@ -2,7 +2,7 @@
  * GChemPaint selection plugin
  * group.h
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,6 +25,10 @@
 
 #include <gcu/object.h>
 
+namespace gcu {
+class UIManager;
+}
+
 using namespace gcu;
 
 extern TypeId GroupType;
@@ -45,7 +49,7 @@ public:
 	gcpGroup ();
 	virtual ~gcpGroup ();
 
-	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
 	bool Load (xmlNodePtr);
 	xmlNodePtr Save (xmlDocPtr xml) const;
 	bool OnSignal (SignalId Signal, Object *Child);

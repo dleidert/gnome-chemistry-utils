@@ -36,7 +36,7 @@
 using namespace gcu;
 using namespace std;
 
-gsvApplication::gsvApplication (): Application (_("GSpectrum"), DATADIR, "gspectrum")
+gsvApplication::gsvApplication (): gcugtk::Application (_("GSpectrum"), DATADIR, "gspectrum")
 {
 	// First, initialize plugins manager
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);

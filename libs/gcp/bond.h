@@ -4,7 +4,7 @@
  * GChemPaint library
  * bond.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,6 +30,10 @@
 #include <gccv/item-client.h>
 #include <gcu/bond.h>
 #include <list>
+
+namespace gcu {
+class UIManager;
+}
 
 namespace gcp {
 
@@ -235,14 +239,14 @@ condition.
 */
 	bool IsCrossing (Bond *pBond);
 /*!
-@param UIManager: the GtkUIManager to populate.
+@param UIManager: the gcu::UIManager to populate.
 @param object the atom on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
 
 This method is called to build a contextual menu for the atom.
 */
-	bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
 /*!
 Move the bond to the lowest position. It has an effect only for crossing bonds.
 */

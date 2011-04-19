@@ -2,7 +2,7 @@
  * Gnome Chemisty Utils
  * spectrumdoc.cc
  *
- * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,9 +22,9 @@
 
 #include "config.h"
 #include "application.h"
-#include "objprops.h"
 #include "spectrumdoc.h"
 #include "spectrumview.h"
+#include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 #include <sstream>
@@ -36,11 +36,11 @@
 
 using namespace std;
 
-namespace gcu
+namespace gcugtk
 {
 
 SpectrumDocument::SpectrumDocument ():
-	Document (NULL),
+	gcu::Document (NULL),
 	Printable (),
 	m_XAxisInvertBtn (NULL),
 	m_Empty (true)

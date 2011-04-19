@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcu/glview.h 
  *
- * Copyright (C) 2006-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,9 +27,7 @@
 
 #include "macros.h"
 #include "matrix.h"
-#include "printable.h"
 #include <goffice/goffice.h>
-#include <gtk/gtkwidget.h>
 #include <map>
 #include <string>
 #include <stdexcept>
@@ -46,7 +44,7 @@ class GLDocument;
 View class based on OpenGL for rendering. Used to display 3d chemical structures
 such as molecules or crystals cells.
 */
-class GLView: public Printable
+class GLView
 {
 public:
 //!Constructor.
@@ -61,44 +59,11 @@ Creates a view for the document.
 The destructor of GLView.
 */
 	virtual ~GLView ();
-
 /*!
-@return the associated GtkWidget.
+Update the contents of the associated widget if any. This method must be called
+each time the document or the view are modified. Default implementation doesn't do anything.
 */
-	GtkWidget *GetWidget () {return m_pWidget;}
-/*!
-Initialize the associated widget. Automatically called by the framework.
-*/
-	void Init ();
-/*!
-Automatically called by the framework when the associated widget size changes.
-*/
-	void Reshape (int width, int height);
-/*!
-Draws the contents of the associated widget. Automatically called by the framework.
-*/
-	void Draw ();
-/*!
-@param event: a pointer to a GdkEvent.
-
-Automatically called by the framework when a left button click occurs in the
-associated widget drawing area.
-*/
-	bool OnPressed (GdkEventButton *event);
-/*!
-@param event: a pointer to a GdkEvent.
-
-Automatically called by the framework when the mouse cursor moves over the
-associated widget drawing area.
-
-@return true if a motion really occured, false otherwise.
-*/
-	bool OnMotion (GdkEventMotion *event);
-/*!
-Update the contents of the associated widget. This method must be called
-each time the document or the view are modified.
-*/
-	void Update ();
+	virtual void Update ();
 /*!
 @param psi the first Euler's angle.
 @param theta the second Euler's angle.
@@ -128,18 +93,6 @@ Generates a pixbuf from the current view.
 */
 	GdkPixbuf *BuildPixbuf (unsigned width, unsigned height) const;
 /*!
-@param print a GtkPrintOperation.
-@param context a GtkPrintContext.
-@param page the page to print.
-
-Prints the current view at 300 dpi.
-*/
-	void DoPrint (GtkPrintOperation *print, GtkPrintContext *context, int page) const;
-/*!
-@return the top level GtkWindow containing the view.
-*/
-	GtkWindow *GetGtkWindow () {return GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget));}
-/*!
 @param cr a cairo_t.
 @param width the width used for rendering. 
 @param height the height used for rendering. 
@@ -148,7 +101,7 @@ Outputs a bitmap to cairo. Used internally for printing and various image format
 */
 	void RenderToCairo (cairo_t *cr, unsigned width, unsigned height) const;
 
-private:
+protected:
 /*!
 @param x the x component of the rotation.
 @param y the y component of the rotation.
@@ -158,20 +111,10 @@ Called by OnMotion(). x and y are the displacement coordinates of the mouse.
 	void Rotate (gdouble x, gdouble y);
 
 protected:
-/*!
-The associated widget.
-*/
-	GtkWidget *m_pWidget;
-
-private:
-	bool m_bInit;
 	Matrix m_Euler;
+	double m_Lastx, m_Lasty;
 	int m_WindowHeight, m_WindowWidth;
 	double m_Height, m_Width, m_Near, m_Far;
-	double m_Lastx, m_Lasty;
-	static GOConfNode *m_ConfNode;
-	static guint m_NotificationId;
-	static int nbViews;
 
 // Properties
 /*!\fn SetAngle(double angle)

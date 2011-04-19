@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * retrosynthesis.h 
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -43,7 +43,7 @@ public:
 	virtual bool Load (xmlNodePtr);
 	virtual bool Build (std::list<Object*>& Children) throw (std::invalid_argument);
 	virtual double GetYAlign ();
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+	virtual bool BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y);
 	virtual bool OnSignal (SignalId Signal, Object *Child);
 	virtual void Transform2D (Matrix2D& m, double x, double y);
 	int Validate (bool split);

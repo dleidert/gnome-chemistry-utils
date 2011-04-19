@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * cmd-context-gtk.cc
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,7 +28,7 @@
 
 typedef	struct {
 	GObject base;
-	gcu::CmdContextGtk *ccg;
+	gcugtk::CmdContextGtk *ccg;
 } GcuCmdContextGtk;
 
 typedef GObjectClass GcuCmdContextGtkClass;
@@ -37,9 +37,9 @@ typedef GObjectClass GcuCmdContextGtkClass;
 #define GCU_CMD_CONTEXT_GTK(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GCU_TYPE_CMD_CONTEXT_GTK, GcuCmdContextGtk))
 GType		gcu_cmd_context_gtk_get_type   (void);
 
-namespace gcu {
+namespace gcugtk {
 
-CmdContextGtk::CmdContextGtk (Application *App): CmdContext (App)
+CmdContextGtk::CmdContextGtk (Application *App): gcu::CmdContext (App)
 {
 	m_GOCmdContext = GO_CMD_CONTEXT (g_object_new (GCU_TYPE_CMD_CONTEXT_GTK, NULL));
 	reinterpret_cast <GcuCmdContextGtk *> (m_GOCmdContext)->ccg = this;
@@ -49,7 +49,7 @@ CmdContextGtk::~CmdContextGtk ()
 {
 }
 
-CmdContext::Response CmdContextGtk::GetResponse (char const *message, int responses)
+gcu::CmdContext::Response CmdContextGtk::GetResponse (char const *message, int responses)
 {
 	int buttons = 0;
 	if (responses & ResponseOK)

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/3d/application.cc 
  *
- * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,7 +37,7 @@
 using namespace std;
 
 gc3dApplication::gc3dApplication (Display3DMode display3d, char const *bg):
-	Application (_("GChem3D Viewer"), DATADIR, "gchem3d"),
+	gcugtk::Application (_("GChem3D Viewer"), DATADIR, "gchem3d"),
 	m_Display3D (display3d)
 {
 	if (!bg)

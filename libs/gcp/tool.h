@@ -4,7 +4,7 @@
  * GChemPaint library
  * tool.h 
  *
- * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,6 +35,7 @@
 namespace gcu {
 	class Dialog;
 	class Object;
+	class UIManager;
 }
 
 namespace gccv {
@@ -127,15 +128,15 @@ is released.
 @param pObject the object on which the event occured.
 @param x the horizontal position of the mouse when the event occured.
 @param y the vertical position of the mouse when the event occured.
-@param UIManager the GtkUIManager in use.
+@param UIManager the gcu::UIManager in use.
 
 This method is called by the framework when the tool is active and the right mouse button
 is pressed. It is used to add tool specific menu items to the contextual menu.
-It calls OnRightButtonClicked(GtkUIManager*).
+It calls OnRightButtonClicked(gcu::UIManager*).
 
 @return true if at least one menu item was added, false otherwise.
 */
-	bool OnRightButtonClicked (View* pView, gcu::Object* pObject, double x, double y, GtkUIManager *UIManager);
+	bool OnRightButtonClicked (View* pView, gcu::Object* pObject, double x, double y, gcu::UIManager *UIManager);
 /*!
 @param bState whether to activate or deactivate the tool.
 
@@ -149,14 +150,14 @@ Activate() or Deactivate() is called for this instance.
 */
 	std::string& GetName () {return name;}
 /*!
-@param UIManager the GtkUIManager in use.
+@param UIManager the gcu::UIManager in use.
 
 Adds menu items to the contextual menu.
 Default implementation do not add any menu item and returns false. Derived classes
 for which menu items exist must override this method.
 @return true if at least one menu item was added, false otherwise.
 */
-	virtual bool OnRightButtonClicked (GtkUIManager *UIManager);
+	virtual bool OnRightButtonClicked (gcu::UIManager *UIManager);
 /*!
 Virtual method called when the tool is activated.
 This method should be overriden for all tools which need some initialization

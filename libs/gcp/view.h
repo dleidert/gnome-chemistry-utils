@@ -4,7 +4,7 @@
  * GChemPaint library
  * view.h 
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -40,6 +40,10 @@ namespace gccv {
 namespace gcu {
 	class Object;
 };
+
+namespace gcugtk {
+	class UIManager;
+}
 
 namespace gcp {
 
@@ -303,7 +307,7 @@ private:
 	int m_width, m_height;
 	double m_lastx, m_lasty;
 	bool m_bEmbedded;
-	GtkUIManager *m_UIManager;
+	gcugtk::UIManager *m_UIManager;
 	bool m_Dragging;
 	gcu::Object *m_CurObject;
 	Atom *m_CurAtom;

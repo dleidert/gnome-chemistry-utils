@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/3d/window.cc 
  *
- * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,7 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
-#include <gcu/print-setup-dlg.h>
+#include <gcugtk/print-setup-dlg.h>
 #include <glib/gi18n.h>
 
 //Callbacks
@@ -115,7 +115,7 @@ static void on_live_assistance (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *win
 	window->GetApp ()->OnLiveAssistance ();
 }
 
-static void on_about (G_GNUC_UNUSED GtkWidget *widget, gc3dWindow *window)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gc3dWindow *window)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GChem3D is a molecular structures viewer for Gnome");
@@ -328,7 +328,7 @@ void gc3dWindow::OnFileClose ()
 
 void gc3dWindow::OnPageSetup ()
 {
-	new PrintSetupDlg (m_App, m_View);
+	new gcugtk::PrintSetupDlg (m_App, m_View);
 }
 
 void gc3dWindow::SetTitle (char const *title)

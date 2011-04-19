@@ -30,6 +30,11 @@
 #include <map>
 
 /*!\file*/
+
+namespace gcugtk {
+class UIManager;
+}
+
 namespace gcp {
 
 /*!class Tools gcp/tools.h
@@ -62,11 +67,11 @@ Addsa new toolbar.
 */
 	void AddToolbar (std::string &name);
 /*!
-@param manager a GtkUIManager.
+@param manager a gcu::UIManager.
 
-Sets the GtkUIManager associated to the user interface of the tools box.
+Sets the gcugtk::UIManager associated to the user interface of the tools box.
 */
-	void SetUIManager (GtkUIManager *manager);
+	void SetUIManager (gcugtk::UIManager *manager);
 /*!
 @param tool the Tool for which an options page has been added.
 @param i the rank of the page in the notebook.
@@ -108,7 +113,7 @@ Called by the framework when the Help button is clicked.
 	void OnHelp ();
 
 private:
-	GtkUIManager *m_UIManager;
+	gcugtk::UIManager *m_UIManager;
 	GtkBox *m_ButtonsBox;
 	std::map<Tool*, int> m_Pages;
 	GtkNotebook *m_Book;

@@ -22,8 +22,8 @@
 
 #include "config.h"
 #include "gcuspectrumviewer.h"
-#include <gcu/spectrumdoc.h>
-#include <gcu/spectrumview.h>
+#include "spectrumdoc.h"
+#include "spectrumview.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkbin.h>
 
@@ -31,7 +31,7 @@ struct _GcuSpectrumViewer
 {
 	GtkBin base;
 
-	gcu::SpectrumDocument *doc;
+	gcugtk::SpectrumDocument *doc;
 	GogGraph *graph;
 };
 
@@ -55,8 +55,8 @@ GtkWidget*
 gcu_spectrum_viewer_new  (const gchar* uri)
 {
 	GcuSpectrumViewer *viewer = GCU_SPECTRUM_VIEWER (g_object_new (GCU_TYPE_SPECTRUM_VIEWER, NULL));
-	viewer->doc = new gcu::SpectrumDocument ();
-	gcu::SpectrumView *View = viewer->doc->GetView();
+	viewer->doc = new gcugtk::SpectrumDocument ();
+	gcugtk::SpectrumView *View = viewer->doc->GetView();
 	GtkWidget* w = View->GetWidget ();
 	viewer->graph = go_graph_widget_get_graph (GO_GRAPH_WIDGET (w));
 	gtk_container_add (GTK_CONTAINER (viewer), w);

@@ -41,6 +41,7 @@
 #include <gcu/chain.h>
 #include <gcu/element.h>
 #include <gcu/objprops.h>
+#include <gcugtk/ui-manager.h>
 #include <glib/gi18n-lib.h>
 #include <cstdlib>
 #include <cstring>
@@ -1162,9 +1163,10 @@ static void do_child_properties (Object *obj)
 	obj->ShowPropertiesDialog ();
 }
 
-bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+bool Atom::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
 {
 	bool result = false;
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	GtkActionGroup *group = NULL;
 	GtkAction *action;
 	if (GetZ () == 6 && GetBondsNumber() != 0) {
@@ -1177,7 +1179,7 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 		g_signal_connect (action, "toggled", G_CALLBACK (do_display_symbol), this);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Atom'><menuitem action='show-symbol'/></menu></popup></ui>", -1, NULL);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Atom'><menuitem action='show-symbol'/></menu></popup></ui>", -1, NULL);
 		result = true;
 	}
 	if (m_nH) {
@@ -1191,7 +1193,7 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_choose_H_pos), this);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Atom'><menuitem action='H-position'/></menu></popup></ui>", -1, NULL);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Atom'><menuitem action='H-position'/></menu></popup></ui>", -1, NULL);
 	}
 	if (m_Charge) {
 		if (!group) {
@@ -1205,7 +1207,7 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 		g_signal_connect (action, "toggled", G_CALLBACK (do_show_charge), this);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Atom'><menuitem action='show-charge'/></menu></popup></ui>", -1, NULL);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Atom'><menuitem action='show-charge'/></menu></popup></ui>", -1, NULL);
     }
 	if (object == this && HasChildren ()) {
 		if (!group)
@@ -1243,11 +1245,11 @@ bool Atom::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double 
 			if (has_props)
 				str << "'/><menuitem action='" << prop;
 			str << "'/></menu></popup></ui>";
-			gtk_ui_manager_add_ui_from_string (UIManager, str.str ().c_str (), -1, NULL);
+			gtk_ui_manager_add_ui_from_string (uim, str.str ().c_str (), -1, NULL);
 		}
 	}
 	if (group) {
-		gtk_ui_manager_insert_action_group (UIManager, group, 0);
+		gtk_ui_manager_insert_action_group (uim, group, 0);
 		g_object_unref (group);
 	}
 	return result | Object::BuildContextualMenu (UIManager, object, x, y);

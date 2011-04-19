@@ -1,0 +1,482 @@
+// -*- C++ -*-
+
+/* 
+ * Gnome Chemistry Utils
+ * gcugtk/glview.cc 
+ *
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ *
+ * This program is free software; you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
+#include "config.h"
+#include "application.h"
+#include "glview.h"
+#include <gcu/gldocument.h>
+#include <gtk/gtkgl.h>
+#include <GL/gl.h>
+#include <cstring>
+
+#define ROOTDIR "/apps/gchemutils/gl/"
+
+namespace gcugtk {
+
+static GdkGLConfig *glconfig = NULL;
+GOConfNode *GLView::m_ConfNode = NULL;
+guint GLView::m_NotificationId = 0;
+bool OffScreenRendering = false;
+int GLView::nbViews = 0;
+
+#define GCU_CONF_DIR_GL "gl"
+
+class GLViewPrivate
+{
+public:
+	static bool OnInit (GLView* View);
+	static bool OnReshape (GLView* View, GdkEventConfigure *event);
+	static bool OnDraw (GLView* View, GdkEventExpose *event);
+	static bool OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *event, GLView* View);
+	static bool OnPressed (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, GLView* View);
+};
+
+// Callbacks
+bool GLViewPrivate::OnInit (GLView* View) 
+{
+	GdkGLContext *glcontext = gtk_widget_get_gl_context (View->m_pWidget);
+	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (View->m_pWidget);
+	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+	    glEnable (GL_LIGHTING);
+		glEnable (GL_LIGHT0);
+		glEnable (GL_DEPTH_TEST);
+		glEnable (GL_CULL_FACE);
+		glEnable (GL_COLOR_MATERIAL);
+		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glShadeModel (GL_SMOOTH);
+		glPolygonMode (GL_FRONT, GL_FILL);
+		glEnable(GL_BLEND);
+		View->m_bInit = true;
+		gdk_gl_drawable_gl_end (gldrawable);
+		View->Update ();
+    }
+	return true;
+}
+
+bool GLViewPrivate::OnReshape (GLView* View, GdkEventConfigure *event) 
+{
+	View->Reshape (event->width, event->height);
+	return true;
+}
+
+bool GLViewPrivate::OnDraw (GLView* View, GdkEventExpose *event) 
+{
+	/* Draw only last expose. */
+	if (event->count > 0) return TRUE;
+
+	if (!View->m_bInit)
+		return true;
+	GdkGLContext *glcontext = gtk_widget_get_gl_context (View->m_pWidget);
+	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (View->m_pWidget);
+	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+		glClearColor (View->GetRed (), View->GetGreen (), View->GetBlue (), View->GetAlpha ());
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		View->m_Doc->Draw (View->m_Euler);
+		gdk_gl_drawable_gl_end (gldrawable);
+		/* Swap backbuffer to front */
+		gdk_gl_drawable_swap_buffers (gldrawable);
+    }
+	return true;
+}
+
+bool GLViewPrivate::OnMotion (G_GNUC_UNUSED GtkWidget *widget, GdkEventMotion *event, GLView* View) 
+{
+	gint x, y;
+	GdkModifierType state;
+	
+	if (event->is_hint)
+		gdk_window_get_pointer (event->window, &x, &y, &state);
+	else {
+	    x = (gint) event->x;
+	    y = (gint) event->y;
+	    state = (GdkModifierType) event->state;
+	}
+	if (state & GDK_BUTTON1_MASK) {
+		if ((x == View->m_Lastx) && (y == View->m_Lasty))
+			return false;
+		View->m_Doc->SetDirty (true);
+		View->Rotate (x - View->m_Lastx, y - View->m_Lasty);
+		View->m_Lastx = x;
+		View->m_Lasty = y;
+		gtk_widget_queue_draw_area(View->m_pWidget, 0, 0, View->m_WindowWidth, View->m_WindowHeight);
+	}
+	return true;
+}
+
+bool GLViewPrivate::OnPressed (G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event, GLView* View) 
+{
+  if (event->button == 1) {
+    // beginning of drag, reset mouse position
+    View->m_Lastx = event->x;
+    View->m_Lasty = event->y;
+    return true;
+  }
+  return false;
+}
+
+static void on_config_changed (GOConfNode *node, gchar const *key, G_GNUC_UNUSED gpointer data)
+{
+	if (!strcmp (key, ROOTDIR"off-screen-rendering"))
+		OffScreenRendering = go_conf_get_bool (node, key);
+}
+
+GLView::GLView (gcu::GLDocument* pDoc) throw (std::runtime_error): gcu::GLView (pDoc), Printable ()
+{
+	m_bInit = false;
+/* Create new OpenGL widget. */
+	if (glconfig == NULL)
+	{
+		/* Check if OpenGL is supported. */
+		if (!gdk_gl_query_extension())
+			throw  std::runtime_error ("*** OpenGL is not supported.\n");
+	
+		/* Configure OpenGL-capable visual. */
+	
+		/* Try double-buffered visual */
+		glconfig = gdk_gl_config_new_by_mode (GdkGLConfigMode (GDK_GL_MODE_RGB |
+											GDK_GL_MODE_DEPTH |
+											GDK_GL_MODE_DOUBLE));
+		if (glconfig == NULL)
+			throw  std::runtime_error ("*** Cannot find the double-buffered visual.\n");
+		m_ConfNode = go_conf_get_node (gcugtk::Application::GetConfDir (), GCU_CONF_DIR_GL);
+		GCU_GCONF_GET_NO_CHECK ("off-screen-rendering", bool, OffScreenRendering, true)
+		m_NotificationId = go_conf_add_monitor (m_ConfNode, "off-screen-rendering", (GOConfMonitorFunc) on_config_changed, NULL);
+	}
+	/* create new OpenGL widget */
+	m_pWidget = GTK_WIDGET (gtk_drawing_area_new());
+	
+	/* Set OpenGL-capability to the widget. */
+	gtk_widget_set_gl_capability(m_pWidget,
+					glconfig,
+					NULL,
+					TRUE,
+					GDK_GL_RGBA_TYPE);
+	
+	gtk_widget_set_events(GTK_WIDGET(m_pWidget),
+		GDK_EXPOSURE_MASK |
+		GDK_POINTER_MOTION_MASK |
+		GDK_POINTER_MOTION_HINT_MASK |
+		GDK_BUTTON_PRESS_MASK |
+	    GDK_BUTTON_RELEASE_MASK);
+	
+	// Connect signal handlers
+	// Do initialization when widget has been realized.
+	g_signal_connect_swapped (G_OBJECT (m_pWidget), "realize",
+				G_CALLBACK (GLViewPrivate::OnInit), this);
+	// When window is resized viewport needs to be resized also.
+	g_signal_connect_swapped (G_OBJECT (m_pWidget), "configure_event",
+				G_CALLBACK (GLViewPrivate::OnReshape), this);
+	// Redraw image when exposed. 
+	g_signal_connect_swapped (G_OBJECT (m_pWidget), "expose_event",
+				G_CALLBACK (GLViewPrivate::OnDraw), this);
+	// When moving mouse 
+	g_signal_connect (G_OBJECT (m_pWidget), "motion_notify_event",
+				G_CALLBACK (GLViewPrivate::OnMotion), this);
+	// When a mouse button is pressed
+	g_signal_connect (G_OBJECT (m_pWidget), "button_press_event",
+				G_CALLBACK (GLViewPrivate::OnPressed), this);
+	
+	gtk_widget_show (GTK_WIDGET (m_pWidget));
+	nbViews++;
+}
+
+GLView::~GLView ()
+{
+	nbViews--;
+	if (!nbViews) {
+		go_conf_remove_monitor (m_NotificationId);
+		go_conf_free_node (m_ConfNode);
+		m_ConfNode = NULL;
+		m_NotificationId = 0;
+	}
+}
+
+void GLView::Update()
+{
+	if (!m_bInit)
+		return;
+	GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
+	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
+	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+		m_Doc->Draw (m_Euler);
+		gdk_gl_drawable_gl_end (gldrawable);
+    }
+	Reshape (m_WindowWidth, m_WindowHeight);
+	gtk_widget_queue_draw (m_pWidget);
+}
+
+void GLView::Reshape (int width, int height) 
+{
+	m_WindowWidth = width;
+	m_WindowHeight = height;
+	if (!m_bInit)
+		return;
+	float fAspect;
+	GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
+	GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
+	if (gdk_gl_drawable_gl_begin (gldrawable, glcontext)) {
+		if (height) {
+			fAspect = (GLfloat)width / (GLfloat) height;
+			if (fAspect == 0.0)
+				fAspect = 1.0;
+		} else	// don't divide by zero, not that we should ever run into that...
+			fAspect = 1.0f;
+		double x = m_Doc->GetMaxDist ();
+		if (x == 0)
+			x = 1;
+		glViewport (0,0, width, height);
+		if (fAspect > 1.0) {
+			m_Height = x * (1 - tan (GetAngle () / 360 * M_PI));
+			m_Width = m_Height * fAspect;
+		} else {
+			m_Width = x * (1 - tan (GetAngle () / 360 * M_PI));
+			m_Height =m_Width / fAspect;
+		}
+		glMatrixMode (GL_PROJECTION);
+		glLoadIdentity();
+		if (GetAngle () > 0.) {
+			m_Radius = (float) (x / sin (GetAngle () / 360 * M_PI)) ;
+			m_Near = m_Radius - x;
+			m_Far = m_Radius + x;
+			glFrustum (-m_Width, m_Width, -m_Height, m_Height, m_Near, m_Far);
+		} else {
+			m_Radius = 2 * x;
+			m_Near = m_Radius - x;
+			m_Far = m_Radius + x;
+			glOrtho (-m_Width, m_Width, -m_Height, m_Height, m_Near, m_Far);
+		}
+		glMatrixMode (GL_MODELVIEW);
+		glLoadIdentity ();
+		glTranslatef (0, 0, -m_Radius);
+		gdk_gl_drawable_gl_end (gldrawable);
+	}
+}
+
+void GLView::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext *context, G_GNUC_UNUSED int page) const
+{
+	cairo_t *cr;
+	gdouble width, height;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	width = gtk_print_context_get_width (context);
+	height = gtk_print_context_get_height (context);
+	int w, h; // size in points
+	w = m_WindowWidth;
+	h = m_WindowHeight;
+	switch (GetScaleType ()) {
+	case GCU_PRINT_SCALE_NONE:
+		break;
+	case GCU_PRINT_SCALE_FIXED:
+		w *= GetScale ();
+		h *= GetScale ();
+		break;
+	case GCU_PRINT_SCALE_AUTO:
+		if (GetHorizFit ())
+			w = width;
+		if (GetVertFit ())
+			h = height;
+		break;
+	}
+	double scale = 300. / 72.;
+	GdkPixbuf *pixbuf = BuildPixbuf (w * scale, h * scale);
+	GOImage *img = go_image_new_from_pixbuf (pixbuf);
+	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
+	cairo_matrix_t cr_matrix;
+	double x = 0., y = 0.;
+	if (GetHorizCentered ())
+		x = (width - w) / 2.;
+	if (GetVertCentered ())
+		y = (height - h) / 2.;
+	cairo_matrix_init_scale (&cr_matrix, scale, scale);
+	cairo_matrix_translate (&cr_matrix, -x, -y);
+	cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
+	cairo_rectangle (cr, x, y, w, h);
+	cairo_set_source (cr, cr_pattern);
+	cairo_fill (cr);
+	cairo_pattern_destroy (cr_pattern);
+	g_object_unref (img);
+	g_object_unref (pixbuf);
+}
+
+GdkPixbuf *GLView::BuildPixbuf (unsigned width, unsigned height) const
+{
+	GdkGLConfig *glconfig = gdk_gl_config_new_by_mode (
+		GdkGLConfigMode (GDK_GL_MODE_RGBA | GDK_GL_MODE_DEPTH));
+	GdkPixmap *pixmap = gdk_pixmap_new (NULL, width, height, 24);
+	GdkGLPixmap *gl_pixmap = gdk_pixmap_set_gl_capability (pixmap,
+							       glconfig,
+							       NULL );
+	GdkGLDrawable *drawable = NULL;
+	GdkGLContext *context = NULL;
+	if (gl_pixmap != NULL) {
+		drawable = gdk_pixmap_get_gl_drawable (pixmap);
+		context = gdk_gl_context_new (drawable,
+						     NULL,
+						     TRUE,
+						     GDK_GL_RGBA_TYPE);
+	}
+	double aspect = (GLfloat) width / height;
+	double x = m_Doc->GetMaxDist (), w, h;
+	if (x == 0)
+		x = 1;
+	if (aspect > 1.0) {
+		h = x * (1 - tan (GetAngle () / 360 * M_PI));
+		w = h * aspect;
+	} else {
+		w = x * (1 - tan (GetAngle () / 360 * M_PI));
+		h = w / aspect;
+	}
+	GdkPixbuf *pixbuf = NULL;
+	gdk_error_trap_push ();
+	bool result = OffScreenRendering && gl_pixmap && gdk_gl_drawable_gl_begin (drawable, context);
+	gdk_flush ();
+	if (gdk_error_trap_pop ())
+		result = false;
+	
+	if (result) {
+	    glEnable (GL_LIGHTING);
+		glEnable (GL_LIGHT0);
+		glEnable (GL_DEPTH_TEST);
+		glEnable (GL_CULL_FACE);
+		glEnable (GL_COLOR_MATERIAL);
+		float shiny = 25.0, spec[4] = {1.0, 1.0, 1.0, 1.0};
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SHININESS, &shiny);
+		glMaterialfv (GL_FRONT_AND_BACK, GL_SPECULAR, spec);
+		glViewport (0, 0, width, height);
+	    glMatrixMode (GL_PROJECTION);
+	    glLoadIdentity ();
+		GLfloat radius, near, far;
+		if (GetAngle () > 0.) {
+			radius = (float) (x / sin (GetAngle () / 360 * M_PI)) ;
+			near = radius - x;
+			far = radius + x;
+			glFrustum (- w, w, - h, h, near, far);
+		} else {
+			radius = 2 * x;
+			near = radius - x;
+			far = radius + x;
+			glOrtho (- w, w, - h, h, near, far);
+		}
+	    glMatrixMode (GL_MODELVIEW);
+		glLoadIdentity ();
+		glTranslatef (0, 0, -m_Radius);
+		glClearColor (GetRed (), GetGreen (), GetBlue (), GetAlpha ());
+		glClearDepth (1.0);
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable (GL_BLEND);
+		GetDoc ()->Draw(m_Euler);
+		glDisable (GL_BLEND);
+		glFlush ();
+		gdk_gl_drawable_gl_end (drawable);
+		pixbuf = gdk_pixbuf_get_from_drawable (NULL,
+			(GdkDrawable*) pixmap, NULL, 0, 0, 0, 0, -1, -1);
+	} else if (m_bInit) {
+		unsigned hstep, vstep;
+		double dxStep, dyStep;
+		unsigned char *tmp, *dest, *src, *dst;
+		unsigned LineWidth, s = sizeof(int);
+		gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (m_pWidget))); 
+		while (gtk_events_pending ())
+			gtk_main_iteration ();
+		if (m_WindowWidth & (s - 1))
+			LineWidth = ((~(s - 1)) & (m_WindowWidth * 3)) + s;
+		else
+			LineWidth = m_WindowWidth * 3;
+		unsigned size = LineWidth * m_WindowHeight;
+		int i, j;
+		hstep = m_WindowWidth;
+		vstep = m_WindowHeight;
+		tmp = new unsigned char[size];
+		if (!tmp)
+			goto osmesa;
+		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, false, 8, (int) width, (int) height);
+		dest = gdk_pixbuf_get_pixels (pixbuf);
+		int n, m, imax, jmax, rowstride =  gdk_pixbuf_get_rowstride (pixbuf);
+		imax = width / hstep;
+		jmax = height / vstep;
+		dxStep = ((double) hstep) / width * 2; 
+		dyStep = ((double) vstep) / height * 2;
+		for (j = 0; j <= jmax; j++)
+		{
+			for (i = 0; i <= imax; i++)
+			{
+				GdkGLContext *glcontext = gtk_widget_get_gl_context (m_pWidget);
+				GdkGLDrawable *gldrawable = gtk_widget_get_gl_drawable (m_pWidget);
+				if (gdk_gl_drawable_gl_begin (gldrawable, glcontext))
+				{
+					glMatrixMode (GL_PROJECTION);
+					glLoadIdentity ();
+					if (GetAngle () > 0.)
+						glFrustum (w * ( -1 + i * dxStep), w * ( -1 + (i + 1)* dxStep),
+								h * ( 1 - (j + 1)* dyStep), h * ( 1 - j* dyStep), m_Near , m_Far);
+					else
+						glOrtho (w * ( -1 + i * dxStep), w * ( -1 + (i + 1)* dxStep),
+								h * ( 1 - (j + 1)* dyStep), h * ( 1 - j* dyStep), m_Near , m_Far);
+					glMatrixMode(GL_MODELVIEW);
+					glLoadIdentity();
+					glTranslatef(0, 0, - m_Radius);
+					glClearColor (GetRed (), GetGreen (), GetBlue (), GetAlpha ());
+					glClearDepth (1.0);
+					glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+					m_Doc->Draw (m_Euler);
+					glFlush ();
+					gdk_gl_drawable_gl_end (gldrawable);
+					glPixelStorei (GL_PACK_ALIGNMENT, s);
+					glReadBuffer (GL_BACK_LEFT);
+					glReadPixels (0, 0, m_WindowWidth, m_WindowHeight, GL_RGB,
+										GL_UNSIGNED_BYTE, tmp);
+					// copy the data to the pixbuf.
+					// linesize
+					m = (i < imax)? hstep * 3: (width - imax * hstep) * 3;
+					src = tmp + (vstep - 1) * LineWidth;
+					dst = dest + j * vstep * rowstride + i * hstep * 3;
+					for (n = 0; n < (int) ((j < jmax)? vstep: height - jmax * vstep); n++) {
+						memcpy (dst, src, m);
+						src -= LineWidth;
+						dst += rowstride;
+					}
+				} else {
+					g_object_unref (pixbuf);
+					pixbuf = NULL;
+					goto osmesa;
+				}
+			}
+		}
+		delete [] tmp;
+	} else
+osmesa:
+		pixbuf = gcu::GLView::BuildPixbuf (width, height);
+	if (context)
+		gdk_gl_context_destroy (context);
+	if (gl_pixmap)
+		gdk_gl_pixmap_destroy (gl_pixmap);
+	// destroying pixmap gives a CRITICAL and destroying glconfig leeds to a crash.
+	const_cast <GLView *> (this)->Update ();
+	return pixbuf;
+}
+
+}	//	namespace gcugtk

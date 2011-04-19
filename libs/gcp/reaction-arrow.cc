@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-arrow.cc 
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -36,6 +36,7 @@
 #include <gccv/arrow.h>
 #include <gccv/canvas.h>
 #include <gccv/group.h>
+#include <gcugtk/ui-manager.h>
 #include <gcu/objprops.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -274,8 +275,9 @@ static void do_free_data (struct CallbackData *data)
 	delete data;
 }
 
-bool ReactionArrow::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+bool ReactionArrow::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
 {
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	Document *Doc = dynamic_cast<Document*> (GetDocument ());
 	WidgetData* pData = (WidgetData*) g_object_get_data (G_OBJECT (Doc->GetWidget ()), "data");
 	// Don't allow more than one child at the moment
@@ -297,8 +299,8 @@ bool ReactionArrow::BuildContextualMenu (GtkUIManager *UIManager, Object *object
 	g_signal_connect_swapped (action, "activate", G_CALLBACK (do_attach_object), data);
 	gtk_action_group_add_action (group, action);
 	g_object_unref (action);
-	gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Arrow'><menuitem action='attach'/></menu></popup></ui>", -1, NULL);
-	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Arrow'><menuitem action='attach'/></menu></popup></ui>", -1, NULL);
+	gtk_ui_manager_insert_action_group (uim, group, 0);
 	g_object_unref (group);
 	return true;
 }

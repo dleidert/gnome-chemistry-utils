@@ -4,7 +4,7 @@
  * GChemPaint selection plugin
  * selectiontool.cc
  *
- * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -33,6 +33,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/window.h>
+#include <gcugtk/ui-manager.h>
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/rectangle.h>
@@ -78,7 +79,7 @@ gcpSelectionTool::gcpSelectionTool (gcp::Application *App): gcp::Tool (App, "Sel
 gcpSelectionTool::~gcpSelectionTool ()
 {
 	if (m_UIManager)
-		g_object_unref (m_UIManager);
+		delete m_UIManager;
 }
 
 bool gcpSelectionTool::OnClicked ()
@@ -400,14 +401,14 @@ void gcpSelectionTool::CreateGroup ()
 	}
 }
 
-bool gcpSelectionTool::OnRightButtonClicked (GtkUIManager *UIManager)
+bool gcpSelectionTool::OnRightButtonClicked (gcu::UIManager *UIManager)
 {
-	// first destroy the GtkUIManager
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	if (m_pData->SelectedObjects.size () > 1) {
 		GtkActionGroup *group = gtk_action_group_new ("selection");
 		GtkAction *action = gtk_action_new ("group", _("Group and/or align objects"), NULL, NULL);
 		gtk_action_group_add_action (group, action);
-		m_uiIds.push_front (gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menuitem action='group'/></popup></ui>", -1, NULL));
+		m_uiIds.push_front (gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menuitem action='group'/></popup></ui>", -1, NULL));
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (on_group), this);
 		set<TypeId> possible_types, types, wrong_types;
 		list<Object*>::iterator  i = m_pData->SelectedObjects.begin (),
@@ -432,11 +433,11 @@ bool gcpSelectionTool::OnRightButtonClicked (GtkUIManager *UIManager)
 				action = gtk_action_new ("create_group", label.c_str (), NULL, NULL);
 				gtk_action_group_add_action (group, action);
 				char buf[] = "<ui><popup><menuitem action='create_group'/></popup></ui>";
-				m_uiIds.push_front (gtk_ui_manager_add_ui_from_string (UIManager, buf, -1, NULL));
+				m_uiIds.push_front (gtk_ui_manager_add_ui_from_string (uim, buf, -1, NULL));
 				g_signal_connect_swapped (action, "activate", G_CALLBACK (on_create_group), this);
 			}
 		}
-		gtk_ui_manager_insert_action_group (UIManager, group, 0);
+		gtk_ui_manager_insert_action_group (uim, group, 0);
 		return true;
 	}
 	return false;
@@ -478,8 +479,8 @@ GtkWidget *gcpSelectionTool::GetPropertyPage ()
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), m_pApp);
 	gtk_action_group_add_toggle_actions (action_group, toggles, G_N_ELEMENTS (toggles), m_pApp);
 
-	m_UIManager = gtk_ui_manager_new ();
-	if (!gtk_ui_manager_add_ui_from_string (m_UIManager, ui_description, -1, &error))
+	m_UIManager = new gcugtk::UIManager (gtk_ui_manager_new ());
+	if (!gtk_ui_manager_add_ui_from_string (m_UIManager->GetUIManager (), ui_description, -1, &error))
 	  {
 		g_message ("building property page failed: %s", error->message);
 		g_error_free (error);
@@ -488,13 +489,13 @@ GtkWidget *gcpSelectionTool::GetPropertyPage ()
 		m_UIManager = NULL;
 		return NULL;;
 	  }
-	gtk_ui_manager_insert_action_group (m_UIManager, action_group, 0);
-	w = gtk_ui_manager_get_widget (m_UIManager, "/Selection");
+	gtk_ui_manager_insert_action_group (m_UIManager->GetUIManager (), action_group, 0);
+	w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/Selection");
 	gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), false);
 	gtk_box_pack_start (GTK_BOX (box), w, false, false, 0);
 	gtk_widget_show_all (box);
-	m_MergeBtn = gtk_ui_manager_get_widget (m_UIManager, "/Selection/Merge");
+	m_MergeBtn = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/Selection/Merge");
 	gtk_widget_set_sensitive (m_MergeBtn, false);
 	return box;
 }

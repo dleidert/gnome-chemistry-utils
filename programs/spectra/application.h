@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/spectra/application.h
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,13 +26,13 @@
 #ifndef GSV_APPLICATION_H
 #define GSV_APPLICATION_H
 
-#include <gcu/application.h>
+#include <gcugtk/application.h>
 #include <list>
 #include <string>
 
 class gsvDocument;
 
-class gsvApplication: public gcu::Application
+class gsvApplication: public gcugtk::Application
 {
 public:
 	gsvApplication ();

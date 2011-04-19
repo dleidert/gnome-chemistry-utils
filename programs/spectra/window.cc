@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/spectra/window.cc
  *
- * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,7 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
-#include <gcu/print-setup-dlg.h>
+#include <gcugtk/print-setup-dlg.h>
 #include <gsf/gsf-output-memory.h>
 #include <glib/gi18n.h>
 
@@ -106,7 +106,7 @@ static void on_bug (G_GNUC_UNUSED GtkWidget *widget, gsvWindow* window)
 	window->GetApp ()->OnBug ();
 }
 
-static void on_about (G_GNUC_UNUSED GtkWidget *widget, gsvWindow *Win)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gsvWindow *Win)
 {
 	const gchar * authors[] = {"Jean Bréfort", NULL};
 	const gchar * comments = _("GSpectrum is a spectrum viewer for Gnome");
@@ -319,7 +319,7 @@ void gsvWindow::OnFileClose ()
 
 void gsvWindow::OnPageSetup ()
 {
-	new gcu::PrintSetupDlg (m_App, m_Doc);
+	new gcugtk::PrintSetupDlg (m_App, m_Doc);
 }
 
 static GtkTargetEntry const targets[] = {

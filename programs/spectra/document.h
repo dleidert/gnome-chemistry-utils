@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/spectra/document.h 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,11 +26,11 @@
 #define GSV_DOCUMENT_H
 
 #include <gcu/macros.h>
-#include <gcu/spectrumdoc.h>
+#include <gcugtk/spectrumdoc.h>
 
 class gsvApplication;
 
-class gsvDocument: public gcu::SpectrumDocument
+class gsvDocument: public gcugtk::SpectrumDocument
 {
 public:
 	gsvDocument (gsvApplication *App);

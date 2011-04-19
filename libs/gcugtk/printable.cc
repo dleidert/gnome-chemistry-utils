@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * printable.h
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,11 +23,11 @@
 #include "config.h"
 #include "printable.h"
 #include "application.h"
-#include "macros.h"
+#include <gcu/macros.h>
 #include <glib/gi18n-lib.h>
 #include <cstring>
 
-namespace gcu {
+namespace gcugtk {
 
 
 static char const *UnitNames[] = {
@@ -222,4 +222,4 @@ void Printable::SetPageSetup (GtkPageSetup *PageSetup)
 	}
 }
 
-}	//	namespace gcu
+}	//	namespace gcugtk

@@ -42,33 +42,12 @@ class Dialog;
 struct option_data;
 class TypeDesc;
 class CmdContext;
+class UIManager;
 
 typedef struct {
 	std::string name;
 	std::string uri;
 } Database;
-
-/*!
-Window states
-*/
-typedef enum {
-/*!
-Normal window.
-*/
-	NormalWindowState,
-/*!
-Maximized window.
-*/
-	MaximizedWindowState,
-/*!
-Minimized window.
-*/
-	MinimizedWindowState,
-/*!
-Full screen window.
-*/
-	FullScreenWindowState
-} WindowState;
 
 #define GCU_CONF_DIR "gchemutils"
 
@@ -79,7 +58,6 @@ class Application: virtual public DialogOwner
 {
 friend class Document;
 friend class Dialog;
-friend class ApplicationPrivate;
 public:
 /*!
 @param name the name of the application.
@@ -224,7 +202,7 @@ This method loads a document using the appropriate gcu::Loader class
 instance.
 @return the found \a ContentType ot ContentTypeUnknown if an error occured.
 */
-	ContentType Load (std::string const &uri, const gchar *mime_type, Document* Doc, const char *options = NULL);
+	ContentType Load (std::string const &uri, const char *mime_type, Document* Doc, const char *options = NULL);
 	             
 /*!
 @param input a GsfInput.
@@ -235,7 +213,7 @@ This method loads a document using the appropriate gcu::Loader class
 instance.
 @return the found \a ContentType ot ContentTypeUnknown if an error occured.
 */
-	ContentType Load (GsfInput *input, const gchar *mime_type, Document* Doc, const char *options = NULL);
+	ContentType Load (GsfInput *input, const char *mime_type, Document* Doc, const char *options = NULL);
 	            
 /*!
 @param uri the uri to which the document should be saved.
@@ -247,7 +225,7 @@ This method saves the document using the appropriate gcu::Loader class
 instance.
 @return true if no error occurred.
 */
-	bool Save (std::string const &uri, const gchar *mime_type, Object const *Obj, ContentType type, const char *options = NULL);
+	bool Save (std::string const &uri, const char *mime_type, Object const *Obj, ContentType type, const char *options = NULL);
 	            
 /*!
 @param output a GsfOutput.
@@ -259,8 +237,7 @@ This method saves the document using the appropriate gcu::Loader class
 instance using \a output as target.
 @return true if no error occurred.
 */
-	bool Save (GsfOutput *output, const gchar *mime_type, Object const *Obj, ContentType type, const char *options = NULL);
-
+	bool Save (GsfOutput *output, const char *mime_type, Object const *Obj, ContentType type, const char *options = NULL);
 
 /*!
 Virtual method used to create documents. Default behavior does nothing and returns NULL.
@@ -297,10 +274,6 @@ just after creating the application and before parsing options.
 */
 	void AddOptions (GOptionContext *context);
 /*!
-@return the default WindowState for the application. New window should use this setting.
-*/
-	static WindowState GetDefaultWindowState () {return DefaultWindowState;}
-/*!
 @return a dummy Application instance which might be used when there is no other
 Application available.
 */
@@ -331,18 +304,6 @@ It will also be given a default Id.
 @return a pointer to the newly created Object or NULL if the Object could not be created.
 */
 	Object* CreateObject (const std::string& TypeName, Object* parent = NULL);
-
-/*!
-@param UIManager the GtkUIManager to populate.
-@param object the Object on which occured the mouse click.
-@param x x coordinate of the mouse click.
-@param y y coordinate of the mouse click.
-
-This method is called to build a contextual menu for the object. It is called by Object::BuildContextualMenu, so
-it should not be necessary to call it directly.
-@return true if something is added to the UIManager, false otherwise.
-*/
-	bool BuildObjectContextualMenu (Object *target, GtkUIManager *UIManager, Object *object, double x, double y);
 /*!
 @param type1 the TypeId of the first class in the rule
 @param rule the new rule value
@@ -392,11 +353,16 @@ the class seems possible.
 	const std::string& GetCreationLabel (TypeId Id);
 
 /*!
-@param TypeName the name of a class
+@param uim the UIManager to populate.
+@param object the Object on which occured the mouse click.
+@param x x coordinate of the mouse click.
+@param y y coordinate of the mouse click.
 
-@return the string defined by SetCreationLabel.
+This method is called to build a contextual menu for the object. It is called by Object::BuildContextualMenu, so
+it should not be necessary to call it directly.
+@return true if something is added to the UIManager, false otherwise.
 */
-	const std::string& GetCreationLabel (const std::string& TypeName);
+	bool BuildObjectContextualMenu (Object *target, UIManager *uim, Object *object, double x, double y);
 
 /*!
 @param Id the TypeId of the Object derived class
@@ -405,6 +371,13 @@ the class seems possible.
 adds a callback for modifying the contextual menu of objects of type Id.
 */
 	void AddMenuCallback (TypeId Id, BuildMenuCb cb);
+	            
+/*!
+@param TypeName the name of a class
+
+@return the string defined by SetCreationLabel.
+*/
+	const std::string& GetCreationLabel (const std::string& TypeName);
 
 	TypeDesc const *GetTypeDescription (TypeId Id);
 	CmdContext *GetCmdContext ();
@@ -443,15 +416,8 @@ This method converts CML to a target.
 	std::list < Database > const &GetDatabases (char const *classname) {return m_Databases[classname];}
 
 protected:
-
-/*!
-This method is called by the framework when all the documents have been removed from
-the set of opened documents. The default behavior is to call gtk_main_quit and exit
-the program. Derived class might overide this method to change this.
-*/
-	virtual void NoMoreDocsEvent () {gtk_main_quit ();}
-
 	void RegisterBabelType (const char *mime_type, const char *type);
+	virtual void CreateDefaultCmdContext () {}
 
 private:
 	void AddDocument (Document *Doc) {m_Docs.insert (Doc);}
@@ -468,11 +434,17 @@ private:
 	std::string IconName;
 	static GOConfNode *m_ConfDir;
 	std::list <option_data> m_Options;
-	static WindowState DefaultWindowState;
 	std::map <TypeId, TypeDesc> m_Types;
 	std::map <std::string, std::string> m_BabelTypes;
 
 protected:
+
+/*!
+This method is called by the framework when all the documents have been removed from
+the set of opened documents. The default behavior is to do nothing
+Derived class might overide this method to change this.
+*/
+	virtual void NoMoreDocsEvent () {}
 /*!
 std::map of the supported pixbuf formats. Keys are the mime type names.
 */
@@ -547,10 +519,6 @@ Sets the transparency of the exported image when possible.
 @return whether exported image have a transparent background as a reference.
 */
 GCU_PROP (bool, TransparentBackground)
-/*!\fn GetRecentManager()
-@return the GtkRecentFileManager attached to the application.
-*/
-GCU_RO_PROP (GtkRecentManager*, RecentManager)
 };
 
 }	// namespace gcu

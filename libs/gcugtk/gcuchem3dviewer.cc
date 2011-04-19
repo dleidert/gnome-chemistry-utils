@@ -22,8 +22,8 @@
 
 #include "config.h"
 #include "gcuchem3dviewer.h"
+#include "glview.h"
 #include <gcu/chem3ddoc.h>
-#include <gcu/glview.h>
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 #include <cstring>
@@ -166,7 +166,7 @@ void gcu_chem3d_viewer_init (GcuChem3DViewer *viewer)
 {
 	g_return_if_fail (GCU_IS_CHEM3D_VIEWER (viewer));
 	viewer->Doc = new Chem3dDoc ();
-	viewer->widget = viewer->Doc->GetView ()->GetWidget ();
+	viewer->widget = static_cast <gcugtk::GLView *> (viewer->Doc->GetView ())->GetWidget ();
 	gtk_widget_show (GTK_WIDGET (viewer->widget));
 	gtk_container_add (GTK_CONTAINER (viewer), viewer->widget);
 	gtk_widget_show_all (GTK_WIDGET (viewer));

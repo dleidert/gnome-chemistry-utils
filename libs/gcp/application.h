@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_APPLICATION_H
 #define GCHEMPAINT_APPLICATION_H
 
-#include <gcu/application.h>
+#include <gcugtk/application.h>
 #include <gcu/macros.h>
 #include <libxml/parser.h>
 #include <set>
@@ -67,7 +67,7 @@ class Target;
 class NewFileDlg;
 class Tool;
 class Document;
-typedef void (*BuildMenuCb) (GtkUIManager *UIManager);
+typedef void (*BuildMenuCb) (gcu::UIManager *UIManager);
 
 /*!
 @brief Cursors.
@@ -89,14 +89,14 @@ typedef enum {
 This class is used to represent a GChemPaint application.
 It is a virtual class since at least one method is pure virtual (gcp::Application::GetWindow)
 */
-class Application: public gcu::Application
+class Application: public gcugtk::Application
 {
 friend class ApplicationPrivate;
 public:
 /*!
 The default constructor.
 */
-	Application (gcu::CmdContext *cc = NULL);
+	Application (gcugtk::CmdContextGtk *cc = NULL);
 /*!
 The destructor.
 */
@@ -373,12 +373,12 @@ adds a callback for adding entries to the windows menus.
 	void AddMenuCallback (BuildMenuCb cb);
 
 /*!
-@param manager: the GtkUIManager to populate.
+@param manager: the gcu::UIManager to populate.
 
 Populates the user interface by calling all callbacks registered
 with AddMenuCallback.
 */
-	void BuildMenu (GtkUIManager *manager);
+	void BuildMenu (gcu::UIManager *manager);
 
 /*!
 Creates a new document using the default theme.

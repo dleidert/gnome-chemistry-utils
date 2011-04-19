@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/spectra/document.cc
  *
- * Copyright (C) 2007-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -32,7 +32,7 @@
 using namespace gcu;
 using namespace std;
 
-gsvDocument::gsvDocument (gsvApplication *App): SpectrumDocument (App, new gsvView (this))
+gsvDocument::gsvDocument (gsvApplication *App): gcugtk::SpectrumDocument (App, new gsvView (this))
 {
 }
 
@@ -42,7 +42,7 @@ gsvDocument::~gsvDocument ()
 
 void gsvDocument::SetTitle (char const *title)
 {
-	gcu::SpectrumDocument::SetTitle (title);
+	gcugtk::SpectrumDocument::SetTitle (title);
 	gsvView *view = dynamic_cast <gsvView *> (m_View);
 	if (view && view->GetWindow ())
 		view->GetWindow ()->SetTitle (title);

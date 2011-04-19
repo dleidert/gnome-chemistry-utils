@@ -4,7 +4,7 @@
  * GChemPaint library
  * mesomery.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,6 +31,7 @@
 #include "theme.h"
 #include "view.h"
 #include "widgetdata.h"
+#include <gcugtk/ui-manager.h>
 #include <glib/gi18n-lib.h>
 #include <set>
 #include <cmath>
@@ -771,17 +772,18 @@ static void do_destroy_mesomery (void *data)
 	pDoc->FinishOperation ();
 }
 
-bool Mesomery::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+bool Mesomery::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
 {
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	GtkActionGroup *group = gtk_action_group_new ("mesomery");
 	GtkAction *action = gtk_action_new ("destroy-ms", _("Destroy the mesomery relationship"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
 	g_object_unref (action);
-	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	gtk_ui_manager_insert_action_group (uim, group, 0);
 	g_object_unref (group);
 	char buf[] = "<ui><popup><menuitem action='destroy-ms'/></popup></ui>";
-	gtk_ui_manager_add_ui_from_string (UIManager, buf, -1, NULL);
-	GtkWidget *w = gtk_ui_manager_get_widget (UIManager, "/popup/destroy-ms");
+	gtk_ui_manager_add_ui_from_string (uim, buf, -1, NULL);
+	GtkWidget *w = gtk_ui_manager_get_widget (uim, "/popup/destroy-ms");
 	g_signal_connect_swapped (w, "activate", G_CALLBACK (do_destroy_mesomery), this);
 	GetParent ()->BuildContextualMenu (UIManager, object, x, y);
 	return true;

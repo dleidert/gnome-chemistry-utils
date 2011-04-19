@@ -1,8 +1,8 @@
 /* 
  * Gnome Chemistry Utils
- * cmd-context-gtk.h 
+ * gcu/ui-manager.h 
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -20,22 +20,21 @@
  * USA
  */
 
-#ifndef GCU_CMD_CONTEXT_GTK_H
-#define GCU_CMD_CONTEXT_GTK_H
+/*!\file*/
 
-#include "cmd-context.h"
+#ifndef GCU_UI_MANAGER_H
+#define GCU_UI_MANAGER_H
 
 namespace gcu {
 
-class CmdContextGtk: public CmdContext {
+class UIManager
+{
 public:
-	CmdContextGtk (Application *App);
-	virtual ~CmdContextGtk ();
-
-	Response GetResponse (char const *message, int responses);
-	void Message (char const *message, Severity severity, bool modal);
+	UIManager ();
+	virtual ~UIManager ();
+	// TODO: add as many virtual functions as needed
 };
 
 }	//	namespace gcu
 
-#endif	/* GCU_CMD_CONTEXT_GTK_H */
+#endif	//	GCU_UI_MANAGER_H

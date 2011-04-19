@@ -4,7 +4,7 @@
  * GCrystal library
  * application.h 
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,11 +25,11 @@
 #ifndef GCR_APPLICATION_H
 #define GCR_APPLICATION_H
 
-#include <gcu/application.h>
+#include <gcugtk/application.h>
 
 namespace gcr {
 
-class Application: public gcu::Application {
+class Application: public gcugtk::Application {
 public:
 	Application ();
 	virtual ~Application ();

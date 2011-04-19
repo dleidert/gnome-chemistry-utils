@@ -4,7 +4,7 @@
  * Gnome Crystal
  * window.cc 
  *
- * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,7 +30,7 @@
 #include "prefs.h"
 #include "view-settings.h"
 #include <gcr/view.h>
-#include <gcu/print-setup-dlg.h>
+#include <gcugtk/print-setup-dlg.h>
 #include <gcu/spacegroup.h>
 #include <glib/gi18n.h>
 #include <cstring>
@@ -77,7 +77,7 @@ static void on_file_close (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 
 static void on_page_setup (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
 {
-	new PrintSetupDlg (Win->GetApplication (), Win->GetView ());
+	new gcugtk::PrintSetupDlg (Win->GetApplication (), Win->GetView ());
 }
 
 static void on_print_preview (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
@@ -118,7 +118,7 @@ static void on_prefs (G_GNUC_UNUSED GtkWidget* widget, gcWindow* Win)
 	new gcPrefsDlg (Win->GetApp ());
 }
 
-static void on_about (G_GNUC_UNUSED GtkWidget *widget, gcWindow* Win)
+static void on_about (G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED gcWindow* Win)
 {
 	char const *authors[] = {"Jean Bréfort", NULL};
 //	char * documentors[] = {NULL};

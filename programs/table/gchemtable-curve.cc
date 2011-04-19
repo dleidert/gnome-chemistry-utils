@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-curve.cc 
  *
- * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,7 +28,7 @@
 #include "gchemtable-data-allocator.h"
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
-#include <gcu/print-setup-dlg.h>
+#include <gcugtk/print-setup-dlg.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-output-gio.h>
@@ -271,7 +271,7 @@ static const char *ui_description =
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
 	Dialog (App, UIDIR"/curve.ui", "curvedlg", GETTEXT_PACKAGE),
-	Printable (),
+	gcugtk::Printable (),
 	m_Guru (NULL)
 {
 	m_GraphBox = GetWidget ("vbox1");
@@ -458,13 +458,13 @@ void GChemTableCurve::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintC
 	w = m_GraphWidth;
 	h = m_GraphHeight;
 	switch (GetScaleType ()) {
-	case GCU_PRINT_SCALE_NONE:
+	case gcugtk::GCU_PRINT_SCALE_NONE:
 		break;
-	case GCU_PRINT_SCALE_FIXED:
+	case gcugtk::GCU_PRINT_SCALE_FIXED:
 		w *= Printable::GetScale ();
 		h *= Printable::GetScale ();
 		break;
-	case GCU_PRINT_SCALE_AUTO:
+	case gcugtk::GCU_PRINT_SCALE_AUTO:
 		if (GetHorizFit ())
 			w = width;
 		if (GetVertFit ())
@@ -484,7 +484,7 @@ void GChemTableCurve::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintC
 
 void GChemTableCurve::OnPageSetup ()
 {
-	new PrintSetupDlg (m_App, this);
+	new gcugtk::PrintSetupDlg (GetApplication (), this);
 }
 
 void GChemTableCurve::OnCopy ()

@@ -9,8 +9,9 @@ CLEANFILES = \
 
 MAINTAINERCLEANFILES = Makefile.in gchempaint.desktop.in
 
-DEPS = $(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la
+DEPS = $(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la
 LIBS = $(top_builddir)/libs/gcp/libgcp-@GCU_API_VER@.la \
+	$(top_builddir)/libs/gcugtk/libgcugtk-@GCU_API_VER@.la \
 	$(top_builddir)/libs/gcu/libgcu-@GCU_API_VER@.la \
 	$(goffice_LIBS) \
 	$(gtk_LIBS)

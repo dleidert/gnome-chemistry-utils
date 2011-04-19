@@ -30,6 +30,11 @@
 #include <gcu/molecule.h>
 
 /*!\file*/
+
+namespace gcu {
+class UIManager;
+}
+
 namespace gcp {
 
 class Bond;
@@ -139,7 +144,7 @@ Used to retrieve the y coordinate for alignment.
 */
 	double GetYAlign ();
 /*!
-@param UIManager the GtkUIManager to populate.
+@param UIManager the gcu::UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
@@ -147,7 +152,7 @@ Used to retrieve the y coordinate for alignment.
 This method is called to build the contextual menu for the molecule.
 @return true if something is added to the UIManager, false otherwise.
 */
-	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
 /*!
 @param Signal the appropriate SignalId
 @param Child the child which emitted the signal or NULL

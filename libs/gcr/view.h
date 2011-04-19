@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * gcr/view.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,7 @@
 
 #include <libxml/parser.h>
 #include <gcu/matrix.h>
-#include <gcu/glview.h>
+#include <gcugtk/glview.h>
 #include <list>
 #include <map>
 #include <gtk/gtkwidget.h>
@@ -42,7 +42,7 @@ The class representing a view of the model. Each document
 might have several views.
 Most methods are automatically called by the framework and should not be explicitely used in programs.
 */
-class View: public gcu::GLView
+class View: public gcugtk::GLView
 {
 public:
 //!Constructor.

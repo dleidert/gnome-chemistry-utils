@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-arrow.h 
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,6 +28,10 @@
 /*!\file*/
 
 #include "arrow.h"
+
+namespace gcu {
+class UIManager;
+}
 
 namespace gcp {
 
@@ -98,7 +102,7 @@ If it not one of these, nothing is done.
 */
 	void RemoveStep (ReactionStep *Step);
 /*!
-@param UIManager the GtkUIManager to populate.
+@param UIManager the gcu::UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
@@ -106,7 +110,7 @@ If it not one of these, nothing is done.
 This method is called to build a contextual menu for the arrow.
 @return true if something is added to the UIManager, false otherwise.
 */
-	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
 /*!
 @param x the x component of the transation vector.
 @param y the y component of the transation vector.

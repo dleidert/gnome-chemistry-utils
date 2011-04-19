@@ -4,7 +4,7 @@
  * GChemPaint library
  * mesomery.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,6 +26,10 @@
 #define GCHEMPAINT_MESOMERY_H
 
 #include <gcu/object.h>
+
+namespace gcu {
+class UIManager;
+}
 
 namespace gcp {
 
@@ -69,7 +73,7 @@ just there to inhibit the default behavior.
 */
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
 /*!
-@param UIManager the GtkUIManager to populate.
+@param UIManager the gcu::UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
@@ -77,7 +81,7 @@ just there to inhibit the default behavior.
 Builds the contextual menu for the mesomery.
 @return true (failure would be a bug).
 */
-	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
 /*!
 @param Signal the appropriate SignalId
 @param Child the child which emitted the signal or NULL

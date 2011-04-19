@@ -25,11 +25,11 @@
 #include "config.h"
 #include "application.h"
 #include "cmd-context.h"
-#include "cmd-context-gtk.h"
 #include "document.h"
 #include "loader.h"
 #include "message.h"
 #include "ui-builder.h"
+#include "ui-manager.h"
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
 #include <gsf/gsf-input-memory.h>
@@ -54,40 +54,7 @@ namespace gcu
 GOConfNode *Application::m_ConfDir = NULL;
 
 static map<string, Application *> Apps;
-WindowState Application::DefaultWindowState = NormalWindowState;
 static Application *Default = NULL;
-
-class ApplicationPrivate
-{
-public:
-	static void MaximizeWindows ();
-	static void FullScreenWindows ();
-	static bool LoadDatabases (Application *app);
-};
-
-void ApplicationPrivate::MaximizeWindows ()
-{
-	Application::DefaultWindowState = MaximizedWindowState;
-}
-
-void ApplicationPrivate::FullScreenWindows ()
-{
-	Application::DefaultWindowState = FullScreenWindowState;
-}
-
-#if 0
-bool ApplicationPrivate::LoadDatabases (Application *app)
-{
-	return false;
-}
-#endif
-
-static GOptionEntry options[] = 
-{
-  {"full-screen", 'F', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void *)ApplicationPrivate::MaximizeWindows, N_("Open new windows full screen"), NULL},
-  {"maximize", 'M', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, (void *) ApplicationPrivate::FullScreenWindows, N_("Maximize new windows"), NULL},
-  {NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
-};
 
 Application::Application (string name, string datadir, char const *help_name, char const *icon_name, CmdContext *cc)
 {
@@ -126,7 +93,6 @@ Application::Application (string name, string datadir, char const *help_name, ch
 	m_ScreenResolution = (unsigned) rint (gdk_screen_get_width (screen) * 25.4 / gdk_screen_get_width_mm (screen));
 	m_ImageResolution = m_ScreenResolution;
 	m_ImageHeight = m_ImageWidth = 300;
-	m_RecentManager = gtk_recent_manager_get_default ();
 
 	// check supported pixbuf formats
 	GSList *formats = gdk_pixbuf_get_formats ();
@@ -143,7 +109,6 @@ Application::Application (string name, string datadir, char const *help_name, ch
 		l = l->next;
 	}
 	g_slist_free (formats);
-	RegisterOptions (options);
 	if (Default == NULL)
 		Default = this;
 	RegisterBabelType ("chemical/x-xyz", "xyz");
@@ -510,18 +475,6 @@ Object* Application::CreateObject (const std::string& TypeName, Object* parent)
 	return obj;
 }
 
-bool Application::BuildObjectContextualMenu (Object *target, GtkUIManager *UIManager, Object *object, double x, double y)
-{
-	bool result = false;
-	TypeDesc const *typedesc = target->m_TypeDesc;
-	if (!typedesc)
-		return false;
-	list<BuildMenuCb>::const_iterator i, end = typedesc->MenuCbs.end ();
-	for (i = typedesc->MenuCbs.begin (); i != end; i++)
-		result |= (*i) (target, UIManager, object, x, y);
-	return result;
-}
-
 void Application::AddRule (const string& type1, RuleId rule, const string& type2)
 {
 	AddRule (Object::GetTypeId (type1), rule, Object::GetTypeId (type2));
@@ -607,10 +560,22 @@ TypeDesc const *Application::GetTypeDescription (TypeId Id)
 	return (i != m_Types.end ())? &(*i).second: NULL;
 }
 
+bool Application::BuildObjectContextualMenu (Object *target, UIManager *uim, Object *object, double x, double y)
+{
+	bool result = false;
+	TypeDesc const *typedesc = target->m_TypeDesc;
+	if (!typedesc)
+		return false;
+	list<BuildMenuCb>::const_iterator i, end = typedesc->MenuCbs.end ();
+	for (i = typedesc->MenuCbs.begin (); i != end; i++)
+		result |= (*i) (target, uim, object, x, y);
+	return result;
+}
+
 CmdContext *Application::GetCmdContext ()
 {
 	if (m_CmdContext == NULL)
-		m_CmdContext = new CmdContextGtk (this);
+		CreateDefaultCmdContext ();
 	return m_CmdContext;
 }
 

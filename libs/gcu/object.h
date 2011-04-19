@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * object.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -42,6 +42,7 @@ namespace gcu
 
 class Dialog;
 class Application;
+class UIManager;
 
 /*!\enum GcuTypeId
 This enumeration is used to determine the type of an Object instance.
@@ -98,12 +99,13 @@ class Object;
 /*!
 The type of callbacks for adding new items to the contextual menu of an object.
 @param target the Object whose menu is being built.
-@param UIManager the GtkUI%anager to populate.
+@param uim the UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
 */
-typedef bool (*BuildMenuCb) (Object *target, GtkUIManager *UIManager, Object *object, double x, double y);
+// FIXME: create a class for UIManager
+typedef bool (*BuildMenuCb) (Object *target, UIManager *uim, Object *object, double x, double y);
 
 class TypeDesc
 {
@@ -421,7 +423,7 @@ every derived class for which alignment has a meaning should implement this meth
 	virtual double GetYAlign ();
 
 /*!
-@param UIManager the GtkUIManager to populate.
+@param uim the UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
@@ -433,7 +435,7 @@ Default implementation calls registered BuildMenuCb callbacks and the parent's m
 Derived classes should call Object::BuildContextualMenu before returning.
 @return true if something is added to the UIManager, false otherwise.
 */
-	virtual bool BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y);
+	virtual bool BuildContextualMenu (UIManager *uim, Object *object, double x, double y);
 
 /*!
 @param Signal the appropriate SignalId

@@ -2,7 +2,7 @@
  * GChemPaint library
  * window.h
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,6 +29,11 @@
 #include <gtk/gtkuimanager.h>
 
 /*!\file*/
+
+namespace gcugtk {
+class UIManager;
+}
+
 namespace gcp {
 
 class Application;
@@ -193,9 +198,9 @@ Method called by the framework when the File/Page setup menu command is fired.
 
 protected:
 /*!
-The GtkUIManager associated with the window.
+The gcugtk::UIManager associated with the window.
 */
-	GtkUIManager* m_UIManager;
+	gcugtk::UIManager* m_UIManager;
 
 private:
 	GtkWidget* m_Bar;	//GtkStatusBar

@@ -4,7 +4,7 @@
  * GChemPaint residues plugin
  * plugin.cc 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,6 +30,7 @@
 #include <gcp/document.h>
 #include <gcp/molecule.h>
 #include <gcp/residue.h>
+#include <gcugtk/ui-manager.h>
 #include <glib/gi18n-lib.h>
 #include <sys/stat.h>
 #include <cstring>
@@ -87,15 +88,16 @@ static const char *ui_description =
 "  </menubar>"
 "</ui>";
 
-static void on_menu (GtkUIManager *UIManager)
+static void on_menu (gcu::UIManager *UIManager)
 {
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	GtkActionGroup *action_group = gtk_action_group_new ("ResiduesActions");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), NULL);
 
-	gtk_ui_manager_insert_action_group (UIManager, action_group, 1);
+	gtk_ui_manager_insert_action_group (uim, action_group, 1);
 	g_object_unref (action_group);
-	gtk_ui_manager_add_ui_from_string (UIManager, ui_description, -1, NULL);
+	gtk_ui_manager_add_ui_from_string (uim, ui_description, -1, NULL);
 }
 
 void gcpResiduesPlugin::Populate (gcp::Application *App)

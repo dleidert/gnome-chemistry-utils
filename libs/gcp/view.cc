@@ -4,7 +4,7 @@
  * GChemPaint library
  * view.cc
  *
- * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -38,6 +38,7 @@
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/text.h>
+#include <gcugtk/ui-manager.h>
 #include <gsf/gsf-output-gio.h>
 #include <gsf/gsf-output-memory.h>
 #include <cairo-pdf.h>
@@ -95,7 +96,7 @@ View::View (Document *pDoc, bool Embedded):
 	m_height = 300;
 	m_ActiveRichText = NULL;
 	m_bEmbedded = Embedded;
-	m_UIManager = gtk_ui_manager_new ();
+	m_UIManager = new gcugtk::UIManager (gtk_ui_manager_new ());
 	m_Dragging = false;
 	m_pWidget = NULL;
 	m_CurObject = NULL;
@@ -121,7 +122,7 @@ View::~View ()
 		g_free (m_sSmallFontName);
 	pango_font_description_free (m_PangoFontDesc);
 	pango_font_description_free (m_PangoSmallFontDesc);
-	g_object_unref (m_UIManager);
+	delete m_UIManager;
 	// we don't need to delete the canvas, since destroying the widget does the job.
 }
 
@@ -629,8 +630,8 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 			if (entries.empty ())
 				break;
 			map<string, Element*>::iterator i, end = entries.end ();
-			g_object_unref (m_UIManager);
-			m_UIManager = gtk_ui_manager_new ();
+			delete m_UIManager;
+			m_UIManager = new gcugtk::UIManager (gtk_ui_manager_new ());
 			GtkActionGroup *group = gtk_action_group_new ("element");
 			GtkAction *action;
 			string ui;
@@ -642,11 +643,11 @@ bool View::OnKeyPress (GtkWidget* w, GdkEventKey* event)
 				gtk_action_group_add_action (group, action);
 				g_object_unref (action);
 				ui = string ("<ui><popup><menuitem action='") + (*i).second->GetSymbol () + "'/></popup></ui>";
-				gtk_ui_manager_add_ui_from_string (m_UIManager, ui.c_str (), -1, NULL);
+				gtk_ui_manager_add_ui_from_string (m_UIManager->GetUIManager (), ui.c_str (), -1, NULL);
 			}
-			gtk_ui_manager_insert_action_group (m_UIManager, group, 0);
+			gtk_ui_manager_insert_action_group (m_UIManager->GetUIManager (), group, 0);
 			g_object_unref (group);
-			GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, "/popup");
+			GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/popup");
 			gtk_menu_popup (GTK_MENU (w), NULL, NULL, NULL, NULL, 3,  gtk_get_current_event_time ());
 			break;
 		}
@@ -975,13 +976,13 @@ bool View::OnButtonPressed (gccv::ItemClient *client, unsigned button, double x,
 	}
 	case 3: {
 		bool result;
-		g_object_unref (m_UIManager);
-		m_UIManager = gtk_ui_manager_new ();
+		delete m_UIManager;
+		m_UIManager = new gcugtk::UIManager (gtk_ui_manager_new ());
 		result = pActiveTool->OnRightButtonClicked (this, m_CurObject, x, y, m_UIManager);
 		if (m_CurObject)
 			result |= m_CurObject->BuildContextualMenu (m_UIManager, m_CurObject, x / GetZoomFactor (), y / GetZoomFactor ());
 		if (result) {
-			GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager, "/popup");
+			GtkWidget *w = gtk_ui_manager_get_widget (m_UIManager->GetUIManager (), "/popup");
 			gtk_menu_popup (GTK_MENU (w), NULL, NULL, NULL, NULL, 3,  gtk_get_current_event_time ());
 			return true;
 		}

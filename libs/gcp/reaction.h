@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,6 +29,11 @@
 #include <stdexcept>
 
 /*!\file*/
+
+namespace gcu {
+class UIManager;
+}
+
 namespace gcp {
 
 /*!\class Reaction gcp/reaction.h
@@ -65,7 +70,7 @@ reaction arrows.
 */
 	void Transform2D (gcu::Matrix2D& m, double x, double y);
 /*!
-@param UIManager the GtkUIManager to populate.
+@param UIManager the gcu::UIManager to populate.
 @param object the Object on which occured the mouse click.
 @param x x coordinate of the mouse click.
 @param y y coordinate of the mouse click.
@@ -73,7 +78,7 @@ reaction arrows.
 This method is called to build a contextual menu for the reaction.
 @return true if something is added to the UIManager, false otherwise.
 */
-	bool BuildContextualMenu (GtkUIManager *UIManager, gcu::Object *object, double x, double y);
+	bool BuildContextualMenu (gcu::UIManager *UIManager, gcu::Object *object, double x, double y);
 /*!
 @param Signal the appropriate SignalId
 @param Child the child which emitted the signal or NULL

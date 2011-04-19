@@ -1,8 +1,7 @@
 /* 
  * Gnome Chemisty Utils
  * spectrumdoc.h
- *
- * Copyright (C) 2007-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ *1109 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,14 +22,14 @@
 #ifndef GCU_SPECTRUM_DOC_H
 #define GCU_SPECTRUM_DOC_H
 
-#include "document.h"
-#include "macros.h"
+#include <gcu/document.h>
+#include <gcu/macros.h>
 #include "printable.h"
 #include <string>
 #include <vector>
 
 /*!\file*/
-namespace gcu
+namespace gcugtk
 {
 
 /*!\enum SpectrumType gcu/spectrumdoc.h
@@ -265,7 +264,7 @@ information.
 The document class used for spectra. This API is still quite unstable and
 might change in the future.
 */
-class SpectrumDocument: public Document, public Printable
+class SpectrumDocument: public gcu::Document, public Printable
 {
 public:
 /*!

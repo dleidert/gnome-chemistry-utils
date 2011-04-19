@@ -2,7 +2,7 @@
  * Gnome Chemistry Utils
  * print-setup-dlg.h
  *
- * Copyright (C) 2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2008-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -20,21 +20,21 @@
  * USA
  */
 
-#ifndef GCU_PRINT_SETUP_DLG_H
-#define GCU_PRINT_SETUP_DLG_H
+#ifndef GCU_GTK_PRINT_SETUP_DLG_H
+#define GCU_GTK_PRINT_SETUP_DLG_H
 
-#include "dialog.h"
+#include <gcu/dialog.h>
 #include "printable.h"
 
 /*!\file*/
-namespace gcu {
+namespace gcugtk {
 
 class Application;
 
 /*!\class PrintSetupDlg gcu/print-setup-dlg.h
 The print setup dialog.
 */
-class PrintSetupDlg: public Dialog
+class PrintSetupDlg: public gcu::Dialog
 {
 friend class PrintSetupDlgPrivate;
 public:
@@ -89,6 +89,6 @@ private:
 	GtkLabel *m_ScaleLbl, *m_FitHLbl, *m_FitVLbl;
 };
 	
-}	//	namespace gcu
+}	//	namespace gcugtk
 
-#endif	//	GCU_PRINT_SETUP_DLG_H
+#endif	//	GCU_GTK_PRINT_SETUP_DLG_H

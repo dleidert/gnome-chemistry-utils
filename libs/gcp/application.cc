@@ -53,6 +53,7 @@
 #include "view.h"
 #include "window.h"
 #include "zoomdlg.h"
+#include <gcugtk/ui-manager.h>
 #include <gcu/cmd-context.h>
 #include <gcu/filechooser.h>
 #include <gcu/loader.h>
@@ -317,8 +318,8 @@ static void on_config_changed (GOConfNode *node, gchar const *key, Application *
 	app->OnConfigChanged (node, key);
 }
 
-Application::Application (CmdContext *cc):
-	gcu::Application ("GChemPaint", DATADIR, "gchempaint", "gchempaint", cc)
+Application::Application (gcugtk::CmdContextGtk *cc):
+	gcugtk::Application ("GChemPaint", DATADIR, "gchempaint", "gchempaint", cc)
 {
 	m_CurZ = 6;
 	m_pActiveDoc = NULL;
@@ -969,14 +970,14 @@ void Application::BuildTools () throw (std::runtime_error)
 	list<char const*>::iterator j, jend = UiDescs.end ();
 	string s;
 	GError *error = NULL;
-	GtkUIManager *ToolsManager = gtk_ui_manager_new ();
+	gcugtk::UIManager *ToolsManager = new gcugtk::UIManager (gtk_ui_manager_new ());
 	ToolsBox->SetUIManager (ToolsManager);
 	GtkActionGroup *action_group = gtk_action_group_new ("Tools");
 	gtk_action_group_set_translation_domain (action_group, GETTEXT_PACKAGE);
 	gtk_action_group_add_radio_actions (action_group, RadioActions, m_entries, 0, G_CALLBACK (on_tool_changed), this);
-	gtk_ui_manager_insert_action_group (ToolsManager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ToolsManager->GetUIManager (), action_group, 0);
 	for (j = UiDescs.begin (); j != jend; j++)
-		if (!gtk_ui_manager_add_ui_from_string (ToolsManager, *j, -1, &error)) {
+		if (!gtk_ui_manager_add_ui_from_string (ToolsManager->GetUIManager (), *j, -1, &error)) {
 			string what = string ("building user interface failed: ") + error->message;
 			g_error_free (error);
 			throw runtime_error (what);
@@ -986,7 +987,6 @@ void Application::BuildTools () throw (std::runtime_error)
 		s += (*i).second;
 		ToolsBox->AddToolbar (s);
 	}
-	g_object_unref (ToolsManager);
 	m_pActiveTool = m_Tools["Select"];
 	if (m_pActiveTool)
 		m_pActiveTool->Activate(true);
@@ -1192,7 +1192,7 @@ void Application::AddMenuCallback (BuildMenuCb cb)
 	m_MenuCbs.push_back (cb);
 }
 
-void Application::BuildMenu (GtkUIManager *manager)
+void Application::BuildMenu (gcu::UIManager *manager)
 {
 	list<BuildMenuCb>::iterator i, end = m_MenuCbs.end ();
 	for (i = m_MenuCbs.begin (); i != end; i++)

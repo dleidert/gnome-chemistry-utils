@@ -31,6 +31,7 @@
 #include "stringdlg.h"
 #include "tool.h"
 #include "view.h"
+#include <gcugtk/ui-manager.h>
 #include <gcu/chain.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
@@ -656,10 +657,11 @@ double Molecule::GetYAlign ()
 	return (miny + maxy) / 2.0;
 }
 
-bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+bool Molecule::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
 {
 	if (m_IsResidue)
 		return false;
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	GtkActionGroup *group = gtk_action_group_new ("molecule");
 	GtkAction *action;
 	action = gtk_action_new ("Molecule", _("Molecule"), NULL, NULL);
@@ -677,21 +679,21 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 				g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ExportToGhemical), this);
 				gtk_action_group_add_action (group, action);
 				g_object_unref (action);
-				gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='ghemical'/></menu></menu></popup></ui>", -1, NULL);
+				gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='ghemical'/></menu></menu></popup></ui>", -1, NULL);
 			}
 			if (app->GetHaveGChem3D ()) {
 				action = gtk_action_new ("gchem3d", _("GChem3D"), NULL, NULL);
 				g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ExportTo3D), this);
 				gtk_action_group_add_action (group, action);
 				g_object_unref (action);
-				gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='gchem3d'/></menu></menu></popup></ui>", -1, NULL);
+				gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='gchem3d'/></menu></menu></popup></ui>", -1, NULL);
 			}
 			if (app->GetHaveAvogadro ()) {
 				action = gtk_action_new ("avogadro", _("Avogadro"), NULL, NULL);
 				g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ExportToAvogadro), this);
 				gtk_action_group_add_action (group, action);
 				g_object_unref (action);
-				gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='avogadro'/></menu></menu></popup></ui>", -1, NULL);
+				gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menu action='open3d'><menuitem action='avogadro'/></menu></menu></popup></ui>", -1, NULL);
 			}
 		}
 		// add databases submenu		
@@ -721,7 +723,7 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 				std::string node = "<ui><popup><menu action='Molecule'><menu action='database'><menuitem action='";
 				node += (*it).name;
 				node += "'/></menu></menu></popup></ui>";
-				gtk_ui_manager_add_ui_from_string (UIManager, node.c_str (), -1, NULL);
+				gtk_ui_manager_add_ui_from_string (uim, node.c_str (), -1, NULL);
 			}
 		}
 		//		if (((Document*) GetDocument ())->GetApplication ()->HaveInChI ()) {
@@ -729,23 +731,23 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ShowInChI), this);
 			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
-			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='inchi'/></menu></popup></ui>", -1, NULL);
+			gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menuitem action='inchi'/></menu></popup></ui>", -1, NULL);
 			action = gtk_action_new ("inchikey", _("Generate InChIKey"), NULL, NULL);
 			g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ShowInChIKey), this);
 			gtk_action_group_add_action (group, action);
 			g_object_unref (action);
-			gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='inchikey'/></menu></popup></ui>", -1, NULL);
+			gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menuitem action='inchikey'/></menu></popup></ui>", -1, NULL);
 //		}
 		action = gtk_action_new ("smiles", _("Generate SMILES"), NULL, NULL);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (MoleculePrivate::ShowSMILES), this);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='smiles'/></menu></popup></ui>", -1, NULL);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menuitem action='smiles'/></menu></popup></ui>", -1, NULL);
 		action = gtk_action_new ("calc", _("Open in Calculator"), NULL, NULL);
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (do_open_in_calc), this);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='calc'/></menu></popup></ui>", -1, NULL);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menuitem action='calc'/></menu></popup></ui>", -1, NULL);
 		result = true;
 	}
 	if (m_Bonds.size ()) {
@@ -754,10 +756,10 @@ bool Molecule::BuildContextualMenu (GtkUIManager *UIManager, Object *object, dou
 		g_object_set_data (G_OBJECT (action), "item", object);
 		gtk_action_group_add_action (group, action);
 		g_object_unref (action);
-		gtk_ui_manager_add_ui_from_string (UIManager, "<ui><popup><menu action='Molecule'><menuitem action='select-align'/></menu></popup></ui>", -1, NULL);
+		gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menu action='Molecule'><menuitem action='select-align'/></menu></popup></ui>", -1, NULL);
 		result = true;
 	}
-	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	gtk_ui_manager_insert_action_group (uim, group, 0);
 	g_object_unref (group);
 	return result | Object::BuildContextualMenu (UIManager, object, x, y);
 }

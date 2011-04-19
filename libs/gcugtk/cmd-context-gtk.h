@@ -1,10 +1,8 @@
-// -*- C++ -*-
-
 /* 
  * Gnome Chemistry Utils
- * programs/spectra/view.cc 
+ * gcugtk/cmd-context-gtk.h 
  *
- * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,15 +20,22 @@
  * USA
  */
 
-#include "config.h"
-#include "document.h"
-#include "view.h"
+#ifndef GCU_GTK_CMD_CONTEXT_GTK_H
+#define GCU_GTK_CMD_CONTEXT_GTK_H
 
-gsvView::gsvView (gsvDocument *Doc): gcugtk::SpectrumView (Doc)
-{
-	m_Window = NULL;
-}
+#include <gcu/cmd-context.h>
 
-gsvView::~gsvView ()
-{
-}
+namespace gcugtk {
+
+class CmdContextGtk: public gcu::CmdContext {
+public:
+	CmdContextGtk (Application *App);
+	virtual ~CmdContextGtk ();
+
+	Response GetResponse (char const *message, int responses);
+	void Message (char const *message, Severity severity, bool modal);
+};
+
+}	//	namespace gcu
+
+#endif	/* GCU_GTK_CMD_CONTEXT_GTK_H */

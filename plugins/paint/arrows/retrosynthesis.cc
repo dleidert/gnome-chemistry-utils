@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * retrosynthesis.cc
  *
- * Copyright (C) 2004-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,6 +30,7 @@
 #include <gcp/theme.h>
 #include <gcp/widgetdata.h>
 #include <gcp/view.h>
+#include <gcugtk/ui-manager.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <cstring>
@@ -409,17 +410,18 @@ static void do_destroy_retrosynthesis (void *data)
 	pDoc->FinishOperation ();
 }
 
-bool gcpRetrosynthesis::BuildContextualMenu (GtkUIManager *UIManager, Object *object, double x, double y)
+bool gcpRetrosynthesis::BuildContextualMenu (gcu::UIManager *UIManager, Object *object, double x, double y)
 {
+	GtkUIManager *uim = static_cast < gcugtk::UIManager * > (UIManager)->GetUIManager ();
 	GtkActionGroup *group = gtk_action_group_new ("retrosynthesis");
 	GtkAction *action = gtk_action_new ("destroy-rs", _("Destroy the retrosynthesis path"), NULL, NULL);
 	gtk_action_group_add_action (group, action);
 	g_object_unref (action);
-	gtk_ui_manager_insert_action_group (UIManager, group, 0);
+	gtk_ui_manager_insert_action_group (uim, group, 0);
 	g_object_unref (group);
 	char buf[] = "<ui><popup><menuitem action='destroy-rs'/></popup></ui>";
-	gtk_ui_manager_add_ui_from_string (UIManager, buf, -1, NULL);
-	GtkWidget *w = gtk_ui_manager_get_widget (UIManager, "/popup/destroy-rs");
+	gtk_ui_manager_add_ui_from_string (uim, buf, -1, NULL);
+	GtkWidget *w = gtk_ui_manager_get_widget (uim, "/popup/destroy-rs");
 	g_signal_connect_swapped (w, "activate", G_CALLBACK (do_destroy_retrosynthesis), this);
 	Object::BuildContextualMenu (UIManager, object, x, y);
 	return true;

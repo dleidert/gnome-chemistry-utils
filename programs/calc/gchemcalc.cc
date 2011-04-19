@@ -23,7 +23,7 @@
  */
 
 #include "config.h"
-#include <gcu/application.h>
+#include <gcugtk/application.h>
 #include <gcu/atom.h>
 #include <gcu/bond.h>
 #include <gcu/document.h>
@@ -31,8 +31,8 @@
 #include <gcu/filechooser.h>
 #include <gcu/formula.h>
 #include <gcu/molecule.h>
-#include <gcu/printable.h>
-#include <gcu/print-setup-dlg.h>
+#include <gcugtk/printable.h>
+#include <gcugtk/print-setup-dlg.h>
 #include <gcu/ui-builder.h>
 #include <gcu/residue.h>
 #include <gcu/value.h>
@@ -49,7 +49,7 @@ using namespace gcu;
 
 using namespace std;
 
-class GChemCalc: public Application, public Printable
+class GChemCalc: public gcugtk::Application, public gcugtk::Printable
 {
 public:
 	GChemCalc ();
@@ -100,7 +100,7 @@ static Object* CreateDocument ()
 }
 
 GChemCalc::GChemCalc ():
-	Application ("gchemcalc"),
+	gcugtk::Application ("gchemcalc"),
 	formula ("")
 {
 	AddType ("atom", CreateAtom, AtomType);
@@ -156,13 +156,13 @@ void GChemCalc::DoPrint (G_GNUC_UNUSED GtkPrintOperation *print, GtkPrintContext
 	w = m_GraphWidth;
 	h = m_GraphHeight;
 	switch (GetScaleType ()) {
-	case GCU_PRINT_SCALE_NONE:
+	case gcugtk::GCU_PRINT_SCALE_NONE:
 		break;
-	case GCU_PRINT_SCALE_FIXED:
+	case gcugtk::GCU_PRINT_SCALE_FIXED:
 		w *= Printable::GetScale ();
 		h *= Printable::GetScale ();
 		break;
-	case GCU_PRINT_SCALE_AUTO:
+	case gcugtk::GCU_PRINT_SCALE_AUTO:
 		if (GetHorizFit ())
 			w = width;
 		if (GetVertFit ())
@@ -566,7 +566,7 @@ static void on_print_preview ()
 
 static void on_page_setup ()
 {
-	new PrintSetupDlg (App, App);
+	new gcugtk::PrintSetupDlg (App, App);
 }
 
 static void on_save_as_image ()
