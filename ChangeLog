@@ -1,6 +1,10 @@
 ##Text encoding: utf-8
 
 2011-04-20  Jean Bréfort  <jean.brefort@normalesup.org>
+	* plugins/paint/templates/plugin.cc: don't assume in a static object
+	construtor that other static objects already exist.
+
+2011-04-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* all files: still more gcugtk split work, should be complete now.
 
 2011-04-19  Jean Bréfort  <jean.brefort@normalesup.org>
