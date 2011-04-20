@@ -4,7 +4,7 @@
  * Gnome Crystal
  * cleavagesdlg.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,7 @@
 #ifndef GCR_CLEAVAGESDLG_H
 #define GCR_CLEAVAGESDLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include "grid.h"
 
 namespace gcu {
@@ -39,10 +39,10 @@ class Application;
 
 struct CleavageStruct;
 
-class CleavagesDlg: public gcu::Dialog
+class CleavagesDlg: public gcugtk::Dialog
 {
 public:
-	CleavagesDlg (gcu::Application *App, gcr::Document* pDoc);
+	CleavagesDlg (gcr::Application *App, gcr::Document* pDoc);
 	virtual ~CleavagesDlg ();
 	
 	void CleavageAdd ();

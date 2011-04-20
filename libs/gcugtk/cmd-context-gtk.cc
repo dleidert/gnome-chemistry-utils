@@ -23,6 +23,7 @@
 #include "config.h"
 #include "application.h"
 #include "cmd-context-gtk.h"
+#include "message.h"
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 
@@ -60,14 +61,8 @@ gcu::CmdContext::Response CmdContextGtk::GetResponse (char const *message, int r
 		buttons |= GTK_BUTTONS_YES_NO;
 	if (responses & ResponseClose)
 		buttons |= GTK_BUTTONS_CLOSE;
-	GtkWidget *dlg = gtk_message_dialog_new_with_markup (m_App->GetWindow (),
-	                                          static_cast <GtkDialogFlags> (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
-	                                          GTK_MESSAGE_QUESTION,
-	                                          static_cast <GtkButtonsType> (buttons),
-	                                          message);
-	gtk_window_set_icon_name(GTK_WINDOW (dlg), m_App->GetIconName ().c_str ());
-	buttons = gtk_dialog_run (GTK_DIALOG (dlg));
-	gtk_widget_destroy (dlg);
+	gcugtk::Message *Box = new gcugtk::Message (static_cast < Application * > (m_App), message, GTK_MESSAGE_QUESTION, static_cast < GtkButtonsType > (buttons), static_cast < Application * > (m_App)->GetWindow ());
+	buttons = Box->Run ();
 	switch (buttons) {
 	case GTK_RESPONSE_OK:
 		return ResponseOK;
@@ -101,17 +96,11 @@ void CmdContextGtk::Message (char const *message, Severity severity, bool modal)
 		type = GTK_MESSAGE_OTHER;
 		break;
 	}
-	GtkWidget *dlg = gtk_message_dialog_new_with_markup (m_App->GetWindow (),
-	                                          static_cast <GtkDialogFlags> (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
-	                                          type,
-	                                          GTK_BUTTONS_CLOSE,
-	                                          message);
-	gtk_window_set_icon_name(GTK_WINDOW (dlg), m_App->GetIconName ().c_str ());
-	g_signal_connect (G_OBJECT (dlg), "response", G_CALLBACK (gtk_widget_destroy), NULL);
+	gcugtk::Message *Box = new gcugtk::Message (static_cast < Application * > (m_App), message, type, GTK_BUTTONS_CLOSE, static_cast < Application * > (m_App)->GetWindow ());
 	if (modal)
-		gtk_dialog_run (GTK_DIALOG (dlg));
+		Box->Run ();
 	else
-		gtk_widget_show_all (dlg);
+		Box->Show ();
 }
 
 }	//	namespace gcu

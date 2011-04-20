@@ -4,7 +4,7 @@
  * Gnome Crystal
  * document.cc 
  *
- * Copyright (C) 2000-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2000-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,8 +37,8 @@
 #include <gcr/sizedlg.h>
 #include <gcr/cleavagesdlg.h>
 #include "globals.h"
+#include <gcugtk/filechooser.h>
 #include <gcu/objprops.h>
-#include <gcu/filechooser.h>
 #include <gcu/xml-utils.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
@@ -102,7 +102,7 @@ void gcDocument::Define (unsigned nPage)
 		new gcr::SizeDlg (dynamic_cast <gcApplication *> (m_App), this);
 		break;
 	case 4:
-		new gcr::CleavagesDlg (m_App, this);
+		new gcr::CleavagesDlg (dynamic_cast < gcApplication * > (m_App), this);
 		break;
 	}
 }
@@ -689,7 +689,7 @@ bool gcDocument::VerifySaved()
 			if (m_filename == NULL) {
 				list<string> l;
 				l.push_front ("application/x-gcrystal");
-				FileChooser (m_App, true, l, this);
+				gcugtk::FileChooser (static_cast < gcugtk::Application * > (m_App), true, l, this);
 			}
 			if (m_filename)
 				Save ();

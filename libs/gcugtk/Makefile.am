@@ -23,27 +23,35 @@ lib_LTLIBRARIES= libgcugtk-@GCU_API_VER@.la
 libgcugtk_@GCU_API_VER@_la_SOURCES = \
 		application.cc \
 		cmd-context-gtk.cc \
+		dialog.cc	\
+		filechooser.cc	\
 		gcuchem3dviewer.cc \
 		gcucomboperiodic.c \
 		gcuperiodic.c \
 		gcuspectrumviewer.cc \
 		glview.cc	\
+		message.cc	\
 		printable.cc \
 		print-setup-dlg.cc	\
 		spectrumdoc.cc \
 		spectrumview.cc \
+		ui-builder.cc \
 		ui-manager.cc
 
 noinst_HEADERS = \
 		application.h \
 		cmd-context-gtk.h \
+		dialog.h	\
+		filechooser.h	\
 		gcuchem3dviewer.h \
 		gcucomboperiodic.h \
 		gcuperiodic.h \
 		gcuspectrumviewer.h \
 		glview.h	\
+		message.h	\
 		printable.h \
 		print-setup-dlg.h	\
 		spectrumdoc.h \
 		spectrumview.h \
+		ui-builder.h \
 		ui-manager.h

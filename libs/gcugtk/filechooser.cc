@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * filechooser.cc 
+ * gcugtk/filechooser.cc 
  *
- * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -24,16 +24,16 @@
 
 #include <config.h>
 #include "filechooser.h"
-#include <gcu/application.h>
+#include <gcugtk/application.h>
 #include <gcu/document.h>
 #include <glib/gi18n-lib.h>
 
 using namespace std;
 
-namespace gcu
+namespace gcugtk
 {
 
-FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, Document *pDoc, char const *title, GtkWidget *extra_widget)
+FileChooser::FileChooser (Application *App, bool Save, list<string> mime_types, gcu::Document *pDoc, char const *title, GtkWidget *extra_widget)
 {
 	char* filename = NULL;
 	m_pDoc = pDoc;

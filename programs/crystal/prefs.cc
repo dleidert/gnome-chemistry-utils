@@ -4,7 +4,7 @@
  * Gnome Crystal
  * prefs.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -34,7 +34,7 @@ static void on_print_resolution (G_GNUC_UNUSED GtkWidget *widget, gcPrefsDlg * d
 	dialog->UpdatePrinting ();
 }
 
-gcPrefsDlg::gcPrefsDlg (gcApplication *App): Dialog (App, UIDIR"/prefs.ui", "prefs", GETTEXT_PACKAGE, App)
+gcPrefsDlg::gcPrefsDlg (gcApplication *App): gcugtk::Dialog (App, UIDIR"/prefs.ui", "prefs", GETTEXT_PACKAGE, App)
 {
 	PrintResMenu = GTK_COMBO_BOX (GetWidget ("printres"));
 	PrintResBtn = GTK_SPIN_BUTTON (GetWidget ("printresbtn"));
@@ -102,11 +102,11 @@ gcPrefsDlg::~gcPrefsDlg()
 bool gcPrefsDlg::Apply()
 {
 	double x0, x1, x2;
-	if (!GetNumber (PsiEnt, &x0, MinEqMax, -180, 180))
+	if (!GetNumber (PsiEnt, &x0, gcugtk::MinEqMax, -180, 180))
 		return false;
-	if (!GetNumber (ThetaEnt, &x1, MinEqMaxEq, 0, 180))
+	if (!GetNumber (ThetaEnt, &x1, gcugtk::MinEqMaxEq, 0, 180))
 		return false;
-	if (!GetNumber (PhiEnt, &x2, MinEqMax, -180, 180))
+	if (!GetNumber (PhiEnt, &x2, gcugtk::MinEqMax, -180, 180))
 		return false;
 	PrintResolution = gtk_spin_button_get_value_as_int (PrintResBtn);
 	Psi = x0;

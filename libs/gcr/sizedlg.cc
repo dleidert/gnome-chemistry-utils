@@ -4,7 +4,7 @@
  * Gnome Crystal
  * sizedlg.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -29,7 +29,7 @@
 
 namespace gcr {
 
-SizeDlg::SizeDlg (Application *App, Document* pDoc): gcu::Dialog (App, UIDIR"/size.ui", "size", GETTEXT_PACKAGE, pDoc)
+SizeDlg::SizeDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/size.ui", "size", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	MinX = GTK_ENTRY (GetWidget ("xmin"));

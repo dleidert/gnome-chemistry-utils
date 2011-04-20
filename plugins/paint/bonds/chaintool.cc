@@ -4,7 +4,7 @@
  * GChemPaint bonds plugin
  * chaintool.cc
  *
- * Copyright (C) 2006-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,7 +35,7 @@
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/line.h>
-#include <gcu/ui-builder.h>
+#include <gcugtk/ui-builder.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -361,7 +361,7 @@ void gcpChainTool::SetLength (double length)
 
 GtkWidget *gcpChainTool::GetPropertyPage ()
 {
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/chain.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/chain.ui", GETTEXT_PACKAGE);
 	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
 	m_AngleBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-angle"));

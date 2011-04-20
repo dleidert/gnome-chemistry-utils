@@ -23,7 +23,7 @@
 #ifndef GCU_GTK_PRINT_SETUP_DLG_H
 #define GCU_GTK_PRINT_SETUP_DLG_H
 
-#include <gcu/dialog.h>
+#include "dialog.h"
 #include "printable.h"
 
 /*!\file*/
@@ -34,7 +34,7 @@ class Application;
 /*!\class PrintSetupDlg gcu/print-setup-dlg.h
 The print setup dialog.
 */
-class PrintSetupDlg: public gcu::Dialog
+class PrintSetupDlg: public Dialog
 {
 friend class PrintSetupDlgPrivate;
 public:

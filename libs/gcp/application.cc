@@ -54,8 +54,8 @@
 #include "window.h"
 #include "zoomdlg.h"
 #include <gcugtk/ui-manager.h>
+#include <gcugtk/filechooser.h>
 #include <gcu/cmd-context.h>
-#include <gcu/filechooser.h>
 #include <gcu/loader.h>
 #include <gcu/loader-error.h>
 #include <glib/gi18n-lib.h>
@@ -547,7 +547,7 @@ void Application::SetStatusText (const char* text)
 
 void Application::OnSaveAs ()
 {
-	FileChooser (this, true, m_WriteableMimeTypes, m_pActiveDoc);
+	gcugtk::FileChooser (this, true, m_WriteableMimeTypes, m_pActiveDoc);
 }
 
 enum {
@@ -914,7 +914,7 @@ void Application::OnSaveAsImage ()
 	l.push_front ("application/pdf");
 	l.push_front ("image/x-eps");
 	l.push_front ("image/svg+xml");
-	FileChooser (this, true, l, m_pActiveDoc, _("Save as image"), GetImageResolutionWidget ());
+	gcugtk::FileChooser (this, true, l, m_pActiveDoc, _("Save as image"), GetImageResolutionWidget ());
 }
 
 void Application::Zoom (double zoom)
@@ -926,7 +926,7 @@ void Application::Zoom (double zoom)
 	else {
 		Dialog *pDialog = GetDialog ("Zoom");
 		if (pDialog)
-			gtk_window_present (pDialog->GetWindow ()); 
+			pDialog->Present (); 
 		else
 			new ZoomDlg (m_pActiveDoc);
 	}

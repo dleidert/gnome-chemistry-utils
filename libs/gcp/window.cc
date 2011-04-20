@@ -31,11 +31,11 @@
 #include "theme.h"
 #include "view.h"
 #include "zoomdlg.h"
-#include <gcu/dialog.h>
-#include <gcu/filechooser.h>
-#include <gcu/matrix.h>
+#include <gcugtk/dialog.h>
+#include <gcugtk/filechooser.h>
 #include <gcugtk/print-setup-dlg.h>
 #include <gcugtk/ui-manager.h>
+#include <gcu/matrix.h>
 #include <gsf/gsf-input-memory.h>
 #include <glib/gi18n-lib.h>
 #include <string>
@@ -46,7 +46,7 @@ namespace gcp {
 
 typedef void (*StringInputCB) (Target *obj, char const *str);
 
-class StringInput: public gcu::Dialog
+class StringInput: public gcugtk::Dialog
 {
 public:
 	StringInput (Target *target, StringInputCB cb, char const *title);
@@ -60,7 +60,7 @@ private:
 };
 
 StringInput::StringInput (Target *target, StringInputCB cb, char const *title):
-	gcu::Dialog (target->GetApplication (), UIDIR"/stringinputdlg.ui", "string-input", GETTEXT_PACKAGE, target->GetDocument ()),
+	gcugtk::Dialog (target->GetApplication (), UIDIR"/stringinputdlg.ui", "string-input", GETTEXT_PACKAGE, target->GetDocument ()),
 	m_Target (target),
 	m_CB (cb)
 {
@@ -667,7 +667,7 @@ void Window::OnSave()
 
 void Window::OnFileOpen()
 {
-	FileChooser (m_Application, false, m_Application->GetSupportedMimeTypes (), (!m_Document->HasChildren () && !m_Document->GetDirty ())? m_Document: NULL);
+	gcugtk::FileChooser (m_Application, false, m_Application->GetSupportedMimeTypes (), (!m_Document->HasChildren () && !m_Document->GetDirty ())? m_Document: NULL);
 }
 
 void Window::OnProperties()
@@ -739,7 +739,7 @@ void Window::Zoom (double zoom)
 	else {
 		Dialog *pDialog = m_Document->GetDialog ("Zoom");
 		if (pDialog)
-			gtk_window_present (pDialog->GetWindow ()); 
+			pDialog->Present (); 
 		else
 			new ZoomDlg (m_Document);
 	}

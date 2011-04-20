@@ -4,7 +4,7 @@
  * GChemPaint atoms plugin
  * orbitaltool.cc 
  *
- * Copyright (C) 2009-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,7 +35,7 @@
 #include <gccv/circle.h>
 #include <gccv/group.h>
 #include <gccv/leaf.h>
-#include <gcu/ui-builder.h>
+#include <gcugtk/ui-builder.h>
 
 gcpOrbitalTool::gcpOrbitalTool (gcp::Application *App):
 	gcp::Tool (App, "Orbital"),
@@ -205,7 +205,7 @@ void gcpOrbitalTool::OnLeaveNotify ()
 
 GtkWidget *gcpOrbitalTool::GetPropertyPage ()
 {
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/orbital.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/orbital.ui", GETTEXT_PACKAGE);
 	m_CoefBtn = GTK_SPIN_BUTTON (builder->GetWidget ("coef-btn"));
 	gtk_spin_button_set_value (m_CoefBtn, m_Coef);
 	g_signal_connect_swapped (m_CoefBtn, "value-changed", G_CALLBACK (CoefChanged), this);

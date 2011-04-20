@@ -40,7 +40,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
-#include <gcu/ui-builder.h>
+#include <gcugtk/ui-builder.h>
 #include <gtk/gtk.h>
 
 using namespace std;
@@ -505,7 +505,7 @@ GtkWidget *gcpCurvedArrowTool::GetPropertyPage ()
 {
 	if (!m_Full)
 		return NULL;
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/curvedarrowtool.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/curvedarrowtool.ui", GETTEXT_PACKAGE);
 	GtkWidget *b = builder->GetWidget ("target-btn");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (b), m_EndAtBondCenter);
 	g_signal_connect (G_OBJECT (b), "toggled", G_CALLBACK (on_end_toggled), this);

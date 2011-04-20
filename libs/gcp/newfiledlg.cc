@@ -4,7 +4,7 @@
  * GChemPaint libray
  * newfiledlg.cc 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -45,7 +45,7 @@ static void on_theme_changed (GtkComboBox *box, NewFileDlg *dlg)
 #endif
 
 NewFileDlg::NewFileDlg (Application *App):
-	Dialog (App, UIDIR"/newfiledlg.ui", "newfile", GETTEXT_PACKAGE, App),
+	gcugtk::Dialog (App, UIDIR"/newfiledlg.ui", "newfile", GETTEXT_PACKAGE, App),
 	Object ()
 {
 	list <string> names = TheThemeManager.GetThemesNames ();

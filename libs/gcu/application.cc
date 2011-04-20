@@ -27,7 +27,6 @@
 #include "cmd-context.h"
 #include "document.h"
 #include "loader.h"
-#include "message.h"
 #include "ui-builder.h"
 #include "ui-manager.h"
 #include <gsf/gsf-input-gio.h>
@@ -179,58 +178,6 @@ void Application::OnLiveAssistance ()
 	go_url_show ("irc://irc.gimp.net/gchemutils");
 }
 
-static void on_res_changed (GtkSpinButton *btn, Application *app)
-{
-	app->SetImageResolution (gtk_spin_button_get_value_as_int (btn));
-}
-
-static void on_width_changed (GtkSpinButton *btn, Application *app)
-{
-	app->SetImageWidth (gtk_spin_button_get_value_as_int (btn));
-}
-
-static void on_height_changed (GtkSpinButton *btn, Application *app)
-{
-	app->SetImageHeight (gtk_spin_button_get_value_as_int (btn));
-}
-
-static void on_transparency_changed (GtkToggleButton *btn, Application *app)
-{
-	app->SetTransparentBackground (gtk_toggle_button_get_active (btn));
-}
-
-GtkWidget *Application::GetImageResolutionWidget ()
-{
-	UIBuilder *builder = new UIBuilder (UIDIR"/image-resolution.ui", GETTEXT_PACKAGE);
-	GtkWidget *w = builder->GetWidget ("screen-lbl");
-	char *buf = g_strdup_printf (_("(screen resolution is %u)"), m_ScreenResolution);
-	gtk_label_set_text (GTK_LABEL (w), buf);
-	g_free (buf);
-	w = builder->GetWidget ("res-btn");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageResolution);
-	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_res_changed), this);
-	w = builder->GetWidget ("transparent-btn");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), m_TransparentBackground);
-	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_transparency_changed), this);
-	w = builder->GetRefdWidget ("res-table");
-	delete builder;
-	return w;
-}
-
-GtkWidget *Application::GetImageSizeWidget ()
-{
-	UIBuilder *builder = new UIBuilder (UIDIR"/image-size.ui", GETTEXT_PACKAGE);
-	GtkWidget *w = builder->GetWidget ("width");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageWidth);
-	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_width_changed), this);
-	w = builder->GetWidget ("height");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), m_ImageHeight);
-	g_signal_connect (G_OBJECT (w), "value-changed", G_CALLBACK (on_height_changed), this);
-	w = builder->GetRefdWidget ("size-table");
-	delete builder;
-	return w;
-}
-
 char const *Application::GetPixbufTypeName (string& filename, char const *mime_type)
 {
 	GdkPixbufFormat *format = m_SupportedPixbufFormats[mime_type];
@@ -345,10 +292,9 @@ bool Application::Save (std::string const &uri, const gchar *mime_type, Object c
 			char *unescaped = g_uri_unescape_string (uri.c_str (), NULL);
 			ostringstream str;
 			str << _("Error while processing ") << unescaped << ":\n" << error->message;
-			Message *Box = new Message (this, str.str ().c_str (), GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE);
+			m_CmdContext->Message (str.str ().c_str (), CmdContext::SeverityError, false);
 			g_free (unescaped);
 			g_error_free (error);
-			Box->Run ();
 			g_object_unref (file);
 			return false;
 		}

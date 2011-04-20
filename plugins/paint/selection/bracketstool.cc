@@ -4,7 +4,7 @@
  * GChemPaint selection plugin
  * bracketstool.cc
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,8 +25,8 @@
 #include "config.h"
 #include "bracketstool.h"
 #include "group.h"
-#include <gcu/message.h>
-#include <gcu/ui-builder.h>
+#include <gcugtk/message.h>
+#include <gcugtk/ui-builder.h>
 #include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/brackets.h>
@@ -162,9 +162,9 @@ void gcpBracketsTool::OnRelease ()
 
 GtkWidget *gcpBracketsTool::GetPropertyPage ()
 {
-	gcu::UIBuilder *builder= NULL;
+	gcugtk::UIBuilder *builder= NULL;
 	try {
-		builder = new gcu::UIBuilder (UIDIR"/brackets.ui", GETTEXT_PACKAGE);
+		builder = new gcugtk::UIBuilder (UIDIR"/brackets.ui", GETTEXT_PACKAGE);
 		GtkComboBox *box = builder->GetComboBox ("type-box");
 		gtk_combo_box_set_active (box, m_Type);
 		g_signal_connect (box, "changed", G_CALLBACK (gcpBracketsTool::OnTypeChanged), this);
@@ -189,7 +189,7 @@ GtkWidget *gcpBracketsTool::GetPropertyPage ()
 			done = true;
 			std::string mess = _("Error loading the properties widget description: \n");
 			mess += e.what ();
-			new gcu::Message (GetApplication (), mess, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE);
+			new gcugtk::Message (GetApplication (), mess, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE);
 		}
 		if (builder)
 			delete builder;

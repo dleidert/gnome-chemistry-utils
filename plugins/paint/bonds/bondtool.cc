@@ -4,7 +4,7 @@
  * GChemPaint bonds plugin
  * bondtool.cc
  *
- * Copyright (C) 2001-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -38,7 +38,7 @@
 #include <gccv/line.h>
 #include <gccv/squiggle.h>
 #include <gccv/wedge.h>
-#include <gcu/ui-builder.h>
+#include <gcugtk/ui-builder.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
@@ -489,7 +489,7 @@ void gcpBondTool::SetLength (double length)
 
 GtkWidget *gcpBondTool::GetPropertyPage ()
 {
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/bond.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/bond.ui", GETTEXT_PACKAGE);
 	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
 	m_AngleBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-angle"));

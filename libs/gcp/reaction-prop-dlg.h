@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-prop-dlg.h
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_REACTION_PROP_DLG_H
 #define GCHEMPAINT_REACTION_PROP_DLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gcu/object.h>
 #include <gcu/macros.h>
 
@@ -42,7 +42,7 @@ class ReactionProp;
 The class for the dialog used to set the properties of objects attached to
 reaction arrows.
 */
-class ReactionPropDlg: public gcu::Dialog
+class ReactionPropDlg: public gcugtk::Dialog
 {
 public:
 /*!

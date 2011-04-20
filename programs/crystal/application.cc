@@ -4,7 +4,7 @@
  * Gnome Crystal
  * application.cc 
  *
- * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,7 @@
 #include "globals.h"
 #include "prefs.h"
 #include "window.h"
-#include <gcu/filechooser.h>
+#include <gcugtk/filechooser.h>
 #include <gcu/loader.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
@@ -88,7 +88,7 @@ gcDocument *gcApplication::OnFileNew ()
 
 void gcApplication::OnFileOpen ()
 {
-	FileChooser (this, false, m_SupportedMimeTypes);
+	gcugtk::FileChooser (this, false, m_SupportedMimeTypes);
 }
 
 void gcApplication::OnFileSave ()
@@ -103,7 +103,7 @@ void gcApplication::OnFileSave ()
 
 void gcApplication::OnFileSaveAs ()
 {
-	FileChooser (this, true, m_WriteableMimeTypes, m_pActiveDoc);
+	gcugtk::FileChooser (this, true, m_WriteableMimeTypes, m_pActiveDoc);
 }
 
 bool gcApplication::OnFileClose ()
@@ -126,7 +126,7 @@ void gcApplication::OnSaveAsImage ()
 	l.push_front ("application/postscript");
 	l.push_front ("application/pdf");
 	l.push_front ("model/vrml");
-	FileChooser (this, true, l, m_pActiveDoc, _("Save as image"), GetImageSizeWidget ());
+	gcugtk::FileChooser (this, true, l, m_pActiveDoc, _("Save as image"), GetImageSizeWidget ());
 }
 
 gcDocument* gcApplication::GetDoc (const char* filename)

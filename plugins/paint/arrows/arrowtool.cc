@@ -4,7 +4,7 @@
  * GChemPaint arrows plugin
  * arrowtool.cc 
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -38,7 +38,7 @@
 #include <gccv/group.h>
 #include <gccv/line.h>
 #include <gccv/poly-line.h>
-#include <gcu/ui-builder.h>
+#include <gcugtk/ui-builder.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 
@@ -366,7 +366,7 @@ static void on_length_changed (GtkSpinButton *btn, gcpArrowTool *tool)
 GtkWidget *gcpArrowTool::GetPropertyPage ()
 {
 	bool show_all = m_ArrowType == gcp::ReversibleArrow || m_ArrowType == gcp::FullReversibleArrow;
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/arrowtool.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/arrowtool.ui", GETTEXT_PACKAGE);
 	if (show_all) {
 		GtkTable *table = GTK_TABLE (builder->GetWidget ("heads-table"));
 		gccv::Canvas *canvas = new gccv::Canvas (NULL);

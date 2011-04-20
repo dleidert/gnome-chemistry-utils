@@ -4,7 +4,7 @@
  * GChemPaint library
  * docprop.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_DOC_PROP_H
 #define GCHEMPAINT_DOC_PROP_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gcu/object.h>
 #include <gcu/macros.h>
 
@@ -38,7 +38,7 @@ class Theme;
 /*!\class DocPropDlg gcp/docprop.h
 The document property dialog.
 */
-class DocPropDlg: public gcu::Dialog, gcu::Object
+class DocPropDlg: public gcugtk::Dialog, gcu::Object
 {
 public:
 /*!

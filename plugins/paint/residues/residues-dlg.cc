@@ -4,7 +4,7 @@
  * GChemPaint residues plugin
  * residues-dlg.cc
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -170,7 +170,7 @@ static void delete_symbol (GtkComboBox *box, char const *str)
 }
 
 gcpResiduesDlg::gcpResiduesDlg (gcp::Application *App):
-	Dialog (App, UIDIR"/residues.ui", "residues", GETTEXT_PACKAGE, App),
+	gcugtk::Dialog (App, UIDIR"/residues.ui", "residues", GETTEXT_PACKAGE, App),
 	gcp::Target (App)
 {
 	m_Document = new gcp::Document (App, true, NULL);

@@ -4,7 +4,7 @@
  * GChemPaint library
  * preferences.h 
  *
- * Copyright (C) 2006-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -28,7 +28,7 @@
 /*!\file*/
 
 #include "fontsel.h"
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gcu/object.h>
 #include <gcu/macros.h>
 
@@ -42,7 +42,7 @@ class Theme;
 \brief GChemPaint preferences dialog class
 */
 
-class PrefsDlg: public gcu::Dialog, gcu::Object
+class PrefsDlg: public gcugtk::Dialog, gcu::Object
 {
 friend class PrefsDlgPrivate;
 public:

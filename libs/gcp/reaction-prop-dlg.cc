@@ -4,7 +4,7 @@
  * GChemPaint library
  * reaction-prop-dlg.cc 
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "application.h"
 #include "reaction-prop-dlg.h"
 #include "reaction-arrow.h"
 #include "reaction-prop.h"
@@ -38,7 +39,7 @@ static void on_role_changed (GtkComboBox *box, ReactionProp *prop)
 }
 
 ReactionPropDlg::ReactionPropDlg (ReactionArrow *arrow, ReactionProp *prop):
-	Dialog (arrow->GetDocument ()->GetApp (), UIDIR"/arrow-object.ui", "reaction-prop", GETTEXT_PACKAGE, prop),
+	gcugtk::Dialog (static_cast < gcugtk::Application * > (arrow->GetDocument ()->GetApp ()), UIDIR"/arrow-object.ui", "reaction-prop", GETTEXT_PACKAGE, prop),
 	m_Arrow (arrow),
 	m_Prop (prop)
 {

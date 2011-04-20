@@ -4,7 +4,7 @@
  * GChemPaint library
  * docprop.cc 
  *
- * Copyright (C) 2002-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -75,7 +75,7 @@ static void on_comments_changed (GtkTextBuffer *buffer, gcDocPropDlg *dlg)
 }
 
 gcDocPropDlg::gcDocPropDlg (gcDocument* pDoc):
-	Dialog (pDoc->GetApp (), UIDIR"/docprop.ui", "properties", GETTEXT_PACKAGE, pDoc)
+	gcugtk::Dialog (static_cast < gcugtk::Application * > (pDoc->GetApp ()), UIDIR"/docprop.ui", "properties", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	Title = GTK_ENTRY (GetWidget ("title"));

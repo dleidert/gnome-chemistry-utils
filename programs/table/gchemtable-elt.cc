@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-elt.cc 
  *
- * Copyright (C) 2005-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -38,7 +38,7 @@ static void on_focus_in (GChemTableElt *dlg)
 	dlg->OnFocusIn ();
 }
 
-GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): Dialog (App, UIDIR"/eltpage.ui", "eltdlg", GETTEXT_PACKAGE)
+GChemTableElt::GChemTableElt (GChemTableApp *App, int Z): gcugtk::Dialog (App, UIDIR"/eltpage.ui", "eltdlg", GETTEXT_PACKAGE)
 {
 	Element *elt = Element::GetElement (Z);
 	m_Z = Z;

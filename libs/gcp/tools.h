@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_TOOLS_H
 #define GCHEMPAINT_TOOLS_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gcugtk/gcucomboperiodic.h>
 #include <map>
 
@@ -40,7 +40,7 @@ namespace gcp {
 /*!class Tools gcp/tools.h
 The GChemPaint tools box. Only one instance should be created.
 */
-class Tools: public gcu::Dialog
+class Tools: public gcugtk::Dialog
 {
 public:
 /*!

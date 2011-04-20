@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * programs/gchemtable-elt.cc 
  *
- * Copyright (C) 2005 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,13 +25,13 @@
 #ifndef GCHEMTABLE_ELT_H
 #define GCHEMTABLE_ELT_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 
 using namespace gcu;
 
 class GChemTableApp;
 	
-class GChemTableElt: public Dialog
+class GChemTableElt: public gcugtk::Dialog
 {
 public:
 	GChemTableElt (GChemTableApp *App, int Z);

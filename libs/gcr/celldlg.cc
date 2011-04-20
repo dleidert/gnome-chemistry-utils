@@ -4,7 +4,7 @@
  * Gnome Crystal
  * celldlg.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -44,7 +44,7 @@ void on_type_changed (G_GNUC_UNUSED GtkWidget* w, CellDlg *pBox)
 	pBox->OnTypeChanged ();
 }
 
-CellDlg::CellDlg (Application *App, Document* pDoc): gcu::Dialog (App, UIDIR"/cell.ui", "cell", GETTEXT_PACKAGE, pDoc)
+CellDlg::CellDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/cell.ui", "cell", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	TypeMenu = GTK_COMBO_BOX (GetWidget ("lattice-type"));
@@ -91,14 +91,14 @@ bool CellDlg::Apply ()
 	case gcr::cubic:
 	case gcr::body_centered_cubic:
 	case gcr::face_centered_cubic:
-		if (!GetNumber (A, &m_a, gcu::Min, 0))
+		if (!GetNumber (A, &m_a, gcugtk::Min, 0))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		m_b = m_c = m_a;
 		break;
 	case gcr::hexagonal:
-		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
-			(!GetNumber (C, &m_c, gcu::Min, 0)))
+		if ((!GetNumber (A, &m_a, gcugtk::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcugtk::Min, 0)))
 			return false;
 		m_alpha = m_beta = 90;
 		m_gamma  = 120;
@@ -106,8 +106,8 @@ bool CellDlg::Apply ()
 		break;
 	case gcr::tetragonal:
 	case gcr::body_centered_tetragonal:
-		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
-			(!GetNumber (C, &m_c, gcu::Min, 0)))
+		if ((!GetNumber (A, &m_a, gcugtk::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcugtk::Min, 0)))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		m_b = m_a;
@@ -116,35 +116,35 @@ bool CellDlg::Apply ()
 	case gcr::base_centered_orthorhombic:
 	case gcr::body_centered_orthorhombic:
 	case gcr::face_centered_orthorhombic:
-		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
-			(!GetNumber (B, &m_b, gcu::Min, 0)) ||
-			(!GetNumber (C, &m_c, gcu::Min, 0)))
+		if ((!GetNumber (A, &m_a, gcugtk::Min, 0)) ||
+			(!GetNumber (B, &m_b, gcugtk::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcugtk::Min, 0)))
 			return false;
 		m_alpha = m_beta = m_gamma  = 90;
 		break;
 	case gcr::rhombohedral:
-		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
-			(!GetNumber (Alpha, &m_alpha, gcu::MinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, gcugtk::Min, 0)) ||
+			(!GetNumber (Alpha, &m_alpha, gcugtk::MinMax, 0, 180)))
 			return false;
 		m_beta = m_gamma = m_alpha;
 		m_b = m_c = m_a;
 		break;
 	case gcr::monoclinic:
 	case gcr::base_centered_monoclinic:
-		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
-			(!GetNumber (B, &m_b, gcu::Min, 0)) ||
-			(!GetNumber (C, &m_c, gcu::Min, 0)) ||
-			(!GetNumber (Beta, &m_beta, gcu::MinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, gcugtk::Min, 0)) ||
+			(!GetNumber (B, &m_b, gcugtk::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcugtk::Min, 0)) ||
+			(!GetNumber (Beta, &m_beta, gcugtk::MinMax, 0, 180)))
 			return false;
 		m_alpha = m_gamma  = 90;
 		break;
 	case gcr::triclinic:
-		if ((!GetNumber (A, &m_a, gcu::Min, 0)) ||
-			(!GetNumber (B, &m_b, gcu::Min, 0)) ||
-			(!GetNumber (C, &m_c, gcu::Min, 0)) ||
-			(!GetNumber (Alpha, &m_alpha, gcu::MinMax, 0, 180)) ||
-			(!GetNumber (Beta, &m_beta, gcu::MinMax, 0, 180)) ||
-			(!GetNumber (Gamma, &m_gamma, gcu::MinMax, 0, 180)))
+		if ((!GetNumber (A, &m_a, gcugtk::Min, 0)) ||
+			(!GetNumber (B, &m_b, gcugtk::Min, 0)) ||
+			(!GetNumber (C, &m_c, gcugtk::Min, 0)) ||
+			(!GetNumber (Alpha, &m_alpha, gcugtk::MinMax, 0, 180)) ||
+			(!GetNumber (Beta, &m_beta, gcugtk::MinMax, 0, 180)) ||
+			(!GetNumber (Gamma, &m_gamma, gcugtk::MinMax, 0, 180)))
 			return false;
 		break;
 	}

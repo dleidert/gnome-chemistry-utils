@@ -93,6 +93,18 @@ The destructor.
 */
 	static WindowState GetDefaultWindowState () {return DefaultWindowState;}
 
+/*!
+@return a GtkWidget for managing pixmap resolution when saving as image. This widget is
+intended to be added to a GtkFileChooserDialog.
+*/
+	GtkWidget *GetImageResolutionWidget ();
+
+/*!
+@return a GtkWidget for managing pixmap width and height when saving as image. This
+widget is intended to be added to a GtkFileChooserDialog.
+*/
+	GtkWidget *GetImageSizeWidget ();
+
 protected:
 
 /*!

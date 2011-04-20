@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view-settings.h 
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,9 +26,9 @@
 #define GCRYSTAL_VIEW_SETTINGS_H
 
 #include "view.h"
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 
-class gcViewSettingsDlg: public Dialog
+class gcViewSettingsDlg: public gcugtk::Dialog
 {
 public:
 	gcViewSettingsDlg (gcView* pView);

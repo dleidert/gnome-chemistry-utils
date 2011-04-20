@@ -2,7 +2,7 @@
  * GChemPaint selection plugin
  * groupdlg.h
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -26,11 +26,11 @@
 #include <gcp/document.h>
 #include <gcp/widgetdata.h>
 #include "group.h"
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 
 using namespace gcu;
 
-class gcpGroupDlg: public Dialog
+class gcpGroupDlg: public gcugtk::Dialog
 {
 public:
 	gcpGroupDlg (gcp::Document *Doc, gcpGroup *group);

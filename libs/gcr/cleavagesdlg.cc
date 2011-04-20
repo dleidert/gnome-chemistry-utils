@@ -4,7 +4,7 @@
  * Gnome Crystal
  * cleavagesdlg.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,6 +23,7 @@
  */
 
 #include "config.h"
+#include "application.h"
 #include "cleavagesdlg.h"
 #include "document.h"
 #include <gcu/application.h>
@@ -70,7 +71,7 @@ static void on_edited(GtkCellRendererText *cell, const gchar *path_string, const
 	pBox->OnEdited(cell, path_string, new_text);
 }
 
-CleavagesDlg::CleavagesDlg (gcu::Application *App, gcr::Document* pDoc): Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE, pDoc)
+CleavagesDlg::CleavagesDlg (gcr::Application *App, gcr::Document* pDoc): gcugtk::Dialog (App, UIDIR"/cleavages.ui", "cleavages", GETTEXT_PACKAGE,reinterpret_cast < gcu::DialogOwner * > (pDoc))
 {
 	m_pDoc = pDoc;
 	GtkWidget* button = GetWidget ("add");

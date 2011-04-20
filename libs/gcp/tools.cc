@@ -52,7 +52,7 @@ static void help_cb (Tools *box)
 }
 
 Tools::Tools (Application *App):
-	Dialog (App, UIDIR"/tools.ui", "tools", GETTEXT_PACKAGE, App),
+	gcugtk::Dialog (App, UIDIR"/tools.ui", "tools", GETTEXT_PACKAGE, App),
 	m_UIManager (NULL)
 {
 	g_signal_connect (G_OBJECT (dialog), "delete-event", G_CALLBACK (on_delete_event), NULL);

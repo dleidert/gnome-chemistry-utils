@@ -4,7 +4,7 @@
  * Gnome Crystal
  * atomsdlg.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -104,7 +104,7 @@ static void on_charge_changed (GtkSpinButton *btn, AtomsDlg *pBox)
 	pBox->SetCharge (gtk_spin_button_get_value_as_int (btn));
 }
 
-AtomsDlg::AtomsDlg (Application *App, Document* pDoc): Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
+AtomsDlg::AtomsDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/atoms.ui", "atoms", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	GtkWidget *frame = GetWidget ("mendeleiev");
@@ -236,7 +236,7 @@ bool AtomsDlg::Apply ()
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Alpha = gtk_color_button_get_alpha (AtomColor) / 65535.;
 		} else
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).CustomColor = false;
-		if ((!GetNumber (AtomR, &(m_Radius.value.value), Min, 0)) || (m_Radius.value.value == 0.0)) {
+		if ((!GetNumber (AtomR, &(m_Radius.value.value), gcugtk::Min, 0)) || (m_Radius.value.value == 0.0)) {
 		} else
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Radius = m_Radius;
 		g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn) / 100.;
@@ -364,7 +364,7 @@ void AtomsDlg::AtomSelect(GtkTreeSelection *Selection)
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).Alpha = gtk_color_button_get_alpha (AtomColor) / 65535.;
 		} else
 			g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).CustomColor = false;
-		if ((!GetNumber (AtomR, &(m_Radius.value.value), Min, 0)) || (m_Radius.value.value == 0.0)) {
+		if ((!GetNumber (AtomR, &(m_Radius.value.value), gcugtk::Min, 0)) || (m_Radius.value.value == 0.0)) {
 		} else
 			g_array_index(m_Atoms, struct AtomStruct, m_AtomSelected).Radius = m_Radius;
 		g_array_index (m_Atoms, struct AtomStruct, m_AtomSelected).EffectiveRadiusRatio = gtk_spin_button_get_value (ScaleBtn) / 100.;

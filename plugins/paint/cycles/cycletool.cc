@@ -37,7 +37,7 @@
 #include <gccv/canvas.h>
 #include <gccv/group.h>
 #include <gccv/line.h>
-#include <gcu/ui-builder.h>
+#include <gcugtk/ui-builder.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
 #include <list>
@@ -703,7 +703,7 @@ void gcpCycleTool::SetLength (double length)
 
 GtkWidget *gcpCycleTool::GetPropertyPage ()
 {
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/cycle.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/cycle.ui", GETTEXT_PACKAGE);
 	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
 	m_MergeBtn = GTK_TOGGLE_BUTTON (builder->GetWidget ("merge"));
@@ -761,7 +761,7 @@ static void on_size_changed (GtkSpinButton *button, gcpNCycleTool *tool)
 
 GtkWidget *gcpNCycleTool::GetPropertyPage ()
 {
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/cyclen.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/cyclen.ui", GETTEXT_PACKAGE);
 	m_LengthBtn = GTK_SPIN_BUTTON (builder->GetWidget ("bond-length"));
 	g_signal_connect (m_LengthBtn, "value-changed", G_CALLBACK (on_length_changed), this);
 	m_MergeBtn = GTK_TOGGLE_BUTTON (builder->GetWidget ("merge"));

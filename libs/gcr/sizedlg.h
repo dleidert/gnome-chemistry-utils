@@ -4,7 +4,7 @@
  * Gnome Crystal
  * sizedlg.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,14 +25,14 @@
 #ifndef GCR_SIZEDLG_H
 #define GCR_SIZEDLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 
 namespace gcr {
 
 class Document;
 class Application;
 
-class SizeDlg: public gcu::Dialog
+class SizeDlg: public gcugtk::Dialog
 {
 public:
 	SizeDlg (Application *App, Document* pDoc);

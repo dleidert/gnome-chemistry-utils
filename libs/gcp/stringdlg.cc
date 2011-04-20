@@ -59,7 +59,7 @@ static void on_string_clear_data(G_GNUC_UNUSED GtkClipboard *clipboard, G_GNUC_U
 }
 
 StringDlg::StringDlg (Document *pDoc, string const &data, enum data_type type):
-	Dialog (pDoc->GetApplication(), UIDIR"/stringdlg.ui", "string", GETTEXT_PACKAGE)
+	gcugtk::Dialog (pDoc->GetApplication(), UIDIR"/stringdlg.ui", "string", GETTEXT_PACKAGE)
 {
 	Data = data;
 	Type = type;

@@ -25,14 +25,14 @@
 #ifndef GCHEMTABLE_CURVE_H
 #define GCHEMTABLE_CURVE_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gcugtk/printable.h>
 #include <string>
 #include "gchemtable-app.h"
 
 using namespace gcu;
 
-class GChemTableCurve: public Dialog, public gcugtk::Printable
+class GChemTableCurve: public gcugtk::Dialog, public gcugtk::Printable
 {
 public:
 	GChemTableCurve (GChemTableApp *App, char const *name);

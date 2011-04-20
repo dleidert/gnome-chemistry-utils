@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_STRING_DLG_H
 #define GCHEMPAINT_STRING_DLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <string>
 
 /*!\file*/
@@ -36,7 +36,7 @@ class Document;
 /*!\class StringDlg gcp/stringdlg.h
 Represents the dialog used to display the InChI or canonical SMILES of a molecule.
 */
-class StringDlg: public gcu::Dialog
+class StringDlg: public gcugtk::Dialog
 {
 public:
 /*!\enum data_type

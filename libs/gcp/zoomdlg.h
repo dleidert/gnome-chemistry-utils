@@ -4,7 +4,7 @@
  * GChemPaint library
  * zoomdlg.h
  *
- * Copyright (C) 2005-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_ZOOM_DLG_H
 #define GCHEMPAINT_ZOOM_DLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gtk/gtkspinbutton.h>
 
 /*!\file*/
@@ -36,7 +36,7 @@ class Document;
 /*!\class ZoomDlg gcp/zoomdlg.h
 The zoom level dialog.
 */
-class ZoomDlg: public gcu::Dialog
+class ZoomDlg: public gcugtk::Dialog
 {
 public:
 /*!

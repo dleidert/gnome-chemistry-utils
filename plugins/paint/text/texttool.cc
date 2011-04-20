@@ -4,7 +4,7 @@
  * GChemPaint text plugin
  * texttool.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,7 +37,7 @@
 #include <gcp/window.h>
 #include <gccv/text.h>
 #include <gccv/text-tag.h>
-#include <gcu/ui-builder.h>
+#include <gcugtk/ui-builder.h>
 #include <gdk/gdkkeysyms.h>
 #include <unistd.h>
 #include <cstring>
@@ -835,7 +835,7 @@ static const guint16 font_sizes[] = {
 
 GtkWidget *gcpTextTool::GetPropertyPage ()
 {
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/fontsel.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/fontsel.ui", GETTEXT_PACKAGE);
 	PangoFontFamily **families;
 	int i, nb;
 	gcp::Theme *pTheme = m_pApp->GetActiveDocument ()->GetTheme ();

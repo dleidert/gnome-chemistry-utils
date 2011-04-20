@@ -4,7 +4,7 @@
  * GChemPaint libray
  * newfiledlg.h 
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,7 @@
 #ifndef GCHEMPAINT_NEW_FILE_DLG_H
 #define GCHEMPAINT_NEW_FILE_DLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gcu/macros.h>
 #include <gcu/object.h>
 
@@ -37,7 +37,7 @@ class Theme;
 
 /*!\class NewFileDlg gcp/newfiledlg.h
 The dialog class for creating new files with a given theme.*/
-class NewFileDlg: public gcu::Dialog, gcu::Object
+class NewFileDlg: public gcugtk::Dialog, gcu::Object
 {
 public:
 /*!

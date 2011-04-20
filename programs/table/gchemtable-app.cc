@@ -27,10 +27,10 @@
 #include "gchemtable-curve.h"
 #include "gchemtable-data.h"
 #include "gchemtable-elt.h"
+#include <gcugtk/filechooser.h>
+#include <gcugtk/ui-builder.h>
 #include <gcu/chemistry.h>
 #include <gcu/element.h>
-#include <gcu/filechooser.h>
-#include <gcu/ui-builder.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkaboutdialog.h>
@@ -341,7 +341,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 	colorschemes["none"] = GCU_PERIODIC_COLOR_NONE;
 	colorschemes["default"] = GCU_PERIODIC_COLOR_DEFAULT;
 
-	UIBuilder *builder = new UIBuilder (UIDIR"/state-thermometer.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/state-thermometer.ui", GETTEXT_PACKAGE);
 	GtkWidget *thermometer = builder->GetRefdWidget ("state-thermometer");
 	colorschemes["state"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_state_color, thermometer, this);
 	gtk_widget_show_all (thermometer);
@@ -350,7 +350,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 	temperature = gtk_range_get_value (GTK_RANGE (thermometer));
 	delete builder;
 
-	builder = new UIBuilder (UIDIR"/family.ui", GETTEXT_PACKAGE);
+	builder = new gcugtk::UIBuilder (UIDIR"/family.ui", GETTEXT_PACKAGE);
 	GtkWidget *familywidget = builder->GetRefdWidget ("family-legend");
 	colorschemes["family"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_family_color, familywidget, this);	
 	gtk_widget_show_all (familywidget);
@@ -360,7 +360,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 	g_signal_connect (G_OBJECT (familywidget), "changed", G_CALLBACK (on_changed_family), this);
 	delete builder;
 
-	builder = new UIBuilder (UIDIR"/acidity.ui", GETTEXT_PACKAGE);
+	builder = new gcugtk::UIBuilder (UIDIR"/acidity.ui", GETTEXT_PACKAGE);
 	GtkWidget *aciditylegend = builder->GetRefdWidget ("acidity-legend");
 	colorschemes["acidity"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_acidity_color, aciditylegend, this);
 	gtk_widget_show_all (aciditylegend);
@@ -370,7 +370,7 @@ GChemTableApp::GChemTableApp (): gcugtk::Application ("gchemtable")
 
 	colorschemes["radius"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_radius_color, NULL, this);
 
-	builder = new UIBuilder (UIDIR"/block.ui", GETTEXT_PACKAGE);
+	builder = new gcugtk::UIBuilder (UIDIR"/block.ui", GETTEXT_PACKAGE);
 	GtkWidget *blocklegend = builder->GetRefdWidget ("block-legend");
 	colorschemes["block"] = gcu_periodic_add_color_scheme (periodic, (GcuPeriodicColorFunc) get_block_color, blocklegend, this);
 	gtk_widget_show_all (blocklegend);
@@ -429,7 +429,7 @@ void GChemTableApp::OnElement (int Z)
 		return;
 	int t = Z - 1;
 	if (Pages[t] != NULL)
-		gtk_window_present (Pages[t]->GetWindow ());
+		Pages[t]->Present ();
 	else
 		Pages[t] = new GChemTableElt (this, Z);
 }
@@ -715,7 +715,7 @@ void GChemTableApp::OnSaveAsImage (GChemTableCurve *curve)
 	l.push_front ("application/postscript");
 	l.push_front ("application/pdf");
 	l.push_front ("image/svg+xml");
-	FileChooser (this, true, l, reinterpret_cast <Document *> (curve), _("Save as image"), GetImageSizeWidget ());
+	gcugtk::FileChooser (this, true, l, reinterpret_cast <Document *> (curve), _("Save as image"), GetImageSizeWidget ());
 }
 
 bool GChemTableApp::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, Document *Doc)

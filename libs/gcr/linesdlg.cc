@@ -4,7 +4,7 @@
  * Gnome Crystal
  * linesdlg.cc 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -94,7 +94,7 @@ static void on_medians_toggled (G_GNUC_UNUSED GtkToggleButton* btn, LinesDlg *pB
 	pBox->OnToggledSpecial (gcr::medians);
 }
 
-LinesDlg::LinesDlg (Application *App, Document* pDoc): gcu::Dialog (App, UIDIR"/lines.ui", "lines", GETTEXT_PACKAGE, pDoc)
+LinesDlg::LinesDlg (Application *App, Document* pDoc): gcugtk::Dialog (App, UIDIR"/lines.ui", "lines", GETTEXT_PACKAGE, pDoc)
 {
 	m_pDoc = pDoc;
 	GtkWidget* button = GetWidget ("add");
@@ -289,7 +289,7 @@ bool LinesDlg::Apply ()
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Green = color.green / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Blue = color.blue / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Alpha = gtk_color_button_get_alpha (LineColor) / 65535.;
-		if ((!GetNumber(LineR, &g_array_index (m_Lines, struct LineStruct, m_LineSelected).r, gcu::Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
+		if ((!GetNumber(LineR, &g_array_index (m_Lines, struct LineStruct, m_LineSelected).r, gcugtk::Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
 		}
 	}
 	gcr::LineList* Lines = m_pDoc->GetLineList ();
@@ -303,7 +303,7 @@ bool LinesDlg::Apply ()
 	gcr::Line* pLine;
 	double r, Red, Green, Blue, Alpha;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Edges))) {
-		GetNumber (EdgesR, &r, gcu::Min, 0);
+		GetNumber (EdgesR, &r, gcugtk::Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (EdgesColor, &color);
 			Red = color.red / 65535.;
@@ -315,7 +315,7 @@ bool LinesDlg::Apply ()
 		}
 	}
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Diags))) {
-		GetNumber (DiagsR, &r, gcu::Min, 0);
+		GetNumber (DiagsR, &r, gcugtk::Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (DiagsColor, &color);
 			Red = color.red / 65535.;
@@ -327,7 +327,7 @@ bool LinesDlg::Apply ()
 		}
 	}
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (Medians))) {
-		GetNumber (MediansR, &r, gcu::Min, 0);
+		GetNumber (MediansR, &r, gcugtk::Min, 0);
 		if (r > 0.0) {
 			gtk_color_button_get_color (MediansColor, &color);
 			Red = color.red / 65535.;
@@ -415,7 +415,7 @@ void LinesDlg::LineSelect (GtkTreeSelection *Selection)
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Green = color.green / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Blue = color.blue / 65535.;
 		g_array_index(m_Lines, struct LineStruct, m_LineSelected).Alpha = gtk_color_button_get_alpha (LineColor) / 65535.;
-		if ((!GetNumber (LineR, &g_array_index(m_Lines, struct LineStruct, m_LineSelected).r, gcu::Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
+		if ((!GetNumber (LineR, &g_array_index(m_Lines, struct LineStruct, m_LineSelected).r, gcugtk::Min, 0)) || (g_array_index (m_Lines, struct LineStruct, m_LineSelected).r == 0.0)) {
 		}
 	}
 	GtkTreeModel* model = GTK_TREE_MODEL (LineList);

@@ -24,16 +24,16 @@
 
 #include "config.h"
 #include <gcugtk/application.h>
+#include <gcugtk/filechooser.h>
+#include <gcugtk/printable.h>
+#include <gcugtk/print-setup-dlg.h>
+#include <gcugtk/ui-builder.h>
 #include <gcu/atom.h>
 #include <gcu/bond.h>
 #include <gcu/document.h>
 #include <gcu/element.h>
-#include <gcu/filechooser.h>
 #include <gcu/formula.h>
 #include <gcu/molecule.h>
-#include <gcugtk/printable.h>
-#include <gcugtk/print-setup-dlg.h>
-#include <gcu/ui-builder.h>
 #include <gcu/residue.h>
 #include <gcu/value.h>
 #include <glib/gi18n.h>
@@ -195,7 +195,7 @@ void GChemCalc::OnSaveAsImage ()
 	l.push_front ("application/postscript");
 	l.push_front ("application/pdf");
 	l.push_front ("image/svg+xml");
-	FileChooser (this, true, l, NULL, _("Save as image"), GetImageSizeWidget ());
+	gcugtk::FileChooser (this, true, l, NULL, _("Save as image"), GetImageSizeWidget ());
 }
 
 bool GChemCalc::FileProcess (const gchar* filename, const gchar* mime_type, bool bSave, G_GNUC_UNUSED GtkWindow *window, G_GNUC_UNUSED Document *pDoc)
@@ -713,7 +713,7 @@ int main (int argc, char *argv[])
 	/* Initialize plugins manager */
 	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
-	UIBuilder *builder = new UIBuilder (UIDIR"/gchemcalc.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/gchemcalc.ui", GETTEXT_PACKAGE);
 	App->window = GTK_WINDOW (builder->GetRefdWidget ("gchemcalc"));
 	gtk_window_set_icon_name (App->window, App->GetIconName ().c_str ());
 	g_signal_connect (GTK_OBJECT (App->window), "destroy",

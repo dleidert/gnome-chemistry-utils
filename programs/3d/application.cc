@@ -27,7 +27,7 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
-#include <gcu/filechooser.h>
+#include <gcugtk/filechooser.h>
 #include <gsf/gsf-output-gio.h>
 #include <cairo-pdf.h>
 #include <cairo-ps.h>
@@ -92,7 +92,7 @@ void gc3dApplication::OnFileOpen (gc3dDocument *Doc)
 	l.push_front ("chemical/x-mdl-molfile");
 	l.push_front ("chemical/x-pdb");
 	l.push_front ("chemical/x-xyz");
-	FileChooser (this, false, l, Doc);
+	gcugtk::FileChooser (this, false, l, Doc);
 }
 
 void gc3dApplication::OnQuit ()
@@ -247,5 +247,5 @@ void gc3dApplication::OnSaveAsImage (gc3dDocument *Doc)
 	l.push_front ("application/postscript");
 	l.push_front ("application/pdf");
 	l.push_front ("model/vrml");
-	FileChooser (this, true, l, Doc, _("Save as image"), GetImageSizeWidget ());
+	gcugtk::FileChooser (this, true, l, Doc, _("Save as image"), GetImageSizeWidget ());
 }

@@ -4,7 +4,7 @@
  * GChemPaint residues plugin
  * residues-dlg.h
  *
- * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,7 +25,7 @@
 #ifndef GCP_RESIDUE_DLG_H
 #define GCP_RESIDUE_DLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gcu/macros.h>
 #include <gcp/target.h>
 
@@ -39,7 +39,7 @@ class Document;
 class Residue;
 }
 
-class gcpResiduesDlg: public Dialog, public gcp::Target
+class gcpResiduesDlg: public gcugtk::Dialog, public gcp::Target
 {
 public:
 	gcpResiduesDlg (gcp::Application *App);

@@ -25,7 +25,7 @@
 #ifndef GCR_ATOMSDLG_H
 #define GCR_ATOMSDLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gcugtk/gcuperiodic.h>
 #include <vector>
 
@@ -37,7 +37,7 @@ class Application;
 
 struct AtomsStruct;
 
-class AtomsDlg: public gcu::Dialog
+class AtomsDlg: public gcugtk::Dialog
 {
 public:
 	AtomsDlg (Application *App, Document* pDoc);

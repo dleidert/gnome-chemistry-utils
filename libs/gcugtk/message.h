@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * gcu/message.h 
+ * gcugtk/message.h 
  *
- * Copyright (C) 2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2010-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,13 +22,13 @@
  * USA
  */
 
-#ifndef GCU_MESSAGE_H
-#define GCU_MESSAGE_H
+#ifndef GCU_GTK_MESSAGE_H
+#define GCU_GTK_MESSAGE_H
 
 #include <gtk/gtk.h>
 #include <string>
 
-namespace gcu {
+namespace gcugtk {
 
 class Application;
 
@@ -40,6 +40,7 @@ public:
 	virtual ~Message ();
 
 	int Run ();
+	void Show ();
 
 private:
 	GtkDialog *m_Window;
@@ -48,4 +49,4 @@ private:
 
 }
 
-#endif	//	GCU_MESSAGE_H
+#endif	//	GCU_GTK_MESSAGE_H

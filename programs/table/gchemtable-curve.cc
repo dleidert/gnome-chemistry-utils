@@ -175,7 +175,7 @@ static void on_help (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 
 static void on_curve_help (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
 {
-	curve->Help ();
+	curve->GetApplication ()->OnHelp (curve->GetWindowName ());
 }
 
 static void on_web (G_GNUC_UNUSED GtkWidget *widget, GChemTableCurve *curve)
@@ -270,7 +270,7 @@ static const char *ui_description =
 "</ui>";
 
 GChemTableCurve::GChemTableCurve (GChemTableApp *App, char const *name):
-	Dialog (App, UIDIR"/curve.ui", "curvedlg", GETTEXT_PACKAGE),
+	gcugtk::Dialog (App, UIDIR"/curve.ui", "curvedlg", GETTEXT_PACKAGE),
 	gcugtk::Printable (),
 	m_Guru (NULL)
 {

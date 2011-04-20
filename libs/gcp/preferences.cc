@@ -4,7 +4,7 @@
  * GChemPaint library
  * preferences.cc 
  *
- * Copyright (C) 2006-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -298,7 +298,7 @@ static void on_default_theme_changed (GtkComboBox *box, PrefsDlg* dlg)
 #endif
 
 PrefsDlg::PrefsDlg (Application *pApp):
-	Dialog (pApp, UIDIR"/preferences.ui", "preferences", GETTEXT_PACKAGE, pApp),
+	gcugtk::Dialog (pApp, UIDIR"/preferences.ui", "preferences", GETTEXT_PACKAGE, pApp),
 	Object (),
 	m_CurTheme (NULL),
 	m_Path (NULL)

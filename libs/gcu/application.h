@@ -166,18 +166,6 @@ Attempts to open the \#gchemutils channel at irc.gimp.net.
 	void OnLiveAssistance ();
 
 /*!
-@return a GtkWidget for managing pixmap resolution when saving as image. This widget is
-intended to be added to a GtkFileChooserDialog.
-*/
-	GtkWidget *GetImageResolutionWidget ();
-
-/*!
-@return a GtkWidget for managing pixmap width and height when saving as image. This
-widget is intended to be added to a GtkFileChooserDialog.
-*/
-	GtkWidget *GetImageSizeWidget ();
-
-/*!
 @return a std::map of the supported pixbuf formats. Keys are the mime type names.
 */
 	std::map<std::string, GdkPixbufFormat*> &GetSupportedPixbufFormats () {return m_SupportedPixbufFormats;}

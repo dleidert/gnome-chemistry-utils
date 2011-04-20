@@ -4,7 +4,7 @@
  * GChemPaint library
  * zoomdlg.cc 
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -47,7 +47,7 @@ static void on_zoom_changed (GtkSpinButton *btn, gcp::Document *pDoc)
 }
 
 ZoomDlg::ZoomDlg (gcp::Document *pDoc):
-	Dialog (pDoc->GetApplication (), UIDIR"/zoom.ui", "zoomdlg", GETTEXT_PACKAGE, pDoc)
+	gcugtk::Dialog (pDoc->GetApplication (), UIDIR"/zoom.ui", "zoomdlg", GETTEXT_PACKAGE, pDoc)
 {
 	g_signal_connect_swapped (G_OBJECT (dialog), "focus_in_event", G_CALLBACK (on_focus_in), this);
 	btn = GTK_SPIN_BUTTON (GetWidget ("zoom"));

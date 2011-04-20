@@ -4,7 +4,7 @@
  * Gnome Crystal
  * linesdlg.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,14 +25,14 @@
 #ifndef GCR_LINESDLG_H
 #define GCR_LINESDLG_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 
 namespace gcr {
 
 class Document;
 class Application;
 
-class LinesDlg: public gcu::Dialog
+class LinesDlg: public gcugtk::Dialog
 {
 public:
 	LinesDlg (Application *App, Document* pDoc);

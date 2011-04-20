@@ -24,7 +24,6 @@
 
 #include "config.h"
 #include "orbital.h"
-#include <gcu/dialog.h>
 #include <gcp/application.h>
 #include <gcp/atom.h>
 #include <gcp/document.h>
@@ -32,6 +31,7 @@
 #include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
+#include <gcugtk/dialog.h>
 #include <gcugtk/ui-manager.h>
 #include <gccv/canvas.h>
 #include <gccv/circle.h>
@@ -47,7 +47,7 @@ namespace gcp {
 extern xmlDocPtr pXmlDoc;
 }
 
-class gcpOrbitalProps: public gcu::Dialog
+class gcpOrbitalProps: public gcugtk::Dialog
 {
 public:
 	friend class gcpOrbital;
@@ -70,7 +70,7 @@ private:
 };
 
 gcpOrbitalProps::gcpOrbitalProps (gcp::Document *doc, gcpOrbital *orbital):
-	gcu::Dialog (doc? doc->GetApplication (): NULL, UIDIR"/orbital-prop.ui", "orbital-properties", GETTEXT_PACKAGE, orbital)
+	gcugtk::Dialog (doc? doc->GetApplication (): NULL, UIDIR"/orbital-prop.ui", "orbital-properties", GETTEXT_PACKAGE, orbital)
 {
 	m_Orbital = orbital;
 	m_Doc = doc;

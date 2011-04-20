@@ -4,7 +4,7 @@
  * GChemPaint library
  * Hposdlg.cc 
  *
- * Copyright (C) 2005-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2005-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -39,7 +39,7 @@ static void on_pos_changed (HPosDlg *dlg)
 }
 
 HPosDlg::HPosDlg (Document *pDoc, Atom *pAtom):
-	Dialog (pDoc->GetApplication (), UIDIR"/H-pos.ui", "Hposdlg", GETTEXT_PACKAGE, pAtom),
+	gcugtk::Dialog (pDoc->GetApplication (), UIDIR"/H-pos.ui", "Hposdlg", GETTEXT_PACKAGE, pAtom),
 	m_Atom (pAtom)
 {
 	box = GTK_COMBO_BOX (GetWidget ("H-pos"));

@@ -27,7 +27,7 @@
 #include "document.h"
 #include "view.h"
 #include "window.h"
-#include <gcu/filechooser.h>
+#include <gcugtk/filechooser.h>
 #include <gcu/loader.h>
 #include <glib/gi18n.h>
 #include <clocale>
@@ -70,7 +70,7 @@ gsvDocument *gsvApplication::OnFileNew ()
 
 void gsvApplication::OnFileOpen (gsvDocument *Doc)
 {
-	FileChooser (this, false, m_SupportedMimeTypes, Doc);
+	gcugtk::FileChooser (this, false, m_SupportedMimeTypes, Doc);
 }
 
 void gsvApplication::OnQuit ()
@@ -158,7 +158,7 @@ void gsvApplication::OnSaveAsImage (gsvDocument *Doc)
 	l.push_front ("application/postscript");
 	l.push_front ("application/pdf");
 	l.push_front ("image/svg+xml");
-	FileChooser (this, true, l, Doc, _("Save as image"), GetImageSizeWidget ());
+	gcugtk::FileChooser (this, true, l, Doc, _("Save as image"), GetImageSizeWidget ());
 }
 
 void gsvApplication::AddMimeType (list<string> &l, string const& mime_type)

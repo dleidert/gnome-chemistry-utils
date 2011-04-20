@@ -31,7 +31,6 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		dialog-owner.cc \
 		document.cc \
 		element.cc \
-		filechooser.cc \
 		formula.cc \
 		gldocument.cc	\
 		glview.cc	\
@@ -40,14 +39,12 @@ libgcu_@GCU_API_VER@_la_SOURCES = \
 		loader-error.cc \
 		matrix.cc \
 		matrix2d.cc \
-		message.cc \
 		molecule.cc \
 		object.cc \
 		residue.cc \
 		spacegroup.cc   \
 		sphere.cc	\
 		transform3d.cc  \
-		ui-builder.cc   \
 		ui-manager.cc   \
 		value.cc \
 		vector.cc \
@@ -68,7 +65,6 @@ noinst_HEADERS = \
 		dialog-owner.h \
 		document.h \
 		element.h \
-		filechooser.h \
 		formula.h \
 		gldocument.h	\
 		glview.h	\
@@ -78,7 +74,6 @@ noinst_HEADERS = \
 		macros.h	\
 		matrix.h	\
 		matrix2d.h	\
-		message.h \
 		molecule.h \
 		object.h \
 		objprops.h \
@@ -87,7 +82,6 @@ noinst_HEADERS = \
 		sphere.h	\
 		structs.h   \
 		transform3d.h  \
-		ui-builder.h   \
 		ui-manager.h   \
 		value.h \
 		vector.h \

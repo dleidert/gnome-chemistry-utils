@@ -4,7 +4,7 @@
  * GChemPaint templates plugin
  * templatetool.cc 
  *
- * Copyright (C) 2004-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -31,7 +31,7 @@
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gccv/canvas.h>
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <cmath>
@@ -40,7 +40,7 @@ using namespace gcu;
 
 xmlDocPtr xml;
 
-class gcpNewTemplateToolDlg: public Dialog
+class gcpNewTemplateToolDlg: public gcugtk::Dialog
 {
 public:
 	gcpNewTemplateToolDlg (gcp::Application* App);
@@ -159,7 +159,7 @@ static void on_delete_template (G_GNUC_UNUSED GtkWidget *w, gcpTemplateTool *too
 
 GtkWidget *gcpTemplateTool::GetPropertyPage ()
 {
-	gcu::UIBuilder *builder = new gcu::UIBuilder (UIDIR"/templates.ui", GETTEXT_PACKAGE);
+	gcugtk::UIBuilder *builder = new gcugtk::UIBuilder (UIDIR"/templates.ui", GETTEXT_PACKAGE);
 	gcpTemplateTree *tree = (gcpTemplateTree*) m_pApp->GetTool ("TemplateTree");
 	if (!tree)
 		return NULL;
@@ -296,7 +296,7 @@ void gcpTemplateTool::OnConfigChanged ()
 }
 
 gcpNewTemplateToolDlg::gcpNewTemplateToolDlg (gcp::Application* App):
-	Dialog(App, UIDIR"/new-template.ui", "new_template", GETTEXT_PACKAGE, App)
+	gcugtk::Dialog(App, UIDIR"/new-template.ui", "new_template", GETTEXT_PACKAGE, App)
 {
 	m_node = NULL;
 	if (!xml) {

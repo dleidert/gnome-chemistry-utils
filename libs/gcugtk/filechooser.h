@@ -2,9 +2,9 @@
 
 /* 
  * Gnome Chemistry Utils
- * filechooser.h 
+ * gcugtk/filechooser.h 
  *
- * Copyright (C) 2006-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2006-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -30,12 +30,14 @@
 #include <list>
 #include <string>
 
+namespace gcu {
+class Document;
+}
 /*!\file*/
-namespace gcu
+namespace gcugtk
 {
 
 class Application;
-class Document;
 
 /*!\class FileChooser gcu/filechooser.h
 This class is used each time a file name must be choosen. It embeds a GtkFileChooserDialog
@@ -58,13 +60,13 @@ The constructor shows the GtkFileChooserDialog window, retrieve it's response an
 Application::FileProcess if needed. The dialog is modal (nothing else can be done while
 it is opened).
 */
-	FileChooser (Application *App, bool Save, std::list<std::string> mime_types, Document *pDoc = NULL, char const *title = NULL, GtkWidget *extra_widget = NULL);
+	FileChooser (Application *App, bool Save, std::list<std::string> mime_types, gcu::Document *pDoc = NULL, char const *title = NULL, GtkWidget *extra_widget = NULL);
 	
 private:
 	GtkFileChooser* dialog;
 	bool m_bSave;
 	Application* m_pApp;
-	Document* m_pDoc;
+	gcu::Document* m_pDoc;
 };
 
 }

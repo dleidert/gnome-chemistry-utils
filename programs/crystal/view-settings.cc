@@ -4,7 +4,7 @@
  * Gnome Crystal
  * view-settings.cc
  *
- * Copyright (C) 2001-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,7 +27,7 @@
 #include "document.h"
 #include "application.h"
 
-gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): Dialog (pView->GetDoc ()->GetApp (), UIDIR"/view-settings.ui", "view_settings", GETTEXT_PACKAGE, pView)
+gcViewSettingsDlg::gcViewSettingsDlg (gcView* pView): gcugtk::Dialog (static_cast < gcugtk::Application * > (pView->GetDoc ()->GetApp ()), UIDIR"/view-settings.ui", "view_settings", GETTEXT_PACKAGE, pView)
 {
 	m_pView = pView;
 	FoV = GTK_SPIN_BUTTON (GetWidget ("fov"));
@@ -63,11 +63,11 @@ gcViewSettingsDlg::~gcViewSettingsDlg ()
 bool gcViewSettingsDlg::Apply()
 {
 	double x0, x1, x2;
-	if (!GetNumber (Psi, &x0, MinEqMax, -180, 180))
+	if (!GetNumber (Psi, &x0, gcugtk::MinEqMax, -180, 180))
 		return false;
-	if (!GetNumber (Theta, &x1, MinEqMaxEq, 0, 180))
+	if (!GetNumber (Theta, &x1, gcugtk::MinEqMaxEq, 0, 180))
 		return false;
-	if (!GetNumber (Phi, &x2, MinEqMax, -180, 180))
+	if (!GetNumber (Phi, &x2, gcugtk::MinEqMax, -180, 180))
 		return false;
 	m_pView->SetRotation (x0, x1, x2);
 	m_pView->GetFoV () = gtk_spin_button_get_value (FoV);

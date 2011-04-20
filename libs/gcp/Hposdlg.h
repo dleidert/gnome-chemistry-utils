@@ -4,7 +4,7 @@
  * GChemPaint library
  * H-pos.h
  *
- * Copyright (C) 2007-2008 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2007-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,8 +25,7 @@
 #ifndef GCHEMPAINT_H_POS_DLG_H
 #define GCHEMPAINT_H_POS_DLG_H
 
-#include <gcu/dialog.h>
-#include <gtk/gtkcombobox.h>
+#include <gcugtk/dialog.h>
 
 /*!\file*/
 namespace gcp {
@@ -39,7 +38,7 @@ class View;
 The dialog used to set the position of the symbols of hydrogen atoms attached
 to heteroatoms or explicit carbon atoms.
 */
-class HPosDlg: public gcu::Dialog
+class HPosDlg: public gcugtk::Dialog
 {
 public:
 /*!

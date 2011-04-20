@@ -4,7 +4,7 @@
  * Gnome Crystal
  * prefs.h 
  *
- * Copyright (C) 2001-2006 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -25,13 +25,13 @@
 #ifndef GCRYSTAL_PREFS_H
 #define GCRYSTAL_PREFS_H
 
-#include <gcu/dialog.h>
+#include <gcugtk/dialog.h>
 
 using namespace gcu;
 
 class gcApplication;
 
-class gcPrefsDlg: public Dialog
+class gcPrefsDlg: public gcugtk::Dialog
 {
 public:
 	gcPrefsDlg (gcApplication *App);

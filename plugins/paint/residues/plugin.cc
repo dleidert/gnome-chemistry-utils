@@ -141,7 +141,7 @@ void gcpResiduesPlugin::OpenDialog ()
 {
 	Dialog *dlg = m_App->GetDialog ("residues");
 	if (dlg) 
-		gtk_window_present (dlg->GetWindow ());
+		dlg->Present ();
 	else 
 		new gcpResiduesDlg (m_App);
 }

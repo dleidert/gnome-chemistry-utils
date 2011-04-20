@@ -2,7 +2,7 @@
  * GChemPaint selection plugin
  * groupdlg.cc
  *
- * Copyright (C) 2004-2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -42,7 +42,7 @@ static void on_space_toggled (gcpGroupDlg *dlg)
 }
 
 gcpGroupDlg::gcpGroupDlg (gcp::Document *Doc, gcpGroup *group):
-	Dialog (Doc->GetApplication (), UIDIR"/group.ui", "group", GETTEXT_PACKAGE, Doc)
+	gcugtk::Dialog (Doc->GetApplication (), UIDIR"/group.ui", "group", GETTEXT_PACKAGE, Doc)
 {
 	m_Group = group;
 	m_Doc = Doc;
