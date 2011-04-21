@@ -37,6 +37,45 @@ extern set<xmlDocPtr> docs;
 
 gcpTemplatesPlugin::gcpTemplatesPlugin(): gcp::Plugin()
 {
+}
+
+gcpTemplatesPlugin::~gcpTemplatesPlugin()
+{
+	set<xmlDocPtr>::iterator i, iend = docs.end ();
+	for (i = docs.begin (); i != iend; i++)
+		xmlFreeDoc (*i);
+	docs.clear ();
+	map<string, gcpTemplate*>::iterator j, jend = Templates.end ();
+	for (j = Templates.begin (); j != jend; j++)
+		delete (*j).second;
+	Templates.clear ();
+	TempbyName.clear ();
+	map<string, gcpTemplateCategory*>::iterator k, kend =  TemplateCategories.end ();
+	for (k = TemplateCategories.begin (); k != kend; k++)
+		delete (*k).second;
+	TemplateCategories.clear ();
+}
+
+static GtkRadioActionEntry entries[] = {
+	{	"Templates", GTK_STOCK_INDEX, N_("Templates"), NULL,
+		N_("Use or manage templates"),
+		0	},
+};
+
+static const char *ui_description =
+"<ui>"
+"  <toolbar name='SelectToolbar'>"
+"	 <placeholder name='Select1'/>"
+"	 <placeholder name='Select2'>"
+"	   <separator/>"
+"	   <toolitem action='Templates'/>"
+"	 </placeholder>"
+"	 <placeholder name='Select3'/>"
+"  </toolbar>"
+"</ui>";
+
+void gcpTemplatesPlugin::Populate (gcp::Application* App)
+{
 	//Load templates, assuming that users templates are not readonly
 	xmlDocPtr doc;
 	xmlNodePtr node;
@@ -87,45 +126,8 @@ gcpTemplatesPlugin::gcpTemplatesPlugin(): gcp::Plugin()
 		mkdir (path, 0x1ed);
 	}
 	g_free (path);
-}
 
-gcpTemplatesPlugin::~gcpTemplatesPlugin()
-{
-	set<xmlDocPtr>::iterator i, iend = docs.end ();
-	for (i = docs.begin (); i != iend; i++)
-		xmlFreeDoc (*i);
-	docs.clear ();
-	map<string, gcpTemplate*>::iterator j, jend = Templates.end ();
-	for (j = Templates.begin (); j != jend; j++)
-		delete (*j).second;
-	Templates.clear ();
-	TempbyName.clear ();
-	map<string, gcpTemplateCategory*>::iterator k, kend =  TemplateCategories.end ();
-	for (k = TemplateCategories.begin (); k != kend; k++)
-		delete (*k).second;
-	TemplateCategories.clear ();
-}
-
-static GtkRadioActionEntry entries[] = {
-	{	"Templates", GTK_STOCK_INDEX, N_("Templates"), NULL,
-		N_("Use or manage templates"),
-		0	},
-};
-
-static const char *ui_description =
-"<ui>"
-"  <toolbar name='SelectToolbar'>"
-"	 <placeholder name='Select1'/>"
-"	 <placeholder name='Select2'>"
-"	   <separator/>"
-"	   <toolitem action='Templates'/>"
-"	 </placeholder>"
-"	 <placeholder name='Select3'/>"
-"  </toolbar>"
-"</ui>";
-
-void gcpTemplatesPlugin::Populate (gcp::Application* App)
-{
+	// Populate the toolbox
 	App->AddActions (entries, G_N_ELEMENTS (entries), ui_description, NULL);
 	new gcpTemplateTool (App);
 	new gcpTemplateTree (App);
