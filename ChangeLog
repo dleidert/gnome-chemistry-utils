@@ -1,8 +1,9 @@
 ##Text encoding: utf-8
 
 2011-04-21  Jean Bréfort  <jean.brefort@normalesup.org>
-	* plugins/paint/templates/plugin.cc: do not rely on static global variables
+	* plugins/paint/residues/plugin.cc: do not rely on static global variables
 	initialization order.
+	* plugins/paint/templates/plugin.cc: ditto.
 
 2011-02-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/fragment-residue.cc: fix build with gcc-4.6. [#32363]

@@ -45,35 +45,6 @@ static Object* CreatePseudoAtom ()
 
 gcpResiduesPlugin::gcpResiduesPlugin (): gcp::Plugin ()
 {
-	PseudoAtomType = Object::AddType ("pseudo-atom", CreatePseudoAtom);
-	xmlDocPtr doc;
-	xmlNodePtr node;
-	char *name;
-	xmlIndentTreeOutput = true;
-	xmlKeepBlanksDefault (0);
-	doc = xmlParseFile (PKGDATADIR"/residues.xml");
-	if (doc) {
-		docs.insert (doc);
-		node = doc->children;
-		if (!strcmp ((char*)node->name, "residues"))
-			ParseNodes (node->children, false);
-	}
-	char* gcupath = g_strconcat (getenv ("HOME"), "/.gchemutils", NULL);
-	GDir* dir = g_dir_open (gcupath, 0, NULL);
-	if (dir)
-		g_dir_close (dir);
-	else
-		mkdir (gcupath, 0x1ed);
-	g_free (gcupath) ;
-	name = g_strconcat (getenv ("HOME"), "/.gchemutils/residues.xml", NULL);
-	if (g_file_test (name, G_FILE_TEST_EXISTS) && (doc = xmlParseFile (name))) {
-		docs.insert (doc);
-		user_residues = doc;
-		node = doc->children;
-		if (!strcmp ((char*)node->name, "residues"))
-			ParseNodes (node->children, true);
-	}
-	g_free (name);
 }
 
 gcpResiduesPlugin::~gcpResiduesPlugin ()
@@ -129,6 +100,38 @@ static void on_menu (GtkUIManager *UIManager)
 
 void gcpResiduesPlugin::Populate (gcp::Application *App)
 {
+	// Load the residues databases
+	PseudoAtomType = Object::AddType ("pseudo-atom", CreatePseudoAtom);
+	xmlDocPtr doc;
+	xmlNodePtr node;
+	char *name;
+	xmlIndentTreeOutput = true;
+	xmlKeepBlanksDefault (0);
+	doc = xmlParseFile (PKGDATADIR"/residues.xml");
+	if (doc) {
+		docs.insert (doc);
+		node = doc->children;
+		if (!strcmp ((char*)node->name, "residues"))
+			ParseNodes (node->children, false);
+	}
+	char* gcupath = g_strconcat (getenv ("HOME"), "/.gchemutils", NULL);
+	GDir* dir = g_dir_open (gcupath, 0, NULL);
+	if (dir)
+		g_dir_close (dir);
+	else
+		mkdir (gcupath, 0x1ed);
+	g_free (gcupath) ;
+	name = g_strconcat (getenv ("HOME"), "/.gchemutils/residues.xml", NULL);
+	if (g_file_test (name, G_FILE_TEST_EXISTS) && (doc = xmlParseFile (name))) {
+		docs.insert (doc);
+		user_residues = doc;
+		node = doc->children;
+		if (!strcmp ((char*)node->name, "residues"))
+			ParseNodes (node->children, true);
+	}
+	g_free (name);
+
+	// populate the tools box
 	m_App = App;
 	App->RegisterOptions (options);
 	App->AddMenuCallback (on_menu);
