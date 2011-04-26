@@ -1,5 +1,34 @@
 ##Text encoding: utf-8
 
+2011-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: make selection a set instead of a list.
+	* libs/gcp/brackets.cc: ditto.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcp/mesomery.cc: ditto.
+	* libs/gcp/mesomery.h: ditto.
+	* libs/gcp/plugin.cc: implement plugin cleaning on exit.
+	* libs/gcp/plugin.h: ditto.
+	* libs/gcp/reaction-arrow.cc: make selection a set instead of a list.
+	* libs/gcp/reaction.cc: ditto.
+	* libs/gcp/reaction.h: ditto.
+	* libs/gcp/view.cc: ditto.
+	* libs/gcp/widgetdata.cc: ditto.
+	* libs/gcp/widgetdata.h: ditto.
+	* libs/gcu/object.cc: ditto.
+	* libs/gcu/object.h: ditto.
+	* plugins/paint/arrows/retrosynthesis.cc: ditto.
+	* plugins/paint/arrows/retrosynthesis.h: ditto.
+	* plugins/paint/residues/plugin.cc: implement plugin cleaning on exit.
+	* plugins/paint/residues/plugin.h: ditto.
+	* plugins/paint/selection/bracketstool.cc: create a bracket on release.
+	* plugins/paint/selection/bracketstool.h: ditto.
+	* plugins/paint/selection/groupdlg.cc: make selection a set instead of a list.
+	* plugins/paint/selection/lassotool.cc: ditto.
+	* plugins/paint/selection/selectiontool.cc: ditto.
+	* plugins/paint/templates/plugin.cc: implement plugin cleaning on exit.
+	* plugins/paint/templates/plugin.h: ditto.
+	* plugins/paint/templates/templatetool.cc: make selection a set instead of a list.
+
 2011-04-20  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/templates/plugin.cc: don't assume in a static object
 	construtor that other static objects already exist.

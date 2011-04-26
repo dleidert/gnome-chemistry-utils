@@ -439,7 +439,7 @@ Object* Object::GetAtomAt (G_GNUC_UNUSED double x, G_GNUC_UNUSED double y, G_GNU
 	return NULL;
 }
 
-bool Object::Build (G_GNUC_UNUSED list<Object*>& Children) throw (invalid_argument)
+bool Object::Build (G_GNUC_UNUSED std::set < Object * > const &Children) throw (invalid_argument)
 {
 	return false;
 }

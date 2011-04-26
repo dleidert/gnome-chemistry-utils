@@ -27,7 +27,6 @@
 
 #include <gcu/object.h>
 #include <gccv/structs.h>
-#include <list>
 #include <map>
 #include <set>
 
@@ -117,9 +116,9 @@ Maps the document objects to the canvas items which represent them.
 */
 //	std::map<gcu::Object const*, GnomeCanvasGroup*>Items;
 /*!
-The list of selected objects.
+The set of selected objects.
 */
-	std::list<gcu::Object*>SelectedObjects;
+	std::set < gcu::Object * >SelectedObjects;
 	
 /*!
 @param obj an object.
@@ -185,7 +184,7 @@ Rotates the selection. This method does not create an Operation instance.
 */
 	void RotateSelection (double x, double y, double angle);
 /*!
-Empties the list of selected objects. Called after objects have been deleted.
+Empties the set of selected objects. Called after objects have been deleted.
 */
 	void ClearSelection () {SelectedObjects.clear();}
 /*!
@@ -234,6 +233,7 @@ Gets the object bounds in canvas coordinates.
 Gets the object bounds in canvas coordinates.
 */
 	void GetObjectsBounds (std::set <gcu::Object const *> const &objects, gccv::Rect *rect) const;
+	void GetObjectsBounds (std::set <gcu::Object *> const &objects, gccv::Rect *rect) const;
 	 
 /*!
 Replace the selected objects by their parents if all parents children are

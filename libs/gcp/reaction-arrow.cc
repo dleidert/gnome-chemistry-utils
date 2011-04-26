@@ -283,7 +283,7 @@ bool ReactionArrow::BuildContextualMenu (gcu::UIManager *UIManager, Object *obje
 	// Don't allow more than one child at the moment
 	if (pData->SelectedObjects.size () != 1 || HasChildren ())
 		return Object::BuildContextualMenu (UIManager, object, x, y);
-	Object *obj = pData->SelectedObjects.front ();
+	Object *obj = *pData->SelectedObjects.begin ();
 	TypeId Id = obj->GetType ();
 	if ((Id != MoleculeType && Id != TextType) || obj->GetGroup ())
 		return Object::BuildContextualMenu (UIManager, object, x, y);

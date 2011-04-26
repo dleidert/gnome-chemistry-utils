@@ -92,7 +92,7 @@ void gcpGroupDlg::SetAlignType (gcpAlignType type)
 
 bool gcpGroupDlg::Apply ()
 {
-	std::list<Object*>::iterator i, end;
+	std::set < Object  *>::iterator i, end;
 	bool align = gtk_toggle_button_get_active (align_btn);
 	bool group = gtk_toggle_button_get_active (group_btn);
 	bool space = gtk_toggle_button_get_active (space_btn);

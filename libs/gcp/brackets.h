@@ -93,10 +93,10 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 For brackets, OnLoaded() is called each time an embedded object is added.
 */
 	void OnLoaded ();
-	void SetEmbeddedObjects (std::set <gcu::Object const *> objects);
+	void SetEmbeddedObjects (std::set < gcu::Object * > objects);
 
 private:
-	std::set <gcu::Object const *> m_EmbeddedObjects;
+	std::set < gcu::Object * > m_EmbeddedObjects;
 	bool m_Valid;
 	BracketContent m_Content;
 

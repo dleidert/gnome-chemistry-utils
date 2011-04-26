@@ -217,8 +217,8 @@ void View::Remove (Object* pObject)
 		return;
 	Object* pObj = pObject->GetMolecule ();
 	if (pObj)
-		m_pData->SelectedObjects.remove (pObj);
-	m_pData->SelectedObjects.remove (pObject);
+		m_pData->SelectedObjects.erase (pObj);
+	m_pData->SelectedObjects.erase (pObject);
 	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
 	if (client && client->GetItem ())
 		delete client->GetItem ();
@@ -236,7 +236,7 @@ void View::OnDeleteSelection (GtkWidget* w)
 		Object *pObject, *Group;
 		set<string> ModifiedObjects, DirtyObjects;
 		bool modify = false;
-		list<Object *>::iterator i, iend = m_pData->SelectedObjects.end ();
+		set < Object * >::iterator i, iend = m_pData->SelectedObjects.end ();
 		// first search if we are deleting top objects or not
 		for (i = m_pData->SelectedObjects.begin (); i != iend; i++)
 			if ((*i)->GetGroup ()) {
@@ -257,7 +257,7 @@ void View::OnDeleteSelection (GtkWidget* w)
 				Op->AddObject (*i);
 		}
 		while (!m_pData->SelectedObjects.empty ()) {
-			pObject = m_pData->SelectedObjects.front ();
+			pObject = *m_pData->SelectedObjects.begin ();
 			pObject->Lock ();
 			parent = pObject->GetParent ();
 			if (parent != m_pDoc)
@@ -404,7 +404,7 @@ void View::OnReceive (GtkClipboard* clipboard, GtkSelectionData* selection_data)
 		pTool->AddSelection (m_pData);
 	m_pDoc->PopOperation ();
 	Operation* pOp = m_pDoc->GetNewOperation (GCP_ADD_OPERATION);
-	std::list<Object*>::iterator i, end = m_pData->SelectedObjects.end();
+	std::set < Object * >::iterator i, end = m_pData->SelectedObjects.end();
 	for (i = m_pData->SelectedObjects.begin(); i != end; i++) 
 		pOp->AddObject (*i);
 	m_pDoc->FinishOperation ();

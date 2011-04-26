@@ -133,14 +133,14 @@ typedef struct
 	gcpRetrosynthesisStep *step;
 } ObjectData;
 
-bool gcpRetrosynthesis::Build (list<Object*>& Children) throw (invalid_argument)
+bool gcpRetrosynthesis::Build (std::set < Object * > const &Children) throw (invalid_argument)
 {
 	gcp::Document *pDoc = reinterpret_cast<gcp::Document *> (GetDocument ());
 	gcp::Theme *pTheme = pDoc->GetTheme ();
 	gcp::WidgetData  *pData= reinterpret_cast<gcp::WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
-	list<Object*>::iterator i, iend = Children.end ();
-	map<Object *, ObjectData> Objects;
-	list<Object *> Arrows;
+	set < Object * >::iterator i, iend = Children.end ();
+	map < Object *, ObjectData > Objects;
+	list < Object  * > Arrows;
 	double minright, minleft, x, y, x0, y0, x1, y1, l, d, ps;
 	Object *Left, *Right;
 	ObjectData od;

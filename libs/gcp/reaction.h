@@ -65,7 +65,7 @@ children are molecules and texts to be used as reactants or products, and
 reaction arrows.
 @return true in case of success and false if failed.
 */
-	bool Build (std::list<gcu::Object*>& Children) throw (std::invalid_argument);
+	bool Build (std::set < Object * > const &Children) throw (std::invalid_argument);
 /*!
 */
 	void Transform2D (gcu::Matrix2D& m, double x, double y);

@@ -57,7 +57,7 @@ bool gcpLassoTool::OnClicked ()
 {
 	if (m_pObject && m_pData->IsSelected (m_pObject)) {
 		// save the current coordinates
-		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
+		std::set < gcu::Object * >::iterator i, end = m_pData->SelectedObjects.end ();
 		gcp::Document *pDoc = m_pView->GetDoc ();
 		m_pOp = pDoc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 		std::set <gcu::Object *> groups;
@@ -186,8 +186,8 @@ void gcpLassoTool::OnDrag ()
 			dAngle -= 360.;
 		if (dAngle != m_dAngle) {
 			// Rotate the selection
-			std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
-			std::set <gcu::Object *> dirty;
+			std::set < gcu::Object * >::iterator i, end = m_pData->SelectedObjects.end ();
+			std::set < gcu::Object * > dirty;
 			gcu::Matrix2D m (dAngle - m_dAngle);
 			for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
 				(*i)->Transform2D (m, m_cx / m_dZoomFactor, m_cy / m_dZoomFactor);
@@ -216,8 +216,8 @@ void gcpLassoTool::OnDrag ()
 		m_pApp->SetStatusText (tmp);
 	} else {
 		// Translate the selection
-		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
-		std::set <gcu::Object *> dirty;
+		std::set < gcu::Object * >::iterator i, end = m_pData->SelectedObjects.end ();
+		std::set < gcu::Object * > dirty;
 		for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
 			(*i)->Move ((m_x - m_x0) / m_dZoomFactor, (m_y - m_y0) / m_dZoomFactor);
 			if ((*i)->GetParent ()->GetType () == gcu::MoleculeType) {
@@ -249,9 +249,9 @@ void gcpLassoTool::OnRelease ()
 		m_pData->SimplifySelection ();
 		AddSelection (m_pData);
 	} else {
-		std::set <gcu::Object *> groups;
-		std::set <gcu::Object *>::iterator j, jend;
-		std::list <gcu::Object *>::iterator i, end = m_pData->SelectedObjects.end ();
+		std::set < gcu::Object * > groups;
+		std::set < gcu::Object * >::iterator j, jend;
+		std::set < gcu::Object * >::iterator i, end = m_pData->SelectedObjects.end ();
 		gcu::Object *group;
 		for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
 			group = (*i)->GetGroup ();
@@ -331,7 +331,7 @@ void gcpLassoTool::OnFlip (bool horizontal)
 	m_cy = (rect.y0 + rect.y1) / 2.;
 	m_x = (horizontal)? -1.: 1.;
 	gcu::Matrix2D m (m_x, 0., 0., -m_x);
-	std::list <gcu::Object*>::iterator i, end = m_pData->SelectedObjects.end ();
+	std::set < gcu::Object * >::iterator i, end = m_pData->SelectedObjects.end ();
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	m_pOp = pDoc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 	std::set <gcu::Object *> dirty;

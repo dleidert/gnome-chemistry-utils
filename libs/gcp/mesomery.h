@@ -62,7 +62,7 @@ established and aligns the objects. On failure, it throws an std::invalid_argume
 exception.
 @return true on success.
 */
-	bool Build (std::list<gcu::Object*>& Children) throw (std::invalid_argument);
+	bool Build (std::set < Object * > const &Children) throw (std::invalid_argument);
 /*!
 @param m the Matrix2D of the transformation.
 @param x the x component of the center of the transformation.

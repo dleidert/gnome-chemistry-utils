@@ -120,7 +120,7 @@ bool gcpSelectionTool::OnClicked ()
 		else
 			m_dAngleInit = atan (-m_y0 / m_x0) * 180 / M_PI;
 		if (m_x0 < 0) m_dAngleInit += 180.;
-		std::list<Object*>::iterator i, end = m_pData->SelectedObjects.end ();
+		std::set < Object * >::iterator i, end = m_pData->SelectedObjects.end ();
 		gcp::Document* pDoc = m_pView->GetDoc ();
 		m_pOp = pDoc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 		for (i = m_pData->SelectedObjects.begin (); i != end; i++)
@@ -182,7 +182,7 @@ void gcpSelectionTool::OnRelease ()
 	m_pApp->ClearStatus ();
 	if (m_pObject) {
 		if (m_bRotate) {
-			std::list<Object*>::iterator i, end = m_pData->SelectedObjects.end ();
+			std::set < Object * >::iterator i, end = m_pData->SelectedObjects.end ();
 			gcp::Document* pDoc = m_pView->GetDoc ();
 			for (i = m_pData->SelectedObjects.begin (); i != end; i++)
 				m_pOp->AddObject (*i,1);
@@ -281,10 +281,12 @@ void gcpSelectionTool::AddSelection (gcp::WidgetData* data)
 			m_pData = d;
 		}
 		// If the selection is made of two molecules, activate the merge tool
-		if (m_UIManager)
+		if (m_UIManager) {
+			std::set < Object * >::iterator i = m_pData->SelectedObjects.begin ();
 			gtk_widget_set_sensitive (m_MergeBtn, ((m_pData->SelectedObjects.size () == 2) &&
-				(m_pData->SelectedObjects.front ()->GetType () == MoleculeType) &&
-				(m_pData->SelectedObjects.back ()->GetType () == MoleculeType)));
+				((*i++)->GetType () == MoleculeType) &&
+				((*i)->GetType () == MoleculeType)));
+		}
 	}
 }
 
@@ -303,7 +305,7 @@ void gcpSelectionTool::OnFlip (bool horizontal)
 	m_cy = (rect.y0 + rect.y1) / 2.;
 	m_x = (horizontal)? -1.: 1.;
 	Matrix2D m(m_x, 0., 0., -m_x);
-	std::list<Object*>::iterator i, end = m_pData->SelectedObjects.end ();
+	std::set < Object * >::iterator i, end = m_pData->SelectedObjects.end ();
 	gcp::Document* pDoc = m_pView->GetDoc ();
 	gcp::Theme *pTheme = pDoc->GetTheme ();
 	m_pOp = pDoc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
@@ -330,8 +332,9 @@ void gcpSelectionTool::Merge ()
 		GtkWidget *w = m_pView->GetWidget ();
 		m_pData = (gcp::WidgetData*) g_object_get_data (G_OBJECT (w), "data");
 	}
-	pMol0 = (gcp::Molecule*) m_pData->SelectedObjects.front ();
-	pMol1 = (gcp::Molecule*) m_pData->SelectedObjects.back ();
+	std::set < gcu::Object * >::iterator i = m_pData->SelectedObjects.begin ();
+	pMol0 = (gcp::Molecule*) (*i++);
+	pMol1 = static_cast < gcp::Molecule * > (*i);
 	m_pOp = pDoc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
 	m_pOp->AddObject (pMol0, 0);
 	m_pOp->AddObject (pMol1, 0);
@@ -369,7 +372,7 @@ void gcpSelectionTool::CreateGroup ()
 	Object *pObj = Object::CreateObject (Object::GetTypeName (m_Type), pDoc);
 	try {
 		m_pOp = pDoc-> GetNewOperation (gcp::GCP_MODIFY_OPERATION);
-		std::list<Object*>::iterator i, end = m_pData->SelectedObjects.end();
+		std::set < Object * >::iterator i, end = m_pData->SelectedObjects.end();
 		for (i = m_pData->SelectedObjects.begin (); i != end; i++)
 			m_pOp->AddObject (*i,0);
 		if (!pObj->Build (m_pData->SelectedObjects)) {
@@ -411,7 +414,7 @@ bool gcpSelectionTool::OnRightButtonClicked (gcu::UIManager *UIManager)
 		m_uiIds.push_front (gtk_ui_manager_add_ui_from_string (uim, "<ui><popup><menuitem action='group'/></popup></ui>", -1, NULL));
 		g_signal_connect_swapped (action, "activate", G_CALLBACK (on_group), this);
 		set<TypeId> possible_types, types, wrong_types;
-		list<Object*>::iterator  i = m_pData->SelectedObjects.begin (),
+		set < Object * >::iterator  i = m_pData->SelectedObjects.begin (),
 												end = m_pData->SelectedObjects.end ();
 		(*i)->GetPossibleAncestorTypes (possible_types);
 		set<TypeId>::iterator type;

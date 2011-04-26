@@ -128,7 +128,7 @@ xmlNodePtr Brackets::Save (xmlDocPtr xml) const
 	if (type)
 		xmlNewProp (node, reinterpret_cast <xmlChar const *> ("type"), reinterpret_cast <xmlChar const *> (type));
 	// now save embedded objects as a list of Ids
-	std::set <gcu::Object const *>::iterator i, end = m_EmbeddedObjects.end ();
+	std::set <gcu::Object *>::iterator i, end = m_EmbeddedObjects.end ();
 	i = m_EmbeddedObjects.begin ();
 	std::ostringstream str;
 	str << (*i)->GetId ();
@@ -161,13 +161,13 @@ void Brackets::SetSelected (int state)
 	static_cast <gccv::Brackets *> (m_Item)->SetColor (color);
 }
 
-void Brackets::SetEmbeddedObjects (std::set <gcu::Object const *> objects)
+void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 {
 	// evaluate what objects are really there, and add links to them
 	if (objects.size () == 0) // that case the brackets are not valid
 		return;
-	gcu::Object const *obj;
-	std::set <gcu::Object const *>::iterator i = objects.begin (),
+	gcu::Object *obj;
+	std::set  < gcu::Object * >::iterator i = objects.begin (),
 									   end = objects.end ();
 	std::set <gcu::TypeId> const &rules = GetApplication ()->GetRules (BracketsType, gcu::RuleMayContain);
 
@@ -181,6 +181,7 @@ void Brackets::SetEmbeddedObjects (std::set <gcu::Object const *> objects)
 			m_Content = BracketContentGroup;
 		else
 			return;
+		SetParent (obj);
 		m_Decorations = BracketSuperscript;
 	} else {
 		obj = (*i)->GetMolecule ();

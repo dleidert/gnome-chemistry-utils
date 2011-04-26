@@ -62,6 +62,7 @@ private:
 	int m_FontSize;
 	PangoFontDescription *m_FontDesc;
 	std::string m_FontName;
+	gcu::Object *m_Target;
 };
 
 #endif // GCHEMPAINT_BRACKETS_TOOL_H

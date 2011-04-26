@@ -413,7 +413,7 @@ passed as parameters. Default implementation returns NULL.
 This method is called to build a parent object from its children. The object must already exist.
 @return true in case of success and false if failed.
 */
-	virtual bool Build (std::list<Object*>& Children) throw (std::invalid_argument);
+	virtual bool Build (std::set < Object * > const &Children) throw (std::invalid_argument);
 
 /*!
 Used to retrieve the y coordinate for alignment. The default implementation returns 0.0 and

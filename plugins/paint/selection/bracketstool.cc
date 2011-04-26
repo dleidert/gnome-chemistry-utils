@@ -156,6 +156,14 @@ void gcpBracketsTool::OnDrag ()
 void gcpBracketsTool::OnRelease ()
 {
 	if (Evaluate ()) {
+    	gcp::Document * doc = m_pView->GetDoc ();
+	    gcp::Operation *op = doc->GetNewOperation (gcp::GCP_MODIFY_OPERATION);
+	    op->AddObject (m_Target, 0);
+	    gcp::Brackets *brackets = new gcp::Brackets (m_Type);
+        if (m_Used != gccv::BracketsBoth)
+            brackets->SetUsed (m_Used);
+         brackets->SetEmbeddedObjects (m_pData->SelectedObjects);
+	    op->AddObject (m_Target, 1);
 	}
 	m_pData->UnselectAll ();
 }
@@ -246,17 +254,18 @@ bool gcpBracketsTool::Evaluate ()
 		return false;
 	std::set <gcu::TypeId> const &rules = m_pApp->GetRules (gcp::BracketsType, gcu::RuleMayContain);
 	if (m_pData->SelectedObjects.size () == 1) {
-		obj = m_pData->SelectedObjects.front ();
+		obj = *m_pData->SelectedObjects.begin ();
 		gcu::TypeId type = obj->GetType ();
 		if (type == gcu::MoleculeType || type == gcp::ReactionStepType ||
 		    type == gcp::MechanismStepType || type == gcu::MesomeryType ||
 		    rules.find (type) != rules.end ()) {
 			// Evaluate bounds
 			m_pData->GetObjectBounds (obj, &m_ActualBounds);
+			m_Target = obj;
 			return true;
 		}
 	}
-	std::list <gcu::Object*>::iterator i = m_pData->SelectedObjects.begin (),
+	std::set < gcu::Object * >::iterator i = m_pData->SelectedObjects.begin (),
 									   end = m_pData->SelectedObjects.end ();
 	gcu::Object *molecule = (*i)->GetMolecule ();
 	if (molecule != NULL) {
@@ -265,6 +274,7 @@ bool gcpBracketsTool::Evaluate ()
 				goto not_a_molecule;
 		// now we need to test whether all selected atoms are connected (is this true?)
 		m_pData->GetSelectionBounds (m_ActualBounds);
+		m_Target = molecule;
 		return true;
 	}
 not_a_molecule:

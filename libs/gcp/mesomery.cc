@@ -123,14 +123,14 @@ typedef struct
 	Mesomer *mes;
 } ObjectData;
 
-bool Mesomery::Build (list<Object*>& Children) throw (invalid_argument)
+bool Mesomery::Build (std::set < Object * > const &Children) throw (invalid_argument)
 {
 	Document *pDoc = dynamic_cast<Document *> (GetDocument ());
 	Theme *pTheme = pDoc->GetTheme ();
 	WidgetData  *pData= reinterpret_cast<WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
-	list<Object *>::iterator i, iend = Children.end ();
-	map<Object *, ObjectData> Objects;
-	list <Object *> Arrows, Trash;
+	set < Object * >::iterator i, iend = Children.end ();
+	map< Object *, ObjectData > Objects;
+	list < Object * > Arrows, Trash;
 	double minright, minleft, x, y, x0, y0, x1, y1, l, d, ps;
 	Object *Left, *Right;
 	ObjectData od;

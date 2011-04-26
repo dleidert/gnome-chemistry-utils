@@ -40,6 +40,7 @@ public:
 	virtual ~gcpResiduesPlugin ();
 
 	void Populate (gcp::Application* App);
+	void Clear ();
 	void OpenDialog ();
 	void OnNewResidue (gcp::Residue *res);
 

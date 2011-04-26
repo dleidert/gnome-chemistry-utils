@@ -213,7 +213,7 @@ void on_clear_data (GtkClipboard *clipboard, Object *obj)
 
 bool WidgetData::IsSelected (Object const *obj) const
 {
-	std::list<Object*>::const_iterator i, end = SelectedObjects.end ();
+	std::set < Object * >::const_iterator i, end = SelectedObjects.end ();
 	Object const *parent = obj->GetParent ();
 	if (parent && IsSelected (parent))
 		return true;
@@ -229,7 +229,7 @@ bool WidgetData::ChildrenSelected (gcu::Object const *obj) const
 	if (!obj->HasChildren ())
 		return false;
 	std::map <std::string, gcu::Object *>::const_iterator i;
-	std::list<Object*>::const_iterator j,  end = SelectedObjects.end ();
+	std::set < Object * >::const_iterator j,  end = SelectedObjects.end ();
 	for (Object const *child = obj->GetFirstChild (i); child; child = obj->GetNextChild (i)) {
 		for (j = SelectedObjects.begin (); j != end; j++)
 			if (*j == child)
@@ -256,8 +256,8 @@ gcu::Object *WidgetData::GetSelectedAncestor (gcu::Object *child)
 
 void WidgetData::SimplifySelection ()
 {
-	std::list <Object *>::iterator i, end = SelectedObjects.end ();
-	std::set <Object *> RealSelection;
+	std::set < Object * >::iterator i, end = SelectedObjects.end ();
+	std::set < Object * > RealSelection;
 	Object *parent;
 	gcu::Application *app = m_View->GetDoc ()->GetApplication ();
 	for (i = SelectedObjects.begin (); i != end; i++) {
@@ -275,7 +275,7 @@ void WidgetData::SimplifySelection ()
 
 void WidgetData::Unselect (Object *obj)
 {
-	SelectedObjects.remove (obj);
+	SelectedObjects.erase (obj);
 	m_View->SetSelectionState (obj, SelStateUnselected);
 }
 
@@ -283,8 +283,8 @@ void WidgetData::UnselectAll ()
 {
 	Object* obj;
 	while (!SelectedObjects.empty ()) {
-		obj = SelectedObjects.front ();
-		SelectedObjects.pop_front ();
+		obj = *SelectedObjects.begin ();
+		SelectedObjects.erase (obj);
 		Unselect (obj);
 	}
 }
@@ -292,14 +292,14 @@ void WidgetData::UnselectAll ()
 void WidgetData::SetSelected (Object *obj, int state)
 {
 	if (!IsSelected (obj)) {
-		SelectedObjects.push_front (obj);
+		SelectedObjects.insert (obj);
 		m_View->SetSelectionState (obj, state);
 	}
 }
 
 void WidgetData::MoveSelectedItems (double dx, double dy)
 {
-	std::list<Object*>::iterator i, end = SelectedObjects.end ();
+	std::set < Object * >::iterator i, end = SelectedObjects.end ();
 	for (i = SelectedObjects.begin (); i != end; i++)
 		MoveItems (*i, dx, dy);
 }
@@ -323,7 +323,7 @@ void WidgetData::MoveSelection (double dx, double dy)
 {
 	if (!SelectedObjects.size ())
 		return;
-	std::list<Object*>::iterator i, end = SelectedObjects.end ();
+	std::set < Object * >::iterator i, end = SelectedObjects.end ();
 	Document* pDoc = m_View->GetDoc ();
 	Operation* pOp = pDoc-> GetNewOperation (GCP_MODIFY_OPERATION);
 	Theme *pTheme = pDoc->GetTheme ();
@@ -339,7 +339,7 @@ void WidgetData::MoveSelection (double dx, double dy)
 void WidgetData::RotateSelection (double dx, double dy, double angle)
 {
 	Theme *pTheme = m_View->GetDoc ()->GetTheme ();
-	std::list<Object*>::iterator i, end = SelectedObjects.end ();
+	std::set < Object * >::iterator i, end = SelectedObjects.end ();
 	Matrix2D m (angle);
 	for (i = SelectedObjects.begin (); i != end; i++) {
 		(*i)->Transform2D (m, dx / pTheme->GetZoomFactor (), dy / pTheme->GetZoomFactor ());
@@ -362,7 +362,7 @@ void WidgetData::Copy (GtkClipboard* clipboard)
 	xmlNsPtr ns = xmlNewNs ((*pDoc)->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "gcp");
 	xmlSetNs ((*pDoc)->children, ns);
 //FIXME: implement exception handling
-	std::list<Object*>::iterator i, end= SelectedObjects.end ();
+	std::set < Object * >::iterator i, end= SelectedObjects.end ();
 	xmlNodePtr child;
 	for (i = SelectedObjects.begin(); i != end; i++)
 		if ((child = (*i)->Save (pXmlDoc)))
@@ -408,7 +408,7 @@ void WidgetData::GetObjectBounds (Object const *obj, gccv::Rect &rect) const
 
 void WidgetData::GetSelectionBounds (gccv::Rect &rect) const
 {
-	std::list<Object*>::const_iterator i, end = SelectedObjects.end ();
+	std::set < Object * >::const_iterator i, end = SelectedObjects.end ();
 	rect.x0 = go_nan;
 	for (i = SelectedObjects.begin (); i != end; i++)
 		GetObjectBounds (*i, rect);
@@ -428,6 +428,16 @@ void WidgetData::GetObjectsBounds (std::set <gcu::Object const *> const &objects
 {
 	rect->x0 = go_nan;
 	std::set <gcu::Object const *>::iterator it, end = objects.end ();
+	for (it = objects.begin (); it != end; it++)
+		GetObjectBounds (*it, *rect);
+	if (!go_finite (rect->x0))
+		rect->x0 = rect->y0 = rect->x1 = rect->y1 = 0.;
+}
+
+void WidgetData::GetObjectsBounds (std::set <gcu::Object *> const &objects, gccv::Rect *rect) const
+{
+	rect->x0 = go_nan;
+	std::set <gcu::Object *>::iterator it, end = objects.end ();
 	for (it = objects.begin (); it != end; it++)
 		GetObjectBounds (*it, *rect);
 	if (!go_finite (rect->x0))
@@ -461,7 +471,7 @@ xmlDocPtr WidgetData::GetXmlDoc (GtkClipboard* clipboard)
 
 void WidgetData::ShowSelection (bool state)
 {
-	std::list<Object*>::iterator i, end = SelectedObjects.end ();
+	std::set < Object * >::iterator i, end = SelectedObjects.end ();
 	for (i = SelectedObjects.begin (); i != end; i++)
 		m_View->SetSelectionState (*i, (state)? SelStateSelected: SelStateUnselected);
 }

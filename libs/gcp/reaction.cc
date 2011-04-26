@@ -70,16 +70,16 @@ Reaction::~Reaction ()
 	}
 }
 
-bool Reaction::Build (list<Object*>& Children) throw (invalid_argument)
+bool Reaction::Build (std::set < Object * > const &Children) throw (invalid_argument)
 {
 	Document *pDoc = (Document*) GetDocument ();
 	Theme *pTheme = pDoc->GetTheme ();
 	WidgetData  *pData= reinterpret_cast<WidgetData *> (g_object_get_data (G_OBJECT (pDoc->GetWidget ()), "data"));
 	map<Object*, gccv::Rect> Objects;
-	list<Object*>::iterator i, end = Children.end ();
-	list<ReactionArrow*> Arrows;
-	list<Object*> Others;
-	map<double, Object*> Left, Right;
+	set < Object * >::iterator i, end = Children.end ();
+	list < ReactionArrow * > Arrows;
+	set < Object * > Others;
+	map < double, Object * > Left, Right;
 	double x0, y0, x1, y1, x, y, xpos, ypos, l;
 	bool horiz = true;;
 	gccv::Rect *rect, srect;
@@ -90,7 +90,7 @@ bool Reaction::Build (list<Object*>& Children) throw (invalid_argument)
 		if ((*i)->GetType() == ReactionArrowType)
 			Arrows.push_front ((ReactionArrow*) (*i));
 		else if ((*i)->GetType() == MoleculeType || (*i)->GetType() == MechanismStepType)
-			Others.push_front (*i);
+			Others.insert (*i);
 		else return false;
 	}
 	if (Arrows.size () == 1) {

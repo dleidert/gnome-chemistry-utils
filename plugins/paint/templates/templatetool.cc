@@ -89,7 +89,7 @@ bool gcpTemplateTool::OnClicked ()
 	if (!m_Template)
 		return false;
 	pDoc->PasteData (m_Template->node);
-	m_pObject = m_pData->SelectedObjects.front ();
+	m_pObject = *m_pData->SelectedObjects.begin ();
 	if (m_Template->bond_length != 0.) { // if not, there is no bond...
 		double r = pDoc->GetBondLength () / m_Template->bond_length;
 		if (fabs (r - 1.) > .0001) { 
