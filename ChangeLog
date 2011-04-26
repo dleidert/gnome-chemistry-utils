@@ -1,5 +1,14 @@
 ##Text encoding: utf-8
 
+2011-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: fixed plugins shutdown.
+	* libs/gcp/plugin.cc: ditto.
+	* libs/gcp/plugin.h: ditto.
+	* plugins/paint/residues/plugin.cc: ditto.
+	* plugins/paint/residues/plugin.h: ditto.
+	* plugins/paint/templates/plugin.cc: ditto.
+	* plugins/paint/templates/plugin.h: ditto.
+
 2011-04-21  Jean Bréfort  <jean.brefort@normalesup.org>
 	* plugins/paint/residues/plugin.cc: do not rely on static global variables
 	initialization order.

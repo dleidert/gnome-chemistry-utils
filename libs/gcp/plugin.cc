@@ -59,11 +59,19 @@ void Plugin::LoadPlugins ()
 		g_free ((void*) name);
 	}
 	g_dir_close (dir);
+}
+
+void Plugin::UnloadPlugins ()
+{
 	set<Plugin*>::iterator i = Plugins.begin (), end = Plugins.end ();
 }
 
 void Plugin::Populate (G_GNUC_UNUSED Application* App)
 {
 }
+
+ void Plugin::Clear ()
+ {
+ }
 
 }

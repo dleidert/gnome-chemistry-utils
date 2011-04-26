@@ -49,10 +49,6 @@ gcpResiduesPlugin::gcpResiduesPlugin (): gcp::Plugin ()
 
 gcpResiduesPlugin::~gcpResiduesPlugin ()
 {
-	set<xmlDocPtr>::iterator i, iend = docs.end ();
-	for (i = docs.begin (); i != iend; i++)
-		xmlFreeDoc (*i);
-	docs.clear ();
 }
 
 static void on_edit_residues ()
@@ -206,4 +202,12 @@ void gcpResiduesPlugin::OnNewResidue (gcp::Residue *res)
 	}
 	if (dlg)
 		static_cast <gcpResiduesDlg *> (dlg)->OnNewResidue (res);
+}
+
+void gcpResiduesPlugin::Clear ()
+{
+	set<xmlDocPtr>::iterator i, iend = docs.end ();
+	for (i = docs.begin (); i != iend; i++)
+		xmlFreeDoc (*i);
+	docs.clear ();
 }

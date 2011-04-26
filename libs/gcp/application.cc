@@ -459,6 +459,8 @@ Application::~Application ()
 	if (m_entries)
 		g_free (RadioActions);
 	g_object_unref (IconFactory);
+	// unload plugins
+	Plugin::UnloadPlugins ();
 }
 
 void Application::ActivateTool (const string& toolname, bool activate)

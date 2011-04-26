@@ -34,7 +34,8 @@ public:
 	gcpTemplatesPlugin ();
 	virtual ~gcpTemplatesPlugin ();
 
-	virtual void Populate (gcp::Application* App);
+	void Populate (gcp::Application* App);
+	void Clear ();
 
 private:
 	void ParseNodes (xmlNodePtr node, bool writeable);

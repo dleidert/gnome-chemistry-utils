@@ -58,6 +58,12 @@ Loads plugins from the GChemPaint plugin directory stored in the PLUGINSDIR
 variable.
 */
 	static void LoadPlugins ();
+
+/*!
+Unloads plugins.
+*/
+	static void UnloadPlugins ();
+
 /*!
 @param App the GChemPaint application.
 
@@ -65,6 +71,13 @@ Called by the framework so that the plugin can add new UI elements to the
 application.
 */
 	virtual void Populate (Application* App);
+
+/*!
+@param App the GChemPaint application.
+
+Called by the framework so that the plugin can clean memory before exit
+*/
+	virtual void Clear ();
 };
 
 /*!\var Plugins
