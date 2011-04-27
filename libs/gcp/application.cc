@@ -181,6 +181,7 @@ namespace gcp {
 class ApplicationPrivate {
 public:
 	static bool Init (Application *app);
+	static Object* CreateBrackets ();
 };
 
 bool ApplicationPrivate::Init (Application *app)
@@ -222,6 +223,11 @@ bool ApplicationPrivate::Init (Application *app)
 }
 
 // Objects creation static methods
+Object* ApplicationPrivate::CreateBrackets ()
+{
+	return new Brackets ();
+}
+
 static Object* CreateAtom ()
 {
 	return new Atom ();
@@ -302,11 +308,6 @@ static Object* CreateElectron ()
 	return new Electron (NULL, false);
 }
 
-static Object* CreateBrackets ()
-{
-	return new Brackets ();
-}
-
 bool	Application::m_bInit = false;
 bool	Application::m_Have_InChI = false;
 bool	Application::m_HaveGhemical = false;
@@ -360,7 +361,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		AddType ("fragment", CreateFragment, FragmentType);
 		ElectronType = AddType ("electron", CreateElectron);
 		Object::AddAlias (ElectronType, "electron-pair");
-		BracketsType = AddType ("brackets", CreateBrackets);
+		BracketsType = AddType ("brackets", ApplicationPrivate::CreateBrackets);
 		// Add rules
 		AddRule ("reaction", RuleMustContain, "reaction-step");
 		AddRule ("reaction-step", RuleMustContain, "reactant");

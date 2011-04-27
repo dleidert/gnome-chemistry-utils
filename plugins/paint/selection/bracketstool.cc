@@ -164,6 +164,7 @@ void gcpBracketsTool::OnRelease ()
             brackets->SetUsed (m_Used);
          brackets->SetEmbeddedObjects (m_pData->SelectedObjects);
 	    op->AddObject (m_Target, 1);
+		m_pView->AddObject (brackets);
 	}
 	m_pData->UnselectAll ();
 }

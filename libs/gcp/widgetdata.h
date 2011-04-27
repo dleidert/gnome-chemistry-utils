@@ -234,6 +234,7 @@ Gets the object bounds in canvas coordinates.
 */
 	void GetObjectsBounds (std::set <gcu::Object const *> const &objects, gccv::Rect *rect) const;
 	void GetObjectsBounds (std::set <gcu::Object *> const &objects, gccv::Rect *rect) const;
+	void GetObjectBounds (gcu::Object const* obj, gccv::Rect &rect) const;
 	 
 /*!
 Replace the selected objects by their parents if all parents children are
@@ -243,7 +244,6 @@ selected.
 
 private:
 	void MoveItems (gcu::Object *obj, double dx, double dy);
-	void GetObjectBounds (gcu::Object const* obj, gccv::Rect &rect) const;
 };
 
 }	// namespace gcp

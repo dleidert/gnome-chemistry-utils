@@ -597,6 +597,18 @@ bool Molecule::Load (xmlNodePtr node)
 		Chain* pChain = new Chain (this, pAtom); //will find the cycles
 		delete pChain;
 	}*/
+
+	child = GetNodeByName (node, "brackets");
+	while (child) {
+		pObject = CreateObject ((const char*) child->name, this);
+		if (pDoc)
+			AddChild (pObject);
+		if (!pObject->Load (child))  {
+			delete pObject;
+			return false;
+		}
+		child = GetNextNodeByName (child->next, "brackets");
+	}
 	buf = (char*) xmlGetProp (node, (const xmlChar*) "valign");
 	if (buf) {
 		pDoc->SetTarget (buf, reinterpret_cast <Object **> (&m_Alignment), this, this, ActionDelete);

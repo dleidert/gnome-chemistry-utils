@@ -45,8 +45,10 @@ static gcu::Object *last_loaded;
 
 Brackets::Brackets (gccv::BracketsTypes type): gcu::Object (BracketsType), ItemClient ()
 {
+	SetId ("bk1");
 	m_Type = type;
 	m_Valid = false;
+	m_Used = gccv::BracketsBoth;
 	m_Content = BracketContentInvalid;
 }
 
@@ -75,9 +77,19 @@ void Brackets::AddItem ()
 		g_free (desc);
 	}
 	gccv::Rect rect;
-	view->GetData ()->GetObjectsBounds (m_EmbeddedObjects, &rect);
-	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_Used, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1);
+	if (m_EmbeddedObjects.size () == 1 && GetParent () == *m_EmbeddedObjects.begin ()) {
+		std::set < Object * >::const_iterator i, end = m_EmbeddedObjects.end ();
+		rect.x0 = go_nan;
+		for (i =  m_EmbeddedObjects.begin (); i != end; i++) {
+			if (*i == this)
+				continue;
+			view->GetData ()->GetObjectBounds (*i, rect);
+		}
+	} else 
+		view->GetData ()->GetObjectsBounds (m_EmbeddedObjects, &rect);
+	gccv::Brackets *item = new gccv::Brackets (view->GetCanvas ()->GetRoot (), m_Type, m_Used, m_FontDesc.c_str (), rect.x0, rect.y0, rect.x1, rect.y1, this);
 	item->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
+	m_Item = item;
 }
 
 bool Brackets::Load (xmlNodePtr node)
@@ -171,7 +183,6 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 									   end = objects.end ();
 	std::set <gcu::TypeId> const &rules = GetApplication ()->GetRules (BracketsType, gcu::RuleMayContain);
 
-
 	if (objects.size () == 1) {
 		obj = *i;
 		gcu::TypeId type = obj->GetType ();
@@ -181,7 +192,6 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 			m_Content = BracketContentGroup;
 		else
 			return;
-		SetParent (obj);
 		m_Decorations = BracketSuperscript;
 	} else {
 		obj = (*i)->GetMolecule ();
@@ -189,12 +199,13 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 			for (i++; i != end; i++)
 				if ((*i)->GetMolecule () != obj)
 					return;
-			// now we need to test whether all selected atoms are connected (is this true?)
+			// now we need to test whether all selected atoms are connected
 			m_Content = BracketContentFragment;
 		} else
 			return; // may be we are missing some cases where the enclosed group is valid
 		m_Decorations = BracketSubscript;
 	}
+	SetParent (obj);
 	m_EmbeddedObjects = objects;
 	m_Valid = true;
 }

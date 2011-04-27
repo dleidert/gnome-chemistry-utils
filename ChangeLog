@@ -1,5 +1,17 @@
 ##Text encoding: utf-8
 
+2011-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/application.cc: make brackets work.
+	* libs/gcp/brackets.cc: ditto.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcp/molecule.cc: ditto.
+	* libs/gcp/widgetdata.h: ditto.
+	* libs/gcu/molecule.cc: ditto.
+	* libs/gcugtk/cmd-context-gtk.cc: fixed response for modal message boxes.
+	* libs/gcugtk/message.cc: ditto.
+	* libs/gcugtk/message.h: ditto.
+	* plugins/paint/selection/bracketstool.cc: create the brackets.
+
 2011-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: make selection a set instead of a list.
 	* libs/gcp/brackets.cc: ditto.

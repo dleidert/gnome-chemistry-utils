@@ -91,6 +91,8 @@ void Molecule::AddChild (Object* object)
 		AddBond (bond);
 		break;
 	}
+	default:
+		Object::AddChild (object);
 	}
 }
 

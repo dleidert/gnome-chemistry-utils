@@ -63,7 +63,7 @@ The destructor.
 
 
 /*!
-Used to add a representation of the fragment in the view.
+Used to add a representation of the brackets in the view.
 */
 	void AddItem ();
 
@@ -84,7 +84,7 @@ Used to load a Brackets instance in memory.
 /*!
 @param state: the selection state of the brackets.
 
-Used to set the selection state of the arrow.
+Used to set the selection state of the brackets.
 The values of state might be gcp::SelStateUnselected, gcp::SelStateSelected,
 gcp::SelStateUpdating, or gcp::SelStateErasing.
 */

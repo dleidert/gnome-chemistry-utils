@@ -35,8 +35,8 @@ class Application;
 class Message {
 friend class MessagePrivate;
 public:
-	Message (Application *app, std::string &message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent = NULL);
-	Message (Application *app, char const *message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent = NULL);
+	Message (Application *app, std::string &message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent = NULL, bool modal = false);
+	Message (Application *app, char const *message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent = NULL, bool modal = false);
 	virtual ~Message ();
 
 	int Run ();

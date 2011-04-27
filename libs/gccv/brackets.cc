@@ -1,8 +1,8 @@
 // -*- C++ -*-
 
 /* 
- * GChemPaint library
- * brackets.cc 
+ * Gnome Chemistry Utils
+ * gccv/brackets.cc 
  *
  * Copyright (C) 2011 Jean Bréfort <jean.brefort@normalesup.org>
  *

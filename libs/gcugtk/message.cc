@@ -45,24 +45,26 @@ void MessagePrivate::Destroyed (Message *message)
 	delete message;
 }
 
-Message::Message (Application *app, std::string &message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent)
+Message::Message (Application *app, std::string &message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent, bool modal)
 {
-	m_Window = GTK_DIALOG (gtk_message_dialog_new (parent, static_cast <GtkDialogFlags> ((parent)? GTK_DIALOG_DESTROY_WITH_PARENT: 0), type, buttons, message.c_str (), NULL));
+	GtkDialogFlags flags = static_cast <GtkDialogFlags> (((parent)? GTK_DIALOG_DESTROY_WITH_PARENT: 0) | ((modal)? GTK_DIALOG_MODAL: 0));
+	m_Window = GTK_DIALOG (gtk_message_dialog_new (parent, flags, type, buttons, message.c_str (), NULL));
 	gtk_window_set_icon_name (GTK_WINDOW (m_Window), app->GetIconName ().c_str ());
 	gtk_widget_show (GTK_WIDGET (m_Window));
 	m_delete_sgn = g_signal_connect_swapped (G_OBJECT (m_Window), "delete-event", G_CALLBACK (MessagePrivate::Destroyed), this);
 	m_destroy_sgn = g_signal_connect_swapped (G_OBJECT (m_Window), "destroy-event", G_CALLBACK (MessagePrivate::Destroyed), this);
-	m_response_sgn = g_signal_connect_swapped (G_OBJECT (m_Window), "response", G_CALLBACK (MessagePrivate::Close), this);
+	m_response_sgn = (modal)? 0: g_signal_connect_swapped (G_OBJECT (m_Window), "response", G_CALLBACK (MessagePrivate::Close), this);
 }
 
-Message::Message (Application *app, char const *message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent)
+Message::Message (Application *app, char const *message, GtkMessageType type, GtkButtonsType buttons, GtkWindow *parent, bool modal)
 {
-	m_Window = GTK_DIALOG (gtk_message_dialog_new (parent, static_cast <GtkDialogFlags> ((parent)? GTK_DIALOG_DESTROY_WITH_PARENT: 0), type, buttons, message, NULL));
+	GtkDialogFlags flags = static_cast <GtkDialogFlags> (((parent)? GTK_DIALOG_DESTROY_WITH_PARENT: 0) | ((modal)? GTK_DIALOG_MODAL: 0));
+	m_Window = GTK_DIALOG (gtk_message_dialog_new (parent, flags, type, buttons, message, NULL));
 	gtk_window_set_icon_name (GTK_WINDOW (m_Window), app->GetIconName ().c_str ());
 	gtk_widget_show (GTK_WIDGET (m_Window));
 	m_delete_sgn = g_signal_connect_swapped (G_OBJECT (m_Window), "delete-event", G_CALLBACK (MessagePrivate::Destroyed), this);
 	m_destroy_sgn = g_signal_connect_swapped (G_OBJECT (m_Window), "destroy-event", G_CALLBACK (MessagePrivate::Destroyed), this);
-	m_response_sgn = g_signal_connect_swapped (G_OBJECT (m_Window), "response", G_CALLBACK (MessagePrivate::Close), this);
+	m_response_sgn = (modal)? 0: g_signal_connect_swapped (G_OBJECT (m_Window), "response", G_CALLBACK (MessagePrivate::Close), this);
 }
 
 Message::~Message ()
@@ -70,7 +72,8 @@ Message::~Message ()
 	if (m_Window) {
 		g_signal_handler_disconnect (m_Window, m_delete_sgn);
 		g_signal_handler_disconnect (m_Window, m_destroy_sgn);
-		g_signal_handler_disconnect (m_Window, m_response_sgn);
+		if (m_response_sgn)
+			g_signal_handler_disconnect (m_Window, m_response_sgn);
 		gtk_widget_destroy (GTK_WIDGET (m_Window));
 		m_Window = NULL;
 	}
@@ -78,7 +81,9 @@ Message::~Message ()
 
 int Message::Run ()
 {
-	return gtk_dialog_run (m_Window);
+	gint res = gtk_dialog_run (m_Window);
+	delete this;
+	return res;
 }
 
 void Message::Show ()
