@@ -644,6 +644,7 @@ Sets the new current text font size for the document.
 @return the current brackets font size as a reference.
 */
 GCU_PROP (int, BracketsFontSize)
+GCU_PROP (bool, UseAtomColors)
 };
 
 }	//	namespace gcp

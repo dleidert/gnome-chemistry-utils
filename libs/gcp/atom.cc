@@ -617,22 +617,34 @@ bool Atom::LoadNode (xmlNodePtr)
 
 void Atom::SetSelected (int state)
 {
-	GOColor textcolor, othercolor;
+	GOColor textcolor, othercolor, chargecolor;
 	
 	switch (state) {	
 	default:
-	case SelStateUnselected:
+	case SelStateUnselected: {
 		textcolor = 0;
-		othercolor = GO_COLOR_BLACK;
+		if (static_cast < Document * > (GetDocument ())->GetUseAtomColors ()) {
+			double *c = Element::GetElement (GetZ ())->GetDefaultColor ();
+			int r = c[0] * 255, g = c[1] * 255, b = c[2] * 255;
+			if (r > 200 && g > 200 && b > 200) {
+				r = 255 - r;
+				g = 255 - g;
+				b = 255 - b;
+			}
+			othercolor = GO_COLOR_FROM_RGB (r, g, b);
+		} else
+			othercolor = GO_COLOR_BLACK;
+		chargecolor = GO_COLOR_BLACK;
 		break;
+	}
 	case SelStateSelected:
-		othercolor = textcolor = SelectColor;
+		chargecolor = othercolor = textcolor = SelectColor;
 		break;
 	case SelStateUpdating:
-		othercolor = textcolor = AddColor;
+		chargecolor = othercolor = textcolor = AddColor;
 		break;
 	case SelStateErasing:
-		othercolor = textcolor = DeleteColor;
+		chargecolor = othercolor = textcolor = DeleteColor;
 		break;
 	}
 	gccv::Group *group = static_cast <gccv::Group *> (m_Item);
@@ -642,9 +654,9 @@ void Atom::SetSelected (int state)
 		if (item->GetClient () == this) {
 			gccv::FillItem *fill;
 			gccv::Text *text;
-			if ((text = dynamic_cast <gccv::Text *> (item)))
-				text->SetColor (othercolor);
-			else if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
+			if ((text = dynamic_cast <gccv::Text *> (item))) {
+				text->SetColor (g_ascii_isalpha (*text->GetText ())?othercolor: chargecolor);
+			} else if ((fill = dynamic_cast <gccv::Rectangle *> (item)))
 				fill->SetFillColor (textcolor);
 			else if ((fill = dynamic_cast <gccv::FillItem *> (item)))
 				fill->SetFillColor (othercolor);
@@ -1298,6 +1310,18 @@ void Atom::AddItem ()
 	View *view = doc->GetView ();
 	Theme *theme = doc->GetTheme ();
 	double x, y;
+	GOColor textcolor;
+	if (doc->GetUseAtomColors ()) {
+		double *c = Element::GetElement (GetZ ())->GetDefaultColor ();
+		int r = c[0] * 255, g = c[1] * 255, b = c[2] * 255;
+		if (r > 200 && g > 200 && b > 200) {
+			r = 255 - r;
+			g = 255 - g;
+			b = 255 - b;
+		}
+		textcolor = GO_COLOR_FROM_RGB (r, g, b);
+	} else
+		textcolor = GO_COLOR_BLACK;
 	GetCoords (&x, &y);
 	x *= theme->GetZoomFactor ();
 	y *= theme->GetZoomFactor ();
@@ -1306,7 +1330,7 @@ void Atom::AddItem ()
 	view->GetCanvas ()->GetRoot ()->MoveToFront (group);
 	if ((GetZ() != 6) || (GetBondsNumber() == 0) || m_ShowSymbol) {
 		gccv::Text *text = new gccv::Text (group, 0., 0., this);
-		text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
+		text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: textcolor);
 		text->SetPadding (theme->GetPadding ());
 		text->SetLineColor (0);
 		text->SetLineWidth (0.);
@@ -1329,7 +1353,7 @@ void Atom::AddItem ()
 				g_free (str);
 			}
 			text = new gccv::Text (group, 0., 0., this);
-			text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: GO_COLOR_BLACK);
+			text->SetColor ((view->GetData ()->IsSelected (this))? SelectColor: textcolor);
 			text->SetPadding (theme->GetPadding ());
 			text->SetLineColor (0);
 			text->SetLineWidth (0.);

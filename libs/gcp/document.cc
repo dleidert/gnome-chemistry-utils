@@ -101,6 +101,7 @@ Document::Document (Application *App, bool StandAlone, Window *window):
 	SetActive ();
 	m_AllowClipboard = true;
 	m_SoftwareVersion = 0;
+	m_UseAtomColors = false;
 }
 
 Document::~Document ()
@@ -478,6 +479,11 @@ bool Document::Load (xmlNodePtr root)
 		SetId (tmp);
 		xmlFree (tmp);
 	}
+	tmp = reinterpret_cast < char * > (xmlGetProp (root, reinterpret_cast < xmlChar const * > ("use-atom-colors")));
+	if (tmp) {
+		m_UseAtomColors = !strcmp (tmp, "true");
+		xmlFree (tmp);
+	}
 
 	gcu::ReadDate (root, "creation", &CreationDate);
 	gcu::ReadDate (root, "revision", &RevisionDate);
@@ -590,6 +596,8 @@ xmlDocPtr Document::BuildXMLTree () const
 	xmlDocSetRootElement (xml,  xmlNewDocNode (xml, NULL, (xmlChar*) "chemistry", NULL));
 	ns = xmlNewNs (xml->children, (xmlChar*) "http://www.nongnu.org/gchempaint", (xmlChar*) "gcp");
 	xmlSetNs (xml->children, ns);
+	if (m_UseAtomColors)
+		xmlNewProp (xml->children, reinterpret_cast < xmlChar const * > ("use-atom-colors"), reinterpret_cast < xmlChar const * > ("true"));
 	if (!g_date_valid (&CreationDate))
 		g_date_set_time_t (&const_cast <Document *> (this)->CreationDate, time (NULL));
 	g_date_set_time_t (&const_cast <Document *> (this)->RevisionDate, time (NULL));

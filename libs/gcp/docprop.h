@@ -41,6 +41,7 @@ The document property dialog.
 class DocPropDlg: public gcugtk::Dialog, gcu::Object
 {
 public:
+friend class DocPropPrivate;
 /*!
 @param pDoc the document.
 

@@ -1,5 +1,13 @@
 ##Text encoding: utf-8
 
+2011-04-29  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/atom.cc: allow colored atomic symbols on a per-document basis.
+	* libs/gcp/docprop.cc:  ditto.
+	* libs/gcp/docprop.h: ditto.
+	* libs/gcp/document.cc: ditto.
+	* libs/gcp/document.h: ditto.
+	* ui/paint/docprop.ui: ditto.
+
 2011-04-27  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: make brackets work.
 	* libs/gcp/brackets.cc: ditto.

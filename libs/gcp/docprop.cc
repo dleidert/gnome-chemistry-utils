@@ -27,6 +27,7 @@
 #include "document.h"
 #include "application.h"
 #include "theme.h"
+#include "view.h"
 #include "window.h"
 #include <glib/gi18n-lib.h>
 
@@ -34,6 +35,19 @@ using namespace gcu;
 using namespace std;
 
 namespace gcp {
+
+class DocPropPrivate
+{
+public:
+	static void OnColors (GtkToggleButton *btn, Document *doc);
+};
+
+void DocPropPrivate::OnColors (GtkToggleButton *btn, Document *doc)
+{
+	doc->SetUseAtomColors (gtk_toggle_button_get_active (btn));
+	doc->GetView ()->Update (doc);
+	doc->SetDirty ();
+}
 
 #if GTK_CHECK_VERSION (2, 24, 0)
 static void on_theme_changed (GtkComboBoxText *box, DocPropDlg *dlg)
@@ -162,6 +176,9 @@ DocPropDlg::DocPropDlg (Document* pDoc):
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (m_Box), nb);
 	m_ChangedSignal = g_signal_connect (G_OBJECT (m_Box), "changed", G_CALLBACK (on_theme_changed), this);
+	w = GetWidget ("atom-colors");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), pDoc->GetUseAtomColors ());
+	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (DocPropPrivate::OnColors), pDoc);
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 	
