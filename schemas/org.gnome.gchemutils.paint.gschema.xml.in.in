@@ -189,6 +189,11 @@
       <_summary>Whether the hashed wedge bonds should be inverted.</_summary>
       <_description>Hashed bonds are normally represented with the large side nearest, which is the opposite of what many people want. Setting this key to TRUE will change this behavior. Default is FALSE.</_description>
     </key>
+    <key name="use-atom-colors" type="b">
+      <default>false</default>
+      <_summary>Whether to use colored atomic symbols.</_summary>
+      <_description>GChempaint displays black atomic symbols by default. When this key is set TRUE, atoms in new documents will be displayed using symbolic colors.</_description>
+    </key>
   </schema>
   <schema gettext-domain="@GETTEXT_PACKAGE@" id="org.gnome.gchemutils.paint.plugins" path="/apps/gchemutils/paint/plugins/"/>
 </schemalist>

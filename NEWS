@@ -1,8 +1,11 @@
 Version 0.13.3
 	GChemPaint:
 		* Fixed build with gcc-4.6. [#32363]
+		* Allow colored atomic symbols on a per-document basis.
+		* Brackets tool now working, not perfectly though.
 	Other:
 		* Don't use POLLRDHUP when not defined. [#32768]
+		* Split libgcu so that libgcu itself never calls gtk+ directly.
 
 Version 0.13.2
 	GChemPaint:

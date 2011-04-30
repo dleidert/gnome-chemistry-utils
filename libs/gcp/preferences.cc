@@ -68,7 +68,15 @@ public:
 	static void OnThemeNameChanged (PrefsDlg *dlg, char const *name) {dlg->OnThemeNameChanged (name);}
 	static bool CheckError (PrefsDlg *dlg) {return dlg->CheckError ();}
 	static void SetDefaultTheme (PrefsDlg *dlg, char const *name) {dlg->SetDefaultTheme (name);}
+	static void OnUseAtomColors (GtkToggleButton *btn, Application *app);
 };
+
+void PrefsDlgPrivate::OnUseAtomColors (GtkToggleButton *btn, Application *app)
+{
+	GOConfNode *node = go_conf_get_node (app->GetConfDir (), GCP_CONF_DIR_SETTINGS);
+	go_conf_set_bool (node, "use-atom-colors", gtk_toggle_button_get_active (btn));
+	go_conf_free_node (node);
+}	
 
 static int get_fontstyle (PangoStyle val)
 {
@@ -312,6 +320,9 @@ PrefsDlg::PrefsDlg (Application *pApp):
 	w = GetWidget ("invert-wedge-hashes");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), InvertWedgeHashes);
 	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (on_invert_wedge_hashes_changed), pApp);
+	w = GetWidget ("use-atom-colors");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), pApp->GetUseAtomColors ());
+	g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (PrefsDlgPrivate::OnUseAtomColors), pApp);
 	// retrieve theme widgets and set signals
 	m_BondLengthBtn = GTK_SPIN_BUTTON (GetWidget ("bond-length-btn"));
 	g_signal_connect (G_OBJECT (m_BondLengthBtn), "value-changed", G_CALLBACK (on_bond_length_changed), this);
@@ -391,7 +402,7 @@ PrefsDlg::PrefsDlg (Application *pApp):
 #else
 	m_DefaultThemeBox = GTK_COMBO_BOX (gtk_combo_box_new_text ());
 #endif
-	gtk_table_attach (GTK_TABLE (GetWidget ("table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 2, 3,
+	gtk_table_attach (GTK_TABLE (GetWidget ("table1")), GTK_WIDGET (m_DefaultThemeBox), 1, 3, 3, 4,
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 													   (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 	int n = 0;

@@ -184,7 +184,8 @@ void GOGcpApplication::OnFileNew (char const *Theme)
 	if (m_pActiveDoc && !m_pActiveDoc->GetView ()->PrepareUnselect ())
 		return;
 	g_snprintf (tmp, sizeof (tmp), _("Untitled %d"), m_NumWindow++);
-	new gcp::Window (this, Theme);
+	gcp::Window *win = new gcp::Window (this, Theme);
+	win->GetDocument ()->SetUseAtomColors (GetUseAtomColors ());
 }
 
 void GOGcpApplication::OnFileClose ()

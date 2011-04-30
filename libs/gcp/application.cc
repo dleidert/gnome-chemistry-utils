@@ -401,6 +401,7 @@ Application::Application (gcugtk::CmdContextGtk *cc):
 		m_ConfNode = go_conf_get_node (GetConfDir (), GCP_CONF_DIR_SETTINGS);
 		GCU_GCONF_GET ("compression", int, CompressionLevel, 0)
 		GCU_GCONF_GET ("invert-wedge-hashes", bool, InvertWedgeHashes, false)
+		GCU_GCONF_GET ("use-atom-colors", bool, m_UseAtomColors, false)
 		bool CopyAsText;
 		GCU_GCONF_GET ("copy-as-text", bool, CopyAsText, false)
 		ClipboardFormats = CopyAsText? GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;
@@ -801,6 +802,7 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 	GError *error = NULL;
 	GFileInfo *info = NULL;
 	bool create = false;
+	pDoc->SetUseAtomColors (false); // the default for a document
 	try
 	{
 		if (!filename.length ())
@@ -894,6 +896,7 @@ void Application::OpenGcp (string const &filename, Document* pDoc)
 		gtk_window_set_icon_name (GTK_WINDOW (message), "gchempaint");
 		g_signal_connect_swapped (G_OBJECT (message), "response", G_CALLBACK (gtk_widget_destroy), G_OBJECT (message));
 		gtk_widget_show(message);
+		pDoc->SetUseAtomColors (m_UseAtomColors); // the file is new, so it should follow the app default
 	}
 }
 
@@ -1145,6 +1148,7 @@ void Application::OnConfigChanged (GOConfNode *node, gchar const *name)
 	GCU_UPDATE_KEY ("compression", int, CompressionLevel, {})
 	bool CopyAsText;
 	GCU_UPDATE_KEY ("invert-wedge-hashes", bool, InvertWedgeHashes, UpdateAllTargets ();)
+	GCU_UPDATE_KEY ("use-atom-colors", bool, m_UseAtomColors, {})
 	GCU_UPDATE_KEY ("copy-as-text", bool, CopyAsText, ClipboardFormats = CopyAsText?GCP_CLIPBOARD_ALL: GCP_CLIPBOARD_NO_TEXT;)
 }
 

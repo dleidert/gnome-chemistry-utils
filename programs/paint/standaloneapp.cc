@@ -46,6 +46,7 @@ void gcpStandaloneApp::OnFileNew(char const *Theme)
 	g_snprintf (tmp, sizeof (tmp), _("Untitled %d"), m_NumWindow++);
 	gcp::Window *win = new gcpStandaloneWindow (this, Theme);
 	win->GetDocument ()->SetLabel (tmp);
+	win->GetDocument ()->SetUseAtomColors (GetUseAtomColors ());
 }
 
 GtkWindow* gcpStandaloneApp::GetWindow()

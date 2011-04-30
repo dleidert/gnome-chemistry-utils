@@ -1,5 +1,15 @@
 ##Text encoding: utf-8
 
+2011-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcpapp.cc: add a default flag for atom symbols colors.
+	* libs/gcp/application.cc:  ditto.
+	* libs/gcp/application.h:  ditto.
+	* libs/gcp/preferences.cc:  ditto.
+	* programs/paint/gchempaint.schemas.in:  ditto.
+	* programs/paint/standaloneapp.cc:  ditto.
+	* schemas/org.gnome.gchemutils.paint.gschema.xml.in.in:  ditto.
+	* ui/paint/preferences.ui:  ditto.
+
 2011-04-29  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/atom.cc: allow colored atomic symbols on a per-document basis.
 	* libs/gcp/docprop.cc:  ditto.

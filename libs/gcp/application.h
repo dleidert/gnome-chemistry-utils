@@ -474,9 +474,10 @@ private:
 /*!\fn GetHaveGhemical
 @return true if ghemical is usable on startup.
 */
-	GCU_RO_STATIC_PROP (bool, HaveGhemical);
-	GCU_RO_STATIC_PROP (bool, HaveGChem3D);
-	GCU_RO_STATIC_PROP (bool, HaveAvogadro);
+	GCU_RO_STATIC_PROP (bool, HaveGhemical)
+	GCU_RO_STATIC_PROP (bool, HaveGChem3D)
+	GCU_RO_STATIC_PROP (bool, HaveAvogadro)
+	GCU_RO_PROP (bool, UseAtomColors)
 };
 
 }	// namespace gcp
