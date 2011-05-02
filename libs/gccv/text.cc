@@ -800,7 +800,7 @@ void Text::InsertTextTag (TextTag *tag, bool rebuild_attributes)
 	std::list <TextTag *> new_tags, invalid;
 	TextTagList::iterator i, iend = m_Tags.end ();
 	TextTag *new_tag;
-	for (i = m_Tags.begin (); i != m_Tags.end (); i++) {
+	for (i = m_Tags.begin (); i != iend; i++) {
 		new_tag = tag->Restrict (*i);
 		if (new_tag)
 			new_tags.push_back (new_tag);

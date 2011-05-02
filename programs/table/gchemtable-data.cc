@@ -187,7 +187,7 @@ gct_data_vector_get_value (GODataVector *dat, unsigned i)
 {
 	GctDataVector *vec = GCT_DATA_VECTOR (dat);
 	if (!vec)
-		return NULL;
+		return go_nan;
 	if (!vec->loaded)
 		vec->loader (&vec->data, &dat->len);
 	vec->loaded = true;

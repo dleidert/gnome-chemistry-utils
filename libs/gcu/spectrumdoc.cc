@@ -2162,14 +2162,14 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	// add Hz and ppm variables (0 for last point, user will have to choose a reference peak)
 	// first Hz
 	// if we are there, we have R and I values, we should have also X, but let's check
-	double *xo, freq;
+/*	double *xo, freq;
 	if (X >= 0 && variables[X].Values != NULL) {
 		xo = variables[X].Values;
 		freq = (variables[X].NbValues - 1) / (variables[X].Last - variables[X].First);
 	} else {
 		xo = x;
 		freq = (npoints - 1) / (lastx - firstx);
-	}
+	}*/
 	//now display the spectrum
 	variables[R].Series = NULL;
 	rp.Series = m_View->GetSeries ();

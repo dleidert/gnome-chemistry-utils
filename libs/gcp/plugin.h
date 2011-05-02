@@ -73,8 +73,6 @@ application.
 	virtual void Populate (Application* App);
 
 /*!
-@param App the GChemPaint application.
-
 Called by the framework so that the plugin can clean memory before exit
 */
 	virtual void Clear ();

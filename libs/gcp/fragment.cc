@@ -522,11 +522,9 @@ void Fragment::UpdateItem ()
 void Fragment::SetSelected (int state)
 {
 	GOColor color, othercolor = 0;
-	bool visible = true;
 	switch (state) {	
 	case SelStateUnselected:
 		color = GO_COLOR_BLACK;
-		visible = false;
 		break;
 	case SelStateSelected:
 		color = SelectColor;

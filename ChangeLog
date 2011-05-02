@@ -1,5 +1,18 @@
 ##Text encoding: utf-8
 
+2011-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gccv/text.cc: fixed g++-4.6 warnings.
+	* libs/gcp/fontsel.cc: ditto.
+	* libs/gcp/fragment.cc: ditto.
+	* libs/gcp/plugin.cc: really clear plugins data.
+	* libs/gcp/plugin.h: fixed documentation.
+	* libs/gcu/crystaldoc.cc: fixed g++-4.6 warnings.
+	* libs/gcu/formula.cc: ditto.
+	* libs/gcu/spectrumdoc.cc: ditto.
+	* plugins/paint/text/texttool.cc: ditto.
+	* programs/calc/gchemcalc.cc: ditto.
+	* programs/table/gchemtable-data.cc: ditto.
+
 2011-04-26  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/application.cc: fixed plugins shutdown.
 	* libs/gcp/plugin.cc: ditto.

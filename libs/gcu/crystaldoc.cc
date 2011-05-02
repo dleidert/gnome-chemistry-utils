@@ -159,20 +159,6 @@ void CrystalDoc::ParseXMLTree (xmlNode* xml)
 	m_SpaceGroup = NULL;
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
-	//look for generator node
-	unsigned version = 0xffffff , major, minor, micro;
-	node = xml->children;
-	while (node) {
-		if (!strcmp ((const char*)(node->name), "generator"))
-			break;
-		node = node->next;
-	}
-	if (node) {
-		txt = (char*) xmlNodeGetContent (node);
-		if (sscanf(txt, "Gnome Crystal %d.%d.%d", &major, &minor, &micro) == 3)
-			version = micro + minor * 0x100 + major * 0x10000;
-		xmlFree (txt);
-	}
 	node = xml->children;
 	while(node) {
 		if (!strcmp ((gchar*) node->name, "text"));

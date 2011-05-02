@@ -63,7 +63,9 @@ void Plugin::LoadPlugins ()
 
 void Plugin::UnloadPlugins ()
 {
-	set<Plugin*>::iterator i = Plugins.begin (), end = Plugins.end ();
+	set<Plugin*>::iterator i, end = Plugins.end ();
+	for (i = Plugins.begin (); i != end; i++)
+		(*i)->Clear ();
 }
 
 void Plugin::Populate (G_GNUC_UNUSED Application* App)
