@@ -99,11 +99,12 @@ void gcpBracketsTool::OnDrag ()
 					y0 *= m_dZoomFactor;
 					if (x0 >= xmin && x0 <= xmax && y0 >= ymin && y0 <= ymax) {
 						m_pData->SetSelected (object);
-						gcp::Atom *atom = static_cast <gcp::Atom *> (object);
+						gcp::Atom *atom;
 						switch (object->GetType ()) {
 						case gcu::FragmentType:
 							atom = static_cast <gcp::Fragment *> (object)->GetAtom ();
 						case gcu::AtomType: {
+							atom = static_cast <gcp::Atom *> (object);
 							// go through the bonds and select them if both ends are selected
 							std::map<gcu::Atom*, gcu::Bond*>::iterator i;
 							gcu::Bond *bond = atom->GetFirstBond (i);
@@ -130,7 +131,7 @@ void gcpBracketsTool::OnDrag ()
 		}
 		item = group->GetNextChild (it);
 	}
-	// now check if linked objects have all their links selected, and, if yes, select theme_change
+	// now check if linked objects have all their links selected, and, if yes, select them
 	for (i = linked_objects.begin (), iend = linked_objects.end (); i != iend; i++)
 		if ((*i)->CanSelect ())
 			m_pData->SetSelected (*i);
@@ -254,26 +255,38 @@ bool gcpBracketsTool::Evaluate ()
 	if (m_pData->SelectedObjects.size () == 0)
 		return false;
 	std::set <gcu::TypeId> const &rules = m_pApp->GetRules (gcp::BracketsType, gcu::RuleMayContain);
+	std::set < gcu::Object * >::iterator i = m_pData->SelectedObjects.begin (),
+									   end = m_pData->SelectedObjects.end ();
 	if (m_pData->SelectedObjects.size () == 1) {
 		obj = *m_pData->SelectedObjects.begin ();
 		gcu::TypeId type = obj->GetType ();
 		if (type == gcu::MoleculeType || type == gcp::ReactionStepType ||
 		    type == gcp::MechanismStepType || type == gcu::MesomeryType ||
 		    rules.find (type) != rules.end ()) {
+			// Do not accept a new bracket if one already exist
+			std::map < std::string, gcu::Object * >::iterator j;
+			gcu::Object *child;
+			for (child = obj->GetFirstChild (j); child; child = obj->GetNextChild (j)) {
+				gcp::Brackets *br = dynamic_cast < gcp::Brackets * > (child);
+				if (br && br->GetEmbeddedObjects ().size () == 1 && *br->GetEmbeddedObjects ().begin () == obj) 
+					return false;
+			}
 			// Evaluate bounds
 			m_pData->GetObjectBounds (obj, &m_ActualBounds);
 			m_Target = obj;
 			return true;
 		}
 	}
-	std::set < gcu::Object * >::iterator i = m_pData->SelectedObjects.begin (),
-									   end = m_pData->SelectedObjects.end ();
+	i = m_pData->SelectedObjects.begin ();
 	gcu::Object *molecule = (*i)->GetMolecule ();
 	if (molecule != NULL) {
 		for (i++; i != end; i++)
 			if ((*i)->GetMolecule () != molecule)
 				goto not_a_molecule;
 		// now we need to test whether all selected atoms are connected (is this true?)
+		std::set < gcu::Object * > connected;
+		i = m_pData->SelectedObjects.begin ();
+		// Do not accept a new bracket if one already exist with same embedded objects.
 		m_pData->GetSelectionBounds (m_ActualBounds);
 		m_Target = molecule;
 		return true;

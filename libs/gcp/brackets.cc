@@ -29,6 +29,7 @@
 #include <gcp/mechanism-step.h>
 #include <gcp/reaction-step.h>
 #include <gcp/settings.h>
+#include <gcp/theme.h>
 #include <gcp/view.h>
 #include <gcp/widgetdata.h>
 #include <gcu/application.h>
@@ -83,6 +84,9 @@ void Brackets::AddItem ()
 		for (i =  m_EmbeddedObjects.begin (); i != end; i++) {
 			if (*i == this)
 				continue;
+			Brackets *br = dynamic_cast < Brackets * > (*i);
+			if (br && br->m_EmbeddedObjects.size () == 1 && GetParent () == *br->m_EmbeddedObjects.begin ())
+					continue;
 			view->GetData ()->GetObjectBounds (*i, rect);
 		}
 	} else 

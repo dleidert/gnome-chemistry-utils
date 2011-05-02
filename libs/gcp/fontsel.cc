@@ -406,14 +406,13 @@ static void on_select_family (GtkTreeSelection *selection, GcpFontSel *fs)
 	gtk_tree_model_get (model, &iter, 0, &fs->FamilyName, -1);
 	PangoFontFamily *family = fs->Families[fs->FamilyName];
 	PangoFontFace **faces;
-	int i, besti, nb;
+	int i,  nb;
 	g_signal_handler_block (fs->FaceSel, fs->FaceSignal);
 	pango_font_family_list_faces (family, &faces, &nb);
 	gtk_list_store_clear (fs->FaceList);
 	map<string, PangoFontFace*>::iterator j, jend = fs->Faces.end ();
-	for (j = fs->Faces.begin (); j != jend; j++) {
+	for (j = fs->Faces.begin (); j != jend; j++)
 		g_object_unref ((*j).second);
-	}
 	fs->Faces.clear ();
 	PangoFontDescription *desc;
 	int distance, best;
@@ -443,7 +442,6 @@ static void on_select_family (GtkTreeSelection *selection, GcpFontSel *fs)
 			if (distance < best) {
 				best = distance;
 				selected = iter;
-				besti = i;
 			}
 		}
 		pango_font_description_free (desc);

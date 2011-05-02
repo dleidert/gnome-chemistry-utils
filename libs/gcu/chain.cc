@@ -392,7 +392,7 @@ unsigned Chain::BuildLength (unsigned *cycle_size, unsigned *cycle_pos)
 
 void Chain::Append (Chain& chain)
 {
-	std::map < Atom *, ChainElt >::iterator i, end = m_Bonds.end ();
+	std::map < Atom *, ChainElt >::iterator i;
 	for (i = m_Bonds.begin (); (*i).second.fwd; i++);
 	Atom *atom = (*i).first;
 	if (chain.m_Bonds.find (atom) == chain.m_Bonds.end ())

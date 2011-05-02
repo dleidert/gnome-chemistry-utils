@@ -1,5 +1,25 @@
 ##Text encoding: utf-8
 
+2011-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
+	* goffice/gogcrystalapp.cc: fixed g++-4.6 warnings.
+	* libs/gccv/arrow.h: ditto.
+	* libs/gccv/text.cc: ditto.
+	* libs/gcp/brackets.cc: don't accept several brackets around the same object.
+	* libs/gcp/brackets.h: ditto.
+	* libs/gcp/fontsel.cc: fixed g++-4.6 warnings.
+	* libs/gcp/plugin.cc: really clear plugins data.
+	* libs/gcp/plugin.h: fixed documentation.
+	* libs/gcp/widgetdata.cc: don't accept several brackets around the same object.
+	* libs/gcr/document.cc: fixed g++-4.6 warnings.
+	* libs/gcu/chain.cc: ditto.
+	* libs/gcu/formula.cc: ditto.
+	* libs/gcugtk/spectrumdoc.cc: ditto.
+	* plugins/loaders/nuts/nuts.cc: ditto.
+	* plugins/paint/selection/bracketstool.cc: don't accept several brackets around the
+	same object.
+	* plugins/paint/text/texttool.cc: fixed g++-4.6 warnings.
+	* programs/calc/gchemcalc.cc: ditto.
+
 2011-04-30  Jean Bréfort  <jean.brefort@normalesup.org>
 	* goffice/gogcpapp.cc: add a default flag for atom symbols colors.
 	* libs/gcp/application.cc:  ditto.

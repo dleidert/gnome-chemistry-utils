@@ -337,7 +337,6 @@ static void cb_entry_active (GtkEntry *entry, gpointer data)
 		// Composition
 		gtk_list_store_clear (App->pclist);
 		map<int,int> &raw = App->formula.GetRawFormula ();
-		map<int,int>::iterator ri, riend = raw.end ();
 		double pcent;
 		map<string, int> elts;
 		int nC = 0, nH = 0;

@@ -564,7 +564,7 @@ void Formula::Parse (string &formula, list<FormulaElt *> &result) throw (parse_e
 		}
 		case GCU_FORMULA_PARSE_ATOM: {
 			// replace all ambiguous residues
-			list<FormulaElt *>::iterator it = result.begin (), end = result.end ();
+			list<FormulaElt *>::iterator it = result.begin ();
 			FormulaResidue *res;
 			while (it != result.end ()) {
 				res = dynamic_cast <FormulaResidue *> (*it);

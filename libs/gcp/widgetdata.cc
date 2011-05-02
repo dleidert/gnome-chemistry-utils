@@ -28,6 +28,7 @@
 #include "settings.h"
 #include "document.h"
 #include "application.h"
+#include "brackets.h"
 #include "operation.h"
 #include "theme.h"
 #include "tool.h"
@@ -231,6 +232,8 @@ bool WidgetData::ChildrenSelected (gcu::Object const *obj) const
 	std::map <std::string, gcu::Object *>::const_iterator i;
 	std::set < Object * >::const_iterator j,  end = SelectedObjects.end ();
 	for (Object const *child = obj->GetFirstChild (i); child; child = obj->GetNextChild (i)) {
+		if (child->GetType () == BracketsType) // do not consider brackets,here
+			continue;
 		for (j = SelectedObjects.begin (); j != end; j++)
 			if (*j == child)
 				break;

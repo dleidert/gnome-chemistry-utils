@@ -4,7 +4,7 @@
  * GChemPaint library
  * plugin.cc 
  *
- * Copyright (C) 2004 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2004-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -63,7 +63,9 @@ void Plugin::LoadPlugins ()
 
 void Plugin::UnloadPlugins ()
 {
-	set<Plugin*>::iterator i = Plugins.begin (), end = Plugins.end ();
+	set<Plugin*>::iterator i, end = Plugins.end ();
+	for (i = Plugins.begin (); i != end; i++)
+		(*i)->Clear ();
 }
 
 void Plugin::Populate (G_GNUC_UNUSED Application* App)

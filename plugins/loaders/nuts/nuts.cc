@@ -73,7 +73,7 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 {
 	int32_t i32;
 	int32_t header_size, dims, frame_size, nb2D, npts1, data_type1, domain1, axis1, decim, npts2, data_type2, domain2, axis2, nbacq;
-	bool use_ints, tailer, ver2;
+	bool use_ints, ver2;
 	float sw, sf, sw1, sf1, of1, rp1, pp1, tba1, tpb1, tlb1, time[64], sw2, sf2, of2, rp2, pp2, tba2, tpb2, tlb2, temp, pw, rd, f;
 	int i;
 	char desc[41], uname[41], date[33], comment[129], pgname[33], nucleus[33], solvent[33];
@@ -93,7 +93,6 @@ gcu::ContentType NUTSLoader::Read (gcu::Document *doc, GsfInput *in, G_GNUC_UNUS
 	READINT32 (in, i32); //Program version
 	READINT32 (in, nb2D);
 	READINT32 (in, i32);
-	tailer = i32 != 0;
 	for (i = 0; i < 9; i++)
 		READINT32 (in, i32); // unused
 	READFLOAT (in, sw); // not used

@@ -2007,8 +2007,8 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 		if (z[i] > c)
 			restricted.push_back (i);
 	// evaluate the predictor in c, since the value is not used anymore
-	double maxc = 0., maxk = 0., p, phis[41], cs[41];
-	unsigned k, kopt = 0;
+	double maxc = 0., maxk = 0., p, phis[41];
+	unsigned k;
 	std::list <unsigned>::iterator it, itend = restricted.end ();
 	for (k = 0; k < 41; k++) {
 		tau = -1. + k * .1;
@@ -2025,13 +2025,11 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 					maxc = c;
 					tauopt = tau;
 					phiopt = phi;
-					kopt = k;
 				}
 				maxk = c;
 				phis[k] = phi;
 			}
 		}
-		cs[k] = maxk;
 	}
 	// let's search more finely around the maximum
 	// using the fact that phis[k] is a(n almost) linear function of tau
@@ -2143,14 +2141,11 @@ void SpectrumDocument::OnTransformFID (G_GNUC_UNUSED GtkButton *btn)
 	// add Hz and ppm variables (0 for last point, user will have to choose a reference peak)
 	// first Hz
 	// if we are there, we have R and I values, we should have also X, but let's check
-	double *xo, freq, shift;
-	if (X >= 0 && variables[X].Values != NULL) {
-		xo = variables[X].Values;
+	double freq, shift;
+	if (X >= 0 && variables[X].Values != NULL)
 		freq = 1 / (variables[X].Last - variables[X].First);
-	} else {
-		xo = x;
+	else
 		freq = 1 / (lastx - firstx);
-	}
 	if (!go_finite (offset))
 		offset = 0.;
 	shift = offset - freq * (npoints - 1) / 2.;

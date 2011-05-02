@@ -88,9 +88,9 @@ GtkWindow * GOGCrystalApplication::EditDocument (GOGChemUtilsComponent *gogcu)
 
 bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *data, int *length, void (**clearfunc) (gpointer), G_GNUC_UNUSED gpointer *user_data)
 {
-/*	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
+//	gcp::Document *doc = static_cast <gcp::Document *> (gogcu->document);
 	bool result = false;
-	xmlDocPtr xml = NULL;
+/*	xmlDocPtr xml = NULL;
 	char *old_num_locale, *old_time_locale;
 
 	if (!doc || !doc->HasChildren ()) {
@@ -125,9 +125,9 @@ bool GOGCrystalApplication::GetData (GOGChemUtilsComponent *gogcu, gpointer *dat
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 	setlocale (LC_TIME, old_time_locale);
-	g_free (old_time_locale);
+	g_free (old_time_locale);*/
 
-	return result;*/
+	return result;
 }
 
 void GOGCrystalApplication::Render (GOGChemUtilsComponent *gogcu, cairo_t *cr, double width, double height)

@@ -94,6 +94,7 @@ For brackets, OnLoaded() is called each time an embedded object is added.
 */
 	void OnLoaded ();
 	void SetEmbeddedObjects (std::set < gcu::Object * > objects);
+	std::set < gcu::Object * > const &GetEmbeddedObjects () {return m_EmbeddedObjects;}
 
 private:
 	std::set < gcu::Object * > m_EmbeddedObjects;
