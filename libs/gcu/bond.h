@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -74,7 +74,8 @@ always be used even if the implementation does not use it in this version.
 */
 	virtual Atom* GetAtom (Atom* pAtom, int which = 0) const;	//"which" is just a place holder for multicenter bonds; returns an atom different from pAtom
 															//i.e. the other end of the bond
-/*!
+	virtual Atom const * GetAtom (Atom const * pAtom, int which = 0) const;
+	/*!
 @return the Bond order.
 */
 	unsigned char GetOrder () const;

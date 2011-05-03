@@ -93,8 +93,18 @@ gcp::SelStateUpdating, or gcp::SelStateErasing.
 For brackets, OnLoaded() is called each time an embedded object is added.
 */
 	void OnLoaded ();
+
+/*!
+@param object the object just unlinked by Object::Unlink.
+
+Called when an object has been unlinked. Programs should not call it
+directly, but should call Object::OnUnlink instead.
+*/
+	void OnUnlink (Object *object);
+
 	void SetEmbeddedObjects (std::set < gcu::Object * > objects);
 	std::set < gcu::Object * > const &GetEmbeddedObjects () {return m_EmbeddedObjects;}
+	static bool ConnectedAtoms (std::set < gcu::Object * > const &objects);
 
 private:
 	std::set < gcu::Object * > m_EmbeddedObjects;

@@ -4,7 +4,7 @@
  * GChemPaint library
  * fragment.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -214,7 +214,8 @@ element tool.
 /*!
 @return the main atom, which might have a bond.
 */
-	Atom* GetAtom () {return (Atom*) m_Atom;}
+	Atom  *GetAtom () {return reinterpret_cast < Atom * > (m_Atom);}
+	Atom const *GetAtom () const {return reinterpret_cast < Atom const * > (m_Atom);}
 /*!
 @param start the start position of the atomic symbol.
 @param end the end position of the atomic symbol.

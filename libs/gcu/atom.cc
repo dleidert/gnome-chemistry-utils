@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.cc
  *
- * Copyright (C) 2001-2009 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -130,6 +130,23 @@ Bond* Atom::GetFirstBond (map<Atom*, Bond*>::iterator& i)
 {
 	i = m_Bonds.begin ();
 	if (i == m_Bonds.end ())
+		return NULL;
+	return (*i).second;
+}
+
+Bond const * Atom::GetFirstBond (std::map< Atom *, Bond * >::const_iterator& i) const
+{
+	i = m_Bonds.begin ();
+	if (i == m_Bonds.end ())
+		return NULL;
+	return (*i).second;
+}
+
+
+Bond const * Atom::GetNextBond (std::map< Atom *, Bond * >::const_iterator& i) const
+{
+	i++;
+	if (i == m_Bonds.end())
 		return NULL;
 	return (*i).second;
 }

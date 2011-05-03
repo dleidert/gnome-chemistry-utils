@@ -284,8 +284,8 @@ bool gcpBracketsTool::Evaluate ()
 			if ((*i)->GetMolecule () != molecule)
 				goto not_a_molecule;
 		// now we need to test whether all selected atoms are connected (is this true?)
-		std::set < gcu::Object * > connected;
-		i = m_pData->SelectedObjects.begin ();
+		if (!gcp::Brackets::ConnectedAtoms (m_pData->SelectedObjects))
+			return false;
 		// Do not accept a new bracket if one already exist with same embedded objects.
 		m_pData->GetSelectionBounds (m_ActualBounds);
 		m_Target = molecule;

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * atom.h 
  *
- * Copyright (C) 2002-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2002-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -164,14 +164,16 @@ Removes a Bond.
 Use this function to retrieve the first Bond of this Atom and initialize the iterator.
 @return the first Bond of this Atom or NULL if the Atom has is not bonded.
 */
-	Bond* GetFirstBond (std::map<Atom*, Bond*>::iterator& i);
+	Bond *GetFirstBond (std::map < Atom *, Bond * >::iterator& i);
+	Bond const *GetFirstBond (std::map< Atom *, Bond * >::const_iterator& i) const;
 /*!
 @param i a C++ std::map iterator initialized by Atom::GetFirstBond.
 
 Use this method to iterate through the list of Bond instances of this Atom.
 @return the next Bond of this Atom or NULL.
 */
-	Bond* GetNextBond (std::map<Atom*, Bond*>::iterator& i);
+	Bond *GetNextBond (std::map<Atom*, Bond*>::iterator& i);
+	Bond const *GetNextBond (std::map< Atom *, Bond * >::const_iterator& i) const;
 /*!
 @param pAtom a pointer to an Atom instance.
 @return a pointer to the Bond shared by pAtom and this Atom if it exists or NULL.

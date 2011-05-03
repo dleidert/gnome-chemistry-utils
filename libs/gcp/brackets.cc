@@ -25,7 +25,10 @@
 #include "config.h"
 #include "brackets.h"
 #include <gccv/canvas.h>
+#include <gcp/atom.h>
+#include <gcp/bond.h>
 #include <gcp/document.h>
+#include <gcp/fragment.h>
 #include <gcp/mechanism-step.h>
 #include <gcp/reaction-step.h>
 #include <gcp/settings.h>
@@ -55,6 +58,13 @@ Brackets::Brackets (gccv::BracketsTypes type): gcu::Object (BracketsType), ItemC
 
 Brackets::~Brackets ()
 {
+	while (!m_EmbeddedObjects.empty ())
+		(*m_EmbeddedObjects.begin ())->Unlink (this);
+}
+
+void Brackets::OnUnlink (Object *object)
+{
+	m_EmbeddedObjects.erase (object);
 }
 
 void Brackets::OnLoaded ()
@@ -62,6 +72,7 @@ void Brackets::OnLoaded ()
 	if (last_loaded) {
 		// this is NOT thread safe
 		m_EmbeddedObjects.insert (last_loaded);
+		last_loaded->Link (this);
 		last_loaded = NULL;
 	}
 }
@@ -204,14 +215,62 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 				if ((*i)->GetMolecule () != obj)
 					return;
 			// now we need to test whether all selected atoms are connected
+			if (!ConnectedAtoms (objects))
+				return;
 			m_Content = BracketContentFragment;
 		} else
 			return; // may be we are missing some cases where the enclosed group is valid
 		m_Decorations = BracketSubscript;
 	}
 	SetParent (obj);
+	// unset existing links
+	for (i= m_EmbeddedObjects.begin (), end = m_EmbeddedObjects.end (); i != end; i++)
+		(*i)->Unlink (this);
 	m_EmbeddedObjects = objects;
+	// set new links
+	for (i= m_EmbeddedObjects.begin (), end = m_EmbeddedObjects.end (); i != end; i++)
+		(*i)->Link (this);
 	m_Valid = true;
+}
+
+static void AddAtom (gcu::Atom const *atom, std::set < gcu::Object * > const &objects, std::set < gcu::Object const * > &test)
+{
+	test.insert (atom);
+	std::map < gcu::Atom *, gcu::Bond *>::const_iterator i;
+	gcu::Bond const *bond = atom->GetFirstBond (i);
+	gcu::Atom const *atom1;
+	std::set < gcu::Object * >::const_iterator end = objects.end ();
+	while (bond) {
+		atom1 = bond->GetAtom (atom);
+		if (objects.find (const_cast < gcu::Bond * > (bond)) != end && test.find (bond) == test.end ()) {
+			test.insert (bond);
+			AddAtom (atom1, objects, test);
+		}
+		bond = atom->GetNextBond (i);
+	}
+}
+
+bool Brackets::ConnectedAtoms (std::set < gcu::Object * > const &objects)
+{
+	// first find an atom
+	std::set  < gcu::Object * >::iterator i, end = objects.end ();
+	Atom const *atom = NULL;
+	for (i = objects.begin (); i != end && atom == NULL; i++)
+		switch ((*i)->GetType ()) {
+		case gcu::AtomType:
+			atom = static_cast < Atom const * > (*i);
+			break;
+		case gcu::FragmentType:
+			atom = static_cast < Fragment const * > (*i)->GetAtom ();
+			break;
+		default:
+			break;
+		}
+	if (atom == NULL)
+		return false; // not really important
+	std::set < gcu::Object const * > test;
+	AddAtom (atom, objects, test);
+	return objects.size () == test.size ();
 }
 
 }

@@ -4,7 +4,7 @@
  * Gnome Chemistry Utils
  * bond.cc 
  *
- * Copyright (C) 2001-2010 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2001-2011 Jean Bréfort <jean.brefort@normalesup.org>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -69,6 +69,11 @@ Atom* Bond::GetAtom(int which) const
 }
 
 Atom* Bond::GetAtom(Atom* pAtom, G_GNUC_UNUSED int which) const
+{
+	return (pAtom == m_Begin)? m_End: (pAtom == m_End)? m_Begin: NULL;
+}
+
+Atom const * Bond::GetAtom (Atom const * pAtom, G_GNUC_UNUSED int which) const
 {
 	return (pAtom == m_Begin)? m_End: (pAtom == m_End)? m_Begin: NULL;
 }

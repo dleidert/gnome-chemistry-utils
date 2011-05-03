@@ -179,13 +179,19 @@ void View::Update (Object *pObject)
 	gccv::ItemClient *client = dynamic_cast <gccv::ItemClient *> (pObject);
 	if (client)
 		client->UpdateItem ();
+	// update the links, not that this might result in multiple updates of an object
 	// now, add the children
 	map<string, Object*>::iterator i;
 	Object *child = pObject->GetFirstChild (i);
+	// update the links, not that this might result in multiple updates of an object
 	while (child) {
 		Update (child);
 		child = pObject->GetNextChild (i);
 	}
+	// update the links, not that this might result in multiple updates of an object
+	std::set < gcu::Object * >::iterator j;
+	for (child = pObject->GetFirstLink (j); child; child= pObject->GetNextLink (j))
+		Update (child);
 }
 
 double View::GetZoomFactor ()
