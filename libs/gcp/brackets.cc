@@ -90,15 +90,16 @@ void Brackets::AddItem ()
 	}
 	gccv::Rect rect;
 	if (m_EmbeddedObjects.size () == 1 && GetParent () == *m_EmbeddedObjects.begin ()) {
-		std::set < Object * >::const_iterator i, end = m_EmbeddedObjects.end ();
+		std::map < std::string, gcu::Object * >::iterator i;
 		rect.x0 = go_nan;
-		for (i =  m_EmbeddedObjects.begin (); i != end; i++) {
-			if (*i == this)
+		gcu::Object *parent = GetParent (), *child;
+		for (child = parent->GetFirstChild (i); child; child = parent->GetNextChild (i)) {
+			if (child == this)
 				continue;
-			Brackets *br = dynamic_cast < Brackets * > (*i);
-			if (br && br->m_EmbeddedObjects.size () == 1 && GetParent () == *br->m_EmbeddedObjects.begin ())
+			Brackets *br = dynamic_cast < Brackets * > (child);
+			if (br && br->m_EmbeddedObjects.size () == 1 && parent == *br->m_EmbeddedObjects.begin ())
 					continue;
-			view->GetData ()->GetObjectBounds (*i, rect);
+			view->GetData ()->GetObjectBounds (child, rect);
 		}
 	} else 
 		view->GetData ()->GetObjectsBounds (m_EmbeddedObjects, &rect);
@@ -198,7 +199,8 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 									   end = objects.end ();
 	std::set <gcu::TypeId> const &rules = GetApplication ()->GetRules (BracketsType, gcu::RuleMayContain);
 
-	if (objects.size () == 1) {
+	bool ok;
+	if ((ok = objects.size () == 1)) {
 		obj = *i;
 		gcu::TypeId type = obj->GetType ();
 		if (type == gcu::MoleculeType)
@@ -206,9 +208,13 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 		else if (type == gcp::ReactionStepType || type == gcp::MechanismStepType || rules.find (type) != rules.end ())
 			m_Content = BracketContentGroup;
 		else
-			return;
-		m_Decorations = BracketSuperscript;
-	} else {
+			ok =false;
+		if (m_Used == gccv::BracketsBoth)
+			m_Decorations = BracketSuperscript;
+	}
+	if (m_Used != gccv::BracketsBoth)
+		return;
+	if (!ok) {
 		obj = (*i)->GetMolecule ();
 		if (obj != NULL) {
 			for (i++; i != end; i++)
@@ -220,8 +226,9 @@ void Brackets::SetEmbeddedObjects (std::set < gcu::Object * > objects)
 			m_Content = BracketContentFragment;
 		} else
 			return; // may be we are missing some cases where the enclosed group is valid
-		m_Decorations = BracketSubscript;
 	}
+	m_Decorations = BracketSubscript;
+
 	SetParent (obj);
 	// unset existing links
 	for (i= m_EmbeddedObjects.begin (), end = m_EmbeddedObjects.end (); i != end; i++)
@@ -270,7 +277,12 @@ bool Brackets::ConnectedAtoms (std::set < gcu::Object * > const &objects)
 		return false; // not really important
 	std::set < gcu::Object const * > test;
 	AddAtom (atom, objects, test);
-	return objects.size () == test.size ();
+	// now count brackets
+	int nb = 0;
+	for (i = objects.begin (); i != end; i++)
+		if ((*i)->GetType () == BracketsType)
+			nb++;
+	return objects.size () == test.size () + nb;
 }
 
 }

@@ -1,5 +1,9 @@
 ##Text encoding: utf-8
 
+2011-05-04  Jean Bréfort  <jean.brefort@normalesup.org>
+	* libs/gcp/brackets.cc: two brackets should not enclose the same objects set.
+	* plugins/paint/selection/bracketstool.cc: ditto.
+
 2011-05-03  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: don't accept unconneted atoms inside brackets.
 	* libs/gcp/brackets.h: ditto.

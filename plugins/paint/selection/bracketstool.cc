@@ -166,6 +166,8 @@ void gcpBracketsTool::OnRelease ()
          brackets->SetEmbeddedObjects (m_pData->SelectedObjects);
 	    op->AddObject (m_Target, 1);
 		m_pView->AddObject (brackets);
+		brackets->EmitSignal (gcp::OnChangedSignal);
+
 	}
 	m_pData->UnselectAll ();
 }
@@ -277,6 +279,8 @@ bool gcpBracketsTool::Evaluate ()
 			return true;
 		}
 	}
+	if (m_Used != gccv::BracketsBoth)
+		return false;
 	i = m_pData->SelectedObjects.begin ();
 	gcu::Object *molecule = (*i)->GetMolecule ();
 	if (molecule != NULL) {
@@ -287,6 +291,25 @@ bool gcpBracketsTool::Evaluate ()
 		if (!gcp::Brackets::ConnectedAtoms (m_pData->SelectedObjects))
 			return false;
 		// Do not accept a new bracket if one already exist with same embedded objects.
+		std::map < std::string, gcu::Object * >::iterator o;
+		gcu::Object *child;
+		for (child = molecule->GetFirstChild (o); child; child = molecule->GetNextChild (o)) {
+			if (child->GetType () != gcp::BracketsType)
+				continue;
+			std::set < gcu::Object * > const &objects = static_cast < gcp::Brackets * > (child)->GetEmbeddedObjects ();
+			std::set < gcu::Object * >::const_iterator oend = objects.end ();
+			bool result = false;
+			for (i = m_pData->SelectedObjects.begin (); i != end; i++) {
+				if ((*i)->GetType () == gcp::BracketsType)
+					continue;
+				if (objects.find (*i) == oend) {
+					result = true;
+					break;
+				}
+			}
+			if (!result)
+				return false;
+		}
 		m_pData->GetSelectionBounds (m_ActualBounds);
 		m_Target = molecule;
 		return true;
