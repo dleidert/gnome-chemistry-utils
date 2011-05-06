@@ -103,7 +103,7 @@
 </group>
 <group id="7" HM="P 1 n 1" Hall="P -2yac">
   <transform>x,y,z</transform>
-  <transform>1/2+x,y,1/2+z</transform>
+  <transform>1/2+x,-y,1/2+z</transform>
 </group>
 <group id="7" HM="P 1 a 1" Hall="P -2ya">
   <transform>x,y,z</transform>

@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-05-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/space-groups.xml.in: fixed group P -2yac
+
 2011-05-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gccv/text.cc: fixed g++-4.6 warnings.
 	* libs/gcp/fontsel.cc: ditto.
