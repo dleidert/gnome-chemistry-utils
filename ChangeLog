@@ -1,5 +1,10 @@
 ##Text encoding: utf-8
 
+2011-05-06  Jean Bréfort  <jean.brefort@normalesup.org>
+	* database/space-groups.xml.in: fixed space group P -2yac.
+	* libs/gcp/molecule.cc: when loaded, update parent.
+	* plugins/paint/selection/group.cc: really support brackets.
+
 2011-05-04  Jean Bréfort  <jean.brefort@normalesup.org>
 	* libs/gcp/brackets.cc: two brackets should not enclose the same objects set.
 	* plugins/paint/selection/bracketstool.cc: ditto.

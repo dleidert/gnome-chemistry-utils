@@ -873,6 +873,7 @@ void Molecule::OnLoaded ()
 	// for now, we don't keep them
 	for (it = done.begin (); it != end; it++)
 		m_ChiralAtoms.erase (*it);
+	GetParent ()->OnLoaded (); // FIXME: shouldn't needed.
 }
 
 unsigned Molecule::GetAtomsNumber () const

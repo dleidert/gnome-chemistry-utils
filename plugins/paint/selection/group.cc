@@ -23,6 +23,7 @@
 #include "config.h"
 #include "group.h"
 #include "groupdlg.h"
+#include <gcp/brackets.h>
 #include <gcp/document.h>
 #include <gcp/theme.h>
 #include <gcp/view.h>
@@ -115,6 +116,7 @@ void gcpGroup::Align ()
 		return;
 	map<Object*, double> Children;
 	map<string, Object*>::iterator i;
+	gcu::Object *bracket = NULL;
 	Object* obj = GetFirstChild (i);
 	gccv::Rect rect;
 	gcp::Document *pDoc = dynamic_cast <gcp::Document*> (GetDocument ());
@@ -122,67 +124,82 @@ void gcpGroup::Align ()
 	gcp::Theme *pTheme = pDoc->GetTheme ();
 	gcp::WidgetData *Data = reinterpret_cast <gcp::WidgetData*> (g_object_get_data (G_OBJECT (View->GetWidget ()), "data"));
 	double x = 0., t = 0.;
+	int nb = 0;
+	gcu::Object *child = GetFirstChild (i);
+	for (; child; child = GetNextChild (i))
+		if (child->GetType () != gcp::BracketsType)
+			nb++;
+	child = GetFirstChild (i);
+	while (obj->GetType () == gcp::BracketsType)
+		obj = GetNextChild (i);
 	if ((m_AlignType == GCP_ALIGN_TOP) 
 		|| (m_AlignType == GCP_ALIGN_LEFT))
 		t = DBL_MAX;
 	while (obj) {
-		if (m_AlignType == GCP_ALIGN_NORMAL) {
-			x = obj->GetYAlign ();
-			t += x;
-		} else {
-			Data->GetObjectBounds (obj, &rect);
-			switch (m_AlignType) {
-			case GCP_ALIGN_TOP:
-				x = rect.y0 / pTheme->GetZoomFactor ();
-				if (t > x)
-					t = x;
-				break;
-			case GCP_ALIGN_MID_HEIGHT:
-				x = (rect.y0 + rect.y1) / 2. / pTheme->GetZoomFactor ();
+		if (obj->GetType () != gcp::BracketsType) {
+			if (m_AlignType == GCP_ALIGN_NORMAL) {
+				x = obj->GetYAlign ();
 				t += x;
-				break;
-			case GCP_ALIGN_BOTTOM:
-				x = rect.y1 / pTheme->GetZoomFactor ();
-				if (t < x)
-					t = x;
-				break;
-			case GCP_ALIGN_LEFT:
-				x = rect.x0 / pTheme->GetZoomFactor ();
-				if (t > x)
-					t = x;
-				break;
-			case GCP_ALIGN_CENTER:
-				x = (rect.x0 + rect.x1) / 2. / pTheme->GetZoomFactor ();
-				t += x;
-				break;
-			case GCP_ALIGN_RIGHT:
-				x = rect.x1 / pTheme->GetZoomFactor ();
-				if (t < x)
-					t = x;
-				break;
-			default:
-				break;
+			} else {
+				Data->GetObjectBounds (obj, &rect);
+				switch (m_AlignType) {
+				case GCP_ALIGN_TOP:
+					x = rect.y0 / pTheme->GetZoomFactor ();
+					if (t > x)
+						t = x;
+					break;
+				case GCP_ALIGN_MID_HEIGHT:
+					x = (rect.y0 + rect.y1) / 2. / pTheme->GetZoomFactor ();
+					t += x;
+					break;
+				case GCP_ALIGN_BOTTOM:
+					x = rect.y1 / pTheme->GetZoomFactor ();
+					if (t < x)
+						t = x;
+					break;
+				case GCP_ALIGN_LEFT:
+					x = rect.x0 / pTheme->GetZoomFactor ();
+					if (t > x)
+						t = x;
+					break;
+				case GCP_ALIGN_CENTER:
+					x = (rect.x0 + rect.x1) / 2. / pTheme->GetZoomFactor ();
+					t += x;
+					break;
+				case GCP_ALIGN_RIGHT:
+					x = rect.x1 / pTheme->GetZoomFactor ();
+					if (t < x)
+						t = x;
+					break;
+				default:
+					break;
+				}
 			}
+			Children[obj] = x;
 		}
-		Children[obj] = x;
 		obj = GetNextChild (i);
 	}
 	if ((m_AlignType == GCP_ALIGN_NORMAL) 
 		|| (m_AlignType == GCP_ALIGN_MID_HEIGHT)
 		|| (m_AlignType == GCP_ALIGN_CENTER))
-		t /= GetChildrenNumber ();
+		t /= nb;
 	obj = GetFirstChild (i);
 	while (obj) {
-		if ((m_AlignType == GCP_ALIGN_LEFT) 
-			|| (m_AlignType == GCP_ALIGN_CENTER)
-			|| (m_AlignType == GCP_ALIGN_RIGHT))
-			obj->Move (t - Children[obj], 0);
-		else
-			obj->Move (0, t - Children[obj]);
-		View->Update (obj);
+		if (obj->GetType () != gcp::BracketsType) {
+			if ((m_AlignType == GCP_ALIGN_LEFT) 
+				|| (m_AlignType == GCP_ALIGN_CENTER)
+				|| (m_AlignType == GCP_ALIGN_RIGHT))
+				obj->Move (t - Children[obj], 0);
+			else
+				obj->Move (0, t - Children[obj]);
+			View->Update (obj);
+		} else
+			bracket = obj;
 		obj = GetNextChild (i);
 	}
 	Space ();
+	if (bracket)
+		View->Update (bracket);
 }
 
 void gcpGroup::Space ()
@@ -201,12 +218,14 @@ void gcpGroup::Space ()
 	gcp::Theme *pTheme = pDoc->GetTheme ();
 	gcp::WidgetData *Data = (gcp::WidgetData*) g_object_get_data (G_OBJECT (View->GetWidget ()), "data");
 	while (obj) {
-		Data->GetObjectBounds (obj, &rect);
-		rects[obj] = rect;
-		x = (m_AlignType <= GCP_ALIGN_BOTTOM)? rect.x0: rect.y0;
-		while (Children[x])
-			x += 1e-5;
-		Children[x] = obj;
+		if (obj->GetType () != gcp::BracketsType) {		
+			Data->GetObjectBounds (obj, &rect);
+			rects[obj] = rect;
+			x = (m_AlignType <= GCP_ALIGN_BOTTOM)? rect.x0: rect.y0;
+			while (Children[x])
+				x += 1e-5;
+			Children[x] = obj;
+		}
 		obj = GetNextChild (i);
 	}
 	endm = Children.end ();
@@ -322,7 +341,14 @@ bool gcpGroup::OnSignal (SignalId Signal, G_GNUC_UNUSED Object *Child)
 	if (IsLocked ())
 		return false;
 	if (Signal == gcp::OnChangedSignal) {
-		if (GetChildrenNumber () < 2)
+		// evaluate children number excluding brackets
+		int nb = 0;
+		std::map < std::string, gcu::Object * >::iterator i;
+		gcu::Object *child = GetFirstChild (i);
+		for (child = GetFirstChild (i); child; child = GetNextChild (i))
+			if (child->GetType () != gcp::BracketsType)
+				nb++;
+		if (nb < 2)
 			delete this;
 		else
 			Align ();
@@ -345,7 +371,13 @@ double gcpGroup::GetYAlign ()
 
 void gcpGroup::OnLoaded ()
 {
-	if (GetChildrenNumber () < 2)
+	int nb = 0;
+	std::map < std::string, gcu::Object * >::iterator i;
+	gcu::Object *child = GetFirstChild (i);
+	for (child = GetFirstChild (i); child; child = GetNextChild (i))
+		if (child->GetType () != gcp::BracketsType)
+			nb++;
+	if (nb < 2)
 		delete this;
 	else
 		Align ();
