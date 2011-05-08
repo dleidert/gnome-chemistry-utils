@@ -1,4 +1,5 @@
 gnumeric/plugin.xml.in.in
+plugins/paint/arrows/org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in
 programs/3d/gchem3d.desktop.in.in
 programs/calc/gchemcalc.desktop.in.in
 programs/crystal/gcrystal.desktop.in.in
@@ -7,3 +8,6 @@ programs/spectra/gspectrum.desktop.in.in
 programs/table/gchemtable.desktop.in.in
 plugins/paint/wikipedia/plugin.cc
 plugins/paint/wikipedia/wikipediatool.cc
+schemas/org.gnome.gchemutils.crystal.gschema.xml.in
+schemas/org.gnome.gchemutils.gschema.xml.in
+schemas/org.gnome.gchemutils.paint.gschema.xml.in

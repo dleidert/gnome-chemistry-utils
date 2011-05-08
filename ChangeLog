@@ -1,6 +1,8 @@
 ##Text encoding: utf-8
 
 2011-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: fixed make dist.
+	* libs/gcu/application.cc: removed obsolete header.
 	* tests/Makefile.am: fixed libs.
 
 2011-05-06  Jean Bréfort  <jean.brefort@normalesup.org>

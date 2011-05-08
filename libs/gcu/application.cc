@@ -27,7 +27,6 @@
 #include "cmd-context.h"
 #include "document.h"
 #include "loader.h"
-#include "ui-builder.h"
 #include "ui-manager.h"
 #include <gsf/gsf-input-gio.h>
 #include <gsf/gsf-output-gio.h>
