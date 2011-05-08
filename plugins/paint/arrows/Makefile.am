@@ -1,7 +1,7 @@
 EXTRA_DIST = \
 	$(IMAGES) \
 	$(schemas_in_files)	\
-	org.gnome.gchemutils.paint.arrows.gschema.xml.in.in
+	org.gnome.gchemutils.paint.plugins.arrows.gschema.xml.in.in
 
 BUILT_SOURCES = gcp-stock-pixbufs.h
 
