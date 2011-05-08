@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* POTFILES.in: fixed files list.
+
 2011-04-02  Jean Bréfort  <jean.brefort@normalesup.org>
 	* POTFILES.in: updated file list.
 	* POTFILES.skip: ditto.

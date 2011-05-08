@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-05-08  Jean Bréfort  <jean.brefort@normalesup.org>
+	* tests/Makefile.am: fixed libs.
+
 2011-05-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/space-groups.xml.in: fixed space group P -2yac.
 	* libs/gcp/molecule.cc: when loaded, update parent.
@@ -10,7 +13,7 @@
 	* plugins/paint/selection/bracketstool.cc: ditto.
 
 2011-05-03  Jean Bréfort  <jean.brefort@normalesup.org>
-	* libs/gcp/brackets.cc: don't accept unconneted atoms inside brackets.
+	* libs/gcp/brackets.cc: don't accept unconnected atoms inside brackets.
 	* libs/gcp/brackets.h: ditto.
 	* libs/gcp/fragment.h: ditto.
 	* libs/gcp/molecule.cc: ditto.
