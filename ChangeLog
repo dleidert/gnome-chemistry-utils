@@ -1,5 +1,8 @@
 ##Text encoding: utf-8
 
+2011-05-10  Jean Bréfort  <jean.brefort@normalesup.org>
+	* configure.ac: post release version bump (0.12.9).
+
 2011-05-06  Jean Bréfort  <jean.brefort@normalesup.org>
 	* database/space-groups.xml.in: fixed group P -2yac
 
